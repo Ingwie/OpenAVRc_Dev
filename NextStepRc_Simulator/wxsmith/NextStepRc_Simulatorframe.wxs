@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxFrame" name="NextStepRc_SimulatorFrame">
+		<title>Simulateur</title>
+		<size>637,323</size>
+		<maxsize>-1,-1</maxsize>
+		<pos_arg>1</pos_arg>
+		<size_arg>1</size_arg>
+		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
+			<pos>360,16</pos>
+			<size>442,206d</size>
+			<enabled>0</enabled>
+			<maxsize>0,0</maxsize>
+			<handler function="OnPanel1Paint" entry="EVT_PAINT" />
+			<object class="wxPanel" name="ID_PANEL2" variable="Panel2" member="yes">
+				<pos>128,0d</pos>
+				<size>148,82d</size>
+				<style>wxDOUBLE_BORDER|wxCLIP_CHILDREN</style>
+				<object class="wxStaticBitmap" name="ID_STATICBITMAP1" variable="StaticBitmap1" member="yes">
+					<bitmap>C:\Users\Christophe\Desktop\NextStepRc_Builder\NextStepRc\bitmaps\splash.bmp</bitmap>
+					<pos>10,9d</pos>
+					<size>128,64d</size>
+					<focused>1</focused>
+				</object>
+			</object>
+			<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
+				<label>start</label>
+				<pos>104,232</pos>
+				<handler function="OnButton1Click" entry="EVT_BUTTON" />
+			</object>
+		</object>
+		<object class="wxMenuBar" variable="MenuBar1" member="no">
+			<object class="wxMenu" variable="Menu1" member="no">
+				<label>&amp;Fichier</label>
+				<object class="wxMenuItem" name="idMenuQuit" variable="MenuItem1" member="no">
+					<label>Quitter</label>
+					<accel>Alt-F4</accel>
+					<help>Quit the application</help>
+					<handler function="OnQuit" entry="EVT_MENU" />
+				</object>
+			</object>
+			<object class="wxMenu" variable="Menu2" member="no">
+				<label>Aide</label>
+				<object class="wxMenuItem" name="idMenuAbout" variable="MenuItem2" member="no">
+					<label>About</label>
+					<accel>F1</accel>
+					<help>Show info about this application</help>
+					<handler function="OnAbout" entry="EVT_MENU" />
+				</object>
+			</object>
+		</object>
+		<object class="wxStatusBar" name="ID_STATUSBAR1" variable="StatusBar1" member="yes">
+			<fields>1</fields>
+			<widths>-1</widths>
+			<styles>wxSB_NORMAL</styles>
+		</object>
+	</object>
+</wxsmith>

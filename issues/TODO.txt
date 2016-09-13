@@ -1,0 +1,30 @@
+In French ;-)
+
+*****************  TODO TODO TODO TODO  *****************
+
+> - changer le type des GVAR de 16bits vers 8bits (nouveau format d'eeprom) ou doubler le nombre de GVAR ...
+
+> - interrupteur 3 positions avec potar
+
+> - ajout companiontx + fix compilation
+
+> - ajout nouveaux modules d'emission
+
+> - changer le numéro de la pin vcc sur l'ampli op mpc6004
+
+> - telemetrie GPS : Ajout distance (a partir du point fixe ?)
+
+>- Ecolage : ordres eleve vers entree mixeur
+
+
+*****************  DONE DONE DONE DONE  *****************
+
+> - correction bug encodeur rotatif qui saute de +125 a -125 - FAIT
+> - limiter la valeur d'une GVAR de +125 à -125 - FAIT
+> - correction bug T_on - FAIT
+> - communalisation pin buzzer avec pin speaker - FAIT
+> - Schema : corriger cablage KS108 + Le gain des amplis (R6/2) + pin buzzer - FAIT
+> - Corriger bug de flash "error mismatch"
+> - Changer le splash (NEXTSTEPRC) - FAIT
+> - finir navigation avec les manches (placer les routines dans key.xxx) Placé dans gui/9X/navigation.cpp
+> - remplacement carte WT par "mieux" -> JQ6500 testé bientôt (28P retenu, le 16p ne gère que 200 fichiers)
