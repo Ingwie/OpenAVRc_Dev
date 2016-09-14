@@ -24,9 +24,9 @@
 #define MAVLINK_USE_CONVENIENCE_FUNCTIONS
 #define MAVLINK_COMM_NUM_BUFFERS 1
 
-#include "GCS_MAVLink/include_v1.0/mavlink_types.h"
-#include "targets/common_avr/serial_driver.h"
-#include "nextsteprc.h"
+#include "../thirdparty/GCS_MAVLink/include_v1.0/mavlink_types.h"
+#include "../targets/common_avr/serial_driver.h"
+#include "../nextsteprc.h"
 
 extern mavlink_system_t mavlink_system;
 
@@ -42,7 +42,7 @@ extern void SERIAL_send_uart_bytes(const uint8_t * buf, uint16_t len);
 #define MAVLINK_END_UART_SEND(chan,len) SERIAL_end_uart_send()
 #define MAVLINK_SEND_UART_BYTES(chan,buf,len) SERIAL_send_uart_bytes(buf,len)
 
-#include "GCS_MAVLink/include_v1.0/ardupilotmega/mavlink.h"
+#include "../thirdparty/GCS_MAVLink/include_v1.0/ardupilotmega/mavlink.h"
 
 //#define MAVLINK_PARAMS
 //#define DUMP_RX_TX
@@ -166,10 +166,10 @@ typedef struct Telemetry_Data_ {
 	uint8_t ibat; ///< Battery voltage, in millivolts (1 = 1 millivolt)
 	uint8_t rem_bat; ///< Battery voltage, in millivolts (1 = 1 millivolt)
 	bool vbat_low;
-	
+
 	uint8_t rc_rssi;
 	uint8_t pc_rssi;
-	
+
 	uint8_t debug;
 
 	// MSG ACTION / ACK
@@ -207,14 +207,14 @@ extern Telemetry_Data_t telemetry_data;
 
 extern inline uint8_t MAVLINK_CtrlMode2Action(uint8_t mode) {
 	uint8_t action;
-	
+
 	return action;
 }
 #if 0
 extern inline uint8_t MAVLINK_Action2CtrlMode(uint8_t action) {
 	uint8_t mode = ERROR_NUM_MODES;
 	switch (action) {
-	
+
 	return action;
 	}
 }

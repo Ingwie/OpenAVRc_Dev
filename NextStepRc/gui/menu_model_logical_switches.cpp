@@ -14,7 +14,9 @@
  *************************************************************
  */
 
-#include "../../nextsteprc.h"
+#include "../nextsteprc.h"
+#include "menu_model.h"
+
 
 enum LogicalSwitchFields {
   LS_FIELD_FUNCTION,
@@ -29,19 +31,6 @@ enum LogicalSwitchFields {
 #define CSW_2ND_COLUMN  (8*FW-3)
 #define CSW_3RD_COLUMN  (13*FW-6)
 #define CSW_4TH_COLUMN  (18*FW+2)
-
-#if   defined(CPUM64)
-  #define INCDEC_DECLARE_VARS(f)
-  #define INCDEC_SET_FLAG(f)
-  #define INCDEC_ENABLE_CHECK(fn)
-  #define CHECK_INCDEC_PARAM(event, var, min, max) checkIncDec(event, var, min, max, EE_MODEL)
-#else
-  #define INCDEC_DECLARE_VARS(f)  uint8_t incdecFlag = (f)
-  #define INCDEC_SET_FLAG(f)      incdecFlag = (f)
-  #define INCDEC_ENABLE_CHECK(fn)
-  #define CHECK_INCDEC_PARAM(event, var, min, max) checkIncDec(event, var, min, max, incdecFlag)
-#endif
-
 
 
 void menuModelLogicalSwitches(uint8_t event)

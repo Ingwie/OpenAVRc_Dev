@@ -14,7 +14,7 @@
  *************************************************************
  */
 
-#include "../../nextsteprc.h"
+#include "../nextsteprc.h"
 
 void drawStick(coord_t centrex, int16_t xval, int16_t yval)
 {

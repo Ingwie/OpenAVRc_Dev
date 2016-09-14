@@ -14,7 +14,10 @@
  *************************************************************
  */
 
-#include "../../nextsteprc.h"
+#include "../nextsteprc.h"
+#include "menu_model.h"
+#include "widgets.h"
+
 
 #define EXPO_ONE_2ND_COLUMN (7*FW+3*FW+2)
 #define EXPO_ONE_FM_WIDTH   (5*FW)
@@ -389,7 +392,7 @@ void drawOffsetBar(uint8_t x, uint8_t y, MixData * md)
   }
   else {
     //Trim on output (after weight)
-    barMin = offset - weight;  
+    barMin = offset - weight;
     barMax = offset + weight;
   }
   if (y > 15) {

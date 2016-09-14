@@ -17,10 +17,6 @@
 #include "nextsteprc.h"
 #include "timers.h"
 
-const pm_uchar asterisk_lbm[] PROGMEM = {
-  #include "bitmaps/asterisk.lbm"
-};
-
 EEGeneral  g_eeGeneral;
 ModelData  g_model;
 
@@ -456,7 +452,7 @@ int16_t getGVarValue(int16_t x, int16_t min, int16_t max, int8_t phase)
 
 void setGVarValue(uint8_t idx, int16_t value, int8_t phase)
 {
-  value = limit(-GVAR_LIMIT,value,GVAR_LIMIT); //Limit Gvar value
+  value = limit((int16_t)-GVAR_LIMIT,value,(int16_t)GVAR_LIMIT); //Limit Gvar value
   phase = getGVarFlightPhase(phase, idx);
   if (GVAR_VALUE(idx, phase) != value) {
     SET_GVAR_VALUE(idx, phase, value);
@@ -678,7 +674,7 @@ bool readonlyUnlocked()
 void doSplash()
 {
   uint8_t memtada = 0;
-  
+
   if (SPLASH_NEEDED()) {
     displaySplash();
 
@@ -696,7 +692,7 @@ void doSplash()
 
     tmr10ms_t tgtime = get_tmr10ms() + SPLASH_TIMEOUT;
 
-    
+
     while (tgtime > get_tmr10ms()) {
 #if defined(SIMU)
       SIMU_SLEEP(1);

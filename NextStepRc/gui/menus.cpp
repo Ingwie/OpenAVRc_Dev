@@ -14,7 +14,7 @@
  *************************************************************
  */
 
-#include "../../nextsteprc.h"
+#include "../nextsteprc.h"
 
 MenuHandlerFunc menuHandlers[5];
 uint8_t menuEvent = 0;

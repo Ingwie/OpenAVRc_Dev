@@ -14,7 +14,9 @@
  *************************************************************
  */
 
-#include "../../nextsteprc.h"
+#include "../nextsteprc.h"
+#include "menu_model.h"
+
 
 void menuModelTemplates(uint8_t event)
 {

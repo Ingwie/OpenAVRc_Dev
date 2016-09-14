@@ -14,7 +14,8 @@
 *************************************************************
 */
 
-#include "../../nextsteprc.h"
+#include "../nextsteprc.h"
+#include "menu_model.h"
 
 
 enum menuModelSetupItems {

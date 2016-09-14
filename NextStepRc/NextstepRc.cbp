@@ -280,7 +280,6 @@
 		<Unit filename="functions.cpp" />
 		<Unit filename="gui/fonts.cpp" />
 		<Unit filename="gui/gui.h" />
-		<Unit filename="gui/helpers.cpp" />
 		<Unit filename="gui/lcd.cpp" />
 		<Unit filename="gui/lcd.h" />
 		<Unit filename="gui/menu_general.cpp" />
@@ -341,7 +340,6 @@
 		<Unit filename="nextsteprc.hex" />
 		<Unit filename="nextsteprc.map" />
 		<Unit filename="pgmtypes.h" />
-		<Unit filename="pulses/crossfire.cpp" />
 		<Unit filename="pulses/pulses.h" />
 		<Unit filename="pulses/pulses_avr.cpp" />
 		<Unit filename="pulses/pulses_avr.h" />

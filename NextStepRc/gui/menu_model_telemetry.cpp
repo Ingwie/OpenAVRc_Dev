@@ -14,7 +14,9 @@
  *************************************************************
  */
 
-#include "../../nextsteprc.h"
+#include "../nextsteprc.h"
+#include "menu_model.h"
+
 
 enum menuModelTelemetryItems {
   ITEM_TELEMETRY_A1_LABEL,

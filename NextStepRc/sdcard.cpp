@@ -15,8 +15,9 @@
  */
 
 #include <stdint.h>
-#include "diskio.h"
-#include "ff.h"
+#include "thirdparty/FatFs/diskio.h"
+#include "thirdparty/FatFs/ff.h"
+#include "gui/popups.h"
 
 #define LIST_NONE_SD_FILE  1
 

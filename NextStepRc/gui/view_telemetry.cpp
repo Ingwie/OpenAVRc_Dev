@@ -14,7 +14,7 @@
  *************************************************************
  */
 
-#include "../../nextsteprc.h"
+#include "../nextsteprc.h"
 
 #define STATUS_BAR_Y     (7*FH+1)
 #define TELEM_2ND_COLUMN (10*FW)
@@ -49,7 +49,7 @@ void displayRssiLine()
   }
 }
 
-#if defined(FRSKY) && defined(FRSKY_HUB) && defined(GPS) 
+#if defined(FRSKY) && defined(FRSKY_HUB) && defined(GPS)
 void displayGpsTime()
 {
   uint8_t att = (TELEMETRY_STREAMING() ? LEFT|LEADING0 : LEFT|LEADING0|BLINK);

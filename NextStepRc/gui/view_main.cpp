@@ -14,8 +14,9 @@
 *************************************************************
 */
 
-#include "../../nextsteprc.h"
-#include "../../timers.h"
+#include "../nextsteprc.h"
+#include "../timers.h"
+#include "widgets.h"
 
 #define BIGSIZE       DBLSIZE
 #define LBOX_CENTERX  (LCD_W/4 + 10)

@@ -19,11 +19,12 @@
  *	Contains the menu specific code for Mavlink support.
  */
 
-#include "gui/view_mavlink.h"
+#include "view_mavlink.h"
+#include "../translations.h"
 
 // Globals declaration
 
- 
+
 /*!	\brief Top Mavlink Menu definition
  *	\details Registers button events and handles that info. Buttons select menus,
  *	these are launched from the MAVLINK_menu switch statement. Setup menu is
@@ -31,7 +32,7 @@
  *	extension is reinitialized.
  */
 void menuTelemetryMavlink(uint8_t event) {
-	
+
 	switch (event) // new event received, branch accordingly
 	{
 	case EVT_ENTRY:
@@ -185,7 +186,7 @@ void mav_title(const pm_char * s, uint8_t index)
 }
 
 /*!	\brief Global info menu
- *	\details Quick status overview menu. The menu should contain current mode, 
+ *	\details Quick status overview menu. The menu should contain current mode,
  *	armed | disarmed, battery status and RSSI info. Menu must be clean and
  *	readable with a quick glance.
  *	\todo Make menu as described as above.
@@ -242,7 +243,7 @@ void menuTelemetryMavlinkInfos(void) {
 		lcdDrawText(x1, y, PSTR("Rad Sys"));
 		lcdDrawNumberAttUnit(xnum, y, telemetry_data.radio_sysid, 0);
 */
-		
+
 	}
 }
 
@@ -251,18 +252,18 @@ void menuTelemetryMavlinkInfos(void) {
  *	\todo Add functionality to change flight mode.
  */
 void menuTelemetryMavlinkFlightMode(void) {
-	
+
 	mav_title(STR_MAVLINK_MODE, MAVLINK_menu);
-		
+
 	uint8_t x, y;
 	x = 0;
 	y = FH;
-	
+
     lcdDrawText  (x, y, STR_MAVLINK_CUR_MODE);
     y += FH;
     print_mav_mode(FW, y, telemetry_data.custom_mode, DBLSIZE);
     y += 2 * FH;
-	
+
 	char * ptr = mav_statustext;
 	for (uint8_t j = 0; j < LEN_STATUSTEXT; j++) {
 		if (*ptr == 0) {
@@ -274,27 +275,27 @@ void menuTelemetryMavlinkFlightMode(void) {
 	}
     y += FH;
     x = 0;
-	
+
     if (telemetry_data.active)
     	lcdDrawTextAtt (FW, y, STR_MAVLINK_ARMED, DBLSIZE);
 }
 
 /*!	\brief Batterystatus dislplay
  *	\details Shows flight batery status.
- *	Also RC and PC RSSI are in this menu. 
+ *	Also RC and PC RSSI are in this menu.
  */
 void menuTelemetryMavlinkBattery(void) {
-	
+
 	mav_title(STR_MAVLINK_BAT_MENU_TITLE, MAVLINK_menu);
-	
+
 	uint8_t x, y, ynum;
 	x = 7 * FWNUM;
 //	x = xnum + 0 * FW;
 	ynum = 2 * FH;
 	y = 3 * FH;
-	
-    lcdDrawText(0, 1*FH, STR_MAVLINK_BATTERY_LABEL); 
-	
+
+    lcdDrawText(0, 1*FH, STR_MAVLINK_BATTERY_LABEL);
+
 	lcdDrawNumberAttUnit(x, ynum, telemetry_data.vbat, (DBLSIZE | PREC1 | UNSIGN));
 	lcdDrawText(x, y, PSTR("V"));
 	x += 4 * (2 * FWNUM);
@@ -305,8 +306,8 @@ void menuTelemetryMavlinkBattery(void) {
 	lcdDrawText(x, y, PSTR("%"));
 	y += FH;
 	ynum += 3 * FH;
-	
-	x = 0;	
+
+	x = 0;
     lcdDrawText  (x, y, STR_MAVLINK_RC_RSSI_LABEL);
 	lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.rc_rssi, (DBLSIZE | UNSIGN));
 	lcdDrawText(x + 7 * FWNUM, ynum + FH, PSTR("%"));
@@ -317,7 +318,7 @@ void menuTelemetryMavlinkBattery(void) {
 		lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.pc_rssi, (DBLSIZE));
 		lcdDrawText(x + 7 * FWNUM, ynum + FH,  PSTR("%"));
 	}
-    
+
 }
 
 /*!	\brief Navigation dislplay
@@ -327,17 +328,17 @@ void menuTelemetryMavlinkBattery(void) {
  *	\todo Add a similar menu to fly back to the home location.
  */
 void menuTelemetryMavlinkNavigation(void) {
-	
+
 	mav_title(STR_MAVLINK_NAV_MENU_TITLE, MAVLINK_menu);
-	
+
 	uint8_t x, y, ynum;
 	x = 7 * FWNUM;
 //	x = xnum + 0 * FW;
 	ynum = 2 * FH;
 	y = FH;
-	
-    
-	x = 0;	
+
+
+	x = 0;
     lcdDrawText  (x, y, STR_MAVLINK_COURSE);
 	lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.course, (DBLSIZE | UNSIGN));
 	lcdDrawText(x + 7 * FWNUM, ynum, PSTR("o"));
@@ -347,8 +348,8 @@ void menuTelemetryMavlinkNavigation(void) {
 	lcdDrawText(x + 7 * FWNUM, ynum,  PSTR("o"));
 	y += 3 * FH;
 	ynum += 3 * FH;
-	
-	x = 0;	
+
+	x = 0;
     lcdDrawText  (x, y, STR_MAVLINK_BEARING);
 	lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.bearing, (DBLSIZE | UNSIGN));
 	lcdDrawText(x + 7 * FWNUM, ynum, PSTR("o"));
@@ -356,7 +357,7 @@ void menuTelemetryMavlinkNavigation(void) {
     lcdDrawText(x, y, STR_MAVLINK_ALTITUDE);
 	lcd_outdezFloat(x + 4 * FWNUM - 1, ynum, telemetry_data.loc_current.rel_alt, 1, (DBLSIZE));
 	lcdDrawText(x + 7 * FWNUM, ynum + FH,  PSTR("m"));
- 
+
 }
 
 
@@ -477,9 +478,9 @@ void menuTelemetryMavlinkDump(uint8_t event) {
  *	telemetry menus
  */
 void menuTelemetryMavlinkSetup(uint8_t event) {
-	
+
 	MENU(STR_MAVMENUSETUP_TITLE, menuTabModel, e_MavSetup, ITEM_MAVLINK_MAX + 1, {0, 0, 1/*to force edit mode*/});
-	
+
 	uint8_t sub = menuVerticalPosition - 1;
 
 	for (uint8_t i=0; i<LCD_LINES-1; i++) {
@@ -487,7 +488,7 @@ void menuTelemetryMavlinkSetup(uint8_t event) {
 		uint8_t k = i+menuVerticalOffset;
 		uint8_t blink = ((s_editMode>0) ? BLINK|INVERS : INVERS);
 		uint8_t attr = (sub == k ? blink : 0);
-		switch(k) {	
+		switch(k) {
 		case ITEM_MAVLINK_RC_RSSI_SCALE:
 			lcdDrawTextLeft(y, STR_MAVLINK_RC_RSSI_SCALE_LABEL);
 			lcdDrawNumberAttUnit(RADIO_SETUP_2ND_COLUMN, y, (25 + g_model.mavlink.rc_rssi_scale * 5), attr|LEFT);

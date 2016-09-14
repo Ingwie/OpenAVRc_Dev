@@ -17,12 +17,6 @@
 #include "nextsteprc.h"
 #include "timers.h"
 
-#if defined(FADMIXER)
-bool OffsetOnInput = false;   //temporary, option in makefile 
-#else
-bool OffsetOnInput = true;
-#endif
-
 int16_t  rawAnas[NUM_INPUTS] = {0};
 int16_t  anas [NUM_INPUTS] = {0};
 int16_t  trims[NUM_STICKS] = {0};
@@ -254,7 +248,7 @@ void evalInputs(uint8_t mode)
 {
   BeepANACenter anaCenter = 0;
 
-#if defined(HELI) 
+#if defined(HELI)
   uint16_t d = 0;
   if (g_model.swashR.value) {
     uint32_t v = (int32_t(calibratedStick[ELE_STICK])*calibratedStick[ELE_STICK] + int32_t(calibratedStick[AIL_STICK])*calibratedStick[AIL_STICK]);
@@ -504,7 +498,7 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
       }
 
       //========== DELAYS ===================
-      if (mode <= e_perout_mode_inactive_flight_mode && (md->delayDown || md->delayUp)) { // there are delay values      
+      if (mode <= e_perout_mode_inactive_flight_mode && (md->delayDown || md->delayUp)) { // there are delay values
         if (!s_mixer_first_run_done || !swOn[i].delay) {
           swOn[i].hold = v;     // store actual value of v as reference for next run
           swOn[i].delay = (v > swOn[i].hold ? md->delayUp : md->delayDown) * (100/DELAY_STEP); // init delay
@@ -512,12 +506,12 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
         else if ((swOn[i].delay > 0) && ((v > swOn[i].hold +10) || (v < swOn[i].hold -10))) {  // compare v to value stored at previous run
           swOn[i].delay = max<int16_t>(0, (int16_t)swOn[i].delay - tick10ms);   // decrement delay
           v = swOn[i].hold;     // keep v to stored value until end of delay
-        }   
+        }
       }
 
       //========== SLOW DOWN ================
       // lower weight causes slower movement
-      if (mode <= e_perout_mode_inactive_flight_mode && (md->speedUp || md->speedDown)) { // there are slow-down values    
+      if (mode <= e_perout_mode_inactive_flight_mode && (md->speedUp || md->speedDown)) { // there are slow-down values
         int32_t tact = act[i];
         int16_t diff = v - (tact>>8);  // we recale to a mult 256 higher value for calculation
         if (diff) {
@@ -624,7 +618,7 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
         dv = applyCurve(dv, md->curve);
         dtrim = applyCurve(dtrim, md->curve);
         dv += dtrim;
-      }  
+      }
 #else
       if (md->curveMode == MODE_DIFFERENTIAL) {
         // stick and trim are computed separatly
@@ -646,20 +640,20 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
       }
 #endif
 
-      //========== OFFSET AFTER ============= 
+      //========== OFFSET AFTER =============
       if (apply_offset_and_curve && !OffsetOnInput) {
-        int16_t offset = GET_GVAR(MD_OFFSET(md), GV_RANGELARGE_NEG, GV_RANGELARGE, mixerCurrentFlightMode); 
-        if (offset) dv += int32_t(calc100toRESX_16Bits(offset)) << 8; 
+        int16_t offset = GET_GVAR(MD_OFFSET(md), GV_RANGELARGE_NEG, GV_RANGELARGE, mixerCurrentFlightMode);
+        if (offset) dv += int32_t(calc100toRESX_16Bits(offset)) << 8;
       }
-      
+
       //Stick value to mixer
-      //    stick => delay => slow_down => mixer source      
-      
-      //Mixer output with offset before 
+      //    stick => delay => slow_down => mixer source
+
+      //Mixer output with offset before
       //    Curve(source + offset + trim) * weight
       //    Diff((source + offset) * weight) + Diff(trim * weight)
 
-      //Mixer output with offset after 
+      //Mixer output with offset after
       //    Curve(source + trim) * weight + offset
       //    Diff(source * weight) + Diff(trim * weight) + offset
 
@@ -753,7 +747,7 @@ void evalMixes(uint8_t tick10ms)
   static ACTIVE_PHASES_TYPE flightModesFade = 0;
 
   LS_RECURSIVE_EVALUATION_RESET();
-  
+
   uint8_t fm = getFlightMode();
 
   if (lastFlightMode != fm) {

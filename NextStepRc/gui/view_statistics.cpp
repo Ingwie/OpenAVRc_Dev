@@ -14,8 +14,8 @@
  *************************************************************
  */
 
-#include "../../nextsteprc.h"
-#include "../../timers.h"
+#include "../nextsteprc.h"
+#include "../timers.h"
 
 void menuStatisticsView(uint8_t event)
 {
@@ -40,7 +40,7 @@ void menuStatisticsView(uint8_t event)
   putsTimer(   12*FW+5*FWNUM+1, FH*2, s_timeCum16ThrP/16, 0, 0);
 
   putsTimer(   12*FW+5*FWNUM+1, FH*0, sessionTimer, 0, 0);
-  
+
 #if defined(THRTRACE)
   coord_t traceRd = (s_traceCnt < 0 ? s_traceWr : 0);
   const coord_t x = 5;

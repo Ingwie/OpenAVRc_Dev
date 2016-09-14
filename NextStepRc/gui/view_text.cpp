@@ -14,7 +14,7 @@
  *************************************************************
  */
 
-#include "../../nextsteprc.h"
+#include "../nextsteprc.h"
 
 #define TEXT_FILENAME_MAXLEN  40
 #define TEXT_FILE_MAXSIZE     2048

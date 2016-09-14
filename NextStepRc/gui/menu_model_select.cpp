@@ -14,7 +14,10 @@
  *************************************************************
  */
 
-#include "../../nextsteprc.h"
+#include "../nextsteprc.h"
+#include "../sdcard.h"
+#include "menu_model.h"
+
 
 #define MODELSIZE_POS_X  170
 #define MODELSEL_W       LCD_W
@@ -43,7 +46,7 @@ void onModelSelectMenu(const char *result)
     POPUP_WARNING(eeBackupModel(sub));
   }
   else if (result == STR_RESTORE_MODEL || result == STR_UPDATE_LIST) {
-    if (!listSdFiles(MODELS_PATH, MODELS_EXT, MENU_LINE_LENGTH-1, NULL)) {
+    if (!listSdFiles(MODELS_PATH, MODELS_EXT, MENU_LINE_LENGTH-1, NULL, 0)) {
       POPUP_WARNING(STR_NO_MODELS_ON_SD);
       popupMenuFlags = 0;
     }

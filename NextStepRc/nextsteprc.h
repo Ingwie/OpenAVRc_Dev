@@ -23,6 +23,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+#include "gui/menus.h"
 
 #if defined(SIMUNSRC)
 //////////////SIMULATOR DEFINE///////////////////////
@@ -102,7 +103,15 @@
 
 
 //////////////////////////////////////////////////////////
+//FADMIXER
 
+#if defined(FADMIXER)
+bool OffsetOnInput = false;   //temporary, option in makefile
+#else
+bool OffsetOnInput = true;
+#endif
+
+/////////////////////////////////////////////////////////
 
 #if defined(SIMU)
 #define SWITCH_SIMU(a, b)  (a)

@@ -70,7 +70,9 @@ inline const pm_char *SDCARD_ERROR(FRESULT result)
 }
 #endif
 
-  #define O9X_FOURCC 0x3178396F // o9x for gruvin9x/MEGA2560
+#define O9X_FOURCC 0x3178396F // o9x for gruvin9x/MEGA2560
+
+extern bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, const char *selection, uint8_t flags);
 
 const char *fileCopy(const char *filename, const char *srcDir, const char *destDir);
 

@@ -14,7 +14,9 @@
  *************************************************************
  */
 
-#include "../../nextsteprc.h"
+#include "../nextsteprc.h"
+#include "menu_model.h"
+#include "widgets.h"
 
 #define MODEL_CUSTOM_FUNC_1ST_COLUMN          (3)
 #define MODEL_CUSTOM_FUNC_2ND_COLUMN          (5*FW-2)
@@ -31,7 +33,7 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
 {
   int8_t sub = menuVerticalPosition - 1;
 
-#if   !defined(CPUM64) || defined(AUTOSWITCH)
+#if !defined(CPUM64) || defined(AUTOSWITCH)
   uint8_t eeFlags = EE_MODEL;
 #endif
 

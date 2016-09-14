@@ -14,7 +14,7 @@
 *************************************************************
 */
 
-#include "../../nextsteprc.h"
+#include "../nextsteprc.h"
 
 vertpos_t menuVerticalOffset;
 int8_t s_editMode;
@@ -53,6 +53,14 @@ int8_t  checkIncDec_Ret;
 #define DBLKEYS_PRESSED_UP_DWN(in)  ((in & (KEYS_GPIO_PIN_UP + KEYS_GPIO_PIN_DOWN)) == (KEYS_GPIO_PIN_UP + KEYS_GPIO_PIN_DOWN))
 #define DBLKEYS_PRESSED_RGT_UP(in)  ((in & (KEYS_GPIO_PIN_RIGHT + KEYS_GPIO_PIN_UP))  == (KEYS_GPIO_PIN_RIGHT + KEYS_GPIO_PIN_UP))
 #define DBLKEYS_PRESSED_LFT_DWN(in) ((in & (KEYS_GPIO_PIN_LEFT + KEYS_GPIO_PIN_DOWN)) == (KEYS_GPIO_PIN_LEFT + KEYS_GPIO_PIN_DOWN))
+
+uint8_t switchToMix(uint8_t source)
+{
+  if (source <= 3)
+    return MIXSRC_3POS;
+  else
+    return MIXSRC_FIRST_SWITCH - 3 + source;
+}
 
 int16_t checkIncDec(uint8_t event, int16_t val, int16_t i_min, int16_t i_max, uint8_t i_flags)
 {

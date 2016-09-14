@@ -14,14 +14,8 @@
  *************************************************************
  */
 
-#include "../../nextsteprc.h"
-
-const pm_char * warningText = NULL;
-const pm_char * warningInfoText;
-uint8_t         warningInfoLength;
-uint8_t         warningType;
-uint8_t         warningResult = 0;
-
+#include "../nextsteprc.h"
+#include "popups.h"
 
 void displayBox()
 {
@@ -98,12 +92,8 @@ void displayWarning(uint8_t event)
 
 
 #if defined(NAVIGATION_MENUS)
-const char *popupMenuItems[POPUP_MENU_MAX_LINES];
-uint8_t s_menu_item = 0;
-uint16_t popupMenuNoItems = 0;
-uint8_t popupMenuFlags = 0;
-uint16_t popupMenuOffset = 0;
 void (*popupMenuHandler)(const char *result);
+
 const char * displayPopupMenu(uint8_t event)
 {
   const char * result = NULL;

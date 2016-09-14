@@ -21,10 +21,10 @@
 #ifndef _VIEW_MAVLINK_H_
 #define _VIEW_MAVLINK_H_
 
-#include "nextsteprc.h"
-#include "telemetry/mavlink.h"
-#include "gui/menus.h"
-#include "targets/common_avr/serial_driver.h"
+#include "../nextsteprc.h"
+#include "../telemetry/mavlink.h"
+#include "menus.h"
+#include "../targets/common_avr/serial_driver.h"
 
 #define APSIZE (BSS | DBLSIZE)
 

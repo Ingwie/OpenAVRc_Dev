@@ -15,7 +15,7 @@
  */
 
 #include "nextsteprc.h"
-#include "ff.h"
+#include "thirdparty/FatFs/ff.h"
 
 FIL g_oLogFile = {0};
 //const pm_char * g_logError = NULL; bracame not used ? why

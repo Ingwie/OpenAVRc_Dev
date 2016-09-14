@@ -260,25 +260,25 @@ void SERIAL_Init(void) {
 	PORTE &= ~(1 << PORTE0); // disable pullup on RXD0 pin
 
 	switch (g_eeGeneral.mavbaud) {
-	case BAUD_4800:
+	case BAUDS_4800:
 		uart_4800();
 		break;
-	case BAUD_9600:
+	case BAUDS_9600:
 		uart_9600();
 		break;
-	case BAUD_14400:
+	case BAUDS_14400:
 		uart_14400();
 		break;
-	case BAUD_19200:
+	case BAUDS_19200:
 		uart_19200();
 		break;
-	case BAUD_38400:
+	case BAUDS_38400:
 		uart_38400();
 		break;
-	case BAUD_57600:
+	case BAUDS_57600:
 		uart_57600();
 		break;
-	case BAUD_76800:
+	case BAUDS_76800:
 		uart_76800();
 		break;
 	}

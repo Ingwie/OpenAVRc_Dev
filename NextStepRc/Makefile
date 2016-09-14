@@ -799,7 +799,7 @@ TARGET = nextsteprc
   TTS_SRC = $(shell sh -c "if test -f $(STD_TTS_SRC); then echo $(STD_TTS_SRC); else echo translations/tts_en.cpp; fi")
 
 ifeq ($(GUI), YES)
-  GUISRC = gui/helpers.cpp gui/navigation.cpp gui/popups.cpp gui/widgets.cpp gui/menus.cpp $(GUIMODELSRC) $(GUIGENERALSRC) gui/view_main.cpp gui/view_statistics.cpp
+  GUISRC = gui/navigation.cpp gui/popups.cpp gui/widgets.cpp gui/menus.cpp $(GUIMODELSRC) $(GUIGENERALSRC) gui/view_main.cpp gui/view_statistics.cpp
   CPPDEFS += -DGUI
 endif
 
