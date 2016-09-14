@@ -364,7 +364,7 @@ void evalFunctions()
             break;
 #endif
 
-#if defined(HAPTIC) 
+#if defined(HAPTIC)
           case FUNC_HAPTIC:
           {
             tmr10ms_t tmr10ms = get_tmr10ms();

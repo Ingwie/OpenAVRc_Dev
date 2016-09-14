@@ -24,63 +24,7 @@
 #include <stdlib.h>
 
 #include "gui/menus.h"
-
-#if defined(SIMUNSRC)
-//////////////SIMULATOR DEFINE///////////////////////
-
-// OPTION
-#define SIMU
-#define PCBMEGA2560
-#define CPUM2560
-#define EEPROM_RLC
-#define EEPROM_VARIANT 0
-#define SDCARD
-#define RTCLOCK
-#define AUDIO
-#define VOICE
-#define VOICE_JQ6500
-#define HAPTIC
-#define ROTARY_ENCODERS 2
-#define GUI
-#define TRANSLATIONS_FR
-#define TTS_FR
-#define DEFAULT_MODE 2
-//#define TOGGLETRIM
-#define NOANDSECONDE
-#define FADMIXER
-#define NAVIGATION_STICKS
-#define AUTOSWITCH
-#define AUTOSOURCE
-#define DBLKEYS
-#define SPLASH
-#define GRAPHICS
-#define BOLD_FONT
-#define BATTGRAPH
-#define THRTRACE
-#define TIMERS 2
-#define FLIGHT_MODES
-#define CURVES
-#define GVARS
-#define CORRECT_NEGATIVE_SHIFTS
-#define FRSKY
-#define FRSKY_HUB
-#define WS_HOW_HIGH
-#define GAUGES
-#define VARIO
-#define EEPROM_PROGRESS_BAR
-#define PPM_CENTER_ADJUSTABLE
-#define PPM_LIMITS_SYMETRICAL
-#define OVERRIDE_CHANNEL_FUNCTION
-#define PPM_UNIT_PERCENT_PREC1
-#define HELI
-#define TEMPLATES
-#define EXTRA_3POS 3
-
-
-/////////////////////////////////////////////////////
-#endif
-
-
+#include "gui/lcd.h"
 
 
 /////////////////DEBUG FUNCTION DEFINITION///////////////////
@@ -432,7 +376,6 @@ void loadCurves();
 #define MASK_FUNC_TYPE uint8_t   // current max = 8 functions
 #endif
 
-
 typedef struct {
   MASK_FUNC_TYPE activeFunctions;
   MASK_CFN_TYPE  activeSwitches;
@@ -448,6 +391,7 @@ typedef struct {
     memclear(this, sizeof(*this));
   }
 } CustomFunctionsContext;
+
 
 ///  Dimension of Arrays
 #define DIM(a) ((sizeof a) / (sizeof *a))
@@ -500,7 +444,7 @@ enum BaseCurves {
 #define SPLASH_TIMEOUT  (4*100)  // 4 seconds
 #endif
 
-#if   defined(ROTARY_ENCODERS)
+#if defined(ROTARY_ENCODERS)
 #define NAVIGATION_RE_IDX()         (g_eeGeneral.reNavigation - 1)
 #define IS_RE_NAVIGATION_ENABLE()   g_eeGeneral.reNavigation
 #elif defined(ROTARY_ENCODER_NAVIGATION)
@@ -511,6 +455,7 @@ enum BaseCurves {
 #define HEART_TIMER_10MS     1
 #define HEART_TIMER_PULSES   2 // when multiple modules this is the first one
 #define HEART_WDT_CHECK      (HEART_TIMER_10MS + HEART_TIMER_PULSES)
+
 extern uint8_t heartbeat;
 
 
@@ -991,6 +936,7 @@ enum FunctionsActive {
 #define VARIO_REPEAT_MAX       80/*ms*/
 
 extern CustomFunctionsContext modelFunctionsContext;
+
 #define isFunctionActive(func) modelFunctionsContext.isFunctionActive(func)
 void evalFunctions();
 #define customFunctionsReset() modelFunctionsContext.reset()

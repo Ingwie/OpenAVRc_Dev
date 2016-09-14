@@ -19,6 +19,8 @@
 
 #include "../nextsteprc.h"
 #include "../myeeprom.h"
+#include "lcd.h"
+
 
 #define MENUS_SCROLLBAR_WIDTH  0
 #define MENU_COLUMNS           1
@@ -59,44 +61,45 @@ extern uint8_t menuVerticalPositions[4];
 extern uint8_t menuLevel;
 extern uint8_t menuEvent;
 
+
 /// goto given Menu, but substitute current menu in menuStack
-void chainMenu(MenuHandlerFunc newMenu);
+extern void chainMenu(MenuHandlerFunc newMenu);
 /// goto given Menu, store current menu in menuStack
-void pushMenu(MenuHandlerFunc newMenu);
+extern void pushMenu(MenuHandlerFunc newMenu);
 /// return to last menu in menustack
-void popMenu();
+extern void popMenu();
 ///deliver address of last menu which was popped from
-inline MenuHandlerFunc lastPopMenu()
+extern inline MenuHandlerFunc lastPopMenu()
 {
   return menuHandlers[menuLevel+1];
 }
 
-void drawPotsBars();
-void doMainScreenGraphics();
-void menuFirstCalib(uint8_t event);
+extern void drawPotsBars();
+extern void doMainScreenGraphics();
+extern void menuFirstCalib(uint8_t event);
 
-void onMainViewMenu(const char *result);
-void menuMainView(uint8_t event);
-void menuGeneralDiagAna(uint8_t event);
+extern void onMainViewMenu(const char *result);
+extern void menuMainView(uint8_t event);
+extern void menuGeneralDiagAna(uint8_t event);
 #if defined(FRSKY)
-void menuTelemetryFrsky(uint8_t event);
+extern void menuTelemetryFrsky(uint8_t event);
 #endif
-void menuGeneralSetup(uint8_t event);
-void menuGeneralCalib(uint8_t event);
-void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFunctionsContext * functionsContext);
+extern void menuGeneralSetup(uint8_t event);
+extern void menuGeneralCalib(uint8_t event);
+//extern void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFunctionsContext * functionsContext);
 
-void menuModelSelect(uint8_t event);
-void menuModelCustomFunctions(uint8_t event);
-void menuStatisticsView(uint8_t event);
-void menuStatisticsDebug(uint8_t event);
+extern void menuModelSelect(uint8_t event);
+extern void menuModelCustomFunctions(uint8_t event);
+extern void menuStatisticsView(uint8_t event);
+extern void menuStatisticsDebug(uint8_t event);
 #if defined(DEBUG_TRACE_BUFFER)
-void menuTraceBuffer(uint8_t event);
+extern void menuTraceBuffer(uint8_t event);
 #endif
 
 #if !defined(CPUM64)
-  void displaySlider(coord_t x, coord_t y, uint8_t value, uint8_t max, uint8_t attr);
+  extern void displaySlider(coord_t x, coord_t y, uint8_t value, uint8_t max, uint8_t attr);
 #elif defined(GRAPHICS)
-  void display5posSlider(coord_t x, coord_t y, uint8_t value, uint8_t attr);
+  extern void display5posSlider(coord_t x, coord_t y, uint8_t value, uint8_t attr);
   #define displaySlider(x, y, value, max, attr) lcdDrawNumberAttUnit(x, y, value, attr|LEFT)
 #else
   #define displaySlider(x, y, value, max, attr) lcdDrawNumberAttUnit(x, y, value, attr|LEFT)
