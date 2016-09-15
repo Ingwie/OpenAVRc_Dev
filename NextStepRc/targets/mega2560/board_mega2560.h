@@ -78,11 +78,9 @@
 #define sdDone()
 #define SD_IS_HC()                (0)
 #define SD_GET_SPEED()            (0)
-#if !defined(SIMU)
-bool sdMounted(void);
-void sdMountPoll(void);
-void sdPoll10ms(void);
-#endif
+bool sdMounted();
+void sdMountPoll();
+void sdPoll10ms();
 
 // Switchs driver
 #define INP_C_ID2                 1

@@ -974,9 +974,7 @@ uint8_t checkTrim(uint8_t event)
   return event;
 }
 
-#if !defined(SIMU)
 uint16_t s_anaFilt[NUMBER_ANALOG];
-#endif
 
 #if defined(SIMU)
 uint16_t BandGap = 225;

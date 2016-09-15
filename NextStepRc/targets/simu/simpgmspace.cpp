@@ -1,4 +1,4 @@
-/*
+//
  *************************************************************
  *                      NEXTSTEPRC                           *
  *                                                           *
@@ -14,7 +14,7 @@
  *************************************************************
  */
 
-#include "nextsteprc.h"
+#include "../../nextsteprc.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <stdarg.h>
@@ -186,14 +186,14 @@ void *eeprom_write_function(void *)
       if (fp) {
         if (fwrite(eeprom_buffer_data, 1, 1, fp) != 1)
           perror("error in fwrite");
-        sleep(5/*ms*/);
+        sleep(5//ms*/);
       }
       else {
         memcpy(&eeprom[eeprom_pointer], eeprom_buffer_data, 1);
       }
       eeprom_pointer++;
       eeprom_buffer_data++;
-      
+
       if (fp && eeprom_buffer_size == 1) {
         fflush(fp);
       }
@@ -214,7 +214,7 @@ void *main_thread(void *)
   try {
 #endif
 
-    
+
     s_current_protocol[0] = 255;
 
     menuLevel = 0;
@@ -242,7 +242,7 @@ void *main_thread(void *)
 
     while (main_thread_running) {
       perMain();
-      sleep(10/*ms*/);
+      sleep(10//ms*/);
     }
 
 
@@ -276,12 +276,12 @@ void StartMainThread(bool tests)
 #endif
 
 
-  /*
-    g_tmr10ms must be non-zero otherwise some SF functions (that use this timer as a marker when it was last executed) 
+  //
+    g_tmr10ms must be non-zero otherwise some SF functions (that use this timer as a marker when it was last executed)
     will be executed twice on startup. Normal radio does not see this issue because g_tmr10ms is already a big number
     before the first call to the Special Functions. Not so in the simulator.
 
-    There is another issue, some other function static variables depend on this value. If simulator is started 
+    There is another issue, some other function static variables depend on this value. If simulator is started
     multiple times in one Companion session, they are set to their initial values only first time the simulator
     is started. Therefore g_tmr10ms must also be set to non-zero value only the first time, then it must be left
     alone to continue from the previous simulator session value. See the issue #2446
@@ -290,11 +290,11 @@ void StartMainThread(bool tests)
   if (g_tmr10ms == 0) {
     g_tmr10ms = 1;
   }
-  
+
 #if defined(RTCLOCK)
   g_rtcTime = time(0);
 #endif
-  
+
   main_thread_running = (tests ? 1 : 2);
   pthread_create(&main_thread_pid, NULL, &main_thread, NULL);
 }
@@ -382,7 +382,7 @@ namespace simu {
   #include <libgen.h>
 #endif
 }
-#include "ff.h"
+#include "../../thirdparty/FatFs/ff.h"
 
 #if defined WIN32 || !defined __GNUC__
 #include <direct.h>
@@ -393,7 +393,7 @@ namespace simu {
 #include <string>
 
 
-char *convertSimuPath(const char *path)
+//char *convertSimuPath(const char *path)
 {
   static char result[1024];
   if (((path[0] == '/') || (path[0] == '\\')) && (strcmp(simuSdDirectory, "/") != 0))
@@ -408,7 +408,7 @@ typedef std::map<std::string, std::string> filemap_t;
 
 filemap_t fileMap;
 
-char *findTrueFileName(const char *path)
+/*char *findTrueFileName(const char *path)
 {
   TRACE("findTrueFileName(%s)", path);
   static char result[1024];
@@ -442,7 +442,7 @@ char *findTrueFileName(const char *path)
             strcat(result, ffd.cFileName);
             TRACE("\tfound: %s", ffd.cFileName);
             fileMap.insert(filemap_t:: value_type(path, result));
-            return result;  
+            return result;
           }
         }
       }
@@ -472,7 +472,7 @@ char *findTrueFileName(const char *path)
             TRACE("\tfound: %s", res->d_name);
             fileMap.insert(filemap_t:: value_type(path, result));
             simu::closedir(dir);
-            return result;  
+            return result;
           }
         }
       }
@@ -715,7 +715,7 @@ FRESULT f_getfree (const TCHAR* path, DWORD* nclst, FATFS** fatfs)
 {
   // just fake that we always have some clusters free
   *nclst = 10;
-  return FR_OK;  
+  return FR_OK;
 }
 
 
@@ -728,22 +728,22 @@ FRESULT f_getfree (const TCHAR* path, DWORD* nclst, FATFS** fatfs)
 #include <stdio.h>
 
 
-int ff_cre_syncobj (BYTE vol, _SYNC_t* sobj) /* Create a sync object */
+int ff_cre_syncobj (BYTE vol, _SYNC_t* sobj) /// Create a sync object
 {
   return 1;
 }
 
-int ff_req_grant (_SYNC_t sobj)        /* Lock sync object */
+int ff_req_grant (_SYNC_t sobj)        // Lock sync object
 {
   return 1;
 }
 
-void ff_rel_grant (_SYNC_t sobj)        /* Unlock sync object */
+void ff_rel_grant (_SYNC_t sobj)        // Unlock sync object
 {
 
 }
 
-int ff_del_syncobj (_SYNC_t sobj)        /* Delete a sync object */
+int ff_del_syncobj (_SYNC_t sobj)        // Delete a sync object
 {
   return 1;
 }
@@ -753,7 +753,7 @@ DWORD get_fattime (void)
   time_t tim = time(0);
   const struct tm * t = gmtime(&tim);
 
-  /* Pack date and time into a DWORD variable */
+  // Pack date and time into a DWORD variable
   return ((DWORD)(t->tm_year - 80) << 25)
     | ((uint32_t)(t->tm_mon+1) << 21)
     | ((uint32_t)t->tm_mday << 16)
@@ -768,7 +768,7 @@ void traceDiskStatus()
 {
   if (noDiskStatus > 0) {
     TRACE("disk_status() called %d times", noDiskStatus);
-    noDiskStatus = 0;  
+    noDiskStatus = 0;
   }
 }
 
@@ -819,14 +819,14 @@ DRESULT disk_ioctl (BYTE pdrv, BYTE cmd, void* buff)
 
   if (cmd == CTRL_POWER) {
     switch (*ptr) {
-      case 0:         /* Sub control code == 0 (POWER_OFF) */
+      case 0:         // Sub control code == 0 (POWER_OFF)
         res = RES_OK;
         break;
-      case 1:         /* Sub control code == 1 (POWER_ON) */
+      case 1:         // Sub control code == 1 (POWER_ON)
         res = RES_OK;
         break;
-      case 2:         /* Sub control code == 2 (POWER_GET) */
-        *(ptr+1) = (BYTE)1;  /* fake powered */
+      case 2:         // Sub control code == 2 (POWER_GET)
+        *(ptr+1) = (BYTE)1;  // fake powered
         res = RES_OK;
         break;
       default :
@@ -836,59 +836,59 @@ DRESULT disk_ioctl (BYTE pdrv, BYTE cmd, void* buff)
   }
 
   switch(cmd) {
-/* Generic command (Used by FatFs) */
-    case CTRL_SYNC :     /* Complete pending write process (needed at _FS_READONLY == 0) */
+// Generic command (Used by FatFs)
+    case CTRL_SYNC :     // Complete pending write process (needed at _FS_READONLY == 0)
       break;
 
-    case GET_SECTOR_COUNT: /* Get media size (needed at _USE_MKFS == 1) */
+    case GET_SECTOR_COUNT: // Get media size (needed at _USE_MKFS == 1)
       {
         struct stat buf;
         if (stat("sdcard.image", &buf) == 0) {
           DWORD noSectors  = buf.st_size / 512;
           *(DWORD*)buff = noSectors;
           TRACE("disk_ioctl(GET_SECTOR_COUNT) = %u", noSectors);
-          return RES_OK; 
+          return RES_OK;
         }
         return RES_ERROR;
       }
 
-    case GET_SECTOR_SIZE: /* Get sector size (needed at _MAX_SS != _MIN_SS) */
+    case GET_SECTOR_SIZE: // Get sector size (needed at _MAX_SS != _MIN_SS)
       TRACE("disk_ioctl(GET_SECTOR_SIZE) = 512");
       *(WORD*)buff = 512;
       res = RES_OK;
       break;
 
-    case GET_BLOCK_SIZE : /* Get erase block size (needed at _USE_MKFS == 1) */
+    case GET_BLOCK_SIZE : // Get erase block size (needed at _USE_MKFS == 1)
       *(WORD*)buff = 512 * 4;
       res = RES_OK;
       break;
 
-    case CTRL_TRIM : /* Inform device that the data on the block of sectors is no longer used (needed at _USE_TRIM == 1) */
+    case CTRL_TRIM : // Inform device that the data on the block of sectors is no longer used (needed at _USE_TRIM == 1)
       break;
 
-/* Generic command (Not used by FatFs) */
-    case CTRL_LOCK : /* Lock/Unlock media removal */
-    case CTRL_EJECT: /* Eject media */
-    case CTRL_FORMAT: /* Create physical format on the media */
+// Generic command (Not used by FatFs)
+    case CTRL_LOCK : // Lock/Unlock media removal
+    case CTRL_EJECT: // Eject media
+    case CTRL_FORMAT: // Create physical format on the media
       return RES_PARERR;
 
 
-/* MMC/SDC specific ioctl command */
-    // case MMC_GET_TYPE    10  /* Get card type */
-    // case MMC_GET_CSD     11  /* Get CSD */
-    // case MMC_GET_CID     12  /* Get CID */
-    // case MMC_GET_OCR     13  /* Get OCR */
-    // case MMC_GET_SDSTAT    14  /* Get SD status */
+// MMC/SDC specific ioctl command
+    // case MMC_GET_TYPE    10  // Get card type
+    // case MMC_GET_CSD     11  // Get CSD
+    // case MMC_GET_CID     12  // Get CID
+    // case MMC_GET_OCR     13  // Get OCR
+    // case MMC_GET_SDSTAT    14  // Get SD status
 
-/* ATA/CF specific ioctl command */
-    // case ATA_GET_REV     20  /* Get F/W revision */
-    // case ATA_GET_MODEL   21  /* Get model name */
-    // case ATA_GET_SN      22  /* Get serial number */
+// ATA/CF specific ioctl command
+    // case ATA_GET_REV     20  // Get F/W revision
+    // case ATA_GET_MODEL   21  // Get model name
+    // case ATA_GET_SN      22  // Get serial number
     default:
       return RES_PARERR;
   }
   return RES_OK;
-}
+}*/
 
 uint32_t sdIsHC()
 {

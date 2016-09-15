@@ -224,8 +224,8 @@ extern uint8_t portb, portc, porth, dummyport;
 extern uint16_t dummyport16;
 extern uint8_t main_thread_running;
 
-#define getADC()
-#define getADC_bandgap()
+//#define getADC()
+//#define getADC_bandgap()
 
 #define SIMU_SLEEP(x) do { if (!main_thread_running) return; sleep(x/*ms*/); } while (0)
 #define SIMU_SLEEP_NORET(x) do { sleep(x/*ms*/); } while (0)
@@ -289,9 +289,9 @@ inline void delay_01us(int dummy) { }
 extern char simuSdDirectory[1024];
 #endif
 
-#define sdMountPoll()
-#define sdPoll10ms()
-#define sd_card_ready()  (true)
-#define sdMounted()      (true)
+//#define sdMountPoll()
+//#define sdPoll10ms()
+//#define sd_card_ready()  (true)
+//#define sdMounted()      (true)
 
 #endif

@@ -17,8 +17,9 @@
 /*--------------------------------------------------------------------------*/
 /*  RTC controls                                                            */
 
-#include "../nextsteprc.h"
-#include "../FatFs/integer.h"
+#include "../../nextsteprc.h"
+#include "../../thirdparty/FatFs/integer.h"
+#include "../../i2c_master.h"
 
 #define RTC_ADRESS  (0x68 << 1) //0x68 for ZS042
 

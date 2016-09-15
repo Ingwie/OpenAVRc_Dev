@@ -57,9 +57,9 @@ bool OffsetOnInput = true;
 /////////////////////////////////////////////////////////
 
 #if defined(SIMU)
-#define SWITCH_SIMU(a, b)  (a)
+#define SWITCH_SIMU(x)  Simu_a
 #else
-#define SWITCH_SIMU(a, b)  (b)
+#define SWITCH_SIMU(x)  (x)
 #endif
 
 #if defined(CPUM2560)
@@ -720,9 +720,7 @@ void checkSwitches();
 void checkAlarm();
 void checkAll();
 
-#if !defined(SIMU)
 void getADC();
-#endif
 
 extern void backlightOn();
 
@@ -1253,9 +1251,7 @@ enum ClipboardType {
 extern Clipboard clipboard; */
 #endif
 
-#if !defined(SIMU)
 extern uint16_t s_anaFilt[NUMBER_ANALOG];
-#endif
 
 #if defined(JITTER_MEASURE)
 extern JitterMeter<uint16_t> rawJitter[NUMBER_ANALOG];
