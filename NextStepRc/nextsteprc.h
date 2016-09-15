@@ -23,9 +23,8 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "gui/menus.h"
 #include "gui/lcd.h"
-
+#include "gui/menus.h"
 
 /////////////////DEBUG FUNCTION DEFINITION///////////////////
 //#define LCDDURATIONSHOW 1  //Show refresh duration
@@ -185,8 +184,6 @@ bool OffsetOnInput = true;
 
 #if defined(SIMU)
 #define __DMA
-#elif defined(STM32F4)
-#define __DMA __attribute__((section(".ram"), aligned(32)))
 #else
 #define __DMA __attribute__((aligned(32)))
 #endif
@@ -253,6 +250,7 @@ char *convertSimuPath(const char *path);
 #include "targets/stock/board_stock.h"
 #endif
 
+#include "gui/menus.h"
 #include "debug.h"
 
 #if defined(SIMU)
@@ -317,7 +315,9 @@ void memclear(void *ptr, uint8_t size);
 #endif
 
 #define tmr10ms_t uint16_t
+
 extern volatile tmr10ms_t g_tmr10ms;
+
 extern inline uint16_t get_tmr10ms()
 {
   uint16_t time  ;
@@ -1072,6 +1072,7 @@ union ReusableBuffer
   {
     char listnames[LCD_LINES-1][LEN_MODEL_NAME];
     uint16_t eepromfree;
+
 #if defined(SDCARD)
     char menu_bss[POPUP_MENU_MAX_LINES][MENU_LINE_LENGTH];
     char mainname[45]; // because reused for SD backup / restore, max backup filename 44 chars: "/MODELS/MODEL0134353-2014-06-19-04-51-27.bin"

@@ -13,6 +13,7 @@
  *                                                           *
  *************************************************************
  */
+#if defined(MAVLINK)
 
 /*!	\file view_mavlink.cpp
  *	Mavlink menu
@@ -506,3 +507,5 @@ void menuTelemetryMavlinkSetup(uint8_t event) {
 		}
 	}
 }
+
+#endif // defined

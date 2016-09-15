@@ -17,8 +17,14 @@
 #ifndef _LCD_H
 #define _LCD_H
 
+#if !defined(SIMU)
 #include <avr/pgmspace.h>
 #include "../pgmtypes.h"
+#else
+#include "../targets/simu/simpgmspace.h"
+#endif
+#include "../myeeprom.h"
+
 
 #define LCD_W         128
 #define LCD_H         64
@@ -105,7 +111,7 @@ extern coord_t lcdNextPos;
 extern volatile uint8_t LcdLock ;
 #endif
 
-#if defined(BOOT)
+#if defined(DEBUG)
 // TODO quick & dirty :(
 typedef const unsigned char pm_uchar;
 typedef const char pm_char;

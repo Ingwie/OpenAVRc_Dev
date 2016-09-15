@@ -29,11 +29,11 @@ inline void boardInit()
   DDRE = 0b00001010;  PORTE = 0b01110100; // 7:PPM_IN, 6:N/A, 5:RENC1_B, 4:RENC1_A, 3:WTV20SDData, 2:N/A, 1:TELEM_TX, 0:TELEM_RX
   DDRF = 0b00000000;  PORTF = 0b11111111; // 7-0:Trim switch inputs
   DDRG = 0b00100000;  PORTG = 0b11011111; // 7:N/A, 6:N/A, 5:WTV20SDClock, 4:N/A, 3:N/A, 2:TCut_SW, 1:Gear_SW, 0: RudDr_SW
-#if defined(DEBUG)  
+#if defined(DEBUG)
   DDRH = 0b01011011;  PORTH = 0b11110100; // 7:N/A, 6:RF_Activated, 5:DSC_Activated, 4:Hold_Power, 3:Speaker, 2:N/A, 1:WTV20SDReset, 0:Haptic
 #else
   DDRH = 0b00011011;  PORTH = 0b11110100; // 7:N/A, 6:RF_Activated, 5:DSC_Activated, 4:Hold_Power, 3:Speaker, 2:N/A, 1:WTV20SDReset, 0:Haptic
-#endif  
+#endif
   DDRJ = 0b00000000;  PORTJ = 0b11111111; // 7:N/A, 6:N/A, 5:N/A, 4:N/A, 3:N/A, 2:N/A, 1:RENC2_push, 0:RENC1_push
   DDRK = 0b00000000;  PORTK = 0b00000000; // Analogic input (no pull-ups)
   DDRL = 0b00000000;  PORTL = 0b11111111; // 7:TRN_SW 6:EleDR_SW, 5:ESC, 4:MENU 3:Keyb_Left, 2:Keyb_Right, 1:Keyb_Up, 0:Keyb_Down
@@ -46,11 +46,11 @@ inline void boardInit()
   DDRE = 0b00000010;  PORTE = 0b01111100; // 7:PPM_IN, 6:N/A, 5:RENC1_B, 4:RENC1_A, 3:N/A, 2:N/A, 1:TELEM_TX, 0:TELEM_RX
   DDRF = 0b00000000;  PORTF = 0b11111111; // 7-0:Trim switch inputs
   DDRG = 0b00000000;  PORTG = 0b11111111; // 7:N/A, 6:N/A, 5:N/A, 4:N/A, 3:N/A, 2:TCut_SW, 1:Gear_SW, 0: RudDr_SW
-#if defined(DEBUG)  
+#if defined(DEBUG)
   DDRH = 0b01011001;  PORTH = 0b11110110; // 7:N/A, 6:RF_Activated, 5:DSC_Activated, 4:Hold_Power, 3:Speaker, 2:N/A, 1:N/A, 0:Haptic
 #else
   DDRH = 0b00011001;  PORTH = 0b11110110; // 7:N/A, 6:RF_Activated, 5:DSC_Activated, 4:Hold_Power, 3:Speaker, 2:N/A, 1:N/A, 0:Haptic
-#endif  
+#endif
   DDRJ = 0b00000000;  PORTJ = 0b11111111; // 7:N/A, 6:N/A, 5:N/A, 4:N/A, 3:N/A, 2:N/A, 1:RENC2_push, 0:RENC1_push
   DDRK = 0b00000000;  PORTK = 0b00000000; // Analogic input (no pull-ups)
   DDRL = 0b00000000;  PORTL = 0b11111111; // 7:TRN_SW 6:EleDR_SW, 5:ESC, 4:MENU 3:Keyb_Left, 2:Keyb_Right, 1:Keyb_Up, 0:Keyb_Down
@@ -63,16 +63,16 @@ inline void boardInit()
   DDRE = 0b00000010;  PORTE = 0b01111100; // 7:PPM_IN, 6:N/A, 5:RENC1_B, 4:RENC1_A, 3:N/A, 2:N/A, 1:TELEM_TX, 0:TELEM_RX
   DDRF = 0b00000000;  PORTF = 0b11111111; // 7-0:Trim switch inputs
   DDRG = 0b00000000;  PORTG = 0b11111111; // 7:N/A, 6:N/A, 5:N/A, 4:N/A, 3:N/A, 2:TCut_SW, 1:Gear_SW, 0: RudDr_SW
-#if defined(DEBUG)  
+#if defined(DEBUG)
   DDRH = 0b01011001;  PORTH = 0b11110100; // 7:N/A, 6:RF_Activated, 5:DSC_Activated, 4:Hold_Power, 3:Speaker, 2:N/A, 1:N/A, 0:Haptic
 #else
   DDRH = 0b00011001;  PORTH = 0b11110100; // 7:N/A, 6:RF_Activated, 5:DSC_Activated, 4:Hold_Power, 3:Speaker, 2:N/A, 1:N/A, 0:Haptic
-#endif  
+#endif
   DDRJ = 0b00000000;  PORTJ = 0b11111111; // 7:N/A, 6:N/A, 5:N/A, 4:N/A, 3:N/A, 2:N/A, 1:RENC2_push, 0:RENC1_push
   DDRK = 0b00000000;  PORTK = 0b00000000; // Analogic input (no pull-ups)
   DDRL = 0b00000000;  PORTL = 0b11111111; // 7:TRN_SW 6:EleDR_SW, 5:ESC, 4:MENU 3:Keyb_Left, 2:Keyb_Right, 1:Keyb_Up, 0:Keyb_Down
 #endif
-  
+
   adcInit();
 
   /**** Set up timer/counter 0 ****/
@@ -83,12 +83,12 @@ inline void boardInit()
   TIMSK2 |= (1<<OCIE2A) |  (1<<TOIE2); // Enable Output-Compare and Overflow interrrupts
 
   #if defined(AUDIO)
-  // TIMER4 set into CTC mode, prescaler 16MHz/64=250 kHz 
+  // TIMER4 set into CTC mode, prescaler 16MHz/64=250 kHz
   // Used for audio tone generation
   TCCR4B  = (1<<WGM42) | (0b011 << CS40);
   TCCR4A  = 0x00;
   #endif
-  
+
   #if defined(VOICE_WTV20SD)
   // WTV20SD set-up, with TIMER5
   OCR5A = 0x1F4; //2ms
@@ -101,22 +101,22 @@ inline void boardInit()
   OCR5A = 0x19; // 0x1A=104µs needed for the 9600Bps serial command
   TCCR5B = (1 << WGM52) | (0b011 << CS50); // CTC OCR5A
   #endif
-  
+
   /* Rotary encoder interrupt set-up                 */
   EIMSK = 0; // disable ALL external interrupts.
   // encoder 1
   EICRB = (1<<ISC50) | (1<<ISC40); // 01 = interrupt on any edge
-  EIFR = (3<<INTF4); // clear the int. flag in case it got set when changing modes 
+  EIFR = (3<<INTF4); // clear the int. flag in case it got set when changing modes
   // encoder 2
   EICRA = (1<<ISC30) | (1<<ISC20);
   EIFR = (3<<INTF2);
   EIMSK = (3<<INT4) | (3<<INT2); // enable the two rot. enc. ext. int. pairs.
-  
-  #if defined(SDCARD)  
-  /* Hardware I2C init                               */ 
-  i2c_init(); 
-  #endif                
-}              
+
+  #if defined(SDCARD)
+  /* Hardware I2C init                               */
+  i2c_init();
+  #endif
+}
 #endif // !SIMU
 
 uint8_t pwrCheck()
@@ -124,9 +124,9 @@ uint8_t pwrCheck()
 #if !defined(SIMU)
   if ((~PINH & 0b00100000) && (~PINH & 0b01000000))
   return e_power_off;
-#endif          
-  return e_power_on;  
-}      
+#endif
+  return e_power_on;
+}
 
 void pwrOff()
 {
@@ -194,7 +194,7 @@ bool switchState(EnumKeys enuk)
 }
 
 // Trim switches
-#if defined(TOGGLETRIM) //Toggle trim usage -> Left trim for right stick and right trim for left stick 
+#if defined(TOGGLETRIM) //Toggle trim usage -> Left trim for right stick and right trim for left stick
 static const pm_uchar crossTrim[] PROGMEM = {
   TRIMS_GPIO_PIN_RHL,
   TRIMS_GPIO_PIN_RHR,
@@ -244,7 +244,7 @@ void readKeysAndTrims()
 #endif
 
   uint8_t enuk = KEY_MENU;
-  
+
   keys[BTN_REa].input(~PINJ & 0x01);
   keys[BTN_REb].input(~PINJ & 0x02);
 
@@ -268,7 +268,7 @@ void readKeysAndTrims()
 }
 
 // Rotary encoders increment/decrement (0 = rotary 1, 1 = rotary 2)
-ISR(INT4_vect)     // Arduino2560 IO02 (portE pin4)    
+ISR(INT4_vect)     // Arduino2560 IO02 (portE pin4)
 {
   uint8_t input = (PINE & 0x30);
 #if defined (ROTENC_DIV2)// Rotenc resolution/2
@@ -306,5 +306,5 @@ ISR(INT3_vect)     // Arduino2560 IO18 (portD pin3)
 #else
   if (input == 0 || input == 0x0C) incRotaryEncoder(1, +1);
 #endif
-}  
+}
 

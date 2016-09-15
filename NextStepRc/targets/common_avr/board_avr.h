@@ -15,10 +15,12 @@
  */
 
 // ADC driver
-void adcInit();
-void adcPrepareBandgap();
-void getADC();
-void getADC_bandgap();
+extern void adcInit();
+extern void adcPrepareBandgap();
+#if !defined(SIMU)
+extern void getADC();
+extern void getADC_bandgap();
+#endif
 
 // USART driver (static register dispatcher)
 #define RXD_DDR1 DDRD

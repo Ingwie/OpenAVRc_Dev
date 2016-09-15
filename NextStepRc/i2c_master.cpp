@@ -14,6 +14,8 @@
 *************************************************************
 */
 
+#if !defined(SIMU)
+
 // From https://github.com/g4lvanix/I2C-master-lib
 
 #include <avr/io.h>
@@ -190,3 +192,5 @@ const uint8_t *buff /* Data to be written */
   ret = i2c_writeReg(dev, adr, (uint8_t *)buff, cnt);
   return (!ret);
 }
+
+#endif

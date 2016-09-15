@@ -17,6 +17,9 @@
 #ifndef _SERIAL_H_
 #define _SERIAL_H_
 
+#include "../../nextsteprc.h"
+
+
 typedef enum serial_tx_state_ {
 	TX_STATE_EMPTY = 0, //
 	TX_STATE_READY, //

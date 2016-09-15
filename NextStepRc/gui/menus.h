@@ -17,7 +17,7 @@
 #ifndef _MENUS_H_
 #define _MENUS_H_
 
-#include "../nextsteprc.h"
+//#include "../nextsteprc.h"
 #include "../myeeprom.h"
 #include "lcd.h"
 
@@ -29,9 +29,9 @@
 
 // Menus related stuff ...
 #if defined(SDCARD)
-  typedef uint16_t vertpos_t;
+typedef uint16_t vertpos_t;
 #else
-  typedef uint8_t vertpos_t;
+typedef uint8_t vertpos_t;
 #endif
 
 typedef uint8_t check_event_t;
@@ -97,24 +97,24 @@ extern void menuTraceBuffer(uint8_t event);
 #endif
 
 #if !defined(CPUM64)
-  extern void displaySlider(coord_t x, coord_t y, uint8_t value, uint8_t max, uint8_t attr);
+extern void displaySlider(coord_t x, coord_t y, uint8_t value, uint8_t max, uint8_t attr);
 #elif defined(GRAPHICS)
-  extern void display5posSlider(coord_t x, coord_t y, uint8_t value, uint8_t attr);
-  #define displaySlider(x, y, value, max, attr) lcdDrawNumberAttUnit(x, y, value, attr|LEFT)
+extern void display5posSlider(coord_t x, coord_t y, uint8_t value, uint8_t attr);
+#define displaySlider(x, y, value, max, attr) lcdDrawNumberAttUnit(x, y, value, attr|LEFT)
 #else
-  #define displaySlider(x, y, value, max, attr) lcdDrawNumberAttUnit(x, y, value, attr|LEFT)
+#define displaySlider(x, y, value, max, attr) lcdDrawNumberAttUnit(x, y, value, attr|LEFT)
 #endif
 
 #if defined(NAVIGATION_POT1)
-  extern int16_t p1valdiff;
+extern int16_t p1valdiff;
 #else
-  #define p1valdiff 0
+#define p1valdiff 0
 #endif
 
 #if defined(NAVIGATION_POT2)
-  extern int8_t p2valdiff;
+extern int8_t p2valdiff;
 #else
-  #define p2valdiff 0
+#define p2valdiff 0
 #endif
 
 extern int8_t checkIncDec_Ret;  // global helper vars
@@ -138,18 +138,18 @@ extern int8_t s_editMode;       // global editmode
 #define TITLE_ROW      ((uint8_t)-1)
 #define HIDDEN_ROW     ((uint8_t)-2)
 
-  int16_t checkIncDec(uint8_t event, int16_t i_pval, int16_t i_min, int16_t i_max, uint8_t i_flags=0);
+extern int16_t checkIncDec(uint8_t event, int16_t i_pval, int16_t i_min, int16_t i_max, uint8_t i_flags=0);
 
-int8_t checkIncDecMovedSwitch(int8_t val);
+extern int8_t checkIncDecMovedSwitch(int8_t val);
 
 #if defined(CPUM64)
-  int8_t checkIncDecModel(uint8_t event, int8_t i_val, int8_t i_min, int8_t i_max);
-  int8_t checkIncDecModelZero(uint8_t event, int8_t i_val, int8_t i_max);
-  int8_t checkIncDecGen(uint8_t event, int8_t i_val, int8_t i_min, int8_t i_max);
+extern int8_t checkIncDecModel(uint8_t event, int8_t i_val, int8_t i_min, int8_t i_max);
+extern int8_t checkIncDecModelZero(uint8_t event, int8_t i_val, int8_t i_max);
+extern int8_t checkIncDecGen(uint8_t event, int8_t i_val, int8_t i_min, int8_t i_max);
 #else
-  #define checkIncDecModel(event, i_val, i_min, i_max) checkIncDec(event, i_val, i_min, i_max, EE_MODEL)
-  #define checkIncDecModelZero(event, i_val, i_max) checkIncDec(event, i_val, 0, i_max, EE_MODEL)
-  #define checkIncDecGen(event, i_val, i_min, i_max) checkIncDec(event, i_val, i_min, i_max, EE_GENERAL)
+#define checkIncDecModel(event, i_val, i_min, i_max) checkIncDec(event, i_val, i_min, i_max, EE_MODEL)
+#define checkIncDecModelZero(event, i_val, i_max) checkIncDec(event, i_val, 0, i_max, EE_MODEL)
+#define checkIncDecGen(event, i_val, i_min, i_max) checkIncDec(event, i_val, i_min, i_max, EE_GENERAL)
 #endif
 
 #define CHECK_INCDEC_MODELVAR(event, var, min, max) \
@@ -158,30 +158,30 @@ int8_t checkIncDecMovedSwitch(int8_t val);
 #define CHECK_INCDEC_MODELVAR_ZERO(event, var, max) \
   var = checkIncDecModelZero(event,var,max)
 
-  #define CHECK_INCDEC_MODELVAR_CHECK(event, var, min, max, check) \
+#define CHECK_INCDEC_MODELVAR_CHECK(event, var, min, max, check) \
     var = checkIncDec(event, var, min, max, EE_MODEL)
-  #define CHECK_INCDEC_MODELVAR_ZERO_CHECK(event, var, max, check) \
+#define CHECK_INCDEC_MODELVAR_ZERO_CHECK(event, var, max, check) \
     CHECK_INCDEC_MODELVAR_ZERO(event, var, max)
 
 #if   defined(AUTOSWITCH)
-  #define AUTOSWITCH_ENTER_LONG() (attr && event==EVT_KEY_LONG(KEY_ENTER))
-  #define CHECK_INCDEC_SWITCH(event, var, min, max, flags, available) \
+#define AUTOSWITCH_ENTER_LONG() (attr && event==EVT_KEY_LONG(KEY_ENTER))
+#define CHECK_INCDEC_SWITCH(event, var, min, max, flags, available) \
     var = checkIncDec(event, var, min, max, (flags)|INCDEC_SWITCH)
-  #define CHECK_INCDEC_MODELSWITCH(event, var, min, max, available) \
+#define CHECK_INCDEC_MODELSWITCH(event, var, min, max, available) \
     CHECK_INCDEC_SWITCH(event, var, min, max, EE_MODEL, available)
 #else
-  #define AUTOSWITCH_ENTER_LONG() (0)
-  #define CHECK_INCDEC_SWITCH(event, var, min, max, flags, available) \
+#define AUTOSWITCH_ENTER_LONG() (0)
+#define CHECK_INCDEC_SWITCH(event, var, min, max, flags, available) \
     CHECK_INCDEC_MODELVAR(event, var, min, max)
-  #define CHECK_INCDEC_MODELSWITCH(event, var, min, max, available) \
+#define CHECK_INCDEC_MODELSWITCH(event, var, min, max, available) \
     CHECK_INCDEC_MODELVAR(event, var, min, max)
 #endif
 
 #if   defined(AUTOSOURCE)
-  #define CHECK_INCDEC_MODELSOURCE(event, var, min, max) \
+#define CHECK_INCDEC_MODELSOURCE(event, var, min, max) \
     var = checkIncDec(event,var,min,max,EE_MODEL|INCDEC_SOURCE|NO_INCDEC_MARKS)
 #else
-  #define CHECK_INCDEC_MODELSOURCE CHECK_INCDEC_MODELVAR
+#define CHECK_INCDEC_MODELSOURCE CHECK_INCDEC_MODELVAR
 #endif
 
 #define CHECK_INCDEC_GENVAR(event, var, min, max) \
@@ -190,14 +190,14 @@ int8_t checkIncDecMovedSwitch(int8_t val);
 #define NAVIGATION_LINE_BY_LINE  0
 #define CURSOR_ON_LINE()         (0)
 
-void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, uint8_t menuTabSize, const pm_uint8_t *horTab, uint8_t horTabMax, vertpos_t maxrow);
-void check_simple(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, uint8_t menuTabSize, vertpos_t maxrow);
-void check_submenu_simple(check_event_t event, uint8_t maxrow);
+extern void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, uint8_t menuTabSize, const pm_uint8_t *horTab, uint8_t horTabMax, vertpos_t maxrow);
+extern void check_simple(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, uint8_t menuTabSize, vertpos_t maxrow);
+extern void check_submenu_simple(check_event_t event, uint8_t maxrow);
 
-void title(const pm_char * s);
+extern void title(const pm_char * s);
 #define TITLE(str) title(str)
 
-  #define MENU_TAB(...) static const pm_uint8_t mstate_tab[] PROGMEM = __VA_ARGS__
+#define MENU_TAB(...) static const pm_uint8_t mstate_tab[] PROGMEM = __VA_ARGS__
 
 #define MENU_CHECK(tab, menu, lines_count) \
   check(event, menu, tab, DIM(tab), mstate_tab, DIM(mstate_tab)-1, (lines_count)-1)
@@ -239,25 +239,25 @@ void title(const pm_char * s);
   SIMPLE_SUBMENU_NOTITLE(lines_count); \
   TITLE(title)
 
-  typedef int8_t select_menu_value_t;
+typedef int8_t select_menu_value_t;
 
-select_menu_value_t selectMenuItem(coord_t x, coord_t y, const pm_char *label, const pm_char *values, select_menu_value_t value, select_menu_value_t min, select_menu_value_t max, LcdFlags attr, uint8_t event);
-uint8_t onoffMenuItem(uint8_t value, coord_t x, coord_t y, const pm_char *label, LcdFlags attr, uint8_t event);
-int8_t switchMenuItem(coord_t x, coord_t y, int8_t value, LcdFlags attr, uint8_t event);
+extern select_menu_value_t selectMenuItem(coord_t x, coord_t y, const pm_char *label, const pm_char *values, select_menu_value_t value, select_menu_value_t min, select_menu_value_t max, LcdFlags attr, uint8_t event);
+extern uint8_t onoffMenuItem(uint8_t value, coord_t x, coord_t y, const pm_char *label, LcdFlags attr, uint8_t event);
+extern int8_t switchMenuItem(coord_t x, coord_t y, int8_t value, LcdFlags attr, uint8_t event);
 
 #define ON_OFF_MENU_ITEM(value, x, y, label, attr, event) value = onoffMenuItem(value, x, y, label, attr, event)
 
-  #define GVAR_MENU_ITEM(x, y, v, min, max, lcdattr, editflags, event) gvarMenuItem(x, y, v, min, max, lcdattr, event)
+#define GVAR_MENU_ITEM(x, y, v, min, max, lcdattr, editflags, event) gvarMenuItem(x, y, v, min, max, lcdattr, event)
 
 #if defined(GVARS)
-    int16_t gvarMenuItem(coord_t x, coord_t y, int16_t value, int16_t min, int16_t max, LcdFlags attr, uint8_t event); // @@@ open.20.fsguruh
-  #define displayGVar(x, y, v, min, max) GVAR_MENU_ITEM(x, y, v, min, max, 0, 0, 0)
+extern int16_t gvarMenuItem(coord_t x, coord_t y, int16_t value, int16_t min, int16_t max, LcdFlags attr, uint8_t event); // @@@ open.20.fsguruh
+#define displayGVar(x, y, v, min, max) GVAR_MENU_ITEM(x, y, v, min, max, 0, 0, 0)
 #else
-  int16_t gvarMenuItem(coord_t x, coord_t y, int16_t value, int16_t min, int16_t max, LcdFlags attr, uint8_t event);
-  #define displayGVar(x, y, v, min, max) lcd_outdez8(x, y, v)
+extern int16_t gvarMenuItem(coord_t x, coord_t y, int16_t value, int16_t min, int16_t max, LcdFlags attr, uint8_t event);
+#define displayGVar(x, y, v, min, max) lcd_outdez8(x, y, v)
 #endif
 
-void editName(coord_t x, coord_t y, char *name, uint8_t size, uint8_t event, uint8_t active);
+extern void editName(coord_t x, coord_t y, char *name, uint8_t size, uint8_t event, uint8_t active);
 
 #define WARNING_TYPE_ASTERISK  0
 #define WARNING_TYPE_CONFIRM   1
@@ -276,55 +276,55 @@ extern uint8_t         warningType;
 #define WARNING_LINE_X 16
 #define WARNING_LINE_Y 3*FH
 
-void displayBox();
-void displayPopup(const pm_char * pstr);
-void displayWarning(uint8_t event);
+extern void displayBox();
+extern void displayPopup(const pm_char * pstr);
+extern void displayWarning(uint8_t event);
 
 
 #if !defined(GUI)
-  #define DISPLAY_WARNING(...)
-  #define POPUP_WARNING(...)
-  #define POPUP_CONFIRMATION(...)
-  #define POPUP_INPUT(...)
-  #define WARNING_INFO_FLAGS           0
-  #define SET_WARNING_INFO(...)
+#define DISPLAY_WARNING(...)
+#define POPUP_WARNING(...)
+#define POPUP_CONFIRMATION(...)
+#define POPUP_INPUT(...)
+#define WARNING_INFO_FLAGS           0
+#define SET_WARNING_INFO(...)
 #else
-  #define DISPLAY_WARNING              displayWarning
-  #define POPUP_WARNING(s)             warningText = s
-  #define POPUP_CONFIRMATION(s)        (warningText = s, warningType = WARNING_TYPE_CONFIRM)
-  #define WARNING_INFO_FLAGS           ZCHAR
-  #define SET_WARNING_INFO(info, len, flags) (warningInfoText = info, warningInfoLength = len)
+#define DISPLAY_WARNING              displayWarning
+#define POPUP_WARNING(s)             warningText = s
+#define POPUP_CONFIRMATION(s)        (warningText = s, warningType = WARNING_TYPE_CONFIRM)
+#define WARNING_INFO_FLAGS           ZCHAR
+#define SET_WARNING_INFO(info, len, flags) (warningInfoText = info, warningInfoLength = len)
 #endif
 
 #if defined(SDCARD) || (defined(ROTARY_ENCODER_NAVIGATION) && !defined(CPUM64))
-  #define NAVIGATION_MENUS
-  #define POPUP_MENU_ADD_ITEM(s) popupMenuItems[popupMenuNoItems++] = s
-  #define POPUP_MENU_MAX_LINES               6
-  #define MENU_MAX_DISPLAY_LINES       POPUP_MENU_MAX_LINES
-  #if defined(SDCARD)
-    #define POPUP_MENU_ADD_SD_ITEM(s)        POPUP_MENU_ADD_ITEM(s)
-  #else
-    #define POPUP_MENU_ADD_SD_ITEM(s)
-  #endif
-  #define MENU_LINE_LENGTH             (LEN_MODEL_NAME+1)
-  #define POPUP_MENU_ITEMS_FROM_BSS()  (popupMenuFlags = BSS)
-  extern const char *popupMenuItems[POPUP_MENU_MAX_LINES];
-  extern uint16_t popupMenuNoItems;
-  extern uint8_t popupMenuFlags;
-  extern uint16_t popupMenuOffset;
-  const char * displayPopupMenu(uint8_t event);
-  extern void (*popupMenuHandler)(const char *result);
+#define NAVIGATION_MENUS
+#define POPUP_MENU_ADD_ITEM(s) popupMenuItems[popupMenuNoItems++] = s
+#define POPUP_MENU_MAX_LINES 6
+#define MENU_MAX_DISPLAY_LINES  POPUP_MENU_MAX_LINES
+#if defined(SDCARD)
+#define POPUP_MENU_ADD_SD_ITEM(s)  POPUP_MENU_ADD_ITEM(s)
 #else
-  #define popupMenuNoItems 0
+#define POPUP_MENU_ADD_SD_ITEM(s)
+#endif
+#define MENU_LINE_LENGTH             (LEN_MODEL_NAME+1)
+#define POPUP_MENU_ITEMS_FROM_BSS()  (popupMenuFlags = BSS)
+extern const char *popupMenuItems[POPUP_MENU_MAX_LINES];
+extern uint16_t popupMenuNoItems;
+extern uint8_t popupMenuFlags;
+extern uint16_t popupMenuOffset;
+extern const char * displayPopupMenu(uint8_t event);
+extern void (*popupMenuHandler)(const char *result);
+#else
+#define popupMenuNoItems 0
 #endif
 
 #if defined(SDCARD)
-  #define STATUS_LINE_LENGTH           32
-  extern char statusLineMsg[STATUS_LINE_LENGTH];
-  void showStatusLine();
-  void drawStatusLine();
+#define STATUS_LINE_LENGTH           32
+extern char statusLineMsg[STATUS_LINE_LENGTH];
+extern void showStatusLine();
+extern void drawStatusLine();
 #else
-  #define drawStatusLine()
+#define drawStatusLine()
 #endif
 
 
@@ -340,13 +340,13 @@ void displayWarning(uint8_t event);
 #define IS_ROTARY_MOVE_LEFT            IS_ROTARY_LEFT
 
 #if defined(ROTARY_ENCODER_NAVIGATION)
-  void repeatLastCursorMove(uint8_t event);
-  #define REPEAT_LAST_CURSOR_MOVE()    { if (EVT_KEY_MASK(event) >= 0x0e) putEvent(event); else repeatLastCursorMove(event); }
-  #define MOVE_CURSOR_FROM_HERE()      if (menuHorizontalPosition > 0) REPEAT_LAST_CURSOR_MOVE()
+extern void repeatLastCursorMove(uint8_t event);
+#define REPEAT_LAST_CURSOR_MOVE()    { if (EVT_KEY_MASK(event) >= 0x0e) putEvent(event); else repeatLastCursorMove(event); }
+#define MOVE_CURSOR_FROM_HERE()      if (menuHorizontalPosition > 0) REPEAT_LAST_CURSOR_MOVE()
 #else
-  void repeatLastCursorMove(uint8_t event);
-  #define REPEAT_LAST_CURSOR_MOVE()    repeatLastCursorMove(event)
-  #define MOVE_CURSOR_FROM_HERE()      REPEAT_LAST_CURSOR_MOVE()
+extern void repeatLastCursorMove(uint8_t event);
+#define REPEAT_LAST_CURSOR_MOVE()    repeatLastCursorMove(event)
+#define MOVE_CURSOR_FROM_HERE()      REPEAT_LAST_CURSOR_MOVE()
 #endif
 
 #define POS_VERT_INIT                  0
@@ -354,6 +354,6 @@ void displayWarning(uint8_t event);
 #define EDIT_MODE_INIT                 -1
 
 typedef int16_t (*FnFuncP) (int16_t x);
-void DrawFunction(FnFuncP fn, uint8_t offset=0);
+extern void DrawFunction(FnFuncP fn, uint8_t offset=0);
 
 #endif // _MENUS_H_

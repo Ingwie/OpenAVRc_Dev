@@ -16,6 +16,11 @@
 
 #include "../../nextsteprc.h"
 
+#if defined(SIMU)
+#include "../simu/simu_interface.h"
+#endif
+
+
 #define ADC_VREF_TYPE (1 << REFS0) // AVCC with external capacitor at AREF pin
 
 void adcInit()
@@ -77,7 +82,7 @@ void getADC_bandgap()
   }
   ADCSRB |= (1 << MUX5);
 #elif defined(PCBMEGA2560)
-  BandGap = 2000;  
+  BandGap = 2000;
 #else
 /*
   MCUCR|=0x28;  // enable Sleep (bit5) enable ADC Noise Reduction (bit2)
@@ -85,8 +90,8 @@ void getADC_bandgap()
   // ADCSRA|=0x40;
   while ((ADCSRA & 0x10)==0);
   ADCSRA|=0x10; // take sample  clear flag?
-  BandGap=ADC;    
-  MCUCR&=0x08;  // disable sleep  
+  BandGap=ADC;
+  MCUCR&=0x08;  // disable sleep
   */
 
   ADCSRA |= (1 << ADSC);

@@ -70,7 +70,7 @@ void pushPrompt(uint16_t prompt)
 uint8_t JQ6500_sendbyte(uint8_t Data_byte)
 {
   static uint8_t i = 0;
-  
+
   if (!i) { JQ6500_Serial_off; ++i; return 0; }  // serial start bit
 
   if (i==9) { JQ6500_Serial_on; i = 0; return 1; } // serial stop bit
@@ -86,9 +86,9 @@ ISR(TIMER5_COMPA_vect) // every 104µS
   sei();
 
   if (state == START) { OCR5A = 0x19; if (JQ6500_BUSY) return; if (JQ6500_sendbyte(state)) { state = NUMBY; return; } }
-  
+
   if (state == NUMBY) { if (JQ6500_sendbyte(state)) { state = SELEC; return; } }
- 
+
   if (state == SELEC) { if (JQ6500_sendbyte(state)) { state = FILEH; return; } }
 
   if (state == FILEH) { if (JQ6500_sendbyte(JQ6500_playlist[JQ6500_PlayIndex])) { ++JQ6500_PlayIndex; state = FILEL; return; } }

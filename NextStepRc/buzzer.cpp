@@ -13,6 +13,7 @@
  *                                                           *
  *************************************************************
  */
+#if defined(BUZZER)
 
 #include "nextsteprc.h"
 
@@ -48,3 +49,4 @@ void beep(uint8_t val)
   }
 }
 
+#endif // defined

@@ -18,7 +18,7 @@
 #define menu_model_h
 
 #if defined(MAVLINK)
-#include "gui/view_mavlink.h"
+#include "view_mavlink.h"
 #endif
 
 extern void menuModelSelect(uint8_t event);

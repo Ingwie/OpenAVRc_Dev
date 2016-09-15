@@ -137,7 +137,6 @@
 		<Unit filename="sdcard.cpp" />
 		<Unit filename="sdcard.h" />
 		<Unit filename="serial.cpp" />
-		<Unit filename="serial.h" />
 		<Unit filename="stamp.cpp" />
 		<Unit filename="strhelpers.cpp" />
 		<Unit filename="switches.cpp" />

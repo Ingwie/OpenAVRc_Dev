@@ -1243,7 +1243,7 @@ stamp_header:
 	@echo "#define DATE_STR \"`date +%Y-%m-%d | tr -d '\r\n'`\"" >> stamp-nextsteprc.h
 	@echo "#define TIME_STR \"`date +%H:%M:%S | tr -d '\r\n'`\"" >> stamp-nextsteprc.h
 	@echo "#define VERS_STR \"$(VERSION)\"" >> stamp-nextsteprc.h
-	@echo "" >> stamp-nextsteprc.h
+	@echo "#define FLAVOUR \"$(FLAVOUR)\"" >> stamp-nextsteprc.h
 	@echo "#define VERSION_MAJOR     $(VERSION_MAJOR)" >> stamp-nextsteprc.h
 	@echo "#define VERSION_MINOR     $(VERSION_MINOR)" >> stamp-nextsteprc.h
 	@echo "#define VERSION_REVISION  $(VERSION_REVISION)" >> stamp-nextsteprc.h

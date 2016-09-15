@@ -14,39 +14,17 @@
  *************************************************************
  */
 
-#include "nextsteprc.h"
-#include "serial.h"
-#include <stdarg.h>
-#include <stdio.h>
+#ifndef simu_interface_h
+#define simu_interface_h
 
-#define PRINTF_BUFFER_SIZE    256
+#define reg8 uint8_t
+#define reg16 uint16_t
 
-void serialPutc(char c)
-{
-#if defined(USB_SERIAL)
-  usbSerialPutc(c);
-#else
-  serial2Putc(c);
+//ADC
+reg8 REFS0 = 0b01000000;
+reg8 ADMUX;  //Analog Comparator Multiplexed Input
+reg8 ADCSRA;
+reg8 ADCSRB;
+reg8 MUX5 =  0b00001000;
+
 #endif
-}
-
-void serialPrintf(const char * format, ...)
-{
-  va_list arglist;
-  char tmp[PRINTF_BUFFER_SIZE];
-
-  va_start(arglist, format);
-  vsnprintf(tmp, PRINTF_BUFFER_SIZE, format, arglist);
-  va_end(arglist);
-
-  const char *t = tmp;
-  while (*t) {
-    serialPutc(*t++);
-  }
-}
-
-void serialCrlf()
-{
-  serialPutc('\r');
-  serialPutc('\n');
-}

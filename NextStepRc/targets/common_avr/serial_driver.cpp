@@ -15,7 +15,6 @@
  */
 
 #include "serial_driver.h"
-#include "nextsteprc.h"
 
 /*
  Receive serial (RS-232) characters, detecting and storing each Fr-Sky
