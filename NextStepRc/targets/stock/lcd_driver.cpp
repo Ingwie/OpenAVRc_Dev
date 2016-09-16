@@ -14,7 +14,7 @@
  *************************************************************
  */
 
-#include "nextsteprc.h"
+#include "../../nextsteprc.h"
 
 #if defined(PCBSTD) && defined(VOICE)
 volatile uint8_t LcdLock;
@@ -25,6 +25,9 @@ volatile uint8_t LcdLock;
 #define LCD_UNLOCK()
 #endif
 
+#if defined(SIMU)
+#include "lcd_simu_driver.cpp"
+#else
 #if defined(LCD_KS108)
 #include "targets/stock/lcd_ks108_driver.cpp"
 #elif defined(LCD_ST7920)
@@ -34,3 +37,4 @@ volatile uint8_t LcdLock;
 #else
 #include "targets/stock/lcd_default_driver.cpp"
 #endif
+#endif // defined

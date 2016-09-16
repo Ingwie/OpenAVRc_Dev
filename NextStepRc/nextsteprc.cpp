@@ -1709,7 +1709,7 @@ void checkBattery()
 
     startPulses();
 
-    wdt_enable(WDTO_500MS);
+   // wdt_enable(WDTO_500MS); bracame todo remove ?
   }
 
 #if !defined(SIMU)

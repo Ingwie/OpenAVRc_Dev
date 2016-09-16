@@ -21,10 +21,10 @@ extern int g_snapshot_idx;
 
 #ifndef __GNUC__
 #include <windows.h>
-#define sleep(x) Sleep(x)
+//#define sleep(x) Sleep(x)
 #else
 #include <unistd.h>
-#define sleep(x) usleep(1000*x)
+//#define sleep(x) usleep(1000*x)
 #endif
 
 #ifdef SIMU_EXCEPTIONS
@@ -227,12 +227,12 @@ extern uint8_t main_thread_running;
 //#define getADC()
 //#define getADC_bandgap()
 
-#define SIMU_SLEEP(x) do { if (!main_thread_running) return; sleep(x/*ms*/); } while (0)
-#define SIMU_SLEEP_NORET(x) do { sleep(x/*ms*/); } while (0)
+#define SIMU_SLEEP(x) //do { if (!main_thread_running) return; sleep(x/*ms*/); } while (0)
+#define SIMU_SLEEP_NORET(x) //do { sleep(x/*ms*/); } while (0)
 
-void simuInit();
+//void simuInit();
 
-void simuSetKey(uint8_t key, bool state);
+/*void simuSetKey(uint8_t key, bool state);
 void simuSetTrim(uint8_t trim, bool state);
 void simuSetSwitch(uint8_t swtch, int8_t state);
 
@@ -246,13 +246,13 @@ void StopEepromThread();
 extern const char * eepromFile;
 void eepromReadBlock (uint8_t * pointer_ram, uint32_t address, uint32_t size);
 
-#define wdt_enable(...) sleep(1/*ms*/)
-#define wdt_reset() sleep(1/*ms*/)
+#define wdt_enable(...) //sleep(1/*ms*/
+                                #define wdt_reset() //sleep(1/*ms*/)
 #define boardInit()
 #define boardOff()
 
 #define OS_MutexID pthread_mutex_t
-extern OS_MutexID audioMutex;
+//extern OS_MutexID audioMutex;
 
 #define OS_FlagID uint32_t
 #define OS_TID uint32_t

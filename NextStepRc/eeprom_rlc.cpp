@@ -16,8 +16,11 @@
 
 #include <inttypes.h>
 #include <string.h>
-#include "nextsteprc.h"
 #include "timers.h"
+#include "eeprom_rlc.h"
+#if defined(SIMU)
+#include "targets/simu/simu_interface.h"
+#endif // defined
 
 uint8_t   s_write_err = 0;    // error reasons
 RlcFile   theFile;  //used for any file operation
@@ -238,7 +241,7 @@ bool eepromOpen()
   if (eeFs.mySize != sizeof(eeFs)) {
     TRACE("bad eeFs.mySize (%d instead of %d)", (int)eeFs.mySize, (int)sizeof(eeFs));
   }
-#endif  
+#endif
 
   if (eeFs.version != EEFS_VERS || eeFs.mySize != sizeof(eeFs)) {
     return false;
@@ -306,7 +309,7 @@ uint8_t EFile::read(uint8_t *buf, uint8_t i_len)
   uint8_t remaining = i_len;
   while (remaining) {
     if (!m_currBlk) break;
-  
+
     *buf++ = EeFsGetDat(m_currBlk, m_ofs++);
     if (m_ofs >= BS-sizeof(blkid_t)) {
       m_ofs = 0;
@@ -520,7 +523,7 @@ const pm_char * eeBackupModel(uint8_t i_fileSrc)
       if (buf[i])
         buf[i] = idx2char(buf[i]);
       else
-        buf[i] = '_'; 	
+        buf[i] = '_';
     }
     i--;
   }

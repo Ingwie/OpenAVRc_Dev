@@ -1,4 +1,4 @@
-//
+/*
  *************************************************************
  *                      NEXTSTEPRC                           *
  *                                                           *
@@ -62,11 +62,11 @@ uint8_t eeprom[EESIZE_SIMU];
 sem_t *eeprom_write_sem;
 
 void simuInit()
-{
+{/*
   for (int i = 0; i <= 17; i++) {
     simuSetSwitch(i, 0);
     simuSetKey(i, false);  // a little dirty, but setting keys that don't exist is perfectly OK here
-  }
+  }*/
 }
 
 #define NEG_CASE(sw_or_key, pin, mask) \
@@ -173,7 +173,7 @@ uint16_t getTmr16KHz()
 
 bool eeprom_thread_running = true;
 void *eeprom_write_function(void *)
-{
+{/*
   while (!sem_wait(eeprom_write_sem)) {
     if (!eeprom_thread_running)
       return NULL;
@@ -186,7 +186,7 @@ void *eeprom_write_function(void *)
       if (fp) {
         if (fwrite(eeprom_buffer_data, 1, 1, fp) != 1)
           perror("error in fwrite");
-        sleep(5//ms*/);
+        sleep(5);
       }
       else {
         memcpy(&eeprom[eeprom_pointer], eeprom_buffer_data, 1);
@@ -199,7 +199,7 @@ void *eeprom_write_function(void *)
       }
     }
   }
-  return 0;
+  return 0;*/
 }
 
 uint8_t main_thread_running = 0;
@@ -242,7 +242,7 @@ void *main_thread(void *)
 
     while (main_thread_running) {
       perMain();
-      sleep(10//ms*/);
+      //sleep(10);
     }
 
 
@@ -267,6 +267,7 @@ void *main_thread(void *)
 #define getcwd _getcwd
 #endif
 
+/*
 pthread_t main_thread_pid;
 void StartMainThread(bool tests)
 {
@@ -298,7 +299,7 @@ void StartMainThread(bool tests)
   main_thread_running = (tests ? 1 : 2);
   pthread_create(&main_thread_pid, NULL, &main_thread, NULL);
 }
-
+*/
 void StopMainThread()
 {
   main_thread_running = 0;
@@ -344,19 +345,6 @@ void StopEepromThread()
   if (fp) fclose(fp);
 }
 
-void eepromReadBlock (uint8_t * pointer_ram, uint32_t pointer_eeprom, uint32_t size)
-{
-  assert(size);
-
-  if (fp) {
-    // TRACE("EEPROM read (pos=%d, size=%d)", pointer_eeprom, size);
-    if (fseek(fp, (long)pointer_eeprom, SEEK_SET)==-1) perror("error in fseek");
-    if (fread(pointer_ram, size, 1, fp) <= 0) perror("error in fread");
-  }
-  else {
-    memcpy(pointer_ram, &eeprom[(uint64_t)pointer_eeprom], size);
-  }
-}
 
 
 uint16_t stackAvailable()
@@ -377,7 +365,7 @@ static void EeFsDump(){
 
 #if defined(SDCARD) && !defined(SKIP_FATFS_DECLARATION) && !defined(SIMU_DISKIO)
 namespace simu {
-#include <dirent.h>
+//#include <dirent.h>
 #if !defined WIN32
   #include <libgen.h>
 #endif

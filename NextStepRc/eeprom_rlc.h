@@ -18,6 +18,8 @@
 #define eeprom_rlc_h
 
 #include <inttypes.h>
+#include "nextsteprc.h"
+
 
 // TODO duplicated
 #ifndef PACK

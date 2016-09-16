@@ -20,6 +20,11 @@
 #define REG8 uint8_t
 #define REG16 uint16_t
 
+//Function
+ void eepromReadBlock (uint8_t * pointer_ram, uint32_t pointer_eeprom, uint32_t size);
+
+
+
 //ADC
 REG16 simu_adc;
 REG16 simu_adcw;
