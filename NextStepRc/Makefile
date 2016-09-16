@@ -266,9 +266,9 @@ TOGGLETRIM = NO
 # Values = YES, NO
 NOANDSECONDE = NO
 
-# Uses JivaroFad mixer (EX:Curve((stick + trim) * weight) + offset)
+# Uses JivaroFad mixer (EX: Curve(source + offset + trim) * weight)
 # Values = YES, NO
-FADMIXER = NO
+OFFSET_ON_INPUT = YES
 
 # EEPROM_PROGRESS_BAR
 # Values = YES, NO
@@ -838,8 +838,8 @@ ifeq ($(NOANDSECONDE), YES)
   CPPDEFS += -DNOANDSECONDE
 endif
 
-ifeq ($(FADMIXER), YES)
-  CPPDEFS += -DFADMIXER
+ifeq ($(OFFSET_ON_INPUT), YES)
+  CPPDEFS += -DOFFSET_ON_INPUT
 endif
 
 # If POTS are used for fields modification
