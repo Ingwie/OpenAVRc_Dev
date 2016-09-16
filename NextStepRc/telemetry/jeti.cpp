@@ -14,7 +14,8 @@
  *************************************************************
  */
 
-#include "nextsteprc.h"
+#include "../nextsteprc.h"
+#include "jeti.h"
 
 uint8_t jetiRxBuffer[32];
 uint8_t jetiReady;
@@ -111,7 +112,7 @@ void JETI_Init (void)
   // set 9O1
   UCSR0C = (1 << UPM01) | (1 << UPM00) | (1 << UCSZ01) | (1 << UCSZ00);
   UCSR0B = (1 << UCSZ02);
-        
+
   // flush receive buffer
   while ( UCSR0A & (1 << RXC0) ) UDR0;
 

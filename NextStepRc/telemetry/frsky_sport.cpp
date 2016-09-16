@@ -43,7 +43,7 @@ const FrSkySportSensor sportSensors[] = {
   { ADC1_ID, ADC1_ID, 0, ZSTR_A1, UNIT_VOLTS, 1 },
   { ADC2_ID, ADC2_ID, 0, ZSTR_A2, UNIT_VOLTS, 1 },
   { A3_FIRST_ID, A3_LAST_ID, 0, ZSTR_A3, UNIT_VOLTS, 2 },
-  { A4_FIRST_ID, A4_LAST_ID, 0, ZSTR_A4, UNIT_VOLTS, 2 },  
+  { A4_FIRST_ID, A4_LAST_ID, 0, ZSTR_A4, UNIT_VOLTS, 2 },
   { BATT_ID, BATT_ID, 0, ZSTR_BATT, UNIT_VOLTS, 1 },
   { T1_FIRST_ID, T1_LAST_ID, 0, ZSTR_TEMP1, UNIT_CELSIUS, 0 },
   { T2_FIRST_ID, T2_LAST_ID, 0, ZSTR_TEMP2, UNIT_CELSIUS, 0 },
@@ -157,7 +157,7 @@ void processSportUpdatePacket(uint8_t *packet)
       case PRIM_END_DOWNLOAD :
         sportUpdateState = SPORT_COMPLETE ;
         break;
-				
+
       case PRIM_DATA_CRC_ERR :
         sportUpdateState = SPORT_FAIL ;
         break;

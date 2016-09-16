@@ -19,7 +19,7 @@
  */
 
 
-#include "telemetry/mavlink.h"
+#include "mavlink.h"
 
 //#define DUMP_RX_TX
 

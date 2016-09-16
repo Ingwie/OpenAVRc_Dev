@@ -81,9 +81,11 @@
 					<Add option="-O2" />
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="--allow-multiple-definition" />
 					<Add option="-DSIMU" />
 					<Add option="-DPCBMEGA2560" />
 					<Add option="-DCPUM2560" />
+					<Add option="-DFADMIXER" />
 					<Add option="-DEEPROM_RLC" />
 					<Add option="-DEEPROM_VARIANT=0" />
 					<Add option="-DSDCARD" />
@@ -98,7 +100,6 @@
 					<Add option="-DTTS_FR" />
 					<Add option="-DDEFAULT_MODE=2" />
 					<Add option="-DNOANDSECONDE" />
-					<Add option="-DFADMIXER" />
 					<Add option="-DNAVIGATION_STICKS" />
 					<Add option="-DAUTOSWITCH" />
 					<Add option="-DAUTOSOURCE" />
@@ -156,7 +157,6 @@
 		<Linker>
 			<Add option="-mthreads" />
 		</Linker>
-		<Unit filename="../NextStepRc/allsrc.cpp" />
 		<Unit filename="../NextStepRc/audio_avr.cpp" />
 		<Unit filename="../NextStepRc/audio_avr.h" />
 		<Unit filename="../NextStepRc/bin_allocator.cpp" />
@@ -254,28 +254,19 @@
 		<Unit filename="../NextStepRc/targets/mega2560/board_mega2560.h" />
 		<Unit filename="../NextStepRc/targets/mega2560/voice.h" />
 		<Unit filename="../NextStepRc/targets/mega2560/voice_jq6500.cpp" />
-		<Unit filename="../NextStepRc/targets/mega2560/voice_wtv20sd.cpp" />
 		<Unit filename="../NextStepRc/targets/simu/simpgmspace.h" />
 		<Unit filename="../NextStepRc/targets/simu/simu_interface.cpp" />
 		<Unit filename="../NextStepRc/targets/simu/simu_interface.h" />
 		<Unit filename="../NextStepRc/targets/stock/board_stock.h" />
 		<Unit filename="../NextStepRc/targets/stock/lcd_driver.cpp" />
 		<Unit filename="../NextStepRc/targets/stock/lcd_simu_driver.cpp" />
-		<Unit filename="../NextStepRc/targets/stock/voice.cpp" />
 		<Unit filename="../NextStepRc/targets/stock/voice.h" />
-		<Unit filename="../NextStepRc/telemetry/ardupilot.cpp" />
 		<Unit filename="../NextStepRc/telemetry/ardupilot.h" />
 		<Unit filename="../NextStepRc/telemetry/frsky.cpp" />
 		<Unit filename="../NextStepRc/telemetry/frsky.h" />
-		<Unit filename="../NextStepRc/telemetry/frsky_d.cpp" />
-		<Unit filename="../NextStepRc/telemetry/frsky_sport.cpp" />
-		<Unit filename="../NextStepRc/telemetry/jeti.cpp" />
 		<Unit filename="../NextStepRc/telemetry/jeti.h" />
-		<Unit filename="../NextStepRc/telemetry/mavlink.cpp" />
 		<Unit filename="../NextStepRc/telemetry/mavlink.h" />
-		<Unit filename="../NextStepRc/telemetry/nmea.cpp" />
 		<Unit filename="../NextStepRc/telemetry/nmea.h" />
-		<Unit filename="../NextStepRc/telemetry/telemetry.cpp" />
 		<Unit filename="../NextStepRc/telemetry/telemetry.h" />
 		<Unit filename="../NextStepRc/templates.cpp" />
 		<Unit filename="../NextStepRc/templates.h" />

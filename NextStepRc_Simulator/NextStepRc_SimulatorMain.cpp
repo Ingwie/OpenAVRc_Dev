@@ -17,6 +17,10 @@
 #include <wx/string.h>
 //*)
 
+//(*Firmware
+#include "../NextStepRc/nextsteprc.h"
+//*)
+
 //helper functions
 enum wxbuildinfoformat {
     short_f, long_f };
