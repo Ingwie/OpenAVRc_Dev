@@ -350,12 +350,7 @@ extern uint8_t StickScrollTimer;
 
 #define LOAD_MODEL_BITMAP()
 
-#if defined(XCURVES)
-void loadCurves();
-#define LOAD_MODEL_CURVES() loadCurves()
-#else
 #define LOAD_MODEL_CURVES()
-#endif
 
 
 #define IS_MODULE_PPM(idx)                (idx==TRAINER_MODULE || (idx==EXTERNAL_MODULE && g_model.moduleData[EXTERNAL_MODULE].type==MODULE_TYPE_PPM))
@@ -805,28 +800,17 @@ extern uint16_t           BandGap;
 int intpol(int x, uint8_t idx);
 int expo(int x, int k);
 
-#if defined(CURVES) && defined(XCURVES)
-int applyCurve(int x, CurveRef & curve);
-#elif defined(CURVES)
+#if   defined(CURVES)
 int applyCurve(int x, int8_t idx);
 #else
 #define applyCurve(x, idx) (x)
 #endif
 
 
-#if defined(XCURVES)
-int applyCustomCurve(int x, uint8_t idx);
-#else
 #define applyCustomCurve(x, idx) intpol(x, idx)
-#endif
 
-#if defined(XCURVES)
-#define APPLY_EXPOS_EXTRA_PARAMS_INC , uint8_t ovwrIdx=0, int16_t ovwrValue=0
-#define APPLY_EXPOS_EXTRA_PARAMS     , uint8_t ovwrIdx, int16_t ovwrValue
-#else
 #define APPLY_EXPOS_EXTRA_PARAMS_INC
 #define APPLY_EXPOS_EXTRA_PARAMS
-#endif
 
 
 void applyExpos(int16_t *anas, uint8_t mode APPLY_EXPOS_EXTRA_PARAMS_INC);

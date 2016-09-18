@@ -66,11 +66,6 @@ void applyExpos(int16_t *anas, uint8_t mode APPLY_EXPOS_EXTRA_PARAMS)
         cur_chn = ed->chn;
 
         //========== CURVE=================
-#if defined(XCURVES)
-        if (ed->curve.value) {
-          v = applyCurve(v, ed->curve);
-        }
-#else
         int8_t curveParam = ed->curveParam;
         if (curveParam) {
           if (ed->curveMode == MODE_CURVE)
@@ -78,7 +73,6 @@ void applyExpos(int16_t *anas, uint8_t mode APPLY_EXPOS_EXTRA_PARAMS)
           else
             v = expo(v, GET_GVAR(curveParam, -100, 100, mixerCurrentFlightMode));
         }
-#endif
 
         //========== WEIGHT ===============
         int16_t weight = GET_GVAR(ed->weight, MIN_EXPO_WEIGHT, 100, mixerCurrentFlightMode);
@@ -598,15 +592,9 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
       }
 
       //========== CURVES ==================
-#if defined(XCURVES)
-      if (apply_offset_and_curve && md->curve.type != CURVE_REF_DIFF && md->curve.value) {
-        v = applyCurve(v, md->curve);
-      }
-#else
       if (apply_offset_and_curve && md->curveParam && md->curveMode == MODE_CURVE) {
         v = applyCurve(v, md->curveParam);
       }
-#endif
 
       //========== WEIGHT ===================
       int16_t weight = GET_GVAR(MD_WEIGHT(md), GV_RANGELARGE_NEG, GV_RANGELARGE, mixerCurrentFlightMode);
@@ -615,13 +603,6 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
       int32_t dtrim = (int32_t) trim * weight;
 
       //========== DIFFERENTIAL =============
-#if defined(XCURVES)
-      if (md->curve.type == CURVE_REF_DIFF && md->curve.value) {
-        dv = applyCurve(dv, md->curve);
-        dtrim = applyCurve(dtrim, md->curve);
-        dv += dtrim;
-      }
-#else
       if (md->curveMode == MODE_DIFFERENTIAL) {
         // stick and trim are computed separatly
         // @@@2 also recalculate curveParam to a 256 basis which ease the calculation later a lot
@@ -640,7 +621,6 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
         }
         dv += dtrim;
       }
-#endif
 
       //========== OFFSET AFTER =============
 #if !defined(OFFSET_ON_INPUT) 

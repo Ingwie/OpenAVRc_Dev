@@ -97,21 +97,12 @@
 #define NUM_CYC                3
 #define NUM_CAL_PPM            4
 
-#if defined(XCURVES)
-PACK(typedef struct {
-  uint8_t type:3;
-  uint8_t smooth:1;
-  uint8_t spare:4;
-  int8_t  points;
-}) CurveInfo;
-#else
 struct CurveInfo {
   int8_t * crv;
   uint8_t points;
   bool custom;
 };
 extern CurveInfo curveInfo(uint8_t idx);
-#endif
 
 #define LEN_MODEL_NAME       10
 #define LEN_FLIGHT_MODE_NAME 6
@@ -451,11 +442,9 @@ PACK(typedef struct {
   int8_t  value;
 }) CurveRef;
 
-#if !defined(XCURVES)
 #define MODE_DIFFERENTIAL  0
 #define MODE_EXPO          0
 #define MODE_CURVE         1
-#endif
 
 #if   defined(CPUM2560) || defined(CPUM2561)
 PACK(typedef struct {
