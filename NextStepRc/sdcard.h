@@ -18,6 +18,7 @@
 #define _SDCARD_H_
 
 #include "thirdparty/FatFs/ff.h"
+#include "translations.h"
 
 #define ROOT_PATH           "/"
 #define MODELS_PATH         ROOT_PATH "MODELS"      // no trailing slash = important
@@ -41,7 +42,6 @@
 #define LOGS_EXT            ".csv"
 #define SOUNDS_EXT          ".wav"
 #define BITMAPS_EXT         ".bmp"
-#define SCRIPTS_EXT         ".lua"
 #define TEXT_EXT            ".txt"
 #define FIRMWARE_EXT        ".bin"
 #define EEPROM_EXT          ".bin"

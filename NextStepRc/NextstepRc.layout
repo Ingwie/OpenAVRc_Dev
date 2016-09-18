@@ -2,14 +2,9 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Release" />
-	<File name="stamp.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="targets\mega2560\board_mega2560.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1208" topLine="14" />
-		</Cursor>
-	</File>
-	<File name="targets\mega2560\board_mega2560.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="860" topLine="1" />
+			<Cursor1 position="5130" topLine="68" />
 		</Cursor>
 	</File>
 	<File name="targets\mega2560\voice_wtv20sd.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -17,9 +12,34 @@
 			<Cursor1 position="951" topLine="10" />
 		</Cursor>
 	</File>
-	<File name="gui\menus.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="logs.cpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2951" topLine="80" />
+			<Cursor1 position="1362" topLine="28" />
+		</Cursor>
+	</File>
+	<File name="curves.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1056" topLine="18" />
+		</Cursor>
+	</File>
+	<File name="myeeprom.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3688" topLine="106" />
+		</Cursor>
+	</File>
+	<File name="nextsteprc.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1865" topLine="44" />
+		</Cursor>
+	</File>
+	<File name="functions.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="891" topLine="11" />
+		</Cursor>
+	</File>
+	<File name="gui\lcd.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5469" topLine="141" />
 		</Cursor>
 	</File>
 	<File name="targets\common_avr\adc_driver.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -32,24 +52,44 @@
 			<Cursor1 position="869" topLine="3" />
 		</Cursor>
 	</File>
-	<File name="functions.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="891" topLine="11" />
-		</Cursor>
-	</File>
 	<File name="targets\common_avr\telemetry_driver.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="853" topLine="1" />
 		</Cursor>
 	</File>
-	<File name="gui\lcd.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="translations.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1019" topLine="11" />
+			<Cursor1 position="14773" topLine="414" />
+		</Cursor>
+	</File>
+	<File name="targets\mega2560\board_mega2560.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5766" topLine="143" />
 		</Cursor>
 	</File>
 	<File name="targets\mega2560\voice_jq6500.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="955" topLine="10" />
+		</Cursor>
+	</File>
+	<File name="gui\menus.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2951" topLine="80" />
+		</Cursor>
+	</File>
+	<File name="sdcard.h" open="1" top="1" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2470" topLine="10" />
+		</Cursor>
+	</File>
+	<File name="stamp.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1208" topLine="14" />
+		</Cursor>
+	</File>
+	<File name="targets\common_avr\board_avr.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="970" topLine="10" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

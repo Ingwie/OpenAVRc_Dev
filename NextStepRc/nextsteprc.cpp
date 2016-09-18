@@ -694,9 +694,6 @@ void doSplash()
 
 
     while (tgtime > get_tmr10ms()) {
-#if defined(SIMU)
-      SIMU_SLEEP(1);
-#endif
 
       getADC();
 
@@ -822,8 +819,6 @@ void checkTHR()
 
   while (1) {
 
-    SIMU_SLEEP(1);
-
     getADC();
 
     evalInputs(e_perout_mode_notrainer); // let do evalInputs do the job
@@ -863,6 +858,7 @@ void alert(const pm_char * t, const pm_char *s MESSAGE_SOUND_ARG)
 
   while(1)
   {
+
     SIMU_SLEEP(1);
 
     if (keyDown()) return;  // wait for key release

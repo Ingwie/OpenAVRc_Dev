@@ -73,9 +73,7 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
   eeprom_buffer_data = i_pointer_ram;
   eeprom_buffer_size = size+1;
 
-#if defined(SIMU)
-  sem_post(eeprom_write_sem);
-#elif defined (CPUM2560) || defined(CPUM2561)
+#if defined (CPUM2560) || defined(CPUM2561)
   EECR |= (1<<EERIE);
 #else
   EECR |= (1<<EERIE);

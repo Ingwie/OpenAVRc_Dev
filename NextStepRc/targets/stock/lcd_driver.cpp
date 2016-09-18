@@ -26,7 +26,7 @@ volatile uint8_t LcdLock;
 #endif
 
 #if defined(SIMU)
-#include "lcd_simu_driver.cpp"
+#include "lcd_simu_driver.h"
 #else
 #if defined(LCD_KS108)
 #include "targets/stock/lcd_ks108_driver.cpp"

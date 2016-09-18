@@ -519,14 +519,14 @@ extern const pm_char STR_KEYSTUCK[];
 
 extern const pm_char STR_SPEAKER_VOLUME[];
 extern const pm_char STR_LCD[];
-extern const pm_char STR_BRIGHTNESS[];
+/*extern const pm_char STR_BRIGHTNESS[];
 extern const pm_char STR_CPU_TEMP[];
 extern const pm_char STR_CPU_CURRENT[];
 extern const pm_char STR_CPU_MAH[];
 extern const pm_char STR_COPROC[];
 extern const pm_char STR_COPROC_TEMP[];
 extern const pm_char STR_CAPAWARNING[];
-extern const pm_char STR_TEMPWARNING[];
+extern const pm_char STR_TEMPWARNING[];*/
 extern const pm_char STR_FUNC[];
 extern const pm_char STR_V1[];
 extern const pm_char STR_V2[];

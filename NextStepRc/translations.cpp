@@ -49,7 +49,7 @@ const pm_char STR_OPEN9X[] PROGMEM =
     ISTR(VFSWRESET)
     ISTR(FUNCSOUNDS)
     ISTR(VTELEMCHNS)
-#if defined(FRSKY) 
+#if defined(FRSKY)
     ISTR(VTELEMUNIT)
     ISTR(VALARM)
     ISTR(VALARMFN)
@@ -69,11 +69,11 @@ const pm_char STR_OPEN9X[] PROGMEM =
     ISTR(VSWITCHES)
     ISTR(VSRCRAW)
     ISTR(VTMRMODES)
-#if defined(CPUM2560) 
+#if defined(CPUM2560)
     ISTR(DATETIME)
     ISTR(VPERSISTENT)
 #endif
-#if defined(PXX) 
+#if defined(PXX)
     ISTR(COUNTRYCODES)
     ISTR(VFAILSAFE)
 #endif
@@ -173,7 +173,7 @@ const pm_char STR_HAPTICSTRENGTH[] PROGMEM = TR_HAPTICSTRENGTH;
 #endif
 const pm_char STR_CONTRAST[] PROGMEM = TR_CONTRAST;
 const pm_char STR_ALARMS_LABEL[] PROGMEM = TR_ALARMS_LABEL;
-#if defined(BATTGRAPH) 
+#if defined(BATTGRAPH)
 const pm_char STR_BATTERY_RANGE[] PROGMEM = TR_BATTERY_RANGE;
 #endif
 const pm_char STR_BATTERYWARNING[] PROGMEM = TR_BATTERYWARNING;
@@ -255,7 +255,7 @@ const pm_char STR_MENURADIOSETUP[] PROGMEM = TR_MENURADIOSETUP;
 const pm_char STR_FAS_OFFSET[] PROGMEM = TR_FAS_OFFSET;
 #endif
 
-#if defined(CPUM2560) 
+#if defined(CPUM2560)
 const pm_char STR_MENUDATEANDTIME[] PROGMEM = TR_MENUDATEANDTIME;
 #endif
 
@@ -301,7 +301,7 @@ const pm_char STR_MENUGLOBALVARS[] PROGMEM = TR_MENUGLOBALVARS;
 const pm_char STR_RXNUM[] PROGMEM = TR_RXNUM;
 #endif
 
-#if defined(PXX) 
+#if defined(PXX)
 const pm_char STR_SYNCMENU[] PROGMEM = TR_SYNCMENU;
 const pm_char STR_INTERNALRF[] PROGMEM = TR_INTERNALRF;
 const pm_char STR_EXTERNALRF[] PROGMEM = TR_EXTERNALRF;
@@ -385,6 +385,7 @@ const pm_char STR_KEYSTUCK[] PROGMEM = TR_KEYSTUCK;
 
 const pm_char STR_SPEAKER_VOLUME[] PROGMEM = TR_SPEAKER_VOLUME;
 const pm_char STR_LCD[] PROGMEM = TR_LCD;
+/* Bracame todo : remove all unused !
 const pm_char STR_BRIGHTNESS[] PROGMEM = TR_BRIGHTNESS;
 const pm_char STR_CPU_TEMP[] PROGMEM = TR_CPU_TEMP;
 const pm_char STR_CPU_CURRENT[] PROGMEM = TR_CPU_CURRENT;
@@ -392,7 +393,7 @@ const pm_char STR_CPU_MAH[] PROGMEM = TR_CPU_MAH;
 const pm_char STR_COPROC[] PROGMEM = TR_COPROC;
 const pm_char STR_COPROC_TEMP[] PROGMEM = TR_COPROC_TEMP;
 const pm_char STR_TEMPWARNING[] PROGMEM = TR_TEMPWARNING;
-const pm_char STR_CAPAWARNING[] PROGMEM = TR_CAPAWARNING;
+const pm_char STR_CAPAWARNING[] PROGMEM = TR_CAPAWARNING;*/
 const pm_char STR_FUNC[] PROGMEM = TR_FUNC;
 const pm_char STR_V1[] PROGMEM = TR_V1;
 const pm_char STR_V2[] PROGMEM = TR_V2;

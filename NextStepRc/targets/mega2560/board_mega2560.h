@@ -17,6 +17,7 @@
 #ifndef _BOARD_MEGA2560_H_
 #define _BOARD_MEGA2560_H_
 
+#include "../../nextsteprc.h"
 #include "../common_avr/board_avr.h"
 
 

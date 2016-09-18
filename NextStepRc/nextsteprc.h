@@ -23,6 +23,14 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+#if !defined(SIMU)
+#include <avr/pgmspace.h>
+#include "../pgmtypes.h"
+#else
+#include "targets/simu/simu_interface.h"
+#endif
+#include "myeeprom.h"
+
 #include "gui/lcd.h"
 #include "gui/menus.h"
 
@@ -243,9 +251,8 @@ char *convertSimuPath(const char *path);
 #include "debug.h"
 
 #if defined(SIMU)
-#include "targets/simu/simpgmspace.h"
+//#include "targets/simu/simpgmspace.h"
 #else
-#define boardOff()  pwrOff();
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 #include "pgmtypes.h"
@@ -259,6 +266,7 @@ char *convertSimuPath(const char *path);
 #include <avr/wdt.h>
 #endif
 
+#define boardOff()  pwrOff();
 #define NUM_SWITCHES     7
 #define IS_3POS(sw)      ((sw) == 0)
 #define IS_MOMENTARY(sw) (sw == SWSRC_TRN)
