@@ -98,12 +98,6 @@
 #define NUM_CAL_PPM            4
 
 #if defined(XCURVES)
-enum CurveType {
-  CURVE_TYPE_STANDARD,
-  CURVE_TYPE_CUSTOM,
-  CURVE_TYPE_LAST = CURVE_TYPE_CUSTOM
-};
-
 PACK(typedef struct {
   uint8_t type:3;
   uint8_t smooth:1;

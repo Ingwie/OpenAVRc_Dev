@@ -30,9 +30,9 @@
 #include "targets/simu/simu_interface.h"
 #endif
 #include "myeeprom.h"
-
 #include "gui/lcd.h"
 #include "gui/menus.h"
+
 
 /////////////////DEBUG FUNCTION DEFINITION///////////////////
 //#define LCDDURATIONSHOW 1  //Show refresh duration

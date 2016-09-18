@@ -1730,7 +1730,7 @@
 	"wx/msgdlg.h"
 	<QtWidgets/QMessageBox>
 
-1474120404 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\nextsteprc.h
+1474211654 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\nextsteprc.h
 	<inttypes.h>
 	<string.h>
 	<stddef.h>
@@ -1780,9 +1780,9 @@
 	"sdcard.h"
 	"rtc.h"
 
-1474120984 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\targets\simu\simu_interface.h
+1474211816 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\targets\simu\simu_interface.h
 
-1473689071 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\myeeprom.h
+1474210335 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\myeeprom.h
 	<inttypes.h>
 
 1474118109 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\gui\lcd.h
@@ -1797,7 +1797,7 @@
 
 1473945464 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\targets\common_avr\board_avr.h
 
-1474120110 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\targets\mega2560\board_mega2560.h
+1474121971 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\targets\mega2560\board_mega2560.h
 	"../../nextsteprc.h"
 	"../common_avr/board_avr.h"
 
@@ -2242,7 +2242,7 @@
 
 1473689072 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\targets\mega2560\voice.h
 
-1473697960 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations.h
+1474204773 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations.h
 	"translations/fr.h"
 	"translations/it.h"
 	"translations/se.h"
@@ -2255,34 +2255,35 @@
 	"translations/nl.h"
 	"translations/en.h"
 
-1473689073 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\fr.h
+1474154738 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\fr.h
 
-1473689073 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\it.h
+1474154739 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\it.h
 
-1473689074 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\se.h
+1474154745 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\se.h
 
-1473689073 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\fi.h
+1474154736 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\fi.h
 
-1473689073 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\de.h
+1474154733 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\de.h
 
-1473689073 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\cz.h
+1474154732 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\cz.h
 
-1473689073 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\es.h
+1474154735 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\es.h
 
-1473689074 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\pl.h
+1474154742 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\pl.h
 
-1473689074 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\pt.h
+1474154744 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\pt.h
 
-1473689266 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\nl.h
+1474154741 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\nl.h
 
-1473689073 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\en.h
+1474154730 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\translations\en.h
 
 1473689070 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\fonts.h
 
 1473689070 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\haptic.h
 
-1473793061 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\sdcard.h
+1474203201 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\sdcard.h
 	"thirdparty/FatFs/ff.h"
+	"translations.h"
 
 1474034516 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\thirdparty\fatfs\ff.h
 	"integer.h"
@@ -2302,4 +2303,10 @@
 	"wx/msw/rcdefs.h"
 
 1456695218 c:\users\christophe\desktop\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\rcdefs.h
+
+1474124163 source:c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\nextsteprc.cpp
+	"nextsteprc.h"
+	"timers.h"
+
+1473689073 c:\users\christophe\desktop\nextsteprc_builder\nextsteprc\timers.h
 

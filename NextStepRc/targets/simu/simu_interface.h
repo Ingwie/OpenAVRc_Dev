@@ -1,18 +1,18 @@
 /*
- *************************************************************
- *                      NEXTSTEPRC                           *
- *                                                           *
- *             -> Build your DIY MEGA 2560 TX                *
- *                                                           *
- *      Based on code named                                  *
- *      OpenTx - https://github.com/opentx/opentx            *
- *                                                           *
- *         Only avr code here for lisibility ;-)             *
- *                                                           *
- *  License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html  *
- *                                                           *
- *************************************************************
- */
+*************************************************************
+*                      NEXTSTEPRC                           *
+*                                                           *
+*             -> Build your DIY MEGA 2560 TX                *
+*                                                           *
+*      Based on code named                                  *
+*      OpenTx - https://github.com/opentx/opentx            *
+*                                                           *
+*         Only avr code here for lisibility ;-)             *
+*                                                           *
+*  License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html  *
+*                                                           *
+*************************************************************
+*/
 
 #ifndef simu_interface_h
 #define simu_interface_h
@@ -29,12 +29,12 @@ typedef const int8_t pm_int8_t;
 #define REG16 uint16_t
 
 //Function
- void eepromReadBlock (uint8_t * pointer_ram, uint32_t pointer_eeprom, uint32_t size);
+void eepromReadBlock (uint8_t * pointer_ram, uint32_t pointer_eeprom, uint32_t size);
 
- #define wdt_reset() //sleep(1/*ms*/)
- #define SIMU_SLEEP(x) //do { if (!main_thread_running) return; sleep(x/*ms*/); } while (0)
+#define wdt_reset() //sleep(1/*ms*/)
+#define SIMU_SLEEP(x) //do { if (!main_thread_running) return; sleep(x/*ms*/); } while (0)
 
- 
+
 //PORT & PIN
 REG8  simu_pina;
 REG8  simu_ddra;
@@ -69,9 +69,6 @@ REG8  simu_portk;
 REG8  simu_pinl;
 REG8  simu_ddrl;
 REG8  simu_portl;
-
-
-
 
 #define PINA    simu_pina
 #define PINA7   7
@@ -473,9 +470,9 @@ REG8 simu_eecr;
 
 
 //MCU
-REG8 
+REG8 simu_mcusr;
 
-#define MCUSR   REG8(0x34)
+#define MCUSR   simu_mcusr
 #define JTRF    4
 #define WDRF    3
 #define BORF    2
