@@ -14,6 +14,18 @@
  *************************************************************
  */
 
+#ifndef board_avr_h
+#define board_avr_h
+
+
+#if defined(PCBGRUVIN9X)
+#include "../gruvin9x/board_gruvin9x.h"
+#elif defined(PCBMEGA2560)
+#include "../mega2560/board_mega2560.h"
+#else
+#include "../stock/board_stock.h"
+#endif
+
 // ADC driver
 extern void adcInit();
 extern void adcPrepareBandgap();
@@ -90,3 +102,6 @@ extern void getADC_bandgap();
 #endif
 void telemetryPortInit();
 void telemetryTransmitBuffer();
+
+
+#endif

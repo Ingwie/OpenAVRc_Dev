@@ -15,8 +15,8 @@
 */
 
 #include "nextsteprc.h"
+#include "keys.h"
 
-uint8_t s_evt;
 struct t_inactivity inactivity = {0};
 
 uint8_t getEvent()
@@ -98,8 +98,8 @@ void Key::input(bool val)
   }
 }
 
-EnumKeys Key::key() const 
-{ 
+EnumKeys Key::key() const
+{
   return static_cast<EnumKeys>(this - keys);
 }
 

@@ -16,7 +16,5 @@
 
 #include "trainer_input.h"
 
-int16_t ppmInput[NUM_TRAINER];
-uint8_t ppmInputValidityTimer;
-
+//BRACAME TODO remove file keep h definitions
 

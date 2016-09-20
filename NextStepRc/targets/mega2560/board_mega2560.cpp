@@ -14,8 +14,10 @@
 *************************************************************
 */
 
-#include "../../nextsteprc.h"
+//#include "../../nextsteprc.h"
 #include "../../i2c_master.h"
+#include "board_mega2560.h"
+
 
 #ifndef SIMU
 inline void boardInit()

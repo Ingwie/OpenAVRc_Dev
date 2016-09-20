@@ -59,6 +59,7 @@
 //                            SIM_CTL  ID1      Haptic      RF_POW RuddDR
 
 // Keys
+void readKeysAndTrims();
 #define KEYS_GPIO_REG_MENU         pinb
 #define KEYS_GPIO_PIN_MENU         (1<<1)
 #define KEYS_GPIO_REG_EXIT         pinb

@@ -20,6 +20,7 @@
 #include "../common_avr/board_avr.h"
 
 // Keys
+void readKeysAndTrims();
 #define KEYS_GPIO_REG_MENU         pinl
 #define KEYS_GPIO_PIN_MENU         (1<<4)
 #define KEYS_GPIO_REG_EXIT         pinl

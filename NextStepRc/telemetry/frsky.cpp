@@ -14,7 +14,8 @@
  *************************************************************
  */
 
-#include "../nextsteprc.h"
+//#include "../nextsteprc.h"
+#include "telemetry/frsky.h"
 
 uint8_t frskyStreaming = 0;
 
@@ -302,7 +303,7 @@ void telemetryReset()
   link_counter = 0;
 
 
-#if defined(FRSKY_HUB) 
+#if defined(FRSKY_HUB)
   frskyData.hub.gpsLatitude_bp = 2;
   frskyData.hub.gpsLongitude_bp = 2;
   frskyData.hub.gpsFix = -1;

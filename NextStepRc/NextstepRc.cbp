@@ -80,6 +80,7 @@
 		<Unit filename="gui/gui.h" />
 		<Unit filename="gui/lcd.cpp" />
 		<Unit filename="gui/lcd.h" />
+		<Unit filename="gui/lcd.h.save-failed" />
 		<Unit filename="gui/menu_general.cpp" />
 		<Unit filename="gui/menu_general.h" />
 		<Unit filename="gui/menu_general_calib.cpp" />
@@ -105,6 +106,7 @@
 		<Unit filename="gui/menus.cpp" />
 		<Unit filename="gui/menus.h" />
 		<Unit filename="gui/navigation.cpp" />
+		<Unit filename="gui/navigation.h" />
 		<Unit filename="gui/popups.cpp" />
 		<Unit filename="gui/popups.h" />
 		<Unit filename="gui/splash.cpp" />
@@ -129,6 +131,7 @@
 		<Unit filename="myeeprom.h" />
 		<Unit filename="nextsteprc.cpp" />
 		<Unit filename="nextsteprc.h" />
+		<Unit filename="nextsteprc.hex" />
 		<Unit filename="pgmtypes.h" />
 		<Unit filename="pulses/pulses.h" />
 		<Unit filename="pulses/pulses_avr.cpp" />
@@ -139,6 +142,7 @@
 		<Unit filename="sdcard.cpp" />
 		<Unit filename="sdcard.h" />
 		<Unit filename="serial.cpp" />
+		<Unit filename="stamp-nextsteprc.h" />
 		<Unit filename="stamp.cpp" />
 		<Unit filename="strhelpers.cpp" />
 		<Unit filename="switches.cpp" />
@@ -158,13 +162,20 @@
 		<Unit filename="targets/mega2560/voice.h" />
 		<Unit filename="targets/mega2560/voice_jq6500.cpp" />
 		<Unit filename="targets/mega2560/voice_wtv20sd.cpp" />
+		<Unit filename="targets/simu/asimpgmspace.cpp" />
+		<Unit filename="targets/simu/asimpgmspace.h" />
+		<Unit filename="targets/simu/iomxx0_1.h" />
+		<Unit filename="targets/simu/sfr_defs.h" />
 		<Unit filename="targets/simu/simpgmspace.cpp" />
 		<Unit filename="targets/simu/simpgmspace.h" />
+		<Unit filename="targets/simu/simu_interface.cpp" />
+		<Unit filename="targets/simu/simu_interface.h" />
 		<Unit filename="targets/stock/board_stock.cpp" />
 		<Unit filename="targets/stock/board_stock.h" />
 		<Unit filename="targets/stock/lcd_default_driver.cpp" />
 		<Unit filename="targets/stock/lcd_driver.cpp" />
 		<Unit filename="targets/stock/lcd_ks108_driver.cpp" />
+		<Unit filename="targets/stock/lcd_simu_driver.cpp" />
 		<Unit filename="targets/stock/lcd_ssd1306_driver.cpp" />
 		<Unit filename="targets/stock/lcd_st7920_driver.cpp" />
 		<Unit filename="targets/stock/voice.cpp" />

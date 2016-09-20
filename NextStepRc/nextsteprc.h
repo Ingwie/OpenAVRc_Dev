@@ -30,9 +30,12 @@
 #include "targets/simu/simu_interface.h"
 #endif
 #include "myeeprom.h"
+#include "trainer_input.h"
+#include "targets/common_avr/board_avr.h"
 #include "gui/lcd.h"
 #include "gui/menus.h"
-
+#include "gui/navigation.h"
+#include "rtc.h"
 
 /////////////////DEBUG FUNCTION DEFINITION///////////////////
 //#define LCDDURATIONSHOW 1  //Show refresh duration
@@ -239,14 +242,6 @@ char *convertSimuPath(const char *path);
 #define RESXul     1024ul
 #define RESXl      1024l
 
-#if defined(PCBGRUVIN9X)
-#include "targets/gruvin9x/board_gruvin9x.h"
-#elif defined(PCBMEGA2560)
-#include "targets/mega2560/board_mega2560.h"
-#else
-#include "targets/stock/board_stock.h"
-#endif
-
 #include "gui/menus.h"
 #include "debug.h"
 
@@ -395,10 +390,10 @@ typedef struct {
 #include "templates.h"
 #endif
 
-#if !defined(SIMU)
+//#if !defined(SIMU) bracame remove ?
 #define assert(x)
-#define printf printf_not_allowed
-#endif
+#define printf(x) // printf_not_allowed
+//#endif
 
 extern const pm_uint8_t bchout_ar[];
 extern const pm_uint8_t modn12x3[];
@@ -483,7 +478,6 @@ int zchar2str(char *dest, const char *src, int size);
 
 bool switchState(EnumKeys enuk);
 uint8_t trimDown(uint8_t idx);
-void readKeysAndTrims();
 
 uint16_t evalChkSum();
 
@@ -750,11 +744,7 @@ void checkBacklight();
 
 #define BITMASK(bit) (1<<(bit))
 
-/// liefert Betrag des Arguments
-template<class t> FORCEINLINE t abs(t a) { return a>0?a:-a; }
-/// liefert das Minimum der Argumente
 template<class t> FORCEINLINE t min(t a, t b) { return a<b?a:b; }
-/// liefert das Maximum der Argumente
 template<class t> FORCEINLINE t max(t a, t b) { return a>b?a:b; }
 template<class t> FORCEINLINE t sgn(t a) { return a>0 ? 1 : (a < 0 ? -1 : 0); }
 template<class t> FORCEINLINE t limit(t mi, t x, t ma) { return min(max(mi,x),ma); }

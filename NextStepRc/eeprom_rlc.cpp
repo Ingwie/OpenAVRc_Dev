@@ -841,11 +841,11 @@ void eeLoadModel(uint8_t id)
     theFile.openRlc(FILE_MODEL(id));
     uint16_t sz = theFile.readRlc((uint8_t*)&g_model, sizeof(g_model));
 
-#ifdef SIMU
+/*#ifdef SIMU todo bracame remove ?
     if (sz > 0 && sz != sizeof(g_model)) {
       printf("Model data read=%d bytes vs %d bytes\n", sz, (int)sizeof(ModelData));
     }
-#endif
+#endif*/
 
     bool newModel = false;
 

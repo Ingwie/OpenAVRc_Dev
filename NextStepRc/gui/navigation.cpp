@@ -15,21 +15,7 @@
 */
 
 #include "../nextsteprc.h"
-
-vertpos_t menuVerticalOffset;
-int8_t s_editMode;
-uint8_t noHighlightCounter;
-uint8_t calibrationState;
-vertpos_t menuVerticalPosition;
-horzpos_t menuHorizontalPosition;
-
-#if defined(NAVIGATION_POT1)
-int16_t p1valdiff;
-#endif
-
-#if defined(NAVIGATION_POT2)
-int8_t p2valdiff;
-#endif
+#include "navigation.h"
 
 #if defined(AUTOSWITCH)
 int8_t checkIncDecMovedSwitch(int8_t val)

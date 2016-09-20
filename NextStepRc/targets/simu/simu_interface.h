@@ -274,7 +274,7 @@ REG8  simu_portl;
 #define PG1     1
 #define PG0     0
 
-# define PINH   _SFR_MEM8(0x100)
+# define PINH   simu_pinh
 # define PINH7  7
 # define PINH6  6
 # define PINH5  5
@@ -284,7 +284,7 @@ REG8  simu_portl;
 # define PINH1  1
 # define PINH0  0
 
-# define DDRH   _SFR_MEM8(0x101)
+# define DDRH   simu_ddrh
 # define DDH7   7
 # define DDH6   6
 # define DDH5   5
@@ -314,7 +314,7 @@ REG8  simu_portl;
 # define PINJ1  1
 # define PINJ0  0
 
-# define DDRJ   simu_ddr
+# define DDRJ   simu_ddrj
 # define DDJ7   7
 # define DDJ6   6
 # define DDJ5   5
@@ -479,6 +479,80 @@ REG8 simu_mcusr;
 #define EXTRF   1
 #define PORF    0
 
+//TIMER
+REG16 simu_ocr1a;
+REG16 simu_ocr1b;
+REG16 simu_tcnt1;
+REG8 simu_tcnt1l;
+REG8 simu_tcnt1h;
+REG8 simu_tccr1a;
+REG8 simu_tccr1c;
+REG8 simu_tccr1b;
+REG8 simu_timsk1;
+REG8 simu_tifr1;
+REG16 simu_ocr3a;
+REG8 simu_ocr3al;
+REG8 simu_ocr3ah;
+REG16 simu_ocr3b;
+REG8 simu_ocr3bl;
+REG8 simu_ocr3bh;
+
+
+#define OCR1A   simu_ocr1a
+#define OCR1B   simu_ocr1b
+
+#define TCCR1A  simu_tccr1a
+#define COM1A1  7
+#define COM1A0  6
+#define COM1B1  5
+#define COM1B0  4
+#define COM1C1  3
+#define COM1C0  2
+#define WGM11   1
+#define WGM10   0
+
+#define TCCR1B  simu_tccr1b
+#define ICNC1   7
+#define ICES1   6
+#define WGM13   4
+#define WGM12   3
+#define CS12    2
+#define CS11    1
+#define CS10    0
+
+#define TCCR1C  simu_tccr1c
+#define FOC1A   7
+#define FOC1B   6
+#define FOC1C   5
+
+#define TIMSK1  simu_timsk1
+#define ICIE1   5
+#define OCIE1C  3
+#define OCIE1B  2
+#define OCIE1A  1
+#define TOIE1   0
+
+#define TCNT1   simu_tcnt1
+#define TCNT1L  simu_tcnt1l
+#define TCNT1H  simu_tcnt1h
+
+#define TIFR1   simu_tifr1
+#define ICF1    5
+#define OCF1C   3
+#define OCF1B   2
+#define OCF1A   1
+#define TOV1    0
+
+#define OCR3A   simu_ocr3a
+#define OCR3AL  simu_ocr3al
+#define OCR3AH  simu_ocr3ah
+
+#define OCR3B   simu_ocr3b
+#define OCR3BL  simu_ocr3bl
+#define OCR3BH  simu_ocr3bh
+
+//IRQ
+#define ISR(x, ...)  void x()
 
 //AVR
 #define PROGMEM

@@ -20,7 +20,8 @@
 #include "myeeprom.h"
 
 // Trainer input channels
-extern int16_t ppmInput[NUM_TRAINER];
+int16_t ppmInput[NUM_TRAINER];
+uint8_t ppmInputValidityTimer;
 
 // Timer gets decremented in per10ms()
 #define PPM_IN_VALID_TIMEOUT 100 // 1s
@@ -53,7 +54,7 @@ inline void captureTrainerPulses(uint16_t capture)
         ppmInputValidityTimer = PPM_IN_VALID_TIMEOUT;
         ppmInput[channelNumber++ - 1] =
           //+-500 != 512, but close enough.
-          (int16_t)(val - 1500)*(g_eeGeneral.PPM_Multiplier+10)/10; 
+          (int16_t)(val - 1500)*(g_eeGeneral.PPM_Multiplier+10)/10;
       }
       else {
         channelNumber = 0; // not triggered

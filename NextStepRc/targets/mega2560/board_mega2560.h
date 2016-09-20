@@ -17,8 +17,8 @@
 #ifndef _BOARD_MEGA2560_H_
 #define _BOARD_MEGA2560_H_
 
-#include "../../nextsteprc.h"
 #include "../common_avr/board_avr.h"
+#include "../../nextsteprc.h"
 
 
 //Mods
@@ -26,6 +26,7 @@
 #define FATFSTINY // Reduce SDdriver buffer size
 
 // Keys
+void readKeysAndTrims();
 #define KEYS_GPIO_REG_MENU        pinl
 #define KEYS_GPIO_PIN_MENU        (1<<4)
 #define KEYS_GPIO_REG_EXIT        pinl

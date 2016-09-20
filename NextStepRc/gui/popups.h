@@ -20,7 +20,7 @@
 
 #include "menus.h"
 #if defined(SIMU)
-#include "../targets/simu/simpgmspace.h"
+//#include "../targets/simu/simpgmspace.h"
 #endif
 
 const pm_char * warningText = NULL;

@@ -36,8 +36,8 @@ struct gtm
   int16_t tm_yday;                 /* Day of year. [0-365] Needed internally for calculations */
 };
 
-extern gtime_t g_rtcTime;
-extern uint8_t g_ms100; // global to allow time set function to reset to zero
+gtime_t g_rtcTime;
+uint8_t g_ms100 = 0; // global to allow time set function to reset to zero
 
 void rtcInit();
 
