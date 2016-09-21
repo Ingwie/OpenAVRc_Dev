@@ -15,6 +15,7 @@
  */
 
 #include "serial_driver.h"
+#include "board_avr.h"
 
 /*
  Receive serial (RS-232) characters, detecting and storing each Fr-Sky
@@ -256,7 +257,7 @@ void SERIAL_DisableTXD(void) {
 
 void SERIAL_Init(void) {
 	DDRE &= ~(1 << DDE0); // set RXD0 pin as input
-	PORTE &= ~(1 << PORTE0); // disable pullup on RXD0 pin
+	PORTE &= ~(1 << PE0); // disable pullup on RXD0 pin
 
 	switch (g_eeGeneral.mavbaud) {
 	case BAUDS_4800:

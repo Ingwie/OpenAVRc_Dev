@@ -14,8 +14,8 @@
  *************************************************************
  */
 
-//#include "../nextsteprc.h"
-#include "telemetry/frsky.h"
+#include "../nextsteprc.h"
+//#include "telemetry.h"
 
 uint8_t frskyStreaming = 0;
 

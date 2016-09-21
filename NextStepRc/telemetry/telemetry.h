@@ -17,6 +17,8 @@
 #ifndef TELEMETRY_H
 #define TELEMETRY_H
 
+#include "../nextsteprc.h"
+
 enum TelemetryProtocol
 {
   TELEM_PROTO_FRSKY_D,

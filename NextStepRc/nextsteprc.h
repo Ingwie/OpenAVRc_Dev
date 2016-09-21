@@ -27,11 +27,12 @@
 #include <avr/pgmspace.h>
 #include "../pgmtypes.h"
 #else
+#include <stdbool.h>
 #include "targets/simu/simu_interface.h"
 #endif
-#include "myeeprom.h"
 #include "trainer_input.h"
 #include "targets/common_avr/board_avr.h"
+//#include "myeeprom.h"
 #include "gui/lcd.h"
 #include "gui/menus.h"
 #include "gui/navigation.h"
@@ -249,8 +250,8 @@ char *convertSimuPath(const char *path);
 //#include "targets/simu/simpgmspace.h"
 #else
 #include <avr/io.h>
-#include <avr/pgmspace.h>
-#include "pgmtypes.h"
+//#include <avr/pgmspace.h>
+//#include "pgmtypes.h"
 
 #include <avr/eeprom.h>
 #include <avr/sleep.h>
@@ -259,6 +260,15 @@ char *convertSimuPath(const char *path);
 #include <util/delay.h>
 #define pgm_read_adr(address_short) pgm_read_word(address_short)
 #include <avr/wdt.h>
+#endif
+
+#if defined(PCBSTD) && defined(VOICE)
+volatile uint8_t LcdLock;
+#define LCD_LOCK() LcdLock = 1
+#define LCD_UNLOCK() LcdLock = 0
+#else
+#define LCD_LOCK()
+#define LCD_UNLOCK()
 #endif
 
 #define boardOff()  pwrOff();
@@ -322,6 +332,7 @@ typedef int8_t rotenc_t;
 typedef int16_t getvalue_t;
 typedef uint8_t mixsrc_t;
 typedef int8_t swsrc_t;
+
 
 #if defined(NAVIGATION_STICKS)
 extern uint8_t getSticksNavigationEvent();
@@ -744,6 +755,8 @@ void checkBacklight();
 
 #define BITMASK(bit) (1<<(bit))
 
+#undef min // Avoid double declaration in wingw
+#undef max
 template<class t> FORCEINLINE t min(t a, t b) { return a<b?a:b; }
 template<class t> FORCEINLINE t max(t a, t b) { return a>b?a:b; }
 template<class t> FORCEINLINE t sgn(t a) { return a>0 ? 1 : (a < 0 ? -1 : 0); }

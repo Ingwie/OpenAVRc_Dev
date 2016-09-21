@@ -16,17 +16,9 @@
 
 #include "../../nextsteprc.h"
 
-#if defined(PCBSTD) && defined(VOICE)
-volatile uint8_t LcdLock;
-#define LCD_LOCK() LcdLock = 1
-#define LCD_UNLOCK() LcdLock = 0
-#else
-#define LCD_LOCK()
-#define LCD_UNLOCK()
-#endif
 
 #if defined(SIMU)
-#include "lcd_simu_driver.h"
+#include "lcd_simu_driver.cpp"
 #else
 #if defined(LCD_KS108)
 #include "targets/stock/lcd_ks108_driver.cpp"

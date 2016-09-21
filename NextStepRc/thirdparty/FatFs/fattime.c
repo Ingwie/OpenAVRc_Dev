@@ -35,7 +35,7 @@
  */
 
 #include "integer.h"
-#include "../rtc.h"
+#include "../../rtc.h"
 
 DWORD get_fattime(void)
 {

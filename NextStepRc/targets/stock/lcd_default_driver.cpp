@@ -14,9 +14,11 @@
  *************************************************************
  */
 
+#include "../../nextsteprc.h"
+
 #define NUMITERATIONFULLREFRESH  1
 
- 
+
 void lcdSendCtl(uint8_t val)
 {
   PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_CS1);
@@ -137,7 +139,7 @@ void lcdRefreshFast()
     PORTC_LCD_CTRL |=  (1<<OUT_C_LCD_CS1);
   }
   LCD_UNLOCK();
-  
+
   REFRESHDURATION2  //Debug function if defined LCDDURATIONSHOW in nextsteprc.h
 
 }

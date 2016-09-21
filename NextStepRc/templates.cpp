@@ -72,7 +72,7 @@ MixData* setDest(uint8_t dch, uint8_t src, bool clear=false)
 void mixSetWeight(MixData* md, int8_t weight)
 {
   u_int8int16_t tmp;
-  tmp.word=weight;
+  tmp.gvword=weight;
   MD_UNION_TO_WEIGHT(tmp,md);
   // MD_SETWEIGHT(md,weight);  doesn't matter here in code cost compiler optimizes this anyway
 }
@@ -206,7 +206,7 @@ void applyTemplate(uint8_t idx)
         // gyro gain
         md=setDest(5, MIXSRC_MAX); md->weight= 30; md->swtch=-SWSRC_GEA;
         md=setDest(5, MIXSRC_MAX); mixSetWeight(md, -30); md->swtch= SWSRC_GEA;
-   
+
         // collective
         md=setDest(10, MIXSRC_Thr); /*md->weight= 100;*/ md->swtch=SWSRC_ID0; mixSetCurve(md, 3); md->carryTrim=TRIM_OFF;
         md=setDest(10, MIXSRC_Thr); /*md->weight= 100;*/ md->swtch=SWSRC_ID1; mixSetCurve(md, 4); md->carryTrim=TRIM_OFF;

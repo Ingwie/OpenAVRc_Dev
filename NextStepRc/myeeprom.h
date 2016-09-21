@@ -18,6 +18,7 @@
 #define myeeprom_h
 
 #include <inttypes.h>
+#include "nextsteprc.h"
 
 #define WARN_THR_BIT  0x01
 #define WARN_BEP_BIT  0x80
@@ -97,12 +98,6 @@
 #define NUM_CYC                3
 #define NUM_CAL_PPM            4
 
-struct CurveInfo {
-  int8_t * crv;
-  uint8_t points;
-  bool custom;
-};
-extern CurveInfo curveInfo(uint8_t idx);
 
 #define LEN_MODEL_NAME       10
 #define LEN_FLIGHT_MODE_NAME 6
@@ -111,6 +106,14 @@ extern CurveInfo curveInfo(uint8_t idx);
 #define CURVDATA             int8_t
 
 #define NUM_MODULES          1
+
+PACK(typedef struct {
+  int8_t * crv;
+  uint8_t points;
+  bool custom;
+}) CurveInfo;
+
+extern CurveInfo curveInfo(uint8_t idx);
 
 typedef int16_t gvar_t;
 
@@ -561,37 +564,40 @@ PACK(typedef struct {
   int8_t  offset;
 }) MixData;
 #endif
+
 PACK(union u_gvarint_t {
   struct {
     int8_t lo;
     uint8_t hi;
   } bytes_t;
-  int16_t word;
 
-  u_gvarint_t(int8_t l, uint8_t h) {bytes_t.lo=l; bytes_t.hi=h?255:0;} // hi bit is negativ sign
+int16_t gvword;
+
+u_gvarint_t(int8_t l, uint8_t h) {bytes_t.lo=l; bytes_t.hi=h?255:0;} // hi bit is negativ sign
 
 private:
   // prevent unwanted constructors, also saves program
   u_gvarint_t() {}
   u_gvarint_t(const u_gvarint_t&) {}
 });
-#define MD_WEIGHT(md) (u_gvarint_t(md->weight,md->weightMode).word)
+
+#define MD_WEIGHT(md) (u_gvarint_t(md->weight,md->weightMode).gvword)
 
 PACK(union u_int8int16_t {
   struct {
     int8_t  lo;
     uint8_t hi;
   } bytes_t;
-  int16_t word;
+  int16_t gvword;
 });
 
 #define MD_WEIGHT_TO_UNION(md, var) var.bytes_t.lo=md->weight; var.bytes_t.hi=md->weightMode?255:0
-#define MD_UNION_TO_WEIGHT(var, md) md->weight=var.bytes_t.lo; if (var.word<0) md->weightMode=1; else md->weightMode=0
+#define MD_UNION_TO_WEIGHT(var, md) md->weight=var.bytes_t.lo; if (var.gvword<0) md->weightMode=1; else md->weightMode=0
 // #define MD_SETWEIGHT(md, val) md->weight=val; if (val<0) md->weightMode=1; else md->weightMode=0
 
-#define MD_OFFSET(md) (u_gvarint_t(md->offset,md->offsetMode).word)
+#define MD_OFFSET(md) (u_gvarint_t(md->offset,md->offsetMode).gvword)
 #define MD_OFFSET_TO_UNION(md, var) var.bytes_t.lo=md->offset; var.bytes_t.hi=md->offsetMode?255:0
-#define MD_UNION_TO_OFFSET(var, md) md->offset=var.bytes_t.lo; if (var.word<0) md->offsetMode=1; else md->offsetMode=0 /* set negative sign */
+#define MD_UNION_TO_OFFSET(var, md) md->offset=var.bytes_t.lo; if (var.gvword<0) md->offsetMode=1; else md->offsetMode=0 /* set negative sign */
 // #define MD_SETOFFSET(md, val) md->offset=val; if (val<0) md->offsetMode=1; else md->offsetMode=0
 
 

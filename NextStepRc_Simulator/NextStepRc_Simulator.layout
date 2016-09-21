@@ -1,30 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
-	<ActiveTarget name="Release" />
-	<File name="NextStepRc_SimulatorMain.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<ActiveTarget name="Debug" />
+	<File name="..\NextStepRc\thirdparty\FatFs\fattime.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="390" topLine="14" />
+			<Cursor1 position="1220" topLine="30" />
 		</Cursor>
 	</File>
-	<File name="NextStepRc_SimulatorApp.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="..\NextStepRc\targets\common_avr\serial_driver.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="448" topLine="11" />
+			<Cursor1 position="7054" topLine="251" />
 		</Cursor>
 	</File>
-	<File name="..\NextStepRc\pulses\pulses_avr.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="..\NextStepRc\gui\lcd.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="24495" topLine="820" />
+			<Cursor1 position="4001" topLine="118" />
 		</Cursor>
 	</File>
-	<File name="..\NextStepRc\targets\simu\simu_interface.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="..\NextStepRc\Makefile" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="9309" topLine="469" />
+			<Cursor1 position="1936" topLine="58" />
 		</Cursor>
 	</File>
-	<File name="..\NextStepRc\gui\menu_general_sdmanager.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="..\NextStepRc\targets\mega2560\board_mega2560.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1864" topLine="41" />
+			<Cursor1 position="1707" topLine="240" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\telemetry\frsky.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="883" topLine="10" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\pgmtypes.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="475" topLine="31" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\eeprom_rlc.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="20788" topLine="838" />
 		</Cursor>
 	</File>
 	<File name="NextStepRc_SimulatorMain.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -32,19 +47,134 @@
 			<Cursor1 position="587" topLine="42" />
 		</Cursor>
 	</File>
-	<File name="..\NextStepRc\eeprom_rlc.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="..\NextStepRc\audio_avr.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="7786" topLine="323" />
+			<Cursor1 position="1428" topLine="33" />
 		</Cursor>
 	</File>
-	<File name="..\NextStepRc\nextsteprc.h" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="..\NextStepRc\targets\stock\lcd_simu_driver.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="19542" topLine="742" />
+			<Cursor1 position="93" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\thirdparty\FatFs\ff.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="8135" topLine="129" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\trainer_input.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="484" topLine="51" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\targets\common_avr\serial_driver.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="351" topLine="13" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\eeprom_rlc.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="975" topLine="18" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\myeeprom.h" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="16044" topLine="565" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\nextsteprc.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="15894" topLine="614" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\targets\mega2560\board_mega2560.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3203" topLine="10" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\telemetry\frsky.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="928" topLine="11" />
+		</Cursor>
+	</File>
+	<File name="NextStepRc_SimulatorApp.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="448" topLine="11" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\i2c_master.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="952" topLine="12" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\targets\simu\simu_interface.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="443" topLine="12" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\gui\menu_model_curves.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1125" topLine="34" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\pulses\pulses_avr.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="24495" topLine="820" />
 		</Cursor>
 	</File>
 	<File name="NextStepRc_SimulatorApp.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="356" topLine="6" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\targets\stock\board_stock.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="86" topLine="54" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\curves.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="991" topLine="23" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\targets\common_avr\board_avr.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1355" topLine="28" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\targets\gruvin9x\diskio.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3559" topLine="78" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\targets\mega2560\voice_jq6500.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2098" topLine="57" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\gui\menu_general_sdmanager.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1864" topLine="6" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\gui\menu_model_inputs_mixes.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="10527" topLine="367" />
+		</Cursor>
+	</File>
+	<File name="NextStepRc_SimulatorMain.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="390" topLine="14" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\targets\stock\lcd_driver.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="874" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="..\NextStepRc\templates.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1922" topLine="67" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

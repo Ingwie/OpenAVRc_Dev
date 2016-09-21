@@ -372,7 +372,7 @@ void gvarWeightItem(coord_t x, coord_t y, MixData *md, uint8_t attr, uint8_t eve
 {
   u_int8int16_t weight;
   MD_WEIGHT_TO_UNION(md, weight);
-  weight.word = GVAR_MENU_ITEM(x, y, weight.word, GV_RANGELARGE_WEIGHT_NEG, GV_RANGELARGE_WEIGHT, attr, 0, event);
+  weight.gvword = GVAR_MENU_ITEM(x, y, weight.gvword, GV_RANGELARGE_WEIGHT_NEG, GV_RANGELARGE_WEIGHT, attr, 0, event);
   MD_UNION_TO_WEIGHT(weight, md);
 }
 
@@ -385,7 +385,7 @@ void drawOffsetBar(uint8_t x, uint8_t y, MixData * md)
   int weight = abs(GET_GVAR(MD_WEIGHT(md), GV_RANGELARGE_NEG, GV_RANGELARGE, mixerCurrentFlightMode));
   int barMin = 0;
   int barMax = 0;
-  
+
 #if defined(OFFSET_ON_INPUT)
     //Offset on input (before weight)
     barMin = (-100 + offset) * weight / 100;
@@ -393,7 +393,7 @@ void drawOffsetBar(uint8_t x, uint8_t y, MixData * md)
 
 #else
     //Offset on output (after weight)
-    barMin = offset - weight;  
+    barMin = offset - weight;
     barMax = offset + weight;
 
 #endif
@@ -496,7 +496,7 @@ void menuModelMixOne(uint8_t event)
         lcdDrawTextColumnLeft(COLUMN_X, y, NO_INDENT(STR_OFFSET));
         u_int8int16_t offset;
         MD_OFFSET_TO_UNION(md2, offset);
-        offset.word = GVAR_MENU_ITEM(COLUMN_X+MIXES_2ND_COLUMN, y, offset.word, GV_RANGELARGE_OFFSET_NEG, GV_RANGELARGE_OFFSET, attr|LEFT, 0, event);
+        offset.gvword = GVAR_MENU_ITEM(COLUMN_X+MIXES_2ND_COLUMN, y, offset.gvword, GV_RANGELARGE_OFFSET_NEG, GV_RANGELARGE_OFFSET, attr|LEFT, 0, event);
         MD_UNION_TO_OFFSET(offset, md2);
 #if !defined(CPUM64) || !defined(FRSKY)
         drawOffsetBar(COLUMN_X+MIXES_2ND_COLUMN+22, y, md2);

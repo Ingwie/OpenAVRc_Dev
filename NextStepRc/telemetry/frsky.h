@@ -18,6 +18,7 @@
 #define FRSKY_H
 
 #include <inttypes.h>
+#include "../nextsteprc.h"
 
 #define FRSKY_SPORT_BAUDRATE      57600
 #define FRSKY_D_BAUDRATE          9600
@@ -84,7 +85,7 @@
 #define D_A2_ID                   0xF2
 
 #define VFAS_D_HIPREC_OFFSET      2000
- 
+
 
 // FrSky new DATA IDs (2 bytes)
 #define ALT_FIRST_ID              0x0100
@@ -181,7 +182,7 @@ class FrskyValueWithMinMax: public FrskyValueWithMin {
     void set(uint8_t value, uint8_t unit);
 };
 
-#if   defined(FRSKY_HUB)
+#if defined(FRSKY_HUB)
 PACK(struct FrskySerialData {
   int16_t  baroAltitudeOffset;    //        spare reused
   int16_t  gpsAltitude_bp;        // 0x01   before punct

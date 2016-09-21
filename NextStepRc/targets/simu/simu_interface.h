@@ -496,6 +496,15 @@ REG8 simu_ocr3ah;
 REG16 simu_ocr3b;
 REG8 simu_ocr3bl;
 REG8 simu_ocr3bh;
+REG8 simu_tccr5c;
+REG16 simu_tcnt5;
+REG8 simu_tcnt5l;
+REG8 simu_tcnt5h;
+REG8 simu_tccr5b;
+REG8 simu_timsk5;
+REG16 simu_ocr5a;
+REG8 simu_ocr5al;
+REG8 simu_ocr5ah;
 
 
 #define OCR1A   simu_ocr1a
@@ -551,6 +560,100 @@ REG8 simu_ocr3bh;
 #define OCR3BL  simu_ocr3bl
 #define OCR3BH  simu_ocr3bh
 
+#define TCCR5B  simu_tccr5b
+#define ICNC5   7
+#define ICES5   6
+#define WGM53   4
+#define WGM52   3
+#define CS52    2
+#define CS51    1
+#define CS50    0
+
+#define TCCR5C  simu_tccr5c
+#define FOC5A   7
+#define FOC5B   6
+#define FOC5C   5
+
+#define TCNT5   simu_tcnt5
+#define TCNT5L  simu_tcnt5l
+#define TCNT5H  simu_tcnt5h
+#define TIMSK5  simu_timsk5
+#define ICIE5   5
+#define OCIE5C  3
+#define OCIE5B  2
+#define OCIE5A  1
+#define TOIE5   0
+#define OCR5A   simu_ocr5a
+#define OCR5AL  simu_ocr5al
+#define OCR5AH  simu_ocr5ah
+
+//UART
+REG8 simu_ucsr0b;
+REG8 simu_ucsr0c;
+REG8 simu_ucsr0a;
+REG16 simu_ubrr0;
+REG8 simu_ubrrOl;
+REG8 simu_ubrrOh;
+REG8 simu_udr0;
+
+#define UCSR0A  simu_ucsr0a
+#define RXC0    7
+#define TXC0    6
+#define UDRE0   5
+#define FE0     4
+#define DOR0    3
+#define UPE0    2
+#define U2X0    1
+#define MPCM0   0
+
+#define UCSR0B  simu_ucsr0b
+#define RXCIE0  7
+#define TXCIE0  6
+#define UDRIE0  5
+#define RXEN0   4
+#define TXEN0   3
+#define UCSZ02  2
+#define RXB80   1
+#define TXB80   0
+
+#define UCSR0C  simu_ucsr0c
+#define UMSEL01 7
+#define UMSEL00 6
+#define UPM01   5
+#define UPM00   4
+#define USBS0   3
+#define UCSZ01  2
+#define UCSZ00  1
+#define UCPOL0  0
+
+#define UBRR0   simu_ubrr0
+#define UBRR0L  simu_ubrrOl
+#define UBRR0H  simu_ubrrOh
+#define UDR0    simu_udr0
+
+//SPI
+REG8 simu_spcr;
+REG8 simu_spsr;
+REG8 simu_spdr;
+
+#define SPCR    simu_spcr
+#define SPIE    7
+#define SPE     6
+#define DORD    5
+#define MSTR    4
+#define CPOL    3
+#define CPHA    2
+#define SPR1    1
+#define SPR0    0
+
+#define SPSR    simu_spsr
+#define SPIF    7
+#define WCOL    6
+#define SPI2X   0
+
+#define SPDR    simu_spdr
+
+
 //IRQ
 #define ISR(x, ...)  void x()
 
@@ -568,5 +671,8 @@ REG8 simu_ocr3bh;
 #define strcpy_P strcpy
 #define strcat_P strcat
 #define memcpy_P memcpy
+#define bit_is_clear(sfr, bit) (!(REG8(sfr) & (1 << (bit))))
+#define loop_until_bit_is_set(sfr, bit) do { } while (bit_is_clear(sfr, bit))
+
 
 #endif

@@ -58,8 +58,6 @@
 					<Add option="-DPPM_UNIT_PERCENT_PREC1" />
 					<Add option="-DHELI" />
 					<Add option="-DTEMPLATES" />
-					<Add option="-DEXTRA_3POS=3" />
-					<Add option="-DNAVIGATION_MENUS" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 				</Compiler>
 				<ResourceCompiler>
@@ -80,7 +78,6 @@
 					<Add option="-O2" />
 					<Add option="-w" />
 					<Add option="-Wall" />
-					<Add option="-std=c99" />
 					<Add option="-m32" />
 					<Add option="-fpermissive" />
 					<Add option="-fexceptions" />
@@ -128,8 +125,6 @@
 					<Add option="-DPPM_UNIT_PERCENT_PREC1" />
 					<Add option="-DHELI" />
 					<Add option="-DTEMPLATES" />
-					<Add option="-DEXTRA_3POS=3" />
-					<Add option="-DNAVIGATION_MENUS" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 				</Compiler>
 				<ResourceCompiler>
@@ -460,57 +455,30 @@
 		<Unit filename="../NextStepRc/stamp.cpp" />
 		<Unit filename="../NextStepRc/strhelpers.cpp" />
 		<Unit filename="../NextStepRc/switches.cpp" />
-		<Unit filename="../NextStepRc/syscalls.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="../NextStepRc/targets/common_avr/adc_driver.cpp" />
 		<Unit filename="../NextStepRc/targets/common_avr/board_avr.h" />
 		<Unit filename="../NextStepRc/targets/common_avr/serial_driver.cpp" />
 		<Unit filename="../NextStepRc/targets/common_avr/serial_driver.h" />
 		<Unit filename="../NextStepRc/targets/common_avr/telemetry_driver.cpp" />
-		<Unit filename="../NextStepRc/targets/gruvin9x/board_gruvin9x.cpp" />
-		<Unit filename="../NextStepRc/targets/gruvin9x/board_gruvin9x.h" />
 		<Unit filename="../NextStepRc/targets/gruvin9x/diskio.cpp" />
 		<Unit filename="../NextStepRc/targets/gruvin9x/fuses_2561.txt" />
 		<Unit filename="../NextStepRc/targets/gruvin9x/rtc_driver.cpp" />
-		<Unit filename="../NextStepRc/targets/gruvin9x/somo14d.cpp" />
-		<Unit filename="../NextStepRc/targets/gruvin9x/somo14d.h" />
 		<Unit filename="../NextStepRc/targets/gruvin9x/sunifdef_out_000000" />
 		<Unit filename="../NextStepRc/targets/mega2560/00readme.txt" />
 		<Unit filename="../NextStepRc/targets/mega2560/board_mega2560.cpp" />
 		<Unit filename="../NextStepRc/targets/mega2560/board_mega2560.h" />
-		<Unit filename="../NextStepRc/targets/mega2560/board_mega2560_stk500v2bootloader.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="../NextStepRc/targets/mega2560/voice.h" />
 		<Unit filename="../NextStepRc/targets/mega2560/voice_jq6500.cpp" />
-		<Unit filename="../NextStepRc/targets/mega2560/voice_wtv20sd.cpp" />
 		<Unit filename="../NextStepRc/targets/simu/simu_interface.cpp" />
 		<Unit filename="../NextStepRc/targets/simu/simu_interface.h" />
-		<Unit filename="../NextStepRc/targets/stock/board_stock.cpp" />
 		<Unit filename="../NextStepRc/targets/stock/board_stock.h" />
-		<Unit filename="../NextStepRc/targets/stock/lcd_default_driver.cpp" />
 		<Unit filename="../NextStepRc/targets/stock/lcd_driver.cpp" />
-		<Unit filename="../NextStepRc/targets/stock/lcd_ks108_driver.cpp" />
 		<Unit filename="../NextStepRc/targets/stock/lcd_simu_driver.cpp" />
-		<Unit filename="../NextStepRc/targets/stock/lcd_ssd1306_driver.cpp" />
-		<Unit filename="../NextStepRc/targets/stock/lcd_st7920_driver.cpp" />
-		<Unit filename="../NextStepRc/targets/stock/voice.cpp" />
-		<Unit filename="../NextStepRc/targets/stock/voice.h" />
-		<Unit filename="../NextStepRc/telemetry/ardupilot.cpp" />
-		<Unit filename="../NextStepRc/telemetry/ardupilot.h" />
 		<Unit filename="../NextStepRc/telemetry/frsky.cpp" />
 		<Unit filename="../NextStepRc/telemetry/frsky.h" />
 		<Unit filename="../NextStepRc/telemetry/frsky_d.cpp" />
-		<Unit filename="../NextStepRc/telemetry/frsky_sport.cpp" />
-		<Unit filename="../NextStepRc/telemetry/jeti.cpp" />
-		<Unit filename="../NextStepRc/telemetry/jeti.h" />
-		<Unit filename="../NextStepRc/telemetry/mavlink.cpp" />
-		<Unit filename="../NextStepRc/telemetry/mavlink.h" />
 		<Unit filename="../NextStepRc/telemetry/nmea.cpp" />
 		<Unit filename="../NextStepRc/telemetry/nmea.h" />
-		<Unit filename="../NextStepRc/telemetry/telemetry.cpp" />
-		<Unit filename="../NextStepRc/telemetry/telemetry.h" />
 		<Unit filename="../NextStepRc/templates.cpp" />
 		<Unit filename="../NextStepRc/templates.h" />
 		<Unit filename="../NextStepRc/thirdparty/FatFs/00readme.txt" />
