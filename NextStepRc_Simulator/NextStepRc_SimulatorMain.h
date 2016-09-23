@@ -31,7 +31,6 @@ class NextStepRc_SimulatorFrame: public wxFrame
         //(*Handlers(NextStepRc_SimulatorFrame)
         void OnQuit(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
-        void OnPanel1Paint(wxPaintEvent& event);
         void OnButton1Click(wxCommandEvent& event);
         //*)
 

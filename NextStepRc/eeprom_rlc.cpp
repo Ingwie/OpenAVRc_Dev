@@ -14,13 +14,8 @@
  *************************************************************
  */
 
-#include <inttypes.h>
-#include <string.h>
-#include "timers.h"
 #include "eeprom_rlc.h"
-#if defined(SIMU)
-#include "targets/simu/simu_interface.h"
-#endif // defined
+
 
 uint8_t   s_write_err = 0;    // error reasons
 RlcFile   theFile;  //used for any file operation

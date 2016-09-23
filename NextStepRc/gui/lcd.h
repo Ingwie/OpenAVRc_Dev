@@ -146,7 +146,7 @@ extern void lcdPutsVolts(coord_t x, coord_t y, uint16_t volts, LcdFlags att);
 extern void putsVBat(coord_t x, coord_t y, LcdFlags att);
 
 #if !defined(BOOT)
-extern void putsChannelValue(coord_t x, coord_t y, source_t channel, lcdint_t val, LcdFlags att=0);
+void putsChannelValue(coord_t x, coord_t y, source_t channel, lcdint_t val, LcdFlags att=0);
 extern void putsChannel(coord_t x, coord_t y, source_t channel, LcdFlags att=0);
 extern void lcdPutsTelemetryChannelValue(coord_t x, coord_t y, uint8_t channel, lcdint_t val, LcdFlags att=0);
 #endif

@@ -65,8 +65,10 @@ typedef WCHAR TCHAR;
 #if !defined(SIMU) //simu use unicode
 typedef char TCHAR;
 #endif
+#if !defined(_T)
 #define _T(x) x
 #define _TEXT(x) x
+#endif
 #endif
 
 #endif
@@ -240,7 +242,7 @@ TCHAR* f_gets (TCHAR* buff, int len, FIL* fp);						/* Get a string from the fil
 #define f_eof(fp) ((int)((fp)->fptr == (fp)->fsize))
 #define f_error(fp) ((fp)->err)
 #define f_tell(fp) ((fp)->fptr)
-#if !defined(SIMU)
+#if !defined(SIMUa) // bracame todo remove
 	#define f_size(fp) ((fp)->fsize)
 #else
 	UINT f_size(FIL* fil);

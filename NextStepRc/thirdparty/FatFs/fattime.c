@@ -37,17 +37,17 @@
 #include "integer.h"
 #include "../../rtc.h"
 
-DWORD get_fattime(void)
+/*DWORD get_fattime(void) moved to ff.c to fix compilation
 {
   struct gtm t;
 
   gettime(&t);
 
-  /* Pack date and time into a DWORD variable */
+  / Pack date and time into a DWORD variable /
   return ((DWORD)(t.tm_year - 80) << 25)
     | ((uint32_t)(t.tm_mon+1) << 21)
     | ((uint32_t)t.tm_mday << 16)
     | ((uint32_t)t.tm_hour << 11)
     | ((uint32_t)t.tm_min << 5)
     | ((uint32_t)t.tm_sec >> 1);
-}
+}*/

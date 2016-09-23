@@ -28,7 +28,7 @@ CustomFunctionsContext modelFunctionsContext = { 0 };
 void testFunc()
 {
 #ifdef SIMU
-  printf("testFunc\n"); fflush(stdout);
+//  printf("testFunc\n"); fflush(stdout);
 #endif
 }
 #endif

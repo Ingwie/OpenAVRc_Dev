@@ -14,12 +14,13 @@
 *************************************************************
 */
 
-#if !defined(SIMU)
 
 // From https://github.com/g4lvanix/I2C-master-lib
 
+#if !defined(SIMU)
 #include <avr/io.h>
 #include <util/twi.h>
+#endif
 
 #include "i2c_master.h"
 
@@ -193,4 +194,3 @@ const uint8_t *buff /* Data to be written */
   return (!ret);
 }
 
-#endif

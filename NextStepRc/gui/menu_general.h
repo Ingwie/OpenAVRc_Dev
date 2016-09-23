@@ -17,6 +17,8 @@
 #ifndef menu_general_h
 #define menu_general_h
 
+#include "../nextsteprc.h"
+
 extern void menuGeneralSetup(uint8_t event);
 extern void menuGeneralSdManager(uint8_t event);
 extern void menuGeneralCustomFunctions(uint8_t event);

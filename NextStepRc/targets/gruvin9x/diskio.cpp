@@ -650,7 +650,7 @@ void sdPoll10ms()
   Stat = s;
 }
 
-#if !defined(SIMU)
+#if !defined(SIMUa)
 bool sdMounted()
 {
   return g_FATFS_Obj.fs_type != 0;

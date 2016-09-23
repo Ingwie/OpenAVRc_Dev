@@ -14,8 +14,7 @@
  *************************************************************
  */
 
-#include "../nextsteprc.h"
-#include "../timers.h"
+#include "menu_general.h"
 
 void menuStatisticsView(uint8_t event)
 {

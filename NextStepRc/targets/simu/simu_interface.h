@@ -16,6 +16,7 @@
 
 #ifndef simu_interface_h
 #define simu_interface_h
+#include <inttypes.h>
 
 typedef const unsigned char pm_uchar;
 typedef const char pm_char;
@@ -29,46 +30,46 @@ typedef const int8_t pm_int8_t;
 #define REG16 uint16_t
 
 //Function
-void eepromReadBlock (uint8_t * pointer_ram, uint32_t pointer_eeprom, uint32_t size);
+extern void eepromReadBlock (uint8_t * pointer_ram, uint32_t pointer_eeprom, uint32_t size);
 
 #define wdt_reset() //sleep(1/*ms*/)
 #define SIMU_SLEEP(x) //do { if (!main_thread_running) return; sleep(x/*ms*/); } while (0)
 
 
 //PORT & PIN
-REG8  simu_pina;
-REG8  simu_ddra;
-REG8  simu_porta;
-REG8  simu_pinb;
-REG8  simu_ddrb;
-REG8  simu_portb;
-REG8  simu_pinc;
-REG8  simu_ddrc;
-REG8  simu_portc;
-REG8  simu_pind;
-REG8  simu_ddrd;
-REG8  simu_portd;
-REG8  simu_pine;
-REG8  simu_ddre;
-REG8  simu_porte;
-REG8  simu_pinf;
-REG8  simu_ddrf;
-REG8  simu_portf;
-REG8  simu_ping;
-REG8  simu_ddrg;
-REG8  simu_portg;
-REG8  simu_pinh;
-REG8  simu_ddrh;
-REG8  simu_porth;
-REG8  simu_pinj;
-REG8  simu_ddrj;
-REG8  simu_portj;
-REG8  simu_pink;
-REG8  simu_ddrk;
-REG8  simu_portk;
-REG8  simu_pinl;
-REG8  simu_ddrl;
-REG8  simu_portl;
+extern REG8  simu_pina;
+extern REG8  simu_ddra;
+extern REG8  simu_porta;
+extern REG8  simu_pinb;
+extern REG8  simu_ddrb;
+extern REG8  simu_portb;
+extern REG8  simu_pinc;
+extern REG8  simu_ddrc;
+extern REG8  simu_portc;
+extern REG8  simu_pind;
+extern REG8  simu_ddrd;
+extern REG8  simu_portd;
+extern REG8  simu_pine;
+extern REG8  simu_ddre;
+extern REG8  simu_porte;
+extern REG8  simu_pinf;
+extern REG8  simu_ddrf;
+extern REG8  simu_portf;
+extern REG8  simu_ping;
+extern REG8  simu_ddrg;
+extern REG8  simu_portg;
+extern REG8  simu_pinh;
+extern REG8  simu_ddrh;
+extern REG8  simu_porth;
+extern REG8  simu_pinj;
+extern REG8  simu_ddrj;
+extern REG8  simu_portj;
+extern REG8  simu_pink;
+extern REG8  simu_ddrk;
+extern REG8  simu_portk;
+extern REG8  simu_pinl;
+extern REG8  simu_ddrl;
+extern REG8  simu_portl;
 
 #define PINA    simu_pina
 #define PINA7   7
@@ -395,15 +396,15 @@ REG8  simu_portl;
 # define PL0 0
 
 //ADC
-REG16 simu_adc;
-REG16 simu_adcw;
-REG8  simu_adcl;
-REG8  simu_adch;
-REG8  simu_adcra;
-REG8  simu_adcsrb;
-REG8  simu_admux;
-REG8  simu_didr2;
-REG8  simu_didrO;
+extern REG16 simu_adc;
+extern REG16 simu_adcw;
+extern REG8  simu_adcl;
+extern REG8  simu_adch;
+extern REG8  simu_adcra;
+extern REG8  simu_adcsrb;
+extern REG8  simu_admux;
+extern REG8  simu_didr2;
+extern REG8  simu_didrO;
 
 #define ADC     simu_adc
 #define ADCW    simu_adcw
@@ -458,7 +459,7 @@ REG8  simu_didrO;
 #define ADC0D   0
 
 //EEPROM
-REG8 simu_eecr;
+extern REG8 simu_eecr;
 
 #define EECR    simu_eecr
 #define EEPM1   5
@@ -468,9 +469,44 @@ REG8 simu_eecr;
 #define EEPE    1
 #define EERE    0
 
+//IIC
+extern REG8 simu_twcr;
+extern REG8 simu_twbr;
+extern REG8 simu_twsr;
+extern REG8 simu_twdr;
+extern REG8 simu_tw_start;
+extern REG8 simu_tw_status;
+extern REG8 simu_tw_mt_sla_ack;
+extern REG8 simu_tw_mr_sla_ack;
+extern REG8 simu_tw_mt_data_ack;
+
+#define TW_START        simu_tw_start
+#define TW_STATUS       simu_tw_status
+#define TW_MT_SLA_ACK   simu_tw_mt_sla_ack
+#define TW_MR_SLA_ACK   simu_tw_mr_sla_ack
+#define TW_MT_DATA_ACK  simu_tw_mt_data_ack
+#define TWDR    simu_twdr
+#define TWBR    simu_twbr
+#define TWCR    simu_twcr
+#define TWINT   7
+#define TWEA    6
+#define TWSTA   5
+#define TWSTO   4
+#define TWWC    3
+#define TWEN    2
+#define TWIE    0
+#define TWSR    simu_twsr
+#define TWS7    7
+#define TWS6    6
+#define TWS5    5
+#define TWS4    4
+#define TWS3    3
+#define TWPS1   1
+#define TWPS0   0
+
 
 //MCU
-REG8 simu_mcusr;
+extern REG8 simu_mcusr;
 
 #define MCUSR   simu_mcusr
 #define JTRF    4
@@ -480,32 +516,38 @@ REG8 simu_mcusr;
 #define PORF    0
 
 //TIMER
-REG16 simu_ocr1a;
-REG16 simu_ocr1b;
-REG16 simu_tcnt1;
-REG8 simu_tcnt1l;
-REG8 simu_tcnt1h;
-REG8 simu_tccr1a;
-REG8 simu_tccr1c;
-REG8 simu_tccr1b;
-REG8 simu_timsk1;
-REG8 simu_tifr1;
-REG16 simu_ocr3a;
-REG8 simu_ocr3al;
-REG8 simu_ocr3ah;
-REG16 simu_ocr3b;
-REG8 simu_ocr3bl;
-REG8 simu_ocr3bh;
-REG8 simu_tccr5c;
-REG16 simu_tcnt5;
-REG8 simu_tcnt5l;
-REG8 simu_tcnt5h;
-REG8 simu_tccr5b;
-REG8 simu_timsk5;
-REG16 simu_ocr5a;
-REG8 simu_ocr5al;
-REG8 simu_ocr5ah;
-
+extern REG16 simu_ocr1a;
+extern REG16 simu_ocr1b;
+extern REG16 simu_tcnt1;
+extern REG8 simu_tcnt1l;
+extern REG8 simu_tcnt1h;
+extern REG8 simu_tccr1a;
+extern REG8 simu_tccr1c;
+extern REG8 simu_tccr1b;
+extern REG8 simu_timsk1;
+extern REG8 simu_tifr1;
+extern REG8 simu_tcnt2;
+extern REG8 simu_ocr2a;
+extern REG8 simu_ocr2b;
+extern REG8 simu_timsk3;
+extern REG16 simu_ocr3a;
+extern REG8 simu_ocr3al;
+extern REG8 simu_ocr3ah;
+extern REG16 simu_ocr3b;
+extern REG8 simu_ocr3bl;
+extern REG8 simu_ocr3bh;
+extern REG16 simu_icr3;
+extern REG8 simu_icr3l;
+extern REG8 simu_icr3h;
+extern REG8 simu_tccr5c;
+extern REG16 simu_tcnt5;
+extern REG8 simu_tcnt5l;
+extern REG8 simu_tcnt5h;
+extern REG8 simu_tccr5b;
+extern REG8 simu_timsk5;
+extern REG16 simu_ocr5a;
+extern REG8 simu_ocr5al;
+extern REG8 simu_ocr5ah;
 
 #define OCR1A   simu_ocr1a
 #define OCR1B   simu_ocr1b
@@ -556,9 +598,24 @@ REG8 simu_ocr5ah;
 #define OCR3AL  simu_ocr3al
 #define OCR3AH  simu_ocr3ah
 
+#define TCNT2   simu_tcnt2
+#define OCR2A   simu_ocr2a
+#define OCR2B   simu_ocr2b
+
 #define OCR3B   simu_ocr3b
 #define OCR3BL  simu_ocr3bl
 #define OCR3BH  simu_ocr3bh
+
+#define ICR3    simu_icr3
+#define ICR3L   simu_icr3l
+#define ICR3H   simu_icr3h
+
+#define TIMSK3  simu_timsk3
+#define ICIE3   5
+#define OCIE3C  3
+#define OCIE3B  2
+#define OCIE3A  1
+#define TOIE3   0
 
 #define TCCR5B  simu_tccr5b
 #define ICNC5   7
@@ -588,13 +645,13 @@ REG8 simu_ocr5ah;
 #define OCR5AH  simu_ocr5ah
 
 //UART
-REG8 simu_ucsr0b;
-REG8 simu_ucsr0c;
-REG8 simu_ucsr0a;
-REG16 simu_ubrr0;
-REG8 simu_ubrrOl;
-REG8 simu_ubrrOh;
-REG8 simu_udr0;
+extern REG8 simu_ucsr0b;
+extern REG8 simu_ucsr0c;
+extern REG8 simu_ucsr0a;
+extern REG16 simu_ubrr0;
+extern REG8 simu_ubrrOl;
+extern REG8 simu_ubrrOh;
+extern REG8 simu_udr0;
 
 #define UCSR0A  simu_ucsr0a
 #define RXC0    7
@@ -632,9 +689,9 @@ REG8 simu_udr0;
 #define UDR0    simu_udr0
 
 //SPI
-REG8 simu_spcr;
-REG8 simu_spsr;
-REG8 simu_spdr;
+extern REG8 simu_spcr;
+extern REG8 simu_spsr;
+extern REG8 simu_spdr;
 
 #define SPCR    simu_spcr
 #define SPIE    7
@@ -653,7 +710,11 @@ REG8 simu_spdr;
 
 #define SPDR    simu_spdr
 
-
+//STACK
+extern REG8 simu_stackadd;
+extern REG8 simu_bssebd;
+#define STACKPTR simu_stackadd
+#define __bss_end simu_bssebd
 //IRQ
 #define ISR(x, ...)  void x()
 
@@ -673,6 +734,8 @@ REG8 simu_spdr;
 #define memcpy_P memcpy
 #define bit_is_clear(sfr, bit) (!(REG8(sfr) & (1 << (bit))))
 #define loop_until_bit_is_set(sfr, bit) do { } while (bit_is_clear(sfr, bit))
+#define assert(x)
+#define printf(x)
 
 
 #endif

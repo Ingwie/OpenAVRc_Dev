@@ -3,8 +3,8 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="NextStepRc_Simulator" />
-		<Option pch_mode="2" />
 		<Option compiler="gcc" />
+		<Option extended_obj_names="1" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/NextStepRc_Simulator" prefix_auto="1" extension_auto="1" />
@@ -79,8 +79,7 @@
 					<Add option="-w" />
 					<Add option="-Wall" />
 					<Add option="-m32" />
-					<Add option="-fpermissive" />
-					<Add option="-fexceptions" />
+					<Add option="-no-integrated-cpp" />
 					<Add option="-DSIMU" />
 					<Add option="-DPCBMEGA2560" />
 					<Add option="-DCPUM2560" />
@@ -125,6 +124,7 @@
 					<Add option="-DPPM_UNIT_PERCENT_PREC1" />
 					<Add option="-DHELI" />
 					<Add option="-DTEMPLATES" />
+					<Add option="-DDEBUG=NO" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 				</Compiler>
 				<ResourceCompiler>
@@ -132,6 +132,7 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
 					<Add library="libwxmsw31u.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
@@ -153,18 +154,28 @@
 		<Linker>
 			<Add option="-mthreads" />
 		</Linker>
-		<Unit filename="../NextStepRc/.gitignore" />
-		<Unit filename="../NextStepRc/Analyse_mem.bat" />
-		<Unit filename="../NextStepRc/MakeFX9X.bat" />
-		<Unit filename="../NextStepRc/Makefile" />
-		<Unit filename="../NextStepRc/Makefileold" />
+		<Unit filename="../NextStepRc/.gitignore">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="../NextStepRc/Analyse_mem.bat">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="../NextStepRc/MakeFX9X.bat">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="../NextStepRc/Makefile">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="../NextStepRc/Makefileold">
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="../NextStepRc/NextstepRc.depend" />
 		<Unit filename="../NextStepRc/NextstepRc.layout" />
 		<Unit filename="../NextStepRc/audio_avr.cpp" />
 		<Unit filename="../NextStepRc/audio_avr.h" />
-		<Unit filename="../NextStepRc/bin_allocator.cpp" />
-		<Unit filename="../NextStepRc/bin_allocator.h" />
-		<Unit filename="../NextStepRc/bitmaps/.gitignore" />
+		<Unit filename="../NextStepRc/bitmaps/.gitignore">
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="../NextStepRc/bitmaps/about.lbm" />
 		<Unit filename="../NextStepRc/bitmaps/about.png" />
 		<Unit filename="../NextStepRc/bitmaps/asterisk.lbm" />
@@ -472,7 +483,6 @@
 		<Unit filename="../NextStepRc/targets/simu/simu_interface.cpp" />
 		<Unit filename="../NextStepRc/targets/simu/simu_interface.h" />
 		<Unit filename="../NextStepRc/targets/stock/board_stock.h" />
-		<Unit filename="../NextStepRc/targets/stock/lcd_driver.cpp" />
 		<Unit filename="../NextStepRc/targets/stock/lcd_simu_driver.cpp" />
 		<Unit filename="../NextStepRc/telemetry/frsky.cpp" />
 		<Unit filename="../NextStepRc/telemetry/frsky.h" />
@@ -492,21 +502,6 @@
 		<Unit filename="../NextStepRc/thirdparty/FatFs/ff.h" />
 		<Unit filename="../NextStepRc/thirdparty/FatFs/ffconf.h" />
 		<Unit filename="../NextStepRc/thirdparty/FatFs/integer.h" />
-		<Unit filename="../NextStepRc/thirdparty/FatFs/option/cc932.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../NextStepRc/thirdparty/FatFs/option/cc936.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../NextStepRc/thirdparty/FatFs/option/cc949.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../NextStepRc/thirdparty/FatFs/option/cc950.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../NextStepRc/thirdparty/FatFs/option/ccsbcs.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="../NextStepRc/thirdparty/FatFs/option/syscall.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -687,18 +682,7 @@
 		<Unit filename="../NextStepRc/translations/pt.h.txt" />
 		<Unit filename="../NextStepRc/translations/se.h" />
 		<Unit filename="../NextStepRc/translations/se.h.txt" />
-		<Unit filename="../NextStepRc/translations/tts_cz.cpp" />
-		<Unit filename="../NextStepRc/translations/tts_de.cpp" />
-		<Unit filename="../NextStepRc/translations/tts_en.cpp" />
-		<Unit filename="../NextStepRc/translations/tts_es.cpp" />
 		<Unit filename="../NextStepRc/translations/tts_fr.cpp" />
-		<Unit filename="../NextStepRc/translations/tts_hu.cpp" />
-		<Unit filename="../NextStepRc/translations/tts_it.cpp" />
-		<Unit filename="../NextStepRc/translations/tts_nl.cpp" />
-		<Unit filename="../NextStepRc/translations/tts_pl.cpp" />
-		<Unit filename="../NextStepRc/translations/tts_pt.cpp" />
-		<Unit filename="../NextStepRc/translations/tts_se.cpp" />
-		<Unit filename="../NextStepRc/translations/tts_sk.cpp" />
 		<Unit filename="../NextStepRc/vario.cpp" />
 		<Unit filename="NextStepRc_SimulatorApp.cpp" />
 		<Unit filename="NextStepRc_SimulatorApp.h" />

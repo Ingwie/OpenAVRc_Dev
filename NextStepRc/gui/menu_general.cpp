@@ -14,7 +14,7 @@
  *************************************************************
  */
 
-#include "../nextsteprc.h"
+#include "menu_general.h"
 
 
 void menuGeneralSetup(uint8_t event);

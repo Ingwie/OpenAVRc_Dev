@@ -21,11 +21,11 @@
 traceCallbackFunc traceCallback = 0;
 #endif
 
-#if defined(SIMUa)
+#if defined(SIMU)
 #define PRINTF_BUFFER_SIZE     1024
 void debugPrintf(const char * format, ...)
 {
-  va_list arglist;
+ /* va_list arglist;
   char tmp[PRINTF_BUFFER_SIZE];
 
   va_start(arglist, format);
@@ -35,7 +35,7 @@ void debugPrintf(const char * format, ...)
   fflush(stdout);
   if (traceCallback) {
     traceCallback(tmp);
-  }
+  }*/
 }
 #endif
 

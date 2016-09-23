@@ -18,7 +18,7 @@
 #define myeeprom_h
 
 #include <inttypes.h>
-#include "nextsteprc.h"
+//#include "nextsteprc.h"
 
 #define WARN_THR_BIT  0x01
 #define WARN_BEP_BIT  0x80

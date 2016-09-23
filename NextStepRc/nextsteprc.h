@@ -26,15 +26,18 @@
 #if !defined(SIMU)
 #include <avr/pgmspace.h>
 #include "../pgmtypes.h"
+#define assert(x)
+#define printf printf_not_allowed
 #else
 #include <stdbool.h>
 #include "targets/simu/simu_interface.h"
+#include "targets/mega2560/board_mega2560.h" //todo
 #endif
 #include "trainer_input.h"
 #include "targets/common_avr/board_avr.h"
-//#include "myeeprom.h"
-#include "gui/lcd.h"
+#include "myeeprom.h"
 #include "gui/menus.h"
+#include "gui/lcd.h"
 #include "gui/navigation.h"
 #include "rtc.h"
 
@@ -189,7 +192,7 @@
 #define __DMA __attribute__((aligned(32)))
 #endif
 
-#if defined(SIMU) || GCC_VERSION < 472
+#if GCC_VERSION < 472
 typedef int32_t int24_t;
 #else
 typedef __int24 int24_t;
@@ -242,6 +245,7 @@ char *convertSimuPath(const char *path);
 #define RESXu      1024u
 #define RESXul     1024ul
 #define RESXl      1024l
+#define F_CPU 16000000UL  // 16 MHz
 
 #include "gui/menus.h"
 #include "debug.h"
@@ -256,7 +260,6 @@ char *convertSimuPath(const char *path);
 #include <avr/eeprom.h>
 #include <avr/sleep.h>
 #include <avr/interrupt.h>
-#define F_CPU 16000000UL  // 16 MHz
 #include <util/delay.h>
 #define pgm_read_adr(address_short) pgm_read_word(address_short)
 #include <avr/wdt.h>
@@ -285,7 +288,7 @@ volatile uint8_t LcdLock;
 #define KEY_PLUS         KEY_RIGHT
 #define KEY_MINUS        KEY_LEFT
 
-#include "myeeprom.h"
+//#include "myeeprom.h"
 
 #if defined(CPUM64)
 void memclear(void *ptr, uint8_t size);
@@ -401,10 +404,6 @@ typedef struct {
 #include "templates.h"
 #endif
 
-//#if !defined(SIMU) bracame remove ?
-#define assert(x)
-#define printf(x) // printf_not_allowed
-//#endif
 
 extern const pm_uint8_t bchout_ar[];
 extern const pm_uint8_t modn12x3[];

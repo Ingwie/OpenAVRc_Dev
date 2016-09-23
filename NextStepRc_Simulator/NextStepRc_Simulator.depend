@@ -1,1 +1,3676 @@
 # depslib dependency file v1.0
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\audio_avr.cpp
+	"nextsteprc.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\nextsteprc.h
+	<inttypes.h>
+	<string.h>
+	<stddef.h>
+	<stdlib.h>
+	<avr/pgmspace.h>
+	"../pgmtypes.h"
+	<stdbool.h>
+	"targets/simu/simu_interface.h"
+	"trainer_input.h"
+	"targets/common_avr/board_avr.h"
+	"gui/lcd.h"
+	"gui/menus.h"
+	"gui/navigation.h"
+	"rtc.h"
+	"gui/menus.h"
+	"debug.h"
+	<avr/io.h>
+	<avr/eeprom.h>
+	<avr/sleep.h>
+	<avr/interrupt.h>
+	<util/delay.h>
+	<avr/wdt.h>
+	"myeeprom.h"
+	"eeprom_common.h"
+	"eeprom_rlc.h"
+	"eeprom_raw.h"
+	"pulses/pulses.h"
+	"gui/gui.h"
+	"templates.h"
+	"keys.h"
+	"pwr.h"
+	"trainer_input.h"
+	"telemetry/frsky.h"
+	"telemetry/jeti.h"
+	"telemetry/ardupilot.h"
+	"telemetry/nmea.h"
+	"telemetry/mavlink.h"
+	"audio_avr.h"
+	"buzzer.h"
+	"targets/stock/voice.h"
+	"targets/gruvin9x/somo14d.h"
+	"targets/mega2560/voice.h"
+	"translations.h"
+	"fonts.h"
+	"haptic.h"
+	"sdcard.h"
+	"rtc.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\simu\simu_interface.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\trainer_input.h
+	"myeeprom.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\myeeprom.h
+	<inttypes.h>
+	"nextsteprc.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\common_avr\board_avr.h
+	"../gruvin9x/board_gruvin9x.h"
+	"../mega2560/board_mega2560.h"
+	"../stock/board_stock.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\gruvin9x\board_gruvin9x.h
+	"../common_avr/board_avr.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\mega2560\board_mega2560.h
+	"../common_avr/board_avr.h"
+	"../../nextsteprc.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\stock\board_stock.h
+	"../common_avr/board_avr.h"
+
+1474446414 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\lcd.h
+	"../nextsteprc.h"
+	"../myeeprom.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menus.h
+	"../myeeprom.h"
+	"lcd.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\navigation.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\rtc.h
+	<inttypes.h>
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\debug.h
+	<inttypes.h>
+	"rtc.h"
+	"cli.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\eeprom_common.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\eeprom_rlc.h
+	<inttypes.h>
+	"nextsteprc.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\pulses\pulses.h
+	"pulses_avr.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\pulses\pulses_avr.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\gui.h
+	"lcd.h"
+	"menus.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\templates.h
+	<inttypes.h>
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\keys.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\pwr.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\telemetry\frsky.h
+	<inttypes.h>
+	"../nextsteprc.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\telemetry\jeti.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\telemetry\ardupilot.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\telemetry\nmea.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\telemetry\mavlink.h
+	"../thirdparty/GCS_MAVLink/include_v1.0/mavlink_types.h"
+	"../targets/common_avr/serial_driver.h"
+	"../nextsteprc.h"
+	"../thirdparty/GCS_MAVLink/include_v1.0/ardupilotmega/mavlink.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\mavlink_types.h
+	<inttypes.h>
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\common_avr\serial_driver.h
+	"../../nextsteprc.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink.h
+	"version.h"
+	"ardupilotmega.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\version.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\ardupilotmega.h
+	"../protocol.h"
+	"../common/common.h"
+	"./mavlink_msg_sensor_offsets.h"
+	"./mavlink_msg_set_mag_offsets.h"
+	"./mavlink_msg_meminfo.h"
+	"./mavlink_msg_ap_adc.h"
+	"./mavlink_msg_digicam_configure.h"
+	"./mavlink_msg_digicam_control.h"
+	"./mavlink_msg_mount_configure.h"
+	"./mavlink_msg_mount_control.h"
+	"./mavlink_msg_mount_status.h"
+	"./mavlink_msg_fence_point.h"
+	"./mavlink_msg_fence_fetch_point.h"
+	"./mavlink_msg_fence_status.h"
+	"./mavlink_msg_ahrs.h"
+	"./mavlink_msg_simstate.h"
+	"./mavlink_msg_hwstatus.h"
+	"./mavlink_msg_radio.h"
+	"./mavlink_msg_limits_status.h"
+	"./mavlink_msg_wind.h"
+	"./mavlink_msg_data16.h"
+	"./mavlink_msg_data32.h"
+	"./mavlink_msg_data64.h"
+	"./mavlink_msg_data96.h"
+	"./mavlink_msg_rangefinder.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\protocol.h
+	"string.h"
+	"mavlink_types.h"
+	"mavlink_helpers.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\mavlink_helpers.h
+	"string.h"
+	"checksum.h"
+	"mavlink_types.h"
+	"mavlink_conversions.h"
+	"mavlink_types.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\checksum.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\mavlink_conversions.h
+	<math.h>
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\common.h
+	"../protocol.h"
+	"./mavlink_msg_heartbeat.h"
+	"./mavlink_msg_sys_status.h"
+	"./mavlink_msg_system_time.h"
+	"./mavlink_msg_ping.h"
+	"./mavlink_msg_change_operator_control.h"
+	"./mavlink_msg_change_operator_control_ack.h"
+	"./mavlink_msg_auth_key.h"
+	"./mavlink_msg_set_mode.h"
+	"./mavlink_msg_param_request_read.h"
+	"./mavlink_msg_param_request_list.h"
+	"./mavlink_msg_param_value.h"
+	"./mavlink_msg_param_set.h"
+	"./mavlink_msg_gps_raw_int.h"
+	"./mavlink_msg_gps_status.h"
+	"./mavlink_msg_scaled_imu.h"
+	"./mavlink_msg_raw_imu.h"
+	"./mavlink_msg_raw_pressure.h"
+	"./mavlink_msg_scaled_pressure.h"
+	"./mavlink_msg_attitude.h"
+	"./mavlink_msg_attitude_quaternion.h"
+	"./mavlink_msg_local_position_ned.h"
+	"./mavlink_msg_global_position_int.h"
+	"./mavlink_msg_rc_channels_scaled.h"
+	"./mavlink_msg_rc_channels_raw.h"
+	"./mavlink_msg_servo_output_raw.h"
+	"./mavlink_msg_mission_request_partial_list.h"
+	"./mavlink_msg_mission_write_partial_list.h"
+	"./mavlink_msg_mission_item.h"
+	"./mavlink_msg_mission_request.h"
+	"./mavlink_msg_mission_set_current.h"
+	"./mavlink_msg_mission_current.h"
+	"./mavlink_msg_mission_request_list.h"
+	"./mavlink_msg_mission_count.h"
+	"./mavlink_msg_mission_clear_all.h"
+	"./mavlink_msg_mission_item_reached.h"
+	"./mavlink_msg_mission_ack.h"
+	"./mavlink_msg_set_gps_global_origin.h"
+	"./mavlink_msg_gps_global_origin.h"
+	"./mavlink_msg_set_local_position_setpoint.h"
+	"./mavlink_msg_local_position_setpoint.h"
+	"./mavlink_msg_global_position_setpoint_int.h"
+	"./mavlink_msg_set_global_position_setpoint_int.h"
+	"./mavlink_msg_safety_set_allowed_area.h"
+	"./mavlink_msg_safety_allowed_area.h"
+	"./mavlink_msg_set_roll_pitch_yaw_thrust.h"
+	"./mavlink_msg_set_roll_pitch_yaw_speed_thrust.h"
+	"./mavlink_msg_roll_pitch_yaw_thrust_setpoint.h"
+	"./mavlink_msg_roll_pitch_yaw_speed_thrust_setpoint.h"
+	"./mavlink_msg_set_quad_motors_setpoint.h"
+	"./mavlink_msg_set_quad_swarm_roll_pitch_yaw_thrust.h"
+	"./mavlink_msg_nav_controller_output.h"
+	"./mavlink_msg_set_quad_swarm_led_roll_pitch_yaw_thrust.h"
+	"./mavlink_msg_state_correction.h"
+	"./mavlink_msg_request_data_stream.h"
+	"./mavlink_msg_data_stream.h"
+	"./mavlink_msg_manual_control.h"
+	"./mavlink_msg_rc_channels_override.h"
+	"./mavlink_msg_vfr_hud.h"
+	"./mavlink_msg_command_long.h"
+	"./mavlink_msg_command_ack.h"
+	"./mavlink_msg_roll_pitch_yaw_rates_thrust_setpoint.h"
+	"./mavlink_msg_manual_setpoint.h"
+	"./mavlink_msg_local_position_ned_system_global_offset.h"
+	"./mavlink_msg_hil_state.h"
+	"./mavlink_msg_hil_controls.h"
+	"./mavlink_msg_hil_rc_inputs_raw.h"
+	"./mavlink_msg_optical_flow.h"
+	"./mavlink_msg_global_vision_position_estimate.h"
+	"./mavlink_msg_vision_position_estimate.h"
+	"./mavlink_msg_vision_speed_estimate.h"
+	"./mavlink_msg_vicon_position_estimate.h"
+	"./mavlink_msg_highres_imu.h"
+	"./mavlink_msg_omnidirectional_flow.h"
+	"./mavlink_msg_hil_sensor.h"
+	"./mavlink_msg_sim_state.h"
+	"./mavlink_msg_radio_status.h"
+	"./mavlink_msg_file_transfer_start.h"
+	"./mavlink_msg_file_transfer_dir_list.h"
+	"./mavlink_msg_file_transfer_res.h"
+	"./mavlink_msg_hil_gps.h"
+	"./mavlink_msg_hil_optical_flow.h"
+	"./mavlink_msg_hil_state_quaternion.h"
+	"./mavlink_msg_battery_status.h"
+	"./mavlink_msg_setpoint_8dof.h"
+	"./mavlink_msg_setpoint_6dof.h"
+	"./mavlink_msg_memory_vect.h"
+	"./mavlink_msg_debug_vect.h"
+	"./mavlink_msg_named_value_float.h"
+	"./mavlink_msg_named_value_int.h"
+	"./mavlink_msg_statustext.h"
+	"./mavlink_msg_debug.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_heartbeat.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_sys_status.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_system_time.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_ping.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_change_operator_control.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_change_operator_control_ack.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_auth_key.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_mode.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_param_request_read.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_param_request_list.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_param_value.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_param_set.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_gps_raw_int.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_gps_status.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_scaled_imu.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_raw_imu.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_raw_pressure.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_scaled_pressure.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_attitude.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_attitude_quaternion.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_local_position_ned.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_global_position_int.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_rc_channels_scaled.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_rc_channels_raw.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_servo_output_raw.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_request_partial_list.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_write_partial_list.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_item.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_request.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_set_current.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_current.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_request_list.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_count.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_clear_all.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_item_reached.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_ack.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_gps_global_origin.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_gps_global_origin.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_local_position_setpoint.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_local_position_setpoint.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_global_position_setpoint_int.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_global_position_setpoint_int.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_safety_set_allowed_area.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_safety_allowed_area.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_roll_pitch_yaw_thrust.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_roll_pitch_yaw_speed_thrust.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_roll_pitch_yaw_thrust_setpoint.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_roll_pitch_yaw_speed_thrust_setpoint.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_quad_motors_setpoint.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_quad_swarm_roll_pitch_yaw_thrust.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_nav_controller_output.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_quad_swarm_led_roll_pitch_yaw_thrust.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_state_correction.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_request_data_stream.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_data_stream.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_manual_control.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_rc_channels_override.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_vfr_hud.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_command_long.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_command_ack.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_roll_pitch_yaw_rates_thrust_setpoint.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_manual_setpoint.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_local_position_ned_system_global_offset.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_state.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_controls.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_rc_inputs_raw.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_optical_flow.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_global_vision_position_estimate.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_vision_position_estimate.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_vision_speed_estimate.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_vicon_position_estimate.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_highres_imu.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_omnidirectional_flow.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_sensor.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_sim_state.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_radio_status.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_file_transfer_start.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_file_transfer_dir_list.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_file_transfer_res.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_gps.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_optical_flow.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_state_quaternion.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_battery_status.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_setpoint_8dof.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_setpoint_6dof.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_memory_vect.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_debug_vect.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_named_value_float.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_named_value_int.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_statustext.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_debug.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_sensor_offsets.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_set_mag_offsets.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_meminfo.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_ap_adc.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_digicam_configure.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_digicam_control.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_mount_configure.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_mount_control.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_mount_status.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_fence_point.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_fence_fetch_point.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_fence_status.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_ahrs.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_simstate.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_hwstatus.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_radio.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_limits_status.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_wind.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_data16.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_data32.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_data64.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_data96.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_rangefinder.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\audio_avr.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\buzzer.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\stock\voice.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\gruvin9x\somo14d.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\mega2560\voice.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\translations.h
+	"translations/fr.h"
+	"translations/it.h"
+	"translations/se.h"
+	"translations/fi.h"
+	"translations/de.h"
+	"translations/cz.h"
+	"translations/es.h"
+	"translations/pl.h"
+	"translations/pt.h"
+	"translations/nl.h"
+	"translations/en.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\translations\fr.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\translations\it.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\translations\se.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\translations\fi.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\translations\de.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\translations\cz.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\translations\es.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\translations\pl.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\translations\pt.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\translations\nl.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\translations\en.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\fonts.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\haptic.h
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\sdcard.h
+	"thirdparty/FatFs/ff.h"
+	"translations.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\fatfs\ff.h
+	"integer.h"
+	"ffconf.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\fatfs\integer.h
+	<windows.h>
+	<tchar.h>
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\fatfs\ffconf.h
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\bin_allocator.cpp
+	<stdlib.h>
+	<string.h>
+	"nextsteprc.h"
+	"bin_allocator.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\bin_allocator.h
+	"debug.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\buzzer.cpp
+	"nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\crc16.cpp
+	"nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\curves.cpp
+	"nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\debug.cpp
+	"nextsteprc.h"
+	<stdarg.h>
+	"stamp-nextsteprc.h"
+
+1474445787 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\stamp-nextsteprc.h
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\eeprom_common.cpp
+	<stdint.h>
+	<inttypes.h>
+	<string.h>
+	"nextsteprc.h"
+	"timers.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\timers.h
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\eeprom_rlc.cpp
+	<inttypes.h>
+	<string.h>
+	"timers.h"
+	"eeprom_rlc.h"
+	"targets/simu/simu_interface.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\functions.cpp
+	"nextsteprc.h"
+	"timers.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\fonts.cpp
+	"../nextsteprc.h"
+	"../fonts/std/font_05x07_avr.lbm"
+	"../fonts/std/font_de_05x07.lbm"
+	"../fonts/std/font_cz_05x07.lbm"
+	"../fonts/std/font_es_05x07.lbm"
+	"../fonts/std/font_fi_05x07.lbm"
+	"../fonts/std/font_fr_05x07.lbm"
+	"../fonts/std/font_it_05x07.lbm"
+	"../fonts/std/font_pl_05x07.lbm"
+	"../fonts/std/font_pt_05x07.lbm"
+	"../fonts/std/font_se_05x07.lbm"
+	"../fonts/std/font_05x07_B_compressed.lbm"
+	"../fonts/std/font_10x14_compressed.lbm"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\fonts\std\font_05x07_avr.lbm
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\fonts\std\font_de_05x07.lbm
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\fonts\std\font_cz_05x07.lbm
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\fonts\std\font_es_05x07.lbm
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\fonts\std\font_fi_05x07.lbm
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\fonts\std\font_fr_05x07.lbm
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\fonts\std\font_it_05x07.lbm
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\fonts\std\font_pl_05x07.lbm
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\fonts\std\font_pt_05x07.lbm
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\fonts\std\font_se_05x07.lbm
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\fonts\std\font_05x07_b_compressed.lbm
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\fonts\std\font_10x14_compressed.lbm
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\lcd.cpp
+	"../nextsteprc.h"
+	"../timers.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_general.cpp
+	"../nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_general_calib.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_general.h
+	"../bitmaps/sticks.lbm"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\bitmaps\sticks.lbm
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_general_diaganas.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_general_diagkeys.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_general_sdmanager.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_general_setup.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_general_trainer.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_general_version.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_model.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_model.h
+	"view_mavlink.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\view_mavlink.h
+	"../nextsteprc.h"
+	"../telemetry/mavlink.h"
+	"menus.h"
+	"../targets/common_avr/serial_driver.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_model_curves.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_model_custom_functions.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+	"widgets.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\widgets.h
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_model_flightmodes.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_model_heli.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_model_inputs_mixes.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+	"widgets.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_model_limits.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_model_logical_switches.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_model_select.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+	"../sdcard.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_model_setup.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_model_telemetry.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menu_model_templates.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\menus.cpp
+	"../nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\navigation.cpp
+	"../nextsteprc.h"
+	"navigation.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\popups.cpp
+	"../nextsteprc.h"
+	"popups.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\popups.h
+	"menus.h"
+	"../bitmaps/asterisk.lbm"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\bitmaps\asterisk.lbm
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\splash.cpp
+	"../nextsteprc.h"
+	"../bitmaps/splash.lbm"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\bitmaps\splash.lbm
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\view_main.cpp
+	"../nextsteprc.h"
+	"../timers.h"
+	"widgets.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\view_mavlink.cpp
+	"view_mavlink.h"
+	"../translations.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\view_statistics.cpp
+	"../nextsteprc.h"
+	"../timers.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\view_telemetry.cpp
+	"../nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\view_text.cpp
+	"../nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\gui\widgets.cpp
+	"../nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\haptic.cpp
+	"nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\i2c_master.cpp
+	<avr/io.h>
+	<util/twi.h>
+	"i2c_master.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\i2c_master.h
+	"nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\keys.cpp
+	"nextsteprc.h"
+	"keys.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\logs.cpp
+	"nextsteprc.h"
+	"thirdparty/FatFs/ff.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\main_avr.cpp
+	"nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\maths.cpp
+	"nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\mixer.cpp
+	"nextsteprc.h"
+	"timers.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\nextsteprc.cpp
+	"nextsteprc.h"
+	"timers.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\pulses\pulses_avr.cpp
+	"../nextsteprc.h"
+	<util/setbaud.h>
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\rtc.cpp
+	<limits.h>
+	"rtc.h"
+	"nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\sdcard.cpp
+	<stdint.h>
+	"thirdparty/FatFs/diskio.h"
+	"thirdparty/FatFs/ff.h"
+	"nextsteprc.h"
+	"gui/popups.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\fatfs\diskio.h
+	"integer.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\stamp.cpp
+	"nextsteprc.h"
+	"stamp-nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\strhelpers.cpp
+	"nextsteprc.h"
+	"rtc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\switches.cpp
+	"nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\common_avr\adc_driver.cpp
+	"../../nextsteprc.h"
+	"../simu/simu_interface.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\common_avr\serial_driver.cpp
+	"serial_driver.h"
+	"board_avr.h"
+	<util/setbaud.h>
+	<util/setbaud.h>
+	<util/setbaud.h>
+	<util/setbaud.h>
+	<util/setbaud.h>
+	<util/setbaud.h>
+	<util/setbaud.h>
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\common_avr\telemetry_driver.cpp
+	"../../nextsteprc.h"
+	<util/setbaud.h>
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\gruvin9x\diskio.cpp
+	"../../nextsteprc.h"
+	"../../thirdparty/FatFs/diskio.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\gruvin9x\rtc_driver.cpp
+	"../../nextsteprc.h"
+	"../../thirdparty/FatFs/integer.h"
+	"../../i2c_master.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\mega2560\board_mega2560.cpp
+	"../../i2c_master.h"
+	"board_mega2560.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\mega2560\voice_jq6500.cpp
+	"../../nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\simu\simu_interface.cpp
+	"../../nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\stock\lcd_driver.cpp
+	"../../nextsteprc.h"
+	"lcd_simu_driver.cpp"
+	"targets/stock/lcd_ks108_driver.cpp"
+	"targets/stock/lcd_st7920_driver.cpp"
+	"targets/stock/lcd_ssd1306_driver.cpp"
+	"targets/stock/lcd_default_driver.cpp"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\stock\lcd_simu_driver.cpp
+	"../../nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\targets\stock\lcd_simu_driver.cpp
+	"../../nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\telemetry\frsky.cpp
+	"../nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\telemetry\frsky_d.cpp
+	"../nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\telemetry\nmea.cpp
+	"../nextsteprc.h"
+	<util/setbaud.h>
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\templates.cpp
+	"nextsteprc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\fatfs\fattime.c
+	"integer.h"
+	"../../rtc.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\fatfs\ff.c
+	"ff.h"
+	"diskio.h"
+	"../../nextsteprc.h"
+	<stdarg.h>
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\fatfs\option\ccsbcs.c
+	"../ff.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\fatfs\option\syscall.c
+	"../ff.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\fatfs\option\unicode.c
+	"../ff.h"
+	"cc932.c"
+	"cc936.c"
+	"cc949.c"
+	"cc950.c"
+	"ccsbcs.c"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\fatfs\option\cc932.c
+	"../ff.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\fatfs\option\cc936.c
+	"../ff.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\fatfs\option\cc949.c
+	"../ff.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\fatfs\option\cc950.c
+	"../ff.h"
+
+1474441890 c:\users\manue\desktop\nextsteprc_builder\nextsteprc\thirdparty\fatfs\option\ccsbcs.c
+	"../ff.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\timers.cpp
+	"nextsteprc.h"
+	"timers.h"
+
+1474441890 source:c:\users\manue\desktop\nextsteprc_builder\nextsteprc\translations.cpp
+	"nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\audio_avr.cpp
+	"nextsteprc.h"
+
+1474582232 c:\nextsteprc_builder\nextsteprc\nextsteprc.h
+	<inttypes.h>
+	<string.h>
+	<stddef.h>
+	<stdlib.h>
+	<avr/pgmspace.h>
+	"../pgmtypes.h"
+	<stdbool.h>
+	"targets/simu/simu_interface.h"
+	"targets/mega2560/board_mega2560.h"
+	"trainer_input.h"
+	"targets/common_avr/board_avr.h"
+	"myeeprom.h"
+	"gui/menus.h"
+	"gui/lcd.h"
+	"gui/navigation.h"
+	"rtc.h"
+	"gui/menus.h"
+	"debug.h"
+	<avr/io.h>
+	<avr/eeprom.h>
+	<avr/sleep.h>
+	<avr/interrupt.h>
+	<util/delay.h>
+	<avr/wdt.h>
+	"eeprom_common.h"
+	"eeprom_rlc.h"
+	"eeprom_raw.h"
+	"pulses/pulses.h"
+	"gui/gui.h"
+	"templates.h"
+	"keys.h"
+	"pwr.h"
+	"trainer_input.h"
+	"telemetry/frsky.h"
+	"telemetry/jeti.h"
+	"telemetry/ardupilot.h"
+	"telemetry/nmea.h"
+	"telemetry/mavlink.h"
+	"audio_avr.h"
+	"buzzer.h"
+	"targets/stock/voice.h"
+	"targets/gruvin9x/somo14d.h"
+	"targets/mega2560/voice.h"
+	"translations.h"
+	"fonts.h"
+	"haptic.h"
+	"sdcard.h"
+	"rtc.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\trainer_input.h
+	"myeeprom.h"
+
+1474447092 c:\nextsteprc_builder\nextsteprc\myeeprom.h
+	<inttypes.h>
+
+1474441890 c:\nextsteprc_builder\nextsteprc\targets\common_avr\board_avr.h
+	"../gruvin9x/board_gruvin9x.h"
+	"../mega2560/board_mega2560.h"
+	"../stock/board_stock.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\targets\gruvin9x\board_gruvin9x.h
+	"../common_avr/board_avr.h"
+
+1474554526 c:\nextsteprc_builder\nextsteprc\targets\mega2560\board_mega2560.h
+	"../common_avr/board_avr.h"
+	"../../nextsteprc.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\targets\stock\board_stock.h
+	"../common_avr/board_avr.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\gui\menus.h
+	"../myeeprom.h"
+	"lcd.h"
+
+1474447036 c:\nextsteprc_builder\nextsteprc\gui\lcd.h
+	"../nextsteprc.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\gui\navigation.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\rtc.h
+	<inttypes.h>
+
+1474441890 c:\nextsteprc_builder\nextsteprc\debug.h
+	<inttypes.h>
+	"rtc.h"
+	"cli.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\eeprom_common.h
+
+1474570332 c:\nextsteprc_builder\nextsteprc\eeprom_rlc.h
+	"nextsteprc.h"
+	"timers.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\pulses\pulses.h
+	"pulses_avr.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\pulses\pulses_avr.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\gui\gui.h
+	"lcd.h"
+	"menus.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\templates.h
+	<inttypes.h>
+
+1474441890 c:\nextsteprc_builder\nextsteprc\keys.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\pwr.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\telemetry\frsky.h
+	<inttypes.h>
+	"../nextsteprc.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\telemetry\jeti.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\telemetry\ardupilot.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\telemetry\nmea.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\telemetry\mavlink.h
+	"../thirdparty/GCS_MAVLink/include_v1.0/mavlink_types.h"
+	"../targets/common_avr/serial_driver.h"
+	"../nextsteprc.h"
+	"../thirdparty/GCS_MAVLink/include_v1.0/ardupilotmega/mavlink.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\mavlink_types.h
+	<inttypes.h>
+
+1474441890 c:\nextsteprc_builder\nextsteprc\targets\common_avr\serial_driver.h
+	"../../nextsteprc.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink.h
+	"version.h"
+	"ardupilotmega.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\version.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\ardupilotmega.h
+	"../protocol.h"
+	"../common/common.h"
+	"./mavlink_msg_sensor_offsets.h"
+	"./mavlink_msg_set_mag_offsets.h"
+	"./mavlink_msg_meminfo.h"
+	"./mavlink_msg_ap_adc.h"
+	"./mavlink_msg_digicam_configure.h"
+	"./mavlink_msg_digicam_control.h"
+	"./mavlink_msg_mount_configure.h"
+	"./mavlink_msg_mount_control.h"
+	"./mavlink_msg_mount_status.h"
+	"./mavlink_msg_fence_point.h"
+	"./mavlink_msg_fence_fetch_point.h"
+	"./mavlink_msg_fence_status.h"
+	"./mavlink_msg_ahrs.h"
+	"./mavlink_msg_simstate.h"
+	"./mavlink_msg_hwstatus.h"
+	"./mavlink_msg_radio.h"
+	"./mavlink_msg_limits_status.h"
+	"./mavlink_msg_wind.h"
+	"./mavlink_msg_data16.h"
+	"./mavlink_msg_data32.h"
+	"./mavlink_msg_data64.h"
+	"./mavlink_msg_data96.h"
+	"./mavlink_msg_rangefinder.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\protocol.h
+	"string.h"
+	"mavlink_types.h"
+	"mavlink_helpers.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\mavlink_helpers.h
+	"string.h"
+	"checksum.h"
+	"mavlink_types.h"
+	"mavlink_conversions.h"
+	"mavlink_types.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\checksum.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\mavlink_conversions.h
+	<math.h>
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\common.h
+	"../protocol.h"
+	"./mavlink_msg_heartbeat.h"
+	"./mavlink_msg_sys_status.h"
+	"./mavlink_msg_system_time.h"
+	"./mavlink_msg_ping.h"
+	"./mavlink_msg_change_operator_control.h"
+	"./mavlink_msg_change_operator_control_ack.h"
+	"./mavlink_msg_auth_key.h"
+	"./mavlink_msg_set_mode.h"
+	"./mavlink_msg_param_request_read.h"
+	"./mavlink_msg_param_request_list.h"
+	"./mavlink_msg_param_value.h"
+	"./mavlink_msg_param_set.h"
+	"./mavlink_msg_gps_raw_int.h"
+	"./mavlink_msg_gps_status.h"
+	"./mavlink_msg_scaled_imu.h"
+	"./mavlink_msg_raw_imu.h"
+	"./mavlink_msg_raw_pressure.h"
+	"./mavlink_msg_scaled_pressure.h"
+	"./mavlink_msg_attitude.h"
+	"./mavlink_msg_attitude_quaternion.h"
+	"./mavlink_msg_local_position_ned.h"
+	"./mavlink_msg_global_position_int.h"
+	"./mavlink_msg_rc_channels_scaled.h"
+	"./mavlink_msg_rc_channels_raw.h"
+	"./mavlink_msg_servo_output_raw.h"
+	"./mavlink_msg_mission_request_partial_list.h"
+	"./mavlink_msg_mission_write_partial_list.h"
+	"./mavlink_msg_mission_item.h"
+	"./mavlink_msg_mission_request.h"
+	"./mavlink_msg_mission_set_current.h"
+	"./mavlink_msg_mission_current.h"
+	"./mavlink_msg_mission_request_list.h"
+	"./mavlink_msg_mission_count.h"
+	"./mavlink_msg_mission_clear_all.h"
+	"./mavlink_msg_mission_item_reached.h"
+	"./mavlink_msg_mission_ack.h"
+	"./mavlink_msg_set_gps_global_origin.h"
+	"./mavlink_msg_gps_global_origin.h"
+	"./mavlink_msg_set_local_position_setpoint.h"
+	"./mavlink_msg_local_position_setpoint.h"
+	"./mavlink_msg_global_position_setpoint_int.h"
+	"./mavlink_msg_set_global_position_setpoint_int.h"
+	"./mavlink_msg_safety_set_allowed_area.h"
+	"./mavlink_msg_safety_allowed_area.h"
+	"./mavlink_msg_set_roll_pitch_yaw_thrust.h"
+	"./mavlink_msg_set_roll_pitch_yaw_speed_thrust.h"
+	"./mavlink_msg_roll_pitch_yaw_thrust_setpoint.h"
+	"./mavlink_msg_roll_pitch_yaw_speed_thrust_setpoint.h"
+	"./mavlink_msg_set_quad_motors_setpoint.h"
+	"./mavlink_msg_set_quad_swarm_roll_pitch_yaw_thrust.h"
+	"./mavlink_msg_nav_controller_output.h"
+	"./mavlink_msg_set_quad_swarm_led_roll_pitch_yaw_thrust.h"
+	"./mavlink_msg_state_correction.h"
+	"./mavlink_msg_request_data_stream.h"
+	"./mavlink_msg_data_stream.h"
+	"./mavlink_msg_manual_control.h"
+	"./mavlink_msg_rc_channels_override.h"
+	"./mavlink_msg_vfr_hud.h"
+	"./mavlink_msg_command_long.h"
+	"./mavlink_msg_command_ack.h"
+	"./mavlink_msg_roll_pitch_yaw_rates_thrust_setpoint.h"
+	"./mavlink_msg_manual_setpoint.h"
+	"./mavlink_msg_local_position_ned_system_global_offset.h"
+	"./mavlink_msg_hil_state.h"
+	"./mavlink_msg_hil_controls.h"
+	"./mavlink_msg_hil_rc_inputs_raw.h"
+	"./mavlink_msg_optical_flow.h"
+	"./mavlink_msg_global_vision_position_estimate.h"
+	"./mavlink_msg_vision_position_estimate.h"
+	"./mavlink_msg_vision_speed_estimate.h"
+	"./mavlink_msg_vicon_position_estimate.h"
+	"./mavlink_msg_highres_imu.h"
+	"./mavlink_msg_omnidirectional_flow.h"
+	"./mavlink_msg_hil_sensor.h"
+	"./mavlink_msg_sim_state.h"
+	"./mavlink_msg_radio_status.h"
+	"./mavlink_msg_file_transfer_start.h"
+	"./mavlink_msg_file_transfer_dir_list.h"
+	"./mavlink_msg_file_transfer_res.h"
+	"./mavlink_msg_hil_gps.h"
+	"./mavlink_msg_hil_optical_flow.h"
+	"./mavlink_msg_hil_state_quaternion.h"
+	"./mavlink_msg_battery_status.h"
+	"./mavlink_msg_setpoint_8dof.h"
+	"./mavlink_msg_setpoint_6dof.h"
+	"./mavlink_msg_memory_vect.h"
+	"./mavlink_msg_debug_vect.h"
+	"./mavlink_msg_named_value_float.h"
+	"./mavlink_msg_named_value_int.h"
+	"./mavlink_msg_statustext.h"
+	"./mavlink_msg_debug.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_heartbeat.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_sys_status.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_system_time.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_ping.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_change_operator_control.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_change_operator_control_ack.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_auth_key.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_mode.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_param_request_read.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_param_request_list.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_param_value.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_param_set.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_gps_raw_int.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_gps_status.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_scaled_imu.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_raw_imu.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_raw_pressure.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_scaled_pressure.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_attitude.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_attitude_quaternion.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_local_position_ned.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_global_position_int.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_rc_channels_scaled.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_rc_channels_raw.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_servo_output_raw.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_request_partial_list.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_write_partial_list.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_item.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_request.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_set_current.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_current.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_request_list.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_count.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_clear_all.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_item_reached.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_ack.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_gps_global_origin.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_gps_global_origin.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_local_position_setpoint.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_local_position_setpoint.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_global_position_setpoint_int.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_global_position_setpoint_int.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_safety_set_allowed_area.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_safety_allowed_area.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_roll_pitch_yaw_thrust.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_roll_pitch_yaw_speed_thrust.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_roll_pitch_yaw_thrust_setpoint.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_roll_pitch_yaw_speed_thrust_setpoint.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_quad_motors_setpoint.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_quad_swarm_roll_pitch_yaw_thrust.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_nav_controller_output.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_quad_swarm_led_roll_pitch_yaw_thrust.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_state_correction.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_request_data_stream.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_data_stream.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_manual_control.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_rc_channels_override.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_vfr_hud.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_command_long.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_command_ack.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_roll_pitch_yaw_rates_thrust_setpoint.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_manual_setpoint.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_local_position_ned_system_global_offset.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_state.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_controls.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_rc_inputs_raw.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_optical_flow.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_global_vision_position_estimate.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_vision_position_estimate.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_vision_speed_estimate.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_vicon_position_estimate.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_highres_imu.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_omnidirectional_flow.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_sensor.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_sim_state.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_radio_status.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_file_transfer_start.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_file_transfer_dir_list.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_file_transfer_res.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_gps.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_optical_flow.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_state_quaternion.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_battery_status.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_setpoint_8dof.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_setpoint_6dof.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_memory_vect.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_debug_vect.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_named_value_float.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_named_value_int.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_statustext.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_debug.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_sensor_offsets.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_set_mag_offsets.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_meminfo.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_ap_adc.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_digicam_configure.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_digicam_control.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_mount_configure.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_mount_control.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_mount_status.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_fence_point.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_fence_fetch_point.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_fence_status.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_ahrs.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_simstate.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_hwstatus.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_radio.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_limits_status.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_wind.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_data16.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_data32.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_data64.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_data96.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_rangefinder.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\audio_avr.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\buzzer.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\targets\stock\voice.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\targets\gruvin9x\somo14d.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\targets\mega2560\voice.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\translations.h
+	"translations/fr.h"
+	"translations/it.h"
+	"translations/se.h"
+	"translations/fi.h"
+	"translations/de.h"
+	"translations/cz.h"
+	"translations/es.h"
+	"translations/pl.h"
+	"translations/pt.h"
+	"translations/nl.h"
+	"translations/en.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\translations\fr.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\translations\it.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\translations\se.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\translations\fi.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\translations\de.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\translations\cz.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\translations\es.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\translations\pl.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\translations\pt.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\translations\nl.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\translations\en.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\fonts.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\haptic.h
+
+1474441890 c:\nextsteprc_builder\nextsteprc\sdcard.h
+	"thirdparty/FatFs/ff.h"
+	"translations.h"
+
+1474585281 c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\ff.h
+	"integer.h"
+	"ffconf.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\integer.h
+	<windows.h>
+	<tchar.h>
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\ffconf.h
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\buzzer.cpp
+	"nextsteprc.h"
+
+1474538071 source:c:\nextsteprc_builder\nextsteprc\crc16.cpp
+	"nextsteprc.h"
+
+1474538091 source:c:\nextsteprc_builder\nextsteprc\curves.cpp
+	"nextsteprc.h"
+
+1474555365 source:c:\nextsteprc_builder\nextsteprc\debug.cpp
+	"nextsteprc.h"
+	<stdarg.h>
+	"stamp-nextsteprc.h"
+
+1474579055 c:\nextsteprc_builder\nextsteprc\stamp-nextsteprc.h
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\eeprom_common.cpp
+	<stdint.h>
+	<inttypes.h>
+	<string.h>
+	"nextsteprc.h"
+	"timers.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\timers.h
+
+1474570332 source:c:\nextsteprc_builder\nextsteprc\eeprom_rlc.cpp
+	"eeprom_rlc.h"
+
+1474584029 c:\nextsteprc_builder\nextsteprc\targets\simu\simu_interface.h
+	<inttypes.h>
+
+1474540663 source:c:\nextsteprc_builder\nextsteprc\functions.cpp
+	"nextsteprc.h"
+	"timers.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\fonts.cpp
+	"../nextsteprc.h"
+	"../fonts/std/font_05x07_avr.lbm"
+	"../fonts/std/font_de_05x07.lbm"
+	"../fonts/std/font_cz_05x07.lbm"
+	"../fonts/std/font_es_05x07.lbm"
+	"../fonts/std/font_fi_05x07.lbm"
+	"../fonts/std/font_fr_05x07.lbm"
+	"../fonts/std/font_it_05x07.lbm"
+	"../fonts/std/font_pl_05x07.lbm"
+	"../fonts/std/font_pt_05x07.lbm"
+	"../fonts/std/font_se_05x07.lbm"
+	"../fonts/std/font_05x07_B_compressed.lbm"
+	"../fonts/std/font_10x14_compressed.lbm"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\fonts\std\font_05x07_avr.lbm
+
+1474441890 c:\nextsteprc_builder\nextsteprc\fonts\std\font_de_05x07.lbm
+
+1474441890 c:\nextsteprc_builder\nextsteprc\fonts\std\font_cz_05x07.lbm
+
+1474441890 c:\nextsteprc_builder\nextsteprc\fonts\std\font_es_05x07.lbm
+
+1474441890 c:\nextsteprc_builder\nextsteprc\fonts\std\font_fi_05x07.lbm
+
+1474441890 c:\nextsteprc_builder\nextsteprc\fonts\std\font_fr_05x07.lbm
+
+1474441890 c:\nextsteprc_builder\nextsteprc\fonts\std\font_it_05x07.lbm
+
+1474441890 c:\nextsteprc_builder\nextsteprc\fonts\std\font_pl_05x07.lbm
+
+1474441890 c:\nextsteprc_builder\nextsteprc\fonts\std\font_pt_05x07.lbm
+
+1474441890 c:\nextsteprc_builder\nextsteprc\fonts\std\font_se_05x07.lbm
+
+1474441890 c:\nextsteprc_builder\nextsteprc\fonts\std\font_05x07_b_compressed.lbm
+
+1474441890 c:\nextsteprc_builder\nextsteprc\fonts\std\font_10x14_compressed.lbm
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\lcd.cpp
+	"../nextsteprc.h"
+	"../timers.h"
+
+1474555844 source:c:\nextsteprc_builder\nextsteprc\gui\menu_general.cpp
+	"menu_general.h"
+
+1474556831 source:c:\nextsteprc_builder\nextsteprc\gui\menu_general_calib.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474555844 c:\nextsteprc_builder\nextsteprc\gui\menu_general.h
+	"../nextsteprc.h"
+	"../bitmaps/sticks.lbm"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\bitmaps\sticks.lbm
+
+1474571219 source:c:\nextsteprc_builder\nextsteprc\gui\menu_general_diaganas.cpp
+	"menu_general.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_general_diagkeys.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_general_sdmanager.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_general_setup.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_general_trainer.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_general_version.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_model.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\gui\menu_model.h
+	"view_mavlink.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\gui\view_mavlink.h
+	"../nextsteprc.h"
+	"../telemetry/mavlink.h"
+	"menus.h"
+	"../targets/common_avr/serial_driver.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_model_curves.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_model_custom_functions.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+	"widgets.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\gui\widgets.h
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_model_flightmodes.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_model_heli.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_model_inputs_mixes.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+	"widgets.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_model_limits.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_model_logical_switches.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_model_select.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+	"../sdcard.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_model_setup.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_model_telemetry.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menu_model_templates.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\menus.cpp
+	"../nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\navigation.cpp
+	"../nextsteprc.h"
+	"navigation.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\popups.cpp
+	"../nextsteprc.h"
+	"popups.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\gui\popups.h
+	"menus.h"
+	"../bitmaps/asterisk.lbm"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\bitmaps\asterisk.lbm
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\splash.cpp
+	"../nextsteprc.h"
+	"../bitmaps/splash.lbm"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\bitmaps\splash.lbm
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\view_main.cpp
+	"../nextsteprc.h"
+	"../timers.h"
+	"widgets.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\view_mavlink.cpp
+	"view_mavlink.h"
+	"../translations.h"
+
+1474571891 source:c:\nextsteprc_builder\nextsteprc\gui\view_statistics.cpp
+	"menu_general.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\view_telemetry.cpp
+	"../nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\view_text.cpp
+	"../nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\gui\widgets.cpp
+	"../nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\haptic.cpp
+	"nextsteprc.h"
+
+1474581213 source:c:\nextsteprc_builder\nextsteprc\i2c_master.cpp
+	<avr/io.h>
+	<util/twi.h>
+	"i2c_master.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\i2c_master.h
+	"nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\keys.cpp
+	"nextsteprc.h"
+	"keys.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\logs.cpp
+	"nextsteprc.h"
+	"thirdparty/FatFs/ff.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\main_avr.cpp
+	"nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\maths.cpp
+	"nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\mixer.cpp
+	"nextsteprc.h"
+	"timers.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\pulses\pulses_avr.cpp
+	"../nextsteprc.h"
+	<util/setbaud.h>
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\rtc.cpp
+	<limits.h>
+	"rtc.h"
+	"nextsteprc.h"
+
+1474537079 source:c:\nextsteprc_builder\nextsteprc\sdcard.cpp
+	<stdint.h>
+	"thirdparty/FatFs/diskio.h"
+	"thirdparty/FatFs/ff.h"
+	"nextsteprc.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\diskio.h
+	"integer.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\stamp.cpp
+	"nextsteprc.h"
+	"stamp-nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\strhelpers.cpp
+	"nextsteprc.h"
+	"rtc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\switches.cpp
+	"nextsteprc.h"
+
+1474459185 source:c:\nextsteprc_builder\nextsteprc\targets\common_avr\adc_driver.cpp
+	"../../nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\targets\common_avr\serial_driver.cpp
+	"serial_driver.h"
+	"board_avr.h"
+	<util/setbaud.h>
+	<util/setbaud.h>
+	<util/setbaud.h>
+	<util/setbaud.h>
+	<util/setbaud.h>
+	<util/setbaud.h>
+	<util/setbaud.h>
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\targets\common_avr\telemetry_driver.cpp
+	"../../nextsteprc.h"
+	<util/setbaud.h>
+
+1474571891 source:c:\nextsteprc_builder\nextsteprc\targets\gruvin9x\diskio.cpp
+	"../../nextsteprc.h"
+	"../../thirdparty/FatFs/diskio.h"
+
+1474580996 source:c:\nextsteprc_builder\nextsteprc\targets\gruvin9x\rtc_driver.cpp
+	"../../thirdparty/FatFs/integer.h"
+	"../../i2c_master.h"
+	"../../nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\targets\mega2560\board_mega2560.cpp
+	"../../i2c_master.h"
+	"board_mega2560.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\targets\mega2560\voice_jq6500.cpp
+	"../../nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\targets\stock\lcd_simu_driver.cpp
+	"../../nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\telemetry\frsky.cpp
+	"../nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\telemetry\frsky_d.cpp
+	"../nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\telemetry\nmea.cpp
+	"../nextsteprc.h"
+	<util/setbaud.h>
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\templates.cpp
+	"nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\fattime.c
+	"integer.h"
+	"../../rtc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\ff.c
+	"ff.h"
+	"diskio.h"
+	"../../nextsteprc.h"
+	<stdarg.h>
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\option\syscall.c
+	"../ff.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\option\unicode.c
+	"../ff.h"
+	"cc932.c"
+	"cc936.c"
+	"cc949.c"
+	"cc950.c"
+	"ccsbcs.c"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\option\cc932.c
+	"../ff.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\option\cc936.c
+	"../ff.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\option\cc949.c
+	"../ff.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\option\cc950.c
+	"../ff.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\option\ccsbcs.c
+	"../ff.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\timers.cpp
+	"nextsteprc.h"
+	"timers.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\trainer_input.cpp
+	"trainer_input.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\translations.cpp
+	"nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\translations\tts_fr.cpp
+	"../nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc\vario.cpp
+	"nextsteprc.h"
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc_simulator\nextsteprc_simulatorapp.cpp
+	"NextStepRc_SimulatorApp.h"
+	"NextStepRc_SimulatorMain.h"
+	<wx/image.h>
+
+1474441890 c:\nextsteprc_builder\nextsteprc_simulator\nextsteprc_simulatorapp.h
+	<wx/app.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\app.h
+	"wx/event.h"
+	"wx/eventfilter.h"
+	"wx/build.h"
+	"wx/cmdargs.h"
+	"wx/init.h"
+	"wx/intl.h"
+	"wx/log.h"
+	"wx/unix/app.h"
+	"wx/msw/app.h"
+	"wx/motif/app.h"
+	"wx/dfb/app.h"
+	"wx/gtk/app.h"
+	"wx/gtk1/app.h"
+	"wx/x11/app.h"
+	"wx/osx/app.h"
+	"wx/qt/app.h"
+	"wx/univ/theme.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\event.h
+	"wx/defs.h"
+	"wx/cpp.h"
+	"wx/object.h"
+	"wx/clntdata.h"
+	"wx/gdicmn.h"
+	"wx/cursor.h"
+	"wx/mousestate.h"
+	"wx/dynarray.h"
+	"wx/thread.h"
+	"wx/tracker.h"
+	"wx/typeinfo.h"
+	"wx/any.h"
+	"wx/vector.h"
+	"wx/meta/convertible.h"
+	"wx/meta/removeref.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\defs.h
+	"wx/platform.h"
+	"wx/version.h"
+	"wx/dlimpexp.h"
+	<stddef.h>
+	"wx/debug.h"
+	<sys/types.h>
+	<sys/types.h>
+	"wx/windowid.h"
+	<unistd.h>
+	"wx/qt/defs.h"
+	"wx/msw/winundef.h"
+	"wx/features.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\platform.h
+	<unistd.h>
+	<TargetConditionals.h>
+	<AvailabilityMacros.h>
+	"wx/osx/config_xcode.h"
+	"wx/android/config_android.h"
+	"wx/compiler.h"
+	"wx/setup.h"
+	"wx/msw/libraries.h"
+	"wx/msw/gccpriv.h"
+	<TargetConditionals.h>
+	<AvailabilityMacros.h>
+	"wx/chkconf.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\config_xcode.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\android\config_android.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\compiler.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\lib\gcc_dll\mswu\wx\setup.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\libraries.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\gccpriv.h
+	<_mingw.h>
+	<w32api.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\chkconf.h
+	"wx/msw/chkconf.h"
+	"wx/gtk/chkconf.h"
+	"wx/gtk/chkconf.h"
+	"wx/osx/chkconf.h"
+	"wx/dfb/chkconf.h"
+	"wx/motif/chkconf.h"
+	"wx/x11/chkconf.h"
+	"wx/android/chkconf.h"
+	"wx/unix/chkconf.h"
+	"wx/univ/chkconf.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\chkconf.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\chkconf.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\chkconf.h
+	"wx/osx/iphone/chkconf.h"
+	"wx/osx/cocoa/chkconf.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\iphone\chkconf.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\cocoa\chkconf.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dfb\chkconf.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\chkconf.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\x11\chkconf.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\android\chkconf.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\unix\chkconf.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\chkconf.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\version.h
+	"wx/cpp.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\cpp.h
+	"wx/compiler.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dlimpexp.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\debug.h
+	<assert.h>
+	<limits.h>
+	"wx/chartype.h"
+	"wx/cpp.h"
+	"wx/dlimpexp.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\chartype.h
+	"wx/platform.h"
+	<sys/types.h>
+	<wchar.h>
+	<wcstr.h>
+	<stdlib.h>
+	<widec.h>
+	<ctype.h>
+	<stddef.h>
+	<string.h>
+	<ctype.h>
+	<tchar.h>
+	<ctype.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\windowid.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\defs.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\winundef.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\features.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\object.h
+	"wx/memory.h"
+	"wx/xti.h"
+	"wx/rtti.h"
+	"wx/xti2.h"
+	"wx/msw/msvcrt.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\memory.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/msgout.h"
+	<stddef.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\string.h
+	"wx/defs.h"
+	<ctype.h>
+	<string.h>
+	<stdio.h>
+	<stdarg.h>
+	<limits.h>
+	<stdlib.h>
+	"wx/wxcrtbase.h"
+	"wx/strvararg.h"
+	"wx/buffer.h"
+	"wx/strconv.h"
+	"wx/stringimpl.h"
+	"wx/stringops.h"
+	"wx/unichar.h"
+	"wx/tls.h"
+	<functional>
+	"wx/iosfwrap.h"
+	"wx/crt.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\wxcrtbase.h
+	"wx/chartype.h"
+	<stdio.h>
+	<string.h>
+	<ctype.h>
+	<wctype.h>
+	<time.h>
+	<io.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\strvararg.h
+	"wx/platform.h"
+	"wx/cpp.h"
+	"wx/chartype.h"
+	"wx/strconv.h"
+	"wx/buffer.h"
+	"wx/unichar.h"
+	<type_traits>
+	<type_traits>
+	<tr1/type_traits>
+	"wx/stringimpl.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\strconv.h
+	"wx/defs.h"
+	"wx/chartype.h"
+	"wx/buffer.h"
+	<stdlib.h>
+	"wx/fontenc.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\buffer.h
+	"wx/chartype.h"
+	"wx/wxcrtbase.h"
+	<stdlib.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\fontenc.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\unichar.h
+	"wx/defs.h"
+	"wx/chartype.h"
+	"wx/stringimpl.h"
+	<algorithm>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\stringimpl.h
+	"wx/defs.h"
+	"wx/chartype.h"
+	"wx/wxcrtbase.h"
+	<stdlib.h>
+	"wx/beforestd.h"
+	<string>
+	"wx/afterstd.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\beforestd.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\afterstd.h
+	"wx/msw/winundef.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\stringops.h
+	"wx/chartype.h"
+	"wx/stringimpl.h"
+	"wx/unichar.h"
+	"wx/buffer.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\tls.h
+	"wx/defs.h"
+	"wx/msw/tls.h"
+	"wx/unix/tls.h"
+	<stdlib.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\tls.h
+	"wx/msw/wrapwin.h"
+	"wx/thread.h"
+	"wx/vector.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\wrapwin.h
+	"wx/platform.h"
+	<winsock2.h>
+	<windows.h>
+	"wx/msw/winundef.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\thread.h
+	"wx/defs.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\vector.h
+	"wx/defs.h"
+	<vector>
+	<algorithm>
+	"wx/scopeguard.h"
+	"wx/meta/movable.h"
+	"wx/meta/if.h"
+	"wx/beforestd.h"
+	<new>
+	"wx/afterstd.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\scopeguard.h
+	"wx/defs.h"
+	"wx/except.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\except.h
+	"wx/defs.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\meta\movable.h
+	"wx/meta/pod.h"
+	"wx/string.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\meta\pod.h
+	"wx/defs.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\meta\if.h
+	"wx/defs.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\unix\tls.h
+	<pthread.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\iosfwrap.h
+	<iostream.h>
+	<iosfwd>
+	"wx/msw/winundef.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\crt.h
+	"wx/defs.h"
+	"wx/chartype.h"
+	"wx/wxcrt.h"
+	"wx/wxcrtvararg.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\wxcrt.h
+	"wx/wxcrtbase.h"
+	"wx/string.h"
+	<string.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\wxcrtvararg.h
+	"wx/wxcrt.h"
+	"wx/strvararg.h"
+	"wx/string.h"
+	<stdarg.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msgout.h
+	"wx/defs.h"
+	"wx/chartype.h"
+	"wx/strvararg.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\xti.h
+	"wx/defs.h"
+	"wx/xtitypes.h"
+	"wx/xtihandler.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\xtitypes.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/hashmap.h"
+	"wx/arrstr.h"
+	"wx/flags.h"
+	"wx/intl.h"
+	"wx/log.h"
+	<typeinfo>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\hashmap.h
+	"wx/string.h"
+	"wx/wxcrt.h"
+	<unordered_map>
+	<tr1/unordered_map>
+	<ext/hash_map>
+	<hash_map>
+	<stddef.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\arrstr.h
+	"wx/defs.h"
+	"wx/string.h"
+	<vector>
+	"wx/dynarray.h"
+	"wx/beforestd.h"
+	<iterator>
+	"wx/afterstd.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dynarray.h
+	"wx/defs.h"
+	"wx/beforestd.h"
+	<vector>
+	<algorithm>
+	"wx/afterstd.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\flags.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\intl.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/translation.h"
+	"wx/fontenc.h"
+	"wx/language.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\translation.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/buffer.h"
+	"wx/language.h"
+	"wx/hashmap.h"
+	"wx/strconv.h"
+	"wx/scopedptr.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\language.h
+	"wx/defs.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\scopedptr.h
+	"wx/defs.h"
+	"wx/checkeddelete.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\checkeddelete.h
+	"wx/cpp.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\log.h
+	"wx/defs.h"
+	"wx/cpp.h"
+	"wx/string.h"
+	"wx/strvararg.h"
+	"wx/arrstr.h"
+	<time.h>
+	"wx/dynarray.h"
+	"wx/hashmap.h"
+	"wx/thread.h"
+	"wx/iosfwrap.h"
+	"wx/generic/logg.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\logg.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\xtihandler.h
+	"wx/defs.h"
+	"wx/xti.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\rtti.h
+	"wx/memory.h"
+	"wx/flags.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\xti2.h
+	"wx/xtiprop.h"
+	"wx/xtictor.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\xtiprop.h
+	"wx/defs.h"
+	"wx/xti.h"
+	"wx/any.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\any.h
+	"wx/defs.h"
+	<new>
+	"wx/string.h"
+	"wx/meta/if.h"
+	"wx/typeinfo.h"
+	"wx/list.h"
+	"wx/datetime.h"
+	"wx/variant.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\typeinfo.h
+	"wx/defs.h"
+	<typeinfo>
+	<string.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\list.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/vector.h"
+	"wx/beforestd.h"
+	<algorithm>
+	<iterator>
+	<list>
+	"wx/afterstd.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\datetime.h
+	"wx/defs.h"
+	<time.h>
+	<limits.h>
+	"wx/longlong.h"
+	"wx/anystr.h"
+	"wx/dynarray.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\longlong.h
+	"wx/defs.h"
+	"wx/string.h"
+	<limits.h>
+	"wx/iosfwrap.h"
+	<limits>
+	"wx/strvararg.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\anystr.h
+	"wx/string.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\variant.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/arrstr.h"
+	"wx/list.h"
+	"wx/cpp.h"
+	"wx/longlong.h"
+	"wx/datetime.h"
+	"wx/iosfwrap.h"
+	"wx/any.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\xtictor.h
+	"wx/defs.h"
+	"wx/xti.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\msvcrt.h
+	<stdlib.h>
+	<crtdbg.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\clntdata.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/hashmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gdicmn.h
+	"wx/defs.h"
+	"wx/list.h"
+	"wx/string.h"
+	"wx/fontenc.h"
+	"wx/hashmap.h"
+	"wx/math.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\math.h
+	"wx/defs.h"
+	<math.h>
+	<cmath>
+	<float.h>
+	<ieeefp.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\cursor.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/msw/gdiimage.h"
+	"wx/msw/cursor.h"
+	"wx/motif/cursor.h"
+	"wx/gtk/cursor.h"
+	"wx/gtk1/cursor.h"
+	"wx/x11/cursor.h"
+	"wx/dfb/cursor.h"
+	"wx/osx/cursor.h"
+	"wx/qt/cursor.h"
+	"wx/utils.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gdiobj.h
+	"wx/object.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\gdiimage.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/list.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\cursor.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\cursor.h
+	"wx/gdicmn.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\cursor.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\cursor.h
+	"wx/gdicmn.h"
+	"wx/image.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\image.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/gdicmn.h"
+	"wx/hashmap.h"
+	"wx/arrstr.h"
+	"wx/stream.h"
+	"wx/variant.h"
+	"wx/imagbmp.h"
+	"wx/imagpng.h"
+	"wx/imaggif.h"
+	"wx/imagpcx.h"
+	"wx/imagjpeg.h"
+	"wx/imagtga.h"
+	"wx/imagtiff.h"
+	"wx/imagpnm.h"
+	"wx/imagxpm.h"
+	"wx/imagiff.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\stream.h
+	"wx/defs.h"
+	<stdio.h>
+	"wx/object.h"
+	"wx/string.h"
+	"wx/filefn.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\filefn.h
+	"wx/list.h"
+	"wx/arrstr.h"
+	<time.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<unistd.h>
+	<dirent.h>
+	<direct.h>
+	<dos.h>
+	<io.h>
+	<dir.h>
+	<fcntl.h>
+	<sys/types.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\imagbmp.h
+	"wx/image.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\imagpng.h
+	"wx/defs.h"
+	"wx/image.h"
+	"wx/versioninfo.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\versioninfo.h
+	"wx/string.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\imaggif.h
+	"wx/image.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\imagpcx.h
+	"wx/image.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\imagjpeg.h
+	"wx/defs.h"
+	"wx/image.h"
+	"wx/versioninfo.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\imagtga.h
+	"wx/image.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\imagtiff.h
+	"wx/defs.h"
+	"wx/image.h"
+	"wx/versioninfo.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\imagpnm.h
+	"wx/image.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\imagxpm.h
+	"wx/image.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\imagiff.h
+	"wx/image.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\x11\cursor.h
+	"wx/colour.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\colour.h
+	"wx/defs.h"
+	"wx/gdiobj.h"
+	"wx/variant.h"
+	"wx/msw/colour.h"
+	"wx/motif/colour.h"
+	"wx/gtk/colour.h"
+	"wx/gtk1/colour.h"
+	"wx/generic/colour.h"
+	"wx/x11/colour.h"
+	"wx/osx/colour.h"
+	"wx/qt/colour.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\colour.h
+	"wx/object.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\colour.h
+	"wx/object.h"
+	"wx/string.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\colour.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\colour.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/gdiobj.h"
+	"wx/palette.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\palette.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/gdiobj.h"
+	"wx/msw/palette.h"
+	"wx/x11/palette.h"
+	"wx/generic/paletteg.h"
+	"wx/osx/palette.h"
+	"wx/qt/palette.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\palette.h
+	"wx/gdiobj.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\x11\palette.h
+	"wx/list.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\paletteg.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\palette.h
+	"wx/gdiobj.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\palette.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\colour.h
+	"wx/object.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\x11\colour.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/gdiobj.h"
+	"wx/palette.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\colour.h
+	"wx/osx/core/colour.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\core\colour.h
+	"wx/object.h"
+	"wx/string.h"
+	"wx/osx/core/cfref.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\core\cfref.h
+	<unistd.h>
+	<AvailabilityMacros.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\colour.h
+	<QtGui/QColor>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dfb\cursor.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\cursor.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\bitmap.h
+	"wx/string.h"
+	"wx/gdicmn.h"
+	"wx/colour.h"
+	"wx/image.h"
+	"wx/variant.h"
+	"wx/msw/bitmap.h"
+	"wx/x11/bitmap.h"
+	"wx/gtk/bitmap.h"
+	"wx/gtk1/bitmap.h"
+	"wx/x11/bitmap.h"
+	"wx/dfb/bitmap.h"
+	"wx/osx/bitmap.h"
+	"wx/qt/bitmap.h"
+	"wx/generic/mask.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\bitmap.h
+	"wx/msw/gdiimage.h"
+	"wx/math.h"
+	"wx/palette.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\x11\bitmap.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/palette.h"
+	"wx/gdiobj.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\bitmap.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\bitmap.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/palette.h"
+	"wx/gdiobj.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dfb\bitmap.h
+	"wx/dfb/dfbptr.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dfb\dfbptr.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\bitmap.h
+	"wx/palette.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\bitmap.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\mask.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\cursor.h
+	"wx/image.h"
+	<QtGui/QCursor>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\utils.h
+	"wx/object.h"
+	"wx/list.h"
+	"wx/filefn.h"
+	"wx/hashmap.h"
+	"wx/versioninfo.h"
+	"wx/meta/implicitconversion.h"
+	"wx/gdicmn.h"
+	"wx/mousestate.h"
+	"wx/longlong.h"
+	"wx/platinfo.h"
+	<dirent.h>
+	<unistd.h>
+	<stdio.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\meta\implicitconversion.h
+	"wx/defs.h"
+	"wx/meta/if.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\mousestate.h
+	"wx/gdicmn.h"
+	"wx/kbdstate.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\kbdstate.h
+	"wx/defs.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\platinfo.h
+	"wx/string.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\tracker.h
+	"wx/defs.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\meta\convertible.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\meta\removeref.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\eventfilter.h
+	"wx/defs.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\build.h
+	"wx/version.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\cmdargs.h
+	"wx/arrstr.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\init.h
+	"wx/defs.h"
+	"wx/chartype.h"
+	"wx/msw/init.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\init.h
+	"wx/msw/wrapwin.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\unix\app.h
+	<signal.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\app.h
+	"wx/event.h"
+	"wx/icon.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\icon.h
+	"wx/iconloc.h"
+	"wx/msw/icon.h"
+	"wx/motif/icon.h"
+	"wx/generic/icon.h"
+	"wx/generic/icon.h"
+	"wx/generic/icon.h"
+	"wx/generic/icon.h"
+	"wx/osx/icon.h"
+	"wx/generic/icon.h"
+	"wx/generic/icon.h"
+	"wx/variant.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\iconloc.h
+	"wx/string.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\icon.h
+	"wx/msw/gdiimage.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\icon.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\icon.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\icon.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\app.h
+	"wx/event.h"
+	"wx/hashmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dfb\app.h
+	"wx/dfb/dfbptr.h"
+	"wx/vidmode.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\vidmode.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\app.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\app.h
+	"wx/frame.h"
+	"wx/icon.h"
+	"wx/strconv.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\frame.h
+	"wx/toplevel.h"
+	"wx/statusbr.h"
+	"wx/univ/frame.h"
+	"wx/msw/frame.h"
+	"wx/gtk/frame.h"
+	"wx/gtk1/frame.h"
+	"wx/motif/frame.h"
+	"wx/osx/frame.h"
+	"wx/qt/frame.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\toplevel.h
+	"wx/nonownedwnd.h"
+	"wx/iconbndl.h"
+	"wx/weakref.h"
+	"wx/msw/toplevel.h"
+	"wx/gtk/toplevel.h"
+	"wx/gtk1/toplevel.h"
+	"wx/x11/toplevel.h"
+	"wx/dfb/toplevel.h"
+	"wx/osx/toplevel.h"
+	"wx/motif/toplevel.h"
+	"wx/qt/toplevel.h"
+	"wx/univ/toplevel.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\nonownedwnd.h
+	"wx/window.h"
+	"wx/dfb/nonownedwnd.h"
+	"wx/gtk/nonownedwnd.h"
+	"wx/osx/nonownedwnd.h"
+	"wx/msw/nonownedwnd.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\window.h
+	"wx/event.h"
+	"wx/list.h"
+	"wx/cursor.h"
+	"wx/font.h"
+	"wx/colour.h"
+	"wx/region.h"
+	"wx/utils.h"
+	"wx/intl.h"
+	"wx/validate.h"
+	"wx/palette.h"
+	"wx/accel.h"
+	"wx/access.h"
+	"wx/msw/window.h"
+	"wx/motif/window.h"
+	"wx/gtk/window.h"
+	"wx/gtk1/window.h"
+	"wx/x11/window.h"
+	"wx/dfb/window.h"
+	"wx/osx/window.h"
+	"wx/qt/window.h"
+	"wx/univ/window.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\font.h
+	"wx/defs.h"
+	"wx/fontenc.h"
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/msw/font.h"
+	"wx/motif/font.h"
+	"wx/gtk/font.h"
+	"wx/gtk1/font.h"
+	"wx/x11/font.h"
+	"wx/dfb/font.h"
+	"wx/osx/font.h"
+	"wx/qt/font.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\font.h
+	"wx/gdicmn.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\font.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\font.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\font.h
+	"wx/hash.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\hash.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/object.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\x11\font.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dfb\font.h
+	"wx/dfb/dfbptr.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\font.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\font.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\region.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/msw/region.h"
+	"wx/gtk/region.h"
+	"wx/gtk1/region.h"
+	"wx/x11/region.h"
+	"wx/dfb/region.h"
+	"wx/osx/region.h"
+	"wx/qt/region.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\region.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\region.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\region.h
+	"wx/list.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\x11\region.h
+	"wx/list.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dfb\region.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\region.h
+	"wx/osx/carbon/region.h"
+	"wx/generic/region.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\carbon\region.h
+	"wx/list.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\region.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\region.h
+	<QtGui/QRegion>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\validate.h
+	"wx/defs.h"
+	"wx/event.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\accel.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/generic/accel.h"
+	"wx/msw/accel.h"
+	"wx/motif/accel.h"
+	"wx/gtk/accel.h"
+	"wx/gtk1/accel.h"
+	"wx/osx/accel.h"
+	"wx/qt/accel.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\accel.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\accel.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\accel.h
+	"wx/object.h"
+	"wx/string.h"
+	"wx/event.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\accel.h
+	"wx/generic/accel.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\accel.h
+	"wx/generic/accel.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\accel.h
+	"wx/string.h"
+	"wx/event.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\accel.h
+	<QtCore/QList>
+	<QtWidgets/QShortcut>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\access.h
+	"wx/defs.h"
+	"wx/variant.h"
+	"wx/msw/ole/access.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\ole\access.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\window.h
+	"wx/settings.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\settings.h
+	"wx/colour.h"
+	"wx/font.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\window.h
+	"wx/region.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\window.h
+	"wx/dynarray.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\window.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\x11\window.h
+	"wx/region.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dfb\window.h
+	"wx/dfb/dfbptr.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\window.h
+	"wx/brush.h"
+	"wx/dc.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\brush.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/msw/brush.h"
+	"wx/x11/brush.h"
+	"wx/gtk/brush.h"
+	"wx/gtk1/brush.h"
+	"wx/dfb/brush.h"
+	"wx/osx/brush.h"
+	"wx/qt/brush.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\brush.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\x11\brush.h
+	"wx/gdiobj.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\brush.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\brush.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/gdiobj.h"
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dfb\brush.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/gdiobj.h"
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\brush.h
+	"wx/gdicmn.h"
+	"wx/gdiobj.h"
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\brush.h
+	<QtCore/Qt>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dc.h
+	"wx/object.h"
+	"wx/intl.h"
+	"wx/colour.h"
+	"wx/font.h"
+	"wx/bitmap.h"
+	"wx/brush.h"
+	"wx/pen.h"
+	"wx/palette.h"
+	"wx/dynarray.h"
+	"wx/math.h"
+	"wx/image.h"
+	"wx/region.h"
+	"wx/affinematrix2d.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\pen.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/msw/pen.h"
+	"wx/x11/pen.h"
+	"wx/gtk/pen.h"
+	"wx/gtk1/pen.h"
+	"wx/dfb/pen.h"
+	"wx/osx/pen.h"
+	"wx/qt/pen.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\pen.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\x11\pen.h
+	"wx/gdicmn.h"
+	"wx/gdiobj.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\pen.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\pen.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dfb\pen.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\pen.h
+	"wx/gdiobj.h"
+	"wx/colour.h"
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\pen.h
+	<QtCore/Qt>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\affinematrix2d.h
+	"wx/defs.h"
+	"wx/affinematrix2dbase.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\affinematrix2dbase.h
+	"wx/defs.h"
+	"wx/geometry.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\geometry.h
+	"wx/defs.h"
+	"wx/utils.h"
+	"wx/gdicmn.h"
+	"wx/math.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\window.h
+	<QtWidgets/QWidget>
+	<QtWidgets/QScrollArea>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\window.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dfb\nonownedwnd.h
+	"wx/window.h"
+	"wx/dfb/dfbptr.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\nonownedwnd.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\nonownedwnd.h
+	"wx/window.h"
+	"wx/graphics.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\graphics.h
+	"wx/defs.h"
+	"wx/affinematrix2d.h"
+	"wx/geometry.h"
+	"wx/colour.h"
+	"wx/dynarray.h"
+	"wx/font.h"
+	"wx/image.h"
+	"wx/vector.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\nonownedwnd.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\iconbndl.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/icon.h"
+	"wx/dynarray.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\weakref.h
+	"wx/tracker.h"
+	"wx/meta/convertible.h"
+	"wx/meta/int2type.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\meta\int2type.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\toplevel.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\toplevel.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\toplevel.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\x11\toplevel.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dfb\toplevel.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\toplevel.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\toplevel.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\toplevel.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\toplevel.h
+	"wx/univ/inpcons.h"
+	"wx/univ/inphand.h"
+	"wx/icon.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\inpcons.h
+	"wx/object.h"
+	"wx/event.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\inphand.h
+	"wx/univ/inpcons.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\statusbr.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/list.h"
+	"wx/dynarray.h"
+	"wx/univ/statusbr.h"
+	"wx/msw/statusbar.h"
+	"wx/generic/statusbr.h"
+	"wx/osx/statusbr.h"
+	"wx/qt/statusbar.h"
+	"wx/generic/statusbr.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\control.h
+	"wx/defs.h"
+	"wx/window.h"
+	"wx/gdicmn.h"
+	"wx/univ/control.h"
+	"wx/msw/control.h"
+	"wx/motif/control.h"
+	"wx/gtk/control.h"
+	"wx/gtk1/control.h"
+	"wx/osx/control.h"
+	"wx/qt/control.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\control.h
+	"wx/univ/inphand.h"
+	"wx/univ/inpcons.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\control.h
+	"wx/dynarray.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\control.h
+	"wx/window.h"
+	"wx/list.h"
+	"wx/validate.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\control.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\control.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/list.h"
+	"wx/window.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\control.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\control.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\statusbr.h
+	"wx/univ/inpcons.h"
+	"wx/arrstr.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\statusbar.h
+	"wx/vector.h"
+	"wx/tooltip.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\tooltip.h
+	"wx/defs.h"
+	"wx/msw/tooltip.h"
+	"wx/gtk/tooltip.h"
+	"wx/gtk1/tooltip.h"
+	"wx/osx/tooltip.h"
+	"wx/qt/tooltip.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\tooltip.h
+	"wx/object.h"
+	"wx/gdicmn.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\tooltip.h
+	"wx/string.h"
+	"wx/object.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\tooltip.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/object.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\tooltip.h
+	"wx/string.h"
+	"wx/event.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\tooltip.h
+	"wx/object.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\statusbr.h
+	"wx/defs.h"
+	"wx/pen.h"
+	"wx/arrstr.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\statusbr.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\statusbar.h
+	"wx/statusbr.h"
+	<QtWidgets/QLabel>
+	<QtWidgets/QStatusBar>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\frame.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\frame.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\frame.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\frame.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\frame.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\frame.h
+	"wx/toolbar.h"
+	"wx/accel.h"
+	"wx/icon.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\toolbar.h
+	"wx/defs.h"
+	"wx/tbarbase.h"
+	"wx/univ/toolbar.h"
+	"wx/msw/toolbar.h"
+	"wx/motif/toolbar.h"
+	"wx/gtk/toolbar.h"
+	"wx/gtk1/toolbar.h"
+	"wx/osx/toolbar.h"
+	"wx/qt/toolbar.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\tbarbase.h
+	"wx/defs.h"
+	"wx/bitmap.h"
+	"wx/list.h"
+	"wx/control.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\toolbar.h
+	"wx/button.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\button.h
+	"wx/defs.h"
+	"wx/anybutton.h"
+	"wx/univ/button.h"
+	"wx/msw/button.h"
+	"wx/motif/button.h"
+	"wx/gtk/button.h"
+	"wx/gtk1/button.h"
+	"wx/osx/button.h"
+	"wx/qt/button.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\anybutton.h
+	"wx/defs.h"
+	"wx/bitmap.h"
+	"wx/control.h"
+	"wx/univ/anybutton.h"
+	"wx/msw/anybutton.h"
+	"wx/gtk/anybutton.h"
+	"wx/osx/anybutton.h"
+	"wx/qt/anybutton.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\anybutton.h
+	"wx/univ/inphand.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\anybutton.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\anybutton.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\anybutton.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\anybutton.h
+	<QtWidgets/QPushButton>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\button.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\button.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\button.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\button.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\button.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/list.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\button.h
+	"wx/control.h"
+	"wx/gdicmn.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\button.h
+	"wx/control.h"
+	"wx/button.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\toolbar.h
+	"wx/dynarray.h"
+	"wx/imaglist.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\imaglist.h
+	"wx/defs.h"
+	"wx/generic/imaglist.h"
+	"wx/msw/imaglist.h"
+	"wx/osx/imaglist.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\imaglist.h
+	"wx/gdicmn.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\imaglist.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\imaglist.h
+	"wx/defs.h"
+	"wx/list.h"
+	"wx/icon.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\toolbar.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\toolbar.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\toolbar.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\toolbar.h
+	"wx/tbarbase.h"
+	"wx/dynarray.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\toolbar.h
+	<QtWidgets/QToolBar>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\frame.h
+	"wx/frame.h"
+	<QtWidgets/QMainWindow>
+	<QtWidgets/QScrollArea>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\x11\app.h
+	"wx/gdicmn.h"
+	"wx/event.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\app.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/gdicmn.h"
+	"wx/event.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\app.h
+	<QtWidgets/QApplication>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\theme.h
+	"wx/string.h"
+
+1474441890 c:\nextsteprc_builder\nextsteprc_simulator\nextsteprc_simulatormain.h
+	<wx/menu.h>
+	<wx/panel.h>
+	<wx/statbmp.h>
+	<wx/button.h>
+	<wx/frame.h>
+	<wx/statusbr.h>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\menu.h
+	"wx/defs.h"
+	"wx/list.h"
+	"wx/window.h"
+	"wx/menuitem.h"
+	"wx/univ/menu.h"
+	"wx/msw/menu.h"
+	"wx/motif/menu.h"
+	"wx/gtk/menu.h"
+	"wx/gtk1/menu.h"
+	"wx/osx/menu.h"
+	"wx/qt/menu.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\menuitem.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/univ/menuitem.h"
+	"wx/msw/menuitem.h"
+	"wx/motif/menuitem.h"
+	"wx/gtk/menuitem.h"
+	"wx/gtk1/menuitem.h"
+	"wx/osx/menuitem.h"
+	"wx/qt/menuitem.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\menuitem.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\menuitem.h
+	"wx/bitmap.h"
+	"wx/ownerdrw.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\ownerdrw.h
+	"wx/defs.h"
+	"wx/font.h"
+	"wx/colour.h"
+	"wx/msw/ownerdrw.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\ownerdrw.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\menuitem.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\menuitem.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\menuitem.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\menuitem.h
+	"wx/defs.h"
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\menuitem.h
+	"wx/menuitem.h"
+	<QtWidgets/QAction>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\menu.h
+	"wx/accel.h"
+	"wx/dynarray.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\menu.h
+	"wx/accel.h"
+	"wx/dynarray.h"
+	"wx/arrstr.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\menu.h
+	"wx/colour.h"
+	"wx/font.h"
+	"wx/arrstr.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\menu.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\menu.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\menu.h
+	"wx/arrstr.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\menu.h
+	<QtWidgets/QMenu>
+	<QtWidgets/QMenuBar>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\panel.h
+	"wx/window.h"
+	"wx/containr.h"
+	"wx/univ/panel.h"
+	"wx/msw/panel.h"
+	"wx/generic/panelg.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\containr.h
+	"wx/defs.h"
+	"wx/event.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\panel.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\panel.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\panelg.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\statbmp.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/bitmap.h"
+	"wx/icon.h"
+	"wx/univ/statbmp.h"
+	"wx/msw/statbmp.h"
+	"wx/motif/statbmp.h"
+	"wx/gtk/statbmp.h"
+	"wx/gtk1/statbmp.h"
+	"wx/osx/statbmp.h"
+	"wx/qt/statbmp.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\statbmp.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\statbmp.h
+	"wx/control.h"
+	"wx/icon.h"
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\statbmp.h
+	"wx/motif/bmpmotif.h"
+	"wx/icon.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\bmpmotif.h
+	"wx/defs.h"
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\statbmp.h
+	"wx/icon.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\statbmp.h
+	"wx/icon.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\statbmp.h
+	"wx/generic/statbmpg.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\statbmpg.h
+	"wx/statbmp.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\statbmp.h
+	<QtWidgets/QLabel>
+
+1474489592 source:c:\nextsteprc_builder\nextsteprc_simulator\nextsteprc_simulatormain.cpp
+	"NextStepRc_SimulatorMain.h"
+	<wx/msgdlg.h>
+	<wx/bitmap.h>
+	<wx/intl.h>
+	<wx/image.h>
+	<wx/string.h>
+	"../NextStepRc/nextsteprc.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msgdlg.h
+	"wx/defs.h"
+	"wx/dialog.h"
+	"wx/stockitem.h"
+	"wx/generic/msgdlgg.h"
+	"wx/msw/msgdlg.h"
+	"wx/motif/msgdlg.h"
+	"wx/gtk/msgdlg.h"
+	"wx/osx/msgdlg.h"
+	"wx/qt/msgdlg.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dialog.h
+	"wx/toplevel.h"
+	"wx/containr.h"
+	"wx/sharedptr.h"
+	"wx/univ/dialog.h"
+	"wx/msw/dialog.h"
+	"wx/motif/dialog.h"
+	"wx/gtk/dialog.h"
+	"wx/gtk1/dialog.h"
+	"wx/osx/dialog.h"
+	"wx/qt/dialog.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\sharedptr.h
+	"wx/defs.h"
+	"wx/atomic.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\atomic.h
+	"wx/defs.h"
+	"wx/msw/wrapwin.h"
+	"libkern/OSAtomic.h"
+	<atomic.h>
+	"wx/thread.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\dialog.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\dialog.h
+	"wx/panel.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\dialog.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\dialog.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\dialog.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\dialog.h
+	"wx/panel.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\dialog.h
+	"wx/dialog.h"
+	<QtWidgets/QDialog>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\stockitem.h
+	"wx/defs.h"
+	"wx/chartype.h"
+	"wx/string.h"
+	"wx/accel.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\msgdlgg.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\msgdlg.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\msgdlg.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\msgdlg.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\msgdlg.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\msgdlg.h
+	"wx/msgdlg.h"
+	<QtWidgets/QMessageBox>
+
+1474441890 source:c:\nextsteprc_builder\nextsteprc_simulator\resource.rc
+	"wx/msw/wx.rc"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\wx.rc
+	<windows.h>
+	"wx/msw/rcdefs.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\rcdefs.h
+
+1474578978 source:c:\nextsteprc_builder\nextsteprc\nextsteprc.cpp
+	"nextsteprc.h"
+	"timers.h"
+
+1474584421 source:c:\nextsteprc_builder\nextsteprc\targets\simu\simu_interface.cpp
+	"simu_interface.h"
+

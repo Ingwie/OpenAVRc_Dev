@@ -32,7 +32,6 @@ uint16_t lastMixerDuration;
 uint8_t unexpectedShutdown = 0;
 
 /* AVR: mixer duration in 1/16ms */
-/* ARM: mixer duration in 0.5us */
 uint16_t maxMixerDuration;
 
 #if defined(AUDIO)
@@ -991,7 +990,7 @@ tmr10ms_t jitterResetTime = 0;
 #define JITTER_MEASURE_ACTIVE()   (menuHandlers[menuLevel] == menuGeneralDiagAna)
 #endif  // defined(JITTER_MEASURE)
 
-#if !defined(SIMU)
+#if !defined(SIMUa) // bracame todo remove
 uint16_t anaIn(uint8_t chan)
 {
 #if defined(TELEMETRY_MOD_14051) || defined(TELEMETRY_MOD_14051_SWAPPED)
@@ -1375,7 +1374,7 @@ void checkBattery()
     }
   }
 
-#if !defined(SIMU)
+#if !defined(SIMUa)
 
   volatile uint8_t g_tmr16KHz; //continuous timer 16ms (16MHz/1024/256) -- 8-bit counter overflow
   ISR(TIMER_16KHZ_VECT, ISR_NOBLOCK)
@@ -1616,8 +1615,13 @@ void checkBattery()
 #endif
 
 #if !defined(SIMU)
-  extern unsigned char __bss_end ;
 #define STACKPTR     _SFR_IO16(0x3D)
+extern unsigned char __bss_end ;
+#endif
+
+#if !defined(SIMUa) //todo bracame
+//  extern unsigned char __bss_end ;
+//#define STACKPTR     _SFR_IO16(0x3D)
   void stackPaint()
   {
     // Init Stack while interrupts are disabled
