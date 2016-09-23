@@ -2,6 +2,8 @@ In French ;-)
 
 *****************  TODO TODO TODO TODO  *****************
 
+> - Les fonctions de ce type : L1 a<x Tmr1 02:00 --- sont décalées si EXT=NO (pas de télémétrie)
+
 > - changer le type des GVAR de 16bits vers 8bits (nouveau format d'eeprom) ou doubler le nombre de GVAR ...
 
 > - interrupteur 3 positions avec potar
@@ -14,8 +16,7 @@ In French ;-)
 
 > - telemetrie GPS : Ajout distance (a partir du point fixe ?)
 
->- Ecolage : ordres eleve vers entree mixeur
-
+> - Ecolage : ordres eleve vers entree mixeur
 
 *****************  DONE DONE DONE DONE  *****************
 
@@ -27,4 +28,4 @@ In French ;-)
 > - Corriger bug de flash "error mismatch"
 > - Changer le splash (NEXTSTEPRC) - FAIT
 > - finir navigation avec les manches (placer les routines dans key.xxx) Placé dans gui/9X/navigation.cpp
-> - remplacement carte WT par "mieux" -> JQ6500 testé bientôt (28P retenu, le 16p ne gère que 200 fichiers)
+> - remplacement carte WT par "mieux" -> JQ6500 28P FAIT
