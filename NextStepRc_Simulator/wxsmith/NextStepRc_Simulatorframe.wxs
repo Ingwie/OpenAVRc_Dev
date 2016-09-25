@@ -2,31 +2,54 @@
 <wxsmith>
 	<object class="wxFrame" name="NextStepRc_SimulatorFrame">
 		<title>Simulateur</title>
-		<size>637,323</size>
+		<centered>1</centered>
+		<icon>C:\NextStepRc_Builder\NextStepRc_Simulator\avatarnext.ico</icon>
+		<pos>-1,-1</pos>
+		<size>800,420</size>
 		<maxsize>-1,-1</maxsize>
-		<pos_arg>1</pos_arg>
-		<size_arg>1</size_arg>
-		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
-			<pos>360,16</pos>
-			<size>442,206d</size>
-			<enabled>0</enabled>
-			<maxsize>0,0</maxsize>
-			<handler function="OnPanel1Paint" entry="EVT_PAINT" />
-			<object class="wxPanel" name="ID_PANEL2" variable="Panel2" member="yes">
-				<pos>128,0d</pos>
-				<size>148,82d</size>
-				<style>wxDOUBLE_BORDER|wxCLIP_CHILDREN</style>
+		<id_arg>0</id_arg>
+		<style>wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER</style>
+		<object class="wxPanel" name="ID_PANEL1" variable="PanelPrincipal" member="yes">
+			<pos>424,216</pos>
+			<size>800,400</size>
+			<object class="wxPanel" name="ID_PANEL2" variable="Panel1" member="yes">
+				<pos>8,8</pos>
+				<size>784,64</size>
+				<bg>#97EAC2</bg>
+				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+			</object>
+			<object class="wxPanel" name="ID_PANEL3" variable="Panel2" member="yes">
+				<pos>8,72</pos>
+				<size>784,248</size>
+				<bg>#83D8F3</bg>
+				<style>wxSUNKEN_BORDER</style>
+				<handler function="OnPanel2MouseMove" entry="EVT_MOTION" />
 				<object class="wxStaticBitmap" name="ID_STATICBITMAP1" variable="StaticBitmap1" member="yes">
-					<bitmap>C:\Users\Christophe\Desktop\NextStepRc_Builder\NextStepRc\bitmaps\splash.bmp</bitmap>
-					<pos>10,9d</pos>
-					<size>128,64d</size>
-					<focused>1</focused>
+					<bitmap>C:\NextStepRc_Builder\NextStepRc\bitmaps\splash.bmp</bitmap>
+					<pos>272,8</pos>
+					<size>256,128</size>
+					<style>wxDOUBLE_BORDER</style>
+				</object>
+				<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
+					<label>test</label>
+					<pos>104,112</pos>
+					<handler function="OnButton1Click" entry="EVT_BUTTON" />
+				</object>
+				<object class="wxImageButton" name="ID_IMAGEBUTTON1" variable="ImageButton1" member="yes">
+					<image_list>&lt;none&gt;</image_list>
+					<label_index>&lt;none&gt;</label_index>
+					<disabled_index>&lt;none&gt;</disabled_index>
+					<selected_index>&lt;none&gt;</selected_index>
+					<focus_index>&lt;none&gt;</focus_index>
+					<pos>162,160</pos>
+					<size>172,57</size>
 				</object>
 			</object>
-			<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
-				<label>start</label>
-				<pos>104,232</pos>
-				<handler function="OnButton1Click" entry="EVT_BUTTON" />
+			<object class="wxPanel" name="ID_PANEL4" variable="Panel3" member="yes">
+				<pos>8,312</pos>
+				<size>784,64</size>
+				<bg>#32A7ED</bg>
+				<style>wxRAISED_BORDER|wxTAB_TRAVERSAL</style>
 			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar1" member="no">
@@ -35,16 +58,16 @@
 				<object class="wxMenuItem" name="idMenuQuit" variable="MenuItem1" member="no">
 					<label>Quitter</label>
 					<accel>Alt-F4</accel>
-					<help>Quit the application</help>
+					<help>Quitter le simulateur</help>
 					<handler function="OnQuit" entry="EVT_MENU" />
 				</object>
 			</object>
 			<object class="wxMenu" variable="Menu2" member="no">
-				<label>Aide</label>
+				<label>&amp;Aide</label>
 				<object class="wxMenuItem" name="idMenuAbout" variable="MenuItem2" member="no">
-					<label>About</label>
+					<label>A propos ...</label>
 					<accel>F1</accel>
-					<help>Show info about this application</help>
+					<help>C&apos;est quoi donc ?</help>
 					<handler function="OnAbout" entry="EVT_MENU" />
 				</object>
 			</object>

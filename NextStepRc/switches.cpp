@@ -126,7 +126,8 @@ bool getLogicalSwitch(uint8_t idx)
       }
 #else
       if (v1 >= MIXSRC_FIRST_TELEM) {
-        y = (int16_t)3 * (128+ls->v2); // it's a Timer
+        //y = (int16_t)3 * (128+ls->v2); // it's a Timer 
+        y = convertLswTelemValue(ls); // Add by Mentero -> under test (todo)
       }
       else if (v1 >= MIXSRC_GVAR1) {
         y = ls->v2; // it's a GVAR

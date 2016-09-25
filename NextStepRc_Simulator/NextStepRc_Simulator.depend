@@ -1561,7 +1561,7 @@
 	<stdarg.h>
 	"stamp-nextsteprc.h"
 
-1474579055 c:\nextsteprc_builder\nextsteprc\stamp-nextsteprc.h
+1474809310 c:\nextsteprc_builder\nextsteprc\stamp-nextsteprc.h
 
 1474441890 source:c:\nextsteprc_builder\nextsteprc\eeprom_common.cpp
 	<stdint.h>
@@ -1575,7 +1575,7 @@
 1474570332 source:c:\nextsteprc_builder\nextsteprc\eeprom_rlc.cpp
 	"eeprom_rlc.h"
 
-1474584029 c:\nextsteprc_builder\nextsteprc\targets\simu\simu_interface.h
+1474731564 c:\nextsteprc_builder\nextsteprc\targets\simu\simu_interface.h
 	<inttypes.h>
 
 1474540663 source:c:\nextsteprc_builder\nextsteprc\functions.cpp
@@ -1859,8 +1859,8 @@
 1474441890 source:c:\nextsteprc_builder\nextsteprc\targets\mega2560\voice_jq6500.cpp
 	"../../nextsteprc.h"
 
-1474441890 source:c:\nextsteprc_builder\nextsteprc\targets\stock\lcd_simu_driver.cpp
-	"../../nextsteprc.h"
+1474815247 source:c:\nextsteprc_builder\nextsteprc\targets\stock\lcd_simu_driver.cpp
+	"lcd_simu_driver.h"
 
 1474441890 source:c:\nextsteprc_builder\nextsteprc\telemetry\frsky.cpp
 	"../nextsteprc.h"
@@ -1875,11 +1875,11 @@
 1474441890 source:c:\nextsteprc_builder\nextsteprc\templates.cpp
 	"nextsteprc.h"
 
-1474441890 source:c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\fattime.c
+1474585922 source:c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\fattime.c
 	"integer.h"
 	"../../rtc.h"
 
-1474441890 source:c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\ff.c
+1474585281 source:c:\nextsteprc_builder\nextsteprc\thirdparty\fatfs\ff.c
 	"ff.h"
 	"diskio.h"
 	"../../nextsteprc.h"
@@ -3427,13 +3427,15 @@
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\theme.h
 	"wx/string.h"
 
-1474441890 c:\nextsteprc_builder\nextsteprc_simulator\nextsteprc_simulatormain.h
+1474813341 c:\nextsteprc_builder\nextsteprc_simulator\nextsteprc_simulatormain.h
 	<wx/menu.h>
 	<wx/panel.h>
+	<wx/bmpbuttn.h>
 	<wx/statbmp.h>
 	<wx/button.h>
 	<wx/frame.h>
 	<wx/statusbr.h>
+	"../NextStepRc/nextsteprc.h"
 
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\menu.h
 	"wx/defs.h"
@@ -3577,14 +3579,15 @@
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\statbmp.h
 	<QtWidgets/QLabel>
 
-1474489592 source:c:\nextsteprc_builder\nextsteprc_simulator\nextsteprc_simulatormain.cpp
+1474813341 source:c:\nextsteprc_builder\nextsteprc_simulator\nextsteprc_simulatormain.cpp
 	"NextStepRc_SimulatorMain.h"
 	<wx/msgdlg.h>
+	<wx/dcclient.h>
 	<wx/bitmap.h>
+	<wx/icon.h>
 	<wx/intl.h>
 	<wx/image.h>
 	<wx/string.h>
-	"../NextStepRc/nextsteprc.h"
 
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msgdlg.h
 	"wx/defs.h"
@@ -3673,4 +3676,236 @@
 
 1474584421 source:c:\nextsteprc_builder\nextsteprc\targets\simu\simu_interface.cpp
 	"simu_interface.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\sizer.h
+	"wx/defs.h"
+	"wx/window.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\bmpbuttn.h
+	"wx/defs.h"
+	"wx/button.h"
+	"wx/univ/bmpbuttn.h"
+	"wx/msw/bmpbuttn.h"
+	"wx/motif/bmpbuttn.h"
+	"wx/gtk/bmpbuttn.h"
+	"wx/gtk1/bmpbuttn.h"
+	"wx/osx/bmpbuttn.h"
+	"wx/qt/bmpbuttn.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\bmpbuttn.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\bmpbuttn.h
+	"wx/button.h"
+	"wx/bitmap.h"
+	"wx/brush.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\bmpbuttn.h
+	"wx/motif/bmpmotif.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\bmpbuttn.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\bmpbuttn.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\bmpbuttn.h
+	"wx/button.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\bmpbuttn.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\filedlg.h
+	"wx/defs.h"
+	"wx/dialog.h"
+	"wx/arrstr.h"
+	"wx/generic/filedlgg.h"
+	"wx/msw/filedlg.h"
+	"wx/motif/filedlg.h"
+	"wx/gtk/filedlg.h"
+	"wx/gtk1/filedlg.h"
+	"wx/osx/filedlg.h"
+	"wx/qt/filedlg.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\filedlgg.h
+	"wx/listctrl.h"
+	"wx/datetime.h"
+	"wx/filefn.h"
+	"wx/artprov.h"
+	"wx/filedlg.h"
+	"wx/generic/filectrlg.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\listctrl.h
+	"wx/defs.h"
+	"wx/listbase.h"
+	"wx/msw/listctrl.h"
+	"wx/qt/listctrl.h"
+	"wx/generic/listctrl.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\listbase.h
+	"wx/colour.h"
+	"wx/font.h"
+	"wx/gdicmn.h"
+	"wx/event.h"
+	"wx/control.h"
+	"wx/systhemectrl.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\systhemectrl.h
+	"wx/defs.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\listctrl.h
+	"wx/textctrl.h"
+	"wx/dynarray.h"
+	"wx/vector.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\textctrl.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/textentry.h"
+	"wx/dynarray.h"
+	"wx/gdicmn.h"
+	"wx/ioswrap.h"
+	"wx/x11/textctrl.h"
+	"wx/univ/textctrl.h"
+	"wx/msw/textctrl.h"
+	"wx/motif/textctrl.h"
+	"wx/gtk/textctrl.h"
+	"wx/gtk1/textctrl.h"
+	"wx/osx/textctrl.h"
+	"wx/qt/textctrl.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\textentry.h
+	"wx/filefn.h"
+	"wx/gdicmn.h"
+	"wx/gtk/textentry.h"
+	"wx/osx/textentry.h"
+	"wx/msw/textentry.h"
+	"wx/motif/textentry.h"
+	"wx/qt/textentry.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\textentry.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\textentry.h
+	"wx/control.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\textentry.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\textentry.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\textentry.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\ioswrap.h
+	"wx/beforestd.h"
+	<iostream.h>
+	<iostream>
+	"wx/afterstd.h"
+	"wx/msw/winundef.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\x11\textctrl.h
+	"wx/univ/textctrl.h"
+	"wx/scrolwin.h"
+	"wx/arrstr.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\textctrl.h
+	"wx/scrolwin.h"
+	"wx/univ/inphand.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\scrolwin.h
+	"wx/panel.h"
+	"wx/gtk/scrolwin.h"
+	"wx/gtk1/scrolwin.h"
+	"wx/generic/scrolwin.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\scrolwin.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\scrolwin.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\scrolwin.h
+	"wx/recguard.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\recguard.h
+	"wx/defs.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\textctrl.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\textctrl.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\textctrl.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\textctrl.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\textctrl.h
+	"wx/control.h"
+	"wx/textctrl.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\textctrl.h
+	<QtWidgets/QLineEdit>
+	<QtWidgets/QTextEdit>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\listctrl.h
+	"wx/textctrl.h"
+	<QtWidgets/QTreeWidget>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\listctrl.h
+	"wx/containr.h"
+	"wx/scrolwin.h"
+	"wx/textctrl.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\artprov.h
+	"wx/string.h"
+	"wx/bitmap.h"
+	"wx/icon.h"
+	"wx/iconbndl.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\filectrlg.h
+	"wx/containr.h"
+	"wx/listctrl.h"
+	"wx/filectrl.h"
+	"wx/filename.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\filectrl.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/event.h"
+	"wx/gtk/filectrl.h"
+	"wx/generic/filectrlg.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\filectrl.h
+	"wx/control.h"
+	"wx/filectrl.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\filename.h
+	"wx/arrstr.h"
+	"wx/filefn.h"
+	"wx/datetime.h"
+	"wx/intl.h"
+	"wx/longlong.h"
+	"wx/file.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\file.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/filefn.h"
+	"wx/convauto.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\convauto.h
+	"wx/strconv.h"
+	"wx/fontenc.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\filedlg.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\filedlg.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\filedlg.h
+	"wx/gtk/filectrl.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\filedlg.h
+	"wx/generic/filedlgg.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\filedlg.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\filedlg.h
+	<QtWidgets/QFileDialog>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dcclient.h
+	"wx/dc.h"
+
+1474810336 c:\nextsteprc_builder\nextsteprc\targets\stock\lcd_simu_driver.h
+	"../../../NextStepRc_Simulator/NextStepRc_SimulatorMain.h"
 

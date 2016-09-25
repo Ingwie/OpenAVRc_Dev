@@ -42,6 +42,7 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 }
 
 //(*IdInit(NextStepRc_DesktopFrame)
+const long NextStepRc_DesktopFrame::ID_BUTTON1 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_PANEL1 = wxNewId();
 const long NextStepRc_DesktopFrame::idMenuQuit = wxNewId();
 const long NextStepRc_DesktopFrame::idMenuAbout = wxNewId();
@@ -102,3 +103,4 @@ void NextStepRc_DesktopFrame::OnAbout(wxCommandEvent& event)
     wxString msg ="NestStepRc_Desktop V0.00002 !";
     wxMessageBox(msg, _("Bienvenue dans ..."));
 }
+

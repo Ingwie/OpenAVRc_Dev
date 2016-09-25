@@ -14,7 +14,8 @@
 *************************************************************
 */
 
-#include "../../nextsteprc.h"
+#include "lcd_simu_driver.h"
+
 
 
 #define NUMITERATIONFULLREFRESH  1
@@ -23,22 +24,27 @@
 
 void lcdInit()
 {
-
+  //TODO
 }
 
 void lcdSetRefVolt(uint8_t val)
 {
+  //TODO
 }
 
 void lcdRefreshFast()
 {
-  REFRESHDURATION1  //Debug function if defined LCDDURATIONSHOW in nextsteprc.h
+    REFRESHDURATION1  //Debug function if defined LCDDURATIONSHOW in nextsteprc.h
+//const wxEventType wxEVT_MYTHREAD_STARTED = wxNewEventType();
+   // &NextStepRc_SimulatorFrame::DrawLcd();//TODO
 
-
-  REFRESHDURATION2  //Debug function if defined LCDDURATIONSHOW in nextsteprc.h
+    REFRESHDURATION2  //Debug function if defined LCDDURATIONSHOW in nextsteprc.h
 }
 
 void lcdRefresh()
 {
-  for (uint8_t i=0; i < NUMITERATIONFULLREFRESH; i++) { lcdRefreshFast(); }
+    for (uint8_t i=0; i < NUMITERATIONFULLREFRESH; i++)
+    {
+        lcdRefreshFast();
+    }
 }

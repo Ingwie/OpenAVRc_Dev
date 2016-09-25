@@ -5,6 +5,11 @@
 			<pos>240,40</pos>
 			<focused>1</focused>
 			<style>0</style>
+			<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
+				<label>Texte</label>
+				<pos>112,120</pos>
+				<handler function="OnButton1Click" entry="EVT_BUTTON" />
+			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar_main" member="yes">
 			<object class="wxMenu" variable="Menu1" member="no">
