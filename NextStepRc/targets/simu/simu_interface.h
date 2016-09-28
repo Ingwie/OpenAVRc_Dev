@@ -17,6 +17,7 @@
 #ifndef simu_interface_h
 #define simu_interface_h
 #include <inttypes.h>
+#include <assert.h>
 
 typedef const unsigned char pm_uchar;
 typedef const char pm_char;
@@ -31,6 +32,7 @@ typedef const int8_t pm_int8_t;
 
 //Function
 extern void eepromReadBlock (uint8_t * pointer_ram, uint32_t pointer_eeprom, uint32_t size);
+
 
 #define wdt_reset() //sleep(1/*ms*/)
 #define SIMU_SLEEP(x) //do { if (!main_thread_running) return; sleep(x/*ms*/); } while (0)
@@ -711,7 +713,7 @@ extern REG8 simu_spdr;
 #define SPDR    simu_spdr
 
 //STACK
-extern REG8 simu_stackadd;
+extern unsigned char * simu_stackadd;
 extern REG8 simu_bssebd;
 #define STACKPTR simu_stackadd
 #define __bss_end simu_bssebd
@@ -734,7 +736,8 @@ extern REG8 simu_bssebd;
 #define memcpy_P memcpy
 #define bit_is_clear(sfr, bit) (!(REG8(sfr) & (1 << (bit))))
 #define loop_until_bit_is_set(sfr, bit) do { } while (bit_is_clear(sfr, bit))
-#define assert(x)
+//#undef assert
+//#define assert(x)
 #define printf(x)
 
 

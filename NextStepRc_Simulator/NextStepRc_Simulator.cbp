@@ -13,7 +13,8 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-w" />
+					<Add option="-Wfatal-errors" />
+					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-DSIMU" />
 					<Add option="-DPCBMEGA2560" />
@@ -134,7 +135,6 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-m32" />
-					<Add option="-Xlinker --allow-multiple-definition" />
 					<Add library="libwxmsw31u.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>

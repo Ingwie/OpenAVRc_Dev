@@ -28,7 +28,7 @@
 #include "../pgmtypes.h"
 #define assert(x)
 #define printf printf_not_allowed
-#else
+#else //SIMU define
 #include <stdbool.h>
 #include "targets/simu/simu_interface.h"
 #include "targets/mega2560/board_mega2560.h" //todo
@@ -36,9 +36,6 @@
 #include "trainer_input.h"
 #include "targets/common_avr/board_avr.h"
 #include "myeeprom.h"
-#include "gui/menus.h"
-#include "gui/lcd.h"
-#include "gui/navigation.h"
 #include "rtc.h"
 
 /////////////////DEBUG FUNCTION DEFINITION///////////////////
@@ -188,8 +185,10 @@
 
 #if defined(SIMU)
 #define __DMA
+#define SIMU_UNLOCK_MACRO(x) (false)
 #else
 #define __DMA __attribute__((aligned(32)))
+#define SIMU_UNLOCK_MACRO(x) (x)
 #endif
 
 #if GCC_VERSION < 472
@@ -248,6 +247,9 @@ char *convertSimuPath(const char *path);
 #define F_CPU 16000000UL  // 16 MHz
 
 #include "gui/menus.h"
+#include "gui/menu_model.h"
+#include "gui/lcd.h"
+#include "gui/navigation.h"
 #include "debug.h"
 
 #if defined(SIMU)

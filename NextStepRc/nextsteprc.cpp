@@ -78,7 +78,6 @@ void per10ms()
 {
   g_tmr10ms++;
 
-
 #if defined(GUI)
   if (lightOffCounter) lightOffCounter--;
   if (flashCounter) flashCounter--;

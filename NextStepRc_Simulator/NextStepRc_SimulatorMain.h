@@ -13,7 +13,6 @@
 //(*Headers(NextStepRc_SimulatorFrame)
 #include <wx/menu.h>
 #include <wx/panel.h>
-#include <wx/bmpbuttn.h>
 #include <wx/statbmp.h>
 #include <wx/button.h>
 #include <wx/frame.h>
@@ -32,6 +31,7 @@ class NextStepRc_SimulatorFrame: public wxFrame
         virtual ~NextStepRc_SimulatorFrame();
 
         void DrawLcd();
+        void SendNewEvent(wxCommandEvent& newevt);
 
     private:
 
@@ -46,7 +46,6 @@ class NextStepRc_SimulatorFrame: public wxFrame
         static const long ID_PANEL2;
         static const long ID_STATICBITMAP1;
         static const long ID_BUTTON1;
-        static const long ID_IMAGEBUTTON1;
         static const long ID_PANEL3;
         static const long ID_PANEL4;
         static const long ID_PANEL1;
@@ -56,7 +55,6 @@ class NextStepRc_SimulatorFrame: public wxFrame
         //*)
 
         //(*Declarations(NextStepRc_SimulatorFrame)
-        wxBitmapButton        *ImageButton1;
         wxButton* Button1;
         wxStaticBitmap* StaticBitmap1;
         wxPanel* Panel1;

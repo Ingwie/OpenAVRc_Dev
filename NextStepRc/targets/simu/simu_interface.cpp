@@ -131,7 +131,7 @@ REG8 simu_spsr;
 REG8 simu_spdr;
 
 //STACK
-REG8 simu_stackadd;
+unsigned char * simu_stackadd;
 REG8 simu_bssebd;
 
 

@@ -15,7 +15,7 @@
  */
 
 #include "../nextsteprc.h"
-#include "menu_model.h"
+//#include "menu_model.h"
 #include "widgets.h"
 
 #define MODEL_CUSTOM_FUNC_1ST_COLUMN          (3)

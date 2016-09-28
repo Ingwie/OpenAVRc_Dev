@@ -53,18 +53,18 @@ void perMain()
       t0=getTmr16KHz();
       delta= (nextMixerEndTime - lastMixerDuration) - t0;
     } while ((delta>0) && (delta<MAX_MIXER_DELTA));
-    
+
     // reenabling of the hardware components needed here
     MCUCR&=0x00;  // disable sleep
     ADCSRA|=0x80;  // enable ADC
 #endif
     return;
-  }  
+  }
 
   nextMixerEndTime = t0 + MAX_MIXER_DELTA;
   // this is a very tricky implementation; lastMixerEndTime is just like a default value not to stop mixcalculations totally;
   // the real value for lastMixerEndTime is calculated inside pulses_XXX.cpp which aligns the timestamp to the pulses generated
-  // nextMixerEndTime is actually defined inside pulses_XXX.h  
+  // nextMixerEndTime is actually defined inside pulses_XXX.h
 
   doMixerCalculations();
 
@@ -86,7 +86,7 @@ void perMain()
     eeCheck(false);
   }
 
-#if defined(SDCARD)
+#if defined(SDCARD) && !defined(SIMU) // bracame toto emulate sd for simu
   sdMountPoll();
   writeLogs();
 #endif
@@ -111,7 +111,7 @@ void perMain()
   bool popupMenuActive = (popupMenuNoItems > 0);
 
   lcdClear();
-  
+
   if (menuEvent) {
     menuVerticalPosition = menuEvent == EVT_ENTRY_UP ? menuVerticalPositions[menuLevel] : 0;
     menuHorizontalPosition = 0;
@@ -119,6 +119,7 @@ void perMain()
     menuEvent = 0;
     AUDIO_MENUS();
   }
+
   menuHandlers[menuLevel]((warn || popupMenuActive) ? 0 : evt);
 
   if (warn) DISPLAY_WARNING(evt);
@@ -134,9 +135,9 @@ void perMain()
 #endif
 
   drawStatusLine();
-  
+
   lcdRefreshFast();
-  
+
 #endif // if defined(GUI)
 
   if (SLAVE_MODE()) {

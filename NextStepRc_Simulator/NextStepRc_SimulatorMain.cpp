@@ -50,7 +50,6 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 const long NextStepRc_SimulatorFrame::ID_PANEL2 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_STATICBITMAP1 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_BUTTON1 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_IMAGEBUTTON1 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANEL3 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANEL4 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANEL1 = wxNewId();
@@ -79,7 +78,7 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     SetMaxSize(wxSize(-1,-1));
     {
     	wxIcon FrameIcon;
-    	FrameIcon.CopyFromBitmap(wxBitmap(wxImage(_T("C:\\NextStepRc_Builder\\NextStepRc_Simulator\\avatarnext.ico"))));
+    	FrameIcon.CopyFromBitmap(wxBitmap(wxImage(_T("C:\\NextStepRc_Builder\\NextStepRc_Simulator\\avatarnext.xpm"))));
     	SetIcon(FrameIcon);
     }
     PanelPrincipal = new wxPanel(this, ID_PANEL1, wxPoint(424,216), wxSize(800,400), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
@@ -87,9 +86,8 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Panel1->SetBackgroundColour(wxColour(151,234,194));
     Panel2 = new wxPanel(PanelPrincipal, ID_PANEL3, wxPoint(8,72), wxSize(784,248), wxSUNKEN_BORDER, _T("ID_PANEL3"));
     Panel2->SetBackgroundColour(wxColour(131,216,243));
-    StaticBitmap1 = new wxStaticBitmap(Panel2, ID_STATICBITMAP1, wxBitmap(wxImage(_T("C:\\NextStepRc_Builder\\NextStepRc\\bitmaps\\splash.bmp")).Rescale(wxSize(256,128).GetWidth(),wxSize(256,128).GetHeight())), wxPoint(272,8), wxSize(256,128), wxDOUBLE_BORDER, _T("ID_STATICBITMAP1"));
+    StaticBitmap1 = new wxStaticBitmap(Panel2, ID_STATICBITMAP1, wxBitmap(wxImage(_T("splash.xpm")).Rescale(wxSize(256,128).GetWidth(),wxSize(256,128).GetHeight())), wxPoint(272,8), wxSize(256,128), wxDOUBLE_BORDER, _T("ID_STATICBITMAP1"));
     Button1 = new wxButton(Panel2, ID_BUTTON1, _("test"), wxPoint(104,112), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
-    ImageButton1 = new wxBitmapButton(Panel2, ID_IMAGEBUTTON1, wxNullBitmap, wxPoint(162,160), wxSize(172,57), wxBU_AUTODRAW, wxDefaultValidator, _T("ID_IMAGEBUTTON1"));
     Panel3 = new wxPanel(PanelPrincipal, ID_PANEL4, wxPoint(8,312), wxSize(784,64), wxRAISED_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL4"));
     Panel3->SetBackgroundColour(wxColour(50,167,237));
     MenuBar1 = new wxMenuBar();
@@ -133,9 +131,22 @@ void NextStepRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
     wxMessageBox( _("NextStepRc Simulateur"), _("Bienvenue dans..."));
 }
 
+void NextStepRc_SimulatorFrame::SendNewEvent(wxCommandEvent& newevt)
+{
+wxDEFINE_EVENT(MY_NEW_TYPE, wxCommandEvent);
+wxCommandEvent event(MY_NEW_TYPE); // No specific id
+
+// Add any data; sometimes the only information needed at the destination is the arrival of the event itself
+event.SetString("This is the data");
+
+// Then post the event
+wxPostEvent(this ,event); // to ourselves
+
+
+}
 void NextStepRc_SimulatorFrame::OnButton1Click(wxCommandEvent& event)
 {
-
+perMain();
 }
 
 void NextStepRc_SimulatorFrame::OnPanel2MouseMove(wxMouseEvent& event)
@@ -155,7 +166,7 @@ void NextStepRc_SimulatorFrame::OnPanel2MouseMove(wxMouseEvent& event)
 
  void NextStepRc_SimulatorFrame::DrawLcd()
 {
-        wxClientDC dc(StaticBitmap1);
+        wxClientDC dc(Panel2);
         wxBrush brush(*wxRED, wxBRUSHSTYLE_SOLID  ); // red pen of width 1
         dc.SetBrush(brush);
         dc.DrawRectangle(00,00,20,20);

@@ -29,14 +29,18 @@ void lcdInit()
 
 void lcdSetRefVolt(uint8_t val)
 {
-  //TODO
+  wxDEFINE_EVENT(MY_NEW_TYPE, wxCommandEvent);
+wxCommandEvent event(MY_NEW_TYPE);
+event.SetString("This is the data");
+NextStepRc_SimulatorFrame* Frame;
+Frame->SendNewEvent(event);
+Frame->DrawLcd();
 }
 
 void lcdRefreshFast()
 {
     REFRESHDURATION1  //Debug function if defined LCDDURATIONSHOW in nextsteprc.h
-//const wxEventType wxEVT_MYTHREAD_STARTED = wxNewEventType();
-   // &NextStepRc_SimulatorFrame::DrawLcd();//TODO
+
 
     REFRESHDURATION2  //Debug function if defined LCDDURATIONSHOW in nextsteprc.h
 }
