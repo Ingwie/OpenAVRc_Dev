@@ -1044,7 +1044,7 @@ enum AUDIO_SOUNDS {
 
 extern void checkBattery();
 extern void nextsteprcClose();
-extern void nextsteprcInit();
+extern void nextsteprcInit(uint8_t mcusr);
 
 // Re-useable byte array to save having multiple buffers
 #define SD_SCREEN_FILE_LENGTH (32)

@@ -21,8 +21,10 @@
 //*)
 
 //helper functions
-enum wxbuildinfoformat {
-    short_f, long_f };
+enum wxbuildinfoformat
+{
+    short_f, long_f
+};
 
 wxString wxbuildinfo(wxbuildinfoformat format)
 {
@@ -77,9 +79,9 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Move(wxPoint(-1,-1));
     SetMaxSize(wxSize(-1,-1));
     {
-    	wxIcon FrameIcon;
-    	FrameIcon.CopyFromBitmap(wxBitmap(wxImage(_T("C:\\NextStepRc_Builder\\NextStepRc_Simulator\\avatarnext.xpm"))));
-    	SetIcon(FrameIcon);
+        wxIcon FrameIcon;
+        FrameIcon.CopyFromBitmap(wxBitmap(wxImage(_T("C:\\NextStepRc_Builder\\NextStepRc_Simulator\\avatarnext.xpm"))));
+        SetIcon(FrameIcon);
     }
     PanelPrincipal = new wxPanel(this, ID_PANEL1, wxPoint(424,216), wxSize(800,400), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     Panel1 = new wxPanel(PanelPrincipal, ID_PANEL2, wxPoint(8,8), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL2"));
@@ -133,44 +135,45 @@ void NextStepRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
 
 void NextStepRc_SimulatorFrame::SendNewEvent(wxCommandEvent& newevt)
 {
-wxDEFINE_EVENT(MY_NEW_TYPE, wxCommandEvent);
-wxCommandEvent event(MY_NEW_TYPE); // No specific id
+    wxDEFINE_EVENT(MY_NEW_TYPE, wxCommandEvent);
+    wxCommandEvent event(MY_NEW_TYPE); // No specific id
 
 // Add any data; sometimes the only information needed at the destination is the arrival of the event itself
-event.SetString("This is the data");
+    event.SetString("This is the data");
 
 // Then post the event
-wxPostEvent(this ,event); // to ourselves
+    wxPostEvent(this,event);  // to ourselves
 
 
 }
 void NextStepRc_SimulatorFrame::OnButton1Click(wxCommandEvent& event)
 {
-perMain();
+    nextsteprcInit(simu_mcusr);
+    perMain();
 }
 
 void NextStepRc_SimulatorFrame::OnPanel2MouseMove(wxMouseEvent& event)
 {
-      if (event.Dragging())
+    if (event.Dragging())
     {
         wxClientDC dc(Panel2);
         wxBrush brush(*wxRED, wxBRUSHSTYLE_SOLID  ); // red pen of width 1
         dc.SetBrush(brush);
         dc.DrawRectangle(00,00,20,20);
         dc.SetPen(wxNullPen);
-       // wxMessageBox( _("NextStepRc Simulateur"), _("Bienvenue dans..."));
-    simu_pina = 0xFF;
+        // wxMessageBox( _("NextStepRc Simulateur"), _("Bienvenue dans..."));
+        simu_pina = 0xFF;
     }
 
 }
 
- void NextStepRc_SimulatorFrame::DrawLcd()
+void NextStepRc_SimulatorFrame::DrawLcd()
 {
-        wxClientDC dc(Panel2);
-        wxBrush brush(*wxRED, wxBRUSHSTYLE_SOLID  ); // red pen of width 1
-        dc.SetBrush(brush);
-        dc.DrawRectangle(00,00,20,20);
-        dc.SetPen(wxNullPen);
+    wxClientDC dc(Panel2);
+    wxBrush brush(*wxRED, wxBRUSHSTYLE_SOLID  ); // red pen of width 1
+    dc.SetBrush(brush);
+    dc.DrawRectangle(00,00,20,20);
+    dc.SetPen(wxNullPen);
 
 }
 
