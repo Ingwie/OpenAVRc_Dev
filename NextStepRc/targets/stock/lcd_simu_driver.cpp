@@ -18,6 +18,7 @@
 
 
 
+
 #define NUMITERATIONFULLREFRESH  1
 
 
@@ -29,17 +30,17 @@ void lcdInit()
 
 void lcdSetRefVolt(uint8_t val)
 {
-  wxDEFINE_EVENT(MY_NEW_TYPE, wxCommandEvent);
-wxCommandEvent event(MY_NEW_TYPE);
-event.SetString("This is the data");
-NextStepRc_SimulatorFrame* Frame;
-Frame->SendNewEvent(event);
-Frame->DrawLcd();
+
 }
 
 void lcdRefreshFast()
 {
     REFRESHDURATION1  //Debug function if defined LCDDURATIONSHOW in nextsteprc.h
+
+wxDEFINE_EVENT(EVT_DRAW_LCD, wxCommandEvent);
+wxCommandEvent event(EVT_DRAW_LCD);
+event.SetString("This is the data");
+wxTheApp->AddPendingEvent(event);
 
 
     REFRESHDURATION2  //Debug function if defined LCDDURATIONSHOW in nextsteprc.h

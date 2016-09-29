@@ -68,6 +68,7 @@ END_EVENT_TABLE()
 NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
 {
     //(*Initialize(NextStepRc_SimulatorFrame)
+
     wxMenuItem* MenuItem2;
     wxMenuItem* MenuItem1;
     wxMenu* Menu1;
@@ -114,6 +115,7 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Panel2->Connect(wxEVT_MOTION,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnPanel2MouseMove,0,this);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnAbout);
+    Bind(EVT_DRAW_LCD, (wxObjectEventFunction)&NextStepRc_SimulatorFrame::DispatchMessages, this);
     //*)
 }
 
@@ -121,6 +123,11 @@ NextStepRc_SimulatorFrame::~NextStepRc_SimulatorFrame()
 {
     //(*Destroy(NextStepRc_SimulatorFrame)
     //*)
+}
+
+void NextStepRc_SimulatorFrame::DispatchMessages(wxCommandEvent& event)
+{
+    ProcessWindowEvent(event);
 }
 
 void NextStepRc_SimulatorFrame::OnQuit(wxCommandEvent& event)
@@ -133,23 +140,15 @@ void NextStepRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
     wxMessageBox( _("NextStepRc Simulateur"), _("Bienvenue dans..."));
 }
 
-void NextStepRc_SimulatorFrame::SendNewEvent(wxCommandEvent& newevt)
-{
-    wxDEFINE_EVENT(MY_NEW_TYPE, wxCommandEvent);
-    wxCommandEvent event(MY_NEW_TYPE); // No specific id
-
-// Add any data; sometimes the only information needed at the destination is the arrival of the event itself
-    event.SetString("This is the data");
-
-// Then post the event
-    wxPostEvent(this,event);  // to ourselves
-
-
-}
 void NextStepRc_SimulatorFrame::OnButton1Click(wxCommandEvent& event)
 {
     nextsteprcInit(simu_mcusr);
-    perMain();
+    //perMain();
+    per10ms();
+    per10ms();
+    per10ms();
+    per10ms();
+
 }
 
 void NextStepRc_SimulatorFrame::OnPanel2MouseMove(wxMouseEvent& event)
@@ -167,7 +166,7 @@ void NextStepRc_SimulatorFrame::OnPanel2MouseMove(wxMouseEvent& event)
 
 }
 
-void NextStepRc_SimulatorFrame::DrawLcd()
+void NextStepRc_SimulatorFrame::DrawLcd(wxCommandEvent& event)
 {
     wxClientDC dc(Panel2);
     wxBrush brush(*wxRED, wxBRUSHSTYLE_SOLID  ); // red pen of width 1

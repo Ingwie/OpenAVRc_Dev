@@ -598,7 +598,7 @@
 	<stdarg.h>
 	"stamp-nextsteprc.h"
 
-1475019929 c:\nextsteprc_builder\nextsteprc\stamp-nextsteprc.h
+1475103436 c:\nextsteprc_builder\nextsteprc\stamp-nextsteprc.h
 
 1474441890 source:c:\nextsteprc_builder\nextsteprc\eeprom_common.cpp
 	<stdint.h>
@@ -877,19 +877,20 @@
 1474991318 source:c:\nextsteprc_builder\nextsteprc\targets\simu\simu_interface.cpp
 	"simu_interface.h"
 
-1474903638 source:c:\nextsteprc_builder\nextsteprc\targets\stock\lcd_simu_driver.cpp
+1475105313 source:c:\nextsteprc_builder\nextsteprc\targets\stock\lcd_simu_driver.cpp
 	"lcd_simu_driver.h"
 
-1474881316 c:\nextsteprc_builder\nextsteprc\targets\stock\lcd_simu_driver.h
+1475104480 c:\nextsteprc_builder\nextsteprc\targets\stock\lcd_simu_driver.h
 	"../../../NextStepRc_Simulator/NextStepRc_SimulatorMain.h"
 
-1475020405 c:\nextsteprc_builder\nextsteprc_simulator\nextsteprc_simulatormain.h
+1475104480 c:\nextsteprc_builder\nextsteprc_simulator\nextsteprc_simulatormain.h
 	<wx/menu.h>
 	<wx/panel.h>
 	<wx/statbmp.h>
 	<wx/button.h>
 	<wx/frame.h>
 	<wx/statusbr.h>
+	<wx/app.h>
 	"../NextStepRc/nextsteprc.h"
 
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\menu.h
@@ -2058,37 +2059,18 @@
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\panelg.h
 	"wx/bitmap.h"
 
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\bmpbuttn.h
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\statbmp.h
 	"wx/defs.h"
-	"wx/button.h"
-	"wx/univ/bmpbuttn.h"
-	"wx/msw/bmpbuttn.h"
-	"wx/motif/bmpbuttn.h"
-	"wx/gtk/bmpbuttn.h"
-	"wx/gtk1/bmpbuttn.h"
-	"wx/osx/bmpbuttn.h"
-	"wx/qt/bmpbuttn.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\button.h
-	"wx/defs.h"
-	"wx/anybutton.h"
-	"wx/univ/button.h"
-	"wx/msw/button.h"
-	"wx/motif/button.h"
-	"wx/gtk/button.h"
-	"wx/gtk1/button.h"
-	"wx/osx/button.h"
-	"wx/qt/button.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\anybutton.h
-	"wx/defs.h"
-	"wx/bitmap.h"
 	"wx/control.h"
-	"wx/univ/anybutton.h"
-	"wx/msw/anybutton.h"
-	"wx/gtk/anybutton.h"
-	"wx/osx/anybutton.h"
-	"wx/qt/anybutton.h"
+	"wx/bitmap.h"
+	"wx/icon.h"
+	"wx/univ/statbmp.h"
+	"wx/msw/statbmp.h"
+	"wx/motif/statbmp.h"
+	"wx/gtk/statbmp.h"
+	"wx/gtk1/statbmp.h"
+	"wx/osx/statbmp.h"
+	"wx/qt/statbmp.h"
 
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\control.h
 	"wx/defs.h"
@@ -2133,76 +2115,6 @@
 
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\control.h
 
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\anybutton.h
-	"wx/univ/inphand.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\anybutton.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\anybutton.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\anybutton.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\anybutton.h
-	<QtWidgets/QPushButton>
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\button.h
-	"wx/bitmap.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\button.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\button.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\button.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\button.h
-	"wx/defs.h"
-	"wx/object.h"
-	"wx/list.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\button.h
-	"wx/control.h"
-	"wx/gdicmn.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\button.h
-	"wx/control.h"
-	"wx/button.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\bmpbuttn.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\bmpbuttn.h
-	"wx/button.h"
-	"wx/bitmap.h"
-	"wx/brush.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\bmpbuttn.h
-	"wx/motif/bmpmotif.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\bmpmotif.h
-	"wx/defs.h"
-	"wx/bitmap.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\bmpbuttn.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\bmpbuttn.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\bmpbuttn.h
-	"wx/button.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\bmpbuttn.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\statbmp.h
-	"wx/defs.h"
-	"wx/control.h"
-	"wx/bitmap.h"
-	"wx/icon.h"
-	"wx/univ/statbmp.h"
-	"wx/msw/statbmp.h"
-	"wx/motif/statbmp.h"
-	"wx/gtk/statbmp.h"
-	"wx/gtk1/statbmp.h"
-	"wx/osx/statbmp.h"
-	"wx/qt/statbmp.h"
-
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\icon.h
 	"wx/iconloc.h"
 	"wx/msw/icon.h"
@@ -2243,6 +2155,10 @@
 	"wx/motif/bmpmotif.h"
 	"wx/icon.h"
 
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\bmpmotif.h
+	"wx/defs.h"
+	"wx/bitmap.h"
+
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\statbmp.h
 	"wx/icon.h"
 
@@ -2257,6 +2173,61 @@
 
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\statbmp.h
 	<QtWidgets/QLabel>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\button.h
+	"wx/defs.h"
+	"wx/anybutton.h"
+	"wx/univ/button.h"
+	"wx/msw/button.h"
+	"wx/motif/button.h"
+	"wx/gtk/button.h"
+	"wx/gtk1/button.h"
+	"wx/osx/button.h"
+	"wx/qt/button.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\anybutton.h
+	"wx/defs.h"
+	"wx/bitmap.h"
+	"wx/control.h"
+	"wx/univ/anybutton.h"
+	"wx/msw/anybutton.h"
+	"wx/gtk/anybutton.h"
+	"wx/osx/anybutton.h"
+	"wx/qt/anybutton.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\anybutton.h
+	"wx/univ/inphand.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\anybutton.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\anybutton.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\anybutton.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\anybutton.h
+	<QtWidgets/QPushButton>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\button.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\button.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\button.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\button.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\button.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/list.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\button.h
+	"wx/control.h"
+	"wx/gdicmn.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\button.h
+	"wx/control.h"
+	"wx/button.h"
 
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\frame.h
 	"wx/toplevel.h"
@@ -2545,12 +2516,12 @@
 1474441890 source:c:\nextsteprc_builder\nextsteprc\vario.cpp
 	"nextsteprc.h"
 
-1474441890 source:c:\nextsteprc_builder\nextsteprc_simulator\nextsteprc_simulatorapp.cpp
+1475099278 source:c:\nextsteprc_builder\nextsteprc_simulator\nextsteprc_simulatorapp.cpp
 	"NextStepRc_SimulatorApp.h"
 	"NextStepRc_SimulatorMain.h"
 	<wx/image.h>
 
-1474441890 c:\nextsteprc_builder\nextsteprc_simulator\nextsteprc_simulatorapp.h
+1475099278 c:\nextsteprc_builder\nextsteprc_simulator\nextsteprc_simulatorapp.h
 	<wx/app.h>
 
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\app.h
@@ -2629,7 +2600,7 @@
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\theme.h
 	"wx/string.h"
 
-1475054381 source:c:\nextsteprc_builder\nextsteprc_simulator\nextsteprc_simulatormain.cpp
+1475105886 source:c:\nextsteprc_builder\nextsteprc_simulator\nextsteprc_simulatormain.cpp
 	"NextStepRc_SimulatorMain.h"
 	<wx/msgdlg.h>
 	<wx/dcclient.h>

@@ -17,10 +17,14 @@
 #include <wx/button.h>
 #include <wx/frame.h>
 #include <wx/statusbr.h>
+#include <wx/app.h>
 //*)
 
 //(*Firmware
 #include "../NextStepRc/nextsteprc.h"
+
+wxDEFINE_EVENT(EVT_DRAW_LCD, wxCommandEvent);
+
 //*)
 
 class NextStepRc_SimulatorFrame: public wxFrame
@@ -30,16 +34,15 @@ class NextStepRc_SimulatorFrame: public wxFrame
         NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID id = -1);
         virtual ~NextStepRc_SimulatorFrame();
 
-        void DrawLcd();
-        void SendNewEvent(wxCommandEvent& newevt);
+        void DispatchMessages(wxCommandEvent& event);
 
     private:
-
         //(*Handlers(NextStepRc_SimulatorFrame)
         void OnQuit(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
         void OnButton1Click(wxCommandEvent& event);
         void OnPanel2MouseMove(wxMouseEvent& event);
+        void DrawLcd(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(NextStepRc_SimulatorFrame)
@@ -58,9 +61,9 @@ class NextStepRc_SimulatorFrame: public wxFrame
         wxButton* Button1;
         wxStaticBitmap* StaticBitmap1;
         wxPanel* Panel1;
+        wxPanel* Panel2;
         wxPanel* Panel3;
         wxStatusBar* StatusBar1;
-        wxPanel* Panel2;
         wxPanel* PanelPrincipal;
         //*)
 
