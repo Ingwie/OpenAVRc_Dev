@@ -35,7 +35,7 @@ extern void eepromReadBlock (uint8_t * pointer_ram, uint32_t pointer_eeprom, uin
 
 
 #define wdt_reset() //sleep(1/*ms*/)
-#define SIMU_SLEEP(x) //do { if (!main_thread_running) return; sleep(x/*ms*/); } while (0)
+#define SIMU_SLEEP(x) Sleep(10000 * x)//do { if (!main_thread_running) return; sleep(x/*ms*/); } while (0)
 
 
 //PORT & PIN

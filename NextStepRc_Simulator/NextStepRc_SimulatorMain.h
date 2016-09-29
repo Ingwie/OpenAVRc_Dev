@@ -17,7 +17,6 @@
 #include <wx/button.h>
 #include <wx/frame.h>
 #include <wx/statusbr.h>
-#include <wx/app.h>
 //*)
 
 //(*Firmware
@@ -61,9 +60,9 @@ class NextStepRc_SimulatorFrame: public wxFrame
         wxButton* Button1;
         wxStaticBitmap* StaticBitmap1;
         wxPanel* Panel1;
-        wxPanel* Panel2;
         wxPanel* Panel3;
         wxStatusBar* StatusBar1;
+        wxPanel* Panel2;
         wxPanel* PanelPrincipal;
         //*)
 

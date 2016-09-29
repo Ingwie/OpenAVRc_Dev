@@ -126,10 +126,10 @@ void killEvents(uint8_t event)
 void clearKeyEvents()
 {
   // loop until all keys are up
-  while (keyDown()) {
+  while SIMU_UNLOCK_MACRO(keyDown()) {
 
 #if defined(SIMU)
-    SIMU_SLEEP(1/*ms*/);
+    SIMU_SLEEP(1);
 #else
     wdt_reset();
 #endif

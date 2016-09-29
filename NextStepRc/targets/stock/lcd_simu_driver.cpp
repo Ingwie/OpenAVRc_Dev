@@ -15,7 +15,7 @@
 */
 
 #include "lcd_simu_driver.h"
-
+#include <wx/app.h>
 
 
 

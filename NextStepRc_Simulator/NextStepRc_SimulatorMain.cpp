@@ -68,7 +68,6 @@ END_EVENT_TABLE()
 NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
 {
     //(*Initialize(NextStepRc_SimulatorFrame)
-
     wxMenuItem* MenuItem2;
     wxMenuItem* MenuItem1;
     wxMenu* Menu1;
@@ -80,9 +79,9 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Move(wxPoint(-1,-1));
     SetMaxSize(wxSize(-1,-1));
     {
-        wxIcon FrameIcon;
-        FrameIcon.CopyFromBitmap(wxBitmap(wxImage(_T("C:\\NextStepRc_Builder\\NextStepRc_Simulator\\avatarnext.xpm"))));
-        SetIcon(FrameIcon);
+    	wxIcon FrameIcon;
+    	FrameIcon.CopyFromBitmap(wxBitmap(wxImage(_T("avatarnext.xpm"))));
+    	SetIcon(FrameIcon);
     }
     PanelPrincipal = new wxPanel(this, ID_PANEL1, wxPoint(424,216), wxSize(800,400), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     Panel1 = new wxPanel(PanelPrincipal, ID_PANEL2, wxPoint(8,8), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL2"));
@@ -115,7 +114,6 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Panel2->Connect(wxEVT_MOTION,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnPanel2MouseMove,0,this);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnAbout);
-    Bind(EVT_DRAW_LCD, (wxObjectEventFunction)&NextStepRc_SimulatorFrame::DispatchMessages, this);
     //*)
 }
 

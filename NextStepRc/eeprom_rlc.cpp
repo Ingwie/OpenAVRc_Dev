@@ -75,7 +75,7 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
 #endif
 
   if (s_sync_write) {
-    while (eeprom_buffer_size > 0) wdt_reset();
+    while SIMU_UNLOCK_MACRO(eeprom_buffer_size > 0) wdt_reset();
   }
 }
 
@@ -202,7 +202,7 @@ void eepromFormat()
 {
   ENABLE_SYNC_WRITE(true);
 
-#ifdef SIMU
+#if defined(SIMU)
   // write zero to the end of the new EEPROM file to set it's proper size
   uint8_t dummy = 0;
   eepromWriteBlock(&dummy, EESIZE-1, 1);

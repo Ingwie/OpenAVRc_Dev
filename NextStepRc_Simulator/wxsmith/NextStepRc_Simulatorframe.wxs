@@ -3,7 +3,7 @@
 	<object class="wxFrame" name="NextStepRc_SimulatorFrame">
 		<title>Simulateur</title>
 		<centered>1</centered>
-		<icon>C:\NextStepRc_Builder\NextStepRc_Simulator\avatarnext.xpm</icon>
+		<icon>avatarnext.xpm</icon>
 		<pos>-1,-1</pos>
 		<size>800,420</size>
 		<maxsize>-1,-1</maxsize>
