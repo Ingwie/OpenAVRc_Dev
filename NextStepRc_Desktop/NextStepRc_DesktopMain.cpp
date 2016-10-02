@@ -65,6 +65,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Create(parent, id, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("id"));
     Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(240,40), wxDefaultSize, 0, _T("ID_PANEL1"));
     Panel1->SetFocus();
+    Button1 = new wxButton(Panel1, ID_BUTTON1, _("Texte"), wxPoint(112,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
     MenuBar_main = new wxMenuBar();
     Menu1 = new wxMenu();
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter l\'application"), wxITEM_NORMAL);
@@ -82,6 +83,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     StatusBar_main->SetStatusStyles(1,__wxStatusBarStyles_1);
     SetStatusBar(StatusBar_main);
 
+    Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnButton1Click);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnAbout);
     //*)

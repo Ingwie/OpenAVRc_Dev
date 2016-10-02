@@ -61,7 +61,7 @@ ISR(EE_READY_vect)
 #endif
 
 void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t size)
-{
+{/* totototototododododododo
   assert(!eeprom_buffer_size);
 
   eeprom_pointer = i_pointer_eeprom;
@@ -76,7 +76,7 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
 
   if (s_sync_write) {
     while SIMU_UNLOCK_MACRO(eeprom_buffer_size > 0) wdt_reset();
-  }
+  }*/
 }
 
 static uint8_t EeFsRead(blkid_t blk, uint8_t ofs)

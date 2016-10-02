@@ -12,6 +12,7 @@
 #include <wx/dcclient.h>
 
 
+
 //(*InternalHeaders(NextStepRc_SimulatorFrame)
 #include <wx/bitmap.h>
 #include <wx/icon.h>
@@ -19,6 +20,8 @@
 #include <wx/image.h>
 #include <wx/string.h>
 //*)
+
+#include "avatarnext.xpm"
 
 //helper functions
 enum wxbuildinfoformat
@@ -50,8 +53,8 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 
 //(*IdInit(NextStepRc_SimulatorFrame)
 const long NextStepRc_SimulatorFrame::ID_PANEL2 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_STATICBITMAP1 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_BUTTON1 = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_WXSIMULCD = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANEL3 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANEL4 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANEL1 = wxNewId();
@@ -80,7 +83,7 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     SetMaxSize(wxSize(-1,-1));
     {
     	wxIcon FrameIcon;
-    	FrameIcon.CopyFromBitmap(wxBitmap(wxImage(_T("avatarnext.xpm"))));
+    	FrameIcon.CopyFromBitmap(avatarnext);
     	SetIcon(FrameIcon);
     }
     PanelPrincipal = new wxPanel(this, ID_PANEL1, wxPoint(424,216), wxSize(800,400), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
@@ -88,8 +91,10 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Panel1->SetBackgroundColour(wxColour(151,234,194));
     Panel2 = new wxPanel(PanelPrincipal, ID_PANEL3, wxPoint(8,72), wxSize(784,248), wxSUNKEN_BORDER, _T("ID_PANEL3"));
     Panel2->SetBackgroundColour(wxColour(131,216,243));
-    StaticBitmap1 = new wxStaticBitmap(Panel2, ID_STATICBITMAP1, wxBitmap(wxImage(_T("splash.xpm")).Rescale(wxSize(256,128).GetWidth(),wxSize(256,128).GetHeight())), wxPoint(272,8), wxSize(256,128), wxDOUBLE_BORDER, _T("ID_STATICBITMAP1"));
     Button1 = new wxButton(Panel2, ID_BUTTON1, _("test"), wxPoint(104,112), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
+    wxsimulcd = new wxPanel(Panel2, ID_WXSIMULCD, wxPoint(256,32), wxSize(256,128), wxTAB_TRAVERSAL, _T("ID_WXSIMULCD"));
+    wxsimulcd->SetForegroundColour(wxColour(19,216,14));
+    wxsimulcd->SetBackgroundColour(wxColour(120,210,30));
     Panel3 = new wxPanel(PanelPrincipal, ID_PANEL4, wxPoint(8,312), wxSize(784,64), wxRAISED_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL4"));
     Panel3->SetBackgroundColour(wxColour(50,167,237));
     MenuBar1 = new wxMenuBar();
@@ -111,7 +116,7 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Center();
 
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnButton1Click);
-    Panel2->Connect(wxEVT_MOTION,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnPanel2MouseMove,0,this);
+    wxsimulcd->Connect(wxEVT_PAINT,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnwxsimulcdPaint,0,this);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnAbout);
     //*)
@@ -121,11 +126,6 @@ NextStepRc_SimulatorFrame::~NextStepRc_SimulatorFrame()
 {
     //(*Destroy(NextStepRc_SimulatorFrame)
     //*)
-}
-
-void NextStepRc_SimulatorFrame::DispatchMessages(wxCommandEvent& event)
-{
-    ProcessWindowEvent(event);
 }
 
 void NextStepRc_SimulatorFrame::OnQuit(wxCommandEvent& event)
@@ -140,37 +140,50 @@ void NextStepRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
 
 void NextStepRc_SimulatorFrame::OnButton1Click(wxCommandEvent& event)
 {
-    nextsteprcInit(simu_mcusr);
     //perMain();
+    doSplash();
+    DrawWxSimuLcd();
+    Sleep(1000);
+    nextsteprcInit(simu_mcusr);
     per10ms();
-    per10ms();
-    per10ms();
-    per10ms();
+    DrawWxSimuLcd();
+     Sleep(1000);
+    //*wxsimulcd->OnwxsimulcdPaint(event);
 
 }
 
-void NextStepRc_SimulatorFrame::OnPanel2MouseMove(wxMouseEvent& event)
+void NextStepRc_SimulatorFrame::OnwxsimulcdPaint(wxPaintEvent& event)
 {
-    if (event.Dragging())
-    {
-        wxClientDC dc(Panel2);
-        wxBrush brush(*wxRED, wxBRUSHSTYLE_SOLID  ); // red pen of width 1
-        dc.SetBrush(brush);
-        dc.DrawRectangle(00,00,20,20);
-        dc.SetPen(wxNullPen);
-        // wxMessageBox( _("NextStepRc Simulateur"), _("Bienvenue dans..."));
-        simu_pina = 0xFF;
-    }
-
+DrawWxSimuLcd();
 }
 
-void NextStepRc_SimulatorFrame::DrawLcd(wxCommandEvent& event)
+void NextStepRc_SimulatorFrame::DrawWxSimuLcd()
 {
-    wxClientDC dc(Panel2);
-    wxBrush brush(*wxRED, wxBRUSHSTYLE_SOLID  ); // red pen of width 1
+    uint8_t *p;
+
+    p = displayBuf;
+    wxClientDC dc(wxsimulcd);
+    wxBrush brush_back(*wxGREEN, wxBRUSHSTYLE_SOLID  );
+    dc.SetBrush(brush_back);
+    dc.DrawRectangle(0,0,LCD_W*SimuLcdScale,LCD_H*SimuLcdScale);
+    wxBrush brush(*wxBLACK, wxBRUSHSTYLE_SOLID  );
     dc.SetBrush(brush);
-    dc.DrawRectangle(00,00,20,20);
-    dc.SetPen(wxNullPen);
 
+
+    for (uint8_t y=0; y < (LCD_H / 8); y++)
+    {
+
+        for (uint8_t x=0; x < LCD_W; x++)
+        {
+            uint8_t bit = *p;
+            p++;
+            for (uint8_t i=0; i < 8; i++)
+            {
+                if (bit & 0x01) dc.DrawRectangle(x*SimuLcdScale,(y*8*SimuLcdScale) +(i*SimuLcdScale),SimuLcdScale,SimuLcdScale);
+                bit >>=1;
+            }
+        }
+    }
+    dc.SetPen(wxNullPen);
 }
 

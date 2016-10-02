@@ -3,7 +3,7 @@
 	<object class="wxFrame" name="NextStepRc_SimulatorFrame">
 		<title>Simulateur</title>
 		<centered>1</centered>
-		<icon>avatarnext.xpm</icon>
+		<icon code="avatarnext" />
 		<pos>-1,-1</pos>
 		<size>800,420</size>
 		<maxsize>-1,-1</maxsize>
@@ -23,17 +23,17 @@
 				<size>784,248</size>
 				<bg>#83D8F3</bg>
 				<style>wxSUNKEN_BORDER</style>
-				<handler function="OnPanel2MouseMove" entry="EVT_MOTION" />
-				<object class="wxStaticBitmap" name="ID_STATICBITMAP1" variable="StaticBitmap1" member="yes">
-					<bitmap>splash.xpm</bitmap>
-					<pos>272,8</pos>
-					<size>256,128</size>
-					<style>wxDOUBLE_BORDER</style>
-				</object>
 				<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
 					<label>test</label>
 					<pos>104,112</pos>
 					<handler function="OnButton1Click" entry="EVT_BUTTON" />
+				</object>
+				<object class="wxPanel" name="ID_WXSIMULCD" variable="wxsimulcd" member="yes">
+					<pos>256,32</pos>
+					<size>256,128</size>
+					<fg>#13D80E</fg>
+					<bg>#78D21E</bg>
+					<handler function="OnwxsimulcdPaint" entry="EVT_PAINT" />
 				</object>
 			</object>
 			<object class="wxPanel" name="ID_PANEL4" variable="Panel3" member="yes">

@@ -3399,3 +3399,35 @@
 
 1456695218 c:\nextsteprc_builderaa\wxwidgets-3.1.0\include\wx\msw\rcdefs.h
 
+1474441890 source:a:\cb\nextsteprc_desktop\nextsteprc_desktopapp.cpp
+	"NextStepRc_DesktopApp.h"
+	"NextStepRc_DesktopMain.h"
+	<wx/image.h>
+
+1474441890 a:\cb\nextsteprc_desktop\nextsteprc_desktopapp.h
+	<wx/app.h>
+
+1474625350 a:\cb\nextsteprc_desktop\nextsteprc_desktopmain.h
+	<wx/menu.h>
+	<wx/panel.h>
+	<wx/button.h>
+	<wx/frame.h>
+	<wx/statusbr.h>
+
+1474644992 source:a:\cb\nextsteprc_desktop\nextsteprc_desktopmain.cpp
+	"NextStepRc_DesktopMain.h"
+	<wx/msgdlg.h>
+	<wx/intl.h>
+	<wx/string.h>
+
+1474441890 source:a:\cb\nextsteprc_desktop\panel_main.cpp
+	"Panel_main.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1474441890 a:\cb\nextsteprc_desktop\panel_main.h
+	<wx/panel.h>
+
+1474441890 source:a:\cb\nextsteprc_desktop\resource.rc
+	"wx/msw/wx.rc"
+

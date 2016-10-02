@@ -2694,3 +2694,985 @@
 
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\rcdefs.h
 
+1474441890 source:a:\cb\nextsteprc\audio_avr.cpp
+	"nextsteprc.h"
+
+1475054520 a:\cb\nextsteprc\nextsteprc.h
+	<inttypes.h>
+	<string.h>
+	<stddef.h>
+	<stdlib.h>
+	<avr/pgmspace.h>
+	"../pgmtypes.h"
+	<stdbool.h>
+	"targets/simu/simu_interface.h"
+	"targets/mega2560/board_mega2560.h"
+	"trainer_input.h"
+	"targets/common_avr/board_avr.h"
+	"myeeprom.h"
+	"rtc.h"
+	"gui/menus.h"
+	"gui/menu_model.h"
+	"gui/lcd.h"
+	"gui/navigation.h"
+	"debug.h"
+	<avr/io.h>
+	<avr/eeprom.h>
+	<avr/sleep.h>
+	<avr/interrupt.h>
+	<util/delay.h>
+	<avr/wdt.h>
+	"eeprom_common.h"
+	"eeprom_rlc.h"
+	"eeprom_raw.h"
+	"pulses/pulses.h"
+	"gui/gui.h"
+	"templates.h"
+	"keys.h"
+	"pwr.h"
+	"trainer_input.h"
+	"telemetry/frsky.h"
+	"telemetry/jeti.h"
+	"telemetry/ardupilot.h"
+	"telemetry/nmea.h"
+	"telemetry/mavlink.h"
+	"audio_avr.h"
+	"buzzer.h"
+	"targets/stock/voice.h"
+	"targets/gruvin9x/somo14d.h"
+	"targets/mega2560/voice.h"
+	"translations.h"
+	"fonts.h"
+	"haptic.h"
+	"sdcard.h"
+	"rtc.h"
+
+1475278018 a:\cb\nextsteprc\targets\simu\simu_interface.h
+	<inttypes.h>
+	<assert.h>
+
+1474554528 a:\cb\nextsteprc\targets\mega2560\board_mega2560.h
+	"../common_avr/board_avr.h"
+	"../../nextsteprc.h"
+
+1474441890 a:\cb\nextsteprc\targets\common_avr\board_avr.h
+	"../gruvin9x/board_gruvin9x.h"
+	"../mega2560/board_mega2560.h"
+	"../stock/board_stock.h"
+
+1474441890 a:\cb\nextsteprc\targets\gruvin9x\board_gruvin9x.h
+	"../common_avr/board_avr.h"
+
+1474441890 a:\cb\nextsteprc\targets\stock\board_stock.h
+	"../common_avr/board_avr.h"
+
+1474441890 a:\cb\nextsteprc\trainer_input.h
+	"myeeprom.h"
+
+1474447092 a:\cb\nextsteprc\myeeprom.h
+	<inttypes.h>
+
+1474441890 a:\cb\nextsteprc\rtc.h
+	<inttypes.h>
+
+1475052608 a:\cb\nextsteprc\gui\menus.h
+	"../myeeprom.h"
+	"lcd.h"
+
+1474447036 a:\cb\nextsteprc\gui\lcd.h
+	"../nextsteprc.h"
+
+1475000660 a:\cb\nextsteprc\gui\menu_model.h
+	"view_mavlink.h"
+
+1474441890 a:\cb\nextsteprc\gui\view_mavlink.h
+	"../nextsteprc.h"
+	"../telemetry/mavlink.h"
+	"menus.h"
+	"../targets/common_avr/serial_driver.h"
+
+1474441890 a:\cb\nextsteprc\telemetry\mavlink.h
+	"../thirdparty/GCS_MAVLink/include_v1.0/mavlink_types.h"
+	"../targets/common_avr/serial_driver.h"
+	"../nextsteprc.h"
+	"../thirdparty/GCS_MAVLink/include_v1.0/ardupilotmega/mavlink.h"
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\mavlink_types.h
+	<inttypes.h>
+
+1474441890 a:\cb\nextsteprc\targets\common_avr\serial_driver.h
+	"../../nextsteprc.h"
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink.h
+	"version.h"
+	"ardupilotmega.h"
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\version.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\ardupilotmega.h
+	"../protocol.h"
+	"../common/common.h"
+	"./mavlink_msg_sensor_offsets.h"
+	"./mavlink_msg_set_mag_offsets.h"
+	"./mavlink_msg_meminfo.h"
+	"./mavlink_msg_ap_adc.h"
+	"./mavlink_msg_digicam_configure.h"
+	"./mavlink_msg_digicam_control.h"
+	"./mavlink_msg_mount_configure.h"
+	"./mavlink_msg_mount_control.h"
+	"./mavlink_msg_mount_status.h"
+	"./mavlink_msg_fence_point.h"
+	"./mavlink_msg_fence_fetch_point.h"
+	"./mavlink_msg_fence_status.h"
+	"./mavlink_msg_ahrs.h"
+	"./mavlink_msg_simstate.h"
+	"./mavlink_msg_hwstatus.h"
+	"./mavlink_msg_radio.h"
+	"./mavlink_msg_limits_status.h"
+	"./mavlink_msg_wind.h"
+	"./mavlink_msg_data16.h"
+	"./mavlink_msg_data32.h"
+	"./mavlink_msg_data64.h"
+	"./mavlink_msg_data96.h"
+	"./mavlink_msg_rangefinder.h"
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\protocol.h
+	"string.h"
+	"mavlink_types.h"
+	"mavlink_helpers.h"
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\mavlink_helpers.h
+	"string.h"
+	"checksum.h"
+	"mavlink_types.h"
+	"mavlink_conversions.h"
+	"mavlink_types.h"
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\checksum.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\mavlink_conversions.h
+	<math.h>
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\common.h
+	"../protocol.h"
+	"./mavlink_msg_heartbeat.h"
+	"./mavlink_msg_sys_status.h"
+	"./mavlink_msg_system_time.h"
+	"./mavlink_msg_ping.h"
+	"./mavlink_msg_change_operator_control.h"
+	"./mavlink_msg_change_operator_control_ack.h"
+	"./mavlink_msg_auth_key.h"
+	"./mavlink_msg_set_mode.h"
+	"./mavlink_msg_param_request_read.h"
+	"./mavlink_msg_param_request_list.h"
+	"./mavlink_msg_param_value.h"
+	"./mavlink_msg_param_set.h"
+	"./mavlink_msg_gps_raw_int.h"
+	"./mavlink_msg_gps_status.h"
+	"./mavlink_msg_scaled_imu.h"
+	"./mavlink_msg_raw_imu.h"
+	"./mavlink_msg_raw_pressure.h"
+	"./mavlink_msg_scaled_pressure.h"
+	"./mavlink_msg_attitude.h"
+	"./mavlink_msg_attitude_quaternion.h"
+	"./mavlink_msg_local_position_ned.h"
+	"./mavlink_msg_global_position_int.h"
+	"./mavlink_msg_rc_channels_scaled.h"
+	"./mavlink_msg_rc_channels_raw.h"
+	"./mavlink_msg_servo_output_raw.h"
+	"./mavlink_msg_mission_request_partial_list.h"
+	"./mavlink_msg_mission_write_partial_list.h"
+	"./mavlink_msg_mission_item.h"
+	"./mavlink_msg_mission_request.h"
+	"./mavlink_msg_mission_set_current.h"
+	"./mavlink_msg_mission_current.h"
+	"./mavlink_msg_mission_request_list.h"
+	"./mavlink_msg_mission_count.h"
+	"./mavlink_msg_mission_clear_all.h"
+	"./mavlink_msg_mission_item_reached.h"
+	"./mavlink_msg_mission_ack.h"
+	"./mavlink_msg_set_gps_global_origin.h"
+	"./mavlink_msg_gps_global_origin.h"
+	"./mavlink_msg_set_local_position_setpoint.h"
+	"./mavlink_msg_local_position_setpoint.h"
+	"./mavlink_msg_global_position_setpoint_int.h"
+	"./mavlink_msg_set_global_position_setpoint_int.h"
+	"./mavlink_msg_safety_set_allowed_area.h"
+	"./mavlink_msg_safety_allowed_area.h"
+	"./mavlink_msg_set_roll_pitch_yaw_thrust.h"
+	"./mavlink_msg_set_roll_pitch_yaw_speed_thrust.h"
+	"./mavlink_msg_roll_pitch_yaw_thrust_setpoint.h"
+	"./mavlink_msg_roll_pitch_yaw_speed_thrust_setpoint.h"
+	"./mavlink_msg_set_quad_motors_setpoint.h"
+	"./mavlink_msg_set_quad_swarm_roll_pitch_yaw_thrust.h"
+	"./mavlink_msg_nav_controller_output.h"
+	"./mavlink_msg_set_quad_swarm_led_roll_pitch_yaw_thrust.h"
+	"./mavlink_msg_state_correction.h"
+	"./mavlink_msg_request_data_stream.h"
+	"./mavlink_msg_data_stream.h"
+	"./mavlink_msg_manual_control.h"
+	"./mavlink_msg_rc_channels_override.h"
+	"./mavlink_msg_vfr_hud.h"
+	"./mavlink_msg_command_long.h"
+	"./mavlink_msg_command_ack.h"
+	"./mavlink_msg_roll_pitch_yaw_rates_thrust_setpoint.h"
+	"./mavlink_msg_manual_setpoint.h"
+	"./mavlink_msg_local_position_ned_system_global_offset.h"
+	"./mavlink_msg_hil_state.h"
+	"./mavlink_msg_hil_controls.h"
+	"./mavlink_msg_hil_rc_inputs_raw.h"
+	"./mavlink_msg_optical_flow.h"
+	"./mavlink_msg_global_vision_position_estimate.h"
+	"./mavlink_msg_vision_position_estimate.h"
+	"./mavlink_msg_vision_speed_estimate.h"
+	"./mavlink_msg_vicon_position_estimate.h"
+	"./mavlink_msg_highres_imu.h"
+	"./mavlink_msg_omnidirectional_flow.h"
+	"./mavlink_msg_hil_sensor.h"
+	"./mavlink_msg_sim_state.h"
+	"./mavlink_msg_radio_status.h"
+	"./mavlink_msg_file_transfer_start.h"
+	"./mavlink_msg_file_transfer_dir_list.h"
+	"./mavlink_msg_file_transfer_res.h"
+	"./mavlink_msg_hil_gps.h"
+	"./mavlink_msg_hil_optical_flow.h"
+	"./mavlink_msg_hil_state_quaternion.h"
+	"./mavlink_msg_battery_status.h"
+	"./mavlink_msg_setpoint_8dof.h"
+	"./mavlink_msg_setpoint_6dof.h"
+	"./mavlink_msg_memory_vect.h"
+	"./mavlink_msg_debug_vect.h"
+	"./mavlink_msg_named_value_float.h"
+	"./mavlink_msg_named_value_int.h"
+	"./mavlink_msg_statustext.h"
+	"./mavlink_msg_debug.h"
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_heartbeat.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_sys_status.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_system_time.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_ping.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_change_operator_control.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_change_operator_control_ack.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_auth_key.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_mode.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_param_request_read.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_param_request_list.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_param_value.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_param_set.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_gps_raw_int.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_gps_status.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_scaled_imu.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_raw_imu.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_raw_pressure.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_scaled_pressure.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_attitude.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_attitude_quaternion.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_local_position_ned.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_global_position_int.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_rc_channels_scaled.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_rc_channels_raw.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_servo_output_raw.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_request_partial_list.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_write_partial_list.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_item.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_request.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_set_current.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_current.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_request_list.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_count.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_clear_all.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_item_reached.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_mission_ack.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_gps_global_origin.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_gps_global_origin.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_local_position_setpoint.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_local_position_setpoint.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_global_position_setpoint_int.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_global_position_setpoint_int.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_safety_set_allowed_area.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_safety_allowed_area.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_roll_pitch_yaw_thrust.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_roll_pitch_yaw_speed_thrust.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_roll_pitch_yaw_thrust_setpoint.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_roll_pitch_yaw_speed_thrust_setpoint.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_quad_motors_setpoint.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_quad_swarm_roll_pitch_yaw_thrust.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_nav_controller_output.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_set_quad_swarm_led_roll_pitch_yaw_thrust.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_state_correction.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_request_data_stream.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_data_stream.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_manual_control.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_rc_channels_override.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_vfr_hud.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_command_long.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_command_ack.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_roll_pitch_yaw_rates_thrust_setpoint.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_manual_setpoint.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_local_position_ned_system_global_offset.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_state.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_controls.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_rc_inputs_raw.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_optical_flow.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_global_vision_position_estimate.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_vision_position_estimate.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_vision_speed_estimate.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_vicon_position_estimate.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_highres_imu.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_omnidirectional_flow.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_sensor.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_sim_state.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_radio_status.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_file_transfer_start.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_file_transfer_dir_list.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_file_transfer_res.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_gps.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_optical_flow.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_hil_state_quaternion.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_battery_status.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_setpoint_8dof.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_setpoint_6dof.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_memory_vect.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_debug_vect.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_named_value_float.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_named_value_int.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_statustext.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\common\mavlink_msg_debug.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_sensor_offsets.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_set_mag_offsets.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_meminfo.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_ap_adc.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_digicam_configure.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_digicam_control.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_mount_configure.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_mount_control.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_mount_status.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_fence_point.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_fence_fetch_point.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_fence_status.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_ahrs.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_simstate.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_hwstatus.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_radio.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_limits_status.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_wind.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_data16.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_data32.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_data64.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_data96.h
+
+1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_rangefinder.h
+
+1474441890 a:\cb\nextsteprc\gui\navigation.h
+
+1474441890 a:\cb\nextsteprc\debug.h
+	<inttypes.h>
+	"rtc.h"
+	"cli.h"
+
+1474441890 a:\cb\nextsteprc\eeprom_common.h
+
+1474570334 a:\cb\nextsteprc\eeprom_rlc.h
+	"nextsteprc.h"
+	"timers.h"
+
+1474441890 a:\cb\nextsteprc\timers.h
+
+1474441890 a:\cb\nextsteprc\pulses\pulses.h
+	"pulses_avr.h"
+
+1474441890 a:\cb\nextsteprc\pulses\pulses_avr.h
+
+1474441890 a:\cb\nextsteprc\gui\gui.h
+	"lcd.h"
+	"menus.h"
+
+1474441890 a:\cb\nextsteprc\templates.h
+	<inttypes.h>
+
+1474441890 a:\cb\nextsteprc\keys.h
+
+1474441890 a:\cb\nextsteprc\pwr.h
+
+1474441890 a:\cb\nextsteprc\telemetry\frsky.h
+	<inttypes.h>
+	"../nextsteprc.h"
+
+1474441890 a:\cb\nextsteprc\telemetry\jeti.h
+
+1474441890 a:\cb\nextsteprc\telemetry\ardupilot.h
+
+1474441890 a:\cb\nextsteprc\telemetry\nmea.h
+
+1474441890 a:\cb\nextsteprc\audio_avr.h
+
+1474441890 a:\cb\nextsteprc\buzzer.h
+
+1474441890 a:\cb\nextsteprc\targets\stock\voice.h
+
+1474441890 a:\cb\nextsteprc\targets\gruvin9x\somo14d.h
+
+1474441890 a:\cb\nextsteprc\targets\mega2560\voice.h
+
+1474441890 a:\cb\nextsteprc\translations.h
+	"translations/fr.h"
+	"translations/it.h"
+	"translations/se.h"
+	"translations/fi.h"
+	"translations/de.h"
+	"translations/cz.h"
+	"translations/es.h"
+	"translations/pl.h"
+	"translations/pt.h"
+	"translations/nl.h"
+	"translations/en.h"
+
+1474441890 a:\cb\nextsteprc\translations\fr.h
+
+1474441890 a:\cb\nextsteprc\translations\it.h
+
+1474441890 a:\cb\nextsteprc\translations\se.h
+
+1474441890 a:\cb\nextsteprc\translations\fi.h
+
+1474441890 a:\cb\nextsteprc\translations\de.h
+
+1474441890 a:\cb\nextsteprc\translations\cz.h
+
+1474441890 a:\cb\nextsteprc\translations\es.h
+
+1474441890 a:\cb\nextsteprc\translations\pl.h
+
+1474441890 a:\cb\nextsteprc\translations\pt.h
+
+1474441890 a:\cb\nextsteprc\translations\nl.h
+
+1474441890 a:\cb\nextsteprc\translations\en.h
+
+1474441890 a:\cb\nextsteprc\fonts.h
+
+1474441890 a:\cb\nextsteprc\haptic.h
+
+1474441890 a:\cb\nextsteprc\sdcard.h
+	"thirdparty/FatFs/ff.h"
+	"translations.h"
+
+1474585282 a:\cb\nextsteprc\thirdparty\fatfs\ff.h
+	"integer.h"
+	"ffconf.h"
+
+1474441890 a:\cb\nextsteprc\thirdparty\fatfs\integer.h
+	<windows.h>
+	<tchar.h>
+
+1474441890 a:\cb\nextsteprc\thirdparty\fatfs\ffconf.h
+
+1474441890 source:a:\cb\nextsteprc\buzzer.cpp
+	"nextsteprc.h"
+
+1474538072 source:a:\cb\nextsteprc\crc16.cpp
+	"nextsteprc.h"
+
+1474538092 source:a:\cb\nextsteprc\curves.cpp
+	"nextsteprc.h"
+
+1474555366 source:a:\cb\nextsteprc\debug.cpp
+	"nextsteprc.h"
+	<stdarg.h>
+	"stamp-nextsteprc.h"
+
+1475274518 a:\cb\nextsteprc\stamp-nextsteprc.h
+
+1474441890 source:a:\cb\nextsteprc\eeprom_common.cpp
+	<stdint.h>
+	<inttypes.h>
+	<string.h>
+	"nextsteprc.h"
+	"timers.h"
+
+1474540664 source:a:\cb\nextsteprc\functions.cpp
+	"nextsteprc.h"
+	"timers.h"
+
+1474441890 source:a:\cb\nextsteprc\gui\fonts.cpp
+	"../nextsteprc.h"
+	"../fonts/std/font_05x07_avr.lbm"
+	"../fonts/std/font_de_05x07.lbm"
+	"../fonts/std/font_cz_05x07.lbm"
+	"../fonts/std/font_es_05x07.lbm"
+	"../fonts/std/font_fi_05x07.lbm"
+	"../fonts/std/font_fr_05x07.lbm"
+	"../fonts/std/font_it_05x07.lbm"
+	"../fonts/std/font_pl_05x07.lbm"
+	"../fonts/std/font_pt_05x07.lbm"
+	"../fonts/std/font_se_05x07.lbm"
+	"../fonts/std/font_05x07_B_compressed.lbm"
+	"../fonts/std/font_10x14_compressed.lbm"
+
+1474441890 a:\cb\nextsteprc\fonts\std\font_05x07_avr.lbm
+
+1474441890 a:\cb\nextsteprc\fonts\std\font_de_05x07.lbm
+
+1474441890 a:\cb\nextsteprc\fonts\std\font_cz_05x07.lbm
+
+1474441890 a:\cb\nextsteprc\fonts\std\font_es_05x07.lbm
+
+1474441890 a:\cb\nextsteprc\fonts\std\font_fi_05x07.lbm
+
+1474441890 a:\cb\nextsteprc\fonts\std\font_fr_05x07.lbm
+
+1474441890 a:\cb\nextsteprc\fonts\std\font_it_05x07.lbm
+
+1474441890 a:\cb\nextsteprc\fonts\std\font_pl_05x07.lbm
+
+1474441890 a:\cb\nextsteprc\fonts\std\font_pt_05x07.lbm
+
+1474441890 a:\cb\nextsteprc\fonts\std\font_se_05x07.lbm
+
+1474441890 a:\cb\nextsteprc\fonts\std\font_05x07_b_compressed.lbm
+
+1474441890 a:\cb\nextsteprc\fonts\std\font_10x14_compressed.lbm
+
+1474441890 source:a:\cb\nextsteprc\gui\lcd.cpp
+	"../nextsteprc.h"
+	"../timers.h"
+
+1474555846 source:a:\cb\nextsteprc\gui\menu_general.cpp
+	"menu_general.h"
+
+1474555846 a:\cb\nextsteprc\gui\menu_general.h
+	"../nextsteprc.h"
+	"../bitmaps/sticks.lbm"
+
+1474441890 a:\cb\nextsteprc\bitmaps\sticks.lbm
+
+1474556832 source:a:\cb\nextsteprc\gui\menu_general_calib.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474571220 source:a:\cb\nextsteprc\gui\menu_general_diaganas.cpp
+	"menu_general.h"
+
+1474441890 source:a:\cb\nextsteprc\gui\menu_general_diagkeys.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474441890 source:a:\cb\nextsteprc\gui\menu_general_sdmanager.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474441890 source:a:\cb\nextsteprc\gui\menu_general_setup.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474441890 source:a:\cb\nextsteprc\gui\menu_general_trainer.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474441890 source:a:\cb\nextsteprc\gui\menu_general_version.cpp
+	"../nextsteprc.h"
+	"menu_general.h"
+
+1474999276 source:a:\cb\nextsteprc\gui\menu_model.cpp
+	"../nextsteprc.h"
+
+1474999422 source:a:\cb\nextsteprc\gui\menu_model_curves.cpp
+	"../nextsteprc.h"
+
+1474999276 source:a:\cb\nextsteprc\gui\menu_model_custom_functions.cpp
+	"../nextsteprc.h"
+	"widgets.h"
+
+1474441890 a:\cb\nextsteprc\gui\widgets.h
+
+1474999422 source:a:\cb\nextsteprc\gui\menu_model_flightmodes.cpp
+	"../nextsteprc.h"
+
+1474999422 source:a:\cb\nextsteprc\gui\menu_model_heli.cpp
+	"../nextsteprc.h"
+
+1474999422 source:a:\cb\nextsteprc\gui\menu_model_inputs_mixes.cpp
+	"../nextsteprc.h"
+	"widgets.h"
+
+1474999422 source:a:\cb\nextsteprc\gui\menu_model_limits.cpp
+	"../nextsteprc.h"
+
+1474999422 source:a:\cb\nextsteprc\gui\menu_model_logical_switches.cpp
+	"../nextsteprc.h"
+
+1474999422 source:a:\cb\nextsteprc\gui\menu_model_select.cpp
+	"../nextsteprc.h"
+	"../sdcard.h"
+
+1474999422 source:a:\cb\nextsteprc\gui\menu_model_setup.cpp
+	"../nextsteprc.h"
+
+1474999422 source:a:\cb\nextsteprc\gui\menu_model_telemetry.cpp
+	"../nextsteprc.h"
+
+1474999422 source:a:\cb\nextsteprc\gui\menu_model_templates.cpp
+	"../nextsteprc.h"
+
+1475051342 source:a:\cb\nextsteprc\gui\menus.cpp
+	"../nextsteprc.h"
+
+1474441890 source:a:\cb\nextsteprc\gui\navigation.cpp
+	"../nextsteprc.h"
+	"navigation.h"
+
+1474441890 source:a:\cb\nextsteprc\gui\popups.cpp
+	"../nextsteprc.h"
+	"popups.h"
+
+1474441890 a:\cb\nextsteprc\gui\popups.h
+	"menus.h"
+	"../bitmaps/asterisk.lbm"
+
+1474441890 a:\cb\nextsteprc\bitmaps\asterisk.lbm
+
+1474441890 source:a:\cb\nextsteprc\gui\splash.cpp
+	"../nextsteprc.h"
+	"../bitmaps/splash.lbm"
+
+1474441890 a:\cb\nextsteprc\bitmaps\splash.lbm
+
+1474441890 source:a:\cb\nextsteprc\gui\view_main.cpp
+	"../nextsteprc.h"
+	"../timers.h"
+	"widgets.h"
+
+1474441890 source:a:\cb\nextsteprc\gui\view_mavlink.cpp
+	"view_mavlink.h"
+	"../translations.h"
+
+1474571892 source:a:\cb\nextsteprc\gui\view_statistics.cpp
+	"menu_general.h"
+
+1474441890 source:a:\cb\nextsteprc\gui\view_telemetry.cpp
+	"../nextsteprc.h"
+
+1474441890 source:a:\cb\nextsteprc\gui\view_text.cpp
+	"../nextsteprc.h"
+
+1474441890 source:a:\cb\nextsteprc\gui\widgets.cpp
+	"../nextsteprc.h"
+
+1474441890 source:a:\cb\nextsteprc\haptic.cpp
+	"nextsteprc.h"
+
+1474581214 source:a:\cb\nextsteprc\i2c_master.cpp
+	<avr/io.h>
+	<util/twi.h>
+	"i2c_master.h"
+
+1474441890 a:\cb\nextsteprc\i2c_master.h
+	"nextsteprc.h"
+
+1475181218 source:a:\cb\nextsteprc\keys.cpp
+	"nextsteprc.h"
+	"keys.h"
+
+1474441890 source:a:\cb\nextsteprc\logs.cpp
+	"nextsteprc.h"
+	"thirdparty/FatFs/ff.h"
+
+1475052938 source:a:\cb\nextsteprc\main_avr.cpp
+	"nextsteprc.h"
+
+1474441890 source:a:\cb\nextsteprc\maths.cpp
+	"nextsteprc.h"
+
+1474441890 source:a:\cb\nextsteprc\mixer.cpp
+	"nextsteprc.h"
+	"timers.h"
+
+1474903578 source:a:\cb\nextsteprc\nextsteprc.cpp
+	"nextsteprc.h"
+	"timers.h"
+
+1474441890 source:a:\cb\nextsteprc\pulses\pulses_avr.cpp
+	"../nextsteprc.h"
+	<util/setbaud.h>
+
+1474441890 source:a:\cb\nextsteprc\rtc.cpp
+	<limits.h>
+	"rtc.h"
+	"nextsteprc.h"
+
+1474537080 source:a:\cb\nextsteprc\sdcard.cpp
+	<stdint.h>
+	"thirdparty/FatFs/diskio.h"
+	"thirdparty/FatFs/ff.h"
+	"nextsteprc.h"
+
+1474441890 a:\cb\nextsteprc\thirdparty\fatfs\diskio.h
+	"integer.h"
+
+1474441890 source:a:\cb\nextsteprc\stamp.cpp
+	"nextsteprc.h"
+	"stamp-nextsteprc.h"
+
+1474441890 source:a:\cb\nextsteprc\strhelpers.cpp
+	"nextsteprc.h"
+	"rtc.h"
+
+1474826188 source:a:\cb\nextsteprc\switches.cpp
+	"nextsteprc.h"
+
+1474965068 source:a:\cb\nextsteprc\targets\common_avr\adc_driver.cpp
+	"../../nextsteprc.h"
+
+1474441890 source:a:\cb\nextsteprc\targets\common_avr\serial_driver.cpp
+	"serial_driver.h"
+	"board_avr.h"
+	<util/setbaud.h>
+	<util/setbaud.h>
+	<util/setbaud.h>
+	<util/setbaud.h>
+	<util/setbaud.h>
+	<util/setbaud.h>
+	<util/setbaud.h>
+
+1474441890 source:a:\cb\nextsteprc\targets\common_avr\telemetry_driver.cpp
+	"../../nextsteprc.h"
+	<util/setbaud.h>
+
+1474967906 source:a:\cb\nextsteprc\targets\gruvin9x\diskio.cpp
+	"../../nextsteprc.h"
+	"../../thirdparty/FatFs/diskio.h"
+
+1474580998 source:a:\cb\nextsteprc\targets\gruvin9x\rtc_driver.cpp
+	"../../thirdparty/FatFs/integer.h"
+	"../../i2c_master.h"
+	"../../nextsteprc.h"
+
+1474441890 source:a:\cb\nextsteprc\targets\mega2560\board_mega2560.cpp
+	"../../i2c_master.h"
+	"board_mega2560.h"
+
+1474441890 source:a:\cb\nextsteprc\targets\mega2560\voice_jq6500.cpp
+	"../../nextsteprc.h"
+
+1474991320 source:a:\cb\nextsteprc\targets\simu\simu_interface.cpp
+	"simu_interface.h"
+
+1475402860 source:a:\cb\nextsteprc\targets\stock\lcd_simu_driver.cpp
+	"lcd_simu_driver.h"
+	<wx/app.h>
+
+1475104482 a:\cb\nextsteprc\targets\stock\lcd_simu_driver.h
+	"../../../NextStepRc_Simulator/NextStepRc_SimulatorMain.h"
+
+1475411806 a:\cb\nextsteprc_simulator\nextsteprc_simulatormain.h
+	<wx/menu.h>
+	<wx/panel.h>
+	<wx/button.h>
+	<wx/frame.h>
+	<wx/statusbr.h>
+	"../NextStepRc/nextsteprc.h"
+
+1474441890 source:a:\cb\nextsteprc\telemetry\frsky.cpp
+	"../nextsteprc.h"
+
+1474441890 source:a:\cb\nextsteprc\telemetry\frsky_d.cpp
+	"../nextsteprc.h"
+
+1474441890 source:a:\cb\nextsteprc\telemetry\nmea.cpp
+	"../nextsteprc.h"
+	<util/setbaud.h>
+
+1474441890 source:a:\cb\nextsteprc\templates.cpp
+	"nextsteprc.h"
+
+1474585924 source:a:\cb\nextsteprc\thirdparty\fatfs\fattime.c
+	"integer.h"
+	"../../rtc.h"
+
+1474585282 source:a:\cb\nextsteprc\thirdparty\fatfs\ff.c
+	"ff.h"
+	"diskio.h"
+	"../../nextsteprc.h"
+	<stdarg.h>
+
+1474441890 source:a:\cb\nextsteprc\thirdparty\fatfs\option\syscall.c
+	"../ff.h"
+
+1474441890 source:a:\cb\nextsteprc\thirdparty\fatfs\option\unicode.c
+	"../ff.h"
+	"cc932.c"
+	"cc936.c"
+	"cc949.c"
+	"cc950.c"
+	"ccsbcs.c"
+
+1474441890 a:\cb\nextsteprc\thirdparty\fatfs\option\cc932.c
+	"../ff.h"
+
+1474441890 a:\cb\nextsteprc\thirdparty\fatfs\option\cc936.c
+	"../ff.h"
+
+1474441890 a:\cb\nextsteprc\thirdparty\fatfs\option\cc949.c
+	"../ff.h"
+
+1474441890 a:\cb\nextsteprc\thirdparty\fatfs\option\cc950.c
+	"../ff.h"
+
+1474441890 a:\cb\nextsteprc\thirdparty\fatfs\option\ccsbcs.c
+	"../ff.h"
+
+1474441890 source:a:\cb\nextsteprc\timers.cpp
+	"nextsteprc.h"
+	"timers.h"
+
+1474441890 source:a:\cb\nextsteprc\trainer_input.cpp
+	"trainer_input.h"
+
+1474441890 source:a:\cb\nextsteprc\translations.cpp
+	"nextsteprc.h"
+
+1474441890 source:a:\cb\nextsteprc\translations\tts_fr.cpp
+	"../nextsteprc.h"
+
+1474441890 source:a:\cb\nextsteprc\vario.cpp
+	"nextsteprc.h"
+
+1475099280 source:a:\cb\nextsteprc_simulator\nextsteprc_simulatorapp.cpp
+	"NextStepRc_SimulatorApp.h"
+	"NextStepRc_SimulatorMain.h"
+	<wx/image.h>
+
+1475403930 a:\cb\nextsteprc_simulator\nextsteprc_simulatorapp.h
+	<wx/app.h>
+
+1475411804 source:a:\cb\nextsteprc_simulator\nextsteprc_simulatormain.cpp
+	"NextStepRc_SimulatorMain.h"
+	<wx/msgdlg.h>
+	<wx/dcclient.h>
+	<wx/bitmap.h>
+	<wx/icon.h>
+	<wx/intl.h>
+	<wx/image.h>
+	<wx/string.h>
+	"avatarnext.xpm"
+
+1474441890 source:a:\cb\nextsteprc_simulator\resource.rc
+	"wx/msw/wx.rc"
+
+1475277612 source:a:\cb\nextsteprc\eeprom_rlc.cpp
+	"eeprom_rlc.h"
+
+1474875636 a:\cb\nextsteprc_simulator\avatarnext.xpm
+

@@ -13,7 +13,6 @@
 //(*Headers(NextStepRc_SimulatorFrame)
 #include <wx/menu.h>
 #include <wx/panel.h>
-#include <wx/statbmp.h>
 #include <wx/button.h>
 #include <wx/frame.h>
 #include <wx/statusbr.h>
@@ -26,6 +25,7 @@ wxDEFINE_EVENT(EVT_DRAW_LCD, wxCommandEvent);
 
 //*)
 
+
 class NextStepRc_SimulatorFrame: public wxFrame
 {
     public:
@@ -33,7 +33,7 @@ class NextStepRc_SimulatorFrame: public wxFrame
         NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID id = -1);
         virtual ~NextStepRc_SimulatorFrame();
 
-        void DispatchMessages(wxCommandEvent& event);
+        void DrawWxSimuLcd();
 
     private:
         //(*Handlers(NextStepRc_SimulatorFrame)
@@ -42,12 +42,14 @@ class NextStepRc_SimulatorFrame: public wxFrame
         void OnButton1Click(wxCommandEvent& event);
         void OnPanel2MouseMove(wxMouseEvent& event);
         void DrawLcd(wxCommandEvent& event);
+        void OnwxlcdKeyDown(wxKeyEvent& event);
+        void OnwxsimulcdPaint(wxPaintEvent& event);
         //*)
 
         //(*Identifiers(NextStepRc_SimulatorFrame)
         static const long ID_PANEL2;
-        static const long ID_STATICBITMAP1;
         static const long ID_BUTTON1;
+        static const long ID_WXSIMULCD;
         static const long ID_PANEL3;
         static const long ID_PANEL4;
         static const long ID_PANEL1;
@@ -56,10 +58,15 @@ class NextStepRc_SimulatorFrame: public wxFrame
         static const long ID_STATUSBAR1;
         //*)
 
+     //(*Variables(NextStepRc_SimulatorFrame)
+       uint8_t SimuLcdScale = 2;
+        //*)
+
+
         //(*Declarations(NextStepRc_SimulatorFrame)
         wxButton* Button1;
-        wxStaticBitmap* StaticBitmap1;
         wxPanel* Panel1;
+        wxPanel* wxsimulcd;
         wxPanel* Panel3;
         wxStatusBar* StatusBar1;
         wxPanel* Panel2;
