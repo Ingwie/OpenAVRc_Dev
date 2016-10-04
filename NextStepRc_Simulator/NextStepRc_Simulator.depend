@@ -2747,7 +2747,7 @@
 	"sdcard.h"
 	"rtc.h"
 
-1475278018 a:\cb\nextsteprc\targets\simu\simu_interface.h
+1475537326 a:\cb\nextsteprc\targets\simu\simu_interface.h
 	<inttypes.h>
 	<assert.h>
 
@@ -3569,14 +3569,14 @@
 1474991320 source:a:\cb\nextsteprc\targets\simu\simu_interface.cpp
 	"simu_interface.h"
 
-1475402860 source:a:\cb\nextsteprc\targets\stock\lcd_simu_driver.cpp
+1475536628 source:a:\cb\nextsteprc\targets\stock\lcd_simu_driver.cpp
 	"lcd_simu_driver.h"
-	<wx/app.h>
+	"../../../NextStepRc_Simulator/NextStepRc_SimulatorApp.h"
 
-1475104482 a:\cb\nextsteprc\targets\stock\lcd_simu_driver.h
+1475536010 a:\cb\nextsteprc\targets\stock\lcd_simu_driver.h
 	"../../../NextStepRc_Simulator/NextStepRc_SimulatorMain.h"
 
-1475411806 a:\cb\nextsteprc_simulator\nextsteprc_simulatormain.h
+1475527434 a:\cb\nextsteprc_simulator\nextsteprc_simulatormain.h
 	<wx/menu.h>
 	<wx/panel.h>
 	<wx/button.h>
@@ -3649,15 +3649,15 @@
 1474441890 source:a:\cb\nextsteprc\vario.cpp
 	"nextsteprc.h"
 
-1475099280 source:a:\cb\nextsteprc_simulator\nextsteprc_simulatorapp.cpp
+1475536392 source:a:\cb\nextsteprc_simulator\nextsteprc_simulatorapp.cpp
 	"NextStepRc_SimulatorApp.h"
-	"NextStepRc_SimulatorMain.h"
 	<wx/image.h>
 
-1475403930 a:\cb\nextsteprc_simulator\nextsteprc_simulatorapp.h
+1475536392 a:\cb\nextsteprc_simulator\nextsteprc_simulatorapp.h
+	"NextStepRc_SimulatorMain.h"
 	<wx/app.h>
 
-1475411804 source:a:\cb\nextsteprc_simulator\nextsteprc_simulatormain.cpp
+1475537212 source:a:\cb\nextsteprc_simulator\nextsteprc_simulatormain.cpp
 	"NextStepRc_SimulatorMain.h"
 	<wx/msgdlg.h>
 	<wx/dcclient.h>

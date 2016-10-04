@@ -15,9 +15,7 @@
 */
 
 #include "lcd_simu_driver.h"
-#include <wx/app.h>
-
-
+#include "../../../NextStepRc_Simulator/NextStepRc_SimulatorApp.h"
 
 
 #define NUMITERATIONFULLREFRESH  1
@@ -38,7 +36,7 @@ void lcdRefreshFast()
 {
     REFRESHDURATION1  //Debug function if defined LCDDURATIONSHOW in nextsteprc.h
 
-    //@NextStepRc_SimulatorFrame (instance).DrawWxSimuLcd(); // ca marche pas !!
+    wxGetApp().SimuFrame->DrawWxSimuLcd(); // ca marche  !!
 
     REFRESHDURATION2  //Debug function if defined LCDDURATIONSHOW in nextsteprc.h
 }

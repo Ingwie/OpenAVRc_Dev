@@ -67,12 +67,9 @@
 		<Unit filename="NextStepRc_DesktopApp.h" />
 		<Unit filename="NextStepRc_DesktopMain.cpp" />
 		<Unit filename="NextStepRc_DesktopMain.h" />
-		<Unit filename="Panel_main.cpp" />
-		<Unit filename="Panel_main.h" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
-		<Unit filename="wxsmith/Panel_main.wxs" />
 		<Extensions>
 			<code_completion />
 			<envvars />
@@ -85,7 +82,6 @@
 				<gui name="wxWidgets" src="NextStepRc_DesktopApp.cpp" main="NextStepRc_DesktopFrame" init_handlers="necessary" language="CPP" />
 				<resources>
 					<wxFrame wxs="wxsmith/NextStepRc_Desktopframe.wxs" src="NextStepRc_DesktopMain.cpp" hdr="NextStepRc_DesktopMain.h" fwddecl="0" i18n="1" name="NextStepRc_DesktopFrame" language="CPP" />
-					<wxPanel wxs="wxsmith/Panel_main.wxs" src="Panel_main.cpp" hdr="Panel_main.h" fwddecl="0" i18n="1" name="Panel_main" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

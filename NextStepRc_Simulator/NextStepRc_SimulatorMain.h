@@ -33,8 +33,8 @@ class NextStepRc_SimulatorFrame: public wxFrame
         NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID id = -1);
         virtual ~NextStepRc_SimulatorFrame();
 
-        void DrawWxSimuLcd();
-
+        const void DrawWxSimuLcd();
+      HWND NFShwnd = this->GetHandle();
     private:
         //(*Handlers(NextStepRc_SimulatorFrame)
         void OnQuit(wxCommandEvent& event);

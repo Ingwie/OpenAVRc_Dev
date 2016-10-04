@@ -10,11 +10,11 @@
 #include "NextStepRc_SimulatorApp.h"
 
 //(*AppHeaders
-#include "NextStepRc_SimulatorMain.h"
 #include <wx/image.h>
 //*)
 
 IMPLEMENT_APP(NextStepRc_SimulatorApp);
+
 
 bool NextStepRc_SimulatorApp::OnInit()
 {
@@ -23,9 +23,9 @@ bool NextStepRc_SimulatorApp::OnInit()
     wxInitAllImageHandlers();
     if ( wxsOK )
     {
-    	NextStepRc_SimulatorFrame* Frame = new NextStepRc_SimulatorFrame(0);
-    	Frame->Show();
-    	SetTopWindow(Frame);
+    	SimuFrame = new NextStepRc_SimulatorFrame(0);
+    	SimuFrame->Show();
+    	SetTopWindow(SimuFrame);
     }
     //*)
     return wxsOK;

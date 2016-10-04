@@ -140,14 +140,15 @@ void NextStepRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
 
 void NextStepRc_SimulatorFrame::OnButton1Click(wxCommandEvent& event)
 {
-    //perMain();
     doSplash();
-    DrawWxSimuLcd();
     Sleep(1000);
     nextsteprcInit(simu_mcusr);
+    Sleep(1000);
+    perMain();
+    Sleep(1000);
     per10ms();
-    DrawWxSimuLcd();
-     Sleep(1000);
+    //DrawWxSimuLcd();
+    // Sleep(1000);
     //*wxsimulcd->OnwxsimulcdPaint(event);
 
 }
@@ -157,7 +158,7 @@ void NextStepRc_SimulatorFrame::OnwxsimulcdPaint(wxPaintEvent& event)
 DrawWxSimuLcd();
 }
 
-void NextStepRc_SimulatorFrame::DrawWxSimuLcd()
+const void NextStepRc_SimulatorFrame::DrawWxSimuLcd()
 {
     uint8_t *p;
 

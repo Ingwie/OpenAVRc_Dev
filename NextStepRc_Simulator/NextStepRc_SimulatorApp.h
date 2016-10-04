@@ -9,13 +9,19 @@
 
 #ifndef NEXTSTEPRC_SIMULATORAPP_H
 #define NEXTSTEPRC_SIMULATORAPP_H
+#include "NextStepRc_SimulatorMain.h"
 
 #include <wx/app.h>
+
 
 class NextStepRc_SimulatorApp : public wxApp
 {
     public:
+      NextStepRc_SimulatorFrame* SimuFrame;
         virtual bool OnInit();
 };
+
+wxDECLARE_APP(NextStepRc_SimulatorApp);
+
 
 #endif // NEXTSTEPRC_SIMULATORAPP_H
