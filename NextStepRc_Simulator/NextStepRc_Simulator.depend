@@ -2747,7 +2747,7 @@
 	"sdcard.h"
 	"rtc.h"
 
-1475537326 a:\cb\nextsteprc\targets\simu\simu_interface.h
+1475575918 a:\cb\nextsteprc\targets\simu\simu_interface.h
 	<inttypes.h>
 	<assert.h>
 
@@ -3293,7 +3293,7 @@
 	<stdarg.h>
 	"stamp-nextsteprc.h"
 
-1475274518 a:\cb\nextsteprc\stamp-nextsteprc.h
+1475569078 a:\cb\nextsteprc\stamp-nextsteprc.h
 
 1474441890 source:a:\cb\nextsteprc\eeprom_common.cpp
 	<stdint.h>
@@ -3566,23 +3566,25 @@
 1474441890 source:a:\cb\nextsteprc\targets\mega2560\voice_jq6500.cpp
 	"../../nextsteprc.h"
 
-1474991320 source:a:\cb\nextsteprc\targets\simu\simu_interface.cpp
+1475598544 source:a:\cb\nextsteprc\targets\simu\simu_interface.cpp
 	"simu_interface.h"
+	"../../eeprom_rlc.h"
 
-1475536628 source:a:\cb\nextsteprc\targets\stock\lcd_simu_driver.cpp
+1475537596 source:a:\cb\nextsteprc\targets\stock\lcd_simu_driver.cpp
 	"lcd_simu_driver.h"
 	"../../../NextStepRc_Simulator/NextStepRc_SimulatorApp.h"
 
-1475536010 a:\cb\nextsteprc\targets\stock\lcd_simu_driver.h
+1475537596 a:\cb\nextsteprc\targets\stock\lcd_simu_driver.h
 	"../../../NextStepRc_Simulator/NextStepRc_SimulatorMain.h"
 
-1475527434 a:\cb\nextsteprc_simulator\nextsteprc_simulatormain.h
+1475618672 a:\cb\nextsteprc_simulator\nextsteprc_simulatormain.h
 	<wx/menu.h>
 	<wx/panel.h>
 	<wx/button.h>
 	<wx/frame.h>
 	<wx/statusbr.h>
 	"../NextStepRc/nextsteprc.h"
+	"Spin.h"
 
 1474441890 source:a:\cb\nextsteprc\telemetry\frsky.cpp
 	"../nextsteprc.h"
@@ -3657,7 +3659,7 @@
 	"NextStepRc_SimulatorMain.h"
 	<wx/app.h>
 
-1475537212 source:a:\cb\nextsteprc_simulator\nextsteprc_simulatormain.cpp
+1475624080 source:a:\cb\nextsteprc_simulator\nextsteprc_simulatormain.cpp
 	"NextStepRc_SimulatorMain.h"
 	<wx/msgdlg.h>
 	<wx/dcclient.h>
@@ -3671,8 +3673,112 @@
 1474441890 source:a:\cb\nextsteprc_simulator\resource.rc
 	"wx/msw/wx.rc"
 
-1475277612 source:a:\cb\nextsteprc\eeprom_rlc.cpp
+1475570682 source:a:\cb\nextsteprc\eeprom_rlc.cpp
 	"eeprom_rlc.h"
 
 1474875636 a:\cb\nextsteprc_simulator\avatarnext.xpm
+
+1475624238 source:a:\cb\nextsteprc_simulator\spin.cpp
+	<wx/msgdlg.h>
+	"Spin.h"
+
+1475623776 a:\cb\nextsteprc_simulator\spin.h
+	"../NextStepRc/nextsteprc.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\textdlg.h
+	"wx/generic/textdlgg.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\textdlgg.h
+	"wx/defs.h"
+	"wx/dialog.h"
+	"wx/valtext.h"
+	"wx/textctrl.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\valtext.h
+	"wx/defs.h"
+	"wx/validate.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\textctrl.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/textentry.h"
+	"wx/dynarray.h"
+	"wx/gdicmn.h"
+	"wx/ioswrap.h"
+	"wx/x11/textctrl.h"
+	"wx/univ/textctrl.h"
+	"wx/msw/textctrl.h"
+	"wx/motif/textctrl.h"
+	"wx/gtk/textctrl.h"
+	"wx/gtk1/textctrl.h"
+	"wx/osx/textctrl.h"
+	"wx/qt/textctrl.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\textentry.h
+	"wx/filefn.h"
+	"wx/gdicmn.h"
+	"wx/gtk/textentry.h"
+	"wx/osx/textentry.h"
+	"wx/msw/textentry.h"
+	"wx/motif/textentry.h"
+	"wx/qt/textentry.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\textentry.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\textentry.h
+	"wx/control.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\textentry.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\textentry.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\textentry.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\ioswrap.h
+	"wx/beforestd.h"
+	<iostream.h>
+	<iostream>
+	"wx/afterstd.h"
+	"wx/msw/winundef.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\x11\textctrl.h
+	"wx/univ/textctrl.h"
+	"wx/scrolwin.h"
+	"wx/arrstr.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\textctrl.h
+	"wx/scrolwin.h"
+	"wx/univ/inphand.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\scrolwin.h
+	"wx/panel.h"
+	"wx/gtk/scrolwin.h"
+	"wx/gtk1/scrolwin.h"
+	"wx/generic/scrolwin.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\scrolwin.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\scrolwin.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\scrolwin.h
+	"wx/recguard.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\recguard.h
+	"wx/defs.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\textctrl.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\textctrl.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\textctrl.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\textctrl.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\textctrl.h
+	"wx/control.h"
+	"wx/textctrl.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\textctrl.h
+	<QtWidgets/QLineEdit>
+	<QtWidgets/QTextEdit>
 

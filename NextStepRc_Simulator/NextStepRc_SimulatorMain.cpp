@@ -70,6 +70,9 @@ END_EVENT_TABLE()
 
 NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
 {
+    //LCD var
+    SimuLcdScale = 2;
+
     //(*Initialize(NextStepRc_SimulatorFrame)
     wxMenuItem* MenuItem2;
     wxMenuItem* MenuItem1;
@@ -82,9 +85,9 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Move(wxPoint(-1,-1));
     SetMaxSize(wxSize(-1,-1));
     {
-    	wxIcon FrameIcon;
-    	FrameIcon.CopyFromBitmap(avatarnext);
-    	SetIcon(FrameIcon);
+        wxIcon FrameIcon;
+        FrameIcon.CopyFromBitmap(avatarnext);
+        SetIcon(FrameIcon);
     }
     PanelPrincipal = new wxPanel(this, ID_PANEL1, wxPoint(424,216), wxSize(800,400), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     Panel1 = new wxPanel(PanelPrincipal, ID_PANEL2, wxPoint(8,8), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL2"));
@@ -122,41 +125,23 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     //*)
 }
 
-NextStepRc_SimulatorFrame::~NextStepRc_SimulatorFrame()
+//// FW Functions ///////////////////////////////////////////////////
+
+void NextStepRc_SimulatorFrame::Create_Spin()
 {
-    //(*Destroy(NextStepRc_SimulatorFrame)
-    //*)
+    Spin SpinA("A", &simu_pina, &simu_ddra, &simu_porta);
+    Spin SpinB("B", &simu_pinb, &simu_ddrb, &simu_portb);
+    Spin SpinC("C", &simu_pinc, &simu_ddrc, &simu_portc);
+    Spin SpinD("D", &simu_pind, &simu_ddrd, &simu_portd);
+    Spin SpinE("E", &simu_pine, &simu_ddre, &simu_porte);
+    Spin SpinF("F", &simu_pinf, &simu_ddrf, &simu_portf);
+    Spin SpinG("G", &simu_ping, &simu_ddrg, &simu_portg);
+    Spin SpinH("H", &simu_pinh, &simu_ddrh, &simu_porth);
+    Spin SpinJ("J", &simu_pinj, &simu_ddrj, &simu_portj);
+    Spin SpinK("K", &simu_pink, &simu_ddrk, &simu_portk);
+    Spin SpinL("L", &simu_pinl, &simu_ddrl, &simu_portl);
 }
 
-void NextStepRc_SimulatorFrame::OnQuit(wxCommandEvent& event)
-{
-    Close();
-}
-
-void NextStepRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
-{
-    wxMessageBox( _("NextStepRc Simulateur"), _("Bienvenue dans..."));
-}
-
-void NextStepRc_SimulatorFrame::OnButton1Click(wxCommandEvent& event)
-{
-    doSplash();
-    Sleep(1000);
-    nextsteprcInit(simu_mcusr);
-    Sleep(1000);
-    perMain();
-    Sleep(1000);
-    per10ms();
-    //DrawWxSimuLcd();
-    // Sleep(1000);
-    //*wxsimulcd->OnwxsimulcdPaint(event);
-
-}
-
-void NextStepRc_SimulatorFrame::OnwxsimulcdPaint(wxPaintEvent& event)
-{
-DrawWxSimuLcd();
-}
 
 const void NextStepRc_SimulatorFrame::DrawWxSimuLcd()
 {
@@ -187,4 +172,47 @@ const void NextStepRc_SimulatorFrame::DrawWxSimuLcd()
     }
     dc.SetPen(wxNullPen);
 }
+
+void NextStepRc_SimulatorFrame::StartFirmwareCode()
+{
+    memset(displayBuf, 0, DISPLAY_BUFER_SIZE); //empty display
+    doSplash();
+    Create_Spin();
+    Sleep(1000);
+    nextsteprcInit(simu_mcusr);
+    Sleep(1000);
+    perMain();
+    Sleep(1000);
+    per10ms();
+
+}
+
+//// GUI Functions ///////////////////////////////////////////////////
+
+NextStepRc_SimulatorFrame::~NextStepRc_SimulatorFrame()
+{
+    //(*Destroy(NextStepRc_SimulatorFrame)
+    //*)
+}
+
+void NextStepRc_SimulatorFrame::OnQuit(wxCommandEvent& event)
+{
+    Close();
+}
+
+void NextStepRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
+{
+    wxMessageBox( _("NextStepRc Simulateur"), _("Bienvenue dans..."));
+}
+
+void NextStepRc_SimulatorFrame::OnButton1Click(wxCommandEvent& event)
+{
+    StartFirmwareCode();
+}
+
+void NextStepRc_SimulatorFrame::OnwxsimulcdPaint(wxPaintEvent& event)
+{
+    DrawWxSimuLcd();
+}
+
 

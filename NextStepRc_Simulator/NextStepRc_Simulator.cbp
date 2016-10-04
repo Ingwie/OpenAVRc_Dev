@@ -59,6 +59,7 @@
 					<Add option="-DHELI" />
 					<Add option="-DTEMPLATES" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+					<Add directory="include" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -125,6 +126,7 @@
 					<Add option="-DTEMPLATES" />
 					<Add option="-DDEBUG=NO" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+					<Add directory="include" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -425,6 +427,8 @@
 		<Unit filename="NextStepRc_SimulatorApp.h" />
 		<Unit filename="NextStepRc_SimulatorMain.cpp" />
 		<Unit filename="NextStepRc_SimulatorMain.h" />
+		<Unit filename="Spin.cpp" />
+		<Unit filename="Spin.h" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>

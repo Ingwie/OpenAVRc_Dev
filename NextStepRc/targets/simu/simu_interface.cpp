@@ -14,7 +14,17 @@
  *************************************************************
  */
 
- #include "simu_interface.h"
+#include "simu_interface.h"
+#include "../../eeprom_rlc.h"
+
+
+//EEPROM
+extern uint16_t eeprom_pointer;
+extern uint8_t * eeprom_buffer_data;
+uint8_t eeprom[EESIZE];
+
+
+
 
 //AVR REG
 
@@ -137,17 +147,10 @@ REG8 simu_bssebd;
 
 //END SIMU REG
 
- void eepromReadBlock (uint8_t * pointer_ram, uint32_t pointer_eeprom, uint32_t size)
+void eepromReadBlock (uint8_t * pointer_ram, uint32_t pointer_eeprom, uint32_t size)
 {
- /* assert(size);
+     assert(size);
 
-  if (fp) {
-    // TRACE("EEPROM read (pos=%d, size=%d)", pointer_eeprom, size);
-    if (fseek(fp, (long)pointer_eeprom, SEEK_SET)==-1) perror("error in fseek");
-    if (fread(pointer_ram, size, 1, fp) <= 0) perror("error in fread");
-  }
-  else {
-    memcpy(pointer_ram, &eeprom[(uint64_t)pointer_eeprom], size);
-  }*/
+       memcpy(pointer_ram, &eeprom[(uint64_t)pointer_eeprom], size);
 }
 

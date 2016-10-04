@@ -16,6 +16,7 @@
 
 #ifndef simu_interface_h
 #define simu_interface_h
+
 #include <inttypes.h>
 #include <assert.h>
 
@@ -739,6 +740,5 @@ extern REG8 simu_bssebd;
 //#undef assert
 //#define assert(x)
 #define printf(x)
-
 
 #endif

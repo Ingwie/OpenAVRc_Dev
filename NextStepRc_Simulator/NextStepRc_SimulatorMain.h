@@ -20,6 +20,7 @@
 
 //(*Firmware
 #include "../NextStepRc/nextsteprc.h"
+#include "Spin.h"
 
 wxDEFINE_EVENT(EVT_DRAW_LCD, wxCommandEvent);
 
@@ -32,9 +33,8 @@ class NextStepRc_SimulatorFrame: public wxFrame
 
         NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID id = -1);
         virtual ~NextStepRc_SimulatorFrame();
-
         const void DrawWxSimuLcd();
-      HWND NFShwnd = this->GetHandle();
+
     private:
         //(*Handlers(NextStepRc_SimulatorFrame)
         void OnQuit(wxCommandEvent& event);
@@ -44,6 +44,8 @@ class NextStepRc_SimulatorFrame: public wxFrame
         void DrawLcd(wxCommandEvent& event);
         void OnwxlcdKeyDown(wxKeyEvent& event);
         void OnwxsimulcdPaint(wxPaintEvent& event);
+        void StartFirmwareCode();
+        void Create_Spin();
         //*)
 
         //(*Identifiers(NextStepRc_SimulatorFrame)
@@ -59,7 +61,7 @@ class NextStepRc_SimulatorFrame: public wxFrame
         //*)
 
      //(*Variables(NextStepRc_SimulatorFrame)
-       uint8_t SimuLcdScale = 2;
+       uint8_t SimuLcdScale;
         //*)
 
 
