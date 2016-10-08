@@ -18,6 +18,8 @@ In French ;-)
 
 > - Ecolage : ordres eleve vers entree mixeur
 
+> - Remplacer eeprom par SD ?
+
 *****************  DONE DONE DONE DONE  *****************
 
 > - correction bug encodeur rotatif qui saute de +125 a -125 - FAIT
