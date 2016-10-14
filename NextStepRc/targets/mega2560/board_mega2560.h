@@ -189,6 +189,8 @@ void pwrOff();
 // EEPROM driver
 #if !defined(SIMU)
 #define eepromReadBlock(a, b, c)   eeprom_read_block(a, (const void *)b, c)
+#else
+extern void boardInit();
 #endif
 
 #endif // _BOARD_MEGA2560_H_

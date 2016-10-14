@@ -131,7 +131,7 @@ void clearKeyEvents()
 #if defined(SIMU)
     SIMU_SLEEP(1);
 #else
-    wdt_reset();
+    Mywdt_reset();
 #endif
 
 #if defined(PCBSTD) && defined(ROTARY_ENCODER_NAVIGATION) && !defined(TELEMETREZ)

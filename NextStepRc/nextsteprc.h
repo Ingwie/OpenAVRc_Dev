@@ -26,15 +26,16 @@
 #if !defined(SIMU)
 #include <avr/pgmspace.h>
 #include "../pgmtypes.h"
+#define Mywdt_reset(x) wdt_reset()
 #define assert(x)
 #define printf printf_not_allowed
+#include "targets/common_avr/board_avr.h"
 #else //SIMU define
 #include <stdbool.h>
 #include "targets/simu/simu_interface.h"
 #include "targets/mega2560/board_mega2560.h" //todo
 #endif
 #include "trainer_input.h"
-#include "targets/common_avr/board_avr.h"
 #include "myeeprom.h"
 #include "rtc.h"
 
@@ -56,12 +57,6 @@
 #define REFRESHDURATION2
 #endif
 
-
-#if defined(SIMU)
-#define SWITCH_SIMU(x)  Simu_a
-#else
-#define SWITCH_SIMU(x)  (x)
-#endif
 
 #if defined(CPUM2560)
 #define CASE_PERSISTENT_TIMERS(x) x,
@@ -219,11 +214,16 @@ typedef __int24 int24_t;
 #endif
 #define CONVERT_PTR_UINT(x) ((uint32_t)(uint64_t)(x))
 #define CONVERT_UINT_PTR(x) ((uint32_t*)(uint64_t)(x))
+#define Mywdt_reset(x) { x; Sleep(1); lcdInit();}
+#define SIMU_SLEEP(x) Sleep(1 * x); lcdInit(); //This function tell the app to process events
+#define SIMU_PROCESSEVENTS lcdInit()
 char *convertSimuPath(const char *path);
+extern ISR(TIMER_10MS_VECT, ISR_NOBLOCK);
 #else
 #define FORCEINLINE inline __attribute__ ((always_inline))
 #define NOINLINE __attribute__ ((noinline))
 #define SIMU_SLEEP(x)
+#define SIMU_PROCESSEVENTS
 #define CONVERT_PTR_UINT(x) ((uint32_t)(x))
 #define CONVERT_UINT_PTR(x) ((uint32_t *)(x))
 #define convertSimuPath(x) (x)
@@ -327,6 +327,7 @@ extern volatile tmr10ms_t g_tmr10ms;
 
 extern inline uint16_t get_tmr10ms()
 {
+  SIMU_PROCESSEVENTS;
   uint16_t time  ;
   cli();
   time = g_tmr10ms ;
@@ -356,6 +357,7 @@ extern uint8_t StickScrollTimer;
 #else
 #include "eeprom_raw.h"
 #endif
+
 
 #include "pulses/pulses.h"
 

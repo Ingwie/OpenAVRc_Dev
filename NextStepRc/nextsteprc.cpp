@@ -833,7 +833,7 @@ void checkTHR()
 
     checkBacklight();
 
-    wdt_reset();
+    Mywdt_reset();
   }
 #endif
 }
@@ -863,7 +863,7 @@ void alert(const pm_char * t, const pm_char *s MESSAGE_SOUND_ARG)
 
     checkBacklight();
 
-    wdt_reset();
+    Mywdt_reset();
 
     if (pwrCheck() == e_power_off) {
       boardOff(); // turn power off now
@@ -1655,6 +1655,7 @@ extern unsigned char __bss_end ;
 
   void nextsteprcInit(nextsteprc_INIT_ARGS)
   {
+
     eeReadAll();
 
 
@@ -1716,7 +1717,7 @@ extern unsigned char __bss_end ;
   {
     // G: The WDT remains active after a WDT reset -- at maximum clock speed. So it's
     // important to disable it before commencing with system initialisation (or
-    // we could put a bunch more wdt_reset()s in. But I don't like that approach
+    // we could put a bunch more Mywdt_reset()s in. But I don't like that approach
     // during boot up.)
 #if defined(CPUM2560) || defined(CPUM2561)
     uint8_t mcusr = MCUSR; // save the WDT (etc) flags
@@ -1795,7 +1796,7 @@ extern unsigned char __bss_end ;
       perMain();
 
       if (heartbeat == HEART_WDT_CHECK) {
-        wdt_reset();
+        Mywdt_reset();
         heartbeat = 0;
       }
     }

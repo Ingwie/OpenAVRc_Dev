@@ -27,7 +27,7 @@
 #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
 #endif
 
-#if   defined(CPUM2560) || defined(CPUM2561) || defined(CPUM128)
+#if defined(CPUM2560) || defined(CPUM2561) || defined(CPUM128)
   #define blkid_t    uint8_t
   #define EESIZE     4096
   #define EEFS_VERS  5
@@ -41,13 +41,14 @@
   #define BS         16
 #endif
 
+
 PACK(struct DirEnt {
   blkid_t  startBlk;
   uint16_t size:12;
   uint16_t typ:4;
 });
 
-  #define EEFS_EXTRA_FIELDS
+#define EEFS_EXTRA_FIELDS
 
 PACK(struct EeFs {
   uint8_t  version;
@@ -80,6 +81,7 @@ extern EeFs eeFs;
 #define BLOCKS        (1+(EESIZE-RESV)/BS)
 #define BLOCKS_OFFSET (RESV-BS)
 #endif
+
 
 void eepromFormat();
 uint16_t EeFsGetFree();

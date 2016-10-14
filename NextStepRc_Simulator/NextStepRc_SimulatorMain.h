@@ -15,15 +15,13 @@
 #include <wx/panel.h>
 #include <wx/button.h>
 #include <wx/frame.h>
+#include <wx/timer.h>
 #include <wx/statusbr.h>
 //*)
 
 //(*Firmware
 #include "../NextStepRc/nextsteprc.h"
 #include "Spin.h"
-
-wxDEFINE_EVENT(EVT_DRAW_LCD, wxCommandEvent);
-
 //*)
 
 
@@ -45,31 +43,76 @@ class NextStepRc_SimulatorFrame: public wxFrame
         void OnwxlcdKeyDown(wxKeyEvent& event);
         void OnwxsimulcdPaint(wxPaintEvent& event);
         void StartFirmwareCode();
-        void Create_Spin();
+        void OnMenuLoadEeprom(wxCommandEvent& event);
+        void OnButtonMenuClick(wxCommandEvent& event);
+        void OnButtonMenuClick1(wxCommandEvent& event);
+        void OnPanel2Paint(wxPaintEvent& event);
+        void OnPanel2LeftUp(wxMouseEvent& event);
+        void OnPanel2LeftUp1(wxMouseEvent& event);
+        void OnBPmenuLeftDown(wxMouseEvent& event);
+        void OnBPmenuLeftUp(wxMouseEvent& event);
+        void OnBPexitLeftDown(wxMouseEvent& event);
+        void OnBPexitLeftUp(wxMouseEvent& event);
+        void OnBPhLeftDown(wxMouseEvent& event);
+        void OnBPhLeftUp(wxMouseEvent& event);
+        void OnBPbLeftDown(wxMouseEvent& event);
+        void OnBPbLeftUp(wxMouseEvent& event);
+        void OnBPgLeftDown(wxMouseEvent& event);
+        void OnBPgLeftUp(wxMouseEvent& event);
+        void OnBPdLeftDown(wxMouseEvent& event);
+        void OnBPdLeftUp(wxMouseEvent& event);
+        void OnTimer10msTrigger(wxTimerEvent& event);
         //*)
 
         //(*Identifiers(NextStepRc_SimulatorFrame)
         static const long ID_PANEL2;
-        static const long ID_BUTTON1;
+        static const long ID_BUTTONON;
         static const long ID_WXSIMULCD;
+        static const long ID_BPMENU;
+        static const long ID_BPH;
+        static const long ID_BPEXIT;
+        static const long ID_BPG;
+        static const long ID_BPB;
+        static const long ID_BPD;
         static const long ID_PANEL3;
         static const long ID_PANEL4;
         static const long ID_PANEL1;
+        static const long IdMenuOpenEE;
         static const long idMenuQuit;
         static const long idMenuAbout;
         static const long ID_STATUSBAR1;
+        static const long ID_TIMER10MS;
         //*)
 
      //(*Variables(NextStepRc_SimulatorFrame)
        uint8_t SimuLcdScale;
-        //*)
+      Spin* SpinA;
+       Spin* SpinB;
+       Spin* SpinC;
+       Spin* SpinD;
+       Spin* SpinE;
+       Spin* SpinF;
+       Spin* SpinG;
+       Spin* SpinH;
+       Spin* SpinJ;
+       Spin* SpinK;
+       Spin* SpinL;
+       //*)
 
 
         //(*Declarations(NextStepRc_SimulatorFrame)
-        wxButton* Button1;
+        wxPanel* BPg;
+        wxTimer Timer10ms;
+        wxPanel* BPexit;
+        wxPanel* BPd;
+        wxPanel* BPmenu;
+        wxButton* ButtonON;
         wxPanel* Panel1;
         wxPanel* wxsimulcd;
+        wxPanel* BPh;
         wxPanel* Panel3;
+        wxMenuItem* MenuItem3;
+        wxPanel* BPb;
         wxStatusBar* StatusBar1;
         wxPanel* Panel2;
         wxPanel* PanelPrincipal;

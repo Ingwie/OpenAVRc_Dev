@@ -32,11 +32,9 @@ typedef const int8_t pm_int8_t;
 #define REG16 uint16_t
 
 //Function
-extern void eepromReadBlock (uint8_t * pointer_ram, uint32_t pointer_eeprom, uint32_t size);
-
-
-#define wdt_reset() //sleep(1/*ms*/)
-#define SIMU_SLEEP(x) Sleep(1000 * x)//do { if (!main_thread_running) return; sleep(x/*ms*/); } while (0)
+extern uint8_t simu_eeprom[4096];
+extern void eepromReadBlock (uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size);
+extern void SinuWaitEvent(uint8_t x);
 
 
 //PORT & PIN
@@ -463,8 +461,11 @@ extern REG8  simu_didrO;
 
 //EEPROM
 extern REG8 simu_eecr;
-
+extern REG8 simu_eedr;
+extern REG16 simu_eear;
+#define EEAR    simu_eear
 #define EECR    simu_eecr
+#define EEDR    simu_eedr
 #define EEPM1   5
 #define EEPM0   4
 #define EERIE   3

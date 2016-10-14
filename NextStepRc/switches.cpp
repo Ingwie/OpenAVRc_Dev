@@ -385,7 +385,7 @@ void checkSwitches()
 
     checkBacklight();
 
-    wdt_reset();
+    Mywdt_reset();
 
     SIMU_SLEEP(1);
   }

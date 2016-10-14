@@ -101,7 +101,7 @@ inline void checkMixer()
   if (t0 > maxMixerDuration) maxMixerDuration = t0;
 }
 
-#define loop_mixer_until_bit_is_set(sfr, bit) do { checkMixer(); wdt_reset(); } while (bit_is_clear(sfr, bit))
+#define loop_mixer_until_bit_is_set(sfr, bit) do { checkMixer(); Mywdt_reset(); } while (bit_is_clear(sfr, bit))
 #endif
 
 /*-----------------------------------------------------------------------*/

@@ -28,7 +28,7 @@ uint16_t eeprom_pointer;
 uint8_t * eeprom_buffer_data;
 volatile int8_t eeprom_buffer_size = 0;
 
-#if !defined(SIMU)
+
 inline void eeprom_write_byte()
 {
   EEAR = eeprom_pointer;
@@ -40,6 +40,9 @@ inline void eeprom_write_byte()
 #else
   EECR |= 1<<EEMWE;
   EECR |= 1<<EEWE;
+#endif
+#if defined(SIMU)
+  simu_eeprom[EEAR] = EEDR;
 #endif
   eeprom_pointer++;
   eeprom_buffer_data++;
@@ -58,11 +61,10 @@ ISR(EE_READY_vect)
 #endif
   }
 }
-#endif
 
 void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t size)
 {
-  assert(!eeprom_buffer_size);
+  //assert(!eeprom_buffer_size);
 
   eeprom_pointer = i_pointer_eeprom;
   eeprom_buffer_data = i_pointer_ram;
@@ -75,7 +77,7 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
 #endif
 
   if (s_sync_write) {
-    while SIMU_UNLOCK_MACRO(eeprom_buffer_size > 0) wdt_reset();
+    while (eeprom_buffer_size > 0) Mywdt_reset(EE_READY_vect()); //Simulate ISR in Simu mode
   }
 }
 
@@ -202,7 +204,7 @@ void eepromFormat()
 {
   ENABLE_SYNC_WRITE(true);
 
-#if defined(SIMU)
+#if defined(SIMUa)
   // write zero to the end of the new EEPROM file to set it's proper size
   uint8_t dummy = 0;
   eepromWriteBlock(&dummy, EESIZE-1, 1);
@@ -227,7 +229,7 @@ bool eepromOpen()
 {
   eepromReadBlock((uint8_t *)&eeFs, 0, sizeof(eeFs));
 
-#ifdef SIMU
+#if defined(SIMU)
   if (eeFs.version != EEFS_VERS) {
     TRACE("bad eeFs.version (%d instead of %d)", eeFs.version, EEFS_VERS);
   }
@@ -237,7 +239,7 @@ bool eepromOpen()
 #endif
 
   if (eeFs.version != EEFS_VERS || eeFs.mySize != sizeof(eeFs)) {
-    return false;
+   return false;
   }
 
   eepromCheck();
@@ -762,7 +764,7 @@ void RlcFile::nextRlcWriteStep()
 
 void RlcFile::flush()
 {
-  while (eeprom_buffer_size > 0) wdt_reset();
+  while (eeprom_buffer_size > 0) Mywdt_reset();
 
   ENABLE_SYNC_WRITE(true);
 

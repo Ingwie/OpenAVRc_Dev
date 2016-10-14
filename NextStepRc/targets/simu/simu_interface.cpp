@@ -15,13 +15,13 @@
  */
 
 #include "simu_interface.h"
-#include "../../eeprom_rlc.h"
+#include "../../nextsteprc.h"
 
 
 //EEPROM
+uint8_t simu_eeprom[EESIZE] = {0};
 extern uint16_t eeprom_pointer;
 extern uint8_t * eeprom_buffer_data;
-uint8_t eeprom[EESIZE];
 
 
 
@@ -76,6 +76,8 @@ REG8  simu_didrO;
 
 //EEPROM
 REG8 simu_eecr;
+REG8 simu_eedr;
+REG16 simu_eear;
 
 //IIC
 REG8 simu_twcr;
@@ -147,10 +149,13 @@ REG8 simu_bssebd;
 
 //END SIMU REG
 
-void eepromReadBlock (uint8_t * pointer_ram, uint32_t pointer_eeprom, uint32_t size)
+void eepromReadBlock (uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size)
 {
      assert(size);
-
-       memcpy(pointer_ram, &eeprom[(uint64_t)pointer_eeprom], size);
+       memcpy(pointer_ram, &simu_eeprom[pointer_eeprom], size);
 }
 
+void SinuWaitEvent(uint8_t x)
+{
+  beep(1000);
+}

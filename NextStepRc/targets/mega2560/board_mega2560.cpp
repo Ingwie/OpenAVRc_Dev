@@ -19,8 +19,7 @@
 #include "board_mega2560.h"
 
 
-#ifndef SIMU
-inline void boardInit()
+FORCEINLINE void boardInit()
 {
   // Set up I/O port data directions and initial states (unused pin setting : input, pull-up on)
 #if defined(VOICE_WTV20SD)
@@ -77,6 +76,8 @@ inline void boardInit()
 
   adcInit();
 
+#ifndef SIMU
+
   /**** Set up timer/counter 0 ****/
   // TCNT0  10ms = 16MHz/1024/156(.25) periodic timer (100ms interval)
   //        cycles at 9.984ms but includes 1:4 duty cycle correction to /157 to average at 10.0ms
@@ -118,8 +119,9 @@ inline void boardInit()
   /* Hardware I2C init                               */
   i2c_init();
   #endif
-}
+
 #endif // !SIMU
+}
 
 uint8_t pwrCheck()
 {

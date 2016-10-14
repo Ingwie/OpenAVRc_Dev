@@ -24,7 +24,7 @@
 
 void lcdInit()
 {
-  //TODO
+wxTheApp->Yield(); //This function tell the app to process events
 }
 
 void lcdSetRefVolt(uint8_t val)

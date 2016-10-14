@@ -14,5 +14,5 @@
 *************************************************************
 */
 
-#include "../../../NextStepRc_Simulator/NextStepRc_SimulatorMain.h"
+//#include "../../../NextStepRc_Simulator/NextStepRc_SimulatorMain.h"
 
