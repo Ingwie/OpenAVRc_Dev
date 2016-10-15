@@ -155,7 +155,3 @@ void eepromReadBlock (uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t s
        memcpy(pointer_ram, &simu_eeprom[pointer_eeprom], size);
 }
 
-void SinuWaitEvent(uint8_t x)
-{
-  beep(1000);
-}

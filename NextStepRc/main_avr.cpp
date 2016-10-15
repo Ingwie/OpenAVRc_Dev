@@ -21,9 +21,11 @@ extern uint8_t checkTrim(uint8_t event);
 
 void perMain()
 {
-#if defined(SIMU)
+#if defined(SIMUa)
   doMixerCalculations();
 #endif
+
+SIMU_PROCESSEVENTS;
 
   uint16_t t0 = getTmr16KHz();
   int16_t delta = (nextMixerEndTime - lastMixerDuration) - t0;

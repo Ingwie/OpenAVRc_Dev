@@ -12,6 +12,7 @@
 
 //(*Headers(NextStepRc_SimulatorFrame)
 #include <wx/menu.h>
+#include <wx/slider.h>
 #include <wx/panel.h>
 #include <wx/button.h>
 #include <wx/frame.h>
@@ -66,7 +67,6 @@ class NextStepRc_SimulatorFrame: public wxFrame
 
         //(*Identifiers(NextStepRc_SimulatorFrame)
         static const long ID_PANEL2;
-        static const long ID_BUTTONON;
         static const long ID_WXSIMULCD;
         static const long ID_BPMENU;
         static const long ID_BPH;
@@ -74,7 +74,9 @@ class NextStepRc_SimulatorFrame: public wxFrame
         static const long ID_BPG;
         static const long ID_BPB;
         static const long ID_BPD;
+        static const long ID_SLIDER1;
         static const long ID_PANEL3;
+        static const long ID_BUTTONON;
         static const long ID_PANEL4;
         static const long ID_PANEL1;
         static const long IdMenuOpenEE;
@@ -115,6 +117,7 @@ class NextStepRc_SimulatorFrame: public wxFrame
         wxPanel* BPb;
         wxStatusBar* StatusBar1;
         wxPanel* Panel2;
+        wxSlider* Slidergaz;
         wxPanel* PanelPrincipal;
         //*)
 

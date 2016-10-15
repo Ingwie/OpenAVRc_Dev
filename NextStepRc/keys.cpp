@@ -126,7 +126,7 @@ void killEvents(uint8_t event)
 void clearKeyEvents()
 {
   // loop until all keys are up
-  while SIMU_UNLOCK_MACRO(keyDown()) {
+  while (keyDown()) {
 
 #if defined(SIMU)
     SIMU_SLEEP(1);

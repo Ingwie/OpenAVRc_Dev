@@ -92,15 +92,6 @@ void per10ms()
   /* Update global Date/Time every 100 per10ms cycles */
   if (++g_ms100 == 100) {
     g_rtcTime++;   // inc global unix timestamp one second
-#if defined(COPROCESSOR)
-    if (g_rtcTime < 60 || rtc_count<5) {
-      rtcInit();
-      rtc_count++;
-    }
-    else {
-      coprocReadData(true);
-    }
-#endif
     g_ms100 = 0;
   }
 #endif
@@ -150,6 +141,7 @@ void per10ms()
 #endif
 
   heartbeat |= HEART_TIMER_10MS;
+
 }
 
 FlightModeData *flightModeAddress(uint8_t idx)
@@ -1386,11 +1378,15 @@ void checkBattery()
 
   uint16_t getTmr16KHz()
   {
-    while(1){
+#if defined(SIMU)
+  return get_tmr10ms() * 160;
+#else
+   while(1){
       uint8_t hb  = g_tmr16KHz;
       uint8_t lb  = COUNTER_16KHZ;
       if(hb-g_tmr16KHz==0) return (hb<<8)|lb;
     }
+#endif
   }
 
 #if defined(PCBSTD) && (defined(AUDIO) || defined(VOICE))
@@ -1432,6 +1428,8 @@ void checkBattery()
 #if defined(HAPTIC)
     HAPTIC_HEARTBEAT();
 #endif
+
+    SIMU_PROCESSEVENTS;
 
     per10ms();
 
@@ -1618,7 +1616,7 @@ void checkBattery()
 extern unsigned char __bss_end ;
 #endif
 
-#if !defined(SIMUa) //todo bracame
+#if !defined(SIMU) //todo bracame
 //  extern unsigned char __bss_end ;
 //#define STACKPTR     _SFR_IO16(0x3D)
   void stackPaint()
@@ -1634,16 +1632,20 @@ extern unsigned char __bss_end ;
       *p-- = 0x55 ;
     }
   }
+#endif
 
   uint16_t stackAvailable()
   {
+#if defined(SIMU)
+   return 500;
+#else
     unsigned char *p ;
 
     p = &__bss_end + 1 ;
     while ( *p++ == 0x55 );
     return p - &__bss_end ;
-  }
 #endif
+  }
 
 #if defined(CPUM2560)
   #define nextsteprc_INIT_ARGS const uint8_t mcusr
@@ -1712,13 +1714,18 @@ extern unsigned char __bss_end ;
    // wdt_enable(WDTO_500MS); bracame todo remove ?
   }
 
+#if !defined(SIMUa)
 #if !defined(SIMU)
   int main(void)
+#else
+  int simumain(void)
+#endif
   {
     // G: The WDT remains active after a WDT reset -- at maximum clock speed. So it's
     // important to disable it before commencing with system initialisation (or
     // we could put a bunch more Mywdt_reset()s in. But I don't like that approach
     // during boot up.)
+#if !defined(SIMU)
 #if defined(CPUM2560) || defined(CPUM2561)
     uint8_t mcusr = MCUSR; // save the WDT (etc) flags
     MCUSR = 0; // must be zeroed before disabling the WDT
@@ -1730,14 +1737,16 @@ extern unsigned char __bss_end ;
     MCUCSR = 0x80 ;   // Must be done twice
 #endif
     wdt_disable();
-
+#endif //SIMU
     boardInit();
 
 #if defined(GUI)
     lcdInit();
 #endif
 
+#if !defined(SIMU)
     stackPaint();
+#endif
 
 #if defined(GUI)
     menuHandlers[0] = menuMainView;
@@ -1787,7 +1796,8 @@ extern unsigned char __bss_end ;
     uint8_t shutdown_state = 0;
 #endif
 
-    while (1) {
+    while (1)
+       {
 #if defined(CPUM2560)
       if ((shutdown_state=pwrCheck()) > e_power_trainer)
       break;
@@ -1809,8 +1819,10 @@ extern unsigned char __bss_end ;
     lcdClear() ;
     lcdRefresh() ;
     boardOff(); // Only turn power off if necessary
+#if !defined(SIMU)
     wdt_disable();
     while(1); // never return from main() - there is no code to return back, if any delays occurs in physical power it does dead loop.
+#endif
 #endif
   }
 #endif // !SIMU

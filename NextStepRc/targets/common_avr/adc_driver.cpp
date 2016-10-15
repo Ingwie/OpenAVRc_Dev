@@ -52,7 +52,9 @@ void getADC()
     ADCSRA |= 1 << ADSC; // Start the second AD conversion
     while SIMU_UNLOCK_MACRO(ADCSRA & (1 << ADSC)); // Wait for the AD conversion to complete
     temp_ana += ADC;
+#if !defined(SIMU)
     s_anaFilt[adc_input] = temp_ana;
+#endif
   }
 
 #if defined(TELEMETRY_MOD_14051) || defined(TELEMETRY_MOD_14051_SWAPPED)

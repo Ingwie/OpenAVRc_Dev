@@ -23,12 +23,6 @@
 				<size>784,248</size>
 				<bg>#83D8F3</bg>
 				<style>wxSUNKEN_BORDER</style>
-				<object class="wxButton" name="ID_BUTTONON" variable="ButtonON" member="yes">
-					<label>ON</label>
-					<pos>8,8</pos>
-					<size>38,22</size>
-					<handler function="OnButton1Click" entry="EVT_BUTTON" />
-				</object>
 				<object class="wxPanel" name="ID_WXSIMULCD" variable="wxsimulcd" member="yes">
 					<pos>256,32</pos>
 					<size>256,128</size>
@@ -75,12 +69,25 @@
 					<handler function="OnBPdLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPdLeftUp" entry="EVT_LEFT_UP" />
 				</object>
+				<object class="wxSlider" name="ID_SLIDER1" variable="Slidergaz" member="yes">
+					<value>1024</value>
+					<max>2048</max>
+					<pos>112,64</pos>
+					<size>38,110</size>
+					<style>wxSL_VERTICAL</style>
+				</object>
 			</object>
 			<object class="wxPanel" name="ID_PANEL4" variable="Panel3" member="yes">
 				<pos>8,312</pos>
 				<size>784,64</size>
 				<bg>#32A7ED</bg>
 				<style>wxRAISED_BORDER|wxTAB_TRAVERSAL</style>
+				<object class="wxButton" name="ID_BUTTONON" variable="ButtonON" member="yes">
+					<label>ON</label>
+					<pos>8,8</pos>
+					<size>38,22</size>
+					<handler function="OnButton1Click" entry="EVT_BUTTON" />
+				</object>
 			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar1" member="no">
@@ -115,6 +122,7 @@
 		</object>
 		<object class="wxTimer" name="ID_TIMER10MS" variable="Timer10ms" member="yes">
 			<interval>10</interval>
+			<oneshot>1</oneshot>
 			<handler function="OnTimer10msTrigger" entry="EVT_TIMER" />
 		</object>
 	</object>

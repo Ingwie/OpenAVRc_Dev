@@ -205,7 +205,7 @@ extern void lcdRefreshFast();
 #define BLINK_ON_PHASE (g_blinkTmr10ms & (1<<6))
 #endif
 
-#if defined(SIMU)
+#if defined(SIMUa)
 extern bool lcd_refresh;
 extern display_t lcd_buf[DISPLAY_BUF_SIZE];
 #endif

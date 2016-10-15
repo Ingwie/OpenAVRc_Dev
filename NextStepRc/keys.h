@@ -114,7 +114,7 @@ class Key
 {
 #define FILTERBITS      4
 
-#ifdef SIMU
+#ifdef SIMUa
   #define FFVAL 1
 #else
   #define FFVAL          ((1<<FILTERBITS)-1)

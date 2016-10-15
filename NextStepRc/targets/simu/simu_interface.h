@@ -34,7 +34,6 @@ typedef const int8_t pm_int8_t;
 //Function
 extern uint8_t simu_eeprom[4096];
 extern void eepromReadBlock (uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size);
-extern void SinuWaitEvent(uint8_t x);
 
 
 //PORT & PIN
@@ -737,7 +736,8 @@ extern REG8 simu_bssebd;
 #define strcat_P strcat
 #define memcpy_P memcpy
 #define bit_is_clear(sfr, bit) (!(REG8(sfr) & (1 << (bit))))
-#define loop_until_bit_is_set(sfr, bit) do { } while (bit_is_clear(sfr, bit))
+#define loop_until_bit_is_set(sfr, bit) do {lcdInit();} while (bit_is_clear(sfr, bit))
+#define mcusr MCUSR
 //#undef assert
 //#define assert(x)
 #define printf(x)

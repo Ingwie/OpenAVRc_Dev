@@ -180,10 +180,8 @@
 
 #if defined(SIMU)
 #define __DMA
-#define SIMU_UNLOCK_MACRO(x) (false)
 #else
 #define __DMA __attribute__((aligned(32)))
-#define SIMU_UNLOCK_MACRO(x) (x)
 #endif
 
 #if GCC_VERSION < 472
@@ -214,16 +212,19 @@ typedef __int24 int24_t;
 #endif
 #define CONVERT_PTR_UINT(x) ((uint32_t)(uint64_t)(x))
 #define CONVERT_UINT_PTR(x) ((uint32_t*)(uint64_t)(x))
-#define Mywdt_reset(x) { x; Sleep(1); lcdInit();}
-#define SIMU_SLEEP(x) Sleep(1 * x); lcdInit(); //This function tell the app to process events
-#define SIMU_PROCESSEVENTS lcdInit()
+#define SIMU_PROCESSEVENTS lcdInit()  //This function tell the simu app to process events
+#define Mywdt_reset(x) { x; Sleep(10); SIMU_PROCESSEVENTS;}
+#define SIMU_SLEEP(x) Sleep(1 * x); SIMU_PROCESSEVENTS;
+#define SIMU_UNLOCK_MACRO(x) (false)
 char *convertSimuPath(const char *path);
 extern ISR(TIMER_10MS_VECT, ISR_NOBLOCK);
+extern int simumain(void);
 #else
 #define FORCEINLINE inline __attribute__ ((always_inline))
 #define NOINLINE __attribute__ ((noinline))
 #define SIMU_SLEEP(x)
 #define SIMU_PROCESSEVENTS
+#define SIMU_UNLOCK_MACRO(x) (x)
 #define CONVERT_PTR_UINT(x) ((uint32_t)(x))
 #define CONVERT_UINT_PTR(x) ((uint32_t *)(x))
 #define convertSimuPath(x) (x)
@@ -692,11 +693,7 @@ extern uint16_t s_sum_samples_thr_10s;
 #define RESET_THR_TRACE() s_timeCum16ThrP = s_timeCumThr = 0
 #endif
 
-#if defined(CPUSTM32)
-static inline uint16_t getTmr2MHz() { return TIMER_2MHz_TIMER->CNT; }
-#else
 uint16_t getTmr16KHz();
-#endif
 
 uint16_t stackAvailable();
 

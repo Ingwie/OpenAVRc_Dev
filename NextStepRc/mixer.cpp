@@ -265,7 +265,7 @@ void evalInputs(uint8_t mode)
     int16_t v = anaIn(i);
 #endif
 
-#if !defined(SIMU)
+#if !defined(SIMUa)
     if (i < NUM_STICKS+NUM_POTS) {
       if (IS_POT_MULTIPOS(i)) {
         v -= RESX;
@@ -623,14 +623,14 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
       }
 
       //========== OFFSET AFTER =============
-#if !defined(OFFSET_ON_INPUT) 
+#if !defined(OFFSET_ON_INPUT)
       if (apply_offset_and_curve) {
-        int16_t offset = GET_GVAR(MD_OFFSET(md), GV_RANGELARGE_NEG, GV_RANGELARGE, mixerCurrentFlightMode); 
-        if (offset) dv += int32_t(calc100toRESX_16Bits(offset)) << 8; 
+        int16_t offset = GET_GVAR(MD_OFFSET(md), GV_RANGELARGE_NEG, GV_RANGELARGE, mixerCurrentFlightMode);
+        if (offset) dv += int32_t(calc100toRESX_16Bits(offset)) << 8;
       }
 
 #endif
-      
+
       //Stick value to mixer
       //    stick => delay => slow_down => mixer source
 
