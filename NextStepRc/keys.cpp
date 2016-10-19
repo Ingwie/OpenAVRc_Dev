@@ -128,10 +128,10 @@ void clearKeyEvents()
   // loop until all keys are up
   while (keyDown()) {
 
-#if defined(SIMU)
-    SIMU_SLEEP(1);
+#if defined(SIMUa)
+    SIMU_PROCESSEVENTS;
 #else
-    Mywdt_reset();
+    MYWDT_RESET();
 #endif
 
 #if defined(PCBSTD) && defined(ROTARY_ENCODER_NAVIGATION) && !defined(TELEMETREZ)

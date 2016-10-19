@@ -14,6 +14,7 @@
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-mno-ms-bitfields" />
 					<Add option="-DSIMU" />
 					<Add option="-DPCBMEGA2560" />
 					<Add option="-DCPUM2560" />
@@ -66,7 +67,7 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-Xlinker --allow-multiple-definition" />
-					<Add library="libwxmsw31u.a" />
+					<Add library="libwxmsw31ud.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
@@ -80,6 +81,7 @@
 					<Add option="-O2" />
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="-mno-ms-bitfields" />
 					<Add option="-DSIMU" />
 					<Add option="-DPCBMEGA2560" />
 					<Add option="-DCPUM2560" />
@@ -98,7 +100,6 @@
 					<Add option="-DTTS_FR" />
 					<Add option="-DDEFAULT_MODE=2" />
 					<Add option="-DNOANDSECONDE" />
-					<Add option="-DNAVIGATION_STICKS" />
 					<Add option="-DAUTOSWITCH" />
 					<Add option="-DAUTOSOURCE" />
 					<Add option="-DDBLKEYS" />

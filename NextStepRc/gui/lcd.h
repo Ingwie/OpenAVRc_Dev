@@ -110,75 +110,75 @@ typedef const unsigned char pm_uchar;
 typedef const char pm_char;
 #endif
 
-extern void lcdDrawChar(coord_t x, coord_t y, const unsigned char c);
-extern void lcdDrawCharAtt(coord_t x, coord_t y, const unsigned char c, LcdFlags mode);
-extern void lcdDrawTextAtt(coord_t x, coord_t y, const pm_char * s, LcdFlags mode);
-extern void lcdDrawTextAtIndex(coord_t x, coord_t y, const pm_char * s,uint8_t idx, LcdFlags mode);
-extern void lcdDrawSizedTextAtt(coord_t x, coord_t y, const pm_char * s,unsigned char len, LcdFlags mode);
-extern void lcdDrawText(coord_t x, coord_t y, const pm_char * s);
-extern void lcdDrawSizedText(coord_t x, coord_t y, const pm_char * s, unsigned char len);
-extern void lcdDrawTextLeft(coord_t y, const pm_char * s);
+void lcdDrawChar(coord_t x, coord_t y, const unsigned char c);
+void lcdDrawCharAtt(coord_t x, coord_t y, const unsigned char c, LcdFlags mode);
+void lcdDrawTextAtt(coord_t x, coord_t y, const pm_char * s, LcdFlags mode);
+void lcdDrawTextAtIndex(coord_t x, coord_t y, const pm_char * s,uint8_t idx, LcdFlags mode);
+void lcdDrawSizedTextAtt(coord_t x, coord_t y, const pm_char * s,unsigned char len, LcdFlags mode);
+void lcdDrawText(coord_t x, coord_t y, const pm_char * s);
+void lcdDrawSizedText(coord_t x, coord_t y, const pm_char * s, unsigned char len);
+void lcdDrawTextLeft(coord_t y, const pm_char * s);
 
 #define lcdDrawTextCenter(y, s) lcdDrawText((LCD_W-sizeof(TR_##s)*FW+FW+1)/2, y, STR_##s)
 
-extern void lcd_outhex4(coord_t x, coord_t y, uint16_t val);
+void lcd_outhex4(coord_t x, coord_t y, uint16_t val);
 
-extern void lcdDrawNumberNAtt(coord_t x, coord_t y, lcdint_t val, LcdFlags mode=0, uint8_t len=0);
-extern void lcdDrawNumberAttUnit(coord_t x, coord_t y, lcdint_t val, LcdFlags mode=0);
-extern void lcd_outdez8(coord_t x, coord_t y, int8_t val);
+void lcdDrawNumberNAtt(coord_t x, coord_t y, lcdint_t val, LcdFlags mode=0, uint8_t len=0);
+void lcdDrawNumberAttUnit(coord_t x, coord_t y, lcdint_t val, LcdFlags mode=0);
+void lcd_outdez8(coord_t x, coord_t y, int8_t val);
 
-extern void lcdDrawStringWithIndex(coord_t x, coord_t y, const pm_char *str, uint8_t idx, LcdFlags att=0);
-extern void putsModelName(coord_t x, coord_t y, char *name, uint8_t id, LcdFlags att);
-extern void lcdPutsSwitches(coord_t x, coord_t y, int8_t swtch, LcdFlags att=0);
-extern void putsMixerSource(coord_t x, coord_t y, uint8_t idx, LcdFlags att=0);
-extern void putsFlightMode(coord_t x, coord_t y, int8_t idx, LcdFlags att=0);
-extern void lcdDrawCurveName(coord_t x, coord_t y, int8_t idx, LcdFlags att=0);
-extern void lcdPutsTimerMode(coord_t x, coord_t y, int8_t mode, LcdFlags att=0);
-extern void lcdPutsTrimMode(coord_t x, coord_t y, uint8_t phase, uint8_t idx, LcdFlags att);
+void lcdDrawStringWithIndex(coord_t x, coord_t y, const pm_char *str, uint8_t idx, LcdFlags att=0);
+void putsModelName(coord_t x, coord_t y, char *name, uint8_t id, LcdFlags att);
+void lcdPutsSwitches(coord_t x, coord_t y, int8_t swtch, LcdFlags att=0);
+void putsMixerSource(coord_t x, coord_t y, uint8_t idx, LcdFlags att=0);
+void putsFlightMode(coord_t x, coord_t y, int8_t idx, LcdFlags att=0);
+void lcdDrawCurveName(coord_t x, coord_t y, int8_t idx, LcdFlags att=0);
+void lcdPutsTimerMode(coord_t x, coord_t y, int8_t mode, LcdFlags att=0);
+void lcdPutsTrimMode(coord_t x, coord_t y, uint8_t phase, uint8_t idx, LcdFlags att);
 #if defined(ROTARY_ENCODERS)
-extern void lcdPutsRotaryEncoderMode(coord_t x, coord_t y, uint8_t phase, uint8_t idx, LcdFlags att);
+void lcdPutsRotaryEncoderMode(coord_t x, coord_t y, uint8_t phase, uint8_t idx, LcdFlags att);
 #endif
 
 #define putsChn(x, y, idx, att) putsMixerSource(x, y, MIXSRC_CH1+idx-1, att)
-extern void lcdPutsChnLetter(coord_t x, coord_t y, uint8_t idx, LcdFlags attr);
+void lcdPutsChnLetter(coord_t x, coord_t y, uint8_t idx, LcdFlags attr);
 
-extern void lcdPutsVolts(coord_t x, coord_t y, uint16_t volts, LcdFlags att);
-extern void putsVBat(coord_t x, coord_t y, LcdFlags att);
+void lcdPutsVolts(coord_t x, coord_t y, uint16_t volts, LcdFlags att);
+void putsVBat(coord_t x, coord_t y, LcdFlags att);
 
 #if !defined(BOOT)
 void putsChannelValue(coord_t x, coord_t y, source_t channel, lcdint_t val, LcdFlags att=0);
-extern void putsChannel(coord_t x, coord_t y, source_t channel, LcdFlags att=0);
-extern void lcdPutsTelemetryChannelValue(coord_t x, coord_t y, uint8_t channel, lcdint_t val, LcdFlags att=0);
+void putsChannel(coord_t x, coord_t y, source_t channel, LcdFlags att=0);
+void lcdPutsTelemetryChannelValue(coord_t x, coord_t y, uint8_t channel, lcdint_t val, LcdFlags att=0);
 #endif
 
 #define putstime_t int16_t
 
-extern void putsRtcTime(coord_t x, coord_t y, LcdFlags att);
-extern void putsTimer(coord_t x, coord_t y, putstime_t tme, LcdFlags att, LcdFlags att2);
+void putsRtcTime(coord_t x, coord_t y, LcdFlags att);
+void putsTimer(coord_t x, coord_t y, putstime_t tme, LcdFlags att, LcdFlags att2);
 
 #define SOLID  0xff
 #define DOTTED 0x55
 
-extern void lcdDrawPoint(coord_t x, coord_t y, LcdFlags att=0);
-extern void lcdMaskPoint(uint8_t *p, uint8_t mask, LcdFlags att=0);
-extern void lcdDrawSolidHorizontalLine(coord_t x, coord_t y, coord_t w, LcdFlags att=0);
-extern void lcdDrawSolidHorizontalLineStip(coord_t x, coord_t y, coord_t w, uint8_t pat, LcdFlags att=0);
-extern void lcdDrawSolidVerticalLine(coord_t x, scoord_t y, scoord_t h);
+void lcdDrawPoint(coord_t x, coord_t y, LcdFlags att=0);
+void lcdMaskPoint(uint8_t *p, uint8_t mask, LcdFlags att=0);
+void lcdDrawSolidHorizontalLine(coord_t x, coord_t y, coord_t w, LcdFlags att=0);
+void lcdDrawSolidHorizontalLineStip(coord_t x, coord_t y, coord_t w, uint8_t pat, LcdFlags att=0);
+void lcdDrawSolidVerticalLine(coord_t x, scoord_t y, scoord_t h);
 #if defined(CPUM64)
-extern void lcdDrawSolidVerticalLineStip(coord_t x, scoord_t y, int8_t h, uint8_t pat);
+void lcdDrawSolidVerticalLineStip(coord_t x, scoord_t y, int8_t h, uint8_t pat);
 #else
-extern void lcdDrawSolidVerticalLineStip(coord_t x, scoord_t y, scoord_t h, uint8_t pat, LcdFlags att=0);
+void lcdDrawSolidVerticalLineStip(coord_t x, scoord_t y, scoord_t h, uint8_t pat, LcdFlags att=0);
 #endif
 
 
-extern void lcdDrawFilledRect(coord_t x, scoord_t y, coord_t w, coord_t h, uint8_t pat=SOLID, LcdFlags att=0);
-extern void lcdDrawRect(coord_t x, coord_t y, coord_t w, coord_t h, uint8_t pat=SOLID, LcdFlags att=0);
+void lcdDrawFilledRect(coord_t x, scoord_t y, coord_t w, coord_t h, uint8_t pat=SOLID, LcdFlags att=0);
+void lcdDrawRect(coord_t x, coord_t y, coord_t w, coord_t h, uint8_t pat=SOLID, LcdFlags att=0);
 
-extern void lcdInvertLine(int8_t line);
+void lcdInvertLine(int8_t line);
 #define lcd_status_line() lcdInvertLine(LCD_LINES-1)
-extern inline void lcd_square(coord_t x, coord_t y, coord_t w, LcdFlags att=0) { lcdDrawRect(x, y, w, w, SOLID, att); }
+inline void lcd_square(coord_t x, coord_t y, coord_t w, LcdFlags att=0) { lcdDrawRect(x, y, w, w, SOLID, att); }
 
-extern void lcdDrawTelemetryTopBar();
+void lcdDrawTelemetryTopBar();
 
 #define V_BAR(xx, yy, ll)    \
   lcdDrawSolidVerticalLine(xx-1,yy-ll,ll);  \
@@ -186,28 +186,25 @@ extern void lcdDrawTelemetryTopBar();
   lcdDrawSolidVerticalLine(xx+1,yy-ll,ll)
 
 #if (defined(PCBMEGA2560) && !defined(SIMU))
-extern void lcd_imgfar(coord_t x, coord_t y, uint_farptr_t img, uint8_t idx, LcdFlags att); // progmem "far"
+void lcd_imgfar(coord_t x, coord_t y, uint_farptr_t img, uint8_t idx, LcdFlags att); // progmem "far"
 #endif
-extern void lcd_img(coord_t x, coord_t y, const pm_uchar * img, uint8_t idx, LcdFlags att=0);
+void lcd_img(coord_t x, coord_t y, const pm_uchar * img, uint8_t idx, LcdFlags att=0);
 
-extern void lcdSetRefVolt(unsigned char val);
-extern void lcdClear();
-extern void lcdSetContrast();
-extern void lcdInit();
+void lcdSetRefVolt(unsigned char val);
+void lcdClear();
+void lcdSetContrast();
+void lcdInit();
 #define lcdOff()
-
-extern void lcdRefresh();
-extern void lcdRefreshFast();
+#if defined (SIMU)
+void SimuSleepMs(uint16_t x);
+#endif // defined
+void lcdRefresh();
+void lcdRefreshFast();
 
 #if defined(BOOT)
 #define BLINK_ON_PHASE (0)
 #else
 #define BLINK_ON_PHASE (g_blinkTmr10ms & (1<<6))
-#endif
-
-#if defined(SIMUa)
-extern bool lcd_refresh;
-extern display_t lcd_buf[DISPLAY_BUF_SIZE];
 #endif
 
 char *strAppend(char * dest, const char * source, int len=0);

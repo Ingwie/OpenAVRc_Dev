@@ -41,7 +41,7 @@ inline void eeprom_write_byte()
   EECR |= 1<<EEMWE;
   EECR |= 1<<EEWE;
 #endif
-#if defined(SIMU)
+#if defined(SIMU) //Use virtual register as possible ;-)
   simu_eeprom[EEAR] = EEDR;
 #endif
   eeprom_pointer++;
@@ -64,7 +64,7 @@ ISR(EE_READY_vect)
 
 void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t size)
 {
-  //assert(!eeprom_buffer_size);
+  assert(!eeprom_buffer_size);
 
   eeprom_pointer = i_pointer_eeprom;
   eeprom_buffer_data = i_pointer_ram;
@@ -77,7 +77,7 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
 #endif
 
   if (s_sync_write) {
-    while (eeprom_buffer_size > 0) Mywdt_reset(EE_READY_vect()); //Simulate ISR in Simu mode
+    while (eeprom_buffer_size > 0) MYWDT_RESET(EE_READY_vect()); //Simulate ISR in Simu mode
   }
 }
 
@@ -204,7 +204,7 @@ void eepromFormat()
 {
   ENABLE_SYNC_WRITE(true);
 
-#if defined(SIMUa)
+#if defined(SIMU)
   // write zero to the end of the new EEPROM file to set it's proper size
   uint8_t dummy = 0;
   eepromWriteBlock(&dummy, EESIZE-1, 1);
@@ -764,7 +764,7 @@ void RlcFile::nextRlcWriteStep()
 
 void RlcFile::flush()
 {
-  while (eeprom_buffer_size > 0) Mywdt_reset();
+    while (eeprom_buffer_size > 0) MYWDT_RESET(EE_READY_vect()); //Simulate ISR in Simu mode
 
   ENABLE_SYNC_WRITE(true);
 

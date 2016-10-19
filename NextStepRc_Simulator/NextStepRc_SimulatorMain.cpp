@@ -20,7 +20,6 @@
 //(*InternalHeaders(NextStepRc_SimulatorFrame)
 #include <wx/bitmap.h>
 #include <wx/icon.h>
-#include <wx/settings.h>
 #include <wx/intl.h>
 #include <wx/image.h>
 #include <wx/string.h>
@@ -68,14 +67,15 @@ const long NextStepRc_SimulatorFrame::ID_BPB = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_BPD = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_SLIDER1 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANEL3 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_BUTTONON = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_ONTGLBUTTON = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANEL4 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANEL1 = wxNewId();
 const long NextStepRc_SimulatorFrame::IdMenuOpenEE = wxNewId();
 const long NextStepRc_SimulatorFrame::idMenuQuit = wxNewId();
 const long NextStepRc_SimulatorFrame::idMenuAbout = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_STATUSBAR1 = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_STATUSBAR = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_TIMER10MS = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_TIMERMAIN = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(NextStepRc_SimulatorFrame,wxFrame)
@@ -85,20 +85,6 @@ END_EVENT_TABLE()
 
 NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
 {
-    //LCD var
-    SimuLcdScale = 2;
-    SpinA = new Spin("A", &simu_pina, &simu_ddra, &simu_porta);
-    SpinB = new Spin("B", &simu_pinb, &simu_ddrb, &simu_portb);
-    SpinC = new Spin("C", &simu_pinc, &simu_ddrc, &simu_portc);
-    SpinD = new Spin("D", &simu_pind, &simu_ddrd, &simu_portd);
-    SpinE = new Spin("E", &simu_pine, &simu_ddre, &simu_porte);
-    SpinF = new Spin("F", &simu_pinf, &simu_ddrf, &simu_portf);
-    SpinG = new Spin("G", &simu_ping, &simu_ddrg, &simu_portg);
-    SpinH = new Spin("H", &simu_pinh, &simu_ddrh, &simu_porth);
-    SpinJ = new Spin("J", &simu_pinj, &simu_ddrj, &simu_portj);
-    SpinK = new Spin("K", &simu_pink, &simu_ddrk, &simu_portk);
-    SpinL = new Spin("L", &simu_pinl, &simu_ddrl, &simu_portl);
-
     //(*Initialize(NextStepRc_SimulatorFrame)
     wxMenuItem* MenuItem2;
     wxMenuItem* MenuItem1;
@@ -111,38 +97,37 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Move(wxPoint(-1,-1));
     SetMaxSize(wxSize(-1,-1));
     {
-    	wxIcon FrameIcon;
-    	FrameIcon.CopyFromBitmap(avatarnext);
-    	SetIcon(FrameIcon);
+        wxIcon FrameIcon;
+        FrameIcon.CopyFromBitmap(avatarnext);
+        SetIcon(FrameIcon);
     }
     PanelPrincipal = new wxPanel(this, ID_PANEL1, wxPoint(424,216), wxSize(800,400), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     Panel1 = new wxPanel(PanelPrincipal, ID_PANEL2, wxPoint(8,8), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL2"));
     Panel1->SetBackgroundColour(wxColour(151,234,194));
     Panel2 = new wxPanel(PanelPrincipal, ID_PANEL3, wxPoint(8,72), wxSize(784,248), wxSUNKEN_BORDER, _T("ID_PANEL3"));
     Panel2->SetBackgroundColour(wxColour(131,216,243));
-    wxsimulcd = new wxPanel(Panel2, ID_WXSIMULCD, wxPoint(256,32), wxSize(256,128), wxTAB_TRAVERSAL, _T("ID_WXSIMULCD"));
+    wxsimulcd = new wxPanel(Panel2, ID_WXSIMULCD, wxPoint(256,20), wxSize(256,128), 0, _T("ID_WXSIMULCD"));
     wxsimulcd->SetForegroundColour(wxColour(19,216,14));
     wxsimulcd->SetBackgroundColour(wxColour(120,210,30));
     BPmenu = new wxPanel(Panel2, ID_BPMENU, wxPoint(448,184), wxSize(46,14), wxTAB_TRAVERSAL, _T("ID_BPMENU"));
-    BPmenu->SetFocus();
-    BPmenu->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_SCROLLBAR));
+    BPmenu->SetBackgroundColour(wxColour(0,0,0));
     BPh = new wxPanel(Panel2, ID_BPH, wxPoint(288,168), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_BPH"));
-    BPh->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_SCROLLBAR));
+    BPh->SetBackgroundColour(wxColour(0,0,0));
     BPexit = new wxPanel(Panel2, ID_BPEXIT, wxPoint(448,208), wxSize(46,14), wxTAB_TRAVERSAL, _T("ID_BPEXIT"));
-    BPexit->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_SCROLLBAR));
+    BPexit->SetBackgroundColour(wxColour(0,0,0));
     BPg = new wxPanel(Panel2, ID_BPG, wxPoint(264,192), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_BPG"));
-    BPg->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_SCROLLBAR));
+    BPg->SetBackgroundColour(wxColour(0,0,0));
     BPb = new wxPanel(Panel2, ID_BPB, wxPoint(288,216), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_BPB"));
-    BPb->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_SCROLLBAR));
+    BPb->SetBackgroundColour(wxColour(0,0,0));
     BPd = new wxPanel(Panel2, ID_BPD, wxPoint(312,192), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_BPD"));
-    BPd->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_SCROLLBAR));
+    BPd->SetBackgroundColour(wxColour(0,0,0));
     Slidergaz = new wxSlider(Panel2, ID_SLIDER1, 1024, 0, 2048, wxPoint(112,64), wxSize(38,110), wxSL_VERTICAL, wxDefaultValidator, _T("ID_SLIDER1"));
     Panel3 = new wxPanel(PanelPrincipal, ID_PANEL4, wxPoint(8,312), wxSize(784,64), wxRAISED_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL4"));
     Panel3->SetBackgroundColour(wxColour(50,167,237));
-    ButtonON = new wxButton(Panel3, ID_BUTTONON, _("ON"), wxPoint(8,8), wxSize(38,22), 0, wxDefaultValidator, _T("ID_BUTTONON"));
+    OnTglButton = new wxToggleButton(Panel3, ID_ONTGLBUTTON, _("ON"), wxPoint(16,8), wxSize(45,21), wxDOUBLE_BORDER, wxDefaultValidator, _T("ID_ONTGLBUTTON"));
     MenuBar1 = new wxMenuBar();
     Menu1 = new wxMenu();
-    MenuItem3 = new wxMenuItem(Menu1, IdMenuOpenEE, _("Charger Eeprom"), _("Charger fichier EEPE"), wxITEM_NORMAL);
+    MenuItem3 = new wxMenuItem(Menu1, IdMenuOpenEE, _("Charger Eeprom"), _("Charger fichier BIN"), wxITEM_NORMAL);
     Menu1->Append(MenuItem3);
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter le simulateur"), wxITEM_NORMAL);
     Menu1->Append(MenuItem1);
@@ -152,15 +137,14 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Menu2->Append(MenuItem2);
     MenuBar1->Append(Menu2, _("&Aide"));
     SetMenuBar(MenuBar1);
-    StatusBar1 = new wxStatusBar(this, ID_STATUSBAR1, 0, _T("ID_STATUSBAR1"));
-    int __wxStatusBarWidths_1[1] = { -1 };
-    int __wxStatusBarStyles_1[1] = { wxSB_NORMAL };
-    StatusBar1->SetFieldsCount(1,__wxStatusBarWidths_1);
-    StatusBar1->SetStatusStyles(1,__wxStatusBarStyles_1);
-    SetStatusBar(StatusBar1);
+    StatusBar = new wxStatusBar(this, ID_STATUSBAR, 0, _T("ID_STATUSBAR"));
+    int __wxStatusBarWidths_1[3] = { -30, -10, -10 };
+    int __wxStatusBarStyles_1[3] = { wxSB_NORMAL, wxSB_RAISED, wxSB_RAISED };
+    StatusBar->SetFieldsCount(3,__wxStatusBarWidths_1);
+    StatusBar->SetStatusStyles(3,__wxStatusBarStyles_1);
+    SetStatusBar(StatusBar);
     Timer10ms.SetOwner(this, ID_TIMER10MS);
-    Timer10ms.Start(10, true);
-    Timer10ms.Stop();
+    TimerMain.SetOwner(this, ID_TIMERMAIN);
     Center();
 
     wxsimulcd->Connect(wxEVT_PAINT,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnwxsimulcdPaint,0,this);
@@ -176,12 +160,40 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     BPb->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBPbLeftUp,0,this);
     BPd->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBPdLeftDown,0,this);
     BPd->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBPdLeftUp,0,this);
-    Connect(ID_BUTTONON,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnButton1Click);
+    Connect(ID_ONTGLBUTTON,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnOnTglButtonToggle);
     Connect(IdMenuOpenEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnMenuLoadEeprom);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnAbout);
     Connect(ID_TIMER10MS,wxEVT_TIMER,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnTimer10msTrigger);
+    Connect(ID_TIMERMAIN,wxEVT_TIMER,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnTimerMainTrigger);
     //*)
+
+    //LCD var
+    SimuLcdScale = 2;
+
+    SimuLcd_ClientDC = new wxClientDC(wxsimulcd);
+    SimuLcd_Bitmap = wxBitmap(wxsimulcd->GetClientSize().GetWidth(), wxsimulcd->GetClientSize().GetHeight());
+    SimuLcd_MemoryDC = new wxMemoryDC(SimuLcd_Bitmap);
+    ChronoMain = new wxStopWatch;
+    Chrono10ms = new wxStopWatch;
+
+
+
+
+
+    //Virtual pin
+    SpinA = new Spin("A", &simu_pina, &simu_ddra, &simu_porta);
+    SpinB = new Spin("B", &simu_pinb, &simu_ddrb, &simu_portb);
+    SpinC = new Spin("C", &simu_pinc, &simu_ddrc, &simu_portc);
+    SpinD = new Spin("D", &simu_pind, &simu_ddrd, &simu_portd);
+    SpinE = new Spin("E", &simu_pine, &simu_ddre, &simu_porte);
+    SpinF = new Spin("F", &simu_pinf, &simu_ddrf, &simu_portf);
+    SpinG = new Spin("G", &simu_ping, &simu_ddrg, &simu_portg);
+    SpinH = new Spin("H", &simu_pinh, &simu_ddrh, &simu_porth);
+    SpinJ = new Spin("J", &simu_pinj, &simu_ddrj, &simu_portj);
+    SpinK = new Spin("K", &simu_pink, &simu_ddrk, &simu_portk);
+    SpinL = new Spin("L", &simu_pinl, &simu_ddrl, &simu_portl);
+
 }
 
 //// FW Functions ///////////////////////////////////////////////////
@@ -189,9 +201,7 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
 
 void NextStepRc_SimulatorFrame::StartFirmwareCode()
 {
-    // memset(displayBuf, 0, DISPLAY_BUFER_SIZE); //empty display
-    // doSplash();
-    boardInit();
+    boardInit(); // Is called by simumain but needed for Spin init
     //Init virtual PORTS and PINS
     SpinA->init();
     SpinB->init();
@@ -204,9 +214,18 @@ void NextStepRc_SimulatorFrame::StartFirmwareCode()
     SpinJ->init();
     SpinK->init();
     SpinL->init();
-
-    Timer10ms.Start(10, false); //10mS
+    Timer10ms.Start(10, false); //Simulate 10mS Interrupt vector
     simumain();
+    TimerMain.Start(100, false); // Simulate ?mS cycle for main function
+}
+
+void NextStepRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event)
+{
+    ChronoMain->Start(0);
+    SimuMainLoop();
+    Chronoval = ChronoMain->TimeInMicro();
+    ChronoMain->Pause();
+    StatusBar->SetStatusText(_T("MAIN ")+Chronoval.ToString()+_T(" uS"),1);
 }
 
 void NextStepRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
@@ -215,19 +234,32 @@ void NextStepRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
     s_anaFilt[1] = (uint16_t)Slidergaz->GetValue();
     s_anaFilt[2] = (uint16_t)Slidergaz->GetValue();
     s_anaFilt[3] = (uint16_t)Slidergaz->GetValue();
-    TIMER_10MS_VECT();
+    CheckInputs();
+    Chrono10ms->Start(0);
+    if (OnTglButton->GetValue()) TIMER_10MS_VECT();
+    else
+    {
+        TimerMain.Stop();
+        shutDownSimu();
+    }
+    if (simu_off)
+    {
+        Timer10ms.Stop();
+    }
+    Chronoval = Chrono10ms->TimeInMicro();
+    Chrono10ms->Pause();
+    StatusBar->SetStatusText(_T("10 mS IRQ ")+Chronoval.ToString()+_T(" uS"),2);
 }
 
 const void NextStepRc_SimulatorFrame::DrawWxSimuLcd()
 {
     uint8_t *p;
     p = displayBuf;
-    wxClientDC dc(wxsimulcd);
-    wxBrush brush_back(*wxGREEN, wxBRUSHSTYLE_SOLID  );
-    dc.SetBrush(brush_back);
-    dc.DrawRectangle(0,0,LCD_W*SimuLcdScale,LCD_H*SimuLcdScale);
-    wxBrush brush(*wxBLACK, wxBRUSHSTYLE_SOLID  );
-    dc.SetBrush(brush);
+    wxBrush brush_back(*wxGREEN, wxBRUSHSTYLE_SOLID );
+    SimuLcd_MemoryDC->SetBrush(brush_back);
+    SimuLcd_MemoryDC->DrawRectangle(0,0,LCD_W*SimuLcdScale,LCD_H*SimuLcdScale);
+    wxBrush brush_top(*wxBLACK, wxBRUSHSTYLE_SOLID  );
+    SimuLcd_MemoryDC->SetBrush(brush_top);
 
     for (uint8_t y=0; y < (LCD_H / 8); y++)
     {
@@ -237,12 +269,13 @@ const void NextStepRc_SimulatorFrame::DrawWxSimuLcd()
             p++;
             for (uint8_t i=0; i < 8; i++)
             {
-                if (bit & 0x01) dc.DrawRectangle(x*SimuLcdScale,(y*8*SimuLcdScale) +(i*SimuLcdScale),SimuLcdScale,SimuLcdScale);
+                if (bit & 0x01) SimuLcd_MemoryDC->DrawRectangle(x*SimuLcdScale,(y*8*SimuLcdScale) +(i*SimuLcdScale),SimuLcdScale,SimuLcdScale);
                 bit >>=1;
             }
         }
     }
-    dc.SetPen(wxNullPen);
+
+    SimuLcd_ClientDC->Blit(0,0,SimuLcd_Bitmap.GetWidth(),SimuLcd_Bitmap.GetHeight(),SimuLcd_MemoryDC,0,0);
 }
 
 //// GUI Functions ///////////////////////////////////////////////////
@@ -251,6 +284,29 @@ NextStepRc_SimulatorFrame::~NextStepRc_SimulatorFrame()
 {
     //(*Destroy(NextStepRc_SimulatorFrame)
     //*)
+    delete SpinA;
+    delete SpinB;
+    delete SpinC;
+    delete SpinD;
+    delete SpinE;
+    delete SpinF;
+    delete SpinG;
+    delete SpinH;
+    delete SpinJ;
+    delete SpinK;
+    delete SpinL;
+    if (ChronoMain != NULL)
+    {
+        ChronoMain->Pause();
+        delete ChronoMain;
+    }
+    if (Chrono10ms != NULL)
+    {
+        Chrono10ms->Pause();
+        delete Chrono10ms;
+    }
+    if (SimuLcd_MemoryDC != NULL) delete SimuLcd_MemoryDC;
+    if (SimuLcd_ClientDC != NULL)	delete SimuLcd_ClientDC;
 }
 
 void NextStepRc_SimulatorFrame::OnQuit(wxCommandEvent& event)
@@ -263,19 +319,14 @@ void NextStepRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
     wxMessageBox( _("NextStepRc Simulateur"), _("Bienvenue dans..."));
 }
 
-void NextStepRc_SimulatorFrame::OnButton1Click(wxCommandEvent& event)
-{
-    StartFirmwareCode();
-}
-
 void NextStepRc_SimulatorFrame::OnwxsimulcdPaint(wxPaintEvent& event)
 {
     DrawWxSimuLcd();
 }
 
-void NextStepRc_SimulatorFrame::OnMenuLoadEeprom(wxCommandEvent& event)
+void NextStepRc_SimulatorFrame::LoadEeprom()
 {
-    wxFileDialog openFileDialog(this, _("Ouvrir Fichier EEPE"), "", "","Fichiers EEPE (*.eepe)|*.eepe", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+    wxFileDialog openFileDialog(this, _("Ouvrir Fichier BIN"), "", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL) return;
     wxFileInputStream input_stream(openFileDialog.GetPath());
     if (!input_stream.IsOk())
@@ -289,6 +340,11 @@ void NextStepRc_SimulatorFrame::OnMenuLoadEeprom(wxCommandEvent& event)
         bin_file.Read(&simu_eeprom[0], EESIZE);
         bin_file.Close();
     }
+}
+
+void NextStepRc_SimulatorFrame::OnMenuLoadEeprom(wxCommandEvent& event)
+{
+LoadEeprom();
 }
 
 void NextStepRc_SimulatorFrame::OnBPmenuLeftDown(wxMouseEvent& event)
@@ -349,4 +405,45 @@ void NextStepRc_SimulatorFrame::OnBPdLeftDown(wxMouseEvent& event)
 void NextStepRc_SimulatorFrame::OnBPdLeftUp(wxMouseEvent& event)
 {
     SpinL->SetPin(2);
+}
+
+void NextStepRc_SimulatorFrame::CheckInputs()
+{
+    if (!SpinL->GetPin(4)) BPmenu->SetBackgroundColour(wxColour(* wxWHITE));
+    else BPmenu->SetBackgroundColour(wxColour(* wxBLACK));
+    BPmenu->Refresh();
+
+    if (!SpinL->GetPin(5)) BPexit->SetBackgroundColour(wxColour(* wxWHITE));
+    else BPexit->SetBackgroundColour(wxColour(* wxBLACK));
+    BPexit->Refresh();
+
+    if (!SpinL->GetPin(1)) BPh->SetBackgroundColour(wxColour(* wxWHITE));
+    else BPh->SetBackgroundColour(wxColour(* wxBLACK));
+    BPh->Refresh();
+
+    if (!SpinL->GetPin(0)) BPb->SetBackgroundColour(wxColour(* wxWHITE));
+    else BPb->SetBackgroundColour(wxColour(* wxBLACK));
+    BPb->Refresh();
+
+    if (!SpinL->GetPin(3)) BPg->SetBackgroundColour(wxColour(* wxWHITE));
+    else BPg->SetBackgroundColour(wxColour(* wxBLACK));
+    BPg->Refresh();
+
+    if (!SpinL->GetPin(2)) BPd->SetBackgroundColour(wxColour(* wxWHITE));
+    else BPd->SetBackgroundColour(wxColour(* wxBLACK));
+    BPd->Refresh();
+}
+
+void NextStepRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
+{
+    if (OnTglButton->GetValue())
+    {
+
+    if (simu_eeprom[1] == 0)
+    {
+      int answer = wxMessageBox(_("Charger un fichier eeprom ?"), _("EEPROM VIDE"), wxYES_NO , this);
+      if (answer == wxYES) LoadEeprom();
+    }
+    }
+         StartFirmwareCode();
 }

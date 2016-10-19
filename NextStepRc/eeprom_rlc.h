@@ -59,6 +59,7 @@ PACK(struct EeFs {
   DirEnt   files[MAXFILES];
 });
 
+
 extern EeFs eeFs;
 
 #define FILE_TYP_GENERAL 1

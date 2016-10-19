@@ -19,14 +19,14 @@
 
 #include "../nextsteprc.h"
 
-extern void menuGeneralSetup(uint8_t event);
-extern void menuGeneralSdManager(uint8_t event);
-extern void menuGeneralCustomFunctions(uint8_t event);
-extern void menuGeneralTrainer(uint8_t event);
-extern void menuGeneralVersion(uint8_t event);
-extern void menuGeneralDiagKeys(uint8_t event);
-extern void menuGeneralDiagAna(uint8_t event);
-extern void menuGeneralCalib(uint8_t event);
+void menuGeneralSetup(uint8_t event);
+void menuGeneralSdManager(uint8_t event);
+void menuGeneralCustomFunctions(uint8_t event);
+void menuGeneralTrainer(uint8_t event);
+void menuGeneralVersion(uint8_t event);
+void menuGeneralDiagKeys(uint8_t event);
+void menuGeneralDiagAna(uint8_t event);
+void menuGeneralCalib(uint8_t event);
 
 
 

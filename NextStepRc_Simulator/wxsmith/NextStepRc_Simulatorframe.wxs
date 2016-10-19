@@ -24,48 +24,48 @@
 				<bg>#83D8F3</bg>
 				<style>wxSUNKEN_BORDER</style>
 				<object class="wxPanel" name="ID_WXSIMULCD" variable="wxsimulcd" member="yes">
-					<pos>256,32</pos>
+					<pos>256,20</pos>
 					<size>256,128</size>
 					<fg>#13D80E</fg>
 					<bg>#78D21E</bg>
+					<style>0</style>
 					<handler function="OnwxsimulcdPaint" entry="EVT_PAINT" />
 				</object>
 				<object class="wxPanel" name="ID_BPMENU" variable="BPmenu" member="yes">
 					<pos>448,184</pos>
 					<size>46,14</size>
-					<focused>1</focused>
-					<bg>wxSYS_COLOUR_SCROLLBAR</bg>
+					<bg>#000000</bg>
 					<handler function="OnBPmenuLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPmenuLeftUp" entry="EVT_LEFT_UP" />
 				</object>
 				<object class="wxPanel" name="ID_BPH" variable="BPh" member="yes">
 					<pos>288,168</pos>
-					<bg>wxSYS_COLOUR_SCROLLBAR</bg>
+					<bg>#000000</bg>
 					<handler function="OnBPhLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPhLeftUp" entry="EVT_LEFT_UP" />
 				</object>
 				<object class="wxPanel" name="ID_BPEXIT" variable="BPexit" member="yes">
 					<pos>448,208</pos>
 					<size>46,14</size>
-					<bg>wxSYS_COLOUR_SCROLLBAR</bg>
+					<bg>#000000</bg>
 					<handler function="OnBPexitLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPexitLeftUp" entry="EVT_LEFT_UP" />
 				</object>
 				<object class="wxPanel" name="ID_BPG" variable="BPg" member="yes">
 					<pos>264,192</pos>
-					<bg>wxSYS_COLOUR_SCROLLBAR</bg>
+					<bg>#000000</bg>
 					<handler function="OnBPgLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPgLeftUp" entry="EVT_LEFT_UP" />
 				</object>
 				<object class="wxPanel" name="ID_BPB" variable="BPb" member="yes">
 					<pos>288,216</pos>
-					<bg>wxSYS_COLOUR_SCROLLBAR</bg>
+					<bg>#000000</bg>
 					<handler function="OnBPbLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPbLeftUp" entry="EVT_LEFT_UP" />
 				</object>
 				<object class="wxPanel" name="ID_BPD" variable="BPd" member="yes">
 					<pos>312,192</pos>
-					<bg>wxSYS_COLOUR_SCROLLBAR</bg>
+					<bg>#000000</bg>
 					<handler function="OnBPdLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPdLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -82,11 +82,12 @@
 				<size>784,64</size>
 				<bg>#32A7ED</bg>
 				<style>wxRAISED_BORDER|wxTAB_TRAVERSAL</style>
-				<object class="wxButton" name="ID_BUTTONON" variable="ButtonON" member="yes">
+				<object class="wxToggleButton" name="ID_ONTGLBUTTON" variable="OnTglButton" member="yes">
 					<label>ON</label>
-					<pos>8,8</pos>
-					<size>38,22</size>
-					<handler function="OnButton1Click" entry="EVT_BUTTON" />
+					<pos>16,8</pos>
+					<size>45,21</size>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnOnTglButtonToggle" entry="EVT_TOGGLEBUTTON" />
 				</object>
 			</object>
 		</object>
@@ -95,7 +96,7 @@
 				<label>&amp;Fichier</label>
 				<object class="wxMenuItem" name="IdMenuOpenEE" variable="MenuItem3" member="yes">
 					<label>Charger Eeprom</label>
-					<help>Charger fichier EEPE</help>
+					<help>Charger fichier BIN</help>
 					<handler function="OnMenuLoadEeprom" entry="EVT_MENU" />
 				</object>
 				<object class="wxMenuItem" name="idMenuQuit" variable="MenuItem1" member="no">
@@ -115,15 +116,18 @@
 				</object>
 			</object>
 		</object>
-		<object class="wxStatusBar" name="ID_STATUSBAR1" variable="StatusBar1" member="yes">
-			<fields>1</fields>
-			<widths>-1</widths>
-			<styles>wxSB_NORMAL</styles>
+		<object class="wxStatusBar" name="ID_STATUSBAR" variable="StatusBar" member="yes">
+			<fields>3</fields>
+			<widths>-30,-10,-10</widths>
+			<styles>wxSB_NORMAL,wxSB_RAISED,wxSB_RAISED</styles>
 		</object>
 		<object class="wxTimer" name="ID_TIMER10MS" variable="Timer10ms" member="yes">
-			<interval>10</interval>
 			<oneshot>1</oneshot>
 			<handler function="OnTimer10msTrigger" entry="EVT_TIMER" />
+		</object>
+		<object class="wxTimer" name="ID_TIMERMAIN" variable="TimerMain" member="yes">
+			<oneshot>1</oneshot>
+			<handler function="OnTimerMainTrigger" entry="EVT_TIMER" />
 		</object>
 	</object>
 </wxsmith>

@@ -20,6 +20,8 @@
 #include <inttypes.h>
 #include <assert.h>
 
+
+
 typedef const unsigned char pm_uchar;
 typedef const char pm_char;
 typedef const uint16_t pm_uint16_t;
@@ -32,9 +34,10 @@ typedef const int8_t pm_int8_t;
 #define REG16 uint16_t
 
 //Function
-extern uint8_t simu_eeprom[4096];
+extern unsigned char simu_eeprom[4096];
 extern void eepromReadBlock (uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size);
 
+extern REG8 simu_off; //Off signal
 
 //PORT & PIN
 extern REG8  simu_pina;

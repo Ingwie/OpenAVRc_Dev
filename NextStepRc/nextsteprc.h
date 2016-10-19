@@ -26,7 +26,6 @@
 #if !defined(SIMU)
 #include <avr/pgmspace.h>
 #include "../pgmtypes.h"
-#define Mywdt_reset(x) wdt_reset()
 #define assert(x)
 #define printf printf_not_allowed
 #include "targets/common_avr/board_avr.h"
@@ -45,7 +44,7 @@
 #if defined(LCDDURATIONSHOW)
 #define REFRESHDURATION1                                                      \
   uint16_t t0 = getTmr16KHz();                                                \
-  static uint16_t refreshDuration;                                            \
+  uint16_t refreshDuration;                                            \
   lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(refreshDuration), PREC2);  \
 
 #define REFRESHDURATION2                                                      \
@@ -210,20 +209,26 @@ typedef __int24 int24_t;
 #if !defined(NOINLINE)
 #define NOINLINE
 #endif
-#define CONVERT_PTR_UINT(x) ((uint32_t)(uint64_t)(x))
-#define CONVERT_UINT_PTR(x) ((uint32_t*)(uint64_t)(x))
-#define SIMU_PROCESSEVENTS lcdInit()  //This function tell the simu app to process events
-#define Mywdt_reset(x) { x; Sleep(10); SIMU_PROCESSEVENTS;}
-#define SIMU_SLEEP(x) Sleep(1 * x); SIMU_PROCESSEVENTS;
+//#define CONVERT_PTR_UINT(x) ((uint32_t)(uint64_t)(x))
+//#define CONVERT_UINT_PTR(x) ((uint32_t*)(uint64_t)(x))
+#define SIMU_PROCESSEVENTS SimuSleepMs(0)  //This function tell the simu app to process events
+#define MYWDT_RESET(x) x; SimuSleepMs(1)
+#define SIMU_SLEEP(x) SimuSleepMs(x)
 #define SIMU_UNLOCK_MACRO(x) (false)
+#define wdt_disable() simu_off=1
 char *convertSimuPath(const char *path);
 extern ISR(TIMER_10MS_VECT, ISR_NOBLOCK);
 extern int simumain(void);
-#else
+extern  void SimuMainLoop(void);
+extern  void shutDownSimu(void);
+
+#else //NOT SIMU NOW
+
 #define FORCEINLINE inline __attribute__ ((always_inline))
 #define NOINLINE __attribute__ ((noinline))
 #define SIMU_SLEEP(x)
 #define SIMU_PROCESSEVENTS
+#define MYWDT_RESET(x) wdt_reset()
 #define SIMU_UNLOCK_MACRO(x) (x)
 #define CONVERT_PTR_UINT(x) ((uint32_t)(x))
 #define CONVERT_UINT_PTR(x) ((uint32_t *)(x))
@@ -326,9 +331,8 @@ void memclear(void *ptr, uint8_t size);
 
 extern volatile tmr10ms_t g_tmr10ms;
 
-extern inline uint16_t get_tmr10ms()
+inline uint16_t get_tmr10ms()
 {
-  SIMU_PROCESSEVENTS;
   uint16_t time  ;
   cli();
   time = g_tmr10ms ;

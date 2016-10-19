@@ -20,11 +20,15 @@
 
 #define NUMITERATIONFULLREFRESH  1
 
-
+void SimuSleepMs(uint16_t x)
+{
+wxTheApp->Yield(FALSE); //This function tell the app to process events
+wxMilliSleep(x);
+}
 
 void lcdInit()
 {
-wxTheApp->Yield(); //This function tell the app to process events
+
 }
 
 void lcdSetRefVolt(uint8_t val)

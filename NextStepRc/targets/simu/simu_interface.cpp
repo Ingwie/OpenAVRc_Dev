@@ -17,13 +17,12 @@
 #include "simu_interface.h"
 #include "../../nextsteprc.h"
 
+REG8 simu_off; //Off signal
 
 //EEPROM
-uint8_t simu_eeprom[EESIZE] = {0};
+unsigned char simu_eeprom[4096] = {0xFF};
 extern uint16_t eeprom_pointer;
 extern uint8_t * eeprom_buffer_data;
-
-
 
 
 //AVR REG

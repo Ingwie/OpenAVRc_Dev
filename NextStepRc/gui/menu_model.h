@@ -63,17 +63,18 @@ extern uint8_t s_curveChan;
   #define CHECK_INCDEC_PARAM(event, var, min, max) checkIncDec(event, var, min, max, incdecFlag)
 #endif
 
-static uint8_t s_currIdx;
+
+uint8_t s_currIdx;
 #define COPY_MODE 1
 #define MOVE_MODE 2
-static uint8_t s_copyMode = 0;
-static int8_t s_copySrcRow;
-static int8_t s_copyTgtOfs;
+uint8_t s_copyMode = 0;
+int8_t s_copySrcRow;
+int8_t s_copyTgtOfs;
 
 #if defined(CPUM64)
   #define editNameCursorPos menuHorizontalPosition
 #else
-  static uint8_t editNameCursorPos = 0;
+uint8_t editNameCursorPos = 0;
 #endif
 
 

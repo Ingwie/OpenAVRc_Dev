@@ -107,7 +107,7 @@ bool getLogicalSwitch(uint8_t idx)
 
         y = convertLswTelemValue(ls);
 
-#if defined(GAUGES) 
+#if defined(GAUGES)
         // Fill the telemetry bars threshold array
         if (s == LS_FAMILY_OFS) {
           uint8_t idx = v1-MIXSRC_FIRST_TELEM+1-TELEM_ALT;
@@ -126,7 +126,7 @@ bool getLogicalSwitch(uint8_t idx)
       }
 #else
       if (v1 >= MIXSRC_FIRST_TELEM) {
-        //y = (int16_t)3 * (128+ls->v2); // it's a Timer 
+        //y = (int16_t)3 * (128+ls->v2); // it's a Timer
         y = convertLswTelemValue(ls); // Add by Mentero -> under test (todo)
       }
       else if (v1 >= MIXSRC_GVAR1) {
@@ -260,7 +260,7 @@ bool getSwitch(swsrc_t swtch)
       else {
         s_last_switch_value &= ~mask;
       }
-    }      
+    }
   }
 
   return swtch > 0 ? result : !result;
@@ -284,7 +284,7 @@ swsrc_t getMovedSwitch()
     // don't use getSwitch here to always get the proper value, even getSwitch manipulates
     bool next = switchState((EnumKeys)(SW_BASE+i-1));
     if (prev != next) {
-      if (((i<NUM_PSWITCH) && (i>3)) || next==true) 
+      if (((i<NUM_PSWITCH) && (i>3)) || next==true)
       result = next ? i : -i;
       if (i<=3 && result==0) result = 1;
       switches_states ^= mask;
@@ -308,7 +308,7 @@ void checkSwitches()
   swarnstate_t last_bad_switches = 0xff;
 #endif
   swarnstate_t states = g_model.switchWarningState;
-  
+
 
 
 #if !defined(MODULE_ALWAYS_SEND_PULSES)
@@ -327,7 +327,7 @@ void checkSwitches()
 #endif  // !defined(MODULE_ALWAYS_SEND_PULSES)
 
     getMovedSwitch();
-    
+
     bool warn = false;
     for (int i=0; i<NUM_SWITCHES-1; i++) {
       if (!(g_model.switchWarningEnable & (1<<i))) {
@@ -385,11 +385,9 @@ void checkSwitches()
 
     checkBacklight();
 
-    Mywdt_reset();
-
-    SIMU_SLEEP(1);
+    MYWDT_RESET();
   }
-#endif    
+#endif
 }
 #endif // GUI
 

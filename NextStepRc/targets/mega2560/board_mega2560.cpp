@@ -125,7 +125,7 @@ FORCEINLINE void boardInit()
 
 uint8_t pwrCheck()
 {
-#if !defined(SIMU)
+#if !defined(SIMUa)
   if ((~PINH & 0b00100000) && (~PINH & 0b01000000))
   return e_power_off;
 #endif

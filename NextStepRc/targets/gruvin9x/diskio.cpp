@@ -82,7 +82,7 @@ volatile BYTE Timer1, Timer2;	/* 100Hz decrement timer */
 static
 BYTE CardType;			/* Card type flags */
 
-#if defined(SIMU)
+#if defined(SIMUa)
 #define loop_mixer_until_bit_is_set loop_until_bit_is_set
 #else
 inline void checkMixer()
@@ -101,7 +101,7 @@ inline void checkMixer()
   if (t0 > maxMixerDuration) maxMixerDuration = t0;
 }
 
-#define loop_mixer_until_bit_is_set(sfr, bit) do { checkMixer(); Mywdt_reset(); } while (bit_is_clear(sfr, bit))
+#define loop_mixer_until_bit_is_set(sfr, bit) do { checkMixer(); MYWDT_RESET(); } while (bit_is_clear(sfr, bit))
 #endif
 
 /*-----------------------------------------------------------------------*/
