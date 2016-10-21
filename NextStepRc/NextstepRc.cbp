@@ -58,6 +58,7 @@
 			<Add option="-mmcu=atmega2560" />
 			<Add option="-Wl,-Map=$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).map,--cref" />
 		</Linker>
+		<Unit filename="Makefile" />
 		<Unit filename="audio_avr.cpp" />
 		<Unit filename="audio_avr.h" />
 		<Unit filename="bin_allocator.cpp" />
@@ -80,7 +81,6 @@
 		<Unit filename="gui/gui.h" />
 		<Unit filename="gui/lcd.cpp" />
 		<Unit filename="gui/lcd.h" />
-		<Unit filename="gui/lcd.h.save-failed" />
 		<Unit filename="gui/menu_general.cpp" />
 		<Unit filename="gui/menu_general.h" />
 		<Unit filename="gui/menu_general_calib.cpp" />

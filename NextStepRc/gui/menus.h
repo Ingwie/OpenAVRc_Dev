@@ -196,7 +196,7 @@ void check_submenu_simple(check_event_t event, uint8_t maxrow);
 void title(const pm_char * s);
 #define TITLE(str) title(str)
 
-  #define MENU_TAB(...) static const pm_uint8_t mstate_tab[] PROGMEM = __VA_ARGS__
+#define MENU_TAB(...) static const pm_uint8_t mstate_tab[] PROGMEM = __VA_ARGS__
 
 #define MENU_CHECK(tab, menu, lines_count) \
   check(event, menu, tab, DIM(tab), mstate_tab, DIM(mstate_tab)-1, (lines_count)-1)

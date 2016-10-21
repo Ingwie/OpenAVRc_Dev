@@ -344,7 +344,7 @@ void NextStepRc_SimulatorFrame::LoadEeprom()
 
 void NextStepRc_SimulatorFrame::OnMenuLoadEeprom(wxCommandEvent& event)
 {
-LoadEeprom();
+    LoadEeprom();
 }
 
 void NextStepRc_SimulatorFrame::OnBPmenuLeftDown(wxMouseEvent& event)
@@ -439,11 +439,11 @@ void NextStepRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
     if (OnTglButton->GetValue())
     {
 
-    if (simu_eeprom[1] == 0)
-    {
-      int answer = wxMessageBox(_("Charger un fichier eeprom ?"), _("EEPROM VIDE"), wxYES_NO , this);
-      if (answer == wxYES) LoadEeprom();
+        if (simu_eeprom[1] == 0)
+        {
+            int answer = wxMessageBox(_("Charger un fichier eeprom ?"), _("EEPROM VIDE"), wxYES_NO, this);
+            if (answer == wxYES) LoadEeprom();
+        }
     }
-    }
-         StartFirmwareCode();
+    StartFirmwareCode();
 }

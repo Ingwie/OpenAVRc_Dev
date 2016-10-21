@@ -1486,8 +1486,7 @@ uint16_t getTmr16KHz()
 {
 #if defined(SIMU)
 uint16_t simu_tmr16 = get_tmr10ms() * 160;
-   if (simu_tmr16) return simu_tmr16;
-   else return (49*16);
+ return simu_tmr16;
 #else
     while(1)
     {
@@ -1737,11 +1736,6 @@ volatile rotenc_t g_rotenc[1] = {0};
 #if !defined(SIMU)
 #define STACKPTR     _SFR_IO16(0x3D)
 extern unsigned char __bss_end ;
-#endif
-
-#if !defined(SIMU) //todo bracame
-//  extern unsigned char __bss_end ;
-//#define STACKPTR     _SFR_IO16(0x3D)
 void stackPaint()
 {
     // Init Stack while interrupts are disabled

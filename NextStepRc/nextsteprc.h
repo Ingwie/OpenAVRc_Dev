@@ -39,12 +39,12 @@
 #include "rtc.h"
 
 /////////////////DEBUG FUNCTION DEFINITION///////////////////
-//#define LCDDURATIONSHOW 1  //Show refresh duration
+#define LCDDURATIONSHOW 1  //Show refresh duration
 
 #if defined(LCDDURATIONSHOW)
 #define REFRESHDURATION1                                                      \
   uint16_t t0 = getTmr16KHz();                                                \
-  uint16_t refreshDuration;                                            \
+  static uint16_t refreshDuration;                                            \
   lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(refreshDuration), PREC2);  \
 
 #define REFRESHDURATION2                                                      \
@@ -211,6 +211,7 @@ typedef __int24 int24_t;
 #endif
 //#define CONVERT_PTR_UINT(x) ((uint32_t)(uint64_t)(x))
 //#define CONVERT_UINT_PTR(x) ((uint32_t*)(uint64_t)(x))
+#define TRACE(...) simuTrace(__VA_ARGS__)
 #define SIMU_PROCESSEVENTS SimuSleepMs(0)  //This function tell the simu app to process events
 #define MYWDT_RESET(x) x; SimuSleepMs(1)
 #define SIMU_SLEEP(x) SimuSleepMs(x)
@@ -226,6 +227,7 @@ extern  void shutDownSimu(void);
 
 #define FORCEINLINE inline __attribute__ ((always_inline))
 #define NOINLINE __attribute__ ((noinline))
+#define TRACE(...)
 #define SIMU_SLEEP(x)
 #define SIMU_PROCESSEVENTS
 #define MYWDT_RESET(x) wdt_reset()
@@ -256,7 +258,6 @@ extern  void shutDownSimu(void);
 #include "gui/menu_model.h"
 #include "gui/lcd.h"
 #include "gui/navigation.h"
-#include "debug.h"
 
 #if defined(SIMU)
 //#include "targets/simu/simpgmspace.h"
@@ -845,7 +846,7 @@ LogicalSwitchData *lswAddress(uint8_t idx);
 // It's also easier to initialize them here.
 extern int16_t rawAnas[NUM_INPUTS];
 
-extern int16_t  anas [NUM_INPUTS];
+extern int16_t  anas[NUM_INPUTS];
 extern int16_t  trims[NUM_STICKS];
 extern BeepANACenter bpanaCenter;
 

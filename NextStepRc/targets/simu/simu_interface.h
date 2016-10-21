@@ -743,6 +743,6 @@ extern REG8 simu_bssebd;
 #define mcusr MCUSR
 //#undef assert
 //#define assert(x)
-#define printf(x)
+//#define printf(x)
 
 #endif

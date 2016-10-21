@@ -258,7 +258,7 @@ UNITS = METRIC
 # Values = NO / 1 / 2 / 3 / 4
 DEFAULT_MODE = NO
 
-# Toggle trim usage 
+# Toggle trim usage
 # -> Left trim for right stick and right trim for left stick
 TOGGLETRIM = NO
 
@@ -448,7 +448,6 @@ ifeq ($(PCB), $(filter $(PCB), STD 9X 9XR))
   endif
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
-  CPPSRC += debug.cpp
   BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/about.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
 
@@ -527,7 +526,6 @@ ifeq ($(PCB), $(filter $(PCB), STD128 9X128 9XR128))
   EXTRABOARDSRC = targets/common_avr/adc_driver.cpp targets/stock/lcd_driver.cpp targets/common_avr/telemetry_driver.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
-  CPPSRC += debug.cpp
   BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/about.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
 
@@ -602,7 +600,6 @@ ifeq ($(PCB), $(filter $(PCB), 9X2561))
   EXTRABOARDSRC = targets/common_avr/adc_driver.cpp targets/stock/lcd_driver.cpp targets/common_avr/telemetry_driver.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
-  CPPSRC += debug.cpp
   BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/about.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
 
@@ -675,7 +672,7 @@ ifeq ($(PCB), GRUVIN9X)
   EXTRABOARDSRC = targets/common_avr/adc_driver.cpp targets/stock/lcd_driver.cpp targets/common_avr/telemetry_driver.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
-  CPPSRC += audio_avr.cpp haptic.cpp debug.cpp
+  CPPSRC += audio_avr.cpp haptic.cpp
   BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/about.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
 
@@ -712,7 +709,7 @@ ifeq ($(PCB), MEGA2560)
   MCU = atmega2560
   OPT = s
   CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DEEPROM_RLC -DEEPROM_VARIANT=0
-  # -DAUDIO Removed by Bracame 
+  # -DAUDIO Removed by Bracame
   SDCARD = NO
   BUZZER = YES
   THR_TRACE = YES
@@ -721,12 +718,11 @@ ifeq ($(PCB), MEGA2560)
   BOARDSRC = main_avr.cpp targets/mega2560/board_mega2560.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
-  CPPSRC += debug.cpp
   BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/about.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
 
   EXTRABOARDSRC = targets/common_avr/adc_driver.cpp targets/stock/lcd_driver.cpp targets/common_avr/telemetry_driver.cpp
-   
+
   ifeq ($(PWRMANAGE), YES)
     CPPDEFS += -DPWRMANAGE
   endif
@@ -745,7 +741,7 @@ ifeq ($(PCB), MEGA2560)
   else
     BUZZER = YES
   endif
-  
+
   ifeq ($(BUZZER), YES)
     CPPDEFS += -DBUZZER
     CPPSRC += buzzer.cpp
@@ -761,7 +757,7 @@ ifeq ($(PCB), MEGA2560)
   CPPDEFS += -DVOICE_JQ6500
   CPPSRC += targets/mega2560/voice_jq6500.cpp
   endif
-  
+
   ifeq ($(HAPTIC), YES)
    CPPDEFS += -DHAPTIC
    CPPSRC += haptic.cpp
@@ -876,7 +872,7 @@ else ifeq ($(LCD), KS108)
   CPPDEFS += -DLCD_KS108
 else ifeq ($(LCD), SSD1306)
   CPPDEFS += -DLCD_SSD1306
-endif   
+endif
 
 ifeq ($(AUTOSWITCH), YES)
   CPPDEFS += -DAUTOSWITCH

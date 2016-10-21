@@ -13,6 +13,9 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
+					<Add option="-Winline" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-mno-ms-bitfields" />
 					<Add option="-DSIMU" />
@@ -33,10 +36,6 @@
 					<Add option="-DTTS_FR" />
 					<Add option="-DDEFAULT_MODE=2" />
 					<Add option="-DNOANDSECONDE" />
-					<Add option="-DNAVIGATION_STICKS" />
-					<Add option="-DAUTOSWITCH" />
-					<Add option="-DAUTOSOURCE" />
-					<Add option="-DDBLKEYS" />
 					<Add option="-DSPLASH" />
 					<Add option="-DGRAPHICS" />
 					<Add option="-DBOLD_FONT" />
@@ -67,7 +66,7 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-Xlinker --allow-multiple-definition" />
-					<Add library="libwxmsw31ud.a" />
+					<Add library="libwxmsw31u.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
@@ -162,8 +161,6 @@
 		<Unit filename="../NextStepRc/buzzer.h" />
 		<Unit filename="../NextStepRc/crc16.cpp" />
 		<Unit filename="../NextStepRc/curves.cpp" />
-		<Unit filename="../NextStepRc/debug.cpp" />
-		<Unit filename="../NextStepRc/debug.h" />
 		<Unit filename="../NextStepRc/eeprom_common.cpp" />
 		<Unit filename="../NextStepRc/eeprom_common.h" />
 		<Unit filename="../NextStepRc/eeprom_rlc.cpp" />

@@ -196,6 +196,7 @@ void lcdSetContrast();
 void lcdInit();
 #define lcdOff()
 #if defined (SIMU)
+void simuTrace(const char * format, ...);
 void SimuSleepMs(uint16_t x);
 #endif // defined
 void lcdRefresh();

@@ -2,7 +2,7 @@
 1474441890 source:a:\cb\nextsteprc\audio_avr.cpp
 	"nextsteprc.h"
 
-1476909748 a:\cb\nextsteprc\nextsteprc.h
+1477002214 a:\cb\nextsteprc\nextsteprc.h
 	<inttypes.h>
 	<string.h>
 	<stddef.h>
@@ -20,7 +20,6 @@
 	"gui/menu_model.h"
 	"gui/lcd.h"
 	"gui/navigation.h"
-	"debug.h"
 	<avr/io.h>
 	<avr/eeprom.h>
 	<avr/sleep.h>
@@ -67,7 +66,7 @@
 1476341924 a:\cb\nextsteprc\targets\stock\board_stock.h
 	"../common_avr/board_avr.h"
 
-1476904976 a:\cb\nextsteprc\targets\simu\simu_interface.h
+1477004174 a:\cb\nextsteprc\targets\simu\simu_interface.h
 	<inttypes.h>
 	<assert.h>
 
@@ -80,11 +79,11 @@
 1474441890 a:\cb\nextsteprc\rtc.h
 	<inttypes.h>
 
-1476816654 a:\cb\nextsteprc\gui\menus.h
+1476922380 a:\cb\nextsteprc\gui\menus.h
 	"../myeeprom.h"
 	"lcd.h"
 
-1476892404 a:\cb\nextsteprc\gui\lcd.h
+1477005514 a:\cb\nextsteprc\gui\lcd.h
 	"../nextsteprc.h"
 
 1476833372 a:\cb\nextsteprc\gui\menu_model.h
@@ -598,7 +597,7 @@
 	<stdarg.h>
 	"stamp-nextsteprc.h"
 
-1476895220 a:\cb\nextsteprc\stamp-nextsteprc.h
+1476988522 a:\cb\nextsteprc\stamp-nextsteprc.h
 
 1476789142 source:a:\cb\nextsteprc\eeprom_common.cpp
 	<stdint.h>
@@ -670,7 +669,7 @@
 	"../nextsteprc.h"
 	"menu_general.h"
 
-1474571220 source:a:\cb\nextsteprc\gui\menu_general_diaganas.cpp
+1476921986 source:a:\cb\nextsteprc\gui\menu_general_diaganas.cpp
 	"menu_general.h"
 
 1474441890 source:a:\cb\nextsteprc\gui\menu_general_diagkeys.cpp
@@ -685,7 +684,7 @@
 	"../nextsteprc.h"
 	"menu_general.h"
 
-1474441890 source:a:\cb\nextsteprc\gui\menu_general_trainer.cpp
+1476922088 source:a:\cb\nextsteprc\gui\menu_general_trainer.cpp
 	"../nextsteprc.h"
 	"menu_general.h"
 
@@ -807,7 +806,7 @@
 	"nextsteprc.h"
 	"timers.h"
 
-1476904976 source:a:\cb\nextsteprc\nextsteprc.cpp
+1476998720 source:a:\cb\nextsteprc\nextsteprc.cpp
 	"nextsteprc.h"
 	"timers.h"
 
@@ -878,7 +877,7 @@
 	"simu_interface.h"
 	"../../nextsteprc.h"
 
-1476909566 source:a:\cb\nextsteprc\targets\stock\lcd_simu_driver.cpp
+1477007770 source:a:\cb\nextsteprc\targets\stock\lcd_simu_driver.cpp
 	"lcd_simu_driver.h"
 	"../../../NextStepRc_Simulator/NextStepRc_SimulatorApp.h"
 
@@ -2645,7 +2644,7 @@
 	"NextStepRc_SimulatorApp.h"
 	<wx/image.h>
 
-1476919600 source:a:\cb\nextsteprc_simulator\nextsteprc_simulatormain.cpp
+1476919922 source:a:\cb\nextsteprc_simulator\nextsteprc_simulatormain.cpp
 	"NextStepRc_SimulatorMain.h"
 	<wx/msgdlg.h>
 	<wx/dcclient.h>

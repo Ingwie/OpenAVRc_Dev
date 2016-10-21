@@ -20,10 +20,21 @@
 
 #define NUMITERATIONFULLREFRESH  1
 
+void simuTrace(const char * format, ...)
+{
+    va_list arglist;
+    va_start(arglist, format);
+    char tmp[50];
+    vsnprintf(tmp, 50, format, arglist);
+    wxLogStatus(tmp);
+    va_end(arglist);
+}
+
+
 void SimuSleepMs(uint16_t x)
 {
-wxTheApp->Yield(FALSE); //This function tell the app to process events
-wxMilliSleep(x);
+    wxTheApp->Yield(FALSE); //This function tell the app to process events
+    wxMilliSleep(x);
 }
 
 void lcdInit()
