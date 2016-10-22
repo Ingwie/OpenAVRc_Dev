@@ -21,23 +21,23 @@
 #include "view_mavlink.h"
 #endif
 
-extern void menuModelSelect(uint8_t event);
-extern void menuModelSetup(uint8_t event);
-extern void menuModelHeli(uint8_t event);
-extern void menuModelFlightModesAll(uint8_t event);
-extern void menuModelExposAll(uint8_t event);
-extern void menuModelMixAll(uint8_t event);
-extern void menuModelLimits(uint8_t event);
-extern void menuModelCurvesAll(uint8_t event);
-extern void menuModelCurveOne(uint8_t event);
-extern void menuModelGVars(uint8_t event);
-extern void menuModelLogicalSwitches(uint8_t event);
-extern void menuModelCustomFunctions(uint8_t event);
-extern void menuModelTelemetry(uint8_t event);
-extern void menuModelTemplates(uint8_t event);
-extern void menuModelExpoOne(uint8_t event);
-extern uint8_t editDelay(const coord_t y, const uint8_t event, const uint8_t attr, const pm_char *str, uint8_t delay);
-extern uint8_t s_curveChan;
+void menuModelSelect(uint8_t event);
+void menuModelSetup(uint8_t event);
+void menuModelHeli(uint8_t event);
+void menuModelFlightModesAll(uint8_t event);
+void menuModelExposAll(uint8_t event);
+void menuModelMixAll(uint8_t event);
+void menuModelLimits(uint8_t event);
+void menuModelCurvesAll(uint8_t event);
+void menuModelCurveOne(uint8_t event);
+void menuModelGVars(uint8_t event);
+void menuModelLogicalSwitches(uint8_t event);
+void menuModelCustomFunctions(uint8_t event);
+void menuModelTelemetry(uint8_t event);
+void menuModelTemplates(uint8_t event);
+void menuModelExpoOne(uint8_t event);
+uint8_t editDelay(const coord_t y, const uint8_t event, const uint8_t attr, const pm_char *str, uint8_t delay);
+uint8_t s_curveChan;
 
 
 // TODO elsewhere!

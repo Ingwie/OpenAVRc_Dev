@@ -15,24 +15,7 @@
  */
 
 #include "../nextsteprc.h"
-//#include "menu_model.h"
-
-
-void menuModelSelect(uint8_t event);
-void menuModelSetup(uint8_t event);
-void menuModelHeli(uint8_t event);
-void menuModelFlightModesAll(uint8_t event);
-void menuModelExposAll(uint8_t event);
-void menuModelMixAll(uint8_t event);
-void menuModelLimits(uint8_t event);
-void menuModelCurvesAll(uint8_t event);
-void menuModelCurveOne(uint8_t event);
-void menuModelGVars(uint8_t event);
-void menuModelLogicalSwitches(uint8_t event);
-void menuModelCustomFunctions(uint8_t event);
-void menuModelTelemetry(uint8_t event);
-void menuModelTemplates(uint8_t event);
-void menuModelExpoOne(uint8_t event);
+#include "menu_model.h"
 
 
 uint8_t editDelay(const coord_t y, const uint8_t event, const uint8_t attr, const pm_char *str, uint8_t delay)

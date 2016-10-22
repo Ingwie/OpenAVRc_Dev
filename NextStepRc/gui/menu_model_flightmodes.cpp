@@ -15,7 +15,7 @@
  */
 
 #include "../nextsteprc.h"
-//#include "menu_model.h"
+#include "menu_model.h"
 
 
 void displayFlightModes(coord_t x, coord_t y, FlightModesType value)

@@ -123,6 +123,7 @@ typedef uint8_t source_t;
 #define LEN_GVAR_NAME 6
 #define GVAR_MAX      128
 #define GVAR_LIMIT    125
+
 PACK(typedef struct {
   char    name[LEN_GVAR_NAME];
   uint8_t popup:1;

@@ -14,7 +14,7 @@
  *************************************************************
  */
 
-#include "trainer_input.h"
+//#include "trainer_input.h"
 
 //BRACAME TODO remove file keep h definitions
 

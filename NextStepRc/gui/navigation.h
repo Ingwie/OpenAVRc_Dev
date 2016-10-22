@@ -14,8 +14,8 @@
 *************************************************************
 */
 
-#ifndef CALIBRATION_H
-#define CALIBRATION_H
+#ifndef NAVIGATION_H
+#define NAVIGATION_H
 
 vertpos_t menuVerticalOffset;
 uint8_t noHighlightCounter;

@@ -25,21 +25,17 @@
 
 #if !defined(SIMU)
 #include <avr/pgmspace.h>
-#include "../pgmtypes.h"
+#include "pgmtypes.h"
 #define assert(x)
-#define printf printf_not_allowed
 #include "targets/common_avr/board_avr.h"
 #else //SIMU define
 #include <stdbool.h>
 #include "targets/simu/simu_interface.h"
 #include "targets/mega2560/board_mega2560.h" //todo
 #endif
-#include "trainer_input.h"
-#include "myeeprom.h"
-#include "rtc.h"
 
 /////////////////DEBUG FUNCTION DEFINITION///////////////////
-#define LCDDURATIONSHOW 1  //Show refresh duration
+//#define LCDDURATIONSHOW 1  //Show refresh duration
 
 #if defined(LCDDURATIONSHOW)
 #define REFRESHDURATION1                                                      \
@@ -254,10 +250,11 @@ extern  void shutDownSimu(void);
 #define RESXl      1024l
 #define F_CPU 16000000UL  // 16 MHz
 
-#include "gui/menus.h"
-#include "gui/menu_model.h"
-#include "gui/lcd.h"
-#include "gui/navigation.h"
+#include "myeeprom.h"
+#include "gui/gui.h"
+//#include "gui/menu_model.h"
+//#include "gui/lcd.h"
+//#include "gui/navigation.h"
 
 #if defined(SIMU)
 //#include "targets/simu/simpgmspace.h"
@@ -297,7 +294,6 @@ volatile uint8_t LcdLock;
 #define KEY_PLUS         KEY_RIGHT
 #define KEY_MINUS        KEY_LEFT
 
-//#include "myeeprom.h"
 
 #if defined(CPUM64)
 void memclear(void *ptr, uint8_t size);

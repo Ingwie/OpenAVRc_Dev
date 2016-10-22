@@ -159,7 +159,6 @@
 		<Unit filename="../NextStepRc/audio_avr.h" />
 		<Unit filename="../NextStepRc/buzzer.cpp" />
 		<Unit filename="../NextStepRc/buzzer.h" />
-		<Unit filename="../NextStepRc/crc16.cpp" />
 		<Unit filename="../NextStepRc/curves.cpp" />
 		<Unit filename="../NextStepRc/eeprom_common.cpp" />
 		<Unit filename="../NextStepRc/eeprom_common.h" />

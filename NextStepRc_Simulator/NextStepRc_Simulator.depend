@@ -2,24 +2,19 @@
 1474441890 source:a:\cb\nextsteprc\audio_avr.cpp
 	"nextsteprc.h"
 
-1477002214 a:\cb\nextsteprc\nextsteprc.h
+1477178032 a:\cb\nextsteprc\nextsteprc.h
 	<inttypes.h>
 	<string.h>
 	<stddef.h>
 	<stdlib.h>
 	<avr/pgmspace.h>
-	"../pgmtypes.h"
+	"pgmtypes.h"
 	"targets/common_avr/board_avr.h"
 	<stdbool.h>
 	"targets/simu/simu_interface.h"
 	"targets/mega2560/board_mega2560.h"
-	"trainer_input.h"
 	"myeeprom.h"
-	"rtc.h"
-	"gui/menus.h"
-	"gui/menu_model.h"
-	"gui/lcd.h"
-	"gui/navigation.h"
+	"gui/gui.h"
 	<avr/io.h>
 	<avr/eeprom.h>
 	<avr/sleep.h>
@@ -51,6 +46,8 @@
 	"sdcard.h"
 	"rtc.h"
 
+1474441890 a:\cb\nextsteprc\pgmtypes.h
+
 1474441890 a:\cb\nextsteprc\targets\common_avr\board_avr.h
 	"../gruvin9x/board_gruvin9x.h"
 	"../mega2560/board_mega2560.h"
@@ -70,30 +67,52 @@
 	<inttypes.h>
 	<assert.h>
 
-1474441890 a:\cb\nextsteprc\trainer_input.h
-	"myeeprom.h"
-
-1476785586 a:\cb\nextsteprc\myeeprom.h
-	<inttypes.h>
-
-1474441890 a:\cb\nextsteprc\rtc.h
-	<inttypes.h>
-
 1476922380 a:\cb\nextsteprc\gui\menus.h
 	"../myeeprom.h"
 	"lcd.h"
 
+1477173866 a:\cb\nextsteprc\myeeprom.h
+	<inttypes.h>
+
 1477005514 a:\cb\nextsteprc\gui\lcd.h
 	"../nextsteprc.h"
 
-1476833372 a:\cb\nextsteprc\gui\menu_model.h
-	"view_mavlink.h"
+1474441890 a:\cb\nextsteprc\eeprom_common.h
 
-1474441890 a:\cb\nextsteprc\gui\view_mavlink.h
-	"../nextsteprc.h"
-	"../telemetry/mavlink.h"
+1476795880 a:\cb\nextsteprc\eeprom_rlc.h
+	"nextsteprc.h"
+	"timers.h"
+
+1474441890 a:\cb\nextsteprc\timers.h
+
+1474441890 a:\cb\nextsteprc\pulses\pulses.h
+	"pulses_avr.h"
+
+1474441890 a:\cb\nextsteprc\pulses\pulses_avr.h
+
+1474441890 a:\cb\nextsteprc\gui\gui.h
+	"lcd.h"
 	"menus.h"
-	"../targets/common_avr/serial_driver.h"
+
+1474441890 a:\cb\nextsteprc\templates.h
+	<inttypes.h>
+
+1476489302 a:\cb\nextsteprc\keys.h
+
+1474441890 a:\cb\nextsteprc\pwr.h
+
+1474441890 a:\cb\nextsteprc\trainer_input.h
+	"myeeprom.h"
+
+1474441890 a:\cb\nextsteprc\telemetry\frsky.h
+	<inttypes.h>
+	"../nextsteprc.h"
+
+1474441890 a:\cb\nextsteprc\telemetry\jeti.h
+
+1474441890 a:\cb\nextsteprc\telemetry\ardupilot.h
+
+1474441890 a:\cb\nextsteprc\telemetry\nmea.h
 
 1474441890 a:\cb\nextsteprc\telemetry\mavlink.h
 	"../thirdparty/GCS_MAVLink/include_v1.0/mavlink_types.h"
@@ -479,47 +498,6 @@
 
 1474441890 a:\cb\nextsteprc\thirdparty\gcs_mavlink\include_v1.0\ardupilotmega\mavlink_msg_rangefinder.h
 
-1474441890 a:\cb\nextsteprc\gui\navigation.h
-
-1474441890 a:\cb\nextsteprc\debug.h
-	<inttypes.h>
-	"rtc.h"
-	"cli.h"
-
-1474441890 a:\cb\nextsteprc\eeprom_common.h
-
-1476795880 a:\cb\nextsteprc\eeprom_rlc.h
-	"nextsteprc.h"
-	"timers.h"
-
-1474441890 a:\cb\nextsteprc\timers.h
-
-1474441890 a:\cb\nextsteprc\pulses\pulses.h
-	"pulses_avr.h"
-
-1474441890 a:\cb\nextsteprc\pulses\pulses_avr.h
-
-1474441890 a:\cb\nextsteprc\gui\gui.h
-	"lcd.h"
-	"menus.h"
-
-1474441890 a:\cb\nextsteprc\templates.h
-	<inttypes.h>
-
-1476489302 a:\cb\nextsteprc\keys.h
-
-1474441890 a:\cb\nextsteprc\pwr.h
-
-1474441890 a:\cb\nextsteprc\telemetry\frsky.h
-	<inttypes.h>
-	"../nextsteprc.h"
-
-1474441890 a:\cb\nextsteprc\telemetry\jeti.h
-
-1474441890 a:\cb\nextsteprc\telemetry\ardupilot.h
-
-1474441890 a:\cb\nextsteprc\telemetry\nmea.h
-
 1474441890 a:\cb\nextsteprc\audio_avr.h
 
 1474441890 a:\cb\nextsteprc\buzzer.h
@@ -583,21 +561,14 @@
 
 1474441890 a:\cb\nextsteprc\thirdparty\fatfs\ffconf.h
 
+1474441890 a:\cb\nextsteprc\rtc.h
+	<inttypes.h>
+
 1474441890 source:a:\cb\nextsteprc\buzzer.cpp
 	"nextsteprc.h"
 
-1474538072 source:a:\cb\nextsteprc\crc16.cpp
+1477174816 source:a:\cb\nextsteprc\curves.cpp
 	"nextsteprc.h"
-
-1474538092 source:a:\cb\nextsteprc\curves.cpp
-	"nextsteprc.h"
-
-1474555366 source:a:\cb\nextsteprc\debug.cpp
-	"nextsteprc.h"
-	<stdarg.h>
-	"stamp-nextsteprc.h"
-
-1476988522 a:\cb\nextsteprc\stamp-nextsteprc.h
 
 1476789142 source:a:\cb\nextsteprc\eeprom_common.cpp
 	<stdint.h>
@@ -692,46 +663,67 @@
 	"../nextsteprc.h"
 	"menu_general.h"
 
-1476828336 source:a:\cb\nextsteprc\gui\menu_model.cpp
+1477174002 source:a:\cb\nextsteprc\gui\menu_model.cpp
 	"../nextsteprc.h"
+	"menu_model.h"
 
-1476824474 source:a:\cb\nextsteprc\gui\menu_model_curves.cpp
-	"../nextsteprc.h"
+1477171224 a:\cb\nextsteprc\gui\menu_model.h
+	"view_mavlink.h"
 
-1476824474 source:a:\cb\nextsteprc\gui\menu_model_custom_functions.cpp
+1474441890 a:\cb\nextsteprc\gui\view_mavlink.h
 	"../nextsteprc.h"
+	"../telemetry/mavlink.h"
+	"menus.h"
+	"../targets/common_avr/serial_driver.h"
+
+1477171224 source:a:\cb\nextsteprc\gui\menu_model_curves.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
+
+1477175194 source:a:\cb\nextsteprc\gui\menu_model_custom_functions.cpp
+	"../nextsteprc.h"
+	"menu_model.h"
 	"widgets.h"
 
 1474441890 a:\cb\nextsteprc\gui\widgets.h
 
-1476824474 source:a:\cb\nextsteprc\gui\menu_model_flightmodes.cpp
+1477175204 source:a:\cb\nextsteprc\gui\menu_model_flightmodes.cpp
 	"../nextsteprc.h"
+	"menu_model.h"
 
-1476824474 source:a:\cb\nextsteprc\gui\menu_model_heli.cpp
+1477175248 source:a:\cb\nextsteprc\gui\menu_model_heli.cpp
 	"../nextsteprc.h"
+	"menu_model.h"
 
-1476824474 source:a:\cb\nextsteprc\gui\menu_model_inputs_mixes.cpp
+1477175228 source:a:\cb\nextsteprc\gui\menu_model_inputs_mixes.cpp
 	"../nextsteprc.h"
+	"menu_model.h"
 	"widgets.h"
 
-1476824474 source:a:\cb\nextsteprc\gui\menu_model_limits.cpp
+1477175216 source:a:\cb\nextsteprc\gui\menu_model_limits.cpp
 	"../nextsteprc.h"
+	"menu_model.h"
 
-1476824474 source:a:\cb\nextsteprc\gui\menu_model_logical_switches.cpp
+1477175238 source:a:\cb\nextsteprc\gui\menu_model_logical_switches.cpp
 	"../nextsteprc.h"
+	"menu_model.h"
 
-1476824474 source:a:\cb\nextsteprc\gui\menu_model_select.cpp
+1477175258 source:a:\cb\nextsteprc\gui\menu_model_select.cpp
 	"../nextsteprc.h"
+	"menu_model.h"
 	"../sdcard.h"
 
-1476824474 source:a:\cb\nextsteprc\gui\menu_model_setup.cpp
+1477175268 source:a:\cb\nextsteprc\gui\menu_model_setup.cpp
 	"../nextsteprc.h"
+	"menu_model.h"
 
-1476824474 source:a:\cb\nextsteprc\gui\menu_model_telemetry.cpp
+1477175306 source:a:\cb\nextsteprc\gui\menu_model_telemetry.cpp
 	"../nextsteprc.h"
+	"menu_model.h"
 
-1476824474 source:a:\cb\nextsteprc\gui\menu_model_templates.cpp
+1477175306 source:a:\cb\nextsteprc\gui\menu_model_templates.cpp
 	"../nextsteprc.h"
+	"menu_model.h"
 
 1475051342 source:a:\cb\nextsteprc\gui\menus.cpp
 	"../nextsteprc.h"
@@ -739,6 +731,8 @@
 1474441890 source:a:\cb\nextsteprc\gui\navigation.cpp
 	"../nextsteprc.h"
 	"navigation.h"
+
+1477171006 a:\cb\nextsteprc\gui\navigation.h
 
 1474441890 source:a:\cb\nextsteprc\gui\popups.cpp
 	"../nextsteprc.h"
@@ -832,6 +826,8 @@
 	"nextsteprc.h"
 	"stamp-nextsteprc.h"
 
+1477176656 a:\cb\nextsteprc\stamp-nextsteprc.h
+
 1474441890 source:a:\cb\nextsteprc\strhelpers.cpp
 	"nextsteprc.h"
 	"rtc.h"
@@ -877,7 +873,7 @@
 	"simu_interface.h"
 	"../../nextsteprc.h"
 
-1477007770 source:a:\cb\nextsteprc\targets\stock\lcd_simu_driver.cpp
+1477008228 source:a:\cb\nextsteprc\targets\stock\lcd_simu_driver.cpp
 	"lcd_simu_driver.h"
 	"../../../NextStepRc_Simulator/NextStepRc_SimulatorApp.h"
 
@@ -2047,16 +2043,27 @@
 	<QtWidgets/QMenu>
 	<QtWidgets/QMenuBar>
 
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\slider.h
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\tglbtn.h
 	"wx/defs.h"
+	"wx/event.h"
+	"wx/anybutton.h"
+	"wx/univ/tglbtn.h"
+	"wx/msw/tglbtn.h"
+	"wx/gtk/tglbtn.h"
+	"wx/gtk1/tglbtn.h"
+	"wx/motif/tglbtn.h"
+	"wx/osx/tglbtn.h"
+	"wx/qt/tglbtn.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\anybutton.h
+	"wx/defs.h"
+	"wx/bitmap.h"
 	"wx/control.h"
-	"wx/univ/slider.h"
-	"wx/msw/slider.h"
-	"wx/motif/slider.h"
-	"wx/gtk/slider.h"
-	"wx/gtk1/slider.h"
-	"wx/osx/slider.h"
-	"wx/qt/slider.h"
+	"wx/univ/anybutton.h"
+	"wx/msw/anybutton.h"
+	"wx/gtk/anybutton.h"
+	"wx/osx/anybutton.h"
+	"wx/qt/anybutton.h"
 
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\control.h
 	"wx/defs.h"
@@ -2100,6 +2107,111 @@
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\control.h
 
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\control.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\anybutton.h
+	"wx/univ/inphand.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\anybutton.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\anybutton.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\anybutton.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\anybutton.h
+	<QtWidgets/QPushButton>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\tglbtn.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\tglbtn.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\tglbtn.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\tglbtn.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\tglbtn.h
+	"wx/checkbox.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\checkbox.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/univ/checkbox.h"
+	"wx/msw/checkbox.h"
+	"wx/motif/checkbox.h"
+	"wx/gtk/checkbox.h"
+	"wx/gtk1/checkbox.h"
+	"wx/osx/checkbox.h"
+	"wx/qt/checkbox.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\checkbox.h
+	"wx/button.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\button.h
+	"wx/defs.h"
+	"wx/anybutton.h"
+	"wx/univ/button.h"
+	"wx/msw/button.h"
+	"wx/motif/button.h"
+	"wx/gtk/button.h"
+	"wx/gtk1/button.h"
+	"wx/osx/button.h"
+	"wx/qt/button.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\button.h
+	"wx/bitmap.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\button.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\button.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\button.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\button.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/list.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\button.h
+	"wx/control.h"
+	"wx/gdicmn.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\button.h
+	"wx/control.h"
+	"wx/button.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\checkbox.h
+	"wx/msw/ownerdrawnbutton.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\ownerdrawnbutton.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\checkbox.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\checkbox.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\checkbox.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\checkbox.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\checkbox.h
+	<QtWidgets/QCheckBox>
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\tglbtn.h
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\tglbtn.h
+	"wx/tglbtn.h"
+
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\slider.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/univ/slider.h"
+	"wx/msw/slider.h"
+	"wx/motif/slider.h"
+	"wx/gtk/slider.h"
+	"wx/gtk1/slider.h"
+	"wx/osx/slider.h"
+	"wx/qt/slider.h"
 
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\slider.h
 	"wx/univ/scrthumb.h"
@@ -2190,61 +2302,6 @@
 
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\generic\panelg.h
 	"wx/bitmap.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\button.h
-	"wx/defs.h"
-	"wx/anybutton.h"
-	"wx/univ/button.h"
-	"wx/msw/button.h"
-	"wx/motif/button.h"
-	"wx/gtk/button.h"
-	"wx/gtk1/button.h"
-	"wx/osx/button.h"
-	"wx/qt/button.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\anybutton.h
-	"wx/defs.h"
-	"wx/bitmap.h"
-	"wx/control.h"
-	"wx/univ/anybutton.h"
-	"wx/msw/anybutton.h"
-	"wx/gtk/anybutton.h"
-	"wx/osx/anybutton.h"
-	"wx/qt/anybutton.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\anybutton.h
-	"wx/univ/inphand.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\anybutton.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\anybutton.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\anybutton.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\anybutton.h
-	<QtWidgets/QPushButton>
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\button.h
-	"wx/bitmap.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\button.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\button.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\button.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\button.h
-	"wx/defs.h"
-	"wx/object.h"
-	"wx/list.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\button.h
-	"wx/control.h"
-	"wx/gdicmn.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\button.h
-	"wx/control.h"
-	"wx/button.h"
 
 1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\frame.h
 	"wx/toplevel.h"
@@ -2496,6 +2553,10 @@
 	<QtWidgets/QMainWindow>
 	<QtWidgets/QScrollArea>
 
+1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dcmemory.h
+	"wx/dc.h"
+	"wx/bitmap.h"
+
 1476300226 a:\cb\nextsteprc_simulator\spin.h
 	"../NextStepRc/nextsteprc.h"
 
@@ -2628,8 +2689,7 @@
 	"nextsteprc.h"
 	"timers.h"
 
-1474441890 source:a:\cb\nextsteprc\trainer_input.cpp
-	"trainer_input.h"
+1477176236 source:a:\cb\nextsteprc\trainer_input.cpp
 
 1474441890 source:a:\cb\nextsteprc\translations.cpp
 	"nextsteprc.h"
@@ -2955,74 +3015,4 @@
 1476300280 source:a:\cb\nextsteprc_simulator\spin.cpp
 	<wx/msgdlg.h>
 	"Spin.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dcbuffer.h
-	"wx/dcmemory.h"
-	"wx/dcclient.h"
-	"wx/window.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\dcmemory.h
-	"wx/dc.h"
-	"wx/bitmap.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\tglbtn.h
-	"wx/defs.h"
-	"wx/event.h"
-	"wx/anybutton.h"
-	"wx/univ/tglbtn.h"
-	"wx/msw/tglbtn.h"
-	"wx/gtk/tglbtn.h"
-	"wx/gtk1/tglbtn.h"
-	"wx/motif/tglbtn.h"
-	"wx/osx/tglbtn.h"
-	"wx/qt/tglbtn.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\tglbtn.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\tglbtn.h
-	"wx/bitmap.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\tglbtn.h
-	"wx/bitmap.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\tglbtn.h
-	"wx/bitmap.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\tglbtn.h
-	"wx/checkbox.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\checkbox.h
-	"wx/defs.h"
-	"wx/control.h"
-	"wx/univ/checkbox.h"
-	"wx/msw/checkbox.h"
-	"wx/motif/checkbox.h"
-	"wx/gtk/checkbox.h"
-	"wx/gtk1/checkbox.h"
-	"wx/osx/checkbox.h"
-	"wx/qt/checkbox.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\univ\checkbox.h
-	"wx/button.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\checkbox.h
-	"wx/msw/ownerdrawnbutton.h"
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\msw\ownerdrawnbutton.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\motif\checkbox.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk\checkbox.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\gtk1\checkbox.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\checkbox.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\checkbox.h
-	<QtWidgets/QCheckBox>
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\osx\tglbtn.h
-
-1456695218 c:\nextsteprc_builder\wxwidgets-3.1.0\include\wx\qt\tglbtn.h
-	"wx/tglbtn.h"
 
