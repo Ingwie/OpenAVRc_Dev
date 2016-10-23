@@ -13,7 +13,6 @@
 //(*Headers(NextStepRc_SimulatorFrame)
 #include <wx/menu.h>
 #include <wx/tglbtn.h>
-#include <wx/slider.h>
 #include <wx/panel.h>
 #include <wx/frame.h>
 #include <wx/timer.h>
@@ -70,6 +69,8 @@ class NextStepRc_SimulatorFrame: public wxFrame
         void OnTimer10msTrigger(wxTimerEvent& event);
         void OnTimerMainTrigger(wxTimerEvent& event);
         void OnOnTglButtonToggle(wxCommandEvent& event);
+        void OnLstickMouseMove(wxMouseEvent& event);
+        void OnRstickMouseMove(wxMouseEvent& event);
         //*)
 
         //(*Identifiers(NextStepRc_SimulatorFrame)
@@ -81,7 +82,8 @@ class NextStepRc_SimulatorFrame: public wxFrame
         static const long ID_BPG;
         static const long ID_BPB;
         static const long ID_BPD;
-        static const long ID_SLIDER1;
+        static const long ID_LSTICK;
+        static const long ID_RSTICK;
         static const long ID_PANEL3;
         static const long ID_ONTGLBUTTON;
         static const long ID_PANEL4;
@@ -119,6 +121,7 @@ class NextStepRc_SimulatorFrame: public wxFrame
         //(*Declarations(NextStepRc_SimulatorFrame)
         wxPanel* BPg;
         wxTimer Timer10ms;
+        wxPanel* Lstick;
         wxPanel* BPexit;
         wxPanel* BPd;
         wxPanel* BPmenu;
@@ -130,9 +133,9 @@ class NextStepRc_SimulatorFrame: public wxFrame
         wxPanel* BPb;
         wxToggleButton* OnTglButton;
         wxTimer TimerMain;
+        wxPanel* Rstick;
         wxPanel* Panel2;
         wxStatusBar* StatusBar;
-        wxSlider* Slidergaz;
         wxPanel* PanelPrincipal;
         //*)
 

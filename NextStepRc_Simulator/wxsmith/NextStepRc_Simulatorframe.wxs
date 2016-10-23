@@ -69,12 +69,17 @@
 					<handler function="OnBPdLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPdLeftUp" entry="EVT_LEFT_UP" />
 				</object>
-				<object class="wxSlider" name="ID_SLIDER1" variable="Slidergaz" member="yes">
-					<value>1024</value>
-					<max>2048</max>
-					<pos>112,64</pos>
-					<size>38,110</size>
-					<style>wxSL_VERTICAL</style>
+				<object class="wxPanel" name="ID_LSTICK" variable="Lstick" member="yes">
+					<pos>60,32</pos>
+					<size>158,158</size>
+					<bg>#000000</bg>
+					<handler function="OnLstickMouseMove" entry="EVT_MOTION" />
+				</object>
+				<object class="wxPanel" name="ID_RSTICK" variable="Rstick" member="yes">
+					<pos>552,34</pos>
+					<size>158,158</size>
+					<bg>#000000</bg>
+					<handler function="OnRstickMouseMove" entry="EVT_MOTION" />
 				</object>
 			</object>
 			<object class="wxPanel" name="ID_PANEL4" variable="Panel3" member="yes">

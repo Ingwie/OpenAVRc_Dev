@@ -65,7 +65,8 @@ const long NextStepRc_SimulatorFrame::ID_BPEXIT = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_BPG = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_BPB = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_BPD = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_SLIDER1 = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_LSTICK = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_RSTICK = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANEL3 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_ONTGLBUTTON = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANEL4 = wxNewId();
@@ -97,9 +98,9 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Move(wxPoint(-1,-1));
     SetMaxSize(wxSize(-1,-1));
     {
-        wxIcon FrameIcon;
-        FrameIcon.CopyFromBitmap(avatarnext);
-        SetIcon(FrameIcon);
+    	wxIcon FrameIcon;
+    	FrameIcon.CopyFromBitmap(avatarnext);
+    	SetIcon(FrameIcon);
     }
     PanelPrincipal = new wxPanel(this, ID_PANEL1, wxPoint(424,216), wxSize(800,400), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     Panel1 = new wxPanel(PanelPrincipal, ID_PANEL2, wxPoint(8,8), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL2"));
@@ -121,7 +122,10 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     BPb->SetBackgroundColour(wxColour(0,0,0));
     BPd = new wxPanel(Panel2, ID_BPD, wxPoint(312,192), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_BPD"));
     BPd->SetBackgroundColour(wxColour(0,0,0));
-    Slidergaz = new wxSlider(Panel2, ID_SLIDER1, 1024, 0, 2048, wxPoint(112,64), wxSize(38,110), wxSL_VERTICAL, wxDefaultValidator, _T("ID_SLIDER1"));
+    Lstick = new wxPanel(Panel2, ID_LSTICK, wxPoint(60,32), wxSize(158,158), wxTAB_TRAVERSAL, _T("ID_LSTICK"));
+    Lstick->SetBackgroundColour(wxColour(0,0,0));
+    Rstick = new wxPanel(Panel2, ID_RSTICK, wxPoint(552,34), wxSize(158,158), wxTAB_TRAVERSAL, _T("ID_RSTICK"));
+    Rstick->SetBackgroundColour(wxColour(0,0,0));
     Panel3 = new wxPanel(PanelPrincipal, ID_PANEL4, wxPoint(8,312), wxSize(784,64), wxRAISED_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL4"));
     Panel3->SetBackgroundColour(wxColour(50,167,237));
     OnTglButton = new wxToggleButton(Panel3, ID_ONTGLBUTTON, _("ON"), wxPoint(16,8), wxSize(45,21), wxDOUBLE_BORDER, wxDefaultValidator, _T("ID_ONTGLBUTTON"));
@@ -160,6 +164,8 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     BPb->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBPbLeftUp,0,this);
     BPd->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBPdLeftDown,0,this);
     BPd->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBPdLeftUp,0,this);
+    Lstick->Connect(wxEVT_MOTION,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnLstickMouseMove,0,this);
+    Rstick->Connect(wxEVT_MOTION,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnRstickMouseMove,0,this);
     Connect(ID_ONTGLBUTTON,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnOnTglButtonToggle);
     Connect(IdMenuOpenEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnMenuLoadEeprom);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnQuit);
@@ -214,6 +220,10 @@ void NextStepRc_SimulatorFrame::StartFirmwareCode()
     SpinJ->init();
     SpinK->init();
     SpinL->init();
+    s_anaFilt[0] = 1024;
+    s_anaFilt[1] = 1024;
+    s_anaFilt[2] = 1024;
+    s_anaFilt[3] = 1024;
     Timer10ms.Start(10, false); //Simulate 10mS Interrupt vector
     simumain();
     TimerMain.Start(100, false); // Simulate ?mS cycle for main function
@@ -230,10 +240,6 @@ void NextStepRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event)
 
 void NextStepRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
 {
-    s_anaFilt[0] = (uint16_t)Slidergaz->GetValue();
-    s_anaFilt[1] = (uint16_t)Slidergaz->GetValue();
-    s_anaFilt[2] = (uint16_t)Slidergaz->GetValue();
-    s_anaFilt[3] = (uint16_t)Slidergaz->GetValue();
     CheckInputs();
     Chrono10ms->Start(0);
     if (OnTglButton->GetValue()) TIMER_10MS_VECT();
@@ -446,4 +452,37 @@ void NextStepRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
         }
     }
     StartFirmwareCode();
+}
+
+
+void NextStepRc_SimulatorFrame::OnLstickMouseMove(wxMouseEvent& event)
+{
+    int xmul = 2048 / Lstick->GetSize().GetWidth();
+    int ymul = 2048 / Lstick->GetSize().GetHeight();
+    wxPoint pt(event.GetPosition());
+    int x = (pt.x * xmul);
+    int y = 2048 - (pt.y * ymul);
+
+    if (event.LeftUp()) ; //TODO
+    if (event.LeftDown()) ; //TODO
+    {
+        s_anaFilt[3] = (uint16_t)x;
+        s_anaFilt[1] = (uint16_t)y;
+    };
+}
+
+void NextStepRc_SimulatorFrame::OnRstickMouseMove(wxMouseEvent& event)
+{
+    int xmul = 2048 / Rstick->GetSize().GetWidth();
+    int ymul = 2048 / Rstick->GetSize().GetHeight();
+    wxPoint pt(event.GetPosition());
+    int x = (pt.x * xmul);
+    int y = 2048 - (pt.y * ymul);
+
+    if (event.LeftUp()) ; //TODO
+    if (event.LeftDown()) ; //TODO
+    {
+        s_anaFilt[0] = (uint16_t)x;
+        s_anaFilt[2] = (uint16_t)y;
+    };
 }
