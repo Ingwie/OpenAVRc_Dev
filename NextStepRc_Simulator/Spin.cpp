@@ -47,3 +47,16 @@ void Spin::ResetPin(uint8_t num)
         *P_pin &= ~(1<<num);
     }
 }
+
+void Spin::TogglePin(uint8_t num)
+{
+    if (*P_ddr & (1<<num))
+    {
+        wxMessageBox(P_id, _("Ceci est une sortie"));
+    }
+    else
+    {
+      if (GetPin(num)) ResetPin(num);
+      else SetPin(num);
+    }
+}

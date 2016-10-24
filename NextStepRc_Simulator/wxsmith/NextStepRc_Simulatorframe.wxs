@@ -4,11 +4,12 @@
 		<title>Simulateur</title>
 		<centered>1</centered>
 		<icon code="avatarnext" />
-		<pos>-1,-1</pos>
+		<pos>25,25</pos>
 		<size>800,420</size>
 		<maxsize>-1,-1</maxsize>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER</style>
+		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="PanelPrincipal" member="yes">
 			<pos>424,216</pos>
 			<size>800,400</size>
@@ -17,70 +18,6 @@
 				<size>784,64</size>
 				<bg>#97EAC2</bg>
 				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL3" variable="Panel2" member="yes">
-				<pos>8,72</pos>
-				<size>784,248</size>
-				<bg>#83D8F3</bg>
-				<style>wxSUNKEN_BORDER</style>
-				<object class="wxPanel" name="ID_WXSIMULCD" variable="wxsimulcd" member="yes">
-					<pos>256,20</pos>
-					<size>256,128</size>
-					<fg>#13D80E</fg>
-					<bg>#78D21E</bg>
-					<style>0</style>
-					<handler function="OnwxsimulcdPaint" entry="EVT_PAINT" />
-				</object>
-				<object class="wxPanel" name="ID_BPMENU" variable="BPmenu" member="yes">
-					<pos>448,184</pos>
-					<size>46,14</size>
-					<bg>#000000</bg>
-					<handler function="OnBPmenuLeftDown" entry="EVT_LEFT_DOWN" />
-					<handler function="OnBPmenuLeftUp" entry="EVT_LEFT_UP" />
-				</object>
-				<object class="wxPanel" name="ID_BPH" variable="BPh" member="yes">
-					<pos>288,168</pos>
-					<bg>#000000</bg>
-					<handler function="OnBPhLeftDown" entry="EVT_LEFT_DOWN" />
-					<handler function="OnBPhLeftUp" entry="EVT_LEFT_UP" />
-				</object>
-				<object class="wxPanel" name="ID_BPEXIT" variable="BPexit" member="yes">
-					<pos>448,208</pos>
-					<size>46,14</size>
-					<bg>#000000</bg>
-					<handler function="OnBPexitLeftDown" entry="EVT_LEFT_DOWN" />
-					<handler function="OnBPexitLeftUp" entry="EVT_LEFT_UP" />
-				</object>
-				<object class="wxPanel" name="ID_BPG" variable="BPg" member="yes">
-					<pos>264,192</pos>
-					<bg>#000000</bg>
-					<handler function="OnBPgLeftDown" entry="EVT_LEFT_DOWN" />
-					<handler function="OnBPgLeftUp" entry="EVT_LEFT_UP" />
-				</object>
-				<object class="wxPanel" name="ID_BPB" variable="BPb" member="yes">
-					<pos>288,216</pos>
-					<bg>#000000</bg>
-					<handler function="OnBPbLeftDown" entry="EVT_LEFT_DOWN" />
-					<handler function="OnBPbLeftUp" entry="EVT_LEFT_UP" />
-				</object>
-				<object class="wxPanel" name="ID_BPD" variable="BPd" member="yes">
-					<pos>312,192</pos>
-					<bg>#000000</bg>
-					<handler function="OnBPdLeftDown" entry="EVT_LEFT_DOWN" />
-					<handler function="OnBPdLeftUp" entry="EVT_LEFT_UP" />
-				</object>
-				<object class="wxPanel" name="ID_LSTICK" variable="Lstick" member="yes">
-					<pos>60,32</pos>
-					<size>158,158</size>
-					<bg>#000000</bg>
-					<handler function="OnLstickMouseMove" entry="EVT_MOTION" />
-				</object>
-				<object class="wxPanel" name="ID_RSTICK" variable="Rstick" member="yes">
-					<pos>552,34</pos>
-					<size>158,158</size>
-					<bg>#000000</bg>
-					<handler function="OnRstickMouseMove" entry="EVT_MOTION" />
-				</object>
 			</object>
 			<object class="wxPanel" name="ID_PANEL4" variable="Panel3" member="yes">
 				<pos>8,312</pos>
@@ -95,6 +32,232 @@
 					<handler function="OnOnTglButtonToggle" entry="EVT_TOGGLEBUTTON" />
 				</object>
 			</object>
+			<object class="wxPanel" name="ID_PANEL3" variable="Panel2" member="yes">
+				<pos>8,72</pos>
+				<size>784,248</size>
+				<bg>#83D8F3</bg>
+				<style>wxDOUBLE_BORDER</style>
+				<object class="wxPanel" name="ID_BPMENU" variable="BPmenu" member="yes">
+					<pos>440,170</pos>
+					<size>50,20</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnBPmenuLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBPmenuLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_BPH" variable="BPh" member="yes">
+					<pos>288,160</pos>
+					<size>25,25</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnBPhLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBPhLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_BPEXIT" variable="BPexit" member="yes">
+					<pos>440,200</pos>
+					<size>50,20</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnBPexitLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBPexitLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_PANEL9" variable="LlTrim" member="yes">
+					<pos>102,200</pos>
+					<size>25,12</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnLlTrimLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnLlTrimLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_PANEL10" variable="LuTrim" member="yes">
+					<pos>224,72</pos>
+					<size>12,25</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnLuTrimLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnLuTrimLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_PANEL11" variable="LdTrim" member="yes">
+					<pos>224,128</pos>
+					<size>12,25</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnLdTrimLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnLdTrimLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_PANEL12" variable="RdTrim" member="yes">
+					<pos>536,128</pos>
+					<size>12,25</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnRdTrimLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnRdTrimLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_PANEL7" variable="RuTrim" member="yes">
+					<pos>536,72</pos>
+					<size>12,25</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnRuTrimLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnRuTrimLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_PANEL8" variable="RlTrim" member="yes">
+					<pos>592,200</pos>
+					<size>25,12</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnRlTrimLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnRlTrimLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_PANEL6" variable="RrTrim" member="yes">
+					<pos>644,200</pos>
+					<size>25,12</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnRrTrimLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnRrTrimLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_PANEL5" variable="LrTrim" member="yes">
+					<pos>152,200</pos>
+					<size>25,12</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnLrTrimLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnLrTrimLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_BPG" variable="BPg" member="yes">
+					<pos>264,184</pos>
+					<size>25,25</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnBPgLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBPgLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_BPB" variable="BPb" member="yes">
+					<pos>288,208</pos>
+					<size>25,25</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnBPbLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBPbLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_BPD" variable="BPd" member="yes">
+					<pos>312,184</pos>
+					<size>25,25</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnBPdLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBPdLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_LSTICK" variable="Lstick" member="yes">
+					<pos>60,32</pos>
+					<size>158,158</size>
+					<fg>#FF0000</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnLstickMouseMove" entry="EVT_MOTION" />
+					<object class="wxSpinButton" name="ID_SPINBUTTON1" variable="SpinButton1" member="yes">
+						<max>100</max>
+						<pos>160,40</pos>
+						<size>32,66</size>
+					</object>
+				</object>
+				<object class="wxPanel" name="ID_RSTICK" variable="Rstick" member="yes">
+					<pos>552,32</pos>
+					<size>158,158</size>
+					<fg>#FF0000</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnRstickMouseMove" entry="EVT_MOTION" />
+				</object>
+				<object class="wxPanel" name="ID_SIMULCD" variable="Simulcd" member="yes">
+					<pos>256,20</pos>
+					<size>260,132</size>
+					<bg>#78D21E</bg>
+					<style>wxNO_BORDER</style>
+					<handler function="OnwxsimulcdPaint" entry="EVT_PAINT" />
+					<handler function="OnSimulcdLeftDClick" entry="EVT_LEFT_DCLICK" />
+				</object>
+				<object class="wxPanel" name="ID_PANEL14" variable="PbThr" member="yes">
+					<pos>25,48</pos>
+					<size>25,25</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnPbThrLeftDown" entry="EVT_LEFT_DOWN" />
+				</object>
+				<object class="wxPanel" name="ID_PANEL15" variable="BpRud" member="yes">
+					<pos>25,88</pos>
+					<size>25,25</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnBpRudLeftDown1" entry="EVT_LEFT_DOWN" />
+				</object>
+				<object class="wxPanel" name="ID_PANEL16" variable="BpEle" member="yes">
+					<pos>25,128</pos>
+					<size>25,25</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnBpEleLeftDown" entry="EVT_LEFT_DOWN" />
+				</object>
+				<object class="wxPanel" name="ID_PANEL17" variable="BpTrn" member="yes">
+					<pos>16,208</pos>
+					<size>25,25</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnBpTrnLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBpTrnLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_PANEL18" variable="BpAil" member="yes">
+					<pos>720,48</pos>
+					<size>25,25</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnBpAilLeftDown" entry="EVT_LEFT_DOWN" />
+				</object>
+				<object class="wxPanel" name="ID_PANEL19" variable="BpGea" member="yes">
+					<pos>720,88</pos>
+					<size>25,25</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnBpGeaLeftDown" entry="EVT_LEFT_DOWN" />
+				</object>
+				<object class="wxPanel" name="ID_PANEL20" variable="BpId1" member="yes">
+					<pos>720,128</pos>
+					<size>25,20</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnBpId1LeftDown" entry="EVT_LEFT_DOWN" />
+				</object>
+				<object class="wxPanel" name="ID_PANEL13" variable="BpId2" member="yes">
+					<pos>720,148</pos>
+					<size>25,20</size>
+					<fg>#FFFF80</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnBpId2LeftDown" entry="EVT_LEFT_DOWN" />
+				</object>
+			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar1" member="no">
 			<object class="wxMenu" variable="Menu1" member="no">
@@ -103,6 +266,11 @@
 					<label>Charger Eeprom</label>
 					<help>Charger fichier BIN</help>
 					<handler function="OnMenuLoadEeprom" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="IdMenuSaveEE" variable="MenuItem4" member="yes">
+					<label>Sauver Eeprom</label>
+					<help>Sauvegarde du fichier BIN</help>
+					<handler function="OnMenuItem4Selected" entry="EVT_MENU" />
 				</object>
 				<object class="wxMenuItem" name="idMenuQuit" variable="MenuItem1" member="no">
 					<label>Quitter</label>

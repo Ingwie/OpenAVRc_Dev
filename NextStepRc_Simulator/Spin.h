@@ -12,6 +12,7 @@ public:
     bool GetPin(uint8_t num);
     void SetPin(uint8_t num);
     void ResetPin(uint8_t num);
+    void TogglePin(uint8_t num);
 
 protected:
 
