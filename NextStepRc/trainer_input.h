@@ -20,8 +20,7 @@
 #include "myeeprom.h"
 
 // Trainer input channels
-int16_t ppmInput[NUM_TRAINER];
-uint8_t ppmInputValidityTimer;
+extern int16_t ppmInput[NUM_TRAINER];
 
 // Timer gets decremented in per10ms()
 #define PPM_IN_VALID_TIMEOUT 100 // 1s

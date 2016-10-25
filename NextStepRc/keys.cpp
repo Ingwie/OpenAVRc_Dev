@@ -17,6 +17,7 @@
 #include "nextsteprc.h"
 #include "keys.h"
 
+uint8_t s_evt;
 struct t_inactivity inactivity = {0};
 
 uint8_t getEvent()

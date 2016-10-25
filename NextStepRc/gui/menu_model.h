@@ -37,7 +37,7 @@ void menuModelTelemetry(uint8_t event);
 void menuModelTemplates(uint8_t event);
 void menuModelExpoOne(uint8_t event);
 uint8_t editDelay(const coord_t y, const uint8_t event, const uint8_t attr, const pm_char *str, uint8_t delay);
-uint8_t s_curveChan;
+extern uint8_t s_curveChan;
 
 
 // TODO elsewhere!
@@ -64,17 +64,17 @@ uint8_t s_curveChan;
 #endif
 
 
-uint8_t s_currIdx;
+extern uint8_t s_currIdx;
 #define COPY_MODE 1
 #define MOVE_MODE 2
-uint8_t s_copyMode = 0;
-int8_t s_copySrcRow;
-int8_t s_copyTgtOfs;
+extern uint8_t s_copyMode;
+extern int8_t s_copySrcRow;
+extern int8_t s_copyTgtOfs;
 
 #if defined(CPUM64)
   #define editNameCursorPos menuHorizontalPosition
 #else
-uint8_t editNameCursorPos = 0;
+extern uint8_t editNameCursorPos;
 #endif
 
 

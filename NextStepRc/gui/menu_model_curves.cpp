@@ -17,6 +17,7 @@
 #include "../nextsteprc.h"
 #include "menu_model.h"
 
+uint8_t s_curveChan;
 
 int16_t curveFn(int16_t x)
 {

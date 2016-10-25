@@ -253,10 +253,6 @@ void modelDefault(uint8_t id)
 
     applyDefaultTemplate();
 
-
-
-
-
 #if defined(MAVLINK)
     g_model.mavlink.rc_rssi_scale = 15;
     g_model.mavlink.pc_rssi_en = 1;
@@ -509,6 +505,7 @@ ls_telemetry_value_t minTelemValue(uint8_t channel)
   }
 }
 */
+
 ls_telemetry_value_t maxTelemValue(uint8_t channel)
 {
     switch (channel)
@@ -1041,9 +1038,7 @@ uint8_t checkTrim(uint8_t event)
 
 uint16_t s_anaFilt[NUMBER_ANALOG];
 
-#if defined(SIMU)
-uint16_t BandGap = 225;
-#elif defined(CPUM2560)
+#if defined(CPUM2560)
 // #define STARTADCONV (ADCSRA  = (1<<ADEN) | (1<<ADPS0) | (1<<ADPS1) | (1<<ADPS2) | (1<<ADSC) | (1 << ADIE))
 // G: Note that the above would have set the ADC prescaler to 128, equating to
 // 125KHz sample rate. We now sample at 500KHz, with oversampling and other

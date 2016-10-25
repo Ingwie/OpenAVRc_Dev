@@ -54,6 +54,7 @@ ISR(EE_READY_vect)
     eeprom_write_byte();
   }
   else {
+      TRACE("ISR 'EE_READY_vect' Cleared : Eeprom is saved");
 #if defined(CPUM2560) || defined(CPUM2561)
     EECR &= ~(1<<EERIE);
 #else
@@ -77,7 +78,7 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
 #endif
 
   if (s_sync_write) {
-    while (eeprom_buffer_size > 0) MYWDT_RESET(EE_READY_vect()); //Simulate ISR in Simu mode
+    while (eeprom_buffer_size > 0) MYWDT_RESET(EE_READY_vect()); //Simulate ISR in Simu mode, else reset watchdog
   }
 }
 

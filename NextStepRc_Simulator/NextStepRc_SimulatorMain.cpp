@@ -425,7 +425,7 @@ NextStepRc_SimulatorFrame::~NextStepRc_SimulatorFrame()
 
 void NextStepRc_SimulatorFrame::OnClose(wxCloseEvent& event)
 {
-    this->~NextStepRc_SimulatorFrame();
+
 }
 
 
@@ -815,6 +815,7 @@ void NextStepRc_SimulatorFrame::OnMenuItem4Selected(wxCommandEvent& event)
         return;     // the user changed idea...
     wxFile bin_file;
     bin_file.Create(saveFileDialog.GetPath(), true);
+    eeFlush(); //Save eeprom immediatly
     if(bin_file.IsOpened())
     {
         bin_file.Seek(0);

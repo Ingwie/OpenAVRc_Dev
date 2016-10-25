@@ -32,7 +32,7 @@ enum JQ6500_State
   TERMI = 0xEF  //Termination
 };
 
-JQ6500_State state = START;
+JQ6500_State JQstate = START;
 uint8_t JQ6500_playlist[QUEUE_LENGTH] = {0};
 volatile uint8_t JQ6500_InputIndex = 0;
 uint8_t JQ6500_PlayIndex = 0;
@@ -85,19 +85,19 @@ ISR(TIMER5_COMPA_vect) // every 104µS
 {
   sei();
 
-  if (state == START) { OCR5A = 0x19; if (JQ6500_BUSY) return; if (JQ6500_sendbyte(state)) { state = NUMBY; return; } }
+  if (JQstate == START) { OCR5A = 0x19; if (JQ6500_BUSY) return; if (JQ6500_sendbyte(JQstate)) { JQstate = NUMBY; return; } }
 
-  if (state == NUMBY) { if (JQ6500_sendbyte(state)) { state = SELEC; return; } }
+  if (JQstate == NUMBY) { if (JQ6500_sendbyte(JQstate)) { JQstate = SELEC; return; } }
 
-  if (state == SELEC) { if (JQ6500_sendbyte(state)) { state = FILEH; return; } }
+  if (JQstate == SELEC) { if (JQ6500_sendbyte(JQstate)) { JQstate = FILEH; return; } }
 
-  if (state == FILEH) { if (JQ6500_sendbyte(JQ6500_playlist[JQ6500_PlayIndex])) { ++JQ6500_PlayIndex; state = FILEL; return; } }
+  if (JQstate == FILEH) { if (JQ6500_sendbyte(JQ6500_playlist[JQ6500_PlayIndex])) { ++JQ6500_PlayIndex; JQstate = FILEL; return; } }
 
-  if (state == FILEL) { if (JQ6500_sendbyte(JQ6500_playlist[JQ6500_PlayIndex])) { ++JQ6500_PlayIndex; state = TERMI; return; } }
+  if (JQstate == FILEL) { if (JQ6500_sendbyte(JQ6500_playlist[JQ6500_PlayIndex])) { ++JQ6500_PlayIndex; JQstate = TERMI; return; } }
 
-  if (state == TERMI) {
-    if (JQ6500_sendbyte(state)) {
-    state = START;
+  if (JQstate == TERMI) {
+    if (JQ6500_sendbyte(JQstate)) {
+    JQstate = START;
     if (JQ6500_PlayIndex == QUEUE_LENGTH) JQ6500_PlayIndex = 0;
     if (JQ6500_PlayIndex == JQ6500_InputIndex) { OCR5A = 0x19; TIMSK5 &= ~(1<<OCIE5A); } // stop reentrance
     return; }

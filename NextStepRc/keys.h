@@ -17,7 +17,6 @@
 #ifndef keys_h
 #define keys_h
 
-uint8_t s_evt;
 
 enum EnumKeys {
   KEY_MENU,

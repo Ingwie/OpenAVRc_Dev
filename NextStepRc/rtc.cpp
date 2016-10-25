@@ -474,6 +474,8 @@ filltm(gtime_t *t, struct gtm *tp)
   return __offtime(t, 0, tp);
 }
 
+gtime_t g_rtcTime;
+uint8_t g_ms100 = 0; // global to allow time set function to reset to zero
 
 void gettime(struct gtm * tm)
 {

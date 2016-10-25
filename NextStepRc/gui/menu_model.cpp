@@ -26,6 +26,15 @@ uint8_t editDelay(const coord_t y, const uint8_t event, const uint8_t attr, cons
   return delay;
 }
 
+uint8_t s_copyMode = 0;
+int8_t s_copySrcRow;
+int8_t s_copyTgtOfs;
+uint8_t s_currIdx;
+#if !defined(CPUM64)
+  uint8_t editNameCursorPos = 0;
+#endif
+
+
 void editName(coord_t x, coord_t y, char *name, uint8_t size, uint8_t event, uint8_t active)
 {
 #if defined(CPUM64)

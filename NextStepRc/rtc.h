@@ -36,18 +36,18 @@ struct gtm
   int16_t tm_yday;                 /* Day of year. [0-365] Needed internally for calculations */
 };
 
-gtime_t g_rtcTime;
-uint8_t g_ms100 = 0; // global to allow time set function to reset to zero
+extern gtime_t g_rtcTime;
+extern uint8_t g_ms100; // global to allow time set function to reset to zero
 
 void rtcInit();
 
-#if defined(__cplusplus) && !defined(SIMU)
+#if defined(__cplusplus) && !defined(SIMUa)
 extern "C" {
 #endif
 void rtcSetTime(struct gtm * tm);
 void gettime(struct gtm * tm);
 gtime_t gmktime (struct gtm *tm);
-#if defined(__cplusplus) && !defined(SIMU)
+#if defined(__cplusplus) && !defined(SIMUa)
 }
 #endif
 
