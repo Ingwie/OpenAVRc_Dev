@@ -1,5 +1,5 @@
 /* XPM */
-static char *avatarnext[] = {
+const char *avatarnext[] = {
 "32 32 54 1 0 0",
 "  c #602000",
 "! c #804040",

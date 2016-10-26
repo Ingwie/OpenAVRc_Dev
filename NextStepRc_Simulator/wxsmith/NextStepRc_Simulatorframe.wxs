@@ -5,25 +5,24 @@
 		<centered>1</centered>
 		<icon code="avatarnext" />
 		<pos>25,25</pos>
-		<size>800,420</size>
+		<size>787,415</size>
 		<maxsize>-1,-1</maxsize>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER</style>
-		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="PanelPrincipal" member="yes">
 			<pos>424,216</pos>
-			<size>800,400</size>
-			<object class="wxPanel" name="ID_PANEL2" variable="Panel1" member="yes">
-				<pos>8,8</pos>
+			<size>777,400</size>
+			<style>wxRAISED_BORDER|wxTAB_TRAVERSAL</style>
+			<object class="wxPanel" name="ID_PANELH" variable="PanelH" member="yes">
+				<pos>0,0</pos>
 				<size>784,64</size>
-				<bg>#97EAC2</bg>
 				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 			</object>
-			<object class="wxPanel" name="ID_PANEL4" variable="Panel3" member="yes">
-				<pos>8,312</pos>
+			<object class="wxPanel" name="ID_PANELL" variable="PanelL" member="yes">
+				<pos>0,304</pos>
 				<size>784,64</size>
-				<bg>#32A7ED</bg>
-				<style>wxRAISED_BORDER|wxTAB_TRAVERSAL</style>
+				<bg>#C0C0C0</bg>
+				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 				<object class="wxToggleButton" name="ID_ONTGLBUTTON" variable="OnTglButton" member="yes">
 					<label>ON</label>
 					<pos>16,8</pos>
@@ -32,11 +31,10 @@
 					<handler function="OnOnTglButtonToggle" entry="EVT_TOGGLEBUTTON" />
 				</object>
 			</object>
-			<object class="wxPanel" name="ID_PANEL3" variable="Panel2" member="yes">
-				<pos>8,72</pos>
+			<object class="wxPanel" name="ID_PANELMAIN" variable="PanelMain" member="yes">
+				<pos>0,64</pos>
 				<size>784,248</size>
-				<bg>#83D8F3</bg>
-				<style>wxDOUBLE_BORDER</style>
+				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 				<object class="wxPanel" name="ID_BPMENU" variable="BPmenu" member="yes">
 					<pos>440,170</pos>
 					<size>50,20</size>
@@ -163,19 +161,6 @@
 					<handler function="OnBPdLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPdLeftUp" entry="EVT_LEFT_UP" />
 				</object>
-				<object class="wxPanel" name="ID_LSTICK" variable="Lstick" member="yes">
-					<pos>60,32</pos>
-					<size>158,158</size>
-					<fg>#FF0000</fg>
-					<bg>#000000</bg>
-					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-					<handler function="OnLstickMouseMove" entry="EVT_MOTION" />
-					<object class="wxSpinButton" name="ID_SPINBUTTON1" variable="SpinButton1" member="yes">
-						<max>100</max>
-						<pos>160,40</pos>
-						<size>32,66</size>
-					</object>
-				</object>
 				<object class="wxPanel" name="ID_RSTICK" variable="Rstick" member="yes">
 					<pos>552,32</pos>
 					<size>158,158</size>
@@ -256,6 +241,14 @@
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBpId2LeftDown" entry="EVT_LEFT_DOWN" />
+				</object>
+				<object class="wxPanel" name="ID_LSTICK" variable="Lstick" member="yes">
+					<pos>60,32</pos>
+					<size>158,158</size>
+					<fg>#FF0000</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnLstickMouseMove" entry="EVT_MOTION" />
 				</object>
 			</object>
 		</object>

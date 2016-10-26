@@ -4,6 +4,7 @@
 	<Project>
 		<Option title="NextStepRc_Simulator" />
 		<Option compiler="gcc" />
+		<Option virtualFolders="NextStepRc_Simulator\;" />
 		<Option extended_obj_names="1" />
 		<Build>
 			<Target title="Debug">
@@ -428,6 +429,9 @@
 		<Unit filename="Spin.h" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="wood1.bmp">
+			<Option virtualFolder="NextStepRc_Simulator/" />
 		</Unit>
 		<Unit filename="wxsmith/NextStepRc_Simulatorframe.wxs" />
 		<Extensions>

@@ -16,7 +16,6 @@
 #include <wx/panel.h>
 #include <wx/frame.h>
 #include <wx/timer.h>
-#include <wx/spinbutt.h>
 #include <wx/statusbr.h>
 //*)
 
@@ -30,6 +29,16 @@
 //*)
 
 static wxLongLong Chronoval;
+
+class wxBackgroundBitmap : public wxEvtHandler
+{
+    typedef wxEvtHandler Inherited;
+public:
+    wxBackgroundBitmap(const wxBitmap &B) : Bitmap(B), wxEvtHandler() { }
+    virtual bool ProcessEvent(wxEvent &Event);
+protected:
+    wxBitmap Bitmap;
+};
 
 class NextStepRc_SimulatorFrame: public wxFrame
 {
@@ -104,14 +113,13 @@ private:
     void OnBpRudLeftDown1(wxMouseEvent& event);
     void OnBpEleLeftDown(wxMouseEvent& event);
     void OnBpAilLeftDown(wxMouseEvent& event);
-    void OnClose(wxCloseEvent& event);
     void OnMenuItem4Selected(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(NextStepRc_SimulatorFrame)
-    static const long ID_PANEL2;
+    static const long ID_PANELH;
     static const long ID_ONTGLBUTTON;
-    static const long ID_PANEL4;
+    static const long ID_PANELL;
     static const long ID_BPMENU;
     static const long ID_BPH;
     static const long ID_BPEXIT;
@@ -126,8 +134,6 @@ private:
     static const long ID_BPG;
     static const long ID_BPB;
     static const long ID_BPD;
-    static const long ID_SPINBUTTON1;
-    static const long ID_LSTICK;
     static const long ID_RSTICK;
     static const long ID_SIMULCD;
     static const long ID_PANEL14;
@@ -138,7 +144,8 @@ private:
     static const long ID_PANEL19;
     static const long ID_PANEL20;
     static const long ID_PANEL13;
-    static const long ID_PANEL3;
+    static const long ID_LSTICK;
+    static const long ID_PANELMAIN;
     static const long ID_PANEL1;
     static const long IdMenuOpenEE;
     static const long IdMenuSaveEE;
@@ -178,41 +185,43 @@ private:
     wxPanel* RrTrim;
     wxPanel* LdTrim;
     wxPanel* RdTrim;
-    wxPanel* BpGea;
     wxPanel* Lstick;
+    wxPanel* BpGea;
     wxPanel* BpRud;
     wxPanel* BPexit;
     wxPanel* BpEle;
+    wxPanel* PanelH;
     wxMenuItem* MenuItem4;
     wxPanel* BPd;
     wxPanel* BPmenu;
     wxPanel* LlTrim;
     wxPanel* LrTrim;
+    wxPanel* PanelL;
     wxPanel* PbThr;
-    wxPanel* Panel1;
     wxPanel* Simulcd;
     wxPanel* BPh;
-    wxPanel* Panel3;
     wxPanel* BpAil;
-    wxSpinButton* SpinButton1;
     wxMenuItem* MenuItem3;
     wxPanel* BPb;
     wxPanel* RuTrim;
     wxPanel* BpTrn;
+    wxPanel* PanelMain;
     wxToggleButton* OnTglButton;
     wxTimer TimerMain;
     wxPanel* Rstick;
     wxPanel* RlTrim;
-    wxPanel* Panel2;
     wxPanel* LuTrim;
     wxPanel* BpId1;
     wxStatusBar* StatusBar;
     wxPanel* PanelPrincipal;
     //*)
 
+    wxBackgroundBitmap* PanelMainBackground;
+    wxBackgroundBitmap* PanelHBackckground;
+
+
     DECLARE_EVENT_TABLE()
-
-
 };
+
 
 #endif // NEXTSTEPRC_SIMULATORMAIN_H

@@ -68,7 +68,6 @@
 		<Unit filename="crc16.cpp" />
 		<Unit filename="curves.cpp" />
 		<Unit filename="debug.cpp" />
-		<Unit filename="debug.h" />
 		<Unit filename="eeprom_common.cpp" />
 		<Unit filename="eeprom_common.h" />
 		<Unit filename="eeprom_conversions.cpp" />
@@ -141,7 +140,6 @@
 		<Unit filename="rtc.h" />
 		<Unit filename="sdcard.cpp" />
 		<Unit filename="sdcard.h" />
-		<Unit filename="serial.cpp" />
 		<Unit filename="stamp-nextsteprc.h" />
 		<Unit filename="stamp.cpp" />
 		<Unit filename="strhelpers.cpp" />
