@@ -9,12 +9,12 @@
 		<Option pch_mode="2" />
 		<Option compiler="avr-gcc" />
 		<MakeCommands>
-			<Build command="$make -f $makefile $bracame" />
+			<Build command="$make -f $makefile $pyrall" />
 			<CompileFile command="$make -f $makefile $file" />
 			<Clean command="$make -f $makefile clean" />
 			<DistClean command="$make -f $makefile distclean$target" />
-			<AskRebuildNeeded command="$make -q -f $makefile $bracame" />
-			<SilentBuild command="$make -f $makefile $bracame &gt; $(CMD_NULL)" />
+			<AskRebuildNeeded command="$make -q -f $makefile $pyrall" />
+			<SilentBuild command="$make -f $makefile $pyrall &gt; $(CMD_NULL)" />
 		</MakeCommands>
 		<Build>
 			<Target title="Release">
@@ -36,17 +36,18 @@
 					<Variable name="bracame" value="OFFSET_ON_INPUT=YES BOLD=YES 3POS=POT3 VOICE=WTV20SD PCB=MEGA2560 TRANSLATIONS=FR LCD=KS108 TOGGLETRIM=YES FONT=SQT5 NOANDSECONDE=YES TEMPLATES=YES NAVIGATION=NO HELI=YES GVARS=YES GPS=NO EEPROM_PROGRESS_BAR=YES DEFAULT_MODE=2 DBLKEYS=YES CURVES=YES AUTOSWITCH=YES AUTOSOURCE=YES HAPTIC=YES PPM_CENTER_ADJUSTABLE=YES PPM_LIMITS_SYMETRICAL=YES PPM_UNIT=PERCENT_PREC1 SDCARD=YES AUDIO=YES BATTGRAPH=YES HARDWARE_VOLUME=NO JITTER_FILTER=NO EXT=FRSKY SPLASH=YES" />
 				</Environment>
 				<MakeCommands>
-					<Build command="$make -f $makefile $bracame" />
+					<Build command="$make -f $makefile $pyrall" />
 					<CompileFile command="$make -f $makefile $file" />
 					<Clean command="$make -f $makefile clean" />
 					<DistClean command="$make -f $makefile distclean$target" />
-					<AskRebuildNeeded command="$make -q -f $makefile $bracame" />
-					<SilentBuild command="$make -f $makefile $bracame &gt; $(CMD_NULL)" />
+					<AskRebuildNeeded command="$make -q -f $makefile $pyrall" />
+					<SilentBuild command="$make -f $makefile $pyrall &gt; $(CMD_NULL)" />
 				</MakeCommands>
 			</Target>
 			<Environment>
 				<Variable name="MCU" value="atmega2560" />
 				<Variable name="bracame" value="FADMIXER=YES BOLD=YES 3POS=POT3 VOICE=WTV20SD PCB=MEGA2560 TRANSLATIONS=FR LCD=KS108 TOGGLETRIM=YES FONT=SQT5 NOANDSECONDE=YES TEMPLATES=YES NAVIGATION=NO HELI=YES GVARS=YES GPS=NO EEPROM_PROGRESS_BAR=YES DEFAULT_MODE=2 DBLKEYS=YES CURVES=YES AUTOSWITCH=YES AUTOSOURCE=YES HAPTIC=YES PPM_CENTER_ADJUSTABLE=YES PPM_LIMITS_SYMETRICAL=YES PPM_UNIT=PERCENT_PREC1 SDCARD=YES AUDIO=YES BATTGRAPH=YES HARDWARE_VOLUME=NO JITTER_FILTER=NO EXT=FRSKY SPLASH=YES" />
+				<Variable name="pyrall" value="PCB=MEGA2560" />
 			</Environment>
 		</Build>
 		<Compiler>

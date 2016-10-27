@@ -31,6 +31,7 @@ class NextStepRc_DesktopFrame: public wxFrame
         void OnQuit(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
         void OnButton1Click(wxCommandEvent& event);
+        void OnButton1Click1(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(NextStepRc_DesktopFrame)

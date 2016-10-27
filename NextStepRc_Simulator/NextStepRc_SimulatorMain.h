@@ -114,6 +114,7 @@ private:
     void OnBpEleLeftDown(wxMouseEvent& event);
     void OnBpAilLeftDown(wxMouseEvent& event);
     void OnMenuItem4Selected(wxCommandEvent& event);
+    void OnLstickPaint(wxPaintEvent& event);
     //*)
 
     //(*Identifiers(NextStepRc_SimulatorFrame)
@@ -216,8 +217,11 @@ private:
     wxPanel* PanelPrincipal;
     //*)
 
+
+    // To paint texture on objects
     wxBackgroundBitmap* PanelMainBackground;
     wxBackgroundBitmap* PanelHBackckground;
+    wxBackgroundBitmap* PanelBBackckground;
 
 
     DECLARE_EVENT_TABLE()

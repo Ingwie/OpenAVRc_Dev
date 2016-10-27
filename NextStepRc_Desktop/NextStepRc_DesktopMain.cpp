@@ -83,7 +83,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     StatusBar_main->SetStatusStyles(1,__wxStatusBarStyles_1);
     SetStatusBar(StatusBar_main);
 
-    Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnButton1Click);
+    Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnButton1Click1);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnAbout);
     //*)
@@ -106,3 +106,7 @@ void NextStepRc_DesktopFrame::OnAbout(wxCommandEvent& event)
     wxMessageBox(msg, _("Bienvenue dans ..."));
 }
 
+
+void NextStepRc_DesktopFrame::OnButton1Click1(wxCommandEvent& event)
+{
+}

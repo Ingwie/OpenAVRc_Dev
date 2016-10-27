@@ -8,7 +8,7 @@
 			<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
 				<label>Texte</label>
 				<pos>112,120</pos>
-				<handler function="OnButton1Click" entry="EVT_BUTTON" />
+				<handler function="OnButton1Click1" entry="EVT_BUTTON" />
 			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar_main" member="yes">

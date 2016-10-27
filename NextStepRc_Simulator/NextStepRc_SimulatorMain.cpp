@@ -28,6 +28,7 @@
 #include "avatarnext.xpm"
 #include "woodmain.xpm"
 #include "woodH.xpm"
+#include "PanelB.xpm"
 
 //helper functions
 enum wxbuildinfoformat
@@ -288,9 +289,12 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     //LCD var
     SimuLcdScale = 2;
 
+    // The Lcd bitmap
     SimuLcd_ClientDC = new wxClientDC(Simulcd);
     SimuLcd_Bitmap = wxBitmap(Simulcd->GetClientSize().GetWidth(), Simulcd->GetClientSize().GetHeight());
     SimuLcd_MemoryDC = new wxMemoryDC(SimuLcd_Bitmap);
+
+    // Task mesurement
     ChronoMain = new wxStopWatch;
     Chrono10ms = new wxStopWatch;
 
@@ -313,6 +317,8 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     PanelMain->PushEventHandler(PanelMainBackground);
     PanelHBackckground = new wxBackgroundBitmap(woodH);
     PanelH->PushEventHandler(PanelHBackckground);
+    PanelBBackckground = new wxBackgroundBitmap(PanelB);
+    PanelL->PushEventHandler(PanelBBackckground);
 
 
 }
@@ -819,7 +825,7 @@ void NextStepRc_SimulatorFrame::OnMenuItem4Selected(wxCommandEvent& event)
         return;     // the user changed idea...
     wxFile bin_file;
     bin_file.Create(saveFileDialog.GetPath(), true);
-    eeFlush(); //Save eeprom immediatly
+    eeFlush(); //Save Radio eeprom immediatly
     if(bin_file.IsOpened())
     {
         bin_file.Seek(0);
