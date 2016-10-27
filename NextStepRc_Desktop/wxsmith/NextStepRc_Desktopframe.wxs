@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxFrame" name="NextStepRc_DesktopFrame">
+		<title>NextStepRc Desktop</title>
+		<size>504,241</size>
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>240,40</pos>
 			<focused>1</focused>
 			<style>0</style>
 			<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
-				<label>Texte</label>
-				<pos>112,120</pos>
-				<handler function="OnButton1Click1" entry="EVT_BUTTON" />
+				<label>SIMULATEUR</label>
+				<pos>8,152</pos>
+				<size>488,31</size>
+				<handler function="OnSimulateurClick2" entry="EVT_BUTTON" />
 			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar_main" member="yes">
@@ -20,6 +23,49 @@
 					<help>Quitter l&apos;application</help>
 					<handler function="OnQuit" entry="EVT_MENU" />
 				</object>
+			</object>
+			<object class="wxMenu" variable="Menu4" member="yes">
+				<label>Lire/Écrire</label>
+				<object class="separator" />
+				<object class="wxMenuItem" name="ID_MENUITEM3" variable="Menu5" member="yes">
+					<label>Lire modèles de la radio</label>
+					<handler function="OnreadmodelsSelected" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="ID_MENUITEM5" variable="MenuItem6" member="yes">
+					<label>Lire le firmware de la radio</label>
+					<handler function="OnreadfirmwareSelected" entry="EVT_MENU" />
+				</object>
+				<object class="separator" />
+				<object class="wxMenuItem" name="ID_MENUITEM4" variable="MenuItem5" member="yes">
+					<label>Écrire les modêles dans la radio</label>
+					<handler function="OnWriteModelToRadioSelected" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="ID_MENUITEM6" variable="MenuItem7" member="yes">
+					<label>Écrire le firmware dans la radio</label>
+					<handler function="OnWriteFirmwareToRadioSelected" entry="EVT_MENU" />
+				</object>
+				<object class="separator" />
+				<object class="wxMenu" name="ID_MENUITEM7" variable="MenuItem8" member="yes">
+					<label>Bootloader</label>
+					<object class="wxMenuItem" name="ID_MENUITEM9" variable="MenuItem10" member="yes">
+						<label>Écrire les fusées</label>
+						<handler function="OnEcrirelesFuseesSelected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenuItem" name="ID_MENUITEM10" variable="MenuItem11" member="yes">
+						<label>Écrire le bootloader</label>
+						<handler function="OnEcrirelebootloaderSelected" entry="EVT_MENU" />
+					</object>
+				</object>
+			</object>
+			<object class="wxMenu" variable="Menu3" member="yes">
+				<label>Comm</label>
+				<object class="wxMenuItem" name="ID_MENUITEM1" variable="MenuItem3" member="yes">
+					<label>Comm settings</label>
+					<handler function="OnProgrammerSelected" entry="EVT_MENU" />
+				</object>
+			</object>
+			<object class="wxMenu" variable="Menu6" member="yes">
+				<label>Documentation en ligne</label>
 			</object>
 			<object class="wxMenu" variable="Menu2" member="no">
 				<label>Aide</label>

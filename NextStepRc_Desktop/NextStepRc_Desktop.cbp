@@ -63,6 +63,8 @@
 			<Add option="-m32" />
 			<Add option="-mthreads" />
 		</Linker>
+		<Unit filename="DefaultFrame.cpp" />
+		<Unit filename="DefaultFrame.h" />
 		<Unit filename="NextStepRc_DesktopApp.cpp" />
 		<Unit filename="NextStepRc_DesktopApp.h" />
 		<Unit filename="NextStepRc_DesktopMain.cpp" />
@@ -70,6 +72,7 @@
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="wxsmith/DefaultFrame.wxs" />
 		<Extensions>
 			<code_completion />
 			<envvars />
@@ -82,6 +85,7 @@
 				<gui name="wxWidgets" src="NextStepRc_DesktopApp.cpp" main="NextStepRc_DesktopFrame" init_handlers="necessary" language="CPP" />
 				<resources>
 					<wxFrame wxs="wxsmith/NextStepRc_Desktopframe.wxs" src="NextStepRc_DesktopMain.cpp" hdr="NextStepRc_DesktopMain.h" fwddecl="0" i18n="1" name="NextStepRc_DesktopFrame" language="CPP" />
+					<wxFrame wxs="wxsmith/DefaultFrame.wxs" src="DefaultFrame.cpp" hdr="DefaultFrame.h" fwddecl="0" i18n="1" name="DefaultFrame" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxFrame" name="DefaultFrame">
+		<title>Communication avec la radio </title>
+		<size>473,335</size>
+		<pos_arg>1</pos_arg>
+		<size_arg>1</size_arg>
+		<style>wxDEFAULT_DIALOG_STYLE|wxDEFAULT_FRAME_STYLE|wxSYSTEM_MENU|wxFULL_REPAINT_ON_RESIZE</style>
+		<object class="wxComboBox" name="ID_COMBOBOX1" variable="ComboBox1" member="yes">
+			<content>
+				<item>stk500v2</item>
+				<item>stk500</item>
+				<item>avrisp</item>
+				<item>usbasp</item>
+			</content>
+			<pos>176,72</pos>
+			<handler function="OnComboBox1Selected" entry="EVT_COMBOBOX" />
+		</object>
+		<object class="wxComboBox" name="ID_COMBOBOX2" variable="ComboBox2" member="yes">
+			<content>
+				<item>usb</item>
+				<item>com1</item>
+				<item>com2</item>
+				<item>com3</item>
+				<item>com4</item>
+				<item>com5</item>
+				<item>com6</item>
+				<item>com7</item>
+				<item>com8</item>
+				<item>com9</item>
+				<item>com10</item>
+				<item>com11</item>
+				<item>com12</item>
+				<item>com13</item>
+				<item>com14</item>
+				<item>com15</item>
+				<item>com16</item>
+				<item>lpt1</item>
+				<item>lpt2</item>
+				<item>lpt3</item>
+				<item>avrdoper</item>
+				<item>/dev/ttyUSB0</item>
+				<item>/dev/ttyUSB1</item>
+				<item>/dev/ttyUSB2</item>
+			</content>
+			<pos>176,120</pos>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
+			<label>Programmeur</label>
+			<pos>80,80</pos>
+			<size>72,13</size>
+		</object>
+		<object class="wxButton" name="ID_BUTTON1" variable="Enter" member="yes">
+			<label>Valider</label>
+			<pos>376,296</pos>
+			<handler function="OnEnterClick" entry="EVT_BUTTON" />
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
+			<label>Port</label>
+			<pos>120,128</pos>
+		</object>
+		<object class="wxComboBox" name="ID_COMBOBOX3" variable="ComboBox3" member="yes">
+			<content>
+				<item>m2560</item>
+				<item>m128</item>
+				<item>m64</item>
+			</content>
+			<pos>176,168</pos>
+			<handler function="OnComboBox3Selected" entry="EVT_COMBOBOX" />
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
+			<label>Type of radio</label>
+			<pos>80,176</pos>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
+			<label>Directoire de avrdude</label>
+			<pos>40,224</pos>
+		</object>
+		<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="TextCtrl1" member="yes">
+			<value>avrdude path</value>
+			<pos>176,216</pos>
+			<size>212,21</size>
+			<handler function="OnTextCtrl1Text" entry="EVT_TEXT" />
+		</object>
+		<object class="wxButton" name="ID_BUTTON2" variable="Button1" member="yes">
+			<label>Annuler</label>
+			<pos>264,296</pos>
+			<handler function="OnButton1Click1" entry="EVT_BUTTON" />
+		</object>
+		<object class="wxButton" name="ID_BUTTON3" variable="ButtonSearchavrdudepath" member="yes">
+			<label>...</label>
+			<pos>400,216</pos>
+			<size>40,23</size>
+			<handler function="OnButtonSearchavrdudepathClick" entry="EVT_BUTTON" />
+		</object>
+	</object>
+</wxsmith>
