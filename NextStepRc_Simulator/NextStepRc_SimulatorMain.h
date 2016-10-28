@@ -30,8 +30,8 @@
 
 static wxLongLong Chronoval;
 
-class wxBackgroundBitmap : public wxEvtHandler
-{
+
+class wxBackgroundBitmap : public wxEvtHandler {
     typedef wxEvtHandler Inherited;
 public:
     wxBackgroundBitmap(const wxBitmap &B) : Bitmap(B), wxEvtHandler() { }
@@ -115,6 +115,7 @@ private:
     void OnBpAilLeftDown(wxMouseEvent& event);
     void OnMenuItem4Selected(wxCommandEvent& event);
     void OnLstickPaint(wxPaintEvent& event);
+    void OnClose(wxCloseEvent& event);
     //*)
 
     //(*Identifiers(NextStepRc_SimulatorFrame)
@@ -158,6 +159,7 @@ private:
     //*)
 
     //(*Variables(NextStepRc_SimulatorFrame)
+
     uint8_t SimuLcdScale;
     wxClientDC* SimuLcd_ClientDC;
     wxBitmap SimuLcd_Bitmap;
@@ -222,6 +224,7 @@ private:
     wxBackgroundBitmap* PanelMainBackground;
     wxBackgroundBitmap* PanelHBackckground;
     wxBackgroundBitmap* PanelBBackckground;
+
 
 
     DECLARE_EVENT_TABLE()

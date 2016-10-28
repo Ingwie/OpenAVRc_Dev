@@ -124,7 +124,7 @@
 					<Add option="-DPPM_UNIT_PERCENT_PREC1" />
 					<Add option="-DHELI" />
 					<Add option="-DTEMPLATES" />
-					<Add option="-DDEBUG=NO" />
+					<Add option="-DDEBUG=YES" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 					<Add directory="include" />
 				</Compiler>
@@ -429,7 +429,6 @@
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
-		<Unit filename="wood1.bmp" />
 		<Unit filename="wxsmith/NextStepRc_Simulatorframe.wxs" />
 		<Extensions>
 			<code_completion />

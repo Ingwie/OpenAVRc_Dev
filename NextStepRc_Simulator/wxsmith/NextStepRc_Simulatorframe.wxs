@@ -9,6 +9,7 @@
 		<maxsize>-1,-1</maxsize>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER</style>
+		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="PanelPrincipal" member="yes">
 			<pos>424,216</pos>
 			<size>777,400</size>
@@ -21,7 +22,6 @@
 			<object class="wxPanel" name="ID_PANELL" variable="PanelL" member="yes">
 				<pos>0,304</pos>
 				<size>784,64</size>
-				<bg>#C0C0C0</bg>
 				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 				<object class="wxToggleButton" name="ID_ONTGLBUTTON" variable="OnTglButton" member="yes">
 					<label>ON</label>

@@ -104,6 +104,8 @@ BEGIN_EVENT_TABLE(NextStepRc_SimulatorFrame,wxFrame)
     //*)
 END_EVENT_TABLE()
 
+
+//wxCustomBackgroundWindow else ??
 bool wxBackgroundBitmap::ProcessEvent(wxEvent &Event)
 {
     if (Event.GetEventType() == wxEVT_ERASE_BACKGROUND) {
@@ -113,6 +115,7 @@ bool wxBackgroundBitmap::ProcessEvent(wxEvent &Event)
         return true;
     } else return Inherited::ProcessEvent(Event);
 }
+
 
 NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
 {
@@ -128,14 +131,13 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Move(wxPoint(25,25));
     SetMaxSize(wxSize(-1,-1));
     {
-    	wxIcon FrameIcon;
-    	FrameIcon.CopyFromBitmap(avatarnext);
-    	SetIcon(FrameIcon);
+        wxIcon FrameIcon;
+        FrameIcon.CopyFromBitmap(avatarnext);
+        SetIcon(FrameIcon);
     }
     PanelPrincipal = new wxPanel(this, ID_PANEL1, wxPoint(424,216), wxSize(777,400), wxRAISED_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     PanelH = new wxPanel(PanelPrincipal, ID_PANELH, wxPoint(0,0), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELH"));
     PanelL = new wxPanel(PanelPrincipal, ID_PANELL, wxPoint(0,304), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELL"));
-    PanelL->SetBackgroundColour(wxColour(192,192,192));
     OnTglButton = new wxToggleButton(PanelL, ID_ONTGLBUTTON, _("ON"), wxPoint(16,8), wxSize(45,21), wxDOUBLE_BORDER, wxDefaultValidator, _T("ID_ONTGLBUTTON"));
     PanelMain = new wxPanel(PanelPrincipal, ID_PANELMAIN, wxPoint(0,64), wxSize(784,248), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELMAIN"));
     BPmenu = new wxPanel(PanelMain, ID_BPMENU, wxPoint(440,170), wxSize(50,20), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPMENU"));
@@ -284,6 +286,7 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnAbout);
     Connect(ID_TIMER10MS,wxEVT_TIMER,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnTimer10msTrigger);
     Connect(ID_TIMERMAIN,wxEVT_TIMER,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnTimerMainTrigger);
+    Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnClose);
     //*)
 
     //LCD var
@@ -312,14 +315,10 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     SpinK = new Spin("K", &simu_pink, &simu_ddrk, &simu_portk);
     SpinL = new Spin("L", &simu_pinl, &simu_ddrl, &simu_portl);
 
-    //wood panel paint
-    PanelMainBackground = new wxBackgroundBitmap(woodmain);
-    PanelMain->PushEventHandler(PanelMainBackground);
-    PanelHBackckground = new wxBackgroundBitmap(woodH);
-    PanelH->PushEventHandler(PanelHBackckground);
-    PanelBBackckground = new wxBackgroundBitmap(PanelB);
-    PanelL->PushEventHandler(PanelBBackckground);
-
+    //wood & inox panel paint
+    PanelMain->PushEventHandler(new wxBackgroundBitmap(woodmain));
+    PanelH->PushEventHandler(new wxBackgroundBitmap(woodH));
+    PanelL->PushEventHandler(new wxBackgroundBitmap(PanelB));
 
 }
 
@@ -328,7 +327,8 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
 
 void NextStepRc_SimulatorFrame::StartFirmwareCode()
 {
-    boardInit(); // Is called by simumain but needed for Spin init
+    simu_off = 0;
+    boardInit(); // Is called by simumain but needed here to Spin init
     //Init virtual PORTS and PINS
     SpinA->init();
     SpinB->init();
@@ -363,14 +363,19 @@ void NextStepRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
 {
     CheckInputs();
     Chrono10ms->Start(0);
-    if (OnTglButton->GetValue()) TIMER_10MS_VECT();
+    if (OnTglButton->GetValue())
+    {
+     TIMER_10MS_VECT();
+    }
     else
     {
         TimerMain.Stop();
+        Timer10ms.Stop();
         shutDownSimu();
     }
     if (simu_off)
     {
+        TimerMain.Stop();
         Timer10ms.Stop();
     }
     Chronoval = Chrono10ms->TimeInMicro();
@@ -411,32 +416,6 @@ NextStepRc_SimulatorFrame::~NextStepRc_SimulatorFrame()
 {
     //(*Destroy(NextStepRc_SimulatorFrame)
     //*)
-    delete SpinA;
-    delete SpinB;
-    delete SpinC;
-    delete SpinD;
-    delete SpinE;
-    delete SpinF;
-    delete SpinG;
-    delete SpinH;
-    delete SpinJ;
-    delete SpinK;
-    delete SpinL;
-    if (ChronoMain != NULL)
-    {
-        ChronoMain->Pause();
-        Sleep(1);
-        delete ChronoMain;
-    }
-    if (Chrono10ms != NULL)
-    {
-        Chrono10ms->Pause();
-        Sleep(1);
-        delete Chrono10ms;
-    }
-    Sleep(10);
-    if (SimuLcd_MemoryDC != NULL) delete SimuLcd_MemoryDC;
-    if (SimuLcd_ClientDC != NULL)	delete SimuLcd_ClientDC;
 }
 
 void NextStepRc_SimulatorFrame::OnQuit(wxCommandEvent& event)
@@ -759,7 +738,6 @@ void NextStepRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
 {
     if (OnTglButton->GetValue())
     {
-
         if (simu_eeprom[1] == 0)
         {
             int answer = wxMessageBox(_("Charger un fichier eeprom ?"), _("EEPROM VIDE"), wxYES_NO, this);
@@ -788,11 +766,11 @@ void NextStepRc_SimulatorFrame::OnLstickMouseMove(wxMouseEvent& event)
 
 void NextStepRc_SimulatorFrame::OnRstickMouseMove(wxMouseEvent& event)
 {
-    int xmul = 2048 / Rstick->GetSize().GetWidth();
-    int ymul = 2048 / Rstick->GetSize().GetHeight();
+    int xmul = 2048000 / (Lstick->GetSize().GetWidth() - 5);
+    int ymul = 2048000 / (Lstick->GetSize().GetHeight() -5);
     wxPoint pt(event.GetPosition());
-    int x = (pt.x * xmul);
-    int y = 2048 - (pt.y * ymul);
+    int x = (pt.x * xmul)/1000;
+    int y = 2048 - (pt.y * ymul)/1000;
 
     if (event.LeftUp()) ; //TODO
     if (event.LeftIsDown())
@@ -832,4 +810,50 @@ void NextStepRc_SimulatorFrame::OnMenuItem4Selected(wxCommandEvent& event)
         bin_file.Write(&simu_eeprom[0], EESIZE);
         bin_file.Close();
     }
+}
+
+void NextStepRc_SimulatorFrame::OnClose(wxCloseEvent& event)
+{
+
+    if (ChronoMain != NULL)
+    {
+        ChronoMain->Pause();
+        Sleep(1);
+        delete ChronoMain;
+    }
+    if (Chrono10ms != NULL)
+    {
+        Chrono10ms->Pause();
+        Sleep(1);
+        delete Chrono10ms;
+    }
+    Sleep(10);
+
+    PanelMain->PopEventHandler(NULL);
+    PanelH->PopEventHandler(NULL);
+    PanelL->PopEventHandler(NULL);
+    //delete PanelMainBackground;
+    //delete PanelHBackckground;
+    //delete PanelBBackckground;
+    //delete PanelMain;
+    //delete PanelH;
+    //delete PanelB;
+
+
+    delete SpinA;
+    delete SpinB;
+    delete SpinC;
+    delete SpinD;
+    delete SpinE;
+    delete SpinF;
+    delete SpinG;
+    delete SpinH;
+    delete SpinJ;
+    delete SpinK;
+    delete SpinL;
+
+    if (SimuLcd_MemoryDC != NULL) delete SimuLcd_MemoryDC;
+    if (SimuLcd_ClientDC != NULL)	delete SimuLcd_ClientDC;
+
+    Destroy();
 }
