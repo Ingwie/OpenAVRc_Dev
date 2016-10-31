@@ -13,12 +13,16 @@
 //(*Headers(NextStepRc_SimulatorFrame)
 #include <wx/menu.h>
 #include <wx/tglbtn.h>
+#include <wx/slider.h>
 #include <wx/panel.h>
 #include <wx/frame.h>
 #include <wx/timer.h>
 #include <wx/statusbr.h>
 //*)
 
+#include <wx/stdpaths.h>
+#include <wx/filename.h>
+#include <wx/fileconf.h>
 #include <wx/dcmemory.h>
 
 
@@ -122,6 +126,9 @@ private:
     static const long ID_PANELH;
     static const long ID_ONTGLBUTTON;
     static const long ID_PANELL;
+    static const long ID_POT1;
+    static const long ID_POT2;
+    static const long ID_POT3;
     static const long ID_BPMENU;
     static const long ID_BPH;
     static const long ID_BPEXIT;
@@ -160,6 +167,7 @@ private:
 
     //(*Variables(NextStepRc_SimulatorFrame)
 
+    wxFileConfig configFile;
     uint8_t SimuLcdScale;
     wxClientDC* SimuLcd_ClientDC;
     wxBitmap SimuLcd_Bitmap;
@@ -193,6 +201,7 @@ private:
     wxPanel* BpRud;
     wxPanel* BPexit;
     wxPanel* BpEle;
+    wxSlider* Pot1;
     wxPanel* PanelH;
     wxMenuItem* MenuItem4;
     wxPanel* BPd;
@@ -204,6 +213,7 @@ private:
     wxPanel* Simulcd;
     wxPanel* BPh;
     wxPanel* BpAil;
+    wxSlider* Pot3;
     wxMenuItem* MenuItem3;
     wxPanel* BPb;
     wxPanel* RuTrim;
@@ -217,6 +227,7 @@ private:
     wxPanel* BpId1;
     wxStatusBar* StatusBar;
     wxPanel* PanelPrincipal;
+    wxSlider* Pot2;
     //*)
 
 

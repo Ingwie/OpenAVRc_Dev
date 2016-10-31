@@ -35,11 +35,35 @@
 				<pos>0,64</pos>
 				<size>784,248</size>
 				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+				<object class="wxSlider" name="ID_POT1" variable="Pot1" member="yes">
+					<value>1024</value>
+					<max>2048</max>
+					<pos>352,160</pos>
+					<size>14,78</size>
+					<bg>#804000</bg>
+					<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				</object>
+				<object class="wxSlider" name="ID_POT2" variable="Pot2" member="yes">
+					<value>1024</value>
+					<max>2048</max>
+					<pos>380,160</pos>
+					<size>14,78</size>
+					<bg>#804000</bg>
+					<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				</object>
+				<object class="wxSlider" name="ID_POT3" variable="Pot3" member="yes">
+					<value>1024</value>
+					<max>2048</max>
+					<pos>408,160</pos>
+					<size>14,78</size>
+					<bg>#804000</bg>
+					<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				</object>
 				<object class="wxPanel" name="ID_BPMENU" variable="BPmenu" member="yes">
 					<pos>440,170</pos>
 					<size>50,20</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
+					<tooltip>MENU</tooltip>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBPmenuLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPmenuLeftUp" entry="EVT_LEFT_UP" />
@@ -47,7 +71,6 @@
 				<object class="wxPanel" name="ID_BPH" variable="BPh" member="yes">
 					<pos>288,160</pos>
 					<size>25,25</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBPhLeftDown" entry="EVT_LEFT_DOWN" />
@@ -56,8 +79,8 @@
 				<object class="wxPanel" name="ID_BPEXIT" variable="BPexit" member="yes">
 					<pos>440,200</pos>
 					<size>50,20</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
+					<tooltip>EXIT</tooltip>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBPexitLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPexitLeftUp" entry="EVT_LEFT_UP" />
@@ -65,7 +88,6 @@
 				<object class="wxPanel" name="ID_PANEL9" variable="LlTrim" member="yes">
 					<pos>102,200</pos>
 					<size>25,12</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnLlTrimLeftDown" entry="EVT_LEFT_DOWN" />
@@ -74,7 +96,6 @@
 				<object class="wxPanel" name="ID_PANEL10" variable="LuTrim" member="yes">
 					<pos>224,72</pos>
 					<size>12,25</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnLuTrimLeftDown" entry="EVT_LEFT_DOWN" />
@@ -83,7 +104,6 @@
 				<object class="wxPanel" name="ID_PANEL11" variable="LdTrim" member="yes">
 					<pos>224,128</pos>
 					<size>12,25</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnLdTrimLeftDown" entry="EVT_LEFT_DOWN" />
@@ -92,7 +112,6 @@
 				<object class="wxPanel" name="ID_PANEL12" variable="RdTrim" member="yes">
 					<pos>536,128</pos>
 					<size>12,25</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnRdTrimLeftDown" entry="EVT_LEFT_DOWN" />
@@ -101,7 +120,6 @@
 				<object class="wxPanel" name="ID_PANEL7" variable="RuTrim" member="yes">
 					<pos>536,72</pos>
 					<size>12,25</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnRuTrimLeftDown" entry="EVT_LEFT_DOWN" />
@@ -110,7 +128,6 @@
 				<object class="wxPanel" name="ID_PANEL8" variable="RlTrim" member="yes">
 					<pos>592,200</pos>
 					<size>25,12</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnRlTrimLeftDown" entry="EVT_LEFT_DOWN" />
@@ -119,7 +136,6 @@
 				<object class="wxPanel" name="ID_PANEL6" variable="RrTrim" member="yes">
 					<pos>644,200</pos>
 					<size>25,12</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnRrTrimLeftDown" entry="EVT_LEFT_DOWN" />
@@ -128,7 +144,6 @@
 				<object class="wxPanel" name="ID_PANEL5" variable="LrTrim" member="yes">
 					<pos>152,200</pos>
 					<size>25,12</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnLrTrimLeftDown" entry="EVT_LEFT_DOWN" />
@@ -137,7 +152,6 @@
 				<object class="wxPanel" name="ID_BPG" variable="BPg" member="yes">
 					<pos>264,184</pos>
 					<size>25,25</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBPgLeftDown" entry="EVT_LEFT_DOWN" />
@@ -146,7 +160,6 @@
 				<object class="wxPanel" name="ID_BPB" variable="BPb" member="yes">
 					<pos>288,208</pos>
 					<size>25,25</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBPbLeftDown" entry="EVT_LEFT_DOWN" />
@@ -155,7 +168,6 @@
 				<object class="wxPanel" name="ID_BPD" variable="BPd" member="yes">
 					<pos>312,184</pos>
 					<size>25,25</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBPdLeftDown" entry="EVT_LEFT_DOWN" />
@@ -180,32 +192,32 @@
 				<object class="wxPanel" name="ID_PANEL14" variable="PbThr" member="yes">
 					<pos>25,48</pos>
 					<size>25,25</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
+					<tooltip>THR</tooltip>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnPbThrLeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
 				<object class="wxPanel" name="ID_PANEL15" variable="BpRud" member="yes">
 					<pos>25,88</pos>
 					<size>25,25</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
+					<tooltip>RUD</tooltip>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBpRudLeftDown1" entry="EVT_LEFT_DOWN" />
 				</object>
 				<object class="wxPanel" name="ID_PANEL16" variable="BpEle" member="yes">
 					<pos>25,128</pos>
 					<size>25,25</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
+					<tooltip>ELE</tooltip>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBpEleLeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
 				<object class="wxPanel" name="ID_PANEL17" variable="BpTrn" member="yes">
 					<pos>16,208</pos>
 					<size>25,25</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
+					<tooltip>TRN</tooltip>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBpTrnLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBpTrnLeftUp" entry="EVT_LEFT_UP" />
@@ -213,32 +225,32 @@
 				<object class="wxPanel" name="ID_PANEL18" variable="BpAil" member="yes">
 					<pos>720,48</pos>
 					<size>25,25</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
+					<tooltip>AIL</tooltip>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBpAilLeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
 				<object class="wxPanel" name="ID_PANEL19" variable="BpGea" member="yes">
 					<pos>720,88</pos>
 					<size>25,25</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
+					<tooltip>GEA</tooltip>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBpGeaLeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
 				<object class="wxPanel" name="ID_PANEL20" variable="BpId1" member="yes">
 					<pos>720,128</pos>
 					<size>25,20</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
+					<tooltip>ID1</tooltip>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBpId1LeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
 				<object class="wxPanel" name="ID_PANEL13" variable="BpId2" member="yes">
 					<pos>720,148</pos>
 					<size>25,20</size>
-					<fg>#FFFF80</fg>
 					<bg>#000000</bg>
+					<tooltip>ID2</tooltip>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBpId2LeftDown" entry="EVT_LEFT_DOWN" />
 				</object>

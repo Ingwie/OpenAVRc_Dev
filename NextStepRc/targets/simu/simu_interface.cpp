@@ -18,6 +18,7 @@
 #include "../../nextsteprc.h"
 
 bool simu_mainloop_is_runing; //main run signal
+bool simu_shutDownSimu_is_runing; //main run signal
 bool simu_off; //Off signal
 
 //EEPROM

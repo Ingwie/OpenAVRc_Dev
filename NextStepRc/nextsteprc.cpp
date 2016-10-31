@@ -1947,6 +1947,7 @@ void SimuMainLoop(void) // Create loop function
 #if defined(SIMU)
     void shutDownSimu()
     {
+      simu_shutDownSimu_is_runing = true;
 #endif
 
 #if defined(CPUM2560)
@@ -1955,7 +1956,7 @@ void SimuMainLoop(void) // Create loop function
         displayPopup(STR_SHUTDOWN);
         SIMU_SLEEP(200);
         nextsteprcClose();
-        SIMU_SLEEP(500);
+        SIMU_SLEEP(200);
         lcdClear() ;
         lcdRefresh() ;
         boardOff(); // Only turn power off if necessary
