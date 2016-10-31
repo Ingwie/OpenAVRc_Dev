@@ -37,7 +37,11 @@ typedef const int8_t pm_int8_t;
 extern unsigned char simu_eeprom[4096];
 extern void eepromReadBlock (uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size);
 
-extern REG8 simu_off; //Off signal
+
+extern bool simu_mainloop_is_runing; //main run signal
+extern bool simu_off; //Off signal
+
+
 
 //PORT & PIN
 extern REG8  simu_pina;

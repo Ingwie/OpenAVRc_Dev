@@ -212,7 +212,7 @@ typedef __int24 int24_t;
 #define MYWDT_RESET(x) x; SimuSleepMs(1)
 #define SIMU_SLEEP(x) SimuSleepMs(x)
 #define SIMU_UNLOCK_MACRO(x) (false)
-#define wdt_disable() simu_off=1
+#define wdt_disable() simu_off = true; simu_mainloop_is_runing = true; return
 char *convertSimuPath(const char *path);
 extern ISR(TIMER_10MS_VECT, ISR_NOBLOCK);
 extern int simumain(void);

@@ -108,12 +108,14 @@ END_EVENT_TABLE()
 //wxCustomBackgroundWindow else ??
 bool wxBackgroundBitmap::ProcessEvent(wxEvent &Event)
 {
-    if (Event.GetEventType() == wxEVT_ERASE_BACKGROUND) {
+    if (Event.GetEventType() == wxEVT_ERASE_BACKGROUND)
+    {
         wxEraseEvent &EraseEvent = dynamic_cast<wxEraseEvent &>(Event);
         wxDC *DC = EraseEvent.GetDC();
         DC->DrawBitmap(Bitmap, 0, 0, false);
         return true;
-    } else return Inherited::ProcessEvent(Event);
+    }
+    else return Inherited::ProcessEvent(Event);
 }
 
 
@@ -324,10 +326,23 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
 
 //// FW Functions ///////////////////////////////////////////////////
 
+void NextStepRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
+{
+    if (OnTglButton->GetValue())
+    {
+        if (simu_eeprom[1] == 0)
+        {
+            int answer = wxMessageBox(_("Charger un fichier eeprom ?"), _("EEPROM VIDE"), wxYES_NO, this);
+            if (answer == wxYES) LoadEeprom();
+        }
+    }
+    StartFirmwareCode();
+}
 
 void NextStepRc_SimulatorFrame::StartFirmwareCode()
 {
-    simu_off = 0;
+    simu_off = false;
+    simu_mainloop_is_runing = false;
     boardInit(); // Is called by simumain but needed here to Spin init
     //Init virtual PORTS and PINS
     SpinA->init();
@@ -341,42 +356,47 @@ void NextStepRc_SimulatorFrame::StartFirmwareCode()
     SpinJ->init();
     SpinK->init();
     SpinL->init();
+    SpinH->SetPin(6); //Rf activated pin
+    SpinH->ResetPin(5); //Dsc inactivated
+    SpinC->ResetPin(0); // Set 3pos at ID0
     s_anaFilt[0] = 1024;
     s_anaFilt[1] = 1024;
     s_anaFilt[2] = 1024;
     s_anaFilt[3] = 1024;
     Timer10ms.Start(10, false); //Simulate 10mS Interrupt vector
     simumain();
-    TimerMain.Start(100, false); // Simulate ?mS cycle for main function
+    TimerMain.Start(1, false); // Simulate ?mS cycle for mainloop function
 }
 
-void NextStepRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event)
+void NextStepRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
 {
-    ChronoMain->Start(0);
-    SimuMainLoop();
-    Chronoval = ChronoMain->TimeInMicro();
-    ChronoMain->Pause();
-    StatusBar->SetStatusText(_T("MAIN ")+Chronoval.ToString()+_T(" uS"),1);
+    if (!OnTglButton->GetValue())
+    {
+        SpinH->ResetPin(6);
+    }
+    if ((!simu_mainloop_is_runing)  )
+    {
+        ChronoMain->Start(0);
+        SimuMainLoop();
+        Chronoval = ChronoMain->TimeInMicro();
+        ChronoMain->Pause();
+        StatusBar->SetStatusText(_T("MAIN ")+Chronoval.ToString()+_T(" uS"),1);
+    }
+    if (simu_off)
+    {
+        TimerMain.Stop();
+        Timer10ms.Stop();
+    }
+
 }
 
 void NextStepRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
 {
     CheckInputs();
     Chrono10ms->Start(0);
-    if (OnTglButton->GetValue())
+    if (!simu_off)
     {
-     TIMER_10MS_VECT();
-    }
-    else
-    {
-        TimerMain.Stop();
-        Timer10ms.Stop();
-        shutDownSimu();
-    }
-    if (simu_off)
-    {
-        TimerMain.Stop();
-        Timer10ms.Stop();
+        TIMER_10MS_VECT();
     }
     Chronoval = Chrono10ms->TimeInMicro();
     Chrono10ms->Pause();
@@ -455,6 +475,124 @@ void NextStepRc_SimulatorFrame::OnMenuLoadEeprom(wxCommandEvent& event)
 {
     LoadEeprom();
 }
+
+void NextStepRc_SimulatorFrame::OnLstickMouseMove(wxMouseEvent& event)
+{
+    int xmul = 2048000 / (Lstick->GetSize().GetWidth() - 5);
+    int ymul = 2048000 / (Lstick->GetSize().GetHeight() -5);
+    wxPoint pt(event.GetPosition());
+    int x = (pt.x * xmul)/1000;
+    int y = 2048 - (pt.y * ymul)/1000;
+
+    if (event.LeftUp()) ; //TODO
+    if (event.LeftIsDown())
+    {
+        s_anaFilt[3] = (uint16_t)x;
+        s_anaFilt[1] = (uint16_t)y;
+    };
+}
+
+void NextStepRc_SimulatorFrame::OnRstickMouseMove(wxMouseEvent& event)
+{
+    int xmul = 2048000 / (Lstick->GetSize().GetWidth() - 5);
+    int ymul = 2048000 / (Lstick->GetSize().GetHeight() -5);
+    wxPoint pt(event.GetPosition());
+    int x = (pt.x * xmul)/1000;
+    int y = 2048 - (pt.y * ymul)/1000;
+
+    if (event.LeftUp()) ; //TODO
+    if (event.LeftIsDown())
+    {
+        s_anaFilt[0] = (uint16_t)x;
+        s_anaFilt[2] = (uint16_t)y;
+    };
+}
+
+void NextStepRc_SimulatorFrame::OnSimulcdLeftDClick(wxMouseEvent& event)
+{
+    wxFileDialog saveFileDialog(this, _("Sauver Capture écran"), "", "", "Fichier BMP (*.bmp)|*.bmp", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+    if (saveFileDialog.ShowModal() == wxID_CANCEL)
+        return;     // the user changed idea...
+    wxFileOutputStream output_stream(saveFileDialog.GetPath());
+    if (!output_stream.IsOk())
+    {
+        wxLogError("Ne peut écrire le fichier '%s'.", saveFileDialog.GetPath());
+        return;
+    }
+    SimuLcd_Bitmap.SaveFile(saveFileDialog.GetPath(), wxBITMAP_TYPE_BMP, NULL);
+
+}
+
+
+void NextStepRc_SimulatorFrame::OnMenuItem4Selected(wxCommandEvent& event)
+{
+    wxFileDialog saveFileDialog(this, _("Sauver Eeprom"), "", "", "Fichier BIN (*.bin)|*.bin", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+    if (saveFileDialog.ShowModal() == wxID_CANCEL)
+        return;     // the user changed idea...
+    wxFile bin_file;
+    bin_file.Create(saveFileDialog.GetPath(), true);
+    eeFlush(); //Save Radio eeprom immediatly
+    if(bin_file.IsOpened())
+    {
+        bin_file.Seek(0);
+        bin_file.Write(&simu_eeprom[0], EESIZE);
+        bin_file.Close();
+    }
+}
+
+void NextStepRc_SimulatorFrame::OnClose(wxCloseEvent& event)
+{
+
+if (OnTglButton->GetValue() && (!simu_off))
+{
+  wxMessageBox( _("Merci d'éteindre le simulateur avant de quitter"), _("      NextStepRc Simulateur"));
+  event.Veto();
+  return;
+}
+    if (ChronoMain != NULL)
+    {
+        ChronoMain->Pause();
+        Sleep(1);
+        delete ChronoMain;
+    }
+    if (Chrono10ms != NULL)
+    {
+        Chrono10ms->Pause();
+        Sleep(1);
+        delete Chrono10ms;
+    }
+    Sleep(10);
+
+    PanelMain->PopEventHandler(NULL);
+    PanelH->PopEventHandler(NULL);
+    PanelL->PopEventHandler(NULL);
+    //delete PanelMainBackground;
+    //delete PanelHBackckground;
+    //delete PanelBBackckground;
+    //delete PanelMain;
+    //delete PanelH;
+    //delete PanelB;
+
+
+    delete SpinA;
+    delete SpinB;
+    delete SpinC;
+    delete SpinD;
+    delete SpinE;
+    delete SpinF;
+    delete SpinG;
+    delete SpinH;
+    delete SpinJ;
+    delete SpinK;
+    delete SpinL;
+
+    if (SimuLcd_MemoryDC != NULL) delete SimuLcd_MemoryDC;
+    if (SimuLcd_ClientDC != NULL)	delete SimuLcd_ClientDC;
+
+    Destroy();
+}
+
+//////////////////////////////VIRTUAL PIN WORD !! JOB /////////////////////////
 
 void NextStepRc_SimulatorFrame::OnBPmenuLeftDown(wxMouseEvent& event)
 {
@@ -732,128 +870,4 @@ void NextStepRc_SimulatorFrame::CheckInputs()
     if (!SpinC->GetPin(1)) BpId2->SetBackgroundColour(wxColour(* wxWHITE));
     else BpId2->SetBackgroundColour(wxColour(* wxBLACK));
     BpId2->Refresh();
-}
-
-void NextStepRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
-{
-    if (OnTglButton->GetValue())
-    {
-        if (simu_eeprom[1] == 0)
-        {
-            int answer = wxMessageBox(_("Charger un fichier eeprom ?"), _("EEPROM VIDE"), wxYES_NO, this);
-            if (answer == wxYES) LoadEeprom();
-        }
-    }
-    StartFirmwareCode();
-}
-
-
-void NextStepRc_SimulatorFrame::OnLstickMouseMove(wxMouseEvent& event)
-{
-    int xmul = 2048000 / (Lstick->GetSize().GetWidth() - 5);
-    int ymul = 2048000 / (Lstick->GetSize().GetHeight() -5);
-    wxPoint pt(event.GetPosition());
-    int x = (pt.x * xmul)/1000;
-    int y = 2048 - (pt.y * ymul)/1000;
-
-    if (event.LeftUp()) ; //TODO
-    if (event.LeftIsDown())
-    {
-        s_anaFilt[3] = (uint16_t)x;
-        s_anaFilt[1] = (uint16_t)y;
-    };
-}
-
-void NextStepRc_SimulatorFrame::OnRstickMouseMove(wxMouseEvent& event)
-{
-    int xmul = 2048000 / (Lstick->GetSize().GetWidth() - 5);
-    int ymul = 2048000 / (Lstick->GetSize().GetHeight() -5);
-    wxPoint pt(event.GetPosition());
-    int x = (pt.x * xmul)/1000;
-    int y = 2048 - (pt.y * ymul)/1000;
-
-    if (event.LeftUp()) ; //TODO
-    if (event.LeftIsDown())
-    {
-        s_anaFilt[0] = (uint16_t)x;
-        s_anaFilt[2] = (uint16_t)y;
-    };
-}
-
-void NextStepRc_SimulatorFrame::OnSimulcdLeftDClick(wxMouseEvent& event)
-{
-    wxFileDialog saveFileDialog(this, _("Sauver Capture écran"), "", "", "Fichier BMP (*.bmp)|*.bmp", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
-    if (saveFileDialog.ShowModal() == wxID_CANCEL)
-        return;     // the user changed idea...
-    wxFileOutputStream output_stream(saveFileDialog.GetPath());
-    if (!output_stream.IsOk())
-    {
-        wxLogError("Ne peut écrire le fichier '%s'.", saveFileDialog.GetPath());
-        return;
-    }
-    SimuLcd_Bitmap.SaveFile(saveFileDialog.GetPath(), wxBITMAP_TYPE_BMP, NULL);
-
-}
-
-
-void NextStepRc_SimulatorFrame::OnMenuItem4Selected(wxCommandEvent& event)
-{
-    wxFileDialog saveFileDialog(this, _("Sauver Eeprom"), "", "", "Fichier BIN (*.bin)|*.bin", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
-    if (saveFileDialog.ShowModal() == wxID_CANCEL)
-        return;     // the user changed idea...
-    wxFile bin_file;
-    bin_file.Create(saveFileDialog.GetPath(), true);
-    eeFlush(); //Save Radio eeprom immediatly
-    if(bin_file.IsOpened())
-    {
-        bin_file.Seek(0);
-        bin_file.Write(&simu_eeprom[0], EESIZE);
-        bin_file.Close();
-    }
-}
-
-void NextStepRc_SimulatorFrame::OnClose(wxCloseEvent& event)
-{
-
-    if (ChronoMain != NULL)
-    {
-        ChronoMain->Pause();
-        Sleep(1);
-        delete ChronoMain;
-    }
-    if (Chrono10ms != NULL)
-    {
-        Chrono10ms->Pause();
-        Sleep(1);
-        delete Chrono10ms;
-    }
-    Sleep(10);
-
-    PanelMain->PopEventHandler(NULL);
-    PanelH->PopEventHandler(NULL);
-    PanelL->PopEventHandler(NULL);
-    //delete PanelMainBackground;
-    //delete PanelHBackckground;
-    //delete PanelBBackckground;
-    //delete PanelMain;
-    //delete PanelH;
-    //delete PanelB;
-
-
-    delete SpinA;
-    delete SpinB;
-    delete SpinC;
-    delete SpinD;
-    delete SpinE;
-    delete SpinF;
-    delete SpinG;
-    delete SpinH;
-    delete SpinJ;
-    delete SpinK;
-    delete SpinL;
-
-    if (SimuLcd_MemoryDC != NULL) delete SimuLcd_MemoryDC;
-    if (SimuLcd_ClientDC != NULL)	delete SimuLcd_ClientDC;
-
-    Destroy();
 }

@@ -1480,8 +1480,8 @@ ISR(TIMER_16KHZ_VECT, ISR_NOBLOCK)
 uint16_t getTmr16KHz()
 {
 #if defined(SIMU)
-uint16_t simu_tmr16 = get_tmr10ms() * 160;
- return simu_tmr16;
+    uint16_t simu_tmr16 = get_tmr10ms() * 160;
+    return simu_tmr16;
 #else
     while(1)
     {
@@ -1834,10 +1834,12 @@ void nextsteprcInit(nextsteprc_INIT_ARGS)
 #if !defined(SIMUa)
 #if !defined(SIMU)
 int main(void)
+{
 #else
 int simumain(void)
-#endif
 {
+  simu_off = false;
+#endif
     // G: The WDT remains active after a WDT reset -- at maximum clock speed. So it's
     // important to disable it before commencing with system initialisation (or
     // we could put a bunch more MYWDT_RESET()s in. But I don't like that approach
@@ -1914,13 +1916,14 @@ int simumain(void)
     while (1)
     {
 #else // Simu main loop function
-  SimuMainLoop();
+    SimuMainLoop();
 } // Close simumain()
 void SimuMainLoop(void) // Create loop function
 {
+    simu_mainloop_is_runing = true;
 #endif //SIMU
 #if defined(CPUM2560)
-    uint8_t shutdown_state = 0;
+        uint8_t shutdown_state = 0;
         if ((shutdown_state=pwrCheck()) > e_power_trainer)
 #if !defined(SIMU)
             break;
@@ -1936,6 +1939,9 @@ void SimuMainLoop(void) // Create loop function
             MYWDT_RESET();
             heartbeat = 0;
         }
+#if defined (SIMU)
+  simu_mainloop_is_runing = false;
+#endif
     }
 
 #if defined(SIMU)
@@ -1947,7 +1953,9 @@ void SimuMainLoop(void) // Create loop function
         // Time to switch off
         lcdClear();
         displayPopup(STR_SHUTDOWN);
+        SIMU_SLEEP(200);
         nextsteprcClose();
+        SIMU_SLEEP(500);
         lcdClear() ;
         lcdRefresh() ;
         boardOff(); // Only turn power off if necessary

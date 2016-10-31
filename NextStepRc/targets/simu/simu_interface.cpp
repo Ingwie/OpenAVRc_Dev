@@ -17,7 +17,8 @@
 #include "simu_interface.h"
 #include "../../nextsteprc.h"
 
-REG8 simu_off; //Off signal
+bool simu_mainloop_is_runing; //main run signal
+bool simu_off; //Off signal
 
 //EEPROM
 unsigned char simu_eeprom[4096] = {0xFF};

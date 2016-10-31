@@ -28,7 +28,8 @@ void Spin::SetPin(uint8_t num)
 {
     if (*P_ddr & (1<<num))
     {
-        wxMessageBox(P_id, _("Ceci est une sortie"));
+        wxString mystring = wxString::Format(wxT("%i"),num);
+        wxMessageBox( _("Ceci est une sortie"),P_id + mystring);
     }
     else
     {
@@ -40,7 +41,9 @@ void Spin::ResetPin(uint8_t num)
 {
     if (*P_ddr & (1<<num))
     {
-        wxMessageBox(P_id, _("Ceci est une sortie"));
+        wxString mystring = wxString::Format(wxT("%i"),num);
+        wxMessageBox( _("Ceci est une sortie"),P_id + mystring);
+
     }
     else
     {
@@ -52,11 +55,13 @@ void Spin::TogglePin(uint8_t num)
 {
     if (*P_ddr & (1<<num))
     {
-        wxMessageBox(P_id, _("Ceci est une sortie"));
+        wxString mystring = wxString::Format(wxT("%i"),num);
+        wxMessageBox( _("Ceci est une sortie"),P_id + mystring);
+
     }
     else
     {
-      if (GetPin(num)) ResetPin(num);
-      else SetPin(num);
+        if (GetPin(num)) ResetPin(num);
+        else SetPin(num);
     }
 }
