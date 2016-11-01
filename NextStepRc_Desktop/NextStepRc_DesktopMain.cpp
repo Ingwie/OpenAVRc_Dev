@@ -17,25 +17,14 @@
 #include <wx/textfile.h>
 #include <windows.h>
 #include "Shlwapi.h"
-#include <wx/filename.h>
 #include <wx/filedlg.h>
 #include <wx/wfstream.h>
 #include <wx/string.h>
 #include <wx/menu.h>
 #include <wx/textctrl.h>
 #include <wx/dialog.h>
+#include <wx/log.h>
 
-wxString dude_send;
-wxString avrdude("\\avrdude.exe"), dude_c(" -v -c "),dude_p(" -p "), dude_D(" -D "), dude_P(" -P "),dude_space(" "),dude_U(" -U "),dude_eeprom("eeprom:"),dude_read("r:"),dude_intel(":i");
-wxString dude_flash("flash:"), dude_raw(":r"),dude_write("w:"),dude_verify(" -v");
-//wxString        file;
-wxString        str;
-wxString keepopen("cmd /k ");
-  //tfile.Open("defaults.txt");
-  //wxString dude_programmer;
-  //wxString dude_port;
-  //wxString dude_type;
-  //wxString dude_path;
 
 //(*InternalHeaders(NextStepRc_DesktopFrame)
 #include <wx/intl.h>
@@ -43,8 +32,10 @@ wxString keepopen("cmd /k ");
 //*)
 
 //helper functions
-enum wxbuildinfoformat {
-    short_f, long_f };
+enum wxbuildinfoformat
+{
+    short_f, long_f
+};
 
 wxString wxbuildinfo(wxbuildinfoformat format)
 {
@@ -67,6 +58,13 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 
     return wxbuild;
 }
+
+wxString avrdudepath = _("non défini");
+wxString dude_programmer = _("non défini");
+wxString dude_type = _("non défini");
+wxString dude_port = _("non défini");
+
+
 
 //(*IdInit(NextStepRc_DesktopFrame)
 const long NextStepRc_DesktopFrame::ID_BUTTON1 = wxNewId();
@@ -99,10 +97,10 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     wxMenu* Menu2;
 
     Create(parent, id, _("NextStepRc Desktop"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("id"));
-    SetClientSize(wxSize(504,241));
-    Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(240,40), wxDefaultSize, 0, _T("ID_PANEL1"));
+    SetClientSize(wxSize(589,282));
+    Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(240,40), wxSize(576,280), 0, _T("ID_PANEL1"));
     Panel1->SetFocus();
-    Button1 = new wxButton(Panel1, ID_BUTTON1, _("SIMULATEUR"), wxPoint(8,152), wxSize(488,31), 0, wxDefaultValidator, _T("ID_BUTTON1"));
+    Button1 = new wxButton(Panel1, ID_BUTTON1, _("SIMULATEUR"), wxPoint(8,208), wxSize(568,31), 0, wxDefaultValidator, _T("ID_BUTTON1"));
     MenuBar_main = new wxMenuBar();
     Menu1 = new wxMenu();
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter l\'application"), wxITEM_NORMAL);
@@ -131,6 +129,8 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     MenuItem3 = new wxMenuItem(Menu3, ID_MENUITEM1, _("Comm settings"), wxEmptyString, wxITEM_NORMAL);
     Menu3->Append(MenuItem3);
     MenuBar_main->Append(Menu3, _("Comm"));
+    Menu7 = new wxMenu();
+    MenuBar_main->Append(Menu7, _("Compilateur"));
     Menu6 = new wxMenu();
     MenuBar_main->Append(Menu6, _("Documentation en ligne"));
     Menu2 = new wxMenu();
@@ -144,6 +144,10 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     StatusBar_main->SetFieldsCount(1,__wxStatusBarWidths_1);
     StatusBar_main->SetStatusStyles(1,__wxStatusBarStyles_1);
     SetStatusBar(StatusBar_main);
+        //INI File
+    wxString ini_filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "NExtStepRCSIMU.INI";
+    wxFileConfig* configFile = new wxFileConfig( "", "", ini_filename);
+
 
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnSimulateurClick2);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnQuit);
@@ -157,75 +161,54 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnAbout);
     //*)
 
- }
+
+}
+
 
 NextStepRc_DesktopFrame::~NextStepRc_DesktopFrame()
 {
-  //(*Destroy(NextStepRc_DesktopFrame)
-  //*)
+    //(*Destroy(NextStepRc_DesktopFrame)
+    //*)
 }
 
 void NextStepRc_DesktopFrame::OnQuit(wxCommandEvent& event)
 {
-  Close();
+    Close();
 }
 
 void NextStepRc_DesktopFrame::OnAbout(wxCommandEvent& event)
 {
-  wxString msg ="NestStepRc_Desktop V0.00002 !";
-  wxMessageBox(msg, _("Bienvenue dans ..."));
-}
-
-void Read_default_values ()//reads comm defaults from defaults.txt file
-{
-  wxTextFile      tfile;
-  tfile.Open("defaults.txt");
-  str = tfile.GetFirstLine(); wxString dude_programmer = str; // read the first line
-  str = tfile.GetNextLine();  wxString dude_port = str;
-  str = tfile.GetNextLine();  wxString dude_type = str;
-  str = tfile.GetNextLine();  wxString dude_path = str;
+    wxString msg ="NestStepRc_Desktop V0.003 Merci Miguel !";
+    wxMessageBox(msg, _("Bienvenue dans ..."));
 }
 
 void NextStepRc_DesktopFrame::OnProgrammerSelected(wxCommandEvent& event)
 {
-  DefaultFrame * DudeFrame = new DefaultFrame(NULL);
-  DudeFrame->Show(TRUE);//opens DefaultFrame
+    DefaultFrame * DudeFrame = new DefaultFrame(NULL);
+    DudeFrame->Show(TRUE);//opens DefaultFrame
 }
 
-void NextStepRc_DesktopFrame::OnreadmodelsSelected(wxCommandEvent& event)//read models from radio
+void NextStepRc_DesktopFrame::OnreadmodelsSelected(wxCommandEvent& event)//READ MODELS FROM RADIO.
 {
-    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer les modèles dès la radio."), "", "",  "Fichiers bin (*.bin)|*.bin|Tous (*.*)|*.*", wxFD_SAVE);//wxFD_OPEN);//|wxFD_FILE_MUST_EXIST);
+    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer les modèles dès la radio."), "", "",  "Fichiers bin (*.bin)|*.bin|Tous (*.*)|*.*", wxFD_SAVE);
     if (saveDialog.ShowModal() == wxID_CANCEL) return;
-    wxString 	GetCurrentlySelectedFilename(saveDialog.GetPath());
-    wxString dude_tmpfile = GetCurrentlySelectedFilename;
+    wxString dude_tmpfile = (saveDialog.GetPath());
 
-    //Read_default_values(); Does not pass the wxString values.
+    //wxString dude_mode("mode com5 DTR=ON RTS=ON");
+    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_read+dude_tmpfile+dude_raw+dude_verify;
 
-    wxTextFile      tfile;
-    tfile.Open("defaults.txt");
-    str = tfile.GetFirstLine(); wxString dude_programmer = str; // read the first line
-    str = tfile.GetNextLine();  wxString dude_port = str;
-    str = tfile.GetNextLine();  wxString dude_type = str;
-    str = tfile.GetNextLine();  wxString dude_path = str;
-    dude_send = keepopen+dude_path+avrdude+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_read+dude_tmpfile+dude_raw;
     wxMessageBox(dude_send);
-    wxExecute(dude_send);//send to control line
+    wxExecute(dude_send);//send command
 }
 
 void NextStepRc_DesktopFrame::OnreadfirmwareSelected(wxCommandEvent& event)//read firmware from radio
 {
-    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer le Firmware dès la radio."), "", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer le Firmware dès la radio."), "", "","Fichiers bin (*.bin)|*.bin|Tous (*.*)|*.*", wxFD_SAVE);
     if (saveDialog.ShowModal() == wxID_CANCEL) return;
-    wxFileInputStream input_stream(saveDialog.GetPath());
-    wxString 	GetCurrentlySelectedFilename(saveDialog.GetPath());
-    wxString dude_tmpfile = GetCurrentlySelectedFilename;
-    wxTextFile      tfile;
-    tfile.Open("defaults.txt");
-    str = tfile.GetFirstLine(); wxString dude_programmer = str; // read the first line
-    str = tfile.GetNextLine();  wxString dude_port = str;
-    str = tfile.GetNextLine();  wxString dude_type = str;
-    str = tfile.GetNextLine();  wxString dude_path = str;
-    dude_send = keepopen+dude_path+avrdude+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_read+dude_tmpfile+dude_raw;
+    //wxFileInputStream input_stream(saveDialog.GetPath());
+    wxString dude_tmpfile = (saveDialog.GetPath());
+
+    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_read+dude_tmpfile+dude_raw;
     wxExecute(dude_send);
 }
 
@@ -234,109 +217,116 @@ void NextStepRc_DesktopFrame::OnWriteModelToRadioSelected(wxCommandEvent& event)
     wxFileDialog openFileDialog(this, _("Choisir le fichier (.bin) pour transferer les modêles à la radio."), "", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL) return;
 
-      //verify the file size to see if it is an eeprom image
+    //verify the file size to see if it is an eeprom image
 
-      //wxMessageDialog *susto = new wxMessageDialog(NULL,
-      //wxT("Cela ne parait pas un fichier de modeles"), wxT("Importer les modeles"),
-      //wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
-      //susto->SetEventHandler(susto);
-      //if (susto->ShowModal()!= wxID_OK) return;
+    //wxMessageDialog *susto = new wxMessageDialog(NULL,
+    //wxT("Cela ne parait pas un fichier de modeles"), wxT("Importer les modeles"),
+    //wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
+    //susto->SetEventHandler(susto);
+    //if (susto->ShowModal()!= wxID_OK) return;
 
 
-    wxString 	GetCurrentlySelectedFilename(openFileDialog.GetPath());
-    wxString dude_tmpfile = GetCurrentlySelectedFilename;
-    wxTextFile      tfile;
-    tfile.Open("defaults.txt");
-    str = tfile.GetFirstLine(); wxString dude_programmer = str; // read the first line
-    str = tfile.GetNextLine();  wxString dude_port = str;
-    str = tfile.GetNextLine();  wxString dude_type = str;
-    str = tfile.GetNextLine();  wxString dude_path = str;
-    dude_send = keepopen+dude_path+avrdude+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_write+dude_tmpfile+dude_raw+dude_verify;
-    //wxMessageBox(dude_send);
+    wxString dude_tmpfile = (openFileDialog.GetPath());
+
+    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_write+dude_tmpfile+dude_raw+dude_verify;
+
+    wxMessageBox(dude_send);
     wxExecute(dude_send);
 }
 
 void NextStepRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& event)
 {
-  wxFileDialog openFileDialog(this, _("Choisir le fichier pour transferer le Firmware à la radio."), "", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
-  if (openFileDialog.ShowModal() == wxID_CANCEL) return;
+    wxFileDialog openFileDialog(this, _("Choisir le fichier pour transferer le Firmware à la radio."), "", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
 
-  //........ A REVOIR voulez vous faire une sauvegarde des modeles?..........
-    wxMessageDialog *bkup = new wxMessageDialog(NULL,wxT("Sauvergarder les modeles? Ne fonctionne pas encore"), wxT("Firmware"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);bkup->SetEventHandler(bkup);
+    if (openFileDialog.ShowModal() == wxID_CANCEL) return;
+    wxMessageDialog *bkup = new wxMessageDialog(NULL,wxT("Il est recommande de sauvegarder vos modeles avant, voulez vous continuer ?"), wxT("Firmware"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
+    bkup->SetEventHandler(bkup);
     if (bkup->ShowModal()!= wxID_OK) return;
-  //.........................................................................
 
-    wxString 	GetCurrentlySelectedFilename(openFileDialog.GetPath());
-    wxTextFile      tfile;
-    wxString        dude_pause(" pause");
-    tfile.Open("defaults.txt");
-    str = tfile.GetFirstLine(); wxString dude_programmer = str; // read the first line
-    str = tfile.GetNextLine();  wxString dude_port = str;
-    str = tfile.GetNextLine();  wxString dude_type = str;
-    str = tfile.GetNextLine();  wxString dude_path = str;
+    /*  std::remove("batch.txt"); // delete old batch
+      std::ofstream myfile;
+      myfile.open ("batch.bat"); // write new batch
+      wxString batch ("batch.bat"); //myfile << dude_programmer<< "\n";
+      wxString one ("mode "), two(": DTR=ON RTS=ON \n"), dude_rstcom =(one+dude_port+two);
 
-    //wxString dude_bkupfile = ("tmp.bin");
-    //dude_send = keepopen+dude_path+avrdude+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_read+dude_bkupfile+dude_raw;
-    //wxMessageBox(dude_send);
-    //wxExecute(dude_send);
+      wxString dude_bkupfile = ("tmp.bin");// save model and settings
+      dude_send = dude_rstcom + dude_path+avrdude+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_read+dude_bkupfile+dude_raw;
+      myfile << dude_send<< "\n";
 
-    wxString dude_tmpfile = GetCurrentlySelectedFilename;
-    dude_send = keepopen+dude_path+avrdude+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_raw+dude_verify+dude_pause;
+      wxString dude_tmpfile = GetCurrentlySelectedFilename;//write firmware
+      dude_send = dude_path+avrdude+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_raw+dude_verify;
+      myfile << dude_send<< "\n";
+
+      wxString dude_bkupfile1 = ("tmp.bin");// restaure models and settings
+      dude_send = dude_rstcom +dude_path+avrdude+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_write+dude_bkupfile1+dude_raw+dude_verify;
+      myfile << dude_send<< "\n";
+
+      myfile.close();
+      wxExecute(batch);
+      std::remove("tmp.bin");
+      std::remove("batch.txt");
+      //wxExecute(dude_send); //if non backup is chosen
+      */
+
+    wxString dude_tmpfile = (openFileDialog.GetPath());//write firmware
+    wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_raw+dude_verify;
+
     wxMessageBox(dude_send);
     wxExecute(dude_send);
 
-    //wxString dude_bkupfile1 = ("tmp.bin");
-    //dude_send = keepopen+dude_path+avrdude+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_write+dude_bkupfile1+dude_raw+dude_verify;
-    //wxMessageBox(dude_send);
-    //wxExecute(dude_send);
-
-    //wxRemoveFile("tmp.bin");
-
 }
+
 
 void NextStepRc_DesktopFrame::OnEcrirelesFuseesSelected(wxCommandEvent& event)// Write fuses
 {
-  wxMessageDialog *susto = new wxMessageDialog(NULL,
-      wxT("Sur? Tu veut continuer?"), wxT("Burn Fuses"),
-      wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
-  susto->SetEventHandler(susto);
-  if (susto->ShowModal()!= wxID_OK) return;
-  wxTextFile      tfile;
-  tfile.Open("defaults.txt");
-  str = tfile.GetFirstLine(); //wxString dude_programmer = str; // read the first line
-  str = tfile.GetNextLine();  //wxString dude_port = str;
-  str = tfile.GetNextLine();  wxString dude_type = str;
-  str = tfile.GetNextLine();  wxString dude_path = str;
-  wxString FUSES(" -c usbasp -P usb -F -e -u -Ulfuse:w:0xFF:m -Uhfuse:w:0xD8:m -Uefuse:w:0xFD:m -v");
-  wxString dude_send = (keepopen+dude_path+avrdude+dude_p+dude_type+FUSES);
-  wxMessageBox(dude_send);
-  wxExecute(dude_send);
+    wxMessageDialog *susto = new wxMessageDialog(NULL,
+            wxT("Sur? Tu veut continuer?"), wxT("Burn Fuses"),
+            wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
+    susto->SetEventHandler(susto);
+    if (susto->ShowModal()!= wxID_OK) return;
+
+    wxString FUSES(" -c usbasp -P usb -F -e -u -Ulfuse:w:0xFF:m -Uhfuse:w:0xD8:m -Uefuse:w:0xFD:m -v");
+    wxString dude_send = (keepopen+avrdudepath+dude_p+dude_type+FUSES);
+    wxMessageBox(dude_send);
+    wxExecute(dude_send);
 }
 
 void NextStepRc_DesktopFrame::OnEcrirelebootloaderSelected(wxCommandEvent& event) // Write bootloader
 {
-  wxMessageDialog *susto = new wxMessageDialog(NULL,
-  wxT("Sur? Tu veut continuer?"), wxT("Burn bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
-  susto->SetEventHandler(susto);
-  if (susto->ShowModal()!= wxID_OK) return;
-  wxTextFile      tfile;
-  tfile.Open("defaults.txt");
-  str = tfile.GetFirstLine(); //wxString dude_programmer = str; // read the first line
-  str = tfile.GetNextLine();  //wxString dude_port = str;
-  str = tfile.GetNextLine();  wxString dude_type = str;
-  str = tfile.GetNextLine();  wxString dude_path = str;
-  wxString BOOTLOADER(" -c usbasp -P usb -U lock:w:0x3F:m -U flash:w:mega2560_stk500v2boot_opentx.hex -U lock:w:0x0F:m -v");
-  wxString dude_send = (keepopen+dude_path+avrdude+dude_p+dude_type+BOOTLOADER);
-  wxMessageBox(dude_send);
-  wxExecute(dude_send);
+    wxMessageDialog *susto = new wxMessageDialog(NULL,
+            wxT("Sur? Tu veut continuer?"), wxT("Burn bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
+    susto->SetEventHandler(susto);
+    if (susto->ShowModal()!= wxID_OK) return;
+
+    wxString BOOTLOADER(" -c usbasp -P usb -U lock:w:0x3F:m -U flash:w:mega2560_stk500v2boot_opentx.hex -U lock:w:0x0F:m -v");
+    wxString dude_send = (keepopen+avrdudepath+dude_p+dude_type+BOOTLOADER);
+    wxMessageBox(dude_send);
+    wxExecute(dude_send);
 }
 
-void NextStepRc_DesktopFrame::OnButton1Click1(wxCommandEvent& event)
+void NextStepRc_DesktopFrame::LoadConfig()
 {
+    configFile->Read(wxT("Programmer"),dude_programmer);
+    configFile->Read(wxT("Port"),dude_port);
+    configFile->Read(wxT("Type"),&dude_type);
+    configFile->Read(wxT("avrdudepath"),&avrdudepath);
+
+}
+
+void NextStepRc_DesktopFrame::SaveConfig()
+{
+    wxLogMessage(_("Les paramètres sont sauvé dans :"), configFile->GetPath());
+
+    configFile->Write(wxT("Programmer"),dude_programmer);
+    configFile->Write(wxT("Port"),dude_port);
+    configFile->Write(wxT("Type"),dude_type);
+    configFile->Write(wxT("avrdudepath"),avrdudepath);
+    configFile->Flush();
 }
 
 void NextStepRc_DesktopFrame::OnSimulateurClick2(wxCommandEvent& event)
 {
-  wxString simu("NextStepRc_Simulator.exe");
-  wxExecute (simu);
+    wxString simu("NextStepRc_Builder\\NextStepRc_Simulator.exe");
+    wxExecute(simu);
 }
+

@@ -2,15 +2,16 @@
 <wxsmith>
 	<object class="wxFrame" name="NextStepRc_DesktopFrame">
 		<title>NextStepRc Desktop</title>
-		<size>504,241</size>
+		<size>589,282</size>
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>240,40</pos>
+			<size>576,280</size>
 			<focused>1</focused>
 			<style>0</style>
 			<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
 				<label>SIMULATEUR</label>
-				<pos>8,152</pos>
-				<size>488,31</size>
+				<pos>8,208</pos>
+				<size>568,31</size>
 				<handler function="OnSimulateurClick2" entry="EVT_BUTTON" />
 			</object>
 		</object>
@@ -63,6 +64,9 @@
 					<label>Comm settings</label>
 					<handler function="OnProgrammerSelected" entry="EVT_MENU" />
 				</object>
+			</object>
+			<object class="wxMenu" variable="Menu7" member="yes">
+				<label>Compilateur</label>
 			</object>
 			<object class="wxMenu" variable="Menu6" member="yes">
 				<label>Documentation en ligne</label>

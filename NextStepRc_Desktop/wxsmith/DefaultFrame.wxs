@@ -14,7 +14,6 @@
 				<item>usbasp</item>
 			</content>
 			<pos>176,72</pos>
-			<handler function="OnComboBox1Selected" entry="EVT_COMBOBOX" />
 		</object>
 		<object class="wxComboBox" name="ID_COMBOBOX2" variable="ComboBox2" member="yes">
 			<content>
@@ -47,8 +46,8 @@
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 			<label>Programmeur</label>
-			<pos>80,80</pos>
-			<size>72,13</size>
+			<pos>72,80</pos>
+			<size>80,13</size>
 		</object>
 		<object class="wxButton" name="ID_BUTTON1" variable="Enter" member="yes">
 			<label>Valider</label>
@@ -57,7 +56,7 @@
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
 			<label>Port</label>
-			<pos>120,128</pos>
+			<pos>112,128</pos>
 		</object>
 		<object class="wxComboBox" name="ID_COMBOBOX3" variable="ComboBox3" member="yes">
 			<content>
@@ -66,15 +65,14 @@
 				<item>m64</item>
 			</content>
 			<pos>176,168</pos>
-			<handler function="OnComboBox3Selected" entry="EVT_COMBOBOX" />
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
 			<label>Type of radio</label>
-			<pos>80,176</pos>
+			<pos>72,176</pos>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
 			<label>Directoire de avrdude</label>
-			<pos>40,224</pos>
+			<pos>32,224</pos>
 		</object>
 		<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="TextCtrl1" member="yes">
 			<value>avrdude path</value>

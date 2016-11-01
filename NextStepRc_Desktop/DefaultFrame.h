@@ -3,8 +3,6 @@
 #include <wx/combobox.h>
 #include <wx/string.h>
 
-//wxString dude_programmer;
-//wxString dude_port;
 
 //(*Headers(DefaultFrame)
 #include <wx/stattext.h>
@@ -13,6 +11,7 @@
 #include <wx/frame.h>
 #include <wx/combobox.h>
 //*)
+
 
 class DefaultFrame: public wxFrame
 {
@@ -50,6 +49,7 @@ class DefaultFrame: public wxFrame
 		static const long ID_BUTTON2;
 		static const long ID_BUTTON3;
 		//*)
+		wxWindow * Parent;
 
 	private:
 
@@ -69,6 +69,8 @@ class DefaultFrame: public wxFrame
 		void OnComboBox3Selected(wxCommandEvent& event);
 		void OnButton1Click1(wxCommandEvent& event);
 		void OnButtonSearchavrdudepathClick(wxCommandEvent& event);
+		void TransfertConfig();
+		void OnPaint(wxPaintEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
