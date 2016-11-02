@@ -3,9 +3,10 @@
 	<object class="wxFrame" name="DefaultFrame">
 		<title>Communication avec la radio </title>
 		<size>473,335</size>
+		<bg>wxSYS_COLOUR_BTNFACE</bg>
 		<pos_arg>1</pos_arg>
 		<size_arg>1</size_arg>
-		<style>wxDEFAULT_DIALOG_STYLE|wxDEFAULT_FRAME_STYLE|wxSYSTEM_MENU|wxFULL_REPAINT_ON_RESIZE</style>
+		<style>wxCAPTION|wxDEFAULT_DIALOG_STYLE</style>
 		<object class="wxComboBox" name="ID_COMBOBOX1" variable="ComboBox1" member="yes">
 			<content>
 				<item>stk500v2</item>
@@ -49,10 +50,10 @@
 			<pos>72,80</pos>
 			<size>80,13</size>
 		</object>
-		<object class="wxButton" name="ID_BUTTON1" variable="Enter" member="yes">
+		<object class="wxButton" name="ID_BUTTONENTER" variable="ButtonEnter" member="yes">
 			<label>Valider</label>
 			<pos>376,296</pos>
-			<handler function="OnEnterClick" entry="EVT_BUTTON" />
+			<handler function="OnButtonEnterClick" entry="EVT_BUTTON" />
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
 			<label>Port</label>
@@ -67,25 +68,24 @@
 			<pos>176,168</pos>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
-			<label>Type of radio</label>
+			<label>Type de radio</label>
 			<pos>72,176</pos>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
-			<label>Directoire de avrdude</label>
+			<label>Reprtoire de avrdude</label>
 			<pos>32,224</pos>
 		</object>
 		<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="TextCtrl1" member="yes">
 			<value>avrdude path</value>
 			<pos>176,216</pos>
 			<size>212,21</size>
-			<handler function="OnTextCtrl1Text" entry="EVT_TEXT" />
 		</object>
-		<object class="wxButton" name="ID_BUTTON2" variable="Button1" member="yes">
+		<object class="wxButton" name="ID_BUTTONESC" variable="ButtonEsc" member="yes">
 			<label>Annuler</label>
 			<pos>264,296</pos>
-			<handler function="OnButton1Click1" entry="EVT_BUTTON" />
+			<handler function="OnButtonEscClick" entry="EVT_BUTTON" />
 		</object>
-		<object class="wxButton" name="ID_BUTTON3" variable="ButtonSearchavrdudepath" member="yes">
+		<object class="wxButton" name="ID_BUTTONSEARCHAVRDUDEPATH" variable="ButtonSearchavrdudepath" member="yes">
 			<label>...</label>
 			<pos>400,216</pos>
 			<size>40,23</size>

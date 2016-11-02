@@ -22,11 +22,11 @@ class DefaultFrame: public wxFrame
 
 		//(*Declarations(DefaultFrame)
 		wxStaticText* StaticText2;
-		wxButton* Button1;
-		wxButton* Enter;
+		wxButton* ButtonEnter;
 		wxStaticText* StaticText1;
 		wxStaticText* StaticText3;
 		wxButton* ButtonSearchavrdudepath;
+		wxButton* ButtonEsc;
 		wxComboBox* ComboBox3;
 		wxStaticText* StaticText5;
 		wxComboBox* ComboBox1;
@@ -40,37 +40,24 @@ class DefaultFrame: public wxFrame
 		static const long ID_COMBOBOX1;
 		static const long ID_COMBOBOX2;
 		static const long ID_STATICTEXT1;
-		static const long ID_BUTTON1;
+		static const long ID_BUTTONENTER;
 		static const long ID_STATICTEXT2;
 		static const long ID_COMBOBOX3;
 		static const long ID_STATICTEXT3;
 		static const long ID_STATICTEXT5;
 		static const long ID_TEXTCTRL1;
-		static const long ID_BUTTON2;
-		static const long ID_BUTTON3;
+		static const long ID_BUTTONESC;
+		static const long ID_BUTTONSEARCHAVRDUDEPATH;
 		//*)
 		wxWindow * Parent;
 
 	private:
 
 		//(*Handlers(DefaultFrame)
-		void OnComboBox1Selected(wxCommandEvent& event);
-		void OnEnterClick(wxCommandEvent& event);
-		void OnComboBox2Selected(wxCommandEvent& event);
-		void OnClose(wxCloseEvent& event);
-		void OnCheckListBox1Toggled(wxCommandEvent& event);
-		void OnEnterWindow(wxMouseEvent& event);
 		void OnButton1Click(wxCommandEvent& event);
-		void OnClose1(wxCloseEvent& event);
-		void OnComboBox4Selected(wxCommandEvent& event);
-		void OnPanel1Paint(wxPaintEvent& event);
-		void OnTextCtrl1Text(wxCommandEvent& event);
-		void OnComboBox2Selected1(wxCommandEvent& event);
-		void OnComboBox3Selected(wxCommandEvent& event);
-		void OnButton1Click1(wxCommandEvent& event);
 		void OnButtonSearchavrdudepathClick(wxCommandEvent& event);
-		void TransfertConfig();
-		void OnPaint(wxPaintEvent& event);
+		void OnButtonEscClick(wxCommandEvent& event);
+		void OnButtonEnterClick(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

@@ -4783,7 +4783,7 @@
 1478001446 source:a:\cb\nextsteprc_desktop\resource.rc
 	"wx/msw/wx.rc"
 
-1478039858 source:a:\cb\nextsteprc_desktop\defaultframe.cpp
+1478121574 source:a:\cb\nextsteprc_desktop\defaultframe.cpp
 	"DefaultFrame.h"
 	<wx/msgdlg.h>
 	<wx/combo.h>
@@ -4793,11 +4793,12 @@
 	<wx/textfile.h>
 	<wx/filename.h>
 	<wx/filedlg.h>
+	<wx/settings.h>
 	<wx/intl.h>
 	<wx/string.h>
 	"NextStepRc_DesktopMain.h"
 
-1478037374 a:\cb\nextsteprc_desktop\defaultframe.h
+1478121378 a:\cb\nextsteprc_desktop\defaultframe.h
 	<wx/combobox.h>
 	<wx/string.h>
 	<wx/stattext.h>
@@ -4808,7 +4809,7 @@
 
 1456691618 c:\nextsteprc_builder\wxwidgets-3.1.0\lib\gcc_dll\mswud\wx\setup.h
 
-1478039678 a:\cb\nextsteprc_desktop\nextsteprc_desktopmain.h
+1478120622 a:\cb\nextsteprc_desktop\nextsteprc_desktopmain.h
 	<wx/menu.h>
 	<wx/panel.h>
 	<wx/button.h>
@@ -4844,7 +4845,7 @@
 1478001446 a:\cb\nextsteprc_desktop\nextsteprc_desktopapp.h
 	<wx/app.h>
 
-1478040036 source:a:\cb\nextsteprc_desktop\nextsteprc_desktopmain.cpp
+1478121872 source:a:\cb\nextsteprc_desktop\nextsteprc_desktopmain.cpp
 	"NextStepRc_DesktopMain.h"
 	<wx/msgdlg.h>
 	"DefaultFrame.h"
@@ -4861,7 +4862,6 @@
 	<wx/menu.h>
 	<wx/textctrl.h>
 	<wx/dialog.h>
-	<wx/log.h>
 	<wx/intl.h>
 	<wx/string.h>
 

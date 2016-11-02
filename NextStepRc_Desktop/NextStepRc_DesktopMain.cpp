@@ -23,7 +23,6 @@
 #include <wx/menu.h>
 #include <wx/textctrl.h>
 #include <wx/dialog.h>
-#include <wx/log.h>
 
 
 //(*InternalHeaders(NextStepRc_DesktopFrame)
@@ -58,6 +57,8 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 
     return wxbuild;
 }
+
+bool Ini_Changed = false;
 
 wxString avrdudepath = _("non défini");
 wxString dude_programmer = _("non défini");
@@ -96,7 +97,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     wxMenu* Menu1;
     wxMenu* Menu2;
 
-    Create(parent, id, _("NextStepRc Desktop"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("id"));
+    Create(0, id, _("NextStepRc Desktop"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("id"));
     SetClientSize(wxSize(589,282));
     Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(240,40), wxSize(576,280), 0, _T("ID_PANEL1"));
     Panel1->SetFocus();
@@ -119,16 +120,16 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Menu4->Append(MenuItem7);
     Menu4->AppendSeparator();
     MenuItem8 = new wxMenu();
-    MenuItem10 = new wxMenuItem(MenuItem8, ID_MENUITEM9, _("Écrire les fusées"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem10 = new wxMenuItem(MenuItem8, ID_MENUITEM9, _("Écrire les fusibles"), wxEmptyString, wxITEM_NORMAL);
     MenuItem8->Append(MenuItem10);
     MenuItem11 = new wxMenuItem(MenuItem8, ID_MENUITEM10, _("Écrire le bootloader"), wxEmptyString, wxITEM_NORMAL);
     MenuItem8->Append(MenuItem11);
     Menu4->Append(ID_MENUITEM7, _("Bootloader"), MenuItem8, wxEmptyString);
     MenuBar_main->Append(Menu4, _("Lire/Écrire"));
     Menu3 = new wxMenu();
-    MenuItem3 = new wxMenuItem(Menu3, ID_MENUITEM1, _("Comm settings"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem3 = new wxMenuItem(Menu3, ID_MENUITEM1, _("Programmeur"), wxEmptyString, wxITEM_NORMAL);
     Menu3->Append(MenuItem3);
-    MenuBar_main->Append(Menu3, _("Comm"));
+    MenuBar_main->Append(Menu3, _("Paramètres"));
     Menu7 = new wxMenu();
     MenuBar_main->Append(Menu7, _("Compilateur"));
     Menu6 = new wxMenu();
@@ -144,10 +145,6 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     StatusBar_main->SetFieldsCount(1,__wxStatusBarWidths_1);
     StatusBar_main->SetStatusStyles(1,__wxStatusBarStyles_1);
     SetStatusBar(StatusBar_main);
-        //INI File
-    wxString ini_filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "NExtStepRCSIMU.INI";
-    wxFileConfig* configFile = new wxFileConfig( "", "", ini_filename);
-
 
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnSimulateurClick2);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnQuit);
@@ -159,9 +156,31 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_MENUITEM10,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnEcrirelebootloaderSelected);
     Connect(ID_MENUITEM1,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnProgrammerSelected);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnAbout);
+    Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnClose);
     //*)
 
+    //Const
+    dude_c = (" -c ");
+    dude_p = (" -p ");
+    dude_D = (" -D ");
+    dude_P = (" -P ");
+    dude_space = (" ");
+    dude_U = (" -U ");
+    dude_eeprom = ("eeprom:");
+    dude_flash = ("flash:");
+    dude_raw = (":r");
+    dude_write = ("w:");
+    dude_verify = (" -v ");
+    dude_read = ("r:");
+    dude_intel = (":i");
+    keepopen = ("cmd /k ");
 
+
+    //Ini File
+    Ini_Filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "NextStepRcDesktop.ini";
+    configFile = new wxFileConfig( "", "", Ini_Filename);
+    LoadConfig();
+    if (avrdudepath == _("non défini")) wxMessageBox( _("Merci de vérifier les paramètres") , _("Programmeur :"), wxICON_WARNING);
 }
 
 
@@ -178,7 +197,7 @@ void NextStepRc_DesktopFrame::OnQuit(wxCommandEvent& event)
 
 void NextStepRc_DesktopFrame::OnAbout(wxCommandEvent& event)
 {
-    wxString msg ="NestStepRc_Desktop V0.003 Merci Miguel !";
+    wxString msg ="NestStepRc_Desktop V0.3B Merci Miguel !";
     wxMessageBox(msg, _("Bienvenue dans ..."));
 }
 
@@ -306,16 +325,15 @@ void NextStepRc_DesktopFrame::OnEcrirelebootloaderSelected(wxCommandEvent& event
 
 void NextStepRc_DesktopFrame::LoadConfig()
 {
-    configFile->Read(wxT("Programmer"),dude_programmer);
-    configFile->Read(wxT("Port"),dude_port);
+    configFile->Read("Programmer",&dude_programmer);
+    configFile->Read(wxT("Port"),&dude_port);
     configFile->Read(wxT("Type"),&dude_type);
     configFile->Read(wxT("avrdudepath"),&avrdudepath);
-
 }
 
 void NextStepRc_DesktopFrame::SaveConfig()
 {
-    wxLogMessage(_("Les paramètres sont sauvé dans :"), configFile->GetPath());
+    wxMessageBox( Ini_Filename, _("Les paramètres sont sauvé dans :"));
 
     configFile->Write(wxT("Programmer"),dude_programmer);
     configFile->Write(wxT("Port"),dude_port);
@@ -326,7 +344,13 @@ void NextStepRc_DesktopFrame::SaveConfig()
 
 void NextStepRc_DesktopFrame::OnSimulateurClick2(wxCommandEvent& event)
 {
-    wxString simu("NextStepRc_Builder\\NextStepRc_Simulator.exe");
+    wxString simu("NextStepRc_Simulator.exe");
     wxExecute(simu);
 }
 
+
+void NextStepRc_DesktopFrame::OnClose(wxCloseEvent& event)
+{
+    if (Ini_Changed) SaveConfig();
+    Destroy();
+}

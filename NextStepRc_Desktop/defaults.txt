@@ -1,4 +1,0 @@
-stk500v2
-com3
-m2560
-C:\Users\Christophe\Desktop\Mega2560\avrdudess_20140805

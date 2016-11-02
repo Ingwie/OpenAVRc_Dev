@@ -3,6 +3,8 @@
 	<object class="wxFrame" name="NextStepRc_DesktopFrame">
 		<title>NextStepRc Desktop</title>
 		<size>589,282</size>
+		<parent_arg>0</parent_arg>
+		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>240,40</pos>
 			<size>576,280</size>
@@ -49,7 +51,7 @@
 				<object class="wxMenu" name="ID_MENUITEM7" variable="MenuItem8" member="yes">
 					<label>Bootloader</label>
 					<object class="wxMenuItem" name="ID_MENUITEM9" variable="MenuItem10" member="yes">
-						<label>Écrire les fusées</label>
+						<label>Écrire les fusibles</label>
 						<handler function="OnEcrirelesFuseesSelected" entry="EVT_MENU" />
 					</object>
 					<object class="wxMenuItem" name="ID_MENUITEM10" variable="MenuItem11" member="yes">
@@ -59,9 +61,9 @@
 				</object>
 			</object>
 			<object class="wxMenu" variable="Menu3" member="yes">
-				<label>Comm</label>
+				<label>Paramètres</label>
 				<object class="wxMenuItem" name="ID_MENUITEM1" variable="MenuItem3" member="yes">
-					<label>Comm settings</label>
+					<label>Programmeur</label>
 					<handler function="OnProgrammerSelected" entry="EVT_MENU" />
 				</object>
 			</object>

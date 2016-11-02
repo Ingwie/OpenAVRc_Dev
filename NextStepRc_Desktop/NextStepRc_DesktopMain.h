@@ -30,9 +30,6 @@ public:
     NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id = -1);
     virtual ~NextStepRc_DesktopFrame();
 
-    void LoadConfig();
-    void SaveConfig();
-
     wxFileConfig* configFile;
 
 
@@ -52,8 +49,8 @@ private:
     void OnWriteFirmwareToRadioSelected(wxCommandEvent& event);
     void OnButton1Click1(wxCommandEvent& event);
     void OnSimulateurClick2(wxCommandEvent& event);
-    void OnPanel1Paint(wxPaintEvent& event);
-    void OnPanel1Paint1(wxPaintEvent& event);
+    void LoadConfig();
+    void SaveConfig();
     void OnClose(wxCloseEvent& event);
     //*)
 
@@ -92,20 +89,22 @@ private:
     wxMenu* Menu4;
     //*)
 
-    wxString dude_c = (" -c ");
-    wxString dude_p = (" -p ");
-    wxString dude_D = (" -D ");
-    wxString dude_P = (" -P "); //same as _p ?????
-    wxString dude_space = (" ");
-    wxString dude_U = (" -U ");
-    wxString dude_eeprom = ("eeprom:");
-    wxString dude_flash = ("flash:");
-    wxString dude_raw = (":r");
-    wxString dude_write = ("w:");
-    wxString dude_verify = (" -v ");
-    wxString dude_read = ("r:");
-    wxString dude_intel = (":i");
-    wxString keepopen = ("cmd /k ");
+    wxString Ini_Filename;
+
+    wxString dude_c;
+    wxString dude_p;
+    wxString dude_D;
+    wxString dude_P;
+    wxString dude_space;
+    wxString dude_U;
+    wxString dude_eeprom;
+    wxString dude_flash;
+    wxString dude_raw;
+    wxString dude_write;
+    wxString dude_verify;
+    wxString dude_read;
+    wxString dude_intel;
+    wxString keepopen;
 
     DECLARE_EVENT_TABLE()
 };
