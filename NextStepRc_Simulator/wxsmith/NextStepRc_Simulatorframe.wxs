@@ -284,6 +284,36 @@
 					<handler function="OnQuit" entry="EVT_MENU" />
 				</object>
 			</object>
+			<object class="wxMenu" variable="Menu3" member="yes">
+				<label>&amp;Option</label>
+				<object class="wxMenu" name="ID_COLOUR" variable="MenuItem5" member="yes">
+					<label>Couleurs</label>
+					<object class="wxMenuItem" name="ID_LCDB" variable="MenuLcdBack" member="yes">
+						<label>Lcd (fond)</label>
+						<handler function="OnMenuLcdBackSelected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenuItem" name="ID_LCDF" variable="MenuLcdPixel" member="yes">
+						<label>Lcd (pixel)</label>
+						<handler function="OnMenuLcdPixelSelected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenuItem" name="ID_BUTOFF" variable="MenuButOff" member="yes">
+						<label>Boutons (off)</label>
+						<handler function="OnMenuButOffSelected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenuItem" name="ID_BUTON" variable="MenuButOn" member="yes">
+						<label>Boutons (on)</label>
+						<handler function="OnMenuButOnSelected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenuItem" name="ID_STICKB" variable="MenuStickBack" member="yes">
+						<label>Manches (fond)</label>
+						<handler function="OnMenuStickBackSelected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenuItem" name="ID_STICKF" variable="MenuStickStick" member="yes">
+						<label>Manches (stick)</label>
+						<handler function="OnMenuStickStickSelected" entry="EVT_MENU" />
+					</object>
+				</object>
+			</object>
 			<object class="wxMenu" variable="Menu2" member="no">
 				<label>&amp;Aide</label>
 				<object class="wxMenuItem" name="idMenuAbout" variable="MenuItem2" member="no">

@@ -14,6 +14,8 @@
 #include <wx/wfstream.h>
 #include <wx/log.h>
 #include <wx/file.h>
+#include <wx/colordlg.h>
+#include <wx/chartype.h>
 
 
 
@@ -58,6 +60,7 @@ wxString wxbuildinfo(wxbuildinfoformat format)
     return wxbuild;
 }
 
+bool Ini_Changed = false;
 
 //(*IdInit(NextStepRc_SimulatorFrame)
 const long NextStepRc_SimulatorFrame::ID_PANELH = wxNewId();
@@ -96,6 +99,13 @@ const long NextStepRc_SimulatorFrame::ID_PANEL1 = wxNewId();
 const long NextStepRc_SimulatorFrame::IdMenuOpenEE = wxNewId();
 const long NextStepRc_SimulatorFrame::IdMenuSaveEE = wxNewId();
 const long NextStepRc_SimulatorFrame::idMenuQuit = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_LCDB = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_LCDF = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_BUTOFF = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_BUTON = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_STICKB = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_STICKF = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_COLOUR = wxNewId();
 const long NextStepRc_SimulatorFrame::idMenuAbout = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_STATUSBAR = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_TIMER10MS = wxNewId();
@@ -222,6 +232,22 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter le simulateur"), wxITEM_NORMAL);
     Menu1->Append(MenuItem1);
     MenuBar1->Append(Menu1, _("&Fichier"));
+    Menu3 = new wxMenu();
+    MenuItem5 = new wxMenu();
+    MenuLcdBack = new wxMenuItem(MenuItem5, ID_LCDB, _("Lcd (fond)"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem5->Append(MenuLcdBack);
+    MenuLcdPixel = new wxMenuItem(MenuItem5, ID_LCDF, _("Lcd (pixel)"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem5->Append(MenuLcdPixel);
+    MenuButOff = new wxMenuItem(MenuItem5, ID_BUTOFF, _("Boutons (off)"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem5->Append(MenuButOff);
+    MenuButOn = new wxMenuItem(MenuItem5, ID_BUTON, _("Boutons (on)"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem5->Append(MenuButOn);
+    MenuStickBack = new wxMenuItem(MenuItem5, ID_STICKB, _("Manches (fond)"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem5->Append(MenuStickBack);
+    MenuStickStick = new wxMenuItem(MenuItem5, ID_STICKF, _("Manches (stick)"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem5->Append(MenuStickStick);
+    Menu3->Append(ID_COLOUR, _("Couleurs"), MenuItem5, wxEmptyString);
+    MenuBar1->Append(Menu3, _("&Option"));
     Menu2 = new wxMenu();
     MenuItem2 = new wxMenuItem(Menu2, idMenuAbout, _("A propos ...\tF1"), _("C\'est quoi donc \?"), wxITEM_NORMAL);
     Menu2->Append(MenuItem2);
@@ -282,15 +308,33 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Connect(IdMenuOpenEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnMenuLoadEeprom);
     Connect(IdMenuSaveEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnMenuItem4Selected);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnQuit);
+    Connect(ID_LCDB,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnMenuLcdBackSelected);
+    Connect(ID_LCDF,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnMenuLcdPixelSelected);
+    Connect(ID_BUTOFF,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnMenuButOffSelected);
+    Connect(ID_BUTON,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnMenuButOnSelected);
+    Connect(ID_STICKB,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnMenuStickBackSelected);
+    Connect(ID_STICKF,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnMenuStickStickSelected);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnAbout);
     Connect(ID_TIMER10MS,wxEVT_TIMER,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnTimer10msTrigger);
     Connect(ID_TIMERMAIN,wxEVT_TIMER,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnTimerMainTrigger);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnClose);
     //*)
 
-    //INI File
-    wxString ini_filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "NExtStepRCSIMU.INI";
-    wxFileConfig *configFile = new wxFileConfig( "", "", ini_filename);
+    //Ini File
+    Ini_Filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "NextStepRcSimulator.ini";
+    configFile = new wxFileConfig( "", "", Ini_Filename);
+    Col_Lcd_Back = *wxGREEN;
+    Col_Lcd_Front = *wxBLACK;
+    Col_Button_Off = *wxBLACK;
+    Col_Button_On = *wxWHITE;
+    Col_Stick_Back = *wxBLACK;
+    Col_Stick_Circle = *wxWHITE;
+
+    LoadConfig();
+    Lstick->SetForegroundColour(Col_Stick_Circle);
+    Rstick->SetForegroundColour(Col_Stick_Circle);
+    Lstick->SetBackgroundColour(Col_Stick_Back);
+    Rstick->SetBackgroundColour(Col_Stick_Back);
 
     //LCD var
     SimuLcdScale = 2;
@@ -411,10 +455,12 @@ const void NextStepRc_SimulatorFrame::DrawWxSimuLcd()
 {
     uint8_t *p;
     p = displayBuf;
-    wxBrush brush_back(*wxGREEN, wxBRUSHSTYLE_SOLID );
+    wxBrush brush_back(Col_Lcd_Back, wxBRUSHSTYLE_SOLID );
     SimuLcd_MemoryDC->SetBrush(brush_back);
     SimuLcd_MemoryDC->DrawRectangle(0,0,4+LCD_W*SimuLcdScale,4+LCD_H*SimuLcdScale);
-    wxBrush brush_top(*wxBLACK, wxBRUSHSTYLE_SOLID  );
+    wxBrush brush_top(Col_Lcd_Front, wxBRUSHSTYLE_SOLID );
+    wxPen pen_top(Col_Lcd_Front,1,wxPENSTYLE_SOLID);
+    SimuLcd_MemoryDC->SetPen(pen_top);
     SimuLcd_MemoryDC->SetBrush(brush_top);
 
     for (uint8_t y=0; y < (LCD_H / 8); y++)
@@ -496,11 +542,15 @@ void NextStepRc_SimulatorFrame::OnLstickMouseMove(wxMouseEvent& event)
         s_anaFilt[3] = (uint16_t)x;
         s_anaFilt[1] = (uint16_t)y;
 
-        wxBrush brush_Stick(*wxWHITE, wxBRUSHSTYLE_SOLID );
-        wxBrush brush_Back(*wxBLACK, wxBRUSHSTYLE_SOLID );
+        wxBrush brush_Stick(Col_Stick_Circle, wxBRUSHSTYLE_SOLID );
+        wxBrush brush_Back(Col_Stick_Back, wxBRUSHSTYLE_SOLID );
+        wxPen pen_Back(Col_Stick_Back,1,wxPENSTYLE_SOLID);
+        wxPen pen_Stick(Col_Stick_Circle,1,wxPENSTYLE_SOLID);
         wxClientDC dc(Lstick);
         dc.SetBrush(brush_Back);
+        dc.SetPen(pen_Back);
         dc.DrawCircle(x_mem,y_mem,8);
+        dc.SetPen(pen_Stick);
         dc.SetBrush(brush_Stick);
         dc.DrawCircle(pt.x,pt.y,8);
         x_mem = pt.x;
@@ -524,11 +574,15 @@ void NextStepRc_SimulatorFrame::OnRstickMouseMove(wxMouseEvent& event)
         s_anaFilt[0] = (uint16_t)x;
         s_anaFilt[2] = (uint16_t)y;
 
-        wxBrush brush_Stick(*wxWHITE, wxBRUSHSTYLE_SOLID );
-        wxBrush brush_Back(*wxBLACK, wxBRUSHSTYLE_SOLID );
+        wxBrush brush_Stick(Col_Stick_Circle, wxBRUSHSTYLE_SOLID );
+        wxBrush brush_Back(Col_Stick_Back, wxBRUSHSTYLE_SOLID );
+        wxPen pen_Back(Col_Stick_Back,1,wxPENSTYLE_SOLID);
+        wxPen pen_Stick(Col_Stick_Circle,1,wxPENSTYLE_SOLID);
         wxClientDC dc(Rstick);
         dc.SetBrush(brush_Back);
+        dc.SetPen(pen_Back);
         dc.DrawCircle(x_mem,y_mem,8);
+        dc.SetPen(pen_Stick);
         dc.SetBrush(brush_Stick);
         dc.DrawCircle(pt.x,pt.y,8);
         x_mem = pt.x;
@@ -571,6 +625,8 @@ void NextStepRc_SimulatorFrame::OnMenuItem4Selected(wxCommandEvent& event)
 void NextStepRc_SimulatorFrame::OnClose(wxCloseEvent& event)
 {
 
+    if (Ini_Changed) SaveConfig();
+
     if (OnTglButton->GetValue() && (!simu_off))
     {
         wxMessageBox( _("Merci d'éteindre le simulateur avant de quitter"), _("      NextStepRc Simulateur"));
@@ -601,7 +657,7 @@ void NextStepRc_SimulatorFrame::OnClose(wxCloseEvent& event)
     //delete PanelH;
     //delete PanelB;
 
-    delete SpinA;
+    /*delete SpinA;
     delete SpinB;
     delete SpinC;
     delete SpinD;
@@ -611,12 +667,37 @@ void NextStepRc_SimulatorFrame::OnClose(wxCloseEvent& event)
     delete SpinH;
     delete SpinJ;
     delete SpinK;
-    delete SpinL;
+    delete SpinL;*/
 
     if (SimuLcd_MemoryDC != NULL) delete SimuLcd_MemoryDC;
     if (SimuLcd_ClientDC != NULL)	delete SimuLcd_ClientDC;
 
     Destroy();
+}
+
+void NextStepRc_SimulatorFrame::LoadConfig()
+{
+    configFile->Read(wxT("Col_Lcd_Back"),&Col_Lcd_Back);
+    configFile->Read(wxT("Col_Lcd_Front"),&Col_Lcd_Front);
+    configFile->Read(wxT("Col_Button_Off"),&Col_Button_Off);
+    configFile->Read(wxT("Col_Button_On"),&Col_Button_On);
+    configFile->Read(wxT("Col_Stick_Back"),&Col_Stick_Back);
+    configFile->Read(wxT("Col_Stick_Circle"),&Col_Stick_Circle);
+
+}
+
+void NextStepRc_SimulatorFrame::SaveConfig()
+{
+    wxMessageBox( Ini_Filename, _("Les paramètres sont sauvé dans :"));
+
+    configFile->Write(wxT("Col_Lcd_Back"),Col_Lcd_Back);
+    configFile->Write(wxT("Col_Lcd_Front"),Col_Lcd_Front);
+    configFile->Write(wxT("Col_Button_Off"),Col_Button_Off);
+    configFile->Write(wxT("Col_Button_On"),Col_Button_On);
+    configFile->Write(wxT("Col_Stick_Back"),Col_Stick_Back);
+    configFile->Write(wxT("Col_Stick_Circle"),Col_Stick_Circle);
+
+    configFile->Flush();
 }
 
 //////////////////////////////VIRTUAL PIN WORD !! JOB /////////////////////////
@@ -814,92 +895,142 @@ void NextStepRc_SimulatorFrame::CheckInputs()
     s_anaFilt[5] = (uint16_t)Pot2->GetValue();
     s_anaFilt[6] = (uint16_t)Pot3->GetValue();
 
-    if (!SpinL->GetPin(4)) BPmenu->SetBackgroundColour(wxColour(* wxWHITE));
-    else BPmenu->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinL->GetPin(4)) BPmenu->SetBackgroundColour(Col_Button_On);
+    else BPmenu->SetBackgroundColour(Col_Button_Off);
     BPmenu->Refresh();
 
-    if (!SpinL->GetPin(5)) BPexit->SetBackgroundColour(wxColour(* wxWHITE));
-    else BPexit->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinL->GetPin(5)) BPexit->SetBackgroundColour(Col_Button_On);
+    else BPexit->SetBackgroundColour(Col_Button_Off);
     BPexit->Refresh();
 
-    if (!SpinL->GetPin(1)) BPh->SetBackgroundColour(wxColour(* wxWHITE));
-    else BPh->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinL->GetPin(1)) BPh->SetBackgroundColour(Col_Button_On);
+    else BPh->SetBackgroundColour(Col_Button_Off);
     BPh->Refresh();
 
-    if (!SpinL->GetPin(0)) BPb->SetBackgroundColour(wxColour(* wxWHITE));
-    else BPb->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinL->GetPin(0)) BPb->SetBackgroundColour(Col_Button_On);
+    else BPb->SetBackgroundColour(Col_Button_Off);
     BPb->Refresh();
 
-    if (!SpinL->GetPin(3)) BPg->SetBackgroundColour(wxColour(* wxWHITE));
-    else BPg->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinL->GetPin(3)) BPg->SetBackgroundColour(Col_Button_On);
+    else BPg->SetBackgroundColour(Col_Button_Off);
     BPg->Refresh();
 
-    if (!SpinL->GetPin(2)) BPd->SetBackgroundColour(wxColour(* wxWHITE));
-    else BPd->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinL->GetPin(2)) BPd->SetBackgroundColour(Col_Button_On);
+    else BPd->SetBackgroundColour(Col_Button_Off);
     BPd->Refresh();
 
-    if (!SpinF->GetPin(7)) LlTrim->SetBackgroundColour(wxColour(* wxWHITE));
-    else LlTrim->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinF->GetPin(7)) LlTrim->SetBackgroundColour(Col_Button_On);
+    else LlTrim->SetBackgroundColour(Col_Button_Off);
     LlTrim->Refresh();
 
-    if (!SpinF->GetPin(6)) LrTrim->SetBackgroundColour(wxColour(* wxWHITE));
-    else LrTrim->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinF->GetPin(6)) LrTrim->SetBackgroundColour(Col_Button_On);
+    else LrTrim->SetBackgroundColour(Col_Button_Off);
     LrTrim->Refresh();
 
-    if (!SpinF->GetPin(5)) LdTrim->SetBackgroundColour(wxColour(* wxWHITE));
-    else LdTrim->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinF->GetPin(5)) LdTrim->SetBackgroundColour(Col_Button_On);
+    else LdTrim->SetBackgroundColour(Col_Button_Off);
     LdTrim->Refresh();
 
-    if (!SpinF->GetPin(4)) LuTrim->SetBackgroundColour(wxColour(* wxWHITE));
-    else LuTrim->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinF->GetPin(4)) LuTrim->SetBackgroundColour(Col_Button_On);
+    else LuTrim->SetBackgroundColour(Col_Button_Off);
     LuTrim->Refresh();
 
-    if (!SpinF->GetPin(3)) RdTrim->SetBackgroundColour(wxColour(* wxWHITE));
-    else RdTrim->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinF->GetPin(3)) RdTrim->SetBackgroundColour(Col_Button_On);
+    else RdTrim->SetBackgroundColour(Col_Button_Off);
     RdTrim->Refresh();
 
-    if (!SpinF->GetPin(2)) RuTrim->SetBackgroundColour(wxColour(* wxWHITE));
-    else RuTrim->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinF->GetPin(2)) RuTrim->SetBackgroundColour(Col_Button_On);
+    else RuTrim->SetBackgroundColour(Col_Button_Off);
     RuTrim->Refresh();
 
-    if (!SpinF->GetPin(1)) RlTrim->SetBackgroundColour(wxColour(* wxWHITE));
-    else RlTrim->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinF->GetPin(1)) RlTrim->SetBackgroundColour(Col_Button_On);
+    else RlTrim->SetBackgroundColour(Col_Button_Off);
     RlTrim->Refresh();
 
-    if (!SpinF->GetPin(0)) RrTrim->SetBackgroundColour(wxColour(* wxWHITE));
-    else RrTrim->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinF->GetPin(0)) RrTrim->SetBackgroundColour(Col_Button_On);
+    else RrTrim->SetBackgroundColour(Col_Button_Off);
     RrTrim->Refresh();
 
-    if (!SpinG->GetPin(2)) PbThr->SetBackgroundColour(wxColour(* wxWHITE));
-    else PbThr->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinG->GetPin(2)) PbThr->SetBackgroundColour(Col_Button_On);
+    else PbThr->SetBackgroundColour(Col_Button_Off);
     PbThr->Refresh();
 
-    if (!SpinG->GetPin(0)) BpRud->SetBackgroundColour(wxColour(* wxWHITE));
-    else BpRud->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinG->GetPin(0)) BpRud->SetBackgroundColour(Col_Button_On);
+    else BpRud->SetBackgroundColour(Col_Button_Off);
     BpRud->Refresh();
 
-    if (!SpinL->GetPin(6)) BpEle->SetBackgroundColour(wxColour(* wxWHITE));
-    else BpEle->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinL->GetPin(6)) BpEle->SetBackgroundColour(Col_Button_On);
+    else BpEle->SetBackgroundColour(Col_Button_Off);
     BpEle->Refresh();
 
-    if (!SpinD->GetPin(7)) BpAil->SetBackgroundColour(wxColour(* wxWHITE));
-    else BpAil->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinD->GetPin(7)) BpAil->SetBackgroundColour(Col_Button_On);
+    else BpAil->SetBackgroundColour(Col_Button_Off);
     BpAil->Refresh();
 
-    if (!SpinG->GetPin(1)) BpGea->SetBackgroundColour(wxColour(* wxWHITE));
-    else BpGea->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinG->GetPin(1)) BpGea->SetBackgroundColour(Col_Button_On);
+    else BpGea->SetBackgroundColour(Col_Button_Off);
     BpGea->Refresh();
 
-    if (!SpinL->GetPin(7)) BpTrn->SetBackgroundColour(wxColour(* wxWHITE));
-    else BpTrn->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinL->GetPin(7)) BpTrn->SetBackgroundColour(Col_Button_On);
+    else BpTrn->SetBackgroundColour(Col_Button_Off);
     BpTrn->Refresh();
 
-    if (!SpinC->GetPin(0)) BpId1->SetBackgroundColour(wxColour(* wxWHITE));
-    else BpId1->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinC->GetPin(0)) BpId1->SetBackgroundColour(Col_Button_On);
+    else BpId1->SetBackgroundColour(Col_Button_Off);
     BpId1->Refresh();
 
-    if (!SpinC->GetPin(1)) BpId2->SetBackgroundColour(wxColour(* wxWHITE));
-    else BpId2->SetBackgroundColour(wxColour(* wxBLACK));
+    if (!SpinC->GetPin(1)) BpId2->SetBackgroundColour(Col_Button_On);
+    else BpId2->SetBackgroundColour(Col_Button_Off);
     BpId2->Refresh();
 }
 
+///// UTILS ///////////
+
+wxColour NextStepRc_SimulatorFrame::SetColour()
+{
+    wxColourDialog ColourDlg(this);
+    ColourDlg.GetColourData().SetChooseFull(true);
+    if (ColourDlg.ShowModal() == wxID_OK)
+    {
+       Ini_Changed = true;
+        return ColourDlg.GetColourData().GetColour().GetAsString();
+    }
+}
+
+void NextStepRc_SimulatorFrame::OnMenuLcdBackSelected(wxCommandEvent& event)
+{
+    Col_Lcd_Back = SetColour();
+    DrawWxSimuLcd();
+}
+
+void NextStepRc_SimulatorFrame::OnMenuLcdPixelSelected(wxCommandEvent& event)
+{
+    Col_Lcd_Front = SetColour();
+    DrawWxSimuLcd();
+}
+
+void NextStepRc_SimulatorFrame::OnMenuButOffSelected(wxCommandEvent& event)
+{
+    Col_Button_Off = SetColour();
+}
+
+void NextStepRc_SimulatorFrame::OnMenuButOnSelected(wxCommandEvent& event)
+{
+    Col_Button_On = SetColour();
+}
+
+void NextStepRc_SimulatorFrame::OnMenuStickBackSelected(wxCommandEvent& event)
+{
+    Col_Stick_Back = SetColour();
+    Lstick->SetBackgroundColour(Col_Stick_Back);
+    Rstick->SetBackgroundColour(Col_Stick_Back);
+    Lstick->Refresh();
+    Rstick->Refresh();
+}
+
+void NextStepRc_SimulatorFrame::OnMenuStickStickSelected(wxCommandEvent& event)
+{
+    Col_Stick_Circle = SetColour();
+    Lstick->SetForegroundColour(Col_Stick_Circle);
+    Rstick->SetForegroundColour(Col_Stick_Circle);
+}

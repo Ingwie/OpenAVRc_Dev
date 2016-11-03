@@ -119,7 +119,16 @@ private:
     void OnBpAilLeftDown(wxMouseEvent& event);
     void OnMenuItem4Selected(wxCommandEvent& event);
     void OnLstickPaint(wxPaintEvent& event);
+    wxColour SetColour();
+    void LoadConfig();
+    void SaveConfig();
     void OnClose(wxCloseEvent& event);
+    void OnMenuLcdBackSelected(wxCommandEvent& event);
+    void OnMenuLcdPixelSelected(wxCommandEvent& event);
+    void OnMenuButOffSelected(wxCommandEvent& event);
+    void OnMenuButOnSelected(wxCommandEvent& event);
+    void OnMenuStickBackSelected(wxCommandEvent& event);
+    void OnMenuStickStickSelected(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(NextStepRc_SimulatorFrame)
@@ -159,6 +168,13 @@ private:
     static const long IdMenuOpenEE;
     static const long IdMenuSaveEE;
     static const long idMenuQuit;
+    static const long ID_LCDB;
+    static const long ID_LCDF;
+    static const long ID_BUTOFF;
+    static const long ID_BUTON;
+    static const long ID_STICKB;
+    static const long ID_STICKF;
+    static const long ID_COLOUR;
     static const long idMenuAbout;
     static const long ID_STATUSBAR;
     static const long ID_TIMER10MS;
@@ -166,8 +182,19 @@ private:
     //*)
 
     //(*Variables(NextStepRc_SimulatorFrame)
+    wxFileConfig* configFile;
+    wxString Ini_Filename;
 
-    wxFileConfig configFile;
+    wxColour Col_Lcd_Back;
+    wxColour Col_Lcd_Front;
+    wxColour Col_Button_Off;
+    wxColour Col_Button_On;
+    wxColour Col_Stick_Back;
+    wxColour Col_Stick_Circle;
+
+
+
+
     uint8_t SimuLcdScale;
     wxClientDC* SimuLcd_ClientDC;
     wxBitmap SimuLcd_Bitmap;
@@ -193,6 +220,7 @@ private:
     wxPanel* BpId2;
     wxPanel* BPg;
     wxTimer Timer10ms;
+    wxMenuItem* MenuStickBack;
     wxPanel* RrTrim;
     wxPanel* LdTrim;
     wxPanel* RdTrim;
@@ -201,8 +229,10 @@ private:
     wxPanel* BpRud;
     wxPanel* BPexit;
     wxPanel* BpEle;
+    wxMenu* Menu3;
     wxSlider* Pot1;
     wxPanel* PanelH;
+    wxMenuItem* MenuLcdPixel;
     wxMenuItem* MenuItem4;
     wxPanel* BPd;
     wxPanel* BPmenu;
@@ -212,7 +242,9 @@ private:
     wxPanel* PbThr;
     wxPanel* Simulcd;
     wxPanel* BPh;
+    wxMenuItem* MenuStickStick;
     wxPanel* BpAil;
+    wxMenuItem* MenuLcdBack;
     wxSlider* Pot3;
     wxMenuItem* MenuItem3;
     wxPanel* BPb;
@@ -223,6 +255,9 @@ private:
     wxTimer TimerMain;
     wxPanel* Rstick;
     wxPanel* RlTrim;
+    wxMenuItem* MenuButOn;
+    wxMenuItem* MenuButOff;
+    wxMenu* MenuItem5;
     wxPanel* LuTrim;
     wxPanel* BpId1;
     wxStatusBar* StatusBar;
