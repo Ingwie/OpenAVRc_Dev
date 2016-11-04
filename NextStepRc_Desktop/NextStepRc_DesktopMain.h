@@ -30,8 +30,6 @@ public:
     NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id = -1);
     virtual ~NextStepRc_DesktopFrame();
 
-    wxFileConfig* configFile;
-
 
 private:
 
@@ -89,6 +87,7 @@ private:
     wxMenu* Menu4;
     //*)
 
+    wxFileConfig* configFile;
     wxString Ini_Filename;
 
     wxString dude_c;

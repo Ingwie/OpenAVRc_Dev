@@ -94,6 +94,8 @@ const long NextStepRc_SimulatorFrame::ID_PANEL19 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANEL20 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANEL13 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_LSTICK = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_SPINREA = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_SPINREB = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANELMAIN = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANEL1 = wxNewId();
 const long NextStepRc_SimulatorFrame::IdMenuOpenEE = wxNewId();
@@ -105,7 +107,7 @@ const long NextStepRc_SimulatorFrame::ID_BUTOFF = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_BUTON = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_STICKB = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_STICKF = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_COLOUR = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_COLOURS = wxNewId();
 const long NextStepRc_SimulatorFrame::idMenuAbout = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_STATUSBAR = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_TIMER10MS = wxNewId();
@@ -135,20 +137,20 @@ bool wxBackgroundBitmap::ProcessEvent(wxEvent &Event)
 NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
 {
     //(*Initialize(NextStepRc_SimulatorFrame)
-    wxMenuItem* MenuItem2;
+    wxMenu* MenuHelp;
+    wxMenuItem* MenuAbout;
     wxMenuItem* MenuItem1;
     wxMenu* Menu1;
     wxMenuBar* MenuBar1;
-    wxMenu* Menu2;
 
     Create(parent, wxID_ANY, _("Simulateur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER, _T("wxID_ANY"));
     SetClientSize(wxSize(787,415));
     Move(wxPoint(25,25));
     SetMaxSize(wxSize(-1,-1));
     {
-    	wxIcon FrameIcon;
-    	FrameIcon.CopyFromBitmap(avatarnext);
-    	SetIcon(FrameIcon);
+        wxIcon FrameIcon;
+        FrameIcon.CopyFromBitmap(avatarnext);
+        SetIcon(FrameIcon);
     }
     PanelPrincipal = new wxPanel(this, ID_PANEL1, wxPoint(424,216), wxSize(777,400), wxRAISED_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     PanelH = new wxPanel(PanelPrincipal, ID_PANELH, wxPoint(0,0), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELH"));
@@ -223,35 +225,41 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Lstick = new wxPanel(PanelMain, ID_LSTICK, wxPoint(60,32), wxSize(158,158), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_LSTICK"));
     Lstick->SetForegroundColour(wxColour(255,0,0));
     Lstick->SetBackgroundColour(wxColour(0,0,0));
+    SpinRea = new wxSpinButton(PanelMain, ID_SPINREA, wxPoint(14,12), wxDefaultSize, wxSP_HORIZONTAL|wxSP_WRAP|wxSTATIC_BORDER, _T("ID_SPINREA"));
+    SpinRea->SetRange(-100, 100);
+    SpinRea->SetToolTip(_("Rea"));
+    SpinReb = new wxSpinButton(PanelMain, ID_SPINREB, wxPoint(732,12), wxDefaultSize, wxSP_HORIZONTAL|wxSP_WRAP|wxSTATIC_BORDER, _T("ID_SPINREB"));
+    SpinReb->SetRange(-100, 100);
+    SpinReb->SetToolTip(_("Reb"));
     MenuBar1 = new wxMenuBar();
     Menu1 = new wxMenu();
-    MenuItem3 = new wxMenuItem(Menu1, IdMenuOpenEE, _("Charger Eeprom"), _("Charger fichier BIN"), wxITEM_NORMAL);
-    Menu1->Append(MenuItem3);
-    MenuItem4 = new wxMenuItem(Menu1, IdMenuSaveEE, _("Sauver Eeprom"), _("Sauvegarde du fichier BIN"), wxITEM_NORMAL);
-    Menu1->Append(MenuItem4);
+    MenuLoadee = new wxMenuItem(Menu1, IdMenuOpenEE, _("Charger Eeprom"), _("Charger fichier BIN"), wxITEM_NORMAL);
+    Menu1->Append(MenuLoadee);
+    MenuSaveee = new wxMenuItem(Menu1, IdMenuSaveEE, _("Sauver Eeprom"), _("Sauvegarde du fichier BIN"), wxITEM_NORMAL);
+    Menu1->Append(MenuSaveee);
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter le simulateur"), wxITEM_NORMAL);
     Menu1->Append(MenuItem1);
     MenuBar1->Append(Menu1, _("&Fichier"));
     Menu3 = new wxMenu();
-    MenuItem5 = new wxMenu();
-    MenuLcdBack = new wxMenuItem(MenuItem5, ID_LCDB, _("Lcd (fond)"), wxEmptyString, wxITEM_NORMAL);
-    MenuItem5->Append(MenuLcdBack);
-    MenuLcdPixel = new wxMenuItem(MenuItem5, ID_LCDF, _("Lcd (pixel)"), wxEmptyString, wxITEM_NORMAL);
-    MenuItem5->Append(MenuLcdPixel);
-    MenuButOff = new wxMenuItem(MenuItem5, ID_BUTOFF, _("Boutons (off)"), wxEmptyString, wxITEM_NORMAL);
-    MenuItem5->Append(MenuButOff);
-    MenuButOn = new wxMenuItem(MenuItem5, ID_BUTON, _("Boutons (on)"), wxEmptyString, wxITEM_NORMAL);
-    MenuItem5->Append(MenuButOn);
-    MenuStickBack = new wxMenuItem(MenuItem5, ID_STICKB, _("Manches (fond)"), wxEmptyString, wxITEM_NORMAL);
-    MenuItem5->Append(MenuStickBack);
-    MenuStickStick = new wxMenuItem(MenuItem5, ID_STICKF, _("Manches (stick)"), wxEmptyString, wxITEM_NORMAL);
-    MenuItem5->Append(MenuStickStick);
-    Menu3->Append(ID_COLOUR, _("Couleurs"), MenuItem5, wxEmptyString);
+    MenuColours = new wxMenu();
+    MenuLcdBack = new wxMenuItem(MenuColours, ID_LCDB, _("Lcd (fond)"), wxEmptyString, wxITEM_NORMAL);
+    MenuColours->Append(MenuLcdBack);
+    MenuLcdPixel = new wxMenuItem(MenuColours, ID_LCDF, _("Lcd (pixel)"), wxEmptyString, wxITEM_NORMAL);
+    MenuColours->Append(MenuLcdPixel);
+    MenuButOff = new wxMenuItem(MenuColours, ID_BUTOFF, _("Boutons (off)"), wxEmptyString, wxITEM_NORMAL);
+    MenuColours->Append(MenuButOff);
+    MenuButOn = new wxMenuItem(MenuColours, ID_BUTON, _("Boutons (on)"), wxEmptyString, wxITEM_NORMAL);
+    MenuColours->Append(MenuButOn);
+    MenuStickBack = new wxMenuItem(MenuColours, ID_STICKB, _("Manches (fond)"), wxEmptyString, wxITEM_NORMAL);
+    MenuColours->Append(MenuStickBack);
+    MenuStickStick = new wxMenuItem(MenuColours, ID_STICKF, _("Manches (stick)"), wxEmptyString, wxITEM_NORMAL);
+    MenuColours->Append(MenuStickStick);
+    Menu3->Append(ID_COLOURS, _("Couleurs"), MenuColours, wxEmptyString);
     MenuBar1->Append(Menu3, _("&Option"));
-    Menu2 = new wxMenu();
-    MenuItem2 = new wxMenuItem(Menu2, idMenuAbout, _("A propos ...\tF1"), _("C\'est quoi donc \?"), wxITEM_NORMAL);
-    Menu2->Append(MenuItem2);
-    MenuBar1->Append(Menu2, _("&Aide"));
+    MenuHelp = new wxMenu();
+    MenuAbout = new wxMenuItem(MenuHelp, idMenuAbout, _("A propos ...\tF1"), _("C\'est quoi donc \?"), wxITEM_NORMAL);
+    MenuHelp->Append(MenuAbout);
+    MenuBar1->Append(MenuHelp, _("&Aide"));
     SetMenuBar(MenuBar1);
     StatusBar = new wxStatusBar(this, ID_STATUSBAR, 0, _T("ID_STATUSBAR"));
     int __wxStatusBarWidths_1[3] = { -30, -10, -10 };
@@ -292,6 +300,7 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     BPb->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBPbLeftUp,0,this);
     BPd->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBPdLeftDown,0,this);
     BPd->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBPdLeftUp,0,this);
+    Rstick->Connect(wxEVT_PAINT,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnRstickPaint,0,this);
     Rstick->Connect(wxEVT_MOTION,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnRstickMouseMove,0,this);
     Simulcd->Connect(wxEVT_PAINT,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnwxsimulcdPaint,0,this);
     Simulcd->Connect(wxEVT_LEFT_DCLICK,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnSimulcdLeftDClick,0,this);
@@ -304,9 +313,10 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     BpGea->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpGeaLeftDown,0,this);
     BpId1->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpId1LeftDown,0,this);
     BpId2->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpId2LeftDown,0,this);
+    Lstick->Connect(wxEVT_PAINT,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnLstickPaint,0,this);
     Lstick->Connect(wxEVT_MOTION,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnLstickMouseMove,0,this);
     Connect(IdMenuOpenEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnMenuLoadEeprom);
-    Connect(IdMenuSaveEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnMenuItem4Selected);
+    Connect(IdMenuSaveEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnMenuSaveeeSelected);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnQuit);
     Connect(ID_LCDB,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnMenuLcdBackSelected);
     Connect(ID_LCDF,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnMenuLcdPixelSelected);
@@ -414,6 +424,14 @@ void NextStepRc_SimulatorFrame::StartFirmwareCode()
     TimerMain.Start(1, false); // Simulate ?mS cycle for mainloop function
 }
 
+void NextStepRc_SimulatorFrame::ResetSimu()
+{
+    for (int i=0; i<(sizeof(displayBuf)); ++i) displayBuf[i] = 0xFF;
+    DrawWxSimuLcd();
+}
+
+
+
 void NextStepRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
 {
     if (!OnTglButton->GetValue())
@@ -430,10 +448,11 @@ void NextStepRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
         ChronoMain->Pause();
         StatusBar->SetStatusText(_T("MAIN ")+Chronoval.ToString()+_T(" uS"),1);
     }
-    if (simu_off)
+    if ((simu_off) && (!simu_mainloop_is_runing))
     {
         TimerMain.Stop();
         Timer10ms.Stop();
+        ResetSimu();
     }
 
 }
@@ -445,6 +464,9 @@ void NextStepRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
     if (!simu_off)
     {
         TIMER_10MS_VECT();
+    }
+    else
+    {
     }
     Chronoval = Chrono10ms->TimeInMicro();
     Chrono10ms->Pause();
@@ -505,17 +527,23 @@ void NextStepRc_SimulatorFrame::OnwxsimulcdPaint(wxPaintEvent& event)
 
 void NextStepRc_SimulatorFrame::LoadEeprom()
 {
+    if (Timer10ms.IsRunning())
+    {
+        wxLogError(_T("Impossible : Simulateur en fonctionnement"));
+        return;
+    }
     wxFileDialog openFileDialog(this, _("Ouvrir Fichier BIN"), "", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL) return;
     wxFileInputStream input_stream(openFileDialog.GetPath());
     if (!input_stream.IsOk())
     {
-        wxLogError("Impossible d'ouvrir le fichier '%s'.", openFileDialog.GetPath());
+        wxLogError(_T("Impossible d'ouvrir le fichier '%s'."), openFileDialog.GetPath());
         return;
     }
     wxFile bin_file(openFileDialog.GetPath());
     if(bin_file.IsOpened())
     {
+        for (int i=0; i<(sizeof(simu_eeprom)); ++i) simu_eeprom[i] = 0;
         bin_file.Read(&simu_eeprom[0], EESIZE);
         bin_file.Close();
     }
@@ -526,9 +554,25 @@ void NextStepRc_SimulatorFrame::OnMenuLoadEeprom(wxCommandEvent& event)
     LoadEeprom();
 }
 
+void NextStepRc_SimulatorFrame::PaintSticks(int x, int y, int x_mem, int y_mem, wxPanel* stick)
+{
+    wxBrush brush_Stick(Col_Stick_Circle, wxBRUSHSTYLE_SOLID );
+    wxBrush brush_Back(Col_Stick_Back, wxBRUSHSTYLE_SOLID );
+    wxPen pen_Back(Col_Stick_Back,1,wxPENSTYLE_SOLID);
+    wxPen pen_Stick(Col_Stick_Circle,1,wxPENSTYLE_SOLID);
+    wxClientDC dc(stick);
+    dc.SetBrush(brush_Back);
+    dc.SetPen(pen_Back);
+    dc.DrawCircle(x_mem,y_mem,8);
+    dc.SetPen(pen_Stick);
+    dc.SetBrush(brush_Stick);
+    dc.DrawCircle(x,y,8);
+}
+
 void NextStepRc_SimulatorFrame::OnLstickMouseMove(wxMouseEvent& event)
 {
-    static int x_mem,y_mem = 100;
+    static int x_mem = (Lstick->GetSize().GetWidth())/2;
+    static int y_mem = (Lstick->GetSize().GetWidth())/2;
 
     int xmul = 2048000 / (Lstick->GetSize().GetWidth() - 5);
     int ymul = 2048000 / (Lstick->GetSize().GetHeight() -5);
@@ -541,18 +585,7 @@ void NextStepRc_SimulatorFrame::OnLstickMouseMove(wxMouseEvent& event)
     {
         s_anaFilt[3] = (uint16_t)x;
         s_anaFilt[1] = (uint16_t)y;
-
-        wxBrush brush_Stick(Col_Stick_Circle, wxBRUSHSTYLE_SOLID );
-        wxBrush brush_Back(Col_Stick_Back, wxBRUSHSTYLE_SOLID );
-        wxPen pen_Back(Col_Stick_Back,1,wxPENSTYLE_SOLID);
-        wxPen pen_Stick(Col_Stick_Circle,1,wxPENSTYLE_SOLID);
-        wxClientDC dc(Lstick);
-        dc.SetBrush(brush_Back);
-        dc.SetPen(pen_Back);
-        dc.DrawCircle(x_mem,y_mem,8);
-        dc.SetPen(pen_Stick);
-        dc.SetBrush(brush_Stick);
-        dc.DrawCircle(pt.x,pt.y,8);
+        PaintSticks( pt.x, pt.y, x_mem, y_mem, Lstick);
         x_mem = pt.x;
         y_mem = pt.y;
     };
@@ -560,10 +593,11 @@ void NextStepRc_SimulatorFrame::OnLstickMouseMove(wxMouseEvent& event)
 
 void NextStepRc_SimulatorFrame::OnRstickMouseMove(wxMouseEvent& event)
 {
-    static int x_mem,y_mem = 100;
+    static int x_mem = (Rstick->GetSize().GetWidth())/2;
+    static int y_mem = (Rstick->GetSize().GetWidth())/2;
 
-    int xmul = 2048000 / (Lstick->GetSize().GetWidth() - 5);
-    int ymul = 2048000 / (Lstick->GetSize().GetHeight() -5);
+    int xmul = 2048000 / (Rstick->GetSize().GetWidth() - 5);
+    int ymul = 2048000 / (Rstick->GetSize().GetHeight() -5);
     wxPoint pt(event.GetPosition());
     int x = (pt.x * xmul)/1000;
     int y = 2048 - (pt.y * ymul)/1000;
@@ -574,17 +608,7 @@ void NextStepRc_SimulatorFrame::OnRstickMouseMove(wxMouseEvent& event)
         s_anaFilt[0] = (uint16_t)x;
         s_anaFilt[2] = (uint16_t)y;
 
-        wxBrush brush_Stick(Col_Stick_Circle, wxBRUSHSTYLE_SOLID );
-        wxBrush brush_Back(Col_Stick_Back, wxBRUSHSTYLE_SOLID );
-        wxPen pen_Back(Col_Stick_Back,1,wxPENSTYLE_SOLID);
-        wxPen pen_Stick(Col_Stick_Circle,1,wxPENSTYLE_SOLID);
-        wxClientDC dc(Rstick);
-        dc.SetBrush(brush_Back);
-        dc.SetPen(pen_Back);
-        dc.DrawCircle(x_mem,y_mem,8);
-        dc.SetPen(pen_Stick);
-        dc.SetBrush(brush_Stick);
-        dc.DrawCircle(pt.x,pt.y,8);
+        PaintSticks( pt.x, pt.y, x_mem, y_mem, Rstick);
         x_mem = pt.x;
         y_mem = pt.y;
     };
@@ -606,7 +630,7 @@ void NextStepRc_SimulatorFrame::OnSimulcdLeftDClick(wxMouseEvent& event)
 }
 
 
-void NextStepRc_SimulatorFrame::OnMenuItem4Selected(wxCommandEvent& event)
+void NextStepRc_SimulatorFrame::OnMenuSaveeeSelected(wxCommandEvent& event)
 {
     wxFileDialog saveFileDialog(this, _("Sauver Eeprom"), "", "", "Fichier BIN (*.bin)|*.bin", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
     if (saveFileDialog.ShowModal() == wxID_CANCEL)
@@ -891,6 +915,48 @@ void NextStepRc_SimulatorFrame::OnBpId2LeftDown(wxMouseEvent& event)
 
 void NextStepRc_SimulatorFrame::CheckInputs()
 {
+    //Rea & Reb
+    if (SpinRea->GetValue() > 0)
+    {
+        SpinRea->SetValue(0);
+        SpinE->ResetPin(4);
+        SpinE->ResetPin(5);
+        INT5_vect();
+        SpinE->SetPin(4);
+        SpinE->SetPin(5);
+    }
+
+    if (SpinRea->GetValue() < 0)
+    {
+        SpinRea->SetValue(0);
+        SpinE->ResetPin(4);
+        SpinE->ResetPin(5);
+        INT4_vect();
+        SpinE->SetPin(4);
+        SpinE->SetPin(5);
+    }
+
+    if (SpinReb->GetValue() > 0)
+    {
+        SpinReb->SetValue(0);
+        SpinD->ResetPin(2);
+        SpinD->ResetPin(3);
+        INT3_vect();
+        SpinD->SetPin(2);
+        SpinD->SetPin(3);
+    }
+
+    if (SpinReb->GetValue() < 0)
+    {
+        SpinReb->SetValue(0);
+        SpinD->ResetPin(2);
+        SpinD->ResetPin(3);
+        INT2_vect();
+        SpinD->SetPin(2);
+        SpinD->SetPin(3);
+    }
+
+    //Pots1,2&3
     s_anaFilt[4] = (uint16_t)Pot1->GetValue();
     s_anaFilt[5] = (uint16_t)Pot2->GetValue();
     s_anaFilt[6] = (uint16_t)Pot3->GetValue();
@@ -992,7 +1058,7 @@ wxColour NextStepRc_SimulatorFrame::SetColour()
     ColourDlg.GetColourData().SetChooseFull(true);
     if (ColourDlg.ShowModal() == wxID_OK)
     {
-       Ini_Changed = true;
+        Ini_Changed = true;
         return ColourDlg.GetColourData().GetColour().GetAsString();
     }
 }
@@ -1033,4 +1099,18 @@ void NextStepRc_SimulatorFrame::OnMenuStickStickSelected(wxCommandEvent& event)
     Col_Stick_Circle = SetColour();
     Lstick->SetForegroundColour(Col_Stick_Circle);
     Rstick->SetForegroundColour(Col_Stick_Circle);
+}
+
+
+void NextStepRc_SimulatorFrame::OnLstickPaint(wxPaintEvent& event)
+{
+    int pos = (Lstick->GetSize().GetWidth())/2;
+    PaintSticks(pos,pos,pos,pos,Lstick);
+}
+
+void NextStepRc_SimulatorFrame::OnRstickPaint(wxPaintEvent& event)
+{
+    int pos = (Rstick->GetSize().GetWidth())/2;
+    PaintSticks(pos,pos,pos,pos,Rstick);
+
 }

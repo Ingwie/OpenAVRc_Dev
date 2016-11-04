@@ -17,6 +17,7 @@
 #include <wx/panel.h>
 #include <wx/frame.h>
 #include <wx/timer.h>
+#include <wx/spinbutt.h>
 #include <wx/statusbr.h>
 //*)
 
@@ -63,8 +64,6 @@ private:
     void CheckInputs();
     void LoadEeprom();
     void OnMenuLoadEeprom(wxCommandEvent& event);
-    void OnButtonMenuClick(wxCommandEvent& event);
-    void OnButtonMenuClick1(wxCommandEvent& event);
     void OnPanel2Paint(wxPaintEvent& event);
     void OnPanel2LeftUp(wxMouseEvent& event);
     void OnPanel2LeftUp1(wxMouseEvent& event);
@@ -117,11 +116,11 @@ private:
     void OnBpRudLeftDown1(wxMouseEvent& event);
     void OnBpEleLeftDown(wxMouseEvent& event);
     void OnBpAilLeftDown(wxMouseEvent& event);
-    void OnMenuItem4Selected(wxCommandEvent& event);
-    void OnLstickPaint(wxPaintEvent& event);
     wxColour SetColour();
     void LoadConfig();
     void SaveConfig();
+    void ResetSimu();
+    void PaintSticks(int x, int y, int xm, int ym, wxPanel* stick);
     void OnClose(wxCloseEvent& event);
     void OnMenuLcdBackSelected(wxCommandEvent& event);
     void OnMenuLcdPixelSelected(wxCommandEvent& event);
@@ -129,6 +128,9 @@ private:
     void OnMenuButOnSelected(wxCommandEvent& event);
     void OnMenuStickBackSelected(wxCommandEvent& event);
     void OnMenuStickStickSelected(wxCommandEvent& event);
+    void OnMenuSaveeeSelected(wxCommandEvent& event);
+    void OnLstickPaint(wxPaintEvent& event);
+    void OnRstickPaint(wxPaintEvent& event);
     //*)
 
     //(*Identifiers(NextStepRc_SimulatorFrame)
@@ -163,6 +165,8 @@ private:
     static const long ID_PANEL20;
     static const long ID_PANEL13;
     static const long ID_LSTICK;
+    static const long ID_SPINREA;
+    static const long ID_SPINREB;
     static const long ID_PANELMAIN;
     static const long ID_PANEL1;
     static const long IdMenuOpenEE;
@@ -174,7 +178,7 @@ private:
     static const long ID_BUTON;
     static const long ID_STICKB;
     static const long ID_STICKF;
-    static const long ID_COLOUR;
+    static const long ID_COLOURS;
     static const long idMenuAbout;
     static const long ID_STATUSBAR;
     static const long ID_TIMER10MS;
@@ -223,7 +227,9 @@ private:
     wxMenuItem* MenuStickBack;
     wxPanel* RrTrim;
     wxPanel* LdTrim;
+    wxSpinButton* SpinRea;
     wxPanel* RdTrim;
+    wxMenuItem* MenuLoadee;
     wxPanel* Lstick;
     wxPanel* BpGea;
     wxPanel* BpRud;
@@ -233,7 +239,6 @@ private:
     wxSlider* Pot1;
     wxPanel* PanelH;
     wxMenuItem* MenuLcdPixel;
-    wxMenuItem* MenuItem4;
     wxPanel* BPd;
     wxPanel* BPmenu;
     wxPanel* LlTrim;
@@ -246,7 +251,6 @@ private:
     wxPanel* BpAil;
     wxMenuItem* MenuLcdBack;
     wxSlider* Pot3;
-    wxMenuItem* MenuItem3;
     wxPanel* BPb;
     wxPanel* RuTrim;
     wxPanel* BpTrn;
@@ -256,8 +260,10 @@ private:
     wxPanel* Rstick;
     wxPanel* RlTrim;
     wxMenuItem* MenuButOn;
+    wxMenu* MenuColours;
     wxMenuItem* MenuButOff;
-    wxMenu* MenuItem5;
+    wxMenuItem* MenuSaveee;
+    wxSpinButton* SpinReb;
     wxPanel* LuTrim;
     wxPanel* BpId1;
     wxStatusBar* StatusBar;

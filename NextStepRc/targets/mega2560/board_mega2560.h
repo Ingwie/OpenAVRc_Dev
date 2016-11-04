@@ -191,6 +191,10 @@ void pwrOff();
 #define eepromReadBlock(a, b, c)   eeprom_read_block(a, (const void *)b, c)
 #else
 extern void boardInit();
+extern ISR(INT2_vect);
+extern ISR(INT3_vect);
+extern ISR(INT4_vect);
+extern ISR(INT5_vect);
 #endif
 
 #endif // _BOARD_MEGA2560_H_

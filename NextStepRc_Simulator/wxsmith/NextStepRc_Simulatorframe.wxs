@@ -179,6 +179,7 @@
 					<fg>#FF0000</fg>
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnRstickPaint" entry="EVT_PAINT" />
 					<handler function="OnRstickMouseMove" entry="EVT_MOTION" />
 				</object>
 				<object class="wxPanel" name="ID_SIMULCD" variable="Simulcd" member="yes">
@@ -260,22 +261,37 @@
 					<fg>#FF0000</fg>
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+					<handler function="OnLstickPaint" entry="EVT_PAINT" />
 					<handler function="OnLstickMouseMove" entry="EVT_MOTION" />
+				</object>
+				<object class="wxSpinButton" name="ID_SPINREA" variable="SpinRea" member="yes">
+					<min>-100</min>
+					<max>100</max>
+					<pos>14,12</pos>
+					<tooltip>Rea</tooltip>
+					<style>wxSP_HORIZONTAL|wxSP_WRAP|wxSTATIC_BORDER</style>
+				</object>
+				<object class="wxSpinButton" name="ID_SPINREB" variable="SpinReb" member="yes">
+					<min>-100</min>
+					<max>100</max>
+					<pos>732,12</pos>
+					<tooltip>Reb</tooltip>
+					<style>wxSP_HORIZONTAL|wxSP_WRAP|wxSTATIC_BORDER</style>
 				</object>
 			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar1" member="no">
 			<object class="wxMenu" variable="Menu1" member="no">
 				<label>&amp;Fichier</label>
-				<object class="wxMenuItem" name="IdMenuOpenEE" variable="MenuItem3" member="yes">
+				<object class="wxMenuItem" name="IdMenuOpenEE" variable="MenuLoadee" member="yes">
 					<label>Charger Eeprom</label>
 					<help>Charger fichier BIN</help>
 					<handler function="OnMenuLoadEeprom" entry="EVT_MENU" />
 				</object>
-				<object class="wxMenuItem" name="IdMenuSaveEE" variable="MenuItem4" member="yes">
+				<object class="wxMenuItem" name="IdMenuSaveEE" variable="MenuSaveee" member="yes">
 					<label>Sauver Eeprom</label>
 					<help>Sauvegarde du fichier BIN</help>
-					<handler function="OnMenuItem4Selected" entry="EVT_MENU" />
+					<handler function="OnMenuSaveeeSelected" entry="EVT_MENU" />
 				</object>
 				<object class="wxMenuItem" name="idMenuQuit" variable="MenuItem1" member="no">
 					<label>Quitter</label>
@@ -286,7 +302,7 @@
 			</object>
 			<object class="wxMenu" variable="Menu3" member="yes">
 				<label>&amp;Option</label>
-				<object class="wxMenu" name="ID_COLOUR" variable="MenuItem5" member="yes">
+				<object class="wxMenu" name="ID_COLOURS" variable="MenuColours" member="yes">
 					<label>Couleurs</label>
 					<object class="wxMenuItem" name="ID_LCDB" variable="MenuLcdBack" member="yes">
 						<label>Lcd (fond)</label>
@@ -314,9 +330,9 @@
 					</object>
 				</object>
 			</object>
-			<object class="wxMenu" variable="Menu2" member="no">
+			<object class="wxMenu" variable="MenuHelp" member="no">
 				<label>&amp;Aide</label>
-				<object class="wxMenuItem" name="idMenuAbout" variable="MenuItem2" member="no">
+				<object class="wxMenuItem" name="idMenuAbout" variable="MenuAbout" member="no">
 					<label>A propos ...</label>
 					<accel>F1</accel>
 					<help>C&apos;est quoi donc ?</help>
