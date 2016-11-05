@@ -124,6 +124,22 @@ void DefaultFrame::OnButtonEnterClick(wxCommandEvent& event)//Saves new default 
 
 void DefaultFrame::OnButtonDetectClick(wxCommandEvent& event)
 {
+    int answer = wxMessageBox(_("Dérancher la radio du PC"), _("Auto Detection"), wxOK, this);
+    if (answer == wxOK)
+    {
+        DetectSerial();
+        answer = wxMessageBox(_("Branchez votre radio"), _("Auto Detection"), wxOK, this);
+        if (answer == wxOK)
+        {
+            DetectSerial();
+            ComboBox2->SetSelection(0);
+            wxMessageBox(_("Terminé !"), _("Auto Detection"), wxOK, this);
+        }
+    }
+}
+
+void DefaultFrame::DetectSerial()
+{
     long test;
     TCHAR Devices [5000];
     for(int i=0; i<255; i++) // checking ports from COM0 to COM255
@@ -131,20 +147,10 @@ void DefaultFrame::OnButtonDetectClick(wxCommandEvent& event)
         wxString str;
         str = str.Format(wxT("%i"),i);
         wxString ComName = "COM"+str; // converting to COM0, COM1, COM2
-
         test = QueryDosDevice(ComName.c_str(), Devices, 5000); //Win32(64) API only
-
         if (test!=0) //QueryDosDevice returns zero if it didn't find an object
         {
-                  ComboBox2->Insert(ComName,0); // add to the ComboBox
+            ComboBox2->Insert(ComName,0); // add to the ComboBox
         }
-
     }
-
-   // if(!gotPort) // if not port
-   // m_MyPort.AddString((CString)"No Active Ports Found"); // to display error message incase no ports found
-
-
-
-
 }

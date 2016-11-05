@@ -62,6 +62,8 @@ class DefaultFrame: public wxFrame
 		void OnButtonEnterClick(wxCommandEvent& event);
 		void OnButtonDetectClick(wxCommandEvent& event);
 		void GetPortList(wxArrayString *port_list);
+		void DetectSerial();
+
 		//*)
 
 		DECLARE_EVENT_TABLE()
