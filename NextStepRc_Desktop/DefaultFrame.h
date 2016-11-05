@@ -29,6 +29,7 @@ class DefaultFrame: public wxFrame
 		wxButton* ButtonEsc;
 		wxComboBox* ComboBox3;
 		wxStaticText* StaticText5;
+		wxButton* ButtonDetect;
 		wxComboBox* ComboBox1;
 		wxTextCtrl* TextCtrl1;
 		wxComboBox* ComboBox2;
@@ -48,6 +49,7 @@ class DefaultFrame: public wxFrame
 		static const long ID_TEXTCTRL1;
 		static const long ID_BUTTONESC;
 		static const long ID_BUTTONSEARCHAVRDUDEPATH;
+		static const long ID_BUTTONDETECT;
 		//*)
 		wxWindow * Parent;
 
@@ -58,6 +60,8 @@ class DefaultFrame: public wxFrame
 		void OnButtonSearchavrdudepathClick(wxCommandEvent& event);
 		void OnButtonEscClick(wxCommandEvent& event);
 		void OnButtonEnterClick(wxCommandEvent& event);
+		void OnButtonDetectClick(wxCommandEvent& event);
+		void GetPortList(wxArrayString *port_list);
 		//*)
 
 		DECLARE_EVENT_TABLE()

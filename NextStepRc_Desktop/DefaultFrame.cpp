@@ -36,6 +36,7 @@ const long DefaultFrame::ID_STATICTEXT5 = wxNewId();
 const long DefaultFrame::ID_TEXTCTRL1 = wxNewId();
 const long DefaultFrame::ID_BUTTONESC = wxNewId();
 const long DefaultFrame::ID_BUTTONSEARCHAVRDUDEPATH = wxNewId();
+const long DefaultFrame::ID_BUTTONDETECT = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(DefaultFrame,wxFrame)
@@ -58,25 +59,6 @@ DefaultFrame::DefaultFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     ComboBox1->Append(_("usbasp"));
     ComboBox2 = new wxComboBox(this, ID_COMBOBOX2, wxEmptyString, wxPoint(176,120), wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX2"));
     ComboBox2->Append(_("usb"));
-    ComboBox2->Append(_("com1"));
-    ComboBox2->Append(_("com2"));
-    ComboBox2->Append(_("com3"));
-    ComboBox2->Append(_("com4"));
-    ComboBox2->Append(_("com5"));
-    ComboBox2->Append(_("com6"));
-    ComboBox2->Append(_("com7"));
-    ComboBox2->Append(_("com8"));
-    ComboBox2->Append(_("com9"));
-    ComboBox2->Append(_("com10"));
-    ComboBox2->Append(_("com11"));
-    ComboBox2->Append(_("com12"));
-    ComboBox2->Append(_("com13"));
-    ComboBox2->Append(_("com14"));
-    ComboBox2->Append(_("com15"));
-    ComboBox2->Append(_("com16"));
-    ComboBox2->Append(_("lpt1"));
-    ComboBox2->Append(_("lpt2"));
-    ComboBox2->Append(_("lpt3"));
     ComboBox2->Append(_("avrdoper"));
     ComboBox2->Append(_("/dev/ttyUSB0"));
     ComboBox2->Append(_("/dev/ttyUSB1"));
@@ -93,10 +75,12 @@ DefaultFrame::DefaultFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     TextCtrl1 = new wxTextCtrl(this, ID_TEXTCTRL1, _("avrdude path"), wxPoint(176,216), wxSize(212,21), 0, wxDefaultValidator, _T("ID_TEXTCTRL1"));
     ButtonEsc = new wxButton(this, ID_BUTTONESC, _("Annuler"), wxPoint(264,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONESC"));
     ButtonSearchavrdudepath = new wxButton(this, ID_BUTTONSEARCHAVRDUDEPATH, _("..."), wxPoint(400,216), wxSize(40,23), 0, wxDefaultValidator, _T("ID_BUTTONSEARCHAVRDUDEPATH"));
+    ButtonDetect = new wxButton(this, ID_BUTTONDETECT, _("Detection"), wxPoint(304,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONDETECT"));
 
     Connect(ID_BUTTONENTER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&DefaultFrame::OnButtonEnterClick);
     Connect(ID_BUTTONESC,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&DefaultFrame::OnButtonEscClick);
     Connect(ID_BUTTONSEARCHAVRDUDEPATH,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&DefaultFrame::OnButtonSearchavrdudepathClick);
+    Connect(ID_BUTTONDETECT,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&DefaultFrame::OnButtonDetectClick);
     //*)
 
 
@@ -137,3 +121,30 @@ void DefaultFrame::OnButtonEnterClick(wxCommandEvent& event)//Saves new default 
     Destroy();
 }
 
+
+void DefaultFrame::OnButtonDetectClick(wxCommandEvent& event)
+{
+    long test;
+    TCHAR Devices [5000];
+    for(int i=0; i<255; i++) // checking ports from COM0 to COM255
+    {
+        wxString str;
+        str = str.Format(wxT("%i"),i);
+        wxString ComName = "COM"+str; // converting to COM0, COM1, COM2
+
+        test = QueryDosDevice(ComName.c_str(), Devices, 5000); //Win32(64) API only
+
+        if (test!=0) //QueryDosDevice returns zero if it didn't find an object
+        {
+                  ComboBox2->Insert(ComName,0); // add to the ComboBox
+        }
+
+    }
+
+   // if(!gotPort) // if not port
+   // m_MyPort.AddString((CString)"No Active Ports Found"); // to display error message incase no ports found
+
+
+
+
+}

@@ -19,25 +19,6 @@
 		<object class="wxComboBox" name="ID_COMBOBOX2" variable="ComboBox2" member="yes">
 			<content>
 				<item>usb</item>
-				<item>com1</item>
-				<item>com2</item>
-				<item>com3</item>
-				<item>com4</item>
-				<item>com5</item>
-				<item>com6</item>
-				<item>com7</item>
-				<item>com8</item>
-				<item>com9</item>
-				<item>com10</item>
-				<item>com11</item>
-				<item>com12</item>
-				<item>com13</item>
-				<item>com14</item>
-				<item>com15</item>
-				<item>com16</item>
-				<item>lpt1</item>
-				<item>lpt2</item>
-				<item>lpt3</item>
 				<item>avrdoper</item>
 				<item>/dev/ttyUSB0</item>
 				<item>/dev/ttyUSB1</item>
@@ -90,6 +71,11 @@
 			<pos>400,216</pos>
 			<size>40,23</size>
 			<handler function="OnButtonSearchavrdudepathClick" entry="EVT_BUTTON" />
+		</object>
+		<object class="wxButton" name="ID_BUTTONDETECT" variable="ButtonDetect" member="yes">
+			<label>Detection</label>
+			<pos>304,120</pos>
+			<handler function="OnButtonDetectClick" entry="EVT_BUTTON" />
 		</object>
 	</object>
 </wxsmith>
