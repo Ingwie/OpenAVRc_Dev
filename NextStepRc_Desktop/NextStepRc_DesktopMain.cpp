@@ -8,11 +8,12 @@
  **************************************************************/
 
 #include "NextStepRc_DesktopMain.h"
-#include <wx/msgdlg.h>
 #include "DefaultFrame.h"
-#include <wx/arrstr.h>
-#include <iostream>
-#include <fstream>
+#include "CompilerOptionsFrame.h"
+#include <wx/msgdlg.h>
+//#include <wx/arrstr.h>
+//#include <iostream>
+//#include <fstream>
 #include <string>
 #include <wx/textfile.h>
 #include <windows.h>
@@ -69,9 +70,9 @@ wxString dude_port = _("non défini");
 
 //(*IdInit(NextStepRc_DesktopFrame)
 const long NextStepRc_DesktopFrame::ID_BUTTON1 = wxNewId();
-const long NextStepRc_DesktopFrame::ID_HYPERLINKCTRL1 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_PANEL1 = wxNewId();
 const long NextStepRc_DesktopFrame::idMenuQuit = wxNewId();
+const long NextStepRc_DesktopFrame::ID_MENUITEM1 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM3 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM5 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM4 = wxNewId();
@@ -79,7 +80,6 @@ const long NextStepRc_DesktopFrame::ID_MENUITEM6 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM9 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM10 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM7 = wxNewId();
-const long NextStepRc_DesktopFrame::ID_MENUITEM1 = wxNewId();
 const long NextStepRc_DesktopFrame::idMenuAbout = wxNewId();
 const long NextStepRc_DesktopFrame::ID_STATUSBAR1 = wxNewId();
 //*)
@@ -103,12 +103,15 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(240,40), wxSize(576,280), 0, _T("ID_PANEL1"));
     Panel1->SetFocus();
     Button1 = new wxButton(Panel1, ID_BUTTON1, _("SIMULATEUR"), wxPoint(8,208), wxSize(568,31), 0, wxDefaultValidator, _T("ID_BUTTON1"));
-    HyperlinkCtrl1 = new wxHyperlinkCtrl(Panel1, ID_HYPERLINKCTRL1, _("https://github.com/Ingwie/NextStepRc-2.18"), wxEmptyString, wxPoint(344,192), wxDefaultSize, wxHL_CONTEXTMENU|wxHL_ALIGN_CENTRE|wxNO_BORDER, _T("ID_HYPERLINKCTRL1"));
     MenuBar_main = new wxMenuBar();
     Menu1 = new wxMenu();
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter l\'application"), wxITEM_NORMAL);
     Menu1->Append(MenuItem1);
     MenuBar_main->Append(Menu1, _("Action"));
+    Menu3 = new wxMenu();
+    MenuItem3 = new wxMenuItem(Menu3, ID_MENUITEM1, _("Programmeur"), wxEmptyString, wxITEM_NORMAL);
+    Menu3->Append(MenuItem3);
+    MenuBar_main->Append(Menu3, _("Paramètres"));
     Menu4 = new wxMenu();
     Menu4->AppendSeparator();
     Menu5 = new wxMenuItem(Menu4, ID_MENUITEM3, _("Lire modèles de la radio"), wxEmptyString, wxITEM_NORMAL);
@@ -128,10 +131,6 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     MenuItem8->Append(MenuItem11);
     Menu4->Append(ID_MENUITEM7, _("Bootloader"), MenuItem8, wxEmptyString);
     MenuBar_main->Append(Menu4, _("Lire/Écrire"));
-    Menu3 = new wxMenu();
-    MenuItem3 = new wxMenuItem(Menu3, ID_MENUITEM1, _("Programmeur"), wxEmptyString, wxITEM_NORMAL);
-    Menu3->Append(MenuItem3);
-    MenuBar_main->Append(Menu3, _("Paramètres"));
     Menu7 = new wxMenu();
     MenuBar_main->Append(Menu7, _("Compilateur"));
     Menu6 = new wxMenu();
@@ -150,13 +149,13 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
 
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnSimulateurClick2);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnQuit);
+    Connect(ID_MENUITEM1,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnProgrammerSelected);
     Connect(ID_MENUITEM3,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnreadmodelsSelected);
     Connect(ID_MENUITEM5,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnreadfirmwareSelected);
     Connect(ID_MENUITEM4,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnWriteModelToRadioSelected);
     Connect(ID_MENUITEM6,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnWriteFirmwareToRadioSelected);
     Connect(ID_MENUITEM9,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnEcrirelesFuseesSelected);
     Connect(ID_MENUITEM10,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnEcrirelebootloaderSelected);
-    Connect(ID_MENUITEM1,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnProgrammerSelected);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnAbout);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnClose);
     //*)
@@ -331,6 +330,9 @@ void NextStepRc_DesktopFrame::LoadConfig()
     configFile->Read(wxT("Port"),&dude_port);
     configFile->Read(wxT("Type"),&dude_type);
     configFile->Read(wxT("avrdudepath"),&avrdudepath);
+//////////////////////////////////////////////////
+configFile->Read(wxT("LCD"),&LCD);
+configFile->Read(wxT("VOICE"),&VOICE);
 }
 
 void NextStepRc_DesktopFrame::SaveConfig()
@@ -341,6 +343,10 @@ void NextStepRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("Port"),dude_port);
     configFile->Write(wxT("Type"),dude_type);
     configFile->Write(wxT("avrdudepath"),avrdudepath);
+///////////////////////////////////////////////////////
+configFile->Write(wxT("LCD"),LCD);
+ configFile->Write(wxT("VOICE"),VOICE);
+///////////////////////////////////////////////////////
     configFile->Flush();
 }
 
@@ -355,4 +361,10 @@ void NextStepRc_DesktopFrame::OnClose(wxCloseEvent& event)
 {
     if (Ini_Changed) SaveConfig();
     Destroy();
+}
+
+void NextStepRc_DesktopFrame::OnATMEGA2560CompilerSelected(wxCommandEvent& event)
+{
+    CompilerOptionsFrame* atmegaFrame = new CompilerOptionsFrame(NULL);
+    atmegaFrame->Show(TRUE);//opens DefaultFrame
 }

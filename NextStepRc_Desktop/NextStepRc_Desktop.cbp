@@ -63,6 +63,8 @@
 			<Add option="-m32" />
 			<Add option="-mthreads" />
 		</Linker>
+		<Unit filename="CompilerOptionsFrame.cpp" />
+		<Unit filename="CompilerOptionsFrame.h" />
 		<Unit filename="DefaultFrame.cpp" />
 		<Unit filename="DefaultFrame.h" />
 		<Unit filename="NextStepRc_DesktopApp.cpp" />
@@ -72,6 +74,7 @@
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="wxsmith/CompilerOptionsFrame.wxs" />
 		<Unit filename="wxsmith/DefaultFrame.wxs" />
 		<Extensions>
 			<code_completion />
@@ -86,6 +89,7 @@
 				<resources>
 					<wxFrame wxs="wxsmith/NextStepRc_Desktopframe.wxs" src="NextStepRc_DesktopMain.cpp" hdr="NextStepRc_DesktopMain.h" fwddecl="0" i18n="1" name="NextStepRc_DesktopFrame" language="CPP" />
 					<wxFrame wxs="wxsmith/DefaultFrame.wxs" src="DefaultFrame.cpp" hdr="DefaultFrame.h" fwddecl="0" i18n="1" name="DefaultFrame" language="CPP" />
+					<wxFrame wxs="wxsmith/CompilerOptionsFrame.wxs" src="CompilerOptionsFrame.cpp" hdr="CompilerOptionsFrame.h" fwddecl="0" i18n="1" name="CompilerOptionsFrame" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

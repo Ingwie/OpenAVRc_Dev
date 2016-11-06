@@ -14,7 +14,6 @@
 //(*Headers(NextStepRc_DesktopFrame)
 #include <wx/menu.h>
 #include <wx/panel.h>
-#include <wx/hyperlink.h>
 #include <wx/button.h>
 #include <wx/frame.h>
 #include <wx/statusbr.h>
@@ -48,6 +47,7 @@ private:
     void OnWriteFirmwareToRadioSelected(wxCommandEvent& event);
     void OnButton1Click1(wxCommandEvent& event);
     void OnSimulateurClick2(wxCommandEvent& event);
+    void OnATMEGA2560CompilerSelected(wxCommandEvent& event);
     void LoadConfig();
     void SaveConfig();
     void OnClose(wxCloseEvent& event);
@@ -55,9 +55,9 @@ private:
 
     //(*Identifiers(NextStepRc_DesktopFrame)
     static const long ID_BUTTON1;
-    static const long ID_HYPERLINKCTRL1;
     static const long ID_PANEL1;
     static const long idMenuQuit;
+    static const long ID_MENUITEM1;
     static const long ID_MENUITEM3;
     static const long ID_MENUITEM5;
     static const long ID_MENUITEM4;
@@ -65,7 +65,6 @@ private:
     static const long ID_MENUITEM9;
     static const long ID_MENUITEM10;
     static const long ID_MENUITEM7;
-    static const long ID_MENUITEM1;
     static const long idMenuAbout;
     static const long ID_STATUSBAR1;
     //*)
@@ -77,7 +76,6 @@ private:
     wxButton* Button1;
     wxMenuItem* MenuItem11;
     wxPanel* Panel1;
-    wxHyperlinkCtrl* HyperlinkCtrl1;
     wxMenu* MenuItem8;
     wxMenuItem* MenuItem10;
     wxMenuBar* MenuBar_main;

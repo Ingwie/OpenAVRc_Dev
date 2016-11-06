@@ -16,10 +16,6 @@
 				<size>568,31</size>
 				<handler function="OnSimulateurClick2" entry="EVT_BUTTON" />
 			</object>
-			<object class="wxHyperlinkCtrl" name="ID_HYPERLINKCTRL1" variable="HyperlinkCtrl1" member="yes">
-				<label>https://github.com/Ingwie/NextStepRc-2.18</label>
-				<pos>344,192</pos>
-			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar_main" member="yes">
 			<object class="wxMenu" variable="Menu1" member="no">
@@ -29,6 +25,13 @@
 					<accel>Alt-F4</accel>
 					<help>Quitter l&apos;application</help>
 					<handler function="OnQuit" entry="EVT_MENU" />
+				</object>
+			</object>
+			<object class="wxMenu" variable="Menu3" member="yes">
+				<label>Paramètres</label>
+				<object class="wxMenuItem" name="ID_MENUITEM1" variable="MenuItem3" member="yes">
+					<label>Programmeur</label>
+					<handler function="OnProgrammerSelected" entry="EVT_MENU" />
 				</object>
 			</object>
 			<object class="wxMenu" variable="Menu4" member="yes">
@@ -62,13 +65,6 @@
 						<label>Écrire le bootloader</label>
 						<handler function="OnEcrirelebootloaderSelected" entry="EVT_MENU" />
 					</object>
-				</object>
-			</object>
-			<object class="wxMenu" variable="Menu3" member="yes">
-				<label>Paramètres</label>
-				<object class="wxMenuItem" name="ID_MENUITEM1" variable="MenuItem3" member="yes">
-					<label>Programmeur</label>
-					<handler function="OnProgrammerSelected" entry="EVT_MENU" />
 				</object>
 			</object>
 			<object class="wxMenu" variable="Menu7" member="yes">

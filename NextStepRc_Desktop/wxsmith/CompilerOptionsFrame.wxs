@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxFrame" name="CompilerOptionsFrame">
+		<size>807,313</size>
+		<id_arg>0</id_arg>
+		<handler function="OnClose" entry="EVT_CLOSE" />
+		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
+			<pos>0,0</pos>
+			<size>800,313</size>
+			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
+				<label>Télémetrie</label>
+				<pos>280,16</pos>
+				<size>192,248</size>
+			</object>
+			<object class="wxChoice" name="ID_CHOICE1" variable="Choice1" member="yes">
+				<content>
+					<item>DEFAULT </item>
+					<item>ST7565P</item>
+					<item>ST7565R </item>
+					<item>ERC12864FSF</item>
+					<item>ST7920 </item>
+					<item>KS108</item>
+					<item>SSD1306</item>
+				</content>
+				<pos>120,72</pos>
+				<size>96,21</size>
+				<handler function="OnLCDSelect" entry="EVT_CHOICE" />
+			</object>
+			<object class="wxChoice" name="ID_CHOICE3" variable="Choice3" member="yes">
+				<content>
+					<item>NO</item>
+					<item>WTV20SD</item>
+					<item>JQ6500</item>
+				</content>
+				<pos>120,112</pos>
+				<size>96,21</size>
+				<handler function="OnVOICESelect1" entry="EVT_CHOICE" />
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX9" variable="CheckBox9" member="yes">
+				<label>RTC Clock</label>
+				<pos>120,184</pos>
+				<size>67,21</size>
+				<handler function="OnCheckBox9Click" entry="EVT_CHECKBOX" />
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBox1" member="yes">
+				<label>HELI</label>
+				<pos>120,248</pos>
+				<handler function="OnCheckBox1Click" entry="EVT_CHECKBOX" />
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX7" variable="CheckBox7" member="yes">
+				<label>AUDIO</label>
+				<pos>120,152</pos>
+				<size>64,16</size>
+			</object>
+			<object class="wxChoice" name="ID_CHOICE2" variable="Choice2" member="yes">
+				<content>
+					<item>STD</item>
+					<item>FRSKY</item>
+					<item>FRSKY_SPORT</item>
+					<item>JETI</item>
+					<item>NMEA</item>
+					<item>ARDUPILOT</item>
+					<item>MAVLINK</item>
+					<item>TELEMETREZ</item>
+				</content>
+				<pos>352,32</pos>
+				<size>96,21</size>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
+				<label>LCD</label>
+				<pos>80,72</pos>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
+				<label>VOICE</label>
+				<pos>64,120</pos>
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX2" variable="CheckBox2" member="yes">
+				<label>FrSky Hub</label>
+				<pos>352,72</pos>
+				<handler function="OnCheckBox2Click" entry="EVT_CHECKBOX" />
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX3" variable="CheckBox3" member="yes">
+				<label>FAS Offset</label>
+				<pos>352,104</pos>
+				<handler function="OnCheckBox3Click" entry="EVT_CHECKBOX" />
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX4" variable="CheckBox4" member="yes">
+				<label>Gauges</label>
+				<pos>352,136</pos>
+				<handler function="OnCheckBox4Click" entry="EVT_CHECKBOX" />
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX5" variable="CheckBox5" member="yes">
+				<label>GPS</label>
+				<pos>352,168</pos>
+				<handler function="OnCheckBox5Click" entry="EVT_CHECKBOX" />
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX6" variable="CheckBox6" member="yes">
+				<label>Vario</label>
+				<pos>352,200</pos>
+				<handler function="OnCheckBox6Click" entry="EVT_CHECKBOX" />
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX8" variable="CheckBox8" member="yes">
+				<label>Sport file log</label>
+				<pos>352,232</pos>
+				<handler function="OnCheckBox8Click" entry="EVT_CHECKBOX" />
+			</object>
+			<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
+				<label>Advanced</label>
+				<pos>584,256</pos>
+				<handler function="OnButton1Click" entry="EVT_BUTTON" />
+			</object>
+			<object class="wxButton" name="ID_BUTTON2" variable="Button2" member="yes">
+				<label>COMPILE</label>
+				<pos>688,256</pos>
+				<handler function="OnButton2Click" entry="EVT_BUTTON" />
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText4" member="yes">
+				<label>PPM Units</label>
+				<pos>552,40</pos>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
+				<label>PROTOCOL</label>
+				<pos>544,88</pos>
+			</object>
+			<object class="wxChoice" name="ID_CHOICE4" variable="Choice4" member="yes">
+				<content>
+					<item>PERCENT_PREC1</item>
+					<item>PERCENT_PREC0</item>
+					<item>US</item>
+				</content>
+				<pos>624,32</pos>
+				<size>112,21</size>
+				<handler function="OnChoice4Select" entry="EVT_CHOICE" />
+			</object>
+			<object class="wxChoice" name="ID_CHOICE5" variable="Choice5" member="yes">
+				<content>
+					<item>PPM</item>
+					<item>PXX</item>
+					<item>DSM2</item>
+				</content>
+				<pos>624,80</pos>
+				<size>112,21</size>
+				<handler function="OnChoice5Select" entry="EVT_CHOICE" />
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX12" variable="CheckBox12" member="yes">
+				<label>SD CARD</label>
+				<pos>120,216</pos>
+				<handler function="OnCheckBox12Click" entry="EVT_CHECKBOX" />
+			</object>
+			<object class="wxChoice" name="ID_CHOICE6" variable="Choice6" member="yes">
+				<content>
+					<item>m2560</item>
+					<item>m128</item>
+					<item>m64</item>
+				</content>
+				<pos>120,32</pos>
+				<size>96,21</size>
+				<handler function="OnChoice6Select" entry="EVT_CHOICE" />
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
+				<label>PROCESSOR</label>
+				<pos>40,40</pos>
+				<size>64,13</size>
+			</object>
+			<object class="wxChoice" name="ID_CHOICE7" variable="Choice7" member="yes">
+				<pos>624,136</pos>
+				<size>112,21</size>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText6" member="yes">
+				<label>LANGUAGE</label>
+				<pos>552,144</pos>
+			</object>
+		</object>
+	</object>
+</wxsmith>
