@@ -8,7 +8,6 @@
 extern bool Ini_Changed;
 wxString LCD = _("non défini");
 wxString VOICE = _("non défini");
-int lcd1;
 
 //helper functions
 //enum wxbuildinfoformat
@@ -157,7 +156,7 @@ CompilerOptionsFrame::~CompilerOptionsFrame()
 
 void CompilerOptionsFrame::OnLCDSelect(wxCommandEvent& event)
 {
-    LCD  = Choice1->GetString(lcd1 = Choice1->GetSelection());
+    LCD  = Choice1->GetString(Choice1->GetSelection());
     wxMessageBox(LCD);
 }
 
@@ -188,7 +187,7 @@ void CompilerOptionsFrame::OnCheckBox10Click(wxCommandEvent& event)
 
 void CompilerOptionsFrame::OnVOICESelect1(wxCommandEvent& event)
 {
-    VOICE  = Choice3->GetString(lcd1 = Choice3->GetSelection());
+    VOICE  = Choice3->GetString(Choice3->GetSelection());
     wxMessageBox(VOICE);
 }
 //void CompilerOptionsFrame::OnChoice3Select(wxCommandEvent& event)
