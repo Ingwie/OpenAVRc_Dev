@@ -69,6 +69,7 @@ wxString dude_port = _("non défini");
 
 //(*IdInit(NextStepRc_DesktopFrame)
 const long NextStepRc_DesktopFrame::ID_BUTTON1 = wxNewId();
+const long NextStepRc_DesktopFrame::ID_HYPERLINKCTRL1 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_PANEL1 = wxNewId();
 const long NextStepRc_DesktopFrame::idMenuQuit = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM3 = wxNewId();
@@ -102,6 +103,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(240,40), wxSize(576,280), 0, _T("ID_PANEL1"));
     Panel1->SetFocus();
     Button1 = new wxButton(Panel1, ID_BUTTON1, _("SIMULATEUR"), wxPoint(8,208), wxSize(568,31), 0, wxDefaultValidator, _T("ID_BUTTON1"));
+    HyperlinkCtrl1 = new wxHyperlinkCtrl(Panel1, ID_HYPERLINKCTRL1, _("https://github.com/Ingwie/NextStepRc-2.18"), wxEmptyString, wxPoint(344,192), wxDefaultSize, wxHL_CONTEXTMENU|wxHL_ALIGN_CENTRE|wxNO_BORDER, _T("ID_HYPERLINKCTRL1"));
     MenuBar_main = new wxMenuBar();
     Menu1 = new wxMenu();
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter l\'application"), wxITEM_NORMAL);
