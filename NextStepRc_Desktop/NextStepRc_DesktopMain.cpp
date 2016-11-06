@@ -80,6 +80,7 @@ const long NextStepRc_DesktopFrame::ID_MENUITEM6 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM9 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM10 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM7 = wxNewId();
+const long NextStepRc_DesktopFrame::ID_MENUAT2560 = wxNewId();
 const long NextStepRc_DesktopFrame::idMenuAbout = wxNewId();
 const long NextStepRc_DesktopFrame::ID_STATUSBAR1 = wxNewId();
 //*)
@@ -132,6 +133,8 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Menu4->Append(ID_MENUITEM7, _("Bootloader"), MenuItem8, wxEmptyString);
     MenuBar_main->Append(Menu4, _("Lire/Écrire"));
     Menu7 = new wxMenu();
+    ATMEGA2560Compiler = new wxMenuItem(Menu7, ID_MENUAT2560, _("ATMEGA2560"), wxEmptyString, wxITEM_NORMAL);
+    Menu7->Append(ATMEGA2560Compiler);
     MenuBar_main->Append(Menu7, _("Compilateur"));
     Menu6 = new wxMenu();
     MenuBar_main->Append(Menu6, _("Documentation en ligne"));
@@ -156,6 +159,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_MENUITEM6,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnWriteFirmwareToRadioSelected);
     Connect(ID_MENUITEM9,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnEcrirelesFuseesSelected);
     Connect(ID_MENUITEM10,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnEcrirelebootloaderSelected);
+    Connect(ID_MENUAT2560,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnATMEGA2560CompilerSelected);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnAbout);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnClose);
     //*)
@@ -181,7 +185,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Ini_Filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "NextStepRcDesktop.ini";
     configFile = new wxFileConfig( "", "", Ini_Filename);
     LoadConfig();
-    if (avrdudepath == _("non défini")) wxMessageBox( _("Merci de vérifier les paramètres") , _("Programmeur :"), wxICON_WARNING);
+    if (avrdudepath == _("non défini")) wxMessageBox( _("Merci de vérifier les paramètres"), _("Programmeur :"), wxICON_WARNING);
 }
 
 
@@ -331,8 +335,8 @@ void NextStepRc_DesktopFrame::LoadConfig()
     configFile->Read(wxT("Type"),&dude_type);
     configFile->Read(wxT("avrdudepath"),&avrdudepath);
 //////////////////////////////////////////////////
-configFile->Read(wxT("LCD"),&LCD);
-configFile->Read(wxT("VOICE"),&VOICE);
+    configFile->Read(wxT("LCD"),&LCD);
+    configFile->Read(wxT("VOICE"),&VOICE);
 }
 
 void NextStepRc_DesktopFrame::SaveConfig()
@@ -344,8 +348,8 @@ void NextStepRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("Type"),dude_type);
     configFile->Write(wxT("avrdudepath"),avrdudepath);
 ///////////////////////////////////////////////////////
-configFile->Write(wxT("LCD"),LCD);
- configFile->Write(wxT("VOICE"),VOICE);
+    configFile->Write(wxT("LCD"),LCD);
+    configFile->Write(wxT("VOICE"),VOICE);
 ///////////////////////////////////////////////////////
     configFile->Flush();
 }

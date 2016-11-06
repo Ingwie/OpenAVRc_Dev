@@ -65,6 +65,7 @@ private:
     static const long ID_MENUITEM9;
     static const long ID_MENUITEM10;
     static const long ID_MENUITEM7;
+    static const long ID_MENUAT2560;
     static const long idMenuAbout;
     static const long ID_STATUSBAR1;
     //*)
@@ -83,6 +84,7 @@ private:
     wxMenu* Menu7;
     wxMenuItem* Menu5;
     wxStatusBar* StatusBar_main;
+    wxMenuItem* ATMEGA2560Compiler;
     wxMenuItem* MenuItem6;
     wxMenu* Menu6;
     wxMenu* Menu4;
