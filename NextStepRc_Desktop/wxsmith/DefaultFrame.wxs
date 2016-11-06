@@ -57,7 +57,6 @@
 			<pos>32,224</pos>
 		</object>
 		<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="TextCtrl1" member="yes">
-			<value>avrdude path</value>
 			<pos>176,216</pos>
 			<size>212,21</size>
 		</object>

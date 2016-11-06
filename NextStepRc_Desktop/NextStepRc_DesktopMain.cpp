@@ -81,6 +81,7 @@ const long NextStepRc_DesktopFrame::ID_MENUITEM9 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM10 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM7 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUAT2560 = wxNewId();
+const long NextStepRc_DesktopFrame::ID_MENUITEMHTMLDOC = wxNewId();
 const long NextStepRc_DesktopFrame::idMenuAbout = wxNewId();
 const long NextStepRc_DesktopFrame::ID_STATUSBAR1 = wxNewId();
 //*)
@@ -136,9 +137,9 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     ATMEGA2560Compiler = new wxMenuItem(Menu7, ID_MENUAT2560, _("ATMEGA2560"), wxEmptyString, wxITEM_NORMAL);
     Menu7->Append(ATMEGA2560Compiler);
     MenuBar_main->Append(Menu7, _("Compilateur"));
-    Menu6 = new wxMenu();
-    MenuBar_main->Append(Menu6, _("Documentation en ligne"));
     Menu2 = new wxMenu();
+    MenuHtmlDoc = new wxMenuItem(Menu2, ID_MENUITEMHTMLDOC, _("Documentation en ligne"), wxEmptyString, wxITEM_NORMAL);
+    Menu2->Append(MenuHtmlDoc);
     MenuItem2 = new wxMenuItem(Menu2, idMenuAbout, _("A propos\tF1"), _("NestStepRc_Desktop V 0.00001 !"), wxITEM_NORMAL);
     Menu2->Append(MenuItem2);
     MenuBar_main->Append(Menu2, _("Aide"));
@@ -160,6 +161,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_MENUITEM9,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnEcrirelesFuseesSelected);
     Connect(ID_MENUITEM10,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnEcrirelebootloaderSelected);
     Connect(ID_MENUAT2560,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnATMEGA2560CompilerSelected);
+    Connect(ID_MENUITEMHTMLDOC,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnMenuHtmlDocSelected);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnAbout);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnClose);
     //*)
@@ -371,4 +373,9 @@ void NextStepRc_DesktopFrame::OnATMEGA2560CompilerSelected(wxCommandEvent& event
 {
     CompilerOptionsFrame* atmegaFrame = new CompilerOptionsFrame(NULL);
     atmegaFrame->Show(TRUE);//opens DefaultFrame
+}
+
+void NextStepRc_DesktopFrame::OnMenuHtmlDocSelected(wxCommandEvent& event)
+{
+  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation"), NULL);
 }
