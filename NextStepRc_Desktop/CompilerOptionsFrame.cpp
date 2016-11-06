@@ -6,8 +6,25 @@
 #include <wx/filedlg.h>
 
 extern bool Ini_Changed;
+wxString PCB = _("non défini");
 wxString LCD = _("non défini");
 wxString VOICE = _("non défini");
+wxString EXT = _("non défini");
+wxString AUDIO = _("non défini");
+wxString HELI = _("non défini");
+wxString TTS = _("non défini");
+wxString TRANSLATIONS = _("non défini");
+wxString NAVIGATION = _("non défini");
+wxString FRSKY_HUB = _("non défini");
+wxString HAPTIC = _("non défini");
+wxString PPM_UNIT = _("non défini");
+wxString PXX = _("non défini");
+wxString DSM2 = _("non défini");
+wxString GAUGES = _("non défini");
+wxString GPS = _("non défini");
+wxString VARIO = _("non défini");
+wxString RTCLOCK = _("non défini");
+wxString SPORT_FILE_LOG = _("non défini");
 
 //helper functions
 //enum wxbuildinfoformat
@@ -65,11 +82,11 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
 	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(0,0), wxSize(800,313), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Télémetrie"), wxPoint(280,16), wxSize(192,248), 0, _T("ID_STATICBOX1"));
 	Choice1 = new wxChoice(Panel1, ID_CHOICE1, wxPoint(120,72), wxSize(96,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
-	Choice1->Append(_("DEFAULT "));
+	Choice1->Append(_("DEFAULT"));
 	Choice1->Append(_("ST7565P"));
-	Choice1->Append(_("ST7565R "));
+	Choice1->Append(_("ST7565R"));
 	Choice1->Append(_("ERC12864FSF"));
-	Choice1->Append(_("ST7920 "));
+	Choice1->Append(_("ST7920"));
 	Choice1->Append(_("KS108"));
 	Choice1->Append(_("SSD1306"));
 	Choice3 = new wxChoice(Panel1, ID_CHOICE3, wxPoint(120,112), wxSize(96,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE3"));

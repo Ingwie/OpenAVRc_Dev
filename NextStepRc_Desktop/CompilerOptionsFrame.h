@@ -12,8 +12,26 @@
 //*)
 
 //wxString Ini_Filename;
+
+extern wxString PCB;
 extern wxString LCD;
 extern wxString VOICE;
+extern wxString EXT;
+extern wxString AUDIO;
+extern wxString HELI;
+extern wxString TTS;
+extern wxString TRANSLATIONS;
+extern wxString NAVIGATION;
+extern wxString FRSKY_HUB;
+extern wxString HAPTIC;
+extern wxString PPM_UNIT;
+extern wxString PXX;
+extern wxString DSM2;
+extern wxString GAUGES;
+extern wxString GPS;
+extern wxString VARIO;
+extern wxString RTCLOCK;
+extern wxString SPORT_FILE_LOG;
 
 class CompilerOptionsFrame: public wxFrame
 {
