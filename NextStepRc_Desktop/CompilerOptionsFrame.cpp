@@ -254,7 +254,7 @@ void CompilerOptionsFrame::OnCheckBox12Click(wxCommandEvent& event)
 void CompilerOptionsFrame::OnButton2Click(wxCommandEvent& event)
 {
    wxMessageBox(LCD);
-   //configFile->Write(wxT("LCD"),LCD);// how to make configFile visible
+   //configFile->Write(wxT("LCD"),LCD);// how to make configFile visible : The owner is the main frame ;-)
    //SaveConfig();
    Ini_Changed = true;
 }
