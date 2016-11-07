@@ -102,7 +102,7 @@ private:
     void OnRrTrimLeftDown(wxMouseEvent& event);
     void OnRrTrimLeftUp(wxMouseEvent& event);
     void OnSimulcdLeftDClick(wxMouseEvent& event);
-    void OnPbThrLeftDown(wxMouseEvent& event);
+    void OnBpThrLeftDown(wxMouseEvent& event);
     void OnPbRudLeftDown(wxMouseEvent& event);
     void OnPbEleLeftDown(wxMouseEvent& event);
     void OnPbAilLeftDown(wxMouseEvent& event);
@@ -148,27 +148,27 @@ private:
     static const long ID_BPMENU;
     static const long ID_BPH;
     static const long ID_BPEXIT;
-    static const long ID_PANEL9;
-    static const long ID_PANEL10;
-    static const long ID_PANEL11;
-    static const long ID_PANEL12;
-    static const long ID_PANEL7;
-    static const long ID_PANEL8;
-    static const long ID_PANEL6;
-    static const long ID_PANEL5;
+    static const long ID_LLTRIM;
+    static const long ID_LUTRIM;
+    static const long ID_LDTRIM;
+    static const long ID_RDTRIM;
+    static const long ID_RUTRIM;
+    static const long ID_RLTRIM;
+    static const long ID_RRTRIM;
+    static const long ID_LRTRIM;
     static const long ID_BPG;
     static const long ID_BPB;
     static const long ID_BPD;
     static const long ID_RSTICK;
     static const long ID_SIMULCD;
-    static const long ID_PANEL14;
-    static const long ID_PANEL15;
-    static const long ID_PANEL16;
-    static const long ID_PANEL17;
-    static const long ID_PANEL18;
-    static const long ID_PANEL19;
-    static const long ID_PANEL20;
-    static const long ID_PANEL13;
+    static const long ID_BPTHR;
+    static const long ID_BPRUD;
+    static const long ID_BPELE;
+    static const long ID_BPTRN;
+    static const long ID_BPAIL;
+    static const long ID_BPGEA;
+    static const long ID_PBID1;
+    static const long ID_BOID2;
     static const long ID_LSTICK;
     static const long ID_SPINREA;
     static const long ID_SPINREB;
@@ -251,7 +251,6 @@ private:
     wxPanel* LlTrim;
     wxPanel* LrTrim;
     wxPanel* PanelL;
-    wxPanel* PbThr;
     wxPanel* Simulcd;
     wxPanel* BPh;
     wxMenuItem* MenuStickStick;
@@ -276,6 +275,7 @@ private:
     wxPanel* BpId1;
     wxStatusBar* StatusBar;
     wxPanel* PanelPrincipal;
+    wxPanel* BpThr;
     wxSlider* Pot2;
     //*)
 

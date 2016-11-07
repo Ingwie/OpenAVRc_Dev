@@ -73,27 +73,27 @@ const long NextStepRc_SimulatorFrame::ID_POT3 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_BPMENU = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_BPH = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_BPEXIT = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL9 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL10 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL11 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL12 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL7 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL8 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL6 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL5 = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_LLTRIM = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_LUTRIM = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_LDTRIM = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_RDTRIM = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_RUTRIM = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_RLTRIM = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_RRTRIM = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_LRTRIM = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_BPG = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_BPB = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_BPD = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_RSTICK = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_SIMULCD = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL14 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL15 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL16 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL17 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL18 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL19 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL20 = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL13 = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_BPTHR = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_BPRUD = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_BPELE = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_BPTRN = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_BPAIL = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_BPGEA = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_PBID1 = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_BOID2 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_LSTICK = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_SPINREA = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_SPINREB = wxNewId();
@@ -149,9 +149,9 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Move(wxPoint(25,25));
     SetMaxSize(wxSize(-1,-1));
     {
-        wxIcon FrameIcon;
-        FrameIcon.CopyFromBitmap(avatarnext);
-        SetIcon(FrameIcon);
+    	wxIcon FrameIcon;
+    	FrameIcon.CopyFromBitmap(avatarnext);
+    	SetIcon(FrameIcon);
     }
     PanelPrincipal = new wxPanel(this, ID_PANEL1, wxPoint(424,216), wxSize(777,400), wxRAISED_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     PanelH = new wxPanel(PanelPrincipal, ID_PANELH, wxPoint(0,0), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELH"));
@@ -173,21 +173,21 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     BPexit = new wxPanel(PanelMain, ID_BPEXIT, wxPoint(440,200), wxSize(50,20), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPEXIT"));
     BPexit->SetBackgroundColour(wxColour(0,0,0));
     BPexit->SetToolTip(_("EXIT"));
-    LlTrim = new wxPanel(PanelMain, ID_PANEL9, wxPoint(102,200), wxSize(25,12), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL9"));
+    LlTrim = new wxPanel(PanelMain, ID_LLTRIM, wxPoint(102,200), wxSize(25,12), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_LLTRIM"));
     LlTrim->SetBackgroundColour(wxColour(0,0,0));
-    LuTrim = new wxPanel(PanelMain, ID_PANEL10, wxPoint(224,72), wxSize(12,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL10"));
+    LuTrim = new wxPanel(PanelMain, ID_LUTRIM, wxPoint(224,72), wxSize(12,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_LUTRIM"));
     LuTrim->SetBackgroundColour(wxColour(0,0,0));
-    LdTrim = new wxPanel(PanelMain, ID_PANEL11, wxPoint(224,128), wxSize(12,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL11"));
+    LdTrim = new wxPanel(PanelMain, ID_LDTRIM, wxPoint(224,128), wxSize(12,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_LDTRIM"));
     LdTrim->SetBackgroundColour(wxColour(0,0,0));
-    RdTrim = new wxPanel(PanelMain, ID_PANEL12, wxPoint(536,128), wxSize(12,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL12"));
+    RdTrim = new wxPanel(PanelMain, ID_RDTRIM, wxPoint(536,128), wxSize(12,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_RDTRIM"));
     RdTrim->SetBackgroundColour(wxColour(0,0,0));
-    RuTrim = new wxPanel(PanelMain, ID_PANEL7, wxPoint(536,72), wxSize(12,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL7"));
+    RuTrim = new wxPanel(PanelMain, ID_RUTRIM, wxPoint(536,72), wxSize(12,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_RUTRIM"));
     RuTrim->SetBackgroundColour(wxColour(0,0,0));
-    RlTrim = new wxPanel(PanelMain, ID_PANEL8, wxPoint(592,200), wxSize(25,12), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL8"));
+    RlTrim = new wxPanel(PanelMain, ID_RLTRIM, wxPoint(592,200), wxSize(25,12), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_RLTRIM"));
     RlTrim->SetBackgroundColour(wxColour(0,0,0));
-    RrTrim = new wxPanel(PanelMain, ID_PANEL6, wxPoint(644,200), wxSize(25,12), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL6"));
+    RrTrim = new wxPanel(PanelMain, ID_RRTRIM, wxPoint(644,200), wxSize(25,12), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_RRTRIM"));
     RrTrim->SetBackgroundColour(wxColour(0,0,0));
-    LrTrim = new wxPanel(PanelMain, ID_PANEL5, wxPoint(152,200), wxSize(25,12), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL5"));
+    LrTrim = new wxPanel(PanelMain, ID_LRTRIM, wxPoint(152,200), wxSize(25,12), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_LRTRIM"));
     LrTrim->SetBackgroundColour(wxColour(0,0,0));
     BPg = new wxPanel(PanelMain, ID_BPG, wxPoint(264,184), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPG"));
     BPg->SetBackgroundColour(wxColour(0,0,0));
@@ -200,28 +200,28 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Rstick->SetBackgroundColour(wxColour(0,0,0));
     Simulcd = new wxPanel(PanelMain, ID_SIMULCD, wxPoint(256,20), wxSize(260,132), wxNO_BORDER, _T("ID_SIMULCD"));
     Simulcd->SetBackgroundColour(wxColour(120,210,30));
-    PbThr = new wxPanel(PanelMain, ID_PANEL14, wxPoint(25,48), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL14"));
-    PbThr->SetBackgroundColour(wxColour(0,0,0));
-    PbThr->SetToolTip(_("THR"));
-    BpRud = new wxPanel(PanelMain, ID_PANEL15, wxPoint(25,88), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL15"));
+    BpThr = new wxPanel(PanelMain, ID_BPTHR, wxPoint(25,48), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPTHR"));
+    BpThr->SetBackgroundColour(wxColour(0,0,0));
+    BpThr->SetToolTip(_("THR"));
+    BpRud = new wxPanel(PanelMain, ID_BPRUD, wxPoint(25,88), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPRUD"));
     BpRud->SetBackgroundColour(wxColour(0,0,0));
     BpRud->SetToolTip(_("RUD"));
-    BpEle = new wxPanel(PanelMain, ID_PANEL16, wxPoint(25,128), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL16"));
+    BpEle = new wxPanel(PanelMain, ID_BPELE, wxPoint(25,128), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPELE"));
     BpEle->SetBackgroundColour(wxColour(0,0,0));
     BpEle->SetToolTip(_("ELE"));
-    BpTrn = new wxPanel(PanelMain, ID_PANEL17, wxPoint(16,208), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL17"));
+    BpTrn = new wxPanel(PanelMain, ID_BPTRN, wxPoint(16,208), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPTRN"));
     BpTrn->SetBackgroundColour(wxColour(0,0,0));
     BpTrn->SetToolTip(_("TRN"));
-    BpAil = new wxPanel(PanelMain, ID_PANEL18, wxPoint(720,48), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL18"));
+    BpAil = new wxPanel(PanelMain, ID_BPAIL, wxPoint(720,48), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPAIL"));
     BpAil->SetBackgroundColour(wxColour(0,0,0));
     BpAil->SetToolTip(_("AIL"));
-    BpGea = new wxPanel(PanelMain, ID_PANEL19, wxPoint(720,88), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL19"));
+    BpGea = new wxPanel(PanelMain, ID_BPGEA, wxPoint(720,88), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPGEA"));
     BpGea->SetBackgroundColour(wxColour(0,0,0));
     BpGea->SetToolTip(_("GEA"));
-    BpId1 = new wxPanel(PanelMain, ID_PANEL20, wxPoint(720,128), wxSize(25,20), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL20"));
+    BpId1 = new wxPanel(PanelMain, ID_PBID1, wxPoint(720,128), wxSize(25,20), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PBID1"));
     BpId1->SetBackgroundColour(wxColour(0,0,0));
     BpId1->SetToolTip(_("ID1"));
-    BpId2 = new wxPanel(PanelMain, ID_PANEL13, wxPoint(720,148), wxSize(25,20), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL13"));
+    BpId2 = new wxPanel(PanelMain, ID_BOID2, wxPoint(720,148), wxSize(25,20), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BOID2"));
     BpId2->SetBackgroundColour(wxColour(0,0,0));
     BpId2->SetToolTip(_("ID2"));
     Lstick = new wxPanel(PanelMain, ID_LSTICK, wxPoint(60,32), wxSize(158,158), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_LSTICK"));
@@ -307,7 +307,7 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Rstick->Connect(wxEVT_MOTION,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnRstickMouseMove,0,this);
     Simulcd->Connect(wxEVT_PAINT,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnwxsimulcdPaint,0,this);
     Simulcd->Connect(wxEVT_LEFT_DCLICK,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnSimulcdLeftDClick,0,this);
-    PbThr->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnPbThrLeftDown,0,this);
+    BpThr->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpThrLeftDown,0,this);
     BpRud->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpRudLeftDown1,0,this);
     BpEle->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpEleLeftDown,0,this);
     BpTrn->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpTrnLeftDown,0,this);
@@ -911,7 +911,7 @@ void NextStepRc_SimulatorFrame::OnBpTrnRightDown(wxMouseEvent& event)
     CheckInputs();
 }
 
-void NextStepRc_SimulatorFrame::OnPbThrLeftDown(wxMouseEvent& event)
+void NextStepRc_SimulatorFrame::OnBpThrLeftDown(wxMouseEvent& event)
 {
     SpinG->TogglePin(2);
 }
@@ -1052,9 +1052,9 @@ void NextStepRc_SimulatorFrame::CheckInputs()
     else RrTrim->SetBackgroundColour(Col_Button_Off);
     RrTrim->Refresh();
 
-    if (!SpinG->GetPin(2)) PbThr->SetBackgroundColour(Col_Button_On);
-    else PbThr->SetBackgroundColour(Col_Button_Off);
-    PbThr->Refresh();
+    if (!SpinG->GetPin(2)) BpThr->SetBackgroundColour(Col_Button_On);
+    else BpThr->SetBackgroundColour(Col_Button_Off);
+    BpThr->Refresh();
 
     if (!SpinG->GetPin(0)) BpRud->SetBackgroundColour(Col_Button_On);
     else BpRud->SetBackgroundColour(Col_Button_Off);

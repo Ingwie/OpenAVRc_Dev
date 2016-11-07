@@ -25,10 +25,17 @@
 				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 				<object class="wxToggleButton" name="ID_ONTGLBUTTON" variable="OnTglButton" member="yes">
 					<label>ON</label>
-					<pos>16,8</pos>
-					<size>45,21</size>
+					<pos>8,8</pos>
+					<size>62,22</size>
 					<style>wxDOUBLE_BORDER</style>
 					<handler function="OnOnTglButtonToggle" entry="EVT_TOGGLEBUTTON" />
+				</object>
+				<object class="wxButton" name="ID_BUTTONSTARTDESKTOP" variable="ButtonStartDesktop" member="yes">
+					<label>Desktop</label>
+					<pos>8,32</pos>
+					<size>62,22</size>
+					<style>wxSIMPLE_BORDER</style>
+					<handler function="OnButtonStartDesktopClick" entry="EVT_BUTTON" />
 				</object>
 			</object>
 			<object class="wxPanel" name="ID_PANELMAIN" variable="PanelMain" member="yes">
@@ -85,7 +92,7 @@
 					<handler function="OnBPexitLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPexitLeftUp" entry="EVT_LEFT_UP" />
 				</object>
-				<object class="wxPanel" name="ID_PANEL9" variable="LlTrim" member="yes">
+				<object class="wxPanel" name="ID_LLTRIM" variable="LlTrim" member="yes">
 					<pos>102,200</pos>
 					<size>25,12</size>
 					<bg>#000000</bg>
@@ -93,7 +100,7 @@
 					<handler function="OnLlTrimLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnLlTrimLeftUp" entry="EVT_LEFT_UP" />
 				</object>
-				<object class="wxPanel" name="ID_PANEL10" variable="LuTrim" member="yes">
+				<object class="wxPanel" name="ID_LUTRIM" variable="LuTrim" member="yes">
 					<pos>224,72</pos>
 					<size>12,25</size>
 					<bg>#000000</bg>
@@ -101,7 +108,7 @@
 					<handler function="OnLuTrimLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnLuTrimLeftUp" entry="EVT_LEFT_UP" />
 				</object>
-				<object class="wxPanel" name="ID_PANEL11" variable="LdTrim" member="yes">
+				<object class="wxPanel" name="ID_LDTRIM" variable="LdTrim" member="yes">
 					<pos>224,128</pos>
 					<size>12,25</size>
 					<bg>#000000</bg>
@@ -109,7 +116,7 @@
 					<handler function="OnLdTrimLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnLdTrimLeftUp" entry="EVT_LEFT_UP" />
 				</object>
-				<object class="wxPanel" name="ID_PANEL12" variable="RdTrim" member="yes">
+				<object class="wxPanel" name="ID_RDTRIM" variable="RdTrim" member="yes">
 					<pos>536,128</pos>
 					<size>12,25</size>
 					<bg>#000000</bg>
@@ -117,7 +124,7 @@
 					<handler function="OnRdTrimLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnRdTrimLeftUp" entry="EVT_LEFT_UP" />
 				</object>
-				<object class="wxPanel" name="ID_PANEL7" variable="RuTrim" member="yes">
+				<object class="wxPanel" name="ID_RUTRIM" variable="RuTrim" member="yes">
 					<pos>536,72</pos>
 					<size>12,25</size>
 					<bg>#000000</bg>
@@ -125,7 +132,7 @@
 					<handler function="OnRuTrimLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnRuTrimLeftUp" entry="EVT_LEFT_UP" />
 				</object>
-				<object class="wxPanel" name="ID_PANEL8" variable="RlTrim" member="yes">
+				<object class="wxPanel" name="ID_RLTRIM" variable="RlTrim" member="yes">
 					<pos>592,200</pos>
 					<size>25,12</size>
 					<bg>#000000</bg>
@@ -133,7 +140,7 @@
 					<handler function="OnRlTrimLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnRlTrimLeftUp" entry="EVT_LEFT_UP" />
 				</object>
-				<object class="wxPanel" name="ID_PANEL6" variable="RrTrim" member="yes">
+				<object class="wxPanel" name="ID_RRTRIM" variable="RrTrim" member="yes">
 					<pos>644,200</pos>
 					<size>25,12</size>
 					<bg>#000000</bg>
@@ -141,7 +148,7 @@
 					<handler function="OnRrTrimLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnRrTrimLeftUp" entry="EVT_LEFT_UP" />
 				</object>
-				<object class="wxPanel" name="ID_PANEL5" variable="LrTrim" member="yes">
+				<object class="wxPanel" name="ID_LRTRIM" variable="LrTrim" member="yes">
 					<pos>152,200</pos>
 					<size>25,12</size>
 					<bg>#000000</bg>
@@ -190,7 +197,7 @@
 					<handler function="OnwxsimulcdPaint" entry="EVT_PAINT" />
 					<handler function="OnSimulcdLeftDClick" entry="EVT_LEFT_DCLICK" />
 				</object>
-				<object class="wxPanel" name="ID_PANEL14" variable="PbThr" member="yes">
+				<object class="wxPanel" name="ID_BPTHR" variable="BpThr" member="yes">
 					<pos>25,48</pos>
 					<size>25,25</size>
 					<bg>#000000</bg>
@@ -198,7 +205,7 @@
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnPbThrLeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
-				<object class="wxPanel" name="ID_PANEL15" variable="BpRud" member="yes">
+				<object class="wxPanel" name="ID_BPRUD" variable="BpRud" member="yes">
 					<pos>25,88</pos>
 					<size>25,25</size>
 					<bg>#000000</bg>
@@ -206,7 +213,7 @@
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBpRudLeftDown1" entry="EVT_LEFT_DOWN" />
 				</object>
-				<object class="wxPanel" name="ID_PANEL16" variable="BpEle" member="yes">
+				<object class="wxPanel" name="ID_BPELE" variable="BpEle" member="yes">
 					<pos>25,128</pos>
 					<size>25,25</size>
 					<bg>#000000</bg>
@@ -214,7 +221,7 @@
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBpEleLeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
-				<object class="wxPanel" name="ID_PANEL17" variable="BpTrn" member="yes">
+				<object class="wxPanel" name="ID_BPTRN" variable="BpTrn" member="yes">
 					<pos>16,208</pos>
 					<size>25,25</size>
 					<bg>#000000</bg>
@@ -222,8 +229,9 @@
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBpTrnLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBpTrnLeftUp" entry="EVT_LEFT_UP" />
+					<handler function="OnBpTrnRightDown" entry="EVT_RIGHT_DOWN" />
 				</object>
-				<object class="wxPanel" name="ID_PANEL18" variable="BpAil" member="yes">
+				<object class="wxPanel" name="ID_BPAIL" variable="BpAil" member="yes">
 					<pos>720,48</pos>
 					<size>25,25</size>
 					<bg>#000000</bg>
@@ -231,7 +239,7 @@
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBpAilLeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
-				<object class="wxPanel" name="ID_PANEL19" variable="BpGea" member="yes">
+				<object class="wxPanel" name="ID_BPGEA" variable="BpGea" member="yes">
 					<pos>720,88</pos>
 					<size>25,25</size>
 					<bg>#000000</bg>
@@ -239,7 +247,7 @@
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBpGeaLeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
-				<object class="wxPanel" name="ID_PANEL20" variable="BpId1" member="yes">
+				<object class="wxPanel" name="ID_PBID1" variable="BpId1" member="yes">
 					<pos>720,128</pos>
 					<size>25,20</size>
 					<bg>#000000</bg>
@@ -247,7 +255,7 @@
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
 					<handler function="OnBpId1LeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
-				<object class="wxPanel" name="ID_PANEL13" variable="BpId2" member="yes">
+				<object class="wxPanel" name="ID_BOID2" variable="BpId2" member="yes">
 					<pos>720,148</pos>
 					<size>25,20</size>
 					<bg>#000000</bg>
