@@ -82,7 +82,7 @@ END_EVENT_TABLE()
 CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(CompilerOptionsFrame)
-	Create(parent, wxID_ANY, _("Options de compilation"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
+	Create(parent, wxID_ANY, _("Compil-O-matic"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
 	SetClientSize(wxSize(807,313));
 	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(0,0), wxSize(800,313), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	StaticBoxPROTOCOL = new wxStaticBox(Panel1, ID_STATICBOX2, _("Protocol"), wxPoint(552,16), wxSize(184,88), 0, _T("ID_STATICBOX2"));
@@ -152,20 +152,8 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
 	CheckBoxDSM2 = new wxCheckBox(Panel1, ID_CHECKBOX13, _("DSM2"), wxPoint(624,80), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX13"));
 	CheckBoxDSM2->SetValue(false);
 
-	Connect(ID_CHECKBOX1,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBox1Click);
-	Connect(ID_CHECKBOX2,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBox2Click);
-	Connect(ID_CHECKBOX3,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBox3Click);
-	Connect(ID_CHECKBOX4,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBox4Click);
-	Connect(ID_CHECKBOX5,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBox5Click);
-	Connect(ID_CHECKBOX6,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBox6Click);
-	Connect(ID_CHECKBOX8,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBox8Click);
-	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButton1Click);
 	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonCOMPILEClick);
-	Connect(ID_CHECKBOX12,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBox12Click);
 	Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonEXITClick);
-	Connect(ID_CHECKBOX10,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBox1Click1);
-	Connect(ID_CHECKBOX11,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBox2Click1);
-	Connect(ID_CHECKBOX13,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBox3Click1);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&CompilerOptionsFrame::OnClose);
 	//*)
 
@@ -186,7 +174,6 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxSPORT_FILE_LOG->SetValue(SPORT_FILE_LOG);
 }
 
-
 CompilerOptionsFrame::~CompilerOptionsFrame()
 {
 	//(*Destroy(CompilerOptionsFrame)
@@ -196,60 +183,6 @@ CompilerOptionsFrame::~CompilerOptionsFrame()
 void CompilerOptionsFrame::OnClose(wxCloseEvent& event)
 {
   Destroy();
-}
-
-void CompilerOptionsFrame::OnCheckBox1Click(wxCommandEvent& event)
-{
-}
-
-void CompilerOptionsFrame::OnCheckBox2Click(wxCommandEvent& event)
-{
-}
-
-void CompilerOptionsFrame::OnCheckBox3Click(wxCommandEvent& event)
-{
-}
-
-void CompilerOptionsFrame::OnCheckBox11Click(wxCommandEvent& event)
-{
-}
-
-void CompilerOptionsFrame::OnCheckBox10Click(wxCommandEvent& event)
-{
-}
-
-void CompilerOptionsFrame::OnChoice5Select(wxCommandEvent& event)
-{
-}
-
-
-
-void CompilerOptionsFrame::OnButton1Click(wxCommandEvent& event)
-{
-}
-
-void CompilerOptionsFrame::OnCheckBox5Click(wxCommandEvent& event)
-{
-}
-
-void CompilerOptionsFrame::OnCheckBox8Click(wxCommandEvent& event)
-{
-}
-
-void CompilerOptionsFrame::OnCheckBox4Click(wxCommandEvent& event)
-{
-}
-
-void CompilerOptionsFrame::OnCheckBox6Click(wxCommandEvent& event)
-{
-}
-
-void CompilerOptionsFrame::OnCheckBox9Click(wxCommandEvent& event)
-{
-}
-
-void CompilerOptionsFrame::OnCheckBox12Click(wxCommandEvent& event)
-{
 }
 
 void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
@@ -273,21 +206,42 @@ void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
    //configFile->Write(wxT("LCD"),LCD);// how to make configFile visible : The owner is the main frame ;-)
    //SaveConfig();
    Ini_Changed = true;
+
+    // makeclean before
+    wxString CompiBat = "makefile";
+    CompiBat += (" LCD=" + LCD);
+    CompiBat += (" PCB=" + PCB);
+    CompiBat += (" VOICE=" + VOICE);
+    CompiBat += (" EXT=" + EXT);
+    CompiBat += (" PPM_UNIT=" + PPM_UNIT);
+    if (AUDIO) CompiBat += (" AUDIO=YES");// defauls should ve NO
+    if (RTCLOCK) CompiBat += (" RTCLOCK=YES");
+    if (HELI) CompiBat += (" HELI=YES");
+    if (GAUGES) CompiBat += (" GAUGES=YES");
+    if (GPS) CompiBat += (" GPS=YES");
+    if (VARIO) CompiBat += (" VARIO=YES");
+    if (SPORT_FILE_LOG) CompiBat += (" SPORT_FILE_LOG=YES");
+    if (PPM) CompiBat += (" PPM=YES");
+    if (PXX) CompiBat += (" PXX=YES");
+    if (DSM2) CompiBat += (" DSM2=YES");
+
+    wxMessageBox(CompiBat);
 }
 
 void CompilerOptionsFrame::OnButtonEXITClick(wxCommandEvent& event)
 {
-    Destroy();
+    Close();
 }
 
-void CompilerOptionsFrame::OnCheckBox2Click1(wxCommandEvent& event)
-{
-}
 
-void CompilerOptionsFrame::OnCheckBox3Click1(wxCommandEvent& event)
+void Compile()//no use yet
 {
-}
 
-void CompilerOptionsFrame::OnCheckBox1Click1(wxCommandEvent& event)
-{
+    //wxString CompiBat = "makefile ";
+    //BatString = "";
+    //CompiBat += ("LCD=" + LCD);
+    //BatString  += toto.getvalue();
+    //BatString += configFile->Read(wxT("LCD"),&LCD); config file was not declared in this scope.
+    //BatString  += tata.getvalue();
+    //If (audioIsChecked) batString += "AUDIO=YES ";
 }

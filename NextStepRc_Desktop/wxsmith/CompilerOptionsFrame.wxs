@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
-	<object class="wxFrame" name="CompilerOptionsFrame">
-		<title>Options de compilation</title>
+	<object class="wxFrame" name="Compil-O-matic">
+		<title>Compil-O-matic</title>
 		<size>807,313</size>
 		<id_arg>0</id_arg>
 		<handler function="OnClose" entry="EVT_CLOSE" />
@@ -48,7 +48,6 @@
 			<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBoxHELI" member="yes">
 				<label>HELI</label>
 				<pos>120,248</pos>
-				<handler function="OnCheckBox1Click" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX7" variable="CheckBoxAUDIO" member="yes">
 				<label>AUDIO</label>
@@ -80,37 +79,30 @@
 			<object class="wxCheckBox" name="ID_CHECKBOX2" variable="CheckBoxHUB" member="yes">
 				<label>FrSky Hub</label>
 				<pos>352,72</pos>
-				<handler function="OnCheckBox2Click" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX3" variable="CheckBoxFASOFFSET" member="yes">
 				<label>FAS Offset</label>
 				<pos>352,104</pos>
-				<handler function="OnCheckBox3Click" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX4" variable="CheckBoxGAUGES" member="yes">
 				<label>Gauges</label>
 				<pos>352,136</pos>
-				<handler function="OnCheckBox4Click" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX5" variable="CheckBoxGPS" member="yes">
 				<label>GPS</label>
 				<pos>352,168</pos>
-				<handler function="OnCheckBox5Click" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX6" variable="CheckBoxVARIO" member="yes">
 				<label>Vario</label>
 				<pos>352,200</pos>
-				<handler function="OnCheckBox6Click" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX8" variable="CheckBoxSPORT_FILE_LOG" member="yes">
 				<label>Sport file log</label>
 				<pos>352,232</pos>
-				<handler function="OnCheckBox8Click" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxButton" name="ID_BUTTON1" variable="ButtonADVANCED" member="yes">
 				<label>Advanced</label>
 				<pos>688,216</pos>
-				<handler function="OnButton1Click" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxButton" name="ID_BUTTON2" variable="ButtonCOMPILE" member="yes">
 				<label>COMPILE</label>
@@ -133,7 +125,6 @@
 			<object class="wxCheckBox" name="ID_CHECKBOX12" variable="CheckBoxSD_CARD" member="yes">
 				<label>SD CARD</label>
 				<pos>120,216</pos>
-				<handler function="OnCheckBox12Click" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxChoice" name="ID_CHOICE6" variable="ChoicePCB" member="yes">
 				<content>
@@ -166,17 +157,14 @@
 				<label>PPM</label>
 				<checked>1</checked>
 				<pos>624,32</pos>
-				<handler function="OnCheckBox1Click1" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX11" variable="CheckBoxPXX" member="yes">
 				<label>PXX</label>
 				<pos>624,56</pos>
-				<handler function="OnCheckBox2Click1" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX13" variable="CheckBoxDSM2" member="yes">
 				<label>DSM2</label>
 				<pos>624,80</pos>
-				<handler function="OnCheckBox3Click1" entry="EVT_CHECKBOX" />
 			</object>
 		</object>
 	</object>
