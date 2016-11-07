@@ -12,7 +12,7 @@
 				<pos>280,16</pos>
 				<size>192,248</size>
 			</object>
-			<object class="wxChoice" name="ID_CHOICE1" variable="Choice1" member="yes">
+			<object class="wxChoice" name="ID_CHOICE1" variable="ChoiceLCD" member="yes">
 				<content>
 					<item>DEFAULT </item>
 					<item>ST7565P</item>
@@ -26,7 +26,7 @@
 				<size>96,21</size>
 				<handler function="OnLCDSelect" entry="EVT_CHOICE" />
 			</object>
-			<object class="wxChoice" name="ID_CHOICE3" variable="Choice3" member="yes">
+			<object class="wxChoice" name="ID_CHOICE3" variable="ChoiceVOICE" member="yes">
 				<content>
 					<item>NO</item>
 					<item>WTV20SD</item>
@@ -52,7 +52,7 @@
 				<pos>120,152</pos>
 				<size>64,16</size>
 			</object>
-			<object class="wxChoice" name="ID_CHOICE2" variable="Choice2" member="yes">
+			<object class="wxChoice" name="ID_CHOICE2" variable="ChoiceEXT" member="yes">
 				<content>
 					<item>STD</item>
 					<item>FRSKY</item>
@@ -65,6 +65,7 @@
 				</content>
 				<pos>352,32</pos>
 				<size>96,21</size>
+				<handler function="OnChoiceEXTSelect" entry="EVT_CHOICE" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 				<label>LCD</label>
@@ -122,7 +123,7 @@
 				<label>PROTOCOL</label>
 				<pos>544,88</pos>
 			</object>
-			<object class="wxChoice" name="ID_CHOICE4" variable="Choice4" member="yes">
+			<object class="wxChoice" name="ID_CHOICE4" variable="ChoicePPM_UNIT " member="yes">
 				<content>
 					<item>PERCENT_PREC1</item>
 					<item>PERCENT_PREC0</item>
@@ -130,7 +131,7 @@
 				</content>
 				<pos>624,32</pos>
 				<size>112,21</size>
-				<handler function="OnChoice4Select" entry="EVT_CHOICE" />
+				<handler function="OnChoicePPM_UNITSelect" entry="EVT_CHOICE" />
 			</object>
 			<object class="wxChoice" name="ID_CHOICE5" variable="Choice5" member="yes">
 				<content>
@@ -147,7 +148,7 @@
 				<pos>120,216</pos>
 				<handler function="OnCheckBox12Click" entry="EVT_CHECKBOX" />
 			</object>
-			<object class="wxChoice" name="ID_CHOICE6" variable="Choice6" member="yes">
+			<object class="wxChoice" name="ID_CHOICE6" variable="ChoicePCB" member="yes">
 				<content>
 					<item>m2560</item>
 					<item>m128</item>
@@ -155,7 +156,7 @@
 				</content>
 				<pos>120,32</pos>
 				<size>96,21</size>
-				<handler function="OnChoice6Select" entry="EVT_CHOICE" />
+				<handler function="OnChoicePCBSelect" entry="EVT_CHOICE" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
 				<label>PROCESSOR</label>

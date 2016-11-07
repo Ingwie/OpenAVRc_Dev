@@ -337,8 +337,11 @@ void NextStepRc_DesktopFrame::LoadConfig()
     configFile->Read(wxT("Type"),&dude_type);
     configFile->Read(wxT("avrdudepath"),&avrdudepath);
 //////////////////////////////////////////////////
+    configFile->Read(wxT("PCB"),&PCB);
     configFile->Read(wxT("LCD"),&LCD);
     configFile->Read(wxT("VOICE"),&VOICE);
+    configFile->Read(wxT("EXT"),&EXT);
+    configFile->Read(wxT("PPM_UNIT"),&PPM_UNIT);
 }
 
 void NextStepRc_DesktopFrame::SaveConfig()
@@ -350,8 +353,11 @@ void NextStepRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("Type"),dude_type);
     configFile->Write(wxT("avrdudepath"),avrdudepath);
 ///////////////////////////////////////////////////////
+    configFile->Write(wxT("PCB"),PCB);
     configFile->Write(wxT("LCD"),LCD);
     configFile->Write(wxT("VOICE"),VOICE);
+    configFile->Write(wxT("EXT"),EXT);
+    configFile->Write(wxT("PPM_UNIT"),PPM_UNIT);
 ///////////////////////////////////////////////////////
     configFile->Flush();
 }

@@ -46,7 +46,6 @@ class CompilerOptionsFrame: public wxFrame
 		wxChoice* Choice5;
 		wxCheckBox* CheckBox9;
 		wxStaticText* StaticText2;
-		wxChoice* Choice3;
 		wxButton* Button1;
 		wxStaticText* StaticText6;
 		wxCheckBox* CheckBox3;
@@ -59,17 +58,18 @@ class CompilerOptionsFrame: public wxFrame
 		wxChoice* Choice7;
 		wxButton* Button2;
 		wxCheckBox* CheckBox1;
+		wxChoice* ChoicePPM_UNIT ;
 		wxStaticText* StaticText5;
+		wxChoice* ChoiceEXT;
 		wxCheckBox* CheckBox12;
-		wxChoice* Choice4;
 		wxCheckBox* CheckBox4;
-		wxChoice* Choice6;
 		wxCheckBox* CheckBox8;
 		wxCheckBox* CheckBox7;
 		wxCheckBox* CheckBox5;
+		wxChoice* ChoiceLCD;
+		wxChoice* ChoiceVOICE;
 		wxStaticText* StaticText4;
-		wxChoice* Choice1;
-		wxChoice* Choice2;
+		wxChoice* ChoicePCB;
 		//*)
 
 	protected:
@@ -130,6 +130,9 @@ class CompilerOptionsFrame: public wxFrame
 		void SaveConfig();
 		void LoadConfig();
 		void OnVOICESelect1(wxCommandEvent& event);
+		void OnChoicePCBSelect(wxCommandEvent& event);
+		void OnChoiceEXTSelect(wxCommandEvent& event);
+		void OnChoicePPM_UNITSelect(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
