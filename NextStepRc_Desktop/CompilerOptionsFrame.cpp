@@ -81,18 +81,18 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
 	SetClientSize(wxSize(807,313));
 	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(0,0), wxSize(800,313), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Télémetrie"), wxPoint(280,16), wxSize(192,248), 0, _T("ID_STATICBOX1"));
-	Choice1 = new wxChoice(Panel1, ID_CHOICE1, wxPoint(120,72), wxSize(96,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
-	Choice1->Append(_("DEFAULT"));
-	Choice1->Append(_("ST7565P"));
-	Choice1->Append(_("ST7565R"));
-	Choice1->Append(_("ERC12864FSF"));
-	Choice1->Append(_("ST7920"));
-	Choice1->Append(_("KS108"));
-	Choice1->Append(_("SSD1306"));
-	Choice3 = new wxChoice(Panel1, ID_CHOICE3, wxPoint(120,112), wxSize(96,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE3"));
-	Choice3->Append(_("NO"));
-	Choice3->Append(_("WTV20SD"));
-	Choice3->Append(_("JQ6500"));
+	ChoiceLCD = new wxChoice(Panel1, ID_CHOICE1, wxPoint(120,72), wxSize(96,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
+	ChoiceLCD->Append(_("DEFAULT "));
+	ChoiceLCD->Append(_("ST7565P"));
+	ChoiceLCD->Append(_("ST7565R "));
+	ChoiceLCD->Append(_("ERC12864FSF"));
+	ChoiceLCD->Append(_("ST7920 "));
+	ChoiceLCD->Append(_("KS108"));
+	ChoiceLCD->Append(_("SSD1306"));
+	ChoiceVOICE = new wxChoice(Panel1, ID_CHOICE3, wxPoint(120,112), wxSize(96,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE3"));
+	ChoiceVOICE->Append(_("NO"));
+	ChoiceVOICE->Append(_("WTV20SD"));
+	ChoiceVOICE->Append(_("JQ6500"));
 	CheckBox9 = new wxCheckBox(Panel1, ID_CHECKBOX9, _("RTC Clock"), wxPoint(120,184), wxSize(67,21), 0, wxDefaultValidator, _T("ID_CHECKBOX9"));
 	CheckBox9->SetValue(false);
 	CheckBox1 = new wxCheckBox(Panel1, ID_CHECKBOX1, _("HELI"), wxPoint(120,248), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
@@ -162,6 +162,8 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
 	Connect(ID_CHOICE6,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&CompilerOptionsFrame::OnChoice6Select);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&CompilerOptionsFrame::OnClose);
 	//*)
+	ChoiceLCD->SetStringSelection(LCD);
+	ChoiceVOICE->SetStringSelection(VOICE);
 }
 
 CompilerOptionsFrame::~CompilerOptionsFrame()
@@ -170,11 +172,14 @@ CompilerOptionsFrame::~CompilerOptionsFrame()
 	//*)
 }
 
-
 void CompilerOptionsFrame::OnLCDSelect(wxCommandEvent& event)
 {
-    LCD  = Choice1->GetString(Choice1->GetSelection());
-    wxMessageBox(LCD);
+    LCD  = ChoiceLCD->GetString(ChoiceLCD->GetSelection());
+}
+
+void CompilerOptionsFrame::OnVOICESelect1(wxCommandEvent& event)
+{
+    VOICE  = ChoiceVOICE->GetString(ChoiceVOICE->GetSelection());
 }
 
 void CompilerOptionsFrame::OnClose(wxCloseEvent& event)
@@ -201,15 +206,6 @@ void CompilerOptionsFrame::OnCheckBox11Click(wxCommandEvent& event)
 void CompilerOptionsFrame::OnCheckBox10Click(wxCommandEvent& event)
 {
 }
-
-void CompilerOptionsFrame::OnVOICESelect1(wxCommandEvent& event)
-{
-    VOICE  = Choice3->GetString(Choice3->GetSelection());
-    wxMessageBox(VOICE);
-}
-//void CompilerOptionsFrame::OnChoice3Select(wxCommandEvent& event)
-//{
-//}
 
 void CompilerOptionsFrame::OnChoice5Select(wxCommandEvent& event)
 {
@@ -253,7 +249,6 @@ void CompilerOptionsFrame::OnCheckBox12Click(wxCommandEvent& event)
 
 void CompilerOptionsFrame::OnButton2Click(wxCommandEvent& event)
 {
-   wxMessageBox(LCD);
    //configFile->Write(wxT("LCD"),LCD);// how to make configFile visible : The owner is the main frame ;-)
    //SaveConfig();
    Ini_Changed = true;
