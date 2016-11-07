@@ -66,8 +66,8 @@ private:
     static const long ID_MENUITEM9;
     static const long ID_MENUITEM10;
     static const long ID_MENUITEM7;
-    static const long ID_MENUAT2560;
-    static const long ID_MENUITEMHTMLDOC;
+    static const long ID_MENUCOMPILOMATIC;
+    static const long ID_MENUHTMLDOC;
     static const long idMenuAbout;
     static const long ID_STATUSBAR1;
     //*)

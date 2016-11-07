@@ -69,8 +69,8 @@
 			</object>
 			<object class="wxMenu" variable="Menu7" member="yes">
 				<label>Compilateur</label>
-				<object class="wxMenuItem" name="ID_MENUAT2560" variable="ATMEGA2560Compiler" member="yes">
-					<label>ATMEGA2560</label>
+				<object class="wxMenuItem" name="ID_MENUCOMPILOMATIC" variable="ATMEGA2560Compiler" member="yes">
+					<label>Compil-O-matic</label>
 					<handler function="OnATMEGA2560CompilerSelected" entry="EVT_MENU" />
 				</object>
 			</object>
