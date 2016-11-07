@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxFrame" name="CompilerOptionsFrame">
+		<title>Options de compilation</title>
 		<size>807,313</size>
 		<id_arg>0</id_arg>
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>0,0</pos>
 			<size>800,313</size>
+			<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBoxPROTOCOL" member="yes">
+				<label>Protocol</label>
+				<pos>552,16</pos>
+				<size>184,88</size>
+			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
 				<label>Télémetrie</label>
 				<pos>280,16</pos>
@@ -24,7 +30,6 @@
 				</content>
 				<pos>120,72</pos>
 				<size>96,21</size>
-				<handler function="OnLCDSelect" entry="EVT_CHOICE" />
 			</object>
 			<object class="wxChoice" name="ID_CHOICE3" variable="ChoiceVOICE" member="yes">
 				<content>
@@ -34,20 +39,18 @@
 				</content>
 				<pos>120,112</pos>
 				<size>96,21</size>
-				<handler function="OnVOICESelect1" entry="EVT_CHOICE" />
 			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX9" variable="CheckBox9" member="yes">
+			<object class="wxCheckBox" name="ID_CHECKBOX9" variable="CheckBoxRTCLOCK" member="yes">
 				<label>RTC Clock</label>
 				<pos>120,184</pos>
-				<size>67,21</size>
-				<handler function="OnCheckBox9Click" entry="EVT_CHECKBOX" />
+				<size>80,21</size>
 			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBox1" member="yes">
+			<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBoxHELI" member="yes">
 				<label>HELI</label>
 				<pos>120,248</pos>
 				<handler function="OnCheckBox1Click" entry="EVT_CHECKBOX" />
 			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX7" variable="CheckBox7" member="yes">
+			<object class="wxCheckBox" name="ID_CHECKBOX7" variable="CheckBoxAUDIO" member="yes">
 				<label>AUDIO</label>
 				<pos>120,152</pos>
 				<size>64,16</size>
@@ -65,7 +68,6 @@
 				</content>
 				<pos>352,32</pos>
 				<size>96,21</size>
-				<handler function="OnChoiceEXTSelect" entry="EVT_CHOICE" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 				<label>LCD</label>
@@ -75,53 +77,49 @@
 				<label>VOICE</label>
 				<pos>64,120</pos>
 			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX2" variable="CheckBox2" member="yes">
+			<object class="wxCheckBox" name="ID_CHECKBOX2" variable="CheckBoxHUB" member="yes">
 				<label>FrSky Hub</label>
 				<pos>352,72</pos>
 				<handler function="OnCheckBox2Click" entry="EVT_CHECKBOX" />
 			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX3" variable="CheckBox3" member="yes">
+			<object class="wxCheckBox" name="ID_CHECKBOX3" variable="CheckBoxFASOFFSET" member="yes">
 				<label>FAS Offset</label>
 				<pos>352,104</pos>
 				<handler function="OnCheckBox3Click" entry="EVT_CHECKBOX" />
 			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX4" variable="CheckBox4" member="yes">
+			<object class="wxCheckBox" name="ID_CHECKBOX4" variable="CheckBoxGAUGES" member="yes">
 				<label>Gauges</label>
 				<pos>352,136</pos>
 				<handler function="OnCheckBox4Click" entry="EVT_CHECKBOX" />
 			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX5" variable="CheckBox5" member="yes">
+			<object class="wxCheckBox" name="ID_CHECKBOX5" variable="CheckBoxGPS" member="yes">
 				<label>GPS</label>
 				<pos>352,168</pos>
 				<handler function="OnCheckBox5Click" entry="EVT_CHECKBOX" />
 			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX6" variable="CheckBox6" member="yes">
+			<object class="wxCheckBox" name="ID_CHECKBOX6" variable="CheckBoxVARIO" member="yes">
 				<label>Vario</label>
 				<pos>352,200</pos>
 				<handler function="OnCheckBox6Click" entry="EVT_CHECKBOX" />
 			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX8" variable="CheckBox8" member="yes">
+			<object class="wxCheckBox" name="ID_CHECKBOX8" variable="CheckBoxSPORT_FILE_LOG" member="yes">
 				<label>Sport file log</label>
 				<pos>352,232</pos>
 				<handler function="OnCheckBox8Click" entry="EVT_CHECKBOX" />
 			</object>
-			<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
+			<object class="wxButton" name="ID_BUTTON1" variable="ButtonADVANCED" member="yes">
 				<label>Advanced</label>
-				<pos>584,256</pos>
+				<pos>688,216</pos>
 				<handler function="OnButton1Click" entry="EVT_BUTTON" />
 			</object>
-			<object class="wxButton" name="ID_BUTTON2" variable="Button2" member="yes">
+			<object class="wxButton" name="ID_BUTTON2" variable="ButtonCOMPILE" member="yes">
 				<label>COMPILE</label>
 				<pos>688,256</pos>
-				<handler function="OnButton2Click" entry="EVT_BUTTON" />
+				<handler function="OnButtonCOMPILEClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText4" member="yes">
 				<label>PPM Units</label>
-				<pos>552,40</pos>
-			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
-				<label>PROTOCOL</label>
-				<pos>544,88</pos>
+				<pos>560,128</pos>
 			</object>
 			<object class="wxChoice" name="ID_CHOICE4" variable="ChoicePPM_UNIT " member="yes">
 				<content>
@@ -129,21 +127,10 @@
 					<item>PERCENT_PREC0</item>
 					<item>US</item>
 				</content>
-				<pos>624,32</pos>
+				<pos>624,120</pos>
 				<size>112,21</size>
-				<handler function="OnChoicePPM_UNITSelect" entry="EVT_CHOICE" />
 			</object>
-			<object class="wxChoice" name="ID_CHOICE5" variable="Choice5" member="yes">
-				<content>
-					<item>PPM</item>
-					<item>PXX</item>
-					<item>DSM2</item>
-				</content>
-				<pos>624,80</pos>
-				<size>112,21</size>
-				<handler function="OnChoice5Select" entry="EVT_CHOICE" />
-			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX12" variable="CheckBox12" member="yes">
+			<object class="wxCheckBox" name="ID_CHECKBOX12" variable="CheckBoxSD_CARD" member="yes">
 				<label>SD CARD</label>
 				<pos>120,216</pos>
 				<handler function="OnCheckBox12Click" entry="EVT_CHECKBOX" />
@@ -156,7 +143,6 @@
 				</content>
 				<pos>120,32</pos>
 				<size>96,21</size>
-				<handler function="OnChoicePCBSelect" entry="EVT_CHOICE" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
 				<label>PROCESSOR</label>
@@ -164,12 +150,33 @@
 				<size>64,13</size>
 			</object>
 			<object class="wxChoice" name="ID_CHOICE7" variable="Choice7" member="yes">
-				<pos>624,136</pos>
+				<pos>624,160</pos>
 				<size>112,21</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText6" member="yes">
 				<label>LANGUAGE</label>
-				<pos>552,144</pos>
+				<pos>552,160</pos>
+			</object>
+			<object class="wxButton" name="ID_BUTTON3" variable="ButtonEXIT" member="yes">
+				<label>EXIT</label>
+				<pos>576,256</pos>
+				<handler function="OnButtonEXITClick" entry="EVT_BUTTON" />
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX10" variable="CheckBoxPPM" member="yes">
+				<label>PPM</label>
+				<checked>1</checked>
+				<pos>624,32</pos>
+				<handler function="OnCheckBox1Click1" entry="EVT_CHECKBOX" />
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX11" variable="CheckBoxPXX" member="yes">
+				<label>PXX</label>
+				<pos>624,56</pos>
+				<handler function="OnCheckBox2Click1" entry="EVT_CHECKBOX" />
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX13" variable="CheckBoxDSM2" member="yes">
+				<label>DSM2</label>
+				<pos>624,80</pos>
+				<handler function="OnCheckBox3Click1" entry="EVT_CHECKBOX" />
 			</object>
 		</object>
 	</object>

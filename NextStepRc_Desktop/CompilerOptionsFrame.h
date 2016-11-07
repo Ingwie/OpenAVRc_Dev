@@ -17,21 +17,22 @@ extern wxString PCB;
 extern wxString LCD;
 extern wxString VOICE;
 extern wxString EXT;
-extern wxString AUDIO;
-extern wxString HELI;
+extern bool AUDIO;
+extern bool HELI;
 extern wxString TTS;
 extern wxString TRANSLATIONS;
 extern wxString NAVIGATION;
 extern wxString FRSKY_HUB;
 extern wxString HAPTIC;
 extern wxString PPM_UNIT;
-extern wxString PXX;
-extern wxString DSM2;
-extern wxString GAUGES;
-extern wxString GPS;
-extern wxString VARIO;
-extern wxString RTCLOCK;
-extern wxString SPORT_FILE_LOG;
+extern bool GAUGES;
+extern bool GPS;
+extern bool VARIO;
+extern bool RTCLOCK;
+extern bool SPORT_FILE_LOG;
+extern bool PPM;
+extern bool PXX;
+extern bool DSM2;
 
 class CompilerOptionsFrame: public wxFrame
 {
@@ -43,38 +44,42 @@ class CompilerOptionsFrame: public wxFrame
 		//wxFileConfig* configFile;
 
 		//(*Declarations(CompilerOptionsFrame)
-		wxChoice* Choice5;
-		wxCheckBox* CheckBox9;
+		wxCheckBox* CheckBoxSD_CARD;
+		wxCheckBox* CheckBoxPXX;
+		wxCheckBox* CheckBoxPPM;
 		wxStaticText* StaticText2;
-		wxButton* Button1;
+		wxCheckBox* CheckBoxGAUGES;
 		wxStaticText* StaticText6;
-		wxCheckBox* CheckBox3;
-		wxCheckBox* CheckBox2;
-		wxCheckBox* CheckBox6;
+		wxStaticBox* StaticBoxPROTOCOL;
 		wxPanel* Panel1;
 		wxStaticText* StaticText1;
+		wxCheckBox* CheckBoxAUDIO;
 		wxStaticText* StaticText3;
 		wxStaticBox* StaticBox1;
 		wxChoice* Choice7;
-		wxButton* Button2;
-		wxCheckBox* CheckBox1;
+		wxCheckBox* CheckBoxDSM2;
+		wxButton* ButtonEXIT;
+		wxCheckBox* CheckBoxGPS;
+		wxButton* ButtonCOMPILE;
+		wxCheckBox* CheckBoxVARIO;
 		wxChoice* ChoicePPM_UNIT ;
-		wxStaticText* StaticText5;
 		wxChoice* ChoiceEXT;
-		wxCheckBox* CheckBox12;
-		wxCheckBox* CheckBox4;
-		wxCheckBox* CheckBox8;
-		wxCheckBox* CheckBox7;
-		wxCheckBox* CheckBox5;
+		wxCheckBox* CheckBoxFASOFFSET;
+		wxCheckBox* CheckBoxSPORT_FILE_LOG;
+		wxCheckBox* CheckBoxHELI;
+		wxCheckBox* CheckBoxHUB;
 		wxChoice* ChoiceLCD;
 		wxChoice* ChoiceVOICE;
 		wxStaticText* StaticText4;
+		wxButton* ButtonADVANCED;
 		wxChoice* ChoicePCB;
+		wxCheckBox* CheckBoxRTCLOCK;
 		//*)
 
 	protected:
 
 		//(*Identifiers(CompilerOptionsFrame)
+		static const long ID_STATICBOX2;
 		static const long ID_STATICBOX1;
 		static const long ID_CHOICE1;
 		static const long ID_CHOICE3;
@@ -93,14 +98,16 @@ class CompilerOptionsFrame: public wxFrame
 		static const long ID_BUTTON1;
 		static const long ID_BUTTON2;
 		static const long ID_STATICTEXT4;
-		static const long ID_STATICTEXT5;
 		static const long ID_CHOICE4;
-		static const long ID_CHOICE5;
 		static const long ID_CHECKBOX12;
 		static const long ID_CHOICE6;
 		static const long ID_STATICTEXT2;
 		static const long ID_CHOICE7;
 		static const long ID_STATICTEXT6;
+		static const long ID_BUTTON3;
+		static const long ID_CHECKBOX10;
+		static const long ID_CHECKBOX11;
+		static const long ID_CHECKBOX13;
 		static const long ID_PANEL1;
 		//*)
 
@@ -133,6 +140,14 @@ class CompilerOptionsFrame: public wxFrame
 		void OnChoicePCBSelect(wxCommandEvent& event);
 		void OnChoiceEXTSelect(wxCommandEvent& event);
 		void OnChoicePPM_UNITSelect(wxCommandEvent& event);
+		void OnAUDIOClick(wxCommandEvent& event);
+		void OnCheckBoxAUDIOClick(wxCommandEvent& event);
+		void OnCheckBoxRTCLOCKClick(wxCommandEvent& event);
+		void OnButtonCOMPILEClick(wxCommandEvent& event);
+		void OnButtonEXITClick(wxCommandEvent& event);
+		void OnCheckBox2Click1(wxCommandEvent& event);
+		void OnCheckBox3Click1(wxCommandEvent& event);
+		void OnCheckBox1Click1(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

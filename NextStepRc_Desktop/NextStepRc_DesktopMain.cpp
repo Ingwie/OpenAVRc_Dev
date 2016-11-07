@@ -336,13 +336,24 @@ void NextStepRc_DesktopFrame::LoadConfig()
     configFile->Read(wxT("Port"),&dude_port);
     configFile->Read(wxT("Type"),&dude_type);
     configFile->Read(wxT("avrdudepath"),&avrdudepath);
-//////////////////////////////////////////////////
     configFile->Read(wxT("PCB"),&PCB);
     configFile->Read(wxT("LCD"),&LCD);
     configFile->Read(wxT("VOICE"),&VOICE);
     configFile->Read(wxT("EXT"),&EXT);
     configFile->Read(wxT("PPM_UNIT"),&PPM_UNIT);
+
+    configFile->Read(wxT("AUDIO"),&AUDIO);
+    configFile->Read(wxT("RTCLOCK"),&RTCLOCK);
+    configFile->Read(wxT("HELI"),&HELI);
+    configFile->Read(wxT("GAUGES"),&GAUGES);
+    configFile->Read(wxT("GPS"),&GPS);
+    configFile->Read(wxT("VARIO"),&VARIO);
+    configFile->Read(wxT("SPORT_FILE_LOG"),&SPORT_FILE_LOG);
+    configFile->Read(wxT("PPM"),&PPM);
+    configFile->Read(wxT("PXX"),&PXX);
+    configFile->Read(wxT("DSM2"),&DSM2);
 }
+
 
 void NextStepRc_DesktopFrame::SaveConfig()
 {
@@ -352,13 +363,21 @@ void NextStepRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("Port"),dude_port);
     configFile->Write(wxT("Type"),dude_type);
     configFile->Write(wxT("avrdudepath"),avrdudepath);
-///////////////////////////////////////////////////////
     configFile->Write(wxT("PCB"),PCB);
     configFile->Write(wxT("LCD"),LCD);
     configFile->Write(wxT("VOICE"),VOICE);
     configFile->Write(wxT("EXT"),EXT);
     configFile->Write(wxT("PPM_UNIT"),PPM_UNIT);
-///////////////////////////////////////////////////////
+    configFile->Write(wxT("AUDIO"),AUDIO);
+    configFile->Write(wxT("RTCLOCK"),RTCLOCK);
+    configFile->Write(wxT("HELI"),HELI);
+    configFile->Write(wxT("GAUGES"),GAUGES);
+    configFile->Write(wxT("GPS"),GPS);
+    configFile->Write(wxT("VARIO"),VARIO);
+    configFile->Write(wxT("SPORT_FILE_LOG"),SPORT_FILE_LOG);
+    configFile->Write(wxT("PPM"),PPM);
+    configFile->Write(wxT("PXX"),PXX);
+    configFile->Write(wxT("DSM2"),DSM2);
     configFile->Flush();
 }
 
