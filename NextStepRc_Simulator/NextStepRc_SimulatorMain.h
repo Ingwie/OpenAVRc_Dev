@@ -15,6 +15,7 @@
 #include <wx/tglbtn.h>
 #include <wx/slider.h>
 #include <wx/panel.h>
+#include <wx/button.h>
 #include <wx/frame.h>
 #include <wx/timer.h>
 #include <wx/spinbutt.h>
@@ -116,6 +117,7 @@ private:
     void OnBpRudLeftDown1(wxMouseEvent& event);
     void OnBpEleLeftDown(wxMouseEvent& event);
     void OnBpAilLeftDown(wxMouseEvent& event);
+    void LoadEepromFile(wxString path);
     wxColour SetColour();
     void LoadConfig();
     void SaveConfig();
@@ -131,11 +133,14 @@ private:
     void OnMenuSaveeeSelected(wxCommandEvent& event);
     void OnLstickPaint(wxPaintEvent& event);
     void OnRstickPaint(wxPaintEvent& event);
+    void OnBpTrnRightDown(wxMouseEvent& event);
+    void OnButtonStartDesktopClick(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(NextStepRc_SimulatorFrame)
     static const long ID_PANELH;
     static const long ID_ONTGLBUTTON;
+    static const long ID_BUTTONSTARTDESKTOP;
     static const long ID_PANELL;
     static const long ID_POT1;
     static const long ID_POT2;
@@ -188,6 +193,8 @@ private:
     //(*Variables(NextStepRc_SimulatorFrame)
     wxFileConfig* configFile;
     wxString Ini_Filename;
+    wxString AppPath;
+    wxString CurrentEEPath;
 
     wxColour Col_Lcd_Back;
     wxColour Col_Lcd_Front;
@@ -255,6 +262,7 @@ private:
     wxPanel* RuTrim;
     wxPanel* BpTrn;
     wxPanel* PanelMain;
+    wxButton* ButtonStartDesktop;
     wxToggleButton* OnTglButton;
     wxTimer TimerMain;
     wxPanel* Rstick;

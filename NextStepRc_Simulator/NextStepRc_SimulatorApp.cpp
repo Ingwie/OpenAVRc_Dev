@@ -29,5 +29,4 @@ bool NextStepRc_SimulatorApp::OnInit()
     }
     //*)
     return wxsOK;
-
 }

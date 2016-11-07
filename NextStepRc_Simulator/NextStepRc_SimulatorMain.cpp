@@ -65,6 +65,7 @@ bool Ini_Changed = false;
 //(*IdInit(NextStepRc_SimulatorFrame)
 const long NextStepRc_SimulatorFrame::ID_PANELH = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_ONTGLBUTTON = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_BUTTONSTARTDESKTOP = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANELL = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_POT1 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_POT2 = wxNewId();
@@ -155,7 +156,8 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     PanelPrincipal = new wxPanel(this, ID_PANEL1, wxPoint(424,216), wxSize(777,400), wxRAISED_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     PanelH = new wxPanel(PanelPrincipal, ID_PANELH, wxPoint(0,0), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELH"));
     PanelL = new wxPanel(PanelPrincipal, ID_PANELL, wxPoint(0,304), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELL"));
-    OnTglButton = new wxToggleButton(PanelL, ID_ONTGLBUTTON, _("ON"), wxPoint(16,8), wxSize(45,21), wxDOUBLE_BORDER, wxDefaultValidator, _T("ID_ONTGLBUTTON"));
+    OnTglButton = new wxToggleButton(PanelL, ID_ONTGLBUTTON, _("ON"), wxPoint(8,8), wxSize(62,22), wxDOUBLE_BORDER, wxDefaultValidator, _T("ID_ONTGLBUTTON"));
+    ButtonStartDesktop = new wxButton(PanelL, ID_BUTTONSTARTDESKTOP, _("Desktop"), wxPoint(8,32), wxSize(62,22), wxSIMPLE_BORDER, wxDefaultValidator, _T("ID_BUTTONSTARTDESKTOP"));
     PanelMain = new wxPanel(PanelPrincipal, ID_PANELMAIN, wxPoint(0,64), wxSize(784,248), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELMAIN"));
     Pot1 = new wxSlider(PanelMain, ID_POT1, 1024, 0, 2048, wxPoint(352,160), wxSize(14,78), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_POT1"));
     Pot1->SetBackgroundColour(wxColour(128,64,0));
@@ -272,6 +274,7 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Center();
 
     Connect(ID_ONTGLBUTTON,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnOnTglButtonToggle);
+    Connect(ID_BUTTONSTARTDESKTOP,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnButtonStartDesktopClick);
     BPmenu->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBPmenuLeftDown,0,this);
     BPmenu->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBPmenuLeftUp,0,this);
     BPh->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBPhLeftDown,0,this);
@@ -309,6 +312,7 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     BpEle->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpEleLeftDown,0,this);
     BpTrn->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpTrnLeftDown,0,this);
     BpTrn->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpTrnLeftUp,0,this);
+    BpTrn->Connect(wxEVT_RIGHT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpTrnRightDown,0,this);
     BpAil->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpAilLeftDown,0,this);
     BpGea->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpGeaLeftDown,0,this);
     BpId1->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpId1LeftDown,0,this);
@@ -330,6 +334,8 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnClose);
     //*)
 
+    //App Path
+    AppPath = wxStandardPaths::Get().GetExecutablePath();
     //Ini File
     Ini_Filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "NextStepRcSimulator.ini";
     configFile = new wxFileConfig( "", "", Ini_Filename);
@@ -339,6 +345,7 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Col_Button_On = *wxWHITE;
     Col_Stick_Back = *wxBLACK;
     Col_Stick_Circle = *wxWHITE;
+    CurrentEEPath = "";
 
     LoadConfig();
     Lstick->SetForegroundColour(Col_Stick_Circle);
@@ -387,730 +394,764 @@ void NextStepRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
     {
         if (simu_eeprom[1] == 0)
         {
-            int answer = wxMessageBox(_("Charger un fichier eeprom ?"), _("EEPROM VIDE"), wxYES_NO, this);
-            if (answer == wxYES) LoadEeprom();
-        }
-    }
-    StartFirmwareCode();
-}
-
-void NextStepRc_SimulatorFrame::StartFirmwareCode()
-{
-    simu_off = false;
-    simu_mainloop_is_runing = false;
-    simu_shutDownSimu_is_runing = false;
-    boardInit(); // Is called by simumain but needed here to Spin init
-    //Init virtual PORTS and PINS
-    SpinA->init();
-    SpinB->init();
-    SpinC->init();
-    SpinD->init();
-    SpinE->init();
-    SpinF->init();
-    SpinG->init();
-    SpinH->init();
-    SpinJ->init();
-    SpinK->init();
-    SpinL->init();
-    SpinH->SetPin(6); //Rf activated pin
-    SpinH->ResetPin(5); //Dsc inactivated
-    SpinC->ResetPin(0); // Set 3pos at ID0
-    s_anaFilt[0] = 1024;
-    s_anaFilt[1] = 1024;
-    s_anaFilt[2] = 1024;
-    s_anaFilt[3] = 1024;
-    Timer10ms.Start(10, false); //Simulate 10mS Interrupt vector
-    simumain();
-    TimerMain.Start(1, false); // Simulate ?mS cycle for mainloop function
-}
-
-void NextStepRc_SimulatorFrame::ResetSimu()
-{
-    for (int i=0; i<(sizeof(displayBuf)); ++i) displayBuf[i] = 0xFF;
-    DrawWxSimuLcd();
-}
-
-
-
-void NextStepRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
-{
-    if (!OnTglButton->GetValue())
-    {
-        SpinH->ResetPin(6);
-    }
-    if ((!simu_mainloop_is_runing) && (!simu_shutDownSimu_is_runing))
-    {
-        s_anaFilt[7] = 1500;
-
-        ChronoMain->Start(0);
-        SimuMainLoop();
-        Chronoval = ChronoMain->TimeInMicro();
-        ChronoMain->Pause();
-        StatusBar->SetStatusText(_T("MAIN ")+Chronoval.ToString()+_T(" uS"),1);
-    }
-    if ((simu_off) && (!simu_mainloop_is_runing))
-    {
-        TimerMain.Stop();
-        Timer10ms.Stop();
-        ResetSimu();
-    }
-
-}
-
-void NextStepRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
-{
-    CheckInputs();
-    Chrono10ms->Start(0);
-    if (!simu_off)
-    {
-        TIMER_10MS_VECT();
-    }
-    else
-    {
-    }
-    Chronoval = Chrono10ms->TimeInMicro();
-    Chrono10ms->Pause();
-    StatusBar->SetStatusText(_T("10 mS IRQ ")+Chronoval.ToString()+_T(" uS"),2);
-}
-
-const void NextStepRc_SimulatorFrame::DrawWxSimuLcd()
-{
-    uint8_t *p;
-    p = displayBuf;
-    wxBrush brush_back(Col_Lcd_Back, wxBRUSHSTYLE_SOLID );
-    SimuLcd_MemoryDC->SetBrush(brush_back);
-    SimuLcd_MemoryDC->DrawRectangle(0,0,4+LCD_W*SimuLcdScale,4+LCD_H*SimuLcdScale);
-    wxBrush brush_top(Col_Lcd_Front, wxBRUSHSTYLE_SOLID );
-    wxPen pen_top(Col_Lcd_Front,1,wxPENSTYLE_SOLID);
-    SimuLcd_MemoryDC->SetPen(pen_top);
-    SimuLcd_MemoryDC->SetBrush(brush_top);
-
-    for (uint8_t y=0; y < (LCD_H / 8); y++)
-    {
-        for (uint8_t x=0; x < LCD_W; x++)
-        {
-            uint8_t bit = *p;
-            p++;
-            for (uint8_t i=0; i < 8; i++)
+            if (CurrentEEPath != "")
             {
-                if (bit & 0x01) SimuLcd_MemoryDC->DrawRectangle(2+ x*SimuLcdScale,2+ (y*8*SimuLcdScale) +(i*SimuLcdScale),SimuLcdScale,SimuLcdScale);
-                bit >>= 1;
+                int answer = wxMessageBox(_("Recharger le fichier eeprom "+CurrentEEPath+" ?"), _("EEPROM VIDE"), wxYES_NO, this);
+                if (answer == wxYES)
+                {
+                    LoadEepromFile(CurrentEEPath);
+                }
+                else
+                {
+                    int answer = wxMessageBox(_("Charger un fichier eeprom ?"), _("EEPROM VIDE"), wxYES_NO, this);
+                    if (answer == wxYES) LoadEeprom();
+                }
             }
         }
+        StartFirmwareCode();
+    }
+}
+
+    void NextStepRc_SimulatorFrame::StartFirmwareCode()
+    {
+        simu_off = false;
+        simu_mainloop_is_runing = false;
+        simu_shutDownSimu_is_runing = false;
+        boardInit(); // Is called by simumain but needed here to Spin init
+        //Init virtual PORTS and PINS
+        SpinA->init();
+        SpinB->init();
+        SpinC->init();
+        SpinD->init();
+        SpinE->init();
+        SpinF->init();
+        SpinG->init();
+        SpinH->init();
+        SpinJ->init();
+        SpinK->init();
+        SpinL->init();
+        SpinH->SetPin(6); //Rf activated pin
+        SpinH->ResetPin(5); //Dsc inactivated
+        SpinC->ResetPin(0); // Set 3pos at ID0
+        s_anaFilt[0] = 1024;
+        s_anaFilt[1] = 1024;
+        s_anaFilt[2] = 1024;
+        s_anaFilt[3] = 1024;
+
+        Timer10ms.Start(10, false); //Simulate 10mS Interrupt vector
+        simumain();
+        TimerMain.Start(1, false); // Simulate ?mS cycle for mainloop function
     }
 
-    SimuLcd_ClientDC->Blit(0,0,SimuLcd_Bitmap.GetWidth(),SimuLcd_Bitmap.GetHeight(),SimuLcd_MemoryDC,0,0);
-}
+    void NextStepRc_SimulatorFrame::ResetSimu()
+    {
+        for (int i=0; i<(sizeof(displayBuf)); ++i) displayBuf[i] = 0xFF;
+        DrawWxSimuLcd();
+    }
+
+
+
+    void NextStepRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
+    {
+        if (!OnTglButton->GetValue())
+        {
+            SpinH->ResetPin(6);
+        }
+        if ((!simu_mainloop_is_runing) && (!simu_shutDownSimu_is_runing))
+        {
+            s_anaFilt[7] = 1500;
+
+            ChronoMain->Start(0);
+            SimuMainLoop();
+            Chronoval = ChronoMain->TimeInMicro();
+            ChronoMain->Pause();
+            StatusBar->SetStatusText(_T("MAIN ")+Chronoval.ToString()+_T(" uS"),1);
+        }
+        if ((simu_off) && (!simu_mainloop_is_runing))
+        {
+            TimerMain.Stop();
+            Timer10ms.Stop();
+            ResetSimu();
+        }
+
+    }
+
+    void NextStepRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
+    {
+        CheckInputs();
+        Chrono10ms->Start(0);
+        if (!simu_off)
+        {
+            TIMER_10MS_VECT();
+        }
+        else
+        {
+        }
+        Chronoval = Chrono10ms->TimeInMicro();
+        Chrono10ms->Pause();
+        StatusBar->SetStatusText(_T("10 mS IRQ ")+Chronoval.ToString()+_T(" uS"),2);
+    }
+
+    const void NextStepRc_SimulatorFrame::DrawWxSimuLcd()
+    {
+        uint8_t *p;
+        p = displayBuf;
+        wxBrush brush_back(Col_Lcd_Back, wxBRUSHSTYLE_SOLID );
+        SimuLcd_MemoryDC->SetBrush(brush_back);
+        SimuLcd_MemoryDC->DrawRectangle(0,0,4+LCD_W*SimuLcdScale,4+LCD_H*SimuLcdScale);
+        wxBrush brush_top(Col_Lcd_Front, wxBRUSHSTYLE_SOLID );
+        wxPen pen_top(Col_Lcd_Front,1,wxPENSTYLE_SOLID);
+        SimuLcd_MemoryDC->SetPen(pen_top);
+        SimuLcd_MemoryDC->SetBrush(brush_top);
+
+        for (uint8_t y=0; y < (LCD_H / 8); y++)
+        {
+            for (uint8_t x=0; x < LCD_W; x++)
+            {
+                uint8_t bit = *p;
+                p++;
+                for (uint8_t i=0; i < 8; i++)
+                {
+                    if (bit & 0x01) SimuLcd_MemoryDC->DrawRectangle(2+ x*SimuLcdScale,2+ (y*8*SimuLcdScale) +(i*SimuLcdScale),SimuLcdScale,SimuLcdScale);
+                    bit >>= 1;
+                }
+            }
+        }
+
+        SimuLcd_ClientDC->Blit(0,0,SimuLcd_Bitmap.GetWidth(),SimuLcd_Bitmap.GetHeight(),SimuLcd_MemoryDC,0,0);
+    }
 
 //// GUI Functions ///////////////////////////////////////////////////
 
-NextStepRc_SimulatorFrame::~NextStepRc_SimulatorFrame()
-{
-    //(*Destroy(NextStepRc_SimulatorFrame)
-    //*)
-}
-
-void NextStepRc_SimulatorFrame::OnQuit(wxCommandEvent& event)
-{
-    Close();
-}
-
-void NextStepRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
-{
-    wxMessageBox( _("NextStepRc Simulateur"), _("Bienvenue dans..."));
-}
-
-void NextStepRc_SimulatorFrame::OnwxsimulcdPaint(wxPaintEvent& event)
-{
-    DrawWxSimuLcd();
-}
-
-void NextStepRc_SimulatorFrame::LoadEeprom()
-{
-    if (Timer10ms.IsRunning())
+    NextStepRc_SimulatorFrame::~NextStepRc_SimulatorFrame()
     {
-        wxLogError(_T("Impossible : Simulateur en fonctionnement"));
-        return;
+        //(*Destroy(NextStepRc_SimulatorFrame)
+        //*)
     }
-    wxFileDialog openFileDialog(this, _("Ouvrir Fichier BIN"), "", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
-    if (openFileDialog.ShowModal() == wxID_CANCEL) return;
-    wxFileInputStream input_stream(openFileDialog.GetPath());
-    if (!input_stream.IsOk())
+
+    void NextStepRc_SimulatorFrame::OnQuit(wxCommandEvent& event)
     {
-        wxLogError(_T("Impossible d'ouvrir le fichier '%s'."), openFileDialog.GetPath());
-        return;
+        Close();
     }
-    wxFile bin_file(openFileDialog.GetPath());
-    if(bin_file.IsOpened())
+
+    void NextStepRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
     {
-        for (int i=0; i<(sizeof(simu_eeprom)); ++i) simu_eeprom[i] = 0;
-        bin_file.Read(&simu_eeprom[0], EESIZE);
-        bin_file.Close();
+        wxMessageBox( _("NextStepRc Simulateur"), _("Bienvenue dans..."));
     }
-}
 
-void NextStepRc_SimulatorFrame::OnMenuLoadEeprom(wxCommandEvent& event)
-{
-    LoadEeprom();
-}
-
-void NextStepRc_SimulatorFrame::PaintSticks(int x, int y, int x_mem, int y_mem, wxPanel* stick)
-{
-    wxBrush brush_Stick(Col_Stick_Circle, wxBRUSHSTYLE_SOLID );
-    wxBrush brush_Back(Col_Stick_Back, wxBRUSHSTYLE_SOLID );
-    wxPen pen_Back(Col_Stick_Back,1,wxPENSTYLE_SOLID);
-    wxPen pen_Stick(Col_Stick_Circle,1,wxPENSTYLE_SOLID);
-    wxClientDC dc(stick);
-    dc.SetBrush(brush_Back);
-    dc.SetPen(pen_Back);
-    dc.DrawCircle(x_mem,y_mem,8);
-    dc.SetPen(pen_Stick);
-    dc.SetBrush(brush_Stick);
-    dc.DrawCircle(x,y,8);
-}
-
-void NextStepRc_SimulatorFrame::OnLstickMouseMove(wxMouseEvent& event)
-{
-    static int x_mem = (Lstick->GetSize().GetWidth())/2;
-    static int y_mem = (Lstick->GetSize().GetWidth())/2;
-
-    int xmul = 2048000 / (Lstick->GetSize().GetWidth() - 5);
-    int ymul = 2048000 / (Lstick->GetSize().GetHeight() -5);
-    wxPoint pt(event.GetPosition());
-    int x = (pt.x * xmul)/1000;
-    int y = 2048 - (pt.y * ymul)/1000;
-
-    if (event.LeftUp()) ; //TODO
-    if (event.LeftIsDown())
+    void NextStepRc_SimulatorFrame::OnwxsimulcdPaint(wxPaintEvent& event)
     {
-        s_anaFilt[3] = (uint16_t)x;
-        s_anaFilt[1] = (uint16_t)y;
-        PaintSticks( pt.x, pt.y, x_mem, y_mem, Lstick);
-        x_mem = pt.x;
-        y_mem = pt.y;
-    };
-}
-
-void NextStepRc_SimulatorFrame::OnRstickMouseMove(wxMouseEvent& event)
-{
-    static int x_mem = (Rstick->GetSize().GetWidth())/2;
-    static int y_mem = (Rstick->GetSize().GetWidth())/2;
-
-    int xmul = 2048000 / (Rstick->GetSize().GetWidth() - 5);
-    int ymul = 2048000 / (Rstick->GetSize().GetHeight() -5);
-    wxPoint pt(event.GetPosition());
-    int x = (pt.x * xmul)/1000;
-    int y = 2048 - (pt.y * ymul)/1000;
-
-    if (event.LeftUp()) ; //TODO
-    if (event.LeftIsDown())
-    {
-        s_anaFilt[0] = (uint16_t)x;
-        s_anaFilt[2] = (uint16_t)y;
-
-        PaintSticks( pt.x, pt.y, x_mem, y_mem, Rstick);
-        x_mem = pt.x;
-        y_mem = pt.y;
-    };
-}
-
-void NextStepRc_SimulatorFrame::OnSimulcdLeftDClick(wxMouseEvent& event)
-{
-    wxFileDialog saveFileDialog(this, _("Sauver Capture écran"), "", "", "Fichier BMP (*.bmp)|*.bmp", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
-    if (saveFileDialog.ShowModal() == wxID_CANCEL)
-        return;     // the user changed idea...
-    wxFileOutputStream output_stream(saveFileDialog.GetPath());
-    if (!output_stream.IsOk())
-    {
-        wxLogError("Ne peut écrire le fichier '%s'.", saveFileDialog.GetPath());
-        return;
+        DrawWxSimuLcd();
     }
-    SimuLcd_Bitmap.SaveFile(saveFileDialog.GetPath(), wxBITMAP_TYPE_BMP, NULL);
 
-}
-
-
-void NextStepRc_SimulatorFrame::OnMenuSaveeeSelected(wxCommandEvent& event)
-{
-    wxFileDialog saveFileDialog(this, _("Sauver Eeprom"), "", "", "Fichier BIN (*.bin)|*.bin", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
-    if (saveFileDialog.ShowModal() == wxID_CANCEL)
-        return;     // the user changed idea...
-    wxFile bin_file;
-    bin_file.Create(saveFileDialog.GetPath(), true);
-    eeFlush(); //Save Radio eeprom immediatly
-    if(bin_file.IsOpened())
+    void NextStepRc_SimulatorFrame::LoadEeprom()
     {
-        bin_file.Seek(0);
-        bin_file.Write(&simu_eeprom[0], EESIZE);
-        bin_file.Close();
+        if (Timer10ms.IsRunning())
+        {
+            wxLogError(_T("Impossible : Simulateur en fonctionnement"));
+            return;
+        }
+        wxFileDialog openFileDialog(this, _("Ouvrir Fichier BIN"), "", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+        if (openFileDialog.ShowModal() == wxID_CANCEL) return;
+        wxFileInputStream input_stream(openFileDialog.GetPath());
+        if (!input_stream.IsOk())
+        {
+            wxLogError(_T("Impossible d'ouvrir le fichier '%s'."), openFileDialog.GetPath());
+            return;
+        }
+        LoadEepromFile(openFileDialog.GetPath());
+        CurrentEEPath = openFileDialog.GetPath();
+        Ini_Changed = true;
     }
-}
 
-void NextStepRc_SimulatorFrame::OnClose(wxCloseEvent& event)
-{
-
-    if (Ini_Changed) SaveConfig();
-
-    if (OnTglButton->GetValue() && (!simu_off))
+    void NextStepRc_SimulatorFrame::LoadEepromFile(wxString path)
     {
-        wxMessageBox( _("Merci d'éteindre le simulateur avant de quitter"), _("      NextStepRc Simulateur"));
-        event.Veto();
-        return;
+        wxFile bin_file(path);
+        if(bin_file.IsOpened())
+        {
+            for (int i=0; i<(sizeof(simu_eeprom)); ++i) simu_eeprom[i] = 0;
+            bin_file.Read(&simu_eeprom[0], EESIZE);
+            bin_file.Close();
+        }
     }
-    if (ChronoMain != NULL)
+
+    void NextStepRc_SimulatorFrame::OnMenuLoadEeprom(wxCommandEvent& event)
     {
-        ChronoMain->Pause();
-        Sleep(1);
-        delete ChronoMain;
+        LoadEeprom();
     }
-    if (Chrono10ms != NULL)
+
+    void NextStepRc_SimulatorFrame::PaintSticks(int x, int y, int x_mem, int y_mem, wxPanel* stick)
     {
-        Chrono10ms->Pause();
-        Sleep(1);
-        delete Chrono10ms;
+        wxBrush brush_Stick(Col_Stick_Circle, wxBRUSHSTYLE_SOLID );
+        wxBrush brush_Back(Col_Stick_Back, wxBRUSHSTYLE_SOLID );
+        wxPen pen_Back(Col_Stick_Back,1,wxPENSTYLE_SOLID);
+        wxPen pen_Stick(Col_Stick_Circle,1,wxPENSTYLE_SOLID);
+        wxClientDC dc(stick);
+        dc.SetBrush(brush_Back);
+        dc.SetPen(pen_Back);
+        dc.DrawCircle(x_mem,y_mem,8);
+        dc.SetPen(pen_Stick);
+        dc.SetBrush(brush_Stick);
+        dc.DrawCircle(x,y,8);
     }
-    Sleep(10);
 
-    PanelMain->PopEventHandler(NULL);
-    PanelH->PopEventHandler(NULL);
-    PanelL->PopEventHandler(NULL);
-    //delete PanelMainBackground;
-    //delete PanelHBackckground;
-    //delete PanelBBackckground;
-    //delete PanelMain;
-    //delete PanelH;
-    //delete PanelB;
+    void NextStepRc_SimulatorFrame::OnLstickMouseMove(wxMouseEvent& event)
+    {
+        static int x_mem = (Lstick->GetSize().GetWidth())/2;
+        static int y_mem = (Lstick->GetSize().GetWidth())/2;
 
-    /*delete SpinA;
-    delete SpinB;
-    delete SpinC;
-    delete SpinD;
-    delete SpinE;
-    delete SpinF;
-    delete SpinG;
-    delete SpinH;
-    delete SpinJ;
-    delete SpinK;
-    delete SpinL;*/
+        int xmul = 2048000 / (Lstick->GetSize().GetWidth() - 5);
+        int ymul = 2048000 / (Lstick->GetSize().GetHeight() -5);
+        wxPoint pt(event.GetPosition());
+        int x = (pt.x * xmul)/1000;
+        int y = 2048 - (pt.y * ymul)/1000;
 
-    if (SimuLcd_MemoryDC != NULL) delete SimuLcd_MemoryDC;
-    if (SimuLcd_ClientDC != NULL)	delete SimuLcd_ClientDC;
+        if (event.LeftUp()) ; //TODO
+        if (event.LeftIsDown())
+        {
+            s_anaFilt[3] = (uint16_t)x;
+            s_anaFilt[1] = (uint16_t)y;
+            PaintSticks( pt.x, pt.y, x_mem, y_mem, Lstick);
+            x_mem = pt.x;
+            y_mem = pt.y;
+        };
+    }
 
-    Destroy();
-}
+    void NextStepRc_SimulatorFrame::OnRstickMouseMove(wxMouseEvent& event)
+    {
+        static int x_mem = (Rstick->GetSize().GetWidth())/2;
+        static int y_mem = (Rstick->GetSize().GetWidth())/2;
 
-void NextStepRc_SimulatorFrame::LoadConfig()
-{
-    configFile->Read(wxT("Col_Lcd_Back"),&Col_Lcd_Back);
-    configFile->Read(wxT("Col_Lcd_Front"),&Col_Lcd_Front);
-    configFile->Read(wxT("Col_Button_Off"),&Col_Button_Off);
-    configFile->Read(wxT("Col_Button_On"),&Col_Button_On);
-    configFile->Read(wxT("Col_Stick_Back"),&Col_Stick_Back);
-    configFile->Read(wxT("Col_Stick_Circle"),&Col_Stick_Circle);
+        int xmul = 2048000 / (Rstick->GetSize().GetWidth() - 5);
+        int ymul = 2048000 / (Rstick->GetSize().GetHeight() -5);
+        wxPoint pt(event.GetPosition());
+        int x = (pt.x * xmul)/1000;
+        int y = 2048 - (pt.y * ymul)/1000;
 
-}
+        if (event.LeftUp()) ; //TODO
+        if (event.LeftIsDown())
+        {
+            s_anaFilt[0] = (uint16_t)x;
+            s_anaFilt[2] = (uint16_t)y;
 
-void NextStepRc_SimulatorFrame::SaveConfig()
-{
-    wxMessageBox( Ini_Filename, _("Les paramètres sont sauvé dans :"));
+            PaintSticks( pt.x, pt.y, x_mem, y_mem, Rstick);
+            x_mem = pt.x;
+            y_mem = pt.y;
+        };
+    }
 
-    configFile->Write(wxT("Col_Lcd_Back"),Col_Lcd_Back);
-    configFile->Write(wxT("Col_Lcd_Front"),Col_Lcd_Front);
-    configFile->Write(wxT("Col_Button_Off"),Col_Button_Off);
-    configFile->Write(wxT("Col_Button_On"),Col_Button_On);
-    configFile->Write(wxT("Col_Stick_Back"),Col_Stick_Back);
-    configFile->Write(wxT("Col_Stick_Circle"),Col_Stick_Circle);
+    void NextStepRc_SimulatorFrame::OnSimulcdLeftDClick(wxMouseEvent& event)
+    {
+        wxFileDialog saveFileDialog(this, _("Sauver Capture écran"), "", "", "Fichier BMP (*.bmp)|*.bmp", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+        if (saveFileDialog.ShowModal() == wxID_CANCEL)
+            return;     // the user changed idea...
+        wxFileOutputStream output_stream(saveFileDialog.GetPath());
+        if (!output_stream.IsOk())
+        {
+            wxLogError("Ne peut écrire le fichier '%s'.", saveFileDialog.GetPath());
+            return;
+        }
+        SimuLcd_Bitmap.SaveFile(saveFileDialog.GetPath(), wxBITMAP_TYPE_BMP, NULL);
 
-    configFile->Flush();
-}
+    }
+
+
+    void NextStepRc_SimulatorFrame::OnMenuSaveeeSelected(wxCommandEvent& event)
+    {
+        wxFileDialog saveFileDialog(this, _("Sauver Eeprom"), "", "", "Fichier BIN (*.bin)|*.bin", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+        if (saveFileDialog.ShowModal() == wxID_CANCEL)
+            return;     // the user changed idea...
+        wxFile bin_file;
+        bin_file.Create(saveFileDialog.GetPath(), true);
+        eeFlush(); //Save Radio eeprom immediatly
+        if(bin_file.IsOpened())
+        {
+            bin_file.Seek(0);
+            bin_file.Write(&simu_eeprom[0], EESIZE);
+            bin_file.Close();
+        }
+    }
+
+    void NextStepRc_SimulatorFrame::OnClose(wxCloseEvent& event)
+    {
+        if (OnTglButton->GetValue() && (!simu_off))
+        {
+            wxMessageBox( _("Merci d'éteindre le simulateur avant de quitter"), _("      NextStepRc Simulateur"));
+            event.Veto();
+            return;
+        }
+        if (Ini_Changed) SaveConfig();
+        if (ChronoMain != NULL)
+        {
+            ChronoMain->Pause();
+            Sleep(1);
+            delete ChronoMain;
+        }
+        if (Chrono10ms != NULL)
+        {
+            Chrono10ms->Pause();
+            Sleep(1);
+            delete Chrono10ms;
+        }
+        Sleep(100);
+
+        PanelMain->PopEventHandler(NULL);
+        PanelH->PopEventHandler(NULL);
+        PanelL->PopEventHandler(NULL);
+        //delete PanelMainBackground;
+        //delete PanelHBackckground;
+        //delete PanelBBackckground;
+        //delete PanelMain;
+        //delete PanelH;
+        //delete PanelB;
+
+        /*delete SpinA;
+        delete SpinB;
+        delete SpinC;
+        delete SpinD;
+        delete SpinE;
+        delete SpinF;
+        delete SpinG;
+        delete SpinH;
+        delete SpinJ;
+        delete SpinK;
+        delete SpinL;*/
+
+        if (SimuLcd_MemoryDC != NULL) delete SimuLcd_MemoryDC;
+        if (SimuLcd_ClientDC != NULL)	delete SimuLcd_ClientDC;
+
+        Destroy();
+    }
+
+    void NextStepRc_SimulatorFrame::LoadConfig()
+    {
+        configFile->Read(wxT("Col_Lcd_Back"),&Col_Lcd_Back);
+        configFile->Read(wxT("Col_Lcd_Front"),&Col_Lcd_Front);
+        configFile->Read(wxT("Col_Button_Off"),&Col_Button_Off);
+        configFile->Read(wxT("Col_Button_On"),&Col_Button_On);
+        configFile->Read(wxT("Col_Stick_Back"),&Col_Stick_Back);
+        configFile->Read(wxT("Col_Stick_Circle"),&Col_Stick_Circle);
+
+        configFile->Read(wxT("EEfile"),&CurrentEEPath);
+    }
+
+    void NextStepRc_SimulatorFrame::SaveConfig()
+    {
+        wxMessageBox( Ini_Filename, _("Les paramètres sont sauvé dans :"));
+
+        configFile->Write(wxT("Col_Lcd_Back"),Col_Lcd_Back);
+        configFile->Write(wxT("Col_Lcd_Front"),Col_Lcd_Front);
+        configFile->Write(wxT("Col_Button_Off"),Col_Button_Off);
+        configFile->Write(wxT("Col_Button_On"),Col_Button_On);
+        configFile->Write(wxT("Col_Stick_Back"),Col_Stick_Back);
+        configFile->Write(wxT("Col_Stick_Circle"),Col_Stick_Circle);
+
+        configFile->Write(wxT("EEfile"),CurrentEEPath);
+
+
+        configFile->Flush();
+    }
 
 //////////////////////////////VIRTUAL PIN WORD !! JOB /////////////////////////
 
-void NextStepRc_SimulatorFrame::OnBPmenuLeftDown(wxMouseEvent& event)
-{
-    SpinL->ResetPin(4);
-}
-
-void NextStepRc_SimulatorFrame::OnBPmenuLeftUp(wxMouseEvent& event)
-{
-    SpinL->SetPin(4);
-}
-
-void NextStepRc_SimulatorFrame::OnBPexitLeftDown(wxMouseEvent& event)
-{
-    SpinL->ResetPin(5);
-}
-
-void NextStepRc_SimulatorFrame::OnBPexitLeftUp(wxMouseEvent& event)
-{
-    SpinL->SetPin(5);
-}
-
-void NextStepRc_SimulatorFrame::OnBPhLeftDown(wxMouseEvent& event)
-{
-    SpinL->ResetPin(1);
-}
-
-void NextStepRc_SimulatorFrame::OnBPhLeftUp(wxMouseEvent& event)
-{
-    SpinL->SetPin(1);
-}
-
-void NextStepRc_SimulatorFrame::OnBPbLeftDown(wxMouseEvent& event)
-{
-    SpinL->ResetPin(0);
-}
-
-void NextStepRc_SimulatorFrame::OnBPbLeftUp(wxMouseEvent& event)
-{
-    SpinL->SetPin(0);
-}
-
-void NextStepRc_SimulatorFrame::OnBPgLeftDown(wxMouseEvent& event)
-{
-    SpinL->ResetPin(3);
-}
-
-void NextStepRc_SimulatorFrame::OnBPgLeftUp(wxMouseEvent& event)
-{
-    SpinL->SetPin(3);
-}
-
-void NextStepRc_SimulatorFrame::OnBPdLeftDown(wxMouseEvent& event)
-{
-    SpinL->ResetPin(2);
-}
-
-void NextStepRc_SimulatorFrame::OnBPdLeftUp(wxMouseEvent& event)
-{
-    SpinL->SetPin(2);
-}
-
-void NextStepRc_SimulatorFrame::OnLlTrimLeftDown(wxMouseEvent& event)
-{
-    SpinF->ResetPin(7);
-}
-
-void NextStepRc_SimulatorFrame::OnLlTrimLeftUp(wxMouseEvent& event)
-{
-    SpinF->SetPin(7);
-}
-
-void NextStepRc_SimulatorFrame::OnLrTrimLeftDown(wxMouseEvent& event)
-{
-    SpinF->ResetPin(6);
-}
-
-void NextStepRc_SimulatorFrame::OnLrTrimLeftUp(wxMouseEvent& event)
-{
-    SpinF->SetPin(6);
-}
-
-void NextStepRc_SimulatorFrame::OnLdTrimLeftDown(wxMouseEvent& event)
-{
-    SpinF->ResetPin(5);
-}
-
-void NextStepRc_SimulatorFrame::OnLdTrimLeftUp(wxMouseEvent& event)
-{
-    SpinF->SetPin(5);
-}
-
-void NextStepRc_SimulatorFrame::OnLuTrimLeftDown(wxMouseEvent& event)
-{
-    SpinF->ResetPin(4);
-}
-
-void NextStepRc_SimulatorFrame::OnLuTrimLeftUp(wxMouseEvent& event)
-{
-    SpinF->SetPin(4);
-}
-
-void NextStepRc_SimulatorFrame::OnRdTrimLeftDown(wxMouseEvent& event)
-{
-    SpinF->ResetPin(3);
-}
-
-void NextStepRc_SimulatorFrame::OnRdTrimLeftUp(wxMouseEvent& event)
-{
-    SpinF->SetPin(3);
-}
-
-void NextStepRc_SimulatorFrame::OnRuTrimLeftDown(wxMouseEvent& event)
-{
-    SpinF->ResetPin(2);
-}
-
-void NextStepRc_SimulatorFrame::OnRuTrimLeftUp(wxMouseEvent& event)
-{
-    SpinF->SetPin(2);
-}
-
-void NextStepRc_SimulatorFrame::OnRlTrimLeftDown(wxMouseEvent& event)
-{
-    SpinF->ResetPin(1);
-}
-
-void NextStepRc_SimulatorFrame::OnRlTrimLeftUp(wxMouseEvent& event)
-{
-    SpinF->SetPin(1);
-}
-
-void NextStepRc_SimulatorFrame::OnRrTrimLeftDown(wxMouseEvent& event)
-{
-    SpinF->ResetPin(0);
-}
-
-void NextStepRc_SimulatorFrame::OnRrTrimLeftUp(wxMouseEvent& event)
-{
-    SpinF->SetPin(0);
-}
-
-void NextStepRc_SimulatorFrame::OnBpTrnLeftDown(wxMouseEvent& event)
-{
-    SpinL->ResetPin(7);
-}
-
-void NextStepRc_SimulatorFrame::OnBpTrnLeftUp(wxMouseEvent& event)
-{
-    SpinL->SetPin(7);
-}
-
-void NextStepRc_SimulatorFrame::OnPbThrLeftDown(wxMouseEvent& event)
-{
-    SpinG->TogglePin(2);
-}
-
-void NextStepRc_SimulatorFrame::OnBpRudLeftDown1(wxMouseEvent& event)
-{
-    SpinG->TogglePin(0);
-}
-
-void NextStepRc_SimulatorFrame::OnBpEleLeftDown(wxMouseEvent& event)
-{
-    SpinL->TogglePin(6);
-}
-
-void NextStepRc_SimulatorFrame::OnBpAilLeftDown(wxMouseEvent& event)
-{
-    SpinD->TogglePin(7);
-}
-
-void NextStepRc_SimulatorFrame::OnBpGeaLeftDown(wxMouseEvent& event)
-{
-    SpinG->TogglePin(1);
-}
-
-void NextStepRc_SimulatorFrame::OnBpId1LeftDown(wxMouseEvent& event)
-{
-    if (!SpinC->GetPin(1)) SpinC->TogglePin(1);
-    else SpinC->TogglePin(0);
-}
-
-void NextStepRc_SimulatorFrame::OnBpId2LeftDown(wxMouseEvent& event)
-{
-    if (!SpinC->GetPin(0)) SpinC->TogglePin(0);
-    else SpinC->TogglePin(1);
-}
-
-void NextStepRc_SimulatorFrame::CheckInputs()
-{
-    //Rea & Reb
-    if (SpinRea->GetValue() > 0)
+    void NextStepRc_SimulatorFrame::OnBPmenuLeftDown(wxMouseEvent& event)
     {
-        SpinRea->SetValue(0);
-        SpinE->ResetPin(4);
-        SpinE->ResetPin(5);
-        INT5_vect();
-        SpinE->SetPin(4);
-        SpinE->SetPin(5);
+        SpinL->ResetPin(4);
     }
 
-    if (SpinRea->GetValue() < 0)
+    void NextStepRc_SimulatorFrame::OnBPmenuLeftUp(wxMouseEvent& event)
     {
-        SpinRea->SetValue(0);
-        SpinE->ResetPin(4);
-        SpinE->ResetPin(5);
-        INT4_vect();
-        SpinE->SetPin(4);
-        SpinE->SetPin(5);
+        SpinL->SetPin(4);
     }
 
-    if (SpinReb->GetValue() > 0)
+    void NextStepRc_SimulatorFrame::OnBPexitLeftDown(wxMouseEvent& event)
     {
-        SpinReb->SetValue(0);
-        SpinD->ResetPin(2);
-        SpinD->ResetPin(3);
-        INT3_vect();
-        SpinD->SetPin(2);
-        SpinD->SetPin(3);
+        SpinL->ResetPin(5);
     }
 
-    if (SpinReb->GetValue() < 0)
+    void NextStepRc_SimulatorFrame::OnBPexitLeftUp(wxMouseEvent& event)
     {
-        SpinReb->SetValue(0);
-        SpinD->ResetPin(2);
-        SpinD->ResetPin(3);
-        INT2_vect();
-        SpinD->SetPin(2);
-        SpinD->SetPin(3);
+        SpinL->SetPin(5);
     }
 
-    //Pots1,2&3
-    s_anaFilt[4] = (uint16_t)Pot1->GetValue();
-    s_anaFilt[5] = (uint16_t)Pot2->GetValue();
-    s_anaFilt[6] = (uint16_t)Pot3->GetValue();
+    void NextStepRc_SimulatorFrame::OnBPhLeftDown(wxMouseEvent& event)
+    {
+        SpinL->ResetPin(1);
+    }
 
-    if (!SpinL->GetPin(4)) BPmenu->SetBackgroundColour(Col_Button_On);
-    else BPmenu->SetBackgroundColour(Col_Button_Off);
-    BPmenu->Refresh();
+    void NextStepRc_SimulatorFrame::OnBPhLeftUp(wxMouseEvent& event)
+    {
+        SpinL->SetPin(1);
+    }
 
-    if (!SpinL->GetPin(5)) BPexit->SetBackgroundColour(Col_Button_On);
-    else BPexit->SetBackgroundColour(Col_Button_Off);
-    BPexit->Refresh();
+    void NextStepRc_SimulatorFrame::OnBPbLeftDown(wxMouseEvent& event)
+    {
+        SpinL->ResetPin(0);
+    }
 
-    if (!SpinL->GetPin(1)) BPh->SetBackgroundColour(Col_Button_On);
-    else BPh->SetBackgroundColour(Col_Button_Off);
-    BPh->Refresh();
+    void NextStepRc_SimulatorFrame::OnBPbLeftUp(wxMouseEvent& event)
+    {
+        SpinL->SetPin(0);
+    }
 
-    if (!SpinL->GetPin(0)) BPb->SetBackgroundColour(Col_Button_On);
-    else BPb->SetBackgroundColour(Col_Button_Off);
-    BPb->Refresh();
+    void NextStepRc_SimulatorFrame::OnBPgLeftDown(wxMouseEvent& event)
+    {
+        SpinL->ResetPin(3);
+    }
 
-    if (!SpinL->GetPin(3)) BPg->SetBackgroundColour(Col_Button_On);
-    else BPg->SetBackgroundColour(Col_Button_Off);
-    BPg->Refresh();
+    void NextStepRc_SimulatorFrame::OnBPgLeftUp(wxMouseEvent& event)
+    {
+        SpinL->SetPin(3);
+    }
 
-    if (!SpinL->GetPin(2)) BPd->SetBackgroundColour(Col_Button_On);
-    else BPd->SetBackgroundColour(Col_Button_Off);
-    BPd->Refresh();
+    void NextStepRc_SimulatorFrame::OnBPdLeftDown(wxMouseEvent& event)
+    {
+        SpinL->ResetPin(2);
+    }
 
-    if (!SpinF->GetPin(7)) LlTrim->SetBackgroundColour(Col_Button_On);
-    else LlTrim->SetBackgroundColour(Col_Button_Off);
-    LlTrim->Refresh();
+    void NextStepRc_SimulatorFrame::OnBPdLeftUp(wxMouseEvent& event)
+    {
+        SpinL->SetPin(2);
+    }
 
-    if (!SpinF->GetPin(6)) LrTrim->SetBackgroundColour(Col_Button_On);
-    else LrTrim->SetBackgroundColour(Col_Button_Off);
-    LrTrim->Refresh();
+    void NextStepRc_SimulatorFrame::OnLlTrimLeftDown(wxMouseEvent& event)
+    {
+        SpinF->ResetPin(7);
+    }
 
-    if (!SpinF->GetPin(5)) LdTrim->SetBackgroundColour(Col_Button_On);
-    else LdTrim->SetBackgroundColour(Col_Button_Off);
-    LdTrim->Refresh();
+    void NextStepRc_SimulatorFrame::OnLlTrimLeftUp(wxMouseEvent& event)
+    {
+        SpinF->SetPin(7);
+    }
 
-    if (!SpinF->GetPin(4)) LuTrim->SetBackgroundColour(Col_Button_On);
-    else LuTrim->SetBackgroundColour(Col_Button_Off);
-    LuTrim->Refresh();
+    void NextStepRc_SimulatorFrame::OnLrTrimLeftDown(wxMouseEvent& event)
+    {
+        SpinF->ResetPin(6);
+    }
 
-    if (!SpinF->GetPin(3)) RdTrim->SetBackgroundColour(Col_Button_On);
-    else RdTrim->SetBackgroundColour(Col_Button_Off);
-    RdTrim->Refresh();
+    void NextStepRc_SimulatorFrame::OnLrTrimLeftUp(wxMouseEvent& event)
+    {
+        SpinF->SetPin(6);
+    }
 
-    if (!SpinF->GetPin(2)) RuTrim->SetBackgroundColour(Col_Button_On);
-    else RuTrim->SetBackgroundColour(Col_Button_Off);
-    RuTrim->Refresh();
+    void NextStepRc_SimulatorFrame::OnLdTrimLeftDown(wxMouseEvent& event)
+    {
+        SpinF->ResetPin(5);
+    }
 
-    if (!SpinF->GetPin(1)) RlTrim->SetBackgroundColour(Col_Button_On);
-    else RlTrim->SetBackgroundColour(Col_Button_Off);
-    RlTrim->Refresh();
+    void NextStepRc_SimulatorFrame::OnLdTrimLeftUp(wxMouseEvent& event)
+    {
+        SpinF->SetPin(5);
+    }
 
-    if (!SpinF->GetPin(0)) RrTrim->SetBackgroundColour(Col_Button_On);
-    else RrTrim->SetBackgroundColour(Col_Button_Off);
-    RrTrim->Refresh();
+    void NextStepRc_SimulatorFrame::OnLuTrimLeftDown(wxMouseEvent& event)
+    {
+        SpinF->ResetPin(4);
+    }
 
-    if (!SpinG->GetPin(2)) PbThr->SetBackgroundColour(Col_Button_On);
-    else PbThr->SetBackgroundColour(Col_Button_Off);
-    PbThr->Refresh();
+    void NextStepRc_SimulatorFrame::OnLuTrimLeftUp(wxMouseEvent& event)
+    {
+        SpinF->SetPin(4);
+    }
 
-    if (!SpinG->GetPin(0)) BpRud->SetBackgroundColour(Col_Button_On);
-    else BpRud->SetBackgroundColour(Col_Button_Off);
-    BpRud->Refresh();
+    void NextStepRc_SimulatorFrame::OnRdTrimLeftDown(wxMouseEvent& event)
+    {
+        SpinF->ResetPin(3);
+    }
 
-    if (!SpinL->GetPin(6)) BpEle->SetBackgroundColour(Col_Button_On);
-    else BpEle->SetBackgroundColour(Col_Button_Off);
-    BpEle->Refresh();
+    void NextStepRc_SimulatorFrame::OnRdTrimLeftUp(wxMouseEvent& event)
+    {
+        SpinF->SetPin(3);
+    }
 
-    if (!SpinD->GetPin(7)) BpAil->SetBackgroundColour(Col_Button_On);
-    else BpAil->SetBackgroundColour(Col_Button_Off);
-    BpAil->Refresh();
+    void NextStepRc_SimulatorFrame::OnRuTrimLeftDown(wxMouseEvent& event)
+    {
+        SpinF->ResetPin(2);
+    }
 
-    if (!SpinG->GetPin(1)) BpGea->SetBackgroundColour(Col_Button_On);
-    else BpGea->SetBackgroundColour(Col_Button_Off);
-    BpGea->Refresh();
+    void NextStepRc_SimulatorFrame::OnRuTrimLeftUp(wxMouseEvent& event)
+    {
+        SpinF->SetPin(2);
+    }
 
-    if (!SpinL->GetPin(7)) BpTrn->SetBackgroundColour(Col_Button_On);
-    else BpTrn->SetBackgroundColour(Col_Button_Off);
-    BpTrn->Refresh();
+    void NextStepRc_SimulatorFrame::OnRlTrimLeftDown(wxMouseEvent& event)
+    {
+        SpinF->ResetPin(1);
+    }
 
-    if (!SpinC->GetPin(0)) BpId1->SetBackgroundColour(Col_Button_On);
-    else BpId1->SetBackgroundColour(Col_Button_Off);
-    BpId1->Refresh();
+    void NextStepRc_SimulatorFrame::OnRlTrimLeftUp(wxMouseEvent& event)
+    {
+        SpinF->SetPin(1);
+    }
 
-    if (!SpinC->GetPin(1)) BpId2->SetBackgroundColour(Col_Button_On);
-    else BpId2->SetBackgroundColour(Col_Button_Off);
-    BpId2->Refresh();
-}
+    void NextStepRc_SimulatorFrame::OnRrTrimLeftDown(wxMouseEvent& event)
+    {
+        SpinF->ResetPin(0);
+    }
+
+    void NextStepRc_SimulatorFrame::OnRrTrimLeftUp(wxMouseEvent& event)
+    {
+        SpinF->SetPin(0);
+    }
+
+    void NextStepRc_SimulatorFrame::OnBpTrnLeftDown(wxMouseEvent& event)
+    {
+        SpinL->ResetPin(7);
+    }
+
+    void NextStepRc_SimulatorFrame::OnBpTrnLeftUp(wxMouseEvent& event)
+    {
+        SpinL->SetPin(7);
+    }
+
+    void NextStepRc_SimulatorFrame::OnBpTrnRightDown(wxMouseEvent& event)
+    {
+        SpinL->ResetPin(7);
+        CheckInputs();
+    }
+
+    void NextStepRc_SimulatorFrame::OnPbThrLeftDown(wxMouseEvent& event)
+    {
+        SpinG->TogglePin(2);
+    }
+
+    void NextStepRc_SimulatorFrame::OnBpRudLeftDown1(wxMouseEvent& event)
+    {
+        SpinG->TogglePin(0);
+    }
+
+    void NextStepRc_SimulatorFrame::OnBpEleLeftDown(wxMouseEvent& event)
+    {
+        SpinL->TogglePin(6);
+    }
+
+    void NextStepRc_SimulatorFrame::OnBpAilLeftDown(wxMouseEvent& event)
+    {
+        SpinD->TogglePin(7);
+    }
+
+    void NextStepRc_SimulatorFrame::OnBpGeaLeftDown(wxMouseEvent& event)
+    {
+        SpinG->TogglePin(1);
+    }
+
+    void NextStepRc_SimulatorFrame::OnBpId1LeftDown(wxMouseEvent& event)
+    {
+        if (!SpinC->GetPin(1)) SpinC->TogglePin(1);
+        else SpinC->TogglePin(0);
+    }
+
+    void NextStepRc_SimulatorFrame::OnBpId2LeftDown(wxMouseEvent& event)
+    {
+        if (!SpinC->GetPin(0)) SpinC->TogglePin(0);
+        else SpinC->TogglePin(1);
+    }
+
+    void NextStepRc_SimulatorFrame::CheckInputs()
+    {
+        //Rea & Reb
+        if (SpinRea->GetValue() > 0)
+        {
+            SpinRea->SetValue(0);
+            SpinE->ResetPin(4);
+            SpinE->ResetPin(5);
+            INT5_vect();
+            SpinE->SetPin(4);
+            SpinE->SetPin(5);
+        }
+
+        if (SpinRea->GetValue() < 0)
+        {
+            SpinRea->SetValue(0);
+            SpinE->ResetPin(4);
+            SpinE->ResetPin(5);
+            INT4_vect();
+            SpinE->SetPin(4);
+            SpinE->SetPin(5);
+        }
+
+        if (SpinReb->GetValue() > 0)
+        {
+            SpinReb->SetValue(0);
+            SpinD->ResetPin(2);
+            SpinD->ResetPin(3);
+            INT3_vect();
+            SpinD->SetPin(2);
+            SpinD->SetPin(3);
+        }
+
+        if (SpinReb->GetValue() < 0)
+        {
+            SpinReb->SetValue(0);
+            SpinD->ResetPin(2);
+            SpinD->ResetPin(3);
+            INT2_vect();
+            SpinD->SetPin(2);
+            SpinD->SetPin(3);
+        }
+
+        //Pots1,2&3
+        s_anaFilt[4] = (uint16_t)Pot1->GetValue();
+        s_anaFilt[5] = (uint16_t)Pot2->GetValue();
+        s_anaFilt[6] = (uint16_t)Pot3->GetValue();
+
+        if (!SpinL->GetPin(4)) BPmenu->SetBackgroundColour(Col_Button_On);
+        else BPmenu->SetBackgroundColour(Col_Button_Off);
+        BPmenu->Refresh();
+
+        if (!SpinL->GetPin(5)) BPexit->SetBackgroundColour(Col_Button_On);
+        else BPexit->SetBackgroundColour(Col_Button_Off);
+        BPexit->Refresh();
+
+        if (!SpinL->GetPin(1)) BPh->SetBackgroundColour(Col_Button_On);
+        else BPh->SetBackgroundColour(Col_Button_Off);
+        BPh->Refresh();
+
+        if (!SpinL->GetPin(0)) BPb->SetBackgroundColour(Col_Button_On);
+        else BPb->SetBackgroundColour(Col_Button_Off);
+        BPb->Refresh();
+
+        if (!SpinL->GetPin(3)) BPg->SetBackgroundColour(Col_Button_On);
+        else BPg->SetBackgroundColour(Col_Button_Off);
+        BPg->Refresh();
+
+        if (!SpinL->GetPin(2)) BPd->SetBackgroundColour(Col_Button_On);
+        else BPd->SetBackgroundColour(Col_Button_Off);
+        BPd->Refresh();
+
+        if (!SpinF->GetPin(7)) LlTrim->SetBackgroundColour(Col_Button_On);
+        else LlTrim->SetBackgroundColour(Col_Button_Off);
+        LlTrim->Refresh();
+
+        if (!SpinF->GetPin(6)) LrTrim->SetBackgroundColour(Col_Button_On);
+        else LrTrim->SetBackgroundColour(Col_Button_Off);
+        LrTrim->Refresh();
+
+        if (!SpinF->GetPin(5)) LdTrim->SetBackgroundColour(Col_Button_On);
+        else LdTrim->SetBackgroundColour(Col_Button_Off);
+        LdTrim->Refresh();
+
+        if (!SpinF->GetPin(4)) LuTrim->SetBackgroundColour(Col_Button_On);
+        else LuTrim->SetBackgroundColour(Col_Button_Off);
+        LuTrim->Refresh();
+
+        if (!SpinF->GetPin(3)) RdTrim->SetBackgroundColour(Col_Button_On);
+        else RdTrim->SetBackgroundColour(Col_Button_Off);
+        RdTrim->Refresh();
+
+        if (!SpinF->GetPin(2)) RuTrim->SetBackgroundColour(Col_Button_On);
+        else RuTrim->SetBackgroundColour(Col_Button_Off);
+        RuTrim->Refresh();
+
+        if (!SpinF->GetPin(1)) RlTrim->SetBackgroundColour(Col_Button_On);
+        else RlTrim->SetBackgroundColour(Col_Button_Off);
+        RlTrim->Refresh();
+
+        if (!SpinF->GetPin(0)) RrTrim->SetBackgroundColour(Col_Button_On);
+        else RrTrim->SetBackgroundColour(Col_Button_Off);
+        RrTrim->Refresh();
+
+        if (!SpinG->GetPin(2)) PbThr->SetBackgroundColour(Col_Button_On);
+        else PbThr->SetBackgroundColour(Col_Button_Off);
+        PbThr->Refresh();
+
+        if (!SpinG->GetPin(0)) BpRud->SetBackgroundColour(Col_Button_On);
+        else BpRud->SetBackgroundColour(Col_Button_Off);
+        BpRud->Refresh();
+
+        if (!SpinL->GetPin(6)) BpEle->SetBackgroundColour(Col_Button_On);
+        else BpEle->SetBackgroundColour(Col_Button_Off);
+        BpEle->Refresh();
+
+        if (!SpinD->GetPin(7)) BpAil->SetBackgroundColour(Col_Button_On);
+        else BpAil->SetBackgroundColour(Col_Button_Off);
+        BpAil->Refresh();
+
+        if (!SpinG->GetPin(1)) BpGea->SetBackgroundColour(Col_Button_On);
+        else BpGea->SetBackgroundColour(Col_Button_Off);
+        BpGea->Refresh();
+
+        if (!SpinL->GetPin(7)) BpTrn->SetBackgroundColour(Col_Button_On);
+        else BpTrn->SetBackgroundColour(Col_Button_Off);
+        BpTrn->Refresh();
+
+        if (!SpinC->GetPin(0)) BpId1->SetBackgroundColour(Col_Button_On);
+        else BpId1->SetBackgroundColour(Col_Button_Off);
+        BpId1->Refresh();
+
+        if (!SpinC->GetPin(1)) BpId2->SetBackgroundColour(Col_Button_On);
+        else BpId2->SetBackgroundColour(Col_Button_Off);
+        BpId2->Refresh();
+    }
 
 ///// UTILS ///////////
 
-wxColour NextStepRc_SimulatorFrame::SetColour()
-{
-    wxColourDialog ColourDlg(this);
-    ColourDlg.GetColourData().SetChooseFull(true);
-    if (ColourDlg.ShowModal() == wxID_OK)
+    wxColour NextStepRc_SimulatorFrame::SetColour()
     {
-        Ini_Changed = true;
-        return ColourDlg.GetColourData().GetColour().GetAsString();
+        wxColourDialog ColourDlg(this);
+        ColourDlg.GetColourData().SetChooseFull(true);
+        if (ColourDlg.ShowModal() == wxID_OK)
+        {
+            Ini_Changed = true;
+            return ColourDlg.GetColourData().GetColour().GetAsString();
+        }
     }
-}
 
-void NextStepRc_SimulatorFrame::OnMenuLcdBackSelected(wxCommandEvent& event)
-{
-    Col_Lcd_Back = SetColour();
-    DrawWxSimuLcd();
-}
+    void NextStepRc_SimulatorFrame::OnMenuLcdBackSelected(wxCommandEvent& event)
+    {
+        Col_Lcd_Back = SetColour();
+        DrawWxSimuLcd();
+    }
 
-void NextStepRc_SimulatorFrame::OnMenuLcdPixelSelected(wxCommandEvent& event)
-{
-    Col_Lcd_Front = SetColour();
-    DrawWxSimuLcd();
-}
+    void NextStepRc_SimulatorFrame::OnMenuLcdPixelSelected(wxCommandEvent& event)
+    {
+        Col_Lcd_Front = SetColour();
+        DrawWxSimuLcd();
+    }
 
-void NextStepRc_SimulatorFrame::OnMenuButOffSelected(wxCommandEvent& event)
-{
-    Col_Button_Off = SetColour();
-}
+    void NextStepRc_SimulatorFrame::OnMenuButOffSelected(wxCommandEvent& event)
+    {
+        Col_Button_Off = SetColour();
+    }
 
-void NextStepRc_SimulatorFrame::OnMenuButOnSelected(wxCommandEvent& event)
-{
-    Col_Button_On = SetColour();
-}
+    void NextStepRc_SimulatorFrame::OnMenuButOnSelected(wxCommandEvent& event)
+    {
+        Col_Button_On = SetColour();
+    }
 
-void NextStepRc_SimulatorFrame::OnMenuStickBackSelected(wxCommandEvent& event)
-{
-    Col_Stick_Back = SetColour();
-    Lstick->SetBackgroundColour(Col_Stick_Back);
-    Rstick->SetBackgroundColour(Col_Stick_Back);
-    Lstick->Refresh();
-    Rstick->Refresh();
-}
+    void NextStepRc_SimulatorFrame::OnMenuStickBackSelected(wxCommandEvent& event)
+    {
+        Col_Stick_Back = SetColour();
+        Lstick->SetBackgroundColour(Col_Stick_Back);
+        Rstick->SetBackgroundColour(Col_Stick_Back);
+        Lstick->Refresh();
+        Rstick->Refresh();
+    }
 
-void NextStepRc_SimulatorFrame::OnMenuStickStickSelected(wxCommandEvent& event)
-{
-    Col_Stick_Circle = SetColour();
-    Lstick->SetForegroundColour(Col_Stick_Circle);
-    Rstick->SetForegroundColour(Col_Stick_Circle);
-}
+    void NextStepRc_SimulatorFrame::OnMenuStickStickSelected(wxCommandEvent& event)
+    {
+        Col_Stick_Circle = SetColour();
+        Lstick->SetForegroundColour(Col_Stick_Circle);
+        Rstick->SetForegroundColour(Col_Stick_Circle);
+    }
 
 
-void NextStepRc_SimulatorFrame::OnLstickPaint(wxPaintEvent& event)
-{
-    int pos = (Lstick->GetSize().GetWidth())/2;
-    PaintSticks(pos,pos,pos,pos,Lstick);
-}
+    void NextStepRc_SimulatorFrame::OnLstickPaint(wxPaintEvent& event)
+    {
+        int pos = (Lstick->GetSize().GetWidth())/2;
+        PaintSticks(pos,pos,pos,pos,Lstick);
+    }
 
-void NextStepRc_SimulatorFrame::OnRstickPaint(wxPaintEvent& event)
-{
-    int pos = (Rstick->GetSize().GetWidth())/2;
-    PaintSticks(pos,pos,pos,pos,Rstick);
+    void NextStepRc_SimulatorFrame::OnRstickPaint(wxPaintEvent& event)
+    {
+        int pos = (Rstick->GetSize().GetWidth())/2;
+        PaintSticks(pos,pos,pos,pos,Rstick);
 
-}
+    }
+
+
+    void NextStepRc_SimulatorFrame::OnButtonStartDesktopClick(wxCommandEvent& event)
+    {
+        wxString desktop("NextStepRc_Desktop.exe");
+        wxExecute(desktop);
+    }
