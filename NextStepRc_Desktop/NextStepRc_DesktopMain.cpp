@@ -216,11 +216,8 @@ void NextStepRc_DesktopFrame::OnreadmodelsSelected(wxCommandEvent& event)//READ 
     wxFileDialog saveDialog(this, _("Choisir le fichier pour importer les modèles dès la radio."), "", "",  "Fichiers bin (*.bin)|*.bin|Tous (*.*)|*.*", wxFD_SAVE);
     if (saveDialog.ShowModal() == wxID_CANCEL) return;
     wxString dude_tmpfile = (saveDialog.GetPath());
-
-    //wxString dude_mode("mode com5 DTR=ON RTS=ON");
     wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_read+dude_tmpfile+dude_raw+dude_verify;
-
-    wxMessageBox(dude_send);
+    //wxMessageBox(dude_send);
     wxExecute(dude_send);//send command
 }
 
@@ -228,9 +225,7 @@ void NextStepRc_DesktopFrame::OnreadfirmwareSelected(wxCommandEvent& event)//rea
 {
     wxFileDialog saveDialog(this, _("Choisir le fichier pour importer le Firmware dès la radio."), "", "","Fichiers bin (*.bin)|*.bin|Tous (*.*)|*.*", wxFD_SAVE);
     if (saveDialog.ShowModal() == wxID_CANCEL) return;
-    //wxFileInputStream input_stream(saveDialog.GetPath());
     wxString dude_tmpfile = (saveDialog.GetPath());
-
     wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_read+dude_tmpfile+dude_raw;
     wxExecute(dude_send);
 }
@@ -239,62 +234,22 @@ void NextStepRc_DesktopFrame::OnWriteModelToRadioSelected(wxCommandEvent& event)
 {
     wxFileDialog openFileDialog(this, _("Choisir le fichier (.bin) pour transferer les modêles à la radio."), "", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL) return;
-
-    //verify the file size to see if it is an eeprom image
-
-    //wxMessageDialog *susto = new wxMessageDialog(NULL,
-    //wxT("Cela ne parait pas un fichier de modeles"), wxT("Importer les modeles"),
-    //wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
-    //susto->SetEventHandler(susto);
-    //if (susto->ShowModal()!= wxID_OK) return;
-
-
     wxString dude_tmpfile = (openFileDialog.GetPath());
-
     wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_write+dude_tmpfile+dude_raw+dude_verify;
-
-    wxMessageBox(dude_send);
+    //wxMessageBox(dude_send);
     wxExecute(dude_send);
 }
 
 void NextStepRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& event)
 {
     wxFileDialog openFileDialog(this, _("Choisir le fichier pour transferer le Firmware à la radio."), "", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
-
     if (openFileDialog.ShowModal() == wxID_CANCEL) return;
     wxMessageDialog *bkup = new wxMessageDialog(NULL,wxT("Il est recommande de sauvegarder vos modeles avant, voulez vous continuer ?"), wxT("Firmware"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
     bkup->SetEventHandler(bkup);
     if (bkup->ShowModal()!= wxID_OK) return;
-
-    /*  std::remove("batch.txt"); // delete old batch
-      std::ofstream myfile;
-      myfile.open ("batch.bat"); // write new batch
-      wxString batch ("batch.bat"); //myfile << dude_programmer<< "\n";
-      wxString one ("mode "), two(": DTR=ON RTS=ON \n"), dude_rstcom =(one+dude_port+two);
-
-      wxString dude_bkupfile = ("tmp.bin");// save model and settings
-      dude_send = dude_rstcom + dude_path+avrdude+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_read+dude_bkupfile+dude_raw;
-      myfile << dude_send<< "\n";
-
-      wxString dude_tmpfile = GetCurrentlySelectedFilename;//write firmware
-      dude_send = dude_path+avrdude+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_raw+dude_verify;
-      myfile << dude_send<< "\n";
-
-      wxString dude_bkupfile1 = ("tmp.bin");// restaure models and settings
-      dude_send = dude_rstcom +dude_path+avrdude+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_write+dude_bkupfile1+dude_raw+dude_verify;
-      myfile << dude_send<< "\n";
-
-      myfile.close();
-      wxExecute(batch);
-      std::remove("tmp.bin");
-      std::remove("batch.txt");
-      //wxExecute(dude_send); //if non backup is chosen
-      */
-
     wxString dude_tmpfile = (openFileDialog.GetPath());//write firmware
     wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_raw+dude_verify;
-
-    wxMessageBox(dude_send);
+    //wxMessageBox(dude_send);
     wxExecute(dude_send);
 
 }
@@ -303,27 +258,25 @@ void NextStepRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& eve
 void NextStepRc_DesktopFrame::OnEcrirelesFuseesSelected(wxCommandEvent& event)// Write fuses
 {
     wxMessageDialog *susto = new wxMessageDialog(NULL,
-            wxT("Sur? Tu veut continuer?"), wxT("Burn Fuses"),
-            wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
+    wxT("Sur? Tu veut continuer?"), wxT("Burn Fuses"),
+    wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
     susto->SetEventHandler(susto);
     if (susto->ShowModal()!= wxID_OK) return;
-
     wxString FUSES(" -c usbasp -P usb -F -e -u -Ulfuse:w:0xFF:m -Uhfuse:w:0xD8:m -Uefuse:w:0xFD:m -v");
     wxString dude_send = (keepopen+avrdudepath+dude_p+dude_type+FUSES);
-    wxMessageBox(dude_send);
+    //wxMessageBox(dude_send);
     wxExecute(dude_send);
 }
 
 void NextStepRc_DesktopFrame::OnEcrirelebootloaderSelected(wxCommandEvent& event) // Write bootloader
 {
     wxMessageDialog *susto = new wxMessageDialog(NULL,
-            wxT("Sur? Tu veut continuer?"), wxT("Burn bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
+    wxT("Sur? Tu veut continuer?"), wxT("Burn bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
     susto->SetEventHandler(susto);
     if (susto->ShowModal()!= wxID_OK) return;
-
     wxString BOOTLOADER(" -c usbasp -P usb -U lock:w:0x3F:m -U flash:w:mega2560_stk500v2boot_opentx.hex -U lock:w:0x0F:m -v");
     wxString dude_send = (keepopen+avrdudepath+dude_p+dude_type+BOOTLOADER);
-    wxMessageBox(dude_send);
+    //wxMessageBox(dude_send);
     wxExecute(dude_send);
 }
 
@@ -367,7 +320,6 @@ extern void NextStepRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("Port"),dude_port);
     configFile->Write(wxT("Type"),dude_type);
     configFile->Write(wxT("avrdudepath"),avrdudepath);
-///////////////////////////////////////////////////////
     configFile->Write(wxT("PCB"),PCB);
     configFile->Write(wxT("LCD"),LCD);
     configFile->Write(wxT("VOICE"),VOICE);
@@ -390,7 +342,6 @@ extern void NextStepRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("DSM2"),DSM2);
     configFile->Write(wxT("SD_CARD"),SD_CARD);
     configFile->Write(wxT("FAS_OFFSET"),FAS_OFFSET);
-
     configFile->Flush();
 }
 

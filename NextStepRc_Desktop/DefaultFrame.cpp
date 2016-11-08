@@ -7,15 +7,13 @@
 #include <wx/textfile.h>
 #include <wx/filename.h>
 #include <wx/filedlg.h>
-
+#include "NextStepRc_DesktopMain.h"
 
 //(*InternalHeaders(DefaultFrame)
 #include <wx/settings.h>
 #include <wx/intl.h>
 #include <wx/string.h>
 //*)
-
-#include "NextStepRc_DesktopMain.h"
 
 extern bool Ini_Changed;
 extern wxString avrdudepath;

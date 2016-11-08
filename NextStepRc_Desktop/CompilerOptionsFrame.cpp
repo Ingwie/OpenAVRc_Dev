@@ -228,7 +228,6 @@ void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
     Ini_Changed = true;
 
     // .bat file for compilation
-
     wxString CompiBat = "cmd /k MAKECLEAN \n MAKEFILE";
     CompiBat += (" LCD=" + LCD);
     CompiBat += (" PCB=" + PCB);
@@ -264,12 +263,4 @@ void CompilerOptionsFrame::OnButtonEXITClick(wxCommandEvent& event)
 
 void Compile()//no use yet
 {
-
-    //wxString CompiBat = "makefile ";
-    //BatString = "";
-    //CompiBat += ("LCD=" + LCD);
-    //BatString  += toto.getvalue();
-    //BatString += configFile->Read(wxT("LCD"),&LCD); config file was not declared in this scope.
-    //BatString  += tata.getvalue();
-    //If (audioIsChecked) batString += "AUDIO=YES ";
 }
