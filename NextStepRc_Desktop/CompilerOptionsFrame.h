@@ -1,6 +1,8 @@
 #ifndef COMPILEROPTIONSFRAME_H
 #define COMPILEROPTIONSFRAME_H
 
+#include "NextStepRc_DesktopMain.h"
+
 //(*Headers(CompilerOptionsFrame)
 #include <wx/stattext.h>
 #include <wx/checkbox.h>
@@ -11,7 +13,7 @@
 #include <wx/frame.h>
 //*)
 
-//wxString Ini_Filename;
+//extern wxFileConfig configFile;
 
 extern wxString PCB;
 extern wxString LCD;
@@ -22,8 +24,8 @@ extern bool HELI;
 extern wxString TTS;
 extern wxString TRANSLATIONS;
 extern wxString NAVIGATION;
-extern wxString FRSKY_HUB;
-extern wxString HAPTIC;
+extern bool FRSKY_HUB;
+extern bool HAPTIC;
 extern wxString PPM_UNIT;
 extern bool GAUGES;
 extern bool GPS;
@@ -33,6 +35,8 @@ extern bool SPORT_FILE_LOG;
 extern bool PPM;
 extern bool PXX;
 extern bool DSM2;
+extern bool SD_CARD;
+extern bool FAS_OFFSET;
 
 class CompilerOptionsFrame: public wxFrame
 {
@@ -48,8 +52,10 @@ class CompilerOptionsFrame: public wxFrame
 		wxCheckBox* CheckBoxPXX;
 		wxCheckBox* CheckBoxPPM;
 		wxStaticText* StaticText2;
+		wxCheckBox* CheckBoxFRSKY_HUB;
 		wxCheckBox* CheckBoxGAUGES;
 		wxStaticText* StaticText6;
+		wxCheckBox* CheckBoxFAS_OFFSET;
 		wxStaticBox* StaticBoxPROTOCOL;
 		wxPanel* Panel1;
 		wxStaticText* StaticText1;
@@ -64,10 +70,8 @@ class CompilerOptionsFrame: public wxFrame
 		wxCheckBox* CheckBoxVARIO;
 		wxChoice* ChoicePPM_UNIT ;
 		wxChoice* ChoiceEXT;
-		wxCheckBox* CheckBoxFASOFFSET;
 		wxCheckBox* CheckBoxSPORT_FILE_LOG;
 		wxCheckBox* CheckBoxHELI;
-		wxCheckBox* CheckBoxHUB;
 		wxChoice* ChoiceLCD;
 		wxChoice* ChoiceVOICE;
 		wxStaticText* StaticText4;
@@ -148,6 +152,7 @@ class CompilerOptionsFrame: public wxFrame
 		void OnCheckBox2Click1(wxCommandEvent& event);
 		void OnCheckBox3Click1(wxCommandEvent& event);
 		void OnCheckBox1Click1(wxCommandEvent& event);
+		void OnCheckBoxHUBClick(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

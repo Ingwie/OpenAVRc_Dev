@@ -22,6 +22,7 @@
 #include <wx/stdpaths.h>
 #include <wx/filename.h>
 #include <wx/fileconf.h>
+#include "CompilerOptionsFrame.h"
 
 class NextStepRc_DesktopFrame: public wxFrame
 {

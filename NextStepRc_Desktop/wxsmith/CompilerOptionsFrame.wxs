@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
-	<object class="wxFrame" name="Compil-O-matic">
+	<object class="wxFrame" name="CompilerOptionsFrame">
 		<title>Compil-O-matic</title>
 		<size>807,313</size>
 		<id_arg>0</id_arg>
@@ -76,11 +76,11 @@
 				<label>VOICE</label>
 				<pos>64,120</pos>
 			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX2" variable="CheckBoxHUB" member="yes">
+			<object class="wxCheckBox" name="ID_CHECKBOX2" variable="CheckBoxFRSKY_HUB" member="yes">
 				<label>FrSky Hub</label>
 				<pos>352,72</pos>
 			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX3" variable="CheckBoxFASOFFSET" member="yes">
+			<object class="wxCheckBox" name="ID_CHECKBOX3" variable="CheckBoxFAS_OFFSET" member="yes">
 				<label>FAS Offset</label>
 				<pos>352,104</pos>
 			</object>

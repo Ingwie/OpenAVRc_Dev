@@ -15,8 +15,8 @@ bool HELI = 0;
 wxString TTS = _("non défini");
 wxString TRANSLATIONS = _("non défini");
 wxString NAVIGATION = _("non défini");
-wxString FRSKY_HUB = _("non défini");
-wxString HAPTIC = _("non défini");
+bool FRSKY_HUB = 0;
+bool HAPTIC = 0;
 wxString PPM_UNIT = _("non défini");
 bool GAUGES = 0;
 bool GPS = 0;
@@ -26,6 +26,9 @@ bool SPORT_FILE_LOG = 0;
 bool PPM = 1;
 bool PXX = 0;
 bool DSM2 = 0;
+bool SD_CARD = 0;
+bool FAS_OFFSET = 0;
+
 
 
 //helper functions
@@ -116,10 +119,10 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
 	ChoiceEXT->Append(_("TELEMETREZ"));
 	StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("LCD"), wxPoint(80,72), wxDefaultSize, 0, _T("ID_STATICTEXT1"));
 	StaticText3 = new wxStaticText(Panel1, ID_STATICTEXT3, _("VOICE"), wxPoint(64,120), wxDefaultSize, 0, _T("ID_STATICTEXT3"));
-	CheckBoxHUB = new wxCheckBox(Panel1, ID_CHECKBOX2, _("FrSky Hub"), wxPoint(352,72), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX2"));
-	CheckBoxHUB->SetValue(false);
-	CheckBoxFASOFFSET = new wxCheckBox(Panel1, ID_CHECKBOX3, _("FAS Offset"), wxPoint(352,104), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX3"));
-	CheckBoxFASOFFSET->SetValue(false);
+	CheckBoxFRSKY_HUB = new wxCheckBox(Panel1, ID_CHECKBOX2, _("FrSky Hub"), wxPoint(352,72), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX2"));
+	CheckBoxFRSKY_HUB->SetValue(false);
+	CheckBoxFAS_OFFSET = new wxCheckBox(Panel1, ID_CHECKBOX3, _("FAS Offset"), wxPoint(352,104), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX3"));
+	CheckBoxFAS_OFFSET->SetValue(false);
 	CheckBoxGAUGES = new wxCheckBox(Panel1, ID_CHECKBOX4, _("Gauges"), wxPoint(352,136), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX4"));
 	CheckBoxGAUGES->SetValue(false);
 	CheckBoxGPS = new wxCheckBox(Panel1, ID_CHECKBOX5, _("GPS"), wxPoint(352,168), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX5"));
@@ -157,21 +160,28 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&CompilerOptionsFrame::OnClose);
 	//*)
 
-  CheckBoxRTCLOCK->SetValue(RTCLOCK);
-  CheckBoxPPM->SetValue(PPM);
-  CheckBoxPXX->SetValue(PXX);
-  CheckBoxDSM2->SetValue(DSM2);
-  CheckBoxAUDIO->SetValue(AUDIO);
-	ChoicePCB->SetStringSelection(PCB);
-	ChoiceLCD->SetStringSelection(LCD);
+  ChoicePCB->SetStringSelection(PCB);
+  ChoiceLCD->SetStringSelection(LCD);
 	ChoiceVOICE->SetStringSelection(VOICE);
 	ChoiceEXT->SetStringSelection(EXT);
-	ChoicePPM_UNIT->SetStringSelection(PPM_UNIT);
+  CheckBoxAUDIO->SetValue(AUDIO);
   CheckBoxHELI->SetValue(HELI);
+  //TTS
+	//TRANSLATIONS
+  //NAVIGATION
+  CheckBoxFRSKY_HUB->SetValue(FRSKY_HUB);
+  //HAPTIC
+	ChoicePPM_UNIT->SetStringSelection(PPM_UNIT);
   CheckBoxGAUGES->SetValue(GAUGES);
   CheckBoxGPS->SetValue(GPS);
   CheckBoxVARIO->SetValue(VARIO);
+  CheckBoxRTCLOCK->SetValue(RTCLOCK);
   CheckBoxSPORT_FILE_LOG->SetValue(SPORT_FILE_LOG);
+  CheckBoxPPM->SetValue(PPM);
+  CheckBoxPXX->SetValue(PXX);
+  CheckBoxDSM2->SetValue(DSM2);
+  CheckBoxSD_CARD->SetValue(DSM2);
+  CheckBoxFAS_OFFSET->SetValue(DSM2);
 }
 
 CompilerOptionsFrame::~CompilerOptionsFrame()
@@ -187,45 +197,63 @@ void CompilerOptionsFrame::OnClose(wxCloseEvent& event)
 
 void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
 {
-  PCB  = ChoicePCB->GetString(ChoicePCB->GetSelection());
-  LCD  = ChoiceLCD->GetString(ChoiceLCD->GetSelection());
-  VOICE  = ChoiceVOICE->GetString(ChoiceVOICE->GetSelection());
-  EXT  = ChoiceEXT->GetString(ChoiceEXT->GetSelection());
-  PPM_UNIT  = ChoicePPM_UNIT->GetString(ChoicePPM_UNIT->GetSelection());
-  AUDIO = CheckBoxAUDIO->GetValue();
-  RTCLOCK = CheckBoxRTCLOCK->GetValue();
-  HELI = CheckBoxHELI->GetValue();
-  GAUGES = CheckBoxGAUGES->GetValue();
-  GPS = CheckBoxGPS->GetValue();
-  VARIO = CheckBoxVARIO->GetValue();
-  SPORT_FILE_LOG = CheckBoxSPORT_FILE_LOG->GetValue();
-  PPM = CheckBoxPPM->GetValue();
-  PXX = CheckBoxPXX->GetValue();
-  DSM2 = CheckBoxDSM2->GetValue();
+    PCB  = ChoicePCB->GetString(ChoicePCB->GetSelection());
+    LCD  = ChoiceLCD->GetString(ChoiceLCD->GetSelection());
+    VOICE  = ChoiceVOICE->GetString(ChoiceVOICE->GetSelection());
+    EXT  = ChoiceEXT->GetString(ChoiceEXT->GetSelection());
+    AUDIO = CheckBoxAUDIO->GetValue();
+    HELI = CheckBoxHELI->GetValue();
+    //TTS
+    //TRANSLATION
+    //NAVIGATION
+    FRSKY_HUB = CheckBoxFRSKY_HUB->GetValue();
+    //HAPTIC
+    PPM_UNIT  = ChoicePPM_UNIT->GetString(ChoicePPM_UNIT->GetSelection());
+    GAUGES = CheckBoxGAUGES->GetValue();
+    GPS = CheckBoxGPS->GetValue();
+    VARIO = CheckBoxVARIO->GetValue();
+    RTCLOCK = CheckBoxRTCLOCK->GetValue();
+    SPORT_FILE_LOG = CheckBoxSPORT_FILE_LOG->GetValue();
+    PPM = CheckBoxPPM->GetValue();
+    PXX = CheckBoxPXX->GetValue();
+    DSM2 = CheckBoxDSM2->GetValue();
+    SD_CARD = CheckBoxSD_CARD->GetValue();
+    FAS_OFFSET = CheckBoxFAS_OFFSET->GetValue();
 
-   //configFile->Write(wxT("LCD"),LCD);// how to make configFile visible : The owner is the main frame ;-)
-   //SaveConfig();
-   Ini_Changed = true;
+    //CompilerOptionsFrame->GetParent()->SaveConfig();
+    ////////////////////////////////////NextStepRc_DesktopFrame::SaveConfig();
+    //fenetrefille->getParent()->SaveConfig();
+    //configFile->Write(wxT("LCD"),LCD);// how to make configFile visible : The owner is the main frame ;-)
+    //GetParent()->NextStepRc_DesktopFrame::SaveConfig();
+    Ini_Changed = true;
 
-    // makeclean before
-    wxString CompiBat = "makefile";
+    // .bat file for compilation
+
+    wxString CompiBat = "cmd /k MAKECLEAN \n MAKEFILE";
     CompiBat += (" LCD=" + LCD);
     CompiBat += (" PCB=" + PCB);
     CompiBat += (" VOICE=" + VOICE);
     CompiBat += (" EXT=" + EXT);
+    if (AUDIO) CompiBat += (" AUDIO=YES");// default should be NO
+    if (HELI) CompiBat += (" HELI=YES");// default should be NO
+    //TTS
+    //TRANSLATIONS
+    //NAVIGATION
+    if (FRSKY_HUB) CompiBat += (" FRSKY_HUB=YES");// default should be NO
+    //HAPTIC
     CompiBat += (" PPM_UNIT=" + PPM_UNIT);
-    if (AUDIO) CompiBat += (" AUDIO=YES");// defauls should ve NO
-    if (RTCLOCK) CompiBat += (" RTCLOCK=YES");
-    if (HELI) CompiBat += (" HELI=YES");
-    if (GAUGES) CompiBat += (" GAUGES=YES");
-    if (GPS) CompiBat += (" GPS=YES");
-    if (VARIO) CompiBat += (" VARIO=YES");
-    if (SPORT_FILE_LOG) CompiBat += (" SPORT_FILE_LOG=YES");
-    if (PPM) CompiBat += (" PPM=YES");
-    if (PXX) CompiBat += (" PXX=YES");
-    if (DSM2) CompiBat += (" DSM2=YES");
-
+    if (GAUGES) CompiBat += (" GAUGES=YES");// default should be NO
+    if (GPS) CompiBat += (" GPS=YES");// default should be NO
+    if (VARIO) CompiBat += (" VARIO=YES");// default should be NO
+    if (RTCLOCK) CompiBat += (" RTCLOCK=YES");// default should be NO
+    if (SPORT_FILE_LOG) CompiBat += (" SPORT_FILE_LOG=YES");// default should be NO
+    if (PPM) CompiBat += (" PPM=YES");// default should be YES
+    if (PXX) CompiBat += (" PXX=YES");// default should be NO
+    if (DSM2) CompiBat += (" DSM2=YES");// default should be NO
+    if (SD_CARD) CompiBat += (" SD_CARD=YES");// default should be NO
+    if (FAS_OFFSET) CompiBat += (" FAS_OFFSET=YES");// default should be NO
     wxMessageBox(CompiBat);
+    wxExecute (CompiBat);
 }
 
 void CompilerOptionsFrame::OnButtonEXITClick(wxCommandEvent& event)
