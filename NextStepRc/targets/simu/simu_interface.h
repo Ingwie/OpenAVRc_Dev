@@ -529,6 +529,7 @@ extern REG8 simu_mcusr;
 //TIMER
 extern REG16 simu_ocr1a;
 extern REG16 simu_ocr1b;
+extern REG16 simu_ocr1c;
 extern REG16 simu_tcnt1;
 extern REG8 simu_tcnt1l;
 extern REG8 simu_tcnt1h;
@@ -537,6 +538,9 @@ extern REG8 simu_tccr1c;
 extern REG8 simu_tccr1b;
 extern REG8 simu_timsk1;
 extern REG8 simu_tifr1;
+extern REG16 simu_icr1;
+extern REG8 simu_icr1l;
+extern REG8 simu_icr1h;
 extern REG8 simu_tcnt2;
 extern REG8 simu_ocr2a;
 extern REG8 simu_ocr2b;
@@ -562,6 +566,7 @@ extern REG8 simu_ocr5ah;
 
 #define OCR1A   simu_ocr1a
 #define OCR1B   simu_ocr1b
+#define OCR1C   simu_ocr1c
 
 #define TCCR1A  simu_tccr1a
 #define COM1A1  7
@@ -597,6 +602,11 @@ extern REG8 simu_ocr5ah;
 #define TCNT1   simu_tcnt1
 #define TCNT1L  simu_tcnt1l
 #define TCNT1H  simu_tcnt1h
+
+#define ICR1    simu_icr1
+#define ICR1L   simu_icr1l
+#define ICR1H   simu_icr1h
+
 
 #define TIFR1   simu_tifr1
 #define ICF1    5

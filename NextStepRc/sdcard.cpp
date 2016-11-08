@@ -151,7 +151,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
 
 
 
-#if !defined(SIMU) || defined(SIMU_DISKIO)
+#if !defined(SIMU)
 uint32_t sdGetNoSectors()
 {
   static DWORD noSectors = 0;
@@ -176,16 +176,15 @@ uint32_t sdGetFreeSectors()
   return nofree * fat->csize;
 }
 
-#else  // #if !defined(SIMU) || defined(SIMU_DISKIO)
-
+#else  // #if !defined(SIMU)
 uint32_t sdGetNoSectors()
 {
-  return 0;
+  return 512;
 }
 
 uint32_t sdGetSize()
 {
-  return 0;
+  return 2000;
 }
 
 uint32_t sdGetFreeSectors()
@@ -193,4 +192,4 @@ uint32_t sdGetFreeSectors()
   return 10;
 }
 
-#endif  // #if !defined(SIMU) || defined(SIMU_DISKIO)
+#endif

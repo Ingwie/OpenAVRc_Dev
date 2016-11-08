@@ -97,6 +97,7 @@ REG8 simu_mcusr;
 //TIMER
 REG16 simu_ocr1a;
 REG16 simu_ocr1b;
+REG16 simu_ocr1c;
 REG16 simu_tcnt1;
 REG8 simu_tcnt1l;
 REG8 simu_tcnt1h;
@@ -105,6 +106,9 @@ REG8 simu_tccr1c;
 REG8 simu_tccr1b;
 REG8 simu_timsk1;
 REG8 simu_tifr1;
+REG16 simu_icr1;
+REG8 simu_icr1l;
+REG8 simu_icr1h;
 REG8 simu_timsk3;
 REG16 simu_ocr3a;
 REG8 simu_ocr3al;

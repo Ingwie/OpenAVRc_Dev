@@ -15,6 +15,7 @@
  */
 
 #include "../nextsteprc.h"
+//#include "pulses_avr.h"
 
 uint16_t nextMixerEndTime = 0;
 #define SCHEDULE_MIXER_END(delay) nextMixerEndTime = getTmr16KHz() + (delay) - 2*16/*2ms*/
