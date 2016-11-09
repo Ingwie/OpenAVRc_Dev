@@ -10,7 +10,7 @@
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
-		<object class="wxPanel" name="ID_PANEL1" variable="PanelPrincipal" member="yes">
+		<object class="wxPanel" name="ID_PANELPRINCIPAL" variable="PanelPrincipal" member="yes">
 			<pos>424,216</pos>
 			<size>777,400</size>
 			<style>wxRAISED_BORDER|wxTAB_TRAVERSAL</style>
@@ -203,7 +203,7 @@
 					<bg>#000000</bg>
 					<tooltip>THR</tooltip>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-					<handler function="OnPbThrLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBpThrLeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
 				<object class="wxPanel" name="ID_BPRUD" variable="BpRud" member="yes">
 					<pos>25,88</pos>

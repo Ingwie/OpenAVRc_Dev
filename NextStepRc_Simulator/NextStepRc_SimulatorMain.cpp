@@ -27,6 +27,7 @@
 #include <wx/string.h>
 //*)
 
+
 #include "avatarnext.xpm"
 #include "woodmain.xpm"
 #include "woodH.xpm"
@@ -98,7 +99,7 @@ const long NextStepRc_SimulatorFrame::ID_LSTICK = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_SPINREA = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_SPINREB = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANELMAIN = wxNewId();
-const long NextStepRc_SimulatorFrame::ID_PANEL1 = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_PANELPRINCIPAL = wxNewId();
 const long NextStepRc_SimulatorFrame::IdMenuOpenEE = wxNewId();
 const long NextStepRc_SimulatorFrame::IdMenuSaveEE = wxNewId();
 const long NextStepRc_SimulatorFrame::idMenuQuit = wxNewId();
@@ -153,7 +154,7 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     	FrameIcon.CopyFromBitmap(avatarnext);
     	SetIcon(FrameIcon);
     }
-    PanelPrincipal = new wxPanel(this, ID_PANEL1, wxPoint(424,216), wxSize(777,400), wxRAISED_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+    PanelPrincipal = new wxPanel(this, ID_PANELPRINCIPAL, wxPoint(424,216), wxSize(777,400), wxRAISED_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELPRINCIPAL"));
     PanelH = new wxPanel(PanelPrincipal, ID_PANELH, wxPoint(0,0), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELH"));
     PanelL = new wxPanel(PanelPrincipal, ID_PANELL, wxPoint(0,304), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELL"));
     OnTglButton = new wxToggleButton(PanelL, ID_ONTGLBUTTON, _("ON"), wxPoint(8,8), wxSize(62,22), wxDOUBLE_BORDER, wxDefaultValidator, _T("ID_ONTGLBUTTON"));
@@ -308,7 +309,7 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Simulcd->Connect(wxEVT_PAINT,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnwxsimulcdPaint,0,this);
     Simulcd->Connect(wxEVT_LEFT_DCLICK,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnSimulcdLeftDClick,0,this);
     BpThr->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpThrLeftDown,0,this);
-    BpRud->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpRudLeftDown1,0,this);
+    BpRud->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpRudLeftDown,0,this);
     BpEle->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpEleLeftDown,0,this);
     BpTrn->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpTrnLeftDown,0,this);
     BpTrn->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnBpTrnLeftUp,0,this);
@@ -916,7 +917,7 @@ void NextStepRc_SimulatorFrame::OnBpThrLeftDown(wxMouseEvent& event)
     SpinG->TogglePin(2);
 }
 
-void NextStepRc_SimulatorFrame::OnBpRudLeftDown1(wxMouseEvent& event)
+void NextStepRc_SimulatorFrame::OnBpRudLeftDown(wxMouseEvent& event)
 {
     SpinG->TogglePin(0);
 }
@@ -1156,3 +1157,75 @@ void NextStepRc_SimulatorFrame::OnButtonStartDesktopClick(wxCommandEvent& event)
     wxString desktop("NextStepRc_Desktop.exe");
     wxExecute(desktop);
 }
+
+void NextStepRc_SimulatorFrame::OnKey(wxKeyEvent& event)
+  {
+    wxMouseEvent fakevt;
+
+    int result = event.GetKeyCode();
+
+    if (event.GetKeyCode() == 315)
+    {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPhLeftDown(fakevt);
+        else OnBPhLeftUp(fakevt);
+    }
+    if (event.GetKeyCode() == 317)
+    {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPbLeftDown(fakevt);
+        else OnBPbLeftUp(fakevt);
+    }
+    if (event.GetKeyCode() == 314)
+    {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPgLeftDown(fakevt);
+        else OnBPgLeftUp(fakevt);
+    }
+    if (event.GetKeyCode() == 316)
+    {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPdLeftDown(fakevt);
+        else OnBPdLeftUp(fakevt);
+    }
+    if (event.GetKeyCode() == 366)
+    {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPmenuLeftDown(fakevt);
+        else OnBPmenuLeftUp(fakevt);
+    }
+    if (event.GetKeyCode() == 367)
+    {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPexitLeftDown(fakevt);
+        else OnBPexitLeftUp(fakevt);
+    }
+    if (event.GetKeyCode() == 65)
+    {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpThrLeftDown(fakevt);
+    }
+    if (event.GetKeyCode() == 90)
+    {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpRudLeftDown(fakevt);
+    }
+    if (event.GetKeyCode() == 69)
+    {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpEleLeftDown(fakevt);
+    }
+    if (event.GetKeyCode() == 82)
+    {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpTrnLeftDown(fakevt);
+      else OnBpTrnLeftUp(fakevt);
+    }
+    if (event.GetKeyCode() == 84)
+    {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpAilLeftDown(fakevt);
+    }
+    if (event.GetKeyCode() == 89)
+    {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpGeaLeftDown(fakevt);
+    }
+    if (event.GetKeyCode() == 85)
+    {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpId1LeftDown(fakevt);
+    }
+    if (event.GetKeyCode() == 73)
+    {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpId2LeftDown(fakevt);
+    }
+    event.Skip();
+  }

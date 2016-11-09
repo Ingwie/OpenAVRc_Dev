@@ -23,10 +23,20 @@ bool NextStepRc_SimulatorApp::OnInit()
     wxInitAllImageHandlers();
     if ( wxsOK )
     {
-    	SimuFrame = new NextStepRc_SimulatorFrame(0);
-    	SimuFrame->Show();
-    	SetTopWindow(SimuFrame);
+        SimuFrame = new NextStepRc_SimulatorFrame(0);
+        SimuFrame->Show();
+        SetTopWindow(SimuFrame);
     }
     //*)
     return wxsOK;
+}
+
+int NextStepRc_SimulatorApp::FilterEvent(wxEvent& event)
+{
+    if ((event.GetEventType() == (wxEVT_KEY_DOWN)) || (event.GetEventType() == (wxEVT_KEY_UP)) && SimuFrame )
+    {
+        SimuFrame->OnKey((wxKeyEvent&)event);
+        return true;
+    }
+   return Event_Skip;
 }

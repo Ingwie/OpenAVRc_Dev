@@ -53,6 +53,7 @@ public:
     NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID id = -1);
     virtual ~NextStepRc_SimulatorFrame();
     const void DrawWxSimuLcd();
+    void OnKey(wxKeyEvent& Event);
 
 private:
     //(*Handlers(NextStepRc_SimulatorFrame)
@@ -110,11 +111,8 @@ private:
     void OnBpGeaLeftDown(wxMouseEvent& event);
     void OnBpId1LeftDown(wxMouseEvent& event);
     void OnBpId2LeftDown(wxMouseEvent& event);
-    void OnBptrnLeftDown(wxMouseEvent& event);
-    void OnBptrnLeftUp(wxMouseEvent& event);
     void OnBpTrnLeftDown(wxMouseEvent& event);
     void OnBpTrnLeftUp(wxMouseEvent& event);
-    void OnBpRudLeftDown1(wxMouseEvent& event);
     void OnBpEleLeftDown(wxMouseEvent& event);
     void OnBpAilLeftDown(wxMouseEvent& event);
     void LoadEepromFile(wxString path);
@@ -173,7 +171,7 @@ private:
     static const long ID_SPINREA;
     static const long ID_SPINREB;
     static const long ID_PANELMAIN;
-    static const long ID_PANEL1;
+    static const long ID_PANELPRINCIPAL;
     static const long IdMenuOpenEE;
     static const long IdMenuSaveEE;
     static const long idMenuQuit;

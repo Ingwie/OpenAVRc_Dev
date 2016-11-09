@@ -19,6 +19,8 @@ class NextStepRc_SimulatorApp : public wxApp
     public:
       NextStepRc_SimulatorFrame* SimuFrame;
         virtual bool OnInit();
+        int FilterEvent(wxEvent& event);
+
 };
 
 wxDECLARE_APP(NextStepRc_SimulatorApp);
