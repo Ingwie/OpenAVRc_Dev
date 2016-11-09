@@ -1,3 +1,12 @@
+/***************************************************************
+ * Name:      NextStepRc_DesktopMain.cpp
+ * Purpose:   Code for Application Frame
+ * Author:    NextStepRc_TEAM ()
+ * Created:   2016-09-08
+ * Copyright: NextStepRc_TEAM ()
+ * License:
+ **************************************************************/
+
 #include "DefaultFrame.h"
 #include <wx/msgdlg.h>
 #include <wx/combo.h>

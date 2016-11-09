@@ -11,16 +11,16 @@
 #include "DefaultFrame.h"
 #include "CompilerOptionsFrame.h"
 #include <wx/msgdlg.h>
-#include <string>
-#include <wx/textfile.h>
-#include <windows.h>
-#include "Shlwapi.h"
+//#include <string>
+//#include <wx/textfile.h>
+//#include <windows.h>
+//#include "Shlwapi.h"
 #include <wx/filedlg.h>
-#include <wx/wfstream.h>
-#include <wx/string.h>
-#include <wx/menu.h>
-#include <wx/textctrl.h>
-#include <wx/dialog.h>
+//#include <wx/wfstream.h>
+//#include <wx/string.h>
+//#include <wx/menu.h>
+//#include <wx/textctrl.h>
+//#include <wx/dialog.h>
 
 
 //(*InternalHeaders(NextStepRc_DesktopFrame)
@@ -180,11 +180,12 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     keepopen = ("cmd /k ");
 
 
-    //Ini File
+        //Ini File
     Ini_Filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "NextStepRcDesktop.ini";
     configFile = new wxFileConfig( "", "", Ini_Filename);
     LoadConfig();
-    if (avrdudepath == _("non défini")) wxMessageBox( _("Merci de vérifier les paramètres"), _("Programmeur :"), wxICON_WARNING);
+    if (avrdudepath == _("non défini")) wxMessageBox( _("Merci de vérifier les paramètres"), _("Programmeur :"), wxICON_WARNING);//Ini File
+
 }
 
 
@@ -293,11 +294,11 @@ void NextStepRc_DesktopFrame::LoadConfig()
     configFile->Read(wxT("EXT"),&EXT);
     configFile->Read(wxT("AUDIO"),&AUDIO);
     configFile->Read(wxT("HELI"),&HELI);
-    //TTS
-    //TRANSLATIONS
-    //NAVIGATION
+    configFile->Read(wxT("TTS"),&TTS);
+    configFile->Read(wxT("TRANSLATIONS"),&TRANSLATIONS);
+    configFile->Read(wxT("NAVIGATION"),&NAVIGATION);
     configFile->Read(wxT("FRSKY_HUB"),&FRSKY_HUB);
-    //HAPTIC
+    configFile->Read(wxT("HAPTIC"),&HAPTIC);
     configFile->Read(wxT("PPM_UNIT"),&PPM_UNIT);
     configFile->Read(wxT("GAUGES"),&GAUGES);
     configFile->Read(wxT("GPS"),&GPS);
@@ -326,11 +327,11 @@ extern void NextStepRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("EXT"),EXT);
     configFile->Write(wxT("AUDIO"),AUDIO);
     configFile->Write(wxT("HELI"),HELI);
-    //TTS
-    //TRANSLATIONS
-    //NAVIGATION
+    configFile->Write(wxT("TTS"),TTS);
+    configFile->Write(wxT("TRANSLATIONS"),TRANSLATIONS);
+    configFile->Write(wxT("NAVIGATION"),NAVIGATION);
     configFile->Write(wxT("FRSKY_HUB"),FRSKY_HUB);
-    //HAPTIC
+    configFile->Write(wxT("HAPTIC"),HAPTIC);
     configFile->Write(wxT("PPM_UNIT"),PPM_UNIT);
     configFile->Write(wxT("GAUGES"),GAUGES);
     configFile->Write(wxT("GPS"),GPS);

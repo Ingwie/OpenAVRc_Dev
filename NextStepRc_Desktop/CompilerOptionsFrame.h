@@ -2,6 +2,7 @@
 #define COMPILEROPTIONSFRAME_H
 
 #include "NextStepRc_DesktopMain.h"
+#include <wx/textfile.h>
 
 //(*Headers(CompilerOptionsFrame)
 #include <wx/stattext.h>
@@ -13,7 +14,7 @@
 #include <wx/frame.h>
 //*)
 
-//extern wxFileConfig configFile;
+extern wxString CompileBatFile;
 
 extern wxString PCB;
 extern wxString LCD;
@@ -52,6 +53,7 @@ class CompilerOptionsFrame: public wxFrame
 		wxCheckBox* CheckBoxPXX;
 		wxCheckBox* CheckBoxPPM;
 		wxStaticText* StaticText2;
+		wxChoice* ChoiceTRANSLATIONS;
 		wxCheckBox* CheckBoxFRSKY_HUB;
 		wxCheckBox* CheckBoxGAUGES;
 		wxStaticText* StaticText6;
@@ -62,13 +64,16 @@ class CompilerOptionsFrame: public wxFrame
 		wxCheckBox* CheckBoxAUDIO;
 		wxStaticText* StaticText3;
 		wxStaticBox* StaticBox1;
-		wxChoice* Choice7;
 		wxCheckBox* CheckBoxDSM2;
+		wxChoice* ChoiceNAVIGATION;
 		wxButton* ButtonEXIT;
 		wxCheckBox* CheckBoxGPS;
+		wxChoice* ChoiceTTS;
 		wxButton* ButtonCOMPILE;
 		wxCheckBox* CheckBoxVARIO;
 		wxChoice* ChoicePPM_UNIT ;
+		wxStaticText* StaticText5;
+		wxStaticText* StaticText7;
 		wxChoice* ChoiceEXT;
 		wxCheckBox* CheckBoxSPORT_FILE_LOG;
 		wxCheckBox* CheckBoxHELI;
@@ -78,6 +83,7 @@ class CompilerOptionsFrame: public wxFrame
 		wxButton* ButtonADVANCED;
 		wxChoice* ChoicePCB;
 		wxCheckBox* CheckBoxRTCLOCK;
+		wxCheckBox* CheckBoxHAPTIC;
 		//*)
 
 	protected:
@@ -112,6 +118,11 @@ class CompilerOptionsFrame: public wxFrame
 		static const long ID_CHECKBOX10;
 		static const long ID_CHECKBOX11;
 		static const long ID_CHECKBOX13;
+		static const long ID_CHECKBOX14;
+		static const long ID_CHOICE5;
+		static const long ID_STATICTEXT5;
+		static const long ID_CHOICE8;
+		static const long ID_STATICTEXT7;
 		static const long ID_PANEL1;
 		//*)
 
@@ -153,6 +164,8 @@ class CompilerOptionsFrame: public wxFrame
 		void OnCheckBox3Click1(wxCommandEvent& event);
 		void OnCheckBox1Click1(wxCommandEvent& event);
 		void OnCheckBoxHUBClick(wxCommandEvent& event);
+		void OnPanel1Paint(wxPaintEvent& event);
+		void OnChoiceTTSSelect(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

@@ -7,11 +7,12 @@
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>0,0</pos>
-			<size>800,313</size>
+			<size>807,304</size>
+			<handler function="OnPanel1Paint" entry="EVT_PAINT" />
 			<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBoxPROTOCOL" member="yes">
 				<label>Protocol</label>
 				<pos>552,16</pos>
-				<size>184,88</size>
+				<size>192,120</size>
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
 				<label>Télémetrie</label>
@@ -102,16 +103,16 @@
 			</object>
 			<object class="wxButton" name="ID_BUTTON1" variable="ButtonADVANCED" member="yes">
 				<label>Advanced</label>
-				<pos>688,216</pos>
+				<pos>568,272</pos>
 			</object>
 			<object class="wxButton" name="ID_BUTTON2" variable="ButtonCOMPILE" member="yes">
 				<label>COMPILE</label>
-				<pos>688,256</pos>
+				<pos>664,272</pos>
 				<handler function="OnButtonCOMPILEClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText4" member="yes">
 				<label>PPM Units</label>
-				<pos>560,128</pos>
+				<pos>560,112</pos>
 			</object>
 			<object class="wxChoice" name="ID_CHOICE4" variable="ChoicePPM_UNIT " member="yes">
 				<content>
@@ -119,7 +120,7 @@
 					<item>PERCENT_PREC0</item>
 					<item>US</item>
 				</content>
-				<pos>624,120</pos>
+				<pos>624,104</pos>
 				<size>112,21</size>
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX12" variable="CheckBoxSD_CARD" member="yes">
@@ -128,9 +129,14 @@
 			</object>
 			<object class="wxChoice" name="ID_CHOICE6" variable="ChoicePCB" member="yes">
 				<content>
-					<item>m2560</item>
-					<item>m128</item>
-					<item>m64</item>
+					<item>MEGA2560</item>
+					<item>9X</item>
+					<item>9X128</item>
+					<item>9X2561</item>
+					<item>9XR</item>
+					<item>9XR128</item>
+					<item>9XR2561</item>
+					<item>GRUVIN9X</item>
 				</content>
 				<pos>120,32</pos>
 				<size>96,21</size>
@@ -140,8 +146,21 @@
 				<pos>40,40</pos>
 				<size>64,13</size>
 			</object>
-			<object class="wxChoice" name="ID_CHOICE7" variable="Choice7" member="yes">
-				<pos>624,160</pos>
+			<object class="wxChoice" name="ID_CHOICE7" variable="ChoiceTRANSLATIONS" member="yes">
+				<content>
+					<item>CZ</item>
+					<item>DE</item>
+					<item>EN</item>
+					<item>FI</item>
+					<item>FR</item>
+					<item>IT</item>
+					<item>SE</item>
+					<item>ES</item>
+					<item>PL</item>
+					<item>PT</item>
+					<item>NL</item>
+				</content>
+				<pos>624,152</pos>
 				<size>112,21</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText6" member="yes">
@@ -150,7 +169,7 @@
 			</object>
 			<object class="wxButton" name="ID_BUTTON3" variable="ButtonEXIT" member="yes">
 				<label>EXIT</label>
-				<pos>576,256</pos>
+				<pos>472,272</pos>
 				<handler function="OnButtonEXITClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX10" variable="CheckBoxPPM" member="yes">
@@ -165,6 +184,42 @@
 			<object class="wxCheckBox" name="ID_CHECKBOX13" variable="CheckBoxDSM2" member="yes">
 				<label>DSM2</label>
 				<pos>624,80</pos>
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX14" variable="CheckBoxHAPTIC" member="yes">
+				<label>HAPTIC</label>
+				<pos>176,152</pos>
+			</object>
+			<object class="wxChoice" name="ID_CHOICE5" variable="ChoiceTTS" member="yes">
+				<content>
+					<item>EN</item>
+					<item>FR</item>
+					<item>HU</item>
+				</content>
+				<pos>624,184</pos>
+				<size>112,21</size>
+				<handler function="OnChoiceTTSSelect" entry="EVT_CHOICE" />
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
+				<label>TTS</label>
+				<pos>584,192</pos>
+				<size>24,13</size>
+			</object>
+			<object class="wxChoice" name="ID_CHOICE8" variable="ChoiceNAVIGATION" member="yes">
+				<content>
+					<item>NO</item>
+					<item>POT1</item>
+					<item>POT2</item>
+					<item>POT3</item>
+					<item>POTS</item>
+					<item>STICKS</item>
+					<item>ROTENC</item>
+				</content>
+				<pos>624,224</pos>
+				<size>114,21</size>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT7" variable="StaticText7" member="yes">
+				<label>NAVIGATION</label>
+				<pos>544,232</pos>
 			</object>
 		</object>
 	</object>
