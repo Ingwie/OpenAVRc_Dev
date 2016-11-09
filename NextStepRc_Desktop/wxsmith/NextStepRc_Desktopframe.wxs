@@ -76,8 +76,9 @@
 			</object>
 			<object class="wxMenu" variable="Menu2" member="no">
 				<label>Aide</label>
-				<object class="wxMenuItem" name="ID_MENUITEM2" variable="Menu6" member="yes">
+				<object class="wxMenuItem" name="ID_MENUITEM2" variable="MenuHtmlDoc" member="yes">
 					<label>Documentation en ligne</label>
+					<handler function="OnMenuHtmlDocSelected" entry="EVT_MENU" />
 				</object>
 				<object class="wxMenuItem" name="idMenuAbout" variable="MenuItem2" member="no">
 					<label>A propos</label>

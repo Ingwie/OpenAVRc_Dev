@@ -145,14 +145,13 @@ void DefaultFrame::OnButtonDetectClick(wxCommandEvent& event)
 
 void DefaultFrame::DetectSerial()
 {
-    long test;
     TCHAR Devices [5000];
     for(int i=0; i<255; i++) // checking ports from COM0 to COM255
     {
         wxString str;
         str = str.Format(wxT("%i"),i);
         wxString ComName = "COM"+str; // converting to COM0, COM1, COM2
-        test = QueryDosDevice(ComName.c_str(), Devices, 5000); //Win32(64) API only
+        long test = QueryDosDevice(ComName.c_str(), Devices, 5000); //Win32(64) API only
         if (test!=0) //QueryDosDevice returns zero if it didn't find an object
         {
             ComboBox2->Insert(ComName,0); // add to the ComboBox

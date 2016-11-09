@@ -75,6 +75,7 @@ private:
 
     //(*Declarations(NextStepRc_DesktopFrame)
     wxMenuItem* MenuItem7;
+    wxMenuItem* MenuHtmlDoc;
     wxMenuItem* MenuItem5;
     wxMenu* Menu3;
     wxButton* Button1;
@@ -89,7 +90,6 @@ private:
     wxStatusBar* StatusBar_main;
     wxMenuItem* ATMEGA2560Compiler;
     wxMenuItem* MenuItem6;
-    wxMenuItem* Menu6;
     wxMenu* Menu4;
     //*)
 

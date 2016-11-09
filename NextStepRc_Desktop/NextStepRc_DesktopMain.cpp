@@ -135,8 +135,8 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Menu7->Append(ATMEGA2560Compiler);
     MenuBar_main->Append(Menu7, _("Compilateur"));
     Menu2 = new wxMenu();
-    Menu6 = new wxMenuItem(Menu2, ID_MENUITEM2, _("Documentation en ligne"), wxEmptyString, wxITEM_NORMAL);
-    Menu2->Append(Menu6);
+    MenuHtmlDoc = new wxMenuItem(Menu2, ID_MENUITEM2, _("Documentation en ligne"), wxEmptyString, wxITEM_NORMAL);
+    Menu2->Append(MenuHtmlDoc);
     MenuItem2 = new wxMenuItem(Menu2, idMenuAbout, _("A propos\tF1"), _("NestStepRc_Desktop V 0.00001 !"), wxITEM_NORMAL);
     Menu2->Append(MenuItem2);
     MenuBar_main->Append(Menu2, _("Aide"));
@@ -158,6 +158,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_MENUITEM9,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnEcrirelesFuseesSelected);
     Connect(ID_MENUITEM10,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnEcrirelebootloaderSelected);
     Connect(ID_MENUCOMPILOMATIC,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnATMEGA2560CompilerSelected);
+    Connect(ID_MENUITEM2,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnMenuHtmlDocSelected);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnAbout);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnClose);
     //*)
