@@ -9,12 +9,6 @@
 
 #include "DefaultFrame.h"
 #include <wx/msgdlg.h>
-#include <wx/combo.h>
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <wx/textfile.h>
-#include <wx/filename.h>
 #include <wx/filedlg.h>
 #include "NextStepRc_DesktopMain.h"
 

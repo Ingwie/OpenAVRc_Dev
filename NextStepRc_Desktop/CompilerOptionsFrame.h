@@ -2,7 +2,6 @@
 #define COMPILEROPTIONSFRAME_H
 
 #include "NextStepRc_DesktopMain.h"
-#include <wx/textfile.h>
 
 //(*Headers(CompilerOptionsFrame)
 #include <wx/stattext.h>

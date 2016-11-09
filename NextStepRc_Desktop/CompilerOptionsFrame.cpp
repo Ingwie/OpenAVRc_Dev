@@ -10,10 +10,8 @@
 #include "CompilerOptionsFrame.h"
 #include "NextStepRc_DesktopMain.h"
 #include "DefaultFrame.h"
-//#include <wx/choice.h>
 #include <wx/msgdlg.h>
 #include <wx/filedlg.h>
-#include <wx/textfile.h>
 
 extern bool Ini_Changed;
 wxString PCB = _("non défini");
@@ -244,39 +242,9 @@ void CompilerOptionsFrame::OnClose(wxCloseEvent& event)
   Destroy();
 }
 
-void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
+void BatFunction()
 {
-    PCB  = ChoicePCB->GetString(ChoicePCB->GetSelection());
-    LCD  = ChoiceLCD->GetString(ChoiceLCD->GetSelection());
-    VOICE  = ChoiceVOICE->GetString(ChoiceVOICE->GetSelection());
-    EXT  = ChoiceEXT->GetString(ChoiceEXT->GetSelection());
-    AUDIO = CheckBoxAUDIO->GetValue();
-    HELI = CheckBoxHELI->GetValue();
-    TTS  = ChoiceTTS->GetString(ChoiceTTS->GetSelection());
-    TRANSLATIONS  = ChoiceTRANSLATIONS->GetString(ChoiceTRANSLATIONS->GetSelection());
-    NAVIGATION  = ChoiceNAVIGATION->GetString(ChoiceNAVIGATION->GetSelection());
-    FRSKY_HUB = CheckBoxFRSKY_HUB->GetValue();
-    HAPTIC = CheckBoxHAPTIC->GetValue();
-    PPM_UNIT  = ChoicePPM_UNIT->GetString(ChoicePPM_UNIT->GetSelection());
-    GAUGES = CheckBoxGAUGES->GetValue();
-    GPS = CheckBoxGPS->GetValue();
-    VARIO = CheckBoxVARIO->GetValue();
-    RTCLOCK = CheckBoxRTCLOCK->GetValue();
-    SPORT_FILE_LOG = CheckBoxSPORT_FILE_LOG->GetValue();
-    PPM = CheckBoxPPM->GetValue();
-    PXX = CheckBoxPXX->GetValue();
-    DSM2 = CheckBoxDSM2->GetValue();
-    SD_CARD = CheckBoxSD_CARD->GetValue();
-    FAS_OFFSET = CheckBoxFAS_OFFSET->GetValue();
-
-    //CompilerOptionsFrame->GetParent()->SaveConfig();
-    ////////////////////////////////////NextStepRc_DesktopFrame::SaveConfig();
-    //fenetrefille->getParent()->SaveConfig();
-    //configFile->Write(wxT("LCD"),LCD);// how to make configFile visible : The owner is the main frame ;-)
-    //GetParent()->NextStepRc_DesktopFrame::SaveConfig();
-    Ini_Changed = true;
-
-    // .bat file for compilation
+  // .bat file for compilation
     wxString CompiBat = "make";
     CompiBat += (" PCB=" + PCB);
     CompiBat += (" LCD=" + LCD);
@@ -301,18 +269,44 @@ void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
     if (SD_CARD) CompiBat += (" SD_CARD=YES");// default should be NO
     if (FAS_OFFSET) CompiBat += (" FAS_OFFSET=YES");// default should be NO
     wxMessageBox(CompiBat);
-
-    //-----------------------------------------------------------------------------
     wxTextFile file( wxT("C:\\NextStepRc_Builder\\NextStepRc\\CompileBatFile.bat") );// TODO Create if file doesn't exist.
     // TODO review directory.
     file.Create();
     //file.AddLine("cmd /k");
     file.AddLine(CompiBat);
-
     file.Write();
     file.Close();
-    //------------------------------------------------------------------------------
     wxExecute("C:\\NextStepRc_Builder\\NextStepRc\\CompileBatFile.bat");// does not work when issued from here, but works if couble clicked directly.????
+}
+
+void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
+{
+    PCB  = ChoicePCB->GetString(ChoicePCB->GetSelection());
+    LCD  = ChoiceLCD->GetString(ChoiceLCD->GetSelection());
+    VOICE  = ChoiceVOICE->GetString(ChoiceVOICE->GetSelection());
+    EXT  = ChoiceEXT->GetString(ChoiceEXT->GetSelection());
+    AUDIO = CheckBoxAUDIO->GetValue();
+    HELI = CheckBoxHELI->GetValue();
+    TTS  = ChoiceTTS->GetString(ChoiceTTS->GetSelection());
+    TRANSLATIONS  = ChoiceTRANSLATIONS->GetString(ChoiceTRANSLATIONS->GetSelection());
+    NAVIGATION  = ChoiceNAVIGATION->GetString(ChoiceNAVIGATION->GetSelection());
+    FRSKY_HUB = CheckBoxFRSKY_HUB->GetValue();
+    HAPTIC = CheckBoxHAPTIC->GetValue();
+    PPM_UNIT  = ChoicePPM_UNIT->GetString(ChoicePPM_UNIT->GetSelection());
+    GAUGES = CheckBoxGAUGES->GetValue();
+    GPS = CheckBoxGPS->GetValue();
+    VARIO = CheckBoxVARIO->GetValue();
+    RTCLOCK = CheckBoxRTCLOCK->GetValue();
+    SPORT_FILE_LOG = CheckBoxSPORT_FILE_LOG->GetValue();
+    PPM = CheckBoxPPM->GetValue();
+    PXX = CheckBoxPXX->GetValue();
+    DSM2 = CheckBoxDSM2->GetValue();
+    SD_CARD = CheckBoxSD_CARD->GetValue();
+    FAS_OFFSET = CheckBoxFAS_OFFSET->GetValue();
+    //CompilerOptionsFrame->GetParent()->SaveConfig();
+    Ini_Changed = true;
+
+    BatFunction();
 }
 
 void CompilerOptionsFrame::OnButtonEXITClick(wxCommandEvent& event)
@@ -320,9 +314,7 @@ void CompilerOptionsFrame::OnButtonEXITClick(wxCommandEvent& event)
     Close();
 }
 
-void Compile()//no use yet
-{
-}
+
 
 void CompilerOptionsFrame::OnPanel1Paint(wxPaintEvent& event)
 {
