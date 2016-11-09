@@ -84,6 +84,10 @@ DefaultFrame::DefaultFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     Connect(ID_BUTTONDETECT,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&DefaultFrame::OnButtonDetectClick);
     //*)
 
+    {
+    	wxIcon FrameIcon;
+    	SetIcon(wxICON(nsrcd_icon));
+    }
 
     //fills the comboxes with ini file defaults
 

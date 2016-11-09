@@ -107,7 +107,6 @@ private:
     void OnPbRudLeftDown(wxMouseEvent& event);
     void OnPbEleLeftDown(wxMouseEvent& event);
     void OnPbAilLeftDown(wxMouseEvent& event);
-    void OnBpRudLeftDown(wxMouseEvent& event);
     void OnBpGeaLeftDown(wxMouseEvent& event);
     void OnBpId1LeftDown(wxMouseEvent& event);
     void OnBpId2LeftDown(wxMouseEvent& event);
@@ -133,6 +132,7 @@ private:
     void OnRstickPaint(wxPaintEvent& event);
     void OnBpTrnRightDown(wxMouseEvent& event);
     void OnButtonStartDesktopClick(wxCommandEvent& event);
+    void OnBpRudLeftDown(wxMouseEvent& event);
     //*)
 
     //(*Identifiers(NextStepRc_SimulatorFrame)

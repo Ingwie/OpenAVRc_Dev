@@ -68,14 +68,12 @@ private:
     static const long ID_MENUITEM10;
     static const long ID_MENUITEM7;
     static const long ID_MENUCOMPILOMATIC;
-    static const long ID_MENUHTMLDOC;
     static const long idMenuAbout;
     static const long ID_STATUSBAR1;
     //*)
 
     //(*Declarations(NextStepRc_DesktopFrame)
     wxMenuItem* MenuItem7;
-    wxMenuItem* MenuHtmlDoc;
     wxMenuItem* MenuItem5;
     wxMenu* Menu3;
     wxButton* Button1;
@@ -90,6 +88,7 @@ private:
     wxStatusBar* StatusBar_main;
     wxMenuItem* ATMEGA2560Compiler;
     wxMenuItem* MenuItem6;
+    wxMenu* Menu6;
     wxMenu* Menu4;
     //*)
 

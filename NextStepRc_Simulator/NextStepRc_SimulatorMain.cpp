@@ -20,15 +20,11 @@
 
 
 //(*InternalHeaders(NextStepRc_SimulatorFrame)
-#include <wx/bitmap.h>
-#include <wx/icon.h>
 #include <wx/intl.h>
-#include <wx/image.h>
 #include <wx/string.h>
 //*)
 
 
-#include "avatarnext.xpm"
 #include "woodmain.xpm"
 #include "woodH.xpm"
 #include "PanelB.xpm"
@@ -149,11 +145,6 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     SetClientSize(wxSize(787,415));
     Move(wxPoint(25,25));
     SetMaxSize(wxSize(-1,-1));
-    {
-    	wxIcon FrameIcon;
-    	FrameIcon.CopyFromBitmap(avatarnext);
-    	SetIcon(FrameIcon);
-    }
     PanelPrincipal = new wxPanel(this, ID_PANELPRINCIPAL, wxPoint(424,216), wxSize(777,400), wxRAISED_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELPRINCIPAL"));
     PanelH = new wxPanel(PanelPrincipal, ID_PANELH, wxPoint(0,0), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELH"));
     PanelL = new wxPanel(PanelPrincipal, ID_PANELL, wxPoint(0,304), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELL"));
@@ -334,6 +325,10 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Connect(ID_TIMERMAIN,wxEVT_TIMER,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnTimerMainTrigger);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnClose);
     //*)
+    {
+    	wxIcon FrameIcon;
+    	SetIcon(wxICON(nsrcs_icon));
+    }
 
     //App Path
     AppPath = wxStandardPaths::Get().GetExecutablePath();
@@ -1229,3 +1224,4 @@ void NextStepRc_SimulatorFrame::OnKey(wxKeyEvent& event)
     }
     event.Skip();
   }
+

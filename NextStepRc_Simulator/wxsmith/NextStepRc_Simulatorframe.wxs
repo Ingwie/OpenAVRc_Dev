@@ -3,7 +3,7 @@
 	<object class="wxFrame" name="NextStepRc_SimulatorFrame">
 		<title>Simulateur</title>
 		<centered>1</centered>
-		<icon code="avatarnext" />
+		<icon code="nsrcs_icon" />
 		<pos>25,25</pos>
 		<size>787,415</size>
 		<maxsize>-1,-1</maxsize>
@@ -211,7 +211,7 @@
 					<bg>#000000</bg>
 					<tooltip>RUD</tooltip>
 					<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-					<handler function="OnBpRudLeftDown1" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBpRudLeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
 				<object class="wxPanel" name="ID_BPELE" variable="BpEle" member="yes">
 					<pos>25,128</pos>
