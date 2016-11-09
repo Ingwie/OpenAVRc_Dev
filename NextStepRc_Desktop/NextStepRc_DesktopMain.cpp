@@ -78,6 +78,7 @@ const long NextStepRc_DesktopFrame::ID_MENUITEM9 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM10 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM7 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUCOMPILOMATIC = wxNewId();
+const long NextStepRc_DesktopFrame::ID_MENUITEM2 = wxNewId();
 const long NextStepRc_DesktopFrame::idMenuAbout = wxNewId();
 const long NextStepRc_DesktopFrame::ID_STATUSBAR1 = wxNewId();
 //*)
@@ -133,9 +134,9 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     ATMEGA2560Compiler = new wxMenuItem(Menu7, ID_MENUCOMPILOMATIC, _("Compil-O-matic"), wxEmptyString, wxITEM_NORMAL);
     Menu7->Append(ATMEGA2560Compiler);
     MenuBar_main->Append(Menu7, _("Compilateur"));
-    Menu6 = new wxMenu();
-    MenuBar_main->Append(Menu6, _("Documentation en ligne"));
     Menu2 = new wxMenu();
+    Menu6 = new wxMenuItem(Menu2, ID_MENUITEM2, _("Documentation en ligne"), wxEmptyString, wxITEM_NORMAL);
+    Menu2->Append(Menu6);
     MenuItem2 = new wxMenuItem(Menu2, idMenuAbout, _("A propos\tF1"), _("NestStepRc_Desktop V 0.00001 !"), wxITEM_NORMAL);
     Menu2->Append(MenuItem2);
     MenuBar_main->Append(Menu2, _("Aide"));
@@ -166,7 +167,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
         SetIcon(wxICON(nsrcd_icon));
     }
 
-    //Const
+	//Const
     dude_c = (" -c ");
     dude_p = (" -p ");
     dude_D = (" -D ");
@@ -183,7 +184,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     keepopen = ("cmd /k ");
 
 
-    //Ini File
+        //Ini File
     Ini_Filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "NextStepRcDesktop.ini";
     configFile = new wxFileConfig( "", "", Ini_Filename);
     LoadConfig();
@@ -262,8 +263,8 @@ void NextStepRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& eve
 void NextStepRc_DesktopFrame::OnEcrirelesFuseesSelected(wxCommandEvent& event)// Write fuses
 {
     wxMessageDialog *susto = new wxMessageDialog(NULL,
-            wxT("Sur? Tu veut continuer?"), wxT("Burn Fuses"),
-            wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
+    wxT("Sur? Tu veut continuer?"), wxT("Burn Fuses"),
+    wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
     susto->SetEventHandler(susto);
     if (susto->ShowModal()!= wxID_OK) return;
     wxString FUSES(" -c usbasp -P usb -F -e -u -Ulfuse:w:0xFF:m -Uhfuse:w:0xD8:m -Uefuse:w:0xFD:m -v");
@@ -275,7 +276,7 @@ void NextStepRc_DesktopFrame::OnEcrirelesFuseesSelected(wxCommandEvent& event)//
 void NextStepRc_DesktopFrame::OnEcrirelebootloaderSelected(wxCommandEvent& event) // Write bootloader
 {
     wxMessageDialog *susto = new wxMessageDialog(NULL,
-            wxT("Sur? Tu veut continuer?"), wxT("Burn bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
+    wxT("Sur? Tu veut continuer?"), wxT("Burn bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
     susto->SetEventHandler(susto);
     if (susto->ShowModal()!= wxID_OK) return;
     wxString BOOTLOADER(" -c usbasp -P usb -U lock:w:0x3F:m -U flash:w:mega2560_stk500v2boot_opentx.hex -U lock:w:0x0F:m -v");
