@@ -57,6 +57,7 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 }
 
 bool Ini_Changed = false;
+wxString AppPath;
 
 wxString avrdudepath = _("non défini");
 wxString dude_programmer = _("non défini");
@@ -167,6 +168,9 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
         wxIcon FrameIcon;
         SetIcon(wxICON(nsrcd_icon));
     }
+    //App Path
+    wxFileName appPathWithExeName = wxStandardPaths::Get().GetExecutablePath();
+    AppPath = (appPathWithExeName.GetPath());
 
 	//Const
     dude_c = (" -c ");

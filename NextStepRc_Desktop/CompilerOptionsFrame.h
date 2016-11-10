@@ -166,8 +166,9 @@ class CompilerOptionsFrame: public wxFrame
 		void OnCheckBox3Click1(wxCommandEvent& event);
 		void OnCheckBox1Click1(wxCommandEvent& event);
 		void OnCheckBoxHUBClick(wxCommandEvent& event);
-		void OnPanel1Paint(wxPaintEvent& event);
 		void OnChoiceTTSSelect(wxCommandEvent& event);
+		void BatFunction();
+		void CreateCompileBatFile(wxString line2);
 		//*)
 
 		DECLARE_EVENT_TABLE()

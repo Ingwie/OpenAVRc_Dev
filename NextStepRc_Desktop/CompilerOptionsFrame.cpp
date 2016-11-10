@@ -13,6 +13,8 @@
 #include <wx/msgdlg.h>
 #include <wx/filedlg.h>
 
+
+extern wxString AppPath;
 extern bool Ini_Changed;
 wxString PCB = _("non défini");
 wxString LCD = _("non défini");
@@ -206,7 +208,6 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonCOMPILEClick);
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonEXITClick);
     Connect(ID_CHOICE5,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&CompilerOptionsFrame::OnChoiceTTSSelect);
-    Panel1->Connect(wxEVT_PAINT,(wxObjectEventFunction)&CompilerOptionsFrame::OnPanel1Paint,0,this);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&CompilerOptionsFrame::OnClose);
     //*)
 
@@ -252,7 +253,7 @@ void CompilerOptionsFrame::OnClose(wxCloseEvent& event)
     Destroy();
 }
 
-void BatFunction()
+void CompilerOptionsFrame::BatFunction()
 {
     // .bat file for compilation
     wxString CompiBat = "make";
@@ -280,14 +281,8 @@ void BatFunction()
     if (FAS_OFFSET) CompiBat += (" FAS_OFFSET=YES");// default should be NO
     if (TEMPLATES) CompiBat += (" TEMPLATES=YES");// default should be NO
     wxMessageBox(CompiBat);
-    wxTextFile file( wxT("C:\\NextStepRc\\CompileBatFile.bat") );// TODO Create if file doesn't exist.
-    // TODO review directory.
-    file.Create();
-    //file.AddLine("cmd /k");
-    file.AddLine(CompiBat);
-    file.Write();
-    file.Close();
-    wxExecute("C:\\NextStepRc\\CompileBatFile.bat");// does not work when issued from here, but works if Double clicked directly.????
+    CreateCompileBatFile(CompiBat);
+    wxExecute(AppPath+"\\CompileBatFile.bat");// Create firmware
 }
 
 void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
@@ -327,11 +322,25 @@ void CompilerOptionsFrame::OnButtonEXITClick(wxCommandEvent& event)
 }
 
 
-
-void CompilerOptionsFrame::OnPanel1Paint(wxPaintEvent& event)
+void CompilerOptionsFrame::CreateCompileBatFile(wxString line3)
 {
+    wxString Filename = AppPath + "\\CompileBatFile.bat";
+    wxTextFile CompileBatFile(Filename);
+
+    if(CompileBatFile.Exists()) CompileBatFile.Open(Filename);
+     else CompileBatFile.Create(Filename);
+
+        CompileBatFile.Open();
+        CompileBatFile.Clear();
+        CompileBatFile.AddLine("cd sources");
+        CompileBatFile.AddLine("make clean");
+        CompileBatFile.AddLine(line3);
+        CompileBatFile.AddLine("pause");
+        CompileBatFile.Write();
+        CompileBatFile.Close();
 }
 
 void CompilerOptionsFrame::OnChoiceTTSSelect(wxCommandEvent& event)
 {
 }
+
