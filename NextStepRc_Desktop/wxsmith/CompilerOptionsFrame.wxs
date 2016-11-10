@@ -8,7 +8,6 @@
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>0,0</pos>
 			<size>807,304</size>
-			<handler function="OnPanel1Paint" entry="EVT_PAINT" />
 			<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBoxPROTOCOL" member="yes">
 				<label>Protocol</label>
 				<pos>552,16</pos>
@@ -151,14 +150,15 @@
 					<item>CZ</item>
 					<item>DE</item>
 					<item>EN</item>
-					<item>FI</item>
-					<item>FR</item>
-					<item>IT</item>
-					<item>SE</item>
 					<item>ES</item>
+					<item>FR</item>
+					<item>HU</item>
+					<item>IT</item>
+					<item>NL</item>
 					<item>PL</item>
 					<item>PT</item>
-					<item>NL</item>
+					<item>SE</item>
+					<item>SK</item>
 				</content>
 				<pos>624,152</pos>
 				<size>112,21</size>
@@ -191,9 +191,18 @@
 			</object>
 			<object class="wxChoice" name="ID_CHOICE5" variable="ChoiceTTS" member="yes">
 				<content>
+					<item>CZ</item>
+					<item>DE</item>
 					<item>EN</item>
+					<item>ES</item>
 					<item>FR</item>
 					<item>HU</item>
+					<item>IT</item>
+					<item>NL</item>
+					<item>PL</item>
+					<item>PT</item>
+					<item>SE</item>
+					<item>SK</item>
 				</content>
 				<pos>624,184</pos>
 				<size>112,21</size>
