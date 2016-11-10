@@ -2,7 +2,7 @@
 <wxsmith>
 	<object class="wxFrame" name="CompilerOptionsFrame">
 		<title>Compil-O-matic</title>
-		<size>807,313</size>
+		<size>807,323</size>
 		<id_arg>0</id_arg>
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
@@ -53,7 +53,7 @@
 			<object class="wxCheckBox" name="ID_CHECKBOX7" variable="CheckBoxAUDIO" member="yes">
 				<label>AUDIO</label>
 				<pos>120,152</pos>
-				<size>64,16</size>
+				<size>48,16</size>
 			</object>
 			<object class="wxChoice" name="ID_CHOICE2" variable="ChoiceEXT" member="yes">
 				<content>
@@ -220,6 +220,10 @@
 			<object class="wxStaticText" name="ID_STATICTEXT7" variable="StaticText7" member="yes">
 				<label>NAVIGATION</label>
 				<pos>544,232</pos>
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX15" variable="CheckBoxTEMPLATES" member="yes">
+				<label>TEMPLATES</label>
+				<pos>120,280</pos>
 			</object>
 		</object>
 	</object>

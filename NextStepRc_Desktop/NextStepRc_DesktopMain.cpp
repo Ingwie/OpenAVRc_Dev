@@ -315,7 +315,7 @@ void NextStepRc_DesktopFrame::LoadConfig()
     configFile->Read(wxT("DSM2"),&DSM2);
     configFile->Read(wxT("SD_CARD"),&SD_CARD);
     configFile->Read(wxT("FAS_OFFSET"),&FAS_OFFSET);
-
+    configFile->Read(wxT("TEMPLATES"),&TEMPLATES);
 }
 
 extern void NextStepRc_DesktopFrame::SaveConfig()
@@ -348,6 +348,7 @@ extern void NextStepRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("DSM2"),DSM2);
     configFile->Write(wxT("SD_CARD"),SD_CARD);
     configFile->Write(wxT("FAS_OFFSET"),FAS_OFFSET);
+    configFile->Write(wxT("TEMPLATES"),TEMPLATES);
     configFile->Flush();
 }
 

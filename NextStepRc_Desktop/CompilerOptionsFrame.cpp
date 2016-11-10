@@ -36,7 +36,7 @@ bool PXX = 0;
 bool DSM2 = 0;
 bool SD_CARD = 0;
 bool FAS_OFFSET = 0;
-
+bool TEMPLATES = 0;
 
 
 //helper functions
@@ -87,6 +87,7 @@ const long CompilerOptionsFrame::ID_CHOICE5 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT5 = wxNewId();
 const long CompilerOptionsFrame::ID_CHOICE8 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT7 = wxNewId();
+const long CompilerOptionsFrame::ID_CHECKBOX15 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL1 = wxNewId();
 //*)
 
@@ -99,7 +100,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
 {
     //(*Initialize(CompilerOptionsFrame)
     Create(parent, wxID_ANY, _("Compil-O-matic"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
-    SetClientSize(wxSize(807,313));
+    SetClientSize(wxSize(807,323));
     Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(0,0), wxSize(807,304), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     StaticBoxPROTOCOL = new wxStaticBox(Panel1, ID_STATICBOX2, _("Protocol"), wxPoint(552,16), wxSize(192,120), 0, _T("ID_STATICBOX2"));
     StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Télémetrie"), wxPoint(280,16), wxSize(192,248), 0, _T("ID_STATICBOX1"));
@@ -119,7 +120,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxRTCLOCK->SetValue(false);
     CheckBoxHELI = new wxCheckBox(Panel1, ID_CHECKBOX1, _("HELI"), wxPoint(120,248), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
     CheckBoxHELI->SetValue(false);
-    CheckBoxAUDIO = new wxCheckBox(Panel1, ID_CHECKBOX7, _("AUDIO"), wxPoint(120,152), wxSize(64,16), 0, wxDefaultValidator, _T("ID_CHECKBOX7"));
+    CheckBoxAUDIO = new wxCheckBox(Panel1, ID_CHECKBOX7, _("AUDIO"), wxPoint(120,152), wxSize(48,16), 0, wxDefaultValidator, _T("ID_CHECKBOX7"));
     CheckBoxAUDIO->SetValue(false);
     ChoiceEXT = new wxChoice(Panel1, ID_CHOICE2, wxPoint(352,32), wxSize(96,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE2"));
     ChoiceEXT->Append(_("STD"));
@@ -199,6 +200,8 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     ChoiceNAVIGATION->Append(_("STICKS"));
     ChoiceNAVIGATION->Append(_("ROTENC"));
     StaticText7 = new wxStaticText(Panel1, ID_STATICTEXT7, _("NAVIGATION"), wxPoint(544,232), wxDefaultSize, 0, _T("ID_STATICTEXT7"));
+    CheckBoxTEMPLATES = new wxCheckBox(Panel1, ID_CHECKBOX15, _("TEMPLATES"), wxPoint(120,280), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX15"));
+    CheckBoxTEMPLATES->SetValue(false);
 
     Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonCOMPILEClick);
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonEXITClick);
@@ -232,9 +235,11 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxPPM->SetValue(PPM);
     CheckBoxPXX->SetValue(PXX);
     CheckBoxDSM2->SetValue(DSM2);
-    CheckBoxSD_CARD->SetValue(DSM2);
-    CheckBoxFAS_OFFSET->SetValue(DSM2);
+    CheckBoxSD_CARD->SetValue(SD_CARD);
+    CheckBoxFAS_OFFSET->SetValue(FAS_OFFSET);
+    CheckBoxTEMPLATES->SetValue(TEMPLATES);
 }
+
 
 CompilerOptionsFrame::~CompilerOptionsFrame()
 {
@@ -273,15 +278,16 @@ void BatFunction()
     if (DSM2) CompiBat += (" DSM2=YES");// default should be NO
     if (SD_CARD) CompiBat += (" SD_CARD=YES");// default should be NO
     if (FAS_OFFSET) CompiBat += (" FAS_OFFSET=YES");// default should be NO
+    if (TEMPLATES) CompiBat += (" TEMPLATES=YES");// default should be NO
     wxMessageBox(CompiBat);
-    wxTextFile file( wxT("C:\\NextStepRc_Builder\\NextStepRc\\CompileBatFile.bat") );// TODO Create if file doesn't exist.
+    wxTextFile file( wxT("C:\\NextStepRc\\CompileBatFile.bat") );// TODO Create if file doesn't exist.
     // TODO review directory.
     file.Create();
     //file.AddLine("cmd /k");
     file.AddLine(CompiBat);
     file.Write();
     file.Close();
-    wxExecute("C:\\NextStepRc_Builder\\NextStepRc\\CompileBatFile.bat");// does not work when issued from here, but works if couble clicked directly.????
+    wxExecute("C:\\NextStepRc\\CompileBatFile.bat");// does not work when issued from here, but works if Double clicked directly.????
 }
 
 void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
@@ -308,6 +314,7 @@ void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
     DSM2 = CheckBoxDSM2->GetValue();
     SD_CARD = CheckBoxSD_CARD->GetValue();
     FAS_OFFSET = CheckBoxFAS_OFFSET->GetValue();
+    TEMPLATES = CheckBoxTEMPLATES->GetValue();
     //CompilerOptionsFrame->GetParent()->SaveConfig();
     Ini_Changed = true;
 

@@ -37,6 +37,7 @@ extern bool PXX;
 extern bool DSM2;
 extern bool SD_CARD;
 extern bool FAS_OFFSET;
+extern bool TEMPLATES;
 
 class CompilerOptionsFrame: public wxFrame
 {
@@ -49,6 +50,7 @@ class CompilerOptionsFrame: public wxFrame
 
 		//(*Declarations(CompilerOptionsFrame)
 		wxCheckBox* CheckBoxSD_CARD;
+		wxCheckBox* CheckBoxTEMPLATES;
 		wxCheckBox* CheckBoxPXX;
 		wxCheckBox* CheckBoxPPM;
 		wxStaticText* StaticText2;
@@ -122,6 +124,7 @@ class CompilerOptionsFrame: public wxFrame
 		static const long ID_STATICTEXT5;
 		static const long ID_CHOICE8;
 		static const long ID_STATICTEXT7;
+		static const long ID_CHECKBOX15;
 		static const long ID_PANEL1;
 		//*)
 
