@@ -22,7 +22,6 @@
 
 void menuGeneralTrainer(uint8_t event)
 {
-  uint8_t y;
   bool slave = SLAVE_MODE();
 
   MENU(STR_MENUTRAINER, menuTabGeneral, e_Trainer, (slave ? 1 : 7), {0, 2, 2, 2, 2, 0/*, 0*/});
@@ -36,7 +35,7 @@ void menuGeneralTrainer(uint8_t event)
 
     lcdDrawText(3*FW, MENU_HEADER_HEIGHT+1, STR_MODESRC);
 
-    y = MENU_HEADER_HEIGHT + 1 + FH;
+    uint8_t y = MENU_HEADER_HEIGHT + 1 + FH;
 
     for (uint8_t i=1; i<=NUM_STICKS; i++) {
       uint8_t chan = channel_order(i);

@@ -82,7 +82,6 @@ void menuGeneralSdManager(uint8_t _event)
 {
   FILINFO fno;
   DIR dir;
-  char *fn;   /* This function is assuming non-Unicode cfg. */
   TCHAR lfn[_MAX_LFN + 1];
   fno.lfname = lfn;
   fno.lfsize = sizeof(lfn);
@@ -172,7 +171,7 @@ void menuGeneralSdManager(uint8_t _event)
     }
 
     reusableBuffer.sdmanager.count = 0;
-
+    char *fn;   /* This function is assuming non-Unicode cfg. */
     FRESULT res = f_opendir(&dir, ".");        /* Open the directory */
     if (res == FR_OK) {
       for (;;) {

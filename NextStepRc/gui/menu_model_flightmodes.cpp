@@ -217,10 +217,9 @@ void menuModelFlightModesAll(uint8_t event)
       break;
   }
 
-  uint8_t att;
   for (uint8_t i=0; i<MAX_FLIGHT_MODES; i++) {
     uint8_t y = 1 + (i+1)*FH;
-    att = (i==sub ? INVERS : 0);
+    uint8_t att = (i==sub ? INVERS : 0);
     FlightModeData *p = flightModeAddress(i);
     putsFlightMode(0, y, i+1, att|(getFlightMode()==i ? BOLD : 0));
 

@@ -65,11 +65,8 @@ void lcdRefreshFast()
   uint8_t yst;
   uint8_t yend;
   uint8_t y_table[6]={0,13,26,39,52,64}; 
-  uint8_t x_addr = 0;
   uint8_t y_addr = 0;
-  uint16_t line_offset = 0;
   uint8_t col_offset = 0;
-  uint8_t bit_count = 0;
   uint8_t result;
   uint8_t *p;
   
@@ -85,7 +82,7 @@ void lcdRefreshFast()
 
 
   for (uint8_t y=yst; y<yend; y++) {
-    x_addr = 0;
+    uint8_t x_addr = 0;
     //Convert coordinates to weirdly-arranged 128x64 screen (the ST7920 is mapped for 256x32 displays)
     if (y > 31) {
       y_addr = y - 32;    //Because there are only 31 addressable lines in the ST7920
@@ -100,9 +97,9 @@ void lcdRefreshFast()
     _delay_us(49);
     PORTC_LCD_CTRL |= (1<<OUT_C_LCD_A0);    //HIGH RS and LOW RW will put the LCD to
     PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_RnW);  //Write data register mode
-    bit_count = y & 0x07; //Count from 0 bis 7 -> 0=0, 1=1..7=7, 8=0, 9=1...
+    uint8_t bit_count = y & 0x07; //Count from 0 bis 7 -> 0=0, 1=1..7=7, 8=0, 9=1...
     col_offset = 1 << bit_count; //Build a value for a AND operation with the vorrect bitposition
-    line_offset = ( y / 8 ) * 128; //On the ST7920 there are 8 lines with each 128 bytes width
+    uint16_t line_offset = ( y / 8 ) * 128; //On the ST7920 there are 8 lines with each 128 bytes width
     p = displayBuf + line_offset; //Calculate the position of the first byte im array
     for (coord_t x=0; x<16; x++) { //Walk through 16 bytes form left to right (128 Pixel)
       // adressing the bytes sequential and set the bits at the correct position merging them with an OR operation to get all bits in one byte

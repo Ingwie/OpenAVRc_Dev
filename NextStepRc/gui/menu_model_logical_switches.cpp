@@ -39,13 +39,12 @@ void menuModelLogicalSwitches(uint8_t event)
 
   MENU(STR_MENULOGICALSWITCHES, menuTabModel, e_LogicalSwitches, NUM_LOGICAL_SWITCH+1, {0, NAVIGATION_LINE_BY_LINE|LS_FIELD_LAST/*repeated...*/});
 
-  uint8_t   k = 0;
   int8_t    sub = menuVerticalPosition - 1;
   horzpos_t horz = menuHorizontalPosition;
 
   for (uint8_t i=0; i<LCD_LINES-1; i++) {
     coord_t y = MENU_HEADER_HEIGHT + 1 + i*FH;
-    k = i+menuVerticalOffset;
+    uint8_t k = i+menuVerticalOffset;
     uint8_t attr = (sub==k ? ((s_editMode>0) ? BLINK|INVERS : INVERS)  : 0);
     uint8_t attr1 = (horz==1 ? attr : 0);
     uint8_t attr2 = (horz==2 ? attr : 0);

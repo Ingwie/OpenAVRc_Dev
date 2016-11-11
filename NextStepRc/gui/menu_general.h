@@ -29,7 +29,6 @@ void menuGeneralDiagAna(uint8_t event);
 void menuGeneralCalib(uint8_t event);
 
 
-
  enum EnumTabDiag {
   e_Setup,
   CASE_SDCARD(e_Sd)

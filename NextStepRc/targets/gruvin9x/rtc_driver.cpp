@@ -101,7 +101,6 @@ void rtcSetTime(struct gtm * t)
 void rtcInit (void)
 {
   uint8_t buf[8];	/* RTC R/W buffer */
-  uint8_t adr;
 
   /* Read RTC registers */
   if (!iic_read(RTC_ADRESS, 0, 8, buf)) return;	/* IIC error */
@@ -109,7 +108,7 @@ void rtcInit (void)
   if (buf[7] & 0x20) {	/* When data has been volatiled, set default time */
           /* Clear nv-ram. Reg[8..63] */
           memset(buf, 0, 8);
-          for (adr = 8; adr < 64; adr += 8)
+          for (uint8_t adr = 8; adr < 64; adr += 8)
                   iic_write(0x0D, adr, 8, buf);
           /* Reset time to Jan 1, '08. Reg[0..7] */
           buf[4] = 1; buf[5] = 1; buf[6] = 8;

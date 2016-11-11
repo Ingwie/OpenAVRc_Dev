@@ -337,8 +337,8 @@ void putsTimer(coord_t x, coord_t y, putstime_t tme, LcdFlags att, LcdFlags att2
   if (!(att & LEFT)) {
     if (att & DBLSIZE)
       x -= 5*(2*FWNUM)-4;
-    else if (att & MIDSIZE)
-      x -= 5*8-4;
+    /*else if (att & MIDSIZE)
+      x -= 5*8-4;*/ //bbracame todo remove DBLSIZE==MIDSIZE==0 : code is never used
     else
       x -= 5*FWNUM+1;
   }

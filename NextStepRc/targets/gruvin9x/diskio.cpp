@@ -261,21 +261,19 @@ int xmit_datablock (
 			BYTE token		/* Data/Stop token */
 			)
 {
-	BYTE resp, wc;
-
 
 	if (!wait_ready()) return 0;
 
 	xmit_spi(token);	/* Xmit data token */
 	if (token != 0xFD) {	/* Is data token */
-		wc = 0;
+		BYTE wc = 0;
 		do {		/* Xmit the 512 byte data block to MMC */
 			xmit_spi(*buff++);
 			xmit_spi(*buff++);
 		} while (--wc);
 		xmit_spi(0xFF);			/* CRC (Dummy) */
 		xmit_spi(0xFF);
-		resp = rcvr_spi();		/* Reveive data response */
+		BYTE resp = rcvr_spi();		/* Reveive data response */
 		if ((resp & 0x1F) != 0x05)	/* If not accepted, return with error */
 			return 0;
 	}

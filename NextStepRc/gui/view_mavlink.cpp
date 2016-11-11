@@ -333,12 +333,9 @@ void menuTelemetryMavlinkNavigation(void) {
 	mav_title(STR_MAVLINK_NAV_MENU_TITLE, MAVLINK_menu);
 
 	uint8_t x, y, ynum;
-	x = 7 * FWNUM;
-//	x = xnum + 0 * FW;
+
 	ynum = 2 * FH;
 	y = FH;
-
-
 	x = 0;
     lcdDrawText  (x, y, STR_MAVLINK_COURSE);
 	lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.course, (DBLSIZE | UNSIGN));

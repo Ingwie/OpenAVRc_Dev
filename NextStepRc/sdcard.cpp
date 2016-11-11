@@ -26,8 +26,8 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
 {
   FILINFO fno;
   DIR dir;
-  char *fn;   /* This function is assuming non-Unicode cfg. */
-#if _USE_LFN
+  
+  #if _USE_LFN
   TCHAR lfn[_MAX_LFN + 1];
   fno.lfname = lfn;
   fno.lfsize = sizeof(lfn);
@@ -77,6 +77,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
     }
 
     for (;;) {
+	  char *fn;   /* This function is assuming non-Unicode cfg. */
       res = f_readdir(&dir, &fno);                   /* Read a directory item */
       if (res != FR_OK || fno.fname[0] == 0) break;  /* Break on error or end of dir */
 

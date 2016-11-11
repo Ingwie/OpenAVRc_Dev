@@ -84,10 +84,9 @@ void DrawFunction(FnFuncP fn, uint8_t offset)
 uint8_t getExpoMixCount(uint8_t expo)
 {
   uint8_t count = 0;
-  uint8_t ch ;
 
   for(int8_t i=(expo ? MAX_EXPOS-1 : MAX_MIXERS-1); i>=0; i--) {
-    ch = (expo ? EXPO_VALID(expoAddress(i)) : mixAddress(i)->srcRaw);
+    uint8_t ch = (expo ? EXPO_VALID(expoAddress(i)) : mixAddress(i)->srcRaw);
     if (ch != 0) {
       count++;
     }
@@ -165,10 +164,9 @@ void memswap(void *a, void *b, uint8_t size)
 {
   uint8_t *x = (uint8_t*)a;
   uint8_t *y = (uint8_t*)b;
-  uint8_t temp ;
 
   while (size--) {
-    temp = *x;
+    uint8_t temp = *x;
     *x++ = *y;
     *y++ = temp;
   }

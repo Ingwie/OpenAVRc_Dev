@@ -33,10 +33,10 @@ PACK(typedef struct {
   uint8_t last;
 }) ls_sticky_struct;
 
-PACK(typedef struct {
+/*PACK(typedef struct {
   uint16_t state:1;
-  uint16_t duration:15;
-}) ls_stay_struct;
+  uint16_t duration:15; 
+}) ls_stay_struct;//bracame todo (never user) */
 
 bool getLogicalSwitch(uint8_t idx)
 {
