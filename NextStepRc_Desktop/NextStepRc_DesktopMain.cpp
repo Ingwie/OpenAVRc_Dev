@@ -63,7 +63,7 @@ wxString avrdudepath = _("non défini");
 wxString dude_programmer = _("non défini");
 wxString dude_type = _("non défini");
 wxString dude_port = _("non défini");
-
+wxString COMM = _("non défini");
 
 
 //(*IdInit(NextStepRc_DesktopFrame)
@@ -188,7 +188,6 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     dude_intel = (":i");
     keepopen = ("cmd /k ");
 
-
         //Ini File
     Ini_Filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "NextStepRcDesktop.ini";
     configFile = new wxFileConfig( "", "", Ini_Filename);
@@ -261,7 +260,6 @@ void NextStepRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& eve
     wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_raw+dude_verify;
     //wxMessageBox(dude_send);
     wxExecute(dude_send);
-
 }
 
 
@@ -292,11 +290,13 @@ void NextStepRc_DesktopFrame::OnEcrirelebootloaderSelected(wxCommandEvent& event
 
 void NextStepRc_DesktopFrame::LoadConfig()
 {
+    configFile->SetPath("/COMM/");
     configFile->Read("Programmer",&dude_programmer);
     configFile->Read(wxT("Port"),&dude_port);
     configFile->Read(wxT("Type"),&dude_type);
     configFile->Read(wxT("avrdudepath"),&avrdudepath);
-    ////////////////////////////////////////////////////TODO: Create a Group in the config file
+
+    configFile->SetPath("/COMPILATION_CHOICES/");
     configFile->Read(wxT("PCB"),&PCB);
     configFile->Read(wxT("LCD"),&LCD);
     configFile->Read(wxT("VOICE"),&VOICE);
@@ -320,16 +320,22 @@ void NextStepRc_DesktopFrame::LoadConfig()
     configFile->Read(wxT("SD_CARD"),&SD_CARD);
     configFile->Read(wxT("FAS_OFFSET"),&FAS_OFFSET);
     configFile->Read(wxT("TEMPLATES"),&TEMPLATES);
+    configFile->SetPath("/");
 }
 
 extern void NextStepRc_DesktopFrame::SaveConfig()
 {
-    wxMessageBox( Ini_Filename, _("Les paramètres sont sauvé dans :"));
+    //wxMessageBox( Ini_Filename, _("Les paramètres sont sauvé dans :"));
 
+    // [COMM]
+    configFile->SetPath("/COMM/");
     configFile->Write(wxT("Programmer"),dude_programmer);
     configFile->Write(wxT("Port"),dude_port);
     configFile->Write(wxT("Type"),dude_type);
     configFile->Write(wxT("avrdudepath"),avrdudepath);
+
+    // [COMPILATION_CHOICES]
+    configFile->SetPath("/COMPILATION_CHOICES/");
     configFile->Write(wxT("PCB"),PCB);
     configFile->Write(wxT("LCD"),LCD);
     configFile->Write(wxT("VOICE"),VOICE);
@@ -354,14 +360,15 @@ extern void NextStepRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("FAS_OFFSET"),FAS_OFFSET);
     configFile->Write(wxT("TEMPLATES"),TEMPLATES);
     configFile->Flush();
+    configFile->SetPath("/");
 }
+
 
 void NextStepRc_DesktopFrame::OnSimulateurClick2(wxCommandEvent& event)
 {
     wxString simu("NextStepRc_Simulator.exe");
     wxExecute(simu);
 }
-
 
 void NextStepRc_DesktopFrame::OnClose(wxCloseEvent& event)
 {
@@ -379,3 +386,6 @@ void NextStepRc_DesktopFrame::OnMenuHtmlDocSelected(wxCommandEvent& event)
 {
     wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation"), NULL);
 }
+
+
+

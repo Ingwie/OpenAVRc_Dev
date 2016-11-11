@@ -9,7 +9,10 @@
 
 #ifndef NEXTSTEPRC_DESKTOPMAIN_H
 #define NEXTSTEPRC_DESKTOPMAIN_H
-
+#include <wx/stdpaths.h>
+#include <wx/filename.h>
+#include <wx/fileconf.h>
+#include "CompilerOptionsFrame.h"
 
 //(*Headers(NextStepRc_DesktopFrame)
 #include <wx/menu.h>
@@ -18,11 +21,6 @@
 #include <wx/frame.h>
 #include <wx/statusbr.h>
 //*)
-
-#include <wx/stdpaths.h>
-#include <wx/filename.h>
-#include <wx/fileconf.h>
-#include "CompilerOptionsFrame.h"
 
 class NextStepRc_DesktopFrame: public wxFrame
 {
@@ -110,6 +108,8 @@ private:
     wxString dude_read;
     wxString dude_intel;
     wxString keepopen;
+
+
 
     DECLARE_EVENT_TABLE()
 };

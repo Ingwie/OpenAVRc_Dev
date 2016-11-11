@@ -292,7 +292,11 @@ void CompilerOptionsFrame::BatFunction()
     if (TEMPLATES) CompiBat += (" TEMPLATES=YES");// default should be NO
     wxMessageBox(CompiBat);
     CreateCompileBatFile(CompiBat);
-    wxExecute(AppPath+"\\CompileBatFile.bat");// Create firmware
+    wxExecute(AppPath+"\\CompileBatFile.bat",wxEXEC_SYNC);// Create firmware
+    Close();
+    wxMessageBox(AppPath+ "\\nextsteprc.exe","Le nouveau Firmware est a:");
+
+    LinkToWriteFirmware(AppPath);
 }
 
 void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
@@ -331,7 +335,6 @@ void CompilerOptionsFrame::OnButtonEXITClick(wxCommandEvent& event)
     Close();
 }
 
-
 void CompilerOptionsFrame::CreateCompileBatFile(wxString line4)
 {
     wxString Filename = AppPath + "\\CompileBatFile.bat";
@@ -352,6 +355,11 @@ void CompilerOptionsFrame::CreateCompileBatFile(wxString line4)
 }
 
 void CompilerOptionsFrame::OnChoiceTTSSelect(wxCommandEvent& event)
+{//TODO eliminate this handler from .wxs
+}
+
+void CompilerOptionsFrame::LinkToWriteFirmware(wxString line3) //this is not line3 i know
 {
+
 }
 

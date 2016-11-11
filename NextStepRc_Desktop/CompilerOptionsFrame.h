@@ -3,6 +3,7 @@
 
 #include "NextStepRc_DesktopMain.h"
 
+
 //(*Headers(CompilerOptionsFrame)
 #include <wx/stattext.h>
 #include <wx/checkbox.h>
@@ -14,6 +15,7 @@
 //*)
 
 extern wxString CompileBatFile;
+extern wxString LinkToWriteFirmware;
 
 extern wxString PCB;
 extern wxString LCD;
@@ -169,6 +171,7 @@ class CompilerOptionsFrame: public wxFrame
 		void OnChoiceTTSSelect(wxCommandEvent& event);
 		void BatFunction();
 		void CreateCompileBatFile(wxString line2);
+		void LinkToWriteFirmware(wxString line2);
 		//*)
 
 		DECLARE_EVENT_TABLE()
