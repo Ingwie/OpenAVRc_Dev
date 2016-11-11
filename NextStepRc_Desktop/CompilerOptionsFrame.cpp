@@ -332,7 +332,7 @@ void CompilerOptionsFrame::OnButtonEXITClick(wxCommandEvent& event)
 }
 
 
-void CompilerOptionsFrame::CreateCompileBatFile(wxString line3)
+void CompilerOptionsFrame::CreateCompileBatFile(wxString line4)
 {
     wxString Filename = AppPath + "\\CompileBatFile.bat";
     wxTextFile CompileBatFile(Filename);
@@ -343,8 +343,9 @@ void CompilerOptionsFrame::CreateCompileBatFile(wxString line3)
         CompileBatFile.Open();
         CompileBatFile.Clear();
         CompileBatFile.AddLine("cd sources");
+        CompileBatFile.AddLine("Path C:\\NextStepRc\\AVR-GCC\\bin;C:\\NextStepRc\\AVR-GCC\\utils\\bin");
         CompileBatFile.AddLine("make clean");
-        CompileBatFile.AddLine(line3);
+        CompileBatFile.AddLine(line4);
         CompileBatFile.AddLine("pause");
         CompileBatFile.Write();
         CompileBatFile.Close();
