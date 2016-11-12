@@ -337,14 +337,12 @@ void putsTimer(coord_t x, coord_t y, putstime_t tme, LcdFlags att, LcdFlags att2
   if (!(att & LEFT)) {
     if (att & DBLSIZE)
       x -= 5*(2*FWNUM)-4;
-    /*else if (att & MIDSIZE)
-      x -= 5*8-4;*/ //bbracame todo remove DBLSIZE==MIDSIZE==0 : code is never used
     else
       x -= 5*FWNUM+1;
   }
 
   if (tme < 0) {
-    lcdDrawCharAtt(x - ((att & DBLSIZE) ? FW+2 : ((att & MIDSIZE) ? FW+0 : FWNUM)), y, '-', att);
+    lcdDrawCharAtt(x - ((att & DBLSIZE) ? FW+2 : ((att & DBLSIZE) ? FW+0 : FWNUM)), y, '-', att);
     tme = -tme;
   }
 

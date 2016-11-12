@@ -112,13 +112,7 @@ enum EnumKeys {
 class Key
 {
 #define FILTERBITS      4
-
-#ifdef SIMUa
-  #define FFVAL 1
-#else
-  #define FFVAL          ((1<<FILTERBITS)-1)
-#endif
-
+#define FFVAL          ((1<<FILTERBITS)-1)
 #define KSTATE_OFF      0
 #define KSTATE_RPTDELAY 95 // gruvin: delay state before key repeating starts
 #define KSTATE_START    97

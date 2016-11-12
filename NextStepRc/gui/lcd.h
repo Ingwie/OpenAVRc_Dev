@@ -76,7 +76,6 @@
 #define NO_UNIT         0x40
 
 #define DBLSIZE       0x04
-#define MIDSIZE       DBLSIZE
 #define SMLSIZE       0x00
 #define TINSIZE       0x00
 #define XXLSIZE       0x00

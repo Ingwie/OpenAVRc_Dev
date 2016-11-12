@@ -57,13 +57,13 @@ enum menuGeneralSetupItems {
   ITEM_SETUP_SOUND_LABEL,
   CASE_AUDIO(ITEM_SETUP_BEEP_MODE)
   CASE_BUZZER(ITEM_SETUP_BUZZER_MODE)
-  CASE_VOICE(ITEM_SETUP_SPEAKER_VOLUME)
+  //CASE_VOICE(ITEM_SETUP_SPEAKER_VOLUME)
   ITEM_SETUP_BEEP_LENGTH,
   CASE_AUDIO(ITEM_SETUP_SPEAKER_PITCH)
   CASE_HAPTIC(ITEM_SETUP_HAPTIC_LABEL)
   CASE_HAPTIC(ITEM_SETUP_HAPTIC_MODE)
   CASE_HAPTIC(ITEM_SETUP_HAPTIC_LENGTH)
-  CASE_HAPTIC(ITEM_SETUP_HAPTIC_STRENGTH)
+  //CASE_HAPTIC(ITEM_SETUP_HAPTIC_STRENGTH)
   ITEM_SETUP_CONTRAST,
   ITEM_SETUP_ALARMS_LABEL,
   ITEM_SETUP_BATTERY_WARNING,
@@ -230,7 +230,7 @@ void menuGeneralSetup(uint8_t event)
 #endif
 
 #if defined(VOICE)
-      case ITEM_SETUP_SPEAKER_VOLUME:
+      /*case ITEM_SETUP_SPEAKER_VOLUME:
       {
         lcdDrawTextLeft(y, STR_SPEAKER_VOLUME);
         uint8_t b = g_eeGeneral.speakerVolume+VOLUME_LEVEL_DEF;
@@ -243,7 +243,7 @@ void menuGeneralSetup(uint8_t event)
           }
         }
         break;
-      }
+      } Bracame not used */
 #endif
 
 
@@ -275,9 +275,9 @@ void menuGeneralSetup(uint8_t event)
         SLIDER_5POS(y, g_eeGeneral.hapticLength, STR_LENGTH, event, attr);
         break;
 
-      case ITEM_SETUP_HAPTIC_STRENGTH:
+      /*case ITEM_SETUP_HAPTIC_STRENGTH:
         SLIDER_5POS(y, g_eeGeneral.hapticStrength, STR_HAPTICSTRENGTH, event, attr);
-        break;
+        break; Bracame not used */
 #endif
 
       case ITEM_SETUP_CONTRAST:

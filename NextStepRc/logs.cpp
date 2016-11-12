@@ -18,7 +18,6 @@
 #include "thirdparty/FatFs/ff.h"
 
 FIL g_oLogFile = {0};
-//const pm_char * g_logError = NULL; bracame not used ? why
 uint8_t logDelay;
 
 #define get2PosState(sw) (switchState(SW_ ## sw) ? -1 : 1)

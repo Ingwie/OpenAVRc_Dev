@@ -373,7 +373,7 @@ const pm_char STR_MODELS_PATH[] PROGMEM = MODELS_PATH;
 const pm_char STR_MODELS_EXT[] PROGMEM = MODELS_EXT;
 #endif
 
-const pm_char STR_WARNING[] PROGMEM = TR_WARNING;
+const pm_char STR_WARNING[] PROGMEM = TR_WARNING; //bracame todo check unused
 const pm_char STR_EEPROMWARN[] PROGMEM = TR_EEPROMWARN;
 const pm_char STR_EEPROM_CONVERTING[] PROGMEM = TR_EEPROM_CONVERTING;
 const pm_char STR_THROTTLEWARN[] PROGMEM = TR_THROTTLEWARN;
@@ -385,15 +385,6 @@ const pm_char STR_KEYSTUCK[] PROGMEM = TR_KEYSTUCK;
 
 const pm_char STR_SPEAKER_VOLUME[] PROGMEM = TR_SPEAKER_VOLUME;
 const pm_char STR_LCD[] PROGMEM = TR_LCD;
-/* Bracame todo : remove all unused !
-const pm_char STR_BRIGHTNESS[] PROGMEM = TR_BRIGHTNESS;
-const pm_char STR_CPU_TEMP[] PROGMEM = TR_CPU_TEMP;
-const pm_char STR_CPU_CURRENT[] PROGMEM = TR_CPU_CURRENT;
-const pm_char STR_CPU_MAH[] PROGMEM = TR_CPU_MAH;
-const pm_char STR_COPROC[] PROGMEM = TR_COPROC;
-const pm_char STR_COPROC_TEMP[] PROGMEM = TR_COPROC_TEMP;
-const pm_char STR_TEMPWARNING[] PROGMEM = TR_TEMPWARNING;
-const pm_char STR_CAPAWARNING[] PROGMEM = TR_CAPAWARNING;*/
 const pm_char STR_FUNC[] PROGMEM = TR_FUNC;
 const pm_char STR_V1[] PROGMEM = TR_V1;
 const pm_char STR_V2[] PROGMEM = TR_V2;

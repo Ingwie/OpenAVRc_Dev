@@ -40,9 +40,9 @@ enum FrenchPrompts {
   FR_PROMPT_MIDI = 123,
 
   FR_PROMPT_UNITS_BASE = 124,
-  
+
 #if defined (PCBMEGA2560)
-  FR_PROMPT_HEURE = FR_PROMPT_UNITS_BASE+UNIT_HOURS+1, //test Bracame
+  FR_PROMPT_HEURE = FR_PROMPT_UNITS_BASE+UNIT_HOURS+1, //I don't know why different ...
   FR_PROMPT_MINUTE = FR_PROMPT_UNITS_BASE+UNIT_MINUTES+1,
   FR_PROMPT_SECONDE = FR_PROMPT_UNITS_BASE+UNIT_SECONDS+1,
 #else
@@ -163,7 +163,7 @@ I18N_PLAY_FUNCTION(fr, playDuration, int seconds PLAY_DURATION_ATT)
       PUSH_NUMBER_PROMPT(FR_PROMPT_MINUTE);
 #if !defined(NOANDSECONDE)
       if (seconds > 0) PUSH_NUMBER_PROMPT(FR_PROMPT_ET);
-#endif        
+#endif
     }
   }
 

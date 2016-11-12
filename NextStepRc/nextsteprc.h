@@ -1208,33 +1208,6 @@ extern void usbPluggedIn();
 #endif
 
 #if defined(SDCARD)
-enum ClipboardType {
-  CLIPBOARD_TYPE_NONE,
-  CLIPBOARD_TYPE_CUSTOM_SWITCH,
-  CLIPBOARD_TYPE_CUSTOM_FUNCTION,
-  CLIPBOARD_TYPE_SD_FILE,
-};
-
-#if defined(SIMU)
-#define CLIPBOARD_PATH_LEN 1024
-#else
-// #define CLIPBOARD_PATH_LEN 32
-#endif
-
-/*struct Clipboard { bracame not used ? why
-  ClipboardType type;
-  union {
-    LogicalSwitchData csw;
-    CustomFunctionData cfn;
-    struct {
-      char directory[CLIPBOARD_PATH_LEN];
-      char filename[CLIPBOARD_PATH_LEN];
-    } sd;
-  } data;
-};
-
-extern Clipboard clipboard; */
-#endif
 
 extern uint16_t s_anaFilt[NUMBER_ANALOG];
 
@@ -1244,3 +1217,5 @@ extern JitterMeter<uint16_t> avgJitter[NUMBER_ANALOG];
 #endif  // defined(JITTER_MEASURE)
 
 #endif
+
+#endif //file

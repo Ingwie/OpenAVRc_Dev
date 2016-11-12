@@ -265,7 +265,6 @@ void evalInputs(uint8_t mode)
     int16_t v = anaIn(i);
 #endif
 
-#if !defined(SIMUa)
     if (i < NUM_STICKS+NUM_POTS) {
       if (IS_POT_MULTIPOS(i)) {
         v -= RESX;
@@ -276,7 +275,6 @@ void evalInputs(uint8_t mode)
         v = v * (int32_t)RESX / (max((int16_t)100, (v>0 ? calib->spanPos : calib->spanNeg)));
       }
     }
-#endif
 
     if (v < -RESX) v = -RESX;
     if (v >  RESX) v =  RESX;

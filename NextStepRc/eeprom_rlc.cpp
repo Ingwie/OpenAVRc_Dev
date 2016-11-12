@@ -71,11 +71,7 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
   eeprom_buffer_data = i_pointer_ram;
   eeprom_buffer_size = size+1;
 
-#if defined (CPUM2560) || defined(CPUM2561)
-  EECR |= (1<<EERIE); //bracame todo the same ?
-#else
-  EECR |= (1<<EERIE); //bracame todo the same ?
-#endif
+  EECR |= (1<<EERIE);
 
   if (s_sync_write) {
     while (eeprom_buffer_size > 0) MYWDT_RESET(EE_READY_vect()); //Simulate ISR in Simu mode, else reset watchdog
@@ -838,12 +834,6 @@ void eeLoadModel(uint8_t id)
 
     theFile.openRlc(FILE_MODEL(id));
     uint16_t sz = theFile.readRlc((uint8_t*)&g_model, sizeof(g_model));
-
-/*#ifdef SIMU todo bracame remove ?
-    if (sz > 0 && sz != sizeof(g_model)) {
-      printf("Model data read=%d bytes vs %d bytes\n", sz, (int)sizeof(ModelData));
-    }
-#endif*/
 
     bool newModel = false;
 

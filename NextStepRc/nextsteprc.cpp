@@ -20,11 +20,6 @@
 EEGeneral  g_eeGeneral;
 ModelData  g_model;
 
-#if defined(SDCARD)
-// Clipboard clipboard; bracame not used ? why
-#endif
-
-
 uint8_t g_tmr1Latency_max;
 uint8_t g_tmr1Latency_min;
 uint16_t lastMixerDuration;
@@ -266,7 +261,7 @@ int8_t getMovedSource(GET_MOVED_SOURCE_PARAMS)
 	int8_t result = 0;
 	static tmr10ms_t s_move_last_time = 0;
 	static int16_t sourcesStates[NUM_STICKS+NUM_POTS];
-	
+
 	for (uint8_t i=0; i<NUM_STICKS+NUM_POTS; i++)
 	{
 		if (abs(calibratedStick[i] - sourcesStates[i]) > 512)
@@ -1051,7 +1046,6 @@ tmr10ms_t jitterResetTime = 0;
 #define JITTER_MEASURE_ACTIVE()   (menuHandlers[menuLevel] == menuGeneralDiagAna)
 #endif  // defined(JITTER_MEASURE)
 
-#if !defined(SIMUa) // bracame todo remove
 uint16_t anaIn(uint8_t chan)
 {
 #if defined(TELEMETRY_MOD_14051) || defined(TELEMETRY_MOD_14051_SWAPPED)
@@ -1071,9 +1065,6 @@ uint16_t anaIn(uint8_t chan)
 	return *p;
 #endif
 }
-
-
-#endif // SIMU
 
 uint8_t g_vbat100mV = 0;
 uint16_t lightOffCounter;
@@ -1150,12 +1141,6 @@ FORCEINLINE void evalTrims()
 		trims[i] = trim*2;
 	}
 }
-
-/*#if !defined(PCBSTD) bracame not used ? why
-uint8_t mSwitchDuration[1+NUM_ROTARY_ENCODERS] = { 0 };
-#define CFN_PRESSLONG_DURATION   100
-#endif*/
-
 
 uint8_t s_mixer_first_run_done = false;
 
@@ -1462,8 +1447,6 @@ void checkBattery()
 		}
 	}
 
-#if !defined(SIMUa)
-
 	volatile uint8_t g_tmr16KHz; //continuous timer 16ms (16MHz/1024/256) -- 8-bit counter overflow
 	ISR(TIMER_16KHZ_VECT, ISR_NOBLOCK)
 	{
@@ -1554,7 +1537,6 @@ void checkBattery()
 		cli(); // disable other interrupts for stack pops before this function's RETI
 		RESUME_PPMIN_INTERRUPT();
 	}
-#endif
 
 #if defined(DSM2_SERIAL)
 	FORCEINLINE void DSM2_USART_vect()
@@ -1824,10 +1806,11 @@ void checkBattery()
 
 		startPulses();
 
-		// wdt_enable(WDTO_500MS); bracame todo remove ?
+#if !defined(SIMU)
+		wdt_enable(WDTO_500MS); // Enable watchdog
+#endif
 	}
 
-#if !defined(SIMUa)
 #if !defined(SIMU)
 	int main(void)
 	{
@@ -1962,5 +1945,4 @@ void checkBattery()
 #endif
 #endif
 			}
-#endif // !SIMU
 
