@@ -71,11 +71,7 @@ void startPulses()
   }
 #endif
 
-#if defined(SIMU)
-  s_current_protocol[0] = g_model.protocol;
-#else
   setupPulses();
-#endif // SIMU
 }
 
 #define PULSES_SIZE       144

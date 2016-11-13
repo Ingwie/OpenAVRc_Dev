@@ -18,7 +18,6 @@
 #include "thirdparty/FatFs/diskio.h"
 #include "thirdparty/FatFs/ff.h"
 #include "nextsteprc.h"
-//#include "gui/popups.h"
 
 #define LIST_NONE_SD_FILE  1
 
@@ -26,7 +25,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
 {
   FILINFO fno;
   DIR dir;
-  
+
   #if _USE_LFN
   TCHAR lfn[_MAX_LFN + 1];
   fno.lfname = lfn;
