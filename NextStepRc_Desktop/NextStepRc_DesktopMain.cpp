@@ -290,13 +290,13 @@ void NextStepRc_DesktopFrame::OnEcrirelebootloaderSelected(wxCommandEvent& event
 
 void NextStepRc_DesktopFrame::LoadConfig()
 {
-    configFile->SetPath("/COMM/");
+  configFile->SetPath("/COMM/");
     configFile->Read("Programmer",&dude_programmer);
     configFile->Read(wxT("Port"),&dude_port);
     configFile->Read(wxT("Type"),&dude_type);
     configFile->Read(wxT("avrdudepath"),&avrdudepath);
 
-    configFile->SetPath("/COMPILATION_CHOICES/");
+  configFile->SetPath("/COMPILATION_CHOICES/");
     configFile->Read(wxT("PCB"),&PCB);
     configFile->Read(wxT("LCD"),&LCD);
     configFile->Read(wxT("VOICE"),&VOICE);
@@ -320,7 +320,42 @@ void NextStepRc_DesktopFrame::LoadConfig()
     configFile->Read(wxT("SD_CARD"),&SD_CARD);
     configFile->Read(wxT("FAS_OFFSET"),&FAS_OFFSET);
     configFile->Read(wxT("TEMPLATES"),&TEMPLATES);
-    configFile->SetPath("/");
+    configFile->Read(wxT("THREE_POS"),&THREE_POS);
+    configFile->Read(wxT("SPLASH"),&SPLASH);
+    configFile->Read(wxT("UNITS"),&UNITS);
+    configFile->Read(wxT("DEFAULT_MODE"),&DEFAULT_MODE);
+    configFile->Read(wxT("FONT"),&FONT);
+    configFile->Read(wxT("BOLD"),&BOLD);
+    configFile->Read(wxT("BATTGRAPH"),&BATTGRAPH);
+    configFile->Read(wxT("EEPROM_PROGRESS_BAR"),&EEPROM_PROGRESS_BAR);
+    configFile->Read(wxT("FAI"),&FAI);
+    configFile->Read(wxT("AUTOSWITCH"),&AUTOSWITCH);
+    configFile->Read(wxT("AUTOSOURCE"),&AUTOSOURCE);
+    configFile->Read(wxT("DBLKEYS"),&DBLKEYS);
+    configFile->Read(wxT("PPM_CENTER_ADJUSTABLE"),&PPM_CENTER_ADJUSTABLE);
+    configFile->Read(wxT("PPM_LIMITS_SYMETRICAL"),&PPM_LIMITS_SYMETRICAL);
+    configFile->Read(wxT("FLIGHT_MODES"),&FLIGHT_MODES);
+    configFile->Read(wxT("CURVES"),&CURVES);
+    configFile->Read(wxT("GVARS"),&GVARS);
+    configFile->Read(wxT("OFFSET_ON_INPUT"),&OFFSET_ON_INPUT);
+    configFile->Read(wxT("PCBREV"),&PCBREV);
+    configFile->Read(wxT("TURNIGY_TRANSMITTER_FIX"),&TURNIGY_TRANSMITTER_FIX);
+    configFile->Read(wxT("FRSKY_STICKS"),&FRSKY_STICKS);
+    configFile->Read(wxT("CORRECT_NEGATIVE_VALUES"),&CORRECT_NEGATIVE_VALUES);
+    configFile->Read(wxT("ARITHMETIC_OVERFLOW_CHECK"),&ARITHMETIC_OVERFLOW_CHECK);
+    configFile->Read(wxT("ACCURAT_THROTTLE_STATS"),&ACCURAT_THROTTLE_STATS);
+    configFile->Read(wxT("SP22"),&SP22);
+    configFile->Read(wxT("PWM_BACKLIGHT"),&PWM_BACKLIGHT);
+    configFile->Read(wxT("OVERRIDE_CHANNEL_FUNCTION"),&OVERRIDE_CHANNEL_FUNCTION);
+    configFile->Read(wxT("WS_HOW_HIGH"),&WS_HOW_HIGH);
+    configFile->Read(wxT("HUBSAN"),&HUBSAN);
+    configFile->Read(wxT("TX_CADDY"),&TX_CADDY);
+    configFile->Read(wxT("IRPROTOS"),&IRPROTOS);
+    configFile->Read(wxT("TOGGLETRIM"),&TOGGLETRIM);
+    configFile->Read(wxT("NOANDSECONDE"),&NOANDSECONDE);
+    configFile->Read(wxT("SHUTDOWN_CONFIRMATION"),&SHUTDOWN_CONFIRMATION);
+
+  configFile->SetPath("/");
 }
 
 extern void NextStepRc_DesktopFrame::SaveConfig()
@@ -328,14 +363,14 @@ extern void NextStepRc_DesktopFrame::SaveConfig()
     //wxMessageBox( Ini_Filename, _("Les paramètres sont sauvé dans :"));
 
     // [COMM]
-    configFile->SetPath("/COMM/");
+  configFile->SetPath("/COMM/");
     configFile->Write(wxT("Programmer"),dude_programmer);
     configFile->Write(wxT("Port"),dude_port);
     configFile->Write(wxT("Type"),dude_type);
     configFile->Write(wxT("avrdudepath"),avrdudepath);
 
     // [COMPILATION_CHOICES]
-    configFile->SetPath("/COMPILATION_CHOICES/");
+  configFile->SetPath("/COMPILATION_CHOICES/");
     configFile->Write(wxT("PCB"),PCB);
     configFile->Write(wxT("LCD"),LCD);
     configFile->Write(wxT("VOICE"),VOICE);
@@ -359,8 +394,43 @@ extern void NextStepRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("SD_CARD"),SD_CARD);
     configFile->Write(wxT("FAS_OFFSET"),FAS_OFFSET);
     configFile->Write(wxT("TEMPLATES"),TEMPLATES);
-    configFile->Flush();
-    configFile->SetPath("/");
+    configFile->Read(wxT("THREE_POS"),THREE_POS);
+    configFile->Write(wxT("SPLASH"),SPLASH);
+    configFile->Write(wxT("UNITS"),UNITS);
+    configFile->Write(wxT("DEFAULT_MODE"),DEFAULT_MODE);
+    configFile->Write(wxT("FONT"),FONT);
+    configFile->Write(wxT("BOLD"),BOLD);
+    configFile->Write(wxT("BATTGRAPH"),BATTGRAPH);
+    configFile->Write(wxT("EEPROM_PROGRESS_BAR"),EEPROM_PROGRESS_BAR);
+    configFile->Write(wxT("FAI"),FAI);
+    configFile->Write(wxT("AUTOSWITCH"),AUTOSWITCH);
+    configFile->Write(wxT("AUTOSOURCE"),AUTOSOURCE);
+    configFile->Write(wxT("DBLKEYS"),DBLKEYS);
+    configFile->Write(wxT("PPM_CENTER_ADJUSTABLE"),PPM_CENTER_ADJUSTABLE);
+    configFile->Write(wxT("PPM_LIMITS_SYMETRICAL"),PPM_LIMITS_SYMETRICAL);
+    configFile->Write(wxT("FLIGHT_MODES"),FLIGHT_MODES);
+    configFile->Write(wxT("CURVES"),CURVES);
+    configFile->Write(wxT("GVARS"),GVARS);
+    configFile->Write(wxT("OFFSET_ON_INPUT"),OFFSET_ON_INPUT);
+    configFile->Write(wxT("PCBREV"),PCBREV);
+    configFile->Write(wxT("TURNIGY_TRANSMITTER_FIX"),TURNIGY_TRANSMITTER_FIX);
+    configFile->Write(wxT("FRSKY_STICKS"),FRSKY_STICKS);
+    configFile->Write(wxT("CORRECT_NEGATIVE_VALUES"),CORRECT_NEGATIVE_VALUES);
+    configFile->Write(wxT("ARITHMETIC_OVERFLOW_CHECK"),ARITHMETIC_OVERFLOW_CHECK);
+    configFile->Write(wxT("ACCURAT_THROTTLE_STATS"),ACCURAT_THROTTLE_STATS);
+    configFile->Write(wxT("SP22"),SP22);
+    configFile->Write(wxT("PWM_BACKLIGHT"),PWM_BACKLIGHT);
+    configFile->Write(wxT("OVERRIDE_CHANNEL_FUNCTION"),OVERRIDE_CHANNEL_FUNCTION);
+    configFile->Write(wxT("WS_HOW_HIGH"),WS_HOW_HIGH);
+    configFile->Write(wxT("HUBSAN"),HUBSAN);
+    configFile->Write(wxT("TX_CADDY"),TX_CADDY);
+    configFile->Write(wxT("IRPROTOS"),IRPROTOS);
+    configFile->Write(wxT("TOGGLETRIM"),TOGGLETRIM);
+    configFile->Write(wxT("NOANDSECONDE"),NOANDSECONDE);
+    configFile->Write(wxT("SHUTDOWN_CONFIRMATION"),SHUTDOWN_CONFIRMATION);
+
+  configFile->Flush();
+  configFile->SetPath("/");
 }
 
 
@@ -386,6 +456,3 @@ void NextStepRc_DesktopFrame::OnMenuHtmlDocSelected(wxCommandEvent& event)
 {
     wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation"), NULL);
 }
-
-
-
