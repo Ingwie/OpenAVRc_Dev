@@ -94,6 +94,7 @@ const long NextStepRc_SimulatorFrame::ID_BOID2 = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_LSTICK = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_SPINREA = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_SPINREB = wxNewId();
+const long NextStepRc_SimulatorFrame::ID_TEXTCTRLDUMMY = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANELMAIN = wxNewId();
 const long NextStepRc_SimulatorFrame::ID_PANELPRINCIPAL = wxNewId();
 const long NextStepRc_SimulatorFrame::IdMenuOpenEE = wxNewId();
@@ -145,78 +146,78 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     SetClientSize(wxSize(787,415));
     Move(wxPoint(25,25));
     SetMaxSize(wxSize(-1,-1));
-    PanelPrincipal = new wxPanel(this, ID_PANELPRINCIPAL, wxPoint(424,216), wxSize(777,400), wxRAISED_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELPRINCIPAL"));
-    PanelH = new wxPanel(PanelPrincipal, ID_PANELH, wxPoint(0,0), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELH"));
-    PanelL = new wxPanel(PanelPrincipal, ID_PANELL, wxPoint(0,304), wxSize(784,64), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELL"));
+    PanelPrincipal = new wxPanel(this, ID_PANELPRINCIPAL, wxPoint(424,216), wxSize(777,400), wxRAISED_BORDER, _T("ID_PANELPRINCIPAL"));
+    PanelH = new wxPanel(PanelPrincipal, ID_PANELH, wxPoint(0,0), wxSize(784,64), wxDOUBLE_BORDER, _T("ID_PANELH"));
+    PanelL = new wxPanel(PanelPrincipal, ID_PANELL, wxPoint(0,305), wxSize(784,64), wxDOUBLE_BORDER, _T("ID_PANELL"));
     OnTglButton = new wxToggleButton(PanelL, ID_ONTGLBUTTON, _("ON"), wxPoint(8,8), wxSize(62,22), wxDOUBLE_BORDER, wxDefaultValidator, _T("ID_ONTGLBUTTON"));
     ButtonStartDesktop = new wxButton(PanelL, ID_BUTTONSTARTDESKTOP, _("Desktop"), wxPoint(8,32), wxSize(62,22), wxSIMPLE_BORDER, wxDefaultValidator, _T("ID_BUTTONSTARTDESKTOP"));
-    PanelMain = new wxPanel(PanelPrincipal, ID_PANELMAIN, wxPoint(0,64), wxSize(784,248), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANELMAIN"));
+    PanelMain = new wxPanel(PanelPrincipal, ID_PANELMAIN, wxPoint(0,64), wxSize(784,248), wxDOUBLE_BORDER, _T("ID_PANELMAIN"));
     Pot1 = new wxSlider(PanelMain, ID_POT1, 1024, 0, 2048, wxPoint(352,160), wxSize(14,78), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_POT1"));
     Pot1->SetBackgroundColour(wxColour(128,64,0));
     Pot2 = new wxSlider(PanelMain, ID_POT2, 1024, 0, 2048, wxPoint(380,160), wxSize(14,78), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_POT2"));
     Pot2->SetBackgroundColour(wxColour(128,64,0));
     Pot3 = new wxSlider(PanelMain, ID_POT3, 1024, 0, 2048, wxPoint(408,160), wxSize(14,78), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_POT3"));
     Pot3->SetBackgroundColour(wxColour(128,64,0));
-    BPmenu = new wxPanel(PanelMain, ID_BPMENU, wxPoint(440,170), wxSize(50,20), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPMENU"));
+    BPmenu = new wxPanel(PanelMain, ID_BPMENU, wxPoint(440,170), wxSize(50,20), wxDOUBLE_BORDER, _T("ID_BPMENU"));
     BPmenu->SetBackgroundColour(wxColour(0,0,0));
     BPmenu->SetToolTip(_("MENU"));
-    BPh = new wxPanel(PanelMain, ID_BPH, wxPoint(288,160), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPH"));
+    BPh = new wxPanel(PanelMain, ID_BPH, wxPoint(288,160), wxSize(25,25), wxDOUBLE_BORDER, _T("ID_BPH"));
     BPh->SetBackgroundColour(wxColour(0,0,0));
-    BPexit = new wxPanel(PanelMain, ID_BPEXIT, wxPoint(440,200), wxSize(50,20), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPEXIT"));
+    BPexit = new wxPanel(PanelMain, ID_BPEXIT, wxPoint(440,200), wxSize(50,20), wxDOUBLE_BORDER, _T("ID_BPEXIT"));
     BPexit->SetBackgroundColour(wxColour(0,0,0));
     BPexit->SetToolTip(_("EXIT"));
-    LlTrim = new wxPanel(PanelMain, ID_LLTRIM, wxPoint(102,200), wxSize(25,12), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_LLTRIM"));
+    LlTrim = new wxPanel(PanelMain, ID_LLTRIM, wxPoint(102,200), wxSize(25,12), wxDOUBLE_BORDER, _T("ID_LLTRIM"));
     LlTrim->SetBackgroundColour(wxColour(0,0,0));
-    LuTrim = new wxPanel(PanelMain, ID_LUTRIM, wxPoint(224,72), wxSize(12,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_LUTRIM"));
+    LuTrim = new wxPanel(PanelMain, ID_LUTRIM, wxPoint(224,72), wxSize(12,25), wxDOUBLE_BORDER, _T("ID_LUTRIM"));
     LuTrim->SetBackgroundColour(wxColour(0,0,0));
-    LdTrim = new wxPanel(PanelMain, ID_LDTRIM, wxPoint(224,128), wxSize(12,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_LDTRIM"));
+    LdTrim = new wxPanel(PanelMain, ID_LDTRIM, wxPoint(224,128), wxSize(12,25), wxDOUBLE_BORDER, _T("ID_LDTRIM"));
     LdTrim->SetBackgroundColour(wxColour(0,0,0));
-    RdTrim = new wxPanel(PanelMain, ID_RDTRIM, wxPoint(536,128), wxSize(12,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_RDTRIM"));
+    RdTrim = new wxPanel(PanelMain, ID_RDTRIM, wxPoint(536,128), wxSize(12,25), wxDOUBLE_BORDER, _T("ID_RDTRIM"));
     RdTrim->SetBackgroundColour(wxColour(0,0,0));
-    RuTrim = new wxPanel(PanelMain, ID_RUTRIM, wxPoint(536,72), wxSize(12,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_RUTRIM"));
+    RuTrim = new wxPanel(PanelMain, ID_RUTRIM, wxPoint(536,72), wxSize(12,25), wxDOUBLE_BORDER, _T("ID_RUTRIM"));
     RuTrim->SetBackgroundColour(wxColour(0,0,0));
-    RlTrim = new wxPanel(PanelMain, ID_RLTRIM, wxPoint(592,200), wxSize(25,12), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_RLTRIM"));
+    RlTrim = new wxPanel(PanelMain, ID_RLTRIM, wxPoint(592,200), wxSize(25,12), wxDOUBLE_BORDER, _T("ID_RLTRIM"));
     RlTrim->SetBackgroundColour(wxColour(0,0,0));
-    RrTrim = new wxPanel(PanelMain, ID_RRTRIM, wxPoint(644,200), wxSize(25,12), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_RRTRIM"));
+    RrTrim = new wxPanel(PanelMain, ID_RRTRIM, wxPoint(644,200), wxSize(25,12), wxDOUBLE_BORDER, _T("ID_RRTRIM"));
     RrTrim->SetBackgroundColour(wxColour(0,0,0));
-    LrTrim = new wxPanel(PanelMain, ID_LRTRIM, wxPoint(152,200), wxSize(25,12), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_LRTRIM"));
+    LrTrim = new wxPanel(PanelMain, ID_LRTRIM, wxPoint(152,200), wxSize(25,12), wxDOUBLE_BORDER, _T("ID_LRTRIM"));
     LrTrim->SetBackgroundColour(wxColour(0,0,0));
-    BPg = new wxPanel(PanelMain, ID_BPG, wxPoint(264,184), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPG"));
+    BPg = new wxPanel(PanelMain, ID_BPG, wxPoint(264,184), wxSize(25,25), wxDOUBLE_BORDER, _T("ID_BPG"));
     BPg->SetBackgroundColour(wxColour(0,0,0));
-    BPb = new wxPanel(PanelMain, ID_BPB, wxPoint(288,208), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPB"));
+    BPb = new wxPanel(PanelMain, ID_BPB, wxPoint(288,208), wxSize(25,25), wxDOUBLE_BORDER, _T("ID_BPB"));
     BPb->SetBackgroundColour(wxColour(0,0,0));
-    BPd = new wxPanel(PanelMain, ID_BPD, wxPoint(312,184), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPD"));
+    BPd = new wxPanel(PanelMain, ID_BPD, wxPoint(312,184), wxSize(25,25), wxDOUBLE_BORDER, _T("ID_BPD"));
     BPd->SetBackgroundColour(wxColour(0,0,0));
-    Rstick = new wxPanel(PanelMain, ID_RSTICK, wxPoint(552,32), wxSize(158,158), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_RSTICK"));
+    Rstick = new wxPanel(PanelMain, ID_RSTICK, wxPoint(552,32), wxSize(158,158), wxDOUBLE_BORDER, _T("ID_RSTICK"));
     Rstick->SetForegroundColour(wxColour(255,0,0));
     Rstick->SetBackgroundColour(wxColour(0,0,0));
     Simulcd = new wxPanel(PanelMain, ID_SIMULCD, wxPoint(256,20), wxSize(260,132), wxNO_BORDER, _T("ID_SIMULCD"));
     Simulcd->SetBackgroundColour(wxColour(120,210,30));
-    BpThr = new wxPanel(PanelMain, ID_BPTHR, wxPoint(25,48), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPTHR"));
+    BpThr = new wxPanel(PanelMain, ID_BPTHR, wxPoint(25,48), wxSize(25,25), wxDOUBLE_BORDER, _T("ID_BPTHR"));
     BpThr->SetBackgroundColour(wxColour(0,0,0));
     BpThr->SetToolTip(_("THR"));
-    BpRud = new wxPanel(PanelMain, ID_BPRUD, wxPoint(25,88), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPRUD"));
+    BpRud = new wxPanel(PanelMain, ID_BPRUD, wxPoint(25,88), wxSize(25,25), wxDOUBLE_BORDER, _T("ID_BPRUD"));
     BpRud->SetBackgroundColour(wxColour(0,0,0));
     BpRud->SetToolTip(_("RUD"));
-    BpEle = new wxPanel(PanelMain, ID_BPELE, wxPoint(25,128), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPELE"));
+    BpEle = new wxPanel(PanelMain, ID_BPELE, wxPoint(25,128), wxSize(25,25), wxDOUBLE_BORDER, _T("ID_BPELE"));
     BpEle->SetBackgroundColour(wxColour(0,0,0));
     BpEle->SetToolTip(_("ELE"));
-    BpTrn = new wxPanel(PanelMain, ID_BPTRN, wxPoint(16,208), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPTRN"));
+    BpTrn = new wxPanel(PanelMain, ID_BPTRN, wxPoint(16,208), wxSize(25,25), wxDOUBLE_BORDER, _T("ID_BPTRN"));
     BpTrn->SetBackgroundColour(wxColour(0,0,0));
     BpTrn->SetToolTip(_("TRN"));
-    BpAil = new wxPanel(PanelMain, ID_BPAIL, wxPoint(720,48), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPAIL"));
+    BpAil = new wxPanel(PanelMain, ID_BPAIL, wxPoint(720,48), wxSize(25,25), wxDOUBLE_BORDER, _T("ID_BPAIL"));
     BpAil->SetBackgroundColour(wxColour(0,0,0));
     BpAil->SetToolTip(_("AIL"));
-    BpGea = new wxPanel(PanelMain, ID_BPGEA, wxPoint(720,88), wxSize(25,25), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BPGEA"));
+    BpGea = new wxPanel(PanelMain, ID_BPGEA, wxPoint(720,88), wxSize(25,25), wxDOUBLE_BORDER, _T("ID_BPGEA"));
     BpGea->SetBackgroundColour(wxColour(0,0,0));
     BpGea->SetToolTip(_("GEA"));
-    BpId1 = new wxPanel(PanelMain, ID_PBID1, wxPoint(720,128), wxSize(25,20), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PBID1"));
+    BpId1 = new wxPanel(PanelMain, ID_PBID1, wxPoint(720,128), wxSize(25,20), wxDOUBLE_BORDER, _T("ID_PBID1"));
     BpId1->SetBackgroundColour(wxColour(0,0,0));
     BpId1->SetToolTip(_("ID1"));
-    BpId2 = new wxPanel(PanelMain, ID_BOID2, wxPoint(720,148), wxSize(25,20), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_BOID2"));
+    BpId2 = new wxPanel(PanelMain, ID_BOID2, wxPoint(720,148), wxSize(25,20), wxDOUBLE_BORDER, _T("ID_BOID2"));
     BpId2->SetBackgroundColour(wxColour(0,0,0));
     BpId2->SetToolTip(_("ID2"));
-    Lstick = new wxPanel(PanelMain, ID_LSTICK, wxPoint(60,32), wxSize(158,158), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_LSTICK"));
+    Lstick = new wxPanel(PanelMain, ID_LSTICK, wxPoint(60,32), wxSize(158,158), wxDOUBLE_BORDER, _T("ID_LSTICK"));
     Lstick->SetForegroundColour(wxColour(255,0,0));
     Lstick->SetBackgroundColour(wxColour(0,0,0));
     SpinRea = new wxSpinButton(PanelMain, ID_SPINREA, wxPoint(14,12), wxDefaultSize, wxSP_HORIZONTAL|wxSP_WRAP|wxSTATIC_BORDER, _T("ID_SPINREA"));
@@ -225,6 +226,7 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     SpinReb = new wxSpinButton(PanelMain, ID_SPINREB, wxPoint(732,12), wxDefaultSize, wxSP_HORIZONTAL|wxSP_WRAP|wxSTATIC_BORDER, _T("ID_SPINREB"));
     SpinReb->SetRange(-100, 100);
     SpinReb->SetToolTip(_("Reb"));
+    TextCtrlgetkbinput = new wxTextCtrl(PanelMain, ID_TEXTCTRLDUMMY, wxEmptyString, wxPoint(64,216), wxSize(0,0), 0, wxDefaultValidator, _T("ID_TEXTCTRLDUMMY"));
     MenuBar1 = new wxMenuBar();
     Menu1 = new wxMenu();
     MenuLoadee = new wxMenuItem(Menu1, IdMenuOpenEE, _("Charger Eeprom"), _("Charger fichier BIN"), wxITEM_NORMAL);
@@ -326,8 +328,8 @@ NextStepRc_SimulatorFrame::NextStepRc_SimulatorFrame(wxWindow* parent,wxWindowID
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&NextStepRc_SimulatorFrame::OnClose);
     //*)
     {
-    	wxIcon FrameIcon;
-    	SetIcon(wxICON(nsrcs_icon));
+        wxIcon FrameIcon;
+        SetIcon(wxICON(nsrcs_icon));
     }
 
     //App Path
@@ -493,7 +495,12 @@ const void NextStepRc_SimulatorFrame::DrawWxSimuLcd()
 {
     uint8_t *p;
     p = displayBuf;
-    wxBrush brush_back(Col_Lcd_Back, wxBRUSHSTYLE_SOLID );
+    wxColor Col_Lcd_Back_dyn = Col_Lcd_Back;
+    if (!(isBacklightEnable()))
+    {
+        Col_Lcd_Back_dyn = Col_Lcd_Back_dyn.ChangeLightness(80);
+    }
+    wxBrush brush_back(Col_Lcd_Back_dyn, wxBRUSHSTYLE_SOLID );
     SimuLcd_MemoryDC->SetBrush(brush_back);
     SimuLcd_MemoryDC->DrawRectangle(0,0,4+LCD_W*SimuLcdScale,4+LCD_H*SimuLcdScale);
     wxBrush brush_top(Col_Lcd_Front, wxBRUSHSTYLE_SOLID );
@@ -517,6 +524,7 @@ const void NextStepRc_SimulatorFrame::DrawWxSimuLcd()
 
     SimuLcd_ClientDC->Blit(0,0,SimuLcd_Bitmap.GetWidth(),SimuLcd_Bitmap.GetHeight(),SimuLcd_MemoryDC,0,0);
 }
+
 
 //// GUI Functions ///////////////////////////////////////////////////
 
@@ -1154,74 +1162,74 @@ void NextStepRc_SimulatorFrame::OnButtonStartDesktopClick(wxCommandEvent& event)
 }
 
 void NextStepRc_SimulatorFrame::OnKey(wxKeyEvent& event)
-  {
+{
     wxMouseEvent fakevt;
 
     int result = event.GetKeyCode();
 
     if (event.GetKeyCode() == 315)
     {
-      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPhLeftDown(fakevt);
+        if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPhLeftDown(fakevt);
         else OnBPhLeftUp(fakevt);
     }
     if (event.GetKeyCode() == 317)
     {
-      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPbLeftDown(fakevt);
+        if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPbLeftDown(fakevt);
         else OnBPbLeftUp(fakevt);
     }
     if (event.GetKeyCode() == 314)
     {
-      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPgLeftDown(fakevt);
+        if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPgLeftDown(fakevt);
         else OnBPgLeftUp(fakevt);
     }
     if (event.GetKeyCode() == 316)
     {
-      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPdLeftDown(fakevt);
+        if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPdLeftDown(fakevt);
         else OnBPdLeftUp(fakevt);
     }
     if (event.GetKeyCode() == 366)
     {
-      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPmenuLeftDown(fakevt);
+        if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPmenuLeftDown(fakevt);
         else OnBPmenuLeftUp(fakevt);
     }
     if (event.GetKeyCode() == 367)
     {
-      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPexitLeftDown(fakevt);
+        if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPexitLeftDown(fakevt);
         else OnBPexitLeftUp(fakevt);
     }
     if (event.GetKeyCode() == 65)
     {
-      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpThrLeftDown(fakevt);
+        if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpThrLeftDown(fakevt);
     }
     if (event.GetKeyCode() == 90)
     {
-      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpRudLeftDown(fakevt);
+        if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpRudLeftDown(fakevt);
     }
     if (event.GetKeyCode() == 69)
     {
-      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpEleLeftDown(fakevt);
+        if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpEleLeftDown(fakevt);
     }
     if (event.GetKeyCode() == 82)
     {
-      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpTrnLeftDown(fakevt);
-      else OnBpTrnLeftUp(fakevt);
+        if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpTrnLeftDown(fakevt);
+        else OnBpTrnLeftUp(fakevt);
     }
     if (event.GetKeyCode() == 84)
     {
-      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpAilLeftDown(fakevt);
+        if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpAilLeftDown(fakevt);
     }
     if (event.GetKeyCode() == 89)
     {
-      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpGeaLeftDown(fakevt);
+        if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpGeaLeftDown(fakevt);
     }
     if (event.GetKeyCode() == 85)
     {
-      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpId1LeftDown(fakevt);
+        if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpId1LeftDown(fakevt);
     }
     if (event.GetKeyCode() == 73)
     {
-      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpId2LeftDown(fakevt);
+        if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpId2LeftDown(fakevt);
     }
     event.Skip();
-  }
+}
 

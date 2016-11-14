@@ -52,6 +52,7 @@
 					<Add option="-DFRSKY_HUB" />
 					<Add option="-DWS_HOW_HIGH" />
 					<Add option="-DGAUGES" />
+					<Add option="-DGPS" />
 					<Add option="-DVARIO" />
 					<Add option="-DEEPROM_PROGRESS_BAR" />
 					<Add option="-DPPM_CENTER_ADJUSTABLE" />

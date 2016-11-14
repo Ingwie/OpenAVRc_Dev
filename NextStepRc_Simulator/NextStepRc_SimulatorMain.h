@@ -12,6 +12,7 @@
 
 //(*Headers(NextStepRc_SimulatorFrame)
 #include <wx/menu.h>
+#include <wx/textctrl.h>
 #include <wx/tglbtn.h>
 #include <wx/slider.h>
 #include <wx/panel.h>
@@ -170,6 +171,7 @@ private:
     static const long ID_LSTICK;
     static const long ID_SPINREA;
     static const long ID_SPINREB;
+    static const long ID_TEXTCTRLDUMMY;
     static const long ID_PANELMAIN;
     static const long ID_PANELPRINCIPAL;
     static const long IdMenuOpenEE;
@@ -262,6 +264,7 @@ private:
     wxButton* ButtonStartDesktop;
     wxToggleButton* OnTglButton;
     wxTimer TimerMain;
+    wxTextCtrl* TextCtrlgetkbinput;
     wxPanel* Rstick;
     wxPanel* RlTrim;
     wxMenuItem* MenuButOn;
