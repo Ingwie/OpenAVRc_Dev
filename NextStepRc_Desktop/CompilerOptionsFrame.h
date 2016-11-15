@@ -121,9 +121,9 @@ class CompilerOptionsFrame: public wxFrame
 		wxCheckBox* CheckBoxTOGGLETRIM;
 		wxPanel* Panel1;
 		wxCheckBox* CheckBoxPPM_CENTER_ADJUSTABLE;
-		wxCheckBox* CheckBoxPPM_LIMITS_SYMETRICAL;
 		wxCheckBox* CheckBoxAUDIO;
 		wxStaticText* StaticText1;
+		wxCheckBox* CheckBoxPPM_LIMITS_SYMETRICAL;
 		wxStaticBox* StaticBox6;
 		wxStaticText* StaticText3;
 		wxStaticBox* StaticBox1;
@@ -175,8 +175,12 @@ class CompilerOptionsFrame: public wxFrame
 
 		//(*Identifiers(CompilerOptionsFrame)
 		static const long ID_STATICBOX6;
-		static const long ID_STATICBOX5;
 		static const long ID_STATICBOX4;
+		static const long ID_CHECKBOX17;
+		static const long ID_STATICBOX5;
+		static const long ID_STATICTEXT4;
+		static const long ID_CHECKBOX16;
+		static const long ID_CHOICE4;
 		static const long ID_CHOICE6;
 		static const long ID_CHOICE1;
 		static const long ID_STATICTEXT2;
@@ -217,8 +221,6 @@ class CompilerOptionsFrame: public wxFrame
 		static const long ID_STATICBOX3;
 		static const long ID_STATICBOX2;
 		static const long ID_STATICBOX1;
-		static const long ID_CHOICE4;
-		static const long ID_STATICTEXT4;
 		static const long ID_CHECKBOX10;
 		static const long ID_CHECKBOX11;
 		static const long ID_CHECKBOX13;
@@ -229,8 +231,6 @@ class CompilerOptionsFrame: public wxFrame
 		static const long ID_CHECKBOX5;
 		static const long ID_CHECKBOX6;
 		static const long ID_CHECKBOX8;
-		static const long ID_CHECKBOX16;
-		static const long ID_CHECKBOX17;
 		static const long ID_CHECKBOX22;
 		static const long ID_CHECKBOX23;
 		static const long ID_CHECKBOX24;
@@ -349,6 +349,7 @@ class CompilerOptionsFrame: public wxFrame
 		void OnCheckBoxBOLDClick(wxCommandEvent& event);
 		void OnCheckBoxSPLASHClick(wxCommandEvent& event);
 		void OnChoiceLCDSelect(wxCommandEvent& event);
+		void OnCheckBoxPPM_CENTER_ADJUSTABLEClick1(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
