@@ -11,16 +11,7 @@
 #include "DefaultFrame.h"
 #include "CompilerOptionsFrame.h"
 #include <wx/msgdlg.h>
-//#include <string>
-//#include <wx/textfile.h>
-//#include <windows.h>
-//#include "Shlwapi.h"
 #include <wx/filedlg.h>
-//#include <wx/wfstream.h>
-//#include <wx/string.h>
-//#include <wx/menu.h>
-//#include <wx/textctrl.h>
-//#include <wx/dialog.h>
 
 
 //(*InternalHeaders(NextStepRc_DesktopFrame)
@@ -188,7 +179,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     dude_intel = (":i");
     keepopen = ("cmd /k ");
 
-        //Ini File
+    //Ini File
     Ini_Filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "NextStepRcDesktop.ini";
     configFile = new wxFileConfig( "", "", Ini_Filename);
     LoadConfig();
@@ -394,7 +385,7 @@ extern void NextStepRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("SD_CARD"),SD_CARD);
     configFile->Write(wxT("FAS_OFFSET"),FAS_OFFSET);
     configFile->Write(wxT("TEMPLATES"),TEMPLATES);
-    configFile->Read(wxT("THREE_POS"),THREE_POS);
+    configFile->Write(wxT("THREE_POS"),THREE_POS);
     configFile->Write(wxT("SPLASH"),SPLASH);
     configFile->Write(wxT("UNITS"),UNITS);
     configFile->Write(wxT("DEFAULT_MODE"),DEFAULT_MODE);

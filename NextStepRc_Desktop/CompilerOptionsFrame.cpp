@@ -20,16 +20,16 @@ extern bool Ini_Changed;
 //Define defaults
 wxString PCB = _("non défini");
 wxString LCD = _("non défini");
-wxString VOICE = _("non défini");
-wxString EXT = _("non défini");
+wxString VOICE = ("NO");
+wxString EXT = ("STD");
 bool AUDIO = 0;
 bool HELI = 0;
 wxString TTS = _("non défini");
 wxString TRANSLATIONS = _("non défini");
-wxString NAVIGATION = _("non défini");
+wxString NAVIGATION = ("NO");
 bool FRSKY_HUB = 0;
 bool HAPTIC = 0;
-wxString PPM_UNIT = _("non défini");
+wxString PPM_UNIT = ("PERCENT_PREC1");
 bool GAUGES = 0;
 bool GPS = 0;
 bool VARIO = 0;
@@ -44,9 +44,9 @@ bool TEMPLATES = 0;
 wxString THREE_POS = ("NO");
 bool SPLASH =0;
 wxString UNITS =("METRIC");
-wxString DEFAULT_MODE =_("non défini");
-wxString FONT = _("non défini");
-bool BOLD = 0 ;
+wxString DEFAULT_MODE =("NO");
+wxString FONT = ("STD");
+bool BOLD = 0;
 bool BATTGRAPH = 0;
 bool EEPROM_PROGRESS_BAR = 0;
 wxString FAI = ("NO");
@@ -54,11 +54,11 @@ bool AUTOSWITCH = 0;
 bool AUTOSOURCE = 0;
 bool DBLKEYS = 0;
 bool PPM_CENTER_ADJUSTABLE = 0;
-bool PPM_LIMITS_SYMETRICAL = 0;
-bool FLIGHT_MODES = 0;//Hardwired ?
-bool CURVES = 0;//Hardwired ?
-bool GVARS = 0;//Hardwired ?
-bool OFFSET_ON_INPUT = 0;
+bool PPM_LIMITS_SYMETRICAL = 1;
+bool FLIGHT_MODES = 0;
+bool CURVES = 0;
+bool GVARS = 0;
+bool OFFSET_ON_INPUT = 1;// Hardwire forever ?
 bool PCBREV = 0;
 bool TURNIGY_TRANSMITTER_FIX = 0;
 bool FRSKY_STICKS = 0;
@@ -71,9 +71,9 @@ bool OVERRIDE_CHANNEL_FUNCTION = 0;
 bool WS_HOW_HIGH = 0;
 bool HUBSAN = 0;
 bool TX_CADDY = 0;
-bool IRPROTOS = 0;//Does that work?
+bool IRPROTOS = 0;////////////////////Does that work?
 bool TOGGLETRIM = 0;
-bool NOANDSECONDE = 0;// Hardwired
+bool NOANDSECONDE = 1;
 bool SHUTDOWN_CONFIRMATION = 0;
 
 
@@ -200,11 +200,11 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     ChoicePCB->Append(_("9XR2561"));
     ChoicePCB->Append(_("GRUVIN9X"));
     ChoiceLCD = new wxChoice(Panel2, ID_CHOICE1, wxPoint(112,72), wxSize(96,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
-    ChoiceLCD->Append(_("DEFAULT "));
+    ChoiceLCD->Append(_("DEFAULT"));
     ChoiceLCD->Append(_("ST7565P"));
     ChoiceLCD->Append(_("ST7565R "));
     ChoiceLCD->Append(_("ERC12864FSF"));
-    ChoiceLCD->Append(_("ST7920 "));
+    ChoiceLCD->Append(_("ST7920"));
     ChoiceLCD->Append(_("KS108"));
     ChoiceLCD->Append(_("SSD1306"));
     StaticText2 = new wxStaticText(Panel2, ID_STATICTEXT2, _("PROCESSOR"), wxPoint(32,40), wxSize(64,13), 0, _T("ID_STATICTEXT2"));
@@ -387,7 +387,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxDBLKEYS->SetValue(false);
     Notebook1->AddPage(Panel2, _("Settings"), false);
     Notebook1->AddPage(Panel3, _("Advanced"), false);
-
+    Connect(ID_CHOICE1,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&CompilerOptionsFrame::OnChoiceLCDSelect);
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonEXITClick);
     Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonCOMPILEClick);
     Panel2->Connect(wxEVT_PAINT,(wxObjectEventFunction)&CompilerOptionsFrame::OnPanel2Paint,0,this);
@@ -424,13 +424,12 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxSD_CARD->SetValue(SD_CARD);
     CheckBoxFAS_OFFSET->SetValue(FAS_OFFSET);
     CheckBoxTEMPLATES->SetValue(TEMPLATES);
-
     ChoiceTHREE_POS->SetStringSelection(THREE_POS);
     CheckBoxSPLASH->SetValue(SPLASH);
     ChoiceUNITS->SetStringSelection(UNITS);
     ChoiceDEFAULT_MODE->SetStringSelection(DEFAULT_MODE);
     ChoiceFONT->SetStringSelection(FONT);
-    CheckBoxBOLD->SetValue(BOLD_FONTTYPE);
+    CheckBoxBOLD->SetValue(BOLD);
     CheckBoxBATTGRAPH->SetValue(BATTGRAPH);
     CheckBoxEEPROM_PROGRESS_BAR->SetValue(EEPROM_PROGRESS_BAR);
     ChoiceFAI->SetStringSelection(FAI);
@@ -459,9 +458,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxTOGGLETRIM->SetValue(TOGGLETRIM);
     CheckBoxNOANDSECONDE->SetValue(NOANDSECONDE);// Hardwired
     CheckBoxSHUTDOWN_CONFIRMATION->SetValue(SHUTDOWN_CONFIRMATION);
-
 }
-
 
 CompilerOptionsFrame::~CompilerOptionsFrame()
 {
@@ -501,8 +498,6 @@ void CompilerOptionsFrame::BatFunction()
     if (SD_CARD) CompiBat += (" SD_CARD=YES");// default should be NO
     if (FAS_OFFSET) CompiBat += (" FAS_OFFSET=YES");// default should be NO
     if (TEMPLATES) CompiBat += (" TEMPLATES=YES");// default should be NO
-
-
     CompiBat += (" THREE_POS=" + THREE_POS);
     if (SPLASH) CompiBat += (" SPLASH=YES");
     CompiBat += (" UNITS=" + UNITS);
@@ -653,3 +648,7 @@ void CompilerOptionsFrame::OnPanel2Paint(wxPaintEvent& event)
 {
 }
 
+
+void CompilerOptionsFrame::OnChoiceLCDSelect(wxCommandEvent& event)
+{
+}

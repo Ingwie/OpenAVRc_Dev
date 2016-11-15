@@ -348,6 +348,7 @@ class CompilerOptionsFrame: public wxFrame
 		void OnCheckBoxAUTOSOURCEClick(wxCommandEvent& event);
 		void OnCheckBoxBOLDClick(wxCommandEvent& event);
 		void OnCheckBoxSPLASHClick(wxCommandEvent& event);
+		void OnChoiceLCDSelect(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

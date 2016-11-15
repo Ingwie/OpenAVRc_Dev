@@ -47,16 +47,17 @@
 						</object>
 						<object class="wxChoice" name="ID_CHOICE1" variable="ChoiceLCD" member="yes">
 							<content>
-								<item>DEFAULT </item>
+								<item>DEFAULT</item>
 								<item>ST7565P</item>
 								<item>ST7565R </item>
 								<item>ERC12864FSF</item>
-								<item>ST7920 </item>
+								<item>ST7920</item>
 								<item>KS108</item>
 								<item>SSD1306</item>
 							</content>
 							<pos>112,72</pos>
 							<size>96,21</size>
+							<handler function="OnChoiceLCDSelect" entry="EVT_CHOICE" />
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
 							<label>PROCESSOR</label>
