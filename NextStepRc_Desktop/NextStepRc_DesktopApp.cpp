@@ -23,9 +23,9 @@ bool NextStepRc_DesktopApp::OnInit()
     wxInitAllImageHandlers();
     if ( wxsOK )
     {
-    	NextStepRc_DesktopFrame* Frame = new NextStepRc_DesktopFrame(0);
-    	Frame->Show();
-    	SetTopWindow(Frame);
+        NextStepRc_DesktopFrame* Frame = new NextStepRc_DesktopFrame(0);
+        Frame->Show();
+        SetTopWindow(Frame);
     }
     //*)
     return wxsOK;

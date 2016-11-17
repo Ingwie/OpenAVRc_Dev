@@ -167,7 +167,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Panel1->SetFocus();
     StaticBoxConfig = new wxStaticBox(Panel1, ID_STATICBOXCONFIG, _("Configuration"), wxPoint(16,8), wxSize(136,192), 0, _T("ID_STATICBOXCONFIG"));
     Button1 = new wxButton(Panel1, ID_BUTTON1, _("SIMULATEUR"), wxPoint(8,208), wxSize(568,31), 0, wxDefaultValidator, _T("ID_BUTTON1"));
-    ListBoxConfig = new wxListBox(Panel1, ID_LISTBOXCONFIG, wxPoint(24,32), wxSize(120,152), 0, 0, wxDOUBLE_BORDER|wxVSCROLL, wxDefaultValidator, _T("ID_LISTBOXCONFIG"));
+    ListBoxConfig = new wxListBox(Panel1, ID_LISTBOXCONFIG, wxPoint(24,32), wxSize(120,152), 0, 0, wxLB_SINGLE|wxDOUBLE_BORDER|wxVSCROLL, wxDefaultValidator, _T("ID_LISTBOXCONFIG"));
     MenuBar_main = new wxMenuBar();
     Menu1 = new wxMenu();
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter l\'application"), wxITEM_NORMAL);
@@ -233,6 +233,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     SetStatusBar(StatusBar_main);
 
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnSimulateurClick2);
+    Connect(ID_LISTBOXCONFIG,wxEVT_COMMAND_LISTBOX_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnListBoxConfigDClick);
     Connect(ID_LISTBOXCONFIG,wxEVT_COMMAND_LISTBOX_DOUBLECLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnListBoxConfigDClick);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnQuit);
     Connect(ID_MENUITEMNEWCONFIG,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnMenuNewconfigSelected);
@@ -279,12 +280,17 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     dude_intel = (":i");
     keepopen = ("cmd /k ");
 
+    defaut = wxT("Defaut");
     //Ini File
     Ini_Filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "NextStepRcDesktop.ini";
     configFile = new wxFileConfig( "", "", Ini_Filename);
-    LoadConfig();
+    LoadConfig("");
     if (avrdudepath == _("non défini")) wxMessageBox( _("Merci de vérifier les paramètres"), _("Programmeur :"), wxICON_WARNING | wxCENTRE);//Ini File
-    if (SavedConfig.GetCount() == 0) SavedConfig.Add(("Defaut"),1);
+    if (SavedConfig.GetCount() == 0)
+    {
+        SavedConfig.Add(defaut,1);
+        Profil = defaut;
+    }
     ListBoxConfig->InsertItems(SavedConfig,0);
     ListBoxConfig->SetStringSelection(Profil);
 }
@@ -315,7 +321,7 @@ void NextStepRc_DesktopFrame::OnProgrammerSelected(wxCommandEvent& event)
 
 void NextStepRc_DesktopFrame::OnreadmodelsSelected(wxCommandEvent& event)//READ MODELS FROM RADIO.
 {
-    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer les modèles dès la radio."), "", "",  "Fichiers bin (*.bin)|*.bin|Tous (*.*)|*.*", wxFD_SAVE);
+    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer les modèles des la radio."), "", "",  "Fichiers BIN (*.bin)|*.bin|Tous (*.*)|*.*", wxFD_SAVE);
     if (saveDialog.ShowModal() == wxID_CANCEL) return;
     wxString dude_tmpfile = (saveDialog.GetPath());
     wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_read+dude_tmpfile+dude_raw+dude_verify;
@@ -325,10 +331,10 @@ void NextStepRc_DesktopFrame::OnreadmodelsSelected(wxCommandEvent& event)//READ 
 
 void NextStepRc_DesktopFrame::OnreadfirmwareSelected(wxCommandEvent& event)//read firmware from radio
 {
-    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer le Firmware dès la radio."), "", "","Fichiers bin (*.bin)|*.bin|Tous (*.*)|*.*", wxFD_SAVE);
+    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer le Firmware des la radio."), "", "","Fichiers HEX (*.hex)|*.hex", wxFD_SAVE);
     if (saveDialog.ShowModal() == wxID_CANCEL) return;
     wxString dude_tmpfile = (saveDialog.GetPath());
-    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_read+dude_tmpfile+dude_raw;
+    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_read+dude_tmpfile+dude_intel;
     wxExecute(dude_send);
 }
 
@@ -344,13 +350,13 @@ void NextStepRc_DesktopFrame::OnWriteModelToRadioSelected(wxCommandEvent& event)
 
 void NextStepRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& event)
 {
-    wxFileDialog openFileDialog(this, _("Choisir le fichier pour transferer le Firmware à la radio."), "", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+    wxFileDialog openFileDialog(this, _("Choisir le fichier pour transferer le Firmware à la radio."), "", "","Fichiers HEX (*.hex)|*.hex", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL) return;
     wxMessageDialog *bkup = new wxMessageDialog(NULL,wxT("Il est recommande de sauvegarder vos modeles avant, voulez vous continuer ?"), wxT("Firmware"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
     //bkup->SetEventHandler(bkup);
     if (bkup->ShowModal()!= wxID_OK) return;
     wxString dude_tmpfile = (openFileDialog.GetPath());//write firmware
-    wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_raw+dude_verify;
+    wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_intel+dude_verify;
     //wxMessageBox(dude_send);
     wxExecute(dude_send);
 }
@@ -381,13 +387,13 @@ void NextStepRc_DesktopFrame::OnEcrirelebootloaderSelected(wxCommandEvent& event
     wxExecute(dude_send);
 }
 
-void NextStepRc_DesktopFrame::LoadConfig()
+void NextStepRc_DesktopFrame::LoadConfig(wxString temp)
 {
-    configFile->SetPath("/");
-    configFile->Read(wxT("Latestprofil"),Profil);
 
+    configFile->SetPath("/");
+    if (temp == "") configFile->Read(wxT("Latestprofil"),&Profil);
+    else Profil = temp;
     configFile->SetPath("/PROFILS/");
-    wxString temp;
     long dummy;
     bool again = configFile->GetFirstEntry(temp, dummy);
     while (again)
@@ -471,11 +477,7 @@ extern void NextStepRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("Latestprofil"),Profil);
     //PROFILS
     configFile->SetPath("/PROFILS/");
-    for (int i=0; i<(SavedConfig.GetCount()); i++)
-    {
-        configFile->Write(SavedConfig[i],i);
-    }
-
+    configFile->Write(Profil,"");
 
     configFile->SetPath("/"+Profil+"/");
     // [COMM]
@@ -571,17 +573,17 @@ void NextStepRc_DesktopFrame::OnATMEGA2560CompilerSelected(wxCommandEvent& event
 
 //void NextStepRc_DesktopFrame::OnMenuHtmlDocSelected(wxCommandEvent& event)
 //{
-  //  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation"), NULL);
+//  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation"), NULL);
 //}
 
 void NextStepRc_DesktopFrame::OnNexStepRc_M2560_docsSelected(wxCommandEvent& event)
 {
-   wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/NextStepRC_M2560"), NULL);
+    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/NextStepRC_M2560"), NULL);
 }
 
 void NextStepRc_DesktopFrame::OnMenuJQ6500_PCBSelected(wxCommandEvent& event)
 {
-  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/Beta%20tester%20files/JQ6500%20PCB%20by%20Pyrall"), NULL);
+    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/Beta%20tester%20files/JQ6500%20PCB%20by%20Pyrall"), NULL);
 }
 
 void NextStepRc_DesktopFrame::OnMenuVoice_tutoSelected(wxCommandEvent& event)
@@ -591,31 +593,31 @@ void NextStepRc_DesktopFrame::OnMenuVoice_tutoSelected(wxCommandEvent& event)
 
 void NextStepRc_DesktopFrame::OnMenuVOICE_AUDIO_PCBSelected(wxCommandEvent& event)
 {
-  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/Beta%20tester%20files/Voice-audio%20pcb%20and%20rtc%20by%20Pyrall"), NULL);
+    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/Beta%20tester%20files/Voice-audio%20pcb%20and%20rtc%20by%20Pyrall"), NULL);
 }
 
 void NextStepRc_DesktopFrame::OnWIN_FIRMWARESelected(wxCommandEvent& event)
 {
-  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/Beta%20tester%20files/Win%20firmware%20compilation%20by%20JPZ"), NULL);
+    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/Beta%20tester%20files/Win%20firmware%20compilation%20by%20JPZ"), NULL);
 }
 
 void NextStepRc_DesktopFrame::OnMenuMousseSelected(wxCommandEvent& event)
 {
-  wxLaunchDefaultBrowser(wxT("http://www.sitakiki.fr/modnaval/nextsteprc.htm"), NULL);
+    wxLaunchDefaultBrowser(wxT("http://www.sitakiki.fr/modnaval/nextsteprc.htm"), NULL);
 }
 
 void NextStepRc_DesktopFrame::OnListBoxConfigDClick(wxCommandEvent& event)
 {
     wxString temp = ListBoxConfig->GetString(ListBoxConfig->GetSelection());
-    wxMessageDialog *Select_delete_config = new wxMessageDialog(NULL,wxT("Charger la configuration ") + temp,wxT("Configuration"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
-    if (Select_delete_config->ShowModal() == wxID_OK)
+    wxMessageDialog *Select_config = new wxMessageDialog(NULL,wxT("Charger la configuration ") + temp,wxT("Configuration"),wxOK | wxICON_QUESTION | wxCENTRE | wxCANCEL | wxCANCEL_DEFAULT);
+    if (Select_config->ShowModal() == wxID_OK)
     {
         SaveConfig();
         Profil = temp;
-        ListBoxConfig->SetStringSelection(temp);
-        LoadConfig();
+        LoadConfig(Profil);
         Ini_Changed = 1;
     }
+    ListBoxConfig->SetStringSelection(Profil);
 }
 
 
@@ -630,31 +632,35 @@ void NextStepRc_DesktopFrame::OnMenuNewconfigSelected(wxCommandEvent& event)
         ListBoxConfig->InsertItems(1,&temp,ListBoxConfig->GetCount());
         ListBoxConfig->SetStringSelection(temp);
         Profil = temp;
+        SaveConfig();
         Ini_Changed = 1;
     }
 }
 
 void NextStepRc_DesktopFrame::OnMenuDeleteActiveConfigSelected(wxCommandEvent& event)
 {
-    if (Profil ==("Defaut"))
+    if (Profil == defaut)
     {
         wxMessageBox(_("Defaut ne peut être effacé"), "",wxICON_EXCLAMATION | wxCENTRE, this);
         return;
     }
     else
     {
-        wxMessageBox(_("Supprimer " + Profil + " ?"), "",wxICON_EXCLAMATION | wxCENTRE, this);
-        SavedConfig.Remove(Profil);
-        ListBoxConfig->Delete(ListBoxConfig->FindString(Profil));
-        configFile->SetPath("/");
-        configFile->DeleteEntry(Profil,0);
-        configFile->SetPath("/PROFILS/");
-        configFile->DeleteEntry(Profil,0); //X2 if it is the latest
-        configFile->DeleteGroup(Profil);
-        Profil = ("Defaut");
-        ListBoxConfig->SetStringSelection(Profil);
-        SaveConfig();
+        int answer = wxMessageBox(_("Supprimer " + Profil + " ?"), "",wxOK | wxCANCEL | wxICON_EXCLAMATION | wxCENTRE, this);
+        if (answer == wxOK)
+        {
+            SavedConfig.Remove(Profil);
+            ListBoxConfig->Delete(ListBoxConfig->FindString(Profil));
+            configFile->DeleteEntry(Profil,true);
+            configFile->SetPath("/PROFILS/");
+            configFile->DeleteEntry(Profil,true); //X2 if it is the latest
+            configFile->SetPath("/");
+            configFile->DeleteGroup(Profil);
+            configFile->Flush();
+            Profil = defaut;
+            ListBoxConfig->SetStringSelection(Profil);
+            SaveConfig();
+        }
     }
 }
-
 

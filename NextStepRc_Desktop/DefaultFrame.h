@@ -16,58 +16,58 @@
 
 class DefaultFrame: public wxFrame
 {
-	public:
+public:
 
-		DefaultFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
-		virtual ~DefaultFrame();
+    DefaultFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
+    virtual ~DefaultFrame();
 
-		//(*Declarations(DefaultFrame)
-		wxStaticText* StaticText2;
-		wxButton* ButtonEnter;
-		wxStaticText* StaticText1;
-		wxStaticText* StaticText3;
-		wxButton* ButtonSearchavrdudepath;
-		wxButton* ButtonEsc;
-		wxComboBox* ComboBox3;
-		wxStaticText* StaticText5;
-		wxButton* ButtonDetect;
-		wxComboBox* ComboBox1;
-		wxTextCtrl* TextCtrl1;
-		wxComboBox* ComboBox2;
-		//*)
+    //(*Declarations(DefaultFrame)
+    wxStaticText* StaticText2;
+    wxButton* ButtonEnter;
+    wxStaticText* StaticText1;
+    wxStaticText* StaticText3;
+    wxButton* ButtonSearchavrdudepath;
+    wxButton* ButtonEsc;
+    wxComboBox* ComboBox3;
+    wxStaticText* StaticText5;
+    wxButton* ButtonDetect;
+    wxComboBox* ComboBox1;
+    wxTextCtrl* TextCtrl1;
+    wxComboBox* ComboBox2;
+    //*)
 
-	protected:
+protected:
 
-		//(*Identifiers(DefaultFrame)
-		static const long ID_COMBOBOX1;
-		static const long ID_COMBOBOX2;
-		static const long ID_STATICTEXT1;
-		static const long ID_BUTTONENTER;
-		static const long ID_STATICTEXT2;
-		static const long ID_COMBOBOX3;
-		static const long ID_STATICTEXT3;
-		static const long ID_STATICTEXT5;
-		static const long ID_TEXTCTRL1;
-		static const long ID_BUTTONESC;
-		static const long ID_BUTTONSEARCHAVRDUDEPATH;
-		static const long ID_BUTTONDETECT;
-		//*)
-		wxWindow * Parent;
+    //(*Identifiers(DefaultFrame)
+    static const long ID_COMBOBOX1;
+    static const long ID_COMBOBOX2;
+    static const long ID_STATICTEXT1;
+    static const long ID_BUTTONENTER;
+    static const long ID_STATICTEXT2;
+    static const long ID_COMBOBOX3;
+    static const long ID_STATICTEXT3;
+    static const long ID_STATICTEXT5;
+    static const long ID_TEXTCTRL1;
+    static const long ID_BUTTONESC;
+    static const long ID_BUTTONSEARCHAVRDUDEPATH;
+    static const long ID_BUTTONDETECT;
+    //*)
+    wxWindow * Parent;
 
-	private:
+private:
 
-		//(*Handlers(DefaultFrame)
-		void OnButton1Click(wxCommandEvent& event);
-		void OnButtonSearchavrdudepathClick(wxCommandEvent& event);
-		void OnButtonEscClick(wxCommandEvent& event);
-		void OnButtonEnterClick(wxCommandEvent& event);
-		void OnButtonDetectClick(wxCommandEvent& event);
-		void GetPortList(wxArrayString *port_list);
-		void DetectSerial();
+    //(*Handlers(DefaultFrame)
+    void OnButton1Click(wxCommandEvent& event);
+    void OnButtonSearchavrdudepathClick(wxCommandEvent& event);
+    void OnButtonEscClick(wxCommandEvent& event);
+    void OnButtonEnterClick(wxCommandEvent& event);
+    void OnButtonDetectClick(wxCommandEvent& event);
+    void GetPortList(wxArrayString *port_list);
+    void DetectSerial();
 
-		//*)
+    //*)
 
-		DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 #endif

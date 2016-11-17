@@ -85,8 +85,8 @@ DefaultFrame::DefaultFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     //*)
 
     {
-    	wxIcon FrameIcon;
-    	SetIcon(wxICON(nsrcd_icon));
+        wxIcon FrameIcon;
+        SetIcon(wxICON(nsrcd_icon));
     }
 
     //fills the comboxes with ini file defaults

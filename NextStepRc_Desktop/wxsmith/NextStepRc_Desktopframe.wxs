@@ -26,7 +26,8 @@
 				<default>-1</default>
 				<pos>24,32</pos>
 				<size>120,152</size>
-				<style>wxDOUBLE_BORDER|wxVSCROLL</style>
+				<style>wxLB_SINGLE|wxDOUBLE_BORDER|wxVSCROLL</style>
+				<handler function="OnListBoxConfigDClick" entry="EVT_LISTBOX" />
 				<handler function="OnListBoxConfigDClick" entry="EVT_LISTBOX_DCLICK" />
 			</object>
 		</object>

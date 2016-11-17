@@ -49,7 +49,7 @@ private:
     void OnButton1Click1(wxCommandEvent& event);
     void OnSimulateurClick2(wxCommandEvent& event);
     void OnATMEGA2560CompilerSelected(wxCommandEvent& event);
-    void LoadConfig();
+    void LoadConfig(wxString temp);
     void SaveConfig();
     void OnClose(wxCloseEvent& event);
     void OnMenuHtmlDocSelected(wxCommandEvent& event);
@@ -145,7 +145,7 @@ private:
     wxString dude_intel;
     wxString keepopen;
 
-
+    wxString defaut;
 
     DECLARE_EVENT_TABLE()
 };

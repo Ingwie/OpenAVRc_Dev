@@ -14,8 +14,8 @@
 
 class NextStepRc_DesktopApp : public wxApp
 {
-    public:
-        virtual bool OnInit();
+public:
+    virtual bool OnInit();
 };
 
 #endif // NEXTSTEPRC_DESKTOPAPP_H
