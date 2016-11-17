@@ -70,9 +70,9 @@ private:
     static const long ID_BUTTON1;
     static const long ID_LISTBOXCONFIG;
     static const long ID_PANEL1;
-    static const long idMenuQuit;
     static const long ID_MENUITEMNEWCONFIG;
     static const long ID_MENUDELETEACTIVECONFIG;
+    static const long idMenuQuit;
     static const long ID_MENUITEM1;
     static const long ID_MENUITEM3;
     static const long ID_MENUITEM5;

@@ -123,9 +123,9 @@ const long NextStepRc_DesktopFrame::ID_STATICBOXCONFIG = wxNewId();
 const long NextStepRc_DesktopFrame::ID_BUTTON1 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_LISTBOXCONFIG = wxNewId();
 const long NextStepRc_DesktopFrame::ID_PANEL1 = wxNewId();
-const long NextStepRc_DesktopFrame::idMenuQuit = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEMNEWCONFIG = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUDELETEACTIVECONFIG = wxNewId();
+const long NextStepRc_DesktopFrame::idMenuQuit = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM1 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM3 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM5 = wxNewId();
@@ -170,12 +170,12 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     ListBoxConfig = new wxListBox(Panel1, ID_LISTBOXCONFIG, wxPoint(24,32), wxSize(120,152), 0, 0, wxLB_SINGLE|wxDOUBLE_BORDER|wxVSCROLL, wxDefaultValidator, _T("ID_LISTBOXCONFIG"));
     MenuBar_main = new wxMenuBar();
     Menu1 = new wxMenu();
-    MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter l\'application"), wxITEM_NORMAL);
-    Menu1->Append(MenuItem1);
     MenuNewconfig = new wxMenuItem(Menu1, ID_MENUITEMNEWCONFIG, _("Nouvelle configuration"), wxEmptyString, wxITEM_NORMAL);
     Menu1->Append(MenuNewconfig);
     MenuDeleteActiveConfig = new wxMenuItem(Menu1, ID_MENUDELETEACTIVECONFIG, _("Supprimer la configuration active"), wxEmptyString, wxITEM_NORMAL);
     Menu1->Append(MenuDeleteActiveConfig);
+    MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter l\'application"), wxITEM_NORMAL);
+    Menu1->Append(MenuItem1);
     MenuBar_main->Append(Menu1, _("Fichier"));
     Menu3 = new wxMenu();
     MenuItem3 = new wxMenuItem(Menu3, ID_MENUITEM1, _("Programmeur"), wxEmptyString, wxITEM_NORMAL);
@@ -235,9 +235,9 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnSimulateurClick2);
     Connect(ID_LISTBOXCONFIG,wxEVT_COMMAND_LISTBOX_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnListBoxConfigDClick);
     Connect(ID_LISTBOXCONFIG,wxEVT_COMMAND_LISTBOX_DOUBLECLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnListBoxConfigDClick);
-    Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnQuit);
     Connect(ID_MENUITEMNEWCONFIG,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnMenuNewconfigSelected);
     Connect(ID_MENUDELETEACTIVECONFIG,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnMenuDeleteActiveConfigSelected);
+    Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnQuit);
     Connect(ID_MENUITEM1,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnProgrammerSelected);
     Connect(ID_MENUITEM3,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnreadmodelsSelected);
     Connect(ID_MENUITEM5,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnreadfirmwareSelected);
@@ -609,7 +609,7 @@ void NextStepRc_DesktopFrame::OnMenuMousseSelected(wxCommandEvent& event)
 void NextStepRc_DesktopFrame::OnListBoxConfigDClick(wxCommandEvent& event)
 {
     wxString temp = ListBoxConfig->GetString(ListBoxConfig->GetSelection());
-    wxMessageDialog *Select_config = new wxMessageDialog(NULL,wxT("Charger la configuration ") + temp,wxT("Configuration"),wxOK | wxICON_QUESTION | wxCENTRE | wxCANCEL | wxCANCEL_DEFAULT);
+    wxMessageDialog *Select_config = new wxMessageDialog(NULL,wxT("Charger la configuration ") + temp,wxT("Configuration"), wxICON_QUESTION | wxCENTRE | wxCANCEL | wxOK );
     if (Select_config->ShowModal() == wxID_OK)
     {
         SaveConfig();
@@ -646,7 +646,7 @@ void NextStepRc_DesktopFrame::OnMenuDeleteActiveConfigSelected(wxCommandEvent& e
     }
     else
     {
-        int answer = wxMessageBox(_("Supprimer " + Profil + " ?"), "",wxOK | wxCANCEL | wxICON_EXCLAMATION | wxCENTRE, this);
+        int answer = wxMessageBox(_("Supprimer " + Profil + " ?"), "",wxOK | wxCANCEL | wxICON_EXCLAMATION | wxCENTRE | wxCANCEL_DEFAULT, this);
         if (answer == wxOK)
         {
             SavedConfig.Remove(Profil);
