@@ -56,6 +56,13 @@ private:
     void OnListBoxConfigDClick(wxCommandEvent& event);
     void OnMenuNewconfigSelected(wxCommandEvent& event);
     void OnMenuDeleteActiveConfigSelected(wxCommandEvent& event);
+    void OnNexStepRc_M2560_docsSelected(wxCommandEvent& event);
+    void OnMenuJQ6500_PCBSelected(wxCommandEvent& event);
+    void OnMenuVoice_tutoSelected(wxCommandEvent& event);
+    void OnMenuVOICE_AUDIO_PCBSelected(wxCommandEvent& event);
+    void OnWIN_FIRMWARESelected(wxCommandEvent& event);
+    void OnMenuAUTRES_LINKSSelected(wxCommandEvent& event);
+    void OnMenuMousseSelected(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(NextStepRc_DesktopFrame)
@@ -75,6 +82,13 @@ private:
     static const long ID_MENUITEM10;
     static const long ID_MENUITEM7;
     static const long ID_MENUCOMPILOMATIC;
+    static const long ID_MENUITEM14;
+    static const long ID_MENUITEM8;
+    static const long ID_MENUITEM11;
+    static const long ID_MENUITEM12;
+    static const long ID_MENUITEM13;
+    static const long ID_MENUITEM16;
+    static const long ID_MENUITEM15;
     static const long ID_MENUITEM2;
     static const long idMenuAbout;
     static const long ID_STATUSBAR1;
@@ -82,15 +96,20 @@ private:
 
     //(*Declarations(NextStepRc_DesktopFrame)
     wxMenuItem* MenuItem7;
-    wxMenuItem* MenuHtmlDoc;
     wxMenuItem* MenuDeleteActiveConfig;
     wxMenuItem* MenuItem5;
+    wxMenu* MenuHtmlDoc;
+    wxMenu* MenuItem15;
     wxMenu* Menu3;
     wxButton* Button1;
+    wxMenuItem* MenuItem4;
+    wxMenuItem* MenuItem14;
     wxMenuItem* MenuItem11;
     wxPanel* Panel1;
+    wxMenuItem* MenuItem13;
     wxMenu* MenuItem8;
     wxMenuItem* MenuItem10;
+    wxMenuItem* MenuItem12;
     wxMenuBar* MenuBar_main;
     wxMenuItem* MenuItem3;
     wxMenu* Menu7;
@@ -100,6 +119,8 @@ private:
     wxStaticBox* StaticBoxConfig;
     wxMenuItem* ATMEGA2560Compiler;
     wxMenuItem* MenuItem6;
+    wxMenuItem* MenuItem16;
+    wxMenuItem* MenuItem9;
     wxMenuItem* MenuNewconfig;
     wxMenu* Menu4;
     //*)

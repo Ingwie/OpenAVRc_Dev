@@ -97,9 +97,35 @@
 			</object>
 			<object class="wxMenu" variable="Menu2" member="no">
 				<label>Aide</label>
-				<object class="wxMenuItem" name="ID_MENUITEM2" variable="MenuHtmlDoc" member="yes">
+				<object class="wxMenu" name="ID_MENUITEM2" variable="MenuHtmlDoc" member="yes">
 					<label>Documentation en ligne</label>
-					<handler function="OnMenuHtmlDocSelected" entry="EVT_MENU" />
+					<object class="wxMenuItem" name="ID_MENUITEM14" variable="MenuItem14" member="yes">
+						<label>NextStepRc M-2560 Docs</label>
+						<handler function="OnNexStepRc_M2560_docsSelected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenuItem" name="ID_MENUITEM8" variable="MenuItem4" member="yes">
+						<label>JQ6500 PCB (by Pyrall)</label>
+						<handler function="OnMenuJQ6500_PCBSelected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenuItem" name="ID_MENUITEM11" variable="MenuItem9" member="yes">
+						<label>VOICE tuto (by JPZ)</label>
+						<handler function="OnMenuVoice_tutoSelected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenuItem" name="ID_MENUITEM12" variable="MenuItem12" member="yes">
+						<label>VOICE/AUDIO PCB et RTC (by Pyrall)</label>
+						<handler function="OnMenuVOICE_AUDIO_PCBSelected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenuItem" name="ID_MENUITEM13" variable="MenuItem13" member="yes">
+						<label>WIN FIRMWARE Compilation (by JPZ)</label>
+						<handler function="OnWIN_FIRMWARESelected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenu" name="ID_MENUITEM15" variable="MenuItem15" member="yes">
+						<label>Autres links</label>
+						<object class="wxMenuItem" name="ID_MENUITEM16" variable="MenuItem16" member="yes">
+							<label>Mousse NSRc Naval</label>
+							<handler function="OnMenuMousseSelected" entry="EVT_MENU" />
+						</object>
+					</object>
 				</object>
 				<object class="wxMenuItem" name="idMenuAbout" variable="MenuItem2" member="no">
 					<label>A propos</label>
