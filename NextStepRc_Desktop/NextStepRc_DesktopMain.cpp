@@ -12,6 +12,7 @@
 #include "CompilerOptionsFrame.h"
 #include <wx/msgdlg.h>
 #include <wx/filedlg.h>
+#include <wx/textdlg.h>
 
 
 //(*InternalHeaders(NextStepRc_DesktopFrame)
@@ -47,20 +48,84 @@ wxString wxbuildinfo(wxbuildinfoformat format)
     return wxbuild;
 }
 
+//Global Var
 bool Ini_Changed = false;
 wxString AppPath;
-
 wxString avrdudepath = _("non défini");
 wxString dude_programmer = _("non défini");
 wxString dude_type = _("non défini");
 wxString dude_port = _("non défini");
 wxString COMM = _("non défini");
 
+//Define defaults
+wxString PCB = _("non défini");
+wxString LCD = _("non défini");
+wxString VOICE = ("NO");
+wxString EXT = ("STD");
+bool AUDIO = 0;
+bool HELI = 0;
+wxString TTS = _("non défini");
+wxString TRANSLATIONS = _("non défini");
+wxString NAVIGATION = ("NO");
+bool FRSKY_HUB = 0;
+bool HAPTIC = 0;
+wxString PPM_UNIT = ("PERCENT_PREC1");
+bool GAUGES = 0;
+bool GPS = 0;
+bool VARIO = 0;
+bool RTCLOCK = 0;
+bool SPORT_FILE_LOG = 0;
+bool PPM = 1;
+bool PXX = 0;
+bool DSM2 = 0;
+bool SD_CARD = 0;
+bool FAS_OFFSET = 0;
+bool TEMPLATES = 0;
+wxString THREE_POS = ("NO");
+bool SPLASH =0;
+wxString UNITS =("METRIC");
+wxString DEFAULT_MODE =("NO");
+wxString FONT = ("STD");
+bool BOLD = 0;
+bool BATTGRAPH = 0;
+bool EEPROM_PROGRESS_BAR = 0;
+wxString FAI = ("NO");
+bool AUTOSWITCH = 0;
+bool AUTOSOURCE = 0;
+bool DBLKEYS = 0;
+bool PPM_CENTER_ADJUSTABLE = 0;
+bool PPM_LIMITS_SYMETRICAL = 1;
+bool FLIGHT_MODES = 0;
+bool CURVES = 0;
+bool GVARS = 0;
+bool OFFSET_ON_INPUT = 1;// Hardwire forever ?
+bool PCBREV = 0;
+bool TURNIGY_TRANSMITTER_FIX = 0;
+bool FRSKY_STICKS = 0;
+bool CORRECT_NEGATIVE_VALUES = 0;
+bool ARITHMETIC_OVERFLOW_CHECK = 0;
+bool ACCURAT_THROTTLE_STATS = 0;
+bool SP22 = 0;
+bool PWM_BACKLIGHT = 0;
+bool OVERRIDE_CHANNEL_FUNCTION = 0;
+bool WS_HOW_HIGH = 0;
+bool HUBSAN = 0;
+bool TX_CADDY = 0;
+bool IRPROTOS = 0;////////////////////Does that work?
+bool TOGGLETRIM = 0;
+bool NOANDSECONDE = 1;
+bool SHUTDOWN_CONFIRMATION = 0;
+
+
 
 //(*IdInit(NextStepRc_DesktopFrame)
+const long NextStepRc_DesktopFrame::ID_STATICBOXCONFIG = wxNewId();
 const long NextStepRc_DesktopFrame::ID_BUTTON1 = wxNewId();
+const long NextStepRc_DesktopFrame::ID_LISTBOXCONFIG = wxNewId();
 const long NextStepRc_DesktopFrame::ID_PANEL1 = wxNewId();
 const long NextStepRc_DesktopFrame::idMenuQuit = wxNewId();
+const long NextStepRc_DesktopFrame::ID_MENUITEMNEWCONFIG = wxNewId();
+const long NextStepRc_DesktopFrame::ID_MENUDELETEACTIVECONFIG = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM1 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM3 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEM5 = wxNewId();
@@ -89,16 +154,22 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     wxMenu* Menu1;
     wxMenu* Menu2;
 
-    Create(0, id, _("NextStepRc Desktop"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("id"));
+    Create(parent, wxID_ANY, _("NextStepRc Desktop"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
     SetClientSize(wxSize(589,282));
     Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(240,40), wxSize(576,280), 0, _T("ID_PANEL1"));
     Panel1->SetFocus();
+    StaticBoxConfig = new wxStaticBox(Panel1, ID_STATICBOXCONFIG, _("Configuration"), wxPoint(16,8), wxSize(136,192), 0, _T("ID_STATICBOXCONFIG"));
     Button1 = new wxButton(Panel1, ID_BUTTON1, _("SIMULATEUR"), wxPoint(8,208), wxSize(568,31), 0, wxDefaultValidator, _T("ID_BUTTON1"));
+    ListBoxConfig = new wxListBox(Panel1, ID_LISTBOXCONFIG, wxPoint(24,32), wxSize(120,152), 0, 0, wxDOUBLE_BORDER|wxVSCROLL, wxDefaultValidator, _T("ID_LISTBOXCONFIG"));
     MenuBar_main = new wxMenuBar();
     Menu1 = new wxMenu();
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter l\'application"), wxITEM_NORMAL);
     Menu1->Append(MenuItem1);
-    MenuBar_main->Append(Menu1, _("Action"));
+    MenuNewconfig = new wxMenuItem(Menu1, ID_MENUITEMNEWCONFIG, _("Nouvelle configuration"), wxEmptyString, wxITEM_NORMAL);
+    Menu1->Append(MenuNewconfig);
+    MenuDeleteActiveConfig = new wxMenuItem(Menu1, ID_MENUDELETEACTIVECONFIG, _("Supprimer la configuration active"), wxEmptyString, wxITEM_NORMAL);
+    Menu1->Append(MenuDeleteActiveConfig);
+    MenuBar_main->Append(Menu1, _("Fichier"));
     Menu3 = new wxMenu();
     MenuItem3 = new wxMenuItem(Menu3, ID_MENUITEM1, _("Programmeur"), wxEmptyString, wxITEM_NORMAL);
     Menu3->Append(MenuItem3);
@@ -141,7 +212,10 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     SetStatusBar(StatusBar_main);
 
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnSimulateurClick2);
+    Connect(ID_LISTBOXCONFIG,wxEVT_COMMAND_LISTBOX_DOUBLECLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnListBoxConfigDClick);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnQuit);
+    Connect(ID_MENUITEMNEWCONFIG,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnMenuNewconfigSelected);
+    Connect(ID_MENUDELETEACTIVECONFIG,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnMenuDeleteActiveConfigSelected);
     Connect(ID_MENUITEM1,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnProgrammerSelected);
     Connect(ID_MENUITEM3,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnreadmodelsSelected);
     Connect(ID_MENUITEM5,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnreadfirmwareSelected);
@@ -163,7 +237,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     wxFileName appPathWithExeName = wxStandardPaths::Get().GetExecutablePath();
     AppPath = (appPathWithExeName.GetPath());
 
-	//Const
+    //Const
     dude_c = (" -c ");
     dude_p = (" -p ");
     dude_D = (" -D ");
@@ -183,8 +257,10 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Ini_Filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "NextStepRcDesktop.ini";
     configFile = new wxFileConfig( "", "", Ini_Filename);
     LoadConfig();
-    if (avrdudepath == _("non défini")) wxMessageBox( _("Merci de vérifier les paramètres"), _("Programmeur :"), wxICON_WARNING);//Ini File
-
+    if (avrdudepath == _("non défini")) wxMessageBox( _("Merci de vérifier les paramètres"), _("Programmeur :"), wxICON_WARNING | wxCENTRE);//Ini File
+    if (SavedConfig.GetCount() == 0) SavedConfig.Add(("Defaut"),1);
+    ListBoxConfig->InsertItems(SavedConfig,0);
+    ListBoxConfig->SetStringSelection(Profil);
 }
 
 
@@ -245,7 +321,7 @@ void NextStepRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& eve
     wxFileDialog openFileDialog(this, _("Choisir le fichier pour transferer le Firmware à la radio."), "", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL) return;
     wxMessageDialog *bkup = new wxMessageDialog(NULL,wxT("Il est recommande de sauvegarder vos modeles avant, voulez vous continuer ?"), wxT("Firmware"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
-    bkup->SetEventHandler(bkup);
+    //bkup->SetEventHandler(bkup);
     if (bkup->ShowModal()!= wxID_OK) return;
     wxString dude_tmpfile = (openFileDialog.GetPath());//write firmware
     wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_raw+dude_verify;
@@ -257,8 +333,8 @@ void NextStepRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& eve
 void NextStepRc_DesktopFrame::OnEcrirelesFuseesSelected(wxCommandEvent& event)// Write fuses
 {
     wxMessageDialog *susto = new wxMessageDialog(NULL,
-    wxT("Sur? Tu veut continuer?"), wxT("Burn Fuses"),
-    wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
+            wxT("Sur? Tu veut continuer?"), wxT("Burn Fuses"),
+            wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
     susto->SetEventHandler(susto);
     if (susto->ShowModal()!= wxID_OK) return;
     wxString FUSES(" -c usbasp -P usb -F -e -u -Ulfuse:w:0xFF:m -Uhfuse:w:0xD8:m -Uefuse:w:0xFD:m -v");
@@ -270,7 +346,7 @@ void NextStepRc_DesktopFrame::OnEcrirelesFuseesSelected(wxCommandEvent& event)//
 void NextStepRc_DesktopFrame::OnEcrirelebootloaderSelected(wxCommandEvent& event) // Write bootloader
 {
     wxMessageDialog *susto = new wxMessageDialog(NULL,
-    wxT("Sur? Tu veut continuer?"), wxT("Burn bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
+            wxT("Sur? Tu veut continuer?"), wxT("Burn bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
     susto->SetEventHandler(susto);
     if (susto->ShowModal()!= wxID_OK) return;
     wxString BOOTLOADER(" -c usbasp -P usb -U lock:w:0x3F:m -U flash:w:mega2560_stk500v2boot_opentx.hex -U lock:w:0x0F:m -v");
@@ -281,13 +357,26 @@ void NextStepRc_DesktopFrame::OnEcrirelebootloaderSelected(wxCommandEvent& event
 
 void NextStepRc_DesktopFrame::LoadConfig()
 {
-  configFile->SetPath("/COMM/");
-    configFile->Read("Programmer",&dude_programmer);
+    configFile->SetPath("/");
+    configFile->Read(wxT("Latestprofil"),Profil);
+
+    configFile->SetPath("/PROFILS/");
+    wxString temp;
+    long dummy;
+    bool again = configFile->GetFirstEntry(temp, dummy);
+    while (again)
+    {
+        SavedConfig.Add(temp);
+        again = configFile->GetNextEntry(temp, dummy);
+    }
+    configFile->SetPath("/"+Profil+"/");
+    configFile->SetPath("COMM/");
+    configFile->Read(wxT("Programmer"),&dude_programmer);
     configFile->Read(wxT("Port"),&dude_port);
     configFile->Read(wxT("Type"),&dude_type);
     configFile->Read(wxT("avrdudepath"),&avrdudepath);
-
-  configFile->SetPath("/COMPILATION_CHOICES/");
+    configFile->SetPath("/"+Profil+"/");
+    configFile->SetPath("COMPILATION_CHOICES/");
     configFile->Read(wxT("PCB"),&PCB);
     configFile->Read(wxT("LCD"),&LCD);
     configFile->Read(wxT("VOICE"),&VOICE);
@@ -346,22 +435,33 @@ void NextStepRc_DesktopFrame::LoadConfig()
     configFile->Read(wxT("NOANDSECONDE"),&NOANDSECONDE);
     configFile->Read(wxT("SHUTDOWN_CONFIRMATION"),&SHUTDOWN_CONFIRMATION);
 
-  configFile->SetPath("/");
 }
 
 extern void NextStepRc_DesktopFrame::SaveConfig()
 {
     //wxMessageBox( Ini_Filename, _("Les paramètres sont sauvé dans :"));
+    if (Profil == "") return;
+    configFile->SetPath("/");
+    configFile->Write(wxT("Latestprofil"),Profil);
+    //PROFILS
+    configFile->SetPath("/PROFILS/");
+    for (int i=0; i<(SavedConfig.GetCount()); i++)
+    {
+        configFile->Write(SavedConfig[i],i);
+    }
 
+
+    configFile->SetPath("/"+Profil+"/");
     // [COMM]
-  configFile->SetPath("/COMM/");
+    configFile->SetPath("COMM/");
     configFile->Write(wxT("Programmer"),dude_programmer);
     configFile->Write(wxT("Port"),dude_port);
     configFile->Write(wxT("Type"),dude_type);
     configFile->Write(wxT("avrdudepath"),avrdudepath);
 
     // [COMPILATION_CHOICES]
-  configFile->SetPath("/COMPILATION_CHOICES/");
+    configFile->SetPath("/"+Profil+"/");
+    configFile->SetPath("COMPILATION_CHOICES/");
     configFile->Write(wxT("PCB"),PCB);
     configFile->Write(wxT("LCD"),LCD);
     configFile->Write(wxT("VOICE"),VOICE);
@@ -420,8 +520,8 @@ extern void NextStepRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("NOANDSECONDE"),NOANDSECONDE);
     configFile->Write(wxT("SHUTDOWN_CONFIRMATION"),SHUTDOWN_CONFIRMATION);
 
-  configFile->Flush();
-  configFile->SetPath("/");
+    configFile->Flush();
+    configFile->SetPath("/");
 }
 
 
@@ -446,4 +546,57 @@ void NextStepRc_DesktopFrame::OnATMEGA2560CompilerSelected(wxCommandEvent& event
 void NextStepRc_DesktopFrame::OnMenuHtmlDocSelected(wxCommandEvent& event)
 {
     wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation"), NULL);
+}
+
+void NextStepRc_DesktopFrame::OnListBoxConfigDClick(wxCommandEvent& event)
+{
+    wxString temp = ListBoxConfig->GetString(ListBoxConfig->GetSelection());
+    wxMessageDialog *Select_delete_config = new wxMessageDialog(NULL,wxT("Charger la configuration ") + temp,wxT("Configuration"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
+    if (Select_delete_config->ShowModal() == wxID_OK)
+    {
+        SaveConfig();
+        Profil = temp;
+        ListBoxConfig->SetStringSelection(temp);
+        LoadConfig();
+        Ini_Changed = 1;
+    }
+}
+
+
+
+void NextStepRc_DesktopFrame::OnMenuNewconfigSelected(wxCommandEvent& event)
+{
+    wxString temp = wxGetTextFromUser(wxT(""), wxT("Appelation de la nouvelle configuration"), wxT(""));
+    if (temp != "")
+    {
+        SaveConfig();
+        SavedConfig.Add(temp,1);
+        ListBoxConfig->InsertItems(1,&temp,ListBoxConfig->GetCount());
+        ListBoxConfig->SetStringSelection(temp);
+        Profil = temp;
+        Ini_Changed = 1;
+    }
+}
+
+void NextStepRc_DesktopFrame::OnMenuDeleteActiveConfigSelected(wxCommandEvent& event)
+{
+    if (Profil ==("Defaut"))
+    {
+        wxMessageBox(_("Defaut ne peut être effacé"), "",wxICON_EXCLAMATION | wxCENTRE, this);
+        return;
+    }
+    else
+    {
+        wxMessageBox(_("Supprimer " + Profil + " ?"), "",wxICON_EXCLAMATION | wxCENTRE, this);
+        SavedConfig.Remove(Profil);
+        ListBoxConfig->Delete(ListBoxConfig->FindString(Profil));
+        configFile->SetPath("/");
+        configFile->DeleteEntry(Profil,0);
+        configFile->SetPath("/PROFILS/");
+        configFile->DeleteEntry(Profil,0); //X2 if it is the latest
+        configFile->DeleteGroup(Profil);
+        Profil = ("Defaut");
+        ListBoxConfig->SetStringSelection(Profil);
+        SaveConfig();
+    }
 }

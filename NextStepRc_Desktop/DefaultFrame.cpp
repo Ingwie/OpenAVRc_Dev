@@ -129,16 +129,16 @@ void DefaultFrame::OnButtonEnterClick(wxCommandEvent& event)//Saves new default 
 
 void DefaultFrame::OnButtonDetectClick(wxCommandEvent& event)
 {
-    int answer = wxMessageBox(_("Dérancher la radio du PC"), _("Auto Detection"), wxOK, this);
+    int answer = wxMessageBox(_("Dérancher la radio du PC"), _("Auto Detection"), wxOK  | wxCENTRE, this);
     if (answer == wxOK)
     {
         DetectSerial();
-        answer = wxMessageBox(_("Branchez votre radio"), _("Auto Detection"), wxOK, this);
+        answer = wxMessageBox(_("Branchez votre radio"), _("Auto Detection"), wxOK  | wxCENTRE, this);
         if (answer == wxOK)
         {
             DetectSerial();
             ComboBox2->SetSelection(0);
-            wxMessageBox(_("Terminé !"), _("Auto Detection"), wxOK, this);
+            wxMessageBox(_("Terminé !"), _("Auto Detection"), wxOK  | wxCENTRE, this);
         }
     }
 }

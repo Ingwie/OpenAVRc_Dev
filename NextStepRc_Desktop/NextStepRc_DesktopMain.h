@@ -16,6 +16,8 @@
 
 //(*Headers(NextStepRc_DesktopFrame)
 #include <wx/menu.h>
+#include <wx/listbox.h>
+#include <wx/statbox.h>
 #include <wx/panel.h>
 #include <wx/button.h>
 #include <wx/frame.h>
@@ -51,12 +53,19 @@ private:
     void SaveConfig();
     void OnClose(wxCloseEvent& event);
     void OnMenuHtmlDocSelected(wxCommandEvent& event);
+    void OnListBoxConfigDClick(wxCommandEvent& event);
+    void OnMenuNewconfigSelected(wxCommandEvent& event);
+    void OnMenuDeleteActiveConfigSelected(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(NextStepRc_DesktopFrame)
+    static const long ID_STATICBOXCONFIG;
     static const long ID_BUTTON1;
+    static const long ID_LISTBOXCONFIG;
     static const long ID_PANEL1;
     static const long idMenuQuit;
+    static const long ID_MENUITEMNEWCONFIG;
+    static const long ID_MENUDELETEACTIVECONFIG;
     static const long ID_MENUITEM1;
     static const long ID_MENUITEM3;
     static const long ID_MENUITEM5;
@@ -74,6 +83,7 @@ private:
     //(*Declarations(NextStepRc_DesktopFrame)
     wxMenuItem* MenuItem7;
     wxMenuItem* MenuHtmlDoc;
+    wxMenuItem* MenuDeleteActiveConfig;
     wxMenuItem* MenuItem5;
     wxMenu* Menu3;
     wxButton* Button1;
@@ -84,15 +94,20 @@ private:
     wxMenuBar* MenuBar_main;
     wxMenuItem* MenuItem3;
     wxMenu* Menu7;
+    wxListBox* ListBoxConfig;
     wxMenuItem* Menu5;
     wxStatusBar* StatusBar_main;
+    wxStaticBox* StaticBoxConfig;
     wxMenuItem* ATMEGA2560Compiler;
     wxMenuItem* MenuItem6;
+    wxMenuItem* MenuNewconfig;
     wxMenu* Menu4;
     //*)
 
     wxFileConfig* configFile;
     wxString Ini_Filename;
+    wxString Profil;
+    wxArrayString SavedConfig;
 
     wxString dude_c;
     wxString dude_p;

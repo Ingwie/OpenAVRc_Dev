@@ -17,64 +17,6 @@
 extern wxString AppPath;
 extern bool Ini_Changed;
 
-//Define defaults
-wxString PCB = _("non défini");
-wxString LCD = _("non défini");
-wxString VOICE = ("NO");
-wxString EXT = ("STD");
-bool AUDIO = 0;
-bool HELI = 0;
-wxString TTS = _("non défini");
-wxString TRANSLATIONS = _("non défini");
-wxString NAVIGATION = ("NO");
-bool FRSKY_HUB = 0;
-bool HAPTIC = 0;
-wxString PPM_UNIT = ("PERCENT_PREC1");
-bool GAUGES = 0;
-bool GPS = 0;
-bool VARIO = 0;
-bool RTCLOCK = 0;
-bool SPORT_FILE_LOG = 0;
-bool PPM = 1;
-bool PXX = 0;
-bool DSM2 = 0;
-bool SD_CARD = 0;
-bool FAS_OFFSET = 0;
-bool TEMPLATES = 0;
-wxString THREE_POS = ("NO");
-bool SPLASH =0;
-wxString UNITS =("METRIC");
-wxString DEFAULT_MODE =("NO");
-wxString FONT = ("STD");
-bool BOLD = 0;
-bool BATTGRAPH = 0;
-bool EEPROM_PROGRESS_BAR = 0;
-wxString FAI = ("NO");
-bool AUTOSWITCH = 0;
-bool AUTOSOURCE = 0;
-bool DBLKEYS = 0;
-bool PPM_CENTER_ADJUSTABLE = 0;
-bool PPM_LIMITS_SYMETRICAL = 1;
-bool FLIGHT_MODES = 0;
-bool CURVES = 0;
-bool GVARS = 0;
-bool OFFSET_ON_INPUT = 1;// Hardwire forever ?
-bool PCBREV = 0;
-bool TURNIGY_TRANSMITTER_FIX = 0;
-bool FRSKY_STICKS = 0;
-bool CORRECT_NEGATIVE_VALUES = 0;
-bool ARITHMETIC_OVERFLOW_CHECK = 0;
-bool ACCURAT_THROTTLE_STATS = 0;
-bool SP22 = 0;
-bool PWM_BACKLIGHT = 0;
-bool OVERRIDE_CHANNEL_FUNCTION = 0;
-bool WS_HOW_HIGH = 0;
-bool HUBSAN = 0;
-bool TX_CADDY = 0;
-bool IRPROTOS = 0;////////////////////Does that work?
-bool TOGGLETRIM = 0;
-bool NOANDSECONDE = 1;
-bool SHUTDOWN_CONFIRMATION = 0;
 
 
 //helper functions
@@ -182,7 +124,7 @@ END_EVENT_TABLE()
 CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
     //(*Initialize(CompilerOptionsFrame)
-    Create(parent, wxID_ANY, _("Compil-O-matic"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
+    Create(parent, wxID_ANY, _("Compil-O-matic"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
     SetClientSize(wxSize(807,377));
     SetToolTip(_("Référence de l\'écran"));
     SetHelpText(_("Protocoles DSM"));
@@ -571,12 +513,19 @@ void CompilerOptionsFrame::BatFunction()
     CreateCompileBatFile(CompiBat);
     wxExecute(AppPath+"\\CompileBatFile.bat",wxEXEC_SYNC);// Create firmware
     Close();
-    wxMessageBox(AppPath+ "\\nextsteprc.exe","Le nouveau Firmware est a:");
+    wxMessageBox(AppPath+ "\\sources\\","Le nouveau Firmware est dans:");
 
     LinkToWriteFirmware(AppPath);
 }
 
 void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
+{
+    CollectDatas();
+    Ini_Changed = true;
+    BatFunction();
+}
+
+void CompilerOptionsFrame::CollectDatas()
 {
     PCB  = ChoicePCB->GetString(ChoicePCB->GetSelection());
     LCD  = ChoiceLCD->GetString(ChoiceLCD->GetSelection());
@@ -635,15 +584,12 @@ void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
     TOGGLETRIM = CheckBoxTOGGLETRIM->GetValue();
     NOANDSECONDE = CheckBoxNOANDSECONDE->GetValue();
     SHUTDOWN_CONFIRMATION = CheckBoxSHUTDOWN_CONFIRMATION->GetValue();
-
-    //CompilerOptionsFrame->GetParent()->SaveConfig();
-    Ini_Changed = true;
-
-    BatFunction();
 }
 
 void CompilerOptionsFrame::OnButtonEXITClick(wxCommandEvent& event)
 {
+    CollectDatas();
+    Ini_Changed = true;
     Close();
 }
 
@@ -653,17 +599,17 @@ void CompilerOptionsFrame::CreateCompileBatFile(wxString line4)
     wxTextFile CompileBatFile(Filename);
 
     if(CompileBatFile.Exists()) CompileBatFile.Open(Filename);
-     else CompileBatFile.Create(Filename);
+    else CompileBatFile.Create(Filename);
 
-        CompileBatFile.Open();
-        CompileBatFile.Clear();
-        CompileBatFile.AddLine("cd sources");
-        CompileBatFile.AddLine("Path C:\\NextStepRc\\AVR-GCC\\bin;C:\\NextStepRc\\AVR-GCC\\utils\\bin");
-        CompileBatFile.AddLine("make clean");
-        CompileBatFile.AddLine(line4);
-        CompileBatFile.AddLine("pause");
-        CompileBatFile.Write();
-        CompileBatFile.Close();
+    CompileBatFile.Open();
+    CompileBatFile.Clear();
+    CompileBatFile.AddLine("cd sources");
+    CompileBatFile.AddLine("Path C:\\NextStepRc\\AVR-GCC\\bin;C:\\NextStepRc\\AVR-GCC\\utils\\bin");
+    CompileBatFile.AddLine("make clean");
+    CompileBatFile.AddLine(line4);
+    CompileBatFile.AddLine("pause");
+    CompileBatFile.Write();
+    CompileBatFile.Close();
 }
 
 void CompilerOptionsFrame::LinkToWriteFirmware(wxString line3) //this is not line3 i know
