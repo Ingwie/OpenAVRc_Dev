@@ -513,7 +513,7 @@ void CompilerOptionsFrame::BatFunction()
     CreateCompileBatFile(CompiBat);
     wxExecute(AppPath+"\\CompileBatFile.bat",wxEXEC_SYNC);// Create firmware
     Close();
-    wxMessageBox(AppPath+ "\\sources\\nextsteprc.hex","Le nouveau Firmware est dans:");
+    wxMessageBox(AppPath+ "\\sources\\nextsteprc.hex","Le nouveau Firmware est Le fichier:");
 
     LinkToWriteFirmware(AppPath);
 }
