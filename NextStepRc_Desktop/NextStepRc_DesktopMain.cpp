@@ -8,7 +8,7 @@
  **************************************************************/
 
 #include "NextStepRc_DesktopMain.h"
-#include "DefaultFrame.h"
+#include "CommunicationsFrame.h"
 #include "CompilerOptionsFrame.h"
 #include <wx/msgdlg.h>
 #include <wx/filedlg.h>
@@ -315,8 +315,8 @@ void NextStepRc_DesktopFrame::OnAbout(wxCommandEvent& event)
 
 void NextStepRc_DesktopFrame::OnProgrammerSelected(wxCommandEvent& event)
 {
-    DefaultFrame * DudeFrame = new DefaultFrame(NULL);
-    DudeFrame->Show(TRUE);//opens DefaultFrame
+    CommunicationsFrame * DudeFrame = new CommunicationsFrame(NULL);
+    DudeFrame->Show(TRUE);//opens CommunicationsFrame
 }
 
 void NextStepRc_DesktopFrame::OnreadmodelsSelected(wxCommandEvent& event)//READ MODELS FROM RADIO.
@@ -568,7 +568,7 @@ void NextStepRc_DesktopFrame::OnClose(wxCloseEvent& event)
 void NextStepRc_DesktopFrame::OnATMEGA2560CompilerSelected(wxCommandEvent& event)
 {
     CompilerOptionsFrame* atmegaFrame = new CompilerOptionsFrame(NULL);
-    atmegaFrame->Show(TRUE);//opens DefaultFrame
+    atmegaFrame->Show(TRUE);//opens CommunicationsFrame
 }
 
 //void NextStepRc_DesktopFrame::OnMenuHtmlDocSelected(wxCommandEvent& event)

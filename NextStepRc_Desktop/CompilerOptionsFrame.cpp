@@ -9,7 +9,7 @@
 
 #include "CompilerOptionsFrame.h"
 #include "NextStepRc_DesktopMain.h"
-#include "DefaultFrame.h"
+#include "CommunicationsFrame.h"
 #include <wx/msgdlg.h>
 #include <wx/filedlg.h>
 
@@ -513,7 +513,7 @@ void CompilerOptionsFrame::BatFunction()
     CreateCompileBatFile(CompiBat);
     wxExecute(AppPath+"\\CompileBatFile.bat",wxEXEC_SYNC);// Create firmware
     Close();
-    wxMessageBox(AppPath+ "\\sources\\","Le nouveau Firmware est dans:");
+    wxMessageBox(AppPath+ "\\sources\\nextsteprc.hex","Le nouveau Firmware est dans:");
 
     LinkToWriteFirmware(AppPath);
 }
