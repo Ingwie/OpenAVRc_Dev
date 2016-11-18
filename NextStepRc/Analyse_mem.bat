@@ -1,3 +1,4 @@
+Path C:\NextStepRc\AVR-GCC\bin;C:\NextStepRc\AVR-GCC\utils\bin
 avr-size -A nextsteprc.elf
 avr-size -B nextsteprc.elf
 pause
