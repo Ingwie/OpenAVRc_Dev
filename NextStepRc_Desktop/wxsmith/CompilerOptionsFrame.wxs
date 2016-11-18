@@ -352,23 +352,24 @@
 						<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
 							<label>Protocol</label>
 							<pos>8,16</pos>
-							<size>168,256</size>
+							<size>168,264</size>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX10" variable="CheckBoxPPM" member="yes">
 							<label>PPM</label>
 							<checked>1</checked>
-							<pos>56,48</pos>
+							<pos>72,56</pos>
 							<tooltip>Protocole PPM 8 à 16 voies</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX11" variable="CheckBoxPXX" member="yes">
 							<label>PXX</label>
-							<pos>56,72</pos>
+							<pos>72,88</pos>
 							<tooltip>Protocole PXX </tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX13" variable="CheckBoxDSM2" member="yes">
 							<label>DSM2</label>
-							<pos>56,96</pos>
+							<pos>72,120</pos>
 							<tooltip>Protocoles DSM ..</tooltip>
+							<handler function="OnCheckBoxDSM2Click1" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxChoice" name="ID_CHOICE2" variable="ChoiceEXT" member="yes">
 							<content>
@@ -452,7 +453,7 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX33" variable="CheckBoxHUBSAN" member="yes">
 							<label>Hubsan</label>
-							<pos>336,112</pos>
+							<pos>72,184</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX34" variable="CheckBoxTX_CADDY" member="yes">
 							<label>TX__CADDY</label>
@@ -460,7 +461,7 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX35" variable="CheckBoxIRPROTOS" member="yes">
 							<label>IR protos</label>
-							<pos>336,48</pos>
+							<pos>72,216</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX36" variable="CheckBoxTOGGLETRIM" member="yes">
 							<label>Toggle trims</label>
@@ -481,19 +482,24 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX43" variable="CheckBoxEEPROM_PROGRESS_BAR" member="yes">
 							<label>EEPROM bar</label>
-							<pos>336,80</pos>
+							<pos>336,112</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX44" variable="CheckBoxAUTOSWITCH" member="yes">
 							<label>AUTOSWITCH</label>
-							<pos>656,240</pos>
+							<pos>336,80</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX45" variable="CheckBoxAUTOSOURCE" member="yes">
 							<label>AUTOSOURCE</label>
-							<pos>656,208</pos>
+							<pos>336,48</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX47" variable="CheckBoxDBLKEYS" member="yes">
 							<label>Double keys</label>
 							<pos>336,144</pos>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX28" variable="CheckBoxDSM2PPM" member="yes">
+							<label>DSM2PPM</label>
+							<pos>72,152</pos>
+							<handler function="OnCheckBoxDSM2PPMClick" entry="EVT_CHECKBOX" />
 						</object>
 					</object>
 					<label>Advanced</label>

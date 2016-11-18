@@ -111,6 +111,7 @@ const long CompilerOptionsFrame::ID_CHECKBOX43 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX44 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX45 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX47 = wxNewId();
+const long CompilerOptionsFrame::ID_CHECKBOX28 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL3 = wxNewId();
 const long CompilerOptionsFrame::ID_NOTEBOOK1 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL1 = wxNewId();
@@ -285,14 +286,14 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     Panel3 = new wxPanel(Notebook1, ID_PANEL3, wxDefaultPosition, wxSize(800,356), wxTAB_TRAVERSAL, _T("ID_PANEL3"));
     StaticBox3 = new wxStaticBox(Panel3, ID_STATICBOX3, _("Many others"), wxPoint(328,16), wxSize(464,264), 0, _T("ID_STATICBOX3"));
     StaticBox2 = new wxStaticBox(Panel3, ID_STATICBOX2, _("Telemetrie"), wxPoint(184,16), wxSize(136,264), 0, _T("ID_STATICBOX2"));
-    StaticBox1 = new wxStaticBox(Panel3, ID_STATICBOX1, _("Protocol"), wxPoint(8,16), wxSize(168,256), 0, _T("ID_STATICBOX1"));
-    CheckBoxPPM = new wxCheckBox(Panel3, ID_CHECKBOX10, _("PPM"), wxPoint(56,48), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX10"));
+    StaticBox1 = new wxStaticBox(Panel3, ID_STATICBOX1, _("Protocol"), wxPoint(8,16), wxSize(168,264), 0, _T("ID_STATICBOX1"));
+    CheckBoxPPM = new wxCheckBox(Panel3, ID_CHECKBOX10, _("PPM"), wxPoint(72,56), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX10"));
     CheckBoxPPM->SetValue(true);
     CheckBoxPPM->SetToolTip(_("Protocole PPM 8 à 16 voies"));
-    CheckBoxPXX = new wxCheckBox(Panel3, ID_CHECKBOX11, _("PXX"), wxPoint(56,72), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX11"));
+    CheckBoxPXX = new wxCheckBox(Panel3, ID_CHECKBOX11, _("PXX"), wxPoint(72,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX11"));
     CheckBoxPXX->SetValue(false);
     CheckBoxPXX->SetToolTip(_("Protocole PXX "));
-    CheckBoxDSM2 = new wxCheckBox(Panel3, ID_CHECKBOX13, _("DSM2"), wxPoint(56,96), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX13"));
+    CheckBoxDSM2 = new wxCheckBox(Panel3, ID_CHECKBOX13, _("DSM2"), wxPoint(72,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX13"));
     CheckBoxDSM2->SetValue(false);
     CheckBoxDSM2->SetToolTip(_("Protocoles DSM .."));
     ChoiceEXT = new wxChoice(Panel3, ID_CHOICE2, wxPoint(208,40), wxSize(96,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE2"));
@@ -337,11 +338,11 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxOVERRIDE_CHANNEL_FUNCTION->SetValue(false);
     CheckBoxWS_HOW_HIGH = new wxCheckBox(Panel3, ID_CHECKBOX32, _("WS_HOW_HIGH"), wxPoint(456,112), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX32"));
     CheckBoxWS_HOW_HIGH->SetValue(false);
-    CheckBoxHUBSAN = new wxCheckBox(Panel3, ID_CHECKBOX33, _("Hubsan"), wxPoint(336,112), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX33"));
+    CheckBoxHUBSAN = new wxCheckBox(Panel3, ID_CHECKBOX33, _("Hubsan"), wxPoint(72,184), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX33"));
     CheckBoxHUBSAN->SetValue(false);
     CheckBoxTX_CADDY = new wxCheckBox(Panel3, ID_CHECKBOX34, _("TX_CADDY"), wxPoint(656,144), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX34"));
     CheckBoxTX_CADDY->SetValue(false);
-    CheckBoxIRPROTOS = new wxCheckBox(Panel3, ID_CHECKBOX35, _("IR protos"), wxPoint(336,48), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX35"));
+    CheckBoxIRPROTOS = new wxCheckBox(Panel3, ID_CHECKBOX35, _("IR protos"), wxPoint(72,216), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX35"));
     CheckBoxIRPROTOS->SetValue(false);
     CheckBoxTOGGLETRIM = new wxCheckBox(Panel3, ID_CHECKBOX36, _("Toggle trims"), wxPoint(336,176), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX36"));
     CheckBoxTOGGLETRIM->SetValue(false);
@@ -351,14 +352,16 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxSHUTDOWN_CONFIRMATION->SetValue(false);
     CheckBoxACCURAT_THROTTLE_STATS = new wxCheckBox(Panel3, ID_CHECKBOX39, _("ACCURAT_THROTTLE_STATS"), wxPoint(456,208), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX39"));
     CheckBoxACCURAT_THROTTLE_STATS->SetValue(false);
-    CheckBoxEEPROM_PROGRESS_BAR = new wxCheckBox(Panel3, ID_CHECKBOX43, _("EEPROM bar"), wxPoint(336,80), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX43"));
+    CheckBoxEEPROM_PROGRESS_BAR = new wxCheckBox(Panel3, ID_CHECKBOX43, _("EEPROM bar"), wxPoint(336,112), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX43"));
     CheckBoxEEPROM_PROGRESS_BAR->SetValue(false);
-    CheckBoxAUTOSWITCH = new wxCheckBox(Panel3, ID_CHECKBOX44, _("AUTOSWITCH"), wxPoint(656,240), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX44"));
+    CheckBoxAUTOSWITCH = new wxCheckBox(Panel3, ID_CHECKBOX44, _("AUTOSWITCH"), wxPoint(336,80), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX44"));
     CheckBoxAUTOSWITCH->SetValue(false);
-    CheckBoxAUTOSOURCE = new wxCheckBox(Panel3, ID_CHECKBOX45, _("AUTOSOURCE"), wxPoint(656,208), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX45"));
+    CheckBoxAUTOSOURCE = new wxCheckBox(Panel3, ID_CHECKBOX45, _("AUTOSOURCE"), wxPoint(336,48), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX45"));
     CheckBoxAUTOSOURCE->SetValue(false);
     CheckBoxDBLKEYS = new wxCheckBox(Panel3, ID_CHECKBOX47, _("Double keys"), wxPoint(336,144), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX47"));
     CheckBoxDBLKEYS->SetValue(false);
+    CheckBoxDSM2PPM = new wxCheckBox(Panel3, ID_CHECKBOX28, _("DSM2PPM"), wxPoint(72,152), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX28"));
+    CheckBoxDSM2PPM->SetValue(false);
     Notebook1->AddPage(Panel2, _("Settings"), false);
     Notebook1->AddPage(Panel3, _("Advanced"), false);
 
@@ -367,6 +370,8 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonEXITClick);
     Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonCOMPILEClick);
     Panel2->Connect(wxEVT_PAINT,(wxObjectEventFunction)&CompilerOptionsFrame::OnPanel2Paint,0,this);
+    Connect(ID_CHECKBOX13,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxDSM2Click1);
+    Connect(ID_CHECKBOX28,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxDSM2PPMClick);
     Panel3->Connect(wxEVT_PAINT,(wxObjectEventFunction)&CompilerOptionsFrame::OnPanel3Paint,0,this);
     Connect(ID_NOTEBOOK1,wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED,(wxObjectEventFunction)&CompilerOptionsFrame::OnNotebook1PageChanged);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&CompilerOptionsFrame::OnClose);
@@ -397,6 +402,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxPPM->SetValue(PPM);
     CheckBoxPXX->SetValue(PXX);
     CheckBoxDSM2->SetValue(DSM2);
+    CheckBoxDSM2PPM->SetValue(DSM2PPM);
     CheckBoxSD_CARD->SetValue(SD_CARD);
     CheckBoxFAS_OFFSET->SetValue(FAS_OFFSET);
     CheckBoxTEMPLATES->SetValue(TEMPLATES);
@@ -470,7 +476,8 @@ void CompilerOptionsFrame::BatFunction()
     if (SPORT_FILE_LOG) CompiBat += (" SPORT_FILE_LOG=YES");// default should be NO
     if (PPM) CompiBat += (" PPM=YES");// default should be YES
     if (PXX) CompiBat += (" PXX=YES");// default should be NO
-    if (DSM2) CompiBat += (" DSM2=YES");// default should be NO
+    if (DSM2) CompiBat += (" DSM2=SERIAL");// default should be NO
+    if (DSM2PPM) CompiBat += (" DSM2=PPM");// default should be NO
     if (SD_CARD) CompiBat += (" SDCARD=YES");// default should be NO
     if (FAS_OFFSET) CompiBat += (" FAS_OFFSET=YES");// default should be NO
     if (TEMPLATES) CompiBat += (" TEMPLATES=YES");// default should be NO
@@ -547,6 +554,7 @@ void CompilerOptionsFrame::CollectDatas()
     PPM = CheckBoxPPM->GetValue();
     PXX = CheckBoxPXX->GetValue();
     DSM2 = CheckBoxDSM2->GetValue();
+    DSM2PPM = CheckBoxDSM2PPM->GetValue();
     SD_CARD = CheckBoxSD_CARD->GetValue();
     FAS_OFFSET = CheckBoxFAS_OFFSET->GetValue();
     TEMPLATES = CheckBoxTEMPLATES->GetValue();
@@ -628,7 +636,6 @@ void CompilerOptionsFrame::OnPanel2Paint(wxPaintEvent& event)
 {
 }
 
-
 void CompilerOptionsFrame::OnChoiceLCDSelect(wxCommandEvent& event)
 {
 }
@@ -636,3 +643,15 @@ void CompilerOptionsFrame::OnChoiceLCDSelect(wxCommandEvent& event)
 void CompilerOptionsFrame::OnCheckBoxPPM_CENTER_ADJUSTABLEClick1(wxCommandEvent& event)
 {
 }
+
+void CompilerOptionsFrame::OnCheckBoxDSM2Click1(wxCommandEvent& event)
+{
+  CheckBoxDSM2PPM->SetValue(0);
+}
+
+void CompilerOptionsFrame::OnCheckBoxDSM2PPMClick(wxCommandEvent& event)
+{
+  CheckBoxDSM2->SetValue(0);
+}
+
+

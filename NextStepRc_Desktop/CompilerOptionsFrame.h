@@ -38,6 +38,7 @@ extern bool SPORT_FILE_LOG;//defaults to NO
 extern bool PPM;//defaults to YES
 extern bool PXX;//defaults to NO
 extern bool DSM2;//defaults to NO
+extern bool DSM2PPM;//defaults to NO
 extern bool SD_CARD;//defaults to NO
 extern bool FAS_OFFSET;//defaults to NO
 extern bool TEMPLATES;//defaults to NO
@@ -160,6 +161,7 @@ public:
     wxStaticText* StaticText4;
     wxCheckBox* CheckBoxAUTOSWITCH;
     wxCheckBox* CheckBoxCORRECT_NEGATIVE_VALUES;
+    wxCheckBox* CheckBoxDSM2PPM;
     wxCheckBox* CheckBoxBOLD;
     wxCheckBox* CheckBoxRTCLOCK;
     wxChoice* ChoicePCB;
@@ -252,6 +254,7 @@ protected:
     static const long ID_CHECKBOX44;
     static const long ID_CHECKBOX45;
     static const long ID_CHECKBOX47;
+    static const long ID_CHECKBOX28;
     static const long ID_PANEL3;
     static const long ID_NOTEBOOK1;
     static const long ID_PANEL1;
@@ -351,6 +354,9 @@ private:
     void OnCheckBoxSPLASHClick(wxCommandEvent& event);
     void OnChoiceLCDSelect(wxCommandEvent& event);
     void OnCheckBoxPPM_CENTER_ADJUSTABLEClick1(wxCommandEvent& event);
+    void OnCheckBoxDSM2Click1(wxCommandEvent& event);
+    void OnCheckBoxDSM2PPMClick(wxCommandEvent& event);
+    void OnCheckBoxAUTOSWITCHClick(wxCommandEvent& event);
     //*)
 
     DECLARE_EVENT_TABLE()
