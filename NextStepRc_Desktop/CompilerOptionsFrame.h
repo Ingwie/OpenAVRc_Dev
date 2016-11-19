@@ -76,6 +76,7 @@ extern bool IRPROTOS;//Does that work?
 extern bool TOGGLETRIM;
 extern bool NOANDSECONDE;// Hardwired
 extern bool SHUTDOWN_CONFIRMATION;
+extern wxString NO;
 //DANGEROUS_MODULE_FUNCTIONS// does not compile.
 
 
@@ -357,6 +358,12 @@ private:
     void OnCheckBoxDSM2Click1(wxCommandEvent& event);
     void OnCheckBoxDSM2PPMClick(wxCommandEvent& event);
     void OnCheckBoxAUTOSWITCHClick(wxCommandEvent& event);
+    void OnCheckBoxSPLASHClick1(wxCommandEvent& event);
+    void OnChoiceFAISelect(wxCommandEvent& event);
+    void OnCheckBoxOFFSET_ON_INPUTClick2(wxCommandEvent& event);
+    void OnCheckBoxOVERRIDE_CHANNEL_FUNCTIONClick(wxCommandEvent& event);
+    void OnCheckBoxAUTOSOURCEClick1(wxCommandEvent& event);
+    void OnChoiceNAVIGATIONSelect(wxCommandEvent& event);
     //*)
 
     DECLARE_EVENT_TABLE()

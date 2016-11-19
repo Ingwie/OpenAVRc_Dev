@@ -7,6 +7,11 @@
 		<pos_arg>1</pos_arg>
 		<size_arg>1</size_arg>
 		<style>wxCAPTION|wxDEFAULT_DIALOG_STYLE</style>
+		<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
+			<label>Paramètres de communication avec la radio</label>
+			<pos>24,24</pos>
+			<size>424,248</size>
+		</object>
 		<object class="wxComboBox" name="ID_COMBOBOX1" variable="ComboBox1" member="yes">
 			<content>
 				<item>stk500v2</item>
@@ -27,8 +32,8 @@
 			<pos>176,120</pos>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
-			<label>Programmeur</label>
-			<pos>72,80</pos>
+			<label>Programmateur</label>
+			<pos>64,80</pos>
 			<size>80,13</size>
 		</object>
 		<object class="wxButton" name="ID_BUTTONENTER" variable="ButtonEnter" member="yes">
@@ -53,7 +58,7 @@
 			<pos>72,176</pos>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
-			<label>Repertoire de avrdude</label>
+			<label>Répertoire de avrdude</label>
 			<pos>32,224</pos>
 		</object>
 		<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="TextCtrl1" member="yes">
@@ -75,11 +80,6 @@
 			<label>Detection</label>
 			<pos>304,120</pos>
 			<handler function="OnButtonDetectClick" entry="EVT_BUTTON" />
-		</object>
-		<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
-			<label>Parametres de communication avec la radio</label>
-			<pos>24,24</pos>
-			<size>424,248</size>
 		</object>
 	</object>
 </wxsmith>

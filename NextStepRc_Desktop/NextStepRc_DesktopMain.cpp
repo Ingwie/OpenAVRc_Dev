@@ -179,17 +179,17 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Menu1->Append(MenuItem1);
     MenuBar_main->Append(Menu1, _("Fichier"));
     Menu3 = new wxMenu();
-    MenuItem3 = new wxMenuItem(Menu3, ID_MENUITEM1, _("Programmeur"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem3 = new wxMenuItem(Menu3, ID_MENUITEM1, _("Programmateur"), wxEmptyString, wxITEM_NORMAL);
     Menu3->Append(MenuItem3);
     MenuBar_main->Append(Menu3, _("Paramètres"));
     Menu4 = new wxMenu();
     Menu4->AppendSeparator();
-    Menu5 = new wxMenuItem(Menu4, ID_MENUITEM3, _("Lire modèles de la radio"), wxEmptyString, wxITEM_NORMAL);
+    Menu5 = new wxMenuItem(Menu4, ID_MENUITEM3, _("Lire les modèles de la radio"), wxEmptyString, wxITEM_NORMAL);
     Menu4->Append(Menu5);
     MenuItem6 = new wxMenuItem(Menu4, ID_MENUITEM5, _("Lire le firmware de la radio"), wxEmptyString, wxITEM_NORMAL);
     Menu4->Append(MenuItem6);
     Menu4->AppendSeparator();
-    MenuItem5 = new wxMenuItem(Menu4, ID_MENUITEM4, _("Écrire les modêles dans la radio"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem5 = new wxMenuItem(Menu4, ID_MENUITEM4, _("Écrire les modèles dans la radio"), wxEmptyString, wxITEM_NORMAL);
     Menu4->Append(MenuItem5);
     MenuItem7 = new wxMenuItem(Menu4, ID_MENUITEM6, _("Écrire le firmware dans la radio"), wxEmptyString, wxITEM_NORMAL);
     Menu4->Append(MenuItem7);
@@ -366,7 +366,7 @@ void NextStepRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& eve
 void NextStepRc_DesktopFrame::OnEcrirelesFuseesSelected(wxCommandEvent& event)// Write fuses
 {
     wxMessageDialog *susto = new wxMessageDialog(NULL,
-            wxT("Sur? Tu veut continuer?"), wxT("Burn Fuses"),
+            ("Sûr? Vous voulez continuer?"), wxT("Programmation des fusibles"),
             wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
     susto->SetEventHandler(susto);
     if (susto->ShowModal()!= wxID_OK) return;
@@ -379,7 +379,7 @@ void NextStepRc_DesktopFrame::OnEcrirelesFuseesSelected(wxCommandEvent& event)//
 void NextStepRc_DesktopFrame::OnEcrirelebootloaderSelected(wxCommandEvent& event) // Write bootloader
 {
     wxMessageDialog *susto = new wxMessageDialog(NULL,
-            wxT("Sur? Tu veut continuer?"), wxT("Burn bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
+             ("Sûr? Vous voulez continuer?"), wxT("Programmation du Bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
     susto->SetEventHandler(susto);
     if (susto->ShowModal()!= wxID_OK) return;
     wxString BOOTLOADER(" -c usbasp -P usb -U lock:w:0x3F:m -U flash:w:mega2560_stk500v2boot_opentx.hex -U lock:w:0x0F:m -v");

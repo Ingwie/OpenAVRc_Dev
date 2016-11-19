@@ -20,18 +20,18 @@
 						<size>802,302</size>
 						<handler function="OnPanel2Paint" entry="EVT_PAINT" />
 						<object class="wxStaticBox" name="ID_STATICBOX6" variable="StaticBox6" member="yes">
-							<label>Other options</label>
+							<label>Autres options</label>
 							<pos>464,8</pos>
-							<size>224,328</size>
+							<size>176,328</size>
 						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX4" variable="StaticBox4" member="yes">
-							<label>Materiel</label>
-							<pos>24,16</pos>
-							<size>208,320</size>
+							<label>Matériel</label>
+							<pos>24,8</pos>
+							<size>200,328</size>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX17" variable="CheckBoxPPM_LIMITS_SYMETRICAL" member="yes">
 							<label>PPM Simm limits</label>
-							<pos>560,296</pos>
+							<pos>528,296</pos>
 							<tooltip>Option ajuster le gain fonction du subtrim</tooltip>
 						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX5" variable="StaticBox5" member="yes">
@@ -40,12 +40,12 @@
 							<size>224,328</size>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText4" member="yes">
-							<label>Unitées des voies</label>
-							<pos>240,304</pos>
+							<label>Unités</label>
+							<pos>264,304</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX16" variable="CheckBoxPPM_CENTER_ADJUSTABLE" member="yes">
 							<label>PPM Center adjust</label>
-							<pos>560,272</pos>
+							<pos>528,272</pos>
 							<tooltip>Option réglage des neutres indépendant</tooltip>
 							<handler function="OnCheckBoxPPM_CENTER_ADJUSTABLEClick1" entry="EVT_CHECKBOX" />
 						</object>
@@ -93,7 +93,7 @@
 							<handler function="OnChoiceLCDSelect" entry="EVT_CHOICE" />
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
-							<label>PROCESSOR</label>
+							<label>Processeur</label>
 							<pos>32,40</pos>
 							<size>64,13</size>
 						</object>
@@ -111,7 +111,7 @@
 							<selection>0</selection>
 							<pos>112,120</pos>
 							<size>96,21</size>
-							<tooltip>Option annoces vocales</tooltip>
+							<tooltip>Option annonces vocales</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
 							<label>Voice</label>
@@ -130,12 +130,12 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBoxHELI" member="yes">
 							<label>HELI</label>
-							<pos>560,152</pos>
+							<pos>528,152</pos>
 							<tooltip>Option hélicoptère</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX15" variable="CheckBoxTEMPLATES" member="yes">
 							<label>TEMPLATES</label>
-							<pos>560,176</pos>
+							<pos>528,176</pos>
 							<tooltip>AOption modèles pré programmés</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX9" variable="CheckBoxRTCLOCK" member="yes">
@@ -166,12 +166,12 @@
 							</content>
 							<selection>3</selection>
 							<pos>336,32</pos>
-							<size>112,21</size>
+							<size>72,21</size>
 							<tooltip>Langue affichée</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText6" member="yes">
 							<label>Langue</label>
-							<pos>272,40</pos>
+							<pos>264,40</pos>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE5" variable="ChoiceTTS" member="yes">
 							<content>
@@ -190,12 +190,12 @@
 							</content>
 							<selection>3</selection>
 							<pos>336,72</pos>
-							<size>112,21</size>
+							<size>72,21</size>
 							<tooltip>Langue de la synthése vocale</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
 							<label>Langue voice</label>
-							<pos>256,80</pos>
+							<pos>240,80</pos>
 							<size>64,13</size>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE8" variable="ChoiceNAVIGATION" member="yes">
@@ -212,10 +212,11 @@
 							<pos>336,248</pos>
 							<size>80,21</size>
 							<tooltip>Peut remplacer les boutons de navigation</tooltip>
+							<handler function="OnChoiceNAVIGATIONSelect" entry="EVT_CHOICE" />
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT7" variable="StaticText7" member="yes">
 							<label>Navigation</label>
-							<pos>272,256</pos>
+							<pos>248,256</pos>
 						</object>
 						<object class="wxButton" name="ID_BUTTON3" variable="ButtonEXIT" member="yes">
 							<label>EXIT</label>
@@ -233,13 +234,13 @@
 								<item>IMPERIAL</item>
 							</content>
 							<selection>0</selection>
-							<pos>560,32</pos>
-							<size>98,21</size>
+							<pos>528,32</pos>
+							<size>64,21</size>
 							<tooltip>Unitées</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText8" member="yes">
 							<label>UNITS</label>
-							<pos>512,40</pos>
+							<pos>480,40</pos>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE10" variable="ChoiceDEFAULT_MODE" member="yes">
 							<content>
@@ -250,33 +251,34 @@
 								<item>4</item>
 							</content>
 							<selection>0</selection>
-							<pos>560,72</pos>
-							<size>98,21</size>
+							<pos>528,72</pos>
+							<size>64,21</size>
 							<tooltip>Mode de la radio</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT9" variable="StaticText9" member="yes">
 							<label>MODE</label>
-							<pos>512,80</pos>
+							<pos>480,80</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX18" variable="CheckBoxFLIGHT_MODES" member="yes">
 							<label>Flight modes</label>
-							<pos>560,200</pos>
+							<pos>528,200</pos>
 							<tooltip>Option phases de vol</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX19" variable="CheckBoxCURVES" member="yes">
 							<label>Curves</label>
-							<pos>560,248</pos>
+							<pos>528,248</pos>
 							<tooltip>Option courbes</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX20" variable="CheckBoxGVARS" member="yes">
 							<label>Global vars</label>
-							<pos>560,224</pos>
+							<pos>528,224</pos>
 							<tooltip>Option variables globales</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX21" variable="CheckBoxSPLASH" member="yes">
-							<label>Splash screen</label>
+							<label>Écran d&apos;accueil</label>
 							<pos>336,216</pos>
-							<tooltip>Ecran d&apos;accueuil</tooltip>
+							<tooltip>Ecran d&apos;accueil</tooltip>
+							<handler function="OnCheckBoxSPLASHClick1" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxChoice" name="ID_CHOICE11" variable="ChoiceFONT" member="yes">
 							<content>
@@ -290,7 +292,7 @@
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT10" variable="StaticText10" member="yes">
 							<label>Font</label>
-							<pos>288,184</pos>
+							<pos>272,184</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX40" variable="CheckBoxBOLD" member="yes">
 							<label>Bold</label>
@@ -309,13 +311,13 @@
 								<item>CHOICE</item>
 							</content>
 							<selection>0</selection>
-							<pos>560,112</pos>
-							<size>96,21</size>
+							<pos>528,112</pos>
+							<size>64,21</size>
 							<tooltip>Pour les compétitions</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT12" variable="StaticText12" member="yes">
 							<label>FAI</label>
-							<pos>520,120</pos>
+							<pos>488,120</pos>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE12" variable="ChoiceTHREE_POS" member="yes">
 							<content>
@@ -333,24 +335,24 @@
 							<pos>64,296</pos>
 						</object>
 					</object>
-					<label>Settings</label>
+					<label>Réglages</label>
 				</object>
 				<object class="notebookpage">
 					<object class="wxPanel" name="ID_PANEL3" variable="Panel3" member="yes">
 						<size>800,356</size>
 						<handler function="OnPanel3Paint" entry="EVT_PAINT" />
 						<object class="wxStaticBox" name="ID_STATICBOX3" variable="StaticBox3" member="yes">
-							<label>Many others</label>
+							<label>Autres paramètres</label>
 							<pos>328,16</pos>
 							<size>464,264</size>
 						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBox2" member="yes">
-							<label>Telemetrie</label>
+							<label>Télemetrie</label>
 							<pos>184,16</pos>
 							<size>136,264</size>
 						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
-							<label>Protocol</label>
+							<label>Protocole</label>
 							<pos>8,16</pos>
 							<size>168,264</size>
 						</object>
@@ -413,88 +415,89 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX22" variable="CheckBoxOFFSET_ON_INPUT" member="yes">
 							<label>Offset on input</label>
-							<pos>656,176</pos>
+							<pos>336,216</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX23" variable="CheckBoxPCBREV" member="yes">
 							<label>PCB Revision</label>
-							<pos>656,48</pos>
+							<pos>336,184</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX24" variable="CheckBoxTURNIGY_TRANSMITTER_FIX" member="yes">
 							<label>TURNIGY Fix</label>
-							<pos>656,80</pos>
+							<pos>656,88</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX25" variable="CheckBoxFRSKY_STICKS" member="yes">
 							<label>FRSKY__Sticks</label>
-							<pos>656,112</pos>
+							<pos>656,120</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX26" variable="CheckBoxCORRECT_NEGATIVE_VALUES" member="yes">
 							<label>CORRECT__NEGATIVE__VALUES</label>
-							<pos>456,144</pos>
+							<pos>456,152</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX27" variable="CheckBoxARITHMETIC_OVERFLOW_CHECK" member="yes">
 							<label>ARITHMETIC__OVERFLOW__CHECK</label>
-							<pos>456,176</pos>
+							<pos>456,184</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX29" variable="CheckBoxSP22" member="yes">
 							<label>SP22</label>
-							<pos>336,208</pos>
+							<pos>656,184</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX30" variable="CheckBoxPWM_BACKLIGHT" member="yes">
 							<label>PWM__BACKLIGHT</label>
-							<pos>456,48</pos>
+							<pos>456,56</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX31" variable="CheckBoxOVERRIDE_CHANNEL_FUNCTION" member="yes">
 							<label>Overide channel function</label>
-							<pos>456,80</pos>
+							<pos>456,88</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX32" variable="CheckBoxWS_HOW_HIGH" member="yes">
 							<label>WS__HOW__HIGH</label>
-							<pos>456,112</pos>
+							<pos>456,120</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX33" variable="CheckBoxHUBSAN" member="yes">
 							<label>Hubsan</label>
-							<pos>656,208</pos>
+							<pos>656,216</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX34" variable="CheckBoxTX_CADDY" member="yes">
 							<label>TX__CADDY</label>
-							<pos>656,144</pos>
+							<pos>656,152</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX35" variable="CheckBoxIRPROTOS" member="yes">
 							<label>IR protos</label>
-							<pos>656,240</pos>
+							<pos>656,248</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX36" variable="CheckBoxTOGGLETRIM" member="yes">
 							<label>Toggle trims</label>
-							<pos>336,176</pos>
+							<pos>656,56</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX37" variable="CheckBoxNOANDSECONDE" member="yes">
 							<label>NOANDSECONDE</label>
-							<pos>336,240</pos>
+							<pos>336,248</pos>
 							<size>102,16</size>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX38" variable="CheckBoxSHUTDOWN_CONFIRMATION" member="yes">
 							<label>SHUTDOWN__CONFIRMATION</label>
-							<pos>456,240</pos>
+							<pos>456,248</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX39" variable="CheckBoxACCURAT_THROTTLE_STATS" member="yes">
 							<label>ACCURAT__THROTTLE__STATS</label>
-							<pos>456,208</pos>
+							<pos>456,216</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX43" variable="CheckBoxEEPROM_PROGRESS_BAR" member="yes">
 							<label>EEPROM bar</label>
-							<pos>336,112</pos>
+							<pos>336,120</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX44" variable="CheckBoxAUTOSWITCH" member="yes">
 							<label>AUTOSWITCH</label>
-							<pos>336,80</pos>
+							<pos>336,88</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX45" variable="CheckBoxAUTOSOURCE" member="yes">
 							<label>AUTOSOURCE</label>
-							<pos>336,48</pos>
+							<pos>336,56</pos>
+							<handler function="OnCheckBoxAUTOSOURCEClick1" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX47" variable="CheckBoxDBLKEYS" member="yes">
 							<label>Double keys</label>
-							<pos>336,144</pos>
+							<pos>336,152</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX28" variable="CheckBoxDSM2PPM" member="yes">
 							<label>DSM2 PPM</label>
@@ -502,7 +505,7 @@
 							<handler function="OnCheckBoxDSM2PPMClick" entry="EVT_CHECKBOX" />
 						</object>
 					</object>
-					<label>Advanced</label>
+					<label>Options avancées</label>
 				</object>
 			</object>
 		</object>

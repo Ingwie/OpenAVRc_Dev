@@ -52,7 +52,7 @@
 			<object class="wxMenu" variable="Menu3" member="yes">
 				<label>Paramètres</label>
 				<object class="wxMenuItem" name="ID_MENUITEM1" variable="MenuItem3" member="yes">
-					<label>Programmeur</label>
+					<label>Programmateur</label>
 					<handler function="OnProgrammerSelected" entry="EVT_MENU" />
 				</object>
 			</object>
@@ -60,7 +60,7 @@
 				<label>Lire/Écrire</label>
 				<object class="separator" />
 				<object class="wxMenuItem" name="ID_MENUITEM3" variable="Menu5" member="yes">
-					<label>Lire modèles de la radio</label>
+					<label>Lire les modèles de la radio</label>
 					<handler function="OnreadmodelsSelected" entry="EVT_MENU" />
 				</object>
 				<object class="wxMenuItem" name="ID_MENUITEM5" variable="MenuItem6" member="yes">
@@ -69,7 +69,7 @@
 				</object>
 				<object class="separator" />
 				<object class="wxMenuItem" name="ID_MENUITEM4" variable="MenuItem5" member="yes">
-					<label>Écrire les modêles dans la radio</label>
+					<label>Écrire les modèles dans la radio</label>
 					<handler function="OnWriteModelToRadioSelected" entry="EVT_MENU" />
 				</object>
 				<object class="wxMenuItem" name="ID_MENUITEM6" variable="MenuItem7" member="yes">

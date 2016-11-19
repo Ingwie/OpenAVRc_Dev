@@ -41,6 +41,7 @@ public:
 protected:
 
     //(*Identifiers(CommunicationsFrame)
+    static const long ID_STATICBOX1;
     static const long ID_COMBOBOX1;
     static const long ID_COMBOBOX2;
     static const long ID_STATICTEXT1;
@@ -53,7 +54,6 @@ protected:
     static const long ID_BUTTONESC;
     static const long ID_BUTTONSEARCHAVRDUDEPATH;
     static const long ID_BUTTONDETECT;
-    static const long ID_STATICBOX1;
     //*)
     wxWindow * Parent;
 
