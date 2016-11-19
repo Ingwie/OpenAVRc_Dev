@@ -77,7 +77,7 @@ bool RTCLOCK = 0;
 bool SPORT_FILE_LOG = 0;
 bool PPM = 1;
 bool PXX = 0;
-bool DSM2 = 0;
+bool DSM2SERIAL = 0;
 bool DSM2PPM = 0;
 bool SD_CARD = 0;
 bool FAS_OFFSET = 0;
@@ -429,7 +429,7 @@ void NextStepRc_DesktopFrame::LoadConfig(wxString temp)
     configFile->Read(wxT("SPORT_FILE_LOG"),&SPORT_FILE_LOG);
     configFile->Read(wxT("PPM"),&PPM);
     configFile->Read(wxT("PXX"),&PXX);
-    configFile->Read(wxT("DSM2"),&DSM2);
+    configFile->Read(wxT("DSM2"),&DSM2SERIAL);
     configFile->Read(wxT("DSM2PPM"),&DSM2PPM);
     configFile->Read(wxT("SD_CARD"),&SD_CARD);
     configFile->Read(wxT("FAS_OFFSET"),&FAS_OFFSET);
@@ -511,7 +511,7 @@ extern void NextStepRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("SPORT_FILE_LOG"),SPORT_FILE_LOG);
     configFile->Write(wxT("PPM"),PPM);
     configFile->Write(wxT("PXX"),PXX);
-    configFile->Write(wxT("DSM2"),DSM2);
+    configFile->Write(wxT("DSM2"),DSM2SERIAL);
     configFile->Write(wxT("DSM2PPM"),DSM2PPM);
     configFile->Write(wxT("SD_CARD"),SD_CARD);
     configFile->Write(wxT("FAS_OFFSET"),FAS_OFFSET);

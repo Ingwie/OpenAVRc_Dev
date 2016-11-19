@@ -293,9 +293,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxPXX = new wxCheckBox(Panel3, ID_CHECKBOX11, _("PXX"), wxPoint(72,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX11"));
     CheckBoxPXX->SetValue(false);
     CheckBoxPXX->SetToolTip(_("Protocole PXX "));
-    CheckBoxDSM2 = new wxCheckBox(Panel3, ID_CHECKBOX13, _("DSM2"), wxPoint(72,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX13"));
-    CheckBoxDSM2->SetValue(false);
-    CheckBoxDSM2->SetToolTip(_("Protocoles DSM .."));
+    CheckBoxDSM2SERIAL = new wxCheckBox(Panel3, ID_CHECKBOX13, _("DSM2 SERIAL"), wxPoint(72,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX13"));
+    CheckBoxDSM2SERIAL->SetValue(false);
+    CheckBoxDSM2SERIAL->SetToolTip(_("Protocoles DSM .."));
     ChoiceEXT = new wxChoice(Panel3, ID_CHOICE2, wxPoint(208,40), wxSize(96,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE2"));
     ChoiceEXT->SetSelection( ChoiceEXT->Append(_("STD")) );
     ChoiceEXT->Append(_("FRSKY"));
@@ -338,11 +338,11 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxOVERRIDE_CHANNEL_FUNCTION->SetValue(false);
     CheckBoxWS_HOW_HIGH = new wxCheckBox(Panel3, ID_CHECKBOX32, _("WS_HOW_HIGH"), wxPoint(456,112), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX32"));
     CheckBoxWS_HOW_HIGH->SetValue(false);
-    CheckBoxHUBSAN = new wxCheckBox(Panel3, ID_CHECKBOX33, _("Hubsan"), wxPoint(72,184), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX33"));
+    CheckBoxHUBSAN = new wxCheckBox(Panel3, ID_CHECKBOX33, _("Hubsan"), wxPoint(656,208), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX33"));
     CheckBoxHUBSAN->SetValue(false);
     CheckBoxTX_CADDY = new wxCheckBox(Panel3, ID_CHECKBOX34, _("TX_CADDY"), wxPoint(656,144), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX34"));
     CheckBoxTX_CADDY->SetValue(false);
-    CheckBoxIRPROTOS = new wxCheckBox(Panel3, ID_CHECKBOX35, _("IR protos"), wxPoint(72,216), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX35"));
+    CheckBoxIRPROTOS = new wxCheckBox(Panel3, ID_CHECKBOX35, _("IR protos"), wxPoint(656,240), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX35"));
     CheckBoxIRPROTOS->SetValue(false);
     CheckBoxTOGGLETRIM = new wxCheckBox(Panel3, ID_CHECKBOX36, _("Toggle trims"), wxPoint(336,176), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX36"));
     CheckBoxTOGGLETRIM->SetValue(false);
@@ -360,7 +360,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxAUTOSOURCE->SetValue(false);
     CheckBoxDBLKEYS = new wxCheckBox(Panel3, ID_CHECKBOX47, _("Double keys"), wxPoint(336,144), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX47"));
     CheckBoxDBLKEYS->SetValue(false);
-    CheckBoxDSM2PPM = new wxCheckBox(Panel3, ID_CHECKBOX28, _("DSM2PPM"), wxPoint(72,152), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX28"));
+    CheckBoxDSM2PPM = new wxCheckBox(Panel3, ID_CHECKBOX28, _("DSM2 PPM"), wxPoint(72,152), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX28"));
     CheckBoxDSM2PPM->SetValue(false);
     Notebook1->AddPage(Panel2, _("Settings"), false);
     Notebook1->AddPage(Panel3, _("Advanced"), false);
@@ -401,7 +401,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxSPORT_FILE_LOG->SetValue(SPORT_FILE_LOG);
     CheckBoxPPM->SetValue(PPM);
     CheckBoxPXX->SetValue(PXX);
-    CheckBoxDSM2->SetValue(DSM2);
+    CheckBoxDSM2SERIAL->SetValue(DSM2SERIAL);
     CheckBoxDSM2PPM->SetValue(DSM2PPM);
     CheckBoxSD_CARD->SetValue(SD_CARD);
     CheckBoxFAS_OFFSET->SetValue(FAS_OFFSET);
@@ -476,7 +476,7 @@ void CompilerOptionsFrame::BatFunction()
     if (SPORT_FILE_LOG) CompiBat += (" SPORT_FILE_LOG=YES");// default should be NO
     if (PPM) CompiBat += (" PPM=YES");// default should be YES
     if (PXX) CompiBat += (" PXX=YES");// default should be NO
-    if (DSM2) CompiBat += (" DSM2=SERIAL");// default should be NO
+    if (DSM2SERIAL) CompiBat += (" DSM2=SERIAL");// default should be NO
     if (DSM2PPM) CompiBat += (" DSM2=PPM");// default should be NO
     if (SD_CARD) CompiBat += (" SDCARD=YES");// default should be NO
     if (FAS_OFFSET) CompiBat += (" FAS_OFFSET=YES");// default should be NO
@@ -553,7 +553,7 @@ void CompilerOptionsFrame::CollectDatas()
     SPORT_FILE_LOG = CheckBoxSPORT_FILE_LOG->GetValue();
     PPM = CheckBoxPPM->GetValue();
     PXX = CheckBoxPXX->GetValue();
-    DSM2 = CheckBoxDSM2->GetValue();
+    DSM2SERIAL = CheckBoxDSM2SERIAL->GetValue();
     DSM2PPM = CheckBoxDSM2PPM->GetValue();
     SD_CARD = CheckBoxSD_CARD->GetValue();
     FAS_OFFSET = CheckBoxFAS_OFFSET->GetValue();
@@ -651,7 +651,7 @@ void CompilerOptionsFrame::OnCheckBoxDSM2Click1(wxCommandEvent& event)
 
 void CompilerOptionsFrame::OnCheckBoxDSM2PPMClick(wxCommandEvent& event)
 {
-  CheckBoxDSM2->SetValue(0);
+  CheckBoxDSM2SERIAL->SetValue(0);
 }
 
 

@@ -37,7 +37,7 @@ extern bool RTCLOCK;//defaults to NO
 extern bool SPORT_FILE_LOG;//defaults to NO
 extern bool PPM;//defaults to YES
 extern bool PXX;//defaults to NO
-extern bool DSM2;//defaults to NO
+extern bool DSM2SERIAL;//defaults to NO
 extern bool DSM2PPM;//defaults to NO
 extern bool SD_CARD;//defaults to NO
 extern bool FAS_OFFSET;//defaults to NO
@@ -102,6 +102,7 @@ public:
     wxCheckBox* CheckBoxPPM;
     wxChoice* ChoiceUNITS;
     wxNotebook* Notebook1;
+    wxCheckBox* CheckBoxDSM2SERIAL;
     wxCheckBox* CheckBoxPCBREV;
     wxCheckBox* CheckBoxHUBSAN;
     wxStaticText* StaticText2;
@@ -128,7 +129,6 @@ public:
     wxStaticBox* StaticBox6;
     wxStaticText* StaticText3;
     wxStaticBox* StaticBox1;
-    wxCheckBox* CheckBoxDSM2;
     wxChoice* ChoiceTHREE_POS;
     wxCheckBox* CheckBoxTURNIGY_TRANSMITTER_FIX;
     wxChoice* ChoiceNAVIGATION;
