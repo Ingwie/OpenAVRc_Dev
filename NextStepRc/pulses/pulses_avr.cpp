@@ -15,7 +15,6 @@
  */
 
 #include "../nextsteprc.h"
-//#include "pulses_avr.h"
 
 uint16_t nextMixerEndTime = 0;
 #define SCHEDULE_MIXER_END(delay) nextMixerEndTime = getTmr16KHz() + (delay) - 2*16/*2ms*/
@@ -784,6 +783,7 @@ void setupPulses()
         TCCR1A = (0 << WGM10);                // Set output waveform mode to normal, for now. Note that
                                               // WGM will be changed to toggle OCR1B pin on compare capture,
                                               // in next switch(required_protocol) {...}, below
+       // TCCR1A |= 0X30; //Reverse polarity (Bracame TODO -> Luc test)
 #else
         TIMSK |= 0x20;                        // Enable CAPT
         ETIMSK |= (1<<OCIE1C);                // Enable COMPC

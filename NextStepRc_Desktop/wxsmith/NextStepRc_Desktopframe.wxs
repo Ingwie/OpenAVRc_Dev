@@ -2,13 +2,12 @@
 <wxsmith>
 	<object class="wxFrame" name="NextStepRc_DesktopFrame">
 		<title>NextStepRc Desktop</title>
-		<size>589,282</size>
+		<size>590,282</size>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
-			<pos>240,40</pos>
-			<size>576,280</size>
+			<size>590,290</size>
 			<focused>1</focused>
 			<style>0</style>
 			<object class="wxStaticBox" name="ID_STATICBOXCONFIG" variable="StaticBoxConfig" member="yes">
@@ -29,6 +28,13 @@
 				<style>wxLB_SINGLE|wxDOUBLE_BORDER|wxVSCROLL</style>
 				<handler function="OnListBoxConfigDClick" entry="EVT_LISTBOX" />
 				<handler function="OnListBoxConfigDClick" entry="EVT_LISTBOX_DCLICK" />
+			</object>
+			<object class="wxPanel" name="ID_SPLASH" variable="PanelSplash" member="yes">
+				<pos>176,64</pos>
+				<size>256,128</size>
+				<bg>#FFFFFF</bg>
+				<style>wxNO_BORDER</style>
+				<handler function="OnPanelSplashPaint" entry="EVT_PAINT" />
 			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar_main" member="yes">

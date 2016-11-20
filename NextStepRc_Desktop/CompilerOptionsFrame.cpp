@@ -124,7 +124,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(0,0), wxSize(752,327), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     Notebook1 = new wxNotebook(Panel1, ID_NOTEBOOK1, wxPoint(0,0), wxSize(808,376), 0, _T("ID_NOTEBOOK1"));
     Panel2 = new wxPanel(Notebook1, ID_PANEL2, wxDefaultPosition, wxSize(802,302), wxTAB_TRAVERSAL, _T("ID_PANEL2"));
-    StaticBox6 = new wxStaticBox(Panel2, ID_STATICBOX6, _("Autres options"), wxPoint(464,8), wxSize(176,328), 0, _T("ID_STATICBOX6"));
+    StaticBox6 = new wxStaticBox(Panel2, ID_STATICBOX6, _("Autres options"), wxPoint(464,8), wxSize(192,328), 0, _T("ID_STATICBOX6"));
     StaticBox4 = new wxStaticBox(Panel2, ID_STATICBOX4, _("Matériel"), wxPoint(24,8), wxSize(200,328), 0, _T("ID_STATICBOX4"));
     CheckBoxPPM_LIMITS_SYMETRICAL = new wxCheckBox(Panel2, ID_CHECKBOX17, _("PPM Simm limits"), wxPoint(528,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX17"));
     CheckBoxPPM_LIMITS_SYMETRICAL->SetValue(true);
@@ -214,7 +214,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     ChoiceTTS->Append(_("SE"));
     ChoiceTTS->Append(_("SK"));
     ChoiceTTS->SetToolTip(_("Langue de la synthése vocale"));
-    StaticText5 = new wxStaticText(Panel2, ID_STATICTEXT5, _("Langue voice"), wxPoint(240,80), wxSize(64,13), 0, _T("ID_STATICTEXT5"));
+    StaticText5 = new wxStaticText(Panel2, ID_STATICTEXT5, _("Langue voice"), wxPoint(240,80), wxSize(80,13), 0, _T("ID_STATICTEXT5"));
     ChoiceNAVIGATION = new wxChoice(Panel2, ID_CHOICE8, wxPoint(336,248), wxSize(80,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE8"));
     ChoiceNAVIGATION->SetSelection( ChoiceNAVIGATION->Append(_("NO")) );
     ChoiceNAVIGATION->Append(_("POT1"));
@@ -225,8 +225,8 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     ChoiceNAVIGATION->Append(_("ROTENC"));
     ChoiceNAVIGATION->SetToolTip(_("Peut remplacer les boutons de navigation"));
     StaticText7 = new wxStaticText(Panel2, ID_STATICTEXT7, _("Navigation"), wxPoint(248,256), wxDefaultSize, 0, _T("ID_STATICTEXT7"));
-    ButtonEXIT = new wxButton(Panel2, ID_BUTTON3, _("EXIT"), wxPoint(704,264), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON3"));
-    ButtonCOMPILE = new wxButton(Panel2, ID_BUTTON2, _("COMPILE"), wxPoint(704,208), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON2"));
+    ButtonEXIT = new wxButton(Panel2, ID_BUTTON3, _("SORTIE"), wxPoint(696,264), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON3"));
+    ButtonCOMPILE = new wxButton(Panel2, ID_BUTTON2, _("COMPILER"), wxPoint(696,208), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON2"));
     ChoiceUNITS = new wxChoice(Panel2, ID_CHOICE9, wxPoint(528,32), wxSize(64,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE9"));
     ChoiceUNITS->SetSelection( ChoiceUNITS->Append(_("METRIC")) );
     ChoiceUNITS->Append(_("IMPERIAL"));

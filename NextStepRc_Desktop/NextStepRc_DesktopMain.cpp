@@ -20,6 +20,7 @@
 #include <wx/string.h>
 //*)
 
+
 //helper functions
 enum wxbuildinfoformat
 {
@@ -47,6 +48,15 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 
     return wxbuild;
 }
+
+//Splash
+uint8_t LbmSplash[] = {
+#include "splash.lbm"
+};
+bool personalSplash = false;
+#define LCD_W 128
+#define LCD_H 64
+#define LcdScale 2
 
 //Global Var
 bool Ini_Changed = false;
@@ -123,6 +133,7 @@ bool SHUTDOWN_CONFIRMATION = 0;
 const long NextStepRc_DesktopFrame::ID_STATICBOXCONFIG = wxNewId();
 const long NextStepRc_DesktopFrame::ID_BUTTON1 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_LISTBOXCONFIG = wxNewId();
+const long NextStepRc_DesktopFrame::ID_SPLASH = wxNewId();
 const long NextStepRc_DesktopFrame::ID_PANEL1 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEMNEWCONFIG = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUDELETEACTIVECONFIG = wxNewId();
@@ -163,12 +174,14 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     wxMenu* Menu2;
 
     Create(parent, wxID_ANY, _("NextStepRc Desktop"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
-    SetClientSize(wxSize(589,282));
-    Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(240,40), wxSize(576,280), 0, _T("ID_PANEL1"));
+    SetClientSize(wxSize(590,282));
+    Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxSize(590,290), 0, _T("ID_PANEL1"));
     Panel1->SetFocus();
     StaticBoxConfig = new wxStaticBox(Panel1, ID_STATICBOXCONFIG, _("Configuration"), wxPoint(16,8), wxSize(136,192), 0, _T("ID_STATICBOXCONFIG"));
     Button1 = new wxButton(Panel1, ID_BUTTON1, _("SIMULATEUR"), wxPoint(8,208), wxSize(568,31), 0, wxDefaultValidator, _T("ID_BUTTON1"));
     ListBoxConfig = new wxListBox(Panel1, ID_LISTBOXCONFIG, wxPoint(24,32), wxSize(120,152), 0, 0, wxLB_SINGLE|wxDOUBLE_BORDER|wxVSCROLL, wxDefaultValidator, _T("ID_LISTBOXCONFIG"));
+    PanelSplash = new wxPanel(Panel1, ID_SPLASH, wxPoint(176,64), wxSize(256,128), wxNO_BORDER, _T("ID_SPLASH"));
+    PanelSplash->SetBackgroundColour(wxColour(255,255,255));
     MenuBar_main = new wxMenuBar();
     Menu1 = new wxMenu();
     MenuNewconfig = new wxMenuItem(Menu1, ID_MENUITEMNEWCONFIG, _("Nouvelle configuration"), wxEmptyString, wxITEM_NORMAL);
@@ -236,6 +249,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnSimulateurClick2);
     Connect(ID_LISTBOXCONFIG,wxEVT_COMMAND_LISTBOX_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnListBoxConfigDClick);
     Connect(ID_LISTBOXCONFIG,wxEVT_COMMAND_LISTBOX_DOUBLECLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnListBoxConfigDClick);
+    PanelSplash->Connect(wxEVT_PAINT,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnPanelSplashPaint,0,this);
     Connect(ID_MENUITEMNEWCONFIG,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnMenuNewconfigSelected);
     Connect(ID_MENUDELETEACTIVECONFIG,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnMenuDeleteActiveConfigSelected);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnQuit);
@@ -294,6 +308,8 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     }
     ListBoxConfig->InsertItems(SavedConfig,0);
     ListBoxConfig->SetStringSelection(Profil);
+
+    //if (!personalSplash) DrawLbmSplash();
 }
 
 
@@ -667,3 +683,35 @@ void NextStepRc_DesktopFrame::OnMenuDeleteActiveConfigSelected(wxCommandEvent& e
     }
 }
 
+void NextStepRc_DesktopFrame::DrawLbmSplash()
+{
+     int p = 2;
+
+    wxClientDC dc(PanelSplash);
+    wxBrush brush_back(*wxWHITE, wxBRUSHSTYLE_SOLID  );
+    dc.SetBrush(brush_back);
+    dc.DrawRectangle(0,0,LCD_W*LcdScale,LCD_H*LcdScale);
+    wxBrush brush_top(*wxBLACK, wxBRUSHSTYLE_SOLID  );
+    dc.SetBrush(brush_top);
+
+
+    for (uint8_t y=0; y < (LCD_H / 8); y++)
+    {
+
+        for (uint8_t x=0; x < LCD_W; x++)
+        {
+            uint8_t bit = LbmSplash[p];
+            p++;
+            for (uint8_t i=0; i < 8; i++)
+            {
+                if (bit & 0x01) dc.DrawRectangle(x*LcdScale,(y*8*LcdScale) +(i*LcdScale),LcdScale,LcdScale);
+                bit >>=1;
+            }
+        }
+    }
+}
+
+void NextStepRc_DesktopFrame::OnPanelSplashPaint(wxPaintEvent& event)
+{
+  DrawLbmSplash();
+}

@@ -12,6 +12,9 @@
 #include <wx/stdpaths.h>
 #include <wx/filename.h>
 #include <wx/fileconf.h>
+#include <wx/dcclient.h>
+
+
 #include "CompilerOptionsFrame.h"
 
 //(*Headers(NextStepRc_DesktopFrame)
@@ -63,12 +66,15 @@ private:
     void OnWIN_FIRMWARESelected(wxCommandEvent& event);
     void OnMenuAUTRES_LINKSSelected(wxCommandEvent& event);
     void OnMenuMousseSelected(wxCommandEvent& event);
+    void DrawLbmSplash();
+    void OnPanelSplashPaint(wxPaintEvent& event);
     //*)
 
     //(*Identifiers(NextStepRc_DesktopFrame)
     static const long ID_STATICBOXCONFIG;
     static const long ID_BUTTON1;
     static const long ID_LISTBOXCONFIG;
+    static const long ID_SPLASH;
     static const long ID_PANEL1;
     static const long ID_MENUITEMNEWCONFIG;
     static const long ID_MENUDELETEACTIVECONFIG;
@@ -97,6 +103,7 @@ private:
     //(*Declarations(NextStepRc_DesktopFrame)
     wxMenuItem* MenuItem7;
     wxMenuItem* MenuDeleteActiveConfig;
+    wxPanel* PanelSplash;
     wxMenuItem* MenuItem5;
     wxMenu* MenuHtmlDoc;
     wxMenu* MenuItem15;
