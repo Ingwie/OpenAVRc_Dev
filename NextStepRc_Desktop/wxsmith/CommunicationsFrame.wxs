@@ -34,7 +34,7 @@
 		<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 			<label>Programmateur</label>
 			<pos>64,80</pos>
-			<size>80,13</size>
+			<size>88,24</size>
 		</object>
 		<object class="wxButton" name="ID_BUTTONENTER" variable="ButtonEnter" member="yes">
 			<label>Valider</label>
