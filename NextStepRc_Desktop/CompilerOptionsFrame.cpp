@@ -18,14 +18,6 @@ extern wxString AppPath;
 extern bool Ini_Changed;
 
 
-
-//helper functions
-//enum wxbuildinfoformat
-//{
-//  short_f, long_f
-//};
-
-
 //(*InternalHeaders(CompilerOptionsFrame)
 #include <wx/intl.h>
 #include <wx/string.h>
@@ -135,12 +127,12 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     StaticBox6 = new wxStaticBox(Panel2, ID_STATICBOX6, _("Autres options"), wxPoint(464,8), wxSize(176,328), 0, _T("ID_STATICBOX6"));
     StaticBox4 = new wxStaticBox(Panel2, ID_STATICBOX4, _("Matériel"), wxPoint(24,8), wxSize(200,328), 0, _T("ID_STATICBOX4"));
     CheckBoxPPM_LIMITS_SYMETRICAL = new wxCheckBox(Panel2, ID_CHECKBOX17, _("PPM Simm limits"), wxPoint(528,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX17"));
-    CheckBoxPPM_LIMITS_SYMETRICAL->SetValue(false);
+    CheckBoxPPM_LIMITS_SYMETRICAL->SetValue(true);
     CheckBoxPPM_LIMITS_SYMETRICAL->SetToolTip(_("Option ajuster le gain fonction du subtrim"));
     StaticBox5 = new wxStaticBox(Panel2, ID_STATICBOX5, _("Interface"), wxPoint(232,8), wxSize(224,328), 0, _T("ID_STATICBOX5"));
     StaticText4 = new wxStaticText(Panel2, ID_STATICTEXT4, _("Unités"), wxPoint(264,304), wxDefaultSize, 0, _T("ID_STATICTEXT4"));
     CheckBoxPPM_CENTER_ADJUSTABLE = new wxCheckBox(Panel2, ID_CHECKBOX16, _("PPM Center adjust"), wxPoint(528,272), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX16"));
-    CheckBoxPPM_CENTER_ADJUSTABLE->SetValue(false);
+    CheckBoxPPM_CENTER_ADJUSTABLE->SetValue(true);
     CheckBoxPPM_CENTER_ADJUSTABLE->SetToolTip(_("Option réglage des neutres indépendant"));
     ChoicePPM_UNIT  = new wxChoice(Panel2, ID_CHOICE4, wxPoint(336,296), wxSize(112,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE4"));
     ChoicePPM_UNIT ->SetSelection( ChoicePPM_UNIT ->Append(_("PERCENT_PREC1")) );
@@ -158,11 +150,11 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     ChoicePCB->Append(_("GRUVIN9X"));
     ChoicePCB->SetToolTip(_("Type de radio"));
     ChoiceLCD = new wxChoice(Panel2, ID_CHOICE1, wxPoint(112,72), wxSize(96,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
-    ChoiceLCD->SetSelection( ChoiceLCD->Append(_("DEFAULT")) );
+    ChoiceLCD->Append(_("DEFAULT"));
     ChoiceLCD->Append(_("ST7565P"));
     ChoiceLCD->Append(_("ST7565R "));
     ChoiceLCD->Append(_("ERC12864FSF"));
-    ChoiceLCD->Append(_("ST7920"));
+    ChoiceLCD->SetSelection( ChoiceLCD->Append(_("ST7920")) );
     ChoiceLCD->Append(_("KS108"));
     ChoiceLCD->Append(_("SSD1306"));
     ChoiceLCD->SetToolTip(_("Référence de l\'écran"));
@@ -190,7 +182,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxRTCLOCK = new wxCheckBox(Panel2, ID_CHECKBOX9, _("RTC Clock"), wxPoint(112,248), wxSize(80,21), 0, wxDefaultValidator, _T("ID_CHECKBOX9"));
     CheckBoxRTCLOCK->SetValue(false);
     CheckBoxRTCLOCK->SetToolTip(_("Option horloge temps réel"));
-    CheckBoxSD_CARD = new wxCheckBox(Panel2, ID_CHECKBOX12, _("SD CARD"), wxPoint(112,224), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX12"));
+    CheckBoxSD_CARD = new wxCheckBox(Panel2, ID_CHECKBOX12, _("Carte SD"), wxPoint(112,224), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX12"));
     CheckBoxSD_CARD->SetValue(false);
     CheckBoxSD_CARD->SetToolTip(_("Option carte SD (Sauvegarde - Fichiers log)"));
     ChoiceTRANSLATIONS = new wxChoice(Panel2, ID_CHOICE7, wxPoint(336,32), wxSize(72,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE7"));
@@ -239,7 +231,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     ChoiceUNITS->SetSelection( ChoiceUNITS->Append(_("METRIC")) );
     ChoiceUNITS->Append(_("IMPERIAL"));
     ChoiceUNITS->SetToolTip(_("Unitées"));
-    StaticText8 = new wxStaticText(Panel2, ID_STATICTEXT8, _("UNITS"), wxPoint(480,40), wxDefaultSize, 0, _T("ID_STATICTEXT8"));
+    StaticText8 = new wxStaticText(Panel2, ID_STATICTEXT8, _("Unités"), wxPoint(480,40), wxDefaultSize, 0, _T("ID_STATICTEXT8"));
     ChoiceDEFAULT_MODE = new wxChoice(Panel2, ID_CHOICE10, wxPoint(528,72), wxSize(64,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE10"));
     ChoiceDEFAULT_MODE->SetSelection( ChoiceDEFAULT_MODE->Append(_("NO")) );
     ChoiceDEFAULT_MODE->Append(_("1"));
@@ -247,15 +239,15 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     ChoiceDEFAULT_MODE->Append(_("3"));
     ChoiceDEFAULT_MODE->Append(_("4"));
     ChoiceDEFAULT_MODE->SetToolTip(_("Mode de la radio"));
-    StaticText9 = new wxStaticText(Panel2, ID_STATICTEXT9, _("MODE"), wxPoint(480,80), wxDefaultSize, 0, _T("ID_STATICTEXT9"));
+    StaticText9 = new wxStaticText(Panel2, ID_STATICTEXT9, _("Mode"), wxPoint(480,80), wxDefaultSize, 0, _T("ID_STATICTEXT9"));
     CheckBoxFLIGHT_MODES = new wxCheckBox(Panel2, ID_CHECKBOX18, _("Flight modes"), wxPoint(528,200), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX18"));
-    CheckBoxFLIGHT_MODES->SetValue(false);
+    CheckBoxFLIGHT_MODES->SetValue(true);
     CheckBoxFLIGHT_MODES->SetToolTip(_("Option phases de vol"));
     CheckBoxCURVES = new wxCheckBox(Panel2, ID_CHECKBOX19, _("Curves"), wxPoint(528,248), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX19"));
-    CheckBoxCURVES->SetValue(false);
+    CheckBoxCURVES->SetValue(true);
     CheckBoxCURVES->SetToolTip(_("Option courbes"));
     CheckBoxGVARS = new wxCheckBox(Panel2, ID_CHECKBOX20, _("Global vars"), wxPoint(528,224), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX20"));
-    CheckBoxGVARS->SetValue(false);
+    CheckBoxGVARS->SetValue(true);
     CheckBoxGVARS->SetToolTip(_("Option variables globales"));
     CheckBoxSPLASH = new wxCheckBox(Panel2, ID_CHECKBOX21, _("Écran d\'accueil"), wxPoint(336,216), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX21"));
     CheckBoxSPLASH->SetValue(false);
@@ -285,7 +277,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     StaticText11 = new wxStaticText(Panel2, ID_STATICTEXT11, _("3POS"), wxPoint(64,296), wxDefaultSize, 0, _T("ID_STATICTEXT11"));
     Panel3 = new wxPanel(Notebook1, ID_PANEL3, wxDefaultPosition, wxSize(800,356), wxTAB_TRAVERSAL, _T("ID_PANEL3"));
     StaticBox3 = new wxStaticBox(Panel3, ID_STATICBOX3, _("Autres paramètres"), wxPoint(328,16), wxSize(464,264), 0, _T("ID_STATICBOX3"));
-    StaticBox2 = new wxStaticBox(Panel3, ID_STATICBOX2, _("Télemetrie"), wxPoint(184,16), wxSize(136,264), 0, _T("ID_STATICBOX2"));
+    StaticBox2 = new wxStaticBox(Panel3, ID_STATICBOX2, _("Télemetrie"), wxPoint(184,16), wxSize(136,312), 0, _T("ID_STATICBOX2"));
     StaticBox1 = new wxStaticBox(Panel3, ID_STATICBOX1, _("Protocole"), wxPoint(8,16), wxSize(168,264), 0, _T("ID_STATICBOX1"));
     CheckBoxPPM = new wxCheckBox(Panel3, ID_CHECKBOX10, _("PPM"), wxPoint(72,56), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX10"));
     CheckBoxPPM->SetValue(true);
@@ -319,9 +311,10 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxSPORT_FILE_LOG = new wxCheckBox(Panel3, ID_CHECKBOX8, _("Sport file log"), wxPoint(208,248), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX8"));
     CheckBoxSPORT_FILE_LOG->SetValue(false);
     CheckBoxOFFSET_ON_INPUT = new wxCheckBox(Panel3, ID_CHECKBOX22, _("Offset on input"), wxPoint(336,216), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX22"));
-    CheckBoxOFFSET_ON_INPUT->SetValue(false);
-    CheckBoxPCBREV = new wxCheckBox(Panel3, ID_CHECKBOX23, _("PCB Revision"), wxPoint(336,184), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX23"));
+    CheckBoxOFFSET_ON_INPUT->SetValue(true);
+    CheckBoxPCBREV = new wxCheckBox(Panel3, ID_CHECKBOX23, _("PCB Rev0"), wxPoint(336,184), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX23"));
     CheckBoxPCBREV->SetValue(false);
+    CheckBoxPCBREV->SetToolTip(_("REV1 pour gruvin9x si pas coché"));
     CheckBoxTURNIGY_TRANSMITTER_FIX = new wxCheckBox(Panel3, ID_CHECKBOX24, _("TURNIGY Fix"), wxPoint(656,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX24"));
     CheckBoxTURNIGY_TRANSMITTER_FIX->SetValue(false);
     CheckBoxFRSKY_STICKS = new wxCheckBox(Panel3, ID_CHECKBOX25, _("FRSKY_Sticks"), wxPoint(656,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX25"));
@@ -330,24 +323,29 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxCORRECT_NEGATIVE_VALUES->SetValue(false);
     CheckBoxARITHMETIC_OVERFLOW_CHECK = new wxCheckBox(Panel3, ID_CHECKBOX27, _("ARITHMETIC_OVERFLOW_CHECK"), wxPoint(456,184), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX27"));
     CheckBoxARITHMETIC_OVERFLOW_CHECK->SetValue(false);
-    CheckBoxSP22 = new wxCheckBox(Panel3, ID_CHECKBOX29, _("SP22"), wxPoint(656,184), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX29"));
+    CheckBoxARITHMETIC_OVERFLOW_CHECK->SetToolTip(_("Ajoute du code pour prèvoir débordement aritmethique"));
+    CheckBoxSP22 = new wxCheckBox(Panel3, ID_CHECKBOX29, _("SP22"), wxPoint(656,56), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX29"));
     CheckBoxSP22->SetValue(false);
+    CheckBoxSP22->SetToolTip(_("Smartie Parts Backlight"));
     CheckBoxPWM_BACKLIGHT = new wxCheckBox(Panel3, ID_CHECKBOX30, _("PWM_BACKLIGHT"), wxPoint(456,56), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX30"));
     CheckBoxPWM_BACKLIGHT->SetValue(false);
-    CheckBoxOVERRIDE_CHANNEL_FUNCTION = new wxCheckBox(Panel3, ID_CHECKBOX31, _("Overide channel function"), wxPoint(456,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX31"));
+    CheckBoxOVERRIDE_CHANNEL_FUNCTION = new wxCheckBox(Panel3, ID_CHECKBOX31, _("Override channel function"), wxPoint(456,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX31"));
     CheckBoxOVERRIDE_CHANNEL_FUNCTION->SetValue(false);
-    CheckBoxWS_HOW_HIGH = new wxCheckBox(Panel3, ID_CHECKBOX32, _("WS_HOW_HIGH"), wxPoint(456,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX32"));
+    CheckBoxWS_HOW_HIGH = new wxCheckBox(Panel3, ID_CHECKBOX32, _("WS_HOW_HIGH"), wxPoint(208,280), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX32"));
     CheckBoxWS_HOW_HIGH->SetValue(false);
+    CheckBoxWS_HOW_HIGH->SetToolTip(_("WS HowHigh Altimeter"));
     CheckBoxHUBSAN = new wxCheckBox(Panel3, ID_CHECKBOX33, _("Hubsan"), wxPoint(656,216), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX33"));
     CheckBoxHUBSAN->SetValue(false);
     CheckBoxTX_CADDY = new wxCheckBox(Panel3, ID_CHECKBOX34, _("TX_CADDY"), wxPoint(656,152), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX34"));
     CheckBoxTX_CADDY->SetValue(false);
+    CheckBoxTX_CADDY->SetToolTip(_("Pour gruvin9x seulement"));
     CheckBoxIRPROTOS = new wxCheckBox(Panel3, ID_CHECKBOX35, _("IR protos"), wxPoint(656,248), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX35"));
     CheckBoxIRPROTOS->SetValue(false);
-    CheckBoxTOGGLETRIM = new wxCheckBox(Panel3, ID_CHECKBOX36, _("Toggle trims"), wxPoint(656,56), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX36"));
+    CheckBoxTOGGLETRIM = new wxCheckBox(Panel3, ID_CHECKBOX36, _("Toggle trims"), wxPoint(456,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX36"));
     CheckBoxTOGGLETRIM->SetValue(false);
+    CheckBoxTOGGLETRIM->SetToolTip(_("Change les trim de la main droite à la main gauche, et vice-versa"));
     CheckBoxNOANDSECONDE = new wxCheckBox(Panel3, ID_CHECKBOX37, _("NOANDSECONDE"), wxPoint(336,248), wxSize(102,16), 0, wxDefaultValidator, _T("ID_CHECKBOX37"));
-    CheckBoxNOANDSECONDE->SetValue(false);
+    CheckBoxNOANDSECONDE->SetValue(true);
     CheckBoxSHUTDOWN_CONFIRMATION = new wxCheckBox(Panel3, ID_CHECKBOX38, _("SHUTDOWN_CONFIRMATION"), wxPoint(456,248), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX38"));
     CheckBoxSHUTDOWN_CONFIRMATION->SetValue(false);
     CheckBoxACCURAT_THROTTLE_STATS = new wxCheckBox(Panel3, ID_CHECKBOX39, _("ACCURAT_THROTTLE_STATS"), wxPoint(456,216), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX39"));
@@ -365,18 +363,12 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     Notebook1->AddPage(Panel2, _("Réglages"), false);
     Notebook1->AddPage(Panel3, _("Options avancées"), false);
 
-    Connect(ID_CHECKBOX16,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxPPM_CENTER_ADJUSTABLEClick1);
-    Connect(ID_CHOICE1,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&CompilerOptionsFrame::OnChoiceLCDSelect);
     Connect(ID_CHOICE8,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&CompilerOptionsFrame::OnChoiceNAVIGATIONSelect);
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonEXITClick);
     Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonCOMPILEClick);
-    Connect(ID_CHECKBOX21,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxSPLASHClick1);
-    Panel2->Connect(wxEVT_PAINT,(wxObjectEventFunction)&CompilerOptionsFrame::OnPanel2Paint,0,this);
-    Connect(ID_CHECKBOX13,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxDSM2Click1);
+    Connect(ID_CHECKBOX13,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxDSM2SERIALClick);
     Connect(ID_CHECKBOX45,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxAUTOSOURCEClick1);
     Connect(ID_CHECKBOX28,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxDSM2PPMClick);
-    Panel3->Connect(wxEVT_PAINT,(wxObjectEventFunction)&CompilerOptionsFrame::OnPanel3Paint,0,this);
-    Connect(ID_NOTEBOOK1,wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED,(wxObjectEventFunction)&CompilerOptionsFrame::OnNotebook1PageChanged);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&CompilerOptionsFrame::OnClose);
     //*)
 
@@ -502,7 +494,7 @@ void CompilerOptionsFrame::BatFunction()
     if (CURVES) CompiBat += (" CURVES=YES");
     if (GVARS) CompiBat += (" GVARS=YES");
     if (OFFSET_ON_INPUT) CompiBat += (" OFFSET_ON_INPUT=YES");
-    if (PCBREV) CompiBat += (" PCBREV=YES");
+    if (PCBREV) CompiBat += (" PCBREV=REV0");
     if (TURNIGY_TRANSMITTER_FIX) CompiBat += (" TURNIGY_TRANSMITTER_FIX=YES");
     if (FRSKY_STICKS) CompiBat += (" FRSKY_STICKS=YES");
     if (CORRECT_NEGATIVE_VALUES) CompiBat += (" CORRECT_NEGATIVE_VALUES=YES");
@@ -524,8 +516,6 @@ void CompilerOptionsFrame::BatFunction()
     wxExecute(AppPath+"\\CompileBatFile.bat",wxEXEC_SYNC);// Create firmware
     Close();
     wxMessageBox(AppPath+ "\\sources\\nextsteprc.hex","Le nouveau Firmware est Le fichier:");
-
-    LinkToWriteFirmware(AppPath);
 }
 
 void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
@@ -623,53 +613,21 @@ void CompilerOptionsFrame::CreateCompileBatFile(wxString line4)
     CompileBatFile.Close();
 }
 
-void CompilerOptionsFrame::LinkToWriteFirmware(wxString line3) //this is not line3 i know
+void CompilerOptionsFrame::OnCheckBoxDSM2SERIALClick(wxCommandEvent& event)
 {
-}
-
-void CompilerOptionsFrame::OnPanel3Paint(wxPaintEvent& event)
-{
-}
-
-void CompilerOptionsFrame::OnNotebook1PageChanged(wxNotebookEvent& event)
-{
-}
-
-void CompilerOptionsFrame::OnPanel2Paint(wxPaintEvent& event)
-{
-}
-
-void CompilerOptionsFrame::OnChoiceLCDSelect(wxCommandEvent& event)
-{
-}
-
-void CompilerOptionsFrame::OnCheckBoxPPM_CENTER_ADJUSTABLEClick1(wxCommandEvent& event)
-{
-}
-
-void CompilerOptionsFrame::OnCheckBoxDSM2Click1(wxCommandEvent& event)
-{
-  CheckBoxDSM2PPM->SetValue(0);
+    CheckBoxDSM2PPM->SetValue(0);
 }
 
 void CompilerOptionsFrame::OnCheckBoxDSM2PPMClick(wxCommandEvent& event)
 {
-  CheckBoxDSM2SERIAL->SetValue(0);
+    CheckBoxDSM2SERIAL->SetValue(0);
 }
-
-
-
-void CompilerOptionsFrame::OnCheckBoxSPLASHClick1(wxCommandEvent& event)
-{
-}
-
 
 void CompilerOptionsFrame::OnCheckBoxAUTOSOURCEClick1(wxCommandEvent& event)//pas compatible avec navigation=sticks
 {
     AUTOSOURCE = CheckBoxAUTOSOURCE->GetValue();
     NAVIGATION  = ChoiceNAVIGATION->GetString(ChoiceNAVIGATION->GetSelection());
-      if ((NAVIGATION == wxT("STICKS")) & (AUTOSOURCE))
-      {
+      if ((NAVIGATION == wxT("STICKS")) & (AUTOSOURCE)){
         wxMessageBox("Non compatible avec NAVIGATION = STICKS");
         CheckBoxAUTOSOURCE->SetValue(0);
       }
@@ -679,10 +637,8 @@ void CompilerOptionsFrame::OnChoiceNAVIGATIONSelect(wxCommandEvent& event)
 {
     NAVIGATION  = ChoiceNAVIGATION->GetString(ChoiceNAVIGATION->GetSelection());
     AUTOSOURCE = CheckBoxAUTOSOURCE->GetValue();
-      if ((AUTOSOURCE) & (NAVIGATION == wxT("STICKS")))
-      {
-        wxMessageBox("Non compatible avec AUTOSOURCE. AUTOSOURCE uncoché.");
+      if ((AUTOSOURCE) & (NAVIGATION == wxT("STICKS"))){
+        wxMessageBox("Non compatible avec AUTOSOURCE. AUTOSOURCE décoché.");
         CheckBoxAUTOSOURCE->SetValue(0);
       }
 }
-

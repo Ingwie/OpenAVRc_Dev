@@ -16,7 +16,7 @@
 //*)
 
 extern wxString CompileBatFile;
-extern wxString LinkToWriteFirmware;
+//extern wxString LinkToWriteFirmware;
 
 extern wxString PCB;//mandatory
 extern wxString LCD;//mandatory
@@ -76,7 +76,6 @@ extern bool IRPROTOS;//Does that work?
 extern bool TOGGLETRIM;
 extern bool NOANDSECONDE;// Hardwired
 extern bool SHUTDOWN_CONFIRMATION;
-extern wxString NO;
 //DANGEROUS_MODULE_FUNCTIONS// does not compile.
 
 
@@ -303,7 +302,6 @@ private:
     void CollectDatas();
     void BatFunction();
     void CreateCompileBatFile(wxString line2);
-    void LinkToWriteFirmware(wxString line2);
     void OnCheckBoxSD_CARDClick(wxCommandEvent& event);
     void OnCheckBoxPPMClick(wxCommandEvent& event);
     void OnCheckBoxSPORT_FILE_LOGClick(wxCommandEvent& event);
@@ -364,6 +362,7 @@ private:
     void OnCheckBoxOVERRIDE_CHANNEL_FUNCTIONClick(wxCommandEvent& event);
     void OnCheckBoxAUTOSOURCEClick1(wxCommandEvent& event);
     void OnChoiceNAVIGATIONSelect(wxCommandEvent& event);
+    void OnCheckBoxDSM2SERIALClick(wxCommandEvent& event);
     //*)
 
     DECLARE_EVENT_TABLE()
