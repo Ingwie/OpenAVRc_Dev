@@ -50,12 +50,15 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 }
 
 //Splash
-uint8_t LbmSplash[] = {
+uint8_t LbmSplashOriginal[] =
+{
 #include "splash.lbm"
 };
 bool personalSplash = false;
 #define LCD_W 128
 #define LCD_H 64
+#define SPLASHLENGHT 1026
+uint8_t LbmSplash[SPLASHLENGHT] = {0};
 #define LcdScale 2
 
 //Global Var
@@ -130,10 +133,13 @@ bool SHUTDOWN_CONFIRMATION = 0;
 
 
 //(*IdInit(NextStepRc_DesktopFrame)
+const long NextStepRc_DesktopFrame::ID_STATICBOXSPLASH = wxNewId();
 const long NextStepRc_DesktopFrame::ID_STATICBOXCONFIG = wxNewId();
 const long NextStepRc_DesktopFrame::ID_BUTTON1 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_LISTBOXCONFIG = wxNewId();
 const long NextStepRc_DesktopFrame::ID_SPLASH = wxNewId();
+const long NextStepRc_DesktopFrame::ID_BUTTONPERSO = wxNewId();
+const long NextStepRc_DesktopFrame::ID_BUTTONSPLASHDEFAULT = wxNewId();
 const long NextStepRc_DesktopFrame::ID_PANEL1 = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUITEMNEWCONFIG = wxNewId();
 const long NextStepRc_DesktopFrame::ID_MENUDELETEACTIVECONFIG = wxNewId();
@@ -177,11 +183,14 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     SetClientSize(wxSize(590,282));
     Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxSize(590,290), 0, _T("ID_PANEL1"));
     Panel1->SetFocus();
+    StaticBoxSplash = new wxStaticBox(Panel1, ID_STATICBOXSPLASH, _("Ecran d\'accueil"), wxPoint(160,8), wxSize(272,192), 0, _T("ID_STATICBOXSPLASH"));
     StaticBoxConfig = new wxStaticBox(Panel1, ID_STATICBOXCONFIG, _("Configuration"), wxPoint(16,8), wxSize(136,192), 0, _T("ID_STATICBOXCONFIG"));
     Button1 = new wxButton(Panel1, ID_BUTTON1, _("SIMULATEUR"), wxPoint(8,208), wxSize(568,31), 0, wxDefaultValidator, _T("ID_BUTTON1"));
-    ListBoxConfig = new wxListBox(Panel1, ID_LISTBOXCONFIG, wxPoint(24,32), wxSize(120,152), 0, 0, wxLB_SINGLE|wxDOUBLE_BORDER|wxVSCROLL, wxDefaultValidator, _T("ID_LISTBOXCONFIG"));
-    PanelSplash = new wxPanel(Panel1, ID_SPLASH, wxPoint(176,64), wxSize(256,128), wxNO_BORDER, _T("ID_SPLASH"));
+    ListBoxConfig = new wxListBox(Panel1, ID_LISTBOXCONFIG, wxPoint(24,32), wxSize(120,160), 0, 0, wxLB_SINGLE|wxDOUBLE_BORDER|wxVSCROLL, wxDefaultValidator, _T("ID_LISTBOXCONFIG"));
+    PanelSplash = new wxPanel(Panel1, ID_SPLASH, wxPoint(169,64), wxSize(256,128), wxNO_BORDER, _T("ID_SPLASH"));
     PanelSplash->SetBackgroundColour(wxColour(255,255,255));
+    ButtonPerso = new wxButton(Panel1, ID_BUTTONPERSO, _("Personaliser"), wxPoint(192,30), wxSize(75,24), 0, wxDefaultValidator, _T("ID_BUTTONPERSO"));
+    ButtonSplashDefault = new wxButton(Panel1, ID_BUTTONSPLASHDEFAULT, _("Par défaut"), wxPoint(312,30), wxSize(75,24), 0, wxDefaultValidator, _T("ID_BUTTONSPLASHDEFAULT"));
     MenuBar_main = new wxMenuBar();
     Menu1 = new wxMenu();
     MenuNewconfig = new wxMenuItem(Menu1, ID_MENUITEMNEWCONFIG, _("Nouvelle configuration"), wxEmptyString, wxITEM_NORMAL);
@@ -309,7 +318,6 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     ListBoxConfig->InsertItems(SavedConfig,0);
     ListBoxConfig->SetStringSelection(Profil);
 
-    //if (!personalSplash) DrawLbmSplash();
 }
 
 
@@ -395,7 +403,7 @@ void NextStepRc_DesktopFrame::OnEcrirelesFuseesSelected(wxCommandEvent& event)//
 void NextStepRc_DesktopFrame::OnEcrirelebootloaderSelected(wxCommandEvent& event) // Write bootloader
 {
     wxMessageDialog *susto = new wxMessageDialog(NULL,
-             ("Sûr? Vous voulez continuer?"), wxT("Programmation du Bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
+            ("Sûr? Vous voulez continuer?"), wxT("Programmation du Bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
     susto->SetEventHandler(susto);
     if (susto->ShowModal()!= wxID_OK) return;
     wxString BOOTLOADER(" -c usbasp -P usb -U lock:w:0x3F:m -U flash:w:mega2560_stk500v2boot_opentx.hex -U lock:w:0x0F:m -v");
@@ -484,7 +492,25 @@ void NextStepRc_DesktopFrame::LoadConfig(wxString temp)
     configFile->Read(wxT("TOGGLETRIM"),&TOGGLETRIM);
     configFile->Read(wxT("NOANDSECONDE"),&NOANDSECONDE);
     configFile->Read(wxT("SHUTDOWN_CONFIRMATION"),&SHUTDOWN_CONFIRMATION);
-
+    // [SPLASH]
+    configFile->SetPath("/"+Profil+"/");
+    configFile->SetPath("SPLASH/");
+    configFile->Read(wxT("SPLASH_DEFINED"),&personalSplash);
+    if (personalSplash)
+    {
+        for (int i=0; (i < (SPLASHLENGHT)); ++i)
+        {
+            wxString lineName;
+            lineName.Printf("DATA_N%u",i);
+            long num;
+            num = configFile->ReadLong(lineName,0);
+            LbmSplash[i] = (num & 0xFF);
+        }
+    }
+    else
+    {
+        memcpy(LbmSplash,LbmSplashOriginal,SPLASHLENGHT);
+    }
 }
 
 extern void NextStepRc_DesktopFrame::SaveConfig()
@@ -566,6 +592,19 @@ extern void NextStepRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("TOGGLETRIM"),TOGGLETRIM);
     configFile->Write(wxT("NOANDSECONDE"),NOANDSECONDE);
     configFile->Write(wxT("SHUTDOWN_CONFIRMATION"),SHUTDOWN_CONFIRMATION);
+    // [SPLASH]
+    configFile->SetPath("/"+Profil+"/");
+    configFile->SetPath("SPLASH/");
+    configFile->Write(wxT("SPLASH_DEFINED"),personalSplash);
+    if (personalSplash)
+    {
+        for (int i=0; (i < (SPLASHLENGHT)); ++i)
+        {
+            wxString lineName;
+            lineName.Printf("DATA_N%u",i);
+            configFile->Write(lineName,LbmSplash[i]);
+        }
+    }
 
     configFile->Flush();
     configFile->SetPath("/");
@@ -589,11 +628,6 @@ void NextStepRc_DesktopFrame::OnATMEGA2560CompilerSelected(wxCommandEvent& event
     CompilerOptionsFrame* atmegaFrame = new CompilerOptionsFrame(NULL);
     atmegaFrame->Show(TRUE);//opens CommunicationsFrame
 }
-
-//void NextStepRc_DesktopFrame::OnMenuHtmlDocSelected(wxCommandEvent& event)
-//{
-//  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation"), NULL);
-//}
 
 void NextStepRc_DesktopFrame::OnNexStepRc_M2560_docsSelected(wxCommandEvent& event)
 {
@@ -637,6 +671,7 @@ void NextStepRc_DesktopFrame::OnListBoxConfigDClick(wxCommandEvent& event)
         Ini_Changed = 1;
     }
     ListBoxConfig->SetStringSelection(Profil);
+    DrawLbmSplash();
 }
 
 
@@ -685,7 +720,7 @@ void NextStepRc_DesktopFrame::OnMenuDeleteActiveConfigSelected(wxCommandEvent& e
 
 void NextStepRc_DesktopFrame::DrawLbmSplash()
 {
-     int p = 2;
+    int p = 2;
 
     wxClientDC dc(PanelSplash);
     wxBrush brush_back(*wxWHITE, wxBRUSHSTYLE_SOLID  );
@@ -693,11 +728,8 @@ void NextStepRc_DesktopFrame::DrawLbmSplash()
     dc.DrawRectangle(0,0,LCD_W*LcdScale,LCD_H*LcdScale);
     wxBrush brush_top(*wxBLACK, wxBRUSHSTYLE_SOLID  );
     dc.SetBrush(brush_top);
-
-
     for (uint8_t y=0; y < (LCD_H / 8); y++)
     {
-
         for (uint8_t x=0; x < LCD_W; x++)
         {
             uint8_t bit = LbmSplash[p];
@@ -713,5 +745,5 @@ void NextStepRc_DesktopFrame::DrawLbmSplash()
 
 void NextStepRc_DesktopFrame::OnPanelSplashPaint(wxPaintEvent& event)
 {
-  DrawLbmSplash();
+    DrawLbmSplash();
 }

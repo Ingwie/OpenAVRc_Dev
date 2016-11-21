@@ -63,10 +63,10 @@
 			<Add option="-m32" />
 			<Add option="-mthreads" />
 		</Linker>
-		<Unit filename="CompilerOptionsFrame.cpp" />
-		<Unit filename="CompilerOptionsFrame.h" />
 		<Unit filename="CommunicationsFrame.cpp" />
 		<Unit filename="CommunicationsFrame.h" />
+		<Unit filename="CompilerOptionsFrame.cpp" />
+		<Unit filename="CompilerOptionsFrame.h" />
 		<Unit filename="NextStepRc_DesktopApp.cpp" />
 		<Unit filename="NextStepRc_DesktopApp.h" />
 		<Unit filename="NextStepRc_DesktopMain.cpp" />
@@ -74,8 +74,9 @@
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
-		<Unit filename="wxsmith/CompilerOptionsFrame.wxs" />
 		<Unit filename="wxsmith/CommunicationsFrame.wxs" />
+		<Unit filename="wxsmith/CompilerOptionsFrame.wxs" />
+		<Unit filename="wxsmith/NextStepRc_Desktopframe.wxs" />
 		<Extensions>
 			<code_completion />
 			<envvars />

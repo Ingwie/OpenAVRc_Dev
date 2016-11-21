@@ -10,6 +10,11 @@
 			<size>590,290</size>
 			<focused>1</focused>
 			<style>0</style>
+			<object class="wxStaticBox" name="ID_STATICBOXSPLASH" variable="StaticBoxSplash" member="yes">
+				<label>Ecran d&apos;accueil</label>
+				<pos>160,8</pos>
+				<size>272,192</size>
+			</object>
 			<object class="wxStaticBox" name="ID_STATICBOXCONFIG" variable="StaticBoxConfig" member="yes">
 				<label>Configuration</label>
 				<pos>16,8</pos>
@@ -24,17 +29,27 @@
 			<object class="wxListBox" name="ID_LISTBOXCONFIG" variable="ListBoxConfig" member="yes">
 				<default>-1</default>
 				<pos>24,32</pos>
-				<size>120,152</size>
+				<size>120,160</size>
 				<style>wxLB_SINGLE|wxDOUBLE_BORDER|wxVSCROLL</style>
 				<handler function="OnListBoxConfigDClick" entry="EVT_LISTBOX" />
 				<handler function="OnListBoxConfigDClick" entry="EVT_LISTBOX_DCLICK" />
 			</object>
 			<object class="wxPanel" name="ID_SPLASH" variable="PanelSplash" member="yes">
-				<pos>176,64</pos>
+				<pos>169,64</pos>
 				<size>256,128</size>
 				<bg>#FFFFFF</bg>
 				<style>wxNO_BORDER</style>
 				<handler function="OnPanelSplashPaint" entry="EVT_PAINT" />
+			</object>
+			<object class="wxButton" name="ID_BUTTONPERSO" variable="ButtonPerso" member="yes">
+				<label>Personaliser</label>
+				<pos>192,30</pos>
+				<size>75,24</size>
+			</object>
+			<object class="wxButton" name="ID_BUTTONSPLASHDEFAULT" variable="ButtonSplashDefault" member="yes">
+				<label>Par défaut</label>
+				<pos>312,30</pos>
+				<size>75,24</size>
 			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar_main" member="yes">

@@ -55,7 +55,6 @@ private:
     void LoadConfig(wxString temp);
     void SaveConfig();
     void OnClose(wxCloseEvent& event);
-    void OnMenuHtmlDocSelected(wxCommandEvent& event);
     void OnListBoxConfigDClick(wxCommandEvent& event);
     void OnMenuNewconfigSelected(wxCommandEvent& event);
     void OnMenuDeleteActiveConfigSelected(wxCommandEvent& event);
@@ -71,10 +70,13 @@ private:
     //*)
 
     //(*Identifiers(NextStepRc_DesktopFrame)
+    static const long ID_STATICBOXSPLASH;
     static const long ID_STATICBOXCONFIG;
     static const long ID_BUTTON1;
     static const long ID_LISTBOXCONFIG;
     static const long ID_SPLASH;
+    static const long ID_BUTTONPERSO;
+    static const long ID_BUTTONSPLASHDEFAULT;
     static const long ID_PANEL1;
     static const long ID_MENUITEMNEWCONFIG;
     static const long ID_MENUDELETEACTIVECONFIG;
@@ -101,10 +103,12 @@ private:
     //*)
 
     //(*Declarations(NextStepRc_DesktopFrame)
+    wxButton* ButtonPerso;
     wxMenuItem* MenuItem7;
     wxMenuItem* MenuDeleteActiveConfig;
     wxPanel* PanelSplash;
     wxMenuItem* MenuItem5;
+    wxButton* ButtonSplashDefault;
     wxMenu* MenuHtmlDoc;
     wxMenu* MenuItem15;
     wxMenu* Menu3;
@@ -112,6 +116,7 @@ private:
     wxMenuItem* MenuItem4;
     wxMenuItem* MenuItem14;
     wxMenuItem* MenuItem11;
+    wxStaticBox* StaticBoxSplash;
     wxPanel* Panel1;
     wxMenuItem* MenuItem13;
     wxMenu* MenuItem8;
