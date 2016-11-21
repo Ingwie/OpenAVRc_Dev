@@ -50,6 +50,7 @@
 				<label>Par défaut</label>
 				<pos>312,30</pos>
 				<size>75,24</size>
+				<handler function="OnButtonSplashDefaultClick" entry="EVT_BUTTON" />
 			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar_main" member="yes">

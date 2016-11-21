@@ -259,6 +259,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_LISTBOXCONFIG,wxEVT_COMMAND_LISTBOX_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnListBoxConfigDClick);
     Connect(ID_LISTBOXCONFIG,wxEVT_COMMAND_LISTBOX_DOUBLECLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnListBoxConfigDClick);
     PanelSplash->Connect(wxEVT_PAINT,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnPanelSplashPaint,0,this);
+    Connect(ID_BUTTONSPLASHDEFAULT,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnButtonSplashDefaultClick);
     Connect(ID_MENUITEMNEWCONFIG,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnMenuNewconfigSelected);
     Connect(ID_MENUDELETEACTIVECONFIG,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnMenuDeleteActiveConfigSelected);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnQuit);
@@ -509,8 +510,13 @@ void NextStepRc_DesktopFrame::LoadConfig(wxString temp)
     }
     else
     {
-        memcpy(LbmSplash,LbmSplashOriginal,SPLASHLENGHT);
+        RestoreDefaultSplash();
     }
+}
+
+void NextStepRc_DesktopFrame::RestoreDefaultSplash()
+{
+    memcpy(LbmSplash,LbmSplashOriginal,SPLASHLENGHT);
 }
 
 extern void NextStepRc_DesktopFrame::SaveConfig()
@@ -603,6 +609,15 @@ extern void NextStepRc_DesktopFrame::SaveConfig()
             wxString lineName;
             lineName.Printf("DATA_N%u",i);
             configFile->Write(lineName,LbmSplash[i]);
+        }
+    }
+    else
+    {
+        for (int i=0; (i < (SPLASHLENGHT)); ++i)
+        {
+            wxString lineName;
+            lineName.Printf("DATA_N%u",i);
+            configFile->DeleteEntry(lineName,1);
         }
     }
 
@@ -746,4 +761,12 @@ void NextStepRc_DesktopFrame::DrawLbmSplash()
 void NextStepRc_DesktopFrame::OnPanelSplashPaint(wxPaintEvent& event)
 {
     DrawLbmSplash();
+}
+
+void NextStepRc_DesktopFrame::OnButtonSplashDefaultClick(wxCommandEvent& event)
+{
+    personalSplash = false;
+    RestoreDefaultSplash();
+    DrawLbmSplash();
+    SaveConfig();
 }

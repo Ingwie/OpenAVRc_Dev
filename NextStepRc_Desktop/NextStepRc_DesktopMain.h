@@ -54,6 +54,7 @@ private:
     void OnATMEGA2560CompilerSelected(wxCommandEvent& event);
     void LoadConfig(wxString temp);
     void SaveConfig();
+    void RestoreDefaultSplash();
     void OnClose(wxCloseEvent& event);
     void OnListBoxConfigDClick(wxCommandEvent& event);
     void OnMenuNewconfigSelected(wxCommandEvent& event);
@@ -67,6 +68,7 @@ private:
     void OnMenuMousseSelected(wxCommandEvent& event);
     void DrawLbmSplash();
     void OnPanelSplashPaint(wxPaintEvent& event);
+    void OnButtonSplashDefaultClick(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(NextStepRc_DesktopFrame)
