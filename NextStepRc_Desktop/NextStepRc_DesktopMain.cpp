@@ -259,6 +259,7 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_LISTBOXCONFIG,wxEVT_COMMAND_LISTBOX_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnListBoxConfigDClick);
     Connect(ID_LISTBOXCONFIG,wxEVT_COMMAND_LISTBOX_DOUBLECLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnListBoxConfigDClick);
     PanelSplash->Connect(wxEVT_PAINT,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnPanelSplashPaint,0,this);
+    Connect(ID_BUTTONPERSO,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnButtonPersoClick);
     Connect(ID_BUTTONSPLASHDEFAULT,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnButtonSplashDefaultClick);
     Connect(ID_MENUITEMNEWCONFIG,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnMenuNewconfigSelected);
     Connect(ID_MENUDELETEACTIVECONFIG,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&NextStepRc_DesktopFrame::OnMenuDeleteActiveConfigSelected);
@@ -769,4 +770,50 @@ void NextStepRc_DesktopFrame::OnButtonSplashDefaultClick(wxCommandEvent& event)
     RestoreDefaultSplash();
     DrawLbmSplash();
     SaveConfig();
+}
+
+void NextStepRc_DesktopFrame::OnButtonPersoClick(wxCommandEvent& event)
+{
+      wxFileDialog openFileDialog(this, _("Fichier image"), "", "","Fichier image (*.*)|*.*", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+    if (openFileDialog.ShowModal() == wxID_CANCEL) return;
+
+    wxInitAllImageHandlers();
+    wxImage ImageSplash;
+    //ImageSplash.
+    ImageSplash.LoadFile(openFileDialog.GetPath(), wxBITMAP_TYPE_ANY );
+    ImageSplash.Rescale(LCD_W,LCD_H,wxIMAGE_QUALITY_NORMAL);
+    ImageSplash = ImageSplash.ConvertToMono(255,255,255);
+    unsigned char* imgraw = (unsigned char*) malloc(LCD_W*LCD_H*3);;
+    imgraw = ImageSplash.GetData();
+    uint8_t imgpix[SPLASHLENGHT] = {0};
+    uint16_t j = 2;
+    uint16_t k = 0;
+    uint16_t col = 0;
+    uint16_t line = 0;
+    bool bit;
+    for (uint32_t i=0; i<(LCD_W*LCD_H*3); i+=3)
+    {
+      if (imgraw[i] == 0) imgpix[j] |= 1;
+      imgpix[j] <<= 1;
+      ++k;
+      if (k == 8)
+      {
+        k = 0;
+        ++line;
+        j+=128;
+      }
+      if (line == 8)
+      {
+        ++col;
+        j = col;
+        line = 0;
+      }
+    }
+
+    memcpy(LbmSplash,imgpix,SPLASHLENGHT);
+
+
+    DrawLbmSplash();
+
+
 }

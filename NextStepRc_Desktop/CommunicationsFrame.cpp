@@ -108,7 +108,7 @@ CommunicationsFrame::~CommunicationsFrame()
 
 void CommunicationsFrame::OnButtonSearchavrdudepathClick(wxCommandEvent& event)
 {
-    wxFileDialog openFileDialog(this, _("Emplacement d'AVRDUDE"), "", "","AVRDUDE (*.bin)|*.exe", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+    wxFileDialog openFileDialog(this, _("Emplacement d'AVRDUDE"), "", "","AVRDUDE (*.exe)|*.exe", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL) return;
     TextCtrl1->SetValue(openFileDialog.GetPath());
 }

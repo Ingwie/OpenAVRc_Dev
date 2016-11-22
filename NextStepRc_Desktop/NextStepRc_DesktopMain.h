@@ -69,6 +69,7 @@ private:
     void DrawLbmSplash();
     void OnPanelSplashPaint(wxPaintEvent& event);
     void OnButtonSplashDefaultClick(wxCommandEvent& event);
+    void OnButtonPersoClick(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(NextStepRc_DesktopFrame)

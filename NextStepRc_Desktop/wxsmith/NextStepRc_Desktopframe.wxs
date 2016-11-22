@@ -45,6 +45,7 @@
 				<label>Personaliser</label>
 				<pos>192,30</pos>
 				<size>75,24</size>
+				<handler function="OnButtonPersoClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxButton" name="ID_BUTTONSPLASHDEFAULT" variable="ButtonSplashDefault" member="yes">
 				<label>Par défaut</label>
