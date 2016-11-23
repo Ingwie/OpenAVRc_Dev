@@ -59,16 +59,19 @@
 				<label>Fichier</label>
 				<object class="wxMenuItem" name="ID_MENUITEMNEWCONFIG" variable="MenuNewconfig" member="yes">
 					<label>Nouvelle configuration</label>
+					<bitmap stock_id="wxART_NEW" stock_client="wxART_MENU" />
 					<handler function="OnMenuNewconfigSelected" entry="EVT_MENU" />
 				</object>
 				<object class="wxMenuItem" name="ID_MENUDELETEACTIVECONFIG" variable="MenuDeleteActiveConfig" member="yes">
 					<label>Supprimer la configuration active</label>
+					<bitmap stock_id="wxART_CROSS_MARK" stock_client="wxART_MENU" />
 					<handler function="OnMenuDeleteActiveConfigSelected" entry="EVT_MENU" />
 				</object>
 				<object class="wxMenuItem" name="idMenuQuit" variable="MenuItem1" member="no">
 					<label>Quitter</label>
 					<accel>Alt-F4</accel>
 					<help>Quitter l&apos;application</help>
+					<bitmap stock_id="wxART_QUIT" stock_client="wxART_MENU" />
 					<handler function="OnQuit" entry="EVT_MENU" />
 				</object>
 			</object>
@@ -76,6 +79,7 @@
 				<label>Paramètres</label>
 				<object class="wxMenuItem" name="ID_MENUITEM1" variable="MenuItem3" member="yes">
 					<label>Programmateur</label>
+					<bitmap stock_id="wxART_EXECUTABLE_FILE" />
 					<handler function="OnProgrammerSelected" entry="EVT_MENU" />
 				</object>
 			</object>
@@ -84,19 +88,23 @@
 				<object class="separator" />
 				<object class="wxMenuItem" name="ID_MENUITEM3" variable="Menu5" member="yes">
 					<label>Lire les modèles de la radio</label>
+					<bitmap stock_id="wxART_GO_FORWARD" stock_client="wxART_MENU" />
 					<handler function="OnreadmodelsSelected" entry="EVT_MENU" />
 				</object>
 				<object class="wxMenuItem" name="ID_MENUITEM5" variable="MenuItem6" member="yes">
 					<label>Lire le firmware de la radio</label>
+					<bitmap stock_id="wxART_GO_FORWARD" stock_client="wxART_MENU" />
 					<handler function="OnreadfirmwareSelected" entry="EVT_MENU" />
 				</object>
 				<object class="separator" />
 				<object class="wxMenuItem" name="ID_MENUITEM4" variable="MenuItem5" member="yes">
 					<label>Écrire les modèles dans la radio</label>
+					<bitmap stock_id="wxART_GO_BACK" stock_client="wxART_MENU" />
 					<handler function="OnWriteModelToRadioSelected" entry="EVT_MENU" />
 				</object>
 				<object class="wxMenuItem" name="ID_MENUITEM6" variable="MenuItem7" member="yes">
 					<label>Écrire le firmware dans la radio</label>
+					<bitmap stock_id="wxART_GO_BACK" stock_client="wxART_MENU" />
 					<handler function="OnWriteFirmwareToRadioSelected" entry="EVT_MENU" />
 				</object>
 				<object class="separator" />
@@ -104,10 +112,12 @@
 					<label>Bootloader</label>
 					<object class="wxMenuItem" name="ID_MENUITEM9" variable="MenuItem10" member="yes">
 						<label>Écrire les fusibles</label>
+						<bitmap stock_id="wxART_EXECUTABLE_FILE" />
 						<handler function="OnEcrirelesFuseesSelected" entry="EVT_MENU" />
 					</object>
 					<object class="wxMenuItem" name="ID_MENUITEM10" variable="MenuItem11" member="yes">
 						<label>Écrire le bootloader</label>
+						<bitmap stock_id="wxART_EXECUTABLE_FILE" />
 						<handler function="OnEcrirelebootloaderSelected" entry="EVT_MENU" />
 					</object>
 				</object>
@@ -116,6 +126,7 @@
 				<label>Compilateur</label>
 				<object class="wxMenuItem" name="ID_MENUCOMPILOMATIC" variable="ATMEGA2560Compiler" member="yes">
 					<label>Compil-O-matic</label>
+					<bitmap stock_id="wxART_EXECUTABLE_FILE" stock_client="wxART_MENU" />
 					<handler function="OnATMEGA2560CompilerSelected" entry="EVT_MENU" />
 				</object>
 			</object>
@@ -125,28 +136,34 @@
 					<label>Documentation en ligne</label>
 					<object class="wxMenuItem" name="ID_MENUITEM14" variable="MenuItem14" member="yes">
 						<label>NextStepRc M-2560 Docs</label>
+						<bitmap stock_id="wxART_FILE_OPEN" stock_client="wxART_MENU" />
 						<handler function="OnNexStepRc_M2560_docsSelected" entry="EVT_MENU" />
 					</object>
 					<object class="wxMenuItem" name="ID_MENUITEM8" variable="MenuItem4" member="yes">
 						<label>JQ6500 PCB (by Pyrall)</label>
+						<bitmap stock_id="wxART_FILE_OPEN" stock_client="wxART_MENU" />
 						<handler function="OnMenuJQ6500_PCBSelected" entry="EVT_MENU" />
 					</object>
 					<object class="wxMenuItem" name="ID_MENUITEM11" variable="MenuItem9" member="yes">
 						<label>VOICE tuto (by JPZ)</label>
+						<bitmap stock_id="wxART_FILE_OPEN" stock_client="wxART_MENU" />
 						<handler function="OnMenuVoice_tutoSelected" entry="EVT_MENU" />
 					</object>
 					<object class="wxMenuItem" name="ID_MENUITEM12" variable="MenuItem12" member="yes">
 						<label>VOICE/AUDIO PCB et RTC (by Pyrall)</label>
+						<bitmap stock_id="wxART_FILE_OPEN" stock_client="wxART_MENU" />
 						<handler function="OnMenuVOICE_AUDIO_PCBSelected" entry="EVT_MENU" />
 					</object>
 					<object class="wxMenuItem" name="ID_MENUITEM13" variable="MenuItem13" member="yes">
 						<label>WIN FIRMWARE Compilation (by JPZ)</label>
+						<bitmap stock_id="wxART_FILE_OPEN" stock_client="wxART_MENU" />
 						<handler function="OnWIN_FIRMWARESelected" entry="EVT_MENU" />
 					</object>
 					<object class="wxMenu" name="ID_MENUITEM15" variable="MenuItem15" member="yes">
 						<label>Autres links</label>
 						<object class="wxMenuItem" name="ID_MENUITEM16" variable="MenuItem16" member="yes">
 							<label>Mousse NSRc Naval</label>
+							<bitmap stock_id="wxART_FILE_OPEN" stock_client="wxART_MENU" />
 							<handler function="OnMenuMousseSelected" entry="EVT_MENU" />
 						</object>
 					</object>
@@ -155,6 +172,7 @@
 					<label>A propos</label>
 					<accel>F1</accel>
 					<help>NestStepRc__Desktop V 0.00001 !</help>
+					<bitmap stock_id="wxART_INFORMATION" stock_client="wxART_MENU" />
 					<handler function="OnAbout" entry="EVT_MENU" />
 				</object>
 			</object>

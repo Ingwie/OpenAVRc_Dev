@@ -16,7 +16,10 @@
 
 
 //(*InternalHeaders(NextStepRc_DesktopFrame)
+#include <wx/artprov.h>
+#include <wx/bitmap.h>
 #include <wx/intl.h>
+#include <wx/image.h>
 #include <wx/string.h>
 //*)
 
@@ -194,57 +197,75 @@ NextStepRc_DesktopFrame::NextStepRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     MenuBar_main = new wxMenuBar();
     Menu1 = new wxMenu();
     MenuNewconfig = new wxMenuItem(Menu1, ID_MENUITEMNEWCONFIG, _("Nouvelle configuration"), wxEmptyString, wxITEM_NORMAL);
+    MenuNewconfig->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_NEW")),wxART_MENU));
     Menu1->Append(MenuNewconfig);
     MenuDeleteActiveConfig = new wxMenuItem(Menu1, ID_MENUDELETEACTIVECONFIG, _("Supprimer la configuration active"), wxEmptyString, wxITEM_NORMAL);
+    MenuDeleteActiveConfig->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CROSS_MARK")),wxART_MENU));
     Menu1->Append(MenuDeleteActiveConfig);
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter l\'application"), wxITEM_NORMAL);
+    MenuItem1->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_QUIT")),wxART_MENU));
     Menu1->Append(MenuItem1);
     MenuBar_main->Append(Menu1, _("Fichier"));
     Menu3 = new wxMenu();
     MenuItem3 = new wxMenuItem(Menu3, ID_MENUITEM1, _("Programmateur"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem3->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_EXECUTABLE_FILE")),wxART_OTHER));
     Menu3->Append(MenuItem3);
     MenuBar_main->Append(Menu3, _("Paramètres"));
     Menu4 = new wxMenu();
     Menu4->AppendSeparator();
     Menu5 = new wxMenuItem(Menu4, ID_MENUITEM3, _("Lire les modèles de la radio"), wxEmptyString, wxITEM_NORMAL);
+    Menu5->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_FORWARD")),wxART_MENU));
     Menu4->Append(Menu5);
     MenuItem6 = new wxMenuItem(Menu4, ID_MENUITEM5, _("Lire le firmware de la radio"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem6->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_FORWARD")),wxART_MENU));
     Menu4->Append(MenuItem6);
     Menu4->AppendSeparator();
     MenuItem5 = new wxMenuItem(Menu4, ID_MENUITEM4, _("Écrire les modèles dans la radio"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem5->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_BACK")),wxART_MENU));
     Menu4->Append(MenuItem5);
     MenuItem7 = new wxMenuItem(Menu4, ID_MENUITEM6, _("Écrire le firmware dans la radio"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem7->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_BACK")),wxART_MENU));
     Menu4->Append(MenuItem7);
     Menu4->AppendSeparator();
     MenuItem8 = new wxMenu();
     MenuItem10 = new wxMenuItem(MenuItem8, ID_MENUITEM9, _("Écrire les fusibles"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem10->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_EXECUTABLE_FILE")),wxART_OTHER));
     MenuItem8->Append(MenuItem10);
     MenuItem11 = new wxMenuItem(MenuItem8, ID_MENUITEM10, _("Écrire le bootloader"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem11->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_EXECUTABLE_FILE")),wxART_OTHER));
     MenuItem8->Append(MenuItem11);
     Menu4->Append(ID_MENUITEM7, _("Bootloader"), MenuItem8, wxEmptyString);
     MenuBar_main->Append(Menu4, _("Lire/Écrire"));
     Menu7 = new wxMenu();
     ATMEGA2560Compiler = new wxMenuItem(Menu7, ID_MENUCOMPILOMATIC, _("Compil-O-matic"), wxEmptyString, wxITEM_NORMAL);
+    ATMEGA2560Compiler->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_EXECUTABLE_FILE")),wxART_MENU));
     Menu7->Append(ATMEGA2560Compiler);
     MenuBar_main->Append(Menu7, _("Compilateur"));
     Menu2 = new wxMenu();
     MenuHtmlDoc = new wxMenu();
     MenuItem14 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM14, _("NextStepRc M-2560 Docs"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem14->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_FILE_OPEN")),wxART_MENU));
     MenuHtmlDoc->Append(MenuItem14);
     MenuItem4 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM8, _("JQ6500 PCB (by Pyrall)"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem4->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_FILE_OPEN")),wxART_MENU));
     MenuHtmlDoc->Append(MenuItem4);
     MenuItem9 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM11, _("VOICE tuto (by JPZ)"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem9->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_FILE_OPEN")),wxART_MENU));
     MenuHtmlDoc->Append(MenuItem9);
     MenuItem12 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM12, _("VOICE/AUDIO PCB et RTC (by Pyrall)"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem12->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_FILE_OPEN")),wxART_MENU));
     MenuHtmlDoc->Append(MenuItem12);
     MenuItem13 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM13, _("WIN FIRMWARE Compilation (by JPZ)"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem13->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_FILE_OPEN")),wxART_MENU));
     MenuHtmlDoc->Append(MenuItem13);
     MenuItem15 = new wxMenu();
     MenuItem16 = new wxMenuItem(MenuItem15, ID_MENUITEM16, _("Mousse NSRc Naval"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem16->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_FILE_OPEN")),wxART_MENU));
     MenuItem15->Append(MenuItem16);
     MenuHtmlDoc->Append(ID_MENUITEM15, _("Autres links"), MenuItem15, wxEmptyString);
     Menu2->Append(ID_MENUITEM2, _("Documentation en ligne"), MenuHtmlDoc, wxEmptyString);
     MenuItem2 = new wxMenuItem(Menu2, idMenuAbout, _("A propos\tF1"), _("NestStepRc_Desktop V 0.00001 !"), wxITEM_NORMAL);
+    MenuItem2->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_INFORMATION")),wxART_MENU));
     Menu2->Append(MenuItem2);
     MenuBar_main->Append(Menu2, _("Aide"));
     SetMenuBar(MenuBar_main);
@@ -336,7 +357,7 @@ void NextStepRc_DesktopFrame::OnQuit(wxCommandEvent& event)
 
 void NextStepRc_DesktopFrame::OnAbout(wxCommandEvent& event)
 {
-    wxString msg ="NestStepRc_Desktop V0.3B Merci Miguel !";
+    wxString msg ="NestStepRc_Desktop V0.3B";
     wxMessageBox(msg, _("Bienvenue dans ..."));
 }
 
