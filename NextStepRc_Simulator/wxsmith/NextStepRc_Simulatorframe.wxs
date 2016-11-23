@@ -297,17 +297,20 @@
 				<object class="wxMenuItem" name="IdMenuOpenEE" variable="MenuLoadee" member="yes">
 					<label>Charger Eeprom</label>
 					<help>Charger fichier BIN</help>
+					<bitmap stock_id="wxART_GO_FORWARD" stock_client="wxART_MENU" />
 					<handler function="OnMenuLoadEeprom" entry="EVT_MENU" />
 				</object>
 				<object class="wxMenuItem" name="IdMenuSaveEE" variable="MenuSaveee" member="yes">
 					<label>Sauver Eeprom</label>
 					<help>Sauvegarde du fichier BIN</help>
+					<bitmap stock_id="wxART_GO_BACK" stock_client="wxART_MENU" />
 					<handler function="OnMenuSaveeeSelected" entry="EVT_MENU" />
 				</object>
 				<object class="wxMenuItem" name="idMenuQuit" variable="MenuItem1" member="no">
 					<label>Quitter</label>
 					<accel>Alt-F4</accel>
 					<help>Quitter le simulateur</help>
+					<bitmap stock_id="wxART_QUIT" stock_client="wxART_MENU" />
 					<handler function="OnQuit" entry="EVT_MENU" />
 				</object>
 			</object>
@@ -317,26 +320,32 @@
 					<label>Couleurs</label>
 					<object class="wxMenuItem" name="ID_LCDB" variable="MenuLcdBack" member="yes">
 						<label>Lcd (fond)</label>
+						<bitmap stock_id="wxART_TICK_MARK" stock_client="wxART_MENU" />
 						<handler function="OnMenuLcdBackSelected" entry="EVT_MENU" />
 					</object>
 					<object class="wxMenuItem" name="ID_LCDF" variable="MenuLcdPixel" member="yes">
 						<label>Lcd (pixel)</label>
+						<bitmap stock_id="wxART_TICK_MARK" stock_client="wxART_MENU" />
 						<handler function="OnMenuLcdPixelSelected" entry="EVT_MENU" />
 					</object>
 					<object class="wxMenuItem" name="ID_BUTOFF" variable="MenuButOff" member="yes">
 						<label>Boutons (off)</label>
+						<bitmap stock_id="wxART_TICK_MARK" stock_client="wxART_MENU" />
 						<handler function="OnMenuButOffSelected" entry="EVT_MENU" />
 					</object>
 					<object class="wxMenuItem" name="ID_BUTON" variable="MenuButOn" member="yes">
 						<label>Boutons (on)</label>
+						<bitmap stock_id="wxART_TICK_MARK" stock_client="wxART_MENU" />
 						<handler function="OnMenuButOnSelected" entry="EVT_MENU" />
 					</object>
 					<object class="wxMenuItem" name="ID_STICKB" variable="MenuStickBack" member="yes">
 						<label>Manches (fond)</label>
+						<bitmap stock_id="wxART_TICK_MARK" stock_client="wxART_MENU" />
 						<handler function="OnMenuStickBackSelected" entry="EVT_MENU" />
 					</object>
 					<object class="wxMenuItem" name="ID_STICKF" variable="MenuStickStick" member="yes">
 						<label>Manches (stick)</label>
+						<bitmap stock_id="wxART_TICK_MARK" stock_client="wxART_MENU" />
 						<handler function="OnMenuStickStickSelected" entry="EVT_MENU" />
 					</object>
 				</object>
@@ -347,6 +356,7 @@
 					<label>A propos ...</label>
 					<accel>F1</accel>
 					<help>C&apos;est quoi donc ?</help>
+					<bitmap stock_id="wxART_INFORMATION" stock_client="wxART_MENU" />
 					<handler function="OnAbout" entry="EVT_MENU" />
 				</object>
 			</object>
