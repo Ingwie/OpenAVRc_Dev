@@ -795,7 +795,7 @@ void NextStepRc_DesktopFrame::OnButtonSplashDefaultClick(wxCommandEvent& event)
 
 void NextStepRc_DesktopFrame::OnButtonPersoClick(wxCommandEvent& event)
 {
-      wxFileDialog openFileDialog(this, _("Fichier image"), "", "","Fichier image (*.*)|*.*", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+    wxFileDialog openFileDialog(this, _("Fichier image"), "", "","Fichier image (*.*)|*.*", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL) return;
 
     wxInitAllImageHandlers();
@@ -807,34 +807,32 @@ void NextStepRc_DesktopFrame::OnButtonPersoClick(wxCommandEvent& event)
     unsigned char* imgraw = (unsigned char*) malloc(LCD_W*LCD_H*3);;
     imgraw = ImageSplash.GetData();
     uint8_t imgpix[SPLASHLENGHT] = {0};
+    imgpix[0] = 128;
+    imgpix[1] = 68;
+
     uint16_t j = 2;
-    uint16_t k = 0;
-    uint16_t col = 0;
     uint16_t line = 0;
-    bool bit;
-    for (uint32_t i=0; i<(LCD_W*LCD_H*3); i+=3)
+
+    for (uint32_t i=0; i<(LCD_W*LCD_H*3-3); i+=3)
     {
-      if (imgraw[i] == 0) imgpix[j] |= 1;
-      imgpix[j] <<= 1;
-      ++k;
-      if (k == 8)
-      {
-        k = 0;
-        ++line;
-        j+=128;
-      }
-      if (line == 8)
-      {
-        ++col;
-        j = col;
-        line = 0;
-      }
+        imgpix[j] >>= 1;
+        if (imgraw[i] == 0) imgpix[j] |= 0x80;
+        ++j;
+        if ((j-2)%128 == 0)
+        {
+            ++line;
+            if (line != 8)
+            {
+                j-=128;
+            }
+            else
+            {
+                line = 0;
+            }
+        }
     }
+    imgpix[j] >>= 1;
 
     memcpy(LbmSplash,imgpix,SPLASHLENGHT);
-
-
     DrawLbmSplash();
-
-
 }
