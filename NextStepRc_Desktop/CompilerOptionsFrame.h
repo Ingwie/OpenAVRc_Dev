@@ -15,6 +15,10 @@
 #include <wx/frame.h>
 //*)
 
+//SPLASH
+extern uint8_t LbmSplash[SPLASHLENGHT];
+
+
 extern wxString CompileBatFile;
 //extern wxString LinkToWriteFirmware;
 
@@ -301,6 +305,7 @@ private:
     void OnChoiceTTSSelect(wxCommandEvent& event);
     void CollectDatas();
     void BatFunction();
+    void WriteSplashFile();
     void CreateCompileBatFile(wxString line2);
     void OnCheckBoxSD_CARDClick(wxCommandEvent& event);
     void OnCheckBoxPPMClick(wxCommandEvent& event);

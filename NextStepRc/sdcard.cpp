@@ -63,7 +63,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
   if (res == FR_OK) {
 
     if (flags & LIST_NONE_SD_FILE) {
-      popupMenuNoItems++;
+      ++popupMenuNoItems;
       if (selection) {
         lastpopupMenuOffset++;
       }
@@ -89,7 +89,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
       uint8_t len = strlen(fn);
       if (len < 5 || len > maxlen+4 || strcasecmp(fn+len-4, extension) || (fno.fattrib & AM_DIR)) continue;
 
-      popupMenuNoItems++;
+      ++popupMenuNoItems;
       fn[len-4] = '\0';
 
       if (popupMenuOffset == 0) {

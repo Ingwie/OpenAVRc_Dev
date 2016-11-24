@@ -32,7 +32,7 @@ enum ModuleFlag
   #define IS_RANGECHECK_ENABLE()             (moduleFlag[0] == MODULE_RANGECHECK)
 #endif
 
-#if defined(DSM2) 
+#if defined(DSM2)
   #define DSM2_BIND_TIMEOUT      255         // 255*11ms
   extern uint8_t dsm2BindTimer;
 #endif

@@ -511,9 +511,10 @@ void CompilerOptionsFrame::BatFunction()
     if (NOANDSECONDE) CompiBat += (" NOANDSECONDE=YES");
     if (SHUTDOWN_CONFIRMATION) CompiBat += (" SHUTDOWN_CONFIRMATION=YES");
 
+    WriteSplashFile();
     wxMessageBox(CompiBat);
     CreateCompileBatFile(CompiBat);
-    wxExecute(AppPath+"\\CompileBatFile.bat",wxEXEC_SYNC);// Create firmware
+    wxExecute(AppPath+ "\\CompileBatFile.bat",wxEXEC_SYNC);// Create firmware
     Close();
     wxMessageBox(AppPath+ "\\sources\\nextsteprc.hex","Le nouveau Firmware est Le fichier:");
 }
@@ -594,6 +595,26 @@ void CompilerOptionsFrame::OnButtonEXITClick(wxCommandEvent& event)
     Close();
 }
 
+void CompilerOptionsFrame::WriteSplashFile()
+{
+    wxString data;
+    wxTextFile Splashfile( AppPath + "\\sources\\bitmaps\\splash.lbm");//AppPath+
+    Splashfile.Open();
+    Splashfile.Clear();
+    data.Printf("%u",LbmSplash[0]);
+    Splashfile.AddLine(data +",");
+    data.Printf("%u",LbmSplash[1]);
+    Splashfile.AddLine(data +",");
+    for (uint16_t i=2; i<(SPLASHLENGHT); ++i)
+    {
+        data.Printf("%#02X",LbmSplash[i]);
+        Splashfile.AddLine(data +",");
+    }
+    Splashfile.Write();
+    Splashfile.Close();
+}
+
+
 void CompilerOptionsFrame::CreateCompileBatFile(wxString line4)
 {
     wxString Filename = AppPath + "\\CompileBatFile.bat";
@@ -605,7 +626,7 @@ void CompilerOptionsFrame::CreateCompileBatFile(wxString line4)
     CompileBatFile.Open();
     CompileBatFile.Clear();
     CompileBatFile.AddLine("cd sources");
-    CompileBatFile.AddLine("Path C:\\NextStepRc\\AVR-GCC\\bin;C:\\NextStepRc\\AVR-GCC\\utils\\bin");
+    CompileBatFile.AddLine("Path " + AppPath + "\\AVR-GCC\\bin;C:\\NextStepRc\\AVR-GCC\\utils\\bin");
     CompileBatFile.AddLine("make clean");
     CompileBatFile.AddLine(line4);
     CompileBatFile.AddLine("pause");
@@ -627,18 +648,20 @@ void CompilerOptionsFrame::OnCheckBoxAUTOSOURCEClick1(wxCommandEvent& event)//pa
 {
     AUTOSOURCE = CheckBoxAUTOSOURCE->GetValue();
     NAVIGATION  = ChoiceNAVIGATION->GetString(ChoiceNAVIGATION->GetSelection());
-      if ((NAVIGATION == wxT("STICKS")) & (AUTOSOURCE)){
+    if ((NAVIGATION == wxT("STICKS")) & (AUTOSOURCE))
+    {
         wxMessageBox("Non compatible avec NAVIGATION = STICKS");
         CheckBoxAUTOSOURCE->SetValue(0);
-      }
+    }
 }
 
 void CompilerOptionsFrame::OnChoiceNAVIGATIONSelect(wxCommandEvent& event)
 {
     NAVIGATION  = ChoiceNAVIGATION->GetString(ChoiceNAVIGATION->GetSelection());
     AUTOSOURCE = CheckBoxAUTOSOURCE->GetValue();
-      if ((AUTOSOURCE) & (NAVIGATION == wxT("STICKS"))){
+    if ((AUTOSOURCE) & (NAVIGATION == wxT("STICKS")))
+    {
         wxMessageBox("Non compatible avec AUTOSOURCE. AUTOSOURCE décoché.");
         CheckBoxAUTOSOURCE->SetValue(0);
-      }
+    }
 }

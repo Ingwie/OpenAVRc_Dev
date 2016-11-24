@@ -152,9 +152,6 @@ void pwrOff();
   #define UNEXPECTED_SHUTDOWN()   (mcusr & (1 << WDRF))
 #endif
 
-// USB fake driver
-#define usbPlugged()              false
-
 // Haptic driver
 #define hapticOn()                PORTH |=  (1 << OUT_H_HAPTIC)
 #define hapticOff()               PORTH &= ~(1 << OUT_H_HAPTIC)

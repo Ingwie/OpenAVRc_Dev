@@ -39,7 +39,7 @@ void SimuSleepMs(uint16_t x)
 
 void lcdInit()
 {
-
+	BACKLIGHT_ON(); //LCD back light on
 }
 
 void lcdSetRefVolt(uint8_t val)

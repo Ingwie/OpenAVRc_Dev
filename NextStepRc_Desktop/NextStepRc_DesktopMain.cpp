@@ -58,9 +58,6 @@ uint8_t LbmSplashOriginal[] =
 #include "splash.lbm"
 };
 bool personalSplash = false;
-#define LCD_W 128
-#define LCD_H 64
-#define SPLASHLENGHT 1026
 uint8_t LbmSplash[SPLASHLENGHT] = {0};
 #define LcdScale 2
 
@@ -357,7 +354,7 @@ void NextStepRc_DesktopFrame::OnQuit(wxCommandEvent& event)
 
 void NextStepRc_DesktopFrame::OnAbout(wxCommandEvent& event)
 {
-    wxString msg ="NestStepRc_Desktop V0.3B";
+    wxString msg ="NestStepRc_Desktop V0.68Beta";
     wxMessageBox(msg, _("Bienvenue dans ..."));
 }
 
@@ -813,7 +810,7 @@ void NextStepRc_DesktopFrame::OnButtonPersoClick(wxCommandEvent& event)
     uint16_t j = 2;
     uint16_t line = 0;
 
-    for (uint32_t i=0; i<(LCD_W*LCD_H*3-3); i+=3)
+    for (uint32_t i=0; i<(LCD_W*LCD_H*3); i+=3)
     {
         imgpix[j] >>= 1;
         if (imgraw[i] == 0) imgpix[j] |= 0x80;
@@ -833,6 +830,9 @@ void NextStepRc_DesktopFrame::OnButtonPersoClick(wxCommandEvent& event)
     }
     imgpix[j] >>= 1;
 
+
     memcpy(LbmSplash,imgpix,SPLASHLENGHT);
     DrawLbmSplash();
+    personalSplash = true;
+    SaveConfig();
 }

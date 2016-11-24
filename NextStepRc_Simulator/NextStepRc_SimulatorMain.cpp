@@ -554,7 +554,7 @@ void NextStepRc_SimulatorFrame::OnQuit(wxCommandEvent& event)
 
 void NextStepRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
 {
-    wxMessageBox( _("NextStepRc Simulateur"), _("Bienvenue dans..."));
+    wxMessageBox( _("NextStepRc Simulateur V0.68Beta"), _("Bienvenue dans..."));
 }
 
 void NextStepRc_SimulatorFrame::OnwxsimulcdPaint(wxPaintEvent& event)
