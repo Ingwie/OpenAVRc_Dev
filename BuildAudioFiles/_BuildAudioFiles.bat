@@ -1,4 +1,4 @@
-start "NEXTSTEPRC" /wait OpenTXspeaker.exe
+start "NONAMERC" /wait OpenTXspeaker.exe
 REM Normalise and cut silence
 for /r %%a in ("*.wav") do CALL SOUNDS\tools\sox --norm=-1 %%a %%~na.aif silence 1 0.1 0.1% reverse highpass 300
 REM Cut silence
@@ -18,7 +18,7 @@ echo off
 cls
 echo ********************************************
 echo ********************************************
-echo                 NEXSTEPRC
+echo                 NONAMERC
 echo ********************************************
 echo ********************************************
 echo LES FICHIERS SONT DANS LES REPERTOIRES VOICE

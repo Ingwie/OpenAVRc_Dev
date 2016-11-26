@@ -222,7 +222,7 @@
 "0477;free;free 477",
 "0478;free;free 478",
 "0479;free;free 479",
-"0480;Welcome message;Welcome to Next Step R C !",
+"0480;Welcome message;Welcome to no name R C !",
 "0481;Throttle warning;Throttle warning",
 "0482;Switch warning;Switch warning",
 "0483;corrupted Eepronm;Corrupted  EEprom!",
