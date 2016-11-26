@@ -1,3 +1,0 @@
-nsrcs_icon ICON "nsrcs.ico"
-
-#include "wx/msw/wx.rc"

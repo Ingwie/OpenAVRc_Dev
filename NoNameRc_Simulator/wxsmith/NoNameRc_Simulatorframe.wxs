@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
-	<object class="wxFrame" name="NextStepRc_SimulatorFrame">
+	<object class="wxFrame" name="NoNameRc_SimulatorFrame">
 		<title>Simulateur</title>
 		<centered>1</centered>
 		<pos>25,25</pos>
