@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="NextStepRc_Desktop" />
+		<Option title="NoNameRc_Desktop" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/NextStepRc_Desktop" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/NoNameRc_Desktop" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
@@ -26,7 +26,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/NextStepRc_Desktop" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/NoNameRc_Desktop" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
@@ -67,16 +67,16 @@
 		<Unit filename="CommunicationsFrame.h" />
 		<Unit filename="CompilerOptionsFrame.cpp" />
 		<Unit filename="CompilerOptionsFrame.h" />
-		<Unit filename="NextStepRc_DesktopApp.cpp" />
-		<Unit filename="NextStepRc_DesktopApp.h" />
-		<Unit filename="NextStepRc_DesktopMain.cpp" />
-		<Unit filename="NextStepRc_DesktopMain.h" />
+		<Unit filename="NoNameRc_DesktopApp.cpp" />
+		<Unit filename="NoNameRc_DesktopApp.h" />
+		<Unit filename="NoNameRc_DesktopMain.cpp" />
+		<Unit filename="NoNameRc_DesktopMain.h" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
 		<Unit filename="wxsmith/CommunicationsFrame.wxs" />
 		<Unit filename="wxsmith/CompilerOptionsFrame.wxs" />
-		<Unit filename="wxsmith/NextStepRc_Desktopframe.wxs" />
+		<Unit filename="wxsmith/NoNameRc_Desktopframe.wxs" />
 		<Extensions>
 			<code_completion />
 			<envvars />
@@ -86,9 +86,9 @@
 				</remote_debugging>
 			</debugger>
 			<wxsmith version="1">
-				<gui name="wxWidgets" src="NextStepRc_DesktopApp.cpp" main="NextStepRc_DesktopFrame" init_handlers="necessary" language="CPP" />
+				<gui name="wxWidgets" src="NoNameRc_DesktopApp.cpp" main="NoNameRc_DesktopFrame" init_handlers="necessary" language="CPP" />
 				<resources>
-					<wxFrame wxs="wxsmith/NextStepRc_Desktopframe.wxs" src="NextStepRc_DesktopMain.cpp" hdr="NextStepRc_DesktopMain.h" fwddecl="0" i18n="1" name="NextStepRc_DesktopFrame" language="CPP" />
+					<wxFrame wxs="wxsmith/NoNameRc_Desktopframe.wxs" src="NoNameRc_DesktopMain.cpp" hdr="NoNameRc_DesktopMain.h" fwddecl="0" i18n="1" name="NoNameRc_DesktopFrame" language="CPP" />
 					<wxFrame wxs="wxsmith/CommunicationsFrame.wxs" src="CommunicationsFrame.cpp" hdr="CommunicationsFrame.h" fwddecl="0" i18n="1" name="CommunicationsFrame" language="CPP" />
 					<wxFrame wxs="wxsmith/CompilerOptionsFrame.wxs" src="CompilerOptionsFrame.cpp" hdr="CompilerOptionsFrame.h" fwddecl="0" i18n="1" name="CompilerOptionsFrame" language="CPP" />
 				</resources>

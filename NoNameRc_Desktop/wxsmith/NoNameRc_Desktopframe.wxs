@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
-	<object class="wxFrame" name="NextStepRc_DesktopFrame">
-		<title>NextStepRc Desktop</title>
+	<object class="wxFrame" name="NoNameRc_DesktopFrame">
+		<title>NoNameRc Desktop</title>
 		<size>590,282</size>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE</style>
@@ -135,7 +135,7 @@
 				<object class="wxMenu" name="ID_MENUITEM2" variable="MenuHtmlDoc" member="yes">
 					<label>Documentation en ligne</label>
 					<object class="wxMenuItem" name="ID_MENUITEM14" variable="MenuItem14" member="yes">
-						<label>NextStepRc M-2560 Docs</label>
+						<label>NoNameRc M-2560 Docs</label>
 						<bitmap stock_id="wxART_FILE_OPEN" stock_client="wxART_MENU" />
 						<handler function="OnNexStepRc_M2560_docsSelected" entry="EVT_MENU" />
 					</object>
