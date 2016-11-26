@@ -45,12 +45,14 @@
 				<label>Personaliser</label>
 				<pos>192,30</pos>
 				<size>75,24</size>
+				<tooltip>Attention : Tous ce qui n&apos;est pas blanc sera converti en noir</tooltip>
 				<handler function="OnButtonPersoClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxButton" name="ID_BUTTONSPLASHDEFAULT" variable="ButtonSplashDefault" member="yes">
 				<label>Par défaut</label>
 				<pos>312,30</pos>
 				<size>75,24</size>
+				<tooltip>Restaurer l&apos;écran par défaut</tooltip>
 				<handler function="OnButtonSplashDefaultClick" entry="EVT_BUTTON" />
 			</object>
 		</object>

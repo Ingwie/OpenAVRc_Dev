@@ -1,20 +1,20 @@
 # NextStepRc_Dev
 ## ! Just for devellopement here !
 
- *                      NEXTSTEPRC                           *
+ *                        NONAMERC                           *
  *                                                           *
- *             -> Build your DIY MEGA 2560 TX                *
+ *     -> Firmware + Logiciels pour radios à base d'AVR      *
  *                                                           *
- *      Based on code named                                  *
+ *      Basé sur le code                                     *
  *      OpenTx - https://github.com/opentx/opentx            *
  *                                                           *
- *         Only avr code here for lisibility ;-)             *
+ *                                                           *
  *                                                           *
  *  License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html  *
  *                                                           *
 
 ## Waiting for
 
-STABLE  :-)
+TESTS  :-)
 
 ## END

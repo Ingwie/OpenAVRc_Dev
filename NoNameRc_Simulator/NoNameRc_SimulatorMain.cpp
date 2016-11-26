@@ -484,6 +484,7 @@ void NoNameRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
         TimerMain.Stop();
         Timer10ms.Stop();
         ResetSimu();
+        Close();
     }
 
 }
@@ -694,7 +695,7 @@ void NoNameRc_SimulatorFrame::OnClose(wxCloseEvent& event)
 {
     if (OnTglButton->GetValue() && (!simu_off))
     {
-        wxMessageBox( _("Merci d'éteindre le simulateur avant de quitter"), _("      NoNameRc Simulateur"));
+        wxMessageBox( _("Merci d'éteindre le simulateur pour quitter"), _("      NoNameRc Simulateur"));
         event.Veto();
         return;
     }

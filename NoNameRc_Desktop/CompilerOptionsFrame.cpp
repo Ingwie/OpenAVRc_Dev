@@ -599,7 +599,7 @@ void CompilerOptionsFrame::WriteSplashFile()
 {
     wxString data;
     wxString line;
-    wxTextFile Splashfile( AppPath + "\\sources\\bitmaps\\splash.lbm");//AppPath+
+    wxTextFile Splashfile( AppPath + "\\sources\\bitmaps\\splash.lbm");
     Splashfile.Open();
     Splashfile.Clear();
     line = "";
@@ -610,17 +610,17 @@ void CompilerOptionsFrame::WriteSplashFile()
     line += data.ToUTF8();
     line += ",";
     Splashfile.AddLine(line);
-    for (uint16_t i=2; i<(SPLASHLENGHT); ++i)
+
+    for (uint16_t i=0; i<(LCD_H/8); ++i)
     {
         line = "";
         for (uint16_t j=0; j<(LCD_W); ++j)
         {
-            data.Printf("0x%02x",LbmSplash[(j+1)+i]);
+            data.Printf("0x%02x",LbmSplash[2+j+(i*LCD_W)]);
             line += data.ToUTF8();
             line += ",";
         }
         Splashfile.AddLine(line);
-        i += LCD_W - 1;
     }
     Splashfile.Write();
     Splashfile.Close();

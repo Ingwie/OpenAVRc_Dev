@@ -1,14 +1,11 @@
-In French ;-)
 
 *****************  TODO TODO TODO TODO  *****************
 
-> - Les fonctions de ce type : L1 a<x Tmr1 02:00 --- sont décalées si EXT=NO (pas de télémétrie)
+
 
 > - changer le type des GVAR de 16bits vers 8bits (nouveau format d'eeprom) ou doubler le nombre de GVAR ...
 
 > - interrupteur 3 positions avec potar
-
-> - ajout companiontx + fix compilation
 
 > - ajout nouveaux modules d'emission
 
@@ -31,3 +28,4 @@ In French ;-)
 > - Changer le splash (NEXTSTEPRC) - FAIT
 > - finir navigation avec les manches (placer les routines dans key.xxx) Placé dans gui/9X/navigation.cpp
 > - remplacement carte WT par "mieux" -> JQ6500 28P FAIT
+> - Les fonctions de ce type : L1 a<x Tmr1 02:00 --- sont décalées si EXT=NO (pas de télémétrie) FAIT

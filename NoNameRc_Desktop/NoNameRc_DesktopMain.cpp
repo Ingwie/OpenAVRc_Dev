@@ -190,7 +190,9 @@ NoNameRc_DesktopFrame::NoNameRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     PanelSplash = new wxPanel(Panel1, ID_SPLASH, wxPoint(169,64), wxSize(256,128), wxNO_BORDER, _T("ID_SPLASH"));
     PanelSplash->SetBackgroundColour(wxColour(255,255,255));
     ButtonPerso = new wxButton(Panel1, ID_BUTTONPERSO, _("Personaliser"), wxPoint(192,30), wxSize(75,24), 0, wxDefaultValidator, _T("ID_BUTTONPERSO"));
+    ButtonPerso->SetToolTip(_("Attention : Tous ce qui n\'est pas blanc sera converti en noir"));
     ButtonSplashDefault = new wxButton(Panel1, ID_BUTTONSPLASHDEFAULT, _("Par défaut"), wxPoint(312,30), wxSize(75,24), 0, wxDefaultValidator, _T("ID_BUTTONSPLASHDEFAULT"));
+    ButtonSplashDefault->SetToolTip(_("Restaurer l\'écran par défaut"));
     MenuBar_main = new wxMenuBar();
     Menu1 = new wxMenu();
     MenuNewconfig = new wxMenuItem(Menu1, ID_MENUITEMNEWCONFIG, _("Nouvelle configuration"), wxEmptyString, wxITEM_NORMAL);
