@@ -66,7 +66,7 @@ CommunicationsFrame::CommunicationsFrame(wxWindow* parent,wxWindowID id,const wx
     ComboBox2->Append(_("/dev/ttyUSB0"));
     ComboBox2->Append(_("/dev/ttyUSB1"));
     ComboBox2->Append(_("/dev/ttyUSB2"));
-    StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("Programmateur"), wxPoint(64,80), wxSize(80,13), 0, _T("ID_STATICTEXT1"));
+    StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("Programmateur"), wxPoint(64,80), wxSize(96,16), 0, _T("ID_STATICTEXT1"));
     ButtonEnter = new wxButton(this, ID_BUTTONENTER, _("Valider"), wxPoint(376,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONENTER"));
     StaticText2 = new wxStaticText(this, ID_STATICTEXT2, _("Port"), wxPoint(112,128), wxDefaultSize, 0, _T("ID_STATICTEXT2"));
     ComboBox3 = new wxComboBox(this, ID_COMBOBOX3, wxEmptyString, wxPoint(176,168), wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX3"));
