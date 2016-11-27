@@ -803,26 +803,26 @@ void NoNameRc_DesktopFrame::OnButtonPersoClick(wxCommandEvent& event)
     ImageSplash.LoadFile(openFileDialog.GetPath(), wxBITMAP_TYPE_ANY );
     ImageSplash.Rescale(LCD_W,LCD_H,wxIMAGE_QUALITY_NORMAL);
     ImageSplash = ImageSplash.ConvertToMono(255,255,255);
-    unsigned char* imgraw = (unsigned char*) malloc(LCD_W*LCD_H*3);;
+    uint8_t* imgraw = (uint8_t*) malloc(LCD_W*LCD_H*3);
     imgraw = ImageSplash.GetData();
     uint8_t imgpix[SPLASHLENGHT] = {0};
-    imgpix[0] = 128;
-    imgpix[1] = 68;
+    imgpix[0] = LCD_W;
+    imgpix[1] = LCD_H;
 
-    uint16_t j = 2;
+    uint16_t j = 0;
     uint16_t line = 0;
 
-    for (uint32_t i=0; i<(LCD_W*LCD_H*3); i+=3)
+    for (uint32_t i=0; (i<(LCD_W*LCD_H*3)); i+=3)
     {
-        imgpix[j] >>= 1;
-        if (imgraw[i] == 0) imgpix[j] |= 0x80;
+        imgpix[j+2] >>= 1;
+        if (imgraw[i] == 0) imgpix[j+2] |= 0x80;
         ++j;
-        if ((j-2)%128 == 0)
+        if ((j%LCD_W) == 0)
         {
             ++line;
-            if (line != 8)
+            if (line != LCD_H/8)
             {
-                j-=128;
+                j-=LCD_W;
             }
             else
             {
@@ -830,7 +830,7 @@ void NoNameRc_DesktopFrame::OnButtonPersoClick(wxCommandEvent& event)
             }
         }
     }
-    imgpix[j] >>= 1;
+    imgpix[j+2] >>= 1;
 
 
     memcpy(LbmSplash,imgpix,SPLASHLENGHT);

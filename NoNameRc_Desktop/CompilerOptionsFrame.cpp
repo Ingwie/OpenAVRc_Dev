@@ -450,6 +450,10 @@ void CompilerOptionsFrame::OnClose(wxCloseEvent& event)
 
 void CompilerOptionsFrame::BatFunction()
 {
+  // Write splash file
+    WriteSplashFile();
+
+
     // .bat file for compilation
     wxString CompiBat = "make";
     CompiBat += (" PCB=" + PCB);
@@ -511,7 +515,6 @@ void CompilerOptionsFrame::BatFunction()
     if (NOANDSECONDE) CompiBat += (" NOANDSECONDE=YES");
     if (SHUTDOWN_CONFIRMATION) CompiBat += (" SHUTDOWN_CONFIRMATION=YES");
 
-    WriteSplashFile();
     wxMessageBox(CompiBat);
     CreateCompileBatFile(CompiBat);
     wxExecute(AppPath+ "\\CompileBatFile.bat",wxEXEC_SYNC);// Create firmware
@@ -609,18 +612,18 @@ void CompilerOptionsFrame::WriteSplashFile()
     data.Printf("%u",LbmSplash[1]);
     line += data.ToUTF8();
     line += ",";
-    Splashfile.AddLine(line);
+    Splashfile.AddLine(line,wxTextFileType_Dos);
 
     for (uint16_t i=0; i<(LCD_H/8); ++i)
     {
         line = "";
         for (uint16_t j=0; j<(LCD_W); ++j)
         {
-            data.Printf("0x%02x",LbmSplash[2+j+(i*LCD_W)]);
+            data.Printf("0x%02x",LbmSplash[2+(i*LCD_W)+j]);
             line += data.ToUTF8();
             line += ",";
         }
-        Splashfile.AddLine(line);
+        Splashfile.AddLine(line,wxTextFileType_Dos);
     }
     Splashfile.Write();
     Splashfile.Close();
