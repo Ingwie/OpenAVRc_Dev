@@ -42,7 +42,7 @@
 				<handler function="OnPanelSplashPaint" entry="EVT_PAINT" />
 			</object>
 			<object class="wxButton" name="ID_BUTTONPERSO" variable="ButtonPerso" member="yes">
-				<label>Personaliser</label>
+				<label>Personnaliser</label>
 				<pos>192,30</pos>
 				<size>75,24</size>
 				<tooltip>Attention : Tous ce qui n&apos;est pas blanc sera converti en noir</tooltip>
