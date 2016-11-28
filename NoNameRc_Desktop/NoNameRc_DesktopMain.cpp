@@ -321,7 +321,7 @@ NoNameRc_DesktopFrame::NoNameRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     dude_flash = ("flash:");
     dude_raw = (":r");
     dude_write = ("w:");
-    dude_verify = (" -v ");
+    //dude_verify = (" -v ");
     dude_read = ("r:");
     dude_intel = (":i");
     keepopen = ("cmd /k ");
@@ -371,7 +371,8 @@ void NoNameRc_DesktopFrame::OnreadmodelsSelected(wxCommandEvent& event)//READ MO
     wxFileDialog saveDialog(this, _("Choisir le fichier pour importer les modèles des la radio."), "", "",  "Fichiers BIN (*.bin)|*.bin|Tous (*.*)|*.*", wxFD_SAVE);
     if (saveDialog.ShowModal() == wxID_CANCEL) return;
     wxString dude_tmpfile = (saveDialog.GetPath());
-    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_read+dude_tmpfile+dude_raw+dude_verify;
+    //wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_read+dude_tmpfile+dude_raw+dude_verify;
+    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_read+dude_tmpfile+dude_raw;
     //wxMessageBox(dude_send);
     wxExecute(dude_send);//send command
 }
@@ -390,7 +391,8 @@ void NoNameRc_DesktopFrame::OnWriteModelToRadioSelected(wxCommandEvent& event)
     wxFileDialog openFileDialog(this, _("Choisir le fichier (.bin) pour transferer les modêles à la radio."), "", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL) return;
     wxString dude_tmpfile = (openFileDialog.GetPath());
-    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_write+dude_tmpfile+dude_raw+dude_verify;
+    //wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_write+dude_tmpfile+dude_raw+dude_verify;
+    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_write+dude_tmpfile+dude_raw;
     //wxMessageBox(dude_send);
     wxExecute(dude_send);
 }
@@ -403,8 +405,10 @@ void NoNameRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& event
     //bkup->SetEventHandler(bkup);
     if (bkup->ShowModal()!= wxID_OK) return;
     wxString dude_tmpfile = (openFileDialog.GetPath());//write firmware
-    wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_intel+dude_verify;
+    //wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_intel+dude_verify;
+    wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_intel;
     //wxMessageBox(dude_send);
+
     wxExecute(dude_send);
 }
 

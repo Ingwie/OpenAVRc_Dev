@@ -158,7 +158,7 @@ private:
     wxString dude_flash;
     wxString dude_raw;
     wxString dude_write;
-    wxString dude_verify;
+    //wxString dude_verify;
     wxString dude_read;
     wxString dude_intel;
     wxString keepopen;

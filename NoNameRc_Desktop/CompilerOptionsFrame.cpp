@@ -661,8 +661,9 @@ void CompilerOptionsFrame::OnCheckBoxDSM2PPMClick(wxCommandEvent& event)
 
 void CompilerOptionsFrame::OnCheckBoxAUTOSOURCEClick1(wxCommandEvent& event)//pas compatible avec navigation=sticks
 {
-    AUTOSOURCE = CheckBoxAUTOSOURCE->GetValue();
-    NAVIGATION  = ChoiceNAVIGATION->GetString(ChoiceNAVIGATION->GetSelection());
+    CollectDatas();
+    //AUTOSOURCE = CheckBoxAUTOSOURCE->GetValue();
+    //NAVIGATION  = ChoiceNAVIGATION->GetString(ChoiceNAVIGATION->GetSelection());
     if ((NAVIGATION == wxT("STICKS")) & (AUTOSOURCE))
     {
         wxMessageBox("Non compatible avec NAVIGATION = STICKS");
@@ -672,8 +673,9 @@ void CompilerOptionsFrame::OnCheckBoxAUTOSOURCEClick1(wxCommandEvent& event)//pa
 
 void CompilerOptionsFrame::OnChoiceNAVIGATIONSelect(wxCommandEvent& event)
 {
-    NAVIGATION  = ChoiceNAVIGATION->GetString(ChoiceNAVIGATION->GetSelection());
-    AUTOSOURCE = CheckBoxAUTOSOURCE->GetValue();
+    CollectDatas();
+    //NAVIGATION  = ChoiceNAVIGATION->GetString(ChoiceNAVIGATION->GetSelection());
+    //AUTOSOURCE = CheckBoxAUTOSOURCE->GetValue();
     if ((AUTOSOURCE) & (NAVIGATION == wxT("STICKS")))
     {
         wxMessageBox("Non compatible avec AUTOSOURCE. AUTOSOURCE décoché.");
