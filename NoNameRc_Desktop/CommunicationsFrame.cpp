@@ -7,10 +7,12 @@
  * License:
  **************************************************************/
 
-#include "CommunicationsFrame.h"
-#include <wx/msgdlg.h>
 #include <wx/filedlg.h>
+#include <wx/msgdlg.h>
+
+#include "CommunicationsFrame.h"
 #include "NoNameRc_DesktopMain.h"
+
 
 //(*InternalHeaders(CommunicationsFrame)
 #include <wx/settings.h>
@@ -24,6 +26,10 @@ extern wxString dude_programmer;
 extern wxString dude_type;
 extern wxString dude_port;
 extern wxString AppPath;
+extern wxString keepopen;
+extern wxString dude_c;
+extern wxString dude_P;
+extern wxString dude_p;
 
 
 //(*IdInit(CommunicationsFrame)
@@ -40,6 +46,7 @@ const long CommunicationsFrame::ID_TEXTCTRL1 = wxNewId();
 const long CommunicationsFrame::ID_BUTTONESC = wxNewId();
 const long CommunicationsFrame::ID_BUTTONSEARCHAVRDUDEPATH = wxNewId();
 const long CommunicationsFrame::ID_BUTTONDETECT = wxNewId();
+const long CommunicationsFrame::ID_BUTTON1 = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(CommunicationsFrame,wxFrame)
@@ -51,9 +58,8 @@ END_EVENT_TABLE()
 CommunicationsFrame::CommunicationsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
     //(*Initialize(CommunicationsFrame)
-    Create(parent, id, _("Communication avec la radio "), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxDEFAULT_DIALOG_STYLE, _T("id"));
+    Create(parent, wxID_ANY, _("Communication avec la radio "), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
     SetClientSize(wxSize(473,335));
-    Move(wxDefaultPosition);
     SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
     StaticBox1 = new wxStaticBox(this, ID_STATICBOX1, _("Paramètres de communication avec la radio"), wxPoint(24,24), wxSize(424,248), 0, _T("ID_STATICBOX1"));
     ComboBox1 = new wxComboBox(this, ID_COMBOBOX1, wxEmptyString, wxPoint(176,72), wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX1"));
@@ -80,11 +86,13 @@ CommunicationsFrame::CommunicationsFrame(wxWindow* parent,wxWindowID id,const wx
     ButtonEsc = new wxButton(this, ID_BUTTONESC, _("Annuler"), wxPoint(264,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONESC"));
     ButtonSearchavrdudepath = new wxButton(this, ID_BUTTONSEARCHAVRDUDEPATH, _("..."), wxPoint(400,216), wxSize(40,23), 0, wxDefaultValidator, _T("ID_BUTTONSEARCHAVRDUDEPATH"));
     ButtonDetect = new wxButton(this, ID_BUTTONDETECT, _("Detection"), wxPoint(304,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONDETECT"));
+    Button1 = new wxButton(this, ID_BUTTON1, _("Test"), wxPoint(152,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
 
     Connect(ID_BUTTONENTER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CommunicationsFrame::OnButtonEnterClick);
     Connect(ID_BUTTONESC,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CommunicationsFrame::OnButtonEscClick);
     Connect(ID_BUTTONSEARCHAVRDUDEPATH,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CommunicationsFrame::OnButtonSearchavrdudepathClick);
     Connect(ID_BUTTONDETECT,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CommunicationsFrame::OnButtonDetectClick);
+    Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CommunicationsFrame::OnTESTClick1);
     //*)
 
     {
@@ -160,4 +168,14 @@ void CommunicationsFrame::DetectSerial()
             ComboBox2->Insert(ComName,0); // add to the ComboBox
         }
     }
+}
+
+void CommunicationsFrame::OnTESTClick1(wxCommandEvent& event)
+{
+    dude_programmer = ComboBox1->GetValue();
+    dude_port = ComboBox2->GetValue();
+    dude_type = ComboBox3->GetValue();
+    avrdudepath = TextCtrl1->GetValue();
+    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_P+dude_port;
+    wxExecute(dude_send);
 }

@@ -70,6 +70,23 @@ wxString dude_type = _("non défini");
 wxString dude_port = _("non défini");
 wxString COMM = _("non défini");
 
+//Const
+wxString dude_c = (" -c ");
+wxString dude_p = (" -p ");
+wxString dude_D = (" -D ");
+wxString dude_P = (" -P ");
+wxString dude_space = (" ");
+wxString dude_U = (" -U ");
+wxString dude_eeprom = ("eeprom:");
+wxString dude_flash = ("flash:");
+wxString dude_raw = (":r");
+wxString dude_write = ("w:");
+//dude_verify = (" -v ");
+wxString dude_read = ("r:");
+wxString dude_intel = (":i");
+wxString keepopen = ("cmd /k ");
+
+
 //Define defaults
 wxString PCB = _("non défini");
 wxString LCD = _("non défini");
@@ -212,14 +229,14 @@ NoNameRc_DesktopFrame::NoNameRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     MenuBar_main->Append(Menu3, _("Paramètres"));
     Menu4 = new wxMenu();
     Menu4->AppendSeparator();
-    Menu5 = new wxMenuItem(Menu4, ID_MENUITEM3, _("Lire les modèles de la radio"), wxEmptyString, wxITEM_NORMAL);
+    Menu5 = new wxMenuItem(Menu4, ID_MENUITEM3, _("Lire les réglages et le modèles de la radio (eeprom)"), wxEmptyString, wxITEM_NORMAL);
     Menu5->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_FORWARD")),wxART_MENU));
     Menu4->Append(Menu5);
     MenuItem6 = new wxMenuItem(Menu4, ID_MENUITEM5, _("Lire le firmware de la radio"), wxEmptyString, wxITEM_NORMAL);
     MenuItem6->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_FORWARD")),wxART_MENU));
     Menu4->Append(MenuItem6);
     Menu4->AppendSeparator();
-    MenuItem5 = new wxMenuItem(Menu4, ID_MENUITEM4, _("Écrire les paramètres et les modèles dans la radio"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem5 = new wxMenuItem(Menu4, ID_MENUITEM4, _("Écrire les réglages et les modèles dans la radio (eeprom)"), wxEmptyString, wxITEM_NORMAL);
     MenuItem5->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_BACK")),wxART_MENU));
     Menu4->Append(MenuItem5);
     MenuItem7 = new wxMenuItem(Menu4, ID_MENUITEM6, _("Écrire le firmware dans la radio"), wxEmptyString, wxITEM_NORMAL);
@@ -310,21 +327,6 @@ NoNameRc_DesktopFrame::NoNameRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     wxFileName appPathWithExeName = wxStandardPaths::Get().GetExecutablePath();
     AppPath = (appPathWithExeName.GetPath());
 
-    //Const
-    dude_c = (" -c ");
-    dude_p = (" -p ");
-    dude_D = (" -D ");
-    dude_P = (" -P ");
-    dude_space = (" ");
-    dude_U = (" -U ");
-    dude_eeprom = ("eeprom:");
-    dude_flash = ("flash:");
-    dude_raw = (":r");
-    dude_write = ("w:");
-    //dude_verify = (" -v ");
-    dude_read = ("r:");
-    dude_intel = (":i");
-    keepopen = ("cmd /k ");
 
     defaut = wxT("Defaut");
     //Ini File

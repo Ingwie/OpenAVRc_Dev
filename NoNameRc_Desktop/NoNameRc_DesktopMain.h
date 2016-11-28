@@ -148,21 +148,6 @@ private:
     wxString Profil;
     wxArrayString SavedConfig;
 
-    wxString dude_c;
-    wxString dude_p;
-    wxString dude_D;
-    wxString dude_P;
-    wxString dude_space;
-    wxString dude_U;
-    wxString dude_eeprom;
-    wxString dude_flash;
-    wxString dude_raw;
-    wxString dude_write;
-    //wxString dude_verify;
-    wxString dude_read;
-    wxString dude_intel;
-    wxString keepopen;
-
     wxString defaut;
 
     DECLARE_EVENT_TABLE()

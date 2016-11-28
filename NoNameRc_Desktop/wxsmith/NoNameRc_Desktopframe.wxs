@@ -89,7 +89,7 @@
 				<label>Lire/Écrire</label>
 				<object class="separator" />
 				<object class="wxMenuItem" name="ID_MENUITEM3" variable="Menu5" member="yes">
-					<label>Lire les modèles de la radio</label>
+					<label>Lire les réglages et le modèles de la radio (eeprom)</label>
 					<bitmap stock_id="wxART_GO_FORWARD" stock_client="wxART_MENU" />
 					<handler function="OnreadmodelsSelected" entry="EVT_MENU" />
 				</object>
@@ -100,7 +100,7 @@
 				</object>
 				<object class="separator" />
 				<object class="wxMenuItem" name="ID_MENUITEM4" variable="MenuItem5" member="yes">
-					<label>Écrire les paramètres et les modèles dans la radio</label>
+					<label>Écrire les réglages et les modèles dans la radio (eeprom)</label>
 					<bitmap stock_id="wxART_GO_BACK" stock_client="wxART_MENU" />
 					<handler function="OnWriteModelToRadioSelected" entry="EVT_MENU" />
 				</object>
