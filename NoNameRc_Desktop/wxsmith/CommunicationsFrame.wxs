@@ -4,8 +4,7 @@
 		<title>Communication avec la radio </title>
 		<size>473,335</size>
 		<bg>wxSYS_COLOUR_BTNFACE</bg>
-		<pos_arg>1</pos_arg>
-		<size_arg>1</size_arg>
+		<id_arg>0</id_arg>
 		<style>wxCAPTION|wxDEFAULT_DIALOG_STYLE</style>
 		<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
 			<label>Paramètres de communication avec la radio</label>
@@ -80,6 +79,11 @@
 			<label>Detection</label>
 			<pos>304,120</pos>
 			<handler function="OnButtonDetectClick" entry="EVT_BUTTON" />
+		</object>
+		<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
+			<label>Test</label>
+			<pos>152,296</pos>
+			<handler function="OnTESTClick1" entry="EVT_BUTTON" />
 		</object>
 	</object>
 </wxsmith>

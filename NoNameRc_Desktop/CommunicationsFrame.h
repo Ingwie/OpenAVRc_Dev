@@ -24,6 +24,7 @@ public:
 
     //(*Declarations(CommunicationsFrame)
     wxStaticText* StaticText2;
+    wxButton* Button1;
     wxButton* ButtonEnter;
     wxStaticText* StaticText1;
     wxStaticText* StaticText3;
@@ -54,6 +55,7 @@ protected:
     static const long ID_BUTTONESC;
     static const long ID_BUTTONSEARCHAVRDUDEPATH;
     static const long ID_BUTTONDETECT;
+    static const long ID_BUTTON1;
     //*)
     wxWindow * Parent;
 
@@ -67,7 +69,7 @@ private:
     void OnButtonDetectClick(wxCommandEvent& event);
     void GetPortList(wxArrayString *port_list);
     void DetectSerial();
-
+    void OnTESTClick1(wxCommandEvent& event);
     //*)
 
     DECLARE_EVENT_TABLE()
