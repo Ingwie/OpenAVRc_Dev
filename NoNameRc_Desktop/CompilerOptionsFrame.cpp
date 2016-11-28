@@ -519,7 +519,7 @@ void CompilerOptionsFrame::BatFunction()
     CreateCompileBatFile(CompiBat);
     wxExecute(AppPath+ "\\CompileBatFile.bat",wxEXEC_SYNC);// Create firmware
     Close();
-    wxMessageBox(AppPath+ "\\sources\\NoNameRc.hex","Le nouveau Firmware est Le fichier:");
+    wxMessageBox(AppPath+ "\\firmware\\NoNameRc.hex","Le nouveau Firmware est Le fichier:");
 }
 
 void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
@@ -644,6 +644,7 @@ void CompilerOptionsFrame::CreateCompileBatFile(wxString line4)
     CompileBatFile.AddLine("Path " + AppPath + "\\AVR-GCC\\bin;C:\\NoNameRc\\AVR-GCC\\utils\\bin");
     CompileBatFile.AddLine("make clean");
     CompileBatFile.AddLine(line4);
+    CompileBatFile.AddLine("copy NoNameRc.hex ..\\firmware\\NoNameRc.hex");
     CompileBatFile.AddLine("pause");
     CompileBatFile.Write();
     CompileBatFile.Close();

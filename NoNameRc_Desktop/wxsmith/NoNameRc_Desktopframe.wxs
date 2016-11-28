@@ -100,7 +100,7 @@
 				</object>
 				<object class="separator" />
 				<object class="wxMenuItem" name="ID_MENUITEM4" variable="MenuItem5" member="yes">
-					<label>Écrire les modèles dans la radio</label>
+					<label>Écrire les paramètres et les modèles dans la radio</label>
 					<bitmap stock_id="wxART_GO_BACK" stock_client="wxART_MENU" />
 					<handler function="OnWriteModelToRadioSelected" entry="EVT_MENU" />
 				</object>

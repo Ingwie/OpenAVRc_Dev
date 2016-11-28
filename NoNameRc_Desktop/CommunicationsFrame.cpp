@@ -23,6 +23,7 @@ extern wxString avrdudepath;
 extern wxString dude_programmer;
 extern wxString dude_type;
 extern wxString dude_port;
+extern wxString AppPath;
 
 
 //(*IdInit(CommunicationsFrame)
@@ -108,7 +109,7 @@ CommunicationsFrame::~CommunicationsFrame()
 
 void CommunicationsFrame::OnButtonSearchavrdudepathClick(wxCommandEvent& event)
 {
-    wxFileDialog openFileDialog(this, _("Emplacement d'AVRDUDE"), "", "","AVRDUDE (*.exe)|*.exe", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+    wxFileDialog openFileDialog(this, _("Emplacement d'AVRDUDE"), AppPath+ "\\avrdude\\", "","AVRDUDE (*.exe)|*.exe", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL) return;
     TextCtrl1->SetValue(openFileDialog.GetPath());
 }

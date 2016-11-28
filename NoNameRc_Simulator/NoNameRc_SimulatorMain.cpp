@@ -570,7 +570,7 @@ void NoNameRc_SimulatorFrame::LoadEeprom()
         wxLogError(_T("Impossible : Simulateur en fonctionnement"));
         return;
     }
-    wxFileDialog openFileDialog(this, _("Ouvrir Fichier BIN"), "", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+    wxFileDialog openFileDialog(this, _("Ouvrir Fichier BIN"), AppPath+ "\\eeprom\\", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL) return;
     wxFileInputStream input_stream(openFileDialog.GetPath());
     if (!input_stream.IsOk())

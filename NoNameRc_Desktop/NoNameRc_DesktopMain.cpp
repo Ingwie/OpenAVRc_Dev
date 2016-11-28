@@ -55,7 +55,7 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 //Splash
 uint8_t LbmSplashOriginal[] =
 {
-#include "splash.lbm"
+#include "../NoNameRc/bitmaps/splash.lbm"
 };
 bool personalSplash = false;
 uint8_t LbmSplash[SPLASHLENGHT] = {0};
@@ -219,7 +219,7 @@ NoNameRc_DesktopFrame::NoNameRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     MenuItem6->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_FORWARD")),wxART_MENU));
     Menu4->Append(MenuItem6);
     Menu4->AppendSeparator();
-    MenuItem5 = new wxMenuItem(Menu4, ID_MENUITEM4, _("Écrire les modèles dans la radio"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem5 = new wxMenuItem(Menu4, ID_MENUITEM4, _("Écrire les paramètres et les modèles dans la radio"), wxEmptyString, wxITEM_NORMAL);
     MenuItem5->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_BACK")),wxART_MENU));
     Menu4->Append(MenuItem5);
     MenuItem7 = new wxMenuItem(Menu4, ID_MENUITEM6, _("Écrire le firmware dans la radio"), wxEmptyString, wxITEM_NORMAL);
@@ -368,7 +368,7 @@ void NoNameRc_DesktopFrame::OnProgrammerSelected(wxCommandEvent& event)
 
 void NoNameRc_DesktopFrame::OnreadmodelsSelected(wxCommandEvent& event)//READ MODELS FROM RADIO.
 {
-    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer les modèles des la radio."), "", "",  "Fichiers BIN (*.bin)|*.bin|Tous (*.*)|*.*", wxFD_SAVE);
+    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer les modèles des la radio."), AppPath+ "\\eeprom\\", "",  "Fichiers BIN (*.bin)|*.bin|Tous (*.*)|*.*", wxFD_SAVE);
     if (saveDialog.ShowModal() == wxID_CANCEL) return;
     wxString dude_tmpfile = (saveDialog.GetPath());
     //wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_read+dude_tmpfile+dude_raw+dude_verify;
@@ -379,7 +379,7 @@ void NoNameRc_DesktopFrame::OnreadmodelsSelected(wxCommandEvent& event)//READ MO
 
 void NoNameRc_DesktopFrame::OnreadfirmwareSelected(wxCommandEvent& event)//read firmware from radio
 {
-    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer le Firmware des la radio."), "", "","Fichiers HEX (*.hex)|*.hex", wxFD_SAVE);
+    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer le Firmware des la radio."), AppPath+ "\\firmware\\", "","Fichiers HEX (*.hex)|*.hex", wxFD_SAVE);
     if (saveDialog.ShowModal() == wxID_CANCEL) return;
     wxString dude_tmpfile = (saveDialog.GetPath());
     wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_read+dude_tmpfile+dude_intel;
@@ -388,7 +388,7 @@ void NoNameRc_DesktopFrame::OnreadfirmwareSelected(wxCommandEvent& event)//read 
 
 void NoNameRc_DesktopFrame::OnWriteModelToRadioSelected(wxCommandEvent& event)
 {
-    wxFileDialog openFileDialog(this, _("Choisir le fichier (.bin) pour transferer les modêles à la radio."), "", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+    wxFileDialog openFileDialog(this, _("Choisir le fichier (.bin) pour transferer les modêles à la radio."), AppPath+ "\\eeprom\\", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL) return;
     wxString dude_tmpfile = (openFileDialog.GetPath());
     //wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_write+dude_tmpfile+dude_raw+dude_verify;
@@ -399,7 +399,7 @@ void NoNameRc_DesktopFrame::OnWriteModelToRadioSelected(wxCommandEvent& event)
 
 void NoNameRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& event)
 {
-    wxFileDialog openFileDialog(this, _("Choisir le fichier pour transferer le Firmware à la radio."), AppPath+ "\\sources\\", "","Fichiers HEX (*.hex)|*.hex", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+    wxFileDialog openFileDialog(this, _("Choisir le fichier pour transferer le Firmware à la radio."), AppPath+ "\\firmware\\", "","Fichiers HEX (*.hex)|*.hex", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL) return;
     wxMessageDialog *bkup = new wxMessageDialog(NULL,wxT("Il est recommande de sauvegarder vos modeles avant, voulez vous continuer ?"), wxT("Firmware"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
     //bkup->SetEventHandler(bkup);
