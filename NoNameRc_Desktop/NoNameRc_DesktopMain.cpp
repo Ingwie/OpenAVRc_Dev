@@ -280,7 +280,7 @@ NoNameRc_DesktopFrame::NoNameRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     MenuItem15->Append(MenuItem16);
     MenuHtmlDoc->Append(ID_MENUITEM15, _("Autres links"), MenuItem15, wxEmptyString);
     Menu2->Append(ID_MENUITEM2, _("Documentation en ligne"), MenuHtmlDoc, wxEmptyString);
-    MenuItem2 = new wxMenuItem(Menu2, idMenuAbout, _("A propos\tF1"), _("NestStepRc_Desktop V 0.00001 !"), wxITEM_NORMAL);
+    MenuItem2 = new wxMenuItem(Menu2, idMenuAbout, _("A propos\tF1"), wxEmptyString, wxITEM_NORMAL);
     MenuItem2->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_INFORMATION")),wxART_MENU));
     Menu2->Append(MenuItem2);
     MenuBar_main->Append(Menu2, _("Aide"));
@@ -358,7 +358,7 @@ void NoNameRc_DesktopFrame::OnQuit(wxCommandEvent& event)
 
 void NoNameRc_DesktopFrame::OnAbout(wxCommandEvent& event)
 {
-    wxString msg ="NestStepRc_Desktop V0.68Beta";
+    wxString msg ="OpenAVRc Desktop V0.68 Beta";
     wxMessageBox(msg, _("Bienvenue dans ..."));
 }
 

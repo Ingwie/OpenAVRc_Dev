@@ -555,7 +555,7 @@ void NoNameRc_SimulatorFrame::OnQuit(wxCommandEvent& event)
 
 void NoNameRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
 {
-    wxMessageBox( _("NoNameRc Simulateur V0.68Beta"), _("Bienvenue dans..."));
+    wxMessageBox( _("OpenAVRc Simulateur V0.68Beta"), _("Bienvenue dans..."));
 }
 
 void NoNameRc_SimulatorFrame::OnwxsimulcdPaint(wxPaintEvent& event)

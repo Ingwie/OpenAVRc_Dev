@@ -173,7 +173,6 @@
 				<object class="wxMenuItem" name="idMenuAbout" variable="MenuItem2" member="no">
 					<label>A propos</label>
 					<accel>F1</accel>
-					<help>NestStepRc__Desktop V 0.00001 !</help>
 					<bitmap stock_id="wxART_INFORMATION" stock_client="wxART_MENU" />
 					<handler function="OnAbout" entry="EVT_MENU" />
 				</object>
