@@ -1,7 +1,7 @@
 /***************************************************************
  * Name:      NoNameRc_DesktopMain.cpp
  * Purpose:   Code for Application Frame
- * Author:    NoNameRc_TEAM ()
+ * Author:    OpenAVRc_TEAM ()
  * Created:   2016-09-08
  * Copyright: NoNameRc_TEAM ()
  * License:
