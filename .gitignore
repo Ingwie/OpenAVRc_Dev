@@ -1,3 +1,7 @@
 *.depend
-NoNameRc_Desktop/NoNameRc_Desktop.layout
 *.layout
+NoNameRc/stamp-NoNameRc.h
+NoNameRc/NoNameRc.map
+*.hex
+*.elf
+*.bin
