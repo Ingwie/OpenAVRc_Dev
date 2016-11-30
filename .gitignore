@@ -5,3 +5,6 @@ NoNameRc/NoNameRc.map
 *.hex
 *.elf
 *.bin
+NoNameRc_Desktop/bin/Debug/NoNameRc_Desktop.exe
+NoNameRc_Desktop/bin/Release/NoNameRc_Desktop.exe
+*.o
