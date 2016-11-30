@@ -673,32 +673,32 @@ void NoNameRc_DesktopFrame::OnATMEGA2560CompilerSelected(wxCommandEvent& event)
 
 void NoNameRc_DesktopFrame::OnNexStepRc_M2560_docsSelected(wxCommandEvent& event)
 {
-    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NoNameRc-2.18/tree/master/documentation/NoNameRc_M2560"), NULL);
+    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NoNameRc_Dev/tree/master/documentation/NextStepRC_M2560"), NULL);
 }
 
 void NoNameRc_DesktopFrame::OnMenuJQ6500_PCBSelected(wxCommandEvent& event)
 {
-    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NoNameRc-2.18/tree/master/documentation/Beta%20tester%20files/JQ6500%20PCB%20by%20Pyrall"), NULL);
+    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NoNameRc_Dev/tree/master/documentation/Beta%20tester%20files/JQ6500%20PCB%20by%20Pyrall"), NULL);
 }
 
 void NoNameRc_DesktopFrame::OnMenuVoice_tutoSelected(wxCommandEvent& event)
 {
-    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NoNameRc-2.18/tree/master/documentation/Beta%20tester%20files/Voice%20by%20JPZ"), NULL);
+    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NoNameRc_Dev/tree/master/documentation/Beta%20tester%20files/Voice%20by%20JPZ"), NULL);
 }
 
 void NoNameRc_DesktopFrame::OnMenuVOICE_AUDIO_PCBSelected(wxCommandEvent& event)
 {
-    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NoNameRc-2.18/tree/master/documentation/Beta%20tester%20files/Voice-audio%20pcb%20and%20rtc%20by%20Pyrall"), NULL);
+    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NoNameRc_Dev/tree/master/documentation/Beta%20tester%20files/Voice-audio%20pcb%20and%20rtc%20by%20Pyrall"), NULL);
 }
 
 void NoNameRc_DesktopFrame::OnWIN_FIRMWARESelected(wxCommandEvent& event)
 {
-    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NoNameRc-2.18/tree/master/documentation/Beta%20tester%20files/Win%20firmware%20compilation%20by%20JPZ"), NULL);
+    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NoNameRc_Dev/tree/master/documentation/Beta%20tester%20files/Win%20firmware%20compilation%20by%20JPZ"), NULL);
 }
 
 void NoNameRc_DesktopFrame::OnMenuMousseSelected(wxCommandEvent& event)
 {
-    wxLaunchDefaultBrowser(wxT("http://www.sitakiki.fr/modnaval/NoNameRc.htm"), NULL);
+    wxLaunchDefaultBrowser(wxT("http://www.sitakiki.fr/modnaval/nextsteprc.htm"), NULL);
 }
 
 void NoNameRc_DesktopFrame::OnListBoxConfigDClick(wxCommandEvent& event)
