@@ -5,7 +5,9 @@ NoNameRc/NoNameRc.map
 *.hex
 *.elf
 *.bin
-*Desktop.exe
-*Simulator.exe
 *.o
 *.res
+NoNameRc_Simulator\obj\
+NoNameRc_Desktop\obj\
+NoNameRc_Simulator\bin\
+NoNameRc_Desktop\bin\
