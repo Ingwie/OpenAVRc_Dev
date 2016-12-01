@@ -872,7 +872,6 @@ void eeLoadModel(uint8_t id)
 
     LOAD_MODEL_BITMAP();
     SEND_FAILSAFE_1S();
-    PLAY_MODEL_NAME();
   }
 }
 

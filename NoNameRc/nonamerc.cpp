@@ -780,6 +780,7 @@ void checkAll()
 #else
 	checkTHR();
 	checkSwitches();
+  PLAY_MODEL_NAME();
 	checkFailsafe();
 #endif
 
