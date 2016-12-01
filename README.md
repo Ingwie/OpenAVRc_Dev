@@ -1,7 +1,7 @@
-# NextStepRc_Dev
+# OpenAVRc_Dev
 ## ! Just for devellopement here !
 
- *                        NONAMERC                           *
+ *                        OpenAVRc                           *
  *                                                           *
  *     -> Firmware + Logiciels pour radios à base d'AVR      *
  *                                                           *
