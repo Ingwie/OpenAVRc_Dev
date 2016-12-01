@@ -50,8 +50,6 @@ Firmware :
 
 -> Revenir sur le protocole DSM2, inclus "Model match"
 
--> Génération d'un prompt avec le nom du modèle choisi, (pour reproduire par exemple après choisir le modèle ou après la bienvenue.)
-
 -> Revenir sur l'idée de minimiser le nombre d'écritures a l'eeprom interne du atmega. (Carte SD?)
 
 
@@ -77,3 +75,4 @@ General:
 > - remplacement carte WT par "mieux" -> JQ6500 28P FAIT
 > - Les fonctions de ce type : L1 a<x Tmr1 02:00 --- sont décalées si EXT=NO (pas de télémétrie) FAIT
 > - changer le numéro de la pin vcc sur l'ampli op mpc6004 (Plan de Franck : Annulé)
+-> Génération d'un prompt avec le nom du modèle choisi, (pour reproduire par exemple après choisir le modèle ou après la bienvenue.) FAIT
