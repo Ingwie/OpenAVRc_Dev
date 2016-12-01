@@ -955,7 +955,7 @@ extern volatile rotenc_t g_rotenc[1];
 #define PLAY_BACKGROUND           0x20
 #define PLAY_INCREMENT(x)         ((uint8_t)(((uint8_t)x) << 6))   /* -1, 0, 1, 2 */
 
-#define PLAY_MODEL_NAME_NUM_FILE 0xC7 //199 in buildaudiofile models name start at 200
+#define PLAY_MODEL_NAME_NUM_FILE 0xC8 //200 in buildaudiofile models name range 201 to 232
 
 /* make sure the defines below always go in numeric order */
 enum AUDIO_SOUNDS {
