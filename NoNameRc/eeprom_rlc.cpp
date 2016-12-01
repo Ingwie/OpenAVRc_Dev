@@ -816,7 +816,6 @@ bool eeModelExists(uint8_t id)
     return EFile::exists(FILE_MODEL(id));
 }
 
-// TODO Now the 2 functions in eeprom_rlc.cpp and eeprom_raw.cpp are really close, should be merged.
 void eeLoadModel(uint8_t id)
 {
   if (id<MAX_MODELS) {

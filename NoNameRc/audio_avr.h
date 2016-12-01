@@ -37,7 +37,7 @@ class audioQueue
 
     void play(uint8_t tFreq, uint8_t tLen, uint8_t tPause, uint8_t tFlags=0);
     void pause(uint8_t tLen);
-    
+
     inline bool busy() { return (toneTimeLeft > 0); }
 
     void event(uint8_t e, uint8_t f=BEEP_DEFAULT_FREQ);
@@ -75,7 +75,7 @@ class audioQueue
     // vario has less priority
     uint8_t tone2Freq;
     uint8_t tone2TimeLeft;
-	  
+
     // queue arrays
     uint8_t queueToneFreq[AUDIO_QUEUE_LENGTH];
     int8_t queueToneFreqIncr[AUDIO_QUEUE_LENGTH];
@@ -142,7 +142,7 @@ void audioDefevent(uint8_t e);
 #define PLAY_SWITCH_MOVED(sw)
 #define PLAY_LOGICAL_SWITCH_OFF(sw)
 #define PLAY_LOGICAL_SWITCH_ON(sw)
-#define PLAY_MODEL_NAME()
+#define PLAY_MODEL_NAME()        VOICE_AUDIO_BUZZER(PUSH_CUSTOM_PROMPT(PLAY_MODEL_NAME_NUM_FILE,0); PUSH_CUSTOM_PROMPT(PLAY_MODEL_NAME_NUM_FILE + 1 + g_eeGeneral.currModel,0);,,)
 #define START_SILENCE_PERIOD()
 
 #endif

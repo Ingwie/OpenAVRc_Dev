@@ -1,21 +1,68 @@
 
-*****************  TODO TODO TODO TODO  *****************
+*****************  TODO and/or TO DECIDE  *****************
 
-
-
-> - changer le type des GVAR de 16bits vers 8bits (nouveau format d'eeprom) ou doubler le nombre de GVAR ...
 
 > - interrupteur 3 positions avec potar
-
-> - ajout nouveaux modules d'emission
-
-> - changer le numéro de la pin vcc sur l'ampli op mpc6004
 
 > - telemetrie GPS : Ajout distance (a partir du point fixe ?)
 
 > - Ecolage : ordres eleve vers entree mixeur
 
-> - Remplacer eeprom par SD ?
+
+Simu :
+
+-> Lire et écrire dans un repertoire pour simuler une SD card.
+
+-> Lire les fichiers "Voice"
+
+-> Afficher les data des ports I2C et SPI et pourquoi pas la sortie PPM
+
+-> Pouvoir "copier" un modèle d'une eeprom pour le "coller" vers une autre (Une base de données modèles : encore mieux)
+
+-> Simuler des ressorts sur les manches (sauf les gazs)
+
+-> Réinitialiser les variables du firmware pour pouvoir faire un "reboot" à chaud
+
+-> Trouver pourquoi l'eeprom update ne fonctionne pas comme sur la vraie radio dans les menus "modèles"
+
+
+Desktop :
+
+-> Un "vrai" éditeur de splash perso ?
+
+-> Customiser (comme le splash) les noms : AIL, TRN; RUD , etc ... dans le firmware par ce que l'on veux : Ces noms viennent des noms de la 9X (sur nos radio "maison" d'autres appelations "libres" me plairaient.
+
+-> Ajouter la génération des fichier voice. Et mettre tous les prompt dans un seul fichier. (Possible pour 9X ?)
+
+-> Editeur de modèle pour présenter toutes les caractéristiques d'un modèle dans un seul écran. Ou un écran par mode de vol. Ou quelque chose de simple. (Excell ?). (C'est ça la base de donées modèles ?)
+
+
+
+Firmware :
+
+-> Ajouter module emetteur perso
+
+-> afficher le nom du fichier "voice" lors de la programmation de la radio (sur la radio grace au fichier readtext qui ne sert à rien pour l'instant)
+
+-> Passer les Gvar de 16 à 8 bit, enlever les bits de "haptic strenght", etc pour gagner de la mémoire
+
+-> Ajouter une fonction spéciale sécurité moteur qui fonctionne comme le template.
+
+-> Revenir sur le protocole DSM2, inclus "Model match"
+
+-> Génération d'un prompt avec le nom du modèle choisi, (pour reproduire par exemple après choisir le modèle ou après la bienvenue.)
+
+-> Revenir sur l'idée de minimiser le nombre d'écritures a l'eeprom interne du atmega. (Carte SD?)
+
+
+General:
+
+-> Créer LE voice éditor.
+
+-> Des manuels pour tout.
+
+-> Traduction a l'anglais.
+
 
 *****************  DONE DONE DONE DONE  *****************
 
@@ -25,7 +72,8 @@
 > - communalisation pin buzzer avec pin speaker - FAIT
 > - Schema : corriger cablage KS108 + Le gain des amplis (R6/2) + pin buzzer - FAIT
 > - Corriger bug de flash "error mismatch"
-> - Changer le splash (NEXTSTEPRC) - FAIT
+> - Changer le splash - FAIT
 > - finir navigation avec les manches (placer les routines dans key.xxx) Placé dans gui/9X/navigation.cpp
 > - remplacement carte WT par "mieux" -> JQ6500 28P FAIT
 > - Les fonctions de ce type : L1 a<x Tmr1 02:00 --- sont décalées si EXT=NO (pas de télémétrie) FAIT
+> - changer le numéro de la pin vcc sur l'ampli op mpc6004 (Plan de Franck : Annulé)
