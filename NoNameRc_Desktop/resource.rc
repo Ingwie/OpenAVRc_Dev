@@ -1,3 +1,0 @@
-nsrcd_icon ICON "NoNameRc.ico"
-
-#include "wx/msw/wx.rc"
