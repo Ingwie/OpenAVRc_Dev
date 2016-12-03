@@ -707,7 +707,7 @@ void OpenAVRc_DesktopFrame::OnWIN_FIRMWARESelected(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnMenuMousseSelected(wxCommandEvent& event)
 {
-    wxLaunchDefaultBrowser(wxT("http://www.sitakiki.fr/modnaval/OpenAVRc.htm"), NULL);
+    wxLaunchDefaultBrowser(wxT("http://www.sitakiki.fr/modnaval/nextsteprc.htm"), NULL);
 }
 
 void OpenAVRc_DesktopFrame::OnListBoxConfigDClick(wxCommandEvent& event)
