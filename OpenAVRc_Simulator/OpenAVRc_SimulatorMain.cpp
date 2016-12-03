@@ -348,7 +348,8 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
     }
 
     //App Path
-    AppPath = wxStandardPaths::Get().GetExecutablePath();
+    wxFileName appPathWithExeName = wxStandardPaths::Get().GetExecutablePath();
+    AppPath = (appPathWithExeName.GetPath());
     //Ini File
     Ini_Filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "OpenAVRcSimulator.ini";
     configFile = new wxFileConfig( "", "", Ini_Filename);
