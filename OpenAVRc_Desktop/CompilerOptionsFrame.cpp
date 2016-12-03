@@ -356,6 +356,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxAUTOSWITCH->SetValue(false);
     CheckBoxAUTOSOURCE = new wxCheckBox(Panel3, ID_CHECKBOX45, _("AUTOSOURCE"), wxPoint(336,56), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX45"));
     CheckBoxAUTOSOURCE->SetValue(false);
+    CheckBoxAUTOSOURCE->SetFocus();
     CheckBoxDBLKEYS = new wxCheckBox(Panel3, ID_CHECKBOX47, _("Double keys"), wxPoint(336,152), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX47"));
     CheckBoxDBLKEYS->SetValue(false);
     CheckBoxDSM2PPM = new wxCheckBox(Panel3, ID_CHECKBOX28, _("DSM2 PPM"), wxPoint(72,152), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX28"));

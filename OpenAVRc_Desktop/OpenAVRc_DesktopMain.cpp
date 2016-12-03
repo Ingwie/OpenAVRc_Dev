@@ -13,6 +13,8 @@
 #include <wx/msgdlg.h>
 #include <wx/filedlg.h>
 #include <wx/textdlg.h>
+#include <wx/aboutdlg.h>
+
 
 
 //(*InternalHeaders(OpenAVRc_DesktopFrame)
@@ -358,8 +360,15 @@ void OpenAVRc_DesktopFrame::OnQuit(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnAbout(wxCommandEvent& event)
 {
-    wxString msg ="OpenAVRc Desktop V0.68 Beta";
-    wxMessageBox(msg, _("Bienvenue dans ..."));
+        wxAboutDialogInfo Aboutbox;
+        Aboutbox.SetName(_("OpenAVRc Desktop"));
+        Aboutbox.SetVersion(_("0.68 Beta"));
+        Aboutbox.SetLicence(" GPLv2 . Firmware basé sur NextStepRc 2.18 ");
+        Aboutbox.SetDescription(_("Logiciel pour la personalisation, la compilation, le flashage, la sauvegarde de votre radio OpenAVRc     "));
+        Aboutbox.SetCopyright(wxT("(C) 2016 OpenAVRc Team"));
+        Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
+
+        wxAboutBox(Aboutbox);
 }
 
 void OpenAVRc_DesktopFrame::OnProgrammerSelected(wxCommandEvent& event)
@@ -673,7 +682,7 @@ void OpenAVRc_DesktopFrame::OnATMEGA2560CompilerSelected(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnNexStepRc_M2560_docsSelected(wxCommandEvent& event)
 {
-    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/OpenAVRc_M2560"), NULL);
+    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/NextStepRC_M2560"), NULL);
 }
 
 void OpenAVRc_DesktopFrame::OnMenuJQ6500_PCBSelected(wxCommandEvent& event)

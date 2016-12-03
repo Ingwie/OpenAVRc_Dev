@@ -16,6 +16,8 @@
 #include <wx/file.h>
 #include <wx/colordlg.h>
 #include <wx/chartype.h>
+#include <wx/aboutdlg.h>
+
 
 
 
@@ -555,7 +557,15 @@ void OpenAVRc_SimulatorFrame::OnQuit(wxCommandEvent& event)
 
 void OpenAVRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
 {
-    wxMessageBox( _("OpenAVRc Simulateur V0.68Beta"), _("Bienvenue dans..."));
+        wxAboutDialogInfo Aboutbox;
+        Aboutbox.SetName(_("OpenAVRc Simulateur"));
+        Aboutbox.SetVersion(_("0.68 Beta"));
+        Aboutbox.SetLicence(" GPLv2 . Firmware basé sur NextStepRc 2.18 ");
+        Aboutbox.SetDescription(_("Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "));
+        Aboutbox.SetCopyright(wxT("(C) 2016 OpenAVRc Team"));
+        Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
+
+        wxAboutBox(Aboutbox);
 }
 
 void OpenAVRc_SimulatorFrame::OnwxsimulcdPaint(wxPaintEvent& event)
