@@ -92,9 +92,7 @@ const long CompilerOptionsFrame::ID_CHECKBOX29 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX30 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX31 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX32 = wxNewId();
-const long CompilerOptionsFrame::ID_CHECKBOX33 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX34 = wxNewId();
-const long CompilerOptionsFrame::ID_CHECKBOX35 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX36 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX37 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX38 = wxNewId();
@@ -334,13 +332,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxWS_HOW_HIGH = new wxCheckBox(Panel3, ID_CHECKBOX32, _("WS_HOW_HIGH"), wxPoint(208,280), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX32"));
     CheckBoxWS_HOW_HIGH->SetValue(false);
     CheckBoxWS_HOW_HIGH->SetToolTip(_("WS HowHigh Altimeter"));
-    CheckBoxHUBSAN = new wxCheckBox(Panel3, ID_CHECKBOX33, _("Hubsan"), wxPoint(656,216), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX33"));
-    CheckBoxHUBSAN->SetValue(false);
     CheckBoxTX_CADDY = new wxCheckBox(Panel3, ID_CHECKBOX34, _("TX_CADDY"), wxPoint(656,152), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX34"));
     CheckBoxTX_CADDY->SetValue(false);
     CheckBoxTX_CADDY->SetToolTip(_("Pour gruvin9x seulement"));
-    CheckBoxIRPROTOS = new wxCheckBox(Panel3, ID_CHECKBOX35, _("IR protos"), wxPoint(656,248), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX35"));
-    CheckBoxIRPROTOS->SetValue(false);
     CheckBoxTOGGLETRIM = new wxCheckBox(Panel3, ID_CHECKBOX36, _("Toggle trims"), wxPoint(456,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX36"));
     CheckBoxTOGGLETRIM->SetValue(false);
     CheckBoxTOGGLETRIM->SetToolTip(_("Change les trim de la main droite à la main gauche, et vice-versa"));
@@ -430,9 +424,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxPWM_BACKLIGHT->SetValue(PWM_BACKLIGHT);
     CheckBoxOVERRIDE_CHANNEL_FUNCTION->SetValue(OVERRIDE_CHANNEL_FUNCTION);
     CheckBoxWS_HOW_HIGH->SetValue(WS_HOW_HIGH);
-    CheckBoxHUBSAN->SetValue(HUBSAN);
     CheckBoxTX_CADDY->SetValue(TX_CADDY);
-    CheckBoxIRPROTOS->SetValue(IRPROTOS);//Does that work?
     CheckBoxTOGGLETRIM->SetValue(TOGGLETRIM);
     CheckBoxNOANDSECONDE->SetValue(NOANDSECONDE);// Hardwired
     CheckBoxSHUTDOWN_CONFIRMATION->SetValue(SHUTDOWN_CONFIRMATION);
@@ -509,9 +501,7 @@ void CompilerOptionsFrame::BatFunction()
     if (PWM_BACKLIGHT) CompiBat += (" PWM_BACKLIGHT=YES");
     if (OVERRIDE_CHANNEL_FUNCTION) CompiBat += (" OVERRIDE_CHANNEL_FUNCTION=YES");
     if (WS_HOW_HIGH) CompiBat += (" WS_HOW_HIGH=YES");
-    if (HUBSAN) CompiBat += (" HUBSAN=YES");
     if (TX_CADDY) CompiBat += (" TX_CADDY=YES");
-    if (IRPROTOS) CompiBat += (" IRPROTOS=YES");
     if (TOGGLETRIM) CompiBat += (" TOGGLETRIM=YES");
     if (NOANDSECONDE) CompiBat += (" NOANDSECONDE=YES");
     if (SHUTDOWN_CONFIRMATION) CompiBat += (" SHUTDOWN_CONFIRMATION=YES");
@@ -584,9 +574,7 @@ void CompilerOptionsFrame::CollectDatas()
     PWM_BACKLIGHT = CheckBoxPWM_BACKLIGHT->GetValue();
     OVERRIDE_CHANNEL_FUNCTION = CheckBoxOVERRIDE_CHANNEL_FUNCTION->GetValue();
     WS_HOW_HIGH = CheckBoxWS_HOW_HIGH->GetValue();
-    HUBSAN = CheckBoxHUBSAN->GetValue();
     TX_CADDY = CheckBoxTX_CADDY->GetValue();
-    IRPROTOS = CheckBoxIRPROTOS->GetValue();
     TOGGLETRIM = CheckBoxTOGGLETRIM->GetValue();
     NOANDSECONDE = CheckBoxNOANDSECONDE->GetValue();
     SHUTDOWN_CONFIRMATION = CheckBoxSHUTDOWN_CONFIRMATION->GetValue();

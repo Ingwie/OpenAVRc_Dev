@@ -74,9 +74,7 @@ extern bool SP22;
 extern bool PWM_BACKLIGHT;
 extern bool OVERRIDE_CHANNEL_FUNCTION;
 extern bool WS_HOW_HIGH;
-extern bool HUBSAN;
 extern bool TX_CADDY;
-extern bool IRPROTOS;//Does that work?
 extern bool TOGGLETRIM;
 extern bool NOANDSECONDE;// Hardwired
 extern bool SHUTDOWN_CONFIRMATION;
@@ -108,7 +106,6 @@ public:
     wxNotebook* Notebook1;
     wxCheckBox* CheckBoxDSM2SERIAL;
     wxCheckBox* CheckBoxPCBREV;
-    wxCheckBox* CheckBoxHUBSAN;
     wxStaticText* StaticText2;
     wxChoice* ChoiceTRANSLATIONS;
     wxChoice* ChoiceFAI;
@@ -119,7 +116,6 @@ public:
     wxCheckBox* CheckBoxOFFSET_ON_INPUT;
     wxCheckBox* CheckBoxOVERRIDE_CHANNEL_FUNCTION;
     wxCheckBox* CheckBoxCURVES;
-    wxCheckBox* CheckBoxIRPROTOS;
     wxCheckBox* CheckBoxFAS_OFFSET;
     wxStaticText* StaticText8;
     wxStaticText* StaticText11;
@@ -247,9 +243,7 @@ protected:
     static const long ID_CHECKBOX30;
     static const long ID_CHECKBOX31;
     static const long ID_CHECKBOX32;
-    static const long ID_CHECKBOX33;
     static const long ID_CHECKBOX34;
-    static const long ID_CHECKBOX35;
     static const long ID_CHECKBOX36;
     static const long ID_CHECKBOX37;
     static const long ID_CHECKBOX38;
@@ -338,9 +332,7 @@ private:
     void OnChoiceTRANSLATIONSSelect(wxCommandEvent& event);
     void OnChoiceTHREE_POSSelect(wxCommandEvent& event);
     void OnCheckBoxWS_HOW_HIGHClick1(wxCommandEvent& event);
-    void OnCheckBoxHUBSANClick(wxCommandEvent& event);
     void OnCheckBoxCORRECT_NEGATIVE_VALUESClick1(wxCommandEvent& event);
-    void OnCheckBoxNOANDSECONDEClick(wxCommandEvent& event);
     void OnCheckBoxOFFSET_ON_INPUTClick1(wxCommandEvent& event);
     void OnCheckBoxTX_CADDYClick(wxCommandEvent& event);
     void OnCheckBoxPCBREVClick1(wxCommandEvent& event);

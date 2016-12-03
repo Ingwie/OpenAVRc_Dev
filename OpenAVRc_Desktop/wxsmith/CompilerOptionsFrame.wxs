@@ -457,18 +457,10 @@
 							<pos>208,280</pos>
 							<tooltip>WS HowHigh Altimeter</tooltip>
 						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX33" variable="CheckBoxHUBSAN" member="yes">
-							<label>Hubsan</label>
-							<pos>656,216</pos>
-						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX34" variable="CheckBoxTX_CADDY" member="yes">
 							<label>TX__CADDY</label>
 							<pos>656,152</pos>
 							<tooltip>Pour gruvin9x seulement</tooltip>
-						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX35" variable="CheckBoxIRPROTOS" member="yes">
-							<label>IR protos</label>
-							<pos>656,248</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX36" variable="CheckBoxTOGGLETRIM" member="yes">
 							<label>Toggle trims</label>

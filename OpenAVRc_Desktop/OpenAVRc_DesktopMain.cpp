@@ -142,9 +142,7 @@ bool SP22 = 0;
 bool PWM_BACKLIGHT = 0;
 bool OVERRIDE_CHANNEL_FUNCTION = 0;
 bool WS_HOW_HIGH = 0;
-bool HUBSAN = 0;
 bool TX_CADDY = 0;
-bool IRPROTOS = 0;////////////////////Does that work?
 bool TOGGLETRIM = 0;
 bool NOANDSECONDE = 1;
 bool SHUTDOWN_CONFIRMATION = 0;
@@ -523,9 +521,7 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
     configFile->Read(wxT("PWM_BACKLIGHT"),&PWM_BACKLIGHT);
     configFile->Read(wxT("OVERRIDE_CHANNEL_FUNCTION"),&OVERRIDE_CHANNEL_FUNCTION);
     configFile->Read(wxT("WS_HOW_HIGH"),&WS_HOW_HIGH);
-    configFile->Read(wxT("HUBSAN"),&HUBSAN);
     configFile->Read(wxT("TX_CADDY"),&TX_CADDY);
-    configFile->Read(wxT("IRPROTOS"),&IRPROTOS);
     configFile->Read(wxT("TOGGLETRIM"),&TOGGLETRIM);
     configFile->Read(wxT("NOANDSECONDE"),&NOANDSECONDE);
     configFile->Read(wxT("SHUTDOWN_CONFIRMATION"),&SHUTDOWN_CONFIRMATION);
@@ -628,9 +624,7 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("PWM_BACKLIGHT"),PWM_BACKLIGHT);
     configFile->Write(wxT("OVERRIDE_CHANNEL_FUNCTION"),OVERRIDE_CHANNEL_FUNCTION);
     configFile->Write(wxT("WS_HOW_HIGH"),WS_HOW_HIGH);
-    configFile->Write(wxT("HUBSAN"),HUBSAN);
     configFile->Write(wxT("TX_CADDY"),TX_CADDY);
-    configFile->Write(wxT("IRPROTOS"),IRPROTOS);
     configFile->Write(wxT("TOGGLETRIM"),TOGGLETRIM);
     configFile->Write(wxT("NOANDSECONDE"),NOANDSECONDE);
     configFile->Write(wxT("SHUTDOWN_CONFIRMATION"),SHUTDOWN_CONFIRMATION);
