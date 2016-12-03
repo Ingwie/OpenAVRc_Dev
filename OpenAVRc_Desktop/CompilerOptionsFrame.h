@@ -340,6 +340,7 @@ private:
     void OnCheckBoxVARIOClick1(wxCommandEvent& event);
     void OnCheckBoxPPM_CENTER_ADJUSTABLEClick(wxCommandEvent& event);
     void OnCheckBoxGAUGESClick(wxCommandEvent& event);
+    void OnCheckBoxNOANDSECONDEClick(wxCommandEvent& event);
     void OnCheckBoxPPMClick1(wxCommandEvent& event);
     void OnCheckBoxFAS_OFFSETClick1(wxCommandEvent& event);
     void OnCheckBoxDBLKEYSClick(wxCommandEvent& event);
