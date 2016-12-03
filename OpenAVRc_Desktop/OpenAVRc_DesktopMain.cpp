@@ -131,7 +131,6 @@ bool PPM_LIMITS_SYMETRICAL = 1;
 bool FLIGHT_MODES = 0;
 bool CURVES = 0;
 bool GVARS = 0;
-bool OFFSET_ON_INPUT = 1;// Hardwire forever ?
 bool PCBREV = 0;
 bool TURNIGY_TRANSMITTER_FIX = 0;
 bool FRSKY_STICKS = 0;
@@ -510,7 +509,6 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
     configFile->Read(wxT("FLIGHT_MODES"),&FLIGHT_MODES);
     configFile->Read(wxT("CURVES"),&CURVES);
     configFile->Read(wxT("GVARS"),&GVARS);
-    configFile->Read(wxT("OFFSET_ON_INPUT"),&OFFSET_ON_INPUT);
     configFile->Read(wxT("PCBREV"),&PCBREV);
     configFile->Read(wxT("TURNIGY_TRANSMITTER_FIX"),&TURNIGY_TRANSMITTER_FIX);
     configFile->Read(wxT("FRSKY_STICKS"),&FRSKY_STICKS);
@@ -613,7 +611,6 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("FLIGHT_MODES"),FLIGHT_MODES);
     configFile->Write(wxT("CURVES"),CURVES);
     configFile->Write(wxT("GVARS"),GVARS);
-    configFile->Write(wxT("OFFSET_ON_INPUT"),OFFSET_ON_INPUT);
     configFile->Write(wxT("PCBREV"),PCBREV);
     configFile->Write(wxT("TURNIGY_TRANSMITTER_FIX"),TURNIGY_TRANSMITTER_FIX);
     configFile->Write(wxT("FRSKY_STICKS"),FRSKY_STICKS);

@@ -412,14 +412,9 @@
 							<label>Sport file log</label>
 							<pos>208,248</pos>
 						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX22" variable="CheckBoxOFFSET_ON_INPUT" member="yes">
-							<label>Offset on input</label>
-							<checked>1</checked>
-							<pos>336,216</pos>
-						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX23" variable="CheckBoxPCBREV" member="yes">
 							<label>PCB Rev0</label>
-							<pos>336,184</pos>
+							<pos>656,184</pos>
 							<tooltip>REV1 pour gruvin9x si pas coché</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX24" variable="CheckBoxTURNIGY_TRANSMITTER_FIX" member="yes">
@@ -470,7 +465,7 @@
 						<object class="wxCheckBox" name="ID_CHECKBOX37" variable="CheckBoxNOANDSECONDE" member="yes">
 							<label>NOANDSECONDE</label>
 							<checked>1</checked>
-							<pos>336,248</pos>
+							<pos>336,184</pos>
 							<size>102,16</size>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX38" variable="CheckBoxSHUTDOWN_CONFIRMATION" member="yes">

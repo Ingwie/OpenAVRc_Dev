@@ -82,7 +82,6 @@ const long CompilerOptionsFrame::ID_CHECKBOX4 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX5 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX6 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX8 = wxNewId();
-const long CompilerOptionsFrame::ID_CHECKBOX22 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX23 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX24 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX25 = wxNewId();
@@ -308,9 +307,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxVARIO->SetValue(false);
     CheckBoxSPORT_FILE_LOG = new wxCheckBox(Panel3, ID_CHECKBOX8, _("Sport file log"), wxPoint(208,248), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX8"));
     CheckBoxSPORT_FILE_LOG->SetValue(false);
-    CheckBoxOFFSET_ON_INPUT = new wxCheckBox(Panel3, ID_CHECKBOX22, _("Offset on input"), wxPoint(336,216), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX22"));
-    CheckBoxOFFSET_ON_INPUT->SetValue(true);
-    CheckBoxPCBREV = new wxCheckBox(Panel3, ID_CHECKBOX23, _("PCB Rev0"), wxPoint(336,184), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX23"));
+    CheckBoxPCBREV = new wxCheckBox(Panel3, ID_CHECKBOX23, _("PCB Rev0"), wxPoint(656,184), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX23"));
     CheckBoxPCBREV->SetValue(false);
     CheckBoxPCBREV->SetToolTip(_("REV1 pour gruvin9x si pas coché"));
     CheckBoxTURNIGY_TRANSMITTER_FIX = new wxCheckBox(Panel3, ID_CHECKBOX24, _("TURNIGY Fix"), wxPoint(656,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX24"));
@@ -338,7 +335,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxTOGGLETRIM = new wxCheckBox(Panel3, ID_CHECKBOX36, _("Toggle trims"), wxPoint(456,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX36"));
     CheckBoxTOGGLETRIM->SetValue(false);
     CheckBoxTOGGLETRIM->SetToolTip(_("Change les trim de la main droite à la main gauche, et vice-versa"));
-    CheckBoxNOANDSECONDE = new wxCheckBox(Panel3, ID_CHECKBOX37, _("NOANDSECONDE"), wxPoint(336,248), wxSize(102,16), 0, wxDefaultValidator, _T("ID_CHECKBOX37"));
+    CheckBoxNOANDSECONDE = new wxCheckBox(Panel3, ID_CHECKBOX37, _("NOANDSECONDE"), wxPoint(336,184), wxSize(102,16), 0, wxDefaultValidator, _T("ID_CHECKBOX37"));
     CheckBoxNOANDSECONDE->SetValue(true);
     CheckBoxSHUTDOWN_CONFIRMATION = new wxCheckBox(Panel3, ID_CHECKBOX38, _("SHUTDOWN_CONFIRMATION"), wxPoint(456,248), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX38"));
     CheckBoxSHUTDOWN_CONFIRMATION->SetValue(false);
@@ -413,7 +410,6 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxFLIGHT_MODES->SetValue(FLIGHT_MODES);
     CheckBoxCURVES->SetValue(CURVES);
     CheckBoxGVARS->SetValue(GVARS);
-    CheckBoxOFFSET_ON_INPUT->SetValue(OFFSET_ON_INPUT);
     CheckBoxPCBREV->SetValue(PCBREV);
     CheckBoxTURNIGY_TRANSMITTER_FIX->SetValue(TURNIGY_TRANSMITTER_FIX);
     CheckBoxFRSKY_STICKS->SetValue(FRSKY_STICKS);
@@ -490,7 +486,6 @@ void CompilerOptionsFrame::BatFunction()
     if (FLIGHT_MODES) CompiBat += (" FLIGHT_MODES=YES");
     if (CURVES) CompiBat += (" CURVES=YES");
     if (GVARS) CompiBat += (" GVARS=YES");
-    if (OFFSET_ON_INPUT) CompiBat += (" OFFSET_ON_INPUT=YES");
     if (PCBREV) CompiBat += (" PCBREV=REV0");
     if (TURNIGY_TRANSMITTER_FIX) CompiBat += (" TURNIGY_TRANSMITTER_FIX=YES");
     if (FRSKY_STICKS) CompiBat += (" FRSKY_STICKS=YES");
@@ -563,7 +558,6 @@ void CompilerOptionsFrame::CollectDatas()
     FLIGHT_MODES = CheckBoxFLIGHT_MODES->GetValue();
     CURVES = CheckBoxCURVES->GetValue();
     GVARS = CheckBoxGVARS->GetValue();
-    OFFSET_ON_INPUT = CheckBoxOFFSET_ON_INPUT->GetValue();
     PCBREV = CheckBoxPCBREV->GetValue();
     TURNIGY_TRANSMITTER_FIX = CheckBoxTURNIGY_TRANSMITTER_FIX->GetValue();
     FRSKY_STICKS = CheckBoxFRSKY_STICKS->GetValue();

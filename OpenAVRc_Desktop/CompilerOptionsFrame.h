@@ -63,7 +63,6 @@ extern bool PPM_LIMITS_SYMETRICAL;
 extern bool FLIGHT_MODES;//Hardwired ?
 extern bool CURVES;//Hardwired ?
 extern bool GVARS;//Hardwired ?
-extern bool OFFSET_ON_INPUT;
 extern bool PCBREV;
 extern bool TURNIGY_TRANSMITTER_FIX;
 extern bool FRSKY_STICKS;
@@ -113,7 +112,6 @@ public:
     wxCheckBox* CheckBoxGAUGES;
     wxStaticText* StaticText6;
     wxCheckBox* CheckBoxDBLKEYS;
-    wxCheckBox* CheckBoxOFFSET_ON_INPUT;
     wxCheckBox* CheckBoxOVERRIDE_CHANNEL_FUNCTION;
     wxCheckBox* CheckBoxCURVES;
     wxCheckBox* CheckBoxFAS_OFFSET;
@@ -233,7 +231,6 @@ protected:
     static const long ID_CHECKBOX5;
     static const long ID_CHECKBOX6;
     static const long ID_CHECKBOX8;
-    static const long ID_CHECKBOX22;
     static const long ID_CHECKBOX23;
     static const long ID_CHECKBOX24;
     static const long ID_CHECKBOX25;
@@ -318,7 +315,6 @@ private:
     void OnCheckBoxVARIOClick(wxCommandEvent& event);
     void OnCheckBoxWS_HOW_HIGHClick(wxCommandEvent& event);
     void OnCheckBoxFRSKY_STICKSClick(wxCommandEvent& event);
-    void OnCheckBoxOFFSET_ON_INPUTClick(wxCommandEvent& event);
     void OnCheckBoxCORRECT_NEGATIVE_VALUESClick(wxCommandEvent& event);
     void OnPanel3Paint(wxPaintEvent& event);
     void OnCheckBoxDOUBLEKEYSClick(wxCommandEvent& event);
@@ -333,7 +329,6 @@ private:
     void OnChoiceTHREE_POSSelect(wxCommandEvent& event);
     void OnCheckBoxWS_HOW_HIGHClick1(wxCommandEvent& event);
     void OnCheckBoxCORRECT_NEGATIVE_VALUESClick1(wxCommandEvent& event);
-    void OnCheckBoxOFFSET_ON_INPUTClick1(wxCommandEvent& event);
     void OnCheckBoxTX_CADDYClick(wxCommandEvent& event);
     void OnCheckBoxPCBREVClick1(wxCommandEvent& event);
     void OnCheckBoxPPM_LIMITS_SYMETRICALClick1(wxCommandEvent& event);
@@ -356,7 +351,6 @@ private:
     void OnCheckBoxAUTOSWITCHClick(wxCommandEvent& event);
     void OnCheckBoxSPLASHClick1(wxCommandEvent& event);
     void OnChoiceFAISelect(wxCommandEvent& event);
-    void OnCheckBoxOFFSET_ON_INPUTClick2(wxCommandEvent& event);
     void OnCheckBoxOVERRIDE_CHANNEL_FUNCTIONClick(wxCommandEvent& event);
     void OnCheckBoxAUTOSOURCEClick1(wxCommandEvent& event);
     void OnChoiceNAVIGATIONSelect(wxCommandEvent& event);
