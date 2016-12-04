@@ -584,7 +584,10 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
       //}
     wxTextFile tfile;
     tfile.Open(file);
-    str = tfile.GetFirstLine();
+    if (tfile.Exists()) //avoid crash if file is not found
+    {
+
+ str = tfile.GetFirstLine();
 
 
     VoiceGrid->SetCellValue(0,0,str);
@@ -593,6 +596,7 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
       str = tfile.GetNextLine();
       VoiceGrid->SetCellValue(j,0,str);
       }
+    }
 }
 
 VoiceEditFrame::~VoiceEditFrame()
