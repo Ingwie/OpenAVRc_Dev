@@ -2,14 +2,15 @@
 <wxsmith>
 	<object class="wxFrame" name="OpenAVRc_DesktopFrame">
 		<title>OpenAVRc Desktop</title>
-		<size>590,282</size>
+		<size>592,282</size>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
-			<size>590,290</size>
+			<size>848,280</size>
 			<focused>1</focused>
 			<style>0</style>
+			<handler function="OnPanel1Paint" entry="EVT_PAINT" />
 			<object class="wxStaticBox" name="ID_STATICBOXSPLASH" variable="StaticBoxSplash" member="yes">
 				<label>Ecran d&apos;accueil</label>
 				<pos>160,8</pos>
@@ -54,6 +55,49 @@
 				<size>75,24</size>
 				<tooltip>Restaurer l&apos;écran par défaut</tooltip>
 				<handler function="OnButtonSplashDefaultClick" entry="EVT_BUTTON" />
+			</object>
+			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
+				<label>Fichiers Voix</label>
+				<pos>440,8</pos>
+				<size>136,192</size>
+			</object>
+			<object class="wxChoice" name="ID_CHOICE1" variable="ChoiceLangue" member="yes">
+				<content>
+					<item>fr</item>
+					<item>en</item>
+					<item>es</item>
+				</content>
+				<selection>0</selection>
+				<pos>504,32</pos>
+				<size>48,21</size>
+				<tooltip>Choisissez la langue des mensages vocales</tooltip>
+				<handler function="OnLANGUESelect" entry="EVT_CHOICE" />
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
+				<label>Langue</label>
+				<pos>456,40</pos>
+				<tooltip>Choisissez la langue des mensages vocales</tooltip>
+			</object>
+			<object class="wxButton" name="ID_BUTTON2" variable="ButtonEditeur" member="yes">
+				<label>Éditeur</label>
+				<pos>472,72</pos>
+				<size>83,23</size>
+				<tooltip>Pour changer les messages</tooltip>
+				<handler function="OnEDITEURClick" entry="EVT_BUTTON" />
+			</object>
+			<object class="wxButton" name="ID_BUTTON3" variable="ButtonGenerateur" member="yes">
+				<label>Générateur</label>
+				<pos>472,112</pos>
+				<size>83,23</size>
+				<help>Génération des fichiers son</help>
+				<handler function="OnButtonGenerateurClick" entry="EVT_BUTTON" />
+			</object>
+			<object class="wxButton" name="ID_BUTTON4" variable="ButtonCarteSD" member="yes">
+				<label>Carte SD</label>
+				<pos>472,152</pos>
+				<size>83,23</size>
+				<help>Écriture dans la carte SD</help>
+				<handler function="OnButtonCarteSDClick" entry="EVT_BUTTON" />
 			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar_main" member="yes">

@@ -21,10 +21,12 @@
 
 
 //(*Headers(OpenAVRc_DesktopFrame)
+#include <wx/stattext.h>
 #include <wx/menu.h>
 #include <wx/listbox.h>
 #include <wx/statbox.h>
 #include <wx/panel.h>
+#include <wx/choice.h>
 #include <wx/button.h>
 #include <wx/frame.h>
 #include <wx/statusbr.h>
@@ -73,6 +75,11 @@ private:
     void OnPanelSplashPaint(wxPaintEvent& event);
     void OnButtonSplashDefaultClick(wxCommandEvent& event);
     void OnButtonPersoClick(wxCommandEvent& event);
+    void OnEDITEURClick(wxCommandEvent& event);
+    void OnLANGUESelect(wxCommandEvent& event);
+    void OnButtonGenerateurClick(wxCommandEvent& event);
+    void OnButtonCarteSDClick(wxCommandEvent& event);
+    void OnPanel1Paint(wxPaintEvent& event);
     //*)
 
     //(*Identifiers(OpenAVRc_DesktopFrame)
@@ -83,6 +90,12 @@ private:
     static const long ID_SPLASH;
     static const long ID_BUTTONPERSO;
     static const long ID_BUTTONSPLASHDEFAULT;
+    static const long ID_STATICBOX1;
+    static const long ID_CHOICE1;
+    static const long ID_STATICTEXT1;
+    static const long ID_BUTTON2;
+    static const long ID_BUTTON3;
+    static const long ID_BUTTON4;
     static const long ID_PANEL1;
     static const long ID_MENUITEMNEWCONFIG;
     static const long ID_MENUDELETEACTIVECONFIG;
@@ -118,18 +131,24 @@ private:
     wxMenu* MenuHtmlDoc;
     wxMenu* MenuItem15;
     wxMenu* Menu3;
+    wxButton* ButtonEditeur;
     wxButton* Button1;
     wxMenuItem* MenuItem4;
     wxMenuItem* MenuItem14;
+    wxChoice* ChoiceLangue;
     wxMenuItem* MenuItem11;
     wxStaticBox* StaticBoxSplash;
     wxPanel* Panel1;
+    wxStaticText* StaticText1;
     wxMenuItem* MenuItem13;
+    wxStaticBox* StaticBox1;
     wxMenu* MenuItem8;
     wxMenuItem* MenuItem10;
+    wxButton* ButtonCarteSD;
     wxMenuItem* MenuItem12;
     wxMenuBar* MenuBar_main;
     wxMenuItem* MenuItem3;
+    wxButton* ButtonGenerateur;
     wxMenu* Menu7;
     wxListBox* ListBoxConfig;
     wxMenuItem* Menu5;
