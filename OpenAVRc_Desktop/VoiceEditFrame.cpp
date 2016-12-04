@@ -3,6 +3,9 @@
 #include <wx/textfile.h>
 #include "OpenAVRc_DesktopMain.h"
 
+extern wxString AppPath;
+
+
 //(*InternalHeaders(VoiceEditFrame)
 #include <wx/artprov.h>
 #include <wx/bitmap.h>
@@ -33,22 +36,23 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 {
 	//(*Initialize(VoiceEditFrame)
 	Create(parent, wxID_ANY, _("Voix"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
-	SetClientSize(wxSize(400,521));
+	SetClientSize(wxSize(410,521));
 	{
 		wxIcon FrameIcon;
 		FrameIcon.CopyFromBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_HELP_BOOK")),wxART_FRAME_ICON));
 		SetIcon(FrameIcon);
 	}
-	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(160,208), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-	StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Cliquez pour écouter, double click pour éditer."), wxPoint(16,8), wxSize(368,464), 0, _T("ID_STATICBOX1"));
-	VoiceGrid = new wxGrid(Panel1, ID_GRID1, wxPoint(56,40), wxSize(280,416), 0, _T("ID_GRID1"));
-	VoiceGrid->CreateGrid(512,1);
+	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(160,208), wxSize(408,520), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+	StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Cliquez pour écouter, double click pour éditer."), wxPoint(16,8), wxSize(376,472), 0, _T("ID_STATICBOX1"));
+	VoiceGrid = new wxGrid(Panel1, ID_GRID1, wxPoint(24,48), wxSize(360,424), 0, _T("ID_GRID1"));
+	VoiceGrid->CreateGrid(512,2);
 	VoiceGrid->EnableEditing(true);
 	VoiceGrid->EnableGridLines(true);
 	VoiceGrid->SetColLabelSize(20);
 	VoiceGrid->SetRowLabelSize(40);
-	VoiceGrid->SetDefaultColSize(224, true);
-	VoiceGrid->SetColLabelValue(0, _("Annonces vocales"));
+	VoiceGrid->SetDefaultColSize(150, true);
+	VoiceGrid->SetColLabelValue(0, _("Nom"));
+	VoiceGrid->SetColLabelValue(1, _("Annonces vocales"));
 	VoiceGrid->SetRowLabelValue(0, _("0000"));
 	VoiceGrid->SetRowLabelValue(1, _("0001"));
 	VoiceGrid->SetRowLabelValue(2, _("0002"));
@@ -576,9 +580,9 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
     wxString voice_index;
     wxString voice_prompt;
       //if (voice_Langue == "fr"){ TODO define files for other languages.
-      file = "C:\\OpenAVRc_Builder\\BuildAudioFiles\\SOUNDS\\fr\\newsoundsfrench.txt";
+      file = AppPath + "\\newsoundsfrench.txt";
       //}
-    wxTextFile      tfile;
+    wxTextFile tfile;
     tfile.Open(file);
     str = tfile.GetFirstLine();
 
