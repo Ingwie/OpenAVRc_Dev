@@ -15,7 +15,7 @@ mode finesse,mode finesse
 mode papillon,mode papillon
 mode vitesse,mode vitesse
 mode snapflap,mode snapflap
-libre 17leftleft,libre 17rightright
+libre 17left,libre 17right
 libre 18,libre 18
 libre 19,libre 19
 Phase de vol 0,Phase de vol 0
@@ -478,7 +478,7 @@ libre 476,libre 476
 libre 477,libre 477
 libre 478,libre 478
 libre 479,libre 479
-Bienvenue sur Nexsteprc !,Bienvenue sur Nexsteprc !
+Bienvenue,Bienvenue sur Open A V R c !
 Alerte manche des gaz,Alerte manche des gaz
 Alerte inters,Alerte inters
 Eeprom corrompue,Eeprom corrompue
