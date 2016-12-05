@@ -2,8 +2,11 @@
 #include <wx/msgdlg.h>
 #include <wx/textfile.h>
 #include "OpenAVRc_DesktopMain.h"
+#include <wx/tokenzr.h>
 
 extern wxString AppPath;
+wxString voiceText;
+wxString voicePrompt;
 
 
 //(*InternalHeaders(VoiceEditFrame)
@@ -23,9 +26,6 @@ const long VoiceEditFrame::ID_PANEL1 = wxNewId();
 //*)
 
 
-
-int pepe, manolo;
-wxString antonio;
 
 BEGIN_EVENT_TABLE(VoiceEditFrame,wxFrame)
 	//(*EventTable(VoiceEditFrame)
@@ -576,25 +576,25 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	//*)
 
     wxString file;
-    wxString str;
-    wxString voice_index;
-    wxString voice_prompt;
-      //if (voice_Langue == "fr"){ TODO define files for other languages.
-      file = AppPath + "\\newsoundsfrench.txt";
-      //}
+    wxString line;
+
+    voice_Langue = "fr" ; //TODO define files for other languages.
+
+    file = AppPath + "\\newsoundsfrench.txt";
     wxTextFile tfile;
     tfile.Open(file);
     if (tfile.Exists()) //avoid crash if file is not found
     {
-
- str = tfile.GetFirstLine();
-
-
-    VoiceGrid->SetCellValue(0,0,str);
-    for (int j = 1; j < 512; j++ )
+      for (int j = 0; j < 512; j++ )
       {
-      str = tfile.GetNextLine();
-      VoiceGrid->SetCellValue(j,0,str);
+        line = tfile.GetLine(j);
+        wxStringTokenizer tokenizer(line, ",");
+
+        wxString voiceText = tokenizer.GetNextToken();
+        VoiceGrid->SetCellValue(j,0,voiceText);
+
+        wxString token1 = tokenizer.GetNextToken();
+        VoiceGrid->SetCellValue(j,1,token1);
       }
     }
 }
@@ -620,24 +620,39 @@ void VoiceEditFrame::OnGrid1CellLeftClick(wxGridEvent& event)
 
 void VoiceEditFrame::OnRetourClick(wxCommandEvent& event)
 {
+    wxString file;
+    wxString line;
+
+    voice_Langue = "fr" ; //TODO define files for other languages.
+
+    file = AppPath + "\\newsoundsfrench.txt";
+    wxTextFile tfile;
+    tfile.Open(file);
+    if (!tfile.Exists()) return; //avoid crash if file is not found
+
+    tfile.Clear();
+    for (int j = 0; j < 512; j++ )
+    {
+    voiceText = VoiceGrid->GetCellValue(j,0);
+    voicePrompt = VoiceGrid->GetCellValue(j,1);
+    line = voiceText + "," + voicePrompt;
+    tfile.GoToLine(j);
+    tfile.AddLine(line);
+    }
+    tfile.Write();
+    tfile.Close();
+
     Close();
 }
 
-
 void VoiceEditFrame::OnVoiceGridSetFocus(wxFocusEvent& event)
 {
-    //antonio = VoiceGrid->GetCellValue(pepe,manolo);
 }
-
 
 void VoiceEditFrame::OnVoiceGridKillFocus1(wxFocusEvent& event)
 {
-    //antonio = VoiceGrid->GetCellValue(pepe,manolo);
-    //VoiceGrid->SetCellValue(pepe,manolo,antonio);
 }
 
 void VoiceEditFrame::OnVoiceGridCellChange(wxGridEvent& event)
 {
-    //antonio = VoiceGrid->GetCellValue(pepe,manolo);
-    //VoiceGrid->SetCellValue(pepe,manolo,antonio);
 }
