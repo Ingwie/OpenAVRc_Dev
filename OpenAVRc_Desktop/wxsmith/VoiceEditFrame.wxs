@@ -8,7 +8,6 @@
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>160,208</pos>
 			<size>408,520</size>
-			<handler function="OnPanel1Paint" entry="EVT_PAINT" />
 			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
 				<label>Cliquez pour écouter, double click pour éditer.</label>
 				<pos>16,8</pos>
@@ -540,8 +539,6 @@
 				</rowlabels>
 				<pos>24,48</pos>
 				<size>360,424</size>
-				<handler function="OnVoiceGridSetFocus" entry="EVT_SET_FOCUS" />
-				<handler function="OnVoiceGridKillFocus1" entry="EVT_KILL_FOCUS" />
 			</object>
 			<object class="wxButton" name="ID_BUTTON1" variable="Retour" member="yes">
 				<label>OK</label>

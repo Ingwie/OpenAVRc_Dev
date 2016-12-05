@@ -76,7 +76,6 @@ private:
     void OnButtonSplashDefaultClick(wxCommandEvent& event);
     void OnButtonPersoClick(wxCommandEvent& event);
     void OnEDITEURClick(wxCommandEvent& event);
-    void OnLANGUESelect(wxCommandEvent& event);
     void OnButtonGenerateurClick(wxCommandEvent& event);
     void OnButtonCarteSDClick(wxCommandEvent& event);
     void OnPanel1Paint(wxPaintEvent& event);

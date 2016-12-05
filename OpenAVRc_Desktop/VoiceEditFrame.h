@@ -1,6 +1,9 @@
 #ifndef VOICEEDITFRAME_H
 #define VOICEEDITFRAME_H
 
+#include "OpenAVRc_DesktopMain.h"
+
+
 //(*Headers(VoiceEditFrame)
 #include <wx/statbox.h>
 #include <wx/panel.h>
@@ -9,7 +12,6 @@
 #include <wx/frame.h>
 //*)
 
-extern wxString voice_Langue;
 
 class VoiceEditFrame: public wxFrame
 {
@@ -37,7 +39,6 @@ class VoiceEditFrame: public wxFrame
 	private:
 
 		//(*Handlers(VoiceEditFrame)
-		void OnPanel1Paint(wxPaintEvent& event);
 		void OnGrid1CellLeftClick(wxGridEvent& event);
 		void OnButton1Click(wxCommandEvent& event);
 		void OnRetourClick(wxCommandEvent& event);
@@ -47,6 +48,9 @@ class VoiceEditFrame: public wxFrame
 		void OnVoiceGridSetFocus(wxFocusEvent& event);
 		void OnVoiceGridKillFocus1(wxFocusEvent& event);
 		void Readpromptsfile(wxCommandEvent& event);
+
+		void Load(); //Load textfile language
+
 		//*)
 
 		DECLARE_EVENT_TABLE()

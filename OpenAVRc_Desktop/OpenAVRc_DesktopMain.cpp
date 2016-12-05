@@ -318,7 +318,6 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     PanelSplash->Connect(wxEVT_PAINT,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnPanelSplashPaint,0,this);
     Connect(ID_BUTTONPERSO,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnButtonPersoClick);
     Connect(ID_BUTTONSPLASHDEFAULT,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnButtonSplashDefaultClick);
-    Connect(ID_CHOICE1,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnLANGUESelect);
     Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnEDITEURClick);
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnButtonGenerateurClick);
     Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnButtonCarteSDClick);
@@ -863,21 +862,15 @@ void OpenAVRc_DesktopFrame::OnButtonPersoClick(wxCommandEvent& event)
         }
     }
     imgpix[j+2] >>= 1;
-
-
     memcpy(LbmSplash,imgpix,SPLASHLENGHT);
     DrawLbmSplash();
     personalSplash = true;
     SaveConfig();
 }
 
-void OpenAVRc_DesktopFrame::OnLANGUESelect(wxCommandEvent& event)
-{
-    voice_Langue = ChoiceLangue->GetString(ChoiceLangue->GetSelection());
-}
-
 void OpenAVRc_DesktopFrame::OnEDITEURClick(wxCommandEvent& event)
 {
+    voice_Langue = ChoiceLangue->GetString(ChoiceLangue->GetSelection());
     VoiceEditFrame* voiceFrame = new VoiceEditFrame(NULL);
     voiceFrame->Show(TRUE);//opens voice edit
 }

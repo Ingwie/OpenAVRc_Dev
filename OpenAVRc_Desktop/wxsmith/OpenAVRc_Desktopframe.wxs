@@ -71,7 +71,6 @@
 				<pos>504,32</pos>
 				<size>48,21</size>
 				<tooltip>Choisissez la langue des mensages vocales</tooltip>
-				<handler function="OnLANGUESelect" entry="EVT_CHOICE" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 				<label>Langue</label>
