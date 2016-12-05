@@ -36,12 +36,12 @@ END_EVENT_TABLE()
 VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
     //(*Initialize(VoiceEditFrame)
-    Create(parent, wxID_ANY, _("Voix"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
+    Create(parent, wxID_ANY, _("Voix"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
     SetClientSize(wxSize(410,521));
     {
-        wxIcon FrameIcon;
-        FrameIcon.CopyFromBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_HELP_BOOK")),wxART_FRAME_ICON));
-        SetIcon(FrameIcon);
+    	wxIcon FrameIcon;
+    	FrameIcon.CopyFromBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_HELP_BOOK")),wxART_FRAME_ICON));
+    	SetIcon(FrameIcon);
     }
     Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(160,208), wxSize(408,520), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Cliquez pour écouter, double click pour éditer."), wxPoint(16,8), wxSize(376,472), 0, _T("ID_STATICBOX1"));

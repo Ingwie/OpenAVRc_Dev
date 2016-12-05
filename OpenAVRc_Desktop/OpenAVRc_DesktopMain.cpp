@@ -72,7 +72,7 @@ wxString dude_programmer = _("non défini");
 wxString dude_type = _("non défini");
 wxString dude_port = _("non défini");
 wxString COMM = _("non défini");
-wxString voice_Langue;
+wxString voice_Langue = "ES"; //TTS langue
 //Const
 wxString dude_c = (" -c ");
 wxString dude_p = (" -p ");
@@ -218,9 +218,18 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     ButtonSplashDefault->SetToolTip(_("Restaurer l\'écran par défaut"));
     StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Fichiers Voix"), wxPoint(440,8), wxSize(136,192), 0, _T("ID_STATICBOX1"));
     ChoiceLangue = new wxChoice(Panel1, ID_CHOICE1, wxPoint(504,32), wxSize(48,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
-    ChoiceLangue->SetSelection( ChoiceLangue->Append(_("fr")) );
-    ChoiceLangue->Append(_("en"));
-    ChoiceLangue->Append(_("es"));
+    ChoiceLangue->SetSelection( ChoiceLangue->Append(_("CZ")) );
+    ChoiceLangue->Append(_("DE"));
+    ChoiceLangue->Append(_("EN"));
+    ChoiceLangue->Append(_("ES"));
+    ChoiceLangue->Append(_("FR"));
+    ChoiceLangue->Append(_("HU"));
+    ChoiceLangue->Append(_("IT"));
+    ChoiceLangue->Append(_("NL"));
+    ChoiceLangue->Append(_("PL"));
+    ChoiceLangue->Append(_("PT"));
+    ChoiceLangue->Append(_("SE"));
+    ChoiceLangue->Append(_("SK"));
     ChoiceLangue->SetToolTip(_("Choisissez la langue des mensages vocales"));
     StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("Langue"), wxPoint(456,40), wxDefaultSize, 0, _T("ID_STATICTEXT1"));
     StaticText1->SetToolTip(_("Choisissez la langue des mensages vocales"));
@@ -318,6 +327,7 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     PanelSplash->Connect(wxEVT_PAINT,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnPanelSplashPaint,0,this);
     Connect(ID_BUTTONPERSO,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnButtonPersoClick);
     Connect(ID_BUTTONSPLASHDEFAULT,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnButtonSplashDefaultClick);
+    Connect(ID_CHOICE1,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnChoiceLangueSelect);
     Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnEDITEURClick);
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnButtonGenerateurClick);
     Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnButtonCarteSDClick);
@@ -492,6 +502,10 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
     configFile->Read(wxT("Type"),&dude_type);
     configFile->Read(wxT("avrdudepath"),&avrdudepath);
     configFile->SetPath("/"+Profil+"/");
+    configFile->SetPath("TTS/");
+    configFile->Read(wxT("LANGTTS"),&voice_Langue);
+    ChoiceLangue->SetStringSelection(voice_Langue);
+    configFile->SetPath("/"+Profil+"/");
     configFile->SetPath("COMPILATION_CHOICES/");
     configFile->Read(wxT("PCB"),&PCB);
     configFile->Read(wxT("LCD"),&LCD);
@@ -591,6 +605,11 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("Port"),dude_port);
     configFile->Write(wxT("Type"),dude_type);
     configFile->Write(wxT("avrdudepath"),avrdudepath);
+
+    // [TTS]
+    configFile->SetPath("/"+Profil+"/");
+    configFile->SetPath("TTS/");
+    configFile->Write(wxT("LANGTTS"),voice_Langue);
 
     // [COMPILATION_CHOICES]
     configFile->SetPath("/"+Profil+"/");
@@ -870,7 +889,6 @@ void OpenAVRc_DesktopFrame::OnButtonPersoClick(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnEDITEURClick(wxCommandEvent& event)
 {
-    voice_Langue = ChoiceLangue->GetString(ChoiceLangue->GetSelection());
     VoiceEditFrame* voiceFrame = new VoiceEditFrame(NULL);
     voiceFrame->Show(TRUE);//opens voice edit
 }
@@ -886,4 +904,10 @@ void OpenAVRc_DesktopFrame::OnButtonCarteSDClick(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnPanel1Paint(wxPaintEvent& event)
 {
+}
+
+void OpenAVRc_DesktopFrame::OnChoiceLangueSelect(wxCommandEvent& event)
+{
+  voice_Langue = ChoiceLangue->GetString(ChoiceLangue->GetSelection());
+  Ini_Changed = true;
 }

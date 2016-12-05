@@ -79,6 +79,7 @@ private:
     void OnButtonGenerateurClick(wxCommandEvent& event);
     void OnButtonCarteSDClick(wxCommandEvent& event);
     void OnPanel1Paint(wxPaintEvent& event);
+    void OnChoiceLangueSelect(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(OpenAVRc_DesktopFrame)

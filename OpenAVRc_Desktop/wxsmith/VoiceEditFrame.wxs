@@ -5,6 +5,7 @@
 		<icon stock_id="wxART_HELP_BOOK" />
 		<size>410,521</size>
 		<id_arg>0</id_arg>
+		<style>wxDEFAULT_DIALOG_STYLE</style>
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>160,208</pos>
 			<size>408,520</size>

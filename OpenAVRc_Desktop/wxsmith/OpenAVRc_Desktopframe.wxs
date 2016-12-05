@@ -63,14 +63,24 @@
 			</object>
 			<object class="wxChoice" name="ID_CHOICE1" variable="ChoiceLangue" member="yes">
 				<content>
-					<item>fr</item>
-					<item>en</item>
-					<item>es</item>
+					<item>CZ</item>
+					<item>DE</item>
+					<item>EN</item>
+					<item>ES</item>
+					<item>FR</item>
+					<item>HU</item>
+					<item>IT</item>
+					<item>NL</item>
+					<item>PL</item>
+					<item>PT</item>
+					<item>SE</item>
+					<item>SK</item>
 				</content>
 				<selection>0</selection>
 				<pos>504,32</pos>
 				<size>48,21</size>
 				<tooltip>Choisissez la langue des mensages vocales</tooltip>
+				<handler function="OnChoiceLangueSelect" entry="EVT_CHOICE" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 				<label>Langue</label>
