@@ -569,8 +569,6 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	VoiceGrid->SetDefaultCellTextColour( VoiceGrid->GetForegroundColour() );
 	Retour = new wxButton(Panel1, ID_BUTTON1, _("OK"), wxPoint(296,480), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
 
-	VoiceGrid->Connect(wxEVT_SET_FOCUS,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridSetFocus,0,this);
-	VoiceGrid->Connect(wxEVT_KILL_FOCUS,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridKillFocus1,0,this);
 	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnRetourClick);
 	Panel1->Connect(wxEVT_PAINT,(wxObjectEventFunction)&VoiceEditFrame::OnPanel1Paint,0,this);
 	//*)
@@ -593,8 +591,8 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
         wxString voiceText = tokenizer.GetNextToken();
         VoiceGrid->SetCellValue(j,0,voiceText);
 
-        wxString token1 = tokenizer.GetNextToken();
-        VoiceGrid->SetCellValue(j,1,token1);
+        wxString voicePromp = tokenizer.GetNextToken();
+        VoiceGrid->SetCellValue(j,1,voicePromp);
       }
     }
 }
@@ -609,14 +607,6 @@ VoiceEditFrame::~VoiceEditFrame()
 void VoiceEditFrame::OnPanel1Paint(wxPaintEvent& event)
 {
 }
-
-void VoiceEditFrame::OnGrid1CellLeftClick(wxGridEvent& event)
-{
-}
-
-//void VoiceEditFrame::OnButton1Click(wxCommandEvent& event)
-//{
-//}
 
 void VoiceEditFrame::OnRetourClick(wxCommandEvent& event)
 {
@@ -643,16 +633,4 @@ void VoiceEditFrame::OnRetourClick(wxCommandEvent& event)
     tfile.Close();
 
     Close();
-}
-
-void VoiceEditFrame::OnVoiceGridSetFocus(wxFocusEvent& event)
-{
-}
-
-void VoiceEditFrame::OnVoiceGridKillFocus1(wxFocusEvent& event)
-{
-}
-
-void VoiceEditFrame::OnVoiceGridCellChange(wxGridEvent& event)
-{
 }
