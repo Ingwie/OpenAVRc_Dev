@@ -7,7 +7,8 @@
 extern wxString AppPath;
 wxString voiceText;
 wxString voicePrompt;
-
+wxString file;
+wxString line;
 
 //(*InternalHeaders(VoiceEditFrame)
 #include <wx/artprov.h>
@@ -572,11 +573,11 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnRetourClick);
 	Panel1->Connect(wxEVT_PAINT,(wxObjectEventFunction)&VoiceEditFrame::OnPanel1Paint,0,this);
 	//*)
+}
 
-    wxString file;
-    wxString line;
-
-    voice_Langue = "fr" ; //TODO define files for other languages.
+	void VoiceEditFrame::OnPanel1Paint(wxPaintEvent& event)
+  {
+   voice_Langue = "fr" ; //TODO define files for other languages.
 
     file = AppPath + "\\newsoundsfrench.txt";
     wxTextFile tfile;
@@ -595,7 +596,8 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
         VoiceGrid->SetCellValue(j,1,voicePromp);
       }
     }
-}
+  }
+
 
 VoiceEditFrame::~VoiceEditFrame()
 {
@@ -603,16 +605,8 @@ VoiceEditFrame::~VoiceEditFrame()
 	//*)
 }
 
-
-void VoiceEditFrame::OnPanel1Paint(wxPaintEvent& event)
-{
-}
-
 void VoiceEditFrame::OnRetourClick(wxCommandEvent& event)
 {
-    wxString file;
-    wxString line;
-
     voice_Langue = "fr" ; //TODO define files for other languages.
 
     file = AppPath + "\\newsoundsfrench.txt";
@@ -626,7 +620,6 @@ void VoiceEditFrame::OnRetourClick(wxCommandEvent& event)
     voiceText = VoiceGrid->GetCellValue(j,0);
     voicePrompt = VoiceGrid->GetCellValue(j,1);
     line = voiceText + "," + voicePrompt;
-    tfile.GoToLine(j);
     tfile.AddLine(line);
     }
     tfile.Write();
