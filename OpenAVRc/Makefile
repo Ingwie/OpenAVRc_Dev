@@ -89,7 +89,7 @@ HELI = NO
 
 # Enable templates menu
 # Values = YES, NO
-TEMPLATES = $(GUI)
+TEMPLATES = NO
 
 # Enable navigation with Pots / Sticks / Rotary encoders
 # Values = NO
@@ -427,7 +427,7 @@ GUIGENERALSRC = gui/menu_general.cpp gui/menu_general_setup.cpp gui/menu_general
 
 BITMAPS = bitmaps/sticks.lbm
 
-FONTS = $(patsubst %.png,%.lbm,$(wildcard fonts/std/*.png))
+#FONTS = $(patsubst %.png,%.lbm,$(wildcard fonts/std/*.png))
 
 ifeq ($(PCB), $(filter $(PCB), STD 9X 9XR))
   # 9x/9xr radio
@@ -914,14 +914,13 @@ ifeq ($(BATTGRAPH), YES)
   CPPDEFS += -DBATTGRAPH
 endif
 
-ifneq ($(FONT), STD)
-  FONTDIR = $(shell sh -c "echo $(FONT) | tr '[:upper:]' '[:lower:]'")
-  FONTS += $(patsubst %.png,%.lbm,$(wildcard fonts/$(FONTDIR)/*.png))
-  INCDIRS += fonts/$(FONTDIR)
+ifeq ($(FONT), STD)
+  CPPDEFS += -DFONTSTD
 endif
 
 INCDIRS += gui
 INCDIRS += fonts/std
+INCDIRS += fonts/sqt5
 
 ifeq ($(THR_TRACE), YES)
   CPPDEFS += -DTHRTRACE
