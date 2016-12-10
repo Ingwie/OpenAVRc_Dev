@@ -283,7 +283,7 @@
 						<object class="wxChoice" name="ID_CHOICE11" variable="ChoiceFONT" member="yes">
 							<content>
 								<item>STD</item>
-								<item>STQ5</item>
+								<item>SQT5</item>
 							</content>
 							<selection>0</selection>
 							<pos>336,176</pos>

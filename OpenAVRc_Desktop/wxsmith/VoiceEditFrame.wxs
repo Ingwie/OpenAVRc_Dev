@@ -10,7 +10,7 @@
 			<pos>160,208</pos>
 			<size>408,520</size>
 			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
-				<label>Cliquez pour écouter, double click pour éditer.</label>
+				<label>Double cliquez pour écouter, click pour éditer.</label>
 				<pos>16,8</pos>
 				<size>376,472</size>
 			</object>
@@ -540,6 +540,7 @@
 				</rowlabels>
 				<pos>24,48</pos>
 				<size>360,424</size>
+				<handler function="OnVoiceGridCellLeftDClick" entry="EVT_CMD_GRID_CELL_LEFT_DCLICK" />
 			</object>
 			<object class="wxButton" name="ID_BUTTON1" variable="Retour" member="yes">
 				<label>OK</label>

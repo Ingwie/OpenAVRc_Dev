@@ -39,18 +39,9 @@ class VoiceEditFrame: public wxFrame
 	private:
 
 		//(*Handlers(VoiceEditFrame)
-		void OnGrid1CellLeftClick(wxGridEvent& event);
-		void OnButton1Click(wxCommandEvent& event);
 		void OnRetourClick(wxCommandEvent& event);
-		void OnVoiceGridCellChange(wxGridEvent& event);
-		void OnVoiceGridKillFocus(wxFocusEvent& event);
-		void OnVoiceGridCellChange1(wxGridEvent& event);
-		void OnVoiceGridSetFocus(wxFocusEvent& event);
-		void OnVoiceGridKillFocus1(wxFocusEvent& event);
-		void Readpromptsfile(wxCommandEvent& event);
-
 		void Load(); //Load textfile language
-
+		void OnVoiceGridCellLeftDClick(wxGridEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

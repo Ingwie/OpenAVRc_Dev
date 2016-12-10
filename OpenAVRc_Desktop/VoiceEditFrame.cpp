@@ -3,6 +3,7 @@
 #include <wx/textfile.h>
 #include <wx/tokenzr.h>
 
+
 extern wxString AppPath;
 extern wxString voice_Langue;
 wxString voiceText;
@@ -44,7 +45,7 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
     	SetIcon(FrameIcon);
     }
     Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(160,208), wxSize(408,520), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-    StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Cliquez pour écouter, double click pour éditer."), wxPoint(16,8), wxSize(376,472), 0, _T("ID_STATICBOX1"));
+    StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Double cliquez pour écouter, click pour éditer."), wxPoint(16,8), wxSize(376,472), 0, _T("ID_STATICBOX1"));
     VoiceGrid = new wxGrid(Panel1, ID_GRID1, wxPoint(24,48), wxSize(360,424), 0, _T("ID_GRID1"));
     VoiceGrid->CreateGrid(512,2);
     VoiceGrid->EnableEditing(true);
@@ -570,6 +571,7 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
     VoiceGrid->SetDefaultCellTextColour( VoiceGrid->GetForegroundColour() );
     Retour = new wxButton(Panel1, ID_BUTTON1, _("OK"), wxPoint(296,480), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
 
+    Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_DCLICK,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellLeftDClick);
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnRetourClick);
     //*)
 
@@ -621,4 +623,12 @@ void VoiceEditFrame::OnRetourClick(wxCommandEvent& event)
     tfile.Write();
     tfile.Close();
     Close();
+}
+
+void VoiceEditFrame::OnVoiceGridCellLeftDClick(wxGridEvent& event)
+{
+   voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),event.GetCol());
+   wxString quote = "\"";
+   wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
+   wxExecute(VoiceCommandLine.c_str() , wxEXEC_HIDE_CONSOLE);
 }

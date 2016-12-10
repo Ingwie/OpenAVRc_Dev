@@ -3,14 +3,14 @@ Tren abajo;tren abajo
 Flaps arriba;flaps arriba
 Flaps abajo;flaps abajo
 Aterrizaje;aterrizaje
-Despegue;desp√©gue
+Despegue;despÈgue
 Alumno;Alumno
 Profesor;con permiso !
 Motor cortado;motor cortado
 Motor arrancado;motor arrancado !
 flaps en 1;flaps en 1
 flaps en 2;flaps en 2
-modo t√©rmico;modo t√©rmico
+modo tÈrmico;modo tÈrmico
 modo busqueda;modo busqueda
 modo crou;modo crou
 modo velocidad;modo velocidad
@@ -30,10 +30,10 @@ fin;fin
 libre 29;libre 29
 modo acro;modo acro
 modo estable;modo estable
-baro activado;bar√≥metro activado
-baro d√©sactivado;bar√≥metro desactivado
-compas activado;comp√°s activado
-compas d√©sactivado;comp√°s d√©sactivado
+baro activado;barÛmetro activado
+baro dÈsactivado;barÛmetro desactivado
+compas activado;comp·s activado
+compas dÈsactivado;comp·s dÈsactivado
 headfree activado;jed fri activado
 headfree desactivado;jed fri desactivado
 GPS hold;GPS jold
@@ -377,7 +377,7 @@ once;onze
 &;y
 -;menos
 medianoche;medianoche
-mediod√≠a;mediod√≠a
+mediodÌa;mediodÌa
 libre 380;libre 380
 V;voltios
 A;amperios
@@ -391,7 +391,7 @@ mA;milliamperios
 mAH;milliamperios hora
 W;vatio
 dB;decibelio
-;pi√©
+;piÈ
 ;nudos
 h;hora
 min;minuto
@@ -481,17 +481,17 @@ libre;libre 479
 Bienvenida !;Bienvenido a Open A V R c!
 Alerta de gas;Baja el motor !
 Alerta interruptores;revisa los interruptores
-Eeprom corrompida;√©eprom corrompida !
+Eeprom corrompida;Èeprom corrompida !
 eeprom formateandose;formateado de eeprom
-Bater√≠a baja !;Atenci√≥n, bateria baja !
+BaterÌa baja !;AtenciÛn, bateria baja !
 Radio inactiva !;Soy la radio, estoy encendida !
 Error;error !
 libre;libre 488
 Nivel de memoria baja;poca memoria disponible
 A1 bajo;(a) 1, bajo
-A1 critico;(a) 1, cr√≠tico !
+A1 critico;(a) 1, crÌtico !
 A2 bajo;(a) 2, bajo
-A2 critico;(a) 2, cr√≠tico !
+A2 critico;(a) 2, crÌtico !
 libre;libre 494
 libre;libre 495
 libre;libre 496

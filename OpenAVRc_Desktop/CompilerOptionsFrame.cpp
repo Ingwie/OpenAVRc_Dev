@@ -251,7 +251,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxSPLASH->SetToolTip(_("Ecran d\'accueil"));
     ChoiceFONT = new wxChoice(Panel2, ID_CHOICE11, wxPoint(336,176), wxSize(80,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE11"));
     ChoiceFONT->SetSelection( ChoiceFONT->Append(_("STD")) );
-    ChoiceFONT->Append(_("STQ5"));
+    ChoiceFONT->Append(_("SQT5"));
     ChoiceFONT->SetToolTip(_("Police de caractére"));
     StaticText10 = new wxStaticText(Panel2, ID_STATICTEXT10, _("Font"), wxPoint(272,184), wxDefaultSize, 0, _T("ID_STATICTEXT10"));
     CheckBoxBOLD = new wxCheckBox(Panel2, ID_CHECKBOX40, _("Bold"), wxPoint(336,112), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX40"));
