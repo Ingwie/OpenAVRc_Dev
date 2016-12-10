@@ -636,7 +636,7 @@ void VoiceEditFrame::OnVoiceGridCellLeftDClick(wxGridEvent& event)
    wxExecute(VoiceCommandLine.c_str() , wxEXEC_HIDE_CONSOLE);
 }
 
-void VoiceEditFrame::OnMP3Click(wxCommandEvent& event)
+/*void VoiceEditFrame::OnMP3Click(wxCommandEvent& event)
 {
   for (int j = 0; j < 12; j++ ) //should be 512//////////////////////////
   {
@@ -646,5 +646,26 @@ void VoiceEditFrame::OnMP3Click(wxCommandEvent& event)
     //wxExecute(VoiceCommandLine , wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
     wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
     wxExecute(VoiceCommandLine.c_str() , wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
+  }
+}*/
+//void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
+void VoiceEditFrame::OnMP3Click(wxCommandEvent& event)
+{
+  for (int j = 0; j < 10; j++ ) // cut for test purposes should be 512 /////////////////////////////////////////////
+  {
+    voicePrompt = VoiceGrid->GetCellValue(j,1);
+    wxString label;
+    label = VoiceGrid->GetRowLabelValue(j);
+    wxString line;
+    line.Printf("%04i",j);
+
+    wxString quote = "\"";
+    wxString tts_o_look = " -o look ";
+
+    //generate .wav to be treated with sox for hipass filter and level equalizer. ¿No?
+
+    wxString VoiceCommandLine = AppPath + "\\tts.exe -f 1 -v 1 " + quote + voicePrompt + quote + tts_o_look;
+    wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC ); //wxEXEC_HIDE_CONSOLE
+    rename ("look0.wav", label + ".wav");
   }
 }
