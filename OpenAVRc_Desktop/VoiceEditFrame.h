@@ -25,6 +25,7 @@ class VoiceEditFrame: public wxFrame
 		wxPanel* Panel1;
 		wxStaticBox* StaticBox1;
 		wxButton* Retour;
+		wxButton* MP3;
 		//*)
 
 	protected:
@@ -33,6 +34,7 @@ class VoiceEditFrame: public wxFrame
 		static const long ID_STATICBOX1;
 		static const long ID_GRID1;
 		static const long ID_BUTTON1;
+		static const long ID_BUTTON2;
 		static const long ID_PANEL1;
 		//*)
 
@@ -42,6 +44,7 @@ class VoiceEditFrame: public wxFrame
 		void OnRetourClick(wxCommandEvent& event);
 		void Load(); //Load textfile language
 		void OnVoiceGridCellLeftDClick(wxGridEvent& event);
+		void OnMP3Click(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

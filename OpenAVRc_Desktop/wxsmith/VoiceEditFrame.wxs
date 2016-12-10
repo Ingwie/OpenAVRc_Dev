@@ -547,6 +547,11 @@
 				<pos>296,480</pos>
 				<handler function="OnRetourClick" entry="EVT_BUTTON" />
 			</object>
+			<object class="wxButton" name="ID_BUTTON2" variable="MP3" member="yes">
+				<label>Génerer MP3</label>
+				<pos>192,480</pos>
+				<handler function="OnMP3Click" entry="EVT_BUTTON" />
+			</object>
 		</object>
 	</object>
 </wxsmith>

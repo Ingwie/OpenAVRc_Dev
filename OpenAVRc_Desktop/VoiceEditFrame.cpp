@@ -24,6 +24,7 @@ wxString line;
 const long VoiceEditFrame::ID_STATICBOX1 = wxNewId();
 const long VoiceEditFrame::ID_GRID1 = wxNewId();
 const long VoiceEditFrame::ID_BUTTON1 = wxNewId();
+const long VoiceEditFrame::ID_BUTTON2 = wxNewId();
 const long VoiceEditFrame::ID_PANEL1 = wxNewId();
 //*)
 
@@ -570,9 +571,11 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
     VoiceGrid->SetDefaultCellFont( VoiceGrid->GetFont() );
     VoiceGrid->SetDefaultCellTextColour( VoiceGrid->GetForegroundColour() );
     Retour = new wxButton(Panel1, ID_BUTTON1, _("OK"), wxPoint(296,480), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
+    MP3 = new wxButton(Panel1, ID_BUTTON2, _("Génerer MP3"), wxPoint(192,480), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON2"));
 
     Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_DCLICK,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellLeftDClick);
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnRetourClick);
+    Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnMP3Click);
     //*)
 
     file = AppPath + "\\Voice_" + voice_Langue + ".csv";
@@ -631,4 +634,17 @@ void VoiceEditFrame::OnVoiceGridCellLeftDClick(wxGridEvent& event)
    wxString quote = "\"";
    wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
    wxExecute(VoiceCommandLine.c_str() , wxEXEC_HIDE_CONSOLE);
+}
+
+void VoiceEditFrame::OnMP3Click(wxCommandEvent& event)
+{
+  for (int j = 0; j < 12; j++ ) //should be 512//////////////////////////
+  {
+    voicePrompt = VoiceGrid->GetCellValue(j,1);
+    wxString quote = "\"";
+    //wxString VoiceCommandLine = "C:\\users\\mentero\\Desktop\\vvoice\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
+    //wxExecute(VoiceCommandLine , wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
+    wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
+    wxExecute(VoiceCommandLine.c_str() , wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
+  }
 }
