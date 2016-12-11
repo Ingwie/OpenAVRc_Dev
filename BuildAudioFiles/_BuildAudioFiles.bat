@@ -1,7 +1,8 @@
-start "OPENAVRC" /wait OpenTXspeaker.exe
+REM REMstart "OPENAVRC" /wait OpenTXspeaker.exe
 REM Normalise and cut silence
 for /r %%a in ("*.wav") do CALL SOUNDS\tools\sox --norm=-1 %%a %%~na.aif silence 1 0.1 0.1% reverse highpass 300
 REM Cut silence
+pause
 for /r %%a in ("*.aif") do CALL SOUNDS\tools\sox %%a %%~na.wav silence 1 0.1 1% reverse pad 0.0 0.1 
 del *.aif /s
 REM Convert to mp3

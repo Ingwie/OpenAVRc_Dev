@@ -637,28 +637,47 @@ void VoiceEditFrame::OnButtonSauvegarderClick(wxCommandEvent& event)
 
 }
 
-void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
+/*void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
 {
-    for (int j = 0; j < 512; j++ )
+    for (int j = 0; j < 12; j++ ) //should be 512. Shortened for test
     {
         voicePrompt = VoiceGrid->GetCellValue(j,1);
         wxString line;
         line.Printf("%04i",j);
         wxString quote = "\"";
-        wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 - o " + voicePrompt + " - t " + line + " " + quote;
-        wxExecute(VoiceCommandLine.c_str(), 0 | wxEXEC_SYNC ); //wxEXEC_HIDE_CONSOLE
-    }
-}
 
-/*void VoiceEditFrame::OnMP3Click(wxCommandEvent& event)
+        //wxString VoiceCommandLine = "C:\\users\\mentero\\Desktop\\vvoice\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
+        //wxExecute(VoiceCommandLine , wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
+        wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
+        wxExecute(VoiceCommandLine.c_str() , wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
+
+
+        //wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 - o " + voicePrompt + " - t " + line + " " + quote;
+        //wxExecute(VoiceCommandLine.c_str(), 0 | wxEXEC_SYNC ); //wxEXEC_HIDE_CONSOLE
+    }
+}*/
+
+
+
+
+void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
 {
-  for (int j = 0; j < 12; j++ ) //should be 512//////////////////////////
+  for (int j = 0; j < 12; j++ ) // cut for test purposes should be 512 /////////////////////////////////////////////
   {
     voicePrompt = VoiceGrid->GetCellValue(j,1);
+    wxString label;
+    label = VoiceGrid->GetRowLabelValue(j);
+    //wxString line;
+    //line.Printf("%04i",j);
+
     wxString quote = "\"";
-    //wxString VoiceCommandLine = "C:\\users\\mentero\\Desktop\\vvoice\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
-    //wxExecute(VoiceCommandLine , wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
-    wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
-    wxExecute(VoiceCommandLine.c_str() , wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
+    wxString tts_o_look = " -o look ";
+    wxString VoiceCommandLine = AppPath + "\\tts.exe -f 1 -v 1 " + quote + voicePrompt + quote + tts_o_look;
+    wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC );
+    rename ("look0.wav", label + ".wav");
+    //wxExecute(sox --norm=-1 label + ".wav" silence 1 0.1 0.1% reverse highpass 300, wxEXEC_SYNC );
   }
-}*/
+  wxString audioFiles = "C:\\Users\\mentero\\Desktop\\NoNameRc_Dev\\NoNameRc_Dev\\BuildAudioFiles\\_BuildAudioFiles.bat";
+  //wxString audioFiles = AppPath + "\\_BuildAudioFiles.bat";
+  wxExecute(audioFiles);
+}
