@@ -21,10 +21,11 @@ class VoiceEditFrame: public wxFrame
 		virtual ~VoiceEditFrame();
 
 		//(*Declarations(VoiceEditFrame)
+		wxButton* ButtonGenerer;
 		wxGrid* VoiceGrid;
 		wxPanel* Panel1;
 		wxStaticBox* StaticBox1;
-		wxButton* Retour;
+		wxButton* ButtonSauvegarder;
 		//*)
 
 	protected:
@@ -32,16 +33,18 @@ class VoiceEditFrame: public wxFrame
 		//(*Identifiers(VoiceEditFrame)
 		static const long ID_STATICBOX1;
 		static const long ID_GRID1;
-		static const long ID_BUTTON1;
+		static const long ID_BUTTONSAUVEGARDER;
+		static const long ID_BUTTONGENERER;
 		static const long ID_PANEL1;
 		//*)
 
 	private:
 
 		//(*Handlers(VoiceEditFrame)
-		void OnRetourClick(wxCommandEvent& event);
 		void Load(); //Load textfile language
 		void OnVoiceGridCellLeftDClick(wxGridEvent& event);
+		void OnButtonGenererClick(wxCommandEvent& event);
+		void OnButtonSauvegarderClick(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

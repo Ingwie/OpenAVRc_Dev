@@ -59,7 +59,7 @@
 			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
 				<label>Fichiers Voix</label>
 				<pos>440,8</pos>
-				<size>136,192</size>
+				<size>136,128</size>
 			</object>
 			<object class="wxChoice" name="ID_CHOICE1" variable="ChoiceLangue" member="yes">
 				<content>
@@ -94,16 +94,9 @@
 				<tooltip>Pour changer les messages</tooltip>
 				<handler function="OnEDITEURClick" entry="EVT_BUTTON" />
 			</object>
-			<object class="wxButton" name="ID_BUTTON3" variable="ButtonGenerateur" member="yes">
-				<label>Générateur</label>
-				<pos>472,112</pos>
-				<size>83,23</size>
-				<help>Génération des fichiers son</help>
-				<handler function="OnButtonGenerateurClick" entry="EVT_BUTTON" />
-			</object>
 			<object class="wxButton" name="ID_BUTTON4" variable="ButtonCarteSD" member="yes">
 				<label>Carte SD</label>
-				<pos>472,152</pos>
+				<pos>472,104</pos>
 				<size>83,23</size>
 				<help>Écriture dans la carte SD</help>
 				<handler function="OnButtonCarteSDClick" entry="EVT_BUTTON" />

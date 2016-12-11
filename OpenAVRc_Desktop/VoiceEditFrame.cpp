@@ -23,7 +23,8 @@ wxString line;
 //(*IdInit(VoiceEditFrame)
 const long VoiceEditFrame::ID_STATICBOX1 = wxNewId();
 const long VoiceEditFrame::ID_GRID1 = wxNewId();
-const long VoiceEditFrame::ID_BUTTON1 = wxNewId();
+const long VoiceEditFrame::ID_BUTTONSAUVEGARDER = wxNewId();
+const long VoiceEditFrame::ID_BUTTONGENERER = wxNewId();
 const long VoiceEditFrame::ID_PANEL1 = wxNewId();
 //*)
 
@@ -40,9 +41,9 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
     Create(parent, wxID_ANY, _("Voix"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
     SetClientSize(wxSize(410,521));
     {
-    	wxIcon FrameIcon;
-    	FrameIcon.CopyFromBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_HELP_BOOK")),wxART_FRAME_ICON));
-    	SetIcon(FrameIcon);
+        wxIcon FrameIcon;
+        FrameIcon.CopyFromBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_HELP_BOOK")),wxART_FRAME_ICON));
+        SetIcon(FrameIcon);
     }
     Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(160,208), wxSize(408,520), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Double cliquez pour écouter, click pour éditer."), wxPoint(16,8), wxSize(376,472), 0, _T("ID_STATICBOX1"));
@@ -569,10 +570,12 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
     VoiceGrid->SetRowLabelValue(511, _("0511"));
     VoiceGrid->SetDefaultCellFont( VoiceGrid->GetFont() );
     VoiceGrid->SetDefaultCellTextColour( VoiceGrid->GetForegroundColour() );
-    Retour = new wxButton(Panel1, ID_BUTTON1, _("OK"), wxPoint(296,480), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
+    ButtonSauvegarder = new wxButton(Panel1, ID_BUTTONSAUVEGARDER, _("Sauvegarder et quitter"), wxPoint(264,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONSAUVEGARDER"));
+    ButtonGenerer = new wxButton(Panel1, ID_BUTTONGENERER, _("Générer Fichiers"), wxPoint(152,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONGENERER"));
 
     Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_DCLICK,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellLeftDClick);
-    Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnRetourClick);
+    Connect(ID_BUTTONSAUVEGARDER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonSauvegarderClick);
+    Connect(ID_BUTTONGENERER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonGenererClick);
     //*)
 
     file = AppPath + "\\Voice_" + voice_Langue + ".csv";
@@ -607,7 +610,15 @@ VoiceEditFrame::~VoiceEditFrame()
 //*)
 }
 
-void VoiceEditFrame::OnRetourClick(wxCommandEvent& event)
+void VoiceEditFrame::OnVoiceGridCellLeftDClick(wxGridEvent& event)
+{
+    voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),event.GetCol());
+    wxString quote = "\"";
+    wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
+    wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE);
+}
+
+void VoiceEditFrame::OnButtonSauvegarderClick(wxCommandEvent& event)
 {
     wxTextFile tfile(file);
     if (!tfile.Exists()) tfile.Create(); //avoid crash if file doesn't exist
@@ -623,12 +634,18 @@ void VoiceEditFrame::OnRetourClick(wxCommandEvent& event)
     tfile.Write();
     tfile.Close();
     Close();
+
 }
 
-void VoiceEditFrame::OnVoiceGridCellLeftDClick(wxGridEvent& event)
+void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
 {
-   voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),event.GetCol());
-   wxString quote = "\"";
-   wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
-   wxExecute(VoiceCommandLine.c_str() , wxEXEC_HIDE_CONSOLE);
+    for (int j = 0; j < 512; j++ )
+    {
+        voicePrompt = VoiceGrid->GetCellValue(j,1);
+        wxString line;
+        line.Printf("%04i",j);
+        wxString quote = "\"";
+        wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 - o " + voicePrompt + " - t " + line + " " + quote;
+        wxExecute(VoiceCommandLine.c_str(), 0 | wxEXEC_SYNC ); //wxEXEC_HIDE_CONSOLE
+    }
 }

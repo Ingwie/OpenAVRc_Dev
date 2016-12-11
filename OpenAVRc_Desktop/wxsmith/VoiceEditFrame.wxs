@@ -542,10 +542,15 @@
 				<size>360,424</size>
 				<handler function="OnVoiceGridCellLeftDClick" entry="EVT_CMD_GRID_CELL_LEFT_DCLICK" />
 			</object>
-			<object class="wxButton" name="ID_BUTTON1" variable="Retour" member="yes">
-				<label>OK</label>
-				<pos>296,480</pos>
-				<handler function="OnRetourClick" entry="EVT_BUTTON" />
+			<object class="wxButton" name="ID_BUTTONSAUVEGARDER" variable="ButtonSauvegarder" member="yes">
+				<label>Sauvegarder et quitter</label>
+				<pos>264,488</pos>
+				<handler function="OnButtonSauvegarderClick" entry="EVT_BUTTON" />
+			</object>
+			<object class="wxButton" name="ID_BUTTONGENERER" variable="ButtonGenerer" member="yes">
+				<label>Générer Fichiers</label>
+				<pos>152,488</pos>
+				<handler function="OnButtonGenererClick" entry="EVT_BUTTON" />
 			</object>
 		</object>
 	</object>

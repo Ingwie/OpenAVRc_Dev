@@ -161,7 +161,6 @@ const long OpenAVRc_DesktopFrame::ID_STATICBOX1 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_CHOICE1 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_STATICTEXT1 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_BUTTON2 = wxNewId();
-const long OpenAVRc_DesktopFrame::ID_BUTTON3 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_BUTTON4 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_PANEL1 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEMNEWCONFIG = wxNewId();
@@ -216,7 +215,7 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     ButtonPerso->SetToolTip(_("Attention : Tous ce qui n\'est pas blanc sera converti en noir"));
     ButtonSplashDefault = new wxButton(Panel1, ID_BUTTONSPLASHDEFAULT, _("Par défaut"), wxPoint(312,30), wxSize(75,24), 0, wxDefaultValidator, _T("ID_BUTTONSPLASHDEFAULT"));
     ButtonSplashDefault->SetToolTip(_("Restaurer l\'écran par défaut"));
-    StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Fichiers Voix"), wxPoint(440,8), wxSize(136,192), 0, _T("ID_STATICBOX1"));
+    StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Fichiers Voix"), wxPoint(440,8), wxSize(136,128), 0, _T("ID_STATICBOX1"));
     ChoiceLangue = new wxChoice(Panel1, ID_CHOICE1, wxPoint(504,32), wxSize(48,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
     ChoiceLangue->SetSelection( ChoiceLangue->Append(_("CZ")) );
     ChoiceLangue->Append(_("DE"));
@@ -235,9 +234,7 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     StaticText1->SetToolTip(_("Choisissez la langue des mensages vocales"));
     ButtonEditeur = new wxButton(Panel1, ID_BUTTON2, _("Éditeur"), wxPoint(472,72), wxSize(83,23), 0, wxDefaultValidator, _T("ID_BUTTON2"));
     ButtonEditeur->SetToolTip(_("Pour changer les messages"));
-    ButtonGenerateur = new wxButton(Panel1, ID_BUTTON3, _("Générateur"), wxPoint(472,112), wxSize(83,23), 0, wxDefaultValidator, _T("ID_BUTTON3"));
-    ButtonGenerateur->SetHelpText(_("Génération des fichiers son"));
-    ButtonCarteSD = new wxButton(Panel1, ID_BUTTON4, _("Carte SD"), wxPoint(472,152), wxSize(83,23), 0, wxDefaultValidator, _T("ID_BUTTON4"));
+    ButtonCarteSD = new wxButton(Panel1, ID_BUTTON4, _("Carte SD"), wxPoint(472,104), wxSize(83,23), 0, wxDefaultValidator, _T("ID_BUTTON4"));
     ButtonCarteSD->SetHelpText(_("Écriture dans la carte SD"));
     MenuBar_main = new wxMenuBar();
     Menu1 = new wxMenu();
@@ -329,7 +326,6 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_BUTTONSPLASHDEFAULT,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnButtonSplashDefaultClick);
     Connect(ID_CHOICE1,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnChoiceLangueSelect);
     Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnEDITEURClick);
-    Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnButtonGenerateurClick);
     Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnButtonCarteSDClick);
     Panel1->Connect(wxEVT_PAINT,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnPanel1Paint,0,this);
     Connect(ID_MENUITEMNEWCONFIG,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuNewconfigSelected);

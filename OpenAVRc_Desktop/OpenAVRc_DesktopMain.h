@@ -94,7 +94,6 @@ private:
     static const long ID_CHOICE1;
     static const long ID_STATICTEXT1;
     static const long ID_BUTTON2;
-    static const long ID_BUTTON3;
     static const long ID_BUTTON4;
     static const long ID_PANEL1;
     static const long ID_MENUITEMNEWCONFIG;
@@ -148,7 +147,6 @@ private:
     wxMenuItem* MenuItem12;
     wxMenuBar* MenuBar_main;
     wxMenuItem* MenuItem3;
-    wxButton* ButtonGenerateur;
     wxMenu* Menu7;
     wxListBox* ListBoxConfig;
     wxMenuItem* Menu5;
