@@ -41,9 +41,9 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
     Create(parent, wxID_ANY, _("Voix"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
     SetClientSize(wxSize(410,521));
     {
-        wxIcon FrameIcon;
-        FrameIcon.CopyFromBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_HELP_BOOK")),wxART_FRAME_ICON));
-        SetIcon(FrameIcon);
+    	wxIcon FrameIcon;
+    	FrameIcon.CopyFromBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_HELP_BOOK")),wxART_FRAME_ICON));
+    	SetIcon(FrameIcon);
     }
     Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(160,208), wxSize(408,520), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Double cliquez pour écouter, click pour éditer."), wxPoint(16,8), wxSize(376,472), 0, _T("ID_STATICBOX1"));
@@ -649,3 +649,16 @@ void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
         wxExecute(VoiceCommandLine.c_str(), 0 | wxEXEC_SYNC ); //wxEXEC_HIDE_CONSOLE
     }
 }
+
+/*void VoiceEditFrame::OnMP3Click(wxCommandEvent& event)
+{
+  for (int j = 0; j < 12; j++ ) //should be 512//////////////////////////
+  {
+    voicePrompt = VoiceGrid->GetCellValue(j,1);
+    wxString quote = "\"";
+    //wxString VoiceCommandLine = "C:\\users\\mentero\\Desktop\\vvoice\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
+    //wxExecute(VoiceCommandLine , wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
+    wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
+    wxExecute(VoiceCommandLine.c_str() , wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
+  }
+}*/
