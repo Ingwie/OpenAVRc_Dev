@@ -572,8 +572,7 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
     VoiceGrid->SetDefaultCellTextColour( VoiceGrid->GetForegroundColour() );
     ButtonSauvegarder = new wxButton(Panel1, ID_BUTTONSAUVEGARDER, _("Sauvegarder et quitter"), wxPoint(264,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONSAUVEGARDER"));
     ButtonGenerer = new wxButton(Panel1, ID_BUTTONGENERER, _("Générer Fichiers"), wxPoint(152,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONGENERER"));
-
-    Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_DCLICK,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellLeftDClick);
+    Connect(ID_GRID1,wxEVT_GRID_SELECT_CELL,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellSelect);
     Connect(ID_BUTTONSAUVEGARDER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonSauvegarderClick);
     Connect(ID_BUTTONGENERER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonGenererClick);
     //*)
@@ -603,16 +602,16 @@ void VoiceEditFrame::Load()  //Load textfile language
     }
 }
 
-
 VoiceEditFrame::~VoiceEditFrame()
 {
     //(*Destroy(VoiceEditFrame)
 //*)
 }
 
-void VoiceEditFrame::OnVoiceGridCellLeftDClick(wxGridEvent& event)
+void VoiceEditFrame::OnVoiceGridCellSelect(wxGridEvent& event)
 {
-    voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),event.GetCol());
+    //voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),event.GetCol());
+    voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),1);
     wxString quote = "\"";
     wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
     wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE);
@@ -637,29 +636,6 @@ void VoiceEditFrame::OnButtonSauvegarderClick(wxCommandEvent& event)
 
 }
 
-/*void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
-{
-    for (int j = 0; j < 12; j++ ) //should be 512. Shortened for test
-    {
-        voicePrompt = VoiceGrid->GetCellValue(j,1);
-        wxString line;
-        line.Printf("%04i",j);
-        wxString quote = "\"";
-
-        //wxString VoiceCommandLine = "C:\\users\\mentero\\Desktop\\vvoice\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
-        //wxExecute(VoiceCommandLine , wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
-        wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
-        wxExecute(VoiceCommandLine.c_str() , wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
-
-
-        //wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 - o " + voicePrompt + " - t " + line + " " + quote;
-        //wxExecute(VoiceCommandLine.c_str(), 0 | wxEXEC_SYNC ); //wxEXEC_HIDE_CONSOLE
-    }
-}*/
-
-
-
-
 void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
 {
   for (int j = 0; j < 12; j++ ) // cut for test purposes should be 512 /////////////////////////////////////////////
@@ -667,9 +643,6 @@ void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
     voicePrompt = VoiceGrid->GetCellValue(j,1);
     wxString label;
     label = VoiceGrid->GetRowLabelValue(j);
-    //wxString line;
-    //line.Printf("%04i",j);
-
     wxString quote = "\"";
     wxString tts_o_look = " -o look ";
     wxString VoiceCommandLine = AppPath + "\\tts.exe -f 1 -v 1 " + quote + voicePrompt + quote + tts_o_look;
@@ -677,7 +650,8 @@ void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
     rename ("look0.wav", label + ".wav");
     //wxExecute(sox --norm=-1 label + ".wav" silence 1 0.1 0.1% reverse highpass 300, wxEXEC_SYNC );
   }
-  wxString audioFiles = "C:\\Users\\mentero\\Desktop\\NoNameRc_Dev\\NoNameRc_Dev\\BuildAudioFiles\\_BuildAudioFiles.bat";
-  //wxString audioFiles = AppPath + "\\_BuildAudioFiles.bat";
+  wxString audioFiles = AppPath + "\\_BuildAudioFiles.bat";
   wxExecute(audioFiles);
 }
+
+
