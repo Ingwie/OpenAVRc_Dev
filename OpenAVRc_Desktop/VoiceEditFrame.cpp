@@ -584,23 +584,21 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 
 void VoiceEditFrame::Load()  //Load textfile language
 {
-    wxTextFile tfile(file);
-    if (tfile.Exists()) //avoid crash if file is not found
+  wxTextFile tfile(file);
+  if (tfile.Exists()) //avoid crash if file is not found
+  {
+    tfile.Open(file);
+    for (int j = 0; j < 512; j++ )
     {
-        tfile.Open(file);
-        for (int j = 0; j < 512; j++ )
-        {
-            line = tfile.GetLine(j);
-            wxStringTokenizer tokenizer(line, ";");
-
-            wxString voiceText = tokenizer.GetNextToken();
-            VoiceGrid->SetCellValue(j,0,voiceText);
-
-            wxString voicePromp = tokenizer.GetNextToken();
-            VoiceGrid->SetCellValue(j,1,voicePromp);
-        }
-        tfile.Close();
+      line = tfile.GetLine(j);
+      wxStringTokenizer tokenizer(line, ";");
+      wxString voiceText = tokenizer.GetNextToken();
+      VoiceGrid->SetCellValue(j,0,voiceText);
+      wxString voicePromp = tokenizer.GetNextToken();
+      VoiceGrid->SetCellValue(j,1,voicePromp);
     }
+    tfile.Close();
+  }
 }
 
 VoiceEditFrame::~VoiceEditFrame()
@@ -609,35 +607,25 @@ VoiceEditFrame::~VoiceEditFrame()
 //*)
 }
 
-/*void VoiceEditFrame::OnVoiceGridCellSelect(wxGridEvent& event)
-{
-    //voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),event.GetCol());
-    voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),1);
-    wxString quote = "\"";
-    wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
-    wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE);
-}*/
-
 void VoiceEditFrame::OnButtonSauvegarderClick(wxCommandEvent& event)
 {
-    wxTextFile tfile(file);
-    if (!tfile.Exists()) tfile.Create(); //avoid crash if file doesn't exist
-    tfile.Open(file);
-    tfile.Clear();
-    for (int j = 0; j < 512; j++ )
-    {
-        voiceText = VoiceGrid->GetCellValue(j,0);
-        voicePrompt = VoiceGrid->GetCellValue(j,1);
-        line = voiceText + ";" + voicePrompt;
-        tfile.AddLine(line);
-    }
-    tfile.Write();
-    tfile.Close();
-    Close();
-
+  wxTextFile tfile(file);
+  if (!tfile.Exists()) tfile.Create(); //avoid crash if file doesn't exist
+  tfile.Open(file);
+  tfile.Clear();
+  for (int j = 0; j < 512; j++ )
+  {
+    voiceText = VoiceGrid->GetCellValue(j,0);
+    voicePrompt = VoiceGrid->GetCellValue(j,1);
+    line = voiceText + ";" + voicePrompt;
+    tfile.AddLine(line);
+  }
+  tfile.Write();
+  tfile.Close();
+  Close();
 }
 
-void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
+/*void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
 {
   for (int j = 0; j < 12; j++ ) // cut for test purposes should be 512 /////////////////////////////////////////////
   {
@@ -647,9 +635,32 @@ void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
     wxString quote = "\"";
     wxString Wavename = wxString::Format("#04i",j);;
     //Wavename.Format("%04i",j);
-     wxString VoiceCommandLine = AppPath + "\\tts.exe -f 3 -v 1 " + quote + voicePrompt + quote + " -o " + Wavename;
+
+    wxString VoiceCommandLine = AppPath + "\\tts.exe -f 3 -v 1 " + quote + voicePrompt + quote + " -o " + Wavename;
+    //wxString VoiceCommandLine = AppPath + "\\tts.exe -f 3 -v 1 " + quote + voicePrompt + quote;
+
     wxExecute(VoiceCommandLine.c_str());//wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC
     //rename ("look0.wav", label + ".wav");
+    //wxExecute(sox --norm=-1 label + ".wav" silence 1 0.1 0.1% reverse highpass 300, wxEXEC_SYNC );
+  }
+  wxString audioFiles = AppPath + "\\_BuildAudioFiles.bat";
+  wxExecute(audioFiles);
+
+
+}*/
+
+void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
+{
+  for (int j = 0; j < 12; j++ ) // cut for test purposes should be 512 /////////////////////////////////////////////
+  {
+    voicePrompt = VoiceGrid->GetCellValue(j,1);
+    wxString label;
+    label = VoiceGrid->GetRowLabelValue(j);
+    wxString quote = "\"";
+    wxString tts_o_look = " -o look ";
+    wxString VoiceCommandLine = AppPath + "\\tts.exe -f 1 -v 1 " + quote + voicePrompt + quote + tts_o_look;
+    wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC );
+    rename ("look0.wav", label + ".wav");
     //wxExecute(sox --norm=-1 label + ".wav" silence 1 0.1 0.1% reverse highpass 300, wxEXEC_SYNC );
   }
   wxString audioFiles = AppPath + "\\_BuildAudioFiles.bat";
@@ -657,14 +668,12 @@ void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
 }
 
 
-
 void VoiceEditFrame::OnVoiceGridCellSelect(wxGridEvent& event)
 {
   {
-    //voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),event.GetCol());
     voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),1);
     wxString quote = "\"";
     wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
     wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE);
-}
+  }
 }
