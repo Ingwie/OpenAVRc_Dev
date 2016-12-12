@@ -572,6 +572,7 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
     VoiceGrid->SetDefaultCellTextColour( VoiceGrid->GetForegroundColour() );
     ButtonSauvegarder = new wxButton(Panel1, ID_BUTTONSAUVEGARDER, _("Sauvegarder et quitter"), wxPoint(264,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONSAUVEGARDER"));
     ButtonGenerer = new wxButton(Panel1, ID_BUTTONGENERER, _("Générer Fichiers"), wxPoint(152,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONGENERER"));
+
     Connect(ID_GRID1,wxEVT_GRID_SELECT_CELL,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellSelect);
     Connect(ID_BUTTONSAUVEGARDER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonSauvegarderClick);
     Connect(ID_BUTTONGENERER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonGenererClick);
@@ -608,14 +609,14 @@ VoiceEditFrame::~VoiceEditFrame()
 //*)
 }
 
-void VoiceEditFrame::OnVoiceGridCellSelect(wxGridEvent& event)
+/*void VoiceEditFrame::OnVoiceGridCellSelect(wxGridEvent& event)
 {
     //voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),event.GetCol());
     voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),1);
     wxString quote = "\"";
     wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
     wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE);
-}
+}*/
 
 void VoiceEditFrame::OnButtonSauvegarderClick(wxCommandEvent& event)
 {
@@ -655,3 +656,14 @@ void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
 }
 
 
+
+void VoiceEditFrame::OnVoiceGridCellSelect(wxGridEvent& event)
+{
+  {
+    //voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),event.GetCol());
+    voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),1);
+    wxString quote = "\"";
+    wxString VoiceCommandLine = AppPath + "\\tts.exe -f 2 -v 1 " + quote + voicePrompt + quote;
+    wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE);
+}
+}

@@ -45,6 +45,7 @@ class VoiceEditFrame: public wxFrame
 		void OnVoiceGridCellLeftDClick(wxGridEvent& event);
 		void OnButtonGenererClick(wxCommandEvent& event);
 		void OnButtonSauvegarderClick(wxCommandEvent& event);
+		void OnVoiceGridCellSelect(wxGridEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
