@@ -645,10 +645,11 @@ void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
     wxString label;
     label = VoiceGrid->GetRowLabelValue(j);
     wxString quote = "\"";
-    wxString tts_o_look = " -o look ";
-    wxString VoiceCommandLine = AppPath + "\\tts.exe -f 1 -v 1 " + quote + voicePrompt + quote + tts_o_look;
-    wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC );
-    rename ("look0.wav", label + ".wav");
+    wxString Wavename = wxString::Format("#04i",j);;
+    //Wavename.Format("%04i",j);
+     wxString VoiceCommandLine = AppPath + "\\tts.exe -f 3 -v 1 " + quote + voicePrompt + quote + " -o " + Wavename;
+    wxExecute(VoiceCommandLine.c_str());//wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC
+    //rename ("look0.wav", label + ".wav");
     //wxExecute(sox --norm=-1 label + ".wav" silence 1 0.1 0.1% reverse highpass 300, wxEXEC_SYNC );
   }
   wxString audioFiles = AppPath + "\\_BuildAudioFiles.bat";
