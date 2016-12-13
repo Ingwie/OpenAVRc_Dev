@@ -162,6 +162,8 @@
 		<Linker>
 			<Add option="-mthreads" />
 		</Linker>
+		<Unit filename="../OpenAVRc/OpenAVRc.cpp" />
+		<Unit filename="../OpenAVRc/OpenAVRc.h" />
 		<Unit filename="../OpenAVRc/audio_avr.cpp" />
 		<Unit filename="../OpenAVRc/audio_avr.h" />
 		<Unit filename="../OpenAVRc/buzzer.cpp" />
@@ -226,8 +228,6 @@
 		<Unit filename="../OpenAVRc/maths.cpp" />
 		<Unit filename="../OpenAVRc/mixer.cpp" />
 		<Unit filename="../OpenAVRc/myeeprom.h" />
-		<Unit filename="../OpenAVRc/OpenAVRc.cpp" />
-		<Unit filename="../OpenAVRc/OpenAVRc.h" />
 		<Unit filename="../OpenAVRc/pgmtypes.h" />
 		<Unit filename="../OpenAVRc/pulses/pulses.h" />
 		<Unit filename="../OpenAVRc/pulses/pulses_avr.cpp" />
@@ -265,9 +265,6 @@
 		<Unit filename="../OpenAVRc/templates.cpp" />
 		<Unit filename="../OpenAVRc/templates.h" />
 		<Unit filename="../OpenAVRc/thirdparty/FatFs/diskio.h" />
-		<Unit filename="../OpenAVRc/thirdparty/FatFs/fattime.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="../OpenAVRc/thirdparty/FatFs/ff.c">
 			<Option compilerVar="CC" />
 		</Unit>

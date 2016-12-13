@@ -2,6 +2,8 @@
 #include <wx/msgdlg.h>
 #include <wx/textfile.h>
 #include <wx/tokenzr.h>
+#include <wx/busyinfo.h>
+
 
 
 extern wxString AppPath;
@@ -627,23 +629,25 @@ void VoiceEditFrame::OnButtonSauvegarderClick(wxCommandEvent& event)
 
 void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
 {
-    if (wxSetWorkingDirectory(AppPath))
+  wxBusyInfo wait("Génération en cours, attendez SVP......");
+  wxString quote = "\"";
+  wxString tts_o_look = " -o look ";
+  wxString label;
+  if (wxSetWorkingDirectory(AppPath))
+  {
+    for (int j = 0; j < 512; j++ )
     {
-        for (int j = 0; j < 512; j++ )
-        {
-            voicePrompt = VoiceGrid->GetCellValue(j,1);
-            wxString label;
-            label = VoiceGrid->GetRowLabelValue(j);
-            wxString quote = "\"";
-            wxString tts_o_look = " -o look ";
-            wxString VoiceCommandLine = "tts.exe -f 7 -v 1 " + quote + voicePrompt + quote + " " + tts_o_look;
-            wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC );
-            rename ("look0.wav", label + ".wav");
-        }
-        wxString audioFiles = "_BuildAudioFiles.bat";
-        wxExecute(audioFiles);
+      voicePrompt = VoiceGrid->GetCellValue(j,1);
+      label = VoiceGrid->GetRowLabelValue(j);
+      wxString VoiceCommandLine = "tts.exe -f 7 -v 1 " + quote + voicePrompt + quote + " " + tts_o_look;
+      wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC );
+      rename ("look0.wav", label + ".wav");
     }
+    wxString audioFiles = "_BuildAudioFiles.bat";
+    wxExecute(audioFiles);
+  }
 }
+
 
 
 void VoiceEditFrame::OnVoiceGridCellSelect(wxGridEvent& event)
