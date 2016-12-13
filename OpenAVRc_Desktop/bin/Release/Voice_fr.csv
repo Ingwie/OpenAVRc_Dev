@@ -1,13 +1,13 @@
-Train rentrÃ©;Train rentrÃ©
+Train rentré;Train rentré
 Train sorti;Train sorti
-Volet rentrÃ©;Volet rentrÃ©
+Volet rentré;Volet rentré
 Volet sorti;Volet sorti
 Aterrissage;Aterrissage
-DÃ©colage;DÃ©colage
+Décolage;Décolage
 Ecolage;Ecolage
-Fin Ã©colage;Fin Ã©colage
-Moteur coupÃ©;Moteur coupÃ©
-Moteur armÃ©;Moteur armÃ©
+Fin écolage;Fin écolage
+Moteur coupé;Moteur coupé
+Moteur armé;Moteur armé
 volet position 1;volet position 1
 volet position 2;volet position 2
 mode gratte;mode gratte
@@ -15,7 +15,7 @@ mode finesse;mode finesse
 mode papillon;mode papillon
 mode vitesse;mode vitesse
 mode snapflap;mode snapflap
-libre 17;libre 17
+libre 17left;libre 17right
 libre 18;libre 18
 libre 19;libre 19
 Phase de vol 0;Phase de vol 0
@@ -25,21 +25,21 @@ phase de vol 3;phase de vol 3
 phase de vol 4;phase de vol 4
 phase de vol 5;phase de vol 5
 phase de vol;phase de vol
-dÃ©but;dÃ©but
+début;début
 fin;fin
 libre 29;libre 29
 mode acro;mode acro
 mode stable;mode stable
-baro activÃ©;baro activÃ©
-baro dÃ©sactivÃ©;baro dÃ©sactivÃ©
-compas activÃ©;compas activÃ©
-compas dÃ©sactivÃ©;compas dÃ©sactivÃ©
-headfree activÃ©;headfree activÃ©
-headfree dÃ©sactivÃ©;headfree dÃ©sactivÃ©
+baro activé;baro activé
+baro désactivé;baro désactivé
+compas activé;compas activé
+compas désactivé;compas désactivé
+headfree activé;headfree activé
+headfree désactivé;headfree désactivé
 GPS hold;GPS hold
 Fin GPS hold;Fin GPS hold
 Retour maison;Retour maison
-Retour maison annulÃ©;Retour maison annulÃ©
+Retour maison annulé;Retour maison annulé
 libre 42;libre 42
 libre 43;libre 43
 libre 44;libre 44
@@ -198,39 +198,39 @@ libre 196;libre 196
 libre 197;libre 197
 libre 198;libre 198
 libre 199;libre 199
-ModÃ¨le choisi;ModÃ¨le choisi
-ModÃ¨le 1;ModÃ¨le 1
-ModÃ¨le 2;ModÃ¨le 2
-ModÃ¨le 3;ModÃ¨le 3
-ModÃ¨le 4;ModÃ¨le 4
-ModÃ¨le 5;ModÃ¨le 5
-ModÃ¨le 6;ModÃ¨le 6
-ModÃ¨le 7;ModÃ¨le 7
-ModÃ¨le 8;ModÃ¨le 8
-ModÃ¨le 9;ModÃ¨le 9
-ModÃ¨le 10;ModÃ¨le 10
-ModÃ¨le 11;ModÃ¨le 11
-ModÃ¨le 12;ModÃ¨le 12
-ModÃ¨le 13;ModÃ¨le 13
-ModÃ¨le 14;ModÃ¨le 14
-ModÃ¨le 15;ModÃ¨le 15
-ModÃ¨le 16;ModÃ¨le 16
-ModÃ¨le 17;ModÃ¨le 17
-ModÃ¨le 18;ModÃ¨le 18
-ModÃ¨le 19;ModÃ¨le 19
-ModÃ¨le 20;ModÃ¨le 20
-ModÃ¨le 21;ModÃ¨le 21
-ModÃ¨le 22;ModÃ¨le 22
-ModÃ¨le 23;ModÃ¨le 23
-ModÃ¨le 24;ModÃ¨le 24
-ModÃ¨le 25;ModÃ¨le 25
-ModÃ¨le 26;ModÃ¨le 26
-ModÃ¨le 27;ModÃ¨le 27
-ModÃ¨le 28;ModÃ¨le 28
-ModÃ¨le 29;ModÃ¨le 29
-ModÃ¨le 30;ModÃ¨le 30
-ModÃ¨le 31;ModÃ¨le 31
-ModÃ¨le 32;ModÃ¨le 32
+Modèle choisi;Modèle choisi
+Modèle 1;Modèle 1
+Modèle 2;Modèle 2
+Modèle 3;Modèle 3
+Modèle 4;Modèle 4
+Modèle 5;Modèle 5
+Modèle 6;Modèle 6
+Modèle 7;Modèle 7
+Modèle 8;Modèle 8
+Modèle 9;Modèle 9
+Modèle 10;Modèle 10
+Modèle 11;Modèle 11
+Modèle 12;Modèle 12
+Modèle 13;Modèle 13
+Modèle 14;Modèle 14
+Modèle 15;Modèle 15
+Modèle 16;Modèle 16
+Modèle 17;Modèle 17
+Modèle 18;Modèle 18
+Modèle 19;Modèle 19
+Modèle 20;Modèle 20
+Modèle 21;Modèle 21
+Modèle 22;Modèle 22
+Modèle 23;Modèle 23
+Modèle 24;Modèle 24
+Modèle 25;Modèle 25
+Modèle 26;Modèle 26
+Modèle 27;Modèle 27
+Modèle 28;Modèle 28
+Modèle 29;Modèle 29
+Modèle 30;Modèle 30
+Modèle 31;Modèle 31
+Modèle 32;Modèle 32
 libre 233;libre 233
 libre 234;libre 234
 libre 235;libre 235
@@ -380,15 +380,15 @@ minuit;minuit
 midi;midi
 libre 380;libre 380
 volts;volts
-ampÃ¨res;ampÃ¨res
-mÃ¨tres par seconde;mÃ¨tres par seconde
+ampères;ampères
+mètres par seconde;mètres par seconde
 libre 384;libre 384
-kilomÃ¨tre heure;kilomÃ¨tre heure
-mÃ¨tres;mÃ¨tres
-degrÃ©s;degrÃ©s
+kilomètre heure;kilomètre heure
+mètres;mètres
+degrés;degrés
 pourcent;pourcent
-milliampÃ¨re;milliampÃ¨re
-milliampÃ¨res heure;milliampÃ¨res heure
+milliampère;milliampère
+milliampères heure;milliampères heure
 watt;watt
 db;db
 pied;pied
@@ -478,7 +478,7 @@ libre 476;libre 476
 libre 477;libre 477
 libre 478;libre 478
 libre 479;libre 479
-Bienvenue;Bienvenue sur Open A VÃ© R c !
+Bienvenue;Bienvenue sur Open A V R c !
 Alerte manche des gaz;Alerte manche des gaz
 Alerte inters;Alerte inters
 Eeprom corrompue;Eeprom corrompue
@@ -487,7 +487,7 @@ Batterie radio faible !;Batterie radio faible !
 Radio inactive !;Radio inactive !
 Erreur;Erreur
 libre 488;libre 488
-Niveau mÃ©moire bas;Niveau mÃ©moire bas
+Niveau mémoire bas;Niveau mémoire bas
 A1 bas;A1 bas
 A1 critique;A1 critique
 A2 bas;A2 bas
