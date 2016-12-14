@@ -10,7 +10,6 @@
 			<size>848,280</size>
 			<focused>1</focused>
 			<style>0</style>
-			<handler function="OnPanel1Paint" entry="EVT_PAINT" />
 			<object class="wxStaticBox" name="ID_STATICBOXSPLASH" variable="StaticBoxSplash" member="yes">
 				<label>Ecran d&apos;accueil</label>
 				<pos>160,8</pos>
@@ -129,6 +128,11 @@
 					<label>Programmateur</label>
 					<bitmap stock_id="wxART_EXECUTABLE_FILE" />
 					<handler function="OnProgrammerSelected" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="ID_MENUVOICECHOICE" variable="MenuChoiceVoice" member="yes">
+					<label>Synthèse vocale</label>
+					<bitmap stock_id="wxART_HELP" />
+					<handler function="OnMenuChoiceVoiceSelected" entry="EVT_MENU" />
 				</object>
 			</object>
 			<object class="wxMenu" variable="Menu4" member="yes">

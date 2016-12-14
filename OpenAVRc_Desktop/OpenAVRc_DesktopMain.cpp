@@ -10,6 +10,7 @@
 #include "OpenAVRc_DesktopMain.h"
 #include "CommunicationsFrame.h"
 #include "CompilerOptionsFrame.h"
+#include "Voice_choice.h"
 #include "VoiceEditFrame.h"
 #include <wx/msgdlg.h>
 #include <wx/filedlg.h>
@@ -67,6 +68,8 @@ uint8_t LbmSplash[SPLASHLENGHT] = {0};
 //Global Var
 bool Ini_Changed = false;
 wxString AppPath;
+//Voice
+long Numvoice = 0;
 wxString avrdudepath = _("non défini");
 wxString dude_programmer = _("non défini");
 wxString dude_type = _("non défini");
@@ -148,7 +151,6 @@ bool NOANDSECONDE = 1;
 bool SHUTDOWN_CONFIRMATION = 0;
 
 
-
 //(*IdInit(OpenAVRc_DesktopFrame)
 const long OpenAVRc_DesktopFrame::ID_STATICBOXSPLASH = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_STATICBOXCONFIG = wxNewId();
@@ -167,6 +169,7 @@ const long OpenAVRc_DesktopFrame::ID_MENUITEMNEWCONFIG = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUDELETEACTIVECONFIG = wxNewId();
 const long OpenAVRc_DesktopFrame::idMenuQuit = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM1 = wxNewId();
+const long OpenAVRc_DesktopFrame::ID_MENUVOICECHOICE = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM3 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM5 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM4 = wxNewId();
@@ -252,6 +255,9 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     MenuItem3 = new wxMenuItem(Menu3, ID_MENUITEM1, _("Programmateur"), wxEmptyString, wxITEM_NORMAL);
     MenuItem3->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_EXECUTABLE_FILE")),wxART_OTHER));
     Menu3->Append(MenuItem3);
+    MenuChoiceVoice = new wxMenuItem(Menu3, ID_MENUVOICECHOICE, _("Synthèse vocale"), wxEmptyString, wxITEM_NORMAL);
+    MenuChoiceVoice->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_HELP")),wxART_OTHER));
+    Menu3->Append(MenuChoiceVoice);
     MenuBar_main->Append(Menu3, _("Paramètres"));
     Menu4 = new wxMenu();
     Menu4->AppendSeparator();
@@ -327,11 +333,11 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_CHOICE1,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnChoiceLangueSelect);
     Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnEDITEURClick);
     Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnButtonCarteSDClick);
-    Panel1->Connect(wxEVT_PAINT,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnPanel1Paint,0,this);
     Connect(ID_MENUITEMNEWCONFIG,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuNewconfigSelected);
     Connect(ID_MENUDELETEACTIVECONFIG,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuDeleteActiveConfigSelected);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnQuit);
     Connect(ID_MENUITEM1,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnProgrammerSelected);
+    Connect(ID_MENUVOICECHOICE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuChoiceVoiceSelected);
     Connect(ID_MENUITEM3,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnreadmodelsSelected);
     Connect(ID_MENUITEM5,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnreadfirmwareSelected);
     Connect(ID_MENUITEM4,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnWriteModelToRadioSelected);
@@ -501,6 +507,7 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
     configFile->SetPath("TTS/");
     configFile->Read(wxT("LANGTTS"),&voice_Langue);
     ChoiceLangue->SetStringSelection(voice_Langue);
+    Numvoice = configFile->ReadLong(wxT("NUMVOICE"),0);
     configFile->SetPath("/"+Profil+"/");
     configFile->SetPath("COMPILATION_CHOICES/");
     configFile->Read(wxT("PCB"),&PCB);
@@ -594,7 +601,7 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
     configFile->SetPath("/PROFILS/");
     configFile->Write(Profil,"");
 
-    configFile->SetPath("/"+Profil+"/");
+   configFile->SetPath("/"+Profil+"/");
     // [COMM]
     configFile->SetPath("COMM/");
     configFile->Write(wxT("Programmer"),dude_programmer);
@@ -605,7 +612,9 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
     // [TTS]
     configFile->SetPath("/"+Profil+"/");
     configFile->SetPath("TTS/");
+
     configFile->Write(wxT("LANGTTS"),voice_Langue);
+    configFile->Write(wxT("NUMVOICE"),Numvoice);
 
     // [COMPILATION_CHOICES]
     configFile->SetPath("/"+Profil+"/");
@@ -898,12 +907,16 @@ void OpenAVRc_DesktopFrame::OnButtonCarteSDClick(wxCommandEvent& event)
 {
 }
 
-void OpenAVRc_DesktopFrame::OnPanel1Paint(wxPaintEvent& event)
-{
-}
-
 void OpenAVRc_DesktopFrame::OnChoiceLangueSelect(wxCommandEvent& event)
 {
   voice_Langue = ChoiceLangue->GetString(ChoiceLangue->GetSelection());
   Ini_Changed = true;
+}
+
+void OpenAVRc_DesktopFrame::OnMenuChoiceVoiceSelected(wxCommandEvent& event)
+{
+    Voice_choice* voiceChoiceFrame = new Voice_choice(NULL);
+  if (wxSetWorkingDirectory(AppPath)) wxExecute("CMD /c tts.exe -V ->voices.txt", wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
+    Ini_Changed = true;
+        voiceChoiceFrame->Show(TRUE);
 }

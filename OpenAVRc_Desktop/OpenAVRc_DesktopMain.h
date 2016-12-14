@@ -78,8 +78,8 @@ private:
     void OnEDITEURClick(wxCommandEvent& event);
     void OnButtonGenerateurClick(wxCommandEvent& event);
     void OnButtonCarteSDClick(wxCommandEvent& event);
-    void OnPanel1Paint(wxPaintEvent& event);
     void OnChoiceLangueSelect(wxCommandEvent& event);
+    void OnMenuChoiceVoiceSelected(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(OpenAVRc_DesktopFrame)
@@ -100,6 +100,7 @@ private:
     static const long ID_MENUDELETEACTIVECONFIG;
     static const long idMenuQuit;
     static const long ID_MENUITEM1;
+    static const long ID_MENUVOICECHOICE;
     static const long ID_MENUITEM3;
     static const long ID_MENUITEM5;
     static const long ID_MENUITEM4;
@@ -154,6 +155,7 @@ private:
     wxStaticBox* StaticBoxConfig;
     wxMenuItem* ATMEGA2560Compiler;
     wxMenuItem* MenuItem6;
+    wxMenuItem* MenuChoiceVoice;
     wxMenuItem* MenuItem16;
     wxMenuItem* MenuItem9;
     wxMenuItem* MenuNewconfig;
