@@ -1,6 +1,7 @@
 
 *****************  TODO and/or TO DECIDE  *****************
 
+> - re faire une vraie doc de câblage
 
 > - interrupteur 3 positions avec potar
 
