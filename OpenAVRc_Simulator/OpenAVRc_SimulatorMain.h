@@ -27,6 +27,8 @@
 #include <wx/filename.h>
 #include <wx/fileconf.h>
 #include <wx/dcmemory.h>
+#include <wx/process.h>
+
 
 
 
@@ -134,6 +136,7 @@ private:
     void OnBpTrnRightDown(wxMouseEvent& event);
     void OnButtonStartDesktopClick(wxCommandEvent& event);
     void OnBpRudLeftDown(wxMouseEvent& event);
+    void PlayTts();
     //*)
 
     //(*Identifiers(OpenAVRc_SimulatorFrame)
@@ -286,6 +289,7 @@ private:
     wxBackgroundBitmap* PanelHBackckground;
     wxBackgroundBitmap* PanelBBackckground;
 
+    wxProcess* Mp3process;
 
 
     DECLARE_EVENT_TABLE()

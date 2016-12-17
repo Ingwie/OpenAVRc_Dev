@@ -17,7 +17,7 @@
 #include <wx/colordlg.h>
 #include <wx/chartype.h>
 #include <wx/aboutdlg.h>
-
+#include <wx/filefn.h>
 
 
 
@@ -63,6 +63,13 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 }
 
 bool Ini_Changed = false;
+
+bool Mp3RepExist = false;
+extern volatile uint8_t JQ6500_InputIndex;
+extern uint8_t JQ6500_PlayIndex;
+extern uint8_t JQ6500_playlist[];
+
+
 
 //(*IdInit(OpenAVRc_SimulatorFrame)
 const long OpenAVRc_SimulatorFrame::ID_PANELH = wxNewId();
@@ -123,8 +130,6 @@ BEGIN_EVENT_TABLE(OpenAVRc_SimulatorFrame,wxFrame)
     //*)
 END_EVENT_TABLE()
 
-
-//wxCustomBackgroundWindow else ??
 bool wxBackgroundBitmap::ProcessEvent(wxEvent &Event)
 {
     if (Event.GetEventType() == wxEVT_ERASE_BACKGROUND)
@@ -136,7 +141,6 @@ bool wxBackgroundBitmap::ProcessEvent(wxEvent &Event)
     }
     else return Inherited::ProcessEvent(Event);
 }
-
 
 OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
 {
@@ -398,6 +402,9 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
     PanelH->PushEventHandler(new wxBackgroundBitmap(woodH));
     PanelL->PushEventHandler(new wxBackgroundBitmap(PanelB));
 
+    //Test if MP3 exist
+    wxString Filename = AppPath + "\\VOICEMP3\\0000.mp3";
+    if(wxFileExists(Filename)) Mp3RepExist = true;
 }
 
 //// FW Functions ///////////////////////////////////////////////////
@@ -489,11 +496,12 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
         ResetSimu();
         Close();
     }
-
 }
 
 void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
 {
+
+    if (Mp3RepExist) PlayTts(); // Check and play voice if needed
     CheckInputs();
     Chrono10ms->Start(0);
     if (!simu_off)
@@ -558,20 +566,43 @@ void OpenAVRc_SimulatorFrame::OnQuit(wxCommandEvent& event)
 
 void OpenAVRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
 {
-        wxAboutDialogInfo Aboutbox;
-        Aboutbox.SetName(_("OpenAVRc Simulateur"));
-        Aboutbox.SetVersion(_("0.68 Beta"));
-        Aboutbox.SetLicence(" GPLv2 . Firmware basé sur NextStepRc 2.18 ");
-        Aboutbox.SetDescription(_("Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "));
-        Aboutbox.SetCopyright(wxT("(C) 2016 OpenAVRc Team"));
-        Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
+    wxAboutDialogInfo Aboutbox;
+    Aboutbox.SetName(_("OpenAVRc Simulateur"));
+    Aboutbox.SetVersion(_("0.68 Beta"));
+    Aboutbox.SetLicence(" GPLv2 . Firmware basé sur NextStepRc 2.18 ");
+    Aboutbox.SetDescription(_("Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "));
+    Aboutbox.SetCopyright(wxT("(C) 2016 OpenAVRc Team"));
+    Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
 
-        wxAboutBox(Aboutbox);
+    wxAboutBox(Aboutbox);
 }
 
 void OpenAVRc_SimulatorFrame::OnwxsimulcdPaint(wxPaintEvent& event)
 {
     DrawWxSimuLcd();
+}
+
+void OpenAVRc_SimulatorFrame::PlayTts()
+{
+    static long pid = NULL;
+
+    if (Mp3process->Exists(pid)) return;
+
+    if (JQ6500_InputIndex != JQ6500_PlayIndex)
+    {
+        uint16_t prompt;
+        prompt = JQ6500_playlist[JQ6500_PlayIndex];
+        ++JQ6500_PlayIndex;
+        prompt <<= 8;
+        prompt |= JQ6500_playlist[JQ6500_PlayIndex];
+        ++JQ6500_PlayIndex;
+        if (JQ6500_PlayIndex == (16*2)) JQ6500_PlayIndex = 0; //QUEUE_LENGTH = 16*2 in JQ6500 driver
+        wxString Mp3file;
+        --prompt;
+        Mp3file.Printf("%04d.mp3",prompt);
+        Mp3process = wxProcess::Open(AppPath + "\\cmdmp3win.exe " + AppPath + "\\VOICEMP3\\" + Mp3file, wxEXEC_HIDE_CONSOLE  | wxEXEC_ASYNC);
+        pid = Mp3process->GetPid();
+    }
 }
 
 void OpenAVRc_SimulatorFrame::LoadEeprom()
