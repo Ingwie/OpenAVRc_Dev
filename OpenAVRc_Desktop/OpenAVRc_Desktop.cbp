@@ -71,6 +71,8 @@
 		<Unit filename="OpenAVRc_DesktopApp.h" />
 		<Unit filename="OpenAVRc_DesktopMain.cpp" />
 		<Unit filename="OpenAVRc_DesktopMain.h" />
+		<Unit filename="SDVoiceFrame.cpp" />
+		<Unit filename="SDVoiceFrame.h" />
 		<Unit filename="VoiceEditFrame.cpp" />
 		<Unit filename="VoiceEditFrame.h" />
 		<Unit filename="Voice_choice.cpp" />
@@ -81,6 +83,7 @@
 		<Unit filename="wxsmith/CommunicationsFrame.wxs" />
 		<Unit filename="wxsmith/CompilerOptionsFrame.wxs" />
 		<Unit filename="wxsmith/OpenAVRc_Desktopframe.wxs" />
+		<Unit filename="wxsmith/SDVoiceFrame.wxs" />
 		<Unit filename="wxsmith/VoiceEditFrame.wxs" />
 		<Unit filename="wxsmith/Voice_choice.wxs" />
 		<Extensions>
@@ -99,6 +102,7 @@
 					<wxFrame wxs="wxsmith/CompilerOptionsFrame.wxs" src="CompilerOptionsFrame.cpp" hdr="CompilerOptionsFrame.h" fwddecl="0" i18n="1" name="CompilerOptionsFrame" language="CPP" />
 					<wxFrame wxs="wxsmith/VoiceEditFrame.wxs" src="VoiceEditFrame.cpp" hdr="VoiceEditFrame.h" fwddecl="0" i18n="1" name="VoiceEditFrame" language="CPP" />
 					<wxFrame wxs="wxsmith/Voice_choice.wxs" src="Voice_choice.cpp" hdr="Voice_choice.h" fwddecl="0" i18n="1" name="Voice_choice" language="CPP" />
+					<wxFrame wxs="wxsmith/SDVoiceFrame.wxs" src="SDVoiceFrame.cpp" hdr="SDVoiceFrame.h" fwddecl="0" i18n="1" name="SDVoiceFrame" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>
