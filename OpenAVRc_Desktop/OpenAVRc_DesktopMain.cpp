@@ -18,6 +18,7 @@
 #include <wx/aboutdlg.h>
 #include <wx/volume.h>
 #include <wx/choicdlg.h>
+#include <wx/busyinfo.h>
 
 
 
@@ -396,15 +397,15 @@ void OpenAVRc_DesktopFrame::OnQuit(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnAbout(wxCommandEvent& event)
 {
-        wxAboutDialogInfo Aboutbox;
-        Aboutbox.SetName(_("OpenAVRc Desktop"));
-        Aboutbox.SetVersion(_("0.68 Beta"));
-        Aboutbox.SetLicence(" GPLv2 . Firmware basé sur NextStepRc 2.18 ");
-        Aboutbox.SetDescription(_("Logiciel pour la personalisation, la compilation, le flashage, la sauvegarde de votre radio OpenAVRc     "));
-        Aboutbox.SetCopyright(wxT("(C) 2016 OpenAVRc Team"));
-        Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
+    wxAboutDialogInfo Aboutbox;
+    Aboutbox.SetName(_("OpenAVRc Desktop"));
+    Aboutbox.SetVersion(_("0.68 Beta"));
+    Aboutbox.SetLicence(" GPLv2 . Firmware basé sur NextStepRc 2.18 ");
+    Aboutbox.SetDescription(_("Logiciel pour la personalisation, la compilation, le flashage, la sauvegarde de votre radio OpenAVRc     "));
+    Aboutbox.SetCopyright(wxT("(C) 2016 OpenAVRc Team"));
+    Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
 
-        wxAboutBox(Aboutbox);
+    wxAboutBox(Aboutbox);
 }
 
 void OpenAVRc_DesktopFrame::OnProgrammerSelected(wxCommandEvent& event)
@@ -603,7 +604,7 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
     configFile->SetPath("/PROFILS/");
     configFile->Write(Profil,"");
 
-   configFile->SetPath("/"+Profil+"/");
+    configFile->SetPath("/"+Profil+"/");
     // [COMM]
     configFile->SetPath("COMM/");
     configFile->Write(wxT("Programmer"),dude_programmer);
@@ -826,7 +827,7 @@ void OpenAVRc_DesktopFrame::DrawLbmSplash()
         for (uint8_t x=0; x < LCD_W; x++)
         {
             uint8_t bit = LbmSplash[p];
-            p++;
+            ++p;
             for (uint8_t i=0; i < 8; i++)
             {
                 if (bit & 0x01) dc.DrawRectangle(x*LcdScale,(y*8*LcdScale) +(i*LcdScale),LcdScale,LcdScale);
@@ -907,48 +908,76 @@ void OpenAVRc_DesktopFrame::OnButtonGenerateurClick(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnButtonCarteSDClick(wxCommandEvent& event)
 {
-  wxArrayString DriveList;
+    wxArrayString DriveList, VoiceModule;
 
-  wxFSVolume DriveSearch;
+    VoiceModule.Add("JQ6500");
+    VoiceModule.Add("WTV20SD");
+    VoiceModule.Add("SOMO14D");
 
-  DriveList = DriveSearch.GetVolumes( wxFS_VOL_MOUNTED | wxFS_VOL_REMOVABLE );
+    wxFSVolume DriveSearch;
 
-      wxSingleChoiceDialog DriveName(this,
-                                _("La carte SD doit avoir été formatée pour\n un bon fonctionnement sur la radio"),
-                                _("Selectionnez le lecteur"),
-                                DriveList
-                                );
+    DriveList = DriveSearch.GetVolumes( wxFS_VOL_MOUNTED | wxFS_VOL_REMOVABLE );
 
+    wxSingleChoiceDialog DriveName(this,
+                                   _("La carte SD doit avoir été formatée pour\n un bon fonctionnement sur la radio"),
+                                   _("Selectionnez le lecteur"),
+                                   DriveList
+                                  );
 
     if (DriveName.ShowModal() == wxID_OK)
     {
-      wxString Drive = DriveName.GetStringSelection();
-      wxString FileName;
+        wxSingleChoiceDialog ModuleName(this,
+                                        _("Quel module ""VOICE"" est dans la radio"),
+                                        _("Selectionnez le module"),
+                                        VoiceModule
+                                       );
 
-      // Code only for JQ, need to write wtv one with another dialog choice ?
+        if (ModuleName.ShowModal() == wxID_OK)
+        {
+            wxString Drive = DriveName.GetStringSelection();
+            wxString SourceDirectory;
+            wxString DestinationDirectory;
+            wxString FileName;
+            wxString Ext;
 
-      wxMkdir(Drive + "\\VOICEMP3\\");
+            if (ModuleName.GetStringSelection() == "JQ6500")
+            {
+                SourceDirectory = "\\VOICEMP3\\";
+                DestinationDirectory = "\\VOICEMP3\\";
+                Ext = "mp3";
+                wxMkdir(Drive + DestinationDirectory);
+            }
+            else
+            {
+                SourceDirectory = "\\VOICEAD4\\";
+                DestinationDirectory = "\\";
+                Ext = "AD4";
+            }
 
-      for (int i = 0; i < 512 ; i++)
-      {
-        FileName.Printf("%04d.mp3",i);
-        wxCopyFile(AppPath + "\\VOICEMP3\\" + FileName, Drive + "\\VOICEMP3\\" + FileName , false);
-      }
+            wxBusyInfo wait("Copie en cours, attendez SVP......");
 
+            for (int i = 0; i < 512 ; i++)
+            {
+                FileName.Printf("%04d.",i);
+                wxCopyFile(AppPath + SourceDirectory + FileName + Ext, Drive + DestinationDirectory + FileName + Ext, false);
+            }
+        }
     }
+    Sleep(50);
+    DrawLbmSplash();
 }
 
 void OpenAVRc_DesktopFrame::OnChoiceLangueSelect(wxCommandEvent& event)
 {
-  voice_Langue = ChoiceLangue->GetString(ChoiceLangue->GetSelection());
-  Ini_Changed = true;
+    voice_Langue = ChoiceLangue->GetString(ChoiceLangue->GetSelection());
+    Ini_Changed = true;
 }
 
 void OpenAVRc_DesktopFrame::OnMenuChoiceVoiceSelected(wxCommandEvent& event)
 {
-  if (wxSetWorkingDirectory(AppPath)) wxExecute("CMD /c tts.exe -V ->voices.txt", wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
+    if (wxSetWorkingDirectory(AppPath)) wxExecute("CMD /c tts.exe -V ->voices.txt", wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
     Ini_Changed = true;
     Sleep(500);
     Voice_choice* voiceChoiceFrame = new Voice_choice(NULL);
-        voiceChoiceFrame->Show(TRUE);
+    voiceChoiceFrame->Show(TRUE);
 }

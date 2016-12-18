@@ -540,6 +540,7 @@
 				</rowlabels>
 				<pos>24,48</pos>
 				<size>360,424</size>
+				<handler function="OnVoiceGridCellLeftDClick" entry="EVT_CMD_GRID_CELL_LEFT_CLICK" />
 				<handler function="OnVoiceGridCellLeftDClick" entry="EVT_CMD_GRID_CELL_LEFT_DCLICK" />
 			</object>
 			<object class="wxButton" name="ID_BUTTONSAUVEGARDER" variable="ButtonSauvegarder" member="yes">

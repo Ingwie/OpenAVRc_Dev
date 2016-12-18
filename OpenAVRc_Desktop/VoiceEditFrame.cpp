@@ -578,6 +578,7 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
     ButtonSauvegarder = new wxButton(Panel1, ID_BUTTONSAUVEGARDER, _("Sauvegarder et quitter"), wxPoint(264,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONSAUVEGARDER"));
     ButtonGenerer = new wxButton(Panel1, ID_BUTTONGENERER, _("Générer Fichiers"), wxPoint(152,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONGENERER"));
 
+    Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellLeftDClick);
     Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_DCLICK,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellLeftDClick);
     Connect(ID_BUTTONSAUVEGARDER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonSauvegarderClick);
     Connect(ID_BUTTONGENERER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonGenererClick);
