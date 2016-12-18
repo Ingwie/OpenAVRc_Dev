@@ -16,11 +16,8 @@
 #include <wx/filedlg.h>
 #include <wx/textdlg.h>
 #include <wx/aboutdlg.h>
-#include "SDVoiceFrame.h"
 #include <wx/volume.h>
-#include <wx/dirctrl.h>
-#include "wx/wx.h"
-
+#include <wx/choicdlg.h>
 
 
 
@@ -910,11 +907,35 @@ void OpenAVRc_DesktopFrame::OnButtonGenerateurClick(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnButtonCarteSDClick(wxCommandEvent& event)
 {
-    //wxGenericDirCtrl* drives_list = new wxGenericDirCtrl(this, -1, wxDirDialogDefaultFolderStr,
-    //wxDefaultPosition, wxDefaultSize, wxDIRCTRL_DEFAULT_STYLE, wxEmptyString, 0,wxTreeCtrlNameStr);
+  wxArrayString DriveList;
 
-    SDVoiceFrame* SDFrame = new SDVoiceFrame(NULL);
-    SDFrame->Show(TRUE);//opens voice SD dialog
+  wxFSVolume DriveSearch;
+
+  DriveList = DriveSearch.GetVolumes( wxFS_VOL_MOUNTED | wxFS_VOL_REMOVABLE );
+
+      wxSingleChoiceDialog DriveName(this,
+                                _("La carte SD doit avoir été formatée pour\n un bon fonctionnement sur la radio"),
+                                _("Selectionnez le lecteur"),
+                                DriveList
+                                );
+
+
+    if (DriveName.ShowModal() == wxID_OK)
+    {
+      wxString Drive = DriveName.GetStringSelection();
+      wxString FileName;
+
+      // Code only for JQ, need to write wtv one with another dialog choice ?
+
+      wxMkdir(Drive + "\\VOICEMP3\\");
+
+      for (int i = 0; i < 512 ; i++)
+      {
+        FileName.Printf("%04d.mp3",i);
+        wxCopyFile(AppPath + "\\VOICEMP3\\" + FileName, Drive + "\\VOICEMP3\\" + FileName , false);
+      }
+
+    }
 }
 
 void OpenAVRc_DesktopFrame::OnChoiceLangueSelect(wxCommandEvent& event)
