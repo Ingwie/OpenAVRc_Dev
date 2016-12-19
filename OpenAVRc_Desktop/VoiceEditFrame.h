@@ -44,7 +44,7 @@ class VoiceEditFrame: public wxFrame
 		void Load(); //Load textfile language
 		void OnButtonSauvegarderClick(wxCommandEvent& event);
 		void OnButtonGenererClick(wxCommandEvent& event);
-		void OnVoiceGridCellLeftDClick(wxGridEvent& event);
+		void OnVoiceGridCellRightClick(wxGridEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

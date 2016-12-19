@@ -51,7 +51,7 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
     	SetIcon(FrameIcon);
     }
     Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(160,208), wxSize(408,520), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-    StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Double cliquez pour écouter, click pour éditer."), wxPoint(16,8), wxSize(376,472), 0, _T("ID_STATICBOX1"));
+    StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Click droit pour écouter, gauche pour éditer."), wxPoint(16,8), wxSize(376,472), 0, _T("ID_STATICBOX1"));
     VoiceGrid = new wxGrid(Panel1, ID_GRID1, wxPoint(24,48), wxSize(360,424), 0, _T("ID_GRID1"));
     VoiceGrid->CreateGrid(512,2);
     VoiceGrid->EnableEditing(true);
@@ -578,8 +578,7 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
     ButtonSauvegarder = new wxButton(Panel1, ID_BUTTONSAUVEGARDER, _("Sauvegarder et quitter"), wxPoint(264,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONSAUVEGARDER"));
     ButtonGenerer = new wxButton(Panel1, ID_BUTTONGENERER, _("Générer Fichiers"), wxPoint(152,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONGENERER"));
 
-    Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellLeftDClick);
-    Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_DCLICK,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellLeftDClick);
+    Connect(ID_GRID1,wxEVT_GRID_CELL_RIGHT_CLICK,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellRightClick);
     Connect(ID_BUTTONSAUVEGARDER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonSauvegarderClick);
     Connect(ID_BUTTONGENERER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonGenererClick);
     //*)
@@ -653,11 +652,9 @@ void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
   }
 }
 
-
-
-void VoiceEditFrame::OnVoiceGridCellLeftDClick(wxGridEvent& event)
+void VoiceEditFrame::OnVoiceGridCellRightClick(wxGridEvent& event)
 {
-        {
+          {
         voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),1);
         wxString quote = "\"";
         wxString VoiceCommandLine = AppPath + "\\tts.exe -f 7 -v "+NumVoiceTxt+" " + quote + voicePrompt + quote;

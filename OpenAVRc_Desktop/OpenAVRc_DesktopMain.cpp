@@ -401,7 +401,7 @@ void OpenAVRc_DesktopFrame::OnAbout(wxCommandEvent& event)
     Aboutbox.SetName(_("OpenAVRc Desktop"));
     Aboutbox.SetVersion(_("0.68 Beta"));
     Aboutbox.SetLicence(" GPLv2 . Firmware basé sur NextStepRc 2.18 ");
-    Aboutbox.SetDescription(_("Logiciel pour la personalisation, la compilation, le flashage, la sauvegarde de votre radio OpenAVRc     "));
+    Aboutbox.SetDescription(_("Logiciel pour la personnalisation, la compilation, le flashage, la sauvegarde de votre radio OpenAVRc     "));
     Aboutbox.SetCopyright(wxT("(C) 2016 OpenAVRc Team"));
     Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
 
