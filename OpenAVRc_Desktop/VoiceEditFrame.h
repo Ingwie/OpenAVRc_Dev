@@ -26,6 +26,7 @@ class VoiceEditFrame: public wxFrame
 		wxPanel* Panel1;
 		wxStaticBox* StaticBox1;
 		wxButton* ButtonSauvegarder;
+		wxButton* ButtonJouer;
 		//*)
 
 	protected:
@@ -35,6 +36,7 @@ class VoiceEditFrame: public wxFrame
 		static const long ID_GRID1;
 		static const long ID_BUTTONSAUVEGARDER;
 		static const long ID_BUTTONGENERER;
+		static const long ID_BUTTONJOUER;
 		static const long ID_PANEL1;
 		//*)
 
@@ -45,6 +47,8 @@ class VoiceEditFrame: public wxFrame
 		void OnButtonSauvegarderClick(wxCommandEvent& event);
 		void OnButtonGenererClick(wxCommandEvent& event);
 		void OnVoiceGridCellRightClick(wxGridEvent& event);
+		void OnVoiceGridCellSelect(wxGridEvent& event);
+		void OnButtonJouerClick(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

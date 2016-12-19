@@ -3,14 +3,14 @@
 	<object class="wxFrame" name="VoiceEditFrame">
 		<title>Voix</title>
 		<icon stock_id="wxART_HELP_BOOK" />
-		<size>410,521</size>
+		<size>471,521</size>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE</style>
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>160,208</pos>
 			<size>408,520</size>
 			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
-				<label>Click droit pour écouter, gauche pour éditer.</label>
+				<label>Double click pour éditer.</label>
 				<pos>16,8</pos>
 				<size>376,472</size>
 			</object>
@@ -540,7 +540,8 @@
 				</rowlabels>
 				<pos>24,48</pos>
 				<size>360,424</size>
-				<handler function="OnVoiceGridCellRightClick" entry="EVT_CMD_GRID_CELL_RIGHT_CLICK" />
+				<handler function="OnVoiceGridCellLeftDClick" entry="EVT_CMD_GRID_CELL_LEFT_DCLICK" />
+				<handler function="OnVoiceGridCellSelect" entry="EVT_CMD_GRID_SELECT_CELL" />
 			</object>
 			<object class="wxButton" name="ID_BUTTONSAUVEGARDER" variable="ButtonSauvegarder" member="yes">
 				<label>Sauvegarder et quitter</label>
@@ -551,6 +552,12 @@
 				<label>Générer Fichiers</label>
 				<pos>152,488</pos>
 				<handler function="OnButtonGenererClick" entry="EVT_BUTTON" />
+			</object>
+			<object class="wxButton" name="ID_BUTTONJOUER" variable="ButtonJouer" member="yes">
+				<label>Jouer</label>
+				<pos>400,64</pos>
+				<size>40,408</size>
+				<handler function="OnButtonJouerClick" entry="EVT_BUTTON" />
 			</object>
 		</object>
 	</object>

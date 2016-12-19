@@ -9,9 +9,8 @@
 extern wxString AppPath;
 extern wxString voice_Langue;
 extern long Numvoice;
-
+extern wxString voicePrompt ="";
 wxString voiceText;
-wxString voicePrompt;
 wxString NumVoiceTxt;
 wxString file;
 wxString line;
@@ -30,6 +29,7 @@ const long VoiceEditFrame::ID_STATICBOX1 = wxNewId();
 const long VoiceEditFrame::ID_GRID1 = wxNewId();
 const long VoiceEditFrame::ID_BUTTONSAUVEGARDER = wxNewId();
 const long VoiceEditFrame::ID_BUTTONGENERER = wxNewId();
+const long VoiceEditFrame::ID_BUTTONJOUER = wxNewId();
 const long VoiceEditFrame::ID_PANEL1 = wxNewId();
 //*)
 
@@ -44,14 +44,14 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 {
     //(*Initialize(VoiceEditFrame)
     Create(parent, wxID_ANY, _("Voix"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
-    SetClientSize(wxSize(410,521));
+    SetClientSize(wxSize(471,521));
     {
     	wxIcon FrameIcon;
     	FrameIcon.CopyFromBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_HELP_BOOK")),wxART_FRAME_ICON));
     	SetIcon(FrameIcon);
     }
     Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(160,208), wxSize(408,520), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-    StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Click droit pour écouter, gauche pour éditer."), wxPoint(16,8), wxSize(376,472), 0, _T("ID_STATICBOX1"));
+    StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Double click pour éditer."), wxPoint(16,8), wxSize(376,472), 0, _T("ID_STATICBOX1"));
     VoiceGrid = new wxGrid(Panel1, ID_GRID1, wxPoint(24,48), wxSize(360,424), 0, _T("ID_GRID1"));
     VoiceGrid->CreateGrid(512,2);
     VoiceGrid->EnableEditing(true);
@@ -577,10 +577,13 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
     VoiceGrid->SetDefaultCellTextColour( VoiceGrid->GetForegroundColour() );
     ButtonSauvegarder = new wxButton(Panel1, ID_BUTTONSAUVEGARDER, _("Sauvegarder et quitter"), wxPoint(264,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONSAUVEGARDER"));
     ButtonGenerer = new wxButton(Panel1, ID_BUTTONGENERER, _("Générer Fichiers"), wxPoint(152,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONGENERER"));
+    ButtonJouer = new wxButton(Panel1, ID_BUTTONJOUER, _("Jouer"), wxPoint(400,64), wxSize(40,408), 0, wxDefaultValidator, _T("ID_BUTTONJOUER"));
 
-    Connect(ID_GRID1,wxEVT_GRID_CELL_RIGHT_CLICK,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellRightClick);
+    Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_DCLICK,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellLeftDClick);
+    Connect(ID_GRID1,wxEVT_GRID_SELECT_CELL,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellSelect);
     Connect(ID_BUTTONSAUVEGARDER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonSauvegarderClick);
     Connect(ID_BUTTONGENERER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonGenererClick);
+    Connect(ID_BUTTONJOUER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonJouerClick);
     //*)
 
     file = AppPath + "\\Voice_" + voice_Langue + ".csv";
@@ -592,19 +595,19 @@ void VoiceEditFrame::Load()  //Load textfile language
     wxTextFile tfile(file);
     if (tfile.Exists()) //avoid crash if file is not found
     {
-        tfile.Open(file);
-        for (int j = 0; j < 512; j++ )
-        {
-            line = tfile.GetLine(j);
-            wxStringTokenizer tokenizer(line, ";");
-            wxString voiceText = tokenizer.GetNextToken();
-            VoiceGrid->SetCellValue(j,0,voiceText);
-            wxString voicePromp = tokenizer.GetNextToken();
-            VoiceGrid->SetCellValue(j,1,voicePromp);
-        }
-        tfile.Close();
+      tfile.Open(file);
+      for (int j = 0; j < 512; j++ )
+      {
+        line = tfile.GetLine(j);
+        wxStringTokenizer tokenizer(line, ";");
+        wxString voiceText = tokenizer.GetNextToken();
+        VoiceGrid->SetCellValue(j,0,voiceText);
+        wxString voicePromp = tokenizer.GetNextToken();
+        VoiceGrid->SetCellValue(j,1,voicePromp);
+      }
+      tfile.Close();
     }
- NumVoiceTxt = wxString::Format(wxT("%d"),Numvoice);
+    NumVoiceTxt = wxString::Format(wxT("%d"),Numvoice);
 }
 
 VoiceEditFrame::~VoiceEditFrame()
@@ -621,10 +624,10 @@ void VoiceEditFrame::OnButtonSauvegarderClick(wxCommandEvent& event)
     tfile.Clear();
     for (int j = 0; j < 512; j++ )
     {
-        voiceText = VoiceGrid->GetCellValue(j,0);
-        voicePrompt = VoiceGrid->GetCellValue(j,1);
-        line = voiceText + ";" + voicePrompt;
-        tfile.AddLine(line);
+      voiceText = VoiceGrid->GetCellValue(j,0);
+      voicePrompt = VoiceGrid->GetCellValue(j,1);
+      line = voiceText + ";" + voicePrompt;
+      tfile.AddLine(line);
     }
     tfile.Write();
     tfile.Close();
@@ -652,12 +655,15 @@ void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
   }
 }
 
-void VoiceEditFrame::OnVoiceGridCellRightClick(wxGridEvent& event)
+void VoiceEditFrame::OnVoiceGridCellSelect(wxGridEvent& event)
 {
-          {
-        voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),1);
-        wxString quote = "\"";
-        wxString VoiceCommandLine = AppPath + "\\tts.exe -f 7 -v "+NumVoiceTxt+" " + quote + voicePrompt + quote;
-        wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE);
-    }
+  voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),1);
+}
+
+
+void VoiceEditFrame::OnButtonJouerClick(wxCommandEvent& event)
+{
+  wxString quote = "\"";
+  wxString VoiceCommandLine = AppPath + "\\tts.exe -f 7 -v "+NumVoiceTxt+" " + quote + voicePrompt + quote;
+  wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE);
 }
