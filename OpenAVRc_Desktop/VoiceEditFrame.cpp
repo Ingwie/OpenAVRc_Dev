@@ -19,6 +19,7 @@ wxString line;
 #include <wx/artprov.h>
 #include <wx/bitmap.h>
 #include <wx/icon.h>
+#include <wx/settings.h>
 #include <wx/intl.h>
 #include <wx/image.h>
 #include <wx/string.h>
@@ -578,6 +579,7 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
     ButtonSauvegarder = new wxButton(Panel1, ID_BUTTONSAUVEGARDER, _("Sauvegarder et quitter"), wxPoint(264,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONSAUVEGARDER"));
     ButtonGenerer = new wxButton(Panel1, ID_BUTTONGENERER, _("Générer Fichiers"), wxPoint(152,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONGENERER"));
     ButtonJouer = new wxButton(Panel1, ID_BUTTONJOUER, _("Jouer"), wxPoint(400,64), wxSize(40,408), 0, wxDefaultValidator, _T("ID_BUTTONJOUER"));
+    ButtonJouer->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
 
     Connect(ID_GRID1,wxEVT_GRID_SELECT_CELL,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellSelect);
     Connect(ID_BUTTONSAUVEGARDER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonSauvegarderClick);
