@@ -1,7 +1,7 @@
 
 *****************  TODO and/or TO DECIDE  *****************
 
-> - re faire une vraie doc de c‚blage
+> - re faire une vraie doc de c√¢blage
 
 > - interrupteur 3 positions avec potar
 
@@ -12,30 +12,28 @@
 
 Simu :
 
--> Lire et Ècrire dans un repertoire pour simuler une SD card.
+-> Lire et √©crire dans un repertoire pour simuler une SD card.
 
 -> Lire les fichiers "Voice"
 
 -> Afficher les data des ports I2C et SPI et pourquoi pas la sortie PPM
 
--> Pouvoir "copier" un modËle d'une eeprom pour le "coller" vers une autre (Une base de donnÈes modËles : encore mieux)
+-> Pouvoir "copier" un mod√®le d'une eeprom pour le "coller" vers une autre (Une base de donn√©es mod√®les : encore mieux)
 
 -> Simuler des ressorts sur les manches (sauf les gazs)
 
--> RÈinitialiser les variables du firmware pour pouvoir faire un "reboot" ‡ chaud
+-> R√©initialiser les variables du firmware pour pouvoir faire un "reboot" √† chaud
 
--> Trouver pourquoi l'eeprom update ne fonctionne pas comme sur la vraie radio dans les menus "modËles"
+-> Trouver pourquoi l'eeprom update ne fonctionne pas comme sur la vraie radio dans les menus "mod√®les"
 
 
 Desktop :
 
--> Un "vrai" Èditeur de splash perso ?
+-> Un "vrai" √©diteur de splash perso ?
 
 -> Customiser (comme le splash) les noms : AIL, TRN; RUD , etc ... dans le firmware par ce que l'on veux : Ces noms viennent des noms de la 9X (sur nos radio "maison" d'autres appelations "libres" me plairaient.
 
--> Ajouter la gÈnÈration des fichier voice. Et mettre tous les prompt dans un seul fichier. (Possible pour 9X ?)
-
--> Editeur de modËle pour prÈsenter toutes les caractÈristiques d'un modËle dans un seul Ècran. Ou un Ècran par mode de vol. Ou quelque chose de simple. (Excell ?). (C'est Áa la base de donÈes modËles ?)
+-> Editeur de mod√®le pour pr√©senter toutes les caract√©ristiques d'un mod√®le dans un seul √©cran. Ou un √©cran par mode de vol. Ou quelque chose de simple. (Excell ?). (C'est √ßa la base de don√©es mod√®les ?)
 
 
 
@@ -43,20 +41,20 @@ Firmware :
 
 -> Ajouter module emetteur perso
 
--> afficher le nom du fichier "voice" lors de la programmation de la radio (sur la radio grace au fichier readtext qui ne sert ‡ rien pour l'instant)
+-> afficher le nom du fichier "voice" lors de la programmation de la radio (sur la radio grace au fichier readtext qui ne sert √† rien pour l'instant)
 
--> Passer les Gvar de 16 ‡ 8 bit, enlever les bits de "haptic strenght", etc pour gagner de la mÈmoire
+-> Passer les Gvar de 16 √† 8 bit, enlever les bits de "haptic strenght", etc pour gagner de la m√©moire
 
--> Ajouter une fonction spÈciale sÈcuritÈ moteur qui fonctionne comme le template.
+-> Ajouter une fonction sp√©ciale s√©curit√© moteur qui fonctionne comme le template.
 
 -> Revenir sur le protocole DSM2, inclus "Model match"
 
--> Revenir sur l'idÈe de minimiser le nombre d'Ècritures a l'eeprom interne du atmega. (Carte SD?)
+-> Revenir sur l'id√©e de minimiser le nombre d'√©critures a l'eeprom interne du atmega. (Carte SD?)
 
 
 General:
 
--> CrÈer LE voice Èditor.
+-> Cr√©er LE voice √©ditor.
 
 -> Des manuels pour tout.
 
@@ -65,15 +63,16 @@ General:
 
 *****************  DONE DONE DONE DONE  *****************
 
+> - Ajouter la g√©n√©ration des fichier voice. Et mettre tous les prompt dans un seul fichier. (Possible pour 9X ?)- FAIT
 > - correction bug encodeur rotatif qui saute de +125 a -125 - FAIT
-> - limiter la valeur d'une GVAR de +125 ‡ -125 - FAIT
+> - limiter la valeur d'une GVAR de +125 √† -125 - FAIT
 > - correction bug T_on - FAIT
 > - communalisation pin buzzer avec pin speaker - FAIT
 > - Schema : corriger cablage KS108 + Le gain des amplis (R6/2) + pin buzzer - FAIT
 > - Corriger bug de flash "error mismatch"
 > - Changer le splash - FAIT
-> - finir navigation avec les manches (placer les routines dans key.xxx) PlacÈ dans gui/9X/navigation.cpp
+> - finir navigation avec les manches (placer les routines dans key.xxx) Plac√© dans gui/9X/navigation.cpp
 > - remplacement carte WT par "mieux" -> JQ6500 28P FAIT
-> - Les fonctions de ce type : L1 a<x Tmr1 02:00 --- sont dÈcalÈes si EXT=NO (pas de tÈlÈmÈtrie) FAIT
-> - changer le numÈro de la pin vcc sur l'ampli op mpc6004 (Plan de Franck : AnnulÈ)
--> GÈnÈration d'un prompt avec le nom du modËle choisi, (pour reproduire par exemple aprËs choisir le modËle ou aprËs la bienvenue.) FAIT
+> - Les fonctions de ce type : L1 a<x Tmr1 02:00 --- sont d√©cal√©es si EXT=NO (pas de t√©l√©m√©trie) FAIT
+> - changer le num√©ro de la pin vcc sur l'ampli op mpc6004 (Plan de Franck : Annul√©)
+-> G√©n√©ration d'un prompt avec le nom du mod√®le choisi, (pour reproduire par exemple apr√®s choisir le mod√®le ou apr√®s la bienvenue.) FAIT
