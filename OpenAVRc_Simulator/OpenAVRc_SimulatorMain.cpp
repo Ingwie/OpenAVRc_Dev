@@ -617,7 +617,7 @@ void OpenAVRc_SimulatorFrame::PlayTts()
         wxString Mp3file;
         --prompt;
         Mp3file.Printf("%04d.mp3",prompt);
-        Mp3process = wxProcess::Open(AppPath + "\\cmdmp3win.exe " + AppPath + "\\VOICEMP3\\" + Mp3file, wxEXEC_HIDE_CONSOLE  | wxEXEC_ASYNC);
+        Mp3process = wxProcess::Open(AppPath + "\\tools\\cmdmp3win.exe " + AppPath + "\\VOICEMP3\\" + Mp3file, wxEXEC_HIDE_CONSOLE  | wxEXEC_ASYNC);
         pid = Mp3process->GetPid();
     }
 }

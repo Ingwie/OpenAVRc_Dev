@@ -673,7 +673,7 @@ void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
     {
       voicePrompt = VoiceGrid->GetCellValue(j,1);
       label = VoiceGrid->GetRowLabelValue(j);
-      wxString VoiceCommandLine = "tts.exe -f 7 -v "+NumVoiceTxt+" " + quote + voicePrompt + quote + " " + tts_o_look;
+      wxString VoiceCommandLine = AppPath + "\\tools\\tts.exe -f 7 -v "+NumVoiceTxt+" " + quote + voicePrompt + quote + " " + tts_o_look;
       wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC );
       rename ("look0.wav", label + ".wav");
     }
@@ -691,6 +691,6 @@ void VoiceEditFrame::OnVoiceGridCellSelect(wxGridEvent& event)
 void VoiceEditFrame::OnButtonJouerClick(wxCommandEvent& event)
 {
   wxString quote = "\"";
-  wxString VoiceCommandLine = AppPath + "\\tts.exe -f 7 -v "+NumVoiceTxt+" " + quote + voicePrompt + quote;
+  wxString VoiceCommandLine = AppPath + "\\tools\\tts.exe -f 7 -v "+NumVoiceTxt+" " + quote + voicePrompt + quote;
   wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE);
 }
