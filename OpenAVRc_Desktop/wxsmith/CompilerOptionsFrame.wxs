@@ -6,7 +6,7 @@
 		<tooltip>Référence de l&apos;écran</tooltip>
 		<help>Protocoles DSM</help>
 		<id_arg>0</id_arg>
-		<style>wxDEFAULT_DIALOG_STYLE</style>
+		<style>wxCAPTION|wxDEFAULT_DIALOG_STYLE</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>0,0</pos>
@@ -110,6 +110,7 @@
 							<pos>112,120</pos>
 							<size>96,21</size>
 							<tooltip>Option annonces vocales</tooltip>
+							<handler function="OnChoiceVOICESelect" entry="EVT_CHOICE" />
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
 							<label>Voice</label>
@@ -124,6 +125,7 @@
 						<object class="wxCheckBox" name="ID_CHECKBOX14" variable="CheckBoxHAPTIC" member="yes">
 							<label>Haptic</label>
 							<pos>112,192</pos>
+							<enabled>0</enabled>
 							<tooltip>Option Vibreur</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBoxHELI" member="yes">
@@ -217,13 +219,13 @@
 							<pos>248,256</pos>
 						</object>
 						<object class="wxButton" name="ID_BUTTON3" variable="ButtonEXIT" member="yes">
-							<label>SORTIE</label>
-							<pos>696,264</pos>
+							<label>Sauvegarder et sortir</label>
+							<pos>664,272</pos>
 							<handler function="OnButtonEXITClick" entry="EVT_BUTTON" />
 						</object>
 						<object class="wxButton" name="ID_BUTTON2" variable="ButtonCOMPILE" member="yes">
-							<label>COMPILER</label>
-							<pos>696,208</pos>
+							<label>Compiler</label>
+							<pos>704,208</pos>
 							<handler function="OnButtonCOMPILEClick" entry="EVT_BUTTON" />
 						</object>
 						<object class="wxChoice" name="ID_CHOICE9" variable="ChoiceUNITS" member="yes">
@@ -364,6 +366,7 @@
 						<object class="wxCheckBox" name="ID_CHECKBOX11" variable="CheckBoxPXX" member="yes">
 							<label>PXX</label>
 							<pos>72,88</pos>
+							<enabled>0</enabled>
 							<tooltip>Protocole PXX </tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX13" variable="CheckBoxDSM2SERIAL" member="yes">
@@ -387,30 +390,37 @@
 							<pos>208,40</pos>
 							<size>96,21</size>
 							<tooltip>Télémétrie installée</tooltip>
+							<handler function="OnChoiceEXTSelect2" entry="EVT_CHOICE" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX2" variable="CheckBoxFRSKY_HUB" member="yes">
 							<label>FrSky Hub</label>
 							<pos>208,88</pos>
+							<handler function="OnCheckBoxFRSKY_HUBClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX3" variable="CheckBoxFAS_OFFSET" member="yes">
 							<label>FAS Offset</label>
 							<pos>208,120</pos>
+							<handler function="OnCheckBoxFAS_OFFSETClick2" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX4" variable="CheckBoxGAUGES" member="yes">
 							<label>Gauges</label>
 							<pos>208,152</pos>
+							<handler function="OnCheckBoxGAUGESClick1" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX5" variable="CheckBoxGPS" member="yes">
 							<label>GPS</label>
 							<pos>208,184</pos>
+							<handler function="OnCheckBoxGPSClick1" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX6" variable="CheckBoxVARIO" member="yes">
 							<label>Vario</label>
 							<pos>208,216</pos>
+							<handler function="OnCheckBoxVARIOClick2" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX8" variable="CheckBoxSPORT_FILE_LOG" member="yes">
 							<label>Sport file log</label>
 							<pos>208,248</pos>
+							<handler function="OnCheckBoxSPORT_FILE_LOGClick1" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX23" variable="CheckBoxPCBREV" member="yes">
 							<label>PCB Rev0</label>
@@ -451,6 +461,7 @@
 							<label>WS__HOW__HIGH</label>
 							<pos>208,280</pos>
 							<tooltip>WS HowHigh Altimeter</tooltip>
+							<handler function="OnCheckBoxWS_HOW_HIGHClick2" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX34" variable="CheckBoxTX_CADDY" member="yes">
 							<label>TX__CADDY</label>
@@ -464,9 +475,9 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX37" variable="CheckBoxNOANDSECONDE" member="yes">
 							<label>NOANDSECONDE</label>
-							<checked>1</checked>
 							<pos>336,184</pos>
 							<size>102,16</size>
+							<handler function="OnCheckBoxNOANDSECONDEClick1" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX38" variable="CheckBoxSHUTDOWN_CONFIRMATION" member="yes">
 							<label>SHUTDOWN__CONFIRMATION</label>
@@ -498,6 +509,16 @@
 							<label>DSM2 PPM</label>
 							<pos>72,152</pos>
 							<handler function="OnCheckBoxDSM2PPMClick" entry="EVT_CHECKBOX" />
+						</object>
+						<object class="wxButton" name="ID_BUTTON1" variable="Compilerpage2" member="yes">
+							<label>Compiler</label>
+							<pos>680,296</pos>
+							<handler function="OnButtonCOMPILEClick" entry="EVT_BUTTON" />
+						</object>
+						<object class="wxButton" name="ID_BUTTON4" variable="Sortirpage2" member="yes">
+							<label>Sauvegarder et sortir</label>
+							<pos>512,296</pos>
+							<handler function="OnButtonEXITClick" entry="EVT_BUTTON" />
 						</object>
 					</object>
 					<label>Options avancées</label>

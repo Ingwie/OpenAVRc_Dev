@@ -297,12 +297,12 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Menu4->AppendSeparator();
     MenuItem8 = new wxMenu();
     MenuItem10 = new wxMenuItem(MenuItem8, ID_MENUITEM9, _("Écrire les fusibles"), wxEmptyString, wxITEM_NORMAL);
-    MenuItem10->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_EXECUTABLE_FILE")),wxART_OTHER));
+    MenuItem10->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_BACK")),wxART_OTHER));
     MenuItem8->Append(MenuItem10);
     MenuItem11 = new wxMenuItem(MenuItem8, ID_MENUITEM10, _("Écrire le bootloader"), wxEmptyString, wxITEM_NORMAL);
-    MenuItem11->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_EXECUTABLE_FILE")),wxART_OTHER));
+    MenuItem11->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_BACK")),wxART_OTHER));
     MenuItem8->Append(MenuItem11);
-    Menu4->Append(ID_MENUITEM7, _("Bootloader"), MenuItem8, wxEmptyString);
+    Menu4->Append(ID_MENUITEM7, _("Fusibles et Bootloader"), MenuItem8, wxEmptyString);
     MenuBar_main->Append(Menu4, _("Lire/Écrire"));
     Menu7 = new wxMenu();
     ATMEGA2560Compiler = new wxMenuItem(Menu7, ID_MENUCOMPILOMATIC, _("Compil-O-matic"), wxEmptyString, wxITEM_NORMAL);

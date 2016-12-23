@@ -153,6 +153,7 @@ public:
     wxStaticBox* StaticBox6;
     wxStaticText* StaticText3;
     wxStaticBox* StaticBox1;
+    wxButton* Sortirpage2;
     wxChoice* ChoiceTHREE_POS;
     wxCheckBox* CheckBoxTURNIGY_TRANSMITTER_FIX;
     wxChoice* ChoiceNAVIGATION;
@@ -187,6 +188,7 @@ public:
     wxCheckBox* CheckBoxCORRECT_NEGATIVE_VALUES;
     wxCheckBox* CheckBoxDSM2PPM;
     wxCheckBox* CheckBoxBOLD;
+    wxButton* Compilerpage2;
     wxCheckBox* CheckBoxRTCLOCK;
     wxChoice* ChoicePCB;
     wxCheckBox* CheckBoxHAPTIC;
@@ -276,6 +278,8 @@ protected:
     static const long ID_CHECKBOX45;
     static const long ID_CHECKBOX47;
     static const long ID_CHECKBOX28;
+    static const long ID_BUTTON1;
+    static const long ID_BUTTON4;
     static const long ID_PANEL3;
     static const long ID_NOTEBOOK1;
     static const long ID_PANEL1;
@@ -381,6 +385,16 @@ private:
     void OnCheckBoxAUTOSOURCEClick1(wxCommandEvent& event);
     void OnChoiceNAVIGATIONSelect(wxCommandEvent& event);
     void OnCheckBoxDSM2SERIALClick(wxCommandEvent& event);
+    void OnChoiceVOICESelect(wxCommandEvent& event);
+    void OnCheckBoxNOANDSECONDEClick1(wxCommandEvent& event);
+    void OnChoiceEXTSelect2(wxCommandEvent& event);
+    void OnCheckBoxFRSKY_HUBClick(wxCommandEvent& event);
+    void OnCheckBoxFAS_OFFSETClick2(wxCommandEvent& event);
+    void OnCheckBoxGAUGESClick1(wxCommandEvent& event);
+    void OnCheckBoxGPSClick1(wxCommandEvent& event);
+    void OnCheckBoxVARIOClick2(wxCommandEvent& event);
+    void OnCheckBoxSPORT_FILE_LOGClick1(wxCommandEvent& event);
+    void OnCheckBoxWS_HOW_HIGHClick2(wxCommandEvent& event);
     //*)
 
     DECLARE_EVENT_TABLE()

@@ -118,6 +118,8 @@ const long CompilerOptionsFrame::ID_CHECKBOX44 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX45 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX47 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX28 = wxNewId();
+const long CompilerOptionsFrame::ID_BUTTON1 = wxNewId();
+const long CompilerOptionsFrame::ID_BUTTON4 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL3 = wxNewId();
 const long CompilerOptionsFrame::ID_NOTEBOOK1 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL1 = wxNewId();
@@ -131,7 +133,7 @@ END_EVENT_TABLE()
 CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
     //(*Initialize(CompilerOptionsFrame)
-    Create(parent, wxID_ANY, _("Compil-O-matic"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
+    Create(parent, wxID_ANY, _("Compil-O-matic"), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
     SetClientSize(wxSize(807,377));
     SetToolTip(_("Référence de l\'écran"));
     SetHelpText(_("Protocoles DSM"));
@@ -186,6 +188,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxAUDIO->SetToolTip(_("Option audio"));
     CheckBoxHAPTIC = new wxCheckBox(Panel2, ID_CHECKBOX14, _("Haptic"), wxPoint(112,192), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX14"));
     CheckBoxHAPTIC->SetValue(false);
+    CheckBoxHAPTIC->Disable();
     CheckBoxHAPTIC->SetToolTip(_("Option Vibreur"));
     CheckBoxHELI = new wxCheckBox(Panel2, ID_CHECKBOX1, _("HELI"), wxPoint(528,152), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
     CheckBoxHELI->SetValue(false);
@@ -227,7 +230,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     ChoiceTTS->Append(_("PT"));
     ChoiceTTS->Append(_("SE"));
     ChoiceTTS->Append(_("SK"));
-    ChoiceTTS->SetToolTip(_("Langue de la synthèse vocale"));
+    ChoiceTTS->SetToolTip(_("Langue de la synthése vocale"));
     StaticText5 = new wxStaticText(Panel2, ID_STATICTEXT5, _("Langue voice"), wxPoint(240,80), wxSize(80,13), 0, _T("ID_STATICTEXT5"));
     ChoiceNAVIGATION = new wxChoice(Panel2, ID_CHOICE8, wxPoint(336,248), wxSize(80,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE8"));
     ChoiceNAVIGATION->SetSelection( ChoiceNAVIGATION->Append(_("NO")) );
@@ -239,12 +242,12 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     ChoiceNAVIGATION->Append(_("ROTENC"));
     ChoiceNAVIGATION->SetToolTip(_("Peut remplacer les boutons de navigation"));
     StaticText7 = new wxStaticText(Panel2, ID_STATICTEXT7, _("Navigation"), wxPoint(248,256), wxDefaultSize, 0, _T("ID_STATICTEXT7"));
-    ButtonEXIT = new wxButton(Panel2, ID_BUTTON3, _("SORTIE"), wxPoint(696,264), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON3"));
-    ButtonCOMPILE = new wxButton(Panel2, ID_BUTTON2, _("COMPILER"), wxPoint(696,208), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON2"));
+    ButtonEXIT = new wxButton(Panel2, ID_BUTTON3, _("Sauvegarder et sortir"), wxPoint(664,272), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON3"));
+    ButtonCOMPILE = new wxButton(Panel2, ID_BUTTON2, _("Compiler"), wxPoint(704,208), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON2"));
     ChoiceUNITS = new wxChoice(Panel2, ID_CHOICE9, wxPoint(528,32), wxSize(64,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE9"));
     ChoiceUNITS->SetSelection( ChoiceUNITS->Append(_("METRIC")) );
     ChoiceUNITS->Append(_("IMPERIAL"));
-    ChoiceUNITS->SetToolTip(_("Unités"));
+    ChoiceUNITS->SetToolTip(_("Unitées"));
     StaticText8 = new wxStaticText(Panel2, ID_STATICTEXT8, _("Unités"), wxPoint(480,40), wxDefaultSize, 0, _T("ID_STATICTEXT8"));
     ChoiceDEFAULT_MODE = new wxChoice(Panel2, ID_CHOICE10, wxPoint(528,72), wxSize(64,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE10"));
     ChoiceDEFAULT_MODE->SetSelection( ChoiceDEFAULT_MODE->Append(_("NO")) );
@@ -269,7 +272,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     ChoiceFONT = new wxChoice(Panel2, ID_CHOICE11, wxPoint(336,176), wxSize(80,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE11"));
     ChoiceFONT->SetSelection( ChoiceFONT->Append(_("STD")) );
     ChoiceFONT->Append(_("SQT5"));
-    ChoiceFONT->SetToolTip(_("Police de caractères"));
+    ChoiceFONT->SetToolTip(_("Police de caractére"));
     StaticText10 = new wxStaticText(Panel2, ID_STATICTEXT10, _("Font"), wxPoint(272,184), wxDefaultSize, 0, _T("ID_STATICTEXT10"));
     CheckBoxBOLD = new wxCheckBox(Panel2, ID_CHECKBOX40, _("Bold"), wxPoint(336,112), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX40"));
     CheckBoxBOLD->SetValue(false);
@@ -298,6 +301,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxPPM->SetToolTip(_("Protocole PPM 8 à 16 voies"));
     CheckBoxPXX = new wxCheckBox(Panel3, ID_CHECKBOX11, _("PXX"), wxPoint(72,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX11"));
     CheckBoxPXX->SetValue(false);
+    CheckBoxPXX->Disable();
     CheckBoxPXX->SetToolTip(_("Protocole PXX "));
     CheckBoxDSM2SERIAL = new wxCheckBox(Panel3, ID_CHECKBOX13, _("DSM2 SERIAL"), wxPoint(72,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX13"));
     CheckBoxDSM2SERIAL->SetValue(false);
@@ -353,7 +357,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxTOGGLETRIM->SetValue(false);
     CheckBoxTOGGLETRIM->SetToolTip(_("Change les trim de la main droite à la main gauche, et vice-versa"));
     CheckBoxNOANDSECONDE = new wxCheckBox(Panel3, ID_CHECKBOX37, _("NOANDSECONDE"), wxPoint(336,184), wxSize(102,16), 0, wxDefaultValidator, _T("ID_CHECKBOX37"));
-    CheckBoxNOANDSECONDE->SetValue(true);
+    CheckBoxNOANDSECONDE->SetValue(false);
     CheckBoxSHUTDOWN_CONFIRMATION = new wxCheckBox(Panel3, ID_CHECKBOX38, _("SHUTDOWN_CONFIRMATION"), wxPoint(456,248), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX38"));
     CheckBoxSHUTDOWN_CONFIRMATION->SetValue(false);
     CheckBoxACCURAT_THROTTLE_STATS = new wxCheckBox(Panel3, ID_CHECKBOX39, _("ACCURAT_THROTTLE_STATS"), wxPoint(456,216), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX39"));
@@ -369,15 +373,29 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxDBLKEYS->SetValue(false);
     CheckBoxDSM2PPM = new wxCheckBox(Panel3, ID_CHECKBOX28, _("DSM2 PPM"), wxPoint(72,152), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX28"));
     CheckBoxDSM2PPM->SetValue(false);
+    Compilerpage2 = new wxButton(Panel3, ID_BUTTON1, _("Compiler"), wxPoint(680,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
+    Sortirpage2 = new wxButton(Panel3, ID_BUTTON4, _("Sauvegarder et sortir"), wxPoint(512,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON4"));
     Notebook1->AddPage(Panel2, _("Réglages"), false);
     Notebook1->AddPage(Panel3, _("Options avancées"), false);
 
+    Connect(ID_CHOICE3,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&CompilerOptionsFrame::OnChoiceVOICESelect);
     Connect(ID_CHOICE8,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&CompilerOptionsFrame::OnChoiceNAVIGATIONSelect);
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonEXITClick);
     Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonCOMPILEClick);
     Connect(ID_CHECKBOX13,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxDSM2SERIALClick);
+    Connect(ID_CHOICE2,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&CompilerOptionsFrame::OnChoiceEXTSelect2);
+    Connect(ID_CHECKBOX2,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxFRSKY_HUBClick);
+    Connect(ID_CHECKBOX3,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxFAS_OFFSETClick2);
+    Connect(ID_CHECKBOX4,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxGAUGESClick1);
+    Connect(ID_CHECKBOX5,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxGPSClick1);
+    Connect(ID_CHECKBOX6,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxVARIOClick2);
+    Connect(ID_CHECKBOX8,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxSPORT_FILE_LOGClick1);
+    Connect(ID_CHECKBOX32,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxWS_HOW_HIGHClick2);
+    Connect(ID_CHECKBOX37,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxNOANDSECONDEClick1);
     Connect(ID_CHECKBOX45,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxAUTOSOURCEClick1);
     Connect(ID_CHECKBOX28,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxDSM2PPMClick);
+    Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonCOMPILEClick);
+    Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonEXITClick);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&CompilerOptionsFrame::OnClose);
     //*)
 
@@ -663,8 +681,6 @@ void CompilerOptionsFrame::OnCheckBoxDSM2PPMClick(wxCommandEvent& event)
 void CompilerOptionsFrame::OnCheckBoxAUTOSOURCEClick1(wxCommandEvent& event)//pas compatible avec navigation=sticks
 {
     CollectDatas();
-    //AUTOSOURCE = CheckBoxAUTOSOURCE->GetValue();
-    //NAVIGATION  = ChoiceNAVIGATION->GetString(ChoiceNAVIGATION->GetSelection());
     if ((NAVIGATION == wxT("STICKS")) & (AUTOSOURCE))
     {
         wxMessageBox("Non compatible avec NAVIGATION = STICKS");
@@ -675,11 +691,117 @@ void CompilerOptionsFrame::OnCheckBoxAUTOSOURCEClick1(wxCommandEvent& event)//pa
 void CompilerOptionsFrame::OnChoiceNAVIGATIONSelect(wxCommandEvent& event)
 {
     CollectDatas();
-    //NAVIGATION  = ChoiceNAVIGATION->GetString(ChoiceNAVIGATION->GetSelection());
-    //AUTOSOURCE = CheckBoxAUTOSOURCE->GetValue();
     if ((AUTOSOURCE) & (NAVIGATION == wxT("STICKS")))
     {
         wxMessageBox("Non compatible avec AUTOSOURCE. AUTOSOURCE décoché.");
         CheckBoxAUTOSOURCE->SetValue(0);
+    }
+}
+
+void CompilerOptionsFrame::OnChoiceVOICESelect(wxCommandEvent& event)
+{
+    CollectDatas();
+    if (VOICE == (_("NO")))
+    {
+       CheckBoxNOANDSECONDE->SetValue(0);
+       Panel3->Refresh ();
+    }
+
+}
+
+void CompilerOptionsFrame::OnCheckBoxNOANDSECONDEClick1(wxCommandEvent& event)
+{
+    CollectDatas();
+    if (VOICE == (_("NO")))
+    {
+       wxMessageBox("Non compatible avec VOICE=NO.");
+       CheckBoxAUTOSOURCE->SetValue(0);
+    }
+}
+
+
+void CompilerOptionsFrame::OnChoiceEXTSelect2(wxCommandEvent& event)
+{
+    CollectDatas();
+    if (EXT == (_("STD")))
+    {
+       CheckBoxFRSKY_HUB->SetValue(0);
+       CheckBoxFAS_OFFSET->SetValue(0);
+       CheckBoxGAUGES->SetValue(0);
+       CheckBoxGPS->SetValue(0);
+       CheckBoxVARIO->SetValue(0);
+       CheckBoxSPORT_FILE_LOG->SetValue(0);
+       CheckBoxWS_HOW_HIGH->SetValue(0);
+    }
+}
+
+void CompilerOptionsFrame::OnCheckBoxFRSKY_HUBClick(wxCommandEvent& event)
+{
+    CollectDatas();
+    if (EXT == (_("STD")))
+    {
+        wxMessageBox("Non compatible avec TELEMETRY = STD.");
+        CheckBoxFRSKY_HUB->SetValue(0);
+    }
+}
+
+void CompilerOptionsFrame::OnCheckBoxFAS_OFFSETClick2(wxCommandEvent& event)
+{
+  CollectDatas();
+    if (EXT == (_("STD")))
+    {
+        wxMessageBox("Non compatible avec TELEMETRY = STD.");
+        CheckBoxFAS_OFFSET->SetValue(0);
+    }
+
+}
+
+void CompilerOptionsFrame::OnCheckBoxGAUGESClick1(wxCommandEvent& event)
+{
+  CollectDatas();
+    if (EXT == (_("STD")))
+    {
+        wxMessageBox("Non compatible avec TELEMETRY = STD.");
+        CheckBoxGAUGES->SetValue(0);
+    }
+}
+
+void CompilerOptionsFrame::OnCheckBoxGPSClick1(wxCommandEvent& event)
+{
+  CollectDatas();
+    if (EXT == (_("STD")))
+    {
+        wxMessageBox("Non compatible avec TELEMETRY = STD.");
+        CheckBoxGPS->SetValue(0);
+    }
+}
+
+void CompilerOptionsFrame::OnCheckBoxVARIOClick2(wxCommandEvent& event)
+{
+  CollectDatas();
+    if (EXT == (_("STD")))
+    {
+        wxMessageBox("Non compatible avec TELEMETRY = STD.");
+        CheckBoxVARIO->SetValue(0);
+    }
+}
+
+void CompilerOptionsFrame::OnCheckBoxSPORT_FILE_LOGClick1(wxCommandEvent& event)
+{
+  CollectDatas();
+    if (EXT == (_("STD")))
+    {
+        wxMessageBox("Non compatible avec TELEMETRY = STD.");
+        CheckBoxSPORT_FILE_LOG->SetValue(0);
+    }
+}
+
+void CompilerOptionsFrame::OnCheckBoxWS_HOW_HIGHClick2(wxCommandEvent& event)
+{
+  CollectDatas();
+    if (EXT == (_("STD")))
+    {
+        wxMessageBox("Non compatible avec TELEMETRY = STD.");
+        CheckBoxWS_HOW_HIGH->SetValue(0);
     }
 }
