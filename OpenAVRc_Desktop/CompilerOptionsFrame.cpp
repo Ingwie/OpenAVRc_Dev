@@ -188,7 +188,6 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxAUDIO->SetToolTip(_("Option audio"));
     CheckBoxHAPTIC = new wxCheckBox(Panel2, ID_CHECKBOX14, _("Haptic"), wxPoint(112,192), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX14"));
     CheckBoxHAPTIC->SetValue(false);
-    CheckBoxHAPTIC->Disable();
     CheckBoxHAPTIC->SetToolTip(_("Option Vibreur"));
     CheckBoxHELI = new wxCheckBox(Panel2, ID_CHECKBOX1, _("HELI"), wxPoint(528,152), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
     CheckBoxHELI->SetValue(false);
