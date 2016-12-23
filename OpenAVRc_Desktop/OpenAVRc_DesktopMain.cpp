@@ -972,7 +972,7 @@ void OpenAVRc_DesktopFrame::OnChoiceLangueSelect(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnMenuChoiceVoiceSelected(wxCommandEvent& event)
 {
-    if (wxSetWorkingDirectory(AppPath)) wxExecute("CMD /c tts.exe -V ->voices.txt", wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
+    if (wxSetWorkingDirectory(AppPath)) wxExecute("CMD /c" + AppPath + "\\tools\\tts.exe -V ->voices.txt", wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
     Ini_Changed = true;
     Sleep(500);
     Voice_choice* voiceChoiceFrame = new Voice_choice(NULL);
