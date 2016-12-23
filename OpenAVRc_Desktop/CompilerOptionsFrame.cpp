@@ -36,6 +36,7 @@ extern bool Ini_Changed;
 
 
 //(*InternalHeaders(CompilerOptionsFrame)
+#include <wx/settings.h>
 #include <wx/intl.h>
 #include <wx/string.h>
 //*)
@@ -138,6 +139,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     SetToolTip(_("Référence de l\'écran"));
     SetHelpText(_("Protocoles DSM"));
     Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(0,0), wxSize(752,327), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+    Panel1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
     Notebook1 = new wxNotebook(Panel1, ID_NOTEBOOK1, wxPoint(0,0), wxSize(808,376), 0, _T("ID_NOTEBOOK1"));
     Panel2 = new wxPanel(Notebook1, ID_PANEL2, wxDefaultPosition, wxSize(802,302), wxTAB_TRAVERSAL, _T("ID_PANEL2"));
     StaticBox6 = new wxStaticBox(Panel2, ID_STATICBOX6, _("Autres options"), wxPoint(464,8), wxSize(192,328), 0, _T("ID_STATICBOX6"));
@@ -300,6 +302,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxPPM->SetToolTip(_("Protocole PPM 8 à 16 voies"));
     CheckBoxPXX = new wxCheckBox(Panel3, ID_CHECKBOX11, _("PXX"), wxPoint(72,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX11"));
     CheckBoxPXX->SetValue(false);
+    CheckBoxPXX->Disable();
     CheckBoxPXX->SetToolTip(_("Protocole PXX "));
     CheckBoxDSM2SERIAL = new wxCheckBox(Panel3, ID_CHECKBOX13, _("DSM2 SERIAL"), wxPoint(72,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX13"));
     CheckBoxDSM2SERIAL->SetValue(false);
