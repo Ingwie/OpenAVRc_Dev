@@ -186,38 +186,18 @@
 				<label>Aide</label>
 				<object class="wxMenu" name="ID_MENUITEM2" variable="MenuHtmlDoc" member="yes">
 					<label>Documentation en ligne</label>
-					<object class="wxMenuItem" name="ID_MENUITEM14" variable="MenuItem14" member="yes">
-						<label>OpenAVRc M-2560 Docs</label>
-						<bitmap stock_id="wxART_FILE_OPEN" stock_client="wxART_MENU" />
-						<handler function="OnNexStepRc_M2560_docsSelected" entry="EVT_MENU" />
-					</object>
 					<object class="wxMenuItem" name="ID_MENUITEM8" variable="MenuItem4" member="yes">
 						<label>JQ6500 PCB (by Pyrall)</label>
 						<bitmap stock_id="wxART_FILE_OPEN" stock_client="wxART_MENU" />
 						<handler function="OnMenuJQ6500_PCBSelected" entry="EVT_MENU" />
-					</object>
-					<object class="wxMenuItem" name="ID_MENUITEM11" variable="MenuItem9" member="yes">
-						<label>VOICE tuto (by JPZ)</label>
-						<bitmap stock_id="wxART_FILE_OPEN" stock_client="wxART_MENU" />
-						<handler function="OnMenuVoice_tutoSelected" entry="EVT_MENU" />
 					</object>
 					<object class="wxMenuItem" name="ID_MENUITEM12" variable="MenuItem12" member="yes">
 						<label>VOICE/AUDIO PCB et RTC (by Pyrall)</label>
 						<bitmap stock_id="wxART_FILE_OPEN" stock_client="wxART_MENU" />
 						<handler function="OnMenuVOICE_AUDIO_PCBSelected" entry="EVT_MENU" />
 					</object>
-					<object class="wxMenuItem" name="ID_MENUITEM13" variable="MenuItem13" member="yes">
-						<label>WIN FIRMWARE Compilation (by JPZ)</label>
-						<bitmap stock_id="wxART_FILE_OPEN" stock_client="wxART_MENU" />
-						<handler function="OnWIN_FIRMWARESelected" entry="EVT_MENU" />
-					</object>
-					<object class="wxMenu" name="ID_MENUITEM15" variable="MenuItem15" member="yes">
+					<object class="wxMenuItem" name="ID_MENUITEM15" variable="MenuItem15" member="yes">
 						<label>Autres links</label>
-						<object class="wxMenuItem" name="ID_MENUITEM16" variable="MenuItem16" member="yes">
-							<label>Mousse NSRc Naval</label>
-							<bitmap stock_id="wxART_FILE_OPEN" stock_client="wxART_MENU" />
-							<handler function="OnMenuMousseSelected" entry="EVT_MENU" />
-						</object>
 					</object>
 				</object>
 				<object class="wxMenuItem" name="idMenuAbout" variable="MenuItem2" member="no">

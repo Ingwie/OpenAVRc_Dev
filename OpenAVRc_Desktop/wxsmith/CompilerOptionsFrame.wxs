@@ -135,7 +135,7 @@
 						<object class="wxCheckBox" name="ID_CHECKBOX15" variable="CheckBoxTEMPLATES" member="yes">
 							<label>TEMPLATES</label>
 							<pos>528,176</pos>
-							<tooltip>AOption modèles pré programmés</tooltip>
+							<tooltip>Option modèles pré programmés</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX9" variable="CheckBoxRTCLOCK" member="yes">
 							<label>RTC Clock</label>
@@ -365,7 +365,6 @@
 						<object class="wxCheckBox" name="ID_CHECKBOX11" variable="CheckBoxPXX" member="yes">
 							<label>PXX</label>
 							<pos>72,88</pos>
-							<enabled>0</enabled>
 							<tooltip>Protocole PXX </tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX13" variable="CheckBoxDSM2SERIAL" member="yes">

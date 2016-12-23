@@ -198,12 +198,8 @@ const long OpenAVRc_DesktopFrame::ID_MENUITEM9 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM10 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM7 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUCOMPILOMATIC = wxNewId();
-const long OpenAVRc_DesktopFrame::ID_MENUITEM14 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM8 = wxNewId();
-const long OpenAVRc_DesktopFrame::ID_MENUITEM11 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM12 = wxNewId();
-const long OpenAVRc_DesktopFrame::ID_MENUITEM13 = wxNewId();
-const long OpenAVRc_DesktopFrame::ID_MENUITEM16 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM15 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM2 = wxNewId();
 const long OpenAVRc_DesktopFrame::idMenuAbout = wxNewId();
@@ -311,26 +307,14 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     MenuBar_main->Append(Menu7, _("Compilateur"));
     Menu2 = new wxMenu();
     MenuHtmlDoc = new wxMenu();
-    MenuItem14 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM14, _("OpenAVRc M-2560 Docs"), wxEmptyString, wxITEM_NORMAL);
-    MenuItem14->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_FILE_OPEN")),wxART_MENU));
-    MenuHtmlDoc->Append(MenuItem14);
     MenuItem4 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM8, _("JQ6500 PCB (by Pyrall)"), wxEmptyString, wxITEM_NORMAL);
     MenuItem4->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_FILE_OPEN")),wxART_MENU));
     MenuHtmlDoc->Append(MenuItem4);
-    MenuItem9 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM11, _("VOICE tuto (by JPZ)"), wxEmptyString, wxITEM_NORMAL);
-    MenuItem9->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_FILE_OPEN")),wxART_MENU));
-    MenuHtmlDoc->Append(MenuItem9);
     MenuItem12 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM12, _("VOICE/AUDIO PCB et RTC (by Pyrall)"), wxEmptyString, wxITEM_NORMAL);
     MenuItem12->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_FILE_OPEN")),wxART_MENU));
     MenuHtmlDoc->Append(MenuItem12);
-    MenuItem13 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM13, _("WIN FIRMWARE Compilation (by JPZ)"), wxEmptyString, wxITEM_NORMAL);
-    MenuItem13->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_FILE_OPEN")),wxART_MENU));
-    MenuHtmlDoc->Append(MenuItem13);
-    MenuItem15 = new wxMenu();
-    MenuItem16 = new wxMenuItem(MenuItem15, ID_MENUITEM16, _("Mousse NSRc Naval"), wxEmptyString, wxITEM_NORMAL);
-    MenuItem16->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_FILE_OPEN")),wxART_MENU));
-    MenuItem15->Append(MenuItem16);
-    MenuHtmlDoc->Append(ID_MENUITEM15, _("Autres links"), MenuItem15, wxEmptyString);
+    MenuItem15 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM15, _("Autres links"), wxEmptyString, wxITEM_NORMAL);
+    MenuHtmlDoc->Append(MenuItem15);
     Menu2->Append(ID_MENUITEM2, _("Documentation en ligne"), MenuHtmlDoc, wxEmptyString);
     MenuItem2 = new wxMenuItem(Menu2, idMenuAbout, _("A propos\tF1"), wxEmptyString, wxITEM_NORMAL);
     MenuItem2->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_INFORMATION")),wxART_MENU));
@@ -365,12 +349,8 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_MENUITEM9,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnEcrirelesFuseesSelected);
     Connect(ID_MENUITEM10,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnEcrirelebootloaderSelected);
     Connect(ID_MENUCOMPILOMATIC,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnATMEGA2560CompilerSelected);
-    Connect(ID_MENUITEM14,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnNexStepRc_M2560_docsSelected);
     Connect(ID_MENUITEM8,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuJQ6500_PCBSelected);
-    Connect(ID_MENUITEM11,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuVoice_tutoSelected);
     Connect(ID_MENUITEM12,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuVOICE_AUDIO_PCBSelected);
-    Connect(ID_MENUITEM13,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnWIN_FIRMWARESelected);
-    Connect(ID_MENUITEM16,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuMousseSelected);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnAbout);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnClose);
     //*)
@@ -740,35 +720,35 @@ void OpenAVRc_DesktopFrame::OnATMEGA2560CompilerSelected(wxCommandEvent& event)
     atmegaFrame->Show(TRUE);//opens CommunicationsFrame
 }
 
-void OpenAVRc_DesktopFrame::OnNexStepRc_M2560_docsSelected(wxCommandEvent& event)
-{
-    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/NextStepRC_M2560"), NULL);
-}
+//void OpenAVRc_DesktopFrame::OnNexStepRc_M2560_docsSelected(wxCommandEvent& event)
+//{
+    //wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/NextStepRC_M2560"), NULL);
+//}
 
 void OpenAVRc_DesktopFrame::OnMenuJQ6500_PCBSelected(wxCommandEvent& event)
 {
     wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/Beta%20tester%20files/JQ6500%20PCB%20by%20Pyrall"), NULL);
 }
 
-void OpenAVRc_DesktopFrame::OnMenuVoice_tutoSelected(wxCommandEvent& event)
-{
-    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/Beta%20tester%20files/Voice%20by%20JPZ"), NULL);
-}
+//void OpenAVRc_DesktopFrame::OnMenuVoice_tutoSelected(wxCommandEvent& event)
+//{
+    //wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/Beta%20tester%20files/Voice%20by%20JPZ"), NULL);
+//}
 
 void OpenAVRc_DesktopFrame::OnMenuVOICE_AUDIO_PCBSelected(wxCommandEvent& event)
 {
     wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/Beta%20tester%20files/Voice-audio%20pcb%20and%20rtc%20by%20Pyrall"), NULL);
 }
 
-void OpenAVRc_DesktopFrame::OnWIN_FIRMWARESelected(wxCommandEvent& event)
-{
-    wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/Beta%20tester%20files/Win%20firmware%20compilation%20by%20JPZ"), NULL);
-}
+//void OpenAVRc_DesktopFrame::OnWIN_FIRMWARESelected(wxCommandEvent& event)
+//{
+    //wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/Beta%20tester%20files/Win%20firmware%20compilation%20by%20JPZ"), NULL);
+//}
 
-void OpenAVRc_DesktopFrame::OnMenuMousseSelected(wxCommandEvent& event)
-{
-    wxLaunchDefaultBrowser(wxT("http://www.sitakiki.fr/modnaval/nextsteprc.htm"), NULL);
-}
+//void OpenAVRc_DesktopFrame::OnMenuMousseSelected(wxCommandEvent& event)
+//{
+    //wxLaunchDefaultBrowser(wxT("http://www.sitakiki.fr/modnaval/nextsteprc.htm"), NULL);
+//}
 
 void OpenAVRc_DesktopFrame::OnListBoxConfigDClick(wxCommandEvent& event)
 {

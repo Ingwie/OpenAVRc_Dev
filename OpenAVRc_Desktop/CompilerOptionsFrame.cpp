@@ -194,7 +194,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxHELI->SetToolTip(_("Option hélicoptère"));
     CheckBoxTEMPLATES = new wxCheckBox(Panel2, ID_CHECKBOX15, _("TEMPLATES"), wxPoint(528,176), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX15"));
     CheckBoxTEMPLATES->SetValue(false);
-    CheckBoxTEMPLATES->SetToolTip(_("AOption modèles pré programmés"));
+    CheckBoxTEMPLATES->SetToolTip(_("Option modèles pré programmés"));
     CheckBoxRTCLOCK = new wxCheckBox(Panel2, ID_CHECKBOX9, _("RTC Clock"), wxPoint(112,248), wxSize(80,21), 0, wxDefaultValidator, _T("ID_CHECKBOX9"));
     CheckBoxRTCLOCK->SetValue(false);
     CheckBoxRTCLOCK->SetToolTip(_("Option horloge temps réel"));
@@ -300,7 +300,6 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
     CheckBoxPPM->SetToolTip(_("Protocole PPM 8 à 16 voies"));
     CheckBoxPXX = new wxCheckBox(Panel3, ID_CHECKBOX11, _("PXX"), wxPoint(72,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX11"));
     CheckBoxPXX->SetValue(false);
-    CheckBoxPXX->Disable();
     CheckBoxPXX->SetToolTip(_("Protocole PXX "));
     CheckBoxDSM2SERIAL = new wxCheckBox(Panel3, ID_CHECKBOX13, _("DSM2 SERIAL"), wxPoint(72,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX13"));
     CheckBoxDSM2SERIAL->SetValue(false);

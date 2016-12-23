@@ -126,12 +126,8 @@ private:
     static const long ID_MENUITEM10;
     static const long ID_MENUITEM7;
     static const long ID_MENUCOMPILOMATIC;
-    static const long ID_MENUITEM14;
     static const long ID_MENUITEM8;
-    static const long ID_MENUITEM11;
     static const long ID_MENUITEM12;
-    static const long ID_MENUITEM13;
-    static const long ID_MENUITEM16;
     static const long ID_MENUITEM15;
     static const long ID_MENUITEM2;
     static const long idMenuAbout;
@@ -146,18 +142,16 @@ private:
     wxMenuItem* MenuItem5;
     wxButton* ButtonSplashDefault;
     wxMenu* MenuHtmlDoc;
-    wxMenu* MenuItem15;
     wxMenu* Menu3;
     wxButton* ButtonEditeur;
     wxButton* Button1;
     wxMenuItem* MenuItem4;
-    wxMenuItem* MenuItem14;
     wxChoice* ChoiceLangue;
     wxMenuItem* MenuItem11;
+    wxMenuItem* MenuItem15;
     wxStaticBox* StaticBoxSplash;
     wxPanel* Panel1;
     wxStaticText* StaticText1;
-    wxMenuItem* MenuItem13;
     wxStaticBox* StaticBox1;
     wxMenu* MenuItem8;
     wxMenuItem* MenuItem10;
@@ -173,8 +167,6 @@ private:
     wxMenuItem* ATMEGA2560Compiler;
     wxMenuItem* MenuItem6;
     wxMenuItem* MenuChoiceVoice;
-    wxMenuItem* MenuItem16;
-    wxMenuItem* MenuItem9;
     wxMenuItem* MenuNewconfig;
     wxMenu* Menu4;
     //*)
