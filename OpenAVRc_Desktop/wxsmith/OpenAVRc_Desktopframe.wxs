@@ -186,6 +186,10 @@
 				<label>Aide</label>
 				<object class="wxMenu" name="ID_MENUITEM2" variable="MenuHtmlDoc" member="yes">
 					<label>Documentation en ligne</label>
+					<object class="wxMenuItem" name="ID_MENUITEM11" variable="MenuItem9" member="yes">
+						<label>OpenAVRc Manual (JPZ)</label>
+						<handler function="OnMenuItem9Selected" entry="EVT_MENU" />
+					</object>
 					<object class="wxMenuItem" name="ID_MENUITEM8" variable="MenuItem4" member="yes">
 						<label>JQ6500 PCB (by Pyrall)</label>
 						<bitmap stock_id="wxART_FILE_OPEN" stock_client="wxART_MENU" />

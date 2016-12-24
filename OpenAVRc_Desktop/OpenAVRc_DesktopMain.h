@@ -97,6 +97,7 @@ private:
     void OnButtonCarteSDClick(wxCommandEvent& event);
     void OnChoiceLangueSelect(wxCommandEvent& event);
     void OnMenuChoiceVoiceSelected(wxCommandEvent& event);
+    void OnMenuItem9Selected(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(OpenAVRc_DesktopFrame)
@@ -126,6 +127,7 @@ private:
     static const long ID_MENUITEM10;
     static const long ID_MENUITEM7;
     static const long ID_MENUCOMPILOMATIC;
+    static const long ID_MENUITEM11;
     static const long ID_MENUITEM8;
     static const long ID_MENUITEM12;
     static const long ID_MENUITEM15;
@@ -167,6 +169,7 @@ private:
     wxMenuItem* ATMEGA2560Compiler;
     wxMenuItem* MenuItem6;
     wxMenuItem* MenuChoiceVoice;
+    wxMenuItem* MenuItem9;
     wxMenuItem* MenuNewconfig;
     wxMenu* Menu4;
     //*)
