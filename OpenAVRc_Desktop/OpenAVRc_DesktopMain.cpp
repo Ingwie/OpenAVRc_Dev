@@ -401,7 +401,7 @@ void OpenAVRc_DesktopFrame::OnAbout(wxCommandEvent& event)
 {
     wxAboutDialogInfo Aboutbox;
     Aboutbox.SetName(_("OpenAVRc Desktop"));
-    Aboutbox.SetVersion(_("0.68 Beta"));
+    Aboutbox.SetVersion(_("1.00b"));
     Aboutbox.SetLicence(" GPLv2 . Firmware basé sur NextStepRc 2.18 ");
     Aboutbox.SetDescription(_("Logiciel pour la personnalisation, la compilation, le flashage, la sauvegarde de votre radio OpenAVRc     "));
     Aboutbox.SetCopyright(wxT("(C) 2016 OpenAVRc Team"));
@@ -727,7 +727,7 @@ void OpenAVRc_DesktopFrame::OnATMEGA2560CompilerSelected(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnMenuItem9Selected(wxCommandEvent& event)
 {
-  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/master/documentation/Beta%20tester%20files/Compilez%20votre%20FW%20OpenAVRc_V1.doc"), NULL);
+  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/master/documentation/Beta%20tester%20files/Compilez%20votre%20FW%20OpenAVRc_V1.doc?raw=true"), NULL);
 }
 
 //void OpenAVRc_DesktopFrame::OnNexStepRc_M2560_docsSelected(wxCommandEvent& event)
