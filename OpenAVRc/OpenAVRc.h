@@ -365,8 +365,6 @@ extern uint8_t StickScrollTimer;
 
 #if defined(EEPROM_RLC)
 #include "eeprom_rlc.h"
-#else
-#include "eeprom_raw.h"
 #endif
 
 

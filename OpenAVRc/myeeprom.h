@@ -180,6 +180,9 @@ enum MainViews {
   VIEW_OUTPUTS_VALUES,
   VIEW_OUTPUTS_BARS,
   VIEW_INPUTS,
+#if defined(PCBMEGA2560) && defined(GVARS)
+  VIEW_GVARS,
+#endif
   VIEW_TIMER2,
   VIEW_COUNT
 };
