@@ -1034,6 +1034,12 @@ enum AUDIO_SOUNDS {
 #endif
 
 #include "translations.h"
+
+//#define PERSONAMES //For tests
+#if defined(PERSONAMES)
+#include "personames.h"
+#endif
+
 #include "fonts.h"
 
 #if defined(HAPTIC)
