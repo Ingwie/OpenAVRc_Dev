@@ -730,35 +730,15 @@ void OpenAVRc_DesktopFrame::OnMenuItem9Selected(wxCommandEvent& event)
   wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/master/documentation/Beta%20tester%20files/Compilez%20votre%20FW%20OpenAVRc_V1.doc?raw=true"), NULL);
 }
 
-//void OpenAVRc_DesktopFrame::OnNexStepRc_M2560_docsSelected(wxCommandEvent& event)
-//{
-    //wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/NextStepRC_M2560"), NULL);
-//}
-
 void OpenAVRc_DesktopFrame::OnMenuJQ6500_PCBSelected(wxCommandEvent& event)
 {
     wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/Beta%20tester%20files/JQ6500%20PCB%20by%20Pyrall"), NULL);
 }
 
-//void OpenAVRc_DesktopFrame::OnMenuVoice_tutoSelected(wxCommandEvent& event)
-//{
-    //wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/Beta%20tester%20files/Voice%20by%20JPZ"), NULL);
-//}
-
 void OpenAVRc_DesktopFrame::OnMenuVOICE_AUDIO_PCBSelected(wxCommandEvent& event)
 {
     wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/Beta%20tester%20files/Voice-audio%20pcb%20and%20rtc%20by%20Pyrall"), NULL);
 }
-
-//void OpenAVRc_DesktopFrame::OnWIN_FIRMWARESelected(wxCommandEvent& event)
-//{
-    //wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/NextStepRc-2.18/tree/master/documentation/Beta%20tester%20files/Win%20firmware%20compilation%20by%20JPZ"), NULL);
-//}
-
-//void OpenAVRc_DesktopFrame::OnMenuMousseSelected(wxCommandEvent& event)
-//{
-    //wxLaunchDefaultBrowser(wxT("http://www.sitakiki.fr/modnaval/nextsteprc.htm"), NULL);
-//}
 
 void OpenAVRc_DesktopFrame::OnListBoxConfigDClick(wxCommandEvent& event)
 {

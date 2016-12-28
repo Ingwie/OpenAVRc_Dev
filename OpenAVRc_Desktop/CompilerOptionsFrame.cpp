@@ -539,7 +539,7 @@ void CompilerOptionsFrame::BatFunction()
 
     wxMessageBox(CompiBat);
     CreateCompileBatFile(CompiBat);
-    wxExecute(AppPath+ "\\CompileBatFile.bat",wxEXEC_SYNC);// Create firmware
+    wxExecute(AppPath+ "\\CompileBatFile.bat",wxEXEC_SYNC | wxEXEC_NODISABLE );// Create firmware
     Close();
     wxMessageBox(AppPath+ "\\firmware\\OpenAVRc.hex","Le nouveau Firmware est Le fichier:");
 }

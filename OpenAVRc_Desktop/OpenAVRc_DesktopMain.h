@@ -81,13 +81,8 @@ private:
     void OnListBoxConfigDClick(wxCommandEvent& event);
     void OnMenuNewconfigSelected(wxCommandEvent& event);
     void OnMenuDeleteActiveConfigSelected(wxCommandEvent& event);
-    void OnNexStepRc_M2560_docsSelected(wxCommandEvent& event);
     void OnMenuJQ6500_PCBSelected(wxCommandEvent& event);
-    void OnMenuVoice_tutoSelected(wxCommandEvent& event);
     void OnMenuVOICE_AUDIO_PCBSelected(wxCommandEvent& event);
-    void OnWIN_FIRMWARESelected(wxCommandEvent& event);
-    void OnMenuAUTRES_LINKSSelected(wxCommandEvent& event);
-    void OnMenuMousseSelected(wxCommandEvent& event);
     void DrawLbmSplash();
     void OnPanelSplashPaint(wxPaintEvent& event);
     void OnButtonSplashDefaultClick(wxCommandEvent& event);
