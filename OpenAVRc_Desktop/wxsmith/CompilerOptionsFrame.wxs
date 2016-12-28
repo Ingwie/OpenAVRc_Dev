@@ -11,7 +11,7 @@
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>0,0</pos>
 			<size>752,327</size>
-			<bg>wxSYS_COLOUR_INACTIVECAPTION</bg>
+			<bg>wxSYS_COLOUR_BTNFACE</bg>
 			<object class="wxNotebook" name="ID_NOTEBOOK1" variable="Notebook1" member="yes">
 				<pos>0,0</pos>
 				<size>808,376</size>
