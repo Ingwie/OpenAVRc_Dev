@@ -441,11 +441,22 @@ void menuMainView(uint8_t event)
   else if (view_base == VIEW_GVARS)
     {
       uint8_t x0,y0;
-      for (uint8_t i=0; i<MAX_GVARS; i++)//MAX_GVARS
+      bool test;
+      for (uint8_t i=0; i<MAX_GVARS; i++)
         {
           x0 = (FW+FW/3)+(i%2)*2*FW*(LEN_GVAR_NAME-1)-(i%2)*FW/2;
           y0 = i/2*FH+33;
-          lcdDrawSizedTextAtt(x0, y0, g_model.gvars[i].name, LEN_GVAR_NAME, ZCHAR);//LEN_GVAR_NAME
+          test = false;
+          for (uint8_t j=0; j<LEN_GVAR_NAME; j++)
+            {
+              if (g_model.gvars[i].name[j])
+                {
+                  test = true;
+                  break;
+                }
+            }
+          if (!test) lcdDrawStringWithIndex(x0, y0, STR_GV, i+1);
+          else lcdDrawSizedTextAtt(x0, y0, g_model.gvars[i].name, LEN_GVAR_NAME, ZCHAR);
           x0 += (LEN_GVAR_NAME+3)*FW+FW/3;
           lcd_outdez8(x0, y0, GVAR_VALUE(i, getGVarFlightPhase(mixerCurrentFlightMode, i)));
         }
