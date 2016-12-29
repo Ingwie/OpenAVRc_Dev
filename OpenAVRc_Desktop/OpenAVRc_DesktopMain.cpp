@@ -169,7 +169,14 @@ bool TX_CADDY = 0;
 bool TOGGLETRIM = 0;
 bool NOANDSECONDE = 1;
 bool SHUTDOWN_CONFIRMATION = 0;
+bool PERSONAMES = 0;
 
+wxString switch1 = ("THR");
+wxString switch2 = ("RUD");
+wxString switch3 = ("ELE");
+wxString switch4 = ("AIL");
+wxString switch5 = ("GEA");
+wxString switch6 = ("TRN");
 
 //(*IdInit(OpenAVRc_DesktopFrame)
 const long OpenAVRc_DesktopFrame::ID_STATICBOXSPLASH = wxNewId();
@@ -570,6 +577,15 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
     configFile->Read(wxT("TOGGLETRIM"),&TOGGLETRIM);
     configFile->Read(wxT("NOANDSECONDE"),&NOANDSECONDE);
     configFile->Read(wxT("SHUTDOWN_CONFIRMATION"),&SHUTDOWN_CONFIRMATION);
+    configFile->Read(wxT("PERSONAMES"),&PERSONAMES);
+    configFile->Read(wxT("switch1"),&switch1);
+    configFile->Read(wxT("switch2"),&switch2);
+    configFile->Read(wxT("switch3"),&switch3);
+    configFile->Read(wxT("switch4"),&switch4);
+    configFile->Read(wxT("switch5"),&switch5);
+    configFile->Read(wxT("switch6"),&switch6);
+
+
     // [SPLASH]
     configFile->SetPath("/"+Profil+"/");
     configFile->SetPath("SPLASH/");
@@ -679,6 +695,16 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("TOGGLETRIM"),TOGGLETRIM);
     configFile->Write(wxT("NOANDSECONDE"),NOANDSECONDE);
     configFile->Write(wxT("SHUTDOWN_CONFIRMATION"),SHUTDOWN_CONFIRMATION);
+
+    configFile->Write(wxT("PERSONAMES"),PERSONAMES);
+    configFile->Write(wxT("switch1"),switch1);
+    configFile->Write(wxT("switch2"),switch2);
+    configFile->Write(wxT("switch3"),switch3);
+    configFile->Write(wxT("switch4"),switch4);
+    configFile->Write(wxT("switch5"),switch5);
+    configFile->Write(wxT("switch6"),switch6);
+
+
     // [SPLASH]
     configFile->SetPath("/"+Profil+"/");
     configFile->SetPath("SPLASH/");

@@ -523,6 +523,111 @@
 					</object>
 					<label>Options avancées</label>
 				</object>
+				<object class="notebookpage">
+					<object class="wxPanel" name="ID_PANEL4" variable="Panel4" member="yes">
+						<object class="wxStaticBox" name="ID_STATICBOX7" variable="StaticBox7" member="yes">
+							<label>Nom des interrupteurs</label>
+							<pos>72,24</pos>
+							<size>240,296</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX1" variable="ComboBoxswitch1" member="yes">
+							<content>
+								<item>THR</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>224,80</pos>
+							<size>50,21</size>
+							<handler function="OnComboBoxswitch1Selected1" entry="EVT_COMBOBOX" />
+						</object>
+						<object class="wxButton" name="ID_BUTTON5" variable="Sortirpage3" member="yes">
+							<label>Sauvegarder et sortir</label>
+							<pos>512,296</pos>
+							<handler function="OnButtonEXITClick" entry="EVT_BUTTON" />
+						</object>
+						<object class="wxButton" name="ID_BUTTON6" variable="Compilerpage3" member="yes">
+							<label>Compiler</label>
+							<pos>680,296</pos>
+							<handler function="OnButtonCOMPILEClick" entry="EVT_BUTTON" />
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX2" variable="ComboBoxswitch2" member="yes">
+							<content>
+								<item>RUD</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>224,120</pos>
+							<size>50,21</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX3" variable="ComboBoxswitch3" member="yes">
+							<content>
+								<item>ELE</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>224,160</pos>
+							<size>50,21</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX4" variable="ComboBoxswitch4" member="yes">
+							<content>
+								<item>AIL</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>224,200</pos>
+							<size>50,21</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX5" variable="ComboBoxswitch5" member="yes">
+							<content>
+								<item>GEA</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>224,240</pos>
+							<size>50,21</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX6" variable="ComboBoxswitch6" member="yes">
+							<content>
+								<item>TRN</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>224,280</pos>
+							<size>50,21</size>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX22" variable="CheckBoxPERSONAMES" member="yes">
+							<label>PERSONAMES</label>
+							<checked>1</checked>
+							<pos>88,56</pos>
+							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT13" variable="StaticText13" member="yes">
+							<label>Inter1</label>
+							<pos>168,84</pos>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT14" variable="StaticText14" member="yes">
+							<label>Inter2</label>
+							<pos>168,124</pos>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT15" variable="StaticText15" member="yes">
+							<label>Inter3</label>
+							<pos>168,164</pos>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT16" variable="StaticText16" member="yes">
+							<label>Inter4</label>
+							<pos>168,204</pos>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT17" variable="StaticText17" member="yes">
+							<label>Inter5</label>
+							<pos>168,244</pos>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT18" variable="StaticText18" member="yes">
+							<label>Inter6</label>
+							<pos>168,284</pos>
+						</object>
+					</object>
+					<label>Personnalisation</label>
+				</object>
 			</object>
 		</object>
 	</object>

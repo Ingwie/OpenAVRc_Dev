@@ -39,6 +39,7 @@
 #include <wx/choice.h>
 #include <wx/button.h>
 #include <wx/frame.h>
+#include <wx/combobox.h>
 //*)
 
 //SPLASH
@@ -104,7 +105,14 @@ extern bool TOGGLETRIM;
 extern bool NOANDSECONDE;// Hardwired
 extern bool SHUTDOWN_CONFIRMATION;
 //DANGEROUS_MODULE_FUNCTIONS// does not compile.
+extern bool PERSONAMES;
 
+extern wxString switch1;
+extern wxString switch2;
+extern wxString switch3;
+extern wxString switch4;
+extern wxString switch5;
+extern wxString switch6;
 
 class CompilerOptionsFrame: public wxFrame
 {
@@ -124,6 +132,7 @@ public:
     wxCheckBox* CheckBoxSD_CARD;
     wxCheckBox* CheckBoxNOANDSECONDE;
     wxCheckBox* CheckBoxTEMPLATES;
+    wxComboBox* ComboBoxswitch1;
     wxStaticBox* StaticBox5;
     wxCheckBox* CheckBoxPXX;
     wxCheckBox* CheckBoxPPM;
@@ -131,8 +140,12 @@ public:
     wxNotebook* Notebook1;
     wxCheckBox* CheckBoxDSM2SERIAL;
     wxCheckBox* CheckBoxPCBREV;
+    wxStaticBox* StaticBox7;
+    wxStaticText* StaticText13;
     wxStaticText* StaticText2;
+    wxPanel* Panel4;
     wxChoice* ChoiceTRANSLATIONS;
+    wxStaticText* StaticText14;
     wxChoice* ChoiceFAI;
     wxCheckBox* CheckBoxFRSKY_HUB;
     wxCheckBox* CheckBoxGAUGES;
@@ -143,6 +156,7 @@ public:
     wxCheckBox* CheckBoxFAS_OFFSET;
     wxStaticText* StaticText8;
     wxStaticText* StaticText11;
+    wxStaticText* StaticText18;
     wxCheckBox* CheckBoxWS_HOW_HIGH;
     wxCheckBox* CheckBoxTOGGLETRIM;
     wxPanel* Panel1;
@@ -169,33 +183,44 @@ public:
     wxStaticText* StaticText5;
     wxStaticText* StaticText7;
     wxChoice* ChoiceEXT;
+    wxComboBox* ComboBoxswitch5;
     wxCheckBox* CheckBoxSPLASH;
     wxStaticBox* StaticBox3;
+    wxCheckBox* CheckBoxPERSONAMES;
+    wxComboBox* ComboBoxswitch4;
     wxCheckBox* CheckBoxARITHMETIC_OVERFLOW_CHECK;
     wxChoice* ChoiceFONT;
+    wxComboBox* ComboBoxswitch6;
+    wxStaticText* StaticText15;
     wxCheckBox* CheckBoxSPORT_FILE_LOG;
     wxCheckBox* CheckBoxHELI;
     wxStaticText* StaticText12;
     wxCheckBox* CheckBoxFLIGHT_MODES;
+    wxComboBox* ComboBoxswitch2;
     wxCheckBox* CheckBoxACCURAT_THROTTLE_STATS;
     wxCheckBox* CheckBoxPWM_BACKLIGHT;
     wxPanel* Panel2;
     wxCheckBox* CheckBoxSP22;
     wxChoice* ChoiceLCD;
     wxChoice* ChoiceVOICE;
+    wxStaticText* StaticText17;
     wxStaticText* StaticText4;
     wxCheckBox* CheckBoxAUTOSWITCH;
     wxCheckBox* CheckBoxCORRECT_NEGATIVE_VALUES;
+    wxButton* Sortirpage3;
     wxCheckBox* CheckBoxDSM2PPM;
     wxCheckBox* CheckBoxBOLD;
     wxButton* Compilerpage2;
     wxCheckBox* CheckBoxRTCLOCK;
     wxChoice* ChoicePCB;
     wxCheckBox* CheckBoxHAPTIC;
+    wxStaticText* StaticText16;
+    wxButton* Compilerpage3;
     wxCheckBox* CheckBoxGVARS;
     wxChoice* ChoiceDEFAULT_MODE;
     wxCheckBox* CheckBoxAUTOSOURCE;
     wxStaticBox* StaticBox4;
+    wxComboBox* ComboBoxswitch3;
     wxCheckBox* CheckBoxEEPROM_PROGRESS_BAR;
     //*)
 
@@ -281,6 +306,23 @@ protected:
     static const long ID_BUTTON1;
     static const long ID_BUTTON4;
     static const long ID_PANEL3;
+    static const long ID_STATICBOX7;
+    static const long ID_COMBOBOX1;
+    static const long ID_BUTTON5;
+    static const long ID_BUTTON6;
+    static const long ID_COMBOBOX2;
+    static const long ID_COMBOBOX3;
+    static const long ID_COMBOBOX4;
+    static const long ID_COMBOBOX5;
+    static const long ID_COMBOBOX6;
+    static const long ID_CHECKBOX22;
+    static const long ID_STATICTEXT13;
+    static const long ID_STATICTEXT14;
+    static const long ID_STATICTEXT15;
+    static const long ID_STATICTEXT16;
+    static const long ID_STATICTEXT17;
+    static const long ID_STATICTEXT18;
+    static const long ID_PANEL4;
     static const long ID_NOTEBOOK1;
     static const long ID_PANEL1;
     //*)
@@ -395,6 +437,14 @@ private:
     void OnCheckBoxVARIOClick2(wxCommandEvent& event);
     void OnCheckBoxSPORT_FILE_LOGClick1(wxCommandEvent& event);
     void OnCheckBoxWS_HOW_HIGHClick2(wxCommandEvent& event);
+    void OnSortirpage3Click(wxCommandEvent& event);
+    void Onswitch3Selected(wxCommandEvent& event);
+    void Onswitch2Selected(wxCommandEvent& event);
+    void OnComboBoxswitch1Selected(wxCommandEvent& event);
+    void OnCheckBox1Click3(wxCommandEvent& event);
+    void OnPanel4Paint(wxPaintEvent& event);
+    void OnCheckBoxPERSONAMESClick(wxCommandEvent& event);
+    void OnComboBoxswitch1Selected1(wxCommandEvent& event);
     //*)
 
     DECLARE_EVENT_TABLE()
