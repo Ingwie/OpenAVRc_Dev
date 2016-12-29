@@ -704,6 +704,7 @@ extern uint16_t s_sum_samples_thr_10s;
 uint16_t getTmr16KHz();
 
 uint16_t stackAvailable();
+uint16_t freeRam();
 
 #if defined(SPLASH)
 void doSplash();

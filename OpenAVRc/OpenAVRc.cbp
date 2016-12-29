@@ -131,6 +131,7 @@
 		<Unit filename="maths.cpp" />
 		<Unit filename="mixer.cpp" />
 		<Unit filename="myeeprom.h" />
+		<Unit filename="personames.h" />
 		<Unit filename="pgmtypes.h" />
 		<Unit filename="pulses/pulses.h" />
 		<Unit filename="pulses/pulses_avr.cpp" />

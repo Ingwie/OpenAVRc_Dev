@@ -84,12 +84,6 @@ void menuStatisticsDebug(uint8_t event)
       AUDIO_KEYPAD_UP();
       break;
 
-#if defined(DEBUG_TRACE_BUFFER)
-    case EVT_KEY_FIRST(KEY_UP):
-      pushMenu(menuTraceBuffer);
-      return;
-#endif
-
     case EVT_KEY_FIRST(KEY_DOWN):
       chainMenu(menuStatisticsView);
       break;
@@ -97,39 +91,6 @@ void menuStatisticsDebug(uint8_t event)
       chainMenu(menuMainView);
       break;
   }
-
-
-#if defined(TX_CAPACITY_MEASUREMENT)
-  // current
-  lcdDrawTextLeft(MENU_DEBUG_Y_CURRENT, STR_CPU_CURRENT);
-  lcdPutsValueWithUnit(MENU_DEBUG_COL1_OFS, MENU_DEBUG_Y_CURRENT, getCurrent(), UNIT_MILLIAMPS, LEFT);
-  uint32_t current_scale = 488 + g_eeGeneral.txCurrentCalibration;
-  lcdDrawChar(MENU_DEBUG_COL2_OFS, MENU_DEBUG_Y_CURRENT, '>');
-  lcdPutsValueWithUnit(MENU_DEBUG_COL2_OFS+FW+1, MENU_DEBUG_Y_CURRENT, Current_max*10*current_scale/8192, UNIT_RAW, LEFT);
-  // consumption
-  lcdDrawTextLeft(MENU_DEBUG_Y_MAH, STR_CPU_MAH);
-  lcdPutsValueWithUnit(MENU_DEBUG_COL1_OFS, MENU_DEBUG_Y_MAH, g_eeGeneral.mAhUsed + Current_used*current_scale/8192/36, UNIT_MAH, LEFT|PREC1);
-#endif
-
-
-#if defined(COPROCESSOR)
-  lcdDrawTextLeft(MENU_DEBUG_Y_COPROC, STR_COPROC_TEMP);
-
-  if (Coproc_read==0) {
-    lcdDrawTextAtt(MENU_DEBUG_COL1_OFS, MENU_DEBUG_Y_COPROC, PSTR("Co Proc NACK"),INVERS);
-  }
-  else if (Coproc_read==0x81) {
-    lcdDrawTextAtt(MENU_DEBUG_COL1_OFS, MENU_DEBUG_Y_COPROC, PSTR("Inst.TinyApp"),INVERS);
-  }
-  else if (Coproc_read<3) {
-    lcdDrawTextAtt(MENU_DEBUG_COL1_OFS, MENU_DEBUG_Y_COPROC, PSTR("Upgr.TinyApp"),INVERS);
-  }
-  else {
-    lcdPutsValueWithUnit(MENU_DEBUG_COL1_OFS, MENU_DEBUG_Y_COPROC, Coproc_temp, UNIT_TEMPERATURE, LEFT);
-    lcdPutsValueWithUnit(MENU_DEBUG_COL2_OFS, MENU_DEBUG_Y_COPROC, Coproc_maxtemp, UNIT_TEMPERATURE, LEFT);
-  }
-#endif
-
 
 
   lcdDrawTextLeft(1*FH, STR_TMR1LATMAXUS);
@@ -141,8 +102,11 @@ void menuStatisticsDebug(uint8_t event)
   lcdDrawTextLeft(4*FH, STR_TMIXMAXMS);
   lcdDrawNumberAttUnit(MENU_DEBUG_COL1_OFS, 4*FH, DURATION_MS_PREC2(maxMixerDuration), PREC2);
   lcdDrawTextLeft(5*FH, STR_FREESTACKMINB);
-  lcdDrawNumberAttUnit(14*FW, 5*FH, stackAvailable(), UNSIGN) ;
-
+  lcdDrawNumberAttUnit(14*FW, 5*FH, stackAvailable(), UNSIGN);
+#if defined(PCBMEGA2560)
+  lcdDrawTextLeft(6*FH, STR_FREERAMINB);
+  lcdDrawNumberAttUnit(14*FW, 6*FH, freeRam(), UNSIGN);
+#endif
   lcdDrawText(4*FW, 7*FH+1, STR_MENUTORESET);
   lcd_status_line();
 }

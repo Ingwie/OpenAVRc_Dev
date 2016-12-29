@@ -1736,10 +1736,10 @@ void checkBattery()
 	}
 #endif
 
-	uint16_t stackAvailable()
+uint16_t stackAvailable()
 	{
 #if defined(SIMU)
-		return 500;
+		return 800;
 #else
 		unsigned char *p ;
 
@@ -1748,6 +1748,18 @@ void checkBattery()
 		return p - &__bss_end ;
 #endif
 	}
+
+
+uint16_t freeRam()
+ {
+#if defined(SIMU)
+		return 950;
+#else
+  extern int __heap_start, *__brkval;
+  uint16_t v;
+  return (uint16_t) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
+#endif
+}
 
 #if defined(CPUM2560)
 #define OpenAVRc_INIT_ARGS const uint8_t mcusr

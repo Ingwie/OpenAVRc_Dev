@@ -406,6 +406,7 @@ extern const pm_char STR_EEPROMOVERFLOW[];
 extern const pm_char STR_TRIMS2OFFSETS[];
 extern const pm_char STR_MENURADIOSETUP[];
 extern const pm_char STR_MENUDATEANDTIME[];
+extern const pm_char STR_FREERAMINB[];
 extern const pm_char STR_MENUTRAINER[];
 extern const pm_char STR_MENUGLOBALFUNCS[];
 extern const pm_char STR_MENUVERSION[];

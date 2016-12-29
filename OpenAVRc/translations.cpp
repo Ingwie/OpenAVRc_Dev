@@ -267,6 +267,7 @@ const pm_char STR_FAS_OFFSET[] PROGMEM = TR_FAS_OFFSET;
 
 #if defined(CPUM2560)
 const pm_char STR_MENUDATEANDTIME[] PROGMEM = TR_MENUDATEANDTIME;
+const pm_char STR_FREERAMINB[] PROGMEM = "Free Ram\037\124b";
 #endif
 
 const pm_char STR_MENUTRAINER[] PROGMEM = TR_MENUTRAINER;

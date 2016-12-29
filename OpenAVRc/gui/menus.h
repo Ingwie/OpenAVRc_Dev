@@ -101,9 +101,6 @@ extern void menuModelSelect(uint8_t event);
 extern void menuModelCustomFunctions(uint8_t event);
 extern void menuStatisticsView(uint8_t event);
 extern void menuStatisticsDebug(uint8_t event);
-#if defined(DEBUG_TRACE_BUFFER)
-extern void menuTraceBuffer(uint8_t event);
-#endif
 
 #if !defined(CPUM64)
   extern void displaySlider(coord_t x, coord_t y, uint8_t value, uint8_t max, uint8_t attr);

@@ -793,7 +793,6 @@ void setupPulses()
         TCCR1A = (0 << WGM10);                // Set output waveform mode to normal, for now. Note that
                                               // WGM will be changed to toggle OCR1B pin on compare capture,
                                               // in next switch(required_protocol) {...}, below
-       // TCCR1A |= 0X30; //Reverse polarity (Bracame TODO -> Luc test)
 #else
         TIMSK |= 0x20;                        // Enable CAPT
         ETIMSK |= (1<<OCIE1C);                // Enable COMPC
@@ -902,6 +901,7 @@ void setupPulses()
       TCCR1A = (0 << WGM10) | (3<<COM1B1);  // Make Waveform Generator 'SET' OCR1B pin on next compare event and ...
       TCCR1C = (1<<FOC1B);                  // ... force compare event, to set OCR1B pin high.
       TCCR1A = (1<<COM1B0);                 // Output is ready. Now configure OCR1B pin into 'TOGGLE' mode.
+       // TCCR1A |= 0X30; //Reverse polarity (Bracame TODO -> Luc test)
 #endif
       break;
 #endif
