@@ -538,7 +538,6 @@
 							<selection>0</selection>
 							<pos>224,80</pos>
 							<size>50,21</size>
-							<handler function="OnComboBoxswitch1Selected1" entry="EVT_COMBOBOX" />
 						</object>
 						<object class="wxButton" name="ID_BUTTON5" variable="Sortirpage3" member="yes">
 							<label>Sauvegarder et sortir</label>

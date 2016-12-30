@@ -313,9 +313,9 @@ GVARS = NO
 # Values = NO, POT1, POT2, POT3,
 3POS = NO
 
-# Lua interpreter embedded
-# Values = NO, NO_MODEL_SCRIPTS, YES
-LUA = NO
+# Allow to change buttons names (only Mega2560)
+# Values = NO, YES with personames.h edited
+PERSONAMES = NO
 
 # Menu Lock modes
 # Values = NO, READONLY, NOMENUS
@@ -359,17 +359,6 @@ TRACE_AUDIO = NO
 # Value = NO, YES
 SUPPORT_D16_EU_ONLY = NO
 
-# Enable disk IO simulation in simulator
-# Simulator will use FatFs module and simulated IO layer that
-# uses "./sdcard.image" file as image of SD card.
-# This file must contain whole SD card from first to last sector
-# Values = NO, YES
-SIMU_DISKIO = NO
-
-# Enable audio in simulator
-# Values = NO, YES
-SIMU_AUDIO = NO
-
 # Enable Watchdog test (DANGEROUS)
 # Values = NO, YES
 WATCHDOG_TEST = NO
@@ -378,9 +367,6 @@ WATCHDOG_TEST = NO
 # Values = NO, YES
 WARNINGS_AS_ERRORS = NO
 
-# Enable saving of Lua byte-code of all loaded scripts
-# Values = NO, YES
-LUA_COMPILER = NO
 
 #------- END BUILD OPTIONS ---------------------------
 
@@ -761,6 +747,10 @@ ifeq ($(PCB), MEGA2560)
   ifeq ($(HAPTIC), YES)
    CPPDEFS += -DHAPTIC
    CPPSRC += haptic.cpp
+  endif
+
+  ifeq ($(PERSONAMES), YES)
+   CPPDEFS += -DPERSONAMES
   endif
 
   # Enable extra rotary encoders

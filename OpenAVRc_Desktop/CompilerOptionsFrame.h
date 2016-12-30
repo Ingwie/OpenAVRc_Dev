@@ -369,7 +369,8 @@ private:
     void CollectDatas();
     void BatFunction();
     void WriteSplashFile();
-    void CreateCompileBatFile(wxString line2);
+    void CreateCompileBatFile(wxString line4);
+    void CreatePersonames_H();
     void OnCheckBoxSD_CARDClick(wxCommandEvent& event);
     void OnCheckBoxPPMClick(wxCommandEvent& event);
     void OnCheckBoxSPORT_FILE_LOGClick(wxCommandEvent& event);
@@ -444,7 +445,6 @@ private:
     void OnCheckBox1Click3(wxCommandEvent& event);
     void OnPanel4Paint(wxPaintEvent& event);
     void OnCheckBoxPERSONAMESClick(wxCommandEvent& event);
-    void OnComboBoxswitch1Selected1(wxCommandEvent& event);
     //*)
 
     DECLARE_EVENT_TABLE()
