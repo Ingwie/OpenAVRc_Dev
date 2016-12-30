@@ -416,7 +416,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ComboBoxswitch6->SetSelection( ComboBoxswitch6->Append(_("TRN")) );
   ComboBoxswitch6->Append(_("---"));
   CheckBoxPERSONAMES = new wxCheckBox(Panel4, ID_CHECKBOX22, _("PERSONAMES"), wxPoint(88,56), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX22"));
-  CheckBoxPERSONAMES->SetValue(true);
+  CheckBoxPERSONAMES->SetValue(false);
   StaticText13 = new wxStaticText(Panel4, ID_STATICTEXT13, _("Inter1"), wxPoint(168,84), wxDefaultSize, 0, _T("ID_STATICTEXT13"));
   StaticText14 = new wxStaticText(Panel4, ID_STATICTEXT14, _("Inter2"), wxPoint(168,124), wxDefaultSize, 0, _T("ID_STATICTEXT14"));
   StaticText15 = new wxStaticText(Panel4, ID_STATICTEXT15, _("Inter3"), wxPoint(168,164), wxDefaultSize, 0, _T("ID_STATICTEXT15"));

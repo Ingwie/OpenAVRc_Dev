@@ -596,7 +596,6 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX22" variable="CheckBoxPERSONAMES" member="yes">
 							<label>PERSONAMES</label>
-							<checked>1</checked>
 							<pos>88,56</pos>
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
