@@ -33,6 +33,7 @@
 
 extern wxString AppPath;
 extern bool Ini_Changed;
+extern bool doNotClose = 0;
 
 
 //(*InternalHeaders(CompilerOptionsFrame)
@@ -618,11 +619,12 @@ void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
 {
   CollectDatas();
   Ini_Changed = true;
-  BatFunction();
+  if (!doNotClose) BatFunction();
 }
 
 void CompilerOptionsFrame::CollectDatas()
 {
+  doNotClose = 0;
   PCB  = ChoicePCB->GetString(ChoicePCB->GetSelection());
   LCD  = ChoiceLCD->GetString(ChoiceLCD->GetSelection());
   VOICE  = ChoiceVOICE->GetString(ChoiceVOICE->GetSelection());
@@ -686,15 +688,30 @@ void CompilerOptionsFrame::CollectDatas()
   switch4  = ComboBoxswitch4->GetValue();
   switch5  = ComboBoxswitch5->GetValue();
   switch6  = ComboBoxswitch6->GetValue();
-}
 
+  switch1 = switch1.SubString(0, 2);
+  switch2 = switch2.SubString(0, 2);
+  switch3 = switch3.SubString(0, 2);
+  switch4 = switch4.SubString(0, 2);
+  switch5 = switch5.SubString(0, 2);
+  switch6 = switch6.SubString(0, 2);
+  if ((switch1 == switch2) || (switch1 == switch3) || (switch1 == switch4) || (switch1 == switch5) || (switch1 == switch6)
+  || (switch2 == switch3) || (switch2 == switch4) || (switch2 == switch5) || (switch2 == switch6)
+  || (switch3 == switch4) || (switch3 == switch5) || (switch3 == switch6)
+  || (switch4 == switch5) || (switch4 == switch6)
+  || (switch5 == switch6))
+    {
+      wxMessageBox(_("Il y a au moins un nom répété, veuillez le changer"));
+      doNotClose = 1;
+    }
+}
 
 
 void CompilerOptionsFrame::OnButtonEXITClick(wxCommandEvent& event)
 {
   CollectDatas();
   Ini_Changed = true;
-  Close();
+  if (!doNotClose) Close();
 }
 
 void CompilerOptionsFrame::WriteSplashFile()
