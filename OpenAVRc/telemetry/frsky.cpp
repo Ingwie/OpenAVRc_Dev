@@ -25,7 +25,6 @@
 
 
 #include "../OpenAVRc.h"
-//#include "telemetry.h"
 
 uint8_t frskyStreaming = 0;
 

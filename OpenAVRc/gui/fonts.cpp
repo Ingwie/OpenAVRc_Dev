@@ -57,11 +57,9 @@ const pm_uchar font_5x7_B[] PROGMEM = {
 };
 #endif
 
-#if !defined(BOOT)
 const pm_uchar font_10x14[] PROGMEM = {
 #include "../fonts/std/font_10x14_compressed.lbm"
 };
-#endif
 
 #else //SQT5
 
@@ -94,11 +92,9 @@ const pm_uchar font_5x7_B[] PROGMEM = {
 };
 #endif
 
-#if !defined(BOOT)
 const pm_uchar font_10x14[] PROGMEM = {
 #include "../fonts/sqt5/font_10x14_compressed.lbm"
 };
-#endif
 
 
 #endif

@@ -70,7 +70,6 @@ uint32_t sdGetNoSectors();
 uint32_t sdGetSize();
 uint32_t sdGetFreeSectors();
 
-#if !defined(BOOT)
 inline const pm_char *SDCARD_ERROR(FRESULT result)
 {
   if (result == FR_NOT_READY)
@@ -78,7 +77,6 @@ inline const pm_char *SDCARD_ERROR(FRESULT result)
   else
     return STR_SDCARD_ERROR;
 }
-#endif
 
 #define O9X_FOURCC 0x3178396F // o9x for gruvin9x/MEGA2560
 

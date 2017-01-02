@@ -28,7 +28,6 @@
 #define myeeprom_h
 
 #include <inttypes.h>
-//#include "OpenAVRc.h"
 
 #define WARN_THR_BIT  0x01
 #define WARN_BEP_BIT  0x80
@@ -105,8 +104,8 @@
 
 #define MAX_TIMERS           2
 
-#define NUM_CYC                3
-#define NUM_CAL_PPM            4
+#define NUM_CYC              3
+#define NUM_CAL_PPM          4
 
 
 #define LEN_MODEL_NAME       10

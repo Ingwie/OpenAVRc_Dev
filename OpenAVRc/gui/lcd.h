@@ -154,11 +154,9 @@ void lcdPutsChnLetter(coord_t x, coord_t y, uint8_t idx, LcdFlags attr);
 void lcdPutsVolts(coord_t x, coord_t y, uint16_t volts, LcdFlags att);
 void putsVBat(coord_t x, coord_t y, LcdFlags att);
 
-#if !defined(BOOT)
 void putsChannelValue(coord_t x, coord_t y, source_t channel, lcdint_t val, LcdFlags att=0);
 void putsChannel(coord_t x, coord_t y, source_t channel, LcdFlags att=0);
 void lcdPutsTelemetryChannelValue(coord_t x, coord_t y, uint8_t channel, lcdint_t val, LcdFlags att=0);
-#endif
 
 #define putstime_t int16_t
 
@@ -211,11 +209,7 @@ void SimuSleepMs(uint16_t x);
 void lcdRefresh();
 void lcdRefreshFast();
 
-#if defined(BOOT)
-#define BLINK_ON_PHASE (0)
-#else
 #define BLINK_ON_PHASE (g_blinkTmr10ms & (1<<6))
-#endif
 
 char *strAppend(char * dest, const char * source, int len=0);
 char *strSetCursor(char *dest, int position);

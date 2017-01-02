@@ -27,7 +27,6 @@
 #ifndef _MENUS_H_
 #define _MENUS_H_
 
-//#include "../OpenAVRc.h"
 #include "../myeeprom.h"
 #include "lcd.h"
 

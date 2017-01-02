@@ -261,17 +261,9 @@ extern  void shutDownSimu(void);
 
 #include "myeeprom.h"
 #include "gui/gui.h"
-//#include "gui/menu_model.h"
-//#include "gui/lcd.h"
-//#include "gui/navigation.h"
 
-#if defined(SIMU)
-//#include "targets/simu/simpgmspace.h"
-#else
+#if !defined(SIMU)
 #include <avr/io.h>
-//#include <avr/pgmspace.h>
-//#include "pgmtypes.h"
-
 #include <avr/eeprom.h>
 #include <avr/sleep.h>
 #include <avr/interrupt.h>

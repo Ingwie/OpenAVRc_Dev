@@ -21,22 +21,14 @@
 /  data transfer. */
 
 
-#if defined(BOOT)
-  #define _FS_READONLY	1	/* 0:Read/Write or 1:Read only */
-#else
-  #define _FS_READONLY	0	/* 0:Read/Write or 1:Read only */
-#endif
+#define _FS_READONLY	0	/* 0:Read/Write or 1:Read only */
 /* This option switches read-only configuration. (0:Read/Write or 1:Read-only)
 /  Read-only configuration removes basic writing API functions, f_write(),
 /  f_sync(), f_unlink(), f_mkdir(), f_chmod(), f_rename(), f_truncate(),
 /  f_getfree() and optional writing functions as well. */
 
 
-#if defined(BOOT)
-  #define _FS_MINIMIZE	1	/* 0 to 3 */
-#else
-  #define _FS_MINIMIZE	0	/* 0 to 3 */
-#endif
+#define _FS_MINIMIZE	0	/* 0 to 3 */
 /* This option defines minimization level to remove some API functions.
 /
 /   0: All basic functions are enabled.
@@ -46,11 +38,7 @@
 /   3: f_lseek() function is removed in addition to 2. */
 
 
-#if defined(BOOT)
-  #define	_USE_STRFUNC	0	/* 0:Disable or 1-2:Enable */
-#else
-  #define	_USE_STRFUNC	1	/* 0:Disable or 1-2:Enable */
-#endif
+#define	_USE_STRFUNC	1	/* 0:Disable or 1-2:Enable */
 /* This option switches string functions, f_gets(), f_putc(), f_puts() and
 /  f_printf().
 /
@@ -226,7 +214,7 @@
 /  defined by _NORTC_MON, _NORTC_MDAY and _NORTC_YEAR.
 /  When timestamp feature is enabled (_FS_NORTC	== 0), get_fattime() function need
 /  to be added to the project to read current time form RTC. _NORTC_MON,
-/  _NORTC_MDAY and _NORTC_YEAR have no effect. 
+/  _NORTC_MDAY and _NORTC_YEAR have no effect.
 /  These options have no effect at read-only configuration (_FS_READONLY == 1). */
 
 

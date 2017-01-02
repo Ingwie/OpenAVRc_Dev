@@ -27,7 +27,6 @@
 #ifndef eeprom_rlc_h
 #define eeprom_rlc_h
 
-//#include <inttypes.h>
 #include "OpenAVRc.h"
 #include "timers.h"
 

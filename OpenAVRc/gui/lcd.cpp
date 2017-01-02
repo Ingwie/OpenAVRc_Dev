@@ -53,11 +53,11 @@ void lcdDrawSizedTextAtt(coord_t x, coord_t y, const pm_char * s, uint8_t len, L
       case BSS:
         c = *s;
         break;
-#if !defined(BOOT)
+
       case ZCHAR:
         c = idx2char(*s);
         break;
-#endif
+
       default:
         c = pgm_read_byte(s);
         break;
@@ -111,7 +111,6 @@ void lcdDrawTextLeft(coord_t y, const pm_char * s)
   lcdDrawText(0, y, s);
 }
 
-#if !defined(BOOT)
 void lcdDrawTextAtIndex(coord_t x, coord_t y, const pm_char * s,uint8_t idx, LcdFlags flags)
 {
   uint8_t length;
@@ -286,7 +285,6 @@ void lcdDrawNumberNAtt(coord_t x, coord_t y, lcdint_t val, LcdFlags flags, uint8
   }
   if (neg) lcdDrawCharAtt(x, y, '-', flags);
 }
-#endif
 
 void lcdDrawSolidHorizontalLine(coord_t x, coord_t y, coord_t w, LcdFlags att)
 {
@@ -308,7 +306,6 @@ void lcdDrawRect(coord_t x, coord_t y, coord_t w, coord_t h, uint8_t pat, LcdFla
   lcdDrawSolidHorizontalLineStip(x, y, w, pat);
 }
 
-#if !defined(BOOT)
 void lcdDrawFilledRect(coord_t x, scoord_t y, coord_t w, coord_t h, uint8_t pat, LcdFlags att)
 {
 #if defined(CPUM64)
@@ -953,7 +950,6 @@ void lcdInvertLine(int8_t y)
   }
 }
 
-#if !defined(BOOT)
 
 #if (defined(PCBMEGA2560) && !defined(SIMU))
 void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags att) // progmem "far"
@@ -992,6 +988,3 @@ void lcd_img(coord_t x, coord_t y, const pm_uchar * img, uint8_t idx, LcdFlags a
     }
   }
 }
-#endif
-
-#endif

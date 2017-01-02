@@ -24,7 +24,6 @@
 */
 
 
-//#include "../../OpenAVRc.h"
 #include "../../i2c_master.h"
 #include "board_mega2560.h"
 

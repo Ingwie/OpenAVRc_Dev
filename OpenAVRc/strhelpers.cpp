@@ -26,7 +26,6 @@
 
 #include "OpenAVRc.h"
 
-#if !defined(BOOT)
 const pm_char s_charTab[] PROGMEM = "_-.,";
 
 char hex2zchar(uint8_t hex)
@@ -84,8 +83,6 @@ int zchar2str(char *dest, const char *src, int size)
   } while (size >= 0 && dest[size] == ' ');
   return size+1;
 }
-#endif
-
 #endif
 
 
