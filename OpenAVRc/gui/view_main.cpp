@@ -456,7 +456,7 @@ void menuMainView(uint8_t event)
                 }
             }
           if (!test) lcdDrawStringWithIndex(x0+3*FW, y0, STR_GV, i+1);
-          else lcdDrawSizedTextAtt(x0, y0, g_model.gvars[i].name, LEN_GVAR_NAME, ZCHAR);
+          else lcdDrawSizedTextAtt(x0, y0, g_model.gvars[i].name, LEN_GVAR_NAME, ZCHAR|FIXEDWIDTH);
           x0 += (LEN_GVAR_NAME+3)*FW+FW/3;
           lcd_outdez8(x0, y0, GVAR_VALUE(i, getGVarFlightPhase(mixerCurrentFlightMode, i)));
         }

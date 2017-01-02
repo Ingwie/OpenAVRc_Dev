@@ -382,7 +382,7 @@ extern uint8_t StickScrollTimer;
 #define MAX_CHANNELS(idx)                 (idx==EXTERNAL_MODULE ? MAX_EXTERNAL_MODULE_CHANNELS() : MAX_TRAINER_CHANNELS())
 #define NUM_CHANNELS(idx)                 (8+g_model.moduleData[idx].channelsCount)
 
-#if   defined(CPUM64)
+#if defined(CPUM64)
 #define MASK_CFN_TYPE  uint16_t  // current max = 16 function switches
 #define MASK_FUNC_TYPE uint8_t   // current max = 8  functions
 #else

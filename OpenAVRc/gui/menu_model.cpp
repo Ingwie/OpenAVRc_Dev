@@ -53,14 +53,11 @@ void editName(coord_t x, coord_t y, char *name, uint8_t size, uint8_t event, uin
 #endif
 
   uint8_t mode = 0;
-  if (active) {
-    if (s_editMode <= 0)
-      mode = INVERS + FIXEDWIDTH;
-    else
-      mode = FIXEDWIDTH;
+  if ((active) && (s_editMode <= 0)) {
+   mode = INVERS;
   }
 
-  lcdDrawSizedTextAtt(x, y, name, size, ZCHAR | mode);
+  lcdDrawSizedTextAtt(x, y, name, size, ZCHAR | FIXEDWIDTH | mode);
 
   if (active) {
     uint8_t cur = editNameCursorPos;
