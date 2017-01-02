@@ -14,8 +14,6 @@ Simu :
 
 -> Lire et écrire dans un repertoire pour simuler une SD card.
 
--> Lire les fichiers "Voice"
-
 -> Afficher les data des ports I2C et SPI et pourquoi pas la sortie PPM
 
 -> Pouvoir "copier" un modèle d'une eeprom pour le "coller" vers une autre (Une base de données modèles : encore mieux)
@@ -54,8 +52,6 @@ Firmware :
 
 General:
 
--> Créer LE voice éditor.
-
 -> Des manuels pour tout.
 
 -> Traduction a l'anglais.
@@ -75,4 +71,6 @@ General:
 > - remplacement carte WT par "mieux" -> JQ6500 28P FAIT
 > - Les fonctions de ce type : L1 a<x Tmr1 02:00 --- sont décalées si EXT=NO (pas de télémétrie) FAIT
 > - changer le numéro de la pin vcc sur l'ampli op mpc6004 (Plan de Franck : Annulé)
--> Génération d'un prompt avec le nom du modèle choisi, (pour reproduire par exemple après choisir le modèle ou après la bienvenue.) FAIT
+> Génération d'un prompt avec le nom du modèle choisi, (pour reproduire par exemple après choisir le modèle ou après la bienvenue.) FAIT
+> Lire les fichiers "Voice" FAIT
+> Créer LE voice éditor. FAIT
