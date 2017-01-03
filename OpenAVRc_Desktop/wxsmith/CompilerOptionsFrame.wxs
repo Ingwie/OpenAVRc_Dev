@@ -656,7 +656,7 @@
 						</object>
 						<object class="wxComboBox" name="ID_COMBOBOX8" variable="ComboBoxEncodeurA" member="yes">
 							<content>
-								<item>ReA</item>
+								<item>REa</item>
 								<item>---</item>
 							</content>
 							<selection>0</selection>
@@ -665,7 +665,7 @@
 						</object>
 						<object class="wxComboBox" name="ID_COMBOBOX9" variable="ComboBoxEncodeurB" member="yes">
 							<content>
-								<item>ReB</item>
+								<item>REb</item>
 								<item>---</item>
 							</content>
 							<selection>0</selection>

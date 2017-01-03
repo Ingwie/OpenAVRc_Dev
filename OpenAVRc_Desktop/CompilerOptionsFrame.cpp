@@ -445,10 +445,10 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   StaticText20 = new wxStaticText(Panel4, ID_STATICTEXT20, _("EncodeurA"), wxPoint(224,168), wxDefaultSize, 0, _T("ID_STATICTEXT20"));
   StaticText21 = new wxStaticText(Panel4, ID_STATICTEXT21, _("EncodeurB"), wxPoint(224,208), wxDefaultSize, 0, _T("ID_STATICTEXT21"));
   ComboBoxEncodeurA = new wxComboBox(Panel4, ID_COMBOBOX8, wxEmptyString, wxPoint(288,160), wxSize(54,-1), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX8"));
-  ComboBoxEncodeurA->SetSelection( ComboBoxEncodeurA->Append(_("ReA")) );
+  ComboBoxEncodeurA->SetSelection( ComboBoxEncodeurA->Append(_("REa")) );
   ComboBoxEncodeurA->Append(_("---"));
   ComboBoxEncodeurB = new wxComboBox(Panel4, ID_COMBOBOX9, wxEmptyString, wxPoint(288,200), wxSize(54,-1), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX9"));
-  ComboBoxEncodeurB->SetSelection( ComboBoxEncodeurB->Append(_("ReB")) );
+  ComboBoxEncodeurB->SetSelection( ComboBoxEncodeurB->Append(_("REb")) );
   ComboBoxEncodeurB->Append(_("---"));
   ComboBoxID1 = new wxComboBox(Panel4, ID_COMBOBOX10, wxEmptyString, wxPoint(288,72), wxSize(54,0), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX10"));
   ComboBoxID1->SetSelection( ComboBoxID1->Append(_("ID1")) );
@@ -851,9 +851,9 @@ void CompilerOptionsFrame::CreatePersonames_H()
   CompileBatFile.AddLine("#define TR_9X_3POS_SWITCHES "+g+switchID0+g+g+switchID1+g+g+switchID2+g);
   CompileBatFile.AddLine("#if defined(PCBGRUVIN9X) || defined(PCBMEGA2560)");
   CompileBatFile.AddLine("#undef TR_ROTARY_ENCODERS");
-  CompileBatFile.AddLine("#undef TR_ROTENC_SWITCHES");
   CompileBatFile.AddLine("#define TR_ROTARY_ENCODERS "+g+encoderA+"\\"+"0"+g+g+encoderB+"\\"+"0"+g); //"REa\0""REb\0"
-  CompileBatFile.AddLine("#define TR_ROTARY_ENCODERS "+g+encoderA+g+g+encoderB+g);
+  CompileBatFile.AddLine("#undef TR_ROTENC_SWITCHES");
+  CompileBatFile.AddLine("#define TR_ROTENC_SWITCHES "+g+encoderA+g+g+encoderB+g);
   CompileBatFile.AddLine("#endif");
   CompileBatFile.AddLine("#endif");
   CompileBatFile.Write();
@@ -1006,15 +1006,15 @@ void CompilerOptionsFrame::OnCheckBoxPERSONAMESClick(wxCommandEvent& event)
 
 void CompilerOptionsFrame::OnButtonDefautClick1(wxCommandEvent& event)
 {
-  ComboBoxswitch1->SetValue("THR");
-  ComboBoxswitch2->SetValue("RUD");
-  ComboBoxswitch3->SetValue("ELE");
-  ComboBoxswitch4->SetValue("AIL");
-  ComboBoxswitch5->SetValue("GEA");
-  ComboBoxswitch6->SetValue("TRN");
-  ComboBoxID0->SetValue("ID0");
-  ComboBoxID1->SetValue("ID1");
-  ComboBoxID2->SetValue("ID2");
-  ComboBoxEncodeurA->SetValue("ReA");
-  ComboBoxEncodeurB->SetValue("ReB");
+  ComboBoxswitch1->SetSelection(0);
+  ComboBoxswitch2->SetSelection(0);
+  ComboBoxswitch3->SetSelection(0);
+  ComboBoxswitch4->SetSelection(0);
+  ComboBoxswitch5->SetSelection(0);
+  ComboBoxswitch6->SetSelection(0);
+  ComboBoxID0->SetSelection(0);
+  ComboBoxID1->SetSelection(0);
+  ComboBoxID2->SetSelection(0);
+  ComboBoxEncodeurA->SetSelection(0);
+  ComboBoxEncodeurB->SetSelection(0);
 }
