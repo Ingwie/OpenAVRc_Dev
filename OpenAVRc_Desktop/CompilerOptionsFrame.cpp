@@ -123,6 +123,7 @@ const long CompilerOptionsFrame::ID_CHECKBOX28 = wxNewId();
 const long CompilerOptionsFrame::ID_BUTTON1 = wxNewId();
 const long CompilerOptionsFrame::ID_BUTTON4 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL3 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICBOX8 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX7 = wxNewId();
 const long CompilerOptionsFrame::ID_COMBOBOX1 = wxNewId();
 const long CompilerOptionsFrame::ID_BUTTON5 = wxNewId();
@@ -139,6 +140,17 @@ const long CompilerOptionsFrame::ID_STATICTEXT15 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT16 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT17 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT18 = wxNewId();
+const long CompilerOptionsFrame::ID_BUTTON7 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICTEXT19 = wxNewId();
+const long CompilerOptionsFrame::ID_COMBOBOX7 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICTEXT20 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICTEXT21 = wxNewId();
+const long CompilerOptionsFrame::ID_COMBOBOX8 = wxNewId();
+const long CompilerOptionsFrame::ID_COMBOBOX9 = wxNewId();
+const long CompilerOptionsFrame::ID_COMBOBOX10 = wxNewId();
+const long CompilerOptionsFrame::ID_COMBOBOX11 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICTEXT22 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICTEXT23 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL4 = wxNewId();
 const long CompilerOptionsFrame::ID_NOTEBOOK1 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL1 = wxNewId();
@@ -395,35 +407,57 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   Compilerpage2 = new wxButton(Panel3, ID_BUTTON1, _("Compiler"), wxPoint(680,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
   Sortirpage2 = new wxButton(Panel3, ID_BUTTON4, _("Sauvegarder et sortir"), wxPoint(512,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON4"));
   Panel4 = new wxPanel(Notebook1, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL4"));
-  StaticBox7 = new wxStaticBox(Panel4, ID_STATICBOX7, _("Nom des interrupteurs"), wxPoint(72,24), wxSize(240,296), 0, _T("ID_STATICBOX7"));
-  ComboBoxswitch1 = new wxComboBox(Panel4, ID_COMBOBOX1, wxEmptyString, wxPoint(224,80), wxSize(50,21), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX1"));
+  StaticBox8 = new wxStaticBox(Panel4, ID_STATICBOX8, _("3POS"), wxPoint(208,32), wxSize(160,104), 0, _T("ID_STATICBOX8"));
+  StaticBox7 = new wxStaticBox(Panel4, ID_STATICBOX7, _("Nom des interrupteurs"), wxPoint(72,8), wxSize(312,328), 0, _T("ID_STATICBOX7"));
+  ComboBoxswitch1 = new wxComboBox(Panel4, ID_COMBOBOX1, wxEmptyString, wxPoint(136,48), wxSize(54,21), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX1"));
   ComboBoxswitch1->SetSelection( ComboBoxswitch1->Append(_("THR")) );
   ComboBoxswitch1->Append(_("---"));
   Sortirpage3 = new wxButton(Panel4, ID_BUTTON5, _("Sauvegarder et sortir"), wxPoint(512,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON5"));
   Compilerpage3 = new wxButton(Panel4, ID_BUTTON6, _("Compiler"), wxPoint(680,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON6"));
-  ComboBoxswitch2 = new wxComboBox(Panel4, ID_COMBOBOX2, wxEmptyString, wxPoint(224,120), wxSize(50,21), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX2"));
+  ComboBoxswitch2 = new wxComboBox(Panel4, ID_COMBOBOX2, wxEmptyString, wxPoint(136,88), wxSize(54,21), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX2"));
   ComboBoxswitch2->SetSelection( ComboBoxswitch2->Append(_("RUD")) );
   ComboBoxswitch2->Append(_("---"));
-  ComboBoxswitch3 = new wxComboBox(Panel4, ID_COMBOBOX3, wxEmptyString, wxPoint(224,160), wxSize(50,21), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX3"));
+  ComboBoxswitch3 = new wxComboBox(Panel4, ID_COMBOBOX3, wxEmptyString, wxPoint(136,128), wxSize(54,21), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX3"));
   ComboBoxswitch3->SetSelection( ComboBoxswitch3->Append(_("ELE")) );
   ComboBoxswitch3->Append(_("---"));
-  ComboBoxswitch4 = new wxComboBox(Panel4, ID_COMBOBOX4, wxEmptyString, wxPoint(224,200), wxSize(50,21), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX4"));
+  ComboBoxswitch4 = new wxComboBox(Panel4, ID_COMBOBOX4, wxEmptyString, wxPoint(136,168), wxSize(54,21), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX4"));
   ComboBoxswitch4->SetSelection( ComboBoxswitch4->Append(_("AIL")) );
   ComboBoxswitch4->Append(_("---"));
-  ComboBoxswitch5 = new wxComboBox(Panel4, ID_COMBOBOX5, wxEmptyString, wxPoint(224,240), wxSize(50,21), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX5"));
+  ComboBoxswitch5 = new wxComboBox(Panel4, ID_COMBOBOX5, wxEmptyString, wxPoint(136,208), wxSize(54,21), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX5"));
   ComboBoxswitch5->SetSelection( ComboBoxswitch5->Append(_("GEA")) );
   ComboBoxswitch5->Append(_("---"));
-  ComboBoxswitch6 = new wxComboBox(Panel4, ID_COMBOBOX6, wxEmptyString, wxPoint(224,280), wxSize(50,21), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX6"));
+  ComboBoxswitch6 = new wxComboBox(Panel4, ID_COMBOBOX6, wxEmptyString, wxPoint(136,248), wxSize(54,21), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX6"));
   ComboBoxswitch6->SetSelection( ComboBoxswitch6->Append(_("TRN")) );
   ComboBoxswitch6->Append(_("---"));
-  CheckBoxPERSONAMES = new wxCheckBox(Panel4, ID_CHECKBOX22, _("PERSONAMES"), wxPoint(88,56), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX22"));
+  CheckBoxPERSONAMES = new wxCheckBox(Panel4, ID_CHECKBOX22, _("PERSONAMES"), wxPoint(256,248), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX22"));
   CheckBoxPERSONAMES->SetValue(false);
-  StaticText13 = new wxStaticText(Panel4, ID_STATICTEXT13, _("Inter1"), wxPoint(168,84), wxDefaultSize, 0, _T("ID_STATICTEXT13"));
-  StaticText14 = new wxStaticText(Panel4, ID_STATICTEXT14, _("Inter2"), wxPoint(168,124), wxDefaultSize, 0, _T("ID_STATICTEXT14"));
-  StaticText15 = new wxStaticText(Panel4, ID_STATICTEXT15, _("Inter3"), wxPoint(168,164), wxDefaultSize, 0, _T("ID_STATICTEXT15"));
-  StaticText16 = new wxStaticText(Panel4, ID_STATICTEXT16, _("Inter4"), wxPoint(168,204), wxDefaultSize, 0, _T("ID_STATICTEXT16"));
-  StaticText17 = new wxStaticText(Panel4, ID_STATICTEXT17, _("Inter5"), wxPoint(168,244), wxDefaultSize, 0, _T("ID_STATICTEXT17"));
-  StaticText18 = new wxStaticText(Panel4, ID_STATICTEXT18, _("Inter6"), wxPoint(168,284), wxDefaultSize, 0, _T("ID_STATICTEXT18"));
+  StaticText13 = new wxStaticText(Panel4, ID_STATICTEXT13, _("Inter1"), wxPoint(88,56), wxDefaultSize, 0, _T("ID_STATICTEXT13"));
+  StaticText14 = new wxStaticText(Panel4, ID_STATICTEXT14, _("Inter2"), wxPoint(88,96), wxDefaultSize, 0, _T("ID_STATICTEXT14"));
+  StaticText15 = new wxStaticText(Panel4, ID_STATICTEXT15, _("Inter3"), wxPoint(88,136), wxDefaultSize, 0, _T("ID_STATICTEXT15"));
+  StaticText16 = new wxStaticText(Panel4, ID_STATICTEXT16, _("Inter4"), wxPoint(88,176), wxDefaultSize, 0, _T("ID_STATICTEXT16"));
+  StaticText17 = new wxStaticText(Panel4, ID_STATICTEXT17, _("Inter5"), wxPoint(88,216), wxDefaultSize, 0, _T("ID_STATICTEXT17"));
+  StaticText18 = new wxStaticText(Panel4, ID_STATICTEXT18, _("Inter6"), wxPoint(88,256), wxDefaultSize, 0, _T("ID_STATICTEXT18"));
+  ButtonDefaut = new wxButton(Panel4, ID_BUTTON7, _("Défaut"), wxPoint(272,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON7"));
+  StaticText19 = new wxStaticText(Panel4, ID_STATICTEXT19, _("ID0"), wxPoint(248,56), wxDefaultSize, 0, _T("ID_STATICTEXT19"));
+  ComboBoxID0 = new wxComboBox(Panel4, ID_COMBOBOX7, wxEmptyString, wxPoint(288,48), wxSize(54,-1), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX7"));
+  ComboBoxID0->SetSelection( ComboBoxID0->Append(_("ID0")) );
+  ComboBoxID0->Append(_("---"));
+  StaticText20 = new wxStaticText(Panel4, ID_STATICTEXT20, _("EncodeurA"), wxPoint(224,168), wxDefaultSize, 0, _T("ID_STATICTEXT20"));
+  StaticText21 = new wxStaticText(Panel4, ID_STATICTEXT21, _("EncodeurB"), wxPoint(224,208), wxDefaultSize, 0, _T("ID_STATICTEXT21"));
+  ComboBoxEncodeurA = new wxComboBox(Panel4, ID_COMBOBOX8, wxEmptyString, wxPoint(288,160), wxSize(54,-1), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX8"));
+  ComboBoxEncodeurA->SetSelection( ComboBoxEncodeurA->Append(_("ReA")) );
+  ComboBoxEncodeurA->Append(_("---"));
+  ComboBoxEncodeurB = new wxComboBox(Panel4, ID_COMBOBOX9, wxEmptyString, wxPoint(288,200), wxSize(54,-1), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX9"));
+  ComboBoxEncodeurB->SetSelection( ComboBoxEncodeurB->Append(_("ReB")) );
+  ComboBoxEncodeurB->Append(_("---"));
+  ComboBoxID1 = new wxComboBox(Panel4, ID_COMBOBOX10, wxEmptyString, wxPoint(288,72), wxSize(54,0), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX10"));
+  ComboBoxID1->SetSelection( ComboBoxID1->Append(_("ID1")) );
+  ComboBoxID1->Append(_("---"));
+  ComboBoxID2 = new wxComboBox(Panel4, ID_COMBOBOX11, wxEmptyString, wxPoint(288,96), wxSize(54,0), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX11"));
+  ComboBoxID2->SetSelection( ComboBoxID2->Append(_("ID2")) );
+  ComboBoxID2->Append(_("---"));
+  StaticText22 = new wxStaticText(Panel4, ID_STATICTEXT22, _("ID1"), wxPoint(248,80), wxDefaultSize, 0, _T("ID_STATICTEXT22"));
+  StaticText23 = new wxStaticText(Panel4, ID_STATICTEXT23, _("ID2"), wxPoint(248,104), wxDefaultSize, 0, _T("ID_STATICTEXT23"));
   Notebook1->AddPage(Panel2, _("Réglages"), false);
   Notebook1->AddPage(Panel3, _("Options avancées"), false);
   Notebook1->AddPage(Panel4, _("Personnalisation"), false);
@@ -449,6 +483,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonEXITClick);
   Connect(ID_BUTTON6,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonCOMPILEClick);
   Connect(ID_CHECKBOX22,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxPERSONAMESClick);
+  Connect(ID_BUTTON7,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonDefautClick1);
   Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&CompilerOptionsFrame::OnClose);
   //*)
 
@@ -512,6 +547,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxTOGGLETRIM->SetValue(TOGGLETRIM);
   CheckBoxNOANDSECONDE->SetValue(NOANDSECONDE);// Hardwired
   CheckBoxSHUTDOWN_CONFIRMATION->SetValue(SHUTDOWN_CONFIRMATION);
+  CheckBoxPERSONAMES->SetValue(PERSONAMES);
 
   ComboBoxswitch1->SetMaxLength(3); // Limit 3 caracteres
   ComboBoxswitch2->SetMaxLength(3);
@@ -519,14 +555,23 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ComboBoxswitch4->SetMaxLength(3);
   ComboBoxswitch5->SetMaxLength(3);
   ComboBoxswitch6->SetMaxLength(3);
+  ComboBoxID0->SetMaxLength(3);
+  ComboBoxID1->SetMaxLength(3);
+  ComboBoxID2->SetMaxLength(3);
+  ComboBoxEncodeurA->SetMaxLength(3);
+  ComboBoxEncodeurB->SetMaxLength(3);
 
-  CheckBoxPERSONAMES->SetValue(PERSONAMES);
   ComboBoxswitch1->SetValue(switch1);//personnalized names for switches.
   ComboBoxswitch2->SetValue(switch2);
   ComboBoxswitch3->SetValue(switch3);
   ComboBoxswitch4->SetValue(switch4);
   ComboBoxswitch5->SetValue(switch5);
   ComboBoxswitch6->SetValue(switch6);
+  ComboBoxID0->SetValue(switchID0);
+  ComboBoxID1->SetValue(switchID1);
+  ComboBoxID2->SetValue(switchID2);
+  ComboBoxEncodeurA->SetValue(encoderA);
+  ComboBoxEncodeurB->SetValue(encoderB);
 }
 
 CompilerOptionsFrame::~CompilerOptionsFrame()
@@ -688,6 +733,11 @@ void CompilerOptionsFrame::CollectDatas()
   switch4  = ComboBoxswitch4->GetValue();
   switch5  = ComboBoxswitch5->GetValue();
   switch6  = ComboBoxswitch6->GetValue();
+  switchID0 = ComboBoxID0->GetValue();
+  switchID1 = ComboBoxID1->GetValue();
+  switchID2 = ComboBoxID2->GetValue();
+  encoderA  = ComboBoxEncodeurA->GetValue();
+  encoderB  = ComboBoxEncodeurB->GetValue();
 
   switch1 = switch1.SubString(0, 2);
   switch2 = switch2.SubString(0, 2);
@@ -695,6 +745,12 @@ void CompilerOptionsFrame::CollectDatas()
   switch4 = switch4.SubString(0, 2);
   switch5 = switch5.SubString(0, 2);
   switch6 = switch6.SubString(0, 2);
+  switchID0 = switchID0.SubString(0, 2);
+  switchID1 = switchID1.SubString(0, 2);
+  switchID2 = switchID2.SubString(0, 2);
+  encoderA  = encoderA.SubString(0, 2);
+  encoderB  = encoderB.SubString(0, 2);
+
   if ((switch1 == switch2) || (switch1 == switch3) || (switch1 == switch4) || (switch1 == switch5) || (switch1 == switch6)
   || (switch2 == switch3) || (switch2 == switch4) || (switch2 == switch5) || (switch2 == switch6)
   || (switch3 == switch4) || (switch3 == switch5) || (switch3 == switch6)
@@ -929,6 +985,21 @@ void CompilerOptionsFrame::OnCheckBoxWS_HOW_HIGHClick2(wxCommandEvent& event)
 void CompilerOptionsFrame::OnCheckBoxPERSONAMESClick(wxCommandEvent& event)
 {
   CollectDatas();
-  //Couper les noms donnés au switches a trois characthères
 }
 
+
+void CompilerOptionsFrame::OnButtonDefautClick1(wxCommandEvent& event)
+{
+  ComboBoxswitch1->SetValue("THR");
+  ComboBoxswitch2->SetValue("RUD");
+  ComboBoxswitch3->SetValue("ELE");
+  ComboBoxswitch4->SetValue("AIL");
+  ComboBoxswitch5->SetValue("GEA");
+  ComboBoxswitch6->SetValue("TRN");
+  ComboBoxID0->SetValue("ID0");
+  ComboBoxID1->SetValue("ID1");
+  ComboBoxID2->SetValue("ID2");
+  ComboBoxEncodeurA->SetValue("ReA");
+  ComboBoxEncodeurB->SetValue("ReB");
+  //Panel4->Refresh ();
+}

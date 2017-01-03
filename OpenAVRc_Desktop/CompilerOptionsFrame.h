@@ -113,6 +113,11 @@ extern wxString switch3;
 extern wxString switch4;
 extern wxString switch5;
 extern wxString switch6;
+extern wxString switchID0;
+extern wxString switchID1;
+extern wxString switchID2;
+extern wxString encoderA;
+extern wxString encoderB;
 
 class CompilerOptionsFrame: public wxFrame
 {
@@ -126,13 +131,18 @@ public:
     //(*Declarations(CompilerOptionsFrame)
     wxCheckBox* CheckBoxTX_CADDY;
     wxStaticText* StaticText10;
+    wxStaticText* StaticText22;
     wxStaticText* StaticText9;
     wxCheckBox* CheckBoxBATTGRAPH;
+    wxComboBox* ComboBoxID1;
+    wxStaticText* StaticText20;
     wxCheckBox* CheckBoxSHUTDOWN_CONFIRMATION;
     wxCheckBox* CheckBoxSD_CARD;
     wxCheckBox* CheckBoxNOANDSECONDE;
     wxCheckBox* CheckBoxTEMPLATES;
+    wxStaticBox* StaticBox8;
     wxComboBox* ComboBoxswitch1;
+    wxButton* ButtonDefaut;
     wxStaticBox* StaticBox5;
     wxCheckBox* CheckBoxPXX;
     wxCheckBox* CheckBoxPPM;
@@ -154,6 +164,7 @@ public:
     wxCheckBox* CheckBoxOVERRIDE_CHANNEL_FUNCTION;
     wxCheckBox* CheckBoxCURVES;
     wxCheckBox* CheckBoxFAS_OFFSET;
+    wxStaticText* StaticText19;
     wxStaticText* StaticText8;
     wxStaticText* StaticText11;
     wxStaticText* StaticText18;
@@ -172,9 +183,12 @@ public:
     wxCheckBox* CheckBoxTURNIGY_TRANSMITTER_FIX;
     wxChoice* ChoiceNAVIGATION;
     wxButton* ButtonEXIT;
+    wxStaticText* StaticText21;
     wxPanel* Panel3;
     wxCheckBox* CheckBoxFRSKY_STICKS;
+    wxComboBox* ComboBoxID0;
     wxStaticBox* StaticBox2;
+    wxStaticText* StaticText23;
     wxCheckBox* CheckBoxGPS;
     wxButton* ButtonCOMPILE;
     wxChoice* ChoiceTTS;
@@ -183,6 +197,7 @@ public:
     wxStaticText* StaticText5;
     wxStaticText* StaticText7;
     wxChoice* ChoiceEXT;
+    wxComboBox* ComboBoxEncodeurB;
     wxComboBox* ComboBoxswitch5;
     wxCheckBox* CheckBoxSPLASH;
     wxStaticBox* StaticBox3;
@@ -210,6 +225,7 @@ public:
     wxButton* Sortirpage3;
     wxCheckBox* CheckBoxDSM2PPM;
     wxCheckBox* CheckBoxBOLD;
+    wxComboBox* ComboBoxEncodeurA;
     wxButton* Compilerpage2;
     wxCheckBox* CheckBoxRTCLOCK;
     wxChoice* ChoicePCB;
@@ -217,6 +233,7 @@ public:
     wxStaticText* StaticText16;
     wxButton* Compilerpage3;
     wxCheckBox* CheckBoxGVARS;
+    wxComboBox* ComboBoxID2;
     wxChoice* ChoiceDEFAULT_MODE;
     wxCheckBox* CheckBoxAUTOSOURCE;
     wxStaticBox* StaticBox4;
@@ -306,6 +323,7 @@ protected:
     static const long ID_BUTTON1;
     static const long ID_BUTTON4;
     static const long ID_PANEL3;
+    static const long ID_STATICBOX8;
     static const long ID_STATICBOX7;
     static const long ID_COMBOBOX1;
     static const long ID_BUTTON5;
@@ -322,6 +340,17 @@ protected:
     static const long ID_STATICTEXT16;
     static const long ID_STATICTEXT17;
     static const long ID_STATICTEXT18;
+    static const long ID_BUTTON7;
+    static const long ID_STATICTEXT19;
+    static const long ID_COMBOBOX7;
+    static const long ID_STATICTEXT20;
+    static const long ID_STATICTEXT21;
+    static const long ID_COMBOBOX8;
+    static const long ID_COMBOBOX9;
+    static const long ID_COMBOBOX10;
+    static const long ID_COMBOBOX11;
+    static const long ID_STATICTEXT22;
+    static const long ID_STATICTEXT23;
     static const long ID_PANEL4;
     static const long ID_NOTEBOOK1;
     static const long ID_PANEL1;
@@ -445,6 +474,13 @@ private:
     void OnCheckBox1Click3(wxCommandEvent& event);
     void OnPanel4Paint(wxPaintEvent& event);
     void OnCheckBoxPERSONAMESClick(wxCommandEvent& event);
+    void OnComboBox3Selected(wxCommandEvent& event);
+    void OnButton1Click1(wxCommandEvent& event);
+    void OnButtonDefautClick(wxCommandEvent& event);
+    void OnButtonDefautClick1(wxCommandEvent& event);
+    void OnComboBoxEncodeurASelected(wxCommandEvent& event);
+    void OnComboBoxEncodeurBSelected(wxCommandEvent& event);
+    void OnPanel4Paint1(wxPaintEvent& event);
     //*)
 
     DECLARE_EVENT_TABLE()

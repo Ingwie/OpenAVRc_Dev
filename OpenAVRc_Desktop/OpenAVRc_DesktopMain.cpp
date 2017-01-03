@@ -177,6 +177,11 @@ wxString switch3 = ("ELE");
 wxString switch4 = ("AIL");
 wxString switch5 = ("GEA");
 wxString switch6 = ("TRN");
+wxString switchID0 = ("ID0");
+wxString switchID1 = ("ID1");
+wxString switchID2 = ("ID2");
+wxString encoderA  = ("ENA");
+wxString encoderB  = ("ENB");
 
 //(*IdInit(OpenAVRc_DesktopFrame)
 const long OpenAVRc_DesktopFrame::ID_STATICBOXSPLASH = wxNewId();
@@ -584,7 +589,11 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
     configFile->Read(wxT("switch4"),&switch4);
     configFile->Read(wxT("switch5"),&switch5);
     configFile->Read(wxT("switch6"),&switch6);
-
+    configFile->Read(wxT("switchID0"),&switchID0);
+    configFile->Read(wxT("switchID1"),&switchID1);
+    configFile->Read(wxT("switchID2"),&switchID2);
+    configFile->Read(wxT("encoderA"),&encoderA);
+    configFile->Read(wxT("encoderB"),&encoderB);
 
     // [SPLASH]
     configFile->SetPath("/"+Profil+"/");
@@ -695,7 +704,6 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("TOGGLETRIM"),TOGGLETRIM);
     configFile->Write(wxT("NOANDSECONDE"),NOANDSECONDE);
     configFile->Write(wxT("SHUTDOWN_CONFIRMATION"),SHUTDOWN_CONFIRMATION);
-
     configFile->Write(wxT("PERSONAMES"),PERSONAMES);
     configFile->Write(wxT("switch1"),switch1);
     configFile->Write(wxT("switch2"),switch2);
@@ -703,7 +711,11 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
     configFile->Write(wxT("switch4"),switch4);
     configFile->Write(wxT("switch5"),switch5);
     configFile->Write(wxT("switch6"),switch6);
-
+    configFile->Write(wxT("switchID0"),switchID0);
+    configFile->Write(wxT("switchID1"),switchID1);
+    configFile->Write(wxT("switchID2"),switchID2);
+    configFile->Write(wxT("encoderA"),encoderA);
+    configFile->Write(wxT("encoderB"),encoderB);
 
     // [SPLASH]
     configFile->SetPath("/"+Profil+"/");
