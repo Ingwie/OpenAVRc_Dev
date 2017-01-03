@@ -29,8 +29,6 @@ Desktop :
 
 -> Un "vrai" éditeur de splash perso ?
 
--> Customiser (comme le splash) les noms : AIL, TRN; RUD , etc ... dans le firmware par ce que l'on veux : Ces noms viennent des noms de la 9X (sur nos radio "maison" d'autres appelations "libres" me plairaient.
-
 -> Editeur de modèle pour présenter toutes les caractéristiques d'un modèle dans un seul écran. Ou un écran par mode de vol. Ou quelque chose de simple. (Excell ?). (C'est ça la base de donées modèles ?)
 
 
@@ -58,7 +56,7 @@ General:
 
 
 *****************  DONE DONE DONE DONE  *****************
-
+> - Customiser (comme le splash) les noms : AIL, TRN; RUD , etc ... dans le firmware par ce que l'on veux - FAIT
 > - Ajouter la génération des fichier voice. Et mettre tous les prompt dans un seul fichier. (Possible pour 9X ?)- FAIT
 > - correction bug encodeur rotatif qui saute de +125 a -125 - FAIT
 > - limiter la valeur d'une GVAR de +125 à -125 - FAIT
