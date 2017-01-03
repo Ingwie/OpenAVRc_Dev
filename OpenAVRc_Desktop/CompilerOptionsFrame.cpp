@@ -847,8 +847,14 @@ void CompilerOptionsFrame::CreatePersonames_H()
   CompileBatFile.AddLine("#define PERSONAMES_H_INCLUDED");
   CompileBatFile.AddLine("#undef TR_PHYS_SWITCHES");
   CompileBatFile.AddLine("#define TR_PHYS_SWITCHES "+g+switch1+g+g+switch2+g+g+switch3+g+g+switch4+g+g+switch5+g+g+switch6+g);
-//#undef TR_9X_3POS_SWITCHES //"ID0""ID1""ID2" Futur use ?
-//#define TR_9X_3POS_SWITCHES  "3P0""3P1""3P2"
+  CompileBatFile.AddLine("#undef TR_9X_3POS_SWITCHES");
+  CompileBatFile.AddLine("#define TR_9X_3POS_SWITCHES "+g+switchID0+g+g+switchID1+g+g+switchID2+g);
+  CompileBatFile.AddLine("#if defined(PCBGRUVIN9X) || defined(PCBMEGA2560)");
+  CompileBatFile.AddLine("#undef TR_ROTARY_ENCODERS");
+  CompileBatFile.AddLine("#undef TR_ROTENC_SWITCHES");
+  CompileBatFile.AddLine("#define TR_ROTARY_ENCODERS "+g+encoderA+"\\"+"0"+g+g+encoderB+"\\"+"0"+g); //"REa\0""REb\0"
+  CompileBatFile.AddLine("#define TR_ROTARY_ENCODERS "+g+encoderA+g+g+encoderB+g);
+  CompileBatFile.AddLine("#endif");
   CompileBatFile.AddLine("#endif");
   CompileBatFile.Write();
   CompileBatFile.Close();
