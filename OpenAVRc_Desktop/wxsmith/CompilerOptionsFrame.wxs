@@ -642,6 +642,7 @@
 								<item>ID0</item>
 								<item>---</item>
 							</content>
+							<selection>0</selection>
 							<pos>288,48</pos>
 							<size>54,-1</size>
 						</object>
@@ -655,18 +656,19 @@
 						</object>
 						<object class="wxComboBox" name="ID_COMBOBOX8" variable="ComboBoxEncodeurA" member="yes">
 							<content>
-								<item>ReB</item>
+								<item>ReA</item>
 								<item>---</item>
 							</content>
+							<selection>0</selection>
 							<pos>288,160</pos>
 							<size>54,-1</size>
-							<handler function="OnComboBoxEncodeurASelected" entry="EVT_COMBOBOX" />
 						</object>
 						<object class="wxComboBox" name="ID_COMBOBOX9" variable="ComboBoxEncodeurB" member="yes">
 							<content>
 								<item>ReB</item>
 								<item>---</item>
 							</content>
+							<selection>0</selection>
 							<pos>288,200</pos>
 							<size>54,-1</size>
 						</object>
@@ -675,6 +677,7 @@
 								<item>ID1</item>
 								<item>---</item>
 							</content>
+							<selection>0</selection>
 							<pos>288,72</pos>
 							<size>54,0</size>
 						</object>
@@ -683,6 +686,7 @@
 								<item>ID2</item>
 								<item>---</item>
 							</content>
+							<selection>0</selection>
 							<pos>288,96</pos>
 							<size>54,0</size>
 						</object>

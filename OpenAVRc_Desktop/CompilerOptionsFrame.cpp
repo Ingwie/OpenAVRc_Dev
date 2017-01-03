@@ -751,17 +751,27 @@ void CompilerOptionsFrame::CollectDatas()
   encoderA  = encoderA.SubString(0, 2);
   encoderB  = encoderB.SubString(0, 2);
 
-  if ((switch1 == switch2) || (switch1 == switch3) || (switch1 == switch4) || (switch1 == switch5) || (switch1 == switch6)
-  || (switch2 == switch3) || (switch2 == switch4) || (switch2 == switch5) || (switch2 == switch6)
-  || (switch3 == switch4) || (switch3 == switch5) || (switch3 == switch6)
-  || (switch4 == switch5) || (switch4 == switch6)
-  || (switch5 == switch6))
-    {
-      wxMessageBox(_("Il y a au moins un nom répété, veuillez le changer"));
-      doNotClose = 1;
-    }
-}
+  wxString switchArray[] = {switch1, switch2, switch3, switch4, switch5, switch6, switchID0, switchID1, switchID2, encoderA, encoderB};
 
+  for (int i=0; i<12; i++)
+  {
+     for (int j=0; j<12; j++)
+     {
+        if (i == j)
+     {
+        continue;
+  }
+    if (switchArray[i] == switchArray[j])
+    {
+       doNotClose = 1;
+    }
+   }
+  }
+  if (doNotClose)
+  {
+     wxMessageBox(_("Il y a au moins un nom répété ou non défini, veuillez le changer"));
+  }
+}
 
 void CompilerOptionsFrame::OnButtonEXITClick(wxCommandEvent& event)
 {
@@ -1001,5 +1011,4 @@ void CompilerOptionsFrame::OnButtonDefautClick1(wxCommandEvent& event)
   ComboBoxID2->SetValue("ID2");
   ComboBoxEncodeurA->SetValue("ReA");
   ComboBoxEncodeurB->SetValue("ReB");
-  //Panel4->Refresh ();
 }
