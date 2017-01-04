@@ -756,17 +756,17 @@ void CompilerOptionsFrame::CollectDatas()
   for (int i=0; i<11; i++)
   {
      std::string  x(switchArray[i]);
-     if (x.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890 ") != std::string::npos)
+     if (x.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-+:*=!?") != std::string::npos)
      {
         doNotClose = 1;
-        wxMessageBox(_("Il y a au moins un nom avec des caractères speciaux. Veuillez le changer."));
+        wxMessageBox(_("Il y a au moins un nom avec des caractères spéciaux.\nVeuillez le changer.\nCaractères spéciaux autorisés : _-+:*=!?"));
         break;
      }
 
-     if ((switchArray[i] == "   ") | (switchArray[i] == "  ") | (switchArray[i] == " ") | (switchArray[i] == ""))
+     if (switchArray[i].length() < 2)
      {
         doNotClose = 1;
-        wxMessageBox(_("Il y a au moins un nom manquant, veuillez le changer."));
+        wxMessageBox(_("Il y a au moins un nom trop court, veuillez le compléter."));
         break;
      }
 
