@@ -755,21 +755,25 @@ void CompilerOptionsFrame::CollectDatas()
 
   for (int i=0; i<12; i++)
   {
+     std::string  x(switchArray[i]);
+     if (x.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890") != std::string::npos)
+     {
+        doNotClose = 1;
+        wxMessageBox("Il y a au moins un nom avec des caractères speciaux. Veuillez le changer.");
+        break;
+     }
+
      for (int j=0; j<12; j++)
      {
-        if (i == j)
-     {
-        continue;
-  }
-    if (switchArray[i] == switchArray[j])
-    {
-       doNotClose = 1;
-    }
-   }
-  }
-  if (doNotClose)
-  {
-     wxMessageBox(_("Il y a au moins un nom répété ou non défini, veuillez le changer"));
+        if (i == j) continue;
+        if (switchArray[i] == switchArray[j])
+        {
+           doNotClose = 1;
+           wxMessageBox(_("Il y a au moins un nom répété ou non défini, veuillez le changer"));
+           break;
+        }
+     }
+  if (doNotClose) break;
   }
 }
 
