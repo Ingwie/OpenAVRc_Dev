@@ -655,7 +655,7 @@ void CompilerOptionsFrame::BatFunction()
     }
   wxMessageBox(CompiBat);
   CreateCompileBatFile(CompiBat);
-  wxExecute(AppPath+ "\\CompileBatFile.bat",wxEXEC_SYNC | wxEXEC_NODISABLE );// Create firmware
+  wxExecute(AppPath+ "\\CompileBatFile.bat",wxEXEC_ASYNC );// Create firmware
   Close();
   wxMessageBox(AppPath+ "\\firmware\\OpenAVRc.hex","Le nouveau Firmware est Le fichier:");
 }
@@ -753,23 +753,30 @@ void CompilerOptionsFrame::CollectDatas()
 
   wxString switchArray[] = {switch1, switch2, switch3, switch4, switch5, switch6, switchID0, switchID1, switchID2, encoderA, encoderB};
 
-  for (int i=0; i<12; i++)
+  for (int i=0; i<11; i++)
   {
      std::string  x(switchArray[i]);
-     if (x.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890") != std::string::npos)
+     if (x.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890 ") != std::string::npos)
      {
         doNotClose = 1;
         wxMessageBox(_("Il y a au moins un nom avec des caractères speciaux. Veuillez le changer."));
         break;
      }
 
-     for (int j=0; j<12; j++)
+     if ((switchArray[i] == "   ") | (switchArray[i] == "  ") | (switchArray[i] == " ") | (switchArray[i] == ""))
+     {
+        doNotClose = 1;
+        wxMessageBox(_("Il y a au moins un nom manquant, veuillez le changer."));
+        break;
+     }
+
+     for (int j=0; j<11; j++)
      {
         if (i == j) continue;
         if (switchArray[i] == switchArray[j])
         {
            doNotClose = 1;
-           wxMessageBox(_("Il y a au moins un nom répété ou non défini, veuillez le changer"));
+           wxMessageBox(_("Il y a au moins un nom répété ou non défini, veuillez le changer."));
            break;
         }
      }
