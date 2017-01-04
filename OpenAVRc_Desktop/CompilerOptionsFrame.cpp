@@ -739,18 +739,6 @@ void CompilerOptionsFrame::CollectDatas()
   encoderA  = ComboBoxEncodeurA->GetValue();
   encoderB  = ComboBoxEncodeurB->GetValue();
 
-  switch1 = switch1.SubString(0, 2);
-  switch2 = switch2.SubString(0, 2);
-  switch3 = switch3.SubString(0, 2);
-  switch4 = switch4.SubString(0, 2);
-  switch5 = switch5.SubString(0, 2);
-  switch6 = switch6.SubString(0, 2);
-  switchID0 = switchID0.SubString(0, 2);
-  switchID1 = switchID1.SubString(0, 2);
-  switchID2 = switchID2.SubString(0, 2);
-  encoderA  = encoderA.SubString(0, 2);
-  encoderB  = encoderB.SubString(0, 2);
-
   wxString switchArray[] = {switch1, switch2, switch3, switch4, switch5, switch6, switchID0, switchID1, switchID2, encoderA, encoderB};
 
   for (int i=0; i<11; i++)
@@ -759,14 +747,14 @@ void CompilerOptionsFrame::CollectDatas()
      if (x.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-+:*=!?") != std::string::npos)
      {
         doNotClose = 1;
-        wxMessageBox(_("Il y a au moins un nom avec des caractères spéciaux.\nVeuillez le changer.\nCaractères spéciaux autorisés : _-+:*=!?"));
+        wxMessageBox(switchArray[i]+_(" :\nIl y a au moins ce nom avec des caractères spéciaux non autorisés.\nVeuillez le changer.\nCaractères spéciaux autorisés : _-+:*=!?"));
         break;
      }
 
-     if (switchArray[i].length() < 2)
+     if (switchArray[i].length() < 3)
      {
         doNotClose = 1;
-        wxMessageBox(_("Il y a au moins un nom trop court, veuillez le compléter."));
+        wxMessageBox(switchArray[i]+_(" :\nIl y a au moins ce nom trop court, veuillez le compléter."));
         break;
      }
 
@@ -776,7 +764,7 @@ void CompilerOptionsFrame::CollectDatas()
         if (switchArray[i] == switchArray[j])
         {
            doNotClose = 1;
-           wxMessageBox(_("Il y a au moins un nom répété ou non défini, veuillez le changer."));
+           wxMessageBox(switchArray[i]+_(" :\nIl y a au moins ce nom répété , veuillez le changer."));
            break;
         }
      }
