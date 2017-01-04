@@ -759,7 +759,7 @@ void CompilerOptionsFrame::CollectDatas()
      if (x.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890") != std::string::npos)
      {
         doNotClose = 1;
-        wxMessageBox("Il y a au moins un nom avec des caractères speciaux. Veuillez le changer.");
+        wxMessageBox(_("Il y a au moins un nom avec des caractères speciaux. Veuillez le changer."));
         break;
      }
 
