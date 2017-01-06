@@ -438,6 +438,7 @@
 						<object class="wxCheckBox" name="ID_CHECKBOX26" variable="CheckBoxCORRECT_NEGATIVE_VALUES" member="yes">
 							<label>CORRECT__NEGATIVE__VALUES</label>
 							<pos>456,152</pos>
+							<tooltip>Symétrise les valeurs affichées</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX27" variable="CheckBoxARITHMETIC_OVERFLOW_CHECK" member="yes">
 							<label>ARITHMETIC__OVERFLOW__CHECK</label>
@@ -456,6 +457,7 @@
 						<object class="wxCheckBox" name="ID_CHECKBOX31" variable="CheckBoxOVERRIDE_CHANNEL_FUNCTION" member="yes">
 							<label>Override channel function</label>
 							<pos>456,88</pos>
+							<tooltip>Ajoute la fonction spéciale &quot;Remplacer CHx&quot;</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX32" variable="CheckBoxWS_HOW_HIGH" member="yes">
 							<label>WS__HOW__HIGH</label>
@@ -477,6 +479,7 @@
 							<label>NOANDSECONDE</label>
 							<pos>336,184</pos>
 							<size>102,16</size>
+							<tooltip>Empèche la synthèse vocale de dire &quot;et&quot;. Exemple : entre minutes &quot;et&quot; seconde</tooltip>
 							<handler function="OnCheckBoxNOANDSECONDEClick1" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX38" variable="CheckBoxSHUTDOWN_CONFIRMATION" member="yes">
@@ -490,24 +493,29 @@
 						<object class="wxCheckBox" name="ID_CHECKBOX43" variable="CheckBoxEEPROM_PROGRESS_BAR" member="yes">
 							<label>EEPROM bar</label>
 							<pos>336,120</pos>
+							<tooltip>Affiche une mini barre pour visualiser une sauvegarde en cours</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX44" variable="CheckBoxAUTOSWITCH" member="yes">
 							<label>AUTOSWITCH</label>
 							<pos>336,88</pos>
+							<tooltip>Auto detection des switchs lors de la programmatiion</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX45" variable="CheckBoxAUTOSOURCE" member="yes">
 							<label>AUTOSOURCE</label>
 							<pos>336,56</pos>
 							<focused>1</focused>
+							<tooltip>Auto detection des manches lors de la programmatiion</tooltip>
 							<handler function="OnCheckBoxAUTOSOURCEClick1" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX47" variable="CheckBoxDBLKEYS" member="yes">
 							<label>Double keys</label>
 							<pos>336,152</pos>
+							<tooltip>Raccourcis avec deux touches pour passer une valeur à min/max/0</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX28" variable="CheckBoxDSM2PPM" member="yes">
 							<label>DSM2 PPM</label>
 							<pos>72,152</pos>
+							<tooltip>Protocole DSM via la sortie ppm</tooltip>
 							<handler function="OnCheckBoxDSM2PPMClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxButton" name="ID_BUTTON1" variable="Compilerpage2" member="yes">
