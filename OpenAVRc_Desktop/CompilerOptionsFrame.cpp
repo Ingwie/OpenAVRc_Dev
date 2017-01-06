@@ -744,10 +744,10 @@ void CompilerOptionsFrame::CollectDatas()
   for (int i=0; i<11; i++)
   {
      std::string  x(switchArray[i]);
-     if (x.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-+:*=!?") != std::string::npos)
+     if (x.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-+:*=?") != std::string::npos)
      {
         doNotClose = 1;
-        wxMessageBox(switchArray[i]+_(" :\nIl y a au moins ce nom avec des caractères spéciaux non autorisés.\nVeuillez le changer.\nCaractères spéciaux autorisés : _-+:*=!?"));
+        wxMessageBox(switchArray[i]+_(" :\nIl y a au moins ce nom avec des caractères spéciaux non autorisés.\nVeuillez le changer.\nCaractères spéciaux autorisés : _-+:*=?"));
         break;
      }
 

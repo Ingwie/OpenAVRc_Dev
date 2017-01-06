@@ -480,7 +480,6 @@ private:
     void OnButtonDefautClick1(wxCommandEvent& event);
     void OnComboBoxEncodeurASelected(wxCommandEvent& event);
     void OnComboBoxEncodeurBSelected(wxCommandEvent& event);
-    void OnPanel4Paint1(wxPaintEvent& event);
     //*)
 
     DECLARE_EVENT_TABLE()
