@@ -26,9 +26,14 @@
 
 //#include "lcd_simu_driver.h"
 #include "../../../OpenAVRc_Simulator/OpenAVRc_SimulatorApp.h"
+#include <wx/filename.h>
+
 
 
 #define NUMITERATIONFULLREFRESH  1
+
+//extern wxString AppPath;
+wxFileName Myfile;
 
 void simuTrace(const char * format, ...)
 {
@@ -87,8 +92,9 @@ FRESULT f_close (FIL * fil)
 
 FRESULT f_opendir (DIR * rep, const TCHAR * name)
 {
-  //  TRACE("f_opendir(%s) = OK", path);
-   // return FR_OK;
+  wxString dir = name;
+   TRACE("f_opendir(%s) = OK", name);
+   //if (Myfile.DirExists(AppPath+dir)) return FR_OK;
   // TRACE("f_opendir(%s) = error %d (%s)", path, errno, strerror(errno));
   return FR_NO_PATH;
 }

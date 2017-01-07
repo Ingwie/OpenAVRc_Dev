@@ -53,7 +53,6 @@ extern bool simu_shutDownSimu_is_runing; //main run signal
 extern bool simu_off; //Off signal
 
 
-
 //PORT & PIN
 extern REG8  simu_pina;
 extern REG8  simu_ddra;
