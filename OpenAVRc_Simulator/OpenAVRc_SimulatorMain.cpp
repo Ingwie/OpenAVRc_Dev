@@ -80,6 +80,7 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 }
 
 bool Ini_Changed = false;
+wxString AppPath;
 
 bool Mp3RepExist = false;
 extern volatile uint8_t JQ6500_InputIndex;

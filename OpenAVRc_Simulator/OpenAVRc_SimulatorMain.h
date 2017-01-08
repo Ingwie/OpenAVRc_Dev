@@ -54,6 +54,7 @@
 #include "Spin.h"
 //*)
 
+extern wxString AppPath;
 static wxLongLong Chronoval;
 
 
@@ -213,7 +214,6 @@ private:
     //(*Variables(OpenAVRc_SimulatorFrame)
     wxFileConfig* configFile;
     wxString Ini_Filename;
-    wxString AppPath;
     wxString CurrentEEPath;
 
     wxColour Col_Lcd_Back;
