@@ -3,49 +3,13 @@
 #----------------------------------------------------------------------------
 # On command line:
 #
-# make all = Make software.
+# make  = Make software.
 #
 # make clean = Clean out built project files.
 #
-# make install = Install the most recently compiled hex file.
 #
-# make filename.s = Just compile filename.c into the assembler code only.
-#
-# make filename.i = Create a preprocessed source file for use in submitting
-#                   bug reports to the GCC project.
-#
-# To rebuild project do "make clean" then "make all".
+# To rebuild project do "make clean" then "make".
 #----------------------------------------------------------------------------
-
-#----------- INSTALL OPTIONS ---------------------------
-
-# Data directory we write hex files to.
-DATA_DIR = /tmp
-
-# Backup the old flash (YES, NO)
-BACKUP_FLASH = YES
-
-# Backup the old EEPROM (YES, NO)
-BACKUP_EEPROM = YES
-
-# Restore EEPROM to 9x (YES, NO) (will set BACKUP_EEPROM to YES).
-RESTORE_EEPROM = NO
-
-# Double write OK (YES, NO)
-# Set this *if only if* your programmer can correctly write the EEPROM
-# and FLASH in one command. If it doesn't, try setting the 9x fuse to
-# not erase the eeprom when you erase the flash.
-DOUBLE_WRITE_OK = NO
-
-# Command to read/write FLASH/EEPROM images. Currently
-# Must have avrdude interface
-AVRDUDE = /usr/local/bin/avrdude
-
-# Device options for AVRDUDE Command.
-AVRDEVICE = -c usbasp -p m64
-
-# Delay to start second AVRDUDE command (required by some).
-DELAY = 5
 
 #----------- BUILD OPTIONS ---------------------------
 
@@ -380,14 +344,12 @@ TRANSLATE = -python ../util/translate.py
 
 VERSION_MAJOR = 2
 VERSION_MINOR = 1
-VERSION_REVISION = 8
+VERSION_REVISION = 9
 
 VERSION = $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_REVISION)$(OpenAVRc_VERSION_SUFFIX)
 
 THIRDPARTY = thirdparty
-COOSDIR = $(THIRDPARTY)/CoOS
 FATFSDIR = $(THIRDPARTY)/FatFs
-LUADIR = $(THIRDPARTY)/Lua/src
 
 SRC =
 CPPSRC =
@@ -1232,13 +1194,11 @@ stamp_header:
 	@echo "#define VERSION_MAJOR     $(VERSION_MAJOR)" >> stamp-OpenAVRc.h
 	@echo "#define VERSION_MINOR     $(VERSION_MINOR)" >> stamp-OpenAVRc.h
 	@echo "#define VERSION_REVISION  $(VERSION_REVISION)" >> stamp-OpenAVRc.h
-	@echo "#define GIT_STR \"$(shell git rev-parse HEAD)\"" >> stamp-OpenAVRc.h
 
 OpenAVRc-stamp:
 	@echo "#define DATE_STR \"`date +%Y-%m-%d`\"" > stamp-OpenAVRc.txt
 	@echo "#define TIME_STR \"`date +%H:%M:%S`\"" >> stamp-OpenAVRc.txt
 	@echo "#define VERS_STR \"$(VERSION)\"" >> stamp-OpenAVRc.txt
-	@echo "#define GIT_STR \"$(shell git rev-parse HEAD)\"" >> stamp-OpenAVRc.txt
 	@cat stamp-OpenAVRc.txt
 
 translations/en.h: translations/en.h.txt

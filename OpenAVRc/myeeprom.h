@@ -54,8 +54,6 @@
 #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
 #endif
 
-#define AVR_FIELD(x) x;
-
 #if defined(PCBSTD)
 #define N_PCBSTD_FIELD(x)
 #else
@@ -421,8 +419,8 @@ PACK(typedef struct {
   uint8_t   mavbaud:3;
   SPLASH_MODE; /* 3bits */
   int8_t    hapticMode:2;    // -2=quiet, -1=only alarms, 0=no keys, 1=all
-  AVR_FIELD(uint8_t blOffBright:4)
-  AVR_FIELD(uint8_t blOnBright:4)
+  uint8_t blOffBright:4;
+  uint8_t blOnBright:4;
   uint8_t   lightAutoOff;
   uint8_t   templateSetup;   // RETA order for receiver channels
   int8_t    PPM_Multiplier;
@@ -1215,16 +1213,16 @@ enum DisplayTrims
 PACK(typedef struct {
   ModelHeader header;
   TimerData timers[MAX_TIMERS];
-  AVR_FIELD(uint8_t   protocol:3)
+  uint8_t   protocol:3;
   uint8_t   thrTrim:1;            // Enable Throttle Trim
-  AVR_FIELD(int8_t    ppmNCH:4)
+  int8_t    ppmNCH:4;
   int8_t    trimInc:3;            // Trim Increments
   uint8_t   disableThrottleWarning:1;
-  AVR_FIELD(uint8_t pulsePol:1)
+  uint8_t pulsePol:1;
   uint8_t   extendedLimits:1;
   uint8_t   extendedTrims:1;
   uint8_t   throttleReversed:1;
-  AVR_FIELD(int8_t ppmDelay)
+  int8_t ppmDelay;
   BeepANACenter beepANACenter;
   MixData   mixData[MAX_MIXERS];
   LimitData limitData[NUM_CHNOUT];
@@ -1238,7 +1236,7 @@ PACK(typedef struct {
   SwashRingData swashR;
   FlightModeData flightModeData[MAX_FLIGHT_MODES];
 
-  AVR_FIELD(int8_t ppmFrameLength)     // 0=22.5ms  (10ms-30ms) 0.5ms increments
+  int8_t ppmFrameLength;     // 0=22.5ms  (10ms-30ms) 0.5ms increments
 
   uint8_t thrTraceSrc;
 

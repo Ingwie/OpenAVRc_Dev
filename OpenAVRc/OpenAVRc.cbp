@@ -64,13 +64,10 @@
 		<Unit filename="OpenAVRc.h" />
 		<Unit filename="audio_avr.cpp" />
 		<Unit filename="audio_avr.h" />
-		<Unit filename="bin_allocator.cpp" />
-		<Unit filename="bin_allocator.h" />
 		<Unit filename="buzzer.cpp" />
 		<Unit filename="buzzer.h" />
 		<Unit filename="crc16.cpp" />
 		<Unit filename="curves.cpp" />
-		<Unit filename="debug.cpp" />
 		<Unit filename="eeprom_common.cpp" />
 		<Unit filename="eeprom_common.h" />
 		<Unit filename="eeprom_conversions.cpp" />

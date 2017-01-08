@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -62,14 +62,9 @@ ISR(EE_READY_vect)
 {
   if (--eeprom_buffer_size > 0) {
     eeprom_write_byte();
-  }
-  else {
-      TRACE("ISR 'EE_READY_vect' Cleared : Eeprom is saved");
-#if defined(CPUM2560) || defined(CPUM2561)
+  } else {
+    TRACE("ISR 'EE_READY_vect' Cleared : Eeprom is saved");
     EECR &= ~(1<<EERIE);
-#else
-    EECR &= ~(1<<EERIE);
-#endif
   }
 }
 
@@ -176,18 +171,15 @@ void eepromCheck()
     while (blk) {
       if (blk < FIRSTBLK || // bad blk index
           blk >= BLOCKS  || // bad blk indexchan
-          bufp[blk])        // blk double usage
-      {
+          bufp[blk]) {      // blk double usage
         if (lastBlk) {
           EeFsSetLink(lastBlk, 0);
-        }
-        else {
+        } else {
           *startP = 0; // interrupt chain at startpos
           EeFsFlush();
         }
         blk = 0; // abort
-      }
-      else {
+      } else {
         bufp[blk] = i+1;
         lastBlk   = blk;
         blk       = EeFsGetLink(blk);
@@ -246,7 +238,7 @@ bool eepromOpen()
 #endif
 
   if (eeFs.version != EEFS_VERS || eeFs.mySize != sizeof(eeFs)) {
-   return false;
+    return false;
   }
 
   eepromCheck();
@@ -351,8 +343,7 @@ uint16_t RlcFile::readRlc(uint8_t *buf, uint16_t i_len)
     if (m_bRlc&0x80) { // if contains high byte
       m_zeroes  =(m_bRlc>>4) & 0x7;
       m_bRlc    = m_bRlc & 0x0f;
-    }
-    else if(m_bRlc&0x40) {
+    } else if(m_bRlc&0x40) {
       m_zeroes  = m_bRlc & 0x3f;
       m_bRlc    = 0;
     }
@@ -415,18 +406,19 @@ void RlcFile::nextWriteStep()
       m_currBlk = nextBlk;
     }
     switch (m_write_step & 0x0f) {
-      case WRITE_NEXT_LINK_1:
-        m_currBlk = eeFs.freeList;
-        eeFs.freeList = EeFsGetLink(eeFs.freeList);
-        m_write_step += 1;
-        EeFsFlushFreelist();
-        return;
-      case WRITE_NEXT_LINK_2:
-        m_write_step -= WRITE_NEXT_LINK_2;
-        EeFsSetLink(m_currBlk, 0);
-        return;
+    case WRITE_NEXT_LINK_1:
+      m_currBlk = eeFs.freeList;
+      eeFs.freeList = EeFsGetLink(eeFs.freeList);
+      m_write_step += 1;
+      EeFsFlushFreelist();
+      return;
+    case WRITE_NEXT_LINK_2:
+      m_write_step -= WRITE_NEXT_LINK_2;
+      EeFsSetLink(m_currBlk, 0);
+      return;
     }
-    uint8_t tmp = BS-sizeof(blkid_t)-m_ofs; if(tmp>m_write_len) tmp = m_write_len;
+    uint8_t tmp = BS-sizeof(blkid_t)-m_ofs;
+    if(tmp>m_write_len) tmp = m_write_len;
     m_write_buf += tmp;
     m_write_len -= tmp;
     m_ofs += tmp;
@@ -440,8 +432,7 @@ void RlcFile::nextWriteStep()
     m_write_step = 0;
     m_write_len = 0;
     m_cur_rlc_len = 0;
-  }
-  else if (!IS_SYNC_WRITE_ENABLE()) {
+  } else if (!IS_SYNC_WRITE_ENABLE()) {
     nextRlcWriteStep();
   }
 }
@@ -468,8 +459,7 @@ bool RlcFile::copy(uint8_t i_fileDst, uint8_t i_fileSrc)
 
   uint8_t buf[BS-sizeof(blkid_t)];
   uint8_t len;
-  while ((len=theFile2.read(buf, sizeof(buf))))
-  {
+  while ((len=theFile2.read(buf, sizeof(buf)))) {
     write(buf, len);
     if (write_errno() != 0) {
       ENABLE_SYNC_WRITE(false);
@@ -700,15 +690,13 @@ void RlcFile::nextRlcWriteStep()
           write1(cnt|0x40);
           return;
         }
-      }
-      else {
+      } else {
         m_rlc_buf+=cnt0;
         m_rlc_len-=cnt0+cnt;
         m_cur_rlc_len=cnt;
-        if(cnt0){
+        if(cnt0) {
           write1(0x80 | (cnt0<<4) | cnt);
-        }
-        else{
+        } else {
           write1(cnt);
         }
         return;
@@ -720,58 +708,58 @@ void RlcFile::nextRlcWriteStep()
     cnt++;
   }
 
-  close:
+close:
 
   switch(m_write_step) {
-    case WRITE_START_STEP: {
-      blkid_t fri = 0;
+  case WRITE_START_STEP: {
+    blkid_t fri = 0;
 
-      if (m_currBlk && (fri = EeFsGetLink(m_currBlk))) {
-        // TODO reuse EeFsFree!!!
-        blkid_t prev_freeList = eeFs.freeList;
-        eeFs.freeList = fri;
-        while (EeFsGetLink(fri)) {
-          fri = EeFsGetLink(fri);
-        }
-        m_write_step = WRITE_FREE_UNUSED_BLOCKS_STEP1;
-        EeFsSetLink(fri, prev_freeList);
-        return;
+    if (m_currBlk && (fri = EeFsGetLink(m_currBlk))) {
+      // TODO reuse EeFsFree!!!
+      blkid_t prev_freeList = eeFs.freeList;
+      eeFs.freeList = fri;
+      while (EeFsGetLink(fri)) {
+        fri = EeFsGetLink(fri);
       }
-    }
-
-    case WRITE_FINAL_DIRENT_STEP: {
-      m_currBlk = eeFs.files[FILE_TMP].startBlk;
-      DirEnt & f = eeFs.files[m_fileId];
-      eeFs.files[FILE_TMP].startBlk = f.startBlk;
-      eeFs.files[FILE_TMP].size = f.size;
-      f.startBlk = m_currBlk;
-      f.size = m_pos;
-      f.typ = eeFs.files[FILE_TMP].typ;
-      m_write_step = WRITE_TMP_DIRENT_STEP;
-      EeFsFlushDirEnt(m_fileId);
+      m_write_step = WRITE_FREE_UNUSED_BLOCKS_STEP1;
+      EeFsSetLink(fri, prev_freeList);
       return;
     }
+  }
 
-    case WRITE_TMP_DIRENT_STEP:
-      m_write_step = 0;
-      EeFsFlushDirEnt(FILE_TMP);
-      return;
+  case WRITE_FINAL_DIRENT_STEP: {
+    m_currBlk = eeFs.files[FILE_TMP].startBlk;
+    DirEnt & f = eeFs.files[m_fileId];
+    eeFs.files[FILE_TMP].startBlk = f.startBlk;
+    eeFs.files[FILE_TMP].size = f.size;
+    f.startBlk = m_currBlk;
+    f.size = m_pos;
+    f.typ = eeFs.files[FILE_TMP].typ;
+    m_write_step = WRITE_TMP_DIRENT_STEP;
+    EeFsFlushDirEnt(m_fileId);
+    return;
+  }
 
-    case WRITE_FREE_UNUSED_BLOCKS_STEP1:
-      m_write_step = WRITE_FREE_UNUSED_BLOCKS_STEP2;
-      EeFsSetLink(m_currBlk, 0);
-      return;
+  case WRITE_TMP_DIRENT_STEP:
+    m_write_step = 0;
+    EeFsFlushDirEnt(FILE_TMP);
+    return;
 
-    case WRITE_FREE_UNUSED_BLOCKS_STEP2:
-      m_write_step = WRITE_FINAL_DIRENT_STEP;
-      EeFsFlushFreelist();
-      return;
+  case WRITE_FREE_UNUSED_BLOCKS_STEP1:
+    m_write_step = WRITE_FREE_UNUSED_BLOCKS_STEP2;
+    EeFsSetLink(m_currBlk, 0);
+    return;
+
+  case WRITE_FREE_UNUSED_BLOCKS_STEP2:
+    m_write_step = WRITE_FINAL_DIRENT_STEP;
+    EeFsFlushFreelist();
+    return;
   }
 }
 
 void RlcFile::flush()
 {
-    while (eeprom_buffer_size > 0) MYWDT_RESET(EE_READY_vect()); //Simulate ISR in Simu mode
+  while (eeprom_buffer_size > 0) MYWDT_RESET(EE_READY_vect()); //Simulate ISR in Simu mode
 
   ENABLE_SYNC_WRITE(true);
 
@@ -823,7 +811,7 @@ void eeLoadModelName(uint8_t id, char *name)
 
 bool eeModelExists(uint8_t id)
 {
-    return EFile::exists(FILE_MODEL(id));
+  return EFile::exists(FILE_MODEL(id));
 }
 
 void eeLoadModel(uint8_t id)

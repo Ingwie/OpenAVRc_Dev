@@ -176,16 +176,8 @@
 #define CASE_GVARS(x)
 #endif
 
-#define CASE_CAPACITY(x)
-
 #if ROTARY_ENCODERS > 0
 #define ROTARY_ENCODER_NAVIGATION
-#endif
-
-#if defined(SIMU)
-#define __DMA
-#else
-#define __DMA __attribute__((aligned(32)))
 #endif
 
 #if GCC_VERSION < 472
