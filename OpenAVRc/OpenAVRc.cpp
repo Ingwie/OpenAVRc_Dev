@@ -191,7 +191,7 @@ void generalDefault()
 	memclear(&g_eeGeneral, sizeof(g_eeGeneral));
 	g_eeGeneral.version  = EEPROM_VER;
 	g_eeGeneral.variant = EEPROM_VARIANT;
-	g_eeGeneral.contrast = 25;
+	g_eeGeneral.contrast = 15;
 
 
 
