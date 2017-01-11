@@ -158,7 +158,7 @@ PLAY_FUNCTION(playValue, source_t idx)
     else if (idx >= MIXSRC_FIRST_TELEM+TELEM_MAX_T1-1 && idx <= MIXSRC_FIRST_TELEM+TELEM_MAX_DIST-1)
       unit = 3 + idx - (MIXSRC_FIRST_TELEM+TELEM_MAX_T1-1);
 
-    unit = pgm_read_byte(bchunit_ar+unit);
+    unit = pgm_read_byte_near(bchunit_ar+unit);
     PLAY_NUMBER(val, unit == UNIT_RAW ? 0 : unit+1, 0);
     break;
   }

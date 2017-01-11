@@ -62,7 +62,7 @@ const pm_uint8_t bchout_ar[] PROGMEM = {
 
 uint8_t channel_order(uint8_t x)
 {
-  return ( ((pgm_read_byte(bchout_ar + g_eeGeneral.templateSetup) >> (6-(x-1) * 2)) & 3 ) + 1 );
+  return ( ((pgm_read_byte_near(bchout_ar + g_eeGeneral.templateSetup) >> (6-(x-1) * 2)) & 3 ) + 1 );
 }
 
 /*
@@ -982,13 +982,13 @@ uint16_t anaIn(uint8_t chan)
   static const pm_char crossAna[] PROGMEM = {3,1,2,0,4,5,6,7};
 #endif
 #if defined(FRSKY_STICKS)
-  volatile uint16_t temp = s_anaFilt[pgm_read_byte(crossAna+chan)];  // volatile saves here 40 bytes; maybe removed for newer AVR when available
+  volatile uint16_t temp = s_anaFilt[pgm_read_byte_near(crossAna+chan)];  // volatile saves here 40 bytes; maybe removed for newer AVR when available
   if (chan < NUM_STICKS && (g_eeGeneral.stickReverse & (1 << chan))) {
     temp = 2048 - temp;
   }
   return temp;
 #else
-  volatile uint16_t *p = &s_anaFilt[pgm_read_byte(crossAna+chan)];
+  volatile uint16_t *p = &s_anaFilt[pgm_read_byte_near(crossAna+chan)];
   return *p;
 #endif
 }

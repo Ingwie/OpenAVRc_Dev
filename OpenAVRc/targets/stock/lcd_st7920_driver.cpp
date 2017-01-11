@@ -54,7 +54,7 @@ void lcdInit()
   PORTC_LCD_CTRL |= (1<<OUT_C_LCD_RES);  //LCD normal operation
   _delay_ms(40);
   for (uint8_t i=0; i<DIM(lcdInitSequence); i++) {
-    lcdSendCtl(pgm_read_byte(&lcdInitSequence[i])) ;
+    lcdSendCtl(pgm_read_byte_near(&lcdInitSequence[i])) ;
     _delay_us(80);
   }
   g_eeGeneral.contrast = 0x22;

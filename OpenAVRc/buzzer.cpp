@@ -56,7 +56,7 @@ void beep(uint8_t val)
 #endif
 
   if (g_eeGeneral.beepMode>0 || (g_eeGeneral.beepMode==0 && val!=0) || (g_eeGeneral.beepMode==-1 && val>=3)) {
-    _beep(pgm_read_byte(beepTab+5*(2+g_eeGeneral.beepLength)+val));
+    _beep(pgm_read_byte_near(beepTab+5*(2+g_eeGeneral.beepLength)+val));
   }
 }
 

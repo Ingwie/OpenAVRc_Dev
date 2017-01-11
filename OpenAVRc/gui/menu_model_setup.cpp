@@ -251,7 +251,7 @@ void menuModelSetup(uint8_t event)
         } else {
           if ((states & 0x01) && swactive)
             attr = INVERS;
-          c = pgm_read_byte(STR_VSWITCHES - 2 + 9 + (3*(i+1)));
+          c = pgm_read_byte_near(STR_VSWITCHES - 2 + 9 + (3*(i+1)));
           states >>= 1;
         }
         if (line && (menuHorizontalPosition == i)) {

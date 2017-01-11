@@ -234,7 +234,7 @@ uint8_t PcmOnesCount;
 
 void crc(uint8_t data)
 {
-  PcmCrc = (PcmCrc<<8) ^ pgm_read_word(&CRCTable[((PcmCrc >> 8) ^ data) & 0xFF]);
+  PcmCrc = (PcmCrc<<8) ^ pgm_read_word_near(&CRCTable[((PcmCrc >> 8) ^ data) & 0xFF]);
 }
 
 

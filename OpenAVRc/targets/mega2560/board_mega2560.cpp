@@ -220,7 +220,7 @@ static const pm_uchar crossTrim[] PROGMEM = {
 uint8_t trimDown(uint8_t idx)
 {
   uint8_t in = ~PINF;                //was PIND
-  return (in & pgm_read_byte(crossTrim+idx));
+  return (in & pgm_read_byte_near(crossTrim+idx));
 }
 
 void readKeysAndTrims()
@@ -261,7 +261,7 @@ void readKeysAndTrims()
   in = ~PINF;
   for (int i=0; i<8; i++) {
     // INP_D_TRM_RH_UP   0 .. INP_D_TRM_LH_UP   7
-    keys[enuk].input(in & pgm_read_byte(crossTrim+i));
+    keys[enuk].input(in & pgm_read_byte_near(crossTrim+i));
     ++enuk;
   }
 }

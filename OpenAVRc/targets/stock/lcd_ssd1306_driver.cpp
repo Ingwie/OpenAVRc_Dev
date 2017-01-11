@@ -96,7 +96,7 @@ void lcdSendCommand(uint8_t data)
 void lcdInit()
 {
   for (uint8_t i=0; i<DIM(lcdInitSequence); i++) {
-    lcdSendCommand(pgm_read_byte(&lcdInitSequence[i]));
+    lcdSendCommand(pgm_read_byte_near(&lcdInitSequence[i]));
   }
 }
 

@@ -750,10 +750,8 @@ extern REG8 simu_bssebd;
 
 //AVR
 #define PROGMEM
-#define pgm_read_byte(address_short) (*(uint8_t*)(address_short))
-#define pgm_read_word(address_short) (*(uint16_t*)(address_short))
-#define pgm_read_adr(address_short) *address_short
-#define pgm_read_stringP(adr) ((adr))
+#define pgm_read_byte_near(address_short) (*(uint8_t*)(address_short))
+#define pgm_read_word_near(address_short) *address_short
 #define PSTR(adr) adr
 #define _delay_us(a)
 #define _delay_ms(a)

@@ -240,10 +240,10 @@ void audioQueue::event(uint8_t e, uint8_t f)
         };
 
         const pm_uint8_t *ptr = &singleSounds[(e-AU_INACTIVITY)<<2];
-        uint8_t tFreq = pgm_read_byte(ptr++);
-        uint8_t tLen = pgm_read_byte(ptr++);
-        uint8_t tPause = pgm_read_byte(ptr++);
-        uint8_t tFlags = pgm_read_byte(ptr);
+        uint8_t tFreq = pgm_read_byte_near(ptr++);
+        uint8_t tLen = pgm_read_byte_near(ptr++);
+        uint8_t tPause = pgm_read_byte_near(ptr++);
+        uint8_t tFlags = pgm_read_byte_near(ptr);
         play(tFreq, tLen, tPause, tFlags);
         break;
       }

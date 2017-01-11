@@ -158,7 +158,7 @@ void menuGeneralSetup(uint8_t event)
           int16_t year = 1900 + t.tm_year;
           int8_t dlim = (((((year%4==0) && (year%100!=0)) || (year%400==0)) && (t.tm_mon==1)) ? 1 : 0);
           static const pm_uint8_t dmon[] PROGMEM = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-          dlim += pgm_read_byte(&dmon[t.tm_mon]);
+          dlim += pgm_read_byte_near(&dmon[t.tm_mon]);
           lcdDrawNumberNAtt(RADIO_SETUP_DATE_COLUMN+6*FW-4, y, t.tm_mday, rowattr|LEADING0, 2);
           if (rowattr && (s_editMode>0 || p1valdiff)) t.tm_mday = checkIncDec(event, t.tm_mday, 1, dlim, 0);
           break;
@@ -457,7 +457,7 @@ void menuGeneralSetup(uint8_t event)
     case ITEM_SETUP_STICK_MODE:
       lcdDrawCharAtt(2*FW, y, '1'+g_eeGeneral.stickMode, attr);
       for (uint8_t i=0; i<4; i++) {
-        putsMixerSource((6+4*i)*FW, y, MIXSRC_Rud + pgm_read_byte(modn12x3 + 4*g_eeGeneral.stickMode + i), 0);
+        putsMixerSource((6+4*i)*FW, y, MIXSRC_Rud + pgm_read_byte_near(modn12x3 + 4*g_eeGeneral.stickMode + i), 0);
       }
       if (attr && s_editMode>0) {
         CHECK_INCDEC_GENVAR(event, g_eeGeneral.stickMode, 0, 3);

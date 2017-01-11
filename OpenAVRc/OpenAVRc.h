@@ -260,7 +260,6 @@ extern  void shutDownSimu(void);
 #include <avr/sleep.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#define pgm_read_adr(address_short) pgm_read_word(address_short)
 #include <avr/wdt.h>
 #endif
 
@@ -413,7 +412,7 @@ extern uint8_t stickMode;
 #define ELE_STICK 1
 #define THR_STICK 2
 #define AIL_STICK 3
-#define CONVERT_MODE(x)  (((x)<=AIL_STICK) ? pgm_read_byte(modn12x3 + 4*stickMode + (x)) : (x) )
+#define CONVERT_MODE(x)  (((x)<=AIL_STICK) ? pgm_read_byte_near(modn12x3 + 4*stickMode + (x)) : (x) )
 
 extern uint8_t channel_order(uint8_t x);
 

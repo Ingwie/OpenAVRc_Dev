@@ -57,7 +57,7 @@ void lcdDrawSizedTextAtt(coord_t x, coord_t y, const pm_char * s, uint8_t len, L
       c = idx2char(*s);
       break;
     default:
-      c = pgm_read_byte(s);
+      c = pgm_read_byte_near(s);
       break;
     }
 
@@ -107,7 +107,7 @@ void lcdDrawTextLeft(coord_t y, const pm_char * s)
 void lcdDrawTextAtIndex(coord_t x, coord_t y, const pm_char * s,uint8_t idx, LcdFlags flags)
 {
   uint8_t length;
-  length = pgm_read_byte(s++);
+  length = pgm_read_byte_near(s++);
   lcdDrawSizedTextAtt(x, y, s+length*idx, length, flags & ~(BSS|ZCHAR));
 }
 
@@ -616,7 +616,7 @@ void lcdPutsTelemetryChannelValue(coord_t x, coord_t y, uint8_t channel, lcdint_
       unit = channel + 1 - TELEM_ALT;
     if (channel >= TELEM_MIN_ALT-1 && channel <= TELEM_MAX_ALT-1)
       unit = 0;
-    lcdPutsValueWithUnit(x, y, val, pgm_read_byte(bchunit_ar+unit), att);
+    lcdPutsValueWithUnit(x, y, val, pgm_read_byte_near(bchunit_ar+unit), att);
     break;
   }
   }
@@ -652,7 +652,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
   uint8_t *p = &displayBuf[ y / 8 * LCD_W + x ];
 
 #if (defined(PCBMEGA2560) && !defined(SIMU))
-  uint_farptr_t q=GET_FAR_ADDRESS(font_5x7);
+  uint_farptr_t q=pgm_get_far_address(font_5x7);
   q += (c-0x20)*5;
 #else
   const pm_uchar *q = &font_5x7[(c-0x20)*5];
@@ -705,7 +705,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
     /* each letter consists of ten top bytes followed by
      * by ten bottom bytes (20 bytes per * char) */
 #if (defined(PCBMEGA2560) && !defined(SIMU))
-    q = GET_FAR_ADDRESS(font_10x14);
+    q = pgm_get_far_address(font_10x14);
     q += (uint16_t)c_remapped*20;
 #else
     q = &font_10x14[((uint16_t)c_remapped)*20];
@@ -723,8 +723,8 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
         b1 = pgm_read_byte_far(q++); /*top byte*/
         b2 = pgm_read_byte_far(q++);
 #else
-        b1 = pgm_read_byte(q++); /*top byte*/
-        b2 = pgm_read_byte(q++);
+        b1 = pgm_read_byte_near(q++); /*top byte*/
+        b2 = pgm_read_byte_near(q++);
 #endif
       }
       if ((b1 & b2) == 0xff) continue;
@@ -747,7 +747,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 #if defined(BOLD_SPECIFIC_FONT)
     if (flags & BOLD) {
 #if (defined(PCBMEGA2560) && !defined(SIMU))
-      q = GET_FAR_ADDRESS(font_5x7_B);
+      q = pgm_get_far_address(font_5x7_B);
       q += (c_remapped)*5;
 #else
       q = &font_5x7_B[(c_remapped)*5];
@@ -773,7 +773,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 #if (defined(PCBMEGA2560) && !defined(SIMU))
         b = pgm_read_byte_far(q++);
 #else
-        b = pgm_read_byte(q++);
+        b = pgm_read_byte_near(q++);
 #endif
       }
       if (b == 0xff) {
@@ -975,14 +975,14 @@ void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags 
 void lcd_img(coord_t x, coord_t y, const pm_uchar * img, uint8_t idx, LcdFlags att)
 {
   const pm_uchar *q = img;
-  uint8_t w    = pgm_read_byte(q++);
-  uint8_t hb   = (pgm_read_byte(q++)+7)/8;
+  uint8_t w    = pgm_read_byte_near(q++);
+  uint8_t hb   = (pgm_read_byte_near(q++)+7)/8;
   bool    inv  = (att & INVERS) ? true : (att & BLINK ? BLINK_ON_PHASE : false);
   q += idx*w*hb;
   for (uint8_t yb = 0; yb < hb; yb++) {
     uint8_t *p = &displayBuf[ (y / 8 + yb) * LCD_W + x ];
     for (coord_t i=0; i<w; i++) {
-      uint8_t b = pgm_read_byte(q);
+      uint8_t b = pgm_read_byte_near(q);
       q++;
       ASSERT_IN_DISPLAY(p);
       *p++ = inv ? ~b : b;

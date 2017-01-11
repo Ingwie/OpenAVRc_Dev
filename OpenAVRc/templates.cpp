@@ -103,7 +103,7 @@ void setCurve(uint8_t c, const pm_int8_t ar[])
 {
   int8_t * cv = curveAddress(c);
   for (uint8_t i=0; i<5; i++) {
-    cv[i] = pgm_read_byte(&ar[i]);
+    cv[i] = pgm_read_byte_near(&ar[i]);
   }
 }
 

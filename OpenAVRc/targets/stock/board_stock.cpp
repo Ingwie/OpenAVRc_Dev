@@ -378,14 +378,14 @@ void backlightFade() // called from per10ms()
   if (bl_target != bl_current) {
 #if defined(CPUM2561)
     if (bl_target > bl_current)
-      OCR0A = pgm_read_byte(&pwmtable[++bl_current]);
+      OCR0A = pgm_read_byte_near(&pwmtable[++bl_current]);
     else
-      OCR0A = pgm_read_byte(&pwmtable[--bl_current]);
+      OCR0A = pgm_read_byte_near(&pwmtable[--bl_current]);
 #else
     if (bl_target > bl_current)
-      OCR2 = pgm_read_byte(&pwmtable[++bl_current]);
+      OCR2 = pgm_read_byte_near(&pwmtable[++bl_current]);
     else
-      OCR2 = pgm_read_byte(&pwmtable[--bl_current]);
+      OCR2 = pgm_read_byte_near(&pwmtable[--bl_current]);
 #endif
   }
 }

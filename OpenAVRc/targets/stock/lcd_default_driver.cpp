@@ -100,7 +100,7 @@ void lcdInit()
   PORTC_LCD_CTRL |= (1<<OUT_C_LCD_RES);  //LCD normal operation
   _delay_us(1500);
   for (uint8_t i=0; i<DIM(lcdInitSequence); i++) {
-    lcdSendCtl(pgm_read_byte(&lcdInitSequence[i])) ;
+    lcdSendCtl(pgm_read_byte_near(&lcdInitSequence[i])) ;
   }
 #if defined(LCD_ERC12864FSF)
   g_eeGeneral.contrast = 0x2D;

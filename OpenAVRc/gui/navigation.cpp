@@ -176,7 +176,7 @@ int8_t checkIncDecGen(uint8_t event, int8_t i_val, int8_t i_min, int8_t i_max)
 
 #define CURSOR_NOT_ALLOWED_IN_ROW(row)   (MAXCOL(row) == TITLE_ROW)
 
-#define MAXCOL(row)     (horTab ? pgm_read_byte(horTab+min(row, (vertpos_t)horTabMax)) : (const uint8_t)0)
+#define MAXCOL(row)     (horTab ? pgm_read_byte_near(horTab+min(row, (vertpos_t)horTabMax)) : (const uint8_t)0)
 #define INC(val, min, max) if (val<max) {val++;} else {val=min;}
 #define DEC(val, min, max) if (val>min) {val--;} else {val=max;}
 
@@ -271,7 +271,7 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
       }
 
       if (cc != curr) {
-        chainMenu((MenuHandlerFunc)pgm_read_adr(&menuTab[cc]));
+        chainMenu((MenuHandlerFunc)pgm_read_word_near(&menuTab[cc]));
       }
 
 #if defined(ROTARY_ENCODER_NAVIGATION)
@@ -494,7 +494,7 @@ uint8_t calcStickScroll( uint8_t index )
     value = -value;                             // (abs)
   if (value > 7)
     value = 7;
-  value = pgm_read_byte(rate+(uint8_t)value);
+  value = pgm_read_byte_near(rate+(uint8_t)value);
   if (value)
     StickScrollTimer = STICK_SCROLL_TIMEOUT;    // Seconds
   return value | direction;

@@ -343,7 +343,7 @@ void putsMavlinParams(uint8_t x, uint8_t y, uint8_t idx, uint8_t att)
   if (idx < NB_PARAMS) {
     const pm_char * s = getParamId(idx);
     char c;
-    while ((c = pgm_read_byte(s++))) {
+    while ((c = pgm_read_byte_near(s++))) {
       lcdDrawCharAtt(x, y, (c == '_' ? ' ' : c), 0);
       x += FW;
     }
@@ -361,7 +361,7 @@ static inline void setParamValue(int8_t *id, float value)
     const pm_char * s = getParamId(idx);
     p_id = id;
     while (1) {
-      char c1 = pgm_read_byte(s++);
+      char c1 = pgm_read_byte_near(s++);
       if (!c1) {
         // Founded !
         uint8_t founded = !*p_id;
@@ -539,7 +539,7 @@ static void MAVLINK_parse_char(uint8_t c)
   case MAVLINK_PARSE_STATE_GOT_PAYLOAD:
 
 #if MAVLINK_CRC_EXTRA
-    mavlink_update_checksum(p_rxmsg, pgm_read_byte(&(mavlink_message_crcs[p_rxmsg->msgid])));
+    mavlink_update_checksum(p_rxmsg, pgm_read_byte_near(&(mavlink_message_crcs[p_rxmsg->msgid])));
 #endif
     if (c != (p_rxmsg->checksum & 0xFF)) {
       // Check first checksum byte
@@ -603,7 +603,7 @@ static inline void MAVLINK_msg_param_set(uint8_t idx)
   int8_t buf[15];
   int8_t *p = buf;
   while (1) {
-    char c = pgm_read_byte(s++);
+    char c = pgm_read_byte_near(s++);
     if (!c) {
       if (idx < NB_PID_PARAMS) {
         *p++ = '_';
