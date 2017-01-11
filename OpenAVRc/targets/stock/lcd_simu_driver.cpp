@@ -28,7 +28,9 @@
 #include "../../../OpenAVRc_Simulator/OpenAVRc_SimulatorApp.h"
 #include "../../../OpenAVRc_Simulator/OpenAVRc_SimulatorMain.h"
 #include <wx/filename.h>
+#include <wx/dir.h>
 #include <wx/msgdlg.h>
+#include <wx/choicdlg.h>
 
 
 #define NUMITERATIONFULLREFRESH  1
@@ -96,14 +98,59 @@ FRESULT f_opendir (DIR * rep, const TCHAR * name)
   sprintf(temp, "%s", name);
   wxString dir(temp,wxConvUTF8);
   dir.Replace("/","\\",true);
+  if (dir == ".") dir = "";
   wxMessageBox("f_opendir  " +AppPath+dir);
   if (Myfile.DirExists(AppPath+dir)) {
     rep->fs = (FATFS *)true;
+    simu_dir = AppPath+dir;
     TRACE("f_opendir(%s) = OK", name);
     return FR_OK;
   }
   TRACE("f_opendir(%s) = error", name);
   return FR_NO_PATH;
+}
+
+FRESULT f_readdir (DIR * rep, FILINFO * fil)
+{
+  static wxDir dir(simu_dir);
+  static wxString filename;
+  static bool cont = false;
+
+  if (!cont) {
+    cont = dir.GetFirst(&filename, wxEmptyString, wxDIR_DEFAULT );
+    wxMessageBox(wxString::Format(wxT("%s\n"), filename.c_str()));
+
+    //fil->fattrib = AM_DIR; //todo check
+
+    /* memset(fil->fname, 0, 13);
+     memset(fil->lfname, 0, SD_SCREEN_FILE_LENGTH);
+    TCHAR fn[13];
+    const wxChar* myStringChars = filename.c_str();
+    for (int i = 0; i < 13; i++) {
+     fn[i] = myStringChars[i];
+    }*/
+    //strncpy(fil->fname, fn, 13-1);
+    //strcpy(fil->lfname, fn);
+
+    //fil->fname = wxString::Format(wxT("%13s\n"), filename.c_str());
+    if (!cont) return FR_NO_FILE;
+    else return FR_OK;
+  }
+
+//fil->fattrib = AM_DIR;
+
+  cont = dir.GetNext(&filename);
+
+  // wxMessageBox(wxString::Format(wxT("%s\n"), filename.c_str()));
+
+  //if (!rep->fs) return FR_NO_FILE;
+
+  if (!cont) return FR_NO_FILE;
+  else return FR_OK;
+
+  //fil->fattrib = (ent->d_type == DT_DIR ? AM_DIR : 0);
+
+  //return FR_OK;
 }
 
 FRESULT f_mkdir (const TCHAR*)
@@ -149,18 +196,6 @@ FRESULT f_chdir (const TCHAR *name)
 {
   //chdir(convertSimuPath(name));
   return FR_OK;
-}
-
-FRESULT f_readdir (DIR * rep, FILINFO * fil)
-{
-  if (!rep->fs) return FR_NO_FILE;
-
-  //if (!ent) return FR_NO_FILE;
-
-  //fil->fattrib = (ent->d_type == DT_DIR ? AM_DIR : 0);
-
-  return FR_NO_FILE;
-  //return FR_OK;
 }
 
 FRESULT f_lseek (FIL* fil, DWORD offset)

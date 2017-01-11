@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -43,56 +43,56 @@
  *	lanuched by the menu button. On exit (with exit button) the mavlink
  *	extension is reinitialized.
  */
-void menuTelemetryMavlink(uint8_t event) {
+void menuTelemetryMavlink(uint8_t event)
+{
 
-	switch (event) // new event received, branch accordingly
-	{
-	case EVT_ENTRY:
-		MAVLINK_menu = MENU_INFO;
-		break;
+  switch (event) { // new event received, branch accordingly
+  case EVT_ENTRY:
+    MAVLINK_menu = MENU_INFO;
+    break;
 
-	case EVT_KEY_FIRST(KEY_UP):
-		if (MAVLINK_menu > 0)
-		  MAVLINK_menu--;
-		else
-		  chainMenu(menuMainView);
-                break;
-	case EVT_KEY_FIRST(KEY_DOWN):
-		if (MAVLINK_menu < MAX_MAVLINK_MENU - 1)
-		  MAVLINK_menu++;
-		break;
-	case EVT_KEY_FIRST(KEY_MENU):
-		return;
-	case EVT_KEY_FIRST(KEY_EXIT):
-		chainMenu(menuMainView);
-		break;
-	}
+  case EVT_KEY_FIRST(KEY_UP):
+    if (MAVLINK_menu > 0)
+      MAVLINK_menu--;
+    else
+      chainMenu(menuMainView);
+    break;
+  case EVT_KEY_FIRST(KEY_DOWN):
+    if (MAVLINK_menu < MAX_MAVLINK_MENU - 1)
+      MAVLINK_menu++;
+    break;
+  case EVT_KEY_FIRST(KEY_MENU):
+    return;
+  case EVT_KEY_FIRST(KEY_EXIT):
+    chainMenu(menuMainView);
+    break;
+  }
 
-	switch (MAVLINK_menu) {
-	case MENU_INFO:
-		menuTelemetryMavlinkInfos();
-		break;
-	case MENU_MODE:
-		menuTelemetryMavlinkFlightMode();
-		break;
-	case MENU_BATT:
-		menuTelemetryMavlinkBattery();
-		break;
-	case MENU_NAV:
-		menuTelemetryMavlinkNavigation();
-		break;
-	case MENU_GPS:
-		menuTelemetryMavlinkGPS();
-		break;
+  switch (MAVLINK_menu) {
+  case MENU_INFO:
+    menuTelemetryMavlinkInfos();
+    break;
+  case MENU_MODE:
+    menuTelemetryMavlinkFlightMode();
+    break;
+  case MENU_BATT:
+    menuTelemetryMavlinkBattery();
+    break;
+  case MENU_NAV:
+    menuTelemetryMavlinkNavigation();
+    break;
+  case MENU_GPS:
+    menuTelemetryMavlinkGPS();
+    break;
 #ifdef DUMP_RX_TX
-	case MENU_DUMP_TX:
-	case MENU_DUMP_RX:
-		menuTelemetryMavlinkDump(event);
-		break;
+  case MENU_DUMP_TX:
+  case MENU_DUMP_RX:
+    menuTelemetryMavlinkDump(event);
+    break;
 #endif
-	default:
-		break;
-	}
+  default:
+    break;
+  }
 
 }
 
@@ -108,56 +108,56 @@ void menuTelemetryMavlink(uint8_t event) {
           *
        9999.9999 \endverbatim
  */
-void lcd_outdezFloat(uint8_t x, uint8_t y, float val, uint8_t precis, uint8_t mode) {
-	char c;
-	int16_t lnum = val;
-	uint8_t x1 = x;
-	val -= lnum;
-	uint8_t xinc = FWNUM;
-	if (mode & DBLSIZE)
-		xinc *= 2;
+void lcd_outdezFloat(uint8_t x, uint8_t y, float val, uint8_t precis, uint8_t mode)
+{
+  char c;
+  int16_t lnum = val;
+  uint8_t x1 = x;
+  val -= lnum;
+  uint8_t xinc = FWNUM;
+  if (mode & DBLSIZE)
+    xinc *= 2;
 
-	int8_t i = 0;
-	lnum = abs(lnum);
-	for (; i < 4; i++) {
-		c = (lnum % 10) + '0';
-		x1 -= xinc;
-		lcdDrawCharAtt(x1, y, c, mode);
-		lnum /= 10;
-		if (lnum == 0) {
-			break;
-		}
-	}
-	if (lnum != 0) {
-		// Error number too big
-		x1 = x;
-		for (i = 0; i < 4; i++) {
-			x1 -= FW;
-			lcdDrawCharAtt(x1, y, '?', mode);
-		}
-	} else {
-		if (val < 0) {
-			val = -val;
-			x1 -= xinc;
-			lcdDrawCharAtt(x1, y, '-', mode);
-		}
-		if (precis)
-		{
-			uint8_t y_temp = y;
-			if (mode & DBLSIZE)
-				y_temp += FH;
-			lcdDrawCharAtt(x, y_temp, '.', (mode & (~DBLSIZE)));
-			x -= (xinc / 2);
-		}
-		for (i = 0; i < precis; i++) {
-			val *= 10;
-			int a = val;
-			c = a + '0';
-			x += xinc;
-			lcdDrawCharAtt(x, y, c, mode);
-			val -= a;
-		}
-	}
+  int8_t i = 0;
+  lnum = abs(lnum);
+  for (; i < 4; i++) {
+    c = (lnum % 10) + '0';
+    x1 -= xinc;
+    lcdDrawCharAtt(x1, y, c, mode);
+    lnum /= 10;
+    if (lnum == 0) {
+      break;
+    }
+  }
+  if (lnum != 0) {
+    // Error number too big
+    x1 = x;
+    for (i = 0; i < 4; i++) {
+      x1 -= FW;
+      lcdDrawCharAtt(x1, y, '?', mode);
+    }
+  } else {
+    if (val < 0) {
+      val = -val;
+      x1 -= xinc;
+      lcdDrawCharAtt(x1, y, '-', mode);
+    }
+    if (precis) {
+      uint8_t y_temp = y;
+      if (mode & DBLSIZE)
+        y_temp += FH;
+      lcdDrawCharAtt(x, y_temp, '.', (mode & (~DBLSIZE)));
+      x -= (xinc / 2);
+    }
+    for (i = 0; i < precis; i++) {
+      val *= 10;
+      int a = val;
+      c = a + '0';
+      x += xinc;
+      lcdDrawCharAtt(x, y, c, mode);
+      val -= a;
+    }
+  }
 }
 
 /*!	\brief Fightmode string printer
@@ -170,18 +170,18 @@ void lcd_outdezFloat(uint8_t x, uint8_t y, float val, uint8_t precis, uint8_t mo
 
 void print_mav_mode(uint8_t x, uint8_t y, uint32_t custom_mode, uint8_t attr) //, const char * mode_text_p)
 {
-	uint8_t mode = (uint8_t) custom_mode;
-	switch (telemetry_data.type_autopilot) {
-	case MAVLINK_ARDUCOPTER:
-		lcdDrawTextAtIndex(x,y,STR_MAVLINK_AC_MODES,mode,attr);
-		break;
-	case MAVLINK_ARDUPLANE:
-		lcdDrawTextAtIndex(x,y,STR_MAVLINK_AP_MODES,ap_modes_lut[custom_mode],attr);
-		break;
-	default:
-		lcdDrawTextAtt (FW, y, PSTR("INV. MAV TYPE"), attr);
-		break;
-	}
+  uint8_t mode = (uint8_t) custom_mode;
+  switch (telemetry_data.type_autopilot) {
+  case MAVLINK_ARDUCOPTER:
+    lcdDrawTextAtIndex(x,y,STR_MAVLINK_AC_MODES,mode,attr);
+    break;
+  case MAVLINK_ARDUPLANE:
+    lcdDrawTextAtIndex(x,y,STR_MAVLINK_AP_MODES,ap_modes_lut[custom_mode],attr);
+    break;
+  default:
+    lcdDrawTextAtt (FW, y, PSTR("INV. MAV TYPE"), attr);
+    break;
+  }
 }
 
 /*!	\brief Menu header
@@ -194,7 +194,7 @@ void mav_title(const pm_char * s, uint8_t index)
   displayScreenIndex(index, MAX_MAVLINK_MENU, INVERS);
   lcdDrawChar(7 * FW, 0, (mav_heartbeat > 0) ? '*' : ' ');
   if (telemetry_data.active)
-  	  lcdDrawCharAtt(8 * FW, 0, 'A', BLINK);
+    lcdDrawCharAtt(8 * FW, 0, 'A', BLINK);
 }
 
 /*!	\brief Global info menu
@@ -203,133 +203,135 @@ void mav_title(const pm_char * s, uint8_t index)
  *	readable with a quick glance.
  *	\todo Make menu as described as above.
  */
-void menuTelemetryMavlinkInfos(void) {
+void menuTelemetryMavlinkInfos(void)
+{
 
-	mav_title(STR_MAVLINK_INFOS, MAVLINK_menu);
+  mav_title(STR_MAVLINK_INFOS, MAVLINK_menu);
 
-	uint8_t x1, x2, xnum, y;
-	x1 = FW;
-	x2 = 7 * FW;
-	xnum = x2 + 5 * FWNUM;
-	y = FH;
-/*
-	char * ptr = mav_statustext;
-	for (uint8_t j = 0; j < LEN_STATUSTEXT; j++) {
-		if (*ptr == 0) {
-			lcdDrawChar(x1, y, ' ');
-		} else {
-			lcdDrawChar(x1, y, *ptr++);
-		}
-		x1 += FW;
-	}
-	x1 = FW;
-	y += FH;
-*/
-	if (telemetry_data.status) {
+  uint8_t x1, x2, xnum, y;
+  x1 = FW;
+  x2 = 7 * FW;
+  xnum = x2 + 5 * FWNUM;
+  y = FH;
+  /*
+  	char * ptr = mav_statustext;
+  	for (uint8_t j = 0; j < LEN_STATUSTEXT; j++) {
+  		if (*ptr == 0) {
+  			lcdDrawChar(x1, y, ' ');
+  		} else {
+  			lcdDrawChar(x1, y, *ptr++);
+  		}
+  		x1 += FW;
+  	}
+  	x1 = FW;
+  	y += FH;
+  */
+  if (telemetry_data.status) {
 
-		lcdDrawSizedTextAtt(x1, y, STR_MAVLINK_MODE, 4, 0);
-		if (telemetry_data.active)
-			lcdDrawSizedTextAtt(x2, y, PSTR("A"), 1, 0);
-		lcdDrawNumberAttUnit(xnum, y, telemetry_data.mode, 0);
+    lcdDrawSizedTextAtt(x1, y, STR_MAVLINK_MODE, 4, 0);
+    if (telemetry_data.active)
+      lcdDrawSizedTextAtt(x2, y, PSTR("A"), 1, 0);
+    lcdDrawNumberAttUnit(xnum, y, telemetry_data.mode, 0);
 
-		y += FH;
-		lcdDrawText(x1, y, PSTR("BATT"));
-		lcdDrawNumberNAtt(xnum, y, telemetry_data.vbat, PREC1, 5);
+    y += FH;
+    lcdDrawText(x1, y, PSTR("BATT"));
+    lcdDrawNumberNAtt(xnum, y, telemetry_data.vbat, PREC1, 5);
 
-		y += FH;
-		lcdDrawText(x1, y, PSTR("DROP"));
-		lcdDrawNumberAttUnit(xnum, y, telemetry_data.packet_drop, 0);
-/*		y += FH;
-		lcdDrawText(x1, y, PSTR("FIX"));
-		lcdDrawNumberAttUnit(xnum, y, telemetry_data.packet_fixed, 0);
-		y += FH;
-		lcdDrawText(x1, y, PSTR("MAV Comp"));
-		lcdDrawNumberAttUnit(xnum, y, telemetry_data.mav_compid, 0);
-		y += FH;
-		lcdDrawText(x1, y, PSTR("MAV Sys"));
-		lcdDrawNumberAttUnit(xnum, y, telemetry_data.mav_sysid, 0);
-		y += FH;
-		lcdDrawText(x1, y, PSTR("Rad Comp"));
-		lcdDrawNumberAttUnit(xnum, y, telemetry_data.radio_compid, 0);
-		y += FH;
-		lcdDrawText(x1, y, PSTR("Rad Sys"));
-		lcdDrawNumberAttUnit(xnum, y, telemetry_data.radio_sysid, 0);
-*/
+    y += FH;
+    lcdDrawText(x1, y, PSTR("DROP"));
+    lcdDrawNumberAttUnit(xnum, y, telemetry_data.packet_drop, 0);
+    /*		y += FH;
+    		lcdDrawText(x1, y, PSTR("FIX"));
+    		lcdDrawNumberAttUnit(xnum, y, telemetry_data.packet_fixed, 0);
+    		y += FH;
+    		lcdDrawText(x1, y, PSTR("MAV Comp"));
+    		lcdDrawNumberAttUnit(xnum, y, telemetry_data.mav_compid, 0);
+    		y += FH;
+    		lcdDrawText(x1, y, PSTR("MAV Sys"));
+    		lcdDrawNumberAttUnit(xnum, y, telemetry_data.mav_sysid, 0);
+    		y += FH;
+    		lcdDrawText(x1, y, PSTR("Rad Comp"));
+    		lcdDrawNumberAttUnit(xnum, y, telemetry_data.radio_compid, 0);
+    		y += FH;
+    		lcdDrawText(x1, y, PSTR("Rad Sys"));
+    		lcdDrawNumberAttUnit(xnum, y, telemetry_data.radio_sysid, 0);
+    */
 
-	}
+  }
 }
 
 /*!	\brief Flight mode menu
  *	\details Clear display of current flight mode.
  *	\todo Add functionality to change flight mode.
  */
-void menuTelemetryMavlinkFlightMode(void) {
+void menuTelemetryMavlinkFlightMode(void)
+{
 
-	mav_title(STR_MAVLINK_MODE, MAVLINK_menu);
+  mav_title(STR_MAVLINK_MODE, MAVLINK_menu);
 
-	uint8_t x, y;
-	x = 0;
-	y = FH;
+  uint8_t x, y;
+  x = 0;
+  y = FH;
 
-    lcdDrawText  (x, y, STR_MAVLINK_CUR_MODE);
-    y += FH;
-    print_mav_mode(FW, y, telemetry_data.custom_mode, DBLSIZE);
-    y += 2 * FH;
+  lcdDrawText  (x, y, STR_MAVLINK_CUR_MODE);
+  y += FH;
+  print_mav_mode(FW, y, telemetry_data.custom_mode, DBLSIZE);
+  y += 2 * FH;
 
-	char * ptr = mav_statustext;
-	for (uint8_t j = 0; j < LEN_STATUSTEXT; j++) {
-		if (*ptr == 0) {
-			lcdDrawChar(x, y, ' ');
-		} else {
-			lcdDrawChar(x, y, *ptr++);
-		}
-		x += FW;
-	}
-    y += FH;
-    x = 0;
+  char * ptr = mav_statustext;
+  for (uint8_t j = 0; j < LEN_STATUSTEXT; j++) {
+    if (*ptr == 0) {
+      lcdDrawChar(x, y, ' ');
+    } else {
+      lcdDrawChar(x, y, *ptr++);
+    }
+    x += FW;
+  }
+  y += FH;
+  x = 0;
 
-    if (telemetry_data.active)
-    	lcdDrawTextAtt (FW, y, STR_MAVLINK_ARMED, DBLSIZE);
+  if (telemetry_data.active)
+    lcdDrawTextAtt (FW, y, STR_MAVLINK_ARMED, DBLSIZE);
 }
 
 /*!	\brief Batterystatus dislplay
  *	\details Shows flight batery status.
  *	Also RC and PC RSSI are in this menu.
  */
-void menuTelemetryMavlinkBattery(void) {
+void menuTelemetryMavlinkBattery(void)
+{
 
-	mav_title(STR_MAVLINK_BAT_MENU_TITLE, MAVLINK_menu);
+  mav_title(STR_MAVLINK_BAT_MENU_TITLE, MAVLINK_menu);
 
-	uint8_t x, y, ynum;
-	x = 7 * FWNUM;
+  uint8_t x, y, ynum;
+  x = 7 * FWNUM;
 //	x = xnum + 0 * FW;
-	ynum = 2 * FH;
-	y = 3 * FH;
+  ynum = 2 * FH;
+  y = 3 * FH;
 
-    lcdDrawText(0, 1*FH, STR_MAVLINK_BATTERY_LABEL);
+  lcdDrawText(0, 1*FH, STR_MAVLINK_BATTERY_LABEL);
 
-	lcdDrawNumberAttUnit(x, ynum, telemetry_data.vbat, (DBLSIZE | PREC1 | UNSIGN));
-	lcdDrawText(x, y, PSTR("V"));
-	x += 4 * (2 * FWNUM);
-	lcdDrawNumberAttUnit(x, ynum, telemetry_data.ibat, (DBLSIZE | PREC1 | UNSIGN));
-	lcdDrawText(x, y, PSTR("A"));
-	x += 4 * (2 * FWNUM);
-	lcdDrawNumberAttUnit(x, ynum, telemetry_data.rem_bat, (DBLSIZE | UNSIGN));
-	lcdDrawText(x, y, PSTR("%"));
-	y += FH;
-	ynum += 3 * FH;
+  lcdDrawNumberAttUnit(x, ynum, telemetry_data.vbat, (DBLSIZE | PREC1 | UNSIGN));
+  lcdDrawText(x, y, PSTR("V"));
+  x += 4 * (2 * FWNUM);
+  lcdDrawNumberAttUnit(x, ynum, telemetry_data.ibat, (DBLSIZE | PREC1 | UNSIGN));
+  lcdDrawText(x, y, PSTR("A"));
+  x += 4 * (2 * FWNUM);
+  lcdDrawNumberAttUnit(x, ynum, telemetry_data.rem_bat, (DBLSIZE | UNSIGN));
+  lcdDrawText(x, y, PSTR("%"));
+  y += FH;
+  ynum += 3 * FH;
 
-	x = 0;
-    lcdDrawText  (x, y, STR_MAVLINK_RC_RSSI_LABEL);
-	lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.rc_rssi, (DBLSIZE | UNSIGN));
-	lcdDrawText(x + 7 * FWNUM, ynum + FH, PSTR("%"));
-	if (g_model.mavlink.pc_rssi_en)
-	{
-		x += 8 * (2 * FWNUM);
-		lcdDrawText(x, y, STR_MAVLINK_PC_RSSI_LABEL);
-		lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.pc_rssi, (DBLSIZE));
-		lcdDrawText(x + 7 * FWNUM, ynum + FH,  PSTR("%"));
-	}
+  x = 0;
+  lcdDrawText  (x, y, STR_MAVLINK_RC_RSSI_LABEL);
+  lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.rc_rssi, (DBLSIZE | UNSIGN));
+  lcdDrawText(x + 7 * FWNUM, ynum + FH, PSTR("%"));
+  if (g_model.mavlink.pc_rssi_en) {
+    x += 8 * (2 * FWNUM);
+    lcdDrawText(x, y, STR_MAVLINK_PC_RSSI_LABEL);
+    lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.pc_rssi, (DBLSIZE));
+    lcdDrawText(x + 7 * FWNUM, ynum + FH,  PSTR("%"));
+  }
 
 }
 
@@ -339,33 +341,34 @@ void menuTelemetryMavlinkBattery(void) {
  *	is the same altitude used by the waypoints.
  *	\todo Add a similar menu to fly back to the home location.
  */
-void menuTelemetryMavlinkNavigation(void) {
+void menuTelemetryMavlinkNavigation(void)
+{
 
-	mav_title(STR_MAVLINK_NAV_MENU_TITLE, MAVLINK_menu);
+  mav_title(STR_MAVLINK_NAV_MENU_TITLE, MAVLINK_menu);
 
-	uint8_t x, y, ynum;
+  uint8_t x, y, ynum;
 
-	ynum = 2 * FH;
-	y = FH;
-	x = 0;
-    lcdDrawText  (x, y, STR_MAVLINK_COURSE);
-	lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.course, (DBLSIZE | UNSIGN));
-	lcdDrawText(x + 7 * FWNUM, ynum, PSTR("o"));
-	x += 8 * (2 * FWNUM);
-    lcdDrawText(x, y, STR_MAVLINK_HEADING);
-	lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.heading, (DBLSIZE | UNSIGN));
-	lcdDrawText(x + 7 * FWNUM, ynum,  PSTR("o"));
-	y += 3 * FH;
-	ynum += 3 * FH;
+  ynum = 2 * FH;
+  y = FH;
+  x = 0;
+  lcdDrawText  (x, y, STR_MAVLINK_COURSE);
+  lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.course, (DBLSIZE | UNSIGN));
+  lcdDrawText(x + 7 * FWNUM, ynum, PSTR("o"));
+  x += 8 * (2 * FWNUM);
+  lcdDrawText(x, y, STR_MAVLINK_HEADING);
+  lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.heading, (DBLSIZE | UNSIGN));
+  lcdDrawText(x + 7 * FWNUM, ynum,  PSTR("o"));
+  y += 3 * FH;
+  ynum += 3 * FH;
 
-	x = 0;
-    lcdDrawText  (x, y, STR_MAVLINK_BEARING);
-	lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.bearing, (DBLSIZE | UNSIGN));
-	lcdDrawText(x + 7 * FWNUM, ynum, PSTR("o"));
-	x += 8 * (2 * FWNUM);
-    lcdDrawText(x, y, STR_MAVLINK_ALTITUDE);
-	lcd_outdezFloat(x + 4 * FWNUM - 1, ynum, telemetry_data.loc_current.rel_alt, 1, (DBLSIZE));
-	lcdDrawText(x + 7 * FWNUM, ynum + FH,  PSTR("m"));
+  x = 0;
+  lcdDrawText  (x, y, STR_MAVLINK_BEARING);
+  lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.bearing, (DBLSIZE | UNSIGN));
+  lcdDrawText(x + 7 * FWNUM, ynum, PSTR("o"));
+  x += 8 * (2 * FWNUM);
+  lcdDrawText(x, y, STR_MAVLINK_ALTITUDE);
+  lcd_outdezFloat(x + 4 * FWNUM - 1, ynum, telemetry_data.loc_current.rel_alt, 1, (DBLSIZE));
+  lcdDrawText(x + 7 * FWNUM, ynum + FH,  PSTR("m"));
 
 }
 
@@ -378,101 +381,104 @@ void menuTelemetryMavlinkNavigation(void) {
  *	\todo Text is small. Should we do something about this or leaf it like this.
  *	I don't think will be used much when a user is concentrated on flying.
  */
-void menuTelemetryMavlinkGPS(void) {
-	mav_title(STR_MAVLINK_GPS, MAVLINK_menu);
+void menuTelemetryMavlinkGPS(void)
+{
+  mav_title(STR_MAVLINK_GPS, MAVLINK_menu);
 
-	uint8_t x1, x2, xnum, xnum2, y;
-	x1 = FW;
-	x2 = x1 + 12 * FW;
-	xnum = 7 * FW + 3 * FWNUM;
-	xnum2 = xnum + 11 * FWNUM;
-	y = FH;
+  uint8_t x1, x2, xnum, xnum2, y;
+  x1 = FW;
+  x2 = x1 + 12 * FW;
+  xnum = 7 * FW + 3 * FWNUM;
+  xnum2 = xnum + 11 * FWNUM;
+  y = FH;
 
-	lcdDrawSizedTextAtt(x1, y, STR_MAVLINK_GPS, 3, 0);
-	if (telemetry_data.fix_type < 2) {
-		lcdDrawSizedTextAtt(xnum, y, STR_MAVLINK_NO_FIX, 6, 0);
-	} else {
-		lcdDrawNumberNAtt(xnum, y, telemetry_data.fix_type, 0, 3);
-		lcdDrawText(xnum, y, PSTR("D"));
-	}
-	lcdDrawText(x2, y, STR_MAVLINK_SAT);
-	lcdDrawNumberNAtt(xnum2, y, telemetry_data.satellites_visible, 0, 2);
+  lcdDrawSizedTextAtt(x1, y, STR_MAVLINK_GPS, 3, 0);
+  if (telemetry_data.fix_type < 2) {
+    lcdDrawSizedTextAtt(xnum, y, STR_MAVLINK_NO_FIX, 6, 0);
+  } else {
+    lcdDrawNumberNAtt(xnum, y, telemetry_data.fix_type, 0, 3);
+    lcdDrawText(xnum, y, PSTR("D"));
+  }
+  lcdDrawText(x2, y, STR_MAVLINK_SAT);
+  lcdDrawNumberNAtt(xnum2, y, telemetry_data.satellites_visible, 0, 2);
 
 //	if (telemetry_data.fix_type > 0) {
-	y += FH;
-	lcdDrawText(x1, y, STR_MAVLINK_HDOP);
-	lcd_outdezFloat(xnum, y, telemetry_data.eph, 2);
+  y += FH;
+  lcdDrawText(x1, y, STR_MAVLINK_HDOP);
+  lcd_outdezFloat(xnum, y, telemetry_data.eph, 2);
 
-	y += FH;
-	lcdDrawText(x1, y, STR_MAVLINK_LAT);
-	lcd_outdezFloat(xnum, y, telemetry_data.loc_current.lat, 2);
+  y += FH;
+  lcdDrawText(x1, y, STR_MAVLINK_LAT);
+  lcd_outdezFloat(xnum, y, telemetry_data.loc_current.lat, 2);
 
-	lcdDrawSizedTextAtt(x2, y, STR_MAVLINK_LON, 3, 0);
-	lcd_outdezFloat(xnum2, y, telemetry_data.loc_current.lon, 2);
+  lcdDrawSizedTextAtt(x2, y, STR_MAVLINK_LON, 3, 0);
+  lcd_outdezFloat(xnum2, y, telemetry_data.loc_current.lon, 2);
 
-	y += FH;
-	lcdDrawSizedTextAtt(x1, y, STR_MAVLINK_ALTITUDE, 3, 0);
-	lcdDrawNumberAttUnit(xnum, y, telemetry_data.loc_current.gps_alt, 0);
+  y += FH;
+  lcdDrawSizedTextAtt(x1, y, STR_MAVLINK_ALTITUDE, 3, 0);
+  lcdDrawNumberAttUnit(xnum, y, telemetry_data.loc_current.gps_alt, 0);
 
-	y += FH;
-	lcdDrawSizedTextAtt(x1, y, STR_MAVLINK_COURSE, 6, 0);
-	lcd_outdezFloat(xnum, y, telemetry_data.course, 2);
+  y += FH;
+  lcdDrawSizedTextAtt(x1, y, STR_MAVLINK_COURSE, 6, 0);
+  lcd_outdezFloat(xnum, y, telemetry_data.course, 2);
 
-	y += FH;
-	lcdDrawSizedTextAtt(x1, y, PSTR("V"), 1, 0);
-	lcdDrawNumberAttUnit(xnum, y, telemetry_data.v, 0);
-	//}
+  y += FH;
+  lcdDrawSizedTextAtt(x1, y, PSTR("V"), 1, 0);
+  lcdDrawNumberAttUnit(xnum, y, telemetry_data.v, 0);
+  //}
 }
 
 #ifdef DUMP_RX_TX
 //! \brief Display one byte as hex.
-void lcd_outhex2(uint8_t x, uint8_t y, uint8_t val) {
-	x += FWNUM * 2;
-	for (int i = 0; i < 2; i++) {
-		x -= FWNUM;
-		char c = val & 0xf;
-		c = c > 9 ? c + 'A' - 10 : c + '0';
-		lcdDrawCharAtt(x, y, c, c >= 'A' ? CONDENSED : 0);
-		val >>= 4;
-	}
+void lcd_outhex2(uint8_t x, uint8_t y, uint8_t val)
+{
+  x += FWNUM * 2;
+  for (int i = 0; i < 2; i++) {
+    x -= FWNUM;
+    char c = val & 0xf;
+    c = c > 9 ? c + 'A' - 10 : c + '0';
+    lcdDrawCharAtt(x, y, c, c >= 'A' ? CONDENSED : 0);
+    val >>= 4;
+  }
 }
 
 //! \brief Hex dump of the current mavlink message.
-void menuTelemetryMavlinkDump(uint8_t event) {
-	uint8_t x = 0;
-	uint8_t y = FH;
-	uint16_t count = 0;
-	uint16_t bufferLen = 0;
-	uint8_t *ptr = NULL;
-	switch (MAVLINK_menu) {
-		case MENU_DUMP_RX:
-		mav_dump_rx = 1;
-		mav_title(PSTR("RX"), MAVLINK_menu);
-		bufferLen = mavlinkRxBufferCount;
-		ptr = mavlinkRxBuffer;
-		break;
+void menuTelemetryMavlinkDump(uint8_t event)
+{
+  uint8_t x = 0;
+  uint8_t y = FH;
+  uint16_t count = 0;
+  uint16_t bufferLen = 0;
+  uint8_t *ptr = NULL;
+  switch (MAVLINK_menu) {
+  case MENU_DUMP_RX:
+    mav_dump_rx = 1;
+    mav_title(PSTR("RX"), MAVLINK_menu);
+    bufferLen = mavlinkRxBufferCount;
+    ptr = mavlinkRxBuffer;
+    break;
 
-		case MENU_DUMP_TX:
-		mav_title(PSTR("TX"), MAVLINK_menu);
-		bufferLen = serialTxBufferCount;
-		ptr = ptrTxISR;
-		break;
-		default:
-		break;
-	}
-	for (uint16_t var = 0; var < bufferLen; var++) {
-		uint8_t byte = *ptr++;
-		lcd_outhex2(x, y, byte);
-		x += 2 * FW;
-		count++;
-		if (count > 8) {
-			count = 0;
-			x = 0;
-			y += FH;
-			if (y == (6 * FH))
-			break;
-		}
-	}
+  case MENU_DUMP_TX:
+    mav_title(PSTR("TX"), MAVLINK_menu);
+    bufferLen = serialTxBufferCount;
+    ptr = ptrTxISR;
+    break;
+  default:
+    break;
+  }
+  for (uint16_t var = 0; var < bufferLen; var++) {
+    uint8_t byte = *ptr++;
+    lcd_outhex2(x, y, byte);
+    x += 2 * FW;
+    count++;
+    if (count > 8) {
+      count = 0;
+      x = 0;
+      y += FH;
+      if (y == (6 * FH))
+        break;
+    }
+  }
 }
 #endif
 
@@ -486,34 +492,35 @@ void menuTelemetryMavlinkDump(uint8_t event) {
  *	This funcion is called from the model setup menus, not directly by the
  *	telemetry menus
  */
-void menuTelemetryMavlinkSetup(uint8_t event) {
+void menuTelemetryMavlinkSetup(uint8_t event)
+{
 
-	MENU(STR_MAVMENUSETUP_TITLE, menuTabModel, e_MavSetup, ITEM_MAVLINK_MAX + 1, {0, 0, 1/*to force edit mode*/});
+  MENU(STR_MAVMENUSETUP_TITLE, menuTabModel, e_MavSetup, ITEM_MAVLINK_MAX + 1, {0, 0, 1/*to force edit mode*/});
 
-	uint8_t sub = menuVerticalPosition - 1;
+  uint8_t sub = menuVerticalPosition - 1;
 
-	for (uint8_t i=0; i<LCD_LINES-1; i++) {
-		uint8_t y = 1 + 1*FH + i*FH;
-		uint8_t k = i+menuVerticalOffset;
-		uint8_t blink = ((s_editMode>0) ? BLINK|INVERS : INVERS);
-		uint8_t attr = (sub == k ? blink : 0);
-		switch(k) {
-		case ITEM_MAVLINK_RC_RSSI_SCALE:
-			lcdDrawTextLeft(y, STR_MAVLINK_RC_RSSI_SCALE_LABEL);
-			lcdDrawNumberAttUnit(RADIO_SETUP_2ND_COLUMN, y, (25 + g_model.mavlink.rc_rssi_scale * 5), attr|LEFT);
-			lcdDrawChar(lcdLastPos, y, '%');
-			if (attr) CHECK_INCDEC_MODELVAR(event, g_model.mavlink.rc_rssi_scale, 0, 15);
-			break;
-		case ITEM_MAVLINK_PC_RSSI_EN:
-			g_model.mavlink.pc_rssi_en = onoffMenuItem(g_model.mavlink.pc_rssi_en,
-				RADIO_SETUP_2ND_COLUMN,
-				y,
-				STR_MAVLINK_PC_RSSI_EN_LABEL,
-				attr,
-				event);
-			break;
-		}
-	}
+  for (uint8_t i=0; i<LCD_LINES-1; i++) {
+    uint8_t y = 1 + 1*FH + i*FH;
+    uint8_t k = i+menuVerticalOffset;
+    uint8_t blink = ((s_editMode>0) ? BLINK|INVERS : INVERS);
+    uint8_t attr = (sub == k ? blink : 0);
+    switch(k) {
+    case ITEM_MAVLINK_RC_RSSI_SCALE:
+      lcdDrawTextLeft(y, STR_MAVLINK_RC_RSSI_SCALE_LABEL);
+      lcdDrawNumberAttUnit(RADIO_SETUP_2ND_COLUMN, y, (25 + g_model.mavlink.rc_rssi_scale * 5), attr|LEFT);
+      lcdDrawChar(lcdLastPos, y, '%');
+      if (attr) CHECK_INCDEC_MODELVAR(event, g_model.mavlink.rc_rssi_scale, 0, 15);
+      break;
+    case ITEM_MAVLINK_PC_RSSI_EN:
+      g_model.mavlink.pc_rssi_en = onoffMenuItem(g_model.mavlink.pc_rssi_en,
+                                   RADIO_SETUP_2ND_COLUMN,
+                                   y,
+                                   STR_MAVLINK_PC_RSSI_EN_LABEL,
+                                   attr,
+                                   event);
+      break;
+    }
+  }
 }
 
 #endif // defined

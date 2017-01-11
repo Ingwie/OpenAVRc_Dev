@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -30,74 +30,74 @@
 
 // The non-0-terminated-strings
 const pm_char STR_OPEN9X[] PROGMEM =
-    ISTR(OFFON)
-    ISTR(MMMINV)
-    ISTR(NCHANNELS)
+  ISTR(OFFON)
+  ISTR(MMMINV)
+  ISTR(NCHANNELS)
 #if !defined(GRAPHICS)
-    ISTR(VBEEPLEN)
+  ISTR(VBEEPLEN)
 #endif
-    ISTR(VBEEPMODE)
+  ISTR(VBEEPMODE)
 #if defined(ROTARY_ENCODERS)
-    ISTR(VRENAVIG)
+  ISTR(VRENAVIG)
 #endif
 #if defined(ROTARY_ENCODER_NAVIGATION)
-    ISTR(VRENCODERS)
+  ISTR(VRENCODERS)
 #endif
-    ISTR(TRNMODE)
-    ISTR(TRNCHN)
-    ISTR(VTRIMINC)
-    ISTR(RETA123)
-    ISTR(VPROTOS)
-    ISTR(POSNEG)
-    ISTR(VBLMODE)
-    ISTR(VCURVEFUNC)
-    ISTR(VMLTPX)
-    ISTR(VMLTPX2)
-    ISTR(VMIXTRIMS)
-    ISTR(VCSWFUNC)
-    ISTR(VFSWFUNC)
-    ISTR(VFSWRESET)
-    ISTR(FUNCSOUNDS)
-    ISTR(VTELEMCHNS)
+  ISTR(TRNMODE)
+  ISTR(TRNCHN)
+  ISTR(VTRIMINC)
+  ISTR(RETA123)
+  ISTR(VPROTOS)
+  ISTR(POSNEG)
+  ISTR(VBLMODE)
+  ISTR(VCURVEFUNC)
+  ISTR(VMLTPX)
+  ISTR(VMLTPX2)
+  ISTR(VMIXTRIMS)
+  ISTR(VCSWFUNC)
+  ISTR(VFSWFUNC)
+  ISTR(VFSWRESET)
+  ISTR(FUNCSOUNDS)
+  ISTR(VTELEMCHNS)
 #if defined(FRSKY)
-    ISTR(VTELEMUNIT)
-    ISTR(VALARM)
-    ISTR(VALARMFN)
-    ISTR(VTELPROTO)
-    ISTR(GPSFORMAT)
-    ISTR(AMPSRC)
-    ISTR(VARIOSRC)
-    ISTR(VTELEMSCREENTYPE)
+  ISTR(VTELEMUNIT)
+  ISTR(VALARM)
+  ISTR(VALARMFN)
+  ISTR(VTELPROTO)
+  ISTR(GPSFORMAT)
+  ISTR(AMPSRC)
+  ISTR(VARIOSRC)
+  ISTR(VTELEMSCREENTYPE)
 #endif
 #if defined(TEMPLATES)
-    ISTR(VTEMPLATES)
+  ISTR(VTEMPLATES)
 #endif
 #if defined(HELI)
-    ISTR(VSWASHTYPE)
+  ISTR(VSWASHTYPE)
 #endif
-    ISTR(VKEYS)
-    ISTR(VSWITCHES)
-    ISTR(VSRCRAW)
-    ISTR(VTMRMODES)
+  ISTR(VKEYS)
+  ISTR(VSWITCHES)
+  ISTR(VSRCRAW)
+  ISTR(VTMRMODES)
 #if defined(CPUM2560)
-    ISTR(DATETIME)
-    ISTR(VPERSISTENT)
+  ISTR(DATETIME)
+  ISTR(VPERSISTENT)
 #endif
 #if defined(PXX)
-    ISTR(COUNTRYCODES)
-    ISTR(VFAILSAFE)
+  ISTR(COUNTRYCODES)
+  ISTR(VFAILSAFE)
 #endif
 #if defined(MAVLINK)
-    ISTR(MAVLINK_BAUDS)
-    ISTR(MAVLINK_AC_MODES)
-    ISTR(MAVLINK_AP_MODES)
+  ISTR(MAVLINK_BAUDS)
+  ISTR(MAVLINK_AC_MODES)
+  ISTR(MAVLINK_AP_MODES)
 #endif
-    ;
+  ;
 
 // The 0-terminated-strings
 const pm_char STR_POPUPS[] PROGMEM = TR_POPUPS;
 #if !defined(OFS_EXIT)
-  const pm_char STR_EXIT[] PROGMEM = TR_EXIT;
+const pm_char STR_EXIT[] PROGMEM = TR_EXIT;
 #endif
 const pm_char STR_MENUWHENDONE[] PROGMEM = TR_MENUWHENDONE;
 const pm_char STR_FREE[] PROGMEM = TR_FREE;
@@ -454,38 +454,38 @@ const pm_char STR_TOO_MANY_LUA_SCRIPTS[] PROGMEM = TR_TO_MANY_LUA_SCRIPTS;
 const pm_char STR_BLCOLOR[]  PROGMEM = TR_BLCOLOR;
 
 #if MENUS_LOCK == 1
-  const pm_char STR_UNLOCKED[] PROGMEM = TR_UNLOCKED;
-  const pm_char STR_MODS_FORBIDDEN[] PROGMEM = TR_MODS_FORBIDDEN;
+const pm_char STR_UNLOCKED[] PROGMEM = TR_UNLOCKED;
+const pm_char STR_MODS_FORBIDDEN[] PROGMEM = TR_MODS_FORBIDDEN;
 #endif
 
 #if defined(DSM2)
-  const pm_char STR_MODULE_RANGE[] PROGMEM = TR_MODULE_RANGE;
+const pm_char STR_MODULE_RANGE[] PROGMEM = TR_MODULE_RANGE;
 #endif
 
 #if defined(MAVLINK)
-  const pm_char STR_MAVLINK_RC_RSSI_SCALE_LABEL[] PROGMEM = TR_MAVLINK_RC_RSSI_SCALE_LABEL;
-  const pm_char STR_MAVLINK_PC_RSSI_EN_LABEL[] PROGMEM = TR_MAVLINK_PC_RSSI_EN_LABEL;
-  const pm_char STR_MAVMENUSETUP_TITLE[] PROGMEM = TR_MAVMENUSETUP_TITLE;
-  const pm_char STR_MAVLINK_BAUD_LABEL[] PROGMEM = TR_MAVLINK_BAUD_LABEL;
-  const pm_char STR_MAVLINK_INFOS[] PROGMEM = TR_MAVLINK_INFOS;
-  const pm_char STR_MAVLINK_MODE[] PROGMEM = TR_MAVLINK_MODE;
-  const pm_char STR_MAVLINK_CUR_MODE[] PROGMEM = TR_MAVLINK_CUR_MODE;
-  const pm_char STR_MAVLINK_ARMED[] PROGMEM = TR_MAVLINK_ARMED;
-  const pm_char STR_MAVLINK_BAT_MENU_TITLE[] PROGMEM = TR_MAVLINK_BAT_MENU_TITLE;
-  const pm_char STR_MAVLINK_BATTERY_LABEL[] PROGMEM = TR_MAVLINK_BATTERY_LABEL;
-  const pm_char STR_MAVLINK_RC_RSSI_LABEL[] PROGMEM = TR_MAVLINK_RC_RSSI_LABEL;
-  const pm_char STR_MAVLINK_PC_RSSI_LABEL[] PROGMEM = TR_MAVLINK_PC_RSSI_LABEL;
-  const pm_char STR_MAVLINK_NAV_MENU_TITLE[] PROGMEM = TR_MAVLINK_NAV_MENU_TITLE;
-  const pm_char STR_MAVLINK_COURSE[] PROGMEM = TR_MAVLINK_COURSE;
-  const pm_char STR_MAVLINK_HEADING[] PROGMEM = TR_MAVLINK_HEADING;
-  const pm_char STR_MAVLINK_BEARING[] PROGMEM = TR_MAVLINK_BEARING;
-  const pm_char STR_MAVLINK_ALTITUDE[] PROGMEM = TR_MAVLINK_ALTITUDE;
-  const pm_char STR_MAVLINK_GPS[] PROGMEM = TR_MAVLINK_GPS;
-  const pm_char STR_MAVLINK_NO_FIX[] PROGMEM = TR_MAVLINK_NO_FIX;
-  const pm_char STR_MAVLINK_SAT[] PROGMEM = TR_MAVLINK_SAT;
-  const pm_char STR_MAVLINK_HDOP[] PROGMEM = TR_MAVLINK_HDOP;
-  const pm_char STR_MAVLINK_LAT[] PROGMEM = TR_MAVLINK_LAT;
-  const pm_char STR_MAVLINK_LON[] PROGMEM = TR_MAVLINK_LON;
+const pm_char STR_MAVLINK_RC_RSSI_SCALE_LABEL[] PROGMEM = TR_MAVLINK_RC_RSSI_SCALE_LABEL;
+const pm_char STR_MAVLINK_PC_RSSI_EN_LABEL[] PROGMEM = TR_MAVLINK_PC_RSSI_EN_LABEL;
+const pm_char STR_MAVMENUSETUP_TITLE[] PROGMEM = TR_MAVMENUSETUP_TITLE;
+const pm_char STR_MAVLINK_BAUD_LABEL[] PROGMEM = TR_MAVLINK_BAUD_LABEL;
+const pm_char STR_MAVLINK_INFOS[] PROGMEM = TR_MAVLINK_INFOS;
+const pm_char STR_MAVLINK_MODE[] PROGMEM = TR_MAVLINK_MODE;
+const pm_char STR_MAVLINK_CUR_MODE[] PROGMEM = TR_MAVLINK_CUR_MODE;
+const pm_char STR_MAVLINK_ARMED[] PROGMEM = TR_MAVLINK_ARMED;
+const pm_char STR_MAVLINK_BAT_MENU_TITLE[] PROGMEM = TR_MAVLINK_BAT_MENU_TITLE;
+const pm_char STR_MAVLINK_BATTERY_LABEL[] PROGMEM = TR_MAVLINK_BATTERY_LABEL;
+const pm_char STR_MAVLINK_RC_RSSI_LABEL[] PROGMEM = TR_MAVLINK_RC_RSSI_LABEL;
+const pm_char STR_MAVLINK_PC_RSSI_LABEL[] PROGMEM = TR_MAVLINK_PC_RSSI_LABEL;
+const pm_char STR_MAVLINK_NAV_MENU_TITLE[] PROGMEM = TR_MAVLINK_NAV_MENU_TITLE;
+const pm_char STR_MAVLINK_COURSE[] PROGMEM = TR_MAVLINK_COURSE;
+const pm_char STR_MAVLINK_HEADING[] PROGMEM = TR_MAVLINK_HEADING;
+const pm_char STR_MAVLINK_BEARING[] PROGMEM = TR_MAVLINK_BEARING;
+const pm_char STR_MAVLINK_ALTITUDE[] PROGMEM = TR_MAVLINK_ALTITUDE;
+const pm_char STR_MAVLINK_GPS[] PROGMEM = TR_MAVLINK_GPS;
+const pm_char STR_MAVLINK_NO_FIX[] PROGMEM = TR_MAVLINK_NO_FIX;
+const pm_char STR_MAVLINK_SAT[] PROGMEM = TR_MAVLINK_SAT;
+const pm_char STR_MAVLINK_HDOP[] PROGMEM = TR_MAVLINK_HDOP;
+const pm_char STR_MAVLINK_LAT[] PROGMEM = TR_MAVLINK_LAT;
+const pm_char STR_MAVLINK_LON[] PROGMEM = TR_MAVLINK_LON;
 #endif
 
 

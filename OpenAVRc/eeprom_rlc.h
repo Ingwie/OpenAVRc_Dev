@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -37,17 +37,17 @@
 #endif
 
 #if defined(CPUM2560) || defined(CPUM2561) || defined(CPUM128)
-  #define blkid_t    uint8_t
-  #define EESIZE     4096
-  #define EEFS_VERS  5
-  #define MAXFILES   36
-  #define BS         16
+#define blkid_t    uint8_t
+#define EESIZE     4096
+#define EEFS_VERS  5
+#define MAXFILES   36
+#define BS         16
 #else
-  #define blkid_t    uint8_t
-  #define EESIZE     2048
-  #define EEFS_VERS  4
-  #define MAXFILES   20
-  #define BS         16
+#define blkid_t    uint8_t
+#define EESIZE     2048
+#define EEFS_VERS  4
+#define MAXFILES   20
+#define BS         16
 #endif
 
 
@@ -100,28 +100,28 @@ extern volatile int8_t eeprom_buffer_size;
 
 class EFile
 {
-  public:
+public:
 
-    ///remove contents of given file
-    static void rm(uint8_t i_fileId);
+  ///remove contents of given file
+  static void rm(uint8_t i_fileId);
 
-    ///swap contents of file1 with them of file2
-    static void swap(uint8_t i_fileId1, uint8_t i_fileId2);
+  ///swap contents of file1 with them of file2
+  static void swap(uint8_t i_fileId1, uint8_t i_fileId2);
 
-    ///return true if the file with given fileid exists
-    static bool exists(uint8_t i_fileId);
+  ///return true if the file with given fileid exists
+  static bool exists(uint8_t i_fileId);
 
-    ///open file for reading, no close necessary
-    void openRd(uint8_t i_fileId);
+  ///open file for reading, no close necessary
+  void openRd(uint8_t i_fileId);
 
-    uint8_t read(uint8_t *buf, uint8_t len);
+  uint8_t read(uint8_t *buf, uint8_t len);
 
 //  protected:
 
-    uint8_t  m_fileId;    //index of file in directory = filename
-    uint16_t m_pos;       //over all filepos
-    blkid_t  m_currBlk;   //current block.id
-    uint8_t  m_ofs;       //offset inside of the current block
+  uint8_t  m_fileId;    //index of file in directory = filename
+  uint16_t m_pos;       //over all filepos
+  blkid_t  m_currBlk;   //current block.id
+  uint8_t  m_ofs;       //offset inside of the current block
 };
 
 #define eeFileSize(f)   eeFs.files[f].size
@@ -136,14 +136,17 @@ extern uint8_t  s_sync_write;
 #define IS_SYNC_WRITE_ENABLE() s_sync_write
 
 ///deliver current errno, this is reset in open
-inline uint8_t write_errno() { return s_write_err; }
+inline uint8_t write_errno()
+{
+  return s_write_err;
+}
 
 class RlcFile: public EFile
 {
-    uint8_t  m_bRlc;      // control byte for run length decoder
-    uint8_t  m_zeroes;
+  uint8_t  m_bRlc;      // control byte for run length decoder
+  uint8_t  m_zeroes;
 
-    uint8_t m_flags;
+  uint8_t m_flags;
 #define WRITE_FIRST_LINK               0x01
 #define WRITE_NEXT_LINK_1              0x02
 #define WRITE_NEXT_LINK_2              0x03
@@ -152,41 +155,44 @@ class RlcFile: public EFile
 #define WRITE_FREE_UNUSED_BLOCKS_STEP2 0x30
 #define WRITE_FINAL_DIRENT_STEP        0x40
 #define WRITE_TMP_DIRENT_STEP          0x50
-    uint8_t m_write_step;
-    uint16_t m_rlc_len;
-    uint8_t * m_rlc_buf;
-    uint8_t m_cur_rlc_len;
-    uint8_t m_write1_byte;
-    uint8_t m_write_len;
-    uint8_t * m_write_buf;
+  uint8_t m_write_step;
+  uint16_t m_rlc_len;
+  uint8_t * m_rlc_buf;
+  uint8_t m_cur_rlc_len;
+  uint8_t m_write1_byte;
+  uint8_t m_write_len;
+  uint8_t * m_write_buf;
 #if defined (EEPROM_PROGRESS_BAR)
-    uint8_t m_ratio;
+  uint8_t m_ratio;
 #endif
 
-  public:
+public:
 
-    void openRlc(uint8_t i_fileId);
+  void openRlc(uint8_t i_fileId);
 
-    void create(uint8_t i_fileId, uint8_t typ, uint8_t sync_write);
+  void create(uint8_t i_fileId, uint8_t typ, uint8_t sync_write);
 
-    /// copy contents of i_fileSrc to i_fileDst
-    bool copy(uint8_t i_fileDst, uint8_t i_fileSrc);
+  /// copy contents of i_fileSrc to i_fileDst
+  bool copy(uint8_t i_fileDst, uint8_t i_fileSrc);
 
-    inline bool isWriting() { return m_write_step != 0; }
-    void write(uint8_t *buf, uint8_t i_len);
-    void write1(uint8_t b);
-    void nextWriteStep();
-    void nextRlcWriteStep();
-    void writeRlc(uint8_t i_fileId, uint8_t typ, uint8_t *buf, uint16_t i_len, uint8_t sync_write);
+  inline bool isWriting()
+  {
+    return m_write_step != 0;
+  }
+  void write(uint8_t *buf, uint8_t i_len);
+  void write1(uint8_t b);
+  void nextWriteStep();
+  void nextRlcWriteStep();
+  void writeRlc(uint8_t i_fileId, uint8_t typ, uint8_t *buf, uint16_t i_len, uint8_t sync_write);
 
-    // flush the current write operation if any
-    void flush();
+  // flush the current write operation if any
+  void flush();
 
-    // read from opened file and decode rlc-coded data
-    uint16_t readRlc(uint8_t *buf, uint16_t i_len);
+  // read from opened file and decode rlc-coded data
+  uint16_t readRlc(uint8_t *buf, uint16_t i_len);
 
 #if defined (EEPROM_PROGRESS_BAR)
-    void DisplayProgressBar(uint8_t x);
+  void DisplayProgressBar(uint8_t x);
 #endif
 };
 

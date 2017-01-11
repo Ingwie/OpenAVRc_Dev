@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -36,7 +36,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
   FILINFO fno;
   DIR dir;
 
-  #if _USE_LFN
+#if _USE_LFN
   TCHAR lfn[_MAX_LFN + 1];
   fno.lfname = lfn;
   fno.lfsize = sizeof(lfn);
@@ -48,20 +48,16 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
   if (popupMenuOffset == 0) {
     lastpopupMenuOffset = 0;
     memset(reusableBuffer.modelsel.menu_bss, 0, sizeof(reusableBuffer.modelsel.menu_bss));
-  }
-  else if (popupMenuOffset == popupMenuNoItems - MENU_MAX_DISPLAY_LINES) {
+  } else if (popupMenuOffset == popupMenuNoItems - MENU_MAX_DISPLAY_LINES) {
     lastpopupMenuOffset = 0xffff;
     memset(reusableBuffer.modelsel.menu_bss, 0, sizeof(reusableBuffer.modelsel.menu_bss));
-  }
-  else if (popupMenuOffset == lastpopupMenuOffset) {
+  } else if (popupMenuOffset == lastpopupMenuOffset) {
     // should not happen, only there because of Murphy's law
     return true;
-  }
-  else if (popupMenuOffset > lastpopupMenuOffset) {
+  } else if (popupMenuOffset > lastpopupMenuOffset) {
     memmove(reusableBuffer.modelsel.menu_bss[0], reusableBuffer.modelsel.menu_bss[1], (MENU_MAX_DISPLAY_LINES-1)*MENU_LINE_LENGTH);
     memset(reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1], 0xff, MENU_LINE_LENGTH);
-  }
-  else {
+  } else {
     memmove(reusableBuffer.modelsel.menu_bss[1], reusableBuffer.modelsel.menu_bss[0], (MENU_MAX_DISPLAY_LINES-1)*MENU_LINE_LENGTH);
     memset(reusableBuffer.modelsel.menu_bss[0], 0, MENU_LINE_LENGTH);
   }
@@ -76,8 +72,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
       ++popupMenuNoItems;
       if (selection) {
         lastpopupMenuOffset++;
-      }
-      else if (popupMenuOffset==0 || popupMenuOffset < lastpopupMenuOffset) {
+      } else if (popupMenuOffset==0 || popupMenuOffset < lastpopupMenuOffset) {
         char *line = reusableBuffer.modelsel.menu_bss[0];
         memset(line, 0, MENU_LINE_LENGTH);
         strcpy(line, "---");
@@ -86,7 +81,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
     }
 
     for (;;) {
-	  char *fn;   /* This function is assuming non-Unicode cfg. */
+      char *fn;   /* This function is assuming non-Unicode cfg. */
       res = f_readdir(&dir, &fno);                   /* Read a directory item */
       if (res != FR_OK || fno.fname[0] == 0) break;  /* Break on error or end of dir */
 
@@ -105,8 +100,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
       if (popupMenuOffset == 0) {
         if (selection && strncasecmp(fn, selection, maxlen) < 0) {
           lastpopupMenuOffset++;
-        }
-        else {
+        } else {
           for (uint8_t i=0; i<MENU_MAX_DISPLAY_LINES; i++) {
             char *line = reusableBuffer.modelsel.menu_bss[i];
             if (line[0] == '\0' || strcasecmp(fn, line) < 0) {
@@ -121,8 +115,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
           popupMenuItems[i] = reusableBuffer.modelsel.menu_bss[i];
         }
 
-      }
-      else if (lastpopupMenuOffset == 0xffff) {
+      } else if (lastpopupMenuOffset == 0xffff) {
         for (int i=MENU_MAX_DISPLAY_LINES-1; i>=0; i--) {
           char *line = reusableBuffer.modelsel.menu_bss[i];
           if (line[0] == '\0' || strcasecmp(fn, line) > 0) {
@@ -135,14 +128,12 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
         for (uint8_t i=0; i<min(popupMenuNoItems, (uint16_t)MENU_MAX_DISPLAY_LINES); i++) {
           popupMenuItems[i] = reusableBuffer.modelsel.menu_bss[i];
         }
-      }
-      else if (popupMenuOffset > lastpopupMenuOffset) {
+      } else if (popupMenuOffset > lastpopupMenuOffset) {
         if (strcasecmp(fn, reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-2]) > 0 && strcasecmp(fn, reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1]) < 0) {
           memset(reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1], 0, MENU_LINE_LENGTH);
           strcpy(reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1], fn);
         }
-      }
-      else {
+      } else {
         if (strcasecmp(fn, reusableBuffer.modelsel.menu_bss[1]) < 0 && strcasecmp(fn, reusableBuffer.modelsel.menu_bss[0]) > 0) {
           memset(reusableBuffer.modelsel.menu_bss[0], 0, MENU_LINE_LENGTH);
           strcpy(reusableBuffer.modelsel.menu_bss[0], fn);

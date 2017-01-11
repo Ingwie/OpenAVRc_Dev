@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -100,51 +100,47 @@ void menuModelSetup(uint8_t event)
     case ITEM_MODEL_TIMER1_MINUTE_BEEP:
     case ITEM_MODEL_TIMER2_MINUTE_BEEP:
     case ITEM_MODEL_TIMER1_COUNTDOWN_BEEP:
-    case ITEM_MODEL_TIMER2_COUNTDOWN_BEEP:
-      {
-        TimerData *timer = &g_model.timers[k>=ITEM_MODEL_TIMER2 ? 1 : 0];
-        if (k==ITEM_MODEL_TIMER1_MINUTE_BEEP || k==ITEM_MODEL_TIMER2_MINUTE_BEEP) {
-          timer->minuteBeep = onoffMenuItem(timer->minuteBeep, MODEL_SETUP_2ND_COLUMN, y, STR_MINUTEBEEP, attr, event);
-        }
-        else if (k==ITEM_MODEL_TIMER1_COUNTDOWN_BEEP || k==ITEM_MODEL_TIMER2_COUNTDOWN_BEEP) {
-          timer->countdownBeep = onoffMenuItem(timer->countdownBeep, MODEL_SETUP_2ND_COLUMN, y, STR_BEEPCOUNTDOWN, attr, event);
-        }
-        else {
-          lcdDrawStringWithIndex(0*FW, y, STR_TIMER, k>=ITEM_MODEL_TIMER2 ? 2 : 1);
-          lcdPutsTimerMode(MODEL_SETUP_2ND_COLUMN, y, timer->mode, menuHorizontalPosition==0 ? attr : 0);
-          putsTimer(MODEL_SETUP_2ND_COLUMN+5*FW-2+5*FWNUM+1, y, timer->start, menuHorizontalPosition==1 ? attr : 0, menuHorizontalPosition==2 ? attr : 0);
-          if (attr && (editMode>0 || p1valdiff)) {
-            div_t qr = div(timer->start, 60);
-            switch (menuHorizontalPosition) {
-            case 0:
-              CHECK_INCDEC_MODELVAR_CHECK(event, timer->mode, SWSRC_FIRST, TMRMODE_COUNT+SWSRC_LAST-1/*SWSRC_None removed*/, isSwitchAvailableInTimers);
-              break;
-            case 1:
-              CHECK_INCDEC_MODELVAR_ZERO(event, qr.quot, 59);
-              timer->start = qr.rem + qr.quot*60;
-              break;
-            case 2:
-              qr.rem -= checkIncDecModel(event, qr.rem+2, 1, 62)-2;
-              timer->start -= qr.rem ;
+    case ITEM_MODEL_TIMER2_COUNTDOWN_BEEP: {
+      TimerData *timer = &g_model.timers[k>=ITEM_MODEL_TIMER2 ? 1 : 0];
+      if (k==ITEM_MODEL_TIMER1_MINUTE_BEEP || k==ITEM_MODEL_TIMER2_MINUTE_BEEP) {
+        timer->minuteBeep = onoffMenuItem(timer->minuteBeep, MODEL_SETUP_2ND_COLUMN, y, STR_MINUTEBEEP, attr, event);
+      } else if (k==ITEM_MODEL_TIMER1_COUNTDOWN_BEEP || k==ITEM_MODEL_TIMER2_COUNTDOWN_BEEP) {
+        timer->countdownBeep = onoffMenuItem(timer->countdownBeep, MODEL_SETUP_2ND_COLUMN, y, STR_BEEPCOUNTDOWN, attr, event);
+      } else {
+        lcdDrawStringWithIndex(0*FW, y, STR_TIMER, k>=ITEM_MODEL_TIMER2 ? 2 : 1);
+        lcdPutsTimerMode(MODEL_SETUP_2ND_COLUMN, y, timer->mode, menuHorizontalPosition==0 ? attr : 0);
+        putsTimer(MODEL_SETUP_2ND_COLUMN+5*FW-2+5*FWNUM+1, y, timer->start, menuHorizontalPosition==1 ? attr : 0, menuHorizontalPosition==2 ? attr : 0);
+        if (attr && (editMode>0 || p1valdiff)) {
+          div_t qr = div(timer->start, 60);
+          switch (menuHorizontalPosition) {
+          case 0:
+            CHECK_INCDEC_MODELVAR_CHECK(event, timer->mode, SWSRC_FIRST, TMRMODE_COUNT+SWSRC_LAST-1/*SWSRC_None removed*/, isSwitchAvailableInTimers);
+            break;
+          case 1:
+            CHECK_INCDEC_MODELVAR_ZERO(event, qr.quot, 59);
+            timer->start = qr.rem + qr.quot*60;
+            break;
+          case 2:
+            qr.rem -= checkIncDecModel(event, qr.rem+2, 1, 62)-2;
+            timer->start -= qr.rem ;
 #if defined(CPUM2560)
-              if ((int16_t)timer->start < 0) timer->start=0;
-              if ((int16_t)timer->start > 5999) timer->start=32399; // 8:59:59
+            if ((int16_t)timer->start < 0) timer->start=0;
+            if ((int16_t)timer->start > 5999) timer->start=32399; // 8:59:59
 #endif
-              break;
-            }
+            break;
           }
         }
-        break;
       }
+      break;
+    }
 
 #if defined(CPUM2560)
     case ITEM_MODEL_TIMER1_PERSISTENT:
-    case ITEM_MODEL_TIMER2_PERSISTENT:
-      {
-        TimerData &timer = g_model.timers[k==ITEM_MODEL_TIMER2_PERSISTENT];
-        timer.persistent = selectMenuItem(MODEL_SETUP_2ND_COLUMN, y, STR_PERSISTENT, STR_VPERSISTENT, timer.persistent, 0, 2, attr, event);
-        break;
-      }
+    case ITEM_MODEL_TIMER2_PERSISTENT: {
+      TimerData &timer = g_model.timers[k==ITEM_MODEL_TIMER2_PERSISTENT];
+      timer.persistent = selectMenuItem(MODEL_SETUP_2ND_COLUMN, y, STR_PERSISTENT, STR_VPERSISTENT, timer.persistent, 0, 2, attr, event);
+      break;
+    }
 #endif
 
     case ITEM_MODEL_EXTENDED_LIMITS:
@@ -180,18 +176,17 @@ void menuModelSetup(uint8_t event)
       ON_OFF_MENU_ITEM(g_model.throttleReversed, MODEL_SETUP_2ND_COLUMN, y, STR_THROTTLEREVERSE, attr, event ) ;
       break;
 
-    case ITEM_MODEL_THROTTLE_TRACE:
-      {
-        lcdDrawTextLeft(y, STR_TTRACE);
-        if (attr) CHECK_INCDEC_MODELVAR_ZERO(event, g_model.thrTraceSrc, NUM_POTS+NUM_CHNOUT);
-        uint8_t idx = g_model.thrTraceSrc + MIXSRC_Thr;
-        if (idx > MIXSRC_Thr)
+    case ITEM_MODEL_THROTTLE_TRACE: {
+      lcdDrawTextLeft(y, STR_TTRACE);
+      if (attr) CHECK_INCDEC_MODELVAR_ZERO(event, g_model.thrTraceSrc, NUM_POTS+NUM_CHNOUT);
+      uint8_t idx = g_model.thrTraceSrc + MIXSRC_Thr;
+      if (idx > MIXSRC_Thr)
         idx += 1;
-        if (idx >= MIXSRC_FIRST_POT+NUM_POTS)
+      if (idx >= MIXSRC_FIRST_POT+NUM_POTS)
         idx += MIXSRC_CH1 - MIXSRC_FIRST_POT - NUM_POTS;
-        putsMixerSource(MODEL_SETUP_2ND_COLUMN, y, idx, attr);
-        break;
-      }
+      putsMixerSource(MODEL_SETUP_2ND_COLUMN, y, idx, attr);
+      break;
+    }
 
     case ITEM_MODEL_THROTTLE_TRIM:
       ON_OFF_MENU_ITEM(g_model.thrTrim, MODEL_SETUP_2ND_COLUMN, y, STR_TTRIM, attr, event);
@@ -202,77 +197,75 @@ void menuModelSetup(uint8_t event)
       g_model.disableThrottleWarning = !onoffMenuItem(!g_model.disableThrottleWarning, MODEL_SETUP_2ND_COLUMN, y, STR_THROTTLEWARNING, attr, event);
       break;
 
-    case ITEM_MODEL_SWITCHES_WARNING:
-      {
-        lcdDrawTextLeft(y, STR_SWITCHWARNING);
-        swarnstate_t states = g_model.switchWarningState;
-        char c;
-        if (attr) {
-          s_editMode = 0;
-          if (!READ_ONLY()) {
-            switch (event) {
-              CASE_EVT_ROTARY_BREAK
-            case EVT_KEY_BREAK(KEY_ENTER):
+    case ITEM_MODEL_SWITCHES_WARNING: {
+      lcdDrawTextLeft(y, STR_SWITCHWARNING);
+      swarnstate_t states = g_model.switchWarningState;
+      char c;
+      if (attr) {
+        s_editMode = 0;
+        if (!READ_ONLY()) {
+          switch (event) {
+            CASE_EVT_ROTARY_BREAK
+          case EVT_KEY_BREAK(KEY_ENTER):
 #if defined(CPUM64)
+            g_model.switchWarningEnable ^= (1 << menuHorizontalPosition);
+            eeDirty(EE_MODEL);
+#else
+            if (menuHorizontalPosition < NUM_SWITCHES-1) {
               g_model.switchWarningEnable ^= (1 << menuHorizontalPosition);
               eeDirty(EE_MODEL);
-#else
-              if (menuHorizontalPosition < NUM_SWITCHES-1) {
-                g_model.switchWarningEnable ^= (1 << menuHorizontalPosition);
-                eeDirty(EE_MODEL);
-              }
+            }
 #endif
-              break;
+            break;
 
-            case EVT_KEY_LONG(KEY_ENTER):
+          case EVT_KEY_LONG(KEY_ENTER):
 #if defined(CPUM64)
+            getMovedSwitch();
+            g_model.switchWarningState = switches_states;
+            AUDIO_WARNING1();
+            eeDirty(EE_MODEL);
+#else
+            if (menuHorizontalPosition == NUM_SWITCHES-1) {
+              START_NO_HIGHLIGHT();
               getMovedSwitch();
               g_model.switchWarningState = switches_states;
               AUDIO_WARNING1();
               eeDirty(EE_MODEL);
-#else
-              if (menuHorizontalPosition == NUM_SWITCHES-1) {
-                START_NO_HIGHLIGHT();
-                getMovedSwitch();
-                g_model.switchWarningState = switches_states;
-                AUDIO_WARNING1();
-                eeDirty(EE_MODEL);
-              }
-#endif
-              killEvents(event);
-              break;
             }
-          }
-        }
-
-        LcdFlags line = attr;
-
-        for (uint8_t i=0; i<NUM_SWITCHES-1/*not on TRN switch*/; i++) {
-          uint8_t swactive = !(g_model.switchWarningEnable & 1 << i);
-          attr = 0;
-
-          if (IS_3POS(i)) {
-            c = '0'+(states & 0x03);
-            states >>= 2;
-          }
-          else {
-            if ((states & 0x01) && swactive)
-            attr = INVERS;
-            c = pgm_read_byte(STR_VSWITCHES - 2 + 9 + (3*(i+1)));
-            states >>= 1;
-          }
-          if (line && (menuHorizontalPosition == i)) {
-            attr = BLINK;
-            if (swactive)
-            attr |= INVERS;
-          }
-          lcdDrawCharAtt(MODEL_SETUP_2ND_COLUMN+i*FW, y, (swactive || (attr & BLINK)) ? c : '-', attr);
-#if !defined(CPUM64)
-          lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+(NUM_SWITCHES*FW), y, PSTR("<]"), (menuHorizontalPosition == NUM_SWITCHES-1 && !NO_HIGHLIGHT()) ? line : 0);
 #endif
+            killEvents(event);
+            break;
+          }
         }
-        break;
       }
+
+      LcdFlags line = attr;
+
+      for (uint8_t i=0; i<NUM_SWITCHES-1/*not on TRN switch*/; i++) {
+        uint8_t swactive = !(g_model.switchWarningEnable & 1 << i);
+        attr = 0;
+
+        if (IS_3POS(i)) {
+          c = '0'+(states & 0x03);
+          states >>= 2;
+        } else {
+          if ((states & 0x01) && swactive)
+            attr = INVERS;
+          c = pgm_read_byte(STR_VSWITCHES - 2 + 9 + (3*(i+1)));
+          states >>= 1;
+        }
+        if (line && (menuHorizontalPosition == i)) {
+          attr = BLINK;
+          if (swactive)
+            attr |= INVERS;
+        }
+        lcdDrawCharAtt(MODEL_SETUP_2ND_COLUMN+i*FW, y, (swactive || (attr & BLINK)) ? c : '-', attr);
+#if !defined(CPUM64)
+        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+(NUM_SWITCHES*FW), y, PSTR("<]"), (menuHorizontalPosition == NUM_SWITCHES-1 && !NO_HIGHLIGHT()) ? line : 0);
+#endif
+      }
+      break;
+    }
 
     case ITEM_MODEL_BEEP_CENTER:
       lcdDrawTextLeft(y, STR_BEEPCTR);
@@ -304,8 +297,7 @@ void menuModelSetup(uint8_t event)
       lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN, y, STR_VPROTOS, protocol, menuHorizontalPosition<=0 ? attr : 0);
       if (IS_PPM_PROTOCOL(protocol)) {
         lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+7*FW, y, STR_NCHANNELS, g_model.ppmNCH+2, menuHorizontalPosition!=0 ? attr : 0);
-      }
-      else if (menuHorizontalPosition>0 && attr) {
+      } else if (menuHorizontalPosition>0 && attr) {
         MOVE_CURSOR_FROM_HERE();
       }
       if (attr && (editMode>0 || p1valdiff || (!IS_PPM_PROTOCOL(protocol) && !IS_DSM2_PROTOCOL(protocol)))) {

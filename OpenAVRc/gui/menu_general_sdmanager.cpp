@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -71,11 +71,9 @@ void onSdManagerMenu(const char *result)
   uint8_t index = menuVerticalPosition-1-menuVerticalOffset;
   if (result == STR_SD_INFO) {
     pushMenu(menuGeneralSdManagerInfo);
-  }
-  else if (result == STR_SD_FORMAT) {
+  } else if (result == STR_SD_FORMAT) {
     POPUP_CONFIRMATION(STR_CONFIRM_FORMAT);
-  }
-  else if (result == STR_DELETE_FILE) {
+  } else if (result == STR_DELETE_FILE) {
     f_getcwd(lfn, _MAX_LFN);
     strcat_P(lfn, PSTR("/"));
     strcat(lfn, reusableBuffer.sdmanager.lines[index]);
@@ -104,8 +102,7 @@ void menuGeneralSdManager(uint8_t _event)
     if (f_mkfs(0, 1, 0) == FR_OK) {
       f_chdir("/");
       reusableBuffer.sdmanager.offset = -1;
-    }
-    else {
+    } else {
       POPUP_WARNING(STR_SDCARD_ERROR);
     }
   }
@@ -118,64 +115,58 @@ void menuGeneralSdManager(uint8_t _event)
     s_editMode = 0;
 
   switch(_event) {
-    case EVT_ENTRY:
-      f_chdir(ROOT_PATH);
-      reusableBuffer.sdmanager.offset = 65535;
-      break;
+  case EVT_ENTRY:
+    f_chdir(ROOT_PATH);
+    reusableBuffer.sdmanager.offset = 65535;
+    break;
 
     CASE_EVT_ROTARY_BREAK
-    case EVT_KEY_FIRST(KEY_RIGHT):
-    case EVT_KEY_FIRST(KEY_ENTER):
-    {
-      if (menuVerticalPosition > 0) {
-        vertpos_t index = menuVerticalPosition-1-menuVerticalOffset;
-        if (!reusableBuffer.sdmanager.lines[index][SD_SCREEN_FILE_LENGTH+1]) {
-          f_chdir(reusableBuffer.sdmanager.lines[index]);
-          menuVerticalOffset = 0;
-          menuVerticalPosition = 1;
-          reusableBuffer.sdmanager.offset = 65535;
-          killEvents(_event);
-          break;
-        }
-      }
-      if (!IS_ROTARY_BREAK(_event) || menuVerticalPosition==0)
+  case EVT_KEY_FIRST(KEY_RIGHT):
+  case EVT_KEY_FIRST(KEY_ENTER): {
+    if (menuVerticalPosition > 0) {
+      vertpos_t index = menuVerticalPosition-1-menuVerticalOffset;
+      if (!reusableBuffer.sdmanager.lines[index][SD_SCREEN_FILE_LENGTH+1]) {
+        f_chdir(reusableBuffer.sdmanager.lines[index]);
+        menuVerticalOffset = 0;
+        menuVerticalPosition = 1;
+        reusableBuffer.sdmanager.offset = 65535;
+        killEvents(_event);
         break;
-      // no break;
+      }
     }
-
-    case EVT_KEY_LONG(KEY_ENTER):
-      killEvents(_event);
-      if (menuVerticalPosition == 0) {
-        POPUP_MENU_ADD_ITEM(STR_SD_INFO);
-        POPUP_MENU_ADD_ITEM(STR_SD_FORMAT);
-      }
-      else
-      {
-        if (!READ_ONLY()) {
-          POPUP_MENU_ADD_ITEM(STR_DELETE_FILE);
-          // POPUP_MENU_ADD_ITEM(STR_RENAME_FILE);  TODO: Implement
-          // POPUP_MENU_ADD_ITEM(STR_COPY_FILE);    TODO: Implement
-        }
-      }
-      popupMenuHandler = onSdManagerMenu;
+    if (!IS_ROTARY_BREAK(_event) || menuVerticalPosition==0)
       break;
+    // no break;
+  }
+
+  case EVT_KEY_LONG(KEY_ENTER):
+    killEvents(_event);
+    if (menuVerticalPosition == 0) {
+      POPUP_MENU_ADD_ITEM(STR_SD_INFO);
+      POPUP_MENU_ADD_ITEM(STR_SD_FORMAT);
+    } else {
+      if (!READ_ONLY()) {
+        POPUP_MENU_ADD_ITEM(STR_DELETE_FILE);
+        // POPUP_MENU_ADD_ITEM(STR_RENAME_FILE);  TODO: Implement
+        // POPUP_MENU_ADD_ITEM(STR_COPY_FILE);    TODO: Implement
+      }
+    }
+    popupMenuHandler = onSdManagerMenu;
+    break;
   }
 
   if (reusableBuffer.sdmanager.offset != menuVerticalOffset) {
     if (menuVerticalOffset == 0) {
       reusableBuffer.sdmanager.offset = 0;
       memset(reusableBuffer.sdmanager.lines, 0, sizeof(reusableBuffer.sdmanager.lines));
-    }
-    else if (menuVerticalOffset == reusableBuffer.sdmanager.count-7) {
+    } else if (menuVerticalOffset == reusableBuffer.sdmanager.count-7) {
       reusableBuffer.sdmanager.offset = menuVerticalOffset;
       memset(reusableBuffer.sdmanager.lines, 0, sizeof(reusableBuffer.sdmanager.lines));
-    }
-    else if (menuVerticalOffset > reusableBuffer.sdmanager.offset) {
+    } else if (menuVerticalOffset > reusableBuffer.sdmanager.offset) {
       memmove(reusableBuffer.sdmanager.lines[0], reusableBuffer.sdmanager.lines[1], 6*sizeof(reusableBuffer.sdmanager.lines[0]));
       memset(reusableBuffer.sdmanager.lines[6], 0xff, SD_SCREEN_FILE_LENGTH);
       reusableBuffer.sdmanager.lines[6][SD_SCREEN_FILE_LENGTH+1] = 1;
-    }
-    else {
+    } else {
       memmove(reusableBuffer.sdmanager.lines[1], reusableBuffer.sdmanager.lines[0], 6*sizeof(reusableBuffer.sdmanager.lines[0]));
       memset(reusableBuffer.sdmanager.lines[0], 0, sizeof(reusableBuffer.sdmanager.lines[0]));
     }
@@ -210,8 +201,7 @@ void menuGeneralSdManager(uint8_t _event)
               break;
             }
           }
-        }
-        else if (reusableBuffer.sdmanager.offset == menuVerticalOffset) {
+        } else if (reusableBuffer.sdmanager.offset == menuVerticalOffset) {
           for (int8_t i=6; i>=0; i--) {
             char *line = reusableBuffer.sdmanager.lines[i];
             if (line[0] == '\0' || isFilenameGreater(isfile, fn, line)) {
@@ -222,15 +212,13 @@ void menuGeneralSdManager(uint8_t _event)
               break;
             }
           }
-        }
-        else if (menuVerticalOffset > reusableBuffer.sdmanager.offset) {
+        } else if (menuVerticalOffset > reusableBuffer.sdmanager.offset) {
           if (isFilenameGreater(isfile, fn, reusableBuffer.sdmanager.lines[5]) && isFilenameLower(isfile, fn, reusableBuffer.sdmanager.lines[6])) {
             memset(reusableBuffer.sdmanager.lines[6], 0, sizeof(reusableBuffer.sdmanager.lines[0]));
             strcpy(reusableBuffer.sdmanager.lines[6], fn);
             reusableBuffer.sdmanager.lines[6][SD_SCREEN_FILE_LENGTH+1] = isfile;
           }
-        }
-        else {
+        } else {
           if (isFilenameLower(isfile, fn, reusableBuffer.sdmanager.lines[1]) && isFilenameGreater(isfile, fn, reusableBuffer.sdmanager.lines[0])) {
             memset(reusableBuffer.sdmanager.lines[0], 0, sizeof(reusableBuffer.sdmanager.lines[0]));
             strcpy(reusableBuffer.sdmanager.lines[0], fn);
@@ -248,9 +236,13 @@ void menuGeneralSdManager(uint8_t _event)
     lcdNextPos = 0;
     uint8_t attr = (menuVerticalPosition-1-menuVerticalOffset == i ? BSS|INVERS : BSS);
     if (reusableBuffer.sdmanager.lines[i][0]) {
-      if (!reusableBuffer.sdmanager.lines[i][SD_SCREEN_FILE_LENGTH+1]) { lcdDrawCharAtt(0, y, '[', attr); }
+      if (!reusableBuffer.sdmanager.lines[i][SD_SCREEN_FILE_LENGTH+1]) {
+        lcdDrawCharAtt(0, y, '[', attr);
+      }
       lcdDrawTextAtt(lcdNextPos, y, reusableBuffer.sdmanager.lines[i], attr);
-      if (!reusableBuffer.sdmanager.lines[i][SD_SCREEN_FILE_LENGTH+1]) { lcdDrawCharAtt(lcdNextPos, y, ']', attr); }
+      if (!reusableBuffer.sdmanager.lines[i][SD_SCREEN_FILE_LENGTH+1]) {
+        lcdDrawCharAtt(lcdNextPos, y, ']', attr);
+      }
     }
   }
 }

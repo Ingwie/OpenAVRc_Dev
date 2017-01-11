@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -38,21 +38,21 @@
 
 int16_t calc100to256_16Bits(int16_t x) // return x*2.56
 {
-    // y = 2*x + x/2 +x/16-x/512-x/2048
-    // 512 and 2048 are out of scope from int8 input --> forget it
+  // y = 2*x + x/2 +x/16-x/512-x/2048
+  // 512 and 2048 are out of scope from int8 input --> forget it
 #ifdef CORRECT_NEGATIVE_SHIFTS
-    int16_t res=(int16_t)x<<1;
-    //int8_t  sign=(uint8_t) x>>7;
-    int8_t sign=(x<0?1:0);
+  int16_t res=(int16_t)x<<1;
+  //int8_t  sign=(uint8_t) x>>7;
+  int8_t sign=(x<0?1:0);
 
-    x-=sign;
-    res+=(x>>1);
-    res+=sign;
-    res+=(x>>4);
-    res+=sign;
-    return res;
+  x-=sign;
+  res+=(x>>1);
+  res+=sign;
+  res+=(x>>4);
+  res+=sign;
+  return res;
 #else
-    return ((int16_t)x<<1)+(x>>1)+(x>>4);
+  return ((int16_t)x<<1)+(x>>1)+(x>>4);
 #endif
 }
 
@@ -104,7 +104,7 @@ int8_t calcRESXto100(int16_t x)
   return (x*25) >> 8;
 }
 
-#if defined(HELI) || defined(FRSKY_HUB) 
+#if defined(HELI) || defined(FRSKY_HUB)
 uint16_t isqrt32(uint32_t n)
 {
   uint16_t c = 0x8000;
@@ -124,19 +124,18 @@ uint16_t isqrt32(uint32_t n)
 /*
   Division by 10 and rounding or fixed point arithmetic values
 
-  Examples: 
+  Examples:
     value -> result
     105 ->  11
     104 ->  10
    -205 -> -21
-   -204 -> -20 
+   -204 -> -20
 */
 getvalue_t div10_and_round(getvalue_t value)
 {
   if (value >= 0 ) {
     value += 5;
-  }
-  else {
+  } else {
     value -= 5;
   }
   return value/10;
@@ -146,15 +145,14 @@ getvalue_t div100_and_round(getvalue_t value)
 {
   if (value >= 0 ) {
     value += 50;
-  }
-  else {
+  } else {
     value -= 50;
   }
   return value/100;
 }
 
 
-#if defined(FRSKY_HUB) 
+#if defined(FRSKY_HUB)
 void extractLatitudeLongitude(uint32_t * latitude, uint32_t * longitude)
 {
   div_t qr = div(frskyData.hub.gpsLatitude_bp, 100);

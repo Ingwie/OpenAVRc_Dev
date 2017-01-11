@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -48,17 +48,17 @@ void i2c_stop(void);
 // OpenAVRc functions
 
 uint8_t iic_read (
-uint8_t dev,    /* Device address */
-uint8_t adr,    /* Read start address */
-uint16_t cnt,   /* Read uint8_t count */
-uint8_t *buff   /* Read data buffer */
+  uint8_t dev,    /* Device address */
+  uint8_t adr,    /* Read start address */
+  uint16_t cnt,   /* Read uint8_t count */
+  uint8_t *buff   /* Read data buffer */
 );
 
 uint8_t iic_write (
-uint8_t dev,      /* Device address */
-uint8_t adr,      /* Write start address */
-uint16_t cnt,     /* Write uint8_t count */
-const uint8_t *buff /* Data to be written */
+  uint8_t dev,      /* Device address */
+  uint8_t adr,      /* Write start address */
+  uint16_t cnt,     /* Write uint8_t count */
+  const uint8_t *buff /* Data to be written */
 );
 
 #endif // I2C_MASTER_H

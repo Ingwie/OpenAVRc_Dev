@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -717,12 +717,10 @@ void ConvertModel_216_to_217(ModelData &model)
       if (cstate == LS_FAMILY_COMP) {
         sw.v2 = ConvertSource_216_to_217((uint8_t)sw.v2);
       }
-    }
-    else if (cstate == LS_FAMILY_BOOL || cstate == LS_FAMILY_STICKY) {
+    } else if (cstate == LS_FAMILY_BOOL || cstate == LS_FAMILY_STICKY) {
       sw.v1 = ConvertSwitch_216_to_217(sw.v1);
       sw.v2 = ConvertSwitch_216_to_217(sw.v2);
-    }
-    else if (cstate == LS_FAMILY_EDGE) {
+    } else if (cstate == LS_FAMILY_EDGE) {
       sw.v1 = ConvertSwitch_216_to_217(sw.v1);
     }
     sw.andsw = ConvertSwitch_216_to_217(sw.andsw);
@@ -794,8 +792,7 @@ bool eeConvert()
 
   if (g_eeGeneral.version == 216) {
     msg = PSTR("EEprom Data v216");
-  }
-  else {
+  } else {
     return false;
   }
 

@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -28,8 +28,8 @@
 #define audio_h
 
 #if defined(PCBSTD)
-  #define speakerOn()      buzzerOn()
-  #define speakerOff()     toneFreq=0; buzzerOff()
+#define speakerOn()      buzzerOn()
+#define speakerOff()     toneFreq=0; buzzerOff()
 #endif
 
 //audio
@@ -41,59 +41,64 @@
 
 class audioQueue
 {
-  public:
+public:
 
-    audioQueue();
+  audioQueue();
 
-    void play(uint8_t tFreq, uint8_t tLen, uint8_t tPause, uint8_t tFlags=0);
-    void pause(uint8_t tLen);
+  void play(uint8_t tFreq, uint8_t tLen, uint8_t tPause, uint8_t tFlags=0);
+  void pause(uint8_t tLen);
 
-    inline bool busy() { return (toneTimeLeft > 0); }
+  inline bool busy()
+  {
+    return (toneTimeLeft > 0);
+  }
 
-    void event(uint8_t e, uint8_t f=BEEP_DEFAULT_FREQ);
+  void event(uint8_t e, uint8_t f=BEEP_DEFAULT_FREQ);
 
-    inline void driver() {
-      if (toneFreq) {
-        toneCounter += toneFreq;
-        if ((toneCounter & 0x80) == 0x80)
-          buzzerOn();
-        else
-          buzzerOff();
-      }
+  inline void driver()
+  {
+    if (toneFreq) {
+      toneCounter += toneFreq;
+      if ((toneCounter & 0x80) == 0x80)
+        buzzerOn();
+      else
+        buzzerOff();
     }
+  }
 
-    // heartbeat is responsibile for issueing the audio tones and general square waves
-    // it is essentially the life of the class.
-    void heartbeat();
+  // heartbeat is responsibile for issueing the audio tones and general square waves
+  // it is essentially the life of the class.
+  void heartbeat();
 
-    inline bool empty() {
-      return (t_queueRidx == t_queueWidx);
-    }
+  inline bool empty()
+  {
+    return (t_queueRidx == t_queueWidx);
+  }
 
-  protected:
-    inline uint8_t getToneLength(uint8_t tLen);
+protected:
+  inline uint8_t getToneLength(uint8_t tLen);
 
-  private:
-    uint8_t t_queueRidx;
-    uint8_t t_queueWidx;
+private:
+  uint8_t t_queueRidx;
+  uint8_t t_queueWidx;
 
-    uint8_t toneFreq;
-    int8_t toneFreqIncr;
-    uint8_t toneTimeLeft;
-    uint8_t tonePause;
+  uint8_t toneFreq;
+  int8_t toneFreqIncr;
+  uint8_t toneTimeLeft;
+  uint8_t tonePause;
 
-    // vario has less priority
-    uint8_t tone2Freq;
-    uint8_t tone2TimeLeft;
+  // vario has less priority
+  uint8_t tone2Freq;
+  uint8_t tone2TimeLeft;
 
-    // queue arrays
-    uint8_t queueToneFreq[AUDIO_QUEUE_LENGTH];
-    int8_t queueToneFreqIncr[AUDIO_QUEUE_LENGTH];
-    uint8_t queueToneLength[AUDIO_QUEUE_LENGTH];
-    uint8_t queueTonePause[AUDIO_QUEUE_LENGTH];
-    uint8_t queueToneRepeat[AUDIO_QUEUE_LENGTH];
+  // queue arrays
+  uint8_t queueToneFreq[AUDIO_QUEUE_LENGTH];
+  int8_t queueToneFreqIncr[AUDIO_QUEUE_LENGTH];
+  uint8_t queueToneLength[AUDIO_QUEUE_LENGTH];
+  uint8_t queueTonePause[AUDIO_QUEUE_LENGTH];
+  uint8_t queueToneRepeat[AUDIO_QUEUE_LENGTH];
 
-    uint8_t toneCounter;
+  uint8_t toneCounter;
 
 };
 
@@ -102,17 +107,17 @@ extern audioQueue audio;
 void audioDefevent(uint8_t e);
 
 #if defined(AUDIO) && defined(BUZZER)
-  #define AUDIO_BUZZER(a, b)  do { a; b; } while(0)
+#define AUDIO_BUZZER(a, b)  do { a; b; } while(0)
 #elif defined(AUDIO)
-  #define AUDIO_BUZZER(a, b)  a
+#define AUDIO_BUZZER(a, b)  a
 #else
-  #define AUDIO_BUZZER(a, b)  b
+#define AUDIO_BUZZER(a, b)  b
 #endif
 
 #if defined(VOICE)
-  #define VOICE_AUDIO_BUZZER(v, a, b)  v
+#define VOICE_AUDIO_BUZZER(v, a, b)  v
 #else
-  #define VOICE_AUDIO_BUZZER(v, a, b)  AUDIO_BUZZER(a, b)
+#define VOICE_AUDIO_BUZZER(v, a, b)  AUDIO_BUZZER(a, b)
 #endif
 
 #define AUDIO_KEYPAD_UP()        AUDIO_BUZZER(audioDefevent(AU_KEYPAD_UP), beep(0))

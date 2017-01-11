@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -40,8 +40,7 @@ CurveInfo curveInfo(uint8_t idx)
   if ((size & 1) == 0) {
     result.points = (size / 2) + 1;
     result.custom = true;
-  }
-  else {
+  } else {
     result.points = size;
     result.custom = false;
   }
@@ -61,11 +60,9 @@ int intpol(int x, uint8_t idx) // -100, -75, -50, -25, 0 ,25 ,50, 75, 100
 
   if (x <= 0) {
     erg = (int16_t)points[0] * (RESX/4);
-  }
-  else if (x >= (RESX*2)) {
+  } else if (x >= (RESX*2)) {
     erg = (int16_t)points[count-1] * (RESX/4);
-  }
-  else {
+  } else {
     uint16_t a=0, b=0;
     uint8_t i;
     if (custom) {
@@ -74,8 +71,7 @@ int intpol(int x, uint8_t idx) // -100, -75, -50, -25, 0 ,25 ,50, 75, 100
         b = (i==count-2 ? 2*RESX : RESX + calc100toRESX(points[count+i]));
         if ((uint16_t)x<=b) break;
       }
-    }
-    else {
+    } else {
       uint16_t d = (RESX * 2) / (count-1);
       i = (uint16_t)x / d;
       a = i * d;
@@ -92,22 +88,22 @@ int applyCurve(int x, int8_t idx)
 {
   /* already tried to have only one return at the end */
   switch(idx) {
-    case CURVE_NONE:
-      return x;
-    case CURVE_X_GT0:
-      if (x < 0) x = 0; //x|x>0
-      return x;
-    case CURVE_X_LT0:
-      if (x > 0) x = 0; //x|x<0
-      return x;
-    case CURVE_ABS_X: // x|abs(x)
-      return abs(x);
-    case CURVE_F_GT0: //f|f>0
-      return x > 0 ? RESX : 0;
-    case CURVE_F_LT0: //f|f<0
-      return x < 0 ? -RESX : 0;
-    case CURVE_ABS_F: //f|abs(f)
-      return x > 0 ? RESX : -RESX;
+  case CURVE_NONE:
+    return x;
+  case CURVE_X_GT0:
+    if (x < 0) x = 0; //x|x>0
+    return x;
+  case CURVE_X_LT0:
+    if (x > 0) x = 0; //x|x<0
+    return x;
+  case CURVE_ABS_X: // x|abs(x)
+    return abs(x);
+  case CURVE_F_GT0: //f|f>0
+    return x > 0 ? RESX : 0;
+  case CURVE_F_LT0: //f|f<0
+    return x < 0 ? -RESX : 0;
+  case CURVE_ABS_F: //f|abs(f)
+    return x > 0 ? RESX : -RESX;
   }
   if (idx < 0) {
     x = -x;
@@ -166,8 +162,7 @@ unsigned int expou(unsigned int x, unsigned int k)
   bool extended;
   if (k>80) {
     extended=true;
-  }
-  else {
+  } else {
     k += (k>>2);  // use bigger values before extend, because the effect is anyway very very low
     extended=false;
   }
@@ -204,8 +199,7 @@ int expo(int x, int k)
   if (neg) x = -x;
   if (k<0) {
     y = RESXu-expou(RESXu-x, -k);
-  }
-  else {
+  } else {
     y = expou(x, k);
   }
   return neg? -y : y;

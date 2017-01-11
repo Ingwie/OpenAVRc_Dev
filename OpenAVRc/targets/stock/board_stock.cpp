@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -71,8 +71,7 @@ void rotencPoll()
     x ^= rotary & 0x80 ;
     if ( x ) {
       g_rotenc[0] -= 1 ;
-    }
-    else {
+    } else {
       g_rotenc[0] += 1 ;
     }
     RotPosition = rotary ;
@@ -87,17 +86,25 @@ void rotencPoll()
 inline void boardInit()
 {
   // Set up I/O port data directions and initial states
-  DDRA = 0xff;  PORTA = 0x00; // LCD data
-  DDRB = 0x81;  PORTB = 0x7e; //pullups keys+nc
+  DDRA = 0xff;
+  PORTA = 0x00; // LCD data
+  DDRB = 0x81;
+  PORTB = 0x7e; //pullups keys+nc
 #if defined(TELEMETRY_MOD_14051) || defined(TELEMETRY_MOD_14051_SWAPPED)
-  DDRC = 0xff;  PORTC = 0x00;
+  DDRC = 0xff;
+  PORTC = 0x00;
 #else
-  DDRC = 0x3e;  PORTC = 0xc1; //pullups nc
+  DDRC = 0x3e;
+  PORTC = 0xc1; //pullups nc
 #endif
-  DDRD = 0x00;  PORTD = 0xff; //pullups keys
-  DDRE = (1<<OUT_E_BUZZER); PORTE = 0xff-(1<<OUT_E_BUZZER); //pullups + buzzer 0
-  DDRF = 0x00;  PORTF = 0x00; //anain
-  DDRG = 0x14;  PORTG = 0xfb; //pullups + SIM_CTL=1 = phonejack = ppm_in, Haptic output and off (0)
+  DDRD = 0x00;
+  PORTD = 0xff; //pullups keys
+  DDRE = (1<<OUT_E_BUZZER);
+  PORTE = 0xff-(1<<OUT_E_BUZZER); //pullups + buzzer 0
+  DDRF = 0x00;
+  PORTF = 0x00; //anain
+  DDRG = 0x14;
+  PORTG = 0xfb; //pullups + SIM_CTL=1 = phonejack = ppm_in, Haptic output and off (0)
 
   adcInit();
 
@@ -115,33 +122,33 @@ inline void boardInit()
 
 #if defined(AUDIO) || defined(VOICE)
   SET_TIMER_AUDIO_CTRL();
-  #if defined(CPUM2561)
-    OCR4A = 0xFF;
-    RESUME_AUDIO_INTERRUPT();
-  #else
-    TIMSK |= (1<<OCIE0) | (1<<TOIE0) | (1<<TOIE2); // Enable Output-Compare and Overflow interrrupts
-  #endif
+#if defined(CPUM2561)
+  OCR4A = 0xFF;
+  RESUME_AUDIO_INTERRUPT();
+#else
+  TIMSK |= (1<<OCIE0) | (1<<TOIE0) | (1<<TOIE2); // Enable Output-Compare and Overflow interrrupts
+#endif
 #elif defined(PWM_BACKLIGHT)
   /** Smartieparts LED Backlight is connected to PORTB/pin7, which can be used as pwm output of timer2 **/
-  #if defined(CPUM2561)
-    #if defined(SP22)
-      TCCR0A = (1<<WGM00)|(1<<COM0A1)|(1<<COM0A0); // inv. pwm mode, clk/64
-    #else
-      TCCR0A = (1<<WGM00)|(1<<COM0A1); // pwm mode, clk/64
-    #endif
-    TCCR0B = (0b011<<CS00);
-  #else
-    #if defined(SP22)
-      TCCR2  = (0b011<<CS20)|(1<<WGM20)|(1<<COM21)|(1<<COM20); // inv. pwm mode, clk/64
-    #else
-      TCCR2  = (0b011<<CS20)|(1<<WGM20)|(1<<COM21); // pwm mode, clk/64
-    #endif
-    TIMSK |= (1<<OCIE0) | (1<<TOIE0); // Enable Output-Compare and Overflow interrrupts
-  #endif
+#if defined(CPUM2561)
+#if defined(SP22)
+  TCCR0A = (1<<WGM00)|(1<<COM0A1)|(1<<COM0A0); // inv. pwm mode, clk/64
 #else
-  #if !defined(CPUM2561)
-    TIMSK |= (1<<OCIE0) | (1<<TOIE0); // Enable Output-Compare and Overflow interrrupts
-  #endif
+  TCCR0A = (1<<WGM00)|(1<<COM0A1); // pwm mode, clk/64
+#endif
+  TCCR0B = (0b011<<CS00);
+#else
+#if defined(SP22)
+  TCCR2  = (0b011<<CS20)|(1<<WGM20)|(1<<COM21)|(1<<COM20); // inv. pwm mode, clk/64
+#else
+  TCCR2  = (0b011<<CS20)|(1<<WGM20)|(1<<COM21); // pwm mode, clk/64
+#endif
+  TIMSK |= (1<<OCIE0) | (1<<TOIE0); // Enable Output-Compare and Overflow interrrupts
+#endif
+#else
+#if !defined(CPUM2561)
+  TIMSK |= (1<<OCIE0) | (1<<TOIE0); // Enable Output-Compare and Overflow interrrupts
+#endif
 #endif
 }
 #endif
@@ -170,18 +177,18 @@ void processMultiplexAna()
   uint8_t nextMuxNum = muxNum-1;
 
   switch (muxNum) {
-    case MUX_BATT:
-      s_anaFilt[TX_VOLTAGE] = s_anaFilt[X14051];
-      nextMuxNum = MUX_MAX;
-      break;
-    case MUX_AIL:
-    case MUX_THR:
-    case MUX_TRM_LV_UP:
-    case MUX_TRM_LV_DWN:
-      // Digital switch depend from input voltage
-      // take half voltage to determine digital state
-      pf7_digital[muxNum - MUX_PF7_DIGITAL_MIN] = (s_anaFilt[X14051] >= (s_anaFilt[TX_VOLTAGE] / 2)) ? 1 : 0;
-      break;
+  case MUX_BATT:
+    s_anaFilt[TX_VOLTAGE] = s_anaFilt[X14051];
+    nextMuxNum = MUX_MAX;
+    break;
+  case MUX_AIL:
+  case MUX_THR:
+  case MUX_TRM_LV_UP:
+  case MUX_TRM_LV_DWN:
+    // Digital switch depend from input voltage
+    // take half voltage to determine digital state
+    pf7_digital[muxNum - MUX_PF7_DIGITAL_MIN] = (s_anaFilt[X14051] >= (s_anaFilt[TX_VOLTAGE] / 2)) ? 1 : 0;
+    break;
   }
 
   // set the mux number for the next ADC convert,
@@ -195,14 +202,14 @@ void processMultiplexAna()
 #endif
 
 #if !defined(SIMU) && (defined(TELEMETRY_MOD_14051) || defined(TELEMETRY_MOD_14051_SWAPPED))
-  #define THR_STATE()   pf7_digital[PF7_THR]
-  #define AIL_STATE()   pf7_digital[PF7_AIL]
+#define THR_STATE()   pf7_digital[PF7_THR]
+#define AIL_STATE()   pf7_digital[PF7_AIL]
 #elif defined(JETI) || defined(FRSKY) || defined(ARDUPILOT) || defined(NMEA) || defined(MAVLINK)
-  #define THR_STATE()   (PINC & (1<<INP_C_ThrCt))
-  #define AIL_STATE()   (PINC & (1<<INP_C_AileDR))
+#define THR_STATE()   (PINC & (1<<INP_C_ThrCt))
+#define AIL_STATE()   (PINC & (1<<INP_C_AileDR))
 #else
-  #define THR_STATE()   (PINE & (1<<INP_E_ThrCt))
-  #define AIL_STATE()   (PINE & (1<<INP_E_AileDR))
+#define THR_STATE()   (PINE & (1<<INP_E_ThrCt))
+#define AIL_STATE()   (PINE & (1<<INP_E_AileDR))
 #endif
 
 bool switchState(EnumKeys enuk)
@@ -212,48 +219,48 @@ bool switchState(EnumKeys enuk)
   if (enuk < (int)DIM(keys))
     return keys[enuk].state();
 
-  switch(enuk){
-    case SW_ELE:
-      result = PINE & (1<<INP_E_ElevDR);
-      break;
+  switch(enuk) {
+  case SW_ELE:
+    result = PINE & (1<<INP_E_ElevDR);
+    break;
 
-    case SW_AIL:
-      result = AIL_STATE();
-      break;
+  case SW_AIL:
+    result = AIL_STATE();
+    break;
 
-    case SW_RUD:
-      result = PING & (1<<INP_G_RuddDR);
-      break;
-      //     INP_G_ID1 INP_E_ID2
-      // id0    0        1
-      // id1    1        1
-      // id2    1        0
-    case SW_ID0:
-      result = !(PING & (1<<INP_G_ID1));
-      break;
+  case SW_RUD:
+    result = PING & (1<<INP_G_RuddDR);
+    break;
+  //     INP_G_ID1 INP_E_ID2
+  // id0    0        1
+  // id1    1        1
+  // id2    1        0
+  case SW_ID0:
+    result = !(PING & (1<<INP_G_ID1));
+    break;
 
-    case SW_ID1:
-      result = (PING & (1<<INP_G_ID1)) && (PINE & (1<<INP_E_ID2));
-      break;
+  case SW_ID1:
+    result = (PING & (1<<INP_G_ID1)) && (PINE & (1<<INP_E_ID2));
+    break;
 
-    case SW_ID2:
-      result = !(PINE & (1<<INP_E_ID2));
-      break;
+  case SW_ID2:
+    result = !(PINE & (1<<INP_E_ID2));
+    break;
 
-    case SW_GEA:
-      result = PINE & (1<<INP_E_Gear);
-      break;
+  case SW_GEA:
+    result = PINE & (1<<INP_E_Gear);
+    break;
 
-    case SW_THR:
-      result = THR_STATE();
-      break;
+  case SW_THR:
+    result = THR_STATE();
+    break;
 
-    case SW_TRN:
-      result = PINE & (1<<INP_E_Trainer);
-      break;
+  case SW_TRN:
+    result = PINE & (1<<INP_E_Trainer);
+    break;
 
-    default:
-      break;
+  default:
+    break;
   }
 
   return result;
@@ -262,21 +269,32 @@ bool switchState(EnumKeys enuk)
 // Trim switches ...
 uint8_t trimHelper(uint8_t negpin, uint8_t idx)
 {
-  switch(idx){
-    case 0: return negpin & TRIMS_GPIO_PIN_LHL;
-    case 1: return negpin & TRIMS_GPIO_PIN_LHR;
+  switch(idx) {
+  case 0:
+    return negpin & TRIMS_GPIO_PIN_LHL;
+  case 1:
+    return negpin & TRIMS_GPIO_PIN_LHR;
 #if !defined(SIMU) && defined(TELEMETRY_MOD_14051_SWAPPED)
-    case 2: return !pf7_digital[PF7_TRM_LV_DWN];
-    case 3: return !pf7_digital[PF7_TRM_LV_UP];
+  case 2:
+    return !pf7_digital[PF7_TRM_LV_DWN];
+  case 3:
+    return !pf7_digital[PF7_TRM_LV_UP];
 #else
-    case 2: return negpin & TRIMS_GPIO_PIN_LVD;
-    case 3: return negpin & TRIMS_GPIO_PIN_LVU;
+  case 2:
+    return negpin & TRIMS_GPIO_PIN_LVD;
+  case 3:
+    return negpin & TRIMS_GPIO_PIN_LVU;
 #endif
-    case 4: return negpin & TRIMS_GPIO_PIN_RVD;
-    case 5: return negpin & TRIMS_GPIO_PIN_RVU;
-    case 6: return negpin & TRIMS_GPIO_PIN_RHL;
-    case 7: return negpin & TRIMS_GPIO_PIN_RHR;
-    default: return 0;
+  case 4:
+    return negpin & TRIMS_GPIO_PIN_RVD;
+  case 5:
+    return negpin & TRIMS_GPIO_PIN_RVU;
+  case 6:
+    return negpin & TRIMS_GPIO_PIN_RHL;
+  case 7:
+    return negpin & TRIMS_GPIO_PIN_RHR;
+  default:
+    return 0;
   }
 }
 
@@ -322,11 +340,9 @@ bool checkSlaveMode()
   static uint8_t checkDelay = 0;
   if (IS_AUDIO_BUSY()) {
     checkDelay = 20;
-  }
-  else if (checkDelay) {
+  } else if (checkDelay) {
     --checkDelay;
-  }
-  else {
+  } else {
     lastSlaveMode = (PING & (1<<INP_G_RF_POW));
   }
   return lastSlaveMode;
@@ -335,9 +351,8 @@ bool checkSlaveMode()
 #if defined(PWM_BACKLIGHT)
 
 // exponential PWM table for linear brightness
-static const uint8_t pwmtable[16] PROGMEM =
-{
-    0, 2, 3, 4, 6, 8, 11, 16, 23, 32, 45, 64, 90, 128, 181, 255
+static const uint8_t pwmtable[16] PROGMEM = {
+  0, 2, 3, 4, 6, 8, 11, 16, 23, 32, 45, 64, 90, 128, 181, 255
 };
 
 static uint8_t bl_target;

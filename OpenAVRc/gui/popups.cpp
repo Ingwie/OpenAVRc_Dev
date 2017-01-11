@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -82,21 +82,21 @@ void displayWarning(uint8_t event)
   lcdDrawText(WARNING_LINE_X, WARNING_LINE_Y+2*FH, warningType == WARNING_TYPE_ASTERISK ? STR_EXIT : STR_POPUPS);
   switch (event) {
 #if defined(ROTARY_ENCODER_NAVIGATION)
-    case EVT_ROTARY_BREAK:
+  case EVT_ROTARY_BREAK:
 #endif
-    case EVT_KEY_BREAK(KEY_ENTER):
-      if (warningType == WARNING_TYPE_ASTERISK)
-        break;
-      warningResult = true;
-      // no break
-#if defined(ROTARY_ENCODER_NAVIGATION)
-    case EVT_ROTARY_LONG:
-      killEvents(event);
-#endif
-    case EVT_KEY_BREAK(KEY_EXIT):
-      warningText = NULL;
-      warningType = WARNING_TYPE_ASTERISK;
+  case EVT_KEY_BREAK(KEY_ENTER):
+    if (warningType == WARNING_TYPE_ASTERISK)
       break;
+    warningResult = true;
+    // no break
+#if defined(ROTARY_ENCODER_NAVIGATION)
+  case EVT_ROTARY_LONG:
+    killEvents(event);
+#endif
+  case EVT_KEY_BREAK(KEY_EXIT):
+    warningText = NULL;
+    warningType = WARNING_TYPE_ASTERISK;
+    break;
   }
 }
 
@@ -126,66 +126,66 @@ const char * displayPopupMenu(uint8_t event)
 #if defined(ROTARY_ENCODER_NAVIGATION)
     CASE_EVT_ROTARY_LEFT
 #endif
-    case EVT_KEY_FIRST(KEY_MOVE_UP):
-    case EVT_KEY_REPT(KEY_MOVE_UP):
-      if (s_menu_item > 0) {
-        s_menu_item--;
-      }
+  case EVT_KEY_FIRST(KEY_MOVE_UP):
+  case EVT_KEY_REPT(KEY_MOVE_UP):
+    if (s_menu_item > 0) {
+      s_menu_item--;
+    }
 #if defined(SDCARD)
-      else if (popupMenuOffset > 0) {
-        popupMenuOffset--;
+    else if (popupMenuOffset > 0) {
+      popupMenuOffset--;
+      result = STR_UPDATE_LIST;
+    }
+#endif
+    else {
+      s_menu_item = display_count - 1;
+#if defined(SDCARD)
+      if (popupMenuNoItems > POPUP_MENU_MAX_LINES) {
+        popupMenuOffset = popupMenuNoItems - display_count;
         result = STR_UPDATE_LIST;
       }
 #endif
-      else {
-        s_menu_item = display_count - 1;
-#if defined(SDCARD)
-        if (popupMenuNoItems > POPUP_MENU_MAX_LINES) {
-          popupMenuOffset = popupMenuNoItems - display_count;
-          result = STR_UPDATE_LIST;
-        }
-#endif
-      }
-      break;
+    }
+    break;
 
 #if defined(ROTARY_ENCODER_NAVIGATION)
     CASE_EVT_ROTARY_RIGHT
 #endif
-    case EVT_KEY_FIRST(KEY_MOVE_DOWN):
-    case EVT_KEY_REPT(KEY_MOVE_DOWN):
-      if (s_menu_item < display_count - 1 && popupMenuOffset + s_menu_item + 1 < popupMenuNoItems) {
-        s_menu_item++;
-      }
+  case EVT_KEY_FIRST(KEY_MOVE_DOWN):
+  case EVT_KEY_REPT(KEY_MOVE_DOWN):
+    if (s_menu_item < display_count - 1 && popupMenuOffset + s_menu_item + 1 < popupMenuNoItems) {
+      s_menu_item++;
+    }
 #if defined(SDCARD)
-      else if (popupMenuNoItems > popupMenuOffset + display_count) {
-        popupMenuOffset++;
+    else if (popupMenuNoItems > popupMenuOffset + display_count) {
+      popupMenuOffset++;
+      result = STR_UPDATE_LIST;
+    }
+#endif
+    else {
+      s_menu_item = 0;
+#if defined(SDCARD)
+      if (popupMenuOffset) {
+        popupMenuOffset = 0;
         result = STR_UPDATE_LIST;
       }
 #endif
-      else {
-        s_menu_item = 0;
-#if defined(SDCARD)
-        if (popupMenuOffset) {
-          popupMenuOffset = 0;
-          result = STR_UPDATE_LIST;
-        }
-#endif
-      }
-      break;
+    }
+    break;
     CASE_EVT_ROTARY_BREAK
-    case EVT_KEY_BREAK(KEY_ENTER):
-      result = popupMenuItems[s_menu_item];
-      // no break
+  case EVT_KEY_BREAK(KEY_ENTER):
+    result = popupMenuItems[s_menu_item];
+    // no break
 #if defined(ROTARY_ENCODER_NAVIGATION)
     CASE_EVT_ROTARY_LONG
-      killEvents(event);
+    killEvents(event);
 #endif
-    case EVT_KEY_BREAK(KEY_EXIT):
-      popupMenuNoItems = 0;
-      s_menu_item = 0;
-      popupMenuFlags = 0;
-      popupMenuOffset = 0;
-      break;
+  case EVT_KEY_BREAK(KEY_EXIT):
+    popupMenuNoItems = 0;
+    s_menu_item = 0;
+    popupMenuFlags = 0;
+    popupMenuOffset = 0;
+    break;
   }
 
   return result;

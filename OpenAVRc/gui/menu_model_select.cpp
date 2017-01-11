@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -41,13 +41,11 @@ void onModelSelectMenu(const char *result)
 
   if (result == STR_SELECT_MODEL || result == STR_CREATE_MODEL) {
     selectModel(sub);
-  }
-  else if (result == STR_COPY_MODEL) {
+  } else if (result == STR_COPY_MODEL) {
     s_copyMode = COPY_MODE;
     s_copyTgtOfs = 0;
     s_copySrcRow = -1;
-  }
-  else if (result == STR_MOVE_MODEL) {
+  } else if (result == STR_MOVE_MODEL) {
     s_copyMode = MOVE_MODE;
     s_copyTgtOfs = 0;
     s_copySrcRow = -1;
@@ -56,8 +54,7 @@ void onModelSelectMenu(const char *result)
   else if (result == STR_BACKUP_MODEL) {
     eeCheck(true); // force writing of current model data before this is changed
     POPUP_WARNING(eeBackupModel(sub));
-  }
-  else if (result == STR_RESTORE_MODEL || result == STR_UPDATE_LIST) {
+  } else if (result == STR_RESTORE_MODEL || result == STR_UPDATE_LIST) {
     if (!listSdFiles(MODELS_PATH, MODELS_EXT, MENU_LINE_LENGTH-1, NULL, 0)) {
       POPUP_WARNING(STR_NO_MODELS_ON_SD);
       popupMenuFlags = 0;
@@ -115,192 +112,181 @@ void menuModelSelect(uint8_t event)
 
   int8_t sub = menuVerticalPosition;
 
-  switch (event)
-  {
-      case EVT_ENTRY:
-        menuVerticalPosition = sub = g_eeGeneral.currModel;
-        if (sub >= LCD_LINES-1) menuVerticalOffset = sub-LCD_LINES+2;
-        s_copyMode = 0;
-        s_editMode = EDIT_MODE_INIT;
-        eeCheck(true);
-        break;
+  switch (event) {
+  case EVT_ENTRY:
+    menuVerticalPosition = sub = g_eeGeneral.currModel;
+    if (sub >= LCD_LINES-1) menuVerticalOffset = sub-LCD_LINES+2;
+    s_copyMode = 0;
+    s_editMode = EDIT_MODE_INIT;
+    eeCheck(true);
+    break;
 
-      case EVT_KEY_LONG(KEY_EXIT):
-        killEvents(event);
-        if (s_copyMode && s_copyTgtOfs == 0 && g_eeGeneral.currModel != sub && eeModelExists(sub)) {
-          POPUP_CONFIRMATION(STR_DELETEMODEL);
-          char * name = reusableBuffer.modelsel.mainname;
-          eeLoadModelName(sub, name);
-          SET_WARNING_INFO(name, sizeof(g_model.header.name), ZCHAR);
-        }
-        else {
-          s_copyMode = 0;
-          menuVerticalPosition = g_eeGeneral.currModel;
-        }
-        break;
+  case EVT_KEY_LONG(KEY_EXIT):
+    killEvents(event);
+    if (s_copyMode && s_copyTgtOfs == 0 && g_eeGeneral.currModel != sub && eeModelExists(sub)) {
+      POPUP_CONFIRMATION(STR_DELETEMODEL);
+      char * name = reusableBuffer.modelsel.mainname;
+      eeLoadModelName(sub, name);
+      SET_WARNING_INFO(name, sizeof(g_model.header.name), ZCHAR);
+    } else {
+      s_copyMode = 0;
+      menuVerticalPosition = g_eeGeneral.currModel;
+    }
+    break;
 
 #if defined(ROTARY_ENCODER_NAVIGATION)
-      case EVT_ROTARY_LONG:
-        killEvents(event);
-        if (s_editMode < 0) {
-          popMenu();
-          break;
-        }
-        else if (!s_copyMode) {
-          menuVerticalPosition = sub = g_eeGeneral.currModel;
-          s_copyMode = 0;
-          s_editMode = EDIT_MODE_INIT;
-        }
-        // no break
+  case EVT_ROTARY_LONG:
+    killEvents(event);
+    if (s_editMode < 0) {
+      popMenu();
+      break;
+    } else if (!s_copyMode) {
+      menuVerticalPosition = sub = g_eeGeneral.currModel;
+      s_copyMode = 0;
+      s_editMode = EDIT_MODE_INIT;
+    }
+    // no break
 #endif
 
-      case EVT_KEY_BREAK(KEY_EXIT):
-        if (s_copyMode) {
-          sub = menuVerticalPosition = (s_copyMode == MOVE_MODE || s_copySrcRow<0) ? (MAX_MODELS+sub+s_copyTgtOfs) % MAX_MODELS : s_copySrcRow;
-          s_copyMode = 0;
-        }
-        else if (uint8_t(menuVerticalPosition) != g_eeGeneral.currModel) {
-          menuVerticalPosition = g_eeGeneral.currModel;
-        }
-        else {
-          popMenu();
-        }
-        break;
+  case EVT_KEY_BREAK(KEY_EXIT):
+    if (s_copyMode) {
+      sub = menuVerticalPosition = (s_copyMode == MOVE_MODE || s_copySrcRow<0) ? (MAX_MODELS+sub+s_copyTgtOfs) % MAX_MODELS : s_copySrcRow;
+      s_copyMode = 0;
+    } else if (uint8_t(menuVerticalPosition) != g_eeGeneral.currModel) {
+      menuVerticalPosition = g_eeGeneral.currModel;
+    } else {
+      popMenu();
+    }
+    break;
 
 #if defined(ROTARY_ENCODER_NAVIGATION)
-      case EVT_ROTARY_BREAK:
-        if (s_editMode == -1) {
-          s_editMode = 0;
-          break;
-        }
-        // no break;
+  case EVT_ROTARY_BREAK:
+    if (s_editMode == -1) {
+      s_editMode = 0;
+      break;
+    }
+    // no break;
 #endif
 
-      case EVT_KEY_LONG(KEY_ENTER):
-      case EVT_KEY_BREAK(KEY_ENTER):
-        s_editMode = 0;
-        if (READ_ONLY()) {
-          if (g_eeGeneral.currModel != sub && eeModelExists(sub)) {
-            selectModel(sub);
-          }
+  case EVT_KEY_LONG(KEY_ENTER):
+  case EVT_KEY_BREAK(KEY_ENTER):
+    s_editMode = 0;
+    if (READ_ONLY()) {
+      if (g_eeGeneral.currModel != sub && eeModelExists(sub)) {
+        selectModel(sub);
+      }
+    } else if (s_copyMode && (s_copyTgtOfs || s_copySrcRow>=0)) {
+      displayPopup(s_copyMode==COPY_MODE ? STR_COPYINGMODEL : STR_MOVINGMODEL);
+      eeCheck(true); // force writing of current model data before this is changed
+
+      uint8_t cur = (MAX_MODELS + sub + s_copyTgtOfs) % MAX_MODELS;
+
+      if (s_copyMode == COPY_MODE) {
+        if (!eeCopyModel(cur, s_copySrcRow)) {
+          cur = sub;
         }
-        else if (s_copyMode && (s_copyTgtOfs || s_copySrcRow>=0)) {
-          displayPopup(s_copyMode==COPY_MODE ? STR_COPYINGMODEL : STR_MOVINGMODEL);
-          eeCheck(true); // force writing of current model data before this is changed
+      }
 
-          uint8_t cur = (MAX_MODELS + sub + s_copyTgtOfs) % MAX_MODELS;
+      s_copySrcRow = g_eeGeneral.currModel; // to update the currModel value
+      while (sub != cur) {
+        uint8_t src = cur;
+        cur = (s_copyTgtOfs > 0 ? cur+MAX_MODELS-1 : cur+1) % MAX_MODELS;
+        eeSwapModels(src, cur);
+        if (src == s_copySrcRow)
+          s_copySrcRow = cur;
+        else if (cur == s_copySrcRow)
+          s_copySrcRow = src;
+      }
 
-          if (s_copyMode == COPY_MODE) {
-            if (!eeCopyModel(cur, s_copySrcRow)) {
-              cur = sub;
-            }
-          }
+      if (s_copySrcRow != g_eeGeneral.currModel) {
+        g_eeGeneral.currModel = s_copySrcRow;
+        eeDirty(EE_GENERAL);
+      }
 
-          s_copySrcRow = g_eeGeneral.currModel; // to update the currModel value
-          while (sub != cur) {
-            uint8_t src = cur;
-            cur = (s_copyTgtOfs > 0 ? cur+MAX_MODELS-1 : cur+1) % MAX_MODELS;
-            eeSwapModels(src, cur);
-            if (src == s_copySrcRow)
-              s_copySrcRow = cur;
-            else if (cur == s_copySrcRow)
-              s_copySrcRow = src;
-          }
-
-          if (s_copySrcRow != g_eeGeneral.currModel) {
-            g_eeGeneral.currModel = s_copySrcRow;
-            eeDirty(EE_GENERAL);
-          }
-
-          s_copyMode = 0;
-          event = EVT_ENTRY_UP;
-        }
-        else if (event == EVT_KEY_LONG(KEY_ENTER) || IS_ROTARY_BREAK(event)) {
-          s_copyMode = 0;
-          killEvents(event);
+      s_copyMode = 0;
+      event = EVT_ENTRY_UP;
+    } else if (event == EVT_KEY_LONG(KEY_ENTER) || IS_ROTARY_BREAK(event)) {
+      s_copyMode = 0;
+      killEvents(event);
 #if defined(NAVIGATION_MENUS)
-          if (g_eeGeneral.currModel != sub) {
-            if (eeModelExists(sub)) {
-              POPUP_MENU_ADD_ITEM(STR_SELECT_MODEL);
-              POPUP_MENU_ADD_SD_ITEM(STR_BACKUP_MODEL);
-              POPUP_MENU_ADD_ITEM(STR_COPY_MODEL);
-              POPUP_MENU_ADD_ITEM(STR_MOVE_MODEL);
-              POPUP_MENU_ADD_ITEM(STR_DELETE_MODEL);
-            }
-            else {
+      if (g_eeGeneral.currModel != sub) {
+        if (eeModelExists(sub)) {
+          POPUP_MENU_ADD_ITEM(STR_SELECT_MODEL);
+          POPUP_MENU_ADD_SD_ITEM(STR_BACKUP_MODEL);
+          POPUP_MENU_ADD_ITEM(STR_COPY_MODEL);
+          POPUP_MENU_ADD_ITEM(STR_MOVE_MODEL);
+          POPUP_MENU_ADD_ITEM(STR_DELETE_MODEL);
+        } else {
 #if defined(SDCARD)
-              POPUP_MENU_ADD_ITEM(STR_CREATE_MODEL);
-              POPUP_MENU_ADD_ITEM(STR_RESTORE_MODEL);
+          POPUP_MENU_ADD_ITEM(STR_CREATE_MODEL);
+          POPUP_MENU_ADD_ITEM(STR_RESTORE_MODEL);
 #else
-              selectModel(sub);
+          selectModel(sub);
 #endif
-            }
-          }
-          else {
-            POPUP_MENU_ADD_SD_ITEM(STR_BACKUP_MODEL);
-            POPUP_MENU_ADD_ITEM(STR_COPY_MODEL);
-            POPUP_MENU_ADD_ITEM(STR_MOVE_MODEL);
-          }
-          popupMenuHandler = onModelSelectMenu;
+        }
+      } else {
+        POPUP_MENU_ADD_SD_ITEM(STR_BACKUP_MODEL);
+        POPUP_MENU_ADD_ITEM(STR_COPY_MODEL);
+        POPUP_MENU_ADD_ITEM(STR_MOVE_MODEL);
+      }
+      popupMenuHandler = onModelSelectMenu;
 #else
-          if (g_eeGeneral.currModel != sub) {
-            selectModel(sub);
-          }
+      if (g_eeGeneral.currModel != sub) {
+        selectModel(sub);
+      }
 #endif
-        }
-        else if (eeModelExists(sub)) {
-          s_copyMode = (s_copyMode == COPY_MODE ? MOVE_MODE : COPY_MODE);
-          s_copyTgtOfs = 0;
-          s_copySrcRow = -1;
-        }
-        break;
+    } else if (eeModelExists(sub)) {
+      s_copyMode = (s_copyMode == COPY_MODE ? MOVE_MODE : COPY_MODE);
+      s_copyTgtOfs = 0;
+      s_copySrcRow = -1;
+    }
+    break;
 
 #if defined(ROTARY_ENCODER_NAVIGATION)
-      case EVT_ROTARY_LEFT:
-      case EVT_ROTARY_RIGHT:
+  case EVT_ROTARY_LEFT:
+  case EVT_ROTARY_RIGHT:
 #endif
-      case EVT_KEY_FIRST(KEY_LEFT):
-      case EVT_KEY_FIRST(KEY_RIGHT):
+  case EVT_KEY_FIRST(KEY_LEFT):
+  case EVT_KEY_FIRST(KEY_RIGHT):
 #if defined(ROTARY_ENCODER_NAVIGATION)
-        if ((!IS_ROTARY_RIGHT(event) && !IS_ROTARY_LEFT(event)) || s_editMode < 0) {
+    if ((!IS_ROTARY_RIGHT(event) && !IS_ROTARY_LEFT(event)) || s_editMode < 0) {
 #endif
-        if (sub == g_eeGeneral.currModel) {
-          chainMenu((IS_ROTARY_RIGHT(event) || event == EVT_KEY_FIRST(KEY_RIGHT)) ? menuModelSetup : menuTabModel[DIM(menuTabModel)-1]);
-        }
-        else {
-          AUDIO_WARNING2();
-        }
-        break;
+      if (sub == g_eeGeneral.currModel) {
+        chainMenu((IS_ROTARY_RIGHT(event) || event == EVT_KEY_FIRST(KEY_RIGHT)) ? menuModelSetup : menuTabModel[DIM(menuTabModel)-1]);
+      } else {
+        AUDIO_WARNING2();
+      }
+      break;
 #if defined(ROTARY_ENCODER_NAVIGATION)
-        }
-        // no break
+    }
+    // no break
 #endif
 
-      case EVT_KEY_FIRST(KEY_MOVE_UP):
-      case EVT_KEY_REPT(KEY_MOVE_UP):
-      case EVT_KEY_FIRST(KEY_MOVE_DOWN):
-      case EVT_KEY_REPT(KEY_MOVE_DOWN):
-        if (s_copyMode) {
-          int8_t next_ofs = s_copyTgtOfs + oldSub - menuVerticalPosition;
-          if (next_ofs == MAX_MODELS || next_ofs == -MAX_MODELS)
-            next_ofs = 0;
+  case EVT_KEY_FIRST(KEY_MOVE_UP):
+  case EVT_KEY_REPT(KEY_MOVE_UP):
+  case EVT_KEY_FIRST(KEY_MOVE_DOWN):
+  case EVT_KEY_REPT(KEY_MOVE_DOWN):
+    if (s_copyMode) {
+      int8_t next_ofs = s_copyTgtOfs + oldSub - menuVerticalPosition;
+      if (next_ofs == MAX_MODELS || next_ofs == -MAX_MODELS)
+        next_ofs = 0;
 
-          if (s_copySrcRow < 0 && s_copyMode==COPY_MODE) {
-            s_copySrcRow = oldSub;
-            // find a hole (in the first empty slot above / below)
-            sub = eeFindEmptyModel(s_copySrcRow, IS_ROTARY_DOWN(event) || event==EVT_KEY_FIRST(KEY_MOVE_DOWN));
-            if (sub < 0) {
-              // no free room for duplicating the model
-              AUDIO_ERROR();
-              sub = oldSub;
-              s_copyMode = 0;
-            }
-            next_ofs = 0;
-            menuVerticalPosition = sub;
-          }
-          s_copyTgtOfs = next_ofs;
+      if (s_copySrcRow < 0 && s_copyMode==COPY_MODE) {
+        s_copySrcRow = oldSub;
+        // find a hole (in the first empty slot above / below)
+        sub = eeFindEmptyModel(s_copySrcRow, IS_ROTARY_DOWN(event) || event==EVT_KEY_FIRST(KEY_MOVE_DOWN));
+        if (sub < 0) {
+          // no free room for duplicating the model
+          AUDIO_ERROR();
+          sub = oldSub;
+          s_copyMode = 0;
         }
-        break;
+        next_ofs = 0;
+        menuVerticalPosition = sub;
+      }
+      s_copyTgtOfs = next_ofs;
+    }
+    break;
   }
 
   lcdDrawText(9*FW-(LEN_FREE-4)*FW, 0, STR_FREE);
@@ -326,12 +312,10 @@ void menuModelSelect(uint8_t event)
         if (s_copyMode == COPY_MODE) {
           k = s_copySrcRow;
           lcdDrawChar(MODELSEL_W-FW, y, '+');
-        }
-        else {
+        } else {
           k = sub + s_copyTgtOfs;
         }
-      }
-      else if (s_copyTgtOfs < 0 && ((k < sub && k >= sub+s_copyTgtOfs) || (k-MAX_MODELS < sub && k-MAX_MODELS >= sub+s_copyTgtOfs)))
+      } else if (s_copyTgtOfs < 0 && ((k < sub && k >= sub+s_copyTgtOfs) || (k-MAX_MODELS < sub && k-MAX_MODELS >= sub+s_copyTgtOfs)))
         k += 1;
       else if (s_copyTgtOfs > 0 && ((k > sub && k <= sub+s_copyTgtOfs) || (k+MAX_MODELS > sub && k+MAX_MODELS <= sub+s_copyTgtOfs)))
         k += MAX_MODELS-1;

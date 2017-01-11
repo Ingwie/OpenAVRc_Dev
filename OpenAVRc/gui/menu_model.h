@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -62,15 +62,15 @@ extern uint8_t s_curveChan;
 
 
 #if   defined(CPUM64)
-  #define INCDEC_DECLARE_VARS(f)
-  #define INCDEC_SET_FLAG(f)
-  #define INCDEC_ENABLE_CHECK(fn)
-  #define CHECK_INCDEC_PARAM(event, var, min, max) checkIncDec(event, var, min, max, EE_MODEL)
+#define INCDEC_DECLARE_VARS(f)
+#define INCDEC_SET_FLAG(f)
+#define INCDEC_ENABLE_CHECK(fn)
+#define CHECK_INCDEC_PARAM(event, var, min, max) checkIncDec(event, var, min, max, EE_MODEL)
 #else
-  #define INCDEC_DECLARE_VARS(f)  uint8_t incdecFlag = (f)
-  #define INCDEC_SET_FLAG(f)      incdecFlag = (f)
-  #define INCDEC_ENABLE_CHECK(fn)
-  #define CHECK_INCDEC_PARAM(event, var, min, max) checkIncDec(event, var, min, max, incdecFlag)
+#define INCDEC_DECLARE_VARS(f)  uint8_t incdecFlag = (f)
+#define INCDEC_SET_FLAG(f)      incdecFlag = (f)
+#define INCDEC_ENABLE_CHECK(fn)
+#define CHECK_INCDEC_PARAM(event, var, min, max) checkIncDec(event, var, min, max, incdecFlag)
 #endif
 
 
@@ -82,7 +82,7 @@ extern int8_t s_copySrcRow;
 extern int8_t s_copyTgtOfs;
 
 #if defined(CPUM64)
-  #define editNameCursorPos menuHorizontalPosition
+#define editNameCursorPos menuHorizontalPosition
 #else
 extern uint8_t editNameCursorPos;
 #endif

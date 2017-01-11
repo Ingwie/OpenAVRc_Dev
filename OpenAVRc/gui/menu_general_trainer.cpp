@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -38,8 +38,7 @@ void menuGeneralTrainer(uint8_t event)
 
   if (slave) {
     lcdDrawText(7*FW, 4*FH, STR_SLAVE);
-  }
-  else {
+  } else {
     uint8_t attr;
     uint8_t blink = ((s_editMode>0) ? BLINK|INVERS : INVERS);
 
@@ -58,20 +57,20 @@ void menuGeneralTrainer(uint8_t event)
         attr = ((menuVerticalPosition==i && menuHorizontalPosition==j) ? blink : 0);
 
         switch(j) {
-          case 0:
-            lcdDrawTextAtIndex(4*FW, y, STR_TRNMODE, td->mode, attr);
-            if (attr&BLINK) CHECK_INCDEC_GENVAR(event, td->mode, 0, 2);
-            break;
+        case 0:
+          lcdDrawTextAtIndex(4*FW, y, STR_TRNMODE, td->mode, attr);
+          if (attr&BLINK) CHECK_INCDEC_GENVAR(event, td->mode, 0, 2);
+          break;
 
-          case 1:
-            lcdDrawNumberAttUnit(11*FW, y, td->studWeight, attr);
-            if (attr&BLINK) CHECK_INCDEC_GENVAR(event, td->studWeight, -125, 125);
-            break;
+        case 1:
+          lcdDrawNumberAttUnit(11*FW, y, td->studWeight, attr);
+          if (attr&BLINK) CHECK_INCDEC_GENVAR(event, td->studWeight, -125, 125);
+          break;
 
-          case 2:
-            lcdDrawTextAtIndex(12*FW, y, STR_TRNCHN, td->srcChn, attr);
-            if (attr&BLINK) CHECK_INCDEC_GENVAR(event, td->srcChn, 0, 3);
-            break;
+        case 2:
+          lcdDrawTextAtIndex(12*FW, y, STR_TRNCHN, td->srcChn, attr);
+          if (attr&BLINK) CHECK_INCDEC_GENVAR(event, td->srcChn, 0, 3);
+          break;
         }
       }
       y += FH;
@@ -95,7 +94,7 @@ void menuGeneralTrainer(uint8_t event)
     }
 
     if (attr) {
-      if (event==EVT_KEY_LONG(KEY_ENTER)){
+      if (event==EVT_KEY_LONG(KEY_ENTER)) {
         memcpy(g_eeGeneral.trainer.calib, ppmInput, sizeof(g_eeGeneral.trainer.calib));
         eeDirty(EE_GENERAL);
         AUDIO_WARNING1();

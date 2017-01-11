@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -47,49 +47,48 @@ void lcdSendCtl(uint8_t val)
   PORTC_LCD_CTRL |=  (1<<OUT_C_LCD_CS1);
 }
 
-const static pm_uchar lcdInitSequence[] PROGMEM =
-{
+const static pm_uchar lcdInitSequence[] PROGMEM = {
   //ST7565 eq. : KS0713, SED1565, S6B1713, SPLC501C, NT7532 /34 /38, TL03245
 #if defined(LCD_ST7565R)
-   0xE2, //Initialize the internal functions
-   0xAE, //DON = 0: display OFF
-   0xA0, //ADC = 0: normal direction (SEG132->SEG1)
-   0xA6, //REV = 0: non-reverse display
-   0xA4, //EON = 0: normal display. non-entire
-   0xA2, //Select LCD bias
-   0xC8, //SHL = 1: reverse direction (COM64->COM1)
-   0x2F, //Control power circuit operation VC=VR=VF=1
-   0x25, //Select int resistance ratio R2 R1 R0 =5
-   0x81, //Set reference voltage Mode
-   0x22, //24 SV5 SV4 SV3 SV2 SV1 SV0 = 0x18
-   0xAF, //DON = 1: display ON
-   0x60  //Set the display start line to zero
+  0xE2, //Initialize the internal functions
+  0xAE, //DON = 0: display OFF
+  0xA0, //ADC = 0: normal direction (SEG132->SEG1)
+  0xA6, //REV = 0: non-reverse display
+  0xA4, //EON = 0: normal display. non-entire
+  0xA2, //Select LCD bias
+  0xC8, //SHL = 1: reverse direction (COM64->COM1)
+  0x2F, //Control power circuit operation VC=VR=VF=1
+  0x25, //Select int resistance ratio R2 R1 R0 =5
+  0x81, //Set reference voltage Mode
+  0x22, //24 SV5 SV4 SV3 SV2 SV1 SV0 = 0x18
+  0xAF, //DON = 1: display ON
+  0x60  //Set the display start line to zero
 #elif defined(LCD_ERC12864FSF)
-   0xE2, //Initialize the internal functions
-   0xAE, //DON = 0: display OFF
-   0xA1, //ADC = 1: reverse direction (SEG132->SEG1)
-   0xA6, //REV = 0: non-reverse display
-   0xA4, //EON = 0: normal display. non-entire
-   0xA3, //Select LCD bias
-   0xC0, //SHL = 0: normal direction (COM1->COM64)
-   0x2F, //Control power circuit operation VC=VR=VF=1
-   0x27, //Select int resistance ratio R2 R1 R0
-   0x81, //Set reference voltage Mode
-   0x2D, //24 SV5 SV4 SV3 SV2 SV1 SV0
-   0xAF  //DON = 1: display ON
+  0xE2, //Initialize the internal functions
+  0xAE, //DON = 0: display OFF
+  0xA1, //ADC = 1: reverse direction (SEG132->SEG1)
+  0xA6, //REV = 0: non-reverse display
+  0xA4, //EON = 0: normal display. non-entire
+  0xA3, //Select LCD bias
+  0xC0, //SHL = 0: normal direction (COM1->COM64)
+  0x2F, //Control power circuit operation VC=VR=VF=1
+  0x27, //Select int resistance ratio R2 R1 R0
+  0x81, //Set reference voltage Mode
+  0x2D, //24 SV5 SV4 SV3 SV2 SV1 SV0
+  0xAF  //DON = 1: display ON
 #else    //ST7565P (default 9x LCD)
-   0xE2, //Initialize the internal functions
-   0xAE, //DON = 0: display OFF
-   0xA1, //ADC = 1: reverse direction(SEG132->SEG1)
-   0xA6, //REV = 0: non-reverse display
-   0xA4, //EON = 0: normal display. non-entire
-   0xA2, //Select LCD bias=0
-   0xC0, //SHL = 0: normal direction (COM1->COM64)
-   0x2F, //Control power circuit operation VC=VR=VF=1
-   0x25, //Select int resistance ratio R2 R1 R0 =5
-   0x81, //Set reference voltage Mode
-   0x22, //24 SV5 SV4 SV3 SV2 SV1 SV0 = 0x18
-   0xAF  //DON = 1: display ON
+  0xE2, //Initialize the internal functions
+  0xAE, //DON = 0: display OFF
+  0xA1, //ADC = 1: reverse direction(SEG132->SEG1)
+  0xA6, //REV = 0: non-reverse display
+  0xA4, //EON = 0: normal display. non-entire
+  0xA2, //Select LCD bias=0
+  0xC0, //SHL = 0: normal direction (COM1->COM64)
+  0x2F, //Control power circuit operation VC=VR=VF=1
+  0x25, //Select int resistance ratio R2 R1 R0 =5
+  0x81, //Set reference voltage Mode
+  0x22, //24 SV5 SV4 SV3 SV2 SV1 SV0 = 0x18
+  0xAF  //DON = 1: display ON
 #endif
 };
 
@@ -156,5 +155,7 @@ void lcdRefreshFast()
 
 void lcdRefresh()
 {
-  for (uint8_t i=0; i < NUMITERATIONFULLREFRESH; i++) { lcdRefreshFast(); }
+  for (uint8_t i=0; i < NUMITERATIONFULLREFRESH; i++) {
+    lcdRefreshFast();
+  }
 }

@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -110,13 +110,12 @@ leapyear (long int year)
          || ((year / 100) & 3) == (- (TM_YEAR_BASE / 100) & 3)));
 }
 
-const unsigned short int __mon_yday[2][13] =
-  {
-    /* Normal years.  */
-    { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 },
-    /* Leap years.  */
-    { 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 }
-  };
+const unsigned short int __mon_yday[2][13] = {
+  /* Normal years.  */
+  { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 },
+  /* Leap years.  */
+  { 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 }
+};
 
 /* Compute the `struct tm' representation of *T,
    offset OFFSET seconds east of UTC,
@@ -124,9 +123,9 @@ const unsigned short int __mon_yday[2][13] =
    Return nonzero if successful.  */
 int
 __offtime (
-     gtime_t *t,
-     long int offset,
-     struct gtm *tp)
+  gtime_t *t,
+  long int offset,
+  struct gtm *tp)
 {
   long int days, rem, y;
   const unsigned short int *ip;
@@ -134,16 +133,14 @@ __offtime (
   days = *t / SECS_PER_DAY;
   rem = *t % SECS_PER_DAY;
   rem += offset;
-  while (rem < 0)
-    {
-      rem += SECS_PER_DAY;
-      --days;
-    }
-  while (rem >= (long int)SECS_PER_DAY)
-    {
-      rem -= SECS_PER_DAY;
-      ++days;
-    }
+  while (rem < 0) {
+    rem += SECS_PER_DAY;
+    --days;
+  }
+  while (rem >= (long int)SECS_PER_DAY) {
+    rem -= SECS_PER_DAY;
+    ++days;
+  }
   tp->tm_hour = rem / SECS_PER_HOUR;
   rem %= SECS_PER_HOUR;
   tp->tm_min = rem / 60;
@@ -157,24 +154,22 @@ __offtime (
 #define DIV(a, b) ((a) / (b) - ((a) % (b) < 0))
 #define LEAPS_THRU_END_OF(y) (DIV (y, 4) - DIV (y, 100) + DIV (y, 400))
 
-  while (days < 0 || days >= (leapyear (y) ? 366 : 365))
-    {
-      /* Guess a corrected year, assuming 365 days per year.  */
-      long int yg = y + days / 365 - (days % 365 < 0);
+  while (days < 0 || days >= (leapyear (y) ? 366 : 365)) {
+    /* Guess a corrected year, assuming 365 days per year.  */
+    long int yg = y + days / 365 - (days % 365 < 0);
 
-      /* Adjust DAYS and Y to match the guessed year.  */
-      days -= ((yg - y) * 365
-               + LEAPS_THRU_END_OF (yg - 1)
-               - LEAPS_THRU_END_OF (y - 1));
-      y = yg;
-    }
+    /* Adjust DAYS and Y to match the guessed year.  */
+    days -= ((yg - y) * 365
+             + LEAPS_THRU_END_OF (yg - 1)
+             - LEAPS_THRU_END_OF (y - 1));
+    y = yg;
+  }
   tp->tm_year = y - 1900;
-  if (tp->tm_year != y - 1900)
-    {
-      /* The year cannot be represented due to overflow.  */
-      // __set_errno (EOVERFLOW);
-      return 0;
-    }
+  if (tp->tm_year != y - 1900) {
+    /* The year cannot be represented due to overflow.  */
+    // __set_errno (EOVERFLOW);
+    return 0;
+  }
   tp->tm_yday = days;
   ip = __mon_yday[leapyear(y)];
   for (y = 11; days < (long int) ip[y]; --y)
@@ -245,15 +240,14 @@ static gtime_t
 guess_time_tm (long int year, long int yday, int hour, int min, int sec,
                gtime_t *t, struct gtm *tp)
 {
-  if (tp)
-    {
-      gtime_t d = ydhms_diff (year, yday, hour, min, sec,
-                             tp->tm_year, tp->tm_yday,
-                             tp->tm_hour, tp->tm_min, tp->tm_sec);
-      gtime_t t1 = *t + d;
-      if ((t1 < *t) == (TYPE_SIGNED (gtime_t) ? d < 0 : TIME_T_MAX / 2 < d))
-        return t1;
-    }
+  if (tp) {
+    gtime_t d = ydhms_diff (year, yday, hour, min, sec,
+                            tp->tm_year, tp->tm_yday,
+                            tp->tm_hour, tp->tm_min, tp->tm_sec);
+    gtime_t t1 = *t + d;
+    if ((t1 < *t) == (TYPE_SIGNED (gtime_t) ? d < 0 : TIME_T_MAX / 2 < d))
+      return t1;
+  }
 
   /* Overflow occurred one way or another.  Return the nearest result
      that is actually in range, except don't report a zero difference
@@ -274,34 +268,31 @@ ranged_convert (struct gtm *(*convert) (gtime_t *, struct gtm *),
 {
   struct gtm *r = convert (t, tp);
 
-  if (!r && *t)
-    {
-      gtime_t bad = *t;
-      gtime_t ok = 0;
+  if (!r && *t) {
+    gtime_t bad = *t;
+    gtime_t ok = 0;
 
-      /* BAD is a known unconvertible gtime_t, and OK is a known good one.
-         Use binary search to narrow the range between BAD and OK until
-         they differ by 1.  */
-      while (bad != ok + (bad < 0 ? -1 : 1))
-        {
-          gtime_t mid = *t = (bad < 0
-                             ? bad + ((ok - bad) >> 1)
-                             : ok + ((bad - ok) >> 1));
-          r = convert (t, tp);
-          if (r)
-            ok = mid;
-          else
-            bad = mid;
-        }
-
-      if (!r && ok)
-        {
-          /* The last conversion attempt failed;
-             revert to the most recent successful attempt.  */
-          *t = ok;
-          r = convert (t, tp);
-        }
+    /* BAD is a known unconvertible gtime_t, and OK is a known good one.
+       Use binary search to narrow the range between BAD and OK until
+       they differ by 1.  */
+    while (bad != ok + (bad < 0 ? -1 : 1)) {
+      gtime_t mid = *t = (bad < 0
+                          ? bad + ((ok - bad) >> 1)
+                          : ok + ((bad - ok) >> 1));
+      r = convert (t, tp);
+      if (r)
+        ok = mid;
+      else
+        bad = mid;
     }
+
+    if (!r && ok) {
+      /* The last conversion attempt failed;
+         revert to the most recent successful attempt.  */
+      *t = ok;
+      r = convert (t, tp);
+    }
+  }
 
   return r;
 }
@@ -359,17 +350,17 @@ __mktime_internal (struct gtm *tp,
 
   int sec_requested = sec;
 
-/*
-   if (LEAP_SECONDS_POSSIBLE)
-    {
-      // Handle out-of-range seconds specially,
-      // since ydhms_tm_diff assumes every minute has 60 seconds.
-      if (sec < 0)
-        sec = 0;
-      if (59 < sec)
-        sec = 59;
-    }
-*/
+  /*
+     if (LEAP_SECONDS_POSSIBLE)
+      {
+        // Handle out-of-range seconds specially,
+        // since ydhms_tm_diff assumes every minute has 60 seconds.
+        if (sec < 0)
+          sec = 0;
+        if (59 < sec)
+          sec = 59;
+      }
+  */
 
   /* Invert CONVERT by probing.  First assume the same offset as last
      time.  */
@@ -377,63 +368,61 @@ __mktime_internal (struct gtm *tp,
   t0 = ydhms_diff (year, yday, hour, min, sec,
                    EPOCH_YEAR - TM_YEAR_BASE, 0, 0, 0, - guessed_offset);
 
-  if (TIME_T_MAX / INT_MAX / 366 / 24 / 60 / 60 < 3)
-    {
-      /* gtime_t isn't large enough to rule out overflows, so check
-         for major overflows.  A gross check suffices, since if t0
-         has overflowed, it is off by a multiple of TIME_T_MAX -
-         TIME_T_MIN + 1.  So ignore any component of the difference
-         that is bounded by a small value.  */
+  if (TIME_T_MAX / INT_MAX / 366 / 24 / 60 / 60 < 3) {
+    /* gtime_t isn't large enough to rule out overflows, so check
+       for major overflows.  A gross check suffices, since if t0
+       has overflowed, it is off by a multiple of TIME_T_MAX -
+       TIME_T_MIN + 1.  So ignore any component of the difference
+       that is bounded by a small value.  */
 
-      /* Approximate log base 2 of the number of time units per
-         biennium.  A biennium is 2 years; use this unit instead of
-         years to avoid integer overflow.  For example, 2 average
-         Gregorian years are 2 * 365.2425 * 24 * 60 * 60 seconds,
-         which is 63113904 seconds, and rint (log2 (63113904)) is
-         26.  */
-      int ALOG2_SECONDS_PER_BIENNIUM = 26;
-      int ALOG2_MINUTES_PER_BIENNIUM = 20;
-      int ALOG2_HOURS_PER_BIENNIUM = 14;
-      int ALOG2_DAYS_PER_BIENNIUM = 10;
-      int LOG2_YEARS_PER_BIENNIUM = 1;
+    /* Approximate log base 2 of the number of time units per
+       biennium.  A biennium is 2 years; use this unit instead of
+       years to avoid integer overflow.  For example, 2 average
+       Gregorian years are 2 * 365.2425 * 24 * 60 * 60 seconds,
+       which is 63113904 seconds, and rint (log2 (63113904)) is
+       26.  */
+    int ALOG2_SECONDS_PER_BIENNIUM = 26;
+    int ALOG2_MINUTES_PER_BIENNIUM = 20;
+    int ALOG2_HOURS_PER_BIENNIUM = 14;
+    int ALOG2_DAYS_PER_BIENNIUM = 10;
+    int LOG2_YEARS_PER_BIENNIUM = 1;
 
-      int approx_requested_biennia =
-        (SHR (year_requested, LOG2_YEARS_PER_BIENNIUM)
-         - SHR (EPOCH_YEAR - TM_YEAR_BASE, LOG2_YEARS_PER_BIENNIUM)
-         + SHR (mday, ALOG2_DAYS_PER_BIENNIUM)
-         + SHR (hour, ALOG2_HOURS_PER_BIENNIUM)
-         + SHR (min, ALOG2_MINUTES_PER_BIENNIUM)
-         + (LEAP_SECONDS_POSSIBLE
-            ? 0
-            : SHR (sec, ALOG2_SECONDS_PER_BIENNIUM)));
+    int approx_requested_biennia =
+      (SHR (year_requested, LOG2_YEARS_PER_BIENNIUM)
+       - SHR (EPOCH_YEAR - TM_YEAR_BASE, LOG2_YEARS_PER_BIENNIUM)
+       + SHR (mday, ALOG2_DAYS_PER_BIENNIUM)
+       + SHR (hour, ALOG2_HOURS_PER_BIENNIUM)
+       + SHR (min, ALOG2_MINUTES_PER_BIENNIUM)
+       + (LEAP_SECONDS_POSSIBLE
+          ? 0
+          : SHR (sec, ALOG2_SECONDS_PER_BIENNIUM)));
 
-      int approx_biennia = SHR (t0, ALOG2_SECONDS_PER_BIENNIUM);
-      int diff = approx_biennia - approx_requested_biennia;
-      int abs_diff = diff < 0 ? - diff : diff;
+    int approx_biennia = SHR (t0, ALOG2_SECONDS_PER_BIENNIUM);
+    int diff = approx_biennia - approx_requested_biennia;
+    int abs_diff = diff < 0 ? - diff : diff;
 
-      /* IRIX 4.0.5 cc miscalculates TIME_T_MIN / 3: it erroneously
-         gives a positive value of 715827882.  Setting a variable
-         first then doing math on it seems to work.
-         (ghazi@caip.rutgers.edu) */
-      gtime_t time_t_max = TIME_T_MAX;
-      gtime_t time_t_min = TIME_T_MIN;
-      gtime_t overflow_threshold =
-        (time_t_max / 3 - time_t_min / 3) >> ALOG2_SECONDS_PER_BIENNIUM;
+    /* IRIX 4.0.5 cc miscalculates TIME_T_MIN / 3: it erroneously
+       gives a positive value of 715827882.  Setting a variable
+       first then doing math on it seems to work.
+       (ghazi@caip.rutgers.edu) */
+    gtime_t time_t_max = TIME_T_MAX;
+    gtime_t time_t_min = TIME_T_MIN;
+    gtime_t overflow_threshold =
+      (time_t_max / 3 - time_t_min / 3) >> ALOG2_SECONDS_PER_BIENNIUM;
 
+    if (overflow_threshold < abs_diff) {
+      /* Overflow occurred.  Try repairing it; this might work if
+         the time zone offset is enough to undo the overflow.  */
+      gtime_t repaired_t0 = -1 - t0;
+      approx_biennia = SHR (repaired_t0, ALOG2_SECONDS_PER_BIENNIUM);
+      diff = approx_biennia - approx_requested_biennia;
+      abs_diff = diff < 0 ? - diff : diff;
       if (overflow_threshold < abs_diff)
-        {
-          /* Overflow occurred.  Try repairing it; this might work if
-             the time zone offset is enough to undo the overflow.  */
-          gtime_t repaired_t0 = -1 - t0;
-          approx_biennia = SHR (repaired_t0, ALOG2_SECONDS_PER_BIENNIUM);
-          diff = approx_biennia - approx_requested_biennia;
-          abs_diff = diff < 0 ? - diff : diff;
-          if (overflow_threshold < abs_diff)
-            return -1;
-          guessed_offset += repaired_t0 - t0;
-          t0 = repaired_t0;
-        }
+        return -1;
+      guessed_offset += repaired_t0 - t0;
+      t0 = repaired_t0;
     }
+  }
 
   /* Repeatedly use the error to improve the guess.  */
 
@@ -447,22 +436,21 @@ __mktime_internal (struct gtm *tp,
     else if (--remaining_probes == 0)
       return -1;
 
- offset_found:
+offset_found:
   *offset = guessed_offset + t - t0;
 
-  if (LEAP_SECONDS_POSSIBLE && sec_requested != tm.tm_sec)
-    {
-      /* Adjust time to reflect the tm_sec requested, not the normalized value.
-         Also, repair any damage from a false match due to a leap second.  */
-      int sec_adjustment = (sec == 0 && tm.tm_sec == 60) - sec;
-      t1 = t + sec_requested;
-      t2 = t1 + sec_adjustment;
-      if (((t1 < t) != (sec_requested < 0))
-          | ((t2 < t1) != (sec_adjustment < 0))
-          | ! convert (&t2, &tm))
-        return -1;
-      t = t2;
-    }
+  if (LEAP_SECONDS_POSSIBLE && sec_requested != tm.tm_sec) {
+    /* Adjust time to reflect the tm_sec requested, not the normalized value.
+       Also, repair any damage from a false match due to a leap second.  */
+    int sec_adjustment = (sec == 0 && tm.tm_sec == 60) - sec;
+    t1 = t + sec_requested;
+    t2 = t1 + sec_adjustment;
+    if (((t1 < t) != (sec_requested < 0))
+        | ((t2 < t1) != (sec_adjustment < 0))
+        | ! convert (&t2, &tm))
+      return -1;
+    t = t2;
+  }
 
   *tp = tm;
   return t;

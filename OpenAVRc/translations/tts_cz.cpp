@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -46,7 +46,7 @@ enum CzechPrompts {
 
 #if defined(VOICE)
 
-  #define CZ_PUSH_UNIT_PROMPT(p, u) pushUnitPrompt((p), (u))
+#define CZ_PUSH_UNIT_PROMPT(p, u) pushUnitPrompt((p), (u))
 
 #define MUZSKY 0x80
 #define ZENSKY 0x81
@@ -78,7 +78,7 @@ I18N_PLAY_FUNCTION(cz, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
         unit = UNIT_FEET;
       }
       if (unit == UNIT_SPEED) {
-    	unit = UNIT_KTS;
+        unit = UNIT_KTS;
       }
     }
     unit++;
@@ -87,61 +87,60 @@ I18N_PLAY_FUNCTION(cz, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
   int8_t mode = MODE(att);
   if (mode > 0) {
     // we assume that we are PREC1
-    div_t qr = div(number, 10);   
-      if (qr.rem) {
-        PLAY_NUMBER(qr.quot, 0, ZENSKY);
-        if (qr.quot == 0)
-          PUSH_NUMBER_PROMPT(CZ_PROMPT_CELA);
-        else
-          CZ_PUSH_UNIT_PROMPT(qr.quot, CZ_PROMPT_CELA);
-        PLAY_NUMBER(qr.rem, 0, ZENSKY);
-        PUSH_NUMBER_PROMPT(CZ_PROMPT_UNITS_BASE+((unit-1)*4)+3);
-        return;
-      }
+    div_t qr = div(number, 10);
+    if (qr.rem) {
+      PLAY_NUMBER(qr.quot, 0, ZENSKY);
+      if (qr.quot == 0)
+        PUSH_NUMBER_PROMPT(CZ_PROMPT_CELA);
       else
-        number = qr.quot;
+        CZ_PUSH_UNIT_PROMPT(qr.quot, CZ_PROMPT_CELA);
+      PLAY_NUMBER(qr.rem, 0, ZENSKY);
+      PUSH_NUMBER_PROMPT(CZ_PROMPT_UNITS_BASE+((unit-1)*4)+3);
+      return;
+    } else
+      number = qr.quot;
   }
 
   int16_t tmp = number;
   switch(unit) {
-    case 0:
-      break;
-    case 4:
-    case 10:
-    case 13:
-    case 14:
-    case 15:
-    case 16:
-    case 17:
-    case 18:
-      att = ZENSKY;
-      break;
-    case 8:
-    case 19:
-      att = STREDNI;
-      break;
-    default:
-      att = MUZSKY;
-      break;
+  case 0:
+    break;
+  case 4:
+  case 10:
+  case 13:
+  case 14:
+  case 15:
+  case 16:
+  case 17:
+  case 18:
+    att = ZENSKY;
+    break;
+  case 8:
+  case 19:
+    att = STREDNI;
+    break;
+  default:
+    att = MUZSKY;
+    break;
   }
 
   if ((number == 1) && (att == MUZSKY)) {
     PUSH_NUMBER_PROMPT(CZ_PROMPT_JEDEN);
     number = -1;
   }
-  
+
   if ((number == 1) && (att == STREDNI)) {
     PUSH_NUMBER_PROMPT(CZ_PROMPT_JEDNO);
     number = -1;
   }
-  
+
   if ((number == 2) && ((att == ZENSKY) || (att == STREDNI))) {
     PUSH_NUMBER_PROMPT(CZ_PROMPT_DVE);
     number = -1;
   }
-  
+
   if (number >= 1000) {
-    if (number >= 2000) 
+    if (number >= 2000)
       PLAY_NUMBER(number / 1000, 0, 0);
     if (number >= 2000 && number < 5000)
       PUSH_NUMBER_PROMPT(CZ_PROMPT_TISICE);
@@ -157,7 +156,7 @@ I18N_PLAY_FUNCTION(cz, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
     if (number == 0)
       number = -1;
   }
-  
+
   if (number >= 0) {
     PUSH_NUMBER_PROMPT(CZ_PROMPT_NULA+number);
   }

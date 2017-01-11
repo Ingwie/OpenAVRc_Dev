@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -65,7 +65,7 @@
 #define PSIZE(x) ( sizeof(x) - 1 )
 #define EOFS(x)  ( OFS_##x + sizeof(TR_##x) )
 
-  #define TR(x, y) x
+#define TR(x, y) x
 
 // The non-0-terminated-strings
 
@@ -91,11 +91,11 @@ extern const pm_char STR_OPEN9X[];
 #define OFS_TRNMODE            (OFS_VBEEPMODE + sizeof(TR_VBEEPMODE))
 #endif
 #define OFS_TRNCHN             (OFS_TRNMODE + sizeof(TR_TRNMODE))
-  #define OFS_VTRIMINC         (OFS_TRNCHN + sizeof(TR_TRNCHN))
-  #define OFS_RETA123          (OFS_VTRIMINC + sizeof(TR_VTRIMINC))
+#define OFS_VTRIMINC         (OFS_TRNCHN + sizeof(TR_TRNCHN))
+#define OFS_RETA123          (OFS_VTRIMINC + sizeof(TR_VTRIMINC))
 #define OFS_VPROTOS            (OFS_RETA123 + sizeof(TR_RETA123))
 #define OFS_POSNEG             (OFS_VPROTOS + sizeof(TR_VPROTOS))
-  #define OFS_VBLMODE          (OFS_POSNEG + sizeof(TR_POSNEG))
+#define OFS_VBLMODE          (OFS_POSNEG + sizeof(TR_POSNEG))
 #define OFS_VCURVEFUNC         (OFS_VBLMODE + sizeof(TR_VBLMODE))
 #define OFS_VMLTPX             (OFS_VCURVEFUNC + sizeof(TR_VCURVEFUNC))
 #define OFS_VMLTPX2            (OFS_VMLTPX + sizeof(TR_VMLTPX))
@@ -106,53 +106,53 @@ extern const pm_char STR_OPEN9X[];
 #define OFS_FUNCSOUNDS         (OFS_VFSWRESET + sizeof(TR_VFSWRESET))
 #define OFS_VTELEMCHNS         (OFS_FUNCSOUNDS + sizeof(TR_FUNCSOUNDS))
 #if defined(FRSKY)
-    #define OFS_VTELEMUNIT      (OFS_VTELEMCHNS + sizeof(TR_VTELEMCHNS))
-    #define OFS_VALARM          (OFS_VTELEMUNIT + sizeof(TR_VTELEMUNIT))
-  #define OFS_VALARMFN          (OFS_VALARM + sizeof(TR_VALARM))
-  #define OFS_VTELPROTO         (OFS_VALARMFN + sizeof(TR_VALARMFN))
-  #define OFS_GPSFORMAT         (OFS_VTELPROTO + sizeof(TR_VTELPROTO))
-  #define OFS_AMPSRC            (OFS_GPSFORMAT + sizeof(TR_GPSFORMAT))
-  #define OFS_VARIOSRC          (OFS_AMPSRC + sizeof(TR_AMPSRC))
-  #define OFS_VSCREEN           (OFS_VARIOSRC + sizeof(TR_VARIOSRC))
-  #define OFS_VTEMPLATES        (OFS_VSCREEN + sizeof(TR_VTELEMSCREENTYPE))
+#define OFS_VTELEMUNIT      (OFS_VTELEMCHNS + sizeof(TR_VTELEMCHNS))
+#define OFS_VALARM          (OFS_VTELEMUNIT + sizeof(TR_VTELEMUNIT))
+#define OFS_VALARMFN          (OFS_VALARM + sizeof(TR_VALARM))
+#define OFS_VTELPROTO         (OFS_VALARMFN + sizeof(TR_VALARMFN))
+#define OFS_GPSFORMAT         (OFS_VTELPROTO + sizeof(TR_VTELPROTO))
+#define OFS_AMPSRC            (OFS_GPSFORMAT + sizeof(TR_GPSFORMAT))
+#define OFS_VARIOSRC          (OFS_AMPSRC + sizeof(TR_AMPSRC))
+#define OFS_VSCREEN           (OFS_VARIOSRC + sizeof(TR_VARIOSRC))
+#define OFS_VTEMPLATES        (OFS_VSCREEN + sizeof(TR_VTELEMSCREENTYPE))
 #else
-  #define OFS_VTEMPLATES        (OFS_VTELEMCHNS + sizeof(TR_VTELEMCHNS))
+#define OFS_VTEMPLATES        (OFS_VTELEMCHNS + sizeof(TR_VTELEMCHNS))
 #endif
 #if defined(TEMPLATES)
-  #define OFS_VSWASHTYPE        (OFS_VTEMPLATES + sizeof(TR_VTEMPLATES))
+#define OFS_VSWASHTYPE        (OFS_VTEMPLATES + sizeof(TR_VTEMPLATES))
 #else
-  #define OFS_VSWASHTYPE        (OFS_VTEMPLATES)
+#define OFS_VSWASHTYPE        (OFS_VTEMPLATES)
 #endif
 #if defined(HELI)
-  #define OFS_VKEYS             (OFS_VSWASHTYPE + sizeof(TR_VSWASHTYPE))
+#define OFS_VKEYS             (OFS_VSWASHTYPE + sizeof(TR_VSWASHTYPE))
 #else
-  #define OFS_VKEYS             (OFS_VSWASHTYPE)
+#define OFS_VKEYS             (OFS_VSWASHTYPE)
 #endif
 #define OFS_VSWITCHES           (OFS_VKEYS + sizeof(TR_VKEYS))
 #define OFS_VSRCRAW             (OFS_VSWITCHES + sizeof(TR_VSWITCHES))
-  #define OFS_VTMRMODES           (OFS_VSRCRAW + sizeof(TR_VSRCRAW))
+#define OFS_VTMRMODES           (OFS_VSRCRAW + sizeof(TR_VSRCRAW))
 #define OFS_DATETIME            (OFS_VTMRMODES + sizeof(TR_VTMRMODES))
 #if defined(CPUM2560)
-  #define OFS_VPERSISTENT       (OFS_DATETIME + sizeof(TR_DATETIME))
-  #define OFS_VLCD              (OFS_VPERSISTENT + sizeof(TR_VPERSISTENT))
+#define OFS_VPERSISTENT       (OFS_DATETIME + sizeof(TR_DATETIME))
+#define OFS_VLCD              (OFS_VPERSISTENT + sizeof(TR_VPERSISTENT))
 #else
-  #define OFS_VLCD              (OFS_DATETIME)
+#define OFS_VLCD              (OFS_DATETIME)
 #endif
-  #define OFS_COUNTRYCODES      (OFS_VLCD)
+#define OFS_COUNTRYCODES      (OFS_VLCD)
 #if defined(PXX)
-  #define OFS_VFAILSAFE         (OFS_COUNTRYCODES + sizeof(TR_COUNTRYCODES))
-  #define OFS_VTRAINERMODES     (OFS_VFAILSAFE + sizeof(TR_VFAILSAFE))
+#define OFS_VFAILSAFE         (OFS_COUNTRYCODES + sizeof(TR_COUNTRYCODES))
+#define OFS_VTRAINERMODES     (OFS_VFAILSAFE + sizeof(TR_VFAILSAFE))
 #else
-  #define OFS_VFAILSAFE         (OFS_COUNTRYCODES)
-  #define OFS_VTRAINERMODES     (OFS_VFAILSAFE)
+#define OFS_VFAILSAFE         (OFS_COUNTRYCODES)
+#define OFS_VTRAINERMODES     (OFS_VFAILSAFE)
 #endif
-  #define OFS_MAVLINK_BAUDS	(OFS_VTRAINERMODES)
+#define OFS_MAVLINK_BAUDS	(OFS_VTRAINERMODES)
 #if defined(MAVLINK)
-  #define OFS_MAVLINK_AC_MODES	(OFS_MAVLINK_BAUDS + sizeof(TR_MAVLINK_BAUDS))
-  #define OFS_MAVLINK_AP_MODES	(OFS_MAVLINK_AC_MODES + sizeof(TR_MAVLINK_AC_MODES))
-  #define OFS_SPARE		(OFS_MAVLINK_AP_MODES + sizeof(TR_MAVLINK_AP_MODES))
+#define OFS_MAVLINK_AC_MODES	(OFS_MAVLINK_BAUDS + sizeof(TR_MAVLINK_BAUDS))
+#define OFS_MAVLINK_AP_MODES	(OFS_MAVLINK_AC_MODES + sizeof(TR_MAVLINK_AC_MODES))
+#define OFS_SPARE		(OFS_MAVLINK_AP_MODES + sizeof(TR_MAVLINK_AP_MODES))
 #else
-  #define OFS_SPARE		(OFS_MAVLINK_BAUDS)
+#define OFS_SPARE		(OFS_MAVLINK_BAUDS)
 #endif
 
 #define STR_OFFON               (STR_OPEN9X + OFS_OFFON)
@@ -187,7 +187,7 @@ extern const pm_char STR_OPEN9X[];
 #define STR_VTELEMCHNS          (STR_OPEN9X + OFS_VTELEMCHNS)
 
 #if defined(FRSKY)
-    #define STR_VTELEMUNIT      (STR_OPEN9X + OFS_VTELEMUNIT)
+#define STR_VTELEMUNIT      (STR_OPEN9X + OFS_VTELEMUNIT)
 #define STR_VALARM              (STR_OPEN9X + OFS_VALARM)
 #define STR_VALARMFN            (STR_OPEN9X + OFS_VALARMFN)
 #define STR_VTELPROTO           (STR_OPEN9X + OFS_VTELPROTO)
@@ -199,11 +199,11 @@ extern const pm_char STR_OPEN9X[];
 #endif
 
 #if defined(TEMPLATES)
-  #define STR_VTEMPLATES        (STR_OPEN9X + OFS_VTEMPLATES)
+#define STR_VTEMPLATES        (STR_OPEN9X + OFS_VTEMPLATES)
 #endif
 
 #if defined(HELI)
-  #define STR_VSWASHTYPE        (STR_OPEN9X + OFS_VSWASHTYPE)
+#define STR_VSWASHTYPE        (STR_OPEN9X + OFS_VSWASHTYPE)
 #endif
 
 #define STR_VKEYS               (STR_OPEN9X + OFS_VKEYS)
@@ -212,29 +212,29 @@ extern const pm_char STR_OPEN9X[];
 #define STR_VTMRMODES           (STR_OPEN9X + OFS_VTMRMODES)
 
 #if defined(ROTARY_ENCODERS)
-  #define STR_VRENAVIG          (STR_OPEN9X + OFS_VRENAVIG)
+#define STR_VRENAVIG          (STR_OPEN9X + OFS_VRENAVIG)
 #endif
 
 #if defined(ROTARY_ENCODER_NAVIGATION)
-  #define STR_VRENCODERS        (STR_OPEN9X + OFS_VRENCODERS)
+#define STR_VRENCODERS        (STR_OPEN9X + OFS_VRENCODERS)
 #endif
 
 #if defined(CPUM2560)
-  #define STR_DATETIME          (STR_OPEN9X + OFS_DATETIME)
-  #define STR_VPERSISTENT       (STR_OPEN9X + OFS_VPERSISTENT)
+#define STR_DATETIME          (STR_OPEN9X + OFS_DATETIME)
+#define STR_VPERSISTENT       (STR_OPEN9X + OFS_VPERSISTENT)
 #endif
 
 
 #if defined(PXX)
-  #define STR_COUNTRYCODES      (STR_OPEN9X + OFS_COUNTRYCODES)
-  #define STR_VFAILSAFE         (STR_OPEN9X + OFS_VFAILSAFE)
+#define STR_COUNTRYCODES      (STR_OPEN9X + OFS_COUNTRYCODES)
+#define STR_VFAILSAFE         (STR_OPEN9X + OFS_VFAILSAFE)
 #endif
 
 
 #if defined(MAVLINK)
-  #define STR_MAVLINK_BAUDS	(STR_OPEN9X + OFS_MAVLINK_BAUDS)
-  #define STR_MAVLINK_AC_MODES	(STR_OPEN9X + OFS_MAVLINK_AC_MODES)
-  #define STR_MAVLINK_AP_MODES	(STR_OPEN9X + OFS_MAVLINK_AP_MODES)
+#define STR_MAVLINK_BAUDS	(STR_OPEN9X + OFS_MAVLINK_BAUDS)
+#define STR_MAVLINK_AC_MODES	(STR_OPEN9X + OFS_MAVLINK_AC_MODES)
+#define STR_MAVLINK_AP_MODES	(STR_OPEN9X + OFS_MAVLINK_AP_MODES)
 #endif
 
 // The 0-terminated-strings
@@ -243,9 +243,9 @@ extern const pm_char STR_OPEN9X[];
 extern const pm_char STR_POPUPS[];
 
 #if defined(OFS_EXIT)
-  #define STR_EXIT (STR_POPUPS + OFS_EXIT)
+#define STR_EXIT (STR_POPUPS + OFS_EXIT)
 #else
-  extern const pm_char STR_EXIT[];
+extern const pm_char STR_EXIT[];
 #endif
 
 extern const pm_char STR_MENUWHENDONE[];
@@ -478,44 +478,44 @@ extern const pm_char STR_VOLTAGE[];
 extern const pm_char STR_CURRENT[];
 #endif
 
-  #define LEN_CALIB_FIELDS PSIZE(TR_BATT_CALIB)
+#define LEN_CALIB_FIELDS PSIZE(TR_BATT_CALIB)
 
 #if defined(NAVIGATION_MENUS)
-  extern const pm_char STR_SELECT_MODEL[];
-  extern const pm_char STR_CREATE_MODEL[];
-  extern const pm_char STR_COPY_MODEL[];
-  extern const pm_char STR_MOVE_MODEL[];
-  extern const pm_char STR_DELETE_MODEL[];
-  extern const pm_char STR_EDIT[];
-  extern const pm_char STR_INSERT_BEFORE[];
-  extern const pm_char STR_INSERT_AFTER[];
-  extern const pm_char STR_COPY[];
-  extern const pm_char STR_MOVE[];
-  extern const pm_char STR_PASTE[];
-  extern const pm_char STR_INSERT[];
-  extern const pm_char STR_DELETE[];
-  extern const pm_char STR_RESET_FLIGHT[];
-  extern const pm_char STR_RESET_TIMER1[];
-  extern const pm_char STR_RESET_TIMER2[];
-  extern const pm_char STR_RESET_TIMER3[];
-  extern const pm_char STR_RESET_TELEMETRY[];
-  extern const pm_char STR_STATISTICS[];
+extern const pm_char STR_SELECT_MODEL[];
+extern const pm_char STR_CREATE_MODEL[];
+extern const pm_char STR_COPY_MODEL[];
+extern const pm_char STR_MOVE_MODEL[];
+extern const pm_char STR_DELETE_MODEL[];
+extern const pm_char STR_EDIT[];
+extern const pm_char STR_INSERT_BEFORE[];
+extern const pm_char STR_INSERT_AFTER[];
+extern const pm_char STR_COPY[];
+extern const pm_char STR_MOVE[];
+extern const pm_char STR_PASTE[];
+extern const pm_char STR_INSERT[];
+extern const pm_char STR_DELETE[];
+extern const pm_char STR_RESET_FLIGHT[];
+extern const pm_char STR_RESET_TIMER1[];
+extern const pm_char STR_RESET_TIMER2[];
+extern const pm_char STR_RESET_TIMER3[];
+extern const pm_char STR_RESET_TELEMETRY[];
+extern const pm_char STR_STATISTICS[];
 #endif
 
 extern const pm_char STR_RESET_BTN[];
 
 #if defined(SDCARD)
-  extern const pm_char STR_BACKUP_MODEL[];
-  extern const pm_char STR_RESTORE_MODEL[];
-  extern const pm_char STR_SDCARD_ERROR[];
-  extern const pm_char STR_NO_SDCARD[];
-  extern const pm_char STR_SDCARD_FULL[];
-  extern const pm_char STR_INCOMPATIBLE[];
-  extern const pm_char STR_LOGS_PATH[];
-  extern const pm_char STR_LOGS_EXT[];
-  extern const pm_char STR_MODELS_PATH[];
-  extern const pm_char STR_MODELS_EXT[];
-  #define STR_UPDATE_LIST STR_DELAYDOWN
+extern const pm_char STR_BACKUP_MODEL[];
+extern const pm_char STR_RESTORE_MODEL[];
+extern const pm_char STR_SDCARD_ERROR[];
+extern const pm_char STR_NO_SDCARD[];
+extern const pm_char STR_SDCARD_FULL[];
+extern const pm_char STR_INCOMPATIBLE[];
+extern const pm_char STR_LOGS_PATH[];
+extern const pm_char STR_LOGS_EXT[];
+extern const pm_char STR_MODELS_PATH[];
+extern const pm_char STR_MODELS_EXT[];
+#define STR_UPDATE_LIST STR_DELAYDOWN
 #endif
 
 extern const pm_char STR_WARNING[];
@@ -596,56 +596,56 @@ extern const pm_char STR_TOO_MANY_LUA_SCRIPTS[];
 extern const pm_char STR_BLCOLOR[];
 
 #if defined(VOICE)
-  PLAY_FUNCTION(playNumber, getvalue_t number, uint8_t unit, uint8_t att);
-  PLAY_FUNCTION(playDuration, int seconds);
-  #define LANGUAGE_PACK_DECLARE(lng, name)
-  #define LANGUAGE_PACK_DECLARE_DEFAULT(lng, name)
+PLAY_FUNCTION(playNumber, getvalue_t number, uint8_t unit, uint8_t att);
+PLAY_FUNCTION(playDuration, int seconds);
+#define LANGUAGE_PACK_DECLARE(lng, name)
+#define LANGUAGE_PACK_DECLARE_DEFAULT(lng, name)
 #else
-  #define LANGUAGE_PACK_DECLARE(lng, name)
-  #define LANGUAGE_PACK_DECLARE_DEFAULT(lng, name)
+#define LANGUAGE_PACK_DECLARE(lng, name)
+#define LANGUAGE_PACK_DECLARE_DEFAULT(lng, name)
 #endif
 
-  #define STR_MODELNAME STR_NAME
-  #define STR_PHASENAME STR_NAME
-  #define STR_MIXNAME   STR_NAME
-  #define STR_EXPONAME  STR_NAME
+#define STR_MODELNAME STR_NAME
+#define STR_PHASENAME STR_NAME
+#define STR_MIXNAME   STR_NAME
+#define STR_EXPONAME  STR_NAME
 
 
 
 
 #if MENUS_LOCK == 1
-  extern const pm_char STR_UNLOCKED[];
-  extern const pm_char STR_MODS_FORBIDDEN[];
+extern const pm_char STR_UNLOCKED[];
+extern const pm_char STR_MODS_FORBIDDEN[];
 #endif
 
 #if defined(DSM2)
-  extern const pm_char STR_MODULE_RANGE[];
+extern const pm_char STR_MODULE_RANGE[];
 #endif
 
 #if defined(MAVLINK)
-  extern const pm_char STR_MAVLINK_RC_RSSI_SCALE_LABEL[];
-  extern const pm_char STR_MAVLINK_PC_RSSI_EN_LABEL[];
-  extern const pm_char STR_MAVMENUSETUP_TITLE[];
-  extern const pm_char STR_MAVLINK_BAUD_LABEL[];
-  extern const pm_char STR_MAVLINK_INFOS[];
-  extern const pm_char STR_MAVLINK_MODE[];
-  extern const pm_char STR_MAVLINK_CUR_MODE[];
-  extern const pm_char STR_MAVLINK_ARMED[];
-  extern const pm_char STR_MAVLINK_BAT_MENU_TITLE[];
-  extern const pm_char STR_MAVLINK_BATTERY_LABEL[];
-  extern const pm_char STR_MAVLINK_RC_RSSI_LABEL[];
-  extern const pm_char STR_MAVLINK_PC_RSSI_LABEL[];
-  extern const pm_char STR_MAVLINK_NAV_MENU_TITLE[];
-  extern const pm_char STR_MAVLINK_COURSE[];
-  extern const pm_char STR_MAVLINK_HEADING[];
-  extern const pm_char STR_MAVLINK_BEARING[];
-  extern const pm_char STR_MAVLINK_ALTITUDE[];
-  extern const pm_char STR_MAVLINK_GPS[];
-  extern const pm_char STR_MAVLINK_NO_FIX[];
-  extern const pm_char STR_MAVLINK_SAT[];
-  extern const pm_char STR_MAVLINK_HDOP[];
-  extern const pm_char STR_MAVLINK_LAT[];
-  extern const pm_char STR_MAVLINK_LON[];
+extern const pm_char STR_MAVLINK_RC_RSSI_SCALE_LABEL[];
+extern const pm_char STR_MAVLINK_PC_RSSI_EN_LABEL[];
+extern const pm_char STR_MAVMENUSETUP_TITLE[];
+extern const pm_char STR_MAVLINK_BAUD_LABEL[];
+extern const pm_char STR_MAVLINK_INFOS[];
+extern const pm_char STR_MAVLINK_MODE[];
+extern const pm_char STR_MAVLINK_CUR_MODE[];
+extern const pm_char STR_MAVLINK_ARMED[];
+extern const pm_char STR_MAVLINK_BAT_MENU_TITLE[];
+extern const pm_char STR_MAVLINK_BATTERY_LABEL[];
+extern const pm_char STR_MAVLINK_RC_RSSI_LABEL[];
+extern const pm_char STR_MAVLINK_PC_RSSI_LABEL[];
+extern const pm_char STR_MAVLINK_NAV_MENU_TITLE[];
+extern const pm_char STR_MAVLINK_COURSE[];
+extern const pm_char STR_MAVLINK_HEADING[];
+extern const pm_char STR_MAVLINK_BEARING[];
+extern const pm_char STR_MAVLINK_ALTITUDE[];
+extern const pm_char STR_MAVLINK_GPS[];
+extern const pm_char STR_MAVLINK_NO_FIX[];
+extern const pm_char STR_MAVLINK_SAT[];
+extern const pm_char STR_MAVLINK_HDOP[];
+extern const pm_char STR_MAVLINK_LAT[];
+extern const pm_char STR_MAVLINK_LON[];
 #endif
 
 #define CHR_SHORT  TR_CHR_SHORT

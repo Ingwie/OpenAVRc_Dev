@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -55,8 +55,7 @@ void FrskyValueWithMin::set(uint8_t value)
 {
   if (this->value == 0) {
     this->value = value;
-  }
-  else {
+  } else {
     sum += value;
     if (link_counter == 0) {
       this->value = sum / (IS_FRSKY_D_PROTOCOL() ? FRSKY_D_AVERAGING : FRSKY_SPORT_AVERAGING);
@@ -112,91 +111,86 @@ NOINLINE void processSerialData(uint8_t data)
 
 
 
-  switch (dataState)
-  {
-    case STATE_DATA_START:
-      if (data == START_STOP) {
-        if (IS_FRSKY_SPORT_PROTOCOL()) {
-          dataState = STATE_DATA_IN_FRAME ;
-          frskyRxBufferCount = 0;
-        }
+  switch (dataState) {
+  case STATE_DATA_START:
+    if (data == START_STOP) {
+      if (IS_FRSKY_SPORT_PROTOCOL()) {
+        dataState = STATE_DATA_IN_FRAME ;
+        frskyRxBufferCount = 0;
       }
-      else {
-        if (frskyRxBufferCount < FRSKY_RX_PACKET_SIZE) {
-          frskyRxBuffer[frskyRxBufferCount++] = data;
-        }
-        dataState = STATE_DATA_IN_FRAME;
-      }
-      break;
-
-    case STATE_DATA_IN_FRAME:
-      if (data == BYTESTUFF) {
-        dataState = STATE_DATA_XOR; // XOR next byte
-      }
-      else if (data == START_STOP) {
-        if (IS_FRSKY_SPORT_PROTOCOL()) {
-          dataState = STATE_DATA_IN_FRAME ;
-          frskyRxBufferCount = 0;
-        }
-        else {
-          // end of frame detected
-          frskyDProcessPacket(frskyRxBuffer);
-          dataState = STATE_DATA_IDLE;
-        }
-        break;
-      }
-      else if (frskyRxBufferCount < FRSKY_RX_PACKET_SIZE) {
+    } else {
+      if (frskyRxBufferCount < FRSKY_RX_PACKET_SIZE) {
         frskyRxBuffer[frskyRxBufferCount++] = data;
       }
-      break;
-
-    case STATE_DATA_XOR:
-      if (frskyRxBufferCount < FRSKY_RX_PACKET_SIZE) {
-        frskyRxBuffer[frskyRxBufferCount++] = data ^ STUFF_MASK;
-      }
       dataState = STATE_DATA_IN_FRAME;
-      break;
+    }
+    break;
 
-    case STATE_DATA_IDLE:
-      if (data == START_STOP) {
+  case STATE_DATA_IN_FRAME:
+    if (data == BYTESTUFF) {
+      dataState = STATE_DATA_XOR; // XOR next byte
+    } else if (data == START_STOP) {
+      if (IS_FRSKY_SPORT_PROTOCOL()) {
+        dataState = STATE_DATA_IN_FRAME ;
         frskyRxBufferCount = 0;
-        dataState = STATE_DATA_START;
-      }
-#if defined(TELEMETREZ)
-      if (data == PRIVATE) {
-        dataState = STATE_DATA_PRIVATE_LEN;
-      }
-#endif
-      break;
-
-#if defined(TELEMETREZ)
-    case STATE_DATA_PRIVATE_LEN:
-      dataState = STATE_DATA_PRIVATE_VALUE;
-      privateDataLen = data; // Count of bytes to receive
-      privateDataPos = 0;
-      break;
-
-    case STATE_DATA_PRIVATE_VALUE :
-      if (privateDataPos == 0) {
-        // Process first private data byte
-        // PC6, PC7
-        if ((data & 0x3F) == 0) {// Check byte is valid
-          DDRC |= 0xC0;          // Set as outputs
-          PORTC = ( PORTC & 0x3F ) | ( data & 0xC0 ); // update outputs
-        }
-      }
-#if defined(ROTARY_ENCODER_NAVIGATION)
-      if (privateDataPos == 1) {
-        TrotCount = data;
-      }
-      if (privateDataPos == 2) { // rotary encoder switch
-        RotEncoder = data;
-      }
-#endif
-      if (++privateDataPos == privateDataLen) {
+      } else {
+        // end of frame detected
+        frskyDProcessPacket(frskyRxBuffer);
         dataState = STATE_DATA_IDLE;
       }
       break;
+    } else if (frskyRxBufferCount < FRSKY_RX_PACKET_SIZE) {
+      frskyRxBuffer[frskyRxBufferCount++] = data;
+    }
+    break;
+
+  case STATE_DATA_XOR:
+    if (frskyRxBufferCount < FRSKY_RX_PACKET_SIZE) {
+      frskyRxBuffer[frskyRxBufferCount++] = data ^ STUFF_MASK;
+    }
+    dataState = STATE_DATA_IN_FRAME;
+    break;
+
+  case STATE_DATA_IDLE:
+    if (data == START_STOP) {
+      frskyRxBufferCount = 0;
+      dataState = STATE_DATA_START;
+    }
+#if defined(TELEMETREZ)
+    if (data == PRIVATE) {
+      dataState = STATE_DATA_PRIVATE_LEN;
+    }
+#endif
+    break;
+
+#if defined(TELEMETREZ)
+  case STATE_DATA_PRIVATE_LEN:
+    dataState = STATE_DATA_PRIVATE_VALUE;
+    privateDataLen = data; // Count of bytes to receive
+    privateDataPos = 0;
+    break;
+
+  case STATE_DATA_PRIVATE_VALUE :
+    if (privateDataPos == 0) {
+      // Process first private data byte
+      // PC6, PC7
+      if ((data & 0x3F) == 0) {// Check byte is valid
+        DDRC |= 0xC0;          // Set as outputs
+        PORTC = ( PORTC & 0x3F ) | ( data & 0xC0 ); // update outputs
+      }
+    }
+#if defined(ROTARY_ENCODER_NAVIGATION)
+    if (privateDataPos == 1) {
+      TrotCount = data;
+    }
+    if (privateDataPos == 2) { // rotary encoder switch
+      RotEncoder = data;
+    }
+#endif
+    if (++privateDataPos == privateDataLen) {
+      dataState = STATE_DATA_IDLE;
+    }
+    break;
 #endif
   } // switch
 
@@ -230,7 +224,7 @@ void telemetryWakeup()
   }
 #endif
 
-  #define FRSKY_BAD_ANTENNA() (frskyData.swr.value > 0x33)
+#define FRSKY_BAD_ANTENNA() (frskyData.swr.value > 0x33)
 
 }
 
@@ -294,8 +288,7 @@ void telemetryInterrupt10ms()
 
   if (frskyStreaming > 0) {
     frskyStreaming--;
-  }
-  else {
+  } else {
 #if !defined(SIMU)
     frskyData.rssi[0].set(0);
     frskyData.rssi[1].set(0);
@@ -374,7 +367,7 @@ void telemetryReset()
   frskyData.hub.maxCurrent = 65;
 #endif
 
-/*Add some default sensor values to the simulator*/
+  /*Add some default sensor values to the simulator*/
 }
 
 void telemetryInit()

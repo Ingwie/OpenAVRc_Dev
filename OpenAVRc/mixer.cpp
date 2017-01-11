@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -39,7 +39,7 @@ SwOn    swOn  [MAX_MIXERS];   // TODO better name later...
 uint8_t mixWarning;
 
 #if defined(MODULE_ALWAYS_SEND_PULSES)
-  uint8_t startupWarningState;
+uint8_t startupWarningState;
 #endif
 
 int16_t calibratedStick[NUM_STICKS+NUM_POTS];
@@ -47,7 +47,7 @@ int16_t channelOutputs[NUM_CHNOUT] = {0};
 int16_t ex_chans[NUM_CHNOUT] = {0}; // Outputs (before LIMITS) of the last perMain;
 
 #if defined(HELI)
-  int16_t cyc_anas[3] = {0};
+int16_t cyc_anas[3] = {0};
 #endif
 
 void applyExpos(int16_t *anas, uint8_t mode APPLY_EXPOS_EXTRA_PARAMS)
@@ -199,8 +199,13 @@ getvalue_t getValue(mixsrc_t i)
   // don't use switchState directly to give getSwitch possibility to hack values if needed for switch warning
   else if (i<MIXSRC_SW1) return getSwitch(SWSRC_THR+i-MIXSRC_THR) ? 1024 : -1024;
   else if (i<=MIXSRC_LAST_LOGICAL_SWITCH) return getSwitch(SWSRC_FIRST_LOGICAL_SWITCH+i-MIXSRC_FIRST_LOGICAL_SWITCH) ? 1024 : -1024;
-  else if (i<=MIXSRC_LAST_TRAINER) { int16_t x = ppmInput[i-MIXSRC_FIRST_TRAINER]; if (i<MIXSRC_FIRST_TRAINER+NUM_CAL_PPM) { x-= g_eeGeneral.trainer.calib[i-MIXSRC_FIRST_TRAINER]; } return x*2; }
-  else if (i<=MIXSRC_LAST_CH) return ex_chans[i-MIXSRC_CH1];
+  else if (i<=MIXSRC_LAST_TRAINER) {
+    int16_t x = ppmInput[i-MIXSRC_FIRST_TRAINER];
+    if (i<MIXSRC_FIRST_TRAINER+NUM_CAL_PPM) {
+      x-= g_eeGeneral.trainer.calib[i-MIXSRC_FIRST_TRAINER];
+    }
+    return x*2;
+  } else if (i<=MIXSRC_LAST_CH) return ex_chans[i-MIXSRC_CH1];
 
 #if defined(GVARS)
   else if (i<=MIXSRC_LAST_GVAR) return GVAR_VALUE(i-MIXSRC_GVAR1, getGVarFlightPhase(mixerCurrentFlightMode, i-MIXSRC_GVAR1));
@@ -278,8 +283,7 @@ void evalInputs(uint8_t mode)
     if (i < NUM_STICKS+NUM_POTS) {
       if (IS_POT_MULTIPOS(i)) {
         v -= RESX;
-      }
-      else {
+      } else {
         CalibData * calib = &g_eeGeneral.calib[i];
         v -= calib->mid;
         v = v * (int32_t)RESX / (max((int16_t)100, (v>0 ? calib->spanPos : calib->spanNeg)));
@@ -302,8 +306,7 @@ void evalInputs(uint8_t mode)
       // filtering for center beep
       uint8_t tmp = (uint16_t)abs(v) / 16;
       if (tmp <= 1) anaCenter |= (tmp==0 ? mask : (bpanaCenter & mask));
-    }
-    else {
+    } else {
       // rotary encoders
       if (v == 0) anaCenter |= mask;
     }
@@ -319,23 +322,23 @@ void evalInputs(uint8_t mode)
           vStud *= td->studWeight;
           vStud /= 50;
           switch (td->mode) {
-            case 1:
-              // add-mode
-              v = limit<int16_t>(-RESX, v+vStud, RESX);
-              break;
-            case 2:
-              // subst-mode
-              v = vStud;
-              break;
+          case 1:
+            // add-mode
+            v = limit<int16_t>(-RESX, v+vStud, RESX);
+            break;
+          case 2:
+            // subst-mode
+            v = vStud;
+            break;
           }
         }
       }
 
-  #if defined(HELI)
+#if defined(HELI)
       if (d && (ch==ELE_STICK || ch==AIL_STICK)) {
         v = (int32_t(v) * calc100toRESX(g_model.swashR.value)) / int32_t(d);
       }
-  #endif
+#endif
       rawAnas[ch] = v;
       anas[ch] = v; // set values for mixer
     }
@@ -396,36 +399,36 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
     if (g_model.swashR.invertCOL) vc = -vc;
 
     switch (g_model.swashR.type) {
-      case SWASH_TYPE_120:
-        vp = REZ_SWASH_Y(vp);
-        vr = REZ_SWASH_X(vr);
-        cyc_anas[0] = vc - vp;
-        cyc_anas[1] = vc + vp/2 + vr;
-        cyc_anas[2] = vc + vp/2 - vr;
-        break;
-      case SWASH_TYPE_120X:
-        vp = REZ_SWASH_X(vp);
-        vr = REZ_SWASH_Y(vr);
-        cyc_anas[0] = vc - vr;
-        cyc_anas[1] = vc + vr/2 + vp;
-        cyc_anas[2] = vc + vr/2 - vp;
-        break;
-      case SWASH_TYPE_140:
-        vp = REZ_SWASH_Y(vp);
-        vr = REZ_SWASH_Y(vr);
-        cyc_anas[0] = vc - vp;
-        cyc_anas[1] = vc + vp + vr;
-        cyc_anas[2] = vc + vp - vr;
-        break;
-      case SWASH_TYPE_90:
-        vp = REZ_SWASH_Y(vp);
-        vr = REZ_SWASH_Y(vr);
-        cyc_anas[0] = vc - vp;
-        cyc_anas[1] = vc + vr;
-        cyc_anas[2] = vc - vr;
-        break;
-      default:
-        break;
+    case SWASH_TYPE_120:
+      vp = REZ_SWASH_Y(vp);
+      vr = REZ_SWASH_X(vr);
+      cyc_anas[0] = vc - vp;
+      cyc_anas[1] = vc + vp/2 + vr;
+      cyc_anas[2] = vc + vp/2 - vr;
+      break;
+    case SWASH_TYPE_120X:
+      vp = REZ_SWASH_X(vp);
+      vr = REZ_SWASH_Y(vr);
+      cyc_anas[0] = vc - vr;
+      cyc_anas[1] = vc + vr/2 + vp;
+      cyc_anas[2] = vc + vr/2 - vp;
+      break;
+    case SWASH_TYPE_140:
+      vp = REZ_SWASH_Y(vp);
+      vr = REZ_SWASH_Y(vr);
+      cyc_anas[0] = vc - vp;
+      cyc_anas[1] = vc + vp + vr;
+      cyc_anas[2] = vc + vp - vr;
+      break;
+    case SWASH_TYPE_90:
+      vp = REZ_SWASH_Y(vp);
+      vr = REZ_SWASH_Y(vr);
+      cyc_anas[0] = vc - vp;
+      cyc_anas[1] = vc + vr;
+      cyc_anas[2] = vc - vr;
+      break;
+    default:
+      break;
     }
   }
 #endif
@@ -474,16 +477,13 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
       if (mode > e_perout_mode_inactive_flight_mode) {
         if (!mixEnabled || stickIndex >= NUM_STICKS || (stickIndex == THR_STICK && g_model.thrTrim)) {
           continue;
-        }
-        else {
+        } else {
           if (!(mode & e_perout_mode_nosticks)) v = anas[stickIndex];
         }
-      }
-      else {
+      } else {
         if (stickIndex < NUM_STICKS) {
           v = md->noExpo ? rawAnas[stickIndex] : anas[stickIndex];
-        }
-        else {
+        } else {
           mixsrc_t srcRaw = MIXSRC_Rud + stickIndex;
           v = getValue(srcRaw);
           srcRaw -= MIXSRC_CH1;
@@ -504,8 +504,7 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
         if (!s_mixer_first_run_done || !swOn[i].delay) {
           swOn[i].hold = v;     // store actual value of v as reference for next run
           swOn[i].delay = (v > swOn[i].hold ? md->delayUp : md->delayDown) * (100/DELAY_STEP); // init delay
-        }
-        else if ((swOn[i].delay > 0) && ((v > swOn[i].hold +10) || (v < swOn[i].hold -10))) {  // compare v to value stored at previous run
+        } else if ((swOn[i].delay > 0) && ((v > swOn[i].hold +10) || (v < swOn[i].hold -10))) { // compare v to value stored at previous run
           swOn[i].delay = max<int16_t>(0, (int16_t)swOn[i].delay - tick10ms);   // decrement delay
           v = swOn[i].hold;     // keep v to stored value until end of delay
         }
@@ -533,8 +532,7 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
                 int32_t newValue = tact+rate/((int16_t)(100/SLOW_STEP)*md->speedUp);
                 if (newValue<currentValue) currentValue = newValue; // Endposition; prevent toggling around the destination
               }
-            }
-            else {  // if is <0 because ==0 is not possible
+            } else { // if is <0 because ==0 is not possible
               if (s_mixer_first_run_done && md->speedDown > 0) {
                 // see explanation in speedUp
                 int32_t newValue = tact-rate/((int16_t)(100/SLOW_STEP)*md->speedDown);
@@ -556,8 +554,7 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
             v = (md->mltpx == MLTPX_ADD ? 0 : RESX);
             apply_offset_and_curve = false;
           }
-        }
-        else if (mixCondition) {
+        } else if (mixCondition) {
           continue;
         }
       }
@@ -617,14 +614,12 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
         int16_t curveParam = calc100to256(GET_GVAR(md->curveParam, -100, 100, mixerCurrentFlightMode));
         if (curveParam > 0 && dv < 0) {
           dv = (dv * (256 - curveParam)) >> 8;
-        }
-        else if (curveParam < 0 && dv > 0) {
+        } else if (curveParam < 0 && dv > 0) {
           dv = (dv * (256 + curveParam)) >> 8;
         }
         if (curveParam > 0 && dtrim < 0) {
           dtrim = (dtrim * (256 - curveParam)) >> 8;
-        }
-        else if (curveParam < 0 && dtrim > 0) {
+        } else if (curveParam < 0 && dtrim > 0) {
           dtrim = (dtrim * (256 + curveParam)) >> 8;
         }
         dv += dtrim;
@@ -653,36 +648,36 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
       int32_t *ptr = &chans[md->destCh]; // Save calculating address several times
 
       switch (md->mltpx) {
-        case MLTPX_REP:
-          *ptr = dv;
+      case MLTPX_REP:
+        *ptr = dv;
 #if defined(BOLD_FONT)
-          if (mode==e_perout_mode_normal) {
-            for (uint8_t m=i-1; m<MAX_MIXERS && mixAddress(m)->destCh==md->destCh; m--)
-              swOn[m].activeMix = false;
-          }
+        if (mode==e_perout_mode_normal) {
+          for (uint8_t m=i-1; m<MAX_MIXERS && mixAddress(m)->destCh==md->destCh; m--)
+            swOn[m].activeMix = false;
+        }
 #endif
-          break;
-        case MLTPX_MUL:
-          // @@@2 we have to remove the weight factor of 256 in case of 100%; now we use the new base of 256
-          dv >>= 8;
-          dv *= *ptr;
-          dv >>= RESX_SHIFT;   // same as dv /= RESXl;
-          *ptr = dv;
-          break;
-        default: // MLTPX_ADD
-          *ptr += dv; //Mixer output add up to the line (dv + (dv>0 ? 100/2 : -100/2))/(100);
-          break;
+        break;
+      case MLTPX_MUL:
+        // @@@2 we have to remove the weight factor of 256 in case of 100%; now we use the new base of 256
+        dv >>= 8;
+        dv *= *ptr;
+        dv >>= RESX_SHIFT;   // same as dv /= RESXl;
+        *ptr = dv;
+        break;
+      default: // MLTPX_ADD
+        *ptr += dv; //Mixer output add up to the line (dv + (dv>0 ? 100/2 : -100/2))/(100);
+        break;
       } //endswitch md->mltpx
 
 #ifdef PREVENT_ARITHMETIC_OVERFLOW
-/*
-      // a lot of assumptions must be true, for this kind of check; not really worth for only 4 bytes flash savings
-      // this solution would save again 4 bytes flash
-      int8_t testVar=(*ptr<<1)>>24;
-      if ( (testVar!=-1) && (testVar!=0 ) ) {
-        // this devices by 64 which should give a good balance between still over 100% but lower then 32x100%; should be OK
-        *ptr >>= 6;  // this is quite tricky, reduces the value a lot but should be still over 100% and reduces flash need
-      } */
+      /*
+            // a lot of assumptions must be true, for this kind of check; not really worth for only 4 bytes flash savings
+            // this solution would save again 4 bytes flash
+            int8_t testVar=(*ptr<<1)>>24;
+            if ( (testVar!=-1) && (testVar!=0 ) ) {
+              // this devices by 64 which should give a good balance between still over 100% but lower then 32x100%; should be OK
+              *ptr >>= 6;  // this is quite tricky, reduces the value a lot but should be still over 100% and reduces flash need
+            } */
 
       PACK( union u_int16int32_t {
         struct {
@@ -697,19 +692,18 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
 
       if (tmp.dword<0) {
         if ((tmp.words_t.hi&0xFF80)!=0xFF80) tmp.words_t.hi=0xFF86; // set to min nearly
-      }
-      else {
+      } else {
         if ((tmp.words_t.hi|0x007F)!=0x007F) tmp.words_t.hi=0x0079; // set to max nearly
       }
       *ptr = tmp.dword;
       // this implementation saves 18bytes flash
 
-/*      dv=*ptr>>8;
-      if (dv>(32767-RESXl)) {
-        *ptr=(32767-RESXl)<<8;
-      } else if (dv<(-32767+RESXl)) {
-        *ptr=(-32767+RESXl)<<8;
-      }*/
+      /*      dv=*ptr>>8;
+            if (dv>(32767-RESXl)) {
+              *ptr=(32767-RESXl)<<8;
+            } else if (dv<(-32767+RESXl)) {
+              *ptr=(-32767+RESXl)<<8;
+            }*/
       // *ptr=limit( int32_t(int32_t(-1)<<23), *ptr, int32_t(int32_t(1)<<23));  // limit code cost 72 bytes
       // *ptr=limit( int32_t((-32767+RESXl)<<8), *ptr, int32_t((32767-RESXl)<<8));  // limit code cost 80 bytes
 #endif
@@ -746,15 +740,13 @@ void evalMixes(uint8_t tick10ms)
   if (lastFlightMode != fm) {
     if (lastFlightMode == 255) {
       fp_act[fm] = MAX_ACT;
-    }
-    else {
+    } else {
       uint8_t fadeTime = max(g_model.flightModeData[lastFlightMode].fadeOut, g_model.flightModeData[fm].fadeIn);
       ACTIVE_PHASES_TYPE transitionMask = ((ACTIVE_PHASES_TYPE)1 << lastFlightMode) + ((ACTIVE_PHASES_TYPE)1 << fm);
       if (fadeTime) {
         flightModesFade |= transitionMask;
         delta = (MAX_ACT / (100/SLOW_STEP)) / fadeTime;
-      }
-      else {
+      } else {
         flightModesFade &= ~transitionMask;
         fp_act[lastFlightMode] = 0;
         fp_act[fm] = MAX_ACT;
@@ -779,8 +771,7 @@ void evalMixes(uint8_t tick10ms)
     }
     assert(weight);
     mixerCurrentFlightMode = fm;
-  }
-  else {
+  } else {
     mixerCurrentFlightMode = fm;
     evalFlightModeMixes(e_perout_mode_normal, tick10ms);
   }
@@ -827,8 +818,7 @@ void evalMixes(uint8_t tick10ms)
             fp_act[p] = MAX_ACT;
             flightModesFade -= flightModeMask;
           }
-        }
-        else {
+        } else {
           if (fp_act[p] > tick_delta)
             fp_act[p] -= tick_delta;
           else {

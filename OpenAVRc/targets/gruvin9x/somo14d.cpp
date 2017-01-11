@@ -1,46 +1,46 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
 /*
  Cam: I did think about implimenting this with an array for the timing durations
- like the original bit bang DSM2 code was done but that meant another array 
- on top of the playlist one, therefore more memory waisted, and because 
- the playlist must be executed one after another it would mean putting 
- the code to fill the array in the interrupt (This would be unlike the 
- old DSM2 code) which seemed to much for the interrupt. 
+ like the original bit bang DSM2 code was done but that meant another array
+ on top of the playlist one, therefore more memory waisted, and because
+ the playlist must be executed one after another it would mean putting
+ the code to fill the array in the interrupt (This would be unlike the
+ old DSM2 code) which seemed to much for the interrupt.
  */
 
 #include "../../OpenAVRc.h"
 
 // Start and stop bits need to be 2ms in duration. Start bit is low, stop bit is high
 #define SOMOSSBIT    5 //The 2ms of a stop/start bit
-#define SOMOSTOP    48 //This is the needed 2ms (4) + 20ms (40) to allow for the 
-                       //point at which the busy flag is checkable + 2ms for saftey (4)
-#define SOMOSTART   60 //This is the needed 2ms (4) + 2ms (4) for safety + 26ms (52) for the 
-                       //undocumented delay that must exist between playbacks.
+#define SOMOSTOP    48 //This is the needed 2ms (4) + 20ms (40) to allow for the
+//point at which the busy flag is checkable + 2ms for saftey (4)
+#define SOMOSTART   60 //This is the needed 2ms (4) + 2ms (4) for safety + 26ms (52) for the
+//undocumented delay that must exist between playbacks.
 #define	SOMOBUSY		(PINH & 0x40)	/* SOMO14D Busy flag */
 #define	SOMOCLK 		(PINH & 0x10)	/* SOMO14D CLK */
 
@@ -75,8 +75,7 @@ NOINLINE uint8_t SomoWakeup()
       somo14_current = somo14command;
       somo14command = 0;
       busy = 1;
-    }
-    else if (!SOMOBUSY) {
+    } else if (!SOMOBUSY) {
       if (somo14RIdx == somo14WIdx) {
         return 1;
       }
@@ -127,7 +126,7 @@ NOINLINE uint8_t SomoWakeup()
       somo14_current = (somo14_current<<1);
       i++;
       // Data setup delay
-	  _delay_us(1);
+      _delay_us(1);
       PORTH |= (1<<OUT_H_14DCLK); // CLK high
     }
 
@@ -145,20 +144,23 @@ ISR(TIMER4_COMPA_vect) //Every 0.5ms normally, every 2ms during startup reset
 {
   static uint8_t reset_dly=4;
   static uint8_t reset_pause=150;
-  
-  if (reset_dly) 
-	{OCR4A=0x1f4; reset_dly--; PORTH &= ~(1<<OUT_H_14DRESET);} // CLK low
-  else if (reset_pause)
-	{OCR4A=0x1f4; reset_pause--; PORTH |= (1<<OUT_H_14DRESET);} // RESET high
-  else 
-	{
-	OCR4A = 0x7d; // another 0.5ms
-	TIMSK4 &= ~(1<<OCIE4A); // stop reentrance
-	sei();
-	uint8_t finished = SomoWakeup();
-	cli();
-	if (!finished) TIMSK4 |= (1<<OCIE4A);
-	}
+
+  if (reset_dly) {
+    OCR4A=0x1f4;  // CLK low
+    reset_dly--;
+    PORTH &= ~(1<<OUT_H_14DRESET);
+  } else if (reset_pause) {
+    OCR4A=0x1f4;  // RESET high
+    reset_pause--;
+    PORTH |= (1<<OUT_H_14DRESET);
+  } else {
+    OCR4A = 0x7d; // another 0.5ms
+    TIMSK4 &= ~(1<<OCIE4A); // stop reentrance
+    sei();
+    uint8_t finished = SomoWakeup();
+    cli();
+    if (!finished) TIMSK4 |= (1<<OCIE4A);
+  }
 }
 #endif
 

@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -58,8 +58,7 @@ ISR(USART0_UDRE_vect)
     UDR0 = jetiKeys;
 
     jetiKeys = 0xff;
-  }
-  else {
+  } else {
     JETI_DisableTXD();
   }
 }
@@ -79,20 +78,17 @@ ISR (USART0_RX_vect)
     // discard buffer and start new on any error
     jetiReady = 0;
     jbp = 0;
-  }
-  else if ((rh & (1 << RXB80)) == 0) {
+  } else if ((rh & (1 << RXB80)) == 0) {
     // control
     if (rl == 0xfe) {
       // start condition
       jetiReady = 0;
       jbp = 0;
-    }
-    else if (rl == 0xff) {
+    } else if (rl == 0xff) {
       // stop condition
       jetiReady = 1;
     }
-  }
-  else {
+  } else {
     // data
     if (jbp < 32) {
       if (rl==0xDF)
@@ -156,44 +152,42 @@ void JETI_DisableRXD (void)
 #if 0
 void JETI_putw (uint16_t c)
 {
-        loop_until_bit_is_set(UCSR0A, UDRE0);
-        UCSR0B &= ~(1 << TXB80);
-        if (c & 0x0100)
-        {
-                UCSR0B |= (1 << TXB80);
-        }
-        UDR0 = c;
+  loop_until_bit_is_set(UCSR0A, UDRE0);
+  UCSR0B &= ~(1 << TXB80);
+  if (c & 0x0100) {
+    UCSR0B |= (1 << TXB80);
+  }
+  UDR0 = c;
 }
 
 void JETI_putc (uint8_t c)
 {
-        loop_until_bit_is_set(UCSR0A, UDRE0);
-        //      UCSRB &= ~(1 << TXB8);
-        UCSR0B |= (1 << TXB80);
-        UDR0 = c;
+  loop_until_bit_is_set(UCSR0A, UDRE0);
+  //      UCSRB &= ~(1 << TXB8);
+  UCSR0B |= (1 << TXB80);
+  UDR0 = c;
 }
 
 void JETI_puts (char *s)
 {
-        while (*s)
-        {
-                JETI_putc (*s);
-                s++;
-        }
+  while (*s) {
+    JETI_putc (*s);
+    s++;
+  }
 }
 
 void JETI_put_start (void)
 {
-        loop_until_bit_is_set(UCSR0A, UDRE0);
-        UCSR0B &= ~(1 << TXB80);
-        UDR0 = 0xFE;
+  loop_until_bit_is_set(UCSR0A, UDRE0);
+  UCSR0B &= ~(1 << TXB80);
+  UDR0 = 0xFE;
 }
 
 void JETI_put_stop (void)
 {
-        loop_until_bit_is_set(UCSR0A, UDRE0);
-        UCSR0B &= ~(1 << TXB80);
-        UDR0 = 0xFF;
+  loop_until_bit_is_set(UCSR0A, UDRE0);
+  UCSR0B &= ~(1 << TXB80);
+  UDR0 = 0xFF;
 }
 #endif
 

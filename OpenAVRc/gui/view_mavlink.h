@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -58,16 +58,16 @@ void menuTelemetryMavlinkSetup(uint8_t event);
  *	\link menuTelemetryMavlink menuTelemetryMavlink \endlink funtion.
  */
 enum mavlink_menu_ {
-	MENU_INFO = 0, //
-	MENU_MODE,
-	MENU_BATT,
-	MENU_NAV,
-	MENU_GPS, //
+  MENU_INFO = 0, //
+  MENU_MODE,
+  MENU_BATT,
+  MENU_NAV,
+  MENU_GPS, //
 #ifdef DUMP_RX_TX
-	MENU_DUMP_RX, //
-	MENU_DUMP_TX, //
+  MENU_DUMP_RX, //
+  MENU_DUMP_TX, //
 #endif
-	MAX_MAVLINK_MENU
+  MAX_MAVLINK_MENU
 };
 
 //! \brief Pointer array to mavlink settings menus.
@@ -77,9 +77,9 @@ const MenuFuncP_PROGMEM menuTabMav[] PROGMEM = {
 
 //! \brief Mavlink setup menu configuration items list.
 enum menuMavlinkSetupItems {
-	ITEM_MAVLINK_RC_RSSI_SCALE,
-	ITEM_MAVLINK_PC_RSSI_EN,
-	ITEM_MAVLINK_MAX
+  ITEM_MAVLINK_RC_RSSI_SCALE,
+  ITEM_MAVLINK_PC_RSSI_EN,
+  ITEM_MAVLINK_MAX
 };
 
 //! \brief Menu index varible, initialized on info menu.

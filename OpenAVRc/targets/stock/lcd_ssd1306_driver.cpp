@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -56,8 +56,8 @@
 #define SSD1306_EXTERNALVCC         0x01
 #define SSD1306_SWITCHCAPVCC        0x02
 
-const static uint8_t lcdInitSequence[] PROGMEM =
-{  // Init sequence for 128x64 OLED module
+const static uint8_t lcdInitSequence[] PROGMEM = {
+  // Init sequence for 128x64 OLED module
   SSD1306_DISPLAYOFF,                    // 0xAE
   SSD1306_SETDISPLAYCLOCKDIV,            // 0xD5
   0x80,                                  // the suggested ratio 0x80
@@ -125,12 +125,16 @@ void lcdRefreshFast()
   p = displayBuf;
   i2c_writeReg(SSD1306_ADDRESS, SSD1306_DATA, (p + (LCD_W*state)), (2*LCD_W)); // Send datas ( 800 Khz I2C bus ;-)
   state+=2;
-  if (state == (NUMITERATIONFULLREFRESH*2)) { state = 0; }
-  
+  if (state == (NUMITERATIONFULLREFRESH*2)) {
+    state = 0;
+  }
+
   REFRESHDURATION2  //Debug function if defined LCDDURATIONSHOW in OpenAVRc.h
 }
 
 void lcdRefresh()
 {
-  for (uint8_t i=0; i < NUMITERATIONFULLREFRESH; i++) { lcdRefreshFast(); }
+  for (uint8_t i=0; i < NUMITERATIONFULLREFRESH; i++) {
+    lcdRefreshFast();
+  }
 }

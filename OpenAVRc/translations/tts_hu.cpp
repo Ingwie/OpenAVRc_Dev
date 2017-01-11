@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -40,7 +40,7 @@ enum HungarianPrompts {
 
 #if defined(VOICE)
 
-  #define HU_PUSH_UNIT_PROMPT(p, u) pushUnitPrompt((p), (u))
+#define HU_PUSH_UNIT_PROMPT(p, u) pushUnitPrompt((p), (u))
 
 I18N_PLAY_FUNCTION(hu, pushUnitPrompt, int16_t number, uint8_t unitprompt)
 {
@@ -65,7 +65,7 @@ I18N_PLAY_FUNCTION(hu, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
         unit = UNIT_FEET;
       }
       if (unit == UNIT_SPEED) {
-    	unit = UNIT_KTS;
+        unit = UNIT_KTS;
       }
     }
     unit++;
@@ -79,8 +79,7 @@ I18N_PLAY_FUNCTION(hu, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
       PLAY_NUMBER(qr.quot, 0, 0);
       PUSH_NUMBER_PROMPT(HU_PROMPT_POINT_BASE + qr.rem);
       number = -1;
-    }
-    else {
+    } else {
       number = qr.quot;
     }
   }
@@ -103,7 +102,7 @@ I18N_PLAY_FUNCTION(hu, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
   if (number >= 0) {
     PUSH_NUMBER_PROMPT(HU_PROMPT_ZERO + number);
   }
-  
+
   if (unit) {
     HU_PUSH_UNIT_PROMPT(tmp, HU_PROMPT_UNITS_BASE + unit*2);
   }
@@ -132,8 +131,8 @@ I18N_PLAY_FUNCTION(hu, playDuration, int seconds PLAY_DURATION_ATT)
   if (tmp > 0) {
     PLAY_NUMBER(tmp, UNIT_MINUTES, 0);
     // This is not necessary in the Hungarian
-	//if (seconds > 0)
-      //PUSH_NUMBER_PROMPT(HU_PROMPT_AND);
+    //if (seconds > 0)
+    //PUSH_NUMBER_PROMPT(HU_PROMPT_AND);
   }
 
   if (seconds > 0) {

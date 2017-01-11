@@ -10,9 +10,9 @@
 /---------------------------------------------------------------------------*/
 
 #if defined (FATFSTINY)
-						#define	_FS_TINY		1 // Bracame : reduce ram usage
+#define	_FS_TINY		1 // Bracame : reduce ram usage
 #else
-						#define	_FS_TINY		0
+#define	_FS_TINY		0
 #endif
 /* This option switches tiny buffer configuration. (0:Normal or 1:Tiny)
 /  At the tiny configuration, size of the file object (FIL) is reduced _MAX_SS
@@ -102,8 +102,8 @@
 /   1    - ASCII (No extended character. Valid for only non-LFN configuration.) */
 
 
-  #define _USE_LFN      1               /* 0 to 3 */
-  #define _MAX_LFN      32              /* Maximum LFN length to handle (12 to 255) */
+#define _USE_LFN      1               /* 0 to 3 */
+#define _MAX_LFN      26              /* Maximum LFN length to handle (12 to 255) */
 /* The _USE_LFN option switches the LFN feature.
 /
 /   0: Disable LFN feature. _MAX_LFN has no effect.
@@ -229,7 +229,7 @@
 /      can be opened simultaneously under file lock control. Note that the file
 /      lock feature is independent of re-entrancy. */
 
-  #define _FS_REENTRANT		0	   /* 0:Disable or 1:Enable */
+#define _FS_REENTRANT		0	   /* 0:Disable or 1:Enable */
 
 #define _FS_TIMEOUT		1000
 

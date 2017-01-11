@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -84,13 +84,11 @@ void t_voice::voice_process(void)
       PORTB &= ~(1<<OUT_B_LIGHT) ;                    // Latch clock low
       VoiceCounter = 31;
       VoiceState = V_CLOCKING;
-    }
-    else {
+    } else {
       PORTA_LCD_DAT = VoiceLatch; // Latch data set
       PORTB &= ~(1 << OUT_B_LIGHT); // Latch clock low
     }
-  }
-  else if (VoiceState == V_STARTUP) {
+  } else if (VoiceState == V_STARTUP) {
     PORTB |= (1<<OUT_B_LIGHT) ;      // Latch clock high
     VoiceLatch |= VOICE_CLOCK_BIT | VOICE_DATA_BIT ;
     PORTA_LCD_DAT = VoiceLatch ;     // Latch data set
@@ -98,8 +96,7 @@ void t_voice::voice_process(void)
       VoiceState = V_WAIT_START_BUSY_OFF ;
     }
     PORTB &= ~(1<<OUT_B_LIGHT) ;     // Latch clock low
-  }
-  else if (VoiceState != V_CLOCKING) {
+  } else if (VoiceState != V_CLOCKING) {
     uint8_t busy;
     PORTA_LCD_DAT = VoiceLatch; // Latch data set
     PORTB |= (1 << OUT_B_LIGHT); // Drive high,pullup enabled
@@ -116,25 +113,21 @@ void t_voice::voice_process(void)
     if (VoiceState == V_WAIT_BUSY_ON) { // check for busy processing here
       if (busy == 0) { // Busy is active
         VoiceState = V_WAIT_BUSY_OFF;
-      }
-      else {
+      } else {
         if (--VoiceTimer == 0) {
           VoiceState = V_WAIT_BUSY_OFF;
         }
       }
-    }
-    else if (VoiceState == V_WAIT_BUSY_OFF) { // check for busy processing here
+    } else if (VoiceState == V_WAIT_BUSY_OFF) { // check for busy processing here
       if (busy) { // Busy is inactive
         VoiceTimer = 3;
         VoiceState = V_WAIT_BUSY_DELAY;
       }
-    }
-    else if (VoiceState == V_WAIT_BUSY_DELAY) {
+    } else if (VoiceState == V_WAIT_BUSY_DELAY) {
       if (--VoiceTimer == 0) {
         VoiceState = V_IDLE;
       }
-    }
-    else if (VoiceState == V_WAIT_START_BUSY_OFF) {   // check for busy processing here
+    } else if (VoiceState == V_WAIT_START_BUSY_OFF) { // check for busy processing here
       if (busy) {                                     // Busy is inactive
         VoiceTimer = 20 ;
         VoiceState = V_WAIT_BUSY_DELAY ;

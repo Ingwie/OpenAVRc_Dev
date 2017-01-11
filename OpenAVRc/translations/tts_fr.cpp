@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -69,15 +69,15 @@ enum FrenchPrompts {
 
 I18N_PLAY_FUNCTION(fr, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
 {
-/*  if digit >= 1000000000:
-      temp_digit, digit = divmod(digit, 1000000000)
-      prompts.extend(self.getNumberPrompt(temp_digit))
-      prompts.append(Prompt(GUIDE_00_BILLION, dir=2))
-  if digit >= 1000000:
-      temp_digit, digit = divmod(digit, 1000000)
-      prompts.extend(self.getNumberPrompt(temp_digit))
-      prompts.append(Prompt(GUIDE_00_MILLION, dir=2))
-*/
+  /*  if digit >= 1000000000:
+        temp_digit, digit = divmod(digit, 1000000000)
+        prompts.extend(self.getNumberPrompt(temp_digit))
+        prompts.append(Prompt(GUIDE_00_BILLION, dir=2))
+    if digit >= 1000000:
+        temp_digit, digit = divmod(digit, 1000000)
+        prompts.extend(self.getNumberPrompt(temp_digit))
+        prompts.append(Prompt(GUIDE_00_MILLION, dir=2))
+  */
 
   if (number < 0) {
     PUSH_NUMBER_PROMPT(FR_PROMPT_MOINS);
@@ -92,8 +92,7 @@ I18N_PLAY_FUNCTION(fr, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
       PLAY_NUMBER(qr.quot, 0, 0);
       PUSH_NUMBER_PROMPT(FR_PROMPT_VIRGULE_BASE + qr.rem);
       number = -1;
-    }
-    else {
+    } else {
       number = qr.quot;
     }
   }
@@ -116,8 +115,7 @@ I18N_PLAY_FUNCTION(fr, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
   }
   if (((number % 10) == 1) && number < 90 && (att & FEMININ)) {
     PUSH_NUMBER_PROMPT(FR_PROMPT_UNE+(number/10));
-  }
-  else if (number >= 0) {
+  } else if (number >= 0) {
     PUSH_NUMBER_PROMPT(FR_PROMPT_ZERO+number);
   }
 
@@ -129,7 +127,7 @@ I18N_PLAY_FUNCTION(fr, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
         unit = UNIT_FEET;
       }
       if (unit == UNIT_SPEED) {
-    	unit = UNIT_KTS;
+        unit = UNIT_KTS;
       }
     }
     unit++;
@@ -153,11 +151,9 @@ I18N_PLAY_FUNCTION(fr, playDuration, int seconds PLAY_DURATION_ATT)
   seconds %= 3600;
   if (IS_PLAY_TIME() && tmp==0) {
     PUSH_NUMBER_PROMPT(FR_PROMPT_MINUIT);
-  }
-  else if (IS_PLAY_TIME() && tmp==12) {
+  } else if (IS_PLAY_TIME() && tmp==12) {
     PUSH_NUMBER_PROMPT(FR_PROMPT_MIDI);
-  }
-  else if (tmp > 0) {
+  } else if (tmp > 0) {
     PLAY_NUMBER(tmp, 0, FEMININ);
     PUSH_NUMBER_PROMPT(FR_PROMPT_HEURE);
   }
@@ -167,8 +163,7 @@ I18N_PLAY_FUNCTION(fr, playDuration, int seconds PLAY_DURATION_ATT)
   if (tmp > 0) {
     if (IS_PLAY_TIME()) {
       PLAY_NUMBER(tmp, 0, tmp==1 ? FEMININ : 0);
-    }
-    else {
+    } else {
       PLAY_NUMBER(tmp, 0, FEMININ);
       PUSH_NUMBER_PROMPT(FR_PROMPT_MINUTE);
 #if !defined(NOANDSECONDE)

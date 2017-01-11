@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -50,37 +50,32 @@ void lcdDrawSizedTextAtt(coord_t x, coord_t y, const pm_char * s, uint8_t len, L
   while (len--) {
     unsigned char c;
     switch (flags & (BSS+ZCHAR)) {
-      case BSS:
-        c = *s;
-        break;
-      case ZCHAR:
-        c = idx2char(*s);
-        break;
-      default:
-        c = pgm_read_byte(s);
-        break;
+    case BSS:
+      c = *s;
+      break;
+    case ZCHAR:
+      c = idx2char(*s);
+      break;
+    default:
+      c = pgm_read_byte(s);
+      break;
     }
 
     if (setx) {
       x = c;
       setx = false;
-    }
-    else if (!c) {
+    } else if (!c) {
       break;
-    }
-    else if (c >= 0x20) {
+    } else if (c >= 0x20) {
       lcdDrawCharAtt(x, y, c, flags);
       x = lcdNextPos;
-    }
-    else if (c == 0x1F) {  //X-coord prefix
+    } else if (c == 0x1F) { //X-coord prefix
       setx = true;
-    }
-    else if (c == 0x1E) {  //NEWLINE
+    } else if (c == 0x1E) { //NEWLINE
       x = orig_x;
       y += FH;
       if (y >= LCD_H) break;
-    }
-    else {
+    } else {
       x += (c*FW/2); // EXTENDED SPACE
     }
     s++;
@@ -144,16 +139,15 @@ void lcdDrawNumberNAtt(coord_t x, coord_t y, lcdint_t val, LcdFlags flags, uint8
   int8_t mode = MODE(flags);
   flags &= ~LEADING0;
   bool dblsize = flags & DBLSIZE;
-  #define xxlsize 0
-  #define midsize 0
-  #define smlsize 0
-  #define tinsize 0
+#define xxlsize 0
+#define midsize 0
+#define smlsize 0
+#define tinsize 0
 
   bool neg = false;
   if (flags & UNSIGN) {
     flags -= UNSIGN;
-  }
-  else if (val < 0) {
+  } else if (val < 0) {
     neg = true;
     val = -val;
   }
@@ -175,17 +169,13 @@ void lcdDrawNumberNAtt(coord_t x, coord_t y, lcdint_t val, LcdFlags flags, uint8
 
   if (dblsize) {
     fw += FWNUM;
-  }
-  else if (xxlsize) {
+  } else if (xxlsize) {
     fw += 4*FWNUM-1;
-  }
-  else if (midsize) {
+  } else if (midsize) {
     fw += FWNUM-3;
-  }
-  else if (tinsize) {
+  } else if (tinsize) {
     fw -= 1;
-  }
-  else {
+  } else {
     if (flags & LEFT) {
       if (mode > 0)
         x += 2;
@@ -211,8 +201,13 @@ void lcdDrawNumberNAtt(coord_t x, coord_t y, lcdint_t val, LcdFlags flags, uint8
     char c = qr.rem + '0';
     LcdFlags f = flags;
     if (dblsize) {
-      if (c=='1' && i==len && xn>x+10) { x+=1; }
-      if ((lcduint_t)val >= 1000) { x+=FWNUM; f &= ~DBLSIZE; }
+      if (c=='1' && i==len && xn>x+10) {
+        x+=1;
+      }
+      if ((lcduint_t)val >= 1000) {
+        x+=FWNUM;
+        f &= ~DBLSIZE;
+      }
     }
     lcdDrawCharAtt(x, y, c, f);
     if (mode == i) {
@@ -224,37 +219,31 @@ void lcdDrawNumberNAtt(coord_t x, coord_t y, lcdint_t val, LcdFlags flags, uint8
         if (tn==2 || tn==4) {
           if (c=='4') {
             xn++;
-          }
-          else {
+          } else {
             xn--;
             ln++;
           }
         }
-      }
-      else if (xxlsize) {
+      } else if (xxlsize) {
         x -= 17;
         lcdDrawCharAtt(x+2, y, '.', f);
-      }
-      else if (midsize) {
+      } else if (midsize) {
         x -= 3;
         xn = x;
-      }
-      else if (smlsize) {
+      } else if (smlsize) {
         x -= 2;
         lcdDrawPoint(x, y+5);
         if ((flags&INVERS) && ((~flags & BLINK) || BLINK_ON_PHASE)) {
           lcdDrawSolidVerticalLine(x, y-1, 8);
         }
-      }
-      else if (tinsize) {
+      } else if (tinsize) {
         x--;
         lcdDrawPoint(x-1, y+4);
         if ((flags&INVERS) && ((~flags & BLINK) || BLINK_ON_PHASE)) {
           lcdDrawSolidVerticalLine(x-1, y-1, 7);
         }
         x--;
-      }
-      else {
+      } else {
         x -= 2;
         lcdDrawCharAtt(x, y, '.', f);
       }
@@ -275,8 +264,7 @@ void lcdDrawNumberNAtt(coord_t x, coord_t y, lcdint_t val, LcdFlags flags, uint8
       }
       lcdDrawSolidHorizontalLine(xn, y+9, 2);
       lcdDrawSolidHorizontalLine(xn, y+10, 2);
-    }
-    else {
+    } else {
       // TODO needed on CPUAVR? y &= ~0x07;
       lcdDrawFilledRect(xn, y+2*FH-3, ln, 2);
     }
@@ -299,7 +287,10 @@ void lcdDrawRect(coord_t x, coord_t y, coord_t w, coord_t h, uint8_t pat, LcdFla
 {
   lcdDrawSolidVerticalLineStip(x, y, h, pat);
   lcdDrawSolidVerticalLineStip(x+w-1, y, h, pat);
-  if (~att & ROUND) { x+=1; w-=2; }
+  if (~att & ROUND) {
+    x+=1;
+    w-=2;
+  }
   lcdDrawSolidHorizontalLineStip(x, y+h-1, w, pat);
   lcdDrawSolidHorizontalLineStip(x, y, w, pat);
 }
@@ -396,8 +387,7 @@ void putsMixerSource(coord_t x, coord_t y, uint8_t idx, LcdFlags att)
 #endif
   else if (idx < MIXSRC_FIRST_TELEM) {
     lcdDrawTextAtIndex(x, y, STR_VSRCRAW, idx-MIXSRC_Rud+1-(MIXSRC_SW1-MIXSRC_THR)-NUM_LOGICAL_SWITCH-NUM_TRAINER-NUM_CHNOUT-MAX_GVARS, att);
-  }
-  else
+  } else
     lcdDrawTextAtIndex(x, y, STR_VTELEMCHNS, idx-MIXSRC_FIRST_TELEM+1, att);
 }
 
@@ -412,8 +402,7 @@ void putsModelName(coord_t x, coord_t y, char *name, uint8_t id, LcdFlags att)
   while (len>0 && !name[len-1]) --len;
   if (len==0) {
     lcdDrawStringWithIndex(x, y, STR_MODEL, id+1, att|LEADING0);
-  }
-  else {
+  } else {
     lcdDrawSizedTextAtt(x, y, name, sizeof(g_model.header.name), ZCHAR|att);
   }
 }
@@ -432,8 +421,14 @@ void lcdPutsSwitches(coord_t x, coord_t y, int8_t idx, LcdFlags att)
 #if defined(FLIGHT_MODES)
 void putsFlightMode(coord_t x, coord_t y, int8_t idx, LcdFlags att)
 {
-  if (idx==0) { lcdDrawTextAtIndex(x, y, STR_MMMINV, 0, att); return; }
-  if (idx < 0) { lcdDrawCharAtt(x-2, y, '!', att); idx = -idx; }
+  if (idx==0) {
+    lcdDrawTextAtIndex(x, y, STR_MMMINV, 0, att);
+    return;
+  }
+  if (idx < 0) {
+    lcdDrawCharAtt(x-2, y, '!', att);
+    idx = -idx;
+  }
   if (att & CONDENSED)
     lcdDrawNumberNAtt(x+FW*1, y, idx-1, (att & ~CONDENSED), 1);
   else
@@ -472,8 +467,7 @@ void lcdPutsTrimMode(coord_t x, coord_t y, uint8_t phase, uint8_t idx, LcdFlags 
     uint8_t p = v - TRIM_EXTENDED_MAX - 1;
     if (p >= phase) p++;
     lcdDrawCharAtt(x, y, '0'+p, att);
-  }
-  else {
+  } else {
     lcdPutsChnLetter(x, y, idx+1, att);
   }
 }
@@ -487,8 +481,7 @@ void lcdPutsRotaryEncoderMode(coord_t x, coord_t y, uint8_t phase, uint8_t idx, 
     uint8_t p = v - ROTARY_ENCODER_MAX - 1;
     if (p >= phase) p++;
     lcdDrawCharAtt(x, y, '0'+p, att);
-  }
-  else {
+  } else {
     lcdDrawCharAtt(x, y, 'a'+idx, att);
   }
 }
@@ -518,30 +511,28 @@ const pm_uint8_t bchunit_ar[] PROGMEM = {
 void lcdPutsTelemetryChannelValue(coord_t x, coord_t y, uint8_t channel, lcdint_t val, LcdFlags att)
 {
   switch (channel) {
-    case TELEM_TIMER1-1:
-    case TELEM_TIMER2-1:
-      att &= ~NO_UNIT;
-      putsTimer(x, y, val, att, att);
-      break;
+  case TELEM_TIMER1-1:
+  case TELEM_TIMER2-1:
+    att &= ~NO_UNIT;
+    putsTimer(x, y, val, att, att);
+    break;
 #if defined(FRSKY)
-    case TELEM_MIN_A1-1:
-    case TELEM_MIN_A2-1:
-      channel -= TELEM_MIN_A1-TELEM_A1;
-      // no break
-    case TELEM_A1-1:
-    case TELEM_A2-1:
-      channel -= TELEM_A1-1;
-      // A1 and A2
+  case TELEM_MIN_A1-1:
+  case TELEM_MIN_A2-1:
+    channel -= TELEM_MIN_A1-TELEM_A1;
+  // no break
+  case TELEM_A1-1:
+  case TELEM_A2-1:
+    channel -= TELEM_A1-1;
+    // A1 and A2
     {
       lcdint_t converted_value = applyChannelRatio(channel, val);
       if (ANA_CHANNEL_UNIT(channel) >= UNIT_RAW) {
         converted_value = div10_and_round(converted_value);
-      }
-      else {
+      } else {
         if (abs(converted_value) < 1000) {
           att |= PREC2;
-        }
-        else {
+        } else {
           converted_value = div10_and_round(converted_value);
           att |= PREC1;
         }
@@ -551,101 +542,100 @@ void lcdPutsTelemetryChannelValue(coord_t x, coord_t y, uint8_t channel, lcdint_
     }
 #endif
 
-    case TELEM_CELL-1:
-    case TELEM_MIN_CELL-1:
-      lcdPutsValueWithUnit(x, y, val, UNIT_VOLTS, att|PREC2);
-      break;
+  case TELEM_CELL-1:
+  case TELEM_MIN_CELL-1:
+    lcdPutsValueWithUnit(x, y, val, UNIT_VOLTS, att|PREC2);
+    break;
 
-    case TELEM_TX_VOLTAGE-1:
-    case TELEM_VFAS-1:
-    case TELEM_CELLS_SUM-1:
-    case TELEM_MIN_CELLS_SUM-1:
-    case TELEM_MIN_VFAS-1:
-      lcdPutsValueWithUnit(x, y, val, UNIT_VOLTS, att|PREC1);
-      break;
+  case TELEM_TX_VOLTAGE-1:
+  case TELEM_VFAS-1:
+  case TELEM_CELLS_SUM-1:
+  case TELEM_MIN_CELLS_SUM-1:
+  case TELEM_MIN_VFAS-1:
+    lcdPutsValueWithUnit(x, y, val, UNIT_VOLTS, att|PREC1);
+    break;
 
-    case TELEM_CURRENT-1:
-    case TELEM_MAX_CURRENT-1:
-      lcdPutsValueWithUnit(x, y, val, UNIT_AMPS, att|PREC1);
-      break;
+  case TELEM_CURRENT-1:
+  case TELEM_MAX_CURRENT-1:
+    lcdPutsValueWithUnit(x, y, val, UNIT_AMPS, att|PREC1);
+    break;
 
-    case TELEM_CONSUMPTION-1:
-      lcdPutsValueWithUnit(x, y, val, UNIT_MAH, att);
-      break;
+  case TELEM_CONSUMPTION-1:
+    lcdPutsValueWithUnit(x, y, val, UNIT_MAH, att);
+    break;
 
-    case TELEM_POWER-1:
-    case TELEM_MAX_POWER-1:
-      lcdPutsValueWithUnit(x, y, val, UNIT_WATTS, att);
-      break;
+  case TELEM_POWER-1:
+  case TELEM_MAX_POWER-1:
+    lcdPutsValueWithUnit(x, y, val, UNIT_WATTS, att);
+    break;
 
-    case TELEM_ACCx-1:
-    case TELEM_ACCy-1:
-    case TELEM_ACCz-1:
-      lcdPutsValueWithUnit(x, y, val, UNIT_RAW, att|PREC2);
-      break;
+  case TELEM_ACCx-1:
+  case TELEM_ACCy-1:
+  case TELEM_ACCz-1:
+    lcdPutsValueWithUnit(x, y, val, UNIT_RAW, att|PREC2);
+    break;
 
-    case TELEM_VSPEED-1:
-      lcdPutsValueWithUnit(x, y, div10_and_round(val), UNIT_RAW, att|PREC1);
-      break;
+  case TELEM_VSPEED-1:
+    lcdPutsValueWithUnit(x, y, div10_and_round(val), UNIT_RAW, att|PREC1);
+    break;
 
-    case TELEM_ASPEED-1:
-    case TELEM_MAX_ASPEED-1:
-      lcdPutsValueWithUnit(x, y, val, UNIT_KTS, att|PREC1);
-      break;
+  case TELEM_ASPEED-1:
+  case TELEM_MAX_ASPEED-1:
+    lcdPutsValueWithUnit(x, y, val, UNIT_KTS, att|PREC1);
+    break;
 
-    case TELEM_RSSI_TX-1:
-    case TELEM_RSSI_RX-1:
-      lcdPutsValueWithUnit(x, y, val, UNIT_RAW, att);
-      break;
+  case TELEM_RSSI_TX-1:
+  case TELEM_RSSI_RX-1:
+    lcdPutsValueWithUnit(x, y, val, UNIT_RAW, att);
+    break;
 
-    case TELEM_HDG-1:
-      lcdPutsValueWithUnit(x, y, val, UNIT_HDG, att);
-      break;
+  case TELEM_HDG-1:
+    lcdPutsValueWithUnit(x, y, val, UNIT_HDG, att);
+    break;
 
 #if defined(FRSKY_SPORT)
-    case TELEM_ALT-1:
-      lcdPutsValueWithUnit(x, y, div10_and_round(val), UNIT_DIST, att|PREC1);
-      break;
+  case TELEM_ALT-1:
+    lcdPutsValueWithUnit(x, y, div10_and_round(val), UNIT_DIST, att|PREC1);
+    break;
 #elif defined(WS_HOW_HIGH)
-    case TELEM_ALT-1:
-    case TELEM_MIN_ALT-1:
-    case TELEM_MAX_ALT-1:
-      if (IS_IMPERIAL_ENABLE() && IS_USR_PROTO_WS_HOW_HIGH()) {
-        lcdPutsValueWithUnit(x, y, val, UNIT_FEET, att);
-        break;
-      }
-      // no break
-#endif
-
-    default:
-    {
-      uint8_t unit = 1;
-      if (channel >= TELEM_MAX_T1-1 && channel <= TELEM_MAX_DIST-1)
-        channel -= TELEM_MAX_T1 - TELEM_T1;
-      if (channel <= TELEM_GPSALT-1)
-        unit = channel + 1 - TELEM_ALT;
-      if (channel >= TELEM_MIN_ALT-1 && channel <= TELEM_MAX_ALT-1)
-        unit = 0;
-      lcdPutsValueWithUnit(x, y, val, pgm_read_byte(bchunit_ar+unit), att);
+  case TELEM_ALT-1:
+  case TELEM_MIN_ALT-1:
+  case TELEM_MAX_ALT-1:
+    if (IS_IMPERIAL_ENABLE() && IS_USR_PROTO_WS_HOW_HIGH()) {
+      lcdPutsValueWithUnit(x, y, val, UNIT_FEET, att);
       break;
     }
+    // no break
+#endif
+
+  default: {
+    uint8_t unit = 1;
+    if (channel >= TELEM_MAX_T1-1 && channel <= TELEM_MAX_DIST-1)
+      channel -= TELEM_MAX_T1 - TELEM_T1;
+    if (channel <= TELEM_GPSALT-1)
+      unit = channel + 1 - TELEM_ALT;
+    if (channel >= TELEM_MIN_ALT-1 && channel <= TELEM_MAX_ALT-1)
+      unit = 0;
+    lcdPutsValueWithUnit(x, y, val, pgm_read_byte(bchunit_ar+unit), att);
+    break;
+  }
   }
 }
 #else // defined(FRSKY)
 void lcdPutsTelemetryChannelValue(coord_t x, coord_t y, uint8_t channel, lcdint_t val, uint8_t att)
 {
   switch (channel) {
-    case TELEM_TIMER1-1:
-    case TELEM_TIMER2-1:
-      att &= ~NO_UNIT;
-      putsTimer(x, y, val, att, att);
-      break;
+  case TELEM_TIMER1-1:
+  case TELEM_TIMER2-1:
+    att &= ~NO_UNIT;
+    putsTimer(x, y, val, att, att);
+    break;
 
-    case TELEM_TX_VOLTAGE-1:
-      lcdDrawNumberAttUnit(x, y, val, (att|PREC1) & (~NO_UNIT));
-      if (!(att & NO_UNIT))
-        lcdDrawChar(lcdLastPos/*+1*/, y, 'V');
-      break;
+  case TELEM_TX_VOLTAGE-1:
+    lcdDrawNumberAttUnit(x, y, val, (att|PREC1) & (~NO_UNIT));
+    if (!(att & NO_UNIT))
+      lcdDrawChar(lcdLastPos/*+1*/, y, 'V');
+    break;
   }
 }
 #endif
@@ -662,8 +652,8 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
   uint8_t *p = &displayBuf[ y / 8 * LCD_W + x ];
 
 #if (defined(PCBMEGA2560) && !defined(SIMU))
-uint_farptr_t q=GET_FAR_ADDRESS(font_5x7);
-q += (c-0x20)*5;
+  uint_farptr_t q=GET_FAR_ADDRESS(font_5x7);
+  q += (c-0x20)*5;
 #else
   const pm_uchar *q = &font_5x7[(c-0x20)*5];
 #endif
@@ -680,8 +670,7 @@ q += (c-0x20)*5;
         return;
       }
     }
-  }
-  else if (flags & INVERS) {
+  } else if (flags & INVERS) {
     inv = true;
   }
 
@@ -716,10 +705,10 @@ q += (c-0x20)*5;
     /* each letter consists of ten top bytes followed by
      * by ten bottom bytes (20 bytes per * char) */
 #if (defined(PCBMEGA2560) && !defined(SIMU))
-  q = GET_FAR_ADDRESS(font_10x14);
-  q += (uint16_t)c_remapped*20;
+    q = GET_FAR_ADDRESS(font_10x14);
+    q += (uint16_t)c_remapped*20;
 #else
-  q = &font_10x14[((uint16_t)c_remapped)*20];
+    q = &font_10x14[((uint16_t)c_remapped)*20];
 #endif
     for (int8_t i=0; i<=11; i++) {
       uint8_t b1=0, b2=0;
@@ -729,8 +718,7 @@ q += (c-0x20)*5;
           p++;
           continue;
         }
-      }
-      else if (i <= 10) {
+      } else if (i <= 10) {
 #if (defined(PCBMEGA2560) && !defined(SIMU))
         b1 = pgm_read_byte_far(q++); /*top byte*/
         b2 = pgm_read_byte_far(q++);
@@ -753,11 +741,10 @@ q += (c-0x20)*5;
         lcdNextPos++;
       }
     }
-  }
-  else {
+  } else {
     const uint8_t ym8 = (y & 0x07);
 #if defined(BOLD_FONT)
-  #if defined(BOLD_SPECIFIC_FONT)
+#if defined(BOLD_SPECIFIC_FONT)
     if (flags & BOLD) {
 #if (defined(PCBMEGA2560) && !defined(SIMU))
       q = GET_FAR_ADDRESS(font_5x7_B);
@@ -766,10 +753,10 @@ q += (c-0x20)*5;
       q = &font_5x7_B[(c_remapped)*5];
 #endif
     }
-  #else
+#else
     uint8_t bb = 0;
     if (inv) bb = 0xff;
-  #endif
+#endif
 #endif
 
     uint8_t *lineEnd = &displayBuf[ y / 8 * LCD_W + LCD_W ];
@@ -782,8 +769,7 @@ q += (c-0x20)*5;
           p++;
           continue;
         }
-      }
-      else if (i <= 5) {
+      } else if (i <= 5) {
 #if (defined(PCBMEGA2560) && !defined(SIMU))
         b = pgm_read_byte_far(q++);
 #else
@@ -854,7 +840,9 @@ void lcdDrawPoint(coord_t x, coord_t y, LcdFlags att)
 void lcdDrawSolidHorizontalLineStip(coord_t x, coord_t y, coord_t w, uint8_t pat, LcdFlags att)
 {
   if (y >= LCD_H) return;
-  if (x+w > LCD_W) { w = LCD_W - x; }
+  if (x+w > LCD_W) {
+    w = LCD_W - x;
+  }
 
   uint8_t *p  = &displayBuf[ y / 8 * LCD_W + x ];
   uint8_t msk = BITMASK(y%8);
@@ -862,8 +850,7 @@ void lcdDrawSolidHorizontalLineStip(coord_t x, coord_t y, coord_t w, uint8_t pat
     if(pat&1) {
       lcdMaskPoint(p, msk, att);
       pat = (pat >> 1) | 0x80;
-    }
-    else {
+    } else {
       pat = pat >> 1;
     }
     p++;
@@ -874,9 +861,17 @@ void lcdDrawSolidHorizontalLineStip(coord_t x, coord_t y, coord_t w, uint8_t pat
 void lcdDrawSolidVerticalLineStip(coord_t x, int8_t y, int8_t h, uint8_t pat)
 {
   if (x >= LCD_W) return;
-  if (h<0) { y+=h; h=-h; }
-  if (y<0) { h+=y; y=0; }
-  if (y+h > LCD_H) { h = LCD_H - y; }
+  if (h<0) {
+    y+=h;
+    h=-h;
+  }
+  if (y<0) {
+    h+=y;
+    y=0;
+  }
+  if (y+h > LCD_H) {
+    h = LCD_H - y;
+  }
 
   if (pat==DOTTED && !(y%2))
     pat = ~pat;
@@ -908,9 +903,17 @@ void lcdDrawSolidVerticalLineStip(coord_t x, scoord_t y, scoord_t h, uint8_t pat
 {
   if (x >= LCD_W) return;
 
-  if (h<0) { y+=h; h=-h; }
-  if (y<0) { h+=y; y=0; }
-  if (y+h > LCD_H) { h = LCD_H - y; }
+  if (h<0) {
+    y+=h;
+    h=-h;
+  }
+  if (y<0) {
+    h+=y;
+    y=0;
+  }
+  if (y+h > LCD_H) {
+    h = LCD_H - y;
+  }
 
   if (pat==DOTTED && !(y%2))
     pat = ~pat;
@@ -959,7 +962,7 @@ void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags 
   q += idx*w*hb;
   for (uint8_t yb = 0; yb < hb; yb++) {
     uint8_t *p = &displayBuf[ (y / 8 + yb) * LCD_W + x ];
-    for (coord_t i=0; i<w; i++){
+    for (coord_t i=0; i<w; i++) {
       uint8_t b = pgm_read_byte_far(q);
       q++;
       ASSERT_IN_DISPLAY(p);
@@ -978,7 +981,7 @@ void lcd_img(coord_t x, coord_t y, const pm_uchar * img, uint8_t idx, LcdFlags a
   q += idx*w*hb;
   for (uint8_t yb = 0; yb < hb; yb++) {
     uint8_t *p = &displayBuf[ (y / 8 + yb) * LCD_W + x ];
-    for (coord_t i=0; i<w; i++){
+    for (coord_t i=0; i<w; i++) {
       uint8_t b = pgm_read_byte(q);
       q++;
       ASSERT_IN_DISPLAY(p);

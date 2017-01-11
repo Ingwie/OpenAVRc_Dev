@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -46,18 +46,15 @@ void hapticQueue::heartbeat()
     buzzTimeLeft--; // time gets counted down
     if (hapticTick-- > 0) {
       hapticOn();
-    }
-    else {
+    } else {
       hapticOff();
       hapticTick = HAPTIC_STRENGTH();
     }
-  }
-  else {
+  } else {
     hapticOff();
     if (buzzPause > 0) {
       buzzPause--;
-    }
-    else if (t_queueRidx != t_queueWidx) {
+    } else if (t_queueRidx != t_queueWidx) {
       buzzTimeLeft = queueHapticLength[t_queueRidx];
       buzzPause = queueHapticPause[t_queueRidx];
       if (!queueHapticRepeat[t_queueRidx]--) {
@@ -76,8 +73,7 @@ void hapticQueue::play(uint8_t tLen, uint8_t tPause, uint8_t tFlags)
     buzzTimeLeft = tLen;
     buzzPause = tPause;
     t_queueWidx = t_queueRidx;
-  }
-  else {
+  } else {
     tFlags += 1;
   }
 
@@ -107,7 +103,7 @@ void hapticQueue::event(uint8_t e)
     else if (e >= AU_FRSKY_LAST && empty()) {
       play(30, 10, 0);
       play(10, 50-10*(e-AU_FRSKY_LAST), (e-AU_FRSKY_LAST));
-    }	
+    }
   }
 }
 

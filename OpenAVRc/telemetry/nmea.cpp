@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -177,168 +177,158 @@ int32_t bintime (char *str);
 #ifndef SIMU
 ISR (USART0_RX_vect)
 {
-    uint8_t rl;
-    // uint8_t rh;                         //USART control and Status Register 0 B
-    uint8_t iostat;                     //USART control and Status Register 0 A
+  uint8_t rl;
+  // uint8_t rh;                         //USART control and Status Register 0 B
+  uint8_t iostat;                     //USART control and Status Register 0 A
 
-    rl = UDR0;
-    iostat = UCSR0A;                    //USART control and Status Register 0 A
-    /*
-   bit 	7		6		5		4	3		2		1		0
-        RxC0	TxC0	UDRE0	FE0	DOR0	UPE0	U2X0	MPCM0
+  rl = UDR0;
+  iostat = UCSR0A;                    //USART control and Status Register 0 A
+  /*
+  bit 	7		6		5		4	3		2		1		0
+      RxC0	TxC0	UDRE0	FE0	DOR0	UPE0	U2X0	MPCM0
 
-        RxC0: 	Receive complete
-        TXC0: 	Transmit Complete
-        UDRE0: 	USART Data Register Empty
-        FE0:	Frame Error
-        DOR0:	Data OverRun
-        UPE0:	USART Parity Error
-        U2X0:	Double Tx Speed
-        MPCM0:	MultiProcessor Comms Mode
-*/
-    if (iostat & ((1 << FE0) | (1 << DOR0) | (1 << UPE0)))
-    {
-        rl = xpack[0] = xpack[1] = xval[0] = xval[1] = 0;
-        initval (LONG_BUF(2), PACK_GGA, TIM);   // always get UTC time for timer
-        state = WAIT_PACKET;			         // restart on error
+      RxC0: 	Receive complete
+      TXC0: 	Transmit Complete
+      UDRE0: 	USART Data Register Empty
+      FE0:	Frame Error
+      DOR0:	Data OverRun
+      UPE0:	USART Parity Error
+      U2X0:	Double Tx Speed
+      MPCM0:	MultiProcessor Comms Mode
+  */
+  if (iostat & ((1 << FE0) | (1 << DOR0) | (1 << UPE0))) {
+    rl = xpack[0] = xpack[1] = xval[0] = xval[1] = 0;
+    initval (LONG_BUF(2), PACK_GGA, TIM);   // always get UTC time for timer
+    state = WAIT_PACKET;			         // restart on error
+  }
+  // rh = UCSR0B;                       //USART control and Status Register 0 B
+  /* bit 	7		6		5		4		3		2		1		0
+      RxCIE0	TxCIE0	UDRIE0	RXEN0	TXEN0	UCSZ02	RXB80	TXB80
+
+      RxCIE0: Receive complete int enable
+      TXCIE0: Transmit Complete int enable
+      UDRIE0: USART Data Register Empty int enable
+      RXEN0:	Rx enable
+      TXEN0:	Tx Enable
+      UCSZ02:	Character Size bit 2
+      RXB80:	Rx data bit 8
+      TXB80:	Tx data bit 8
+  */
+  switch (state) {
+  case WAIT_PACKET:
+    switch (rl) {
+    case PACK_GGA:					// found a new GGA packet  "G"
+      state = WAIT_PACK_GGA2;		// wait for the 2nd char
+      break;
+    case PACK_RMC:					// found a new RMS packet  "R"
+      state = WAIT_PACK_RMC2;		// wait for the 2nd char
+      break;
     }
-    // rh = UCSR0B;                       //USART control and Status Register 0 B
-    /* bit 	7		6		5		4		3		2		1		0
-        RxCIE0	TxCIE0	UDRIE0	RXEN0	TXEN0	UCSZ02	RXB80	TXB80
+    break;
 
-        RxCIE0: Receive complete int enable
-        TXCIE0: Transmit Complete int enable
-        UDRIE0: USART Data Register Empty int enable
-        RXEN0:	Rx enable
-        TXEN0:	Tx Enable
-        UCSZ02:	Character Size bit 2
-        RXB80:	Rx data bit 8
-        TXB80:	Tx data bit 8
-*/
-    switch (state)
-    {
-    case WAIT_PACKET:
-        switch (rl)
-        {
-        case PACK_GGA:					// found a new GGA packet  "G"
-            state = WAIT_PACK_GGA2;		// wait for the 2nd char
-            break;
-        case PACK_RMC:					// found a new RMS packet  "R"
-            state = WAIT_PACK_RMC2;		// wait for the 2nd char
-            break;
+  case WAIT_PACK_GGA2:				// received 2nd char  "G"
+    if (rl == PACK_GGA)
+      state = WAIT_PACK_GGA3;			// wait for 3rd character "A"
+    else
+      state = WAIT_PACKET;		// restart if not "G"
+    break;
+  case WAIT_PACK_GGA3:				// received 3rd char	"A"
+    if (rl == PACK_GGA3) {			// found
+      state = WAIT_VAL_END;		// wait for ","
+      rpack = PACK_GGA;
+      rval = 1;				//clear the buffer
+      for (i = 0; i < NB_LONG_BUF; i++)
+        ibuf[i] = 0;
+    } else
+      state = WAIT_PACKET;		// restart if not found
+    break;
+
+  case WAIT_PACK_RMC2:				// wait for 2nd char	"M"
+    if (rl == PACK_RMC2)
+      state = WAIT_PACK_RMC3;
+    else
+      state = WAIT_PACKET;		// restart if not found
+    break;
+  case WAIT_PACK_RMC3:				// wait for 3rd char	"C"
+    if (rl == PACK_RMC3) {
+      state = WAIT_VAL_END;		// wait for ","
+      rpack = PACK_RMC;
+      rval = 1;
+      for (i = 0; i < NB_LONG_BUF; i++)	// clear buffer
+        ibuf[i] = 0;
+    } else
+      state = WAIT_PACKET;		// restart if not found
+    break;
+
+  case WAIT_VAL_END:
+    if (rl == VAL_END) {		// "," nach "GGA" oder "RMC"
+      state = READ_VALUE;
+      rval = 1;
+      for (i = 0; i < NB_LONG_BUF; i++)	// clear buffer
+        ibuf[i] = 0;
+    } else
+      state = WAIT_PACKET;		// restart if not found
+    break;
+
+
+  case READ_VALUE:
+    switch (rl) {
+    case PACK_END:
+      if (rpack == PACK_GGA)
+        ggareceived = 1;
+      state = WAIT_PACKET;		// packet completed, wait for the next packet
+      break;
+    case VAL_END:					// comma found, value completed
+      rval++;						// and get next value
+      break;
+    default:						// store the char in the corresponding buffer
+      for (i = 0; i < NB_LONG_BUF; i++) {
+        // is it the expected value in the expected packet ?
+        if (rpack == xpack[i] && rval == xval[i] && ibuf[i] < LG_BUF - 1) {
+          // yes, store the char
+          rbuf[i] [ibuf[i]] = rl;
+          ibuf[i]++;
+          rbuf[i] [ibuf[i]] = 0;
         }
-        break;
-
-    case WAIT_PACK_GGA2:				// received 2nd char  "G"
-        if (rl == PACK_GGA)
-            state = WAIT_PACK_GGA3;			// wait for 3rd character "A"
-        else
-            state = WAIT_PACKET;		// restart if not "G"
-        break;
-    case WAIT_PACK_GGA3:				// received 3rd char	"A"
-        if (rl == PACK_GGA3)				// found
-        {
-            state = WAIT_VAL_END;		// wait for ","
-            rpack = PACK_GGA;
-            rval = 1;				//clear the buffer
-            for (i = 0; i < NB_LONG_BUF; i++)
-                ibuf[i] = 0;
-        }
-        else
-            state = WAIT_PACKET;		// restart if not found
-        break;
-
-    case WAIT_PACK_RMC2:				// wait for 2nd char	"M"
-        if (rl == PACK_RMC2)
-            state = WAIT_PACK_RMC3;
-        else
-            state = WAIT_PACKET;		// restart if not found
-        break;
-    case WAIT_PACK_RMC3:				// wait for 3rd char	"C"
-        if (rl == PACK_RMC3)
-        {
-            state = WAIT_VAL_END;		// wait for ","
-            rpack = PACK_RMC;
-            rval = 1;
-            for (i = 0; i < NB_LONG_BUF; i++)	// clear buffer
-                ibuf[i] = 0;
-        }
-        else
-            state = WAIT_PACKET;		// restart if not found
-        break;
-
-    case WAIT_VAL_END:
-        if (rl == VAL_END)			// "," nach "GGA" oder "RMC"
-        {
-            state = READ_VALUE;
-            rval = 1;
-            for (i = 0; i < NB_LONG_BUF; i++)	// clear buffer
-                ibuf[i] = 0;
-        }
-        else
-            state = WAIT_PACKET;		// restart if not found
-        break;
-
-
-    case READ_VALUE:
-        switch (rl)
-        {
-        case PACK_END:
-            if (rpack == PACK_GGA)
-                ggareceived = 1;
-            state = WAIT_PACKET;		// packet completed, wait for the next packet
-            break;
-        case VAL_END:					// comma found, value completed
-            rval++;						// and get next value
-            break;
-        default:						// store the char in the corresponding buffer
-            for (i = 0; i < NB_LONG_BUF; i++)
-            {							// is it the expected value in the expected packet ?
-                if (rpack == xpack[i] && rval == xval[i] && ibuf[i] < LG_BUF - 1)
-                {						// yes, store the char
-                    rbuf[i] [ibuf[i]] = rl;
-                    ibuf[i]++;
-                    rbuf[i] [ibuf[i]] = 0;
-                }
-            }
-            for (i = NB_LONG_BUF; i < NB_LONG_BUF+NB_SHORT_BUF; i++) {
-                if (rpack == xpack[i]   // is this the expected short value in the expected packet ?
-                        &&  rval == xval[i])
-                    sbuf[i-NB_LONG_BUF] = rl;      // yes, store the char
-            }
-        }
-        break;
+      }
+      for (i = NB_LONG_BUF; i < NB_LONG_BUF+NB_SHORT_BUF; i++) {
+        if (rpack == xpack[i]   // is this the expected short value in the expected packet ?
+            &&  rval == xval[i])
+          sbuf[i-NB_LONG_BUF] = rl;      // yes, store the char
+      }
     }
+    break;
+  }
 }
 #endif
 
 void NMEA_Init (void)
 {
 #ifndef SIMU
-    DDRE  &= ~(1 << DDE0);              // set RXD0 pin as input
-    PORTE &= ~(1 << PORTE0);            // disable pullup on RXD0 pin
+  DDRE  &= ~(1 << DDE0);              // set RXD0 pin as input
+  PORTE &= ~(1 << PORTE0);            // disable pullup on RXD0 pin
 
-    // switch (Telem_baud)
-    // {
-    // case 1:
+  // switch (Telem_baud)
+  // {
+  // case 1:
 #undef BAUD
 #define BAUD 4800
 #include <util/setbaud.h>
-    UBRR0H = UBRRH_VALUE;
-    UBRR0L = UBRRL_VALUE;
-    //    break;
-    // }
+  UBRR0H = UBRRH_VALUE;
+  UBRR0L = UBRRL_VALUE;
+  //    break;
+  // }
 
-    UCSR0A &= ~(1 << U2X0);			// disable double speed operation
-    // set 8N1
-    UCSR0B = 0|(0<< RXCIE0)|(0<<TXCIE0)|(0<<UDRIE0)|(0<<RXEN0)|(0<<TXEN0)|(0<<UCSZ02);
-    UCSR0C = 0|(1 << UCSZ01) | (1 << UCSZ00);
-    while ( UCSR0A & (1 << RXC0) )
-        UDR0;							// flush receive buffer
+  UCSR0A &= ~(1 << U2X0);			// disable double speed operation
+  // set 8N1
+  UCSR0B = 0|(0<< RXCIE0)|(0<<TXCIE0)|(0<<UDRIE0)|(0<<RXEN0)|(0<<TXEN0)|(0<<UCSZ02);
+  UCSR0C = 0|(1 << UCSZ01) | (1 << UCSZ00);
+  while ( UCSR0A & (1 << RXC0) )
+    UDR0;							// flush receive buffer
 #endif
-    home_alt = rel_alt = ggareceived =0;
-    gpstimer = -1;
-    beep_on=1;
+  home_alt = rel_alt = ggareceived =0;
+  gpstimer = -1;
+  beep_on=1;
 }
 
 // TX Capabilities are not required for NMEA
@@ -354,452 +344,433 @@ void NMEA_Init (void)
 
 void NMEA_DisableRXD (void)
 {
-    UCSR0B &= ~(1 << RXEN0);            // disable RX
-    UCSR0B &= ~(1 << RXCIE0);           // disable Interrupt
+  UCSR0B &= ~(1 << RXEN0);            // disable RX
+  UCSR0B &= ~(1 << RXCIE0);           // disable Interrupt
 }
 
 void NMEA_EnableRXD (void)
 {
-    for (i = 0; i < NB_LONG_BUF; i++)
-    {
-        ibuf[i] = 0;
-        rbuf[i][0] = 0;
-        xpack[i] = 0;
-        xval[i] = 0;
-    }
-    initval (LONG_BUF(2), PACK_GGA, TIM);	// always get UTC time for timer
-    state = WAIT_PACKET;					// wait for the next packet
-    UCSR0B |=  (1 << RXEN0);				// enable RX
-    UCSR0B |=  (1 << RXCIE0);				// enable Interrupt
+  for (i = 0; i < NB_LONG_BUF; i++) {
+    ibuf[i] = 0;
+    rbuf[i][0] = 0;
+    xpack[i] = 0;
+    xval[i] = 0;
+  }
+  initval (LONG_BUF(2), PACK_GGA, TIM);	// always get UTC time for timer
+  state = WAIT_PACKET;					// wait for the next packet
+  UCSR0B |=  (1 << RXEN0);				// enable RX
+  UCSR0B |=  (1 << RXCIE0);				// enable Interrupt
 }
 
 void menuTelemetryNMEA(uint8_t event)
 {
-    menuTelemetryNMEA1(event);
+  menuTelemetryNMEA1(event);
 }
 
 // Start of NMEA menus 1-4 <<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 void menuTelemetryNMEA1(uint8_t event)
 {
-    switch(event)						// new event received, branch accordingly
-    {
-    case EVT_KEY_BREAK(KEY_LEFT):
-        chainMenu(menuTelemetryNMEA4);
-        break;
-    case EVT_KEY_BREAK(KEY_RIGHT):
-        chainMenu(menuTelemetryNMEA2);
-        break;
-    case EVT_KEY_LONG(KEY_UP):
-        NMEA_DisableRXD();
-        chainMenu(menuStatisticsView);
-        break;
-    case EVT_KEY_LONG(KEY_DOWN):
-        NMEA_DisableRXD();
-        chainMenu(menuMainView);
-        break;
-    case EVT_KEY_FIRST(KEY_MENU):
-        if (show_timer == 0) {
-            show_timer = 1;
-            if (gpstimer <= 0)
-                gpstimer = bintime(rbuf[2]);
-        }
-        else
-            show_timer = 0;
-        break;
-    case EVT_KEY_FIRST(KEY_EXIT):
-        if ((show_timer == 1) &&(rbuf[2][0]))
-            gpstimer = bintime(rbuf[2]);		// get actual GPS time ->resets timer to 00:00
-        break;
-    }
-    /*
-    How to use:
+  switch(event) {					// new event received, branch accordingly
+  case EVT_KEY_BREAK(KEY_LEFT):
+    chainMenu(menuTelemetryNMEA4);
+    break;
+  case EVT_KEY_BREAK(KEY_RIGHT):
+    chainMenu(menuTelemetryNMEA2);
+    break;
+  case EVT_KEY_LONG(KEY_UP):
+    NMEA_DisableRXD();
+    chainMenu(menuStatisticsView);
+    break;
+  case EVT_KEY_LONG(KEY_DOWN):
+    NMEA_DisableRXD();
+    chainMenu(menuMainView);
+    break;
+  case EVT_KEY_FIRST(KEY_MENU):
+    if (show_timer == 0) {
+      show_timer = 1;
+      if (gpstimer <= 0)
+        gpstimer = bintime(rbuf[2]);
+    } else
+      show_timer = 0;
+    break;
+  case EVT_KEY_FIRST(KEY_EXIT):
+    if ((show_timer == 1) &&(rbuf[2][0]))
+      gpstimer = bintime(rbuf[2]);		// get actual GPS time ->resets timer to 00:00
+    break;
+  }
+  /*
+  How to use:
 
-    You choose the values to be displayed using the function:
+  You choose the values to be displayed using the function:
 
-      initval(<number>, <packet>, <value>);
-      -------------------------------------
+    initval(<number>, <packet>, <value>);
+    -------------------------------------
 
-    That means that "<value>" of "<packet>" is stored in the <number> buffer.
-    The first <number> is 0.
+  That means that "<value>" of "<packet>" is stored in the <number> buffer.
+  The first <number> is 0.
 
-    Here are the packet names and the associated value names:
+  Here are the packet names and the associated value names:
 
-    Position packet (beginning with "GGA"): "PACK_GGA"
-    value names: "TIM", "LAT", "NOS", "LON", "EOW", "FIX", "SAT", "DIL", "ALT", "MTR", "GEO", "MET", "AGE", "DIF",
+  Position packet (beginning with "GGA"): "PACK_GGA"
+  value names: "TIM", "LAT", "NOS", "LON", "EOW", "FIX", "SAT", "DIL", "ALT", "MTR", "GEO", "MET", "AGE", "DIF",
 
-    Required minimum packet (beginning with "RMC"): "PACK_RMC"
-       value names: "TIM", "NRW", "LT1", "NSO", "LN1", "EWE", "SOG", "COG", "DAT", "MAG", "EAW"
+  Required minimum packet (beginning with "RMC"): "PACK_RMC"
+     value names: "TIM", "NRW", "LT1", "NSO", "LN1", "EWE", "SOG", "COG", "DAT", "MAG", "EAW"
 
-    The buffers are accessed using the macro "VALSTR(<n>)", where "<n>" is "0"
-    for the first buffer, and "1" for the second buffer.
+  The buffers are accessed using the macro "VALSTR(<n>)", where "<n>" is "0"
+  for the first buffer, and "1" for the second buffer.
 
-    When a value is missing, it is replaced by the contents of val_unknown ("?").
-*/
+  When a value is missing, it is replaced by the contents of val_unknown ("?").
+  */
 
-    if (ggareceived)
-    {
-        gpstime=bintime(rbuf[2]);
-        ggareceived=0;
-    }
+  if (ggareceived) {
+    gpstime=bintime(rbuf[2]);
+    ggareceived=0;
+  }
 
-    initval (LONG_BUF(0), PACK_RMC, TIM);					// sets rbuf[0][.]
-    initval (LONG_BUF(1), PACK_RMC, DAT);					// sets rbuf[1][.]
-    initval (SHORT_BUF(0), PACK_RMC, NRW);				// sets sbuf[0]
-    initval (SHORT_BUF(2), PACK_GGA, SAT);				// -> sbuf[2]
+  initval (LONG_BUF(0), PACK_RMC, TIM);					// sets rbuf[0][.]
+  initval (LONG_BUF(1), PACK_RMC, DAT);					// sets rbuf[1][.]
+  initval (SHORT_BUF(0), PACK_RMC, NRW);				// sets sbuf[0]
+  initval (SHORT_BUF(2), PACK_GGA, SAT);				// -> sbuf[2]
 
 
-    title ('1');
-    lcdDrawText        (   2*FW,   1*FH, PSTR("UTC-Time      Sat"));
+  title ('1');
+  lcdDrawText        (   2*FW,   1*FH, PSTR("UTC-Time      Sat"));
 
-    if (rbuf[0][0]) {								// show always if data have been received
-	  lcdDrawCharAtt   (  19*FW,   1*FH, sbuf[2], 0);				// satellites in view
-        lcdDrawSizedTextAtt  (   2*FW,   2*FH, &rbuf[0][0], 2, APSIZE);		// hours
-        lcdDrawCharAtt   (   6*FW,   2*FH, ':', DBLSIZE);			// ":"
-        lcdDrawSizedTextAtt  (   8*FW,   2*FH, &rbuf[0][2], 2, APSIZE);		// minutes
-        lcdDrawCharAtt   (  12*FW,   2*FH, ':', DBLSIZE);			// ":"
-        lcdDrawSizedTextAtt  (  14*FW,   2*FH, &rbuf[0][4], 2, APSIZE);		// seconds
-    }
-    else
-        lcdDrawTextAtt   (   2*FW,   2*FH, val_unknown, APSIZE);		// "?"
+  if (rbuf[0][0]) {								// show always if data have been received
+    lcdDrawCharAtt   (  19*FW,   1*FH, sbuf[2], 0);				// satellites in view
+    lcdDrawSizedTextAtt  (   2*FW,   2*FH, &rbuf[0][0], 2, APSIZE);		// hours
+    lcdDrawCharAtt   (   6*FW,   2*FH, ':', DBLSIZE);			// ":"
+    lcdDrawSizedTextAtt  (   8*FW,   2*FH, &rbuf[0][2], 2, APSIZE);		// minutes
+    lcdDrawCharAtt   (  12*FW,   2*FH, ':', DBLSIZE);			// ":"
+    lcdDrawSizedTextAtt  (  14*FW,   2*FH, &rbuf[0][4], 2, APSIZE);		// seconds
+  } else
+    lcdDrawTextAtt   (   2*FW,   2*FH, val_unknown, APSIZE);		// "?"
 
-    if ((show_timer == 1) && rbuf[0][0])  {					// show the Timer when data have been received
+  if ((show_timer == 1) && rbuf[0][0])  {					// show the Timer when data have been received
 
-        lcdDrawText    (   2*FW,   4*FH, PSTR("Timer"));			// display "Timer"
-        putsTimer   (   5*FW,   5*FH, (gpstime-gpstimer), DBLSIZE, DBLSIZE);	// display difference as mm:ss
-    }
-    else
-    {
-        lcdDrawText      ( 2*FW,   4*FH, PSTR("Date"));			// show the UTC Date
+    lcdDrawText    (   2*FW,   4*FH, PSTR("Timer"));			// display "Timer"
+    putsTimer   (   5*FW,   5*FH, (gpstime-gpstimer), DBLSIZE, DBLSIZE);	// display difference as mm:ss
+  } else {
+    lcdDrawText      ( 2*FW,   4*FH, PSTR("Date"));			// show the UTC Date
 
-        if (rbuf[1][0])	{
-            lcdDrawSizedTextAtt( 2*FW,   5*FH, &rbuf[1][0], 2, APSIZE);		// year
-            lcdDrawCharAtt ( 6*FW,   5*FH, '/', DBLSIZE);			// "/"
-            lcdDrawSizedTextAtt( 8*FW,   5*FH, &rbuf[1][2], 2, APSIZE);		// month
-            lcdDrawCharAtt (12*FW,   5*FH, '/', DBLSIZE);			// "/"
-            lcdDrawSizedTextAtt(14*FW,   5*FH, &rbuf[1][4], 2, APSIZE);		// day
-        }
-        else
-            lcdDrawTextAtt   (   2*FW,   5*FH, val_unknown, APSIZE);		// "?"
-    }
+    if (rbuf[1][0])	{
+      lcdDrawSizedTextAtt( 2*FW,   5*FH, &rbuf[1][0], 2, APSIZE);		// year
+      lcdDrawCharAtt ( 6*FW,   5*FH, '/', DBLSIZE);			// "/"
+      lcdDrawSizedTextAtt( 8*FW,   5*FH, &rbuf[1][2], 2, APSIZE);		// month
+      lcdDrawCharAtt (12*FW,   5*FH, '/', DBLSIZE);			// "/"
+      lcdDrawSizedTextAtt(14*FW,   5*FH, &rbuf[1][4], 2, APSIZE);		// day
+    } else
+      lcdDrawTextAtt   (   2*FW,   5*FH, val_unknown, APSIZE);		// "?"
+  }
 }
 
 
 
 void menuTelemetryNMEA2(uint8_t event)
 {
-    static uint8_t ignore_break;
+  static uint8_t ignore_break;
 
 
-    switch(event)
-    {
+  switch(event) {
 // Menu navigation
-    case EVT_KEY_BREAK(KEY_LEFT):
-        if (ignore_break==1)  {
-		    ignore_break=0;
-                break;}
-        chainMenu(menuTelemetryNMEA1);
-        break;
-    case EVT_KEY_BREAK(KEY_RIGHT):
-          if (ignore_break==1) {
-		     ignore_break=0;
-                 break;}
-        chainMenu(menuTelemetryNMEA3);
-        break;
-    case EVT_KEY_LONG(KEY_UP):
-        NMEA_DisableRXD();
-        chainMenu(menuStatisticsView);
-        break;
-    case EVT_KEY_LONG(KEY_DOWN):
-        NMEA_DisableRXD();
-        chainMenu(menuMainView);
-        break;
+  case EVT_KEY_BREAK(KEY_LEFT):
+    if (ignore_break==1)  {
+      ignore_break=0;
+      break;
+    }
+    chainMenu(menuTelemetryNMEA1);
+    break;
+  case EVT_KEY_BREAK(KEY_RIGHT):
+    if (ignore_break==1) {
+      ignore_break=0;
+      break;
+    }
+    chainMenu(menuTelemetryNMEA3);
+    break;
+  case EVT_KEY_LONG(KEY_UP):
+    NMEA_DisableRXD();
+    chainMenu(menuStatisticsView);
+    break;
+  case EVT_KEY_LONG(KEY_DOWN):
+    NMEA_DisableRXD();
+    chainMenu(menuMainView);
+    break;
 
 //Beep setting
-    case EVT_KEY_LONG(KEY_LEFT):
-	ignore_break = 1;
-        beep_on=0;
-        AUDIO_MENUS(); // short blip
-        break;
-    case EVT_KEY_LONG(KEY_RIGHT):
-	  ignore_break = 1;
-        beep_on=1;
-        AUDIO_MENUS(); 	// short blip
-        break;
+  case EVT_KEY_LONG(KEY_LEFT):
+    ignore_break = 1;
+    beep_on=0;
+    AUDIO_MENUS(); // short blip
+    break;
+  case EVT_KEY_LONG(KEY_RIGHT):
+    ignore_break = 1;
+    beep_on=1;
+    AUDIO_MENUS(); 	// short blip
+    break;
 
 //Altitude setting
-	        /*      Set a home position for altitude. Normally used before starting
-      	  the model when GPS has got a fix.
-	        MENU[short]         		-->	alternating relative and absolute altitudes
-		  MENU[long]			-->   set home altitude to current
-		  EXIT[long]			-->   reset max altitude to 0
+  /*      Set a home position for altitude. Normally used before starting
+  the model when GPS has got a fix.
+  MENU[short]         		-->	alternating relative and absolute altitudes
+  MENU[long]			-->   set home altitude to current
+  EXIT[long]			-->   reset max altitude to 0
 
-		  Switch ON / OFF short beep with positive lift
-		  LEFT[long]			-->	Positive lift Beep off
-		  RIGHT[long]			-->	Positive lift Beep on		*/
+  Switch ON / OFF short beep with positive lift
+  LEFT[long]			-->	Positive lift Beep off
+  RIGHT[long]			-->	Positive lift Beep on		*/
 
 
-    case EVT_KEY_BREAK(KEY_MENU):
-        if (ignore_break==1)  {
-		    ignore_break=0;
-                break;}
-
-        if (!home_alt)				// umschalten zwischen absoluter und relativer H�he
-            home_alt = save_alt;
-        else
-            home_alt=0;
-
-	  if (save_alt==0)			// wenn noch keine Home H�he gesetzt war, wird sie es jetzt, weil sonst
-							// das Umschalten keine Wirkung zeigt
-	      save_alt = home_alt = abs_alt;			// absolute altitude
-        AUDIO_MENUS();				// short blip for non negative lift
-        break;
-
-    case EVT_KEY_LONG(KEY_MENU):
-	ignore_break = 1;
-        save_alt = home_alt = abs_alt;	// Home altitude auf aktuelle absolute H�he setzen
-        AUDIO_MENUS(); 	// short blip for non negative lift
-        break;
-
-    case EVT_KEY_LONG(KEY_EXIT):		// Max Altitude auf 0 zur�cksetzen
-	max_alt=0;
-        AUDIO_MENUS(); 						// short blip for non negative lift
-        break;
-
+  case EVT_KEY_BREAK(KEY_MENU):
+    if (ignore_break==1)  {
+      ignore_break=0;
+      break;
     }
-    title ('2');
 
-    lcdDrawText         (   1*FW,   1*FH, PSTR("Altitude Sat   Max"));
-
-
-    lcdDrawText         (   16*FW,   3*FH, PSTR("Home"));
-    lcdDrawText         (   2*FW,   4*FH, PSTR("Lift") );
-
-    lcdDrawText         (   16*FW,   5*FH, PSTR("Beep") );
-    if (beep_on==1)
-        lcdDrawText         (   18*FW,   6*FH, PSTR("ON") );
-
+    if (!home_alt)				// umschalten zwischen absoluter und relativer H�he
+      home_alt = save_alt;
     else
-        lcdDrawText         (   17*FW,   6*FH, PSTR("OFF") );
+      home_alt=0;
+
+    if (save_alt==0)			// wenn noch keine Home H�he gesetzt war, wird sie es jetzt, weil sonst
+      // das Umschalten keine Wirkung zeigt
+      save_alt = home_alt = abs_alt;			// absolute altitude
+    AUDIO_MENUS();				// short blip for non negative lift
+    break;
+
+  case EVT_KEY_LONG(KEY_MENU):
+    ignore_break = 1;
+    save_alt = home_alt = abs_alt;	// Home altitude auf aktuelle absolute H�he setzen
+    AUDIO_MENUS(); 	// short blip for non negative lift
+    break;
+
+  case EVT_KEY_LONG(KEY_EXIT):		// Max Altitude auf 0 zur�cksetzen
+    max_alt=0;
+    AUDIO_MENUS(); 						// short blip for non negative lift
+    break;
+
+  }
+  title ('2');
+
+  lcdDrawText         (   1*FW,   1*FH, PSTR("Altitude Sat   Max"));
 
 
-    lcdDrawNumberNAtt(  20*FW,   4*FH, home_alt, PREC1, 6);		// display home_alt, small characters
+  lcdDrawText         (   16*FW,   3*FH, PSTR("Home"));
+  lcdDrawText         (   2*FW,   4*FH, PSTR("Lift") );
 
-    if (xpack[0] != PACK_GGA)
-        ggareceived = 0;
+  lcdDrawText         (   16*FW,   5*FH, PSTR("Beep") );
+  if (beep_on==1)
+    lcdDrawText         (   18*FW,   6*FH, PSTR("ON") );
 
-    initval (LONG_BUF(0), PACK_GGA, ALT);				// -> rbuf[0]
-    initval (LONG_BUF(1), PACK_GGA, GEO);				// -> rbuf[1]
-    initval (SHORT_BUF(0), PACK_GGA, MTR);			// -> sbuf[0]
-    initval (SHORT_BUF(1), PACK_GGA, FIX);			// -> sbuf[1]
-    initval (SHORT_BUF(2), PACK_GGA, SAT);			// -> sbuf[2]
-
-    if (ggareceived)   // at least one second has elapsed
-    {
-        ggareceived = 0;
-
-        /*      ALT and GEO have one single digit following the decimal point
-        e.g. ALT=359.7   GEO=47.7
-        The altitude over mean sea level is to be calculated as:
-        altitude minus geoidal separation
-        */
-
-        abs_alt = binary(rbuf[0]) - binary(rbuf[1]);		// alt - geo  that is absolute altitude
-
-	  if (abs_alt> max_alt) max_alt=abs_alt;			// hold max altitude relative to 0 m
-
-	  rel_alt=abs_alt - home_alt;					// alt - geo - home  altitude relative to home
+  else
+    lcdDrawText         (   17*FW,   6*FH, PSTR("OFF") );
 
 
-        lift_alt = rel_alt - prev_alt;
-        prev_alt = rel_alt;
+  lcdDrawNumberNAtt(  20*FW,   4*FH, home_alt, PREC1, 6);		// display home_alt, small characters
 
-        if ((lift_alt >= 0) && (sbuf[1]>0x30) && beep_on)			// GGA record must have Fix> 0
-            AUDIO_MENUS(); 						// short blip for non negative lift
+  if (xpack[0] != PACK_GGA)
+    ggareceived = 0;
 
+  initval (LONG_BUF(0), PACK_GGA, ALT);				// -> rbuf[0]
+  initval (LONG_BUF(1), PACK_GGA, GEO);				// -> rbuf[1]
+  initval (SHORT_BUF(0), PACK_GGA, MTR);			// -> sbuf[0]
+  initval (SHORT_BUF(1), PACK_GGA, FIX);			// -> sbuf[1]
+  initval (SHORT_BUF(2), PACK_GGA, SAT);			// -> sbuf[2]
+
+  if (ggareceived) { // at least one second has elapsed
+    ggareceived = 0;
+
+    /*      ALT and GEO have one single digit following the decimal point
+    e.g. ALT=359.7   GEO=47.7
+    The altitude over mean sea level is to be calculated as:
+    altitude minus geoidal separation
+    */
+
+    abs_alt = binary(rbuf[0]) - binary(rbuf[1]);		// alt - geo  that is absolute altitude
+
+    if (abs_alt> max_alt) max_alt=abs_alt;			// hold max altitude relative to 0 m
+
+    rel_alt=abs_alt - home_alt;					// alt - geo - home  altitude relative to home
+
+
+    lift_alt = rel_alt - prev_alt;
+    prev_alt = rel_alt;
+
+    if ((lift_alt >= 0) && (sbuf[1]>0x30) && beep_on)			// GGA record must have Fix> 0
+      AUDIO_MENUS(); 						// short blip for non negative lift
+
+  }
+
+  if (rbuf[0][0])	 {
+    lcdDrawCharAtt   (  13*FW,   1*FH, sbuf[2], 0);				// satellites in view
+
+    if (sbuf[1]>0x30)	 {							// & GGA has FIX > 0
+
+
+      lcdDrawNumberNAtt(  10*FW,   2*FH, rel_alt, DBLSIZE|PREC1, 7);	// altitude
+
+      if (home_alt >= 0)
+        lcdDrawNumberNAtt(  20*FW,   2*FH, (max_alt-home_alt), PREC1, 6);	// display small characters
+      else
+        lcdDrawNumberNAtt(  20*FW,   2*FH, max_alt, PREC1, 6);			// display small characters
+
+
+      lcdDrawCharAtt   (  11*FW,   3*FH, sbuf[0], 0);				// dimension [m]
+
+      lcdDrawNumberNAtt(  10*FW,   5*FH, lift_alt, DBLSIZE|PREC1, 6);	// lift
+      lcdDrawCharAtt   (  11*FW,   6*FH, sbuf[0], 0);				// dimension [m/S]
+      lcdDrawText    (  12*FW,   6*FH, PSTR("/S") );
     }
-
-    if (rbuf[0][0])	 {
-	  lcdDrawCharAtt   (  13*FW,   1*FH, sbuf[2], 0);				// satellites in view
-
-	  if (sbuf[1]>0x30)	 {							// & GGA has FIX > 0
-
-
-	        lcdDrawNumberNAtt(  10*FW,   2*FH, rel_alt, DBLSIZE|PREC1, 7);	// altitude
-
-		  if (home_alt >= 0)
-			  lcdDrawNumberNAtt(  20*FW,   2*FH, (max_alt-home_alt), PREC1, 6);	// display small characters
-		  else
-			  lcdDrawNumberNAtt(  20*FW,   2*FH, max_alt, PREC1, 6);			// display small characters
-
-
-	        lcdDrawCharAtt   (  11*FW,   3*FH, sbuf[0], 0);				// dimension [m]
-
-      	  lcdDrawNumberNAtt(  10*FW,   5*FH, lift_alt, DBLSIZE|PREC1, 6);	// lift
-	        lcdDrawCharAtt   (  11*FW,   6*FH, sbuf[0], 0);				// dimension [m/S]
-      	  lcdDrawText    (  12*FW,   6*FH, PSTR("/S") );
-		}
-    }
-    else {
-        lcdDrawTextAtt    (   2*FW,   2*FH, val_unknown, APSIZE);
-        lcdDrawTextAtt    (   2*FW,   5*FH, val_unknown, APSIZE);
-    }
+  } else {
+    lcdDrawTextAtt    (   2*FW,   2*FH, val_unknown, APSIZE);
+    lcdDrawTextAtt    (   2*FW,   5*FH, val_unknown, APSIZE);
+  }
 }
 
 
 
 void menuTelemetryNMEA3(uint8_t event)
 {
-    switch(event)
-    {
-    case EVT_KEY_BREAK(KEY_LEFT):
-        chainMenu(menuTelemetryNMEA2);
+  switch(event) {
+  case EVT_KEY_BREAK(KEY_LEFT):
+    chainMenu(menuTelemetryNMEA2);
+    break;
+  case EVT_KEY_BREAK(KEY_RIGHT):
+    chainMenu(menuTelemetryNMEA4);
+    break;
+  case EVT_KEY_LONG(KEY_UP):
+    NMEA_DisableRXD();
+    chainMenu(menuStatisticsView);
+    break;
+  case EVT_KEY_LONG(KEY_DOWN):
+    NMEA_DisableRXD();
+    chainMenu(menuMainView);
+    break;
+  }
+  initval (LONG_BUF(0), PACK_RMC, SOG);
+  initval (LONG_BUF(1), PACK_RMC, COG);
+  initval (SHORT_BUF(2), PACK_GGA, SAT);			// -> sbuf[2]
+  title ('3');
+  lcdDrawText        (   0*FW,   1*FH, PSTR("GrndSpeed[knt]  Sat"));
+  if (rbuf[0][0]) {			// if first position is 00, buffer is empty, taken as false
+    // any other value is true
+    uint8_t i = 0;
+    while (rbuf[0][i]) {
+      if (rbuf[0][i] == '.') {	// find decimal point and insert End of String 3 positions higher
+        rbuf[0][i+3] = 0;
         break;
-    case EVT_KEY_BREAK(KEY_RIGHT):
-        chainMenu(menuTelemetryNMEA4);
-        break;
-    case EVT_KEY_LONG(KEY_UP):
-        NMEA_DisableRXD();
-        chainMenu(menuStatisticsView);
-        break;
-    case EVT_KEY_LONG(KEY_DOWN):
-        NMEA_DisableRXD();
-        chainMenu(menuMainView);
-        break;
+      }
+      i++;
     }
-    initval (LONG_BUF(0), PACK_RMC, SOG);
-    initval (LONG_BUF(1), PACK_RMC, COG);
-    initval (SHORT_BUF(2), PACK_GGA, SAT);			// -> sbuf[2]
-    title ('3');
-    lcdDrawText        (   0*FW,   1*FH, PSTR("GrndSpeed[knt]  Sat"));
-    if (rbuf[0][0])				// if first position is 00, buffer is empty, taken as false
-    {							// any other value is true
-        uint8_t i = 0;
-        while (rbuf[0][i])
-        {
-            if (rbuf[0][i] == '.')		// find decimal point and insert End of String 3 positions higher
-            {
-                rbuf[0][i+3] = 0;
-                break;
-            }
-            i++;
-        }
-        lcdDrawTextAtt   (   2*FW,   2*FH, VALSTR(0), APSIZE);		// speed over ground
-    }
-    else
-        lcdDrawTextAtt   (   2*FW,   2*FH, val_unknown, APSIZE);
+    lcdDrawTextAtt   (   2*FW,   2*FH, VALSTR(0), APSIZE);		// speed over ground
+  } else
+    lcdDrawTextAtt   (   2*FW,   2*FH, val_unknown, APSIZE);
 
-    lcdDrawCharAtt   (  19*FW,   1*FH, sbuf[2], 0);			// satellites in view
+  lcdDrawCharAtt   (  19*FW,   1*FH, sbuf[2], 0);			// satellites in view
 
-    lcdDrawText        (   1*FW,   4*FH, PSTR("Course over ground") );
-    lcdDrawTextAtt       (   2*FW,   5*FH, VALSTR(1), APSIZE);		// course over ground
+  lcdDrawText        (   1*FW,   4*FH, PSTR("Course over ground") );
+  lcdDrawTextAtt       (   2*FW,   5*FH, VALSTR(1), APSIZE);		// course over ground
 }
 
 
 
 void menuTelemetryNMEA4(uint8_t event)
 {
-    switch(event)						// new event received, branch accordingly
-    {
-    case EVT_KEY_BREAK(KEY_LEFT):
-        chainMenu(menuTelemetryNMEA3);
-        break;
-    case EVT_KEY_BREAK(KEY_RIGHT):
-        chainMenu(menuTelemetryNMEA1);
-        break;
-    case EVT_KEY_LONG(KEY_UP):
-        NMEA_DisableRXD();
-        chainMenu(menuStatisticsView);
-        break;
-    case EVT_KEY_LONG(KEY_DOWN):
-        NMEA_DisableRXD();
-        chainMenu(menuMainView);
-        break;
-    }
-    // expecting LAT value in POS packet to be stored in the first buffer
-    initval (LONG_BUF(0), PACK_GGA, LAT);
-    initval (SHORT_BUF(0), PACK_GGA, NOS);
-    // and LON value in POS packet stored in the second buffer
-    initval (LONG_BUF(1), PACK_GGA, LON);
-    initval (SHORT_BUF(1), PACK_GGA, EOW);
-    initval (SHORT_BUF(2), PACK_GGA, SAT);			// -> sbuf[2]
-    // title of the screen
-    title ('4');
-    lcdDrawText        (   3*FW,   1*FH, PSTR("Latitude     Sat"));    // line 1 column 3
-    // first buffer into line 2 column 2
-    if (rbuf[0][0])
-    {
-        lcdDrawCharAtt   (  13*FW,   1*FH, sbuf[0], 0);          // N or S
-	  lcdDrawCharAtt   (  19*FW,   1*FH, sbuf[2], 0);				// satellites in view
-        lcdDrawSizedTextAtt  (   1*FW,   2*FH, rbuf[0], 2, APSIZE);
-        lcdDrawCharAtt   (   5*FW,   2*FH, '@',0);
-        lcdDrawTextAtt   (   6*FW,   2*FH, &rbuf[0][2], APSIZE);	// minutes with small decimal point
-    }
-    else
-        lcdDrawTextAtt   (   2*FW,   2*FH, val_unknown, APSIZE);
-    lcdDrawText        (   3*FW,   4*FH, PSTR("Longitude"));   // line 4 column 5
-    // second buffer into line 5 column 2
-    if (rbuf[0][0])
-    {
-        lcdDrawCharAtt   (  13*FW,   4*FH, sbuf[1], 0);          // E or W
-        lcdDrawSizedTextAtt  (   0*FW,   5*FH, rbuf[1], 3, APSIZE);
-        lcdDrawCharAtt   (   6*FW,   5*FH, '@',0);
-        lcdDrawTextAtt   (   7*FW,   5*FH, &rbuf[1][3], APSIZE);	// minutes with small decimal point
+  switch(event) {					// new event received, branch accordingly
+  case EVT_KEY_BREAK(KEY_LEFT):
+    chainMenu(menuTelemetryNMEA3);
+    break;
+  case EVT_KEY_BREAK(KEY_RIGHT):
+    chainMenu(menuTelemetryNMEA1);
+    break;
+  case EVT_KEY_LONG(KEY_UP):
+    NMEA_DisableRXD();
+    chainMenu(menuStatisticsView);
+    break;
+  case EVT_KEY_LONG(KEY_DOWN):
+    NMEA_DisableRXD();
+    chainMenu(menuMainView);
+    break;
+  }
+  // expecting LAT value in POS packet to be stored in the first buffer
+  initval (LONG_BUF(0), PACK_GGA, LAT);
+  initval (SHORT_BUF(0), PACK_GGA, NOS);
+  // and LON value in POS packet stored in the second buffer
+  initval (LONG_BUF(1), PACK_GGA, LON);
+  initval (SHORT_BUF(1), PACK_GGA, EOW);
+  initval (SHORT_BUF(2), PACK_GGA, SAT);			// -> sbuf[2]
+  // title of the screen
+  title ('4');
+  lcdDrawText        (   3*FW,   1*FH, PSTR("Latitude     Sat"));    // line 1 column 3
+  // first buffer into line 2 column 2
+  if (rbuf[0][0]) {
+    lcdDrawCharAtt   (  13*FW,   1*FH, sbuf[0], 0);          // N or S
+    lcdDrawCharAtt   (  19*FW,   1*FH, sbuf[2], 0);				// satellites in view
+    lcdDrawSizedTextAtt  (   1*FW,   2*FH, rbuf[0], 2, APSIZE);
+    lcdDrawCharAtt   (   5*FW,   2*FH, '@',0);
+    lcdDrawTextAtt   (   6*FW,   2*FH, &rbuf[0][2], APSIZE);	// minutes with small decimal point
+  } else
+    lcdDrawTextAtt   (   2*FW,   2*FH, val_unknown, APSIZE);
+  lcdDrawText        (   3*FW,   4*FH, PSTR("Longitude"));   // line 4 column 5
+  // second buffer into line 5 column 2
+  if (rbuf[0][0]) {
+    lcdDrawCharAtt   (  13*FW,   4*FH, sbuf[1], 0);          // E or W
+    lcdDrawSizedTextAtt  (   0*FW,   5*FH, rbuf[1], 3, APSIZE);
+    lcdDrawCharAtt   (   6*FW,   5*FH, '@',0);
+    lcdDrawTextAtt   (   7*FW,   5*FH, &rbuf[1][3], APSIZE);	// minutes with small decimal point
 
-    }
-    else
-        lcdDrawTextAtt   (   2*FW,   5*FH, val_unknown, APSIZE);
+  } else
+    lcdDrawTextAtt   (   2*FW,   5*FH, val_unknown, APSIZE);
 }
 
 void title(char x)
 {
-    lcdDrawTextAtt (0*FW, 0*FH, PSTR("  GPS NMEA data ?/4  "), INVERS);
-    lcdDrawCharAtt(16*FW, 0*FH, x, INVERS);
+  lcdDrawTextAtt (0*FW, 0*FH, PSTR("  GPS NMEA data ?/4  "), INVERS);
+  lcdDrawCharAtt(16*FW, 0*FH, x, INVERS);
 }
 
 void initval(uint8_t num, uint8_t pack, uint8_t val)
 {
-    if (xpack[num] != pack || xval[num] != val)
-    {
-        if (num < NB_LONG_BUF) {
-            ibuf[num] = rbuf[num][0] = 0;
-        }
-        else
-            sbuf[num-NB_LONG_BUF] = '?';
-        xpack[num] = pack;
-        xval[num] = val;
-        state = WAIT_PACKET;			// synchronize to the next packet
-    }
+  if (xpack[num] != pack || xval[num] != val) {
+    if (num < NB_LONG_BUF) {
+      ibuf[num] = rbuf[num][0] = 0;
+    } else
+      sbuf[num-NB_LONG_BUF] = '?';
+    xpack[num] = pack;
+    xval[num] = val;
+    state = WAIT_PACKET;			// synchronize to the next packet
+  }
 }
 
 int32_t binary (char *str)
 {
-    int32_t numval = 0;
-    uint8_t sign = 0;
+  int32_t numval = 0;
+  uint8_t sign = 0;
 
-    while (*str) {
-        if (*str == '-')
-            sign = 1;
-        else if (*str >= '0' && *str <= '9')
-            numval = numval * 10 + (*str - '0');
-        str++;
-    }
-    if (sign)
-        numval = -numval;
-    return numval;
+  while (*str) {
+    if (*str == '-')
+      sign = 1;
+    else if (*str >= '0' && *str <= '9')
+      numval = numval * 10 + (*str - '0');
+    str++;
+  }
+  if (sign)
+    numval = -numval;
+  return numval;
 }
 
 int32_t bintime (char *str)
 {
-    int32_t numval=0;
+  int32_t numval=0;
 
-    if (*str) {
-        numval = ((str[0] - '0') * 10l) + (str[1] - '0');					// hours
-        numval = numval * 3600l;
-        numval = numval + (((  (str[2] - '0') * 10l) + (str[3] - '0')) * 60l);	// minutes
-        numval = numval + ((str[4] - '0') * 10l) + (str[5] - '0');			// seconds
-    }
-    return numval;
+  if (*str) {
+    numval = ((str[0] - '0') * 10l) + (str[1] - '0');					// hours
+    numval = numval * 3600l;
+    numval = numval + (((  (str[2] - '0') * 10l) + (str[3] - '0')) * 60l);	// minutes
+    numval = numval + ((str[4] - '0') * 10l) + (str[5] - '0');			// seconds
+  }
+  return numval;
 }
 /*
 Without NMEA:

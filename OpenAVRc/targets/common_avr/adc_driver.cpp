@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -84,23 +84,22 @@ void getADC_bandgap()
   if (s_bgCheck == 0) { // 8x over-sample (256/32=8)
     BandGap = s_bgSum+ADC;
     s_bgSum = 0;
-  }
-  else {
+  } else {
     s_bgSum += ADC;
   }
   ADCSRB |= (1 << MUX5);
 #elif defined(PCBMEGA2560)
   BandGap = 2000;
 #else
-/*
-  MCUCR|=0x28;  // enable Sleep (bit5) enable ADC Noise Reduction (bit2)
-  asm volatile(" sleep        \n\t");  // if _SLEEP() is not defined use this
-  // ADCSRA|=0x40;
-  while ((ADCSRA & 0x10)==0);
-  ADCSRA|=0x10; // take sample  clear flag?
-  BandGap=ADC;
-  MCUCR&=0x08;  // disable sleep
-  */
+  /*
+    MCUCR|=0x28;  // enable Sleep (bit5) enable ADC Noise Reduction (bit2)
+    asm volatile(" sleep        \n\t");  // if _SLEEP() is not defined use this
+    // ADCSRA|=0x40;
+    while ((ADCSRA & 0x10)==0);
+    ADCSRA|=0x10; // take sample  clear flag?
+    BandGap=ADC;
+    MCUCR&=0x08;  // disable sleep
+    */
 
   ADCSRA |= (1 << ADSC);
   while (ADCSRA & (1 << ADSC));

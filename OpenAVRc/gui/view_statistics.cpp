@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -30,15 +30,14 @@ void menuStatisticsView(uint8_t event)
 {
   TITLE(STR_MENUSTAT);
 
-  switch(event)
-  {
-    case EVT_KEY_FIRST(KEY_UP):
-      chainMenu(menuStatisticsDebug);
-      break;
+  switch(event) {
+  case EVT_KEY_FIRST(KEY_UP):
+    chainMenu(menuStatisticsDebug);
+    break;
 
-    case EVT_KEY_FIRST(KEY_EXIT):
-      chainMenu(menuMainView);
-      break;
+  case EVT_KEY_FIRST(KEY_EXIT):
+    chainMenu(menuMainView);
+    break;
   }
 
   lcdDrawText(  1*FW, FH*0, STR_TOTTM1TM2THRTHP);
@@ -69,36 +68,35 @@ void menuStatisticsView(uint8_t event)
 #endif
 }
 
-  #define MENU_DEBUG_COL1_OFS   (14*FW)
+#define MENU_DEBUG_COL1_OFS   (14*FW)
 
 void menuStatisticsDebug(uint8_t event)
 {
   TITLE(STR_MENUDEBUG);
 
-  switch(event)
-  {
-    case EVT_KEY_FIRST(KEY_ENTER):
-      g_tmr1Latency_min = 0xff;
-      g_tmr1Latency_max = 0;
-      maxMixerDuration  = 0;
-      AUDIO_KEYPAD_UP();
-      break;
+  switch(event) {
+  case EVT_KEY_FIRST(KEY_ENTER):
+    g_tmr1Latency_min = 0xff;
+    g_tmr1Latency_max = 0;
+    maxMixerDuration  = 0;
+    AUDIO_KEYPAD_UP();
+    break;
 
-    case EVT_KEY_FIRST(KEY_DOWN):
-      chainMenu(menuStatisticsView);
-      break;
-    case EVT_KEY_FIRST(KEY_EXIT):
-      chainMenu(menuMainView);
-      break;
+  case EVT_KEY_FIRST(KEY_DOWN):
+    chainMenu(menuStatisticsView);
+    break;
+  case EVT_KEY_FIRST(KEY_EXIT):
+    chainMenu(menuMainView);
+    break;
   }
 
 
   lcdDrawTextLeft(1*FH, STR_TMR1LATMAXUS);
-  lcd_outdez8(MENU_DEBUG_COL1_OFS , 1*FH, g_tmr1Latency_max/2 );
+  lcd_outdez8(MENU_DEBUG_COL1_OFS, 1*FH, g_tmr1Latency_max/2 );
   lcdDrawTextLeft(2*FH, STR_TMR1LATMINUS);
-  lcd_outdez8(MENU_DEBUG_COL1_OFS , 2*FH, g_tmr1Latency_min/2 );
+  lcd_outdez8(MENU_DEBUG_COL1_OFS, 2*FH, g_tmr1Latency_min/2 );
   lcdDrawTextLeft(3*FH, STR_TMR1JITTERUS);
-  lcd_outdez8(MENU_DEBUG_COL1_OFS , 3*FH, (g_tmr1Latency_max - g_tmr1Latency_min) /2 );
+  lcd_outdez8(MENU_DEBUG_COL1_OFS, 3*FH, (g_tmr1Latency_max - g_tmr1Latency_min) /2 );
   lcdDrawTextLeft(4*FH, STR_TMIXMAXMS);
   lcdDrawNumberAttUnit(MENU_DEBUG_COL1_OFS, 4*FH, DURATION_MS_PREC2(maxMixerDuration), PREC2);
   lcdDrawTextLeft(5*FH, STR_FREESTACKMINB);

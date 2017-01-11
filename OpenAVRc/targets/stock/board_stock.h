@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -102,31 +102,31 @@ void readKeysAndTrims();
 #define TRIMS_GPIO_PIN_RHR         (1<<0)
 
 #if defined(CPUM2561)
-  #define TIMER_16KHZ_VECT         TIMER2_OVF_vect
-  #define COUNTER_16KHZ            TCNT2
-  #define TIMER_10MS_VECT          TIMER2_COMPA_vect
-  #define TIMER_10MS_COMPVAL       OCR2A
-  #define PAUSE_10MS_INTERRUPT()   TIMSK2 &= ~(1<<OCIE2A)
-  #define RESUME_10MS_INTERRUPT()  TIMSK2 |= (1<<OCIE2A)
-  #define PAUSE_PPMIN_INTERRUPT()  TIMSK3 &= ~(1<<ICIE3)
-  #define RESUME_PPMIN_INTERRUPT() TIMSK3 |= (1<<ICIE3)
-  #define TIMER_AUDIO_VECT         TIMER4_COMPA_vect
-  #define SET_TIMER_AUDIO_CTRL()   TCCR4B = (1 << WGM42) | (0b010 << CS40)
-  #define PAUSE_AUDIO_INTERRUPT()  TIMSK4 &= ~(1<<OCIE4A)
-  #define RESUME_AUDIO_INTERRUPT() TIMSK4 |= (1<<OCIE4A)
+#define TIMER_16KHZ_VECT         TIMER2_OVF_vect
+#define COUNTER_16KHZ            TCNT2
+#define TIMER_10MS_VECT          TIMER2_COMPA_vect
+#define TIMER_10MS_COMPVAL       OCR2A
+#define PAUSE_10MS_INTERRUPT()   TIMSK2 &= ~(1<<OCIE2A)
+#define RESUME_10MS_INTERRUPT()  TIMSK2 |= (1<<OCIE2A)
+#define PAUSE_PPMIN_INTERRUPT()  TIMSK3 &= ~(1<<ICIE3)
+#define RESUME_PPMIN_INTERRUPT() TIMSK3 |= (1<<ICIE3)
+#define TIMER_AUDIO_VECT         TIMER4_COMPA_vect
+#define SET_TIMER_AUDIO_CTRL()   TCCR4B = (1 << WGM42) | (0b010 << CS40)
+#define PAUSE_AUDIO_INTERRUPT()  TIMSK4 &= ~(1<<OCIE4A)
+#define RESUME_AUDIO_INTERRUPT() TIMSK4 |= (1<<OCIE4A)
 #else
-  #define TIMER_16KHZ_VECT         TIMER0_OVF_vect
-  #define COUNTER_16KHZ            TCNT0
-  #define TIMER_10MS_VECT          TIMER0_COMP_vect
-  #define TIMER_10MS_COMPVAL       OCR0
-  #define PAUSE_10MS_INTERRUPT()   TIMSK &= ~(1<<OCIE0)
-  #define RESUME_10MS_INTERRUPT()  TIMSK |= (1<<OCIE0)
-  #define PAUSE_PPMIN_INTERRUPT()  ETIMSK &= ~(1<<TICIE3)
-  #define RESUME_PPMIN_INTERRUPT() ETIMSK |= (1<<TICIE3)
-  #define TIMER_AUDIO_VECT         TIMER2_OVF_vect
-  #define SET_TIMER_AUDIO_CTRL()   TCCR2 = (0b010 << CS00) // Norm mode, clk/8
-  #define PAUSE_AUDIO_INTERRUPT()  TIMSK &= ~(1<<TOIE2)
-  #define RESUME_AUDIO_INTERRUPT() TIMSK |= (1<<TOIE2)
+#define TIMER_16KHZ_VECT         TIMER0_OVF_vect
+#define COUNTER_16KHZ            TCNT0
+#define TIMER_10MS_VECT          TIMER0_COMP_vect
+#define TIMER_10MS_COMPVAL       OCR0
+#define PAUSE_10MS_INTERRUPT()   TIMSK &= ~(1<<OCIE0)
+#define RESUME_10MS_INTERRUPT()  TIMSK |= (1<<OCIE0)
+#define PAUSE_PPMIN_INTERRUPT()  ETIMSK &= ~(1<<TICIE3)
+#define RESUME_PPMIN_INTERRUPT() ETIMSK |= (1<<TICIE3)
+#define TIMER_AUDIO_VECT         TIMER2_OVF_vect
+#define SET_TIMER_AUDIO_CTRL()   TCCR2 = (0b010 << CS00) // Norm mode, clk/8
+#define PAUSE_AUDIO_INTERRUPT()  TIMSK &= ~(1<<TOIE2)
+#define RESUME_AUDIO_INTERRUPT() TIMSK |= (1<<TOIE2)
 #endif
 
 // Power driver (none)
@@ -144,18 +144,18 @@ bool checkSlaveMode();
 // PWM Backlight driver
 #define OUT_B_LIGHT   7
 #if defined(PWM_BACKLIGHT)
-  void backlightEnable();
-  void backlightDisable();
-  bool isBacklightEnable();
-  void backlightFade();
+void backlightEnable();
+void backlightDisable();
+bool isBacklightEnable();
+void backlightFade();
 #elif defined(SP22)
-  #define backlightEnable()        PORTB &= ~(1<<OUT_B_LIGHT)
-  #define backlightDisable()       PORTB |=  (1<<OUT_B_LIGHT)
-  #define isBacklightEnable()      (~PORTB & (1<<OUT_B_LIGHT))
+#define backlightEnable()        PORTB &= ~(1<<OUT_B_LIGHT)
+#define backlightDisable()       PORTB |=  (1<<OUT_B_LIGHT)
+#define isBacklightEnable()      (~PORTB & (1<<OUT_B_LIGHT))
 #else
-  #define backlightEnable()        PORTB |=  (1<<OUT_B_LIGHT)
-  #define backlightDisable()       PORTB &= ~(1<<OUT_B_LIGHT)
-  #define isBacklightEnable()      (PORTB &  (1<<OUT_B_LIGHT))
+#define backlightEnable()        PORTB |=  (1<<OUT_B_LIGHT)
+#define backlightDisable()       PORTB &= ~(1<<OUT_B_LIGHT)
+#define isBacklightEnable()      (PORTB &  (1<<OUT_B_LIGHT))
 #endif
 
 #define OUT_B_PPM     0
@@ -204,9 +204,9 @@ void processMultiplexAna();
 #endif
 
 #if defined(TELEMETRY_MOD_14051_SWAPPED)
-  #define TRIMS_PRESSED()          (~PIND & ~0x0c || pf7_digital[PF7_TRM_LV_UP] || pf7_digital[PF7_TRM_LV_DWN])
+#define TRIMS_PRESSED()          (~PIND & ~0x0c || pf7_digital[PF7_TRM_LV_UP] || pf7_digital[PF7_TRM_LV_DWN])
 #else
-  #define TRIMS_PRESSED()          (~PIND)
+#define TRIMS_PRESSED()          (~PIND)
 #endif
 #define KEYS_PRESSED()             (~PINB)
 

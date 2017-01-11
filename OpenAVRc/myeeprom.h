@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -582,9 +582,13 @@ PACK(union u_gvarint_t {
     uint8_t hi;
   } bytes_t;
 
-int16_t gvword;
+  int16_t gvword;
 
-u_gvarint_t(int8_t l, uint8_t h) {bytes_t.lo=l; bytes_t.hi=h?255:0;} // hi bit is negativ sign
+  u_gvarint_t(int8_t l, uint8_t h)
+  {
+    bytes_t.lo=l;  // hi bit is negativ sign
+    bytes_t.hi=h?255:0;
+  }
 
 private:
   // prevent unwanted constructors, also saves program
@@ -980,13 +984,13 @@ enum MixSources {
 #if   defined(CPUM2560)
   MIXSRC_REa,
   MIXSRC_REb,
-  #if ROTARY_ENCODERS > 2
+#if ROTARY_ENCODERS > 2
   MIXSRC_REc,
   MIXSRC_REd,
   MIXSRC_LAST_ROTARY_ENCODER = MIXSRC_REd,
-  #else
+#else
   MIXSRC_LAST_ROTARY_ENCODER = MIXSRC_REb,
-  #endif
+#endif
 #endif
 
   MIXSRC_MAX,
@@ -1194,8 +1198,7 @@ enum ThrottleSources {
   THROTTLE_SOURCE_CH1,
 };
 
-enum TelemetryType
-{
+enum TelemetryType {
   PROTOCOL_TELEMETRY_FIRST,
   PROTOCOL_FRSKY_SPORT = PROTOCOL_TELEMETRY_FIRST,
   PROTOCOL_FRSKY_D,
@@ -1203,8 +1206,7 @@ enum TelemetryType
   PROTOCOL_PULSES_CROSSFIRE
 };
 
-enum DisplayTrims
-{
+enum DisplayTrims {
   DISPLAY_TRIMS_NEVER,
   DISPLAY_TRIMS_CHANGE,
   DISPLAY_TRIMS_ALWAYS

@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -66,7 +66,7 @@ enum PolishPrompts {
 
 #if defined(VOICE)
 
-  #define PL_PUSH_UNIT_PROMPT(p, u) pushUnitPrompt((p), (u))
+#define PL_PUSH_UNIT_PROMPT(p, u) pushUnitPrompt((p), (u))
 
 #define MESKI 0x80
 #define ZENSKI 0x81
@@ -84,10 +84,10 @@ I18N_PLAY_FUNCTION(pl, pushUnitPrompt, int16_t number, uint8_t unitprompt)
     int ten=0;
     ten=(number - (number % 10))/10;
     if ((test_2 > 1 && test_2 < 5) && ten >=2)
-	PUSH_NUMBER_PROMPT(unitprompt+1);
+      PUSH_NUMBER_PROMPT(unitprompt+1);
     else
-	PUSH_NUMBER_PROMPT(unitprompt+2);
-    }
+      PUSH_NUMBER_PROMPT(unitprompt+2);
+  }
 }
 
 I18N_PLAY_FUNCTION(pl, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
@@ -106,7 +106,7 @@ I18N_PLAY_FUNCTION(pl, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
         unit = UNIT_FEET;
       }
       if (unit == UNIT_SPEED) {
-    	unit = UNIT_KTS;
+        unit = UNIT_KTS;
       }
     }
     unit++;
@@ -115,7 +115,7 @@ I18N_PLAY_FUNCTION(pl, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
   int8_t mode = MODE(att);
   if (mode > 0) {
     // we assume that we are PREC1
-    div_t qr = div(number, 10);   
+    div_t qr = div(number, 10);
     if (qr.rem) {
       PLAY_NUMBER(qr.quot, 0, ZENSKI);
       if (qr.quot == 0)
@@ -125,71 +125,70 @@ I18N_PLAY_FUNCTION(pl, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
       PLAY_NUMBER(qr.rem, 0, ZENSKI);
       PUSH_NUMBER_PROMPT(PL_PROMPT_UNITS_BASE+((unit-1)*4)+3);
       return;
-    }
-    else {
+    } else {
       number = qr.quot;
     }
   }
 
   int16_t tmp = number;
-  
+
   switch(unit) {
-    case 0:
-      break;
+  case 0:
+    break;
 // ft/s
-    case 6:
+  case 6:
 // mph
-    case 8:
+  case 8:
 // feet
-    case 10:
+  case 10:
 //mAh
-    case 14:
+  case 14:
 //flOz
-    case 21:
+  case 21:
 //Hours
-    case 22:
+  case 22:
 //Minutes
-    case 23:
+  case 23:
 //Seconds
-    case 24:
-      att = ZENSKI;
-      break;
-    case 100:
-      att = NIJAKI;
-      break;
-    default:
-      att = MESKI;
-      break;
+  case 24:
+    att = ZENSKI;
+    break;
+  case 100:
+    att = NIJAKI;
+    break;
+  default:
+    att = MESKI;
+    break;
   }
 
   if ((number == 1) && (att == ZENSKI)) {
     PUSH_NUMBER_PROMPT(PL_PROMPT_JEDNA);
     number = -1;
   }
-  
+
   if ((number == 1) && (att == NIJAKI)) {
     PUSH_NUMBER_PROMPT(PL_PROMPT_JEDNO);
     number = -1;
   }
-  
+
   if ((number == 2) && (att == ZENSKI)) {
     PUSH_NUMBER_PROMPT(PL_PROMPT_DWIE);
     number = -1;
   }
-  
+
 
 
 
 
   if (number >= 1000) {
-    if (number >= 2000) 
+    if (number >= 2000)
       PLAY_NUMBER(number / 1000, 0, 0);
 
     if (number >= 2000 && number < 5000)
       PUSH_NUMBER_PROMPT(PL_PROMPT_TYSIACE);
     else if (number >= 5000)
       PUSH_NUMBER_PROMPT(PL_PROMPT_TYSIECY);
-    else 
+    else
       PUSH_NUMBER_PROMPT(PL_PROMPT_TYSIAC);
 
     number %= 1000;
@@ -202,17 +201,17 @@ I18N_PLAY_FUNCTION(pl, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
     if (number == 0)
       number = -1;
   }
-  
+
   if (number >= 0) {
     int test_2 =0;
     test_2 =number % 10;
     int ten=0;
     ten=(number - (number % 10))/10;
     if (att == ZENSKI && test_2==2 && ten >= 2 ) {
-      
+
       PUSH_NUMBER_PROMPT(PL_PROMPT_DZIESIATKI_ZENSKIE+ten);
-    }else 
-       PUSH_NUMBER_PROMPT(PL_PROMPT_ZERO+number);
+    } else
+      PUSH_NUMBER_PROMPT(PL_PROMPT_ZERO+number);
   }
 
   if (unit) {

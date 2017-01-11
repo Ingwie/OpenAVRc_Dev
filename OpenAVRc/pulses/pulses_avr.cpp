@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -30,20 +30,20 @@ uint16_t nextMixerEndTime = 0;
 #define SCHEDULE_MIXER_END(delay) nextMixerEndTime = getTmr16KHz() + (delay) - 2*16/*2ms*/
 
 #if defined(DSM2)
-  // DSM2 control bits
-  #define DSM2_CHANS                         6
-  #define FRANCE_BIT                         0x10
-  #define DSMX_BIT                           0x08
-  #define BAD_DATA                           0x47
-  #define DSM2_SEND_BIND                     (1 << 7)
-  #define DSM2_SEND_RANGECHECK               (1 << 5)
-  uint8_t  dsm2BindTimer = DSM2_BIND_TIMEOUT;
+// DSM2 control bits
+#define DSM2_CHANS                         6
+#define FRANCE_BIT                         0x10
+#define DSMX_BIT                           0x08
+#define BAD_DATA                           0x47
+#define DSM2_SEND_BIND                     (1 << 7)
+#define DSM2_SEND_RANGECHECK               (1 << 5)
+uint8_t  dsm2BindTimer = DSM2_BIND_TIMEOUT;
 #endif
 
 #if defined(PXX)
-  #define PXX_SEND_BIND                      0x01
-  #define PXX_SEND_FAILSAFE                  (1 << 4)
-  #define PXX_SEND_RANGECHECK                (1 << 5)
+#define PXX_SEND_BIND                      0x01
+#define PXX_SEND_FAILSAFE                  (1 << 4)
+#define PXX_SEND_RANGECHECK                (1 << 5)
 #endif
 
 #if defined(DSM2) || defined(PXX)
@@ -113,8 +113,7 @@ ISR(TIMER1_COMPA_vect) // 2MHz pulse generation (BLOCKING ISR).
       OCR1B = OCR1A;
       if (g_model.pulsePol) {
         TCCR1A = (TCCR1A | (1<<COM1B1)) & ~(1<<COM1B0); // Set idle level.
-      }
-      else {
+      } else {
         TCCR1A |= 3<<COM1B0;
       }
       TCCR1C = 1<<FOC1B; // Strobe FOC1B.
@@ -132,8 +131,7 @@ ISR(TIMER1_COMPA_vect) // 2MHz pulse generation (BLOCKING ISR).
     if (g_ppmPulsePolarity) {
       PORTB |= (1<<OUT_B_PPM); // GCC optimisation should result in a single SBI instruction
       g_ppmPulsePolarity = 0;
-    }
-    else {
+    } else {
       PORTB &= ~(1<<OUT_B_PPM);
       g_ppmPulsePolarity = 1;
     }
@@ -142,8 +140,7 @@ ISR(TIMER1_COMPA_vect) // 2MHz pulse generation (BLOCKING ISR).
     if (*(uint16_t*)(pulses2MHzRPtr + sizeof(uint16_t)) == 0) {
       // Look one step ahead to see if we are currently the "rest" period.
       OCR1B = 0xffff; // Prevent next compare match hence toggle.
-    }
-    else {
+    } else {
       OCR1B = *((uint16_t*) pulses2MHzRPtr);
     }
 #endif
@@ -158,78 +155,76 @@ ISR(TIMER1_COMPA_vect) // 2MHz pulse generation (BLOCKING ISR).
 
 void setupPulsesPPM(uint8_t proto)
 {
-    // Total frame length is a fixed 22.5msec (more than 9 channels is non-standard and requires this to be extended.)
-    // Each channel's pulse is 0.7 to 1.7ms long, with a 0.3ms stop tail, making each compelte cycle 1 to 2ms.
+  // Total frame length is a fixed 22.5msec (more than 9 channels is non-standard and requires this to be extended.)
+  // Each channel's pulse is 0.7 to 1.7ms long, with a 0.3ms stop tail, making each compelte cycle 1 to 2ms.
 
-    int16_t PPM_range = g_model.extendedLimits ? 640*2 : 512*2;   //range of 0.7..1.7msec
+  int16_t PPM_range = g_model.extendedLimits ? 640*2 : 512*2;   //range of 0.7..1.7msec
 
-    uint16_t *ptr = (proto == PROTO_PPM ? (uint16_t *)pulses2MHz : (uint16_t *) &pulses2MHz[PULSES_SIZE/2]);
+  uint16_t *ptr = (proto == PROTO_PPM ? (uint16_t *)pulses2MHz : (uint16_t *) &pulses2MHz[PULSES_SIZE/2]);
 
-    //The pulse ISR is 2mhz that's why everything is multiplied by 2
-    uint8_t p = (proto == PROTO_PPM16 ? 16 : 8) + (g_model.ppmNCH * 2); //Channels *2
-    uint16_t q = (g_model.ppmDelay*50+300)*2; // Stoplen *2
-    int32_t rest = 22500u*2 - q;
+  //The pulse ISR is 2mhz that's why everything is multiplied by 2
+  uint8_t p = (proto == PROTO_PPM16 ? 16 : 8) + (g_model.ppmNCH * 2); //Channels *2
+  uint16_t q = (g_model.ppmDelay*50+300)*2; // Stoplen *2
+  int32_t rest = 22500u*2 - q;
 
-    rest += (int32_t(g_model.ppmFrameLength))*1000;
-    for (uint8_t i=(proto==PROTO_PPM16) ? p-8 : 0; i<p; i++) {
-      int16_t v = limit((int16_t)-PPM_range, channelOutputs[i], (int16_t)PPM_range) + 2*PPM_CH_CENTER(i);
-      rest -= v;
-      *ptr++ = q;
-      *ptr++ = v - q; // total pulse width includes stop phase
-    }
-
+  rest += (int32_t(g_model.ppmFrameLength))*1000;
+  for (uint8_t i=(proto==PROTO_PPM16) ? p-8 : 0; i<p; i++) {
+    int16_t v = limit((int16_t)-PPM_range, channelOutputs[i], (int16_t)PPM_range) + 2*PPM_CH_CENTER(i);
+    rest -= v;
     *ptr++ = q;
-    if (rest > 65535) rest = 65535; /* prevents overflows */
-    if (rest < 9000)  rest = 9000;
+    *ptr++ = v - q; // total pulse width includes stop phase
+  }
 
-    if (proto == PROTO_PPM) {
-      *ptr++ = rest - SETUP_PULSES_DURATION;
-      pulses2MHzRPtr = pulses2MHz;
-    }
-    else {
-      *ptr++ = rest;
-      B3_comp_value = rest - SETUP_PULSES_DURATION;               // 500uS before end of sync pulse
-    }
+  *ptr++ = q;
+  if (rest > 65535) rest = 65535; /* prevents overflows */
+  if (rest < 9000)  rest = 9000;
 
-    *ptr = 0;
+  if (proto == PROTO_PPM) {
+    *ptr++ = rest - SETUP_PULSES_DURATION;
+    pulses2MHzRPtr = pulses2MHz;
+  } else {
+    *ptr++ = rest;
+    B3_comp_value = rest - SETUP_PULSES_DURATION;               // 500uS before end of sync pulse
+  }
+
+  *ptr = 0;
 }
 
 
 #if defined(PXX)
-const pm_uint16_t CRCTable[] PROGMEM =
-{
-    0x0000,0x1189,0x2312,0x329b,0x4624,0x57ad,0x6536,0x74bf,
-    0x8c48,0x9dc1,0xaf5a,0xbed3,0xca6c,0xdbe5,0xe97e,0xf8f7,
-    0x1081,0x0108,0x3393,0x221a,0x56a5,0x472c,0x75b7,0x643e,
-    0x9cc9,0x8d40,0xbfdb,0xae52,0xdaed,0xcb64,0xf9ff,0xe876,
-    0x2102,0x308b,0x0210,0x1399,0x6726,0x76af,0x4434,0x55bd,
-    0xad4a,0xbcc3,0x8e58,0x9fd1,0xeb6e,0xfae7,0xc87c,0xd9f5,
-    0x3183,0x200a,0x1291,0x0318,0x77a7,0x662e,0x54b5,0x453c,
-    0xbdcb,0xac42,0x9ed9,0x8f50,0xfbef,0xea66,0xd8fd,0xc974,
-    0x4204,0x538d,0x6116,0x709f,0x0420,0x15a9,0x2732,0x36bb,
-    0xce4c,0xdfc5,0xed5e,0xfcd7,0x8868,0x99e1,0xab7a,0xbaf3,
-    0x5285,0x430c,0x7197,0x601e,0x14a1,0x0528,0x37b3,0x263a,
-    0xdecd,0xcf44,0xfddf,0xec56,0x98e9,0x8960,0xbbfb,0xaa72,
-    0x6306,0x728f,0x4014,0x519d,0x2522,0x34ab,0x0630,0x17b9,
-    0xef4e,0xfec7,0xcc5c,0xddd5,0xa96a,0xb8e3,0x8a78,0x9bf1,
-    0x7387,0x620e,0x5095,0x411c,0x35a3,0x242a,0x16b1,0x0738,
-    0xffcf,0xee46,0xdcdd,0xcd54,0xb9eb,0xa862,0x9af9,0x8b70,
-    0x8408,0x9581,0xa71a,0xb693,0xc22c,0xd3a5,0xe13e,0xf0b7,
-    0x0840,0x19c9,0x2b52,0x3adb,0x4e64,0x5fed,0x6d76,0x7cff,
-    0x9489,0x8500,0xb79b,0xa612,0xd2ad,0xc324,0xf1bf,0xe036,
-    0x18c1,0x0948,0x3bd3,0x2a5a,0x5ee5,0x4f6c,0x7df7,0x6c7e,
-    0xa50a,0xb483,0x8618,0x9791,0xe32e,0xf2a7,0xc03c,0xd1b5,
-    0x2942,0x38cb,0x0a50,0x1bd9,0x6f66,0x7eef,0x4c74,0x5dfd,
-    0xb58b,0xa402,0x9699,0x8710,0xf3af,0xe226,0xd0bd,0xc134,
-    0x39c3,0x284a,0x1ad1,0x0b58,0x7fe7,0x6e6e,0x5cf5,0x4d7c,
-    0xc60c,0xd785,0xe51e,0xf497,0x8028,0x91a1,0xa33a,0xb2b3,
-    0x4a44,0x5bcd,0x6956,0x78df,0x0c60,0x1de9,0x2f72,0x3efb,
-    0xd68d,0xc704,0xf59f,0xe416,0x90a9,0x8120,0xb3bb,0xa232,
-    0x5ac5,0x4b4c,0x79d7,0x685e,0x1ce1,0x0d68,0x3ff3,0x2e7a,
-    0xe70e,0xf687,0xc41c,0xd595,0xa12a,0xb0a3,0x8238,0x93b1,
-    0x6b46,0x7acf,0x4854,0x59dd,0x2d62,0x3ceb,0x0e70,0x1ff9,
-    0xf78f,0xe606,0xd49d,0xc514,0xb1ab,0xa022,0x92b9,0x8330,
-    0x7bc7,0x6a4e,0x58d5,0x495c,0x3de3,0x2c6a,0x1ef1,0x0f78
+const pm_uint16_t CRCTable[] PROGMEM = {
+  0x0000,0x1189,0x2312,0x329b,0x4624,0x57ad,0x6536,0x74bf,
+  0x8c48,0x9dc1,0xaf5a,0xbed3,0xca6c,0xdbe5,0xe97e,0xf8f7,
+  0x1081,0x0108,0x3393,0x221a,0x56a5,0x472c,0x75b7,0x643e,
+  0x9cc9,0x8d40,0xbfdb,0xae52,0xdaed,0xcb64,0xf9ff,0xe876,
+  0x2102,0x308b,0x0210,0x1399,0x6726,0x76af,0x4434,0x55bd,
+  0xad4a,0xbcc3,0x8e58,0x9fd1,0xeb6e,0xfae7,0xc87c,0xd9f5,
+  0x3183,0x200a,0x1291,0x0318,0x77a7,0x662e,0x54b5,0x453c,
+  0xbdcb,0xac42,0x9ed9,0x8f50,0xfbef,0xea66,0xd8fd,0xc974,
+  0x4204,0x538d,0x6116,0x709f,0x0420,0x15a9,0x2732,0x36bb,
+  0xce4c,0xdfc5,0xed5e,0xfcd7,0x8868,0x99e1,0xab7a,0xbaf3,
+  0x5285,0x430c,0x7197,0x601e,0x14a1,0x0528,0x37b3,0x263a,
+  0xdecd,0xcf44,0xfddf,0xec56,0x98e9,0x8960,0xbbfb,0xaa72,
+  0x6306,0x728f,0x4014,0x519d,0x2522,0x34ab,0x0630,0x17b9,
+  0xef4e,0xfec7,0xcc5c,0xddd5,0xa96a,0xb8e3,0x8a78,0x9bf1,
+  0x7387,0x620e,0x5095,0x411c,0x35a3,0x242a,0x16b1,0x0738,
+  0xffcf,0xee46,0xdcdd,0xcd54,0xb9eb,0xa862,0x9af9,0x8b70,
+  0x8408,0x9581,0xa71a,0xb693,0xc22c,0xd3a5,0xe13e,0xf0b7,
+  0x0840,0x19c9,0x2b52,0x3adb,0x4e64,0x5fed,0x6d76,0x7cff,
+  0x9489,0x8500,0xb79b,0xa612,0xd2ad,0xc324,0xf1bf,0xe036,
+  0x18c1,0x0948,0x3bd3,0x2a5a,0x5ee5,0x4f6c,0x7df7,0x6c7e,
+  0xa50a,0xb483,0x8618,0x9791,0xe32e,0xf2a7,0xc03c,0xd1b5,
+  0x2942,0x38cb,0x0a50,0x1bd9,0x6f66,0x7eef,0x4c74,0x5dfd,
+  0xb58b,0xa402,0x9699,0x8710,0xf3af,0xe226,0xd0bd,0xc134,
+  0x39c3,0x284a,0x1ad1,0x0b58,0x7fe7,0x6e6e,0x5cf5,0x4d7c,
+  0xc60c,0xd785,0xe51e,0xf497,0x8028,0x91a1,0xa33a,0xb2b3,
+  0x4a44,0x5bcd,0x6956,0x78df,0x0c60,0x1de9,0x2f72,0x3efb,
+  0xd68d,0xc704,0xf59f,0xe416,0x90a9,0x8120,0xb3bb,0xa232,
+  0x5ac5,0x4b4c,0x79d7,0x685e,0x1ce1,0x0d68,0x3ff3,0x2e7a,
+  0xe70e,0xf687,0xc41c,0xd595,0xa12a,0xb0a3,0x8238,0x93b1,
+  0x6b46,0x7acf,0x4854,0x59dd,0x2d62,0x3ceb,0x0e70,0x1ff9,
+  0xf78f,0xe606,0xd49d,0xc514,0xb1ab,0xa022,0x92b9,0x8330,
+  0x7bc7,0x6a4e,0x58d5,0x495c,0x3de3,0x2c6a,0x1ef1,0x0f78
 };
 
 uint8_t PcmByte;
@@ -267,8 +262,7 @@ void putPcmBit(uint8_t bit)
   if (bit) {
     PcmOnesCount += 1;
     putPcmPart(0x80);
-  }
-  else {
+  } else {
     PcmOnesCount = 0;
     putPcmPart(0xC0);
   }
@@ -383,17 +377,16 @@ normal:
 FORCEINLINE void setupPulsesDSM2()
 {
   uint16_t *ptr = (uint16_t *)pulses2MHz;
-  switch (s_current_protocol[0])
-  {
-    case PROTO_DSM2_LP45:
-      *ptr = 0x00;
-      break;
-    case PROTO_DSM2_DSM2:
-      *ptr = 0x10;
-      break;
-    default: // DSMX
-      *ptr = 0x18;
-      break;
+  switch (s_current_protocol[0]) {
+  case PROTO_DSM2_LP45:
+    *ptr = 0x00;
+    break;
+  case PROTO_DSM2_DSM2:
+    *ptr = 0x10;
+    break;
+  default: // DSMX
+    *ptr = 0x18;
+    break;
   }
 
   if (dsm2BindTimer > 0) {
@@ -402,11 +395,9 @@ FORCEINLINE void setupPulsesDSM2()
       moduleFlag[0] = MODULE_BIND;
       *ptr |= DSM2_SEND_BIND;
     }
-  }
-  else if (moduleFlag[0] == MODULE_RANGECHECK) {
+  } else if (moduleFlag[0] == MODULE_RANGECHECK) {
     *ptr |= DSM2_SEND_RANGECHECK;
-  }
-  else {
+  } else {
     moduleFlag[0] = 0;
   }
 
@@ -481,10 +472,9 @@ void sendByteDsm2(uint8_t b) //max 10changes 0 10 10 10 10 1
   uint8_t len = BITLEN_DSM2; //max val: 9*16 < 256
   for (uint8_t i=0; i<=8; i++) { //8Bits + Stop=1
     bool nlev = b & 1; //lsb first
-    if (lev == nlev){
+    if (lev == nlev) {
       len += BITLEN_DSM2;
-    }
-    else {
+    } else {
 #if defined(CPUM2560)
       // G: Compensate for main clock synchronisation -- to get accurate 8us bit length
       // NOTE: This has now been tested as NOT required on the stock board, with the ATmega64A chip.
@@ -513,15 +503,15 @@ void setupPulsesDSM2()
 
   // If more channels needed make sure the pulses union/array is large enough
   switch (s_current_protocol[0]) {
-    case PROTO_DSM2_LP45:
-      dsmDat[0] = 0x00;
-      break;
-    case PROTO_DSM2_DSM2:
-      dsmDat[0] = 0x10;
-      break;
-    default: // DSMX
-      dsmDat[0] = 0x18;
-      break;
+  case PROTO_DSM2_LP45:
+    dsmDat[0] = 0x00;
+    break;
+  case PROTO_DSM2_DSM2:
+    dsmDat[0] = 0x10;
+    break;
+  default: // DSMX
+    dsmDat[0] = 0x18;
+    break;
   }
 
   if (dsm2BindTimer > 0) {
@@ -530,11 +520,9 @@ void setupPulsesDSM2()
       moduleFlag[0] = MODULE_BIND;
       dsmDat[0] |= DSM2_SEND_BIND;
     }
-  }
-  else if (moduleFlag[0] == MODULE_RANGECHECK) {
+  } else if (moduleFlag[0] == MODULE_RANGECHECK) {
     dsmDat[0] |= DSM2_SEND_RANGECHECK;
-  }
-  else {
+  } else {
     moduleFlag[0] = 0;
   }
 
@@ -576,7 +564,7 @@ static void _send_u8(uint8_t u8)
     : [p]"=z"(pulses2MHzWPtr)
     :    "%[p]"(pulses2MHzWPtr)
     , [u]"r"(u8)
- );
+  );
 
 #endif
 }
@@ -592,7 +580,7 @@ static void _send_u16(uint16_t u16)
     : [p]"=z"(pulses2MHzWPtr)
     :    "%[p]"(pulses2MHzWPtr)
     , [t0]"r"(u16)
- );
+  );
 
 #endif
 }
@@ -645,8 +633,7 @@ void picco_sendB1(bool bit)
   if (bit) {
     _send_rep1(LEN_38KHZ-1, PICOOZ_RC_HIGH);     //ungerade anzahl 10101
     _send_1   (1226*2 - 1);   //lange 0
-  }
-  else {
+  } else {
     _send_rep1(LEN_38KHZ-1, PICOOZ_RC_LOW);      //ungerade anzahl 10101
     _send_1   (650*2  - 1);   //lange 0
   }
@@ -717,8 +704,7 @@ static void setupPulsesPiccoZ(uint8_t chn)
     trim = getChan7s(1,4);
     dir  = getChan7s(0,3);
     chk    = - (chn+ (pow>>2) + pow + (trim>>2) + trim + (dir>>1) + (dir<<1));
-  }
-  else {
+  } else {
     picco_sendBn(chn,2);
     picco_sendBn(pow,4);
     picco_sendBn(trim,4);
@@ -781,151 +767,151 @@ void setupPulses()
 
     switch (required_protocol) {
 #if defined(DSM2_PPM) // For DSM2=SERIAL, the default: case is executed, below
-      case PROTO_DSM2_LP45:
-      case PROTO_DSM2_DSM2:
-      case PROTO_DSM2_DSMX:
-        set_timer3_capture();
-        OCR1C = 200;                          // 100 uS
-        TCNT1 = 300;                          // Past the OCR1C value
-        ICR1 = 44000;                         // Next frame starts in 22 mS
+    case PROTO_DSM2_LP45:
+    case PROTO_DSM2_DSM2:
+    case PROTO_DSM2_DSMX:
+      set_timer3_capture();
+      OCR1C = 200;                          // 100 uS
+      TCNT1 = 300;                          // Past the OCR1C value
+      ICR1 = 44000;                         // Next frame starts in 22 mS
 #if defined(CPUM2560) || defined(CPUM2561)
-        TIMSK1 |= 0x28;                       // Enable Timer1 COMPC and CAPT interrupts
-        TCCR1A = (0 << WGM10);                // Set output waveform mode to normal, for now. Note that
-                                              // WGM will be changed to toggle OCR1B pin on compare capture,
-                                              // in next switch(required_protocol) {...}, below
+      TIMSK1 |= 0x28;                       // Enable Timer1 COMPC and CAPT interrupts
+      TCCR1A = (0 << WGM10);                // Set output waveform mode to normal, for now. Note that
+      // WGM will be changed to toggle OCR1B pin on compare capture,
+      // in next switch(required_protocol) {...}, below
 #else
-        TIMSK |= 0x20;                        // Enable CAPT
-        ETIMSK |= (1<<OCIE1C);                // Enable COMPC
-        TCCR1A = (0 << WGM10);
+      TIMSK |= 0x20;                        // Enable CAPT
+      ETIMSK |= (1<<OCIE1C);                // Enable COMPC
+      TCCR1A = (0 << WGM10);
 #endif
-        TCCR1B = (3 << WGM12) | (2 << CS10);  // CTC ICR, 16MHz / 8
-        break;
+      TCCR1B = (3 << WGM12) | (2 << CS10);  // CTC ICR, 16MHz / 8
+      break;
 #endif // defined(DSM2_PPM)
 
 #if defined(PXX)
-      case PROTO_PXX:
-        set_timer3_capture();
-        OCR1B = 6000;                         // Next frame starts in 3 mS
-        OCR1C = 4000;                         // Next frame setup in 2 mS
+    case PROTO_PXX:
+      set_timer3_capture();
+      OCR1B = 6000;                         // Next frame starts in 3 mS
+      OCR1C = 4000;                         // Next frame setup in 2 mS
 #if defined(CPUM2560) || defined(CPUM2561)
-        TIMSK1 |= (1<<OCIE1B);                // Enable COMPB
-        TIMSK1 |= (1<<OCIE1C);                // Enable COMPC
-        TCCR1A = (3 << COM1B0);               // Connect OC1B for hardware PPM switching
+      TIMSK1 |= (1<<OCIE1B);                // Enable COMPB
+      TIMSK1 |= (1<<OCIE1C);                // Enable COMPC
+      TCCR1A = (3 << COM1B0);               // Connect OC1B for hardware PPM switching
 #else
-        TIMSK |= (1<<OCIE1B);                 // Enable COMPB
-        ETIMSK |= (1<<OCIE1C);                // Enable COMPC
-        TCCR1A  = 0;
+      TIMSK |= (1<<OCIE1B);                 // Enable COMPB
+      ETIMSK |= (1<<OCIE1C);                // Enable COMPC
+      TCCR1A  = 0;
 #endif
-        TCCR1B  = (2<<CS10);                  // ICNC3 16MHz / 8
-        break;
+      TCCR1B  = (2<<CS10);                  // ICNC3 16MHz / 8
+      break;
 #endif
 
-      case PROTO_PPM16:
-        OCR1A = 40000;                        // Next frame starts in 20 mS
+    case PROTO_PPM16:
+      OCR1A = 40000;                        // Next frame starts in 20 mS
 #if defined(CPUM2560) || defined(CPUM2561)
-        TIMSK1 |= (1<<OCIE1A);                // Enable COMPA
-        TCCR1A = (3 << COM1B0);               // Connect OC1B for hardware PPM switching
+      TIMSK1 |= (1<<OCIE1A);                // Enable COMPA
+      TCCR1A = (3 << COM1B0);               // Connect OC1B for hardware PPM switching
 #else
-        TIMSK |= 0x10;                        // Enable COMPA
-        TCCR1A = (0<<WGM10);
+      TIMSK |= 0x10;                        // Enable COMPA
+      TCCR1A = (0<<WGM10);
 #endif
-        TCCR1B = (1 << WGM12) | (2<<CS10);   // CTC OCRA, 16MHz / 8
-        setupPulsesPPM(PROTO_PPM16);
-        OCR3A = 50000;
-        OCR3B = 5000;
-        set_timer3_ppm();
-        break;
+      TCCR1B = (1 << WGM12) | (2<<CS10);   // CTC OCRA, 16MHz / 8
+      setupPulsesPPM(PROTO_PPM16);
+      OCR3A = 50000;
+      OCR3B = 5000;
+      set_timer3_ppm();
+      break;
 
-      case PROTO_PPMSIM:
+    case PROTO_PPMSIM:
 #if defined(CPUM2560) || defined(CPUM2561)
-        TCCR1A = 0;                           // Disconnect OC1B for bit-bang PPM switching
+      TCCR1A = 0;                           // Disconnect OC1B for bit-bang PPM switching
 #endif
-        setupPulsesPPM(PROTO_PPMSIM);
-        OCR3A = 50000;
-        OCR3B = 5000;
-        set_timer3_ppm();
-        PORTB &= ~(1<<OUT_B_PPM);             // Hold PPM output low
-        break;
+      setupPulsesPPM(PROTO_PPMSIM);
+      OCR3A = 50000;
+      OCR3B = 5000;
+      set_timer3_ppm();
+      PORTB &= ~(1<<OUT_B_PPM);             // Hold PPM output low
+      break;
 
 #if defined(DSM2_SERIAL) && defined(FRSKY)
-      case PROTO_DSM2_LP45:
-      case PROTO_DSM2_DSM2:
-      case PROTO_DSM2_DSMX:
-        DSM2_Init();
-        // no break
+    case PROTO_DSM2_LP45:
+    case PROTO_DSM2_DSM2:
+    case PROTO_DSM2_DSMX:
+      DSM2_Init();
+      // no break
 #endif
 
-      default: // PPM and DSM2=SERIAL modes
-        set_timer3_capture();
-        OCR1A = 44000;                        // Next frame starts in 22ms -- DSM mode.
-                                              //    This is arbitrary and for the first frame only. In fact, ...
-                                              //    DSM2 mode will set frame timing again at each ISR(TIMER1_COMPC_vect)
-                                              //       and
-                                              //    PPM mode will dynamically adjust to the frame rate set in model SETUP menu,
-                                              //    from within setupPulsesPPM().
+    default: // PPM and DSM2=SERIAL modes
+      set_timer3_capture();
+      OCR1A = 44000;                        // Next frame starts in 22ms -- DSM mode.
+      //    This is arbitrary and for the first frame only. In fact, ...
+      //    DSM2 mode will set frame timing again at each ISR(TIMER1_COMPC_vect)
+      //       and
+      //    PPM mode will dynamically adjust to the frame rate set in model SETUP menu,
+      //    from within setupPulsesPPM().
 #if defined(CPUM2560) || defined(CPUM2561)
-        TIMSK1 |= (1<<OCIE1A);                // Enable COMPA
-        TCCR1A = (3 << COM1B0);               // Connect OC1B for hardware PPM switching. G: Not needed
-                                              // for DSM2=SERIAL. But OK.
+      TIMSK1 |= (1<<OCIE1A);                // Enable COMPA
+      TCCR1A = (3 << COM1B0);               // Connect OC1B for hardware PPM switching. G: Not needed
+      // for DSM2=SERIAL. But OK.
 #else
-        TIMSK |= 0x10;                        // Enable COMPA
-        TCCR1A = (0 << WGM10);
+      TIMSK |= 0x10;                        // Enable COMPA
+      TCCR1A = (0 << WGM10);
 #endif
-        TCCR1B = (1 << WGM12) | (2 << CS10);  // CTC OCRA, 16MHz / 8
-        break;
+      TCCR1B = (1 << WGM12) | (2 << CS10);  // CTC OCRA, 16MHz / 8
+      break;
     }
   }
 
   switch(required_protocol) {
 #if defined(PXX)
-    case PROTO_PXX:
-      // schedule next Mixer calculations
-      SCHEDULE_MIXER_END(20*16);
-      sei();
-      setupPulsesPXX();
-      break;
+  case PROTO_PXX:
+    // schedule next Mixer calculations
+    SCHEDULE_MIXER_END(20*16);
+    sei();
+    setupPulsesPXX();
+    break;
 #endif
 
 #if defined(DSM2)
-    case PROTO_DSM2_LP45:
-    case PROTO_DSM2_DSM2:
-    case PROTO_DSM2_DSMX:
-      // schedule next Mixer calculations
-      SCHEDULE_MIXER_END(22*16);
+  case PROTO_DSM2_LP45:
+  case PROTO_DSM2_DSM2:
+  case PROTO_DSM2_DSMX:
+    // schedule next Mixer calculations
+    SCHEDULE_MIXER_END(22*16);
 #if defined(DSM2_PPM)
-      sei();
+    sei();
 #endif
-      setupPulsesDSM2(); // Different versions for DSM2=SERIAL vs. DSM2=PPM
+    setupPulsesDSM2(); // Different versions for DSM2=SERIAL vs. DSM2=PPM
 #if defined(CPUM2560) && defined(DSM2_PPM)
-      // Ensure each DSM2=PPM serial packet starts out with the correct bit polarity
+    // Ensure each DSM2=PPM serial packet starts out with the correct bit polarity
 #if defined(PCBMEGA2560)
-      TCCR1A = (0 << WGM10) | (2<<COM1B1);  // Revert phase for direct drive on M2560
+    TCCR1A = (0 << WGM10) | (2<<COM1B1);  // Revert phase for direct drive on M2560
 #else
-      TCCR1A = (0 << WGM10) | (3<<COM1B1);  // Make Waveform Generator 'SET' OCR1B pin on next compare event and ...
+    TCCR1A = (0 << WGM10) | (3<<COM1B1);  // Make Waveform Generator 'SET' OCR1B pin on next compare event and ...
 #endif
-      TCCR1C = (1<<FOC1B);                  // ... force compare event, to set OCR1B pin high.
-      TCCR1A = (1<<COM1B0);                 // Output is ready. Now configure OCR1B pin into 'TOGGLE' mode.
+    TCCR1C = (1<<FOC1B);                  // ... force compare event, to set OCR1B pin high.
+    TCCR1A = (1<<COM1B0);                 // Output is ready. Now configure OCR1B pin into 'TOGGLE' mode.
 #endif
-      break;
+    break;
 #endif
 
 #if defined(IRPROTOS)
-    case PROTO_PICZ:
-      setupPulsesPiccoZ(g_model.ppmNCH);
-      // TODO BSS stbyLevel = 0; //start with 1
-      break;
+  case PROTO_PICZ:
+    setupPulsesPiccoZ(g_model.ppmNCH);
+    // TODO BSS stbyLevel = 0; //start with 1
+    break;
 #endif
 
-    default: // standard PPM protocol
+  default: // standard PPM protocol
 #if !defined(SIMU)
-      g_ppmPulsePolarity = g_model.pulsePol;
+    g_ppmPulsePolarity = g_model.pulsePol;
 #endif
-      // schedule next Mixer calculations
-      SCHEDULE_MIXER_END(45*8+g_model.ppmFrameLength*8);
-      // no sei here
-      setupPulsesPPM(PROTO_PPM);
-      // if PPM16, PPM16 pulses are set up automatically within the interrupts
-      break;
+    // schedule next Mixer calculations
+    SCHEDULE_MIXER_END(45*8+g_model.ppmFrameLength*8);
+    // no sei here
+    setupPulsesPPM(PROTO_PPM);
+    // if PPM16, PPM16 pulses are set up automatically within the interrupts
+    break;
   }
 
 #if defined(DEBUG) && !defined(VOICE)
@@ -948,8 +934,8 @@ ISR(TIMER1_CAPT_vect) // 2MHz pulse generation
   x = *pulses2MHzRPtr++;  // Byte size
   ICR1 = x;
   OCR1B = (uint16_t)x;    // Duplicate capture compare value for OCR1B, because Timer1 is in CTC mode
-                          // and thus we cannot use the OCR1B int. vector. (Should have put PPM_OUT
-                          // pin on OCR1A. Oh well.)
+  // and thus we cannot use the OCR1B int. vector. (Should have put PPM_OUT
+  // pin on OCR1A. Oh well.)
 
 #else // manual bit-bang mode
   uint8_t x;
@@ -968,16 +954,14 @@ ISR(TIMER1_COMPB_vect) // PXX main interrupt
   x = *pulses2MHzRPtr;      // Byte size
   if ((x & 1) == 0) {
     OCR1B += 32;
-  }
-  else {
+  } else {
     OCR1B += 16;
   }
   if ((x >>= 1) == 0) {
     if (*(++pulses2MHzRPtr) == 0) {
       OCR1B = OCR1C + 2000;              // 1mS on from OCR1B
     }
-  }
-  else {
+  } else {
     *pulses2MHzRPtr = x;
   }
 
@@ -995,8 +979,7 @@ ISR(TIMER1_COMPC_vect) // DSM2_PPM or PXX end of frame
     ICR1 = 41536; // next frame starts in 22ms 41536 = 2*(22000 - 14*11*8)
     if (OCR1C < 255) {
       OCR1C = 39000;  // delay setup pulses by 19.5ms to reduce system latency
-    }
-    else {
+    } else {
       OCR1C = 200;
       // sei will be called inside setupPulses()
       setupPulses();
@@ -1006,8 +989,7 @@ ISR(TIMER1_COMPC_vect) // DSM2_PPM or PXX end of frame
 #endif
 
 #if defined(DSM2_PPM) && defined(PXX)
-  }
-  else {
+  } else {
 #endif
 
 #if defined(PXX)
@@ -1034,7 +1016,8 @@ void set_timer3_capture()
 #endif
   // TODO G: This can't work with V3.2/4.x boards. Select and use a different pin
   //         for secondary 8-ch PPM output (PORTH or Spare1 or Spare2 maybe?)
-  DDRE &= ~0x80;  PORTE |= 0x80;     // Bit 7 input + pullup
+  DDRE &= ~0x80;
+  PORTE |= 0x80;     // Bit 7 input + pullup
 
   TCCR3B = 0;                        // Stop counter
   TCCR3A = 0;
@@ -1076,8 +1059,7 @@ ISR(TIMER3_COMPA_vect) //2MHz pulse generation
   if (pulsePol) {
     PORTE |= 0x80; // (1<<OUT_B_PPM);
     pulsePol = 0;
-  }
-  else {
+  } else {
     PORTE &= ~0x80; // (1<<OUT_B_PPM);
     pulsePol = 1;
   }
@@ -1100,8 +1082,7 @@ ISR(TIMER3_COMPB_vect) //2MHz pulse generation
     if (s_current_protocol[0] == PROTO_PPMSIM) {
       setupPulses();
     }
-  }
-  else {
+  } else {
     setupPulsesPPM(g_model.protocol);
   }
 }

@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -31,46 +31,51 @@
 
 class hapticQueue
 {
-  public:
+public:
 
-    hapticQueue();
+  hapticQueue();
 
-    // only difference between these two functions is that one does the
-    // interupt queue (Now) and the other queues for playing ASAP.
-    void play(uint8_t tLen, uint8_t tPause, uint8_t tRepeat=0);
+  // only difference between these two functions is that one does the
+  // interupt queue (Now) and the other queues for playing ASAP.
+  void play(uint8_t tLen, uint8_t tPause, uint8_t tRepeat=0);
 
-    inline bool busy() { return (buzzTimeLeft > 0); }
+  inline bool busy()
+  {
+    return (buzzTimeLeft > 0);
+  }
 
-    void event(uint8_t e);
+  void event(uint8_t e);
 
-    // heartbeat is responsibile for issueing the haptic buzzs and general square waves
-    // it is essentially the life of the class.
-    void heartbeat();
+  // heartbeat is responsibile for issueing the haptic buzzs and general square waves
+  // it is essentially the life of the class.
+  void heartbeat();
 
-    // bool freeslots(uint8_t slots);
+  // bool freeslots(uint8_t slots);
 
-    inline bool empty() {
-      return (t_queueRidx == t_queueWidx);
-    }
+  inline bool empty()
+  {
+    return (t_queueRidx == t_queueWidx);
+  }
 
-  protected:
-    inline uint8_t getHapticLength(uint8_t tLen) {
-      return ((g_eeGeneral.hapticLength * 2) + tLen) * 2;
-    }
+protected:
+  inline uint8_t getHapticLength(uint8_t tLen)
+  {
+    return ((g_eeGeneral.hapticLength * 2) + tLen) * 2;
+  }
 
-  private:
-    uint8_t t_queueRidx;
-    uint8_t t_queueWidx;
+private:
+  uint8_t t_queueRidx;
+  uint8_t t_queueWidx;
 
-    uint8_t buzzTimeLeft;
-    uint8_t buzzPause;
+  uint8_t buzzTimeLeft;
+  uint8_t buzzPause;
 
-    uint8_t hapticTick;
+  uint8_t hapticTick;
 
-    // queue arrays
-    uint8_t queueHapticLength[HAPTIC_QUEUE_LENGTH];
-    uint8_t queueHapticPause[HAPTIC_QUEUE_LENGTH];
-    uint8_t queueHapticRepeat[HAPTIC_QUEUE_LENGTH];
+  // queue arrays
+  uint8_t queueHapticLength[HAPTIC_QUEUE_LENGTH];
+  uint8_t queueHapticPause[HAPTIC_QUEUE_LENGTH];
+  uint8_t queueHapticRepeat[HAPTIC_QUEUE_LENGTH];
 };
 
 //wrapper function - dirty but results in a space saving!!!

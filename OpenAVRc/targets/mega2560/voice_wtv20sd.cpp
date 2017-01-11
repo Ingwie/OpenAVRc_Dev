@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -33,8 +33,7 @@
 // point at which the busy flag is checkable + 2ms for saftey (4)
 #define WTV20SD_START_TIME   5  // The 2ms of a stop/start bit
 
-enum WTV20SD_State
-{
+enum WTV20SD_State {
   RESET,
   RESETPAUSE,
   PAUSE,
@@ -73,14 +72,17 @@ void WTV20SD_senddata()
     ++i;
     _delay_us(1); // Data setup delay
     WTV20SD_Clock_on; // CLK high
-  }
-  else {
+  } else {
     // Don't alter after sending last bit in preparation for sending stop bit
     WTV20SD_Clock_off; // CLK low
     WTV20SD_Data_off; // Data low
   }
 
-  if (i == 16) { i = 0; Startstop = WTV20SD_STOP_TIME; state = SENDSTOP; }
+  if (i == 16) {
+    i = 0;
+    Startstop = WTV20SD_STOP_TIME;
+    state = SENDSTOP;
+  }
 }
 
 void WTV20SD_sendstop()
@@ -126,8 +128,7 @@ ISR(TIMER5_COMPA_vect) // every 0.5ms normally, every 2ms during startup reset
       TIMSK5 &= ~(1<<OCIE5A); // stop reentrance
       TCNT5=0; // reset timer
       return; // nothing else to play
-    }
-    else {
+    } else {
       WTV20SD_current = WTV20SD_playlist[WTV20SD_PlayIndex];
       ++WTV20SD_PlayIndex;
       if (WTV20SD_PlayIndex == QUEUE_LENGTH) WTV20SD_PlayIndex = 0;

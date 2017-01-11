@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -57,16 +57,14 @@ MixData* setDest(uint8_t dch, uint8_t src, bool clear=false)
     if (mix->srcRaw && mix->destCh <= dch) {
       if (clear && mix->destCh == dch) {
         deleteExpoMix(0, i);
-      }
-      else {
+      } else {
         if (++i==MAX_MIXERS) {
           // TODO should return null pointer but needs to be tested then
           mix = mixAddress(0);
           break;
         }
       }
-    }
-    else {
+    } else {
       break;
     }
   }
@@ -87,9 +85,9 @@ void mixSetWeight(MixData* md, int8_t weight)
   // MD_SETWEIGHT(md,weight);  doesn't matter here in code cost compiler optimizes this anyway
 }
 
-  #define clearInputs()
-  #define defaultInputs()
-  #define TMPL_INPUT(x) (MIXSRC_Rud+x-1)
+#define clearInputs()
+#define defaultInputs()
+#define TMPL_INPUT(x) (MIXSRC_Rud+x-1)
 
 void clearMixes()
 {
@@ -125,125 +123,170 @@ const pm_int8_t heli_ar5[] PROGMEM = {-100, -50, 0, 50, 100};
 
 void applyTemplate(uint8_t idx)
 {
-    MixData *md;
+  MixData *md;
 
-    //CC(STK)   -> vSTK
-    //ICC(vSTK) -> STK
+  //CC(STK)   -> vSTK
+  //ICC(vSTK) -> STK
 #define ICC(x) icc[(x)-1]
-    uint8_t icc[4] = {0};
-    for (uint8_t i=0; i<4; i++) { //generate inverse array
-      for(uint8_t j=0; j<4; j++)
-        if(CC(i+1)==j+MIXSRC_Rud) icc[j]=i;
-    }
+  uint8_t icc[4] = {0};
+  for (uint8_t i=0; i<4; i++) { //generate inverse array
+    for(uint8_t j=0; j<4; j++)
+      if(CC(i+1)==j+MIXSRC_Rud) icc[j]=i;
+  }
 
-    switch (idx) {
-      case TMPL_CLEAR_MIXES:
-      case TMPL_SIMPLE_4CH:
-      case TMPL_HELI_SETUP:
-        clearMixes();
-        break;
-    }
+  switch (idx) {
+  case TMPL_CLEAR_MIXES:
+  case TMPL_SIMPLE_4CH:
+  case TMPL_HELI_SETUP:
+    clearMixes();
+    break;
+  }
 
-    switch (idx) {
-      // Simple 4-Ch
-      case TMPL_SIMPLE_4CH:
-        defaultInputs();
-        setDest(ICC(STK_RUD), TMPL_INPUT(STK_RUD));
-        setDest(ICC(STK_ELE), TMPL_INPUT(STK_ELE));
-        setDest(ICC(STK_THR), TMPL_INPUT(STK_THR));
-        setDest(ICC(STK_AIL), TMPL_INPUT(STK_AIL));
-        break;
+  switch (idx) {
+  // Simple 4-Ch
+  case TMPL_SIMPLE_4CH:
+    defaultInputs();
+    setDest(ICC(STK_RUD), TMPL_INPUT(STK_RUD));
+    setDest(ICC(STK_ELE), TMPL_INPUT(STK_ELE));
+    setDest(ICC(STK_THR), TMPL_INPUT(STK_THR));
+    setDest(ICC(STK_AIL), TMPL_INPUT(STK_AIL));
+    break;
 
-      // Sticky-T-Cut
-      case TMPL_STI_THR_CUT:
-        md=setDest(ICC(STK_THR), MIXSRC_MAX); mixSetWeight(md, -100);  md->swtch=SWSRC_SWC;  md->mltpx=MLTPX_REP;
-        md=setDest(13, MIXSRC_CH14); // md->weight= 100; done by setDest anyway
-        md=setDest(13, MIXSRC_MAX); mixSetWeight(md, -100);  md->swtch=SWSRC_SWB;  md->mltpx=MLTPX_REP;
-        md=setDest(13, MIXSRC_MAX); /* md->weight= 100;*/  md->swtch=SWSRC_THR;  md->mltpx=MLTPX_REP;
-        setLogicalSwitch(11, LS_FUNC_VNEG, STK_THR, -99);
-        setLogicalSwitch(12, LS_FUNC_VPOS, MIXSRC_CH14, 0);
-        break;
+  // Sticky-T-Cut
+  case TMPL_STI_THR_CUT:
+    md=setDest(ICC(STK_THR), MIXSRC_MAX);
+    mixSetWeight(md, -100);
+    md->swtch=SWSRC_SWC;
+    md->mltpx=MLTPX_REP;
+    md=setDest(13, MIXSRC_CH14); // md->weight= 100; done by setDest anyway
+    md=setDest(13, MIXSRC_MAX);
+    mixSetWeight(md, -100);
+    md->swtch=SWSRC_SWB;
+    md->mltpx=MLTPX_REP;
+    md=setDest(13, MIXSRC_MAX); /* md->weight= 100;*/  md->swtch=SWSRC_THR;
+    md->mltpx=MLTPX_REP;
+    setLogicalSwitch(11, LS_FUNC_VNEG, STK_THR, -99);
+    setLogicalSwitch(12, LS_FUNC_VPOS, MIXSRC_CH14, 0);
+    break;
 
-      // V-Tail
-      case TMPL_V_TAIL:
-        defaultInputs();
-        setDest(ICC(STK_RUD), TMPL_INPUT(STK_RUD), true);
-        md=setDest(ICC(STK_RUD), TMPL_INPUT(STK_ELE)); mixSetWeight(md, -100);
-        setDest(ICC(STK_ELE), TMPL_INPUT(STK_RUD), true);
-        setDest(ICC(STK_ELE), TMPL_INPUT(STK_ELE));
-        break;
+  // V-Tail
+  case TMPL_V_TAIL:
+    defaultInputs();
+    setDest(ICC(STK_RUD), TMPL_INPUT(STK_RUD), true);
+    md=setDest(ICC(STK_RUD), TMPL_INPUT(STK_ELE));
+    mixSetWeight(md, -100);
+    setDest(ICC(STK_ELE), TMPL_INPUT(STK_RUD), true);
+    setDest(ICC(STK_ELE), TMPL_INPUT(STK_ELE));
+    break;
 
-      // Elevon\\Delta
-      case TMPL_ELEVON_DELTA:
-        defaultInputs();
-        setDest(ICC(STK_ELE), MIXSRC_Ele, true);
-        setDest(ICC(STK_ELE), MIXSRC_Ail);
-        setDest(ICC(STK_AIL), MIXSRC_Ele, true);
-        md=setDest(ICC(STK_AIL), MIXSRC_Ail); mixSetWeight(md, -100);
-        break;
+  // Elevon\\Delta
+  case TMPL_ELEVON_DELTA:
+    defaultInputs();
+    setDest(ICC(STK_ELE), MIXSRC_Ele, true);
+    setDest(ICC(STK_ELE), MIXSRC_Ail);
+    setDest(ICC(STK_AIL), MIXSRC_Ele, true);
+    md=setDest(ICC(STK_AIL), MIXSRC_Ail);
+    mixSetWeight(md, -100);
+    break;
 
-      // eCCPM
-      case TMPL_ECCPM:
-        md=setDest(ICC(STK_ELE), MIXSRC_Ele, true); md->weight= 72;
-        md=setDest(ICC(STK_ELE), MIXSRC_Thr);  md->weight= 55;
-        md=setDest(ICC(STK_AIL), MIXSRC_Ele, true);  mixSetWeight(md, -36);
-        md=setDest(ICC(STK_AIL), MIXSRC_Ail);  md->weight= 62;
-        md=setDest(ICC(STK_AIL), MIXSRC_Thr);  md->weight= 55;
-        md=setDest(5, MIXSRC_Ele, true);       mixSetWeight(md, -36);
-        md=setDest(5, MIXSRC_Ail);             mixSetWeight(md, -62);
-        md=setDest(5, MIXSRC_Thr);             md->weight= 55;
-        break;
+  // eCCPM
+  case TMPL_ECCPM:
+    md=setDest(ICC(STK_ELE), MIXSRC_Ele, true);
+    md->weight= 72;
+    md=setDest(ICC(STK_ELE), MIXSRC_Thr);
+    md->weight= 55;
+    md=setDest(ICC(STK_AIL), MIXSRC_Ele, true);
+    mixSetWeight(md, -36);
+    md=setDest(ICC(STK_AIL), MIXSRC_Ail);
+    md->weight= 62;
+    md=setDest(ICC(STK_AIL), MIXSRC_Thr);
+    md->weight= 55;
+    md=setDest(5, MIXSRC_Ele, true);
+    mixSetWeight(md, -36);
+    md=setDest(5, MIXSRC_Ail);
+    mixSetWeight(md, -62);
+    md=setDest(5, MIXSRC_Thr);
+    md->weight= 55;
+    break;
 
-      // Heli Setup
-      case TMPL_HELI_SETUP:
-        clearCurves();
+  // Heli Setup
+  case TMPL_HELI_SETUP:
+    clearCurves();
 
-        //Set up Mixes
-        // 3 cyclic channels
-        md=setDest(0, MIXSRC_CYC1); // md->weight=100;
-        md=setDest(1, MIXSRC_CYC2); // md->weight=100;
-        md=setDest(2, MIXSRC_CYC3); // md->weight=100;
+    //Set up Mixes
+    // 3 cyclic channels
+    md=setDest(0, MIXSRC_CYC1); // md->weight=100;
+    md=setDest(1, MIXSRC_CYC2); // md->weight=100;
+    md=setDest(2, MIXSRC_CYC3); // md->weight=100;
 
-        // rudder
-        md=setDest(3, MIXSRC_Rud); // md->weight=100;
+    // rudder
+    md=setDest(3, MIXSRC_Rud); // md->weight=100;
 
-        // throttle
-        md=setDest(4, MIXSRC_Thr); md->swtch=SWSRC_ID0; mixSetCurve(md, 0); md->carryTrim=TRIM_OFF;
-        md=setDest(4, MIXSRC_Thr); md->swtch=SWSRC_ID1; mixSetCurve(md, 1); md->carryTrim=TRIM_OFF;
-        md=setDest(4, MIXSRC_Thr); md->swtch=SWSRC_ID2; mixSetCurve(md, 2); md->carryTrim=TRIM_OFF;
-        md=setDest(4, MIXSRC_MAX); mixSetWeight(md, -100); md->swtch=SWSRC_THR;  md->mltpx=MLTPX_REP;
+    // throttle
+    md=setDest(4, MIXSRC_Thr);
+    md->swtch=SWSRC_ID0;
+    mixSetCurve(md, 0);
+    md->carryTrim=TRIM_OFF;
+    md=setDest(4, MIXSRC_Thr);
+    md->swtch=SWSRC_ID1;
+    mixSetCurve(md, 1);
+    md->carryTrim=TRIM_OFF;
+    md=setDest(4, MIXSRC_Thr);
+    md->swtch=SWSRC_ID2;
+    mixSetCurve(md, 2);
+    md->carryTrim=TRIM_OFF;
+    md=setDest(4, MIXSRC_MAX);
+    mixSetWeight(md, -100);
+    md->swtch=SWSRC_THR;
+    md->mltpx=MLTPX_REP;
 
-        // gyro gain
-        md=setDest(5, MIXSRC_MAX); md->weight= 30; md->swtch=-SWSRC_GEA;
-        md=setDest(5, MIXSRC_MAX); mixSetWeight(md, -30); md->swtch= SWSRC_GEA;
+    // gyro gain
+    md=setDest(5, MIXSRC_MAX);
+    md->weight= 30;
+    md->swtch=-SWSRC_GEA;
+    md=setDest(5, MIXSRC_MAX);
+    mixSetWeight(md, -30);
+    md->swtch= SWSRC_GEA;
 
-        // collective
-        md=setDest(10, MIXSRC_Thr); /*md->weight= 100;*/ md->swtch=SWSRC_ID0; mixSetCurve(md, 3); md->carryTrim=TRIM_OFF;
-        md=setDest(10, MIXSRC_Thr); /*md->weight= 100;*/ md->swtch=SWSRC_ID1; mixSetCurve(md, 4); md->carryTrim=TRIM_OFF;
-        md=setDest(10, MIXSRC_Thr); /*md->weight= 100;*/ md->swtch=SWSRC_ID2; mixSetCurve(md, 5); md->carryTrim=TRIM_OFF;
+    // collective
+    md=setDest(10, MIXSRC_Thr); /*md->weight= 100;*/ md->swtch=SWSRC_ID0;
+    mixSetCurve(md, 3);
+    md->carryTrim=TRIM_OFF;
+    md=setDest(10, MIXSRC_Thr); /*md->weight= 100;*/ md->swtch=SWSRC_ID1;
+    mixSetCurve(md, 4);
+    md->carryTrim=TRIM_OFF;
+    md=setDest(10, MIXSRC_Thr); /*md->weight= 100;*/ md->swtch=SWSRC_ID2;
+    mixSetCurve(md, 5);
+    md->carryTrim=TRIM_OFF;
 
-        g_model.swashR.collectiveSource = MIXSRC_CH11;
-        g_model.swashR.type = SWASH_TYPE_120;
+    g_model.swashR.collectiveSource = MIXSRC_CH11;
+    g_model.swashR.type = SWASH_TYPE_120;
 
-        // curves
-        setCurve(0, heli_ar1);
-        setCurve(1, heli_ar2);
-        setCurve(2, heli_ar3);
-        setCurve(3, heli_ar4);
-        setCurve(4, heli_ar5);
-        setCurve(5, heli_ar5);
-        break;
+    // curves
+    setCurve(0, heli_ar1);
+    setCurve(1, heli_ar2);
+    setCurve(2, heli_ar3);
+    setCurve(3, heli_ar4);
+    setCurve(4, heli_ar5);
+    setCurve(5, heli_ar5);
+    break;
 
-      // Servo Test
-      case TMPL_SERVO_TEST:
-        md=setDest(NUM_CHNOUT-1, MIXSRC_SW1, true); md->weight=110; md->mltpx=MLTPX_ADD; md->delayUp = 6; md->delayDown = 6; md->speedUp = 8; md->speedDown = 8;
-        setLogicalSwitch(1, LS_FUNC_VNEG, MIXSRC_LAST_CH, 0);
-        break;
+  // Servo Test
+  case TMPL_SERVO_TEST:
+    md=setDest(NUM_CHNOUT-1, MIXSRC_SW1, true);
+    md->weight=110;
+    md->mltpx=MLTPX_ADD;
+    md->delayUp = 6;
+    md->delayDown = 6;
+    md->speedUp = 8;
+    md->speedDown = 8;
+    setLogicalSwitch(1, LS_FUNC_VNEG, MIXSRC_LAST_CH, 0);
+    break;
 
-    default:
-        break;
+  default:
+    break;
 
-    }
+  }
 
-    eeDirty(EE_MODEL);
+  eeDirty(EE_MODEL);
 }

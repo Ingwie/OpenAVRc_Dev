@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -140,37 +140,37 @@ void processSportUpdatePacket(uint8_t *packet)
 {
   if (packet[0]==0x5E && packet[1]==0x50) {
     switch (packet[2]) {
-      case PRIM_ACK_POWERUP :
-        if (sportUpdateState == SPORT_POWERUP_REQ) {
-          sportUpdateState = SPORT_POWERUP_ACK;
-        }
-        break;
+    case PRIM_ACK_POWERUP :
+      if (sportUpdateState == SPORT_POWERUP_REQ) {
+        sportUpdateState = SPORT_POWERUP_ACK;
+      }
+      break;
 
-      case PRIM_ACK_VERSION:
-        if (sportUpdateState == SPORT_VERSION_REQ) {
-          sportUpdateState = SPORT_VERSION_ACK;
-          // SportVersion[0] = packet[3] ;
-          // SportVersion[1] = packet[4] ;
-          // SportVersion[2] = packet[5] ;
-          // SportVersion[3] = packet[6] ;
-          // SportVerValid = 1 ;
-        }
-        break;
+    case PRIM_ACK_VERSION:
+      if (sportUpdateState == SPORT_VERSION_REQ) {
+        sportUpdateState = SPORT_VERSION_ACK;
+        // SportVersion[0] = packet[3] ;
+        // SportVersion[1] = packet[4] ;
+        // SportVersion[2] = packet[5] ;
+        // SportVersion[3] = packet[6] ;
+        // SportVerValid = 1 ;
+      }
+      break;
 
-      case PRIM_REQ_DATA_ADDR :
-        if (sportUpdateState == SPORT_DATA_TRANSFER) {
-          sportUpdateAddr = *((uint32_t *)(&packet[3]));
-          sportUpdateState = SPORT_DATA_REQ;
-        }
-        break;
+    case PRIM_REQ_DATA_ADDR :
+      if (sportUpdateState == SPORT_DATA_TRANSFER) {
+        sportUpdateAddr = *((uint32_t *)(&packet[3]));
+        sportUpdateState = SPORT_DATA_REQ;
+      }
+      break;
 
-      case PRIM_END_DOWNLOAD :
-        sportUpdateState = SPORT_COMPLETE ;
-        break;
+    case PRIM_END_DOWNLOAD :
+      sportUpdateState = SPORT_COMPLETE ;
+      break;
 
-      case PRIM_DATA_CRC_ERR :
-        sportUpdateState = SPORT_FAIL ;
-        break;
+    case PRIM_DATA_CRC_ERR :
+      sportUpdateState = SPORT_FAIL ;
+      break;
     }
   }
 }
@@ -193,8 +193,7 @@ void processSportPacket(uint16_t id, uint8_t subId, uint8_t instance, uint32_t d
       mask += (1 << 16);
       setTelemetryValue(TELEM_PROTO_FRSKY_SPORT, id, subId, instance, mask + (((data & 0xFFF00000) >> 20) / 5), unit, precision);
     }
-  }
-  else {
+  } else {
     setTelemetryValue(TELEM_PROTO_FRSKY_SPORT, id, subId, instance, data, unit, precision);
   }
 }
@@ -222,11 +221,9 @@ void processSportPacket(uint8_t * packet)
         frskyData.rssi.reset();
       else
         frskyData.rssi.set(data);
-    }
-    else if (id == XJT_VERSION_ID) {
+    } else if (id == XJT_VERSION_ID) {
       frskyData.xjtVersion = HUB_DATA_U16(packet);
-    }
-    else if (id == SWR_ID) {
+    } else if (id == SWR_ID) {
       frskyData.swr.set(SPORT_DATA_U8(packet));
     }
 
@@ -234,20 +231,17 @@ void processSportPacket(uint8_t * packet)
       if ((id >> 8) == 0) {
         // The old FrSky IDs
         processHubPacket(id, HUB_DATA_U16(packet));
-      }
-      else if (!IS_HIDDEN_TELEMETRY_VALUE(id)) {
+      } else if (!IS_HIDDEN_TELEMETRY_VALUE(id)) {
         if (id == ADC1_ID || id == ADC2_ID || id == BATT_ID || id == SWR_ID) {
           data = SPORT_DATA_U8(packet);
         }
         if (id >= POWERBOX_BATT1_FIRST_ID && id <= POWERBOX_BATT2_LAST_ID) {
           processSportPacket(id, 0, instance, data & 0xffff);
           processSportPacket(id, 1, instance, data >> 16);
-        }
-        else if (id >= POWERBOX_CNSP_FIRST_ID && id <= POWERBOX_CNSP_LAST_ID) {
+        } else if (id >= POWERBOX_CNSP_FIRST_ID && id <= POWERBOX_CNSP_LAST_ID) {
           processSportPacket(id, 0, instance, data & 0xffff);
           processSportPacket(id, 1, instance, data >> 16);
-        }
-        else if (id >= POWERBOX_STATE_FIRST_ID && id <= POWERBOX_STATE_LAST_ID) {
+        } else if (id >= POWERBOX_STATE_FIRST_ID && id <= POWERBOX_STATE_LAST_ID) {
           processSportPacket(id, 0, instance, bool(data & 0x0080000));
           processSportPacket(id, 1, instance, bool(data & 0x0100000));
           processSportPacket(id, 2, instance, bool(data & 0x0200000));
@@ -256,8 +250,7 @@ void processSportPacket(uint8_t * packet)
           processSportPacket(id, 5, instance, bool(data & 0x1000000));
           processSportPacket(id, 6, instance, bool(data & 0x2000000));
           processSportPacket(id, 7, instance, bool(data & 0x4000000));
-        }
-        else {
+        } else {
           processSportPacket(id, 0, instance, data);
         }
       }
@@ -280,28 +273,23 @@ void frskySportSetDefault(int index, uint16_t id, uint8_t subId, uint8_t instanc
     telemetrySensor.init(sensor->name, unit, prec);
     if (id == RSSI_ID) {
       telemetrySensor.logs = true;
-    }
-    else if (id >= ADC1_ID && id <= BATT_ID) {
+    } else if (id >= ADC1_ID && id <= BATT_ID) {
       telemetrySensor.custom.ratio = 132;
       telemetrySensor.filter = 1;
-    }
-    else if (id >= CURR_FIRST_ID && id <= CURR_LAST_ID) {
+    } else if (id >= CURR_FIRST_ID && id <= CURR_LAST_ID) {
       telemetrySensor.onlyPositive = 1;
-    }
-    else if (id >= ALT_FIRST_ID && id <= ALT_LAST_ID) {
+    } else if (id >= ALT_FIRST_ID && id <= ALT_LAST_ID) {
       telemetrySensor.autoOffset = 1;
     }
     if (unit == UNIT_RPMS) {
       telemetrySensor.custom.ratio = 1;
       telemetrySensor.custom.offset = 1;
-    }
-    else if (unit == UNIT_METERS) {
+    } else if (unit == UNIT_METERS) {
       if (IS_IMPERIAL_ENABLE()) {
         telemetrySensor.unit = UNIT_FEET;
       }
     }
-  }
-  else {
+  } else {
     telemetrySensor.init(id);
   }
 

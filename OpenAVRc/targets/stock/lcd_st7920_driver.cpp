@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -38,8 +38,7 @@ void lcdSendCtl(uint8_t val)
   PORTC_LCD_CTRL |=  (1<<OUT_C_LCD_CS1);
 }
 
-const static pm_uchar lcdInitSequence[] PROGMEM =
-{
+const static pm_uchar lcdInitSequence[] PROGMEM = {
   0x30, // Set 8-bit interface
   0x36, // Repeat with graphics bit set to ON
   0x0C, // Display ON, cursor and blink OFF
@@ -74,21 +73,20 @@ void lcdRefreshFast()
   static uint8_t state;
   uint8_t yst;
   uint8_t yend;
-  uint8_t y_table[6]={0,13,26,39,52,64}; 
+  uint8_t y_table[6]= {0,13,26,39,52,64};
   uint8_t y_addr = 0;
   uint8_t col_offset = 0;
   uint8_t result;
   uint8_t *p;
-  
+
   //Since writing to ST7920 is too slow we need to split it to five bands
   yst=y_table[state];
   yend=y_table[state+1];
-  if (state==4){
+  if (state==4) {
     state=0;
-  }
-  else{
+  } else {
     state++;
-  }    
+  }
 
 
   for (uint8_t y=yst; y<yend; y++) {
@@ -97,8 +95,7 @@ void lcdRefreshFast()
     if (y > 31) {
       y_addr = y - 32;    //Because there are only 31 addressable lines in the ST7920
       x_addr += 8;        //so we overflow x (7 visible bytes per line) to reach the bottom half
-    }
-    else {
+    } else {
       y_addr = y;
     }
     lcdSendCtl( 0x80 | y_addr );  //Set Vertical Address
@@ -133,11 +130,13 @@ void lcdRefreshFast()
   }
 
   LCD_UNLOCK();
-  
+
   REFRESHDURATION2  //Debug function if defined LCDDURATIONSHOW in OpenAVRc.h
 }
 
 void lcdRefresh()
 {
-  for (uint8_t i=0; i < NUMITERATIONFULLREFRESH; i++) { lcdRefreshFast(); }
+  for (uint8_t i=0; i < NUMITERATIONFULLREFRESH; i++) {
+    lcdRefreshFast();
+  }
 }

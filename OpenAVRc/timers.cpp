@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -68,9 +68,9 @@ void saveTimers()
 #endif  // #if defined(CPUARM) || defined(CPUM2560)
 
 #if defined(ACCURAT_THROTTLE_TIMER)
-  #define THR_TRG_TRESHOLD    13      // approximately 10% full throttle
+#define THR_TRG_TRESHOLD    13      // approximately 10% full throttle
 #else
-  #define THR_TRG_TRESHOLD    3       // approximately 10% full throttle
+#define THR_TRG_TRESHOLD    3       // approximately 10% full throttle
 #endif
 
 void evalTimers(int16_t throttle, uint8_t tick10ms)
@@ -102,27 +102,24 @@ void evalTimers(int16_t throttle, uint8_t tick10ms)
 
         if (timerMode == TMRMODE_ABS) {
           newTimerVal++;
-        }
-        else if (timerMode == TMRMODE_THR) {
+        } else if (timerMode == TMRMODE_THR) {
           if (throttle) newTimerVal++;
-        }
-        else if (timerMode == TMRMODE_THR_REL) {
+        } else if (timerMode == TMRMODE_THR_REL) {
           // @@@ open.20.fsguruh: why so complicated? we have already a s_sum field; use it for the half seconds (not showable) as well
           // check for s_cnt[i]==0 is not needed because we are shure it is at least 1
-  #if defined(ACCURAT_THROTTLE_TIMER)
+#if defined(ACCURAT_THROTTLE_TIMER)
           if ((timerState->sum/timerState->cnt) >= 128) {  // throttle was normalized to 0 to 128 value (throttle/64*2 (because - range is added as well)
             newTimerVal++;  // add second used of throttle
             timerState->sum -= 128*timerState->cnt;
           }
-  #else
+#else
           if ((timerState->sum/timerState->cnt) >= 32) {  // throttle was normalized to 0 to 32 value (throttle/16*2 (because - range is added as well)
             newTimerVal++;  // add second used of throttle
             timerState->sum -= 32*timerState->cnt;
           }
-  #endif
+#endif
           timerState->cnt = 0;
-        }
-        else if (timerMode == TMRMODE_THR_TRG) {
+        } else if (timerMode == TMRMODE_THR_TRG) {
           // we can't rely on (throttle || newTimerVal > 0) as a detection if timer should be running
           // because having persistent timer brakes this rule
           if ((throttle > THR_TRG_TRESHOLD) && timerState->state == TMR_OFF) {
@@ -132,8 +129,7 @@ void evalTimers(int16_t throttle, uint8_t tick10ms)
             // TRACE("Timer[%d] THr triggered", i);
           }
           if (timerState->state != TMR_OFF) newTimerVal++;
-        }
-        else {
+        } else {
           if (timerMode > 0) timerMode -= (TMRMODE_COUNT-1);
           if (getSwitch(timerMode)) {
             newTimerVal++;
@@ -141,19 +137,19 @@ void evalTimers(int16_t throttle, uint8_t tick10ms)
         }
 
         switch (timerState->state) {
-          case TMR_RUNNING:
-            if (timerStart && newTimerVal>=(tmrval_t)timerStart) {
-              AUDIO_TIMER_00(g_model.timers[i].countdownBeep);
-              timerState->state = TMR_NEGATIVE;
-              // TRACE("Timer[%d] negative", i);
-            }
-            break;
-          case TMR_NEGATIVE:
-            if (newTimerVal >= (tmrval_t)timerStart + MAX_ALERT_TIME) {
-              timerState->state = TMR_STOPPED;
-              // TRACE("Timer[%d] stopped state at %d", i, newTimerVal);
-            }
-            break;
+        case TMR_RUNNING:
+          if (timerStart && newTimerVal>=(tmrval_t)timerStart) {
+            AUDIO_TIMER_00(g_model.timers[i].countdownBeep);
+            timerState->state = TMR_NEGATIVE;
+            // TRACE("Timer[%d] negative", i);
+          }
+          break;
+        case TMR_NEGATIVE:
+          if (newTimerVal >= (tmrval_t)timerStart + MAX_ALERT_TIME) {
+            timerState->state = TMR_STOPPED;
+            // TRACE("Timer[%d] stopped state at %d", i, newTimerVal);
+          }
+          break;
         }
 
         if (timerStart) newTimerVal = timerStart - newTimerVal; // if counting backwards - display backwards

@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -98,8 +98,7 @@ const pm_char *openLogs()
 
   if (f_size(&g_oLogFile) == 0) {
     writeHeader();
-  }
-  else {
+  } else {
     result = f_lseek(&g_oLogFile, f_size(&g_oLogFile)); // append
     if (result != FR_OK) {
       return SDCARD_ERROR(result);
@@ -177,8 +176,7 @@ void writeLogs()
       {
         static struct gtm utm;
         static gtime_t lastRtcTime = 0;
-        if ( g_rtcTime != lastRtcTime )
-        {
+        if ( g_rtcTime != lastRtcTime ) {
           lastRtcTime = g_rtcTime;
           gettime(&utm);
         }
@@ -200,36 +198,36 @@ void writeLogs()
 
       if (IS_USR_PROTO_FRSKY_HUB()) {
         f_printf(&g_oLogFile, "%4d-%02d-%02d,%02d:%02d:%02d,%03d.%04d%c,%03d.%04d%c,%03d.%02d," TELEMETRY_GPS_SPEED_FORMAT TELEMETRY_GPS_ALT_FORMAT TELEMETRY_BARO_ALT_FORMAT TELEMETRY_VSPEED_FORMAT TELEMETRY_ASPEED_FORMAT "%d,%d,%d,%d," TELEMETRY_CELLS_FORMAT TELEMETRY_CURRENT_FORMAT "%d," TELEMETRY_VFAS_FORMAT "%d,%d,%d,",
-            frskyData.hub.year+2000,
-            frskyData.hub.month,
-            frskyData.hub.day,
-            frskyData.hub.hour,
-            frskyData.hub.min,
-            frskyData.hub.sec,
-            frskyData.hub.gpsLongitude_bp,
-            frskyData.hub.gpsLongitude_ap,
-            frskyData.hub.gpsLongitudeEW ? frskyData.hub.gpsLongitudeEW : '-',
-            frskyData.hub.gpsLatitude_bp,
-            frskyData.hub.gpsLatitude_ap,
-            frskyData.hub.gpsLatitudeNS ? frskyData.hub.gpsLatitudeNS : '-',
-            frskyData.hub.gpsCourse_bp,
-            frskyData.hub.gpsCourse_ap,
-            TELEMETRY_GPS_SPEED_ARGS
-            TELEMETRY_GPS_ALT_ARGS
-            TELEMETRY_BARO_ALT_ARGS
-            TELEMETRY_VSPEED_ARGS
-            TELEMETRY_ASPEED_ARGS
-            frskyData.hub.temperature1,
-            frskyData.hub.temperature2,
-            frskyData.hub.rpm,
-            frskyData.hub.fuelLevel,
-            TELEMETRY_CELLS_ARGS
-            TELEMETRY_CURRENT_ARGS
-            frskyData.hub.currentConsumption,
-            TELEMETRY_VFAS_ARGS
-            frskyData.hub.accelX,
-            frskyData.hub.accelY,
-            frskyData.hub.accelZ);
+                 frskyData.hub.year+2000,
+                 frskyData.hub.month,
+                 frskyData.hub.day,
+                 frskyData.hub.hour,
+                 frskyData.hub.min,
+                 frskyData.hub.sec,
+                 frskyData.hub.gpsLongitude_bp,
+                 frskyData.hub.gpsLongitude_ap,
+                 frskyData.hub.gpsLongitudeEW ? frskyData.hub.gpsLongitudeEW : '-',
+                 frskyData.hub.gpsLatitude_bp,
+                 frskyData.hub.gpsLatitude_ap,
+                 frskyData.hub.gpsLatitudeNS ? frskyData.hub.gpsLatitudeNS : '-',
+                 frskyData.hub.gpsCourse_bp,
+                 frskyData.hub.gpsCourse_ap,
+                 TELEMETRY_GPS_SPEED_ARGS
+                 TELEMETRY_GPS_ALT_ARGS
+                 TELEMETRY_BARO_ALT_ARGS
+                 TELEMETRY_VSPEED_ARGS
+                 TELEMETRY_ASPEED_ARGS
+                 frskyData.hub.temperature1,
+                 frskyData.hub.temperature2,
+                 frskyData.hub.rpm,
+                 frskyData.hub.fuelLevel,
+                 TELEMETRY_CELLS_ARGS
+                 TELEMETRY_CURRENT_ARGS
+                 frskyData.hub.currentConsumption,
+                 TELEMETRY_VFAS_ARGS
+                 frskyData.hub.accelX,
+                 frskyData.hub.accelY,
+                 frskyData.hub.accelZ);
       }
 #endif
 
@@ -245,13 +243,13 @@ void writeLogs()
       }
 
       int result = f_printf(&g_oLogFile, "%d,%d,%d,%d,%d,%d,%d\n",
-          get2PosState(THR),
-          get2PosState(RUD),
-          get2PosState(ELE),
-          get3PosState(ID),
-          get2PosState(AIL),
-          get2PosState(GEA),
-          get2PosState(TRN));
+                            get2PosState(THR),
+                            get2PosState(RUD),
+                            get2PosState(ELE),
+                            get3PosState(ID),
+                            get2PosState(AIL),
+                            get2PosState(GEA),
+                            get2PosState(TRN));
 
       if (result<0 && !error_displayed) {
         error_displayed = STR_SDCARD_ERROR;
@@ -259,8 +257,7 @@ void writeLogs()
         closeLogs();
       }
     }
-  }
-  else {
+  } else {
     error_displayed = NULL;
     if (g_oLogFile.fs) {
       closeLogs();

@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -455,8 +455,7 @@ extern uint8_t heartbeat;
 
 #define MAX_ALERT_TIME   60
 
-struct t_inactivity
-{
+struct t_inactivity {
   uint16_t counter;
   uint8_t  sum;
 };
@@ -540,7 +539,10 @@ extern uint8_t flightModeTransitionLast;
 #define bitfield_channels_t uint16_t
 
 #if defined(SIMU)
-inline int availableMemory() { return 1000; }
+inline int availableMemory()
+{
+  return 1000;
+}
 #endif
 
 void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms);
@@ -750,11 +752,28 @@ void checkBacklight();
 
 #undef min // Avoid double declaration in wingw
 #undef max
-template<class t> FORCEINLINE t min(t a, t b) { return a<b?a:b; }
-template<class t> FORCEINLINE t max(t a, t b) { return a>b?a:b; }
-template<class t> FORCEINLINE t sgn(t a) { return a>0 ? 1 : (a < 0 ? -1 : 0); }
-template<class t> FORCEINLINE t limit(t mi, t x, t ma) { return min(max(mi,x),ma); }
-template<class t> void SWAP(t & a, t & b) { t tmp = b; b = a; a = tmp; }
+template<class t> FORCEINLINE t min(t a, t b)
+{
+  return a<b?a:b;
+}
+template<class t> FORCEINLINE t max(t a, t b)
+{
+  return a>b?a:b;
+}
+template<class t> FORCEINLINE t sgn(t a)
+{
+  return a>0 ? 1 : (a < 0 ? -1 : 0);
+}
+template<class t> FORCEINLINE t limit(t mi, t x, t ma)
+{
+  return min(max(mi,x),ma);
+}
+template<class t> void SWAP(t & a, t & b)
+{
+  t tmp = b;
+  b = a;
+  a = tmp;
+}
 
 uint16_t isqrt32(uint32_t n);
 
@@ -1047,12 +1066,10 @@ extern void OpenAVRcClose();
 extern void OpenAVRcInit(uint8_t mcusr);
 
 // Re-useable byte array to save having multiple buffers
-#define SD_SCREEN_FILE_LENGTH (32)
-union ReusableBuffer
-{
+#define SD_SCREEN_FILE_LENGTH (26)
+union ReusableBuffer {
   // 275 bytes
-  struct
-  {
+  struct {
     char listnames[LCD_LINES-1][LEN_MODEL_NAME];
     uint16_t eepromfree;
 
@@ -1066,8 +1083,7 @@ union ReusableBuffer
   } modelsel;
 
   // 103 bytes
-  struct
-  {
+  struct {
     int16_t midVals[NUM_STICKS+NUM_POTS];
     int16_t loVals[NUM_STICKS+NUM_POTS];
     int16_t hiVals[NUM_STICKS+NUM_POTS];
@@ -1076,8 +1092,7 @@ union ReusableBuffer
 
 #if defined(SDCARD)
   // 274 bytes
-  struct
-  {
+  struct {
     char lines[LCD_LINES-1][SD_SCREEN_FILE_LENGTH+1+1]; // the last char is used to store the flags (directory) of the line
     uint32_t available;
     uint16_t offset;

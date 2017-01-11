@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -44,16 +44,17 @@ void displayRssiLine()
     lcdDrawSolidHorizontalLine(0, 55, 128, 0); // separator
     uint8_t rssi;
     rssi = min((uint8_t)99, frskyData.rssi[1].value);
-    lcdDrawTextLeft(STATUS_BAR_Y, STR_TX); lcdDrawNumberNAtt(4*FW+1, STATUS_BAR_Y, rssi, LEADING0, 2);
+    lcdDrawTextLeft(STATUS_BAR_Y, STR_TX);
+    lcdDrawNumberNAtt(4*FW+1, STATUS_BAR_Y, rssi, LEADING0, 2);
     lcdDrawRect(BAR_LEFT+1, 57, 38, 7);
     lcdDrawFilledRect(BAR_LEFT+1, 58, 4*rssi/11, 5, (rssi < getRssiAlarmValue(0)) ? DOTTED : SOLID);
     rssi = min((uint8_t)99, TELEMETRY_RSSI());
-    lcdDrawText(104, STATUS_BAR_Y, STR_RX); lcdDrawNumberNAtt(105+4*FW, STATUS_BAR_Y, rssi, LEADING0, 2);
+    lcdDrawText(104, STATUS_BAR_Y, STR_RX);
+    lcdDrawNumberNAtt(105+4*FW, STATUS_BAR_Y, rssi, LEADING0, 2);
     lcdDrawRect(65, 57, 38, 7);
     uint8_t v = 4*rssi/11;
     lcdDrawFilledRect(66+36-v, 58, v, 5, (rssi < getRssiAlarmValue(0)) ? DOTTED : SOLID);
-  }
-  else {
+  } else {
     lcdDrawTextAtt(7*FW, STATUS_BAR_Y, STR_NODATA, BLINK);
     lcd_status_line();
   }
@@ -88,15 +89,13 @@ void displayGpsCoord(uint8_t y, char direction, int16_t bp, int16_t ap)
       lcdDrawNumberNAtt(lcdLastPos+2, y, ss % 1000, LEFT|LEADING0, 3); // ''
       lcdDrawSolidVerticalLine(lcdLastPos, y, 2);
       lcdDrawSolidVerticalLine(lcdLastPos+2, y, 2);
-    }
-    else {
+    } else {
       lcdDrawNumberNAtt(lcdLastPos+FW, y, mn, LEFT|LEADING0, 2); // mm before '.'
       lcdDrawPoint(lcdLastPos, y+FH-2, 0); // small decimal point
       lcdDrawNumberNAtt(lcdLastPos+2, y, ap, LEFT|UNSIGN|LEADING0, 4); // after '.'
       lcdDrawChar(lcdLastPos+1, y, direction);
     }
-  }
-  else {
+  } else {
     // no fix
     lcdDrawText(TELEM_2ND_COLUMN, y, STR_VCSWFUNC+1/*----*/);
   }
@@ -116,8 +115,10 @@ void displayVoltageScreenLine(uint8_t y, uint8_t index)
   lcdDrawStringWithIndex(0, y, STR_A, index+1, 0);
   if (TELEMETRY_STREAMING()) {
     lcdPutsTelemetryChannelValue(3*FW+6*FW+4, y-FH, index+TELEM_A1-1, frskyData.analog[index].value, DBLSIZE);
-    lcdDrawChar(12*FW-1, y-FH, '<'); lcdPutsTelemetryChannelValue(17*FW, y-FH, index+TELEM_A1-1, frskyData.analog[index].min, NO_UNIT);
-    lcdDrawChar(12*FW, y, '>');      lcdPutsTelemetryChannelValue(17*FW, y, index+TELEM_A1-1, frskyData.analog[index].max, NO_UNIT);
+    lcdDrawChar(12*FW-1, y-FH, '<');
+    lcdPutsTelemetryChannelValue(17*FW, y-FH, index+TELEM_A1-1, frskyData.analog[index].min, NO_UNIT);
+    lcdDrawChar(12*FW, y, '>');
+    lcdPutsTelemetryChannelValue(17*FW, y, index+TELEM_A1-1, frskyData.analog[index].max, NO_UNIT);
   }
 }
 
@@ -132,39 +133,38 @@ void displayVoltagesScreen()
   uint8_t analog = 0;
   lcdDrawTextAtIndex(0, 2*FH, STR_AMPSRC, g_model.frsky.voltsSource+1, 0);
   switch (g_model.frsky.voltsSource) {
-    case FRSKY_VOLTS_SOURCE_A1:
-    case FRSKY_VOLTS_SOURCE_A2:
-      displayVoltageScreenLine(2*FH, g_model.frsky.voltsSource);
-      analog = 1+g_model.frsky.voltsSource;
-      break;
+  case FRSKY_VOLTS_SOURCE_A1:
+  case FRSKY_VOLTS_SOURCE_A2:
+    displayVoltageScreenLine(2*FH, g_model.frsky.voltsSource);
+    analog = 1+g_model.frsky.voltsSource;
+    break;
 #if defined(FRSKY_HUB)
-    case FRSKY_VOLTS_SOURCE_FAS:
-      lcdPutsTelemetryChannelValue(3*FW+6*FW+4, FH, TELEM_VFAS-1, frskyData.hub.vfas, DBLSIZE);
-      break;
-    case FRSKY_VOLTS_SOURCE_CELLS:
-      lcdPutsTelemetryChannelValue(3*FW+6*FW+4, FH, TELEM_CELLS_SUM-1, frskyData.hub.cellsSum, DBLSIZE);
-      break;
+  case FRSKY_VOLTS_SOURCE_FAS:
+    lcdPutsTelemetryChannelValue(3*FW+6*FW+4, FH, TELEM_VFAS-1, frskyData.hub.vfas, DBLSIZE);
+    break;
+  case FRSKY_VOLTS_SOURCE_CELLS:
+    lcdPutsTelemetryChannelValue(3*FW+6*FW+4, FH, TELEM_CELLS_SUM-1, frskyData.hub.cellsSum, DBLSIZE);
+    break;
 #endif
   }
 
   if (g_model.frsky.currentSource) {
     lcdDrawTextAtIndex(0, 4*FH, STR_AMPSRC, g_model.frsky.currentSource, 0);
     switch(g_model.frsky.currentSource) {
-      case FRSKY_CURRENT_SOURCE_A1:
-      case FRSKY_CURRENT_SOURCE_A2:
-        displayVoltageScreenLine(4*FH, g_model.frsky.currentSource-1);
-        break;
+    case FRSKY_CURRENT_SOURCE_A1:
+    case FRSKY_CURRENT_SOURCE_A2:
+      displayVoltageScreenLine(4*FH, g_model.frsky.currentSource-1);
+      break;
 #if defined(FRSKY_HUB)
-      case FRSKY_CURRENT_SOURCE_FAS:
-        lcdPutsTelemetryChannelValue(3*FW+6*FW+4, 3*FH, TELEM_CURRENT-1, frskyData.hub.current, DBLSIZE);
-        break;
+    case FRSKY_CURRENT_SOURCE_FAS:
+      lcdPutsTelemetryChannelValue(3*FW+6*FW+4, 3*FH, TELEM_CURRENT-1, frskyData.hub.current, DBLSIZE);
+      break;
 #endif
     }
 
     lcdPutsTelemetryChannelValue(4, 5*FH, TELEM_POWER-1, frskyData.hub.power, LEFT|DBLSIZE);
     lcdPutsTelemetryChannelValue(3*FW+4+4*FW+6*FW+FW, 5*FH, TELEM_CONSUMPTION-1, frskyData.hub.currentConsumption, DBLSIZE);
-  }
-  else {
+  } else {
     displayVoltageScreenLine(analog > 0 ? 5*FH : 4*FH, analog ? 2-analog : 0);
     if (analog == 0) displayVoltageScreenLine(6*FH, 1);
   }
@@ -269,8 +269,7 @@ bool displayGaugesTelemetryScreen(FrSkyScreenData & screen)
         lcdDrawSolidVerticalLineStip(BAR_LEFT+1+thresholdX, y-2, barHeight+3, DOTTED);
         lcdDrawSolidHorizontalLine(BAR_LEFT+thresholdX, y-2, 3);
       }
-    }
-    else {
+    } else {
       barHeight += 2;
     }
   }
@@ -306,8 +305,7 @@ bool displayNumbersTelemetryScreen(FrSkyScreenData & screen)
             break;
           }
 #endif
-        }
-        else {
+        } else {
           displayRssiLine();
           return fields_count;
         }
@@ -381,22 +379,22 @@ void menuTelemetryFrsky(uint8_t event)
 {
 
   switch (event) {
-    case EVT_KEY_FIRST(KEY_EXIT):
-      killEvents(event);
-      chainMenu(menuMainView);
-      break;
+  case EVT_KEY_FIRST(KEY_EXIT):
+    killEvents(event);
+    chainMenu(menuMainView);
+    break;
 
-    case EVT_KEY_FIRST(KEY_UP):
-      decrTelemetryScreen();
-      break;
+  case EVT_KEY_FIRST(KEY_UP):
+    decrTelemetryScreen();
+    break;
 
-    case EVT_KEY_FIRST(KEY_DOWN):
-      incrTelemetryScreen();
-      break;
+  case EVT_KEY_FIRST(KEY_DOWN):
+    incrTelemetryScreen();
+    break;
 
-    case EVT_KEY_FIRST(KEY_ENTER):
-      telemetryReset();
-      break;
+  case EVT_KEY_FIRST(KEY_ENTER):
+    telemetryReset();
+    break;
   }
 
   if (!displayTelemetryScreen()) {

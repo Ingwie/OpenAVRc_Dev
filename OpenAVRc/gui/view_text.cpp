@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -52,31 +52,25 @@ void readTextFile(int & lines_count)
         ++current_line;
         line_length = 0;
         escape = 0;
-      }
-      else if (c!='\r' && current_line>=menuVerticalOffset && current_line-menuVerticalOffset<LCD_LINES-1 && line_length<LCD_COLS) {
+      } else if (c!='\r' && current_line>=menuVerticalOffset && current_line-menuVerticalOffset<LCD_LINES-1 && line_length<LCD_COLS) {
         if (c=='\\' && escape==0) {
           escape = 1;
           continue;
-        }
-        else if (c!='\\' && escape>0 && escape<3) {
+        } else if (c!='\\' && escape>0 && escape<3) {
           escape_chars[escape-1] = c;
           if (escape == 2 && !strncmp(escape_chars, "up", 2)) {
             c = '\300';
             escape = 0;
-          }
-          else if (escape == 2 && !strncmp(escape_chars, "dn", 2)) {
+          } else if (escape == 2 && !strncmp(escape_chars, "dn", 2)) {
             c = '\301';
             escape = 0;
-          }
-          else {
+          } else {
             escape++;
             continue;
           }
-        }
-        else if (c=='~') {
+        } else if (c=='~') {
           c = 'z'+1;
-        }
-        else if (c=='\t') {
+        } else if (c=='\t') {
           c = 0x1D; //tab
         }
         escape = 0;
@@ -99,32 +93,32 @@ void menuTextView(uint8_t event)
   static int lines_count;
 
   switch (event) {
-    case EVT_ENTRY:
-      menuVerticalOffset = 0;
-      lines_count = 0;
-      readTextFile(lines_count);
-      break;
+  case EVT_ENTRY:
+    menuVerticalOffset = 0;
+    lines_count = 0;
+    readTextFile(lines_count);
+    break;
 
-    case EVT_KEY_FIRST(KEY_UP):
-      if (menuVerticalOffset == 0)
-        break;
-      else
-        menuVerticalOffset--;
-        // no break;
-
-    case EVT_KEY_FIRST(KEY_DOWN):
-      // if (event == EVT_KEY_BREAK(KEY_DOWN)) {
-        if (menuVerticalOffset+LCD_LINES-1 >= lines_count)
-          break;
-        else
-          ++menuVerticalOffset;
-      // }
-      readTextFile(lines_count);
+  case EVT_KEY_FIRST(KEY_UP):
+    if (menuVerticalOffset == 0)
       break;
+    else
+      menuVerticalOffset--;
+  // no break;
 
-    case EVT_KEY_BREAK(KEY_EXIT):
-      popMenu();
+  case EVT_KEY_FIRST(KEY_DOWN):
+    // if (event == EVT_KEY_BREAK(KEY_DOWN)) {
+    if (menuVerticalOffset+LCD_LINES-1 >= lines_count)
       break;
+    else
+      ++menuVerticalOffset;
+    // }
+    readTextFile(lines_count);
+    break;
+
+  case EVT_KEY_BREAK(KEY_EXIT):
+    popMenu();
+    break;
   }
 
   for (int i=0; i<LCD_LINES-1; i++) {

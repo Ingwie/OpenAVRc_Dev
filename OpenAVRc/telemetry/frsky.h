@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -178,18 +178,20 @@ extern uint8_t link_counter;
 
 
 #define RAW_FRSKY_MINMAX(v)       v.value
-class FrskyValueWithMin {
-  public:
-    uint8_t value;
-    uint8_t min;
-    uint16_t sum;
-    void set(uint8_t value);
+class FrskyValueWithMin
+{
+public:
+  uint8_t value;
+  uint8_t min;
+  uint16_t sum;
+  void set(uint8_t value);
 };
 
-class FrskyValueWithMinMax: public FrskyValueWithMin {
-  public:
-    uint8_t max;
-    void set(uint8_t value, uint8_t unit);
+class FrskyValueWithMinMax: public FrskyValueWithMin
+{
+public:
+  uint8_t max;
+  void set(uint8_t value, uint8_t unit);
 };
 
 #if defined(FRSKY_HUB)
@@ -314,7 +316,7 @@ struct FrskyData {
 };
 
 
-  #define IS_VALID_XJT_VERSION()      (1)
+#define IS_VALID_XJT_VERSION()      (1)
 #define IS_HIDDEN_TELEMETRY_VALUE(id) ((id == SP2UART_A_ID) || (id == SP2UART_B_ID) || (id == XJT_VERSION_ID) || ((id == SWR_ID) && !IS_VALID_XJT_VERSION()))
 
 enum AlarmLevel {
@@ -327,46 +329,46 @@ enum AlarmLevel {
 #define ALARM_GREATER(channel, alarm)     ((g_model.frsky.channels[channel].alarms_greater >> alarm) & 1)
 #define ALARM_LEVEL(channel, alarm)       ((g_model.frsky.channels[channel].alarms_level >> (2*alarm)) & 3)
 
-  #define TELEMETRY_STREAMING()           (frskyStreaming > 0)
-  #define TELEMETRY_RSSI()                (frskyData.rssi[0].value)
-  #define TELEMETRY_RSSI_MIN()            (frskyData.rssi[0].min)
+#define TELEMETRY_STREAMING()           (frskyStreaming > 0)
+#define TELEMETRY_RSSI()                (frskyData.rssi[0].value)
+#define TELEMETRY_RSSI_MIN()            (frskyData.rssi[0].min)
 
-  #define TELEMETRY_CELL_VOLTAGE_MUTLIPLIER  2
+#define TELEMETRY_CELL_VOLTAGE_MUTLIPLIER  2
 
-  #define TELEMETRY_BARO_ALT_AVAILABLE()  (frskyData.hub.baroAltitudeOffset)
-  #define TELEMETRY_BARO_ALT_UNIT         (IS_IMPERIAL_ENABLE() ? LENGTH_UNIT_IMP : LENGTH_UNIT_METR)
+#define TELEMETRY_BARO_ALT_AVAILABLE()  (frskyData.hub.baroAltitudeOffset)
+#define TELEMETRY_BARO_ALT_UNIT         (IS_IMPERIAL_ENABLE() ? LENGTH_UNIT_IMP : LENGTH_UNIT_METR)
 
-  #define TELEMETRY_RELATIVE_BARO_ALT_BP  frskyData.hub.baroAltitude_bp
-  #define TELEMETRY_RELATIVE_BARO_ALT_AP  frskyData.hub.baroAltitude_ap
-  #define TELEMETRY_RELATIVE_GPS_ALT_BP   frskyData.hub.gpsAltitude_bp
-  #define TELEMETRY_GPS_SPEED_BP          frskyData.hub.gpsSpeed_bp
-  #define TELEMETRY_GPS_SPEED_AP          frskyData.hub.gpsSpeed_ap
+#define TELEMETRY_RELATIVE_BARO_ALT_BP  frskyData.hub.baroAltitude_bp
+#define TELEMETRY_RELATIVE_BARO_ALT_AP  frskyData.hub.baroAltitude_ap
+#define TELEMETRY_RELATIVE_GPS_ALT_BP   frskyData.hub.gpsAltitude_bp
+#define TELEMETRY_GPS_SPEED_BP          frskyData.hub.gpsSpeed_bp
+#define TELEMETRY_GPS_SPEED_AP          frskyData.hub.gpsSpeed_ap
 
-  #define TELEMETRY_BARO_ALT_PREPARE()
-  #define TELEMETRY_BARO_ALT_FORMAT       "%d,"
-  #define TELEMETRY_BARO_ALT_ARGS         frskyData.hub.baroAltitude_bp,
-  #define TELEMETRY_GPS_ALT_FORMAT        "%d,"
-  #define TELEMETRY_GPS_ALT_ARGS          frskyData.hub.gpsAltitude_bp,
-  #define TELEMETRY_SPEED_UNIT            (IS_IMPERIAL_ENABLE() ? SPEED_UNIT_IMP : SPEED_UNIT_METR)
-  #define TELEMETRY_GPS_SPEED_FORMAT      "%d,"
-  #define TELEMETRY_GPS_SPEED_ARGS        frskyData.hub.gpsSpeed_bp,
-    #define TELEMETRY_CELLS_ARGS          frskyData.hub.cellsSum / 10, frskyData.hub.cellsSum % 10, frskyData.hub.cellVolts[0]*2/100, frskyData.hub.cellVolts[0]*2%100, frskyData.hub.cellVolts[1]*2/100, frskyData.hub.cellVolts[1]*2%100, frskyData.hub.cellVolts[2]*2/100, frskyData.hub.cellVolts[2]*2%100, frskyData.hub.cellVolts[3]*2/100, frskyData.hub.cellVolts[3]*2%100, frskyData.hub.cellVolts[4]*2/100, frskyData.hub.cellVolts[4]*2%100, frskyData.hub.cellVolts[5]*2/100, frskyData.hub.cellVolts[5]*2%100,
-    #define TELEMETRY_CELLS_FORMAT        "%d.%d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,"
-    #define TELEMETRY_CELLS_LABEL         "Cell volts,Cell 1,Cell 2,Cell 3,Cell 4,Cell 5,Cell 6,"
-  #define TELEMETRY_CURRENT_FORMAT        "%d.%02d,"
-  #define TELEMETRY_CURRENT_ARGS          frskyData.hub.current / 100, frskyData.hub.current % 100,
-  #define TELEMETRY_VFAS_FORMAT           "%d.%d,"
-  #define TELEMETRY_VFAS_ARGS             frskyData.hub.vfas / 10, frskyData.hub.vfas % 10,
-  #define TELEMETRY_VSPEED_FORMAT         "%c%d.%02d,"
-  #define TELEMETRY_VSPEED_ARGS           frskyData.hub.varioSpeed < 0 ? '-' : ' ', frskyData.hub.varioSpeed / 100, frskyData.hub.varioSpeed % 100,
-  #define TELEMETRY_ASPEED_FORMAT         "%d.%d,"
-  #define TELEMETRY_ASPEED_ARGS           frskyData.hub.airSpeed / 10, frskyData.hub.airSpeed % 10,
+#define TELEMETRY_BARO_ALT_PREPARE()
+#define TELEMETRY_BARO_ALT_FORMAT       "%d,"
+#define TELEMETRY_BARO_ALT_ARGS         frskyData.hub.baroAltitude_bp,
+#define TELEMETRY_GPS_ALT_FORMAT        "%d,"
+#define TELEMETRY_GPS_ALT_ARGS          frskyData.hub.gpsAltitude_bp,
+#define TELEMETRY_SPEED_UNIT            (IS_IMPERIAL_ENABLE() ? SPEED_UNIT_IMP : SPEED_UNIT_METR)
+#define TELEMETRY_GPS_SPEED_FORMAT      "%d,"
+#define TELEMETRY_GPS_SPEED_ARGS        frskyData.hub.gpsSpeed_bp,
+#define TELEMETRY_CELLS_ARGS          frskyData.hub.cellsSum / 10, frskyData.hub.cellsSum % 10, frskyData.hub.cellVolts[0]*2/100, frskyData.hub.cellVolts[0]*2%100, frskyData.hub.cellVolts[1]*2/100, frskyData.hub.cellVolts[1]*2%100, frskyData.hub.cellVolts[2]*2/100, frskyData.hub.cellVolts[2]*2%100, frskyData.hub.cellVolts[3]*2/100, frskyData.hub.cellVolts[3]*2%100, frskyData.hub.cellVolts[4]*2/100, frskyData.hub.cellVolts[4]*2%100, frskyData.hub.cellVolts[5]*2/100, frskyData.hub.cellVolts[5]*2%100,
+#define TELEMETRY_CELLS_FORMAT        "%d.%d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,"
+#define TELEMETRY_CELLS_LABEL         "Cell volts,Cell 1,Cell 2,Cell 3,Cell 4,Cell 5,Cell 6,"
+#define TELEMETRY_CURRENT_FORMAT        "%d.%02d,"
+#define TELEMETRY_CURRENT_ARGS          frskyData.hub.current / 100, frskyData.hub.current % 100,
+#define TELEMETRY_VFAS_FORMAT           "%d.%d,"
+#define TELEMETRY_VFAS_ARGS             frskyData.hub.vfas / 10, frskyData.hub.vfas % 10,
+#define TELEMETRY_VSPEED_FORMAT         "%c%d.%02d,"
+#define TELEMETRY_VSPEED_ARGS           frskyData.hub.varioSpeed < 0 ? '-' : ' ', frskyData.hub.varioSpeed / 100, frskyData.hub.varioSpeed % 100,
+#define TELEMETRY_ASPEED_FORMAT         "%d.%d,"
+#define TELEMETRY_ASPEED_ARGS           frskyData.hub.airSpeed / 10, frskyData.hub.airSpeed % 10,
 
-  #if defined(FRSKY_HUB)
-    #define TELEMETRY_OPENXSENSOR()       (frskyData.hub.openXsensor)
-  #else
-    #define TELEMETRY_OPENXSENSOR()       (0)
-  #endif
+#if defined(FRSKY_HUB)
+#define TELEMETRY_OPENXSENSOR()       (frskyData.hub.openXsensor)
+#else
+#define TELEMETRY_OPENXSENSOR()       (0)
+#endif
 
 #define TELEMETRY_CELL_VOLTAGE(k)         (frskyData.hub.cellVolts[k] * TELEMETRY_CELL_VOLTAGE_MUTLIPLIER)
 #define TELEMETRY_MIN_CELL_VOLTAGE        (frskyData.hub.minCellVolts * TELEMETRY_CELL_VOLTAGE_MUTLIPLIER)
@@ -389,16 +391,16 @@ enum FrSkyDataState {
 #endif
 };
 
-  #define SEND_RSSI_ALARMS  6
-  #define SEND_MODEL_ALARMS 4
-  extern uint8_t frskyAlarmsSendState;
-  #define FRSKY_TX_PACKET_SIZE 12
-  extern uint8_t frskyTxBuffer[FRSKY_TX_PACKET_SIZE];
-  extern uint8_t frskyTxBufferCount;
-  inline void frskySendAlarms(void)
-  {
-    frskyAlarmsSendState = SEND_RSSI_ALARMS;
-  }
+#define SEND_RSSI_ALARMS  6
+#define SEND_MODEL_ALARMS 4
+extern uint8_t frskyAlarmsSendState;
+#define FRSKY_TX_PACKET_SIZE 12
+extern uint8_t frskyTxBuffer[FRSKY_TX_PACKET_SIZE];
+extern uint8_t frskyTxBufferCount;
+inline void frskySendAlarms(void)
+{
+  frskyAlarmsSendState = SEND_RSSI_ALARMS;
+}
 
 #if defined(FRSKY_HUB)
 typedef enum {
@@ -425,7 +427,7 @@ void telemetryInit(void);
 void telemetryInterrupt10ms(void);
 
 #if   defined(FRSKY_HUB)
-  typedef uint8_t frskyCellVoltage_t;
+typedef uint8_t frskyCellVoltage_t;
 #endif
 
 #if defined(FRSKY_HUB)

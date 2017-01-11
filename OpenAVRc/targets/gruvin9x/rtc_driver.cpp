@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -34,13 +34,13 @@
 #define RTC_ADRESS  (0x68 << 1) //0x68 for ZS042
 
 typedef struct {
-        WORD    year;   /* 2000..2099 */
-        uint8_t    month;  /* 1..12 */
-        uint8_t    mday;   /* 1.. 31 */
-        uint8_t    wday;   /* 1..7 */
-        uint8_t    hour;   /* 0..23 */
-        uint8_t    min;    /* 0..59 */
-        uint8_t    sec;    /* 0..59 */
+  WORD    year;   /* 2000..2099 */
+  uint8_t    month;  /* 1..12 */
+  uint8_t    mday;   /* 1.. 31 */
+  uint8_t    wday;   /* 1..7 */
+  uint8_t    hour;   /* 0..23 */
+  uint8_t    min;    /* 0..59 */
+  uint8_t    sec;    /* 0..59 */
 } RTC;
 
 /*-------------------------------------------------*/
@@ -116,13 +116,15 @@ void rtcInit (void)
   if (!iic_read(RTC_ADRESS, 0, 8, buf)) return;	/* IIC error */
 
   if (buf[7] & 0x20) {	/* When data has been volatiled, set default time */
-          /* Clear nv-ram. Reg[8..63] */
-          memset(buf, 0, 8);
-          for (uint8_t adr = 8; adr < 64; adr += 8)
-                  iic_write(0x0D, adr, 8, buf);
-          /* Reset time to Jan 1, '08. Reg[0..7] */
-          buf[4] = 1; buf[5] = 1; buf[6] = 8;
-          iic_write(0x0D, 0, 8, buf);
+    /* Clear nv-ram. Reg[8..63] */
+    memset(buf, 0, 8);
+    for (uint8_t adr = 8; adr < 64; adr += 8)
+      iic_write(0x0D, adr, 8, buf);
+    /* Reset time to Jan 1, '08. Reg[0..7] */
+    buf[4] = 1;
+    buf[5] = 1;
+    buf[6] = 8;
+    iic_write(0x0D, 0, 8, buf);
   }
 
   struct gtm utm;

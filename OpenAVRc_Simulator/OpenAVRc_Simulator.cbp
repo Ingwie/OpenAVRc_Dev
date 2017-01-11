@@ -237,6 +237,7 @@
 		<Unit filename="../OpenAVRc/rtc.h" />
 		<Unit filename="../OpenAVRc/sdcard.cpp" />
 		<Unit filename="../OpenAVRc/sdcard.h" />
+		<Unit filename="../OpenAVRc/stamp-OpenAVRc.h" />
 		<Unit filename="../OpenAVRc/stamp.cpp" />
 		<Unit filename="../OpenAVRc/strhelpers.cpp" />
 		<Unit filename="../OpenAVRc/switches.cpp" />

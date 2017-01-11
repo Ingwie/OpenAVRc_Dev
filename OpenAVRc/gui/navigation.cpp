@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -34,9 +34,9 @@ int8_t checkIncDecMovedSwitch(int8_t val)
     int8_t swtch = getMovedSwitch();
     if (swtch) {
       if (IS_MOMENTARY(val) && swtch==val)
-      val = -val;
+        val = -val;
       else
-      val = swtch;
+        val = swtch;
     }
   }
   return val;
@@ -67,17 +67,14 @@ int16_t checkIncDec(uint8_t event, int16_t val, int16_t i_min, int16_t i_max, ui
   if (!(i_flags & NO_DBLKEYS) && (EVT_KEY_MASK(event))) {
     bool dblkey = true;
     if (DBLKEYS_PRESSED_RGT_LFT(in))
-    newval = -val;
+      newval = -val;
     else if (DBLKEYS_PRESSED_RGT_UP(in)) {
       newval = (i_max > 100 ? 100 : i_max);
-    }
-    else if (DBLKEYS_PRESSED_LFT_DWN(in)) {
+    } else if (DBLKEYS_PRESSED_LFT_DWN(in)) {
       newval = (i_min < -100 ? -100 : i_min);
-    }
-    else if (DBLKEYS_PRESSED_UP_DWN(in)) {
+    } else if (DBLKEYS_PRESSED_UP_DWN(in)) {
       newval = 0;
-    }
-    else {
+    } else {
       dblkey = false;
     }
 
@@ -94,8 +91,7 @@ int16_t checkIncDec(uint8_t event, int16_t val, int16_t i_min, int16_t i_max, ui
   if (event==EVT_KEY_FIRST(KEY_RIGHT) || event==EVT_KEY_REPT(KEY_RIGHT) || (s_editMode>0 && (IS_ROTARY_RIGHT(event) || event==EVT_KEY_FIRST(KEY_UP) || event==EVT_KEY_REPT(KEY_UP)))) {
     newval++;
     AUDIO_KEYPAD_UP();
-  }
-  else if (event==EVT_KEY_FIRST(KEY_LEFT) || event==EVT_KEY_REPT(KEY_LEFT) || (s_editMode>0 && (IS_ROTARY_LEFT(event) || event==EVT_KEY_FIRST(KEY_DOWN) || event==EVT_KEY_REPT(KEY_DOWN)))) {
+  } else if (event==EVT_KEY_FIRST(KEY_LEFT) || event==EVT_KEY_REPT(KEY_LEFT) || (s_editMode>0 && (IS_ROTARY_LEFT(event) || event==EVT_KEY_FIRST(KEY_DOWN) || event==EVT_KEY_REPT(KEY_DOWN)))) {
     newval--;
     AUDIO_KEYPAD_DOWN();
   }
@@ -146,14 +142,13 @@ int16_t checkIncDec(uint8_t event, int16_t val, int16_t i_min, int16_t i_max, ui
     if (!(i_flags & NO_INCDEC_MARKS) && (newval != i_max) && (newval != i_min) && (newval==0 || newval==-100 || newval==+100) && !IS_ROTARY_EVENT(event)) {
       pauseEvents(event); // delay before auto-repeat continues
       if (newval>val) // without AUDIO it's optimized, because the 2 sounds are the same
-      AUDIO_KEYPAD_UP();
+        AUDIO_KEYPAD_UP();
       else
-      AUDIO_KEYPAD_DOWN();
+        AUDIO_KEYPAD_DOWN();
     }
     eeDirty(i_flags & (EE_GENERAL|EE_MODEL));
     checkIncDec_Ret = (newval > val ? 1 : -1);
-  }
-  else {
+  } else {
     checkIncDec_Ret = 0;
   }
   return newval;
@@ -218,7 +213,7 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
   int8_t scrollUD = (p3valprev-calibratedStick[5]) / SCROLL_TH;
   if (scrollUD) p3valprev = calibratedStick[5];
 #else
-  #define scrollUD 0
+#define scrollUD 0
 #endif
 
   if (p2valdiff || scrollUD || p1valdiff) backlightOn(); // on keypress turn the light on
@@ -243,8 +238,7 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
           s_editMode = 0;
           // TODO ? l_posVert = (horTab && horTab[1]==0xff) ? 2 : 1;
           l_posHorz = 0;
-        }
-        else {
+        } else {
           s_editMode = -1;
         }
         event = 0;
@@ -254,25 +248,25 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
 #if defined(ROTARY_ENCODER_NAVIGATION)
       case EVT_ROTARY_LEFT:
         if (s_editMode >= 0)
-        break;
+          break;
 #endif
       case EVT_KEY_FIRST(KEY_LEFT):
         if (curr > 0)
-        cc = curr - 1;
+          cc = curr - 1;
         else
-        cc = menuTabSize-1;
+          cc = menuTabSize-1;
         break;
 
 #if defined(ROTARY_ENCODER_NAVIGATION)
       case EVT_ROTARY_RIGHT:
         if (s_editMode >= 0)
-        break;
+          break;
 #endif
       case EVT_KEY_FIRST(KEY_RIGHT):
         if (curr < (menuTabSize-1))
-        cc = curr + 1;
+          cc = curr + 1;
         else
-        cc = 0;
+          cc = 0;
         break;
       }
 
@@ -282,7 +276,7 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
 
 #if defined(ROTARY_ENCODER_NAVIGATION)
       if (IS_RE_NAVIGATION_ENABLE() && s_editMode < 0)
-      attr = INVERS|BLINK;
+        attr = INVERS|BLINK;
 #endif
     }
 
@@ -304,8 +298,7 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
     }
   }
 
-  switch(event)
-  {
+  switch(event) {
   case EVT_ENTRY:
     l_posVert = POS_VERT_INIT;
     l_posHorz = POS_HORZ_INIT(l_posVert);
@@ -358,18 +351,17 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
   case EVT_KEY_BREAK(KEY_EXIT):
 #if defined(ROTARY_ENCODER_NAVIGATION)
     if (s_editMode == 0)
-    s_editMode = EDIT_MODE_INIT;
+      s_editMode = EDIT_MODE_INIT;
     else
 #endif
-    if (s_editMode>0) {
-      s_editMode = 0;
-      break;
-    }
+      if (s_editMode>0) {
+        s_editMode = 0;
+        break;
+      }
 
     if (l_posVert==0 || !menuTab) {
       popMenu();  // beeps itself
-    }
-    else {
+    } else {
       AUDIO_MENUS();
       l_posVert = 0;
       l_posHorz = 0;
@@ -378,7 +370,7 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
 
   case EVT_KEY_REPT(KEY_RIGHT):  //inc
     if (l_posHorz==maxcol) break;
-    // no break
+  // no break
 
   case EVT_KEY_FIRST(KEY_RIGHT)://inc
     if (!horTab || s_editMode>0) break;
@@ -389,11 +381,10 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
     if (l_posHorz < maxcol) {
       l_posHorz++;
       break;
-    }
-    else {
+    } else {
       l_posHorz = 0;
       if (!IS_ROTARY_MOVE_RIGHT(event))
-      break;
+        break;
     }
 #else
     INC(l_posHorz, 0, maxcol);
@@ -402,7 +393,7 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
 
   case EVT_KEY_REPT(KEY_DOWN):  //inc
     if (!IS_ROTARY_RIGHT(event) && l_posVert==maxrow) break;
-    // no break
+  // no break
 
   case EVT_KEY_FIRST(KEY_DOWN): //inc
     if (s_editMode>0) break;
@@ -419,7 +410,7 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
 
   case EVT_KEY_REPT(KEY_LEFT):  //dec
     if (l_posHorz==0) break;
-    // no break
+  // no break
 
   case EVT_KEY_FIRST(KEY_LEFT)://dec
     if (!horTab || s_editMode>0) break;
@@ -430,11 +421,9 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
     if (l_posHorz > 0) {
       l_posHorz--;
       break;
-    }
-    else if (IS_ROTARY_MOVE_LEFT(event) && s_editMode == 0) {
+    } else if (IS_ROTARY_MOVE_LEFT(event) && s_editMode == 0) {
       l_posHorz = 0xff;
-    }
-    else {
+    } else {
       l_posHorz = maxcol;
       break;
     }
@@ -445,7 +434,7 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
 
   case EVT_KEY_REPT(KEY_UP):  //dec
     if (!IS_ROTARY_LEFT(event) && l_posVert==0) break;
-    // no break
+  // no break
   case EVT_KEY_FIRST(KEY_UP): //dec
     if (s_editMode>0) break;
 
@@ -465,12 +454,10 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
 
   if (l_posVert<1) {
     menuVerticalOffset=0;
-  }
-  else {
+  } else {
     if (l_posVert>maxLines+menuVerticalOffset) {
       menuVerticalOffset = l_posVert-maxLines;
-    }
-    else if (l_posVert<=menuVerticalOffset) {
+    } else if (l_posVert<=menuVerticalOffset) {
       menuVerticalOffset = l_posVert-1;
     }
   }
@@ -499,17 +486,17 @@ uint8_t calcStickScroll( uint8_t index )
   int8_t value;
 
   if (( g_eeGeneral.stickMode & 1 ) == 0 )
-  index ^= 3;
+    index ^= 3;
 
   value = calibratedStick[index] / 128;
   direction = value > 0 ? 0x80 : 0;
   if (value < 0)
-  value = -value;                             // (abs)
+    value = -value;                             // (abs)
   if (value > 7)
-  value = 7;
+    value = 7;
   value = pgm_read_byte(rate+(uint8_t)value);
   if (value)
-  StickScrollTimer = STICK_SCROLL_TIMEOUT;    // Seconds
+    StickScrollTimer = STICK_SCROLL_TIMEOUT;    // Seconds
   return value | direction;
 }
 
@@ -522,49 +509,34 @@ uint8_t getSticksNavigationEvent()
       uint8_t direction;
       uint8_t value;
 
-      if ( repeater < 128 )
-      {
+      if ( repeater < 128 ) {
         repeater += 1;
       }
       value = calcStickScroll(CONVERT_MODE(THR_STICK));
       direction = value & 0x80;
       value &= 0x7F;
-      if ( value )
-      {
-        if ( repeater > value )
-        {
+      if ( value ) {
+        if ( repeater > value ) {
           repeater = 0;
-          if ( evt == 0 )
-          {
-            if ( direction )
-            {
+          if ( evt == 0 ) {
+            if ( direction ) {
               evt = KEY_UP;
-            }
-            else
-            {
+            } else {
               evt = KEY_DOWN;
             }
           }
         }
-      }
-      else
-      {
+      } else {
         value = calcStickScroll(CONVERT_MODE(AIL_STICK));
         direction = value & 0x80;
         value &= 0x7F;
-        if ( value )
-        {
-          if ( repeater > value )
-          {
+        if ( value ) {
+          if ( repeater > value ) {
             repeater = 0;
-            if ( evt == 0 )
-            {
-              if ( direction )
-              {
+            if ( evt == 0 ) {
+              if ( direction ) {
                 evt = KEY_RIGHT;
-              }
-              else
-              {
+              } else {
                 evt = KEY_LEFT;
               }
             }
@@ -572,8 +544,7 @@ uint8_t getSticksNavigationEvent()
         }
       }
     }
-  }
-  else {
+  } else {
     StickScrollTimer = 0;          // Seconds
   }
   StickScrollAllowed = 1 ;
@@ -595,8 +566,7 @@ void repeatLastCursorMove(uint8_t event)
 {
   if (CURSOR_MOVED_LEFT(event) || CURSOR_MOVED_RIGHT(event)) {
     putEvent(event);
-  }
-  else {
+  } else {
     menuHorizontalPosition = 0;
   }
 }
