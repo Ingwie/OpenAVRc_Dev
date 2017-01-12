@@ -60,7 +60,7 @@
 #define N_PCBSTD_FIELD(x) x;
 #endif
 
-#define NUM_STICKS             4
+#define NUM_STICKS           4
 
 #if   defined(CPUM2560) || defined(CPUM2561)
 #define MAX_MODELS           30
@@ -224,6 +224,7 @@ PACK(typedef struct {
 #define LEN_SCRIPT_NAME        8
 #define MAX_SCRIPT_INPUTS      8
 #define MAX_SCRIPT_OUTPUTS     6
+
 PACK(typedef struct {
   char    file[LEN_SCRIPT_FILENAME];
   char    name[LEN_SCRIPT_NAME];
@@ -248,7 +249,6 @@ enum BacklightMode {
 #endif
 
 #define XPOTS_MULTIPOS_COUNT 6
-
 
 PACK(typedef struct {
   int16_t mid;
@@ -335,7 +335,7 @@ enum AdjustGvarFunctionParam {
   FUNC_ADJUST_GVAR_INC,
 };
 
-#if   defined(CPUM2560)
+#if defined(CPUM2560)
 PACK(typedef struct {
   int8_t  swtch;
   uint8_t func;
@@ -460,7 +460,7 @@ PACK(typedef struct {
 #define MODE_EXPO          0
 #define MODE_CURVE         1
 
-#if   defined(CPUM2560) || defined(CPUM2561)
+#if defined(CPUM2560) || defined(CPUM2561)
 PACK(typedef struct {
   uint8_t mode:2;         // 0=end, 1=pos, 2=neg, 3=both
   uint8_t chn:2;
@@ -524,7 +524,7 @@ PACK(typedef struct {
 // highest bit used for small values in mix 128 --> 8 bit is enough
 #define GV1_SMALL  128
 // highest bit used for large values in mix 256 --> 9 bits is used (8 bits + 1 extra bit from weightMode/offsetMode)
-#define GV1_LARGE  256
+#define GV1_LARGE  256 // bracame toto remove all to switch gvar to int8
 
 #define DELAY_STEP  2
 #define SLOW_STEP   2
