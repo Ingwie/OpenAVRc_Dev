@@ -43,9 +43,7 @@ Firmware :
 
 -> Ajouter une fonction spéciale sécurité moteur qui fonctionne comme le template.
 
--> Revenir sur le protocole DSM2, inclus "Model match"
-
--> Revenir sur l'idée de minimiser le nombre d'écritures a l'eeprom interne du atmega. (Carte SD?)
+-> Revenir sur l'idée de minimiser le nombre d'écritures a l'eeprom interne du atmega. (Carte SD?) -> Essais avec une FRAM prévus.
 
 
 General:
@@ -56,6 +54,7 @@ General:
 
 
 *****************  DONE DONE DONE DONE  *****************
+> - Revenir sur le protocole DSM2, inclus "Model match" - FAIT : Le module DSMX fonctionne en direct (modif firmware)
 > - Customiser (comme le splash) les noms : AIL, TRN; RUD , etc ... dans le firmware par ce que l'on veux - FAIT
 > - Ajouter la génération des fichier voice. Et mettre tous les prompt dans un seul fichier. (Possible pour 9X ?)- FAIT
 > - correction bug encodeur rotatif qui saute de +125 a -125 - FAIT
