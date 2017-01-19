@@ -25,7 +25,6 @@
 
 
 #include "OpenAVRc_SimulatorMain.h"
-#include "GVARSFrame.h"
 #include <wx/msgdlg.h>
 #include <wx/dcclient.h>
 #include <wx/filedlg.h>
@@ -420,11 +419,6 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   //Test if MP3 exist
   wxString Filename = AppPath + "\\VOICEMP3\\0000.mp3";
   if(wxFileExists(Filename)) Mp3RepExist = true;
-
-  //test of ancillary data screens TODO should be changed to open only when a model is selected.
-  //GVARSFrame *GVAR = new GVARSFrame(NULL);
-  //GVAR->Show(TRUE);
-
 }
 
 //// FW Functions ///////////////////////////////////////////////////
@@ -446,12 +440,8 @@ void OpenAVRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
       }
     }
     StartFirmwareCode();
-
-    GVARSFrame *GVAR = new GVARSFrame(NULL);
-    GVAR->Show(TRUE);
   }
 }
-
 
 void OpenAVRc_SimulatorFrame::StartFirmwareCode()
 {
