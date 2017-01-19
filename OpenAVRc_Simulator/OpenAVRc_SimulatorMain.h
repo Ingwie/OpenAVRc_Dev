@@ -62,6 +62,10 @@ wxString simu_dir;
 extern wxString AppPath;
 static wxLongLong Chronoval;
 
+//UTILS
+wxString ConvCharFwToWxstr(char *cstr, uint8_t length);
+void ConvWxstrToCharFw(wxString str,char *fwchar, uint8_t length);
+
 
 class wxBackgroundBitmap : public wxEvtHandler
 {

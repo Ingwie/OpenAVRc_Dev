@@ -440,6 +440,15 @@ void OpenAVRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
       }
     }
     StartFirmwareCode();
+
+//tests
+    wxMessageBox(ConvCharFwToWxstr(g_model.flightModeData[mixerCurrentFlightMode].name, LEN_FLIGHT_MODE_NAME),_("Phase To Miguel   "));
+    wxString toto = "PHtest";
+    ConvWxstrToCharFw(toto,g_model.flightModeData[mixerCurrentFlightMode].name, LEN_FLIGHT_MODE_NAME);
+    wxMessageBox(ConvCharFwToWxstr(g_model.header.name, LEN_MODEL_NAME),_("Model To Miguel   "));
+    toto = "MENTERO";
+    ConvWxstrToCharFw(toto,g_model.header.name, LEN_MODEL_NAME);
+
   }
 }
 
@@ -1258,3 +1267,21 @@ void OpenAVRc_SimulatorFrame::OnKey(wxKeyEvent& event)
   event.Skip();
 }
 
+/////////////////////////////////////////////////////
+//               UTILS
+/////////////////////////////////////////////////////
+
+void ConvWxstrToCharFw(wxString str,char *fwchar, uint8_t length) //Convert wxString to Firmware chars[]
+{
+  char buff[length+1];
+
+  str2zchar(buff, str.mb_str(wxConvUTF8),length);
+  strncpy(fwchar, buff, length);
+}
+
+wxString ConvCharFwToWxstr(char *cstr, uint8_t length) //Convert Firmware chars[] to wxString
+{
+  char buff[length+1];
+  zchar2str(buff, cstr, length);
+  return wxString(buff,wxConvUTF8 );
+}

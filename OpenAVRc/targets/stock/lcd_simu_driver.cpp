@@ -99,7 +99,7 @@ FRESULT f_opendir (DIR * rep, const TCHAR * name)
   wxString dir(temp,wxConvUTF8);
   dir.Replace("/","\\",true);
   if (dir == ".") dir = "";
-  wxMessageBox("f_opendir  " +AppPath+dir);
+  //wxMessageBox("f_opendir  " +AppPath+dir);
   if (Myfile.DirExists(AppPath+dir)) {
     rep->fs = (FATFS *)true;
     simu_dir = AppPath+dir;
@@ -118,7 +118,7 @@ FRESULT f_readdir (DIR * rep, FILINFO * fil)
 
   if (!cont) {
     cont = dir.GetFirst(&filename, wxEmptyString, wxDIR_DEFAULT );
-    wxMessageBox(wxString::Format(wxT("%s\n"), filename.c_str()));
+    //wxMessageBox(wxString::Format(wxT("%s\n"), filename.c_str()));
 
     //fil->fattrib = AM_DIR; //todo check
 
