@@ -23,11 +23,18 @@ END_EVENT_TABLE()
 GVARSFrame::GVARSFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(GVARSFrame)
+	wxFlexGridSizer* FlexGridSizer1;
+
 	Create(parent, id, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("id"));
-	SetClientSize(wxDefaultSize);
+	SetClientSize(wxSize(399,308));
 	Move(wxDefaultPosition);
-	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(208,232), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-	ComboBoxFlightMode0 = new wxComboBox(Panel1, ID_COMBOBOX1, wxEmptyString, wxPoint(56,40), wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX1"));
+	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(216,208), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+	FlexGridSizer1 = new wxFlexGridSizer(0, 3, 0, 0);
+	ComboBoxFlightMode0 = new wxComboBox(Panel1, ID_COMBOBOX1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX1"));
+	FlexGridSizer1->Add(ComboBoxFlightMode0, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	Panel1->SetSizer(FlexGridSizer1);
+	FlexGridSizer1->Fit(Panel1);
+	FlexGridSizer1->SetSizeHints(Panel1);
 
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&GVARSFrame::OnClose);
 	//*)
@@ -38,19 +45,29 @@ GVARSFrame::GVARSFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 
  GVARSFrame::FillGvarsFrame()
 {
-  ComboBoxFlightMode0->SetValue("mododevuelo");//this should be the name of the flighphase0 (flightmode
+  //ComboBoxFlightMode0->SetValue("mododevuelo");//this should be the name of the flighphase0 (flightmode
   //char phaseName[LEN_FLIGHT_MODE_NAME];
   //int phaseName;
-  //char phaseName = "012345";
+  //ModelData * phaseName;
   //phaseName = FlightModeData[1].name[];
 
-  char phaseName = g_model.flightModeData[1].name[0];
+  //int Name = phaseName->protocol;
+  //  g_model.flightModeData[1];
+  wxString phaseName = g_model.header.name;
   //char phaseName = g_model.flightModeData[1].name[LEN_FLIGHT_MODE_NAME];
-  ComboBoxFlightMode0->SetValue(phaseName);
+  //ComboBoxFlightMode0->SetValue(phaseName);
+  //wxString phaseName(phase, wxConvUTF8);
+  //wxString Nam = wxString::FromUTF8(&phaseName);
+  //wxString mystring = wxString::Format(wxT("%ii"),Name);
+  //wxString mystring;
+  //mystring << Name;
+  wxMessageBox(phaseName);
 
-
-  //wxMessageBox(phaseName);
-
+  //FlightModeData *flightModeAddress(uint8_t idx)
+//{
+  //return &g_model.flightModeData[idx];
+//}
+  //g_model.flightModeData[mixerCurrentFlightMode].name
 
   //char phaseName[LEN_FLIGHT_MODE_NAME];
   //int phaseName;
