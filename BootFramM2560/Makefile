@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
 # Makefile for project stk500boot
-# Author: Peter Fleury Moded for OpenAVRc thanks !!
+# Author: Peter Fleury
 # File:   $Id: Makefile,v 1.7 2015/08/15 09:10:38 peter Exp $
 #
 # Adjust MCU, F_CPU and BOOTLOADER_ADDRESS below to your AVR target

@@ -85,6 +85,9 @@ LICENSE:
 //*	Sep  8,	2010	<MLS> Added support for atmega16
 //************************************************************************
 
+// OpenAVRc Defines EEprom used type
+//#define STOCK_EE
+#define ADDRESS24C32  (0x57 << 1) //0x57 with no strap device address of EEPROM 24C32, see datasheet
 
 
 #include	<inttypes.h>
@@ -93,7 +96,11 @@ LICENSE:
 #include	<avr/boot.h>
 #include	<avr/pgmspace.h>
 #include	<util/delay.h>
+#if defined(STOCK_EE)
 #include	<avr/eeprom.h>
+#else
+#include "i2c_master.cpp"
+#endif
 #include	<avr/common.h>
 #include	<stdlib.h>
 #include	"command.h"
@@ -265,6 +272,7 @@ LICENSE:
 #define	ST_GET_CHECK	6
 #define	ST_PROCESS		7
 
+
 /*
  * use 16bit address variable for ATmegas with <= 64K flash
  */
@@ -366,6 +374,10 @@ void (*app_start)(void) = 0x0000;
 //*****************************************************************************
 int main(void)
 {
+#if !defined(STOCK_EE)
+  InitPin();
+  i2c_init();
+#endif
   address_t		address			=	0;
   address_t		eraseAddress	=	0;
   unsigned char	msgParseState;
@@ -509,7 +521,7 @@ int main(void)
 #ifndef REMOVE_CMD_SPI_MULTI
       case CMD_SPI_MULTI: {
         unsigned char answerByte;
-        unsigned char flag=0;
+        //unsigned char flag=0;
 
         if ( msgBuffer[4]== 0x30 ) {
           unsigned char signatureIndex	=	msgBuffer[6];
@@ -526,15 +538,15 @@ int main(void)
           answerByte	=	0; // for all others command are not implemented, return dummy value for AVRDUDE happy <Worapoht>
           //						flag	=	1; // Remark this line for AVRDUDE <Worapoht>
         }
-        if ( !flag ) {
-          msgLength		=	7;
-          msgBuffer[1]	=	STATUS_CMD_OK;
-          msgBuffer[2]	=	0;
-          msgBuffer[3]	=	msgBuffer[4];
-          msgBuffer[4]	=	0;
-          msgBuffer[5]	=	answerByte;
-          msgBuffer[6]	=	STATUS_CMD_OK;
-        }
+        //if ( !flag ) {
+        msgLength		=	7;
+        msgBuffer[1]	=	STATUS_CMD_OK;
+        msgBuffer[2]	=	0;
+        msgBuffer[3]	=	msgBuffer[4];
+        msgBuffer[4]	=	0;
+        msgBuffer[5]	=	answerByte;
+        msgBuffer[6]	=	STATUS_CMD_OK;
+        //}
       }
       break;
 #endif
@@ -700,13 +712,26 @@ int main(void)
           /* write EEPROM */
           //*	issue 543, this should work, It has not been tested.
           uint16_t ii = address >> 1;
-          /* write EEPROM */
+#if defined(STOCK_EE)
           while (size) {
             eeprom_write_byte((uint8_t*)ii, *p++);
             address+=2;						// Select next EEPROM byte
             ii++;
             size--;						// Decrease number of bytes to write
           }
+#else // External I2C EEPROM
+            i2c_start(ADDRESS24C32+I2C_WRITE);     // set device address and write mode
+            i2c_write(((address) & 0xFF00) >> 8); //MSB write address
+            i2c_write(((address) & 0x00FF)); //LSB write address
+            delay_ms(5);     // Delay for 24C32
+          while (size) {
+            i2c_write(*p++); // write value to EEPROM
+            address++;						// Select next EEPROM byte
+            ii++;
+            size--;						// Decrease number of bytes to write
+          }
+            i2c_stop(); // set stop conditon = release bus
+#endif
           while (size);					// Loop until all bytes written
         }
         msgLength	=	2;
@@ -739,14 +764,28 @@ int main(void)
           } while (size);
         } else {
           /* Read EEPROM */
+#if defined(STOCK_EE)
           do {
-            EEARL	=	address;			// Setup EEPROM address
             EEARH	=	((address >> 8));
             address++;					// Select next EEPROM byte
             EECR	|=	(1<<EERE);			// Read EEPROM
             *p++	=	EEDR;				// Send EEPROM data
             size--;
           } while (size);
+
+#else // External I2C EEPROM
+            i2c_start(ADDRESS24C32+I2C_WRITE);     // set device address and write mode
+            i2c_write(((address) & 0xFF00) >> 8); //MSB write address
+            i2c_write(((address) & 0x00FF)); //LSB write address
+            i2c_start(ADDRESS24C32+I2C_READ);     // set device address and write mode
+          do {
+            *p++ = i2c_read_ack(); // read value from EEPROM
+            address++;
+            size--;
+          } while (size);
+            i2c_stop(); // set stop conditon = release bus
+
+#endif
         }
         *p++	=	STATUS_CMD_OK;
       }

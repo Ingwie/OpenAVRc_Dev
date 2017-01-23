@@ -48,6 +48,8 @@
 		</Unit>
 		<Unit filename="Makefile" />
 		<Unit filename="command.h" />
+		<Unit filename="i2c_master.cpp" />
+		<Unit filename="i2c_master.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
