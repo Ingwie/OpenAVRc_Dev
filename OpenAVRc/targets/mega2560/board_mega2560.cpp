@@ -1,26 +1,26 @@
- /*
- **************************************************************************
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code named                            *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for lisibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -82,25 +82,31 @@ FORCEINLINE void boardInit()
   OCR2A   = 156;
   TIMSK2 |= (1<<OCIE2A) |  (1<<TOIE2); // Enable Output-Compare and Overflow interrrupts
 
-  #if defined(AUDIO)
-  // TIMER4 set into CTC mode, prescaler 16MHz/64=250 kHz
-  // Used for audio tone generation
-  TCCR4B  = (1<<WGM42) | (0b011 << CS40);
-  TCCR4A  = 0x00;
-  #endif
+#if defined(AUDIO)
+// TIMER4 (16bit) set to mode 4 (CTC), prescaler 16MHz/64=250kHz.
+// Used for audio tone generation.
+// TCCR4B = (0b01<<WGM42) | (0b011 << CS00);
+// TCCR4A = 0x00;
 
-  #if defined(VOICE_WTV20SD)
+// TIMER4 (16bit) set to mode 9, prescaler 16MHz/64=250kHz.
+// Used for audio tone generation.
+  TCCR4B = (0b10<<WGM42) | (0b011 << CS40);
+  TCCR4A = (0b01<<WGM40);
+#endif
+
+
+#if defined(VOICE_WTV20SD)
   // WTV20SD set-up, with TIMER5
   OCR5A = 0x1F4; //2ms
   TCCR5B = (1 << WGM52) | (0b011 << CS50); // CTC OCR5A
   TIMSK5 |= (1<<OCIE5A); // Start the interrupt so the unit reset can occur
-  #endif
-  #if defined(VOICE_JQ6500)
+#endif
+#if defined(VOICE_JQ6500)
   // JQ6500 set-up, with TIMER5
   JQ6500_Serial_on;      // Idle state (1)
   OCR5A = 0x19; // 0x1A=104µs needed for the 9600Bps serial command
   TCCR5B = (1 << WGM52) | (0b011 << CS50); // CTC OCR5A
-  #endif
+#endif
 
   /* Rotary encoder interrupt set-up                 */
   EIMSK = 0; // disable ALL external interrupts.
@@ -112,10 +118,10 @@ FORCEINLINE void boardInit()
   EIFR = (3<<INTF2);
   EIMSK = (3<<INT4) | (3<<INT2); // enable the two rot. enc. ext. int. pairs.
 
-  #if defined(SDCARD)
+#if defined(SDCARD)
   /* Hardware I2C init                               */
   i2c_init();
-  #endif
+#endif
 
 #endif // !SIMU
 }
@@ -123,7 +129,7 @@ FORCEINLINE void boardInit()
 uint8_t pwrCheck()
 {
   if ((~PINH & 0b00100000) && (~PINH & 0b01000000))
-  return e_power_off;
+    return e_power_off;
   return e_power_on;
 }
 
@@ -142,9 +148,9 @@ bool switchState(EnumKeys enuk)
   uint8_t result = 0 ;
 
   if (enuk < (int)DIM(keys))
-  return keys[enuk].state() ? 1 : 0;
+    return keys[enuk].state() ? 1 : 0;
 
-  switch(enuk){
+  switch(enuk) {
   case SW_ELE:
     result = !(PINL & (1<<INP_L_ElevDR));
     break;
@@ -157,10 +163,10 @@ bool switchState(EnumKeys enuk)
     result = !(PING & (1<<INP_G_RuddDR));
     break;
 
-    //       INP_C_ID1  INP_C_ID2
-    // ID0      0          1
-    // ID1      1          1
-    // ID2      1          0
+  //       INP_C_ID1  INP_C_ID2
+  // ID0      0          1
+  // ID1      1          1
+  // ID2      1          0
   case SW_ID0:
     result = !(PINC & (1<<INP_C_ID1));
     break;
@@ -233,8 +239,7 @@ void readKeysAndTrims()
     if (sticks_evt) {
       if (~PINL & KEYS_GPIO_PIN_MENU) {
         putEvent(EVT_KEY_LONG(sticks_evt)); // create a stick based event "long" to choose menu
-      }
-      else {
+      } else {
         putEvent(EVT_KEY_BREAK(sticks_evt)); // create a stick based event "first" to choose view (EXIT pressed)
       }
       return;
@@ -307,3 +312,17 @@ ISR(INT3_vect)     // Arduino2560 IO18 (portD pin3)
 #endif
 }
 
+#if defined(EXTERNALEEPROM)
+void Ext_eeprom_read_block(uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size)
+{
+  i2c_start(ADDRESS24C32+I2C_WRITE);     // set device address and write mode
+  i2c_write(((pointer_eeprom) & 0xFF00) >> 8); //MSB write address
+  i2c_write(((pointer_eeprom) & 0x00FF)); //LSB write address
+  i2c_start(ADDRESS24C32+I2C_READ);     // set device address and write mode
+  do {
+    *pointer_ram++ = i2c_read_ack(); // read value from EEPROM
+    size--;
+  } while (size);
+  i2c_stop(); // set stop conditon = release bus
+}
+#endif

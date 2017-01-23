@@ -193,9 +193,16 @@ void pwrOff();
 #define JQ6500_Serial_off             PORTB &= ~(1<<OUT_B_JQ_SERIAL)
 #define JQ6500_BUSY                   (PINB & (1<<INP_B_JQ_BUSY))
 
+//#define EXTERNALEEPROM // Test define
 // EEPROM driver
 #if !defined(SIMU)
-#define eepromReadBlock(a, b, c)   eeprom_read_block(a, (const void *)b, c)
+#if defined(EXTERNALEEPROM)
+#define ADDRESS24C32  (0x57 << 1) //0x57 with no strap device address of EEPROM 24C32, see datasheet
+void Ext_eeprom_read_block(uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size);
+#define eepromReadBlock(a, b, c)   Ext_eeprom_read_block(a, b, c) //Internal EEPROM
+#else
+#define eepromReadBlock(a, b, c)   eeprom_read_block(a, (const void *)b, c) //Internal EEPROM
+#endif
 #else
 extern void boardInit();
 extern ISR(INT2_vect);
