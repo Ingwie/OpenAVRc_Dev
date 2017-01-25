@@ -74,11 +74,11 @@ wxString ReversedString(const wxString &strSource)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //wxArrayString *Src = new wxArrayString;
+  //wxArrayString *sticks = new wxArrayString;
   //wxArrayString Src;
   //Src.Add(wxString::Format(wxT("%d"),"Rud")); //scr does not name a type error (??)
   //wxString Rud ="RUDDER";
-  //Src->Add(Rud));
+  //sticks->Add(_("Rud"));
   //Src.Add(wxT("Ele"));
   //Src.GetCount();
   //Src.Add(Rud);
@@ -94,32 +94,32 @@ wxString ReversedString(const wxString &strSource)
   MIXSRC_Ail,
 
   MIXSRC_FIRST_POT,
-  MIXSRC_P1 = MIXSRC_FIRST_POT,
+                                                 MIXSRC_P1 = MIXSRC_FIRST_POT,
   MIXSRC_P2,
   MIXSRC_P3,
   MIXSRC_LAST_POT = MIXSRC_P3,
 
 #if   defined(CPUM2560)
-  MIXSRC_REa,
+  MIXSRC_REa, //8
   MIXSRC_REb,
 #if ROTARY_ENCODERS > 2
   MIXSRC_REc,
   MIXSRC_REd,
-  MIXSRC_LAST_ROTARY_ENCODER = MIXSRC_REd,
+                                                 MIXSRC_LAST_ROTARY_ENCODER = MIXSRC_REd,
 #else
-  MIXSRC_LAST_ROTARY_ENCODER = MIXSRC_REb,
+                                                 MIXSRC_LAST_ROTARY_ENCODER = MIXSRC_REb,
 #endif
 #endif
 
-  MIXSRC_MAX,
+  MIXSRC_MAX, //10
 
   MIXSRC_FIRST_HELI,
-  MIXSRC_CYC1 = MIXSRC_FIRST_HELI,
+                                                 MIXSRC_CYC1 = MIXSRC_FIRST_HELI,
   MIXSRC_CYC2,
   MIXSRC_CYC3,
 
   MIXSRC_FIRST_TRIM,
-  MIXSRC_TrimRud = MIXSRC_FIRST_TRIM,
+                                                MIXSRC_TrimRud = MIXSRC_FIRST_TRIM,
   MIXSRC_TrimEle,
   MIXSRC_TrimThr,
   MIXSRC_TrimAil,
@@ -127,7 +127,7 @@ wxString ReversedString(const wxString &strSource)
 
   MIXSRC_FIRST_SWITCH,
 
-  MIXSRC_3POS = MIXSRC_FIRST_SWITCH,
+                                                 MIXSRC_3POS = MIXSRC_FIRST_SWITCH,
   MIXSRC_THR,
   MIXSRC_RUD,
   MIXSRC_ELE,
@@ -136,7 +136,7 @@ wxString ReversedString(const wxString &strSource)
   MIXSRC_TRN,
   MIXSRC_LAST_SWITCH = MIXSRC_TRN,
   MIXSRC_FIRST_LOGICAL_SWITCH,
-  MIXSRC_SW1 = MIXSRC_FIRST_LOGICAL_SWITCH,
+                                                  MIXSRC_SW1 = MIXSRC_FIRST_LOGICAL_SWITCH,
   MIXSRC_SW9 = MIXSRC_SW1 + 8,
   MIXSRC_SWA,
   MIXSRC_SWB,
@@ -147,7 +147,7 @@ wxString ReversedString(const wxString &strSource)
   MIXSRC_LAST_TRAINER = MIXSRC_FIRST_TRAINER+NUM_TRAINER-1,
 
   MIXSRC_FIRST_CH,
-  MIXSRC_CH1 = MIXSRC_FIRST_CH,
+                                                   MIXSRC_CH1 = MIXSRC_FIRST_CH,
   MIXSRC_CH2,
   MIXSRC_CH3,
   MIXSRC_CH4,
@@ -166,18 +166,18 @@ wxString ReversedString(const wxString &strSource)
   MIXSRC_LAST_CH = MIXSRC_CH1+NUM_CHNOUT-1,
 
   MIXSRC_FIRST_GVAR,
-  MIXSRC_GVAR1 = MIXSRC_FIRST_GVAR,
+                                                          MIXSRC_GVAR1 = MIXSRC_FIRST_GVAR,
   MIXSRC_LAST_GVAR = MIXSRC_FIRST_GVAR+MAX_GVARS-1,
 
 
-  MIXSRC_FIRST_TELEM,
+                                                          MIXSRC_FIRST_TELEM,
   MIXSRC_LAST_TELEM = MIXSRC_FIRST_TELEM+NUM_TELEMETRY-1
 };
 */
 
  void MixerFrame::FillMixerFrame()
  {
-  wxString mixStr = "\t\t\tMix\tOffset\tSwitch\tExpo\tCurve\tModes\tTrim\tWarning\tDlay(u/d)Speed(u/d)\n";
+  wxString mixStr = "\t\t\tMix\tOffset\tSwitch\tExpo\tCurve\tModes\t\tTrim\tWarning\tDlay(u/d)Speed(u/d)\n";
   for( int i = 0; i < NUM_CHNOUT; i++ ) {
     if ((g_model.mixData[i].weight) == 0) continue;
     if ((i == 0) || ((g_model.mixData[i].destCh) > (g_model.mixData[i-1].destCh))){
@@ -190,22 +190,42 @@ wxString ReversedString(const wxString &strSource)
     else if ((g_model.mixData[i].mltpx) == 1) mixStr = mixStr + "Mult ";
     else if ((g_model.mixData[i].mltpx) == 0) mixStr = mixStr + "Add  ";// operator OK
 
-
     int indx = (g_model.mixData[i].srcRaw);
-    if ((indx) == 1) mixStr = mixStr + "Rud stick" + "\t";
-    else if ((indx) == 2) mixStr = mixStr + "Ele stick" + "\t";
-    else if ((indx) == 3) mixStr = mixStr + "Thr stick" + "\t";
-    else if ((indx) == 4) mixStr = mixStr + "Ail stick" + "\t";
-    else if ((indx) == 5) mixStr = mixStr + "P1\t\t";
-    else if ((indx) == 6) mixStr = mixStr + "P2\t\t";
-    else if ((indx) == 7) mixStr = mixStr + "P3" + "\t\t";
 
-    else if ((g_model.mixData[i].srcRaw)  > 17){
-      for (int j = 0; j < 3; j++){
-        mixStr = mixStr + TR_PHYS_SWITCHES[j + 3 * ((g_model.mixData[i].srcRaw)-1)];
-      }
-      mixStr = mixStr + " Sw\t";///////////////////////////////////////// TODO. A LOT TO REVIEW HERE. (telemetry inputs?)
-    }
+    if (indx == MIXSRC_FIRST_POT-4) mixStr = mixStr + "Rud input" + "\t";
+    else if ((indx) == MIXSRC_FIRST_POT - 3) mixStr = mixStr + "Ele input" + "\t";
+    else if ((indx) == MIXSRC_FIRST_POT - 2) mixStr = mixStr + "Thr input" + "\t";
+    else if ((indx) == MIXSRC_FIRST_POT - 1) mixStr = mixStr + "Ail input" + "\t";
+
+    else if ((indx) == MIXSRC_FIRST_POT) mixStr = mixStr + "P1\t\t";
+    else if ((indx) == MIXSRC_FIRST_POT + 1) mixStr = mixStr + "P2\t\t";
+    else if ((indx) == MIXSRC_FIRST_POT + 2) mixStr = mixStr + "P3\t\t";
+
+    else if ((indx) == MIXSRC_LAST_ROTARY_ENCODER - 1) mixStr = mixStr + "REa\t\t";
+    else if ((indx) == MIXSRC_LAST_ROTARY_ENCODER) mixStr = mixStr + "REb\t\t";
+
+    else if ((indx) == MIXSRC_LAST_ROTARY_ENCODER + 1) mixStr = mixStr + "MAX\t\t";
+
+    else if ((indx) == MIXSRC_FIRST_HELI) mixStr = mixStr + "CYC1";
+    else if ((indx) == MIXSRC_FIRST_HELI + 1) mixStr = mixStr + "CYC2";
+    else if ((indx) == MIXSRC_FIRST_HELI + 2) mixStr = mixStr + "CYC3";
+
+    else if ((indx) == MIXSRC_FIRST_TRIM) mixStr = mixStr + "TrimRud";
+    else if ((indx) == MIXSRC_FIRST_TRIM + 1) mixStr = mixStr + "TrimEle";
+    else if ((indx) == MIXSRC_FIRST_TRIM + 2) mixStr = mixStr + "TrimThr";
+    else if ((indx) == MIXSRC_FIRST_TRIM + 3) mixStr = mixStr + "TrimAil";
+
+    else if ((indx) == MIXSRC_FIRST_SWITCH) mixStr = mixStr + "3POS";
+
+    ////////////////////////////////////////continue from here////////////////////////////
+    //PHYSICAL SWITCHES
+    //LOGICAL SWITCHES
+    //TRAINER
+    //CHANNELS
+    //GVARS
+    //TELEMETRY
+
+    else (mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].srcRaw))) + "\t";
     // TODO create a wxarraystring or similar to combine Mixsources and TR_PHYS_SWITCHES.
 
 
@@ -222,6 +242,7 @@ wxString ReversedString(const wxString &strSource)
       mixStr = mixStr + "\t";
     }
     else mixStr = mixStr + "\t";// switch OK
+
 
 
       //if ((g_model.mixData[i].curveMode) == 0) mixStr = mixStr + "CURVE " + ",";
