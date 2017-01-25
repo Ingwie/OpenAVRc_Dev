@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxFrame" name="MixerFrame">
+		<size>738,308</size>
+		<id_arg>0</id_arg>
+		<style>wxDEFAULT_FRAME_STYLE|wxVSCROLL|wxFULL_REPAINT_ON_RESIZE</style>
+		<handler function="OnClose" entry="EVT_CLOSE" />
+		<object class="wxPanel" name="ID_PANEL1" variable="Mixer" member="yes">
+			<pos>256,200</pos>
+			<size>1104,320</size>
+			<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="Mixerline1" member="yes">
+				<value>Texte</value>
+				<pos>0,0</pos>
+				<size>1104,320</size>
+				<style>wxTE_MULTILINE|wxTE_RICH</style>
+			</object>
+		</object>
+	</object>
+</wxsmith>

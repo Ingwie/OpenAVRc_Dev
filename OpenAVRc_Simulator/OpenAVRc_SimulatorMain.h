@@ -65,6 +65,7 @@ static wxLongLong Chronoval;
 //UTILS
 wxString ConvCharFwToWxstr(char *cstr, uint8_t length);
 void ConvWxstrToCharFw(wxString str,char *fwchar, uint8_t length);
+wxString int2wxString(int integer);
 
 
 class wxBackgroundBitmap : public wxEvtHandler

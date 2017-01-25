@@ -35,7 +35,7 @@
 #include <wx/chartype.h>
 #include <wx/aboutdlg.h>
 #include <wx/filefn.h>
-
+#include "MixerFrame.h"
 
 
 //(*InternalHeaders(OpenAVRc_SimulatorFrame)
@@ -50,6 +50,7 @@
 #include "woodmain.xpm"
 #include "woodH.xpm"
 #include "PanelB.xpm"
+
 
 //helper functions
 enum wxbuildinfoformat {
@@ -442,14 +443,17 @@ void OpenAVRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
     StartFirmwareCode();
 
 //tests
-    wxMessageBox(ConvCharFwToWxstr(g_model.flightModeData[mixerCurrentFlightMode].name, LEN_FLIGHT_MODE_NAME),_("Phase To Miguel   "));
-    wxString toto = "PHtest";
-    ConvWxstrToCharFw(toto,g_model.flightModeData[mixerCurrentFlightMode].name, LEN_FLIGHT_MODE_NAME);
-    wxMessageBox(ConvCharFwToWxstr(g_model.header.name, LEN_MODEL_NAME),_("Model To Miguel   "));
-    toto = "MENTERO";
-    ConvWxstrToCharFw(toto,g_model.header.name, LEN_MODEL_NAME);
+    //wxMessageBox(ConvCharFwToWxstr(g_model.flightModeData[mixerCurrentFlightMode].name, LEN_FLIGHT_MODE_NAME),_("Phase To Miguel   "));
+    //wxString toto = "PHtest";
+    //ConvWxstrToCharFw(toto,g_model.flightModeData[mixerCurrentFlightMode].name, LEN_FLIGHT_MODE_NAME);
+    //wxMessageBox(ConvCharFwToWxstr(g_model.header.name, LEN_MODEL_NAME),_("Model To Miguel   "));
+    //toto = "MENTERO";
+    //ConvWxstrToCharFw(toto,g_model.header.name, LEN_MODEL_NAME);
 
+   MixerFrame *MixFr = new  MixerFrame(NULL);
+   MixFr->Show(TRUE);// TODO see how this can open a window when the mixer screen is selected on simu LCD.
   }
+
 }
 
 void OpenAVRc_SimulatorFrame::StartFirmwareCode()
@@ -526,6 +530,11 @@ void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
   Chronoval = Chrono10ms->TimeInMicro();
   Chrono10ms->Pause();
   StatusBar->SetStatusText(_T("10 mS IRQ ")+Chronoval.ToString()+_T(" uS"),2);
+
+  //MixerFrame *MixFr = new  MixerFrame(NULL);
+  //MixFr->Refresh();
+  //Update();
+
 }
 
 const void OpenAVRc_SimulatorFrame::DrawWxSimuLcd()
@@ -1213,6 +1222,8 @@ void OpenAVRc_SimulatorFrame::OnKey(wxKeyEvent& event)
 {
   wxMouseEvent fakevt;
 
+  //MixFr->Refresh();//////////////////////////////////////////////////////
+
   int result = event.GetKeyCode();
 
   if (event.GetKeyCode() == 315) {
@@ -1284,4 +1295,10 @@ wxString ConvCharFwToWxstr(char *cstr, uint8_t length) //Convert Firmware chars[
   char buff[length+1];
   zchar2str(buff, cstr, length);
   return wxString(buff,wxConvUTF8 );
+}
+
+wxString int2wxString(int integer)
+{
+  wxString intString = wxString::Format(wxT("%i"), integer);
+  wxMessageBox(intString);
 }
