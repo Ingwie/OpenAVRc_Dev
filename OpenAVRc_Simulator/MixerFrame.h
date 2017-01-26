@@ -1,6 +1,8 @@
 #ifndef MIXERFRAME_H
 #define MIXERFRAME_H
+
 //#include <wx/arrstr.h>
+
 
 //(*Headers(MixerFrame)
 #include <wx/textctrl.h>
@@ -15,8 +17,10 @@ class MixerFrame: public wxFrame
 
 		MixerFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~MixerFrame();
-		void FillMixerFrame();
-    wxArrayString Src;
+    void FillMixerFrame();
+    //wxArrayString Src;
+    MixerFrame *MixFr;
+
 		//(*Declarations(MixerFrame)
 		wxPanel* Mixer;
 		wxTextCtrl* Mixerline1;

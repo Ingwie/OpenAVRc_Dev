@@ -25,6 +25,8 @@
 
 
 #include "OpenAVRc_SimulatorMain.h"
+#include "MixerFrame.h"
+
 #include <wx/msgdlg.h>
 #include <wx/dcclient.h>
 #include <wx/filedlg.h>
@@ -35,7 +37,6 @@
 #include <wx/chartype.h>
 #include <wx/aboutdlg.h>
 #include <wx/filefn.h>
-#include "MixerFrame.h"
 
 
 //(*InternalHeaders(OpenAVRc_SimulatorFrame)
@@ -80,6 +81,7 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 
 bool Ini_Changed = false;
 wxString AppPath;
+MixerFrame *MixFr;
 
 bool Mp3RepExist = false;
 extern volatile uint8_t JQ6500_InputIndex;
@@ -137,6 +139,7 @@ const long OpenAVRc_SimulatorFrame::ID_STICKB = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_STICKF = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_COLOURS = wxNewId();
 const long OpenAVRc_SimulatorFrame::idMenuAbout = wxNewId();
+const long OpenAVRc_SimulatorFrame::ID_MENUITEM1 = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_STATUSBAR = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_TIMER10MS = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_TIMERMAIN = wxNewId();
@@ -289,6 +292,8 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   MenuAbout = new wxMenuItem(MenuHelp, idMenuAbout, _("A propos ...\tF1"), _("C\'est quoi donc \?"), wxITEM_NORMAL);
   MenuAbout->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_INFORMATION")),wxART_MENU));
   MenuHelp->Append(MenuAbout);
+  Mixeur = new wxMenuItem(MenuHelp, ID_MENUITEM1, _("Mixeur"), wxEmptyString, wxITEM_NORMAL);
+  MenuHelp->Append(Mixeur);
   MenuBar1->Append(MenuHelp, _("&Aide"));
   SetMenuBar(MenuBar1);
   StatusBar = new wxStatusBar(this, ID_STATUSBAR, 0, _T("ID_STATUSBAR"));
@@ -357,6 +362,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_STICKB,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuStickBackSelected);
   Connect(ID_STICKF,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuStickStickSelected);
   Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnAbout);
+  Connect(ID_MENUITEM1,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMixeurSelected);
   Connect(ID_TIMER10MS,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimer10msTrigger);
   Connect(ID_TIMERMAIN,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimerMainTrigger);
   Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnClose);
@@ -441,7 +447,6 @@ void OpenAVRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
       }
     }
     StartFirmwareCode();
-
 //tests
     //wxMessageBox(ConvCharFwToWxstr(g_model.flightModeData[mixerCurrentFlightMode].name, LEN_FLIGHT_MODE_NAME),_("Phase To Miguel   "));
     //wxString toto = "PHtest";
@@ -450,8 +455,6 @@ void OpenAVRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
     //toto = "MENTERO";
     //ConvWxstrToCharFw(toto,g_model.header.name, LEN_MODEL_NAME);
 
-   MixerFrame *MixFr = new  MixerFrame(NULL);
-   MixFr->Show(TRUE);// TODO see how this can open a window when the mixer screen is selected on simu LCD.
   }
 
 }
@@ -530,11 +533,6 @@ void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
   Chronoval = Chrono10ms->TimeInMicro();
   Chrono10ms->Pause();
   StatusBar->SetStatusText(_T("10 mS IRQ ")+Chronoval.ToString()+_T(" uS"),2);
-
-  //MixerFrame *MixFr = new  MixerFrame(NULL);
-  //MixFr->Refresh();
-  //Update();
-
 }
 
 const void OpenAVRc_SimulatorFrame::DrawWxSimuLcd()
@@ -824,6 +822,10 @@ void OpenAVRc_SimulatorFrame::SaveConfig()
 void OpenAVRc_SimulatorFrame::OnBPmenuLeftDown(wxMouseEvent& event)
 {
   SpinL->ResetPin(4);
+  //MixFr->Refresh();// no
+  //MixFr->Update();// no
+  //FillMixerFrame();// no
+
 }
 
 void OpenAVRc_SimulatorFrame::OnBPmenuLeftUp(wxMouseEvent& event)
@@ -839,6 +841,9 @@ void OpenAVRc_SimulatorFrame::OnBPexitLeftDown(wxMouseEvent& event)
 void OpenAVRc_SimulatorFrame::OnBPexitLeftUp(wxMouseEvent& event)
 {
   SpinL->SetPin(5);
+  //MixerFrame *MixFr = new  MixerFrame(NULL);
+  //MixFr->Refresh();
+  //MixFr->Update();
 }
 
 void OpenAVRc_SimulatorFrame::OnBPhLeftDown(wxMouseEvent& event)
@@ -1222,8 +1227,6 @@ void OpenAVRc_SimulatorFrame::OnKey(wxKeyEvent& event)
 {
   wxMouseEvent fakevt;
 
-  //MixFr->Refresh();//////////////////////////////////////////////////////
-
   int result = event.GetKeyCode();
 
   if (event.GetKeyCode() == 315) {
@@ -1301,4 +1304,10 @@ wxString int2wxString(int integer)
 {
   wxString intString = wxString::Format(wxT("%i"), integer);
   wxMessageBox(intString);
+}
+
+void OpenAVRc_SimulatorFrame::OnMixeurSelected(wxCommandEvent& event)//Draws the mixer display screen
+{
+  MixerFrame *MixFr = new  MixerFrame(NULL);
+  MixFr->Show(TRUE);
 }

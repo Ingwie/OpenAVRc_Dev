@@ -359,6 +359,10 @@
 					<bitmap stock_id="wxART_INFORMATION" stock_client="wxART_MENU" />
 					<handler function="OnAbout" entry="EVT_MENU" />
 				</object>
+				<object class="wxMenuItem" name="ID_MENUITEM1" variable="Mixeur" member="yes">
+					<label>Mixeur</label>
+					<handler function="OnMixeurSelected" entry="EVT_MENU" />
+				</object>
 			</object>
 		</object>
 		<object class="wxStatusBar" name="ID_STATUSBAR" variable="StatusBar" member="yes">

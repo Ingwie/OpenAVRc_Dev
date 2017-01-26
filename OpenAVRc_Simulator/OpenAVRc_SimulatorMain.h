@@ -67,7 +67,6 @@ wxString ConvCharFwToWxstr(char *cstr, uint8_t length);
 void ConvWxstrToCharFw(wxString str,char *fwchar, uint8_t length);
 wxString int2wxString(int integer);
 
-
 class wxBackgroundBitmap : public wxEvtHandler
 {
   typedef wxEvtHandler Inherited;
@@ -166,6 +165,7 @@ private:
   void OnButtonStartDesktopClick(wxCommandEvent& event);
   void OnBpRudLeftDown(wxMouseEvent& event);
   void PlayTts();
+  void OnMixeurSelected(wxCommandEvent& event);
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)
@@ -217,6 +217,7 @@ private:
   static const long ID_STICKF;
   static const long ID_COLOURS;
   static const long idMenuAbout;
+  static const long ID_MENUITEM1;
   static const long ID_STATUSBAR;
   static const long ID_TIMER10MS;
   static const long ID_TIMERMAIN;
@@ -280,6 +281,7 @@ private:
   wxPanel* BPd;
   wxPanel* BPmenu;
   wxPanel* LlTrim;
+  wxMenuItem* Mixeur;
   wxPanel* LrTrim;
   wxPanel* PanelL;
   wxPanel* Simulcd;
