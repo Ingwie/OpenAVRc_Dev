@@ -90,6 +90,16 @@ uint8_t i2c_write(uint8_t data)
   return 0;
 }
 
+inline void i2c_writeISR(uint8_t data)
+{
+  // load data into data register
+  TWDR = data;
+  // start transmission of data with isr activated
+  TWCR = ((1<<TWINT) | (1<<TWEN) | (1 << TWIE));
+  // Send data and enable IRQ
+}
+
+
 uint8_t i2c_read_ack(void)
 {
 

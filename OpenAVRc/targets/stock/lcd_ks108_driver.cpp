@@ -80,8 +80,9 @@ void lcdSetRefVolt(uint8_t val)
 
 void lcdRefreshFast()
 {
-  REFRESHDURATION1  //Debug function if defined LCDDURATIONSHOW in OpenAVRc.h
-
+#if defined(SHOWDURATION)
+  lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
+#endif
   static uint8_t change = 0; // toggle left or right lcd writing
   uint8_t *p;
   if (!change) {
@@ -107,8 +108,6 @@ void lcdRefreshFast()
     p += 64;
   }
   A0_off;
-
-  REFRESHDURATION2  //Debug function if defined LCDDURATIONSHOW in OpenAVRc.h
 
 }
 

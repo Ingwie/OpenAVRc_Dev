@@ -38,7 +38,7 @@ uint16_t eeprom_pointer;
 uint8_t * eeprom_buffer_data;
 volatile int8_t eeprom_buffer_size = 0;
 
-
+#if !defined(EXTERNALEEPROM)
 inline void eeprom_write_byte()
 {
   EEAR = eeprom_pointer;
@@ -82,6 +82,54 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
     while (eeprom_buffer_size > 0) MYWDT_RESET(EE_READY_vect()); //Simulate ISR in Simu mode, else reset watchdog
   }
 }
+
+#else // Use extern EEPROM
+
+void Ext_eeprom_read_block(uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size)
+{
+  i2c_start(ADDRESS24C32+I2C_WRITE);     // set device address and write mode
+  i2c_write((uint8_t)(pointer_eeprom >> 8)); //MSB write address
+  i2c_write((uint8_t)(pointer_eeprom & 0x00FF)); //LSB write address
+  i2c_start(ADDRESS24C32+I2C_READ);     // set device address and write mode
+  do {
+    *pointer_ram++ = i2c_read_ack(); // read value from EEPROM
+    size--;
+  } while (size);
+  i2c_stop(); // set stop conditon = release bus
+}
+
+void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t size) // Write I2C eeprom
+{
+  assert(!eeprom_buffer_size);
+
+  eeprom_pointer = i_pointer_eeprom;
+  eeprom_buffer_data = i_pointer_ram;
+  eeprom_buffer_size = size+1;
+
+  i2c_start(ADDRESS24C32+I2C_WRITE);     // set device address and write mode
+  i2c_write((uint8_t)(i_pointer_eeprom >> 8)); //MSB write address
+  i2c_write((uint8_t)(i_pointer_eeprom & 0x00FF)); //LSB write address
+  _delay_us(50);                    // Delay for 24C32 :(
+  i2c_writeISR(*eeprom_buffer_data);    // write value to EEPROM
+  eeprom_pointer++;
+  eeprom_buffer_data++;
+  if (s_sync_write) {
+    while (eeprom_buffer_size > 0) MYWDT_RESET(); // Wait completion and reset watchdog
+  }
+}
+
+ISR(TWI_vect)
+{
+  if (--eeprom_buffer_size > 0) {
+    i2c_writeISR(*eeprom_buffer_data);
+  } else {
+    i2c_stop();
+    return;
+  }
+  eeprom_pointer++;
+  eeprom_buffer_data++;
+}
+#endif
 
 static uint8_t EeFsRead(blkid_t blk, uint8_t ofs)
 {

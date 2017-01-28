@@ -26,7 +26,7 @@
 
 #define NUMITERATIONFULLREFRESH  4
 
-#define SSD1306_ADDRESS             0x78
+#define SSD1306_ADDRESS             (0x3C << 1) // = 0x78
 #define SSD1306_COMMAND             0x00
 #define SSD1306_DATA                0x40
 
@@ -108,8 +108,9 @@ void lcdSetRefVolt(uint8_t val)
 
 void lcdRefreshFast()
 {
-  REFRESHDURATION1  //Debug function if defined LCDDURATIONSHOW in OpenAVRc.h
-
+#if defined(SHOWDURATION)
+  lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
+#endif
   static uint8_t state = 0;
   uint8_t *p;
 
@@ -128,8 +129,6 @@ void lcdRefreshFast()
   if (state == (NUMITERATIONFULLREFRESH*2)) {
     state = 0;
   }
-
-  REFRESHDURATION2  //Debug function if defined LCDDURATIONSHOW in OpenAVRc.h
 }
 
 void lcdRefresh()

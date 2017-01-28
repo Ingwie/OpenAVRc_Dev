@@ -198,8 +198,7 @@ void pwrOff();
 #if !defined(SIMU)
 #if defined(EXTERNALEEPROM)
 #define ADDRESS24C32  (0x57 << 1) //0x57 with no strap device address of EEPROM 24C32, see datasheet
-void Ext_eeprom_read_block(uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size);
-#define eepromReadBlock(a, b, c)   Ext_eeprom_read_block(a, b, c) //Internal EEPROM
+#define eepromReadBlock(a, b, c)   Ext_eeprom_read_block(a, b, c) //External EEPROM
 #else
 #define eepromReadBlock(a, b, c)   eeprom_read_block(a, (const void *)b, c) //Internal EEPROM
 #endif

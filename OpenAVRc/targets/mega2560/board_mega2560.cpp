@@ -118,7 +118,7 @@ FORCEINLINE void boardInit()
   EIFR = (3<<INTF2);
   EIMSK = (3<<INT4) | (3<<INT2); // enable the two rot. enc. ext. int. pairs.
 
-#if defined(RTCLOCK)
+#if defined(RTCLOCK) || defined(LCD_SSD1306) || defined(EXTERNALEEPROM)
   /* Hardware I2C init                               */
   i2c_init();
 #endif
@@ -128,8 +128,7 @@ FORCEINLINE void boardInit()
 
 uint8_t pwrCheck()
 {
-  if ((~PINH & 0b00100000) && (~PINH & 0b01000000))
-    return e_power_off;
+  if ((~PINH & 0b00100000) && (~PINH & 0b01000000))   return e_power_off;
   return e_power_on;
 }
 
@@ -241,6 +240,7 @@ void readKeysAndTrims()
         putEvent(EVT_KEY_LONG(sticks_evt)); // create a stick based event "long" to choose menu
       } else {
         putEvent(EVT_KEY_BREAK(sticks_evt)); // create a stick based event "first" to choose view (EXIT pressed)
+        killEvents(KEY_EXIT); // Kill exit event
       }
       return;
     }
@@ -312,17 +312,3 @@ ISR(INT3_vect)     // Arduino2560 IO18 (portD pin3)
 #endif
 }
 
-#if defined(EXTERNALEEPROM)
-void Ext_eeprom_read_block(uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size)
-{
-  i2c_start(ADDRESS24C32+I2C_WRITE);     // set device address and write mode
-  i2c_write(((pointer_eeprom) & 0xFF00) >> 8); //MSB write address
-  i2c_write(((pointer_eeprom) & 0x00FF)); //LSB write address
-  i2c_start(ADDRESS24C32+I2C_READ);     // set device address and write mode
-  do {
-    *pointer_ram++ = i2c_read_ack(); // read value from EEPROM
-    size--;
-  } while (size);
-  i2c_stop(); // set stop conditon = release bus
-}
-#endif

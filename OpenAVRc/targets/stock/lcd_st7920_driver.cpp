@@ -67,8 +67,9 @@ void lcdSetRefVolt(uint8_t val)
 
 void lcdRefreshFast()
 {
-  REFRESHDURATION1  //Debug function if defined LCDDURATIONSHOW in OpenAVRc.h
-
+#if defined(SHOWDURATION)
+  lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
+#endif
   LCD_LOCK();
   static uint8_t state;
   uint8_t yst;
@@ -128,10 +129,7 @@ void lcdRefreshFast()
     _delay_us(41);
 
   }
-
   LCD_UNLOCK();
-
-  REFRESHDURATION2  //Debug function if defined LCDDURATIONSHOW in OpenAVRc.h
 }
 
 void lcdRefresh()

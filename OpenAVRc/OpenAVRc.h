@@ -44,21 +44,23 @@
 #endif
 
 /////////////////DEBUG FUNCTION DEFINITION///////////////////
-//#define LCDDURATIONSHOW 1  //Show refresh duration
+//#define SHOWDURATION 1  //Show a duration
 
-#if defined(LCDDURATIONSHOW)
-#define REFRESHDURATION1                                                      \
-  uint16_t t0 = getTmr16KHz();                                                \
-  static uint16_t refreshDuration;                                            \
-  lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(refreshDuration), PREC2);  \
+#if defined(SHOWDURATION)
 
-#define REFRESHDURATION2                                                      \
-  t0 = getTmr16KHz() - t0;                                                    \
-  if (t0 > refreshDuration) refreshDuration = t0;                             \
+  static uint16_t DurationValue;
+
+
+#define SHOWDURATION1                                                        \
+  uint16_t t0 = getTmr16KHz();                                               \
+
+#define SHOWDURATION2                                                        \
+  t0 = getTmr16KHz() - t0;                                                   \
+  if (t0 > DurationValue) DurationValue = t0;                                \
 
 #else
-#define REFRESHDURATION1
-#define REFRESHDURATION2
+#define SHOWDURATION1
+#define SHOWDURATION2
 #endif
 
 
