@@ -4,10 +4,10 @@
 //(*Headers(OutBarsFrame)
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
+#include <wx/slider.h>
 #include <wx/panel.h>
 #include <wx/frame.h>
 #include <wx/timer.h>
-#include <wx/gauge.h>
 //*)
 
 class OutBarsFrame: public wxFrame
@@ -20,77 +20,61 @@ class OutBarsFrame: public wxFrame
     void FillBarFrame();
 
 		//(*Declarations(OutBarsFrame)
+		wxSlider* Slider1;
 		wxStaticText* StaticText10;
 		wxStaticText* StaticText9;
 		wxTextCtrl* output6;
 		wxTextCtrl* output12;
-		wxGauge* Gauge3;
 		wxTextCtrl* output1;
+		wxSlider* Slider10;
+		wxSlider* Slider2;
 		wxStaticText* StaticText13;
 		wxStaticText* StaticText2;
 		wxTextCtrl* output8;
 		wxStaticText* StaticText14;
+		wxSlider* Slider5;
 		wxTimer TimerRefreshFrame;
 		wxStaticText* StaticText6;
-		wxGauge* Gauge4;
 		wxTextCtrl* output11;
 		wxTextCtrl* output7;
-		wxGauge* Gauge1;
 		wxTextCtrl* output2;
-		wxGauge* Gauge12;
 		wxTextCtrl* output3;
-		wxGauge* Gauge6;
+		wxSlider* Slider3;
 		wxStaticText* StaticText8;
 		wxStaticText* StaticText11;
 		wxTextCtrl* output13;
-		wxGauge* Gauge5;
+		wxSlider* Slider7;
 		wxPanel* Panel1;
 		wxStaticText* StaticText1;
 		wxTextCtrl* output16;
 		wxStaticText* StaticText3;
 		wxTextCtrl* output4;
-		wxGauge* Gauge10;
+		wxSlider* Slider13;
 		wxTextCtrl* output15;
-		wxGauge* Gauge11;
+		wxSlider* Slider11;
+		wxSlider* Slider9;
 		wxStaticText* StaticText5;
 		wxStaticText* StaticText7;
 		wxTextCtrl* output14;
+		wxSlider* Slider15;
+		wxSlider* Slider16;
+		wxSlider* Slider4;
+		wxSlider* Slider12;
+		wxSlider* Slider8;
 		wxTextCtrl* output10;
 		wxStaticText* StaticText15;
 		wxStaticText* StaticText12;
-		wxGauge* Gauge2;
-		wxGauge* Gauge8;
-		wxGauge* Gauge15;
-		wxGauge* Gauge16;
 		wxTextCtrl* output9;
+		wxSlider* Slider6;
 		wxTextCtrl* output5;
 		wxStaticText* StaticText4;
-		wxGauge* Gauge14;
-		wxGauge* Gauge7;
-		wxGauge* Gauge9;
 		wxStaticText* StaticText16;
-		wxGauge* Gauge13;
+		wxSlider* Slider14;
 		//*)
 
 	protected:
 
 		//(*Identifiers(OutBarsFrame)
-		static const long ID_GAUGE1;
-		static const long ID_GAUGE2;
-		static const long ID_GAUGE3;
-		static const long ID_GAUGE4;
-		static const long ID_GAUGE5;
-		static const long ID_GAUGE6;
-		static const long ID_GAUGE7;
-		static const long ID_GAUGE8;
-		static const long ID_GAUGE9;
-		static const long ID_GAUGE10;
-		static const long ID_GAUGE11;
-		static const long ID_GAUGE12;
-		static const long ID_GAUGE13;
-		static const long ID_GAUGE14;
-		static const long ID_GAUGE15;
-		static const long ID_GAUGE16;
 		static const long ID_TEXTCTRL1;
 		static const long ID_TEXTCTRL2;
 		static const long ID_TEXTCTRL3;
@@ -123,6 +107,22 @@ class OutBarsFrame: public wxFrame
 		static const long ID_STATICTEXT14;
 		static const long ID_STATICTEXT15;
 		static const long ID_STATICTEXT16;
+		static const long ID_SLIDER1;
+		static const long ID_SLIDER2;
+		static const long ID_SLIDER3;
+		static const long ID_SLIDER4;
+		static const long ID_SLIDER5;
+		static const long ID_SLIDER6;
+		static const long ID_SLIDER7;
+		static const long ID_SLIDER8;
+		static const long ID_SLIDER9;
+		static const long ID_SLIDER10;
+		static const long ID_SLIDER11;
+		static const long ID_SLIDER12;
+		static const long ID_SLIDER13;
+		static const long ID_SLIDER14;
+		static const long ID_SLIDER15;
+		static const long ID_SLIDER16;
 		static const long ID_PANEL1;
 		static const long ID_TIMER1;
 		//*)
@@ -136,6 +136,8 @@ class OutBarsFrame: public wxFrame
 		void OnTextCtrl5Text1(wxCommandEvent& event);
 		void OnTimerRefreshFrameTrigger(wxTimerEvent& event);
 		void Onoutput10Text(wxCommandEvent& event);
+		void OnPanel1Paint(wxPaintEvent& event);
+		void OnSlider13CmdScroll(wxScrollEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
