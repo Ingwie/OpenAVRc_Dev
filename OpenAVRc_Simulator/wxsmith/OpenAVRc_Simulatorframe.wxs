@@ -363,6 +363,10 @@
 					<label>Mixeur</label>
 					<handler function="OnMixeurSelected" entry="EVT_MENU" />
 				</object>
+				<object class="wxMenuItem" name="ID_MENUITEM2" variable="OutputBars" member="yes">
+					<label>Graphique Sorties</label>
+					<handler function="OnOutputBarsSelected" entry="EVT_MENU" />
+				</object>
 			</object>
 		</object>
 		<object class="wxStatusBar" name="ID_STATUSBAR" variable="StatusBar" member="yes">

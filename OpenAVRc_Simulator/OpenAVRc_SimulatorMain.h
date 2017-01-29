@@ -166,6 +166,7 @@ private:
   void OnBpRudLeftDown(wxMouseEvent& event);
   void PlayTts();
   void OnMixeurSelected(wxCommandEvent& event);
+  void OnOutputBarsSelected(wxCommandEvent& event);
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)
@@ -218,6 +219,7 @@ private:
   static const long ID_COLOURS;
   static const long idMenuAbout;
   static const long ID_MENUITEM1;
+  static const long ID_MENUITEM2;
   static const long ID_STATUSBAR;
   static const long ID_TIMER10MS;
   static const long ID_TIMERMAIN;
@@ -264,6 +266,7 @@ private:
   wxPanel* BPg;
   wxTimer Timer10ms;
   wxMenuItem* MenuStickBack;
+  wxMenuItem* OutputBars;
   wxPanel* RrTrim;
   wxPanel* LdTrim;
   wxSpinButton* SpinRea;

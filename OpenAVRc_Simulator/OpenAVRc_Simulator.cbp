@@ -430,6 +430,8 @@
 		<Unit filename="OpenAVRc_SimulatorApp.h" />
 		<Unit filename="OpenAVRc_SimulatorMain.cpp" />
 		<Unit filename="OpenAVRc_SimulatorMain.h" />
+		<Unit filename="OutBarsFrame.cpp" />
+		<Unit filename="OutBarsFrame.h" />
 		<Unit filename="Spin.cpp" />
 		<Unit filename="Spin.h" />
 		<Unit filename="resource.rc">
@@ -437,6 +439,7 @@
 		</Unit>
 		<Unit filename="wxsmith/MixerFrame.wxs" />
 		<Unit filename="wxsmith/OpenAVRc_Simulatorframe.wxs" />
+		<Unit filename="wxsmith/OutBarsFrame.wxs" />
 		<Extensions>
 			<code_completion />
 			<envvars />
@@ -447,6 +450,7 @@
 				<resources>
 					<wxFrame wxs="wxsmith/OpenAVRc_Simulatorframe.wxs" src="OpenAVRc_SimulatorMain.cpp" hdr="OpenAVRc_SimulatorMain.h" fwddecl="0" i18n="1" name="OpenAVRc_SimulatorFrame" language="CPP" />
 					<wxFrame wxs="wxsmith/MixerFrame.wxs" src="MixerFrame.cpp" hdr="MixerFrame.h" fwddecl="0" i18n="1" name="MixerFrame" language="CPP" />
+					<wxFrame wxs="wxsmith/OutBarsFrame.wxs" src="OutBarsFrame.cpp" hdr="OutBarsFrame.h" fwddecl="0" i18n="1" name="OutBarsFrame" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

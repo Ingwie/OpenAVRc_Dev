@@ -26,6 +26,7 @@
 
 #include "OpenAVRc_SimulatorMain.h"
 #include "MixerFrame.h"
+#include "OutBarsFrame.h"
 
 #include <wx/msgdlg.h>
 #include <wx/dcclient.h>
@@ -82,6 +83,7 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 bool Ini_Changed = false;
 wxString AppPath;
 MixerFrame *MixFr;
+OutBarsFrame *BarFr;
 
 bool Mp3RepExist = false;
 extern volatile uint8_t JQ6500_InputIndex;
@@ -140,6 +142,7 @@ const long OpenAVRc_SimulatorFrame::ID_STICKF = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_COLOURS = wxNewId();
 const long OpenAVRc_SimulatorFrame::idMenuAbout = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEM1 = wxNewId();
+const long OpenAVRc_SimulatorFrame::ID_MENUITEM2 = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_STATUSBAR = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_TIMER10MS = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_TIMERMAIN = wxNewId();
@@ -294,6 +297,8 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   MenuHelp->Append(MenuAbout);
   Mixeur = new wxMenuItem(MenuHelp, ID_MENUITEM1, _("Mixeur"), wxEmptyString, wxITEM_NORMAL);
   MenuHelp->Append(Mixeur);
+  OutputBars = new wxMenuItem(MenuHelp, ID_MENUITEM2, _("Graphique Sorties"), wxEmptyString, wxITEM_NORMAL);
+  MenuHelp->Append(OutputBars);
   MenuBar1->Append(MenuHelp, _("&Aide"));
   SetMenuBar(MenuBar1);
   StatusBar = new wxStatusBar(this, ID_STATUSBAR, 0, _T("ID_STATUSBAR"));
@@ -363,6 +368,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_STICKF,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuStickStickSelected);
   Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnAbout);
   Connect(ID_MENUITEM1,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMixeurSelected);
+  Connect(ID_MENUITEM2,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOutputBarsSelected);
   Connect(ID_TIMER10MS,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimer10msTrigger);
   Connect(ID_TIMERMAIN,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimerMainTrigger);
   Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnClose);
@@ -1311,3 +1317,10 @@ void OpenAVRc_SimulatorFrame::OnMixeurSelected(wxCommandEvent& event)//Draws the
   MixerFrame *MixFr = new  MixerFrame(NULL);
   MixFr->Show(TRUE);
 }
+
+void OpenAVRc_SimulatorFrame::OnOutputBarsSelected(wxCommandEvent& event)
+{
+  OutBarsFrame *BarFr = new  OutBarsFrame(NULL);
+  BarFr->Show(TRUE);
+}
+
