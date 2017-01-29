@@ -15,5 +15,9 @@
 				<style>wxTE_MULTILINE|wxTE_RICH</style>
 			</object>
 		</object>
+		<object class="wxTimer" name="ID_TIMERREFRESHFRAME" variable="TimerRefreshFrame" member="yes">
+			<interval>500</interval>
+			<handler function="OnTimerRefreshFrameTrigger" entry="EVT_TIMER" />
+		</object>
 	</object>
 </wxsmith>

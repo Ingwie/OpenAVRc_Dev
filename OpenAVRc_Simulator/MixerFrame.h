@@ -8,7 +8,7 @@
 #include <wx/textctrl.h>
 #include <wx/panel.h>
 #include <wx/frame.h>
-#include <wx/arrstr.h>
+#include <wx/timer.h>
 //*)
 
 class MixerFrame: public wxFrame
@@ -22,6 +22,7 @@ class MixerFrame: public wxFrame
     MixerFrame *MixFr;
 
 		//(*Declarations(MixerFrame)
+		wxTimer TimerRefreshFrame;
 		wxPanel* Mixer;
 		wxTextCtrl* Mixerline1;
 		//*)
@@ -31,6 +32,7 @@ class MixerFrame: public wxFrame
 		//(*Identifiers(MixerFrame)
 		static const long ID_TEXTCTRL1;
 		static const long ID_PANEL1;
+		static const long ID_TIMERREFRESHFRAME;
 		//*)
 
 	private:
@@ -39,6 +41,7 @@ class MixerFrame: public wxFrame
 		void OnChannelText(wxCommandEvent& event);
 		void OnPanel1Paint(wxPaintEvent& event);
 		void OnClose(wxCloseEvent& event);
+		void OnTimerRefreshFrameTrigger(wxTimerEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

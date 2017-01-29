@@ -11,12 +11,12 @@ extern wxString modeStr = "";
 //(*InternalHeaders(MixerFrame)
 #include <wx/intl.h>
 #include <wx/string.h>
-#include <wx/arrstr.h>
 //*)
 
 //(*IdInit(MixerFrame)
 const long MixerFrame::ID_TEXTCTRL1 = wxNewId();
 const long MixerFrame::ID_PANEL1 = wxNewId();
+const long MixerFrame::ID_TIMERREFRESHFRAME = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(MixerFrame,wxFrame)
@@ -31,6 +31,10 @@ MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	SetClientSize(wxSize(738,308));
 	Mixer = new wxPanel(this, ID_PANEL1, wxPoint(256,200), wxSize(1104,320), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	Mixerline1 = new wxTextCtrl(Mixer, ID_TEXTCTRL1, _("Texte"), wxPoint(0,0), wxSize(1104,320), wxTE_MULTILINE|wxTE_RICH, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+	TimerRefreshFrame.SetOwner(this, ID_TIMERREFRESHFRAME);
+	TimerRefreshFrame.Start(500, false);
+
+	Connect(ID_TIMERREFRESHFRAME,wxEVT_TIMER,(wxObjectEventFunction)&MixerFrame::OnTimerRefreshFrameTrigger);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&MixerFrame::OnClose);
 	//*)
 
@@ -71,6 +75,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
   if (strTarget.Mid(3,1) == "1") modeStr = modeStr + "__"; else modeStr = modeStr + "3_";
   if (strTarget.Mid(4,1) == "1") modeStr = modeStr + "__"; else modeStr = modeStr + "4_";
   if (strTarget.Mid(5,1) == "1") modeStr = modeStr + "__"; else modeStr = modeStr + "5";
+  return strTarget;
 }
 
 
@@ -262,7 +267,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
 
     ConvertToBinary(g_model.mixData[i].flightModes,mixStr);// TODO improve the output to make it comprehensible.
-    verlen(modeStr);
+    modeStr = verlen(modeStr);
     if (modeStr == "") modeStr = "All";
     mixStr = mixStr + modeStr + "\t";
     modeStr ="";
@@ -297,3 +302,8 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
 
 
+
+void MixerFrame::OnTimerRefreshFrameTrigger(wxTimerEvent& event)
+{
+  FillMixerFrame();
+}
