@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxFrame" name="MixerFrame">
+		<title>Mixeur</title>
 		<size>738,308</size>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_FRAME_STYLE|wxVSCROLL|wxFULL_REPAINT_ON_RESIZE</style>
@@ -12,17 +13,17 @@
 				<value>Texte</value>
 				<pos>0,32</pos>
 				<size>736,272</size>
-				<style>wxTE_MULTILINE|wxTE_RICH</style>
+				<style>wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxVSCROLL|wxHSCROLL</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL2" variable="Headerline" member="yes">
 				<value>Texte</value>
 				<pos>0,0</pos>
 				<size>736,32</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxTE_LEFT</style>
+				<style>wxTE_NO_VSCROLL|wxTE_READONLY|wxTE_RICH|wxTE_LEFT</style>
 			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMERREFRESHFRAME" variable="TimerRefreshFrame" member="yes">
-			<interval>500</interval>
+			<interval>100</interval>
 			<handler function="OnTimerRefreshFrameTrigger" entry="EVT_TIMER" />
 		</object>
 	</object>

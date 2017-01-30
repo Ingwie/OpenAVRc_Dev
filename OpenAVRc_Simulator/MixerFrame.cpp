@@ -28,13 +28,13 @@ END_EVENT_TABLE()
 MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(MixerFrame)
-	Create(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxVSCROLL|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
+	Create(parent, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxVSCROLL|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
 	SetClientSize(wxSize(738,308));
 	Mixer = new wxPanel(this, ID_PANEL1, wxPoint(256,200), wxSize(1104,320), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-	Mixerline1 = new wxTextCtrl(Mixer, ID_TEXTCTRL1, _("Texte"), wxPoint(0,32), wxSize(736,272), wxTE_MULTILINE|wxTE_RICH, wxDefaultValidator, _T("ID_TEXTCTRL1"));
-	Headerline = new wxTextCtrl(Mixer, ID_TEXTCTRL2, _("Texte"), wxPoint(0,0), wxSize(736,32), wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRL2"));
+	Mixerline1 = new wxTextCtrl(Mixer, ID_TEXTCTRL1, _("Texte"), wxPoint(0,32), wxSize(736,272), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxVSCROLL|wxHSCROLL, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+	Headerline = new wxTextCtrl(Mixer, ID_TEXTCTRL2, _("Texte"), wxPoint(0,0), wxSize(736,32), wxTE_NO_VSCROLL|wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRL2"));
 	TimerRefreshFrame.SetOwner(this, ID_TIMERREFRESHFRAME);
-	TimerRefreshFrame.Start(500, false);
+	TimerRefreshFrame.Start(100, false);
 
 	Connect(ID_TIMERREFRESHFRAME,wxEVT_TIMER,(wxObjectEventFunction)&MixerFrame::OnTimerRefreshFrameTrigger);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&MixerFrame::OnClose);
@@ -77,10 +77,9 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
   if (strTarget.Mid(3,1) == "1") modeStr = modeStr + "__"; else modeStr = modeStr + "3_";
   if (strTarget.Mid(4,1) == "1") modeStr = modeStr + "__"; else modeStr = modeStr + "4_";
   if (strTarget.Mid(5,1) == "1") modeStr = modeStr + "__"; else modeStr = modeStr + "5";
-  return strTarget;
+  //return strTarget;
+  return modeStr;
 }
-
-
 ///////////////////////////END OF TOOLS TO FLIGHT MODES/////////////
 
   //wxArrayString *sticks = new wxArrayString;
@@ -187,22 +186,25 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
  void MixerFrame::FillMixerFrame()
  {
-  wxString Header = "\t\t\tMix\tOffset\tSwitch\tDiff\tCurve\tModes\tTrim\tWarning\tDlay(u/d)Speed(u/d)\n";
+  wxString Header = "\t\t\tMix\tOffset\tSwitch\tDiff\tCurve\tModes\t\tTrim\tDlay(u/d)Speed(u/d)\tWarning\n";
   Headerline->SetValue(Header);
 
-  wxString mixStr = "";//\t\t\tMix\tOffset\tSwitch\tDiff\tCurve\tModes\t\tTrim\tWarning\tDlay(u/d)Speed(u/d)\n";
+  wxString mixStr = "";
   for( int i = 0; i < NUM_CHNOUT; i++ ) {
+  //-------------------------------------CHANNEL-------------------------------------
     if ((g_model.mixData[i].weight) == 0) continue;
     if ((i == 0) || ((g_model.mixData[i].destCh) > (g_model.mixData[i-1].destCh))){
       mixStr = mixStr + "\n" + "OUT " + wxString::Format(wxT("%i"),(g_model.mixData[i].destCh) + 1)+ " = ";
     }
     else mixStr = mixStr + "\t";// Destination channel OK
-
-
+//------------------------------------------------------------------------------------
+//---------------------------------------OPERATOR---------------------------------------
     if ((g_model.mixData[i].mltpx) == 2) mixStr = mixStr + "Over ";
     else if ((g_model.mixData[i].mltpx) == 1) mixStr = mixStr + "Mult ";
     else if ((g_model.mixData[i].mltpx) == 0) mixStr = mixStr + "Add  ";// operator OK
+//--------------------------------------------------------------------------------------
 
+//---------------------------------------INPUT CHANNEL-----------------------------------
     int indx = (g_model.mixData[i].srcRaw);
     if (indx == MIXSRC_FIRST_POT-4) mixStr = mixStr + "Rud input" + "\t";
     else if (indx == MIXSRC_FIRST_POT - 3) mixStr = mixStr + "Ele input" + "\t";
@@ -240,7 +242,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
     else (mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].srcRaw))) + "\t";
     // TODO create a wxarraystring or similar to combine Mixsources and TR_PHYS_SWITCHES.
-
+//----------------------------------------------------------------------------------------------
 //---------------------------------------------WEIGHT-------------------------------------------
     mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].weight)) + "% "; //weight OK
 //-----------------------------------------------------------------------------------------------
@@ -271,16 +273,15 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
       //mixStr = mixStr + " " + wxString::Format(wxT("%i"),(g_model.mixData[i].weightMode)) + ","; //??????
       //mixStr = mixStr + " " + wxString::Format(wxT("%i"),(g_model.mixData[i].offsetMode)) + ","; //??????
 
-
+//---------------------------------------------FLIGHT MODES-------------------------------------------------------
     ConvertToBinary(g_model.mixData[i].flightModes,mixStr);// TODO improve the output to make it comprehensible.
     modeStr = verlen(modeStr);
-    if (modeStr == "") modeStr = "All";
+    //if (modeStr == "") modeStr = "All";
     mixStr = mixStr + modeStr + "\t";
     modeStr ="";
+//-----------------------------------------------------------------------------------------------------------------
 
-    //mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].flightModes)) + "\t";//TODO translate to binary and invert.
-
-
+//-----------------------------------------------TRIM--------------------------------------------------
     indx = (g_model.mixData[i].carryTrim); //Trim ok
     if ((indx) == 1) mixStr = mixStr + "Off" + "\t";
     else if ((indx) == 0) mixStr = mixStr + "On" + "\t";
@@ -288,8 +289,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     else if ((indx) == -2) mixStr = mixStr + "ELE" + "\t";
     else if ((indx) == -3) mixStr = mixStr + "THR" + "\t";
     else if ((indx) == -4) mixStr = mixStr + "AIL" + "\t";
-
-    mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].mixWarn)) + "\t";// IS THIS NECESSARY FOR THIS SCREEN ??
+//-------------------------------------------------------------------------------------------------------
 
     mixStr = mixStr + "(" + wxString::Format(wxT("%i"),(g_model.mixData[i].delayUp / 2));
     mixStr = mixStr + "," + wxString::Format(wxT("%i"),((g_model.mixData[i].delayUp % 2) * 5));
@@ -298,8 +298,10 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     mixStr = mixStr + "(" + wxString::Format(wxT("%i"),(g_model.mixData[i].speedUp / 2));
     mixStr = mixStr + "," + wxString::Format(wxT("%i"),((g_model.mixData[i].speedUp % 2) * 5));
     mixStr = mixStr + "/" + wxString::Format(wxT("%i"),(g_model.mixData[i].speedDown / 2));
-    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((g_model.mixData[i].speedDown % 2) * 5)) + ")\t" +"\n";
-
+    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((g_model.mixData[i].speedDown % 2) * 5)) + ")\t\t";
+//-------------------------------------------------------------------------------------------------------
+    mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].mixWarn)) + "\n";// IS THIS NECESSARY FOR THIS SCREEN ??
+//-------------------------------------------------------------------------------------------------------
     //mixStr = mixStr + " " + wxString::Format(wxT("%i"),(g_model.mixData[i].spare));
 
   }
