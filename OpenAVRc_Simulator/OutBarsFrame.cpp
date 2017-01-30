@@ -55,6 +55,7 @@ const long OutBarsFrame::ID_SLIDER13 = wxNewId();
 const long OutBarsFrame::ID_SLIDER14 = wxNewId();
 const long OutBarsFrame::ID_SLIDER15 = wxNewId();
 const long OutBarsFrame::ID_SLIDER16 = wxNewId();
+const long OutBarsFrame::ID_STATICLINE1 = wxNewId();
 const long OutBarsFrame::ID_PANEL1 = wxNewId();
 const long OutBarsFrame::ID_TIMER1 = wxNewId();
 //*)
@@ -67,9 +68,10 @@ END_EVENT_TABLE()
 OutBarsFrame::OutBarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(OutBarsFrame)
-	Create(parent, wxID_ANY, _("État des sorties du mixeur."), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
-	SetClientSize(wxSize(263,284));
-	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(64,32), wxSize(263,320), 0, _T("ID_PANEL1"));
+	Create(parent, wxID_ANY, _("État des sorties."), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
+	SetClientSize(wxSize(263,285));
+	Move(wxPoint(-1,-1));
+	Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxSize(263,312), 0, _T("ID_PANEL1"));
 	output1 = new wxTextCtrl(Panel1, ID_TEXTCTRL1, _("Texte"), wxPoint(216,10), wxSize(56,16), wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW, wxDefaultValidator, _T("ID_TEXTCTRL1"));
 	output2 = new wxTextCtrl(Panel1, ID_TEXTCTRL2, _("Texte"), wxPoint(216,26), wxSize(56,16), wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW, wxDefaultValidator, _T("ID_TEXTCTRL2"));
 	output3 = new wxTextCtrl(Panel1, ID_TEXTCTRL3, _("Texte"), wxPoint(216,42), wxSize(56,16), wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW, wxDefaultValidator, _T("ID_TEXTCTRL3"));
@@ -86,22 +88,22 @@ OutBarsFrame::OutBarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	output14 = new wxTextCtrl(Panel1, ID_TEXTCTRL14, _("Texte"), wxPoint(216,218), wxSize(56,16), wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW, wxDefaultValidator, _T("ID_TEXTCTRL14"));
 	output15 = new wxTextCtrl(Panel1, ID_TEXTCTRL15, _("Texte"), wxPoint(216,234), wxSize(56,16), wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW, wxDefaultValidator, _T("ID_TEXTCTRL15"));
 	output16 = new wxTextCtrl(Panel1, ID_TEXTCTRL16, _("Texte"), wxPoint(216,250), wxSize(56,16), wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW, wxDefaultValidator, _T("ID_TEXTCTRL16"));
-	StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("CH1"), wxPoint(14,13), wxSize(32,16), 0, _T("ID_STATICTEXT1"));
-	StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, _("CH2"), wxPoint(14,29), wxSize(32,16), 0, _T("ID_STATICTEXT2"));
-	StaticText3 = new wxStaticText(Panel1, ID_STATICTEXT3, _("CH3"), wxPoint(14,45), wxSize(32,16), 0, _T("ID_STATICTEXT3"));
-	StaticText4 = new wxStaticText(Panel1, ID_STATICTEXT4, _("CH4"), wxPoint(14,61), wxSize(32,16), 0, _T("ID_STATICTEXT4"));
-	StaticText5 = new wxStaticText(Panel1, ID_STATICTEXT5, _("CH5"), wxPoint(14,77), wxSize(32,16), 0, _T("ID_STATICTEXT5"));
-	StaticText6 = new wxStaticText(Panel1, ID_STATICTEXT6, _("CH6"), wxPoint(14,93), wxSize(32,16), 0, _T("ID_STATICTEXT6"));
-	StaticText7 = new wxStaticText(Panel1, ID_STATICTEXT7, _("CH7"), wxPoint(14,109), wxDefaultSize, 0, _T("ID_STATICTEXT7"));
-	StaticText8 = new wxStaticText(Panel1, ID_STATICTEXT8, _("CH8"), wxPoint(14,125), wxDefaultSize, 0, _T("ID_STATICTEXT8"));
-	StaticText9 = new wxStaticText(Panel1, ID_STATICTEXT9, _("CH9"), wxPoint(14,141), wxDefaultSize, 0, _T("ID_STATICTEXT9"));
-	StaticText10 = new wxStaticText(Panel1, ID_STATICTEXT10, _("CH10"), wxPoint(14,157), wxDefaultSize, 0, _T("ID_STATICTEXT10"));
-	StaticText11 = new wxStaticText(Panel1, ID_STATICTEXT11, _("CH11"), wxPoint(14,173), wxDefaultSize, 0, _T("ID_STATICTEXT11"));
-	StaticText12 = new wxStaticText(Panel1, ID_STATICTEXT12, _("CH12"), wxPoint(14,189), wxDefaultSize, 0, _T("ID_STATICTEXT12"));
-	StaticText13 = new wxStaticText(Panel1, ID_STATICTEXT13, _("CH13"), wxPoint(14,205), wxDefaultSize, 0, _T("ID_STATICTEXT13"));
-	StaticText14 = new wxStaticText(Panel1, ID_STATICTEXT14, _("CH14"), wxPoint(14,221), wxDefaultSize, 0, _T("ID_STATICTEXT14"));
-	StaticText15 = new wxStaticText(Panel1, ID_STATICTEXT15, _("CH15"), wxPoint(14,237), wxDefaultSize, 0, _T("ID_STATICTEXT15"));
-	StaticText16 = new wxStaticText(Panel1, ID_STATICTEXT16, _("CH16"), wxPoint(14,253), wxDefaultSize, 0, _T("ID_STATICTEXT16"));
+	StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("Ch1"), wxPoint(14,13), wxSize(32,16), 0, _T("ID_STATICTEXT1"));
+	StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, _("Ch2"), wxPoint(14,29), wxSize(32,16), 0, _T("ID_STATICTEXT2"));
+	StaticText3 = new wxStaticText(Panel1, ID_STATICTEXT3, _("Ch3"), wxPoint(14,45), wxSize(32,16), 0, _T("ID_STATICTEXT3"));
+	StaticText4 = new wxStaticText(Panel1, ID_STATICTEXT4, _("Ch4"), wxPoint(14,61), wxSize(32,16), 0, _T("ID_STATICTEXT4"));
+	StaticText5 = new wxStaticText(Panel1, ID_STATICTEXT5, _("Ch5"), wxPoint(14,77), wxSize(32,16), 0, _T("ID_STATICTEXT5"));
+	StaticText6 = new wxStaticText(Panel1, ID_STATICTEXT6, _("Ch6"), wxPoint(14,93), wxSize(32,16), 0, _T("ID_STATICTEXT6"));
+	StaticText7 = new wxStaticText(Panel1, ID_STATICTEXT7, _("Ch7"), wxPoint(14,109), wxDefaultSize, 0, _T("ID_STATICTEXT7"));
+	StaticText8 = new wxStaticText(Panel1, ID_STATICTEXT8, _("Ch8"), wxPoint(14,125), wxDefaultSize, 0, _T("ID_STATICTEXT8"));
+	StaticText9 = new wxStaticText(Panel1, ID_STATICTEXT9, _("Ch9"), wxPoint(14,141), wxDefaultSize, 0, _T("ID_STATICTEXT9"));
+	StaticText10 = new wxStaticText(Panel1, ID_STATICTEXT10, _("Ch10"), wxPoint(14,157), wxDefaultSize, 0, _T("ID_STATICTEXT10"));
+	StaticText11 = new wxStaticText(Panel1, ID_STATICTEXT11, _("Ch11"), wxPoint(14,173), wxDefaultSize, 0, _T("ID_STATICTEXT11"));
+	StaticText12 = new wxStaticText(Panel1, ID_STATICTEXT12, _("Ch12"), wxPoint(14,189), wxDefaultSize, 0, _T("ID_STATICTEXT12"));
+	StaticText13 = new wxStaticText(Panel1, ID_STATICTEXT13, _("Ch13"), wxPoint(14,205), wxDefaultSize, 0, _T("ID_STATICTEXT13"));
+	StaticText14 = new wxStaticText(Panel1, ID_STATICTEXT14, _("Ch14"), wxPoint(14,221), wxDefaultSize, 0, _T("ID_STATICTEXT14"));
+	StaticText15 = new wxStaticText(Panel1, ID_STATICTEXT15, _("Ch15"), wxPoint(14,237), wxDefaultSize, 0, _T("ID_STATICTEXT15"));
+	StaticText16 = new wxStaticText(Panel1, ID_STATICTEXT16, _("Ch16"), wxPoint(14,253), wxDefaultSize, 0, _T("ID_STATICTEXT16"));
 	Slider1 = new wxSlider(Panel1, ID_SLIDER1, 0, -115, 115, wxPoint(40,16), wxSize(176,16), 0, wxDefaultValidator, _T("ID_SLIDER1"));
 	Slider1->SetExtraStyle( Slider1->GetExtraStyle() | wxWS_EX_BLOCK_EVENTS );
 	Slider2 = new wxSlider(Panel1, ID_SLIDER2, 0, -115, 115, wxPoint(40,32), wxSize(176,16), 0, wxDefaultValidator, _T("ID_SLIDER2"));
@@ -134,6 +136,7 @@ OutBarsFrame::OutBarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	Slider15->SetExtraStyle( Slider15->GetExtraStyle() | wxWS_EX_BLOCK_EVENTS );
 	Slider16 = new wxSlider(Panel1, ID_SLIDER16, 0, -115, 115, wxPoint(40,256), wxSize(176,16), 0, wxDefaultValidator, _T("ID_SLIDER16"));
 	Slider16->SetExtraStyle( Slider16->GetExtraStyle() | wxWS_EX_BLOCK_EVENTS );
+	StaticLine1 = new wxStaticLine(Panel1, ID_STATICLINE1, wxPoint(127,8), wxSize(2,272), wxLI_HORIZONTAL, _T("ID_STATICLINE1"));
 	TimerRefreshFrame.SetOwner(this, ID_TIMER1);
 	TimerRefreshFrame.Start(500, false);
 

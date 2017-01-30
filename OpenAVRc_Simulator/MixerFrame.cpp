@@ -15,6 +15,7 @@ extern wxString modeStr = "";
 
 //(*IdInit(MixerFrame)
 const long MixerFrame::ID_TEXTCTRL1 = wxNewId();
+const long MixerFrame::ID_TEXTCTRL2 = wxNewId();
 const long MixerFrame::ID_PANEL1 = wxNewId();
 const long MixerFrame::ID_TIMERREFRESHFRAME = wxNewId();
 //*)
@@ -30,7 +31,8 @@ MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	Create(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxVSCROLL|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
 	SetClientSize(wxSize(738,308));
 	Mixer = new wxPanel(this, ID_PANEL1, wxPoint(256,200), wxSize(1104,320), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-	Mixerline1 = new wxTextCtrl(Mixer, ID_TEXTCTRL1, _("Texte"), wxPoint(0,0), wxSize(1104,320), wxTE_MULTILINE|wxTE_RICH, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+	Mixerline1 = new wxTextCtrl(Mixer, ID_TEXTCTRL1, _("Texte"), wxPoint(0,32), wxSize(736,272), wxTE_MULTILINE|wxTE_RICH, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+	Headerline = new wxTextCtrl(Mixer, ID_TEXTCTRL2, _("Texte"), wxPoint(0,0), wxSize(736,32), wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRL2"));
 	TimerRefreshFrame.SetOwner(this, ID_TIMERREFRESHFRAME);
 	TimerRefreshFrame.Start(500, false);
 
@@ -185,7 +187,10 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
  void MixerFrame::FillMixerFrame()
  {
-  wxString mixStr = "\t\t\tMix\tOffset\tSwitch\tExpo\tCurve\tModes\t\tTrim\tWarning\tDlay(u/d)Speed(u/d)\n";
+  wxString Header = "\t\t\tMix\tOffset\tSwitch\tDiff\tCurve\tModes\tTrim\tWarning\tDlay(u/d)Speed(u/d)\n";
+  Headerline->SetValue(Header);
+
+  wxString mixStr = "";//\t\t\tMix\tOffset\tSwitch\tDiff\tCurve\tModes\t\tTrim\tWarning\tDlay(u/d)Speed(u/d)\n";
   for( int i = 0; i < NUM_CHNOUT; i++ ) {
     if ((g_model.mixData[i].weight) == 0) continue;
     if ((i == 0) || ((g_model.mixData[i].destCh) > (g_model.mixData[i-1].destCh))){
@@ -236,12 +241,13 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     else (mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].srcRaw))) + "\t";
     // TODO create a wxarraystring or similar to combine Mixsources and TR_PHYS_SWITCHES.
 
-
+//---------------------------------------------WEIGHT-------------------------------------------
     mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].weight)) + "% "; //weight OK
+//-----------------------------------------------------------------------------------------------
 
-
+//------------------------------------------------OFFSET------------------------------------------------
     mixStr = mixStr + "\t" + wxString::Format(wxT("%i"),(g_model.mixData[i].offset)) +"%\t";// offset OK
-
+//------------------------------------------------------------------------------------------------------
 
     if ((g_model.mixData[i].swtch)  > 4){
       for (int j = 0; j < 3; j++){
@@ -287,11 +293,17 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].mixWarn)) + "\t";// IS THIS NECESSARY FOR THIS SCREEN ??
 
 
-    mixStr = mixStr + "(" + wxString::Format(wxT("%i"),(g_model.mixData[i].delayUp));
-    mixStr = mixStr + "/" + wxString::Format(wxT("%i"),(g_model.mixData[i].delayDown)) + ")\t";
-    mixStr = mixStr + "(" + wxString::Format(wxT("%i"),(g_model.mixData[i].speedUp));
-    mixStr = mixStr + "/" + wxString::Format(wxT("%i"),(g_model.mixData[i].speedDown)) + ")"+ "\n";//Dlay u/d Speed u/d OK
+    mixStr = mixStr + "(" + wxString::Format(wxT("%i"),(g_model.mixData[i].delayUp / 2));
+    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((g_model.mixData[i].delayUp % 2) * 5));
 
+    mixStr = mixStr + "/" + wxString::Format(wxT("%i"),(g_model.mixData[i].delayDown / 2));
+    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((g_model.mixData[i].delayDown % 2) * 5)) + ")\t";
+
+    mixStr = mixStr + "(" + wxString::Format(wxT("%i"),(g_model.mixData[i].speedUp / 2));
+    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((g_model.mixData[i].speedUp % 2) * 5));
+
+    mixStr = mixStr + "/" + wxString::Format(wxT("%i"),(g_model.mixData[i].speedDown / 2));
+    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((g_model.mixData[i].speedDown % 2) * 5)) + ")\t" +"\n";
 
     //mixStr = mixStr + " " + wxString::Format(wxT("%i"),(g_model.mixData[i].spare));
 

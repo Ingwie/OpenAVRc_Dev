@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxFrame" name="OutBarsFrame">
-		<title>État des sorties du mixeur.</title>
-		<size>263,284</size>
+		<title>État des sorties.</title>
+		<pos>-1,-1</pos>
+		<size>263,285</size>
 		<id_arg>0</id_arg>
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
-			<pos>64,32</pos>
-			<size>263,320</size>
+			<size>263,312</size>
 			<style>0</style>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="output1" member="yes">
 				<value>Texte</value>
@@ -106,73 +106,73 @@
 				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
-				<label>CH1</label>
+				<label>Ch1</label>
 				<pos>14,13</pos>
 				<size>32,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
-				<label>CH2</label>
+				<label>Ch2</label>
 				<pos>14,29</pos>
 				<size>32,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
-				<label>CH3</label>
+				<label>Ch3</label>
 				<pos>14,45</pos>
 				<size>32,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText4" member="yes">
-				<label>CH4</label>
+				<label>Ch4</label>
 				<pos>14,61</pos>
 				<size>32,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
-				<label>CH5</label>
+				<label>Ch5</label>
 				<pos>14,77</pos>
 				<size>32,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText6" member="yes">
-				<label>CH6</label>
+				<label>Ch6</label>
 				<pos>14,93</pos>
 				<size>32,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT7" variable="StaticText7" member="yes">
-				<label>CH7</label>
+				<label>Ch7</label>
 				<pos>14,109</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText8" member="yes">
-				<label>CH8</label>
+				<label>Ch8</label>
 				<pos>14,125</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT9" variable="StaticText9" member="yes">
-				<label>CH9</label>
+				<label>Ch9</label>
 				<pos>14,141</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT10" variable="StaticText10" member="yes">
-				<label>CH10</label>
+				<label>Ch10</label>
 				<pos>14,157</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT11" variable="StaticText11" member="yes">
-				<label>CH11</label>
+				<label>Ch11</label>
 				<pos>14,173</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT12" variable="StaticText12" member="yes">
-				<label>CH12</label>
+				<label>Ch12</label>
 				<pos>14,189</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT13" variable="StaticText13" member="yes">
-				<label>CH13</label>
+				<label>Ch13</label>
 				<pos>14,205</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT14" variable="StaticText14" member="yes">
-				<label>CH14</label>
+				<label>Ch14</label>
 				<pos>14,221</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT15" variable="StaticText15" member="yes">
-				<label>CH15</label>
+				<label>Ch15</label>
 				<pos>14,237</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT16" variable="StaticText16" member="yes">
-				<label>CH16</label>
+				<label>Ch16</label>
 				<pos>14,253</pos>
 			</object>
 			<object class="wxSlider" name="ID_SLIDER1" variable="Slider1" member="yes">
@@ -286,6 +286,10 @@
 				<pos>40,256</pos>
 				<size>176,16</size>
 				<exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
+			</object>
+			<object class="wxStaticLine" name="ID_STATICLINE1" variable="StaticLine1" member="yes">
+				<pos>127,8</pos>
+				<size>2,272</size>
 			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMER1" variable="TimerRefreshFrame" member="yes">

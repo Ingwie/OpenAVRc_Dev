@@ -4,6 +4,7 @@
 //(*Headers(OutBarsFrame)
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
+#include <wx/statline.h>
 #include <wx/slider.h>
 #include <wx/panel.h>
 #include <wx/frame.h>
@@ -59,6 +60,7 @@ class OutBarsFrame: public wxFrame
 		wxSlider* Slider15;
 		wxSlider* Slider16;
 		wxSlider* Slider4;
+		wxStaticLine* StaticLine1;
 		wxSlider* Slider12;
 		wxSlider* Slider8;
 		wxTextCtrl* output10;
@@ -123,6 +125,7 @@ class OutBarsFrame: public wxFrame
 		static const long ID_SLIDER14;
 		static const long ID_SLIDER15;
 		static const long ID_SLIDER16;
+		static const long ID_STATICLINE1;
 		static const long ID_PANEL1;
 		static const long ID_TIMER1;
 		//*)

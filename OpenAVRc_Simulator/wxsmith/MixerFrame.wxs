@@ -10,9 +10,15 @@
 			<size>1104,320</size>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="Mixerline1" member="yes">
 				<value>Texte</value>
-				<pos>0,0</pos>
-				<size>1104,320</size>
+				<pos>0,32</pos>
+				<size>736,272</size>
 				<style>wxTE_MULTILINE|wxTE_RICH</style>
+			</object>
+			<object class="wxTextCtrl" name="ID_TEXTCTRL2" variable="Headerline" member="yes">
+				<value>Texte</value>
+				<pos>0,0</pos>
+				<size>736,32</size>
+				<style>wxTE_READONLY|wxTE_RICH|wxTE_LEFT</style>
 			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMERREFRESHFRAME" variable="TimerRefreshFrame" member="yes">

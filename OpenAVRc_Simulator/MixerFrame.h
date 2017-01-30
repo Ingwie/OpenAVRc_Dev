@@ -24,6 +24,7 @@ class MixerFrame: public wxFrame
 		//(*Declarations(MixerFrame)
 		wxTimer TimerRefreshFrame;
 		wxPanel* Mixer;
+		wxTextCtrl* Headerline;
 		wxTextCtrl* Mixerline1;
 		//*)
 
@@ -31,6 +32,7 @@ class MixerFrame: public wxFrame
 
 		//(*Identifiers(MixerFrame)
 		static const long ID_TEXTCTRL1;
+		static const long ID_TEXTCTRL2;
 		static const long ID_PANEL1;
 		static const long ID_TIMERREFRESHFRAME;
 		//*)
