@@ -281,27 +281,22 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     //mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].flightModes)) + "\t";//TODO translate to binary and invert.
 
 
-    indx = (g_model.mixData[i].carryTrim);
+    indx = (g_model.mixData[i].carryTrim); //Trim ok
     if ((indx) == 1) mixStr = mixStr + "Off" + "\t";
     else if ((indx) == 0) mixStr = mixStr + "On" + "\t";
     else if ((indx) == -1) mixStr = mixStr + "RUD" + "\t";
     else if ((indx) == -2) mixStr = mixStr + "ELE" + "\t";
     else if ((indx) == -3) mixStr = mixStr + "THR" + "\t";
-    else if ((indx) == -4) mixStr = mixStr + "AIL" + "\t";//OK
-
+    else if ((indx) == -4) mixStr = mixStr + "AIL" + "\t";
 
     mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].mixWarn)) + "\t";// IS THIS NECESSARY FOR THIS SCREEN ??
 
-
     mixStr = mixStr + "(" + wxString::Format(wxT("%i"),(g_model.mixData[i].delayUp / 2));
     mixStr = mixStr + "," + wxString::Format(wxT("%i"),((g_model.mixData[i].delayUp % 2) * 5));
-
     mixStr = mixStr + "/" + wxString::Format(wxT("%i"),(g_model.mixData[i].delayDown / 2));
     mixStr = mixStr + "," + wxString::Format(wxT("%i"),((g_model.mixData[i].delayDown % 2) * 5)) + ")\t";
-
     mixStr = mixStr + "(" + wxString::Format(wxT("%i"),(g_model.mixData[i].speedUp / 2));
     mixStr = mixStr + "," + wxString::Format(wxT("%i"),((g_model.mixData[i].speedUp % 2) * 5));
-
     mixStr = mixStr + "/" + wxString::Format(wxT("%i"),(g_model.mixData[i].speedDown / 2));
     mixStr = mixStr + "," + wxString::Format(wxT("%i"),((g_model.mixData[i].speedDown % 2) * 5)) + ")\t" +"\n";
 
