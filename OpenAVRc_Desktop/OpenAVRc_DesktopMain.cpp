@@ -424,7 +424,7 @@ void OpenAVRc_DesktopFrame::OnAbout(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnProgrammerSelected(wxCommandEvent& event)
 {
-    CommunicationsFrame * DudeFrame = new CommunicationsFrame(NULL);
+    CommunicationsFrame * DudeFrame = new CommunicationsFrame(this);
     DudeFrame->Show(TRUE);//opens CommunicationsFrame
 }
 
@@ -759,7 +759,7 @@ void OpenAVRc_DesktopFrame::OnClose(wxCloseEvent& event)
 
 void OpenAVRc_DesktopFrame::OnATMEGA2560CompilerSelected(wxCommandEvent& event)
 {
-    CompilerOptionsFrame* atmegaFrame = new CompilerOptionsFrame(NULL);
+    CompilerOptionsFrame* atmegaFrame = new CompilerOptionsFrame(this);
     atmegaFrame->Show(TRUE);//opens CommunicationsFrame
 }
 
@@ -922,7 +922,7 @@ void OpenAVRc_DesktopFrame::OnButtonPersoClick(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnEDITEURClick(wxCommandEvent& event)
 {
-    VoiceEditFrame* voiceFrame = new VoiceEditFrame(NULL);
+    VoiceEditFrame* voiceFrame = new VoiceEditFrame(this);
     voiceFrame->Show(TRUE);//opens voice edit
 }
 
@@ -1003,7 +1003,7 @@ void OpenAVRc_DesktopFrame::OnMenuChoiceVoiceSelected(wxCommandEvent& event)
     if (wxSetWorkingDirectory(AppPath)) wxExecute("CMD /c" + AppPath + "\\tools\\tts.exe -V ->voices.txt", wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
     Ini_Changed = true;
     Sleep(500);
-    Voice_choice* voiceChoiceFrame = new Voice_choice(NULL);
+    Voice_choice* voiceChoiceFrame = new Voice_choice(this);
     voiceChoiceFrame->Show(TRUE);
 }
 
