@@ -29,6 +29,7 @@ class OutBarsFrame: public wxFrame
 		wxTextCtrl* output1;
 		wxSlider* Slider10;
 		wxSlider* Slider2;
+		wxPanel* PanelOutputSliders;
 		wxStaticText* StaticText13;
 		wxStaticText* StaticText2;
 		wxTextCtrl* output8;
@@ -45,7 +46,6 @@ class OutBarsFrame: public wxFrame
 		wxStaticText* StaticText11;
 		wxTextCtrl* output13;
 		wxSlider* Slider7;
-		wxPanel* Panel1;
 		wxStaticText* StaticText1;
 		wxTextCtrl* output16;
 		wxStaticText* StaticText3;
@@ -126,8 +126,8 @@ class OutBarsFrame: public wxFrame
 		static const long ID_SLIDER15;
 		static const long ID_SLIDER16;
 		static const long ID_STATICLINE1;
-		static const long ID_PANEL1;
-		static const long ID_TIMER1;
+		static const long ID_PANELOUTPUTSLIDEERS;
+		static const long ID_TIMERREFRESHOUTBAR;
 		//*)
 
 	private:

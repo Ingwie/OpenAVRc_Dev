@@ -5,7 +5,7 @@
 		<pos>-1,-1</pos>
 		<size>263,285</size>
 		<id_arg>0</id_arg>
-		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
+		<object class="wxPanel" name="ID_PANELOUTPUTSLIDEERS" variable="PanelOutputSliders" member="yes">
 			<size>263,312</size>
 			<style>0</style>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="output1" member="yes">
@@ -292,8 +292,8 @@
 				<size>2,272</size>
 			</object>
 		</object>
-		<object class="wxTimer" name="ID_TIMER1" variable="TimerRefreshFrame" member="yes">
-			<interval>500</interval>
+		<object class="wxTimer" name="ID_TIMERREFRESHOUTBAR" variable="TimerRefreshFrame" member="yes">
+			<interval>100</interval>
 			<handler function="OnTimerRefreshFrameTrigger" entry="EVT_TIMER" />
 		</object>
 	</object>
