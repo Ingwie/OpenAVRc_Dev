@@ -34,7 +34,7 @@ MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	Mixerline1 = new wxTextCtrl(Mixer, ID_TEXTCTRL1, _("Texte"), wxPoint(0,32), wxSize(736,272), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxVSCROLL|wxHSCROLL, wxDefaultValidator, _T("ID_TEXTCTRL1"));
 	Headerline = new wxTextCtrl(Mixer, ID_TEXTCTRL2, _("Texte"), wxPoint(0,0), wxSize(736,32), wxTE_NO_VSCROLL|wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRL2"));
 	TimerRefreshFrame.SetOwner(this, ID_TIMERREFRESHFRAME);
-	TimerRefreshFrame.Start(100, false);
+	TimerRefreshFrame.Start(500, false);
 
 	Connect(ID_TIMERREFRESHFRAME,wxEVT_TIMER,(wxObjectEventFunction)&MixerFrame::OnTimerRefreshFrameTrigger);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&MixerFrame::OnClose);
@@ -89,7 +89,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
   //sticks->Add(_("Rud"));
   //Src.Add(wxT("Ele"));
   //Src.GetCount();
-  //Src.Add(Rud);
+  //Src.Add(Rud); //wxArrayString does not compile !!
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -198,6 +198,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     }
     else mixStr = mixStr + "\t";// Destination channel OK
 //------------------------------------------------------------------------------------
+
 //---------------------------------------OPERATOR---------------------------------------
     if ((g_model.mixData[i].mltpx) == 2) mixStr = mixStr + "Over ";
     else if ((g_model.mixData[i].mltpx) == 1) mixStr = mixStr + "Mult ";
@@ -205,7 +206,17 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 //--------------------------------------------------------------------------------------
 
 //---------------------------------------INPUT CHANNEL-----------------------------------
+
+    //mixStr = mixStr + "in " + wxString::Format(wxT("%i"),(g_model.mixData[i].srcRaw));
+
     int indx = (g_model.mixData[i].srcRaw);
+    //for (int j = 0; j < 4; j++){
+           //mixStr = mixStr + TR_VSRCRAW[j + 4 * indx];
+         //}
+    //mixStr = mixStr + "\t"; //trailing \0 cuts our mixStr.
+
+
+
     if (indx == MIXSRC_FIRST_POT-4) mixStr = mixStr + "Rud input" + "\t";
     else if (indx == MIXSRC_FIRST_POT - 3) mixStr = mixStr + "Ele input" + "\t";
     else if (indx == MIXSRC_FIRST_POT - 2) mixStr = mixStr + "Thr input" + "\t";
@@ -231,6 +242,11 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
     else if (indx == MIXSRC_FIRST_SWITCH) mixStr = mixStr + "3POS"; //TR_9X_3POS_SWITCHES ????????????
 
+ //#define TR_VSRCRAW             "---\0" TR_STICKS_VSRCRAW TR_POTS_VSRCRAW TR_ROTARY_ENCODERS "MAX\0" TR_CYC_VSRCRAW TR_TRIMS_VSRCRAW TR_SW_VSRCRAW TR_EXTRA_VSRCRAW
+ //#define TR_STICKS_VSRCRAW      TR("Dir\0""Prf\0""Gaz\0""Ail\0", "\307Dir""\307Prf""\307Gaz""\307Ail")
+
+
+
     //else if (indx == MIXSRC_FIRST_SWITCH) mixStr = mixStr + TR_9X_3POS_SWITCHES[indx] + "\t"; //????????????
     ////////////////////////////////////////continue from here////////////////////////////
     //PHYSICAL SWITCHES   MIXSRC_FIRST_SWITCH
@@ -242,36 +258,54 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
     else (mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].srcRaw))) + "\t";
     // TODO create a wxarraystring or similar to combine Mixsources and TR_PHYS_SWITCHES.
+
 //----------------------------------------------------------------------------------------------
 //---------------------------------------------WEIGHT-------------------------------------------
     mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].weight)) + "% "; //weight OK
 //-----------------------------------------------------------------------------------------------
 
-//------------------------------------------------OFFSET------------------------------------------------
+//---------------------------------------------OFFSET------------------------------------------------
     mixStr = mixStr + "\t" + wxString::Format(wxT("%i"),(g_model.mixData[i].offset)) +"%\t";// offset OK
-//------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------
 
-    if ((g_model.mixData[i].swtch)  > 4){
-      for (int j = 0; j < 3; j++){
-        mixStr = mixStr + TR_PHYS_SWITCHES[j + 3 * ((g_model.mixData[i].swtch)-4)];
-      }
-      mixStr = mixStr + "\t";
+//---------------------------------------------SWITCHES-----------------------------------------------
+
+    #define TR_LOGICALSW         "L1 ""L2 ""L3 ""L4 ""L5 ""L6 ""L7 ""L8 ""L9 ""L10""L11""L12"
+
+  //TODO Review this. Will not work if the values of "L" are redefined.
+
+    int idx = (g_model.mixData[i].swtch);
+    if (idx < 0){
+      mixStr = mixStr + "No";
+      idx = abs(idx);
     }
-    else mixStr = mixStr + "\t";// switch OK
+    for (int j = 0; j < 3; j++){
+           mixStr = mixStr + TR_VSWITCHES[j + 3 * idx];
+         }
+    mixStr = mixStr + "\t";
 
-      //if ((g_model.mixData[i].curveMode) == 0) mixStr = mixStr + "CURVE " + ",";
-       //else mixStr = mixStr + "DIFF  " + ",";
-      //mixStr = mixStr +   " CURVEmode " + wxString::Format(wxT("%i"),(g_model.mixData[i].curveMode)) + ",";
-      //mixStr = mixStr +            "EXPO " + wxString::Format(wxT("%i"),(g_model.mixData[i].noExpo)) + ",";
-      //mixStr = mixStr + "CURVE PARAM " + wxString::Format(wxT("%i"),(g_model.mixData[i].curveParam));
+    #define TR_LOGICALSW         "L1\0""L2\0""L3\0""L4\0""L5\0""L6\0""L7\0""L8\0""L9\0""L10""L11""L12"
 
-    if (((g_model.mixData[i].curveMode) == 0) && ((g_model.mixData[i].noExpo) == 0)){
-      mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].curveParam))+ "%\t\t" ;//MORE TODO WITH CURVE PARAM.
-    }
-    else mixStr = mixStr + "\t" + wxString::Format(wxT("%i"),(g_model.mixData[i].curveParam)-5)+ "\t" ;//to review, not fully working
+//--------------------------------------------------------------------------------------------------------------------
 
-      //mixStr = mixStr + " " + wxString::Format(wxT("%i"),(g_model.mixData[i].weightMode)) + ","; //??????
-      //mixStr = mixStr + " " + wxString::Format(wxT("%i"),(g_model.mixData[i].offsetMode)) + ","; //??????
+  #define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|""CB1""CB2""CB3""CB4""CB5""CB6""CB7""CB8"
+
+  if ((g_model.mixData[i].curveMode) == 0) mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].curveParam)) + "%\t\t";
+  else {
+        mixStr = mixStr + "\t";
+         for (int j = 0; j < 3; j++){
+          mixStr = mixStr + TR_VCURVEFUNC[j + 3 * (g_model.mixData[i].curveParam)];
+        }
+        mixStr = mixStr + "\t";
+
+        //mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].curveParam)) + "\t";
+  }
+
+  #define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|"
+
+    //mixStr = mixStr +       "NOEXPO " + wxString::Format(wxT("%i"),(g_model.mixData[i].noExpo)) + ",";
+    //mixStr = mixStr + " " + wxString::Format(wxT("%i"),(g_model.mixData[i].weightMode)) + ","; //??????
+    //mixStr = mixStr + " " + wxString::Format(wxT("%i"),(g_model.mixData[i].offsetMode)) + ","; //??????
 
 //---------------------------------------------FLIGHT MODES-------------------------------------------------------
     ConvertToBinary(g_model.mixData[i].flightModes,mixStr);// TODO improve the output to make it comprehensible.
