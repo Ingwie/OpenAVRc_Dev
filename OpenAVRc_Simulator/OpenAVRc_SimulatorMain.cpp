@@ -1314,13 +1314,13 @@ wxString int2wxString(int integer)
 
 void OpenAVRc_SimulatorFrame::OnMixeurSelected(wxCommandEvent& event)//Draws the mixer display screen
 {
-  MixerFrame *MixFr = new  MixerFrame(NULL);
+  MixerFrame *MixFr = new  MixerFrame(this);
   MixFr->Show(TRUE);
 }
 
 void OpenAVRc_SimulatorFrame::OnOutputBarsSelected(wxCommandEvent& event)
 {
-  OutBarsFrame *BarFr = new  OutBarsFrame(NULL);
+  OutBarsFrame *BarFr = new  OutBarsFrame(this);
   BarFr->Show(TRUE);
 }
 
