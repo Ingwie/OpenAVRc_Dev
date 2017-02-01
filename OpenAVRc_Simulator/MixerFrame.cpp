@@ -8,6 +8,14 @@
 wxString mixStr = "";
 extern wxString modeStr = "";
 
+class GVARSClass {
+public:
+    const static char* gvarText[];
+};
+
+const char* GVARSClass::gvarText[] = { "GV1", "GV2", "GV3", "GV4", "GV5"};
+
+
 //(*InternalHeaders(MixerFrame)
 #include <wx/intl.h>
 #include <wx/string.h>
@@ -53,6 +61,9 @@ void MixerFrame::OnClose(wxCloseEvent& event)
 {
   Destroy();
 }
+
+
+
 
 ////////////////////////TOOLS FOR FLIGHT MODES////////////////
 
@@ -192,7 +203,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
   wxString mixStr = "";
   for( int i = 0; i < NUM_CHNOUT; i++ ) {
   //-------------------------------------CHANNEL-------------------------------------
-    if ((g_model.mixData[i].weight) == 0) continue;
+    if (((g_model.mixData[i].weight) == 0) && (g_model.mixData[i].weightMode == 0)) continue;
     if ((i == 0) || ((g_model.mixData[i].destCh) > (g_model.mixData[i-1].destCh))){
       mixStr = mixStr + "\n" + "OUT " + wxString::Format(wxT("%i"),(g_model.mixData[i].destCh) + 1)+ " = ";
     }
@@ -261,11 +272,33 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
 //----------------------------------------------------------------------------------------------
 //---------------------------------------------WEIGHT-------------------------------------------
-    mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].weight)) + "% "; //weight OK
+
+  if (g_model.mixData[i].weightMode == 1) mixStr = mixStr + "-";
+  //if (g_model.mixData[i].weightMode == 0){
+    mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].weight)) + "% ";//no gvars. bahhhh.
+  //}
+  //else mixStr = mixStr + "else";
+
+    //else {
+      //if ((g_model.mixData[i].weight) <= 0){
+    //else  mixStr = mixStr + "-"; {
+    //}
+    //mixStr = mixStr + GVARSClass::gvarText[abs(g_model.mixData[i].weight)];
+    //}
+      //mixStr = mixStr + GVARSClass::gvarText[(g_model.mixData[i].weight)];
+
+//#define MD_UNION_TO_WEIGHT(var, md) md->weight=var.bytes_t.lo; if (var.gvword<0) md->weightMode=1; else md->weightMode=0
+//#define MD_WEIGHT_TO_UNION(md, var) var.bytes_t.lo=md->weight; var.bytes_t.hi=md->weightMode?255:0
+
+//MD_UNION_TO_WEIGHT(tmp,md);
 //-----------------------------------------------------------------------------------------------
 
-//---------------------------------------------OFFSET------------------------------------------------
-    mixStr = mixStr + "\t" + wxString::Format(wxT("%i"),(g_model.mixData[i].offset)) +"%\t";// offset OK
+
+//---------------------------------------------OFFSET-----------------------------------------------
+
+  if (g_model.mixData[i].offsetMode == 1) mixStr = mixStr + "-";
+  mixStr = mixStr + "\t" + wxString::Format(wxT("%i"),(g_model.mixData[i].offset)) +"%\t";// no gvars, sorry.
+
 //----------------------------------------------------------------------------------------------------
 
 //---------------------------------------------SWITCHES-----------------------------------------------
