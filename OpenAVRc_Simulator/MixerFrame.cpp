@@ -8,12 +8,13 @@
 wxString mixStr = "";
 extern wxString modeStr = "";
 
+#define data g_model.mixData
 
-class GVARSClass {
-public:
-    const static char* gvarText[];
-};
-const char* GVARSClass::gvarText[] = { "GV1", "GV2", "GV3", "GV4", "GV5"};
+//class GVARSClass {
+//public:
+  //  const static char* gvarText[];
+//};
+//const char* GVARSClass::gvarText[] = { "GV1", "GV2", "GV3", "GV4", "GV5"};
 
 
 class INPUTClass {
@@ -24,8 +25,8 @@ public:
 const char* INPUTClass::inputText[] = { "Dir\t","Prf\t","Gaz\t","Ail\t","POT1","POT2","POT3",
             "REa\t","REb\t","MAX\0","CYC1","CYC2","CYC3",
             "TrmD","TrmP","TrmG","TrmA","3POS",
-            "THR","RUD","ELE","AIL\t","GEA","TRN",
-            "L1\t","L2\t","L3\t","L4\t","L5\t","L6\t","L7\t","L8\t","L9\t","L10","L11","L12"};
+            "THR","RUD","ELE\t","AIL\t","GEA","TRN",
+            "L1\t","L2\t","L3\t","L4\t","L5\t","L6\t","L7\t","L8\t","L9\t","L10","L11\t","L12"};
 
 
 //(*InternalHeaders(MixerFrame)
@@ -110,163 +111,140 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
   wxString mixStr = "";
   for( int i = 0; i < NUM_CHNOUT; i++ ) {
   //-------------------------------------CHANNEL-------------------------------------
-    if (((g_model.mixData[i].weight) == 0) && (g_model.mixData[i].weightMode == 0)) continue;
-    if ((i == 0) || ((g_model.mixData[i].destCh) > (g_model.mixData[i-1].destCh))){
-      mixStr = mixStr + "\n" + "OUT " + wxString::Format(wxT("%i"),(g_model.mixData[i].destCh) + 1)+ " = ";
+    if (((data[i].weight) == 0) && (data[i].weightMode == 0)) continue;
+    if ((i == 0) || ((data[i].destCh) > (data[i-1].destCh))){
+      mixStr = mixStr + "\n" + "OUT " + wxString::Format(wxT("%i"),(data[i].destCh) + 1)+ " = ";
     }
     else mixStr = mixStr + "\t";// Destination channel OK
 //------------------------------------------------------------------------------------
 
-//---------------------------------------OPERATOR---------------------------------------
-    if ((g_model.mixData[i].mltpx) == 2) mixStr = mixStr + "Over ";
-    else if ((g_model.mixData[i].mltpx) == 1) mixStr = mixStr + "Mult ";
-    else if ((g_model.mixData[i].mltpx) == 0) mixStr = mixStr + "Add  ";// operator OK
+//---------------------------------------OPERATOR--------------------------------------
+    if ((data[i].mltpx) == 2) mixStr = mixStr + "Over ";
+    else if ((data[i].mltpx) == 1) mixStr = mixStr + "Mult ";
+    else if ((data[i].mltpx) == 0) mixStr = mixStr + "Add  ";// operator OK
 //--------------------------------------------------------------------------------------
 
-//---------------------------------------INPUT CHANNEL-----------------------------------
+//---------------------------------------SOURCE-----------------------------------
 
-    //mixStr = mixStr + "in " + wxString::Format(wxT("%i"),(g_model.mixData[i].srcRaw));
-  int indx = (g_model.mixData[i].srcRaw);
+   //mixStr = mixStr + "in " + wxString::Format(wxT("%i"),(data[i].srcRaw));
+  int indx = (data[i].srcRaw);
   mixStr = mixStr + INPUTClass::inputText[indx-1] + "\t";
 
+  //for (int j = 0; j < 4; j++){
+    //mixStr = mixStr + TR_SOURCE[j + 4 * indx];
+  //}
 
-    //int indx = (g_model.mixData[i].srcRaw);
-  /*  //for (int j = 0; j < 4; j++){
-           //mixStr = mixStr + TR_VSRCRAW[j + 4 * indx];
-         //}
-    //mixStr = mixStr + "\t"; //trailing \0 cuts our mixStr.
+      //mixStr = mixStr + TR_VSRCRAW[j + 4 * indx];
+  //}
 
-
-
-    if (indx == MIXSRC_FIRST_POT-4) mixStr = mixStr + "Rud input" + "\t";
-    else if (indx == MIXSRC_FIRST_POT - 3) mixStr = mixStr + "Ele input" + "\t";
-    else if (indx == MIXSRC_FIRST_POT - 2) mixStr = mixStr + "Thr input" + "\t";
-    else if (indx == MIXSRC_FIRST_POT - 1) mixStr = mixStr + "Ail input" + "\t";
-
-    else if (indx == MIXSRC_FIRST_POT) mixStr = mixStr + "P1\t\t";
-    else if (indx == MIXSRC_FIRST_POT + 1) mixStr = mixStr + "P2\t\t";
-    else if (indx == MIXSRC_FIRST_POT + 2) mixStr = mixStr + "P3\t\t";
-
-    else if (indx == MIXSRC_LAST_ROTARY_ENCODER - 1) mixStr = mixStr + "REa\t\t";//review as per PERSONAMES.
-    else if (indx == MIXSRC_LAST_ROTARY_ENCODER) mixStr = mixStr + "REb\t\t";
-
-    else if (indx == MIXSRC_LAST_ROTARY_ENCODER + 1) mixStr = mixStr + "MAX\t\t";
-
-    else if (indx == MIXSRC_FIRST_HELI) mixStr = mixStr + "CYC1";
-    else if (indx == MIXSRC_FIRST_HELI + 1) mixStr = mixStr + "CYC2";
-    else if (indx == MIXSRC_FIRST_HELI + 2) mixStr = mixStr + "CYC3";
-
-    else if (indx == MIXSRC_FIRST_TRIM) mixStr = mixStr + "TrimRud";
-    else if (indx == MIXSRC_FIRST_TRIM + 1) mixStr = mixStr + "TrimEle";
-    else if (indx == MIXSRC_FIRST_TRIM + 2) mixStr = mixStr + "TrimThr";
-    else if (indx == MIXSRC_FIRST_TRIM + 3) mixStr = mixStr + "TrimAil";
-
-    else if (indx == MIXSRC_FIRST_SWITCH) mixStr = mixStr + "3POS"; //TR_9X_3POS_SWITCHES ????????????
-
- //#define TR_VSRCRAW             "---\0" TR_STICKS_VSRCRAW TR_POTS_VSRCRAW TR_ROTARY_ENCODERS "MAX\0" TR_CYC_VSRCRAW TR_TRIMS_VSRCRAW TR_SW_VSRCRAW TR_EXTRA_VSRCRAW
- //#define TR_STICKS_VSRCRAW      TR("Dir\0""Prf\0""Gaz\0""Ail\0", "\307Dir""\307Prf""\307Gaz""\307Ail")
-
-
-
-    //else if (indx == MIXSRC_FIRST_SWITCH) mixStr = mixStr + TR_9X_3POS_SWITCHES[indx] + "\t"; //????????????
-    ////////////////////////////////////////continue from here////////////////////////////
-    //PHYSICAL SWITCHES   MIXSRC_FIRST_SWITCH
-    //LOGICAL SWITCHES
-    //TRAINER
-    //CHANNELS
-    //GVARS
-    //TELEMETRY
-
-    else (mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].srcRaw))) + "\t";
-    // TODO create a wxarraystring or similar to combine Mixsources and TR_PHYS_SWITCHES.
-*/
-//----------------------------------------------------------------------------------------------
 //---------------------------------------------WEIGHT-------------------------------------------
 
- int8_t weight = (g_model.mixData[i].weight);
- int8_t mode = (g_model.mixData[i].weightMode);
+ int weight = (data[i].weight);
+ int8_t mode = (data[i].weightMode);
  wxString percent = "%";
 
+ //if (weight >= 128){
+  //mode = 0;
+  //weight = abs(weight);
+ //}
  if ((mode == 1) && (weight >= 0)){
-   mixStr = mixStr + TR_GV;
-   weight =weight + 1;
-   percent ="";
+   mixStr = mixStr + STR_GV;
+   weight = weight + 1;
+   percent = "";
  }
  else if ((mode == 0) && (weight < 0)){
-   mixStr = mixStr + "-" + TR_GV;
-   weight =abs (weight);
+   mixStr = mixStr + "-" + STR_GV;
+   weight = abs (weight);
    percent = "";
  }
  mixStr = mixStr + wxString::Format(wxT("%i"),weight) + percent +"\t";
 
- //STR_GV
 
 //---------------------------------------------OFFSET-----------------------------------------------
-
- int8_t offset = (g_model.mixData[i].offset);
- mode = (g_model.mixData[i].offsetMode);
+ int8_t offset = (data[i].offset);
+ mode = (data[i].offsetMode);
  percent = "%";
 
+ //if (weight >= 128){
+  //mode = 0;
+  //weight = abs(weight);
+ //}
  if ((mode == 1) && (offset >= 0)){
-   mixStr = mixStr + "VG";
-   offset =offset + 1;
-   percent ="";
- }
- else if ((mode == 0) && (offset < 0)){
-   mixStr = mixStr + "-VG";
-   offset =abs (offset);
+   mixStr = mixStr + STR_GV;
+   offset = offset + 1;
    percent = "";
  }
- mixStr = mixStr + wxString::Format(wxT("%i"),offset) + percent + "\t";
-//----------------------------------------------------------------------------------------------------
+ else if ((mode == 0) && (offset < 0)){
+   mixStr = mixStr + "-" + STR_GV;
+   offset = abs (offset);
+   percent = "";
+ }
+ mixStr = mixStr + wxString::Format(wxT("%i"),offset) + percent +"\t";
+
 
 //---------------------------------------------SWITCHES-----------------------------------------------
 
-    #define TR_LOGICALSW         "L1 ""L2 ""L3 ""L4 ""L5 ""L6 ""L7 ""L8 ""L9 ""L10""L11""L12"
+  /*mixStr = mixStr + "in " + wxString::Format(wxT("%i"),(data[i].swtch));
+  indx = (data[i].swtch) + 5;
+  //mixStr = mixStr + INPUTClass::inputText[indx-1] + "\t";
 
-  //TODO Review this. Will not work if the values of "L" are redefined.
+    //int indx = (data[i].srcRaw);
+  for (int j = 0; j < 3; j++){
+      mixStr = mixStr + TR_SOURCE[j + 3 * indx];
+  }
+*/
 
-    int idx = (g_model.mixData[i].swtch);
+    #define TR_LOGICALSW         "---""L1 ""L2 ""L3 ""L4 ""L5 ""L6 ""L7 ""L8 ""L9 ""L10""L11""L12"
+
+      int idx = (data[i].swtch);
     if (idx < 0){
-      mixStr = mixStr + "No";
+      mixStr = mixStr + "!";
       idx = abs(idx);
     }
     for (int j = 0; j < 3; j++){
-           mixStr = mixStr + TR_VSWITCHES[j + 3 * idx];
+           //mixStr = mixStr + STR_VSWITCHES[1 + j + 3 * idx];
+          mixStr = mixStr + TR_VSWITCHES[j + 3 * idx];
          }
     mixStr = mixStr + "\t";
 
-    #define TR_LOGICALSW         "L1\0""L2\0""L3\0""L4\0""L5\0""L6\0""L7\0""L8\0""L9\0""L10""L11""L12"
+    //#define TR_LOGICALSW         "L1\0""L2\0""L3\0""L4\0""L5\0""L6\0""L7\0""L8\0""L9\0""L10""L11""L12"
+
 
 //--------------------------------------------------------------------------------------------------------------------
 
   #define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|""CB1""CB2""CB3""CB4""CB5""CB6""CB7""CB8"
 
-  if ((g_model.mixData[i].curveMode) == 0) mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].curveParam)) + "%\t\t";
+  //TODO search the function STR
+
+  int ind = (data[i].curveParam);
+  if ((data[i].curveMode) == 0) mixStr = mixStr + wxString::Format(wxT("%i"),ind) + "%\t\t";
   else {
         mixStr = mixStr + "\t";
+        if (ind < 0){
+          mixStr = mixStr + "!";
+          ind = abs(ind) + 6;
+        }
          for (int j = 0; j < 3; j++){
-          mixStr = mixStr + TR_VCURVEFUNC[j + 3 * (g_model.mixData[i].curveParam)];
+          mixStr = mixStr + TR_VCURVEFUNC[ j + 3 * (ind)];
         }
         mixStr = mixStr + "\t";
 
-        //mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].curveParam)) + "\t";
+        //mixStr = mixStr + wxString::Format(wxT("%i"),(data[i].curveParam)) + "\t";
   }
 
-  #define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|"
+  // #define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|"
 
-    //mixStr = mixStr +       "NOEXPO " + wxString::Format(wxT("%i"),(g_model.mixData[i].noExpo)) + ",";// Should be on this screen ??
+    //mixStr = mixStr +       "NOEXPO " + wxString::Format(wxT("%i"),(data[i].noExpo)) + ",";// Should be on this screen ??
 
 //---------------------------------------------FLIGHT MODES-------------------------------------------------------
-    ConvertToBinary(g_model.mixData[i].flightModes,mixStr);// TODO improve the output to make it comprehensible.
+    ConvertToBinary(data[i].flightModes,mixStr);
     modeStr = verlen(modeStr);
-    //if (modeStr == "") modeStr = "All";
     mixStr = mixStr + modeStr + "\t";
     modeStr ="";
 //-----------------------------------------------------------------------------------------------------------------
 
 //-----------------------------------------------TRIM--------------------------------------------------
-    indx = (g_model.mixData[i].carryTrim); //Trim ok
+    indx = (data[i].carryTrim); //Trim ok
     if ((indx) == 1) mixStr = mixStr + "Off" + "\t";
     else if ((indx) == 0) mixStr = mixStr + "On" + "\t";
     else if ((indx) == -1) mixStr = mixStr + "RUD" + "\t";
@@ -274,27 +252,22 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     else if ((indx) == -3) mixStr = mixStr + "THR" + "\t";
     else if ((indx) == -4) mixStr = mixStr + "AIL" + "\t";
 //-------------------------------------------------------------------------------------------------------
-
-    mixStr = mixStr + "(" + wxString::Format(wxT("%i"),(g_model.mixData[i].delayUp / 2));
-    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((g_model.mixData[i].delayUp % 2) * 5));
-    mixStr = mixStr + "/" + wxString::Format(wxT("%i"),(g_model.mixData[i].delayDown / 2));
-    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((g_model.mixData[i].delayDown % 2) * 5)) + ")\t";
-    mixStr = mixStr + "(" + wxString::Format(wxT("%i"),(g_model.mixData[i].speedUp / 2));
-    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((g_model.mixData[i].speedUp % 2) * 5));
-    mixStr = mixStr + "/" + wxString::Format(wxT("%i"),(g_model.mixData[i].speedDown / 2));
-    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((g_model.mixData[i].speedDown % 2) * 5)) + ")\t\t";
+    mixStr = mixStr + "(" + wxString::Format(wxT("%i"),(data[i].delayUp / 2));
+    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((data[i].delayUp % 2) * 5));
+    mixStr = mixStr + "/" + wxString::Format(wxT("%i"),(data[i].delayDown / 2));
+    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((data[i].delayDown % 2) * 5)) + ")\t";
+    mixStr = mixStr + "(" + wxString::Format(wxT("%i"),(data[i].speedUp / 2));
+    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((data[i].speedUp % 2) * 5));
+    mixStr = mixStr + "/" + wxString::Format(wxT("%i"),(data[i].speedDown / 2));
+    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((data[i].speedDown % 2) * 5)) + ")\t\t";
 //-------------------------------------------------------------------------------------------------------
-    mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].mixWarn)) + "\n";// IS THIS NECESSARY FOR THIS SCREEN ??
+    mixStr = mixStr + wxString::Format(wxT("%i"),(data[i].mixWarn)) + "\n";// IS THIS NECESSARY FOR THIS SCREEN ??
 //-------------------------------------------------------------------------------------------------------
-    //mixStr = mixStr + " " + wxString::Format(wxT("%i"),(g_model.mixData[i].spare));
+    //mixStr = mixStr + " " + wxString::Format(wxT("%i"),(data[i].spare));
 
   }
   Mixerline1->SetValue(mixStr);
  }
-
-
-
-
 
 void MixerFrame::OnTimerRefreshFrameTrigger(wxTimerEvent& event)
 {
