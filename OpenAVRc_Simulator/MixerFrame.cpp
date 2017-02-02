@@ -8,12 +8,24 @@
 wxString mixStr = "";
 extern wxString modeStr = "";
 
+
 class GVARSClass {
 public:
     const static char* gvarText[];
 };
-
 const char* GVARSClass::gvarText[] = { "GV1", "GV2", "GV3", "GV4", "GV5"};
+
+
+class INPUTClass {
+public:
+    const static char* inputText[];
+};
+
+const char* INPUTClass::inputText[] = { "Dir\t","Prf\t","Gaz\t","Ail\t","POT1","POT2","POT3",
+            "REa\t","REb\t","MAX\0","CYC1","CYC2","CYC3",
+            "TrmD","TrmP","TrmG","TrmA","3POS",
+            "THR","RUD","ELE","AIL\t","GEA","TRN",
+            "L1\t","L2\t","L3\t","L4\t","L5\t","L6\t","L7\t","L8\t","L9\t","L10","L11","L12"};
 
 
 //(*InternalHeaders(MixerFrame)
@@ -62,9 +74,6 @@ void MixerFrame::OnClose(wxCloseEvent& event)
   Destroy();
 }
 
-
-
-
 ////////////////////////TOOLS FOR FLIGHT MODES////////////////
 
 void ConvertToBinary(int n, wxString) //model flight modes in binary
@@ -74,7 +83,6 @@ void ConvertToBinary(int n, wxString) //model flight modes in binary
   }
   modeStr = modeStr + (wxString::Format(wxT("%d"),n % 2));
 }
-
 
 wxString verlen(const wxString &strSource)//reverse flight modes binary and change on screen presentation.
 {
@@ -93,107 +101,6 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 }
 ///////////////////////////END OF TOOLS TO FLIGHT MODES/////////////
 
-  //wxArrayString *sticks = new wxArrayString;
-  //wxArrayString Src;
-  //Src.Add(wxString::Format(wxT("%d"),"Rud")); //scr does not name a type error (??)
-  //wxString Rud ="RUDDER";
-  //sticks->Add(_("Rud"));
-  //Src.Add(wxT("Ele"));
-  //Src.GetCount();
-  //Src.Add(Rud); //wxArrayString does not compile !!
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-/* enum MixSources {
-  MIXSRC_NONE,
-  MIXSRC_FIRST_STICK,
-  MIXSRC_Rud = MIXSRC_FIRST_STICK,
-  MIXSRC_Ele,
-  MIXSRC_Thr,
-  MIXSRC_Ail,
-
-  MIXSRC_FIRST_POT,
-                                                 MIXSRC_P1 = MIXSRC_FIRST_POT,
-  MIXSRC_P2,
-  MIXSRC_P3,
-  MIXSRC_LAST_POT = MIXSRC_P3,
-
-#if   defined(CPUM2560)
-  MIXSRC_REa, //8
-  MIXSRC_REb,
-#if ROTARY_ENCODERS > 2
-  MIXSRC_REc,
-  MIXSRC_REd,
-                                                 MIXSRC_LAST_ROTARY_ENCODER = MIXSRC_REd,
-#else
-                                                 MIXSRC_LAST_ROTARY_ENCODER = MIXSRC_REb,
-#endif
-#endif
-
-  MIXSRC_MAX, //10
-
-  MIXSRC_FIRST_HELI,
-                                                 MIXSRC_CYC1 = MIXSRC_FIRST_HELI,
-  MIXSRC_CYC2,
-  MIXSRC_CYC3,
-
-  MIXSRC_FIRST_TRIM,
-                                                MIXSRC_TrimRud = MIXSRC_FIRST_TRIM,
-  MIXSRC_TrimEle,
-  MIXSRC_TrimThr,
-  MIXSRC_TrimAil,
-  MIXSRC_LAST_TRIM = MIXSRC_TrimAil,
-
-  MIXSRC_FIRST_SWITCH,
-
-                                                 MIXSRC_3POS = MIXSRC_FIRST_SWITCH,
-  MIXSRC_THR,
-  MIXSRC_RUD,
-  MIXSRC_ELE,
-  MIXSRC_AIL,
-  MIXSRC_GEA,
-  MIXSRC_TRN,
-  MIXSRC_LAST_SWITCH = MIXSRC_TRN,
-  MIXSRC_FIRST_LOGICAL_SWITCH,
-                                                  MIXSRC_SW1 = MIXSRC_FIRST_LOGICAL_SWITCH,
-  MIXSRC_SW9 = MIXSRC_SW1 + 8,
-  MIXSRC_SWA,
-  MIXSRC_SWB,
-  MIXSRC_SWC,
-  MIXSRC_LAST_LOGICAL_SWITCH = MIXSRC_FIRST_LOGICAL_SWITCH+NUM_LOGICAL_SWITCH-1,
-
-  MIXSRC_FIRST_TRAINER,
-  MIXSRC_LAST_TRAINER = MIXSRC_FIRST_TRAINER+NUM_TRAINER-1,
-
-  MIXSRC_FIRST_CH,
-                                                   MIXSRC_CH1 = MIXSRC_FIRST_CH,
-  MIXSRC_CH2,
-  MIXSRC_CH3,
-  MIXSRC_CH4,
-  MIXSRC_CH5,
-  MIXSRC_CH6,
-  MIXSRC_CH7,
-  MIXSRC_CH8,
-  MIXSRC_CH9,
-  MIXSRC_CH10,
-  MIXSRC_CH11,
-  MIXSRC_CH12,
-  MIXSRC_CH13,
-  MIXSRC_CH14,
-  MIXSRC_CH15,
-  MIXSRC_CH16,
-  MIXSRC_LAST_CH = MIXSRC_CH1+NUM_CHNOUT-1,
-
-  MIXSRC_FIRST_GVAR,
-                                                          MIXSRC_GVAR1 = MIXSRC_FIRST_GVAR,
-  MIXSRC_LAST_GVAR = MIXSRC_FIRST_GVAR+MAX_GVARS-1,
-
-
-                                                          MIXSRC_FIRST_TELEM,
-  MIXSRC_LAST_TELEM = MIXSRC_FIRST_TELEM+NUM_TELEMETRY-1
-};
-*/
 
  void MixerFrame::FillMixerFrame()
  {
@@ -219,9 +126,12 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 //---------------------------------------INPUT CHANNEL-----------------------------------
 
     //mixStr = mixStr + "in " + wxString::Format(wxT("%i"),(g_model.mixData[i].srcRaw));
+  int indx = (g_model.mixData[i].srcRaw);
+  mixStr = mixStr + INPUTClass::inputText[indx-1] + "\t";
 
-    int indx = (g_model.mixData[i].srcRaw);
-    //for (int j = 0; j < 4; j++){
+
+    //int indx = (g_model.mixData[i].srcRaw);
+  /*  //for (int j = 0; j < 4; j++){
            //mixStr = mixStr + TR_VSRCRAW[j + 4 * indx];
          //}
     //mixStr = mixStr + "\t"; //trailing \0 cuts our mixStr.
@@ -269,36 +179,45 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
     else (mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].srcRaw))) + "\t";
     // TODO create a wxarraystring or similar to combine Mixsources and TR_PHYS_SWITCHES.
-
+*/
 //----------------------------------------------------------------------------------------------
 //---------------------------------------------WEIGHT-------------------------------------------
 
-  if (g_model.mixData[i].weightMode == 1) mixStr = mixStr + "-";
-  //if (g_model.mixData[i].weightMode == 0){
-    mixStr = mixStr + wxString::Format(wxT("%i"),(g_model.mixData[i].weight)) + "% ";//no gvars. bahhhh.
-  //}
-  //else mixStr = mixStr + "else";
+ int8_t weight = (g_model.mixData[i].weight);
+ int8_t mode = (g_model.mixData[i].weightMode);
+ wxString percent = "%";
 
-    //else {
-      //if ((g_model.mixData[i].weight) <= 0){
-    //else  mixStr = mixStr + "-"; {
-    //}
-    //mixStr = mixStr + GVARSClass::gvarText[abs(g_model.mixData[i].weight)];
-    //}
-      //mixStr = mixStr + GVARSClass::gvarText[(g_model.mixData[i].weight)];
+ if ((mode == 1) && (weight >= 0)){
+   mixStr = mixStr + TR_GV;
+   weight =weight + 1;
+   percent ="";
+ }
+ else if ((mode == 0) && (weight < 0)){
+   mixStr = mixStr + "-" + TR_GV;
+   weight =abs (weight);
+   percent = "";
+ }
+ mixStr = mixStr + wxString::Format(wxT("%i"),weight) + percent +"\t";
 
-//#define MD_UNION_TO_WEIGHT(var, md) md->weight=var.bytes_t.lo; if (var.gvword<0) md->weightMode=1; else md->weightMode=0
-//#define MD_WEIGHT_TO_UNION(md, var) var.bytes_t.lo=md->weight; var.bytes_t.hi=md->weightMode?255:0
-
-//MD_UNION_TO_WEIGHT(tmp,md);
-//-----------------------------------------------------------------------------------------------
-
+ //STR_GV
 
 //---------------------------------------------OFFSET-----------------------------------------------
 
-  if (g_model.mixData[i].offsetMode == 1) mixStr = mixStr + "-";
-  mixStr = mixStr + "\t" + wxString::Format(wxT("%i"),(g_model.mixData[i].offset)) +"%\t";// no gvars, sorry.
+ int8_t offset = (g_model.mixData[i].offset);
+ mode = (g_model.mixData[i].offsetMode);
+ percent = "%";
 
+ if ((mode == 1) && (offset >= 0)){
+   mixStr = mixStr + "VG";
+   offset =offset + 1;
+   percent ="";
+ }
+ else if ((mode == 0) && (offset < 0)){
+   mixStr = mixStr + "-VG";
+   offset =abs (offset);
+   percent = "";
+ }
+ mixStr = mixStr + wxString::Format(wxT("%i"),offset) + percent + "\t";
 //----------------------------------------------------------------------------------------------------
 
 //---------------------------------------------SWITCHES-----------------------------------------------
@@ -336,9 +255,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
   #define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|"
 
-    //mixStr = mixStr +       "NOEXPO " + wxString::Format(wxT("%i"),(g_model.mixData[i].noExpo)) + ",";
-    //mixStr = mixStr + " " + wxString::Format(wxT("%i"),(g_model.mixData[i].weightMode)) + ","; //??????
-    //mixStr = mixStr + " " + wxString::Format(wxT("%i"),(g_model.mixData[i].offsetMode)) + ","; //??????
+    //mixStr = mixStr +       "NOEXPO " + wxString::Format(wxT("%i"),(g_model.mixData[i].noExpo)) + ",";// Should be on this screen ??
 
 //---------------------------------------------FLIGHT MODES-------------------------------------------------------
     ConvertToBinary(g_model.mixData[i].flightModes,mixStr);// TODO improve the output to make it comprehensible.
