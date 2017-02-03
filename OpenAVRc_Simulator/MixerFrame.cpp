@@ -2,11 +2,10 @@
 #include "OpenAVRc_SimulatorMain.h"
 
 #include <wx/msgdlg.h>
-#include <wx/arrstr.h>
-#include <wx/string.h>
 
 wxString mixStr = "";
 extern wxString modeStr = "";
+
 
 #define data g_model.mixData
 
@@ -22,10 +21,13 @@ public:
     const static char* inputText[];
 };
 
-const char* INPUTClass::inputText[] = { "Dir\t","Prf\t","Gaz\t","Ail\t","POT1","POT2","POT3",
-            "REa\t","REb\t","MAX\0","CYC1","CYC2","CYC3",
-            "TrmD","TrmP","TrmG","TrmA","3POS",
-            "THR","RUD","ELE\t","AIL\t","GEA","TRN",
+const char* INPUTClass::inputText[] = { "Dir\t","Prf\t","Gaz\t","Ail\t",
+            "POT1","POT2","POT3",
+            "REa\t","REb\t",
+            "MAX\0",
+            "CYC1","CYC2","CYC3",
+            "TrmD","TrmP","TrmG","TrmA",
+            "3POS","THR","RUD","ELE\t","AIL\t","GEA","TRN",
             "L1\t","L2\t","L3\t","L4\t","L5\t","L6\t","L7\t","L8\t","L9\t","L10\t","L11\t","L12\t",
             "TR1","TR2","TR3","TR4","TR5","TR6","TR7","TR8",
             "CH1","CH2","CH3","CH4","CH5","CH6","CH7","CH8","CH9","CH10","CH11","CH12","CH13","CH14","CH15","CH16"};
@@ -112,7 +114,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
   for( uint8_t i = 0; i < NUM_CHNOUT; i++ ) {
     mixerL = "";
-    wxString mixStr1 = "";
+    mixStr1 = "";
     //------------------------------------- OUTPUT CHANNEL-------------------------------------
       if ((data[i].weight) == 0) continue;
       if (i == 0) mixStr1 = mixStr1 + "OUT " + wxString::Format(wxT("%i"),(data[i].destCh) + 1)+ " = ";
@@ -122,25 +124,26 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
       else mixStr1 = mixStr1 + "\t";
 
     //---------------------------------------OPERATOR--------------------------------------
-    wxString mixStr2 = "";
+    mixStr2 = "";
     if ((data[i].mltpx) == 2) mixStr2 = "Over ";
     else if ((data[i].mltpx) == 1) mixStr2 = "Mult ";
     else if ((data[i].mltpx) == 0) mixStr2 = "Add  ";// operator OK
 
     //---------------------------------------SOURCE-----------------------------------
-    wxString mixStr4 = "";
+    mixStr4 = "";
     int indx = (data[i].srcRaw);
     mixStr4 = mixStr4 + INPUTClass::inputText[indx-1] + "\t";
 
-    //for (int j = 0; j < 4; j++){
-    //mixStr4 = mixStr4 + TR_SOURCE[1+j + 4 * indx];
+    //for (int j = 0; j < 3; j++){
+    //if (TR_SOURCE[j + 3 * indx] == '\0') continue;
+    //mixStr4 = mixStr4 + TR_SOURCE[j + 3 * indx];
     //}
       //mixStr = mixStr + TR_VSRCRAW[j + 4 * indx];
     //}
 
     //---------------------------------------------WEIGHT-------------------------------------------
-    wxString mixStr6 = "";
-    wxString mixStr7 = "mix7";
+    mixStr6 = "";
+    mixStr7 = "mix7";
     int weight = (data[i].weight);
     int8_t mode = (data[i].weightMode);
     wxString percent = "%";
@@ -159,8 +162,8 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
 
     //---------------------------------------------OFFSET-----------------------------------------------
-    wxString mixStr8 = "";
-    wxString mixStr9 = "---\t";
+    mixStr8 = "";
+    mixStr9 = "---\t";
     int8_t offset = (data[i].offset);
     mode = (data[i].offsetMode);
     percent = "%";
@@ -189,16 +192,15 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     }
 
     for (int j = 0; j < 3; j++){
-      //mixStr11 = mixStr11 + STR_VSWITCHES[1 + j + 3 * idx];    //fails from L1 on "L1\0"
-      mixStr11.Append(TR_VSWITCHES[j + 3 * idx]);            // same problem fails with "L1\0"
+      if (STR_VSWITCHES[1 + j + 3 * idx] == '\0') continue;
+      mixStr11.Append(STR_VSWITCHES[1 + j + 3 * idx]);
     }
     mixStr11.Append("\t");
 
     //----------------------------------------------------CURVE-----------------------------------------
     #define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|""CB1""CB2""CB3""CB4""CB5""CB6""CB7""CB8"
 
-    //TODO search the function STR
-    wxString mixStr14 = "";
+    mixStr14 = "";
     int ind = (data[i].curveParam);
     if ((data[i].curveMode) == 0) mixStr14 = wxString::Format(wxT("%i"),ind) + "%\t\t";
     else {
@@ -215,7 +217,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     }
 
     //---------------------------------------------FLIGHT MODES-------------------------------------------------------
-    wxString mixStr16 = "";
+    mixStr16 = "";
     ConvertToBinary(data[i].flightModes,mixStr16);
     modeStr = verlen(modeStr);
     mixStr16 = modeStr + "\t";
@@ -244,9 +246,10 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     mixStr20 = mixStr20 + "/" + wxString::Format(wxT("%i"),(data[i].speedDown / 2));
     mixStr20 = mixStr20 + "," + wxString::Format(wxT("%i"),((data[i].speedDown % 2) * 5)) + ")\t\t";
     //-------------------------------------------------------------------------------------------------------
-    wxString mixStr22 = "";
+    mixStr22 = "";
     mixStr22 = mixStr22 + wxString::Format(wxT("%i"),(data[i].mixWarn));// IS THIS NECESSARY FOR THIS SCREEN ??
     //-------------------------------------------------------------------------------------------------------
+
     //wxString mixStr24 = "";
     //mixStr24 = " " + wxString::Format(wxT("%i"),(data[i].spare));
 

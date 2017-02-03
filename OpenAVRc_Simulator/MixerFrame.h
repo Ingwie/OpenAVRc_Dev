@@ -1,7 +1,11 @@
 #ifndef MIXERFRAME_H
 #define MIXERFRAME_H
 
-//#include <wx/arrstr.h>
+#include <wx/string.h>
+
+wxString mixStr1, mixStr2, mixStr4, mixStr6, mixStr7, mixStr8, mixStr9, mixStr10, mixStr11, mixStr14, mixStr16,
+mixStr18, mixStr19, mixStr20, mixStr22 ;
+
 
 
 //(*Headers(MixerFrame)
