@@ -26,7 +26,9 @@ const char* INPUTClass::inputText[] = { "Dir\t","Prf\t","Gaz\t","Ail\t","POT1","
             "REa\t","REb\t","MAX\0","CYC1","CYC2","CYC3",
             "TrmD","TrmP","TrmG","TrmA","3POS",
             "THR","RUD","ELE\t","AIL\t","GEA","TRN",
-            "L1\t","L2\t","L3\t","L4\t","L5\t","L6\t","L7\t","L8\t","L9\t","L10","L11\t","L12"};
+            "L1\t","L2\t","L3\t","L4\t","L5\t","L6\t","L7\t","L8\t","L9\t","L10\t","L11\t","L12\t",
+            "TR1","TR2","TR3","TR4","TR5","TR6","TR7","TR8",
+            "CH1","CH2","CH3","CH4","CH5","CH6","CH7","CH8","CH9","CH10","CH11","CH12","CH13","CH14","CH15","CH16"};
 
 
 //(*InternalHeaders(MixerFrame)
@@ -50,12 +52,12 @@ MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 {
 	//(*Initialize(MixerFrame)
 	Create(parent, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxVSCROLL|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
-	SetClientSize(wxSize(738,308));
-	Mixer = new wxPanel(this, ID_PANEL1, wxPoint(256,200), wxSize(1104,320), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-	Mixerline1 = new wxTextCtrl(Mixer, ID_TEXTCTRL1, _("Texte"), wxPoint(0,32), wxSize(736,272), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxVSCROLL|wxHSCROLL, wxDefaultValidator, _T("ID_TEXTCTRL1"));
-	Headerline = new wxTextCtrl(Mixer, ID_TEXTCTRL2, _("Texte"), wxPoint(0,0), wxSize(736,32), wxTE_NO_VSCROLL|wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRL2"));
+	SetClientSize(wxSize(778,287));
+	Mixer = new wxPanel(this, ID_PANEL1, wxPoint(256,200), wxSize(818,248), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+	Mixerline1 = new wxTextCtrl(Mixer, ID_TEXTCTRL1, _("Texte"), wxPoint(0,32), wxSize(816,256), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxVSCROLL|wxHSCROLL, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+	Headerline = new wxTextCtrl(Mixer, ID_TEXTCTRL2, _("Texte"), wxPoint(0,0), wxSize(816,32), wxTE_NO_VSCROLL|wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRL2"));
 	TimerRefreshFrame.SetOwner(this, ID_TIMERREFRESHFRAME);
-	TimerRefreshFrame.Start(500, false);
+	TimerRefreshFrame.Start(100, false);
 
 	Connect(ID_TIMERREFRESHFRAME,wxEVT_TIMER,(wxObjectEventFunction)&MixerFrame::OnTimerRefreshFrameTrigger);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&MixerFrame::OnClose);
@@ -75,7 +77,7 @@ void MixerFrame::OnClose(wxCloseEvent& event)
   Destroy();
 }
 
-////////////////////////TOOLS FOR FLIGHT MODES////////////////
+//////////////////////// TOOLS FOR FLIGHT MODES ////////////////
 
 void ConvertToBinary(int n, wxString) //model flight modes in binary
 {
@@ -92,182 +94,169 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     strTarget.Append( *it );
   }
   if (strTarget.Mid(0,1) == "1") modeStr = "__"; else modeStr = "0_";
-  if (strTarget.Mid(1,1) == "1") modeStr = modeStr + "__"; else modeStr = modeStr + "1_";
-  if (strTarget.Mid(2,1) == "1") modeStr = modeStr + "__"; else modeStr = modeStr + "2_";
-  if (strTarget.Mid(3,1) == "1") modeStr = modeStr + "__"; else modeStr = modeStr + "3_";
-  if (strTarget.Mid(4,1) == "1") modeStr = modeStr + "__"; else modeStr = modeStr + "4_";
-  if (strTarget.Mid(5,1) == "1") modeStr = modeStr + "__"; else modeStr = modeStr + "5";
-  //return strTarget;
+  if (strTarget.Mid(1,1) == "1") modeStr.Append("__"); else modeStr.Append("1_");
+  if (strTarget.Mid(2,1) == "1") modeStr.Append("__"); else modeStr.Append("2_");
+  if (strTarget.Mid(3,1) == "1") modeStr.Append("__"); else modeStr.Append("3_");
+  if (strTarget.Mid(4,1) == "1") modeStr.Append("__"); else modeStr.Append("4_");
+  if (strTarget.Mid(5,1) == "1") modeStr.Append("__"); else modeStr.Append("5");
   return modeStr;
 }
-///////////////////////////END OF TOOLS TO FLIGHT MODES/////////////
 
 
  void MixerFrame::FillMixerFrame()
- {
-  wxString Header = "\t\t\tMix\tOffset\tSwitch\tDiff\tCurve\tModes\t\tTrim\tDlay(u/d)Speed(u/d)\tWarning\n";
+{
+  wxString Header = "\t\t\tMix\tOffset\tSwitch\tDiff\tCurve\tModes\t\tTrim\tDR/Expo\tDlay(u/d)Speed(u/d)\tWarn\n";
   Headerline->SetValue(Header);
+  wxString mixerL;
+  wxString txt;
 
-  wxString mixStr = "";
-  for( int i = 0; i < NUM_CHNOUT; i++ ) {
-  //-------------------------------------CHANNEL-------------------------------------
-    if (((data[i].weight) == 0) && (data[i].weightMode == 0)) continue;
-    if ((i == 0) || ((data[i].destCh) > (data[i-1].destCh))){
-      mixStr = mixStr + "\n" + "OUT " + wxString::Format(wxT("%i"),(data[i].destCh) + 1)+ " = ";
-    }
-    else mixStr = mixStr + "\t";// Destination channel OK
-//------------------------------------------------------------------------------------
+  for( uint8_t i = 0; i < NUM_CHNOUT; i++ ) {
+    mixerL = "";
+    wxString mixStr1 = "";
+    //------------------------------------- OUTPUT CHANNEL-------------------------------------
+      if ((data[i].weight) == 0) continue;
+      if (i == 0) mixStr1 = mixStr1 + "OUT " + wxString::Format(wxT("%i"),(data[i].destCh) + 1)+ " = ";
+      else if ((data[i].destCh) > (data[i-1].destCh)){
+      mixStr1 = mixStr1 + "\n" +"OUT " + wxString::Format(wxT("%i"),(data[i].destCh) + 1)+ " = ";
+      }
+      else mixStr1 = mixStr1 + "\t";
 
-//---------------------------------------OPERATOR--------------------------------------
-    if ((data[i].mltpx) == 2) mixStr = mixStr + "Over ";
-    else if ((data[i].mltpx) == 1) mixStr = mixStr + "Mult ";
-    else if ((data[i].mltpx) == 0) mixStr = mixStr + "Add  ";// operator OK
-//--------------------------------------------------------------------------------------
+    //---------------------------------------OPERATOR--------------------------------------
+    wxString mixStr2 = "";
+    if ((data[i].mltpx) == 2) mixStr2 = "Over ";
+    else if ((data[i].mltpx) == 1) mixStr2 = "Mult ";
+    else if ((data[i].mltpx) == 0) mixStr2 = "Add  ";// operator OK
 
-//---------------------------------------SOURCE-----------------------------------
+    //---------------------------------------SOURCE-----------------------------------
+    wxString mixStr4 = "";
+    int indx = (data[i].srcRaw);
+    mixStr4 = mixStr4 + INPUTClass::inputText[indx-1] + "\t";
 
-   //mixStr = mixStr + "in " + wxString::Format(wxT("%i"),(data[i].srcRaw));
-  int indx = (data[i].srcRaw);
-  mixStr = mixStr + INPUTClass::inputText[indx-1] + "\t";
-
-  //for (int j = 0; j < 4; j++){
-    //mixStr = mixStr + TR_SOURCE[j + 4 * indx];
-  //}
-
+    //for (int j = 0; j < 4; j++){
+    //mixStr4 = mixStr4 + TR_SOURCE[1+j + 4 * indx];
+    //}
       //mixStr = mixStr + TR_VSRCRAW[j + 4 * indx];
-  //}
+    //}
 
-//---------------------------------------------WEIGHT-------------------------------------------
+    //---------------------------------------------WEIGHT-------------------------------------------
+    wxString mixStr6 = "";
+    wxString mixStr7 = "mix7";
+    int weight = (data[i].weight);
+    int8_t mode = (data[i].weightMode);
+    wxString percent = "%";
 
- int weight = (data[i].weight);
- int8_t mode = (data[i].weightMode);
- wxString percent = "%";
-
- //if (weight >= 128){
-  //mode = 0;
-  //weight = abs(weight);
- //}
- if ((mode == 1) && (weight >= 0)){
-   mixStr = mixStr + STR_GV;
-   weight = weight + 1;
-   percent = "";
- }
- else if ((mode == 0) && (weight < 0)){
-   mixStr = mixStr + "-" + STR_GV;
-   weight = abs (weight);
-   percent = "";
- }
- mixStr = mixStr + wxString::Format(wxT("%i"),weight) + percent +"\t";
+    if ((mode == 1) && (weight >= 0)){
+      mixStr6 = mixStr6 + STR_GV;
+      weight = weight + 1;
+      percent = "";
+    }
+    else if ((mode == 0) && (weight < 0)){
+      mixStr6 = mixStr6 + "-" + STR_GV;
+      weight = abs(weight);
+      percent = "";
+    }
+    mixStr7 = wxString::Format(wxT("%i"),weight) + percent + "\t";
 
 
-//---------------------------------------------OFFSET-----------------------------------------------
- int8_t offset = (data[i].offset);
- mode = (data[i].offsetMode);
- percent = "%";
+    //---------------------------------------------OFFSET-----------------------------------------------
+    wxString mixStr8 = "";
+    wxString mixStr9 = "---\t";
+    int8_t offset = (data[i].offset);
+    mode = (data[i].offsetMode);
+    percent = "%";
 
- //if (weight >= 128){
-  //mode = 0;
-  //weight = abs(weight);
- //}
- if ((mode == 1) && (offset >= 0)){
-   mixStr = mixStr + STR_GV;
-   offset = offset + 1;
-   percent = "";
- }
- else if ((mode == 0) && (offset < 0)){
-   mixStr = mixStr + "-" + STR_GV;
-   offset = abs (offset);
-   percent = "";
- }
- mixStr = mixStr + wxString::Format(wxT("%i"),offset) + percent +"\t";
+    if ((mode == 1) && (offset >= 0)){
+      mixStr8 = mixStr8 + STR_GV;
+      offset = offset + 1;
+      percent = "";
+    }
+    else if ((mode == 0) && (offset < 0)){
+      mixStr8 = mixStr8 + "-" + STR_GV;
+      offset = abs(offset);
+      percent = "";
+    }
+    mixStr9 = wxString::Format(wxT("%i"),offset) + percent + "\t";
 
 
-//---------------------------------------------SWITCHES-----------------------------------------------
+    //---------------------------------------------SWITCHES-----------------------------------------------
+    wxString mixStr10 = "";
+    wxString mixStr11 = "";
 
-  /*mixStr = mixStr + "in " + wxString::Format(wxT("%i"),(data[i].swtch));
-  indx = (data[i].swtch) + 5;
-  //mixStr = mixStr + INPUTClass::inputText[indx-1] + "\t";
-
-    //int indx = (data[i].srcRaw);
-  for (int j = 0; j < 3; j++){
-      mixStr = mixStr + TR_SOURCE[j + 3 * indx];
-  }
-*/
-
-    #define TR_LOGICALSW         "---""L1 ""L2 ""L3 ""L4 ""L5 ""L6 ""L7 ""L8 ""L9 ""L10""L11""L12"
-
-      int idx = (data[i].swtch);
+    int idx = (data[i].swtch);
     if (idx < 0){
-      mixStr = mixStr + "!";
+      mixStr10 = "!";
       idx = abs(idx);
     }
+
     for (int j = 0; j < 3; j++){
-           //mixStr = mixStr + STR_VSWITCHES[1 + j + 3 * idx];
-          mixStr = mixStr + TR_VSWITCHES[j + 3 * idx];
-         }
-    mixStr = mixStr + "\t";
+      //mixStr11 = mixStr11 + STR_VSWITCHES[1 + j + 3 * idx];    //fails from L1 on "L1\0"
+      mixStr11.Append(TR_VSWITCHES[j + 3 * idx]);            // same problem fails with "L1\0"
+    }
+    mixStr11.Append("\t");
 
-    //#define TR_LOGICALSW         "L1\0""L2\0""L3\0""L4\0""L5\0""L6\0""L7\0""L8\0""L9\0""L10""L11""L12"
+    //----------------------------------------------------CURVE-----------------------------------------
+    #define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|""CB1""CB2""CB3""CB4""CB5""CB6""CB7""CB8"
 
+    //TODO search the function STR
+    wxString mixStr14 = "";
+    int ind = (data[i].curveParam);
+    if ((data[i].curveMode) == 0) mixStr14 = wxString::Format(wxT("%i"),ind) + "%\t\t";
+    else {
+      mixStr14.Append("\t");
+      if (ind < 0){
+        mixStr14.Append("!");
+        ind = abs(ind) + 6;
+      }
+      for (int j = 0; j < 3; j++){
+        mixStr14 = mixStr14 + TR_VCURVEFUNC[ j + 3 * (ind)];
+      }
+      mixStr14.Append("\t");
 
-//--------------------------------------------------------------------------------------------------------------------
+    }
 
-  #define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|""CB1""CB2""CB3""CB4""CB5""CB6""CB7""CB8"
-
-  //TODO search the function STR
-
-  int ind = (data[i].curveParam);
-  if ((data[i].curveMode) == 0) mixStr = mixStr + wxString::Format(wxT("%i"),ind) + "%\t\t";
-  else {
-        mixStr = mixStr + "\t";
-        if (ind < 0){
-          mixStr = mixStr + "!";
-          ind = abs(ind) + 6;
-        }
-         for (int j = 0; j < 3; j++){
-          mixStr = mixStr + TR_VCURVEFUNC[ j + 3 * (ind)];
-        }
-        mixStr = mixStr + "\t";
-
-        //mixStr = mixStr + wxString::Format(wxT("%i"),(data[i].curveParam)) + "\t";
-  }
-
-  // #define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|"
-
-    //mixStr = mixStr +       "NOEXPO " + wxString::Format(wxT("%i"),(data[i].noExpo)) + ",";// Should be on this screen ??
-
-//---------------------------------------------FLIGHT MODES-------------------------------------------------------
-    ConvertToBinary(data[i].flightModes,mixStr);
+    //---------------------------------------------FLIGHT MODES-------------------------------------------------------
+    wxString mixStr16 = "";
+    ConvertToBinary(data[i].flightModes,mixStr16);
     modeStr = verlen(modeStr);
-    mixStr = mixStr + modeStr + "\t";
+    mixStr16 = modeStr + "\t";
     modeStr ="";
-//-----------------------------------------------------------------------------------------------------------------
 
-//-----------------------------------------------TRIM--------------------------------------------------
-    indx = (data[i].carryTrim); //Trim ok
-    if ((indx) == 1) mixStr = mixStr + "Off" + "\t";
-    else if ((indx) == 0) mixStr = mixStr + "On" + "\t";
-    else if ((indx) == -1) mixStr = mixStr + "RUD" + "\t";
-    else if ((indx) == -2) mixStr = mixStr + "ELE" + "\t";
-    else if ((indx) == -3) mixStr = mixStr + "THR" + "\t";
-    else if ((indx) == -4) mixStr = mixStr + "AIL" + "\t";
-//-------------------------------------------------------------------------------------------------------
-    mixStr = mixStr + "(" + wxString::Format(wxT("%i"),(data[i].delayUp / 2));
-    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((data[i].delayUp % 2) * 5));
-    mixStr = mixStr + "/" + wxString::Format(wxT("%i"),(data[i].delayDown / 2));
-    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((data[i].delayDown % 2) * 5)) + ")\t";
-    mixStr = mixStr + "(" + wxString::Format(wxT("%i"),(data[i].speedUp / 2));
-    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((data[i].speedUp % 2) * 5));
-    mixStr = mixStr + "/" + wxString::Format(wxT("%i"),(data[i].speedDown / 2));
-    mixStr = mixStr + "," + wxString::Format(wxT("%i"),((data[i].speedDown % 2) * 5)) + ")\t\t";
-//-------------------------------------------------------------------------------------------------------
-    mixStr = mixStr + wxString::Format(wxT("%i"),(data[i].mixWarn)) + "\n";// IS THIS NECESSARY FOR THIS SCREEN ??
-//-------------------------------------------------------------------------------------------------------
-    //mixStr = mixStr + " " + wxString::Format(wxT("%i"),(data[i].spare));
+    //-----------------------------------------------TRIM--------------------------------------------------
+    wxString mixStr18 = "";
+    indx = (data[i].carryTrim);
+    if (indx == 1) mixStr18 = mixStr18 + "Off" + "\t";
+    else if (indx == 0) mixStr18 = mixStr18 + "On" + "\t";
+    else if (indx == -1) mixStr18 = mixStr18 + "RUD" + "\t";
+    else if (indx == -2) mixStr18 = mixStr18 + "ELE" + "\t";
+    else if (indx == -3) mixStr18 = mixStr18 + "THR" + "\t";
+    else if (indx == -4) mixStr18 = mixStr18 + "AIL" + "\t";
+    //-----------------------------------------------DUAL RATE /EXPO-------------------------------------------
+    wxString mixStr19 = "";
+    mixStr19 = mixStr19 + wxString::Format(wxT("%i"),(data[i].noExpo)) + "\t";
+    //-----------------------------------------DELAY/SLOW---------------------------------------------
+    wxString mixStr20 = "";
+    mixStr20 = mixStr20 + "(" + wxString::Format(wxT("%i"),(data[i].delayUp / 2));
+    mixStr20 = mixStr20 + "," + wxString::Format(wxT("%i"),((data[i].delayUp % 2) * 5));
+    mixStr20 = mixStr20 + "/" + wxString::Format(wxT("%i"),(data[i].delayDown / 2));
+    mixStr20 = mixStr20 + "," + wxString::Format(wxT("%i"),((data[i].delayDown % 2) * 5)) + ")\t";
+    mixStr20 = mixStr20 + "(" + wxString::Format(wxT("%i"),(data[i].speedUp / 2));
+    mixStr20 = mixStr20 + "," + wxString::Format(wxT("%i"),((data[i].speedUp % 2) * 5));
+    mixStr20 = mixStr20 + "/" + wxString::Format(wxT("%i"),(data[i].speedDown / 2));
+    mixStr20 = mixStr20 + "," + wxString::Format(wxT("%i"),((data[i].speedDown % 2) * 5)) + ")\t\t";
+    //-------------------------------------------------------------------------------------------------------
+    wxString mixStr22 = "";
+    mixStr22 = mixStr22 + wxString::Format(wxT("%i"),(data[i].mixWarn));// IS THIS NECESSARY FOR THIS SCREEN ??
+    //-------------------------------------------------------------------------------------------------------
+    //wxString mixStr24 = "";
+    //mixStr24 = " " + wxString::Format(wxT("%i"),(data[i].spare));
 
+    mixerL = mixStr1 +mixStr2 +mixStr4 +mixStr6 +mixStr7 +mixStr8 +mixStr9 +mixStr10 +mixStr11 +mixStr14 +mixStr16
+            +mixStr18 +mixStr19 +mixStr20 +mixStr22 ;
+
+    txt.Append(mixerL + "\n");
   }
-  Mixerline1->SetValue(mixStr);
- }
+  Mixerline1->SetValue(txt);
+}
 
 void MixerFrame::OnTimerRefreshFrameTrigger(wxTimerEvent& event)
 {
