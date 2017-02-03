@@ -65,6 +65,7 @@ enum EnumKeys {
   SW_AIL,
   SW_GEA,
   SW_TRN,
+  NUM_SWS
 };
 
 #define EVT_KEY_MASK(e)      ((e) & 0x1f)
