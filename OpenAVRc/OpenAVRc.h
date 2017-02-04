@@ -251,7 +251,7 @@ extern  void shutDownSimu(void);
 #define RESXu      1024u
 #define RESXul     1024ul
 #define RESXl      1024l
-#define F_CPU 16000000UL  // 16 MHz
+//#define F_CPU 16000000UL  // 16 MHz ... Should be defined in makefile.
 
 #include "myeeprom.h"
 #include "gui/gui.h"

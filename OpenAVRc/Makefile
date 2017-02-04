@@ -357,8 +357,8 @@ INCDIRS = . translations
 LUADEP =
 DEBUG_TRACE_BUFFER = NO
 
-# MCU name
-ifneq ($(PCB), $(filter $(PCB), STD 9X 9XR STD128 9X128 9XR128 9X2561 9XR2561 GRUVIN9X MEGA2560))
+# PCB name
+ifneq ($(PCB), $(filter $(PCB), STD 9X 9XR STD128 9X128 9XR128 9X2561 9XR2561 GRUVIN9X MEGA2560 EVO_V1))
   $(error Sorry, the PCB $(PCB) is not supported yet in OpenAVRc)
 endif
 
@@ -647,6 +647,81 @@ ifeq ($(PCB), GRUVIN9X)
   CPPDEFS += -DROTARY_ENCODERS=${ROTARY_ENCODERS}
 endif
 
+
+ifeq ($(PCB), EVO_V1)
+# EVO V1 PCB with Mega2560
+  GUIDIRECTORY = 9X
+  FLAVOUR = mega2560
+  ARCH = AVR
+  LCDSIZE = 128
+  TRGT = avr-
+  MCU = atmega2560
+  OPT = s
+  # Processor frequency.
+  F_CPU = 16000000
+  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DREV_EVO_V1 -DEEPROM_RLC -DEEPROM_VARIANT=0
+  SDCARD = YES
+  BUZZER = NO
+  AUDIO = YES
+  VOICE = NO
+  HAPTIC = NO
+  THR_TRACE = YES
+  PWRMANAGE = NO
+  INCDIRS += targets/evo_v1 targets/stock $(FATFSDIR) $(FATFSDIR)/option
+  BOARDSRC = main_avr.cpp targets/evo_v1/evo_mega2560.cpp targets/evo_v1/evo_lcd_driver.cpp targets/evo_v1/evo_adc_driver.cpp
+  EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
+  PULSESSRC = targets/evo_v1/evo_pulses_avr.cpp
+#  CPPSRC += debug.cpp
+  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
+#  BITMAPS += bitmaps/9X/splash.lbm bitmaps/9X/asterisk.lbm bitmaps/9X/about.lbm
+#  GUIGENERALSRC += gui/$(GUIDIRECTORY)/menu_general_diagkeys.cpp targets/evo_v1/menu_general_diaganas.cpp
+  GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v1/menu_general_diaganas.cpp
+  EXTRABOARDSRC = targets/common_avr/telemetry_driver.cpp targets/evo_v1/printf.c
+         
+  ifeq ($(PWRMANAGE), YES)
+    CPPDEFS += -DPWRMANAGE
+  endif
+
+  ifeq ($(SDCARD), YES)
+    EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/option/ccsbcs.c targets/gruvin9x/diskio.cpp
+    #EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/fattime.c $(FATFSDIR)/option/ccsbcs.c targets/gruvin9x/diskio.cpp
+#    CPPDEFS += -DSDCARD -DRTCLOCK
+    CPPDEFS += -DSDCARD
+    GUIGENERALSRC += gui/menu_general_sdmanager.cpp
+#    GUIGENERALSRC += gui/$(GUIDIRECTORY)/menu_general_sdmanager.cpp
+    CPPSRC += i2c_master.cpp rtc.cpp sdcard.cpp logs.cpp targets/gruvin9x/rtc_driver.cpp
+#    CPPSRC += rtc.cpp sdcard.cpp logs.cpp targets/gruvin9x/rtc_driver.cpp
+  endif
+
+  ifeq ($(AUDIO), YES)
+    CPPDEFS += -DAUDIO
+    CPPSRC += audio_avr.cpp
+    BUZZER = NO
+  else
+    BUZZER = YES
+  endif
+  
+  ifeq ($(BUZZER), YES)
+    CPPDEFS += -DBUZZER
+    CPPSRC += buzzer.cpp
+  endif
+
+  ifeq ($(VOICE), YES)
+    CPPDEFS += -DVOICE
+    CPPSRC += targets/gruvin9x/somo14d.cpp
+  endif
+  
+  ifeq ($(HAPTIC), YES)
+   CPPDEFS += -DHAPTIC
+   CPPSRC += haptic.cpp
+  endif
+
+  # Enable extra rotary encoders
+  ROTARY_ENCODERS = 2
+  CPPDEFS += -DROTARY_ENCODERS=${ROTARY_ENCODERS}
+endif
+
+
 ifeq ($(PCB), MEGA2560)
   # ARDUINO2560 DIY RADIO
 
@@ -656,6 +731,8 @@ ifeq ($(PCB), MEGA2560)
   TRGT = avr-
   MCU = atmega2560
   OPT = s
+  # Processor frequency.
+  F_CPU = 16000000
   CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DEEPROM_RLC -DEEPROM_VARIANT=0
   # -DAUDIO Removed by Bracame
   SDCARD = NO
