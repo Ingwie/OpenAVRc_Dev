@@ -208,8 +208,7 @@ typedef __int24 int24_t;
 #if !defined(NOINLINE)
 #define NOINLINE
 #endif
-//#define CONVERT_PTR_UINT(x) ((uint32_t)(uint64_t)(x))
-//#define CONVERT_UINT_PTR(x) ((uint32_t*)(uint64_t)(x))
+#define F_CPU 16000000UL  // 16 MHz ... Should be defined in makefile.
 #define TRACE(...) simuTrace(__VA_ARGS__)
 #define SIMU_PROCESSEVENTS SimuSleepMs(0)  //This function tell the simu app to process events
 #define MYWDT_RESET(x) x; SimuSleepMs(1)
@@ -251,7 +250,6 @@ extern  void shutDownSimu(void);
 #define RESXu      1024u
 #define RESXul     1024ul
 #define RESXl      1024l
-//#define F_CPU 16000000UL  // 16 MHz ... Should be defined in makefile.
 
 #include "myeeprom.h"
 #include "gui/gui.h"
