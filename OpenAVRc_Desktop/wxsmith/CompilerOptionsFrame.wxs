@@ -63,6 +63,7 @@
 						<object class="wxChoice" name="ID_CHOICE6" variable="ChoicePCB" member="yes">
 							<content>
 								<item>MEGA2560</item>
+								<item>EVO_V1</item>
 								<item>9X</item>
 								<item>9X128</item>
 								<item>9X2561</item>

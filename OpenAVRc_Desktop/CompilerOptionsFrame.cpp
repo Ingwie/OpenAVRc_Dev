@@ -189,6 +189,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoicePPM_UNIT ->SetToolTip(_("Affichage des valeurs des voies en % ou uS"));
   ChoicePCB = new wxChoice(Panel2, ID_CHOICE6, wxPoint(112,32), wxSize(96,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE6"));
   ChoicePCB->SetSelection( ChoicePCB->Append(_("MEGA2560")) );
+  ChoicePCB->Append(_("EVO_V1"));
   ChoicePCB->Append(_("9X"));
   ChoicePCB->Append(_("9X128"));
   ChoicePCB->Append(_("9X2561"));
