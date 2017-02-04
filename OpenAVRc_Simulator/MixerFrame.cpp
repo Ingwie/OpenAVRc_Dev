@@ -223,20 +223,23 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     mixStr16 = modeStr + "\t";
     modeStr ="";
 
-    //-----------------------------------------------TRIM--------------------------------------------------
-    wxString mixStr18 = "";
+    //-----------------------------------------------TRIM-----------------------------------------------
+
+    mixStr18 = "";
     indx = (data[i].carryTrim);
+    if (((data[i].srcRaw) > 4) && (indx == 0)) indx = 1;// TRIM OFF if input is not a stick
+
     if (indx == 1) mixStr18 = mixStr18 + "Off" + "\t";
-    else if (indx == 0) mixStr18 = mixStr18 + "On" + "\t";
+    else if (indx == 0)  mixStr18 = mixStr18 + "On" + "\t";
     else if (indx == -1) mixStr18 = mixStr18 + "RUD" + "\t";
     else if (indx == -2) mixStr18 = mixStr18 + "ELE" + "\t";
     else if (indx == -3) mixStr18 = mixStr18 + "THR" + "\t";
     else if (indx == -4) mixStr18 = mixStr18 + "AIL" + "\t";
     //-----------------------------------------------DUAL RATE /EXPO-------------------------------------------
-    wxString mixStr19 = "";
+    mixStr19 = "";
     mixStr19 = mixStr19 + wxString::Format(wxT("%i"),(data[i].noExpo)) + "\t";
     //-----------------------------------------DELAY/SLOW---------------------------------------------
-    wxString mixStr20 = "";
+    mixStr20 = "";
     mixStr20 = mixStr20 + "(" + wxString::Format(wxT("%i"),(data[i].delayUp / 2));
     mixStr20 = mixStr20 + "," + wxString::Format(wxT("%i"),((data[i].delayUp % 2) * 5));
     mixStr20 = mixStr20 + "/" + wxString::Format(wxT("%i"),(data[i].delayDown / 2));
