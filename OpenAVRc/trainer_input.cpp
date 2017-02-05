@@ -29,4 +29,22 @@
 int16_t ppmInput[NUM_TRAINER];
 uint8_t ppmInputValidityTimer;
 
+// Timer3 used for PPM_IN pulse width capture. Counter running at 16MHz / 8 = 2MHz
+// equating to one count every half millisecond. (2 counts = 1ms). Control channel
+// count delta values thus can range from about 1600 to 4400 counts (800us to 2200us),
+// corresponding to a PPM signal in the range 0.8ms to 2.2ms (1.5ms at center).
+// (The timer is free-running and is thus not reset to zero at each capture interval.)
+ISR(TIMER3_CAPT_vect) // G: High frequency noise can cause stack overflo with ISR_NOBLOCK
+{
+  uint16_t capture=ICR3;
+
+  // Prevent rentrance for this IRQ only
+  PAUSE_PPMIN_INTERRUPT();
+  sei(); // enable other interrupts
+
+  captureTrainerPulses(capture);
+
+  cli(); // disable other interrupts for stack pops before this function's RETI
+  RESUME_PPMIN_INTERRUPT();
+}
 
