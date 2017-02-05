@@ -120,9 +120,8 @@ uint8_t isPlaying()
 }
 
 #if !defined(SIMU)
-ISR(TIMER5_COMPA_vect) // every 0.5ms normally, every 2ms during startup reset
+ISR(TIMER5_COMPA_vect, ISR_NOBLOCK) // NOBLOCK allows interrupts - implicit sei() every 0.5ms normally, every 2ms during startup reset
 {
-  sei();
   if (state == PAUSE) {
     if (WTV20SD_PlayIndex == WTV20SD_InputIndex) {
       TIMSK5 &= ~(1<<OCIE5A); // stop reentrance
@@ -174,6 +173,5 @@ ISR(TIMER5_COMPA_vect) // every 0.5ms normally, every 2ms during startup reset
       OCR5A = 0x7d; // 0.5 ms after init
     }
   }
-  cli();
 }
 #endif

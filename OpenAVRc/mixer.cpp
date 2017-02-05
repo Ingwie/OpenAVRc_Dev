@@ -33,7 +33,7 @@ int16_t  trims[NUM_STICKS] = {0};
 int32_t  chans[NUM_CHNOUT] = {0};
 BeepANACenter bpanaCenter = 0;
 
-int24_t act   [MAX_MIXERS] = {0};
+int32_t act   [MAX_MIXERS] = {0};
 SwOn    swOn  [MAX_MIXERS];   // TODO better name later...
 
 uint8_t mixWarning;
@@ -801,9 +801,7 @@ void evalMixes(uint8_t tick10ms)
 
     int16_t value = applyLimits(i, q);  // applyLimits will remove the 256 100% basis
 
-    cli();
-    channelOutputs[i] = value;  // copy consistent word to int-level
-    sei();
+    ATOMIC_BLOCK(ATOMIC_FORCEON) {channelOutputs[i] = value;}  // copy consistent word to int-level
   }
 
   if (tick10ms && flightModesFade) {

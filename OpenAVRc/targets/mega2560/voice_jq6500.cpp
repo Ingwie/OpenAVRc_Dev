@@ -102,9 +102,8 @@ uint8_t JQ6500_sendbyte(uint8_t Data_byte)
 }
 
 #if !defined(SIMU)
-ISR(TIMER5_COMPA_vect) // every 104µS
+ISR(TIMER5_COMPA_vect, ISR_NOBLOCK) // NOBLOCK allows interrupts - implicit sei() every 104µS
 {
-  sei();
 
   if (JQstate == START) {
     OCR5A = 0x19;
@@ -156,7 +155,5 @@ ISR(TIMER5_COMPA_vect) // every 104µS
       return;
     }
   }
-
-  cli();
 }
 #endif

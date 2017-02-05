@@ -36,9 +36,8 @@ void varioWakeup()
 
   if (isFunctionActive(FUNCTION_VARIO)) {
 #if defined(AUDIO)
-    cli();
-    int16_t verticalSpeed = frskyData.hub.varioSpeed;
-    sei();
+    int16_t verticalSpeed;
+    ATOMIC_BLOCK(ATOMIC_FORCEON) {verticalSpeed = frskyData.hub.varioSpeed;}
 
 #if defined(PCBSTD)
     int16_t varioCenterMax = (int16_t)g_model.frsky.varioCenterMax * 10 + 50;

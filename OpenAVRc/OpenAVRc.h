@@ -182,12 +182,6 @@
 #define ROTARY_ENCODER_NAVIGATION
 #endif
 
-#if GCC_VERSION < 472
-typedef int32_t int24_t;
-#else
-typedef __int24 int24_t;
-#endif
-
 #if defined(FAI)
 #define IS_FAI_ENABLED() true
 #define IF_FAI_CHOICE(x)
@@ -260,6 +254,7 @@ extern  void shutDownSimu(void);
 #include <avr/sleep.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include <util/atomic.h>
 #include <avr/wdt.h>
 #endif
 
@@ -323,9 +318,7 @@ extern volatile tmr10ms_t g_tmr10ms;
 inline uint16_t get_tmr10ms()
 {
   uint16_t time  ;
-  cli();
-  time = g_tmr10ms ;
-  sei();
+  ATOMIC_BLOCK(ATOMIC_FORCEON) {time = g_tmr10ms;}
   return time ;
 }
 typedef int8_t rotenc_t;
@@ -882,7 +875,7 @@ PACK(typedef struct {
 }) SwOn;
 
 extern SwOn     swOn  [MAX_MIXERS];
-extern int24_t  act   [MAX_MIXERS];
+extern int32_t  act   [MAX_MIXERS];
 
 #ifdef BOLD_FONT
 inline bool isExpoActive(uint8_t expo)

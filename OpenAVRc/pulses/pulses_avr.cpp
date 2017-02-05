@@ -1075,9 +1075,8 @@ ISR(TIMER3_COMPA_vect) //2MHz pulse generation
   heartbeat |= HEART_TIMER_PULSES;
 }
 
-ISR(TIMER3_COMPB_vect) //2MHz pulse generation
+ISR(TIMER3_COMPB_vect, ISR_NOBLOCK) // NOBLOCK allows interrupts - implicit sei() 2MHz pulse generation
 {
-  sei();
   if (s_current_protocol[0] != g_model.protocol) {
     if (s_current_protocol[0] == PROTO_PPMSIM) {
       setupPulses();

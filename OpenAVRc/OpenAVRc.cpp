@@ -1371,11 +1371,11 @@ uint16_t getTmr16KHz()
 
 #if defined(PCBSTD) && (defined(AUDIO) || defined(VOICE))
 // Clocks every 128 uS
-ISR(TIMER_AUDIO_VECT, ISR_NOBLOCK)
+ISR(TIMER_AUDIO_VECT, ISR_NOBLOCK) // NOBLOCK allows interrupts - implicit sei()
 {
-  cli();
-  PAUSE_AUDIO_INTERRUPT(); // stop reentrance
-  sei();
+  ATOMIC_BLOCK(ATOMIC_FORCEON) {
+    PAUSE_AUDIO_INTERRUPT();  // stop reentrance
+  }
 
 #if defined(AUDIO)
   AUDIO_DRIVER();
@@ -1385,11 +1385,12 @@ ISR(TIMER_AUDIO_VECT, ISR_NOBLOCK)
   VOICE_DRIVER();
 #endif
 
-  cli();
-  RESUME_AUDIO_INTERRUPT();
-  sei();
+  ATOMIC_BLOCK(ATOMIC_FORCEON) {
+    RESUME_AUDIO_INTERRUPT();
+  }
 }
 #endif
+
 
 // Clocks every 10ms
 ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
