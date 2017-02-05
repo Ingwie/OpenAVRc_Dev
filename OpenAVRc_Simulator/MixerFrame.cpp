@@ -198,7 +198,24 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     mixStr11.Append("\t");
 
     //----------------------------------------------------CURVE-----------------------------------------
-    #define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|""CB1""CB2""CB3""CB4""CB5""CB6""CB7""CB8"
+    //#define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|""CB1""CB2""CB3""CB4""CB5""CB6""CB7""CB8"
+
+
+
+/*
+    void lcdDrawCurveName(coord_t x, coord_t y, int8_t idx, LcdFlags att)
+{
+  if (idx < 0) {
+    lcdDrawCharAtt(x-3, y, '!', att);
+    idx = -idx+CURVE_BASE-1;
+  }
+  if (idx < CURVE_BASE)
+    lcdDrawTextAtIndex(x, y, STR_VCURVEFUNC, idx, att);
+  else
+    lcdDrawStringWithIndex(x, y, STR_CV, idx-CURVE_BASE+1, att);
+*/
+
+
 
     mixStr14 = "";
     int ind = (data[i].curveParam);
@@ -207,13 +224,16 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
       mixStr14.Append("\t");
       if (ind < 0){
         mixStr14.Append("!");
-        ind = abs(ind) + 6;
+        ind = -ind + CURVE_BASE-1;
       }
-      for (int j = 0; j < 3; j++){
-        mixStr14 = mixStr14 + TR_VCURVEFUNC[ j + 3 * (ind)];
+      if(ind < CURVE_BASE){
+        for (int j = 0; j < 3; j++){
+          mixStr14 = mixStr14 + TR_VCURVEFUNC[ j + 3 * (ind)];
+        }
       }
-      mixStr14.Append("\t");
+      else mixStr14 = mixStr14 + STR_CV + wxString::Format(wxT("%i"),ind-6);
 
+      mixStr14.Append("\t");
     }
 
     //---------------------------------------------FLIGHT MODES-------------------------------------------------------
