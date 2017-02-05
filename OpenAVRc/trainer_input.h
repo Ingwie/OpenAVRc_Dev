@@ -27,7 +27,7 @@
 #ifndef trainer_input_h
 #define trainer_input_h
 
-#include "myeeprom.h"
+#include "OpenAVRc.h"
 
 // Trainer input channels
 extern int16_t ppmInput[NUM_TRAINER];
