@@ -116,7 +116,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     mixerL = "";
     mixStr1 = "";
     //------------------------------------- OUTPUT CHANNEL-------------------------------------
-      if ((data[i].weight) == 0) continue;
+      if (((data[i].weight) == 0) && ((data[i].weightMode) != 1)) continue;
       if (i == 0) mixStr1 = mixStr1 + "OUT " + wxString::Format(wxT("%i"),(data[i].destCh) + 1)+ " = ";
       else if ((data[i].destCh) > (data[i-1].destCh)){
       mixStr1 = mixStr1 + "\n" +"OUT " + wxString::Format(wxT("%i"),(data[i].destCh) + 1)+ " = ";
@@ -180,8 +180,8 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     }
     mixStr9 = wxString::Format(wxT("%i"),offset) + percent + "\t";
 
-
     //---------------------------------------------SWITCHES-----------------------------------------------
+
     wxString mixStr10 = "";
     wxString mixStr11 = "";
 
@@ -198,29 +198,25 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     mixStr11.Append("\t");
 
     //----------------------------------------------------CURVE-----------------------------------------
-    //#define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|""CB1""CB2""CB3""CB4""CB5""CB6""CB7""CB8"
-
-
-
-/*
-    void lcdDrawCurveName(coord_t x, coord_t y, int8_t idx, LcdFlags att)
-{
-  if (idx < 0) {
-    lcdDrawCharAtt(x-3, y, '!', att);
-    idx = -idx+CURVE_BASE-1;
-  }
-  if (idx < CURVE_BASE)
-    lcdDrawTextAtIndex(x, y, STR_VCURVEFUNC, idx, att);
-  else
-    lcdDrawStringWithIndex(x, y, STR_CV, idx-CURVE_BASE+1, att);
-*/
-
-
 
     mixStr14 = "";
     int ind = (data[i].curveParam);
-    if ((data[i].curveMode) == 0) mixStr14 = wxString::Format(wxT("%i"),ind) + "%\t\t";
+    if ((data[i].curveMode) == 0){
+      if (ind > 122){
+        ind = - ind + 128;
+        mixStr14 = "-";
+        mixStr14 = mixStr14 + STR_GV + wxString::Format(wxT("%i"),ind);
+      }
+      else if (ind < -123){
+        ind = ind + 129;
+        mixStr14 = STR_GV + wxString::Format(wxT("%i"),ind);
+      }
+      else mixStr14 = mixStr14 + wxString::Format(wxT("%i"),ind) +"%";
+      mixStr14.Append("\t\t");
+    }
+
     else {
+      ind = (data[i].curveParam);
       mixStr14.Append("\t");
       if (ind < 0){
         mixStr14.Append("!");
@@ -245,16 +241,15 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
     //-----------------------------------------------TRIM-----------------------------------------------
 
+    const char * TRIMS[] = { "Ail", "Thr", "Ele", "Rud", "On", "---"};// This shall be somewhere with translation.
+
     mixStr18 = "";
     indx = (data[i].carryTrim);
     if (((data[i].srcRaw) > 4) && (indx == 0)) indx = 1;// TRIM OFF if input is not a stick
 
-    if (indx == 1) mixStr18 = mixStr18 + "Off" + "\t";
-    else if (indx == 0)  mixStr18 = mixStr18 + "On" + "\t";
-    else if (indx == -1) mixStr18 = mixStr18 + "RUD" + "\t";
-    else if (indx == -2) mixStr18 = mixStr18 + "ELE" + "\t";
-    else if (indx == -3) mixStr18 = mixStr18 + "THR" + "\t";
-    else if (indx == -4) mixStr18 = mixStr18 + "AIL" + "\t";
+    mixStr18.Append(TRIMS[indx + 4]);
+    mixStr18.Append("\t");
+
     //-----------------------------------------------DUAL RATE /EXPO-------------------------------------------
     mixStr19 = "";
     mixStr19 = mixStr19 + wxString::Format(wxT("%i"),(data[i].noExpo)) + "\t";
