@@ -168,6 +168,7 @@ private:
   void OnMixeurSelected(wxCommandEvent& event);
   void OnOutputBarsSelected(wxCommandEvent& event);
   void OnGvarsSelected(wxCommandEvent& event);
+  void OnGvarsFrameSelected(wxCommandEvent& event);
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)
@@ -280,6 +281,7 @@ private:
   wxPanel* BPexit;
   wxPanel* BpEle;
   wxMenu* Menu3;
+  wxMenuItem* GvarsFrame;
   wxSlider* Pot1;
   wxPanel* PanelH;
   wxMenuItem* MenuLcdPixel;
@@ -307,7 +309,6 @@ private:
   wxPanel* RlTrim;
   wxMenuItem* MenuButOn;
   wxMenu* MenuColours;
-  wxMenuItem* GvarsFr;
   wxMenuItem* MenuButOff;
   wxMenuItem* MenuSaveee;
   wxSpinButton* SpinReb;

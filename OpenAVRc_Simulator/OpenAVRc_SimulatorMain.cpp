@@ -302,8 +302,8 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   MenuHelp->Append(Mixeur);
   OutputBars = new wxMenuItem(MenuHelp, ID_MENUITEM2, _("Graphique Sorties"), wxEmptyString, wxITEM_NORMAL);
   MenuHelp->Append(OutputBars);
-  GvarsFr = new wxMenuItem(MenuHelp, ID_MENUITEM3, _("Variables globales"), wxEmptyString, wxITEM_NORMAL);
-  MenuHelp->Append(GvarsFr);
+  GvarsFrame = new wxMenuItem(MenuHelp, ID_MENUITEM3, _("Variables globales"), wxEmptyString, wxITEM_NORMAL);
+  MenuHelp->Append(GvarsFrame);
   MenuBar1->Append(MenuHelp, _("&Aide"));
   SetMenuBar(MenuBar1);
   StatusBar = new wxStatusBar(this, ID_STATUSBAR, 0, _T("ID_STATUSBAR"));
@@ -374,7 +374,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnAbout);
   Connect(ID_MENUITEM1,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMixeurSelected);
   Connect(ID_MENUITEM2,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOutputBarsSelected);
-  Connect(ID_MENUITEM3,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnGvarsSelected);
+  Connect(ID_MENUITEM3,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnGvarsFrameSelected);
   Connect(ID_TIMER10MS,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimer10msTrigger);
   Connect(ID_TIMERMAIN,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimerMainTrigger);
   Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnClose);
@@ -1327,7 +1327,7 @@ void OpenAVRc_SimulatorFrame::OnOutputBarsSelected(wxCommandEvent& event)
   BarFr->Show(TRUE);
 }
 
-void OpenAVRc_SimulatorFrame::OnGvarsSelected(wxCommandEvent& event)
+void OpenAVRc_SimulatorFrame::OnGvarsFrameSelected(wxCommandEvent& event)
 {
   Gvars *GvFr = new  Gvars(this);
   GvFr->Show(TRUE);
