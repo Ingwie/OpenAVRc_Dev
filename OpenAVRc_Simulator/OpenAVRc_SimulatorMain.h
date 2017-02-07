@@ -167,6 +167,7 @@ private:
   void PlayTts();
   void OnMixeurSelected(wxCommandEvent& event);
   void OnOutputBarsSelected(wxCommandEvent& event);
+  void OnGvarsSelected(wxCommandEvent& event);
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)
@@ -220,6 +221,7 @@ private:
   static const long idMenuAbout;
   static const long ID_MENUITEM1;
   static const long ID_MENUITEM2;
+  static const long ID_MENUITEM3;
   static const long ID_STATUSBAR;
   static const long ID_TIMER10MS;
   static const long ID_TIMERMAIN;
@@ -305,6 +307,7 @@ private:
   wxPanel* RlTrim;
   wxMenuItem* MenuButOn;
   wxMenu* MenuColours;
+  wxMenuItem* GvarsFr;
   wxMenuItem* MenuButOff;
   wxMenuItem* MenuSaveee;
   wxSpinButton* SpinReb;
