@@ -1,7 +1,7 @@
 #ifndef GVARS_H
 #define GVARS_H
 
-//(*Headers(Gvars)
+//(*Headers(GvarsFrame)
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
 #include <wx/statbox.h>
@@ -12,16 +12,16 @@
 #include <wx/gauge.h>
 //*)
 
-class Gvars: public wxFrame
+class GvarsFrame: public wxFrame
 {
 	public:
 
-		Gvars(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
-		virtual ~Gvars();
+		GvarsFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
+		virtual ~GvarsFrame();
 
-    Gvars *GvFr;
+    GvarsFrame *GvFr;
 
-		//(*Declarations(Gvars)
+		//(*Declarations(GvarsFrame)
 		wxSlider* Slider1;
 		wxPanel* Panel20;
 		wxPanel* Panel5;
@@ -71,7 +71,7 @@ class Gvars: public wxFrame
 
 	protected:
 
-		//(*Identifiers(Gvars)
+		//(*Identifiers(GvarsFrame)
 		static const long ID_STATICBOX3;
 		static const long ID_STATICBOX2;
 		static const long ID_GRID1;
@@ -121,7 +121,7 @@ class Gvars: public wxFrame
 
 	private:
 
-		//(*Handlers(Gvars)
+		//(*Handlers(GvarsFrame)
 		void OnPanel4Paint(wxPaintEvent& event);
 		//*)
 

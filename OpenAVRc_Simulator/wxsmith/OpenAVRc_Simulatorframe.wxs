@@ -359,17 +359,17 @@
 					<bitmap stock_id="wxART_INFORMATION" stock_client="wxART_MENU" />
 					<handler function="OnAbout" entry="EVT_MENU" />
 				</object>
-				<object class="wxMenuItem" name="ID_MENUITEM1" variable="Mixeur" member="yes">
+				<object class="wxMenuItem" name="ID_MENUITEMOUTPUTMIXER" variable="OutputMixeur" member="yes">
 					<label>Mixeur</label>
 					<handler function="OnMixeurSelected" entry="EVT_MENU" />
 				</object>
-				<object class="wxMenuItem" name="ID_MENUITEM2" variable="OutputBars" member="yes">
+				<object class="wxMenuItem" name="ID_MENUITEMOUTPUTOUTPUT" variable="OutputBars" member="yes">
 					<label>Graphique Sorties</label>
 					<handler function="OnOutputBarsSelected" entry="EVT_MENU" />
 				</object>
-				<object class="wxMenuItem" name="ID_MENUITEM3" variable="GvarsFrame" member="yes">
+				<object class="wxMenuItem" name="ID_MENUITEMOUTPUTGVARS" variable="OutputGvars" member="yes">
 					<label>Variables globales</label>
-					<handler function="OnGvarsFrameSelected" entry="EVT_MENU" />
+					<handler function="OnOutputGvarsSelected" entry="EVT_MENU" />
 				</object>
 			</object>
 		</object>

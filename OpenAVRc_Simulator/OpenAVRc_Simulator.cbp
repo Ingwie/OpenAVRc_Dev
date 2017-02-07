@@ -424,8 +424,8 @@
 		<Unit filename="../OpenAVRc/translations/se.h" />
 		<Unit filename="../OpenAVRc/translations/tts_fr.cpp" />
 		<Unit filename="../OpenAVRc/vario.cpp" />
-		<Unit filename="Gvars.cpp" />
-		<Unit filename="Gvars.h" />
+		<Unit filename="GvarsFrame.cpp" />
+		<Unit filename="GvarsFrame.h" />
 		<Unit filename="MixerFrame.cpp" />
 		<Unit filename="MixerFrame.h" />
 		<Unit filename="OpenAVRc_SimulatorApp.cpp" />
@@ -439,7 +439,7 @@
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
-		<Unit filename="wxsmith/Gvars.wxs" />
+		<Unit filename="wxsmith/GvarsFrame.wxs" />
 		<Unit filename="wxsmith/MixerFrame.wxs" />
 		<Unit filename="wxsmith/OpenAVRc_Simulatorframe.wxs" />
 		<Unit filename="wxsmith/OutBarsFrame.wxs" />
@@ -454,7 +454,7 @@
 					<wxFrame wxs="wxsmith/OpenAVRc_Simulatorframe.wxs" src="OpenAVRc_SimulatorMain.cpp" hdr="OpenAVRc_SimulatorMain.h" fwddecl="0" i18n="1" name="OpenAVRc_SimulatorFrame" language="CPP" />
 					<wxFrame wxs="wxsmith/MixerFrame.wxs" src="MixerFrame.cpp" hdr="MixerFrame.h" fwddecl="0" i18n="1" name="MixerFrame" language="CPP" />
 					<wxFrame wxs="wxsmith/OutBarsFrame.wxs" src="OutBarsFrame.cpp" hdr="OutBarsFrame.h" fwddecl="0" i18n="1" name="OutBarsFrame" language="CPP" />
-					<wxFrame wxs="wxsmith/Gvars.wxs" src="Gvars.cpp" hdr="Gvars.h" fwddecl="0" i18n="1" name="Gvars" language="CPP" />
+					<wxFrame wxs="wxsmith/GvarsFrame.wxs" src="GvarsFrame.cpp" hdr="GvarsFrame.h" fwddecl="0" i18n="1" name="GvarsFrame" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>
