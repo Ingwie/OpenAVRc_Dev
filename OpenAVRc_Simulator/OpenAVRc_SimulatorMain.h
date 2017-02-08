@@ -218,10 +218,10 @@ private:
   static const long ID_STICKB;
   static const long ID_STICKF;
   static const long ID_COLOURS;
-  static const long idMenuAbout;
-  static const long ID_MENUITEMOUTPUTMIXER;
   static const long ID_MENUITEMOUTPUTOUTPUT;
+  static const long ID_MENUITEMOUTPUTMIXER;
   static const long ID_MENUITEMOUTPUTGVARS;
+  static const long idMenuAbout;
   static const long ID_STATUSBAR;
   static const long ID_TIMER10MS;
   static const long ID_TIMERMAIN;
@@ -310,6 +310,7 @@ private:
   wxMenuItem* MenuButOff;
   wxMenuItem* MenuSaveee;
   wxMenuItem* OutputMixeur;
+  wxMenu* Menu2;
   wxSpinButton* SpinReb;
   wxPanel* LuTrim;
   wxPanel* BpId1;
