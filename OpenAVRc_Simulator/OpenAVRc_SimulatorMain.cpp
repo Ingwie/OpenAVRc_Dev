@@ -301,7 +301,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Menu2->Append(OutputMixeur);
   OutputGvars = new wxMenuItem(Menu2, ID_MENUITEMOUTPUTGVARS, _("Variables globales"), wxEmptyString, wxITEM_NORMAL);
   Menu2->Append(OutputGvars);
-  MenuBar1->Append(Menu2, _("Fenêtres"));
+  MenuBar1->Append(Menu2, _("&Fenêtres"));
   MenuHelp = new wxMenu();
   MenuAbout = new wxMenuItem(MenuHelp, idMenuAbout, _("A propos ...\tF1"), _("C\'est quoi donc \?"), wxITEM_NORMAL);
   MenuAbout->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_INFORMATION")),wxART_MENU));

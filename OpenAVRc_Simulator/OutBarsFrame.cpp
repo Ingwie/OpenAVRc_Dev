@@ -140,7 +140,6 @@ OutBarsFrame::OutBarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	TimerRefreshFrame.SetOwner(this, ID_TIMERREFRESHOUTBAR);
 	TimerRefreshFrame.Start(100, false);
 
-	Connect(ID_TEXTCTRL9,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&OutBarsFrame::OnTextCtrl1Text1);
 	Connect(ID_TIMERREFRESHOUTBAR,wxEVT_TIMER,(wxObjectEventFunction)&OutBarsFrame::OnTimerRefreshFrameTrigger);
 	//*)
 
@@ -221,10 +220,6 @@ void OutBarsFrame::FillBarFrame()
 
 }
 
-
-void OutBarsFrame::OnTextCtrl1Text1(wxCommandEvent& event)
-{
-}
 
 void OutBarsFrame::OnTimerRefreshFrameTrigger(wxTimerEvent& event)
 {

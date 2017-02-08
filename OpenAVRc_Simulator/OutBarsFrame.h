@@ -133,14 +133,7 @@ class OutBarsFrame: public wxFrame
 	private:
 
 		//(*Handlers(OutBarsFrame)
-		void OnTextCtrl1Text(wxCommandEvent& event);
-		void OnTextCtrl1Text1(wxCommandEvent& event);
-		void OnTextCtrl5Text(wxCommandEvent& event);
-		void OnTextCtrl5Text1(wxCommandEvent& event);
 		void OnTimerRefreshFrameTrigger(wxTimerEvent& event);
-		void Onoutput10Text(wxCommandEvent& event);
-		void OnPanel1Paint(wxPaintEvent& event);
-		void OnSlider13CmdScroll(wxScrollEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

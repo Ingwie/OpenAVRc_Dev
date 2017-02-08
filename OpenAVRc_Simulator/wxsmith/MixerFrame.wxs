@@ -23,7 +23,7 @@
 			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMERREFRESHFRAME" variable="TimerRefreshFrame" member="yes">
-			<interval>100</interval>
+			<interval>500</interval>
 			<handler function="OnTimerRefreshFrameTrigger" entry="EVT_TIMER" />
 		</object>
 	</object>

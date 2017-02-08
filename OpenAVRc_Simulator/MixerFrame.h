@@ -44,8 +44,6 @@ class MixerFrame: public wxFrame
 	private:
 
 		//(*Handlers(MixerFrame)
-		void OnChannelText(wxCommandEvent& event);
-		void OnPanel1Paint(wxPaintEvent& event);
 		void OnClose(wxCloseEvent& event);
 		void OnTimerRefreshFrameTrigger(wxTimerEvent& event);
 		//*)

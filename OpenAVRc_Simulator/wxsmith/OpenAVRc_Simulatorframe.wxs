@@ -351,7 +351,7 @@
 				</object>
 			</object>
 			<object class="wxMenu" variable="Menu2" member="yes">
-				<label>Fenêtres</label>
+				<label>&amp;Fenêtres</label>
 				<object class="wxMenuItem" name="ID_MENUITEMOUTPUTOUTPUT" variable="OutputBars" member="yes">
 					<label>Graphique Sorties</label>
 					<handler function="OnOutputBarsSelected" entry="EVT_MENU" />

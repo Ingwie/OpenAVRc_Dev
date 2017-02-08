@@ -61,7 +61,6 @@
 				<pos>216,138</pos>
 				<size>56,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
-				<handler function="OnTextCtrl1Text1" entry="EVT_TEXT" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL10" variable="output10" member="yes">
 				<value>Texte</value>
@@ -293,7 +292,7 @@
 			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMERREFRESHOUTBAR" variable="TimerRefreshFrame" member="yes">
-			<interval>100</interval>
+			<interval>200</interval>
 			<handler function="OnTimerRefreshFrameTrigger" entry="EVT_TIMER" />
 		</object>
 	</object>
