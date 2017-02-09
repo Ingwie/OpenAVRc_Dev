@@ -168,6 +168,7 @@ private:
   void OnMixeurSelected(wxCommandEvent& event);
   void OnOutputBarsSelected(wxCommandEvent& event);
   void OnOutputGvarsSelected(wxCommandEvent& event);
+  void OnRadioDataSelected(wxCommandEvent& event);
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)
@@ -221,6 +222,7 @@ private:
   static const long ID_MENUITEMOUTPUTOUTPUT;
   static const long ID_MENUITEMOUTPUTMIXER;
   static const long ID_MENUITEMOUTPUTGVARS;
+  static const long ID_MENUITEMRADIODATA;
   static const long idMenuAbout;
   static const long ID_STATUSBAR;
   static const long ID_TIMER10MS;
@@ -274,6 +276,7 @@ private:
   wxSpinButton* SpinRea;
   wxPanel* RdTrim;
   wxMenuItem* MenuLoadee;
+  wxMenuItem* RadioData;
   wxPanel* Lstick;
   wxPanel* BpGea;
   wxPanel* BpRud;

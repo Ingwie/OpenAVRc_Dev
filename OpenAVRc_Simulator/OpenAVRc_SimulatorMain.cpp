@@ -28,6 +28,7 @@
 #include "MixerFrame.h"
 #include "OutBarsFrame.h"
 #include "GvarsFrame.h"
+#include "RadioDataFrame.h"
 
 #include <wx/msgdlg.h>
 #include <wx/dcclient.h>
@@ -86,6 +87,7 @@ wxString AppPath;
 MixerFrame *MixFr;
 OutBarsFrame *BarFr;
 GvarsFrame *GvFr;
+RadioDataFrame *RaFr;
 
 bool Mp3RepExist = false;
 extern volatile uint8_t JQ6500_InputIndex;
@@ -145,6 +147,7 @@ const long OpenAVRc_SimulatorFrame::ID_COLOURS = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTOUTPUT = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTMIXER = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTGVARS = wxNewId();
+const long OpenAVRc_SimulatorFrame::ID_MENUITEMRADIODATA = wxNewId();
 const long OpenAVRc_SimulatorFrame::idMenuAbout = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_STATUSBAR = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_TIMER10MS = wxNewId();
@@ -301,6 +304,8 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Menu2->Append(OutputMixeur);
   OutputGvars = new wxMenuItem(Menu2, ID_MENUITEMOUTPUTGVARS, _("Variables globales"), wxEmptyString, wxITEM_NORMAL);
   Menu2->Append(OutputGvars);
+  RadioData = new wxMenuItem(Menu2, ID_MENUITEMRADIODATA, _("Paramètres Radio"), wxEmptyString, wxITEM_NORMAL);
+  Menu2->Append(RadioData);
   MenuBar1->Append(Menu2, _("&Fenêtres"));
   MenuHelp = new wxMenu();
   MenuAbout = new wxMenuItem(MenuHelp, idMenuAbout, _("A propos ...\tF1"), _("C\'est quoi donc \?"), wxITEM_NORMAL);
@@ -376,6 +381,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_MENUITEMOUTPUTOUTPUT,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOutputBarsSelected);
   Connect(ID_MENUITEMOUTPUTMIXER,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMixeurSelected);
   Connect(ID_MENUITEMOUTPUTGVARS,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOutputGvarsSelected);
+  Connect(ID_MENUITEMRADIODATA,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnRadioDataSelected);
   Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnAbout);
   Connect(ID_TIMER10MS,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimer10msTrigger);
   Connect(ID_TIMERMAIN,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimerMainTrigger);
@@ -1329,4 +1335,10 @@ void OpenAVRc_SimulatorFrame::OnOutputGvarsSelected(wxCommandEvent& event)
 {
   GvarsFrame *GvFr = new  GvarsFrame(this);
   GvFr->Show(TRUE);
+}
+
+void OpenAVRc_SimulatorFrame::OnRadioDataSelected(wxCommandEvent& event)
+{
+  RadioDataFrame *RaFr = new  RadioDataFrame(this);
+  RaFr->Show(TRUE);
 }
