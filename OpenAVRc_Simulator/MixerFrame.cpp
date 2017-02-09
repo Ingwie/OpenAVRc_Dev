@@ -34,6 +34,7 @@ const char* INPUTClass::inputText[] = { "Dir\t","Prf\t","Gaz\t","Ail\t",
 
 
 //(*InternalHeaders(MixerFrame)
+#include <wx/settings.h>
 #include <wx/intl.h>
 #include <wx/string.h>
 //*)
@@ -57,7 +58,9 @@ MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	SetClientSize(wxSize(778,287));
 	Mixer = new wxPanel(this, ID_PANEL1, wxPoint(256,200), wxSize(818,248), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	Mixerline1 = new wxTextCtrl(Mixer, ID_TEXTCTRL1, _("Texte"), wxPoint(0,32), wxSize(816,256), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxVSCROLL|wxHSCROLL, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+	Mixerline1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
 	Headerline = new wxTextCtrl(Mixer, ID_TEXTCTRL2, _("Texte"), wxPoint(0,0), wxSize(816,32), wxTE_NO_VSCROLL|wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRL2"));
+	Headerline->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
 	TimerRefreshFrame.SetOwner(this, ID_TIMERREFRESHFRAME);
 	TimerRefreshFrame.Start(500, false);
 

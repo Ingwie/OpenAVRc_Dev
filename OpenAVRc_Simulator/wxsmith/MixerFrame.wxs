@@ -13,12 +13,14 @@
 				<value>Texte</value>
 				<pos>0,32</pos>
 				<size>816,256</size>
+				<bg>wxSYS_COLOUR_MENU</bg>
 				<style>wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxVSCROLL|wxHSCROLL</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL2" variable="Headerline" member="yes">
 				<value>Texte</value>
 				<pos>0,0</pos>
 				<size>816,32</size>
+				<bg>wxSYS_COLOUR_MENU</bg>
 				<style>wxTE_NO_VSCROLL|wxTE_READONLY|wxTE_RICH|wxTE_LEFT</style>
 			</object>
 		</object>
