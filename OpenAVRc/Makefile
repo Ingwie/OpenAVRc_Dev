@@ -649,7 +649,8 @@ endif
 
 
 ifeq ($(PCB), EVO_V1)
-# EVO V1 PCB with Mega2560
+  # Evo V1 PCB with Mega2560
+  
   GUIDIRECTORY = 9X
   FLAVOUR = mega2560
   ARCH = AVR
@@ -674,9 +675,9 @@ ifeq ($(PCB), EVO_V1)
 #  CPPSRC += debug.cpp
   BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
 #  BITMAPS += bitmaps/9X/splash.lbm bitmaps/9X/asterisk.lbm bitmaps/9X/about.lbm
-#  GUIGENERALSRC += gui/$(GUIDIRECTORY)/menu_general_diagkeys.cpp targets/evo_v1/menu_general_diaganas.cpp
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v1/menu_general_diaganas.cpp
-  EXTRABOARDSRC = targets/common_avr/telemetry_driver.cpp targets/evo_v1/printf.c
+#  GUIGENERALSRC += gui/$(GUIDIRECTORY)/menu_general_diagkeys.cpp targets/evo_v1/menu_general_diaganas.cpp
+  EXTRABOARDSRC = targets/common_avr/telemetry_driver.cpp
          
   ifeq ($(PWRMANAGE), YES)
     CPPDEFS += -DPWRMANAGE
@@ -684,9 +685,9 @@ ifeq ($(PCB), EVO_V1)
 
   ifeq ($(SDCARD), YES)
     EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/option/ccsbcs.c targets/gruvin9x/diskio.cpp
-    #EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/fattime.c $(FATFSDIR)/option/ccsbcs.c targets/gruvin9x/diskio.cpp
-#    CPPDEFS += -DSDCARD -DRTCLOCK
+#    EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/fattime.c $(FATFSDIR)/option/ccsbcs.c targets/gruvin9x/diskio.cpp
     CPPDEFS += -DSDCARD
+#    CPPDEFS += -DSDCARD -DRTCLOCK
     GUIGENERALSRC += gui/menu_general_sdmanager.cpp
 #    GUIGENERALSRC += gui/$(GUIDIRECTORY)/menu_general_sdmanager.cpp
     CPPSRC += i2c_master.cpp rtc.cpp sdcard.cpp logs.cpp targets/gruvin9x/rtc_driver.cpp
@@ -714,6 +715,10 @@ ifeq ($(PCB), EVO_V1)
   ifeq ($(HAPTIC), YES)
    CPPDEFS += -DHAPTIC
    CPPSRC += haptic.cpp
+  endif
+
+  ifeq ($(PERSONAMES), YES)
+   CPPDEFS += -DPERSONAMES
   endif
 
   # Enable extra rotary encoders
