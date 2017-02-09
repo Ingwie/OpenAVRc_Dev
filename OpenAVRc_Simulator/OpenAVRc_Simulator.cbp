@@ -434,6 +434,8 @@
 		<Unit filename="OpenAVRc_SimulatorMain.h" />
 		<Unit filename="OutBarsFrame.cpp" />
 		<Unit filename="OutBarsFrame.h" />
+		<Unit filename="RadioDataFrame.cpp" />
+		<Unit filename="RadioDataFrame.h" />
 		<Unit filename="Spin.cpp" />
 		<Unit filename="Spin.h" />
 		<Unit filename="resource.rc">
@@ -443,6 +445,7 @@
 		<Unit filename="wxsmith/MixerFrame.wxs" />
 		<Unit filename="wxsmith/OpenAVRc_Simulatorframe.wxs" />
 		<Unit filename="wxsmith/OutBarsFrame.wxs" />
+		<Unit filename="wxsmith/RadioDataFrame.wxs" />
 		<Extensions>
 			<code_completion />
 			<envvars />
@@ -455,6 +458,7 @@
 					<wxFrame wxs="wxsmith/MixerFrame.wxs" src="MixerFrame.cpp" hdr="MixerFrame.h" fwddecl="0" i18n="1" name="MixerFrame" language="CPP" />
 					<wxFrame wxs="wxsmith/OutBarsFrame.wxs" src="OutBarsFrame.cpp" hdr="OutBarsFrame.h" fwddecl="0" i18n="1" name="OutBarsFrame" language="CPP" />
 					<wxFrame wxs="wxsmith/GvarsFrame.wxs" src="GvarsFrame.cpp" hdr="GvarsFrame.h" fwddecl="0" i18n="1" name="GvarsFrame" language="CPP" />
+					<wxFrame wxs="wxsmith/RadioDataFrame.wxs" src="RadioDataFrame.cpp" hdr="RadioDataFrame.h" fwddecl="0" i18n="1" name="RadioDataFrame" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>
