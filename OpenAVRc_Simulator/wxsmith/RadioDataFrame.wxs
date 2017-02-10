@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxFrame" name="RadioDataFrame">
-		<size>209,297</size>
+		<size>196,306</size>
 		<id_arg>0</id_arg>
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>184,128</pos>
-			<size>400,288</size>
+			<size>209,304</size>
 			<object class="wxTextCtrl" name="ID_TEXTCTRLVERSION" variable="TextCtrlversion" member="yes">
 				<value>Texte</value>
 				<pos>8,8</pos>
@@ -37,7 +37,7 @@
 			<object class="wxTextCtrl" name="ID_TEXTCTRLCalibration" variable="TextCtrlcalibration" member="yes">
 				<value>Texte</value>
 				<pos>8,176</pos>
-				<size>184,104</size>
+				<size>184,112</size>
 				<bg>wxSYS_COLOUR_MENU</bg>
 				<style>wxTE_NO_VSCROLL|wxTE_MULTILINE|wxTE_READONLY</style>
 			</object>
