@@ -51,24 +51,18 @@ MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	wxBoxSizer* BoxSizer1;
 	wxStaticBoxSizer* StaticBoxSizer1;
 
-	Create(0, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
-	SetMinSize(wxSize(5,-1));
-	SetMaxSize(wxSize(-1,-1));
+	Create(parent, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxCLOSE_BOX|wxSUNKEN_BORDER|wxRAISED_BORDER|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
+	SetClientSize(wxSize(720,400));
+	SetMaxSize(wxSize(720,900));
 	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
-	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(-1,-1), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-	Panel1->SetMinSize(wxSize(-1,-1));
-	Panel1->SetMaxSize(wxSize(-1,-1));
+	Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	StaticBoxSizer1 = new wxStaticBoxSizer(wxVERTICAL, Panel1, wxEmptyString);
-	Headerline = new wxTextCtrl(Panel1, ID_TEXTCTRLHEADERLINE, _("Texte"), wxDefaultPosition, wxSize(671,31), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRLHEADERLINE"));
-	Headerline->SetMinSize(wxSize(-1,-1));
-	Headerline->SetMaxSize(wxSize(-1,-1));
+	Headerline = new wxTextCtrl(Panel1, ID_TEXTCTRLHEADERLINE, _("Texte"), wxDefaultPosition, wxSize(623,31), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRLHEADERLINE"));
 	Headerline->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
-	StaticBoxSizer1->Add(Headerline, 0, wxALL|wxEXPAND|wxFIXED_MINSIZE, 2);
-	Mixerline1 = new wxTextCtrl(Panel1, ID_TEXTCTRLMIXERLINE, _("Texte"), wxDefaultPosition, wxSize(671,67), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRLMIXERLINE"));
-	Mixerline1->SetMinSize(wxSize(-1,-1));
-	Mixerline1->SetMaxSize(wxSize(-1,-1));
+	StaticBoxSizer1->Add(Headerline, 0, wxALL|wxEXPAND, 2);
+	Mixerline1 = new wxTextCtrl(Panel1, ID_TEXTCTRLMIXERLINE, _("Texte"), wxDefaultPosition, wxSize(725,67), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRLMIXERLINE"));
 	Mixerline1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
-	StaticBoxSizer1->Add(Mixerline1, 1, wxALL|wxEXPAND|wxFIXED_MINSIZE, 2);
+	StaticBoxSizer1->Add(Mixerline1, 1, wxALL|wxEXPAND, 2);
 	Panel1->SetSizer(StaticBoxSizer1);
 	StaticBoxSizer1->Fit(Panel1);
 	StaticBoxSizer1->SetSizeHints(Panel1);
@@ -76,8 +70,8 @@ MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	SetSizer(BoxSizer1);
 	TimerRefreshFrame.SetOwner(this, ID_TIMERREFRESHFRAME);
 	TimerRefreshFrame.Start(500, false);
-	BoxSizer1->Fit(this);
-	BoxSizer1->SetSizeHints(this);
+	SetSizer(BoxSizer1);
+	Layout();
 
 	Connect(ID_TIMERREFRESHFRAME,wxEVT_TIMER,(wxObjectEventFunction)&MixerFrame::OnTimerRefreshFrameTrigger);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&MixerFrame::OnClose);
