@@ -26,8 +26,10 @@
 
 #include "../OpenAVRc.h"
 
-#define TEXT_FILENAME_MAXLEN  40
-#define TEXT_FILE_MAXSIZE     2048
+#define TEXT_LEN  20
+#define TEXT_FILE_MAXSIZE  256 * (TEXT_LEN +1)
+
+/*#define TEXT_FILE_MAXSIZE     2048
 
 char s_text_file[TEXT_FILENAME_MAXLEN];
 char s_text_screen[LCD_LINES-1][LCD_COLS+1];
@@ -137,12 +139,29 @@ void menuTextView(uint8_t event)
   if (lines_count > LCD_LINES-1) {
     displayScrollbar(LCD_W-1, FH, LCD_H-FH, menuVerticalOffset, lines_count, LCD_LINES-1);
   }
-}
+}*/
 
-void pushMenuTextView(const char *filename)
+char showVoiceTextLine(uint8_t line)
 {
-  if (strlen(filename) < TEXT_FILENAME_MAXLEN) {
-    strcpy(s_text_file, filename);
-    pushMenu(menuTextView);
-  }
+  FIL file;
+  int result;
+  char c[TEXT_LEN+1] = "\0";
+  unsigned int sz;
+  /*int line_length = 0;
+  int escape = 0;
+  char escape_chars[2];
+  int current_line = 0;*/
+
+  result = f_open(&file,"/VOICE/list.txt", FA_OPEN_EXISTING | FA_READ);
+  if (result == FR_OK) {
+    result = f_lseek(&file, line*(TEXT_LEN+1));
+    if (result == FR_OK) {
+      result = f_read(&file, &c, TEXT_LEN+1, &sz);
+        if (result == FR_OK) {
+          f_close(&file);
+          return c[0];
+        }
+      }
+    }
+  return c[0];
 }
