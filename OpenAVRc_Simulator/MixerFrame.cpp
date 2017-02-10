@@ -51,16 +51,24 @@ MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	wxBoxSizer* BoxSizer1;
 	wxStaticBoxSizer* StaticBoxSizer1;
 
-	Create(parent, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
+	Create(0, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
+	SetMinSize(wxSize(5,-1));
+	SetMaxSize(wxSize(-1,-1));
 	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
-	Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(-1,-1), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+	Panel1->SetMinSize(wxSize(-1,-1));
+	Panel1->SetMaxSize(wxSize(-1,-1));
 	StaticBoxSizer1 = new wxStaticBoxSizer(wxVERTICAL, Panel1, wxEmptyString);
-	Headerline = new wxTextCtrl(Panel1, ID_TEXTCTRLHEADERLINE, _("Texte"), wxDefaultPosition, wxSize(623,31), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRLHEADERLINE"));
+	Headerline = new wxTextCtrl(Panel1, ID_TEXTCTRLHEADERLINE, _("Texte"), wxDefaultPosition, wxSize(671,31), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRLHEADERLINE"));
+	Headerline->SetMinSize(wxSize(-1,-1));
+	Headerline->SetMaxSize(wxSize(-1,-1));
 	Headerline->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
-	StaticBoxSizer1->Add(Headerline, 0, wxALL|wxEXPAND, 2);
-	Mixerline1 = new wxTextCtrl(Panel1, ID_TEXTCTRLMIXERLINE, _("Texte"), wxDefaultPosition, wxSize(802,67), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRLMIXERLINE"));
+	StaticBoxSizer1->Add(Headerline, 0, wxALL|wxEXPAND|wxFIXED_MINSIZE, 2);
+	Mixerline1 = new wxTextCtrl(Panel1, ID_TEXTCTRLMIXERLINE, _("Texte"), wxDefaultPosition, wxSize(671,67), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRLMIXERLINE"));
+	Mixerline1->SetMinSize(wxSize(-1,-1));
+	Mixerline1->SetMaxSize(wxSize(-1,-1));
 	Mixerline1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
-	StaticBoxSizer1->Add(Mixerline1, 1, wxALL|wxEXPAND, 2);
+	StaticBoxSizer1->Add(Mixerline1, 1, wxALL|wxEXPAND|wxFIXED_MINSIZE, 2);
 	Panel1->SetSizer(StaticBoxSizer1);
 	StaticBoxSizer1->Fit(Panel1);
 	StaticBoxSizer1->SetSizeHints(Panel1);
@@ -117,12 +125,12 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
  void MixerFrame::FillMixerFrame()
 {
-  wxString Header = "\t\t\tMix\tOffset\tSwitch\tDiff\tCurve\tModes\t\tTrim\tDR/Expo\tDlay(u/d)Speed(u/d)\tWarn\n";
+  wxString Header = "\t\t\tMix\tOffset\tSwitch\tDiff\tModes\t\tTrim\tDR/Expo\tDlay(u/d)Speed(u/d)\0";
   Headerline->SetValue(Header);
   wxString mixerL;
   wxString txt;
 
-  for( uint8_t i = 0; i < NUM_CHNOUT; i++ ) {
+  for( uint8_t i = 0; i < MAX_MIXERS; i++ ) {
     mixerL = "";
     mixStr1 = "";
     //------------------------------------- OUTPUT CHANNEL-------------------------------------
@@ -222,12 +230,12 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
         mixStr14 = STR_GV + wxString::Format(wxT("%i"),ind);
       }
       else mixStr14 = mixStr14 + wxString::Format(wxT("%i"),ind) +"%";
-      mixStr14.Append("\t\t");
+      mixStr14.Append("\t");
     }
 
     else {
       ind = (data[i].curveParam);
-      mixStr14.Append("\t");
+      //mixStr14.Append("\t");
       if (ind < 0){
         mixStr14.Append("!");
         ind = -ind + CURVE_BASE-1;
@@ -268,21 +276,21 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     mixStr20 = mixStr20 + "(" + wxString::Format(wxT("%i"),(data[i].delayUp / 2));
     mixStr20 = mixStr20 + "," + wxString::Format(wxT("%i"),((data[i].delayUp % 2) * 5));
     mixStr20 = mixStr20 + "/" + wxString::Format(wxT("%i"),(data[i].delayDown / 2));
-    mixStr20 = mixStr20 + "," + wxString::Format(wxT("%i"),((data[i].delayDown % 2) * 5)) + ")\t";
+    mixStr20 = mixStr20 + "," + wxString::Format(wxT("%i"),((data[i].delayDown % 2) * 5)) + ")";
     mixStr20 = mixStr20 + "(" + wxString::Format(wxT("%i"),(data[i].speedUp / 2));
     mixStr20 = mixStr20 + "," + wxString::Format(wxT("%i"),((data[i].speedUp % 2) * 5));
     mixStr20 = mixStr20 + "/" + wxString::Format(wxT("%i"),(data[i].speedDown / 2));
-    mixStr20 = mixStr20 + "," + wxString::Format(wxT("%i"),((data[i].speedDown % 2) * 5)) + ")\t\t";
+    mixStr20 = mixStr20 + "," + wxString::Format(wxT("%i"),((data[i].speedDown % 2) * 5)) + ")";
     //-------------------------------------------------------------------------------------------------------
-    mixStr22 = "";
-    mixStr22 = mixStr22 + wxString::Format(wxT("%i"),(data[i].mixWarn));// IS THIS NECESSARY FOR THIS SCREEN ??
+    //mixStr22 = "";
+    //mixStr22 = mixStr22 + wxString::Format(wxT("%i"),(data[i].mixWarn));// IS THIS NECESSARY FOR THIS SCREEN ??
     //-------------------------------------------------------------------------------------------------------
 
     //wxString mixStr24 = "";
     //mixStr24 = " " + wxString::Format(wxT("%i"),(data[i].spare));
 
     mixerL = mixStr1 +mixStr2 +mixStr4 +mixStr6 +mixStr7 +mixStr8 +mixStr9 +mixStr10 +mixStr11 +mixStr14 +mixStr16
-            +mixStr18 +mixStr19 +mixStr20 +mixStr22 ;
+            +mixStr18 +mixStr19 +mixStr20;
 
     txt.Append(mixerL + "\n");
   }

@@ -2,6 +2,7 @@
 <wxsmith>
 	<object class="wxFrame" name="MixerFrame">
 		<title>Mixeur</title>
+		<size>719,130</size>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_FRAME_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER|wxFULL_REPAINT_ON_RESIZE</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
@@ -11,18 +12,20 @@
 					<object class="wxStaticBoxSizer" variable="StaticBoxSizer1" member="no">
 						<orient>wxVERTICAL</orient>
 						<object class="sizeritem">
-							<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="Headerline" member="yes">
+							<object class="wxTextCtrl" name="ID_TEXTCTRLHEADERLINE" variable="Headerline" member="yes">
 								<value>Texte</value>
 								<size>623,31</size>
+								<bg>wxSYS_COLOUR_MENU</bg>
 								<style>wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_LEFT</style>
 							</object>
 							<flag>wxALL|wxEXPAND</flag>
 							<border>2</border>
 						</object>
 						<object class="sizeritem">
-							<object class="wxTextCtrl" name="ID_TEXTCTRL2" variable="Mixerline1" member="yes">
+							<object class="wxTextCtrl" name="ID_TEXTCTRLMIXERLINE" variable="Mixerline1" member="yes">
 								<value>Texte</value>
-								<size>769,67</size>
+								<size>725,67</size>
+								<bg>wxSYS_COLOUR_MENU</bg>
 								<style>wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_LEFT</style>
 							</object>
 							<flag>wxALL|wxEXPAND</flag>

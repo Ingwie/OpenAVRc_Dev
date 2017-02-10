@@ -49,6 +49,7 @@ class MixerFrame: public wxFrame
 		void OnTimerRefreshFrameTrigger(wxTimerEvent& event);
 		void OnTextCtrl1Text(wxCommandEvent& event);
 		void OnTextCtrl1Text1(wxCommandEvent& event);
+		void OnMixerline1Text(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
