@@ -9,6 +9,7 @@ mixStr18, mixStr19, mixStr20, mixStr22 ;
 
 
 //(*Headers(MixerFrame)
+#include <wx/sizer.h>
 #include <wx/textctrl.h>
 #include <wx/panel.h>
 #include <wx/frame.h>
@@ -27,7 +28,7 @@ class MixerFrame: public wxFrame
 
 		//(*Declarations(MixerFrame)
 		wxTimer TimerRefreshFrame;
-		wxPanel* Mixer;
+		wxPanel* Panel1;
 		wxTextCtrl* Headerline;
 		wxTextCtrl* Mixerline1;
 		//*)
@@ -35,8 +36,8 @@ class MixerFrame: public wxFrame
 	protected:
 
 		//(*Identifiers(MixerFrame)
-		static const long ID_TEXTCTRL1;
-		static const long ID_TEXTCTRL2;
+		static const long ID_TEXTCTRLHEADERLINE;
+		static const long ID_TEXTCTRLMIXERLINE;
 		static const long ID_PANEL1;
 		static const long ID_TIMERREFRESHFRAME;
 		//*)
@@ -46,6 +47,8 @@ class MixerFrame: public wxFrame
 		//(*Handlers(MixerFrame)
 		void OnClose(wxCloseEvent& event);
 		void OnTimerRefreshFrameTrigger(wxTimerEvent& event);
+		void OnTextCtrl1Text(wxCommandEvent& event);
+		void OnTextCtrl1Text1(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

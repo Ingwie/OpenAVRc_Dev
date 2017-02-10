@@ -9,12 +9,6 @@ extern wxString modeStr = "";
 
 #define data g_model.mixData
 
-//class GVARSClass {
-//public:
-  //  const static char* gvarText[];
-//};
-//const char* GVARSClass::gvarText[] = { "GV1", "GV2", "GV3", "GV4", "GV5"};
-
 
 class INPUTClass {
 public:
@@ -40,8 +34,8 @@ const char* INPUTClass::inputText[] = { "Dir\t","Prf\t","Gaz\t","Ail\t",
 //*)
 
 //(*IdInit(MixerFrame)
-const long MixerFrame::ID_TEXTCTRL1 = wxNewId();
-const long MixerFrame::ID_TEXTCTRL2 = wxNewId();
+const long MixerFrame::ID_TEXTCTRLHEADERLINE = wxNewId();
+const long MixerFrame::ID_TEXTCTRLMIXERLINE = wxNewId();
 const long MixerFrame::ID_PANEL1 = wxNewId();
 const long MixerFrame::ID_TIMERREFRESHFRAME = wxNewId();
 //*)
@@ -54,15 +48,28 @@ END_EVENT_TABLE()
 MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(MixerFrame)
-	Create(parent, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxVSCROLL|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
-	SetClientSize(wxSize(778,287));
-	Mixer = new wxPanel(this, ID_PANEL1, wxPoint(256,200), wxSize(818,248), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-	Mixerline1 = new wxTextCtrl(Mixer, ID_TEXTCTRL1, _("Texte"), wxPoint(0,32), wxSize(816,256), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxVSCROLL|wxHSCROLL, wxDefaultValidator, _T("ID_TEXTCTRL1"));
-	Mixerline1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
-	Headerline = new wxTextCtrl(Mixer, ID_TEXTCTRL2, _("Texte"), wxPoint(0,0), wxSize(816,32), wxTE_NO_VSCROLL|wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRL2"));
+	wxBoxSizer* BoxSizer1;
+	wxStaticBoxSizer* StaticBoxSizer1;
+
+	Create(parent, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
+	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
+	Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+	StaticBoxSizer1 = new wxStaticBoxSizer(wxVERTICAL, Panel1, wxEmptyString);
+	Headerline = new wxTextCtrl(Panel1, ID_TEXTCTRLHEADERLINE, _("Texte"), wxDefaultPosition, wxSize(623,31), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRLHEADERLINE"));
 	Headerline->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
+	StaticBoxSizer1->Add(Headerline, 0, wxALL|wxEXPAND, 2);
+	Mixerline1 = new wxTextCtrl(Panel1, ID_TEXTCTRLMIXERLINE, _("Texte"), wxDefaultPosition, wxSize(802,67), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_LEFT, wxDefaultValidator, _T("ID_TEXTCTRLMIXERLINE"));
+	Mixerline1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
+	StaticBoxSizer1->Add(Mixerline1, 1, wxALL|wxEXPAND, 2);
+	Panel1->SetSizer(StaticBoxSizer1);
+	StaticBoxSizer1->Fit(Panel1);
+	StaticBoxSizer1->SetSizeHints(Panel1);
+	BoxSizer1->Add(Panel1, 1, wxALL|wxEXPAND, 5);
+	SetSizer(BoxSizer1);
 	TimerRefreshFrame.SetOwner(this, ID_TIMERREFRESHFRAME);
 	TimerRefreshFrame.Start(500, false);
+	BoxSizer1->Fit(this);
+	BoxSizer1->SetSizeHints(this);
 
 	Connect(ID_TIMERREFRESHFRAME,wxEVT_TIMER,(wxObjectEventFunction)&MixerFrame::OnTimerRefreshFrameTrigger);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&MixerFrame::OnClose);
@@ -137,13 +144,13 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     int indx = (data[i].srcRaw);
     mixStr4 = mixStr4 + INPUTClass::inputText[indx-1] + "\t";
 
-    //for (int j = 0; j < 3; j++){
+    /*for (int j = 0; j < 3; j++){
     //if (TR_SOURCE[j + 3 * indx] == '\0') continue;
     //mixStr4 = mixStr4 + TR_SOURCE[j + 3 * indx];
     //}
-      //mixStr = mixStr + TR_VSRCRAW[j + 4 * indx];
+    //mixStr = mixStr + TR_VSRCRAW[j + 4 * indx];
     //}
-
+    */
     //---------------------------------------------WEIGHT-------------------------------------------
     mixStr6 = "";
     mixStr7 = "mix7";
@@ -279,6 +286,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
     txt.Append(mixerL + "\n");
   }
+  txt.Append("\0");
   Mixerline1->SetValue(txt);
 }
 

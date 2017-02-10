@@ -2,26 +2,38 @@
 <wxsmith>
 	<object class="wxFrame" name="MixerFrame">
 		<title>Mixeur</title>
-		<size>778,287</size>
 		<id_arg>0</id_arg>
-		<style>wxDEFAULT_FRAME_STYLE|wxVSCROLL|wxFULL_REPAINT_ON_RESIZE</style>
+		<style>wxDEFAULT_FRAME_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER|wxFULL_REPAINT_ON_RESIZE</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
-		<object class="wxPanel" name="ID_PANEL1" variable="Mixer" member="yes">
-			<pos>256,200</pos>
-			<size>818,248</size>
-			<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="Mixerline1" member="yes">
-				<value>Texte</value>
-				<pos>0,32</pos>
-				<size>816,256</size>
-				<bg>wxSYS_COLOUR_MENU</bg>
-				<style>wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxVSCROLL|wxHSCROLL</style>
-			</object>
-			<object class="wxTextCtrl" name="ID_TEXTCTRL2" variable="Headerline" member="yes">
-				<value>Texte</value>
-				<pos>0,0</pos>
-				<size>816,32</size>
-				<bg>wxSYS_COLOUR_MENU</bg>
-				<style>wxTE_NO_VSCROLL|wxTE_READONLY|wxTE_RICH|wxTE_LEFT</style>
+		<object class="wxBoxSizer" variable="BoxSizer1" member="no">
+			<object class="sizeritem">
+				<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
+					<object class="wxStaticBoxSizer" variable="StaticBoxSizer1" member="no">
+						<orient>wxVERTICAL</orient>
+						<object class="sizeritem">
+							<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="Headerline" member="yes">
+								<value>Texte</value>
+								<size>623,31</size>
+								<style>wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_LEFT</style>
+							</object>
+							<flag>wxALL|wxEXPAND</flag>
+							<border>2</border>
+						</object>
+						<object class="sizeritem">
+							<object class="wxTextCtrl" name="ID_TEXTCTRL2" variable="Mixerline1" member="yes">
+								<value>Texte</value>
+								<size>769,67</size>
+								<style>wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_LEFT</style>
+							</object>
+							<flag>wxALL|wxEXPAND</flag>
+							<border>2</border>
+							<option>1</option>
+						</object>
+					</object>
+				</object>
+				<flag>wxALL|wxEXPAND</flag>
+				<border>5</border>
+				<option>1</option>
 			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMERREFRESHFRAME" variable="TimerRefreshFrame" member="yes">
