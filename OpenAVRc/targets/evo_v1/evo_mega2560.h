@@ -47,7 +47,7 @@
 #define PIN7_bm  0x80
 #endif
 
-
+#if 0
 // For Evo Tx
 enum Analogs {
   STICK1,
@@ -64,6 +64,7 @@ enum Analogs {
   ANALOG_A10,
   NUMBER_ANALOG
 };
+#endif
 
 // Switch cross mapping
 #define SW_ID0 SW_Jup
