@@ -709,6 +709,20 @@ void getADC();
 extern void backlightOn();
 
 enum Analogs {
+#if defined(CPUM2560) && defined(REV_EVO_V1)
+  STICK1,
+  STICK2,
+  STICK3,
+  STICK4,
+  POT1, // SLIDER1,
+  POT2, // SLIDER2,
+  POT_LAST = POT2,
+  TX_VOLTAGE,
+  ANALOG_A7,
+  ANALOG_A8,
+  ANALOG_A9,
+  ANALOG_A10,
+#else
   STICK1,
   STICK2,
   STICK3,
@@ -727,6 +741,7 @@ enum Analogs {
   X14051,
 #endif
   TX_VOLTAGE,
+#endif
   NUMBER_ANALOG
 };
 
