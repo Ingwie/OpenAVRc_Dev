@@ -56,6 +56,28 @@ enum EnumKeys {
   NUM_KEYS,
   SW_BASE=NUM_KEYS,
 
+#if defined(CPUM2560) && defined(REV_EVO_V1)
+// This sequence should follow enum SwitchSources in myeeprom.h
+  SW_Jup=SW_BASE,//ID0
+  SW_Jmi,//ID1
+  SW_Jdn,//ID2
+  SW_N,//THR
+  SW_Ldn,//RUD
+  SW_Odn,//ELE
+  SW_I,//AIL
+  SW_Gdn,//GEA
+  SW_M,//TRN
+// Additional 2 and 3 position switches and states.
+  SW_Lup,//
+  SW_Lmi,//
+  SW_Oup,//
+  SW_Omi,//
+  SW_Gup,//
+  SW_Gmi,//
+  SW_H,//H
+  SW_P,//P optional - not fitted
+  SW_K,//K optional - not fitted
+#else
   SW_ID0=SW_BASE,
   SW_ID1,
   SW_ID2,
@@ -65,6 +87,7 @@ enum EnumKeys {
   SW_AIL,
   SW_GEA,
   SW_TRN,
+#endif
   NUM_SWS
 };
 
