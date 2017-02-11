@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxFrame" name="RadioDataFrame">
-		<size>196,306</size>
+		<title>Radio Data</title>
+		<size>210,318</size>
 		<id_arg>0</id_arg>
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>184,128</pos>
 			<size>209,304</size>
+			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
+				<label>Calibration</label>
+				<pos>8,144</pos>
+				<size>192,168</size>
+			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRLVERSION" variable="TextCtrlversion" member="yes">
 				<value>Texte</value>
 				<pos>8,8</pos>
@@ -36,8 +42,8 @@
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRLCalibration" variable="TextCtrlcalibration" member="yes">
 				<value>Texte</value>
-				<pos>8,176</pos>
-				<size>184,112</size>
+				<pos>16,192</pos>
+				<size>176,112</size>
 				<bg>wxSYS_COLOUR_MENU</bg>
 				<style>wxTE_NO_VSCROLL|wxTE_MULTILINE|wxTE_READONLY</style>
 			</object>
@@ -47,10 +53,9 @@
 				<size>192,24</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
-				<label>Calibration</label>
-				<pos>16,152</pos>
-				<size>168,21</size>
-				<style>wxALIGN_CENTRE</style>
+				<label> 1024            1024           1024</label>
+				<pos>16,168</pos>
+				<size>168,13</size>
 			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMERRADIODATA" variable="RadioData" member="yes">

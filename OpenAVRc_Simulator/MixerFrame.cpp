@@ -52,7 +52,8 @@ MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	wxStaticBoxSizer* StaticBoxSizer1;
 
 	Create(parent, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxCLOSE_BOX|wxSUNKEN_BORDER|wxRAISED_BORDER|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
-	SetClientSize(wxSize(720,400));
+	SetClientSize(wxSize(720,140));
+	Move(wxPoint(10,10));
 	SetMaxSize(wxSize(720,900));
 	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
 	Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));

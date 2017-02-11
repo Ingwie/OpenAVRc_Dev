@@ -4,6 +4,7 @@
 //(*Headers(RadioDataFrame)
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
+#include <wx/statbox.h>
 #include <wx/panel.h>
 #include <wx/frame.h>
 #include <wx/timer.h>
@@ -27,6 +28,7 @@ class RadioDataFrame: public wxFrame
 		wxTextCtrl* TextCtrlversion;
 		wxPanel* Panel1;
 		wxStaticText* StaticText1;
+		wxStaticBox* StaticBox1;
 		wxTextCtrl* TextCtrlBatt;
 		wxTextCtrl* TextCtrlcalibration;
 		wxTimer RadioData;
@@ -36,6 +38,7 @@ class RadioDataFrame: public wxFrame
 	protected:
 
 		//(*Identifiers(RadioDataFrame)
+		static const long ID_STATICBOX1;
 		static const long ID_TEXTCTRLVERSION;
 		static const long ID_TEXTCTRL2;
 		static const long ID_TEXTCTRL3;
