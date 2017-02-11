@@ -978,9 +978,12 @@ uint16_t anaIn(uint8_t chan)
 {
 #if defined(TELEMETRY_MOD_14051) || defined(TELEMETRY_MOD_14051_SWAPPED)
   static const pm_char crossAna[] PROGMEM = {3,1,2,0,4,5,6,0/* shouldn't be used */,TX_VOLTAGE};
+#elif defined REV_EVO_V1
+  static const pm_char crossAna[] PROGMEM = {2,3,0,1,4,5}; // Hardwired Pots / connectors.
 #else
   static const pm_char crossAna[] PROGMEM = {3,1,2,0,4,5,6,7};
 #endif
+
 #if defined(FRSKY_STICKS)
   volatile uint16_t temp = s_anaFilt[pgm_read_byte_near(crossAna+chan)];  // volatile saves here 40 bytes; maybe removed for newer AVR when available
   if (chan < NUM_STICKS && (g_eeGeneral.stickReverse & (1 << chan))) {
