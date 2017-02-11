@@ -1305,7 +1305,13 @@ void checkBattery()
   if (counter-- == 0) {
     counter = 10;
     int32_t instant_vbat = anaIn(TX_VOLTAGE);
-#if   defined(CPUM2560)
+
+#if defined(CPUM2560) && defined(REV_EVO_V1)
+    instant_vbat *= 4L * BandGap;
+    instant_vbat /= (4095L * 100L);
+    instant_vbat += 2L; // No Calibration Allowed.
+    // Schottky Diode drops 0.2V before a potential divider which reduces the input to the ADC by 1/4.
+#elif defined(CPUM2560)
     instant_vbat = (instant_vbat*1112 + instant_vbat*g_eeGeneral.txVoltageCalibration + (BandGap<<2)) / (BandGap<<3);
 #else
     instant_vbat = (instant_vbat*16 + instant_vbat*g_eeGeneral.txVoltageCalibration/8) / BandGap;
@@ -1339,7 +1345,7 @@ void checkBattery()
         // no alarms
       } else
 #endif
-        if (IS_TXBATT_WARNING() && g_vbat100mV>50) {
+        if (IS_TXBATT_WARNING() && g_vbat100mV>50) { // No Audio Alarm if TX Battery < VCC.
           AUDIO_TX_BATTERY_LOW();
         }
     }
