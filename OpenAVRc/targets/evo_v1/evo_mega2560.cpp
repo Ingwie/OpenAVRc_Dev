@@ -27,8 +27,8 @@ inline void boardInit()
 {
   DDRA  = 0b00000000;// Trim Button Inputs ...
   PORTA = 0b11111111; // ... with Pullup.
-  DDRB  = (1<<OUT_B_PPM) | OUT_B_SIM_CTL | 0b00000111; // SDCARD [3:MISO 2:MOSI 1:SCK 0:CS]
-  PORTB = 1<<3;
+  DDRB  = (1<<OUT_B_PPM) | OUT_B_SIM_CTL | 0b00000111; // uSDCARD [3:MISO 2:MOSI 1:SCK 0:CS]
+  PORTB = 1<<3; // Pullup on MISO - No latch-up because MISO connects via 1K0.
   DDRC  = OUT_C_PWR_LED | OUT_C_PWR_HOLD;
   PORTC = INP_C_PWR_STATUS | OUT_C_PWR_HOLD; // Input pullup on pwr_sw_status, power_hold = 1.
   // DDRD
