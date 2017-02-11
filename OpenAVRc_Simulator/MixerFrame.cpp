@@ -51,7 +51,7 @@ MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	wxBoxSizer* BoxSizer1;
 	wxStaticBoxSizer* StaticBoxSizer1;
 
-	Create(parent, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxCLOSE_BOX|wxSUNKEN_BORDER|wxRAISED_BORDER|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
+	Create(0, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxCLOSE_BOX|wxSUNKEN_BORDER|wxRAISED_BORDER|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
 	SetClientSize(wxSize(720,140));
 	Move(wxPoint(10,10));
 	SetMaxSize(wxSize(720,900));
@@ -92,6 +92,13 @@ void MixerFrame::OnClose(wxCloseEvent& event)
   Destroy();
 }
 
+wxString int2wxString(int integer)
+{
+  wxString intString = wxString::Format(wxT("%i"), integer);
+  return intString;
+  //wxMessageBox(intString);
+}
+
 //////////////////////// TOOLS FOR FLIGHT MODES ////////////////
 
 void ConvertToBinary(int n, wxString) //model flight modes in binary
@@ -130,9 +137,9 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     mixStr1 = "";
     //------------------------------------- OUTPUT CHANNEL-------------------------------------
       if (((data[i].weight) == 0) && ((data[i].weightMode) != 1)) continue;
-      if (i == 0) mixStr1 = mixStr1 + "OUT " + wxString::Format(wxT("%i"),(data[i].destCh) + 1)+ " = ";
+      if (i == 0) mixStr1 = mixStr1 + "OUT " + int2wxString((data[i].destCh) + 1)+ " = ";
       else if ((data[i].destCh) > (data[i-1].destCh)){
-      mixStr1 = mixStr1 + "\n" +"OUT " + wxString::Format(wxT("%i"),(data[i].destCh) + 1)+ " = ";
+      mixStr1 = mixStr1 + "\n" +"OUT " + int2wxString((data[i].destCh) + 1) + " = ";
       }
       else mixStr1 = mixStr1 + "\t";
 
@@ -171,7 +178,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
       weight = abs(weight);
       percent = "";
     }
-    mixStr7 = wxString::Format(wxT("%i"),weight) + percent + "\t";
+    mixStr7 = int2wxString(weight) + percent + "\t";
 
 
     //---------------------------------------------OFFSET-----------------------------------------------
@@ -191,7 +198,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
       offset = abs(offset);
       percent = "";
     }
-    mixStr9 = wxString::Format(wxT("%i"),offset) + percent + "\t";
+    mixStr9 = int2wxString(offset) + percent + "\t";
 
     //---------------------------------------------SWITCHES-----------------------------------------------
 
@@ -218,13 +225,13 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
       if (ind > 122){
         ind = - ind + 128;
         mixStr14 = "-";
-        mixStr14 = mixStr14 + STR_GV + wxString::Format(wxT("%i"),ind);
+        mixStr14 = mixStr14 + STR_GV + int2wxString(ind);
       }
       else if (ind < -123){
         ind = ind + 129;
-        mixStr14 = STR_GV + wxString::Format(wxT("%i"),ind);
+        mixStr14 = STR_GV + int2wxString(ind);
       }
-      else mixStr14 = mixStr14 + wxString::Format(wxT("%i"),ind) +"%";
+      else mixStr14 = mixStr14 + int2wxString(ind) +"%";
       mixStr14.Append("\t");
     }
 
@@ -240,7 +247,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
           mixStr14 = mixStr14 + TR_VCURVEFUNC[ j + 3 * (ind)];
         }
       }
-      else mixStr14 = mixStr14 + STR_CV + wxString::Format(wxT("%i"),ind-6);
+      else mixStr14 = mixStr14 + STR_CV + int2wxString(ind-6);
 
       mixStr14.Append("\t");
     }
@@ -265,17 +272,17 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
     //-----------------------------------------------DUAL RATE /EXPO-------------------------------------------
     mixStr19 = "";
-    mixStr19 = mixStr19 + wxString::Format(wxT("%i"),(data[i].noExpo)) + "\t";
+    mixStr19.Append(int2wxString((data[i].noExpo)) + "\t");
     //-----------------------------------------DELAY/SLOW---------------------------------------------
     mixStr20 = "";
-    mixStr20 = mixStr20 + "(" + wxString::Format(wxT("%i"),(data[i].delayUp / 2));
-    mixStr20 = mixStr20 + "," + wxString::Format(wxT("%i"),((data[i].delayUp % 2) * 5));
-    mixStr20 = mixStr20 + "/" + wxString::Format(wxT("%i"),(data[i].delayDown / 2));
-    mixStr20 = mixStr20 + "," + wxString::Format(wxT("%i"),((data[i].delayDown % 2) * 5)) + ")";
-    mixStr20 = mixStr20 + "(" + wxString::Format(wxT("%i"),(data[i].speedUp / 2));
-    mixStr20 = mixStr20 + "," + wxString::Format(wxT("%i"),((data[i].speedUp % 2) * 5));
-    mixStr20 = mixStr20 + "/" + wxString::Format(wxT("%i"),(data[i].speedDown / 2));
-    mixStr20 = mixStr20 + "," + wxString::Format(wxT("%i"),((data[i].speedDown % 2) * 5)) + ")";
+    mixStr20.Append("(" + int2wxString(data[i].delayUp / 2));
+    mixStr20.Append("," + int2wxString((data[i].delayUp % 2) * 5));
+    mixStr20.Append("/" + int2wxString(data[i].delayDown / 2));
+    mixStr20.Append("," + int2wxString((data[i].delayDown % 2) * 5) + ")");
+    mixStr20.Append("(" + int2wxString(data[i].speedUp / 2));
+    mixStr20.Append("," + int2wxString((data[i].speedUp % 2) * 5));
+    mixStr20.Append("/" + int2wxString(data[i].speedDown / 2));
+    mixStr20.Append("," + int2wxString((data[i].speedDown % 2) * 5) + ")");
     //-------------------------------------------------------------------------------------------------------
     //mixStr22 = "";
     //mixStr22 = mixStr22 + wxString::Format(wxT("%i"),(data[i].mixWarn));// IS THIS NECESSARY FOR THIS SCREEN ??
