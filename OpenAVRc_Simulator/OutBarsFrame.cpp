@@ -138,7 +138,7 @@ OutBarsFrame::OutBarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	Slider16->SetExtraStyle( Slider16->GetExtraStyle() | wxWS_EX_BLOCK_EVENTS );
 	StaticLine1 = new wxStaticLine(PanelOutputSliders, ID_STATICLINE1, wxPoint(127,8), wxSize(2,272), wxLI_HORIZONTAL, _T("ID_STATICLINE1"));
 	TimerRefreshFrame.SetOwner(this, ID_TIMERREFRESHOUTBAR);
-	TimerRefreshFrame.Start(100, false);
+	TimerRefreshFrame.Start(200, false);
 
 	Connect(ID_TIMERREFRESHOUTBAR,wxEVT_TIMER,(wxObjectEventFunction)&OutBarsFrame::OnTimerRefreshFrameTrigger);
 	//*)

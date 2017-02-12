@@ -1321,24 +1321,24 @@ wxString int2wxString(int integer)
 
 void OpenAVRc_SimulatorFrame::OnMixeurSelected(wxCommandEvent& event)//Draws the mixer display screen
 {
-  MixerFrame *MixFr = new  MixerFrame(this);
+  MixFr = new  MixerFrame(this);
   MixFr->Show(TRUE);
 }
 
 void OpenAVRc_SimulatorFrame::OnOutputBarsSelected(wxCommandEvent& event)
 {
-  OutBarsFrame *BarFr = new  OutBarsFrame(this);
+  BarFr = new  OutBarsFrame(this);
   BarFr->Show(TRUE);
 }
 
 void OpenAVRc_SimulatorFrame::OnOutputGvarsSelected(wxCommandEvent& event)
 {
-  GvarsFrame *GvFr = new  GvarsFrame(this);
+  GvFr = new  GvarsFrame(this);
   GvFr->Show(TRUE);
 }
 
 void OpenAVRc_SimulatorFrame::OnRadioDataSelected(wxCommandEvent& event)
 {
-  RadioDataFrame *RaFr = new  RadioDataFrame(this);
+  RaFr = new  RadioDataFrame(this);
   RaFr->Show(TRUE);
 }

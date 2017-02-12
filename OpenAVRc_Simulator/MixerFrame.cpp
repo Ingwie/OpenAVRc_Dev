@@ -51,7 +51,7 @@ MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	wxBoxSizer* BoxSizer1;
 	wxStaticBoxSizer* StaticBoxSizer1;
 
-	Create(0, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxCLOSE_BOX|wxSUNKEN_BORDER|wxRAISED_BORDER|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
+	Create(parent, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxCLOSE_BOX|wxSUNKEN_BORDER|wxRAISED_BORDER|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
 	SetClientSize(wxSize(720,140));
 	Move(wxPoint(10,10));
 	SetMaxSize(wxSize(720,900));
