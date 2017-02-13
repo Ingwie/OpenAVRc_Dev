@@ -132,6 +132,8 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
   wxString mixerL;
   wxString txt;
 
+
+
   for( uint8_t i = 0; i < MAX_MIXERS; i++ ) {
     mixerL = "";
     mixStr1 = "";
@@ -170,17 +172,17 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
     weight = u_gvarint_t(data[i].weight, data[i].weightMode).gvword; // Work but GVAR bug now :(
 
-    if (weight > 250){
+    if (weight > GV_RANGELARGE + MAX_GVARS){
       mixStr6 = mixStr6 + "-" + STR_GV;
       weight = 256 - weight;
       percent = "";
     }
-    else if (weight <-250){
+    else if (weight < GV_RANGELARGE_NEG - MAX_GVARS){
       mixStr6 = mixStr6 + STR_GV;
       weight = 256 + 1 + weight;
       percent = "";
     }
-    mixStr7 = int2wxString(weight) + percent + "\t";
+    mixStr7 = int2wxString(weight) + percent + "\t";// + int2wxString (GV_RANGELARGE);
 
     //---------------------------------------------OFFSET-----------------------------------------------
     mixStr8 = "";
