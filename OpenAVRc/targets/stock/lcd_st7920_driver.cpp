@@ -67,6 +67,7 @@ void lcdSetRefVolt(uint8_t val)
 
 void lcdRefreshFast()
 {
+SHOWDURATIONLCD1
 #if defined(SHOWDURATION)
   lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
 #endif
@@ -130,6 +131,7 @@ void lcdRefreshFast()
 
   }
   LCD_UNLOCK();
+SHOWDURATIONLCD2
 }
 
 void lcdRefresh()

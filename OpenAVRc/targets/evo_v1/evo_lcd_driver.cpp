@@ -155,7 +155,8 @@ inline void lcdInit()
 
 void lcdRefresh()
 {
-  LCD_LOCK();
+SHOWDURATIONLCD1
+  LCD_LOCK(); // Just used on 9X board where VOICE use LCD pin ;-)
   uint8_t *p=displayBuf;
 
 //  lcdSendCtl(0x2F); // Power controller set, booster cct on, V reg on, V follower on
@@ -186,5 +187,6 @@ void lcdRefresh()
     LCD_CS_P_INACTIVE();
   }
  LCD_UNLOCK();
+SHOWDURATIONLCD2
 }
 

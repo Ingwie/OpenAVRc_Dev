@@ -44,6 +44,19 @@
 #endif
 
 /////////////////DEBUG FUNCTION DEFINITION///////////////////
+
+//#define SHOWDURATIONLCD 1  //Show LCD fast refresh duration
+#if defined(SHOWDURATIONLCD)
+#define SHOWDURATIONLCD1 SHOWDURATION1
+#define SHOWDURATIONLCD2 SHOWDURATION2
+#define SHOWDURATION 1
+#else
+#define SHOWDURATIONLCD1
+#define SHOWDURATIONLCD2
+#endif // defined LCD
+
+
+
 //#define SHOWDURATION 1  //Show a duration
 
 #if defined(SHOWDURATION)
