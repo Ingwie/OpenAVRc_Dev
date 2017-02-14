@@ -47,6 +47,7 @@ Firmware :
 
 -> Revenir sur le protocole DSM2, inclus "Model match" - Le module DSMX fonctionne en direct (modif firmware) mais la liaison coupe en cas d'écriture EEPROM ...
 
+-> Optimisation "vitesse" du compilateur pour M2560 (+10%) : -O1 ou -O2 (Merci Rich ;-)
 
 General:
 
