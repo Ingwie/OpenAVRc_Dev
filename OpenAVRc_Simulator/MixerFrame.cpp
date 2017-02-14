@@ -89,7 +89,9 @@ MixerFrame::~MixerFrame()
 
 void MixerFrame::OnClose(wxCloseEvent& event)
 {
-  Destroy();
+  //Destroy();
+  Iconize();
+  //restoreMixFrmenu();//Review. Does not work.
 }
 
 wxString int2wxString(int integer)
