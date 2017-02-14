@@ -156,6 +156,9 @@ inline void lcdInit()
 void lcdRefresh()
 {
 SHOWDURATIONLCD1
+#if defined(SHOWDURATION)
+  lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
+#endif
   LCD_LOCK(); // Just used on 9X board where VOICE use LCD pin ;-)
   uint8_t *p=displayBuf;
 
