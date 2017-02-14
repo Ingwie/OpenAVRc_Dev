@@ -1319,10 +1319,16 @@ wxString int2wxString(int integer)
   wxMessageBox(intString);
 }
 
+void restoreMixFrmenu()
+{
+  //Menu2->Enable(ID_MENUITEMOUTPUTMIXER, true);
+}
+
 void OpenAVRc_SimulatorFrame::OnMixeurSelected(wxCommandEvent& event)//Draws the mixer display screen
 {
   MixFr = new  MixerFrame(this);
   MixFr->Show(TRUE);
+  Menu2->Enable(ID_MENUITEMOUTPUTMIXER, false);
 }
 
 void OpenAVRc_SimulatorFrame::OnOutputBarsSelected(wxCommandEvent& event)
