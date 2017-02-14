@@ -292,7 +292,7 @@
 			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar1" member="no">
-			<object class="wxMenu" variable="Menu1" member="no">
+			<object class="wxMenu" variable="MenuFile" member="no">
 				<label>&amp;Fichier</label>
 				<object class="wxMenuItem" name="IdMenuOpenEE" variable="MenuLoadee" member="yes">
 					<label>Charger Eeprom</label>
@@ -314,7 +314,7 @@
 					<handler function="OnQuit" entry="EVT_MENU" />
 				</object>
 			</object>
-			<object class="wxMenu" variable="Menu3" member="yes">
+			<object class="wxMenu" variable="MenuOption" member="yes">
 				<label>&amp;Option</label>
 				<object class="wxMenu" name="ID_COLOURS" variable="MenuColours" member="yes">
 					<label>Couleurs</label>
@@ -350,15 +350,15 @@
 					</object>
 				</object>
 			</object>
-			<object class="wxMenu" variable="Menu2" member="yes">
+			<object class="wxMenu" variable="MenuFrame" member="yes">
 				<label>&amp;Fenêtres</label>
-				<object class="wxMenuItem" name="ID_MENUITEMOUTPUTOUTPUT" variable="OutputBars" member="yes">
-					<label>Graphique Sorties</label>
-					<handler function="OnOutputBarsSelected" entry="EVT_MENU" />
-				</object>
 				<object class="wxMenuItem" name="ID_MENUITEMOUTPUTMIXER" variable="OutputMixeur" member="yes">
 					<label>Mixeur</label>
 					<handler function="OnMixeurSelected" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="ID_MENUITEMOUTPUTOUTPUT" variable="OutputBars" member="yes">
+					<label>Graphique Sorties</label>
+					<handler function="OnOutputBarsSelected" entry="EVT_MENU" />
 				</object>
 				<object class="wxMenuItem" name="ID_MENUITEMOUTPUTGVARS" variable="OutputGvars" member="yes">
 					<label>Variables globales</label>

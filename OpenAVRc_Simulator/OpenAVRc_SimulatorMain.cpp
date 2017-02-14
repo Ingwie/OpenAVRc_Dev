@@ -144,8 +144,8 @@ const long OpenAVRc_SimulatorFrame::ID_BUTON = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_STICKB = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_STICKF = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_COLOURS = wxNewId();
-const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTOUTPUT = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTMIXER = wxNewId();
+const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTOUTPUT = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTGVARS = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMRADIODATA = wxNewId();
 const long OpenAVRc_SimulatorFrame::idMenuAbout = wxNewId();
@@ -175,7 +175,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   wxMenu* MenuHelp;
   wxMenuItem* MenuAbout;
   wxMenuItem* MenuItem1;
-  wxMenu* Menu1;
+  wxMenu* MenuFile;
   wxMenuBar* MenuBar1;
 
   Create(parent, wxID_ANY, _("Simulateur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER, _T("wxID_ANY"));
@@ -264,18 +264,18 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   SpinReb->SetToolTip(_("Reb"));
   TextCtrlgetkbinput = new wxTextCtrl(PanelMain, ID_TEXTCTRLDUMMY, wxEmptyString, wxPoint(64,216), wxSize(0,0), 0, wxDefaultValidator, _T("ID_TEXTCTRLDUMMY"));
   MenuBar1 = new wxMenuBar();
-  Menu1 = new wxMenu();
-  MenuLoadee = new wxMenuItem(Menu1, IdMenuOpenEE, _("Charger Eeprom"), _("Charger fichier BIN"), wxITEM_NORMAL);
+  MenuFile = new wxMenu();
+  MenuLoadee = new wxMenuItem(MenuFile, IdMenuOpenEE, _("Charger Eeprom"), _("Charger fichier BIN"), wxITEM_NORMAL);
   MenuLoadee->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_FORWARD")),wxART_MENU));
-  Menu1->Append(MenuLoadee);
-  MenuSaveee = new wxMenuItem(Menu1, IdMenuSaveEE, _("Sauver Eeprom"), _("Sauvegarde du fichier BIN"), wxITEM_NORMAL);
+  MenuFile->Append(MenuLoadee);
+  MenuSaveee = new wxMenuItem(MenuFile, IdMenuSaveEE, _("Sauver Eeprom"), _("Sauvegarde du fichier BIN"), wxITEM_NORMAL);
   MenuSaveee->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_BACK")),wxART_MENU));
-  Menu1->Append(MenuSaveee);
-  MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter le simulateur"), wxITEM_NORMAL);
+  MenuFile->Append(MenuSaveee);
+  MenuItem1 = new wxMenuItem(MenuFile, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter le simulateur"), wxITEM_NORMAL);
   MenuItem1->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_QUIT")),wxART_MENU));
-  Menu1->Append(MenuItem1);
-  MenuBar1->Append(Menu1, _("&Fichier"));
-  Menu3 = new wxMenu();
+  MenuFile->Append(MenuItem1);
+  MenuBar1->Append(MenuFile, _("&Fichier"));
+  MenuOption = new wxMenu();
   MenuColours = new wxMenu();
   MenuLcdBack = new wxMenuItem(MenuColours, ID_LCDB, _("Lcd (fond)"), wxEmptyString, wxITEM_NORMAL);
   MenuLcdBack->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_TICK_MARK")),wxART_MENU));
@@ -295,18 +295,18 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   MenuStickStick = new wxMenuItem(MenuColours, ID_STICKF, _("Manches (stick)"), wxEmptyString, wxITEM_NORMAL);
   MenuStickStick->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_TICK_MARK")),wxART_MENU));
   MenuColours->Append(MenuStickStick);
-  Menu3->Append(ID_COLOURS, _("Couleurs"), MenuColours, wxEmptyString);
-  MenuBar1->Append(Menu3, _("&Option"));
-  Menu2 = new wxMenu();
-  OutputBars = new wxMenuItem(Menu2, ID_MENUITEMOUTPUTOUTPUT, _("Graphique Sorties"), wxEmptyString, wxITEM_NORMAL);
-  Menu2->Append(OutputBars);
-  OutputMixeur = new wxMenuItem(Menu2, ID_MENUITEMOUTPUTMIXER, _("Mixeur"), wxEmptyString, wxITEM_NORMAL);
-  Menu2->Append(OutputMixeur);
-  OutputGvars = new wxMenuItem(Menu2, ID_MENUITEMOUTPUTGVARS, _("Variables globales"), wxEmptyString, wxITEM_NORMAL);
-  Menu2->Append(OutputGvars);
-  RadioData = new wxMenuItem(Menu2, ID_MENUITEMRADIODATA, _("Paramètres Radio"), wxEmptyString, wxITEM_NORMAL);
-  Menu2->Append(RadioData);
-  MenuBar1->Append(Menu2, _("&Fenêtres"));
+  MenuOption->Append(ID_COLOURS, _("Couleurs"), MenuColours, wxEmptyString);
+  MenuBar1->Append(MenuOption, _("&Option"));
+  MenuFrame = new wxMenu();
+  OutputMixeur = new wxMenuItem(MenuFrame, ID_MENUITEMOUTPUTMIXER, _("Mixeur"), wxEmptyString, wxITEM_NORMAL);
+  MenuFrame->Append(OutputMixeur);
+  OutputBars = new wxMenuItem(MenuFrame, ID_MENUITEMOUTPUTOUTPUT, _("Graphique Sorties"), wxEmptyString, wxITEM_NORMAL);
+  MenuFrame->Append(OutputBars);
+  OutputGvars = new wxMenuItem(MenuFrame, ID_MENUITEMOUTPUTGVARS, _("Variables globales"), wxEmptyString, wxITEM_NORMAL);
+  MenuFrame->Append(OutputGvars);
+  RadioData = new wxMenuItem(MenuFrame, ID_MENUITEMRADIODATA, _("Paramètres Radio"), wxEmptyString, wxITEM_NORMAL);
+  MenuFrame->Append(RadioData);
+  MenuBar1->Append(MenuFrame, _("&Fenêtres"));
   MenuHelp = new wxMenu();
   MenuAbout = new wxMenuItem(MenuHelp, idMenuAbout, _("A propos ...\tF1"), _("C\'est quoi donc \?"), wxITEM_NORMAL);
   MenuAbout->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_INFORMATION")),wxART_MENU));
@@ -378,8 +378,8 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_BUTON,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuButOnSelected);
   Connect(ID_STICKB,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuStickBackSelected);
   Connect(ID_STICKF,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuStickStickSelected);
-  Connect(ID_MENUITEMOUTPUTOUTPUT,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOutputBarsSelected);
   Connect(ID_MENUITEMOUTPUTMIXER,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMixeurSelected);
+  Connect(ID_MENUITEMOUTPUTOUTPUT,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOutputBarsSelected);
   Connect(ID_MENUITEMOUTPUTGVARS,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOutputGvarsSelected);
   Connect(ID_MENUITEMRADIODATA,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnRadioDataSelected);
   Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnAbout);
@@ -1319,32 +1319,50 @@ wxString int2wxString(int integer)
   wxMessageBox(intString);
 }
 
-void restoreMixFrmenu()
-{
-  //Menu2->Enable(ID_MENUITEMOUTPUTMIXER, true);
-}
-
 void OpenAVRc_SimulatorFrame::OnMixeurSelected(wxCommandEvent& event)//Draws the mixer display screen
 {
   MixFr = new  MixerFrame(this);
   MixFr->Show(TRUE);
-  Menu2->Enable(ID_MENUITEMOUTPUTMIXER, false);
+  MenuFrame->Enable(ID_MENUITEMOUTPUTMIXER, false);
+}
+
+void OpenAVRc_SimulatorFrame::EnableMixerFrameMenu()
+{
+  MenuFrame->Enable(ID_MENUITEMOUTPUTMIXER, true);
 }
 
 void OpenAVRc_SimulatorFrame::OnOutputBarsSelected(wxCommandEvent& event)
 {
   BarFr = new  OutBarsFrame(this);
   BarFr->Show(TRUE);
+  MenuFrame->Enable(ID_MENUITEMOUTPUTOUTPUT, false);
+}
+
+void OpenAVRc_SimulatorFrame::EnableOutputBarsMenu()
+{
+  MenuFrame->Enable(ID_MENUITEMOUTPUTOUTPUT, true);
 }
 
 void OpenAVRc_SimulatorFrame::OnOutputGvarsSelected(wxCommandEvent& event)
 {
   GvFr = new  GvarsFrame(this);
   GvFr->Show(TRUE);
+  MenuFrame->Enable(ID_MENUITEMOUTPUTGVARS, false);
+}
+
+void OpenAVRc_SimulatorFrame::EnableOutputGvarsMenu()
+{
+  MenuFrame->Enable(ID_MENUITEMOUTPUTGVARS, true);
 }
 
 void OpenAVRc_SimulatorFrame::OnRadioDataSelected(wxCommandEvent& event)
 {
   RaFr = new  RadioDataFrame(this);
   RaFr->Show(TRUE);
+  MenuFrame->Enable(ID_MENUITEMRADIODATA, false);
+}
+
+void OpenAVRc_SimulatorFrame::EnableRadioDataMenu()
+{
+  MenuFrame->Enable(ID_MENUITEMRADIODATA, true);
 }

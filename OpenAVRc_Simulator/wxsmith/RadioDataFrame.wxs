@@ -2,15 +2,18 @@
 <wxsmith>
 	<object class="wxFrame" name="RadioDataFrame">
 		<title>Radio Data</title>
-		<size>210,318</size>
+		<pos>80,80</pos>
+		<size>210,328</size>
+		<maxsize>210,328</maxsize>
 		<id_arg>0</id_arg>
+		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>184,128</pos>
-			<size>209,304</size>
+			<size>210,336</size>
 			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
 				<label>Calibration</label>
 				<pos>8,144</pos>
-				<size>192,168</size>
+				<size>192,176</size>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRLVERSION" variable="TextCtrlversion" member="yes">
 				<value>Texte</value>
@@ -43,7 +46,7 @@
 			<object class="wxTextCtrl" name="ID_TEXTCTRLCalibration" variable="TextCtrlcalibration" member="yes">
 				<value>Texte</value>
 				<pos>16,192</pos>
-				<size>176,112</size>
+				<size>176,120</size>
 				<bg>wxSYS_COLOUR_MENU</bg>
 				<style>wxTE_NO_VSCROLL|wxTE_MULTILINE|wxTE_READONLY</style>
 			</object>

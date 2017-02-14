@@ -57,6 +57,7 @@ class RadioDataFrame: public wxFrame
 		void OnTextCtrl1Text(wxCommandEvent& event);
 		void OnTextCtrlvariantText(wxCommandEvent& event);
 		void OnPanel1Paint(wxPaintEvent& event);
+		void OnClose(wxCloseEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

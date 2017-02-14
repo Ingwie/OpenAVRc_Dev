@@ -123,6 +123,7 @@ class GvarsFrame: public wxFrame
 
 		//(*Handlers(GvarsFrame)
 		void OnPanel4Paint(wxPaintEvent& event);
+		void OnClose(wxCloseEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

@@ -134,6 +134,7 @@ class OutBarsFrame: public wxFrame
 
 		//(*Handlers(OutBarsFrame)
 		void OnTimerRefreshFrameTrigger(wxTimerEvent& event);
+		void OnClose(wxCloseEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

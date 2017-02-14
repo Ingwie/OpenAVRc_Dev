@@ -65,6 +65,8 @@ GvarsFrame::GvarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	//(*Initialize(GvarsFrame)
 	Create(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
 	SetClientSize(wxSize(615,398));
+	Move(wxPoint(60,60));
+	SetMaxSize(wxSize(615,398));
 	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(0,48), wxSize(615,409), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	StaticBox3 = new wxStaticBox(Panel1, ID_STATICBOX3, _("Simulation Télémesure"), wxPoint(8,304), wxSize(600,96), 0, _T("ID_STATICBOX3"));
 	StaticBox2 = new wxStaticBox(Panel1, ID_STATICBOX2, _("GVARS et Etats de vol"), wxPoint(8,72), wxSize(600,224), 0, _T("ID_STATICBOX2"));
@@ -157,7 +159,15 @@ GvarsFrame::GvarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	StaticText7 = new wxStaticText(Panel1, ID_STATICTEXT7, _("5"), wxPoint(152,16), wxSize(8,13), 0, _T("ID_STATICTEXT7"));
 	StaticText8 = new wxStaticText(Panel1, ID_STATICTEXT8, _("15"), wxPoint(464,16), wxSize(16,13), 0, _T("ID_STATICTEXT8"));
 	StaticText6 = new wxStaticText(Panel1, ID_STATICTEXT6, _("10"), wxPoint(304,16), wxSize(16,13), 0, _T("ID_STATICTEXT6"));
+
+	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&GvarsFrame::OnClose);
 	//*)
+
+  {
+    wxIcon FrameIcon;
+    SetIcon(wxICON(nsrcs_icon));
+  }
+
 }
 
 GvarsFrame::~GvarsFrame()
@@ -166,7 +176,14 @@ GvarsFrame::~GvarsFrame()
 	//*)
 }
 
-
 void GvarsFrame::OnPanel4Paint(wxPaintEvent& event)
 {
+}
+
+void GvarsFrame::OnClose(wxCloseEvent& event)
+{
+  OpenAVRc_SimulatorFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_SimulatorFrame);
+  if(parent)
+    parent->EnableOutputGvarsMenu();
+  Destroy();
 }

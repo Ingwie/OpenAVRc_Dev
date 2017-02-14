@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
-	<object class="wxFrame" name="Gvars">
+	<object class="wxFrame" name="GvarsFrame">
+		<pos>60,60</pos>
 		<size>615,398</size>
+		<maxsize>615,398</maxsize>
 		<id_arg>0</id_arg>
+		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>0,48</pos>
 			<size>615,409</size>

@@ -32,21 +32,30 @@ RadioDataFrame::RadioDataFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 {
 	//(*Initialize(RadioDataFrame)
 	Create(parent, wxID_ANY, _("Radio Data"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
-	SetClientSize(wxSize(210,318));
-	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(184,128), wxSize(209,304), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-	StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Calibration"), wxPoint(8,144), wxSize(192,168), 0, _T("ID_STATICBOX1"));
+	SetClientSize(wxSize(210,328));
+	Move(wxPoint(80,80));
+	SetMaxSize(wxSize(210,328));
+	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(184,128), wxSize(210,336), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+	StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Calibration"), wxPoint(8,144), wxSize(192,176), 0, _T("ID_STATICBOX1"));
 	TextCtrlversion = new wxTextCtrl(Panel1, ID_TEXTCTRLVERSION, _("Texte"), wxPoint(8,8), wxDefaultSize, wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRLVERSION"));
 	TextCtrlvariant = new wxTextCtrl(Panel1, ID_TEXTCTRL2, _("Texte"), wxPoint(112,8), wxSize(88,21), wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRL2"));
 	TextCtrlcurrModel = new wxTextCtrl(Panel1, ID_TEXTCTRL3, _("Texte"), wxPoint(8,32), wxDefaultSize, wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRL3"));
 	TextCtrlBatt = new wxTextCtrl(Panel1, ID_TEXTCTRLBATT, _("Texte"), wxPoint(8,88), wxSize(192,21), wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRLBATT"));
 	TextCtrlstickMode = new wxTextCtrl(Panel1, ID_TEXTCTRLSTICKMODE, _("Texte"), wxPoint(8,112), wxSize(144,21), wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRLSTICKMODE"));
-	TextCtrlcalibration = new wxTextCtrl(Panel1, ID_TEXTCTRLCalibration, _("Texte"), wxPoint(16,192), wxSize(176,112), wxTE_NO_VSCROLL|wxTE_MULTILINE|wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRLCalibration"));
+	TextCtrlcalibration = new wxTextCtrl(Panel1, ID_TEXTCTRLCalibration, _("Texte"), wxPoint(16,192), wxSize(176,120), wxTE_NO_VSCROLL|wxTE_MULTILINE|wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRLCalibration"));
 	TextCtrlcalibration->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
 	StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("                     Max         Min       Alarm"), wxPoint(8,64), wxSize(192,24), 0, _T("ID_STATICTEXT1"));
 	StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, _(" 1024            1024           1024"), wxPoint(16,168), wxSize(168,13), 0, _T("ID_STATICTEXT2"));
 	RadioData.SetOwner(this, ID_TIMERRADIODATA);
 	RadioData.Start(2000, false);
+
+	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&RadioDataFrame::OnClose);
 	//*)
+
+  {
+    wxIcon FrameIcon;
+    SetIcon(wxICON(nsrcs_icon));
+  }
 
 	FillRadioDataFrame();
 }
@@ -129,3 +138,11 @@ void RadioDataFrame::FillRadioDataFrame()
 
 }) EEGeneral;
 */
+
+void RadioDataFrame::OnClose(wxCloseEvent& event)
+{
+  OpenAVRc_SimulatorFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_SimulatorFrame);
+  if(parent)
+    parent->EnableRadioDataMenu();
+  Destroy();
+}

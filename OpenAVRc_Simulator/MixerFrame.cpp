@@ -53,7 +53,7 @@ MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 
 	Create(parent, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxCLOSE_BOX|wxSUNKEN_BORDER|wxRAISED_BORDER|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
 	SetClientSize(wxSize(720,140));
-	Move(wxPoint(10,10));
+	Move(wxPoint(20,20));
 	SetMaxSize(wxSize(720,900));
 	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
 	Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
@@ -78,6 +78,11 @@ MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&MixerFrame::OnClose);
 	//*)
 
+  {
+    wxIcon FrameIcon;
+    SetIcon(wxICON(nsrcs_icon));
+  }
+
   FillMixerFrame();
 }
 
@@ -89,9 +94,10 @@ MixerFrame::~MixerFrame()
 
 void MixerFrame::OnClose(wxCloseEvent& event)
 {
-  //Destroy();
-  Iconize();
-  //restoreMixFrmenu();//Review. Does not work.
+ OpenAVRc_SimulatorFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_SimulatorFrame);
+if(parent)
+    parent->EnableMixerFrameMenu();
+ Destroy();
 }
 
 wxString int2wxString(int integer)

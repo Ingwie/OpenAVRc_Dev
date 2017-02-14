@@ -85,6 +85,12 @@ public:
   virtual ~OpenAVRc_SimulatorFrame();
   const void DrawWxSimuLcd();
   void OnKey(wxKeyEvent& Event);
+  void EnableMixerFrameMenu();
+  void EnableOutputBarsMenu();
+  void EnableOutputGvarsMenu();
+  void EnableRadioDataMenu();
+
+
 
 private:
   //(*Handlers(OpenAVRc_SimulatorFrame)
@@ -219,8 +225,8 @@ private:
   static const long ID_STICKB;
   static const long ID_STICKF;
   static const long ID_COLOURS;
-  static const long ID_MENUITEMOUTPUTOUTPUT;
   static const long ID_MENUITEMOUTPUTMIXER;
+  static const long ID_MENUITEMOUTPUTOUTPUT;
   static const long ID_MENUITEMOUTPUTGVARS;
   static const long ID_MENUITEMRADIODATA;
   static const long idMenuAbout;
@@ -275,6 +281,7 @@ private:
   wxPanel* LdTrim;
   wxSpinButton* SpinRea;
   wxPanel* RdTrim;
+  wxMenu* MenuOption;
   wxMenuItem* MenuLoadee;
   wxMenuItem* RadioData;
   wxPanel* Lstick;
@@ -282,7 +289,6 @@ private:
   wxPanel* BpRud;
   wxPanel* BPexit;
   wxPanel* BpEle;
-  wxMenu* Menu3;
   wxSlider* Pot1;
   wxPanel* PanelH;
   wxMenuItem* MenuLcdPixel;
@@ -303,6 +309,7 @@ private:
   wxPanel* BpTrn;
   wxPanel* PanelMain;
   wxButton* ButtonStartDesktop;
+  wxMenu* MenuFrame;
   wxToggleButton* OnTglButton;
   wxTimer TimerMain;
   wxTextCtrl* TextCtrlgetkbinput;
@@ -313,7 +320,6 @@ private:
   wxMenuItem* MenuButOff;
   wxMenuItem* MenuSaveee;
   wxMenuItem* OutputMixeur;
-  wxMenu* Menu2;
   wxSpinButton* SpinReb;
   wxPanel* LuTrim;
   wxPanel* BpId1;
