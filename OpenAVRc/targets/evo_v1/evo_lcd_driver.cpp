@@ -62,7 +62,7 @@ void lcd_mspi(char c);
 
 #define LCD_LOCK()
 #define LCD_UNLOCK()
-
+#define NUMITERATIONFULLREFRESH  1
 
 
 void lcd_mspi(char c)
@@ -153,13 +153,14 @@ inline void lcdInit()
 }
 
 
-void lcdRefresh()
+void lcdRefreshFast()
 {
-SHOWDURATIONLCD1
 #if defined(SHOWDURATION)
   lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
 #endif
+  SHOWDURATIONLCD1
   LCD_LOCK(); // Just used on 9X board where VOICE use LCD pin ;-)
+
   uint8_t *p=displayBuf;
 
 //  lcdSendCtl(0x2F); // Power controller set, booster cct on, V reg on, V follower on
@@ -190,6 +191,12 @@ SHOWDURATIONLCD1
     LCD_CS_P_INACTIVE();
   }
  LCD_UNLOCK();
-SHOWDURATIONLCD2
+ SHOWDURATIONLCD2
 }
 
+void lcdRefresh()
+{
+  for(uint8_t i=NUMITERATIONFULLREFRESH; i>0; i--) {
+    lcdRefreshFast();
+  }
+}

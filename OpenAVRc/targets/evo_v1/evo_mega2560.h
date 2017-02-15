@@ -20,7 +20,6 @@
 
 #include "../../OpenAVRc.h"
 
-#define lcdRefreshFast() lcdRefresh()
 
 #ifndef PIN0_bm
 #define PIN0_bm  0x01
