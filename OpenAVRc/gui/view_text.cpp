@@ -26,8 +26,6 @@
 
 #include "../OpenAVRc.h"
 
-#define TEXT_LEN  20
-#define TEXT_FILE_MAXSIZE  256 * (TEXT_LEN +1)
 
 /*#define TEXT_FILE_MAXSIZE     2048
 
@@ -141,11 +139,14 @@ void menuTextView(uint8_t event)
   }
 }*/
 
-char showVoiceTextLine(uint8_t line)
+#define TEXT_LEN  23
+#define TEXT_FILE_MAXSIZE  256 * (TEXT_LEN +1)
+
+showVoiceTextLine(uint8_t Numline, char * PromptText)
 {
   FIL file;
   int result;
-  char c[TEXT_LEN+1] = "\0";
+  char c[TEXT_LEN] = {0};
   unsigned int sz;
   /*int line_length = 0;
   int escape = 0;
@@ -154,14 +155,33 @@ char showVoiceTextLine(uint8_t line)
 
   result = f_open(&file,"/VOICE/list.txt", FA_OPEN_EXISTING | FA_READ);
   if (result == FR_OK) {
-    result = f_lseek(&file, line*(TEXT_LEN+1));
+    result = f_lseek(&file, Numline*(TEXT_LEN+1));
     if (result == FR_OK) {
       result = f_read(&file, &c, TEXT_LEN+1, &sz);
         if (result == FR_OK) {
+          PromptText = c;
           f_close(&file);
-          return c[0];
         }
       }
     }
-  return c[0];
+  PromptText[0] = '1';
+  PromptText[1] = '2';
+  PromptText[2] = '3';
+  PromptText[3] = '4';
+  PromptText[4] = '5';
+  PromptText[5] = '6';
+  PromptText[6] = '7';
+  PromptText[7] = '8';
+  PromptText[8] = '9';
+  PromptText[9] = 'A';
+  PromptText[10] = 'B';
+  PromptText[11] = 'C';
+  PromptText[12] = 'D';
+  PromptText[13] = 'E';
+  PromptText[14] = 'F';
+  PromptText[15] = 'G';
+  PromptText[16] = 'H';
+  PromptText[17] = 'I';
+  PromptText[18] = 'J';
+  PromptText[19] = 'K';
 }

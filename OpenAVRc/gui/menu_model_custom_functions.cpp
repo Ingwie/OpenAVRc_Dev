@@ -38,7 +38,7 @@
 #define MODEL_CUSTOM_FUNC_4TH_COLUMN_ONOFF  (18*FW+2)
 #endif
 
-
+#include "view_text.cpp"
 void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFunctionsContext * functionsContext)
 {
   int8_t sub = menuVerticalPosition - 1;
@@ -146,6 +146,11 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
           } else {
             lcdDrawNumberAttUnit(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed+PROMPT_CUSTOM_BASE, attr|LEFT);
           }
+/*              char Promptext[TEXT_LEN] ={};
+              showVoiceTextLine(val_displayed,Promptext);
+              lcdDrawTextAtt(FW,0, Promptext, BSS|INVERS);
+*/ //Todo Finish code Show prompt when coose file number
+
 #else
           lcdDrawNumberAttUnit(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed+PROMPT_CUSTOM_BASE, attr|LEFT);
 #endif
