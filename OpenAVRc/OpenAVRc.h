@@ -301,9 +301,15 @@ void memclear(void *ptr, uint8_t size);
 #define memclear(p, s) memset(p, 0, s)
 #endif
 
+#if defined(REV_EVO_V1)
+#define IS_POT_AVAILABLE(x)       ( (x)==POT1 || (x)==POT2 )
+#define IS_POT_MULTIPOS(x)        (false)
+#define IS_POT_WITHOUT_DETENT(x)  (false)
+#else
 #define IS_POT_AVAILABLE(x)       (true)
 #define IS_POT_MULTIPOS(x)        (false)
 #define IS_POT_WITHOUT_DETENT(x)  (true)
+#endif
 
 #define IS_POT(x)                   ((x)>=POT1 && (x)<=POT_LAST)
 
