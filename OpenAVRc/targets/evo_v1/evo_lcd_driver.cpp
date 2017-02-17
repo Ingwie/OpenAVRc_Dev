@@ -60,10 +60,7 @@
 
 void lcd_mspi(char c);
 
-#define LCD_LOCK()
-#define LCD_UNLOCK()
-#define NUMITERATIONFULLREFRESH  1
-
+#define NUMITERATIONFULLREFRESH  2
 
 void lcd_mspi(char c)
 {
@@ -95,17 +92,13 @@ void lcdSendCtl(uint8_t val)
 
 void lcdSetRefVolt(uint8_t val)
 {
-  LCD_LOCK();
   lcdSendCtl(ST7565R_CMD_ELECTRONIC_VOLUME_MODE_SET);// Electronic volume mode set ? Range = 0x09 to 0x19 (-8 to +8 on Evo)
   lcdSendCtl(val>>1);
-  LCD_UNLOCK();
 }
 
 
 inline void lcdInit()
 {
-  LCD_LOCK();
-
   // Setup pin states and USART in MSPI mode.
   DDRH |= OUT_H_LCD_RES_N;
   LCD_RES_N_ACTIVE();
@@ -149,7 +142,6 @@ inline void lcdInit()
   // lcdSendCtl(0x40); // Set display start line to 0 *** Added due to random display scrolling ***
 
   g_eeGeneral.contrast = 0x09;
-  LCD_UNLOCK();
 }
 
 
@@ -159,38 +151,32 @@ void lcdRefreshFast()
   lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
 #endif
   SHOWDURATIONLCD1
-  LCD_LOCK(); // Just used on 9X board where VOICE use LCD pin ;-)
 
-  uint8_t *p=displayBuf;
+  static uint8_t offset = 0;
+  uint8_t * p=displayBuf;
+  if(offset) p += 512;
 
-//  lcdSendCtl(0x2F); // Power controller set, booster cct on, V reg on, V follower on
-//  lcdSendCtl(0x25); // V5 V reg internal resistor ratio set "5"
-//  lcdSendCtl(0xC8); // Common output mode select - reverse output scan direction.
-//  lcdSendCtl(0xA0); // ADC select normal
-//  lcdSendCtl(0xA6); // Normal not reverse display.
-//  lcdSendCtl(0xA2); // LCD Bias set D1=1 see duty
-//  lcdSendCtl(0xA4); // All points off
   lcdSendCtl(ST7565R_CMD_DISPLAY_ON);
 //  lcdSendCtl(0x40); // Set display start line to 0 *** Added due to random display scrolling ***
 
-  for(uint8_t y=0; y < 8; y++) {
+  for(uint8_t page=0; page<4; page++) {
     lcdSendCtl(ST7565R_CMD_COLUMN_ADDRESS_SET_LSB(0)); // Set LS nibble column RAM address 0
     lcdSendCtl(ST7565R_CMD_COLUMN_ADDRESS_SET_MSB(0)); // Set MS nibble column RAM address 0
-    lcdSendCtl(ST7565R_CMD_PAGE_ADDRESS_SET(y)); // Page addr y
+    lcdSendCtl(ST7565R_CMD_PAGE_ADDRESS_SET(page + offset));
 
     LCD_A0_HIGH();
     LCD_CS_P_ACTIVE();
     lcd_mspi(0x00); // Pad out the four unused columns.
     lcd_mspi(0x00);
       for(unsigned char x=LCD_W; x>0; --x) {
-      lcd_mspi( *p++ ); // ... PORTA_LCD_DAT = *p++;
+      lcd_mspi( *p++ );
       }
     lcd_mspi(0x00);
     lcd_mspi(0x00);
     WAIT_TX_FIN();
     LCD_CS_P_INACTIVE();
   }
- LCD_UNLOCK();
+ offset ^=4;
  SHOWDURATIONLCD2
 }
 
