@@ -68,12 +68,22 @@ void doMainScreenGraphics()
   int16_t calibStickVert = calibratedStick[CONVERT_MODE(1)];
   if (g_model.throttleReversed && CONVERT_MODE(1) == THR_STICK)
     calibStickVert = -calibStickVert;
+
+#if defined(REV_EVO_V1)
+  drawStick(LBOX_CENTERX, calibratedStick[CONVERT_MODE(0)], -calibStickVert);
+#else
   drawStick(LBOX_CENTERX, calibratedStick[CONVERT_MODE(0)], calibStickVert);
+#endif
 
   calibStickVert = calibratedStick[CONVERT_MODE(2)];
   if (g_model.throttleReversed && CONVERT_MODE(2) == THR_STICK)
     calibStickVert = -calibStickVert;
+
+#if defined(REV_EVO_V1)
+  drawStick(RBOX_CENTERX, -calibratedStick[CONVERT_MODE(3)], calibStickVert);
+#else
   drawStick(RBOX_CENTERX, calibratedStick[CONVERT_MODE(3)], calibStickVert);
+#endif
 
   drawPotsBars();
 }
