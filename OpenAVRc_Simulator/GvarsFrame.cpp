@@ -78,7 +78,7 @@ void GvarsFrame::PopulateGvarsFrame()
     for (int8_t x = 0; x < MAX_GVARS; x++){
       int16_t gvarVal = (g_model.flightModeData[p].gvars[x]);
       wxString gvarStr;
-      if (gvarVal == 0) gvarStr = "-";
+      if (gvarVal == 0) gvarStr = "---";
       else if (gvarVal >= (CFN_GVAR_CST_MAX + MAX_GVARS - 1)){
         gvarStr = "*PV";
         if (p <= (gvarVal - (CFN_GVAR_CST_MAX + MAX_GVARS - 1))){
