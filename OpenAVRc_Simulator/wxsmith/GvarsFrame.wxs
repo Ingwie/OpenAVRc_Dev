@@ -1,39 +1,30 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxFrame" name="GvarsFrame">
+		<title>Variables globales</title>
 		<pos>60,60</pos>
-		<size>615,398</size>
+		<size>332,153</size>
 		<maxsize>615,398</maxsize>
 		<id_arg>0</id_arg>
+		<style>wxDEFAULT_FRAME_STYLE|wxSUNKEN_BORDER</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>0,48</pos>
-			<size>615,409</size>
-			<object class="wxStaticBox" name="ID_STATICBOX3" variable="StaticBox3" member="yes">
-				<label>Simulation Télémesure</label>
-				<pos>8,304</pos>
-				<size>600,96</size>
-			</object>
-			<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBox2" member="yes">
-				<label>GVARS et Etats de vol</label>
-				<pos>8,72</pos>
-				<size>600,224</size>
-			</object>
-			<object class="wxGrid" name="ID_GRID1" variable="Grid1" member="yes">
-				<cols>8</cols>
-				<rows>6</rows>
-				<labelrowheight>60</labelrowheight>
-				<labelcolwidth>50</labelcolwidth>
-				<defaultcolsize>80</defaultcolsize>
+			<size>328,153</size>
+			<object class="wxGrid" name="ID_GRID1" variable="GVARSGrid" member="yes">
+				<cols>6</cols>
+				<rows>5</rows>
+				<readonly>1</readonly>
+				<labelrowheight>20</labelrowheight>
+				<labelcolwidth>36</labelcolwidth>
+				<defaultcolsize>40</defaultcolsize>
 				<collabels>
-					<item>Variables</item>
 					<item>PV0</item>
 					<item>PV1</item>
 					<item>PV2</item>
 					<item>PV3</item>
 					<item>PV4</item>
 					<item>PV5</item>
-					<item>PV6</item>
 				</collabels>
 				<rowlabels>
 					<item>VG1</item>
@@ -43,200 +34,15 @@
 					<item>VG5</item>
 					<item>VG6</item>
 				</rowlabels>
-				<pos>24,88</pos>
-				<size>568,184</size>
-			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText4" member="yes">
-				<label>Courant: 0-50A</label>
-				<pos>40,328</pos>
-				<size>75,16</size>
-			</object>
-			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
-				<label>Variables L1 à L15</label>
 				<pos>8,8</pos>
-				<size>488,56</size>
+				<size>304,128</size>
+				<enabled>0</enabled>
+				<style>wxSUNKEN_BORDER</style>
 			</object>
-			<object class="wxPanel" name="ID_PANEL8" variable="Panel8" member="yes">
-				<pos>16,32</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL21" variable="Panel21" member="yes">
-				<pos>272,32</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL20" variable="Panel20" member="yes">
-				<pos>304,32</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL19" variable="Panel19" member="yes">
-				<pos>208,32</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL18" variable="Panel18" member="yes">
-				<pos>240,32</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL17" variable="Panel17" member="yes">
-				<pos>176,32</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL16" variable="Panel16" member="yes">
-				<pos>400,32</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL15" variable="Panel15" member="yes">
-				<pos>432,32</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL14" variable="Panel14" member="yes">
-				<pos>464,32</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL13" variable="Panel13" member="yes">
-				<pos>336,32</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL12" variable="Panel12" member="yes">
-				<pos>368,32</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL11" variable="Panel11" member="yes">
-				<pos>144,32</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL10" variable="Panel10" member="yes">
-				<pos>112,32</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL9" variable="Panel9" member="yes">
-				<pos>80,32</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL2" variable="Panel2" member="yes">
-				<pos>48,32</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL4" variable="Panel4" member="yes">
-				<pos>208,122</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL7" variable="Panel7" member="yes">
-				<pos>528,122</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL6" variable="Panel6" member="yes">
-				<pos>448,122</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL5" variable="Panel5" member="yes">
-				<pos>368,122</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxPanel" name="ID_PANEL3" variable="Panel3" member="yes">
-				<pos>288,122</pos>
-				<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
-				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
-			</object>
-			<object class="wxSlider" name="ID_SLIDER2" variable="Slider2" member="yes">
-				<pos>24,344</pos>
-			</object>
-			<object class="wxSlider" name="ID_SLIDER5" variable="Slider5" member="yes">
-				<pos>488,344</pos>
-			</object>
-			<object class="wxSlider" name="ID_SLIDER4" variable="Slider4" member="yes">
-				<pos>376,344</pos>
-			</object>
-			<object class="wxSlider" name="ID_SLIDER3" variable="Slider3" member="yes">
-				<pos>256,344</pos>
-			</object>
-			<object class="wxSlider" name="ID_SLIDER1" variable="Slider1" member="yes">
-				<pos>136,344</pos>
-			</object>
-			<object class="wxGauge" name="ID_GAUGE2" variable="Gauge2" member="yes">
-				<pos>32,368</pos>
-				<size>88,12</size>
-				<bg>wxSYS_COLOUR_BACKGROUND</bg>
-			</object>
-			<object class="wxGauge" name="ID_GAUGE5" variable="Gauge5" member="yes">
-				<pos>496,368</pos>
-				<size>88,12</size>
-				<bg>wxSYS_COLOUR_BACKGROUND</bg>
-			</object>
-			<object class="wxGauge" name="ID_GAUGE4" variable="Gauge4" member="yes">
-				<pos>384,368</pos>
-				<size>88,12</size>
-				<bg>wxSYS_COLOUR_BACKGROUND</bg>
-			</object>
-			<object class="wxGauge" name="ID_GAUGE3" variable="Gauge3" member="yes">
-				<pos>264,368</pos>
-				<size>88,12</size>
-				<bg>wxSYS_COLOUR_BACKGROUND</bg>
-			</object>
-			<object class="wxGauge" name="ID_GAUGE1" variable="Gauge1" member="yes">
-				<pos>144,368</pos>
-				<size>88,12</size>
-				<bg>wxSYS_COLOUR_BACKGROUND</bg>
-			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
-				<label>Altitude: 0-150m</label>
-				<pos>384,328</pos>
-			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
-				<label>Réserve</label>
-				<pos>520,328</pos>
-			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
-				<label>Cons.: 0-5000mAh</label>
-				<pos>144,328</pos>
-			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
-				<label>Tension Lipo: 0-20V</label>
-				<pos>264,328</pos>
-			</object>
-			<object class="wxStaticBox" name="ID_STATICBOX4" variable="StaticBox4" member="yes">
-				<label>N° Voice</label>
-				<pos>504,8</pos>
-				<size>104,56</size>
-			</object>
-			<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="TextCtrl1" member="yes">
-				<value>Texte</value>
-				<pos>512,32</pos>
-				<size>88,21</size>
-			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT7" variable="StaticText7" member="yes">
-				<label>5</label>
-				<pos>152,16</pos>
-				<size>8,13</size>
-			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText8" member="yes">
-				<label>15</label>
-				<pos>464,16</pos>
-				<size>16,13</size>
-			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText6" member="yes">
-				<label>10</label>
-				<pos>304,16</pos>
-				<size>16,13</size>
-			</object>
+		</object>
+		<object class="wxTimer" name="ID_TIMERGVARS" variable="gvarsTimer" member="yes">
+			<interval>2000</interval>
+			<handler function="OngvarsTimerTrigger" entry="EVT_TIMER" />
 		</object>
 	</object>
 </wxsmith>
