@@ -38,7 +38,10 @@
 #define MODEL_CUSTOM_FUNC_4TH_COLUMN_ONOFF  (18*FW+2)
 #endif
 
+#if defined(SDCARD) && defined(VOICE)
 #include "view_text.cpp"
+#endif
+
 void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFunctionsContext * functionsContext)
 {
   int8_t sub = menuVerticalPosition - 1;
@@ -146,14 +149,19 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
           } else {
             lcdDrawNumberAttUnit(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed+PROMPT_CUSTOM_BASE, attr|LEFT);
           }
-/*              char Promptext[TEXT_LEN] ={};
-              showVoiceTextLine(val_displayed,Promptext);
-              lcdDrawTextAtt(FW,0, Promptext, BSS|INVERS);
-*/ //Todo Finish code Show prompt when coose file number
-
 #else
           lcdDrawNumberAttUnit(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed+PROMPT_CUSTOM_BASE, attr|LEFT);
 #endif
+
+#if defined(SDCARD)
+           if (active)
+           {
+              char Promptext[TEXT_LEN] ={};
+              showVoiceTextLine(val_displayed,Promptext); // Show the prompt text file if exist
+              lcdDrawTextAtt(0,0, Promptext, BSS|INVERS|BLINK);
+           }
+#endif
+
         } else if (func == FUNC_PLAY_BOTH) {
           lcdDrawCharAtt(MODEL_CUSTOM_FUNC_3RD_COLUMN+3*FWNUM, y, '|', attr);
           lcdDrawNumberAttUnit(MODEL_CUSTOM_FUNC_3RD_COLUMN+3*FWNUM, y, val_displayed+PROMPT_CUSTOM_BASE, attr);

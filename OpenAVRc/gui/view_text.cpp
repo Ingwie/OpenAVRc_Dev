@@ -26,6 +26,34 @@
 
 #include "../OpenAVRc.h"
 
+#define TEXT_LEN  23
+#define TEXT_FILE_MAXSIZE  256 * (TEXT_LEN +1)
+
+FORCEINLINE void showVoiceTextLine(uint8_t Numline, char * PromptText)
+{
+  FIL file;
+  int result;
+  char c[TEXT_LEN] = {0};
+  unsigned int sz;
+
+  result = f_chdir(VOICETXT_PATH);
+  if (result == FR_OK) {
+    result = f_open(&file,VOICETXT_FILE, FA_OPEN_EXISTING | FA_READ);
+    if (result == FR_OK) {
+      result = f_lseek(&file, Numline*(TEXT_LEN+2));
+      if (result == FR_OK) {
+        result = f_read(&file, &c, TEXT_LEN, &sz);
+        if (result == FR_OK) {
+          memcpy(PromptText,c,TEXT_LEN);
+        }
+      }
+    }
+  }
+  f_close(&file);
+}
+
+
+// Keep unused code ;-)
 
 /*#define TEXT_FILE_MAXSIZE     2048
 
@@ -138,50 +166,3 @@ void menuTextView(uint8_t event)
     displayScrollbar(LCD_W-1, FH, LCD_H-FH, menuVerticalOffset, lines_count, LCD_LINES-1);
   }
 }*/
-
-#define TEXT_LEN  23
-#define TEXT_FILE_MAXSIZE  256 * (TEXT_LEN +1)
-
-showVoiceTextLine(uint8_t Numline, char * PromptText)
-{
-  FIL file;
-  int result;
-  char c[TEXT_LEN] = {0};
-  unsigned int sz;
-  /*int line_length = 0;
-  int escape = 0;
-  char escape_chars[2];
-  int current_line = 0;*/
-
-  result = f_open(&file,"/VOICE/list.txt", FA_OPEN_EXISTING | FA_READ);
-  if (result == FR_OK) {
-    result = f_lseek(&file, Numline*(TEXT_LEN+1));
-    if (result == FR_OK) {
-      result = f_read(&file, &c, TEXT_LEN+1, &sz);
-        if (result == FR_OK) {
-          PromptText = c;
-          f_close(&file);
-        }
-      }
-    }
-  PromptText[0] = '1';
-  PromptText[1] = '2';
-  PromptText[2] = '3';
-  PromptText[3] = '4';
-  PromptText[4] = '5';
-  PromptText[5] = '6';
-  PromptText[6] = '7';
-  PromptText[7] = '8';
-  PromptText[8] = '9';
-  PromptText[9] = 'A';
-  PromptText[10] = 'B';
-  PromptText[11] = 'C';
-  PromptText[12] = 'D';
-  PromptText[13] = 'E';
-  PromptText[14] = 'F';
-  PromptText[15] = 'G';
-  PromptText[16] = 'H';
-  PromptText[17] = 'I';
-  PromptText[18] = 'J';
-  PromptText[19] = 'K';
-}

@@ -33,29 +33,13 @@
 #define ROOT_PATH           "/"
 #define MODELS_PATH         ROOT_PATH "MODELS"      // no trailing slash = important
 #define LOGS_PATH           ROOT_PATH "LOGS"
-#define SCREENSHOTS_PATH    ROOT_PATH "SCREENSHOTS"
-#define SOUNDS_PATH         ROOT_PATH "SOUNDS/en"
-#define SOUNDS_PATH_LNG_OFS (sizeof(SOUNDS_PATH)-3)
-#define SYSTEM_SUBDIR       "SYSTEM"
-#define BITMAPS_PATH        ROOT_PATH "BMP"
-#define FIRMWARES_PATH      ROOT_PATH "FIRMWARES"
-#define EEPROMS_PATH        ROOT_PATH "EEPROMS"
-#define SCRIPTS_PATH        ROOT_PATH "SCRIPTS"
-#define WIZARD_PATH         SCRIPTS_PATH "/WIZARD"
-#define WIZARD_NAME         "wizard.lua"
-#define TEMPLATES_PATH      SCRIPTS_PATH "/TEMPLATES"
-#define SCRIPTS_MIXES_PATH  SCRIPTS_PATH "/MIXES"
-#define SCRIPTS_FUNCS_PATH  SCRIPTS_PATH "/FUNCTIONS"
-#define SCRIPTS_TELEM_PATH  SCRIPTS_PATH "/TELEMETRY"
+#define VOICETXT_PATH       ROOT_PATH "VOICE"
+
+#define VOICETXT_FILE       "list.txt"
 
 #define MODELS_EXT          ".bin"
 #define LOGS_EXT            ".csv"
-#define SOUNDS_EXT          ".wav"
-#define BITMAPS_EXT         ".bmp"
 #define TEXT_EXT            ".txt"
-#define FIRMWARE_EXT        ".bin"
-#define EEPROM_EXT          ".bin"
-#define SPORT_FIRMWARE_EXT  ".frk"
 
 extern FATFS g_FATFS_Obj;
 extern FIL g_oLogFile;
