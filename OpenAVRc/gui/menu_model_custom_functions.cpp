@@ -154,11 +154,13 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
 #endif
 
 #if defined(SDCARD)
-           if (active)
+           static uint8_t mem;
+           if ((active) && !(mem == val_displayed))
            {
               char Promptext[TEXT_LEN] ={};
               showVoiceTextLine(val_displayed,Promptext); // Show the prompt text file if exist
               lcdDrawTextAtt(0,0, Promptext, BSS|INVERS|BLINK);
+              mem = val_displayed;
            }
 #endif
 
