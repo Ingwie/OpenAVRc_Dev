@@ -36,6 +36,9 @@
 #define LCD_H 64
 #define SPLASHLENGHT 1026
 
+#define TEXT_LEN  23
+#define VOICETXT_FILE       "list.txt"
+
 
 //(*Headers(OpenAVRc_DesktopFrame)
 #include <wx/stattext.h>

@@ -675,6 +675,24 @@ void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
     wxString audioFiles = "_BuildAudioFiles.bat";
     wxExecute(audioFiles);
   }
+
+  if (wxSetWorkingDirectory(AppPath)) {
+    wxTextFile tfile(VOICETXT_FILE);
+    if (!tfile.Exists()) tfile.Create(); //avoid crash if file doesn't exist
+    tfile.Open(VOICETXT_FILE);
+    tfile.Clear();
+    for (int j = 0; j < 256; j++ ) {
+      voiceText = VoiceGrid->GetCellValue(j,0);
+      voiceText = voiceText.ToAscii();
+      voiceText.append("                                   ");
+      voiceText.Truncate(TEXT_LEN);
+      line = voiceText;
+      tfile.AddLine(line);
+    }
+    tfile.Write();
+    tfile.Close();
+    Close();
+  }
 }
 
 void VoiceEditFrame::OnVoiceGridCellSelect(wxGridEvent& event)

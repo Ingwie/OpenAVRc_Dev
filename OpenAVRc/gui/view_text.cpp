@@ -27,7 +27,6 @@
 #include "../OpenAVRc.h"
 
 #define TEXT_LEN  23
-#define TEXT_FILE_MAXSIZE  256 * (TEXT_LEN +1)
 
 FORCEINLINE void showVoiceTextLine(uint8_t Numline, char * PromptText)
 {
