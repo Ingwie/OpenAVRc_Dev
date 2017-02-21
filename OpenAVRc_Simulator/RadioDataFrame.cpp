@@ -31,11 +31,12 @@ END_EVENT_TABLE()
 RadioDataFrame::RadioDataFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(RadioDataFrame)
-	Create(parent, wxID_ANY, _("Radio Data"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
-	SetClientSize(wxSize(210,328));
+	Create(parent, wxID_ANY, _("Radio Data"), wxDefaultPosition, wxDefaultSize, (wxDEFAULT_FRAME_STYLE|wxFULL_REPAINT_ON_RESIZE )& ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX), _T("wxID_ANY"));
+	SetClientSize(wxSize(220,360));
 	Move(wxPoint(80,80));
-	SetMaxSize(wxSize(210,328));
-	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(184,128), wxSize(210,336), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+	SetMinSize(wxSize(220,360));
+	SetMaxSize(wxSize(222,362));
+	Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Calibration"), wxPoint(8,144), wxSize(192,176), 0, _T("ID_STATICBOX1"));
 	TextCtrlversion = new wxTextCtrl(Panel1, ID_TEXTCTRLVERSION, _("Texte"), wxPoint(8,8), wxDefaultSize, wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRLVERSION"));
 	TextCtrlvariant = new wxTextCtrl(Panel1, ID_TEXTCTRL2, _("Texte"), wxPoint(112,8), wxSize(88,21), wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRL2"));
@@ -68,9 +69,10 @@ RadioDataFrame::~RadioDataFrame()
 
 void RadioDataFrame::FillRadioDataFrame()
 {
+
   TextCtrlversion->SetValue(vTxt = (_T("Version:\t")) + wxString::Format(wxT("%i"),(g_eeGeneral.version)));
   TextCtrlvariant->SetValue(vTxt = (_T("Variante:\t")) + wxString::Format(wxT("%i"),(g_eeGeneral.variant)));
-  TextCtrlcurrModel->SetValue(vTxt = (_T("Modele:\t")) + wxString::Format(wxT("%i"),(g_eeGeneral.currModel)));
+  TextCtrlcurrModel->SetValue(vTxt = (_T("Modele:\t")) + wxString::Format(wxT("%i"),(g_eeGeneral.currModel)+1));
 
   vTxt = _T("Batterie\t") + wxString::Format(wxT("%i"),(g_eeGeneral.vBatMax)+120) + "\t";
   vTxt = vTxt.Append(wxString::Format(wxT("%i"),(g_eeGeneral.vBatMin)+90) + "\t");
