@@ -26,9 +26,6 @@
 
 #include "../OpenAVRc.h"
 #include "menu_model.h"
-#if defined(SDCARD)
-#include "../sdcard.h"
-#endif // defined
 
 
 #define MODELSIZE_POS_X  170

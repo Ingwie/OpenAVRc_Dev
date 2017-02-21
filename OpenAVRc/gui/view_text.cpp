@@ -26,7 +26,7 @@
 
 #include "../OpenAVRc.h"
 
-#define TEXT_LEN  23
+#define TEXT_LEN  25
 
 FORCEINLINE void showVoiceTextLine(uint8_t Numline, char * PromptText)
 {
@@ -49,6 +49,36 @@ FORCEINLINE void showVoiceTextLine(uint8_t Numline, char * PromptText)
     }
   }
   f_close(&file);
+
+
+// test
+/*
+  PromptText[0] = '1';
+  PromptText[1] = '2';
+  PromptText[2] = '3';
+  PromptText[3] = '4';
+  PromptText[4] = '5';
+  PromptText[5] = '6';
+  PromptText[6] = '7';
+  PromptText[7] = '8';
+  PromptText[8] = '9';
+  PromptText[9] = 'A';
+  PromptText[10] = 'B';
+  PromptText[11] = 'C';
+  PromptText[12] = 'D';
+  PromptText[13] = 'E';
+  PromptText[14] = 'F';
+  PromptText[15] = 'G';
+  PromptText[16] = 'H';
+  PromptText[17] = 'I';
+  PromptText[18] = 'J';
+  PromptText[19] = 'K';
+  PromptText[20] = 'L';
+  PromptText[21] = 'M';
+  PromptText[22] = 'N';
+  PromptText[23] = 'O';
+  PromptText[24] = 'K';
+*/
 }
 
 

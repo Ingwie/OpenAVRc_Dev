@@ -976,7 +976,7 @@ void OpenAVRc_DesktopFrame::OnButtonCarteSDClick(wxCommandEvent& event)
       wxBusyInfo wait("Copie en cours, attendez SVP......");
     }
   }
-  Sleep(50);
+  Sleep(500);
   DrawLbmSplash();
 }
 

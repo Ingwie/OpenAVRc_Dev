@@ -684,7 +684,7 @@ void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
     for (int j = 0; j < 256; j++ ) {
       voiceText = VoiceGrid->GetCellValue(j,0);
       voiceText = voiceText.ToAscii();
-      voiceText.append("                                   ");
+      voiceText.append("                                    ");
       voiceText.Truncate(TEXT_LEN);
       line = voiceText;
       tfile.AddLine(line);

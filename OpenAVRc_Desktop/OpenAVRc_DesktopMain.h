@@ -36,7 +36,7 @@
 #define LCD_H 64
 #define SPLASHLENGHT 1026
 
-#define TEXT_LEN  23
+#define TEXT_LEN  25
 #define VOICETXT_FILE       "list.txt"
 
 
