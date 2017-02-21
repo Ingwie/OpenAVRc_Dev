@@ -3,11 +3,12 @@
 	<object class="wxFrame" name="RadioDataFrame">
 		<title>Radio Data</title>
 		<pos>80,80</pos>
-		<size>220,360</size>
-		<minsize>220,360</minsize>
-		<maxsize>222,362</maxsize>
+		<size>210,336</size>
+		<minsize>210,336</minsize>
+		<maxsize>210,336</maxsize>
+		<extra_code>wxDEFAULT__FRAME__STYLE &amp; ~(wxRESIZE__BORDER | wxMAXIMIZE__BOX);</extra_code>
 		<id_arg>0</id_arg>
-		<style>wxDEFAULT_FRAME_STYLE|wxFULL_REPAINT_ON_RESIZE</style>
+		<style>wxCAPTION|wxSYSTEM_MENU|wxCLOSE_BOX|wxMAXIMIZE_BOX|wxCLIP_CHILDREN</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
@@ -63,6 +64,7 @@
 		</object>
 		<object class="wxTimer" name="ID_TIMERRADIODATA" variable="RadioData" member="yes">
 			<interval>2000</interval>
+			<handler function="OnRadioDataTrigger" entry="EVT_TIMER" />
 		</object>
 	</object>
 </wxsmith>

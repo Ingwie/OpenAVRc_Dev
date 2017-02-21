@@ -28,14 +28,18 @@ BEGIN_EVENT_TABLE(RadioDataFrame,wxFrame)
 	//*)
 END_EVENT_TABLE()
 
+
+//wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX)
+
 RadioDataFrame::RadioDataFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(RadioDataFrame)
-	Create(parent, wxID_ANY, _("Radio Data"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
+	Create(parent, wxID_ANY, _("Radio Data"), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxSYSTEM_MENU|wxCLOSE_BOX|wxMAXIMIZE_BOX|wxCLIP_CHILDREN, _T("wxID_ANY"));
 	SetClientSize(wxSize(210,336));
 	Move(wxPoint(80,80));
-	SetMinSize(wxSize(210,340));
-	SetMaxSize(wxSize(222,362));
+	SetMinSize(wxSize(210,336));
+	SetMaxSize(wxSize(210,336));
+	wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX);
 	Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Calibration"), wxPoint(8,144), wxSize(192,176), 0, _T("ID_STATICBOX1"));
 	TextCtrlversion = new wxTextCtrl(Panel1, ID_TEXTCTRLVERSION, _("Texte"), wxPoint(8,8), wxDefaultSize, wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRLVERSION"));
@@ -71,36 +75,36 @@ RadioDataFrame::~RadioDataFrame()
 void RadioDataFrame::PopulateRadioDataFrame(EEGeneral)
 {
   EEGeneral *Radio = &g_eeGeneral;
-  TextCtrlversion->SetValue(vTxt = (_T("Version:\t")) + wxString::Format(wxT("%i"),(Radio->version)));
-  TextCtrlvariant->SetValue(vTxt = (_T("Variante:\t")) + wxString::Format(wxT("%i"),(Radio->variant)));
-  TextCtrlcurrModel->SetValue(vTxt = (_T("Modele:\t")) + wxString::Format(wxT("%i"),(Radio->currModel)+1));
+  TextCtrlversion->SetValue(vTxt = (_T("Version:\t")) + int2wxString(Radio->version));
+  TextCtrlvariant->SetValue(vTxt = (_T("Variante:\t")) + int2wxString(Radio->variant));
+  TextCtrlcurrModel->SetValue(vTxt = (_T("Modele:\t")) + int2wxString(Radio->currModel+1));
 
-  vTxt = _T("Batterie\t") + wxString::Format(wxT("%i"),(Radio->vBatMax)+120) + "\t";
-  vTxt = vTxt.Append(wxString::Format(wxT("%i"),(Radio->vBatMin)+90) + "\t");
-  vTxt = vTxt.Append(wxString::Format(wxT("%i"),(Radio->vBatWarn)));
+  vTxt = _T("Batterie\t") + int2wxString(Radio->vBatMax+120) + "\t";
+  vTxt = vTxt.Append(int2wxString(Radio->vBatMin+90) + "\t");
+  vTxt = vTxt.Append(int2wxString(Radio->vBatWarn));
   TextCtrlBatt->SetValue(vTxt);
 
-  TextCtrlstickMode->SetValue(vTxt = (_T("Mode:\t")) + wxString::Format(wxT("%i"),(Radio->stickMode)+1));
+  TextCtrlstickMode->SetValue(vTxt = (_T("Mode:\t")) + int2wxString(Radio->stickMode+1));
 
   vTxt = "";
   for (int8_t i = 0; i < (NUM_STICKS+NUM_POTS); i++){
     CalibData * calib = &Radio->calib[i];
-    vTxt.Append(wxString::Format(wxT("%i"),(calib->spanNeg)) + "\t");
-    vTxt.Append(wxString::Format(wxT("%i"),(calib->mid)) + "\t");
-    vTxt.Append(wxString::Format(wxT("%i"),(calib->spanPos)) + "\n");
+    vTxt.Append((int2wxString(calib->spanNeg)) + "\t");
+    vTxt.Append((int2wxString(calib->mid)) + "\t");
+    vTxt.Append((int2wxString(calib->spanPos)) + "\n");
     TextCtrlcalibration->SetValue(vTxt);
   }
 }
 
 
 /*PACK(typedef struct {
-                                     uint8_t   version;;
-                                     uint16_t  variant;
+  uint8_t   version;;
+  uint16_t  variant;
   CalibData calib[NUM_STICKS+NUM_POTS];
-                                                  uint16_t  chkSum;
-                                                  int8_t    currModel;
+  uint16_t  chkSum;
+  int8_t    currModel;
   uint8_t   contrast;
-                                                  uint8_t   vBatWarn;
+  uint8_t   vBatWarn;
   int8_t    txVoltageCalibration;
   int8_t    backlightMode;
   TrainerData trainer;
@@ -111,7 +115,7 @@ void RadioDataFrame::PopulateRadioDataFrame(EEGeneral)
   uint8_t   alarmsFlash:1;
   uint8_t   disableMemoryWarning:1;
   uint8_t   disableAlarmWarning:1;
-                                            uint8_t   stickMode:2;
+  uint8_t   stickMode:2;
   int8_t    timezone:5;
   uint8_t   adjustRTC:1;
   uint8_t   inactivityTimer;
@@ -132,8 +136,8 @@ void RadioDataFrame::PopulateRadioDataFrame(EEGeneral)
   uint8_t   unexpectedShutdown:1;
   uint8_t   speakerPitch;
   int8_t    speakerVolume;
-                                                 int8_t    vBatMin;
-                                                 int8_t    vBatMax;
+  int8_t    vBatMin;
+  int8_t    vBatMax;
 
   EXTRA_GENERAL_FIELDS
 
