@@ -1,6 +1,8 @@
 #ifndef RADIODATAFRAME_H
 #define RADIODATAFRAME_H
 
+#include "OpenAVRc_SimulatorApp.h"
+
 //(*Headers(RadioDataFrame)
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
@@ -17,7 +19,7 @@ class RadioDataFrame: public wxFrame
 		RadioDataFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~RadioDataFrame();
 
-		void FillRadioDataFrame();
+		void PopulateRadioDataFrame(EEGeneral);
 
 		RadioDataFrame *RaFr;
 
@@ -58,6 +60,7 @@ class RadioDataFrame: public wxFrame
 		void OnTextCtrlvariantText(wxCommandEvent& event);
 		void OnPanel1Paint(wxPaintEvent& event);
 		void OnClose(wxCloseEvent& event);
+		void OnRadioDataTrigger(wxTimerEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
