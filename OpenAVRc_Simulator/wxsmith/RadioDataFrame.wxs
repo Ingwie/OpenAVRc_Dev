@@ -17,35 +17,29 @@
 				<size>192,176</size>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRLVERSION" variable="TextCtrlversion" member="yes">
-				<value>Texte</value>
 				<pos>8,8</pos>
 				<style>wxTE_READONLY</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL2" variable="TextCtrlvariant" member="yes">
-				<value>Texte</value>
 				<pos>112,8</pos>
 				<size>88,21</size>
 				<style>wxTE_READONLY</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL3" variable="TextCtrlcurrModel" member="yes">
-				<value>Texte</value>
 				<pos>8,32</pos>
 				<style>wxTE_READONLY</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRLBATT" variable="TextCtrlBatt" member="yes">
-				<value>Texte</value>
 				<pos>8,88</pos>
 				<size>192,21</size>
 				<style>wxTE_READONLY</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRLSTICKMODE" variable="TextCtrlstickMode" member="yes">
-				<value>Texte</value>
 				<pos>8,112</pos>
 				<size>144,21</size>
 				<style>wxTE_READONLY</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRLCalibration" variable="TextCtrlcalibration" member="yes">
-				<value>Texte</value>
 				<pos>16,192</pos>
 				<size>176,120</size>
 				<bg>wxSYS_COLOUR_MENU</bg>
