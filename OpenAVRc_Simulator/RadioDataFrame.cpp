@@ -19,6 +19,8 @@ const long RadioDataFrame::ID_TEXTCTRLSTICKMODE = wxNewId();
 const long RadioDataFrame::ID_TEXTCTRLCalibration = wxNewId();
 const long RadioDataFrame::ID_STATICTEXT1 = wxNewId();
 const long RadioDataFrame::ID_STATICTEXT2 = wxNewId();
+const long RadioDataFrame::ID_TEXTCTRLCONTRAST = wxNewId();
+const long RadioDataFrame::ID_TEXTCTRLHAPTICMODE = wxNewId();
 const long RadioDataFrame::ID_PANEL1 = wxNewId();
 const long RadioDataFrame::ID_TIMERRADIODATA = wxNewId();
 //*)
@@ -35,10 +37,10 @@ RadioDataFrame::RadioDataFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 {
 	//(*Initialize(RadioDataFrame)
 	Create(parent, wxID_ANY, _("Radio Data"), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxSYSTEM_MENU|wxCLOSE_BOX|wxMAXIMIZE_BOX|wxCLIP_CHILDREN, _T("wxID_ANY"));
-	SetClientSize(wxSize(210,336));
+	SetClientSize(wxSize(210,420));
 	Move(wxPoint(80,80));
-	SetMinSize(wxSize(210,336));
-	SetMaxSize(wxSize(210,336));
+	SetMinSize(wxSize(210,420));
+	SetMaxSize(wxSize(210,420));
 	wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX);
 	Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Calibration"), wxPoint(8,144), wxSize(192,176), 0, _T("ID_STATICBOX1"));
@@ -51,6 +53,10 @@ RadioDataFrame::RadioDataFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	TextCtrlcalibration->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
 	StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("                     Max         Min       Alarm"), wxPoint(8,64), wxSize(192,24), 0, _T("ID_STATICTEXT1"));
 	StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, _(" 1024            1024           1024"), wxPoint(16,168), wxSize(168,13), 0, _T("ID_STATICTEXT2"));
+	TextCtrlcontrast = new wxTextCtrl(Panel1, ID_TEXTCTRLCONTRAST, wxEmptyString, wxPoint(16,336), wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRLCONTRAST"));
+	TextCtrlcontrast->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
+	TextCtrlhapticMode = new wxTextCtrl(Panel1, ID_TEXTCTRLHAPTICMODE, wxEmptyString, wxPoint(16,360), wxSize(136,21), 0, wxDefaultValidator, _T("ID_TEXTCTRLHAPTICMODE"));
+	TextCtrlhapticMode->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
 	RadioData.SetOwner(this, ID_TIMERRADIODATA);
 	RadioData.Start(2000, false);
 
@@ -101,6 +107,16 @@ void RadioDataFrame::PopulateRadioDataFrame()
       vTxt.Append((int2wxString(calib->spanPos)) + "\n");
       TextCtrlcalibration->SetValue(vTxt);
     }
+
+    TextCtrlcontrast->SetValue(vTxt = (_T("Contraste:\t")) + int2wxString(Radio.contrast));
+
+    wxString hapStr;
+    if (Radio.hapticMode = -2) hapStr = (_T("Haptic:\tSilence"));
+    if (Radio.hapticMode = -1) hapStr = (_T("Haptic:\tAlarmes"));
+    if (Radio.hapticMode = 0) hapStr = (_T("Haptic:\tNo keys"));
+    if (Radio.hapticMode = 1) hapStr = (_T("Haptic:\tTous"));
+
+    TextCtrlhapticMode->SetValue(hapStr);
   }
 }
 

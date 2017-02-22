@@ -3,9 +3,9 @@
 	<object class="wxFrame" name="RadioDataFrame">
 		<title>Radio Data</title>
 		<pos>80,80</pos>
-		<size>210,336</size>
-		<minsize>210,336</minsize>
-		<maxsize>210,336</maxsize>
+		<size>210,420</size>
+		<minsize>210,420</minsize>
+		<maxsize>210,420</maxsize>
 		<extra_code>wxDEFAULT__FRAME__STYLE &amp; ~(wxRESIZE__BORDER | wxMAXIMIZE__BOX);</extra_code>
 		<id_arg>0</id_arg>
 		<style>wxCAPTION|wxSYSTEM_MENU|wxCLOSE_BOX|wxMAXIMIZE_BOX|wxCLIP_CHILDREN</style>
@@ -54,6 +54,15 @@
 				<label> 1024            1024           1024</label>
 				<pos>16,168</pos>
 				<size>168,13</size>
+			</object>
+			<object class="wxTextCtrl" name="ID_TEXTCTRLCONTRAST" variable="TextCtrlcontrast" member="yes">
+				<pos>16,336</pos>
+				<bg>wxSYS_COLOUR_MENU</bg>
+			</object>
+			<object class="wxTextCtrl" name="ID_TEXTCTRLHAPTICMODE" variable="TextCtrlhapticMode" member="yes">
+				<pos>16,360</pos>
+				<size>136,21</size>
+				<bg>wxSYS_COLOUR_MENU</bg>
 			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMERRADIODATA" variable="RadioData" member="yes">

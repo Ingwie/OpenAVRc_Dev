@@ -26,6 +26,7 @@ class RadioDataFrame: public wxFrame
 		//(*Declarations(RadioDataFrame)
 		wxTextCtrl* TextCtrlstickMode;
 		wxStaticText* StaticText2;
+		wxTextCtrl* TextCtrlhapticMode;
 		wxTextCtrl* TextCtrlvariant;
 		wxTextCtrl* TextCtrlversion;
 		wxPanel* Panel1;
@@ -35,6 +36,7 @@ class RadioDataFrame: public wxFrame
 		wxTextCtrl* TextCtrlcalibration;
 		wxTimer RadioData;
 		wxTextCtrl* TextCtrlcurrModel;
+		wxTextCtrl* TextCtrlcontrast;
 		//*)
 
 	protected:
@@ -49,6 +51,8 @@ class RadioDataFrame: public wxFrame
 		static const long ID_TEXTCTRLCalibration;
 		static const long ID_STATICTEXT1;
 		static const long ID_STATICTEXT2;
+		static const long ID_TEXTCTRLCONTRAST;
+		static const long ID_TEXTCTRLHAPTICMODE;
 		static const long ID_PANEL1;
 		static const long ID_TIMERRADIODATA;
 		//*)
