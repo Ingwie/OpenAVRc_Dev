@@ -19,7 +19,7 @@ class RadioDataFrame: public wxFrame
 		RadioDataFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~RadioDataFrame();
 
-		void PopulateRadioDataFrame(EEGeneral);
+		void PopulateRadioDataFrame();
 
 		RadioDataFrame *RaFr;
 

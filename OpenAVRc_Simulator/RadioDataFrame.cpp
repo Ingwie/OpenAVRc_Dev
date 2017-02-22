@@ -63,7 +63,7 @@ RadioDataFrame::RadioDataFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
     SetIcon(wxICON(nsrcs_icon));
   }
 
-	PopulateRadioDataFrame(g_eeGeneral);
+	PopulateRadioDataFrame();
 }
 
 RadioDataFrame::~RadioDataFrame()
@@ -72,24 +72,30 @@ RadioDataFrame::~RadioDataFrame()
 	//*)
 }
 
-void RadioDataFrame::PopulateRadioDataFrame(EEGeneral)
+void RadioDataFrame::PopulateRadioDataFrame()
 {
-  EEGeneral *Radio = &g_eeGeneral;
-  if (Radio->version != 0 ){
-    TextCtrlversion->SetValue(vTxt = (_T("Version:\t")) + int2wxString(Radio->version));
-    TextCtrlvariant->SetValue(vTxt = (_T("Variante:\t")) + int2wxString(Radio->variant));
-    TextCtrlcurrModel->SetValue(vTxt = (_T("Modele:\t")) + int2wxString(Radio->currModel+1));
+  EEGeneral Radio = g_eeGeneral;
+  if (Radio.version != 0 ){
+    TextCtrlversion->SetValue(vTxt = (_T("Version:\t")) + int2wxString(Radio.version));
+    TextCtrlvariant->SetValue(vTxt = (_T("Variante:\t")) + int2wxString(Radio.variant));
+    TextCtrlcurrModel->SetValue(vTxt = (_T("Modele:\t")) + int2wxString(Radio.currModel+1));
 
-    vTxt = _T("Batterie\t") + int2wxString(Radio->vBatMax+120) + "\t";
-    vTxt = vTxt.Append(int2wxString(Radio->vBatMin+90) + "\t");
-    vTxt = vTxt.Append(int2wxString(Radio->vBatWarn));
+    vTxt = _T("Batterie\t") + int2wxString((Radio.vBatMax + 120)/10) + ".";
+    vTxt = vTxt.Append(int2wxString((Radio.vBatMax + 120) % 10) + "\t");
+
+    vTxt = vTxt.Append(int2wxString((Radio.vBatMin + 90)/10) + ".");
+    vTxt = vTxt.Append(int2wxString((Radio.vBatMin + 90) % 10) + "\t");
+
+    vTxt = vTxt.Append(int2wxString((Radio.vBatWarn)/10)+ ".");
+    vTxt = vTxt.Append(int2wxString(Radio.vBatWarn % 10));
+
     TextCtrlBatt->SetValue(vTxt);
 
-    TextCtrlstickMode->SetValue(vTxt = (_T("Mode:\t")) + int2wxString(Radio->stickMode+1));
+    TextCtrlstickMode->SetValue(vTxt = (_T("Mode:\t")) + int2wxString(Radio.stickMode+1));
 
     vTxt = "";
     for (int8_t i = 0; i < (NUM_STICKS+NUM_POTS); i++){
-      CalibData * calib = &Radio->calib[i];
+      CalibData *calib = &Radio.calib[i];
       vTxt.Append((int2wxString(calib->spanNeg)) + "\t");
       vTxt.Append((int2wxString(calib->mid)) + "\t");
       vTxt.Append((int2wxString(calib->spanPos)) + "\n");
@@ -109,5 +115,5 @@ void RadioDataFrame::OnClose(wxCloseEvent& event)
 
 void RadioDataFrame::OnRadioDataTrigger(wxTimerEvent& event)
 {
-  PopulateRadioDataFrame(g_eeGeneral);
+  PopulateRadioDataFrame();
 }
