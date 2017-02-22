@@ -3,9 +3,11 @@
 	<object class="wxFrame" name="OutBarsFrame">
 		<title>État des sorties.</title>
 		<pos>40,40</pos>
-		<size>263,285</size>
-		<maxsize>263,285</maxsize>
+		<size>270,296</size>
+		<minsize>270,296</minsize>
+		<maxsize>270,296</maxsize>
 		<id_arg>0</id_arg>
+		<style>wxCAPTION|wxSYSTEM_MENU|wxCLOSE_BOX|wxMAXIMIZE_BOX|wxCLIP_CHILDREN</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANELOUTPUTSLIDEERS" variable="PanelOutputSliders" member="yes">
 			<size>263,312</size>
