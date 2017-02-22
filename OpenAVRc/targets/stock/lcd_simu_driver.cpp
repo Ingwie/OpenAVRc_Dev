@@ -34,6 +34,7 @@
 
 
 #define NUMITERATIONFULLREFRESH  1
+#define SIMU_VOICE_PROMPT_TEXT_LEN 25
 
 wxFileName Myfile;
 
@@ -67,12 +68,12 @@ void lcdSetRefVolt(uint8_t val)
 
 void lcdRefreshFast()
 {
-SHOWDURATIONLCD1
+  SHOWDURATIONLCD1
 #if defined(SHOWDURATION)
   lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
 #endif
   wxGetApp().SimuFrame->DrawWxSimuLcd(); // ca marche  !!
-SHOWDURATIONLCD2
+  SHOWDURATIONLCD2
 }
 
 void lcdRefresh()
@@ -84,6 +85,22 @@ void lcdRefresh()
 
 
 //SD FUNCTIONS
+
+void Simu_showVoiceTextLine(uint8_t Numline, char * PromptText)
+{
+  char c[SIMU_VOICE_PROMPT_TEXT_LEN] = {0};
+  wxTextFile MyVoiceListfile(AppPath+"\\list.txt");
+  wxString voiceText;
+
+  if (MyVoiceListfile.Exists()) {
+    MyVoiceListfile.Open(AppPath+"\\list.txt");
+    voiceText = MyVoiceListfile.GetLine(Numline);
+    voiceText.Truncate(SIMU_VOICE_PROMPT_TEXT_LEN);
+    memcpy(PromptText, voiceText.c_str(),SIMU_VOICE_PROMPT_TEXT_LEN);
+    MyVoiceListfile.Close();
+  }
+}
+
 
 FRESULT f_close (FIL * fil)
 {

@@ -154,12 +154,15 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
 #endif
 
 #if defined(SDCARD)
-           if (active)
-           {
-              char Promptext[TEXT_LEN] ={};
-              showVoiceTextLine(val_displayed,Promptext); // Show the prompt text file if exist
-              lcdDrawTextAtt(0,0, Promptext, BSS|INVERS|BLINK);
-           }
+          if (active) {
+            char Promptext[VOICE_PROMPT_TEXT_LEN] = {};
+#if defined(SIMU)
+            Simu_showVoiceTextLine(val_displayed,Promptext);
+#else
+            showVoiceTextLine(val_displayed,Promptext); // Show the prompt text file if exist
+#endif
+            lcdDrawTextAtt(0,0, Promptext, BSS|INVERS|BLINK);
+          }
 #endif
 
         } else if (func == FUNC_PLAY_BOTH) {

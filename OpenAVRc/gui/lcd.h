@@ -208,6 +208,7 @@ void lcdInit();
 #if defined (SIMU)
 void simuTrace(const char * format, ...);
 void SimuSleepMs(uint16_t x);
+void Simu_showVoiceTextLine(uint8_t Numline, char * PromptText);
 #endif // defined
 void lcdRefresh();
 void lcdRefreshFast();

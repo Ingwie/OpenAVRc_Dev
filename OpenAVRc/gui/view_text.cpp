@@ -26,24 +26,24 @@
 
 #include "../OpenAVRc.h"
 
-#define TEXT_LEN  25
+#define VOICE_PROMPT_TEXT_LEN  25
 
 FORCEINLINE void showVoiceTextLine(uint8_t Numline, char * PromptText)
 {
   FIL file;
   int result;
-  char c[TEXT_LEN] = {0};
+  char c[VOICE_PROMPT_TEXT_LEN] = {0};
   unsigned int sz;
 
   result = f_chdir(VOICETXT_PATH);
   if (result == FR_OK) {
     result = f_open(&file,VOICETXT_FILE, FA_OPEN_EXISTING | FA_READ);
     if (result == FR_OK) {
-      result = f_lseek(&file, Numline*(TEXT_LEN+2));
+      result = f_lseek(&file, Numline*(VOICE_PROMPT_TEXT_LEN+2));
       if (result == FR_OK) {
-        result = f_read(&file, &c, TEXT_LEN, &sz);
+        result = f_read(&file, &c, VOICE_PROMPT_TEXT_LEN, &sz);
         if (result == FR_OK) {
-          memcpy(PromptText,c,TEXT_LEN);
+          memcpy(PromptText,c,VOICE_PROMPT_TEXT_LEN);
         }
       }
     }
