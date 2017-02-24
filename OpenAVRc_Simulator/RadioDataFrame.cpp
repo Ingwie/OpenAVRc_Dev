@@ -111,10 +111,10 @@ void RadioDataFrame::PopulateRadioDataFrame()
     TextCtrlcontrast->SetValue(vTxt = (_T("Contraste:\t")) + int2wxString(Radio.contrast));
 
     wxString hapStr;
-    if (Radio.hapticMode = -2) hapStr = (_T("Haptic:\tSilence"));
-    if (Radio.hapticMode = -1) hapStr = (_T("Haptic:\tAlarmes"));
-    if (Radio.hapticMode = 0) hapStr = (_T("Haptic:\tNo keys"));
-    if (Radio.hapticMode = 1) hapStr = (_T("Haptic:\tTous"));
+    if (Radio.hapticMode == -2) hapStr = (_T("Haptic:\tSilence"));
+    if (Radio.hapticMode == -1) hapStr = (_T("Haptic:\tAlarmes"));
+    if (Radio.hapticMode == 0) hapStr = (_T("Haptic:\tNo keys"));
+    if (Radio.hapticMode == 1) hapStr = (_T("Haptic:\tTout"));
 
     TextCtrlhapticMode->SetValue(hapStr);
   }
