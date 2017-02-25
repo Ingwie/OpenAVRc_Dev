@@ -87,7 +87,7 @@ LICENSE:
 
 // OpenAVRc Defines EEprom used type
 //#define STOCK_EE
-#define ADDRESS24C32  (0x57 << 1) //0x57 with no strap device address of EEPROM 24C32, see datasheet
+#define ADDRESS_EXTERN_EEPROM  (0x50 << 1) //0x50 with no strap device address of EEPROM FM24W256, see datasheet
 
 
 #include	<inttypes.h>
@@ -720,10 +720,10 @@ int main(void)
             size--;						// Decrease number of bytes to write
           }
 #else // External I2C EEPROM
-            i2c_start(ADDRESS24C32+I2C_WRITE);     // set device address and write mode
+            i2c_start(ADDRESS_EXTERN_EEPROM+I2C_WRITE);     // set device address and write mode
             i2c_write(((address) & 0xFF00) >> 8); //MSB write address
             i2c_write(((address) & 0x00FF)); //LSB write address
-            delay_ms(5);     // Delay for 24C32
+            //delay_ms(5);     // Delay for 24C32
           while (size) {
             i2c_write(*p++); // write value to EEPROM
             address++;						// Select next EEPROM byte
@@ -774,10 +774,9 @@ int main(void)
           } while (size);
 
 #else // External I2C EEPROM
-            i2c_start(ADDRESS24C32+I2C_WRITE);     // set device address and write mode
+            i2c_start(ADDRESS_EXTERN_EEPROM+I2C_READ);     // set device address and read mode
             i2c_write(((address) & 0xFF00) >> 8); //MSB write address
             i2c_write(((address) & 0x00FF)); //LSB write address
-            i2c_start(ADDRESS24C32+I2C_READ);     // set device address and write mode
           do {
             *p++ = i2c_read_ack(); // read value from EEPROM
             address++;
