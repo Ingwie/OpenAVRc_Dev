@@ -6,7 +6,7 @@
 *                         Based on code named                            *
 *             OpenTx - https://github.com/opentx/opentx                  *
 *                                                                        *
-*                Only AVR code here for lisibility ;-)                   *
+*                Only AVR code here for visibility ;-)                   *
 *                                                                        *
 *   OpenAVRc is free software: you can redistribute it and/or modify     *
 *   it under the terms of the GNU General Public License as published by *
@@ -110,14 +110,18 @@ ISR(TIMER1_COMPA_vect) // 2MHz pulse generation (BLOCKING ISR).
     if (!IS_DSM2_SERIAL_PROTOCOL(s_current_protocol[0])) {
       OCR1A = SETUP_PULSES_DURATION;
 #if defined(CPUM2560) // CPUM2560 hardware toggled PPM out.
-      OCR1B = OCR1A;
+      OCR1B = SETUP_PULSES_DURATION;
       if (g_model.pulsePol) {
         TCCR1A = (TCCR1A | (1<<COM1B1)) & ~(1<<COM1B0); // Set idle level.
-      } else {
+      }
+      else {
         TCCR1A |= 3<<COM1B0;
       }
       TCCR1C = 1<<FOC1B; // Strobe FOC1B.
       TCCR1A = (TCCR1A | (1<<COM1B0)) & ~(1<<COM1B1); // Toggle OC1B on next match.
+#else // Bit Banging PPM out.
+      if (g_model.pulsePol) PORTB &= ~(1<<OUT_B_PPM); // Set idle level - GCC optimisation should result in a single SBI instruction.
+      else PORTB |= (1<<OUT_B_PPM);
 #endif
     }
     setupPulses(); // Does not sei() for setupPulsesPPM.
@@ -126,21 +130,15 @@ ISR(TIMER1_COMPA_vect) // 2MHz pulse generation (BLOCKING ISR).
   }
 
   if (s_current_protocol[0] != PROTO_NONE) {
-#if !defined(CPUM2560)
-    // Original Bit-bang for PPM.
-    if (g_ppmPulsePolarity) {
-      PORTB |= (1<<OUT_B_PPM); // GCC optimisation should result in a single SBI instruction
-      g_ppmPulsePolarity = 0;
-    } else {
-      PORTB &= ~(1<<OUT_B_PPM);
-      g_ppmPulsePolarity = 1;
-    }
+#if !defined(CPUM2560) // Bit Banging PPM out.
+	PORTB ^= (1<<OUT_B_PPM); // Toggle port bit.
 #else // defined(CPUM2560)
-    // CPUM2560 hardware toggled PPM out.
+	// CPUM2560 hardware toggled PPM out.
     if (*(uint16_t*)(pulses2MHzRPtr + sizeof(uint16_t)) == 0) {
       // Look one step ahead to see if we are currently the "rest" period.
       OCR1B = 0xffff; // Prevent next compare match hence toggle.
-    } else {
+    }
+    else {
       OCR1B = *((uint16_t*) pulses2MHzRPtr);
     }
 #endif
@@ -850,9 +848,8 @@ void setupPulses()
       //    PPM mode will dynamically adjust to the frame rate set in model SETUP menu,
       //    from within setupPulsesPPM().
 #if defined(CPUM2560) || defined(CPUM2561)
-      TIMSK1 |= (1<<OCIE1A);                // Enable COMPA
-      TCCR1A = (3 << COM1B0);               // Connect OC1B for hardware PPM switching. G: Not needed
-      // for DSM2=SERIAL. But OK.
+      TIMSK1 |= (1<<OCIE1A);  // Enable COMPA
+//      TCCR1A = (3 << COM1B0); // Connect OC1B for hardware PPM switching. G: Not needed for DSM2=SERIAL. But OK.
 #else
       TIMSK |= 0x10;                        // Enable COMPA
       TCCR1A = (0 << WGM10);
@@ -903,9 +900,9 @@ void setupPulses()
 #endif
 
   default: // standard PPM protocol
-#if !defined(SIMU)
-    g_ppmPulsePolarity = g_model.pulsePol;
-#endif
+//#if !defined(SIMU)
+//      g_ppmPulsePolarity = g_model.pulsePol; // Don't need to do this.
+//#endif
     // schedule next Mixer calculations
     SCHEDULE_MIXER_END(45*8+g_model.ppmFrameLength*8);
     // no sei here
