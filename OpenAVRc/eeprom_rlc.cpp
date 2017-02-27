@@ -83,14 +83,14 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
   }
 }
 
-#else // Use extern EEPROM
+#else // Use extern FRAM EEPROM IIC Mode
 
-void Ext_eeprom_read_block(uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size)
+void Ext_eeprom_read_block(uint8_t * pointer_ram, uint16_t pointer_eeprom, size_t size)
 {
-  i2c_start(ADDRESS24C32+I2C_WRITE);     // set device address and write mode
+  i2c_start(ADDRESS_EXTERN_EEPROM+I2C_WRITE);     // set device address and write mode
   i2c_write((uint8_t)(pointer_eeprom >> 8)); //MSB write address
   i2c_write((uint8_t)(pointer_eeprom & 0x00FF)); //LSB write address
-  i2c_start(ADDRESS24C32+I2C_READ);     // set device address and write mode
+  i2c_start(ADDRESS_EXTERN_EEPROM+I2C_READ);     // set device address and write mode
   do {
     *pointer_ram++ = i2c_read_ack(); // read value from EEPROM
     size--;
@@ -106,13 +106,12 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
   eeprom_buffer_data = i_pointer_ram;
   eeprom_buffer_size = size+1;
 
-  i2c_start(ADDRESS24C32+I2C_WRITE);     // set device address and write mode
+  i2c_start(ADDRESS_EXTERN_EEPROM+I2C_WRITE);     // set device address and write mode
   i2c_write((uint8_t)(i_pointer_eeprom >> 8)); //MSB write address
   i2c_write((uint8_t)(i_pointer_eeprom & 0x00FF)); //LSB write address
-  _delay_us(50);                    // Delay for 24C32 :(
   i2c_writeISR(*eeprom_buffer_data);    // write value to EEPROM
-  eeprom_pointer++;
-  eeprom_buffer_data++;
+  ++eeprom_buffer_data; // increase data adress
+  --eeprom_buffer_size; // one byte less to write
   if (s_sync_write) {
     while (eeprom_buffer_size > 0) MYWDT_RESET(); // Wait completion and reset watchdog
   }
@@ -122,12 +121,11 @@ ISR(TWI_vect)
 {
   if (--eeprom_buffer_size > 0) {
     i2c_writeISR(*eeprom_buffer_data);
+    ++eeprom_buffer_data;
   } else {
+    TWCR &= ~(1<<TWINT);
     i2c_stop();
-    return;
   }
-  eeprom_pointer++;
-  eeprom_buffer_data++;
 }
 #endif
 
