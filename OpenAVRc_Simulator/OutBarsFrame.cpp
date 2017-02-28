@@ -68,11 +68,9 @@ END_EVENT_TABLE()
 OutBarsFrame::OutBarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(OutBarsFrame)
-	Create(parent, wxID_ANY, _("État des sorties."), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxSYSTEM_MENU|wxCLOSE_BOX|wxMAXIMIZE_BOX|wxCLIP_CHILDREN, _T("wxID_ANY"));
-	SetClientSize(wxSize(270,300));
+	Create(parent, wxID_ANY, _("État des sorties."), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
+	SetClientSize(wxSize(270,296));
 	Move(wxPoint(40,40));
-	SetMinSize(wxSize(270,300));
-	SetMaxSize(wxSize(270,300));
 	PanelOutputSliders = new wxPanel(this, ID_PANELOUTPUTSLIDEERS, wxDefaultPosition, wxSize(263,312), 0, _T("ID_PANELOUTPUTSLIDEERS"));
 	output1 = new wxTextCtrl(PanelOutputSliders, ID_TEXTCTRL1, _("Texte"), wxPoint(216,10), wxSize(56,16), wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW, wxDefaultValidator, _T("ID_TEXTCTRL1"));
 	output2 = new wxTextCtrl(PanelOutputSliders, ID_TEXTCTRL2, _("Texte"), wxPoint(216,26), wxSize(56,16), wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW, wxDefaultValidator, _T("ID_TEXTCTRL2"));

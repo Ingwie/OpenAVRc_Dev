@@ -22,18 +22,17 @@ END_EVENT_TABLE()
 GvarsFrame::GvarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(GvarsFrame)
-	Create(parent, wxID_ANY, _("Variables globales"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxSUNKEN_BORDER, _T("wxID_ANY"));
-	SetClientSize(wxSize(332,153));
+	Create(parent, wxID_ANY, _("Variables globales"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER, _T("wxID_ANY"));
+	SetClientSize(wxSize(300,135));
 	Move(wxPoint(60,60));
-	SetMaxSize(wxSize(615,398));
-	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(0,48), wxSize(328,153), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-	GVARSGrid = new wxGrid(Panel1, ID_GRID1, wxPoint(8,8), wxSize(304,128), wxSUNKEN_BORDER, _T("ID_GRID1"));
+	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(0,48), wxSize(312,136), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+	GVARSGrid = new wxGrid(Panel1, ID_GRID1, wxPoint(8,8), wxSize(312,128), wxSUNKEN_BORDER, _T("ID_GRID1"));
 	GVARSGrid->CreateGrid(5,6);
 	GVARSGrid->Disable();
 	GVARSGrid->EnableEditing(false);
 	GVARSGrid->EnableGridLines(true);
-	GVARSGrid->SetColLabelSize(20);
-	GVARSGrid->SetRowLabelSize(36);
+	GVARSGrid->SetColLabelSize(29);
+	GVARSGrid->SetRowLabelSize(50);
 	GVARSGrid->SetDefaultColSize(40, true);
 	GVARSGrid->SetColLabelValue(0, _("PV0"));
 	GVARSGrid->SetColLabelValue(1, _("PV1"));

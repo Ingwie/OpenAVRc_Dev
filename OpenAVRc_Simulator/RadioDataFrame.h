@@ -11,6 +11,7 @@
 #include <wx/frame.h>
 #include <wx/timer.h>
 //*)
+#define wxDEFAULT_DIALOG_STYLE  (wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX)
 
 class RadioDataFrame: public wxFrame
 {

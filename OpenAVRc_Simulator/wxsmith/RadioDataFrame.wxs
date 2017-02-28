@@ -4,11 +4,9 @@
 		<title>Radio Data</title>
 		<pos>80,80</pos>
 		<size>210,420</size>
-		<minsize>210,420</minsize>
-		<maxsize>210,420</maxsize>
 		<extra_code>wxDEFAULT__FRAME__STYLE &amp; ~(wxRESIZE__BORDER | wxMAXIMIZE__BOX);</extra_code>
 		<id_arg>0</id_arg>
-		<style>wxCAPTION|wxSYSTEM_MENU|wxCLOSE_BOX|wxMAXIMIZE_BOX|wxCLIP_CHILDREN</style>
+		<style>wxDEFAULT_DIALOG_STYLE</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
