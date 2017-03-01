@@ -19,7 +19,7 @@ class OutBarsFrame: public wxFrame
 		OutBarsFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~OutBarsFrame();
 
-    void FillBarFrame();
+    void PopulateBarFrame();
 
 		//(*Declarations(OutBarsFrame)
 		wxSlider* Slider1;

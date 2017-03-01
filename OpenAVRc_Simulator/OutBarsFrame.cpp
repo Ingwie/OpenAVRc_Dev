@@ -149,7 +149,7 @@ OutBarsFrame::OutBarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     SetIcon(wxICON(nsrcs_icon));
   }
 
-	FillBarFrame();
+	PopulateBarFrame();
 }
 
 OutBarsFrame::~OutBarsFrame()
@@ -158,77 +158,114 @@ OutBarsFrame::~OutBarsFrame()
 	//*)
 }
 
-void OutBarsFrame::FillBarFrame()
+int16_t calcRESXto1000(int16_t x)  // return x/1.024
 {
-  wxString mystring = wxString::Format(wxT("%i"),channelOutputs[0] * 100/1024) + "%";
-	output1->SetValue(mystring);
-	Slider1->SetValue(channelOutputs[0] * 100/1024);
+  // *1000/1024 = x - x/32 + x/128
+  return (x - (x>>5) + (x>>7));
+}
 
-  mystring = wxString::Format(wxT("%i"),channelOutputs[1] * 100/1024) + "%";
-	output2->SetValue(mystring);
-	Slider2->SetValue(channelOutputs[1] * 100/1024);
+void OutBarsFrame::PopulateBarFrame()
+{
+  float valor = (calcRESXto1000(channelOutputs[0]));
+  valor /= 10;
+  wxString mystring = wxString::Format(wxT("%.1f"), valor) + "%";
+  output1->SetValue(mystring);
+	Slider1->SetValue(valor);
 
-  mystring = wxString::Format(wxT("%i"),channelOutputs[2] * 100/1024) + "%";
-	output3->SetValue(mystring);
-	Slider3->SetValue(channelOutputs[2] * 100/1024);
+  valor = (calcRESXto1000(channelOutputs[1]));
+  valor /= 10;
+  mystring = wxString::Format(wxT("%.1f"), valor) + "%";
+  output2->SetValue(mystring);
+	Slider2->SetValue(valor);
 
-  mystring = wxString::Format(wxT("%i"),channelOutputs[3] * 100/1024) + "%";
-	output4->SetValue(mystring);
-	Slider4->SetValue(channelOutputs[3] * 100/1024);
+  valor = (calcRESXto1000(channelOutputs[2]));
+  valor /= 10;
+  mystring = wxString::Format(wxT("%.1f"), valor) + "%";
+  output3->SetValue(mystring);
+	Slider3->SetValue(valor);
 
-  mystring = wxString::Format(wxT("%i"),channelOutputs[4] * 100/1024) + "%";
-	output5->SetValue(mystring);
-	Slider5->SetValue(channelOutputs[4] * 100/1024);
+  valor = (calcRESXto1000(channelOutputs[3]));
+  valor /= 10;
+  mystring = wxString::Format(wxT("%.1f"), valor) + "%";
+  output4->SetValue(mystring);
+	Slider4->SetValue(valor);
 
-  mystring = wxString::Format(wxT("%i"),channelOutputs[5] * 100/1024) + "%";
-	output6->SetValue(mystring);
-	Slider6->SetValue(channelOutputs[5] * 100/1024);
+  valor = (calcRESXto1000(channelOutputs[4]));
+  valor /= 10;
+  mystring = wxString::Format(wxT("%.1f"), valor) + "%";
+  output5->SetValue(mystring);
+	Slider5	->SetValue(valor);
 
-  mystring = wxString::Format(wxT("%i"),channelOutputs[6] * 100/1024) + "%";
-	output7->SetValue(mystring);
-	Slider7->SetValue(channelOutputs[6] * 100/1024);
+  valor = (calcRESXto1000(channelOutputs[5]));
+  valor /= 10;
+  mystring = wxString::Format(wxT("%.1f"), valor) + "%";
+  output6->SetValue(mystring);
+	Slider6->SetValue(valor);
 
-  mystring = wxString::Format(wxT("%i"),channelOutputs[7] * 100/1024) + "%";
-	output8->SetValue(mystring);
-	Slider8->SetValue(channelOutputs[7] * 100/1024);
+  valor = (calcRESXto1000(channelOutputs[6]));
+  valor /= 10;
+  mystring = wxString::Format(wxT("%.1f"), valor) + "%";
+  output7->SetValue(mystring);
+	Slider7->SetValue(valor);
 
-	mystring = wxString::Format(wxT("%i"),channelOutputs[8] * 100/1024) + "%";
-	output9->SetValue(mystring);
-	Slider9->SetValue(channelOutputs[8] * 100/1024);
+  valor = (calcRESXto1000(channelOutputs[7]));
+  valor /= 10;
+  mystring = wxString::Format(wxT("%.1f"), valor) + "%";
+  output8->SetValue(mystring);
+	Slider8->SetValue(valor);
 
-  mystring = wxString::Format(wxT("%i"),channelOutputs[9] * 100/1024) + "%";
-	output10->SetValue(mystring);
-	Slider10->SetValue(channelOutputs[9] * 100/1024);
+  valor = (calcRESXto1000(channelOutputs[8]));
+  valor /= 10;
+  mystring = wxString::Format(wxT("%.1f"), valor) + "%";
+  output9->SetValue(mystring);
+	Slider9->SetValue(valor);
 
-  mystring = wxString::Format(wxT("%i"),channelOutputs[10] * 100/1024) + "%";
-	output11->SetValue(mystring);
-	Slider11->SetValue(channelOutputs[10] * 100/1024);
+  valor = (calcRESXto1000(channelOutputs[9]));
+  valor /= 10;
+  mystring = wxString::Format(wxT("%.1f"), valor) + "%";
+  output10->SetValue(mystring);
+	Slider10->SetValue(valor);
 
-  mystring = wxString::Format(wxT("%i"),channelOutputs[11] * 100/1024) + "%";
-	output12->SetValue(mystring);
-	Slider12->SetValue(channelOutputs[11] * 100/1024);
+  valor = (calcRESXto1000(channelOutputs[10]));
+  valor /= 10;
+  mystring = wxString::Format(wxT("%.1f"), valor) + "%";
+  output11->SetValue(mystring);
+	Slider11->SetValue(valor);
 
-  mystring = wxString::Format(wxT("%i"),channelOutputs[12] * 100/1024) + "%";
-	output13->SetValue(mystring);
-	Slider13->SetValue(channelOutputs[12] * 100/1024);
+  valor = (calcRESXto1000(channelOutputs[11]));
+  valor /= 10;
+  mystring = wxString::Format(wxT("%.1f"), valor) + "%";
+  output12->SetValue(mystring);
+	Slider12->SetValue(valor);
 
-  mystring = wxString::Format(wxT("%i"),channelOutputs[13] * 100/1024) + "%";
-	output14->SetValue(mystring);
-	Slider14->SetValue(channelOutputs[13] * 100/1024);
+  valor = (calcRESXto1000(channelOutputs[12]));
+  valor /= 10;
+  mystring = wxString::Format(wxT("%.1f"), valor) + "%";
+  output13->SetValue(mystring);
+	Slider13->SetValue(valor);
 
-  mystring = wxString::Format(wxT("%i"),channelOutputs[14] * 100/1024) + "%";
-	output15->SetValue(mystring);
-	Slider15->SetValue(channelOutputs[14] * 100/1024);
+  valor = (calcRESXto1000(channelOutputs[13]));
+  valor /= 10;
+  mystring = wxString::Format(wxT("%.1f"), valor) + "%";
+  output14->SetValue(mystring);
+	Slider14->SetValue(valor);
 
-  mystring = wxString::Format(wxT("%i"),channelOutputs[15] * 100/1024) + "%";
-	output16->SetValue(mystring);
-	Slider16->SetValue(channelOutputs[15] * 100/1024);
+  valor = (calcRESXto1000(channelOutputs[14]));
+  valor /= 10;
+  mystring = wxString::Format(wxT("%.1f"), valor) + "%";
+  output15->SetValue(mystring);
+	Slider15->SetValue(valor);
 
+	valor = (calcRESXto1000(channelOutputs[15]));
+  valor /= 10;
+  mystring = wxString::Format(wxT("%.1f"), valor) + "%";
+  output16->SetValue(mystring);
+	Slider16->SetValue(valor);
 }
 
 void OutBarsFrame::OnTimerRefreshFrameTrigger(wxTimerEvent& event)
 {
-  FillBarFrame();
+  PopulateBarFrame();
 }
 
 void OutBarsFrame::OnClose(wxCloseEvent& event)
