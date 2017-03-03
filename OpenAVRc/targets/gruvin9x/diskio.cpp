@@ -140,7 +140,7 @@ BYTE rcvr_spi (void)
 /*-----------------------------------------------------------------------*/
 
 static
-int wait_ready (void)	/* 1:OK, 0:Timeout */
+uint8_t wait_ready (void)	/* 1:OK, 0:Timeout */
 {
   Timer2 = 50;	/* Wait for ready in timeout of 500ms (G: now 50x16ms) */
   rcvr_spi();
@@ -171,7 +171,7 @@ void deselect (void)
 /*-----------------------------------------------------------------------*/
 
 static
-int select (void)	/* 1:Successful, 0:Timeout */
+uint8_t select (void)	/* 1:Successful, 0:Timeout */
 {
   CS_LOW();
   if (!wait_ready()) {
@@ -190,7 +190,7 @@ int select (void)	/* 1:Successful, 0:Timeout */
 /* is nothing to do in these functions and chk_power always returns 1.   */
 
 static
-int power_status(void)		/* Socket power state: 0=off, 1=on */
+uint8_t power_status(void)		/* Socket power state: 0=off, 1=on */
 {
   return (PORTE & 0x80) ? 0 : 1;
 }
@@ -229,7 +229,7 @@ void power_off (void)
 /*-----------------------------------------------------------------------*/
 
 static
-int rcvr_datablock (
+uint8_t rcvr_datablock (
   BYTE *buff,	/* Data buffer to store received data */
   UINT btr	/* Byte count (must be multiple of 4) */
 )
@@ -262,7 +262,7 @@ int rcvr_datablock (
 /*-----------------------------------------------------------------------*/
 
 static
-int xmit_datablock (
+uint8_t xmit_datablock (
   const BYTE *buff,	/* 512 byte data block to be transmitted */
   BYTE token		/* Data/Stop token */
 )

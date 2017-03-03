@@ -34,7 +34,7 @@
 #define RTC_ADRESS  (0x68 << 1) //0x68 for ZS042
 
 typedef struct {
-  WORD    year;   /* 2000..2099 */
+  uint32_t    year;   /* 2000..2099 */
   uint8_t    month;  /* 1..12 */
   uint8_t    mday;   /* 1.. 31 */
   uint8_t    wday;   /* 1..7 */
