@@ -490,7 +490,7 @@ void OpenAVRc_DesktopFrame::OnEcrirelebootloaderSelected(wxCommandEvent& event) 
       ("Sûr? Vous voulez continuer?"), wxT("Programmation du Bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
   susto->SetEventHandler(susto);
   if (susto->ShowModal()!= wxID_OK) return;
-  wxString BOOTLOADER(" -c usbasp -P usb -U lock:w:0x3F:m -V -U flash:w:mega2560_stk500v2boot_opentx.hex -U lock:w:0x0F:m");
+  wxString BOOTLOADER(" -c usbasp -P usb -U lock:w:0x3F:m -V -U flash:w:OpenAVRcBootLoaderM2560.hex -U lock:w:0x0F:m");
   wxString dude_send = (keepopen+avrdudepath+dude_p+dude_type+BOOTLOADER);
   //wxMessageBox(dude_send);
   wxExecute(dude_send);
