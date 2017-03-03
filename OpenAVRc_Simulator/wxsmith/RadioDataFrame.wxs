@@ -49,7 +49,7 @@
 				<size>192,24</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
-				<label> 1024            1024           1024</label>
+				<label> 1008            1024           1008</label>
 				<pos>16,168</pos>
 				<size>168,13</size>
 			</object>

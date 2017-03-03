@@ -50,7 +50,7 @@ RadioDataFrame::RadioDataFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	TextCtrlcalibration = new wxTextCtrl(Panel1, ID_TEXTCTRLCalibration, wxEmptyString, wxPoint(16,192), wxSize(176,120), wxTE_NO_VSCROLL|wxTE_MULTILINE|wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRLCalibration"));
 	TextCtrlcalibration->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
 	StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("                     Max         Min       Alarm"), wxPoint(8,64), wxSize(192,24), 0, _T("ID_STATICTEXT1"));
-	StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, _(" 1024            1024           1024"), wxPoint(16,168), wxSize(168,13), 0, _T("ID_STATICTEXT2"));
+	StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, _(" 1008            1024           1008"), wxPoint(16,168), wxSize(168,13), 0, _T("ID_STATICTEXT2"));
 	TextCtrlcontrast = new wxTextCtrl(Panel1, ID_TEXTCTRLCONTRAST, wxEmptyString, wxPoint(16,336), wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRLCONTRAST"));
 	TextCtrlcontrast->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
 	TextCtrlhapticMode = new wxTextCtrl(Panel1, ID_TEXTCTRLHAPTICMODE, wxEmptyString, wxPoint(16,360), wxSize(136,21), 0, wxDefaultValidator, _T("ID_TEXTCTRLHAPTICMODE"));
