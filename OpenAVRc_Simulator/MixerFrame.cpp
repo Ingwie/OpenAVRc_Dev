@@ -9,13 +9,7 @@ extern wxString modeStr = "";
 
 #define data g_model.mixData
 
-
-class INPUTClass {
-public:
-    const static char* inputText[];
-};
-
-const char* INPUTClass::inputText[] = { "Dir\t","Prf\t","Gaz\t","Ail\t",
+const char* inputText[] = { "Dir\t","Prf\t","Gaz\t","Ail\t",
             "POT1","POT2","POT3",
             "REa\t","REb\t",
             "MAX\0",
@@ -23,7 +17,7 @@ const char* INPUTClass::inputText[] = { "Dir\t","Prf\t","Gaz\t","Ail\t",
             "TrmD","TrmP","TrmG","TrmA",
             "3POS","THR","RUD","ELE\t","AIL\t","GEA","TRN",
             "L1\t","L2\t","L3\t","L4\t","L5\t","L6\t","L7\t","L8\t","L9\t","L10\t","L11\t","L12\t",
-            "TR1","TR2","TR3","TR4","TR5","TR6","TR7","TR8",
+            "TR1\t","TR2\t","TR3\t","TR4\t","TR5\t","TR6\t","TR7\t","TR8\t",
             "CH1","CH2","CH3","CH4","CH5","CH6","CH7","CH8","CH9","CH10","CH11","CH12","CH13","CH14","CH15","CH16"};
 
 
@@ -162,7 +156,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     //---------------------------------------SOURCE-----------------------------------
     mixStr4 = "";
     int indx = (data[i].srcRaw);
-    mixStr4 = mixStr4 + INPUTClass::inputText[indx-1] + "\t";
+    mixStr4 = mixStr4 + inputText[indx-1] + "\t";
 
     /*for (int j = 0; j < 3; j++){
     //if (TR_SOURCE[j + 3 * indx] == '\0') continue;

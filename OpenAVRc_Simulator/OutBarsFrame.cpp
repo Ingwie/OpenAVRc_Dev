@@ -158,6 +158,7 @@ OutBarsFrame::~OutBarsFrame()
 	//*)
 }
 
+
 int16_t calcRESXto1000(int16_t x)  // return x/1.024
 {
   // *1000/1024 = x - x/32 + x/128
