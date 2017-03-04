@@ -1082,10 +1082,7 @@ void doMixerCalculations()
 
   getADC();
 
-
   getSwitchesPosition(!s_mixer_first_run_done);
-
-
 
   adcPrepareBandgap();
 

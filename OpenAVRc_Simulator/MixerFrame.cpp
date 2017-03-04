@@ -47,7 +47,6 @@ MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 
 	Create(parent, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxCLOSE_BOX|wxSUNKEN_BORDER|wxRAISED_BORDER, _T("wxID_ANY"));
 	SetClientSize(wxSize(720,140));
-	Move(wxPoint(20,20));
 	SetMaxSize(wxSize(720,900));
 	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
 	Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
@@ -172,7 +171,7 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
     int8_t mode = (data[i].weightMode);
     wxString percent = "%";
 
-    weight = u_gvarint_t(data[i].weight, data[i].weightMode).gvword; // Work but GVAR bug now :(
+    weight = u_gvarint_t(data[i].weight, data[i].weightMode).gvword;
 
     if (weight > GV_RANGELARGE + MAX_GVARS){
       mixStr6 = mixStr6 + "-" + STR_GV;

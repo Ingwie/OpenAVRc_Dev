@@ -1244,10 +1244,6 @@ void varioWakeup();
 #endif
 
 
-#if defined(USB_MASS_STORAGE)
-extern void usbPluggedIn();
-#endif
-
 #if defined(SDCARD)
 
 extern uint16_t s_anaFilt[NUMBER_ANALOG];

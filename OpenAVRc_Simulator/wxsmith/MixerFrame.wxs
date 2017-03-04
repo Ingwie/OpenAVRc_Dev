@@ -2,7 +2,6 @@
 <wxsmith>
 	<object class="wxFrame" name="MixerFrame">
 		<title>Mixeur</title>
-		<pos>20,20</pos>
 		<size>720,140</size>
 		<maxsize>720,900</maxsize>
 		<id_arg>0</id_arg>

@@ -344,7 +344,7 @@ TRANSLATE = -python ../util/translate.py
 
 VERSION_MAJOR = 2
 VERSION_MINOR = 1
-VERSION_REVISION = 9
+VERSION_REVISION = 10
 
 VERSION = $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_REVISION)$(OpenAVRc_VERSION_SUFFIX)
 
@@ -650,7 +650,7 @@ endif
 
 ifeq ($(PCB), EVO_V1)
   # Evo V1 PCB with Mega2560
-  
+
   GUIDIRECTORY = 9X
   FLAVOUR = mega2560
   ARCH = AVR
@@ -678,7 +678,7 @@ ifeq ($(PCB), EVO_V1)
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v1/menu_general_diaganas.cpp
 #  GUIGENERALSRC += gui/$(GUIDIRECTORY)/menu_general_diagkeys.cpp targets/evo_v1/menu_general_diaganas.cpp
   EXTRABOARDSRC = targets/common_avr/telemetry_driver.cpp
-         
+
   ifeq ($(PWRMANAGE), YES)
     CPPDEFS += -DPWRMANAGE
   endif
@@ -701,7 +701,7 @@ ifeq ($(PCB), EVO_V1)
   else
     BUZZER = YES
   endif
-  
+
   ifeq ($(BUZZER), YES)
     CPPDEFS += -DBUZZER
     CPPSRC += buzzer.cpp
@@ -711,7 +711,7 @@ ifeq ($(PCB), EVO_V1)
     CPPDEFS += -DVOICE
     CPPSRC += targets/gruvin9x/somo14d.cpp
   endif
-  
+
   ifeq ($(HAPTIC), YES)
    CPPDEFS += -DHAPTIC
    CPPSRC += haptic.cpp

@@ -37,13 +37,11 @@ Firmware :
 
 -> Ajouter module emetteur perso
 
--> afficher le nom du fichier "voice" lors de la programmation de la radio (sur la radio grace au fichier readtext qui ne sert à rien pour l'instant)
-
 -> Passer les Gvar de 16 à 8 bit, enlever les bits de "haptic strenght", etc pour gagner de la mémoire
 
 -> Ajouter une fonction spéciale sécurité moteur qui fonctionne comme le template.
 
--> Revenir sur l'idée de minimiser le nombre d'écritures a l'eeprom interne du atmega. (Carte SD?) -> Essais avec une FRAM prévus.
+-> Revenir sur l'idée de minimiser le nombre d'écritures a l'eeprom interne du atmega. (Carte SD?) -> Essais avec une FRAM en cours.
 
 -> Revenir sur le protocole DSM2, inclus "Model match" - Le module DSMX fonctionne en direct (modif firmware) mais la liaison coupe en cas d'écriture EEPROM ...
 
@@ -57,6 +55,7 @@ General:
 
 
 *****************  DONE DONE DONE DONE  *****************
+> - afficher le nom du fichier "voice" lors de la programmation de la radio (sur la radio grace au fichier readtext qui ne sert à rien pour l'instant)
 > - Customiser (comme le splash) les noms : AIL, TRN; RUD , etc ... dans le firmware par ce que l'on veux - FAIT
 > - Ajouter la génération des fichier voice. Et mettre tous les prompt dans un seul fichier. (Possible pour 9X ?)- FAIT
 > - correction bug encodeur rotatif qui saute de +125 a -125 - FAIT
