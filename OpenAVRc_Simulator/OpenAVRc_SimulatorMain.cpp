@@ -603,7 +603,7 @@ void OpenAVRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
 {
   wxAboutDialogInfo Aboutbox;
   Aboutbox.SetName(_("OpenAVRc Simulateur"));
-  Aboutbox.SetVersion(_("1.10 Beta"));
+  Aboutbox.SetVersion(_("V1.10 release"));
   Aboutbox.SetLicence(" GPLv2 . Firmware basé sur NextStepRc 2.18 ");
   Aboutbox.SetDescription(_("Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "));
   Aboutbox.SetCopyright(wxT("(C) 2016 OpenAVRc Team"));
