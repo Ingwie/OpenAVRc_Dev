@@ -32,7 +32,11 @@ bool simu_shutDownSimu_is_runing; //main run signal
 bool simu_off; //Off signal
 
 //EEPROM
+#if defined(EXTERNALEEPROM)
+unsigned char simu_eeprom[4096*2] = {0xFF};
+#else
 unsigned char simu_eeprom[4096] = {0xFF};
+#endif
 extern uint16_t eeprom_pointer;
 extern uint8_t * eeprom_buffer_data;
 

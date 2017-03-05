@@ -37,11 +37,19 @@
 #endif
 
 #if defined(CPUM2560) || defined(CPUM2561) || defined(CPUM128)
+#if defined(EXTERNALEEPROM)
+#define blkid_t    uint16_t
+#define EESIZE     4096*2
+#define EEFS_VERS  6
+#define MAXFILES   36*2
+#define BS         16
+#else
 #define blkid_t    uint8_t
 #define EESIZE     4096
 #define EEFS_VERS  5
 #define MAXFILES   36
 #define BS         16
+#endif
 #else
 #define blkid_t    uint8_t
 #define EESIZE     2048
@@ -51,7 +59,7 @@
 #endif
 
 
-PACK(struct DirEnt {
+PACK(struct DirEnt { // File header
   blkid_t  startBlk;
   uint16_t size:12;
   uint16_t typ:4;
@@ -65,8 +73,9 @@ PACK(struct EeFs {
   blkid_t  freeList;
   uint8_t  bs;
   EEFS_EXTRA_FIELDS
-  DirEnt   files[MAXFILES];
+  DirEnt files[MAXFILES];
 });
+
 
 
 extern EeFs eeFs;

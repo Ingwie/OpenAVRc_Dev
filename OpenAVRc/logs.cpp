@@ -83,10 +83,11 @@ const pm_char *openLogs()
     len = sizeof(LOGS_PATH) + PSIZE(TR_MODEL) + 2;
   }
 
-  char * tmp = &filename[len];
 
 #if defined(RTCLOCK)
-  tmp = strAppendDate(&filename[len]);
+  char * tmp = strAppendDate(&filename[len]);
+#else
+  char * tmp = &filename[len];
 #endif
 
   strcpy_P(tmp, STR_LOGS_EXT);

@@ -63,6 +63,19 @@
 #define NUM_STICKS           4
 
 #if   defined(CPUM2560) || defined(CPUM2561)
+#if defined(EXTERNALEEPROM)
+#define MAX_MODELS           60
+#define NUM_CHNOUT           16 // number of real output channels CH1-CH16
+#define MAX_FLIGHT_MODES     6
+#define MAX_MIXERS           32
+#define MAX_EXPOS            16
+#define NUM_LOGICAL_SWITCH   12 // number of custom switches
+#define NUM_CFN              24 // number of functions assigned to switches
+#define NUM_TRAINER          8
+#define NUM_POTS             3
+#define NUM_XPOTS            0
+#define MAX_SENSORS          0
+#else
 #define MAX_MODELS           30
 #define NUM_CHNOUT           16 // number of real output channels CH1-CH16
 #define MAX_FLIGHT_MODES     6
@@ -74,6 +87,7 @@
 #define NUM_POTS             3
 #define NUM_XPOTS            0
 #define MAX_SENSORS          0
+#endif
 #elif defined(CPUM128)
 #define MAX_MODELS           30
 #define NUM_CHNOUT           16 // number of real output channels CH1-CH16

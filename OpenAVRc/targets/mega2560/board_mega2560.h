@@ -193,10 +193,9 @@ void pwrOff();
 #define JQ6500_Serial_off             PORTB &= ~(1<<OUT_B_JQ_SERIAL)
 #define JQ6500_BUSY                   (PINB & (1<<INP_B_JQ_BUSY))
 
+//#define EXTERNALEEPROM // Test define TODO REMOVE !!
 // EEPROM driver
 #if !defined(SIMU)
-
-//#define EXTERNALEEPROM // Test define TODO REMOVE !!
 
 #if defined(EXTERNALEEPROM)
 #define ADDRESS_EXTERN_EEPROM  (0x57 << 1) //0x57 with no strap on ZS042 module, EEPROM FM24W256, see datasheet

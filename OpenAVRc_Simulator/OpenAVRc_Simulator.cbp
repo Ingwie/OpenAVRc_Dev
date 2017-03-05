@@ -20,6 +20,7 @@
 					<Add option="-mno-ms-bitfields" />
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
+					<Add option="-DNO_EXTERNALEEPROM" />
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />
 					<Add option="-DDSM2_PPM" />
