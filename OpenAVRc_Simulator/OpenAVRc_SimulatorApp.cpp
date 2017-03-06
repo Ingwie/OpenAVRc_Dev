@@ -51,7 +51,7 @@ int OpenAVRc_SimulatorApp::FilterEvent(wxEvent& event)
 {
   if ((event.GetEventType() == (wxEVT_KEY_DOWN)) || (event.GetEventType() == (wxEVT_KEY_UP)) && SimuFrame ) {
     SimuFrame->OnKey((wxKeyEvent&)event);
-    return true;
+    return Event_Skip;
   }
   return Event_Skip;
 }

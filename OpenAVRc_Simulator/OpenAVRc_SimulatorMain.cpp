@@ -1291,7 +1291,7 @@ void OpenAVRc_SimulatorFrame::OnKey(wxKeyEvent& event)
   if (event.GetKeyCode() == 73) {
     if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpId2LeftDown(fakevt);
   }
-  event.Skip();
+  event.Skip(true);
 }
 
 /////////////////////////////////////////////////////
