@@ -1238,58 +1238,61 @@ void OpenAVRc_SimulatorFrame::OnButtonStartDesktopClick(wxCommandEvent& event)
 
 void OpenAVRc_SimulatorFrame::OnKey(wxKeyEvent& event)
 {
-  wxMouseEvent fakevt;
+  if (this->IsActive()) {
 
-  int result = event.GetKeyCode();
+    wxMouseEvent fakevt;
 
-  if (event.GetKeyCode() == 315) {
-    if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPhLeftDown(fakevt);
-    else OnBPhLeftUp(fakevt);
-  }
-  if (event.GetKeyCode() == 317) {
-    if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPbLeftDown(fakevt);
-    else OnBPbLeftUp(fakevt);
-  }
-  if (event.GetKeyCode() == 314) {
-    if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPgLeftDown(fakevt);
-    else OnBPgLeftUp(fakevt);
-  }
-  if (event.GetKeyCode() == 316) {
-    if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPdLeftDown(fakevt);
-    else OnBPdLeftUp(fakevt);
-  }
-  if (event.GetKeyCode() == 366) {
-    if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPmenuLeftDown(fakevt);
-    else OnBPmenuLeftUp(fakevt);
-  }
-  if (event.GetKeyCode() == 367) {
-    if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPexitLeftDown(fakevt);
-    else OnBPexitLeftUp(fakevt);
-  }
-  if (event.GetKeyCode() == 65) {
-    if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpThrLeftDown(fakevt);
-  }
-  if (event.GetKeyCode() == 90) {
-    if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpRudLeftDown(fakevt);
-  }
-  if (event.GetKeyCode() == 69) {
-    if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpEleLeftDown(fakevt);
-  }
-  if (event.GetKeyCode() == 82) {
-    if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpTrnLeftDown(fakevt);
-    else OnBpTrnLeftUp(fakevt);
-  }
-  if (event.GetKeyCode() == 84) {
-    if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpAilLeftDown(fakevt);
-  }
-  if (event.GetKeyCode() == 89) {
-    if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpGeaLeftDown(fakevt);
-  }
-  if (event.GetKeyCode() == 85) {
-    if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpId1LeftDown(fakevt);
-  }
-  if (event.GetKeyCode() == 73) {
-    if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpId2LeftDown(fakevt);
+    int result = event.GetKeyCode();
+
+    if (event.GetKeyCode() == 315) {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPhLeftDown(fakevt);
+      else OnBPhLeftUp(fakevt);
+    }
+    if (event.GetKeyCode() == 317) {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPbLeftDown(fakevt);
+      else OnBPbLeftUp(fakevt);
+    }
+    if (event.GetKeyCode() == 314) {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPgLeftDown(fakevt);
+      else OnBPgLeftUp(fakevt);
+    }
+    if (event.GetKeyCode() == 316) {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPdLeftDown(fakevt);
+      else OnBPdLeftUp(fakevt);
+    }
+    if (event.GetKeyCode() == 366) {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPmenuLeftDown(fakevt);
+      else OnBPmenuLeftUp(fakevt);
+    }
+    if (event.GetKeyCode() == 367) {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBPexitLeftDown(fakevt);
+      else OnBPexitLeftUp(fakevt);
+    }
+    if (event.GetKeyCode() == 65) {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpThrLeftDown(fakevt);
+    }
+    if (event.GetKeyCode() == 90) {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpRudLeftDown(fakevt);
+    }
+    if (event.GetKeyCode() == 69) {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpEleLeftDown(fakevt);
+    }
+    if (event.GetKeyCode() == 82) {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpTrnLeftDown(fakevt);
+      else OnBpTrnLeftUp(fakevt);
+    }
+    if (event.GetKeyCode() == 84) {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpAilLeftDown(fakevt);
+    }
+    if (event.GetKeyCode() == 89) {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpGeaLeftDown(fakevt);
+    }
+    if (event.GetKeyCode() == 85) {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpId1LeftDown(fakevt);
+    }
+    if (event.GetKeyCode() == 73) {
+      if (event.GetEventType() == wxEVT_KEY_DOWN) OnBpId2LeftDown(fakevt);
+    }
   }
   event.Skip(true);
 }
