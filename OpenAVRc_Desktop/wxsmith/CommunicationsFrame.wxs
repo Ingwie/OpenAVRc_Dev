@@ -47,6 +47,7 @@
 		<object class="wxComboBox" name="ID_COMBOBOX3" variable="ComboBox3" member="yes">
 			<content>
 				<item>m2560</item>
+				<item>m2560fram</item>
 				<item>m128</item>
 				<item>m64</item>
 			</content>

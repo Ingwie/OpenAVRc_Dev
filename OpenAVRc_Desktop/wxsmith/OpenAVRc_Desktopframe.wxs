@@ -172,6 +172,11 @@
 						<bitmap stock_id="wxART_GO_BACK" />
 						<handler function="OnEcrirelebootloaderSelected" entry="EVT_MENU" />
 					</object>
+					<object class="wxMenuItem" name="ID_MENUITEM13" variable="MenuItem13" member="yes">
+						<label>Écrire le bootloader F-RAM</label>
+						<bitmap stock_id="wxART_GO_BACK" stock_client="wxART_MENU" />
+						<handler function="OnEcrirelebootloaderF_RAMSelected" entry="EVT_MENU" />
+					</object>
 				</object>
 			</object>
 			<object class="wxMenu" variable="Menu7" member="yes">

@@ -33,10 +33,13 @@
 
 #include "i2c_master.h"
 
-//#define F_SCL 800000UL // SCL frequency
-//#define Prescaler 1
-//#define TWBR_val ((((F_CPU / F_SCL) / Prescaler) - 16 ) / 2)
+#if defined(PCBMEGA2560)
 #define TWBR_val 1 //(1.0 MhZ roadrunner speed : Beep,Beep ! :)
+#else
+#define F_SCL 400000UL // SCL frequency
+#define Prescaler 1
+#define TWBR_val ((((F_CPU / F_SCL) / Prescaler) - 16 ) / 2)
+#endif
 
 void wait()
 {

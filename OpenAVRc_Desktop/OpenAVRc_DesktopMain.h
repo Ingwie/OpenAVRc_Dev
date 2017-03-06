@@ -96,6 +96,7 @@ private:
     void OnChoiceLangueSelect(wxCommandEvent& event);
     void OnMenuChoiceVoiceSelected(wxCommandEvent& event);
     void OnMenuItem9Selected(wxCommandEvent& event);
+    void OnEcrirelebootloaderF_RAMSelected(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(OpenAVRc_DesktopFrame)
@@ -123,6 +124,7 @@ private:
     static const long ID_MENUITEM6;
     static const long ID_MENUITEM9;
     static const long ID_MENUITEM10;
+    static const long ID_MENUITEM13;
     static const long ID_MENUITEM7;
     static const long ID_MENUCOMPILOMATIC;
     static const long ID_MENUITEM11;
@@ -152,6 +154,7 @@ private:
     wxStaticBox* StaticBoxSplash;
     wxPanel* Panel1;
     wxStaticText* StaticText1;
+    wxMenuItem* MenuItem13;
     wxStaticBox* StaticBox1;
     wxMenu* MenuItem8;
     wxMenuItem* MenuItem10;

@@ -95,6 +95,7 @@ CommunicationsFrame::CommunicationsFrame(wxWindow* parent,wxWindowID id,const wx
     StaticText2 = new wxStaticText(this, ID_STATICTEXT2, _("Port"), wxPoint(112,128), wxDefaultSize, 0, _T("ID_STATICTEXT2"));
     ComboBox3 = new wxComboBox(this, ID_COMBOBOX3, wxEmptyString, wxPoint(176,168), wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX3"));
     ComboBox3->Append(_("m2560"));
+    ComboBox3->Append(_("m2560fram"));
     ComboBox3->Append(_("m128"));
     ComboBox3->Append(_("m64"));
     StaticText3 = new wxStaticText(this, ID_STATICTEXT3, _("Type de radio"), wxPoint(72,176), wxDefaultSize, 0, _T("ID_STATICTEXT3"));

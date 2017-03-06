@@ -39,10 +39,10 @@
 #if defined(CPUM2560) || defined(CPUM2561) || defined(CPUM128)
 #if defined(EXTERNALEEPROM)
 #define blkid_t    uint16_t
-#define EESIZE     4096*2
+#define EESIZE     10240
 #define EEFS_VERS  6
 #define MAXFILES   36*2
-#define BS         16
+#define BS         64
 #else
 #define blkid_t    uint8_t
 #define EESIZE     4096

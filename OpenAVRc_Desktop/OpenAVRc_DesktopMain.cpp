@@ -104,7 +104,6 @@ wxString dude_eeprom = ("eeprom:");
 wxString dude_flash = ("flash:");
 wxString dude_raw = (":r");
 wxString dude_write = ("w:");
-//dude_verify = (" -v ");
 wxString dude_read = ("r:");
 wxString dude_intel = (":i");
 wxString keepopen = ("cmd /k ");
@@ -205,6 +204,7 @@ const long OpenAVRc_DesktopFrame::ID_MENUITEM4 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM6 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM9 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM10 = wxNewId();
+const long OpenAVRc_DesktopFrame::ID_MENUITEM13 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM7 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUCOMPILOMATIC = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM11 = wxNewId();
@@ -308,6 +308,9 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   MenuItem11 = new wxMenuItem(MenuItem8, ID_MENUITEM10, _("Écrire le bootloader"), wxEmptyString, wxITEM_NORMAL);
   MenuItem11->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_BACK")),wxART_OTHER));
   MenuItem8->Append(MenuItem11);
+  MenuItem13 = new wxMenuItem(MenuItem8, ID_MENUITEM13, _("Écrire le bootloader F-RAM"), wxEmptyString, wxITEM_NORMAL);
+  MenuItem13->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_BACK")),wxART_MENU));
+  MenuItem8->Append(MenuItem13);
   Menu4->Append(ID_MENUITEM7, _("Fusibles et Bootloader"), MenuItem8, wxEmptyString);
   MenuBar_main->Append(Menu4, _("Lire/Écrire"));
   Menu7 = new wxMenu();
@@ -318,7 +321,6 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   Menu2 = new wxMenu();
   MenuHtmlDoc = new wxMenu();
   MenuItem9 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM11, _("OpenAVRc Manual (JPZ)"), wxEmptyString, wxITEM_NORMAL);
-  MenuItem9->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_FILE_OPEN")),wxART_MENU));
   MenuHtmlDoc->Append(MenuItem9);
   MenuItem4 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM8, _("JQ6500 PCB (by Pyrall)"), wxEmptyString, wxITEM_NORMAL);
   MenuItem4->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_FILE_OPEN")),wxART_MENU));
@@ -361,6 +363,7 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_MENUITEM6,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnWriteFirmwareToRadioSelected);
   Connect(ID_MENUITEM9,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnEcrirelesFuseesSelected);
   Connect(ID_MENUITEM10,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnEcrirelebootloaderSelected);
+  Connect(ID_MENUITEM13,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnEcrirelebootloaderF_RAMSelected);
   Connect(ID_MENUCOMPILOMATIC,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnATMEGA2560CompilerSelected);
   Connect(ID_MENUITEM11,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuItem9Selected);
   Connect(ID_MENUITEM8,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuJQ6500_PCBSelected);
@@ -486,14 +489,43 @@ void OpenAVRc_DesktopFrame::OnEcrirelesFuseesSelected(wxCommandEvent& event)// W
 
 void OpenAVRc_DesktopFrame::OnEcrirelebootloaderSelected(wxCommandEvent& event) // Write bootloader
 {
-  wxMessageDialog *susto = new wxMessageDialog(NULL,
-      ("Sûr? Vous voulez continuer?"), wxT("Programmation du Bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
-  susto->SetEventHandler(susto);
-  if (susto->ShowModal()!= wxID_OK) return;
-  wxString BOOTLOADER(" -c usbasp -P usb -U lock:w:0x3F:m -V -U flash:w:OpenAVRcBootLoaderM2560.hex -U lock:w:0x0F:m");
-  wxString dude_send = (keepopen+avrdudepath+dude_p+dude_type+BOOTLOADER);
-  //wxMessageBox(dude_send);
-  wxExecute(dude_send);
+  if (!(dude_type.Cmp("m2560"))) { // Verify radio type selected
+
+    wxMessageDialog *susto = new wxMessageDialog(NULL,
+        ("Sûr? Vous voulez continuer?"), wxT("Programmation du Bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
+    susto->SetEventHandler(susto);
+    if (susto->ShowModal()!= wxID_OK) return;
+    wxString BOOTLOADER(" -c usbasp -P usb -U lock:w:0x3F:m -V -U flash:w:OpenAVRcBootLoaderM2560.hex -U lock:w:0x0F:m");
+    wxString dude_send = (keepopen+avrdudepath+dude_p+dude_type+BOOTLOADER);
+    //wxMessageBox(dude_send);
+    wxExecute(dude_send);
+  } else {
+    wxMessageDialog *susto = new wxMessageDialog(NULL,
+        ("Mauvais type de radio selectionné"), wxT("Programmation du Bootloader"),wxICON_WARNING | wxOK);
+    susto->SetEventHandler(susto);
+    if (susto->ShowModal()== wxID_OK) return;
+  }
+}
+
+
+void OpenAVRc_DesktopFrame::OnEcrirelebootloaderF_RAMSelected(wxCommandEvent& event)
+{
+  if (!(dude_type.Cmp("m2560fram"))) { // Verify radio type selected
+
+    wxMessageDialog *susto = new wxMessageDialog(NULL,
+        ("Sûr? Vous voulez continuer?"), wxT("Programmation du Bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
+    susto->SetEventHandler(susto);
+    if (susto->ShowModal()!= wxID_OK) return;
+    wxString BOOTLOADER(" -c usbasp -P usb -U lock:w:0x3F:m -V -U flash:w:OpenAVRcBootLoaderM2560_FRAM.hex -U lock:w:0x0F:m");
+    wxString dude_send = (keepopen+avrdudepath+dude_p+dude_type+BOOTLOADER);
+    //wxMessageBox(dude_send);
+    wxExecute(dude_send);
+  } else {
+    wxMessageDialog *susto = new wxMessageDialog(NULL,
+        ("Mauvais type de radio selectionné"), wxT("Programmation du Bootloader"),wxICON_WARNING | wxOK);
+    susto->SetEventHandler(susto);
+    if (susto->ShowModal()== wxID_OK) return;
+  }
 }
 
 void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
@@ -994,4 +1026,3 @@ void OpenAVRc_DesktopFrame::OnMenuChoiceVoiceSelected(wxCommandEvent& event)
   Voice_choice* voiceChoiceFrame = new Voice_choice(this);
   voiceChoiceFrame->Show(TRUE);
 }
-

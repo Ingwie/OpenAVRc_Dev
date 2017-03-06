@@ -33,7 +33,7 @@ bool simu_off; //Off signal
 
 //EEPROM
 #if defined(EXTERNALEEPROM)
-unsigned char simu_eeprom[4096*2] = {0xFF};
+unsigned char simu_eeprom[10240] = {0xFF};
 #else
 unsigned char simu_eeprom[4096] = {0xFF};
 #endif

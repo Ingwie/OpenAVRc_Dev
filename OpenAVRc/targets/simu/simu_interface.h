@@ -45,7 +45,7 @@ typedef const int8_t pm_int8_t;
 
 //Function
 #if defined(EXTERNALEEPROM)
-extern unsigned char simu_eeprom[4096*2];
+extern unsigned char simu_eeprom[10240];
 #else
 extern unsigned char simu_eeprom[4096];
 #endif
