@@ -660,6 +660,7 @@ bool readonlyUnlocked()
 #if defined(SPLASH)
 void doSplash()
 {
+  uint8_t memtada = 0;
 
   if (SPLASH_NEEDED()) {
     displaySplash();
@@ -689,7 +690,7 @@ void doSplash()
       // Splash is forced, we can't skip it
       if (!(g_eeGeneral.splashMode & 0x04)) {
 #endif
-        uint8_t memtada = 0;
+
         if (((tgtime/2) == get_tmr10ms()) && (!memtada)) {
           ++memtada;    // Splash duration/2 to play TADA sound
           AUDIO_TADA();
