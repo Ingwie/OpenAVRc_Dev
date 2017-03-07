@@ -39,6 +39,33 @@
 #include "../stock/board_stock.h"
 #endif
 
+// Port Pin Bitmaps for general use.
+// Saves tedious 1<<something. Borrowed from Xmega.
+#ifndef PIN0_bm
+#define PIN0_bm  0x01
+#endif
+#ifndef PIN1_bm
+#define PIN1_bm  0x02
+#endif
+#ifndef PIN2_bm
+#define PIN2_bm  0x04
+#endif
+#ifndef PIN3_bm
+#define PIN3_bm  0x08
+#endif
+#ifndef PIN4_bm
+#define PIN4_bm  0x10
+#endif
+#ifndef PIN5_bm
+#define PIN5_bm  0x20
+#endif
+#ifndef PIN6_bm
+#define PIN6_bm  0x40
+#endif
+#ifndef PIN7_bm
+#define PIN7_bm  0x80
+#endif
+
 // ADC driver
 extern void adcInit();
 extern void adcPrepareBandgap();
