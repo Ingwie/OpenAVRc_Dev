@@ -199,15 +199,16 @@ uint8_t power_status(void)		/* Socket power state: 0=off, 1=on */
 static
 void power_on (void)
 {
-  // PORTE &= ~0x80;			// Socket power on
 #ifndef SIMU
   for (Timer1 = 2; Timer1; );	// Wait for 20ms
 #endif
-  //PORTB = 0b10110101;		// Enable drivers
-  //DDRB  = 0b11000111;
 
   SPCR = 0x52;			// Enable SPI function in mode 0
-  SPSR = 0x00; // G: was 0x01;			// SPI 2x mode
+#if defined(PCBMEGA2560)
+  SPSR |= 1<<SPI2X;			// SPI 2x mode (8.0 MhZ roadrunner speed : Beep,Beep ! Thanks Rick ! :)
+#else
+  SPSR &= ~(1<<SPI2X);	// SPI 1x mode
+#endif
 }
 
 
@@ -215,10 +216,6 @@ static
 void power_off (void)
 {
   SPCR = 0;				/* Disable SPI function */
-  // DDRB  = 0b11000000;		/* Disable drivers */
-  // PORTB = 0b10110000;
-
-  // PORTE |=  0x80;			/* Socket power off */
   Stat |= STA_NOINIT;
 }
 
@@ -626,30 +623,12 @@ void sdPoll10ms()
 {
   BYTE s;
 
-  /*
-  n = Timer1;			// 100Hz decrement timer
-  if (n) Timer1 = --n;
-  n = Timer2;
-  if (n) Timer2 = --n;
-  */
   if (Timer1) Timer1--;
   if (Timer2) Timer2--;
 
   s = Stat;
-
-  /* G: Not implemented
-  if (SOCKWP)			// Write protected
-          s |= STA_PROTECT;
-  else				// Write enabled
-          s &= ~STA_PROTECT;
-  if (SOCKINS)			// Card inserted
-          s &= ~STA_NODISK;
-  else				// Socket empty
-          s |= (STA_NODISK | STA_NOINIT);
-  */
   s &= ~STA_NODISK;
   s &= ~STA_PROTECT;
-
   Stat = s;
 }
 
