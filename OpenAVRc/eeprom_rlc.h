@@ -36,7 +36,7 @@
 #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
 #endif
 
-#if defined(CPUM2560) || defined(CPUM2561) || defined(CPUM128)
+#if defined(CPUM2560) 
 #if defined(EXTERNALEEPROM)
 #define blkid_t    uint16_t
 #define EESIZE     10240
@@ -50,12 +50,6 @@
 #define MAXFILES   36
 #define BS         16
 #endif
-#else
-#define blkid_t    uint8_t
-#define EESIZE     2048
-#define EEFS_VERS  4
-#define MAXFILES   20
-#define BS         16
 #endif
 
 
@@ -91,15 +85,9 @@ extern EeFs eeFs;
 
 #define RESV          sizeof(EeFs)  //reserv for eeprom header with directory (eeFs)
 
-#if defined(CPUM64)
-#define FIRSTBLK      (RESV/BS)
-#define BLOCKS        (EESIZE/BS)
-#define BLOCKS_OFFSET 0
-#else
 #define FIRSTBLK      1
 #define BLOCKS        (1+(EESIZE-RESV)/BS)
 #define BLOCKS_OFFSET (RESV-BS)
-#endif
 
 
 void eepromFormat();

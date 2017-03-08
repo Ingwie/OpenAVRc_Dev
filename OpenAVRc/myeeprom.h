@@ -41,28 +41,20 @@
 #define WARN_MEM     (!(g_eeGeneral.warnOpts & WARN_MEM_BIT))
 #define BEEP_VAL     ( (g_eeGeneral.warnOpts & WARN_BVAL_BIT) >>3 )
 
-#if   defined(CPUM2560) || defined(CPUM2561)
+#if   defined(CPUM2560) 
 #define EEPROM_VER             217
 #define FIRST_CONV_EEPROM_VER  EEPROM_VER
-#elif defined(CPUM128)
-#define EEPROM_VER             217
-#else
-#define EEPROM_VER             216
 #endif
 
 #ifndef PACK
 #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
 #endif
 
-#if defined(PCBSTD)
-#define N_PCBSTD_FIELD(x)
-#else
 #define N_PCBSTD_FIELD(x) x;
-#endif
 
 #define NUM_STICKS           4
 
-#if   defined(CPUM2560) || defined(CPUM2561)
+#if   defined(CPUM2560) 
 #if defined(EXTERNALEEPROM)
 #define MAX_MODELS           60
 #define NUM_CHNOUT           16 // number of real output channels CH1-CH16
@@ -88,30 +80,7 @@
 #define NUM_XPOTS            0
 #define MAX_SENSORS          0
 #endif
-#elif defined(CPUM128)
-#define MAX_MODELS           30
-#define NUM_CHNOUT           16 // number of real output channels CH1-CH16
-#define MAX_FLIGHT_MODES     5
-#define MAX_MIXERS           32
-#define MAX_EXPOS            14
-#define NUM_LOGICAL_SWITCH   12 // number of custom switches
-#define NUM_CFN              24 // number of functions assigned to switches
-#define NUM_TRAINER          8
-#define NUM_POTS             3
-#define NUM_XPOTS            0
-#define MAX_SENSORS          0
 #else
-#define MAX_MODELS           16
-#define NUM_CHNOUT           16 // number of real output channels CH1-CH16
-#define MAX_FLIGHT_MODES     5
-#define MAX_MIXERS           32
-#define MAX_EXPOS            14
-#define NUM_LOGICAL_SWITCH   12 // number of custom switches
-#define NUM_CFN              16 // number of functions assigned to switches
-#define NUM_TRAINER          8
-#define NUM_POTS             3
-#define NUM_XPOTS            0
-#define MAX_SENSORS          0
 #endif
 
 #define MAX_TIMERS           2
@@ -140,7 +109,6 @@ typedef int16_t gvar_t;
 
 typedef uint8_t source_t;
 
-#if !defined(PCBSTD)
 #define LEN_GVAR_NAME 6
 #define GVAR_MAX      128
 #define GVAR_LIMIT    125
@@ -150,26 +118,14 @@ PACK(typedef struct {
   uint8_t popup:1;
   uint8_t spare:7;
 }) global_gvar_t;
-#endif
 
 #define RESERVE_RANGE_FOR_GVARS 10
 // even we do not spend space in EEPROM for 10 GVARS, we reserve the space inside the range of values, like offset, weight, etc.
 
-#if defined(PCBSTD) && defined(GVARS)
-#define MAX_GVARS 5
-#define MODEL_GVARS_DATA gvar_t gvars[MAX_GVARS];
-#define PHASE_GVARS_DATA
-#define GVAR_VALUE(x, p) g_model.gvars[x]
-#elif defined(PCBSTD)
-#define MAX_GVARS 0
-#define MODEL_GVARS_DATA
-#define PHASE_GVARS_DATA
-#else
 #define MAX_GVARS 5
 #define MODEL_GVARS_DATA global_gvar_t gvars[MAX_GVARS];
 #define PHASE_GVARS_DATA gvar_t gvars[MAX_GVARS]
 #define GVAR_VALUE(x, p) g_model.flightModeData[p].gvars[x]
-#endif
 
 PACK(typedef struct {
   uint8_t srcChn:6; // 0-7 = ch1-8
@@ -286,9 +242,7 @@ enum Functions {
   FUNC_PLAY_VALUE,
   FUNC_VARIO,
   FUNC_HAPTIC,
-#if !defined(PCBSTD)
   FUNC_LOGS,
-#endif
   FUNC_BACKLIGHT,
 #if defined(DEBUG)
   FUNC_TEST, // should remain the last before MAX as not added in companion9x
@@ -371,39 +325,6 @@ PACK(typedef struct {
 #define CFN_PARAM(p)        ((p)->value)
 #define CFN_RESET(p)        ((p)->active = 0, CFN_PARAM(p) = 0)
 #define CFN_GVAR_CST_MAX    125
-#else
-PACK(typedef struct {
-  PACK(union {
-    PACK(struct {
-      int16_t   swtch:6;
-      uint16_t  func:4;
-      uint16_t  mode:2;
-      uint16_t  param:3;
-      uint16_t  active:1;
-    }) gvar;
-
-    PACK(struct {
-      int16_t   swtch:6;
-      uint16_t  func:4;
-      uint16_t  param:4;
-      uint16_t  spare:1;
-      uint16_t  active:1;
-    }) all;
-  });
-  uint8_t value;
-}) CustomFunctionData;
-#define CFN_SWITCH(p)       ((p)->all.swtch)
-#define CFN_FUNC(p)         ((p)->all.func)
-#define CFN_ACTIVE(p)       ((p)->all.active)
-#define CFN_CH_INDEX(p)     ((p)->all.param)
-#define CFN_TIMER_INDEX(p)  ((p)->all.param)
-#define CFN_GVAR_INDEX(p)   ((p)->gvar.param)
-#define CFN_PLAY_REPEAT(p)  ((p)->all.param)
-#define CFN_PLAY_REPEAT_MUL 10
-#define CFN_GVAR_MODE(p)    ((p)->gvar.mode)
-#define CFN_PARAM(p)        ((p)->value)
-#define CFN_RESET(p)        ((p)->all.active = 0, CFN_PARAM(p) = 0)
-#define CFN_GVAR_CST_MAX    125
 #endif
 
 
@@ -474,7 +395,7 @@ PACK(typedef struct {
 #define MODE_EXPO          0
 #define MODE_CURVE         1
 
-#if defined(CPUM2560) || defined(CPUM2561)
+#if defined(CPUM2560) 
 PACK(typedef struct {
   uint8_t mode:2;         // 0=end, 1=pos, 2=neg, 3=both
   uint8_t chn:2;
@@ -483,19 +404,6 @@ PACK(typedef struct {
   uint8_t flightModes;
   int8_t  swtch;
   uint8_t weight;
-  int8_t  curveParam;
-}) ExpoData;
-#define MIN_EXPO_WEIGHT         0
-#define EXPO_VALID(ed)          ((ed)->mode)
-#define EXPO_MODE_ENABLE(ed, v) (((v)<0 && ((ed)->mode&1)) || ((v)>=0 && ((ed)->mode&2)))
-#else
-PACK(typedef struct {
-  uint8_t mode:2;         // 0=end, 1=pos, 2=neg, 3=both
-  int8_t  swtch:6;
-  uint8_t chn:2;
-  uint8_t flightModes:5;
-  uint8_t curveMode:1;
-  uint8_t weight;         // One spare bit here (used for GVARS)
   int8_t  curveParam;
 }) ExpoData;
 #define MIN_EXPO_WEIGHT         0
@@ -545,7 +453,7 @@ PACK(typedef struct {
 #define DELAY_MAX   15 /* 7.5 seconds */
 #define SLOW_MAX    15 /* 7.5 seconds */
 
-#if defined(CPUM2560) || defined(CPUM2561)
+#if defined(CPUM2560) 
 PACK(typedef struct {
   uint8_t destCh:4;          // 0, 1..NUM_CHNOUT
   uint8_t curveMode:1;       // O=curve, 1=differential
@@ -560,27 +468,6 @@ PACK(typedef struct {
   int8_t  carryTrim:3;
   uint8_t mixWarn:2;         // mixer warning
   uint8_t spare:1;
-  uint8_t delayUp:4;
-  uint8_t delayDown:4;
-  uint8_t speedUp:4;
-  uint8_t speedDown:4;
-  int8_t  curveParam;
-  int8_t  offset;
-}) MixData;
-#else
-PACK(typedef struct {
-  uint8_t destCh:4;          // 0, 1..NUM_CHNOUT
-  uint8_t curveMode:1;       // O=curve, 1=differential
-  uint8_t noExpo:1;
-  uint8_t weightMode:1;
-  uint8_t offsetMode:1;
-  int8_t  weight;
-  int8_t  swtch:6;
-  uint8_t mltpx:2;           // multiplex method: 0 means +=, 1 means *=, 2 means :=
-  uint8_t flightModes:5;
-  int8_t  carryTrim:3;
-  uint8_t srcRaw:6;
-  uint8_t mixWarn:2;         // mixer warning
   uint8_t delayUp:4;
   uint8_t delayDown:4;
   uint8_t speedUp:4;
@@ -885,19 +772,10 @@ PACK(typedef struct {
 #if defined(CPUM2560)
 #define NUM_ROTARY_ENCODERS 2
 #define ROTARY_ENCODER_ARRAY int16_t rotaryEncoders[2];
-#else
-#define NUM_ROTARY_ENCODERS 0
-#define ROTARY_ENCODER_ARRAY
 #endif
-#if defined(PCBSTD)
-#define TRIMS_ARRAY       int8_t trim[4]; int8_t trim_ext:8
-#define TRIMS_ARRAY_SIZE  5
-#define trim_t            int16_t
-#else
 #define trim_t          int16_t
 #define TRIMS_ARRAY       trim_t trim[4]
 #define TRIMS_ARRAY_SIZE  8
-#endif
 
 PACK(typedef struct {
   TRIMS_ARRAY;
@@ -1002,8 +880,6 @@ enum MixSources {
   MIXSRC_REc,
   MIXSRC_REd,
   MIXSRC_LAST_ROTARY_ENCODER = MIXSRC_REd,
-#else
-  MIXSRC_LAST_ROTARY_ENCODER = MIXSRC_REb,
 #endif
 #endif
 
@@ -1105,15 +981,6 @@ PACK(typedef struct {
   uint16_t value;
 }) TimerData;
 #define IS_MANUAL_RESET_TIMER(idx) (g_model.timers[idx].persistent == 2)
-#else
-PACK(typedef struct {
-  int8_t    mode;            // timer trigger source -> off, abs, stk, stk%, sw/!sw, !m_sw/!m_sw
-  uint16_t  start:12;
-  uint16_t  countdownBeep:1;
-  uint16_t  minuteBeep:1;
-  uint16_t  spare:2;
-}) TimerData;
-#define IS_MANUAL_RESET_TIMER(idx) 0
 #endif
 
 enum Protocols {
@@ -1185,16 +1052,12 @@ enum FailsafeModes {
 
 #if defined(MAVLINK)
 #define TELEMETRY_DATA MavlinkData mavlink;
-#elif defined(FRSKY) || !defined(PCBSTD)
-#define TELEMETRY_DATA FrSkyData frsky;
 #else
-#define TELEMETRY_DATA
+#define TELEMETRY_DATA FrSkyData frsky;
 #endif
 
 #if defined(CPUM2560)
 #define BeepANACenter uint16_t
-#else
-#define BeepANACenter uint8_t
 #endif
 
 PACK(typedef struct {

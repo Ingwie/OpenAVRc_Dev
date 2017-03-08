@@ -170,12 +170,6 @@ LimitData *limitAddress(uint8_t idx)
   return &g_model.limitData[idx];
 }
 
-#if defined(CPUM64)
-void memclear(void *ptr, uint8_t size)
-{
-  memset(ptr, 0, size);
-}
-#endif
 
 void generalDefault()
 {
@@ -193,11 +187,9 @@ void generalDefault()
 #endif
 
 
-#if !defined(CPUM64)
   g_eeGeneral.backlightMode = e_backlight_mode_all;
   g_eeGeneral.lightAutoOff = 2;
   g_eeGeneral.inactivityTimer = 10;
-#endif
 
 
 
@@ -299,11 +291,7 @@ uint8_t getFlightMode()
 trim_t getRawTrimValue(uint8_t phase, uint8_t idx)
 {
   FlightModeData *p = flightModeAddress(phase);
-#if defined(PCBSTD)
-  return (((trim_t)p->trim[idx]) << 2) + ((p->trim_ext >> (2*idx)) & 0x03);
-#else
   return p->trim[idx];
-#endif
 }
 
 int getTrimValue(uint8_t phase, uint8_t idx)
@@ -313,15 +301,8 @@ int getTrimValue(uint8_t phase, uint8_t idx)
 
 void setTrimValue(uint8_t phase, uint8_t idx, int trim)
 {
-#if defined(PCBSTD)
-  FlightModeData *p = flightModeAddress(phase);
-  p->trim[idx] = (int8_t)(trim >> 2);
-  idx <<= 1;
-  p->trim_ext = (p->trim_ext & ~(0x03 << idx)) + (((trim & 0x03) << idx));
-#else
   FlightModeData *p = flightModeAddress(phase);
   p->trim[idx] = trim;
-#endif
   eeDirty(EE_MODEL);
 }
 
@@ -369,10 +350,6 @@ void incRotaryEncoder(uint8_t idx, int8_t inc)
 
 #if defined(GVARS)
 
-#if defined(PCBSTD)
-#define SET_GVAR_VALUE(idx, phase, value) \
-	(GVAR_VALUE(idx, phase) = value, eeDirty(EE_MODEL))
-#else
 #define SET_GVAR_VALUE(idx, phase, value) \
 	GVAR_VALUE(idx, phase) = value; \
 	eeDirty(EE_MODEL); \
@@ -380,33 +357,7 @@ void incRotaryEncoder(uint8_t idx, int8_t inc)
 		s_gvar_last = idx; \
 		s_gvar_timer = GVAR_DISPLAY_TIME; \
 	}
-#endif
 
-#if defined(PCBSTD)
-int16_t getGVarValue(int16_t x, int16_t min, int16_t max)
-{
-  if (GV_IS_GV_VALUE(x, min, max)) {
-    int8_t idx = GV_INDEX_CALCULATION(x, max);
-    int8_t mul = 1;
-
-    if (idx < 0) {
-      idx = -1-idx;
-      mul = -1;
-    }
-
-    x = GVAR_VALUE(idx, -1) * mul;
-  }
-
-  return limit(min, x, max);
-}
-
-void setGVarValue(uint8_t idx, int8_t value)
-{
-  if (GVAR_VALUE(idx, -1) != value) {
-    SET_GVAR_VALUE(idx, -1, value);
-  }
-}
-#else
 uint8_t s_gvar_timer = 0;
 uint8_t s_gvar_last = 0;
 
@@ -447,7 +398,6 @@ void setGVarValue(uint8_t idx, int16_t value, int8_t phase)
     SET_GVAR_VALUE(idx, phase, value);
   }
 }
-#endif
 
 #endif
 
@@ -613,9 +563,6 @@ void checkBacklight()
 {
   static uint8_t tmr10ms ;
 
-#if defined(PCBSTD) && defined(ROTARY_ENCODER_NAVIGATION)
-  rotencPoll();
-#endif
 
   uint8_t x = g_blinkTmr10ms;
   if (tmr10ms != x) {
@@ -633,9 +580,6 @@ void checkBacklight()
     else
       BACKLIGHT_OFF();
 
-#if defined(PCBSTD) && defined(VOICE) && !defined(SIMU)
-    Voice.voice_process() ;
-#endif
   }
 }
 
@@ -665,13 +609,9 @@ void doSplash()
   if (SPLASH_NEEDED()) {
     displaySplash();
 
-#if defined(PCBSTD)
-    lcdSetContrast();
-#else
     tmr10ms_t curTime = get_tmr10ms() + 10;
     uint8_t contrast = 10;
     lcdSetRefVolt(contrast);
-#endif
 
     getADC(); // init ADC array
 
@@ -706,7 +646,6 @@ void doSplash()
         return;
       }
 
-#if !defined(PCBSTD)
       if (curTime < get_tmr10ms()) {
         curTime += 10;
         if (contrast < g_eeGeneral.contrast) {
@@ -714,7 +653,6 @@ void doSplash()
           lcdSetRefVolt(contrast);
         }
       }
-#endif
 
       checkBacklight();
     }
@@ -879,11 +817,7 @@ uint8_t checkTrim(uint8_t event)
 
 #if defined(GVARS)
     if (TRIM_REUSED(idx)) {
-#if defined(PCBSTD)
-      phase = 0;
-#else
       phase = getGVarFlightPhase(mixerCurrentFlightMode, trimGvar[idx]);
-#endif
       before = GVAR_VALUE(trimGvar[idx], phase);
       thro = false;
     } else {
@@ -963,8 +897,6 @@ uint16_t s_anaFilt[NUMBER_ANALOG];
 // 125KHz sample rate. We now sample at 500KHz, with oversampling and other
 // filtering options to produce 11-bit results.
 uint16_t BandGap = 2040 ;
-#elif defined(PCBSTD)
-uint16_t BandGap ;
 #endif
 
 #if defined(JITTER_MEASURE)
@@ -1093,7 +1025,7 @@ void doMixerCalculations()
 
   if (tick10ms) {
 
-#if !defined(CPUM64) && !defined(ACCURAT_THROTTLE_TIMER)
+#if !defined(ACCURAT_THROTTLE_TIMER)
     //  code cost is about 16 bytes for higher throttle accuracy for timer
     //  would not be noticable anyway, because all version up to this change had only 16 steps;
     //  now it has already 32  steps; this define would increase to 128 steps
@@ -1313,8 +1245,6 @@ void checkBattery()
     // Schottky Diode drops 0.2V before a potential divider which reduces the input to the ADC by 1/4.
 #elif defined(CPUM2560)
     instant_vbat = (instant_vbat*1112 + instant_vbat*g_eeGeneral.txVoltageCalibration + (BandGap<<2)) / (BandGap<<3);
-#else
-    instant_vbat = (instant_vbat*16 + instant_vbat*g_eeGeneral.txVoltageCalibration/8) / BandGap;
 #endif
 
     static uint8_t  s_batCheck;
@@ -1375,27 +1305,6 @@ uint16_t getTmr16KHz()
 #endif
 }
 
-#if defined(PCBSTD) && (defined(AUDIO) || defined(VOICE))
-// Clocks every 128 uS
-ISR(TIMER_AUDIO_VECT, ISR_NOBLOCK) // NOBLOCK allows interrupts - implicit sei()
-{
-  ATOMIC_BLOCK(ATOMIC_FORCEON) {
-    PAUSE_AUDIO_INTERRUPT();  // stop reentrance
-  }
-
-#if defined(AUDIO)
-  AUDIO_DRIVER();
-#endif
-
-#if defined(VOICE)
-  VOICE_DRIVER();
-#endif
-
-  ATOMIC_BLOCK(ATOMIC_FORCEON) {
-    RESUME_AUDIO_INTERRUPT();
-  }
-}
-#endif
 
 
 // Clocks every 10ms
@@ -1621,10 +1530,6 @@ uint16_t freeRam()
 
 #if defined(CPUM2560)
 #define OpenAVRc_INIT_ARGS const uint8_t mcusr
-#elif defined(PCBSTD)
-#define OpenAVRc_INIT_ARGS const uint8_t mcusr
-#else
-#define OpenAVRc_INIT_ARGS
 #endif
 
 void OpenAVRcInit(OpenAVRc_INIT_ARGS)
@@ -1694,15 +1599,11 @@ int simumain(void)
   // we could put a bunch more MYWDT_RESET()s in. But I don't like that approach
   // during boot up.)
 #if !defined(SIMU)
-#if defined(CPUM2560) || defined(CPUM2561)
+#if defined(CPUM2560) 
   uint8_t mcusr = MCUSR; // save the WDT (etc) flags
   MCUSR = 0; // must be zeroed before disabling the WDT
   MCUCR = 0x80 ;   // Disable JTAG port that can interfere with POT3
   MCUCR = 0x80 ;   // Must be done twice
-#elif defined(PCBSTD)
-  uint8_t mcusr = MCUCSR;
-  MCUCSR = 0x80 ;   // Disable JTAG port that can interfere with POT3
-  MCUCSR = 0x80 ;   // Must be done twice
 #endif
   wdt_disable();
 #endif //SIMU
