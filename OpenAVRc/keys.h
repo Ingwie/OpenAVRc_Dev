@@ -77,16 +77,6 @@ enum EnumKeys {
   SW_H,//H
   SW_P,//P optional - not fitted
   SW_K,//K optional - not fitted
-#else
-  SW_ID0=SW_BASE,
-  SW_ID1,
-  SW_ID2,
-  SW_THR,
-  SW_RUD,
-  SW_ELE,
-  SW_AIL,
-  SW_GEA,
-  SW_TRN,
 #endif
   NUM_SWS
 };

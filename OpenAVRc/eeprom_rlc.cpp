@@ -47,7 +47,7 @@ inline void eeprom_write_byte()
   EEAR = eeprom_pointer;
   EEDR = *eeprom_buffer_data;
 // TODO add some define here
-#if defined (CPUM2560) || defined(CPUM2561)
+#if defined (CPUM2560) 
   EECR |= 1<<EEMPE;
   EECR |= 1<<EEPE;
 #else

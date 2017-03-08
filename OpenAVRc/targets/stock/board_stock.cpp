@@ -108,47 +108,21 @@ inline void boardInit()
 
   adcInit();
 
-#if defined(CPUM2561)
-  TCCR2B  = (0b111 << CS20); // Norm mode, clk/1024 (differs from ATmega64 chip)
-  OCR2A   = 156;
-  TIMSK2 |= (1<<OCIE2A) |  (1<<TOIE2); // Enable Output-Compare and Overflow interrrupts
-#else
   // TCNT0  10ms = 16MHz/1024/156 periodic timer (9.984ms)
   // (with 1:4 duty at 157 to average 10.0ms)
   // Timer overflows at about 61Hz or once every 16ms.
   TCCR0  = (0b111 << CS00); // Norm mode, clk/1024
   OCR0   = 156;
-#endif
 
 #if defined(AUDIO) || defined(VOICE)
   SET_TIMER_AUDIO_CTRL();
-#if defined(CPUM2561)
-  OCR4A = 0xFF;
-  RESUME_AUDIO_INTERRUPT();
-#else
   TIMSK |= (1<<OCIE0) | (1<<TOIE0) | (1<<TOIE2); // Enable Output-Compare and Overflow interrrupts
-#endif
 #elif defined(PWM_BACKLIGHT)
   /** Smartieparts LED Backlight is connected to PORTB/pin7, which can be used as pwm output of timer2 **/
-#if defined(CPUM2561)
-#if defined(SP22)
-  TCCR0A = (1<<WGM00)|(1<<COM0A1)|(1<<COM0A0); // inv. pwm mode, clk/64
-#else
-  TCCR0A = (1<<WGM00)|(1<<COM0A1); // pwm mode, clk/64
-#endif
-  TCCR0B = (0b011<<CS00);
-#else
-#if defined(SP22)
-  TCCR2  = (0b011<<CS20)|(1<<WGM20)|(1<<COM21)|(1<<COM20); // inv. pwm mode, clk/64
-#else
   TCCR2  = (0b011<<CS20)|(1<<WGM20)|(1<<COM21); // pwm mode, clk/64
-#endif
   TIMSK |= (1<<OCIE0) | (1<<TOIE0); // Enable Output-Compare and Overflow interrrupts
-#endif
 #else
-#if !defined(CPUM2561)
   TIMSK |= (1<<OCIE0) | (1<<TOIE0); // Enable Output-Compare and Overflow interrrupts
-#endif
 #endif
 }
 #endif
@@ -376,17 +350,10 @@ bool isBacklightEnable()
 void backlightFade() // called from per10ms()
 {
   if (bl_target != bl_current) {
-#if defined(CPUM2561)
-    if (bl_target > bl_current)
-      OCR0A = pgm_read_byte_near(&pwmtable[++bl_current]);
-    else
-      OCR0A = pgm_read_byte_near(&pwmtable[--bl_current]);
-#else
     if (bl_target > bl_current)
       OCR2 = pgm_read_byte_near(&pwmtable[++bl_current]);
     else
       OCR2 = pgm_read_byte_near(&pwmtable[--bl_current]);
-#endif
   }
 }
 

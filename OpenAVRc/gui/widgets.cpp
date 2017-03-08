@@ -61,7 +61,6 @@ void displayScreenIndex(uint8_t index, uint8_t count, uint8_t attr)
   lcdDrawNumberAttUnit(x, 0, index+1, attr);
 }
 
-#if !defined(CPUM64)
 void displayScrollbar(coord_t x, coord_t y, coord_t h, uint16_t offset, uint16_t count, uint8_t visible)
 {
   lcdDrawSolidVerticalLineStip(x, y, h, DOTTED);
@@ -71,7 +70,6 @@ void displayScrollbar(coord_t x, coord_t y, coord_t h, uint16_t offset, uint16_t
     yhgt = h - yofs;
   lcdDrawSolidVerticalLineStip(x, y + yofs, yhgt, SOLID, FORCE);
 }
-#endif
 
 void title(const pm_char * s)
 {
@@ -104,21 +102,12 @@ int8_t switchMenuItem(coord_t x, coord_t y, int8_t value, LcdFlags attr, uint8_t
   return value;
 }
 
-#if !defined(CPUM64)
 void displaySlider(coord_t x, coord_t y, uint8_t value, uint8_t max, uint8_t attr)
 {
   lcdDrawChar(x+(value*4*FW)/max, y, '$');
   lcdDrawSolidHorizontalLine(x, y+3, 5*FW-1, FORCE);
   if (attr && (!(attr & BLINK) || !BLINK_ON_PHASE)) lcdDrawFilledRect(x, y, 5*FW-1, FH-1);
 }
-#elif defined(GRAPHICS)
-void display5posSlider(coord_t x, coord_t y, uint8_t value, uint8_t attr)
-{
-  lcdDrawChar(x+2*FW+(value*FW), y, '$');
-  lcdDrawSolidHorizontalLine(x, y+3, 5*FW-1, SOLID);
-  if (attr && (!(attr & BLINK) || !BLINK_ON_PHASE)) lcdDrawFilledRect(x, y, 5*FW-1, FH-1);
-}
-#endif
 
 #if   defined(GVARS)
 int16_t gvarMenuItem(coord_t x, coord_t y, int16_t value, int16_t min, int16_t max, LcdFlags attr, uint8_t event)

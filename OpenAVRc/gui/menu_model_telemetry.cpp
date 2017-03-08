@@ -49,9 +49,7 @@ enum menuModelTelemetryItems {
 #endif
   ITEM_TELEMETRY_USR_VOLTAGE_SOURCE,
   ITEM_TELEMETRY_USR_CURRENT_SOURCE,
-#if defined(FAS_OFFSET) || !defined(CPUM64)
   ITEM_TELEMETRY_FAS_OFFSET,
-#endif
   CASE_VARIO(ITEM_TELEMETRY_VARIO_LABEL)
 #if defined(VARIO)
   ITEM_TELEMETRY_VARIO_SOURCE,
@@ -87,11 +85,7 @@ enum menuModelTelemetryItems {
 #define CHANNELS_ROWS                CHANNEL_ROWS(0), CHANNEL_ROWS(1),
 #define SENSORS_ROWS
 
-#if defined(FAS_OFFSET) || !defined(CPUM64)
 #define IF_FAS_OFFSET(x)             x,
-#else
-#define IF_FAS_OFFSET(x)
-#endif
 
 #if   defined(FRSKY_HUB) || defined(WS_HOW_HIGH)
 #define USRDATA_ROWS                 LABEL(UsrData), 0, 0, 0, 0, IF_FAS_OFFSET(0)
@@ -107,11 +101,7 @@ enum menuModelTelemetryItems {
 #define SCREEN_TYPE_ROWS             LABEL(SCREEN)
 #endif
 
-#if defined(PCBSTD)
-#define VARIO_RANGE_ROWS             1
-#else
 #define VARIO_RANGE_ROWS             3
-#endif
 
 #define TELEMETRY_TYPE_ROWS
 
@@ -279,7 +269,6 @@ void menuModelTelemetry(uint8_t event)
       if (attr) CHECK_INCDEC_MODELVAR_ZERO(event, g_model.frsky.currentSource, FRSKY_CURRENT_SOURCE_LAST);
       break;
 
-#if defined(FAS_OFFSET) || !defined(CPUM64)
     case ITEM_TELEMETRY_FAS_OFFSET:
       lcdDrawTextLeft(y, STR_FAS_OFFSET);
       lcdDrawNumberAttUnit(TELEM_COL2, y, g_model.frsky.fasOffset, attr|LEFT|PREC1);
@@ -287,7 +276,6 @@ void menuModelTelemetry(uint8_t event)
       lcdDrawChar(TELEM_COL2+8*FW, y, 'A');
       if (attr) g_model.frsky.fasOffset = checkIncDec(event, g_model.frsky.fasOffset, -120, 120, EE_MODEL);
       break;
-#endif
 
 #if defined(VARIO)
     case ITEM_TELEMETRY_VARIO_LABEL:
@@ -302,20 +290,6 @@ void menuModelTelemetry(uint8_t event)
 
     case ITEM_TELEMETRY_VARIO_RANGE:
       lcdDrawTextLeft(y, STR_LIMIT);
-#if defined(PCBSTD)
-      lcdDrawNumberAttUnit(TELEM_COL2, y, 5+g_model.frsky.varioCenterMax, (menuHorizontalPosition==0 ? attr : 0)|PREC1|LEFT);
-      lcdDrawNumberAttUnit(TELEM_COL2+8*FW, y, 10+g_model.frsky.varioMax, (menuHorizontalPosition==1 ? attr : 0));
-      if (attr && (s_editMode>0 || p1valdiff)) {
-        switch (menuHorizontalPosition) {
-        case 0:
-          CHECK_INCDEC_MODELVAR(event, g_model.frsky.varioCenterMax, -15, +15);
-          break;
-        case 1:
-          CHECK_INCDEC_MODELVAR(event, g_model.frsky.varioMax, -7, 7);
-          break;
-        }
-      }
-#else
       lcdDrawNumberAttUnit(TELEM_COL2, y, -10+g_model.frsky.varioMin, (menuHorizontalPosition<=0 ? attr : 0)|LEFT);
       lcdDrawNumberAttUnit(TELEM_COL2+7*FW-2, y, -5+g_model.frsky.varioCenterMin, ((CURSOR_ON_LINE() || menuHorizontalPosition==1) ? attr : 0)|PREC1);
       lcdDrawNumberAttUnit(TELEM_COL2+10*FW, y, 5+g_model.frsky.varioCenterMax, ((CURSOR_ON_LINE() || menuHorizontalPosition==2) ? attr : 0)|PREC1);
@@ -336,7 +310,6 @@ void menuModelTelemetry(uint8_t event)
           break;
         }
       }
-#endif
       break;
 #endif
 

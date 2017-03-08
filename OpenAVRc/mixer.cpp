@@ -793,11 +793,7 @@ void evalMixes(uint8_t tick10ms)
     // this limits based on v original values and min=-1024, max=1024  RESX=1024
     int32_t q = (flightModesFade ? (sum_chans512[i] / weight) << 4 : chans[i]);
 
-#if defined(PCBSTD)
-    ex_chans[i] = q >> 8;
-#else
     ex_chans[i] = q / 256;
-#endif
 
     int16_t value = applyLimits(i, q);  // applyLimits will remove the 256 100% basis
 

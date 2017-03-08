@@ -105,13 +105,11 @@ void displayTrims(uint8_t phase)
     }
 #endif
 
-#if !defined(CPUM64) || !defined(FRSKY)
     int16_t dir = val;
     bool exttrim = false;
     if (val < TRIM_MIN || val > TRIM_MAX) {
       exttrim = true;
     }
-#endif
 
     if (val < -(TRIM_LEN+1)*4) {
       val = -(TRIM_LEN+1);
@@ -129,7 +127,6 @@ void displayTrims(uint8_t phase)
         lcdDrawSolidVerticalLine(xm+1, ym-1,  3);
       }
       ym -= val;
-#if !defined(CPUM64) || !defined(FRSKY)
       lcdDrawFilledRect(xm-3, ym-3, 7, 7, SOLID, att|ERASE);
       if (dir >= 0) {
         lcdDrawSolidHorizontalLine(xm-1, ym-1,  3);
@@ -140,14 +137,12 @@ void displayTrims(uint8_t phase)
       if (exttrim) {
         lcdDrawSolidHorizontalLine(xm-1, ym,  3);
       }
-#endif
     } else {
       ym = 60;
       lcdDrawSolidHorizontalLine(xm-TRIM_LEN, ym, TRIM_LEN*2);
       lcdDrawSolidHorizontalLine(xm-1, ym-1,  3);
       lcdDrawSolidHorizontalLine(xm-1, ym+1,  3);
       xm += val;
-#if !defined(CPUM64) || !defined(FRSKY)
       lcdDrawFilledRect(xm-3, ym-3, 7, 7, SOLID, att|ERASE);
       if (dir >= 0) {
         lcdDrawSolidVerticalLine(xm+1, ym-1,  3);
@@ -158,7 +153,6 @@ void displayTrims(uint8_t phase)
       if (exttrim) {
         lcdDrawSolidVerticalLine(xm, ym-1,  3);
       }
-#endif
     }
     lcd_square(xm-3, ym-3, 7, att);
   }
@@ -337,7 +331,7 @@ void menuMainView(uint8_t event)
     break;
 
   case EVT_KEY_FIRST(KEY_EXIT):
-#if defined(GVARS) && !defined(PCBSTD)
+#if defined(GVARS) 
     if (s_gvar_timer > 0) {
       s_gvar_timer = 0;
     }
@@ -474,12 +468,9 @@ void menuMainView(uint8_t event)
 #if   defined(CPUM2560)
       for (uint8_t i=0; i<NUM_LOGICAL_SWITCH; i++)
         lcdPutsSwitches(2*FW-3 + (i/3)*(i/3>2 ? 3*FW+2 : (3*FW-1)) + (i/3>2 ? 2*FW : 0), 4*FH+1 + (i%3)*FH, SWSRC_SW1+i, getSwitch(SWSRC_SW1+i) ? INVERS : 0);
-#elif !defined(PCBSTD)
-      for (uint8_t i=0; i<NUM_LOGICAL_SWITCH; i++)
-        lcdPutsSwitches(2*FW-2 + (i/3)*(4*FW-1), 4*FH+1 + (i%3)*FH, SWSRC_SW1+i, getSwitch(SWSRC_SW1+i) ? INVERS : 0);
 #else
       for (uint8_t i=0; i<NUM_LOGICAL_SWITCH; i++)
-        lcdPutsSwitches(2*FW-3 + (i/3)*(4*FW), 4*FH+1 + (i%3)*FH, SWSRC_SW1+i, getSwitch(SWSRC_SW1+i) ? INVERS : 0);
+        lcdPutsSwitches(2*FW-2 + (i/3)*(4*FW-1), 4*FH+1 + (i%3)*FH, SWSRC_SW1+i, getSwitch(SWSRC_SW1+i) ? INVERS : 0);
 #endif
     }
   } else { // timer2
@@ -498,7 +489,7 @@ void menuMainView(uint8_t event)
     lcdDrawCharAtt(REBOOT_X, 0*FH, '!', INVERS);
   }
 
-#if defined(GVARS) && !defined(PCBSTD)
+#if defined(GVARS) 
   if (s_gvar_timer > 0) {
     s_gvar_timer--;
     warningText = STR_GLOBAL_VAR;

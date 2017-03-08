@@ -140,9 +140,6 @@ void clearKeyEvents()
 
     MYWDT_RESET();
 
-#if defined(PCBSTD) && defined(ROTARY_ENCODER_NAVIGATION) && !defined(TELEMETREZ)
-    rotencPoll();
-#endif
   }
 
   memclear(keys, sizeof(keys));

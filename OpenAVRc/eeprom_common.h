@@ -26,8 +26,6 @@
 
 #if defined(SIMU)
 #define WRITE_DELAY_10MS 200
-#elif defined(PCBGRUVIN9X) && !defined(REV0)
-#define WRITE_DELAY_10MS 500
 #else
 #define WRITE_DELAY_10MS 200
 #endif

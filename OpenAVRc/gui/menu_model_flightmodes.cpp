@@ -46,7 +46,7 @@ enum menuModelPhaseItems {
   IF_ROTARY_ENCODERS(ITEM_MODEL_PHASE_ROTARY_ENCODERS)
   ITEM_MODEL_PHASE_FADE_IN,
   ITEM_MODEL_PHASE_FADE_OUT,
-#if defined(GVARS) && !defined(PCBSTD)
+#if defined(GVARS) 
   ITEM_MODEL_PHASE_GVARS_LABEL,
   ITEM_MODEL_PHASE_GV1,
   ITEM_MODEL_PHASE_GV2,
@@ -62,7 +62,7 @@ void menuModelPhaseOne(uint8_t event)
   FlightModeData *fm = flightModeAddress(s_currIdx);
   putsFlightMode(13*FW, 0, s_currIdx+1, (getFlightMode()==s_currIdx ? BOLD : 0));
 
-#if defined(GVARS) && !defined(PCBSTD)
+#if defined(GVARS) 
   static const pm_uint8_t mstate_tab_fm1[] PROGMEM = {0, 0, 0, (uint8_t)-1, 1, 1, 1, 1, 1};
   static const pm_uint8_t mstate_tab_others[] PROGMEM = {0, 0, 3, IF_ROTARY_ENCODERS(NUM_ROTARY_ENCODERS-1) 0, 0, (uint8_t)-1, 2, 2, 2, 2, 2};
 
@@ -79,7 +79,7 @@ void menuModelPhaseOne(uint8_t event)
   int8_t sub = menuVerticalPosition;
   int8_t editMode = s_editMode;
 
-#if defined(GVARS) && !defined(PCBSTD)
+#if defined(GVARS) 
   if (s_currIdx == 0 && sub>=ITEM_MODEL_PHASE_SWITCH) sub += ITEM_MODEL_PHASE_FADE_IN-ITEM_MODEL_PHASE_SWITCH;
 
   for (uint8_t k=0; k<LCD_LINES-1; k++) {
@@ -141,7 +141,7 @@ void menuModelPhaseOne(uint8_t event)
       fm->fadeOut = EDIT_DELAY(0, y, event, attr, STR_FADEOUT, fm->fadeOut);
       break;
 
-#if defined(GVARS) && !defined(PCBSTD)
+#if defined(GVARS) 
     case ITEM_MODEL_PHASE_GVARS_LABEL:
       lcdDrawTextLeft(y, STR_GLOBAL_VARS);
       break;

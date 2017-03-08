@@ -60,17 +60,8 @@ void menuGeneralDiagAna(uint8_t event)
   lcdDrawText(64+5, MENU_HEADER_HEIGHT+1+3*FH, STR_BG);
   lcdDrawNumberAttUnit(64+5+6*FW-3, 1+4*FH, BandGap, 0);
 
-#if   defined(PCBGRUVIN9X)
-  lcdDrawTextLeft(6*FH-2, STR_BATT_CALIB);
-  // Gruvin wants 2 decimal places and instant update of volts calib field when button pressed
-  static uint16_t adcBatt;
-  adcBatt = ((adcBatt * 7) + anaIn(TX_VOLTAGE)) / 8; // running average, sourced directly (to avoid unending debate :P)
-  uint32_t batCalV = ((uint32_t)adcBatt*1390 + (10*(int32_t)adcBatt*g_eeGeneral.txVoltageCalibration)/8) / BandGap;
-  lcdDrawNumberNAtt(LEN_CALIB_FIELDS*FW+4*FW, 6*FH-2, batCalV, PREC2|(menuVerticalPosition==1 ? INVERS : 0));
-#else
   lcdDrawTextLeft(6*FH-2, STR_BATT_CALIB);
   lcdPutsVolts(LEN_CALIB_FIELDS*FW+4*FW, 6*FH-2, g_vbat100mV, (menuVerticalPosition==1 ? INVERS : 0));
-#endif
   if (menuVerticalPosition==1) CHECK_INCDEC_GENVAR(event, g_eeGeneral.txVoltageCalibration, -127, 127);
 
 #if defined(TX_CAPACITY_MEASUREMENT)

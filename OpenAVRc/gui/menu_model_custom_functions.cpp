@@ -46,9 +46,7 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
 {
   int8_t sub = menuVerticalPosition - 1;
 
-#if !defined(CPUM64) || defined(AUTOSWITCH)
   uint8_t eeFlags = EE_MODEL;
-#endif
 
   for (uint8_t i=0; i<LCD_LINES-1; i++) {
     coord_t y = MENU_HEADER_HEIGHT + 1 + i*FH;

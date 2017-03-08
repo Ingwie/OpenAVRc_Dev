@@ -63,17 +63,10 @@ enum menuModelSetupItems {
 
 void menuModelSetup(uint8_t event)
 {
-#if   defined(CPUM64)
-#define CURSOR_ON_CELL                    (true)
-#define MODEL_SETUP_MAX_LINES             ((IS_PPM_PROTOCOL(protocol)||IS_DSM2_PROTOCOL(protocol)||IS_PXX_PROTOCOL(protocol)) ? 1+ITEM_MODEL_SETUP_MAX : ITEM_MODEL_SETUP_MAX)
-  uint8_t protocol = g_model.protocol;
-  MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, NUM_STICKS+NUM_POTS+NUM_ROTARY_ENCODERS-1, FIELD_PROTOCOL_MAX, 2 });
-#else
 #define CURSOR_ON_CELL                    (true)
 #define MODEL_SETUP_MAX_LINES             ((IS_PPM_PROTOCOL(protocol)||IS_DSM2_PROTOCOL(protocol)||IS_PXX_PROTOCOL(protocol)) ? 1+ITEM_MODEL_SETUP_MAX : ITEM_MODEL_SETUP_MAX)
   uint8_t protocol = g_model.protocol;
   MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 0, 1, 0, 0, 0, 0, 0, NUM_SWITCHES, NUM_STICKS+NUM_POTS+NUM_ROTARY_ENCODERS-1, FIELD_PROTOCOL_MAX, 2, });
-#endif
 
   MENU_CHECK(menuTabModel, e_ModelSetup, MODEL_SETUP_MAX_LINES);
 
@@ -148,9 +141,6 @@ void menuModelSetup(uint8_t event)
       break;
 
     case ITEM_MODEL_EXTENDED_TRIMS:
-#if defined(CPUM64)
-      ON_OFF_MENU_ITEM(g_model.extendedTrims, MODEL_SETUP_2ND_COLUMN, y, STR_ETRIMS, attr, event);
-#else
       ON_OFF_MENU_ITEM(g_model.extendedTrims, MODEL_SETUP_2ND_COLUMN, y, STR_ETRIMS, menuHorizontalPosition<=0 ? attr : 0, event==EVT_KEY_BREAK(KEY_ENTER) ? event : 0);
       lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+3*FW, y, STR_RESET_BTN, (menuHorizontalPosition>0  && !NO_HIGHLIGHT()) ? attr : 0);
       if (attr && menuHorizontalPosition>0) {
@@ -164,7 +154,6 @@ void menuModelSetup(uint8_t event)
           AUDIO_WARNING1();
         }
       }
-#endif
       break;
 
 
@@ -207,24 +196,13 @@ void menuModelSetup(uint8_t event)
           switch (event) {
             CASE_EVT_ROTARY_BREAK
           case EVT_KEY_BREAK(KEY_ENTER):
-#if defined(CPUM64)
-            g_model.switchWarningEnable ^= (1 << menuHorizontalPosition);
-            eeDirty(EE_MODEL);
-#else
             if (menuHorizontalPosition < NUM_SWITCHES-1) {
               g_model.switchWarningEnable ^= (1 << menuHorizontalPosition);
               eeDirty(EE_MODEL);
             }
-#endif
             break;
 
           case EVT_KEY_LONG(KEY_ENTER):
-#if defined(CPUM64)
-            getMovedSwitch();
-            g_model.switchWarningState = switches_states;
-            AUDIO_WARNING1();
-            eeDirty(EE_MODEL);
-#else
             if (menuHorizontalPosition == NUM_SWITCHES-1) {
               START_NO_HIGHLIGHT();
               getMovedSwitch();
@@ -232,7 +210,6 @@ void menuModelSetup(uint8_t event)
               AUDIO_WARNING1();
               eeDirty(EE_MODEL);
             }
-#endif
             killEvents(event);
             break;
           }
@@ -260,9 +237,7 @@ void menuModelSetup(uint8_t event)
             attr |= INVERS;
         }
         lcdDrawCharAtt(MODEL_SETUP_2ND_COLUMN+i*FW, y, (swactive || (attr & BLINK)) ? c : '-', attr);
-#if !defined(CPUM64)
         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+(NUM_SWITCHES*FW), y, PSTR("<]"), (menuHorizontalPosition == NUM_SWITCHES-1 && !NO_HIGHLIGHT()) ? line : 0);
-#endif
       }
       break;
     }

@@ -437,9 +437,7 @@ extern const pm_char STR_AND_SWITCH[];
 extern const pm_char STR_SF[];
 extern const pm_char STR_GF[];
 
-#if defined(FAS_OFFSET) || !defined(CPUM64)
 extern const pm_char STR_FAS_OFFSET[];
-#endif
 
 #if defined(DSM2) || defined(PXX)
 extern const pm_char STR_RXNUM[];
