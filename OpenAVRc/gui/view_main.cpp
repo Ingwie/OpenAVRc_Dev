@@ -99,6 +99,12 @@ void displayTrims(uint8_t phase)
     uint8_t att = ROUND;
     int16_t val = getTrimValue(phase, i);
 
+#if defined(REV_EVO_V1)
+    if (i==1 || i==3) {
+      val = -val;
+    }
+#endif
+
 #if !defined(CPUM64) || !defined(FRSKY)
     int16_t dir = val;
     bool exttrim = false;
@@ -106,6 +112,7 @@ void displayTrims(uint8_t phase)
       exttrim = true;
     }
 #endif
+
     if (val < -(TRIM_LEN+1)*4) {
       val = -(TRIM_LEN+1);
     } else if (val > (TRIM_LEN+1)*4) {
