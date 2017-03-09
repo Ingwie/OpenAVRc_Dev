@@ -41,7 +41,7 @@
 #define WARN_MEM     (!(g_eeGeneral.warnOpts & WARN_MEM_BIT))
 #define BEEP_VAL     ( (g_eeGeneral.warnOpts & WARN_BVAL_BIT) >>3 )
 
-#if   defined(CPUM2560) 
+#if   defined(CPUM2560)
 #define EEPROM_VER             217
 #define FIRST_CONV_EEPROM_VER  EEPROM_VER
 #endif
@@ -54,7 +54,7 @@
 
 #define NUM_STICKS           4
 
-#if   defined(CPUM2560) 
+#if   defined(CPUM2560)
 #if defined(EXTERNALEEPROM)
 #define MAX_MODELS           60
 #define NUM_CHNOUT           16 // number of real output channels CH1-CH16
@@ -395,7 +395,7 @@ PACK(typedef struct {
 #define MODE_EXPO          0
 #define MODE_CURVE         1
 
-#if defined(CPUM2560) 
+#if defined(CPUM2560)
 PACK(typedef struct {
   uint8_t mode:2;         // 0=end, 1=pos, 2=neg, 3=both
   uint8_t chn:2;
@@ -453,7 +453,7 @@ PACK(typedef struct {
 #define DELAY_MAX   15 /* 7.5 seconds */
 #define SLOW_MAX    15 /* 7.5 seconds */
 
-#if defined(CPUM2560) 
+#if defined(CPUM2560)
 PACK(typedef struct {
   uint8_t destCh:4;          // 0, 1..NUM_CHNOUT
   uint8_t curveMode:1;       // O=curve, 1=differential
@@ -820,7 +820,7 @@ enum SwitchSources {
   SWSRC_TrimAilRight,
   SWSRC_LAST_TRIM = SWSRC_TrimAilRight,
 
-#if   defined(CPUM2560)
+#if defined(CPUM2560)
   SWSRC_REa,
   SWSRC_REb,
 #endif
@@ -880,6 +880,8 @@ enum MixSources {
   MIXSRC_REc,
   MIXSRC_REd,
   MIXSRC_LAST_ROTARY_ENCODER = MIXSRC_REd,
+#else
+  MIXSRC_LAST_ROTARY_ENCODER = MIXSRC_REb,
 #endif
 #endif
 
