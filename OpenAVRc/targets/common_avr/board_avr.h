@@ -32,8 +32,6 @@
 #include "../evo_v1/evo_mega2560.h"
 #elif defined(PCBMEGA2560)
 #include "../mega2560/board_mega2560.h"
-#else
-#include "../stock/board_stock.h"
 #endif
 
 // Port Pin Bitmaps for general use.

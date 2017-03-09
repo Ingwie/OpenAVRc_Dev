@@ -14,16 +14,15 @@
 #----------- BUILD OPTIONS ---------------------------
 
 # PCB version
-# Values: 9X, 9X128, 9X2561, 9XR, 9XR128, 9XR2561, GRUVIN9X, MEGA2560
-# Old values STD and STD128 are mapped to 9X and 9X128 for compatibility
-PCB = 9X
+# Values: MEGA2560
+PCB = MEGA2560
 
 # PCB revision
 PCBREV =
 
 # LCD
-# Values: DEFAULT, ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306
-LCD = DEFAULT
+# Values: ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306
+LCD = ST7565P
 
 # Enable JETI-Telemetry or FrSky Telemetry reception on UART0
 # For this option you need to modify your hardware!
@@ -108,9 +107,6 @@ ACCURAT_THROTTLE_STATS = NO
 # Values = YES, NO
 HAPTIC = NO
 
-# SmartieParts 2.2 Backlight support (inverted)
-# Values = YES, NO
-SP22 = NO
 
 # Fade Backlight using PWM
 # Values = YES, NO
@@ -183,10 +179,6 @@ RTCLOCK = YES
 # default = YES (AR9X board doesn't have a hardware volume control as delivered but it can be fitted optionally)
 HARDWARE_VOLUME = YES
 
-# BLUETOOTH
-# Values = YES, NO
-BLUETOOTH = NO
-
 # PXX (FrSky PCM) protocol
 PXX = NO
 
@@ -197,14 +189,6 @@ DSM2 = NO
 # HUBSAN protocol
 # Values = NO, YES
 HUBSAN = NO
-
-# DSM/PPM TX caddy PCB (Gruvin)
-# For auto-switching switching between DSM2/X and Fr-Sky transmitter modules
-# Values = YES, NO
-TX_CADDY = NO
-
-#IR protocols (SILV / TRAC09 / PICZ / SWIFT)
-IRPROTOS = NO
 
 # TRANSLATIONS
 # Values = cz, de, en, fi, fr, it, se, es, pl, pt, nl
@@ -243,15 +227,8 @@ EEPROM_PROGRESS_BAR = NO
 SHUTDOWN_CONFIRMATION = NO
 
 # Activates the DEBUG Mode (all boards)
-# On G9X V4 board, when VOICE=NO:
-#  PORTH:7 --> Transition LOW to HIGH = start of setupPulses(). Transition HIGH to LOW = end of setupPulses().
-#  PORTH:6 --> LOW->HIGH = start of mixer calcs. HIGH->LOW, end of mixer calcs.
 # Values = YES, NO
 DEBUG = NO
-
-# Activate Command Line Interpreter
-# Values = NO, YES
-CLI = NO
 
 # Activate writing of SPORT telemetry received data to sport.log file
 # Values = YES, NO
@@ -284,13 +261,6 @@ PERSONAMES = NO
 # Menu Lock modes
 # Values = NO, READONLY, NOMENUS
 MENUS_LOCK = NO
-
-# USB options in the main image
-# Values = JOYSTICK, MASSSTORAGE, SERIAL
-# JOYSTICK: The TX will appear as a joystick
-# MASSSTORAGE: The TX will appear as a drive
-# SERIAL: The TX will appear as a serial port
-USB = MASSSTORAGE
 
 # Mixers monitor view added to Channels monitor one
 # Values = NO, YES
@@ -358,7 +328,7 @@ LUADEP =
 DEBUG_TRACE_BUFFER = NO
 
 # PCB name
-ifneq ($(PCB), $(filter $(PCB), STD 9X 9XR STD128 9X128 9XR128 9X2561 9XR2561 GRUVIN9X MEGA2560 EVO_V1))
+ifneq ($(PCB), $(filter $(PCB), MEGA2560 EVO_V1))
   $(error Sorry, the PCB $(PCB) is not supported yet in OpenAVRc)
 endif
 
@@ -366,8 +336,6 @@ GVARS_VARIANT   = +1
 FRSKY_VARIANT   = +2
 3POS_VARIANT    = +4
 MAVLINK_VARIANT = +8
-M128_VARIANT    = +32768
-M2561_VARIANT   = +16384
 EEPROM_VARIANT  = 0
 
 GUIMODELSRC = gui/menu_model.cpp gui/menu_model_select.cpp gui/menu_model_setup.cpp gui/menu_model_inputs_mixes.cpp gui/menu_model_limits.cpp gui/menu_model_logical_switches.cpp gui/menu_model_custom_functions.cpp gui/menu_model_telemetry.cpp
@@ -376,277 +344,6 @@ GUIGENERALSRC = gui/menu_general.cpp gui/menu_general_setup.cpp gui/menu_general
 BITMAPS = bitmaps/sticks.lbm
 
 #FONTS = $(patsubst %.png,%.lbm,$(wildcard fonts/std/*.png))
-
-ifeq ($(PCB), $(filter $(PCB), STD 9X 9XR))
-  # 9x/9xr radio
-
-  ARCH = AVR
-  LCDSIZE = 128
-  TRGT = avr-
-  MCU = atmega64
-  OPT = s
-  SDCARD = NO
-  THR_TRACE = NO
-  INCDIRS += targets/stock
-  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBSTD -DCPUM64 -DEEPROM_RLC -DEEPROM_VARIANT=$(shell echo ${EEPROM_VARIANT} | bc)
-  BOARDSRC = main_avr.cpp targets/stock/board_stock.cpp
-  EXTRABOARDSRC = targets/common_avr/adc_driver.cpp targets/common_avr/telemetry_driver.cpp
-  ifeq ($(GUI), YES)
-    EXTRABOARDSRC += targets/stock/lcd_driver.cpp
-  endif
-  EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
-  PULSESSRC = pulses/pulses_avr.cpp
-  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
-  GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
-
-  ifeq ($(PCB), 9XR)
-    FLAVOUR = 9xr
-    CPPDEFS += -DPCB9XR
-  else
-    FLAVOUR = 9x
-    CPPDEFS += -DPCB9X
-  endif
-
-  ifeq ($(TELEMETRY_MOD), 14051)
-    CPPDEFS += -DTELEMETRY_MOD_14051
-  endif
-
-  ifeq ($(TELEMETRY_MOD), 14051_SWAPPED)
-    CPPDEFS += -DTELEMETRY_MOD_14051_SWAPPED
-  endif
-
-  ifeq ($(AUDIO), YES)
-    CPPDEFS += -DAUDIO
-    CPPSRC += audio_avr.cpp
-    BUZZER = NO
-  else
-    BUZZER = YES
-  endif
-
-  ifeq ($(BUZZER), YES)
-    CPPDEFS += -DBUZZER
-    CPPSRC += buzzer.cpp
-  endif
-
-  ifeq ($(VOICE), YES)
-    CPPDEFS += -DVOICE
-    CPPSRC += targets/stock/voice.cpp
-  endif
-
-  ifeq ($(PWM_BACKLIGHT), YES)
-    ifeq ($(VOICE), YES)
-      $(error Sorry, PWM_BACKLIGHT doesnt work on stock board with VOICE mod)
-    endif
-    ifeq ($(AUDIO), YES)
-      $(error Sorry, PWM_BACKLIGHT doesnt work on stock board with AUDIO mod)
-    endif
-    CPPDEFS += -DPWM_BACKLIGHT
-  endif
-
-  ifeq ($(HAPTIC), YES)
-   CPPDEFS += -DHAPTIC
-   CPPSRC += haptic.cpp
-  endif
-
-  ifeq ($(SP22), YES)
-   CPPDEFS += -DSP22
-  endif
-
-  ifeq ($(FAS_OFFSET), YES)
-   CPPDEFS += -DFAS_OFFSET
-  endif
-endif
-
-ifeq ($(PCB), $(filter $(PCB), STD128 9X128 9XR128))
-  # 9X/9XR radio with ATmega64 replaced by ATmega128
-
-  ARCH = AVR
-  LCDSIZE = 128
-  TRGT = avr-
-  MCU = atmega128
-  OPT = s
-  SDCARD = NO
-  THR_TRACE = NO
-  EEPROM_VARIANT += ${M128_VARIANT}
-  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBSTD -DCPUM128 -DEEPROM_RLC -DEEPROM_VARIANT=$(shell echo ${EEPROM_VARIANT} | bc)
-  INCDIRS += targets/stock
-  BOARDSRC = main_avr.cpp targets/stock/board_stock.cpp
-  EXTRABOARDSRC = targets/common_avr/adc_driver.cpp targets/stock/lcd_driver.cpp targets/common_avr/telemetry_driver.cpp
-  EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
-  PULSESSRC = pulses/pulses_avr.cpp
-  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
-  GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
-
-  ifeq ($(PCB), 9XR128)
-    FLAVOUR = 9xr128
-    CPPDEFS += -DPCB9XR128
-  else
-    FLAVOUR = 9x128
-    CPPDEFS += -DPCB9X128
-  endif
-
-  ifeq ($(TELEMETRY_MOD), 14051)
-    CPPDEFS += -DTELEMETRY_MOD_14051
-  endif
-
-  ifeq ($(TELEMETRY_MOD), 14051_SWAPPED)
-    CPPDEFS += -DTELEMETRY_MOD_14051_SWAPPED
-  endif
-
-  ifeq ($(AUDIO), YES)
-    CPPDEFS += -DAUDIO
-    CPPSRC += audio_avr.cpp
-    BUZZER = NO
-  else
-    BUZZER = YES
-  endif
-
-  ifeq ($(BUZZER), YES)
-    CPPDEFS += -DBUZZER
-    CPPSRC += buzzer.cpp
-  endif
-
-  ifeq ($(VOICE), YES)
-    CPPDEFS += -DVOICE
-    CPPSRC += targets/stock/voice.cpp
-  endif
-
-  ifeq ($(PWM_BACKLIGHT), YES)
-    ifeq ($(VOICE), YES)
-      $(error Sorry, PWM_BACKLIGHT doesnt work on stock board with VOICE mod)
-    endif
-    ifeq ($(AUDIO), YES)
-      $(error Sorry, PWM_BACKLIGHT doesnt work on stock board with AUDIO mod)
-    endif
-    CPPDEFS += -DPWM_BACKLIGHT
-  endif
-
-  ifeq ($(HAPTIC), YES)
-   CPPDEFS += -DHAPTIC
-   CPPSRC += haptic.cpp
-  endif
-
-  ifeq ($(SP22), YES)
-   CPPDEFS += -DSP22
-  endif
-endif
-
-ifeq ($(PCB), $(filter $(PCB), 9X2561))
-  # 9X/9XR radio with ATmega64 replaced by ATmega2561
-
-  ARCH = AVR
-  LCDSIZE = 128
-  TRGT = avr-
-  MCU = atmega2561
-  OPT = s
-  SDCARD = NO
-  THR_TRACE = YES
-  EEPROM_VARIANT += ${M2561_VARIANT}
-  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBSTD -DCPUM2561 -DEEPROM_RLC -DEEPROM_VARIANT=$(shell echo ${EEPROM_VARIANT} | bc)
-  INCDIRS += targets/stock
-  BOARDSRC = main_avr.cpp targets/stock/board_stock.cpp
-  EXTRABOARDSRC = targets/common_avr/adc_driver.cpp targets/stock/lcd_driver.cpp targets/common_avr/telemetry_driver.cpp
-  EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
-  PULSESSRC = pulses/pulses_avr.cpp
-  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
-  GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
-
-  ifeq ($(PCB), 9XR2561)
-    FLAVOUR = 9xr2561
-    CPPDEFS += -DPCB9XR2561
-  else
-    FLAVOUR = 9x2561
-    CPPDEFS += -DPCB9X2561
-  endif
-
-  ifeq ($(AUDIO), YES)
-    CPPDEFS += -DAUDIO
-    CPPSRC += audio_avr.cpp
-    BUZZER = NO
-  else
-    BUZZER = YES
-  endif
-
-  ifeq ($(BUZZER), YES)
-    CPPDEFS += -DBUZZER
-    CPPSRC += buzzer.cpp
-  endif
-
-  ifeq ($(VOICE), YES)
-    CPPDEFS += -DVOICE
-    CPPSRC += targets/stock/voice.cpp
-  endif
-
-  ifeq ($(PWM_BACKLIGHT), YES)
-    ifeq ($(VOICE), YES)
-      $(error Sorry, PWM_BACKLIGHT doesnt work on stock board with VOICE mod)
-    endif
-    ifeq ($(AUDIO), YES)
-      $(error Sorry, PWM_BACKLIGHT doesnt work on stock board with AUDIO mod)
-    endif
-    CPPDEFS += -DPWM_BACKLIGHT
-  endif
-
-  ifeq ($(HAPTIC), YES)
-   CPPDEFS += -DHAPTIC
-   CPPSRC += haptic.cpp
-  endif
-
-  ifeq ($(SP22), YES)
-   CPPDEFS += -DSP22
-  endif
-endif
-
-ifeq ($(PCB), GRUVIN9X)
-  # 9x radio with a gruvin9x replacement board
-
-  FLAVOUR = gruvin9x
-  ARCH = AVR
-  LCDSIZE = 128
-  ifeq ($(PCBREV), REV0)
-    CPPDEFS = -DREV0
-  else
-    CPPDEFS = -DREV1
-  endif
-  TRGT = avr-
-  MCU = atmega2560
-  OPT = s
-  CPPDEFS += -DF_CPU=$(F_CPU)UL -DPCBGRUVIN9X -DCPUM2560 -DEEPROM_RLC -DEEPROM_VARIANT=0 -DAUDIO -DHAPTIC
-  SDCARD = NO
-  BUZZER = NO
-  THR_TRACE = YES
-  INCDIRS += targets/gruvin9x targets/stock $(FATFSDIR) $(FATFSDIR)/option
-  BOARDSRC = main_avr.cpp targets/gruvin9x/board_gruvin9x.cpp
-  EXTRABOARDSRC = targets/common_avr/adc_driver.cpp targets/stock/lcd_driver.cpp targets/common_avr/telemetry_driver.cpp
-  EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
-  PULSESSRC = pulses/pulses_avr.cpp
-  CPPSRC += audio_avr.cpp haptic.cpp
-  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
-  GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
-
-  ifeq ($(SDCARD), YES)
-    CPPDEFS += -DRTCLOCK -DSDCARD
-    CPPSRC += i2c_master.cpp rtc.cpp sdcard.cpp logs.cpp targets/gruvin9x/rtc_driver.cpp
-    GUIGENERALSRC += gui/menu_general_sdmanager.cpp
-    EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/option/ccsbcs.c targets/gruvin9x/diskio.cpp
-  endif
-
-  ifeq ($(BUZZER), YES)
-    CPPDEFS += -DBUZZER
-    CPPSRC += buzzer.cpp
-  endif
-
-  ifeq ($(VOICE), YES)
-    CPPDEFS += -DVOICE
-    CPPSRC += targets/gruvin9x/somo14d.cpp
-  endif
-
-  # Enable extra rotary encoders (Gruvin9x board only)
-  # Values = YES, NO
-  ROTARY_ENCODERS = 2
-  CPPDEFS += -DROTARY_ENCODERS=${ROTARY_ENCODERS}
-endif
-
 
 ifeq ($(PCB), EVO_V1)
   # Evo V1 PCB with Mega2560
@@ -657,7 +354,7 @@ ifeq ($(PCB), EVO_V1)
   LCDSIZE = 128
   TRGT = avr-
   MCU = atmega2560
-  OPT = s
+  OPT = 1
   # Processor frequency.
   F_CPU = 16000000
   CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DREV_EVO_V1 -DEEPROM_RLC -DEEPROM_VARIANT=0
@@ -684,13 +381,13 @@ ifeq ($(PCB), EVO_V1)
   endif
 
   ifeq ($(SDCARD), YES)
-    EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/option/ccsbcs.c targets/gruvin9x/diskio.cpp
+    EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/option/ccsbcs.c /diskio.cpp
 #    EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/fattime.c $(FATFSDIR)/option/ccsbcs.c targets/gruvin9x/diskio.cpp
     CPPDEFS += -DSDCARD
 #    CPPDEFS += -DSDCARD -DRTCLOCK
     GUIGENERALSRC += gui/menu_general_sdmanager.cpp
 #    GUIGENERALSRC += gui/$(GUIDIRECTORY)/menu_general_sdmanager.cpp
-    CPPSRC += i2c_master.cpp rtc.cpp sdcard.cpp logs.cpp targets/gruvin9x/rtc_driver.cpp
+    CPPSRC += i2c_master.cpp rtc.cpp sdcard.cpp logs.cpp /rtc_driver.cpp
 #    CPPSRC += rtc.cpp sdcard.cpp logs.cpp targets/gruvin9x/rtc_driver.cpp
   endif
 
@@ -709,7 +406,7 @@ ifeq ($(PCB), EVO_V1)
 
   ifeq ($(VOICE), YES)
     CPPDEFS += -DVOICE
-    CPPSRC += targets/gruvin9x/somo14d.cpp
+    CPPSRC += somo14d.cpp
   endif
 
   ifeq ($(HAPTIC), YES)
@@ -735,7 +432,7 @@ ifeq ($(PCB), MEGA2560)
   LCDSIZE = 128
   TRGT = avr-
   MCU = atmega2560
-  OPT = s
+  OPT = 1
   # Processor frequency.
   F_CPU = 16000000
   CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DEEPROM_RLC -DEEPROM_VARIANT=0
@@ -751,17 +448,17 @@ ifeq ($(PCB), MEGA2560)
   BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
 
-  EXTRABOARDSRC = targets/common_avr/adc_driver.cpp targets/stock/lcd_driver.cpp targets/common_avr/telemetry_driver.cpp
+  EXTRABOARDSRC = targets/common_avr/adc_driver.cpp targets/lcd/lcd_driver.cpp targets/common_avr/telemetry_driver.cpp
 
   ifeq ($(PWRMANAGE), YES)
     CPPDEFS += -DPWRMANAGE
   endif
 
   ifeq ($(SDCARD), YES)
-    EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/option/ccsbcs.c targets/gruvin9x/diskio.cpp
+    EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/option/ccsbcs.c diskio.cpp
     CPPDEFS += -DSDCARD -DRTCLOCK
     GUIGENERALSRC += gui/menu_general_sdmanager.cpp
-    CPPSRC += i2c_master.cpp rtc.cpp sdcard.cpp logs.cpp targets/gruvin9x/rtc_driver.cpp
+    CPPSRC += i2c_master.cpp rtc.cpp sdcard.cpp logs.cpp rtc_driver.cpp
   endif
 
   ifeq ($(AUDIO), YES)
@@ -1135,16 +832,6 @@ ifeq ($(TEMPLATES), YES)
     CPPSRC += templates.cpp
     GUIMODELSRC += gui/menu_model_templates.cpp
 endif
-
-# Enable navigation with Pots / Sticks / Rotary encoders
-# Values = NO
-#          POT1 (only POT1 available for fields modification),
-#          POT2 (menus scroll),
-#          POT3 (cursor down/up),
-#          POTS (POT1, POT2, POT3),
-#          STICKS
-#          ROTENC (Rotary encoder)
-NAVIGATION = NO
 
 ifeq ($(PXX), YES)
   CPPDEFS += -DPXX
