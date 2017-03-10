@@ -27,7 +27,7 @@
 #ifndef _SERIAL_H_
 #define _SERIAL_H_
 
-#include "../../OpenAVRc.h"
+#include "OpenAVRc.h"
 
 
 typedef enum serial_tx_state_ {

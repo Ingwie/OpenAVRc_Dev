@@ -24,7 +24,7 @@
 */
 
 
-#include "../../OpenAVRc.h"
+#include "OpenAVRc.h"
 
 #if defined(FRSKY)
 

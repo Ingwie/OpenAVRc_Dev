@@ -24,7 +24,7 @@
 */
 
 
-#include "../../OpenAVRc.h"
+#include "OpenAVRc.h"
 
 
 #define ADC_VREF_TYPE (1 << REFS0) // AVCC with external capacitor at AREF pin

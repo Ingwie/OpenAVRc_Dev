@@ -27,7 +27,7 @@
 #ifndef _BOARD_MEGA2560_H_
 #define _BOARD_MEGA2560_H_
 
-#include "board_avr.h"
+#include "../../board_avr.h"
 #include "../../OpenAVRc.h"
 
 
