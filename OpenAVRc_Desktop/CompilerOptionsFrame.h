@@ -90,17 +90,12 @@ extern bool PPM_LIMITS_SYMETRICAL;
 extern bool FLIGHT_MODES;//Hardwired ?
 extern bool CURVES;//Hardwired ?
 extern bool GVARS;//Hardwired ?
-extern bool PCBREV;
-extern bool TURNIGY_TRANSMITTER_FIX;
-extern bool FRSKY_STICKS;
 extern bool CORRECT_NEGATIVE_VALUES;
 extern bool ARITHMETIC_OVERFLOW_CHECK;
 extern bool ACCURAT_THROTTLE_STATS;
-extern bool SP22;
 extern bool PWM_BACKLIGHT;
 extern bool OVERRIDE_CHANNEL_FUNCTION;
 extern bool WS_HOW_HIGH;
-extern bool TX_CADDY;
 extern bool TOGGLETRIM;
 extern bool NOANDSECONDE;// Hardwired
 extern bool SHUTDOWN_CONFIRMATION;
@@ -129,7 +124,6 @@ public:
     //wxFileConfig* configFile;
 
     //(*Declarations(CompilerOptionsFrame)
-    wxCheckBox* CheckBoxTX_CADDY;
     wxStaticText* StaticText10;
     wxStaticText* StaticText22;
     wxStaticText* StaticText9;
@@ -149,7 +143,6 @@ public:
     wxChoice* ChoiceUNITS;
     wxNotebook* Notebook1;
     wxCheckBox* CheckBoxDSM2SERIAL;
-    wxCheckBox* CheckBoxPCBREV;
     wxStaticBox* StaticBox7;
     wxStaticText* StaticText13;
     wxStaticText* StaticText2;
@@ -180,12 +173,10 @@ public:
     wxStaticBox* StaticBox1;
     wxButton* Sortirpage2;
     wxChoice* ChoiceTHREE_POS;
-    wxCheckBox* CheckBoxTURNIGY_TRANSMITTER_FIX;
     wxChoice* ChoiceNAVIGATION;
     wxButton* ButtonEXIT;
     wxStaticText* StaticText21;
     wxPanel* Panel3;
-    wxCheckBox* CheckBoxFRSKY_STICKS;
     wxComboBox* ComboBoxID0;
     wxStaticBox* StaticBox2;
     wxStaticText* StaticText23;
@@ -215,7 +206,6 @@ public:
     wxCheckBox* CheckBoxACCURAT_THROTTLE_STATS;
     wxCheckBox* CheckBoxPWM_BACKLIGHT;
     wxPanel* Panel2;
-    wxCheckBox* CheckBoxSP22;
     wxChoice* ChoiceLCD;
     wxChoice* ChoiceVOICE;
     wxStaticText* StaticText17;
@@ -301,16 +291,11 @@ protected:
     static const long ID_CHECKBOX5;
     static const long ID_CHECKBOX6;
     static const long ID_CHECKBOX8;
-    static const long ID_CHECKBOX23;
-    static const long ID_CHECKBOX24;
-    static const long ID_CHECKBOX25;
     static const long ID_CHECKBOX26;
     static const long ID_CHECKBOX27;
-    static const long ID_CHECKBOX29;
     static const long ID_CHECKBOX30;
     static const long ID_CHECKBOX31;
     static const long ID_CHECKBOX32;
-    static const long ID_CHECKBOX34;
     static const long ID_CHECKBOX36;
     static const long ID_CHECKBOX37;
     static const long ID_CHECKBOX38;
