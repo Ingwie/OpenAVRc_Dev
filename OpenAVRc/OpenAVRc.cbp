@@ -142,9 +142,7 @@
 		<Unit filename="strhelpers.cpp" />
 		<Unit filename="switches.cpp" />
 		<Unit filename="targets/common_avr/adc_driver.cpp" />
-		<Unit filename="targets/common_avr/board_avr.h" />
 		<Unit filename="targets/common_avr/serial_driver.cpp" />
-		<Unit filename="targets/common_avr/serial_driver.h" />
 		<Unit filename="targets/common_avr/telemetry_driver.cpp" />
 		<Unit filename="targets/evo_v1/evo_adc_driver.cpp" />
 		<Unit filename="targets/evo_v1/evo_lcd_driver.cpp" />
@@ -153,11 +151,9 @@
 		<Unit filename="targets/evo_v1/evo_pulses_avr.cpp" />
 		<Unit filename="targets/evo_v1/menu_general_diaganas.cpp" />
 		<Unit filename="targets/gruvin9x/board_gruvin9x.cpp" />
-		<Unit filename="targets/gruvin9x/board_gruvin9x.h" />
 		<Unit filename="targets/gruvin9x/diskio.cpp" />
 		<Unit filename="targets/gruvin9x/rtc_driver.cpp" />
 		<Unit filename="targets/gruvin9x/somo14d.cpp" />
-		<Unit filename="targets/gruvin9x/somo14d.h" />
 		<Unit filename="targets/mega2560/board_mega2560.cpp" />
 		<Unit filename="targets/mega2560/board_mega2560.h" />
 		<Unit filename="targets/mega2560/voice.h" />
@@ -166,7 +162,6 @@
 		<Unit filename="targets/simu/simu_interface.cpp" />
 		<Unit filename="targets/simu/simu_interface.h" />
 		<Unit filename="targets/stock/board_stock.cpp" />
-		<Unit filename="targets/stock/board_stock.h" />
 		<Unit filename="targets/stock/lcd_default_driver.cpp" />
 		<Unit filename="targets/stock/lcd_driver.cpp" />
 		<Unit filename="targets/stock/lcd_ks108_driver.cpp" />
@@ -174,7 +169,6 @@
 		<Unit filename="targets/stock/lcd_ssd1306_driver.cpp" />
 		<Unit filename="targets/stock/lcd_st7920_driver.cpp" />
 		<Unit filename="targets/stock/voice.cpp" />
-		<Unit filename="targets/stock/voice.h" />
 		<Unit filename="telemetry/ardupilot.cpp" />
 		<Unit filename="telemetry/ardupilot.h" />
 		<Unit filename="telemetry/frsky.cpp" />

@@ -374,7 +374,7 @@ ifeq ($(PCB), EVO_V1)
 #  BITMAPS += bitmaps/9X/splash.lbm bitmaps/9X/asterisk.lbm bitmaps/9X/about.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v1/menu_general_diaganas.cpp
 #  GUIGENERALSRC += gui/$(GUIDIRECTORY)/menu_general_diagkeys.cpp targets/evo_v1/menu_general_diaganas.cpp
-  EXTRABOARDSRC = targets/common_avr/telemetry_driver.cpp
+  EXTRABOARDSRC = telemetry_driver.cpp
 
   ifeq ($(PWRMANAGE), YES)
     CPPDEFS += -DPWRMANAGE
@@ -448,7 +448,7 @@ ifeq ($(PCB), MEGA2560)
   BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
 
-  EXTRABOARDSRC = targets/common_avr/adc_driver.cpp targets/lcd/lcd_driver.cpp targets/common_avr/telemetry_driver.cpp
+  EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp telemetry_driver.cpp
 
   ifeq ($(PWRMANAGE), YES)
     CPPDEFS += -DPWRMANAGE
@@ -720,8 +720,8 @@ endif
 
 ifeq ($(EXT), MAVLINK)
   CPPDEFS += -DMAVLINK
-  INCDIRS += thirdparty targets/common_avr/
-  CPPSRC += telemetry/mavlink.cpp gui/view_mavlink.cpp targets/common_avr/serial_driver.cpp
+  INCDIRS += thirdparty
+  CPPSRC += telemetry/mavlink.cpp gui/view_mavlink.cpp serial_driver.cpp
   EEPROM_VARIANT += ${MAVLINK_VARIANT}
 endif
 

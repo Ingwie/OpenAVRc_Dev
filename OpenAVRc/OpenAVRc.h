@@ -36,7 +36,7 @@
 #include <avr/pgmspace.h>
 #include "pgmtypes.h"
 #define assert(x)
-#include "targets/common_avr/board_avr.h"
+#include "board_avr.h"
 #else //SIMU define
 #include <stdbool.h>
 #include "targets/simu/simu_interface.h"

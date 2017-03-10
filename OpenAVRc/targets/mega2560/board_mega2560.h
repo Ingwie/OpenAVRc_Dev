@@ -27,7 +27,7 @@
 #ifndef _BOARD_MEGA2560_H_
 #define _BOARD_MEGA2560_H_
 
-#include "../common_avr/board_avr.h"
+#include "board_avr.h"
 #include "../../OpenAVRc.h"
 
 
@@ -193,7 +193,7 @@ void pwrOff();
 #define JQ6500_Serial_off             PORTB &= ~(1<<OUT_B_JQ_SERIAL)
 #define JQ6500_BUSY                   (PINB & (1<<INP_B_JQ_BUSY))
 
-//#define EXTERNALEEPROM // Test define TODO REMOVE !!
+#define EXTERNALEEPROM // Test define TODO REMOVE !!
 // EEPROM driver
 #if !defined(SIMU)
 
