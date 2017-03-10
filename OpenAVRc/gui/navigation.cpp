@@ -154,22 +154,6 @@ int16_t checkIncDec(uint8_t event, int16_t val, int16_t i_min, int16_t i_max, ui
   return newval;
 }
 
-#if defined(CPUM64)
-int8_t checkIncDecModel(uint8_t event, int8_t i_val, int8_t i_min, int8_t i_max)
-{
-  return checkIncDec(event, i_val, i_min, i_max, EE_MODEL);
-}
-
-int8_t checkIncDecModelZero(uint8_t event, int8_t i_val, int8_t i_max)
-{
-  return checkIncDecModel(event, i_val, 0, i_max);
-}
-
-int8_t checkIncDecGen(uint8_t event, int8_t i_val, int8_t i_min, int8_t i_max)
-{
-  return checkIncDec(event, i_val, i_min, i_max, EE_GENERAL);
-}
-#endif
 
 #define SCROLL_TH      64
 #define SCROLL_POT1_TH 32
@@ -464,7 +448,6 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
 
   menuVerticalPosition = l_posVert;
   menuHorizontalPosition = l_posHorz;
-#if !defined(CPUM64)
   // cosmetics on 9x
   if (menuVerticalOffset > 0) {
     l_posVert--;
@@ -472,7 +455,6 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
       menuVerticalOffset = l_posVert-1;
     }
   }
-#endif
 }
 
 #if defined(NAVIGATION_STICKS)

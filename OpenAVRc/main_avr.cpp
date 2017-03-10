@@ -37,9 +37,6 @@ void perMain()
   uint16_t t0 = getTmr16KHz();
   int16_t delta = (nextMixerEndTime - lastMixerDuration) - t0;
   if (delta > 0 && delta < MAX_MIXER_DELTA) {
-#if defined(PCBSTD) && defined(ROTARY_ENCODER_NAVIGATION)
-    rotencPoll();
-#endif
 
     // @@@ open.20.fsguruh
     // SLEEP();   // wouldn't that make sense? should save a lot of battery power!!!

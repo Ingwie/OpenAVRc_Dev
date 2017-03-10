@@ -101,14 +101,7 @@ extern void menuModelCustomFunctions(uint8_t event);
 extern void menuStatisticsView(uint8_t event);
 extern void menuStatisticsDebug(uint8_t event);
 
-#if !defined(CPUM64)
 extern void displaySlider(coord_t x, coord_t y, uint8_t value, uint8_t max, uint8_t attr);
-#elif defined(GRAPHICS)
-extern void display5posSlider(coord_t x, coord_t y, uint8_t value, uint8_t attr);
-#define displaySlider(x, y, value, max, attr) lcdDrawNumberAttUnit(x, y, value, attr|LEFT)
-#else
-#define displaySlider(x, y, value, max, attr) lcdDrawNumberAttUnit(x, y, value, attr|LEFT)
-#endif
 
 #if defined(NAVIGATION_POT1)
 extern int16_t p1valdiff;
@@ -147,15 +140,9 @@ int16_t checkIncDec(uint8_t event, int16_t i_pval, int16_t i_min, int16_t i_max,
 
 int8_t checkIncDecMovedSwitch(int8_t val);
 
-#if defined(CPUM64)
-int8_t checkIncDecModel(uint8_t event, int8_t i_val, int8_t i_min, int8_t i_max);
-int8_t checkIncDecModelZero(uint8_t event, int8_t i_val, int8_t i_max);
-int8_t checkIncDecGen(uint8_t event, int8_t i_val, int8_t i_min, int8_t i_max);
-#else
 #define checkIncDecModel(event, i_val, i_min, i_max) checkIncDec(event, i_val, i_min, i_max, EE_MODEL)
 #define checkIncDecModelZero(event, i_val, i_max) checkIncDec(event, i_val, 0, i_max, EE_MODEL)
 #define checkIncDecGen(event, i_val, i_min, i_max) checkIncDec(event, i_val, i_min, i_max, EE_GENERAL)
-#endif
 
 #define CHECK_INCDEC_MODELVAR(event, var, min, max) \
   var = checkIncDecModel(event,var,min,max)
@@ -301,7 +288,7 @@ void displayWarning(uint8_t event);
 #define SET_WARNING_INFO(info, len, flags) (warningInfoText = info, warningInfoLength = len)
 #endif
 
-#if defined(SDCARD) || (defined(ROTARY_ENCODER_NAVIGATION) && !defined(CPUM64))
+#if defined(SDCARD) || defined(ROTARY_ENCODER_NAVIGATION) 
 #define NAVIGATION_MENUS
 #define POPUP_MENU_ADD_ITEM(s) popupMenuItems[popupMenuNoItems++] = s
 #define POPUP_MENU_MAX_LINES               6

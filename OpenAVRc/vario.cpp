@@ -39,22 +39,6 @@ void varioWakeup()
     int16_t verticalSpeed;
     ATOMIC_BLOCK(ATOMIC_FORCEON) {verticalSpeed = frskyData.hub.varioSpeed;}
 
-#if defined(PCBSTD)
-    int16_t varioCenterMax = (int16_t)g_model.frsky.varioCenterMax * 10 + 50;
-    if (verticalSpeed >= varioCenterMax) {
-      verticalSpeed = verticalSpeed - varioCenterMax;
-      int16_t varioMax = (10+(int16_t)g_model.frsky.varioMax) * 100;
-      if (verticalSpeed > varioMax) verticalSpeed = varioMax;
-      verticalSpeed = (verticalSpeed * 10) / ((varioMax-varioCenterMax) / 100);
-
-      if ((int16_t)(s_varioTmr-tmr10ms) < 0) {
-        uint8_t varioFreq = (verticalSpeed * 10 + 16000) >> 8;
-        uint8_t varioDuration = (1600 - verticalSpeed) / 100;
-        s_varioTmr = tmr10ms + (varioDuration*2);
-        AUDIO_VARIO(varioFreq, varioDuration);
-      }
-    }
-#else
     int varioCenterMin = (int)g_model.frsky.varioCenterMin * 10 - 50;
     int varioCenterMax = (int)g_model.frsky.varioCenterMax * 10 + 50;
     int varioMax = (10+(int)g_model.frsky.varioMax) * 100;
@@ -77,7 +61,6 @@ void varioWakeup()
       s_varioTmr = tmr10ms + (varioDuration/2);
       AUDIO_VARIO(varioFreq, varioDuration);
     }
-#endif
 
 #elif defined(BUZZER) // && !defined(AUDIO)
 

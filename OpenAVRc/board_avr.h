@@ -28,15 +28,10 @@
 #define board_avr_h
 
 
-#if defined(PCBGRUVIN9X)
-#include "../gruvin9x/board_gruvin9x.h"
-// TODO Probably need to define a PCB for Evo build or Revision for M2560 Build.
-#elif defined(CPUM2560) && defined(REV_EVO_V1)
-#include "../evo_v1/evo_mega2560.h"
+#if   defined(CPUM2560) && defined(REV_EVO_V1)
+#include "targets/evo_v1/evo_mega2560.h"
 #elif defined(PCBMEGA2560)
-#include "../mega2560/board_mega2560.h"
-#else
-#include "../stock/board_stock.h"
+#include "targets/mega2560/board_mega2560.h"
 #endif
 
 // Port Pin Bitmaps for general use.

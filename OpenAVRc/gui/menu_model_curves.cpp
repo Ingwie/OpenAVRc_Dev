@@ -215,11 +215,7 @@ void menuModelCurveOne(uint8_t event)
 
 void menuModelCurvesAll(uint8_t event)
 {
-#if defined(GVARS) && defined(PCBSTD)
-  SIMPLE_MENU(STR_MENUCURVES, menuTabModel, e_CurvesAll, 1+MAX_CURVES+MAX_GVARS);
-#else
   SIMPLE_MENU(STR_MENUCURVES, menuTabModel, e_CurvesAll, 1+MAX_CURVES);
-#endif
 
   int8_t  sub = menuVerticalPosition - 1;
 
@@ -240,16 +236,6 @@ void menuModelCurvesAll(uint8_t event)
     coord_t y = MENU_HEADER_HEIGHT + 1 + i*FH;
     uint8_t k = i + menuVerticalOffset;
     uint8_t attr = (sub == k ? INVERS : 0);
-#if defined(GVARS) && defined(PCBSTD)
-    if (k >= MAX_CURVES) {
-      lcdDrawStringWithIndex(0, y, STR_GV, k-MAX_CURVES+1);
-      if (GVAR_SELECTED()) {
-        if (attr && s_editMode>0) attr |= BLINK;
-        lcdDrawNumberAttUnit(10*FW, y, GVAR_VALUE(k-MAX_CURVES, -1), attr);
-        if (attr) g_model.gvars[k-MAX_CURVES] = checkIncDec(event, g_model.gvars[k-MAX_CURVES], -1000, 1000, EE_MODEL);
-      }
-    } else
-#endif
     {
       lcdDrawStringWithIndex(0, y, STR_CV, k+1, attr);
     }

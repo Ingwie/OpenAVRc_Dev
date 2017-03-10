@@ -232,7 +232,7 @@
 
 #define TR_SF_RESERVE         "[reserve]\0"
 
-#if defined(PCBGRUVIN9X) || defined(PCBMEGA2560)
+#if defined(PCBMEGA2560)
 #define TR_VFSWFUNC          TR_SF_SAFETY "Trainer \0 ""S\201tt Trim\0""Nollst\201ll\0" TR_ADJUST_GVAR TR_SOUND TR_PLAY_TRACK TR_PLAY_BOTH TR_PLAY_VALUE TR_VVARIO TR_HAPTIC TR_SDCLOGS "Belysning\0" TR_SF_TEST
 #else
 #define TR_VFSWFUNC          TR_SF_SAFETY "Trainer \0 ""S\201tt Trim\0""Nollst\201ll\0" TR_ADJUST_GVAR TR_SOUND TR_PLAY_TRACK TR_PLAY_BOTH TR_PLAY_VALUE TR_VVARIO TR_HAPTIC "Belysning\0" TR_SF_TEST
@@ -348,7 +348,7 @@
 
 #define TR_TRIMS_SWITCHES      TR("tRv""tRh""tHn""tHu""tGn""tGu""tSv""tSh", "\313Rv""\313Rh""\313Hn""\313Hu""\313Gn""\313Gu""\313Sv""\313Sh")
 
-#if defined(PCBGRUVIN9X) || defined(PCBMEGA2560)
+#if defined(PCBMEGA2560)
 #define TR_ROTARY_ENCODERS   "REa\0""REb\0"
 #define TR_ROTENC_SWITCHES   "REa""REb"
 #else

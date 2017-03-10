@@ -32,21 +32,11 @@
 #define RADIO_SETUP_TIME_COLUMN (FW*15+9)
 #define RADIO_SETUP_DATE_COLUMN (FW*15+7)
 
-#if !defined(CPUM64)
 #define SLIDER_5POS(y, value, label, event, attr) { \
     int8_t tmp = value; \
     displaySlider(RADIO_SETUP_2ND_COLUMN, y, 2+tmp, 4, attr); \
     value = selectMenuItem(RADIO_SETUP_2ND_COLUMN, y, label, NULL, tmp, -2, +2, attr, event); \
   }
-#elif defined(GRAPHICS)
-#define SLIDER_5POS(y, value, label, event, attr) { \
-    int8_t tmp = value; \
-    display5posSlider(RADIO_SETUP_2ND_COLUMN, y, tmp, attr); \
-    value = selectMenuItem(RADIO_SETUP_2ND_COLUMN, y, label, NULL, tmp, -2, +2, attr, event); \
-  }
-#else
-#define SLIDER_5POS(y, value, label, event, attr) value = selectMenuItem(RADIO_SETUP_2ND_COLUMN, y, label, STR_VBEEPLEN, value, -2, +2, attr, event)
-#endif
 
 #if defined(SPLASH) && !defined(FSPLASH)
 #define CASE_SPLASH_PARAM(x) x,

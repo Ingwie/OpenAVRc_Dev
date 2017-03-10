@@ -90,7 +90,6 @@ enum EnumKeys {
 #endif
   NUM_SWS
 };
-
 #define EVT_KEY_MASK(e)      ((e) & 0x1f)
 
 #define _MSK_KEY_BREAK       0x20

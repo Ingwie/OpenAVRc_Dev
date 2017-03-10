@@ -31,8 +31,8 @@
 /* are platform dependent.                                               */
 /*-----------------------------------------------------------------------*/
 
-#include "../../OpenAVRc.h"
-#include "../../thirdparty/FatFs/diskio.h"
+#include "OpenAVRc.h"
+#include "thirdparty/FatFs/diskio.h"
 
 /* Definitions for MMC/SDC command */
 #define CMD0	(0)			/* GO_IDLE_STATE */

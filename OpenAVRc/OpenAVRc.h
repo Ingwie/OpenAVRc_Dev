@@ -36,7 +36,7 @@
 #include <avr/pgmspace.h>
 #include "pgmtypes.h"
 #define assert(x)
-#include "targets/common_avr/board_avr.h"
+#include "board_avr.h"
 #else //SIMU define
 #include <stdbool.h>
 #include "targets/simu/simu_interface.h"
@@ -79,8 +79,6 @@
 
 #if defined(CPUM2560)
 #define CASE_PERSISTENT_TIMERS(x) x,
-#else
-#define CASE_PERSISTENT_TIMERS(x)
 #endif
 
 #if defined(RTCLOCK)
@@ -242,7 +240,7 @@ extern  void shutDownSimu(void);
 #define convertSimuPath(x) (x)
 #endif
 
-#if !defined(CPUM64) && !defined(ACCURAT_THROTTLE_TIMER)
+#if !defined(ACCURAT_THROTTLE_TIMER)
 //  code cost is about 16 bytes for higher throttle accuracy for timer
 //  would not be noticable anyway, because all version up to this change had only 16 steps;
 //  now it has already 32  steps; this define would increase to 128 steps
@@ -271,14 +269,8 @@ extern  void shutDownSimu(void);
 #include <avr/wdt.h>
 #endif
 
-#if defined(PCBSTD) && defined(VOICE)
-volatile uint8_t LcdLock;
-#define LCD_LOCK() LcdLock = 1
-#define LCD_UNLOCK() LcdLock = 0
-#else
 #define LCD_LOCK()
 #define LCD_UNLOCK()
-#endif
 
 #define boardOff()  pwrOff();
 #define NUM_SWITCHES     7
@@ -295,11 +287,7 @@ volatile uint8_t LcdLock;
 #define KEY_MINUS        KEY_LEFT
 
 
-#if defined(CPUM64)
-void memclear(void *ptr, uint8_t size);
-#else
 #define memclear(p, s) memset(p, 0, s)
-#endif
 
 #if defined(REV_EVO_V1)
 #define IS_POT_AVAILABLE(x)       ( (x)==POT1 || (x)==POT2 )
@@ -377,13 +365,8 @@ extern uint8_t StickScrollTimer;
 #define MAX_CHANNELS(idx)                 (idx==EXTERNAL_MODULE ? MAX_EXTERNAL_MODULE_CHANNELS() : MAX_TRAINER_CHANNELS())
 #define NUM_CHANNELS(idx)                 (8+g_model.moduleData[idx].channelsCount)
 
-#if defined(CPUM64)
-#define MASK_CFN_TYPE  uint16_t  // current max = 16 function switches
-#define MASK_FUNC_TYPE uint8_t   // current max = 8  functions
-#else
 #define MASK_CFN_TYPE  uint32_t  // current max = 32 function switches
 #define MASK_FUNC_TYPE uint8_t   // current max = 8 functions
-#endif
 
 typedef struct {
   MASK_FUNC_TYPE activeFunctions;
@@ -610,19 +593,13 @@ int16_t getRotaryEncoder(uint8_t idx);
 void incRotaryEncoder(uint8_t idx, int8_t inc);
 #endif
 
-#if defined(PCBGRUVIN9X) || defined(PCBMEGA2560)
+#if defined(PCBMEGA2560)
 #define ROTARY_ENCODER_GRANULARITY (1)
 #else
 #define ROTARY_ENCODER_GRANULARITY (2)
 #endif
 
 #if defined(GVARS)
-#if defined(PCBSTD)
-int16_t getGVarValue(int16_t x, int16_t min, int16_t max);
-void setGVarValue(uint8_t x, int8_t value);
-#define GET_GVAR(x, min, max, p) getGVarValue(x, min, max)
-#define SET_GVAR(idx, val, p) setGVarValue(idx, val)
-#else
 uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx);
 int16_t getGVarValue(int16_t x, int16_t min, int16_t max, int8_t phase);
 void setGVarValue(uint8_t x, int16_t value, int8_t phase);
@@ -631,7 +608,6 @@ void setGVarValue(uint8_t x, int16_t value, int8_t phase);
 #define GVAR_DISPLAY_TIME     100 /*1 second*/;
 extern uint8_t s_gvar_timer;
 extern uint8_t s_gvar_last;
-#endif
 #else
 #define GET_GVAR(x, ...) (x)
 #endif
@@ -766,13 +742,8 @@ enum Analogs {
 
 void checkBacklight();
 
-#if defined(PCBSTD) && defined(VOICE) && !defined(SIMU)
-#define BACKLIGHT_ON()    (Voice.Backlight = 1)
-#define BACKLIGHT_OFF()   (Voice.Backlight = 0)
-#else
 #define BACKLIGHT_ON()    backlightEnable()
 #define BACKLIGHT_OFF()   backlightDisable()
-#endif
 
 #define BITMASK(bit) (1<<(bit))
 
@@ -1051,13 +1022,7 @@ enum AUDIO_SOUNDS {
 
 #include "buzzer.h"
 
-#if defined(PCBSTD) && defined(VOICE)
-#include "targets/stock/voice.h"
-#endif
 
-#if defined(PCBGRUVIN9X) && defined(VOICE)
-#include "targets/gruvin9x/somo14d.h"
-#endif
 
 #if defined(PCBMEGA2560) && defined(VOICE)
 #include "targets/mega2560/voice.h"
@@ -1140,11 +1105,7 @@ void convertUnit(getvalue_t & val, uint8_t & unit); // TODO check FORCEINLINE on
 
 
 // Stick tolerance varies between transmitters, Higher is better
-#if defined (PCB9XR) || defined (PCB9XR128)
-#define STICK_TOLERANCE 16
-#else
 #define STICK_TOLERANCE 64
-#endif
 
 #if defined(FRSKY_HUB) && defined(GAUGES)
 enum BarThresholdIdx {

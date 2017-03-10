@@ -64,13 +64,6 @@
 							<content>
 								<item>MEGA2560</item>
 								<item>EVO_V1</item>
-								<item>9X</item>
-								<item>9X128</item>
-								<item>9X2561</item>
-								<item>9XR</item>
-								<item>9XR128</item>
-								<item>9XR2561</item>
-								<item>GRUVIN9X</item>
 							</content>
 							<selection>0</selection>
 							<pos>112,32</pos>
@@ -79,7 +72,6 @@
 						</object>
 						<object class="wxChoice" name="ID_CHOICE1" variable="ChoiceLCD" member="yes">
 							<content>
-								<item>DEFAULT</item>
 								<item>ST7565P</item>
 								<item>ST7565R </item>
 								<item>ERC12864FSF</item>
@@ -104,7 +96,6 @@
 						<object class="wxChoice" name="ID_CHOICE3" variable="ChoiceVOICE" member="yes">
 							<content>
 								<item>NO</item>
-								<item>YES</item>
 								<item>WTV20SD</item>
 								<item>JQ6500</item>
 							</content>
@@ -423,19 +414,6 @@
 							<pos>208,248</pos>
 							<handler function="OnCheckBoxSPORT_FILE_LOGClick1" entry="EVT_CHECKBOX" />
 						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX23" variable="CheckBoxPCBREV" member="yes">
-							<label>PCB Rev0</label>
-							<pos>656,184</pos>
-							<tooltip>REV1 pour gruvin9x si pas coché</tooltip>
-						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX24" variable="CheckBoxTURNIGY_TRANSMITTER_FIX" member="yes">
-							<label>TURNIGY Fix</label>
-							<pos>656,88</pos>
-						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX25" variable="CheckBoxFRSKY_STICKS" member="yes">
-							<label>FRSKY__Sticks</label>
-							<pos>656,120</pos>
-						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX26" variable="CheckBoxCORRECT_NEGATIVE_VALUES" member="yes">
 							<label>CORRECT__NEGATIVE__VALUES</label>
 							<pos>456,152</pos>
@@ -445,11 +423,6 @@
 							<label>ARITHMETIC__OVERFLOW__CHECK</label>
 							<pos>456,184</pos>
 							<tooltip>Ajoute du code pour prèvoir débordement aritmethique</tooltip>
-						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX29" variable="CheckBoxSP22" member="yes">
-							<label>SP22</label>
-							<pos>656,56</pos>
-							<tooltip>Smartie Parts Backlight</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX30" variable="CheckBoxPWM_BACKLIGHT" member="yes">
 							<label>PWM__BACKLIGHT</label>
@@ -465,11 +438,6 @@
 							<pos>208,280</pos>
 							<tooltip>WS HowHigh Altimeter</tooltip>
 							<handler function="OnCheckBoxWS_HOW_HIGHClick2" entry="EVT_CHECKBOX" />
-						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX34" variable="CheckBoxTX_CADDY" member="yes">
-							<label>TX__CADDY</label>
-							<pos>656,152</pos>
-							<tooltip>Pour gruvin9x seulement</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX36" variable="CheckBoxTOGGLETRIM" member="yes">
 							<label>Toggle trims</label>

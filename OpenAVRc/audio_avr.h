@@ -27,10 +27,6 @@
 #ifndef audio_h
 #define audio_h
 
-#if defined(PCBSTD)
-#define speakerOn()      buzzerOn()
-#define speakerOff()     toneFreq=0; buzzerOff()
-#endif
 
 //audio
 #define AUDIO_QUEUE_LENGTH (8)  // 8 seems to suit most alerts

@@ -297,12 +297,6 @@ void lcdDrawRect(coord_t x, coord_t y, coord_t w, coord_t h, uint8_t pat, LcdFla
 
 void lcdDrawFilledRect(coord_t x, scoord_t y, coord_t w, coord_t h, uint8_t pat, LcdFlags att)
 {
-#if defined(CPUM64)
-  for (scoord_t i=y; i<y+h; i++) {
-    lcdDrawSolidHorizontalLineStip(x, i, w, pat, att);
-    pat = (pat >> 1) + ((pat & 1) << 7);
-  }
-#else
   for (scoord_t i=y; i<y+h; i++) {
     if ((att&ROUND) && (i==y || i==y+h-1))
       lcdDrawSolidHorizontalLineStip(x+1, i, w-2, pat, att);
@@ -310,7 +304,6 @@ void lcdDrawFilledRect(coord_t x, scoord_t y, coord_t w, coord_t h, uint8_t pat,
       lcdDrawSolidHorizontalLineStip(x, i, w, pat, att);
     pat = (pat >> 1) + ((pat & 1) << 7);
   }
-#endif
 }
 
 void lcdDrawTelemetryTopBar()
@@ -381,10 +374,8 @@ void putsMixerSource(coord_t x, coord_t y, uint8_t idx, LcdFlags att)
   else if (idx <= MIXSRC_LAST_CH) {
     lcdDrawStringWithIndex(x, y, STR_CH, idx-MIXSRC_CH1+1, att);
   }
-#if defined(GVARS) || !defined(PCBSTD)
   else if (idx <= MIXSRC_LAST_GVAR)
     lcdDrawStringWithIndex(x, y, STR_GV, idx-MIXSRC_GVAR1+1, att);
-#endif
   else if (idx < MIXSRC_FIRST_TELEM) {
     lcdDrawTextAtIndex(x, y, STR_VSRCRAW, idx-MIXSRC_Rud+1-(MIXSRC_SW1-MIXSRC_THR)-NUM_LOGICAL_SWITCH-NUM_TRAINER-NUM_CHNOUT-MAX_GVARS, att);
   } else
@@ -857,47 +848,6 @@ void lcdDrawSolidHorizontalLineStip(coord_t x, coord_t y, coord_t w, uint8_t pat
   }
 }
 
-#if defined(CPUM64)
-void lcdDrawSolidVerticalLineStip(coord_t x, int8_t y, int8_t h, uint8_t pat)
-{
-  if (x >= LCD_W) return;
-  if (h<0) {
-    y+=h;
-    h=-h;
-  }
-  if (y<0) {
-    h+=y;
-    y=0;
-  }
-  if (y+h > LCD_H) {
-    h = LCD_H - y;
-  }
-
-  if (pat==DOTTED && !(y%2))
-    pat = ~pat;
-
-  uint8_t *p  = &displayBuf[ y / 8 * LCD_W + x ];
-  y = (y & 0x07);
-  if (y) {
-    ASSERT_IN_DISPLAY(p);
-    *p ^= ~(BITMASK(y)-1) & pat;
-    p += LCD_W;
-    h -= 8-y;
-  }
-  while (h>0) {
-    ASSERT_IN_DISPLAY(p);
-    *p ^= pat;
-    p += LCD_W;
-    h -= 8;
-  }
-  if (h < 0) h += 8;
-  if (h) {
-    p -= LCD_W;
-    ASSERT_IN_DISPLAY(p);
-    *p ^= ~(BITMASK(h)-1) & pat;
-  }
-}
-#else
 // allows the att parameter...
 void lcdDrawSolidVerticalLineStip(coord_t x, scoord_t y, scoord_t h, uint8_t pat, LcdFlags att)
 {
@@ -940,7 +890,6 @@ void lcdDrawSolidVerticalLineStip(coord_t x, scoord_t y, scoord_t h, uint8_t pat
     lcdMaskPoint(p, (BITMASK(h)-1) & pat, att);
   }
 }
-#endif
 
 void lcdInvertLine(int8_t y)
 {

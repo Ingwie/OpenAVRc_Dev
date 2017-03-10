@@ -34,7 +34,7 @@
 #include "../OpenAVRc.h"
 #include "../telemetry/mavlink.h"
 #include "menus.h"
-#include "../targets/common_avr/serial_driver.h"
+#include "serial_driver.h"
 
 #define APSIZE (BSS | DBLSIZE)
 

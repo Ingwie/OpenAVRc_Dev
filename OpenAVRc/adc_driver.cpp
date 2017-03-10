@@ -24,7 +24,7 @@
 */
 
 
-#include "../../OpenAVRc.h"
+#include "OpenAVRc.h"
 
 
 #define ADC_VREF_TYPE (1 << REFS0) // AVCC with external capacitor at AREF pin
@@ -41,11 +41,7 @@ void adcInit()
 void adcPrepareBandgap()
 {
   // #if structure identical to the one in getADC_bandgap()
-#if defined(PCBGRUVIN9X)
-  // For PCB V4, use our own 1.2V, external reference (connected to ADC3)
-  ADCSRB &= ~(1<<MUX5);
-  ADMUX = 0x03|ADC_VREF_TYPE; // Switch MUX to internal reference
-#elif defined(PCBMEGA2560)
+#if   defined(PCBMEGA2560)
 #else
   ADMUX = 0x1E|ADC_VREF_TYPE; // Switch MUX to internal reference
 #endif
@@ -74,21 +70,7 @@ void getADC()
 
 void getADC_bandgap()
 {
-#if defined(PCBGRUVIN9X)
-  static uint8_t s_bgCheck = 0;
-  static uint16_t s_bgSum = 0;
-  ADCSRA |= (1 << ADSC); // request sample
-  s_bgCheck += 32;
-  while ((ADCSRA & (1 << ADIF))==0); // wait for sample
-  ADCSRA |= (1 << ADIF);
-  if (s_bgCheck == 0) { // 8x over-sample (256/32=8)
-    BandGap = s_bgSum+ADC;
-    s_bgSum = 0;
-  } else {
-    s_bgSum += ADC;
-  }
-  ADCSRB |= (1 << MUX5);
-#elif defined(PCBMEGA2560)
+#if   defined(PCBMEGA2560)
   BandGap = 2000;
 #else
   /*

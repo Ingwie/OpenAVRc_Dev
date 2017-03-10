@@ -40,17 +40,11 @@ uint8_t s_copyMode = 0;
 int8_t s_copySrcRow;
 int8_t s_copyTgtOfs;
 uint8_t s_currIdx;
-#if !defined(CPUM64)
 uint8_t editNameCursorPos = 0;
-#endif
 
 
 void editName(coord_t x, coord_t y, char *name, uint8_t size, uint8_t event, uint8_t active)
 {
-#if defined(CPUM64)
-  // in order to save flash
-  lcdDrawTextLeft(y, STR_NAME);
-#endif
 
   uint8_t mode = 0;
   if ((active) && (s_editMode <= 0)) {
@@ -124,10 +118,8 @@ void editName(coord_t x, coord_t y, char *name, uint8_t size, uint8_t event, uin
   }
 }
 
-#if !defined(CPUM64)
 void editSingleName(coord_t x, coord_t y, const pm_char *label, char *name, uint8_t size, uint8_t event, uint8_t active)
 {
   lcdDrawTextLeft(y, label);
   editName(x, y, name, size, event, active);
 }
-#endif

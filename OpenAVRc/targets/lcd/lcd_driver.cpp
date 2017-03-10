@@ -31,12 +31,12 @@
 #include "lcd_simu_driver.cpp"
 #else
 #if defined(LCD_KS108)
-#include "targets/stock/lcd_ks108_driver.cpp"
+#include "targets/lcd/lcd_ks108_driver.cpp"
 #elif defined(LCD_ST7920)
-#include "targets/stock/lcd_st7920_driver.cpp"
+#include "targets/lcd/lcd_st7920_driver.cpp"
 #elif defined(LCD_SSD1306)
-#include "targets/stock/lcd_ssd1306_driver.cpp"
+#include "targets/lcd/lcd_ssd1306_driver.cpp"
 #else
-#include "targets/stock/lcd_default_driver.cpp"
+#include "targets/lcd/lcd_default_driver.cpp"
 #endif
 #endif // defined

@@ -109,9 +109,6 @@ extern coord_t lcdNextPos;
 #define DISPLAY_END            (displayBuf + DISPLAY_BUF_SIZE)
 #define ASSERT_IN_DISPLAY(p)   assert((p) >= displayBuf && (p) < DISPLAY_END)
 
-#if defined(PCBSTD) && defined(VOICE)
-extern volatile uint8_t LcdLock ;
-#endif
 
 #if defined(DEBUG)
 // TODO quick & dirty :(
@@ -171,11 +168,7 @@ void lcdMaskPoint(uint8_t *p, uint8_t mask, LcdFlags att=0);
 void lcdDrawSolidHorizontalLine(coord_t x, coord_t y, coord_t w, LcdFlags att=0);
 void lcdDrawSolidHorizontalLineStip(coord_t x, coord_t y, coord_t w, uint8_t pat, LcdFlags att=0);
 void lcdDrawSolidVerticalLine(coord_t x, scoord_t y, scoord_t h);
-#if defined(CPUM64)
-void lcdDrawSolidVerticalLineStip(coord_t x, scoord_t y, int8_t h, uint8_t pat);
-#else
 void lcdDrawSolidVerticalLineStip(coord_t x, scoord_t y, scoord_t h, uint8_t pat, LcdFlags att=0);
-#endif
 
 
 void lcdDrawFilledRect(coord_t x, scoord_t y, coord_t w, coord_t h, uint8_t pat=SOLID, LcdFlags att=0);

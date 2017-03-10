@@ -61,17 +61,10 @@ extern uint8_t s_curveChan;
 #define EDIT_DELAY(x, y, event, attr, str, delay) editDelay(y, event, attr, str, delay)
 
 
-#if   defined(CPUM64)
-#define INCDEC_DECLARE_VARS(f)
-#define INCDEC_SET_FLAG(f)
-#define INCDEC_ENABLE_CHECK(fn)
-#define CHECK_INCDEC_PARAM(event, var, min, max) checkIncDec(event, var, min, max, EE_MODEL)
-#else
 #define INCDEC_DECLARE_VARS(f)  uint8_t incdecFlag = (f)
 #define INCDEC_SET_FLAG(f)      incdecFlag = (f)
 #define INCDEC_ENABLE_CHECK(fn)
 #define CHECK_INCDEC_PARAM(event, var, min, max) checkIncDec(event, var, min, max, incdecFlag)
-#endif
 
 
 extern uint8_t s_currIdx;
@@ -81,11 +74,7 @@ extern uint8_t s_copyMode;
 extern int8_t s_copySrcRow;
 extern int8_t s_copyTgtOfs;
 
-#if defined(CPUM64)
-#define editNameCursorPos menuHorizontalPosition
-#else
 extern uint8_t editNameCursorPos;
-#endif
 
 
 enum EnumTabModel {
@@ -120,11 +109,7 @@ const MenuFuncP_PROGMEM menuTabModel[] PROGMEM = {
   CASE_TEMPLATES(menuModelTemplates)
 };
 
-#if defined(CPUM64)
-#define editSingleName(x, y, label, name, size, event, active) editName(x, y, name, size, event, active)
-#else
 extern void editSingleName(coord_t x, coord_t y, const pm_char *label, char *name, uint8_t size, uint8_t event, uint8_t active);
-#endif
 
 
 #endif
