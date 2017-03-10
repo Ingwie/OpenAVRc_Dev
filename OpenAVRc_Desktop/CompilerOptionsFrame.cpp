@@ -89,6 +89,7 @@ const long CompilerOptionsFrame::ID_CHOICE12 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT11 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL2 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX3 = wxNewId();
+const long CompilerOptionsFrame::ID_CHECKBOXNOANDSECONDE = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX2 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX1 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX10 = wxNewId();
@@ -312,6 +313,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   StaticText11 = new wxStaticText(Panel2, ID_STATICTEXT11, _("3POS"), wxPoint(64,296), wxDefaultSize, 0, _T("ID_STATICTEXT11"));
   Panel3 = new wxPanel(Notebook1, ID_PANEL3, wxDefaultPosition, wxSize(800,356), wxTAB_TRAVERSAL, _T("ID_PANEL3"));
   StaticBox3 = new wxStaticBox(Panel3, ID_STATICBOX3, _("Autres paramètres"), wxPoint(328,16), wxSize(464,264), 0, _T("ID_STATICBOX3"));
+  CheckBoxNOANDSECONDE = new wxCheckBox(Panel3, ID_CHECKBOXNOANDSECONDE, _("NOANDSECONDE"), wxPoint(336,184), wxSize(102,16), 0, wxDefaultValidator, _T("ID_CHECKBOXNOANDSECONDE"));
+  CheckBoxNOANDSECONDE->SetValue(false);
+  CheckBoxNOANDSECONDE->SetToolTip(_("Empèche la synthèse vocale de dire \"et\". Exemple : entre minutes \"et\" seconde"));
   StaticBox2 = new wxStaticBox(Panel3, ID_STATICBOX2, _("Télemetrie"), wxPoint(184,16), wxSize(136,312), 0, _T("ID_STATICBOX2"));
   StaticBox1 = new wxStaticBox(Panel3, ID_STATICBOX1, _("Protocole"), wxPoint(8,16), wxSize(168,264), 0, _T("ID_STATICBOX1"));
   CheckBoxPPM = new wxCheckBox(Panel3, ID_CHECKBOX10, _("PPM"), wxPoint(72,56), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX10"));
@@ -363,9 +367,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxTOGGLETRIM = new wxCheckBox(Panel3, ID_CHECKBOX36, _("Toggle trims"), wxPoint(456,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX36"));
   CheckBoxTOGGLETRIM->SetValue(false);
   CheckBoxTOGGLETRIM->SetToolTip(_("Change les trim de la main droite à la main gauche, et vice-versa"));
-  CheckBoxNOANDSECONDE = new wxCheckBox(Panel3, ID_CHECKBOX37, _("NOANDSECONDE"), wxPoint(336,184), wxSize(102,16), 0, wxDefaultValidator, _T("ID_CHECKBOX37"));
-  CheckBoxNOANDSECONDE->SetValue(false);
-  CheckBoxNOANDSECONDE->SetToolTip(_("Empèche la synthèse vocale de dire \"et\". Exemple : entre minutes \"et\" seconde"));
+  CheckBoxFRAM = new wxCheckBox(Panel3, ID_CHECKBOX37, _("F-RAM"), wxPoint(336,216), wxSize(56,16), 0, wxDefaultValidator, _T("ID_CHECKBOX37"));
+  CheckBoxFRAM->SetValue(false);
+  CheckBoxFRAM->SetToolTip(_("Utilisation d\'une eeprom externe : FM24W256"));
   CheckBoxSHUTDOWN_CONFIRMATION = new wxCheckBox(Panel3, ID_CHECKBOX38, _("SHUTDOWN_CONFIRMATION"), wxPoint(456,248), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX38"));
   CheckBoxSHUTDOWN_CONFIRMATION->SetValue(false);
   CheckBoxACCURAT_THROTTLE_STATS = new wxCheckBox(Panel3, ID_CHECKBOX39, _("ACCURAT_THROTTLE_STATS"), wxPoint(456,216), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX39"));
@@ -448,6 +452,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   Connect(ID_CHOICE8,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&CompilerOptionsFrame::OnChoiceNAVIGATIONSelect);
   Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonEXITClick);
   Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonCOMPILEClick);
+  Connect(ID_CHECKBOXNOANDSECONDE,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxNOANDSECONDEClick1);
   Connect(ID_CHECKBOX13,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxDSM2SERIALClick);
   Connect(ID_CHOICE2,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&CompilerOptionsFrame::OnChoiceEXTSelect2);
   Connect(ID_CHECKBOX2,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxFRSKY_HUBClick);
@@ -457,7 +462,6 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   Connect(ID_CHECKBOX6,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxVARIOClick2);
   Connect(ID_CHECKBOX8,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxSPORT_FILE_LOGClick1);
   Connect(ID_CHECKBOX32,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxWS_HOW_HIGHClick2);
-  Connect(ID_CHECKBOX37,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxNOANDSECONDEClick1);
   Connect(ID_CHECKBOX45,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxAUTOSOURCEClick1);
   Connect(ID_CHECKBOX28,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxDSM2PPMClick);
   Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonCOMPILEClick);
@@ -524,6 +528,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxTOGGLETRIM->SetValue(TOGGLETRIM);
   CheckBoxNOANDSECONDE->SetValue(NOANDSECONDE);// Hardwired
   CheckBoxSHUTDOWN_CONFIRMATION->SetValue(SHUTDOWN_CONFIRMATION);
+  CheckBoxFRAM->SetValue(FRAM);
   CheckBoxPERSONAMES->SetValue(PERSONAMES);
 
   ComboBoxswitch1->SetMaxLength(3); // Limit 3 caracteres
@@ -620,6 +625,7 @@ void CompilerOptionsFrame::BatFunction()
   if (TOGGLETRIM) CompiBat += (" TOGGLETRIM=YES");
   if (NOANDSECONDE) CompiBat += (" NOANDSECONDE=YES");
   if (SHUTDOWN_CONFIRMATION) CompiBat += (" SHUTDOWN_CONFIRMATION=YES");
+  if (FRAM) CompiBat += (" EXTERNALEEPROM=YES");
   if (PERSONAMES)
     {
       CompiBat += (" PERSONAMES=YES");
@@ -692,6 +698,7 @@ void CompilerOptionsFrame::CollectDatas()
   TOGGLETRIM = CheckBoxTOGGLETRIM->GetValue();
   NOANDSECONDE = CheckBoxNOANDSECONDE->GetValue();
   SHUTDOWN_CONFIRMATION = CheckBoxSHUTDOWN_CONFIRMATION->GetValue();
+  FRAM = CheckBoxFRAM->GetValue();
   PERSONAMES = CheckBoxPERSONAMES->GetValue();
 
   switch1  = ComboBoxswitch1->GetValue();

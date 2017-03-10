@@ -99,6 +99,7 @@ extern bool WS_HOW_HIGH;
 extern bool TOGGLETRIM;
 extern bool NOANDSECONDE;// Hardwired
 extern bool SHUTDOWN_CONFIRMATION;
+extern bool FRAM;
 //DANGEROUS_MODULE_FUNCTIONS// does not compile.
 extern bool PERSONAMES;
 
@@ -181,6 +182,7 @@ public:
     wxStaticBox* StaticBox2;
     wxStaticText* StaticText23;
     wxCheckBox* CheckBoxGPS;
+    wxCheckBox* CheckBoxFRAM;
     wxButton* ButtonCOMPILE;
     wxChoice* ChoiceTTS;
     wxCheckBox* CheckBoxVARIO;
@@ -279,6 +281,7 @@ protected:
     static const long ID_STATICTEXT11;
     static const long ID_PANEL2;
     static const long ID_STATICBOX3;
+    static const long ID_CHECKBOXNOANDSECONDE;
     static const long ID_STATICBOX2;
     static const long ID_STATICBOX1;
     static const long ID_CHECKBOX10;

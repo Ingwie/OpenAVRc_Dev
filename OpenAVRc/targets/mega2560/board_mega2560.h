@@ -193,7 +193,6 @@ void pwrOff();
 #define JQ6500_Serial_off             PORTB &= ~(1<<OUT_B_JQ_SERIAL)
 #define JQ6500_BUSY                   (PINB & (1<<INP_B_JQ_BUSY))
 
-#define EXTERNALEEPROM // Test define TODO REMOVE !!
 // EEPROM driver
 #if !defined(SIMU)
 

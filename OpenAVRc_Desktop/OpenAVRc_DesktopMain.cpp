@@ -160,6 +160,7 @@ bool WS_HOW_HIGH = 0;
 bool TOGGLETRIM = 0;
 bool NOANDSECONDE = 1;
 bool SHUTDOWN_CONFIRMATION = 0;
+bool FRAM = 0;
 bool PERSONAMES = 0;
 
 wxString switch1 = ("THR");
@@ -598,6 +599,7 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
   configFile->Read(wxT("TOGGLETRIM"),&TOGGLETRIM);
   configFile->Read(wxT("NOANDSECONDE"),&NOANDSECONDE);
   configFile->Read(wxT("SHUTDOWN_CONFIRMATION"),&SHUTDOWN_CONFIRMATION);
+  configFile->Read(wxT("FRAM"),&FRAM);
   configFile->Read(wxT("PERSONAMES"),&PERSONAMES);
   configFile->Read(wxT("switch1"),&switch1);
   configFile->Read(wxT("switch2"),&switch2);
@@ -711,6 +713,7 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
   configFile->Write(wxT("TOGGLETRIM"),TOGGLETRIM);
   configFile->Write(wxT("NOANDSECONDE"),NOANDSECONDE);
   configFile->Write(wxT("SHUTDOWN_CONFIRMATION"),SHUTDOWN_CONFIRMATION);
+  configFile->Write(wxT("FRAM"),FRAM);
   configFile->Write(wxT("PERSONAMES"),PERSONAMES);
   configFile->Write(wxT("switch1"),switch1);
   configFile->Write(wxT("switch2"),switch2);

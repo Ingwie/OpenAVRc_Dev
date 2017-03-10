@@ -339,6 +339,13 @@
 							<pos>328,16</pos>
 							<size>464,264</size>
 						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOXNOANDSECONDE" variable="CheckBoxNOANDSECONDE" member="yes">
+							<label>NOANDSECONDE</label>
+							<pos>336,184</pos>
+							<size>102,16</size>
+							<tooltip>Empèche la synthèse vocale de dire &quot;et&quot;. Exemple : entre minutes &quot;et&quot; seconde</tooltip>
+							<handler function="OnCheckBoxNOANDSECONDEClick1" entry="EVT_CHECKBOX" />
+						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBox2" member="yes">
 							<label>Télemetrie</label>
 							<pos>184,16</pos>
@@ -444,12 +451,11 @@
 							<pos>456,120</pos>
 							<tooltip>Change les trim de la main droite à la main gauche, et vice-versa</tooltip>
 						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX37" variable="CheckBoxNOANDSECONDE" member="yes">
-							<label>NOANDSECONDE</label>
-							<pos>336,184</pos>
-							<size>102,16</size>
-							<tooltip>Empèche la synthèse vocale de dire &quot;et&quot;. Exemple : entre minutes &quot;et&quot; seconde</tooltip>
-							<handler function="OnCheckBoxNOANDSECONDEClick1" entry="EVT_CHECKBOX" />
+						<object class="wxCheckBox" name="ID_CHECKBOX37" variable="CheckBoxFRAM" member="yes">
+							<label>F-RAM</label>
+							<pos>336,216</pos>
+							<size>56,16</size>
+							<tooltip>Utilisation d&apos;une eeprom externe : FM24W256</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX38" variable="CheckBoxSHUTDOWN_CONFIRMATION" member="yes">
 							<label>SHUTDOWN__CONFIRMATION</label>
