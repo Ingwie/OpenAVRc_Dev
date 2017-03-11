@@ -27,6 +27,9 @@
 #ifndef PULSES_COMMON_H
 #define PULSES_COMMON_H
 
+#define SCHEDULE_MIXER_END(delay) nextMixerEndTime = getTmr16KHz() + (delay) - 2*16 // 2ms
+
+
 enum ModuleFlag {
   MODULE_NORMAL_MODE,
   MODULE_RANGECHECK,

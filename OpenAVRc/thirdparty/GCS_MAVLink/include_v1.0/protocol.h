@@ -219,8 +219,8 @@ static inline void _mav_put_ ## TYPE ##_array(char *buf, uint8_t wire_offset, co
 }
 #endif
 
-_MAV_PUT_ARRAY(uint16_t, u16)
-_MAV_PUT_ARRAY(uint32_t, u32)
+_MAV_PUT_ARRAY(uint16_t, uint16_t)
+_MAV_PUT_ARRAY(uint32_t, uint32_t)
 _MAV_PUT_ARRAY(uint64_t, u64)
 _MAV_PUT_ARRAY(int16_t,  i16)
 _MAV_PUT_ARRAY(int32_t,  i32)
@@ -316,8 +316,8 @@ static inline uint16_t _MAV_RETURN_## TYPE ##_array(const mavlink_message_t *msg
 }
 #endif
 
-_MAV_RETURN_ARRAY(uint16_t, u16)
-_MAV_RETURN_ARRAY(uint32_t, u32)
+_MAV_RETURN_ARRAY(uint16_t, uint16_t)
+_MAV_RETURN_ARRAY(uint32_t, uint32_t)
 _MAV_RETURN_ARRAY(uint64_t, u64)
 _MAV_RETURN_ARRAY(int16_t,  i16)
 _MAV_RETURN_ARRAY(int32_t,  i32)

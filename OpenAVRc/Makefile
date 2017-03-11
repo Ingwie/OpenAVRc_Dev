@@ -258,9 +258,6 @@ GVARS = NO
 # Values = NO, YES with personames.h edited
 PERSONAMES = NO
 
-#Use external eeprom FM24W256
-EXTERNALEEPROM=NO
-
 # Menu Lock modes
 # Values = NO, READONLY, NOMENUS
 MENUS_LOCK = NO
@@ -417,10 +414,6 @@ ifeq ($(PCB), EVO_V1)
    CPPSRC += haptic.cpp
   endif
 
-  ifeq ($(EXTERNALEEPROM), YES)
-   CPPDEFS += -DEXTERNALEEPROM
-  endif
-
   ifeq ($(PERSONAMES), YES)
    CPPDEFS += -DPERSONAMES
   endif
@@ -495,10 +488,6 @@ ifeq ($(PCB), MEGA2560)
   ifeq ($(HAPTIC), YES)
    CPPDEFS += -DHAPTIC
    CPPSRC += haptic.cpp
-  endif
-
-  ifeq ($(EXTERNALEEPROM), YES)
-   CPPDEFS += -DEXTERNALEEPROM
   endif
 
   ifeq ($(PERSONAMES), YES)
@@ -622,10 +611,6 @@ endif
 
 ifeq ($(AUTOSOURCE), YES)
   CPPDEFS += -DAUTOSOURCE
-endif
-
-ifeq ($(FRSKY_STICKS), YES)
-  CPPDEFS += -DFRSKY_STICKS
 endif
 
 ifeq ($(DBLKEYS), YES)

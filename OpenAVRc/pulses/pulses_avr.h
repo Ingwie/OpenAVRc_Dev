@@ -39,6 +39,8 @@ extern uint8_t moduleFlag[NUM_MODULES];
 
 #define MAX_MIXER_DELTA (50*16) /* 50ms max as an interval between 2 mixer calculations */
 
+extern uint8_t dt;
+
 void startPulses();
 inline bool pulsesStarted()
 {

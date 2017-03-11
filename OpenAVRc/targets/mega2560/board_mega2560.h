@@ -30,6 +30,7 @@
 #include "../../board_avr.h"
 #include "../../OpenAVRc.h"
 
+#define PROTO_HAS_CC2500
 
 //Mods
 #define ROTENC_DIV2 // rotenc resolution/2
