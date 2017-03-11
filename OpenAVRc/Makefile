@@ -357,7 +357,7 @@ ifeq ($(PCB), EVO_V1)
   LCDSIZE = 128
   TRGT = avr-
   MCU = atmega2560
-  OPT = 1
+  OPT = s
   # Processor frequency.
   F_CPU = 16000000
   CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DREV_EVO_V1 -DEEPROM_RLC -DEEPROM_VARIANT=0
@@ -439,7 +439,7 @@ ifeq ($(PCB), MEGA2560)
   LCDSIZE = 128
   TRGT = avr-
   MCU = atmega2560
-  OPT = 1
+  OPT = s
   # Processor frequency.
   F_CPU = 16000000
   CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DEEPROM_RLC -DEEPROM_VARIANT=0
