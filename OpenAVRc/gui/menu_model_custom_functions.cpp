@@ -176,7 +176,7 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
 #if defined(SDCARD)
         else if (func == FUNC_LOGS) {
           if (val_displayed) {
-            lcdDrawNumberAttUnit(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed, attr|PREC1|LEFT);
+            lcdDrawNumberAttUnit(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed*10, attr|PREC1|LEFT);
             lcdDrawChar(lcdLastPos, y, 's');
           } else {
             lcdDrawTextAtIndex(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, STR_MMMINV, 0, attr);
