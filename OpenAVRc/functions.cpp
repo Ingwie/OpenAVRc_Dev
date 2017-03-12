@@ -31,7 +31,7 @@ CustomFunctionsContext modelFunctionsContext = { 0 };
 
 
 
-#if defined(DEBUG)
+#if defined(DEBUGaa)
 /*
  * This is a test function for debugging purpose, you may insert there your code and compile with the option DEBUG=YES
  */
@@ -384,7 +384,7 @@ void evalFunctions()
           break;
 
 
-#if defined(DEBUG)
+#if defined(DEBUGaa)
         case FUNC_TEST:
           testFunc();
           break;

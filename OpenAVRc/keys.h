@@ -77,6 +77,7 @@ enum EnumKeys {
   SW_H,//H
   SW_P,//P optional - not fitted
   SW_K,//K optional - not fitted
+  NUM_SWS
 #else
   SW_ID0=SW_BASE,
   SW_ID1,
@@ -86,9 +87,8 @@ enum EnumKeys {
   SW_ELE,
   SW_AIL,
   SW_GEA,
-  SW_TRN,
+  SW_TRN
 #endif
-  NUM_SWS
 };
 #define EVT_KEY_MASK(e)      ((e) & 0x1f)
 
