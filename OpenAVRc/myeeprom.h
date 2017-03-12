@@ -50,8 +50,6 @@
 #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
 #endif
 
-#define N_PCBSTD_FIELD(x) x;
-
 #define NUM_STICKS           4
 
 #if   defined(CPUM2560)
@@ -360,7 +358,7 @@ PACK(typedef struct {
   uint8_t   templateSetup;   // RETA order for receiver channels
   int8_t    PPM_Multiplier;
   int8_t    hapticLength;
-  N_PCBSTD_FIELD( uint8_t   reNavigation)
+  uint8_t   reNavigation;
   uint8_t   stickReverse;
   int8_t    beepLength:3;
   int8_t    hapticStrength:3;
