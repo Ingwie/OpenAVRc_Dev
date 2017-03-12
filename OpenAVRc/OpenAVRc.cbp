@@ -132,6 +132,25 @@
 		<Unit filename="mixer.cpp" />
 		<Unit filename="myeeprom.h" />
 		<Unit filename="pgmtypes.h" />
+		<Unit filename="protocol/cc2500.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="protocol/common.h" />
+		<Unit filename="protocol/frsky1way_cc2500_rick.cpp" />
+		<Unit filename="protocol/iface_cc2500.h" />
+		<Unit filename="protocol/interface.h" />
+		<Unit filename="protocol/misc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="protocol/misc.h" />
+		<Unit filename="protocol/mpx_serial.h" />
+		<Unit filename="protocol/ppm_bit_bang.cpp" />
+		<Unit filename="protocol/ppm_hw_switching.cpp" />
+		<Unit filename="protocol/protocol.h" />
+		<Unit filename="protocol/spi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="protocol/spi.h" />
 		<Unit filename="pulses/pulses.h" />
 		<Unit filename="pulses/pulses_avr.cpp" />
 		<Unit filename="pulses/pulses_avr.h" />
@@ -147,6 +166,9 @@
 		<Unit filename="stamp.cpp" />
 		<Unit filename="strhelpers.cpp" />
 		<Unit filename="switches.cpp" />
+		<Unit filename="syscalls.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="targets/evo_v1/evo_adc_driver.cpp" />
 		<Unit filename="targets/evo_v1/evo_lcd_driver.cpp" />
 		<Unit filename="targets/evo_v1/evo_mega2560.cpp" />
@@ -188,9 +210,33 @@
 		<Unit filename="templates.cpp" />
 		<Unit filename="templates.h" />
 		<Unit filename="thirdparty/FatFs/diskio.h" />
+		<Unit filename="thirdparty/FatFs/ff.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="thirdparty/FatFs/ff.h" />
 		<Unit filename="thirdparty/FatFs/ffconf.h" />
 		<Unit filename="thirdparty/FatFs/integer.h" />
+		<Unit filename="thirdparty/FatFs/option/cc932.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="thirdparty/FatFs/option/cc936.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="thirdparty/FatFs/option/cc949.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="thirdparty/FatFs/option/cc950.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="thirdparty/FatFs/option/ccsbcs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="thirdparty/FatFs/option/syscall.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="thirdparty/FatFs/option/unicode.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="thirdparty/GCS_MAVLink/include_v1.0/ardupilotmega/ardupilotmega.h" />
 		<Unit filename="thirdparty/GCS_MAVLink/include_v1.0/ardupilotmega/mavlink.h" />
 		<Unit filename="thirdparty/GCS_MAVLink/include_v1.0/ardupilotmega/mavlink_msg_ahrs.h" />
