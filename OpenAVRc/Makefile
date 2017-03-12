@@ -369,7 +369,7 @@ ifeq ($(PCB), EVO_V1)
   THR_TRACE = YES
   PWRMANAGE = NO
   INCDIRS += targets/evo_v1 targets/stock $(FATFSDIR) $(FATFSDIR)/option
-  BOARDSRC = main_avr.cpp targets/evo_v1/evo_mega2560.cpp targets/evo_v1/evo_lcd_driver.cpp targets/evo_v1/evo_adc_driver.cpp
+  BOARDSRC = main_avr.cpp i2c_master.cpp targets/evo_v1/evo_mega2560.cpp targets/evo_v1/evo_lcd_driver.cpp targets/evo_v1/evo_adc_driver.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = targets/evo_v1/evo_pulses_avr.cpp
 #  CPPSRC += debug.cpp
@@ -390,7 +390,7 @@ ifeq ($(PCB), EVO_V1)
 #    CPPDEFS += -DSDCARD -DRTCLOCK
     GUIGENERALSRC += gui/menu_general_sdmanager.cpp
 #    GUIGENERALSRC += gui/$(GUIDIRECTORY)/menu_general_sdmanager.cpp
-    CPPSRC += i2c_master.cpp rtc.cpp sdcard.cpp logs.cpp /rtc_driver.cpp
+    CPPSRC += rtc.cpp sdcard.cpp logs.cpp /rtc_driver.cpp
 #    CPPSRC += rtc.cpp sdcard.cpp logs.cpp targets/gruvin9x/rtc_driver.cpp
   endif
 
@@ -449,7 +449,7 @@ ifeq ($(PCB), MEGA2560)
   THR_TRACE = YES
   PWRMANAGE = NO
   INCDIRS += targets/mega2560 targets/stock $(FATFSDIR) $(FATFSDIR)/option
-  BOARDSRC = main_avr.cpp targets/mega2560/board_mega2560.cpp
+  BOARDSRC = main_avr.cpp i2c_master.cpp targets/mega2560/board_mega2560.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
   BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
@@ -465,7 +465,7 @@ ifeq ($(PCB), MEGA2560)
     EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/option/ccsbcs.c diskio.cpp
     CPPDEFS += -DSDCARD -DRTCLOCK
     GUIGENERALSRC += gui/menu_general_sdmanager.cpp
-    CPPSRC += i2c_master.cpp rtc.cpp sdcard.cpp logs.cpp rtc_driver.cpp
+    CPPSRC += rtc.cpp sdcard.cpp logs.cpp rtc_driver.cpp
   endif
 
   ifeq ($(AUDIO), YES)
