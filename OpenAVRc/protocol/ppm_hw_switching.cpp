@@ -27,17 +27,17 @@ dt = TCNT1L; // Record Timer1 latency for DEBUG stats display.
     TCCR1A &= ~(0b11<<COM1B0);
     state++;
 
-    if (FrameLen > 65535) FrameLen = 65535; // 32.7675ms
+    if (FrameLen > 65535) return 65535; // 32.7675ms
     if (FrameLen > 4500 *2)  return FrameLen;
     else return 4500 *2; // 4.5ms
   }
   else if (state == -1) {
     // Set the idle level.
     if (g_model.pulsePol) {
-        TCCR1A = (TCCR1A | (1<<COM1B1)) & ~(1<<COM1B0); // Set idle level.
+      TCCR1A = (TCCR1A | (1<<COM1B1)) & ~(1<<COM1B0); // Set idle level.
     }
     else {
-        TCCR1A |= (0b11<<COM1B0);
+      TCCR1A |= (0b11<<COM1B0);
     }
     TCCR1C = 1<<FOC1B; // Strobe FOC1B.
     TCCR1A = (TCCR1A | (1<<COM1B0)) & ~(1<<COM1B1); // Toggle OC1B on next match.
@@ -77,17 +77,19 @@ dt = TCNT1L; // Record Timer1 latency for DEBUG stats display.
 
 ISR(TIMER1_COMPB_vect) // PPM switching vector.
 {
-  if(full_loops--);
-  else {
+// Expanding this function to work with callback values > 0xFFFF won't work.
+// Xmega will have to find another way.
+//  if(full_loops--);
+//  else {
     uint16_t half_us = ppm_switching_cb();
       if(! half_us) {
         PPM_SWITCHING_Cmds(PROTOCMD_DEINIT);
         return;
       }
     timer_counts = HALF_MICRO_SEC_COUNTS(half_us);
-    full_loops = timer_counts >> 16;
+//  full_loops = timer_counts >> 16;
     OCR1B += (timer_counts & 0xFFFF);
-  }
+//  }
 
   if(dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
   if(dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
@@ -99,7 +101,7 @@ static void initialize()
   full_loops = 0;
 
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-  OCR1B = TCNT1 + (22500U *2);
+    OCR1B = TCNT1 + (22500U *2);
   }
   // Setup Timer 1.
   // Normal mode (0), OVF @ TOP (0xFFFF), F_CPU/8.
