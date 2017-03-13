@@ -26,11 +26,13 @@
 // *** WARNING THIS IS EXPERIMENTAL ***
 
 #include "../OpenAVRc.h"
+#define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 #include "../../protocol/common.h"
 #include "../../protocol/interface.h"
 #include "../../protocol/misc.c"
 
 uint16_t nextMixerEndTime = 0;
+#define SCHEDULE_MIXER_END(delay) nextMixerEndTime = getTmr16KHz() + (delay) - 2*16 // 2ms
 uint8_t s_current_protocol[1] = { 255 };
 uint8_t s_pulses_paused = 0;
 uint8_t dt;
@@ -53,15 +55,17 @@ uint8_t * pulses2MHzRPtr = pulses2MHz;
 
 ISR(TIMER1_COMPA_vect) // Protocol Callback ISR.
 {
-  if(full_loops--);
-  else {
-    uint16_t half_us = timer_callback(); // e.g. flysky_cb()
+// Expanding this function to work with callback values > 0xFFFF won't work.
+// Xmega will have to find another way.
+//  if(full_loops--);
+//  else {
+    u16 half_us = timer_callback(); // e.g. flysky_cb()
     if(! half_us) {
       PROTO_Cmds(PROTOCMD_DEINIT);
       return;
     }
     timer_counts = HALF_MICRO_SEC_COUNTS(half_us);
-    full_loops = timer_counts >> 16;
+//  full_loops = timer_counts >> 16;
     OCR1A += (timer_counts & 0xFFFF);
   }
 
