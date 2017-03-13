@@ -59,7 +59,7 @@ ISR(TIMER1_COMPA_vect) // Protocol Callback ISR.
 // Xmega will have to find another way.
 //  if(full_loops--);
 //  else {
-    u16 half_us = timer_callback(); // e.g. flysky_cb()
+    uint16_t half_us = timer_callback(); // e.g. flysky_cb()
     if(! half_us) {
       PROTO_Cmds(PROTOCMD_DEINIT);
       return;
@@ -67,7 +67,7 @@ ISR(TIMER1_COMPA_vect) // Protocol Callback ISR.
     timer_counts = HALF_MICRO_SEC_COUNTS(half_us);
 //  full_loops = timer_counts >> 16;
     OCR1A += (timer_counts & 0xFFFF);
-  }
+//  }
 
   if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
   if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;

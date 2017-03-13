@@ -80,7 +80,7 @@ void startPulses()
   {
     // TODO g: There has to be a better place for this bug fix
     OCR1B = 0xffff; /* Prevent any PPM_OUT pin toggle before the TCNT1 interrupt
-                       fires for the first time and sets up the pulse period. 
+                       fires for the first time and sets up the pulse period.
                        *** Prevents WDT reset loop. */
   }
 #endif
@@ -93,7 +93,7 @@ void startPulses()
 }
 
 #define PULSES_SIZE       144
-uint8_t pulses2MHz[PULSES_SIZE] = {0}; // TODO check this length, pulled from er9x, perhaps too big. 
+uint8_t pulses2MHz[PULSES_SIZE] = {0}; // TODO check this length, pulled from er9x, perhaps too big.
 uint8_t *pulses2MHzRPtr = pulses2MHz;
 
 #if defined(DSM2) || defined(PXX) || defined(IRPROTOS)
@@ -194,7 +194,7 @@ void setupPulsesPPM(uint8_t proto)
       *ptr++ = v - q; // total pulse width includes stop phase
     }
 
-    *ptr++ = q;  
+    *ptr++ = q;
     if (rest > 65535) rest = 65535; /* prevents overflows */
     if (rest < 9000)  rest = 9000;
 
@@ -203,7 +203,7 @@ void setupPulsesPPM(uint8_t proto)
       pulses2MHzRPtr = pulses2MHz;
     }
     else {
-      *ptr++ = rest;    
+      *ptr++ = rest;
       B3_comp_value = rest - SETUP_PULSES_DURATION;               // 500uS before end of sync pulse
     }
 
@@ -573,7 +573,7 @@ void setupPulsesDSM2()
   _send_1(255); // prolong them
 #endif
   _send_1(0); //end of pulse stream
-  
+
   pulses2MHzRPtr = pulses2MHz;
 }
 #endif
@@ -596,10 +596,10 @@ static void _send_u8(uint8_t u8)
 
 #endif
 }
-static void _send_u16(uint16_t u16)
+static void _send_u16(uint16_t uint16_t)
 {
 #ifdef  SIMU
-  *(*(uint16_t**)&pulses2MHzWPtr)++=u16;
+  *(*(uint16_t**)&pulses2MHzWPtr)++=uint16_t;
 #else
   asm volatile(
     " st   Z+,%A[t0]        \n\t"
@@ -607,7 +607,7 @@ static void _send_u16(uint16_t u16)
 
     : [p]"=z"(pulses2MHzWPtr)
     :    "%[p]"(pulses2MHzWPtr)
-    , [t0]"r"(u16)
+    , [t0]"r"(uint16_t)
  );
 
 #endif
@@ -761,9 +761,9 @@ void setupPulses()
   }
 
 #if defined(CPUM2560) && defined(DSM2_PPM) && defined(TX_CADDY)
-// This should be here, executed on every loop, to ensure re-setting of the 
+// This should be here, executed on every loop, to ensure re-setting of the
 // TX moudle power control output register, in case of electrical glitch.
-// (Following advice of Atmel for MCU's used  in industrial / mission cricital 
+// (Following advice of Atmel for MCU's used  in industrial / mission cricital
 // applications.)
   if (IS_DSM2_PROTOCOL(required_protocol))
     PORTH &= ~0x80;
@@ -784,7 +784,7 @@ void setupPulses()
     TCCR1B = 0;                           // Stop counter
     TCNT1 = 0;
 
-#if defined(CPUM2560) 
+#if defined(CPUM2560)
     TIMSK1 &= ~0x2F;                      // All Timer1 interrupts off
     TIMSK1 &= ~(1<<OCIE1C);               // COMPC1 off
     TIFR1 = 0x2F;
@@ -800,14 +800,14 @@ void setupPulses()
       case PROTO_DSM2_LP45:
       case PROTO_DSM2_DSM2:
       case PROTO_DSM2_DSMX:
-        set_timer3_capture(); 
+        set_timer3_capture();
         OCR1C = 200;                          // 100 uS
         TCNT1 = 300;                          // Past the OCR1C value
         ICR1 = 44000;                         // Next frame starts in 22 mS
-#if defined(CPUM2560) 
+#if defined(CPUM2560)
         TIMSK1 |= 0x28;                       // Enable Timer1 COMPC and CAPT interrupts
         TCCR1A = (0 << WGM10);                // Set output waveform mode to normal, for now. Note that
-                                              // WGM will be changed to toggle OCR1B pin on compare capture, 
+                                              // WGM will be changed to toggle OCR1B pin on compare capture,
                                               // in next switch(required_protocol) {...}, below
 #else
         TIMSK |= 0x20;                        // Enable CAPT
@@ -820,10 +820,10 @@ void setupPulses()
 
 #if defined(PXX)
       case PROTO_PXX:
-        set_timer3_capture(); 
+        set_timer3_capture();
         OCR1B = 6000;                         // Next frame starts in 3 mS
         OCR1C = 4000;                         // Next frame setup in 2 mS
-#if defined(CPUM2560) 
+#if defined(CPUM2560)
         TIMSK1 |= (1<<OCIE1B);                // Enable COMPB
         TIMSK1 |= (1<<OCIE1C);                // Enable COMPC
         TCCR1A = (3 << COM1B0);               // Connect OC1B for hardware PPM switching
@@ -838,7 +838,7 @@ void setupPulses()
 
       case PROTO_PPM16:
         OCR1A = 40000;                        // Next frame starts in 20 mS
-#if defined(CPUM2560) 
+#if defined(CPUM2560)
         TIMSK1 |= (1<<OCIE1A);                // Enable COMPA
         TCCR1A = (3 << COM1B0);               // Connect OC1B for hardware PPM switching
 #else
@@ -853,13 +853,13 @@ void setupPulses()
         break;
 
       case PROTO_PPMSIM:
-#if defined(CPUM2560) 
+#if defined(CPUM2560)
         TCCR1A = 0;                           // Disconnect OC1B for bit-bang PPM switching
 #endif
         setupPulsesPPM(PROTO_PPMSIM);
-        OCR3A = 50000; 
-        OCR3B = 5000; 
-        set_timer3_ppm(); 
+        OCR3A = 50000;
+        OCR3B = 5000;
+        set_timer3_ppm();
         PORTB &= ~(1<<OUT_B_PPM);             // Hold PPM output low
         break;
 
@@ -872,14 +872,14 @@ void setupPulses()
 #endif
 
       default: // PPM and DSM2=SERIAL modes
-        set_timer3_capture(); 
-        OCR1A = 44000;                        // Next frame starts in 22ms -- DSM mode. 
-                                              //    This is arbitrary and for the first frame only. In fact, ... 
-                                              //    DSM2 mode will set frame timing again at each ISR(TIMER1_COMPC_vect)    
+        set_timer3_capture();
+        OCR1A = 44000;                        // Next frame starts in 22ms -- DSM mode.
+                                              //    This is arbitrary and for the first frame only. In fact, ...
+                                              //    DSM2 mode will set frame timing again at each ISR(TIMER1_COMPC_vect)
                                               //       and
-                                              //    PPM mode will dynamically adjust to the frame rate set in model SETUP menu, 
+                                              //    PPM mode will dynamically adjust to the frame rate set in model SETUP menu,
                                               //    from within setupPulsesPPM().
-#if defined(CPUM2560) 
+#if defined(CPUM2560)
         TIMSK1 |= (1<<OCIE1A);                // Enable COMPA
         TCCR1A = (3 << COM1B0);               // Connect OC1B for hardware PPM switching. G: Not needed
                                               // for DSM2=SERIAL. But OK.
@@ -953,14 +953,14 @@ ISR(TIMER1_CAPT_vect) // 2MHz pulse generation
 #if defined (CPUM2560)
   /*** G9X V4 hardware toggled PPM_out avoids any chance of output timing jitter ***/
 
-  // OCR1B output pin (PPM_OUT) is pre-SET in setupPulses -- on every new 
+  // OCR1B output pin (PPM_OUT) is pre-SET in setupPulses -- on every new
   // frame, for safety -- and then configured to toggle on each OCR1B compare match.
   // Thus, all we need do here is update the compare regisiter(s) ...
   uint8_t x;
   x = *pulses2MHzRPtr++;  // Byte size
   ICR1 = x;
   OCR1B = (uint16_t)x;    // Duplicate capture compare value for OCR1B, because Timer1 is in CTC mode
-                          // and thus we cannot use the OCR1B int. vector. (Should have put PPM_OUT 
+                          // and thus we cannot use the OCR1B int. vector. (Should have put PPM_OUT
                           // pin on OCR1A. Oh well.)
 
 #else // manual bit-bang mode
@@ -1039,7 +1039,7 @@ ISR(TIMER1_COMPC_vect) // DSM2_PPM or PXX end of frame
 void set_timer3_capture()
 {
 #ifndef SIMU
-#if defined (CPUM2560) 
+#if defined (CPUM2560)
   TIMSK3 &= ~((1<<OCIE3A) | (1<<OCIE3B) | (1<<OCIE3C));    // Stop compare interrupts
 #else
   ETIMSK &= ~((1<<OCIE3A) | (1<<OCIE3B) | (1<<OCIE3C));    // Stop compare interrupts
@@ -1068,7 +1068,7 @@ void set_timer3_ppm()
   TCCR3A = (0<<WGM10);
   TCCR3B = (1 << WGM12) | (2<<CS10); // CTC OCR1A, 16MHz / 8
 
-#if defined (CPUM2560) 
+#if defined (CPUM2560)
   TIMSK3 |= ((1<<OCIE3A) | (1<<OCIE3B));                    // enable immediately before mainloop
 #else
   ETIMSK |= ((1<<OCIE3A) | (1<<OCIE3B));                    // enable immediately before mainloop
@@ -1078,7 +1078,7 @@ void set_timer3_ppm()
 
 #ifndef SIMU
 
-// G: TIMER3_COMPA and COMPB int. vectors are used for PPM16 (8+8, actually)  
+// G: TIMER3_COMPA and COMPB int. vectors are used for PPM16 (8+8, actually)
 // and PPMSIM modes
 ISR(TIMER3_COMPA_vect) //2MHz pulse generation
 {
