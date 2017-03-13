@@ -40,6 +40,13 @@ SPSR |= (1<<SPI2X);
 
 //----------------------
 
+#if 0
+// Was for A7105. Deprecated.
+Use ...
+
+#define spi_tx(value)  (void)spi_xfer(value)
+#define spi_rx()  spi_xfer(0)
+
 void spi_tx(uint8_t value)
 {
 // Half duplex mode (MOSI connected to MISO via 1K Ohm).
@@ -60,6 +67,7 @@ SPDR = 0;
 while (!(SPSR & (1<<SPIF)));
 return SPDR;
 }
+#endif
 
 //----------------------
 
