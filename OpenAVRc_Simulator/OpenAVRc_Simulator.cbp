@@ -76,8 +76,8 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="Release">
-				<Option output="bin/Release/OpenAVRc_Simulator" prefix_auto="1" extension_auto="1" />
+			<Target title="FR Release">
+				<Option output="bin/Release/OpenAVRc_SimulatorFR" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
@@ -89,6 +89,362 @@
 					<Add option="-mno-ms-bitfields" />
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
+					<Add option="-DNOEXTERNALEEPROM" />
+					<Add option="-DSIMU" />
+					<Add option="-DDSM2" />
+					<Add option="-DDSM2_PPM" />
+					<Add option="-DPCBMEGA2560" />
+					<Add option="-DCPUM2560" />
+					<Add option="-DOFFSET_ON_INPUT=YES" />
+					<Add option="-DEEPROM_RLC" />
+					<Add option="-DEEPROM_VARIANT=0" />
+					<Add option="-DSDCARD" />
+					<Add option="-DRTCLOCK" />
+					<Add option="-DAUDIO" />
+					<Add option="-DVOICE" />
+					<Add option="-DVOICE_JQ6500" />
+					<Add option="-DHAPTIC" />
+					<Add option="-DROTARY_ENCODERS=2" />
+					<Add option="-DGUI" />
+					<Add option="-DDEFAULT_MODE=2" />
+					<Add option="-DNOANDSECONDE" />
+					<Add option="-DAUTOSWITCH" />
+					<Add option="-DAUTOSOURCE" />
+					<Add option="-DDBLKEYS" />
+					<Add option="-DSPLASH" />
+					<Add option="-DGRAPHICS" />
+					<Add option="-DBOLD_FONT" />
+					<Add option="-DBATTGRAPH" />
+					<Add option="-DTHRTRACE" />
+					<Add option="-DTIMERS=2" />
+					<Add option="-DFLIGHT_MODES" />
+					<Add option="-DCURVES" />
+					<Add option="-DGVARS" />
+					<Add option="-DCORRECT_NEGATIVE_SHIFTS" />
+					<Add option="-DFRSKY" />
+					<Add option="-DFRSKY_HUB" />
+					<Add option="-DWS_HOW_HIGH" />
+					<Add option="-DGAUGES" />
+					<Add option="-DVARIO" />
+					<Add option="-DEEPROM_PROGRESS_BAR" />
+					<Add option="-DPPM_CENTER_ADJUSTABLE" />
+					<Add option="-DPPM_LIMITS_SYMETRICAL" />
+					<Add option="-DOVERRIDE_CHANNEL_FUNCTION" />
+					<Add option="-DPPM_UNIT_PERCENT_PREC1" />
+					<Add option="-DHELI" />
+					<Add option="-DTEMPLATES" />
+					<Add option="-DDEBUG=YES" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+					<Add directory="include" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="libwxmsw31u.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="ES Release">
+				<Option output="bin/Release/OpenAVRc_SimulatorES" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-w" />
+					<Add option="-m32" />
+					<Add option="-mno-ms-bitfields" />
+					<Add option="-DTRANSLATIONS_ES" />
+					<Add option="-DTTS_ES" />
+					<Add option="-DNOEXTERNALEEPROM" />
+					<Add option="-DSIMU" />
+					<Add option="-DDSM2" />
+					<Add option="-DDSM2_PPM" />
+					<Add option="-DPCBMEGA2560" />
+					<Add option="-DCPUM2560" />
+					<Add option="-DOFFSET_ON_INPUT=YES" />
+					<Add option="-DEEPROM_RLC" />
+					<Add option="-DEEPROM_VARIANT=0" />
+					<Add option="-DSDCARD" />
+					<Add option="-DRTCLOCK" />
+					<Add option="-DAUDIO" />
+					<Add option="-DVOICE" />
+					<Add option="-DVOICE_JQ6500" />
+					<Add option="-DHAPTIC" />
+					<Add option="-DROTARY_ENCODERS=2" />
+					<Add option="-DGUI" />
+					<Add option="-DDEFAULT_MODE=2" />
+					<Add option="-DNOANDSECONDE" />
+					<Add option="-DAUTOSWITCH" />
+					<Add option="-DAUTOSOURCE" />
+					<Add option="-DDBLKEYS" />
+					<Add option="-DSPLASH" />
+					<Add option="-DGRAPHICS" />
+					<Add option="-DBOLD_FONT" />
+					<Add option="-DBATTGRAPH" />
+					<Add option="-DTHRTRACE" />
+					<Add option="-DTIMERS=2" />
+					<Add option="-DFLIGHT_MODES" />
+					<Add option="-DCURVES" />
+					<Add option="-DGVARS" />
+					<Add option="-DCORRECT_NEGATIVE_SHIFTS" />
+					<Add option="-DFRSKY" />
+					<Add option="-DFRSKY_HUB" />
+					<Add option="-DWS_HOW_HIGH" />
+					<Add option="-DGAUGES" />
+					<Add option="-DVARIO" />
+					<Add option="-DEEPROM_PROGRESS_BAR" />
+					<Add option="-DPPM_CENTER_ADJUSTABLE" />
+					<Add option="-DPPM_LIMITS_SYMETRICAL" />
+					<Add option="-DOVERRIDE_CHANNEL_FUNCTION" />
+					<Add option="-DPPM_UNIT_PERCENT_PREC1" />
+					<Add option="-DHELI" />
+					<Add option="-DTEMPLATES" />
+					<Add option="-DDEBUG=YES" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+					<Add directory="include" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="libwxmsw31u.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="EN Release">
+				<Option output="bin/Release/OpenAVRc_SimulatorEN" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-w" />
+					<Add option="-m32" />
+					<Add option="-mno-ms-bitfields" />
+					<Add option="-DTRANSLATIONS_EN" />
+					<Add option="-DTTS_EN" />
+					<Add option="-DNOEXTERNALEEPROM" />
+					<Add option="-DSIMU" />
+					<Add option="-DDSM2" />
+					<Add option="-DDSM2_PPM" />
+					<Add option="-DPCBMEGA2560" />
+					<Add option="-DCPUM2560" />
+					<Add option="-DOFFSET_ON_INPUT=YES" />
+					<Add option="-DEEPROM_RLC" />
+					<Add option="-DEEPROM_VARIANT=0" />
+					<Add option="-DSDCARD" />
+					<Add option="-DRTCLOCK" />
+					<Add option="-DAUDIO" />
+					<Add option="-DVOICE" />
+					<Add option="-DVOICE_JQ6500" />
+					<Add option="-DHAPTIC" />
+					<Add option="-DROTARY_ENCODERS=2" />
+					<Add option="-DGUI" />
+					<Add option="-DDEFAULT_MODE=2" />
+					<Add option="-DNOANDSECONDE" />
+					<Add option="-DAUTOSWITCH" />
+					<Add option="-DAUTOSOURCE" />
+					<Add option="-DDBLKEYS" />
+					<Add option="-DSPLASH" />
+					<Add option="-DGRAPHICS" />
+					<Add option="-DBOLD_FONT" />
+					<Add option="-DBATTGRAPH" />
+					<Add option="-DTHRTRACE" />
+					<Add option="-DTIMERS=2" />
+					<Add option="-DFLIGHT_MODES" />
+					<Add option="-DCURVES" />
+					<Add option="-DGVARS" />
+					<Add option="-DCORRECT_NEGATIVE_SHIFTS" />
+					<Add option="-DFRSKY" />
+					<Add option="-DFRSKY_HUB" />
+					<Add option="-DWS_HOW_HIGH" />
+					<Add option="-DGAUGES" />
+					<Add option="-DVARIO" />
+					<Add option="-DEEPROM_PROGRESS_BAR" />
+					<Add option="-DPPM_CENTER_ADJUSTABLE" />
+					<Add option="-DPPM_LIMITS_SYMETRICAL" />
+					<Add option="-DOVERRIDE_CHANNEL_FUNCTION" />
+					<Add option="-DPPM_UNIT_PERCENT_PREC1" />
+					<Add option="-DHELI" />
+					<Add option="-DTEMPLATES" />
+					<Add option="-DDEBUG=YES" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+					<Add directory="include" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="libwxmsw31u.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="FR Release FRAM">
+				<Option output="bin/Release/OpenAVRc_SimulatorFR_FRAM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-w" />
+					<Add option="-m32" />
+					<Add option="-mno-ms-bitfields" />
+					<Add option="-DTRANSLATIONS_FR" />
+					<Add option="-DTTS_FR" />
+					<Add option="-DEXTERNALEEPROM" />
+					<Add option="-DSIMU" />
+					<Add option="-DDSM2" />
+					<Add option="-DDSM2_PPM" />
+					<Add option="-DPCBMEGA2560" />
+					<Add option="-DCPUM2560" />
+					<Add option="-DOFFSET_ON_INPUT=YES" />
+					<Add option="-DEEPROM_RLC" />
+					<Add option="-DEEPROM_VARIANT=0" />
+					<Add option="-DSDCARD" />
+					<Add option="-DRTCLOCK" />
+					<Add option="-DAUDIO" />
+					<Add option="-DVOICE" />
+					<Add option="-DVOICE_JQ6500" />
+					<Add option="-DHAPTIC" />
+					<Add option="-DROTARY_ENCODERS=2" />
+					<Add option="-DGUI" />
+					<Add option="-DDEFAULT_MODE=2" />
+					<Add option="-DNOANDSECONDE" />
+					<Add option="-DAUTOSWITCH" />
+					<Add option="-DAUTOSOURCE" />
+					<Add option="-DDBLKEYS" />
+					<Add option="-DSPLASH" />
+					<Add option="-DGRAPHICS" />
+					<Add option="-DBOLD_FONT" />
+					<Add option="-DBATTGRAPH" />
+					<Add option="-DTHRTRACE" />
+					<Add option="-DTIMERS=2" />
+					<Add option="-DFLIGHT_MODES" />
+					<Add option="-DCURVES" />
+					<Add option="-DGVARS" />
+					<Add option="-DCORRECT_NEGATIVE_SHIFTS" />
+					<Add option="-DFRSKY" />
+					<Add option="-DFRSKY_HUB" />
+					<Add option="-DWS_HOW_HIGH" />
+					<Add option="-DGAUGES" />
+					<Add option="-DVARIO" />
+					<Add option="-DEEPROM_PROGRESS_BAR" />
+					<Add option="-DPPM_CENTER_ADJUSTABLE" />
+					<Add option="-DPPM_LIMITS_SYMETRICAL" />
+					<Add option="-DOVERRIDE_CHANNEL_FUNCTION" />
+					<Add option="-DPPM_UNIT_PERCENT_PREC1" />
+					<Add option="-DHELI" />
+					<Add option="-DTEMPLATES" />
+					<Add option="-DDEBUG=YES" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+					<Add directory="include" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="libwxmsw31u.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="ES Release FRAM">
+				<Option output="bin/Release/OpenAVRc_SimulatorES_FRAM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-w" />
+					<Add option="-m32" />
+					<Add option="-mno-ms-bitfields" />
+					<Add option="-DTRANSLATIONS_ES" />
+					<Add option="-DTTS_ES" />
+					<Add option="-DEXTERNALEEPROM" />
+					<Add option="-DSIMU" />
+					<Add option="-DDSM2" />
+					<Add option="-DDSM2_PPM" />
+					<Add option="-DPCBMEGA2560" />
+					<Add option="-DCPUM2560" />
+					<Add option="-DOFFSET_ON_INPUT=YES" />
+					<Add option="-DEEPROM_RLC" />
+					<Add option="-DEEPROM_VARIANT=0" />
+					<Add option="-DSDCARD" />
+					<Add option="-DRTCLOCK" />
+					<Add option="-DAUDIO" />
+					<Add option="-DVOICE" />
+					<Add option="-DVOICE_JQ6500" />
+					<Add option="-DHAPTIC" />
+					<Add option="-DROTARY_ENCODERS=2" />
+					<Add option="-DGUI" />
+					<Add option="-DDEFAULT_MODE=2" />
+					<Add option="-DNOANDSECONDE" />
+					<Add option="-DAUTOSWITCH" />
+					<Add option="-DAUTOSOURCE" />
+					<Add option="-DDBLKEYS" />
+					<Add option="-DSPLASH" />
+					<Add option="-DGRAPHICS" />
+					<Add option="-DBOLD_FONT" />
+					<Add option="-DBATTGRAPH" />
+					<Add option="-DTHRTRACE" />
+					<Add option="-DTIMERS=2" />
+					<Add option="-DFLIGHT_MODES" />
+					<Add option="-DCURVES" />
+					<Add option="-DGVARS" />
+					<Add option="-DCORRECT_NEGATIVE_SHIFTS" />
+					<Add option="-DFRSKY" />
+					<Add option="-DFRSKY_HUB" />
+					<Add option="-DWS_HOW_HIGH" />
+					<Add option="-DGAUGES" />
+					<Add option="-DVARIO" />
+					<Add option="-DEEPROM_PROGRESS_BAR" />
+					<Add option="-DPPM_CENTER_ADJUSTABLE" />
+					<Add option="-DPPM_LIMITS_SYMETRICAL" />
+					<Add option="-DOVERRIDE_CHANNEL_FUNCTION" />
+					<Add option="-DPPM_UNIT_PERCENT_PREC1" />
+					<Add option="-DHELI" />
+					<Add option="-DTEMPLATES" />
+					<Add option="-DDEBUG=YES" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+					<Add directory="include" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="libwxmsw31u.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="EN Release FRAM">
+				<Option output="bin/Release/OpenAVRc_SimulatorEN_FRAM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-w" />
+					<Add option="-m32" />
+					<Add option="-mno-ms-bitfields" />
+					<Add option="-DTRANSLATIONS_EN" />
+					<Add option="-DTTS_EN" />
+					<Add option="-DEXTERNALEEPROM" />
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />
 					<Add option="-DDSM2_PPM" />
