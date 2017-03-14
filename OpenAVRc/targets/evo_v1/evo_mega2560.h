@@ -20,31 +20,16 @@
 
 #include "../../OpenAVRc.h"
 
+#define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 
-#ifndef PIN0_bm
-#define PIN0_bm  0x01
+#if   F_CPU == 16000000
+#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
+#elif F_CPU == 32000000
+#define HALF_MICRO_SEC_COUNTS(half_us) (half_us *2)
+#else
+#define HALF_MICRO_SEC_COUNTS(half_us) (((F_CPU/800)*(half_us))/20000)
 #endif
-#ifndef PIN1_bm
-#define PIN1_bm  0x02
-#endif
-#ifndef PIN2_bm
-#define PIN2_bm  0x04
-#endif
-#ifndef PIN3_bm
-#define PIN3_bm  0x08
-#endif
-#ifndef PIN4_bm
-#define PIN4_bm  0x10
-#endif
-#ifndef PIN5_bm
-#define PIN5_bm  0x20
-#endif
-#ifndef PIN6_bm
-#define PIN6_bm  0x40
-#endif
-#ifndef PIN7_bm
-#define PIN7_bm  0x80
-#endif
+
 
 #if 0
 // For Evo Tx

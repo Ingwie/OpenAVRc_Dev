@@ -2,13 +2,13 @@
  Rich
 */
 
-#include "../OpenAVRc.h"
+
 #include "interface.h"
-#include "common.h"
-#include "misc.h"
+
 
 static const char * const frsky_opts[] = {
-  _tr_noop("Freq-Fine"),  "-127", "+127", NULL, NULL
+  _tr_noop("Freq-Fine"),  "-127", "+127", NULL,
+  NULL
 };
 
 enum {
@@ -18,21 +18,21 @@ enum {
 //ctassert(LAST_PROTO_OPT <= NUM_PROTO_OPTS, too_many_protocol_opts);
 
 
-static uint8_t packet[16];
-static uint32_t seed;
-static uint8_t dp_crc_init;
-static uint16_t frsky_id;
-static uint8_t channels_used[50];
-static uint8_t channel_offset;
+static u8 packet[16];
+static u32 seed;
+static u8 dp_crc_init;
+static u16 frsky_id;
+static u8 channels_used[50];
+static u8 channel_offset;
 
 
-static uint8_t crc8(uint8_t result, uint8_t * data, uint8_t len)
+static u8 crc8(u8 result, u8 * data, u8 len)
 {
-  static const uint8_t polynomial = 0x07;
+  static const u8 polynomial = 0x07;
 
   for(int i = 0; i < len; i++) {
     result = result ^ data[i];
-    for(uint8_t j = 0; j < 8; j++) {
+    for(u8 j = 0; j < 8; j++) {
       if(result & 0x80)  result = (result << 1) ^ polynomial;
       else result = result << 1;
     }
@@ -41,10 +41,10 @@ static uint8_t crc8(uint8_t result, uint8_t * data, uint8_t len)
 }
 
 
-static uint8_t reflect8(uint8_t in)
+static u8 reflect8(u8 in)
 {
   // reflects the bits in the byte.
-  uint8_t i, j, out=0;
+  u8 i, j, out=0;
 
   for(i = 0x80, j=0x01; i; i>>=1, j<<= 1) {
     if(in & i) out |= j;
@@ -73,15 +73,15 @@ static void calc_dp_crc_init(void)
 
 // fast bit by bit algorithm without augmented zero bytes.
 
-uint8_t c, bit;
-uint8_t crc = 0x6B; // Initial value.
+u8 c, bit;
+u8 crc = 0x6B; // Initial value.
 static const unsigned char poly = 0xC1;
-uint8_t * data = (uint8_t *) frsky_id;
+u8 * data = (u8 *) frsky_id;
 
-  for(int8_t i=1; i>-1; i--) {
+  for(s8 i=1; i>-1; i--) {
     c = data[i];
     c = reflect8(c);
-    for(uint8_t j=0x80; j; j>>=1) {
+    for(u8 j=0x80; j; j>>=1) {
       bit = crc & 0x80;
       crc<<= 1;
       if (c & j) bit^= 0x80;
@@ -92,7 +92,7 @@ uint8_t * data = (uint8_t *) frsky_id;
 }
 
 
-static void frsky1way_init(uint8_t bind)
+static void frsky1way_init(u8 bind)
 {
   CC2500_SetTxRxMode(TX_EN);
 
@@ -106,8 +106,8 @@ static void frsky1way_init(uint8_t bind)
 
   CC2500_WriteReg(CC2500_0B_FSCTRL1, 0x08);
 
-  // static const int8_t fine = 0 ; // Frsky rf deck = 0, Skyartec rf module = -17.
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) Model.proto_opts[PROTO_OPTS_FREQFINE]);
+  // static const s8 fine = 0 ; // Frsky rf deck = 0, Skyartec rf module = -17.
+  CC2500_WriteReg(CC2500_0C_FSCTRL0, (s8) Model.proto_opts[PROTO_OPTS_FREQFINE]);
   CC2500_WriteReg(CC2500_0D_FREQ2, 0x5C);
   CC2500_WriteReg(CC2500_0E_FREQ1, 0x58);
   CC2500_WriteReg(CC2500_0F_FREQ0, 0x9D);
@@ -152,7 +152,7 @@ static void frsky1way_init(uint8_t bind)
 
 static void build_bind_packet_1way()
 {
-  static uint8_t bind_idx =0;
+  static u8 bind_idx =0;
 
   packet[0] = 0x0E;                //Length
   packet[1] = 0x03;                //Packet type
@@ -176,7 +176,7 @@ static void build_bind_packet_1way()
 
 static void build_data_packet_1way()
 {
-static uint8_t data_idx =0;
+static u8 data_idx =0;
 
 packet[0] = 0x0E;
 packet[1] = frsky_id & 0xFF;
@@ -194,13 +194,13 @@ else packet[5] = 0x00;
 // 0x05DC -> 1000us
 // 0x0BB8 -> 2000us
 
-for(uint8_t i = 0; i < 4; i++) {
+for(u8 i = 0; i < 4; i++) {
   if( (i + (4* data_idx) ) < Model.num_channels)
   {
-  int32_t value = (int32_t) Channels[i + (4* data_idx)];
+  s32 value = (s32) Channels[i + (4* data_idx)];
 
 #define PPM_SCALING 500L // 500 for Most systems or 550 for Multiplex. e.g. 1500 + 500 us
-value = (int32_t)((PPM_SCALING * 15L * value) / (CHAN_MAX_VALUE * 10L)) + 0x08CA;
+value = (s32)((PPM_SCALING * 15L * value) / (CHAN_MAX_VALUE * 10L)) + 0x08CA;
 #undef PPM_SCALING
 
   if(value < 0x546) value = 0x546; // 900 uS
@@ -208,8 +208,7 @@ value = (int32_t)((PPM_SCALING * 15L * value) / (CHAN_MAX_VALUE * 10L)) + 0x08CA
   packet[6 + (i*2)] = value & 0xFF;
   packet[7 + (i*2)] = (value >> 8) & 0xFF;
   }
-  else
-  {
+  else {
   packet[6 + (i*2)] = 0xC9;
   packet[7 + (i*2)] = 0x08;
   }
@@ -221,41 +220,35 @@ if(data_idx > 1) data_idx =0;
 }
 
 
-static uint16_t frsky1waydata_cb()
+static u16 frsky1waydata_cb()
 {
-static uint8_t counter =0;
+  static u8 counter =0;
 
-	if(! (counter & 0x01))
-	{
-		// Tx prep
-		CC2500_Strobe(CC2500_SIDLE);
-		CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[ ( (seed & 0xFF) % 50) ] );
-		CC2500_Strobe(CC2500_SCAL);    // Manual calibration
-		counter ++;
-		return 1180 *2;
-	}
-	else
-	{
-	// Tx data
-	    CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO
-		CC2500_WriteData(packet, 15);
-		CC2500_Strobe(CC2500_STX);
-//
-		seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323
-//
-	    build_data_packet_1way();
-		CC2500_Strobe(CC2500_SNOP); // just shows how long to build packet. AVR = 0.7ms
-
-		// Wait for previous transmit to finish.
-		// while( 0x0F != CC2500_Strobe(CC2500_SNOP)) { _delay_us(5); }
-
-		counter ++;
-		return 7820 *2;
-	}
+  if(! (counter & 0x01)) {
+  // Tx prep
+    CC2500_Strobe(CC2500_SIDLE);
+    CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[ ( (seed & 0xFF) % 50) ] );
+    CC2500_Strobe(CC2500_SCAL);    // Manual calibration
+    counter ++;
+    return 1180 *2;
+  }
+  else {
+    // Tx data
+    CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO
+    CC2500_WriteData(packet, 15);
+    CC2500_Strobe(CC2500_STX);
+    seed = (u32) (seed * 0xAA) % 0x7673; // Prime number 30323
+    build_data_packet_1way();
+    CC2500_Strobe(CC2500_SNOP); // just shows how long to build packet. AVR = 0.7ms
+    // Wait for previous transmit to finish.
+    // while( 0x0F != CC2500_Strobe(CC2500_SNOP)) { _delay_us(5); }
+    counter ++;
+    return 7820 *2;
+  }
 }
 
 
-static uint16_t frsky_bind_cb()
+static u16 frsky_bind_cb()
 {
   CC2500_Strobe(CC2500_SIDLE);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0);
@@ -268,7 +261,7 @@ static uint16_t frsky_bind_cb()
 }
 
 
-static void initialize(uint8_t bind)
+static void initialize(u8 bind)
 {
   CLOCK_StopTimer();
 
@@ -276,17 +269,23 @@ static void initialize(uint8_t bind)
 
    // Build channel array.
   channel_offset = frsky_id % 5;
-  for(uint8_t x = 0; x < 50; x ++)	channels_used[x] = (x*5) + 6 + channel_offset;
+  for(u8 x = 0; x < 50; x ++)	channels_used[x] = (x*5) + 6 + channel_offset;
 
   calc_dp_crc_init();
 
-// Setup SPI Port.
+#if 0
+  // Setup SPI Port.
 #if defined (REV_EVO_V1)
 //USART3
 //PORTJ0 RXD3
 //PORTJ1 TXD3
 //PORTJ2 XCK3
 //PORTJ3 CSN
+// Use LED
+  DDRJ  = 0; // All inputs
+  PORTJ = IO_J_MPX_RF_EN; // Pullup on mpx_rf_en
+  #define GPIO_C_PWR_LED             PORTC
+#define OUT_C_PWR_LED              PIN4_bm // Use for RF Module SPI CS.
 
 // Setup pin states and USART in MSPI mode.
 // Initialisation of USART.
@@ -294,15 +293,16 @@ static void initialize(uint8_t bind)
 
   UCSR3C = 0xC3; // UMSEL21:0 = 3 DORD2=0 CPHA2=1 CPOL2=1  USART in Master SPI mode, MSB first, Clock phase=1 Polarity=1.
   UCSR3B = (1 << RXEN3) | (1 << TXEN3); // Transmit and Receive.
-  UBRR3 = 0; // 8.0MHz clock ... 16MHz/(2*(UBRR+1))
+  UBRR3 = 1; // 4.0MHz clock ... 16MHz/(2*(UBRR+1))
 
   cs_inactive
 
   DDRJ |= (1<<PORTJ1) | (1<<PORTJ2) | (1<<PORTJ3);
   DDRJ &= ~(1<<PORTJ0);
 
-#define WAIT_TX_FIN()           while(! (UCSR2A & (1 << TXC2)) )
+#define WAIT_TX_FIN()           while(! (UCSR3A & (1 << TXC2)) )
 #else
+#endif
 #endif
 
   CC2500_Reset();// 0x30
@@ -321,23 +321,39 @@ static void initialize(uint8_t bind)
 }
 
 
+u8 USART3_mspi_xfer(u8 data)
+{
+  /* Wait for empty transmit buffer */
+  while ( !( UCSR3A & (1<<UDRE3)) );
+  /* Put data into buffer, sends the data */
+  UDR3 = data;
+  /* Wait for data to be received */
+  while ( !(UCSR3A & (1<<RXC3)) );
+  /* Get and return received data from buffer */
+  return UDR3;
+}
+
+
+
+
+
 const void * FRSKY1WAY_Cmds(enum ProtoCmds cmd)
 {
-    switch(cmd) {
-        case PROTOCMD_INIT:  initialize(0); return 0;
+  switch(cmd) {
+    case PROTOCMD_INIT:  initialize(0); return 0;
 //        case PROTOCMD_DEINIT:
 //        case PROTOCMD_RESET:
 //            CLOCK_StopTimer();
 //            return (void *)(CC2500_Reset() ? 1L : -1L);
-        case PROTOCMD_CHECK_AUTOBIND: return 0; //Never Autobind.
-        case PROTOCMD_BIND:  initialize(1); return 0;
-        case PROTOCMD_NUMCHAN: return (void *)8L;
-        case PROTOCMD_DEFAULT_NUMCHAN: return (void *)8L;
+    case PROTOCMD_CHECK_AUTOBIND: return 0; //Never Autobind.
+    case PROTOCMD_BIND:  initialize(1); return 0;
+    case PROTOCMD_NUMCHAN: return (void *)8L;
+    case PROTOCMD_DEFAULT_NUMCHAN: return (void *)8L;
 //        case PROTOCMD_CURRENT_ID: return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id % 0x4000) : 0;
-        case PROTOCMD_GETOPTIONS: return frsky_opts;
-        case PROTOCMD_TELEMETRYSTATE: return (void *)(long) PROTO_TELEM_UNSUPPORTED;
-        default: break;
-    }
-    return 0;
+    case PROTOCMD_GETOPTIONS: return frsky_opts;
+    case PROTOCMD_TELEMETRYSTATE: return (void *)(long) PROTO_TELEM_UNSUPPORTED;
+    default: break;
+  }
+  return 0;
 }
 

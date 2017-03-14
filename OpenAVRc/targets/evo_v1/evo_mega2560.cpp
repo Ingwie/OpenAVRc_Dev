@@ -41,7 +41,8 @@ inline void boardInit()
   PORTJ = IO_J_MPX_RF_EN; // Pullup on mpx_rf_en
   DDRK  = 0;
   PORTK = INP_K_KEYB_COL_C | INP_K_KEYB_COL_B | INP_K_KEYB_COL_A; // Pullups on keyboard matrix inputs.
-  DDRL  = OUT_L_CPPM_OC5A | OUT_L_CPPM_TRN;
+  DDRL  = OUT_L_CPPM_TRN;
+//todo  DDRL  = OUT_L_CPPM_OC5A | OUT_L_CPPM_TRN;
   PORTL = INP_L_PPM_IN; // Pullup on input capture.
 
   adcInit();

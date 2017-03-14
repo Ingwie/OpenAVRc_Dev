@@ -2,7 +2,7 @@
 #include "../OpenAVRc.h"
 
 /*
- * 16 Bit Timer running @ 16Mhz has a resolution of 0.5us.
+ * 16 Bit Timer running @ 16MHz has a resolution of 0.5us.
  * This should give a PPM resolution of 2048.
 */
 static uint16_t ppm_bb_cb()

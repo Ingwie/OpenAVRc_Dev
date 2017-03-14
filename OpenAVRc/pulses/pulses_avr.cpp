@@ -26,7 +26,6 @@
 // *** WARNING THIS IS EXPERIMENTAL ***
 
 #include "../OpenAVRc.h"
-#define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 #include "../../protocol/common.h"
 #include "../../protocol/interface.h"
 #include "../../protocol/misc.c"
@@ -55,19 +54,13 @@ uint8_t * pulses2MHzRPtr = pulses2MHz;
 
 ISR(TIMER1_COMPA_vect) // Protocol Callback ISR.
 {
-// Expanding this function to work with callback values > 0xFFFF won't work.
-// Xmega will have to find another way.
-//  if(full_loops--);
-//  else {
     uint16_t half_us = timer_callback(); // e.g. flysky_cb()
     if(! half_us) {
       PROTO_Cmds(PROTOCMD_DEINIT);
       return;
     }
-    timer_counts = HALF_MICRO_SEC_COUNTS(half_us);
-//  full_loops = timer_counts >> 16;
-    OCR1A += (timer_counts & 0xFFFF);
-//  }
+
+    OCR1A += half_us;
 
   if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
   if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;

@@ -124,14 +124,6 @@ extern volatile int16_t Channels[16];
 const char *_tr(const char *str);
 #endif
 
-#if   F_CPU == 16000000
-#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
-#elif F_CPU == 32000000
-#define HALF_MICRO_SEC_COUNTS(half_us) (half_us *2)
-#else
-#define HALF_MICRO_SEC_COUNTS(half_us) (((F_CPU/800)*(half_us))/20000)
-#endif
-
 
 #define COUNTS_PER_MILLI_SEC (F_CPU/128000L)-1 // value should == 1ms based on F_CPU.
 

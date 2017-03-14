@@ -11,8 +11,8 @@ extern volatile uint32_t bind_press_time;
 uint16_t (*timer_callback)(void);
 const void * (*PROTO_Cmds)(enum ProtoCmds);
 
-static volatile uint32_t timer_counts;
-static volatile uint8_t full_loops;
+
+
 static volatile uint32_t msecs = 0;
 
 
@@ -22,11 +22,9 @@ void CLOCK_StartTimer(uint16_t half_us, uint16_t (*cb)(void))
   if(! cb) return;
   if(! half_us) return;
   timer_callback = cb; // timer_callback = pointer to function.
-  timer_counts = HALF_MICRO_SEC_COUNTS(half_us);
-  full_loops = timer_counts >> 16;
 
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-	OCR1A = TCNT1 + (timer_counts & 0xFFFF);
+	OCR1A = TCNT1 + half_us;
   }
   // Setup Timer 1.
   // Normal mode (0), OVF @ TOP (0xFFFF), F_CPU/8.

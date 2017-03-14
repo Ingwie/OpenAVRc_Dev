@@ -5,7 +5,7 @@
 #define PULSES_SETUP_TIME 500 // 0.5ms
 
 /*
- * 16 Bit Timer running @ 16Mhz has a resolution of 0.5us.
+ * 16 Bit Timer running @ 16MHz has a resolution of 0.5us.
  * This should give a PPM resolution of 2048.
 */
 static uint16_t ppm_switching_cb()
@@ -77,19 +77,13 @@ dt = TCNT1L; // Record Timer1 latency for DEBUG stats display.
 
 ISR(TIMER1_COMPB_vect) // PPM switching vector.
 {
-// Expanding this function to work with callback values > 0xFFFF won't work.
-// Xmega will have to find another way.
-//  if(full_loops--);
-//  else {
     uint16_t half_us = ppm_switching_cb();
       if(! half_us) {
         PPM_SWITCHING_Cmds(PROTOCMD_DEINIT);
         return;
       }
-    timer_counts = HALF_MICRO_SEC_COUNTS(half_us);
-//  full_loops = timer_counts >> 16;
-    OCR1B += (timer_counts & 0xFFFF);
-//  }
+
+    OCR1B += half_us;
 
   if(dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
   if(dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
@@ -98,7 +92,6 @@ ISR(TIMER1_COMPB_vect) // PPM switching vector.
 
 static void initialize()
 {
-  full_loops = 0;
 
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     OCR1B = TCNT1 + (22500U *2);
