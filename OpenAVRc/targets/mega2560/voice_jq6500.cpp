@@ -60,15 +60,17 @@ uint8_t isPlaying()
 
 void pushPrompt(uint16_t prompt)
 {
-  // if mute active => no voice
+    // if mute active => no voice
   if (g_eeGeneral.beepMode == e_mode_quiet) return;
-  ++prompt;  // With SDformatter, first FAT address = 1 ? Not all th time ??
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) { // To be sure than prompt list is fully updated
+  ++prompt;  // With SDformatter, first FAT address = 1 : MP3 files in a directory
   /* Load playlist and activate interrupt */
   JQ6500_playlist[JQ6500_InputIndex] = (uint8_t)(prompt >> 8);    // MSB first
   ++JQ6500_InputIndex;
   JQ6500_playlist[JQ6500_InputIndex] = (uint8_t)(prompt & 0xFF);  // LSB after
   ++JQ6500_InputIndex;
   if (JQ6500_InputIndex == QUEUE_LENGTH) JQ6500_InputIndex = 0;
+  }
   if (!isPlaying()) {
     TCNT5=0;
     OCR5A = 0xFA;
@@ -102,9 +104,9 @@ uint8_t JQ6500_sendbyte(uint8_t Data_byte)
 }
 
 #if !defined(SIMU)
-ISR(TIMER5_COMPA_vect, ISR_NOBLOCK) // NOBLOCK allows interrupts - implicit sei() every 104µS
+ISR(TIMER5_COMPA_vect) // every 104µS / 9600 Bauds serial
 {
-
+  sei();
   if (JQstate == START) {
     OCR5A = 0x19;
     if (JQ6500_BUSY) return;
@@ -155,5 +157,6 @@ ISR(TIMER5_COMPA_vect, ISR_NOBLOCK) // NOBLOCK allows interrupts - implicit sei(
       return;
     }
   }
+  cli();
 }
 #endif
