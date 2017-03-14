@@ -20,11 +20,17 @@
 				<pos>16,8</pos>
 				<size>136,192</size>
 			</object>
-			<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
-				<label>SIMULATEUR</label>
-				<pos>8,208</pos>
-				<size>568,31</size>
-				<handler function="OnSimulateurClick2" entry="EVT_BUTTON" />
+			<object class="wxButton" name="ID_BUTTONSIMUSTD" variable="ButtonSimuSTD" member="yes">
+				<label>SIMULATEUR STANDARD</label>
+				<pos>24,204</pos>
+				<size>248,31</size>
+				<handler function="OnButtonSimuSTDClick" entry="EVT_BUTTON" />
+			</object>
+			<object class="wxButton" name="ID_BUTTONSIMUFRAM" variable="ButtonSimuFram" member="yes">
+				<label>SIMULATEUR F-RAM</label>
+				<pos>320,204</pos>
+				<size>248,31</size>
+				<handler function="OnButtonSimuFramClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxListBox" name="ID_LISTBOXCONFIG" variable="ListBoxConfig" member="yes">
 				<default>-1</default>
