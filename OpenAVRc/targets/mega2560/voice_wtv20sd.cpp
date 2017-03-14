@@ -99,10 +99,12 @@ void pushPrompt(uint16_t prompt)
   // if mute active => no voice
   if (g_eeGeneral.beepMode == e_mode_quiet) return;
 
-  /* Load playlist and activate interrupt */
-  WTV20SD_playlist[WTV20SD_InputIndex] = prompt;
-  ++WTV20SD_InputIndex;
-  if (WTV20SD_InputIndex == QUEUE_LENGTH) WTV20SD_InputIndex = 0;
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) { // To be sure than prompt list is fully updated
+    /* Load playlist and activate interrupt */
+    WTV20SD_playlist[WTV20SD_InputIndex] = prompt;
+    ++WTV20SD_InputIndex;
+    if (WTV20SD_InputIndex == QUEUE_LENGTH) WTV20SD_InputIndex = 0;
+  }
 
   if (!isPlaying()) {
     TIMSK5 |= (1<<OCIE5A); // enable interrupts on Output Compare A Match
@@ -120,8 +122,9 @@ uint8_t isPlaying()
 }
 
 #if !defined(SIMU)
-ISR(TIMER5_COMPA_vect, ISR_NOBLOCK) // NOBLOCK allows interrupts - implicit sei() every 0.5ms normally, every 2ms during startup reset
+ISR(TIMER5_COMPA_vect) // every 0.5ms normally, every 2ms during startup reset
 {
+  sei();
   if (state == PAUSE) {
     if (WTV20SD_PlayIndex == WTV20SD_InputIndex) {
       TIMSK5 &= ~(1<<OCIE5A); // stop reentrance
@@ -173,5 +176,6 @@ ISR(TIMER5_COMPA_vect, ISR_NOBLOCK) // NOBLOCK allows interrupts - implicit sei(
       OCR5A = 0x7d; // 0.5 ms after init
     }
   }
+  cli();
 }
 #endif
