@@ -29,7 +29,7 @@ inline void boardInit()
   PORTA = 0b11111111; // ... with Pullup.
   DDRB  = (1<<OUT_B_PPM) | OUT_B_SIM_CTL | 0b00000111; // uSDCARD [3:MISO 2:MOSI 1:SCK 0:CS]
   PORTB = 1<<3; // Pullup on MISO - No latch-up because MISO connects via 1K0.
-  DDRC  = OUT_C_PWR_LED | OUT_C_PWR_HOLD;
+  DDRC  = OUT_C_RF_CS_N | OUT_C_PWR_LED | OUT_C_PWR_HOLD;
   PORTC = INP_C_PWR_STATUS | OUT_C_PWR_HOLD; // Input pullup on pwr_sw_status, power_hold = 1.
   // DDRD
   DDRE  = 0;
@@ -95,8 +95,47 @@ inline void boardInit()
   EIMSK = (1<<INT6) | (1<<INT4); // Enable the first of each encoder interrupt pairs.
 #endif
 
+
+#if defined(PROTO_HAS_CC2500)
+// Setup (M)SPI Port.
+// USART3
+// PORTJ0 RXD3
+// PORTJ1 TXD3
+// PORTJ2 XCK3
+// PORTJ3 CC2500 CSN ... Use PORTC4
+
+// Setup pin states and USART in MSPI mode.
+// Initialisation of USART.
+
+  UBRR3 = 0; // Reset is part of initialisation sequence.
+  UCSR3C = 0xC3;
+  // UMSEL21:0 = 3 DORD2=0 CPHA2=1 CPOL2=1  USART in Master SPI mode, MSB first, Clock phase=1 Polarity=1.
+  UCSR3B = (1 << RXEN3) | (1 << TXEN3);
+  // Transmit and Receive.
+  UBRR3 = 3; // 2.0MHz clock ... 16MHz/(2*(UBRR+1))
+
+  RF_CS_N_INACTIVE();
+
+  DDRJ |= (1<<PORTJ1) | (1<<PORTJ2) | (1<<PORTJ3);
+  DDRJ &= ~(1<<PORTJ0);
+
+#endif // PROTO_HAS_CC2500
 }
 #endif // !SIMU
+
+//--------------------------------------------------------------------------------------------------------
+
+uint8_t USART3_mspi_xfer(uint8_t data)
+{
+  /* Wait for empty transmit buffer */
+  while ( !( UCSR3A & (1<<UDRE3)) );
+  /* Put data into buffer, sends the data */
+  UDR3 = data;
+  /* Wait for data to be received */
+  while ( !(UCSR3A & (1<<RXC3)) );
+  /* Get and return received data from buffer */
+  return UDR3;
+}
 
 
 enum PowerState pwrCheck(void)
@@ -484,11 +523,12 @@ uint16_t getTmr16KHz()
 
 bool check_slave_mode(void)
 {
+#if 0
   /*
-   * This quirky function reads the mpx_rf_en signal which goes
-   * to the mpx module and the trainer DIN.
-   * If it ever reads a low, it stores the low in the port register.
-   * All further reads are low because the pin is then configured as an output.
+  * This quirky function reads the mpx_rf_en signal which goes
+  * to the mpx module and the trainer DIN.
+  * If it ever reads a low, it stores the low in the port register.
+  * All further reads are low because the pin is then configured as an output.
   */
   if(PINJ & IO_J_MPX_RF_EN) {
     return 0;
@@ -498,4 +538,6 @@ bool check_slave_mode(void)
     DDRJ |= IO_J_MPX_RF_EN; // Pin is output.
     return 1;
   }
+#endif
+return 0;
 }

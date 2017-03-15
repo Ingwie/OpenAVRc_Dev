@@ -22,33 +22,27 @@
 
 #define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 
-#if   F_CPU == 16000000
-#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
-#elif F_CPU == 32000000
-#define HALF_MICRO_SEC_COUNTS(half_us) (half_us *2)
-#else
-#define HALF_MICRO_SEC_COUNTS(half_us) (((F_CPU/800)*(half_us))/20000)
-#endif
+#if defined(PROTO_HAS_CC2500)
 
+#define OUT_C_RF_CS_N       PIN4_bm
+#define RF_CS_N_ACTIVE()    PORTC &= ~(OUT_C_RF_CS_N)
+#define RF_CS_N_INACTIVE()  PORTC |=  (OUT_C_RF_CS_N)
 
-#if 0
-// For Evo Tx
-enum Analogs {
-  STICK1,
-  STICK2,
-  STICK3,
-  STICK4,
-  POT1, // SLIDER1,
-  POT2, // SLIDER2,
-  POT_LAST = POT2,
-  TX_VOLTAGE,
-  ANALOG_A7,
-  ANALOG_A8,
-  ANALOG_A9,
-  ANALOG_A10,
-  NUMBER_ANALOG
-};
-#endif
+#define spi_xfer USART3_mspi_xfer
+
+  #if   F_CPU == 16000000UL
+  #define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
+  #elif F_CPU == 32000000UL
+  #define HALF_MICRO_SEC_COUNTS(half_us) (half_us *2)
+  #else
+  #define HALF_MICRO_SEC_COUNTS(half_us) (((F_CPU/800)*(half_us))/20000)
+  #endif
+
+#endif // PROTO_HAS_CC2500
+
+//#define GPIO_SET(sfr, bit) (sfr) |=  (1<<(bit))
+//#define GPIO_CLR(sfr, bit) (sfr) &= ~(1<<(bit))
+//#define GPIO_GET(sfr, bit) (sfr) &   (1<<(bit))
 
 // Switch cross mapping
 #define SW_ID0 SW_Jup
@@ -170,7 +164,7 @@ void sdPoll10ms();
 #define GPIO_C_PWR_STATUS          PINC
 #define INP_C_PWR_STATUS           PIN3_bm
 #define GPIO_C_PWR_LED             PORTC
-#define OUT_C_PWR_LED              PIN4_bm // Used for debug.
+#define OUT_C_PWR_LED              PIN4_bm // Used for CC2500 chip select.
 
 void pwrOff();
 #if defined(PWRMANAGE)

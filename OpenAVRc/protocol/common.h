@@ -89,15 +89,15 @@ struct Model {
 };
 
 
-extern struct Model Model;
+//extern struct Model Model;
 
-extern volatile uint8_t g_initializing;
+//extern volatile uint8_t g_initializing;
 
 struct Transmitter {
     uint8_t dummy;
 };
 
-extern struct Transmitter Transmitter;
+//extern struct Transmitter Transmitter;
 
 // #define NULL ((void*) 0)
 
@@ -114,7 +114,7 @@ extern struct Transmitter Transmitter;
 //#define CHAN_MAX_VALUE (+1520 * 7)
 //#define CHAN_MIN_VALUE (-1520 * 7) // Range of -1521 to +1520.
 
-extern volatile int16_t Channels[16];
+//extern volatile int16_t Channels[16];
 
 /* Temporary definition until we have real translation */
 #define _tr_noop(x) x
@@ -127,25 +127,5 @@ const char *_tr(const char *str);
 
 #define COUNTS_PER_MILLI_SEC (F_CPU/128000L)-1 // value should == 1ms based on F_CPU.
 
-#define gpio_set(sfr, bit)   (sfr) |=   1<<(bit)
-#define gpio_clear(sfr, bit) (sfr) &= ~(1<<(bit))
-
-//Port C
-#define SPI_CS		3
-#define CH_ORD          4
-#define	BIND_SW		5
-
-//Port B
-#define PPM_IN	  0
-#define DEBUG_1	  1
-#define DEBUG_2   2
-
-#define CS_HI() 		gpio_set(PORTC, SPI_CS)
-#define CS_LO() 		gpio_clear(PORTC, SPI_CS)
-
-//Port D
-#define RF_EN 7  // MPX RF Enable signal.
-
-#define RF_EN_STATE()	gpio_get(GPIOD, RF_EN)
 
 #endif // _COMMON_H_

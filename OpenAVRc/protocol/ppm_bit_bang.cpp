@@ -9,8 +9,8 @@ static uint16_t ppm_bb_cb()
 {
   if ( *((uint16_t*)pulses2MHzRPtr) == 0) {
 
-    if (g_model.pulsePol) PORTB &= ~(1<<OUT_B_PPM); // Set idle level - GCC optimisation should result in a single SBI instruction.
-    else PORTB |= (1<<OUT_B_PPM);
+    if (g_model.pulsePol) PORTB &= ~(1<<OUT_B_PPM); // Set idle level.
+    else PORTB |= (1<<OUT_B_PPM); // GCC optimisation should produce a single SBI instruction.
 
     // Schedule next Mixer calculations.
     SCHEDULE_MIXER_END(45*8+g_model.ppmFrameLength*8);

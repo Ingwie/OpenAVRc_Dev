@@ -41,10 +41,10 @@ uint16_t B3_comp_value;
 
 void startPulses()
 {
-PROTO_Cmds = PPM_SWITCHING_Cmds;
+// PROTO_Cmds = PPM_SWITCHING_Cmds;
 // PROTO_Cmds = PPM_BB_Cmds;
-// PROTO_Cmds =  FRSKY1WAY_Cmds;
-  PROTO_Cmds(PROTOCMD_INIT);
+PROTO_Cmds =  FRSKY1WAY_Cmds;
+  PROTO_Cmds(PROTOCMD_BIND);
 }
 
 #define PULSES_SIZE 144
@@ -72,12 +72,12 @@ void setupPulsesPPM(uint8_t proto)
   // Total frame length is a fixed 22.5msec (more than 9 channels is non-standard and requires this to be extended.)
   // Each channel's pulse is 0.7 to 1.7ms long, with a 0.3ms stop tail, making each compelte cycle 1 to 2ms.
 
-  int16_t PPM_range = g_model.extendedLimits ? 640*2 : 512*2;   //range of 0.7..1.7msec
+  int16_t PPM_range = g_model.extendedLimits ? 640*2 : 512*2; //range of 0.7..1.7msec
 
   uint16_t *ptr = (proto == PROTO_PPM ? (uint16_t *)pulses2MHz : (uint16_t *) &pulses2MHz[PULSES_SIZE/2]);
 
   //The pulse ISR is 2mhz that's why everything is multiplied by 2
-  uint8_t p = (proto == PROTO_PPM16 ? 16 : 8) + (g_model.ppmNCH * 2); //Channels *2
+  uint8_t p = (proto == PROTO_PPM16 ? 16 : 8) + (g_model.ppmNCH * 2); // Channels *2
   uint16_t q = (g_model.ppmDelay*50+300)*2; // Stoplen *2
   int32_t rest = 22500u*2 - q;
 
@@ -106,7 +106,7 @@ void setupPulsesPPM(uint8_t proto)
 
 
 
-#include "../../protocol/ppm_hw_switching.cpp"
+//#include "../../protocol/ppm_hw_switching.cpp"
 //#include "ppm_bit_bang.cpp"
-//#include "frsky1way_cc2500_rick.cpp"
+#include "../protocol/frsky1way_cc2500_rick.c"
 

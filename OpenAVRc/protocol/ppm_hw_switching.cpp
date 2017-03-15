@@ -1,5 +1,4 @@
 
-
 #include "../OpenAVRc.h"
 
 #define PULSES_SETUP_TIME 500 // 0.5ms
@@ -107,14 +106,14 @@ static void initialize()
 
 const void * PPM_SWITCHING_Cmds(enum ProtoCmds cmd)
 {
-    switch(cmd) {
-        case PROTOCMD_INIT: initialize(); return 0;
-        case PROTOCMD_DEINIT:
-        case PROTOCMD_RESET:
-            CLOCK_StopTimer();
-            TIMSK1 &= ~(1<<OCIE1B); // Disable Output Compare interrupt.
-            TIFR1 |= 1<<OCF1B; // Reset Flag.
-            return (void *) 1L;
+  switch(cmd) {
+    case PROTOCMD_INIT: initialize(); return 0;
+    case PROTOCMD_DEINIT:
+    case PROTOCMD_RESET:
+      CLOCK_StopTimer();
+      TIMSK1 &= ~(1<<OCIE1B); // Disable Output Compare interrupt.
+      TIFR1 |= 1<<OCF1B; // Reset Flag.
+      return (void *) 1L;
 //        case PROTOCMD_CHECK_AUTOBIND: return 0;
 //        case PROTOCMD_BIND:  initialize(); return 0;
 //        case PROTOCMD_NUMCHAN: return (void *)((unsigned long) NUM_OUT_CHANNELS);
@@ -129,8 +128,8 @@ const void * PPM_SWITCHING_Cmds(enum ProtoCmds cmd)
             return ppm_opts;
 */
 //        case PROTOCMD_TELEMETRYSTATE: return (void *)(long) PROTO_TELEM_UNSUPPORTED;
-        default: break;
-    }
-    return 0;
+    default: break;
+  }
+  return 0;
 }
 

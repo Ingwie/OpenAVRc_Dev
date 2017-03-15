@@ -41,7 +41,7 @@ SPSR |= (1<<SPI2X);
 //----------------------
 
 #if 0
-// Was for A7105. Deprecated.
+// Was for A7105. Deprecated / Obsolete.
 Use ...
 
 #define spi_tx(value)  (void)spi_xfer(value)
@@ -73,11 +73,11 @@ return SPDR;
 
 uint8_t spi_xfer(uint8_t value)
 {
-// Full Duplex (4 wire) spi for nrf24l01+
-SPDR = value;
-/* Wait for transfer to complete */
-while (!(SPSR & (1<<SPIF)));
-return SPDR;
+  // Full Duplex (4 wire) spi for nrf24l01+
+  SPDR = value;
+  /* Wait for transfer to complete */
+  while (!(SPSR & (1<<SPIF)));
+  return SPDR;
 }
 
 //----------------------

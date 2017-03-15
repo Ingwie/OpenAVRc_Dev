@@ -5,13 +5,11 @@
 
 extern volatile uint8_t g_sync_count;
 //extern volatile uint16_t g_entropy;
-extern volatile enum PROTO_MODE proto_mode;
+volatile enum PROTO_MODE proto_mode;
 extern volatile uint32_t bind_press_time;
 
 uint16_t (*timer_callback)(void);
 const void * (*PROTO_Cmds)(enum ProtoCmds);
-
-
 
 static volatile uint32_t msecs = 0;
 
@@ -95,71 +93,35 @@ icr1_previous = icr1_current;
 #endif
 
 
-#if 0
-ISR(TIMER2_COMPA_vect)
-{
-msecs ++;
-OCR2A += COUNTS_PER_MILLI_SEC;
-
-// Read bind button with de-bounce.
-static uint8_t prev_state =0;
-uint8_t curr_state;
-static uint32_t press_t =0;
-uint32_t release_t;
-
-curr_state = read_bind_sw();
-
-	if( curr_state && ! prev_state) press_t = msecs;
-	else if( ! curr_state && prev_state )
-	{
-	release_t = msecs;
-		if((release_t - press_t) > 50) // De-bounce time 50ms.
-			bind_press_time = release_t - press_t;
-	}
-
-	prev_state = curr_state;
-
-
-// Update bind led.
-if(proto_mode == BIND_MODE) gpio_set(PORTD,LED_O);
-    else gpio_clear(PORTD,LED_O);
-}
-#endif
-
 uint32_t CLOCK_getms()
 {
-uint32_t ms;
+  uint32_t ms;
 
-	uint8_t temp_reg = SREG;
-	// disable interrupts
-	cli();
-	ms = msecs;
-	//re-enable interrupts
-	if(temp_reg & 0x80) sei(); // Global (I)nterrupt Enable bit.
-
-return ms;
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    ms = msecs;
+  }
+  return ms;
 }
 
 
 void CLOCK_delayms(uint32_t delay_ms)
 {
-uint32_t start_ms;
+  uint32_t start_ms;
 
-start_ms = msecs;
-while(msecs < (start_ms + delay_ms));
+  start_ms = msecs;
+  while(msecs < (start_ms + delay_ms));
 }
 
 
 void PROTOCOL_SetBindState(uint32_t msec)
 {
-uint32_t bind_time;
+  uint32_t bind_time;
 
-	if(msec)
-    {
-        proto_mode = BIND_MODE; // unimod rick added proto_mode.
-    	if (msec == 0xFFFFFFFF) bind_time = msec;
-        else bind_time = CLOCK_getms() + msec;
-    }
-    else proto_mode = NORMAL_MODE; // unimod rick added. Can't go from bind to range test.
+  if(msec) {
+    proto_mode = BIND_MODE; // unimod rick added proto_mode.
+    if (msec == 0xFFFFFFFF) bind_time = msec;
+    else bind_time = CLOCK_getms() + msec;
+  }
+  else proto_mode = NORMAL_MODE; // unimod rick added. Can't go from bind to range test.
 }
 
