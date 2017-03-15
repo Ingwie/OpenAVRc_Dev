@@ -197,7 +197,6 @@ void pwrOff();
 #if !defined(SIMU)
 
 #if defined(EXTERNALEEPROM)
-#define ADDRESS_EXTERN_EEPROM  (0x57 << 1) //0x57 with no strap on ZS042 module, EEPROM FM24W256, see datasheet
 #define eepromReadBlock(a, b, c)   Ext_eeprom_read_block(a, b, c) //External EEPROM
 #else
 #define eepromReadBlock(a, b, c)   eeprom_read_block(a, (const void *)b, c) //Internal EEPROM
