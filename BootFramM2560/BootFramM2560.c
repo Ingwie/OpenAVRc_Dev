@@ -87,7 +87,7 @@ LICENSE:
 
 // OpenAVRc Defines EEprom used type
 //#define STOCK_EE
-#define ADDRESS_EXTERN_EEPROM  (0x57 << 1) //0x57 with no strap on ZS042 module, EEPROM FM24W256, see datasheet
+#define ADDRESS_EXTERN_EEPROM  (0x50 << 1) //0x50 with all strap closed on ZS042 module, EEPROM FM24W256, see datasheet
 
 
 #include	<inttypes.h>
