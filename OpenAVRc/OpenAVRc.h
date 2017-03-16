@@ -325,7 +325,9 @@ extern volatile tmr10ms_t g_tmr10ms;
 inline uint16_t get_tmr10ms()
 {
   uint16_t time  ;
-  ATOMIC_BLOCK(ATOMIC_FORCEON) {time = g_tmr10ms;}
+  cli();
+  time = g_tmr10ms ;
+  sei();
   return time ;
 }
 typedef int8_t rotenc_t;
@@ -773,9 +775,6 @@ template<class t> void SWAP(t & a, t & b)
 }
 
 uint16_t isqrt32(uint32_t n);
-
-#define pauseMixerCalculations()
-#define resumeMixerCalculations()
 
 void generalDefault();
 void modelDefault(uint8_t id);

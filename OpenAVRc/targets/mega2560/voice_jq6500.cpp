@@ -103,7 +103,6 @@ uint8_t JQ6500_sendbyte(uint8_t Data_byte)
   return 0;
 }
 
-#if !defined(SIMU)
 ISR(TIMER5_COMPA_vect) // every 104µS / 9600 Bauds serial
 {
   sei();
@@ -159,4 +158,3 @@ ISR(TIMER5_COMPA_vect) // every 104µS / 9600 Bauds serial
   }
   cli();
 }
-#endif

@@ -47,7 +47,7 @@ inline void eeprom_write_byte()
   EEAR = eeprom_pointer;
   EEDR = *eeprom_buffer_data;
 // TODO add some define here
-#if defined (CPUM2560) 
+#if defined (CPUM2560)
   EECR |= 1<<EEMPE;
   EECR |= 1<<EEPE;
 #else
@@ -919,7 +919,7 @@ void eeLoadModel(uint8_t id)
       pausePulses();
     }
 
-    pauseMixerCalculations();
+
 
     theFile.openRlc(FILE_MODEL(id));
     uint16_t sz = theFile.readRlc((uint8_t*)&g_model, sizeof(g_model));
@@ -949,16 +949,13 @@ void eeLoadModel(uint8_t id)
 
     restoreTimers();
 
-
     LOAD_MODEL_CURVES();
 
-    resumeMixerCalculations();
     // TODO pulses should be started after mixer calculations ...
 
 #if defined(FRSKY)
     frskySendAlarms();
 #endif
-
 
     LOAD_MODEL_BITMAP();
     SEND_FAILSAFE_1S();

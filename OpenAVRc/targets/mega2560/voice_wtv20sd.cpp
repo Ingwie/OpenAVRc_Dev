@@ -121,7 +121,6 @@ uint8_t isPlaying()
 #endif
 }
 
-#if !defined(SIMU)
 ISR(TIMER5_COMPA_vect) // every 0.5ms normally, every 2ms during startup reset
 {
   sei();
@@ -178,4 +177,3 @@ ISR(TIMER5_COMPA_vect) // every 0.5ms normally, every 2ms during startup reset
   }
   cli();
 }
-#endif

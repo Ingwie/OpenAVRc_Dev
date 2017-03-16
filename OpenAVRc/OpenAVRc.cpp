@@ -1381,7 +1381,6 @@ ISR(USART_UDRE_vect_N(TLM_USART))
 
 void instantTrim()
 {
-
   evalInputs(e_perout_mode_notrainer);
 
   for (uint8_t stick=0; stick<NUM_STICKS; stick++) {
@@ -1395,14 +1394,12 @@ void instantTrim()
       }
     }
   }
-
   eeDirty(EE_MODEL);
   AUDIO_WARNING2();
 }
 
 void copySticksToOffset(uint8_t ch)
 {
-  pauseMixerCalculations();
   int32_t zero = (int32_t)channelOutputs[ch];
 
   evalFlightModeMixes(e_perout_mode_nosticks+e_perout_mode_notrainer, 0);
@@ -1415,15 +1412,12 @@ void copySticksToOffset(uint8_t ch)
   }
   zero = (zero*25600 - val*lim) / (26214-val);
   ld->offset = (ld->revert ? -zero : zero);
-  resumeMixerCalculations();
   eeDirty(EE_MODEL);
 }
 
 void copyTrimsToOffset(uint8_t ch)
 {
   int16_t zero;
-
-  pauseMixerCalculations();
 
   evalFlightModeMixes(e_perout_mode_noinput, 0); // do output loop - zero input sticks and trims
   zero = applyLimits(ch, chans[ch]);
@@ -1436,15 +1430,12 @@ void copyTrimsToOffset(uint8_t ch)
   v += output;
   g_model.limitData[ch].offset = limit((int16_t)-1000, (int16_t)v, (int16_t)1000); // make sure the offset doesn't go haywire
 
-  resumeMixerCalculations();
   eeDirty(EE_MODEL);
 }
 
 void moveTrimsToOffsets() // copy state of 3 primary to subtrim
 {
   int16_t zeros[NUM_CHNOUT];
-
-  pauseMixerCalculations();
 
   evalFlightModeMixes(e_perout_mode_noinput, 0); // do output loop - zero input sticks and trims
   for (uint8_t i=0; i<NUM_CHNOUT; i++) {
@@ -1472,8 +1463,6 @@ void moveTrimsToOffsets() // copy state of 3 primary to subtrim
       }
     }
   }
-
-  resumeMixerCalculations();
 
   eeDirty(EE_MODEL);
   AUDIO_WARNING2();
@@ -1599,7 +1588,7 @@ int simumain(void)
   // we could put a bunch more MYWDT_RESET()s in. But I don't like that approach
   // during boot up.)
 #if !defined(SIMU)
-#if defined(CPUM2560) 
+#if defined(CPUM2560)
   uint8_t mcusr = MCUSR; // save the WDT (etc) flags
   MCUSR = 0; // must be zeroed before disabling the WDT
   MCUCR = 0x80 ;   // Disable JTAG port that can interfere with POT3
