@@ -62,13 +62,10 @@
 
 /* Port Controls  (Platform dependent) */
 // GCC optimisation should result in a single CBI/SBI instructions here
-#if defined (CPUM2560)
-#  define CS_LOW()  PORTB &= ~0x01    /* MMC CS = L */
-#  define CS_HIGH() PORTB |= 0x01     /* MMC CS = H */
-#else
-#  define CS_LOW()  PORTB &= ~0x10    /* MMC CS = L */
-#  define CS_HIGH() PORTB |= 0x10     /* MMC CS = H */
-#endif
+
+#define SDCARD_CS_N_ACTIVE()  PORTB &= ~PIN0_bm // MMC CS = L
+#define SDCARD_CS_N_INACTIVE()  PORTB |= PIN0_bm // MMC CS = H
+
 
 #define SOCKPORT	PINB			/* Socket contact port */
 #define SOCKWP		0x00 // not implemented /* Write protect switch */
@@ -160,7 +157,7 @@ uint8_t wait_ready (void)	/* 1:OK, 0:Timeout */
 static
 void deselect (void)
 {
-  CS_HIGH();
+  SDCARD_CS_N_INACTIVE();
   rcvr_spi();
 }
 
@@ -173,7 +170,7 @@ void deselect (void)
 static
 uint8_t select (void)	/* 1:Successful, 0:Timeout */
 {
-  CS_LOW();
+  SDCARD_CS_N_ACTIVE();
   if (!wait_ready()) {
     deselect();
     return 0;
