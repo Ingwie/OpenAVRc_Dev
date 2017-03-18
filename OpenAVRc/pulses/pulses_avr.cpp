@@ -23,8 +23,6 @@
 **************************************************************************
 */
 
-// *** WARNING THIS IS EXPERIMENTAL ***
-
 #include "../OpenAVRc.h"
 #include "../../protocol/common.h"
 #include "../../protocol/interface.h"
@@ -37,30 +35,51 @@ uint8_t s_pulses_paused = 0;
 uint8_t dt;
 uint16_t B3_comp_value;
 #define SETUP_PULSES_DURATION 1000 // 500us
+static volatile uint32_t timer_counts;
 
 
 void startPulses()
 {
-// PROTO_Cmds = PPM_SWITCHING_Cmds;
-// PROTO_Cmds = PPM_BB_Cmds;
-PROTO_Cmds =  FRSKY1WAY_Cmds;
-  PROTO_Cmds(PROTOCMD_BIND);
+//PROTO_Cmds = PPM_SWITCHING_Cmds;
+//PROTO_Cmds = PPM_BB_Cmds;
+// PROTO_Cmds =  SKYARTEC_Cmds;
+  PROTO_Cmds =  FRSKY1WAY_Cmds;
+  PROTO_Cmds(PROTOCMD_INIT);
 }
 
 #define PULSES_SIZE 144
 uint8_t pulses2MHz[PULSES_SIZE] = {0}; // TODO check this length, pulled from er9x, perhaps too big.
 uint8_t * pulses2MHzRPtr = pulses2MHz;
 
-
+// This ISR should work for xmega.
 ISR(TIMER1_COMPA_vect) // Protocol Callback ISR.
 {
-    uint16_t half_us = timer_callback(); // e.g. flysky_cb()
+#if F_CPU > 16000000UL
+  if (! timer_counts)
+#endif
+  {
+    uint16_t half_us = timer_callback(); // e.g. skyartec_cb().
+
     if(! half_us) {
       PROTO_Cmds(PROTOCMD_DEINIT);
       return;
     }
 
-    OCR1A += half_us;
+  timer_counts = HALF_MICRO_SEC_COUNTS(half_us);
+  }
+
+#if F_CPU > 16000000UL
+  if (timer_counts > 65535)
+  {
+    OCR1A += 32000;
+    timer_counts -= 32000; // 16ms @ 16MHz counter clock.
+  }
+  else
+#endif
+  {
+    OCR1A += timer_counts;
+    timer_counts = 0;
+  }
 
   if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
   if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
@@ -72,12 +91,12 @@ void setupPulsesPPM(uint8_t proto)
   // Total frame length is a fixed 22.5msec (more than 9 channels is non-standard and requires this to be extended.)
   // Each channel's pulse is 0.7 to 1.7ms long, with a 0.3ms stop tail, making each compelte cycle 1 to 2ms.
 
-  int16_t PPM_range = g_model.extendedLimits ? 640*2 : 512*2; //range of 0.7..1.7msec
+  int16_t PPM_range = g_model.extendedLimits ? 640*2 : 512*2;   //range of 0.7..1.7msec
 
   uint16_t *ptr = (proto == PROTO_PPM ? (uint16_t *)pulses2MHz : (uint16_t *) &pulses2MHz[PULSES_SIZE/2]);
 
   //The pulse ISR is 2mhz that's why everything is multiplied by 2
-  uint8_t p = (proto == PROTO_PPM16 ? 16 : 8) + (g_model.ppmNCH * 2); // Channels *2
+  uint8_t p = (proto == PROTO_PPM16 ? 16 : 8) + (g_model.ppmNCH * 2); //Channels *2
   uint16_t q = (g_model.ppmDelay*50+300)*2; // Stoplen *2
   int32_t rest = 22500u*2 - q;
 
@@ -107,6 +126,6 @@ void setupPulsesPPM(uint8_t proto)
 
 
 //#include "../../protocol/ppm_hw_switching.cpp"
-//#include "ppm_bit_bang.cpp"
+//#include "../../protocol/ppm_bit_bang.cpp"
 #include "../protocol/frsky1way_cc2500_rick.c"
-
+//#include "../protocol/skyartec_cc2500.c"

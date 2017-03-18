@@ -38,7 +38,7 @@
 #define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 
 #if defined(PROTO_HAS_CC2500)
-
+#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
 #define OUT_C_RF_CS_N       PIN1_bm
 #define RF_CS_N_ACTIVE()    PORTH &= ~(OUT_C_RF_CS_N)
 #define RF_CS_N_INACTIVE()  PORTH |=  (OUT_C_RF_CS_N)

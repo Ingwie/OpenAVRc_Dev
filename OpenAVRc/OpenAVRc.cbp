@@ -137,7 +137,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="protocol/common.h" />
-		<Unit filename="protocol/frsky1way_cc2500_rick.cpp" />
+		<Unit filename="protocol/frsky1way_cc2500_rick.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="protocol/iface_cc2500.h" />
 		<Unit filename="protocol/interface.h" />
 		<Unit filename="protocol/misc.c">
@@ -148,10 +150,9 @@
 		<Unit filename="protocol/ppm_bit_bang.cpp" />
 		<Unit filename="protocol/ppm_hw_switching.cpp" />
 		<Unit filename="protocol/protocol.h" />
-		<Unit filename="protocol/spi.c">
+		<Unit filename="protocol/skyartec_cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="protocol/spi.h" />
 		<Unit filename="pulses/pulses.h" />
 		<Unit filename="pulses/pulses_avr.cpp" />
 		<Unit filename="pulses/pulses_avr.h" />
@@ -163,6 +164,10 @@
 		<Unit filename="sdcard.h" />
 		<Unit filename="serial_driver.cpp" />
 		<Unit filename="serial_driver.h" />
+		<Unit filename="spi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="spi.h" />
 		<Unit filename="stamp-OpenAVRc.h" />
 		<Unit filename="stamp.cpp" />
 		<Unit filename="strhelpers.cpp" />
@@ -176,10 +181,6 @@
 		<Unit filename="targets/evo_v1/evo_mega2560.h" />
 		<Unit filename="targets/evo_v1/evo_pulses_avr.cpp" />
 		<Unit filename="targets/evo_v1/menu_general_diaganas.cpp" />
-		<Unit filename="targets/gruvin9x/board_gruvin9x.cpp" />
-		<Unit filename="targets/gruvin9x/diskio.cpp" />
-		<Unit filename="targets/gruvin9x/rtc_driver.cpp" />
-		<Unit filename="targets/gruvin9x/somo14d.cpp" />
 		<Unit filename="targets/lcd/lcd_driver.cpp" />
 		<Unit filename="targets/lcd/lcd_ks108_driver.cpp" />
 		<Unit filename="targets/lcd/lcd_simu_driver.cpp" />

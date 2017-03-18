@@ -20,9 +20,9 @@
 #endif
 #include "common.h"
 #include "interface.h"
-#include "mixer.h"
-#include "config/model.h"
-#include "telemetry.h"
+//#include "mixer.h"
+//#include "config/model.h"
+//#include "telemetry.h"
 
 #ifdef MODULAR
   //Some versions of gcc applythis to definitions, others to calls
@@ -45,15 +45,15 @@ static u32 bind_count;
 
 enum {
     SKYARTEC_PKT1 = 0,
-    SKYARTEC_SLEEP1, 
+    SKYARTEC_SLEEP1,
     SKYARTEC_PKT2,
-    SKYARTEC_SLEEP2, 
+    SKYARTEC_SLEEP2,
     SKYARTEC_PKT3,
-    SKYARTEC_SLEEP3, 
+    SKYARTEC_SLEEP3,
     SKYARTEC_PKT4,
-    SKYARTEC_SLEEP4, 
+    SKYARTEC_SLEEP4,
     SKYARTEC_PKT5,
-    SKYARTEC_SLEEP5, 
+    SKYARTEC_SLEEP5,
     SKYARTEC_PKT6,
     SKYARTEC_LAST,
 };
