@@ -220,6 +220,7 @@
 #define SIMU_SLEEP(x) SimuSleepMs(x)
 #define SIMU_UNLOCK_MACRO(x) (false)
 #define wdt_disable() simu_off = true; simu_mainloop_is_runing = true; return
+#define HALF_MICRO_SEC_COUNTS(x) x
 char *convertSimuPath(const char *path);
 extern ISR(TIMER_10MS_VECT, ISR_NOBLOCK);
 extern int simumain(void);

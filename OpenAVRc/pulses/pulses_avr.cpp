@@ -24,9 +24,14 @@
 */
 
 #include "../OpenAVRc.h"
-#include "../../protocol/common.h"
-#include "../../protocol/interface.h"
-#include "../../protocol/misc.c"
+#include "../protocol/common.h"
+#include "../protocol/interface.h"
+#include "../protocol/misc.c"
+
+#if defined(DSM2) || defined(PXX)
+uint8_t moduleFlag[NUM_MODULES] = { 0 };
+#endif
+
 
 uint16_t nextMixerEndTime = 0;
 #define SCHEDULE_MIXER_END(delay) nextMixerEndTime = getTmr16KHz() + (delay) - 2*16 // 2ms
@@ -40,11 +45,15 @@ static volatile uint32_t timer_counts;
 
 void startPulses()
 {
+#if defined(SIMU)
+return;
+#else
 //PROTO_Cmds = PPM_SWITCHING_Cmds;
 //PROTO_Cmds = PPM_BB_Cmds;
 // PROTO_Cmds =  SKYARTEC_Cmds;
   PROTO_Cmds =  FRSKY1WAY_Cmds;
   PROTO_Cmds(PROTOCMD_INIT);
+#endif
 }
 
 #define PULSES_SIZE 144
@@ -125,7 +134,9 @@ void setupPulsesPPM(uint8_t proto)
 
 
 
+#if !defined(SIMU)
 //#include "../../protocol/ppm_hw_switching.cpp"
 //#include "../../protocol/ppm_bit_bang.cpp"
 #include "../protocol/frsky1way_cc2500_rick.c"
 //#include "../protocol/skyartec_cc2500.c"
+#endif

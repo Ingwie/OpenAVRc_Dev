@@ -89,7 +89,7 @@ struct Model {
 };
 
 
-//extern struct Model Model;
+extern struct Model Model;
 
 //extern volatile uint8_t g_initializing;
 
