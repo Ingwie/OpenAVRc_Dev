@@ -34,6 +34,16 @@
 #define ROTENC_DIV2 // rotenc resolution/2
 #define FATFSTINY // Reduce SDdriver buffer size
 
+//Xmitter
+#define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
+
+#if defined(PROTO_HAS_CC2500)
+
+#define OUT_C_RF_CS_N       (1<<1)
+#define RF_CS_N_ACTIVE()    PORTH &= ~(OUT_C_RF_CS_N)
+#define RF_CS_N_INACTIVE()  PORTH |=  (OUT_C_RF_CS_N)
+#endif
+
 // Keys
 void readKeysAndTrims();
 #define KEYS_GPIO_REG_MENU        pinl

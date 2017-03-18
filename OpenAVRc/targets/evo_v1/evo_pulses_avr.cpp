@@ -26,7 +26,6 @@
 // *** WARNING THIS IS EXPERIMENTAL ***
 
 #include "../OpenAVRc.h"
-#define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 #include "../../protocol/common.h"
 #include "../../protocol/interface.h"
 #include "../../protocol/misc.c"
