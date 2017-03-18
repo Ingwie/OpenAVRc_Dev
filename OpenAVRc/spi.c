@@ -23,7 +23,7 @@
 **************************************************************************
 */
 
-#include <avr/interrupt.h>
+#include "OpenAVRc.h"
 #include "spi.h"
 //---------------------------
 // AVR SPI functions
