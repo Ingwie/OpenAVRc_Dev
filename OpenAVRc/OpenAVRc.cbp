@@ -143,6 +143,10 @@
 		<Unit filename="sdcard.h" />
 		<Unit filename="serial_driver.cpp" />
 		<Unit filename="serial_driver.h" />
+		<Unit filename="spi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="spi.h" />
 		<Unit filename="stamp-OpenAVRc.h" />
 		<Unit filename="stamp.cpp" />
 		<Unit filename="strhelpers.cpp" />

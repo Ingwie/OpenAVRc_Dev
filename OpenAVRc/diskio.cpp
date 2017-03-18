@@ -62,13 +62,8 @@
 
 /* Port Controls  (Platform dependent) */
 // GCC optimisation should result in a single CBI/SBI instructions here
-#if defined (CPUM2560)
-#  define CS_LOW()  PORTB &= ~0x01    /* MMC CS = L */
-#  define CS_HIGH() PORTB |= 0x01     /* MMC CS = H */
-#else
-#  define CS_LOW()  PORTB &= ~0x10    /* MMC CS = L */
-#  define CS_HIGH() PORTB |= 0x10     /* MMC CS = H */
-#endif
+#define SDCARD_CS_N_ACTIVE()  PORTB &= ~PIN0_bm // MMC CS = L
+#define SDCARD_CS_N_INACTIVE()  PORTB |= PIN0_bm // MMC CS = H
 
 #define SOCKPORT	PINB			/* Socket contact port */
 #define SOCKWP		0x00 // not implemented /* Write protect switch */
@@ -92,7 +87,7 @@ volatile BYTE Timer1, Timer2;	/* 100Hz decrement timer */
 static
 BYTE CardType;			/* Card type flags */
 
-inline void checkMixer()
+void checkMixer()
 {
   // TODO duplicated code ...
   uint16_t t0 = getTmr16KHz();
@@ -108,14 +103,16 @@ inline void checkMixer()
   if (t0 > maxMixerDuration) maxMixerDuration = t0;
 }
 
-#define loop_mixer_until_bit_is_set(sfr, bit) do { checkMixer(); MYWDT_RESET(); } while (bit_is_clear(sfr, bit))
-
 /*-----------------------------------------------------------------------*/
 /* Transmit a byte to MMC via SPI  (Platform dependent)                  */
 /*-----------------------------------------------------------------------*/
 
-#define xmit_spi(dat) 	SPDR=(dat); loop_mixer_until_bit_is_set(SPSR,SPIF)
-
+void xmit_spi(uint8_t dat)
+{
+  checkMixer();
+  MYWDT_RESET();
+  spi_tx(dat);
+}
 
 
 /*-----------------------------------------------------------------------*/
@@ -125,15 +122,10 @@ inline void checkMixer()
 static
 BYTE rcvr_spi (void)
 {
-  SPDR = 0xFF;
-  loop_mixer_until_bit_is_set(SPSR, SPIF);
-  return SPDR;
+  checkMixer();
+  MYWDT_RESET();
+  return spi_rx();
 }
-
-/* Alternative macro to receive data fast */
-#define rcvr_spi_m(dst)	SPDR=0xFF; loop_mixer_until_bit_is_set(SPSR,SPIF); *(dst)=SPDR
-
-
 
 /*-----------------------------------------------------------------------*/
 /* Wait for card ready                                                   */
@@ -160,7 +152,7 @@ uint8_t wait_ready (void)	/* 1:OK, 0:Timeout */
 static
 void deselect (void)
 {
-  CS_HIGH();
+  SDCARD_CS_N_ACTIVE();
   rcvr_spi();
 }
 
@@ -173,7 +165,7 @@ void deselect (void)
 static
 uint8_t select (void)	/* 1:Successful, 0:Timeout */
 {
-  CS_LOW();
+  SDCARD_CS_N_ACTIVE();
   if (!wait_ready()) {
     deselect();
     return 0;
@@ -202,23 +194,17 @@ void power_on (void)
 #ifndef SIMU
   for (Timer1 = 2; Timer1; );	// Wait for 20ms
 #endif
-
-  SPCR = 0x52;			// Enable SPI function in mode 0
-#if defined(PCBMEGA2560)
-  SPSR |= 1<<SPI2X;			// SPI 2x mode (8.0 MhZ roadrunner speed : Beep,Beep ! Thanks Rick ! :)
-#else
-  SPSR &= ~(1<<SPI2X);	// SPI 1x mode
-#endif
+  spi_enable_master_mode();
 }
 
 
 static
 void power_off (void)
 {
-  SPCR = 0;				/* Disable SPI function */
+  deselect();
+  spi_disable();
   Stat |= STA_NOINIT;
 }
-
 
 
 /*-----------------------------------------------------------------------*/
@@ -241,14 +227,13 @@ uint8_t rcvr_datablock (
   if(token != 0xFE) return 0;		/* If not valid data token, retutn with error */
 
   do {							/* Receive the data block into buffer */
-    rcvr_spi_m(buff++);
-    rcvr_spi_m(buff++);
-    rcvr_spi_m(buff++);
-    rcvr_spi_m(buff++);
+    *buff++ = spi_rx();
+    *buff++ = spi_rx();
+    *buff++ = spi_rx();
+    *buff++ = spi_rx();
   } while (btr -= 4);
   rcvr_spi();						/* Discard CRC */
   rcvr_spi();
-
   return 1;						/* Return with success */
 }
 
