@@ -35,7 +35,7 @@
 #define FATFSTINY // Reduce SDdriver buffer size
 
 //Xmitter
-//#define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
+#define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 
 #if defined(PROTO_HAS_CC2500)
 #define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
