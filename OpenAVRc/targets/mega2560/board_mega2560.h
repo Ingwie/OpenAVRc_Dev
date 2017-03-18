@@ -39,7 +39,7 @@
 
 #if defined(PROTO_HAS_CC2500)
 
-#define OUT_C_RF_CS_N       (1<<1)
+#define OUT_C_RF_CS_N       PIN1_bm
 #define RF_CS_N_ACTIVE()    PORTH &= ~(OUT_C_RF_CS_N)
 #define RF_CS_N_INACTIVE()  PORTH |=  (OUT_C_RF_CS_N)
 #endif

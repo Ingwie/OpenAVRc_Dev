@@ -369,7 +369,7 @@ ifeq ($(PCB), EVO_V1)
   THR_TRACE = YES
   PWRMANAGE = NO
   INCDIRS += targets/evo_v1 targets/stock $(FATFSDIR) $(FATFSDIR)/option
-  BOARDSRC = main_avr.cpp i2c_master.cpp targets/evo_v1/evo_mega2560.cpp targets/evo_v1/evo_lcd_driver.cpp targets/evo_v1/evo_adc_driver.cpp
+  BOARDSRC = main_avr.cpp i2c_master.cpp spi.c targets/evo_v1/evo_mega2560.cpp targets/evo_v1/evo_lcd_driver.cpp targets/evo_v1/evo_adc_driver.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
 # PULSESSRC = targets/evo_v1/evo_pulses_avr.cpp
@@ -443,7 +443,7 @@ ifeq ($(PCB), MEGA2560)
   THR_TRACE = YES
   PWRMANAGE = NO
   INCDIRS += targets/mega2560 targets/stock $(FATFSDIR) $(FATFSDIR)/option
-  BOARDSRC = main_avr.cpp i2c_master.cpp targets/mega2560/board_mega2560.cpp
+  BOARDSRC = main_avr.cpp i2c_master.cpp spi.c targets/mega2560/board_mega2560.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
   BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
