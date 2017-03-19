@@ -288,51 +288,6 @@ void menuModelSetup(uint8_t event)
       }
       break;
 
-#if 0
-    case ITEM_MODEL_PPM2_PROTOCOL:
-      lcdDrawTextLeft(y, PSTR("Port2"));
-      lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN, y, STR_VPROTOS, 0, 0);
-      lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+4*FW+3, y, STR_CH, menuHorizontalPosition<=0 ? attr : 0);
-      lcdDrawNumberAttUnit(lcdLastPos, y, g_model.moduleData[1].channelsStart+1, LEFT | (menuHorizontalPosition<=0 ? attr : 0));
-      lcdDrawChar(lcdLastPos, y, '-');
-      lcdDrawNumberAttUnit(lcdLastPos + FW+1, y, g_model.moduleData[1].channelsStart+8+g_model.moduleData[1].channelsCount, LEFT | (menuHorizontalPosition!=0 ? attr : 0));
-      if (attr && (editMode>0 || p1valdiff)) {
-        switch (menuHorizontalPosition) {
-        case 0:
-          CHECK_INCDEC_MODELVAR_ZERO(event, g_model.moduleData[1].channelsStart, 32-8-g_model.moduleData[1].channelsCount);
-          SET_DEFAULT_PPM_FRAME_LENGTH(1);
-          break;
-        case 1:
-          CHECK_INCDEC_MODELVAR(event, g_model.moduleData[1].channelsCount, -4, min<int8_t>(8, 32-8-g_model.moduleData[1].channelsStart));
-          SET_DEFAULT_PPM_FRAME_LENGTH(1);
-          break;
-        }
-      }
-      break;
-
-    case ITEM_MODEL_PPM2_PARAMS:
-      lcdDrawTextLeft(y, STR_PPMFRAME);
-      lcdDrawText(MODEL_SETUP_2ND_COLUMN+3*FW, y, STR_MS);
-      lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN, y, (int16_t)g_model.moduleData[1].ppmFrameLength*5 + 225, (menuHorizontalPosition<=0 ? attr : 0) | PREC1|LEFT);
-      lcdDrawChar(MODEL_SETUP_2ND_COLUMN+8*FW+2, y, 'u');
-      lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN+8*FW+2, y, (g_model.moduleData[1].ppmDelay*50)+300, (menuHorizontalPosition < 0 || menuHorizontalPosition==1) ? attr : 0);
-      lcdDrawCharAtt(MODEL_SETUP_2ND_COLUMN+10*FW, y, g_model.moduleData[1].ppmPulsePol ? '+' : '-', (menuHorizontalPosition < 0 || menuHorizontalPosition==2) ? attr : 0);
-      if (attr && (editMode>0 || p1valdiff)) {
-        switch (menuHorizontalPosition) {
-        case 0:
-          CHECK_INCDEC_MODELVAR(event, g_model.moduleData[1].ppmFrameLength, -20, 35);
-          break;
-        case 1:
-          CHECK_INCDEC_MODELVAR(event, g_model.moduleData[1].ppmDelay, -4, 10);
-          break;
-        case 2:
-          CHECK_INCDEC_MODELVAR_ZERO(event, g_model.moduleData[1].ppmPulsePol, 1);
-          break;
-        }
-      }
-      break;
-#endif
-
     case ITEM_MODEL_PPM1_PARAMS:
       if (IS_PPM_PROTOCOL(protocol)) {
         lcdDrawTextLeft(y, STR_PPMFRAME);

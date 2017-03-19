@@ -1599,7 +1599,7 @@ int simumain(void)
   // we could put a bunch more MYWDT_RESET()s in. But I don't like that approach
   // during boot up.)
 #if !defined(SIMU)
-#if defined(CPUM2560) 
+#if defined(CPUM2560)
   uint8_t mcusr = MCUSR; // save the WDT (etc) flags
   MCUSR = 0; // must be zeroed before disabling the WDT
   MCUCR = 0x80 ;   // Disable JTAG port that can interfere with POT3

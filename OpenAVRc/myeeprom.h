@@ -987,24 +987,15 @@ enum Protocols {
   PROTO_PPM,
   PROTO_PPM16,
   PROTO_PPMSIM,
-#if defined(PXX) || defined(DSM2) || defined(IRPROTOS)
+#if defined(PXX) || defined(DSM2)
   PROTO_PXX,
 #endif
-#if defined(DSM2) || defined(IRPROTOS)
+#if defined(DSM2)
   PROTO_DSM2_LP45,
   PROTO_DSM2_DSM2,
   PROTO_DSM2_DSMX,
 #endif
-#if defined(CROSSFIRE)
-  PROTO_CROSSFIRE,
-#endif
-#if defined(IRPROTOS)
-  // we will need 4 bytes for proto :(
-  PROTO_SILV,
-  PROTO_TRAC09,
-  PROTO_PICZ,
-  PROTO_SWIFT,
-#endif
+  PROTO_SPIMODULE,
   PROTO_MAX,
   PROTO_NONE
 };
@@ -1033,9 +1024,7 @@ enum ModuleTypes {
 #if defined(DSM2)
   MODULE_TYPE_DSM2,
 #endif
-#if defined(CROSSFIRE)
-  MODULE_TYPE_CROSSFIRE,
-#endif
+  MODULE_TYPE_SPIMODULE,
   MODULE_TYPE_COUNT
 };
 

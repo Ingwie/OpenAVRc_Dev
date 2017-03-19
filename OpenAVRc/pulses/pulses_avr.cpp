@@ -24,8 +24,6 @@
 */
 
 #include "../OpenAVRc.h"
-#include "../protocol/common.h"
-#include "../protocol/interface.h"
 #include "../protocol/misc.c"
 
 #if defined(DSM2) || defined(PXX)
@@ -50,8 +48,8 @@ return;
 #else
 //PROTO_Cmds = PPM_SWITCHING_Cmds;
 //PROTO_Cmds = PPM_BB_Cmds;
-// PROTO_Cmds =  SKYARTEC_Cmds;
-  PROTO_Cmds =  FRSKY1WAY_Cmds;
+  PROTO_Cmds =  SKYARTEC_Cmds;
+//PROTO_Cmds =  FRSKY1WAY_Cmds;
   PROTO_Cmds(PROTOCMD_INIT);
 #endif
 }
@@ -137,6 +135,6 @@ void setupPulsesPPM(uint8_t proto)
 #if !defined(SIMU)
 //#include "../../protocol/ppm_hw_switching.cpp"
 //#include "../../protocol/ppm_bit_bang.cpp"
-#include "../protocol/frsky1way_cc2500_rick.c"
-//#include "../protocol/skyartec_cc2500.c"
+//#include "../protocol/frsky1way_cc2500_rick.c"
+#include "../protocol/skyartec_cc2500.c"
 #endif
