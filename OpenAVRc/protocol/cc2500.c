@@ -17,11 +17,9 @@ void CC2500_WriteReg(uint8_t address, uint8_t data)
 
 static void ReadRegisterMulti(uint8_t address, uint8_t data[], uint8_t length)
 {
- uint8_t i;
-
   RF_CS_N_ACTIVE();
   spi_xfer(address);
-  for(i = 0; i < length; i++) {
+  for(uint8_t i = 0; i < length; i++) {
     data[i] = spi_xfer(0);
   }
   RF_CS_N_INACTIVE();
@@ -36,7 +34,7 @@ uint8_t CC2500_ReadReg(uint8_t address)
   return data;
 }
 
-void CC2500_ReadData(uint8_t *dpbuffer, int len)
+void CC2500_ReadData(uint8_t *dpbuffer, uint8_t len)
 {
   ReadRegisterMulti(CC2500_3F_RXFIFO | CC2500_READ_BURST, dpbuffer, len);
 }
