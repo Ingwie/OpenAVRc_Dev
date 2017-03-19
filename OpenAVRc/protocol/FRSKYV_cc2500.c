@@ -1,6 +1,4 @@
-/*
- Rich
-*/
+
 
 #include "../OpenAVRc.h"
 #include "cc2500.c"
@@ -17,7 +15,6 @@ enum {
 };
 //ctassert(LAST_PROTO_OPT <= NUM_PROTO_OPTS, too_many_protocol_opts);
 
-
 static uint8_t packet[16];
 static uint32_t seed;
 static uint8_t dp_crc_init;
@@ -26,14 +23,14 @@ static uint8_t channels_used[50];
 static uint8_t channel_offset;
 
 
-static uint8_t crc8(uint8_t result, uint8_t * data, uint8_t len)
+static uint8_t FRSKYV_crc8(uint8_t result, uint8_t *data, uint8_t len)
 {
   static const uint8_t polynomial = 0x07;
 
-  for(int i = 0; i < len; i++) {
+  for(uint8_t i = 0; i < len; i++) {
     result = result ^ data[i];
     for(uint8_t j = 0; j < 8; j++) {
-      if(result & 0x80)  result = (result << 1) ^ polynomial;
+      if(result & 0x80) result = (result << 1) ^ polynomial;
       else result = result << 1;
     }
   }
@@ -43,7 +40,7 @@ static uint8_t crc8(uint8_t result, uint8_t * data, uint8_t len)
 
 static uint8_t reflect8(uint8_t in)
 {
-  // reflects the bits in the byte.
+  // Reflects the bits in a byte.
   uint8_t i, j, out=0;
 
   for(i = 0x80, j=0x01; i; i>>=1, j<<= 1) {
@@ -53,7 +50,7 @@ static uint8_t reflect8(uint8_t in)
 }
 
 
-static void calc_dp_crc_init(void)
+static uint8_t calc_dp_crc_init(void)
 {
 // How TxId relates to data packet initial crc value.
 // ID      crc start value
@@ -69,14 +66,15 @@ static void calc_dp_crc_init(void)
 // 0x1E2F  0x3C
 // 0x3210  0x1F
 // 0x3FFF  0x45
+
 // Apparently it's crc8 polynominal=0xc1 initial value=0x6b reflect in and out xor value=0.
+// Fast bit by bit algorithm without augmented zero bytes.
 
-// fast bit by bit algorithm without augmented zero bytes.
+  uint8_t c, bit;
+  uint8_t crc = 0x6b; // Initial value.
 
-uint8_t c, bit;
-uint8_t crc = 0x6B; // Initial value.
-static const unsigned char poly = 0xC1;
-uint8_t * data = (uint8_t *) frsky_id;
+  static const uint8_t poly = 0xC1;
+  uint8_t * data = (uint8_t *) &frsky_id;
 
   for(int8_t i=1; i>-1; i--) {
     c = data[i];
@@ -88,26 +86,26 @@ uint8_t * data = (uint8_t *) frsky_id;
       if (bit) crc^= poly;
     }
   }
-  dp_crc_init = reflect8(crc);
+  return reflect8(crc);
 }
 
 
-static void frsky1way_init(uint8_t bind)
+static void FRSKYV_init(uint8_t bind)
 {
   CC2500_SetTxRxMode(TX_EN);
 
   CC2500_WriteReg(CC2500_17_MCSM1, 0x0C);
-  CC2500_WriteReg(CC2500_18_MCSM0, 0x08); // Manual calibration using SCAL. Was 0x18.
-//  CC2500_WriteReg(CC2500_18_MCSM0, 0x18); // Auto calibrate when going from idle to tx/rx/fstxon
+//  CC2500_WriteReg(CC2500_18_MCSM0, 0x08); // Manual calibration using SCAL. Was 0x18.
+  CC2500_WriteReg(CC2500_18_MCSM0, 0x18); // Auto calibrate when going from idle to tx/rx/fstxon
   CC2500_WriteReg(CC2500_06_PKTLEN, 0xFF);
   CC2500_WriteReg(CC2500_07_PKTCTRL1, 0x04);
   CC2500_WriteReg(CC2500_08_PKTCTRL0, 0x05);
-  CC2500_WriteReg(CC2500_3E_PATABLE, bind ? 0x50 : 0xFE); // power level (0xFE) 0dBm * Power Amp (RDA T212).
+//  CC2500_WriteReg(CC2500_3E_PATABLE, bind ? 0x50 : 0xFE); // power level (0xFE) 0dBm * Power Amp (RDA T212).
 
   CC2500_WriteReg(CC2500_0B_FSCTRL1, 0x08);
 
   // static const int8_t fine = 0 ; // Frsky rf deck = 0, Skyartec rf module = -17.
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) -17); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
+  CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) -20); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
   CC2500_WriteReg(CC2500_0D_FREQ2, 0x5C);
   CC2500_WriteReg(CC2500_0E_FREQ1, 0x58);
   CC2500_WriteReg(CC2500_0F_FREQ0, 0x9D);
@@ -123,7 +121,7 @@ static void frsky1way_init(uint8_t bind)
   CC2500_WriteReg(CC2500_1C_AGCCTRL1, 0x40);
   CC2500_WriteReg(CC2500_1D_AGCCTRL0, 0x91);
   CC2500_WriteReg(CC2500_21_FREND1, 0x56);
-  CC2500_WriteReg(CC2500_22_FREND0, 0x10);// power index 0
+  CC2500_WriteReg(CC2500_22_FREND0, 0x10); // power index 0
   CC2500_WriteReg(CC2500_23_FSCAL3, 0xA9); // Enable charge pump calibration, calibrate for each hop.
 
   CC2500_WriteReg(CC2500_24_FSCAL2, 0x0A);
@@ -136,27 +134,27 @@ static void frsky1way_init(uint8_t bind)
   CC2500_WriteReg(CC2500_03_FIFOTHR, 0x07);
   CC2500_WriteReg(CC2500_09_ADDR, 0x00); // address 0
 
-  CC2500_Strobe(CC2500_SIDLE);    // Go to idle...
+  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
   CC2500_Strobe(CC2500_SFTX); // 3b
   CC2500_Strobe(CC2500_SFRX); // 3a
 
 //TODO
 //  if(proto_mode == NORMAL_MODE) CC2500_WriteReg(CC2500_3E_PATABLE, 0xFE); // D8 uses PATABLE = 0xFE for normal transmission.
 //  else CC2500_WriteReg(CC2500_3E_PATABLE, 0x50); // D8 uses PATABLE = 0x50 for range testing and binding.
-
+  CC2500_WriteReg(CC2500_3E_PATABLE, 0xF0);
 
   CC2500_WriteReg(CC2500_0A_CHANNR, 0x00);
-  CC2500_Strobe(CC2500_SCAL);    // Manual calibration
+  CC2500_Strobe(CC2500_SCAL); // Manual calibration
 }
 
 
-static void build_bind_packet_1way()
+static void FRSKYV_build_bind_packet()
 {
   static uint8_t bind_idx =0;
 
-  packet[0] = 0x0E;                //Length
-  packet[1] = 0x03;                //Packet type
-  packet[2] = 0x01;                //Packet type
+  packet[0] = 0x0E; //Length
+  packet[1] = 0x03; //Packet type
+  packet[2] = 0x01; //Packet type
   packet[3] = frsky_id & 0xFF;
   packet[4] = frsky_id >> 8;
   packet[5] = bind_idx *5; // Index into channels_used array.
@@ -168,16 +166,16 @@ static void build_bind_packet_1way()
   packet[11] = 0x00;
   packet[12] = 0x00;
   packet[13] = 0x00;
-  packet[14] = crc8(0x93, packet, 14);
+  packet[14] = FRSKYV_crc8(0x93, packet, 14);
 
   bind_idx ++;
   if(bind_idx > 9) bind_idx = 0;
 }
 
-static void build_data_packet_1way()
+
+static void FRSKYV_build_data_packet()
 {
   static uint8_t data_idx =0;
-  static int16_t PPM_Range;
 
   packet[0] = 0x0E;
   packet[1] = frsky_id & 0xFF;
@@ -186,28 +184,27 @@ static void build_data_packet_1way()
   packet[4] = seed >> 8;
 
   // Appears to be a bitmap relating to the number of channels sent e.g.
-  // 0x0F -> first 4 channels, 0x70 -> channels 5,6,7,  0xF0 -> channels 5,6,7,8
+  // 0x0F -> first 4 channels, 0x70 -> channels 5,6,7, 0xF0 -> channels 5,6,7,8
   if(data_idx==0) packet[5] = 0x0F;
   else if(data_idx==1) packet[5] = 0xF0;
   else packet[5] = 0x00;
 
-  // 0x08CA / 1.5 = 1500 (us)
-  // 0x05DC -> 1000us
-  // 0x0BB8 -> 2000us
-
-  for(uint8_t i = 0; i < 4; i++) {
+  for(uint8_t i = 0; i < 4; i++) { // Todo check no of channels.
     if( (i + (4* data_idx) ) < (8 + (g_model.ppmNCH *2)) ) {
 
-    int32_t value = (int32_t) channelOutputs[i + (4* data_idx)];
+    // 0x08CA / 1.5 = 1500 (us). Probably because they use 12MHz clocks.
+    // 0x05DC -> 1000us
+    // 0x0BB8 -> 2000us
 
-    PPM_Range = g_model.extendedLimits ? 640 : 512;
+    int16_t PPM_Range = g_model.extendedLimits ? (640 + (640>>1)): (512 + (512>>1)); // x+x/2
 
-//    uint16_t ServoPulse = limit((int16_t)-PPM_Range, (channelOutputs[i] ), (int16_t)+PPM_Range) + 2* PPM_CH_CENTER(i);
+    int16_t value = channelOutputs[i + (4* data_idx)];
+    value -= (value>>2); // x-x/4
+    value = limit((int16_t)-PPM_Range, value, (int16_t)+PPM_Range);
+    value += 0x08CA;
 
-//    value = (int32_t)((PPM_Range * 15L * value) / (CHAN_MAX_VALUE * 10L)) + 0x08CA;
-
-    if(value < 0x546) value = 0x546; // 900 uS
-    else if(value > 0xC4E ) value = 0xC4E; // 2100 uS
+//    if(value < 0x546) value = 0x546; // 900 uS
+//    else if(value > 0xC4E ) value = 0xC4E; // 2100 uS
     packet[6 + (i*2)] = value & 0xFF;
     packet[7 + (i*2)] = (value >> 8) & 0xFF;
     }
@@ -217,90 +214,87 @@ static void build_data_packet_1way()
     }
   }
 
-packet[14] = crc8(dp_crc_init, packet, 14);
-data_idx ++;
-if(data_idx > 1) data_idx =0;
+  packet[14] = FRSKYV_crc8(dp_crc_init, packet, 14);
+  data_idx ++;
+  if(data_idx > 1) data_idx =0;
 }
 
 
-static uint16_t frsky1waydata_cb()
+static uint16_t FRSKYV_data_cb()
 {
-  static uint8_t counter =0;
-
-  if(! (counter & 0x01)) {
-  // Tx prep
+    // Wait for transmit to finish.
+    // while( 0x0F != CC2500_Strobe(CC2500_SNOP)) { _delay_us(5); }
     CC2500_Strobe(CC2500_SIDLE);
     CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[ ( (seed & 0xFF) % 50) ] );
-    CC2500_Strobe(CC2500_SCAL);    // Manual calibration
-    counter ++;
-    return 1180 *2;
-  }
-  else {
-    // Tx data
-    CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO
+    CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO.
     CC2500_WriteData(packet, 15);
     CC2500_Strobe(CC2500_STX);
-    seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323
-    build_data_packet_1way();
-    CC2500_Strobe(CC2500_SNOP); // just shows how long to build packet. AVR = 0.7ms
-    // Wait for previous transmit to finish.
-    // while( 0x0F != CC2500_Strobe(CC2500_SNOP)) { _delay_us(5); }
-    counter ++;
-    return 7820 *2;
-  }
+
+
+    // Build next packet. Incurs a latency of 9ms. This can be done whilst previous packet is being emitted.
+    seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323.
+    FRSKYV_build_data_packet();
+    // CC2500_Strobe(CC2500_SNOP); // Just shows how long to build packet. 16MHz AVR = 126us.
+
+    // TODO Update power level and fine frequency tuning.
+    // CC2500_WriteReg(CC2500_0C_FSCTRL0, option);
+    // CC2500_SetPower();
+
+    // Schedule next Mixer calculations.
+    SCHEDULE_MIXER_END((uint16_t) (9 *2) *8);
+
+    heartbeat |= HEART_TIMER_PULSES;
+    return 9000 *2;
 }
 
 
-static uint16_t frsky_bind_cb()
+static uint16_t FRSKYV_bind_cb()
 {
+  FRSKYV_build_bind_packet();
   CC2500_Strobe(CC2500_SIDLE);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0);
-// CC2500_Strobe(CC2500_SCAL); // Manual calibration
-  build_bind_packet_1way();
   CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO
   CC2500_WriteData(packet, 15);
   CC2500_Strobe(CC2500_STX); // Tx
+  heartbeat |= HEART_TIMER_PULSES;
   return 18000U *2;
 }
 
 
-static void initialize(uint8_t bind)
+static void FRSKYV_initialise(uint8_t bind)
 {
   CLOCK_StopTimer();
 
-//TODO  frsky_id = Model.fixed_id % 0x4000;
-  frsky_id = 0x3210 % 0x4000; // 0x3210 pour Moi.
+  //TODO  frsky_id = Model.fixed_id % 0x4000;
+  frsky_id = 0xABCD % 0x4000; // = 0x2BCD pour Moi.
 
-   // Build channel array.
+  // Build channel array.
   channel_offset = frsky_id % 5;
-  for(uint8_t x = 0; x < 50; x ++)	channels_used[x] = (x*5) + 6 + channel_offset;
+  for(uint8_t x = 0; x < 50; x ++) channels_used[x] = (x*5) + 6 + channel_offset;
 
-  calc_dp_crc_init();
+  dp_crc_init = calc_dp_crc_init();
 
   CC2500_Reset(); // 0x30
 
   if(bind) {
-    frsky1way_init(1);
+    FRSKYV_init(1);
     PROTOCOL_SetBindState(0xFFFFFFFF);
-    CLOCK_StartTimer(25000U *2, &frsky_bind_cb);
+    CLOCK_StartTimer(25000U *2, &FRSKYV_bind_cb);
   }
   else {
-    frsky1way_init(0);
+    FRSKYV_init(0);
     seed = 2UL;
-    build_data_packet_1way();
-    CLOCK_StartTimer(25000U *2, &frsky1waydata_cb);
+    FRSKYV_build_data_packet();
+    CLOCK_StartTimer(25000U *2, &FRSKYV_data_cb);
   }
 }
-//TODO
-// Schedule next Mixer calcuations.
-// SCHEDULE_MIXER_END((uint16_t) FrameLen *8);
-//  heartbeat |= HEART_TIMER_PULSES;
 
 
-const void * FRSKY1WAY_Cmds(enum ProtoCmds cmd)
+
+const void * FRSKYV_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
-    case PROTOCMD_INIT:  initialize(0); return 0;
+    case PROTOCMD_INIT: FRSKYV_initialise(0); return 0;
 //        case PROTOCMD_DEINIT:
 //        case PROTOCMD_RESET:
 //            CLOCK_StopTimer();
@@ -308,7 +302,7 @@ const void * FRSKY1WAY_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_CHECK_AUTOBIND: return 0; //Never Autobind.
     case PROTOCMD_BIND:
     	proto_mode = BIND_MODE; // TODO
-    	initialize(1); return 0;
+    	FRSKYV_initialise(1); return 0;
     case PROTOCMD_NUMCHAN: return (void *)8L;
     case PROTOCMD_DEFAULT_NUMCHAN: return (void *)8L;
 //        case PROTOCMD_CURRENT_ID: return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id % 0x4000) : 0;
@@ -318,3 +312,5 @@ const void * FRSKY1WAY_Cmds(enum ProtoCmds cmd)
   }
   return 0;
 }
+
+
