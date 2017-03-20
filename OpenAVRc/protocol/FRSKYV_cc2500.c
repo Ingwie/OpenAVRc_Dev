@@ -1,8 +1,6 @@
 
 
 #include "../OpenAVRc.h"
-#include "cc2500.c"
-#include "iface_cc2500.h"
 
 static const char * const frsky_opts[] = {
   _tr_noop("Freq-Fine"),  "-127", "+127", NULL,
@@ -15,7 +13,7 @@ enum {
 };
 //ctassert(LAST_PROTO_OPT <= NUM_PROTO_OPTS, too_many_protocol_opts);
 
-static uint8_t packet[16];
+static uint8_t Frs_packet[16];
 static uint32_t seed;
 static uint8_t dp_crc_init;
 static uint16_t frsky_id;
@@ -52,7 +50,7 @@ static uint8_t reflect8(uint8_t in)
 
 static uint8_t calc_dp_crc_init(void)
 {
-// How TxId relates to data packet initial crc value.
+// How TxId relates to data Frs_packet initial crc value.
 // ID      crc start value
 // 0x0000  0x0E
 // 0x0001  0xD7
@@ -152,21 +150,21 @@ static void FRSKYV_build_bind_packet()
 {
   static uint8_t bind_idx =0;
 
-  packet[0] = 0x0E; //Length
-  packet[1] = 0x03; //Packet type
-  packet[2] = 0x01; //Packet type
-  packet[3] = frsky_id & 0xFF;
-  packet[4] = frsky_id >> 8;
-  packet[5] = bind_idx *5; // Index into channels_used array.
-  packet[6] =  channels_used[ (packet[5]) +0];
-  packet[7] =  channels_used[ (packet[5]) +1];
-  packet[8] =  channels_used[ (packet[5]) +2];
-  packet[9] =  channels_used[ (packet[5]) +3];
-  packet[10] = channels_used[ (packet[5]) +4];
-  packet[11] = 0x00;
-  packet[12] = 0x00;
-  packet[13] = 0x00;
-  packet[14] = FRSKYV_crc8(0x93, packet, 14);
+  Frs_packet[0] = 0x0E; //Length
+  Frs_packet[1] = 0x03; //Packet type
+  Frs_packet[2] = 0x01; //Packet type
+  Frs_packet[3] = frsky_id & 0xFF;
+  Frs_packet[4] = frsky_id >> 8;
+  Frs_packet[5] = bind_idx *5; // Index into channels_used array.
+  Frs_packet[6] =  channels_used[ (Frs_packet[5]) +0];
+  Frs_packet[7] =  channels_used[ (Frs_packet[5]) +1];
+  Frs_packet[8] =  channels_used[ (Frs_packet[5]) +2];
+  Frs_packet[9] =  channels_used[ (Frs_packet[5]) +3];
+  Frs_packet[10] = channels_used[ (Frs_packet[5]) +4];
+  Frs_packet[11] = 0x00;
+  Frs_packet[12] = 0x00;
+  Frs_packet[13] = 0x00;
+  Frs_packet[14] = FRSKYV_crc8(0x93, Frs_packet, 14);
 
   bind_idx ++;
   if(bind_idx > 9) bind_idx = 0;
@@ -177,17 +175,17 @@ static void FRSKYV_build_data_packet()
 {
   static uint8_t data_idx =0;
 
-  packet[0] = 0x0E;
-  packet[1] = frsky_id & 0xFF;
-  packet[2] = frsky_id >> 8;
-  packet[3] = seed & 0xFF;
-  packet[4] = seed >> 8;
+  Frs_packet[0] = 0x0E;
+  Frs_packet[1] = frsky_id & 0xFF;
+  Frs_packet[2] = frsky_id >> 8;
+  Frs_packet[3] = seed & 0xFF;
+  Frs_packet[4] = seed >> 8;
 
   // Appears to be a bitmap relating to the number of channels sent e.g.
   // 0x0F -> first 4 channels, 0x70 -> channels 5,6,7, 0xF0 -> channels 5,6,7,8
-  if(data_idx==0) packet[5] = 0x0F;
-  else if(data_idx==1) packet[5] = 0xF0;
-  else packet[5] = 0x00;
+  if(data_idx==0) Frs_packet[5] = 0x0F;
+  else if(data_idx==1) Frs_packet[5] = 0xF0;
+  else Frs_packet[5] = 0x00;
 
   for(uint8_t i = 0; i < 4; i++) { // Todo check no of channels.
     if( (i + (4* data_idx) ) < (8 + (g_model.ppmNCH *2)) ) {
@@ -205,16 +203,16 @@ static void FRSKYV_build_data_packet()
 
 //    if(value < 0x546) value = 0x546; // 900 uS
 //    else if(value > 0xC4E ) value = 0xC4E; // 2100 uS
-    packet[6 + (i*2)] = value & 0xFF;
-    packet[7 + (i*2)] = (value >> 8) & 0xFF;
+    Frs_packet[6 + (i*2)] = value & 0xFF;
+    Frs_packet[7 + (i*2)] = (value >> 8) & 0xFF;
     }
     else {
-    packet[6 + (i*2)] = 0xC9;
-    packet[7 + (i*2)] = 0x08;
+    Frs_packet[6 + (i*2)] = 0xC9;
+    Frs_packet[7 + (i*2)] = 0x08;
     }
   }
 
-  packet[14] = FRSKYV_crc8(dp_crc_init, packet, 14);
+  Frs_packet[14] = FRSKYV_crc8(dp_crc_init, Frs_packet, 14);
   data_idx ++;
   if(data_idx > 1) data_idx =0;
 }
@@ -227,14 +225,14 @@ static uint16_t FRSKYV_data_cb()
     CC2500_Strobe(CC2500_SIDLE);
     CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[ ( (seed & 0xFF) % 50) ] );
     CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO.
-    CC2500_WriteData(packet, 15);
+    CC2500_WriteData(Frs_packet, 15);
     CC2500_Strobe(CC2500_STX);
 
 
-    // Build next packet. Incurs a latency of 9ms. This can be done whilst previous packet is being emitted.
+    // Build next Frs_packet. Incurs a latency of 9ms. This can be done whilst previous Frs_packet is being emitted.
     seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323.
     FRSKYV_build_data_packet();
-    // CC2500_Strobe(CC2500_SNOP); // Just shows how long to build packet. 16MHz AVR = 126us.
+    // CC2500_Strobe(CC2500_SNOP); // Just shows how long to build Frs_packet. 16MHz AVR = 126us.
 
     // TODO Update power level and fine frequency tuning.
     // CC2500_WriteReg(CC2500_0C_FSCTRL0, option);
@@ -254,7 +252,7 @@ static uint16_t FRSKYV_bind_cb()
   CC2500_Strobe(CC2500_SIDLE);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0);
   CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO
-  CC2500_WriteData(packet, 15);
+  CC2500_WriteData(Frs_packet, 15);
   CC2500_Strobe(CC2500_STX); // Tx
   heartbeat |= HEART_TIMER_PULSES;
   return 18000U *2;

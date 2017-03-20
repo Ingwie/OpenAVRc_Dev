@@ -133,13 +133,13 @@
 		<Unit filename="mixer.cpp" />
 		<Unit filename="myeeprom.h" />
 		<Unit filename="pgmtypes.h" />
+		<Unit filename="protocol/FRSKYV_cc2500.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="protocol/cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="protocol/common.h" />
-		<Unit filename="protocol/frsky1way_cc2500_rick.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="protocol/iface_cc2500.h" />
 		<Unit filename="protocol/interface.h" />
 		<Unit filename="protocol/misc.c">

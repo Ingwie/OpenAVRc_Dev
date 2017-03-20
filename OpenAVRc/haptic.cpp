@@ -39,9 +39,6 @@ hapticQueue::hapticQueue()
 
 void hapticQueue::heartbeat()
 {
-#if defined(SIMU)
-  return;
-#else
   if (buzzTimeLeft > 0) {
     buzzTimeLeft--; // time gets counted down
     if (hapticTick-- > 0) {
@@ -62,7 +59,6 @@ void hapticQueue::heartbeat()
       }
     }
   }
-#endif // defined(SIMU)
 }
 
 void hapticQueue::play(uint8_t tLen, uint8_t tPause, uint8_t tFlags)

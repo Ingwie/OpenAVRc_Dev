@@ -2,10 +2,8 @@
 
 
 #ifdef PROTO_HAS_CC2500
-#include <util/delay.h>
-#include "common.h"
-#include "spi.h"
-#include "interface.h"
+#include "../OpenAVRc.h"
+#include "../spi.h"
 
 void CC2500_WriteReg(uint8_t address, uint8_t data)
 {
@@ -89,7 +87,7 @@ void CC2500_Reset(void)
 }
 
 
-void CC2500_SetPower(uint8_t power)
+void CC2500_SetPower(uint8_t Power)
 {
 /*
   CC2500 Power Output
@@ -108,7 +106,7 @@ void CC2500_SetPower(uint8_t power)
 
   uint8_t cc2500_patable = 0;
 
-  switch(power) {
+  switch(Power) {
     case 0: cc2500_patable = 0; break; //
     case 1: cc2500_patable = 0x46; break; //
     case 2: cc2500_patable = 0x55; break; //

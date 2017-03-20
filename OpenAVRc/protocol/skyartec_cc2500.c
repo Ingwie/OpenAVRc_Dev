@@ -13,31 +13,10 @@
  along with Deviation.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifdef MODULAR
-//Allows the linker to properly relocate
-#define SKYARTEC_Cmds PROTO_Cmds
-#pragma long_calls
-#endif
+#include "../OpenAVRc.h"
 
-#include "common.h"
-#include "interface.h"
-//#include "mixer.h"
-//#include "config/model.h"
-//#include "telemetry.h"
 
-#ifdef MODULAR
-//Some versions of gcc applythis to definitions, others to calls
-//So just use long_calls everywhere
-//#pragma long_calls_off
-extern unsigned _data_loadaddr;
-const unsigned long protocol_type = (unsigned long)&_data_loadaddr;
-#endif
-
-#ifdef PROTO_HAS_CC2500
-
-#include "iface_cc2500.h"
-#include "cc2500.c"
-static uint8_t packet[20];
+static uint8_t Sky_packet[20];
 static uint32_t state;
 static uint32_t fixed_id;
 static uint32_t bind_count;
@@ -105,7 +84,7 @@ static void skyartec_init()
   CC2500_WriteReg(CC2500_04_SYNC1, 0x13);
   CC2500_WriteReg(CC2500_05_SYNC0, 0x18);
   CC2500_SetTxRxMode(TX_EN);
-  CC2500_SetPower(0xEF);
+  CC2500_SetPower(TXPOWER_6);
   CC2500_Strobe(CC2500_SFTX);
   CC2500_Strobe(CC2500_SFRX);
   CC2500_Strobe(CC2500_SXOFF);
@@ -117,62 +96,62 @@ static void add_pkt_suffix()
   int xor1 = 0;
   int xor2 = 0;
   for(int i = 3; i <= 16; i++)
-    xor1 ^= packet[i];
+    xor1 ^= Sky_packet[i];
   for(int i = 3; i <= 14; i++)
-    xor2 ^= packet[i];
+    xor2 ^= Sky_packet[i];
 
-  int sum = packet[3] + packet[5] + packet[7] + packet[9] + packet[11] + packet[13];
-  packet[17] = xor1;
-  packet[18] = xor2;
-  packet[19] = sum & 0xff;
+  int sum = Sky_packet[3] + Sky_packet[5] + Sky_packet[7] + Sky_packet[9] + Sky_packet[11] + Sky_packet[13];
+  Sky_packet[17] = xor1;
+  Sky_packet[18] = xor2;
+  Sky_packet[19] = sum & 0xff;
 }
 
 static void send_data_packet()
 {
   //13 c5 01 0259 0168 0000 0259 030c 021a 0489 f3 7e 0a
-  packet[0] = 0x13;                //Length
-  packet[1] = TX_ADDR;             //Tx Addr?
-  packet[2] = 0x01;                //???
+  Sky_packet[0] = 0x13;                //Length
+  Sky_packet[1] = TX_ADDR;             //Tx Addr?
+  Sky_packet[2] = 0x01;                //???
   for(int i = 0; i < 7; i++) {
     int32_t value = (int32_t)channelOutputs[i] * 0x280 / CHAN_MAX_VALUE + 0x280;
     if(value < 0)
       value = 0;
     if(value > 0x500)
       value = 0x500;
-    packet[3+2*i] = value >> 8;
-    packet[4+2*i] = value & 0xff;
+    Sky_packet[3+2*i] = value >> 8;
+    Sky_packet[4+2*i] = value & 0xff;
   }
   add_pkt_suffix();
-  //for(int i = 0; i < 20; i++) printf("%02x ", packet[i]); printf("\n");
+  //for(int i = 0; i < 20; i++) printf("%02x ", Sky_packet[i]); printf("\n");
   CC2500_WriteReg(CC2500_04_SYNC1, ((fixed_id >> 0) & 0xff));
   CC2500_WriteReg(CC2500_05_SYNC0, ((fixed_id >> 8) & 0xff));
   CC2500_WriteReg(CC2500_09_ADDR, TX_ADDR);
   CC2500_WriteReg(CC2500_0A_CHANNR, TX_CHANNEL);
-  CC2500_WriteData(packet, 20);
+  CC2500_WriteData(Sky_packet, 20);
 }
 
 static void send_bind_packet()
 {
   //0b 7d 01 01 b2 c5 4a 2f 00 00 c5 d6
-  packet[0] = 0x0b;       //Length
-  packet[1] = 0x7d;
-  packet[2] = 0x01;
-  packet[3] = 0x01;
-  packet[4] = (fixed_id >> 24) & 0xff;
-  packet[5] = (fixed_id >> 16) & 0xff;
-  packet[6] = (fixed_id >> 8)  & 0xff;
-  packet[7] = (fixed_id >> 0)  & 0xff;
-  packet[8] = 0x00;
-  packet[9] = 0x00;
-  packet[10] = TX_ADDR;
+  Sky_packet[0] = 0x0b;       //Length
+  Sky_packet[1] = 0x7d;
+  Sky_packet[2] = 0x01;
+  Sky_packet[3] = 0x01;
+  Sky_packet[4] = (fixed_id >> 24) & 0xff;
+  Sky_packet[5] = (fixed_id >> 16) & 0xff;
+  Sky_packet[6] = (fixed_id >> 8)  & 0xff;
+  Sky_packet[7] = (fixed_id >> 0)  & 0xff;
+  Sky_packet[8] = 0x00;
+  Sky_packet[9] = 0x00;
+  Sky_packet[10] = TX_ADDR;
   uint8_t bxor = 0;
-  for(uint8_t i = 3; i < 11; i++)  bxor ^= packet[i];
-  packet[11] = bxor;
+  for(uint8_t i = 3; i < 11; i++)  bxor ^= Sky_packet[i];
+  Sky_packet[11] = bxor;
   CC2500_WriteReg(CC2500_04_SYNC1, 0x7d);
   CC2500_WriteReg(CC2500_05_SYNC0, 0x7d);
   CC2500_WriteReg(CC2500_09_ADDR, 0x7d);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0x7d);
-  CC2500_WriteData(packet, 12);
+  CC2500_WriteData(Sky_packet, 12);
 }
 
 static uint16_t skyartec_cb()
@@ -180,7 +159,7 @@ static uint16_t skyartec_cb()
   if (state & 0x01) {
     CC2500_Strobe(CC2500_SIDLE);
     if (state == SKYARTEC_LAST) {
-      CC2500_SetPower(0xEF);
+      CC2500_SetPower(TXPOWER_6);
       state = SKYARTEC_PKT1;
     } else {
       state++;
@@ -198,7 +177,7 @@ static uint16_t skyartec_cb()
     state++;
     return 3000;
   }
-  return 0;
+  return 0; // not shure if needed
 }
 
 static void initialize()
@@ -259,5 +238,4 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
   }
   return 0;
 }
-#endif
 

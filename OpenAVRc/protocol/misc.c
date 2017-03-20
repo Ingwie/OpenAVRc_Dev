@@ -5,7 +5,7 @@
 
 extern volatile uint8_t g_sync_count;
 //extern volatile uint16_t g_entropy;
-volatile enum PROTO_MODE proto_mode;
+//volatile enum PROTO_MODE proto_mode;
 extern volatile uint32_t bind_press_time;
 
 uint16_t (*timer_callback)(void);

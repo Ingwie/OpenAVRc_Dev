@@ -1,5 +1,10 @@
 
 #include "../OpenAVRc.h"
+#include "interface.h"
+#include "misc.h"
+#if defined(SIMU)
+#include "../targets/simu/simu_interface.h"
+#endif
 
 #define PULSES_SETUP_TIME 500 // 0.5ms
 
@@ -20,8 +25,8 @@ dt = TCNT1L; // Record Timer1 latency for DEBUG stats display.
 
     // Need to prevent next toggle.
     // Also need to read pin and store before disconnecting switching output.
-    if(PINB & (1<<PORTB6)) PORTB |= (1<<PORTB6);
-    else PORTB &= ~(1<<PORTB6);
+    if(PINB & (1<<OUT_B_PPM)) PORTB |= (1<<OUT_B_PPM);
+    else PORTB &= ~(1<<OUT_B_PPM);
 
     TCCR1A &= ~(0b11<<COM1B0);
     state++;
@@ -74,21 +79,6 @@ dt = TCNT1L; // Record Timer1 latency for DEBUG stats display.
 }
 
 
-ISR(TIMER1_COMPB_vect) // PPM switching vector.
-{
-    uint16_t half_us = ppm_switching_cb();
-      if(! half_us) {
-        PPM_SWITCHING_Cmds(PROTOCMD_DEINIT);
-        return;
-      }
-
-    OCR1B += half_us;
-
-  if(dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
-  if(dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
-}
-
-
 static void initialize()
 {
 
@@ -131,5 +121,20 @@ const void * PPM_SWITCHING_Cmds(enum ProtoCmds cmd)
     default: break;
   }
   return 0;
+}
+
+
+ISR(TIMER1_COMPB_vect) // PPM switching vector.
+{
+    uint16_t half_us = ppm_switching_cb();
+      if(! half_us) {
+        PPM_SWITCHING_Cmds(PROTOCMD_DEINIT);
+        return;
+      }
+
+    OCR1B += half_us;
+
+  if(dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
+  if(dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
 }
 
