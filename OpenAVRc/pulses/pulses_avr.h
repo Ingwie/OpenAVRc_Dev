@@ -38,6 +38,7 @@ extern uint16_t nextMixerEndTime;
 extern uint8_t moduleFlag[NUM_MODULES];
 
 #define MAX_MIXER_DELTA (50*16) /* 50ms max as an interval between 2 mixer calculations */
+#define SETUP_PULSES_DURATION 1000 // 500us
 
 extern uint8_t dt;
 
@@ -54,7 +55,14 @@ inline void resumePulses()
 {
   s_pulses_paused = false;
 }
+
+#define PULSES_SIZE 144
+uint8_t pulses2MHz[PULSES_SIZE] = {0}; // TODO check this length, pulled from er9x, perhaps too big.
+uint8_t * pulses2MHzRPtr = pulses2MHz;
+
+
 void setupPulses();
+void setupPulsesPPM(uint8_t proto);
 void DSM2_Init();
 void DSM2_Done();
 

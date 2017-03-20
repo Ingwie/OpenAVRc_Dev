@@ -30,7 +30,7 @@ static uint16_t ppm_bb_cb()
 }
 
 
-static void initialize()
+static void ppm_bb_initialize()
 {
   pulses2MHzRPtr = pulses2MHz;
   *((uint16_t*) pulses2MHzRPtr) = 0;
@@ -41,13 +41,13 @@ static void initialize()
 const void * PPM_BB_Cmds(enum ProtoCmds cmd)
 {
     switch(cmd) {
-        case PROTOCMD_INIT: initialize(); return 0;
+        case PROTOCMD_INIT: ppm_bb_initialize(); return 0;
         case PROTOCMD_DEINIT:
         case PROTOCMD_RESET:
             CLOCK_StopTimer();
             return (void *) 1L;
 //        case PROTOCMD_CHECK_AUTOBIND: return 0;
-//        case PROTOCMD_BIND:  initialize(); return 0;
+//        case PROTOCMD_BIND:  ppm_bb_initialize(); return 0;
 //        case PROTOCMD_NUMCHAN: return (void *)((unsigned long) NUM_OUT_CHANNELS);
 //        case PROTOCMD_DEFAULT_NUMCHAN: return (void *) 6L;
 /*        case PROTOCMD_GETOPTIONS:

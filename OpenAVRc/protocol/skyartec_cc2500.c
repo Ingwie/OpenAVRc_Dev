@@ -180,7 +180,7 @@ static uint16_t skyartec_cb()
   return 0; // not shure if needed
 }
 
-static void initialize()
+static void skyartec_initialize()
 {
   CLOCK_StopTimer();
   skyartec_init();
@@ -213,7 +213,7 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
   case PROTOCMD_INIT:
-    initialize();
+    skyartec_initialize();
     return 0;
   case PROTOCMD_DEINIT:
   case PROTOCMD_RESET:
@@ -223,7 +223,7 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
   case PROTOCMD_CHECK_AUTOBIND:
     return (void *)0L; //Never Autobind
   case PROTOCMD_BIND:
-    initialize();
+    skyartec_initialize();
     return 0;
   case PROTOCMD_NUMCHAN:
     return (void *)7L;

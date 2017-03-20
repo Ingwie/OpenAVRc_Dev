@@ -79,7 +79,7 @@ dt = TCNT1L; // Record Timer1 latency for DEBUG stats display.
 }
 
 
-static void initialize()
+static void ppm_hw_initialize()
 {
 
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
@@ -97,7 +97,7 @@ static void initialize()
 const void * PPM_SWITCHING_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
-    case PROTOCMD_INIT: initialize(); return 0;
+    case PROTOCMD_INIT: ppm_hw_initialize(); return 0;
     case PROTOCMD_DEINIT:
     case PROTOCMD_RESET:
       CLOCK_StopTimer();
@@ -105,7 +105,7 @@ const void * PPM_SWITCHING_Cmds(enum ProtoCmds cmd)
       TIFR1 |= 1<<OCF1B; // Reset Flag.
       return (void *) 1L;
 //        case PROTOCMD_CHECK_AUTOBIND: return 0;
-//        case PROTOCMD_BIND:  initialize(); return 0;
+//        case PROTOCMD_BIND:  ppm_hw_initialize(); return 0;
 //        case PROTOCMD_NUMCHAN: return (void *)((unsigned long) NUM_OUT_CHANNELS);
 //        case PROTOCMD_DEFAULT_NUMCHAN: return (void *) 6L;
 /*        case PROTOCMD_GETOPTIONS:

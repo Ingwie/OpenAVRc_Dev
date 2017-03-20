@@ -5,11 +5,8 @@
 
 #include "misc.h"
 
-#ifndef MODULAR
-#define PROTODEF(proto, module, map, cmd, name) extern const void * cmd(enum ProtoCmds);
-#include "protocol.h"
-#undef PROTODEF
-#endif
+#include "ppm_bit_bang.cpp"
+#include "ppm_hw_switching.cpp"
 
 #ifdef PROTO_HAS_A7105
 #include "iface_a7105.h"

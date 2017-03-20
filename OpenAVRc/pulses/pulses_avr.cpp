@@ -39,26 +39,16 @@ uint8_t s_current_protocol[1] = { 255 };
 uint8_t s_pulses_paused = 0;
 uint8_t dt;
 uint16_t B3_comp_value;
-#define SETUP_PULSES_DURATION 1000 // 500us
 static volatile uint32_t timer_counts;
-
 
 void startPulses()
 {
-#if defined(SIMUa)
-return;
-#else
 //PROTO_Cmds = PPM_SWITCHING_Cmds;
 //PROTO_Cmds = PPM_BB_Cmds;
 //PROTO_Cmds =  SKYARTEC_Cmds;
-PROTO_Cmds = *Protos[0].Cmds;
+PROTO_Cmds = *Protos[2].Cmds;
 PROTO_Cmds(PROTOCMD_INIT);
-#endif
 }
-
-#define PULSES_SIZE 144
-uint8_t pulses2MHz[PULSES_SIZE] = {0}; // TODO check this length, pulled from er9x, perhaps too big.
-uint8_t * pulses2MHzRPtr = pulses2MHz;
 
 // This ISR should work for xmega.
 ISR(TIMER1_COMPA_vect) // Protocol Callback ISR.
