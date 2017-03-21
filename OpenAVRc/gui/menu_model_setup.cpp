@@ -64,7 +64,7 @@ enum menuModelSetupItems {
 void menuModelSetup(uint8_t event)
 {
 #define CURSOR_ON_CELL                    (true)
-#define MODEL_SETUP_MAX_LINES             ((IS_PPM_PROTOCOL(protocol)||IS_DSM2_PROTOCOL(protocol)||IS_PXX_PROTOCOL(protocol)) ? 1+ITEM_MODEL_SETUP_MAX : ITEM_MODEL_SETUP_MAX)
+#define MODEL_SETUP_MAX_LINES             ((IS_PPM_PROTOCOL(protocol)||IS_DSM2_PROTOCOL(protocol)||IS_PXX_PROTOCOL(protocol)||IS_SPIMODULES_PROTOCOL(protocol)) ? 1+ITEM_MODEL_SETUP_MAX : ITEM_MODEL_SETUP_MAX)
   uint8_t protocol = g_model.protocol;
   MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 0, 1, 0, 0, 0, 0, 0, NUM_SWITCHES, NUM_STICKS+NUM_POTS+NUM_ROTARY_ENCODERS-1, FIELD_PROTOCOL_MAX, 2, });
 
@@ -261,12 +261,6 @@ void menuModelSetup(uint8_t event)
       break;
 
 
-
-
-
-
-
-
     case ITEM_MODEL_PPM1_PROTOCOL:
       lcdDrawTextLeft(y, NO_INDENT(STR_PROTO));
       lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN, y, STR_VPROTOS, protocol, menuHorizontalPosition<=0 ? attr : 0);
@@ -321,7 +315,7 @@ void menuModelSetup(uint8_t event)
           CHECK_INCDEC_MODELVAR_ZERO(event, g_model.header.modelId[0], 99);
         }
 #if defined(PXX)
-        if (protocol == PROTO_PXX) {
+        if IS_PXX_PROTOCOL(protocol) {
           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+4*FW, y, STR_SYNCMENU, menuHorizontalPosition!=0 ? attr : 0);
           uint8_t newFlag = 0;
           if (attr && menuHorizontalPosition>0 && editMode>0) {
@@ -337,6 +331,27 @@ void menuModelSetup(uint8_t event)
           moduleFlag[0] = (attr && menuHorizontalPosition>0 && editMode>0) ? MODULE_RANGECHECK : 0; // [MENU] key toggles range check mode
         }
 #endif
+      }
+#endif
+#if defined(SPIMODULES)
+      else if IS_SPIMODULES_PROTOCOL(protocol) {
+
+        if (attr && menuHorizontalPosition > 1) {
+          REPEAT_LAST_CURSOR_MOVE(); // limit 3 column row to 2 colums (Protocol and RANGE fields)
+        }
+        lcdDrawTextAtt(0, y, Protos[g_model.header.modelId[0]].ProtoName, menuHorizontalPosition!=1 ? attr : 0); //TODO works on simu, not on the radio
+        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+4*FW, y, STR_MODULE_RANGE, menuHorizontalPosition!=0 ? attr : 0);
+        if (attr  && (editMode>0)) {
+
+          switch (menuHorizontalPosition) {
+          case 0:
+            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.header.modelId[0], (DIM(Protos)-1));
+            break;
+          case 1:
+            moduleFlag[0] = (attr && editMode>0) ? MODULE_RANGECHECK : 0; // [MENU] key toggles range check mode
+            break;
+          }
+        }
       }
 #endif
       break;

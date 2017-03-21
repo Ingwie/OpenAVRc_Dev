@@ -456,7 +456,7 @@ const pm_char STR_UNLOCKED[] PROGMEM = TR_UNLOCKED;
 const pm_char STR_MODS_FORBIDDEN[] PROGMEM = TR_MODS_FORBIDDEN;
 #endif
 
-#if defined(DSM2)
+#if defined(DSM2) || defined(SPIMODULES)
 const pm_char STR_MODULE_RANGE[] PROGMEM = TR_MODULE_RANGE;
 #endif
 

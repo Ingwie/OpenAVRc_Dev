@@ -1031,7 +1031,6 @@ enum AUDIO_SOUNDS {
 
 #include "translations.h"
 
-//#define PERSONAMES //For tests
 #if defined(PERSONAMES)
 #include "personames.h"
 #endif
@@ -1117,7 +1116,7 @@ uint8_t i = 0;
 #define PROTODEF(proto, module, map, cmd, name) { name, cmd },
 
 struct Proto_struct {
-  pm_char ProtoName[9];
+  pm_char ProtoName[12];
   CMDS Cmds; // Cmds
 }Protos[] = {
 

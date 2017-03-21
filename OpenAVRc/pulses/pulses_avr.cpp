@@ -28,7 +28,7 @@
 #include "../protocol/interface.h"
 #include "../protocol/misc.c"
 
-#if defined(DSM2) || defined(PXX)
+#if defined(DSM2) || defined(PXX) || defined(SPIMODULES)
 uint8_t moduleFlag[NUM_MODULES] = { 0 };
 #endif
 
@@ -46,7 +46,8 @@ void startPulses()
 //PROTO_Cmds = PPM_SWITCHING_Cmds;
 //PROTO_Cmds = PPM_BB_Cmds;
 //PROTO_Cmds =  SKYARTEC_Cmds;
-PROTO_Cmds = *Protos[2].Cmds;
+//PROTO_Cmds = *Protos[0].Cmds;
+PROTO_Cmds = *Protos[g_model.header.modelId[0]].Cmds;
 PROTO_Cmds(PROTOCMD_INIT);
 }
 
