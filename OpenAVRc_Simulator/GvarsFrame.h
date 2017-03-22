@@ -2,6 +2,7 @@
 #define GVARS_H
 
 //(*Headers(GvarsFrame)
+#include <wx/textctrl.h>
 #include <wx/panel.h>
 #include <wx/grid.h>
 #include <wx/frame.h>
@@ -20,15 +21,39 @@ class GvarsFrame: public wxFrame
     void PopulateGvarsFrame();
 
 		//(*Declarations(GvarsFrame)
+		wxTextCtrl* TextCtrlpersoPhase2;
+		wxTextCtrl* TextCtrlpersoPhase5;
+		wxTextCtrl* TextCtrlpersoGvar2;
+		wxTextCtrl* TextCtrlpersoGvar3;
+		wxTextCtrl* TextCtrlpersoPhase3;
+		wxTextCtrl* TextCtrlpersoPhase1;
 		wxGrid* GVARSGrid;
 		wxPanel* Panel1;
+		wxTextCtrl* TextCtrlpersoPhase4;
+		wxTextCtrl* TextCtrlpersoGvar4;
+		wxTextCtrl* TextCtrlpersoGvar1;
+		wxTextCtrl* TextCtrlpersoPhase0;
+		wxTextCtrl* TextCtrlpersoGvar5;
 		wxTimer gvarsTimer;
+		wxTextCtrl* TextCtrlpersoGvar6;
 		//*)
 
 	protected:
 
 		//(*Identifiers(GvarsFrame)
 		static const long ID_GRID1;
+		static const long ID_TextCtrlpersoPhase0;
+		static const long ID_TextCtrlpersoPhase1;
+		static const long ID_TextCtrlpersoPhase2;
+		static const long ID_TextCtrlpersoPhase3;
+		static const long ID_TextCtrlpersoPhase4;
+		static const long ID_TextCtrlpersoPhase5;
+		static const long ID_TextCtrlpersoGvar1;
+		static const long ID_TextCtrlpersoGvar6;
+		static const long ID_TextCtrlpersoGvar5;
+		static const long ID_TextCtrlpersoGvar4;
+		static const long ID_TextCtrlpersoGvar3;
+		static const long ID_TextCtrlpersoGvar2;
 		static const long ID_PANEL1;
 		static const long ID_TIMERGVARS;
 		//*)
@@ -41,6 +66,37 @@ class GvarsFrame: public wxFrame
 		void OnGrid1CellLeftClick(wxGridEvent& event);
 		void OnGrid1CellLeftClick1(wxGridEvent& event);
 		void OngvarsTimerTrigger(wxTimerEvent& event);
+		void OnGVARSGridCellLeftClick(wxGridEvent& event);
+		void OnTextCtrlpersoGvar1TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoPh0Text(wxCommandEvent& event);
+		void OnTextCtrlpersoPh0Text1(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar1Text(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar1Text1(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar2TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar2Text(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar2Text1(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar3Text(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar3TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar4Text(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar4TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar5Text(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar5TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoPh0TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoPh0Text2(wxCommandEvent& event);
+		void OnTextCtrlpersoPh1Text(wxCommandEvent& event);
+		void OnTextCtrlpersoPh1TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoPhase0Text(wxCommandEvent& event);
+		void OnTextCtrlpersoPhase0TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoPhase1Text(wxCommandEvent& event);
+		void OnTextCtrlpersoPhase1TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoPhase2Text(wxCommandEvent& event);
+		void OnTextCtrlpersoPhase2TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoPhase3Text(wxCommandEvent& event);
+		void OnTextCtrlpersoPhase3TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoPhase4Text(wxCommandEvent& event);
+		void OnTextCtrlpersoPhase4TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoPhase5Text(wxCommandEvent& event);
+		void OnTextCtrlpersoPhase5TextEnter(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
