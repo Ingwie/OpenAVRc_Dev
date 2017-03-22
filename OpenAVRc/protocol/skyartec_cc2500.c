@@ -164,7 +164,7 @@ static uint16_t skyartec_cb()
     } else {
       state++;
     }
-    return 3000;
+    return 3000 *2;
   }
   if (state == SKYARTEC_PKT1 && bind_count) {
     send_bind_packet();
@@ -175,7 +175,7 @@ static uint16_t skyartec_cb()
       send_data_packet();
     }
     state++;
-    return 3000;
+    return 3000 *2;
   }
   return 0; // not shure if needed
 }
@@ -206,7 +206,7 @@ static void skyartec_initialize()
   bind_count = 10000;
   state = SKYARTEC_PKT1;
 
-  CLOCK_StartTimer(10000, skyartec_cb);
+  CLOCK_StartTimer(10000U *2, skyartec_cb);
 }
 
 const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
