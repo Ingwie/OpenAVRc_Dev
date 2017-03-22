@@ -39,7 +39,7 @@ uint8_t s_current_protocol[1] = { 255 };
 uint8_t s_pulses_paused = 0;
 uint16_t dt;
 uint16_t B3_comp_value;
-static volatile uint32_t timer_counts;
+static volatile uint32_t timer_counts; // Could be uint16_t for mega2560.
 
 void startPulses()
 {
