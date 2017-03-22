@@ -20,6 +20,7 @@
 
 #include "../../OpenAVRc.h"
 
+#define SPIMODULES // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 #define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 
 #if defined(PROTO_HAS_CC2500)
@@ -28,7 +29,7 @@
 #define RF_CS_N_ACTIVE()    PORTC &= ~(OUT_C_RF_CS_N)
 #define RF_CS_N_INACTIVE()  PORTC |=  (OUT_C_RF_CS_N)
 
-#define spi_xfer USART3_mspi_xfer
+#define mspi_xfer USART3_mspi_xfer
 
   #if   F_CPU == 16000000UL
   #define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
