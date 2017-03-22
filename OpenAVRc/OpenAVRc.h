@@ -1108,15 +1108,19 @@ enum PinConfigState {
 /* Protocol */
 #include "protocol/interface.h"
 
+#define PROTODEF(proto, module, map, init, name, progmem_name) progmem_name;
+#include "protocol/protocol.h"
+#undef PROTODEF
+
 typedef const void* (*CMDS)(enum ProtoCmds);
 
 uint8_t i = 0;
 
 //#define PROTODEF(proto, module, map, cmd, name) Protos[i].ProtoName = name; Protos[i].Cmds = cmd; ++i;
-#define PROTODEF(proto, module, map, cmd, name) { name, cmd },
+#define PROTODEF(proto, module, map, cmd, name, progmem_name) { name, cmd },
 
 struct Proto_struct {
-  pm_char ProtoName[12];
+  const pm_char* ProtoName;
   CMDS Cmds; // Cmds
 }Protos[] = {
 
