@@ -187,8 +187,12 @@ static void FRSKYV_build_data_packet()
   else if(data_idx==1) Frs_packet[5] = 0xF0;
   else Frs_packet[5] = 0x00;
 
-  for(uint8_t i = 0; i < 4; i++) { // Todo check no of channels.
-    if( (i + (4* data_idx) ) < (8 + (g_model.ppmNCH *2)) ) {
+  uint8_t num_chan = 8 + (g_model.ppmNCH *2);
+  if(num_chan > 8) num_chan = 8;
+  // Potentially if we had only four channels we could send them every 9ms.
+
+  for(uint8_t i = 0; i < 4; i++) {
+    if( (i + (4* data_idx) ) < num_chan) {
 
     // 0x08CA / 1.5 = 1500 (us). Probably because they use 12MHz clocks.
     // 0x05DC -> 1000us
