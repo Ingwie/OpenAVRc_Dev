@@ -37,7 +37,7 @@ uint16_t nextMixerEndTime = 0;
 #define SCHEDULE_MIXER_END(delay) nextMixerEndTime = getTmr16KHz() + (delay) - 2*16 // 2ms
 uint8_t s_current_protocol[1] = { 255 };
 uint8_t s_pulses_paused = 0;
-uint8_t dt;
+uint16_t dt;
 uint16_t B3_comp_value;
 static volatile uint32_t timer_counts;
 

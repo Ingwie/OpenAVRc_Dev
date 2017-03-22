@@ -20,7 +20,10 @@ static uint16_t ppm_bb_cb()
     return SETUP_PULSES_DURATION *2;
   }
 
-  dt = TCNT1L; // Record Timer1 latency for DEBUG stats display.
+  dt = TCNT1 - OCR1A;
+  /* Calculate delay between OCR1A match and this point in the code before the toggle of the port pin.
+   *  This shows any jitter due to a delayed ISR.
+   */
 
   PORTB ^= (1<<OUT_B_PPM); // Toggle port bit.
 
