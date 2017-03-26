@@ -44,6 +44,7 @@
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase0" variable="TextCtrlpersoPhase0" member="yes">
 				<value>npha0</value>
+				<maxlength>6</maxlength>
 				<pos>127,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
@@ -52,6 +53,7 @@
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase1" variable="TextCtrlpersoPhase1" member="yes">
 				<value>npha1</value>
+				<maxlength>6</maxlength>
 				<pos>183,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
@@ -60,6 +62,7 @@
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase2" variable="TextCtrlpersoPhase2" member="yes">
 				<value>npha2</value>
+				<maxlength>6</maxlength>
 				<pos>239,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
@@ -68,6 +71,7 @@
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase3" variable="TextCtrlpersoPhase3" member="yes">
 				<value>npha3</value>
+				<maxlength>6</maxlength>
 				<pos>295,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
@@ -76,6 +80,7 @@
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase4" variable="TextCtrlpersoPhase4" member="yes">
 				<value>npha4</value>
+				<maxlength>6</maxlength>
 				<pos>351,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
@@ -84,6 +89,7 @@
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase5" variable="TextCtrlpersoPhase5" member="yes">
 				<value>npha5</value>
+				<maxlength>6</maxlength>
 				<pos>408,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
@@ -92,6 +98,7 @@
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar1" variable="TextCtrlpersoGvar1" member="yes">
 				<value>valvg1</value>
+				<maxlength>6</maxlength>
 				<pos>71,78</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
@@ -100,12 +107,14 @@
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar6" variable="TextCtrlpersoGvar6" member="yes">
 				<value>valvg6</value>
+				<maxlength>6</maxlength>
 				<pos>71,208</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar5" variable="TextCtrlpersoGvar5" member="yes">
 				<value>valvg5</value>
+				<maxlength>6</maxlength>
 				<pos>71,182</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
@@ -114,6 +123,7 @@
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar4" variable="TextCtrlpersoGvar4" member="yes">
 				<value>valvg4</value>
+				<maxlength>6</maxlength>
 				<pos>71,156</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
@@ -122,6 +132,7 @@
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar3" variable="TextCtrlpersoGvar3" member="yes">
 				<value>valvg3</value>
+				<maxlength>6</maxlength>
 				<pos>71,130</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
@@ -130,6 +141,7 @@
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar2" variable="TextCtrlpersoGvar2" member="yes">
 				<value>valvg2</value>
+				<maxlength>6</maxlength>
 				<pos>71,104</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
