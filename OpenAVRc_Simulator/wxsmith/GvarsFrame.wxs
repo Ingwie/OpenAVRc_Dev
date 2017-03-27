@@ -3,13 +3,13 @@
 	<object class="wxFrame" name="GvarsFrame">
 		<title>Variables globales</title>
 		<pos>60,60</pos>
-		<size>472,250</size>
+		<size>461,231</size>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>0,48</pos>
-			<size>432,288</size>
+			<size>464,232</size>
 			<object class="wxGrid" name="ID_GRID1" variable="GVARSGrid" member="yes">
 				<cols>7</cols>
 				<rows>7</rows>
@@ -47,6 +47,7 @@
 				<pos>127,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
+				<handler function="OnTextCtrlpersoAllText" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoPhase0TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase1" variable="TextCtrlpersoPhase1" member="yes">
@@ -55,6 +56,7 @@
 				<pos>183,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
+				<handler function="OnTextCtrlpersoAllText" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoPhase1TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase2" variable="TextCtrlpersoPhase2" member="yes">
@@ -63,6 +65,7 @@
 				<pos>239,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
+				<handler function="OnTextCtrlpersoAllText" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoPhase2TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase3" variable="TextCtrlpersoPhase3" member="yes">
@@ -71,6 +74,7 @@
 				<pos>295,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
+				<handler function="OnTextCtrlpersoAllText" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoPhase3TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase4" variable="TextCtrlpersoPhase4" member="yes">
@@ -79,6 +83,7 @@
 				<pos>351,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
+				<handler function="OnTextCtrlpersoAllText" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoPhase4TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase5" variable="TextCtrlpersoPhase5" member="yes">
@@ -87,6 +92,7 @@
 				<pos>408,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
+				<handler function="OnTextCtrlpersoAllText" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoPhase5TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar1" variable="TextCtrlpersoGvar1" member="yes">
@@ -94,23 +100,27 @@
 				<maxlength>6</maxlength>
 				<pos>71,78</pos>
 				<size>52,22</size>
-				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
+				<style>wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE</style>
+				<handler function="OnTextCtrlpersoAllText" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoGvar1TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
-			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar6" variable="TextCtrlpersoGvar6" member="yes">
-				<value>valvg6</value>
+			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar2" variable="TextCtrlpersoGvar2" member="yes">
+				<value>valvg2</value>
 				<maxlength>6</maxlength>
-				<pos>71,208</pos>
+				<pos>71,104</pos>
 				<size>52,22</size>
-				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
+				<style>wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE</style>
+				<handler function="OnTextCtrlpersoAllText" entry="EVT_TEXT" />
+				<handler function="OnTextCtrlpersoGvar2TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
-			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar5" variable="TextCtrlpersoGvar5" member="yes">
-				<value>valvg5</value>
+			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar3" variable="TextCtrlpersoGvar3" member="yes">
+				<value>valvg3</value>
 				<maxlength>6</maxlength>
-				<pos>71,182</pos>
+				<pos>71,130</pos>
 				<size>52,22</size>
-				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
-				<handler function="OnTextCtrlpersoGvar5TextEnter" entry="EVT_TEXT_ENTER" />
+				<style>wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE</style>
+				<handler function="OnTextCtrlpersoAllText" entry="EVT_TEXT" />
+				<handler function="OnTextCtrlpersoGvar3TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar4" variable="TextCtrlpersoGvar4" member="yes">
 				<value>valvg4</value>
@@ -118,23 +128,24 @@
 				<pos>71,156</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
+				<handler function="OnTextCtrlpersoAllText" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoGvar4TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
-			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar3" variable="TextCtrlpersoGvar3" member="yes">
-				<value>valvg3</value>
+			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar5" variable="TextCtrlpersoGvar5" member="yes">
+				<value>valvg5</value>
 				<maxlength>6</maxlength>
-				<pos>71,130</pos>
+				<pos>71,182</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
-				<handler function="OnTextCtrlpersoGvar3TextEnter" entry="EVT_TEXT_ENTER" />
+				<handler function="OnTextCtrlpersoAllText" entry="EVT_TEXT" />
+				<handler function="OnTextCtrlpersoGvar5TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
-			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar2" variable="TextCtrlpersoGvar2" member="yes">
-				<value>valvg2</value>
+			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar6" variable="TextCtrlpersoGvar6" member="yes">
+				<value>valvg6</value>
 				<maxlength>6</maxlength>
-				<pos>71,104</pos>
+				<pos>71,208</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
-				<handler function="OnTextCtrlpersoGvar2TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMERGVARS" variable="gvarsTimer" member="yes">

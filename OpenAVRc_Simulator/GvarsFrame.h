@@ -49,11 +49,11 @@ class GvarsFrame: public wxFrame
 		static const long ID_TextCtrlpersoPhase4;
 		static const long ID_TextCtrlpersoPhase5;
 		static const long ID_TextCtrlpersoGvar1;
-		static const long ID_TextCtrlpersoGvar6;
-		static const long ID_TextCtrlpersoGvar5;
-		static const long ID_TextCtrlpersoGvar4;
-		static const long ID_TextCtrlpersoGvar3;
 		static const long ID_TextCtrlpersoGvar2;
+		static const long ID_TextCtrlpersoGvar3;
+		static const long ID_TextCtrlpersoGvar4;
+		static const long ID_TextCtrlpersoGvar5;
+		static const long ID_TextCtrlpersoGvar6;
 		static const long ID_PANEL1;
 		static const long ID_TIMERGVARS;
 		//*)
@@ -68,14 +68,13 @@ class GvarsFrame: public wxFrame
 		void OnTextCtrlpersoGvar3TextEnter(wxCommandEvent& event);
 		void OnTextCtrlpersoGvar4TextEnter(wxCommandEvent& event);
 		void OnTextCtrlpersoGvar5TextEnter(wxCommandEvent& event);
-		void OnTextCtrlpersoPh0TextEnter(wxCommandEvent& event);
-		void OnTextCtrlpersoPh1TextEnter(wxCommandEvent& event);
 		void OnTextCtrlpersoPhase0TextEnter(wxCommandEvent& event);
 		void OnTextCtrlpersoPhase1TextEnter(wxCommandEvent& event);
 		void OnTextCtrlpersoPhase2TextEnter(wxCommandEvent& event);
 		void OnTextCtrlpersoPhase3TextEnter(wxCommandEvent& event);
 		void OnTextCtrlpersoPhase4TextEnter(wxCommandEvent& event);
 		void OnTextCtrlpersoPhase5TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoAllText(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

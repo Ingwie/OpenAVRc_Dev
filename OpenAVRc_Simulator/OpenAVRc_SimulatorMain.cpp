@@ -467,16 +467,7 @@ void OpenAVRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
       }
     }
     StartFirmwareCode();
-//tests
-    //wxMessageBox(ConvCharFwToWxstr(g_model.flightModeData[mixerCurrentFlightMode].name, LEN_FLIGHT_MODE_NAME),_("Phase To Miguel   "));
-    //wxString toto = "PHtest";
-    //ConvWxstrToCharFw(toto,g_model.flightModeData[mixerCurrentFlightMode].name, LEN_FLIGHT_MODE_NAME);
-    //wxMessageBox(ConvCharFwToWxstr(g_model.header.name, LEN_MODEL_NAME),_("Model To Miguel   "));
-    //toto = "MENTERO";
-    //ConvWxstrToCharFw(toto,g_model.header.name, LEN_MODEL_NAME);
-
   }
-
 }
 
 void OpenAVRc_SimulatorFrame::StartFirmwareCode()
@@ -752,7 +743,12 @@ void OpenAVRc_SimulatorFrame::OnMenuSaveeeSelected(wxCommandEvent& event)
     return;     // the user changed idea...
   wxFile bin_file;
   bin_file.Create(saveFileDialog.GetPath(), true);
-  eeFlush(); //Save Radio eeprom immediatly
+
+  eeDirty(EE_GENERAL); //Save Radio eeprom immediatly
+  eeCheck(true);
+  eeDirty(EE_MODEL);
+  eeCheck(true);
+
   if(bin_file.IsOpened()) {
     bin_file.Seek(0);
     bin_file.Write(&simu_eeprom[0], EESIZE);
@@ -1303,17 +1299,16 @@ void OpenAVRc_SimulatorFrame::OnKey(wxKeyEvent& event)
 
 void ConvWxstrToCharFw(wxString str,char *fwchar, uint8_t length) //Convert wxString to Firmware chars[]
 {
-  char buff[length+1];
-
+  char buff[length];
   str2zchar(buff, str.mb_str(wxConvUTF8),length);
   strncpy(fwchar, buff, length);
 }
 
 wxString ConvCharFwToWxstr(char *cstr, uint8_t length) //Convert Firmware chars[] to wxString
 {
-  char buff[length+1];
+  char buff[length];
   zchar2str(buff, cstr, length);
-  return wxString(buff,wxConvUTF8 );
+  return wxString(buff,wxConvUTF8);
 }
 
 wxString int2wxString(int integer)
