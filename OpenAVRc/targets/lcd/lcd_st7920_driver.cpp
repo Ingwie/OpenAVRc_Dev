@@ -48,7 +48,6 @@ const static pm_uchar lcdInitSequence[] PROGMEM = {
 
 void lcdInit()
 {
-  LCD_LOCK();
   PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_RES); //LCD reset
   _delay_us(2);
   PORTC_LCD_CTRL |= (1<<OUT_C_LCD_RES);  //LCD normal operation
@@ -58,7 +57,6 @@ void lcdInit()
     _delay_us(80);
   }
   g_eeGeneral.contrast = 0x22;
-  LCD_UNLOCK();
 }
 
 void lcdSetRefVolt(uint8_t val)
@@ -71,7 +69,6 @@ SHOWDURATIONLCD1
 #if defined(SHOWDURATION)
   lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
 #endif
-  LCD_LOCK();
   static uint8_t state;
   uint8_t yst;
   uint8_t yend;
@@ -130,7 +127,6 @@ SHOWDURATIONLCD1
     _delay_us(41);
 
   }
-  LCD_UNLOCK();
 SHOWDURATIONLCD2
 }
 
