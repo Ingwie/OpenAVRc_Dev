@@ -40,7 +40,6 @@
 				<size>472,248</size>
 				<enabled>0</enabled>
 				<style>wxSUNKEN_BORDER</style>
-				<handler function="OnGVARSGridCellLeftClick" entry="EVT_CMD_GRID_CELL_LEFT_CLICK" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase0" variable="TextCtrlpersoPhase0" member="yes">
 				<value>npha0</value>
@@ -48,7 +47,6 @@
 				<pos>127,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
-				<handler function="OnTextCtrlpersoPhase0Text" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoPhase0TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase1" variable="TextCtrlpersoPhase1" member="yes">
@@ -57,7 +55,6 @@
 				<pos>183,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
-				<handler function="OnTextCtrlpersoPhase1Text" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoPhase1TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase2" variable="TextCtrlpersoPhase2" member="yes">
@@ -66,7 +63,6 @@
 				<pos>239,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
-				<handler function="OnTextCtrlpersoPhase2Text" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoPhase2TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase3" variable="TextCtrlpersoPhase3" member="yes">
@@ -75,7 +71,6 @@
 				<pos>295,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
-				<handler function="OnTextCtrlpersoPhase3Text" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoPhase3TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase4" variable="TextCtrlpersoPhase4" member="yes">
@@ -84,7 +79,6 @@
 				<pos>351,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
-				<handler function="OnTextCtrlpersoPhase4Text" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoPhase4TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase5" variable="TextCtrlpersoPhase5" member="yes">
@@ -93,7 +87,6 @@
 				<pos>408,52</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
-				<handler function="OnTextCtrlpersoPhase5Text" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoPhase5TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar1" variable="TextCtrlpersoGvar1" member="yes">
@@ -102,7 +95,6 @@
 				<pos>71,78</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
-				<handler function="OnTextCtrlpersoGvar1Text" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoGvar1TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar6" variable="TextCtrlpersoGvar6" member="yes">
@@ -118,7 +110,6 @@
 				<pos>71,182</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
-				<handler function="OnTextCtrlpersoGvar5Text" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoGvar5TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar4" variable="TextCtrlpersoGvar4" member="yes">
@@ -127,7 +118,6 @@
 				<pos>71,156</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
-				<handler function="OnTextCtrlpersoGvar4Text" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoGvar4TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar3" variable="TextCtrlpersoGvar3" member="yes">
@@ -136,7 +126,6 @@
 				<pos>71,130</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
-				<handler function="OnTextCtrlpersoGvar3Text" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoGvar3TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar2" variable="TextCtrlpersoGvar2" member="yes">
@@ -145,7 +134,6 @@
 				<pos>71,104</pos>
 				<size>52,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
-				<handler function="OnTextCtrlpersoGvar2Text" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoGvar2TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 		</object>
