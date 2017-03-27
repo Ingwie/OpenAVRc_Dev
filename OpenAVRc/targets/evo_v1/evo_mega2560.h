@@ -20,51 +20,6 @@
 
 #include "../../OpenAVRc.h"
 
-
-#ifndef PIN0_bm
-#define PIN0_bm  0x01
-#endif
-#ifndef PIN1_bm
-#define PIN1_bm  0x02
-#endif
-#ifndef PIN2_bm
-#define PIN2_bm  0x04
-#endif
-#ifndef PIN3_bm
-#define PIN3_bm  0x08
-#endif
-#ifndef PIN4_bm
-#define PIN4_bm  0x10
-#endif
-#ifndef PIN5_bm
-#define PIN5_bm  0x20
-#endif
-#ifndef PIN6_bm
-#define PIN6_bm  0x40
-#endif
-#ifndef PIN7_bm
-#define PIN7_bm  0x80
-#endif
-
-#if 0
-// For Evo Tx
-enum Analogs {
-  STICK1,
-  STICK2,
-  STICK3,
-  STICK4,
-  POT1, // SLIDER1,
-  POT2, // SLIDER2,
-  POT_LAST = POT2,
-  TX_VOLTAGE,
-  ANALOG_A7,
-  ANALOG_A8,
-  ANALOG_A9,
-  ANALOG_A10,
-  NUMBER_ANALOG
-};
-#endif
-
 // Switch cross mapping
 #define SW_ID0 SW_Jup
 #define SW_ID1 SW_Jmi
@@ -217,10 +172,12 @@ void pwrOff();
 
 // EEPROM driver
 #if !defined(SIMU)
-#if defined(EXTERNALEEPROM)
-#define ADDRESS_EXTERN_EEPROM  (0x50 << 1) //0x50 with all strap closed on ZS042 module (or alone), EEPROM FM24W256, see datasheet
-#define eepromReadBlock(a, b, c)   Ext_eeprom_read_block(a, b, c) //External EEPROM
-#else
-#define eepromReadBlock(a, b, c)   eeprom_read_block(a, (const void *)b, c) //Internal EEPROM
-#endif
+  #if defined(EXTERNALEEPROM)
+  #define ADDRESS_EXTERN_EEPROM  (0x50 << 1) //0x50 with all strap closed on ZS042 module (or alone), EEPROM FM24W256, see datasheet
+  #define eepromReadBlock(a, b, c)   Ext_eeprom_read_block(a, b, c) //External EEPROM
+  #else
+  #define eepromReadBlock(a, b, c)   eeprom_read_block(a, (const void *)b, c) //Internal EEPROM
+  #endif
+#endif // ! SIMU
+
 #endif // evo_mega2560_h
