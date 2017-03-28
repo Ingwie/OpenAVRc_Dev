@@ -74,6 +74,8 @@ void perMain()
 
   doMixerCalculations();
 
+  SIMU_PROCESSEVENTS;
+
   t0 = getTmr16KHz() - t0;
   lastMixerDuration = t0;
   if (t0 > maxMixerDuration) maxMixerDuration = t0;

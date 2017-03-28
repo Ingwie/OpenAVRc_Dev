@@ -43,27 +43,21 @@ enum JQ6500_State {
 
 JQ6500_State JQstate = START;
 uint8_t JQ6500_playlist[QUEUE_LENGTH] = {0};
-volatile uint8_t JQ6500_InputIndex = 0;
+uint8_t JQ6500_InputIndex = 0;
 uint8_t JQ6500_PlayIndex = 0;
 
-
-
-uint8_t isPlaying()
-{
-  /* interrupts active on Output Compare A Match ? */
 #if defined(SIMU)
-  return false;
+  #define ISPLAYING false
 #else
-  return (TIMSK5 & (1<<OCIE5A));
+  #define ISPLAYING (TIMSK5 & (1<<OCIE5A))/* interrupts active on Output Compare A Match ? */
 #endif
-}
 
 void pushPrompt(uint16_t prompt)
 {
     // if mute active => no voice
   if (g_eeGeneral.beepMode == e_mode_quiet) return;
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) { // To be sure than prompt list is fully updated
   ++prompt;  // With SDformatter, first FAT address = 1 : MP3 files in a directory
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) { // To be sure than prompt list is fully updated
   /* Load playlist and activate interrupt */
   JQ6500_playlist[JQ6500_InputIndex] = (uint8_t)(prompt >> 8);    // MSB first
   ++JQ6500_InputIndex;
@@ -71,9 +65,8 @@ void pushPrompt(uint16_t prompt)
   ++JQ6500_InputIndex;
   if (JQ6500_InputIndex == QUEUE_LENGTH) JQ6500_InputIndex = 0;
   }
-  if (!isPlaying()) {
+  if (!ISPLAYING) {
     TCNT5=0;
-    OCR5A = 0xFA;
     TIMSK5 |= (1<<OCIE5A); // enable interrupts on Output Compare A Match
   }
 }
@@ -84,12 +77,14 @@ uint8_t JQ6500_sendbyte(uint8_t Data_byte)
 
   if (!i) {
     JQ6500_Serial_off;  // serial start bit
+    sei();
     ++i;
     return 0;
   }
 
   if (i==9) {
     JQ6500_Serial_on;  // serial stop bit
+    sei();
     i = 0;
     return 1;
   }
@@ -99,15 +94,14 @@ uint8_t JQ6500_sendbyte(uint8_t Data_byte)
   } else {
     JQ6500_Serial_off;
   }
+  sei();
   ++i;
   return 0;
 }
 
 ISR(TIMER5_COMPA_vect) // every 104µS / 9600 Bauds serial
 {
-  sei();
   if (JQstate == START) {
-    OCR5A = 0x19;
     if (JQ6500_BUSY) return;
     if (JQ6500_sendbyte(JQstate)) {
       JQstate = NUMBY;
@@ -148,13 +142,13 @@ ISR(TIMER5_COMPA_vect) // every 104µS / 9600 Bauds serial
   if (JQstate == TERMI) {
     if (JQ6500_sendbyte(JQstate)) {
       JQstate = START;
+      cli();
       if (JQ6500_PlayIndex == QUEUE_LENGTH) JQ6500_PlayIndex = 0;
       if (JQ6500_PlayIndex == JQ6500_InputIndex) {
-        OCR5A = 0x19;  // stop reentrance
         TIMSK5 &= ~(1<<OCIE5A);
+        sei();
       }
       return;
     }
   }
-  cli();
 }
