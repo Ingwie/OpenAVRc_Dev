@@ -20,6 +20,7 @@ const long GvarsFrame::ID_TextCtrlpersoGvar2 = wxNewId();
 const long GvarsFrame::ID_TextCtrlpersoGvar3 = wxNewId();
 const long GvarsFrame::ID_TextCtrlpersoGvar4 = wxNewId();
 const long GvarsFrame::ID_TextCtrlpersoGvar5 = wxNewId();
+const long GvarsFrame::ID_TextCtrlpersoGvar6 = wxNewId();
 const long GvarsFrame::ID_PANEL1 = wxNewId();
 const long GvarsFrame::ID_TIMERGVARS = wxNewId();
 //*)
@@ -33,42 +34,44 @@ GvarsFrame::GvarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 {
   //(*Initialize(GvarsFrame)
   Create(parent, wxID_ANY, _("Variables globales"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER, _T("wxID_ANY"));
-  SetClientSize(wxSize(384,155));
+  SetClientSize(wxSize(421,156));
   Move(wxPoint(60,60));
   Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(0,48), wxSize(392,176), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-  GVARSGrid = new wxGrid(Panel1, ID_GRID1, wxPoint(0,0), wxSize(376,168), wxSUNKEN_BORDER, _T("ID_GRID1"));
-  GVARSGrid->CreateGrid(5,6);
+  GVARSGrid = new wxGrid(Panel1, ID_GRID1, wxPoint(0,0), wxSize(432,184), wxSUNKEN_BORDER, _T("ID_GRID1"));
+  GVARSGrid->CreateGrid(6,6);
   GVARSGrid->Disable();
   GVARSGrid->EnableEditing(false);
   GVARSGrid->EnableGridLines(true);
   GVARSGrid->SetColLabelSize(22);
-  GVARSGrid->SetRowLabelSize(52);
+  GVARSGrid->SetRowLabelSize(60);
   GVARSGrid->SetDefaultRowSize(22, true);
-  GVARSGrid->SetDefaultColSize(52, true);
+  GVARSGrid->SetDefaultColSize(60, true);
   GVARSGrid->SetDefaultCellFont( GVARSGrid->GetFont() );
   GVARSGrid->SetDefaultCellTextColour( GVARSGrid->GetForegroundColour() );
-  TextCtrlpersoPhase0 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase0, _("npha0"), wxPoint(53,2), wxSize(53,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase0"));
+  TextCtrlpersoPhase0 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase0, _("npha0"), wxPoint(63,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase0"));
   TextCtrlpersoPhase0->SetMaxLength(6);
-  TextCtrlpersoPhase1 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase1, _("npha1"), wxPoint(105,2), wxSize(53,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase1"));
+  TextCtrlpersoPhase1 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase1, _("npha1"), wxPoint(123,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase1"));
   TextCtrlpersoPhase1->SetMaxLength(6);
-  TextCtrlpersoPhase2 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase2, _("npha2"), wxPoint(158,2), wxSize(52,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase2"));
+  TextCtrlpersoPhase2 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase2, _("npha2"), wxPoint(183,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase2"));
   TextCtrlpersoPhase2->SetMaxLength(6);
-  TextCtrlpersoPhase3 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase3, _("npha3"), wxPoint(210,2), wxSize(52,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase3"));
+  TextCtrlpersoPhase3 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase3, _("npha3"), wxPoint(243,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase3"));
   TextCtrlpersoPhase3->SetMaxLength(6);
-  TextCtrlpersoPhase4 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase4, _("npha4"), wxPoint(262,2), wxSize(52,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase4"));
+  TextCtrlpersoPhase4 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase4, _("npha4"), wxPoint(303,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase4"));
   TextCtrlpersoPhase4->SetMaxLength(6);
-  TextCtrlpersoPhase5 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase5, _("npha5"), wxPoint(314,2), wxSize(52,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase5"));
+  TextCtrlpersoPhase5 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase5, _("npha5"), wxPoint(363,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase5"));
   TextCtrlpersoPhase5->SetMaxLength(6);
-  TextCtrlpersoGvar1 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar1, _("valvg1"), wxPoint(2,22), wxSize(52,21), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, wxDefaultValidator, _T("ID_TextCtrlpersoGvar1"));
+  TextCtrlpersoGvar1 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar1, _("valvg1"), wxPoint(2,22), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, wxDefaultValidator, _T("ID_TextCtrlpersoGvar1"));
   TextCtrlpersoGvar1->SetMaxLength(6);
-  TextCtrlpersoGvar2 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar2, _("valvg2"), wxPoint(2,44), wxSize(52,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, wxDefaultValidator, _T("ID_TextCtrlpersoGvar2"));
+  TextCtrlpersoGvar2 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar2, _("valvg2"), wxPoint(2,44), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, wxDefaultValidator, _T("ID_TextCtrlpersoGvar2"));
   TextCtrlpersoGvar2->SetMaxLength(6);
-  TextCtrlpersoGvar3 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar3, _("valvg3"), wxPoint(2,66), wxSize(52,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, wxDefaultValidator, _T("ID_TextCtrlpersoGvar3"));
+  TextCtrlpersoGvar3 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar3, _("valvg3"), wxPoint(2,66), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, wxDefaultValidator, _T("ID_TextCtrlpersoGvar3"));
   TextCtrlpersoGvar3->SetMaxLength(6);
-  TextCtrlpersoGvar4 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar4, _("valvg4"), wxPoint(2,88), wxSize(52,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoGvar4"));
+  TextCtrlpersoGvar4 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar4, _("valvg4"), wxPoint(2,88), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoGvar4"));
   TextCtrlpersoGvar4->SetMaxLength(6);
-  TextCtrlpersoGvar5 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar5, _("valvg5"), wxPoint(2,110), wxSize(52,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoGvar5"));
+  TextCtrlpersoGvar5 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar5, _("valvg5"), wxPoint(2,110), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoGvar5"));
   TextCtrlpersoGvar5->SetMaxLength(6);
+  TextCtrlpersoGvar6 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar6, _("valvg6"), wxPoint(2,132), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoGvar6"));
+  TextCtrlpersoGvar6->SetMaxLength(6);
   gvarsTimer.SetOwner(this, ID_TIMERGVARS);
   gvarsTimer.Start(2000, false);
 
@@ -103,6 +106,8 @@ GvarsFrame::GvarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
     wxIcon FrameIcon;
     SetIcon(wxICON(nsrcs_icon));
   }
+
+  GVARSGrid->SetDefaultCellAlignment(wxALIGN_CENTER,wxALIGN_CENTER);
 
   PopulateGvarsFrame();
 

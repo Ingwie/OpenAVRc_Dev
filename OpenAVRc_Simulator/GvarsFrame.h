@@ -35,6 +35,7 @@ class GvarsFrame: public wxFrame
 		wxTextCtrl* TextCtrlpersoPhase0;
 		wxTextCtrl* TextCtrlpersoGvar5;
 		wxTimer gvarsTimer;
+		wxTextCtrl* TextCtrlpersoGvar6;
 		//*)
 
 	protected:
@@ -52,6 +53,7 @@ class GvarsFrame: public wxFrame
 		static const long ID_TextCtrlpersoGvar3;
 		static const long ID_TextCtrlpersoGvar4;
 		static const long ID_TextCtrlpersoGvar5;
+		static const long ID_TextCtrlpersoGvar6;
 		static const long ID_PANEL1;
 		static const long ID_TIMERGVARS;
 		//*)
