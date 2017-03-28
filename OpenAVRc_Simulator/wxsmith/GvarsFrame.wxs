@@ -3,7 +3,7 @@
 	<object class="wxFrame" name="GvarsFrame">
 		<title>Variables globales</title>
 		<pos>60,60</pos>
-		<size>378,169</size>
+		<size>384,155</size>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
@@ -12,30 +12,12 @@
 			<size>392,176</size>
 			<object class="wxGrid" name="ID_GRID1" variable="GVARSGrid" member="yes">
 				<cols>6</cols>
-				<rows>6</rows>
+				<rows>5</rows>
 				<readonly>1</readonly>
 				<labelrowheight>22</labelrowheight>
 				<labelcolwidth>52</labelcolwidth>
 				<defaultrowsize>22</defaultrowsize>
 				<defaultcolsize>52</defaultcolsize>
-				<collabels>
-					<item>Noms</item>
-					<item>PV0</item>
-					<item>PV1</item>
-					<item>PV2</item>
-					<item>PV3</item>
-					<item>PV4</item>
-					<item>PV5</item>
-				</collabels>
-				<rowlabels>
-					<item>Noms</item>
-					<item>VG1</item>
-					<item>VG2</item>
-					<item>VG3</item>
-					<item>VG4</item>
-					<item>VG5</item>
-					<item>VG6</item>
-				</rowlabels>
 				<pos>0,0</pos>
 				<size>376,168</size>
 				<enabled>0</enabled>
@@ -140,13 +122,6 @@
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
 				<handler function="OnTextCtrlpersoAllText" entry="EVT_TEXT" />
 				<handler function="OnTextCtrlpersoGvar5TextEnter" entry="EVT_TEXT_ENTER" />
-			</object>
-			<object class="wxTextCtrl" name="ID_TextCtrlpersoGvar6" variable="TextCtrlpersoGvar6" member="yes">
-				<value>valvg6</value>
-				<maxlength>6</maxlength>
-				<pos>2,132</pos>
-				<size>52,22</size>
-				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
 			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMERGVARS" variable="gvarsTimer" member="yes">

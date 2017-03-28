@@ -1,5 +1,6 @@
 #include "ModelsFrame.h"
 #include "OpenAVRc_SimulatorMain.h"
+#include <wx/msgdlg.h>
 
 //(*InternalHeaders(ModelsFrame)
 #include <wx/intl.h>
@@ -80,15 +81,31 @@ void ModelsFrame::OnModelsGridCellLeftClick(wxGridEvent& event)
     newNameString = "";
     char newName[LEN_MODEL_NAME] = "";
     newNameString = (ModelsGrid->GetCellValue(i,0));
+    CheckEntryValues(newNameString);
     ConvWxstrToCharFw(newNameString, newName, LEN_MODEL_NAME); //Convert wxString to Firmware chars[]
     theFile.openRlc(FILE_MODEL(i));
     theFile.writeRlc(FILE_MODEL(i),FILE_TYP_MODEL, (uint8_t*)newName, LEN_MODEL_NAME, true);
   }
+    PopulateModelsFrame();
+
     //TODO close files (?)
-    //verify new entries syntax
     //timer on and off
     //test if it works with new model (create file ?)
     //review the option "left click", clearly improvable
     //test if everyting is saved.
-    //synchronize LCD and model screen
+    //synchronize LCD and model screen (!!!!)
 }
+
+void ModelsFrame::CheckEntryValues(wxString inString)
+{
+  std::string  x(inString);
+  if (x.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-+:*=?") != std::string::npos){
+      wxMessageBox(x +_(" :\nIl y a un nom avec des caractères spéciaux non autorisés.\nVeuillez le changer.\nCaractères spéciaux autorisés : _-+:*=?"));
+    }
+  if ((x.length() < 3) & (x.length() > 1)){
+      wxMessageBox(x +_(" :\nIl y a un nom trop court, veuillez le compléter."));
+    }
+  return;
+  }
+
+

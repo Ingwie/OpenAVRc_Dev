@@ -7,6 +7,8 @@
 #include <wx/frame.h>
 //*)
 
+
+
 class ModelsFrame: public wxFrame
 {
 	public:
@@ -15,6 +17,7 @@ class ModelsFrame: public wxFrame
 		virtual ~ModelsFrame();
 
 		void PopulateModelsFrame();
+		void CheckEntryValues(wxString);
 
 		//(*Declarations(ModelsFrame)
 		wxPanel* Panel1;
