@@ -177,13 +177,14 @@ private:
   void OnOutputGvarsSelected(wxCommandEvent& event);
   void OnRadioDataSelected(wxCommandEvent& event);
   void OnModelsListSelected(wxCommandEvent& event);
+  void OnBpReaLeftDown(wxMouseEvent& event);
+  void OnBpReaLeftUp(wxMouseEvent& event);
+  void OnBpRebLeftDown(wxMouseEvent& event);
+  void OnBpRebLeftUp(wxMouseEvent& event);
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)
   static const long ID_PANELH;
-  static const long ID_ONTGLBUTTON;
-  static const long ID_BUTTONSTARTDESKTOP;
-  static const long ID_PANELL;
   static const long ID_POT1;
   static const long ID_POT2;
   static const long ID_POT3;
@@ -215,7 +216,12 @@ private:
   static const long ID_SPINREA;
   static const long ID_SPINREB;
   static const long ID_TEXTCTRLDUMMY;
+  static const long ID_BPREA;
+  static const long ID_BPREB;
   static const long ID_PANELMAIN;
+  static const long ID_ONTGLBUTTON;
+  static const long ID_BUTTONSTARTDESKTOP;
+  static const long ID_PANELL;
   static const long ID_PANELPRINCIPAL;
   static const long IdMenuOpenEE;
   static const long IdMenuSaveEE;
@@ -308,11 +314,13 @@ private:
   wxPanel* BpAil;
   wxMenuItem* MenuLcdBack;
   wxSlider* Pot3;
+  wxPanel* BpReb;
+  wxPanel* BpRea;
   wxPanel* BPb;
   wxPanel* RuTrim;
   wxPanel* BpTrn;
-  wxPanel* PanelMain;
   wxButton* ButtonStartDesktop;
+  wxPanel* PanelMain;
   wxMenu* MenuFrame;
   wxToggleButton* OnTglButton;
   wxTimer TimerMain;
