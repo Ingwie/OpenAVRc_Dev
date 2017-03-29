@@ -96,30 +96,28 @@ inline void boardInit()
 #endif
 
 
-#if defined(PROTO_HAS_CC2500)
+#if defined(SPIMODULES)
 // Setup (M)SPI Port.
 // USART3
 // PORTJ0 RXD3
 // PORTJ1 TXD3
 // PORTJ2 XCK3
-// PORTJ3 CC2500 CSN ... Use PORTC4
+// PORTJ3 CC2500 CSN ... Use PORTC4 for now.
 
 // Setup pin states and USART in MSPI mode.
 // Initialisation of USART.
 
-  UBRR3 = 0; // Reset is part of initialisation sequence.
-  UCSR3C = 0xC3;
-  // UMSEL21:0 = 3 DORD2=0 CPHA2=1 CPOL2=1  USART in Master SPI mode, MSB first, Clock phase=1 Polarity=1.
-  UCSR3B = (1 << RXEN3) | (1 << TXEN3);
-  // Transmit and Receive.
-  UBRR3 = 3; // 2.0MHz clock ... 16MHz/(2*(UBRR+1))
-
   RF_CS_N_INACTIVE();
 
-  DDRJ |= (1<<PORTJ1) | (1<<PORTJ2) | (1<<PORTJ3);
+  UBRR3 = 0; // Reset is part of initialisation sequence.
+  UCSR3C = 0xC3; // UMSEL21:0 = 3 DORD2=0 CPHA2=1 CPOL2=1  USART in Master SPI mode, MSB first, Clock phase=1 Polarity=1.
+  UCSR3B = (1 << RXEN3) | (1 << TXEN3); // Transmit and Receive.
+  UBRR3 = 3; // 2.0MHz clock ... 16MHz/(2*(UBRR+1))
+
+  DDRJ |= (1<<PORTJ1) | (1<<PORTJ2); // | (1<<PORTJ3);
   DDRJ &= ~(1<<PORTJ0);
 
-#endif // PROTO_HAS_CC2500
+#endif // SPIMODULES
 }
 #endif // !SIMU
 

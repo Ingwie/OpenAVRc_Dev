@@ -27,7 +27,7 @@
 #define _SPI_H_
 
 #define spi_tx(value)  spi_xfer(value)
-#define spi_rx()  spi_xfer(0xFF)
+#define spi_rx()  spi_xfer(0) // Prefer 0 to be sent.
 
 void spi_disable(void);
 void spi_enable_master_mode(void);

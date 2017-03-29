@@ -107,6 +107,28 @@ FORCEINLINE void boardInit()
   OCR5A = 0x19; // 0x1A=104µs needed for the 9600Bps serial command
   TCCR5B = (1 << WGM52) | (0b011 << CS50); // CTC OCR5A
 #endif
+#if defined(SPIMODULES)
+// Setup (M)SPI Port.
+// USART2
+// PORTH0 RXD2
+// PORTH1 TXD2
+// PORTH2 XCK2
+
+// Setup pin states and USART in MSPI mode.
+// Initialisation of USART.
+
+  RF_CS_N_INACTIVE();
+
+  UBRR2 = 0; // Reset is part of initialisation sequence.
+  UCSR2C = 0xC3; // UMSEL21:0 = 3 DORD2=0 CPHA2=1 CPOL2=1  USART in Master SPI mode, MSB first, Clock phase=1 Polarity=1.
+  UCSR2B = (1 << RXEN3) | (1 << TXEN3); // Transmit and Receive.
+  UBRR2 = 3; // 2.0MHz clock ... 16MHz/(2*(UBRR+1))
+
+  DDRJ |= (1<<PORTH1) | (1<<PORTH2);
+  DDRJ &= ~(1<<PORTH0);
+
+#endif // SPIMODULES
+
 
   /* Rotary encoder interrupt set-up                 */
   EIMSK = 0; // disable ALL external interrupts.
@@ -125,6 +147,19 @@ FORCEINLINE void boardInit()
 
 #endif // !SIMU
 }
+
+uint8_t USART2_mspi_xfer(uint8_t data)
+{
+  /* Wait for empty transmit buffer */
+  while ( !( UCSR2A & (1<<UDRE2)) );
+  /* Put data into buffer, sends the data */
+  UDR2 = data;
+  /* Wait for data to be received */
+  while ( !(UCSR2A & (1<<RXC2)) );
+  /* Get and return received data from buffer */
+  return UDR2;
+}
+
 
 uint8_t pwrCheck()
 {

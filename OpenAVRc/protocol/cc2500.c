@@ -3,22 +3,22 @@
 
 #ifdef PROTO_HAS_CC2500
 #include "../OpenAVRc.h"
-#include "../spi.h"
+// #include "../spi.h"
 
 void CC2500_WriteReg(uint8_t address, uint8_t data)
 {
   RF_CS_N_ACTIVE();
-  spi_xfer(address);
-  spi_xfer(data);
+  RF_SPI_xfer(address);
+  RF_SPI_xfer(data);
   RF_CS_N_INACTIVE();
 }
 
 static void ReadRegisterMulti(uint8_t address, uint8_t data[], uint8_t length)
 {
   RF_CS_N_ACTIVE();
-  spi_xfer(address);
+  RF_SPI_xfer(address);
   for(uint8_t i = 0; i < length; i++) {
-    data[i] = spi_xfer(0);
+    data[i] = RF_SPI_xfer(0);
   }
   RF_CS_N_INACTIVE();
 }
@@ -26,8 +26,8 @@ static void ReadRegisterMulti(uint8_t address, uint8_t data[], uint8_t length)
 uint8_t CC2500_ReadReg(uint8_t address)
 {
   RF_CS_N_ACTIVE();
-  spi_xfer(CC2500_READ_SINGLE | address);
-  uint8_t data = spi_xfer(0);
+  RF_SPI_xfer(CC2500_READ_SINGLE | address);
+  uint8_t data = RF_SPI_xfer(0);
   RF_CS_N_INACTIVE();
   return data;
 }
@@ -40,7 +40,7 @@ void CC2500_ReadData(uint8_t *dpbuffer, uint8_t len)
 uint8_t CC2500_Strobe(uint8_t strobe_cmd)
 {
   RF_CS_N_ACTIVE();
-  uint8_t chip_status = spi_xfer(strobe_cmd);
+  uint8_t chip_status = RF_SPI_xfer(strobe_cmd);
   RF_CS_N_INACTIVE();
   return chip_status;
 }
@@ -49,9 +49,9 @@ uint8_t CC2500_Strobe(uint8_t strobe_cmd)
 void CC2500_WriteRegisterMulti(uint8_t address, const uint8_t data[], uint8_t length)
 {
   RF_CS_N_ACTIVE();
-  spi_xfer(CC2500_WRITE_BURST | address);
+  RF_SPI_xfer(CC2500_WRITE_BURST | address);
   for(uint8_t i = 0; i < length; i++) {
-  spi_xfer(data[i]);
+  RF_SPI_xfer(data[i]);
   }
   RF_CS_N_INACTIVE();
 }

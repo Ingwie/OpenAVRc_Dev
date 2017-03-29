@@ -20,16 +20,17 @@
 
 #include "../../OpenAVRc.h"
 
+//Xmitter
 #define SPIMODULES // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 #define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 
-#if defined(PROTO_HAS_CC2500)
+#if defined(SPIMODULES)
+  #define OUT_C_RF_CS_N       PIN4_bm
+  #define RF_CS_N_ACTIVE()    PORTC &= ~(OUT_C_RF_CS_N)
+  #define RF_CS_N_INACTIVE()  PORTC |=  (OUT_C_RF_CS_N)
 
-#define OUT_C_RF_CS_N       PIN4_bm
-#define RF_CS_N_ACTIVE()    PORTC &= ~(OUT_C_RF_CS_N)
-#define RF_CS_N_INACTIVE()  PORTC |=  (OUT_C_RF_CS_N)
-
-#define mspi_xfer USART3_mspi_xfer
+  uint8_t USART3_mspi_xfer(uint8_t data);
+  #define RF_SPI_xfer  USART3_mspi_xfer
 
   #if   F_CPU == 16000000UL
   #define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
@@ -38,8 +39,7 @@
   #else
   #define HALF_MICRO_SEC_COUNTS(half_us) (((F_CPU/800)*(half_us))/20000)
   #endif
-
-#endif // PROTO_HAS_CC2500
+#endif // SPIMODULES
 
 //#define GPIO_SET(sfr, bit) (sfr) |=  (1<<(bit))
 //#define GPIO_CLR(sfr, bit) (sfr) &= ~(1<<(bit))
