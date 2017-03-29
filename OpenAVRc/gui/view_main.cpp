@@ -331,7 +331,7 @@ void menuMainView(uint8_t event)
     break;
 
   case EVT_KEY_FIRST(KEY_EXIT):
-#if defined(GVARS) 
+#if defined(GVARS)
     if (s_gvar_timer > 0) {
       s_gvar_timer = 0;
     }
@@ -489,7 +489,7 @@ void menuMainView(uint8_t event)
     lcdDrawCharAtt(REBOOT_X, 0*FH, '!', INVERS);
   }
 
-#if defined(GVARS) 
+#if defined(GVARS)
   if (s_gvar_timer > 0) {
     s_gvar_timer--;
     warningText = STR_GLOBAL_VAR;
@@ -502,7 +502,7 @@ void menuMainView(uint8_t event)
 #endif
 
 #if defined(DSM2)
-  if (moduleFlag[0] == MODULE_BIND) {
+  if (moduleFlag == MODULE_BIND) {
     // Issue 98
     lcdDrawTextAtt(15*FW, 0, PSTR("BIND"), 0);
   }

@@ -361,9 +361,9 @@ void menuModelSetup(uint8_t event)
           REPEAT_LAST_CURSOR_MOVE(); // limit 3 column row to 2 colums (Rx_Num and RANGE fields)
         }
         lcdDrawTextLeft(y, STR_RXNUM);
-        lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y, g_model.header.modelId[0], (menuHorizontalPosition<=0 ? attr : 0) | LEADING0|LEFT, 2);
+        lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y, g_model.header.modelId, (menuHorizontalPosition<=0 ? attr : 0) | LEADING0|LEFT, 2);
         if (attr && (menuHorizontalPosition==0 && (editMode>0 || p1valdiff))) {
-          CHECK_INCDEC_MODELVAR_ZERO(event, g_model.header.modelId[0], 99);
+          CHECK_INCDEC_MODELVAR_ZERO(event, g_model.header.modelId, 99);
         }
 #if defined(PXX)
         if (protocol == PROTO_PXX) {
@@ -373,13 +373,13 @@ void menuModelSetup(uint8_t event)
             // send reset code
             newFlag = MODULE_BIND;
           }
-          moduleFlag[0] = newFlag;
+          moduleFlag = newFlag;
         }
 #endif
 #if defined(DSM2)
         if (IS_DSM2_PROTOCOL(protocol)) {
           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+4*FW, y, STR_MODULE_RANGE, menuHorizontalPosition!=0 ? attr : 0);
-          moduleFlag[0] = (attr && menuHorizontalPosition>0 && editMode>0) ? MODULE_RANGECHECK : 0; // [MENU] key toggles range check mode
+          moduleFlag = (attr && menuHorizontalPosition>0 && editMode>0) ? MODULE_RANGECHECK : 0; // [MENU] key toggles range check mode
         }
 #endif
       }

@@ -47,7 +47,7 @@ uint8_t  dsm2BindTimer = DSM2_BIND_TIMEOUT;
 #endif
 
 #if defined(DSM2) || defined(PXX)
-uint8_t moduleFlag[NUM_MODULES] = { 0 };
+uint8_t moduleFlag = { 0 };
 #endif
 
 uint8_t s_current_protocol[1] = { 255 };
@@ -309,11 +309,11 @@ void setupPulsesPXX()
   PcmBitCount = PcmByte = 0;
   PcmOnesCount = 0;
   putPcmHead();
-  putPcmByte(g_model.header.modelId[0]);
+  putPcmByte(g_model.header.modelId);
   uint8_t flag1 = 0;
-  if (moduleFlag[0] == MODULE_BIND)
+  if (moduleFlag == MODULE_BIND)
     flag1 |= (g_eeGeneral.countryCode << 1) | PXX_SEND_BIND;
-  else if (moduleFlag[0] == MODULE_RANGECHECK)
+  else if (moduleFlag == MODULE_RANGECHECK)
     flag1 |= PXX_SEND_RANGECHECK;
   putPcmByte(flag1);     // First byte of flags
   putPcmByte(0);     // Second byte of flags
@@ -385,17 +385,17 @@ FORCEINLINE void setupPulsesDSM2()
   if (dsm2BindTimer > 0) {
     dsm2BindTimer--;
     if (switchState(SW_DSM2_BIND)) {
-      moduleFlag[0] = MODULE_BIND;
+      moduleFlag = MODULE_BIND;
       *ptr |= DSM2_SEND_BIND;
     }
-  } else if (moduleFlag[0] == MODULE_RANGECHECK) {
+  } else if (moduleFlag == MODULE_RANGECHECK) {
     *ptr |= DSM2_SEND_RANGECHECK;
   } else {
-    moduleFlag[0] = 0;
+    moduleFlag = 0;
   }
 
   ptr++;
-  *ptr++ = g_model.header.modelId[0];
+  *ptr++ = g_model.header.modelId;
 
   for (uint8_t i=0; i<DSM2_CHANS; i++) {
     uint16_t pulse = limit(0, ((channelOutputs[i]*13)>>5)+512,1023);
@@ -506,16 +506,16 @@ void setupPulsesDSM2()
   if (dsm2BindTimer > 0) {
     dsm2BindTimer--;
     if (switchState(SW_DSM2_BIND)) {
-      moduleFlag[0] = MODULE_BIND;
+      moduleFlag = MODULE_BIND;
       dsmDat[0] |= DSM2_SEND_BIND;
     }
-  } else if (moduleFlag[0] == MODULE_RANGECHECK) {
+  } else if (moduleFlag == MODULE_RANGECHECK) {
     dsmDat[0] |= DSM2_SEND_RANGECHECK;
   } else {
-    moduleFlag[0] = 0;
+    moduleFlag = 0;
   }
 
-  dsmDat[1] = g_model.header.modelId[0];
+  dsmDat[1] = g_model.header.modelId;
 
   for (uint8_t i=0; i<DSM2_CHANS; i++) {
     uint16_t pulse = limit(0, ((channelOutputs[i]*13)>>5)+512, 1023);

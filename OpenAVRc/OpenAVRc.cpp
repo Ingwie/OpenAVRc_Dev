@@ -1150,14 +1150,12 @@ void doMixerCalculations()
 
 #if defined(PXX) || defined(DSM2)
     static uint8_t countRangecheck = 0;
-    for (uint8_t i=0; i<NUM_MODULES; ++i) {
-      if (moduleFlag[i] != MODULE_NORMAL_MODE) {
+      if (moduleFlag != MODULE_NORMAL_MODE) {
         if (++countRangecheck >= 250) {
           countRangecheck = 0;
           AUDIO_PLAY(AU_FRSKY_CHEEP);
         }
       }
-    }
 #endif
 
   }
