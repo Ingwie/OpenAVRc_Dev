@@ -339,16 +339,16 @@ void menuModelSetup(uint8_t event)
         if (attr && menuHorizontalPosition > 1) {
           REPEAT_LAST_CURSOR_MOVE(); // limit 3 column row to 2 colums (Protocol and RANGE fields)
         }
-        lcdDrawTextAtt(0, y, Protos[g_model.header.modelId[0]].ProtoName, menuHorizontalPosition!=1 ? attr : 0); //TODO works on simu, not on the radio
+        lcdDrawTextAtt(0, y, Protos[g_model.header.modelId].ProtoName, menuHorizontalPosition!=1 ? attr : 0); //TODO works on simu, not on the radio
         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+4*FW, y, STR_MODULE_RANGE, menuHorizontalPosition!=0 ? attr : 0);
         if (attr  && (editMode>0)) {
 
           switch (menuHorizontalPosition) {
           case 0:
-            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.header.modelId[0], (DIM(Protos)-1));
+            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.header.modelId, (DIM(Protos)-1));
             break;
           case 1:
-            moduleFlag[0] = (attr && editMode>0) ? MODULE_RANGECHECK : 0; // [MENU] key toggles range check mode
+            moduleFlag = (attr && editMode>0) ? MODULE_RANGECHECK : 0; // [MENU] key toggles range check mode
             break;
           }
         }

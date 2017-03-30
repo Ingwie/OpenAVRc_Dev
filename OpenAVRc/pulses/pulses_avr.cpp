@@ -29,7 +29,7 @@
 #include "../protocol/misc.c"
 
 #if defined(DSM2) || defined(PXX) || defined(SPIMODULES)
-uint8_t moduleFlag[NUM_MODULES] = { 0 };
+uint8_t moduleFlag = { 0 };
 #endif
 
 
@@ -47,7 +47,7 @@ void startPulses()
 //PROTO_Cmds = PPM_BB_Cmds;
 //PROTO_Cmds =  SKYARTEC_Cmds;
 //PROTO_Cmds = *Protos[0].Cmds;
-PROTO_Cmds = *Protos[g_model.header.modelId[0]].Cmds;
+PROTO_Cmds = *Protos[g_model.header.modelId].Cmds;
 PROTO_Cmds(PROTOCMD_INIT);
 }
 

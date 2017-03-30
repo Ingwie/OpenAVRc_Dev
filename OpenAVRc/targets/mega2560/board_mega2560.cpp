@@ -150,7 +150,8 @@ FORCEINLINE void boardInit()
 
 uint8_t USART2_mspi_xfer(uint8_t data)
 {
-  /* Wait for empty transmit buffer */
+#if !defined(SIMU)
+/* Wait for empty transmit buffer */
   while ( !( UCSR2A & (1<<UDRE2)) );
   /* Put data into buffer, sends the data */
   UDR2 = data;
@@ -158,6 +159,7 @@ uint8_t USART2_mspi_xfer(uint8_t data)
   while ( !(UCSR2A & (1<<RXC2)) );
   /* Get and return received data from buffer */
   return UDR2;
+#endif
 }
 
 
