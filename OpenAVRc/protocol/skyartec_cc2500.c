@@ -17,9 +17,9 @@
 
 
 static uint8_t Sky_packet[20];
-static uint32_t state;
+static uint8_t state;
 static uint32_t fixed_id;
-static uint32_t bind_count;
+static uint16_t bind_count;
 #define TX_ADDR ((fixed_id >> 16) & 0xff)
 #define TX_CHANNEL ((fixed_id >> 24) & 0xff)
 
@@ -109,15 +109,28 @@ static void add_pkt_suffix()
 static void send_data_packet()
 {
   //13 c5 01 0259 0168 0000 0259 030c 021a 0489 f3 7e 0a
+
   Sky_packet[0] = 0x13;                //Length
   Sky_packet[1] = TX_ADDR;             //Tx Addr?
   Sky_packet[2] = 0x01;                //???
-  for(int i = 0; i < 7; i++) {
-    int32_t value = (int32_t)channelOutputs[i] * 0x280 / CHAN_MAX_VALUE + 0x280;
-    if(value < 0)
-      value = 0;
-    if(value > 0x500)
-      value = 0x500;
+
+  // Each channel has a minimum of '0' and a maximum of 1280 (0x500).
+
+  uint8_t num_chan = 8 + (g_model.ppmNCH *2);
+  if(num_chan > 7) num_chan = 7;
+
+  int16_t value;
+
+  for(uint8_t i = 0; i < 7; i++) {
+    if(i < num_chan) {
+	   value = channelOutputs[i];
+	   value /= 2;
+	   value = limit((int16_t)-640, value, (int16_t)+640);
+	   value += 0x280; // 640.
+    }
+    else {
+      value = 0x280;
+    }
     Sky_packet[3+2*i] = value >> 8;
     Sky_packet[4+2*i] = value & 0xff;
   }
@@ -127,7 +140,9 @@ static void send_data_packet()
   CC2500_WriteReg(CC2500_05_SYNC0, ((fixed_id >> 8) & 0xff));
   CC2500_WriteReg(CC2500_09_ADDR, TX_ADDR);
   CC2500_WriteReg(CC2500_0A_CHANNR, TX_CHANNEL);
+  CC2500_Strobe(CC2500_SFTX);
   CC2500_WriteData(Sky_packet, 20);
+  CC2500_Strobe(CC2500_STX);
 }
 
 static void send_bind_packet()
@@ -151,34 +166,43 @@ static void send_bind_packet()
   CC2500_WriteReg(CC2500_05_SYNC0, 0x7d);
   CC2500_WriteReg(CC2500_09_ADDR, 0x7d);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0x7d);
+  CC2500_Strobe(CC2500_SFTX);
   CC2500_WriteData(Sky_packet, 12);
+  CC2500_Strobe(CC2500_STX);
 }
+
 
 static uint16_t skyartec_cb()
 {
+  // Might be better to re-write this function with only one callback every 6ms.
+  heartbeat |= HEART_TIMER_PULSES;
+  // SCHEDULE_MIXER_END((uint16_t) (6 *2) *8); // Todo
+
   if (state & 0x01) {
     CC2500_Strobe(CC2500_SIDLE);
     if (state == SKYARTEC_LAST) {
-      CC2500_SetPower(TXPOWER_6);
-      state = SKYARTEC_PKT1;
-    } else {
-      state++;
+     CC2500_SetPower(TXPOWER_6);
+     state = SKYARTEC_PKT1;
     }
-    return 3000 *2;
+    else  state++;
+  return 3000 *2;
   }
+
   if (state == SKYARTEC_PKT1 && bind_count) {
-    send_bind_packet();
-    bind_count--;
+  send_bind_packet();
+  bind_count--;
     if(bind_count == 0) {
-//            printf("Done binding\n");
-    } else {
-      send_data_packet();
+      //  printf("Done binding\n");
     }
-    state++;
-    return 3000 *2;
   }
-  return 0; // not shure if needed
+  else {
+    send_data_packet();
+  }
+
+  state++;
+  return 3000 *2;
 }
+
 
 static void skyartec_initialize()
 {
@@ -206,7 +230,7 @@ static void skyartec_initialize()
   bind_count = 10000;
   state = SKYARTEC_PKT1;
 
-  CLOCK_StartTimer(10000U *2, skyartec_cb);
+  CLOCK_StartTimer(25000U *2, &skyartec_cb);
 }
 
 const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
@@ -221,7 +245,7 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
     //return (void *)(CC2500_Reset() ? 1L : -1L);
     return (void *) 1L;
   case PROTOCMD_CHECK_AUTOBIND:
-    return (void *)0L; //Never Autobind
+    return (void *)1L; // Always Autobind
   case PROTOCMD_BIND:
     skyartec_initialize();
     return 0;
