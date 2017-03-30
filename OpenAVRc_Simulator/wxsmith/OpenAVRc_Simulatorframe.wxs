@@ -18,25 +18,6 @@
 				<size>784,64</size>
 				<style>wxDOUBLE_BORDER</style>
 			</object>
-			<object class="wxPanel" name="ID_PANELL" variable="PanelL" member="yes">
-				<pos>0,305</pos>
-				<size>784,64</size>
-				<style>wxDOUBLE_BORDER</style>
-				<object class="wxToggleButton" name="ID_ONTGLBUTTON" variable="OnTglButton" member="yes">
-					<label>ON</label>
-					<pos>8,8</pos>
-					<size>62,22</size>
-					<style>wxDOUBLE_BORDER</style>
-					<handler function="OnOnTglButtonToggle" entry="EVT_TOGGLEBUTTON" />
-				</object>
-				<object class="wxButton" name="ID_BUTTONSTARTDESKTOP" variable="ButtonStartDesktop" member="yes">
-					<label>Desktop</label>
-					<pos>8,32</pos>
-					<size>62,22</size>
-					<style>wxSIMPLE_BORDER</style>
-					<handler function="OnButtonStartDesktopClick" entry="EVT_BUTTON" />
-				</object>
-			</object>
 			<object class="wxPanel" name="ID_PANELMAIN" variable="PanelMain" member="yes">
 				<pos>0,64</pos>
 				<size>784,248</size>
@@ -274,20 +255,57 @@
 				<object class="wxSpinButton" name="ID_SPINREA" variable="SpinRea" member="yes">
 					<min>-100</min>
 					<max>100</max>
-					<pos>14,12</pos>
+					<pos>14,14</pos>
 					<tooltip>Rea</tooltip>
 					<style>wxSP_HORIZONTAL|wxSP_WRAP|wxSTATIC_BORDER</style>
 				</object>
 				<object class="wxSpinButton" name="ID_SPINREB" variable="SpinReb" member="yes">
 					<min>-100</min>
 					<max>100</max>
-					<pos>732,12</pos>
+					<pos>732,14</pos>
 					<tooltip>Reb</tooltip>
 					<style>wxSP_HORIZONTAL|wxSP_WRAP|wxSTATIC_BORDER</style>
 				</object>
 				<object class="wxTextCtrl" name="ID_TEXTCTRLDUMMY" variable="TextCtrlgetkbinput" member="yes">
 					<pos>64,216</pos>
 					<size>0,0</size>
+				</object>
+				<object class="wxPanel" name="ID_BPREA" variable="BpRea" member="yes">
+					<pos>14,2</pos>
+					<size>35,12</size>
+					<bg>#000000</bg>
+					<tooltip>BP REA</tooltip>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBpReaLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBpReaLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_BPREB" variable="BpReb" member="yes">
+					<pos>732,2</pos>
+					<size>35,12</size>
+					<bg>#000000</bg>
+					<tooltip>BP REB</tooltip>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBpRebLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBpRebLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+			</object>
+			<object class="wxPanel" name="ID_PANELL" variable="PanelL" member="yes">
+				<pos>0,305</pos>
+				<size>784,64</size>
+				<style>wxDOUBLE_BORDER</style>
+				<object class="wxToggleButton" name="ID_ONTGLBUTTON" variable="OnTglButton" member="yes">
+					<label>ON</label>
+					<pos>8,8</pos>
+					<size>62,22</size>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnOnTglButtonToggle" entry="EVT_TOGGLEBUTTON" />
+				</object>
+				<object class="wxButton" name="ID_BUTTONSTARTDESKTOP" variable="ButtonStartDesktop" member="yes">
+					<label>Desktop</label>
+					<pos>8,32</pos>
+					<size>62,22</size>
+					<style>wxSIMPLE_BORDER</style>
+					<handler function="OnButtonStartDesktopClick" entry="EVT_BUTTON" />
 				</object>
 			</object>
 		</object>
@@ -367,6 +385,10 @@
 				<object class="wxMenuItem" name="ID_MENUITEMRADIODATA" variable="RadioData" member="yes">
 					<label>Paramètres Radio</label>
 					<handler function="OnRadioDataSelected" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="ID_MENUITEMMODELSLIST" variable="ModelsList" member="yes">
+					<label>Modèles</label>
+					<handler function="OnModelsListSelected" entry="EVT_MENU" />
 				</object>
 			</object>
 			<object class="wxMenu" variable="MenuHelp" member="no">

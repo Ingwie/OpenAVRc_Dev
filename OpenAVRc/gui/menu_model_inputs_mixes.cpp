@@ -115,7 +115,6 @@ bool reachExpoMixCountLimit(uint8_t expo)
 
 void deleteExpoMix(uint8_t expo, uint8_t idx)
 {
-  pauseMixerCalculations();
   if (expo) {
     ExpoData *expo = expoAddress(idx);
     memmove(expo, expo+1, (MAX_EXPOS-(idx+1))*sizeof(ExpoData));
@@ -125,14 +124,13 @@ void deleteExpoMix(uint8_t expo, uint8_t idx)
     memmove(mix, mix+1, (MAX_MIXERS-(idx+1))*sizeof(MixData));
     memclear(&g_model.mixData[MAX_MIXERS-1], sizeof(MixData));
   }
-  resumeMixerCalculations();
   eeDirty(EE_MODEL);
 }
 
 int8_t s_currCh;
 void insertExpoMix(uint8_t expo, uint8_t idx)
 {
-  pauseMixerCalculations();
+
   if (expo) {
     ExpoData *expo = expoAddress(idx);
     memmove(expo+1, expo, (MAX_EXPOS-(idx+1))*sizeof(ExpoData));
@@ -148,13 +146,11 @@ void insertExpoMix(uint8_t expo, uint8_t idx)
     mix->srcRaw = (s_currCh > 4 ? MIXSRC_Rud - 1 + s_currCh : MIXSRC_Rud - 1 + channel_order(s_currCh));
     mix->weight = 100;
   }
-  resumeMixerCalculations();
   eeDirty(EE_MODEL);
 }
 
 void copyExpoMix(uint8_t expo, uint8_t idx)
 {
-  pauseMixerCalculations();
   if (expo) {
     ExpoData *expo = expoAddress(idx);
     memmove(expo+1, expo, (MAX_EXPOS-(idx+1))*sizeof(ExpoData));
@@ -162,7 +158,6 @@ void copyExpoMix(uint8_t expo, uint8_t idx)
     MixData *mix = mixAddress(idx);
     memmove(mix+1, mix, (MAX_MIXERS-(idx+1))*sizeof(MixData));
   }
-  resumeMixerCalculations();
   eeDirty(EE_MODEL);
 }
 
@@ -246,11 +241,7 @@ bool swapExpoMix(uint8_t expo, uint8_t &idx, uint8_t up)
 
     size = sizeof(MixData);
   }
-
-  pauseMixerCalculations();
   memswap(x, y, size);
-  resumeMixerCalculations();
-
   idx = tgt_idx;
   return true;
 }

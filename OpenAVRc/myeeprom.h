@@ -93,8 +93,6 @@
 #define NUM_POINTS           (112-MAX_CURVES)
 #define CURVDATA             int8_t
 
-#define NUM_MODULES          1
-
 PACK(typedef struct {
   int8_t * crv;
   uint8_t points;
@@ -1051,7 +1049,7 @@ enum FailsafeModes {
 
 PACK(typedef struct {
   char      name[LEN_MODEL_NAME]; // must be first for eeLoadModelName
-  uint8_t   modelId[NUM_MODULES];
+  uint8_t   modelId;
   MODELDATA_BITMAP
 }) ModelHeader;
 

@@ -89,6 +89,7 @@ public:
   void EnableOutputBarsMenu();
   void EnableOutputGvarsMenu();
   void EnableRadioDataMenu();
+  void EnableModelsMenu();
 
 
 
@@ -151,6 +152,10 @@ private:
   void OnBpTrnLeftUp(wxMouseEvent& event);
   void OnBpEleLeftDown(wxMouseEvent& event);
   void OnBpAilLeftDown(wxMouseEvent& event);
+  void OnBpReaLeftDown(wxMouseEvent& event);
+  void OnBpReaLeftUp(wxMouseEvent& event);
+  void OnBpRebLeftDown(wxMouseEvent& event);
+  void OnBpRebLeftUp(wxMouseEvent& event);
   void LoadEepromFile(wxString path);
   wxColour SetColour();
   void LoadConfig();
@@ -175,13 +180,11 @@ private:
   void OnOutputBarsSelected(wxCommandEvent& event);
   void OnOutputGvarsSelected(wxCommandEvent& event);
   void OnRadioDataSelected(wxCommandEvent& event);
+  void OnModelsListSelected(wxCommandEvent& event);
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)
   static const long ID_PANELH;
-  static const long ID_ONTGLBUTTON;
-  static const long ID_BUTTONSTARTDESKTOP;
-  static const long ID_PANELL;
   static const long ID_POT1;
   static const long ID_POT2;
   static const long ID_POT3;
@@ -213,7 +216,12 @@ private:
   static const long ID_SPINREA;
   static const long ID_SPINREB;
   static const long ID_TEXTCTRLDUMMY;
+  static const long ID_BPREA;
+  static const long ID_BPREB;
   static const long ID_PANELMAIN;
+  static const long ID_ONTGLBUTTON;
+  static const long ID_BUTTONSTARTDESKTOP;
+  static const long ID_PANELL;
   static const long ID_PANELPRINCIPAL;
   static const long IdMenuOpenEE;
   static const long IdMenuSaveEE;
@@ -229,6 +237,7 @@ private:
   static const long ID_MENUITEMOUTPUTOUTPUT;
   static const long ID_MENUITEMOUTPUTGVARS;
   static const long ID_MENUITEMRADIODATA;
+  static const long ID_MENUITEMMODELSLIST;
   static const long idMenuAbout;
   static const long ID_STATUSBAR;
   static const long ID_TIMER10MS;
@@ -274,6 +283,7 @@ private:
   //(*Declarations(OpenAVRc_SimulatorFrame)
   wxPanel* BpId2;
   wxPanel* BPg;
+  wxMenuItem* ModelsList;
   wxTimer Timer10ms;
   wxMenuItem* MenuStickBack;
   wxMenuItem* OutputBars;
@@ -304,11 +314,13 @@ private:
   wxPanel* BpAil;
   wxMenuItem* MenuLcdBack;
   wxSlider* Pot3;
+  wxPanel* BpReb;
+  wxPanel* BpRea;
   wxPanel* BPb;
   wxPanel* RuTrim;
   wxPanel* BpTrn;
-  wxPanel* PanelMain;
   wxButton* ButtonStartDesktop;
+  wxPanel* PanelMain;
   wxMenu* MenuFrame;
   wxToggleButton* OnTglButton;
   wxTimer TimerMain;

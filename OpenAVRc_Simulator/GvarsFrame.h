@@ -49,11 +49,11 @@ class GvarsFrame: public wxFrame
 		static const long ID_TextCtrlpersoPhase4;
 		static const long ID_TextCtrlpersoPhase5;
 		static const long ID_TextCtrlpersoGvar1;
-		static const long ID_TextCtrlpersoGvar6;
-		static const long ID_TextCtrlpersoGvar5;
-		static const long ID_TextCtrlpersoGvar4;
-		static const long ID_TextCtrlpersoGvar3;
 		static const long ID_TextCtrlpersoGvar2;
+		static const long ID_TextCtrlpersoGvar3;
+		static const long ID_TextCtrlpersoGvar4;
+		static const long ID_TextCtrlpersoGvar5;
+		static const long ID_TextCtrlpersoGvar6;
 		static const long ID_PANEL1;
 		static const long ID_TIMERGVARS;
 		//*)
@@ -61,42 +61,21 @@ class GvarsFrame: public wxFrame
 	private:
 
 		//(*Handlers(GvarsFrame)
-		void OnPanel4Paint(wxPaintEvent& event);
 		void OnClose(wxCloseEvent& event);
-		void OnGrid1CellLeftClick(wxGridEvent& event);
-		void OnGrid1CellLeftClick1(wxGridEvent& event);
 		void OngvarsTimerTrigger(wxTimerEvent& event);
-		void OnGVARSGridCellLeftClick(wxGridEvent& event);
 		void OnTextCtrlpersoGvar1TextEnter(wxCommandEvent& event);
-		void OnTextCtrlpersoPh0Text(wxCommandEvent& event);
-		void OnTextCtrlpersoPh0Text1(wxCommandEvent& event);
-		void OnTextCtrlpersoGvar1Text(wxCommandEvent& event);
-		void OnTextCtrlpersoGvar1Text1(wxCommandEvent& event);
 		void OnTextCtrlpersoGvar2TextEnter(wxCommandEvent& event);
-		void OnTextCtrlpersoGvar2Text(wxCommandEvent& event);
-		void OnTextCtrlpersoGvar2Text1(wxCommandEvent& event);
-		void OnTextCtrlpersoGvar3Text(wxCommandEvent& event);
 		void OnTextCtrlpersoGvar3TextEnter(wxCommandEvent& event);
-		void OnTextCtrlpersoGvar4Text(wxCommandEvent& event);
 		void OnTextCtrlpersoGvar4TextEnter(wxCommandEvent& event);
-		void OnTextCtrlpersoGvar5Text(wxCommandEvent& event);
 		void OnTextCtrlpersoGvar5TextEnter(wxCommandEvent& event);
-		void OnTextCtrlpersoPh0TextEnter(wxCommandEvent& event);
-		void OnTextCtrlpersoPh0Text2(wxCommandEvent& event);
-		void OnTextCtrlpersoPh1Text(wxCommandEvent& event);
-		void OnTextCtrlpersoPh1TextEnter(wxCommandEvent& event);
-		void OnTextCtrlpersoPhase0Text(wxCommandEvent& event);
 		void OnTextCtrlpersoPhase0TextEnter(wxCommandEvent& event);
-		void OnTextCtrlpersoPhase1Text(wxCommandEvent& event);
 		void OnTextCtrlpersoPhase1TextEnter(wxCommandEvent& event);
-		void OnTextCtrlpersoPhase2Text(wxCommandEvent& event);
 		void OnTextCtrlpersoPhase2TextEnter(wxCommandEvent& event);
-		void OnTextCtrlpersoPhase3Text(wxCommandEvent& event);
 		void OnTextCtrlpersoPhase3TextEnter(wxCommandEvent& event);
-		void OnTextCtrlpersoPhase4Text(wxCommandEvent& event);
 		void OnTextCtrlpersoPhase4TextEnter(wxCommandEvent& event);
-		void OnTextCtrlpersoPhase5Text(wxCommandEvent& event);
 		void OnTextCtrlpersoPhase5TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoAllText(wxCommandEvent& event);
+		void OnGVARSGridCellLeftClick(wxGridEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

@@ -65,7 +65,6 @@ private:
     //(*Handlers(OpenAVRc_DesktopFrame)
     void OnQuit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
-    void OnButton1Click(wxCommandEvent& event);
     void OnavrdudeSelected(wxCommandEvent& event);
     void OnProgrammerSelected(wxCommandEvent& event);
     void OnreadmodelsSelected(wxCommandEvent& event);
@@ -74,7 +73,6 @@ private:
     void OnEcrirelebootloaderSelected(wxCommandEvent& event);
     void OnWriteModelToRadioSelected(wxCommandEvent& event);
     void OnWriteFirmwareToRadioSelected(wxCommandEvent& event);
-    void OnButton1Click1(wxCommandEvent& event);
     void OnSimulateurClick2(wxCommandEvent& event);
     void OnATMEGA2560CompilerSelected(wxCommandEvent& event);
     void LoadConfig(wxString temp);
@@ -97,12 +95,15 @@ private:
     void OnMenuChoiceVoiceSelected(wxCommandEvent& event);
     void OnMenuItem9Selected(wxCommandEvent& event);
     void OnEcrirelebootloaderF_RAMSelected(wxCommandEvent& event);
+    void OnButtonSimuFramClick(wxCommandEvent& event);
+    void OnButtonSimuSTDClick(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(OpenAVRc_DesktopFrame)
     static const long ID_STATICBOXSPLASH;
     static const long ID_STATICBOXCONFIG;
-    static const long ID_BUTTON1;
+    static const long ID_BUTTONSIMUSTD;
+    static const long ID_BUTTONSIMUFRAM;
     static const long ID_LISTBOXCONFIG;
     static const long ID_SPLASH;
     static const long ID_BUTTONPERSO;
@@ -137,7 +138,9 @@ private:
     //*)
 
     //(*Declarations(OpenAVRc_DesktopFrame)
+    wxButton* ButtonSimuFram;
     wxButton* ButtonPerso;
+    wxButton* ButtonSimuSTD;
     wxMenuItem* MenuItem7;
     wxMenuItem* MenuDeleteActiveConfig;
     wxPanel* PanelSplash;
@@ -146,7 +149,6 @@ private:
     wxMenu* MenuHtmlDoc;
     wxMenu* Menu3;
     wxButton* ButtonEditeur;
-    wxButton* Button1;
     wxMenuItem* MenuItem4;
     wxChoice* ChoiceLangue;
     wxMenuItem* MenuItem11;

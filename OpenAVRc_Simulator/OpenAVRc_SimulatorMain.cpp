@@ -29,6 +29,7 @@
 #include "OutBarsFrame.h"
 #include "GvarsFrame.h"
 #include "RadioDataFrame.h"
+#include "ModelsFrame.h"
 
 #include <wx/msgdlg.h>
 #include <wx/dcclient.h>
@@ -84,10 +85,12 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 
 bool Ini_Changed = false;
 wxString AppPath;
+
 MixerFrame *MixFr;
 OutBarsFrame *BarFr;
 GvarsFrame *GvFr;
 RadioDataFrame *RaFr;
+ModelsFrame *ModFr;
 
 bool Mp3RepExist = false;
 extern volatile uint8_t JQ6500_InputIndex;
@@ -98,9 +101,6 @@ extern uint8_t JQ6500_playlist[];
 
 //(*IdInit(OpenAVRc_SimulatorFrame)
 const long OpenAVRc_SimulatorFrame::ID_PANELH = wxNewId();
-const long OpenAVRc_SimulatorFrame::ID_ONTGLBUTTON = wxNewId();
-const long OpenAVRc_SimulatorFrame::ID_BUTTONSTARTDESKTOP = wxNewId();
-const long OpenAVRc_SimulatorFrame::ID_PANELL = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_POT1 = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_POT2 = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_POT3 = wxNewId();
@@ -132,7 +132,12 @@ const long OpenAVRc_SimulatorFrame::ID_LSTICK = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_SPINREA = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_SPINREB = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_TEXTCTRLDUMMY = wxNewId();
+const long OpenAVRc_SimulatorFrame::ID_BPREA = wxNewId();
+const long OpenAVRc_SimulatorFrame::ID_BPREB = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_PANELMAIN = wxNewId();
+const long OpenAVRc_SimulatorFrame::ID_ONTGLBUTTON = wxNewId();
+const long OpenAVRc_SimulatorFrame::ID_BUTTONSTARTDESKTOP = wxNewId();
+const long OpenAVRc_SimulatorFrame::ID_PANELL = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_PANELPRINCIPAL = wxNewId();
 const long OpenAVRc_SimulatorFrame::IdMenuOpenEE = wxNewId();
 const long OpenAVRc_SimulatorFrame::IdMenuSaveEE = wxNewId();
@@ -148,6 +153,7 @@ const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTMIXER = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTOUTPUT = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTGVARS = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMRADIODATA = wxNewId();
+const long OpenAVRc_SimulatorFrame::ID_MENUITEMMODELSLIST = wxNewId();
 const long OpenAVRc_SimulatorFrame::idMenuAbout = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_STATUSBAR = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_TIMER10MS = wxNewId();
@@ -184,9 +190,6 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   SetMaxSize(wxSize(-1,-1));
   PanelPrincipal = new wxPanel(this, ID_PANELPRINCIPAL, wxPoint(424,216), wxSize(777,400), wxRAISED_BORDER, _T("ID_PANELPRINCIPAL"));
   PanelH = new wxPanel(PanelPrincipal, ID_PANELH, wxPoint(0,0), wxSize(784,64), wxDOUBLE_BORDER, _T("ID_PANELH"));
-  PanelL = new wxPanel(PanelPrincipal, ID_PANELL, wxPoint(0,305), wxSize(784,64), wxDOUBLE_BORDER, _T("ID_PANELL"));
-  OnTglButton = new wxToggleButton(PanelL, ID_ONTGLBUTTON, _("ON"), wxPoint(8,8), wxSize(62,22), wxDOUBLE_BORDER, wxDefaultValidator, _T("ID_ONTGLBUTTON"));
-  ButtonStartDesktop = new wxButton(PanelL, ID_BUTTONSTARTDESKTOP, _("Desktop"), wxPoint(8,32), wxSize(62,22), wxSIMPLE_BORDER, wxDefaultValidator, _T("ID_BUTTONSTARTDESKTOP"));
   PanelMain = new wxPanel(PanelPrincipal, ID_PANELMAIN, wxPoint(0,64), wxSize(784,248), wxDOUBLE_BORDER, _T("ID_PANELMAIN"));
   Pot1 = new wxSlider(PanelMain, ID_POT1, 1024, 0, 2048, wxPoint(352,160), wxSize(14,78), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_POT1"));
   Pot1->SetBackgroundColour(wxColour(128,64,0));
@@ -256,13 +259,22 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Lstick = new wxPanel(PanelMain, ID_LSTICK, wxPoint(60,32), wxSize(158,158), wxDOUBLE_BORDER, _T("ID_LSTICK"));
   Lstick->SetForegroundColour(wxColour(255,0,0));
   Lstick->SetBackgroundColour(wxColour(0,0,0));
-  SpinRea = new wxSpinButton(PanelMain, ID_SPINREA, wxPoint(14,12), wxDefaultSize, wxSP_HORIZONTAL|wxSP_WRAP|wxSTATIC_BORDER, _T("ID_SPINREA"));
+  SpinRea = new wxSpinButton(PanelMain, ID_SPINREA, wxPoint(14,14), wxDefaultSize, wxSP_HORIZONTAL|wxSP_WRAP|wxSTATIC_BORDER, _T("ID_SPINREA"));
   SpinRea->SetRange(-100, 100);
   SpinRea->SetToolTip(_("Rea"));
-  SpinReb = new wxSpinButton(PanelMain, ID_SPINREB, wxPoint(732,12), wxDefaultSize, wxSP_HORIZONTAL|wxSP_WRAP|wxSTATIC_BORDER, _T("ID_SPINREB"));
+  SpinReb = new wxSpinButton(PanelMain, ID_SPINREB, wxPoint(732,14), wxDefaultSize, wxSP_HORIZONTAL|wxSP_WRAP|wxSTATIC_BORDER, _T("ID_SPINREB"));
   SpinReb->SetRange(-100, 100);
   SpinReb->SetToolTip(_("Reb"));
   TextCtrlgetkbinput = new wxTextCtrl(PanelMain, ID_TEXTCTRLDUMMY, wxEmptyString, wxPoint(64,216), wxSize(0,0), 0, wxDefaultValidator, _T("ID_TEXTCTRLDUMMY"));
+  BpRea = new wxPanel(PanelMain, ID_BPREA, wxPoint(14,2), wxSize(35,12), wxDOUBLE_BORDER, _T("ID_BPREA"));
+  BpRea->SetBackgroundColour(wxColour(0,0,0));
+  BpRea->SetToolTip(_("BP REA"));
+  BpReb = new wxPanel(PanelMain, ID_BPREB, wxPoint(732,2), wxSize(35,12), wxDOUBLE_BORDER, _T("ID_BPREB"));
+  BpReb->SetBackgroundColour(wxColour(0,0,0));
+  BpReb->SetToolTip(_("BP REB"));
+  PanelL = new wxPanel(PanelPrincipal, ID_PANELL, wxPoint(0,305), wxSize(784,64), wxDOUBLE_BORDER, _T("ID_PANELL"));
+  OnTglButton = new wxToggleButton(PanelL, ID_ONTGLBUTTON, _("ON"), wxPoint(8,8), wxSize(62,22), wxDOUBLE_BORDER, wxDefaultValidator, _T("ID_ONTGLBUTTON"));
+  ButtonStartDesktop = new wxButton(PanelL, ID_BUTTONSTARTDESKTOP, _("Desktop"), wxPoint(8,32), wxSize(62,22), wxSIMPLE_BORDER, wxDefaultValidator, _T("ID_BUTTONSTARTDESKTOP"));
   MenuBar1 = new wxMenuBar();
   MenuFile = new wxMenu();
   MenuLoadee = new wxMenuItem(MenuFile, IdMenuOpenEE, _("Charger Eeprom"), _("Charger fichier BIN"), wxITEM_NORMAL);
@@ -306,6 +318,8 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   MenuFrame->Append(OutputGvars);
   RadioData = new wxMenuItem(MenuFrame, ID_MENUITEMRADIODATA, _("Paramètres Radio"), wxEmptyString, wxITEM_NORMAL);
   MenuFrame->Append(RadioData);
+  ModelsList = new wxMenuItem(MenuFrame, ID_MENUITEMMODELSLIST, _("Modèles"), wxEmptyString, wxITEM_NORMAL);
+  MenuFrame->Append(ModelsList);
   MenuBar1->Append(MenuFrame, _("&Fenêtres"));
   MenuHelp = new wxMenu();
   MenuAbout = new wxMenuItem(MenuHelp, idMenuAbout, _("A propos ...\tF1"), _("C\'est quoi donc \?"), wxITEM_NORMAL);
@@ -323,8 +337,6 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   TimerMain.SetOwner(this, ID_TIMERMAIN);
   Center();
 
-  Connect(ID_ONTGLBUTTON,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOnTglButtonToggle);
-  Connect(ID_BUTTONSTARTDESKTOP,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnButtonStartDesktopClick);
   BPmenu->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBPmenuLeftDown,0,this);
   BPmenu->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBPmenuLeftUp,0,this);
   BPh->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBPhLeftDown,0,this);
@@ -369,6 +381,12 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   BpId2->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpId2LeftDown,0,this);
   Lstick->Connect(wxEVT_PAINT,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnLstickPaint,0,this);
   Lstick->Connect(wxEVT_MOTION,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnLstickMouseMove,0,this);
+  BpRea->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpReaLeftDown,0,this);
+  BpRea->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpReaLeftUp,0,this);
+  BpReb->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpRebLeftDown,0,this);
+  BpReb->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpRebLeftUp,0,this);
+  Connect(ID_ONTGLBUTTON,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOnTglButtonToggle);
+  Connect(ID_BUTTONSTARTDESKTOP,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnButtonStartDesktopClick);
   Connect(IdMenuOpenEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuLoadEeprom);
   Connect(IdMenuSaveEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuSaveeeSelected);
   Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnQuit);
@@ -382,6 +400,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_MENUITEMOUTPUTOUTPUT,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOutputBarsSelected);
   Connect(ID_MENUITEMOUTPUTGVARS,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOutputGvarsSelected);
   Connect(ID_MENUITEMRADIODATA,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnRadioDataSelected);
+  Connect(ID_MENUITEMMODELSLIST,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnModelsListSelected);
   Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnAbout);
   Connect(ID_TIMER10MS,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimer10msTrigger);
   Connect(ID_TIMERMAIN,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimerMainTrigger);
@@ -467,16 +486,7 @@ void OpenAVRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
       }
     }
     StartFirmwareCode();
-//tests
-    //wxMessageBox(ConvCharFwToWxstr(g_model.flightModeData[mixerCurrentFlightMode].name, LEN_FLIGHT_MODE_NAME),_("Phase To Miguel   "));
-    //wxString toto = "PHtest";
-    //ConvWxstrToCharFw(toto,g_model.flightModeData[mixerCurrentFlightMode].name, LEN_FLIGHT_MODE_NAME);
-    //wxMessageBox(ConvCharFwToWxstr(g_model.header.name, LEN_MODEL_NAME),_("Model To Miguel   "));
-    //toto = "MENTERO";
-    //ConvWxstrToCharFw(toto,g_model.header.name, LEN_MODEL_NAME);
-
   }
-
 }
 
 void OpenAVRc_SimulatorFrame::StartFirmwareCode()
@@ -752,7 +762,12 @@ void OpenAVRc_SimulatorFrame::OnMenuSaveeeSelected(wxCommandEvent& event)
     return;     // the user changed idea...
   wxFile bin_file;
   bin_file.Create(saveFileDialog.GetPath(), true);
-  eeFlush(); //Save Radio eeprom immediatly
+
+  eeDirty(EE_GENERAL); //Save Radio eeprom immediatly
+  eeCheck(true);
+  eeDirty(EE_MODEL);
+  eeCheck(true);
+
   if(bin_file.IsOpened()) {
     bin_file.Seek(0);
     bin_file.Write(&simu_eeprom[0], EESIZE);
@@ -1032,6 +1047,26 @@ void OpenAVRc_SimulatorFrame::OnBpId2LeftDown(wxMouseEvent& event)
   else SpinC->TogglePin(1);
 }
 
+void OpenAVRc_SimulatorFrame::OnBpReaLeftDown(wxMouseEvent& event)
+{
+  SpinJ->ResetPin(0);
+}
+
+void OpenAVRc_SimulatorFrame::OnBpReaLeftUp(wxMouseEvent& event)
+{
+  SpinJ->SetPin(0);
+}
+
+void OpenAVRc_SimulatorFrame::OnBpRebLeftDown(wxMouseEvent& event)
+{
+  SpinJ->ResetPin(1);
+}
+
+void OpenAVRc_SimulatorFrame::OnBpRebLeftUp(wxMouseEvent& event)
+{
+  SpinJ->SetPin(1);
+}
+
 void OpenAVRc_SimulatorFrame::CheckInputs()
 {
   //Rea & Reb
@@ -1163,6 +1198,15 @@ void OpenAVRc_SimulatorFrame::CheckInputs()
   if (!SpinC->GetPin(1)) BpId2->SetBackgroundColour(Col_Button_On);
   else BpId2->SetBackgroundColour(Col_Button_Off);
   BpId2->Refresh();
+
+  if (!SpinJ->GetPin(0)) BpRea->SetBackgroundColour(Col_Button_On);
+  else BpRea->SetBackgroundColour(Col_Button_Off);
+  BpRea->Refresh();
+
+  if (!SpinJ->GetPin(1)) BpReb->SetBackgroundColour(Col_Button_On);
+  else BpReb->SetBackgroundColour(Col_Button_Off);
+  BpReb->Refresh();
+
 }
 
 ///// UTILS ///////////
@@ -1297,31 +1341,6 @@ void OpenAVRc_SimulatorFrame::OnKey(wxKeyEvent& event)
   event.Skip(true);
 }
 
-/////////////////////////////////////////////////////
-//               UTILS
-/////////////////////////////////////////////////////
-
-void ConvWxstrToCharFw(wxString str,char *fwchar, uint8_t length) //Convert wxString to Firmware chars[]
-{
-  char buff[length+1];
-
-  str2zchar(buff, str.mb_str(wxConvUTF8),length);
-  strncpy(fwchar, buff, length);
-}
-
-wxString ConvCharFwToWxstr(char *cstr, uint8_t length) //Convert Firmware chars[] to wxString
-{
-  char buff[length+1];
-  zchar2str(buff, cstr, length);
-  return wxString(buff,wxConvUTF8 );
-}
-
-wxString int2wxString(int integer)
-{
-  wxString intString = wxString::Format(wxT("%i"), integer);
-  wxMessageBox(intString);
-}
-
 void OpenAVRc_SimulatorFrame::OnMixeurSelected(wxCommandEvent& event)//Draws the mixer display screen
 {
   MixFr = new  MixerFrame(this);
@@ -1369,3 +1388,41 @@ void OpenAVRc_SimulatorFrame::EnableRadioDataMenu()
 {
   MenuFrame->Enable(ID_MENUITEMRADIODATA, true);
 }
+
+void OpenAVRc_SimulatorFrame::OnModelsListSelected(wxCommandEvent& event)
+{
+  ModFr = new  ModelsFrame(this);
+  ModFr->Show(TRUE);
+  MenuFrame->Enable(ID_MENUITEMMODELSLIST, false);
+}
+
+void OpenAVRc_SimulatorFrame::EnableModelsMenu()
+{
+  MenuFrame->Enable(ID_MENUITEMMODELSLIST, true);
+}
+
+/////////////////////////////////////////////////////
+//               UTILS
+/////////////////////////////////////////////////////
+
+void ConvWxstrToCharFw(wxString str,char *fwchar, uint8_t length) //Convert wxString to Firmware chars[]
+{
+  char buff[length];
+  str2zchar(buff, str.mb_str(wxConvUTF8),length);
+  strncpy(fwchar, buff, length);
+}
+
+wxString ConvCharFwToWxstr(char *cstr, uint8_t length) //Convert Firmware chars[] to wxString
+{
+  char buff[length];
+  zchar2str(buff, cstr, length);
+  return wxString(buff,wxConvUTF8);
+}
+
+wxString int2wxString(int integer)
+{
+  wxString intString = wxString::Format(wxT("%i"), integer);
+  wxMessageBox(intString);
+}
+/////////////////////////////////////////////////////////
+

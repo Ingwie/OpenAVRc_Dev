@@ -39,9 +39,9 @@ enum ModuleFlag {
 
 
 #if NUM_MODULES > 1
-#define IS_RANGECHECK_ENABLE()             (moduleFlag[0] == MODULE_RANGECHECK || moduleFlag[1] == MODULE_RANGECHECK)
+#define IS_RANGECHECK_ENABLE()             (moduleFlag == MODULE_RANGECHECK || moduleFlag[1] == MODULE_RANGECHECK)
 #else
-#define IS_RANGECHECK_ENABLE()             (moduleFlag[0] == MODULE_RANGECHECK)
+#define IS_RANGECHECK_ENABLE()             (moduleFlag == MODULE_RANGECHECK)
 #endif
 
 #if defined(DSM2)

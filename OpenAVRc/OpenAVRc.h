@@ -775,9 +775,6 @@ template<class t> void SWAP(t & a, t & b)
 
 uint16_t isqrt32(uint32_t n);
 
-#define pauseMixerCalculations()
-#define resumeMixerCalculations()
-
 void generalDefault();
 void modelDefault(uint8_t id);
 

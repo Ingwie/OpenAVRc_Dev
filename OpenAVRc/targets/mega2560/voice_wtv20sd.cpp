@@ -50,6 +50,12 @@ uint8_t Startstop = WTV20SD_START_TIME;
 uint16_t WTV20SD_current = 0;
 uint8_t state = RESET;
 
+#if defined(SIMU)
+  #define ISPLAYING false
+#else
+  #define ISPLAYING (TIMSK5 & (1<<OCIE5A))/* interrupts active on Output Compare A Match ? */
+#endif
+
 void WTV20SD_sendstart()
 {
   WTV20SD_Clock_off; // Start Bit, CLK low for 2ms
@@ -106,22 +112,11 @@ void pushPrompt(uint16_t prompt)
     if (WTV20SD_InputIndex == QUEUE_LENGTH) WTV20SD_InputIndex = 0;
   }
 
-  if (!isPlaying()) {
+  if (!ISPLAYING) {
     TIMSK5 |= (1<<OCIE5A); // enable interrupts on Output Compare A Match
   }
 }
 
-uint8_t isPlaying()
-{
-  /* interrupts active on Output Compare A Match ? */
-#if defined(SIMU)
-  return false;
-#else
-  return (TIMSK5 & (1<<OCIE5A));
-#endif
-}
-
-#if !defined(SIMU)
 ISR(TIMER5_COMPA_vect) // every 0.5ms normally, every 2ms during startup reset
 {
   sei();
@@ -178,4 +173,3 @@ ISR(TIMER5_COMPA_vect) // every 0.5ms normally, every 2ms during startup reset
   }
   cli();
 }
-#endif

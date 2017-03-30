@@ -588,18 +588,6 @@
 		<Unit filename="../OpenAVRc/mixer.cpp" />
 		<Unit filename="../OpenAVRc/myeeprom.h" />
 		<Unit filename="../OpenAVRc/pgmtypes.h" />
-		<Unit filename="../OpenAVRc/protocol/cc2500.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../OpenAVRc/protocol/common.h" />
-		<Unit filename="../OpenAVRc/protocol/iface_cc2500.h" />
-		<Unit filename="../OpenAVRc/protocol/interface.h" />
-		<Unit filename="../OpenAVRc/protocol/misc.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../OpenAVRc/protocol/misc.h" />
-		<Unit filename="../OpenAVRc/protocol/mpx_serial.h" />
-		<Unit filename="../OpenAVRc/protocol/protocol.h" />
 		<Unit filename="../OpenAVRc/pulses/pulses.h" />
 		<Unit filename="../OpenAVRc/pulses/pulses_avr.cpp" />
 		<Unit filename="../OpenAVRc/pulses/pulses_avr.h" />
@@ -625,6 +613,7 @@
 		<Unit filename="../OpenAVRc/targets/mega2560/board_mega2560.h" />
 		<Unit filename="../OpenAVRc/targets/mega2560/voice.h" />
 		<Unit filename="../OpenAVRc/targets/mega2560/voice_jq6500.cpp" />
+		<Unit filename="../OpenAVRc/targets/mega2560/voice_wtv20sd.cpp" />
 		<Unit filename="../OpenAVRc/targets/simu/simu_interface.cpp" />
 		<Unit filename="../OpenAVRc/targets/simu/simu_interface.h" />
 		<Unit filename="../OpenAVRc/targets/stock/board_stock.h" />
@@ -632,6 +621,7 @@
 		<Unit filename="../OpenAVRc/telemetry/frsky.cpp" />
 		<Unit filename="../OpenAVRc/telemetry/frsky.h" />
 		<Unit filename="../OpenAVRc/telemetry/frsky_d.cpp" />
+		<Unit filename="../OpenAVRc/telemetry/nmea.cpp" />
 		<Unit filename="../OpenAVRc/telemetry/nmea.h" />
 		<Unit filename="../OpenAVRc/telemetry_driver.cpp" />
 		<Unit filename="../OpenAVRc/templates.cpp" />
@@ -800,6 +790,8 @@
 		<Unit filename="GvarsFrame.h" />
 		<Unit filename="MixerFrame.cpp" />
 		<Unit filename="MixerFrame.h" />
+		<Unit filename="ModelsFrame.cpp" />
+		<Unit filename="ModelsFrame.h" />
 		<Unit filename="OpenAVRc_SimulatorApp.cpp" />
 		<Unit filename="OpenAVRc_SimulatorApp.h" />
 		<Unit filename="OpenAVRc_SimulatorMain.cpp" />
@@ -815,6 +807,7 @@
 		</Unit>
 		<Unit filename="wxsmith/GvarsFrame.wxs" />
 		<Unit filename="wxsmith/MixerFrame.wxs" />
+		<Unit filename="wxsmith/ModelsFrame.wxs" />
 		<Unit filename="wxsmith/OpenAVRc_Simulatorframe.wxs" />
 		<Unit filename="wxsmith/OutBarsFrame.wxs" />
 		<Unit filename="wxsmith/RadioDataFrame.wxs" />
@@ -831,6 +824,7 @@
 					<wxFrame wxs="wxsmith/OutBarsFrame.wxs" src="OutBarsFrame.cpp" hdr="OutBarsFrame.h" fwddecl="0" i18n="1" name="OutBarsFrame" language="CPP" />
 					<wxFrame wxs="wxsmith/GvarsFrame.wxs" src="GvarsFrame.cpp" hdr="GvarsFrame.h" fwddecl="0" i18n="1" name="GvarsFrame" language="CPP" />
 					<wxFrame wxs="wxsmith/RadioDataFrame.wxs" src="RadioDataFrame.cpp" hdr="RadioDataFrame.h" fwddecl="0" i18n="1" name="RadioDataFrame" language="CPP" />
+					<wxFrame wxs="wxsmith/ModelsFrame.wxs" src="ModelsFrame.cpp" hdr="ModelsFrame.h" fwddecl="0" i18n="1" name="ModelsFrame" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

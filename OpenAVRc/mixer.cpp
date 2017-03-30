@@ -797,8 +797,10 @@ void evalMixes(uint8_t tick10ms)
 
     int16_t value = applyLimits(i, q);  // applyLimits will remove the 256 100% basis
 
-    ATOMIC_BLOCK(ATOMIC_FORCEON) {channelOutputs[i] = value;}  // copy consistent word to int-level
-  }
+    cli();
+    channelOutputs[i] = value;  // copy consistent word to int-level
+    sei();
+    }
 
   if (tick10ms && flightModesFade) {
     uint16_t tick_delta = delta * tick10ms;

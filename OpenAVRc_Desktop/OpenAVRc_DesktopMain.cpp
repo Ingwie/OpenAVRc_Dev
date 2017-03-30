@@ -178,7 +178,8 @@ wxString encoderB  = ("ENB");
 //(*IdInit(OpenAVRc_DesktopFrame)
 const long OpenAVRc_DesktopFrame::ID_STATICBOXSPLASH = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_STATICBOXCONFIG = wxNewId();
-const long OpenAVRc_DesktopFrame::ID_BUTTON1 = wxNewId();
+const long OpenAVRc_DesktopFrame::ID_BUTTONSIMUSTD = wxNewId();
+const long OpenAVRc_DesktopFrame::ID_BUTTONSIMUFRAM = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_LISTBOXCONFIG = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_SPLASH = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_BUTTONPERSO = wxNewId();
@@ -232,7 +233,8 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   Panel1->SetFocus();
   StaticBoxSplash = new wxStaticBox(Panel1, ID_STATICBOXSPLASH, _("Ecran d\'accueil"), wxPoint(160,8), wxSize(272,192), 0, _T("ID_STATICBOXSPLASH"));
   StaticBoxConfig = new wxStaticBox(Panel1, ID_STATICBOXCONFIG, _("Configuration"), wxPoint(16,8), wxSize(136,192), 0, _T("ID_STATICBOXCONFIG"));
-  Button1 = new wxButton(Panel1, ID_BUTTON1, _("SIMULATEUR"), wxPoint(8,208), wxSize(568,31), 0, wxDefaultValidator, _T("ID_BUTTON1"));
+  ButtonSimuSTD = new wxButton(Panel1, ID_BUTTONSIMUSTD, _("SIMULATEUR STANDARD"), wxPoint(24,204), wxSize(248,31), 0, wxDefaultValidator, _T("ID_BUTTONSIMUSTD"));
+  ButtonSimuFram = new wxButton(Panel1, ID_BUTTONSIMUFRAM, _("SIMULATEUR F-RAM"), wxPoint(320,204), wxSize(248,31), 0, wxDefaultValidator, _T("ID_BUTTONSIMUFRAM"));
   ListBoxConfig = new wxListBox(Panel1, ID_LISTBOXCONFIG, wxPoint(24,32), wxSize(120,160), 0, 0, wxLB_SINGLE|wxDOUBLE_BORDER|wxVSCROLL, wxDefaultValidator, _T("ID_LISTBOXCONFIG"));
   PanelSplash = new wxPanel(Panel1, ID_SPLASH, wxPoint(169,64), wxSize(256,128), wxNO_BORDER, _T("ID_SPLASH"));
   PanelSplash->SetBackgroundColour(wxColour(255,255,255));
@@ -339,7 +341,8 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   StatusBar_main->SetStatusStyles(1,__wxStatusBarStyles_1);
   SetStatusBar(StatusBar_main);
 
-  Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnSimulateurClick2);
+  Connect(ID_BUTTONSIMUSTD,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnButtonSimuSTDClick);
+  Connect(ID_BUTTONSIMUFRAM,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnButtonSimuFramClick);
   Connect(ID_LISTBOXCONFIG,wxEVT_COMMAND_LISTBOX_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnListBoxConfigDClick);
   Connect(ID_LISTBOXCONFIG,wxEVT_COMMAND_LISTBOX_DOUBLECLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnListBoxConfigDClick);
   PanelSplash->Connect(wxEVT_PAINT,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnPanelSplashPaint,0,this);
@@ -749,13 +752,6 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
   configFile->SetPath("/");
 }
 
-
-void OpenAVRc_DesktopFrame::OnSimulateurClick2(wxCommandEvent& event)
-{
-  wxString simu("OpenAVRc_Simulator.exe");
-  wxExecute(simu);
-}
-
 void OpenAVRc_DesktopFrame::OnClose(wxCloseEvent& event)
 {
   if (Ini_Changed) SaveConfig();
@@ -1012,4 +1008,16 @@ void OpenAVRc_DesktopFrame::OnMenuChoiceVoiceSelected(wxCommandEvent& event)
   Sleep(500);
   Voice_choice* voiceChoiceFrame = new Voice_choice(this);
   voiceChoiceFrame->Show(TRUE);
+}
+
+void OpenAVRc_DesktopFrame::OnButtonSimuFramClick(wxCommandEvent& event)
+{
+  wxString simu("OpenAVRc_Simulator_FRAM.exe");
+  wxExecute(simu);
+}
+
+void OpenAVRc_DesktopFrame::OnButtonSimuSTDClick(wxCommandEvent& event)
+{
+  wxString simu("OpenAVRc_Simulator.exe");
+  wxExecute(simu);
 }

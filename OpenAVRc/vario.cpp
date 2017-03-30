@@ -36,9 +36,9 @@ void varioWakeup()
 
   if (isFunctionActive(FUNCTION_VARIO)) {
 #if defined(AUDIO)
-    int16_t verticalSpeed;
-    ATOMIC_BLOCK(ATOMIC_FORCEON) {verticalSpeed = frskyData.hub.varioSpeed;}
-
+    cli();
+    int16_t verticalSpeed = frskyData.hub.varioSpeed;
+    sei();
     int varioCenterMin = (int)g_model.frsky.varioCenterMin * 10 - 50;
     int varioCenterMax = (int)g_model.frsky.varioCenterMax * 10 + 50;
     int varioMax = (10+(int)g_model.frsky.varioMax) * 100;

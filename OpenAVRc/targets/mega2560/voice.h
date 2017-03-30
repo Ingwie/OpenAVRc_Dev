@@ -29,7 +29,6 @@
 #define PROMPT_SYSTEM_BASE      480
 
 extern void pushPrompt(uint16_t prompt);
-extern uint8_t isPlaying();
 
 #define I18N_PLAY_FUNCTION(lng, x, ...) void x(__VA_ARGS__)
 #define PLAY_FUNCTION(x, ...)           void x(__VA_ARGS__)
@@ -41,7 +40,6 @@ extern uint8_t isPlaying();
 #define PLAY_DURATION_ATT
 #define PLAY_TIME
 #define IS_PLAY_TIME()                  (0)
-#define IS_PLAYING(id)                  isPlaying()
 #define PLAY_VALUE(v, id)               playValue((v))
 
 #define VOLUME_LEVEL_MAX                7
