@@ -89,7 +89,6 @@ public:
   void EnableOutputBarsMenu();
   void EnableOutputGvarsMenu();
   void EnableRadioDataMenu();
-  void EnableModelsMenu();
 
 
 
@@ -176,7 +175,6 @@ private:
   void OnOutputBarsSelected(wxCommandEvent& event);
   void OnOutputGvarsSelected(wxCommandEvent& event);
   void OnRadioDataSelected(wxCommandEvent& event);
-  void OnModelsListSelected(wxCommandEvent& event);
   void OnBpReaLeftDown(wxMouseEvent& event);
   void OnBpReaLeftUp(wxMouseEvent& event);
   void OnBpRebLeftDown(wxMouseEvent& event);
