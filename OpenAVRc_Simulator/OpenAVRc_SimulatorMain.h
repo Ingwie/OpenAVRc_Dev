@@ -237,7 +237,6 @@ private:
   static const long ID_MENUITEMOUTPUTOUTPUT;
   static const long ID_MENUITEMOUTPUTGVARS;
   static const long ID_MENUITEMRADIODATA;
-  static const long ID_MENUITEMMODELSLIST;
   static const long idMenuAbout;
   static const long ID_STATUSBAR;
   static const long ID_TIMER10MS;
@@ -283,7 +282,6 @@ private:
   //(*Declarations(OpenAVRc_SimulatorFrame)
   wxPanel* BpId2;
   wxPanel* BPg;
-  wxMenuItem* ModelsList;
   wxTimer Timer10ms;
   wxMenuItem* MenuStickBack;
   wxMenuItem* OutputBars;
