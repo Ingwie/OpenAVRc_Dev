@@ -1,3 +1,28 @@
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
+*/
+
 
 #include "../OpenAVRc.h"
 #include "interface.h"
@@ -12,7 +37,7 @@
  * 16 Bit Timer running @ 16MHz has a resolution of 0.5us.
  * This should give a PPM resolution of 2048.
 */
-static uint16_t ppm_switching_cb()
+static uint16_t PPM_HW_cb()
 {
   static int16_t PPM_Range;
   static uint32_t FrameLen;
@@ -21,8 +46,6 @@ static uint16_t ppm_switching_cb()
 
 
   if (state == -2) {
-dt = TCNT1L; // Record Timer1 latency for DEBUG stats display.
-
     // Need to prevent next toggle.
     // Also need to read pin and store before disconnecting switching output.
     if(PINB & (1<<OUT_B_PPM)) PORTB |= (1<<OUT_B_PPM);
@@ -50,7 +73,7 @@ dt = TCNT1L; // Record Timer1 latency for DEBUG stats display.
     SyncPulse = ((g_model.ppmDelay * 50) + 300) *2; // Lets call it what it is "Channel Sync Pulse".
 
     FrameLen = 45 + g_model.ppmFrameLength; // (22.5ms +/- 0.5ms steps) *2.
-    // Schedule next Mixer calcuations.
+    // Schedule next Mixer calculations.
     SCHEDULE_MIXER_END((uint16_t) FrameLen *8);
 
     FrameLen = (uint32_t) FrameLen * 500 *2; // Convert to 0.5us counts.
@@ -70,8 +93,8 @@ dt = TCNT1L; // Record Timer1 latency for DEBUG stats display.
     return SyncPulse;
   }
   else {
-    uint16_t ServoPulse = limit((int16_t)-PPM_Range, (channelOutputs[state >> 1] ), (int16_t)+PPM_Range) + 2* PPM_CH_CENTER(state >> 1);
-
+    uint16_t ServoPulse = 2* PPM_CH_CENTER(state >> 1);
+    ServoPulse += limit((int16_t)-PPM_Range, (channelOutputs[state >> 1] ), (int16_t)+PPM_Range);
     FrameLen -= (ServoPulse - SyncPulse);
     state ++;
     return (ServoPulse - SyncPulse);
@@ -79,7 +102,7 @@ dt = TCNT1L; // Record Timer1 latency for DEBUG stats display.
 }
 
 
-static void ppm_hw_initialize()
+static void PPM_HW_initialize()
 {
 
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
@@ -97,7 +120,7 @@ static void ppm_hw_initialize()
 const void * PPM_SWITCHING_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
-    case PROTOCMD_INIT: ppm_hw_initialize(); return 0;
+    case PROTOCMD_INIT: PPM_HW_initialize(); return 0;
     case PROTOCMD_DEINIT:
     case PROTOCMD_RESET:
       CLOCK_StopTimer();
@@ -106,8 +129,8 @@ const void * PPM_SWITCHING_Cmds(enum ProtoCmds cmd)
       return (void *) 1L;
 //        case PROTOCMD_CHECK_AUTOBIND: return 0;
 //        case PROTOCMD_BIND:  ppm_hw_initialize(); return 0;
-//        case PROTOCMD_NUMCHAN: return (void *)((unsigned long) NUM_OUT_CHANNELS);
-//        case PROTOCMD_DEFAULT_NUMCHAN: return (void *) 6L;
+//        case PROTOCMD_NUMCHAN: return (void *) 16L;
+//        case PROTOCMD_DEFAULT_NUMCHAN: return (void *) 8L;
 /*        case PROTOCMD_GETOPTIONS:
             if (Model.proto_opts[CENTER_PW] == 0) {
                 Model.proto_opts[CENTER_PW] = 1100;
@@ -126,7 +149,7 @@ const void * PPM_SWITCHING_Cmds(enum ProtoCmds cmd)
 
 ISR(TIMER1_COMPB_vect) // PPM switching vector.
 {
-    uint16_t half_us = ppm_switching_cb();
+    uint16_t half_us = PPM_HW_cb();
       if(! half_us) {
         PPM_SWITCHING_Cmds(PROTOCMD_DEINIT);
         return;
@@ -134,6 +157,7 @@ ISR(TIMER1_COMPB_vect) // PPM switching vector.
 
     OCR1B += half_us;
 
+  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
   if(dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
   if(dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
 }
