@@ -179,10 +179,6 @@ private:
   void OnOutputBarsSelected(wxCommandEvent& event);
   void OnOutputGvarsSelected(wxCommandEvent& event);
   void OnRadioDataSelected(wxCommandEvent& event);
-  void OnBpReaLeftDown(wxMouseEvent& event);
-  void OnBpReaLeftUp(wxMouseEvent& event);
-  void OnBpRebLeftDown(wxMouseEvent& event);
-  void OnBpRebLeftUp(wxMouseEvent& event);
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)
