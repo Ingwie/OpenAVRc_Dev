@@ -788,8 +788,6 @@
 		<Unit filename="GvarsFrame.h" />
 		<Unit filename="MixerFrame.cpp" />
 		<Unit filename="MixerFrame.h" />
-		<Unit filename="ModelsFrame.cpp" />
-		<Unit filename="ModelsFrame.h" />
 		<Unit filename="OpenAVRc_SimulatorApp.cpp" />
 		<Unit filename="OpenAVRc_SimulatorApp.h" />
 		<Unit filename="OpenAVRc_SimulatorMain.cpp" />

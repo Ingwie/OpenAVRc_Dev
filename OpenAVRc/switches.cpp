@@ -301,7 +301,7 @@ void checkSwitches()
 #if !defined(MODULE_ALWAYS_SEND_PULSES)
   while (1) {
 
-#if defined(TELEMETRY_MOD_14051) || defined(TELEMETRY_MOD_14051_SWAPPED)
+#if defined(TELEMETRY_MOD_14051) || defined(TELEMETRY_MOD_14051_SWAPPED) || defined(REV_EVO_V1)
     // FIXME: One getADC() call only reads one 14051 MUX input. To have all switch states updated, we need to call it MUX_MAX+1 times.
 #define GETADC_COUNT (MUX_MAX+1)
 #endif

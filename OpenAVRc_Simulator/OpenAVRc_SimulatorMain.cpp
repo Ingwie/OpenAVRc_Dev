@@ -29,7 +29,6 @@
 #include "OutBarsFrame.h"
 #include "GvarsFrame.h"
 #include "RadioDataFrame.h"
-#include "ModelsFrame.h"
 
 #include <wx/msgdlg.h>
 #include <wx/dcclient.h>
@@ -90,7 +89,6 @@ MixerFrame *MixFr;
 OutBarsFrame *BarFr;
 GvarsFrame *GvFr;
 RadioDataFrame *RaFr;
-ModelsFrame *ModFr;
 
 bool Mp3RepExist = false;
 extern volatile uint8_t JQ6500_InputIndex;
@@ -153,7 +151,6 @@ const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTMIXER = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTOUTPUT = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTGVARS = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMRADIODATA = wxNewId();
-const long OpenAVRc_SimulatorFrame::ID_MENUITEMMODELSLIST = wxNewId();
 const long OpenAVRc_SimulatorFrame::idMenuAbout = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_STATUSBAR = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_TIMER10MS = wxNewId();
@@ -318,8 +315,6 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   MenuFrame->Append(OutputGvars);
   RadioData = new wxMenuItem(MenuFrame, ID_MENUITEMRADIODATA, _("Paramètres Radio"), wxEmptyString, wxITEM_NORMAL);
   MenuFrame->Append(RadioData);
-  ModelsList = new wxMenuItem(MenuFrame, ID_MENUITEMMODELSLIST, _("Modèles"), wxEmptyString, wxITEM_NORMAL);
-  MenuFrame->Append(ModelsList);
   MenuBar1->Append(MenuFrame, _("&Fenêtres"));
   MenuHelp = new wxMenu();
   MenuAbout = new wxMenuItem(MenuHelp, idMenuAbout, _("A propos ...\tF1"), _("C\'est quoi donc \?"), wxITEM_NORMAL);
@@ -400,7 +395,6 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_MENUITEMOUTPUTOUTPUT,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOutputBarsSelected);
   Connect(ID_MENUITEMOUTPUTGVARS,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOutputGvarsSelected);
   Connect(ID_MENUITEMRADIODATA,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnRadioDataSelected);
-  Connect(ID_MENUITEMMODELSLIST,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnModelsListSelected);
   Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnAbout);
   Connect(ID_TIMER10MS,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimer10msTrigger);
   Connect(ID_TIMERMAIN,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimerMainTrigger);
@@ -613,7 +607,7 @@ void OpenAVRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
 {
   wxAboutDialogInfo Aboutbox;
   Aboutbox.SetName(_("OpenAVRc Simulateur"));
-  Aboutbox.SetVersion(_("V1.10 release"));
+  Aboutbox.SetVersion(_("V1.15 test"));
   Aboutbox.SetLicence(" GPLv2 . Firmware basé sur NextStepRc 2.18 ");
   Aboutbox.SetDescription(_("Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "));
   Aboutbox.SetCopyright(wxT("(C) 2016-2017 OpenAVRc Team"));
@@ -1389,17 +1383,6 @@ void OpenAVRc_SimulatorFrame::EnableRadioDataMenu()
   MenuFrame->Enable(ID_MENUITEMRADIODATA, true);
 }
 
-void OpenAVRc_SimulatorFrame::OnModelsListSelected(wxCommandEvent& event)
-{
-  ModFr = new  ModelsFrame(this);
-  ModFr->Show(TRUE);
-  MenuFrame->Enable(ID_MENUITEMMODELSLIST, false);
-}
-
-void OpenAVRc_SimulatorFrame::EnableModelsMenu()
-{
-  MenuFrame->Enable(ID_MENUITEMMODELSLIST, true);
-}
 
 /////////////////////////////////////////////////////
 //               UTILS

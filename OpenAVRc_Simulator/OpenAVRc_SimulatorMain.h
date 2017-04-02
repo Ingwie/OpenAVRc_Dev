@@ -89,7 +89,6 @@ public:
   void EnableOutputBarsMenu();
   void EnableOutputGvarsMenu();
   void EnableRadioDataMenu();
-  void EnableModelsMenu();
 
 
 
@@ -180,7 +179,10 @@ private:
   void OnOutputBarsSelected(wxCommandEvent& event);
   void OnOutputGvarsSelected(wxCommandEvent& event);
   void OnRadioDataSelected(wxCommandEvent& event);
-  void OnModelsListSelected(wxCommandEvent& event);
+  void OnBpReaLeftDown(wxMouseEvent& event);
+  void OnBpReaLeftUp(wxMouseEvent& event);
+  void OnBpRebLeftDown(wxMouseEvent& event);
+  void OnBpRebLeftUp(wxMouseEvent& event);
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)
@@ -237,7 +239,6 @@ private:
   static const long ID_MENUITEMOUTPUTOUTPUT;
   static const long ID_MENUITEMOUTPUTGVARS;
   static const long ID_MENUITEMRADIODATA;
-  static const long ID_MENUITEMMODELSLIST;
   static const long idMenuAbout;
   static const long ID_STATUSBAR;
   static const long ID_TIMER10MS;
@@ -283,7 +284,6 @@ private:
   //(*Declarations(OpenAVRc_SimulatorFrame)
   wxPanel* BpId2;
   wxPanel* BPg;
-  wxMenuItem* ModelsList;
   wxTimer Timer10ms;
   wxMenuItem* MenuStickBack;
   wxMenuItem* OutputBars;
