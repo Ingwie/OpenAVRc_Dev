@@ -27,6 +27,7 @@
 //#include "lcd_simu_driver.h"
 #include "../../../OpenAVRc_Simulator/OpenAVRc_SimulatorApp.h"
 #include "../../../OpenAVRc_Simulator/OpenAVRc_SimulatorMain.h"
+
 #include <wx/filename.h>
 #include <wx/dir.h>
 #include <wx/msgdlg.h>
@@ -37,7 +38,7 @@
 #define SIMU_VOICE_PROMPT_TEXT_LEN 25
 
 wxFileName Myfile;
-
+extern void EntryPointFromSimu();
 
 void simuTrace(const char * format, ...)
 {
@@ -83,6 +84,12 @@ void lcdRefresh()
   }
 }
 
+void simu_EditModelName()
+{
+  //Timer10ms.Stop();
+  //TimerMain.Stop();
+  EntryPointFromSimu();//ModelNameDialog.cpp
+}
 
 //SD FUNCTIONS
 

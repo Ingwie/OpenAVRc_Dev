@@ -29,6 +29,7 @@
 #include "OutBarsFrame.h"
 #include "GvarsFrame.h"
 #include "RadioDataFrame.h"
+#include "ModelNameDialog.h"
 
 #include <wx/msgdlg.h>
 #include <wx/dcclient.h>
@@ -89,6 +90,7 @@ MixerFrame *MixFr;
 OutBarsFrame *BarFr;
 GvarsFrame *GvFr;
 RadioDataFrame *RaFr;
+ModelNameDialog *MoDi;
 
 bool Mp3RepExist = false;
 extern volatile uint8_t JQ6500_InputIndex;

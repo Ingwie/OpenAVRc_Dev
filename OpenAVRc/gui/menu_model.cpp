@@ -54,8 +54,16 @@ void editName(coord_t x, coord_t y, char *name, uint8_t size, uint8_t event, uin
   lcdDrawSizedTextAtt(x, y, name, size, ZCHAR | FIXEDWIDTH | mode);
 
   if (active) {
+
     uint8_t cur = editNameCursorPos;
     if (s_editMode > 0) {
+
+#if defined(SIMU)
+      simu_EditModelName();//lcd_simu_driver.cpp
+      lcdDrawSizedTextAtt(x, y, name, size, ZCHAR | FIXEDWIDTH | mode);//redraw with newname.
+      //active = false;
+      //return;
+#endif
       int8_t c = name[cur];
       int8_t v = c;
 
