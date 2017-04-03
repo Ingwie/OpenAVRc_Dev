@@ -1,3 +1,28 @@
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
+*/
+
 
 
 #include "../OpenAVRc.h"
@@ -36,7 +61,22 @@ static uint8_t FRSKYV_crc8(uint8_t result, uint8_t *data, uint8_t len)
 }
 
 
-static uint8_t reflect8(uint8_t in)
+static uint8_t FRSKYV_crc8_le(uint8_t *data, uint8_t len)
+{
+  uint8_t result = 0xD6;
+
+  for(uint8_t i = 0; i < len; i++) {
+    result = result ^ data[i];
+    for(uint8_t j = 0; j < 8; j++) {
+      if(result & 0x01) result = (result >> 1) ^ 0x83;
+      else result = result >> 1;
+    }
+  }
+  return result;
+}
+
+
+static uint8_t FRSKYV_reflect8(uint8_t in)
 {
   // Reflects the bits in a byte.
   uint8_t i, j, out=0;
@@ -48,7 +88,7 @@ static uint8_t reflect8(uint8_t in)
 }
 
 
-static uint8_t calc_dp_crc_init(void)
+static uint8_t FRSKYV_calc_dp_crc_init(void)
 {
 // How TxId relates to data Frs_packet initial crc value.
 // ID      crc start value
@@ -76,7 +116,7 @@ static uint8_t calc_dp_crc_init(void)
 
   for(int8_t i=1; i>-1; i--) {
     c = data[i];
-    c = reflect8(c);
+    c = FRSKYV_reflect8(c);
     for(uint8_t j=0x80; j; j>>=1) {
       bit = crc & 0x80;
       crc<<= 1;
@@ -84,7 +124,7 @@ static uint8_t calc_dp_crc_init(void)
       if (bit) crc^= poly;
     }
   }
-  return reflect8(crc);
+  return FRSKYV_reflect8(crc);
 }
 
 
@@ -189,24 +229,19 @@ static void FRSKYV_build_data_packet()
 
   uint8_t num_chan = 8 + (g_model.ppmNCH *2);
   if(num_chan > 8) num_chan = 8;
-  // Potentially if we had only four channels we could send them every 9ms.
 
   for(uint8_t i = 0; i < 4; i++) {
     if( (i + (4* data_idx) ) < num_chan) {
 
     // 0x08CA / 1.5 = 1500 (us). Probably because they use 12MHz clocks.
-    // 0x05DC -> 1000us
-    // 0x0BB8 -> 2000us
-
-    int16_t PPM_Range = g_model.extendedLimits ? (640 + (640>>1)): (512 + (512>>1)); // x+x/2
+    // 0x05DC -> 1000us 5ca
+    // 0x0BB8 -> 2000us bca
 
     int16_t value = channelOutputs[i + (4* data_idx)];
     value -= (value>>2); // x-x/4
-    value = limit((int16_t)-PPM_Range, value, (int16_t)+PPM_Range);
+    value = limit((int16_t)-(640 + (640>>1)), value, (int16_t)+(640 + (640>>1)));
     value += 0x08CA;
 
-//    if(value < 0x546) value = 0x546; // 900 uS
-//    else if(value > 0xC4E ) value = 0xC4E; // 2100 uS
     Frs_packet[6 + (i*2)] = value & 0xFF;
     Frs_packet[7 + (i*2)] = (value >> 8) & 0xFF;
     }
@@ -219,33 +254,39 @@ static void FRSKYV_build_data_packet()
   Frs_packet[14] = FRSKYV_crc8(dp_crc_init, Frs_packet, 14);
   data_idx ++;
   if(data_idx > 1) data_idx =0;
+  // Potentially if we had only four channels we could send them every 9ms.
+  if(num_chan < 5 ) data_idx =0; // Experimental 4 channel high speed mode.
 }
 
 
 static uint16_t FRSKYV_data_cb()
 {
-    // Wait for transmit to finish.
-    // while( 0x0F != CC2500_Strobe(CC2500_SNOP)) { _delay_us(5); }
-    CC2500_Strobe(CC2500_SIDLE);
-    CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[ ( (seed & 0xFF) % 50) ] );
-    CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO.
-    CC2500_WriteData(Frs_packet, 15);
-    CC2500_Strobe(CC2500_STX);
+// Schedule next Mixer calculations.
+// SCHEDULE_MIXER_END((uint16_t) (9 *2) *8); // Probably not needed.
 
-
-    // Build next Frs_packet. Incurs a latency of 9ms. This can be done whilst previous Frs_packet is being emitted.
+    // Build next packet.
+	// CC2500_Strobe(CC2500_SNOP);
     seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323.
     FRSKYV_build_data_packet();
-    // CC2500_Strobe(CC2500_SNOP); // Just shows how long to build Frs_packet. 16MHz AVR = 126us.
+    // CC2500_Strobe(CC2500_SNOP); // Just shows how long to build a packet. 16MHz AVR = 127us.
+    CC2500_Strobe(CC2500_SIDLE);
 
-    // TODO Update power level and fine frequency tuning.
-    // CC2500_WriteReg(CC2500_0C_FSCTRL0, option);
-    // CC2500_SetPower();
+    // TODO Update options which don't need to be every 9ms.
+    static uint8_t option = 0;
+    if(option == 0) CC2500_SetTxRxMode(TX_EN); // Keep Power Amp activated.
+    else if(option == 64) CC2500_SetPower(5); // TODO update power level.
+    else if(option == 128) CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) -20); // TODO Update fine frequency value.
 
-    // Schedule next Mixer calculations.
-    SCHEDULE_MIXER_END((uint16_t) (9 *2) *8);
+    CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[ ( (seed & 0xFF) % 50) ] ); // 16MHz AVR = 38us.
+    CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO.
+    CC2500_WriteData(Frs_packet, 15);
+    CC2500_Strobe(CC2500_STX); // 8.853ms before we start again with the idle strobe.
 
+    // Wait for transmit to finish. Timing is tight. Only 581uS between packet being emitted and idle strobe.
+    // while( 0x0F != CC2500_Strobe(CC2500_SNOP)) { _delay_us(5); }
     heartbeat |= HEART_TIMER_PULSES;
+    option ++;
+    dt = TCNT1 - OCR1A; // Calculate latency and jitter.
     return 9000 *2;
 }
 
@@ -259,6 +300,7 @@ static uint16_t FRSKYV_bind_cb()
   CC2500_WriteData(Frs_packet, 15);
   CC2500_Strobe(CC2500_STX); // Tx
   heartbeat |= HEART_TIMER_PULSES;
+  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
   return 18000U *2;
 }
 
@@ -268,13 +310,21 @@ static void FRSKYV_initialise(uint8_t bind)
   CLOCK_StopTimer();
 
   //TODO  frsky_id = Model.fixed_id % 0x4000;
-  frsky_id = 0xABCD % 0x4000; // = 0x2BCD pour Moi.
+  frsky_id = 0x9999 & 0x7FFF;// = 0x1999 pour Moi.
 
   // Build channel array.
   channel_offset = frsky_id % 5;
   for(uint8_t x = 0; x < 50; x ++) channels_used[x] = (x*5) + 6 + channel_offset;
 
-  dp_crc_init = calc_dp_crc_init();
+//ID is 15 bits. Using rx_tx_addr[2] and rx_tx_addr[3] since we want to use RX_Num for model match
+//rx_tx_addr[2]&=0x7F;
+//dp_crc_init = FRSKYV_crc8_le(rx_tx_addr+2, 2);
+uint8_t  rx_tx_addr[4];
+rx_tx_addr[2]= frsky_id >> 8;  // 0x19; // be
+rx_tx_addr[3]= frsky_id & 0xFF; // 0x99; // le
+// dp_crc_init = FRSKYV_calc_dp_crc_init();
+dp_crc_init = FRSKYV_crc8_le(&rx_tx_addr[2], 2);
+
 
   CC2500_Reset(); // 0x30
 
