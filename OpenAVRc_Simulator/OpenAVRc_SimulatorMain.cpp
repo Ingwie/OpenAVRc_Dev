@@ -90,7 +90,6 @@ MixerFrame *MixFr;
 OutBarsFrame *BarFr;
 GvarsFrame *GvFr;
 RadioDataFrame *RaFr;
-ModelNameDialog *MoDi;
 
 bool Mp3RepExist = false;
 extern volatile uint8_t JQ6500_InputIndex;

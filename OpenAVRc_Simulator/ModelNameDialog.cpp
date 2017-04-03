@@ -2,8 +2,6 @@
 #include "OpenAVRc_SimulatorMain.h"
 #include <wx/msgdlg.h>
 
-ModelNameDialog *MoDi;
-
 //(*InternalHeaders(ModelNameDialog)
 #include <wx/intl.h>
 #include <wx/string.h>
@@ -37,6 +35,7 @@ ModelNameDialog::ModelNameDialog(wxWindow* parent,wxWindowID id,const wxPoint& p
 
   {
     wxIcon FrameIcon;
+    SetIcon(wxICON(oavrc_icon));
   }
 }
 
@@ -52,7 +51,6 @@ void ModelNameDialog::CheckEntryValues(wxString inString)
   if (x.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-+:*=?") != std::string::npos){
       wxMessageBox(x +_(" :\nIl y a des caractères spéciaux non autorisés.\nVeuillez le changer.\nCaractères spéciaux autorisés : _-+:*=?"));
   }
-  //return;
 }
 
 
@@ -61,13 +59,6 @@ void ModelNameDialog::OnInit(wxInitDialogEvent& event)
  wxString oldName = ConvCharFwToWxstr(g_model.header.name, LEN_MODEL_NAME);
  TextCtrlnewName->SetValue(oldName);
 }
-
-void ModelNameDialogEntryPointFromSimu()
-{
-  MoDi = new  ModelNameDialog(NULL);
-  MoDi->ShowModal();
-}
-
 
 void ModelNameDialog::OnTextCtrlnewNameTextEnter(wxCommandEvent& event)
 {
