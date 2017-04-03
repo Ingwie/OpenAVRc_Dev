@@ -58,6 +58,8 @@
 #define SW_AIL SW_I
 #define SW_TRN SW_M
 
+#define MUX_MAX 1 // Used in switches.cpp
+
 // USB fake driver
 //#define usbPlugged()             false
 //#define INP_E_USB_D_PLS          4
