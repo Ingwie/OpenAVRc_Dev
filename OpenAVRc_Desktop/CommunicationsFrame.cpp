@@ -115,7 +115,7 @@ CommunicationsFrame::CommunicationsFrame(wxWindow* parent,wxWindowID id,const wx
 
     {
         wxIcon FrameIcon;
-        SetIcon(wxICON(nsrcd_icon));
+        SetIcon(wxICON(oavrc_icon));
     }
 
     //fills the comboxes with ini file defaults

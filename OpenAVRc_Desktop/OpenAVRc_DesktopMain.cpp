@@ -373,7 +373,7 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
 
   {
     wxIcon FrameIcon;
-    SetIcon(wxICON(nsrcd_icon));
+    SetIcon(wxICON(oavrc_icon));
   }
   //App Path
   wxFileName appPathWithExeName = wxStandardPaths::Get().GetExecutablePath();

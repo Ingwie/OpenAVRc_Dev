@@ -613,6 +613,11 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   Connect(ID_BUTTONJOUER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonJouerClick);
   //*)
 
+    {
+        wxIcon FrameIcon;
+        SetIcon(wxICON(oavrc_icon));
+    }
+
   file = AppPath + "\\Voice_" + voice_Langue + ".csv";
   Load();
 }
