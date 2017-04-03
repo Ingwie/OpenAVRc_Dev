@@ -86,6 +86,13 @@ void menuModelSetup(uint8_t event)
     switch(k) {
     case ITEM_MODEL_NAME:
       editSingleName(MODEL_SETUP_2ND_COLUMN, y, STR_MODELNAME, g_model.header.name, sizeof(g_model.header.name), event, attr);
+#if defined(SIMU)
+      if ((attr) && (editMode>0)) {
+          s_editMode = 0;
+          simu_pinl |= 0x10; // Reset Menu key pin
+          simu_EditModelName(); //lcd_simu_driver.cpp
+      }
+#endif
       break;
 
     case ITEM_MODEL_TIMER1:

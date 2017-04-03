@@ -1,8 +1,6 @@
 #include "ModelNameDialog.h"
-//#include "OpenAVRc_SimulatorApp.h"
 #include "OpenAVRc_SimulatorMain.h"
 #include <wx/msgdlg.h>
-//#include <wx/timer.h>
 
 ModelNameDialog *MoDi;
 
@@ -48,10 +46,7 @@ void ModelNameDialog::CheckEntryValues(wxString inString)
 {
   std::string  x(inString);
   if (x.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-+:*=?") != std::string::npos){
-      wxMessageBox(x +_(" :\nIl y a un nom avec des caractères spéciaux non autorisés.\nVeuillez le changer.\nCaractères spéciaux autorisés : _-+:*=?"));
-  }
-  if ((x.length() < 3) & (x.length() > 0)){
-      wxMessageBox(x +_(" :\nIl y a un nom trop court, veuillez le compléter."));
+      wxMessageBox(x +_(" :\nIl y a des caractères spéciaux non autorisés.\nVeuillez le changer.\nCaractères spéciaux autorisés : _-+:*=?"));
   }
   //return;
 }
@@ -63,14 +58,10 @@ void ModelNameDialog::OnInit(wxInitDialogEvent& event)
  TextCtrlnewName->SetValue(oldName);
 }
 
-void EntryPointFromSimu()
+void ModelNameDialogEntryPointFromSimu()
 {
-  //Timer10ms.Stop();
-  //TimerMain.Stop();
-  //ModelNameDialog *MoDi;
   MoDi = new  ModelNameDialog(NULL);
   MoDi->ShowModal();
-  MoDi->Show(TRUE);
 }
 
 
@@ -80,6 +71,5 @@ void ModelNameDialog::OnTextCtrlnewNameTextEnter(wxCommandEvent& event)
   newName = TextCtrlnewName->GetValue();
   CheckEntryValues(newName);
   ConvWxstrToCharFw(newName, g_model.header.name, LEN_MODEL_NAME);
-  //Destroy();//m:crashes if newname is shorter than oldname. Go figure.
   Close();
 }
