@@ -146,7 +146,7 @@ OutBarsFrame::OutBarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 
   {
     wxIcon FrameIcon;
-    SetIcon(wxICON(nsrcs_icon));
+    SetIcon(wxICON(oavrc_icon));
   }
 
 	PopulateBarFrame();

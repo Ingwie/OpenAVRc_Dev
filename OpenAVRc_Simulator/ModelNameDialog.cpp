@@ -34,6 +34,10 @@ ModelNameDialog::ModelNameDialog(wxWindow* parent,wxWindowID id,const wxPoint& p
 	Connect(ID_TEXTCTRLNEWNAME,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&ModelNameDialog::OnTextCtrlnewNameTextEnter);
 	Connect(wxID_ANY,wxEVT_INIT_DIALOG,(wxObjectEventFunction)&ModelNameDialog::OnInit);
 	//*)
+
+  {
+    wxIcon FrameIcon;
+  }
 }
 
 ModelNameDialog::~ModelNameDialog()

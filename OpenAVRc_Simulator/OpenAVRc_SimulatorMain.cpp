@@ -404,7 +404,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   //*)
   {
     wxIcon FrameIcon;
-    SetIcon(wxICON(nsrcs_icon));
+    SetIcon(wxICON(oavrc_icon));
   }
 
   //App Path
