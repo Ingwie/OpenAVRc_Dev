@@ -1,3 +1,28 @@
+/*
+**************************************************************************
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code named                            *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
+*/
+
 
 #include "../OpenAVRc.h"
 
@@ -5,7 +30,7 @@
  * 16 Bit Timer running @ 16MHz has a resolution of 0.5us.
  * This should give a PPM resolution of 2048.
 */
-static uint16_t ppm_bb_cb()
+static uint16_t PPM_BB_cb()
 {
   if ( *((uint16_t*)pulses2MHzRPtr) == 0) {
 
@@ -21,8 +46,9 @@ static uint16_t ppm_bb_cb()
   }
 
   dt = TCNT1 - OCR1A;
-  /* Calculate delay between OCR1A match and this point in the code before the toggle of the port pin.
-   *  This shows any jitter due to a delayed ISR.
+  /*
+   * Calculate delay between OCR1A match and this point in the code before the toggle of the port pin.
+   * This shows any jitter due to a delayed ISR.
    */
 
   PORTB ^= (1<<OUT_B_PPM); // Toggle port bit.
@@ -33,26 +59,26 @@ static uint16_t ppm_bb_cb()
 }
 
 
-static void ppm_bb_initialize()
+static void PPM_BB_initialize()
 {
   pulses2MHzRPtr = pulses2MHz;
   *((uint16_t*) pulses2MHzRPtr) = 0;
-  CLOCK_StartTimer(1000 *2, &ppm_bb_cb);
+  CLOCK_StartTimer(1000 *2, &PPM_BB_cb);
 }
 
 
 const void * PPM_BB_Cmds(enum ProtoCmds cmd)
 {
     switch(cmd) {
-        case PROTOCMD_INIT: ppm_bb_initialize(); return 0;
+        case PROTOCMD_INIT: PPM_BB_initialize(); return 0;
         case PROTOCMD_DEINIT:
         case PROTOCMD_RESET:
             CLOCK_StopTimer();
             return (void *) 1L;
 //        case PROTOCMD_CHECK_AUTOBIND: return 0;
 //        case PROTOCMD_BIND:  ppm_bb_initialize(); return 0;
-//        case PROTOCMD_NUMCHAN: return (void *)((unsigned long) NUM_OUT_CHANNELS);
-//        case PROTOCMD_DEFAULT_NUMCHAN: return (void *) 6L;
+//        case PROTOCMD_NUMCHAN: return (void *) 16L;
+//        case PROTOCMD_DEFAULT_NUMCHAN: return (void *) 8L;
 /*        case PROTOCMD_GETOPTIONS:
             if (Model.proto_opts[CENTER_PW] == 0) {
                 Model.proto_opts[CENTER_PW] = 1100;
