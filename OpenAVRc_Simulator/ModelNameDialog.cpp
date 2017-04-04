@@ -48,7 +48,7 @@ ModelNameDialog::~ModelNameDialog()
 void ModelNameDialog::CheckEntryValues(wxString inString)
 {
   std::string  x(inString);
-  if (x.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-+:*=?") != std::string::npos){
+  if (x.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-+:*=? ") != std::string::npos){
       wxMessageBox(x +_(" :\nIl y a des caractères spéciaux non autorisés.\nVeuillez le changer.\nCaractères spéciaux autorisés : _-+:*=?"));
   }
 }

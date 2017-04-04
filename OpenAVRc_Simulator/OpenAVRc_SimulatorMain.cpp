@@ -1392,8 +1392,9 @@ void OpenAVRc_SimulatorFrame::EnableRadioDataMenu()
 void ConvWxstrToCharFw(wxString str,char *fwchar, uint8_t length) //Convert wxString to Firmware chars[]
 {
   char buff[length];
+
   str2zchar(buff, str.mb_str(wxConvUTF8),length);
-  strncpy(fwchar, buff, length);
+  memcpy(fwchar, buff, length);
 }
 
 wxString ConvCharFwToWxstr(char *cstr, uint8_t length) //Convert Firmware chars[] to wxString
