@@ -17,6 +17,7 @@
 				<value>10 Chars Max</value>
 				<maxlength>10</maxlength>
 				<pos>40,24</pos>
+				<validator>validator</validator>
 				<style>wxWANTS_CHARS</style>
 				<handler function="OnTextCtrlnewNameTextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
