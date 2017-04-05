@@ -66,17 +66,30 @@ void CC2500_WriteData(uint8_t *dpbuffer, uint8_t len)
 
 void CC2500_SetTxRxMode(enum TXRX_State mode)
 {
+/* The Skyartec CC2500 Module uses a RF Axis RFX2402E Power Amplifier and Low Noise Amplifier PA/LNA.
+ * Deviation uses the CC2500 GDO0 and GDO2 to control the PA / LNA. GDO0 -> PA(TX Enable), GDO2 -> LNA(RX Enable).
+ * Both the PA & LNA are positive logic.
+ * Just to confuse things, GDO0 is accessed via register IOCFG0 @ 0x02, GDO2 via IOCFG2 @ 0x00 !!!.
+ * It is best to disable the PA before enabling the LNA and vice versa, although the RFX2402E does not care
+ * as it has an antenna switch.
+ */
+
+#define PA_ENABLE()    CC2500_WriteReg(CC2500_02_IOCFG0, 0x2F | 0x40);//set
+#define LNA_ENABLE()   CC2500_WriteReg(CC2500_00_IOCFG2, 0x2F | 0x40);//set
+#define PA_DISABLE()   CC2500_WriteReg(CC2500_02_IOCFG0, 0x2F);//clear
+#define LNA_DISABLE()  CC2500_WriteReg(CC2500_00_IOCFG2, 0x2F);//clear
+
   if(mode == TX_EN) {
-    CC2500_WriteReg(CC2500_02_IOCFG0, 0x2F | 0x40);//set
-    CC2500_WriteReg(CC2500_00_IOCFG2, 0x2F);//clear
+    LNA_DISABLE();
+    PA_ENABLE();
   }
   else if (mode == RX_EN) {
-    CC2500_WriteReg(CC2500_02_IOCFG0, 0x2F);//clear
-    CC2500_WriteReg(CC2500_00_IOCFG2, 0x2F | 0x40);//set
+    PA_DISABLE();
+    LNA_ENABLE();
   }
   else {
-    CC2500_WriteReg(CC2500_02_IOCFG0, 0x2F);//clear
-    CC2500_WriteReg(CC2500_00_IOCFG2, 0x2F);//clear
+    PA_DISABLE();
+    LNA_DISABLE();
   }
 }
 
