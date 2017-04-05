@@ -22,12 +22,8 @@ END_EVENT_TABLE()
 ModelNameDialog::ModelNameDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
   wxTextValidator validator(wxFILTER_INCLUDE_CHAR_LIST);
-  wxArrayString list;
-  wxString valid_chars(wxT(" abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-+:*=?"));
-  size_t len = valid_chars.Length();
-  for (size_t i=0; i<len; i++)
-  list.Add(wxString(valid_chars.GetChar(i)));
-  validator.SetIncludes(list);
+  wxString valid_chars(wxT(" abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-"));
+  validator.SetCharIncludes(valid_chars);
 
 	//(*Initialize(ModelNameDialog)
 	Create(parent, id, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("id"));
@@ -37,7 +33,6 @@ ModelNameDialog::ModelNameDialog(wxWindow* parent,wxWindowID id,const wxPoint& p
 	StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Nom du modèle"), wxPoint(0,0), wxSize(176,64), 0, _T("ID_STATICBOX1"));
 	TextCtrlnewName = new wxTextCtrl(Panel1, ID_TEXTCTRLNEWNAME, _("10 Chars Max"), wxPoint(40,24), wxDefaultSize, wxWANTS_CHARS, validator, _T("ID_TEXTCTRLNEWNAME"));
 	TextCtrlnewName->SetMaxLength(10);
-
 	Connect(ID_TEXTCTRLNEWNAME,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&ModelNameDialog::OnTextCtrlnewNameTextEnter);
 	Connect(wxID_ANY,wxEVT_INIT_DIALOG,(wxObjectEventFunction)&ModelNameDialog::OnInit);
 	//*)
@@ -53,7 +48,6 @@ ModelNameDialog::~ModelNameDialog()
 	//(*Destroy(ModelNameDialog)
 	//*)
 }
-
 
 /*void ModelNameDialog::CheckEntryValues(wxString inString)
 {
