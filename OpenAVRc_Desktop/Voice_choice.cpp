@@ -59,6 +59,11 @@ Voice_choice::Voice_choice(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	Connect(ID_BUTTONSAVEVOICE,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&Voice_choice::OnButtonsavevoiceClick);
 	//*)
 
+    {
+        wxIcon FrameIcon;
+        SetIcon(wxICON(oavrc_icon));
+    }
+
 	Load();
 }
 

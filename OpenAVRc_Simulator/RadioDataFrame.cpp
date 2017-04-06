@@ -64,7 +64,7 @@ RadioDataFrame::RadioDataFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 
   {
     wxIcon FrameIcon;
-    SetIcon(wxICON(nsrcs_icon));
+    SetIcon(wxICON(oavrc_icon));
   }
 
 	PopulateRadioDataFrame();

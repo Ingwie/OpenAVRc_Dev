@@ -47,8 +47,6 @@
 #include <wx/process.h>
 
 
-
-
 //(*Firmware
 #include "../OpenAVRc/OpenAVRc.h"
 #include "Spin.h"
@@ -56,7 +54,6 @@
 
 //SD
 wxString simu_dir;
-
 
 
 extern wxString AppPath;

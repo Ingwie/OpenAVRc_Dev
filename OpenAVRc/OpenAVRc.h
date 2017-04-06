@@ -226,6 +226,7 @@ extern ISR(TIMER_10MS_VECT, ISR_NOBLOCK);
 extern int simumain(void);
 extern  void SimuMainLoop(void);
 extern  void shutDownSimu(void);
+extern  void simu_EditModelName();
 
 #else //NOT SIMU NOW
 

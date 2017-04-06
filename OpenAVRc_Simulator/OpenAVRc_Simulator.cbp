@@ -788,6 +788,8 @@
 		<Unit filename="GvarsFrame.h" />
 		<Unit filename="MixerFrame.cpp" />
 		<Unit filename="MixerFrame.h" />
+		<Unit filename="ModelNameDialog.cpp" />
+		<Unit filename="ModelNameDialog.h" />
 		<Unit filename="OpenAVRc_SimulatorApp.cpp" />
 		<Unit filename="OpenAVRc_SimulatorApp.h" />
 		<Unit filename="OpenAVRc_SimulatorMain.cpp" />
@@ -803,7 +805,7 @@
 		</Unit>
 		<Unit filename="wxsmith/GvarsFrame.wxs" />
 		<Unit filename="wxsmith/MixerFrame.wxs" />
-		<Unit filename="wxsmith/ModelsFrame.wxs" />
+		<Unit filename="wxsmith/ModelNameDialog.wxs" />
 		<Unit filename="wxsmith/OpenAVRc_Simulatorframe.wxs" />
 		<Unit filename="wxsmith/OutBarsFrame.wxs" />
 		<Unit filename="wxsmith/RadioDataFrame.wxs" />
@@ -820,7 +822,7 @@
 					<wxFrame wxs="wxsmith/OutBarsFrame.wxs" src="OutBarsFrame.cpp" hdr="OutBarsFrame.h" fwddecl="0" i18n="1" name="OutBarsFrame" language="CPP" />
 					<wxFrame wxs="wxsmith/GvarsFrame.wxs" src="GvarsFrame.cpp" hdr="GvarsFrame.h" fwddecl="0" i18n="1" name="GvarsFrame" language="CPP" />
 					<wxFrame wxs="wxsmith/RadioDataFrame.wxs" src="RadioDataFrame.cpp" hdr="RadioDataFrame.h" fwddecl="0" i18n="1" name="RadioDataFrame" language="CPP" />
-					<wxFrame wxs="wxsmith/ModelsFrame.wxs" src="ModelsFrame.cpp" hdr="ModelsFrame.h" fwddecl="0" i18n="1" name="ModelsFrame" language="CPP" />
+					<wxDialog wxs="wxsmith/ModelNameDialog.wxs" src="ModelNameDialog.cpp" hdr="ModelNameDialog.h" fwddecl="0" i18n="1" name="ModelNameDialog" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>
