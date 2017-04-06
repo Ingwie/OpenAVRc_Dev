@@ -22,7 +22,7 @@ END_EVENT_TABLE()
 ModelNameDialog::ModelNameDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
   wxTextValidator validator(wxFILTER_INCLUDE_CHAR_LIST);
-  wxString valid_chars(wxT(" abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-"));
+  wxString valid_chars(wxT(" abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-.,"));
   validator.SetCharIncludes(valid_chars);
 
 	//(*Initialize(ModelNameDialog)
