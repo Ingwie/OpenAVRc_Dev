@@ -79,6 +79,9 @@
  Module Private Functions
 
  ---------------------------------------------------------------------------*/
+#define spi_tx(value)  spi_xfer(value)
+#define spi_rx()  spi_xfer(0xFF) //-> SD bug without 0xFF.
+
 
 static volatile
 DSTATUS Stat = STA_NOINIT;	/* Disk status */

@@ -26,9 +26,6 @@
 #ifndef _SPI_H_
 #define _SPI_H_
 
-#define spi_tx(value)  spi_xfer(value)
-#define spi_rx()  spi_xfer(0xFF) // Prefer 0 to be sent -> SD bug without 0xFF.
-
 void spi_disable(void);
 void spi_enable_master_mode(void);
 uint8_t spi_xfer(uint8_t value);
