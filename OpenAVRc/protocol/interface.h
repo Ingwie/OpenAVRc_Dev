@@ -20,6 +20,7 @@
 #include "iface_cc2500.h"
 #include "cc2500.c"
 #include "FRSKYV_cc2500.c"
+#include "FRSKYD_cc2500.c"
 #include "skyartec_cc2500.c"
 #endif
 

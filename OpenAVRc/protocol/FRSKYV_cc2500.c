@@ -26,24 +26,22 @@
 
 
 #include "../OpenAVRc.h"
+#include "frsky.h"
 
-static const char * const frsky_opts[] = {
+static const char * const FRSKYV_opts[] = {
   _tr_noop("Freq-Fine"),  "-127", "+127", NULL,
   NULL
 };
 
-enum {
-  PROTO_OPTS_FREQFINE =0,
-  LAST_PROTO_OPT,
+enum FRSKYV_opts{
+  FRSKYV_OPT_FREQFINE =0,
+  FRSKYV_OPT_LAST,
 };
 //ctassert(LAST_PROTO_OPT <= NUM_PROTO_OPTS, too_many_protocol_opts);
 
-static uint8_t Frs_packet[16];
+
 static uint32_t seed;
 static uint8_t dp_crc_init;
-static uint16_t frsky_id;
-static uint8_t channels_used[50];
-static uint8_t channel_offset;
 
 
 static uint8_t FRSKYV_crc8(uint8_t result, uint8_t *data, uint8_t len)
@@ -132,18 +130,18 @@ static void FRSKYV_init(uint8_t bind)
 {
   CC2500_SetTxRxMode(TX_EN);
 
-  CC2500_WriteReg(CC2500_17_MCSM1, 0x0C);
-//  CC2500_WriteReg(CC2500_18_MCSM0, 0x08); // Manual calibration using SCAL. Was 0x18.
+  CC2500_WriteReg(CC2500_17_MCSM1, 0x0C); // Stay in receive after packet reception, Idle state after transmission
+  // CC2500_WriteReg(CC2500_18_MCSM0, 0x08); // Manual calibration using SCAL. Was 0x18.
   CC2500_WriteReg(CC2500_18_MCSM0, 0x18); // Auto calibrate when going from idle to tx/rx/fstxon
   CC2500_WriteReg(CC2500_06_PKTLEN, 0xFF);
   CC2500_WriteReg(CC2500_07_PKTCTRL1, 0x04);
   CC2500_WriteReg(CC2500_08_PKTCTRL0, 0x05);
-//  CC2500_WriteReg(CC2500_3E_PATABLE, bind ? 0x50 : 0xFE); // power level (0xFE) 0dBm * Power Amp (RDA T212).
+  CC2500_WriteReg(CC2500_3E_PATABLE, bind ? 0x50 : 0xFE); // power level (0xFE) 0dBm * Power Amp (RDA T212).
 
   CC2500_WriteReg(CC2500_0B_FSCTRL1, 0x08);
 
   // static const int8_t fine = 0 ; // Frsky rf deck = 0, Skyartec rf module = -17.
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) -20); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
+  CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) 0); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
   CC2500_WriteReg(CC2500_0D_FREQ2, 0x5C);
   CC2500_WriteReg(CC2500_0E_FREQ1, 0x58);
   CC2500_WriteReg(CC2500_0F_FREQ0, 0x9D);
@@ -179,7 +177,7 @@ static void FRSKYV_init(uint8_t bind)
 //TODO
 //  if(proto_mode == NORMAL_MODE) CC2500_WriteReg(CC2500_3E_PATABLE, 0xFE); // D8 uses PATABLE = 0xFE for normal transmission.
 //  else CC2500_WriteReg(CC2500_3E_PATABLE, 0x50); // D8 uses PATABLE = 0x50 for range testing and binding.
-  CC2500_WriteReg(CC2500_3E_PATABLE, 0xF0);
+//  CC2500_WriteReg(CC2500_3E_PATABLE, 0xF0);
 
   CC2500_WriteReg(CC2500_0A_CHANNR, 0x00);
   CC2500_Strobe(CC2500_SCAL); // Manual calibration
@@ -269,13 +267,13 @@ static uint16_t FRSKYV_data_cb()
     seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323.
     FRSKYV_build_data_packet();
     // CC2500_Strobe(CC2500_SNOP); // Just shows how long to build a packet. 16MHz AVR = 127us.
-    CC2500_Strobe(CC2500_SIDLE);
 
     // TODO Update options which don't need to be every 9ms.
     static uint8_t option = 0;
     if(option == 0) CC2500_SetTxRxMode(TX_EN); // Keep Power Amp activated.
     else if(option == 64) CC2500_SetPower(5); // TODO update power level.
     else if(option == 128) CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) -20); // TODO Update fine frequency value.
+    else if(option == 196) CC2500_Strobe(CC2500_SIDLE); // MCSM1 register setting puts CC2500 back into idle after TX.
 
     CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[ ( (seed & 0xFF) % 50) ] ); // 16MHz AVR = 38us.
     CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO.
@@ -284,8 +282,8 @@ static uint16_t FRSKYV_data_cb()
 
     // Wait for transmit to finish. Timing is tight. Only 581uS between packet being emitted and idle strobe.
     // while( 0x0F != CC2500_Strobe(CC2500_SNOP)) { _delay_us(5); }
-    heartbeat |= HEART_TIMER_PULSES;
     option ++;
+    heartbeat |= HEART_TIMER_PULSES;
     dt = TCNT1 - OCR1A; // Calculate latency and jitter.
     return 9000 *2;
 }
@@ -358,7 +356,7 @@ const void * FRSKYV_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_NUMCHAN: return (void *)8L;
     case PROTOCMD_DEFAULT_NUMCHAN: return (void *)8L;
 //        case PROTOCMD_CURRENT_ID: return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id % 0x4000) : 0;
-    case PROTOCMD_GETOPTIONS: return frsky_opts;
+    case PROTOCMD_GETOPTIONS: return FRSKYV_opts;
     case PROTOCMD_TELEMETRYSTATE: return (void *)(long) PROTO_TELEM_UNSUPPORTED;
     default: break;
   }
