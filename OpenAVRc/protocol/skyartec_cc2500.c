@@ -93,14 +93,14 @@ static void skyartec_init()
 
 static void add_pkt_suffix()
 {
-  int xor1 = 0;
-  int xor2 = 0;
-  for(int i = 3; i <= 16; i++)
+  uint16_t xor1 = 0;
+  uint16_t xor2 = 0;
+  for(uint8_t i = 3; i <= 16; i++)
     xor1 ^= Sky_packet[i];
-  for(int i = 3; i <= 14; i++)
+  for(uint8_t i = 3; i <= 14; i++)
     xor2 ^= Sky_packet[i];
 
-  int sum = Sky_packet[3] + Sky_packet[5] + Sky_packet[7] + Sky_packet[9] + Sky_packet[11] + Sky_packet[13];
+  uint16_t sum = Sky_packet[3] + Sky_packet[5] + Sky_packet[7] + Sky_packet[9] + Sky_packet[11] + Sky_packet[13];
   Sky_packet[17] = xor1;
   Sky_packet[18] = xor2;
   Sky_packet[19] = sum & 0xff;
@@ -135,7 +135,7 @@ static void send_data_packet()
     Sky_packet[4+2*i] = value & 0xff;
   }
   add_pkt_suffix();
-  //for(int i = 0; i < 20; i++) printf("%02x ", Sky_packet[i]); printf("\n");
+  //for(uint16_t i = 0; i < 20; i++) printf("%02x ", Sky_packet[i]); printf("\n");
   CC2500_WriteReg(CC2500_04_SYNC1, ((fixed_id >> 0) & 0xff));
   CC2500_WriteReg(CC2500_05_SYNC0, ((fixed_id >> 8) & 0xff));
   CC2500_WriteReg(CC2500_09_ADDR, TX_ADDR);
@@ -212,8 +212,8 @@ static void skyartec_initialize()
  // if (Model.fixed_id) {
  //   fixed_id ^= Model.fixed_id + (Model.fixed_id << 16);
  // } else {
-    int partnum = CC2500_ReadReg(0xF0);
-    int vernum = CC2500_ReadReg(0xF1);
+    uint32_t partnum = CC2500_ReadReg(0xF0);
+    uint32_t vernum = CC2500_ReadReg(0xF1);
     fixed_id ^= partnum << 24;
     fixed_id ^= vernum << 16;
     fixed_id ^= (vernum << 4 | partnum >> 4) << 8;
