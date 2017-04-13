@@ -37,7 +37,7 @@ static void skyartec_init()
   CC2500_Reset();
 
   CC2500_WriteReg(CC2500_16_MCSM2, 0x07);
-  CC2500_WriteReg(CC2500_17_MCSM1, 0x30);
+  CC2500_WriteReg(CC2500_17_MCSM1, 0x30);// Switch in idle state after transmission
   CC2500_WriteReg(CC2500_1E_WOREVT1, 0x87);
   CC2500_WriteReg(CC2500_1F_WOREVT0, 0x6b);
   CC2500_WriteReg(CC2500_20_WORCTRL, 0xf8);
