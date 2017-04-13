@@ -25,17 +25,11 @@ static uint16_t bind_count;
 
 enum {
   SKYARTEC_PKT1 = 0,
-  SKYARTEC_SLEEP1,
   SKYARTEC_PKT2,
-  SKYARTEC_SLEEP2,
   SKYARTEC_PKT3,
-  SKYARTEC_SLEEP3,
   SKYARTEC_PKT4,
-  SKYARTEC_SLEEP4,
   SKYARTEC_PKT5,
-  SKYARTEC_SLEEP5,
-  SKYARTEC_PKT6,
-  SKYARTEC_LAST,
+  SKYARTEC_PKT6
 };
 
 static void skyartec_init()
@@ -123,12 +117,11 @@ static void send_data_packet()
 
   for(uint8_t i = 0; i < 7; i++) {
     if(i < num_chan) {
-	   value = channelOutputs[i];
-	   value /= 2;
-	   value = limit((int16_t)-640, value, (int16_t)+640);
-	   value += 0x280; // 640.
-    }
-    else {
+      value = channelOutputs[i];
+      value /= 2;
+      value = limit((int16_t)-640, value, (int16_t)+640);
+      value += 0x280; // 640.
+    } else {
       value = 0x280;
     }
     Sky_packet[3+2*i] = value >> 8;
@@ -174,33 +167,18 @@ static void send_bind_packet()
 
 static uint16_t skyartec_cb()
 {
-  // Might be better to re-write this function with only one callback every 6ms.
   heartbeat |= HEART_TIMER_PULSES;
   // SCHEDULE_MIXER_END((uint16_t) (6 *2) *8); // Todo
 
-  if (state & 0x01) {
-    CC2500_Strobe(CC2500_SIDLE);
-    if (state == SKYARTEC_LAST) {
-     CC2500_SetPower(TXPOWER_6);
-     state = SKYARTEC_PKT1;
-    }
-    else  state++;
-  return 3000 *2;
-  }
-
-  if (state == SKYARTEC_PKT1 && bind_count) {
-  send_bind_packet();
-  bind_count--;
-    if(bind_count == 0) {
-      //  printf("Done binding\n");
-    }
-  }
-  else {
+  if (state != SKYARTEC_PKT6) {
     send_data_packet();
+    state++;
+  } else {
+    send_bind_packet();
+    state = SKYARTEC_PKT1;
   }
-
-  state++;
-  return 3000 *2;
+  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+  return 12000 *2;
 }
 
 
@@ -209,16 +187,16 @@ static void skyartec_initialize()
   CLOCK_StopTimer();
   skyartec_init();
   fixed_id = 0xb2c54a2f;
- // if (Model.fixed_id) {
- //   fixed_id ^= Model.fixed_id + (Model.fixed_id << 16);
- // } else {
-    uint32_t partnum = CC2500_ReadReg(0xF0);
-    uint32_t vernum = CC2500_ReadReg(0xF1);
-    fixed_id ^= partnum << 24;
-    fixed_id ^= vernum << 16;
-    fixed_id ^= (vernum << 4 | partnum >> 4) << 8;
-    fixed_id ^= (partnum << 4 | vernum >> 4) << 8;
- // }
+// if (Model.fixed_id) {
+//   fixed_id ^= Model.fixed_id + (Model.fixed_id << 16);
+// } else {
+  uint32_t partnum = CC2500_ReadReg(0xF0);
+  uint32_t vernum = CC2500_ReadReg(0xF1);
+  fixed_id ^= partnum << 24;
+  fixed_id ^= vernum << 16;
+  fixed_id ^= (vernum << 4 | partnum >> 4) << 8;
+  fixed_id ^= (partnum << 4 | vernum >> 4) << 8;
+// }
   if (0 == (fixed_id & 0xff000000))
     fixed_id |= 0xb2;
   if (0 == (fixed_id & 0x00ff0000))
