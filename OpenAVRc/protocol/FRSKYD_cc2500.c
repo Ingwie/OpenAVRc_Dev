@@ -29,15 +29,15 @@
 #include "frsky.h"
 
 static const char * const FRSKYD_opts[] = {
-    _tr_noop("Freq-Fine"),  "-127", "+127", NULL,
-    _tr_noop("Telemetry"),  _tr_noop("Off"), _tr_noop("On"), NULL,
-    NULL
+  _tr_noop("Freq-Fine"),  "-127", "+127", NULL,
+  _tr_noop("Telemetry"),  _tr_noop("Off"), _tr_noop("On"), NULL,
+  NULL
 };
 
 enum FRSKYD_opts{
-    FRSKYD_OPT_FREQFINE =0,
-	FRSKYD_OPT_TELEM,
-	FRSKYD_OPT_LAST,
+  FRSKYD_OPT_FREQFINE =0,
+  FRSKYD_OPT_TELEM,
+  FRSKYD_OPT_LAST,
 };
 //ctassert(LAST_PROTO_OPT <= NUM_PROTO_OPTS, too_many_protocol_opts);
 
@@ -48,9 +48,8 @@ static uint8_t packet_number = 0;
 static void FRSKYD_init(uint8_t bind)
 {
   CC2500_SetTxRxMode(TX_EN);
-
-  CC2500_WriteReg(CC2500_17_MCSM1, 0x0C); // Stay in receive after packet reception, Idle state after transmission
-  // CC2500_WriteReg(CC2500_18_MCSM0, 0x08); // Manual calibration using SCAL. Was 0x18.
+  CC2500_WriteReg(CC2500_17_MCSM1, 0x00); // Go to idle after tx & rx.
+//  CC2500_WriteReg(CC2500_17_MCSM1, 0x0C); // Stay in receive after packet reception, Idle state after transmission
   CC2500_WriteReg(CC2500_18_MCSM0, 0x18); // Auto calibrate when going from idle to tx/rx/fstxon
 
   CC2500_WriteReg(CC2500_06_PKTLEN, 0x19);
@@ -159,8 +158,12 @@ static void FRSKYD_build_data_packet()
   Frs_packet[0] = 0x11; // Length
   Frs_packet[1] = frsky_id & 0xff;
   Frs_packet[2] = frsky_id >> 8;
-  //    Frs_packet[3] = packet_number;
+  Frs_packet[3] = packet_number;
+#if HAS_EXTENDED_TELEMETRY
+  Frs_packet[4] = sequence; // acknowledge last hub packet
+#else
   Frs_packet[4] = 0x00;
+#endif
   Frs_packet[5] = 0x01;
   // packet 6 to 9 contain LS byte of channels 1 to 4.
   Frs_packet[10] = 0; // Low nibble = channel 1, High nibble = channel 2.
@@ -172,31 +175,29 @@ static void FRSKYD_build_data_packet()
   uint8_t num_chan = 8 + (g_model.ppmNCH *2);
   if(num_chan > 8) num_chan = 8;
 
+  for(uint8_t i = 0; i < 8; i++) {
+    int16_t value;
+    if(i < num_chan) {
+    // 0x08CA / 1.5 = 1500 (us). Probably because they use 12MHz clocks.
+    // 0x05DC -> 1000us 5ca
+    // 0x0BB8 -> 2000us bca
 
-for(uint8_t i = 0; i < 8; i++) {
-        int16_t value;
-       	if(i < num_chan) {
+      value = channelOutputs[i];
+      value -= (value>>2); // x-x/4
+      value = limit((int16_t)-(640 + (640>>1)), value, (int16_t)+(640 + (640>>1)));
+      value += 0x08CA;
+    }
+    else value = 0x8C9;
 
-       	    // 0x08CA / 1.5 = 1500 (us). Probably because they use 12MHz clocks.
-       	    // 0x05DC -> 1000us 5ca
-       	    // 0x0BB8 -> 2000us bca
-
-       	    value = channelOutputs[i];
-       	    value -= (value>>2); // x-x/4
-       	    value = limit((int16_t)-(640 + (640>>1)), value, (int16_t)+(640 + (640>>1)));
-       	    value += 0x08CA;
-    	}
-    	else value = 0x8C9;
-		
-        if(i < 4) {
-            Frs_packet[6+i] = value & 0xff;
-            Frs_packet[10+(i>>1)] |= ((value >> 8) & 0x0f) << (4 *(i & 0x01));
-        }
-		else {
-            Frs_packet[8+i] = value & 0xff;
-            Frs_packet[16+((i-4)>>1)] |= ((value >> 8) & 0x0f) << (4 * ((i-4) & 0x01));
-        }
-	}
+    if(i < 4) {
+      Frs_packet[6+i] = value & 0xff;
+      Frs_packet[10+(i>>1)] |= ((value >> 8) & 0x0f) << (4 *(i & 0x01));
+    }
+    else {
+      Frs_packet[8+i] = value & 0xff;
+      Frs_packet[16+((i-4)>>1)] |= ((value >> 8) & 0x0f) << (4 * ((i-4) & 0x01));
+    }
+  }
 }
 
 
@@ -216,147 +217,139 @@ static uint16_t FRSKYD_bind_cb()
 
 static uint16_t FRSKYD_data_cb()
 {
-static uint8_t start_tx_rx = 0;
-static uint8_t len;
-uint8_t rx_packet[25]; // should only be 20 (telemetry receive)
+  static uint8_t start_tx_rx = 0;
+  static uint8_t len;
+  uint8_t rx_packet[30]; // ToDo Only use 20 (telemetry receive)
 
-	if(! start_tx_rx) {
 
-		switch(packet_number & 0x03)
-		{
-		case 0: // Tx prep
-			CC2500_SetTxRxMode(TX_EN);
-			CC2500_Strobe(CC2500_SIDLE); // Go back to idle after Rx.
+  if(! start_tx_rx) {
+
+    if(packet_number & 0x03 == 0) {
+      CC2500_SetTxRxMode(TX_EN);
+      CC2500_Strobe(CC2500_SIDLE); // Force idle if still receiving in error condition.
+    }
+    else if(packet_number & 0x03 == 3) {
+	  CC2500_SetTxRxMode(RX_EN);
+    }
+
+    if(packet_number & 0x1F) {
+      CC2500_SetPower(5); // TODO update power level.
+      CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) 0); // TODO Update fine frequency value.
+    }
+
+  CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[packet_number %47]);
+  start_tx_rx =1;
+  return 500 *2;
+  }
+  else {
+
+  switch(packet_number & 0x03) {
+
+    case 0: // Tx data
+      FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
+      CC2500_Strobe(CC2500_SFTX);
+      CC2500_WriteData(Frs_packet, 18);
+      CC2500_Strobe(CC2500_STX);
     break;
 
-		case 1: // Tx prep
-		case 2: // Tx prep
-		break;
+    case 1: // Tx data
+      FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
+      CC2500_Strobe(CC2500_SFTX);
+      CC2500_WriteData(Frs_packet, 18);
+      CC2500_Strobe(CC2500_STX);
 
-		case 3: // Rx prep
-			CC2500_SetTxRxMode(RX_EN);
-		break;
-		}
+      // Process previous telemetry packet
+      len = CC2500_ReadReg(CC2500_3B_RXBYTES | CC2500_READ_BURST);
+      if(len > 0x14) break; // 20 bytes
+      CC2500_ReadData(rx_packet, len);
 
-		CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[packet_number %47]);
-		start_tx_rx =1;
-		return 1180 *2;
-	}
-	else {
-	switch(packet_number & 0x03)
-		{
-		case 0: // Tx data
-		case 2: // Tx data
-			CC2500_Strobe(CC2500_SFTX);
-			Frs_packet[3] = packet_number;
-			CC2500_WriteData(Frs_packet, 18);
-			CC2500_Strobe(CC2500_STX);
+      /*
+      *  pkt 0 = length not counting appended status bytes
+      *  pkt 1,2 = fixed_id
+      *  pkt 3 = A1 : 52mV per count; 4.5V = 0x56
+      *  pkt 4 = A2 : 13.4mV per count; 3.0V = 0xE3 on D6FR
+      *  pkt 5 = RSSI
+      *  pkt 6 = number of stream bytes
+      *  pkt 7 = sequence number increments mod 32 when packet containing stream data acknowledged
+      *  pkt 8-(8+(pkt[6]-1)) = stream data
+      *  pkt len-2 = downlink RSSI
+      *  pkt len-1 = crc status (bit7 set indicates good), link quality indicator (bits6-0)
+      */
 
-			FRSKYD_build_data_packet();
-		break;
+      // Packet checks: sensible length, good CRC, matching fixed id
+      if(len != rx_packet[0] + 3 || rx_packet[0] < 5 || !(rx_packet[len-1] & 0x80)) break;
+      else if(rx_packet[1] != (frsky_id & 0xff)) break;
+      else if(rx_packet[2] != frsky_id >>8) break;
+    break;
 
-		case 1: // Tx data
-			CC2500_Strobe(CC2500_SFTX);
-			Frs_packet[3] = packet_number;
-			CC2500_WriteData(Frs_packet, 0x12);
-			CC2500_Strobe(CC2500_STX);
+    case 2: // Tx data
+      FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
+      CC2500_Strobe(CC2500_SFTX);
+      CC2500_WriteData(Frs_packet, 18);
+      CC2500_Strobe(CC2500_STX);
+    break;
 
-			// process previous telemetry packet
-			len = CC2500_ReadReg(CC2500_3B_RXBYTES | CC2500_READ_BURST);
-			if(len != 0x12) break;
-			CC2500_ReadData(rx_packet, len);
-			// parse telemetry packet here
-			// FRSKYD_parse_telem(packet, len);
+    case 3: // Rx data
+      CC2500_Strobe(CC2500_SFRX);
+      CC2500_Strobe(CC2500_SRX);
+    break;
+  }
 
-			// verify packet number txid etc
-			if(rx_packet[0] != 0x11) break;
-			else if(rx_packet[1] != (frsky_id & 0xff)) break;
-			else if(rx_packet[2] != frsky_id >>8) break;
-
-			// Get voltage A1 (52mv/count)
-//mpx_telemetry[TELEM_MPX_CHANNEL_1].value = (u32) rx_packet[3] * 52 / 100; //In 1/10 of Volts
-//			Telemetry.p.frsky.volt[0] = (u32) rx_packet[3] * 52 / 100; //In 1/10 of Volts
-//			TELEMETRY_SetUpdated(TELEM_FRSKY_VOLT1);
-
-			// Get voltage A2 (~13.2mv/count) (Docs say 1/4 of A1)
-//mpx_telemetry[TELEM_MPX_CHANNEL_2].value = (u32) rx_packet[4] * 132 / 1000; //In 1/10 of Volts
-//			Telemetry.p.frsky.volt[1] = (u32) rx_packet[4] * 132 / 1000; //In 1/10 of Volts
-//			TELEMETRY_SetUpdated(TELEM_FRSKY_VOLT2);
-
-#ifdef UNIMOD
-			//Telemetry.p.frsky.rssi = packet[5];
-			mpx_telemetry[TELEM_MPX_CHANNEL_0].value = rx_packet[5]; // Appears to be a LQI % value.
-			// May flag up a RANGE alarm or LQI alarm if under 50 % - To Do.
-			if(rx_packet[5] < 50) mpx_telemetry[TELEM_MPX_CHANNEL_0].alarm = 1;
-			else mpx_telemetry[TELEM_MPX_CHANNEL_0].alarm = 0;
-#endif //UNIMOD
-
-
-			break;
-
-		case 3: // Rx data
-			CC2500_Strobe(CC2500_SFRX);
-			CC2500_Strobe(CC2500_SRX);
-			FRSKYD_build_data_packet();
-			// CC2500_Strobe(CC2500_SNOP); // just shows how long to build packet. AVR = 1.3ms
-		break;
-		}
-
-	packet_number ++;
-	if(packet_number > 187) packet_number =0;
-	start_tx_rx =0;
+    packet_number ++;
+    if(packet_number > 187) packet_number =0;
+    start_tx_rx =0;
     heartbeat |= HEART_TIMER_PULSES;
     dt = TCNT1 - OCR1A; // Calculate latency and jitter.
-	return 7820 *2;
-	}
+    return 8500 *2;
+ }
 }
 
 
 static void initialize(uint8_t bind)
 {
-	CLOCK_StopTimer();
+  CLOCK_StopTimer();
 
-	frsky_id = 0x25C2;
+  frsky_id = 0x25C2;
 
-	// Build channel array.
-	channel_offset = frsky_id % 5;
-	for(uint8_t x=0; x<50; x++)	channels_used[x] = get_chan_num(x);
+  // Build channel array.
+  channel_offset = frsky_id % 5;
+  for(uint8_t x=0; x<50; x++)	channels_used[x] = get_chan_num(x);
 
-	CC2500_Reset(); // 0x30
+  CC2500_Reset(); // 0x30
 
-	if(bind) {
-		FRSKYD_init(1);
-		PROTOCOL_SetBindState(0xFFFFFFFF);
-		CLOCK_StartTimer(25000, FRSKYD_bind_cb);
-	}
-	else {
-		FRSKYD_init(0);
-		FRSKYD_build_data_packet();
-		// TELEMETRY_SetType(TELEM_FRSKY);
-		CLOCK_StartTimer(25000, FRSKYD_data_cb);
-	}
+  if(bind) {
+    FRSKYD_init(1);
+    PROTOCOL_SetBindState(0xFFFFFFFF);
+    CLOCK_StartTimer(25000, FRSKYD_bind_cb);
+  }
+  else {
+    FRSKYD_init(0);
+    FRSKYD_build_data_packet();
+    // TELEMETRY_SetType(TELEM_FRSKY);
+    CLOCK_StartTimer(25000, FRSKYD_data_cb);
+  }
 }
 
 
 const void * FRSKYD_Cmds(enum ProtoCmds cmd)
 {
-    switch(cmd) {
-        case PROTOCMD_INIT:  initialize(0); return 0;
-        case PROTOCMD_CHECK_AUTOBIND: return 0; // Never Autobind
-        case PROTOCMD_BIND:  initialize(1); return 0;
-        case PROTOCMD_NUMCHAN: return (void *)8L;
-        case PROTOCMD_DEFAULT_NUMCHAN: return (void *)8L;
+  switch(cmd) {
+    case PROTOCMD_INIT:  initialize(0); return 0;
+    case PROTOCMD_CHECK_AUTOBIND: return 0; // Never Autobind
+    case PROTOCMD_BIND:  initialize(1); return 0;
+    case PROTOCMD_NUMCHAN: return (void *)8L;
+    case PROTOCMD_DEFAULT_NUMCHAN: return (void *)8L;
 //        case PROTOCMD_CURRENT_ID: return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;
-        case PROTOCMD_GETOPTIONS:
-            return FRSKYD_opts;
+    case PROTOCMD_GETOPTIONS:
+    return FRSKYD_opts;
 //        case PROTOCMD_TELEMETRYSTATE:
 //            return (void *)(long)(Model.proto_opts[PROTO_OPTS_TELEM] == TELEM_ON ? PROTO_TELEM_ON : PROTO_TELEM_OFF);
 //        case PROTOCMD_RESET:
 //        case PROTOCMD_DEINIT:
 //            CLOCK_StopTimer();
 //            return (void *)(CC2500_Reset() ? 1L : -1L);
-        default: break;
-    }
-    return 0;
+    default: break;
+  }
+  return 0;
 }
 
