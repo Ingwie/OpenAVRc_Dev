@@ -81,7 +81,7 @@ static void FRSKYD_init(uint8_t bind)
   CC2500_WriteReg(CC2500_1D_AGCCTRL0, 0x91);
   CC2500_WriteReg(CC2500_21_FREND1, 0x56);
   CC2500_WriteReg(CC2500_22_FREND0, 0x10);
-        
+
   CC2500_WriteReg(CC2500_23_FSCAL3, 0xA9); // Enable charge pump calibration, calibrate for each hop.
   CC2500_WriteReg(CC2500_24_FSCAL2, 0x0a);
   CC2500_WriteReg(CC2500_25_FSCAL1, 0x00);
@@ -337,6 +337,8 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_INIT:  initialize(0); return 0;
     case PROTOCMD_CHECK_AUTOBIND: return 0; // Never Autobind
     case PROTOCMD_BIND:  initialize(1); return 0;
+    case PROTOCMD_RESET:
+    CLOCK_StopTimer();
     case PROTOCMD_NUMCHAN: return (void *)8L;
     case PROTOCMD_DEFAULT_NUMCHAN: return (void *)8L;
 //        case PROTOCMD_CURRENT_ID: return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;

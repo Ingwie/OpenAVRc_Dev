@@ -27,6 +27,7 @@
 #include "../protocol/common.h"
 #include "../protocol/interface.h"
 #include "../protocol/misc.c"
+#include "../spi.h"
 
 #if defined(DSM2) || defined(PXX) || defined(SPIMODULES)
 uint8_t moduleFlag = { 0 };
@@ -34,8 +35,7 @@ uint8_t moduleFlag = { 0 };
 
 
 uint16_t nextMixerEndTime = 0;
-#define SCHEDULE_MIXER_END(delay) nextMixerEndTime = getTmr16KHz() + (delay) - 2*16 // 2ms
-uint8_t s_current_protocol[1] = { 255 };
+uint8_t s_current_protocol = 255;
 uint8_t s_pulses_paused = 0;
 uint16_t dt;
 uint16_t B3_comp_value;
@@ -43,11 +43,10 @@ static volatile uint32_t timer_counts; // Could be uint16_t for mega2560.
 
 void startPulses()
 {
-//PROTO_Cmds = PPM_SWITCHING_Cmds;
-//PROTO_Cmds = PPM_BB_Cmds;
-//PROTO_Cmds =  SKYARTEC_Cmds;
-//PROTO_Cmds = *Protos[0].Cmds;
+spi_enable_master_mode(); // Todo check if Proto need SPI
+if (s_current_protocol != 255) PROTO_Cmds(PROTOCMD_RESET);
 PROTO_Cmds = *Protos[g_model.header.modelId].Cmds;
+s_current_protocol = g_model.header.modelId;
 PROTO_Cmds(PROTOCMD_INIT);
 }
 

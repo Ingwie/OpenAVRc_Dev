@@ -349,6 +349,8 @@ const void * FRSKYV_Cmds(enum ProtoCmds cmd)
 //        case PROTOCMD_RESET:
 //            CLOCK_StopTimer();
 //            return (void *)(CC2500_Reset() ? 1L : -1L);
+    case PROTOCMD_RESET:
+    CLOCK_StopTimer();
     case PROTOCMD_CHECK_AUTOBIND: return 0; //Never Autobind.
     case PROTOCMD_BIND:
     	proto_mode = BIND_MODE; // TODO

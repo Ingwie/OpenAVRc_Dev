@@ -1,4 +1,6 @@
-//
+/*
+*/
+
 #include "../OpenAVRc.h"
 #include "common.h"
 #include "interface.h"
