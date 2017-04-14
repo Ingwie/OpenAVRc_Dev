@@ -224,11 +224,11 @@ static uint16_t FRSKYD_data_cb()
 
   if(! start_tx_rx) {
 
-    if(packet_number & 0x03 == 0) {
+    if((packet_number & 0x03) == 0) {
       CC2500_SetTxRxMode(TX_EN);
       CC2500_Strobe(CC2500_SIDLE); // Force idle if still receiving in error condition.
     }
-    else if(packet_number & 0x03 == 3) {
+    else if((packet_number & 0x03) == 3) {
 	  CC2500_SetTxRxMode(RX_EN);
     }
 
@@ -320,13 +320,13 @@ static void initialize(uint8_t bind)
   if(bind) {
     FRSKYD_init(1);
     PROTOCOL_SetBindState(0xFFFFFFFF);
-    CLOCK_StartTimer(25000, FRSKYD_bind_cb);
+    CLOCK_StartTimer(25000U *2, FRSKYD_bind_cb);
   }
   else {
     FRSKYD_init(0);
     FRSKYD_build_data_packet();
     // TELEMETRY_SetType(TELEM_FRSKY);
-    CLOCK_StartTimer(25000, FRSKYD_data_cb);
+    CLOCK_StartTimer(25000U *2, FRSKYD_data_cb);
   }
 }
 
