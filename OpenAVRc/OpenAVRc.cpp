@@ -30,8 +30,8 @@
 EEGeneral  g_eeGeneral;
 ModelData  g_model;
 
-uint8_t g_tmr1Latency_max;
-uint8_t g_tmr1Latency_min;
+uint16_t g_tmr1Latency_max;
+uint16_t g_tmr1Latency_min;
 uint16_t lastMixerDuration;
 
 uint8_t unexpectedShutdown = 0;

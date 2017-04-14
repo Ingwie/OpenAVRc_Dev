@@ -652,8 +652,8 @@ extern uint8_t unexpectedShutdown;
 
 extern uint16_t maxMixerDuration;
 
-extern uint8_t g_tmr1Latency_max;
-extern uint8_t g_tmr1Latency_min;
+extern uint16_t g_tmr1Latency_max;
+extern uint16_t g_tmr1Latency_min;
 extern uint16_t lastMixerDuration;
 
 #define DURATION_MS_PREC2(x) ((x)*100)/16

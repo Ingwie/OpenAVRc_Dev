@@ -76,7 +76,7 @@ void menuStatisticsDebug(uint8_t event)
 
   switch(event) {
   case EVT_KEY_FIRST(KEY_ENTER):
-    g_tmr1Latency_min = 0xff;
+    g_tmr1Latency_min = -1;
     g_tmr1Latency_max = 0;
     maxMixerDuration  = 0;
     AUDIO_KEYPAD_UP();
@@ -92,11 +92,17 @@ void menuStatisticsDebug(uint8_t event)
 
 
   lcdDrawTextLeft(1*FH, STR_TMR1LATMAXUS);
-  lcd_outdez8(MENU_DEBUG_COL1_OFS, 1*FH, g_tmr1Latency_max/2 );
+//  lcd_outdez8(MENU_DEBUG_COL1_OFS, 1*FH, g_tmr1Latency_max/2 );
+  lcdDrawNumberAttUnit(MENU_DEBUG_COL1_OFS, 1*FH, (g_tmr1Latency_max/2), UNSIGN);
+
   lcdDrawTextLeft(2*FH, STR_TMR1LATMINUS);
-  lcd_outdez8(MENU_DEBUG_COL1_OFS, 2*FH, g_tmr1Latency_min/2 );
+//  lcd_outdez8(MENU_DEBUG_COL1_OFS, 2*FH, g_tmr1Latency_min/2 );
+  lcdDrawNumberAttUnit(MENU_DEBUG_COL1_OFS, 2*FH, (g_tmr1Latency_min/2), UNSIGN);
+
   lcdDrawTextLeft(3*FH, STR_TMR1JITTERUS);
-  lcd_outdez8(MENU_DEBUG_COL1_OFS, 3*FH, (g_tmr1Latency_max - g_tmr1Latency_min) /2 );
+//  lcd_outdez8(MENU_DEBUG_COL1_OFS, 3*FH, (g_tmr1Latency_max - g_tmr1Latency_min) /2 );
+  lcdDrawNumberAttUnit(MENU_DEBUG_COL1_OFS, 3*FH, ((g_tmr1Latency_max - g_tmr1Latency_min) /2), UNSIGN);
+
   lcdDrawTextLeft(4*FH, STR_TMIXMAXMS);
   lcdDrawNumberAttUnit(MENU_DEBUG_COL1_OFS, 4*FH, DURATION_MS_PREC2(maxMixerDuration), PREC2);
   lcdDrawTextLeft(5*FH, STR_FREESTACKMINB);
