@@ -112,7 +112,7 @@ inline void boardInit()
   UBRR3 = 0; // Reset is part of initialisation sequence.
   UCSR3C = 0xC3; // UMSEL21:0 = 3 DORD2=0 CPHA2=1 CPOL2=1  USART in Master SPI mode, MSB first, Clock phase=1 Polarity=1.
   UCSR3B = (1 << RXEN3) | (1 << TXEN3); // Transmit and Receive.
-  UBRR3 = 3; // 2.0MHz clock ... 16MHz/(2*(UBRR+1))
+  UBRR3 = 2; // 2.6'MHz clock ... 16MHz/(2*(UBRR+1))
 
   DDRJ |= (1<<PORTJ1) | (1<<PORTJ2); // | (1<<PORTJ3);
   DDRJ &= ~(1<<PORTJ0);
@@ -206,7 +206,7 @@ FORCEINLINE void readKeysAndTrims()
   read_keyb_matrix();
 
   // Switches and Encoder Buttons.
-  getADC();
+//  getADC();
   read_A7_A9();
   read_A8_A10();
 
