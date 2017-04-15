@@ -149,15 +149,15 @@ const void * PPM_SWITCHING_Cmds(enum ProtoCmds cmd)
 
 ISR(TIMER1_COMPB_vect) // PPM switching vector.
 {
-    uint16_t half_us = PPM_HW_cb();
-      if(! half_us) {
-        PPM_SWITCHING_Cmds(PROTOCMD_DEINIT);
-        return;
-      }
+  uint16_t half_us = PPM_HW_cb();
 
-    OCR1B += half_us;
+  if(! half_us) {
+    PPM_SWITCHING_Cmds(PROTOCMD_DEINIT);
+    return;
+  }
 
-  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+  OCR1B += half_us;
+  dt = TCNT1 - OCR1B; // Calculate latency and jitter.
   if(dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
   if(dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
 }
