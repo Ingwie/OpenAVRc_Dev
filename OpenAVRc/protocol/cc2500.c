@@ -3,7 +3,7 @@
 
 #ifdef PROTO_HAS_CC2500
 #include "../OpenAVRc.h"
-// #include "../spi.h"
+#include "../spi.h"
 
 void CC2500_WriteReg(uint8_t address, uint8_t data)
 {

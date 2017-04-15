@@ -458,6 +458,7 @@ const pm_char STR_MODS_FORBIDDEN[] PROGMEM = TR_MODS_FORBIDDEN;
 
 #if defined(DSM2) || defined(SPIMODULES)
 const pm_char STR_MODULE_RANGE[] PROGMEM = TR_MODULE_RANGE;
+const pm_char STR_MODULE_BIND[] PROGMEM = TR_MODULE_BIND;
 #endif
 
 #if defined(MAVLINK)

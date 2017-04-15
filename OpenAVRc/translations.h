@@ -618,6 +618,7 @@ extern const pm_char STR_MODS_FORBIDDEN[];
 
 #if defined(DSM2) || defined(SPIMODULES)
 extern const pm_char STR_MODULE_RANGE[];
+extern const pm_char STR_MODULE_BIND[];
 #endif
 
 #if defined(MAVLINK)

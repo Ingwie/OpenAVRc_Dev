@@ -27,6 +27,7 @@
 #ifndef pulses_avr_h
 #define pulses_avr_h
 
+
 extern uint8_t s_current_protocol;
 extern uint8_t s_pulses_paused;
 
@@ -42,7 +43,6 @@ extern uint8_t moduleFlag;
 
 extern uint16_t dt;
 
-void startPulses();
 inline bool pulsesStarted()
 {
   return (s_current_protocol != 255);

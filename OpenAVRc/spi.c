@@ -52,7 +52,9 @@ uint8_t spi_xfer(uint8_t value)
   // Full Duplex (4 wire) spi
   SPDR = value;
   /* Wait for transfer to complete */
+#if !defined(SIMU)
   while (!(SPSR & (1<<SPIF)));
+#endif
   return SPDR;
 }
 

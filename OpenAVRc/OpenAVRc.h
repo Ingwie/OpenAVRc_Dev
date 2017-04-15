@@ -56,7 +56,6 @@
 #endif // defined LCD
 
 
-
 //#define SHOWDURATION 1  //Show a duration
 
 #if defined(SHOWDURATION)
@@ -1161,6 +1160,9 @@ struct Module {
 //    struct datalog datalog;
 //#endif
 };
+
+extern void startPulses(enum ProtoCmds Command);
+
 #endif
 
 

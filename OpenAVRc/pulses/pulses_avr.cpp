@@ -41,13 +41,13 @@ uint16_t dt;
 uint16_t B3_comp_value;
 static volatile uint32_t timer_counts; // Could be uint16_t for mega2560.
 
-void startPulses()
+void startPulses(enum ProtoCmds Command)
 {
 spi_enable_master_mode(); // Todo check if Proto need SPI
 if (s_current_protocol != 255) PROTO_Cmds(PROTOCMD_RESET);
 PROTO_Cmds = *Protos[g_model.header.modelId].Cmds;
 s_current_protocol = g_model.header.modelId;
-PROTO_Cmds(PROTOCMD_INIT);
+PROTO_Cmds(Command);
 }
 
 // This ISR should work for xmega.

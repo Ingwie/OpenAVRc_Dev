@@ -48,7 +48,7 @@ volatile uint8_t WTV20SD_InputIndex = 0;
 uint8_t WTV20SD_PlayIndex = 4; // Also used for reset,(save 2 static uint8_t)
 uint8_t Startstop = WTV20SD_START_TIME;
 uint16_t WTV20SD_current = 0;
-uint8_t state = RESET;
+uint8_t WTV20SD_state = RESET;
 
 #if defined(SIMU)
   #define ISPLAYING false
@@ -62,7 +62,7 @@ void WTV20SD_sendstart()
 
   --Startstop;
 
-  if (!Startstop) state = SENDDATA;
+  if (!Startstop) WTV20SD_state = SENDDATA;
 }
 
 void WTV20SD_senddata()
@@ -87,7 +87,7 @@ void WTV20SD_senddata()
   if (i == 16) {
     i = 0;
     Startstop = WTV20SD_STOP_TIME;
-    state = SENDSTOP;
+    WTV20SD_state = SENDSTOP;
   }
 }
 
@@ -97,7 +97,7 @@ void WTV20SD_sendstop()
   WTV20SD_Clock_on; // Stop Bit, CLK high for 2ms
   --Startstop;
 
-  if (!Startstop && !WTV20SD_BUSY) state = PAUSE;
+  if (!Startstop && !WTV20SD_BUSY) WTV20SD_state = PAUSE;
 }
 
 void pushPrompt(uint16_t prompt)
@@ -120,7 +120,7 @@ void pushPrompt(uint16_t prompt)
 ISR(TIMER5_COMPA_vect) // every 0.5ms normally, every 2ms during startup reset
 {
   sei();
-  if (state == PAUSE) {
+  if (WTV20SD_state == PAUSE) {
     if (WTV20SD_PlayIndex == WTV20SD_InputIndex) {
       TIMSK5 &= ~(1<<OCIE5A); // stop reentrance
       TCNT5=0; // reset timer
@@ -130,26 +130,26 @@ ISR(TIMER5_COMPA_vect) // every 0.5ms normally, every 2ms during startup reset
       ++WTV20SD_PlayIndex;
       if (WTV20SD_PlayIndex == QUEUE_LENGTH) WTV20SD_PlayIndex = 0;
       Startstop = WTV20SD_START_TIME;
-      state = SENDSTART;
+      WTV20SD_state = SENDSTART;
     }
   } // end PAUSE
 
-  if (state == SENDSTART) {
+  if (WTV20SD_state == SENDSTART) {
     WTV20SD_sendstart();
     return;
   }
 
-  if (state == SENDDATA) {
+  if (WTV20SD_state == SENDDATA) {
     WTV20SD_senddata();
     return;
   }
 
-  if (state == SENDSTOP) {
+  if (WTV20SD_state == SENDSTOP) {
     WTV20SD_sendstop();
     return;
   }
 
-  if (state == RESET) {
+  if (WTV20SD_state == RESET) {
     if (WTV20SD_PlayIndex) { // WTV20SD_PlayIndex used as reset counter
       // OCR5A=0x1f4; setted in board_mega2560.cpp
       WTV20SD_Reset_off;
@@ -159,15 +159,15 @@ ISR(TIMER5_COMPA_vect) // every 0.5ms normally, every 2ms during startup reset
       return;
     } // RESET low
     else {
-      state = RESETPAUSE;
+      WTV20SD_state = RESETPAUSE;
       return;
     }
   }
 
-  if (state == RESETPAUSE) {
+  if (WTV20SD_state == RESETPAUSE) {
     WTV20SD_Reset_on; // RESET high
     if (!WTV20SD_BUSY) {
-      state = PAUSE;
+      WTV20SD_state = PAUSE;
       OCR5A = 0x7d; // 0.5 ms after init
     }
   }

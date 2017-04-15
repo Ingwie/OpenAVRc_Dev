@@ -34,19 +34,6 @@
 #define ROTENC_DIV2 // rotenc resolution/2
 #define FATFSTINY // Reduce SDdriver buffer size
 
-//Xmitter
-#define SPIMODULES
-#define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
-
-#if defined(SPIMODULES)
-  uint8_t USART2_mspi_xfer(uint8_t data);
-  #define RF_SPI_xfer  USART2_mspi_xfer
-  #define OUT_H_RF_CS_N       PIN1_bm
-  #define RF_CS_N_ACTIVE()    PORTH &= ~(OUT_H_RF_CS_N)
-  #define RF_CS_N_INACTIVE()  PORTH |=  (OUT_H_RF_CS_N)
-  #define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
-#endif // SPIMODULES
-
 // Keys
 void readKeysAndTrims();
 #define KEYS_GPIO_REG_MENU        pinl
@@ -102,9 +89,34 @@ void readKeysAndTrims();
 #define sdDone()
 #define SD_IS_HC()                (0)
 #define SD_GET_SPEED()            (0)
+#define SDCARD_CS_N_ACTIVE()        PORTB &= ~PIN0_bm // MMC CS = L
+#define SDCARD_CS_N_INACTIVE()      PORTB |= PIN0_bm // MMC CS = H
+#define SDCARD_CS_N_IS_INACTIVE()   (PINB & PIN0_bm)
 bool sdMounted();
 void sdMountPoll();
 void sdPoll10ms();
+
+//Xmitter
+#define SPIMODULES
+#define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
+
+#if defined(SPIMODULES)
+  //uint8_t USART2_mspi_xfer(uint8_t data);
+  #define RF_SPI_xfer  spi_xfer//USART2_mspi_xfer
+  #define OUT_H_RF_CS_N       PIN1_bm
+
+  uint8_t Sdnotinuse = 1;
+#define RF_CS_N_ACTIVE();                     \
+  Sdnotinuse = SDCARD_CS_N_IS_INACTIVE();     \
+  if (!Sdnotinuse) {SDCARD_CS_N_INACTIVE();}  \
+  PORTH &= ~(OUT_H_RF_CS_N);                  \
+
+#define RF_CS_N_INACTIVE();                   \
+  PORTH |= (OUT_H_RF_CS_N);                   \
+  if (!Sdnotinuse) {SDCARD_CS_N_ACTIVE();}    \
+
+  #define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
+#endif // SPIMODULES
 
 // Switchs driver
 #define INP_C_ID2                 1

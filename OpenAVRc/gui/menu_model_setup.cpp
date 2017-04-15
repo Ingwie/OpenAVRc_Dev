@@ -344,20 +344,24 @@ void menuModelSetup(uint8_t event)
       else if IS_SPIMODULES_PROTOCOL(protocol) {
 
         if (attr && menuHorizontalPosition > 1) {
-          REPEAT_LAST_CURSOR_MOVE(); // limit 3 column row to 2 colums (Protocol and RANGE fields)
+          //REPEAT_LAST_CURSOR_MOVE(); // limit 3 column row to 2 colums (Protocol and RANGE fields)
         }
-        lcdDrawTextAtt(0, y, Protos[g_model.header.modelId].ProtoName, menuHorizontalPosition!=1 ? attr : 0);
-        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+4*FW, y, STR_MODULE_RANGE, menuHorizontalPosition!=0 ? attr : 0);
+        lcdDrawTextAtt(0, y, Protos[g_model.header.modelId].ProtoName, menuHorizontalPosition == 0 ? attr : 0);
+        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN-2*FW, y, STR_MODULE_BIND, menuHorizontalPosition == 1 ? attr : 0);
+        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+4*FW, y, STR_MODULE_RANGE, menuHorizontalPosition == 2 ? attr : 0);
         if (attr  && (editMode>0)) {
 
           switch (menuHorizontalPosition) {
           case 0:
             {uint8_t memproto = g_model.header.modelId;
             CHECK_INCDEC_MODELVAR_ZERO(event, g_model.header.modelId, (DIM(Protos)-1));
-            if (memproto != g_model.header.modelId) {startPulses();}
+            if (memproto != g_model.header.modelId) {startPulses(PROTOCMD_INIT);}
             break;}
-          case 1:
-            moduleFlag = (attr && editMode>0) ? MODULE_RANGECHECK : 0; // [MENU] key toggles range check mode
+           case 1:
+             if (attr) {startPulses(PROTOCMD_BIND);}
+            break;
+            case 2:
+             if (attr) {startPulses(PROTOCMD_SET_TXPOWER);}
             break;
           }
         }

@@ -61,15 +61,6 @@
 #define CT_SDC		(CT_SD1|CT_SD2)	/* SD */
 #define CT_BLOCK	0x08		/* Block addressing */
 
-/* Port Controls  (Platform dependent) */
-// GCC optimisation should result in a single CBI/SBI instructions here
-#define SDCARD_CS_N_ACTIVE()  PORTB &= ~PIN0_bm // MMC CS = L
-#define SDCARD_CS_N_INACTIVE()  PORTB |= PIN0_bm // MMC CS = H
-
-#define SOCKPORT	PINB			/* Socket contact port */
-#define SOCKWP		0x00 // not implemented /* Write protect switch */
-#define SOCKINS		0x00 // not implemented /* Card detect switch */
-
 #define	FCLK_SLOW()	SPCR = 0x52		/* Set slow clock (100k-400k) */
 #define	FCLK_FAST()	SPCR = 0x50		/* Set fast clock (depends on the CSD) */
 
@@ -115,7 +106,7 @@ void xmit_spi(uint8_t dat)
 {
   checkMixer();
   MYWDT_RESET();
-  spi_tx(dat);
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {spi_tx(dat);}
 }
 
 
@@ -128,7 +119,7 @@ BYTE rcvr_spi (void)
 {
   checkMixer();
   MYWDT_RESET();
-  return spi_rx();
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {return spi_rx();}
 }
 
 /*-----------------------------------------------------------------------*/
@@ -156,8 +147,8 @@ uint8_t wait_ready (void)	/* 1:OK, 0:Timeout */
 static
 void deselect (void)
 {
-  SDCARD_CS_N_ACTIVE();
   rcvr_spi();
+  SDCARD_CS_N_INACTIVE();
 }
 
 
@@ -206,7 +197,9 @@ static
 void power_off (void)
 {
   deselect();
+#if !defined(SPIMODULES)
   spi_disable();
+#endif
   Stat |= STA_NOINIT;
 }
 
@@ -230,14 +223,19 @@ uint8_t rcvr_datablock (
   } while ((token == 0xFF) && Timer1);
   if(token != 0xFE) return 0;		/* If not valid data token, retutn with error */
 
-  do {							/* Receive the data block into buffer */
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    do {							/* Receive the data block into buffer */
+    SDCARD_CS_N_ACTIVE();
+      *buff++ = spi_rx();
     *buff++ = spi_rx();
     *buff++ = spi_rx();
     *buff++ = spi_rx();
-    *buff++ = spi_rx();
+
   } while (btr -= 4);
   rcvr_spi();						/* Discard CRC */
   rcvr_spi();
+  SDCARD_CS_N_INACTIVE();
+  }
   return 1;						/* Return with success */
 }
 
@@ -259,7 +257,8 @@ uint8_t xmit_datablock (
   xmit_spi(token);	/* Xmit data token */
   if (token != 0xFD) {	/* Is data token */
     BYTE wc = 0;
-    do {		/* Xmit the 512 byte data block to MMC */
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+      do {		/* Xmit the 512 byte data block to MMC */
       xmit_spi(*buff++);
       xmit_spi(*buff++);
     } while (--wc);
@@ -268,6 +267,7 @@ uint8_t xmit_datablock (
     BYTE resp = rcvr_spi();		/* Reveive data response */
     if ((resp & 0x1F) != 0x05)	/* If not accepted, return with error */
       return 0;
+  }
   }
 
   return 1;
@@ -299,7 +299,8 @@ BYTE send_cmd (		/* Returns R1 resp (bit7==1:Send failed) */
   if (!select()) return 0xFF;
 
   /* Send command packet */
-  xmit_spi(0x40 | cmd);			/* Start + Command index */
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    xmit_spi(0x40 | cmd);			/* Start + Command index */
   xmit_spi((BYTE)(arg >> 24));		/* Argument[31..24] */
   xmit_spi((BYTE)(arg >> 16));		/* Argument[23..16] */
   xmit_spi((BYTE)(arg >> 8));		/* Argument[15..8] */
@@ -308,6 +309,7 @@ BYTE send_cmd (		/* Returns R1 resp (bit7==1:Send failed) */
   if (cmd == CMD0) n = 0x95;		/* Valid CRC for CMD0(0) */
   if (cmd == CMD8) n = 0x87;		/* Valid CRC for CMD8(0x1AA) */
   xmit_spi(n);
+  }
 
   /* Receive command response */
   if (cmd == CMD12) rcvr_spi();		/* Skip a stuff byte when stop reading */

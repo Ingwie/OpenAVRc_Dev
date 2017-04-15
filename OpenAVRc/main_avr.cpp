@@ -95,7 +95,7 @@ void perMain()
   }
 
 #if defined(SDCARD) && !defined(SIMU) // bracame toto emulate sd for simu
-  sdMountPoll();
+  //sdMountPoll();
   writeLogs();
 #endif
 

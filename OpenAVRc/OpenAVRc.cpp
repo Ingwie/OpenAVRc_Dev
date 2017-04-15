@@ -681,7 +681,6 @@ void checkAll()
   checkFailsafe();
 #endif
 
-
   clearKeyEvents();
 
   START_SILENCE_PERIOD();
@@ -1166,19 +1165,17 @@ void doMixerCalculations()
 void OpenAVRcStart()
 {
   doSplash();
+#if defined(SDCARD) && !defined(SIMU)
+  sdMountPoll();
+#endif
 
 #if defined(DEBUG_TRACE_BUFFER)
   trace_event(trace_start, 0x12345678);
 #endif
 
-
-
 #if defined(GUI)
   checkAlarm();
   checkAll();
-#endif
-
-#if defined(GUI)
   if (g_eeGeneral.chkSum != evalChkSum()) {
     chainMenu(menuFirstCalib);
   }
@@ -1566,7 +1563,7 @@ void OpenAVRcInit(OpenAVRc_INIT_ARGS)
 
   doMixerCalculations();
 
-  startPulses();
+  startPulses(PROTOCMD_INIT);
 
 #if !defined(SIMU)
   wdt_enable(WDTO_500MS); // Enable watchdog
