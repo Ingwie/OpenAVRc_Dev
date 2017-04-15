@@ -106,7 +106,7 @@ static void PPM_HW_initialize()
 {
 
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    OCR1B = TCNT1 + (22500U *2);
+    OCR1B = TCNT1 + (25000U *2);
   }
   // Setup Timer 1.
   // Normal mode (0), OVF @ TOP (0xFFFF), F_CPU/8.

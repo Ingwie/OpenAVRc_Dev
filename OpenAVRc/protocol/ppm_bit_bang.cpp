@@ -63,7 +63,7 @@ static void PPM_BB_initialize()
 {
   pulses2MHzRPtr = pulses2MHz;
   *((uint16_t*) pulses2MHzRPtr) = 0;
-  CLOCK_StartTimer(1000 *2, &PPM_BB_cb);
+  CLOCK_StartTimer(25000U *2, &PPM_BB_cb);
 }
 
 
