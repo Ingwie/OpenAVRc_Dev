@@ -88,9 +88,9 @@ void menuModelSetup(uint8_t event)
       editSingleName(MODEL_SETUP_2ND_COLUMN, y, STR_MODELNAME, g_model.header.name, sizeof(g_model.header.name), event, attr);
 #if defined(SIMU)
       if ((attr) && (editMode>0)) {
-          s_editMode = 0;
-          simu_pinl |= 0x10; // Reset Menu key pin
-          simu_EditModelName(); //lcd_simu_driver.cpp
+        s_editMode = 0;
+        simu_pinl |= 0x10; // Reset Menu key pin
+        simu_EditModelName(); //lcd_simu_driver.cpp
       }
 #endif
       break;
@@ -352,16 +352,26 @@ void menuModelSetup(uint8_t event)
         if (attr  && (editMode>0)) {
 
           switch (menuHorizontalPosition) {
-          case 0:
-            {uint8_t memproto = g_model.header.modelId;
+          case 0: {
+            uint8_t memproto = g_model.header.modelId;
             CHECK_INCDEC_MODELVAR_ZERO(event, g_model.header.modelId, (DIM(Protos)-1));
-            if (memproto != g_model.header.modelId) {startPulses(PROTOCMD_INIT);}
-            break;}
-           case 1:
-             if (attr) {startPulses(PROTOCMD_BIND);}
+            if (memproto != g_model.header.modelId) {
+              SpiRFModule.mode = NORMAL_MODE;
+              startPulses(PROTOCMD_INIT);
+            }
             break;
-            case 2:
-             if (attr) {startPulses(PROTOCMD_SET_TXPOWER);}
+          }
+          case 1:
+            if ((attr) && (SpiRFModule.mode != BIND_MODE)) {
+              SpiRFModule.mode = BIND_MODE;
+              startPulses(PROTOCMD_BIND);
+            }
+            break;
+          case 2:
+            if ((attr) && (SpiRFModule.mode != RANGE_MODE)) {
+              SpiRFModule.mode = RANGE_MODE;
+              startPulses(PROTOCMD_SET_TXPOWER);
+            }
             break;
           }
         }

@@ -143,6 +143,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="protocol/common.h" />
+		<Unit filename="protocol/frsky.h" />
 		<Unit filename="protocol/iface_cc2500.h" />
 		<Unit filename="protocol/interface.h" />
 		<Unit filename="protocol/misc.c">

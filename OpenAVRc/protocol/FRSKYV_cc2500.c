@@ -353,7 +353,7 @@ const void * FRSKYV_Cmds(enum ProtoCmds cmd)
     CLOCK_StopTimer();
     case PROTOCMD_CHECK_AUTOBIND: return 0; //Never Autobind.
     case PROTOCMD_BIND:
-    	proto_mode = BIND_MODE; // TODO
+    	SpiRFModule.mode = BIND_MODE; // TODO
     	FRSKYV_initialise(1); return 0;
     case PROTOCMD_NUMCHAN: return (void *)8L;
     case PROTOCMD_DEFAULT_NUMCHAN: return (void *)8L;

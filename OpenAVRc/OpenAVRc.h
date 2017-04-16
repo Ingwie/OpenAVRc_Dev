@@ -1020,8 +1020,6 @@ enum AUDIO_SOUNDS {
 
 #include "buzzer.h"
 
-
-
 #if defined(PCBMEGA2560) && defined(VOICE)
 #include "targets/mega2560/voice.h"
 #endif
@@ -1102,37 +1100,14 @@ enum PinConfigState {
   RESET_PIN,
 };
 
-/* Protocol */
-#include "protocol/interface.h"
-
-#define PROTODEF(proto, module, map, init, name, progmem_name) progmem_name;
-#include "protocol/protocol.h"
-#undef PROTODEF
-
-typedef const void* (*CMDS)(enum ProtoCmds);
-
-
-#define PROTODEF(proto, module, map, cmd, name, progmem_name) { name, cmd },
-
-struct Proto_struct {
-  const pm_char* ProtoName;
-  CMDS Cmds; // Cmds
-}Protos[] = {
-#include "protocol/protocol.h"
-};
-#undef PROTODEF
-
-//extern const uint8_t *ProtocolChannelMap[PROTOCOL_COUNT];
-//extern const char * const ProtocolNames[PROTOCOL_COUNT];
-
 struct Module {
 //    char name[24];
 //    char icon[24];
 //    enum ModelType type;
 //  enum DevoProtocols protocol;
 #define NUM_PROTO_OPTS 4
-  int16_t proto_opts[NUM_PROTO_OPTS];
-  uint8_t num_channels;
+//  int16_t proto_opts[NUM_PROTO_OPTS];
+//  uint8_t num_channels;
 //    uint8_t num_ppmin;
 //   uint16_t ppmin_centerpw;
 //    uint16_t ppmin_deltapw;
@@ -1140,6 +1115,7 @@ struct Module {
 //    int8_t ppm_map[MAX_PPM_IN_CHANNELS];
   uint32_t fixed_id;
   enum TxPower tx_power;
+  enum PROTO_MODE mode;
 //    enum SwashType swash_type;
 //    uint8_t swash_invert;
 //    uint8_t swashmix[3];
@@ -1161,7 +1137,30 @@ struct Module {
 //#endif
 };
 
+struct Module SpiRFModule;
+
 extern void startPulses(enum ProtoCmds Command);
+
+/* Protocol */
+#include "protocol/interface.h"
+
+#define PROTODEF(proto, module, map, init, name, progmem_name) progmem_name;
+#include "protocol/protocol.h"
+#undef PROTODEF
+
+typedef const void* (*CMDS)(enum ProtoCmds);
+
+
+#define PROTODEF(proto, module, map, cmd, name, progmem_name) { name, cmd },
+
+struct Proto_struct {
+  const pm_char* ProtoName;
+  CMDS Cmds; // Cmds
+}Protos[] = {
+#include "protocol/protocol.h"
+};
+#undef PROTODEF
+
 
 #endif
 

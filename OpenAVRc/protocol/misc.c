@@ -7,7 +7,6 @@
 
 extern volatile uint8_t g_sync_count;
 //extern volatile uint16_t g_entropy;
-//volatile enum PROTO_MODE proto_mode;
 extern volatile uint32_t bind_press_time;
 
 uint16_t (*timer_callback)(void);
@@ -120,10 +119,10 @@ void PROTOCOL_SetBindState(uint32_t msec)
   uint32_t bind_time;
 
   if(msec) {
-    proto_mode = BIND_MODE; // unimod rick added proto_mode.
+    SpiRFModule.mode = BIND_MODE;
     if (msec == 0xFFFFFFFF) bind_time = msec;
     else bind_time = CLOCK_getms() + msec;
   }
-  else proto_mode = NORMAL_MODE; // unimod rick added. Can't go from bind to range test.
+  else SpiRFModule.mode = NORMAL_MODE; // unimod rick added. Can't go from bind to range test.
 }
 

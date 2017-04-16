@@ -12,7 +12,4 @@ uint32_t CLOCK_getms(void);
 void CLOCK_delayms(uint32_t delay_ms);
 void PROTOCOL_SetBindState(uint32_t msec);
 
-volatile enum PROTO_MODE proto_mode;
-
-
 #endif
