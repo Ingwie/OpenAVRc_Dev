@@ -156,9 +156,10 @@ ISR(TIMER1_COMPB_vect) // PPM switching vector.
     return;
   }
 
-  OCR1B += half_us;
   dt = TCNT1 - OCR1B; // Calculate latency and jitter.
   if(dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
   if(dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
+
+  OCR1B += half_us;
 }
 
