@@ -1,12 +1,19 @@
  /*
  **************************************************************************
  *                                                                        *
+ *                 ____                ___ _   _____                      *
+ *                / __ \___  ___ ___  / _ | | / / _ \____                 *
+ *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+ *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+ *                   /_/                                                  *
+ *                                                                        *
  *              This file is part of the OpenAVRc project.                *
  *                                                                        *
- *                         Based on code named                            *
+ *                         Based on code(s) named :                       *
  *             OpenTx - https://github.com/opentx/opentx                  *
+ *             Deviation - https://www.deviationtx.com/                   *
  *                                                                        *
- *                Only AVR code here for lisibility ;-)                   *
+ *                Only AVR code here for visibility ;-)                   *
  *                                                                        *
  *   OpenAVRc is free software: you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published by *

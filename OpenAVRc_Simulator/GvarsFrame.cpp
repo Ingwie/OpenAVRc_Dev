@@ -1,6 +1,39 @@
+ /*
+ **************************************************************************
+ *                                                                        *
+ *                 ____                ___ _   _____                      *
+ *                / __ \___  ___ ___  / _ | | / / _ \____                 *
+ *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+ *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+ *                   /_/                                                  *
+ *                                                                        *
+ *              This file is part of the OpenAVRc project.                *
+ *                                                                        *
+ *                         Based on code(s) named :                       *
+ *             OpenTx - https://github.com/opentx/opentx                  *
+ *             Deviation - https://www.deviationtx.com/                   *
+ *                                                                        *
+ *                Only AVR code here for visibility ;-)                   *
+ *                                                                        *
+ *   OpenAVRc is free software: you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by *
+ *   the Free Software Foundation, either version 2 of the License, or    *
+ *   (at your option) any later version.                                  *
+ *                                                                        *
+ *   OpenAVRc is distributed in the hope that it will be useful,          *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+ *   GNU General Public License for more details.                         *
+ *                                                                        *
+ *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+ *                                                                        *
+ **************************************************************************
+*/
+
+
 #include "GvarsFrame.h"
 #include "OpenAVRc_SimulatorMain.h"
-
+#include <wx/valtext.h>
 
 //(*InternalHeaders(GvarsFrame)
 #include <wx/intl.h>
@@ -32,6 +65,10 @@ END_EVENT_TABLE()
 
 GvarsFrame::GvarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
+  wxTextValidator validator(wxFILTER_INCLUDE_CHAR_LIST);
+  wxString valid_chars(wxT(" abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-.,"));
+  validator.SetCharIncludes(valid_chars);
+
   //(*Initialize(GvarsFrame)
   Create(parent, wxID_ANY, _("Variables globales"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER, _T("wxID_ANY"));
   SetClientSize(wxSize(421,156));
@@ -48,29 +85,29 @@ GvarsFrame::GvarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
   GVARSGrid->SetDefaultColSize(60, true);
   GVARSGrid->SetDefaultCellFont( GVARSGrid->GetFont() );
   GVARSGrid->SetDefaultCellTextColour( GVARSGrid->GetForegroundColour() );
-  TextCtrlpersoPhase0 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase0, _("npha0"), wxPoint(63,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase0"));
+  TextCtrlpersoPhase0 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase0, _("npha0"), wxPoint(63,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoPhase0"));
   TextCtrlpersoPhase0->SetMaxLength(6);
-  TextCtrlpersoPhase1 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase1, _("npha1"), wxPoint(123,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase1"));
+  TextCtrlpersoPhase1 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase1, _("npha1"), wxPoint(123,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoPhase1"));
   TextCtrlpersoPhase1->SetMaxLength(6);
-  TextCtrlpersoPhase2 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase2, _("npha2"), wxPoint(183,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase2"));
+  TextCtrlpersoPhase2 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase2, _("npha2"), wxPoint(183,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoPhase2"));
   TextCtrlpersoPhase2->SetMaxLength(6);
-  TextCtrlpersoPhase3 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase3, _("npha3"), wxPoint(243,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase3"));
+  TextCtrlpersoPhase3 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase3, _("npha3"), wxPoint(243,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoPhase3"));
   TextCtrlpersoPhase3->SetMaxLength(6);
-  TextCtrlpersoPhase4 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase4, _("npha4"), wxPoint(303,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase4"));
+  TextCtrlpersoPhase4 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase4, _("npha4"), wxPoint(303,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoPhase4"));
   TextCtrlpersoPhase4->SetMaxLength(6);
-  TextCtrlpersoPhase5 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase5, _("npha5"), wxPoint(363,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase5"));
+  TextCtrlpersoPhase5 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase5, _("npha5"), wxPoint(363,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoPhase5"));
   TextCtrlpersoPhase5->SetMaxLength(6);
-  TextCtrlpersoGvar1 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar1, _("valvg1"), wxPoint(2,22), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, wxDefaultValidator, _T("ID_TextCtrlpersoGvar1"));
+  TextCtrlpersoGvar1 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar1, _("valvg1"), wxPoint(2,22), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, validator, _T("ID_TextCtrlpersoGvar1"));
   TextCtrlpersoGvar1->SetMaxLength(6);
-  TextCtrlpersoGvar2 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar2, _("valvg2"), wxPoint(2,44), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, wxDefaultValidator, _T("ID_TextCtrlpersoGvar2"));
+  TextCtrlpersoGvar2 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar2, _("valvg2"), wxPoint(2,44), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, validator, _T("ID_TextCtrlpersoGvar2"));
   TextCtrlpersoGvar2->SetMaxLength(6);
-  TextCtrlpersoGvar3 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar3, _("valvg3"), wxPoint(2,66), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, wxDefaultValidator, _T("ID_TextCtrlpersoGvar3"));
+  TextCtrlpersoGvar3 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar3, _("valvg3"), wxPoint(2,66), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, validator, _T("ID_TextCtrlpersoGvar3"));
   TextCtrlpersoGvar3->SetMaxLength(6);
-  TextCtrlpersoGvar4 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar4, _("valvg4"), wxPoint(2,88), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoGvar4"));
+  TextCtrlpersoGvar4 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar4, _("valvg4"), wxPoint(2,88), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoGvar4"));
   TextCtrlpersoGvar4->SetMaxLength(6);
-  TextCtrlpersoGvar5 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar5, _("valvg5"), wxPoint(2,110), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoGvar5"));
+  TextCtrlpersoGvar5 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar5, _("valvg5"), wxPoint(2,110), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoGvar5"));
   TextCtrlpersoGvar5->SetMaxLength(6);
-  TextCtrlpersoGvar6 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar6, _("valvg6"), wxPoint(2,132), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoGvar6"));
+  TextCtrlpersoGvar6 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar6, wxEmptyString, wxPoint(2,132), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoGvar6"));
   TextCtrlpersoGvar6->SetMaxLength(6);
   gvarsTimer.SetOwner(this, ID_TIMERGVARS);
   gvarsTimer.Start(2000, false);

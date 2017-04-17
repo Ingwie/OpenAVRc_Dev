@@ -613,6 +613,7 @@
 		<Unit filename="../OpenAVRc/targets/mega2560/board_mega2560.h" />
 		<Unit filename="../OpenAVRc/targets/mega2560/voice.h" />
 		<Unit filename="../OpenAVRc/targets/mega2560/voice_jq6500.cpp" />
+		<Unit filename="../OpenAVRc/targets/mega2560/voice_wtv20sd.cpp" />
 		<Unit filename="../OpenAVRc/targets/simu/simu_interface.cpp" />
 		<Unit filename="../OpenAVRc/targets/simu/simu_interface.h" />
 		<Unit filename="../OpenAVRc/targets/stock/board_stock.h" />
