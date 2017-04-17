@@ -87,14 +87,14 @@ static void skyartec_init()
 
 static void add_pkt_suffix()
 {
-  uint16_t xor1 = 0;
-  uint16_t xor2 = 0;
+  uint8_t xor1 = 0;
+  uint8_t xor2 = 0;
   for(uint8_t i = 3; i <= 16; i++)
     xor1 ^= Sky_packet[i];
   for(uint8_t i = 3; i <= 14; i++)
     xor2 ^= Sky_packet[i];
 
-  uint16_t sum = Sky_packet[3] + Sky_packet[5] + Sky_packet[7] + Sky_packet[9] + Sky_packet[11] + Sky_packet[13];
+  uint8_t sum = Sky_packet[3] + Sky_packet[5] + Sky_packet[7] + Sky_packet[9] + Sky_packet[11] + Sky_packet[13];
   Sky_packet[17] = xor1;
   Sky_packet[18] = xor2;
   Sky_packet[19] = sum & 0xff;
@@ -174,7 +174,7 @@ static uint16_t skyartec_cb()
     send_data_packet();
     state++;
   } else {
-    send_bind_packet();
+    if (--bind_count) send_bind_packet();
     state = SKYARTEC_PKT1;
   }
   dt = TCNT1 - OCR1A; // Calculate latency and jitter.
