@@ -27,6 +27,7 @@
 
 #include "../OpenAVRc.h"
 #include "frsky.h"
+extern uint8_t frskyRxBuffer[];
 
 static const char * const FRSKYD_opts[] = {
   _tr_noop("Freq-Fine"),  "-127", "+127", NULL,
@@ -219,7 +220,7 @@ static uint16_t FRSKYD_data_cb()
 {
   static uint8_t start_tx_rx = 0;
   static uint8_t len;
-  uint8_t rx_packet[30]; // ToDo Only use 20 (telemetry receive)
+  uint8_t rx_packet[21]; // Down-link packet is 20 bytes.
 
 
   if(! start_tx_rx) {
@@ -280,6 +281,9 @@ static uint16_t FRSKYD_data_cb()
       if(len != rx_packet[0] + 3 || rx_packet[0] < 5 || !(rx_packet[len-1] & 0x80)) break;
       else if(rx_packet[1] != (frsky_id & 0xff)) break;
       else if(rx_packet[2] != frsky_id >>8) break;
+
+      memcpy(frskyRxBuffer, rx_packet, len);
+
     break;
 
     case 2: // Tx data

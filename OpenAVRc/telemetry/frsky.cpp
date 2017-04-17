@@ -34,7 +34,7 @@ uint8_t frskyUsrStreaming = 0;
 
 uint8_t link_counter = 0;
 
-#define FRSKY_RX_PACKET_SIZE   19
+#define FRSKY_RX_PACKET_SIZE 21 // Modified for FrSky via SPIMODULES.
 uint8_t frskyRxBuffer[FRSKY_RX_PACKET_SIZE];   // Receive buffer. 9 bytes (full packet), worst case 18 bytes with byte-stuffing (+1)
 
 uint8_t frskyTxBuffer[FRSKY_TX_PACKET_SIZE];
