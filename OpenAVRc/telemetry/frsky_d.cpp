@@ -234,6 +234,34 @@ void parseTelemWSHowHighByte(uint8_t byte)
 }
 #endif
 
+void frskyRFProcessPacket(uint8_t *packet)
+{
+  // 20 bytes
+  /*
+  *  pkt 0 = length not counting appended status bytes
+  *  pkt 1,2 = fixed_id
+  *  pkt 3 = A1 : 52mV per count; 4.5V = 0x56
+  *  pkt 4 = A2 : 13.4mV per count; 3.0V = 0xE3 on D6FR
+  *  pkt 5 = RSSI
+  *  pkt 6 = number of stream bytes
+  *  pkt 7 = sequence number increments mod 32 when packet containing stream data acknowledged
+  *  pkt 8-(8+(pkt[6]-1)) = stream data
+  *  pkt len-2 = Downlink RSSI
+  *  pkt len-1 = crc status (bit7 set indicates good), link quality indicator (bits6-0)
+  */
+
+  // A1, A2, RSSI values.
+
+  frskyData.analog[TELEM_ANA_A1].set(packet[3], g_model.frsky.channels[TELEM_ANA_A1].type);
+  frskyData.analog[TELEM_ANA_A2].set(packet[4], g_model.frsky.channels[TELEM_ANA_A2].type);
+  frskyData.rssi[0].set(packet[5]); // RSSI Tx -> Rx.
+
+  frskyData.rssi[1].set(packet[ packet[0]+1 ]); // RSSI Rx -> Tx.
+
+  link_counter += 256 / FRSKY_D_AVERAGING;
+}
+
+
 void frskyDProcessPacket(uint8_t *packet)
 {
   // What type of packet?

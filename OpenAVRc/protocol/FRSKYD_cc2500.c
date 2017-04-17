@@ -283,7 +283,8 @@ static uint16_t FRSKYD_data_cb()
       else if(rx_packet[2] != frsky_id >>8) break;
 
       memcpy(frskyRxBuffer, rx_packet, len);
-
+      if(frskyStreaming < FRSKY_TIMEOUT10ms -5) frskyStreaming +=5;
+      // frskyStreaming gets decremented every 10ms, however we can only add to it every 4 *9ms, so we add 5.
     break;
 
     case 2: // Tx data

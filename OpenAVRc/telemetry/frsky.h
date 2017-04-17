@@ -416,6 +416,7 @@ typedef enum {
 void processHubPacket(uint8_t id, int16_t value);
 void frskyDSendNextAlarm(void);
 void frskyDProcessPacket(uint8_t *packet);
+void frskyRFProcessPacket(uint8_t *packet);
 
 // FrSky S.PORT Protocol
 void processSportPacket(uint8_t *packet);

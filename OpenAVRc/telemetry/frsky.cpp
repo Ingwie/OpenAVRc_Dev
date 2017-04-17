@@ -230,7 +230,11 @@ void telemetryWakeup()
 
 void telemetryInterrupt10ms()
 {
-#if   defined(FRSKY_HUB)
+#if defined SPIMODULES
+  frskyRFProcessPacket(frskyRxBuffer);
+#endif
+
+#if defined(FRSKY_HUB)
   uint16_t voltage = 0; /* unit: 1/10 volts */
   for (uint8_t i=0; i<frskyData.hub.cellsCount; i++)
     voltage += frskyData.hub.cellVolts[i];
@@ -288,7 +292,8 @@ void telemetryInterrupt10ms()
 
   if (frskyStreaming > 0) {
     frskyStreaming--;
-  } else {
+  }
+  else {
 #if !defined(SIMU)
     frskyData.rssi[0].set(0);
     frskyData.rssi[1].set(0);
