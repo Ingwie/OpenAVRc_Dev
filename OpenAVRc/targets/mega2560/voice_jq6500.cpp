@@ -48,8 +48,8 @@ enum JQ6500_State {
   TERMI = 0xEF  //Termination
 };
 
-JQ6500_State JQstate = START;
-uint8_t JQ6500_playlist[QUEUE_LENGTH] = {0};
+enum JQ6500_State JQstate = START;
+volatile uint8_t JQ6500_playlist[QUEUE_LENGTH] = {0};
 uint8_t JQ6500_InputIndex = 0;
 uint8_t JQ6500_PlayIndex = 0;
 
@@ -108,8 +108,12 @@ uint8_t JQ6500_sendbyte(uint8_t Data_byte)
 
 ISR(TIMER5_COMPA_vect) // every 104µS / 9600 Bauds serial
 {
+  if (JQ6500_BUSY) {
+      JQstate = START;
+      return;
+  }
+
   if (JQstate == START) {
-    if (JQ6500_BUSY) return;
     if (JQ6500_sendbyte(JQstate)) {
       JQstate = NUMBY;
       return;
