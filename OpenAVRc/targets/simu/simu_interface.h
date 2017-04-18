@@ -763,6 +763,9 @@ extern REG8 simu_bssebd;
 #define PROGMEM
 #define pgm_read_byte_near(address_short) (*(uint8_t*)(address_short))
 #define pgm_read_word_near(address_short) *address_short
+#define uint_farptr_t uint8_t*
+#define pgm_get_far_address(x) (uint8_t*)x
+#define pgm_read_byte_far(address_long) (*(uint8_t*)(address_long))
 #define PSTR(adr) adr
 #define _delay_us(a)
 #define _delay_ms(a)

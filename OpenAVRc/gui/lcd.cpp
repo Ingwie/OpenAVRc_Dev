@@ -649,13 +649,8 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 {
   uint8_t *p = &displayBuf[ y / 8 * LCD_W + x ];
 
-#if (defined(PCBMEGA2560) && !defined(SIMU))
   uint_farptr_t q=pgm_get_far_address(font_5x7);
   q += (c-0x20)*5;
-#else
-  const pm_uchar *q = &font_5x7[(c-0x20)*5];
-#endif
-
   lcdNextPos = x-1;
   p--;
 
@@ -702,12 +697,10 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 
     /* each letter consists of ten top bytes followed by
      * by ten bottom bytes (20 bytes per * char) */
-#if (defined(PCBMEGA2560) && !defined(SIMU))
+
     q = pgm_get_far_address(font_10x14);
     q += (uint16_t)c_remapped*20;
-#else
-    q = &font_10x14[((uint16_t)c_remapped)*20];
-#endif
+
     for (int8_t i=0; i<=11; i++) {
       uint8_t b1=0, b2=0;
       if (!i) {
@@ -717,13 +710,10 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
           continue;
         }
       } else if (i <= 10) {
-#if (defined(PCBMEGA2560) && !defined(SIMU))
+
         b1 = pgm_read_byte_far(q++); /*top byte*/
         b2 = pgm_read_byte_far(q++);
-#else
-        b1 = pgm_read_byte_near(q++); /*top byte*/
-        b2 = pgm_read_byte_near(q++);
-#endif
+
       }
       if ((b1 & b2) == 0xff) continue;
       if (inv) {
@@ -744,12 +734,8 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 #if defined(BOLD_FONT)
 #if defined(BOLD_SPECIFIC_FONT)
     if (flags & BOLD) {
-#if (defined(PCBMEGA2560) && !defined(SIMU))
       q = pgm_get_far_address(font_5x7_B);
       q += (c_remapped)*5;
-#else
-      q = &font_5x7_B[(c_remapped)*5];
-#endif
     }
 #else
     uint8_t bb = 0;
@@ -768,11 +754,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
           continue;
         }
       } else if (i <= 5) {
-#if (defined(PCBMEGA2560) && !defined(SIMU))
         b = pgm_read_byte_far(q++);
-#else
-        b = pgm_read_byte_near(q++);
-#endif
       }
       if (b == 0xff) {
         if (flags & FIXEDWIDTH)
@@ -907,8 +889,6 @@ void lcdInvertLine(int8_t y)
   }
 }
 
-
-#if (defined(PCBMEGA2560) && !defined(SIMU))
 void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags att) // progmem "far"
 {
   uint_farptr_t q = img;
@@ -926,7 +906,6 @@ void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags 
     }
   }
 }
-#endif
 
 void lcd_img(coord_t x, coord_t y, const pm_uchar * img, uint8_t idx, LcdFlags att)
 {
