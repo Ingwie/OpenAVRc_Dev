@@ -237,7 +237,7 @@ void telemetryWakeup()
 
 void telemetryInterrupt10ms()
 {
-#if defined SPIMODULES
+#if defined(SPIMODULES)
   frskyRFProcessPacket(frskyRxBuffer);
 #endif
 
@@ -384,7 +384,9 @@ void telemetryReset()
 
 void telemetryInit()
 {
-  telemetryPortInit();
+#if !defined(SPIMODULES)
+	telemetryPortInit();
+#endif
 }
 
 #if   defined(FRSKY_HUB)
