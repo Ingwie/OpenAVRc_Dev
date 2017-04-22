@@ -31,8 +31,6 @@
 */
 
 
-//
-
 
 #ifdef PROTO_HAS_CC2500
 #include "../OpenAVRc.h"
@@ -46,7 +44,7 @@ void CC2500_WriteReg(uint8_t address, uint8_t data)
   RF_CS_N_INACTIVE();
 }
 
-static void ReadRegisterMulti(uint8_t address, uint8_t data[], uint8_t length)
+static void CC2500_ReadRegisterMulti(uint8_t address, uint8_t data[], uint8_t length)
 {
   RF_CS_N_ACTIVE();
   RF_SPI_xfer(address);
@@ -67,7 +65,7 @@ uint8_t CC2500_ReadReg(uint8_t address)
 
 void CC2500_ReadData(uint8_t *dpbuffer, uint8_t len)
 {
-  ReadRegisterMulti(CC2500_3F_RXFIFO | CC2500_READ_BURST, dpbuffer, len);
+  CC2500_ReadRegisterMulti(CC2500_3F_RXFIFO | CC2500_READ_BURST, dpbuffer, len);
 }
 
 uint8_t CC2500_Strobe(uint8_t strobe_cmd)
