@@ -126,7 +126,9 @@ BYTE rcvr_spi (void)
 {
   checkMixer();
   MYWDT_RESET();
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {return spi_rx();}
+  uint8_t rcvr;
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {rcvr = spi_rx();}
+  return rcvr;
 }
 
 /*-----------------------------------------------------------------------*/
