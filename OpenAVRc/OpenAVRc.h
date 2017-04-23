@@ -331,7 +331,7 @@ extern volatile tmr10ms_t g_tmr10ms;
 inline uint16_t get_tmr10ms()
 {
   uint16_t time  ;
-  ATOMIC_BLOCK(ATOMIC_FORCEON) {
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     time = g_tmr10ms;
   }
   return time ;
