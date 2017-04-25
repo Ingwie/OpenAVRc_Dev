@@ -122,6 +122,7 @@ static void send_data_packet()
 {
   //13 c5 01 0259 0168 0000 0259 030c 021a 0489 f3 7e 0a
 
+  NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
   Sky_packet[0] = 0x13;                //Length
   Sky_packet[1] = TX_ADDR;             //Tx Addr?
   Sky_packet[2] = 0x01;                //???
@@ -154,6 +155,7 @@ static void send_data_packet()
   CC2500_Strobe(CC2500_SFTX);
   CC2500_WriteData(Sky_packet, 20);
   CC2500_Strobe(CC2500_STX);
+  }
 }
 
 static void send_bind_packet()

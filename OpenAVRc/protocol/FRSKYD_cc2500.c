@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -42,7 +42,7 @@ static const char * const FRSKYD_opts[] = {
   NULL
 };
 
-enum FRSKYD_opts{
+enum FRSKYD_opts {
   FRSKYD_OPT_FREQFINE =0,
   FRSKYD_OPT_TELEM,
   FRSKYD_OPT_LAST,
@@ -125,8 +125,8 @@ static uint8_t get_chan_num(uint8_t idx)
   */
 
   unsigned int ret = ((idx * multiplier) % 235) + channel_offset;
- //   if(idx == 3 || idx == 23 ret++; rick
- //   if(ret ==0x5a || ret == 0xdc) ret++; rick
+//   if(idx == 3 || idx == 23 ret++; rick
+//   if(ret ==0x5a || ret == 0xdc) ret++; rick
   if(idx == 47) return 1; // rick
   if(idx > 47) return 0;
   return (uint8_t) ret;
@@ -186,22 +186,20 @@ static void FRSKYD_build_data_packet()
   for(uint8_t i = 0; i < 8; i++) {
     int16_t value;
     if(i < num_chan) {
-    // 0x08CA / 1.5 = 1500 (us). Probably because they use 12MHz clocks.
-    // 0x05DC -> 1000us 5ca
-    // 0x0BB8 -> 2000us bca
+      // 0x08CA / 1.5 = 1500 (us). Probably because they use 12MHz clocks.
+      // 0x05DC -> 1000us 5ca
+      // 0x0BB8 -> 2000us bca
 
       value = channelOutputs[i];
       value -= (value>>2); // x-x/4
       value = limit((int16_t)-(640 + (640>>1)), value, (int16_t)+(640 + (640>>1)));
       value += 0x08CA;
-    }
-    else value = 0x8C9;
+    } else value = 0x8C9;
 
     if(i < 4) {
       Frs_packet[6+i] = value & 0xff;
       Frs_packet[10+(i>>1)] |= ((value >> 8) & 0x0f) << (4 *(i & 0x01));
-    }
-    else {
+    } else {
       Frs_packet[8+i] = value & 0xff;
       Frs_packet[16+((i-4)>>1)] |= ((value >> 8) & 0x0f) << (4 * ((i-4) & 0x01));
     }
@@ -229,94 +227,92 @@ static uint16_t FRSKYD_data_cb()
   static uint8_t len;
   uint8_t rx_packet[21]; // Down-link packet is 20 bytes.
 
+  NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    if(! start_tx_rx) {
 
-  if(! start_tx_rx) {
+      if((packet_number & 0x03) == 0) {
+        CC2500_SetTxRxMode(TX_EN);
+        CC2500_Strobe(CC2500_SIDLE); // Force idle if still receiving in error condition.
+      } else if((packet_number & 0x03) == 3) {
+        CC2500_SetTxRxMode(RX_EN);
+      }
 
-    if((packet_number & 0x03) == 0) {
-      CC2500_SetTxRxMode(TX_EN);
-      CC2500_Strobe(CC2500_SIDLE); // Force idle if still receiving in error condition.
-    }
-    else if((packet_number & 0x03) == 3) {
-	  CC2500_SetTxRxMode(RX_EN);
-    }
+      if(packet_number & 0x1F) {
+        CC2500_SetPower(5); // TODO update power level.
+        CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) 0); // TODO Update fine frequency value.
+      }
 
-    if(packet_number & 0x1F) {
-      CC2500_SetPower(5); // TODO update power level.
-      CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) 0); // TODO Update fine frequency value.
-    }
+      CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[packet_number %47]);
+      start_tx_rx =1;
+      return 500 *2;
+    } else {
 
-  CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[packet_number %47]);
-  start_tx_rx =1;
-  return 500 *2;
-  }
-  else {
+      switch(packet_number & 0x03) {
 
-  switch(packet_number & 0x03) {
+      case 0: // Tx data
+        FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
+        CC2500_Strobe(CC2500_SFTX);
+        CC2500_WriteData(Frs_packet, 18);
+        CC2500_Strobe(CC2500_STX);
+        break;
 
-    case 0: // Tx data
-      FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
-      CC2500_Strobe(CC2500_SFTX);
-      CC2500_WriteData(Frs_packet, 18);
-      CC2500_Strobe(CC2500_STX);
-    break;
+      case 1: // Tx data
+        FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
+        CC2500_Strobe(CC2500_SFTX);
+        CC2500_WriteData(Frs_packet, 18);
+        CC2500_Strobe(CC2500_STX);
 
-    case 1: // Tx data
-      FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
-      CC2500_Strobe(CC2500_SFTX);
-      CC2500_WriteData(Frs_packet, 18);
-      CC2500_Strobe(CC2500_STX);
+        // Process previous telemetry packet
+        len = CC2500_ReadReg(CC2500_3B_RXBYTES | CC2500_READ_BURST);
+        if(len > 0x14) break; // 20 bytes
+        CC2500_ReadData(rx_packet, len);
 
-      // Process previous telemetry packet
-      len = CC2500_ReadReg(CC2500_3B_RXBYTES | CC2500_READ_BURST);
-      if(len > 0x14) break; // 20 bytes
-      CC2500_ReadData(rx_packet, len);
+        /*
+        *  pkt 0 = length not counting appended status bytes
+        *  pkt 1,2 = fixed_id
+        *  pkt 3 = A1 : 52mV per count; 4.5V = 0x56
+        *  pkt 4 = A2 : 13.4mV per count; 3.0V = 0xE3 on D6FR
+        *  pkt 5 = RSSI
+        *  pkt 6 = number of stream bytes
+        *  pkt 7 = sequence number increments mod 32 when packet containing stream data acknowledged
+        *  pkt 8-(8+(pkt[6]-1)) = stream data
+        *  pkt len-2 = downlink RSSI
+        *  pkt len-1 = crc status (bit7 set indicates good), link quality indicator (bits6-0)
+        */
 
-      /*
-      *  pkt 0 = length not counting appended status bytes
-      *  pkt 1,2 = fixed_id
-      *  pkt 3 = A1 : 52mV per count; 4.5V = 0x56
-      *  pkt 4 = A2 : 13.4mV per count; 3.0V = 0xE3 on D6FR
-      *  pkt 5 = RSSI
-      *  pkt 6 = number of stream bytes
-      *  pkt 7 = sequence number increments mod 32 when packet containing stream data acknowledged
-      *  pkt 8-(8+(pkt[6]-1)) = stream data
-      *  pkt len-2 = downlink RSSI
-      *  pkt len-1 = crc status (bit7 set indicates good), link quality indicator (bits6-0)
-      */
-
-      // Packet checks: sensible length, good CRC, matching fixed id
-      if(len != rx_packet[0] + 3 || rx_packet[0] < 5 || !(rx_packet[len-1] & 0x80)) break;
-      else if(rx_packet[1] != (frsky_id & 0xff)) break;
-      else if(rx_packet[2] != frsky_id >>8) break;
+        // Packet checks: sensible length, good CRC, matching fixed id
+        if(len != rx_packet[0] + 3 || rx_packet[0] < 5 || !(rx_packet[len-1] & 0x80)) break;
+        else if(rx_packet[1] != (frsky_id & 0xff)) break;
+        else if(rx_packet[2] != frsky_id >>8) break;
 #if defined(FRSKY)
-      memcpy(frskyRxBuffer, rx_packet, len);
-      if(frskyStreaming < FRSKY_TIMEOUT10ms -5) frskyStreaming +=5;
-      // frskyStreaming gets decremented every 10ms, however we can only add to it every 4 *9ms, so we add 5.
+        memcpy(frskyRxBuffer, rx_packet, len);
+        if(frskyStreaming < FRSKY_TIMEOUT10ms -5) frskyStreaming +=5;
+        // frskyStreaming gets decremented every 10ms, however we can only add to it every 4 *9ms, so we add 5.
 #endif
-    break;
+        break;
 
-    case 2: // Tx data
-      FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
-      CC2500_Strobe(CC2500_SFTX);
-      CC2500_WriteData(Frs_packet, 18);
-      CC2500_Strobe(CC2500_STX);
-    break;
+      case 2: // Tx data
+        FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
+        CC2500_Strobe(CC2500_SFTX);
+        CC2500_WriteData(Frs_packet, 18);
+        CC2500_Strobe(CC2500_STX);
+        break;
 
-    case 3: // Rx data
-      CC2500_Strobe(CC2500_SFRX);
-      CC2500_Strobe(CC2500_SRX);
-    break;
+      case 3: // Rx data
+        CC2500_Strobe(CC2500_SFRX);
+        CC2500_Strobe(CC2500_SRX);
+        break;
+      }
+
+      packet_number ++;
+      if(packet_number > 187) packet_number =0;
+      start_tx_rx =0;
+      heartbeat |= HEART_TIMER_PULSES;
+      dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+      return 8500 *2;
+    }
   }
-
-    packet_number ++;
-    if(packet_number > 187) packet_number =0;
-    start_tx_rx =0;
-    heartbeat |= HEART_TIMER_PULSES;
-    dt = TCNT1 - OCR1A; // Calculate latency and jitter.
-    return 8500 *2;
- }
 }
-
 
 static void initialize(uint8_t bind)
 {
@@ -334,8 +330,7 @@ static void initialize(uint8_t bind)
     FRSKYD_init(1);
     PROTOCOL_SetBindState(0xFFFFFFFF);
     CLOCK_StartTimer(25000U *2, FRSKYD_bind_cb);
-  }
-  else {
+  } else {
     FRSKYD_init(0);
     FRSKYD_build_data_packet();
     // TELEMETRY_SetType(TELEM_FRSKY);
@@ -347,15 +342,22 @@ static void initialize(uint8_t bind)
 const void * FRSKYD_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
-    case PROTOCMD_INIT:  initialize(0); return 0;
-    case PROTOCMD_CHECK_AUTOBIND: return 0; // Never Autobind
-    case PROTOCMD_BIND:  initialize(1); return 0;
-    case PROTOCMD_RESET:
+  case PROTOCMD_INIT:
+    initialize(0);
+    return 0;
+  case PROTOCMD_CHECK_AUTOBIND:
+    return 0; // Never Autobind
+  case PROTOCMD_BIND:
+    initialize(1);
+    return 0;
+  case PROTOCMD_RESET:
     CLOCK_StopTimer();
-    case PROTOCMD_NUMCHAN: return (void *)8L;
-    case PROTOCMD_DEFAULT_NUMCHAN: return (void *)8L;
+  case PROTOCMD_NUMCHAN:
+    return (void *)8L;
+  case PROTOCMD_DEFAULT_NUMCHAN:
+    return (void *)8L;
 //        case PROTOCMD_CURRENT_ID: return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;
-    case PROTOCMD_GETOPTIONS:
+  case PROTOCMD_GETOPTIONS:
     return FRSKYD_opts;
 //        case PROTOCMD_TELEMETRYSTATE:
 //            return (void *)(long)(Model.proto_opts[PROTO_OPTS_TELEM] == TELEM_ON ? PROTO_TELEM_ON : PROTO_TELEM_OFF);
@@ -363,7 +365,8 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
 //        case PROTOCMD_DEINIT:
 //            CLOCK_StopTimer();
 //            return (void *)(CC2500_Reset() ? 1L : -1L);
-    default: break;
+  default:
+    break;
   }
   return 0;
 }

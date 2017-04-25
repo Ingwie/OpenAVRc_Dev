@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -39,7 +39,7 @@ static const char * const FRSKYV_opts[] = {
   NULL
 };
 
-enum FRSKYV_opts{
+enum FRSKYV_opts {
   FRSKYV_OPT_FREQFINE =0,
   FRSKYV_OPT_LAST,
 };
@@ -237,21 +237,20 @@ static void FRSKYV_build_data_packet()
   for(uint8_t i = 0; i < 4; i++) {
     if( (i + (4* data_idx) ) < num_chan) {
 
-    // 0x08CA / 1.5 = 1500 (us). Probably because they use 12MHz clocks.
-    // 0x05DC -> 1000us 5ca
-    // 0x0BB8 -> 2000us bca
+      // 0x08CA / 1.5 = 1500 (us). Probably because they use 12MHz clocks.
+      // 0x05DC -> 1000us 5ca
+      // 0x0BB8 -> 2000us bca
 
-    int16_t value = channelOutputs[i + (4* data_idx)];
-    value -= (value>>2); // x-x/4
-    value = limit((int16_t)-(640 + (640>>1)), value, (int16_t)+(640 + (640>>1)));
-    value += 0x08CA;
+      int16_t value = channelOutputs[i + (4* data_idx)];
+      value -= (value>>2); // x-x/4
+      value = limit((int16_t)-(640 + (640>>1)), value, (int16_t)+(640 + (640>>1)));
+      value += 0x08CA;
 
-    Frs_packet[6 + (i*2)] = value & 0xFF;
-    Frs_packet[7 + (i*2)] = (value >> 8) & 0xFF;
-    }
-    else {
-    Frs_packet[6 + (i*2)] = 0xC9;
-    Frs_packet[7 + (i*2)] = 0x08;
+      Frs_packet[6 + (i*2)] = value & 0xFF;
+      Frs_packet[7 + (i*2)] = (value >> 8) & 0xFF;
+    } else {
+      Frs_packet[6 + (i*2)] = 0xC9;
+      Frs_packet[7 + (i*2)] = 0x08;
     }
   }
 
@@ -268,8 +267,9 @@ static uint16_t FRSKYV_data_cb()
 // Schedule next Mixer calculations.
 // SCHEDULE_MIXER_END((uint16_t) (9 *2) *8); // Probably not needed.
 
+  NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     // Build next packet.
-	// CC2500_Strobe(CC2500_SNOP);
+    // CC2500_Strobe(CC2500_SNOP);
     seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323.
     FRSKYV_build_data_packet();
     // CC2500_Strobe(CC2500_SNOP); // Just shows how long to build a packet. 16MHz AVR = 127us.
@@ -292,8 +292,8 @@ static uint16_t FRSKYV_data_cb()
     heartbeat |= HEART_TIMER_PULSES;
     dt = TCNT1 - OCR1A; // Calculate latency and jitter.
     return 9000 *2;
+  }
 }
-
 
 static uint16_t FRSKYV_bind_cb()
 {
@@ -323,11 +323,11 @@ static void FRSKYV_initialise(uint8_t bind)
 //ID is 15 bits. Using rx_tx_addr[2] and rx_tx_addr[3] since we want to use RX_Num for model match
 //rx_tx_addr[2]&=0x7F;
 //dp_crc_init = FRSKYV_crc8_le(rx_tx_addr+2, 2);
-uint8_t  rx_tx_addr[4];
-rx_tx_addr[2]= frsky_id >> 8;  // 0x19; // be
-rx_tx_addr[3]= frsky_id & 0xFF; // 0x99; // le
+  uint8_t  rx_tx_addr[4];
+  rx_tx_addr[2]= frsky_id >> 8;  // 0x19; // be
+  rx_tx_addr[3]= frsky_id & 0xFF; // 0x99; // le
 // dp_crc_init = FRSKYV_calc_dp_crc_init();
-dp_crc_init = FRSKYV_crc8_le(&rx_tx_addr[2], 2);
+  dp_crc_init = FRSKYV_crc8_le(&rx_tx_addr[2], 2);
 
 
   CC2500_Reset(); // 0x30
@@ -336,8 +336,7 @@ dp_crc_init = FRSKYV_crc8_le(&rx_tx_addr[2], 2);
     FRSKYV_init(1);
     PROTOCOL_SetBindState(0xFFFFFFFF);
     CLOCK_StartTimer(25000U *2, &FRSKYV_bind_cb);
-  }
-  else {
+  } else {
     FRSKYV_init(0);
     seed = 2UL;
     FRSKYV_build_data_packet();
@@ -350,23 +349,32 @@ dp_crc_init = FRSKYV_crc8_le(&rx_tx_addr[2], 2);
 const void * FRSKYV_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
-    case PROTOCMD_INIT: FRSKYV_initialise(0); return 0;
+  case PROTOCMD_INIT:
+    FRSKYV_initialise(0);
+    return 0;
 //        case PROTOCMD_DEINIT:
 //        case PROTOCMD_RESET:
 //            CLOCK_StopTimer();
 //            return (void *)(CC2500_Reset() ? 1L : -1L);
-    case PROTOCMD_RESET:
+  case PROTOCMD_RESET:
     CLOCK_StopTimer();
-    case PROTOCMD_CHECK_AUTOBIND: return 0; //Never Autobind.
-    case PROTOCMD_BIND:
-    	SpiRFModule.mode = BIND_MODE; // TODO
-    	FRSKYV_initialise(1); return 0;
-    case PROTOCMD_NUMCHAN: return (void *)8L;
-    case PROTOCMD_DEFAULT_NUMCHAN: return (void *)8L;
+  case PROTOCMD_CHECK_AUTOBIND:
+    return 0; //Never Autobind.
+  case PROTOCMD_BIND:
+    SpiRFModule.mode = BIND_MODE; // TODO
+    FRSKYV_initialise(1);
+    return 0;
+  case PROTOCMD_NUMCHAN:
+    return (void *)8L;
+  case PROTOCMD_DEFAULT_NUMCHAN:
+    return (void *)8L;
 //        case PROTOCMD_CURRENT_ID: return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id % 0x4000) : 0;
-    case PROTOCMD_GETOPTIONS: return FRSKYV_opts;
-    case PROTOCMD_TELEMETRYSTATE: return (void *)(long) PROTO_TELEM_UNSUPPORTED;
-    default: break;
+  case PROTOCMD_GETOPTIONS:
+    return FRSKYV_opts;
+  case PROTOCMD_TELEMETRYSTATE:
+    return (void *)(long) PROTO_TELEM_UNSUPPORTED;
+  default:
+    break;
   }
   return 0;
 }
