@@ -90,22 +90,22 @@ volatile tmr10ms_t g_tmr10ms;
 
 void per10ms()
 {
-  g_tmr10ms++;
+  ++g_tmr10ms;
 
 #if defined(GUI)
-  if (lightOffCounter) lightOffCounter--;
-  if (flashCounter) flashCounter--;
-  if (noHighlightCounter) noHighlightCounter--;
+  if (lightOffCounter) --lightOffCounter;
+  if (flashCounter) --flashCounter;
+  if (noHighlightCounter) --noHighlightCounter;
 #endif
 
-  if (trimsCheckTimer) trimsCheckTimer--;
-  if (ppmInputValidityTimer) ppmInputValidityTimer--;
+  if (trimsCheckTimer) --trimsCheckTimer;
+  if (ppmInputValidityTimer) --ppmInputValidityTimer;
 
 
 #if defined(RTCLOCK)
   /* Update global Date/Time every 100 per10ms cycles */
   if (++g_ms100 == 100) {
-    g_rtcTime++;   // inc global unix timestamp one second
+    ++g_rtcTime;   // inc global unix timestamp one second
     g_ms100 = 0;
   }
 #endif
@@ -320,7 +320,7 @@ uint8_t getTrimFlightPhase(uint8_t phase, uint8_t idx)
     trim_t trim = getRawTrimValue(phase, idx);
     if (trim <= TRIM_EXTENDED_MAX) return phase;
     uint8_t result = trim-TRIM_EXTENDED_MAX-1;
-    if (result >= phase) result++;
+    if (result >= phase) ++result;
     phase = result;
   }
   return 0;
@@ -335,7 +335,7 @@ uint8_t getRotaryEncoderFlightPhase(uint8_t idx)
     int16_t value = flightModeAddress(phase)->rotaryEncoders[idx];
     if (value <= ROTARY_ENCODER_MAX) return phase;
     uint8_t result = value-ROTARY_ENCODER_MAX-1;
-    if (result >= phase) result++;
+    if (result >= phase) ++result;
     phase = result;
   }
   return 0;
@@ -375,7 +375,7 @@ uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx)
     int16_t val = GVAR_VALUE(idx, phase); // TODO phase at the end everywhere to be consistent!
     if (val <= GVAR_MAX) return phase;
     uint8_t result = val-GVAR_MAX-1;
-    if (result >= phase) result++;
+    if (result >= phase) ++result;
     phase = result;
   }
   return 0;
@@ -1093,7 +1093,7 @@ void doMixerCalculations()
     static uint8_t  s_cnt_samples_thr_1s;
     static uint16_t s_sum_samples_thr_1s;
 
-    s_cnt_samples_thr_1s++;
+    ++s_cnt_samples_thr_1s;
     s_sum_samples_thr_1s+=val;
 
     if ((s_cnt_100ms += tick10ms) >= 10) { // 0.1sec
@@ -1145,7 +1145,7 @@ void doMixerCalculations()
 
           s_traceBuf[s_traceWr++] = val;
           if (s_traceWr >= MAXTRACE) s_traceWr = 0;
-          if (s_traceCnt >= 0) s_traceCnt++;
+          if (s_traceCnt >= 0) ++s_traceCnt;
         }
 #endif
 
@@ -1285,9 +1285,10 @@ void checkBattery()
 }
 
 volatile uint8_t g_tmr16KHz; //continuous timer 16ms (16MHz/1024/256) -- 8-bit counter overflow
+
 ISR(TIMER_16KHZ_VECT, ISR_NOBLOCK)
 {
-  g_tmr16KHz++; // gruvin: Not 16KHz. Overflows occur at 61.035Hz (1/256th of 15.625KHz)
+  ++g_tmr16KHz; // gruvin: Not 16KHz. Overflows occur at 61.035Hz (1/256th of 15.625KHz)
   // to give *16.384ms* intervals. Kind of matters for accuracy elsewhere. ;)
   // g_tmr16KHz is used to software-construct a 16-bit timer
   // from TIMER-0 (8-bit). See getTmr16KHz, below.
@@ -1299,21 +1300,22 @@ uint16_t getTmr16KHz()
   uint16_t simu_tmr16 = get_tmr10ms() * 160;
   return simu_tmr16;
 #else
-  while(1) {
-    uint8_t hb  = g_tmr16KHz;
-    uint8_t lb  = COUNTER_16KHZ;
-    if(hb-g_tmr16KHz==0) return (hb<<8)|lb;
+  uint8_t hb;
+  uint8_t lb;
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    hb  = g_tmr16KHz;
+    lb  = COUNTER_16KHZ;
   }
+  return (hb<<8)|lb;
 #endif
 }
 
 
 
-// Clocks every 10ms
 ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
 {
-  // without correction we are 0,16% too fast; that mean in one hour we are 5,76Sek too fast; we do not like that
-  static uint8_t accuracyWarble; // because 16M / 1024 / 100 = 156.25. we need to correct the fault; no start value needed
+// Clocks every 9.984ms & 10.048ms
+  static uint8_t accuracyWarble = 0;
 
 #if defined(AUDIO)
   AUDIO_HEARTBEAT();
@@ -1331,8 +1333,7 @@ ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
 
   per10ms();
 
-  uint8_t bump = (!(++accuracyWarble & 0x03)) ? 157 : 156;
-  TIMER_10MS_COMPVAL += bump;
+  TIMER_10MS_COMPVAL += (++accuracyWarble & 0x03) ? 156 : 157; // Clock correction
 }
 
 #if defined(DSM2_SERIAL)
@@ -1458,7 +1459,7 @@ void moveTrimsToOffsets() // copy state of 3 primary to subtrim
   for (uint8_t i=0; i<NUM_STICKS; i++) {
     if (i!=THR_STICK || !g_model.thrTrim) {
       int16_t original_trim = getTrimValue(mixerCurrentFlightMode, i);
-      for (uint8_t phase=0; phase<MAX_FLIGHT_MODES; phase++) {
+      for (uint8_t phase=0; phase<MAX_FLIGHT_MODES; ++phase) {
         trim_t trim = getRawTrimValue(phase, i);
         if (trim <= TRIM_EXTENDED_MAX)
           setTrimValue(phase, i, trim - original_trim);
