@@ -772,6 +772,7 @@ extern REG8 simu_bssebd;
 #define cli()
 #define sei()
 #define ATOMIC_BLOCK(x)
+#define NONATOMIC_BLOCK(x)
 #define strcpy_P strcpy
 #define strcat_P strcat
 #define memcpy_P memcpy
