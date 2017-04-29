@@ -31,7 +31,6 @@
 */
 
 
-//
 
 #ifndef _IFACE_CC2500_H_
 #define _IFACE_CC2500_H_
