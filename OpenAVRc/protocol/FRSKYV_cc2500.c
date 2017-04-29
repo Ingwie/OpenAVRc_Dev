@@ -291,8 +291,8 @@ static uint16_t FRSKYV_data_cb()
     option ++;
     heartbeat |= HEART_TIMER_PULSES;
     dt = TCNT1 - OCR1A; // Calculate latency and jitter.
-    return 9000 *2;
   }
+    return 9000 *2;
 }
 
 static uint16_t FRSKYV_bind_cb()

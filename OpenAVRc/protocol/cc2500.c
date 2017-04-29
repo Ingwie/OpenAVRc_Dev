@@ -38,28 +38,28 @@
 
 void CC2500_WriteReg(uint8_t address, uint8_t data)
 {
-  RF_CS_N_ACTIVE();
+  RF_CS_CC2500_ACTIVE();
   RF_SPI_xfer(address);
   RF_SPI_xfer(data);
-  RF_CS_N_INACTIVE();
+  RF_CS_CC2500_INACTIVE();
 }
 
 static void CC2500_ReadRegisterMulti(uint8_t address, uint8_t data[], uint8_t length)
 {
-  RF_CS_N_ACTIVE();
+  RF_CS_CC2500_ACTIVE();
   RF_SPI_xfer(address);
   for(uint8_t i = 0; i < length; i++) {
     data[i] = RF_SPI_xfer(0);
   }
-  RF_CS_N_INACTIVE();
+  RF_CS_CC2500_INACTIVE();
 }
 
 uint8_t CC2500_ReadReg(uint8_t address)
 {
-  RF_CS_N_ACTIVE();
+  RF_CS_CC2500_ACTIVE();
   RF_SPI_xfer(CC2500_READ_SINGLE | address);
   uint8_t data = RF_SPI_xfer(0);
-  RF_CS_N_INACTIVE();
+  RF_CS_CC2500_INACTIVE();
   return data;
 }
 
@@ -70,21 +70,21 @@ void CC2500_ReadData(uint8_t *dpbuffer, uint8_t len)
 
 uint8_t CC2500_Strobe(uint8_t strobe_cmd)
 {
-  RF_CS_N_ACTIVE();
+  RF_CS_CC2500_ACTIVE();
   uint8_t chip_status = RF_SPI_xfer(strobe_cmd);
-  RF_CS_N_INACTIVE();
+  RF_CS_CC2500_INACTIVE();
   return chip_status;
 }
 
 
 void CC2500_WriteRegisterMulti(uint8_t address, const uint8_t data[], uint8_t length)
 {
-  RF_CS_N_ACTIVE();
+  RF_CS_CC2500_ACTIVE();
   RF_SPI_xfer(CC2500_WRITE_BURST | address);
   for(uint8_t i = 0; i < length; i++) {
   RF_SPI_xfer(data[i]);
   }
-  RF_CS_N_INACTIVE();
+  RF_CS_CC2500_INACTIVE();
 }
 
 void CC2500_WriteData(uint8_t *dpbuffer, uint8_t len)

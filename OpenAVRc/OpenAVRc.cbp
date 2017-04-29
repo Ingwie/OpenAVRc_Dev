@@ -143,8 +143,12 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="protocol/common.h" />
+		<Unit filename="protocol/cyrf6936.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="protocol/frsky.h" />
 		<Unit filename="protocol/iface_cc2500.h" />
+		<Unit filename="protocol/iface_cyrf6936.h" />
 		<Unit filename="protocol/interface.h" />
 		<Unit filename="protocol/misc.c">
 			<Option compilerVar="CC" />

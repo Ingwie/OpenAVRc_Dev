@@ -42,8 +42,8 @@
 
 #if defined(SPIMODULES)
   #define OUT_C_RF_CS_N       PIN4_bm
-  #define RF_CS_N_ACTIVE()    PORTC &= ~(OUT_C_RF_CS_N)
-  #define RF_CS_N_INACTIVE()  PORTC |=  (OUT_C_RF_CS_N)
+  #define RF_CS_CC2500_ACTIVE()    PORTC &= ~(OUT_C_RF_CS_N)
+  #define RF_CS_CC2500_INACTIVE()  PORTC |=  (OUT_C_RF_CS_N)
 
   uint8_t USART3_mspi_xfer(uint8_t data);
   #define RF_SPI_xfer  USART3_mspi_xfer

@@ -58,7 +58,7 @@ FORCEINLINE void boardInit()
   DDRD = 0b00000000;  PORTD = 0b11111111; // 7:AilDR_SW, 6:N/A, 5:N/A, 4:N/A, 3:RENC2_B, 2:RENC2_A, 1:I2C_SDA, 0:I2C_SCL
   DDRE = 0b00000010;  PORTE = 0b01111100; // 7:PPM_IN, 6:N/A, 5:RENC1_B, 4:RENC1_A, 3:N/A, 2:N/A, 1:TELEM_TX, 0:TELEM_RX
   DDRF = 0b00000000;  PORTF = 0b11111111; // 7-0:Trim switch inputs
-  DDRG = 0b00000000;  PORTG = 0b11111111; // 7:N/A, 6:N/A, 5:N/A, 4:N/A, 3:N/A, 2:TCut_SW, 1:Gear_SW, 0: RudDr_SW
+  DDRG = 0b00100000;  PORTG = 0b11111111; // 7:N/A, 6:N/A, 5:CS_CIRF6936, 4:N/A, 3:N/A, 2:TCut_SW, 1:Gear_SW, 0: RudDr_SW
   DDRH = 0b00011011;  PORTH = 0b11110110; // 7:N/A, 6:RF_Activated, 5:DSC_Activated, 4:Hold_Power, 3:Speaker, 2:N/A, 1:CS_CC2500, 0:Haptic
   DDRJ = 0b00000000;  PORTJ = 0b11111111; // 7:N/A, 6:N/A, 5:N/A, 4:N/A, 3:N/A, 2:N/A, 1:RENC2_push, 0:RENC1_push
   DDRK = 0b00000000;  PORTK = 0b00000000; // Analogic input (no pull-ups)
@@ -90,11 +90,6 @@ FORCEINLINE void boardInit()
   TIMSK2 |= (1<<OCIE2A) |  (1<<TOIE2); // Enable Output-Compare and Overflow interrrupts
 
 #if defined(AUDIO)
-// TIMER4 (16bit) set to mode 4 (CTC), prescaler 16MHz/64=250kHz.
-// Used for audio tone generation.
-// TCCR4B = (0b01<<WGM42) | (0b011 << CS00);
-// TCCR4A = 0x00;
-
 // TIMER4 (16bit) set to mode 9, prescaler 16MHz/64=250kHz.
 // Used for audio tone generation.
   TCCR4B = (0b10<<WGM42) | (0b011 << CS40);
@@ -125,7 +120,8 @@ FORCEINLINE void boardInit()
 // Initialisation of USART.
 
   SDCARD_CS_N_INACTIVE();
-  RF_CS_N_INACTIVE();
+  RF_CS_CC2500_INACTIVE();
+  RF_CS_CIRF6936_INACTIVE();
 
   if (0) {
       UBRR2 = 0; // Reset is part of initialisation sequence.

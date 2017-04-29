@@ -123,7 +123,7 @@ inline void boardInit()
 // Setup pin states and USART in MSPI mode.
 // Initialisation of USART.
 
-  RF_CS_N_INACTIVE();
+  RF_CS_CC2500_INACTIVE();
 
   UBRR3 = 0; // Reset is part of initialisation sequence.
   UCSR3C = 0xC3; // UMSEL21:0 = 3 DORD2=0 CPHA2=1 CPOL2=1  USART in Master SPI mode, MSB first, Clock phase=1 Polarity=1.
@@ -204,7 +204,7 @@ static const pm_uchar crossTrim[] PROGMEM ={
   TRIMS_GPIO_PIN_RH_ST,
   TRIMS_GPIO_PIN_RH_PO
 };
-  
+
 uint8_t trimDown(uint8_t idx)
 {
   return( (~GPIO_TRIMS) & pgm_read_byte(crossTrim+idx));

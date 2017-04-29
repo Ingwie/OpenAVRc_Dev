@@ -44,38 +44,38 @@
 
 void CYRF_WriteRegister(uint8_t address, uint8_t data)
 {
-  RF_CS_N_ACTIVE();
+  RF_CS_CIRF6936_ACTIVE();
   RF_SPI_xfer(0x80 | address);
   RF_SPI_xfer(data);
-  RF_CS_N_INACTIVE();
+  RF_CS_CIRF6936_INACTIVE();
 }
 
 static void CYRF_WriteRegisterMulti(uint8_t address, const uint8_t data[], uint8_t length)
 {
-  RF_CS_N_ACTIVE();
+  RF_CS_CIRF6936_ACTIVE();
   RF_SPI_xfer(0x80 | address);
   for(uint8_t i = 0; i < length; i++) {
     RF_SPI_xfer(data[i]);
   }
-  RF_CS_N_INACTIVE();
+  RF_CS_CIRF6936_INACTIVE();
 }
 
 static void CYRF_ReadRegisterMulti(uint8_t address, uint8_t data[], uint8_t length)
 {
-  RF_CS_N_ACTIVE();
+  RF_CS_CIRF6936_ACTIVE();
   RF_SPI_xfer(address);
   for(uint8_t i = 0; i < length; i++) {
     data[i] = RF_SPI_xfer(0);
   }
-  RF_CS_N_INACTIVE();
+  RF_CS_CIRF6936_INACTIVE();
 }
 
 uint8_t CYRF_ReadRegister(uint8_t address)
 {
-  RF_CS_N_ACTIVE();
+  RF_CS_CIRF6936_ACTIVE();
   RF_SPI_xfer(address);
   uint8_t data = RF_SPI_xfer(0);
-  RF_CS_N_INACTIVE();
+  RF_CS_CIRF6936_INACTIVE();
   return data;
 }
 
@@ -174,12 +174,12 @@ void CYRF_ConfigDataCode(const uint8_t *datacodes, uint8_t len)
 
 void CYRF_WritePreamble(uint32_t preamble)
 {
-  RF_CS_N_ACTIVE();
+  RF_CS_CIRF6936_ACTIVE();
   RF_SPI_xfer(0x80 | 0x24);
   RF_SPI_xfer(preamble & 0xff);
   RF_SPI_xfer((preamble >> 8) & 0xff);
   RF_SPI_xfer((preamble >> 16) & 0xff);
-  RF_CS_N_INACTIVE();
+  RF_CS_CIRF6936_INACTIVE();
 }
 /*
  *

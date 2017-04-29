@@ -108,21 +108,34 @@ void sdPoll10ms();
 #define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 
 #if defined(SPIMODULES)
+
   //uint8_t USART2_mspi_xfer(uint8_t data);
   #define RF_SPI_xfer  spi_xfer//USART2_mspi_xfer
-  #define OUT_H_RF_CS_N       PIN1_bm
+  #define OUT_H_CC2500_CS_N       PIN1_bm
+  #define OUT_G_CIRF6936_CS_N     PIN5_bm
 
   uint8_t Sdnotinuse = 1;
-#define RF_CS_N_ACTIVE();                     \
+#define RF_CS_CC2500_ACTIVE();                \
   Sdnotinuse = SDCARD_CS_N_IS_INACTIVE();     \
   if (!Sdnotinuse) {SDCARD_CS_N_INACTIVE();}  \
-  PORTH &= ~(OUT_H_RF_CS_N);                  \
+  PORTH &= ~(OUT_H_CC2500_CS_N);              \
 
-#define RF_CS_N_INACTIVE();                   \
-  PORTH |= (OUT_H_RF_CS_N);                   \
+#define RF_CS_CC2500_INACTIVE();              \
+  PORTH |= (OUT_H_CC2500_CS_N);               \
   if (!Sdnotinuse) {SDCARD_CS_N_ACTIVE();}    \
 
-  #define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
+#define RF_CS_CIRF6936_ACTIVE();              \
+  Sdnotinuse = SDCARD_CS_N_IS_INACTIVE();     \
+  if (!Sdnotinuse) {SDCARD_CS_N_INACTIVE();}  \
+  PORTG &= ~(OUT_G_CIRF6936_CS_N);            \
+
+#define RF_CS_CIRF6936_INACTIVE();            \
+  PORTG |= (OUT_G_CIRF6936_CS_N);             \
+  if (!Sdnotinuse) {SDCARD_CS_N_ACTIVE();}    \
+
+
+#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
+
 #endif // SPIMODULES
 
 // Switchs driver
