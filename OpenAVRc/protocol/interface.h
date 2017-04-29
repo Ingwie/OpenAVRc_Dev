@@ -47,6 +47,8 @@
 
 #ifdef PROTO_HAS_CYRF6936
 #include "iface_cyrf6936.h"
+#include "cyrf6936.c"
+//#include "DEVO_cyrf6936.c.multi"
 #endif
 
 #ifdef PROTO_HAS_CC2500
