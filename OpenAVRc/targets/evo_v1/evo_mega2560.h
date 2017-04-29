@@ -39,11 +39,14 @@
 //Xmitter
 #define SPIMODULES // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 #define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
+#define PROTO_HAS_CYRF6936
 
 #if defined(SPIMODULES)
   #define OUT_C_RF_CS_N       PIN4_bm
-  #define RF_CS_CC2500_ACTIVE()    PORTC &= ~(OUT_C_RF_CS_N)
-  #define RF_CS_CC2500_INACTIVE()  PORTC |=  (OUT_C_RF_CS_N)
+  #define RF_CS_CC2500_ACTIVE()     PORTC &= ~(OUT_C_RF_CS_N)
+  #define RF_CS_CC2500_INACTIVE()   PORTC |=  (OUT_C_RF_CS_N)
+  #define RF_CS_CYRF6936_ACTIVE()   PORTC &= ~(OUT_C_RF_CS_N)
+  #define RF_CS_CYRF6936_INACTIVE() PORTC |=  (OUT_C_RF_CS_N)
 
   uint8_t USART3_mspi_xfer(uint8_t data);
   #define RF_SPI_xfer  USART3_mspi_xfer
@@ -159,13 +162,14 @@ bool check_slave_mode(void);
 
 // SD Card driver
 #define sdDone()
-#define SD_IS_HC()                 (0)
-#define SD_GET_SPEED()             (0)
-#if !defined(SIMU)
+#define SD_IS_HC()                (0)
+#define SD_GET_SPEED()            (0)
+#define SDCARD_CS_N_ACTIVE()        PORTB &= ~PIN0_bm // MMC CS = L
+#define SDCARD_CS_N_INACTIVE()      PORTB |= PIN0_bm // MMC CS = H
+#define SDCARD_CS_N_IS_INACTIVE()   (PINB & PIN0_bm)
 bool sdMounted();
 void sdMountPoll();
 void sdPoll10ms();
-#endif
 
 #if 0
 // Keys driver
