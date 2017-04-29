@@ -112,7 +112,7 @@ void sdPoll10ms();
   //uint8_t USART2_mspi_xfer(uint8_t data);
   #define RF_SPI_xfer  spi_xfer//USART2_mspi_xfer
   #define OUT_H_CC2500_CS_N       PIN1_bm
-  #define OUT_G_CIRF6936_CS_N     PIN5_bm
+  #define OUT_G_CYRF6936_CS_N     PIN5_bm
 
   uint8_t Sdnotinuse = 1;
 #define RF_CS_CC2500_ACTIVE();                \
@@ -124,13 +124,13 @@ void sdPoll10ms();
   PORTH |= (OUT_H_CC2500_CS_N);               \
   if (!Sdnotinuse) {SDCARD_CS_N_ACTIVE();}    \
 
-#define RF_CS_CIRF6936_ACTIVE();              \
+#define RF_CS_CYRF6936_ACTIVE();              \
   Sdnotinuse = SDCARD_CS_N_IS_INACTIVE();     \
   if (!Sdnotinuse) {SDCARD_CS_N_INACTIVE();}  \
-  PORTG &= ~(OUT_G_CIRF6936_CS_N);            \
+  PORTG &= ~(OUT_G_CYRF6936_CS_N);            \
 
-#define RF_CS_CIRF6936_INACTIVE();            \
-  PORTG |= (OUT_G_CIRF6936_CS_N);             \
+#define RF_CS_CYRF6936_INACTIVE();            \
+  PORTG |= (OUT_G_CYRF6936_CS_N);             \
   if (!Sdnotinuse) {SDCARD_CS_N_ACTIVE();}    \
 
 
