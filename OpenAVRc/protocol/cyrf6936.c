@@ -37,11 +37,6 @@
 #include "../spi.h"
 
 
-//Disable AWA24S
-#define AWA24S 0
-
-
-
 void CYRF_WriteRegister(uint8_t address, uint8_t data)
 {
   RF_CS_CYRF6936_ACTIVE();
@@ -94,45 +89,44 @@ uint8_t CYRF_Reset()
   CYRF_WriteRegister(CYRF_0D_IO_CFG, 0x04);        // Enable PACTL as GPIO
   CYRF_SetTxRxMode(TXRX_OFF);
   // Verify the CYRF chip is responding.
-  return (CYRF_ReadRegister(CYRF_10_FRAMING_CFG) == 0xa5);
+  return (CYRF_ReadRegister(CYRF_10_FRAMING_CFG) == 0xA5);
 }
 
 
 void CYRF_GetMfgData(uint8_t data[])
 {
 #ifndef FORCE_CYRF_ID
-	/* Fuses power on */
-	CYRF_WriteRegister(CYRF_25_MFG_ID, 0xFF);
-
-	CYRF_ReadRegisterMulti(CYRF_25_MFG_ID, data, 6);
-
-	/* Fuses power off */
-	CYRF_WriteRegister(CYRF_25_MFG_ID, 0x00);
+  // Fuses power on.
+  CYRF_WriteRegister(CYRF_25_MFG_ID, 0xFF);
+  CYRF_ReadRegisterMulti(CYRF_25_MFG_ID, data, 6);
+  // Fuses power off.
+  CYRF_WriteRegister(CYRF_25_MFG_ID, 0x00);
 #else
-	memcpy(data,FORCE_CYRF_ID,6);
+  memcpy(data,FORCE_CYRF_ID,6);
 #endif
 }
 
-// TODO
+
+// ToDo Check.
 void CYRF_SetTxRxMode(enum TXRX_State mode)
 {
-    if(mode==TXRX_OFF) {
-        CYRF_WriteRegister(CYRF_0F_XACT_CFG, 0x24);                        // 4=IDLE, 8=Synth(TX), C=Synth(RX)
-    }
-    else {
-        CYRF_WriteRegister(CYRF_0F_XACT_CFG, mode == TX_EN ? 0x28 : 0x2C); // 4=IDLE, 8=Synth(TX), C=Synth(RX)
-    }
+  if(mode == TXRX_OFF) {
+   CYRF_WriteRegister(CYRF_0F_XACT_CFG, 0x24); // 4=IDLE, 8=Synth(TX), C=Synth(RX)
+  }
+  else {
+    CYRF_WriteRegister(CYRF_0F_XACT_CFG, mode == TX_EN ? 0x28 : 0x2C); // 4=IDLE, 8=Synth(TX), C=Synth(RX)
+  }
 
-    //Set the post tx/rx state
-    if(mode == TX_EN) {
-        CYRF_WriteRegister(CYRF_0E_GPIO_CTRL, 0x80); 	// XOUT=1, PACTL=0
-    }
-    else if(mode == RX_EN) {
-        CYRF_WriteRegister(CYRF_0E_GPIO_CTRL, 0x20);	// XOUT=0, PACTL=1
-    }
-    else {
-        CYRF_WriteRegister(CYRF_0E_GPIO_CTRL, 0x00);	// XOUT=0, PACTL=0
-    }
+  // Set the post tx/rx state.
+  if(mode == TX_EN) {
+    CYRF_WriteRegister(CYRF_0E_GPIO_CTRL, 0x80); // XOUT=1, PACTL=0
+  }
+  else if(mode == RX_EN) {
+    CYRF_WriteRegister(CYRF_0E_GPIO_CTRL, 0x20); // XOUT=0, PACTL=1
+  }
+  else {
+    CYRF_WriteRegister(CYRF_0E_GPIO_CTRL, 0x00); // XOUT=0, PACTL=0
+  }
 }
 
 
@@ -144,33 +138,38 @@ void CYRF_ConfigRFChannel(uint8_t ch)
 
 void CYRF_SetPower(uint8_t power)
 {
-  uint8_t val = CYRF_ReadRegister(CYRF_03_TX_CFG) & 0xF8;
-  CYRF_WriteRegister(CYRF_03_TX_CFG, val | (power & 0x07));
+#define NO_POWER_AMP
+#if defined(NO_POWER_AMP)
+  power =7;
+#endif
+// uint8_t val = CYRF_ReadRegister(CYRF_03_TX_CFG) & 0xF8; // Not seen via SPI trace on My Devo 7e.
+  uint8_t val = CYRF_ReadRegister(CYRF_03_TX_CFG);
+  CYRF_WriteRegister(CYRF_03_TX_CFG, (val & 0xF8) | (power & 0x07));
 }
 
 
 void CYRF_ConfigCRCSeed(uint16_t crc)
 {
-    CYRF_WriteRegister(CYRF_15_CRC_SEED_LSB, crc & 0xff);
-    CYRF_WriteRegister(CYRF_16_CRC_SEED_MSB, crc >> 8);
+  CYRF_WriteRegister(CYRF_15_CRC_SEED_LSB, crc & 0xff);
+  CYRF_WriteRegister(CYRF_16_CRC_SEED_MSB, crc >> 8);
 }
-/*
- * these are the recommended SOP codes from Cypress
- * See "WirelessUSB LP/LPstar and PRoC LP/LPstar Technical Reference Manual"
- */
+
+
 void CYRF_ConfigSOPCode(const uint8_t *sopcodes)
 {
-    //NOTE: This can also be implemented as:
-    //for(uint32_t i = 0; i < 8; i++) WriteRegister(CYRF_22_SOP_CODE, sopcodes[i]);
-    CYRF_WriteRegisterMulti(CYRF_22_SOP_CODE, sopcodes, 8);
+  // NOTE: This can also be implemented as:
+  // for(uint32_t i = 0; i < 8; i++) WriteRegister(CYRF_22_SOP_CODE, sopcodes[i]);
+  CYRF_WriteRegisterMulti(CYRF_22_SOP_CODE, sopcodes, 8);
 }
+
 
 void CYRF_ConfigDataCode(const uint8_t *datacodes, uint8_t len)
 {
-    //NOTE: This can also be implemented as:
-    //for(uint32_t i = 0; i < len; i++) WriteRegister(CYRF_23_DATA_CODE, datacodes[i]);
-    CYRF_WriteRegisterMulti(CYRF_23_DATA_CODE, datacodes, len);
+  // NOTE: This can also be implemented as:
+  // for(uint32_t i = 0; i < len; i++) WriteRegister(CYRF_23_DATA_CODE, datacodes[i]);
+  CYRF_WriteRegisterMulti(CYRF_23_DATA_CODE, datacodes, len);
 }
+
 
 void CYRF_WritePreamble(uint32_t preamble)
 {
@@ -181,105 +180,104 @@ void CYRF_WritePreamble(uint32_t preamble)
   RF_SPI_xfer((preamble >> 16) & 0xff);
   RF_CS_CYRF6936_INACTIVE();
 }
-/*
- *
- */
+
+
 void CYRF_StartReceive()
 {
-    CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x80);
+  CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x80);
 }
+
 
 void CYRF_ReadDataPacketLen(uint8_t dpbuffer[], uint8_t length)
 {
-    CYRF_ReadRegisterMulti(CYRF_21_RX_BUFFER, dpbuffer, length);
+  CYRF_ReadRegisterMulti(CYRF_21_RX_BUFFER, dpbuffer, length);
 }
+
 
 void CYRF_WriteDataPacketLen(const uint8_t dpbuffer[], uint8_t len)
 {
-    CYRF_WriteRegister(CYRF_01_TX_LENGTH, len);
-    CYRF_WriteRegister(CYRF_02_TX_CTRL, 0x40); // clear the transmit buffer
-    CYRF_WriteRegisterMulti(CYRF_20_TX_BUFFER, dpbuffer, len);
-    CYRF_WriteRegister(CYRF_02_TX_CTRL, 0x80); // start transmission
-	// pascallanger CYRF_WriteRegister(CYRF_02_TX_CTRL, 0xBF);
+  CYRF_WriteRegister(CYRF_01_TX_LENGTH, len);
+  CYRF_WriteRegister(CYRF_02_TX_CTRL, 0x40); // Clear the transmit buffer.
+  CYRF_WriteRegisterMulti(CYRF_20_TX_BUFFER, dpbuffer, len);
+  CYRF_WriteRegister(CYRF_02_TX_CTRL, 0x80); // Start transmission.
+  // CYRF_WriteRegister(CYRF_02_TX_CTRL, 0xBF); // Pascallanger
 }
+
 
 void CYRF_WriteDataPacket(const uint8_t dpbuffer[])
 {
   CYRF_WriteDataPacketLen(dpbuffer, 16);
 }
 
-uint8_t CYRF_ReadRSSI(uint32_t dodummyread)
+
+uint8_t CYRF_ReadRSSI(uint8_t dodummyread)
 {
-    uint8_t result;
-    if(dodummyread) {
-        CYRF_ReadRegister(CYRF_13_RSSI);
-    }
+  if(dodummyread) {
+    CYRF_ReadRegister(CYRF_13_RSSI);
+  }
+  uint8_t result = CYRF_ReadRegister(CYRF_13_RSSI);
+
+  if(result & 0x80) {
     result = CYRF_ReadRegister(CYRF_13_RSSI);
-    if(result & 0x80) {
-        result = CYRF_ReadRegister(CYRF_13_RSSI);
-    }
-    return (result & 0x1F);
+  }
+  return (result & 0x1F); // Pascallanger is different but whole function is commented out.
 }
 
 
-//NOTE: This routine will reset the CRC Seed
+// NOTE: This routine will reset the CRC Seed
 void CYRF_FindBestChannels(uint8_t *channels, uint8_t len, uint8_t minspace, uint8_t min, uint8_t max)
 {
-	#define NUM_FREQ 80
-	#define FREQ_OFFSET 4
-	uint8_t rssi[NUM_FREQ];
+  #define NUM_FREQ 80
+  #define FREQ_OFFSET 4
+  uint8_t rssi[NUM_FREQ];
 
-	if (min < FREQ_OFFSET)
-		min = FREQ_OFFSET;
-	if (max > NUM_FREQ)
-		max = NUM_FREQ;
+  if (min < FREQ_OFFSET) min = FREQ_OFFSET;
+  if (max > NUM_FREQ) max = NUM_FREQ;
 
-	uint8_t i;
-	int8_t j;
-	memset(channels, 0, sizeof(uint8_t) * len);
-	CYRF_ConfigCRCSeed(0x0000);
-	CYRF_SetTxRxMode(RX_EN);
-	//Wait for pre-amp to switch from send to receive
-	_delay_ms(1);
-	for(i = 0; i < NUM_FREQ; i++) {
-		CYRF_ConfigRFChannel(i);
-		_delay_us(270);					//slow channel require 270usec for synthesizer to settle
-        if( !(CYRF_ReadRegister(CYRF_05_RX_CTRL) & 0x80)) {
-            CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x80); //Prepare to receive
-            _delay_us(15);
-            CYRF_ReadRegister(CYRF_13_RSSI);	//dummy read
-            _delay_us(15);				//The conversion can occur as often as once every 12us
-        }
-		rssi[i] = CYRF_ReadRegister(CYRF_13_RSSI)&0x1F;
-	}
+  memset(channels, 0, sizeof(uint8_t) * len);
+  CYRF_ConfigCRCSeed(0x0000);
+  CYRF_SetTxRxMode(RX_EN);
+  // Wait for pre-amp to switch from send to receive
+  _delay_ms(1);
+  for(uint8_t i = 0; i < NUM_FREQ; i++) {
+    CYRF_ConfigRFChannel(i);
+    _delay_us(270); // Slow channel require 270usec for synthesizer to settle
+    if(! (CYRF_ReadRegister(CYRF_05_RX_CTRL) & 0x80)) {
+      CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x80); // Prepare to receive
+      _delay_us(15);
+      CYRF_ReadRegister(CYRF_13_RSSI);//dummy read
+      _delay_us(15); // The conversion can occur as often as once every 12us
+    }
+    rssi[i] = CYRF_ReadRegister(CYRF_13_RSSI) & 0x1F;
+  }
 
-	for (i = 0; i < len; i++) {
-		channels[i] = min;
-		for (j = min; j < max; j++)
-			if (rssi[j] < rssi[channels[i]])
-				channels[i] = j;
-		for (j = channels[i] - minspace; j < channels[i] + minspace; j++) {
-			//Ensure we don't reuse any channels within minspace of the selected channel again
-			if (j < 0 || j >= NUM_FREQ)
-				continue;
-			rssi[j] = 0xff;
-		}
-	}
-	CYRF_WriteRegister(CYRF_29_RX_ABORT, 0x20);		// Abort RX operation
-	CYRF_SetTxRxMode(TX_EN);
-	CYRF_WriteRegister(CYRF_29_RX_ABORT, 0x20);		// Clear abort RX
+  for (uint8_t i = 0; i < len; i++) {
+    channels[i] = min;
+    for (int8_t j = min; j < max; j++)
+      if (rssi[j] < rssi[channels[i]])
+        channels[i] = j;
+    for (int8_t j = channels[i] - minspace; j < channels[i] + minspace; j++) {
+      // Ensure we don't reuse any channels within minspace of the selected channel again
+      if (j < 0 || j >= NUM_FREQ)
+        continue;
+      rssi[j] = 0xff;
+    }
+  }
+
+  CYRF_WriteRegister(CYRF_29_RX_ABORT, 0x20); // Abort RX operation - Pascallanger addition.
+  CYRF_SetTxRxMode(TX_EN);
+  CYRF_WriteRegister(CYRF_29_RX_ABORT, 0x20); // Clear abort RX - Pascallanger addition.
 }
 
 
 static void __attribute__((unused)) CYRF_PROGMEM_ConfigSOPCode(const uint8_t *data)
 {
-	uint8_t code[8];
-	for(uint8_t i=0;i<8;i++)
-		code[i]=pgm_read_byte_near(&data[i]);
-	CYRF_ConfigSOPCode(code);
+  uint8_t code[8];
+  for(uint8_t i=0; i<8; i++) {
+    code[i] = pgm_read_byte_near(&data[i]);
+  }
+  CYRF_ConfigSOPCode(code);
 }
 
 
-
 #endif // defined(PROTO_HAS_CYRF6936)
-
