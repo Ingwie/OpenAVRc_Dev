@@ -273,8 +273,10 @@ void CYRF_FindBestChannels(uint8_t *channels, uint8_t len, uint8_t minspace, uin
 static void __attribute__((unused)) CYRF_PROGMEM_ConfigSOPCode(const uint8_t *data)
 {
   uint8_t code[8];
+  uint_farptr_t pdata = pgm_get_far_address(data);
+
   for(uint8_t i=0; i<8; i++) {
-    code[i] = pgm_read_byte_near(&data[i]);
+    code[i] = pgm_read_byte_far(pdata + i);
   }
   CYRF_ConfigSOPCode(code);
 }
