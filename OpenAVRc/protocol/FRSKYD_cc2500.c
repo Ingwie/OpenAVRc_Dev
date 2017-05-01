@@ -34,6 +34,7 @@
 
 #include "../OpenAVRc.h"
 #include "frsky.h"
+
 extern uint8_t frskyRxBuffer[];
 
 static const char * const FRSKYD_opts[] = {

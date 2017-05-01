@@ -38,8 +38,17 @@
 
 #include "../OpenAVRc.h"
 
-//uint8_t read_bind_sw(void);
+//uint8_t packet[40]; //protocol global packet
+//uint8_t sub_protocol;
+//uint8_t protocol;
+//uint8_t option;
+//uint8_t cur_protocol[3];
+//uint8_t prev_option;
+//uint8_t prev_power=0xFD; // unused power value
+//uint8_t  hopping_frequency[50];
 
+
+//uint8_t read_bind_sw(void);
 
 #define PROTO_TELEM_UNSUPPORTED -1
 #define MODULE_CALLTYPE

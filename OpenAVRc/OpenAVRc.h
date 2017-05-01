@@ -1107,6 +1107,15 @@ enum PinConfigState {
   RESET_PIN,
 };
 
+#define PROTODEF(proto, module, map, init, name, progmem_name) proto,
+enum Protocols_spi { // TODO mix with native protocols
+    PROTOCOL_NONE,
+    #include "protocol/protocol.h"
+    PROTOCOL_COUNT,
+};
+#undef PROTODEF
+
+
 struct Module {
 //    char name[24];
 //    char icon[24];
@@ -1148,25 +1157,30 @@ struct Module SpiRFModule;
 
 extern void startPulses(enum ProtoCmds Command);
 
-/* Protocol */
-#include "protocol/interface.h"
+typedef const void* (*CMDS)(enum ProtoCmds);
 
-#define PROTODEF(proto, module, map, init, name, progmem_name) progmem_name;
+/*Load Progmem name for GUI */
+#define PROTODEF(proto, module, map, cmd, name, progmem_name) progmem_name;
 #include "protocol/protocol.h"
 #undef PROTODEF
 
-typedef const void* (*CMDS)(enum ProtoCmds);
+#define PROTODEF(proto, module, map, cmd, name, progmem_name) extern const void * cmd(enum ProtoCmds);
+#include "protocol/protocol.h"
+#undef PROTODEF
 
-
-#define PROTODEF(proto, module, map, cmd, name, progmem_name) { name, cmd },
-
+/*Load proto, pm_char name and Cmds */
+#define PROTODEF(proto, module, map, cmd, name, progmem_name) { proto, name, cmd },
 struct Proto_struct {
+  enum Protocols_spi Protocol;
   const pm_char* ProtoName;
   CMDS Cmds; // Cmds
 }Protos[] = {
 #include "protocol/protocol.h"
 };
 #undef PROTODEF
+
+/* Load Protocols */
+#include "protocol/interface.h"
 
 
 #endif
