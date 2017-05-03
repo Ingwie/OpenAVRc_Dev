@@ -38,7 +38,7 @@
 
 #include "../OpenAVRc.h"
 
-//uint8_t packet[40]; //protocol global packet
+uint8_t packet[40]; //protocol global packet
 //uint8_t sub_protocol;
 //uint8_t protocol;
 //uint8_t option;

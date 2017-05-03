@@ -94,7 +94,7 @@ static uint8_t FRSKYV_reflect8(uint8_t in)
 
 static uint8_t FRSKYV_calc_dp_crc_init(void)
 {
-// How TxId relates to data Frs_packet initial crc value.
+// How TxId relates to data packet initial crc value.
 // ID      crc start value
 // 0x0000  0x0E
 // 0x0001  0xD7
@@ -194,21 +194,21 @@ static void FRSKYV_build_bind_packet()
 {
   static uint8_t bind_idx =0;
 
-  Frs_packet[0] = 0x0E; //Length
-  Frs_packet[1] = 0x03; //Packet type
-  Frs_packet[2] = 0x01; //Packet type
-  Frs_packet[3] = frsky_id & 0xFF;
-  Frs_packet[4] = frsky_id >> 8;
-  Frs_packet[5] = bind_idx *5; // Index into channels_used array.
-  Frs_packet[6] =  channels_used[ (Frs_packet[5]) +0];
-  Frs_packet[7] =  channels_used[ (Frs_packet[5]) +1];
-  Frs_packet[8] =  channels_used[ (Frs_packet[5]) +2];
-  Frs_packet[9] =  channels_used[ (Frs_packet[5]) +3];
-  Frs_packet[10] = channels_used[ (Frs_packet[5]) +4];
-  Frs_packet[11] = 0x00;
-  Frs_packet[12] = 0x00;
-  Frs_packet[13] = 0x00;
-  Frs_packet[14] = FRSKYV_crc8(0x93, Frs_packet, 14);
+  packet[0] = 0x0E; //Length
+  packet[1] = 0x03; //Packet type
+  packet[2] = 0x01; //Packet type
+  packet[3] = frsky_id & 0xFF;
+  packet[4] = frsky_id >> 8;
+  packet[5] = bind_idx *5; // Index into channels_used array.
+  packet[6] =  channels_used[ (packet[5]) +0];
+  packet[7] =  channels_used[ (packet[5]) +1];
+  packet[8] =  channels_used[ (packet[5]) +2];
+  packet[9] =  channels_used[ (packet[5]) +3];
+  packet[10] = channels_used[ (packet[5]) +4];
+  packet[11] = 0x00;
+  packet[12] = 0x00;
+  packet[13] = 0x00;
+  packet[14] = FRSKYV_crc8(0x93, packet, 14);
 
   bind_idx ++;
   if(bind_idx > 9) bind_idx = 0;
@@ -219,17 +219,17 @@ static void FRSKYV_build_data_packet()
 {
   static uint8_t data_idx =0;
 
-  Frs_packet[0] = 0x0E;
-  Frs_packet[1] = frsky_id & 0xFF;
-  Frs_packet[2] = frsky_id >> 8;
-  Frs_packet[3] = seed & 0xFF;
-  Frs_packet[4] = seed >> 8;
+  packet[0] = 0x0E;
+  packet[1] = frsky_id & 0xFF;
+  packet[2] = frsky_id >> 8;
+  packet[3] = seed & 0xFF;
+  packet[4] = seed >> 8;
 
   // Appears to be a bitmap relating to the number of channels sent e.g.
   // 0x0F -> first 4 channels, 0x70 -> channels 5,6,7, 0xF0 -> channels 5,6,7,8
-  if(data_idx==0) Frs_packet[5] = 0x0F;
-  else if(data_idx==1) Frs_packet[5] = 0xF0;
-  else Frs_packet[5] = 0x00;
+  if(data_idx==0) packet[5] = 0x0F;
+  else if(data_idx==1) packet[5] = 0xF0;
+  else packet[5] = 0x00;
 
   uint8_t num_chan = 8 + (g_model.ppmNCH *2);
   if(num_chan > 8) num_chan = 8;
@@ -246,15 +246,15 @@ static void FRSKYV_build_data_packet()
       value = limit((int16_t)-(640 + (640>>1)), value, (int16_t)+(640 + (640>>1)));
       value += 0x08CA;
 
-      Frs_packet[6 + (i*2)] = value & 0xFF;
-      Frs_packet[7 + (i*2)] = (value >> 8) & 0xFF;
+      packet[6 + (i*2)] = value & 0xFF;
+      packet[7 + (i*2)] = (value >> 8) & 0xFF;
     } else {
-      Frs_packet[6 + (i*2)] = 0xC9;
-      Frs_packet[7 + (i*2)] = 0x08;
+      packet[6 + (i*2)] = 0xC9;
+      packet[7 + (i*2)] = 0x08;
     }
   }
 
-  Frs_packet[14] = FRSKYV_crc8(dp_crc_init, Frs_packet, 14);
+  packet[14] = FRSKYV_crc8(dp_crc_init, packet, 14);
   data_idx ++;
   if(data_idx > 1) data_idx =0;
   // Potentially if we had only four channels we could send them every 9ms.
@@ -283,7 +283,7 @@ static uint16_t FRSKYV_data_cb()
 
     CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[ ( (seed & 0xFF) % 50) ] ); // 16MHz AVR = 38us.
     CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO.
-    CC2500_WriteData(Frs_packet, 15);
+    CC2500_WriteData(packet, 15);
     CC2500_Strobe(CC2500_STX); // 8.853ms before we start again with the idle strobe.
 
     // Wait for transmit to finish. Timing is tight. Only 581uS between packet being emitted and idle strobe.
@@ -301,7 +301,7 @@ static uint16_t FRSKYV_bind_cb()
   CC2500_Strobe(CC2500_SIDLE);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0);
   CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO
-  CC2500_WriteData(Frs_packet, 15);
+  CC2500_WriteData(packet, 15);
   CC2500_Strobe(CC2500_STX); // Tx
   heartbeat |= HEART_TIMER_PULSES;
   dt = TCNT1 - OCR1A; // Calculate latency and jitter.

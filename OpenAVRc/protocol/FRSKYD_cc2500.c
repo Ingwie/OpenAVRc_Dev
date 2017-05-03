@@ -138,24 +138,24 @@ static void FRSKYD_build_bind_packet()
 {
   static uint8_t bind_idx =0;
 
-  Frs_packet[0] = 0x11; //Length (17)
-  Frs_packet[1] = 0x03; //Packet type
-  Frs_packet[2] = 0x01; //Packet type
-  Frs_packet[3] = frsky_id & 0xff;
-  Frs_packet[4] = frsky_id >> 8;
-  Frs_packet[5] = bind_idx *5; // Index into channels_used array.
-  Frs_packet[6] =  channels_used[ (Frs_packet[5]) +0];
-  Frs_packet[7] =  channels_used[ (Frs_packet[5]) +1];
-  Frs_packet[8] =  channels_used[ (Frs_packet[5]) +2];
-  Frs_packet[9] =  channels_used[ (Frs_packet[5]) +3];
-  Frs_packet[10] = channels_used[ (Frs_packet[5]) +4];
-  Frs_packet[11] = 0x00;
-  Frs_packet[12] = 0x00;
-  Frs_packet[13] = 0x00;
-  Frs_packet[14] = 0x00;
-  Frs_packet[15] = 0x00;
-  Frs_packet[16] = 0x00;
-  Frs_packet[17] = 0x01;
+  packet[0] = 0x11; //Length (17)
+  packet[1] = 0x03; //Packet type
+  packet[2] = 0x01; //Packet type
+  packet[3] = frsky_id & 0xff;
+  packet[4] = frsky_id >> 8;
+  packet[5] = bind_idx *5; // Index into channels_used array.
+  packet[6] =  channels_used[ (packet[5]) +0];
+  packet[7] =  channels_used[ (packet[5]) +1];
+  packet[8] =  channels_used[ (packet[5]) +2];
+  packet[9] =  channels_used[ (packet[5]) +3];
+  packet[10] = channels_used[ (packet[5]) +4];
+  packet[11] = 0x00;
+  packet[12] = 0x00;
+  packet[13] = 0x00;
+  packet[14] = 0x00;
+  packet[15] = 0x00;
+  packet[16] = 0x00;
+  packet[17] = 0x01;
 
   bind_idx ++;
   if(bind_idx > 9) bind_idx = 0;
@@ -164,22 +164,22 @@ static void FRSKYD_build_bind_packet()
 
 static void FRSKYD_build_data_packet()
 {
-  Frs_packet[0] = 0x11; // Length
-  Frs_packet[1] = frsky_id & 0xff;
-  Frs_packet[2] = frsky_id >> 8;
-  Frs_packet[3] = packet_number;
+  packet[0] = 0x11; // Length
+  packet[1] = frsky_id & 0xff;
+  packet[2] = frsky_id >> 8;
+  packet[3] = packet_number;
 #if HAS_EXTENDED_TELEMETRY
-  Frs_packet[4] = sequence; // acknowledge last hub packet
+  packet[4] = sequence; // acknowledge last hub packet
 #else
-  Frs_packet[4] = 0x00;
+  packet[4] = 0x00;
 #endif
-  Frs_packet[5] = 0x01;
+  packet[5] = 0x01;
   // packet 6 to 9 contain LS byte of channels 1 to 4.
-  Frs_packet[10] = 0; // Low nibble = channel 1, High nibble = channel 2.
-  Frs_packet[11] = 0;
+  packet[10] = 0; // Low nibble = channel 1, High nibble = channel 2.
+  packet[11] = 0;
   // packet 12 to 15 contain LS byte of channels 5 to 8.
-  Frs_packet[16] = 0;
-  Frs_packet[17] = 0;
+  packet[16] = 0;
+  packet[17] = 0;
 
   uint8_t num_chan = 8 + (g_model.ppmNCH *2);
   if(num_chan > 8) num_chan = 8;
@@ -198,11 +198,11 @@ static void FRSKYD_build_data_packet()
     } else value = 0x8C9;
 
     if(i < 4) {
-      Frs_packet[6+i] = value & 0xff;
-      Frs_packet[10+(i>>1)] |= ((value >> 8) & 0x0f) << (4 *(i & 0x01));
+      packet[6+i] = value & 0xff;
+      packet[10+(i>>1)] |= ((value >> 8) & 0x0f) << (4 *(i & 0x01));
     } else {
-      Frs_packet[8+i] = value & 0xff;
-      Frs_packet[16+((i-4)>>1)] |= ((value >> 8) & 0x0f) << (4 * ((i-4) & 0x01));
+      packet[8+i] = value & 0xff;
+      packet[16+((i-4)>>1)] |= ((value >> 8) & 0x0f) << (4 * ((i-4) & 0x01));
     }
   }
 }
@@ -214,7 +214,7 @@ static uint16_t FRSKYD_bind_cb()
   CC2500_WriteReg(CC2500_0A_CHANNR, 0);
   FRSKYD_build_bind_packet();
   CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO
-  CC2500_WriteData(Frs_packet, 18);
+  CC2500_WriteData(packet, 18);
   CC2500_Strobe(CC2500_STX); // Tx
   heartbeat |= HEART_TIMER_PULSES;
   dt = TCNT1 - OCR1A; // Calculate latency and jitter.
@@ -253,14 +253,14 @@ static uint16_t FRSKYD_data_cb()
       case 0: // Tx data
         FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
         CC2500_Strobe(CC2500_SFTX);
-        CC2500_WriteData(Frs_packet, 18);
+        CC2500_WriteData(packet, 18);
         CC2500_Strobe(CC2500_STX);
         break;
 
       case 1: // Tx data
         FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
         CC2500_Strobe(CC2500_SFTX);
-        CC2500_WriteData(Frs_packet, 18);
+        CC2500_WriteData(packet, 18);
         CC2500_Strobe(CC2500_STX);
 
         // Process previous telemetry packet
@@ -295,7 +295,7 @@ static uint16_t FRSKYD_data_cb()
       case 2: // Tx data
         FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
         CC2500_Strobe(CC2500_SFTX);
-        CC2500_WriteData(Frs_packet, 18);
+        CC2500_WriteData(packet, 18);
         CC2500_Strobe(CC2500_STX);
         break;
 
@@ -315,7 +315,7 @@ static uint16_t FRSKYD_data_cb()
   }
 }
 
-static void initialize(uint8_t bind)
+static void FRSKYD_initialize(uint8_t bind)
 {
   CLOCK_StopTimer();
 
@@ -344,12 +344,12 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
   case PROTOCMD_INIT:
-    initialize(0);
+    FRSKYD_initialize(0);
     return 0;
   case PROTOCMD_CHECK_AUTOBIND:
     return 0; // Never Autobind
   case PROTOCMD_BIND:
-    initialize(1);
+    FRSKYD_initialize(1);
     return 0;
   case PROTOCMD_RESET:
     CLOCK_StopTimer();

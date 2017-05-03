@@ -36,6 +36,8 @@
 #include "../OpenAVRc.h"
 #include "../spi.h"
 
+uint8_t cyrfmfg_id[6];
+
 
 void CYRF_WriteRegister(uint8_t address, uint8_t data)
 {

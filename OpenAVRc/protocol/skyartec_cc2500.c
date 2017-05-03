@@ -34,8 +34,7 @@
 #include "../OpenAVRc.h"
 
 
-static uint8_t Sky_packet[20];
-static uint8_t state;
+static uint8_t FRSKYD_state;
 static uint32_t fixed_id;
 static uint16_t bind_count;
 #define TX_ADDR ((fixed_id >> 16) & 0xff)
@@ -55,7 +54,7 @@ static void skyartec_init()
   CC2500_Reset();
 
   CC2500_WriteReg(CC2500_16_MCSM2, 0x07);
-  CC2500_WriteReg(CC2500_17_MCSM1, 0x30);// Switch in idle state after transmission
+  CC2500_WriteReg(CC2500_17_MCSM1, 0x30);// Switch in idle FRSKYD_state after transmission
   CC2500_WriteReg(CC2500_1E_WOREVT1, 0x87);
   CC2500_WriteReg(CC2500_1F_WOREVT0, 0x6b);
   CC2500_WriteReg(CC2500_20_WORCTRL, 0xf8);
@@ -108,14 +107,14 @@ static void add_pkt_suffix()
   uint8_t xor1 = 0;
   uint8_t xor2 = 0;
   for(uint8_t i = 3; i <= 16; i++)
-    xor1 ^= Sky_packet[i];
+    xor1 ^= packet[i];
   for(uint8_t i = 3; i <= 14; i++)
-    xor2 ^= Sky_packet[i];
+    xor2 ^= packet[i];
 
-  uint8_t sum = Sky_packet[3] + Sky_packet[5] + Sky_packet[7] + Sky_packet[9] + Sky_packet[11] + Sky_packet[13];
-  Sky_packet[17] = xor1;
-  Sky_packet[18] = xor2;
-  Sky_packet[19] = sum & 0xff;
+  uint8_t sum = packet[3] + packet[5] + packet[7] + packet[9] + packet[11] + packet[13];
+  packet[17] = xor1;
+  packet[18] = xor2;
+  packet[19] = sum & 0xff;
 }
 
 static void send_data_packet()
@@ -123,9 +122,9 @@ static void send_data_packet()
   //13 c5 01 0259 0168 0000 0259 030c 021a 0489 f3 7e 0a
 
   NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-  Sky_packet[0] = 0x13;                //Length
-  Sky_packet[1] = TX_ADDR;             //Tx Addr?
-  Sky_packet[2] = 0x01;                //???
+  packet[0] = 0x13;                //Length
+  packet[1] = TX_ADDR;             //Tx Addr?
+  packet[2] = 0x01;                //???
 
   // Each channel has a minimum of '0' and a maximum of 1280 (0x500).
 
@@ -143,17 +142,17 @@ static void send_data_packet()
     } else {
       value = 0x280;
     }
-    Sky_packet[3+2*i] = value >> 8;
-    Sky_packet[4+2*i] = value & 0xff;
+    packet[3+2*i] = value >> 8;
+    packet[4+2*i] = value & 0xff;
   }
   add_pkt_suffix();
-  //for(uint16_t i = 0; i < 20; i++) printf("%02x ", Sky_packet[i]); printf("\n");
+  //for(uint16_t i = 0; i < 20; i++) printf("%02x ", packet[i]); printf("\n");
   CC2500_WriteReg(CC2500_04_SYNC1, ((fixed_id >> 0) & 0xff));
   CC2500_WriteReg(CC2500_05_SYNC0, ((fixed_id >> 8) & 0xff));
   CC2500_WriteReg(CC2500_09_ADDR, TX_ADDR);
   CC2500_WriteReg(CC2500_0A_CHANNR, TX_CHANNEL);
   CC2500_Strobe(CC2500_SFTX);
-  CC2500_WriteData(Sky_packet, 20);
+  CC2500_WriteData(packet, 20);
   CC2500_Strobe(CC2500_STX);
   }
 }
@@ -161,26 +160,26 @@ static void send_data_packet()
 static void send_bind_packet()
 {
   //0b 7d 01 01 b2 c5 4a 2f 00 00 c5 d6
-  Sky_packet[0] = 0x0b;       //Length
-  Sky_packet[1] = 0x7d;
-  Sky_packet[2] = 0x01;
-  Sky_packet[3] = 0x01;
-  Sky_packet[4] = (fixed_id >> 24) & 0xff;
-  Sky_packet[5] = (fixed_id >> 16) & 0xff;
-  Sky_packet[6] = (fixed_id >> 8)  & 0xff;
-  Sky_packet[7] = (fixed_id >> 0)  & 0xff;
-  Sky_packet[8] = 0x00;
-  Sky_packet[9] = 0x00;
-  Sky_packet[10] = TX_ADDR;
+  packet[0] = 0x0b;       //Length
+  packet[1] = 0x7d;
+  packet[2] = 0x01;
+  packet[3] = 0x01;
+  packet[4] = (fixed_id >> 24) & 0xff;
+  packet[5] = (fixed_id >> 16) & 0xff;
+  packet[6] = (fixed_id >> 8)  & 0xff;
+  packet[7] = (fixed_id >> 0)  & 0xff;
+  packet[8] = 0x00;
+  packet[9] = 0x00;
+  packet[10] = TX_ADDR;
   uint8_t bxor = 0;
-  for(uint8_t i = 3; i < 11; i++)  bxor ^= Sky_packet[i];
-  Sky_packet[11] = bxor;
+  for(uint8_t i = 3; i < 11; i++)  bxor ^= packet[i];
+  packet[11] = bxor;
   CC2500_WriteReg(CC2500_04_SYNC1, 0x7d);
   CC2500_WriteReg(CC2500_05_SYNC0, 0x7d);
   CC2500_WriteReg(CC2500_09_ADDR, 0x7d);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0x7d);
   CC2500_Strobe(CC2500_SFTX);
-  CC2500_WriteData(Sky_packet, 12);
+  CC2500_WriteData(packet, 12);
   CC2500_Strobe(CC2500_STX);
 }
 
@@ -190,12 +189,12 @@ static uint16_t skyartec_cb()
   heartbeat |= HEART_TIMER_PULSES;
   // SCHEDULE_MIXER_END((uint16_t) (6 *2) *8); // Todo
 
-  if (state != SKYARTEC_PKT6) {
+  if (FRSKYD_state != SKYARTEC_PKT6) {
     send_data_packet();
-    state++;
+    FRSKYD_state++;
   } else {
     if (--bind_count) send_bind_packet();
-    state = SKYARTEC_PKT1;
+    FRSKYD_state = SKYARTEC_PKT1;
   }
   dt = TCNT1 - OCR1A; // Calculate latency and jitter.
   return 12000 *2;
@@ -226,7 +225,7 @@ static void skyartec_initialize()
   if (0 == (fixed_id & 0x000000ff))
     fixed_id |= 0x2f;
   bind_count = 10000;
-  state = SKYARTEC_PKT1;
+  FRSKYD_state = SKYARTEC_PKT1;
 
   CLOCK_StartTimer(25000U *2, &skyartec_cb);
 }

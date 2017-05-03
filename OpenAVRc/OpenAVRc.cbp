@@ -133,6 +133,9 @@
 		<Unit filename="mixer.cpp" />
 		<Unit filename="myeeprom.h" />
 		<Unit filename="pgmtypes.h" />
+		<Unit filename="protocol/DEVO_cyrf6936.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="protocol/DSM_cyrf6936.c">
 			<Option compilerVar="CC" />
 		</Unit>

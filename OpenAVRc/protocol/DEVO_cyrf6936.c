@@ -45,8 +45,8 @@ static const char * const DEVO_opts[] = {
 };
 
 enum {
-  PROTOOPTS_TELEMETRY = 0,
-  LAST_PROTO_OPT,
+  DEVO_OPT_TELEMETRY = 0,
+  DEVO_OPT_LAST,
 };
 //ctassert(LAST_PROTO_OPT <= NUM_PROTO_OPTS, too_many_protocol_opts);
 
@@ -72,12 +72,11 @@ enum PktState {
 static int16_t bind_counter;
 static uint8_t DEVO_state;
 static uint8_t txState;
-static uint8_t packet[16];
 static uint32_t DEVO_fixed_id;
 static uint8_t radio_ch[5];
 static uint8_t *radio_ch_ptr;
 static uint8_t pkt_num;
-static uint8_t cyrfmfg_id[6];
+//static uint8_t cyrfmfg_id[6];
 static uint8_t DEVO_num_channels;
 static uint8_t use_fixed_id;
 static uint8_t failsafe_pkt;
@@ -163,10 +162,10 @@ static void DEVO_build_data_pkt()
   packet[0] = (DEVO_num_channels << 4) | (0x0b + ch_idx);
     uint8_t sign = 0x0b;
     for (uint8_t i = 0; i < 4; i++) {
-    	
+
     	int16_t value = channelOutputs[i + (4* ch_idx)];
     	value = value + (value >> 1) + (value >> 4); // Range +/- 1600.
-    	
+
         if(value < 0) {
             value = -value;
             sign |= 1 << (7 - i);
@@ -380,7 +379,7 @@ void DEVO_BuildPacket()
             DEVO_build_bind_pkt();
             DEVO_state = DEVO_BIND_SENDCH;
         break;
-        
+
         case DEVO_BIND_SENDCH:
             bind_counter--;
             DEVO_build_data_pkt();
@@ -475,7 +474,7 @@ static uint16_t DEVO_telemetry_cb()
     if(txState == 2) {  // this won't be true in emulator so we need to simulate it somehow
         uint8_t rx_state = CYRF_ReadRegister(CYRF_07_RX_IRQ_STATUS);
         if((rx_state & 0x03) == 0x02) {  // RXC=1, RXE=0 then 2nd check is required (debouncing)
-            rx_state |= CYRF_ReadRegister(CYRF_07_RX_IRQ_STATUS);   
+            rx_state |= CYRF_ReadRegister(CYRF_07_RX_IRQ_STATUS);
         }
         if((rx_state & 0x07) == 0x02) { // good data (complete with no errors)
             CYRF_WriteRegister(CYRF_07_RX_IRQ_STATUS, 0x80); // need to set RXOW before data read
@@ -495,7 +494,7 @@ static uint16_t DEVO_telemetry_cb()
 #endif
         delay = 200;
     }
-    txState = 0;   
+    txState = 0;
     return delay;
 }
 #endif
@@ -523,7 +522,7 @@ static uint16_t DEVO_cb()
         DEVO_state = DEVO_BOUND_3;
         DEVO_set_bound_sop_code();
         CYRF_SetPower(7); // ToDo
-    }   
+    }
     if(pkt_num == 0) {
         //Keep tx power updated
         CYRF_SetPower(7); // ToDo
@@ -558,7 +557,7 @@ static void DEVO_initialize(void)
 //CYRF_ConfigSOPCode(sopcodes[0]);
 
   set_radio_channels();
-  
+
   use_fixed_id = 0;
   failsafe_pkt = 0;
   radio_ch_ptr = radio_ch;
