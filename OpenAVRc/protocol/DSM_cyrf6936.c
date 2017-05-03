@@ -62,13 +62,13 @@ static const char * const dsm_opts[] = {
 };
 
 enum {
-    PROTOOPTS_TELEMETRY = 0,
-    PROTOOPTS_ORANGERX,
+    DSM_OPT_TELEMETRY = 0,
+    DSM_OPT_ORANGERX,
 #ifndef MODULAR
-    PROTOOPTS_HIGHSPEED,
-    PROTOOPTS_FLOGFILTER,
+    DSM_OPT_HIGHSPEED,
+    DSM_OPT_FLOGFILTER,
 #endif
-    LAST_PROTO_OPT,
+    DSM_OPT_LAST,
 };
 
 
@@ -175,7 +175,6 @@ static const uint8_t ch_map12[] = {1, 5, 2, 4, 6, 10, 0xff,    0, 7, 3, 8, 9, 11
 static const uint8_t ch_map14[] = {1, 5, 2, 3, 4,  6,    8,    1, 5, 2, 3, 0,  7,    9};
 #endif
 
-uint8_t packet[16];
 uint8_t channels[23];
 uint8_t chidx;
 uint8_t sop_col;
@@ -188,7 +187,7 @@ uint8_t binding;
     //static const uint8_t cyrfmfg_id[6] = {0x5e, 0x28, 0xa3, 0x1b, 0x00, 0x00}; //dx8
     static const uint8_t cyrfmfg_id[6] = {0xd4, 0x62, 0xd6, 0xad, 0xd3, 0xff}; //dx6i
 #else
-    static uint8_t cyrfmfg_id[6];
+    //static uint8_t cyrfmfg_id[6];
 #endif
 
 uint8_t num_channels;
@@ -243,10 +242,10 @@ static void build_data_packet(uint8_t upper)
     uint8_t bits = Protos[g_model.header.modelId].Protocol == PROTOCOL_DSMX ? 11 : 10;
     if(num_channels < 8) {
         chmap = ch_map7;
-#ifndef MODULAR
+/*#ifndef MODULAR
     } else if((num_channels < 11) && (Model.proto_opts[PROTOOPTS_HIGHSPEED] == HIGHSPEED_ON)) {
         chmap = ch_map14;
-#endif
+#endif*/
     } else {
         chmap = ch_map12;
     }
@@ -258,11 +257,11 @@ static void build_data_packet(uint8_t upper)
        if ((chmap[upper*7 + i] == 0xff) || ((num_channels > 7) && (chmap[upper*7 + i] > num_channels - 1))) {
            value = 0xffff;
        } else {
-           if (binding && Model.limits[idx].flags & CH_FAILSAFE_EN) {
+           /*if (binding && Model.limits[idx].flags & CH_FAILSAFE_EN) {
                value = (int32_t)Model.limits[idx].failsafe * (pct_100 / 2) / 100 + (max / 2);
            } else {
                value = (int32_t)Channels[idx] * (pct_100 / 2) / CHAN_MAX_VALUE + (max / 2);
-           }
+           }*/
            if (value >= max)
                value = max - 1;
            else if (value < 0)
@@ -338,7 +337,7 @@ static void cyrf_transfer_config()
 
 static uint8_t get_pn_row(uint8_t channel)
 {
-    return Model.protocol == PROTOCOL_DSMX ? (channel - 2) % 5 : channel % 5;
+    return Protos[g_model.header.modelId].Protocol == PROTOCOL_DSMX ? (channel - 2) % 5 : channel % 5;
 }
 
 static void set_sop_data_crc()
@@ -350,13 +349,13 @@ static void set_sop_data_crc()
     CYRF_ConfigSOPCode(pncodes[pn_row][sop_col]);
     //In 64-8DR mode, all sixteen bytes are used
     CYRF_ConfigDataCode(pncodes[pn_row][data_col], 8); //first eight bytes
-    if((pn_row == 3) && (data_col == 7) && (Model.proto_opts[PROTOOPTS_ORANGERX] == ORANGERX_YES)) {
+    /*if((pn_row == 3) && (data_col == 7) && (Model.proto_opts[PROTOOPTS_ORANGERX] == ORANGERX_YES)) {
         CYRF_ConfigDataCode((const uint8_t *)"\x88\xE1\xD6\x31\x26\x5F\xBD\x40", 8); //last eight bytes
-    } else {
+    } else {*/
         CYRF_ConfigDataCode(pncodes[pn_row][data_col + 1], 8); //last eight bytes
-    }
+    //}
     /* setup for next iteration */
-    if(Model.protocol == PROTOCOL_DSMX)
+    if(Protos[g_model.header.modelId].Protocol == PROTOCOL_DSMX)
         chidx = (chidx + 1) % 23;
     else
         chidx = (chidx + 1) % 2;
@@ -365,14 +364,14 @@ static void set_sop_data_crc()
 
 static void calc_dsmx_channel()
 {
-    u32 idx = 0;
-    u32 id = ~((cyrfmfg_id[0] << 24) | (cyrfmfg_id[1] << 16) | (cyrfmfg_id[2] << 8) | (cyrfmfg_id[3] << 0));
-    u32 id_tmp = id;
+    uint8_t idx = 0;
+    uint32_t id = ~((cyrfmfg_id[0] << 24) | (cyrfmfg_id[1] << 16) | (cyrfmfg_id[2] << 8) | (cyrfmfg_id[3] << 0));
+    uint32_t id_tmp = id;
     while(idx < 23) {
-        u32 i;
-        u32 count_3_27 = 0, count_28_51 = 0, count_52_76 = 0;
+        uint8_t i;
+        uint8_t count_3_27 = 0, count_28_51 = 0, count_52_76 = 0;
         id_tmp = id_tmp * 0x0019660D + 0x3C6EF35F; // Randomization
-        u32 next_ch = ((id_tmp >> 8) % 0x49) + 3;  // Use least-significant byte and must be larger than 3
+        uint8_t next_ch = ((id_tmp >> 8) % 0x49) + 3;  // Use least-significant byte and must be larger than 3
         if (((next_ch ^ id) & 0x01) == 0)
             continue;
         for (i = 0; i < idx; i++) {
@@ -396,9 +395,9 @@ static void calc_dsmx_channel()
     }
 }
 
-static u32 bcd_to_int(u32 data)
+static uint8_t bcd_to_int(uint8_t data)
 {
-    u32 value = 0, multi = 1;
+    uint8_t value = 0, multi = 1;
     while (data) {
         value += (data & 15U) * multi;
         multi *= 10;
@@ -407,14 +406,14 @@ static u32 bcd_to_int(u32 data)
     return value;
 }
 
-static u32 pkt32_to_coord(uint8_t *ptr)
+static uint32_t pkt32_to_coord(uint8_t *ptr)
 {
     // (decimal, format DD MM.MMMM)
     return bcd_to_int(ptr[3]) * 3600000
-         + bcd_to_int(((u32)ptr[2] << 16) | ((u32)ptr[1] << 8) | ptr[0]) * 6;
+         + bcd_to_int(((uint32_t)ptr[2] << 16) | ((uint32_t)ptr[1] << 8) | ptr[0]) * 6;
 }
 
-NO_INLINE static void parse_telemetry_packet()
+/*NOINLINE static void parse_telemetry_packet()
 {
     static uint8_t altitude; // byte from first GPS packet
 #if HAS_EXTENDED_TELEMETRY
@@ -617,7 +616,7 @@ NO_INLINE static void parse_telemetry_packet()
         TELEMETRY_SetUpdated(*update);
         update++;
     }
-}
+}*/
 
 MODULE_CALLTYPE
 static uint16_t dsm2_cb()
@@ -658,13 +657,13 @@ static uint16_t dsm2_cb()
         state++;
         return WRITE_DELAY;
     } else if(state == DSM2_CH1_CHECK_A || state == DSM2_CH1_CHECK_B) {
-        u32 i = 0;
+        uint32_t i = 0;
         uint8_t reg;
         while (! ((reg = CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS)) & 0x02)) {
             if (++i >= NUM_WAIT_LOOPS)
                 break;
         }
-        if (Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_ON) {
+        if (0)/*(Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_ON)*/ {
             // reset cyrf6936 in case TX mode and RX mode freezed
             if (((reg & 0x22) == 0x20) || (CYRF_ReadRegister(CYRF_02_TX_CTRL) & 0x80)) {
                 CYRF_Reset();
@@ -678,16 +677,16 @@ static uint16_t dsm2_cb()
         state++;
         return CH1_CH2_DELAY - WRITE_DELAY;
     } else if(state == DSM2_CH2_CHECK_A || state == DSM2_CH2_CHECK_B) {
-        u32 i = 0;
+        uint32_t i = 0;
         while (! (CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS) & 0x02)) {
             if(++i > NUM_WAIT_LOOPS)
                 break;
         }
         if (state == DSM2_CH2_CHECK_A) {
             //Keep transmit power in sync
-            CYRF_WriteRegister(CYRF_03_TX_CFG, 0x28 | Model.tx_power); //Data Code Length = 64 chip codes + Data Mode = 8DR Mode + tx_power
+            CYRF_WriteRegister(CYRF_03_TX_CFG, 0x28 | SpiRFModule.tx_power); //Data Code Length = 64 chip codes + Data Mode = 8DR Mode + tx_power
         }
-        if (Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_OFF) {
+        if (1) /*(Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_OFF)*/ {
             set_sop_data_crc();
             if (state == DSM2_CH2_CHECK_A) {
                 if(num_channels < 8) {
@@ -715,13 +714,13 @@ static uint16_t dsm2_cb()
             CYRF_WriteRegister(CYRF_07_RX_IRQ_STATUS, 0x80); // need to set RXOW before data read
             CYRF_ReadDataPacketLen(packet, CYRF_ReadRegister(CYRF_09_RX_COUNT));
             //rssi = CYRF_ReadRegister(CYRF_13_RSSI) & 0x1F; // RSSI of the received telemetry signal
-            parse_telemetry_packet();
+            // TODO parse_telemetry_packet();
         }
         if (state == DSM2_CH2_READ_A && num_channels < 8) {
             state = DSM2_CH2_READ_B;
             //Reseat RX mode just in case any error
             CYRF_WriteRegister(CYRF_0F_XACT_CFG, (CYRF_ReadRegister(CYRF_0F_XACT_CFG) | 0x20));  // Force end state
-            u32 i = 0;
+            uint8_t i = 0;
             while (CYRF_ReadRegister(CYRF_0F_XACT_CFG) & 0x20) {
                 if(++i > NUM_WAIT_LOOPS)
                     break;
@@ -748,18 +747,18 @@ static void initialize(uint8_t bind)
 
 #ifndef USE_FIXED_MFGID
     CYRF_GetMfgData(cyrfmfg_id);
-    if (Model.fixed_id) {
-        cyrfmfg_id[0] ^= (Model.fixed_id >> 0) & 0xff;
-        cyrfmfg_id[1] ^= (Model.fixed_id >> 8) & 0xff;
-        cyrfmfg_id[2] ^= (Model.fixed_id >> 16) & 0xff;
-        cyrfmfg_id[3] ^= (Model.fixed_id >> 24) & 0xff;
+    if (SpiRFModule.fixed_id) {
+        cyrfmfg_id[0] ^= (SpiRFModule.fixed_id >> 0) & 0xff;
+        cyrfmfg_id[1] ^= (SpiRFModule.fixed_id >> 8) & 0xff;
+        cyrfmfg_id[2] ^= (SpiRFModule.fixed_id >> 16) & 0xff;
+        cyrfmfg_id[3] ^= (SpiRFModule.fixed_id >> 24) & 0xff;
     }
 #endif
-    if (Model.protocol == PROTOCOL_DSMX) {
+    if (Protos[g_model.header.modelId].Protocol == PROTOCOL_DSMX) {
         calc_dsmx_channel();
     } else {
-        if (RANDOM_CHANNELS) {
-            uint8_t tmpch[10];
+        if (0) /*(RANDOM_CHANNELS)*/ {
+            /*uint8_t tmpch[10];
             CYRF_FindBestChannels(tmpch, 10, 5, 3, 75);
             uint8_t idx = rand32() % 10;
             channels[0] = tmpch[idx];
@@ -768,12 +767,12 @@ static void initialize(uint8_t bind)
                if (tmpch[idx] != channels[0])
                    break;
             }
-            channels[1] = tmpch[idx];
+            channels[1] = tmpch[idx];*/
         } else {
             channels[0] = (cyrfmfg_id[0] + cyrfmfg_id[2] + cyrfmfg_id[4]
-                          + ((Model.fixed_id >> 0) & 0xff) + ((Model.fixed_id >> 16) & 0xff)) % 39 + 1;
+                          + ((SpiRFModule.fixed_id >> 0) & 0xff) + ((SpiRFModule.fixed_id >> 16) & 0xff)) % 39 + 1;
             channels[1] = (cyrfmfg_id[1] + cyrfmfg_id[3] + cyrfmfg_id[5]
-                          + ((Model.fixed_id >> 8) & 0xff) + ((Model.fixed_id >> 8) & 0xff)) % 40 + 40;
+                          + ((SpiRFModule.fixed_id >> 8) & 0xff) + ((SpiRFModule.fixed_id >> 8) & 0xff)) % 40 + 40;
         }
         //printf("DSM2 Channels: %02x %02x\n", channels[0], channels[1]);
     }
@@ -782,11 +781,7 @@ static void initialize(uint8_t bind)
     sop_col = (cyrfmfg_id[0] + cyrfmfg_id[1] + cyrfmfg_id[2] + 2) & 0x07;
     data_col = 7 - sop_col;
     model = MODEL;
-    num_channels = Model.num_channels;
-    if (num_channels < 6)
-        num_channels = 6;
-    else if (num_channels > 12)
-        num_channels = 12;
+    num_channels = 12;
 
     if (bind) {
         state = DSM2_BIND;
@@ -801,7 +796,7 @@ static void initialize(uint8_t bind)
     CLOCK_StartTimer(10000, dsm2_cb);
 }
 
-const void *DSM2_Cmds(enum ProtoCmds cmd)
+const void *DSM_Cmds(enum ProtoCmds cmd)
 {
     switch(cmd) {
         case PROTOCMD_INIT:  initialize(0); return 0;
@@ -813,13 +808,13 @@ const void *DSM2_Cmds(enum ProtoCmds cmd)
         case PROTOCMD_BIND:  initialize(1); return 0;
         case PROTOCMD_NUMCHAN: return (void *)12L;
         case PROTOCMD_DEFAULT_NUMCHAN: return (void *)7L;
-        case PROTOCMD_CURRENT_ID: return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;
+        //case PROTOCMD_CURRENT_ID: return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;
         case PROTOCMD_GETOPTIONS:
             return dsm_opts;
         case PROTOCMD_TELEMETRYSTATE:
-            return (void *)(long)(Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_ON ? PROTO_TELEM_ON : PROTO_TELEM_OFF);
-        case PROTOCMD_TELEMETRYTYPE:
-            return (void *)(long) TELEM_DSM;
+         //   return (void *)(long)(Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_ON ? PROTO_TELEM_ON : PROTO_TELEM_OFF);
+       // case PROTOCMD_TELEMETRYTYPE:
+         //   return (void *)(long) TELEM_DSM;
         default: break;
     }
     return NULL;
