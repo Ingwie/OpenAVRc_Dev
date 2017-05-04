@@ -40,18 +40,19 @@
 #define QUEUE_LENGTH 16*2  //bytes
 
 enum JQ6500_State {
-  START = 0x7E, //Start
-  NUMBY = 0x04, //Num bytes follow
-  SELEC = 0X03, //Select file
-  FILEH = 0x00, //Dummy file
-  FILEL = 0x01, //Dummy file
-  TERMI = 0xEF  //Termination
+  START, //Start
+  NUMBY, //Num bytes follow
+  SELEC, //Select file
+  FILEH, //Dummy file
+  FILEL, //Dummy file
+  TERMI  //Termination
 };
 
 enum JQ6500_State JQstate = START;
-volatile uint8_t JQ6500_playlist[QUEUE_LENGTH] = {0};
-uint8_t JQ6500_InputIndex = 0;
+uint8_t JQ6500_playlist[QUEUE_LENGTH] = {0};
+volatile uint8_t JQ6500_InputIndex = 0;
 uint8_t JQ6500_PlayIndex = 0;
+static uint8_t Uart_iterator = 0;
 
 #if defined(SIMU)
   #define ISPLAYING false
@@ -80,55 +81,54 @@ void pushPrompt(uint16_t prompt)
 
 uint8_t JQ6500_sendbyte(uint8_t Data_byte)
 {
-  static uint8_t i = 0;
 
-  if (!i) {
+  if (!Uart_iterator) {
     JQ6500_Serial_off;  // serial start bit
-    sei();
-    ++i;
+    ++Uart_iterator;
     return 0;
   }
 
-  if (i==9) {
+  if (Uart_iterator==9) {
     JQ6500_Serial_on;  // serial stop bit
-    sei();
-    i = 0;
+    Uart_iterator = 0;
     return 1;
   }
 
-  if ((Data_byte >> (i-1)) & 0x01) {
+  if ((Data_byte >> (Uart_iterator-1)) & 0x01) {
     JQ6500_Serial_on; // send data bits
   } else {
     JQ6500_Serial_off;
   }
-  sei();
-  ++i;
+  ++Uart_iterator;
   return 0;
 }
 
 ISR(TIMER5_COMPA_vect) // every 104µS / 9600 Bauds serial
 {
-  if (JQ6500_BUSY) {
+  sei();
+
+    if (JQ6500_BUSY) {
       JQstate = START;
       return;
   }
 
   if (JQstate == START) {
-    if (JQ6500_sendbyte(JQstate)) {
+    //if ((!Uart_iterator) && (TCNT1 < 0xFFF)) return; // Check if it's time (no timer ISR in futur ??)
+    if (JQ6500_sendbyte(0x7E)) {
       JQstate = NUMBY;
       return;
     }
   }
 
   if (JQstate == NUMBY) {
-    if (JQ6500_sendbyte(JQstate)) {
+    if (JQ6500_sendbyte(0x04)) {
       JQstate = SELEC;
       return;
     }
   }
 
   if (JQstate == SELEC) {
-    if (JQ6500_sendbyte(JQstate)) {
+    if (JQ6500_sendbyte(0x03)) {
       JQstate = FILEH;
       return;
     }
@@ -151,13 +151,11 @@ ISR(TIMER5_COMPA_vect) // every 104µS / 9600 Bauds serial
   }
 
   if (JQstate == TERMI) {
-    if (JQ6500_sendbyte(JQstate)) {
+    if (JQ6500_sendbyte(0xEF)) {
       JQstate = START;
-      cli();
       if (JQ6500_PlayIndex == QUEUE_LENGTH) JQ6500_PlayIndex = 0;
       if (JQ6500_PlayIndex == JQ6500_InputIndex) {
         TIMSK5 &= ~(1<<OCIE5A);
-        sei();
       }
       return;
     }

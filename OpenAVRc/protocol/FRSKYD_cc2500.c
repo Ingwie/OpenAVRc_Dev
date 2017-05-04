@@ -228,7 +228,6 @@ static uint16_t FRSKYD_data_cb()
   static uint8_t len;
   uint8_t rx_packet[21]; // Down-link packet is 20 bytes.
 
-  NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     if(! start_tx_rx) {
 
       if((packet_number & 0x03) == 0) {
@@ -312,7 +311,6 @@ static uint16_t FRSKYD_data_cb()
       dt = TCNT1 - OCR1A; // Calculate latency and jitter.
       return 8500 *2;
     }
-  }
 }
 
 static void FRSKYD_initialize(uint8_t bind)

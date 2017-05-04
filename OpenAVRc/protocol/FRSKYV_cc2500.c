@@ -267,7 +267,6 @@ static uint16_t FRSKYV_data_cb()
 // Schedule next Mixer calculations.
 // SCHEDULE_MIXER_END((uint16_t) (9 *2) *8); // Probably not needed.
 
-  NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     // Build next packet.
     // CC2500_Strobe(CC2500_SNOP);
     seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323.
@@ -291,7 +290,6 @@ static uint16_t FRSKYV_data_cb()
     option ++;
     heartbeat |= HEART_TIMER_PULSES;
     dt = TCNT1 - OCR1A; // Calculate latency and jitter.
-  }
     return 9000 *2;
 }
 

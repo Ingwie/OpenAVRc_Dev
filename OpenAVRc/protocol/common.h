@@ -50,6 +50,9 @@ uint8_t packet[40]; //protocol global packet
 
 //uint8_t read_bind_sw(void);
 
+#define TELEM_ON 1
+#define TELEM_OFF 0
+
 #define PROTO_TELEM_UNSUPPORTED -1
 #define MODULE_CALLTYPE
 //#define UNIMOD 1 // MPX Serial input.

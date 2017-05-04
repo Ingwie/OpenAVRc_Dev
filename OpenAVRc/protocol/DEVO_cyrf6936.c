@@ -35,7 +35,7 @@
 #include "../OpenAVRc.h"
 
 #define PKTS_PER_CHANNEL 4
-#define BIND_COUNT 0x1388 // 12 seconds.
+#define DEVO_BIND_COUNT 0x1388 // 12 seconds.
 #define TELEMETRY_ENABLE 0x30
 #define NUM_WAIT_LOOPS (100 / 5) // Each loop is ~5us.  Do not wait more than 100us
 
@@ -50,8 +50,6 @@ enum {
 };
 //ctassert(LAST_PROTO_OPT <= NUM_PROTO_OPTS, too_many_protocol_opts);
 
-#define TELEM_ON 0
-#define TELEM_OFF 1
 
 enum PktState {
   DEVO_BIND,
@@ -538,7 +536,7 @@ static uint16_t DEVO_cb()
 static void DEVO_bind()
 {
   DEVO_fixed_id = 1234; // todo Model.fixed_id;
-  bind_counter = BIND_COUNT;
+  bind_counter = DEVO_BIND_COUNT;
   use_fixed_id = 1;
   PROTOCOL_SetBindState(0x1388 * 2400U / 1000); // 12 seconds.
 }
@@ -575,7 +573,7 @@ static void DEVO_initialize(void)
                  | ((uint32_t)(radio_ch[1] ^ cyrfmfg_id[1] ^ cyrfmfg_id[4]) << 8)
                  | ((uint32_t)(radio_ch[2] ^ cyrfmfg_id[2] ^ cyrfmfg_id[5]) << 0);
         DEVO_fixed_id = DEVO_fixed_id % 1000000;
-        bind_counter = BIND_COUNT;
+        bind_counter = DEVO_BIND_COUNT;
         DEVO_state = DEVO_BIND;
         PROTOCOL_SetBindState(0x1388 * 2400U / 1000U); // 12 seconds.
     } else {

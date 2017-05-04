@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -41,38 +41,47 @@ uint8_t cyrfmfg_id[6];
 
 void CYRF_WriteRegister(uint8_t address, uint8_t data)
 {
-  RF_CS_CYRF6936_ACTIVE();
-  RF_SPI_xfer(0x80 | address);
-  RF_SPI_xfer(data);
-  RF_CS_CYRF6936_INACTIVE();
+  NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    RF_CS_CYRF6936_ACTIVE();
+    RF_SPI_xfer(0x80 | address);
+    RF_SPI_xfer(data);
+    RF_CS_CYRF6936_INACTIVE();
+  }
 }
 
 static void CYRF_WriteRegisterMulti(uint8_t address, const uint8_t data[], uint8_t length)
 {
-  RF_CS_CYRF6936_ACTIVE();
-  RF_SPI_xfer(0x80 | address);
-  for(uint8_t i = 0; i < length; i++) {
-    RF_SPI_xfer(data[i]);
+  NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    RF_CS_CYRF6936_ACTIVE();
+    RF_SPI_xfer(0x80 | address);
+    for(uint8_t i = 0; i < length; i++) {
+      RF_SPI_xfer(data[i]);
+    }
+    RF_CS_CYRF6936_INACTIVE();
   }
-  RF_CS_CYRF6936_INACTIVE();
 }
 
 static void CYRF_ReadRegisterMulti(uint8_t address, uint8_t data[], uint8_t length)
 {
-  RF_CS_CYRF6936_ACTIVE();
-  RF_SPI_xfer(address);
-  for(uint8_t i = 0; i < length; i++) {
-    data[i] = RF_SPI_xfer(0);
+  NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    RF_CS_CYRF6936_ACTIVE();
+    RF_SPI_xfer(address);
+    for(uint8_t i = 0; i < length; i++) {
+      data[i] = RF_SPI_xfer(0);
+    }
+    RF_CS_CYRF6936_INACTIVE();
   }
-  RF_CS_CYRF6936_INACTIVE();
 }
 
 uint8_t CYRF_ReadRegister(uint8_t address)
 {
-  RF_CS_CYRF6936_ACTIVE();
-  RF_SPI_xfer(address);
-  uint8_t data = RF_SPI_xfer(0);
-  RF_CS_CYRF6936_INACTIVE();
+  uint8_t data;
+  NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    RF_CS_CYRF6936_ACTIVE();
+    RF_SPI_xfer(address);
+    data = RF_SPI_xfer(0);
+    RF_CS_CYRF6936_INACTIVE();
+  }
   return data;
 }
 
@@ -113,20 +122,17 @@ void CYRF_GetMfgData(uint8_t data[])
 void CYRF_SetTxRxMode(enum TXRX_State mode)
 {
   if(mode == TXRX_OFF) {
-   CYRF_WriteRegister(CYRF_0F_XACT_CFG, 0x24); // 4=IDLE, 8=Synth(TX), C=Synth(RX)
-  }
-  else {
+    CYRF_WriteRegister(CYRF_0F_XACT_CFG, 0x24); // 4=IDLE, 8=Synth(TX), C=Synth(RX)
+  } else {
     CYRF_WriteRegister(CYRF_0F_XACT_CFG, mode == TX_EN ? 0x28 : 0x2C); // 4=IDLE, 8=Synth(TX), C=Synth(RX)
   }
 
   // Set the post tx/rx state.
   if(mode == TX_EN) {
     CYRF_WriteRegister(CYRF_0E_GPIO_CTRL, 0x80); // XOUT=1, PACTL=0
-  }
-  else if(mode == RX_EN) {
+  } else if(mode == RX_EN) {
     CYRF_WriteRegister(CYRF_0E_GPIO_CTRL, 0x20); // XOUT=0, PACTL=1
-  }
-  else {
+  } else {
     CYRF_WriteRegister(CYRF_0E_GPIO_CTRL, 0x00); // XOUT=0, PACTL=0
   }
 }
@@ -175,12 +181,14 @@ void CYRF_ConfigDataCode(const uint8_t *datacodes, uint8_t len)
 
 void CYRF_WritePreamble(uint32_t preamble)
 {
-  RF_CS_CYRF6936_ACTIVE();
-  RF_SPI_xfer(0x80 | 0x24);
-  RF_SPI_xfer(preamble & 0xff);
-  RF_SPI_xfer((preamble >> 8) & 0xff);
-  RF_SPI_xfer((preamble >> 16) & 0xff);
-  RF_CS_CYRF6936_INACTIVE();
+  NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    RF_CS_CYRF6936_ACTIVE();
+    RF_SPI_xfer(0x80 | 0x24);
+    RF_SPI_xfer(preamble & 0xff);
+    RF_SPI_xfer((preamble >> 8) & 0xff);
+    RF_SPI_xfer((preamble >> 16) & 0xff);
+    RF_CS_CYRF6936_INACTIVE();
+  }
 }
 
 
@@ -229,8 +237,8 @@ uint8_t CYRF_ReadRSSI(uint8_t dodummyread)
 // NOTE: This routine will reset the CRC Seed
 void CYRF_FindBestChannels(uint8_t *channels, uint8_t len, uint8_t minspace, uint8_t min, uint8_t max)
 {
-  #define NUM_FREQ 80
-  #define FREQ_OFFSET 4
+#define NUM_FREQ 80
+#define FREQ_OFFSET 4
   uint8_t rssi[NUM_FREQ];
 
   if (min < FREQ_OFFSET) min = FREQ_OFFSET;
@@ -274,30 +282,30 @@ void CYRF_FindBestChannels(uint8_t *channels, uint8_t len, uint8_t minspace, uin
 
 static void CYRF_PROGMEM_Config_DEVO_J6PRO_sopcodes(uint8_t sopidx)
 {
- static const uint8_t DEVO_J6PRO_sopcodes[][8] PROGMEM = {
- /* Note these are in order transmitted (LSB 1st) */
- {0x3C, 0x37, 0xCC, 0x91, 0xE2, 0xF8, 0xCC, 0x91},
- {0x9B, 0xC5, 0xA1, 0x0F, 0xAD, 0x39, 0xA2, 0x0F},
- {0xEF, 0x64, 0xB0, 0x2A, 0xD2, 0x8F, 0xB1, 0x2A},
- {0x66, 0xCD, 0x7C, 0x50, 0xDD, 0x26, 0x7C, 0x50},
- {0x5C, 0xE1, 0xF6, 0x44, 0xAD, 0x16, 0xF6, 0x44},
- {0x5A, 0xCC, 0xAE, 0x46, 0xB6, 0x31, 0xAE, 0x46},
- {0xA1, 0x78, 0xDC, 0x3C, 0x9E, 0x82, 0xDC, 0x3C},
- {0xB9, 0x8E, 0x19, 0x74, 0x6F, 0x65, 0x18, 0x74},
- {0xDF, 0xB1, 0xC0, 0x49, 0x62, 0xDF, 0xC1, 0x49},
- {0x97, 0xE5, 0x14, 0x72, 0x7F, 0x1A, 0x14, 0x72},
- //#if defined(J6PRO_CYRF6936_INO)
- {0x82, 0xC7, 0x90, 0x36, 0x21, 0x03, 0xFF, 0x17},
- {0xE2, 0xF8, 0xCC, 0x91, 0x3C, 0x37, 0xCC, 0x91}, //Note: the '03' was '9E' in the Cypress recommended table
- {0xAD, 0x39, 0xA2, 0x0F, 0x9B, 0xC5, 0xA1, 0x0F}, //The following are the same as the 1st 8 above,
- {0xD2, 0x8F, 0xB1, 0x2A, 0xEF, 0x64, 0xB0, 0x2A}, //but with the upper and lower word swapped
- {0xDD, 0x26, 0x7C, 0x50, 0x66, 0xCD, 0x7C, 0x50},
- {0xAD, 0x16, 0xF6, 0x44, 0x5C, 0xE1, 0xF6, 0x44},
- {0xB6, 0x31, 0xAE, 0x46, 0x5A, 0xCC, 0xAE, 0x46},
- {0x9E, 0x82, 0xDC, 0x3C, 0xA1, 0x78, 0xDC, 0x3C},
- {0x6F, 0x65, 0x18, 0x74, 0xB9, 0x8E, 0x19, 0x74},
- //#endif
- };
+  static const uint8_t DEVO_J6PRO_sopcodes[][8] PROGMEM = {
+    /* Note these are in order transmitted (LSB 1st) */
+    {0x3C, 0x37, 0xCC, 0x91, 0xE2, 0xF8, 0xCC, 0x91},
+    {0x9B, 0xC5, 0xA1, 0x0F, 0xAD, 0x39, 0xA2, 0x0F},
+    {0xEF, 0x64, 0xB0, 0x2A, 0xD2, 0x8F, 0xB1, 0x2A},
+    {0x66, 0xCD, 0x7C, 0x50, 0xDD, 0x26, 0x7C, 0x50},
+    {0x5C, 0xE1, 0xF6, 0x44, 0xAD, 0x16, 0xF6, 0x44},
+    {0x5A, 0xCC, 0xAE, 0x46, 0xB6, 0x31, 0xAE, 0x46},
+    {0xA1, 0x78, 0xDC, 0x3C, 0x9E, 0x82, 0xDC, 0x3C},
+    {0xB9, 0x8E, 0x19, 0x74, 0x6F, 0x65, 0x18, 0x74},
+    {0xDF, 0xB1, 0xC0, 0x49, 0x62, 0xDF, 0xC1, 0x49},
+    {0x97, 0xE5, 0x14, 0x72, 0x7F, 0x1A, 0x14, 0x72},
+//#if defined(J6PRO_CYRF6936_INO)
+    {0x82, 0xC7, 0x90, 0x36, 0x21, 0x03, 0xFF, 0x17},
+    {0xE2, 0xF8, 0xCC, 0x91, 0x3C, 0x37, 0xCC, 0x91}, //Note: the '03' was '9E' in the Cypress recommended table
+    {0xAD, 0x39, 0xA2, 0x0F, 0x9B, 0xC5, 0xA1, 0x0F}, //The following are the same as the 1st 8 above,
+    {0xD2, 0x8F, 0xB1, 0x2A, 0xEF, 0x64, 0xB0, 0x2A}, //but with the upper and lower word swapped
+    {0xDD, 0x26, 0x7C, 0x50, 0x66, 0xCD, 0x7C, 0x50},
+    {0xAD, 0x16, 0xF6, 0x44, 0x5C, 0xE1, 0xF6, 0x44},
+    {0xB6, 0x31, 0xAE, 0x46, 0x5A, 0xCC, 0xAE, 0x46},
+    {0x9E, 0x82, 0xDC, 0x3C, 0xA1, 0x78, 0xDC, 0x3C},
+    {0x6F, 0x65, 0x18, 0x74, 0xB9, 0x8E, 0x19, 0x74},
+//#endif
+  };
 
   uint8_t code[8];
   uint_farptr_t pdata;
@@ -305,7 +313,7 @@ static void CYRF_PROGMEM_Config_DEVO_J6PRO_sopcodes(uint8_t sopidx)
 
   for(uint8_t i=0; i<8; i++) {
 //  code[i] = pgm_read_byte_far(&DEVO_J6PRO_sopcodes[sopidx][i]); // This works too.
-  code[i] = pgm_read_byte_far(pdata +(sopidx *8) +i);
+    code[i] = pgm_read_byte_far(pdata +(sopidx *8) +i);
   }
   CYRF_ConfigSOPCode(code);
 }
