@@ -41,10 +41,6 @@ Firmware :
 
 -> Ajouter une fonction spéciale sécurité moteur qui fonctionne comme le template.
 
--> Revenir sur l'idée de minimiser le nombre d'écritures a l'eeprom interne du atmega. (Carte SD?) -> Essais avec une FRAM en cours.
-
--> Revenir sur le protocole DSM2, inclus "Model match" - Le module DSMX fonctionne en direct (modif firmware) mais la liaison coupe en cas d'écriture EEPROM ...
-
 -> Optimisation "vitesse" du compilateur pour M2560 (+10%) : -O1 ou -O2 (Merci Rich ;-)
 
 General:
@@ -72,3 +68,5 @@ General:
 > Génération d'un prompt avec le nom du modèle choisi, (pour reproduire par exemple après choisir le modèle ou après la bienvenue.) FAIT
 > Lire les fichiers "Voice" FAIT
 > Créer LE voice éditor. FAIT
+> Revenir sur l'idée de minimiser le nombre d'écritures a l'eeprom interne du atmega. (Carte SD?) -> Essais avec une FRAM en cours. FRAM OK. FAIT
+> Revenir sur le protocole DSM2, inclus "Model match" - Le module DSMX fonctionne en direct (modif firmware) mais la liaison coupe en cas d'écriture EEPROM ... FAIT (FRAM)
