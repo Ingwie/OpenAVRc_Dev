@@ -737,7 +737,7 @@ static uint16_t dsm2_cb()
     return 0;
 }
 
-static void initialize(uint8_t bind)
+static void DSM_initialize(uint8_t bind)
 {
     CLOCK_StopTimer();
     CYRF_Reset();
@@ -791,31 +791,34 @@ static void initialize(uint8_t bind)
         binding = 0;
     }
     CYRF_SetTxRxMode(TX_EN);
-    CLOCK_StartTimer(10000, dsm2_cb);
+    CLOCK_StartTimer(25000, dsm2_cb);
 }
 
 const void *DSM_Cmds(enum ProtoCmds cmd)
 {
     switch(cmd) {
-        case PROTOCMD_INIT:  initialize(0); return 0;
-        case PROTOCMD_DEINIT:
+        case PROTOCMD_INIT:
+          DSM_initialize(0);
+          return 0;
+        //case PROTOCMD_DEINIT:
         case PROTOCMD_RESET:
             CLOCK_StopTimer();
-            return (void *)(CYRF_Reset() ? 1L : -1L);
-        case PROTOCMD_CHECK_AUTOBIND: return 0; //Never Autobind
-        case PROTOCMD_BIND:  initialize(1); return 0;
-        case PROTOCMD_NUMCHAN: return (void *)12L;
-        case PROTOCMD_DEFAULT_NUMCHAN: return (void *)7L;
+            CYRF_Reset();
+        //case PROTOCMD_CHECK_AUTOBIND: return 0; //Never Autobind
+        case PROTOCMD_BIND:
+          DSM_initialize(1);
+          return 0;
+        //case PROTOCMD_NUMCHAN: return (void *)12L;
+        //case PROTOCMD_DEFAULT_NUMCHAN: return (void *)7L;
         //case PROTOCMD_CURRENT_ID: return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;
-        case PROTOCMD_GETOPTIONS:
-            return dsm_opts;
-        case PROTOCMD_TELEMETRYSTATE:
+        //case PROTOCMD_GETOPTIONS: return dsm_opts;
+        //case PROTOCMD_TELEMETRYSTATE:
          //   return (void *)(long)(Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_ON ? PROTO_TELEM_ON : PROTO_TELEM_OFF);
        // case PROTOCMD_TELEMETRYTYPE:
          //   return (void *)(long) TELEM_DSM;
         default: break;
     }
-    return NULL;
+    return 0;
 }
 
 #endif

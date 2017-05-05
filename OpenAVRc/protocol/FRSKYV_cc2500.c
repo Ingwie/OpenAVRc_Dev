@@ -311,8 +311,7 @@ static void FRSKYV_initialise(uint8_t bind)
 {
   CLOCK_StopTimer();
 
-  //TODO  frsky_id = Model.fixed_id % 0x4000;
-  frsky_id = 0x9999 & 0x7FFF;// = 0x1999 pour Moi.
+  frsky_id = SpiRFModule.fixed_id % 0x4000;
 
   // Build channel array.
   channel_offset = frsky_id % 5;

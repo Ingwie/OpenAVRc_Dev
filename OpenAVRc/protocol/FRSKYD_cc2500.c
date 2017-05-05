@@ -317,7 +317,7 @@ static void FRSKYD_initialize(uint8_t bind)
 {
   CLOCK_StopTimer();
 
-  frsky_id = 0x25C2;
+  frsky_id = SpiRFModule.fixed_id % 0x4000;
 
   // Build channel array.
   channel_offset = frsky_id % 5;
