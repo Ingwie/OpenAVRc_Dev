@@ -1128,7 +1128,7 @@ struct Module {
 //    uint16_t ppmin_deltapw;
 //    uint8_t train_sw;
 //    int8_t ppm_map[MAX_PPM_IN_CHANNELS];
-  uint32_t fixed_id = TX_ID;
+  uint32_t fixed_id = TX_FIXED_ID;
   enum TxPower tx_power;
   enum PROTO_MODE mode;
 //    enum SwashType swash_type;

@@ -202,7 +202,7 @@ static void skyartec_initialize()
 {
   CLOCK_StopTimer();
   skyartec_init();
-  SpiRFModule.fixed_id = 0xb2c54a2f;
+ // SpiRFModule.fixed_id = 0xb2c54a2f;
 // if (Model.SpiRFModule.fixed_id) {
 //   SpiRFModule.fixed_id ^= Model.SpiRFModule.fixed_id + (Model.SpiRFModule.fixed_id << 16);
 // } else {

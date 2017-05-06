@@ -107,7 +107,7 @@ void sdPoll10ms();
 #define SPIMODULES
 #define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 #define PROTO_HAS_CYRF6936
-#define TX_ID 0xFEDCBA98 // Loaded in SpiRFModule.fixed_id
+#define TX_FIXED_ID 0xFEDCBA98 // Loaded in SpiRFModule.fixed_id
 
 #if defined(SPIMODULES)
 
