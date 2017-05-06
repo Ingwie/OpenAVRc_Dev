@@ -109,6 +109,7 @@ FORCEINLINE void boardInit()
   OCR5A = 0x19; // 0x1A=104µs needed for the 9600Bps serial command
   TCCR5B = (1 << WGM52) | (0b011 << CS50); // CTC OCR5A
 #endif
+
 #if defined(SPIMODULES)
 // Setup (M)SPI Port.
 // USART2
@@ -122,6 +123,8 @@ FORCEINLINE void boardInit()
   SDCARD_CS_N_INACTIVE();
   RF_CS_CC2500_INACTIVE();
   RF_CS_CYRF6936_INACTIVE();
+
+  SpiRFModule.fixed_id = TX_FIXED_ID;
 
   if (0) {
       UBRR2 = 0; // Reset is part of initialisation sequence.

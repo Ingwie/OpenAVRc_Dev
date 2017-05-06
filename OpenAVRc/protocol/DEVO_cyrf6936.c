@@ -70,12 +70,12 @@ enum PktState {
 static int16_t bind_counter;
 static uint8_t DEVO_state;
 static uint8_t txState;
+static uint32_t DEVO_fixed_id;
 static uint8_t radio_ch[5];
 static uint8_t *radio_ch_ptr;
 static uint8_t pkt_num;
 //static uint8_t cyrfmfg_id[6];
 static uint8_t DEVO_num_channels;
-static uint8_t use_fixed_id;
 static uint8_t failsafe_pkt;
 
 
@@ -94,18 +94,15 @@ static void DEVO_add_pkt_suffix()
 {
   uint8_t bind_state;
 
-  if (use_fixed_id) {
     if (bind_counter > 0) bind_state = 0xc0;
     else bind_state = 0x80;
-  }
-  else bind_state = 0x00;
 
   packet[10] = bind_state | (PKTS_PER_CHANNEL - pkt_num - 1);
   packet[11] = *(radio_ch_ptr + 1);
   packet[12] = *(radio_ch_ptr + 2);
-  packet[13] = SpiRFModule.fixed_id  & 0xff;
-  packet[14] = (SpiRFModule.fixed_id >> 8) & 0xff;
-  packet[15] = (SpiRFModule.fixed_id >> 16) & 0xff;
+  packet[13] = DEVO_fixed_id  & 0xff;
+  packet[14] = (DEVO_fixed_id >> 8) & 0xff;
+  packet[15] = (DEVO_fixed_id >> 16) & 0xff;
 }
 
 
@@ -229,7 +226,7 @@ static void parse_telemetry_packet()
 
     scramble_pkt(); //This will unscramble the packet
     if (((packet[0] & 0xF0) != TELEMETRY_ENABLE) ||
-        ((((uint32_t)packet[15] << 16) | ((uint32_t)packet[14] << 8) | packet[13]) != (SpiRFModule.fixed_id & 0x00ffffff)))
+        ((((uint32_t)packet[15] << 16) | ((uint32_t)packet[14] << 8) | packet[13]) != (DEVO_fixed_id & 0x00ffffff)))
     {
         return;
     }
@@ -534,9 +531,7 @@ static uint16_t DEVO_cb()
 
 static void DEVO_bind()
 {
-  SpiRFModule.fixed_id = 1234; // todo Model.fixed_id;
   bind_counter = DEVO_BIND_COUNT;
-  use_fixed_id = 1;
   PROTOCOL_SetBindState(0x1388 * 2400U / 1000); // 12 seconds.
 }
 
@@ -555,7 +550,6 @@ static void DEVO_initialize(void)
 
   set_radio_channels();
 
-  use_fixed_id = 0;
   failsafe_pkt = 0;
   radio_ch_ptr = radio_ch;
   CYRF_ConfigRFChannel(*radio_ch_ptr);
@@ -567,22 +561,12 @@ static void DEVO_initialize(void)
   pkt_num = 0;
   txState = 0;
 
-    if(1) { // ! Model.fixed_id) {
-        SpiRFModule.fixed_id = ((uint32_t)(radio_ch[0] ^ cyrfmfg_id[0] ^ cyrfmfg_id[3]) << 16)
-                 | ((uint32_t)(radio_ch[1] ^ cyrfmfg_id[1] ^ cyrfmfg_id[4]) << 8)
-                 | ((uint32_t)(radio_ch[2] ^ cyrfmfg_id[2] ^ cyrfmfg_id[5]) << 0);
-        SpiRFModule.fixed_id = SpiRFModule.fixed_id % 1000000;
-        bind_counter = DEVO_BIND_COUNT;
-        DEVO_state = DEVO_BIND;
-        PROTOCOL_SetBindState(0x1388 * 2400U / 1000U); // 12 seconds.
-    } else {
-        SpiRFModule.fixed_id = 1234; //Model.fixed_id;
-        use_fixed_id = 1;
+        DEVO_fixed_id = SpiRFModule.fixed_id;
         DEVO_state = DEVO_BOUND_1;
         bind_counter = 0;
         DEVO_set_bound_sop_code();
         CYRF_SetPower(7); // ToDo
-    }
+
 //    if (Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_ON) {
 //        CLOCK_StartTimer(2400, DEVO_telemetry_cb);
 //    } else {
@@ -593,7 +577,9 @@ static void DEVO_initialize(void)
 const void *DEVO_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
-    case PROTOCMD_INIT: DEVO_initialize(); return 0;
+    case PROTOCMD_INIT:
+      DEVO_initialize();
+      return 0;
     case PROTOCMD_DEINIT:
     case PROTOCMD_RESET:
     CLOCK_StopTimer();

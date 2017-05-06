@@ -33,11 +33,11 @@
 
 #include "../OpenAVRc.h"
 
-
-static uint8_t FRSKYD_state;
+static uint8_t Skyartec_state;
+static uint32_t Skyartec_fixed_id;
 static uint16_t bind_count;
-#define TX_ADDR (((SpiRFModule.fixed_id % 0x4000) >> 16) & 0xff)
-#define TX_CHANNEL ((SpiRFModule.fixed_id % 0x4000 >> 24) & 0xff)
+#define TX_ADDR ((Skyartec_fixed_id >> 16) & 0xff)
+#define TX_CHANNEL ((Skyartec_fixed_id >> 24) & 0xff)
 
 enum {
   SKYARTEC_PKT1 = 0,
@@ -53,7 +53,7 @@ static void skyartec_init()
   CC2500_Reset();
 
   CC2500_WriteReg(CC2500_16_MCSM2, 0x07);
-  CC2500_WriteReg(CC2500_17_MCSM1, 0x30);// Switch in idle FRSKYD_state after transmission
+  CC2500_WriteReg(CC2500_17_MCSM1, 0x30);// Switch in idle Skyartec_state after transmission
   CC2500_WriteReg(CC2500_1E_WOREVT1, 0x87);
   CC2500_WriteReg(CC2500_1F_WOREVT0, 0x6b);
   CC2500_WriteReg(CC2500_20_WORCTRL, 0xf8);
@@ -145,8 +145,8 @@ static void send_data_packet()
   }
   add_pkt_suffix();
   //for(uint16_t i = 0; i < 20; i++) printf("%02x ", packet[i]); printf("\n");
-  CC2500_WriteReg(CC2500_04_SYNC1, ((SpiRFModule.fixed_id >> 0) & 0xff));
-  CC2500_WriteReg(CC2500_05_SYNC0, ((SpiRFModule.fixed_id >> 8) & 0xff));
+  CC2500_WriteReg(CC2500_04_SYNC1, ((Skyartec_fixed_id >> 0) & 0xff));
+  CC2500_WriteReg(CC2500_05_SYNC0, ((Skyartec_fixed_id >> 8) & 0xff));
   CC2500_WriteReg(CC2500_09_ADDR, TX_ADDR);
   CC2500_WriteReg(CC2500_0A_CHANNR, TX_CHANNEL);
   CC2500_Strobe(CC2500_SFTX);
@@ -161,10 +161,10 @@ static void send_bind_packet()
   packet[1] = 0x7d;
   packet[2] = 0x01;
   packet[3] = 0x01;
-  packet[4] = (SpiRFModule.fixed_id >> 24) & 0xff;
-  packet[5] = (SpiRFModule.fixed_id >> 16) & 0xff;
-  packet[6] = (SpiRFModule.fixed_id >> 8)  & 0xff;
-  packet[7] = (SpiRFModule.fixed_id >> 0)  & 0xff;
+  packet[4] = (Skyartec_fixed_id >> 24) & 0xff;
+  packet[5] = (Skyartec_fixed_id >> 16) & 0xff;
+  packet[6] = (Skyartec_fixed_id >> 8)  & 0xff;
+  packet[7] = (Skyartec_fixed_id >> 0)  & 0xff;
   packet[8] = 0x00;
   packet[9] = 0x00;
   packet[10] = TX_ADDR;
@@ -186,12 +186,12 @@ static uint16_t skyartec_cb()
   heartbeat |= HEART_TIMER_PULSES;
   // SCHEDULE_MIXER_END((uint16_t) (6 *2) *8); // Todo
 
-  if (FRSKYD_state != SKYARTEC_PKT6) {
+  if (Skyartec_state != SKYARTEC_PKT6) {
     send_data_packet();
-    FRSKYD_state++;
+    Skyartec_state++;
   } else {
     if (--bind_count) send_bind_packet();
-    FRSKYD_state = SKYARTEC_PKT1;
+    Skyartec_state = SKYARTEC_PKT1;
   }
   dt = TCNT1 - OCR1A; // Calculate latency and jitter.
   return 12000 *2;
@@ -202,27 +202,9 @@ static void skyartec_initialize()
 {
   CLOCK_StopTimer();
   skyartec_init();
- // SpiRFModule.fixed_id = 0xb2c54a2f;
-// if (Model.SpiRFModule.fixed_id) {
-//   SpiRFModule.fixed_id ^= Model.SpiRFModule.fixed_id + (Model.SpiRFModule.fixed_id << 16);
-// } else {
-  uint32_t partnum = CC2500_ReadReg(0xF0);
-  uint32_t vernum = CC2500_ReadReg(0xF1);
-  SpiRFModule.fixed_id ^= partnum << 24;
-  SpiRFModule.fixed_id ^= vernum << 16;
-  SpiRFModule.fixed_id ^= (vernum << 4 | partnum >> 4) << 8;
-  SpiRFModule.fixed_id ^= (partnum << 4 | vernum >> 4) << 8;
-// }
-  if (0 == (SpiRFModule.fixed_id & 0xff000000))
-    SpiRFModule.fixed_id |= 0xb2;
-  if (0 == (SpiRFModule.fixed_id & 0x00ff0000))
-    SpiRFModule.fixed_id |= 0xc5;
-  if (0 == (SpiRFModule.fixed_id & 0x0000ff00))
-    SpiRFModule.fixed_id |= 0x4a;
-  if (0 == (SpiRFModule.fixed_id & 0x000000ff))
-    SpiRFModule.fixed_id |= 0x2f;
+  Skyartec_fixed_id = SpiRFModule.fixed_id;
   bind_count = 10000;
-  FRSKYD_state = SKYARTEC_PKT1;
+  Skyartec_state = SKYARTEC_PKT1;
 
   CLOCK_StartTimer(25000U *2, &skyartec_cb);
 }
@@ -248,9 +230,9 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
   case PROTOCMD_DEFAULT_NUMCHAN:
     return (void *)7L;
 //  case PROTOCMD_CURRENT_ID:
-//    return Model.SpiRFModule.fixed_id ? (void *)((unsigned long)Model.SpiRFModule.fixed_id) : 0;
-  case PROTOCMD_TELEMETRYSTATE:
-    return (void *)(long)PROTO_TELEM_UNSUPPORTED;
+//    return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;
+//  case PROTOCMD_TELEMETRYSkyartec_state:
+//    return (void *)(long)PROTO_TELEM_UNSUPPORTED;
   default:
     break;
   }
