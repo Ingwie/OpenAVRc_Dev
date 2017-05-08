@@ -146,7 +146,7 @@ void CYRF_ConfigRFChannel(uint8_t ch)
 
 void CYRF_SetPower(uint8_t power)
 {
-#define NO_POWER_AMP
+//#define NO_POWER_AMP
 #if defined(NO_POWER_AMP)
   power =7;
 #endif

@@ -31,7 +31,6 @@
 */
 
 
-
 #include "../OpenAVRc.h"
 
 #define PKTS_PER_CHANNEL 4
@@ -438,7 +437,7 @@ static uint16_t DEVO_telemetry_cb()
             CYRF_Reset();
             cyrf_init();
             DEVO_set_bound_sop_code();
-            CYRF_SetPower(7); // ToDo
+            CYRF_SetPower(TXPOWER_1); // ToDo
             CYRF_ConfigRFChannel(*radio_ch_ptr);
             //printf("Rst CYRF\n");
             delay = 1500;
@@ -448,7 +447,7 @@ static uint16_t DEVO_telemetry_cb()
                 /* exit binding state */
                 DEVO_state = DEVO_BOUND_3;
                 DEVO_set_bound_sop_code();
-                CYRF_SetPower(7); // ToDo
+                CYRF_SetPower(TXPOWER_1); // ToDo
             }
             if((pkt_num != 0) && (bind_counter == 0)) {
                 CYRF_SetTxRxMode(RX_EN); //Receive mode
@@ -459,7 +458,7 @@ static uint16_t DEVO_telemetry_cb()
         }
         if(pkt_num == 0) {
             //Keep tx power updated
-            CYRF_SetPower(Model.tx_power);
+            CYRF_SetPower(TXPOWER_1);
             radio_ch_ptr = radio_ch_ptr == &radio_ch[2] ? radio_ch : radio_ch_ptr + 1;
             CYRF_ConfigRFChannel(*radio_ch_ptr);
         }
@@ -515,11 +514,11 @@ static uint16_t DEVO_cb()
         /* exit binding state */
         DEVO_state = DEVO_BOUND_3;
         DEVO_set_bound_sop_code();
-        CYRF_SetPower(7); // ToDo
+        CYRF_SetPower(TXPOWER_1); // ToDo
     }
     if(pkt_num == 0) {
         //Keep tx power updated
-        CYRF_SetPower(7); // ToDo
+        CYRF_SetPower(TXPOWER_1); // ToDo
         radio_ch_ptr = radio_ch_ptr == &radio_ch[2] ? radio_ch : radio_ch_ptr + 1;
         CYRF_ConfigRFChannel(*radio_ch_ptr);
     }
@@ -565,7 +564,7 @@ static void DEVO_initialize(void)
         DEVO_state = DEVO_BOUND_1;
         bind_counter = 0;
         DEVO_set_bound_sop_code();
-        CYRF_SetPower(7); // ToDo
+        CYRF_SetPower(TXPOWER_1); // ToDo
 
 //    if (Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_ON) {
 //        CLOCK_StartTimer(2400, DEVO_telemetry_cb);

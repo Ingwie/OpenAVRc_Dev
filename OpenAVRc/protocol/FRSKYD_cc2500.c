@@ -238,7 +238,7 @@ static uint16_t FRSKYD_data_cb()
       }
 
       if(packet_number & 0x1F) {
-        CC2500_SetPower(5); // TODO update power level.
+        CC2500_SetPower(TXPOWER_1); // TODO update power level.
         CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) 0); // TODO Update fine frequency value.
       }
 

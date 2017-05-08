@@ -60,7 +60,8 @@ static void skyartec_init()
   CC2500_WriteReg(CC2500_2A_PTEST, 0x7f);
   CC2500_WriteReg(CC2500_2B_AGCTEST, 0x3f);
   CC2500_WriteReg(CC2500_0B_FSCTRL1, 0x09);
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, 0x00);
+  // static const s8 fine = 0;
+  CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) 0); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
   CC2500_WriteReg(CC2500_0D_FREQ2, 0x5d);
   CC2500_WriteReg(CC2500_0E_FREQ1, 0x93);
   CC2500_WriteReg(CC2500_0F_FREQ0, 0xb1);
@@ -94,7 +95,7 @@ static void skyartec_init()
   CC2500_WriteReg(CC2500_04_SYNC1, 0x13);
   CC2500_WriteReg(CC2500_05_SYNC0, 0x18);
   CC2500_SetTxRxMode(TX_EN);
-  CC2500_SetPower(TXPOWER_6);
+  CC2500_SetPower(TXPOWER_1);
   CC2500_Strobe(CC2500_SFTX);
   CC2500_Strobe(CC2500_SFRX);
   CC2500_Strobe(CC2500_SXOFF);
@@ -126,20 +127,20 @@ static void send_data_packet()
 
   // Each channel has a minimum of '0' and a maximum of 1280 (0x500).
 
-  uint8_t num_chan = 8 + (g_model.ppmNCH *2);
-  if(num_chan > 7) num_chan = 7;
+  //uint8_t num_chan = 8 + (g_model.ppmNCH *2);
+  //if(num_chan > 7) num_chan = 7;
 
   int16_t value;
 
   for(uint8_t i = 0; i < 7; i++) {
-    if(i < num_chan) {
-      value = channelOutputs[i];
+    //if(i < num_chan) {
+      value = channelOutputs[i];//* 0x280 / 0x500 + 0x280; // 0X500 = +125%
       value /= 2;
       value = limit((int16_t)-640, value, (int16_t)+640);
       value += 0x280; // 640.
-    } else {
+    /*} else {
       value = 0x280;
-    }
+    }*/
     packet[3+2*i] = value >> 8;
     packet[4+2*i] = value & 0xff;
   }
@@ -206,7 +207,7 @@ static void skyartec_initialize()
   bind_count = 10000;
   Skyartec_state = SKYARTEC_PKT1;
 
-  CLOCK_StartTimer(25000U *2, &skyartec_cb);
+  CLOCK_StartTimer(25000U *2, skyartec_cb);
 }
 
 const void *SKYARTEC_Cmds(enum ProtoCmds cmd)

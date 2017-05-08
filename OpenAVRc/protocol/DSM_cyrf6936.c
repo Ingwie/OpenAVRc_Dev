@@ -164,6 +164,8 @@ static const uint8_t pncodes[5][9][8] = {
 //static const uint8_t pn_bind_receive1[] = {0x98, 0x88, 0x1B, 0xE4, 0x30, 0x79, 0x03, 0x84, 0x06, 0x0C, 0x12, 0x18, 0x1E, 0x24, 0x71, 0x10};
 //static const uint8_t pn_bind_receive2[] = {0x98, 0x88, 0x1B, 0xE4, 0x30, 0x79, 0x03, 0x84, 0xC9, 0x2C, 0x06, 0x93, 0x86, 0xB9, 0x9E, 0xD7};
 
+static uint32_t DSM_fixed_id;
+
 //up to 7 channels
 static const uint8_t ch_map7[] =  {1, 5, 2, 3, 0,  4,    6}; //DX6i
 //from 8 channels up to 12 channels
@@ -255,11 +257,11 @@ static void build_data_packet(uint8_t upper)
        if ((chmap[upper*7 + i] == 0xff) || ((num_channels > 7) && (chmap[upper*7 + i] > num_channels - 1))) {
            value = 0xffff;
        } else {
-           /*if (binding && Model.limits[idx].flags & CH_FAILSAFE_EN) {
-               value = (int32_t)Model.limits[idx].failsafe * (pct_100 / 2) / 100 + (max / 2);
-           } else {
-               value = (int32_t)Channels[idx] * (pct_100 / 2) / CHAN_MAX_VALUE + (max / 2);
-           }*/
+           //if (binding && Model.limits[idx].flags & CH_FAILSAFE_EN) {
+           //    value = (int32_t)Model.limits[idx].failsafe * (pct_100 / 2) / 100 + (max / 2);
+           //} else {
+               value = (int32_t)channelOutputs[idx] * (pct_100 / 2) / CHAN_MAX_VALUE + (max / 2);
+           //}
            if (value >= max)
                value = max - 1;
            else if (value < 0)
@@ -273,7 +275,7 @@ static void build_data_packet(uint8_t upper)
 
 static const uint8_t init_vals[][2] = {
     //{CYRF_1D_MODE_OVERRIDE, 0x01},  //moved to CYRF_Reset()
-    {CYRF_03_TX_CFG, 0x38 | 7},     //Data Code Length = 64 chip codes + Data Mode = SDR Mode + max-power(+4 dBm)
+    {CYRF_03_TX_CFG, 0x38 | TXPOWER_1},     //Data Code Length = 64 chip codes + Data Mode = SDR Mode + (todo,was)max-power(+4 dBm)
     {CYRF_06_RX_CFG, 0x4A},         //LNA + FAST TURN EN + RXOW EN, enable low noise amplifier, fast turning, overwrite enable
     {CYRF_12_DATA64_THOLD, 0x0a},   //TH64 = 0Ah, set pn correlation threshold (0Eh???)
     {CYRF_1B_TX_OFFSET_LSB, 0x55},  //STRIM LSB = 0x55, typical configuration
@@ -294,7 +296,7 @@ static void cyrf_startup_config()
 }
 
 static const uint8_t bind_vals[][2] = {
-    {CYRF_03_TX_CFG, 0x38 | 7},  //Data Code Length = 64 chip codes + Data Mode = SDR Mode + max-power(+4 dBm)
+    {CYRF_03_TX_CFG, 0x38 | TXPOWER_1},  //Data Code Length = 64 chip codes + Data Mode = SDR Mode + max-power(+4 dBm)
     {CYRF_10_FRAMING_CFG, 0x4a}, //SOP LEN + SOP TH = 0Ah (0Eh???)
     {CYRF_1E_RX_OVERRIDE, 0x14}, //FRC RXDR + DIS RXCRC (disable rx CRC)
     {CYRF_1F_TX_OVERRIDE, 0x04}, //DIS TXCRC (disable tx CRC)
@@ -321,7 +323,7 @@ static const uint8_t transfer_vals[][2] = {
     //{CYRF_29_RX_ABORT, 0x20},    //RX abort anable                   (RX mode abort in time Rx bind responce)
     //{CYRF_0F_XACT_CFG, 0x28},    //Force end state = Synth Mode (TX) (RX mode abort in time Rx bind responce)
     //{CYRF_29_RX_ABORT, 0x00},    //Clear RX abort                    (RX mode abort in time Rx bind responce)
-    {CYRF_03_TX_CFG, 0x28 | 7},  //Data Code Length = 64 chip codes + Data Mode = 8DR Mode + max-power(+4 dBm)
+    {CYRF_03_TX_CFG, 0x28 | TXPOWER_1},  //Data Code Length = 64 chip codes + Data Mode = 8DR Mode + (todo,was)max-power(+4 dBm)
     {CYRF_10_FRAMING_CFG, 0xea}, //SOP EN + SOP LEN = 64 chips + LEN EN + SOP TH = 0Ah (0Eh???)
     {CYRF_1E_RX_OVERRIDE, 0x00}, //Reset RX overrides
     {CYRF_1F_TX_OVERRIDE, 0x00}, //Reset TX overrides
@@ -363,7 +365,7 @@ static void set_sop_data_crc()
 static void calc_dsmx_channel()
 {
     uint8_t idx = 0;
-    uint32_t id = ~((cyrfmfg_id[0] << 24) | (cyrfmfg_id[1] << 16) | (cyrfmfg_id[2] << 8) | (cyrfmfg_id[3] << 0));
+    uint32_t id = ~(((uint32_t)cyrfmfg_id[0] << 24) | ((uint32_t)cyrfmfg_id[1] << 16) | ((uint32_t)cyrfmfg_id[2] << 8) | (cyrfmfg_id[3] << 0));
     uint32_t id_tmp = id;
     while(idx < 23) {
         uint8_t i;
@@ -619,9 +621,9 @@ static uint32_t pkt32_to_coord(uint8_t *ptr)
 MODULE_CALLTYPE
 static uint16_t dsm2_cb()
 {
-#define CH1_CH2_DELAY 4010  // Time between write of channel 1 and channel 2
-#define WRITE_DELAY   1550  // Time after write to verify write complete
-#define READ_DELAY     600  // Time before write to check read state, and switch channels.
+#define CH1_CH2_DELAY 4010*2  // Time between write of channel 1 and channel 2
+#define WRITE_DELAY   1550*2  // Time after write to verify write complete
+#define READ_DELAY     600*2  // Time before write to check read state, and switch channels.
                             // Telemetry read+processing =~200us and switch channels =~300us
     if(state < DSM2_CHANSEL) {
         //Binding
@@ -630,11 +632,11 @@ static uint16_t dsm2_cb()
             //Send packet on even states
             //Note state has already incremented, so this is actually 'even' state
             CYRF_WriteDataPacket(packet);
-            return 8500;
+            return 8500*2;
         } else {
             //Check status on odd states
             CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS);
-            return 1500;
+            return 1500*2;
         }
     } else if(state < DSM2_CH1_WRITE_A) {
         //Select channels and configure for writing data
@@ -645,7 +647,7 @@ static uint16_t dsm2_cb()
         crcidx = 0;
         state = DSM2_CH1_WRITE_A;
         set_sop_data_crc();
-        return 10000;
+        return 10000*2;
     } else if(state == DSM2_CH1_WRITE_A || state == DSM2_CH1_WRITE_B
            || state == DSM2_CH2_WRITE_A || state == DSM2_CH2_WRITE_B)
     {
@@ -682,25 +684,25 @@ static uint16_t dsm2_cb()
         }
         if (state == DSM2_CH2_CHECK_A) {
             //Keep transmit power in sync
-            CYRF_WriteRegister(CYRF_03_TX_CFG, 0x28 | SpiRFModule.tx_power); //Data Code Length = 64 chip codes + Data Mode = 8DR Mode + tx_power
+            CYRF_WriteRegister(CYRF_03_TX_CFG, 0x28 | TXPOWER_1); //Data Code Length = 64 chip codes + Data Mode = 8DR Mode + tx_power
         }
         if (1) /*(Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_OFF)*/ {
             set_sop_data_crc();
             if (state == DSM2_CH2_CHECK_A) {
                 if(num_channels < 8) {
                     state = DSM2_CH1_WRITE_A;
-                    return 22000 - CH1_CH2_DELAY - WRITE_DELAY;
+                    return 22000*2 - CH1_CH2_DELAY - WRITE_DELAY;
                 }
                 state = DSM2_CH1_WRITE_B;
             } else {
                 state = DSM2_CH1_WRITE_A;
             }
-            return 11000 - CH1_CH2_DELAY - WRITE_DELAY;
+            return 11000*2 - CH1_CH2_DELAY - WRITE_DELAY;
         } else {
             state++;
             CYRF_SetTxRxMode(RX_EN); //Receive mode
             CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x80); //Prepare to receive
-            return 11000 - CH1_CH2_DELAY - WRITE_DELAY - READ_DELAY;
+            return 11000*2 - CH1_CH2_DELAY - WRITE_DELAY - READ_DELAY;
         }
     } else if(state == DSM2_CH2_READ_A || state == DSM2_CH2_READ_B) {
         //Read telemetry if needed
@@ -724,7 +726,7 @@ static uint16_t dsm2_cb()
                     break;
             }
             CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x80);  //Prepare to receive
-            return 11000;
+            return 11000*2;
         }
         if (state == DSM2_CH2_READ_A)
             state = DSM2_CH1_WRITE_B;
@@ -740,16 +742,17 @@ static uint16_t dsm2_cb()
 static void DSM_initialize(uint8_t bind)
 {
     CLOCK_StopTimer();
+    DSM_fixed_id = SpiRFModule.fixed_id;
     CYRF_Reset();
     cyrf_startup_config();
 
 #ifndef USE_FIXED_MFGID
     CYRF_GetMfgData(cyrfmfg_id);
-    if (SpiRFModule.fixed_id) {
-        cyrfmfg_id[0] ^= (SpiRFModule.fixed_id >> 0) & 0xff;
-        cyrfmfg_id[1] ^= (SpiRFModule.fixed_id >> 8) & 0xff;
-        cyrfmfg_id[2] ^= (SpiRFModule.fixed_id >> 16) & 0xff;
-        cyrfmfg_id[3] ^= (SpiRFModule.fixed_id >> 24) & 0xff;
+    if (DSM_fixed_id) {
+        cyrfmfg_id[0] ^= (DSM_fixed_id >> 0) & 0xff;
+        cyrfmfg_id[1] ^= (DSM_fixed_id >> 8) & 0xff;
+        cyrfmfg_id[2] ^= (DSM_fixed_id >> 16) & 0xff;
+        cyrfmfg_id[3] ^= (DSM_fixed_id >> 24) & 0xff;
     }
 #endif
     if (Protos[g_model.header.modelId].Protocol == PROTOCOL_DSMX) {
@@ -768,9 +771,9 @@ static void DSM_initialize(uint8_t bind)
             channels[1] = tmpch[idx];*/
         } else {
             channels[0] = (cyrfmfg_id[0] + cyrfmfg_id[2] + cyrfmfg_id[4]
-                          + ((SpiRFModule.fixed_id >> 0) & 0xff) + ((SpiRFModule.fixed_id >> 16) & 0xff)) % 39 + 1;
+                          + ((DSM_fixed_id >> 0) & 0xff) + ((DSM_fixed_id >> 16) & 0xff)) % 39 + 1;
             channels[1] = (cyrfmfg_id[1] + cyrfmfg_id[3] + cyrfmfg_id[5]
-                          + ((SpiRFModule.fixed_id >> 8) & 0xff) + ((SpiRFModule.fixed_id >> 8) & 0xff)) % 40 + 40;
+                          + ((DSM_fixed_id >> 8) & 0xff) + ((DSM_fixed_id >> 8) & 0xff)) % 40 + 40;
         }
         //printf("DSM2 Channels: %02x %02x\n", channels[0], channels[1]);
     }
@@ -791,7 +794,7 @@ static void DSM_initialize(uint8_t bind)
         binding = 0;
     }
     CYRF_SetTxRxMode(TX_EN);
-    CLOCK_StartTimer(25000, dsm2_cb);
+    CLOCK_StartTimer(25000*2, dsm2_cb);
 }
 
 const void *DSM_Cmds(enum ProtoCmds cmd)
