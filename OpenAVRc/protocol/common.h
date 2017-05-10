@@ -54,9 +54,6 @@ uint8_t packet[40]; //protocol global packet
 #define TELEM_OFF 0
 
 #define PROTO_TELEM_UNSUPPORTED -1
-#define MODULE_CALLTYPE
-//#define UNIMOD 1 // MPX Serial input.
-//#define UNIMOD 2 // PPM input capture.
 
 //extern struct Model Model;
 
