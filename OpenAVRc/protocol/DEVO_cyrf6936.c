@@ -560,11 +560,12 @@ static void DEVO_initialize(void)
   pkt_num = 0;
   txState = 0;
 
-        DEVO_fixed_id = SpiRFModule.fixed_id;
-        DEVO_state = DEVO_BOUND_1;
-        bind_counter = 0;
-        DEVO_set_bound_sop_code();
-        CYRF_SetPower(TXPOWER_1); // ToDo
+  DEVO_fixed_id = SpiRFModule.fixed_id % 1000000;
+  // use_fixed_id = 1;
+  bind_counter = DEVO_BIND_COUNT;
+  DEVO_state = DEVO_BIND;
+  PROTOCOL_SetBindState(0x1388 * 2400U / 1000U); // 12 seconds.
+  CYRF_SetPower(TXPOWER_1); // ToDo
 
 //    if (Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_ON) {
 //        CLOCK_StartTimer(2400, DEVO_telemetry_cb);
