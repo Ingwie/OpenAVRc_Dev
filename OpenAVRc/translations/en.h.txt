@@ -339,10 +339,10 @@
 
 #define TR_STICKS_VSRCRAW      TR("Rud\0""Ele\0""Thr\0""Ail\0", "\307Rud""\307Ele""\307Thr""\307Ail")
 #define TR_TRIMS_VSRCRAW       TR("TrmR""TrmE""TrmT""TrmA", "\313Rud""\313Ele""\313Thr""\313Ail")
- 
+
   #define TR_POTS_VSRCRAW      "P1\0 ""P2\0 ""P3\0 "
   #define TR_SW_VSRCRAW        "3POS"
-  
+
 #if defined(REV_EVO_V1)
 #define TR_9X_3POS_SWITCHES  "Jup""Jmi""Jdn"
 #else
@@ -725,6 +725,7 @@
 #define TR_RESET_TIMER3        "Reset Timer3"
 #define TR_RESET_TELEMETRY     "Reset Telemetry"
 #define TR_STATISTICS          "Statistics"
+#define TR_SAVE_TIMERS        "Save Timers"
 #define TR_ABOUT_US            "About"
 #define TR_AND_SWITCH          "AND Switch"
 #define TR_SF                  "SF"

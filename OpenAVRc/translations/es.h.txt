@@ -728,6 +728,7 @@
 #define TR_RESET_TIMER3        "Reset Reloj3"
 #define TR_RESET_TELEMETRY     "Reset Telemetria"
 #define TR_STATISTICS          "Estadisticas"
+#define TR_SAVE_TIMERS         "Guarda Timers"
 #define TR_ABOUT_US            "Nosotros"
 #define TR_AND_SWITCH          "AND Inter."
 #define TR_SF                  "CF"

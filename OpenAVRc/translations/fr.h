@@ -729,6 +729,7 @@
 #define TR_RESET_TIMER3        TR("R\200init. Timer3", "R\200initialiser Timer3")
 #define TR_RESET_TELEMETRY     TR("R\200init. T\200l\200m.", "R\200init. T\200l\200mesure")
 #define TR_STATISTICS          "Statistiques"
+#define TR_SAVE_TIMERS         "Garder Timers"
 #define TR_ABOUT_US            "A propos"
 #define TR_AND_SWITCH          "ET suppl."
 #define TR_SF                  "FS"

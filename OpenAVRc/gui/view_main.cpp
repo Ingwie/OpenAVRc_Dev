@@ -207,8 +207,13 @@ void onMainViewMenu(const char *result)
 {
   if (result == STR_RESET_TIMER1) {
     timerReset(0);
-  } else if (result == STR_RESET_TIMER2) {
+  }
+  else if (result == STR_RESET_TIMER2) {
     timerReset(1);
+  }
+  else if (result == STR_SAVE_TIMERS) {
+    //saveTimers();
+    OpenAVRcClose();
   }
 #if TIMERS > 2
   else if (result == STR_RESET_TIMER3) {
@@ -222,7 +227,8 @@ void onMainViewMenu(const char *result)
 #endif
   else if (result == STR_RESET_FLIGHT) {
     flightReset();
-  } else if (result == STR_STATISTICS) {
+  }
+  else if (result == STR_STATISTICS) {
     chainMenu(menuStatisticsView);
   }
 }
@@ -272,8 +278,8 @@ void menuMainView(uint8_t event)
     POPUP_MENU_ADD_ITEM(STR_RESET_TELEMETRY);
 #endif
     POPUP_MENU_ADD_ITEM(STR_RESET_FLIGHT);
-
     POPUP_MENU_ADD_ITEM(STR_STATISTICS);
+    POPUP_MENU_ADD_ITEM(STR_SAVE_TIMERS);
     popupMenuHandler = onMainViewMenu;
     break;
 #endif

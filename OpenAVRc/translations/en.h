@@ -716,6 +716,7 @@
 #define TR_RESET_TIMER3        "Reset Timer3"
 #define TR_RESET_TELEMETRY     "Reset Telemetry"
 #define TR_STATISTICS          "Statistics"
+#define TR_SAVE_TIMERS        "Save Timers"
 #define TR_ABOUT_US            "About"
 #define TR_AND_SWITCH          "AND Switch"
 #define TR_SF                  "SF"
