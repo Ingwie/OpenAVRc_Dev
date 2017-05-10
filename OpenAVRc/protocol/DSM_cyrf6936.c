@@ -691,7 +691,7 @@ static uint16_t dsm2_cb()
             if (state == DSM2_CH2_CHECK_A) {
                 if(num_channels < 8) {
                     state = DSM2_CH1_WRITE_A;
-                    return 22000*2 - CH1_CH2_DELAY - WRITE_DELAY;
+                    return 22000U *2 - CH1_CH2_DELAY - WRITE_DELAY;
                 }
                 state = DSM2_CH1_WRITE_B;
             } else {
@@ -794,7 +794,7 @@ static void DSM_initialize(uint8_t bind)
         binding = 0;
     }
     CYRF_SetTxRxMode(TX_EN);
-    CLOCK_StartTimer(25000*2, dsm2_cb);
+    CLOCK_StartTimer(25000U *2, dsm2_cb);
 }
 
 const void *DSM_Cmds(enum ProtoCmds cmd)
