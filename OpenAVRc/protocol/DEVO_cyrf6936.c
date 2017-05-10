@@ -93,8 +93,13 @@ static void DEVO_add_pkt_suffix()
 {
   uint8_t bind_state;
 
-    if (bind_counter > 0) bind_state = 0xc0;
+#define TEMPORARY_BIND 1 // For Ladybird Quad.
+
+  if (!TEMPORARY_BIND) {
+    if (bind_counter > 0) bind_state = 0xC0;
     else bind_state = 0x80;
+  }
+  else bind_state = 0x00;
 
   packet[10] = bind_state | (PKTS_PER_CHANNEL - pkt_num - 1);
   packet[11] = *(radio_ch_ptr + 1);
