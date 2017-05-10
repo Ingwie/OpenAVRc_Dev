@@ -355,21 +355,21 @@ const void * FRSKYV_Cmds(enum ProtoCmds cmd)
 //            return (void *)(CC2500_Reset() ? 1L : -1L);
   case PROTOCMD_RESET:
     CLOCK_StopTimer();
-  case PROTOCMD_CHECK_AUTOBIND:
-    return 0; //Never Autobind.
+    return 0;
+  //case PROTOCMD_CHECK_AUTOBIND:
+    //return 0; //Never Autobind.
   case PROTOCMD_BIND:
-    SpiRFModule.mode = BIND_MODE; // TODO
     FRSKYV_initialise(1);
     return 0;
-  case PROTOCMD_NUMCHAN:
-    return (void *)8L;
-  case PROTOCMD_DEFAULT_NUMCHAN:
-    return (void *)8L;
+  //case PROTOCMD_NUMCHAN:
+    //return (void *)8L;
+  //case PROTOCMD_DEFAULT_NUMCHAN:
+    //return (void *)8L;
 //        case PROTOCMD_CURRENT_ID: return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id % 0x4000) : 0;
-  case PROTOCMD_GETOPTIONS:
-    return FRSKYV_opts;
-  case PROTOCMD_TELEMETRYSTATE:
-    return (void *)(long) PROTO_TELEM_UNSUPPORTED;
+  //case PROTOCMD_GETOPTIONS:
+    //return FRSKYV_opts;
+  //case PROTOCMD_TELEMETRYSTATE:
+    //return (void *)(long) PROTO_TELEM_UNSUPPORTED;
   default:
     break;
   }

@@ -216,20 +216,20 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
   case PROTOCMD_INIT:
     skyartec_initialize();
     return 0;
-  case PROTOCMD_DEINIT:
+  //case PROTOCMD_DEINIT:
   case PROTOCMD_RESET:
     CLOCK_StopTimer();
     //return (void *)(CC2500_Reset() ? 1L : -1L);
-    return (void *) 1L;
-  case PROTOCMD_CHECK_AUTOBIND:
-    return (void *)1L; // Always Autobind
+    return 0;
+  //case PROTOCMD_CHECK_AUTOBIND:
+    //return (void *)1L; // Always Autobind
   case PROTOCMD_BIND:
     skyartec_initialize();
     return 0;
-  case PROTOCMD_NUMCHAN:
-    return (void *)7L;
-  case PROTOCMD_DEFAULT_NUMCHAN:
-    return (void *)7L;
+  //case PROTOCMD_NUMCHAN:
+    //return (void *)7L;
+  //case PROTOCMD_DEFAULT_NUMCHAN:
+    //return (void *)7L;
 //  case PROTOCMD_CURRENT_ID:
 //    return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;
 //  case PROTOCMD_TELEMETRYSkyartec_state:
