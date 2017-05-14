@@ -317,7 +317,7 @@ static void FRSKYD_initialize(uint8_t bind)
 {
   CLOCK_StopTimer();
 
-  frsky_id = SpiRFModule.fixed_id >> 16;
+  frsky_id = SpiRFModule.fixed_id % 0x4000;
 
   // Build channel array.
   channel_offset = frsky_id % 5;
@@ -347,6 +347,7 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
   //case PROTOCMD_CHECK_AUTOBIND:
     //return 0; // Never Autobind
   case PROTOCMD_BIND:
+    SpiRFModule.mode = BIND_MODE; // TODO
     FRSKYD_initialize(1);
     return 0;
   case PROTOCMD_RESET:

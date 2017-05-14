@@ -44,7 +44,7 @@
 
 #define MODEL 0
 
-#define NUM_WAIT_LOOPS (100 )// 5) //each loop is ~5us.  Do not wait more than 100us
+#define NUM_WAIT_LOOPS (100 )// 5) //each loop is ~5us.  Do not wait more than 100us TODO : better wait function
 
 static const char * const dsm_opts[] = {
     _tr_noop("Telemetry"),  _tr_noop("Off"), _tr_noop("On"), NULL,
