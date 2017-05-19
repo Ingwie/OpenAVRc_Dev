@@ -36,15 +36,17 @@
 #define PKTS_PER_CHANNEL 4
 #define DEVO_BIND_COUNT 0x1388 // 12 seconds.
 #define TELEMETRY_ENABLE 0x30
-#define NUM_WAIT_LOOPS (100 / 5) // Each loop is ~5us.  Do not wait more than 100us
+#define DEVO_NUM_WAIT_LOOPS (100 / 5) // Each loop is ~5us.  Do not wait more than 100us
 
 static const char * const DEVO_opts[] = {
   _tr_noop("Telemetry"),  _tr_noop("On"), _tr_noop("Off"), NULL,
+  _tr_noop("Bind_type"),  _tr_noop("Temp"), _tr_noop("Perm"), NULL,
   NULL
 };
 
 enum {
   DEVO_OPT_TELEMETRY = 0,
+  DEVO_OPT_BIND_TYPE,
   DEVO_OPT_LAST,
 };
 //ctassert(LAST_PROTO_OPT <= NUM_PROTO_OPTS, too_many_protocol_opts);
@@ -435,7 +437,7 @@ static uint16_t DEVO_telemetry_cb()
         int i = 0;
         uint8_t reg;
         while (! ((reg = CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS)) & 0x02)) {
-            if (++i >= NUM_WAIT_LOOPS)
+            if (++i >= DEVO_NUM_WAIT_LOOPS)
                 break;
         }
         if (((reg & 0x22) == 0x20) || (CYRF_ReadRegister(CYRF_02_TX_CTRL) & 0x80)) {
@@ -512,7 +514,7 @@ static uint16_t DEVO_cb()
     txState = 0;
 //    uint8_t i = 0;
 //    while (! (CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS) & 0x02)) {
-//        if(++i > NUM_WAIT_LOOPS)
+//        if(++i > DEVO_NUM_WAIT_LOOPS)
 //            return 1200;
 //    }
     if (DEVO_state == DEVO_BOUND) {
