@@ -58,6 +58,11 @@ uint8_t stickMode;
 safetych_t safetyCh[NUM_CHNOUT];
 #endif
 
+#if defined(SPIMODULES)
+struct Module SpiRFModule;
+uint8_t packet[40]; //protocol global packet
+#endif // defined
+
 union ReusableBuffer reusableBuffer;
 
 const pm_uint8_t bchout_ar[] PROGMEM = {
