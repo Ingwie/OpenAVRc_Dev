@@ -613,6 +613,11 @@ static uint16_t dsm2_cb()
 #define WRITE_DELAY   1550*2  // Time after write to verify write complete
 #define READ_DELAY     600*2  // Time before write to check read state, and switch channels.
                             // Telemetry read+processing =~200us and switch channels =~300us
+
+  heartbeat |= HEART_TIMER_PULSES; // Todo better placeto find
+  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+
+
     if(state < DSM2_CHANSEL) {
         //Binding
         state += 1;
@@ -784,7 +789,6 @@ static void DSM_initialize(uint8_t bind)
 
 const void *DSM_Cmds(enum ProtoCmds cmd)
 {
-      wdt_disable();
 switch(cmd) {
         case PROTOCMD_INIT:
           DSM_initialize(0);
@@ -793,6 +797,7 @@ switch(cmd) {
         case PROTOCMD_RESET:
             CLOCK_StopTimer();
             CYRF_Reset();
+            return 0;
         //case PROTOCMD_CHECK_AUTOBIND: return 0; //Never Autobind
         case PROTOCMD_BIND:
           DSM_initialize(1);
