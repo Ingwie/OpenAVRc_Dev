@@ -317,6 +317,42 @@ static void parse_telemetry_packet()
 }
 #endif
 
+static void CYRF_PROGMEM_Config_DEVO_J6PRO_sopcodes(uint8_t sopidx)
+{
+  static const uint8_t DEVO_J6PRO_sopcodes[][8] PROGMEM = {
+    /* Note these are in order transmitted (LSB 1st) */
+    {0x3C, 0x37, 0xCC, 0x91, 0xE2, 0xF8, 0xCC, 0x91},
+    {0x9B, 0xC5, 0xA1, 0x0F, 0xAD, 0x39, 0xA2, 0x0F},
+    {0xEF, 0x64, 0xB0, 0x2A, 0xD2, 0x8F, 0xB1, 0x2A},
+    {0x66, 0xCD, 0x7C, 0x50, 0xDD, 0x26, 0x7C, 0x50},
+    {0x5C, 0xE1, 0xF6, 0x44, 0xAD, 0x16, 0xF6, 0x44},
+    {0x5A, 0xCC, 0xAE, 0x46, 0xB6, 0x31, 0xAE, 0x46},
+    {0xA1, 0x78, 0xDC, 0x3C, 0x9E, 0x82, 0xDC, 0x3C},
+    {0xB9, 0x8E, 0x19, 0x74, 0x6F, 0x65, 0x18, 0x74},
+    {0xDF, 0xB1, 0xC0, 0x49, 0x62, 0xDF, 0xC1, 0x49},
+    {0x97, 0xE5, 0x14, 0x72, 0x7F, 0x1A, 0x14, 0x72},
+    {0x82, 0xC7, 0x90, 0x36, 0x21, 0x03, 0xFF, 0x17},
+    {0xE2, 0xF8, 0xCC, 0x91, 0x3C, 0x37, 0xCC, 0x91}, //Note: the '03' was '9E' in the Cypress recommended table
+    {0xAD, 0x39, 0xA2, 0x0F, 0x9B, 0xC5, 0xA1, 0x0F}, //The following are the same as the 1st 8 above,
+    {0xD2, 0x8F, 0xB1, 0x2A, 0xEF, 0x64, 0xB0, 0x2A}, //but with the upper and lower word swapped
+    {0xDD, 0x26, 0x7C, 0x50, 0x66, 0xCD, 0x7C, 0x50},
+    {0xAD, 0x16, 0xF6, 0x44, 0x5C, 0xE1, 0xF6, 0x44},
+    {0xB6, 0x31, 0xAE, 0x46, 0x5A, 0xCC, 0xAE, 0x46},
+    {0x9E, 0x82, 0xDC, 0x3C, 0xA1, 0x78, 0xDC, 0x3C},
+    {0x6F, 0x65, 0x18, 0x74, 0xB9, 0x8E, 0x19, 0x74},
+  };
+
+  uint8_t code[8];
+  uint_farptr_t pdata;
+  pdata =  pgm_get_far_address(DEVO_J6PRO_sopcodes);
+
+  for(uint8_t i=0; i<8; i++) {
+//  code[i] = pgm_read_byte_far(&DEVO_J6PRO_sopcodes[sopidx][i]); // This works too. Yes, with little size firmware
+    code[i] = pgm_read_byte_far(pdata +(sopidx *8) +i);
+  }
+  CYRF_ConfigSOPCode(code);
+}
+
 static void DEVO_set_bound_sop_code()
 {
   // crc == 0 isn't allowed, so use 1 if the math results in 0.
@@ -334,24 +370,34 @@ static void DEVO_set_bound_sop_code()
 static void DEVO_init()
 {
   // Initialise CYRF chip.
-  CYRF_WriteRegister(CYRF_1D_MODE_OVERRIDE, 0x38);  //FRC SEN (forces the synthesizer to start) + FRC AWAKE (force the oscillator to keep running at all times)
-  CYRF_WriteRegister(CYRF_03_TX_CFG, 0x08 | 7);     //Data Code Length = 32 chip codes + Data Mode = 8DR Mode + max-power(+4 dBm)
-  CYRF_WriteRegister(CYRF_06_RX_CFG, 0x4A);         //LNA + FAST TURN EN + RXOW EN, enable low noise amplifier, fast turning, overwrite enable
-  CYRF_WriteRegister(CYRF_0B_PWR_CTRL, 0x00);       //Reset power control
-  CYRF_WriteRegister(CYRF_10_FRAMING_CFG, 0xA4);    //SOP EN + SOP LEN = 32 chips + LEN EN + SOP TH = 04h
-  CYRF_WriteRegister(CYRF_11_DATA32_THOLD, 0x05);   //TH32 = 0x05
-  CYRF_WriteRegister(CYRF_12_DATA64_THOLD, 0x0E);   //TH64 = 0Eh, set pn correlation threshold
-  CYRF_WriteRegister(CYRF_1B_TX_OFFSET_LSB, 0x55);  //STRIM LSB = 0x55, typical configuration
-  CYRF_WriteRegister(CYRF_1C_TX_OFFSET_MSB, 0x05);  //STRIM MSB = 0x05, typical configuration
-  CYRF_WriteRegister(CYRF_32_AUTO_CAL_TIME, 0x3C);  //AUTO_CAL_TIME = 3Ch, typical configuration
-  CYRF_WriteRegister(CYRF_35_AUTOCAL_OFFSET, 0x14); //AUTO_CAL_OFFSET = 14h, typical configuration
-  CYRF_WriteRegister(CYRF_39_ANALOG_CTRL, 0x01);    //ALL SLOW
-  CYRF_WriteRegister(CYRF_1E_RX_OVERRIDE, 0x10);    //FRC RXDR (Force Receive Data Rate)
-  CYRF_WriteRegister(CYRF_1F_TX_OVERRIDE, 0x00);    //Reset TX overrides
-  CYRF_WriteRegister(CYRF_01_TX_LENGTH, 0x10);      //TX Length = 16 byte packet
-  CYRF_WriteRegister(CYRF_27_CLK_OVERRIDE, 0x02);   //RXF, force receive clock
-  CYRF_WriteRegister(CYRF_28_CLK_EN, 0x02);         //RXF, force receive clock enable
-  CYRF_WriteRegister(CYRF_0F_XACT_CFG, 0x28);       // Pascallanger - Not in Deviation
+  const static uint8_t ZZ_DEVOInitSequence[] PROGMEM = {
+  CYRF_1D_MODE_OVERRIDE, 0x38,  //FRC SEN (forces the synthesizer to start) + FRC AWAKE (force the oscillator to keep running at all times)
+  CYRF_03_TX_CFG, 0x08 | TXPOWER_1,     //Data Code Length = 32 chip codes + Data Mode = 8DR Mode + max-power(+4 dBm)
+  CYRF_06_RX_CFG, 0x4A,         //LNA + FAST TURN EN + RXOW EN, enable low noise amplifier, fast turning, overwrite enable
+  CYRF_0B_PWR_CTRL, 0x00,       //Reset power control
+  CYRF_10_FRAMING_CFG, 0xA4,    //SOP EN + SOP LEN = 32 chips + LEN EN + SOP TH = 04h
+  CYRF_11_DATA32_THOLD, 0x05,   //TH32 = 0x05
+  CYRF_12_DATA64_THOLD, 0x0E,   //TH64 = 0Eh, set pn correlation threshold
+  CYRF_1B_TX_OFFSET_LSB, 0x55,  //STRIM LSB = 0x55, typical configuration
+  CYRF_1C_TX_OFFSET_MSB, 0x05,  //STRIM MSB = 0x05, typical configuration
+  CYRF_32_AUTO_CAL_TIME, 0x3C,  //AUTO_CAL_TIME = 3Ch, typical configuration
+  CYRF_35_AUTOCAL_OFFSET, 0x14, //AUTO_CAL_OFFSET = 14h, typical configuration
+  CYRF_39_ANALOG_CTRL, 0x01,    //ALL SLOW
+  CYRF_1E_RX_OVERRIDE, 0x10,    //FRC RXDR (Force Receive Data Rate)
+  CYRF_1F_TX_OVERRIDE, 0x00,    //Reset TX overrides
+  CYRF_01_TX_LENGTH, 0x10,      //TX Length = 16 byte packet
+  CYRF_27_CLK_OVERRIDE, 0x02,   //RXF, force receive clock
+  CYRF_28_CLK_EN, 0x02,         //RXF, force receive clock enable
+  CYRF_0F_XACT_CFG, 0x28};       // Pascallanger - Not in Deviation
+
+   uint_farptr_t pdata = pgm_get_far_address(ZZ_DEVOInitSequence);
+
+  for (uint8_t i=0; i<(DIM(ZZ_DEVOInitSequence)/2); i++) {
+    uint8_t add = pgm_read_byte_far(pdata);
+    uint8_t dat = pgm_read_byte_far(++pdata);
+    CYRF_WriteRegister(add,dat);
+    ++pdata;
+  }
 }
 
 
@@ -589,10 +635,13 @@ const void *DEVO_Cmds(enum ProtoCmds cmd)
       return 0;
     case PROTOCMD_DEINIT:
     case PROTOCMD_RESET:
-    CLOCK_StopTimer();
-    return (void *)(CYRF_Reset() ? 1L : -1L);
+      CLOCK_StopTimer();
+      CYRF_Reset();
+      return 0;
 //  case PROTOCMD_CHECK_AUTOBIND: return Model.fixed_id ? 0 : (void *)1L;
-    case PROTOCMD_BIND:  DEVO_bind(); return 0;
+    case PROTOCMD_BIND:
+      DEVO_bind();
+    return 0;
     case PROTOCMD_NUMCHAN: return (void *)12L;
     case PROTOCMD_DEFAULT_NUMCHAN: return (void *)8L;
     case PROTOCMD_GETOPTIONS: return DEVO_opts;

@@ -48,6 +48,63 @@ enum FRSKYV_opts {
 static uint32_t seed;
 static uint8_t dp_crc_init;
 
+const static uint8_t ZZ_frskyVInitSequence[] PROGMEM = {
+  CC2500_17_MCSM1, 0x0C, // Stay in receive after packet reception, Idle state after transmission
+  CC2500_18_MCSM0, 0x18, // Auto calibrate when going from idle to tx/rx/fstxon
+  CC2500_06_PKTLEN, 0xFF,
+  CC2500_07_PKTCTRL1, 0x04,
+  CC2500_08_PKTCTRL0, 0x05,
+  CC2500_0B_FSCTRL1, 0x08,
+  CC2500_0D_FREQ2, 0x5C,
+  CC2500_0E_FREQ1, 0x58,
+  CC2500_0F_FREQ0, 0x9D,
+  CC2500_10_MDMCFG4, 0xAA,
+  CC2500_11_MDMCFG3, 0x10, // 26977 baud.
+  CC2500_12_MDMCFG2, 0x93,
+  CC2500_13_MDMCFG1, 0x23,
+  CC2500_14_MDMCFG0, 0x7A,
+  CC2500_15_DEVIATN, 0x41, // 0x41 (+-28564Hz) for 1way, 0x42 for 2way.
+  CC2500_19_FOCCFG, 0x16,
+  CC2500_1A_BSCFG, 0x6C,
+  CC2500_1B_AGCCTRL2, 0x43,
+  CC2500_1C_AGCCTRL1, 0x40,
+  CC2500_1D_AGCCTRL0, 0x91,
+  CC2500_21_FREND1, 0x56,
+  CC2500_22_FREND0, 0x10, // power index 0
+  CC2500_23_FSCAL3, 0xA9, // Enable charge pump calibration, calibrate for each hop.
+  CC2500_24_FSCAL2, 0x0A,
+  CC2500_25_FSCAL1, 0x00,
+  CC2500_26_FSCAL0, 0x11,
+  CC2500_29_FSTEST, 0x59,
+  CC2500_2C_TEST2, 0x88,
+  CC2500_2D_TEST1, 0x31,
+  CC2500_2E_TEST0, 0x0B,
+  CC2500_03_FIFOTHR, 0x07,
+  CC2500_09_ADDR, 0x00}; // address 0
+
+
+static void FRSKYV_init(uint8_t bind)
+{
+  CC2500_Reset(); // 0x30
+
+   uint_farptr_t pdata = pgm_get_far_address(ZZ_frskyVInitSequence);
+
+  for (uint8_t i=0; i<(DIM(ZZ_frskyVInitSequence)/2); i++) { // Send init sequance
+    uint8_t add = pgm_read_byte_far(pdata);
+    uint8_t dat = pgm_read_byte_far(++pdata);
+    CC2500_WriteReg(add,dat);
+    ++pdata;
+  }
+
+
+  CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) -50); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
+  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
+  CC2500_Strobe(CC2500_SFTX); // 3b
+  CC2500_Strobe(CC2500_SFRX); // 3a
+  CC2500_SetPower(bind ? TXPOWER_1 : TXPOWER_1);
+  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
+
+}
 
 static uint8_t FRSKYV_crc8(uint8_t result, uint8_t *data, uint8_t len)
 {
@@ -111,54 +168,6 @@ static uint8_t FRSKYV_calc_dp_crc_init(void)
   }
   return FRSKYV_reflect8(crc);
 }
-
-
-static void FRSKYV_init(uint8_t bind)
-{
-  CC2500_Reset(); // 0x30
-  CC2500_WriteReg(CC2500_17_MCSM1, 0x0C); // Stay in receive after packet reception, Idle state after transmission
-  CC2500_WriteReg(CC2500_18_MCSM0, 0x18); // Auto calibrate when going from idle to tx/rx/fstxon
-  CC2500_WriteReg(CC2500_06_PKTLEN, 0xFF);
-  CC2500_WriteReg(CC2500_07_PKTCTRL1, 0x04);
-  CC2500_WriteReg(CC2500_08_PKTCTRL0, 0x05);
-  CC2500_WriteReg(CC2500_0B_FSCTRL1, 0x08);
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) -50); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
-  CC2500_WriteReg(CC2500_0D_FREQ2, 0x5C);
-  CC2500_WriteReg(CC2500_0E_FREQ1, 0x58);
-  CC2500_WriteReg(CC2500_0F_FREQ0, 0x9D);
-  CC2500_WriteReg(CC2500_10_MDMCFG4, 0xAA);
-  CC2500_WriteReg(CC2500_11_MDMCFG3, 0x10); // 26977 baud.
-  CC2500_WriteReg(CC2500_12_MDMCFG2, 0x93);
-  CC2500_WriteReg(CC2500_13_MDMCFG1, 0x23);
-  CC2500_WriteReg(CC2500_14_MDMCFG0, 0x7A);
-  CC2500_WriteReg(CC2500_15_DEVIATN, 0x41); // 0x41 (+-28564Hz) for 1way, 0x42 for 2way.
-  CC2500_WriteReg(CC2500_19_FOCCFG, 0x16);
-  CC2500_WriteReg(CC2500_1A_BSCFG, 0x6C);
-  CC2500_WriteReg(CC2500_1B_AGCCTRL2, 0x43);
-  CC2500_WriteReg(CC2500_1C_AGCCTRL1, 0x40);
-  CC2500_WriteReg(CC2500_1D_AGCCTRL0, 0x91);
-  CC2500_WriteReg(CC2500_21_FREND1, 0x56);
-  CC2500_WriteReg(CC2500_22_FREND0, 0x10); // power index 0
-  CC2500_WriteReg(CC2500_23_FSCAL3, 0xA9); // Enable charge pump calibration, calibrate for each hop.
-
-  CC2500_WriteReg(CC2500_24_FSCAL2, 0x0A);
-  CC2500_WriteReg(CC2500_25_FSCAL1, 0x00);
-  CC2500_WriteReg(CC2500_26_FSCAL0, 0x11);
-  CC2500_WriteReg(CC2500_29_FSTEST, 0x59);
-  CC2500_WriteReg(CC2500_2C_TEST2, 0x88);
-  CC2500_WriteReg(CC2500_2D_TEST1, 0x31);
-  CC2500_WriteReg(CC2500_2E_TEST0, 0x0B);
-  CC2500_WriteReg(CC2500_03_FIFOTHR, 0x07);
-  CC2500_WriteReg(CC2500_09_ADDR, 0x00); // address 0
-
-  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
-  CC2500_Strobe(CC2500_SFTX); // 3b
-  CC2500_Strobe(CC2500_SFRX); // 3a
-  CC2500_SetPower(bind ? TXPOWER_1 : TXPOWER_1);
-  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
-
-}
-
 
 static void FRSKYV_build_bind_packet()
 {

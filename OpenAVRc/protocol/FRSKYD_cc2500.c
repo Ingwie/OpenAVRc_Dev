@@ -53,60 +53,64 @@ enum FRSKYD_opts {
 
 static uint8_t packet_number = 0;
 
+const static uint8_t ZZ_frskyDInitSequence[] PROGMEM = {
+  CC2500_17_MCSM1, 0x00, // Go to idle after tx & rx.
+  CC2500_18_MCSM0, 0x18, // Auto calibrate when going from idle to tx/rx/fstxon
+  CC2500_06_PKTLEN, 0x19,
+  CC2500_07_PKTCTRL1, 0x05, // Address checking no broadcasts, Append status bytes to payload.
+  CC2500_08_PKTCTRL0, 0x05, // No data whitening, FIFO for tx/rx, CRC generation and checking,
+  // Variable packet length mode set by first byte after sync word (0x11).
+  CC2500_0B_FSCTRL1, 0x08,
+  CC2500_0D_FREQ2, 0x5c,
+  CC2500_0E_FREQ1, 0x76, // V8 was 0x58
+  CC2500_0F_FREQ0, 0x27, // V8 was 0x9d
+  CC2500_10_MDMCFG4, 0xaa,
+  CC2500_11_MDMCFG3, 0x39, // 31044 baud.
+  CC2500_12_MDMCFG2, 0x11, // V8 was 0x93
+  CC2500_13_MDMCFG1, 0x23,
+  CC2500_14_MDMCFG0, 0x7a,
+  CC2500_15_DEVIATN, 0x42, // 0x41 (+-28564Hz) for 1way, 0x42 for 2way.
+  CC2500_19_FOCCFG, 0x16,
+  CC2500_1A_BSCFG, 0x6c,
+  CC2500_1B_AGCCTRL2, 0x03, // 0x03 for bind and normal.
+  CC2500_1C_AGCCTRL1, 0x40,
+  CC2500_1D_AGCCTRL0, 0x91,
+  CC2500_21_FREND1, 0x56,
+  CC2500_22_FREND0, 0x10,
+  CC2500_23_FSCAL3, 0xA9, // Enable charge pump calibration, calibrate for each hop.
+  CC2500_24_FSCAL2, 0x0a,
+  CC2500_25_FSCAL1, 0x00,
+  CC2500_26_FSCAL0, 0x11,
+  CC2500_29_FSTEST, 0x59,
+  CC2500_2C_TEST2, 0x88,
+  CC2500_2D_TEST1, 0x31,
+  CC2500_2E_TEST0, 0x0b,
+  CC2500_03_FIFOTHR, 0x07};
+
 
 static void FRSKYD_init(uint8_t bind)
 {
-  CC2500_SetTxRxMode(TX_EN);
-  CC2500_WriteReg(CC2500_17_MCSM1, 0x00); // Go to idle after tx & rx.
-//  CC2500_WriteReg(CC2500_17_MCSM1, 0x0C); // Stay in receive after packet reception, Idle state after transmission
-  CC2500_WriteReg(CC2500_18_MCSM0, 0x18); // Auto calibrate when going from idle to tx/rx/fstxon
+  CC2500_Reset(); // 0x30
 
-  CC2500_WriteReg(CC2500_06_PKTLEN, 0x19);
-  CC2500_WriteReg(CC2500_07_PKTCTRL1, 0x05); // Address checking no broadcasts, Append status bytes to payload.
-  CC2500_WriteReg(CC2500_08_PKTCTRL0, 0x05); // No data whitening, FIFO for tx/rx, CRC generation and checking,
-  // Variable packet length mode set by first byte after sync word (0x11).
-  CC2500_WriteReg(CC2500_3E_PATABLE, bind ? 0x50 : 0xFE);
+   uint_farptr_t pdata = pgm_get_far_address(ZZ_frskyDInitSequence);
 
-  CC2500_WriteReg(CC2500_0B_FSCTRL1, 0x08);
+  for (uint8_t i=0; i<(DIM(ZZ_frskyDInitSequence)/2); i++) { // Send init sequance
+    uint8_t add = pgm_read_byte_far(pdata);
+    uint8_t dat = pgm_read_byte_far(++pdata);
+    CC2500_WriteReg(add,dat);
+    ++pdata;
+  }
 
-  // static const s8 fine = 0; // Frsky rf deck = 0, Skyartec = -17.
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) 0); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
-  CC2500_WriteReg(CC2500_0D_FREQ2, 0x5c);
-  CC2500_WriteReg(CC2500_0E_FREQ1, 0x76); // V8 was 0x58
-  CC2500_WriteReg(CC2500_0F_FREQ0, 0x27); // V8 was 0x9d
-  CC2500_WriteReg(CC2500_10_MDMCFG4, 0xaa);
-  CC2500_WriteReg(CC2500_11_MDMCFG3, 0x39); // 31044 baud.
-  CC2500_WriteReg(CC2500_12_MDMCFG2, 0x11); // V8 was 0x93
-
-  CC2500_WriteReg(CC2500_13_MDMCFG1, 0x23);
-  CC2500_WriteReg(CC2500_14_MDMCFG0, 0x7a);
-  CC2500_WriteReg(CC2500_15_DEVIATN, 0x42); // 0x41 (+-28564Hz) for 1way, 0x42 for 2way.
-
-  CC2500_WriteReg(CC2500_19_FOCCFG, 0x16);
-  CC2500_WriteReg(CC2500_1A_BSCFG, 0x6c);
-  CC2500_WriteReg(CC2500_1B_AGCCTRL2, 0x03); // 0x03 for bind and normal.
-
-  CC2500_WriteReg(CC2500_1C_AGCCTRL1, 0x40);
-  CC2500_WriteReg(CC2500_1D_AGCCTRL0, 0x91);
-  CC2500_WriteReg(CC2500_21_FREND1, 0x56);
-  CC2500_WriteReg(CC2500_22_FREND0, 0x10);
-
-  CC2500_WriteReg(CC2500_23_FSCAL3, 0xA9); // Enable charge pump calibration, calibrate for each hop.
-  CC2500_WriteReg(CC2500_24_FSCAL2, 0x0a);
-  CC2500_WriteReg(CC2500_25_FSCAL1, 0x00);
-  CC2500_WriteReg(CC2500_26_FSCAL0, 0x11);
-  CC2500_WriteReg(CC2500_29_FSTEST, 0x59);
-  CC2500_WriteReg(CC2500_2C_TEST2, 0x88);
-  CC2500_WriteReg(CC2500_2D_TEST1, 0x31);
-  CC2500_WriteReg(CC2500_2E_TEST0, 0x0b);
-  CC2500_WriteReg(CC2500_03_FIFOTHR, 0x07);
+  CC2500_WriteReg(CC2500_0C_FSCTRL0, (uint8_t) -50); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
   CC2500_WriteReg(CC2500_09_ADDR, bind ? 0x03 : (frsky_id & 0xff));
 
   CC2500_Strobe(CC2500_SIDLE); // Go to idle...
   CC2500_Strobe(CC2500_SFTX); // 3b
   CC2500_Strobe(CC2500_SFRX); // 3a
+  CC2500_SetPower(bind ? TXPOWER_1 : TXPOWER_1);
 
   CC2500_WriteReg(CC2500_0A_CHANNR, 0x00);
+  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
 }
 
 
@@ -125,12 +129,22 @@ static uint8_t get_chan_num(uint8_t idx)
   0xadac	0x7d
   */
 
-  unsigned int ret = ((idx * multiplier) % 235) + channel_offset;
+  uint16_t ret = ((idx * multiplier) % 235) + channel_offset;
 //   if(idx == 3 || idx == 23 ret++; rick
 //   if(ret ==0x5a || ret == 0xdc) ret++; rick
   if(idx == 47) return 1; // rick
   if(idx > 47) return 0;
   return (uint8_t) ret;
+
+
+  /*
+      int ret = (idx * 0x1e) % 0xeb;
+    if(idx == 3 || idx == 23 || idx == 47)
+        ret++;
+    if(idx > 47)
+        return 0;
+    return ret;
+*/
 }
 
 
@@ -239,7 +253,7 @@ static uint16_t FRSKYD_data_cb()
 
       if(packet_number & 0x1F) {
         CC2500_SetPower(TXPOWER_1); // TODO update power level.
-        CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) 0); // TODO Update fine frequency value.
+        CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) -50); // TODO Update fine frequency value.
       }
 
       CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[packet_number %47]);
@@ -347,11 +361,11 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
   //case PROTOCMD_CHECK_AUTOBIND:
     //return 0; // Never Autobind
   case PROTOCMD_BIND:
-    SpiRFModule.mode = BIND_MODE; // TODO
     FRSKYD_initialize(1);
     return 0;
   case PROTOCMD_RESET:
     CLOCK_StopTimer();
+    CC2500_Reset();
     return 0;
   //case PROTOCMD_NUMCHAN:
     //return (void *)8L;
