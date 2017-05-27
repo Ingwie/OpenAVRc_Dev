@@ -34,7 +34,7 @@
 #include "../OpenAVRc.h"
 #include "frsky.h"
 
-static const char * const FRSKYV_opts[] = {
+/*static const char * const FRSKYV_opts[] = {
   _tr_noop("Freq-Fine"),  "-127", "+127", NULL,
   NULL
 };
@@ -43,8 +43,7 @@ enum FRSKYV_opts {
   FRSKYV_OPT_FREQFINE =0,
   FRSKYV_OPT_LAST,
 };
-//ctassert(LAST_PROTO_OPT <= NUM_PROTO_OPTS, too_many_protocol_opts);
-
+*/
 
 static uint32_t seed;
 static uint8_t dp_crc_init;
@@ -52,33 +51,15 @@ static uint8_t dp_crc_init;
 
 static uint8_t FRSKYV_crc8(uint8_t result, uint8_t *data, uint8_t len)
 {
-  static const uint8_t polynomial = 0x07;
-
   for(uint8_t i = 0; i < len; i++) {
     result = result ^ data[i];
     for(uint8_t j = 0; j < 8; j++) {
-      if(result & 0x80) result = (result << 1) ^ polynomial;
+      if(result & 0x80) result = (result << 1) ^ 0x07;
       else result = result << 1;
     }
   }
   return result;
 }
-
-
-static uint8_t FRSKYV_crc8_le(uint8_t *data, uint8_t len)
-{
-  uint8_t result = 0xD6;
-
-  for(uint8_t i = 0; i < len; i++) {
-    result = result ^ data[i];
-    for(uint8_t j = 0; j < 8; j++) {
-      if(result & 0x01) result = (result >> 1) ^ 0x83;
-      else result = result >> 1;
-    }
-  }
-  return result;
-}
-
 
 static uint8_t FRSKYV_reflect8(uint8_t in)
 {
@@ -134,20 +115,14 @@ static uint8_t FRSKYV_calc_dp_crc_init(void)
 
 static void FRSKYV_init(uint8_t bind)
 {
-  CC2500_SetTxRxMode(TX_EN);
-
+  CC2500_Reset(); // 0x30
   CC2500_WriteReg(CC2500_17_MCSM1, 0x0C); // Stay in receive after packet reception, Idle state after transmission
-  // CC2500_WriteReg(CC2500_18_MCSM0, 0x08); // Manual calibration using SCAL. Was 0x18.
   CC2500_WriteReg(CC2500_18_MCSM0, 0x18); // Auto calibrate when going from idle to tx/rx/fstxon
   CC2500_WriteReg(CC2500_06_PKTLEN, 0xFF);
   CC2500_WriteReg(CC2500_07_PKTCTRL1, 0x04);
   CC2500_WriteReg(CC2500_08_PKTCTRL0, 0x05);
-  CC2500_WriteReg(CC2500_3E_PATABLE, bind ? 0x50 : TXPOWER_1); // power level (0xFE) 0dBm * Power Amp (RDA T212).
-
   CC2500_WriteReg(CC2500_0B_FSCTRL1, 0x08);
-
-  // static const int8_t fine = 0 ; // Frsky rf deck = 0, Skyartec rf module = -17.
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) 0); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
+  CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) -50); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
   CC2500_WriteReg(CC2500_0D_FREQ2, 0x5C);
   CC2500_WriteReg(CC2500_0E_FREQ1, 0x58);
   CC2500_WriteReg(CC2500_0F_FREQ0, 0x9D);
@@ -179,14 +154,9 @@ static void FRSKYV_init(uint8_t bind)
   CC2500_Strobe(CC2500_SIDLE); // Go to idle...
   CC2500_Strobe(CC2500_SFTX); // 3b
   CC2500_Strobe(CC2500_SFRX); // 3a
+  CC2500_SetPower(bind ? TXPOWER_1 : TXPOWER_1);
+  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
 
-//TODO
-//  if(proto_mode == NORMAL_MODE) CC2500_WriteReg(CC2500_3E_PATABLE, 0xFE); // D8 uses PATABLE = 0xFE for normal transmission.
-//  else CC2500_WriteReg(CC2500_3E_PATABLE, 0x50); // D8 uses PATABLE = 0x50 for range testing and binding.
-//  CC2500_WriteReg(CC2500_3E_PATABLE, 0xF0);
-
-  CC2500_WriteReg(CC2500_0A_CHANNR, 0x00);
-  CC2500_Strobe(CC2500_SCAL); // Manual calibration
 }
 
 
@@ -210,14 +180,15 @@ static void FRSKYV_build_bind_packet()
   packet[13] = 0x00;
   packet[14] = FRSKYV_crc8(0x93, packet, 14);
 
-  bind_idx ++;
+  ++bind_idx;
   if(bind_idx > 9) bind_idx = 0;
 }
 
 
 static void FRSKYV_build_data_packet()
 {
-  static uint8_t data_idx =0;
+  static uint8_t V_state =0;
+  uint8_t ofsetChan = 0;
 
   packet[0] = 0x0E;
   packet[1] = frsky_id & 0xFF;
@@ -227,38 +198,29 @@ static void FRSKYV_build_data_packet()
 
   // Appears to be a bitmap relating to the number of channels sent e.g.
   // 0x0F -> first 4 channels, 0x70 -> channels 5,6,7, 0xF0 -> channels 5,6,7,8
-  if(data_idx==0) packet[5] = 0x0F;
-  else if(data_idx==1) packet[5] = 0xF0;
+  if(V_state == 0 || V_state == 2) packet[5] = 0x0F;
+  else if(V_state == 1 || V_state == 3) { ofsetChan = 4; packet[5] = 0xF0;}
   else packet[5] = 0x00;
 
-  uint8_t num_chan = 8 + (g_model.ppmNCH *2);
-  if(num_chan > 8) num_chan = 8;
 
   for(uint8_t i = 0; i < 4; i++) {
-    if( (i + (4* data_idx) ) < num_chan) {
-
       // 0x08CA / 1.5 = 1500 (us). Probably because they use 12MHz clocks.
       // 0x05DC -> 1000us 5ca
       // 0x0BB8 -> 2000us bca
 
-      int16_t value = channelOutputs[i + (4* data_idx)];
+      int16_t value = channelOutputs[i + ofsetChan];
       value -= (value>>2); // x-x/4
       value = limit((int16_t)-(640 + (640>>1)), value, (int16_t)+(640 + (640>>1)));
       value += 0x08CA;
 
       packet[6 + (i*2)] = value & 0xFF;
       packet[7 + (i*2)] = (value >> 8) & 0xFF;
-    } else {
-      packet[6 + (i*2)] = 0xC9;
-      packet[7 + (i*2)] = 0x08;
-    }
   }
 
   packet[14] = FRSKYV_crc8(dp_crc_init, packet, 14);
-  data_idx ++;
-  if(data_idx > 1) data_idx =0;
+  ++V_state;
+  if(V_state > 4) V_state =0;
   // Potentially if we had only four channels we could send them every 9ms.
-  if(num_chan < 5 ) data_idx =0; // Experimental 4 channel high speed mode.
 }
 
 
@@ -268,17 +230,15 @@ static uint16_t FRSKYV_data_cb()
 // SCHEDULE_MIXER_END((uint16_t) (9 *2) *8); // Probably not needed.
 
     // Build next packet.
-    // CC2500_Strobe(CC2500_SNOP);
     seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323.
-    FRSKYV_build_data_packet();
-    // CC2500_Strobe(CC2500_SNOP); // Just shows how long to build a packet. 16MHz AVR = 127us.
+    FRSKYV_build_data_packet(); // 16MHz AVR = 127us.
 
-    // TODO Update options which don't need to be every 9ms.
+    /* TODO Update options which don't need to be every 9ms.
     static uint8_t option = 0;
     if(option == 0) CC2500_SetTxRxMode(TX_EN); // Keep Power Amp activated.
     else if(option == 64) CC2500_SetPower(TXPOWER_1); // TODO update power level.
-    else if(option == 128) CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) -20); // TODO Update fine frequency value.
-    else if(option == 196) CC2500_Strobe(CC2500_SIDLE); // MCSM1 register setting puts CC2500 back into idle after TX.
+    else if(option == 128) CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) -50); // TODO Update fine frequency value.
+    else if(option == 196) CC2500_Strobe(CC2500_SIDLE); // MCSM1 register setting puts CC2500 back into idle after TX.*/
 
     CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[ ( (seed & 0xFF) % 50) ] ); // 16MHz AVR = 38us.
     CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO.
@@ -287,10 +247,9 @@ static uint16_t FRSKYV_data_cb()
 
     // Wait for transmit to finish. Timing is tight. Only 581uS between packet being emitted and idle strobe.
     // while( 0x0F != CC2500_Strobe(CC2500_SNOP)) { _delay_us(5); }
-    option ++;
     heartbeat |= HEART_TIMER_PULSES;
     dt = TCNT1 - OCR1A; // Calculate latency and jitter.
-    return 9000 *2;
+    return 9006 *2;
 }
 
 static uint16_t FRSKYV_bind_cb()
@@ -317,27 +276,17 @@ static void FRSKYV_initialise(uint8_t bind)
   channel_offset = frsky_id % 5;
   for(uint8_t x = 0; x < 50; x ++) channels_used[x] = (x*5) + 6 + channel_offset;
 
-//ID is 15 bits. Using rx_tx_addr[2] and rx_tx_addr[3] since we want to use RX_Num for model match
-//rx_tx_addr[2]&=0x7F;
-//dp_crc_init = FRSKYV_crc8_le(rx_tx_addr+2, 2);
-  uint8_t  rx_tx_addr[4];
-  rx_tx_addr[2]= frsky_id >> 8;  // 0x19; // be
-  rx_tx_addr[3]= frsky_id & 0xFF; // 0x99; // le
-// dp_crc_init = FRSKYV_calc_dp_crc_init();
-  dp_crc_init = FRSKYV_crc8_le(&rx_tx_addr[2], 2);
-
-
-  CC2500_Reset(); // 0x30
+  dp_crc_init = FRSKYV_calc_dp_crc_init();
 
   if(bind) {
     FRSKYV_init(1);
     PROTOCOL_SetBindState(0xFFFFFFFF);
-    CLOCK_StartTimer(25000U *2, &FRSKYV_bind_cb);
+    CLOCK_StartTimer(25000U *2, FRSKYV_bind_cb);
   } else {
     FRSKYV_init(0);
     seed = 2UL;
     FRSKYV_build_data_packet();
-    CLOCK_StartTimer(25000U *2, &FRSKYV_data_cb);
+    CLOCK_StartTimer(25000U *2, FRSKYV_data_cb);
   }
 }
 
@@ -355,6 +304,7 @@ const void * FRSKYV_Cmds(enum ProtoCmds cmd)
 //            return (void *)(CC2500_Reset() ? 1L : -1L);
   case PROTOCMD_RESET:
     CLOCK_StopTimer();
+    CC2500_Reset();
     return 0;
   //case PROTOCMD_CHECK_AUTOBIND:
     //return 0; //Never Autobind.
