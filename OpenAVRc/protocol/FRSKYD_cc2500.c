@@ -104,7 +104,7 @@ static void FRSKYD_init(uint8_t bind)
   CC2500_WriteReg(CC2500_0C_FSCTRL0, (uint8_t) -50); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
   CC2500_WriteReg(CC2500_09_ADDR, bind ? 0x03 : (frsky_id & 0xff));
 
-  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
+//  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
   CC2500_Strobe(CC2500_SFTX); // 3b
   CC2500_Strobe(CC2500_SFRX); // 3a
   CC2500_SetPower(bind ? TXPOWER_1 : TXPOWER_1);
@@ -114,37 +114,24 @@ static void FRSKYD_init(uint8_t bind)
 }
 
 
-static uint8_t get_chan_num(uint8_t idx)
+void generate_chan_num(void)
 {
-  const uint8_t multiplier = 0x23;
-  /*
-  The multiplier appears to vary with Txid.
-  e.g.
-  Txid	multiplier
-  0x0766	0x2d
-  0x101c	0x9b
-  0x1ee9	0x0a
-  0x2dd7	0x1e
-  0x25c2	0x23
-  0xadac	0x7d
-  */
+/*
+ * Make sure adjacent channels in the array are spread across the band and are not be repeated.
+ */
 
-  uint16_t ret = ((idx * multiplier) % 235) + channel_offset;
-//   if(idx == 3 || idx == 23 ret++; rick
-//   if(ret ==0x5a || ret == 0xdc) ret++; rick
-  if(idx == 47) return 1; // rick
-  if(idx > 47) return 0;
-  return (uint8_t) ret;
+  uint8_t chan_offset = ((SpiRFModule.fixed_id >> 16) & 0xFF) % 10; // 10 channel bases.
+  uint8_t step = (((SpiRFModule.fixed_id >> 24) & 0xFF) % 11); // 11 sequences for now.
 
+  step = step + 73; // 73 to 83.
+  // Build channel array.
+  for(uint8_t idx =0; idx <50; idx++) {
+    uint16_t res = ((step * idx) + chan_offset) % 236;
 
-  /*
-      int ret = (idx * 0x1e) % 0xeb;
-    if(idx == 3 || idx == 23 || idx == 47)
-        ret++;
-    if(idx > 47)
-        return 0;
-    return ret;
-*/
+    if(res == 0) res = 1; // Avoid binding channel 0.
+    if(idx > 46) res = 1; // Unused but sent to rx in bind packet.
+    channels_used[idx] = res;
+   }
 }
 
 
@@ -331,11 +318,8 @@ static void FRSKYD_initialize(uint8_t bind)
 {
   CLOCK_StopTimer();
 
-  frsky_id = SpiRFModule.fixed_id % 0x4000;
-
-  // Build channel array.
-  channel_offset = frsky_id % 5;
-  for(uint8_t x=0; x<50; x++)	channels_used[x] = get_chan_num(x);
+  frsky_id = SpiRFModule.fixed_id;// % 0x4000;
+  generate_chan_num();
 
   CC2500_Reset(); // 0x30
 
