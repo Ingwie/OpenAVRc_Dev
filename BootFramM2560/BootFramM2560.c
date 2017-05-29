@@ -396,15 +396,18 @@ int main(void)
   uint8_t ch;
   ch = MCUSR;
 
+  // check if WDT generated the reset, if so, go straight to app
+  if (ch & _BV(WDRF))
+  {
+      app_start();
+  }
+
   __asm__ __volatile__ ("cli");
   __asm__ __volatile__ ("wdr");
   MCUSR = 0;
   WDTCSR |= _BV(WDCE) | _BV(WDE);
   WDTCSR = 0;
   __asm__ __volatile__ ("sei");
-  // check if WDT generated the reset, if so, go straight to app
-  if (ch & _BV(WDRF))
-    app_start();
 
   boot_timer	=	0;
   boot_state	=	0;
