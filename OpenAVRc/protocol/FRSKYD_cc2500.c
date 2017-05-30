@@ -128,8 +128,8 @@ void FRSKYD_generate_channels(void)
   for(uint8_t idx =0; idx <50; idx++) {
     uint16_t res = ((step * idx) + chan_offset) % 236; // 235 is the highest channel used.
 
-    if(res == 0) res = 80; // Avoid binding channel 0.
-    if(res == 1) res = 161; // Channel 1 probably indicates end of sequence in bind packet.
+    if(res == 0) res = 161; // Avoid binding channel 0.
+    if(res == 1) res = 80; // Channel 1 probably indicates end of sequence in bind packet.
     if(idx == 47) res = 1; // Unused but sent to rx in bind packet, may indicate end of sequence.
     if(idx > 47) res = 0; // Unused but sent to rx in bind packet.
     channels_used[idx] = res;
