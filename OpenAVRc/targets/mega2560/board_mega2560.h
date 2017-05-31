@@ -35,7 +35,6 @@
 #define _BOARD_MEGA2560_H_
 
 #include "../../board_avr.h"
-#include "../../OpenAVRc.h"
 
 //Mods
 #define ROTENC_DIV2 // rotenc resolution/2
@@ -102,43 +101,6 @@ void readKeysAndTrims();
 bool sdMounted();
 void sdMountPoll();
 void sdPoll10ms();
-
-//Xmitter
-#define SPIMODULES
-#define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
-#define PROTO_HAS_CYRF6936
-#define TX_FIXED_ID 0x1a2b3c4d // Loaded in SpiRFModule.fixed_id
-
-#if defined(SPIMODULES)
-
-  //uint8_t USART2_mspi_xfer(uint8_t data);
-  #define RF_SPI_xfer  spi_xfer//USART2_mspi_xfer
-  #define OUT_H_CC2500_CS_N       PIN1_bm
-  #define OUT_G_CYRF6936_CS_N     PIN5_bm
-
-  uint8_t Sdnotinuse = 1;
-#define RF_CS_CC2500_ACTIVE();                \
-  Sdnotinuse = SDCARD_CS_N_IS_INACTIVE();     \
-  if (!Sdnotinuse) {SDCARD_CS_N_INACTIVE();}  \
-  PORTH &= ~(OUT_H_CC2500_CS_N);              \
-
-#define RF_CS_CC2500_INACTIVE();              \
-  PORTH |= (OUT_H_CC2500_CS_N);               \
-  if (!Sdnotinuse) {SDCARD_CS_N_ACTIVE();}    \
-
-#define RF_CS_CYRF6936_ACTIVE();              \
-  Sdnotinuse = SDCARD_CS_N_IS_INACTIVE();     \
-  if (!Sdnotinuse) {SDCARD_CS_N_INACTIVE();}  \
-  PORTG &= ~(OUT_G_CYRF6936_CS_N);            \
-
-#define RF_CS_CYRF6936_INACTIVE();            \
-  PORTG |= (OUT_G_CYRF6936_CS_N);             \
-  if (!Sdnotinuse) {SDCARD_CS_N_ACTIVE();}    \
-
-
-#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
-
-#endif // SPIMODULES
 
 // Switchs driver
 #define INP_C_ID2                 1
@@ -255,5 +217,42 @@ extern ISR(INT3_vect);
 extern ISR(INT4_vect);
 extern ISR(INT5_vect);
 #endif
+
+//Xmitter
+#define SPIMODULES
+#define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
+#define PROTO_HAS_CYRF6936
+#define TX_FIXED_ID 0x1a2b3c4d // Loaded in SpiRFModule.fixed_id
+
+#if defined(SPIMODULES)
+
+  //uint8_t USART2_mspi_xfer(uint8_t data);
+  #define RF_SPI_xfer  spi_xfer//USART2_mspi_xfer
+  #define OUT_H_CC2500_CS_N       PIN1_bm
+  #define OUT_G_CYRF6936_CS_N     PIN5_bm
+
+  uint8_t Sdnotinuse = 1;
+#define RF_CS_CC2500_ACTIVE();                \
+  Sdnotinuse = SDCARD_CS_N_IS_INACTIVE();     \
+  if (!Sdnotinuse) {SDCARD_CS_N_INACTIVE();}  \
+  PORTH &= ~(OUT_H_CC2500_CS_N);              \
+
+#define RF_CS_CC2500_INACTIVE();              \
+  PORTH |= (OUT_H_CC2500_CS_N);               \
+  if (!Sdnotinuse) {SDCARD_CS_N_ACTIVE();}    \
+
+#define RF_CS_CYRF6936_ACTIVE();              \
+  Sdnotinuse = SDCARD_CS_N_IS_INACTIVE();     \
+  if (!Sdnotinuse) {SDCARD_CS_N_INACTIVE();}  \
+  PORTG &= ~(OUT_G_CYRF6936_CS_N);            \
+
+#define RF_CS_CYRF6936_INACTIVE();            \
+  PORTG |= (OUT_G_CYRF6936_CS_N);             \
+  if (!Sdnotinuse) {SDCARD_CS_N_ACTIVE();}    \
+
+
+#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
+
+#endif // SPIMODULES
 
 #endif // _BOARD_MEGA2560_H_
