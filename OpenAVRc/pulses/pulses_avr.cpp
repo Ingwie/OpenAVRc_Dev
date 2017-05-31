@@ -56,6 +56,7 @@ static volatile uint16_t timer_counts; // Is uint16_t for mega2560.
 void startPulses(enum ProtoCmds Command)
 {
 spi_enable_master_mode(); // Todo check if Proto need SPI
+CLOCK_StopTimer();
 if (s_current_protocol != 255) PROTO_Cmds(PROTOCMD_RESET);
 PROTO_Cmds = *Protos[g_model.header.modelId].Cmds;
 s_current_protocol = g_model.header.modelId;
