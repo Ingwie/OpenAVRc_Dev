@@ -1091,11 +1091,11 @@ PACK(typedef struct {
   int8_t    ppmNCH:4;
   int8_t    trimInc:3;            // Trim Increments
   uint8_t   disableThrottleWarning:1;
-  uint8_t pulsePol:1;
+  uint8_t   pulsePol:1;
   uint8_t   extendedLimits:1;
   uint8_t   extendedTrims:1;
   uint8_t   throttleReversed:1;
-  int8_t ppmDelay;
+  int8_t    ppmDelay;
   BeepANACenter beepANACenter;
   MixData   mixData[MAX_MIXERS];
   LimitData limitData[NUM_CHNOUT];
