@@ -174,39 +174,6 @@ enum BeeperMode {
 #define EXTRA_GENERAL_FIELDS
 #endif
 
-#define FAILSAFE_CHANNEL_HOLD    2000
-#define FAILSAFE_CHANNEL_NOPULSE 2001
-
-PACK(typedef struct {
-  uint8_t type:4;
-  int8_t  rfProtocol:4;
-  uint8_t channelsStart;
-  int8_t  channelsCount; // 0=8 channels
-  uint8_t failsafeMode:7;
-  uint8_t invertedSerial:1; // telemetry serial inverted from standard
-  int16_t failsafeChannels[NUM_CHNOUT];
-  int8_t  ppmDelay:6;
-  uint8_t ppmPulsePol:1;
-  uint8_t ppmOutputType:1;     // false = open drain, true = push pull
-  int8_t  ppmFrameLength;
-}) ModuleData;
-
-#define SET_DEFAULT_PPM_FRAME_LENGTH(idx) g_model.moduleData[idx].ppmFrameLength = 4 * max((int8_t)0, g_model.moduleData[idx].channelsCount)
-
-#define LEN_SCRIPT_FILENAME    8
-#define LEN_SCRIPT_NAME        8
-#define MAX_SCRIPT_INPUTS      8
-#define MAX_SCRIPT_OUTPUTS     6
-
-PACK(typedef struct {
-  char    file[LEN_SCRIPT_FILENAME];
-  char    name[LEN_SCRIPT_NAME];
-  int8_t  inputs[MAX_SCRIPT_INPUTS];
-}) ScriptData;
-
-#define MODELDATA_BITMAP
-#define MODELDATA_EXTRA
-
 enum BacklightMode {
   e_backlight_mode_off  = 0,
   e_backlight_mode_keys = 1,
@@ -220,8 +187,6 @@ enum BacklightMode {
 #else
 #define SPLASH_MODE uint8_t splashMode:1; uint8_t splashSpare:2
 #endif
-
-#define XPOTS_MULTIPOS_COUNT 6
 
 PACK(typedef struct {
   int16_t mid;
@@ -968,14 +933,7 @@ enum TimerModes {
   TMRMODE_COUNT
 };
 
-enum CountDownModes {
-  COUNTDOWN_SILENT,
-  COUNTDOWN_BEEPS,
-  COUNTDOWN_VOICE,
-  COUNTDOWN_COUNT
-};
-
-#if   defined(CPUM2560)
+#if defined(CPUM2560)
 PACK(typedef struct {
   int8_t   mode;            // timer trigger source -> off, abs, stk, stk%, sw/!sw, !m_sw/!m_sw
   uint16_t start;
@@ -1057,7 +1015,6 @@ enum FailsafeModes {
 PACK(typedef struct {
   char      name[LEN_MODEL_NAME]; // must be first for eeLoadModelName
   uint8_t   modelId;
-  MODELDATA_BITMAP
 }) ModelHeader;
 
 enum ThrottleSources {
@@ -1119,8 +1076,6 @@ PACK(typedef struct {
   MODEL_GVARS_DATA
 
   TELEMETRY_DATA
-
-  MODELDATA_EXTRA
 
 }) ModelData;
 
