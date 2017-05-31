@@ -1554,7 +1554,6 @@ void OpenAVRcInit(OpenAVRc_INIT_ARGS)
   if (g_eeGeneral.backlightMode != e_backlight_mode_off) backlightOn(); // on Tx start turn the light on
 
   if (UNEXPECTED_SHUTDOWN()) {
-    // is done above on ARM
     unexpectedShutdown = 1;
   } else {
     OpenAVRcStart();
@@ -1571,8 +1570,6 @@ void OpenAVRcInit(OpenAVRc_INIT_ARGS)
   lcdSetContrast();
 #endif
   backlightOn();
-
-
 
   doMixerCalculations();
 
@@ -1599,8 +1596,8 @@ int simumain(void)
 #if defined(CPUM2560)
   uint8_t mcusr = MCUSR; // save the WDT (etc) flags
   MCUSR = 0; // must be zeroed before disabling the WDT
-  MCUCR = 0x80 ;   // Disable JTAG port that can interfere with POT3
-  MCUCR = 0x80 ;   // Must be done twice
+  MCUCR |= (1<<JTD);    // Disable JTAG port that can interfere with POT3
+  MCUCR |= (1<<JTD);   // Must be done twice within four cycles
 #endif
   wdt_disable();
 #endif //SIMU
