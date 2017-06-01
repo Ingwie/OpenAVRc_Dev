@@ -1045,6 +1045,12 @@ enum AUDIO_SOUNDS {
 
 ///////////////// SPI MODULES PROTOCOLES ///////////////////
 #if defined(SPIMODULES)
+
+#define PROTO_OPT_1 g_model.ppmDelay       // proto option data eeprom store
+#define PROTO_OPT_2 g_model.ppmFrameLength
+
+
+
 enum PROTO_MODE {
   BIND_MODE,
   NORMAL_MODE,
