@@ -177,15 +177,15 @@ uint16_t state;
 uint8_t crcidx;
 uint8_t binding;
 uint8_t num_channels;
-uint16_t crc;
+uint16_t checksum;
 uint8_t model;
 static uint32_t DSM_fixed_id;
 
 static void build_bind_packet()
 {
     uint16_t sum = 384 - 0x10;
-    packet[0] = crc >> 8;
-    packet[1] = crc & 0xff;
+    packet[0] = checksum >> 8;
+    packet[1] = checksum & 0xff;
     packet[2] = 0xff ^ cyrfmfg_id[2];
     packet[3] = (0xff ^ cyrfmfg_id[3]) + model;
     packet[4] = packet[0];
@@ -278,6 +278,7 @@ static const uint8_t init_vals[][2] = {
 
 static void cyrf_startup_config()
 {
+    CYRF_Reset();
     for(uint8_t i = 0; i < sizeof(init_vals) / 2; i++)
         CYRF_WriteRegister(init_vals[i][0], init_vals[i][1]);
     //If using 64-SDR, set number of preamble repetitions to four for optimum performance
@@ -287,8 +288,8 @@ static void cyrf_startup_config()
 static const uint8_t bind_vals[][2] = {
     {CYRF_03_TX_CFG, 0x38 | TXPOWER_1},  //Data Code Length = 64 chip codes + Data Mode = SDR Mode + max-power(+4 dBm)
     {CYRF_10_FRAMING_CFG, 0x4a}, //SOP LEN + SOP TH = 0Ah (0Eh???)
-    {CYRF_1E_RX_OVERRIDE, 0x14}, //FRC RXDR + DIS RXCRC (disable rx CRC)
-    {CYRF_1F_TX_OVERRIDE, 0x04}, //DIS TXCRC (disable tx CRC)
+    {CYRF_1E_RX_OVERRIDE, 0x14}, //FRC RXDR + DIS RXCRC (disable rx checksum)
+    {CYRF_1F_TX_OVERRIDE, 0x04}, //DIS TXCRC (disable tx checksum)
     {CYRF_14_EOP_CTRL, 0x02},    //EOP = 2 (set EOP sync = 2)
 };
 
@@ -334,7 +335,7 @@ static void set_sop_data_crc()
     uint8_t pn_row = get_pn_row(channels[chidx]);
     //printf("Ch: %d Row: %d SOP: %d Data: %d\n", ch[chidx], pn_row, sop_col, data_col);
     CYRF_WriteRegister(CYRF_00_CHANNEL, channels[chidx]);
-    CYRF_ConfigCRCSeed(crcidx ? ~crc : crc);
+    CYRF_ConfigCRCSeed(crcidx ? ~checksum : checksum);
     CYRF_ConfigSOPCode(pncodes[pn_row][sop_col]);
     //In 64-8DR mode, all sixteen bytes are used
     CYRF_ConfigDataCode(pncodes[pn_row][data_col], 8); //first eight bytes
@@ -659,7 +660,6 @@ static uint16_t dsm2_cb()
         if (0)/*(Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_ON)*/ {
             // reset cyrf6936 in case TX mode and RX mode freezed
             if (((reg & 0x22) == 0x20) || (CYRF_ReadRegister(CYRF_02_TX_CTRL) & 0x80)) {
-                CYRF_Reset();
                 cyrf_startup_config();
                 cyrf_transfer_config();
                 CYRF_SetTxRxMode(TX_EN);
@@ -736,7 +736,6 @@ static void DSM_initialize(uint8_t bind)
 {
     CLOCK_StopTimer();
     DSM_fixed_id = SpiRFModule.fixed_id;
-    CYRF_Reset();
     cyrf_startup_config();
 
     CYRF_GetMfgData(cyrfmfg_id);
@@ -767,7 +766,7 @@ static void DSM_initialize(uint8_t bind)
         }
         //printf("DSM2 Channels: %02x %02x\n", channels[0], channels[1]);
     }
-    crc = ~((cyrfmfg_id[0] << 8) + cyrfmfg_id[1]);
+    checksum = ~((cyrfmfg_id[0] << 8) + cyrfmfg_id[1]);
     crcidx = 0;
     sop_col = (cyrfmfg_id[0] + cyrfmfg_id[1] + cyrfmfg_id[2] + 2) & 0x07;
     data_col = 7 - sop_col;
