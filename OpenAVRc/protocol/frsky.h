@@ -36,6 +36,29 @@
 
 static uint16_t frsky_id;
 static uint8_t channels_used[50];
-static uint8_t channel_offset;
+//static uint8_t channel_offset;
+
+void FRSKY_generate_channels(void)
+{
+/*
+ * Make sure adjacent channels in the array are spread across the band and are not repeated.
+ */
+
+  uint8_t chan_offset = ((SpiRFModule.fixed_id >> 16) & 0xFF) % 10; // 10 channel bases.
+  uint8_t step = (((SpiRFModule.fixed_id >> 24) & 0xFF) % 11); // 11 sequences for now.
+
+  step = step + 73; // 73 to 83.
+  // Build channel array.
+  for(uint8_t idx =0; idx <50; idx++) {
+    uint16_t res = ((step * idx) + chan_offset) % 236; // 235 is the highest channel used.
+
+    if(res == 0) res = 161; // Avoid binding channel 0.
+    if(res == 1) res = 80; // Channel 1 probably indicates end of sequence in bind packet.
+    if(idx == 47) res = 1; // Unused but sent to rx in bind packet, may indicate end of sequence.
+    if(idx > 47) res = 0; // Unused but sent to rx in bind packet.
+    channels_used[idx] = res;
+   }
+}
+
 
 #endif /* PROTOCOL_FRSKY_H_ */
