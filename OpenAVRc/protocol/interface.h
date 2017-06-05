@@ -57,7 +57,8 @@
 #include "cc2500.c"
 #include "FRSKYV_cc2500.c"
 #include "FRSKYD_cc2500.c"
-#include "skyartec_cc2500.c"
+#include "FRSKYX_cc2500.c"
+#include "SKYARTEC_cc2500.c"
 #endif
 
 #ifdef PROTO_HAS_NRF24L01
