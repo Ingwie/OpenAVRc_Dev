@@ -305,13 +305,12 @@ static void FRSKYV_initialise(uint8_t bind)
   frsky_id = SpiRFModule.fixed_id & 0x7FFF;
 
   // Build channel array.
-  /*channel_offset = frsky_id % 5;
+  channel_offset = frsky_id % 5;
   uint8_t chan_num;
   for(uint8_t x = 0; x < 50; x ++) {
     chan_num = (x*5) + 6 + channel_offset;
 	channels_used[x] = chan_num ? chan_num : 1; // Avoid binding channel 0.
-  }*/
-  FRSKY_generate_channels();
+  }
 
 //dp_crc_init = FRSKYV_calc_dp_crc_init();
   dp_crc_init = FRSKYV_crc8_le();
