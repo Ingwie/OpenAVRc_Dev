@@ -141,7 +141,7 @@ static const uint16_t CRCTable[] = {
 static uint16_t crc(uint8_t *data, uint8_t len)
 {
   uint16_t crc = 0;
-  for(int i=0; i < len; i++)
+  for(uint8_t i=0; i < len; i++)
     crc = (crc<<8) ^ CRCTable[((uint8_t)(crc>>8) ^ *data++) & 0xFF];
   return crc;
 }
@@ -173,7 +173,7 @@ static void frskyX_build_bind_packet()
 
   packet[3] = frsky_id;
   packet[4] = frsky_id >> 8;
-  int idx = ((X_state - FRSKY_BIND) % 10) * 5;
+  uint8_t idx = ((X_state - FRSKY_BIND) % 10) * 5;
   packet[5] = idx;
   packet[6] = channels_used[idx++];
   packet[7] = channels_used[idx++];
@@ -352,7 +352,7 @@ static void frskyX_data_frame()
 static uint8_t sport_crc(uint8_t *data)
 {
   uint16_t crc = 0;
-  for (int i=1; i < FRSKY_SPORT_PACKET_SIZE-1; ++i) {
+  for (uint8_t i=1; i < FRSKY_SPORT_PACKET_SIZE-1; ++i) {
     crc += data[i];
     crc += crc >> 8;
     crc &= 0x00ff;
@@ -611,9 +611,10 @@ static void frsky_check_telemetry(uint8_t *pkt, uint8_t len)
     }*/
 }
 
-static uint16_t frskyx_cb()
+static uint16_t FRSKYX_cb()
 {
   uint8_t len;
+  int8_t finetmp;
 
   switch(X_state) {
   default:
@@ -633,8 +634,9 @@ static uint16_t frskyx_cb()
     X_state++;
     break;
   case FRSKY_DATA1:
-    if (fine != (int8_t)PROTO_OPT_1) {
-      fine = (int8_t)PROTO_OPT_1;
+    finetmp = (int8_t)PROTO_OPT_1;
+    if (fine != finetmp) {
+      fine = finetmp;
       CC2500_WriteReg(CC2500_0C_FSCTRL0, fine);
     }
     CC2500_SetTxRxMode(TX_EN);
@@ -672,7 +674,7 @@ static uint16_t frskyx_cb()
     X_state = FRSKY_DATA1;
     return 300*2;
   }
-  return 1;
+  return 1*2;
 }
 
 // register, FCC, EU
@@ -719,13 +721,13 @@ static const uint8_t init_data_shared[][2] = {
   {CC2500_09_ADDR,      0x00},
 };
 
-static void frskyX_init()
+static void FRSKYX_init()
 {
   CC2500_Reset();
 
-  for (uint32_t i=0; i < ((sizeof init_data) / (sizeof init_data[0])); i++)
+  for (uint8_t i=0; i < ((sizeof init_data) / (sizeof init_data[0])); i++)
     CC2500_WriteReg(init_data[i][0], init_data[i][frskyX_format]);
-  for (uint32_t i=0; i < ((sizeof init_data_shared) / (sizeof init_data_shared[0])); i++)
+  for (uint8_t i=0; i < ((sizeof init_data_shared) / (sizeof init_data_shared[0])); i++)
     CC2500_WriteReg(init_data_shared[i][0], init_data_shared[i][1]);
 
   CC2500_WriteReg(CC2500_0C_FSCTRL0, fine);
@@ -750,12 +752,12 @@ static void frskyX_init()
   calData[47][2] = CC2500_ReadReg(CC2500_25_FSCAL1);
 }
 
-static void initialize(int bind)
+static void initialize(uint8_t bind)
 {
   CLOCK_StopTimer();                         PROTO_OPT_1 = (uint8_t)-50; // TODO remove after tests
 
   // initialize statics since 7e modules don't initialize
-  fine = PROTO_OPT_1;
+  fine = (int8_t)PROTO_OPT_1;
   packet_size = frskyX_format ? 33 : 30;
   frsky_id = SpiRFModule.fixed_id & 0x7FFF;
   failsafe_count = 0;
@@ -781,7 +783,7 @@ static void initialize(int bind)
     chanskip=random()%47;
   }
 
-  frskyX_init();
+  FRSKYX_init();
   CC2500_SetTxRxMode(TX_EN);  // enable PA
 
   if (bind) {
@@ -793,7 +795,7 @@ static void initialize(int bind)
     initialize_data(0);
   }
 
-  CLOCK_StartTimer(10000*2, frskyx_cb);
+  CLOCK_StartTimer(25000U *2, FRSKYX_cb);
 }
 
 const void *FRSKYX_Cmds(enum ProtoCmds cmd)
