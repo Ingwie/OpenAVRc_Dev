@@ -45,7 +45,7 @@ static const char * const frskyx_opts[] = {
   NULL
 };
 
-bool frskyX_format = 1; //0 US , 1 EU
+bool frskyX_format_EU = 1; //0 US , 1 EU
 
 enum {
   PROTO_OPTS_FAILSAFE,
@@ -79,7 +79,7 @@ static uint16_t X_state;
 //uint8_t ptr[4] = {0x00,0x11,0x22,0x33};
 enum {
   FRSKY_BIND,
-  FRSKY_BIND_DONE = 1000,
+  FRSKY_BIND_DONE = 10000,
   FRSKY_DATA1,
   FRSKY_DATA2,
   FRSKY_DATA3,
@@ -142,11 +142,11 @@ static uint16_t crc(uint8_t *data, uint8_t len)
 {
   uint16_t crc = 0;
   for(uint8_t i=0; i < len; i++)
-    crc = (crc<<8) ^ CRCTable[((uint8_t)(crc>>8) ^ *data++) & 0xFF];
+    crc = (crc<<8) ^ CRCTable[(uint8_t)(crc>>8) ^ *data++];
   return crc;
 }
 
-static void initialize_data(uint8_t adr)
+static void FRSKYX_initialize_data(uint8_t adr)
 {
   CC2500_WriteReg(CC2500_0C_FSCTRL0, fine);  // Frequency offset hack
   CC2500_WriteReg(CC2500_18_MCSM0,    0x8);
@@ -167,13 +167,12 @@ static void set_start(uint8_t ch)
 #define RXNUM 16
 static void frskyX_build_bind_packet()
 {
-  packet[0] = frskyX_format ? 0x20 : 0x1D;// LBT (EU) or  FCC (US)
+  packet[0] = frskyX_format_EU ? 0x20 : 0x1D;// LBT (EU) or  FCC (US)
   packet[1] = 0x03;
   packet[2] = 0x01;
-
   packet[3] = frsky_id;
   packet[4] = frsky_id >> 8;
-  uint8_t idx = ((X_state - FRSKY_BIND) % 10) * 5;
+  uint8_t idx = ((X_state % 10) * 5);
   packet[5] = idx;
   packet[6] = channels_used[idx++];
   packet[7] = channels_used[idx++];
@@ -211,8 +210,9 @@ static uint16_t scaleForPXX(uint8_t chan, uint8_t failsafe)
 // These are local to function but 7e modules don't initialize statics
 // so make file scope and set in initialize()
 static uint16_t failsafe_count;
-static uint8_t chan_offset;
 static uint8_t FS_flag;
+
+
 static void frskyX_data_frame()
 {
   //0x1D 0xB3 0xFD 0x02 0x56 0x07 0x15 0x00 0x00 0x00 0x04 0x40 0x00 0x04 0x40 0x00 0x04 0x40 0x00 0x04 0x40 0x08 0x00 0x00 0x00 0x00 0x00 0x00 0x96 0x12
@@ -225,7 +225,7 @@ static void frskyX_data_frame()
 
 
   // data frames sent every 9ms; failsafe every 9 seconds
-  if (FS_flag == 0  &&  failsafe_count > FAILSAFE_TIMEOUT  &&  chan_offset == 0 ) { // &&  Model.proto_opts[PROTO_OPTS_FAILSAFE] != FAILSAFE_RX) {
+  if (FS_flag == 0  &&  failsafe_count > FAILSAFE_TIMEOUT  &&  channel_offset == 0 ) { // &&  Model.proto_opts[PROTO_OPTS_FAILSAFE] != FAILSAFE_RX) {
     FS_flag = 0x10;
     failsafe_chan = 0;
   } else if (FS_flag & 0x10 && failsafe_chan < (/*Model.num_channels-1*/16)) {
@@ -238,7 +238,7 @@ static void frskyX_data_frame()
   failsafe_count += 1;
 
 
-  packet[0] = frskyX_format ? 0x20 : 0x1D;
+  packet[0] = frskyX_format_EU ? 0x20 : 0x1D;
   packet[1] = frsky_id;
   packet[2] = frsky_id >> 8;
 
@@ -253,10 +253,10 @@ static void frskyX_data_frame()
   packet[7] = 0;    // may be replaced by failsafe below
   packet[8] = 0;
 
-  startChan = chan_offset;
+  startChan = channel_offset;
 
   for(uint8_t i = 0; i < 12 ; i += 3) {    // 12 bytes of channel data
-    if (FS_flag & 0x10 && (((failsafe_chan & 0x7) | chan_offset) == startChan)) {
+    if (FS_flag & 0x10 && (((failsafe_chan & 0x7) | channel_offset) == startChan)) {
       packet[7] = FS_flag;
       chan_0 = scaleForPXX(failsafe_chan, 1);
     } else {
@@ -264,7 +264,7 @@ static void frskyX_data_frame()
     }
     startChan++;
 
-    if (FS_flag & 0x10 && (((failsafe_chan & 0x7) | chan_offset) == startChan)) {
+    if (FS_flag & 0x10 && (((failsafe_chan & 0x7) | channel_offset) == startChan)) {
       packet[7] = FS_flag;
       chan_1 = scaleForPXX(failsafe_chan, 1);
     } else {
@@ -283,7 +283,7 @@ static void frskyX_data_frame()
   else if (seq_last_rcvd == 0)
     seq_last_sent = 1;
 
-  chan_offset ^= 0x08;
+  channel_offset ^= 0x08;
 
   memset(&packet[22], 0, packet_size-24);
 
@@ -616,8 +616,10 @@ static uint16_t FRSKYX_cb()
   uint8_t len;
   int8_t finetmp;
 
+  heartbeat |= HEART_TIMER_PULSES;
+  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
   switch(X_state) {
-  default:
+  default: // BIND
     set_start(47);
     CC2500_SetPower(TXPOWER_1);
     CC2500_Strobe(CC2500_SFRX);
@@ -629,10 +631,11 @@ static uint16_t FRSKYX_cb()
 
   case FRSKY_BIND_DONE:
     PROTOCOL_SetBindState(0);
-    initialize_data(0);
+    FRSKYX_initialize_data(0);
     channr = 0;
     X_state++;
-    break;
+    return 100*2;
+
   case FRSKY_DATA1:
     finetmp = (int8_t)PROTO_OPT_1;
     if (fine != finetmp) {
@@ -674,7 +677,6 @@ static uint16_t FRSKYX_cb()
     X_state = FRSKY_DATA1;
     return 300*2;
   }
-  return 1*2;
 }
 
 // register, FCC, EU
@@ -726,7 +728,7 @@ static void FRSKYX_init()
   CC2500_Reset();
 
   for (uint8_t i=0; i < ((sizeof init_data) / (sizeof init_data[0])); i++)
-    CC2500_WriteReg(init_data[i][0], init_data[i][frskyX_format]);
+    CC2500_WriteReg(init_data[i][0], init_data[i][frskyX_format_EU ? 2 : 1]);
   for (uint8_t i=0; i < ((sizeof init_data_shared) / (sizeof init_data_shared[0])); i++)
     CC2500_WriteReg(init_data_shared[i][0], init_data_shared[i][1]);
 
@@ -752,16 +754,17 @@ static void FRSKYX_init()
   calData[47][2] = CC2500_ReadReg(CC2500_25_FSCAL1);
 }
 
-static void initialize(uint8_t bind)
+static void FRSKYX_initialize(uint8_t bind)
 {
-  CLOCK_StopTimer();                         PROTO_OPT_1 = (uint8_t)-50; // TODO remove after tests
+  CLOCK_StopTimer();
+  PROTO_OPT_1 = (uint8_t)-50; // TODO remove after tests
 
   // initialize statics since 7e modules don't initialize
   fine = (int8_t)PROTO_OPT_1;
-  packet_size = frskyX_format ? 33 : 30;
+  packet_size = frskyX_format_EU ? 33 : 30;
   frsky_id = SpiRFModule.fixed_id & 0x7FFF;
   failsafe_count = 0;
-  chan_offset = 0;
+  channel_offset = 0;
   FS_flag = 0;
   channr = 0;
   chanskip = 0;
@@ -773,26 +776,48 @@ static void initialize(uint8_t bind)
   UART_SetDataRate(57600);    // set for s.port compatibility
 #endif
 
-  //uint32_t seed = SpiRFModule.fixed_id;
 
-  for(uint8_t x = 0; x < 50; x ++) { channels_used[x] = hop_data[x]; }
-
-
-  while (!chanskip) {
-    srandom(0xfefefefe);
-    chanskip=random()%47;
+  for(uint8_t x = 0; x < 50; x ++) {
+    channels_used[x] = hop_data[x];
   }
 
+  /*// Build channel array. (V code for test)
+  channel_offset = frsky_id % 5;
+  uint8_t chan_num;
+  for(uint8_t x = 0; x < 50; x ++) {
+    chan_num = (x*5) + 3 + channel_offset;
+  channels_used[x] = (chan_num ? chan_num : 1); // Avoid binding channel 0.
+  }*/
+
+
+
+#if defined (SIMU)
+#define srandom(x) srand(x)
+#define random() rand()
+#endif
+
+  while (!chanskip) {
+    srandom(SpiRFModule.fixed_id & 0xfefefefe);
+    chanskip = random();
+    chanskip %= 47;
+  }
+  while((chanskip - ctr) % 4) {
+    ctr = (ctr+1) % 4;
+  }
+  counter_rst = (chanskip - ctr) >> 2;
+
+
   FRSKYX_init();
+
   CC2500_SetTxRxMode(TX_EN);  // enable PA
 
   if (bind) {
     PROTOCOL_SetBindState(0xFFFFFFFF);
     X_state = FRSKY_BIND;
-    initialize_data(1);
+    FRSKYX_initialize_data(1);
   } else {
     X_state = FRSKY_DATA1;
-    initialize_data(0);
+    FRSKYX_initialize_data(0);
   }
 
   CLOCK_StartTimer(25000U *2, FRSKYX_cb);
@@ -802,10 +827,10 @@ const void *FRSKYX_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
   case PROTOCMD_INIT:
-    initialize(0);
+    FRSKYX_initialize(0);
     return 0;
   case PROTOCMD_BIND:
-    initialize(1);
+    FRSKYX_initialize(1);
     return 0;
   case PROTOCMD_RESET:
     CLOCK_StopTimer();
@@ -828,9 +853,9 @@ const void *FRSKYX_Cmds(enum ProtoCmds cmd)
   case PROTOCMD_TELEMETRYTYPE:
     return (void *)(long) TELEM_FRSKY;
   case PROTOCMD_DEINIT:
-#if HAS_EXTENDED_TELEMETRY
+  #if HAS_EXTENDED_TELEMETRY
     UART_SetDataRate(0);  // restore data rate to default
-#endif*/
+  #endif*/
   default:
     break;
   }
