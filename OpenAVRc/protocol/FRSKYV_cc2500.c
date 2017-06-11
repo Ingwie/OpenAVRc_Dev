@@ -120,63 +120,26 @@ static uint8_t FRSKYV_crc8(uint8_t result, uint8_t *data, uint8_t len)
   return result;
 }
 
-#if 0
-static uint8_t FRSKYV_reflect8(uint8_t in)
-{
-  // Reflects the bits in a byte.
-  uint8_t i, j, out=0;
-
-  for(i = 0x80, j=0x01; i; i>>=1, j<<= 1) {
-    if(in & i) out |= j;
-  }
-  return out;
-}
-
-static uint8_t FRSKYV_calc_dp_crc_init(void)
-{
-// How TxId relates to data packet initial crc value.
-// ID      crc start value
-// 0x0000  0x0E
-// 0x0001  0xD7
-// 0x0002  0xBB
-// 0x0003  0x62
-// 0x1257  0xA6
-// 0x1258  0x7D
-// 0x1259  0xA4
-// 0x1E2D  0x89
-// 0x1E2E  0xE5
-// 0x1E2F  0x3C
-// 0x3210  0x1F
-// 0x3FFF  0x45
-
-// Apparently it's crc8 polynominal = 0xC1 initial value=0x6B reflect in and out xor value=0.
-// Fast bit by bit algorithm without augmented zero bytes.
-
-  uint8_t c, bit;
-  uint8_t crc = 0x6B; // Initial value.
-  static const uint8_t poly = 0xC1;
-
-    c = FRSKYV_reflect8(frsky_id >> 8);
-    for(uint8_t j=0x80; j; j>>=1) {
-      bit = crc & 0x80;
-      crc<<= 1;
-      if (c & j) bit^= 0x80;
-      if (bit) crc^= poly;
-    }
-
-    c = FRSKYV_reflect8(frsky_id & 0xFF);
-    for(uint8_t j=0x80; j; j>>=1) {
-      bit = crc & 0x80;
-      crc<<= 1;
-      if (c & j) bit^= 0x80;
-      if (bit) crc^= poly;
-    }
-  return FRSKYV_reflect8(crc);
-}
-#endif
 
 static uint8_t FRSKYV_crc8_le(void)
 {
+/*
+  How Tx Id relates to data packet initial crc value.
+  ID      crc start value
+  0x0000  0x0E
+  0x0001  0xD7
+  0x0002  0xBB
+  0x0003  0x62
+  0x1257  0xA6
+  0x1258  0x7D
+  0x1259  0xA4
+  0x1E2D  0x89
+  0x1E2E  0xE5
+  0x1E2F  0x3C
+  0x3210  0x1F
+  0x3FFF  0x45
+*/
+
   uint8_t result = 0xD6;
 
     result = result ^ (frsky_id >> 8);
@@ -197,6 +160,23 @@ static uint8_t FRSKYV_crc8_le(void)
 
 static void FRSKYV_build_bind_packet()
 {
+/*
+  Channels in bind packets for
+  Tx Id 0x30DD
+  0x00 = 0x0D,0x11,0x16,0x1B,0x20 // 0x0d -> 0x11 = step of 4.
+  0x05 = 0x25,0x2A,0x2F,0x34,0x39
+  0x0A = 0x3E,0x43,0x48,0x4D,0x52
+  0x0F = 0x57,0x5C,0x61,0x66,0x6B
+  0x14 = 0x70,0x75,0x7A,0x7F,0x84
+  0x19 = 0x89,0x8E,0x93,0x98,0x9D
+  0x1E = 0xA2,0xA7,0xAC,0xB1,0xB6
+  0x23 = 0xBB,0xC0,0xC5,0xCA,0xCF
+  0x28 = 0xD4,0xD9,0xDE,0xE3,0xE9
+  0x2D = 0xED,0xF2,0xF7,0xFC,0x01
+*/
+// Highest observed channel is 0xFC.
+// Steps between channels are almost always 5.
+
   static uint8_t bind_idx =0;
 
   packet[0] = 0x0E; //Length
@@ -308,11 +288,10 @@ static void FRSKYV_initialise(uint8_t bind)
   channel_offset = frsky_id % 5;
   uint8_t chan_num;
   for(uint8_t x = 0; x < 50; x ++) {
-    chan_num = (x*5) + 6 + channel_offset;
-	channels_used[x] = chan_num ? chan_num : 1; // Avoid binding channel 0.
+    chan_num = (x*5) + 3 + channel_offset;
+	channels_used[x] = (chan_num ? chan_num : 1); // Avoid binding channel 0.
   }
 
-//dp_crc_init = FRSKYV_calc_dp_crc_init();
   dp_crc_init = FRSKYV_crc8_le();
 
   if(bind) {
