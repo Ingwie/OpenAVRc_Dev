@@ -625,7 +625,9 @@ static uint16_t FRSKYX_cb()
     CC2500_Strobe(CC2500_SFRX);
     frskyX_build_bind_packet();
     CC2500_Strobe(CC2500_SIDLE);
+    CC2500_Strobe(CC2500_SFTX);
     CC2500_WriteData(packet, packet[0]+1);
+    CC2500_Strobe(CC2500_STX);
     X_state++;
     return 9000*2;
 
@@ -648,7 +650,9 @@ static uint16_t FRSKYX_cb()
     CC2500_Strobe(CC2500_SFRX);
     frskyX_data_frame();
     CC2500_Strobe(CC2500_SIDLE);
+    CC2500_Strobe(CC2500_SFTX);
     CC2500_WriteData(packet, packet[0]+1);
+    CC2500_Strobe(CC2500_STX);
     channr = (channr + chanskip) % 47;
     X_state++;
     return 5500*2;
