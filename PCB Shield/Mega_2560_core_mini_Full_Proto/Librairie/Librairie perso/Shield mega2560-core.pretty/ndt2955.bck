@@ -1,0 +1,7 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP NDT2955
+D 60V Vds, 2.5A Id
+$ENDCMP
+#
+#End Doc Library

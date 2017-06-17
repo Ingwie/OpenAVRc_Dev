@@ -1,0 +1,443 @@
+PCBNEW-LibDoc----V1  21/03/2011 05:20:23
+#
+$MODULE 1Pin_TH_40milVia
+Li 1Pin_TH_40milVia
+Kw Pad
+$EndMODULE
+#
+$MODULE LQFP64_Opendous
+Li LQFP64_Opendous
+Cd LQFP64
+Kw ARM
+$EndMODULE
+#
+$MODULE TDFN_8
+Li TDFN_8
+Kw TDFN_8
+$EndMODULE
+#
+$MODULE uMax_8
+Li uMax_8
+Kw uMax_8
+$EndMODULE
+#
+$MODULE Switch_SMT_TH
+Li Switch_SMT_TH
+Cd EVQ-Q2F03W, TL59AF100Q Compatible
+Kw Switch SMT TH Through-Hole
+$EndMODULE
+#
+$MODULE SM1210_Opendous
+Li SM1210_Opendous
+Kw CMS SM
+$EndMODULE
+#
+$MODULE 1Pin_SMT
+Li 1Pin_SMT
+Kw DEV
+$EndMODULE
+#
+$MODULE Switch_SMT_KMR2
+Li Switch_SMT_KMR2
+Kw KMR2xxNG SMT Switch
+$EndMODULE
+#
+$MODULE QFN32_Opendous
+Li QFN32_Opendous
+Cd Support CMS Plcc 32 pins
+Kw CMS Plcc
+$EndMODULE
+#
+$MODULE QFN32_Opendous_v2
+Li QFN32_Opendous_v2
+Cd Support CMS Plcc 32 pins
+Kw CMS Plcc
+$EndMODULE
+#
+$MODULE Switch_SMT_EVQ
+Li Switch_SMT_EVQ
+Cd EVQ-Q2F03W Compatible
+Kw Switch SMT
+$EndMODULE
+#
+$MODULE SIL-2_Opendous
+Li SIL-2_Opendous
+Cd Connecteurs 2 pins
+Kw CONN DEV
+$EndMODULE
+#
+$MODULE Battery_Clips_AAA
+Li Battery_Clips_AAA
+Kw AAA Battery Clips CatNo. 82 Keystone www.keyelco.com
+$EndMODULE
+#
+$MODULE TrimPOT_PVZ3G
+Li TrimPOT_PVZ3G
+Kw muRata PVZ3G SMT Trimmer Potentiometers 220-2.2M Ohm
+$EndMODULE
+#
+$MODULE DIP_Switches_0.05inch_10POS_218-10LPST
+Li DIP_Switches_0.05inch_10POS_218-10LPST
+Kw 218-10LPST CTS Electrocomponents Series 218 Half-Pitch SMD DIP Switches 10-POS Gull Wing
+$EndMODULE
+#
+$MODULE SC70-6L_PowerPak_Vishay
+Li SC70-6L_PowerPak_Vishay
+Kw SC-70-6L-Single Vishay PowerPak Si?4?? TrenchFET Power MOSFETs Opendous
+$EndMODULE
+#
+$MODULE Memory_Card_MMCplus_GMC05005XSEU
+Li Memory_Card_MMCplus_GMC05005XSEU
+Kw Memory Card MMC MMCplus RS-MMC Amphenol GMC05005XSEU Opendous
+$EndMODULE
+#
+$MODULE TSSOP20_PW
+Li TSSOP20_PW
+Cd TSSOP 20 Pins
+Kw CMS TSSOP SMD TI PW
+$EndMODULE
+#
+$MODULE Memory_Card_SD_3M
+Li Memory_Card_SD_3M
+Kw SD Memory Card Connector 3M SD-RSMT-2-MQ-WF Push-Push RA SMD Opendous
+$EndMODULE
+#
+$MODULE SC70-3_SOT-323
+Li SC70-3_SOT-323
+Kw SOT323
+$EndMODULE
+#
+$MODULE CONN_USB_A_Vertical_Opendous
+Li CONN_USB_A_Vertical_Opendous
+Cd USB SERIES A HOLE MOUNTED
+Kw USB SERIES A HOLE MOUNTED
+$EndMODULE
+#
+$MODULE Memory_Card_MMCplus_GMC06003XSEU
+Li Memory_Card_MMCplus_GMC06003XSEU
+Kw Memory Card MMC MMCplus RS-MMC Amphenol GMC06003XSEU or 101-00395-68 or Newark 40P2505 Opendous
+$EndMODULE
+#
+$MODULE CONN_USB2_MiniB_SMT
+Li CONN_USB2_MiniB_SMT
+Cd USB SERIES MINI-B SURFACE MOUNTED
+Kw USB SERIES MINI-B SURFACE MOUNTED
+$EndMODULE
+#
+$MODULE CONN_USB_A_Opendous
+Li CONN_USB_A_Opendous
+Cd USB SERIES A HOLE MOUNTED
+Kw USB SERIES A HOLE MOUNTED
+$EndMODULE
+#
+$MODULE Switch_SMT_TH_EVQ
+Li Switch_SMT_TH_EVQ
+Cd EVQ-Q2F03W Compatible
+Kw Switch SMT
+$EndMODULE
+#
+$MODULE Switch_TH_TL59
+Li Switch_TH_TL59
+Kw Switch TH E-Switch TL59
+$EndMODULE
+#
+$MODULE CONN_USB-A_Vertical_Opendous
+Li CONN_USB-A_Vertical_Opendous
+Cd USB SERIES A HOLE MOUNTED
+Kw USB SERIES A HOLE MOUNTED
+$EndMODULE
+#
+$MODULE RJ45_Pulse_J403-A
+Li RJ45_Pulse_J403-A
+Kw RJ45
+$EndMODULE
+#
+$MODULE SC70-3_SOT-323_NCH-FET
+Li SC70-3_SOT-323_NCH-FET
+Kw SOT323
+$EndMODULE
+#
+$MODULE CONN_USB_B
+Li CONN_USB_B
+Kw USB
+$EndMODULE
+#
+$MODULE Switch_SMT_TH_EVQ_TL59
+Li Switch_SMT_TH_EVQ_TL59
+Cd EVQ-Q2F03W, TL59AF100Q Compatible
+Kw Switch SMT TH Through-Hole
+$EndMODULE
+#
+$MODULE SOT223_Opendous
+Li SOT223_Opendous
+Cd module CMS SOT223 4 pins
+Kw CMS SOT
+$EndMODULE
+#
+$MODULE Bridge_Rectifier_SMD_4SDIP
+Li Bridge_Rectifier_SMD_4SDIP
+Cd 4pin SDIP
+Kw SDIP
+$EndMODULE
+#
+$MODULE Chip_Antenna_AF_2.4GHz
+Li Chip_Antenna_AF_2.4GHz
+Kw ANT-2.45-CHP
+$EndMODULE
+#
+$MODULE DC_Power_Jack_SMT_PJ006
+Li DC_Power_Jack_SMT_PJ006
+Kw CUI PJ-006B-SMT
+$EndMODULE
+#
+$MODULE DC_Power_Jack_SMT_PJ015
+Li DC_Power_Jack_SMT_PJ015
+Kw CUI PJ-015B-SMT CUI PJ-015A-SMT
+$EndMODULE
+#
+$MODULE HC49-US_Minimized
+Li HC49-US_Minimized
+Cd HC/49US (AT49) SMD Low Profile Crystal
+Kw HC49US HC49 AT49 SMT SMD TH Through-Hole Crystal
+$EndMODULE
+#
+$MODULE HC49-US
+Li HC49-US
+Cd HC/49US (AT49) SMD Low Profile Crystal
+Kw HC49US HC49 AT49 SMT SMD TH Through-Hole Crystal
+$EndMODULE
+#
+$MODULE BGA64_P0.8mm_8x8mm_ADS1298
+Li BGA64_P0.8mm_8x8mm_ADS1298
+Kw BGA PBGA NFBGA TI ZXG 64pos 8x8mm ADS1298 Opendous
+$EndMODULE
+#
+$MODULE UMCC_RF_PCB_Receptacle_StyleA_Tyco1566230
+Li UMCC_RF_PCB_Receptacle_StyleA_Tyco1566230
+Kw UMCC U.FL RF PCB Receptacle Style-A Tyco-1566230 Hirose-U.FL-R-SMT DC-6GHz 50 Ohms Opendous
+$EndMODULE
+#
+$MODULE SMD_Inductor_LQH3NP
+Li SMD_Inductor_LQH3NP
+Kw LQH3NP 3x3mm SMD Inductor MuRata
+$EndMODULE
+#
+$MODULE SMD_Inductor_VLF301x
+Li SMD_Inductor_VLF301x
+Kw VLF3010 VLF3014 2.6x2.8mm SMD Inductor TDK
+$EndMODULE
+#
+$MODULE SOT23-5_Opendous
+Li SOT23-5_Opendous
+Kw SOT23-5_Opendous
+$EndMODULE
+#
+$MODULE SO8E_4x5mm_Opendous
+Li SO8E_4x5mm_Opendous
+Cd module CMS SOJ 8 pins etroit
+Kw CMS SOJ
+$EndMODULE
+#
+$MODULE SOT23-3_Opendous
+Li SOT23-3_Opendous
+Kw SOT23-3_Opendous
+$EndMODULE
+#
+$MODULE SOT23-6_Opendous
+Li SOT23-6_Opendous
+Kw SOT23-6_Opendous
+$EndMODULE
+#
+$MODULE XBGA_6
+Li XBGA_6
+Kw WCSP TI YZP
+$EndMODULE
+#
+$MODULE Stereo_Jack_SMT
+Li Stereo_Jack_SMT
+Kw SJ1-3513-SMT CUI Inc.
+$EndMODULE
+#
+$MODULE Switch_SMT
+Li Switch_SMT
+Cd EVQ-Q2F03W Compatible
+Kw Switch SMT
+$EndMODULE
+#
+$MODULE TrimPOT_PVG3A
+Li TrimPOT_PVG3A
+Kw muRata PVG3A SMD Potentiometer
+$EndMODULE
+#
+$MODULE VFBGA63_0.8mm_6x8_NAND0xG-B2
+Li VFBGA63_0.8mm_6x8_NAND0xG-B2
+Kw VFBGA63 0.8mm Pitch 6x8mm Standard FLASH Opendous
+$EndMODULE
+#
+$MODULE VFBGA54_0.8mm_9x9_MT48H
+Li VFBGA54_0.8mm_9x9_MT48H
+Kw VFBGA54 0.8mm Pitch 9x9mm JEDEC Mobile SDRAM Opendous
+$EndMODULE
+#
+$MODULE TSOPII54_SDRAM_MT48
+Li TSOPII54_SDRAM_MT48
+Kw TSOPII54 JEDEC SDRAM Opendous
+$EndMODULE
+#
+$MODULE TSOP66_JEDEC_DDR_SDRAM
+Li TSOP66_JEDEC_DDR_SDRAM
+Kw TSOP66 JEDEC DDR SDRAM Opendous
+$EndMODULE
+#
+$MODULE TSOPII32
+Li TSOPII32
+Kw TSOPII32 CY7C1019D-10ZXSI 1Mbit SRAM Opendous
+$EndMODULE
+#
+$MODULE TFBGA180_0.8mm_14x14_LPC313x
+Li TFBGA180_0.8mm_14x14_LPC313x
+Kw TFBGA180 0.8mm Pitch 14x14mm NXP LPC313x Opendous
+$EndMODULE
+#
+$MODULE LQFP100_0.5mm_SOT407-1_LPC1768
+Li LQFP100_0.5mm_SOT407-1_LPC1768
+Kw LQFP100 0.5mm Pitch SOT407-1 NXP LPC176x Opendous
+$EndMODULE
+#
+$MODULE LQFP80_0.5mm_SOT315_Opendous
+Li LQFP80_0.5mm_SOT315_Opendous
+Kw LQFP80 0.5mm Pitch SOT315 NXP LPC175x Opendous
+$EndMODULE
+#
+$MODULE LQFP64_0.5mm_Pitch_10x10mm_FT2232
+Li LQFP64_0.5mm_Pitch_10x10mm_FT2232
+Kw LQFP64 0.5mm Pitch 10x10mm FT2232 Opendous
+$EndMODULE
+#
+$MODULE 1553B_Hammond_Enclosure
+Li 1553B_Hammond_Enclosure
+Kw Guard Ring and Edge Outline for Hammond 1553B_BAT Enclosure Opendous
+$EndMODULE
+#
+$MODULE SJ-3524-SMT_Stereo_Jack
+Li SJ-3524-SMT_Stereo_Jack
+Kw Stereo Jack SJ-3524-SMT Opendous
+$EndMODULE
+#
+$MODULE BATTery_Molex_53047-0310
+Li BATTery_Molex_53047-0310
+Cd Molex 53047-0310
+Kw Molex 53047-0310 which mates with Molex 51021-0300
+$EndMODULE
+#
+$MODULE OSCILLATOR_DIP_HALF_FULL_SIZE
+Li OSCILLATOR_DIP_HALF_FULL_SIZE
+Cd 14/8-Pin DIL package, round pads
+Kw DIL
+$EndMODULE
+#
+$MODULE MSOP10-0.5mmPitch_Opendous
+Li MSOP10-0.5mmPitch_Opendous
+Cd MSOP10 10pins pitch 0.5mm
+$EndMODULE
+#
+$MODULE Switch_SMT_TH_EVQ_TL59_Minimized
+Li Switch_SMT_TH_EVQ_TL59_Minimized
+Cd EVQ-Q2F03W, TL59AF100Q Compatible
+Kw Switch SMT TH Through-Hole
+$EndMODULE
+#
+$MODULE CONN_USB-A_Vertical_RA
+Li CONN_USB-A_Vertical_RA
+Kw EDAC USB-A Receptacle Right Angle Vertical 690-004-261-013
+$EndMODULE
+#
+$MODULE Memory_Card_microSD_3M_290805
+Li Memory_Card_microSD_3M_290805
+Kw microSD 3M 290805 DigiKey 3M5607CT-ND Opendous
+$EndMODULE
+#
+$MODULE Switch_SMT_TH_EVQ_TL59_Minimized_v2
+Li Switch_SMT_TH_EVQ_TL59_Minimized_v2
+Cd EVQ-Q2F03W, TL59AF100Q Compatible
+Kw Switch SMT TH Through-Hole
+$EndMODULE
+#
+$MODULE MEMORY_CARD_microSD_101-00303_Amphenol
+Li MEMORY_CARD_microSD_101-00303_Amphenol
+Kw microSD Amphenol 101-00303-** Memory Card Connector
+$EndMODULE
+#
+$MODULE SSOP20_TSSOP20_Opendous
+Li SSOP20_TSSOP20_Opendous
+Cd TSSOP 20 Pins
+Kw CMS TSSOP SMD TI PW
+$EndMODULE
+#
+$MODULE Memory_Card_microSD_DM3CS-SF
+Li Memory_Card_microSD_DM3CS-SF
+Kw Hirose DM3CS-SF CONN microSD R/A Hinge Type SMD
+$EndMODULE
+#
+$MODULE BGA-144_1.0mm_Kinetis
+Li BGA-144_1.0mm_Kinetis
+Kw BGA 144 1.0mm 13x13mm Kinetis
+$EndMODULE
+#
+$MODULE BGA-289_p0.8_iMX28
+Li BGA-289_p0.8_iMX28
+Kw BGA 289 0.8mm 14x14mm
+$EndMODULE
+#
+$MODULE BGA-84_P0.8mm_JEDEC_DDR2
+Li BGA-84_P0.8mm_JEDEC_DDR2
+Kw BGA 84 0.8mm 8x12.5mm JEDEC DDR2 x16
+$EndMODULE
+#
+$MODULE Memory_Card_microSD_DM3D-SF
+Li Memory_Card_microSD_DM3D-SF
+Kw Hirose DM3D-SF CONN microSD R/A Push-Pull SMD
+$EndMODULE
+#
+$MODULE Antenna_Meander_2.4GHz_TI_AN043
+Li Antenna_Meander_2.4GHz_TI_AN043
+Kw Small 2.4GHz Meander Antenna TI AppNote AN0403 SWRA117D
+$EndMODULE
+#
+$MODULE MEC6-140-2-L-D-RA1
+Li MEC6-140-2-L-D-RA1
+Kw MEC6-140-2-S-D-RA1 or MEC6-140-2-L-D-RA1 Sullins MEC6 7GBps 14GHz Edgeboard
+$EndMODULE
+#
+$MODULE SATA_Molex_67490-1220
+Li SATA_Molex_67490-1220
+Kw Molex SATA 67490-002 67490-1220
+$EndMODULE
+#
+$MODULE SATA_Molex_67490-1220_Electrode
+Li SATA_Molex_67490-1220_Electrode
+Kw Molex SATA 67490-002 67490-1220
+$EndMODULE
+#
+$MODULE SOT23-8_Opendous
+Li SOT23-8_Opendous
+Kw SOT23-8_Opendous
+$EndMODULE
+#
+$MODULE EVJ_Dual_Potentiometer
+Li EVJ_Dual_Potentiometer
+Kw Panasonic EVJ Dual Audio Potentiometer EVJC20
+$EndMODULE
+#
+$MODULE SM1210L_Opendous
+Li SM1210L_Opendous
+Kw SMT 1210
+$EndMODULE
+#
+$MODULE SO8E_4x5mm_Opendous_ThermalPad
+Li SO8E_4x5mm_Opendous_ThermalPad
+Cd module CMS SOJ 8 pins etroit
+Kw SO8
+$EndMODULE
+#
+$EndLIBDOC
