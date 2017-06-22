@@ -31,8 +31,6 @@
 */
 
 
-#ifdef PROTO_HAS_CC2500
-
 #include "iface_cc2500.h"
 
 
@@ -73,13 +71,11 @@ static int8_t fine;
 static uint8_t seq_last_sent;
 static uint8_t seq_last_rcvd;
 static uint8_t packet_size;
-static uint16_t X_state;
+static uint8_t X_state;
 
 // uint8_t ptr[4] = {0x01,0x12,0x23,0x30};
 //uint8_t ptr[4] = {0x00,0x11,0x22,0x33};
 enum {
-  FRSKY_BIND,
-  FRSKY_BIND_DONE = 10000,
   FRSKY_DATA1,
   FRSKY_DATA2,
   FRSKY_DATA3,
@@ -149,7 +145,7 @@ static uint16_t crc(uint8_t *data, uint8_t len)
 static void FRSKYX_initialize_data(uint8_t adr)
 {
   CC2500_WriteReg(CC2500_0C_FSCTRL0, fine);  // Frequency offset hack
-  CC2500_WriteReg(CC2500_18_MCSM0,    0x8);
+  CC2500_WriteReg(CC2500_18_MCSM0,    0x08);
   CC2500_WriteReg(CC2500_09_ADDR, adr ? 0x03 : (frsky_id & 0xff));
   CC2500_WriteReg(CC2500_07_PKTCTRL1,0x05);
 }
@@ -161,7 +157,7 @@ static void set_start(uint8_t ch)
   CC2500_WriteReg(CC2500_23_FSCAL3, calData[ch][0]);
   CC2500_WriteReg(CC2500_24_FSCAL2, calData[ch][1]);
   CC2500_WriteReg(CC2500_25_FSCAL1, calData[ch][2]);
-  CC2500_WriteReg(CC2500_0A_CHANNR, ch == 47 ? 0 : channels_used[ch]);
+  CC2500_WriteReg(CC2500_0A_CHANNR, (ch == 47) ? 0 : channels_used[ch]);
 }
 
 #define RXNUM 16
@@ -172,13 +168,12 @@ static void frskyX_build_bind_packet()
   packet[2] = 0x01;
   packet[3] = frsky_id;
   packet[4] = frsky_id >> 8;
-  uint8_t idx = ((X_state % 10) * 5);
-  packet[5] = idx;
-  packet[6] = channels_used[idx++];
-  packet[7] = channels_used[idx++];
-  packet[8] = channels_used[idx++];
-  packet[9] = channels_used[idx++];
-  packet[10] = channels_used[idx++];
+  packet[5] = X_state *5; // Index into channels_used array.
+  packet[6] =  channels_used[ (packet[5]) +0];
+  packet[7] =  channels_used[ (packet[5]) +1];
+  packet[8] =  channels_used[ (packet[5]) +2];
+  packet[9] =  channels_used[ (packet[5]) +3];
+  packet[10] = channels_used[ (packet[5]) +4];
   packet[11] = 0x02;
   packet[12] = RXNUM;
 
@@ -188,6 +183,8 @@ static void frskyX_build_bind_packet()
   packet[packet_size-2] = lcrc >> 8;
   packet[packet_size-1] = lcrc;
 
+  ++X_state;
+  if(X_state > 9) X_state = 0;
 }
 
 
@@ -199,7 +196,7 @@ static uint16_t scaleForPXX(uint8_t chan, uint8_t failsafe)
 //  return (uint16_t)(((Servo_data[i]-PPM_MIN)*3)>>1)+64;
 // 0-2047, 0 = 817, 1024 = 1500, 2047 = 2182
   int16_t value = channelOutputs[chan];
-  value >>= 2; // x/2
+  value /= 2; // x/2
   value = limit((int16_t)-1024, value, (int16_t)+1024);
   value += 1024;
   return value;
@@ -611,32 +608,27 @@ static void frsky_check_telemetry(uint8_t *pkt, uint8_t len)
     }*/
 }
 
+static uint16_t FRSKYX_bind_cb()
+{
+  set_start(47);
+  CC2500_SetPower(TXPOWER_1);
+  CC2500_Strobe(CC2500_SFRX);
+  frskyX_build_bind_packet();
+  CC2500_Strobe(CC2500_SIDLE);
+  CC2500_Strobe(CC2500_SFTX);
+  CC2500_WriteData(packet, packet[0]+1);
+  CC2500_Strobe(CC2500_STX);
+  heartbeat |= HEART_TIMER_PULSES;
+  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+  return 18000U *2;
+}
+
 static uint16_t FRSKYX_cb()
 {
   uint8_t len;
   int8_t finetmp;
 
-  heartbeat |= HEART_TIMER_PULSES;
-  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
   switch(X_state) {
-  default: // BIND
-    set_start(47);
-    CC2500_SetPower(TXPOWER_1);
-    CC2500_Strobe(CC2500_SFRX);
-    frskyX_build_bind_packet();
-    CC2500_Strobe(CC2500_SIDLE);
-    CC2500_Strobe(CC2500_SFTX);
-    CC2500_WriteData(packet, packet[0]+1);
-    CC2500_Strobe(CC2500_STX);
-    X_state++;
-    return 9000*2;
-
-  case FRSKY_BIND_DONE:
-    PROTOCOL_SetBindState(0);
-    FRSKYX_initialize_data(0);
-    channr = 0;
-    X_state++;
-    return 100*2;
 
   case FRSKY_DATA1:
     finetmp = (int8_t)PROTO_OPT_1;
@@ -645,9 +637,9 @@ static uint16_t FRSKYX_cb()
       CC2500_WriteReg(CC2500_0C_FSCTRL0, fine);
     }
     CC2500_SetTxRxMode(TX_EN);
+    CC2500_Strobe(CC2500_SIDLE); // Force idle if still receiving in error condition.
     set_start(channr);
     CC2500_SetPower(TXPOWER_1);
-    CC2500_Strobe(CC2500_SFRX);
     frskyX_data_frame();
     CC2500_Strobe(CC2500_SIDLE);
     CC2500_Strobe(CC2500_SFTX);
@@ -655,6 +647,8 @@ static uint16_t FRSKYX_cb()
     CC2500_Strobe(CC2500_STX);
     channr = (channr + chanskip) % 47;
     X_state++;
+    heartbeat |= HEART_TIMER_PULSES;
+    dt = TCNT1 - OCR1A; // Calculate latency and jitter.
     return 5500*2;
 
   case FRSKY_DATA2:
@@ -680,6 +674,9 @@ static uint16_t FRSKYX_cb()
     }
     X_state = FRSKY_DATA1;
     return 300*2;
+
+  default :
+    return 0;
   }
 }
 
@@ -692,7 +689,7 @@ static const uint8_t init_data[][3] = {
   {CC2500_06_PKTLEN,    0x1E,  0x23},
   {CC2500_07_PKTCTRL1,  0x04,  0x04},
   {CC2500_08_PKTCTRL0,  0x01,  0x01},
-  {CC2500_3E_PATABLE,   0xff,  0xff},
+  {CC2500_3E_PATABLE,   TXPOWER_1,  TXPOWER_1},
   {CC2500_0B_FSCTRL1,   0x0A,  0x08},
   {CC2500_0C_FSCTRL0,   0x00,  0x00},
   {CC2500_0D_FREQ2,     0x5c,  0x5c},
@@ -729,15 +726,12 @@ static const uint8_t init_data_shared[][2] = {
 
 static void FRSKYX_init()
 {
-  CC2500_Reset();
-
-  for (uint8_t i=0; i < ((sizeof init_data) / (sizeof init_data[0])); i++)
-    CC2500_WriteReg(init_data[i][0], init_data[i][frskyX_format_EU ? 2 : 1]);
-  for (uint8_t i=0; i < ((sizeof init_data_shared) / (sizeof init_data_shared[0])); i++)
-    CC2500_WriteReg(init_data_shared[i][0], init_data_shared[i][1]);
-
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, fine);
   CC2500_Strobe(CC2500_SIDLE);
+
+  for (uint8_t i=0; i < DIM(init_data); i++)
+    CC2500_WriteReg(init_data[i][0], init_data[i][frskyX_format_EU ? 2 : 1]);
+  for (uint8_t i=0; i < DIM(init_data_shared); i++)
+    CC2500_WriteReg(init_data_shared[i][0], init_data_shared[i][1]);
 
   //calibrate hop channels
   for (uint8_t c = 0; c < 47; c++) {
@@ -750,17 +744,21 @@ static void FRSKYX_init()
     calData[c][2] = CC2500_ReadReg(CC2500_25_FSCAL1);
   }
   CC2500_Strobe(CC2500_SIDLE);
-  CC2500_WriteReg(CC2500_0A_CHANNR, 0x00);
+  CC2500_WriteReg(CC2500_0A_CHANNR, 0);
   CC2500_Strobe(CC2500_SCAL);
   _delay_us(900);
-  calData[47][0] = CC2500_ReadReg(CC2500_23_FSCAL3);
-  calData[47][1] = CC2500_ReadReg(CC2500_24_FSCAL2);
-  calData[47][2] = CC2500_ReadReg(CC2500_25_FSCAL1);
+  calData[47][0] = CC2500_ReadReg(CC2500_23_FSCAL3); // Charge pump current calibration
+  calData[47][1] = CC2500_ReadReg(CC2500_24_FSCAL2); // VCO current calibration
+  calData[47][2] = CC2500_ReadReg(CC2500_25_FSCAL1); // VCO capacitance calibration
+
 }
 
 static void FRSKYX_initialize(uint8_t bind)
 {
   CLOCK_StopTimer();
+
+  CC2500_Reset();
+
   PROTO_OPT_1 = (uint8_t)-50; // TODO remove after tests
 
   // initialize statics since 7e modules don't initialize
@@ -781,18 +779,15 @@ static void FRSKYX_initialize(uint8_t bind)
 #endif
 
 
-  for(uint8_t x = 0; x < 50; x ++) {
-    channels_used[x] = hop_data[x];
-  }
+  //for(uint8_t x = 0; x < 50; x ++) { channels_used[x] = hop_data[x]; }
 
-  /*// Build channel array. (V code for test)
+  // Build channel array. (V code for test)
   channel_offset = frsky_id % 5;
   uint8_t chan_num;
   for(uint8_t x = 0; x < 50; x ++) {
     chan_num = (x*5) + 3 + channel_offset;
-  channels_used[x] = (chan_num ? chan_num : 1); // Avoid binding channel 0.
-  }*/
-
+    channels_used[x] = (chan_num ? chan_num : 1); // Avoid binding channel 0.
+  }
 
 
 #if defined (SIMU)
@@ -802,14 +797,12 @@ static void FRSKYX_initialize(uint8_t bind)
 
   while (!chanskip) {
     srandom(SpiRFModule.fixed_id & 0xfefefefe);
-    chanskip = random();
-    chanskip %= 47;
+    chanskip = random()%47;
   }
   while((chanskip - ctr) % 4) {
     ctr = (ctr+1) % 4;
   }
   counter_rst = (chanskip - ctr) >> 2;
-
 
   FRSKYX_init();
 
@@ -817,14 +810,17 @@ static void FRSKYX_initialize(uint8_t bind)
 
   if (bind) {
     PROTOCOL_SetBindState(0xFFFFFFFF);
-    X_state = FRSKY_BIND;
     FRSKYX_initialize_data(1);
-  } else {
-    X_state = FRSKY_DATA1;
-    FRSKYX_initialize_data(0);
-  }
+    X_state = 0;
+    CLOCK_StartTimer(25000U *2, FRSKYX_bind_cb);
 
-  CLOCK_StartTimer(25000U *2, FRSKYX_cb);
+  } else {
+    PROTOCOL_SetBindState(0);
+    FRSKYX_initialize_data(0);
+    channr = 0;
+    X_state = FRSKY_DATA1;
+    CLOCK_StartTimer(25000U *2, FRSKYX_cb);
+  }
 }
 
 const void *FRSKYX_Cmds(enum ProtoCmds cmd)
@@ -865,4 +861,3 @@ const void *FRSKYX_Cmds(enum ProtoCmds cmd)
   }
   return 0;
 }
-#endif
