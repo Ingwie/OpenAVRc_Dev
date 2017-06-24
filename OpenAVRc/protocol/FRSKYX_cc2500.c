@@ -610,10 +610,10 @@ static void frsky_check_telemetry(uint8_t *pkt, uint8_t len)
 
 static uint16_t FRSKYX_bind_cb()
 {
+  frskyX_build_bind_packet();
   set_start(47);
   CC2500_SetPower(TXPOWER_1);
   CC2500_Strobe(CC2500_SFRX);
-  frskyX_build_bind_packet();
   CC2500_Strobe(CC2500_SIDLE);
   CC2500_Strobe(CC2500_SFTX);
   CC2500_WriteData(packet, packet[0]+1);
@@ -636,11 +636,11 @@ static uint16_t FRSKYX_cb()
       fine = finetmp;
       CC2500_WriteReg(CC2500_0C_FSCTRL0, fine);
     }
+    frskyX_data_frame();
     CC2500_SetTxRxMode(TX_EN);
     CC2500_Strobe(CC2500_SIDLE); // Force idle if still receiving in error condition.
     set_start(channr);
     CC2500_SetPower(TXPOWER_1);
-    frskyX_data_frame();
     CC2500_Strobe(CC2500_SIDLE);
     CC2500_Strobe(CC2500_SFTX);
     CC2500_WriteData(packet, packet[0]+1);
@@ -682,8 +682,8 @@ static uint16_t FRSKYX_cb()
 
 // register, FCC, EU
 static const uint8_t init_data[][3] = {
-  {CC2500_02_IOCFG0,    0x06,  0x06},
-  {CC2500_00_IOCFG2,    0x06,  0x06},
+  //{CC2500_02_IOCFG0,    0x06,  0x06},
+  //{CC2500_00_IOCFG2,    0x06,  0x06},
   {CC2500_17_MCSM1,     0x0c,  0x0E},
   {CC2500_18_MCSM0,     0x18,  0x18},
   {CC2500_06_PKTLEN,    0x1E,  0x23},
