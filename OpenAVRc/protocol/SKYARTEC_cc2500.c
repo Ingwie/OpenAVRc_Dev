@@ -33,20 +33,9 @@
 
 #include "../OpenAVRc.h"
 
-static uint8_t Skyartec_state;
 static uint32_t Skyartec_fixed_id;
-static uint16_t bind_count;
 #define TX_ADDR ((Skyartec_fixed_id >> 16) & 0xff)
 #define TX_CHANNEL ((Skyartec_fixed_id >> 24) & 0xff)
-
-enum {
-  SKYARTEC_PKT1 = 0,
-  SKYARTEC_PKT2,
-  SKYARTEC_PKT3,
-  SKYARTEC_PKT4,
-  SKYARTEC_PKT5,
-  SKYARTEC_PKT6
-};
 
 const static uint8_t ZZ_skyartecInitSequence[] PROGMEM = {
   CC2500_16_MCSM2, 0x07,
@@ -157,7 +146,7 @@ static void send_data_packet()
   CC2500_WriteReg(CC2500_09_ADDR, TX_ADDR);
   CC2500_WriteReg(CC2500_0A_CHANNR, TX_CHANNEL);
   CC2500_Strobe(CC2500_SFTX);
-  CC2500_WriteData(packet, 20);
+  CC2500_WriteData(packet, packet[0]+1);
   CC2500_Strobe(CC2500_STX);
 }
 
@@ -187,40 +176,41 @@ static void send_bind_packet()
   CC2500_Strobe(CC2500_STX);
 }
 
-
-static uint16_t skyartec_cb()
+static uint16_t SKYARTEC_bind_cb()
 {
-  // SCHEDULE_MIXER_END((uint16_t) (6 *2) *8); // Todo
-
-  if (Skyartec_state != SKYARTEC_PKT6) {
-    send_data_packet();
-    Skyartec_state++;
-  } else {
-    if (--bind_count) send_bind_packet();
-    Skyartec_state = SKYARTEC_PKT1;
-  }
+  send_bind_packet();
   heartbeat |= HEART_TIMER_PULSES;
   dt = TCNT1 - OCR1A; // Calculate latency and jitter.
-  return 12000 *2;
+  return 18000U *2;
+}
+
+static uint16_t SKYARTEC_cb()
+{
+  // SCHEDULE_MIXER_END((uint16_t) (6 *2) *8); // Todo
+  send_data_packet();
+  heartbeat |= HEART_TIMER_PULSES;
+  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+  return 12000U *2;
 }
 
 
-static void skyartec_initialize()
+static void SKYARTEC_initialize(uint8_t bind)
 {
   CLOCK_StopTimer();
   skyartec_init();
   Skyartec_fixed_id = SpiRFModule.fixed_id;
-  bind_count = 10000;
-  Skyartec_state = SKYARTEC_PKT1;
-
-  CLOCK_StartTimer(25000U *2, skyartec_cb);
+  if (bind) {
+  CLOCK_StartTimer(25000U *2, SKYARTEC_bind_cb);
+  } else {
+  CLOCK_StartTimer(25000U *2, SKYARTEC_cb);
+  }
 }
 
 const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
   case PROTOCMD_INIT:
-    skyartec_initialize();
+    SKYARTEC_initialize(0);
     return 0;
   //case PROTOCMD_DEINIT:
   case PROTOCMD_RESET:
@@ -230,7 +220,7 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
   //case PROTOCMD_CHECK_AUTOBIND:
     //return (void *)1L; // Always Autobind
   case PROTOCMD_BIND:
-    skyartec_initialize();
+    SKYARTEC_initialize(1);
     return 0;
   //case PROTOCMD_NUMCHAN:
     //return (void *)7L;
