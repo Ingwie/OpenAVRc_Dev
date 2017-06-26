@@ -45,6 +45,18 @@ const void * (*PROTO_Cmds)(enum ProtoCmds);
 static volatile uint32_t msecs = 0;
 
 
+void inline PROTO_Change_Callback(uint16_t (*cb)(void))
+{
+  /*
+   * Change the pointer to the callback function.
+   * Should be called from within a protocol callback function.
+   * e.g. To go from bind to normal mode.
+   * skyartec_bind_cb() calls this ... Change_Callback(skyartec_norm_cb);
+  */
+  if(! cb) return;
+  timer_callback = cb; // timer_callback = pointer to function.
+}
+
 
 void CLOCK_StartTimer(uint16_t half_us, uint16_t (*cb)(void))
 {
