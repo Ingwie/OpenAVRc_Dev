@@ -137,13 +137,6 @@ FORCEINLINE void boardInit()
 // Setup pin states and USART in MSPI mode.
 // Initialisation of USART.
 
-  SDCARD_CS_N_INACTIVE();
-  RF_CS_CC2500_INACTIVE();
-  RF_CS_CYRF6936_INACTIVE();
-
-  SpiRFModule.fixed_id = 0x1a2b3c4d;
-  SpiRFModule.mode = NORMAL_MODE;
-
   /*
   UBRR2 = 0; // Reset is part of initialisation sequence.
   UCSR2C = 0xC3; // UMSEL21:0 = 3 DORD2=0 CPHA2=1 CPOL2=1  USART in Master SPI mode, MSB first, Clock phase=1 Polarity=1.
@@ -152,6 +145,13 @@ FORCEINLINE void boardInit()
 
   DDRJ |= (1<<PORTH1) | (1<<PORTH2);
   DDRJ &= ~(1<<PORTH0);*/
+
+  SDCARD_CS_N_INACTIVE();
+  RF_CS_CC2500_INACTIVE();
+  RF_CS_CYRF6936_INACTIVE();
+
+  SpiRFModule.fixed_id = 0x1a2b3c4d;
+  SpiRFModule.mode = NORMAL_MODE;
 
 #endif // SPIMODULES
 

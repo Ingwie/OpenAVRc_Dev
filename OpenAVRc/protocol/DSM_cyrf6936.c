@@ -641,7 +641,7 @@ static uint16_t dsm2_cb()
         crcidx = 0;
         state = DSM2_CH1_WRITE_A;
         set_sop_data_crc();
-        return 10000*2;
+        return 10000U*2;
     } else if(state == DSM2_CH1_WRITE_A || state == DSM2_CH1_WRITE_B
            || state == DSM2_CH2_WRITE_A || state == DSM2_CH2_WRITE_B)
     {
@@ -690,7 +690,7 @@ static uint16_t dsm2_cb()
             } else {
                 state = DSM2_CH1_WRITE_A;
             }
-            return 11000*2 - CH1_CH2_DELAY - WRITE_DELAY;
+            return 11000U*2 - CH1_CH2_DELAY - WRITE_DELAY;
         } else {
             state++;
             CYRF_SetTxRxMode(RX_EN); //Receive mode
@@ -719,7 +719,7 @@ static uint16_t dsm2_cb()
                     break;
             }
             CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x80);  //Prepare to receive
-            return 11000*2;
+            return 11000U*2;
         }
         if (state == DSM2_CH2_READ_A)
             state = DSM2_CH1_WRITE_B;
@@ -796,6 +796,7 @@ switch(cmd) {
         case PROTOCMD_RESET:
             CLOCK_StopTimer();
             CYRF_Reset();
+            CYRF_SetTxRxMode(TXRX_OFF);
             return 0;
         //case PROTOCMD_CHECK_AUTOBIND: return 0; //Never Autobind
         case PROTOCMD_BIND:

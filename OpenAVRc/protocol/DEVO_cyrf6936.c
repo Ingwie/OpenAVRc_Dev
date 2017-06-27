@@ -601,6 +601,7 @@ const void *DEVO_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_RESET:
       CLOCK_StopTimer();
       CYRF_Reset();
+      CYRF_SetTxRxMode(TXRX_OFF);
       return 0;
 //  case PROTOCMD_CHECK_AUTOBIND: return Model.fixed_id ? 0 : (void *)1L;
     case PROTOCMD_BIND:

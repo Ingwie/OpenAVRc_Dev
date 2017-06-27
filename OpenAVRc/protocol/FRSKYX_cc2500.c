@@ -30,8 +30,10 @@
 **************************************************************************
 */
 
+#include "../OpenAVRc.h"
+#include "frsky.h"
 
-#include "iface_cc2500.h"
+extern uint8_t frskyRxBuffer[];
 
 
 static const char * const frskyx_opts[] = {
@@ -76,11 +78,11 @@ static uint8_t X_state;
 // uint8_t ptr[4] = {0x01,0x12,0x23,0x30};
 //uint8_t ptr[4] = {0x00,0x11,0x22,0x33};
 enum {
-  FRSKY_DATA1,
-  FRSKY_DATA2,
-  FRSKY_DATA3,
-  FRSKY_DATA4,
-  FRSKY_DATA5
+  FRSKYX_DATA1,
+  FRSKYX_DATA2,
+  FRSKYX_DATA3,
+  FRSKYX_DATA4,
+  FRSKYX_DATA5
 };
 
 static const uint8_t hop_data[] = {
@@ -630,7 +632,7 @@ static uint16_t FRSKYX_cb()
 
   switch(X_state) {
 
-  case FRSKY_DATA1:
+  case FRSKYX_DATA1:
     finetmp = (int8_t)PROTO_OPT_1;
     if (fine != finetmp) {
       fine = finetmp;
@@ -651,28 +653,44 @@ static uint16_t FRSKYX_cb()
     dt = TCNT1 - OCR1A; // Calculate latency and jitter.
     return 5500*2;
 
-  case FRSKY_DATA2:
+  case FRSKYX_DATA2:
     CC2500_SetTxRxMode(RX_EN);
     CC2500_Strobe(CC2500_SIDLE);
     X_state++;
     return 200*2;
 
-  case FRSKY_DATA3:
+  case FRSKYX_DATA3:
     CC2500_Strobe(CC2500_SRX);
     X_state++;
     return 3000*2;
 
-  case FRSKY_DATA4:
+  case FRSKYX_DATA4:
     len = CC2500_ReadReg(CC2500_3B_RXBYTES | CC2500_READ_BURST) & 0x7F;
     if (len && len < MAX_PACKET_SIZE) {
       CC2500_ReadData(packet, len);
-      frsky_check_telemetry(packet, len);
+      //frsky_check_telemetry(packet, len);
+
+       uint8_t good = (
+        packet[0] == len - 3
+        && packet[1] == (frsky_id & 0xff)
+        && packet[2] == (frsky_id >> 8)
+       );
+
+#if defined(FRSKY)
+      if (good) {
+        memcpy(frskyRxBuffer, packet, len);
+        if(frskyStreaming < FRSKY_TIMEOUT10ms -5) frskyStreaming +=5;
+      }
+      // frskyStreaming gets decremented every 10ms, however we can only add to it every 4 *9ms, so we add 5.
+#endif
+
+
     } else {
       // restart sequence on missed packet - might need count or timeout instead of one missed
       seq_last_sent = 0;
       seq_last_rcvd = 8;
     }
-    X_state = FRSKY_DATA1;
+    X_state = FRSKYX_DATA1;
     return 300*2;
 
   default :
@@ -818,7 +836,7 @@ static void FRSKYX_initialize(uint8_t bind)
     PROTOCOL_SetBindState(0);
     FRSKYX_initialize_data(0);
     channr = 0;
-    X_state = FRSKY_DATA1;
+    X_state = FRSKYX_DATA1;
     CLOCK_StartTimer(25000U *2, FRSKYX_cb);
   }
 }
@@ -835,6 +853,8 @@ const void *FRSKYX_Cmds(enum ProtoCmds cmd)
   case PROTOCMD_RESET:
     CLOCK_StopTimer();
     CC2500_Reset();
+    CC2500_SetTxRxMode(TXRX_OFF);
+    CC2500_Strobe(CC2500_SIDLE);
     return 0;
 
   /*case PROTOCMD_CHECK_AUTOBIND:

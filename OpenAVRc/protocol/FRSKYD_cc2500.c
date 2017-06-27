@@ -137,7 +137,7 @@ void FRSKYD_generate_channels(void)
 
 static void FRSKYD_build_bind_packet()
 {
-  static uint8_t bind_idx =0;
+  static uint8_t bind_idx = 0;
 
   packet[0] = 0x11; //Length (17)
   packet[1] = 0x03; //Packet type
@@ -158,7 +158,7 @@ static void FRSKYD_build_bind_packet()
   packet[16] = 0x00;
   packet[17] = 0x01;
 
-  bind_idx ++;
+  ++bind_idx;
   if(bind_idx > 9) bind_idx = 0;
 }
 
@@ -350,9 +350,11 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
   case PROTOCMD_RESET:
     CLOCK_StopTimer();
     CC2500_Reset();
+    CC2500_SetTxRxMode(TXRX_OFF);
+    CC2500_Strobe(CC2500_SIDLE);
     return 0;
-  case PROTOCMD_GETNUMOPTIONS:
-    return (void *)1L;
+  //case PROTOCMD_GETNUMOPTIONS:
+    //return (void *)1L;
   //case PROTOCMD_DEFAULT_NUMCHAN:
     //return (void *)8L;
 //        case PROTOCMD_CURRENT_ID: return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;

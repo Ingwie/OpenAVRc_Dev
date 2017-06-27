@@ -57,6 +57,10 @@ void startPulses(enum ProtoCmds Command)
 {
 spi_enable_master_mode(); // Todo check if Proto need SPI
 CLOCK_StopTimer();
+// Reset CS pin
+RF_CS_CC2500_INACTIVE();
+RF_CS_CYRF6936_INACTIVE();
+
 if (s_current_protocol != 255) PROTO_Cmds(PROTOCMD_RESET);
 PROTO_Cmds = *Protos[g_model.header.modelId].Cmds;
 s_current_protocol = g_model.header.modelId;

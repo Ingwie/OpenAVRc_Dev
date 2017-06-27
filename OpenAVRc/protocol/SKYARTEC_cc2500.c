@@ -216,6 +216,8 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
   case PROTOCMD_RESET:
     CLOCK_StopTimer();
     CC2500_Reset();
+    CC2500_SetTxRxMode(TXRX_OFF);
+    CC2500_Strobe(CC2500_SIDLE);
     return 0;
   //case PROTOCMD_CHECK_AUTOBIND:
     //return (void *)1L; // Always Autobind
