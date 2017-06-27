@@ -31,19 +31,21 @@
 				</Compiler>
 				<Environment>
 					<Variable name="9x" value="TRANSLATION=FR" />
+					<Variable name="Banctestspimodules" value="LCD=KS108 EXTERNALEEPROM=YES NAVIGATION=STICKS OFFSET_ON_INPUT=YES FONT=SQT5 BOLD=YES 3POS=POT3 VOICE=JQ6500 NOANDSECONDE=YES EXT=FRSKY PCB=MEGA2560 TRANSLATIONS=FR TOGGLETRIM=YES TEMPLATES=YES HELI=YES GVARS=YES GPS=NO EEPROM_PROGRESS_BAR=YES DEFAULT_MODE=2 DBLKEYS=YES CURVES=YES AUTOSWITCH=YES AUTOSOURCE=NO HAPTIC=YES PPM_CENTER_ADJUSTABLE=YES PPM_LIMITS_SYMETRICAL=YES PPM_UNIT=PERCENT_PREC1 SDCARD=YNO AUDIO=YES BATTGRAPH=YES HARDWARE_VOLUME=NO JITTER_FILTER=NO SPLASH=YES" />
 					<Variable name="EVO" value="PCB=EVO_V1" />
 					<Variable name="Luc" value="DSM2=PPM LCD=ST7920 NAVIGATION=STICKS OFFSET_ON_INPUT=YES FONT=SQT5 BOLD=YES VOICE=JQ6500 NOANDSECONDE=YES EXT=FRSKY PCB=MEGA2560 TRANSLATIONS=FR TOGGLETRIM=YES TEMPLATES=YES HELI=YES GVARS=YES GPS=NO EEPROM_PROGRESS_BAR=YES DEFAULT_MODE=2 DBLKEYS=YES CURVES=YES AUTOSWITCH=YES AUTOSOURCE=NO HAPTIC=YES PPM_CENTER_ADJUSTABLE=YES PPM_LIMITS_SYMETRICAL=YES PPM_UNIT=PERCENT_PREC1 SDCARD=YES AUDIO=YES BATTGRAPH=YES HARDWARE_VOLUME=NO JITTER_FILTER=NO SPLASH=YES" />
+					<Variable name="Miguel" value="LCD=ST7920 EXTERNALEEPROM=NO NAVIGATION=STICKS OFFSET_ON_INPUT=YES FONT=SQT5 BOLD=YES 3POS=POT3 VOICE=JQ6500 NOANDSECONDE=YES EXT=FRSKY PCB=MEGA2560 TRANSLATIONS=FR TOGGLETRIM=YES TEMPLATES=YES HELI=YES GVARS=YES GPS=NO EEPROM_PROGRESS_BAR=YES DEFAULT_MODE=2 DBLKEYS=YES CURVES=YES AUTOSWITCH=YES AUTOSOURCE=NO HAPTIC=YES PPM_CENTER_ADJUSTABLE=YES PPM_LIMITS_SYMETRICAL=YES PPM_UNIT=PERCENT_PREC1 SDCARD=YES AUDIO=YES BATTGRAPH=YES HARDWARE_VOLUME=NO JITTER_FILTER=NO SPLASH=YES" />
 					<Variable name="ST7920" value="OFFSET_ON_INPUT=YES BOLD=YES VOICE=JQ6500 PCB=MEGA2560 TRANSLATIONS=FR LCD=ST7920 FONT=SQT5 NOANDSECONDE=YES TEMPLATES=YES NAVIGATION=NO HELI=YES GVARS=YES GPS=NO EEPROM_PROGRESS_BAR=YES DEFAULT_MODE=2 DBLKEYS=YES CURVES=YES AUTOSWITCH=YES AUTOSOURCE=YES HAPTIC=YES PPM_CENTER_ADJUSTABLE=YES PPM_LIMITS_SYMETRICAL=YES PPM_UNIT=PERCENT_PREC1 SDCARD=YES AUDIO=YES BATTGRAPH=YES HARDWARE_VOLUME=NO JITTER_FILTER=NO EXT=FRSKY SPLASH=YES" />
 					<Variable name="banctest" value="LCD=KS108 EXTERNALEEPROM=YES NAVIGATION=STICKS OFFSET_ON_INPUT=YES FONT=SQT5 BOLD=YES 3POS=POT3 VOICE=JQ6500 NOANDSECONDE=YES EXT=FRSKY PCB=MEGA2560 TRANSLATIONS=FR TOGGLETRIM=YES TEMPLATES=YES HELI=YES GVARS=YES GPS=NO EEPROM_PROGRESS_BAR=YES DEFAULT_MODE=2 DBLKEYS=YES CURVES=YES AUTOSWITCH=YES AUTOSOURCE=NO HAPTIC=YES PPM_CENTER_ADJUSTABLE=YES PPM_LIMITS_SYMETRICAL=YES PPM_UNIT=PERCENT_PREC1 SDCARD=YES AUDIO=YES BATTGRAPH=YES HARDWARE_VOLUME=NO JITTER_FILTER=NO SPLASH=YES" />
 					<Variable name="bracame" value="OFFSET_ON_INPUT=YES BOLD=YES 3POS=POT3 VOICE=WTV20SD PCB=MEGA2560 TRANSLATIONS=FR LCD=KS108 TOGGLETRIM=YES FONT=SQT5 NOANDSECONDE=YES TEMPLATES=YES NAVIGATION=NO HELI=YES GVARS=YES GPS=NO EEPROM_PROGRESS_BAR=YES DEFAULT_MODE=2 DBLKEYS=YES CURVES=YES AUTOSWITCH=YES AUTOSOURCE=YES HAPTIC=YES PPM_CENTER_ADJUSTABLE=YES PPM_LIMITS_SYMETRICAL=YES PPM_UNIT=PERCENT_PREC1 SDCARD=YES AUDIO=YES BATTGRAPH=YES HARDWARE_VOLUME=NO JITTER_FILTER=NO EXT=FRSKY SPLASH=YES" />
 				</Environment>
 				<MakeCommands>
-					<Build command="$make -f $makefile $banctest" />
+					<Build command="$make -f $makefile $Banctestspimodules" />
 					<CompileFile command="$make -f $makefile $file" />
 					<Clean command="$make -f $makefile clean" />
 					<DistClean command="$make -f $makefile distclean$target" />
-					<AskRebuildNeeded command="$make -q -f $makefile $banctest" />
-					<SilentBuild command="$make -f $makefile $banctest &gt; $(CMD_NULL)" />
+					<AskRebuildNeeded command="$make -q -f $makefile $Banctestspimodules" />
+					<SilentBuild command="$make -f $makefile $Banctestspimodules &gt; $(CMD_NULL)" />
 				</MakeCommands>
 			</Target>
 			<Environment>
@@ -145,6 +147,12 @@
 		<Unit filename="protocol/FRSKYV_cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="protocol/FRSKYX_cc2500.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="protocol/SKYARTEC_cc2500.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="protocol/cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -160,12 +168,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="protocol/misc.h" />
+		<Unit filename="protocol/mpx_serial.h" />
 		<Unit filename="protocol/ppm_bit_bang.cpp" />
 		<Unit filename="protocol/ppm_hw_switching.cpp" />
 		<Unit filename="protocol/protocol.h" />
-		<Unit filename="protocol/skyartec_cc2500.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="pulses/pulses.h" />
 		<Unit filename="pulses/pulses_avr.cpp" />
 		<Unit filename="pulses/pulses_avr.h" />
@@ -191,7 +197,6 @@
 		<Unit filename="targets/evo_v1/evo_adc_driver.cpp" />
 		<Unit filename="targets/evo_v1/evo_lcd_driver.cpp" />
 		<Unit filename="targets/evo_v1/evo_mega2560.cpp" />
-		<Unit filename="targets/evo_v1/evo_mega2560.h" />
 		<Unit filename="targets/evo_v1/evo_pulses_avr.cpp" />
 		<Unit filename="targets/evo_v1/menu_general_diaganas.cpp" />
 		<Unit filename="targets/lcd/lcd_driver.cpp" />

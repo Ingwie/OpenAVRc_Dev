@@ -1177,6 +1177,7 @@ void doMixerCalculations()
 void OpenAVRcStart()
 {
   doSplash();
+
 #if defined(SDCARD) && !defined(SIMU)
   sdMountPoll();
 #endif
@@ -1533,8 +1534,6 @@ void OpenAVRcInit(OpenAVRc_INIT_ARGS)
 {
 
   eeReadAll();
-
-
 
 #if MENUS_LOCK == 1
   getMovedSwitch();
