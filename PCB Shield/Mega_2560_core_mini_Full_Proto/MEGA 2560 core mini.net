@@ -1,1232 +1,0 @@
-(export (version D)
-  (design
-    (source "\\\\SERVER\\Documents de Antho\\Electronique\\MEGA 2560 core Mini\\MEGA 2560 core mini.sch")
-    (date "29/03/2017 22:09:26")
-    (tool "Eeschema 4.0.5")
-    (sheet (number 1) (name /) (tstamps /)
-      (title_block
-        (title "Shield Mega2560 core")
-        (company)
-        (rev 1.00)
-        (date 2017-02-13)
-        (source "MEGA 2560 core mini.sch")
-        (comment (number 1) (value ""))
-        (comment (number 2) (value "By Antho.breizh"))
-        (comment (number 3) (value ""))
-        (comment (number 4) (value "Projet Shield pour RC OpenAVRC")))))
-  (components
-    (comp (ref P9)
-      (value SPI)
-      (footprint Pin_Headers:Pin_Header_Straight_2x03_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_02X03))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BA9))
-    (comp (ref P6)
-      (value Micro_sd)
-      (footprint Pin_Headers:Pin_Header_Straight_1x06_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X06))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BB6))
-    (comp (ref P8)
-      (value Audio)
-      (footprint Pin_Headers:Pin_Header_Straight_1x05_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X05))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BBB))
-    (comp (ref RV1)
-      (value 200K)
-      (footprint Potentiometers:Potentiometer_Triwood_RM-065)
-      (libsource (lib device) (part POT))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BBF))
-    (comp (ref C29)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BC4))
-    (comp (ref C27)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BC5))
-    (comp (ref C26)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BC6))
-    (comp (ref C34)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BC7))
-    (comp (ref C33)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BC8))
-    (comp (ref C32)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BC9))
-    (comp (ref P23)
-      (value Rot_1)
-      (footprint anthoperso:connector_mini-JQ6500-28P)
-      (libsource (lib conn) (part CONN_01X04))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BCB))
-    (comp (ref P24)
-      (value Rot_2)
-      (footprint Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X04))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BCC))
-    (comp (ref R19)
-      (value 5.1k)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BCD))
-    (comp (ref R18)
-      (value 5.1k)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BCE))
-    (comp (ref R23)
-      (value 5.1k)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BCF))
-    (comp (ref R22)
-      (value 5.1k)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BD0))
-    (comp (ref P27)
-      (value Esc/Menu)
-      (footprint Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X04))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BD3))
-    (comp (ref C41)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BD8))
-    (comp (ref C40)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BD9))
-    (comp (ref C3)
-      (value 47n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BDA))
-    (comp (ref C1)
-      (value 47n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BDB))
-    (comp (ref C5)
-      (value 47n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BDC))
-    (comp (ref P14)
-      (value Switch)
-      (footprint Pin_Headers:Pin_Header_Straight_2x08_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X16))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BDD))
-    (comp (ref C18)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BDE))
-    (comp (ref C19)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BDF))
-    (comp (ref C20)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BE0))
-    (comp (ref C21)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BE1))
-    (comp (ref C22)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BE2))
-    (comp (ref C23)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BE3))
-    (comp (ref C24)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BE4))
-    (comp (ref C25)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BE5))
-    (comp (ref P11)
-      (value Trim)
-      (footprint Pin_Headers:Pin_Header_Straight_2x08_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X16))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BE7))
-    (comp (ref C6)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BE8))
-    (comp (ref C7)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BE9))
-    (comp (ref C8)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BEA))
-    (comp (ref C10)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BEB))
-    (comp (ref C12)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BEC))
-    (comp (ref C13)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BED))
-    (comp (ref C14)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BEE))
-    (comp (ref C15)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BEF))
-    (comp (ref P25)
-      (value Key_select)
-      (footprint Pin_Headers:Pin_Header_Straight_1x08_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X08))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BF0))
-    (comp (ref C35)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BF1))
-    (comp (ref C36)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BF2))
-    (comp (ref C37)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BF3))
-    (comp (ref C39)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BF4))
-    (comp (ref P15)
-      (value LCD_I2C)
-      (footprint Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X04))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BFB))
-    (comp (ref P16)
-      (value LCD)
-      (footprint Pin_Headers:Pin_Header_Straight_2x10_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X20))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BFC))
-    (comp (ref D6)
-      (value D)
-      (footprint Diodes_SMD:D_1206)
-      (libsource (lib device) (part D))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BFE))
-    (comp (ref C28)
-      (value 47nF)
-      (footprint Capacitors_SMD:CP_Elec_8x5.4)
-      (libsource (lib device) (part CP1))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78BFF))
-    (comp (ref C31)
-      (value 100nF)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C01))
-    (comp (ref R17)
-      (value 5.1K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C02))
-    (comp (ref R16)
-      (value 2.7K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C03))
-    (comp (ref P26)
-      (value LCD_Vcc_select)
-      (footprint Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X03))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C05))
-    (comp (ref C38)
-      (value 100nF)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C08))
-    (comp (ref R7)
-      (value 500)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C0A))
-    (comp (ref P19)
-      (value Module_TX)
-      (footprint Pin_Headers:Pin_Header_Straight_1x08_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X08))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C14))
-    (comp (ref P1)
-      (value 2560-core)
-      (footprint anthoperso:Connectors-2560-core)
-      (libsource (lib Mega_2560_core) (part 2560-core))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C17))
-    (comp (ref SW1)
-      (value Inter_HF)
-      (libsource (lib Mega_2560_core) (part SW_DPST_x2))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C19))
-    (comp (ref R5)
-      (value 10K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C1A))
-    (comp (ref R6)
-      (value 10K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C1B))
-    (comp (ref R8)
-      (value 200)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C1C))
-    (comp (ref SW3)
-      (value "Power switch")
-      (libsource (lib Mega_2560_core) (part SW_DPST_x2))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C23))
-    (comp (ref R20)
-      (value 5.1k)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C24))
-    (comp (ref R21)
-      (value 6.8k)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C25))
-    (comp (ref C30)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C26))
-    (comp (ref D5)
-      (value MBR0520)
-      (footprint Diodes_SMD:D_SOD-123)
-      (libsource (lib Mega_2560_core) (part MBR0520))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C28))
-    (comp (ref R15)
-      (value 5.1K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C29))
-    (comp (ref R14)
-      (value 100K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C2A))
-    (comp (ref R13)
-      (value 100K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C2B))
-    (comp (ref R12)
-      (value 5.1K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C2C))
-    (comp (ref D4)
-      (value MBR0520)
-      (footprint Diodes_SMD:D_SOD-123)
-      (libsource (lib Mega_2560_core) (part MBR0520))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C2D))
-    (comp (ref D3)
-      (value MBR0520)
-      (footprint Diodes_SMD:D_SOD-123)
-      (libsource (lib Mega_2560_core) (part MBR0520))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C2E))
-    (comp (ref R10)
-      (value 5.1K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C2F))
-    (comp (ref R9)
-      (value 6.8K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C30))
-    (comp (ref SW2)
-      (value "Jack plugged")
-      (libsource (lib Mega_2560_core) (part SW_DPST_x2))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C32))
-    (comp (ref C2)
-      (value 47n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C65))
-    (comp (ref P3)
-      (value Option)
-      (footprint Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X04))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C66))
-    (comp (ref P7)
-      (value Option)
-      (footprint Pin_Headers:Pin_Header_Straight_1x06_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X06))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C67))
-    (comp (ref C4)
-      (value 47n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C6A))
-    (comp (ref P21)
-      (value Sw_power)
-      (footprint Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X02))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C6B))
-    (comp (ref P20)
-      (value jack_con)
-      (footprint Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X02))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C6C))
-    (comp (ref P5)
-      (value Vibreur)
-      (footprint Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X02))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C6D))
-    (comp (ref D1)
-      (value D)
-      (footprint Diodes_SMD:D_1206)
-      (libsource (lib device) (part D))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C6E))
-    (comp (ref R1)
-      (value 22K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C70))
-    (comp (ref R2)
-      (value 22K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C71))
-    (comp (ref U5)
-      (value LD1117S33TR)
-      (footprint TO_SOT_Packages_SMD:SOT-223)
-      (libsource (lib regul) (part LD1117S33TR))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C7A))
-    (comp (ref D2)
-      (value MBR0520)
-      (footprint Diodes_SMD:D_SOD-123)
-      (libsource (lib Mega_2560_core) (part MBR0520))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C7B))
-    (comp (ref U3)
-      (value TLP290_)
-      (footprint Sop4:SOP4)
-      (libsource (lib "MEGA 2560 core mini-cache") (part TLP290_))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C7C))
-    (comp (ref U2)
-      (value TLP290_)
-      (footprint Sop4:SOP4)
-      (libsource (lib "MEGA 2560 core mini-cache") (part TLP290_))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C7D))
-    (comp (ref U1)
-      (value 4066)
-      (footprint Housings_SOIC:SOIC-14_3.9x8.7mm_Pitch1.27mm)
-      (libsource (lib cmos4000) (part 4066))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C7E))
-    (comp (ref P2)
-      (value Clock)
-      (footprint Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X04))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C82))
-    (comp (ref Q2)
-      (value NDT2955)
-      (footprint TO_SOT_Packages_SMD:SOT-223)
-      (libsource (lib 2560-core) (part NDT2955))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C83))
-    (comp (ref Q1)
-      (value MMFT960)
-      (footprint TO_SOT_Packages_SMD:SOT-223)
-      (libsource (lib 2560-core) (part MMFT960))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C84))
-    (comp (ref P18)
-      (value jack_con_IN/OUT)
-      (footprint Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X02))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C87))
-    (comp (ref P17)
-      (value "Battery LIPO")
-      (footprint Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X02))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C88))
-    (comp (ref P22)
-      (value CONN_JQ6500_28P)
-      (footprint anthoperso:connector_mini-JQ6500-28P)
-      (libsource (lib "con JQ6500-28P") (part CONN_JQ6500_28P))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AB5117))
-    (comp (ref R3)
-      (value 18K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AB8D39))
-    (comp (ref R4)
-      (value 1K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AB997D))
-    (comp (ref C9)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E5F))
-    (comp (ref C11)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E60))
-    (comp (ref C16)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E61))
-    (comp (ref C17)
-      (value 100n)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E62))
-    (comp (ref P12)
-      (value Stick_left)
-      (footprint Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X04))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E65))
-    (comp (ref P13)
-      (value Stick_right)
-      (footprint Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X04))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E66))
-    (comp (ref U6)
-      (value MCP6004)
-      (footprint Housings_SOIC:SOIC-14_3.9x8.7mm_Pitch1.27mm)
-      (libsource (lib linear) (part MCP6004))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E69))
-    (comp (ref R26)
-      (value 10K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E6F))
-    (comp (ref R28)
-      (value 10K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E70))
-    (comp (ref C43)
-      (value 22nF)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E77))
-    (comp (ref R30)
-      (value "R_Variable 200K")
-      (footprint Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp)
-      (libsource (lib device) (part R_Variable))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E78))
-    (comp (ref R27)
-      (value "R_Variable 200K")
-      (footprint Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp)
-      (libsource (lib device) (part R_Variable))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E79))
-    (comp (ref C44)
-      (value 22nF)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E7A))
-    (comp (ref RV2)
-      (value POT_100k)
-      (footprint Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp)
-      (libsource (lib device) (part POT))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E7B))
-    (comp (ref R29)
-      (value 10K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E7D))
-    (comp (ref R31)
-      (value 10K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E7E))
-    (comp (ref RV3)
-      (value POT_100k)
-      (footprint Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp)
-      (libsource (lib device) (part POT))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E80))
-    (comp (ref R33)
-      (value "R_Variable 200K")
-      (footprint Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp)
-      (libsource (lib device) (part R_Variable))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E82))
-    (comp (ref C45)
-      (value 22nF)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E83))
-    (comp (ref R32)
-      (value 10K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E84))
-    (comp (ref R34)
-      (value 10K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E85))
-    (comp (ref RV4)
-      (value POT_100k)
-      (footprint Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp)
-      (libsource (lib device) (part POT))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E87))
-    (comp (ref R36)
-      (value "R_Variable 200K")
-      (footprint Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp)
-      (libsource (lib device) (part R_Variable))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E8A))
-    (comp (ref C46)
-      (value 22nF)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E8B))
-    (comp (ref R35)
-      (value 10K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E8C))
-    (comp (ref R37)
-      (value 10K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E8D))
-    (comp (ref RV5)
-      (value POT_100k)
-      (footprint Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp)
-      (libsource (lib device) (part POT))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E8F))
-    (comp (ref R24)
-      (value 33K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E91))
-    (comp (ref C42)
-      (value 6.8nF)
-      (footprint Capacitors_SMD:C_1206)
-      (libsource (lib device) (part C))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E92))
-    (comp (ref R25)
-      (value 33K)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58AF4E93))
-    (comp (ref P4)
-      (value Potentiometre)
-      (footprint Pin_Headers:Pin_Header_Straight_2x05_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X09))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58A78C0C))
-    (comp (ref U4)
-      (value L4941)
-      (footprint Power_Integrations:TO-220)
-      (libsource (lib Mega_2560_core) (part L4941))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58D88F29))
-    (comp (ref R11)
-      (value 120)
-      (footprint Resistors_SMD:R_1206)
-      (libsource (lib device) (part R))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58D94288))
-    (comp (ref P10)
-      (value SPI_libre)
-      (footprint Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm)
-      (libsource (lib conn) (part CONN_01X03))
-      (sheetpath (names /) (tstamps /))
-      (tstamp 58DCA141)))
-  (libparts
-    (libpart (lib Mega_2560_core) (part 2560-core)
-      (footprints
-        (fp Pin_Header_Straight_2X20)
-        (fp Pin_Header_Angled_2X20)
-        (fp Socket_Strip_Straight_2X20)
-        (fp Socket_Strip_Angled_2X20))
-      (fields
-        (field (name Reference) P)
-        (field (name Value) 2560-core))
-      (pins
-        (pin (num 42) (name P36) (type passive))
-        (pin (num 43) (name P35) (type passive))
-        (pin (num 44) (name P34) (type passive))
-        (pin (num 45) (name P33) (type passive))
-        (pin (num 46) (name P32) (type passive))
-        (pin (num 47) (name P31) (type passive))
-        (pin (num 48) (name P30) (type passive))
-        (pin (num 49) (name P29) (type passive))
-        (pin (num 53) (name P24) (type passive))
-        (pin (num A0) (name P43) (type passive))
-        (pin (num A1) (name P46) (type passive))
-        (pin (num A2) (name P45) (type passive))
-        (pin (num A3) (name P48) (type passive))
-        (pin (num A4) (name P47) (type passive))
-        (pin (num A5) (name P50) (type passive))
-        (pin (num A6) (name P49) (type passive))
-        (pin (num A7) (name P52) (type passive))
-        (pin (num A8) (name P51) (type passive))
-        (pin (num A9) (name P54) (type passive))
-        (pin (num A10) (name P53) (type passive))
-        (pin (num A11) (name P56) (type passive))
-        (pin (num A12) (name P55) (type passive))
-        (pin (num A13) (name P58) (type passive))
-        (pin (num A14) (name P57) (type passive))
-        (pin (num A15) (name P60) (type passive))
-        (pin (num D4) (name P3) (type passive))
-        (pin (num D14) (name P11) (type passive))
-        (pin (num D15) (name P12) (type passive))
-        (pin (num D16) (name P13) (type passive))
-        (pin (num D17) (name P14) (type passive))
-        (pin (num D18) (name P15) (type passive))
-        (pin (num D19) (name P16) (type passive))
-        (pin (num D20) (name P17) (type passive))
-        (pin (num D21) (name P18) (type passive))
-        (pin (num D22) (name P74) (type passive))
-        (pin (num D23) (name P71) (type passive))
-        (pin (num D24) (name P72) (type passive))
-        (pin (num D25) (name P69) (type passive))
-        (pin (num D26) (name P70) (type passive))
-        (pin (num D27) (name P67) (type passive))
-        (pin (num D28) (name P68) (type passive))
-        (pin (num D29) (name P65) (type passive))
-        (pin (num D30) (name P83) (type passive))
-        (pin (num D31) (name P84) (type passive))
-        (pin (num D32) (name P85) (type passive))
-        (pin (num D33) (name P86) (type passive))
-        (pin (num D34) (name P87) (type passive))
-        (pin (num D35) (name P88) (type passive))
-        (pin (num D36) (name P89) (type passive))
-        (pin (num D37) (name P90) (type passive))
-        (pin (num D38) (name P93) (type passive))
-        (pin (num D39) (name P66) (type passive))
-        (pin (num D40) (name P91) (type passive))
-        (pin (num D41) (name P92) (type passive))
-        (pin (num GND) (name P99) (type passive))
-        (pin (num MISO) (name P79) (type passive))
-        (pin (num MOSI) (name P78) (type passive))
-        (pin (num NC) (name P98) (type passive))
-        (pin (num PD4) (name P96) (type passive))
-        (pin (num PD5) (name P95) (type passive))
-        (pin (num PD6) (name P94) (type passive))
-        (pin (num PE6) (name P9) (type passive))
-        (pin (num PE7) (name P10) (type passive))
-        (pin (num PG3) (name P38) (type passive))
-        (pin (num PG4) (name P97) (type passive))
-        (pin (num PH2) (name P19) (type passive))
-        (pin (num PH7) (name P37) (type passive))
-        (pin (num PJ2) (name P59) (type passive))
-        (pin (num PJ3) (name P62) (type passive))
-        (pin (num PJ4) (name P61) (type passive))
-        (pin (num PJ5) (name P64) (type passive))
-        (pin (num PJ6) (name P63) (type passive))
-        (pin (num PJ7) (name P73) (type passive))
-        (pin (num PW10) (name P25) (type passive))
-        (pin (num PW11) (name P26) (type passive))
-        (pin (num PW12) (name P27) (type passive))
-        (pin (num PW13) (name P28) (type passive))
-        (pin (num PWD2) (name P7) (type passive))
-        (pin (num PWD3) (name P8) (type passive))
-        (pin (num PWD5) (name P6) (type passive))
-        (pin (num PWD6) (name P20) (type passive))
-        (pin (num PWD7) (name P21) (type passive))
-        (pin (num PWD8) (name P22) (type passive))
-        (pin (num PWD9) (name P23) (type passive))
-        (pin (num RESE) (name P75) (type passive))
-        (pin (num RXD) (name P4) (type passive))
-        (pin (num SCK) (name P77) (type passive))
-        (pin (num TXD) (name P5) (type passive))
-        (pin (num VCC) (name P80) (type passive))
-        (pin (num VREF) (name P44) (type passive))))
-    (libpart (lib cmos4000) (part 4016)
-      (aliases
-        (alias 4066))
-      (description "Quad Analog Switches")
-      (fields
-        (field (name Reference) U)
-        (field (name Value) 4016))
-      (pins
-        (pin (num 1) (name I/O) (type passive))
-        (pin (num 2) (name O/I) (type passive))
-        (pin (num 3) (name O/I) (type passive))
-        (pin (num 4) (name I/O) (type passive))
-        (pin (num 5) (name ON) (type input))
-        (pin (num 6) (name ON) (type input))
-        (pin (num 7) (name V-) (type power_in))
-        (pin (num 8) (name I/O) (type passive))
-        (pin (num 9) (name O/I) (type passive))
-        (pin (num 10) (name O/I) (type passive))
-        (pin (num 11) (name I/O) (type passive))
-        (pin (num 12) (name ON) (type input))
-        (pin (num 13) (name ON) (type input))
-        (pin (num 14) (name V+) (type power_in))))
-    (libpart (lib Mega_2560_core) (part BAT48ZFILM)
-      (aliases
-        (alias MBR0520LT)
-        (alias MBR0520)
-        (alias MBR0530)
-        (alias MBR0540)
-        (alias MBR0550)
-        (alias MBR0560)
-        (alias MBR0570)
-        (alias MBR0580)
-        (alias BAT42W-V)
-        (alias BAT43W-V))
-      (footprints
-        (fp D*SOD?123*))
-      (fields
-        (field (name Reference) D)
-        (field (name Value) BAT48ZFILM)
-        (field (name Footprint) Diodes_SMD:SOD-123))
-      (pins
-        (pin (num 1) (name K) (type passive))
-        (pin (num 2) (name A) (type passive))))
-    (libpart (lib device) (part C)
-      (description "Unpolarized capacitor")
-      (footprints
-        (fp C?)
-        (fp C_????_*)
-        (fp C_????)
-        (fp SMD*_c)
-        (fp Capacitor*))
-      (fields
-        (field (name Reference) C)
-        (field (name Value) C))
-      (pins
-        (pin (num 1) (name ~) (type passive))
-        (pin (num 2) (name ~) (type passive))))
-    (libpart (lib conn) (part CONN_01X02)
-      (description "Connector, single row, 01x02")
-      (footprints
-        (fp Pin_Header_Straight_1X02)
-        (fp Pin_Header_Angled_1X02)
-        (fp Socket_Strip_Straight_1X02)
-        (fp Socket_Strip_Angled_1X02))
-      (fields
-        (field (name Reference) P)
-        (field (name Value) CONN_01X02))
-      (pins
-        (pin (num 1) (name P1) (type passive))
-        (pin (num 2) (name P2) (type passive))))
-    (libpart (lib conn) (part CONN_01X03)
-      (description "Connector, single row, 01x03")
-      (footprints
-        (fp Pin_Header_Straight_1X03)
-        (fp Pin_Header_Angled_1X03)
-        (fp Socket_Strip_Straight_1X03)
-        (fp Socket_Strip_Angled_1X03))
-      (fields
-        (field (name Reference) P)
-        (field (name Value) CONN_01X03))
-      (pins
-        (pin (num 1) (name P1) (type passive))
-        (pin (num 2) (name P2) (type passive))
-        (pin (num 3) (name P3) (type passive))))
-    (libpart (lib conn) (part CONN_01X04)
-      (description "Connector, single row, 01x04")
-      (footprints
-        (fp Pin_Header_Straight_1X04)
-        (fp Pin_Header_Angled_1X04)
-        (fp Socket_Strip_Straight_1X04)
-        (fp Socket_Strip_Angled_1X04))
-      (fields
-        (field (name Reference) P)
-        (field (name Value) CONN_01X04))
-      (pins
-        (pin (num 1) (name P1) (type passive))
-        (pin (num 2) (name P2) (type passive))
-        (pin (num 3) (name P3) (type passive))
-        (pin (num 4) (name P4) (type passive))))
-    (libpart (lib conn) (part CONN_01X05)
-      (description "Connector, single row, 01x05")
-      (footprints
-        (fp Pin_Header_Straight_1X05)
-        (fp Pin_Header_Angled_1X05)
-        (fp Socket_Strip_Straight_1X05)
-        (fp Socket_Strip_Angled_1X05))
-      (fields
-        (field (name Reference) P)
-        (field (name Value) CONN_01X05))
-      (pins
-        (pin (num 1) (name P1) (type passive))
-        (pin (num 2) (name P2) (type passive))
-        (pin (num 3) (name P3) (type passive))
-        (pin (num 4) (name P4) (type passive))
-        (pin (num 5) (name P5) (type passive))))
-    (libpart (lib conn) (part CONN_01X06)
-      (description "Connector, single row, 01x06")
-      (footprints
-        (fp Pin_Header_Straight_1X06)
-        (fp Pin_Header_Angled_1X06)
-        (fp Socket_Strip_Straight_1X06)
-        (fp Socket_Strip_Angled_1X06))
-      (fields
-        (field (name Reference) P)
-        (field (name Value) CONN_01X06))
-      (pins
-        (pin (num 1) (name P1) (type passive))
-        (pin (num 2) (name P2) (type passive))
-        (pin (num 3) (name P3) (type passive))
-        (pin (num 4) (name P4) (type passive))
-        (pin (num 5) (name P5) (type passive))
-        (pin (num 6) (name P6) (type passive))))
-    (libpart (lib conn) (part CONN_01X08)
-      (description "Connector, single row, 01x08")
-      (footprints
-        (fp Pin_Header_Straight_1X08)
-        (fp Pin_Header_Angled_1X08)
-        (fp Socket_Strip_Straight_1X08)
-        (fp Socket_Strip_Angled_1X08))
-      (fields
-        (field (name Reference) P)
-        (field (name Value) CONN_01X08))
-      (pins
-        (pin (num 1) (name P1) (type passive))
-        (pin (num 2) (name P2) (type passive))
-        (pin (num 3) (name P3) (type passive))
-        (pin (num 4) (name P4) (type passive))
-        (pin (num 5) (name P5) (type passive))
-        (pin (num 6) (name P6) (type passive))
-        (pin (num 7) (name P7) (type passive))
-        (pin (num 8) (name P8) (type passive))))
-    (libpart (lib conn) (part CONN_01X09)
-      (description "Connector, single row, 01x09")
-      (footprints
-        (fp Pin_Header_Straight_1X09)
-        (fp Pin_Header_Angled_1X09)
-        (fp Socket_Strip_Straight_1X09)
-        (fp Socket_Strip_Angled_1X09))
-      (fields
-        (field (name Reference) P)
-        (field (name Value) CONN_01X09))
-      (pins
-        (pin (num 1) (name P1) (type passive))
-        (pin (num 2) (name P2) (type passive))
-        (pin (num 3) (name P3) (type passive))
-        (pin (num 4) (name P4) (type passive))
-        (pin (num 5) (name P5) (type passive))
-        (pin (num 6) (name P6) (type passive))
-        (pin (num 7) (name P7) (type passive))
-        (pin (num 8) (name P8) (type passive))
-        (pin (num 9) (name P9) (type passive))))
-    (libpart (lib conn) (part CONN_01X16)
-      (description "Connector, single row, 01x16")
-      (footprints
-        (fp Pin_Header_Straight_1X16)
-        (fp Pin_Header_Angled_1X16)
-        (fp Socket_Strip_Straight_1X16)
-        (fp Socket_Strip_Angled_1X16))
-      (fields
-        (field (name Reference) P)
-        (field (name Value) CONN_01X16))
-      (pins
-        (pin (num 1) (name P1) (type passive))
-        (pin (num 2) (name P2) (type passive))
-        (pin (num 3) (name P3) (type passive))
-        (pin (num 4) (name P4) (type passive))
-        (pin (num 5) (name P5) (type passive))
-        (pin (num 6) (name P6) (type passive))
-        (pin (num 7) (name P7) (type passive))
-        (pin (num 8) (name P8) (type passive))
-        (pin (num 9) (name P9) (type passive))
-        (pin (num 10) (name P10) (type passive))
-        (pin (num 11) (name P11) (type passive))
-        (pin (num 12) (name P12) (type passive))
-        (pin (num 13) (name P13) (type passive))
-        (pin (num 14) (name P14) (type passive))
-        (pin (num 15) (name P15) (type passive))
-        (pin (num 16) (name P16) (type passive))))
-    (libpart (lib conn) (part CONN_01X20)
-      (description "Connector, single row, 01x20")
-      (footprints
-        (fp Pin_Header_Straight_1X20)
-        (fp Pin_Header_Angled_1X20)
-        (fp Socket_Strip_Straight_1X20)
-        (fp Socket_Strip_Angled_1X20))
-      (fields
-        (field (name Reference) P)
-        (field (name Value) CONN_01X20))
-      (pins
-        (pin (num 1) (name P1) (type passive))
-        (pin (num 2) (name P2) (type passive))
-        (pin (num 3) (name P3) (type passive))
-        (pin (num 4) (name P4) (type passive))
-        (pin (num 5) (name P5) (type passive))
-        (pin (num 6) (name P6) (type passive))
-        (pin (num 7) (name P7) (type passive))
-        (pin (num 8) (name P8) (type passive))
-        (pin (num 9) (name P9) (type passive))
-        (pin (num 10) (name P10) (type passive))
-        (pin (num 11) (name P11) (type passive))
-        (pin (num 12) (name P12) (type passive))
-        (pin (num 13) (name P13) (type passive))
-        (pin (num 14) (name P14) (type passive))
-        (pin (num 15) (name P15) (type passive))
-        (pin (num 16) (name P16) (type passive))
-        (pin (num 17) (name P17) (type passive))
-­G3èÌæÆi>ß»ÊÃxûD˜s/~ïZKñ€6Êlóv€F‚±‰î¨ð”À}d.AäsÌO(D>ãb©Yéa5_bŠâ!Å?¿×áP‘@ŒðwÉ´µ±Œ¢. Uj>Äª_Ö³˜= þàš½¥Ó³7× ÂBúq¬=Ô°Ê{Wµz… é›ÃÒéÅ{‚¢Fþ)Úc¥×3eih‹K<­“Yé˜äcõ„pžÔ×Fï vœnž Ä]ã.A¡"ùUí˜Þú_R_(hë_ß“5§â	ð¾tò.sðìžËÓZòw´ÛiÏg?~• }c=žÕ„{þ–§¼ÓÂ´š§Áq{ˆ Õ*2ng3j5ãQ‚É„zŠOÐ=™B	­hQC©îlÝØ›ÇjÝäÙAÖìåˆS9üÅ-ÄZ^S½ðÈÜŸr„ØM ª‹xôApœ_ä ÍZ=ÚøKMDc S,B^¸ÖÎ/r®Rú¡Žóþï>EêÆÿpPŸ¦ò]1.¤¹Á[HÄË7Z÷ù—î(“ŽGÎ–ðÓò `yŒP(õznN¹¯¤7ZBˆc#dK2mÈ{`Æ
-îÄ¶˜Â¡_½ßU&2KÈ±&]Ñ*žƒ÷±CˆIÜòâÈúnìV=ˆžºvW>šÇ4©&¸Þ
-æ^LlŒö;ûß¼"·@7‹ |ÝÿKjtKñT{|Pˆú+J]ûFkr£È~t± ÷ö³œó½\’ƒòo²[#r<&Z˜-ÐqRÆdÀçÁÒväôcßÉæ"`Z® BÃùðµ¶Ð:m¸D\÷hïHRú¶q~>I37£ºÑ[²†¬Yõ¯§JŽ]'HŽsSÛ ¡†VÈ+0—“†8è†ÚHKéGÀ
-4Ç.Q.Æ¾‡ÊÌÕoÿe8ˆ*si§×\L!œÒ*¶ÛäZº¤)*[Ú[(dP¨Ý¾©©4Ø%(†Ü=™RýÅà„ýÿŸ¢f¦€¿µÔ£îÊ×ùRZšP9IÀ‚EùZì.1UäBûªv²ºÆÔZ)CøèþL»(RËó7OÖº+¹kÌ‰ÊGL|‹IŠV~ät¹Wäxð± >§4€@ÖM„  ³µ7F1îBëólõ³ß	×qÜê.Î…LárúEéÃ¹“M`1ù†´*ø1‘›ÓbFÐY…S²Ü|£WZ¥u*K«¶<Ó~‰Y‚ÖšŠú]-Ž¬ê¸uÀ.Ò@\Ó¬=“é4«/E].®Ý'ÆMc	œovë˜1•tnb&´ô}Æ5p$†¬ŒoÞÙîþü©ºæò†C`Ü©¤éïšh†U”iÅð¨¡~Ïš%(£1­ŠÙa£q
-Ó¤$Ü÷FóJbº¼Ó-âÎª¨ý“ŽpÂ¯‰ºŒw72
-zÓ…´ËCU´£{}ž‚N›|²ý@['Ï	F'¨É]x¿dÞv€\'ô_d ¾‹»©Â'Çý§hcl-o¤…,’Æ^‘ó!”{øb#Š
-Fé]pOkiûÞª“Y¯ÖÛup7=Úø¢Ðß’’bÎª6N·€+cßj¸ñ5mUeƒ “ºÑÈã1îéõ<ƒÌ|ª}uvœ«ä#Øß˜ÞÁ=Ÿ®_ÞþÔwÝ Î*[€JäT’õ"¥:{ÐÄôžUÓ×~¬ºØèi=êº©xê(â«'¹{aXÛÞ¯»(î•yÒúñ¸Ÿ©{…,œuéŒßzë-wO…Ÿ¡=‘2ó'w }mÙ•Mi3•Œj×~é‹ža­¶J•ÞpBok=[t	¯×vL§Ö'›ÜoÞŒîZ
-¿–ããF3”TWý±æ,l¡aÏÎÁqÀ®§[»å#ÔJ“u8-›øýÂÌÒóu¥Ý¢µñÈ
-Ççâ~º²rìÕ>È1•HëáË«L	‹qÁU«ôÿ"W®Â{3³NXè­ÐØWùcºYv#!ÈéÕ£"W¹nÓ%¸çøâNqæ—‹S1-Å»¦xvMBœ(5üúLÝmÃ°LÛcú3DdÀÒÙlšçïoq°}š¸©£âvÅæÑî±0S,hExr¦f?À<­k-öªYN™¾ŸCpb%I¹(‘øQ}>NºŽ~±Áý7ZŒ‰mö°&OÏ¬S­JÑý¯D&’åÎ9ÉŸoNLfg:K5û œ«W¶'BOp‹sø¬lï0Öív¦ëÃŸ¥²æ[»ýZ¹¨_7Ø J[Ö7R,—ÔÝ8‚jë›ZNz;¸Bjã} ,aF[è[êx¿XúÆ{TädÜ+—8Œo&6e³<l²vRÆPß_½"WC4ò`è#|F!Ü™hLÛ¸(?¶jÏ-®6àq9À´·ºÂµ„@Ñv­åÝ¡C8Ž€aÒ­`$É'å!´9Ð:
-–árUöpè°Îò_Yä€zl%%#·{øUìá¤‘¨Þ\x£[ÙD×ZñË-"H²{3«¼ð¹zfªáH†I°Ve÷ã³êa@™KJ¿ù]µ¿jèæL5¹¡Î9àÁ†•Ný¦
-—SÚP£ú+ôm)ñöÊü*‡—i”’nŽklæ÷óÚ ÆŸt%í‚R_\‚‘}Ík¶3£¨]±ø{3ýWs¿(H„eyÈÐšú$N.Ô·…šËMÙ˜@7s8>×7s·’åÛ›WÕw-©&¦-RxÆéÏ'ç+}u’¼ˆê¬ç‡qÄ2²^‘'~ÐŸ2Å c–ZŒÂ{¯Æ T"tžÚô+®¼l¦Ì¹Ò¡Om¾	ƒ¬ÇMû rÄ|f‰ôFÆÁ>¬Rœë¢å±Qß#‡ïœúq;¨i¾ë¦ÇÝa›"F–¥wi~É´4¢ôo'‡ÿí¿‘¬,ù€³©l"“ŸDÔ/+'P“Å¾©"Ñ¿Æx67ÖFÍRCndóÜv½vå¹
-¢8Ê(äÂ×Ï*LØév¶E“ËsVo”zÔ•¥p'»Üo¸×3dM… El‰[õ<™eÛ‰óSqp-R«ôØã¡MŽ¹gÂ?@n5Ì_ýk8¼¦a<Þ×2*¸å=ðÌ8=å³ç;‡£- Òz\c†u.O«	m¡@æQA1Ü‘|m»cŽšbrE«'?fˆ§åŸ¸Wäºþ8Tð{­>(Ã%¸u´Á»¨XÈæ›×ùa‰Œ|‚ˆçbUÝØ™häPõ ŠYH\]ð\I›–.i6Øf¢”ÃdÅÉÜØ¼aì®¸§„Ó2nk ”‹ìFhâ'á\áë¿Ã{±¦“3{NOÿ¦Oßôô£E':wý" J‘õhÆO‰„UÓeÊû¨Æpærì±g2‹ãhB‰‹”T]‰ÖÃƒñ¸°¦ûÙ¿P>>8\Bå¥\."5\Ü²ƒk~¶ôd‹Ÿ¡Æ=½ñ«(«‡*bÂš<VÀ¥kŠªƒ
-7Ë³™„Ú|%ÑÎÄ÷4UåL®:Ùl9=Ý{Þ"„¸C¼ µ».b!’åÜÞ¨¾Z½çOÁ6ó_MÍSžzñ2'Ÿéþ÷lÓÕ÷Å Ç=„¸šÆvrÑ¥êmí‡9˜nopñ]çœÕÅß¹w•:¶²AñÿÜ=¤ÛS>ÏWÄzß'yRá,=g–²„özoÛ6òýÚmª©±«}ªR4øÂ}~Rgýa—¹%ë>¹»üßÙ­bùÊ@³‘¢‰RŸ|G×‘ë®4)}Þe/Ð›–nu~Ü(Ebw•Ÿè|¶¨‹¡u;ò¬ì«ø8®«•úüW–b$xd×ñÛº†Ü}|È$„÷ééÊxáëY0¼·8ýN%uUµ•
-åèÂÁ"K¼ÀÎ^úýJ´é-|™äõx/òäöïª¸W×MÍß”Ówyg`“²™o¤[Ä_„îûô@žã+ÛçHæ«xÔ»^PŠ.­’&ˆþ˜òÖ½"×I4ð*Æ¼ c:ù¸‚Vc‰ËJ7œ¢½O<!Õ¬xWoÓíVÅ Pœ¼‘œ£wzœ‚mIRa4¾iE×†	£?Gï*¹±¦ŸþÖ¥$K%¿7ÇàÎ‘Ë’k88²¥‹Ú+Á£«YìnùW9•#@>+t°lZZÌ!«ˆa¥ei¡RY‹äÞÃtñÀønT›A×à^ é-Èôcáí uvwG2ø§®>4•Šêa&H‘‹ó[Åîf5…`ñÁ8!RF÷cpqk¿ï!Ý}üþIhÞžpØíjçõ_~ó#ÝúpªÛUˆþÞ#‰„°ÕáØ6ÆÓ›ÌJr’ˆ÷å©·WIs£ÝE?A‹,LéMQë»úšfÁŸ›?ºuRe%û\¿Ž>òîõ?m¸ïËFü7‡N"u©ÿ:Ëá=	o;ëŸ¬šwf·˜ùÜ~c;ÐÎù&ßY‰f™°9(ÏG÷>ÏßŽ¼¥H÷7ÔNÏÍÒ5ÖAEøêÍQïÈ¬J%‡™sÒT"’m’ýÕtTÆì(E™¡ÿ¬Ö]¢C	-Ä-TÅÅ –=Øµ¦8ÚxñJÍà»ƒ¨JÇd¨Ñ™7Óó²·–EyKA-CNèÀµCôtÍž³ÄŽ$RÍýÜ¾/‡v¸ÀÅ_T#Ñ^~»6ï^nâ¹YFDÖsoáCM†7XiÃEýs®¸îŸ‚CÀ˜û´kÇb6n43é¬ÐOÕšzQ“ÞDÖÉ	ÑÑpAk—\Ò¿gš>Í56ˆÅ–þÔf!r1ÜJ¬¨Üa¼ð@œãï&ïÑ }"¯ë}x\IèëªO€°_­ÿ	¼zöëß²»—kJ;$A»ÆœX¥OÔ… ×›ƒ‰Fß#!{5¢KÔ%~kÒ¯¸É•%ÝnU<ÕÒ_²b2äŒ»Ûÿ«ÑÝŽÛÊ „XDöüëvƒ¸ÂÁˆaÄ6Ò¨×zfŒÌéƒªøIdDqø×pí0ÖôzÅ¥¶D¾ VÆ£D9‹…Nü¥MÞ½Y2|*Éio-·'-©iUJ@ÜÎ@Òd7¦õÎÖ°7Žáë­ù ²oå#˜VHžÚã­Ô¦ˆ^æîÝqãÃ_ÂXó©ßRèK‘›ïüûsÛÌ"…˜§1Å ëE´uî¿R&]®C~ ,dÈ¢!ü¨‘zë“¶;‹Î˜ÂS4‹’Cê!fÆ¥dþÏgò#8ö¯ï"´.jq‹ö„ë°ÔxìsÑY-«ê£¨›™pUVø`‰MöÙñ9L¹Pú…1T¾W–Sõ]F%„¦X±¾ªÓÈãeòë¨ãÐi
-¶ÑL¥ËªÉÉpf(G•8£é/’ÝØ—w%ÀWS{h¯Þ›PìÉþz¿­åŠ•lHS Þæ1û1á©‰¡Kl Çí=GM'çG`xv(.Ž¯–Z
-h¢ãÂ“$jŸ3Èï
-qUb”z]·›Ø®qØuØ“—s›m0”Š²w–Úx÷9E}Ä¶èîÔ¡¼Ì3‘aM”téÙHÔf—e'Ç±0'~ŠÄk¯twÖè—XbžYŸb›/åUÖ<ªÐ	u7iñ*jh±–6ÄËÒÒ&PáQãã®WÆ•|Vµ1ÑzENŽ@éÁÄö´ ðnÚpa ¸¤$,Ô¤zßWjbSŸìêîBLE«ôÙGºLÕÏ˜¾.`fP	Î,ÍÉ{° ïMØx=’4Wø6ZàhÜxW]©ÑXW˜A]¥¥„¹©ošäb¯\#K³TFøXŽ ±Ñ  ±CÇFn;i¯N7õêW¼8M?º5@¤=Vš€½&GZ`‡Ö7ã(‘“ß#ôêíôL\à.ÀÔ ÏëÄ+ùhâ†rpÖ{ÈI‰Ç¯«G»»êÂ?{kž]™—§›2x%R¹ô0ál(ñ¾jvõQŸ)~fÊ¹Ucac¹þÎ80Ã×*–¡úa6IÉÐû|æXyyW5Èöv¸œUHÇvõ¨L£Ö
-—<zƒ‹é½y ŒÂHŒt¢BißõŠœ?aåÃ—)kf0ârëˆ«\Œ	ÚgàÁ–s¶ÂÃ‡úîkùšºä
-î-‹Ö3†Ö]6l«ÎÉ!=Ð‡”!c·“_Ì^—jÐ–žaÏ²±„ôÜw†*ü¯§høz3Ón™ùÇÞ<Õ†ÄLwÕRÐÚÜnVzÂžû6øx~šTäÁ„ªýç¯%UB/å¬ÂûRj~sß¡6J-4QHo¦Ó=uˆÉ‰ÑBÅ8’¹ÜãÂùe ·—ÖVÛ©šì¤•$dˆ¤¡Ý©Ìpæ? ü¹¡ƒÔfè:äÖcÒKéfõ€HLV¼ô’–ân6£Ëm†l¨	Ùåc«·nËtxíOö”l ?ËçoãL
-Þ+…É˜h¨Ð²±I“„|~wéœí‘Áªv×\KVWƒÎ?XZV¼"—I$ùÙ1ƒ‘{{áåAàÃ3–ª1æ!ïžk›zëÀH;¿ÕiêdÝQÖØÓÌrB0^ˆè šº OÖ¤ÍÉíS„tßªNHIöÙ„èËZ¿Ë†Ô×	ïÙØÙ­ñå‘¡}º©±ÜúO´_´ÖßÓ+GX’úRœ‰M1ËòýG~\6J©¸µÞ‚6Ò´‚ÉùÏäÙêb"Ó8(í7Ë=O]0åKàa©P+ „_XÑÎbËá3!çŠÊsËžèÿ÷{0ÛïŠ·ÝWÌàŒÖÏ(ªê‘}Vàb$1‘êglÿC2?í„Œ]ÔDôe€[Zý±Txft£º/äg\9‘ÿ¶5mÇi¹M$¾¾ò#~©H¾pç%xLÑö+O¥êñÝík§ñ¦OÿÚ	ÿ¦Xâ¹]¨Î”S4ù{k«¡ÝD%ój?ÿòœÖåE ÓÁE»ÞY½‘öf)¹ç2M[jíj­O­S34ªXB§àg.ò‰ÝßÅ‹aë¤±tÎ°ërf÷K3%°@×€é¥0Øõäå; àH©…¹FÑž [ãmIy\c¬¾Èùº:í[Æko~4ë‰#×¢Ø¾)Ž¹y2±Mþ#Ó¬iBèi~Õ
-.6Yðù¾ùõs­ì£ Vˆ=rÂJ~Þžó7Äˆ±#jv»v¦®+È0¡ä,ü°E‚O´ïtcOÿèìða£¼I‘œ#§–Y?……‰ãÚÈ&öI¶ýÛkÉ1&f~yßÙ:çôbzb%©®à^2–•B?aƒ–¦f›PÄB:kèœ"¨ÁSÍÓ†Ÿ}ÈTò¹i’‰M?$0Òpë À{\¤Û~V‡ÖÄ»JmGb&× Ñ!G"òùÒyUŠ*uHÏca]­5Ú´3’¯Ämä9`Ôƒ*K¹PÞÖzè±þóãXÛ3@“é¹…¥ØÏ6Ý§Ñ`vÃJÔYròI¹ÍÓ!3jöTa=Ö¦œ%åoäèÃ©5Ÿ±K{~ÄhÉ_sq¢7;£ceBobÍŽXŠÛWÏ^É«ÖÕÓÉ>c¢YÔÒSLqûTÑ*ôçU ä×ÈVp—Ü°!ñ‹‚˜¨ufæ1ùÉ˜8ä4<N;tž'bÓ%fkwÃóêä÷øº>Ö³}*¿´#tg¬.oYè¤zm,Ÿ¥¯6/œYkðUþ²†¾í>¸×&zŽ¯â£…½WèÊUPv=¬XºàõþÏ‡ä_<e‰
-Fþó9…i;Ï)ÿÎ]cÉÚÛ\6g‘9B­J&s)‹E&õïƒz5÷ÂÎ…¶o×6seYºW—)oÊÛÚÊ[´&e¿O^ØµÐ.hŠ­¿¿akØÇjUÍv"ëdm–Ïm¡Sú[Eë±çÈ”@¹ó¶»vKÔâx›}hY}•Fì\R<ÅÎ­Õ3›ÐÛ·‹¬g-²%Ž4_™ú0•”zR<1!ÌõT©PÂ¢`ç^Ù4ö–ÎÉ»È(¡¹3úØÄe	µV.½?nÍVÄ²=·wWðrF3¬[ŠâœkfÖxD¿pÝáðûQªþ-°|Ð@$à1ZæäeA²¸ÖaË´RÙáµh¬âÈì
-?´)¼x‡Ýš¨Þlê^øA¢©êftÅÅÝ·²Ã&R«Šï,“á‡¶Á+r¿I¡:~ÿZýø‘¸Wýƒ˜8É›†7Ô|kx›OJæ…ê’F€¤åÎÁJ‹”
-W´úQoºƒÐ,®=žÑ*É@Ï)7²µP›’ó]÷¢¬‘Lü¦L=6)ñê±R ‹s¦æ¸ÀoÅ-	mOÁ 4k{9óÅá=ûR[bì’¦²ëÁ£@Ÿª}Ô&T=2|E¢ŽyûEŸÜÚuƒ¿0£ÇŸ|ÞË¿¸¢(CGyâÍR¯ƒ¤WúbµÓZÖ+®Ž³´V&}l`:à1÷óãßÑ¯‘û“¦ÒÉù¶nê?ñoC*æ&ûå³jîGn¥+úÀQýÁ&5äÃƒ}/ž>_îôÝN˜Z*)f‹,t8µ¯>Þ?Ý>¶a_›ÜuØF,áo-5rüç»ÔET¸¯ãg©N€‹„÷9ˆ«jªÚ}ë'
-;Üe3&|½Éi[éC¯¿väkü\TŸÅÎÜ©BÞxö $t³1ý¦q7]y?ÞRšKüîŠ)§0•¥Ÿ"n|Gþ$7|u")`µAƒÝ,ãq>!ÂšJ6°{Í“ƒT(£,Ï‡ç7À²xhaYõ¡ÉsÑ'•áä1Àµ˜Á?!ÑÝàýÌ§½³ô®ƒ£÷¸ð´½Ì;Hí¯ÿ-`Šhÿ.}Ê\=ã][`»É÷ï¿³7~Në~ú“ÕæQÊWQ}©ûÍÁEüo,z>ÅòÉ±“ŽÁ]Ç´
-‰é¾(=0˜Zm»8	ÛÄG¾-Ýj’š%Ì0ß$—¦zT†-6ú9¼]¸¹ >dÝnÏ]fÝs •a°ˆ}­®/~0Xú+rMrû:S¦H`ãÈyƒbÚ¸ÀÜåXCÞøz´ƒ*2*cCóü¥
-ÉÄHN×ùÞ-,ÎÑ92!Ú|ú" N
-*ç‡–Ä±¥ÔEß©‡÷¡›V¾_( ëx­ØŸ7!"Iu?ÿ¦ÔÍ¯Tp…Í!·ýKð%kIîã 88‡Îm|±ÚS]Sj%¹=\ÕDÅ@KñëÈ ª ÔXâcxW¹ó³jì2á„Gøâ5V8!5Xæèu¹^tyRHœþ=£R4hh˜bjˆµo5°C÷¤àúõIÈ?Ž¿'Má ý9ðÖ9,é4•ÛÂßÖu¾ÈTž†ƒ/Š$æíÁpŽÊ0–ú¥D*®(ªœïŠªU
-l2ýÀ-Ïœ¦/Ž?	iŒÊ±6uEomI}E®—¸ª]¡  Œë¤TñDZ«—•Ò„ŽÕ¥ºÕ¦¿˜5~OsÂÓÕýWIÈàF³ÚJÏë:E¸å­Cn˜ÖÊS¾ïéPÈ…ò$×¶<Üúå«1
-àŠ·bÎ@™&Žñ¯²>	ªø.-!š2¶^ò”p_F‚å[ºœ‹ºæ©¯(zÿÅÕG­³úfmCéußW©šœVœ‚öú®S**v0“Á÷·¨?@×æZ5$nÒËZ¿™l”†s›j—Š\´ZÌâ9“ÍŸ
-ÂÄ9þFžOuPUä®Üìè`/ŒÙÆ`6,}ý³(Zmª\LË.yÚ(~ËäBûÌºtvè×Ö(G’,Ï|,š°t¢4©ªÌ[r„aôùþe`0ñZËH–Ó#ny–Î»¿¥U‰NºzE.ÿCÂ—µñ_ :[È Y¨À…»ëz¾€Á6K^”vÑ£´•XÛ’\o,´-æ!ÅN?«5¤lýD³a°-ØTW°ßKbØ9[Ÿ—Š˜Çâš²»E×Kš»êc-ÒñÌc71³ù™µžPœvQV6$”{×¹Í¬®é”IÜ=Ñ{ql'3{ÅéyI*Y7ì+ÉuçØ	é]ì(ÙõñêwtDU!—9Fì¨ƒ;÷ÏÓ‡GÉóÃ1dÒŒb#¾†™8AÅ‘ØÓJiÒ²*ÏR
-»§‹<{¤áa0ØË©‘¸ÔC®?]	‹,åëÛ×õ¾Å¤wÎ`Á ¤ñÄ{Óî‰{ÊË²ò‹ÌÙ¼Ì±‰2»šØ’,ºÇ‹ýE‹/™§Ôd˜i-&Ö’ÅÆLª¯ÈQáº][øV  ;3#ª€3îh³Øïƒ ]Rñ§Û´ä8REÖPÕ{‘Ïwc<¤‡äî×ðpæmÖÎ
-F–Þ^‡Å¼'A™ÂêÞ>±uTw5¶¦!z•˜+GÕŠ·CnÀ1ð3q]õ¤|¥ok>Çê¡–6êÔa‰vÏ’oÃxßø)NH“†’Ž²’‰]Ó(Ç3U¡JAŸ#,o³ø7âŠ·”o&1aº_óJS½‡žùHîOÂ^âßx ­²¡©û±i¨…§P¥kÁK-Ô“‹93fWVèw4|Ö”úqHý‘šC¦™9<ÒMD1;gŒA ¤6/
-8x¿ùw¢ÍçëCÑxyfÙ%xŠSçiM½ijeB×-l>RzigpŒÏî”í¿öÁäâ‹Ÿp8,åxÆUÖ=án¨8ë€²i—Ø{‡gH<W«l_«TmŽ÷–~uÐŠXBfOgÈê½Ýâ×«6áûÞF¿R·³£ÙâØH7Ûƒm&›\—5ÒE%ÙËJ¹¯ùn[qÈÌ!eä2neFáà» ¿Î©¥ax‡š¦Y©çø/Êrïô<
-ÁÇÐd* c«ÚÀŸå«¡†èL0=--Y¿ížnÀ@y”œ]ÝÀ"’X\MØ«Émv’Š ¥u7ÆhE`—XLt`h$h_ûÁ)WœNÒ+]ö‡w~Ý8â|¸ ¯x»ý|‹_ïþ¾Â¢BÿûjcîY˜¡Æ§±QÙUW²¿ˆzjnTâŸÒHÛÍ5STÃPÅ~Ð•#öÃ0ŸÌC$ËÅ©G(ÚÌ0Ó ä²¯ÈEâMœüÜo0¦qÜ„«ÜjL¹Ö¨·aÔ_kZD:I´pãÑÕùõÄæ{¥©‡gkÒF3Þýx!»®«[•ãÀÙY2þ"}õ22ë©í`h|é<> ðÃŒ^„e¶Ú]AÞ“f‘t¤ÂRÞºu
-Mc]„BU÷ú¿>ZìÁ m 
- Ä€:Fì›t@ïàÍ©¬5Ø‡Áïþò2­!†d2x$Ä­ïk8³-T¤hÖgndpN"÷>Mó%
-ÚŸ<UúÍ¿n<iï5r&ÍN=®Öv\áËÏóÎoV¨(6ø^©Ë°ªƒt©¬Wã©©¨>ö˜éHHÈºQ›O‹èµ•ü„Ñ=¥³ÓP8˜"Â7ìË×î’Û:VÌæUû%Þ—$=j`NwÆÊ~r{‹¢‰{[ðŠ\=ÁÑ™þ8!N°Å•ó]ƒøï§ñË|9óåZ)e)î=Èšß61€ÂÙò{‹;ºUÜ•JÁå×ÐñM}bæR´±Õ“‰2.þÄ¥jâ:‹®Ýo×¢=#ÇöàõM(ëñT‚CöMïî“êgÛÀÑ²!Î@P¹*`§˜Ä^²ÚŠÙþö—Ò¦lŠÂD™FjMëfå¤Ñ…ø°ëÌŸr®·¥½íYútÌ.Á‰{ý¿š:&‡p5ª,žo
-\øsrs9$z{\Ï'.páÑ§fˆEü(VBFúñƒ—€K"y{{—AˆdokS°èÅÄT‡11B%ßd6HžåŒgI ÎL„¬eìD´Ê~[kLÍòN·5û{÷É¸¦"C05ßeÌ9ÞŽ6ûXù5p„û_¶„CÁño{áAA.üC*g{„þdPÝ
-U”OÏ7Ø¹r-,è]!Î¼¤…•³òqpu?SºŽ‡×¯8ŠvØÉÇ50Ô[Åýj½´cf(U$uì¥.QŒ$ªNB%‘ËB„º+<)¡å¹#šý²€…c¥ZHªˆ¬É»ª‘‘ŸÔ<T¥Á¦NwÉÁ•“ÚCó×µ­mŸß17©ßcJëš˜ A|?#p›tèÅm(7X|i*Ö–õý2°6ÚLþw¾TŽ§ß1e .S`fæñ yµ84UÿÊ$Í·eÉ¶ókƒ%65× ²To,ÏÀ1eçßà¡D)ÓMóÈÇóÜFâÍ}B˜€oÖ5˜û¤‚-o7¶G#Wwø=¢Š6—òÊëYm%•z0ô3?¿vq”W”HÑ5èp×•»?.<©ÄÊÝXÓé¹«Ê·#dÒIEÏ®á'Ÿ¥‰20ÀGàA„Ï	üF“‘Ó¼m¼ |³¯ñ%bW%Ÿù¢|w©%´TM=ñÍwÀæ…½œä«†¤{–ßÈÏºíƒ|L—º&ŠQ=Ndd)Òì"p\ÓlX˜TRµ†˜z,~·yð/H)ijš.³{ˆÈ°<¬n Lû[¸:Ðøý@ÝËrêÚMÇ:Ó­Y9ÈkÄ®~êÑ"èçu¿{»£^³aÂ¬AÅÓþ¼V.û€mâûLY:Òœ³ê‘«“ŠÂålACE–žHÐúÉ©ÔøâÍÕÑÉªv«™S`b8AP±¼Î¢Í»%NûVãyv¶Bé#Ò3í×µ5^Å‘+\F1&\K¯È-ºAõýþu¬á„yÿ:Ö?ŠÁÍ9/‘å|þ&SæJpL´R¿<EÐ~ÈœMÊ†7ûç“ãõ¬O+’‰²|S—#½ob2{ªJ9Ý¸+ê±Z[˜/`_¯â6ÕÜžÄ Z Ú:*ÎÓÜ§1>h-òûçŸ·hZÞ¯}«áå3‘ï3È/º[¯k¦—¡"²Ç"¥¨úÀ\n³§‡A¯(&\®¾{gxÃ˜èôâbQ"-V®5þú>ä—óýå>BÐl¦@ï}8¼»‡È†ž6¼q\WÂ }®Î—•ûÃtætþt@r…üå)‚îÚ‰þˆGXw;_`ŸÌ,Ô³Ò)•Ù9Ñ{ë¼—38¸95üè¸á1(ŸëPO$¤8÷£ßÇÁx£ÛòŠÜ-äg|FÂ+l‚m“ÖÊwœAðŠ”#Ëiy+á¯¥"5ü¼ÌŠD}:8# Ùø1*:SÊú¸È´T[Žã¥QjÅ²óÖó‚µÄÕ®%5›N~€V«½œýlßG Ž…6¿äqbû6/²hŠaÂ™n`i” ýM¦ÏÇœÁ[·ÅÍývÿÔ#­}áìÌÌFãd)Ã“ÿ{éÒ[NäñÒ‘RoéKJžÎ‰ñîæ3·Ú¨¬”BÚá kÍ~
-bƒC9©S–¾0ï·Ië•ØSgKv¹^ü'*+þø&{€|†–arŸ8©è›ª`Çyp¿Cªq…Íš)uS"©z^}9C¹†’s17èÈ…HëÊëœEtÐÆRRKôœ3UÒ®¢gEÜŸÕKaiš´ÙyEn•hûµÕGcÿP…×ÛŒÉt“x«“¹[-€žZ±AD­ BrÃÙnwÌø„‘èW›þñæ!tß%ÌVêHß}ÒmVVÛ?Ÿðî>ò¤tË?Õ/‡Ù–W`Z¾È±´É0k	në¦SP•±¦0Â«WN.üUƒÒšŸ?§¹Üµ©Di£Š»›X¤¼QÂ0Zëçøñ”~„ˆiÆŠ@‘Dðè<Z-v¶=ò3U¿4yÿÚó”ÝµÒ<¹‰cªplUÆ³ºçó¦Þ:9]Šé=ŒY'±ãÎÈªœ°±}H:4}ÓÎj¸{¡r-Û˜i”{ù¦5±8A·hÕ×f±'lbñÎ·1ó‚`ñÅ÷ŽäD÷¾!rî¯	™ßOý§Š¿¾/][SÎÅ°ÝE‘þªÿÆåˆ­ït^±)Õ{Ü==0d¿C0ïÚfŽMn³¯º çP¼¥ÞÒUÛ¨k!«X¼-„‹»›NM"»·÷Ù7]°±2/éëWKVÚ<‡ì—j=H²”Ðª“óó¶®êÖóÂ-Y€Î-¢¢ªÎ§ŽnÌ7oã¥Ùù½è‘ºß:"§ë&Dâ¨¿Áü™Oý.hw#x©—Š¦ýÛÙˆ¯Ý»¼ªžq}Õë?P 0ð6ü4¤!ì3o¶¶²!®M]åì5Hª±_FÓÆ“Ž4Rø}vajHÂîÛ§w#_’ÅqÒSê!M¼=Eûš3o¾wÅ³³üa)‰šåÌ‡V—“?MnÛ(>å<c°)ÑMb,D‘QÄJnP’[HE‹G°gþoä#'œáèÄ@ª³üˆA¨\aÒì'›çxŒäŒR“Í–öÇãM4çÏèšÈ‹”eôÈF¸æOö7îØ÷u¿û'}ƒ(í×\Ð-™7ý*¸Š'7[U`ùœ*FF|¾Dßfj‡wÖHbáÂª¶×Ú¾R¦OxíÛqÄÙdÃcUAÖyË¨ À a;
-jç4"Ì˜‰soËèù‡¨Åé×,8‚Þ»²[!ŸÕé"€‚s¼üoÔ*Š]/ú×©”o®ƒ>øú5¾¢¡Q1¦Ø¦	áA?H]ëúo¶ðÙÕî¦E«¬{ìÕ¡·¼ØµÔ@÷*òbÄU½
-UHvã2à~P×kA[8Mû	¡»P@JÓc’“Ý0Ó¬üüÍßÛ—†.¥Rž†u}Ù‡DÏ]ðò9	‚Ú«±Ó ü´ÈŠÁ Ð&àÝz­å¿?eÜô!¥fn—ú€½™ÕÀ#.mJ”} jhªíÂÃ½nËˆ>Š,ä(úDÈ}vöXg‰9àáØÐ¿Å{¶î¯í#0]ƒ¶Èñ1²1Ó.Åòvb±5qôæî¼Í|Ø®k»Æ‹žòˆÞà6VóžjSI×>©?ìÚßPý `Ñò$xzNõ÷j;öˆ 10È¥#’3_”i)£°vÊÊ².âdôÅ{2Æ{C'XÞÇÙÕË³}âõùÐBÜ¨DïUÈg·¦$ÿ¥¹ŸêÌÆ3°µQ å	3¾ç‰a"0Ôü[™€IUÕ(ØÜ¹84å^isÓ²›1Åv~Ê¾¹,dî6)Ô+Gï*§üQ/»»=ÑL¬’>aóHn8û$¥øŠÜ";³±‰±¦uF‡d×æ(L"£'_\ð^öô1¨Ö¥Ñöl´Å¥ôÛß&‹ÅµñJˆ†`éÅiçìµQ×Í€u“Ô;ÐR`æ¨R«e¥-ìs×OêæËJÙÒý»Â’2¸=üßˆ˜TTW^)hlüc|_Få½Ôä”¤B·;]è{0Â¨±rKÚ¡g]WcøÅ±xU°¤ååï¤ßÈ\#ŒjöPàZØg&–Ýòo‹)G-<¯?óšmžÕ}Iµ£±øPM~æ®|„ÀÏòÃGÔu5jØÊÔuz’ß÷·÷™"íô|«ò•îÃZkáÆ¨>“üÎ@˜œüÎ@k¿ü=ñ-JÎÞt“Y®e¿¦…±Á¶.«»qy±•Òö/|Å4­u“ŠŠ‘MvV.^AL#ëø÷¯È‘dB¿ŒÙb€C	{ÿÕrq`¨£…—Ø$øœ©BÂW„…nûi®w“™zÜ¿±ˆ^¯ÂçâÉh•¬^©·V½Yi´ä¾i2‰ø†C./nŸ²ä•Ÿ`á¡JÈo!Ð)Ð9ºtÅç5Óó†èë~÷#"%BÁŠ¶¬Áýä™ÿW¬aidw%‡Ä‰;å÷3ðob|“ wi‹±8åNÃÐ,ÿÏcÅQ Q?oGýæOŒJþ½Bö«•¶ÆùÜJüåÆ¼SÏ»“MÜÄm‹T2úÆ-÷/~Rˆ ¾1…õä&Âî[y&4+Ä¶­¹fäëªÅ–Ú¿:Û†F¥—ø-ë²®Z&&kmårÍÚõ«zni(Í¢Ê4š…üCŒwÃÓ<×_ìÞ²ç‹4› _¿"×LLý2e}ŽÉõqU˜Ž!àÝ¬l÷z!>Š8®m|®¼#àt mºY9aùßÆ©‡À?òój“É†,œió®¢Û¾ û¦•ÂÄý‰’]sIhÅ+µ§ø×Î-­|m/âË±¿ÇØV<–¸u!RjH”nAñ™Šýr I]{1ºt]Ä*Ùb	DÓÙ¤‚2ÖŠÝ]¦ð†#îì:kïç0q‡¿ &š©#¿'b‡’ºèÏìý„ïX5Œä„ÊV'J­m6c4XðXRŒD=,ö…[€Ú,
-¦ÜÕ²h|zÜmÎ¢Å¢£õ[ëË<ÕaÚö¾²“pê„Ù@­Â)£ÄñÆZHºe¶ÚbI%ï¤bçñÓêÈjEÓ¹6Y[ãÀÝÞÒ}1„DÜDw!¼%Ã$Ìò?MbÊ-*sgÀUaÑ®.X{}LéÛ^{ö-¶yè3Ò0ž/¯—vÎò€²ï0ÜÄ›†é;Ã•2^ƒ¿ÖÂ¡9ûék9WcP­ñéèÅ<×<aõO‹9_#üº_Rþ…‰Ò}V¢§-à7ˆM:çciÓ™Éá±	`„o¯fÁñPq3µegÊ§ Ãì¸lÑ°µ8Õ2f°ØïHM#ðY¹ã|39Pþ§ÉZÆòËC£Q›Œèõ×ì(pÂÕËâ0>?v}pùlO—'>F®0†OÎÖ®{°|7µWwcgÊžBÍ˜?sâÊGè¸èCŒ*SAh×~½?éÃ²pª›Ëeªâ„6°nžS¬-5é©¨b7ÞNz{Ò®-uŸ½yÉúˆgÒýà±JY5ÑrŽw1™2ÔºùÚù?éƒÀƒþÔ¿ÃŠô2à
-ÂwR	˜ À=>•†3àÕA.=	§h$æ$ˆ =^£_RäÒÆ«)½÷ð$•ëyÞ™ÖÂË¬<YÏ}¿r‚·ýæ¼áÀ;•PšÆ^r9&aöe¸ì€@Ð¿ªnD7—-»(˜q®…Vº×Z•)ÙÔ‹;zgÝ`§öx3>6üäÖÏÌÉBÉF3ÚGÈ¬Às{rWßø!±]‡Õq§yaòÝNš¸‚Þ[2HbeÎàÆü÷&ÇPîO}J÷ø_ÇÞkûZµfÑÄ‹:¯aë‰§;¤;¸·1¿“Ÿ|Y+¸*5°œZK%MOÊYI›aìÛé8ß«¸ëg6¤å(!ŒcÛ‹ðºŽƒm áú×=áí_g!IàÅI‡Êg‡§WäÆˆ•þ'ðJQçp5nè­r©þ˜8û{®…rªàÜ8²¼Ê-/CþÎ½A4­Ü#pÏ:KÞt\Ÿ«ährà:“%êÁÞ–#$r!q®";,L³¢^`ªbG?>£…$4ýà=H,µôÝ¤‹[ÝfÄn$S¾V!ÔbÿîÐ#¤Ã%¥dFSþRjó¬ÄóÑ¯¨ fq4f×<%ÀjæÅd”¾áfÙT“1rjž¥/ØsR#’/÷"
-Ü°hðZ·y·­ñE=œßXÐŒ‰fÙöµy\¢_††Qß×¸XN‚³Þj:™9×¼õ‰Stù¹¥ê”¹ÊzQm«B\ó‹¯+ïÄõ)Î!Ôö.´%=™3VaƒVÞºÚÉË§’±šž´ÈS!3ðø®ðøä`¸2oûøŠ\1!ÑÝãr„þ‚£ˆÿ"ggë~¹_]lL;ä^pƒ=-MÚÂÖëÁ¸	6-ö–ŽpD£S„!Á"œ(‰y“×™Z¼{ÑÙwÈ¨úsy[¶`½‹ÒMR*¶Þ=fú]¹çÁ,u7 ƒY@XƒÔF…ôz0‘x—ÐD½_2Wâ { ÍæŒ¢ç#g÷c¥VþQ~&L}WÊã™ Õö¢`¿fÏähuc£Í›Éú.³ÜAŸ‡±©é@€W(>E-“Rg‰çÑFÐÿmÇLìP2üÐê'¸o{YTýæÑ‰¼òUdšowã/»©ÕÒŠôNÞ\<Ãðý}Ñ¦Ýhs•E ÞwÛÏ5H³€t RÙŒ ×i=äâ¬4p½ÅÝ¦o¬š‡?yå¢ò$:üuÿo2ÁÆþÈQ_Azõ[Núã1¿²È}ÕÀ­üv¢ÐuBñ <¸eÌ¹¾´.Š.òÁþXgÑÀÑ1BÎš`NÏG‘Æ³yÛjœ¦´´ø1kùSü¶]‡vÑ|P…`dl˜ ¾¸ÉÖ,:ÛHaI£7«s‰ÓÅ	‡]Ãñ1¼ÌŠJ²¯ÚÍò­Ò<ÇÃí‡ò"žÃ5ÛFP Y}QÝ†¶úÓ¾»ä¥pSW×
-iG¨2=:‹‰+‡µC¤–èR>l·kö2:ðá°Ôýrÿ/èf]Ï<•dÏ 1ëŽ¦I¬I¡©€ƒUÙf_©Ç<òP+N–á‘Ç^9Š_^íçTv¢!œEêÂ‰À'»Œ#± ¿‹ÃæAþòp“ŸMƒˆ,SnÒøÁ&yèžYlÛ;¡Û†×+°×³ª‡KdùŸ¯‰ºü(’œÜ]Ñ]æ–îCÑEûšë¸Š-îÄ]‡9ýÊÊÖ…HC°ÇÕPÇö“·Í®Œp¡±¥ç}œdÈ d{ù«äŠ¤Åž·,íü¶‰½‚ÐÂñƒ"¡b­RìîÝÔòùðg>ñ³u‚ÙÒˆŸ¿tsW¨µ]É…W¸cÄçl3Ä—ÌæÜU/•ðê¼óëbÌë§Ì5[™äXSfw-Ly0ü÷UÎ¼º^lÔ†Ú”m§ô»O	)JY]¹@•wFó ]-$ÅF_Xîi+B ÀäÍØ¢û—Å†ÓC´ÆPÚ„O. wYu„zû¹c‚°!®bÄéKE1ãªÙzs^kÈµ¡ôeÎìiDZÐÍ9!ø3âõ6ŸÅ­q•gÑ2ÊÄ×³jBâ`±:þ	@h"¿*8½ªQúä©,äwò~ Æ×jŸ/g…Ò¸¹Xu9>ôù8hsVk0¼‰‘t¦ê|ñ[€=…L.•Ï^‰;¨ròókÔRÙôÏº“¬lVèÖóm]C»ú†“¼ªÿ2”jŸ“ïÓÝ½{»L[¥Ó=„lóµ¬´Náß=H|Aø®ÅAM)Ç;†Î²×ÅþœžJü¹ïO8ðÓ´îÝD–hÇ£3uFÂ¯sGEt}Ç‡\[ ±°¦]ØÅ~<ôü›àöI¡ÇWoÚGZöÇÚg–ñˆ`×~'MØ±¤‰øxw‹'%4¿5oÁ
- ¶®^sêÁWõ$íuå;bD•=dþˆ<õ§È1 ÚU”A Uw<slÏìœï÷™4±”¨ì9!¼‡3+ŸÃ@âæ&Â ? G	­<×²Ä<ŸYJc³¤Xèš»«EÈ=Þº'o¡§’Ê‚_ô;Çu»nlhFÙ~,ÙÚ€[¿ÕŸ.¨5]J°:ƒ$ïF]vGÚ.Ù Q=-6L^²Ö›Îbp¼A]‰úóÁ™x¼KÑQ*FQ²«ƒÜŒìŠ¬>;rˆuÃºÙ›÷/ Žù/êÄf1‹ÔöÅ42ç¥½»Á«y’ºT=Sºò¿å¸@|ë™å]¥ÐÌÕê›ÁŽ;£Û³k\ Öµö3U;šiM!ÛïÂÏŸÛ+üø›'cÖ6”su³ÛÉmçïË¯Xï'†è¤ ·•iðí}†¦K0=©ÐÛC’Ð¿ÓAéœÑûoËÃA²ç,'â¸6	ÌNTªl”Ë£X1b˜³ÿíÿÅ=z0±þF‹[„gÅÀc¹F³~Spž	Büômvœ#î#Mºi:öˆjð %¤VŽ'©ã–BA¥Õb…S8òè×mÔ}ûXâh¸ÿ1×w¤Ù8»fU€õäqà9•Ò'%p†¿¨AÓ¼é·Ü_?+q‚KgÝX„å› lGçÃzÀyun¯ž[Éx~šL`âÒ“SÐƒ‹ß‘‰I×M%Csl€…Á–=5ÁyŒ}™BX­óqPä;\Üî{¤he–Ù²/æÇ»”`×*s%óÂÓi62û`5.…hšÀ*‘ö±£üN¿óÖÙc¨|$K@)Ž§ÐÎ{ùiì”Á„­ÆÚ¸@èëËÊ+øÙ9ßáfOd;Òà)$ß8fH¹ÐÊý8âgMeüà‡Sê³™à(óŠ\4ÞÆÃãP0:VÜ«¾+†pyÔÚ»x Ú«^¾ÃeÆrË¦836ÙéÊ!N——\ZƒÁe7B/WuŽ‹ñÓRØú\ÕÎõƒåhŒŸò'·Œ qt®½©’lb	6á“l´CÆ”×`ÐÝeC-+Kb-TÛËÑDÑ[ýð<zÇèÆ:ÿ":M"JÏ,wÂ«‰ËrrXëÄâÑTÆp™]DëJË~óž+	¿Â h¤|Ç1ÏQå2éÖå)ì}‚½{(ÔéƒÊVtot“?‚“šæk]5'dì^¿EÄJh4n+"—{Ë3e T-ÃWÞÄÃÆ¦÷­•—¹zýK—OTNþŸ!3!T¶Zä1½.Œ¯i'<ÌGïð?¶Y„ë—óZGÿ<î|âÊˆ÷ sŸ¿Âùo°åÁÐOøŒ±5Ï¹?~Ï†oìùnÇY×b„âýõZ!ú(6’ÙÅ†gè—€%ƒåŸß³äÖ±êJøÅß$dJM&úœ›@””Ug£å;åÞ¼>”C‹Ê´–ËV«_pKhâ&¸œ‡på•c{ƒ>øSFÓõ‹Ÿ‡*lßL—=ÅB}ÒÆß…`’ƒ¨)/Ð¹ÞŽKkÅ‹•k§š…âÏ$ó"¸¼0ÉÝõOUVFè…Ÿÿç_½óyUbýÓæ©Öé¥qî¹#“‚–6-‘q#ZŒ&j¼qP[tâÊŸ‰w8w'Z£ÃíeÆÕF`šþ s(chC·{•÷¡?o»—®áUìE!ó4ÍÉ¥Ë3MÛrØ¨\ù$½GãôSäo_*†/µ
-è¨úí–ýÞŸeeÿg¬QúðŸäûûo£ ®e¹þœD÷á2H.{]ëÀß=à!_(6ª`Wÿµä*J¨¸Ý“\lŽHÂdÌ÷nëÆAyÁHÈ õ¯™z¸†ŸõÝÍ¯K0ÔÕ<˜¾ÈläùhbÛ_ í<H®réMÀ›toÑÉë{ôGƒ¬õ« ÚMi6æ:ÉápµÈºàGøÀu‘Ì>ÜÑÛ{Ì¾0+©—•¾pë½^G¹vúãDŽT£ºòã1ÍÏœo½Ü"ñ Áe­GòàˆGºŽ/^kWW_«!Cý–nyJêóMx:·Á—?æ¶¤—îGoS¬\â]hdÚÒQ£S‰m®¼û}­Ï\3Sùò'›ÞÌ.ðúô9nNPÑÕ’Û·™†ˆ®àê,—kp€„Azx[Û¯È­c=€ü„/Àˆ²&á9²-[é(å÷8 õºõÍIÁÑAtÀÊ™¿börxf)H¢®tVª?dødÞ˜&'Ò[?*PH§»«)¡eZT…Ä 2oëóú0ª-¶ÁèsewåQ°òìVðì5’_kûÀ®ß÷qÃo©
-Û¡ò»ZÓ?Kvî5ÖëÌ4ª2R%7LG«hl^ÈÎ½#?Ä6ÿ&óS2íò\¹…º‘>ƒÖ~W‡Vª%îÉ:T£Ã_g¨»¤ïÑÆ¯.SžG"{Øf~zæ£&ä%öüöK*ö0	
-2u 2aÈ;çq^¢áinX<IZ[»¯Xk»¯œ39aMTÅ9h3” î¬~"SÞrç;+õz{:¡ws\ê?Nè~å"/'.fu–¢IððÝF–ý§ÿ]'mü¸W‹åîãAx…Ypó„={‚J¶€;c†=ç(àCéÓgŽ3nÈèJp-ÇjgàjB^Ñ§¤-O=‡GÝÒt¤ÆLnÔæWs4h	ob v- Î¦£”&iõô«ø{Ÿ
-.©¯[Cœ¾#ªÉDÁDä­/rÇI“ºZÚ>QNHc=’E1
-ì§½Îý[¡!,mæe6G:ó§u„†D/¬'Fžå¿éaœ¶$µë¥&”)\på[}è[äçÝ(ê÷=¦aã!Ä†’ßšYøYY8Vø$¿ßGÞ\¸ )ÿ	ÁUß'-ï„rž£¼E¦£;=_ /¦W
-eÌ¤¨,Ê¶¤ý!qH—ì´q’L38P%r>.%HÌv›G2iª ]}Bý@[²FãP¤íÒÑîgËFþÏÕ›´ãô*Æÿó/rŸÁ:l9=ÌØ ùÁ½Äº˜7,¬ƒ cÇ±%Œj­Õýó¨XÎRlc‡¶ó»ìSì‚”lŽÙÁúTî’°•¾d‰F L”õÜ 2ÚßäJ’%¥Ì15kÓœy›i¥†ãÛ¸	\NœGY%—ÎnºüŒ–mÈ:HðjççÞ…:îÍÅ5ÒÖ¡¸éY¶¦iáï{’WØ»1é—Ê¡)|‰¨Ô9àl÷A)|°c›6)XeAæ~aÒÒfF‚×ˆ»¥²‘Õîø3Ä-[0€hZcLÌý»×9ît¾\0¢aÅúqÖ\>:â™ú·z½–Gâ>·îÚ¶øÁÞÅ‡ÊAÓÙÎ)º8¶Ê©ÿÒäj)òØÎT¯Ñ*–ÉÔòGîPÇÓ8ŽiÒ Ýž¥]“óŠÜÙÃpë_àÂóz
-›Šó±YšƒºNJ¢Úãðq¿Pßîµ_"IaÓÕÙ£0»Ï¦ñðP…+2Ï$rOø®Å†1Ôt¯S.ºyxHÆµ6>Ô¯9¯AÖ$qp5þ ;a‘¥òÖÿ	ÎóRúrÕÖ?NýüÇUóKëò†J«6‡‰jµêj·Åó.v°¾†´^á&â–Õx®~É¿Q¤³4ªôçïkÝhò·•ÎûAÅÙò«3º-Ô½ÀvþØ9Æ‹×£q¼Vó8ó¾LT†~o¤9ì„£°*QãÏå-z%fF*à!ßÕ¼rj 4Î¼xösãîýZa&Áoí9R’.7b–ìd7xEàt=þô—5¯¥,b2Í­p+¬k©öYm4«…ú©²Fîãšÿ#¹üŸ±F”1rï«ÀUyÄ¬—CGÔÇÞ¥¦4(‹Gqä3–ETþÞnø»I¿	oG‰*¿¿ï²¾ïéŒCI#}jšˆãÈº[S(/+ÊÆÊÃVXæZé24±—„X±”„„€ÓË ÌÑ•Ÿâ‰(Ó§bªK¤fXƒRHØ’þu31Ã3»t”o¢#güÃ9Xü3=fŽc*åLc²	X¸@Ù¶dŽ]£¿š¾÷1”8IKH°3`‰aÏ‡‘‰‘¢V;¢R[Àk¹m¯(ýÝv’þ>9Ë,öÅåª«ó³i¨á<nÈÑã®AÎlR}dç%¸´¢³<óÃ|ÿiÌvuW)st¸™Øl‹ú™´É1~FSÙbÍ¯Ü|î"Ië9›{-HÚºajÛÿÐWä6@c¿ 8=ºÑb€þ—"îƒSÎû=¹~ÛÓ8“˜ïã1 q:KLs.w}/å½iœû¢	áäÅ^>'¥´	Á‹	Ò¹É‹dDÅ•OhcdrL·§‹!NÅ°ûu¥[WÐŽ©¬óÍ ošŸ‰C?ìÒ—No(µ^ ƒètv*™ÅtpEyßß,ª	'þ6!T>Ž˜Ì=†ÏÿÑ †Û_&Úãu+'wd^êÁ*ì•ÊWªSQèÕ¸ü€ÑË©©¡ÒÅ|&ŸÈ-üêcxYUˆå†ˆÕ½èŠ“)ÌrÙ,¥d™ýÖ_‡÷f,ßÝ^}üP!` J¾ÊS®ç-˜O0²™£æVö´r&«I~y²	«¬·×,X4Ð×wçÒòœBùÍÏê<xEN•@jÁjì´î¸³‰0â	§¬
-Š¸Mê´Æº…>è¯­,y­×â‹°`AôFÞEø&Ù7„×éÝo}þýc*±ç-aeÍg-,—6;—¾:.•‡îUõÀa½êÆ&‡ˆžlwØÛa—p‰£:Å¡…œÐÙ‰É{q9%(ØqƒkÆá¹I‚œ+	£†Úš=}Ýå¹ßä
-^šÏB|’iê9uvsvç!~wÝäÆÐÐV›†ÜÒj}ƒ€£ýú~~ÿaS¾;(%6ù	Kp;PçžeóŠ«©goc² ÍRk"<œt*ËjÚaGD'T‘´XˆÝ*¹Kn°?ø"p^º^ºÃW·Á•{~çãûlñA&]¾¿ÁIÒ
-áV¦ÆÛ1sâR½"Æµmu@‡‹O8Êå€÷úN$\¦¾ßèH P´ŽaÖ—\¢Î¨<lô“BÓ™ŒÊüÅñº 65xß²ù'4ÉA”-lÚ+Ù[ÂŠ­9ï-Ï<ñÂ5e9\¶Ú=Âp&ªSâWßd0Å(j7SÛ‰æötÎ7³n	€t¶sw³ )´¢îs ùjG9ŠHLþ»¹®á¦¤ÙÂÙ§ß6©9#Æ%Õi0*KétBŸ³…¢%y”õäiì1¤‘Øv1Ov$hË®Øy®^9+gNÔ¨kð®Ó_·¥Üà‚#òxßmJ˜oÈIUJŸ'’„ÿ#Nð\çr©“|öL³¶.¥ygöà,aÉIu€í]ÿjŸlMK{9 /+cYÀ¼8Ÿ‰ºE._üZßÏŒƒÔ;	¯`’p8¡[?‡Á"ÎdnŽCNFà
-¢tí 8—×EÄ‘¿·xJ6,Žä‚g²8µôéôê‰¿kÝ”¨GG8%u8~±Ð¨¹êå•†«—uš4²XúË—uæðúBYzÐø)µ
-z;¡[PÞÆr˜à‡M™ ¤GÕ)’ê{ÞŒ*â€GèÎmÁ¿{üÝI5ñhå£,Šú{¬X"uæÔuì~Ò>É‰‡Í»ÄÅÀ½Ü’wN²—§/D2õ¥e!ƒi¤<ÚL: Ú¨“…^‹¡Š™)ÚæŒj“fú¸e`Ï™~Ìgeš¢ZöVP"³‰4ŸÄèòbTÿÆîF]¦‹®³ïŸ¶û"d8:“–²Ý‚Y«PÔš¸YNOåƒ½®Žˆª3å‚Fg?îpÔûŽÊQ/MV‚L}\«!L7ú«»)ªYùË­y_þ‡¾n•J»-~jÂL=[YÙ½­›SŠÛô8Œqvkûõ¶Ñ°U¶Ëas}ÝLÙëËÖýHø/Re°’Ô%VX Îb=NÏ}µ.þ€&täòïäÇÇH
-šÅâŒÄêËÈAíJ°“JJ„8¾µ%fŽ:I_íuæž¦aÅ±õ¯%ô$Á5‡´B~©‡_°.ÔÇ÷=ñ\ÊÄ°IrJ©‡!-ÒÅ8D¸	û•IIþ¥­“ö“³ÁDý±#1@@%‘:lK§×ÄÊkyÌ@B˜/-m¬EÆœw–·QTV3±!nÃm\ZÏìe§0²—€\k‡É2´ c61T"¬×+N
-©Žü7ÀOdý ¿e}Fí~]"1t!Nîp~´Ak7ã’¹]{†ÅmIŽb°± ¶ÔÂD¹ãžWas²¯Teÿ+¥2µJNˆõ±±Â[ž{PC(Õò[·„ž%†T²ý´ b6-,MZh¡3,oi¾‚ú+»Í!ÅýâÀO'Š	¢d£Z¿‹éQ­Û€“§*é+»ø‹j+Ÿ’ÆjúRå3<•Z}8Cñ;Êý&çr+Š
-?mOD”Éû2•Õa?RÌ5u9Y|^\l¨îÜøMoØÜàC¯“Ñ¸,
->Îˆ&6Âno2ÊoåfA‘¬âÒo“sr Fa½ú³;[ÑC5×v)Ê.¡Hñª_Ë_˜Ê'dÉ+»®hùÛï@WÛœ¿6ü¿ÕKÍ7Øum]9þ³‡X$>û‡œ-*8¢y§ÃUaÓ®çÛîOˆBéjÓoU
-©BÊbzÚú{Æü{N—îoúlŸm¦…ž¾_áQ¯R©vßó3hÿ-…ji0& R Ô<÷â*aŒ±ÑüÄâùÑmTQÇBb¦\Îàƒ†ÿLÈ›ºÎ éáI¹¾=ˆiª­ÎjZ ¤¶±v5£$›à^_0«Ç%›pÿÌ•_®4YAçŠÿ×5h,Žñ“üi¡Î:m­ÒªÓRÁVªÇÁQù
-*çÍëå6°“²¸éô$&ã1~5ËºPªü.ÔN°Õd~¿ÚX0AX|ä_%Ý¸Œ±Î8ï$½°e¸°ÆkÕfH1šÖ¿ýúNË¦·¸ªÃe°ÇdÄúÞsAõÒŠE³jIÃ„åv¿cj‹Âjò_EBÖÕÙ²Ä ‡ÆµÂ+lÊ‚bvM×¸=Ð— õ[lBþ F]L58*ÖäyÜ†÷ÌrŸÂØe*ÕýÄ}=ÑTx­%á§]çëa=ÌÃRŠ¥€R#¨D—†’üÅïn ¾Å|œds,3Á\iäçè8žÐâYýa¼#o'W½Ô¢‘&}RÉDSðñÁkHËÀË¾|Ú˜k7…®±§U‹©¦)™y*·1ëYðr‚io· Œ&îÌfî¬™_9ÉñÀÝDÀÜ
-*£æ½º&W7˜2ýt.²{Šœ‹7¶Ô5j®íMÊ6YÃ¨P\r+9’Üû¬,=7«ÃLÐxÐ»@éÕv½Cz¦Ï–Ü[0v‹ìçžÐŒƒ–8\è¢Sôõå&X£Í;ìSöÒ:ðeŒfN©À¥õß¸1Ú¿Èýk’Z;\M÷’Ýë>¿£øChH‡®é”mlš¯åß*ÉUŽ÷…ín	ïª¶ËÄPk&àÏc=å˜f€ëìhÜ,]UÚfÛ*ãJ¥Cò‚ Ó¼ÌÙK;ÌÝÏË”xù® ò—œ·­›S Ö¡¾óZL	[ñ7áóöÙž™”R­•@˜´Íï¨béåŠ	¦¢z5€„
-ÅØùí„¥wÖÒGQbhòc²tõ?sµ]h²{õˆr‹õ!Æ’Á/ÿéœsx¿ýÀ¦VëŽ˜P‘ÍÑÉ=áôë‘8f³0f”ÓIÉ–zÝÕnàU–g¿;6b@~(æM:"výÃ¡î(er)èˆ„ ·j÷¥chÃ®,aØý<á˜å‰eþ$Þ;õÄ®%C[˜Ágm	é?ý/‘¸eù/=w¾Nh’»ˆ¼„ÚUÃd#´&xFMÄ1
-‡íò¿/¯òŽ'«6‹|™*±åˆ•_ÞU!8À$b[ùëd^ð°€´§8üÒ£§\-omËÜØ2xùxSþ<f¿f¹N!9ŽÎY‰ß·ØF‹¨9¾T`§‹˜ð‹Ðn«kùŒÅê>gó6iˆ¿}ã¦ÈðØ4 ãeH Ç~ÍwVíÇÜêà¤×uSB˜ŠEÛueÒõ ý‚¾uaÊìhý9ç³f›Ÿo!”§RóðŽØz”Åxœ«7N-Ùáú\õÐ$Œ>Á0IŠkÄì3Ú€íÚóÐSÅÇÊ”8·Ÿ¥ß{ë$Øg´ÎÞ›$“íQy¸~qÇöâ‚®îBü0«î\Quæý óyìÓuxEnŠôè8Uñ€îxÜ‹ Ò@–O½‹Z“4Áb^·v¦± 8²>êQk±k–\s²nŠ’‹æBëhŠ&Q-]39´†óèeùÖE¶±ôïØôãe¦/é‘xYÜÙI¿Mg.èA¹§¼-¸¨®nÛ_ØòõÝ  .]P­à5Çg,qÄ/ã‡JÞÓ=—=¾K(ÝtõÁxÃÍaÒîU=ñÑù~ûBßüm·ªž²· UÛ×65ÊCÛ›IÃF<ÏÔ¾#tÆÁg}~;—ÎÄÜ1‚F9´†ý9ÊÜ€>f	„>K·ƒäYQ·Ü1½Iüš·záa¸ƒ!{5%–îoÍö|	üw–
-2Ì?sý £F©©£Ä,Ã'	F©éQª³B/úEasº××·8Ë_‘ë¦VG YŒÿP¯™¸…ê HšÊ9Y,[gäô	Z¼ …é‘2¦ÿN'ó(;%îJ›2?ùX›0êVu¿›äÄvD+ æÄà–’8ªG %ÍŒY¬†]ãBÓËI*ÖøèÍñ_Ò,Ùµ´Sdâä¸Ìëæ7ÞçÄì7Û1f¦ÐÏMI"#AŠÄ˜pÜ×Â&<à¼>ˆ™+¸¦2ÃiìãJüf–ç¥Ã Ocß¿ùj•”8bÌÃ3ï;g’íPäöSzA{yŸÞä=ýÃ²º¶>Ôïc†#{àsÇ“Îœ}¿ÿs5,+¬¹OVR7V7ÝÝÚLy[ÝšÇ”(	Ä/[‹…2Ü"ÃËjR+†õÞV «É“>áÙMOòd<8”HÖ]/Ò~I~EŽß`ÂÄç°ªº³ˆ0Ä7Æ»¤PÔå3É<Iá¨Cd¦­Ã:©ŸÕ?Nšn=ÃB+äþ281a`QÛ>®Ê®œÞOX<Îo6¶®‘@Ì2–Ž—·&OtÒj³wÄ«ò-võN|ž=ôìÑD¬;zE‡þ”#c,U,öáŸÙ)ue˜Ì¸µOè¼Àb¬ÝQH‘UñãÍøì 61’¸¸ì5ß×¦.>ôŽÌ©±t¼ŸbÔ?8eíiEbŒ/vË¿û¸êexj3>à =ù*¼Ýz€>”Ò@&sÄÉl~f}6há–ž*Û&ø\Ì¸¼lÜ0cÞÿ!öó¬»‚ûí¯´]#àp(Ábÿ‰ˆ¸^7Ã¥³×7Ïoý• ˜:¼˜E
-ÃÏÕ1op÷ 6E$Û+rúx•&SÂ!`¤æµœ :x¯9¶Ö…šEÅ<XæÇ‡°H™CjŒºíyPwÙ_GÁ½#g2<ãþqðoÔ)Ì¢0ßIÊÿÑ
-Ç€ì°€/Ees*£jÑ0Ê»#ËÒõNDÕíX?çPô[õÙ¯y-Ðã„`zùóS·››(p%Ž“z\ËûrHÞ÷°¦!;“­&ÙJÃÜªŽäIî]Q
-võïpd³j!2ö­š@ºû~S¾†YÁ”ÄÜßéR­TcÖ/{» ¬þîJ/ÁÆ·š×ób¬2’¼ftîö=o‘ÓåÒ%ƒf'lg¢.@$…hT[1©ß.<
-2$#Œê£f;ûª%ÚþîNÔ*hõÍ£à}÷zùäa,=›á)%×Ÿë®cü}­í÷Ï®ù¨ÿ¹Ë¥ú	ã±9GáAï¿qžÔÂbþîLJñ­SÆ«Ñ³‰ž+çW^À6¾¶¬t§W 3þ«Óš"Še+Ì$‰?²Rà¥õo¾¼`"8ø³é¨qõü™æhù~‹0ÅOí{4BIüvj¾Â»÷eØ·¦Ü)RƒQŒ•éžj¦t/ )èºÕblþ²Yí,g×Ä"–ÉGÕ2è›z6ü
-48(ƒÇöOõÖ²'Û¹¥‰µmç%Ó’&Ô.ÜOjR}ëˆ3”Ç/%ÝyrZ­Köƒåí-çmS]ÊCØ©]Ùz/]õÑJ"¥6CÁp•WÈ#,'",¥6S²ÜÑ\®6‡~µ´EfÁÂ>c›Û¢n}—u}`ñb¨>w?4°èwÔ+r%G ¿âv@’oÃ¾Š ¶¹g[Yz©¿Ù¨³Ùy’qh¨Í^[Ü€G—î¬`ƒØ%Vü‰©ü‰×£8ésq²C@hëÖBaaßiïŸÐR[–Àƒ}TÉ2žÒ³ôÍN‰„4S*Ë"8û­°òD*V9^àðÈÖhÑ,Ò@„«‹=²ÖÝ‚Hy[Õª­-–  4vÇ·‡=@vÿz]¨öè#>¡±ßËP­üe1&‡g´l,`·õuºùŸ‡ÏæGà¬`È¹qtTÛYÖ0Ë=¬
-xR<QÖÞg4'	’è•üe ß/a™1Š¨,mmNÎmäýþf“?‰Èöä¹tJÍƒÅãÓþEc;å‘©B8ë0ÙvðÇß‰çÃ©¶%›Dö>Ô²Ï	göï#Åg,oŠâ™<,¹þ›]¢´GÐ5^ú68ˆ­ø¾?½ïå*Aœ5„Œî #nñ»;ßg³Dd£èWMTtŽ<n¯âÁ.|Jˆwa´·ø{{À9äV3EZ7ôåµ»*À~<YJ\L–-uþVê»ß×k¯Ï<JO*WÓîJ´Q¨Á“«K¨äN·kÄ+š}pºx3¶;’Dþ1ì%‘P«]YÔGD]3¦‰
-ƒ{ÅðÚSêpRh×p=ÃäF´ãTH²)µA¬oµÅ%okÈåcµè)”¸eHÊí_Xç$±×En©þ¿œ 6³ä`ŠÿÃÕvõ‹·=G"¿»Äó_b0ÜÃ¦ $þËCïkTv †?ëšùH4.½ëW_ª÷©°9ÇC+fâïñÿÄÕt¸Ù2^â7hE…¼"ÇCÀqiâsú	,k¿ˆ0€ó/³òJ‚·bË}±{ Lœ*ùUÕ”Ÿ4ê+ÞôÂí\‰›;xgÓ—j‡<®³}Ÿ`±í¿_gQ`q3‰ŽôŒuÑ6üº«ÙÞývq
-·¨ýV¿].½uzmÉÿI‡‚M–ã¹Óý“êÅ‹êÑÁ*‘[jNm‡“åŠ'\s»Û±±µdkRET·CFñx›c2ßÑÂb9ˆŒ”»Ÿ½·ŸËÊÃ*zÁ®	¯[Kéö’†9È{LBb³5ìèûû[EE–Jñö	(Ç]ö)êÝ5vm¸íO½mî9õ.Pw9‹tÖ2ÍYu‡_¼SI¶ô§Æ¡BûQ|N¥ºÜdÁNK£ófZ6¼·Òè½‡%Ñ¼g	"˜žnsÿ-r&0‡~™²¤‡Ó¸r­‚•
-é¾Ø€9B9+zeˆhù{Ë ©2º©†Ú?KGŠ	Ë8ÍõbÉå4×î^ÐÇŠÏ‰átè)‹P“mßŒ0qç!%ZY1oèô¬ xWdíÚò?	Y‘–º@Û»Íêö„Î—â4â,>Ó•å8½X&|sì%ÑƒgˆÏœÕZ¢=¹s-‰Œ=ËXûi,Û¾~„z—eÝB[×º¢ô=¯²ÈVÒÚQ²Žç-¯Üy/ÂZ}ÖîZVlº·_VÓ;Ñ]ÑAô›L~YÙµP¯\±†º`†\{qÆRìÒxô¢Ì…5®YëáŒ:£MUõë&ÚIxä–+ùïüö*ˆ_þºs‚jöí¤Øø•µ	‡J/ðyÈ±Ód¢wÛØ}ç_‘'à¹ù™"‚#èwF\õ6í|u"4ôºŒçÐ:À¹,}•·ù¦Z%@¬
-q¼JZk›¢ÅžØú­¾ï—›KêÜ²Wr„’-î"çdôºˆ¾@Ë±Žç	Ôo‡ïvE:ÓýÖàŸ†žµ|qˆ4_šÇPy6»__M˜ÀeÚ/Ç¥K  yµ³dfŽÌgPŠotX(ÝL„0(ÃêdEz¿¦¼1ŒžtDdúÇ—Ëráwdh(m˜§’¼[üšSé‘þ£—½°°	V×jú7ìw(6o]ôLô,¨‚ÐîµS¯‹‹cò6Ãºs²E\Å9-J—­Bº«]Ú$ÉOíwÉ¢–m	 …TI“([mQ7mæ°óÍ=¡O½„saÑ`›`í7z;Žägø…/üæßL^‘k ¥¼Öñû×> –ì"¨xÂÅÝê/ødñ9öÝÝÛêOe?¶Xò/d8Â¶^><|žÊVèz>]~w€øµ–ÂCÊ“TýYš®·^<Ô2©ó‰Ø æ_‰ˆ=·UªËJS©mÿŽµ¸ÙÁí_+í]òw?ÝSó#Zÿ¥xegØ< Ð¿° M‰Ý™nçí
-’•¾Û— îŠŸ¶ý}bØ¶³	sßk2CI–Abs*¶ßêGü€Ù HN‹Á]Œ7¹&¿ö%ÀìïœwvT#è¤Õ†Š8±µ©@SÂËñ„z Ã´îÜgçÝ)“ßc›‹‰rˆOòr"¯^ºöwMáoÊt#Wmxˆuêp¬•1Ï	Ý7ìšmµÜ÷&ÈÕå$ÿNS €¦þµ P‡[´' cNÒýIçò¯† JŠ‚Q‡–´ÝJ×Œr¼f¿âŽäÏ¡>hs…DêHŠX º1ª¿sëª„Á^ÖŸï`g»°ê¥k(¬tæó:6Rïç`Þ«'±s¾yâ÷`¦™‡¤É¤¿˜Iz}cM˜Ž)‘r«k«ðìâ_©z?òY?ÏÒá3SJzÅÇ	´xHWGb^CÑçŽe‘KÃ¸ÎYÐêBžËlrÒX¼³ä|jì¸ÍZ]‡ÈûC}ø7•¡&ÕÔ÷qäÌàÿß½²½Âv×5ð§f÷ƒ,¥{þ›‹omOKn @?~ì$<»×ð4¥¯$LžsÎqz¶YÛú°:Ëõ™^y¬”¡’ä/þ¿š,ø—6Þ§ì€ ›í£  e\.PB³uÿw~½÷wê6«8I½2Ï³ƒAîá/Oåo£r{"¦|:&9ÖL]Pr—æ©®í‰ýBbCÊesK©^é-7ÅGhé»…ù6÷`…ê1;Tû¿šºDy},lÎ¯•Ð¼'Ã†)X2iÔüËVú)OÑZ%va«²a½ýñ5äƒÍÀñ*
-9)À;×OVìÝ£¹]«sÛò8Þpðš&‚_Ún6È|Ža*Q€)P¹Ý;5îzè’2"^¾û)„lÒù›¸zØ|Y5D#†}¢4Èš_¦H"Â«*'H(©óAÊlh­åpf9þƒ`ÌEù”Š k*‰v¿¯QM¼ùfÝGçßgàFÛ,mìÄF—yeŠ¤|êëÅò«‘¾ÑÔk»–Wä\îÌÆÌ#Àð9î:D²^HèLó{kšj‚gÚG±ÏûUÕá9úÏ¿ j7(¿XÆÅgNþø	+ŽYøÙlÝåÈTœ¥é_á-¯êTÆðÉÙ¨¬n¤[˜/É(o*Oç*I~1	Ëù É8Îç*U~áðÃD³gD€ÓÓÝ…QŒ°ìdß±­¶„+Yê1ºíVÓ€Ê×c»%¿OÆžx‰¥¸LõýY Vkwæ°G59žU£÷0{fÿJ“@EÉœå|*Æ]Ž³ûÅŠpõOë‰¤,: xŽ´9,b•¬ZQUƒ›SÈH«ï¸üÝÐ‚¶çÉž2±¯·³ò78È÷Xzs]óûì'›mA92ácËOóÍ¢vÃï	éËfÍU¾ngÈa…ªõc‹¯ÈegB}¬#À1î#ŽXQr¬Ò§~ŠÆvŸõÌ•šGn¸}Ždèžz/NÓJ|¤æóRÜ.ÜŠKÖ›îÛl#ýÜ|t‰óÂàK)ú˜éàçM»zqÌ2¯ô»WÓ^GäÊ[ôµ´¾bðK!{I\À?„þUÌ¥îZóÆ5E_E™bù«K‡K·vBðé &üWkN÷u»ù»˜ª’¢€k¥‹ùD2œg;s³rÙåÄ;Õ_öÿFeW
-yC©¶ßh8Ã„8ê®¼ì¥ì]”Ók‘‚->ÇJ3k—£ƒ'ñDT¹AeÆÂÁÅ5Yõ+?´‚™
-Í¬ª?¨ÉÏ3qJ¥†y‘f¤¸É ß	£?®»ñS/Ôwˆê’E´,ûÀ_Æ=Ë–Rc¡ÿ­œ!—ƒ‚¦ì.ÀA‚\%ÔeÕÏ­«Žï¾¿L/Ä°hÏP™¢A£Ñuüëf*ŽùÒù3åŒÆu”ýUipÅ Ž§ñcçoPN¸›ž@(vD>­jÝ§Ë”À‚3V¦—"ùÕDqG-d€€sÜEù­Š&:²¬ów¹ìˆ›>wçñ9Ì~¥µµtLŽ¸1ˆùÖèúsÊ1¬M ú“øÍpw]˜bM.<K‡qâÎjÇ×lD”3ýŠžæ=ðÓøyÍÖÖçŸîê¶”3+4a±xÈÂlóã†~pÇÍˆòîë~ÝƒÂ!aåjq\Ù;4þ­ÞýÁáfí_.oÿI’÷‡ŽÕúûéÍ½²Q·™*Æ2¢‘ÄSjaO«Z`ƒÉYÌüjHù¸Ð½¦‡ùÚúÿiF¦H¼îrÐWo2ot^gû–YÞÕÍµ•S»µza”p°•úKàvYOX×‹T8#ÃbÉ_Î)Ÿ¶¹µïÀ]«BeÒ J2PŽ¼–p7Lö_ÌÀUÊ05>‘…­ß 1‹—](È	Ÿ‚ç©÷‡Of}
-¥Ó±ù½å‚ÿ[€^”Y‘0n@šì®+Ô\û!õŠÐ±Õ2h:SÿÙŒÆÍ5WY(¯[^‚£ÄíqŽUs'¤‘$<´[÷ö§tœIšflG&§ŒŒè¶Zý£Ëúe€zðçt:§»IRIÀàW$,ÉQ8R’Ÿ´8FÅ<«í¢,É‘I¬ùOlu”Á½¨®ØÖalJe	N¡„Ÿ2%5­s¨Å)Ò0¤•9Il5KR“¦âß¢~¹Ô|Enžú š²>#;8ÊãƒåâCì’°•”(¥¥gñXFÄ´3ÊõïÞmF „²QÝý xZ¬öí4ìJÌz’ýHIÊJ*¤Õ}Äÿª4¯Zï:ƒ,)$4çâäìV[áq­ˆ¯”h,%øý_ÜVæìí„ÿ²°•ÍJ~è¶}“U„}5ÆuW…’hVYÉ¤0¹PWÆ¹L”_8HUÆÁÉc«w?üUî×ŽŒ½Þô.?SÞ’»e8ùÌÖçÖy•û¿é0‹‚õkW$’dÝæ”néf	È!ãÝ	}”ðÆ¬ªßHdõ¸ÃÊ˜q0RßUÆƒbRŒ‹S­9­t3æ˜R9fõâg£˜­Aáfrõ8?§Œ³ð)MŠ¨x„ñˆ¥$0G‡k¹™ˆÓ3˜Ê¥èÒðþ{¶!xÐy})Dþ³ÓãúeÑîmÅz a7©ù~Bræ¹0”aÚAlc<êùôNÁ]²Zr¤†U@l¿ÄõÓt==ƒœ5à¾Éïô\¡Š^û8 fó¢`×¦M8Ex7‚%)]TO¨›Z½"³Ó@(¯ÛÚ§¹‰MÇHÿÐ-qš¯ãhÔ»ž3›ÇÉ‚;“‘>òhUŠu‘šÕqN+{ó×é‹º´Že=c‘]—Ý'39öf]3Ë«)å÷© gÜ„¹üÑšU¤™Uý„Ÿiójá×¨ì$’Ê1röD4ÆŠ^r”´¼Þ*ÆÒ_~ÖžP¦ñFOà$Š­Ù~‰-Ë£é“Û.©QÇþUÿ3ak+-÷¤|ëñ!><Ú¼Á0‘«u4” GÎ°g"¼×¯üý¹}áà”ù3V¾ÃU0–²l£Åmƒ#õ%lïýÝw#èÆ¢ÜÏrQ0:™.ÂžßÅKíÎ£[_ôäw×/ÒXáðÃáê~òäÀÉÐø•&Ak b®kIzî[\3€(¥ƒA}#é+Õ$‚/žx; Íj³µk 6‚ð­¸µÓá'I7kí¸*íòo–&þÅª¼HÛ·Uc¥“â¶mßŠÛ›xù%}ð¨™‘ÕÏ÷ƒöÑß‘ÓˆÃ¿-Eî3_Ã+Sä&Ã—•«;b~`fÄ)wÀÿÈÙóð6ç1¤§×}”“ÑJö‹˜ÄL-	R:}	ª¯¢ÐZ\F©q¨E~Eï<è¬ZzX×?HJm™A-ŠÝtx1V­;ps£«´1\Ù‚±àHlPkÈ©{ÜïÉ Ÿôêrðeøª³e|þØvÜ’¤0¾úÜô¡@ämÀ^ŸÄjnXæ9¸s­‹•ñ¯	oÎñ„gxø¹Â‰ZI5ÚÒaU”ÃV&’µ™úG+Æƒ¸t2Y%X¯Ã!ÚT­%¡Ž»–e­vvVí—.áEüÀmÖÂ5+LäÖÍ˜H–à5'¸V¡apýÒXÛy½ÇûŠzwëü5Ùê¬À›8.fqXá¯ýqÝÕ5oa—Í·ØËß¥Wý°V~ÃÆG?•9PuW> Î¦S¥¤ÓµwÜñGõ·;Š<±N?Ì Yš©áA³Ž®ßK,lÂ"c'Úò{JÜt®É'Ú¦¾I4ŠûÕç\­"æ¸¯ö3žªÂ•Àll$¨ûþ±í*¾ ½¬Á‡Þ÷)ÀÁ|{†@•Ï–ºijÈòßÓþ
-öÄã(M€É9o½Ç[(ôë#ªÔžüP’}LHÐ²‹¶ŸRCR¾‹œ…-M­ÍÛ
-¹çg Sµ,RŽñ©Ì.sPtXWR7úý¢/ÐzL$E(%RîKñ?‰ò~ë¨ðõ(H¤µ	¾•¯Ì]tLkx¼é«ó8ÍZK¯møùy“wyöá,{rr'#ã±xŸÉyº`OKwßö€¹ÉJêRX5¢b$ôùŒòÙô³_²ÑEeÓmþƒO÷ÿ¿;ëyã™çëÅ `%GùÝ‡~0/cm×ìäÂ`Økcc„
-qob;" ;õ@Ñ+˜¯Ö•-›0›Ow£Mb”$~~†Ù:´G·]z®WnÙb¸8ÿ}Ò€}mSþúÑõ.Ç»MhÈm¦óðõ–³"(|0ÙE_+/"rô/·:‹åì%°×ºŒ`ñËí	!üªÁg09<¿“ 	¯ÅËqŒÛo[‹¡OÐ¹¦0–Àü!ÙDÐ°-´®ox_F¡gHþ©É³òé†+xŒ@xð}.<2áÎÎ¡‚=ŸyÙøøÉF·ãQ¢1É†¡XŒ˜œ%ÈÍõûÁnv²øÏ†Ä>ù^çÆ!¦¿'½'6Ê^&¯°ÒB”˜«’ùý-;É5­§hÍh‡Èw]aÏÍ”}óÐ¸ùØE‰8$4É¼m#†ÙÅÚ½®Cy[¨uÝVÈ”¹AÐÐ2§ÙMÇ¥øŒ­¡?8Ef#Ñû"=ZvƒÌ+dÓ0ó/_ÕxÿºŽç·ïÊòW.žø+L>Á!®ŸømM}ÍÛ|VæºC«ðˆ(æ5ˆmîÕjHAm¦„­Á	#&;"rš1¥S¸ó[zEÎŸ®*¥î…f-8X”é©÷ý‘?"g|$Ç*å‡×@þiŒm6Ž%“P—p ŒŸÖÌ ¯ãDµž	‰,'f´ÞÂÄ™Ÿæ671QTC&t¸?þSÁŽˆ·†×¨ø“Ï[]—%{RÈ-³Á´åb
-	™ú@f^]=}^ŽO(Uª’ï'Sý·—ëÎ£TZ¦EØDÈ­ký»<Ô&¿øÛ-Ì±~ó€â~Ü³MfÍÄ«{‹Éò¯Es#U@
-{öÜ“CAÏW…Ò%[cóú´‰¨…µlÛ…ÑåíÌœø¡®J“±t|q²A+2Î¢Ý•úÕm—Í;ùE ùp•µ®Às‚Ë¨9KŸÅ¦H©~*˜sç9æ[ô‚}jÒÿžmzÌl„OÀ(3«ð²Q1l@Ä%Ù‘>A²ÚÒ€?yÎ]íÅâ 6þs\—<U„ŠqR´ÔÖ‘^+¾u&Ûº¥ÌÇ›Y ŒÛbwŸÕÆ±¸p9¬½:ŸÎ‡€¸e_]p=²u% îîôWÄìîŽ7LQ¥¬³Ï¸ýÀ8á1oõ;òØ:Ëíƒ7ÝøUÁ¾sOš ƒÕHÊ,c“ü³öÆóì†ÛhÚy-¬æ; Aï¹…&n˜ç;ÂüïŽñNõãµSwæAcŸ&Q÷“ÒíO¡Håü¼â´××:ÕsÒtÛüå¿ú=¢ÿ ¸^8Aj/å'®4‰$Í—Ä’m/|a\õZãñ¿-Swí¿¿ÀàÙf¹­Œ4§×|?(.øDœÖ%Û®ñ¥)êU—«¾Þr!©SÆ§`4$›Ex±„Ø#Ò^!	‘çkÔÕ©z³¡H×moç³aÛ¯An Õó–|I\áÙý"dÛèìuÏ7ru¼{ßß¼ÇzL¥lHXê^&\4Ex·œ÷ëÐîÍo¼‰|âÿz–dõ¢<m~ÓÝ)'‰çÂCM|í‡}]2·¦—´†r_}¿ö €¡ëÆƒ€Þ€Aßjl[®÷×²‚DQ6LØå-´&»S‰±‡S´H¨íEµ£ƒ†TÑã'ò&ÞØ1£¤aÜ¼×I_ü¨ñŽ¾Ê¸Êõ&þ7ÈÚ£ènž%yÅT›>W×HCê[F`HÊZ#§ÏÇF‹ÏDßª¥H¿‹?µ;i©:áÃ¼ç£ÓÊ×¯]dàÝßkf«[]Åî•i€˜à‚«¦24KúŸù(±ðƒ>“qøUÐˆ#G’,X£å0l›ÄÈØÄÒ}HëW¶ä#ykæU"w&ÇóQxæ|rÖ7BÕïå„V”6g 2àü|u›ï§•L¦Ó¸‘“ûê>Qw[Õ›DF-Æ  ¦ÃóˆyÒÖ¯T8ßÒb'ÈAãêjnC‡#H³R+Ù(Ñ‰óIôSP%T9ê>\+ñ)°VjÎ=k–¬¤¸¹6woWéžûÒ»s™KHJ%>YÎÌ?ÔÇiXÙÑ²šI)ŠL=8B¦[OäjœüÅhÂr}•úíËàgª^K`¢œ‰;”¸°µf¥’×x´„§$ø{o°ÃùÝŠ¹*ok#d¹Ô]vÜ&…¿êÖP+ÄcþiüMÐ{œÔÍˆ5ZºØª7WY´,RÐÿÖen?èOýo×(@BÕÎ‡ÇŽIß¦ËŽVùÚš'5gƒÿ~p’º~ëë:Þ^j˜Ø™!i.)]è…c'‹ƒÿÇíN³¡å–µŸÎÍõäÝÞ¢1«­×v·ÊRÞV”‘ù0ê|W·x ­‘OÃtò­›ùlwnŸçv2!†Iz3€úr"õý×p>úgÿX+ñ•äuæÇ”°†â÷„7‘³àDÖ¾þëˆËv8¸G"¬‚N­Èµn´Â&³d•á&òÆ¡˜†ÄÇ—ýw†ÒÔ¿˜noeš4?¸G8Ï¿³¼Ø¢¦žüsýíLÂ%+ÞFhŸœaývÙF}|…»ÁÆ‹kÔ®×ý‰K3<²1Ð¨ßÝš{7e4¡Ò£½ÆŸÏ¹ÿö@ûMËøsÖÌ,kñåÿcé¬¢âjÚ%<hðàÁÝÝCðÁ]wÜ!@ ¸»»»»»îî À	ßnX‹;¨yöî~§»ªØú†}¦áœkß‘›#é}üÏ«ßâ>ê( „R.¨ÐÉUÀœ&K§ƒã¹_¼’õ_âž4Y½hGîúB€Hfõû+ï}Û6åàOº»HÊž’÷Ëª?”U[ ÄšÔÃTqTeä0Ò‰ … “ˆ/âºÆÃX
-¿ µf™<´)a9ß·>sœ>w´u3êO kúg}Ž„dt‰gÕŒÖ+}*©¨Ez4ïØ$i6ØyO5ˆh×lºPëGß'œÏ“‡\yw}ì”T°D3Í¾ÉFŠ÷”(3WBÖ÷ ³ÔðO+Íª*L6[ùñsZt.r?Ò¯w´3ðóú‚ós¹:ñr'øé÷“%q‘æ*þ¿÷‘0“;‰eÝMÓS’í¨^7“õ'Ï…&ã¸!ý'ë,eqbªÖþwävÈ5ýMñÁdBzu1efü4·ù'µ[m^qd4µ-Tm½-Ô Ö‹~ŠdrAéÒ˜ÚæòôÂGë¯oúî¯`H8!r:{ÒÚSýçŸ€RdP ð6’£Tq»Np<ÉÇ3 w'VC®—ÃÏ	"êBIÞ3÷ ^%_wZêËþºLJ[ã_šòê“q÷z«š6;2uî‚ïµã{¥ð8!cÂ-ãoõ7¼2(5éMÇô‡
-"§µe%û@°ê.Cð\.8%C!/‚Îæý¨Š–¸Ò‡7WHî"‰ƒ£RŽB‘ŒaÇ·3Ûvõ…bK7Ž×WB1óOHQí¨–UåWë}:4Ä<¼ê~Ÿ¥%íÿ˜ðÎÕ¦¯0j¶±gOÙÙôŸ\v?HTœÍŽ:—»–DUÿw]Ž4ñ]¹àtÎ} Î	 m^û&åþŒÍZ4ßÚ]­õ_¦ì;¯×|ˆk&‹ß?\ÂòŒËò3Ù­ë²@“™Ýd±‚{Êÿ1WãºòEûNCž¢®ûêþ ¼h7~¾L,eN¼‘7Ú¢{¡J„ûGÍ*ìDpEî4J¥Ôy@j¢FdÇ¾·:j¤­4Qs;Ô±×ñ•¶çÍ“¡N»êÊÐÎCé[nÆ]Èþ\ëyîæØì8×MvøêOST y½eõúËRˆóÙî±Á©Áü´t²ÉÝ‚±âR·cmY3Ý|<ns†‰8k)7£øêÜà;Ÿ¼,õï?›¶-óvó1JîÂþÄ–‡@ý´–ƒÒ$iP–³e’åµæ+ß‚=èE/#ùµÚ2û'¿°'Í;rÛŸØA[ÂÀHèM} Y+¨›ÛÀÏ„—å{Æ¥ïZvÙý³)b—fyç‹2fdÛšyòØZäÇ€ýÜ}Ñ¿'©éA*zA²K:¾Ü9©é;RªàžŠ÷ªÓDª*zôo óžƒº	¶dºH¸!0™?­$XikËXC
-Ûaw>5=,rãÊÚaºåØNzå?§9u]¿œi‚ùOÇ‡>Û*7ÊÞðßÄÐÔV†“×'Û]¶Wî9œÏ“Þ,
-Å¦ôØ¼NuÖo–³Â÷j›­\\_£,gÞ”¹ÿŒÞmž‰ˆ$Õ\ÜÏ›DÛMqM×´†ÎûµS«:bÒÌ;”Š°åÆï&/ ©bµw±²sG®R–Ä™Àozàƒ‘Ii™)ã•{AÓ‰ù÷¼m^#gýþk9'\yÔž.î |DŒk8ðKR­ÃB½ý Hý×¯;Y:)†ø@òs•ÄÏžÈä‘ÎS(Í‚Q:äåí=žef·ÞüÕ‘´›uk{Æ=É¯óN«JÚN/©Æ@vì8šu{^¢˜õ¿ge¢ùñ	³œìâª5:NÙK/Gaí1ƒœ
-±÷¬¥ò0PŠÃe_Ð÷îoFðƒ~Ãxå®ƒ­ïµ|zå¦÷tt‹âQPˆ]†“¾¬P©*¸Þ´~&2¬í™Ûæ¯+‡Ç¤’kG'¡¦R%,Lì°
-'‰Š»ï`ëA·TfßFÙÕÿ®ú9ÉU"~ZËœM×(IuN:UNŸ¥ QÖ~ÞÅí
-Zåæ49¥ñû`GÜ~›DWù-éÍe¥½³7£1“:êæÞ£x·¾Ÿ‰ý¹Uªp8í­	3 SWgd´'à·ºõi§Å¦…ÙsãˆÛT`ÅS´ûïðéÞzáÊk«ýôÛöí+¿qk9þž·îóÓÛÛycû—Š`õôEç½­–@Fo³›æ3¿Œr‡•‘‰Ð‰ˆ5+  fUb?M@Ã´qdžÕ¦5o#Ø.8Vs[þyç¸ŒEýl±‚®JæÐ»ÓÃãÔ39mí¶'Ý]Š—Û€÷ímI ñ!µÒ‹t¸èâ¼yÝ|W®«žöA£ü¨4Ð“ÒòïÃ"V Œ$	Ûí¥}g8`¿ÁSsÉä+`òÌ˜³¯´-Y”2ÛZÊeÔ·WwŽAÉ´ë{Va˜4ó‹©ð—æóN"êÝÛ¬Ö_\€Î<×©]-×¾¯¿Z\tn^\Áƒ·äé•à™É…UË•—ªø}=î´ÿK9 Ôx4¿ÀØLAM  ‰}h¦rá“Ú(ìFÅ¦:&ÄøL‚æö¾Tü&›Mžšu}7m\ÍM¬hÌ4–3yó±õí“|­’?iv‡}Jø6«Sº°™&íìÎ¢ì3†«
-|áå-¹›\ª+LÝªêÉ¨F–$EaGfø	!2c—mÅÓ/¬IÏ½Ä²§Zo„9ßeJƒé)ú €Xƒ·8íéÞÐ!zB!|£\V="ôF¸•ô’_æØÝªÜycŸCðÎåê;€€©!
-¦ÕJ°No«º0Óä„Tðòú)ýÈ«ÃÖ’j±>{Sgo­ù”M|îÖSàn5þÄ °KEG´n^‹«Ra,Ä_ÇÅ>›{tl¥i‰ã¥—$["ù«”	’øØ&ù_ª7~ïÁ¸"ø' oÐQŽœå£á!’ÉT®“m·¤ßðTªÚW¼µåúÈBÐ*ùQ‡¯HLF[ù&a1R*¹Ÿÿì'²ƒ0WóÕ¾ºðêZ]$‡áRÃ9ãhÞOÕQ/;¥ÏúGîØ!•=¶lÏyÝÞÞgA‰x³TY©„ì*‹å®«±7ÒËš.Ã•Æà›" ¦,µ•ºiñÔhþJ<g†¬ 6—¿Út>Áé-nläÛv‹7Vzf¿ wì}²Ùf]…ékáppóy\CÙÕoF7HA§ªÏ§ÅÏ%}MƒolòÕ£‚–Hk}ox²ðyû›Ž³Øˆ©•ù“‰…aKq]ŠªâT0çá1t,b¡¸4vgéDéX:qSµr{Ì7ñ	æºäÙ‘z]&¸-ëeìÿÙ”ð!×zÓïÊmoö:Ê-ÛEµÅGô¹}z˜¼d–¹ÔóÝ4|lde~ö«ëüýkëæyG+)Ñ­ H›\ŒP“à³KÁ„G„j*Ïã² ¶î£Qì_û¨g¼Y5ê¤rù­Éãq«üC¹ç’’ý¾ªí¹ØCLÒð-¤²•ºY%#”LŠŸ‹,ÖÎTaVÛÚôæÁð­DÔÄþ+A&ðä:XŽz‘(°Ã~!êÈB…¯˜w­°¿ Ž1ÀæAµµâRy'ørN™“âK¥¬›š€w|µê¤ayÆâgó¨º>Lu5K &ìÏ¤ÂzEÙå~†Oçx°ãR³ÏØ¸äèH:"÷JuÁÖìLÁ@ËÓòV±æ)¤]•R©3s×õWjÖX[ÿë)™­½ÛGw‡ÿ;*ßmJôàh(´NG'Oª¤§ì}ìî7ƒ—¯Ã~é]dº<ûßÃQÔDm¥–ñÑQÓ?¢3¡Ü¶ÿüº¡ ªƒØ8ù°†âCúc}…_ëU×âyÑÃN[1ß§çb„\³@v½øµ+Ñ ¦ßLÝ¬~'lÁ1cÀA‡£×Ž”Ô<ž½$fJ
