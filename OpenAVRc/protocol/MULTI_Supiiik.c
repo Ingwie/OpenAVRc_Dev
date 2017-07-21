@@ -82,7 +82,7 @@ static uint16_t MULTI_cb()
 
   // Send without interrupt
   for i = 0 to packet lengt do
-      UDR_N(TLM_MULTI) = JQ6500_Data[TLM_MULTI]; // Send Datas
+      UDR_N(TLM_MULTI) = JQ6500_Data[i]; // Send Datas
   while UDRE(TLM_MULTI) ..... I don't remenber*/
   // Send datas
 
