@@ -65,4 +65,9 @@
 #include "iface_nrf24l01.h"
 #endif
 
+#define PROTO_HAS_MULTISUPIIIK // TODO For test only
+#ifdef PROTO_HAS_MULTISUPIIIK
+#include "MULTI_Supiiik.c"
+#endif
+
 #endif // _INTERFACE_H_

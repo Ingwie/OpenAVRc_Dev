@@ -225,6 +225,11 @@ extern ISR(INT5_vect);
 #define PROTO_HAS_CYRF6936
 #define TX_FIXED_ID 0x1a2b3c4d // Loaded in SpiRFModule.fixed_id
 
+//SUPIIIK FILE
+#define PROTO_HAS_MULTISUPIIIK
+//SUPIIIK FILE
+
+
 #if defined(SPIMODULES)
 
   //uint8_t USART2_mspi_xfer(uint8_t data);
