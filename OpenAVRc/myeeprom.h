@@ -56,7 +56,7 @@
 #ifndef PACK
 #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
 #endif
-#define NOBACKUP(...)                __VA_ARGS__
+//#define NOBACKUP(...)                __VA_ARGS__
 
 #define NUM_STICKS           4
 
@@ -1100,60 +1100,16 @@ enum MMRFrskySubtypes {
   MM_RF_FRSKY_SUBTYPE_D16_LBT_8CH
 };
  
-#define MM_RF_CUSTOM_SELECTED 0xff
+//#define MM_RF_CUSTOM_SELECTED 0xff
 PACK(struct ModuleData {
   uint8_t type:4;
   int8_t  rfProtocol:6;
-//  uint8_t channelsStart;
-//  int8_t  channelsCount; // 0=8 channels
-//  uint8_t spare:3;
   uint8_t rxnum:4; 
   uint8_t customProto:1; 
   uint8_t autoBindMode:1; 
   uint8_t lowPowerMode:1; 
   int8_t optionValue; 
-//  uint8_t failsafeMode:4;  //only 3 bits used
   uint8_t subType:3; 
-//  uint8_t invertedSerial:1; // telemetry serial inverted from standard
-//  int16_t failsafeChannels[12];
- /* union {
-    struct {
-      int8_t  delay:6;
-      uint8_t pulsePol:1;
-      uint8_t outputType:1;    // false = open drain, true = push pull
-      int8_t  frameLength;
-    } ppm;
-    NOBACKUP(struct {
-      uint8_t rfProtocolExtra:2;
-      uint8_t spare:3;
-      uint8_t customProto:1;
-      uint8_t autoBindMode:1;
-      uint8_t lowPowerMode:1;
-      int8_t optionValue;
-    } multi);
-    NOBACKUP(struct {
-      uint8_t spare:4;
-      uint8_t receiver_telem_off:1;     // false = receiver telem enabled
-      uint8_t receiver_channel_9_16:1;  // false = pwm out 1-8, true 9-16
-      uint8_t external_antenna:1; // false = internal antenna, true = external antenna
-      uint8_t spare2:1;
-      uint8_t spare3;
-    } pxx);
-  };
-
-  // Helper functions to set both of the rfProto protocol at the same time
-  NOBACKUP(inline uint8_t getMultiProtocol(bool returnCustom) {
-    if (returnCustom && multi.customProto)
-      return MM_RF_CUSTOM_SELECTED;
-    return ((uint8_t) (rfProtocol & 0x0f)) + (multi.rfProtocolExtra << 4);
-  })
-
-  NOBACKUP(inline void setMultiProtocol(uint8_t proto)
-  {
-    rfProtocol = (uint8_t) (proto & 0x0f);
-    multi.rfProtocolExtra = (proto & 0x30) >> 4;
-  })*/
-
 }); 
 
 PACK(typedef struct {
