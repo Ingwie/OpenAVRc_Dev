@@ -148,6 +148,10 @@ void per10ms()
     backlightFade(); // increment or decrement brightness until target brightness is reached
 #endif
 
+#if defined(VOICE_JQ6500)
+  JQ6500Check();
+#endif
+
 #if !defined(AUDIO)
   if (mixWarning & 1) if(((g_tmr10ms&0xFF)==  0)) AUDIO_MIX_WARNING(1);
   if (mixWarning & 2) if(((g_tmr10ms&0xFF)== 64) || ((g_tmr10ms&0xFF)== 72)) AUDIO_MIX_WARNING(2);
@@ -919,11 +923,9 @@ tmr10ms_t jitterResetTime = 0;
 
 uint16_t anaIn(uint8_t chan)
 {
-#if defined(TELEMETRY_MOD_14051) || defined(TELEMETRY_MOD_14051_SWAPPED)
-  static const pm_char crossAna[] PROGMEM = {3,1,2,0,4,5,6,0/* shouldn't be used */,TX_VOLTAGE};
-#elif defined REV_EVO_V1
+#if defined REV_EVO_V1
   static const pm_char crossAna[] PROGMEM = {2,3,0,1,4,5}; // Hardwired Pots / connectors.
-#else
+#else // M2560 "Standard"
   static const pm_char crossAna[] PROGMEM = {3,1,2,0,4,5,6,7};
 #endif
 

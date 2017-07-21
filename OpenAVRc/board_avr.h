@@ -137,11 +137,7 @@ extern void getADC_bandgap();
 #define USART_UDRE_vect_N(usart_no) _USART_UDRE_vect_N(usart_no)
 
 // Telemetry driver
-#if defined(TELEMETRY_MOD_14051_SWAPPED)
-#define TLM_USART 1
-#else
 #define TLM_USART 0
-#endif
 void telemetryPortInit();
 void telemetryTransmitBuffer();
 

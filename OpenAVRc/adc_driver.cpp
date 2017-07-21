@@ -70,9 +70,6 @@ void getADC()
 #endif
   }
 
-#if defined(TELEMETRY_MOD_14051) || defined(TELEMETRY_MOD_14051_SWAPPED)
-  processMultiplexAna();
-#endif
 }
 
 void getADC_bandgap()

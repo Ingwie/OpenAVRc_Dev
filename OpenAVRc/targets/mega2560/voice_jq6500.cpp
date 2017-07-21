@@ -37,27 +37,28 @@
 #include "../../OpenAVRc.h"
 
 
-#define QUEUE_LENGTH 24*2  //bytes
+#define QUEUE_LENGTH (18*2)  //bytes
 
 enum JQ6500_State {
-	START = 0x7E, //Start
-	NUMBY = 0x04, //Num bytes follow
-	SELEC = 0X03, //Select file
-	FILEH = 0x00, //Dummy file
-	FILEL = 0x01, //Dummy file
-	TERMI = 0xEF  //Termination
+	START = 0, //0x7E Start
+	NUMBY,     //0x04 Num bytes follow
+	SELEC,     //0X03 Select file
+	FILEH,     //0x00 Dummy file
+	FILEL,     //0x00 Dummy file
+	TERMI,     //0xEF Termination
 };
 
-JQ6500_State JQstate = START;
+volatile uint8_t JQstate = START;
+uint8_t JQ6500_Data[6] = {0x7E, //Start
+                          0x04, //Num bytes follow
+                          0X03, //Select file
+                          0x00, //Dummy MSB file
+                          0x00, //Dummy LSB file
+                          0xEF}; //Termination
+
 uint8_t JQ6500_playlist[QUEUE_LENGTH] = {0};
 uint8_t JQ6500_InputIndex = 0;
 uint8_t JQ6500_PlayIndex = 0;
-
-#if defined(SIMU)
-#define ISPLAYING false
-#else
-#define ISPLAYING (TIMSK5 & (1<<OCIE5A))/* interrupts active on Output Compare A Match ? */
-#endif
 
 void pushPrompt(uint16_t prompt)
 {
@@ -71,96 +72,52 @@ void pushPrompt(uint16_t prompt)
 	++JQ6500_InputIndex;
 	if (JQ6500_InputIndex == QUEUE_LENGTH) JQ6500_InputIndex = 0;
 
-	if (!ISPLAYING) {
-		TCNT5 = 0;
-		TIMSK5 |= (1<<OCIE5A); // enable interrupts on Output Compare A Match
-	}
 }
 
-uint8_t JQ6500_sendbyte(uint8_t Data_byte)
+void InitJQ6500UartTx(void)
 {
-	static uint8_t i = 0;
+#if !defined(SIMU)
 
-	if (!i) {
-		JQ6500_Serial_off;  // serial start bit
-		++i;
-		return 0;
-	}
+#undef BAUD
+#define BAUD 9600
+#include <util/setbaud.h>
 
-	if (i==9) {
-		JQ6500_Serial_on;  // serial stop bit
-		i = 0;
-		return 1;
-	}
+  UBRRH_N(TLM_JQ6500) = UBRRH_VALUE;
+  UBRRL_N(TLM_JQ6500) = UBRRL_VALUE;
+  UCSRA_N(TLM_JQ6500) &= ~(1 << U2X_N(TLM_JQ6500)); // disable double speed operation.
 
-	if ((Data_byte >> (i-1)) & 0x01) {
-		JQ6500_Serial_on; // send data bits
-	} else {
-		JQ6500_Serial_off;
-	}
-	++i;
-	return 0;
+  UCSRB_N(TLM_JQ6500) = 0 | (0 << RXCIE_N(TLM_JQ6500)) | (0 << TXCIE_N(TLM_JQ6500))    // set 8N1
+  | (0 << UDRIE_N(TLM_JQ6500)) | (0 << RXEN_N(TLM_JQ6500)) | (1 << TXEN_N(TLM_JQ6500)) // disable RX enable TX
+  | (0 << UCSZ2_N(TLM_JQ6500));
+
+  UCSRC_N(TLM_JQ6500) = 0 | (1 << UCSZ1_N(TLM_JQ6500)) | (1 << UCSZ0_N(TLM_JQ6500));
+
+#endif
 }
 
-ISR(TIMER5_COMPA_vect, ISR_NOBLOCK) // every 104µS / 9600 Bauds serial
+void JQ6500Check()
 {
-	uint8_t timeCheck = 1;
 
-	switch (JQstate) {
+  if ((JQ6500_PlayIndex == JQ6500_InputIndex) || (JQstate != START) || (JQ6500_BUSY) ) return;
 
-	case START :
-		if (JQ6500_BUSY) {
-			timeCheck = 0;
-			break;
-		}
-		if (JQ6500_sendbyte(JQstate)) {
-			JQstate = NUMBY;
-		}
-		break;
+  JQ6500_Data[3] = JQ6500_playlist[JQ6500_PlayIndex];
+  ++JQ6500_PlayIndex;
+  JQ6500_Data[4] = JQ6500_playlist[JQ6500_PlayIndex];
+  ++JQ6500_PlayIndex;
+  if (JQ6500_PlayIndex == QUEUE_LENGTH) JQ6500_PlayIndex = 0;
 
-	case NUMBY :
-		if (JQ6500_sendbyte(JQstate)) {
-			JQstate = SELEC;
-		}
-		break;
-
-	case SELEC :
-		if (JQ6500_sendbyte(JQstate)) {
-			JQstate = FILEH;
-		}
-		break;
-
-	case FILEH :
-		if (JQ6500_sendbyte(JQ6500_playlist[JQ6500_PlayIndex])) {
-			++JQ6500_PlayIndex;
-			JQstate = FILEL;
-		}
-		break;
-
-	case FILEL :
-		if (JQ6500_sendbyte(JQ6500_playlist[JQ6500_PlayIndex])) {
-			++JQ6500_PlayIndex;
-			JQstate = TERMI;
-		}
-		break;
-
-	case TERMI :
-		if (JQ6500_sendbyte(JQstate)) {
-			timeCheck = 0;
-			if (JQ6500_PlayIndex == QUEUE_LENGTH) JQ6500_PlayIndex = 0;
-			if (JQ6500_PlayIndex == JQ6500_InputIndex) {
-				TIMSK5 &= ~(1<<OCIE5A);
-				TCNT5 = 0;
-			}
-		}
-		break;
-	}
-
-	//cli();
-	if (timeCheck) (OCR5A );//-= TCNT5L); //TODO calculate value - jitter
-	else {
-		OCR5A = 0x4E2; // Wait 5 mS for busy pin
-		JQstate = START;
-	}
-	//sei();
+  UDR_N(TLM_JQ6500) = JQ6500_Data[JQstate]; // Send Datas
+  JQstate = START;
+  UCSRB_N(TLM_JQ6500) |= (1 << UDRIE_N(TLM_JQ6500)); // enable UDRE(TLM_JQ6500) interrupt
 }
+
+ISR(USART_UDRE_vect_N(TLM_JQ6500))
+{
+  if (JQstate != TERMI) {
+    UDR_N(TLM_JQ6500) = JQ6500_Data[++JQstate];
+  } else {
+    UCSRB_N(TLM_JQ6500) &= ~(1 << UDRIE_N(TLM_JQ6500)); // disable UDRE(TLM_JQ6500) interrupt
+    JQstate = START;
+  }
+}
+

@@ -53,14 +53,14 @@ FORCEINLINE void boardInit()
 #endif
 #if defined(VOICE_JQ6500)
   DDRA = 0b11111111;  PORTA = 0b00000000; // LCD data
-  DDRB = 0b11100111;  PORTB = 0b00111111; // 7:JQ6500Data, 6:PPM_OUT, 5:SimCTRL, 4:JQ6500Busy, SDCARD[3:MISO 2:MOSI 1:SCK 0:CS]
+  DDRB = 0b01100111;  PORTB = 0b10111111; // 7:N/A, 6:PPM_OUT, 5:SimCTRL, 4:JQ6500Busy, SDCARD[3:MISO 2:MOSI 1:SCK 0:CS]
   DDRC = 0b11111100;  PORTC = 0b00000011; // 7-3:LCD, 2:BackLight, 1:ID2_SW, 0:ID1_SW
   DDRD = 0b00000000;  PORTD = 0b11111111; // 7:AilDR_SW, 6:N/A, 5:N/A, 4:N/A, 3:RENC2_B, 2:RENC2_A, 1:I2C_SDA, 0:I2C_SCL
   DDRE = 0b00000010;  PORTE = 0b01111100; // 7:PPM_IN, 6:N/A, 5:RENC1_B, 4:RENC1_A, 3:N/A, 2:N/A, 1:TELEM_TX, 0:TELEM_RX
   DDRF = 0b00000000;  PORTF = 0b11111111; // 7-0:Trim switch inputs
   DDRG = 0b00100000;  PORTG = 0b11111111; // 7:N/A, 6:N/A, 5:CS_CYRF6936, 4:N/A, 3:N/A, 2:TCut_SW, 1:Gear_SW, 0: RudDr_SW
   DDRH = 0b00011011;  PORTH = 0b11110110; // 7:N/A, 6:RF_Activated, 5:DSC_Activated, 4:Hold_Power, 3:Speaker, 2:N/A, 1:CS_CC2500, 0:Haptic
-  DDRJ = 0b00000000;  PORTJ = 0b11111111; // 7:N/A, 6:N/A, 5:N/A, 4:N/A, 3:N/A, 2:N/A, 1:RENC2_push, 0:RENC1_push
+  DDRJ = 0b00000010;  PORTJ = 0b11111111; // 7:N/A, 6:N/A, 5:N/A, 4:N/A, 3:N/A, 2:N/A, 1:JQ6500Data (Was RENC2_push), 0:RENC1_push
   DDRK = 0b00000000;  PORTK = 0b00000000; // Analogic input (no pull-ups)
   DDRL = 0b00000000;  PORTL = 0b11111111; // 7:TRN_SW 6:EleDR_SW, 5:ESC, 4:MENU 3:Keyb_Left, 2:Keyb_Right, 1:Keyb_Up, 0:Keyb_Down
 #endif
@@ -105,9 +105,13 @@ FORCEINLINE void boardInit()
 #endif
 #if defined(VOICE_JQ6500)
   // JQ6500 set-up, with TIMER5
-  JQ6500_Serial_on;      // Idle state (1)
+  /*JQ6500_Serial_on;      // Idle state (1)
   OCR5A = 0x19; // 0x1A=104µs needed for the 9600Bps serial command
-  TCCR5B = (1 << WGM52) | (0b011 << CS50); // CTC OCR5A
+  TCCR5B = (1 << WGM52) | (0b011 << CS50); // CTC OCR5A*/
+
+  #define TLM_JQ6500 3 // use uart3 on mega board (TX = PJ1)
+  InitJQ6500UartTx();
+
 #endif
 
   /* Rotary encoder interrupt set-up                 */

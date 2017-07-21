@@ -129,7 +129,7 @@ void sdPoll10ms();
 #define INP_H_Hold_Power          4    //not used, reserved for pwrCheck()
 #define OUT_H_SpeakerBuzzer       3
 #define OUT_H_WTV_RESET           1    //WTV20SD
-#define OUT_B_JQ_SERIAL           7    //JQ6500
+//#define OUT_B_JQ_SERIAL           7    //JQ6500
 #define INP_B_JQ_BUSY             4    //JQ6500
 #define OUT_H_HAPTIC              0
 
@@ -141,7 +141,7 @@ void sdPoll10ms();
 #define INP_J_ROT_ENC_1_PUSH      0
 #define INP_J_ROT_ENC_2_PUSH      1
 #define REA_DOWN()                (~PINJ & (1<<INP_J_ROT_ENC_1_PUSH))
-#define REB_DOWN()                (~PINJ & (1<<INP_J_ROT_ENC_2_PUSH))
+#define REB_DOWN()                (~PINJ & (1<<INP_J_ROT_ENC_1_PUSH)) // Todo move (~PINJ & (1<<INP_J_ROT_ENC_2_PUSH))
 #define ROTENC_DOWN()             (REA_DOWN() || REB_DOWN())
 
 // LCD driver
@@ -197,9 +197,10 @@ void pwrOff();
 #define WTV20SD_CLK                   (PING & (1<<OUT_G_WTV_CLK))
 
 //JQ6500
-#define JQ6500_Serial_on              PORTB |=  (1<<OUT_B_JQ_SERIAL)
-#define JQ6500_Serial_off             PORTB &= ~(1<<OUT_B_JQ_SERIAL)
 #define JQ6500_BUSY                   (PINB & (1<<INP_B_JQ_BUSY))
+#if defined(VOICE_JQ6500)
+extern void InitJQ6500UartTx();
+#endif
 
 // EEPROM driver
 #if !defined(SIMU)
