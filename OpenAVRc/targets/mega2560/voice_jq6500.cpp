@@ -97,7 +97,7 @@ void InitJQ6500UartTx(void)
 
 void JQ6500Check()
 {
-
+#if !defined(SIMU)
   if ((JQ6500_PlayIndex == JQ6500_InputIndex) || (JQstate != START) || (JQ6500_BUSY) ) return;
 
   JQ6500_Data[3] = JQ6500_playlist[JQ6500_PlayIndex];
@@ -109,15 +109,18 @@ void JQ6500Check()
   UDR_N(TLM_JQ6500) = JQ6500_Data[JQstate]; // Send Datas
   JQstate = START;
   UCSRB_N(TLM_JQ6500) |= (1 << UDRIE_N(TLM_JQ6500)); // enable UDRE(TLM_JQ6500) interrupt
+#endif
 }
 
 ISR(USART_UDRE_vect_N(TLM_JQ6500))
 {
+#if !defined(SIMU)
   if (JQstate != TERMI) {
     UDR_N(TLM_JQ6500) = JQ6500_Data[++JQstate];
   } else {
     UCSRB_N(TLM_JQ6500) &= ~(1 << UDRIE_N(TLM_JQ6500)); // disable UDRE(TLM_JQ6500) interrupt
     JQstate = START;
   }
+#endif
 }
 

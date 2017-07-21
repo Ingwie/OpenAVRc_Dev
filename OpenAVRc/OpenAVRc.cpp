@@ -148,7 +148,7 @@ void per10ms()
     backlightFade(); // increment or decrement brightness until target brightness is reached
 #endif
 
-#if defined(VOICE_JQ6500)
+#if defined(VOICE_JQ6500) && !defined(SIMU)
   JQ6500Check();
 #endif
 
