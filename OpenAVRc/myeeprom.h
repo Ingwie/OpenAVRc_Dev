@@ -1047,6 +1047,7 @@ enum DisplayTrims {
   DISPLAY_TRIMS_ALWAYS
 };
 
+#if defined(MULTIMODULE)
 enum MultiModuleRFProtocols {
   MM_RF_PROTO_CUSTOM = -1,
   MM_RF_PROTO_FIRST = MM_RF_PROTO_CUSTOM,
@@ -1100,7 +1101,6 @@ enum MMRFrskySubtypes {
   MM_RF_FRSKY_SUBTYPE_D16_LBT_8CH
 };
  
-//#define MM_RF_CUSTOM_SELECTED 0xff
 PACK(struct ModuleData {
   uint8_t type:4;
   int8_t  rfProtocol:6;
@@ -1111,6 +1111,7 @@ PACK(struct ModuleData {
   int8_t optionValue; 
   uint8_t subType:3; 
 }); 
+#endif
 
 PACK(typedef struct {
   ModelHeader header;
@@ -1144,9 +1145,10 @@ PACK(typedef struct {
 
   swarnstate_t  switchWarningState;
   swarnenable_t switchWarningEnable;
-  
-  ModuleData moduleData;
 
+  #if defined(MULTIMODULE)  
+  ModuleData moduleData;
+  #endif
   MODEL_GVARS_DATA
 
   TELEMETRY_DATA

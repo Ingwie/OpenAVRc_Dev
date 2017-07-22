@@ -219,4 +219,22 @@ char *strSetCursor(char *dest, int position);
 char *strAppendDate(char * str, bool time=false);
 char *strAppendFilename(char * dest, const char * filename, const int size);
 
+#if defined(MULTIMODULE)
+PACK(
+  struct mm_protocol_definition {
+    uint8_t protocol;
+    const pm_char *subTypeString;
+    uint8_t maxSubtype;
+    const char *optionsstr;
+  } ); 
+const mm_protocol_definition *getMultiProtocolDefinition (uint8_t protocol); 
+
+// this shouldn't be in lcd.h, who cares :)
+enum MultiBindStatus : uint8_t {
+  MULTI_NORMAL_OPERATION,
+  MULTI_BIND_INITIATED,
+  MULTI_BIND_FINISHED,
+};
+#endif
+
 #endif
