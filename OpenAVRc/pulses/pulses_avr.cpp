@@ -257,7 +257,7 @@ void setupPulsesMultimodule()
     int value = channelOutputs[channel] + 2*PPM_CH_CENTER(channel) - 2*PPM_CENTER;
 
     // Scale to 80%
-    value =  value*800/1000 + 1024;
+    value =  value*8/10 + 1024;
     bits |= ((uint32_t) limit(0, value, 2047)) << bitsavailable;
     bitsavailable += MULTI_CHAN_BITS;
     while (bitsavailable >= 8) {
