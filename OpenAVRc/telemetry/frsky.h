@@ -401,7 +401,7 @@ enum FrSkyDataState {
 #define SEND_RSSI_ALARMS  6
 #define SEND_MODEL_ALARMS 4
 extern uint8_t frskyAlarmsSendState;
-#define FRSKY_TX_PACKET_SIZE 12
+#define FRSKY_TX_PACKET_SIZE 26
 extern uint8_t frskyTxBuffer[FRSKY_TX_PACKET_SIZE];
 extern uint8_t frskyTxBufferCount;
 inline void frskySendAlarms(void)

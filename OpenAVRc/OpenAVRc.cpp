@@ -1117,7 +1117,7 @@ void doMixerCalculations()
         struct t_inactivity *ptrInactivity = &inactivity;
         FORCE_INDIRECT(ptrInactivity) ;
         ptrInactivity->counter++;
-        if ((((uint8_t)ptrInactivity->counter)&0x07)==0x01 && g_eeGeneral.inactivityTimer && g_vbat100mV>50 && ptrInactivity->counter > ((uint16_t)g_eeGeneral.inactivityTimer*60))
+        if ((((uint8_t)ptrInactivity->counter)&0x07)==0x01 && g_eeGeneral.inactivityTimer && g_vbat100mV>40 && ptrInactivity->counter > ((uint16_t)g_eeGeneral.inactivityTimer*60))
           AUDIO_INACTIVITY();
 
 #if defined(AUDIO)
@@ -1285,7 +1285,7 @@ void checkBattery()
         // no alarms
       } else
 #endif
-        if (IS_TXBATT_WARNING() && g_vbat100mV>50) { // No Audio Alarm if TX Battery < VCC.
+        if (IS_TXBATT_WARNING() && g_vbat100mV>40) { // No Audio Alarm if TX Battery < VCC.
           AUDIO_TX_BATTERY_LOW();
         }
     }
@@ -1340,6 +1340,10 @@ ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
   SIMU_PROCESSEVENTS;
 
   per10ms();
+#if defined(MULTIMODULE)
+  if(IS_MULTIMODULE_PROTOCOL(g_model.protocol))
+     setupPulsesMultimodule();
+#endif
 
   TIMER_10MS_COMPVAL += (++accuracyWarble & 0x03) ? 156 : 157; // Clock correction
 }
@@ -1359,7 +1363,7 @@ FORCEINLINE void DSM2_USART_vect()
 
 #if !defined(SIMU)
 
-#if defined (FRSKY)
+#if defined (FRSKY) || defined (MULTIPROTOCOL)
 
 FORCEINLINE void FRSKY_USART_vect()
 {
@@ -1574,7 +1578,9 @@ void OpenAVRcInit(OpenAVRc_INIT_ARGS)
 
   doMixerCalculations();
 
+#if defined(SPIMODULES)
   startPulses(PROTOCMD_INIT);
+#endif
 
 #if !defined(SIMU)
   wdt_enable(WDTO_500MS); // Enable watchdog

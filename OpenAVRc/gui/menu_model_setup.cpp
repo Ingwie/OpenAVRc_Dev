@@ -88,6 +88,7 @@ void menuModelSetup(uint8_t event)
   MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 0, 1, 0, 0, 0, 0, 0, NUM_SWITCHES, NUM_STICKS+NUM_POTS+NUM_ROTARY_ENCODERS-1, FIELD_PROTOCOL_MAX, 2,
   2,0,2,0,0,0});
 
+
   MENU_CHECK(menuTabModel, e_ModelSetup, MODEL_SETUP_MAX_LINES);
 
 
@@ -406,10 +407,10 @@ void menuModelSetup(uint8_t event)
 #if defined(MULTIMODULE)
       else if IS_MULTIMODULE_PROTOCOL(protocol) {
 
-        if((!editMode) && (SpiRFModule.mode != NORMAL_MODE)) { //Return to normal mode after bind or range test
+/*        if((!editMode) && (SpiRFModule.mode != NORMAL_MODE)) { //Return to normal mode after bind or range test
           SpiRFModule.mode = NORMAL_MODE;
           startPulses(PROTOCMD_INIT);
-        }
+        }*/
 		int multi_rfProto = g_model.moduleData.rfProtocol;
 
 		lcdDrawTextLeft(y, NO_INDENT(STR_TYPE));
@@ -456,14 +457,14 @@ void menuModelSetup(uint8_t event)
 //					g_model.moduleData[EXTERNAL_MODULE].setMultiProtocol(checkIncDec(event, g_model.moduleData[EXTERNAL_MODULE].getMultiProtocol(false), 0, 63, EE_MODEL));
 				} else if (pdef->maxSubtype > 0)
 					CHECK_INCDEC_MODELVAR(event, g_model.moduleData.subType, 0, pdef->maxSubtype);
-				
+
 			}
 			break;
 			case 2:
 				// Custom protocol, third column is subtype
 				CHECK_INCDEC_MODELVAR(event, g_model.moduleData.subType, 0, 7);
 			break;
-          
+
           }
         }
       }

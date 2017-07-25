@@ -73,6 +73,10 @@ void setupPulsesPPM(uint8_t proto);
 void DSM2_Init();
 void DSM2_Done();
 
+#if defined(MULTIMODULE)
+void setupPulsesMultimodule();
+#endif
+
 #define SEND_FAILSAFE_NOW()
 #define SEND_FAILSAFE_1S()
 

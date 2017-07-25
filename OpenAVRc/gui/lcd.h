@@ -226,11 +226,12 @@ PACK(
     const pm_char *subTypeString;
     uint8_t maxSubtype;
     const char *optionsstr;
-  } ); 
-const mm_protocol_definition *getMultiProtocolDefinition (uint8_t protocol); 
+  } );
+const mm_protocol_definition *getMultiProtocolDefinition (uint8_t protocol);
 
 // this shouldn't be in lcd.h, who cares :)
-enum MultiBindStatus : uint8_t {
+//enum MultiBindStatus : uint8_t {
+enum MultiBindStatus {
   MULTI_NORMAL_OPERATION,
   MULTI_BIND_INITIATED,
   MULTI_BIND_FINISHED,

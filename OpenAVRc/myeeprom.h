@@ -1100,17 +1100,17 @@ enum MMRFrskySubtypes {
   MM_RF_FRSKY_SUBTYPE_D16_LBT,
   MM_RF_FRSKY_SUBTYPE_D16_LBT_8CH
 };
- 
-PACK(struct ModuleData {
+
+PACK(typedef struct {
   uint8_t type:4;
   int8_t  rfProtocol:6;
-  uint8_t rxnum:4; 
-  uint8_t customProto:1; 
-  uint8_t autoBindMode:1; 
-  uint8_t lowPowerMode:1; 
-  int8_t optionValue; 
-  uint8_t subType:3; 
-}); 
+  uint8_t rxnum:4;
+  uint8_t customProto:1;
+  uint8_t autoBindMode:1;
+  uint8_t lowPowerMode:1;
+  int8_t optionValue;
+  uint8_t subType:3;
+}) ModuleDataData;
 #endif
 
 PACK(typedef struct {
@@ -1146,8 +1146,8 @@ PACK(typedef struct {
   swarnstate_t  switchWarningState;
   swarnenable_t switchWarningEnable;
 
-  #if defined(MULTIMODULE)  
-  ModuleData moduleData;
+  #if defined(MULTIMODULE)
+  ModuleDataData moduleData;
   #endif
   MODEL_GVARS_DATA
 
