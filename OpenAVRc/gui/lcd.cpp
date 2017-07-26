@@ -354,7 +354,7 @@ void putsTimer(coord_t x, coord_t y, putstime_t tme, LcdFlags att, LcdFlags att2
 void lcdPutsVolts(coord_t x, coord_t y, uint16_t volts, LcdFlags att)
 {
 //  lcdDrawNumberAttUnit(x, y, (int16_t)volts, (~NO_UNIT) & (att | ((att&PREC2)==PREC2 ? 0 : PREC1)));
-  lcdDrawNumberAttUnit(x, y, (int16_t)volts, (~NO_UNIT) & att);
+  lcdDrawNumberAttUnit(x, y, (int16_t)volts, (~NO_UNIT) & (att | ((att&PREC2)==PREC2 ? PREC2 : PREC1)));
   if (~att & NO_UNIT) lcdDrawCharAtt(lcdLastPos, y, 'V', att);
 }
 
