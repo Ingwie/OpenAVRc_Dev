@@ -4,10 +4,8 @@
 #define TR_PHYS_SWITCHES "SWA""SWD""ELE""SWB""GEA""TRN"
 #undef TR_9X_3POS_SWITCHES
 #define TR_9X_3POS_SWITCHES "ID0""ID1""ID2"
-#if defined(PCBGRUVIN9X) || defined(PCBMEGA2560)
 #undef TR_ROTARY_ENCODERS
 #define TR_ROTARY_ENCODERS "REa\0""REb\0"
 #undef TR_ROTENC_SWITCHES
 #define TR_ROTENC_SWITCHES "REa""REb"
-#endif
 #endif
