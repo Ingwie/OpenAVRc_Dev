@@ -33,7 +33,7 @@
 
 #include "../OpenAVRc.h"
 
-#define TLM_MULTI 0 // usart 0 ????????
+#define TLM_MULTI 2 // usart 0 ????????
 
 static uint32_t MULTI_fixed_id;
 

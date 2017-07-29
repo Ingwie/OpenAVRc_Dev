@@ -1,0 +1,3697 @@
+EESchema Schematic File Version 2
+LIBS:Mega_2560 core mini_full_2.0-rescue
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:Mega_2560 core mini_full_2.0-cache
+EELAYER 25 0
+EELAYER END
+$Descr A3 16535 11693
+encoding utf-8
+Sheet 1 1
+Title "Shield Mega2560 core Full"
+Date "2017-06-06"
+Rev "2.00"
+Comp ""
+Comment1 "Reproduction et commercialisation interdite"
+Comment2 "By Antho.breizh"
+Comment3 ""
+Comment4 "Shield pour RC OpenAVRc"
+$EndDescr
+$Comp
+L CONN_02X03 P9
+U 1 1 58A78BA9
+P 3600 2100
+F 0 "P9" H 3600 1850 50  0000 C CNN
+F 1 "SPI" H 3600 2350 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_2x03_Pitch2.54mm" H 3600 900 50  0001 C CNN
+F 3 "" H 3600 900 50  0000 C CNN
+	1    3600 2100
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR5
+U 1 1 58A78BAA
+P 1050 1350
+F 0 "#PWR5" H 1050 1200 50  0001 C CNN
+F 1 "VCC" H 1050 1500 50  0000 C CNN
+F 2 "" H 1050 1350 50  0000 C CNN
+F 3 "" H 1050 1350 50  0000 C CNN
+	1    1050 1350
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR9
+U 1 1 58A78BAB
+P 1350 1350
+F 0 "#PWR9" H 1350 1100 50  0001 C CNN
+F 1 "GND" H 1350 1200 50  0000 C CNN
+F 2 "" H 1350 1350 50  0000 C CNN
+F 3 "" H 1350 1350 50  0000 C CNN
+	1    1350 1350
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR25
+U 1 1 58A78BAF
+P 3800 6900
+F 0 "#PWR25" H 3800 6650 50  0001 C CNN
+F 1 "GND" V 3800 6700 50  0000 C CNN
+F 2 "" H 3800 6900 50  0000 C CNN
+F 3 "" H 3800 6900 50  0000 C CNN
+	1    3800 6900
+	0    -1   -1   0   
+$EndComp
+$Comp
+L VCC #PWR26
+U 1 1 58A78BB0
+P 3800 7200
+F 0 "#PWR26" H 3800 7050 50  0001 C CNN
+F 1 "VCC" V 3800 7400 50  0000 C CNN
+F 2 "" H 3800 7200 50  0000 C CNN
+F 3 "" H 3800 7200 50  0000 C CNN
+	1    3800 7200
+	0    1    1    0   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR27
+U 1 1 58A78BB1
+P 3900 2350
+F 0 "#PWR27" H 3900 2100 50  0001 C CNN
+F 1 "GND" H 3900 2200 50  0000 C CNN
+F 2 "" H 3900 2350 50  0000 C CNN
+F 3 "" H 3900 2350 50  0000 C CNN
+	1    3900 2350
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR28
+U 1 1 58A78BB2
+P 4200 2350
+F 0 "#PWR28" H 4200 2200 50  0001 C CNN
+F 1 "VCC" H 4200 2500 50  0000 C CNN
+F 2 "" H 4200 2350 50  0000 C CNN
+F 3 "" H 4200 2350 50  0000 C CNN
+	1    4200 2350
+	-1   0    0    1   
+$EndComp
+Text Label 2750 4950 0    60   ~ 0
+Isp_rst
+Text Label 3000 2200 0    60   ~ 0
+Isp_rst
+Text Label 3000 2100 0    60   ~ 0
+Sck
+Text Label 3000 2000 0    60   ~ 0
+Miso
+Text Label 4100 2100 2    60   ~ 0
+Mosi
+Text Label 2750 4850 0    60   ~ 0
+Sck
+Text Label 2750 4750 0    60   ~ 0
+Miso
+Text Label 4050 4850 2    60   ~ 0
+Mosi
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR30
+U 1 1 58A78BB3
+P 4300 4950
+F 0 "#PWR30" H 4300 4700 50  0001 C CNN
+F 1 "GND" V 4300 4750 50  0000 C CNN
+F 2 "" H 4300 4950 50  0000 C CNN
+F 3 "" H 4300 4950 50  0000 C CNN
+	1    4300 4950
+	0    -1   -1   0   
+$EndComp
+$Comp
+L VCC #PWR29
+U 1 1 58A78BB4
+P 4300 4750
+F 0 "#PWR29" H 4300 4600 50  0001 C CNN
+F 1 "VCC" V 4300 4950 50  0000 C CNN
+F 2 "" H 4300 4750 50  0000 C CNN
+F 3 "" H 4300 4750 50  0000 C CNN
+	1    4300 4750
+	0    1    1    0   
+$EndComp
+$Comp
+L VCC #PWR16
+U 1 1 58A78BB5
+P 2000 4600
+F 0 "#PWR16" H 2000 4450 50  0001 C CNN
+F 1 "VCC" V 2000 4800 50  0000 C CNN
+F 2 "" H 2000 4600 50  0000 C CNN
+F 3 "" H 2000 4600 50  0000 C CNN
+	1    2000 4600
+	0    1    1    0   
+$EndComp
+Text Label 750  5550 0    60   ~ 0
+Scl
+Text Label 2250 5550 2    60   ~ 0
+Sda
+Text Label 850  1150 1    60   ~ 0
+Scl
+Text Label 950  1150 1    60   ~ 0
+Sda
+$Comp
+L CONN_01X06 P6
+U 1 1 58A78BB6
+P 2150 650
+F 0 "P6" H 2150 1000 50  0000 C CNN
+F 1 "Micro_sd" V 2250 650 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x06_Pitch2.54mm" H 2150 650 50  0001 C CNN
+F 3 "" H 2150 650 50  0000 C CNN
+	1    2150 650 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR22
+U 1 1 58A78BB7
+P 2600 1350
+F 0 "#PWR22" H 2600 1100 50  0001 C CNN
+F 1 "GND" H 2600 1200 50  0000 C CNN
+F 2 "" H 2600 1350 50  0000 C CNN
+F 3 "" H 2600 1350 50  0000 C CNN
+	1    2600 1350
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR17
+U 1 1 58A78BB8
+P 2300 1350
+F 0 "#PWR17" H 2300 1200 50  0001 C CNN
+F 1 "VCC" H 2300 1500 50  0000 C CNN
+F 2 "" H 2300 1350 50  0000 C CNN
+F 3 "" H 2300 1350 50  0000 C CNN
+	1    2300 1350
+	-1   0    0    1   
+$EndComp
+Text Label 1900 1300 1    60   ~ 0
+Microsd_CS
+Text Label 2000 1300 1    60   ~ 0
+Sck
+Text Label 2100 1300 1    60   ~ 0
+Mosi
+Text Label 2200 1300 1    60   ~ 0
+Miso
+Text Label 2250 5950 2    60   ~ 0
+core_pw10
+Text Label 550  5650 0    60   ~ 0
+audio_left_in
+$Comp
+L CONN_01X05 P8
+U 1 1 58A78BBB
+P 4800 1050
+F 0 "P8" H 4800 1350 50  0000 C CNN
+F 1 "Audio" V 4900 1050 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x05_Pitch2.54mm" H 4800 1050 50  0001 C CNN
+F 3 "" H 4800 1050 50  0000 C CNN
+	1    4800 1050
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 4800 1250
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR38
+U 1 1 58A78BBC
+P 5200 1600
+F 0 "#PWR38" H 5200 1350 50  0001 C CNN
+F 1 "GND" H 5200 1450 50  0000 C CNN
+F 2 "" H 5200 1600 50  0000 C CNN
+F 3 "" H 5200 1600 50  0000 C CNN
+	1    5200 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR34
+U 1 1 58A78BBD
+P 4900 1750
+F 0 "#PWR34" H 4900 1600 50  0001 C CNN
+F 1 "VCC" H 4900 1900 50  0000 C CNN
+F 2 "" H 4900 1750 50  0000 C CNN
+F 3 "" H 4900 1750 50  0000 C CNN
+	1    4900 1750
+	-1   0    0    1   
+$EndComp
+Text Label 4600 2150 1    60   ~ 0
+audio_left_in
+Text Label 4700 2150 1    60   ~ 0
+audio_right_in
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR59
+U 1 1 58A78BBE
+P 8750 1450
+F 0 "#PWR59" H 8750 1200 50  0001 C CNN
+F 1 "GND" H 8750 1300 50  0000 C CNN
+F 2 "" H 8750 1450 50  0000 C CNN
+F 3 "" H 8750 1450 50  0000 C CNN
+	1    8750 1450
+	1    0    0    -1  
+$EndComp
+Text Label 9050 1300 1    60   ~ 0
+Lcd_vo
+Text Label 10250 1300 1    60   ~ 0
+Lcd_A0
+Text Label 10150 1300 1    60   ~ 0
+Lcd_r/w
+Text Label 10050 1300 1    60   ~ 0
+Lcd_e
+Text Label 9250 1300 1    60   ~ 0
+Lcd_db0
+Text Label 9350 1300 1    60   ~ 0
+Lcd_db1
+Text Label 9450 1300 1    60   ~ 0
+Lcd_db2
+Text Label 9550 1300 1    60   ~ 0
+Lcd_db3
+Text Label 9650 1300 1    60   ~ 0
+Lcd_db4
+Text Label 9850 1300 1    60   ~ 0
+Lcd_db6
+Text Label 9950 1300 1    60   ~ 0
+Lcd_db7
+Text Label 10350 1300 1    60   ~ 0
+Lcd_rst
+Text Label 10450 2300 1    60   ~ 0
+Lcd_bla
+Text Label 10550 1300 1    60   ~ 0
+Lcd_blk
+Text Label 4100 5050 2    60   ~ 0
+Lcd_db0
+Text Label 2750 5150 0    60   ~ 0
+Lcd_db1
+Text Label 4100 5150 2    60   ~ 0
+Lcd_db2
+Text Label 2750 5250 0    60   ~ 0
+Lcd_db3
+Text Label 4100 5250 2    60   ~ 0
+Lcd_db4
+Text Label 2750 5350 0    60   ~ 0
+Lcd_db5
+Text Label 4100 5350 2    60   ~ 0
+Lcd_db6
+Text Label 2750 5450 0    60   ~ 0
+Lcd_db7
+Text Label 2800 8150 1    60   ~ 0
+Lcd_e
+Text Label 2700 8150 1    60   ~ 0
+Lcd_A0
+Text Label 2600 8150 1    60   ~ 0
+Lcd_cs
+Text Label 2800 6750 3    60   ~ 0
+Lcd_r/w
+Text Label 2700 6750 3    60   ~ 0
+Lcd_rst
+Text Label 2600 6750 3    60   ~ 0
+Lcd_bla
+$Comp
+L POT-RESCUE-Mega_2560_core_mini_full_2.0 RV1
+U 1 1 58A78BBF
+P 9200 1650
+F 0 "RV1" V 9025 1650 50  0000 C CNN
+F 1 "200K" V 9100 1650 50  0000 C CNN
+F 2 "Potentiometers:Potentiometer_Triwood_RM-065" H 9200 1650 50  0001 C CNN
+F 3 "" H 9200 1650 50  0000 C CNN
+	1    9200 1650
+	-1   0    0    1   
+$EndComp
+Text Label 4100 6050 2    60   ~ 0
+Stick_LV
+Text Label 2750 6150 0    60   ~ 0
+Stick_RH
+Text Label 2750 6050 0    60   ~ 0
+Stick_RV
+Text Label 4100 5950 2    60   ~ 0
+Stick_LH
+Text Label 4700 4100 1    60   ~ 0
+Trim_RH->
+Text Label 4800 4100 1    60   ~ 0
+Trim_RH<-
+Text Label 5000 4100 1    60   ~ 0
+Trim_RV->
+Text Label 4500 4100 1    60   ~ 0
+Trim_RV<-
+Text Label 4900 4100 1    60   ~ 0
+Trim_LV->
+Text Label 4600 4100 1    60   ~ 0
+Trim_LV<-
+Text Label 4300 4100 1    60   ~ 0
+Trim_LH->
+Text Label 4400 4100 1    60   ~ 0
+Trim_LH<-
+Text Label 2650 6550 0    60   ~ 0
+Trim_RH->
+Text Label 4150 6350 2    60   ~ 0
+Trim_RV<-
+Text Label 2650 6450 0    60   ~ 0
+Trim_RV->
+Text Label 2650 6350 0    60   ~ 0
+Trim_LV->
+Text Label 2650 6250 0    60   ~ 0
+Trim_LH->
+Text Label 4150 6450 2    60   ~ 0
+Trim_RH<-
+Text Label 4150 6250 2    60   ~ 0
+Trim_LV<-
+Text Label 4150 6150 2    60   ~ 0
+Trim_LH<-
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C29
+U 1 1 58A78BC4
+P 12000 1600
+F 0 "C29" H 12025 1700 50  0000 L CNN
+F 1 "100nF" H 12025 1500 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 12038 1450 50  0001 C CNN
+F 3 "" H 12000 1600 50  0000 C CNN
+	1    12000 1600
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C27
+U 1 1 58A78BC5
+P 11900 1700
+F 0 "C27" H 11925 1800 50  0000 L CNN
+F 1 "100nF" H 11925 1600 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 11938 1550 50  0001 C CNN
+F 3 "" H 11900 1700 50  0000 C CNN
+	1    11900 1700
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C26
+U 1 1 58A78BC6
+P 11800 1800
+F 0 "C26" H 11825 1900 50  0000 L CNN
+F 1 "100nF" H 11825 1700 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 11838 1650 50  0001 C CNN
+F 3 "" H 11800 1800 50  0000 C CNN
+	1    11800 1800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C34
+U 1 1 58A78BC7
+P 13250 1600
+F 0 "C34" H 13275 1700 50  0000 L CNN
+F 1 "100nF" H 13275 1500 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 13288 1450 50  0001 C CNN
+F 3 "" H 13250 1600 50  0000 C CNN
+	1    13250 1600
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C33
+U 1 1 58A78BC8
+P 13150 1700
+F 0 "C33" H 13175 1800 50  0000 L CNN
+F 1 "100nF" H 13175 1600 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 13188 1550 50  0001 C CNN
+F 3 "" H 13150 1700 50  0000 C CNN
+	1    13150 1700
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C32
+U 1 1 58A78BC9
+P 13050 1800
+F 0 "C32" H 13075 1900 50  0000 L CNN
+F 1 "100nF" H 13075 1700 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 13088 1650 50  0001 C CNN
+F 3 "" H 13050 1800 50  0000 C CNN
+	1    13050 1800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR84
+U 1 1 58A78BCA
+P 13400 1950
+F 0 "#PWR84" H 13400 1700 50  0001 C CNN
+F 1 "GND" V 13250 1900 50  0000 C CNN
+F 2 "" H 13400 1950 50  0000 C CNN
+F 3 "" H 13400 1950 50  0000 C CNN
+	1    13400 1950
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X04 P23
+U 1 1 58A78BCB
+P 11800 700
+F 0 "P23" H 11800 950 50  0000 C CNN
+F 1 "Rot_1" V 11900 700 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm" H 11800 700 50  0001 C CNN
+F 3 "" H 11800 700 50  0000 C CNN
+	1    11800 700 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_01X04 P24
+U 1 1 58A78BCC
+P 13050 700
+F 0 "P24" H 13050 950 50  0000 C CNN
+F 1 "Rot_2" V 13150 700 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm" H 13050 700 50  0001 C CNN
+F 3 "" H 13050 700 50  0000 C CNN
+	1    13050 700 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R19
+U 1 1 58A78BCD
+P 11450 1100
+F 0 "R19" V 11530 1100 50  0000 C CNN
+F 1 "5.1k" V 11450 1100 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 11380 1100 50  0001 C CNN
+F 3 "" H 11450 1100 50  0000 C CNN
+	1    11450 1100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R18
+U 1 1 58A78BCE
+P 11450 950
+F 0 "R18" V 11530 950 50  0000 C CNN
+F 1 "5.1k" V 11450 950 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 11380 950 50  0001 C CNN
+F 3 "" H 11450 950 50  0000 C CNN
+	1    11450 950 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R23
+U 1 1 58A78BCF
+P 12700 1100
+F 0 "R23" V 12780 1100 50  0000 C CNN
+F 1 "5.1k" V 12700 1100 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 12630 1100 50  0001 C CNN
+F 3 "" H 12700 1100 50  0000 C CNN
+	1    12700 1100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R22
+U 1 1 58A78BD0
+P 12700 950
+F 0 "R22" V 12780 950 50  0000 C CNN
+F 1 "5.1k" V 12700 950 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 12630 950 50  0001 C CNN
+F 3 "" H 12700 950 50  0000 C CNN
+	1    12700 950 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L VCC #PWR73
+U 1 1 58A78BD1
+P 11300 1400
+F 0 "#PWR73" H 11300 1250 50  0001 C CNN
+F 1 "VCC" V 11400 1500 50  0000 C CNN
+F 2 "" H 11300 1400 50  0000 C CNN
+F 3 "" H 11300 1400 50  0000 C CNN
+	1    11300 1400
+	-1   0    0    1   
+$EndComp
+$Comp
+L VCC #PWR78
+U 1 1 58A78BD2
+P 12550 1400
+F 0 "#PWR78" H 12550 1250 50  0001 C CNN
+F 1 "VCC" V 12450 1500 50  0000 C CNN
+F 2 "" H 12550 1400 50  0000 C CNN
+F 3 "" H 12550 1400 50  0000 C CNN
+	1    12550 1400
+	-1   0    0    1   
+$EndComp
+Text Label 11850 2500 1    60   ~ 0
+Rot_1A
+Text Label 11750 2500 1    60   ~ 0
+Rot_1B
+Text Label 11650 2500 1    60   ~ 0
+Rot_1push
+Text Label 13100 2500 1    60   ~ 0
+Rot_2A
+Text Label 13000 2500 1    60   ~ 0
+Rot_2B
+Text Label 12900 2500 1    60   ~ 0
+Rot_2push
+Text Label 2250 5250 2    60   ~ 0
+Rot_2push
+Text Label 750  5250 0    60   ~ 0
+Rot_1push
+Text Label 2250 5450 2    60   ~ 0
+Rot_2B
+Text Label 750  5450 0    60   ~ 0
+Rot_2A
+Text Label 2250 5050 2    60   ~ 0
+Rot_1A
+Text Label 750  5050 0    60   ~ 0
+Rot_1B
+Text Label 14450 2350 1    60   ~ 0
+Key_ESC
+Text Label 14550 2350 1    60   ~ 0
+Key_MENU
+Text Label 750  6350 0    60   ~ 0
+Key_ESC
+Text Label 2250 6350 2    60   ~ 0
+Key_MENU
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR36
+U 1 1 58A78BD7
+P 5100 3900
+F 0 "#PWR36" H 5100 3650 50  0001 C CNN
+F 1 "GND" H 5100 3750 50  0000 C CNN
+F 2 "" H 5100 3900 50  0000 C CNN
+F 3 "" H 5100 3900 50  0000 C CNN
+	1    5100 3900
+	1    0    0    -1  
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C3
+U 1 1 58A78BDA
+P 2450 1100
+F 0 "C3" H 2475 1200 50  0000 L CNN
+F 1 "47nF" H 2475 1000 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 2488 950 50  0001 C CNN
+F 3 "" H 2450 1100 50  0000 C CNN
+	1    2450 1100
+	0    1    1    0   
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C1
+U 1 1 58A78BDB
+P 1200 1150
+F 0 "C1" H 1225 1250 50  0000 L CNN
+F 1 "47nF" H 1225 1050 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 1238 1000 50  0001 C CNN
+F 3 "" H 1200 1150 50  0000 C CNN
+	1    1200 1150
+	0    1    1    0   
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C5
+U 1 1 58A78BDC
+P 5050 1400
+F 0 "C5" H 5075 1500 50  0000 L CNN
+F 1 "47nF" H 5075 1300 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 5088 1250 50  0001 C CNN
+F 3 "" H 5050 1400 50  0000 C CNN
+	1    5050 1400
+	0    1    1    0   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR52
+U 1 1 58A78BE6
+P 7450 3950
+F 0 "#PWR52" H 7450 3700 50  0001 C CNN
+F 1 "GND" H 7450 3800 50  0000 C CNN
+F 2 "" H 7450 3950 50  0000 C CNN
+F 3 "" H 7450 3950 50  0000 C CNN
+	1    7450 3950
+	1    0    0    -1  
+$EndComp
+Text Label 6650 4100 1    60   ~ 0
+Sw_id1
+Text Label 6750 4100 1    60   ~ 0
+Sw_id2
+Text Label 7050 4100 1    60   ~ 0
+Sw_ailDR
+Text Label 7150 4100 1    60   ~ 0
+Sw_thcut
+Text Label 6950 4100 1    60   ~ 0
+Sw_gear
+Text Label 6850 4100 1    60   ~ 0
+Sw_rudDR
+Text Label 7350 4100 1    60   ~ 0
+Sw_turn
+Text Label 7250 4100 1    60   ~ 0
+Sw_eleDR
+$Comp
+L CONN_01X08 P25
+U 1 1 58A78BF0
+P 14200 700
+F 0 "P25" H 14200 1150 50  0000 C CNN
+F 1 "Key_select_menu_ESC" V 14300 700 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_2x04_Pitch2.54mm" H 14200 700 50  0001 C CNN
+F 3 "" H 14200 700 50  0000 C CNN
+	1    14200 700 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR87
+U 1 1 58A78BF5
+P 13950 1450
+F 0 "#PWR87" H 13950 1200 50  0001 C CNN
+F 1 "GND" H 13950 1300 50  0000 C CNN
+F 2 "" H 13950 1450 50  0000 C CNN
+F 3 "" H 13950 1450 50  0000 C CNN
+	1    13950 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR75
+U 1 1 58A78BF6
+P 12150 1950
+F 0 "#PWR75" H 12150 1700 50  0001 C CNN
+F 1 "GND" V 12000 1900 50  0000 C CNN
+F 2 "" H 12150 1950 50  0000 C CNN
+F 3 "" H 12150 1950 50  0000 C CNN
+	1    12150 1950
+	1    0    0    -1  
+$EndComp
+Text Label 14050 2350 1    60   ~ 0
+Key_UP
+Text Label 14150 2350 1    60   ~ 0
+Key_DOWN
+Text Label 14250 2350 1    60   ~ 0
+Key_LEFT
+Text Label 14350 2350 1    60   ~ 0
+Key_RIGHT
+Text Label 750  6150 0    60   ~ 0
+Key_UP
+Text Label 2250 6150 2    60   ~ 0
+Key_DOWN
+Text Label 750  6250 0    60   ~ 0
+Key_LEFT
+Text Label 2250 6250 2    60   ~ 0
+Key_RIGHT
+Text Label 2500 8150 1    60   ~ 0
+Sw_id2
+Text Label 2500 6750 3    60   ~ 0
+Sw_id1
+Text Label 2300 8150 1    60   ~ 0
+Sw_ailDR
+Text Label 4100 5450 2    60   ~ 0
+Sw_thcut
+Text Label 2400 8150 1    60   ~ 0
+Sw_gear
+Text Label 2400 6750 3    60   ~ 0
+Sw_rudDR
+Text Label 750  6450 0    60   ~ 0
+Sw_turn
+Text Label 2250 6450 2    60   ~ 0
+Sw_eleDR
+Text Label 2750 5850 0    60   ~ 0
+Pot_3
+Text Label 4100 5850 2    60   ~ 0
+Pot_2
+$Comp
+L CONN_01X04 P15
+U 1 1 58A78BFB
+P 8000 700
+F 0 "P15" H 8000 950 50  0000 C CNN
+F 1 "LCD_I2C" V 8100 700 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm" H 8000 700 50  0001 C CNN
+F 3 "" H 8000 700 50  0000 C CNN
+	1    8000 700 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_01X20 P16
+U 1 1 58A78BFC
+P 9700 700
+F 0 "P16" H 9700 1750 50  0000 C CNN
+F 1 "LCD" V 9800 700 50  0000 C CNN
+F 2 "anthoperso:Pin_Header_Straight_2x10_Pitch2.54mm" H 9700 700 50  0001 C CNN
+F 3 "" H 9700 700 50  0000 C CNN
+	1    9700 700 
+	0    -1   -1   0   
+$EndComp
+Text Label 10650 1300 1    60   ~ 0
+Lcd_cs
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR56
+U 1 1 58A78BFD
+P 7850 1250
+F 0 "#PWR56" H 7850 1000 50  0001 C CNN
+F 1 "GND" H 7850 1100 50  0000 C CNN
+F 2 "" H 7850 1250 50  0000 C CNN
+F 3 "" H 7850 1250 50  0000 C CNN
+	1    7850 1250
+	1    0    0    -1  
+$EndComp
+Text Label 8050 1150 1    60   ~ 0
+Sda
+Text Label 8150 1150 1    60   ~ 0
+Scl
+Text Label 1250 3550 1    60   ~ 0
+Pot_1
+Text Label 850  3550 1    60   ~ 0
+Pot_2
+Text Label 1050 3550 1    60   ~ 0
+Pot_3
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C31
+U 1 1 58A78C01
+P 12800 3700
+F 0 "C31" H 12825 3800 50  0000 L CNN
+F 1 "100nF" H 12825 3600 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 12838 3550 50  0001 C CNN
+F 3 "" H 12800 3700 50  0000 C CNN
+	1    12800 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R16
+U 1 1 58A78C03
+P 11150 4200
+F 0 "R16" V 11230 4200 50  0000 C CNN
+F 1 "2.7K" V 11150 4200 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 11080 4200 50  0001 C CNN
+F 3 "" H 11150 4200 50  0000 C CNN
+	1    11150 4200
+	0    -1   1    0   
+$EndComp
+Text Label 11350 4600 1    60   ~ 0
+U_batt
+Text Label 4100 5750 2    60   ~ 0
+U_batt
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR85
+U 1 1 58A78C04
+P 13500 5050
+F 0 "#PWR85" H 13500 4800 50  0001 C CNN
+F 1 "GND" H 13500 4850 50  0000 C CNN
+F 2 "" H 13500 5050 50  0000 C CNN
+F 3 "" H 13500 5050 50  0000 C CNN
+	1    13500 5050
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X03 P26
+U 1 1 58A78C05
+P 13700 3750
+F 0 "P26" H 13700 3950 50  0000 C CNN
+F 1 "LCD_Vcc_select" H 13150 3850 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm" H 13700 3750 50  0001 C CNN
+F 3 "" H 13700 3750 50  0000 C CNN
+	1    13700 3750
+	-1   0    0    1   
+$EndComp
+Text Label 13900 3750 0    60   ~ 0
+LCD_VCC
+Text Notes 14350 4450 0    60   ~ 0
++3.3V\n
+Text Notes 13900 3400 0    60   ~ 0
++5V
+$Comp
+L VCC #PWR88
+U 1 1 58A78C06
+P 14150 3500
+F 0 "#PWR88" H 14150 3350 50  0001 C CNN
+F 1 "VCC" V 14150 3700 50  0000 C CNN
+F 2 "" H 14150 3500 50  0000 C CNN
+F 3 "" H 14150 3500 50  0000 C CNN
+	1    14150 3500
+	0    1    1    0   
+$EndComp
+Text Label 8950 2100 1    60   ~ 0
+LCD_VCC
+Text Label 7950 1250 1    60   ~ 0
+LCD_VCC
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C38
+U 1 1 58A78C08
+P 13900 4800
+F 0 "C38" H 13925 4900 50  0000 L CNN
+F 1 "100nF" H 13925 4700 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 13938 4650 50  0001 C CNN
+F 3 "" H 13900 4800 50  0000 C CNN
+	1    13900 4800
+	1    0    0    -1  
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R7
+U 1 1 58A78C0A
+P 4900 5500
+F 0 "R7" V 4980 5500 50  0000 C CNN
+F 1 "500" V 4900 5500 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 4830 5500 50  0001 C CNN
+F 3 "" H 4900 5500 50  0000 C CNN
+	1    4900 5500
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR37
+U 1 1 58A78C0B
+P 5100 6700
+F 0 "#PWR37" H 5100 6450 50  0001 C CNN
+F 1 "GND" H 5100 6550 50  0000 C CNN
+F 2 "" H 5100 6700 50  0000 C CNN
+F 3 "" H 5100 6700 50  0000 C CNN
+	1    5100 6700
+	1    0    0    -1  
+$EndComp
+Text Label 6600 6250 0    60   ~ 0
+TX_module
+Text Label 6000 5800 0    60   ~ 0
+Tele_TX
+Text Label 2250 4950 2    60   ~ 0
+Tele_TX
+Text Label 750  5150 0    60   ~ 0
+PPM_in
+Text Label 2250 6050 2    60   ~ 0
+PPM_out
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR10
+U 1 1 58A78C0D
+P 1350 3700
+F 0 "#PWR10" H 1350 3450 50  0001 C CNN
+F 1 "GND" H 1350 3550 50  0000 C CNN
+F 2 "" H 1350 3700 50  0000 C CNN
+F 3 "" H 1350 3700 50  0000 C CNN
+	1    1350 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR13
+U 1 1 58A78C0E
+P 1550 3700
+F 0 "#PWR13" H 1550 3450 50  0001 C CNN
+F 1 "GND" H 1550 3550 50  0000 C CNN
+F 2 "" H 1550 3700 50  0000 C CNN
+F 3 "" H 1550 3700 50  0000 C CNN
+	1    1550 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR12
+U 1 1 58A78C0F
+P 1450 3850
+F 0 "#PWR12" H 1450 3600 50  0001 C CNN
+F 1 "GND" H 1450 3700 50  0000 C CNN
+F 2 "" H 1450 3850 50  0000 C CNN
+F 3 "" H 1450 3850 50  0000 C CNN
+	1    1450 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR2
+U 1 1 58A78C10
+P 950 3650
+F 0 "#PWR2" H 950 3500 50  0001 C CNN
+F 1 "VCC" H 950 3800 50  0000 C CNN
+F 2 "" H 950 3650 50  0000 C CNN
+F 3 "" H 950 3650 50  0000 C CNN
+	1    950  3650
+	-1   0    0    1   
+$EndComp
+$Comp
+L VCC #PWR1
+U 1 1 58A78C11
+P 750 3650
+F 0 "#PWR1" H 750 3500 50  0001 C CNN
+F 1 "VCC" H 750 3800 50  0000 C CNN
+F 2 "" H 750 3650 50  0000 C CNN
+F 3 "" H 750 3650 50  0000 C CNN
+	1    750  3650
+	-1   0    0    1   
+$EndComp
+$Comp
+L VCC #PWR7
+U 1 1 58A78C12
+P 1150 3650
+F 0 "#PWR7" H 1150 3500 50  0001 C CNN
+F 1 "VCC" H 1150 3800 50  0000 C CNN
+F 2 "" H 1150 3650 50  0000 C CNN
+F 3 "" H 1150 3650 50  0000 C CNN
+	1    1150 3650
+	-1   0    0    1   
+$EndComp
+$Comp
+L +BATT #PWR35
+U 1 1 58A78C13
+P 4900 5250
+F 0 "#PWR35" H 4900 5100 50  0001 C CNN
+F 1 "+BATT" H 4900 5390 50  0000 C CNN
+F 2 "" H 4900 5250 50  0000 C CNN
+F 3 "" H 4900 5250 50  0000 C CNN
+	1    4900 5250
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X08 P19
+U 1 1 58A78C14
+P 8500 5750
+F 0 "P19" H 8500 6200 50  0000 C CNN
+F 1 "Module_TX" V 8650 5450 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_2x04_Pitch2.54mm" H 8500 5750 50  0001 C CNN
+F 3 "" H 8500 5750 50  0000 C CNN
+	1    8500 5750
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR61
+U 1 1 58A78C15
+P 8850 6250
+F 0 "#PWR61" H 8850 6000 50  0001 C CNN
+F 1 "GND" H 8850 6100 50  0000 C CNN
+F 2 "" H 8850 6250 50  0000 C CNN
+F 3 "" H 8850 6250 50  0000 C CNN
+	1    8850 6250
+	1    0    0    -1  
+$EndComp
+Text Label 8450 6450 1    60   ~ 0
+PPM_TX_OUT
+Text Label 8550 6450 1    60   ~ 0
+TX_module
+Text Label 8650 6450 1    60   ~ 0
+RX_module
+$Comp
+L VCC #PWR60
+U 1 1 58A78C16
+P 8750 6450
+F 0 "#PWR60" H 8750 6300 50  0001 C CNN
+F 1 "VCC" H 8750 6600 50  0000 C CNN
+F 2 "" H 8750 6450 50  0000 C CNN
+F 3 "" H 8750 6450 50  0000 C CNN
+	1    8750 6450
+	-1   0    0    1   
+$EndComp
+Text Label 750  4850 0    60   ~ 0
+Tele_RX
+Text Label 6600 6050 0    60   ~ 0
+RX_module
+Text Label 6000 6500 0    60   ~ 0
+Tele_RX
+Text Notes 6600 5150 2    60   ~ 0
+Isolation Module TTL
+Text Label 750  5850 0    60   ~ 0
+Microsd_CS
+$Comp
+L 2560-core P1
+U 1 1 58A78C17
+P -550 5900
+F 0 "P1" H 1500 7150 50  0000 C CNN
+F 1 "2560-core" V 1500 6100 50  0000 C CNN
+F 2 "anthoperso:Connectors-2560-core" H 1500 5150 50  0001 C CNN
+F 3 "" H 1500 5150 50  0000 C CNN
+	1    -550 5900
+	1    0    0    -1  
+$EndComp
+$Comp
+L +BATT #PWR57
+U 1 1 58A78C18
+P 8150 6450
+F 0 "#PWR57" H 8150 6300 50  0001 C CNN
+F 1 "+BATT" H 8150 6590 50  0000 C CNN
+F 2 "" H 8150 6450 50  0000 C CNN
+F 3 "" H 8150 6450 50  0000 C CNN
+	1    8150 6450
+	-1   0    0    1   
+$EndComp
+NoConn ~ 8150 5750
+NoConn ~ 8250 5750
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R5
+U 1 1 58A78C1A
+P 14050 7950
+F 0 "R5" V 14130 7950 50  0000 C CNN
+F 1 "10K" V 14050 7950 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 13980 7950 50  0001 C CNN
+F 3 "" H 14050 7950 50  0000 C CNN
+	1    14050 7950
+	0    1    1    0   
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R6
+U 1 1 58A78C1B
+P 14050 8900
+F 0 "R6" V 14130 8900 50  0000 C CNN
+F 1 "10K" V 14050 8900 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 13980 8900 50  0001 C CNN
+F 3 "" H 14050 8900 50  0000 C CNN
+	1    14050 8900
+	0    1    1    0   
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R8
+U 1 1 58A78C1C
+P 14650 7950
+F 0 "R8" V 14730 7950 50  0000 C CNN
+F 1 "200" V 14650 7950 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 14580 7950 50  0001 C CNN
+F 3 "" H 14650 7950 50  0000 C CNN
+	1    14650 7950
+	0    1    1    0   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR91
+U 1 1 58A78C1D
+P 14400 9050
+F 0 "#PWR91" H 14400 8800 50  0001 C CNN
+F 1 "GND" H 14400 8900 50  0000 C CNN
+F 2 "" H 14400 9050 50  0000 C CNN
+F 3 "" H 14400 9050 50  0000 C CNN
+	1    14400 9050
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR83
+U 1 1 58A78C1E
+P 13250 9150
+F 0 "#PWR83" H 13250 8900 50  0001 C CNN
+F 1 "GND" H 13250 9000 50  0000 C CNN
+F 2 "" H 13250 9150 50  0000 C CNN
+F 3 "" H 13250 9150 50  0000 C CNN
+	1    13250 9150
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR77
+U 1 1 58A78C1F
+P 12400 8050
+F 0 "#PWR77" H 12400 7800 50  0001 C CNN
+F 1 "GND" H 12400 7900 50  0000 C CNN
+F 2 "" H 12400 8050 50  0000 C CNN
+F 3 "" H 12400 8050 50  0000 C CNN
+	1    12400 8050
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR80
+U 1 1 58A78C20
+P 12800 8650
+F 0 "#PWR80" H 12800 8500 50  0001 C CNN
+F 1 "VCC" H 12800 8800 50  0000 C CNN
+F 2 "" H 12800 8650 50  0000 C CNN
+F 3 "" H 12800 8650 50  0000 C CNN
+	1    12800 8650
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR89
+U 1 1 58A78C21
+P 14200 7850
+F 0 "#PWR89" H 14200 7700 50  0001 C CNN
+F 1 "VCC" H 14200 8000 50  0000 C CNN
+F 2 "" H 14200 7850 50  0000 C CNN
+F 3 "" H 14200 7850 50  0000 C CNN
+	1    14200 7850
+	1    0    0    -1  
+$EndComp
+Text Label 12200 7450 0    60   ~ 0
+PPM_out
+Text Label 12200 8400 0    60   ~ 0
+PPM_in
+Text Label 12150 9050 0    60   ~ 0
+Sim_control
+Text Label 15400 7050 2    60   ~ 0
+PPM_TX_OUT
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR8
+U 1 1 58A78C22
+P 1250 7200
+F 0 "#PWR8" H 1250 6950 50  0001 C CNN
+F 1 "GND" H 1250 7050 50  0000 C CNN
+F 2 "" H 1250 7200 50  0000 C CNN
+F 3 "" H 1250 7200 50  0000 C CNN
+	1    1250 7200
+	1    0    0    -1  
+$EndComp
+Text Label 750  5950 0    60   ~ 0
+Sim_control
+Text Notes 11900 2950 0    60   ~ 0
+Power Management
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR66
+U 1 1 58A78C34
+P 9600 3500
+F 0 "#PWR66" H 9600 3250 50  0001 C CNN
+F 1 "GND" H 9600 3350 50  0000 C CNN
+F 2 "" H 9600 3500 50  0000 C CNN
+F 3 "" H 9600 3500 50  0000 C CNN
+	1    9600 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR76
+U 1 1 58A78C35
+P 12350 4050
+F 0 "#PWR76" H 12350 3800 50  0001 C CNN
+F 1 "GND" H 12350 3900 50  0000 C CNN
+F 2 "" H 12350 4050 50  0000 C CNN
+F 3 "" H 12350 4050 50  0000 C CNN
+	1    12350 4050
+	-1   0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR70
+U 1 1 58A78C36
+P 10950 4350
+F 0 "#PWR70" H 10950 4100 50  0001 C CNN
+F 1 "GND" H 10950 4200 50  0000 C CNN
+F 2 "" H 10950 4350 50  0000 C CNN
+F 3 "" H 10950 4350 50  0000 C CNN
+	1    10950 4350
+	1    0    0    -1  
+$EndComp
+Text Notes 14100 6500 2    60   ~ 0
+PPM Management
+Text Label 2750 5950 0    60   ~ 0
+Pot_1
+$Comp
+L VCC #PWR6
+U 1 1 58A78C63
+P 1100 2500
+F 0 "#PWR6" H 1100 2350 50  0001 C CNN
+F 1 "VCC" H 1100 2650 50  0000 C CNN
+F 2 "" H 1100 2500 50  0000 C CNN
+F 3 "" H 1100 2500 50  0000 C CNN
+	1    1100 2500
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR11
+U 1 1 58A78C64
+P 1400 2500
+F 0 "#PWR11" H 1400 2250 50  0001 C CNN
+F 1 "GND" H 1400 2350 50  0000 C CNN
+F 2 "" H 1400 2500 50  0000 C CNN
+F 3 "" H 1400 2500 50  0000 C CNN
+	1    1400 2500
+	1    0    0    -1  
+$EndComp
+Text Label 900  2300 1    60   ~ 0
+Scl
+Text Label 1000 2300 1    60   ~ 0
+Sda
+$Comp
+L CONN_01X04 P3
+U 1 1 58A78C66
+P 1050 1800
+F 0 "P3" H 1050 2050 50  0000 C CNN
+F 1 "Option" V 1150 1800 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm" H 1050 1800 50  0001 C CNN
+F 3 "" H 1050 1800 50  0000 C CNN
+	1    1050 1800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_01X06 P7
+U 1 1 58A78C67
+P 2150 1800
+F 0 "P7" H 2150 2150 50  0000 C CNN
+F 1 "Option" V 2250 1800 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x06_Pitch2.54mm" H 2150 1800 50  0001 C CNN
+F 3 "" H 2150 1800 50  0000 C CNN
+	1    2150 1800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR21
+U 1 1 58A78C68
+P 2400 2150
+F 0 "#PWR21" H 2400 1900 50  0001 C CNN
+F 1 "GND" H 2400 2000 50  0000 C CNN
+F 2 "" H 2400 2150 50  0000 C CNN
+F 3 "" H 2400 2150 50  0000 C CNN
+	1    2400 2150
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR18
+U 1 1 58A78C69
+P 2300 2300
+F 0 "#PWR18" H 2300 2150 50  0001 C CNN
+F 1 "VCC" H 2300 2450 50  0000 C CNN
+F 2 "" H 2300 2300 50  0000 C CNN
+F 3 "" H 2300 2300 50  0000 C CNN
+	1    2300 2300
+	-1   0    0    1   
+$EndComp
+Text Label 1900 2450 1    60   ~ 0
+Microsd_CS
+Text Label 2000 2450 1    60   ~ 0
+Sck
+Text Label 2100 2450 1    60   ~ 0
+Mosi
+Text Label 2200 2450 1    60   ~ 0
+Miso
+$Comp
+L CONN_01X02 P21
+U 1 1 58A78C6B
+P 10950 3700
+F 0 "P21" H 10950 3850 50  0000 C CNN
+F 1 "Sw_power" V 11050 3700 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm" H 10950 3700 50  0001 C CNN
+F 3 "" H 10950 3700 50  0000 C CNN
+	1    10950 3700
+	0    1    1    0   
+$EndComp
+Text Label 750  6050 0    60   ~ 0
+core_pw13
+Text Label 2750 5050 0    60   ~ 0
+Vibreur
+$Comp
+L CONN_01X02 P5
+U 1 1 58A78C6D
+P 2050 3000
+F 0 "P5" H 2050 3150 50  0000 C CNN
+F 1 "Vibreur" V 2150 3000 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm" H 2050 3000 50  0001 C CNN
+F 3 "" H 2050 3000 50  0000 C CNN
+	1    2050 3000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR19
+U 1 1 58A78C6F
+P 2300 3850
+F 0 "#PWR19" H 2300 3600 50  0001 C CNN
+F 1 "GND" H 2300 3700 50  0000 C CNN
+F 2 "" H 2300 3850 50  0000 C CNN
+F 3 "" H 2300 3850 50  0000 C CNN
+	1    2300 3850
+	1    0    0    -1  
+$EndComp
+Text Label 2000 4050 1    60   ~ 0
+Vibreur
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R1
+U 1 1 58A78C70
+P 4600 1400
+F 0 "R1" V 4500 1400 50  0000 C CNN
+F 1 "22K" V 4600 1400 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 4530 1400 50  0001 C CNN
+F 3 "" H 4600 1400 50  0000 C CNN
+	1    4600 1400
+	1    0    0    -1  
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R2
+U 1 1 58A78C71
+P 4700 1400
+F 0 "R2" V 4780 1400 50  0000 C CNN
+F 1 "22K" V 4700 1400 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 4630 1400 50  0001 C CNN
+F 3 "" H 4700 1400 50  0000 C CNN
+	1    4700 1400
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR82
+U 1 1 58A78C72
+P 13250 8650
+F 0 "#PWR82" H 13250 8500 50  0001 C CNN
+F 1 "VCC" H 13250 8800 50  0000 C CNN
+F 2 "" H 13250 8650 50  0000 C CNN
+F 3 "" H 13250 8650 50  0000 C CNN
+	1    13250 8650
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR68
+U 1 1 58A78C73
+P 10550 1300
+F 0 "#PWR68" H 10550 1050 50  0001 C CNN
+F 1 "GND" H 10550 1150 50  0000 C CNN
+F 2 "" H 10550 1300 50  0000 C CNN
+F 3 "" H 10550 1300 50  0000 C CNN
+	1    10550 1300
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR14
+U 1 1 58A78C74
+P 1750 7800
+F 0 "#PWR14" H 1750 7550 50  0001 C CNN
+F 1 "GND" H 1750 7650 50  0000 C CNN
+F 2 "" H 1750 7800 50  0000 C CNN
+F 3 "" H 1750 7800 50  0000 C CNN
+	1    1750 7800
+	1    0    0    -1  
+$EndComp
+NoConn ~ 2100 7200
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR4
+U 1 1 58A78C75
+P 950 10600
+F 0 "#PWR4" H 950 10350 50  0001 C CNN
+F 1 "GND" H 950 10450 50  0000 C CNN
+F 2 "" H 950 10600 50  0000 C CNN
+F 3 "" H 950 10600 50  0000 C CNN
+	1    950  10600
+	1    0    0    -1  
+$EndComp
+$Comp
+L PWR_FLAG #FLG2
+U 1 1 58A78C76
+P 950 10600
+F 0 "#FLG2" H 950 10695 50  0001 C CNN
+F 1 "PWR_FLAG" H 950 10780 50  0000 C CNN
+F 2 "" H 950 10600 50  0000 C CNN
+F 3 "" H 950 10600 50  0000 C CNN
+	1    950  10600
+	1    0    0    -1  
+$EndComp
+Text Label 9750 1300 1    60   ~ 0
+Lcd_db5
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR63
+U 1 1 58A78C77
+P 9200 2000
+F 0 "#PWR63" H 9200 1750 50  0001 C CNN
+F 1 "GND" H 9200 1850 50  0000 C CNN
+F 2 "" H 9200 2000 50  0000 C CNN
+F 3 "" H 9200 2000 50  0000 C CNN
+	1    9200 2000
+	1    0    0    -1  
+$EndComp
+$Comp
+L +BATT #PWR3
+U 1 1 58A78C78
+P 950 10050
+F 0 "#PWR3" H 950 9900 50  0001 C CNN
+F 1 "+BATT" H 950 10190 50  0000 C CNN
+F 2 "" H 950 10050 50  0000 C CNN
+F 3 "" H 950 10050 50  0000 C CNN
+	1    950  10050
+	-1   0    0    1   
+$EndComp
+$Comp
+L PWR_FLAG #FLG1
+U 1 1 58A78C79
+P 950 10050
+F 0 "#FLG1" H 950 10145 50  0001 C CNN
+F 1 "PWR_FLAG" H 950 10230 50  0000 C CNN
+F 2 "" H 950 10050 50  0000 C CNN
+F 3 "" H 950 10050 50  0000 C CNN
+	1    950  10050
+	1    0    0    -1  
+$EndComp
+NoConn ~ 13700 3750
+NoConn ~ 13700 3650
+NoConn ~ 13700 3850
+$Comp
+L LD1117S33TR U5
+U 1 1 58A78C7A
+P 13500 4550
+F 0 "U5" H 13300 4300 50  0000 C CNN
+F 1 "LD1117S33TR" H 13500 4750 50  0000 C CNN
+F 2 "TO_SOT_Packages_SMD:SOT-223" H 13500 4650 50  0001 C CNN
+F 3 "" H 13500 4550 50  0000 C CNN
+	1    13500 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L MBR0520 D2
+U 1 1 58A78C7B
+P 14350 7050
+F 0 "D2" H 14350 6950 50  0000 C CNN
+F 1 "MBR0520" H 14500 7150 50  0000 C CNN
+F 2 "Diodes_SMD:D_SOD-123" H 14350 6875 50  0001 C CNN
+F 3 "" H 14350 7050 50  0001 C CNN
+	1    14350 7050
+	-1   0    0    1   
+$EndComp
+$Comp
+L 4066 U1
+U 1 1 58A78C7E
+P 13250 7950
+F 0 "U1" H 13450 7801 50  0000 C CNN
+F 1 "4066" H 13450 8100 50  0000 C CNN
+F 2 "Librairie master:SOP14" H 13250 7950 60  0001 C CNN
+F 3 "" H 13250 7950 60  0001 C CNN
+	1    13250 7950
+	1    0    0    -1  
+$EndComp
+$Comp
+L 4066 U1
+U 2 1 58A78C7F
+P 13250 8900
+F 0 "U1" H 13450 8751 50  0000 C CNN
+F 1 "4066" H 13450 9050 50  0000 C CNN
+F 2 "Librairie master:SOP14" H 13250 8900 60  0001 C CNN
+F 3 "" H 13250 8900 60  0001 C CNN
+	2    13250 8900
+	1    0    0    -1  
+$EndComp
+$Comp
+L 4066 U1
+U 3 1 58A78C80
+P 14050 7450
+F 0 "U1" H 14250 7301 50  0000 C CNN
+F 1 "4066" H 14250 7600 50  0000 C CNN
+F 2 "Librairie master:SOP14" H 14050 7450 60  0001 C CNN
+F 3 "" H 14050 7450 60  0001 C CNN
+	3    14050 7450
+	1    0    0    -1  
+$EndComp
+$Comp
+L 4066 U1
+U 4 1 58A78C81
+P 14050 8400
+F 0 "U1" H 14250 8251 50  0000 C CNN
+F 1 "4066" H 14250 8550 50  0000 C CNN
+F 2 "Librairie master:SOP14" H 14050 8400 60  0001 C CNN
+F 3 "" H 14050 8400 60  0001 C CNN
+	4    14050 8400
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X04 P2
+U 1 1 58A78C82
+P 1000 650
+F 0 "P2" H 1000 900 50  0000 C CNN
+F 1 "Clock" V 1100 650 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm" H 1000 650 50  0001 C CNN
+F 3 "" H 1000 650 50  0000 C CNN
+	1    1000 650 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_01X02 P17
+U 1 1 58A78C88
+P 9650 3250
+F 0 "P17" H 9650 3450 50  0000 C CNN
+F 1 "Battery LIPO" V 9650 2800 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm" H 9650 3250 50  0001 C CNN
+F 3 "" H 9650 3250 50  0000 C CNN
+	1    9650 3250
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 9600 3250
+NoConn ~ 9700 3250
+Text Notes 9550 3150 0    60   ~ 0
+-
+Text Notes 9650 3150 0    60   ~ 0
++
+NoConn ~ 1250 4950
+NoConn ~ 1750 4850
+NoConn ~ 1250 6550
+NoConn ~ 1750 6550
+NoConn ~ 3650 5550
+NoConn ~ 3650 5650
+NoConn ~ 3150 5550
+NoConn ~ 3150 5650
+NoConn ~ 3650 6550
+NoConn ~ 2200 7200
+NoConn ~ 2300 7200
+NoConn ~ 2100 7700
+NoConn ~ 2200 7700
+NoConn ~ 1750 5150
+NoConn ~ 3150 5750
+Text Label 11350 3150 0    60   ~ 0
++BATT
+Text Label 7550 900  2    60   ~ 0
+audio_right_in
+Text Label 7550 1100 2    60   ~ 0
+core_pw13
+Text Label 7550 1300 2    60   ~ 0
+core_pw10
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R3
+U 1 1 58AB8D39
+P 6900 1300
+F 0 "R3" V 6980 1300 50  0000 C CNN
+F 1 "18K" V 6900 1300 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 6830 1300 50  0001 C CNN
+F 3 "" H 6900 1300 50  0000 C CNN
+	1    6900 1300
+	0    1    1    0   
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R4
+U 1 1 58AB997D
+P 6900 1100
+F 0 "R4" V 6980 1100 50  0000 C CNN
+F 1 "1K" V 6900 1100 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 6830 1100 50  0001 C CNN
+F 3 "" H 6900 1100 50  0000 C CNN
+	1    6900 1100
+	0    1    1    0   
+$EndComp
+$Comp
+L VCC #PWR44
+U 1 1 58ABA4EE
+P 6200 2350
+F 0 "#PWR44" H 6200 2200 50  0001 C CNN
+F 1 "VCC" H 6200 2500 50  0000 C CNN
+F 2 "" H 6200 2350 50  0000 C CNN
+F 3 "" H 6200 2350 50  0000 C CNN
+	1    6200 2350
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR41
+U 1 1 58ABA64C
+P 5550 2250
+F 0 "#PWR41" H 5550 2000 50  0001 C CNN
+F 1 "GND" H 5550 2100 50  0000 C CNN
+F 2 "" H 5550 2250 50  0000 C CNN
+F 3 "" H 5550 2250 50  0000 C CNN
+	1    5550 2250
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR48
+U 1 1 58ABAF25
+P 6850 2250
+F 0 "#PWR48" H 6850 2000 50  0001 C CNN
+F 1 "GND" H 6850 2100 50  0000 C CNN
+F 2 "" H 6850 2250 50  0000 C CNN
+F 3 "" H 6850 2250 50  0000 C CNN
+	1    6850 2250
+	1    0    0    -1  
+$EndComp
+Text Label 3200 10600 1    60   ~ 0
+Stick_RHcon
+Text Label 3300 10600 1    60   ~ 0
+Stick_RVcon
+Text Label 2150 10600 1    60   ~ 0
+Stick_LHcon
+Text Label 2250 10600 1    60   ~ 0
+Stick_LVcon
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C9
+U 1 1 58AF4E5F
+P 2000 9800
+F 0 "C9" H 2025 9900 50  0000 L CNN
+F 1 "100nF" H 2025 9700 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 2038 9650 50  0001 C CNN
+F 3 "" H 2000 9800 50  0000 C CNN
+	1    2000 9800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C11
+U 1 1 58AF4E60
+P 2100 9600
+F 0 "C11" H 2125 9700 50  0000 L CNN
+F 1 "100nF" H 2125 9500 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 2138 9450 50  0001 C CNN
+F 3 "" H 2100 9600 50  0000 C CNN
+	1    2100 9600
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C16
+U 1 1 58AF4E61
+P 3050 9750
+F 0 "C16" H 3075 9850 50  0000 L CNN
+F 1 "100nF" H 3075 9650 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 3088 9600 50  0001 C CNN
+F 3 "" H 3050 9750 50  0000 C CNN
+	1    3050 9750
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C17
+U 1 1 58AF4E62
+P 3150 9600
+F 0 "C17" H 3175 9700 50  0000 L CNN
+F 1 "100nF" H 3175 9500 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 3188 9450 50  0001 C CNN
+F 3 "" H 3150 9600 50  0000 C CNN
+	1    3150 9600
+	0    -1   -1   0   
+$EndComp
+$Comp
+L VCC #PWR15
+U 1 1 58AF4E63
+P 1850 9900
+F 0 "#PWR15" H 1850 9750 50  0001 C CNN
+F 1 "VCC" H 1850 10050 50  0000 C CNN
+F 2 "" H 1850 9900 50  0000 C CNN
+F 3 "" H 1850 9900 50  0000 C CNN
+	1    1850 9900
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR20
+U 1 1 58AF4E64
+P 2350 9900
+F 0 "#PWR20" H 2350 9650 50  0001 C CNN
+F 1 "GND" H 2350 9750 50  0000 C CNN
+F 2 "" H 2350 9900 50  0000 C CNN
+F 3 "" H 2350 9900 50  0000 C CNN
+	1    2350 9900
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X04 P12
+U 1 1 58AF4E65
+P 2200 9150
+F 0 "P12" H 2200 9400 50  0000 C CNN
+F 1 "Stick_left" V 2300 9150 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm" H 2200 9150 50  0001 C CNN
+F 3 "" H 2200 9150 50  0000 C CNN
+	1    2200 9150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_01X04 P13
+U 1 1 58AF4E66
+P 3250 9150
+F 0 "P13" H 3250 9400 50  0000 C CNN
+F 1 "Stick_right" V 3350 9150 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm" H 3250 9150 50  0001 C CNN
+F 3 "" H 3250 9150 50  0000 C CNN
+	1    3250 9150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L VCC #PWR23
+U 1 1 58AF4E67
+P 2900 9900
+F 0 "#PWR23" H 2900 9750 50  0001 C CNN
+F 1 "VCC" H 2900 10050 50  0000 C CNN
+F 2 "" H 2900 9900 50  0000 C CNN
+F 3 "" H 2900 9900 50  0000 C CNN
+	1    2900 9900
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR24
+U 1 1 58AF4E68
+P 3400 9900
+F 0 "#PWR24" H 3400 9650 50  0001 C CNN
+F 1 "GND" H 3400 9750 50  0000 C CNN
+F 2 "" H 3400 9900 50  0000 C CNN
+F 3 "" H 3400 9900 50  0000 C CNN
+	1    3400 9900
+	1    0    0    -1  
+$EndComp
+$Comp
+L MCP6004 U6
+U 2 1 58AF4E69
+P 6850 9300
+F 0 "U6" H 6850 9500 50  0000 L CNN
+F 1 "MCP604-I/SL" H 6850 9100 50  0000 L CNN
+F 2 "Librairie master:SOP14" H 6800 9400 50  0001 C CNN
+F 3 "" H 6900 9500 50  0000 C CNN
+	2    6850 9300
+	0    -1   -1   0   
+$EndComp
+$Comp
+L MCP6004 U6
+U 4 1 58AF4E6A
+P 10250 9350
+F 0 "U6" H 10250 9550 50  0000 L CNN
+F 1 "MCP604-I/SL" H 10250 9150 50  0000 L CNN
+F 2 "Librairie master:SOP14" H 10200 9450 50  0001 C CNN
+F 3 "" H 10300 9550 50  0000 C CNN
+	4    10250 9350
+	0    -1   -1   0   
+$EndComp
+$Comp
+L MCP6004 U6
+U 3 1 58AF4E6B
+P 8550 9300
+F 0 "U6" H 8550 9500 50  0000 L CNN
+F 1 "MCP604-I/SL" H 8550 9100 50  0000 L CNN
+F 2 "Librairie master:SOP14" H 8500 9400 50  0001 C CNN
+F 3 "" H 8600 9500 50  0000 C CNN
+	3    8550 9300
+	0    -1   -1   0   
+$EndComp
+$Comp
+L MCP6004 U6
+U 1 1 58AF4E6C
+P 5150 9300
+F 0 "U6" H 5150 9500 50  0000 L CNN
+F 1 "MCP604-I/SL" H 5150 9100 50  0000 L CNN
+F 2 "Librairie master:SOP14" H 5100 9400 50  0001 C CNN
+F 3 "" H 5200 9500 50  0000 C CNN
+	1    5150 9300
+	0    -1   -1   0   
+$EndComp
+$Comp
+L VCC #PWR67
+U 1 1 58AF4E6D
+P 9950 9450
+F 0 "#PWR67" H 9950 9300 50  0001 C CNN
+F 1 "VCC" H 9950 9600 50  0000 C CNN
+F 2 "" H 9950 9450 50  0000 C CNN
+F 3 "" H 9950 9450 50  0000 C CNN
+	1    9950 9450
+	0    -1   -1   0   
+$EndComp
+$Comp
+L VCC #PWR32
+U 1 1 58AF4E6E
+P 4750 9000
+F 0 "#PWR32" H 4750 8850 50  0001 C CNN
+F 1 "VCC" H 4750 9150 50  0000 C CNN
+F 2 "" H 4750 9000 50  0000 C CNN
+F 3 "" H 4750 9000 50  0000 C CNN
+	1    4750 9000
+	1    0    0    -1  
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R26
+U 1 1 58AF4E6F
+P 5700 10150
+F 0 "R26" V 5780 10150 50  0000 C CNN
+F 1 "10K" V 5700 10150 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 5630 10150 50  0001 C CNN
+F 3 "" H 5700 10150 50  0000 C CNN
+	1    5700 10150
+	1    0    0    -1  
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R28
+U 1 1 58AF4E70
+P 5900 10150
+F 0 "R28" V 5980 10150 50  0000 C CNN
+F 1 "10K" V 5900 10150 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 5830 10150 50  0001 C CNN
+F 3 "" H 5900 10150 50  0000 C CNN
+	1    5900 10150
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR43
+U 1 1 58AF4E71
+P 6100 10600
+F 0 "#PWR43" H 6100 10350 50  0001 C CNN
+F 1 "GND" H 6100 10400 50  0000 C CNN
+F 2 "" H 6100 10600 50  0000 C CNN
+F 3 "" H 6100 10600 50  0000 C CNN
+	1    6100 10600
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR40
+U 1 1 58AF4E72
+P 5450 9400
+F 0 "#PWR40" H 5450 9150 50  0001 C CNN
+F 1 "GND" H 5450 9200 50  0000 C CNN
+F 2 "" H 5450 9400 50  0000 C CNN
+F 3 "" H 5450 9400 50  0000 C CNN
+	1    5450 9400
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR45
+U 1 1 58AF4E73
+P 6550 9400
+F 0 "#PWR45" H 6550 9250 50  0001 C CNN
+F 1 "VCC" H 6550 9550 50  0000 C CNN
+F 2 "" H 6550 9400 50  0000 C CNN
+F 3 "" H 6550 9400 50  0000 C CNN
+	1    6550 9400
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR51
+U 1 1 58AF4E74
+P 7150 9400
+F 0 "#PWR51" H 7150 9150 50  0001 C CNN
+F 1 "GND" H 7150 9200 50  0000 C CNN
+F 2 "" H 7150 9400 50  0000 C CNN
+F 3 "" H 7150 9400 50  0000 C CNN
+	1    7150 9400
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR58
+U 1 1 58AF4E75
+P 8250 9400
+F 0 "#PWR58" H 8250 9250 50  0001 C CNN
+F 1 "VCC" H 8250 9550 50  0000 C CNN
+F 2 "" H 8250 9400 50  0000 C CNN
+F 3 "" H 8250 9400 50  0000 C CNN
+	1    8250 9400
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR62
+U 1 1 58AF4E76
+P 8850 9400
+F 0 "#PWR62" H 8850 9150 50  0001 C CNN
+F 1 "GND" H 8850 9200 50  0000 C CNN
+F 2 "" H 8850 9400 50  0000 C CNN
+F 3 "" H 8850 9400 50  0000 C CNN
+	1    8850 9400
+	1    0    0    -1  
+$EndComp
+Text Label 5700 10900 1    60   ~ 0
+Stick_RHcon
+Text Label 5150 8350 3    60   ~ 0
+Stick_RH
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C43
+U 1 1 58AF4E77
+P 6150 9400
+F 0 "C43" H 6175 9500 50  0000 L CNN
+F 1 "22nF" H 6175 9300 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 6188 9250 50  0001 C CNN
+F 3 "" H 6150 9400 50  0000 C CNN
+	1    6150 9400
+	1    0    0    -1  
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C44
+U 1 1 58AF4E7A
+P 7850 9400
+F 0 "C44" H 7875 9500 50  0000 L CNN
+F 1 "22nF" H 7875 9300 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 7888 9250 50  0001 C CNN
+F 3 "" H 7850 9400 50  0000 C CNN
+	1    7850 9400
+	1    0    0    -1  
+$EndComp
+$Comp
+L POT-RESCUE-Mega_2560_core_mini_full_2.0 RV2
+U 1 1 58AF4E7B
+P 6100 10350
+F 0 "RV2" V 5925 10350 50  0000 C CNN
+F 1 "POT_100k" V 6000 10350 50  0000 C CNN
+F 2 "Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp" H 6100 10350 50  0001 C CNN
+F 3 "" H 6100 10350 50  0000 C CNN
+	1    6100 10350
+	-1   0    0    1   
+$EndComp
+$Comp
+L VCC #PWR42
+U 1 1 58AF4E7C
+P 6100 10200
+F 0 "#PWR42" H 6100 10050 50  0001 C CNN
+F 1 "VCC" H 6100 10350 50  0000 C CNN
+F 2 "" H 6100 10200 50  0000 C CNN
+F 3 "" H 6100 10200 50  0000 C CNN
+	1    6100 10200
+	1    0    0    -1  
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R29
+U 1 1 58AF4E7D
+P 7400 10150
+F 0 "R29" V 7480 10150 50  0000 C CNN
+F 1 "10K" V 7400 10150 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 7330 10150 50  0001 C CNN
+F 3 "" H 7400 10150 50  0000 C CNN
+	1    7400 10150
+	1    0    0    -1  
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R31
+U 1 1 58AF4E7E
+P 7600 10150
+F 0 "R31" V 7680 10150 50  0000 C CNN
+F 1 "10K" V 7600 10150 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 7530 10150 50  0001 C CNN
+F 3 "" H 7600 10150 50  0000 C CNN
+	1    7600 10150
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR55
+U 1 1 58AF4E7F
+P 7800 10600
+F 0 "#PWR55" H 7800 10350 50  0001 C CNN
+F 1 "GND" H 7800 10400 50  0000 C CNN
+F 2 "" H 7800 10600 50  0000 C CNN
+F 3 "" H 7800 10600 50  0000 C CNN
+	1    7800 10600
+	1    0    0    -1  
+$EndComp
+$Comp
+L POT-RESCUE-Mega_2560_core_mini_full_2.0 RV3
+U 1 1 58AF4E80
+P 7800 10350
+F 0 "RV3" V 7625 10350 50  0000 C CNN
+F 1 "POT_100k" V 7700 10350 50  0000 C CNN
+F 2 "Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp" H 7800 10350 50  0001 C CNN
+F 3 "" H 7800 10350 50  0000 C CNN
+	1    7800 10350
+	-1   0    0    1   
+$EndComp
+$Comp
+L VCC #PWR54
+U 1 1 58AF4E81
+P 7800 10200
+F 0 "#PWR54" H 7800 10050 50  0001 C CNN
+F 1 "VCC" H 7800 10350 50  0000 C CNN
+F 2 "" H 7800 10200 50  0000 C CNN
+F 3 "" H 7800 10200 50  0000 C CNN
+	1    7800 10200
+	1    0    0    -1  
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C45
+U 1 1 58AF4E83
+P 9550 9450
+F 0 "C45" H 9575 9550 50  0000 L CNN
+F 1 "22nF" H 9575 9350 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 9588 9300 50  0001 C CNN
+F 3 "" H 9550 9450 50  0000 C CNN
+	1    9550 9450
+	1    0    0    -1  
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R32
+U 1 1 58AF4E84
+P 9100 10150
+F 0 "R32" V 9180 10150 50  0000 C CNN
+F 1 "10K" V 9100 10150 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 9030 10150 50  0001 C CNN
+F 3 "" H 9100 10150 50  0000 C CNN
+	1    9100 10150
+	1    0    0    -1  
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R34
+U 1 1 58AF4E85
+P 9300 10150
+F 0 "R34" V 9380 10150 50  0000 C CNN
+F 1 "10K" V 9300 10150 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 9230 10150 50  0001 C CNN
+F 3 "" H 9300 10150 50  0000 C CNN
+	1    9300 10150
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR65
+U 1 1 58AF4E86
+P 9500 10600
+F 0 "#PWR65" H 9500 10350 50  0001 C CNN
+F 1 "GND" H 9500 10400 50  0000 C CNN
+F 2 "" H 9500 10600 50  0000 C CNN
+F 3 "" H 9500 10600 50  0000 C CNN
+	1    9500 10600
+	1    0    0    -1  
+$EndComp
+$Comp
+L POT-RESCUE-Mega_2560_core_mini_full_2.0 RV4
+U 1 1 58AF4E87
+P 9500 10350
+F 0 "RV4" V 9325 10350 50  0000 C CNN
+F 1 "POT_100k" V 9400 10350 50  0000 C CNN
+F 2 "Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp" H 9500 10350 50  0001 C CNN
+F 3 "" H 9500 10350 50  0000 C CNN
+	1    9500 10350
+	-1   0    0    1   
+$EndComp
+$Comp
+L VCC #PWR64
+U 1 1 58AF4E88
+P 9500 10200
+F 0 "#PWR64" H 9500 10050 50  0001 C CNN
+F 1 "VCC" H 9500 10350 50  0000 C CNN
+F 2 "" H 9500 10200 50  0000 C CNN
+F 3 "" H 9500 10200 50  0000 C CNN
+	1    9500 10200
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR69
+U 1 1 58AF4E89
+P 10550 9450
+F 0 "#PWR69" H 10550 9200 50  0001 C CNN
+F 1 "GND" H 10550 9250 50  0000 C CNN
+F 2 "" H 10550 9450 50  0000 C CNN
+F 3 "" H 10550 9450 50  0000 C CNN
+	1    10550 9450
+	1    0    0    -1  
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C46
+U 1 1 58AF4E8B
+P 11250 9500
+F 0 "C46" H 11275 9600 50  0000 L CNN
+F 1 "22nF" H 11275 9400 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 11288 9350 50  0001 C CNN
+F 3 "" H 11250 9500 50  0000 C CNN
+	1    11250 9500
+	1    0    0    -1  
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R35
+U 1 1 58AF4E8C
+P 10800 10200
+F 0 "R35" V 10880 10200 50  0000 C CNN
+F 1 "10K" V 10800 10200 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 10730 10200 50  0001 C CNN
+F 3 "" H 10800 10200 50  0000 C CNN
+	1    10800 10200
+	1    0    0    -1  
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R37
+U 1 1 58AF4E8D
+P 11000 10200
+F 0 "R37" V 11080 10200 50  0000 C CNN
+F 1 "10K" V 11000 10200 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 10930 10200 50  0001 C CNN
+F 3 "" H 11000 10200 50  0000 C CNN
+	1    11000 10200
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR72
+U 1 1 58AF4E8E
+P 11200 10650
+F 0 "#PWR72" H 11200 10400 50  0001 C CNN
+F 1 "GND" H 11200 10450 50  0000 C CNN
+F 2 "" H 11200 10650 50  0000 C CNN
+F 3 "" H 11200 10650 50  0000 C CNN
+	1    11200 10650
+	1    0    0    -1  
+$EndComp
+$Comp
+L POT-RESCUE-Mega_2560_core_mini_full_2.0 RV5
+U 1 1 58AF4E8F
+P 11200 10400
+F 0 "RV5" V 11025 10400 50  0000 C CNN
+F 1 "POT_100k" V 11100 10400 50  0000 C CNN
+F 2 "Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp" H 11200 10400 50  0001 C CNN
+F 3 "" H 11200 10400 50  0000 C CNN
+	1    11200 10400
+	-1   0    0    1   
+$EndComp
+$Comp
+L VCC #PWR71
+U 1 1 58AF4E90
+P 11200 10250
+F 0 "#PWR71" H 11200 10100 50  0001 C CNN
+F 1 "VCC" H 11200 10400 50  0000 C CNN
+F 2 "" H 11200 10250 50  0000 C CNN
+F 3 "" H 11200 10250 50  0000 C CNN
+	1    11200 10250
+	1    0    0    -1  
+$EndComp
+Text Label 6850 8350 3    60   ~ 0
+Stick_RV
+Text Label 7400 10900 1    60   ~ 0
+Stick_RVcon
+Text Label 9100 10900 1    60   ~ 0
+Stick_LVcon
+Text Label 8550 8350 3    60   ~ 0
+Stick_LV
+Text Label 10250 8400 3    60   ~ 0
+Stick_LH
+Text Label 10800 10950 1    60   ~ 0
+Stick_LHcon
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R24
+U 1 1 58AF4E91
+P 4750 9650
+F 0 "R24" V 4830 9650 50  0000 C CNN
+F 1 "33K" V 4750 9650 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 4680 9650 50  0001 C CNN
+F 3 "" H 4750 9650 50  0000 C CNN
+	1    4750 9650
+	1    0    0    -1  
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C42
+U 1 1 58AF4E92
+P 4500 10050
+F 0 "C42" H 4525 10150 50  0000 L CNN
+F 1 "6.8nF" H 4250 9900 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 4538 9900 50  0001 C CNN
+F 3 "" H 4500 10050 50  0000 C CNN
+	1    4500 10050
+	1    0    0    -1  
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R25
+U 1 1 58AF4E93
+P 4750 10050
+F 0 "R25" V 4830 10050 50  0000 C CNN
+F 1 "33K" V 4750 10050 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 4680 10050 50  0001 C CNN
+F 3 "" H 4750 10050 50  0000 C CNN
+	1    4750 10050
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR33
+U 1 1 58AF4E94
+P 4750 10600
+F 0 "#PWR33" H 4750 10350 50  0001 C CNN
+F 1 "GND" H 4750 10400 50  0000 C CNN
+F 2 "" H 4750 10600 50  0000 C CNN
+F 3 "" H 4750 10600 50  0000 C CNN
+	1    4750 10600
+	1    0    0    -1  
+$EndComp
+Text Notes 3050 8750 2    60   ~ 0
+Stick control
+$Comp
+L CONN_01X09 P4
+U 1 1 58A78C0C
+P 1150 3000
+F 0 "P4" H 1150 3500 50  0000 C CNN
+F 1 "Potentiometre" V 1250 3000 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_2x05_Pitch2.54mm" H 1150 3000 50  0001 C CNN
+F 3 "" H 1150 3000 50  0000 C CNN
+	1    1150 3000
+	0    -1   -1   0   
+$EndComp
+Text Notes 13000 5450 0    60   Italic 0
+Option si utilisation du 3.3V dans le montage
+Text Notes 6650 8150 0    60   Italic 0
+Option Amplification des sticks (Fonctionne sans)
+Text Notes 5100 7100 0    60   Italic 0
+Option si utilisation de la télémètrie
+$Comp
+L L4941 U4
+U 1 1 58D88F29
+P 12350 3550
+F 0 "U4" H 12150 3300 50  0000 C CNN
+F 1 "L4941" H 12200 3750 50  0000 L CNN
+F 2 "Power_Integrations:TO-220" H 13200 3900 50  0000 C CIN
+F 3 "" H 12350 3550 50  0000 C CNN
+	1    12350 3550
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X03 P10
+U 1 1 58DCA141
+P 3200 650
+F 0 "P10" H 3200 850 50  0000 C CNN
+F 1 "SPI_libre" V 3300 650 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm" H 3200 650 50  0001 C CNN
+F 3 "" H 3200 650 50  0000 C CNN
+	1    3200 650 
+	0    -1   -1   0   
+$EndComp
+Text Label 3100 1400 1    60   ~ 0
+PH2
+Text Label 2250 5650 2    60   ~ 0
+PH2
+Text Label 3200 1400 1    60   ~ 0
+TXD2
+Text Label 3300 1400 1    60   ~ 0
+RXD2
+Text Label 2250 5350 2    60   ~ 0
+TXD2
+Text Label 750  5350 0    60   ~ 0
+RXD2
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R17
+U 1 1 58A78C02
+P 11350 3950
+F 0 "R17" V 11430 3950 50  0000 C CNN
+F 1 "5.1K" V 11350 3950 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 11280 3950 50  0001 C CNN
+F 3 "" H 11350 3950 50  0000 C CNN
+	1    11350 3950
+	1    0    0    1   
+$EndComp
+NoConn ~ 1750 5750
+NoConn ~ 1750 5850
+NoConn ~ 1250 5750
+$Comp
+L CONN_01X02 P18
+U 1 1 58EC21AF
+P 15200 8000
+F 0 "P18" H 15200 8150 50  0000 C CNN
+F 1 "Ecolage" V 15350 8000 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm" H 15200 8000 50  0001 C CNN
+F 3 "" H 15200 8000 50  0000 C CNN
+	1    15200 8000
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR94
+U 1 1 58EC22CA
+P 15000 8400
+F 0 "#PWR94" H 15000 8150 50  0001 C CNN
+F 1 "GND" H 15000 8250 50  0000 C CNN
+F 2 "" H 15000 8400 50  0000 C CNN
+F 3 "" H 15000 8400 50  0000 C CNN
+	1    15000 8400
+	1    0    0    -1  
+$EndComp
+$Comp
+L TLP290-RESCUE-Mega_2560_core_mini_full_2.0 U3
+U 1 1 58EA0FF0
+P 5500 6400
+F 0 "U3" H 5300 6600 50  0000 L CNN
+F 1 "TLP290" H 5500 6600 50  0000 L CNN
+F 2 "anthoperso:SOP4" H 5300 6200 50  0000 L CIN
+F 3 "" H 5525 6400 50  0000 L CNN
+	1    5500 6400
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X08 P20
+U 1 1 58EB2071
+P 7250 6100
+F 0 "P20" H 7250 6550 50  0000 C CNN
+F 1 "Module_RS232/TTL" V 7350 6100 50  0000 C CNN
+F 2 "anthoperso:Con_RS232_TTL" H 7250 6100 50  0001 C CNN
+F 3 "" H 7250 6100 50  0000 C CNN
+	1    7250 6100
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR50
+U 1 1 58EB2417
+P 7000 6550
+F 0 "#PWR50" H 7000 6300 50  0001 C CNN
+F 1 "GND" H 7000 6400 50  0000 C CNN
+F 2 "" H 7000 6550 50  0000 C CNN
+F 3 "" H 7000 6550 50  0000 C CNN
+	1    7000 6550
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR49
+U 1 1 58EB259D
+P 7000 5650
+F 0 "#PWR49" H 7000 5400 50  0001 C CNN
+F 1 "GND" H 7000 5500 50  0000 C CNN
+F 2 "" H 7000 5650 50  0000 C CNN
+F 3 "" H 7000 5650 50  0000 C CNN
+	1    7000 5650
+	-1   0    0    1   
+$EndComp
+$Comp
+L VCC #PWR46
+U 1 1 58EB26A2
+P 6800 5650
+F 0 "#PWR46" H 6800 5500 50  0001 C CNN
+F 1 "VCC" H 6800 5800 50  0000 C CNN
+F 2 "" H 6800 5650 50  0000 C CNN
+F 3 "" H 6800 5650 50  0000 C CNN
+	1    6800 5650
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR47
+U 1 1 58EB27AE
+P 6800 6550
+F 0 "#PWR47" H 6800 6400 50  0001 C CNN
+F 1 "VCC" H 6800 6700 50  0000 C CNN
+F 2 "" H 6800 6550 50  0000 C CNN
+F 3 "" H 6800 6550 50  0000 C CNN
+	1    6800 6550
+	-1   0    0    1   
+$EndComp
+$Comp
+L TLP290-RESCUE-Mega_2560_core_mini_full_2.0 U2
+U 1 1 58EA0B44
+P 5500 5900
+F 0 "U2" H 5300 6100 50  0000 L CNN
+F 1 "TLP290" H 5500 6100 50  0000 L CNN
+F 2 "anthoperso:SOP4" H 5300 5700 50  0000 L CIN
+F 3 "" H 5525 5900 50  0000 L CNN
+	1    5500 5900
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR79
+U 1 1 58EE2BDA
+P 12800 3900
+F 0 "#PWR79" H 12800 3650 50  0001 C CNN
+F 1 "GND" H 12800 3750 50  0000 C CNN
+F 2 "" H 12800 3900 50  0000 C CNN
+F 3 "" H 12800 3900 50  0000 C CNN
+	1    12800 3900
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CP1-RESCUE-Mega_2560_core_mini_full_2.0 C28
+U 1 1 58EF0A99
+P 11850 3700
+F 0 "C28" H 11875 3800 50  0000 L CNN
+F 1 "47µF" H 11875 3600 50  0000 L CNN
+F 2 "Capacitors_SMD:CP_Elec_6.3x5.3" H 11850 3700 50  0001 C CNN
+F 3 "" H 11850 3700 50  0000 C CNN
+	1    11850 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR74
+U 1 1 58EF1316
+P 11850 3900
+F 0 "#PWR74" H 11850 3650 50  0001 C CNN
+F 1 "GND" H 11850 3750 50  0000 C CNN
+F 2 "" H 11850 3900 50  0000 C CNN
+F 3 "" H 11850 3900 50  0000 C CNN
+	1    11850 3900
+	-1   0    0    -1  
+$EndComp
+Text Notes 8150 5650 1    60   ~ 0
+Alim module
+$Comp
+L CONN_JQ6500_28P_mini P22
+U 1 1 58EF95DD
+P 5900 1450
+F 0 "P22" H 6100 2250 50  0000 C CNN
+F 1 "CONN_JQ6500_28P_mini" V 6100 1450 50  0000 C CNN
+F 2 "anthoperso:connector_mini-JQ6500-28P" H 5900 1450 50  0001 C CNN
+F 3 "" H 5900 1450 50  0000 C CNN
+	1    5900 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L MBR0520 D6
+U 1 1 58F1A0C4
+P 11600 3500
+F 0 "D6" H 11600 3600 50  0000 C CNN
+F 1 "MBR0520" H 11600 3400 50  0000 C CNN
+F 2 "Diodes_SMD:D_SOD-123" H 11600 3325 50  0001 C CNN
+F 3 "" H 11600 3500 50  0001 C CNN
+	1    11600 3500
+	-1   0    0    1   
+$EndComp
+$Comp
+L MBR0520 D1
+U 1 1 58F1A570
+P 2150 3400
+F 0 "D1" H 2150 3500 50  0000 C CNN
+F 1 "MBR0520" H 2450 3550 50  0000 C CNN
+F 2 "Diodes_SMD:D_SOD-123" H 2150 3225 50  0001 C CNN
+F 3 "" H 2150 3400 50  0001 C CNN
+	1    2150 3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C2
+U 1 1 58A78C65
+P 1250 2300
+F 0 "C2" H 1275 2400 50  0000 L CNN
+F 1 "47nF" H 1275 2200 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 1288 2150 50  0001 C CNN
+F 3 "" H 1250 2300 50  0000 C CNN
+	1    1250 2300
+	0    1    1    0   
+$EndComp
+$Comp
+L TEST_2P W1
+U 1 1 58FAE3C5
+P 5650 9400
+F 0 "W1" H 5650 9460 50  0000 C CNN
+F 1 "TEST_2P" H 5650 9330 50  0000 C CNN
+F 2 "anthoperso:TESTPT" H 5650 9400 50  0001 C CNN
+F 3 "" H 5650 9400 50  0000 C CNN
+	1    5650 9400
+	0    1    1    0   
+$EndComp
+$Comp
+L TEST_2P W2
+U 1 1 58FB1CAE
+P 7350 9400
+F 0 "W2" H 7350 9460 50  0000 C CNN
+F 1 "TEST_2P" H 7350 9330 50  0000 C CNN
+F 2 "anthoperso:TESTPT" H 7350 9400 50  0001 C CNN
+F 3 "" H 7350 9400 50  0000 C CNN
+	1    7350 9400
+	0    1    1    0   
+$EndComp
+$Comp
+L TEST_2P W3
+U 1 1 58FB2B81
+P 9050 9400
+F 0 "W3" H 9050 9460 50  0000 C CNN
+F 1 "TEST_2P" H 9050 9330 50  0000 C CNN
+F 2 "anthoperso:TESTPT" H 9050 9400 50  0001 C CNN
+F 3 "" H 9050 9400 50  0000 C CNN
+	1    9050 9400
+	0    1    1    0   
+$EndComp
+$Comp
+L TEST_2P W4
+U 1 1 58FB3674
+P 10750 9450
+F 0 "W4" H 10750 9510 50  0000 C CNN
+F 1 "TEST_2P" H 10750 9380 50  0000 C CNN
+F 2 "anthoperso:TESTPT" H 10750 9450 50  0001 C CNN
+F 3 "" H 10750 9450 50  0000 C CNN
+	1    10750 9450
+	0    1    1    0   
+$EndComp
+NoConn ~ 5700 800 
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R9
+U 1 1 58F91D67
+P 2000 3600
+F 0 "R9" V 2100 3600 50  0000 C CNN
+F 1 "220" V 2000 3600 50  0000 C CNN
+F 2 "anthoperso:R_1206" V 1930 3600 50  0001 C CNN
+F 3 "" H 2000 3600 50  0000 C CNN
+	1    2000 3600
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR39
+U 1 1 5930E4B5
+P 5200 3700
+F 0 "#PWR39" H 5200 3450 50  0001 C CNN
+F 1 "GND" H 5200 3550 50  0000 C CNN
+F 2 "" H 5200 3700 50  0000 C CNN
+F 3 "" H 5200 3700 50  0000 C CNN
+	1    5200 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR53
+U 1 1 5932156A
+P 7550 3800
+F 0 "#PWR53" H 7550 3550 50  0001 C CNN
+F 1 "GND" H 7550 3650 50  0000 C CNN
+F 2 "" H 7550 3800 50  0000 C CNN
+F 3 "" H 7550 3800 50  0000 C CNN
+	1    7550 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X10 P14
+U 1 1 5932AA20
+P 7100 2850
+F 0 "P14" H 7100 3400 50  0000 C CNN
+F 1 "Switch" V 7200 2850 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_2x05_Pitch2.54mm" H 7100 2850 50  0001 C CNN
+F 3 "" H 7100 2850 50  0000 C CNN
+	1    7100 2850
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_01X10 P11
+U 1 1 5932C935
+P 4750 2850
+F 0 "P11" H 4750 3400 50  0000 C CNN
+F 1 "Trim" V 4850 2850 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_2x05_Pitch2.54mm" H 4750 2850 50  0001 C CNN
+F 3 "" H 4750 2850 50  0000 C CNN
+	1    4750 2850
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR86
+U 1 1 5932E166
+P 13850 1750
+F 0 "#PWR86" H 13850 1500 50  0001 C CNN
+F 1 "GND" H 13850 1600 50  0000 C CNN
+F 2 "" H 13850 1750 50  0000 C CNN
+F 3 "" H 13850 1750 50  0000 C CNN
+	1    13850 1750
+	1    0    0    -1  
+$EndComp
+$Comp
+L POT-RESCUE-Mega_2560_core_mini_full_2.0 R27
+U 1 1 5936EC81
+P 5900 9150
+F 0 "R27" V 5725 9150 50  0000 C CNN
+F 1 "POT_22k" V 5800 9150 50  0000 C CNN
+F 2 "Potentiometers:Potentiometer_Trimmer_Bourns_3296W" H 5900 9150 50  0001 C CNN
+F 3 "" H 5900 9150 50  0000 C CNN
+	1    5900 9150
+	-1   0    0    1   
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R11
+U 1 1 5936EE51
+P 5900 9600
+F 0 "R11" V 5980 9600 50  0000 C CNN
+F 1 "15K" V 5900 9600 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 5830 9600 50  0001 C CNN
+F 3 "" H 5900 9600 50  0000 C CNN
+	1    5900 9600
+	1    0    0    -1  
+$EndComp
+$Comp
+L POT-RESCUE-Mega_2560_core_mini_full_2.0 R30
+U 1 1 593700CE
+P 7600 9150
+F 0 "R30" V 7425 9150 50  0000 C CNN
+F 1 "POT_22k" V 7500 9150 50  0000 C CNN
+F 2 "Potentiometers:Potentiometer_Trimmer_Bourns_3296W" H 7600 9150 50  0001 C CNN
+F 3 "" H 7600 9150 50  0000 C CNN
+	1    7600 9150
+	-1   0    0    1   
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R12
+U 1 1 59370292
+P 7600 9600
+F 0 "R12" V 7680 9600 50  0000 C CNN
+F 1 "15K" V 7600 9600 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 7530 9600 50  0001 C CNN
+F 3 "" H 7600 9600 50  0000 C CNN
+	1    7600 9600
+	1    0    0    -1  
+$EndComp
+$Comp
+L POT-RESCUE-Mega_2560_core_mini_full_2.0 R33
+U 1 1 5937059E
+P 9300 9150
+F 0 "R33" V 9125 9150 50  0000 C CNN
+F 1 "POT_22k" V 9200 9150 50  0000 C CNN
+F 2 "Potentiometers:Potentiometer_Trimmer_Bourns_3296W" H 9300 9150 50  0001 C CNN
+F 3 "" H 9300 9150 50  0000 C CNN
+	1    9300 9150
+	-1   0    0    1   
+$EndComp
+$Comp
+L POT-RESCUE-Mega_2560_core_mini_full_2.0 R36
+U 1 1 5937076F
+P 11000 9200
+F 0 "R36" V 10825 9200 50  0000 C CNN
+F 1 "POT_22k" V 10900 9200 50  0000 C CNN
+F 2 "Potentiometers:Potentiometer_Trimmer_Bourns_3296W" H 11000 9200 50  0001 C CNN
+F 3 "" H 11000 9200 50  0000 C CNN
+	1    11000 9200
+	-1   0    0    1   
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R13
+U 1 1 593709A3
+P 9300 9600
+F 0 "R13" V 9380 9600 50  0000 C CNN
+F 1 "15K" V 9300 9600 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 9230 9600 50  0001 C CNN
+F 3 "" H 9300 9600 50  0000 C CNN
+	1    9300 9600
+	1    0    0    -1  
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R14
+U 1 1 59370B0E
+P 11000 9700
+F 0 "R14" V 11080 9700 50  0000 C CNN
+F 1 "15K" V 11000 9700 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 10930 9700 50  0001 C CNN
+F 3 "" H 11000 9700 50  0000 C CNN
+	1    11000 9700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	13000 4500 13100 4500
+Connection ~ 13500 4950
+Wire Wire Line
+	13900 4950 13500 4950
+Connection ~ 13900 4500
+Wire Wire Line
+	13900 3850 13900 4650
+Wire Notes Line
+	9150 5600 9150 2800
+Wire Wire Line
+	15000 7950 14800 7950
+Wire Wire Line
+	15000 8050 15000 8400
+Wire Notes Line
+	14700 4300 13150 4300
+Wire Wire Line
+	12750 3500 14150 3500
+Wire Wire Line
+	10950 4200 10950 4350
+Wire Wire Line
+	11000 3500 11450 3500
+Wire Wire Line
+	11350 4100 11350 4600
+Wire Wire Line
+	2250 5350 1750 5350
+Wire Wire Line
+	3300 850  3300 1400
+Wire Wire Line
+	3200 850  3200 1400
+Wire Wire Line
+	3100 850  3100 1400
+Wire Wire Line
+	1750 5650 2250 5650
+Wire Wire Line
+	3150 5050 2750 5050
+Wire Notes Line
+	4700 5000 7600 5000
+Wire Notes Line
+	4700 6950 7600 6950
+Wire Notes Line
+	4700 5000 4700 6950
+Wire Notes Line
+	14700 5300 14700 4300
+Wire Notes Line
+	13150 5300 14700 5300
+Wire Notes Line
+	13150 4300 13150 5300
+Wire Wire Line
+	1550 3200 1550 3700
+Wire Wire Line
+	1350 3200 1350 3700
+Wire Wire Line
+	850  3200 850  3550
+Wire Wire Line
+	1250 3200 1250 3550
+Wire Wire Line
+	1150 3200 1150 3650
+Connection ~ 3200 9750
+Connection ~ 3300 9600
+Connection ~ 2900 9600
+Wire Wire Line
+	3000 9600 2900 9600
+Connection ~ 2900 9750
+Wire Wire Line
+	3100 9450 3100 9350
+Wire Wire Line
+	2900 9450 3100 9450
+Wire Wire Line
+	2900 9450 2900 9900
+Wire Wire Line
+	3400 9350 3400 9900
+Wire Wire Line
+	2350 9350 2350 9900
+Connection ~ 1850 9800
+Connection ~ 2150 9800
+Connection ~ 2250 9600
+Connection ~ 1850 9600
+Wire Wire Line
+	1950 9600 1850 9600
+Wire Wire Line
+	2050 9450 2050 9350
+Wire Wire Line
+	1850 9450 2050 9450
+Wire Wire Line
+	1850 9450 1850 9900
+Wire Notes Line
+	4100 8000 11600 8000
+Wire Notes Line
+	4100 8000 4100 11050
+Wire Notes Line
+	4100 8900 1700 8900
+Wire Notes Line
+	1700 11050 11600 11050
+Wire Notes Line
+	1700 8900 1700 11050
+Wire Notes Line
+	11600 11050 11600 8000
+Connection ~ 4750 10300
+Wire Wire Line
+	4750 10200 4750 10600
+Wire Wire Line
+	4500 10300 4750 10300
+Wire Wire Line
+	4500 10200 4500 10300
+Connection ~ 4750 9800
+Wire Wire Line
+	4500 9900 4500 9800
+Wire Wire Line
+	4750 9800 4750 9900
+Wire Wire Line
+	4750 9400 4850 9400
+Connection ~ 4750 9400
+Wire Wire Line
+	4750 9000 4750 9500
+Wire Wire Line
+	10150 9800 10150 9650
+Connection ~ 10150 9800
+Wire Wire Line
+	4500 9800 10150 9800
+Connection ~ 8450 9800
+Wire Wire Line
+	8450 9800 8450 9600
+Connection ~ 6750 9800
+Wire Wire Line
+	6750 9800 6750 9600
+Connection ~ 5050 9800
+Wire Wire Line
+	5050 9800 5050 9600
+Connection ~ 6850 8900
+Connection ~ 5150 8900
+Connection ~ 8550 8900
+Connection ~ 10250 8950
+Wire Wire Line
+	10350 9950 10350 9650
+Wire Wire Line
+	10350 9950 11250 9950
+Connection ~ 11000 8950
+Wire Wire Line
+	11250 8950 11250 9350
+Connection ~ 10800 9950
+Connection ~ 11000 9950
+Wire Wire Line
+	10800 10350 10800 10950
+Wire Wire Line
+	10800 10050 10800 9950
+Wire Wire Line
+	11200 10650 11200 10550
+Wire Wire Line
+	11000 10400 11000 10350
+Wire Wire Line
+	11050 10400 11000 10400
+Wire Wire Line
+	11250 9950 11250 9650
+Wire Wire Line
+	10250 8950 11250 8950
+Wire Wire Line
+	8650 9900 8650 9600
+Wire Wire Line
+	8650 9900 9550 9900
+Connection ~ 9300 8900
+Wire Wire Line
+	9550 8900 9550 9300
+Connection ~ 9100 9900
+Connection ~ 9300 9900
+Wire Wire Line
+	9100 10300 9100 10900
+Wire Wire Line
+	9100 10000 9100 9900
+Wire Wire Line
+	9500 10600 9500 10500
+Wire Wire Line
+	9300 10350 9300 10300
+Wire Wire Line
+	9350 10350 9300 10350
+Wire Wire Line
+	9550 9900 9550 9600
+Connection ~ 7400 9900
+Connection ~ 7600 9900
+Wire Wire Line
+	7400 10300 7400 10900
+Wire Wire Line
+	7400 10000 7400 9900
+Wire Wire Line
+	7800 10600 7800 10500
+Wire Wire Line
+	7600 10350 7600 10300
+Wire Wire Line
+	7650 10350 7600 10350
+Wire Wire Line
+	5700 10300 5700 10900
+Connection ~ 5700 9900
+Wire Wire Line
+	5700 10000 5700 9900
+Wire Wire Line
+	6100 10600 6100 10500
+Wire Wire Line
+	5900 10350 5900 10300
+Wire Wire Line
+	5950 10350 5900 10350
+Connection ~ 5900 9900
+Connection ~ 5900 8900
+Wire Wire Line
+	6150 8900 6150 9250
+Wire Wire Line
+	6150 9900 6150 9550
+Connection ~ 7600 8900
+Wire Wire Line
+	7850 8900 7850 9250
+Wire Wire Line
+	7850 9900 7850 9550
+Wire Wire Line
+	8550 8350 8550 9000
+Wire Wire Line
+	8550 8900 9550 8900
+Wire Wire Line
+	6850 8350 6850 9000
+Wire Wire Line
+	6850 8900 7850 8900
+Wire Wire Line
+	6950 9900 7850 9900
+Wire Wire Line
+	6950 9600 6950 9900
+Wire Wire Line
+	5150 8350 5150 9000
+Wire Wire Line
+	5150 8900 6150 8900
+Wire Wire Line
+	5250 9900 6150 9900
+Wire Wire Line
+	5250 9600 5250 9900
+Wire Wire Line
+	10250 8400 10250 9050
+Wire Wire Line
+	2250 9350 2250 10600
+Wire Wire Line
+	2150 9350 2150 10600
+Wire Wire Line
+	3300 9350 3300 10600
+Wire Wire Line
+	3200 9350 3200 10600
+Connection ~ 6700 2000
+Connection ~ 5700 2000
+Wire Wire Line
+	5700 1900 5700 2000
+Wire Wire Line
+	6850 2000 6850 2250
+Wire Wire Line
+	6700 2000 6850 2000
+Wire Wire Line
+	6700 1900 6700 2000
+Wire Wire Line
+	7050 1300 7550 1300
+Wire Wire Line
+	7050 1100 7550 1100
+Wire Wire Line
+	6700 1300 6750 1300
+Wire Wire Line
+	6700 1100 6750 1100
+Connection ~ 6200 2200
+Wire Wire Line
+	6200 2200 6200 2350
+Wire Wire Line
+	6700 2200 6700 2100
+Wire Wire Line
+	5700 2200 6700 2200
+Wire Wire Line
+	5700 2100 5700 2200
+Wire Wire Line
+	5550 2000 5550 2250
+Wire Wire Line
+	5700 2000 5550 2000
+Connection ~ 11350 3500
+Wire Wire Line
+	11350 3050 11350 3800
+Wire Wire Line
+	9600 3450 9600 3500
+Wire Wire Line
+	9700 3450 9700 3500
+Wire Wire Line
+	4700 1550 4700 2150
+Wire Wire Line
+	9150 1500 9150 900 
+Wire Wire Line
+	9200 1500 9150 1500
+Connection ~ 8750 900 
+Wire Wire Line
+	8850 900  8750 900 
+Wire Wire Line
+	10250 900  10250 1300
+Wire Wire Line
+	9200 1800 9200 2000
+Wire Wire Line
+	9950 900  9950 1300
+Wire Wire Line
+	10550 1300 10550 900 
+Connection ~ 2300 3400
+Wire Wire Line
+	8950 900  8950 2100
+Wire Wire Line
+	2300 3200 2300 3850
+Wire Wire Line
+	2100 3200 2300 3200
+Wire Wire Line
+	1250 5350 750  5350
+Wire Notes Line
+	15900 5650 15900 5550
+Wire Wire Line
+	1900 2000 1900 2450
+Wire Wire Line
+	2000 2000 2000 2450
+Wire Wire Line
+	2100 2000 2100 2450
+Wire Wire Line
+	2200 2000 2200 2450
+Connection ~ 1400 2300
+Wire Wire Line
+	1400 2100 1400 2500
+Wire Wire Line
+	1200 2100 1400 2100
+Wire Wire Line
+	1200 2000 1200 2100
+Connection ~ 1100 2300
+Wire Wire Line
+	1100 2000 1100 2500
+Wire Wire Line
+	900  2000 900  2300
+Wire Wire Line
+	1000 2000 1000 2300
+Connection ~ 2300 1100
+Connection ~ 4900 1400
+Connection ~ 1350 1150
+Wire Wire Line
+	1350 950  1350 1350
+Wire Wire Line
+	1150 950  1350 950 
+Wire Wire Line
+	1150 850  1150 950 
+Connection ~ 1050 1150
+Wire Wire Line
+	1050 850  1050 1350
+Wire Notes Line
+	15900 5600 15900 2800
+Wire Notes Line
+	15900 2800 9150 2800
+Wire Wire Line
+	10950 4200 11000 4200
+Wire Wire Line
+	9700 3500 10900 3500
+Wire Wire Line
+	13400 900  13400 1950
+Wire Wire Line
+	12150 900  12150 1950
+Wire Wire Line
+	11750 900  11750 2500
+Wire Wire Line
+	11850 900  11850 2500
+Wire Wire Line
+	1250 5950 750  5950
+Wire Wire Line
+	2800 8150 2800 7700
+Wire Wire Line
+	2700 8150 2700 7700
+Wire Wire Line
+	2600 8150 2600 7700
+Wire Wire Line
+	2500 8150 2500 7700
+Wire Wire Line
+	2400 8150 2400 7700
+Wire Wire Line
+	2300 8150 2300 7700
+Connection ~ 1250 6900
+Wire Wire Line
+	1750 6900 1750 6650
+Wire Wire Line
+	1250 6900 1750 6900
+Connection ~ 1750 7700
+Wire Wire Line
+	2000 7700 1750 7700
+Wire Wire Line
+	1750 7200 1750 7800
+Wire Wire Line
+	2000 7200 1750 7200
+Connection ~ 3050 7200
+Wire Wire Line
+	3050 7700 3050 7200
+Wire Wire Line
+	2900 7700 3050 7700
+Wire Wire Line
+	2900 7200 3800 7200
+Wire Wire Line
+	2800 6750 2800 7200
+Wire Wire Line
+	2700 6750 2700 7200
+Wire Wire Line
+	2600 6750 2600 7200
+Wire Wire Line
+	2500 6750 2500 7200
+Wire Wire Line
+	2400 7200 2400 6750
+Connection ~ 12550 9050
+Wire Wire Line
+	14500 7050 15400 7050
+Connection ~ 13600 7450
+Wire Wire Line
+	13600 7050 13600 7450
+Wire Wire Line
+	14200 7050 13600 7050
+Wire Wire Line
+	14200 7850 14200 7950
+Wire Wire Line
+	12400 7950 12400 8050
+Wire Wire Line
+	12950 7950 12400 7950
+Wire Wire Line
+	14400 8900 14400 9050
+Wire Wire Line
+	14200 8900 14400 8900
+Connection ~ 14350 7950
+Wire Wire Line
+	14500 7950 14350 7950
+Wire Wire Line
+	14350 7450 14350 8400
+Connection ~ 13600 8900
+Wire Wire Line
+	13600 8550 13600 8900
+Wire Wire Line
+	13750 8550 13600 8550
+Wire Wire Line
+	13550 8900 13900 8900
+Wire Wire Line
+	12800 8900 12800 8650
+Wire Wire Line
+	12950 8900 12800 8900
+Wire Wire Line
+	13750 8400 12200 8400
+Wire Wire Line
+	12150 9050 12950 9050
+Wire Wire Line
+	12550 8100 12550 9050
+Wire Wire Line
+	12550 8100 12950 8100
+Wire Wire Line
+	12200 7450 13750 7450
+Connection ~ 13700 7950
+Wire Wire Line
+	13550 7950 13900 7950
+Wire Wire Line
+	13700 7600 13700 7950
+Wire Wire Line
+	13750 7600 13700 7600
+Wire Wire Line
+	8850 6250 8850 5950
+Wire Wire Line
+	8350 5950 8250 5950
+Wire Wire Line
+	8150 5950 8150 6450
+Wire Wire Line
+	1250 5850 750  5850
+Wire Wire Line
+	1250 5150 750  5150
+Connection ~ 5100 6500
+Wire Wire Line
+	5200 6500 5100 6500
+Wire Wire Line
+	5100 6000 5100 6700
+Wire Wire Line
+	5200 6000 5100 6000
+Connection ~ 4900 5800
+Wire Wire Line
+	4900 5800 5200 5800
+Wire Wire Line
+	1250 4850 750  4850
+Wire Wire Line
+	8450 5950 8450 6450
+Wire Wire Line
+	8550 5950 8550 6450
+Wire Wire Line
+	8650 5950 8650 6450
+Wire Wire Line
+	8750 5950 8750 6450
+Wire Wire Line
+	4900 5350 4900 5250
+Wire Wire Line
+	1450 3200 1450 3850
+Wire Wire Line
+	950  3200 950  3650
+Wire Wire Line
+	1750 6050 2250 6050
+Wire Wire Line
+	1750 4950 2250 4950
+Wire Wire Line
+	4900 5650 4900 6300
+Wire Wire Line
+	4900 6300 5200 6300
+Wire Wire Line
+	11750 3500 11950 3500
+Wire Wire Line
+	7950 900  7950 1250
+Connection ~ 13900 3500
+Wire Wire Line
+	13900 3650 13900 3500
+Wire Wire Line
+	13900 3750 14300 3750
+Wire Wire Line
+	13500 4800 13500 5050
+Wire Wire Line
+	12350 3800 12350 4050
+Wire Wire Line
+	3650 5750 4100 5750
+Connection ~ 11350 4200
+Wire Wire Line
+	11300 4200 11350 4200
+Wire Wire Line
+	1050 3200 1050 3550
+Wire Wire Line
+	750  3200 750  3650
+Wire Wire Line
+	7850 900  7850 1250
+Wire Wire Line
+	8150 900  8150 1150
+Wire Wire Line
+	8050 900  8050 1150
+Wire Wire Line
+	10650 900  10650 1300
+Wire Wire Line
+	3650 5850 4100 5850
+Wire Wire Line
+	3150 5850 2750 5850
+Wire Wire Line
+	3150 5950 2750 5950
+Wire Wire Line
+	1250 6450 750  6450
+Wire Wire Line
+	1750 6450 2250 6450
+Wire Wire Line
+	3650 5450 4100 5450
+Wire Wire Line
+	1250 6250 750  6250
+Wire Wire Line
+	1750 6250 2250 6250
+Wire Wire Line
+	1750 6150 2250 6150
+Wire Wire Line
+	1250 6150 750  6150
+Connection ~ 11300 1100
+Wire Wire Line
+	11300 950  11300 1400
+Connection ~ 12550 1100
+Wire Wire Line
+	12550 950  12550 1400
+Connection ~ 12900 1100
+Wire Wire Line
+	12900 1100 12850 1100
+Connection ~ 13000 950 
+Wire Wire Line
+	12850 950  13000 950 
+Wire Wire Line
+	13400 1800 13200 1800
+Wire Wire Line
+	13400 1700 13300 1700
+Wire Wire Line
+	13200 900  13400 900 
+Wire Wire Line
+	11600 1100 11650 1100
+Wire Wire Line
+	11750 950  11600 950 
+Connection ~ 13400 1600
+Connection ~ 13100 1600
+Connection ~ 13400 1800
+Connection ~ 13400 1700
+Connection ~ 12900 1800
+Wire Wire Line
+	12150 1800 11950 1800
+Wire Wire Line
+	12150 1700 12050 1700
+Wire Wire Line
+	14250 900  14250 2350
+Wire Wire Line
+	14050 900  14050 2350
+Wire Wire Line
+	4500 3050 4500 4100
+Wire Wire Line
+	4300 3050 4300 4100
+Connection ~ 5200 1400
+Wire Wire Line
+	5200 1250 5200 1600
+Wire Wire Line
+	5000 1250 5200 1250
+Connection ~ 2600 1100
+Wire Wire Line
+	2400 850  2600 850 
+Wire Wire Line
+	2600 850  2600 1350
+Wire Wire Line
+	1250 4750 1250 4600
+Wire Wire Line
+	1250 4600 2000 4600
+Wire Wire Line
+	1750 4600 1750 4750
+Wire Wire Line
+	3150 6650 3150 6900
+Wire Wire Line
+	3150 6900 3800 6900
+Wire Wire Line
+	3650 6650 3650 6900
+Connection ~ 3650 6900
+Wire Wire Line
+	1250 6650 1250 7200
+Wire Wire Line
+	3850 2200 3900 2200
+Wire Wire Line
+	3900 2200 3900 2350
+Wire Wire Line
+	3850 2000 4200 2000
+Wire Wire Line
+	4200 2000 4200 2350
+Wire Wire Line
+	3850 2100 4100 2100
+Wire Wire Line
+	3000 2000 3350 2000
+Wire Wire Line
+	850  850  850  1150
+Wire Wire Line
+	950  850  950  1150
+Wire Wire Line
+	3150 4950 2750 4950
+Wire Wire Line
+	3150 4850 2750 4850
+Wire Wire Line
+	3150 4750 2750 4750
+Wire Wire Line
+	3650 4950 4300 4950
+Wire Wire Line
+	3650 4850 4050 4850
+Wire Wire Line
+	3650 4750 4300 4750
+Wire Wire Line
+	3350 2100 3000 2100
+Wire Wire Line
+	3350 2200 3000 2200
+Connection ~ 1750 4600
+Wire Wire Line
+	1250 5550 750  5550
+Wire Wire Line
+	1750 5550 2250 5550
+Wire Wire Line
+	1900 850  1900 1300
+Wire Wire Line
+	2000 850  2000 1300
+Wire Wire Line
+	2100 850  2100 1300
+Wire Wire Line
+	2200 850  2200 1300
+Wire Wire Line
+	1250 6050 750  6050
+Wire Wire Line
+	1750 5950 2250 5950
+Wire Wire Line
+	550  5650 1250 5650
+Wire Wire Line
+	4900 1250 4900 1750
+Wire Wire Line
+	4600 1550 4600 2150
+Wire Wire Line
+	8750 900  8750 1450
+Wire Wire Line
+	9050 900  9050 1650
+Wire Wire Line
+	9250 900  9250 1300
+Wire Wire Line
+	9350 900  9350 1300
+Wire Wire Line
+	9450 900  9450 1300
+Wire Wire Line
+	9550 900  9550 1300
+Wire Wire Line
+	9650 900  9650 1300
+Wire Wire Line
+	9750 900  9750 1300
+Wire Wire Line
+	9850 900  9850 1300
+Wire Wire Line
+	10050 900  10050 1300
+Wire Wire Line
+	10150 900  10150 1300
+Wire Wire Line
+	10350 900  10350 1300
+Wire Wire Line
+	3650 5050 4100 5050
+Wire Wire Line
+	3150 5150 2750 5150
+Wire Wire Line
+	3650 5150 4100 5150
+Wire Wire Line
+	3650 5250 4100 5250
+Wire Wire Line
+	3150 5250 2750 5250
+Wire Wire Line
+	3150 5350 2750 5350
+Wire Wire Line
+	3650 5350 4100 5350
+Wire Wire Line
+	3150 5450 2750 5450
+Wire Wire Line
+	10450 1900 10450 2300
+Wire Wire Line
+	3650 6050 4100 6050
+Wire Wire Line
+	3150 6150 2750 6150
+Wire Wire Line
+	3150 6050 2750 6050
+Wire Wire Line
+	3650 5950 4100 5950
+Wire Wire Line
+	2650 6550 3150 6550
+Wire Wire Line
+	2650 6450 3150 6450
+Wire Wire Line
+	2650 6350 3150 6350
+Wire Wire Line
+	2650 6250 3150 6250
+Wire Wire Line
+	3650 6450 4150 6450
+Wire Wire Line
+	3650 6350 4150 6350
+Wire Wire Line
+	3650 6250 4150 6250
+Wire Wire Line
+	3650 6150 4150 6150
+Connection ~ 12150 1800
+Connection ~ 12150 1700
+Wire Wire Line
+	13000 900  13000 2500
+Wire Wire Line
+	13100 900  13100 2500
+Connection ~ 12150 1600
+Wire Wire Line
+	11650 900  11650 2500
+Wire Wire Line
+	12900 900  12900 2500
+Connection ~ 11650 1800
+Connection ~ 11750 1700
+Connection ~ 11850 1600
+Connection ~ 13000 1700
+Connection ~ 11650 1100
+Connection ~ 11750 950 
+Wire Wire Line
+	12150 900  11950 900 
+Wire Wire Line
+	1250 5450 750  5450
+Wire Wire Line
+	1750 5450 2250 5450
+Wire Wire Line
+	1250 5250 750  5250
+Wire Wire Line
+	1750 5250 2250 5250
+Wire Wire Line
+	1250 5050 750  5050
+Wire Wire Line
+	1750 5050 2250 5050
+Wire Wire Line
+	1250 6350 750  6350
+Wire Wire Line
+	1750 6350 2250 6350
+Wire Wire Line
+	2300 850  2300 1350
+Wire Notes Line
+	7600 6950 7600 5000
+Wire Wire Line
+	7000 5650 7000 5750
+Wire Wire Line
+	7000 5750 7050 5750
+Wire Wire Line
+	6800 5650 6950 5850
+Wire Wire Line
+	6950 5850 7050 5850
+Wire Wire Line
+	7000 6550 7000 6450
+Wire Wire Line
+	7000 6450 7050 6450
+Wire Wire Line
+	6950 6350 7050 6350
+Wire Wire Line
+	6950 6350 6800 6550
+Wire Wire Line
+	7050 5950 5850 5950
+Wire Wire Line
+	5850 5950 5800 6000
+Wire Wire Line
+	7050 6050 6600 6050
+Wire Wire Line
+	6000 5800 5800 5800
+Wire Wire Line
+	5800 6500 6000 6500
+Wire Wire Line
+	6600 6250 7050 6250
+Wire Wire Line
+	5800 6300 5950 6150
+Wire Wire Line
+	5950 6150 7050 6150
+Wire Wire Line
+	13000 4500 13000 3500
+Connection ~ 13000 3500
+Wire Notes Line
+	15900 5650 9150 5600
+Wire Wire Line
+	6700 900  7550 900 
+Wire Wire Line
+	5650 8900 5650 9200
+Connection ~ 5650 8900
+Wire Wire Line
+	5600 10300 5700 10300
+Wire Wire Line
+	5650 9600 5600 9700
+Wire Wire Line
+	5600 9700 5600 10300
+Connection ~ 5700 10300
+Connection ~ 7350 8900
+Wire Wire Line
+	7350 8900 7350 9200
+Wire Wire Line
+	7350 9600 7300 9700
+Wire Wire Line
+	7300 9700 7300 10300
+Wire Wire Line
+	7300 10300 7400 10300
+Connection ~ 7400 10300
+Connection ~ 9050 8900
+Wire Wire Line
+	9050 8900 9050 9200
+Wire Wire Line
+	10750 8950 10750 9250
+Connection ~ 10750 8950
+Wire Wire Line
+	9050 9600 9000 9700
+Wire Wire Line
+	9000 9700 9000 10300
+Wire Wire Line
+	9000 10300 9100 10300
+Wire Wire Line
+	10750 9650 10700 9750
+Wire Wire Line
+	10700 9750 10700 10350
+Wire Wire Line
+	10700 10350 10800 10350
+Connection ~ 10800 10350
+Connection ~ 9100 10300
+Wire Wire Line
+	2000 3200 2000 3450
+Wire Wire Line
+	2000 3750 2000 4050
+Connection ~ 2000 3400
+Wire Wire Line
+	2300 2000 2300 2300
+Wire Wire Line
+	2400 2000 2400 2150
+Wire Wire Line
+	14150 900  14150 2350
+Wire Wire Line
+	14350 900  14350 2350
+Wire Wire Line
+	4400 3050 4400 4100
+Wire Wire Line
+	4600 3050 4600 4100
+Wire Wire Line
+	4700 3050 4700 4100
+Wire Wire Line
+	4800 3050 4800 4100
+Wire Wire Line
+	4900 3050 4900 4100
+Wire Wire Line
+	5000 3050 5000 4100
+Wire Wire Line
+	5100 3050 5100 3900
+Wire Wire Line
+	5200 3050 5200 3700
+Wire Wire Line
+	6650 3050 6650 4100
+Wire Wire Line
+	6750 3050 6750 4100
+Wire Wire Line
+	6850 3050 6850 4100
+Wire Wire Line
+	6950 3050 6950 4100
+Wire Wire Line
+	7050 3050 7050 4100
+Wire Wire Line
+	7150 3050 7150 4100
+Wire Wire Line
+	7250 3050 7250 4100
+Wire Wire Line
+	7350 3050 7350 4100
+Wire Wire Line
+	7450 3050 7450 3950
+Wire Wire Line
+	7550 3050 7550 3800
+Wire Wire Line
+	13850 900  13850 1750
+Wire Wire Line
+	13950 900  13950 1450
+Wire Wire Line
+	14450 900  14450 2350
+Wire Wire Line
+	14550 900  14550 2350
+Wire Wire Line
+	5900 8900 5900 9000
+Wire Wire Line
+	5750 9150 5750 8900
+Connection ~ 5750 8900
+Wire Wire Line
+	5900 9300 5900 9450
+Wire Wire Line
+	5900 9750 5900 10000
+Wire Wire Line
+	7600 9300 7600 9450
+Wire Wire Line
+	7600 9750 7600 10000
+Wire Wire Line
+	7600 9000 7600 8900
+Wire Wire Line
+	7450 9150 7450 8900
+Connection ~ 7450 8900
+Wire Wire Line
+	9300 9450 9300 9300
+Wire Wire Line
+	9300 9000 9300 8900
+Wire Wire Line
+	9150 9150 9150 8900
+Connection ~ 9150 8900
+Wire Wire Line
+	9300 9750 9300 10000
+Wire Wire Line
+	11000 9850 11000 10050
+Wire Wire Line
+	11000 9550 11000 9350
+Wire Wire Line
+	11000 9050 11000 8950
+Wire Wire Line
+	10850 9200 10850 8950
+Connection ~ 10850 8950
+$Comp
+L POT-RESCUE-Mega_2560_core_mini_full_2.0 RV6
+U 1 1 593776DD
+P 10450 1750
+F 0 "RV6" V 10275 1750 50  0000 C CNN
+F 1 "120" V 10350 1750 50  0000 C CNN
+F 2 "Potentiometers:Potentiometer_Trimmer_Bourns_3266W" H 10450 1750 50  0001 C CNN
+F 3 "" H 10450 1750 50  0000 C CNN
+	1    10450 1750
+	-1   0    0    1   
+$EndComp
+NoConn ~ 10450 1600
+Wire Wire Line
+	10450 1450 10450 900 
+Wire Wire Line
+	10450 1450 10300 1450
+Wire Wire Line
+	10300 1450 10300 1750
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C4
+U 1 1 593C2136
+P 4450 9250
+F 0 "C4" H 4475 9350 50  0000 L CNN
+F 1 "100nF" H 4475 9150 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 4488 9100 50  0001 C CNN
+F 3 "" H 4450 9250 50  0000 C CNN
+	1    4450 9250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4450 9100 4450 9050
+Wire Wire Line
+	4450 9050 4750 9050
+Connection ~ 4750 9050
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR31
+U 1 1 593C3872
+P 4450 9500
+F 0 "#PWR31" H 4450 9250 50  0001 C CNN
+F 1 "GND" H 4450 9300 50  0000 C CNN
+F 2 "" H 4450 9500 50  0000 C CNN
+F 3 "" H 4450 9500 50  0000 C CNN
+	1    4450 9500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4450 9500 4450 9400
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C6
+U 1 1 593DDC8A
+P 14700 8850
+F 0 "C6" H 14725 8950 50  0000 L CNN
+F 1 "100nF" H 14725 8750 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 14738 8700 50  0001 C CNN
+F 3 "" H 14700 8850 50  0000 C CNN
+	1    14700 8850
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR92
+U 1 1 593E19A4
+P 14700 8650
+F 0 "#PWR92" H 14700 8500 50  0001 C CNN
+F 1 "VCC" H 14700 8800 50  0000 C CNN
+F 2 "" H 14700 8650 50  0000 C CNN
+F 3 "" H 14700 8650 50  0000 C CNN
+	1    14700 8650
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR93
+U 1 1 593E1AF9
+P 14700 9050
+F 0 "#PWR93" H 14700 8800 50  0001 C CNN
+F 1 "GND" H 14700 8900 50  0000 C CNN
+F 2 "" H 14700 9050 50  0000 C CNN
+F 3 "" H 14700 9050 50  0000 C CNN
+	1    14700 9050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	14700 8700 14700 8650
+Wire Wire Line
+	14700 9050 14700 9000
+Wire Wire Line
+	11850 3550 11850 3500
+Connection ~ 11850 3500
+Wire Wire Line
+	11850 3900 11850 3850
+Wire Wire Line
+	12800 3850 12800 3900
+Wire Wire Line
+	12800 3550 12800 3500
+Connection ~ 12800 3500
+NoConn ~ 11000 3700
+NoConn ~ 10900 3700
+$Comp
+L CP1-RESCUE-Mega_2560_core_mini_full_2.0 C7
+U 1 1 593F794B
+P 13200 3700
+F 0 "C7" H 13225 3800 50  0000 L CNN
+F 1 "47µF" H 13225 3600 50  0000 L CNN
+F 2 "Capacitors_SMD:CP_Elec_6.3x5.3" H 13200 3700 50  0001 C CNN
+F 3 "" H 13200 3700 50  0000 C CNN
+	1    13200 3700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	13200 3550 13200 3500
+Connection ~ 13200 3500
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR81
+U 1 1 593F876D
+P 13200 3950
+F 0 "#PWR81" H 13200 3700 50  0001 C CNN
+F 1 "GND" H 13200 3800 50  0000 C CNN
+F 2 "" H 13200 3950 50  0000 C CNN
+F 3 "" H 13200 3950 50  0000 C CNN
+	1    13200 3950
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	13200 3950 13200 3850
+$Comp
+L CP1-RESCUE-Mega_2560_core_mini_full_2.0 C8
+U 1 1 593F8B53
+P 14300 4800
+F 0 "C8" H 14325 4900 50  0000 L CNN
+F 1 "47µF" H 14325 4700 50  0000 L CNN
+F 2 "Capacitors_SMD:CP_Elec_6.3x5.3" H 14300 4800 50  0001 C CNN
+F 3 "" H 14300 4800 50  0000 C CNN
+	1    14300 4800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	14300 4650 14300 4500
+Wire Wire Line
+	14300 4500 13900 4500
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR90
+U 1 1 593F91DA
+P 14300 5050
+F 0 "#PWR90" H 14300 4800 50  0001 C CNN
+F 1 "GND" H 14300 4850 50  0000 C CNN
+F 2 "" H 14300 5050 50  0000 C CNN
+F 3 "" H 14300 5050 50  0000 C CNN
+	1    14300 5050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	14300 5050 14300 4950
+Wire Notes Line
+	8150 5750 8150 5300
+Wire Notes Line
+	8150 5300 8250 5300
+Wire Notes Line
+	8250 5300 8250 5750
+Text Notes 10650 3500 0    60   ~ 0
+Power Switch
+$EndSCHEMATC

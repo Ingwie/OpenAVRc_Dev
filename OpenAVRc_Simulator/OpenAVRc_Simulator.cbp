@@ -18,8 +18,8 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-mno-ms-bitfields" />
-					<Add option="-DTRANSLATIONS_FR" />
-					<Add option="-DTTS_FR" />
+					<Add option="-DTRANSLATIONS_EN" />
+					<Add option="-DTTS_EN" />
 					<Add option="-DEXTERNALEEPROM" />
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />

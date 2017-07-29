@@ -33,7 +33,7 @@
 
 #include "OpenAVRc.h"
 
-#if defined(FRSKY)
+#if defined(FRSKY) || defined(MULTIPROTOCOL)
 
 void telemetryEnableTx(void)
 {
@@ -108,7 +108,11 @@ void telemetryPortInit()
   RXD_PORT_N(TLM_USART) &= ~(1 << RXD_PORT_PIN_N(TLM_USART)); // disable pullup on RXD pin
 
 #undef BAUD
+#if defined(MULTIMODULE)
+#define BAUD 100000
+#else
 #define BAUD 9600
+#endif
 #include <util/setbaud.h>
 
   UBRRH_N(TLM_USART) = UBRRH_VALUE;
@@ -117,7 +121,12 @@ void telemetryPortInit()
 
   // set 8N1
   UCSRB_N(TLM_USART) = 0 | (0 << RXCIE_N(TLM_USART)) | (0 << TXCIE_N(TLM_USART)) | (0 << UDRIE_N(TLM_USART)) | (0 << RXEN_N(TLM_USART)) | (0 << TXEN_N(TLM_USART)) | (0 << UCSZ2_N(TLM_USART));
+#if defined(MULTIMODULE)
+//  UCSRC_N(TLM_USART) = 0 | (1 << UPM01) | (1 << USBS0)| (1 << UCSZ1_N(TLM_USART)) | (1 << UCSZ0_N(TLM_USART)); // set 2 stop bits, even parity BIT
+UCSR0C = 0x2E;
+#else
   UCSRC_N(TLM_USART) = 0 | (1 << UCSZ1_N(TLM_USART)) | (1 << UCSZ0_N(TLM_USART));
+#endif
 
 
   while (UCSRA_N(TLM_USART) & (1 << RXC_N(TLM_USART))) UDR_N(TLM_USART); // flush receive buffer

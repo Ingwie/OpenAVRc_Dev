@@ -374,7 +374,8 @@ void telemetryReset()
   frskyData.hub.accelY = 100;
   frskyData.hub.temperature1 = -30;
   frskyData.hub.maxTemperature1 = 100;
-
+  
+  frskyData.hub.currentConsumption = 100;
   frskyData.hub.current = 55;
   frskyData.hub.maxCurrent = 65;
 #endif

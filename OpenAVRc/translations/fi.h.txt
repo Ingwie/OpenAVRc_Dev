@@ -149,10 +149,29 @@
   #define TR_DSM2
 #endif
 
+#if defined(MULTIMODULE)
+  #define TR_MMOD                "MultiM"
+  #define LEN_MULTIPROTOCOLS    "\006"
+  #define TR_MULTIPROTOCOLS     "FlySky""Hubsan""FrSky\0""Hisky\0""V2x2\0 ""DSM\0  ""Devo\0 ""YD717\0""KN\0   ""SymaX\0""SLT\0  ""CX10\0 ""CG023\0""Bayang""ESky\0 ""MT99XX""MJXQ\0 ""Shenqi""FY326\0""SFHSS\0""J6 PRO""FQ777\0""Assan\0""Hontai""OLRS\0 ""FS 2A\0""Q2x2\0 ""Walk.\0""Q303\0 ""GW008\0""DM002\0"
+  #define TR_MULTI_CUSTOM       "Custom"
+  #define TR_SUBTYPE            "SubType"
+  #define TR_MULTI_RFTUNE                TR(INDENT "Freq tune",INDENT "RF Freq. fine tune")
+  #define TR_MULTI_TELEMETRY             "Telemetry"
+  #define TR_MULTI_VIDFREQ               TR(INDENT "Vid. freq.", INDENT "Video frequency")
+  #define TR_MULTI_RFPOWER               INDENT "RF Power"
+  #define TR_MULTI_OPTION                TR(INDENT "Option", INDENT "Option value")
+  #define TR_MULTI_AUTOBIND              TR(INDENT "Autobind",INDENT "Bind on powerup")
+  #define TR_MULTI_DSM_AUTODTECT         TR(INDENT "Autodetect", INDENT "Autodetect format")
+  #define TR_MULTI_LOWPOWER              TR(INDENT "Low power", INDENT "Low power mode")
+  #define TR_MULTI_SERVOFREQ             TR(INDENT "Servo rate", INDENT "Servo update rate")
+  #define TR_RECEIVER_NUM        TR(INDENT "RxNum", INDENT "Receiver No.")
+#else
+  #define TR_MMOD
+#endif
 
   #define TR_XPPM              "PPM16\0""PPMsim"
 
-#define TR_VPROTOS             "PPM\0  " TR_XPPM TR_PXX TR_DSM2 "SPIMOD\0"
+#define TR_VPROTOS             "PPM\0  " TR_XPPM TR_PXX TR_DSM2 "SPIMOD" TR_MMOD
 
 #define LEN_POSNEG             "\003"
 #define TR_POSNEG              "POS""NEG"

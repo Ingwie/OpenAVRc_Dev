@@ -101,7 +101,12 @@ extern const pm_char STR_OPEN9X[];
 #define OFS_VTRIMINC         (OFS_TRNCHN + sizeof(TR_TRNCHN))
 #define OFS_RETA123          (OFS_VTRIMINC + sizeof(TR_VTRIMINC))
 #define OFS_VPROTOS            (OFS_RETA123 + sizeof(TR_RETA123))
-#define OFS_POSNEG             (OFS_VPROTOS + sizeof(TR_VPROTOS))
+#if defined(MULTIMODULE)
+  #define OFS_MULTIPROTOCOLS   (OFS_VPROTOS + sizeof(TR_VPROTOS))
+  #define OFS_POSNEG           (OFS_MULTIPROTOCOLS + sizeof(TR_MULTIPROTOCOLS))
+#else
+  #define OFS_POSNEG           (OFS_VPROTOS + sizeof(TR_VPROTOS))
+#endif
 #define OFS_VBLMODE          (OFS_POSNEG + sizeof(TR_POSNEG))
 #define OFS_VCURVEFUNC         (OFS_VBLMODE + sizeof(TR_VBLMODE))
 #define OFS_VMLTPX             (OFS_VCURVEFUNC + sizeof(TR_VCURVEFUNC))
@@ -179,6 +184,9 @@ extern const pm_char STR_OPEN9X[];
 #define STR_VDISPLAYTRIMS       (STR_OPEN9X + OFS_VDISPLAYTRIMS)
 #define STR_RETA123             (STR_OPEN9X + OFS_RETA123)
 #define STR_VPROTOS             (STR_OPEN9X + OFS_VPROTOS)
+#if defined(MULTIMODULE)
+  #define STR_MULTIPROTOCOLS    (STR_OPEN9X + OFS_MULTIPROTOCOLS)
+#endif
 #define STR_POSNEG              (STR_OPEN9X + OFS_POSNEG)
 #define STR_VBLMODE             (STR_OPEN9X + OFS_VBLMODE)
 #define STR_VCURVEFUNC          (STR_OPEN9X + OFS_VCURVEFUNC)
@@ -191,7 +199,9 @@ extern const pm_char STR_OPEN9X[];
 #define STR_VFSWFUNC            (STR_OPEN9X + OFS_VFSWFUNC)
 #define STR_VFSWRESET           (STR_OPEN9X + OFS_VFSWRESET)
 #define STR_FUNCSOUNDS          (STR_OPEN9X + OFS_FUNCSOUNDS)
+
 #define STR_VTELEMCHNS          (STR_OPEN9X + OFS_VTELEMCHNS)
+
 
 #if defined(FRSKY)
 #define STR_VTELEMUNIT      (STR_OPEN9X + OFS_VTELEMUNIT)
@@ -446,6 +456,21 @@ extern const pm_char STR_GF[];
 
 extern const pm_char STR_FAS_OFFSET[];
 
+#if defined(MULTIMODULE)
+extern const pm_char STR_MULTI_CUSTOM[];
+extern const pm_char STR_SUBTYPE[];
+extern const pm_char STR_MULTI_VIDFREQ[];
+extern const pm_char STR_MULTI_RFTUNE[];
+extern const pm_char STR_MULTI_TELEMETRY[];
+extern const pm_char STR_MULTI_RFPOWER[];
+extern const pm_char STR_MULTI_SERVOFREQ[];
+extern const pm_char STR_MULTI_OPTION[];
+extern const pm_char STR_MULTI_DSM_AUTODTECT[];
+extern const pm_char STR_MULTI_AUTOBIND[];
+extern const pm_char STR_MULTI_LOWPOWER[];
+extern const pm_char STR_RECEIVER_NUM[];
+#endif
+
 #if defined(DSM2) || defined(PXX)
 extern const pm_char STR_RXNUM[];
 #endif
@@ -505,6 +530,7 @@ extern const pm_char STR_RESET_TIMER2[];
 extern const pm_char STR_RESET_TIMER3[];
 extern const pm_char STR_RESET_TELEMETRY[];
 extern const pm_char STR_STATISTICS[];
+extern const pm_char STR_SAVE_TIMERS[];
 #endif
 
 extern const pm_char STR_RESET_BTN[];
@@ -535,14 +561,6 @@ extern const pm_char STR_KEYSTUCK[];
 
 extern const pm_char STR_SPEAKER_VOLUME[];
 extern const pm_char STR_LCD[];
-/*extern const pm_char STR_BRIGHTNESS[];
-extern const pm_char STR_CPU_TEMP[];
-extern const pm_char STR_CPU_CURRENT[];
-extern const pm_char STR_CPU_MAH[];
-extern const pm_char STR_COPROC[];
-extern const pm_char STR_COPROC_TEMP[];
-extern const pm_char STR_CAPAWARNING[];
-extern const pm_char STR_TEMPWARNING[];*/
 extern const pm_char STR_FUNC[];
 extern const pm_char STR_V1[];
 extern const pm_char STR_V2[];
@@ -623,10 +641,11 @@ extern const pm_char STR_UNLOCKED[];
 extern const pm_char STR_MODS_FORBIDDEN[];
 #endif
 
-#if defined(DSM2) || defined(SPIMODULES)
+#if defined(DSM2) || defined(SPIMODULES) || defined(MULTIMODULE)
 extern const pm_char STR_MODULE_RANGE[];
 extern const pm_char STR_MODULE_BIND[];
 #endif
+
 
 #if defined(MAVLINK)
 extern const pm_char STR_MAVLINK_RC_RSSI_SCALE_LABEL[];

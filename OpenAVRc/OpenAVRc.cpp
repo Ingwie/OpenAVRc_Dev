@@ -942,6 +942,7 @@ uint16_t anaIn(uint8_t chan)
 }
 
 uint8_t g_vbat100mV = 0;
+uint16_t g_vbat10mV = 0;
 uint16_t lightOffCounter;
 uint8_t flashCounter = 0;
 
@@ -1117,7 +1118,7 @@ void doMixerCalculations()
         struct t_inactivity *ptrInactivity = &inactivity;
         FORCE_INDIRECT(ptrInactivity) ;
         ptrInactivity->counter++;
-        if ((((uint8_t)ptrInactivity->counter)&0x07)==0x01 && g_eeGeneral.inactivityTimer && g_vbat100mV>50 && ptrInactivity->counter > ((uint16_t)g_eeGeneral.inactivityTimer*60))
+        if ((((uint8_t)ptrInactivity->counter)&0x07)==0x01 && g_eeGeneral.inactivityTimer && g_vbat100mV>40 && ptrInactivity->counter > ((uint16_t)g_eeGeneral.inactivityTimer*60))
           AUDIO_INACTIVITY();
 
 #if defined(AUDIO)
@@ -1241,6 +1242,7 @@ void checkBattery()
   // TODO not the right menu I think ...
   if (menuHandlers[menuLevel] == menuGeneralDiagAna) {
     g_vbat100mV = 0;
+    g_vbat10mV = 0;
     counter = 0;
   }
 #endif
@@ -1256,7 +1258,6 @@ void checkBattery()
 #elif defined(CPUM2560)
     instant_vbat = (instant_vbat*1112 + instant_vbat*g_eeGeneral.txVoltageCalibration + (BandGap<<2)) / (BandGap<<3);
 #endif
-
     static uint8_t  s_batCheck;
     static uint16_t s_batSum;
 
@@ -1270,6 +1271,7 @@ void checkBattery()
 
     if (g_vbat100mV == 0) {
       g_vbat100mV = instant_vbat;
+	  g_vbat10mV = instant_vbat *10;
       s_batSum = 0;
       s_batCheck = 0;
     }
@@ -1279,13 +1281,14 @@ void checkBattery()
     else if (s_batCheck == 0) {
 #endif
       g_vbat100mV = s_batSum / 8;
+	  g_vbat10mV = s_batSum *10 / 8;
       s_batSum = 0;
 #if defined(VOICE)
       if (s_batCheck != 0) {
         // no alarms
       } else
 #endif
-        if (IS_TXBATT_WARNING() && g_vbat100mV>50) { // No Audio Alarm if TX Battery < VCC.
+        if (IS_TXBATT_WARNING() && g_vbat100mV>40) { // No Audio Alarm if TX Battery < VCC.
           AUDIO_TX_BATTERY_LOW();
         }
     }
@@ -1340,6 +1343,10 @@ ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
   SIMU_PROCESSEVENTS;
 
   per10ms();
+#if defined(MULTIMODULE)
+  if(IS_MULTIMODULE_PROTOCOL(g_model.protocol))
+     setupPulsesMultimodule();
+#endif
 
   TIMER_10MS_COMPVAL += (++accuracyWarble & 0x03) ? 156 : 157; // Clock correction
 }
@@ -1359,7 +1366,7 @@ FORCEINLINE void DSM2_USART_vect()
 
 #if !defined(SIMU)
 
-#if defined (FRSKY)
+#if defined (FRSKY) || defined (MULTIPROTOCOL)
 
 FORCEINLINE void FRSKY_USART_vect()
 {
@@ -1574,7 +1581,9 @@ void OpenAVRcInit(OpenAVRc_INIT_ARGS)
 
   doMixerCalculations();
 
+#if defined(SPIMODULES)
   startPulses(PROTOCMD_INIT);
+#endif
 
 #if !defined(SIMU)
   wdt_enable(WDTO_500MS); // Enable watchdog

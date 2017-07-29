@@ -56,6 +56,7 @@
 #ifndef PACK
 #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
 #endif
+//#define NOBACKUP(...)                __VA_ARGS__
 
 #define NUM_STICKS           4
 
@@ -959,6 +960,9 @@ enum Protocols {
   PROTO_DSM2_DSMX,
 #endif
   PROTO_SPIMODULE,
+#if defined(MULTIMODULE)
+  PROTO_MULTIMODULE,
+#endif
   PROTO_MAX,
   PROTO_NONE
 };
@@ -988,6 +992,9 @@ enum ModuleTypes {
   MODULE_TYPE_DSM2,
 #endif
   MODULE_TYPE_SPIMODULE,
+#if defined(MULTIMODULE)
+  MODULE_TYPE_MULTIMODULE,
+#endif
   MODULE_TYPE_COUNT
 };
 
@@ -1040,10 +1047,76 @@ enum DisplayTrims {
   DISPLAY_TRIMS_ALWAYS
 };
 
+#if defined(MULTIMODULE)
+enum MultiModuleRFProtocols {
+  MM_RF_PROTO_CUSTOM = -1,
+  MM_RF_PROTO_FIRST = MM_RF_PROTO_CUSTOM,
+  MM_RF_PROTO_FLYSKY=0,
+  MM_RF_PROTO_HUBSAN,
+  MM_RF_PROTO_FRSKY,
+  MM_RF_PROTO_HISKY,
+  MM_RF_PROTO_V2X2,
+  MM_RF_PROTO_DSM2,
+  MM_RF_PROTO_DEVO,
+  MM_RF_PROTO_YD717,
+  MM_RF_PROTO_KN,
+  MM_RF_PROTO_SYMAX,
+  MM_RF_PROTO_SLT,
+  MM_RF_PROTO_CX10,
+  MM_RF_PROTO_CG023,
+  MM_RF_PROTO_BAYANG,
+  MM_RF_PROTO_ESky,
+  MM_RF_PROTO_MT99XX,
+  MM_RF_PROTO_MJXQ,
+  MM_RF_PROTO_SHENQI,
+  MM_RF_PROTO_FY326,
+  MM_RF_PROTO_SFHSS,
+  MM_RF_PROTO_J6PRO,
+  MM_RF_PROTO_FQ777,
+  MM_RF_PROTO_ASSAN,
+  MM_RF_PROTO_HONTAI,
+  MM_RF_PROTO_OLRS,
+  MM_RF_PROTO_FS_AFHDS2A,
+  MM_RF_PROTO_Q2X2,
+  MM_RF_PROTO_WK_2X01,
+  MM_RF_PROTO_Q303,
+  MM_RF_PROTO_GW008,
+  MM_RF_PROTO_DM002,
+  MM_RF_PROTO_LAST= MM_RF_PROTO_DM002
+};
+enum MMDSM2Subtypes {
+  MM_RF_DSM2_SUBTYPE_DSM2_22,
+  MM_RF_DSM2_SUBTYPE_DSM2_11,
+  MM_RF_DSM2_SUBTYPE_DSMX_22,
+  MM_RF_DSM2_SUBTYPE_DSMX_11,
+  MM_RF_DSM2_SUBTYPE_AUTO
+};
+
+enum MMRFrskySubtypes {
+  MM_RF_FRSKY_SUBTYPE_D16,
+  MM_RF_FRSKY_SUBTYPE_D8,
+  MM_RF_FRSKY_SUBTYPE_D16_8CH,
+  MM_RF_FRSKY_SUBTYPE_V8,
+  MM_RF_FRSKY_SUBTYPE_D16_LBT,
+  MM_RF_FRSKY_SUBTYPE_D16_LBT_8CH
+};
+
+PACK(typedef struct {
+  uint8_t type:4;
+  int8_t  rfProtocol:6;
+  uint8_t rxnum:4;
+  uint8_t customProto:1;
+  uint8_t autoBindMode:1;
+  uint8_t lowPowerMode:1;
+  int8_t optionValue;
+  uint8_t subType:3;
+}) ModuleDataData;
+#endif
+
 PACK(typedef struct {
   ModelHeader header;
   TimerData timers[MAX_TIMERS];
-  uint8_t   protocol:3;
+  uint8_t   protocol:(PROTO_MAX > 8)?4:3;  // compatibility with old EEPROM structure (if not all protocols are used)
   uint8_t   thrTrim:1;            // Enable Throttle Trim
   int8_t    ppmNCH:4;
   int8_t    trimInc:3;            // Trim Increments
@@ -1077,7 +1150,12 @@ PACK(typedef struct {
 
   TELEMETRY_DATA
 
+  #if defined(MULTIMODULE)
+  ModuleDataData moduleData;
+  #endif
+
 }) ModelData;
+
 
 extern EEGeneral g_eeGeneral;
 extern ModelData g_model;
