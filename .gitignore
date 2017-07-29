@@ -9,6 +9,8 @@ OpenAVRc/OpenAVRc.map
 *.res
 OpenAVRc_Simulator\obj\
 OpenAVRc_Desktop\obj\
-OpenAVRc_Simulator\bin\
-OpenAVRc_Desktop\bin\
+OpenAVRc_Simulator\bin\Debug\*.exe
+OpenAVRc_Simulator\bin\Release\*.exe
+OpenAVRc_Desktop\bin\Debug\*.exe
+OpenAVRc_Desktop\bin\Release\*.exe
 
