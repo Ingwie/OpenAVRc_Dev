@@ -267,7 +267,42 @@ void frskyRFProcessPacket(uint8_t *packet)
 
   link_counter += 256 / FRSKY_D_AVERAGING;
 }
-
+void parseTelemMMsmartData(uint16_t SP_id, uint32_t SP_data, uint8_t SP_data8) {
+	switch (SP_id) {
+		case CURR_FIRST_ID:
+			frskyData.hub.current = SP_data;
+			if (frskyData.hub.current > frskyData.hub.maxCurrent)
+				frskyData.hub.maxCurrent = frskyData.hub.current;	
+		break;
+		case VFAS_FIRST_ID:
+			frskyData.hub.vfas = SP_data / 10;		
+			if (frskyData.hub.vfas < frskyData.hub.minVfas || frskyData.hub.minVfas == 0)
+				frskyData.hub.minVfas = frskyData.hub.vfas;			
+		break;
+		case FUEL_FIRST_ID:
+			frskyData.hub.currentConsumption = SP_data;		
+			frskyData.hub.fuelLevel = SP_data8;
+		break;
+		case RSSI_ID:
+			frskyData.rssi[0].value = SP_data8;
+			if (frskyData.rssi[0].value < frskyData.rssi[0].min || frskyData.rssi[0].min == 0)
+				frskyData.rssi[0].min = frskyData.rssi[0].value;			
+			frskyData.rssi[1].value = SP_data8;		
+			if (frskyData.rssi[1].value < frskyData.rssi[1].min || frskyData.rssi[1].min == 0)
+				frskyData.rssi[1].min = frskyData.rssi[1].value;			
+		break;
+		case ADC2_ID:
+		
+		break;
+		case BATT_ID:
+		
+		break;
+		case A4_FIRST_ID:
+			frskyData.hub.minCellVolts = SP_data / 10;	
+		break;
+		
+	}
+}
 
 void frskyDProcessPacket(uint8_t *packet)
 {
@@ -288,7 +323,29 @@ void frskyDProcessPacket(uint8_t *packet)
 #endif
     break;
   }
-#if defined(FRSKY_HUB) || defined (WS_HOW_HIGH)
+   case BFSPPKT:
+   case RXSPPKT:
+	{
+	  uint16_t MMSmartPort_id; // = (packet[3] << 8) | packet[2];
+	  uint32_t MMSmartPort_data;
+	  MMSmartPort_id = packet[3];
+	  MMSmartPort_id <<=8;
+	  MMSmartPort_id |=packet[2];
+	  MMSmartPort_data = packet[7];
+	  MMSmartPort_data <<=8;
+	  MMSmartPort_data |= packet[6];
+	  MMSmartPort_data <<=8;
+	  MMSmartPort_data |= packet[5];
+	  MMSmartPort_data <<=8;
+	  MMSmartPort_data |= packet[4];
+	  parseTelemMMsmartData(MMSmartPort_id, MMSmartPort_data, packet[4]);	  
+
+	   frskyStreaming = FRSKY_TIMEOUT10ms; // reset counter only if valid frsky packets are being detected
+       link_counter += 256 / FRSKY_D_AVERAGING;
+	  
+	break;
+	}
+  #if defined(FRSKY_HUB) || defined (WS_HOW_HIGH)
   case USRPKT: // User Data packet
     uint8_t numBytes = 3 + (packet[1] & 0x07); // sanitize in case of data corruption leading to buffer overflow
     for (uint8_t i=3; i<numBytes; i++) {

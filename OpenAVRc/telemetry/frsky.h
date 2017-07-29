@@ -51,6 +51,8 @@
 // Enumerate FrSky packet codes
 #define LINKPKT                   0xfe
 #define USRPKT                    0xfd
+#define BFSPPKT 				  0x1b
+#define RXSPPKT 				  0x98
 #define A11PKT                    0xfc
 #define A12PKT                    0xfb
 #define A21PKT                    0xfa
@@ -59,6 +61,7 @@
 #define RSSI1PKT                  0xf7
 #define RSSI2PKT                  0xf6
 #define RSSI_REQUEST              0xf1
+
 
 
 // FrSky PRIM IDs (1 byte)
@@ -272,7 +275,7 @@ PACK(struct FrskySerialData {
   uint16_t maxAirSpeed;
   int16_t  minCell;
   int16_t  minCells;
-  int16_t  minVfas;
+  uint16_t minVfas;
   uint16_t maxCurrent;
   uint16_t maxPower;
   /* end */

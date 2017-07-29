@@ -1116,7 +1116,7 @@ PACK(typedef struct {
 PACK(typedef struct {
   ModelHeader header;
   TimerData timers[MAX_TIMERS];
-  uint8_t   protocol:4;
+  uint8_t   protocol:(PROTO_MAX > 8)?4:3;  // compatibility with old EEPROM structure (if not all protocols are used)
   uint8_t   thrTrim:1;            // Enable Throttle Trim
   int8_t    ppmNCH:4;
   int8_t    trimInc:3;            // Trim Increments
@@ -1146,12 +1146,13 @@ PACK(typedef struct {
   swarnstate_t  switchWarningState;
   swarnenable_t switchWarningEnable;
 
-  #if defined(MULTIMODULE)
-  ModuleDataData moduleData;
-  #endif
   MODEL_GVARS_DATA
 
   TELEMETRY_DATA
+
+  #if defined(MULTIMODULE)
+  ModuleDataData moduleData;
+  #endif
 
 }) ModelData;
 
