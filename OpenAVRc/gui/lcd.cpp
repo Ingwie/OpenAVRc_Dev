@@ -353,17 +353,16 @@ void putsTimer(coord_t x, coord_t y, putstime_t tme, LcdFlags att, LcdFlags att2
 // TODO to be optimized with lcdPutsValueWithUnit
 void lcdPutsVolts(coord_t x, coord_t y, uint16_t volts, LcdFlags att)
 {
-//  lcdDrawNumberAttUnit(x, y, (int16_t)volts, (~NO_UNIT) & (att | ((att&PREC2)==PREC2 ? 0 : PREC1)));
   lcdDrawNumberAttUnit(x, y, (int16_t)volts, (~NO_UNIT) & (att | ((att&PREC2)==PREC2 ? PREC2 : PREC1)));
   if (~att & NO_UNIT) lcdDrawCharAtt(lcdLastPos, y, 'V', att);
 }
 
 void putsVBat(coord_t x, coord_t y, LcdFlags att)
 {
-  if(g_vbat100mV < 100) {
+  if(g_vbat10mV < 1000) {
     lcdPutsVolts(x, y, g_vbat10mV, att | PREC2);
   } else {
-    lcdPutsVolts(x, y, g_vbat100mV, att | PREC1);
+    lcdPutsVolts(x, y, g_vbat10mV/10, att | PREC1);
   }
 }
 

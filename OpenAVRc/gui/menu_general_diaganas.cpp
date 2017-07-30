@@ -36,11 +36,7 @@
 
 void menuGeneralDiagAna(uint8_t event)
 {
-#if defined(TX_CAPACITY_MEASUREMENT)
-#define ANAS_ITEMS_COUNT 4
-#else
 #define ANAS_ITEMS_COUNT 2
-#endif
 
   SIMPLE_MENU(STR_MENUANA, menuTabGeneral, e_Ana, ANAS_ITEMS_COUNT);
 
@@ -68,13 +64,7 @@ void menuGeneralDiagAna(uint8_t event)
   lcdDrawNumberAttUnit(64+5+6*FW-3, 1+4*FH, BandGap, 0);
 
   lcdDrawTextLeft(6*FH-2, STR_BATT_CALIB);
-  lcdPutsVolts(LEN_CALIB_FIELDS*FW+4*FW, 6*FH-2, g_vbat100mV, (menuVerticalPosition==1 ? INVERS : 0));
+  lcdPutsVolts(LEN_CALIB_FIELDS*FW+4*FW, 6*FH-2, g_vbat10mV, (menuVerticalPosition==1 ? INVERS : 0)|PREC2);
   if (menuVerticalPosition==1) CHECK_INCDEC_GENVAR(event, g_eeGeneral.txVoltageCalibration, -127, 127);
-
-#if defined(TX_CAPACITY_MEASUREMENT)
-  lcdDrawTextLeft(6*FH+1, STR_CURRENT_CALIB);
-  lcdPutsValueWithUnit(LEN_CALIB_FIELDS*FW+4*FW, 6*FH+1, getCurrent(), UNIT_MILLIAMPS, (menuVerticalPosition==2 ? INVERS : 0)) ;
-  if (menuVerticalPosition==2) CHECK_INCDEC_GENVAR(event, g_eeGeneral.txCurrentCalibration, -49, 49);
-#endif
 
 }

@@ -74,7 +74,7 @@ void getADC()
 
 void getADC_bandgap()
 {
-#if   defined(PCBMEGA2560)
+#if defined(PCBMEGA2560)
   BandGap = 2000;
 #else
   /*

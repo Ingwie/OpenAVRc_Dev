@@ -941,7 +941,6 @@ uint16_t anaIn(uint8_t chan)
 #endif
 }
 
-uint8_t g_vbat100mV = 0;
 uint16_t g_vbat10mV = 0;
 uint16_t lightOffCounter;
 uint8_t flashCounter = 0;
@@ -1118,7 +1117,7 @@ void doMixerCalculations()
         struct t_inactivity *ptrInactivity = &inactivity;
         FORCE_INDIRECT(ptrInactivity) ;
         ptrInactivity->counter++;
-        if ((((uint8_t)ptrInactivity->counter)&0x07)==0x01 && g_eeGeneral.inactivityTimer && g_vbat100mV>40 && ptrInactivity->counter > ((uint16_t)g_eeGeneral.inactivityTimer*60))
+        if ((((uint8_t)ptrInactivity->counter)&0x07)==0x01 && g_eeGeneral.inactivityTimer && g_vbat10mV>400 && ptrInactivity->counter > ((uint16_t)g_eeGeneral.inactivityTimer*60))
           AUDIO_INACTIVITY();
 
 #if defined(AUDIO)
@@ -1237,11 +1236,10 @@ void OpenAVRcClose()
 
 void checkBattery()
 {
-  static uint8_t counter = 0;
+  static uint8_t counter = 10;
 #if defined(GUI)
   // TODO not the right menu I think ...
   if (menuHandlers[menuLevel] == menuGeneralDiagAna) {
-    g_vbat100mV = 0;
     g_vbat10mV = 0;
     counter = 0;
   }
@@ -1251,12 +1249,12 @@ void checkBattery()
     int32_t instant_vbat = anaIn(TX_VOLTAGE);
 
 #if defined(CPUM2560) && defined(REV_EVO_V1)
-    instant_vbat *= 4L * BandGap;
+    instant_vbat *= 40L * BandGap;
     instant_vbat /= (4095L * 100L);
-    instant_vbat += 2L; // No Calibration Allowed.
+    instant_vbat += 20L; // No Calibration Allowed.
     // Schottky Diode drops 0.2V before a potential divider which reduces the input to the ADC by 1/4.
 #elif defined(CPUM2560)
-    instant_vbat = (instant_vbat*1112 + instant_vbat*g_eeGeneral.txVoltageCalibration + (BandGap<<2)) / (BandGap<<3);
+    instant_vbat = (instant_vbat*1112 + instant_vbat*g_eeGeneral.txVoltageCalibration + (BandGap<<2)) / ((BandGap<<3)/10);
 #endif
     static uint8_t  s_batCheck;
     static uint16_t s_batSum;
@@ -1269,9 +1267,8 @@ void checkBattery()
 
     s_batSum += instant_vbat;
 
-    if (g_vbat100mV == 0) {
-      g_vbat100mV = instant_vbat;
-	  g_vbat10mV = instant_vbat *10;
+    if (g_vbat10mV == 0) {
+	  g_vbat10mV = instant_vbat;
       s_batSum = 0;
       s_batCheck = 0;
     }
@@ -1280,15 +1277,14 @@ void checkBattery()
 #else
     else if (s_batCheck == 0) {
 #endif
-      g_vbat100mV = s_batSum / 8;
-	  g_vbat10mV = s_batSum *10 / 8;
+  	  g_vbat10mV = s_batSum / 8;
       s_batSum = 0;
 #if defined(VOICE)
       if (s_batCheck != 0) {
         // no alarms
       } else
 #endif
-        if (IS_TXBATT_WARNING() && g_vbat100mV>40) { // No Audio Alarm if TX Battery < VCC.
+        if (IS_TXBATT_WARNING() && g_vbat10mV>400) { // No Audio Alarm if TX Battery < VCC.
           AUDIO_TX_BATTERY_LOW();
         }
     }
