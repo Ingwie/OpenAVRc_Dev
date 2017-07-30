@@ -152,22 +152,23 @@
   #define TR_DSM2
 #endif
 
+
 #if defined(MULTIMODULE)
   #define TR_MMOD                "MultiM"
   #define LEN_MULTIPROTOCOLS    "\006"
   #define TR_MULTIPROTOCOLS     "FlySky""Hubsan""FrSky\0""Hisky\0""V2x2\0 ""DSM\0  ""Devo\0 ""YD717\0""KN\0   ""SymaX\0""SLT\0  ""CX10\0 ""CG023\0""Bayang""ESky\0 ""MT99XX""MJXQ\0 ""Shenqi""FY326\0""SFHSS\0""J6 PRO""FQ777\0""Assan\0""Hontai""OLRS\0 ""FS 2A\0""Q2x2\0 ""Walk.\0""Q303\0 ""GW008\0""DM002\0"
   #define TR_MULTI_CUSTOM       "Custom"
   #define TR_SUBTYPE            "SubType"
-  #define TR_MULTI_RFTUNE        TR(INDENT "Ajust.fréq", INDENT "Ajustement fréq.")
+  #define TR_MULTI_RFTUNE        TR(INDENT "Ajust.fr\200q", INDENT "Ajustement fr\200q.")
   #define TR_MULTI_TELEMETRY             "Telemetry"
-  #define TR_MULTI_VIDFREQ       TR(INDENT "Fréq. vidéo", INDENT "Fréquence vidéo")
+  #define TR_MULTI_VIDFREQ       TR(INDENT "Fr\200q. vid\200o", INDENT "Fr\200quence vid\200o")
   #define TR_MULTI_RFPOWER       TR(INDENT "Puiss. RF", INDENT "Puissance RF")
   #define TR_MULTI_OPTION        TR(INDENT "Option", INDENT "Option perso")
-  #define TR_MULTI_SERVOFREQ     TR(INDENT "Fréq.servo", INDENT "Fréquence servos")
+  #define TR_MULTI_SERVOFREQ     TR(INDENT "Fr\200q.servo", INDENT "Fr\200quence servos")
   #define TR_MULTI_AUTOBIND      TR(INDENT "Bind auto", INDENT "Bind automatique")
-  #define TR_MULTI_DSM_AUTODTECT TR(INDENT "Autodét.", INDENT "Autodétection")
+  #define TR_MULTI_DSM_AUTODTECT TR(INDENT "Autod\200t.", INDENT "Autod\200tection")
   #define TR_MULTI_LOWPOWER      TR(INDENT "Basse puis.", INDENT "Mode basse puiss.")
-  #define TR_RECEIVER_NUM        TR(INDENT "NumRx", INDENT "No. récepteur")
+  #define TR_RECEIVER_NUM        TR(INDENT "NumRx", INDENT "No. r\200cepteur")
 #else
   #define TR_MMOD
 #endif
@@ -175,7 +176,6 @@
   #define TR_XPPM              "PPM16\0""PPMsim"
 
 #define TR_VPROTOS             "PPM\0  " TR_XPPM TR_PXX TR_DSM2 "SPIMOD" TR_MMOD
-
 
 #define LEN_POSNEG             "\003"
 #define TR_POSNEG              "POS""NEG"
