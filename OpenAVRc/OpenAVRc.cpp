@@ -1339,7 +1339,8 @@ ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
   SIMU_PROCESSEVENTS;
 
   per10ms();
-#if defined(MULTIMODULE)
+
+#if defined(MULTIMODULE) // todo to move to multisupiiik.c
   if(IS_MULTIMODULE_PROTOCOL(g_model.protocol))
      setupPulsesMultimodule();
 #endif
