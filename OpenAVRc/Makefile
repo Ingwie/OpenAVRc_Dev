@@ -367,6 +367,7 @@ ifeq ($(PCB), EVO_V1)
   VOICE = NO
   HAPTIC = NO
   THR_TRACE = YES
+  PERSONAMES = YES
   PWRMANAGE = NO
   INCDIRS += targets/evo_v1 targets/stock $(FATFSDIR) $(FATFSDIR)/option
   BOARDSRC = main_avr.cpp i2c_master.cpp spi.c targets/evo_v1/evo_mega2560.cpp targets/evo_v1/evo_lcd_driver.cpp targets/evo_v1/evo_adc_driver.cpp
