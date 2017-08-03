@@ -127,7 +127,7 @@
 
 #if defined(PXX)
   #define TR_PXX               "PXX\0  "
-#elif defined(DSM2) 
+#elif defined(DSM2)
   #define TR_PXX               "[PXX]\0"
 #else
   #define TR_PXX
@@ -162,7 +162,7 @@
 
   #define TR_XPPM              "PPM16\0""PPMsim"
 
-#define TR_VPROTOS             "PPM\0  " TR_XPPM TR_PXX TR_DSM2 "SPIMOD" TR_MMOD
+#define TR_VPROTOS             "PPM\0  " TR_XPPM TR_PXX TR_DSM2 TR_MMOD "SPIMOD"
 
 #define LEN_POSNEG             "\003"
 #define TR_POSNEG              "Pos""Neg"
@@ -359,7 +359,7 @@
 
 #define TR_STICKS_VSRCRAW      TR("Rod\0""Hjd\0""Gas\0""Ske\0", "\307Rod""\307Hjd""\307Gas""\307Sek")
 #define TR_TRIMS_VSRCRAW       TR("TrmR""TrmH""TrmG""TrmS", "\313Rod""\313Hjd""\313Gas""\313Ske")
- 
+
   #define TR_POTS_VSRCRAW      "P1\0 ""P2\0 ""P3\0 "
   #define TR_SW_VSRCRAW        "3POS"
   #define TR_9X_3POS_SWITCHES  "ID0""ID1""ID2"

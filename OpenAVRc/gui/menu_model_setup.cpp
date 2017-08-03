@@ -88,6 +88,7 @@ void menuModelSetup(uint8_t event)
 #define CURSOR_ON_CELL                    (true)
 #define MODEL_SETUP_MAX_LINES             (IS_PPM_PROTOCOL(protocol)||IS_DSM2_PROTOCOL(protocol)||IS_SPIMODULES_PROTOCOL(protocol)) ? ITEM_MODEL_SETUP_MAX+MODEL_SETUP_MMsetupItemsPlus-3 : (IS_MULTIMODULE_PROTOCOL(protocol) ? ITEM_MODEL_SETUP_MAX+MODEL_SETUP_MMsetupItemsPlus+1 : ITEM_MODEL_SETUP_MAX+MODEL_SETUP_MMsetupItemsPlus-4)
   uint8_t protocol = g_model.protocol;
+  uint8_t memproto = PROTO_CMD_ID;
   MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 0, 1, 0, 0, 0, 0, 0, NUM_SWITCHES, NUM_STICKS+NUM_POTS+NUM_ROTARY_ENCODERS-1, FIELD_PROTOCOL_MAX, 2,
   2,0,2,0,0,0});
 
@@ -304,6 +305,17 @@ void menuModelSetup(uint8_t event)
         switch (menuHorizontalPosition) {
         case 0:
           CHECK_INCDEC_MODELVAR_ZERO(event, g_model.protocol, PROTO_MAX-1);
+          if (IS_PPM_PROTOCOL(protocol)||IS_DSM2_PROTOCOL(protocol)||IS_PXX_PROTOCOL(protocol)) {PROTO_CMD_ID = PROTOCOL_PPM_SWITCHING;}
+#if defined(MULTIMODULE)
+	        if (IS_MULTIMODULE_PROTOCOL(protocol)) {PROTO_CMD_ID = PROTOCOL_MULTI;}
+#endif
+#if defined(SPIMODULES)
+	        if (IS_SPIMODULES_PROTOCOL(protocol)) {PROTO_CMD_ID = PROTO_CMD_ID;}
+#endif
+          if (memproto != PROTO_CMD_ID) {
+              SpiRFModule.mode = NORMAL_MODE;
+              startPulses(PROTOCMD_INIT);
+            }
           break;
         case 1:
           CHECK_INCDEC_MODELVAR(event, g_model.ppmNCH, -2, 4);
@@ -367,15 +379,15 @@ void menuModelSetup(uint8_t event)
 #if defined(SPIMODULES)
       else if IS_SPIMODULES_PROTOCOL(protocol) {
 
-        if((!editMode) && (SpiRFModule.mode != NORMAL_MODE)) { //Return to normal mode after bind or range test
+        /*if((!editMode) && (SpiRFModule.mode != NORMAL_MODE)) { //Return to normal mode after bind or range test
           SpiRFModule.mode = NORMAL_MODE;
           startPulses(PROTOCMD_INIT);
-        }
+        } // Bug with DEVO autobind */
 
         if (attr && menuHorizontalPosition > 1) {
           //REPEAT_LAST_CURSOR_MOVE(); // limit 3 column row to 2 colums (Protocol and RANGE fields)
         }
-        lcdDrawTextAtt(0, y, Protos[g_model.header.modelId].ProtoName, menuHorizontalPosition == 0 ? attr : 0);
+        lcdDrawTextAtt(0, y, Protos[PROTO_CMD_ID].ProtoName, menuHorizontalPosition == 0 ? attr : 0);
         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN-2*FW, y, STR_MODULE_BIND, menuHorizontalPosition == 1 ? attr : 0);
         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+4*FW, y, STR_MODULE_RANGE, menuHorizontalPosition == 2 ? attr : 0);
 
@@ -383,9 +395,8 @@ void menuModelSetup(uint8_t event)
 
           switch (menuHorizontalPosition) {
           case 0: {
-            uint8_t memproto = g_model.header.modelId;
-            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.header.modelId, (DIM(Protos)-1));
-            if (memproto != g_model.header.modelId) {
+            CHECK_INCDEC_MODELVAR_ZERO(event, PROTO_CMD_ID, (DIM(Protos)-1));
+            if (memproto != PROTO_CMD_ID) {
               SpiRFModule.mode = NORMAL_MODE;
               startPulses(PROTOCMD_INIT);
             }

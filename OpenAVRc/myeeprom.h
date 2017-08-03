@@ -959,9 +959,11 @@ enum Protocols {
   PROTO_DSM2_DSM2,
   PROTO_DSM2_DSMX,
 #endif
-  PROTO_SPIMODULE,
 #if defined(MULTIMODULE)
   PROTO_MULTIMODULE,
+#endif
+#if defined(SPIMODULES)
+  PROTO_SPIMODULE,
 #endif
   PROTO_MAX,
   PROTO_NONE
@@ -991,9 +993,11 @@ enum ModuleTypes {
 #if defined(DSM2)
   MODULE_TYPE_DSM2,
 #endif
-  MODULE_TYPE_SPIMODULE,
 #if defined(MULTIMODULE)
   MODULE_TYPE_MULTIMODULE,
+#endif
+#if defined(SPIMODULES)
+  MODULE_TYPE_SPIMODULE,
 #endif
   MODULE_TYPE_COUNT
 };

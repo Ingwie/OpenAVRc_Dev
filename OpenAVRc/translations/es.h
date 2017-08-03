@@ -137,7 +137,7 @@
 
 #if defined(PXX)
   #define TR_PXX               "PXX\0  "
-#elif defined(DSM2) 
+#elif defined(DSM2)
   #define TR_PXX               "[PXX]\0"
 #else
   #define TR_PXX
@@ -172,7 +172,7 @@
 
   #define TR_XPPM              "PPM16\0""PPMsim"
 
-#define TR_VPROTOS             "PPM\0  " TR_XPPM TR_PXX TR_DSM2 "SPIMOD" TR_MMOD
+#define TR_VPROTOS             "PPM\0  " TR_XPPM TR_PXX TR_DSM2 TR_MMOD "SPIMOD"
 
 #define LEN_POSNEG             "\003"
 #define TR_POSNEG              "POS""NEG"

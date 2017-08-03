@@ -62,8 +62,8 @@ RF_CS_CC2500_INACTIVE();
 RF_CS_CYRF6936_INACTIVE();
 
 if (s_current_protocol != 255) PROTO_Cmds(PROTOCMD_RESET);
-PROTO_Cmds = *Protos[g_model.header.modelId].Cmds;
-s_current_protocol = g_model.header.modelId;
+PROTO_Cmds = *Protos[PROTO_CMD_ID].Cmds;
+s_current_protocol = PROTO_CMD_ID;
 PROTO_Cmds(Command);
 }
 
@@ -154,7 +154,7 @@ void setupPulsesMultimodule()
   if (frskyTxBufferCount) return; // return, if buffer is not empty
   frskyTxBufferCount = 26;
   uint8_t multiTxBufferCount = frskyTxBufferCount;
-  
+
   // Our enumeration starts at 0
   int type = g_model.moduleData.rfProtocol + 1;
   int subtype = g_model.moduleData.subType;
@@ -221,11 +221,11 @@ void setupPulsesMultimodule()
 
   // header, byte 0,  0x55 for proto 0-31 0x54 for 32-63
   if (type <= 31)
-	frskyTxBuffer[--multiTxBufferCount] = 0x55;  
+	frskyTxBuffer[--multiTxBufferCount] = 0x55;
 //    sendByteMulti(0x55);
   else
 //    sendByteMulti(0x54);
-	frskyTxBuffer[--multiTxBufferCount] = 0x54;  
+	frskyTxBuffer[--multiTxBufferCount] = 0x54;
 
 
   // protocol byte 1
@@ -234,7 +234,7 @@ void setupPulsesMultimodule()
     protoByte |= (g_model.moduleData.autoBindMode << 6);
 
 //  sendByteMulti(protoByte);
-  frskyTxBuffer[--multiTxBufferCount] = protoByte;  
+  frskyTxBuffer[--multiTxBufferCount] = protoByte;
 
   // byte 2, subtype, powermode, model id
   frskyTxBuffer[--multiTxBufferCount] = ((uint8_t) ((g_model.moduleData.rxnum & 0x0f)
@@ -271,7 +271,7 @@ void setupPulsesMultimodule()
 #if !defined(SIMU)
   telemetryTransmitBuffer();
 #endif
-  
+
 }
 
 #endif
