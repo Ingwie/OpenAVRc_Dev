@@ -82,6 +82,4 @@ extern uint8_t dsm2BindTimer;
 #define IS_SPIMODULES_PROTOCOL(protocol)  (0)
 #endif
 
-#include "pulses_avr.h"
-
 #endif

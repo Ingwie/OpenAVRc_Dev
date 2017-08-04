@@ -31,8 +31,7 @@
 */
 
 
-#include "eeprom_rlc.h"
-
+#include "OpenAVRc.h"
 
 uint8_t   s_write_err = 0;    // error reasons
 RlcFile   theFile;  //used for any file operation
@@ -925,8 +924,6 @@ void eeLoadModel(uint8_t id)
     if (pulsesStarted()) {
       pausePulses();
     }
-
-
 
     theFile.openRlc(FILE_MODEL(id));
     uint16_t sz = theFile.readRlc((uint8_t*)&g_model, sizeof(g_model));

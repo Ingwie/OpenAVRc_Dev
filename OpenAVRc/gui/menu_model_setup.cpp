@@ -301,16 +301,19 @@ void menuModelSetup(uint8_t event)
       } else if (menuHorizontalPosition>0 && attr) {
         MOVE_CURSOR_FROM_HERE();
       }
-      if (attr && (editMode>0 || p1valdiff || (!IS_PPM_PROTOCOL(protocol) && !IS_DSM2_PROTOCOL(protocol)))) {
+      if (attr && (editMode>0 || p1valdiff)) { //|| (!IS_PPM_PROTOCOL(protocol) && !IS_DSM2_PROTOCOL(protocol)))) {
         switch (menuHorizontalPosition) {
         case 0:
           CHECK_INCDEC_MODELVAR_ZERO(event, g_model.protocol, PROTO_MAX-1);
-          if (IS_PPM_PROTOCOL(protocol)||IS_DSM2_PROTOCOL(protocol)||IS_PXX_PROTOCOL(protocol)) {PROTO_CMD_ID = PROTOCOL_PPM_SWITCHING;}
+          if (IS_PPM_PROTOCOL(protocol)||IS_DSM2_PROTOCOL(protocol)||IS_PXX_PROTOCOL(protocol)) {PROTO_CMD_ID = PROTOCOL_PPM_SWITCHING-1;}
 #if defined(MULTIMODULE)
-	        if (IS_MULTIMODULE_PROTOCOL(protocol)) {PROTO_CMD_ID = PROTOCOL_MULTI;}
+	        if (IS_MULTIMODULE_PROTOCOL(protocol)) {PROTO_CMD_ID = PROTOCOL_MULTI-1;}
+#define NEXT_CMD 3
+#else
+#define NEXT_CMD 2
 #endif
 #if defined(SPIMODULES)
-	        if (IS_SPIMODULES_PROTOCOL(protocol)) {PROTO_CMD_ID = PROTO_CMD_ID;}
+	        if (IS_SPIMODULES_PROTOCOL(protocol)) {PROTO_CMD_ID = limit((uint8_t)NEXT_CMD, PROTO_CMD_ID, (uint8_t)(DIM(Protos)-1));}
 #endif
           if (memproto != PROTO_CMD_ID) {
               SpiRFModule.mode = NORMAL_MODE;
@@ -353,10 +356,7 @@ void menuModelSetup(uint8_t event)
           REPEAT_LAST_CURSOR_MOVE(); // limit 3 column row to 2 colums (Rx_Num and RANGE fields)
         }
         lcdDrawTextLeft(y, STR_RXNUM);
-        lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y, g_model.header.modelId, (menuHorizontalPosition<=0 ? attr : 0) | LEADING0|LEFT, 2);
-        if (attr && (menuHorizontalPosition==0 && (editMode>0 || p1valdiff))) {
-          CHECK_INCDEC_MODELVAR_ZERO(event, g_model.header.modelId, 99);
-        }
+        lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y, g_eeGeneral.currModel);
 #if defined(PXX)
         if IS_PXX_PROTOCOL(protocol) {
           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+4*FW, y, STR_SYNCMENU, menuHorizontalPosition!=0 ? attr : 0);
@@ -395,7 +395,7 @@ void menuModelSetup(uint8_t event)
 
           switch (menuHorizontalPosition) {
           case 0: {
-            CHECK_INCDEC_MODELVAR_ZERO(event, PROTO_CMD_ID, (DIM(Protos)-1));
+            CHECK_INCDEC_MODELVAR(event, PROTO_CMD_ID, NEXT_CMD, (DIM(Protos)-1));
             if (memproto != PROTO_CMD_ID) {
               SpiRFModule.mode = NORMAL_MODE;
               startPulses(PROTOCMD_INIT);

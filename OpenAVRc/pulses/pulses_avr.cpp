@@ -31,9 +31,9 @@
 */
 
 
+//#include "../protocol/common.h"
+//#include "../protocol/interface.h"
 #include "../OpenAVRc.h"
-#include "../protocol/common.h"
-#include "../protocol/interface.h"
 #include "../protocol/misc.c"
 #include "../spi.h"
 
@@ -44,7 +44,6 @@ uint8_t moduleFlag = { 0 };
 
 uint16_t nextMixerEndTime = 0;
 uint8_t s_current_protocol = 255;
-uint8_t s_pulses_paused = 0;
 uint16_t dt;
 uint16_t B3_comp_value;
 #if F_CPU > 16000000UL
@@ -62,8 +61,10 @@ RF_CS_CC2500_INACTIVE();
 RF_CS_CYRF6936_INACTIVE();
 
 if (s_current_protocol != 255) PROTO_Cmds(PROTOCMD_RESET);
+PROTO_CMD_ID = limit((uint8_t)1, PROTO_CMD_ID, (uint8_t)(DIM(Protos)-1)); // verify limits do not use PPM_BB
 PROTO_Cmds = *Protos[PROTO_CMD_ID].Cmds;
 s_current_protocol = PROTO_CMD_ID;
+TRACE("Proto selection -> (PROTO_CMD_ID = %i)",  PROTO_CMD_ID);
 PROTO_Cmds(Command);
 }
 
@@ -139,7 +140,20 @@ void setupPulsesPPM(uint8_t proto)
   *ptr = 0;
 }
 
-
+inline bool pulsesStarted()
+{
+  return (s_current_protocol != 255);
+}
+inline void pausePulses()
+{
+  PROTO_Cmds(PROTOCMD_RESET);
+  CLOCK_StopTimer();
+  s_current_protocol = 255;
+}
+inline void resumePulses()
+{
+  startPulses(PROTOCMD_INIT);
+}
 
 #if defined(MULTIMODULE)
 

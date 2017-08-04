@@ -32,8 +32,8 @@
 
 
 #include "../OpenAVRc.h"
-#include "common.h"
-#include "interface.h"
+//#include "common.h"
+//#include "interface.h"
 
 extern volatile uint8_t g_sync_count;
 //extern volatile uint16_t g_entropy;

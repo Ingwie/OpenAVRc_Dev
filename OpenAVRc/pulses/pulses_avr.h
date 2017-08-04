@@ -34,10 +34,7 @@
 #ifndef pulses_avr_h
 #define pulses_avr_h
 
-
 extern uint8_t s_current_protocol;
-extern uint8_t s_pulses_paused;
-
 extern uint8_t *pulses2MHzRPtr;
 extern uint8_t *pulses2MHzWPtr;
 
@@ -50,19 +47,6 @@ extern uint8_t moduleFlag;
 
 extern uint16_t dt;
 
-inline bool pulsesStarted()
-{
-  return (s_current_protocol != 255);
-}
-inline void pausePulses()
-{
-  s_pulses_paused = true;
-}
-inline void resumePulses()
-{
-  s_pulses_paused = false;
-}
-
 #define PULSES_SIZE 144
 uint8_t pulses2MHz[PULSES_SIZE] = {0}; // TODO check this length, pulled from er9x, perhaps too big.
 uint8_t * pulses2MHzRPtr = pulses2MHz;
@@ -72,6 +56,10 @@ void setupPulses();
 void setupPulsesPPM(uint8_t proto);
 void DSM2_Init();
 void DSM2_Done();
+
+inline bool pulsesStarted();
+inline void pausePulses();
+inline void resumePulses();
 
 #if defined(MULTIMODULE)
 void setupPulsesMultimodule();

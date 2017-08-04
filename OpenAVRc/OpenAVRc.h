@@ -335,6 +335,7 @@ inline uint16_t get_tmr10ms()
   }
   return time ;
 }
+
 typedef int8_t rotenc_t;
 typedef int16_t getvalue_t;
 typedef uint8_t mixsrc_t;
@@ -351,14 +352,14 @@ extern uint8_t StickScrollTimer;
 #define STICK_SCROLL_DISABLE()
 #endif
 
+#include "pulses/pulses_avr.h"
+#include "pulses/pulses.h"
+
 #include "eeprom_common.h"
 
 #if defined(EEPROM_RLC)
 #include "eeprom_rlc.h"
 #endif
-
-
-#include "pulses/pulses.h"
 
 #define LOAD_MODEL_BITMAP()
 
@@ -800,7 +801,7 @@ extern uint16_t           BandGap;
 int intpol(int x, uint8_t idx);
 int expo(int x, int k);
 
-#if   defined(CURVES)
+#if defined(CURVES)
 int applyCurve(int x, int8_t idx);
 #else
 #define applyCurve(x, idx) (x)
@@ -1172,8 +1173,9 @@ struct Proto_struct {
 #undef PROTODEF
 
 /* Load Protocols */
+#include "protocol/common.h"
 #include "protocol/interface.h"
-
+#include "protocol/misc.h"
 
 #endif
 
