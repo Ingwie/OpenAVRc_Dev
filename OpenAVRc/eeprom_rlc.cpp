@@ -30,7 +30,6 @@
  **************************************************************************
 */
 
-
 #include "OpenAVRc.h"
 
 uint8_t   s_write_err = 0;    // error reasons
@@ -625,9 +624,7 @@ const pm_char * eeBackupModel(uint8_t i_fileSrc)
 
   strcpy_P(&buf[len], STR_MODELS_EXT);
 
-#ifdef SIMU
   TRACE("SD-card backup filename=%s", buf);
-#endif
 
   result = f_open(&g_oLogFile, buf, FA_CREATE_ALWAYS | FA_WRITE);
   if (result != FR_OK) {
@@ -946,8 +943,8 @@ void eeLoadModel(uint8_t id)
         checkAll();
       }
 #endif
-      resumePulses();
     }
+    resumePulses();
 
     customFunctionsReset();
 

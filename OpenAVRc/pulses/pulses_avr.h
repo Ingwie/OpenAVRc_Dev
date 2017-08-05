@@ -57,9 +57,9 @@ void setupPulsesPPM(uint8_t proto);
 void DSM2_Init();
 void DSM2_Done();
 
-inline bool pulsesStarted();
-inline void pausePulses();
-inline void resumePulses();
+FORCEINLINE bool pulsesStarted();
+FORCEINLINE void pausePulses();
+FORCEINLINE void resumePulses();
 
 #if defined(MULTIMODULE)
 void setupPulsesMultimodule();

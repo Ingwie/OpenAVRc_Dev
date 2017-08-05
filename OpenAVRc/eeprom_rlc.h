@@ -38,11 +38,6 @@
 #include "timers.h"
 
 
-// TODO duplicated
-#ifndef PACK
-#define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
-#endif
-
 #if defined(CPUM2560)
 #if defined(EXTERNALEEPROM)
 #define blkid_t    uint16_t

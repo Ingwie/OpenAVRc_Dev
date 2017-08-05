@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -52,20 +52,44 @@ static volatile uint32_t timer_counts; // Could be uint16_t for mega2560.
 static volatile uint16_t timer_counts; // Is uint16_t for mega2560.
 #endif
 
+FORCEINLINE bool pulsesStarted()
+{
+  return (s_current_protocol != 255);
+}
+
+FORCEINLINE void pausePulses()
+{
+  PROTO_Cmds(PROTOCMD_RESET);
+  TRACE("  ->  RESET Proto - %s -",  Protos[s_current_protocol].ProtoName);
+  SIMU_SLEEP(1000);
+  CLOCK_StopTimer();
+  s_current_protocol = 255;
+}
+
+FORCEINLINE void resumePulses()
+{
+  startPulses(PROTOCMD_INIT);
+}
+
 void startPulses(enum ProtoCmds Command)
 {
-spi_enable_master_mode(); // Todo check if Proto need SPI
-CLOCK_StopTimer();
+  spi_enable_master_mode(); // Todo check if Proto need SPI
+  CLOCK_StopTimer();
 // Reset CS pin
-RF_CS_CC2500_INACTIVE();
-RF_CS_CYRF6936_INACTIVE();
+  RF_CS_CC2500_INACTIVE();
+  RF_CS_CYRF6936_INACTIVE();
 
-if (s_current_protocol != 255) PROTO_Cmds(PROTOCMD_RESET);
-PROTO_CMD_ID = limit((uint8_t)1, PROTO_CMD_ID, (uint8_t)(DIM(Protos)-1)); // verify limits do not use PPM_BB
-PROTO_Cmds = *Protos[PROTO_CMD_ID].Cmds;
-s_current_protocol = PROTO_CMD_ID;
-TRACE("Proto selection -> (PROTO_CMD_ID = %i)",  PROTO_CMD_ID);
-PROTO_Cmds(Command);
+  if (pulsesStarted()) {
+    PROTO_Cmds(PROTOCMD_RESET);
+    TRACE("  ->  RESET Proto - %s -",  Protos[s_current_protocol].ProtoName);
+    SIMU_SLEEP(1000);
+  }
+  PROTO_CMD_ID = limit((uint8_t)1, PROTO_CMD_ID, (uint8_t)(DIM(Protos)-1)); // verify limits do not use PPM_BB
+  s_current_protocol = PROTO_CMD_ID;
+  PROTO_Cmds = *Protos[PROTO_CMD_ID].Cmds;
+  TRACE("  ->  INIT Proto - %s -", Protos[PROTO_CMD_ID].ProtoName);
+  SIMU_SLEEP(1000);
+  PROTO_Cmds(Command);
 }
 
 // This ISR should work for xmega.
@@ -82,16 +106,14 @@ ISR(TIMER1_COMPA_vect) // Protocol Callback ISR.
       return;
     }
 
-  timer_counts = HALF_MICRO_SEC_COUNTS(half_us);
+    timer_counts = HALF_MICRO_SEC_COUNTS(half_us);
   }
 
 #if F_CPU > 16000000UL
-  if (timer_counts > 65535)
-  {
+  if (timer_counts > 65535) {
     OCR1A += 32000;
     timer_counts -= 32000; // 16ms @ 16MHz counter clock.
-  }
-  else
+  } else
 #endif
   {
     OCR1A += timer_counts;
@@ -140,21 +162,6 @@ void setupPulsesPPM(uint8_t proto)
   *ptr = 0;
 }
 
-inline bool pulsesStarted()
-{
-  return (s_current_protocol != 255);
-}
-inline void pausePulses()
-{
-  PROTO_Cmds(PROTOCMD_RESET);
-  CLOCK_StopTimer();
-  s_current_protocol = 255;
-}
-inline void resumePulses()
-{
-  startPulses(PROTOCMD_INIT);
-}
-
 #if defined(MULTIMODULE)
 
 #define MULTI_SEND_BIND                     (1 << 7)
@@ -181,7 +188,7 @@ void setupPulsesMultimodule()
     protoByte |= MULTI_SEND_RANGECHECK;
 
   // rfProtocol
-  if (g_model.moduleData.rfProtocol == MM_RF_PROTO_DSM2){
+  if (g_model.moduleData.rfProtocol == MM_RF_PROTO_DSM2) {
 
     // Autobinding should always be done in DSMX 11ms
     if(g_model.moduleData.autoBindMode && moduleFlag == MODULE_BIND)
@@ -199,7 +206,7 @@ void setupPulsesMultimodule()
 
   // 25 is again a FrSky protocol (FrskyV) so shift again
   if (type >= 25)
-     type = type + 1;
+    type = type + 1;
 
   if (g_model.moduleData.rfProtocol == MM_RF_PROTO_FRSKY) {
     if(subtype == MM_RF_FRSKY_SUBTYPE_D8) {
@@ -235,11 +242,11 @@ void setupPulsesMultimodule()
 
   // header, byte 0,  0x55 for proto 0-31 0x54 for 32-63
   if (type <= 31)
-	frskyTxBuffer[--multiTxBufferCount] = 0x55;
+    frskyTxBuffer[--multiTxBufferCount] = 0x55;
 //    sendByteMulti(0x55);
   else
 //    sendByteMulti(0x54);
-	frskyTxBuffer[--multiTxBufferCount] = 0x54;
+    frskyTxBuffer[--multiTxBufferCount] = 0x54;
 
 
   // protocol byte 1
@@ -252,9 +259,9 @@ void setupPulsesMultimodule()
 
   // byte 2, subtype, powermode, model id
   frskyTxBuffer[--multiTxBufferCount] = ((uint8_t) ((g_model.moduleData.rxnum & 0x0f)
-                           | ((subtype & 0x7) << 4)
-                           | (g_model.moduleData.lowPowerMode << 7))
-                );
+                                         | ((subtype & 0x7) << 4)
+                                         | (g_model.moduleData.lowPowerMode << 7))
+                                        );
 
   // byte 3
 //  sendByteMulti((uint8_t) optionValue);
@@ -276,7 +283,7 @@ void setupPulsesMultimodule()
     bitsavailable += MULTI_CHAN_BITS;
     while (bitsavailable >= 8) {
 //      sendByteMulti((uint8_t) (bits & 0xff));
-	  frskyTxBuffer[--multiTxBufferCount] = ((uint8_t) (bits & 0xff));
+      frskyTxBuffer[--multiTxBufferCount] = ((uint8_t) (bits & 0xff));
       bits >>= 8;
       bitsavailable -= 8;
     }

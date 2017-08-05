@@ -33,7 +33,7 @@
 
 //#include "lcd_simu_driver.h"
 #include "../../../OpenAVRc_Simulator/OpenAVRc_SimulatorApp.h"
-#include "../../../OpenAVRc_Simulator/OpenAVRc_SimulatorMain.h"
+//#include "../../../OpenAVRc_Simulator/OpenAVRc_SimulatorMain.h"
 #include "../../../OpenAVRc_Simulator/ModelNameDialog.h"
 
 #include <wx/filename.h>
@@ -80,7 +80,7 @@ void lcdRefreshFast()
 #if defined(SHOWDURATION)
   lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
 #endif
-  wxGetApp().SimuFrame->DrawWxSimuLcd(); // ca marche  !!
+  wxGetApp().SimuFrame->DrawWxSimuLcd();
   SHOWDURATIONLCD2
 }
 
