@@ -67,7 +67,7 @@
 
 #define PROTO_HAS_MULTISUPIIIK // TODO For test only
 #ifdef PROTO_HAS_MULTISUPIIIK
-#include "MULTI_Supiiik.c"
+#include "MULTI.c"
 #endif
 
 #endif // _INTERFACE_H_

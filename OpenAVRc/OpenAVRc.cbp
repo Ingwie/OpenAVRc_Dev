@@ -151,7 +151,7 @@
 		<Unit filename="protocol/FRSKYX_cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="protocol/MULTI_Supiiik.c">
+		<Unit filename="protocol/MULTI.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="protocol/SKYARTEC_cc2500.c">

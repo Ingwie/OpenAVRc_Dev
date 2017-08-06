@@ -1340,11 +1340,6 @@ ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
 
   per10ms();
 
-#if defined(MULTIMODULE) // todo to move to multisupiiik.c
-  if(IS_MULTIMODULE_PROTOCOL(g_model.protocol))
-     setupPulsesMultimodule();
-#endif
-
   TIMER_10MS_COMPVAL += (++accuracyWarble & 0x03) ? 156 : 157; // Clock correction
 }
 
