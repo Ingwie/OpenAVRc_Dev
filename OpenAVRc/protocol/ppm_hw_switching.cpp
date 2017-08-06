@@ -111,6 +111,9 @@ static uint16_t PPM_HW_cb()
 
 static void PPM_HW_initialize()
 {
+#if defined(FRSKY) && !defined(DSM2_SERIAL)
+  telemetryInit();
+#endif
 
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     OCR1B = TCNT1 + (25000U *2);

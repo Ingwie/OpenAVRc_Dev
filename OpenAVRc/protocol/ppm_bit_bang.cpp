@@ -68,6 +68,10 @@ static uint16_t PPM_BB_cb()
 
 static void PPM_BB_initialize()
 {
+#if defined(FRSKY) && !defined(DSM2_SERIAL)
+  telemetryInit();
+#endif
+
   pulses2MHzRPtr = pulses2MHz;
   *((uint16_t*) pulses2MHzRPtr) = 0;
   CLOCK_StartTimer(25000U *2, &PPM_BB_cb);

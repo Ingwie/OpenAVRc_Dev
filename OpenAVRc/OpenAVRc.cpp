@@ -1625,10 +1625,6 @@ int simumain(void)
 
   sei(); // interrupts needed for telemetryInit and eeReadAll.
 
-#if defined(FRSKY) && !defined(DSM2_SERIAL)
-  telemetryInit();
-#endif
-
 #if defined(DSM2_SERIAL) && !defined(FRSKY)
   DSM2_Init();
 #endif
