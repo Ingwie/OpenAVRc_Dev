@@ -163,10 +163,10 @@ static void MULTI_initialize(uint8_t bind)
 {
 #if defined(FRSKY) && !defined(DSM2_SERIAL)
   telemetryInit();
-#endif
 #if !defined(SIMU) //todo
 // Change baud value
 // Change stop bit
+#endif
 #endif
 
   CLOCK_StopTimer();
