@@ -61,9 +61,6 @@ FORCEINLINE bool pulsesStarted();
 FORCEINLINE void pausePulses();
 FORCEINLINE void resumePulses();
 
-#if defined(MULTIMODULE)
-void setupPulsesMultimodule();
-#endif
 
 #define SEND_FAILSAFE_NOW()
 #define SEND_FAILSAFE_1S()

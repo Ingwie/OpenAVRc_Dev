@@ -229,7 +229,6 @@ PACK(
   } );
 const mm_protocol_definition *getMultiProtocolDefinition (uint8_t protocol);
 
-// this shouldn't be in lcd.h, who cares :)
 //enum MultiBindStatus : uint8_t {
 enum MultiBindStatus {
   MULTI_NORMAL_OPERATION,
