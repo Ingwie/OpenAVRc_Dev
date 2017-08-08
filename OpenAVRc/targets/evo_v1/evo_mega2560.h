@@ -36,10 +36,20 @@
 
 #include "../../OpenAVRc.h"
 
+
 //Xmitter
 #define SPIMODULES // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 #define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 #define PROTO_HAS_CYRF6936
+
+
+//SUPIIIK FILE
+#define MULTIMODULE
+#if defined (MULTIMODULE)
+#define PROTO_HAS_MULTISUPIIIK
+#endif
+//SUPIIIK FILE
+
 
 #if defined(SPIMODULES)
   #define OUT_C_RF_CS_N       PIN4_bm
