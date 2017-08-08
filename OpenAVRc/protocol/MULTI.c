@@ -286,6 +286,7 @@ static uint16_t MULTI_cb()
 static void MULTI_initialize(uint8_t bind)
 {
 #if defined(FRSKY) && !defined(DSM2_SERIAL)
+#if !defined(SIMU)
 
 	#undef BAUD
 	#define BAUD 100000
@@ -296,7 +297,7 @@ static void MULTI_initialize(uint8_t bind)
 	UCSRA_N(TLM_MULTI) &= ~(1 << U2X_N(TLM_MULTI)); // disable double speed operation.
     UCSRB_N(TLM_MULTI) = 0 | (0 << RXCIE_N(TLM_MULTI)) | (0 << TXCIE_N(TLM_MULTI)) | (0 << UDRIE_N(TLM_MULTI)) | (0 << RXEN_N(TLM_MULTI)) | (0 << TXEN_N(TLM_MULTI)) | (0 << UCSZ2_N(TLM_MULTI));
     UCSRC_N(TLM_MULTI) = 0 | (1 << UPM01) | (1 << USBS0)| (1 << UCSZ1_N(TLM_MULTI)) | (1 << UCSZ0_N(TLM_MULTI)); // set 2 stop bits, even parity BIT
-	
+
     while (UCSRA_N(TLM_MULTI) & (1 << RXC_N(TLM_MULTI))) UDR_N(TLM_MULTI); // flush receive buffer
 
 	// These should be running right from power up on a FrSky enabled '9X.
@@ -305,9 +306,6 @@ static void MULTI_initialize(uint8_t bind)
 	UCSRB_N(TLM_MULTI) |= (1 << RXEN_N(TLM_MULTI));  // enable RX
     UCSRB_N(TLM_MULTI) |= (1 << RXCIE_N(TLM_MULTI)); // enable Interrupt
 
-#if !defined(SIMU) //todo
-// Change baud value
-// Change stop bit
 #endif
 #endif
 
