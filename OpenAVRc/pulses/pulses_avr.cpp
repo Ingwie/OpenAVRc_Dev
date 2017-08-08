@@ -82,13 +82,13 @@ void startPulses(enum ProtoCmds Command)
   if (pulsesStarted()) {
     PROTO_Cmds(PROTOCMD_RESET);
     TRACE("  ->  RESET Proto - %s -",  Protos[s_current_protocol].ProtoName);
-    SIMU_SLEEP(1000);
+    SIMU_SLEEP(500);
   }
   PROTO_CMD_ID = limit((uint8_t)1, PROTO_CMD_ID, (uint8_t)(DIM(Protos)-1)); // verify limits do not use PPM_BB
   s_current_protocol = PROTO_CMD_ID;
   PROTO_Cmds = *Protos[PROTO_CMD_ID].Cmds;
   TRACE("  ->  INIT Proto - %s -", Protos[PROTO_CMD_ID].ProtoName);
-  SIMU_SLEEP(1000);
+  SIMU_SLEEP(500);
   PROTO_Cmds(Command);
 }
 
