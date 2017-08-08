@@ -39,12 +39,13 @@
 #endif
 
 #define PULSES_SETUP_TIME 500 // 0.5ms
+void (*ocr1b_function_ptr)(void); // Function pointer to add flexibility and simplicity to ISR.
 
 /*
  * 16 Bit Timer running @ 16MHz has a resolution of 0.5us.
  * This should give a PPM resolution of 2048.
 */
-static uint16_t PPM_HW_cb()
+static uint16_t PPM_HW_cb2()
 {
   static int16_t PPM_Range;
   static uint32_t FrameLen;
@@ -109,11 +110,30 @@ static uint16_t PPM_HW_cb()
 }
 
 
+void PPM_HW_cb1(void)
+{
+uint16_t half_us = PPM_HW_cb2();
+
+  if(! half_us) {
+    PPM_SWITCHING_Cmds(PROTOCMD_DEINIT);
+    return;
+  }
+
+  dt = TCNT1 - OCR1B; // Calculate latency and jitter.
+  if(dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
+  if(dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
+
+  OCR1B += half_us;
+}
+
+
 static void PPM_HW_initialize()
 {
 #if defined(FRSKY) && !defined(DSM2_SERIAL)
   telemetryInit();
 #endif
+
+  ocr1b_function_ptr = PPM_HW_cb1; // Setup function pointer used in ISR.
 
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     OCR1B = TCNT1 + (25000U *2);
@@ -157,19 +177,11 @@ const void * PPM_SWITCHING_Cmds(enum ProtoCmds cmd)
 }
 
 
-ISR(TIMER1_COMPB_vect) // PPM switching vector.
+
+
+ISR(TIMER1_COMPB_vect) // Timer 1 compare "B" vector. Used for PPM commutation and maybe more ...
 {
-  uint16_t half_us = PPM_HW_cb();
-
-  if(! half_us) {
-    PPM_SWITCHING_Cmds(PROTOCMD_DEINIT);
-    return;
-  }
-
-  dt = TCNT1 - OCR1B; // Calculate latency and jitter.
-  if(dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
-  if(dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
-
-  OCR1B += half_us;
+  ocr1b_function_ptr();
 }
+
 
