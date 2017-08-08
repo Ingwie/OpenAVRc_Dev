@@ -33,6 +33,12 @@
 
 #include "../OpenAVRc.h"
 
+// Maybe move these definitions to the target board.h file.
+// Bit Bang will work on any spare port pin.
+#define PPM_PIN_HIGH()      PORTB |= (1<<OUT_B_PPM)
+#define PPM_PIN_LOW()       PORTB &= ~(1<<OUT_B_PPM)
+#define PPM_PIN_TOGGLE()    PORTB ^= (1<<OUT_B_PPM)
+
 /*
  * 16 Bit Timer running @ 16MHz has a resolution of 0.5us.
  * This should give a PPM resolution of 2048.
@@ -41,8 +47,8 @@ static uint16_t PPM_BB_cb()
 {
   if ( *((uint16_t*)pulses2MHzRPtr) == 0) {
 
-    if (g_model.pulsePol) PORTB &= ~(1<<OUT_B_PPM); // Set idle level.
-    else PORTB |= (1<<OUT_B_PPM); // GCC optimisation should produce a single SBI instruction.
+    if (g_model.pulsePol) PPM_PIN_LOW(); // Set idle level.
+    else PPM_PIN_HIGH(); // GCC optimisation should produce a single SBI instruction.
 
     // Schedule next Mixer calculations.
     SCHEDULE_MIXER_END(45*8+g_model.ppmFrameLength*8);
@@ -58,7 +64,7 @@ static uint16_t PPM_BB_cb()
    * This shows any jitter due to a delayed ISR.
    */
 
-  PORTB ^= (1<<OUT_B_PPM); // Toggle port bit.
+  PPM_PIN_TOGGLE(); // Toggle port bit.
 
   uint16_t temp = *((uint16_t *) pulses2MHzRPtr);
   pulses2MHzRPtr += sizeof(uint16_t); // Non PPM protocols use uint8_t pulse buffer.
