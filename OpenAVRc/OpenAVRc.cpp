@@ -1343,6 +1343,7 @@ ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
   TIMER_10MS_COMPVAL += (++accuracyWarble & 0x03) ? 156 : 157; // Clock correction
 }
 
+#if 0 // Use FRSKY_USART_vect() as it is perfectly suited to the job.
 #if defined(DSM2_SERIAL)
 FORCEINLINE void DSM2_USART_vect()
 {
@@ -1351,38 +1352,28 @@ FORCEINLINE void DSM2_USART_vect()
   pulses2MHzRPtr += sizeof(uint16_t);
 
   if (pulses2MHzRPtr == pulses2MHzWPtr) { // if reached end of DSM2 data buffer ...
-    UCSRB_N(TLM_USART) &= ~(1 << UDRIE_N(TLM_USART)); // disable UDRE interrupt
+    UCSRB_N(TLM_USART) &= ~(1 << UDRIE_N(TLM_USART)); // Disable UDRE interrupt.
   }
 }
 #endif
+#endif
 
 #if !defined(SIMU)
-
-#if defined (FRSKY) || defined (MULTIPROTOCOL)
+#if defined (FRSKY) || defined (MULTIPROTOCOL) || defined(DSM2_SERIAL)
 
 FORCEINLINE void FRSKY_USART_vect()
 {
   if (frskyTxBufferCount > 0) {
     UDR_N(TLM_USART) = frskyTxBuffer[--frskyTxBufferCount];
   } else {
-    UCSRB_N(TLM_USART) &= ~(1 << UDRIE_N(TLM_USART)); // disable UDRE interrupt
+    UCSRB_N(TLM_USART) &= ~(1 << UDRIE_N(TLM_USART)); // Disable UDRE interrupt.
   }
 }
 
 // USART0/1 Transmit Data Register Emtpy ISR
 ISR(USART_UDRE_vect_N(TLM_USART))
 {
-#if defined(FRSKY) && defined(DSM2_SERIAL)
-  if (IS_DSM2_PROTOCOL(g_model.protocol)) { // TODO not s_current_protocol?
-    DSM2_USART_vect();
-  } else {
-    FRSKY_USART_vect();
-  }
-#elif defined(FRSKY)
   FRSKY_USART_vect();
-#else
-  DSM2_USART_vect();
-#endif
 }
 #endif
 #endif
