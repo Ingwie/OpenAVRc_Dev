@@ -87,7 +87,8 @@
 #define SW_AIL SW_I
 #define SW_TRN SW_M
 
-#define MUX_MAX 1 // Used in switches.cpp
+#define GETADC_COUNT 1  // Used in switches.cpp
+//#define MUX_MAX 1 // Used in switches.cpp
 
 // USB fake driver
 //#define usbPlugged()             false
