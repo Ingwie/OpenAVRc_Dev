@@ -133,17 +133,16 @@ static void PPM_HW_initialize()
   telemetryInit();
 #endif
 
-  ocr1b_function_ptr = PPM_HW_cb1; // Setup function pointer used in ISR.
 
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    ocr1b_function_ptr = PPM_HW_cb1; // Setup function pointer used in ISR.
     OCR1B = TCNT1 + (25000U *2);
+    // Setup Timer 1.
+    // Normal mode (0), OVF @ TOP (0xFFFF), F_CPU/8.
+    TCCR1B = (0b10 << CS10);
+    TIFR1 |= 1<<OCF1B; // Reset Flag.
+    TIMSK1 |= 1<<OCIE1B; // Enable Output Compare interrupt.
   }
-  // Setup Timer 1.
-  // Normal mode (0), OVF @ TOP (0xFFFF), F_CPU/8.
-  TCCR1B = (0b10 << CS10);
-
-  TIFR1 |= 1<<OCF1B; // Reset Flag.
-  TIMSK1 |= 1<<OCIE1B; // Enable Output Compare interrupt.
 }
 
 
