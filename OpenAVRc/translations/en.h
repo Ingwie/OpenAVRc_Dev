@@ -127,7 +127,7 @@
 
 #if defined(PXX)
   #define TR_PXX               "PXX\0  "
-#elif defined(DSM2) 
+#elif defined(DSM2)
   #define TR_PXX               "[PXX]\0"
 #else
   #define TR_PXX
@@ -167,7 +167,7 @@
 
   #define TR_XPPM              "PPM16\0""PPMsim"
 
-#define TR_VPROTOS             "PPM\0  " TR_XPPM TR_PXX TR_DSM2 TR_SPIM TR_MMOD
+#define TR_VPROTOS             "PPM\0  " TR_XPPM TR_PXX TR_DSM2 TR_MMOD TR_SPIM
 
 #define LEN_POSNEG             "\003"
 #define TR_POSNEG              "POS""NEG"
@@ -364,15 +364,11 @@
 
 #define TR_STICKS_VSRCRAW      TR("Rud\0""Ele\0""Thr\0""Ail\0", "\307Rud""\307Ele""\307Thr""\307Ail")
 #define TR_TRIMS_VSRCRAW       TR("TrmR""TrmE""TrmT""TrmA", "\313Rud""\313Ele""\313Thr""\313Ail")
- 
+
   #define TR_POTS_VSRCRAW      "P1\0 ""P2\0 ""P3\0 "
   #define TR_SW_VSRCRAW        "3POS"
-  
-#if defined(REV_EVO_V1)
-#define TR_9X_3POS_SWITCHES  "Jup""Jmi""Jdn"
-#else
+
 #define TR_9X_3POS_SWITCHES  "ID0""ID1""ID2"
-#endif
 
   #define TR_LOGICALSW         "L1\0""L2\0""L3\0""L4\0""L5\0""L6\0""L7\0""L8\0""L9\0""L10""L11""L12"
 
@@ -386,11 +382,7 @@
   #define TR_ROTENC_SWITCHES
 #endif
 
-#if defined(REV_EVO_V1)
-#define TR_PHYS_SWITCHES     "N  ""L  ""O  ""I  ""G  ""M  "
-#else
 #define TR_PHYS_SWITCHES     "THR""RUD""ELE""AIL""GEA""TRN"
-#endif
 
 #define TR_ON_ONE_SWITCHES     "ON\0""One"
 

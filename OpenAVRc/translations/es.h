@@ -149,6 +149,11 @@
   #define TR_DSM2
 #endif
 
+#if defined(SPIMODULES)
+   #define TR_SPIM "SPIMOD"
+#else
+   #define TR_SPIM
+#endif
 
 #if defined(MULTIMODULE)
   #define TR_MMOD                "MultiM"
@@ -172,7 +177,7 @@
 
   #define TR_XPPM              "PPM16\0""PPMsim"
 
-#define TR_VPROTOS             "PPM\0  " TR_XPPM TR_PXX TR_DSM2 TR_MMOD "SPIMOD"
+#define TR_VPROTOS             "PPM\0  " TR_XPPM TR_PXX TR_DSM2 TR_MMOD TR_SPIM
 
 #define LEN_POSNEG             "\003"
 #define TR_POSNEG              "POS""NEG"

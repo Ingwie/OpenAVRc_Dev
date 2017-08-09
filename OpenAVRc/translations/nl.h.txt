@@ -73,7 +73,7 @@
 #define LEN_SWTYPES            "\006"
 #define TR_SWTYPES             "Geen\0 ""Wissel""2POS\0 ""3POS\0"
 
-#define LEN_POTTYPES           "\021" 
+#define LEN_POTTYPES           "\021"
 #define TR_POTTYPES            "Geen\0            ""Pot met Klik\0    ""Standenschakelaar""Pot zonder Klik\0 "
 
 
@@ -128,7 +128,7 @@
 
 #if defined(PXX)
   #define TR_PXX               "PXX\0  "
-#elif defined(DSM2) 
+#elif defined(DSM2)
   #define TR_PXX               "[PXX]\0"
 #else
   #define TR_PXX
@@ -140,6 +140,11 @@
   #define TR_DSM2
 #endif
 
+#if defined(SPIMODULES)
+   #define TR_SPIM "SPIMOD"
+#else
+   #define TR_SPIM
+#endif
 
 #if defined(MULTIMODULE)
   #define TR_MMOD                "MultiM"
@@ -163,7 +168,7 @@
 
   #define TR_XPPM              "PPM16\0""PPMsim"
 
-#define TR_VPROTOS             "PPM\0  " TR_XPPM TR_PXX TR_DSM2 "SPIMOD" TR_MMOD
+#define TR_VPROTOS             "PPM\0  " TR_XPPM TR_PXX TR_DSM2 TR_MMOD TR_SPIM
 
 #define LEN_POSNEG             "\003"
 #define TR_POSNEG              "POS""NEG"
@@ -336,7 +341,7 @@
   #define TR_VARIOSRC          "Alt\0""Alt+""VSpd""A1\0 ""A2\0"
 #endif
 
-  #define LEN_VTELEMSCREENTYPE "\006" 
+  #define LEN_VTELEMSCREENTYPE "\006"
   #define TR_VTELEMSCREENTYPE  "Nums\0 ""Balken"
 
 #define LEN_GPSFORMAT          "\004"
@@ -360,7 +365,7 @@
 
 #define TR_STICKS_VSRCRAW      TR("Rud\0""Ele\0""Thr\0""Ail\0", "\307Rud""\307Ele""\307Thr""\307Ail")
 #define TR_TRIMS_VSRCRAW       TR("TrmR""TrmE""TrmT""TrmA", "\313Rud""\313Ele""\313Thr""\313Ail")
- 
+
   #define TR_POTS_VSRCRAW      "P1\0 ""P2\0 ""P3\0 "
   #define TR_SW_VSRCRAW        "3POS"
   #define TR_9X_3POS_SWITCHES  "ID0""ID1""ID2"
@@ -592,7 +597,7 @@
 #define TR_MIX                 "MIX"
 #define TR_EEPROMLOWMEM        "EEPROM vol"
 #define TR_ALERT               "ALARM"
-#define TR_PRESSANYKEYTOSKIP   "Druk een toets.." 
+#define TR_PRESSANYKEYTOSKIP   "Druk een toets.."
 #define TR_THROTTLENOTIDLE     "Gas niet Dicht!"
 #define TR_ALARMSDISABLED      "Alarm uitgeschakeld"
 #define TR_PRESSANYKEY         TR("\010Druk een Toets", "Druk een Toets")
@@ -633,7 +638,7 @@
 #define TR_MENUDEBUG           "DEBUG"
   #define TR_RXNUM             "RxNum"
 #define TR_SYNCMENU            "Sync [MENU]"
-#define TR_LIMIT               INDENT "Grenzen"   
+#define TR_LIMIT               INDENT "Grenzen"
 #define TR_MINRSSI             "Min. RSSI"
 #define TR_LATITUDE            "Latitude"
 #define TR_LONGITUDE           "Longitude"
@@ -790,7 +795,7 @@
 #define TR_PT                  "Pt"
 #define TR_PTS                 "Ptn"
 #define TR_SMOOTH              "Zacht"
-#define TR_COPY_STICKS_TO_OFS  "Kopieer Sticks naar Subtrim"  
+#define TR_COPY_STICKS_TO_OFS  "Kopieer Sticks naar Subtrim"
 #define TR_COPY_TRIMS_TO_OFS   "Kopieer Trim naar Subtrim"
 #define TR_INCDEC              "Inc/Decrement"
 #define TR_GLOBALVAR           "Globale Var"
