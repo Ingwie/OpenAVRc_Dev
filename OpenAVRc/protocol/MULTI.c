@@ -257,9 +257,9 @@ static uint16_t MULTI_cb()
   // byte 4-25, channels 0..2047
   // Range for pulses (channelsOutputs) is [-1024:+1024] for [-100%;100%]
   // Multi uses [204;1843] as [-100%;100%]
-  for (int i=0; i<MULTI_CHANS; i++) {
-    int channel = i;//g_model.moduleData[port].channelsStart+i;
-    int value = channelOutputs[channel] + 2*PPM_CH_CENTER(channel) - 2*PPM_CENTER;
+  for (uint8_t i=0; i<MULTI_CHANS; i++) {
+//    int channel = i;//g_model.moduleData[port].channelsStart+i;
+    int value = channelOutputs[i] + 2*PPM_CH_CENTER(i) - 2*PPM_CENTER;
 
     // Scale to 80%
     value =  value*8/10 + 1024;
