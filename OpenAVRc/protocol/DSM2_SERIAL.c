@@ -41,15 +41,11 @@
 #define FRANCE_BIT                         0x10
 #define DSMX_BIT                           0x08
 #define BAD_DATA                           0x47
-#define DSM2_SEND_BIND                     (1 << 7)
-#define DSM2_SEND_RANGECHECK               (1 << 5)
-uint8_t  dsm2BindTimer = DSM2_BIND_TIMEOUT;
+#define DSM2_SEND_BIND                     0x80
+#define DSM2_SEND_RANGECHECK               0x20
 
-
-#if defined(DSM2) || defined(PXX)
-uint8_t moduleFlag[NUM_MODULES] = { 0 };
-#endif
-
+bool dsm2Bind = 0;
+bool dsm2Range = 0;
 
 // DSM2 protocol pulled from th9x - Thanks thus!!!
 
@@ -61,6 +57,7 @@ uint8_t moduleFlag[NUM_MODULES] = { 0 };
   125000 Baud 8n1      _ xxxx xxxx - ---
 #define DSM2_CHANNELS      6                // Max number of DSM2 Channels transmitted
 #define DSM2_BIT (8*2)
+
 bind:
   DSM2_Header = 0x80,0
 static byte DSM2_Channel[DSM2_CHANNELS*2] = {
@@ -90,18 +87,6 @@ static void DSM2_SERIAL_Reset()
 #endif
 }
 
-static void DSM2_SERIAL_init()
-{
-#if defined(FRSKY)
-
-#endif
-}
-
-static uint16_t DSM_SERIAL_bind_cb()
-{
-  // Send bind command.
-  return 22000U *2;
-}
 
 static uint16_t DSM_SERIAL_cb()
 {
@@ -115,39 +100,26 @@ static uint16_t DSM_SERIAL_cb()
 
   uint8_t dsm2_header;
 
-  switch (s_current_protocol[0]) {
+  if(s_current_protocol == PROTO_DSM2_LP45)
+    dsm2_header = 0x00;
+  else if(s_current_protocol == PROTO_DSM2_DSM2)
+    dsm2_header = 0x10;
+  else dsm2_header = 0x10 | DSMX_BIT; // PROTO_DSM2_DSMX
 
-  case PROTO_DSM2_LP45:
-	  dsm2_header = 0x00;
-    break;
-  case PROTO_DSM2_DSM2:
-	  dsm2_header = 0x10;
-    break;
-  default: // DSMX
-	  dsm2_header = 0x18;
-    break;
-  }
-
-  if (dsm2BindTimer > 0) {
-    dsm2BindTimer--;
-    if (switchState(SW_DSM2_BIND)) {
-      moduleFlag[0] = MODULE_BIND;
-      dsm2_header |= DSM2_SEND_BIND;
-    }
-  } else if (moduleFlag[0] == MODULE_RANGECHECK) {
-	  dsm2_header |= DSM2_SEND_RANGECHECK;
-  } else {
-    moduleFlag[0] = 0;
-  }
+  if(dsm2Bind)
+    dsm2_header |= DSM2_SEND_BIND;
+  else if(dsm2Range)
+    dsm2_header |= DSM2_SEND_RANGECHECK;
+  else;
 
   frskyTxBuffer[--dsm2TxBufferCount] = dsm2_header;
 
-  frskyTxBuffer[--dsm2TxBufferCount] = g_model.header.modelId[0];
+  frskyTxBuffer[--dsm2TxBufferCount] = g_model.header.modelId[0]; // DSM2 Header. Second byte for model match.
 
-  for (uint8_t i=0; i < DSM2_CHANS; i++) {
+  for (uint8_t i = 0; i < DSM2_CHANS; i++) {
     uint16_t pulse = limit(0, ((channelOutputs[i]*13)>>5)+512,1023);
-    frskyTxBuffer[--dsm2TxBufferCount] = (i<<2) | ((pulse>>8)&0x03); // encoded channel + upper 2 bits pulse width
-    frskyTxBuffer[--dsm2TxBufferCount] = pulse & 0xff; // low byte
+    frskyTxBuffer[--dsm2TxBufferCount] = (i<<2) | ((pulse>>8)&0x03); // Encoded channel + upper 2 bits pulse width.
+    frskyTxBuffer[--dsm2TxBufferCount] = pulse & 0xff; // Low byte
   }
 
 #if !defined(SIMU)
@@ -162,6 +134,7 @@ static uint16_t DSM_SERIAL_cb()
 
 static void DSM2_SERIAL_initialize(uint8_t bind)
 {
+// 125K 8N1
 #if defined(FRSKY) && defined(DSM2_SERIAL)
 #if !defined(SIMU)
 
@@ -176,7 +149,7 @@ static void DSM2_SERIAL_initialize(uint8_t bind)
 
   // Set 8N1 (leave TX and RX disabled for now)
   UCSRB_N(TLM_MULTI) = (0 << RXCIE_N(TLM_MULTI)) | (0 << TXCIE_N(TLM_MULTI)) | (0 << UDRIE_N(TLM_MULTI)) | (0 << RXEN_N(TLM_MULTI)) | (0 << TXEN_N(TLM_MULTI)) | (0 << UCSZ2_N(TLM_MULTI));
-  UCSRC_N(TLM_MULTI) = (1 << UCSZ1_N(TLM_MULTI)) | (1 << UCSZ0_N(TLM_MULTI)); // Set 1 stop bits, No parity bit.
+  UCSRC_N(TLM_MULTI) = (1 << UCSZ1_N(TLM_MULTI)) | (1 << UCSZ0_N(TLM_MULTI)); // Set 1 stop bit, No parity bit.
   while (UCSRA_N(TLM_MULTI) & (1 << RXC_N(TLM_MULTI))) UDR_N(TLM_MULTI); // Flush receive buffer.
 
   // These should be running right from power up on a FrSky enabled '9X.
@@ -185,34 +158,35 @@ static void DSM2_SERIAL_initialize(uint8_t bind)
 
 #endif // SIMU
 #endif // defined(DSM2_SERIAL)
+#if defined(DSM2) || defined(PXX)
+uint8_t moduleFlag[NUM_MODULES] = { 0 };
+#endif
 
-  CLOCK_StopTimer();
-  DSM2_SERIAL_init();
-  MULTI_fixed_id = SpiRFModule.fixed_id;
-  if (bind) {
-  CLOCK_StartTimer(25000U *2, MULTI_bind_cb);
-  } else {
-  CLOCK_StartTimer(25000U *2, MULTI_cb);
-  }
+  if (bind) dsm2Bind = 1;
+  else dsm2Bind = 0;
+  CLOCK_StartTimer(25000U *2, DSM_SERIAL_cb();
 }
 
 
-const void *DSM_SERIAL_Cmds(enum ProtoCmds cmd)
+const void *DSM2_SERIAL_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
   case PROTOCMD_INIT:
-    DSM2_SERIAL_initialize(0);
+    dsm2Bind = 0;
+    DSM2_SERIAL_initialize();
+    return 0;
+  case PROTOCMD_BIND:
+    dsm2Bind = 1;
+    DSM2_SERIAL_initialize();
     return 0;
   //case PROTOCMD_DEINIT:
   case PROTOCMD_RESET:
     CLOCK_StopTimer();
-    DSM_SERIAL_Reset();
+    DSM2_SERIAL_Reset();
     return 0;
   //case PROTOCMD_CHECK_AUTOBIND:
     //return (void *)1L; // Always Autobind
-  case PROTOCMD_BIND:
-    DSM_SERIAL_initialize(1);
-    return 0;
+
   //case PROTOCMD_NUMCHAN:
     //return (void *)7L;
   //case PROTOCMD_DEFAULT_NUMCHAN:
