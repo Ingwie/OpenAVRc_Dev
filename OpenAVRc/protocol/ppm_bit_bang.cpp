@@ -45,7 +45,7 @@
 */
 static uint16_t PPM_BB_cb()
 {
-  if ( *((uint16_t*)pulses2MHzRPtr) == 0) {
+  if (*ppm2MHzRPtr == 0) {
 
     if (g_model.pulsePol) PPM_PIN_LOW(); // Set idle level.
     else PPM_PIN_HIGH(); // GCC optimisation should produce a single SBI instruction.
@@ -66,8 +66,8 @@ static uint16_t PPM_BB_cb()
 
   PPM_PIN_TOGGLE(); // Toggle port bit.
 
-  uint16_t temp = *((uint16_t *) pulses2MHzRPtr);
-  pulses2MHzRPtr += sizeof(uint16_t); // Non PPM protocols use uint8_t pulse buffer.
+  uint16_t temp = *ppm2MHzRPtr;
+  ppm2MHzRPtr ++; // Non PPM protocols use uint8_t pulse buffer.
   return temp; // Schedule next Timer1 interrupt vector (to this function).
 }
 
@@ -78,8 +78,8 @@ static void PPM_BB_initialize()
   telemetryInit();
 #endif
 
-  pulses2MHzRPtr = pulses2MHz;
-  *((uint16_t*) pulses2MHzRPtr) = 0;
+  ppm2MHzRPtr = pulses2MHz.pword;
+  *ppm2MHzRPtr = 0;
   CLOCK_StartTimer(25000U *2, &PPM_BB_cb);
 }
 

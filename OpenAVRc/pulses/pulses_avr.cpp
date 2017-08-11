@@ -128,11 +128,16 @@ ISR(TIMER1_COMPA_vect) // Protocol Callback ISR.
 void setupPulsesPPM(uint8_t proto)
 {
   // Total frame length is a fixed 22.5msec (more than 9 channels is non-standard and requires this to be extended.)
-  // Each channel's pulse is 0.7 to 1.7ms long, with a 0.3ms stop tail, making each compelte cycle 1 to 2ms.
+  // Each channel's pulse is 0.7 to 1.7ms long, with a 0.3ms stop tail, making each complete cycle 1 to 2ms.
 
   int16_t PPM_range = g_model.extendedLimits ? 640*2 : 512*2;   //range of 0.7..1.7msec
 
-  uint16_t *ptr = (proto == PROTO_PPM ? (uint16_t *)pulses2MHz : (uint16_t *) &pulses2MHz[PULSES_SIZE/2]);
+//  uint16_t *ptr = (proto == PROTO_PPM ? (uint16_t *)pulses2MHz : (uint16_t *) &pulses2MHz[PULSES_SIZE/2]);
+/* ToDo
+ * PROTO_PPMSIM & PROTO_PPM16 start halfway down the array.
+ * I feel this is over complicated if we want to save RAM.
+*/
+  uint16_t *ptr = (proto == PROTO_PPM) ? pulses2MHz.pword : &pulses2MHz.pword[PULSES_WORD_SIZE/2] ;
 
   //The pulse ISR is 2mhz that's why everything is multiplied by 2
   uint8_t p = (proto == PROTO_PPM16 ? 16 : 8) + (g_model.ppmNCH * 2); //Channels *2
@@ -153,7 +158,7 @@ void setupPulsesPPM(uint8_t proto)
 
   if (proto == PROTO_PPM) {
     *ptr++ = rest - SETUP_PULSES_DURATION;
-    pulses2MHzRPtr = pulses2MHz;
+    ppm2MHzRPtr = pulses2MHz.pword;
   } else {
     *ptr++ = rest;
     B3_comp_value = rest - SETUP_PULSES_DURATION; // 500us before end of sync pulse.

@@ -52,6 +52,7 @@ static uint16_t PPM_HW_cb2()
   static uint16_t SyncPulse;
   static int8_t state = -1;
 
+  // Pulses are calculated on the fly.
 
   if (state == -2) {
     // Need to prevent next toggle.

@@ -35,7 +35,7 @@
 #define pulses_avr_h
 
 extern uint8_t s_current_protocol;
-extern uint8_t *pulses2MHzRPtr;
+uint16_t *ppm2MHzRPtr;
 extern uint8_t *pulses2MHzWPtr;
 
 extern uint16_t nextMixerEndTime;
@@ -47,9 +47,28 @@ extern uint8_t moduleFlag;
 
 extern uint16_t dt;
 
-#define PULSES_SIZE 144
-uint8_t pulses2MHz[PULSES_SIZE] = {0}; // TODO check this length, pulled from er9x, perhaps too big.
-uint8_t * pulses2MHzRPtr = pulses2MHz;
+
+//#ifdef SBUS_PROTOCOL
+//#define PULSES_WORD_SIZE  115	// 72=((2+2*6)*10)/2+2
+//#define PULSES_BYTE_SIZE  (PULSES_WORD_SIZE * 2)
+//#else
+#define PULSES_WORD_SIZE  72		// 72=((2+2*6)*10)/2+2
+// 72 (A 16 Channel PPM frame has 34 timing events + 1 int terminator).
+#define PULSES_BYTE_SIZE  (PULSES_WORD_SIZE * 2)
+//#endif
+
+union p2mhz_t
+{
+  uint16_t pword[PULSES_WORD_SIZE];
+  uint8_t  pbyte[PULSES_BYTE_SIZE];  // 144
+
+//  uint8_t packet[40]; // protocol global packet
+} pulses2MHz;
+
+//#define PULSES_SIZE 144
+// TODO Initialisation
+//uint8_t pulses2MHz[PULSES_SIZE] = {0}; // TODO check this length, pulled from er9x, perhaps too big.
+//uint8_t * pulses2MHzRPtr = pulses2MHz;
 
 
 void setupPulses();
