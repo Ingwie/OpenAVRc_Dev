@@ -63,7 +63,7 @@ FORCEINLINE void pausePulses()
   TRACE("  ->  RESET Proto - %s -",  Protos[s_current_protocol].ProtoName);
   SIMU_SLEEP(500);
   CLOCK_StopTimer();
-  s_current_protocol = 255;
+  //s_current_protocol = 255;
 }
 
 FORCEINLINE void resumePulses()
