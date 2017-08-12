@@ -61,8 +61,7 @@ union p2mhz_t
 {
   uint16_t pword[PULSES_WORD_SIZE];
   uint8_t  pbyte[PULSES_BYTE_SIZE];  // 144
-
-//  uint8_t packet[40]; // protocol global packet
+// uint8_t packet[40]; // protocol global packet uses this union via pointer.
 } pulses2MHz;
 
 //#define PULSES_SIZE 144

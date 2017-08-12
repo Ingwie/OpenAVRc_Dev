@@ -60,7 +60,8 @@ safetych_t safetyCh[NUM_CHNOUT];
 
 #if defined(SPIMODULES)
 struct Module SpiRFModule;
-uint8_t packet[40]; //protocol global packet
+//uint8_t packet[40]; //protocol global packet
+uint8_t * packet = pulses2MHz.pbyte; //protocol global packet
 #endif // defined
 
 union ReusableBuffer reusableBuffer;

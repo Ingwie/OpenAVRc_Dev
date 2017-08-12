@@ -1147,7 +1147,8 @@ struct Module {
 };
 
 extern struct Module SpiRFModule;
-extern uint8_t packet[40]; //protocol global packet
+//extern uint8_t packet[40]; //protocol global packet
+extern uint8_t * packet; //protocol global packet
 extern void startPulses(enum ProtoCmds Command);
 
 typedef const void* (*CMDS)(enum ProtoCmds);
