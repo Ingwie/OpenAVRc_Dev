@@ -1565,7 +1565,7 @@ void OpenAVRcInit(OpenAVRc_INIT_ARGS)
 
   doMixerCalculations();
 
-  resumePulses();
+  startPulses(PROTOCMD_INIT);
 
 #if !defined(SIMU)
   wdt_enable(WDTO_500MS); // Enable watchdog

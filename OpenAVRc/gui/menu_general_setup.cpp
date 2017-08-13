@@ -450,10 +450,10 @@ void menuGeneralSetup(uint8_t event)
       if (attr && s_editMode>0) {
         CHECK_INCDEC_GENVAR(event, g_eeGeneral.stickMode, 0, 3);
       } else if (stickMode != g_eeGeneral.stickMode) {
-        pausePulses();
+        sendStopPulses();
         stickMode = g_eeGeneral.stickMode;
         checkTHR();
-        resumePulses();
+        startPulses(PROTOCMD_INIT);
         clearKeyEvents();
       }
 #if defined(ROTARY_ENCODER_NAVIGATION)

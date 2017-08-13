@@ -76,9 +76,7 @@ void DSM2_Init();
 void DSM2_Done();
 
 FORCEINLINE bool pulsesStarted();
-FORCEINLINE void pausePulses();
-FORCEINLINE void resumePulses();
-
+FORCEINLINE void sendStopPulses();
 
 #define SEND_FAILSAFE_NOW()
 #define SEND_FAILSAFE_1S()

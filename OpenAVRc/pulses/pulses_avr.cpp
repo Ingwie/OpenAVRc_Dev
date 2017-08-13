@@ -57,18 +57,13 @@ FORCEINLINE bool pulsesStarted()
   return (s_current_protocol != 255);
 }
 
-FORCEINLINE void pausePulses()
+FORCEINLINE void sendStopPulses()
 {
   PROTO_Cmds(PROTOCMD_RESET);
   TRACE("  ->  RESET Proto - %s -",  Protos[s_current_protocol].ProtoName);
   SIMU_SLEEP(500);
   CLOCK_StopTimer();
   //s_current_protocol = 255;
-}
-
-FORCEINLINE void resumePulses()
-{
-  startPulses(PROTOCMD_INIT);
 }
 
 void startPulses(enum ProtoCmds Command)

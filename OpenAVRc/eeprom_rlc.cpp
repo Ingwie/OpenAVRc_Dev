@@ -919,7 +919,7 @@ void eeLoadModel(uint8_t id)
 #endif
 
     if (pulsesStarted()) {
-      pausePulses();
+      sendStopPulses();
     }
 
     theFile.openRlc(FILE_MODEL(id));
@@ -943,7 +943,7 @@ void eeLoadModel(uint8_t id)
         checkAll();
       }
 #endif
-    resumePulses();
+    startPulses(PROTOCMD_INIT);
     }
 
     customFunctionsReset();
