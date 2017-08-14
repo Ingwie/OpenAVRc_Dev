@@ -50,6 +50,7 @@
 			<Add option="-m32" />
 			<Add option="-pipe" />
 			<Add option="-mthreads" />
+			<Add option="-Wno-deprecated-declarations" />
 			<Add option="-D__GNUWIN32__" />
 			<Add option="-D__WXMSW__" />
 			<Add option="-DWXUSINGDLL" />

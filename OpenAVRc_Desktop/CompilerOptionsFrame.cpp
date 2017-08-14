@@ -40,7 +40,7 @@
 
 extern wxString AppPath;
 extern bool Ini_Changed;
-extern bool doNotClose = 0;
+bool doNotClose = 0;
 
 
 //(*InternalHeaders(CompilerOptionsFrame)

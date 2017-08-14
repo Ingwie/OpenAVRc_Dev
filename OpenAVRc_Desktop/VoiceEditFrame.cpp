@@ -42,7 +42,7 @@
 extern wxString AppPath;
 extern wxString voice_Langue;
 extern long Numvoice;
-extern wxString voicePrompt ="";
+wxString voicePrompt ="";
 wxString voiceText;
 wxString NumVoiceTxt;
 wxString file;

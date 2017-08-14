@@ -86,7 +86,7 @@ void Voice_choice::Load()
     if (tfile.Exists()) //avoid crash if file is not found
     {
         tfile.Open(AppPath + "\\voices.txt");
-        for (int j = 0; j < tfile.GetLineCount(); j++ )
+        for (uint32_t j = 0; j < tfile.GetLineCount(); j++ )
         {
           ComboBoxvoice->Append(tfile.GetLine(j));
         }

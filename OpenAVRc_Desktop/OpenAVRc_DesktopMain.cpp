@@ -773,17 +773,17 @@ void OpenAVRc_DesktopFrame::OnATMEGA2560CompilerSelected(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnMenuItem9Selected(wxCommandEvent& event)
 {
-  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/master/documentation/Beta%20tester%20files/Compilez%20votre%20FW%20OpenAVRc_V1.doc?raw=true"), NULL);
+  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/master/documentation/Beta%20tester%20files/Compilez%20votre%20FW%20OpenAVRc_V1.doc?raw=true"), 0);
 }
 
 void OpenAVRc_DesktopFrame::OnMenuJQ6500_PCBSelected(wxCommandEvent& event)
 {
-  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/tree/master/documentation/Beta%20tester%20files/JQ6500%20PCB%20by%20Pyrall"), NULL);
+  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/tree/master/documentation/Beta%20tester%20files/JQ6500%20PCB%20by%20Pyrall"), 0);
 }
 
 void OpenAVRc_DesktopFrame::OnMenuVOICE_AUDIO_PCBSelected(wxCommandEvent& event)
 {
-  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/tree/master/documentation/Beta%20tester%20files/Voice-audio%20pcb%20and%20rtc%20by%20Pyrall"), NULL);
+  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/tree/master/documentation/Beta%20tester%20files/Voice-audio%20pcb%20and%20rtc%20by%20Pyrall"), 0);
 }
 
 void OpenAVRc_DesktopFrame::OnListBoxConfigDClick(wxCommandEvent& event)
