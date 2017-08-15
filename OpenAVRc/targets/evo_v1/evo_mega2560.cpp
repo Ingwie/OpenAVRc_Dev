@@ -111,6 +111,10 @@ inline void boardInit()
   EIMSK = (1<<INT6) | (1<<INT4); // Enable the first of each encoder interrupt pairs.
 #endif
 
+#if defined(RTCLOCK) || defined(LCD_SSD1306) || defined(EXTERNALEEPROM)
+  /* Hardware I2C init                               */
+  i2c_init();
+#endif
 
 #if defined(SPIMODULES)
 // Setup (M)SPI Port.

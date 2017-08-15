@@ -259,7 +259,7 @@ GVARS = NO
 PERSONAMES = NO
 
 #Use external eeprom FM24W256
-EXTERNALEEPROM=NO
+EXTERNALEEPROM = NO
 
 # Menu Lock modes
 # Values = NO, READONLY, NOMENUS
@@ -363,12 +363,14 @@ ifeq ($(PCB), EVO_V1)
   CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DREV_EVO_V1 -DEEPROM_RLC -DEEPROM_VARIANT=0
   SDCARD = YES
   BUZZER = NO
+  EXTERNALEEPROM = YES
   AUDIO = YES
   VOICE = NO
   HAPTIC = NO
   THR_TRACE = YES
   PERSONAMES = YES
   PWRMANAGE = NO
+  
   INCDIRS += targets/evo_v1 targets/stock $(FATFSDIR) $(FATFSDIR)/option
   BOARDSRC = main_avr.cpp i2c_master.cpp spi.c targets/evo_v1/evo_mega2560.cpp targets/evo_v1/evo_lcd_driver.cpp targets/evo_v1/evo_adc_driver.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
@@ -384,7 +386,7 @@ ifeq ($(PCB), EVO_V1)
 
   ifeq ($(SDCARD), YES)
     EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/option/ccsbcs.c diskio.cpp
-    CPPDEFS += -DSDCARD
+    CPPDEFS += -DSDCARD -DRTCLOCK
     GUIGENERALSRC += gui/menu_general_sdmanager.cpp
     CPPSRC += rtc.cpp sdcard.cpp logs.cpp rtc_driver.cpp
   endif
