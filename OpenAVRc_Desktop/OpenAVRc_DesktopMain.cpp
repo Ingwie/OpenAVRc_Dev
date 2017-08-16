@@ -400,6 +400,10 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   ListBoxConfig->InsertItems(SavedConfig,0);
   ListBoxConfig->SetStringSelection(Profil);
 
+ ////////////////////////TEST
+
+  Ee217_4k = new Eeprom(217,4);
+  Ee217_4k->init();
 }
 
 
