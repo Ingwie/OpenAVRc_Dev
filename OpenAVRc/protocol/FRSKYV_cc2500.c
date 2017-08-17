@@ -99,11 +99,11 @@ static void FRSKYV_init(uint8_t bind)
 
 
   CC2500_SetTxRxMode(TX_EN);
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) -50); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
+  CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) 0); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
 //  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
   CC2500_Strobe(CC2500_SFTX); // 3b
   CC2500_Strobe(CC2500_SFRX); // 3a
-  CC2500_SetPower(bind ? TXPOWER_1 : TXPOWER_1);
+  CC2500_SetPower(bind ? TXPOWER_4 : TXPOWER_4);
   CC2500_Strobe(CC2500_SIDLE); // Go to idle...
 
 }
@@ -248,7 +248,7 @@ static uint16_t FRSKYV_data_cb()
   /* TODO Update options which don't need to be every 9ms. */
   static uint8_t option = 0;
   if(option == 0) CC2500_SetTxRxMode(TX_EN); // Keep Power Amp activated.
-  else if(option == 64) CC2500_SetPower(TXPOWER_2); // TODO update power level.
+  else if(option == 64) CC2500_SetPower(TXPOWER_4); // TODO update power level.
   else if(option == 128) CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) 0); // TODO Update fine frequency value.
   else if(option == 196) CC2500_Strobe(CC2500_SIDLE); // MCSM1 register setting puts CC2500 back into idle after TX.
 
@@ -280,7 +280,7 @@ static uint16_t FRSKYV_bind_cb()
 
 static void FRSKYV_initialise(uint8_t bind)
 {
-  CLOCK_StopTimer();
+  PROTO_Stop_Callback();
 
   frsky_id = SpiRFModule.fixed_id & 0x7FFF;
 
@@ -297,12 +297,12 @@ static void FRSKYV_initialise(uint8_t bind)
   if(bind) {
     FRSKYV_init(1);
     PROTOCOL_SetBindState(0xFFFFFFFF);
-    CLOCK_StartTimer(25000U *2, FRSKYV_bind_cb);
+    PROTO_Start_Callback(25000U *2, FRSKYV_bind_cb);
   } else {
     FRSKYV_init(0);
     seed = 2UL;
     FRSKYV_build_data_packet();
-    CLOCK_StartTimer(25000U *2, FRSKYV_data_cb);
+    PROTO_Start_Callback(25000U *2, FRSKYV_data_cb);
   }
 }
 
@@ -316,10 +316,10 @@ const void * FRSKYV_Cmds(enum ProtoCmds cmd)
     return 0;
 //        case PROTOCMD_DEINIT:
 //        case PROTOCMD_RESET:
-//            CLOCK_StopTimer();
+//            PROTO_Stop_Callback();
 //            return (void *)(CC2500_Reset() ? 1L : -1L);
   case PROTOCMD_RESET:
-    CLOCK_StopTimer();
+    PROTO_Stop_Callback();
     CC2500_Reset();
     CC2500_SetTxRxMode(TXRX_OFF);
     CC2500_Strobe(CC2500_SIDLE);

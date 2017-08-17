@@ -62,14 +62,14 @@ FORCEINLINE void sendStopPulses()
   PROTO_Cmds(PROTOCMD_RESET);
   TRACE("  ->  RESET Proto - %s -",  Protos[s_current_protocol].ProtoName);
   SIMU_SLEEP(500);
-  CLOCK_StopTimer();
+  PROTO_Stop_Callback();
   //s_current_protocol = 255;
 }
 
 void startPulses(enum ProtoCmds Command)
 {
   spi_enable_master_mode(); // Todo check if Proto need SPI
-  CLOCK_StopTimer();
+  PROTO_Stop_Callback();
 // Reset CS pin
   RF_CS_CC2500_INACTIVE();
   RF_CS_CYRF6936_INACTIVE();
@@ -88,13 +88,13 @@ void startPulses(enum ProtoCmds Command)
 }
 
 // This ISR should work for xmega.
-ISR(TIMER1_COMPA_vect) // Protocol Callback ISR.
+ISR(TIMER1_COMPB_vect) // ISR for Protocol Callback, PPM and PPM16 (First 8 channels).
 {
 #if F_CPU > 16000000UL
   if (! timer_counts)
 #endif
   {
-    uint16_t half_us = timer_callback(); // e.g. skyartec_cb().
+    uint16_t half_us = timer_callback(); // Function pointer e.g. skyartec_cb().
 
     if(! half_us) {
       PROTO_Cmds(PROTOCMD_DEINIT);
@@ -106,12 +106,12 @@ ISR(TIMER1_COMPA_vect) // Protocol Callback ISR.
 
 #if F_CPU > 16000000UL
   if (timer_counts > 65535) {
-    OCR1A += 32000;
+    OCR1B += 32000;
     timer_counts -= 32000; // 16ms @ 16MHz counter clock.
   } else
 #endif
   {
-    OCR1A += timer_counts;
+    OCR1B += timer_counts;
     timer_counts = 0;
   }
 
@@ -161,3 +161,11 @@ void setupPulsesPPM(uint8_t proto)
 
   *ptr = 0;
 }
+
+
+ISR(TIMER1_COMPA_vect) // Timer 1 compare "B" vector. Used for PPM commutation and maybe more ...
+{
+  ocr1b_function_ptr();
+}
+
+

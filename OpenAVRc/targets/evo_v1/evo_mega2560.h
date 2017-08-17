@@ -168,8 +168,7 @@ bool check_slave_mode(void);
 #define TIMER_10MS_COMPVAL         OCR2A
 #define PAUSE_10MS_INTERRUPT()     TIMSK2 &= ~(1<<OCIE2A)
 #define RESUME_10MS_INTERRUPT()    TIMSK2 |= (1<<OCIE2A)
-#define PAUSE_PPMIN_INTERRUPT()    TIMSK5 &= ~(1<<ICIE5) // Timer 5
-#define RESUME_PPMIN_INTERRUPT()   TIMSK5 |= (1<<ICIE5) // Timer 5
+
 
 // SD Card driver
 #define sdDone()

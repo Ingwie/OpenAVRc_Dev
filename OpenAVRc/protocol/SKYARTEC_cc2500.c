@@ -196,13 +196,13 @@ static uint16_t SKYARTEC_cb()
 
 static void SKYARTEC_initialize(uint8_t bind)
 {
-  CLOCK_StopTimer();
+  PROTO_Stop_Callback();
   skyartec_init();
   Skyartec_fixed_id = SpiRFModule.fixed_id;
   if (bind) {
-  CLOCK_StartTimer(25000U *2, SKYARTEC_bind_cb);
+  PROTO_Start_Callback(25000U *2, SKYARTEC_bind_cb);
   } else {
-  CLOCK_StartTimer(25000U *2, SKYARTEC_cb);
+  PROTO_Start_Callback(25000U *2, SKYARTEC_cb);
   }
 }
 
@@ -214,7 +214,7 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
     return 0;
   //case PROTOCMD_DEINIT:
   case PROTOCMD_RESET:
-    CLOCK_StopTimer();
+    PROTO_Stop_Callback();
     CC2500_Reset();
     CC2500_SetTxRxMode(TXRX_OFF);
     CC2500_Strobe(CC2500_SIDLE);

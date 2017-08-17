@@ -554,7 +554,7 @@ static void DEVO_bind()
 
 static void DEVO_initialize(void)
 {
-  CLOCK_StopTimer();
+  PROTO_Stop_Callback();
   CYRF_Reset();
   DEVO_init();
   CYRF_GetMfgData(cyrfmfg_id);
@@ -585,9 +585,9 @@ static void DEVO_initialize(void)
   CYRF_SetPower(TXPOWER_1); // ToDo
 
 //    if (Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_ON) {
-//        CLOCK_StartTimer(2400, DEVO_telemetry_cb);
+//        PROTO_Start_Callback(2400, DEVO_telemetry_cb);
 //    } else {
-        CLOCK_StartTimer(25000U *2, DEVO_cb);
+        PROTO_Start_Callback(25000U *2, DEVO_cb);
 //    }
 }
 
@@ -599,7 +599,7 @@ const void *DEVO_Cmds(enum ProtoCmds cmd)
       return 0;
     case PROTOCMD_DEINIT:
     case PROTOCMD_RESET:
-      CLOCK_StopTimer();
+      PROTO_Stop_Callback();
       CYRF_Reset();
       CYRF_SetTxRxMode(TXRX_OFF);
       return 0;

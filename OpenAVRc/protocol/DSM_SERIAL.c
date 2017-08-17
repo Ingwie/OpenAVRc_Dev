@@ -164,7 +164,7 @@ uint8_t moduleFlag[NUM_MODULES] = { 0 };
 
   if (bind) dsm2Bind = 1;
   else dsm2Bind = 0;
-  CLOCK_StartTimer(25000U *2, DSM_SERIAL_cb();
+  PROTO_Start_Callback(25000U *2, DSM_SERIAL_cb();
 }
 
 
@@ -181,7 +181,7 @@ const void *DSM2_SERIAL_Cmds(enum ProtoCmds cmd)
     return 0;
   //case PROTOCMD_DEINIT:
   case PROTOCMD_RESET:
-    CLOCK_StopTimer();
+    PROTO_Stop_Callback();
     DSM2_SERIAL_Reset();
     return 0;
   //case PROTOCMD_CHECK_AUTOBIND:

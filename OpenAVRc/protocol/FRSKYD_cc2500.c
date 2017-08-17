@@ -101,13 +101,13 @@ static void FRSKYD_init(uint8_t bind)
     ++pdata;
   }
 
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, (uint8_t) -50); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
+  CC2500_WriteReg(CC2500_0C_FSCTRL0, (uint8_t) 0); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
   CC2500_WriteReg(CC2500_09_ADDR, bind ? 0x03 : (frsky_id & 0xff));
 
 //  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
   CC2500_Strobe(CC2500_SFTX); // 3b
   CC2500_Strobe(CC2500_SFRX); // 3a
-  CC2500_SetPower(bind ? TXPOWER_1 : TXPOWER_1);
+  CC2500_SetPower(bind ? TXPOWER_4 : TXPOWER_4);
 
   CC2500_WriteReg(CC2500_0A_CHANNR, 0x00);
   CC2500_Strobe(CC2500_SIDLE); // Go to idle...
@@ -239,8 +239,8 @@ static uint16_t FRSKYD_data_cb()
       }
 
       if(packet_number & 0x1F) {
-        CC2500_SetPower(TXPOWER_1); // TODO update power level.
-        CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) -50); // TODO Update fine frequency value.
+        CC2500_SetPower(TXPOWER_4); // TODO update power level.
+        CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) 0); // TODO Update fine frequency value.
       }
 
       CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[packet_number %47]);
@@ -316,7 +316,7 @@ static uint16_t FRSKYD_data_cb()
 
 static void FRSKYD_initialize(uint8_t bind)
 {
-  CLOCK_StopTimer();
+  PROTO_Stop_Callback();
 
   frsky_id = SpiRFModule.fixed_id;// % 0x4000;
   FRSKYD_generate_channels();
@@ -326,12 +326,12 @@ static void FRSKYD_initialize(uint8_t bind)
   if(bind) {
     FRSKYD_init(1);
     PROTOCOL_SetBindState(0xFFFFFFFF);
-    CLOCK_StartTimer(25000U *2, FRSKYD_bind_cb);
+    PROTO_Start_Callback(25000U *2, FRSKYD_bind_cb);
   } else {
     FRSKYD_init(0);
     FRSKYD_build_data_packet();
     // TELEMETRY_SetType(TELEM_FRSKY);
-    CLOCK_StartTimer(25000U *2, FRSKYD_data_cb);
+    PROTO_Start_Callback(25000U *2, FRSKYD_data_cb);
   }
 }
 
@@ -348,7 +348,7 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
     FRSKYD_initialize(1);
     return 0;
   case PROTOCMD_RESET:
-    CLOCK_StopTimer();
+    PROTO_Stop_Callback();
     CC2500_Reset();
     CC2500_SetTxRxMode(TXRX_OFF);
     CC2500_Strobe(CC2500_SIDLE);

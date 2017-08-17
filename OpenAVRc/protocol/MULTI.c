@@ -309,13 +309,13 @@ static void MULTI_initialize(uint8_t bind)
 #endif
 #endif
 
-  CLOCK_StopTimer();
+  PROTO_Stop_Callback();
   MULTI_init();
   MULTI_fixed_id = SpiRFModule.fixed_id;
   if (bind) {
-  CLOCK_StartTimer(25000U *2, MULTI_bind_cb);
+  PROTO_Start_Callback(25000U *2, MULTI_bind_cb);
   } else {
-  CLOCK_StartTimer(25000U *2, MULTI_cb);
+  PROTO_Start_Callback(25000U *2, MULTI_cb);
   }
 }
 
@@ -327,7 +327,7 @@ const void *MULTI_Cmds(enum ProtoCmds cmd)
     return 0;
   //case PROTOCMD_DEINIT:
   case PROTOCMD_RESET:
-    CLOCK_StopTimer();
+    PROTO_Stop_Callback();
     MULTI_Reset();
     return 0;
   //case PROTOCMD_CHECK_AUTOBIND:

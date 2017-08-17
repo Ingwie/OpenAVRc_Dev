@@ -87,14 +87,31 @@ FORCEINLINE void boardInit()
   //        cycles at 9.984ms but includes 1:4 duty cycle correction to /157 to average at 10.0ms
   TCCR2B  = (0b111 << CS20); // Norm mode, clk/1024 (differs from ATmega64 chip)
   OCR2A   = 156;
-  TIMSK2 |= (1<<OCIE2A) |  (1<<TOIE2); // Enable Output-Compare and Overflow interrrupts
+  TIMSK2 |= (1<<OCIE2A) |  (1<<TOIE2); // Enable Output-Compare and Overflow interrupts
+
 
 #if defined(AUDIO)
-// TIMER4 (16bit) set to mode 9, prescaler 16MHz/64=250kHz.
-// Used for audio tone generation.
+  // TIMER4 (16bit) set to mode 9, prescaler 16MHz/64=250kHz.
+  // Used for audio tone generation.
   TCCR4B = (0b10<<WGM42) | (0b011 << CS40);
   TCCR4A = (0b01<<WGM40);
 #endif
+
+  // Setup Timer 1.
+  // PB6 OC1B for Protocol callback and PPM
+  // PB5 OC1A for PPMSIM
+  // PPM16 uses PB6 OC1B for first 8 channels, PB5 OC1A for last 8 channels.
+  // PD4 ICP1 for capture of Trainer (Pupil) PPM.
+  // Normal mode (0), OVF @ TOP (0xFFFF), F_CPU/8, Noise canceler on ICP, Falling edge trigger.
+  // This timer should be left to run at all times. DO NOT DISABLE.
+  TCCR1A = 0;
+  TCCR1C = 0;
+  TCCR1B = (2<<CS10);
+  // Set up for input capture on PD4 (ICP1).
+  TCCR1B &= ~(1<<ICES1); // Falling edge trigger, ICP1 should have pull-up enabled.
+  // Should work better when connected to open collector stages and when left unconnected.
+  TCCR1B |= (1<<ICNC1); // Input Capture Noise Canceler.
+  TIMSK1 = 0;
 
 
 #if defined(VOICE_WTV20SD)

@@ -773,7 +773,7 @@ static void FRSKYX_init()
 
 static void FRSKYX_initialize(uint8_t bind)
 {
-  CLOCK_StopTimer();
+  PROTO_Stop_Callback();
 
   CC2500_Reset();
 
@@ -830,14 +830,14 @@ static void FRSKYX_initialize(uint8_t bind)
     PROTOCOL_SetBindState(0xFFFFFFFF);
     FRSKYX_initialize_data(1);
     X_state = 0;
-    CLOCK_StartTimer(25000U *2, FRSKYX_bind_cb);
+    PROTO_Start_Callback(25000U *2, FRSKYX_bind_cb);
 
   } else {
     PROTOCOL_SetBindState(0);
     FRSKYX_initialize_data(0);
     channr = 0;
     X_state = FRSKYX_DATA1;
-    CLOCK_StartTimer(25000U *2, FRSKYX_cb);
+    PROTO_Start_Callback(25000U *2, FRSKYX_cb);
   }
 }
 
@@ -851,7 +851,7 @@ const void *FRSKYX_Cmds(enum ProtoCmds cmd)
     FRSKYX_initialize(1);
     return 0;
   case PROTOCMD_RESET:
-    CLOCK_StopTimer();
+    PROTO_Stop_Callback();
     CC2500_Reset();
     CC2500_SetTxRxMode(TXRX_OFF);
     CC2500_Strobe(CC2500_SIDLE);

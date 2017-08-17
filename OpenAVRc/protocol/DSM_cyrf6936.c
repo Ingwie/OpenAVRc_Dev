@@ -734,7 +734,7 @@ static uint16_t dsm2_cb()
 
 static void DSM_initialize(uint8_t bind)
 {
-    CLOCK_StopTimer();
+    PROTO_Stop_Callback();
     DSM_fixed_id = SpiRFModule.fixed_id;
     cyrf_startup_config();
 
@@ -783,7 +783,7 @@ static void DSM_initialize(uint8_t bind)
         binding = 0;
     }
     CYRF_SetTxRxMode(TX_EN);
-    CLOCK_StartTimer(25000U *2, dsm2_cb);
+    PROTO_Start_Callback(25000U *2, dsm2_cb);
 }
 
 const void *DSM_Cmds(enum ProtoCmds cmd)
@@ -794,7 +794,7 @@ switch(cmd) {
           return 0;
         //case PROTOCMD_DEINIT:
         case PROTOCMD_RESET:
-            CLOCK_StopTimer();
+            PROTO_Stop_Callback();
             CYRF_Reset();
             CYRF_SetTxRxMode(TXRX_OFF);
             return 0;

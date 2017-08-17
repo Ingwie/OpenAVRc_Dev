@@ -80,7 +80,7 @@ static void PPM_BB_initialize()
 
   ppm2MHzRPtr = pulses2MHz.pword;
   *ppm2MHzRPtr = 0;
-  CLOCK_StartTimer(25000U *2, &PPM_BB_cb);
+  PROTO_Start_Callback(25000U *2, &PPM_BB_cb);
 }
 
 
@@ -90,7 +90,7 @@ const void * PPM_BB_Cmds(enum ProtoCmds cmd)
         case PROTOCMD_INIT: PPM_BB_initialize(); return 0;
         case PROTOCMD_DEINIT:
         case PROTOCMD_RESET:
-            CLOCK_StopTimer();
+            PROTO_Stop_Callback();
             return (void *) 1L;
 //        case PROTOCMD_CHECK_AUTOBIND: return 0;
 //        case PROTOCMD_BIND:  ppm_bb_initialize(); return 0;

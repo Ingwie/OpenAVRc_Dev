@@ -79,8 +79,7 @@ void readKeysAndTrims();
 #define TIMER_10MS_COMPVAL        OCR2A
 #define PAUSE_10MS_INTERRUPT()    TIMSK2 &= ~(1<<OCIE2A)
 #define RESUME_10MS_INTERRUPT()   TIMSK2 |= (1<<OCIE2A)
-#define PAUSE_PPMIN_INTERRUPT()   TIMSK3 &= ~(1<<ICIE3)
-#define RESUME_PPMIN_INTERRUPT()  TIMSK3 |= (1<<ICIE3)
+
 
 #define SLAVE_MODE()              ~PINH & (1<<INP_H_RF_Activated)
 #define JACK_PPM_OUT()            PORTB &= ~(1<<OUT_B_SIM_CTL)

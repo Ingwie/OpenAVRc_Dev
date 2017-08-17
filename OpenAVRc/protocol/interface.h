@@ -38,7 +38,7 @@
 
 #include "misc.h"
 
-#include "ppm_bit_bang.cpp"
+//#include "ppm_bit_bang.cpp"
 #include "ppm_hw_switching.cpp"
 
 #ifdef PROTO_HAS_A7105

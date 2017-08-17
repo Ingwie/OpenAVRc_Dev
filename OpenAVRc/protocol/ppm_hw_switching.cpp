@@ -153,7 +153,7 @@ const void * PPM_SWITCHING_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_INIT: PPM_HW_initialize(); return 0;
     case PROTOCMD_DEINIT:
     case PROTOCMD_RESET:
-      CLOCK_StopTimer();
+      PROTO_Stop_Callback();
       TIMSK1 &= ~(1<<OCIE1B); // Disable Output Compare interrupt.
       TIFR1 |= 1<<OCF1B; // Reset Flag.
       return (void *) 1L;
@@ -174,14 +174,6 @@ const void * PPM_SWITCHING_Cmds(enum ProtoCmds cmd)
     default: break;
   }
   return 0;
-}
-
-
-
-
-ISR(TIMER1_COMPB_vect) // Timer 1 compare "B" vector. Used for PPM commutation and maybe more ...
-{
-  ocr1b_function_ptr();
 }
 
 
