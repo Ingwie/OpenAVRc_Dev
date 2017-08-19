@@ -112,9 +112,9 @@
 #define INP_L_PPM_IN               PIN1_bm // ICP5
 
 // Trainer
-#define OUT_B_SIM_CTL              PIN5_bm // done
-#define JACK_PPM_OUT()             PORTB |= (OUT_B_SIM_CTL)
-#define JACK_PPM_IN()              PORTB &= ~(OUT_B_SIM_CTL)
+#define OUT_G_SIM_CTL              PIN0_bm // done
+#define JACK_PPM_OUT()             PORTG |= (OUT_G_SIM_CTL) // Pupil
+#define JACK_PPM_IN()              PORTG &= ~(OUT_G_SIM_CTL) // Master
 
 #define IO_J_MPX_RF_EN             PIN2_bm
 bool check_slave_mode(void);

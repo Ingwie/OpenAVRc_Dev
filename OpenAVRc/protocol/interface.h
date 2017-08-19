@@ -38,8 +38,11 @@
 
 #include "misc.h"
 
-//#include "ppm_bit_bang.cpp"
-#include "ppm_hw_switching.cpp"
+
+#include "PROTO_PPMSIM.cpp"
+#include "PROTO_PPM.cpp"
+//#include "PROTO_PPM16.cpp"
+
 
 #ifdef PROTO_HAS_A7105
 #include "iface_a7105.h"

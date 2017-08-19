@@ -88,7 +88,7 @@ void startPulses(enum ProtoCmds Command)
 }
 
 // This ISR should work for xmega.
-ISR(TIMER1_COMPB_vect) // ISR for Protocol Callback, PPM and PPM16 (First 8 channels).
+ISR(TIMER1_COMPA_vect) // ISR for Protocol Callback, PPMSIM and PPM16 (Last 8 channels).
 {
 #if F_CPU > 16000000UL
   if (! timer_counts)
@@ -106,12 +106,12 @@ ISR(TIMER1_COMPB_vect) // ISR for Protocol Callback, PPM and PPM16 (First 8 chan
 
 #if F_CPU > 16000000UL
   if (timer_counts > 65535) {
-    OCR1B += 32000;
+    OCR1A += 32000;
     timer_counts -= 32000; // 16ms @ 16MHz counter clock.
   } else
 #endif
   {
-    OCR1B += timer_counts;
+    OCR1A += timer_counts;
     timer_counts = 0;
   }
 
@@ -127,10 +127,8 @@ void setupPulsesPPM(uint8_t proto)
 
   int16_t PPM_range = g_model.extendedLimits ? 640*2 : 512*2;   //range of 0.7..1.7msec
 
-//  uint16_t *ptr = (proto == PROTO_PPM ? (uint16_t *)pulses2MHz : (uint16_t *) &pulses2MHz[PULSES_SIZE/2]);
-/* ToDo
+/*
  * PROTO_PPMSIM & PROTO_PPM16 start halfway down the array.
- * I feel this is over complicated if we want to save RAM.
 */
   uint16_t *ptr = (proto == PROTO_PPM) ? pulses2MHz.pword : &pulses2MHz.pword[PULSES_WORD_SIZE/2] ;
 
@@ -151,19 +149,22 @@ void setupPulsesPPM(uint8_t proto)
   if (rest > 65535) rest = 65535; // prevents overflows.
   if (rest < 9000)  rest = 9000;
 
-  if (proto == PROTO_PPM) {
-    *ptr++ = rest - SETUP_PULSES_DURATION;
+
+//  if (proto == PROTO_PPM) {
+    *ptr++ = rest - (PULSES_SETUP_TIME *2);
+#if 0
     ppm2MHzRPtr = pulses2MHz.pword;
   } else {
     *ptr++ = rest;
     B3_comp_value = rest - SETUP_PULSES_DURATION; // 500us before end of sync pulse.
   }
+#endif
 
   *ptr = 0;
 }
 
 
-ISR(TIMER1_COMPA_vect) // Timer 1 compare "B" vector. Used for PPM commutation and maybe more ...
+ISR(TIMER1_COMPB_vect) // Timer 1 compare "B" vector. Used for PPM commutation and maybe more ...
 {
   ocr1b_function_ptr();
 }

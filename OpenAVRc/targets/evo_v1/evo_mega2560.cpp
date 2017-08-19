@@ -43,7 +43,7 @@ inline void boardInit()
 {
   DDRA  = 0b00000000;// Trim Button Inputs ...
   PORTA = 0b11111111; // ... with Pullup.
-  DDRB  = (1<<OUT_B_PPM) | OUT_B_SIM_CTL | 0b00000111; // uSDCARD [3:MISO 2:MOSI 1:SCK 0:CS]
+  DDRB  = PIN6_bm | PIN5_bm | 0b00000111; // uSDCARD [3:MISO 2:MOSI 1:SCK 0:CS]
   PORTB = 1<<3; // Pullup on MISO - No latch-up because MISO connects via 1K0.
   DDRC  = OUT_C_RF_CS_N | OUT_C_PWR_LED | OUT_C_PWR_HOLD;
   PORTC = INP_C_PWR_STATUS | OUT_C_PWR_HOLD; // Input pullup on pwr_sw_status, power_hold = 1.
@@ -85,8 +85,8 @@ inline void boardInit()
 #endif
 
   // Setup Timer 1.
-  // PB6 OC1B for Protocol callback and PPM
-  // PB5 OC1A for PPMSIM
+  // PB5 OC1A for Protocol callback and PPMSIM.
+  // PB6 OC1B for PPM.
   // PPM16 uses PB6 OC1B for first 8 channels, PB5 OC1A for last 8 channels.
   // PD4 ICP1 for capture of Trainer (Pupil) PPM.
   // Normal mode (0), OVF @ TOP (0xFFFF), F_CPU/8, Noise canceler on ICP, Falling edge trigger.

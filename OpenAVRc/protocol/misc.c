@@ -60,18 +60,18 @@ void PROTO_Start_Callback(uint16_t half_us, uint16_t (*cb)(void))
   timer_callback = cb; // timer_callback = pointer to function.
 
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-	OCR1B = TCNT1 + half_us;
+	OCR1A = TCNT1 + half_us;
   }
 
-  TIFR1 |= 1<<OCF1B; // Reset Flag.
-  TIMSK1 |= 1<<OCIE1B; // Enable Output Compare B interrupt.
+  TIFR1 |= 1<<OCF1A; // Reset Flag.
+  TIMSK1 |= 1<<OCIE1A; // Enable Output Compare A interrupt.
 }
 
 
 void PROTO_Stop_Callback()
 {
-  TIMSK1 &= ~(1<<OCIE1B); // Disable Output Compare B interrupt.
-  TIFR1 |= 1<<OCF1B; // Reset Flag.
+  TIMSK1 &= ~(1<<OCIE1A); // Disable Output Compare A interrupt.
+  TIFR1 |= 1<<OCF1A; // Reset Flag.
   timer_callback = NULL;
 }
 

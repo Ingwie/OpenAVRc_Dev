@@ -115,7 +115,7 @@ void sdPoll10ms();
 #define INP_E_PPM_IN              7    //not used (reserved)
 #define INP_B_WTV_BUSY            7    //WTV20SD, not used (reserved)
 #define OUT_B_PPM                 6
-#define OUT_B_SIM_CTL             5
+#define OUT_B_SIM_CTL             5    // ***CLASHES WITH PPMSIM***
 #define I_O_B_UNUSED              4    //unused was Buzzer
 #define INP_D_I2C_SCL             1
 #define INP_D_I2C_SDA             0

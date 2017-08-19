@@ -53,7 +53,6 @@ ISR(TIMER1_CAPT_vect) // G: High frequency noise can cause stack overflow with I
   // captureTrainerPulses(capture);
   // Needs to be inlined to avoid slow function calls in ISR routines
   // inline void captureTrainerPulses(uint16_t capture)
-  // {
 
 
   static uint16_t lastCapt=0;
@@ -81,7 +80,6 @@ ISR(TIMER1_CAPT_vect) // G: High frequency noise can cause stack overflow with I
         }
       }
     }
-  //}
 
   cli(); // Disable other interrupts for stack pops before this function's RETI.
   TIMSK1 |= (1<<ICIE1); // Enable ICP Interrupt.

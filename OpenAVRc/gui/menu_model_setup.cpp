@@ -305,7 +305,7 @@ void menuModelSetup(uint8_t event)
         switch (menuHorizontalPosition) {
         case 0:
           CHECK_INCDEC_MODELVAR_ZERO(event, g_model.protocol, PROTO_MAX-1);
-          if (IS_PPM_PROTOCOL(protocol)||IS_DSM2_PROTOCOL(protocol)||IS_PXX_PROTOCOL(protocol)) {PROTO_CMD_ID = PROTOCOL_PPM_SWITCHING-1;}
+          if (IS_PPM_PROTOCOL(protocol)||IS_DSM2_PROTOCOL(protocol)||IS_PXX_PROTOCOL(protocol)) {PROTO_CMD_ID = PROTOCOL_PPMSIM-1;}
 #if defined(MULTIMODULE)
 	        if (IS_MULTIMODULE_PROTOCOL(protocol)) {PROTO_CMD_ID = PROTOCOL_MULTI-1;}
 #define NEXT_CMD 3
