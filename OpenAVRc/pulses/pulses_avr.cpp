@@ -84,7 +84,6 @@ void startPulses(enum ProtoCmds Command)
   TRACE("  ->  INIT Proto - %s -", Protos[PROTO_CMD_ID].ProtoName);
   SIMU_SLEEP(500);
   PROTO_Cmds(Command);
-//  PROTO_PPM16_Cmds(PROTOCMD_INIT);
 }
 
 // This ISR should work for xmega.
@@ -141,11 +140,11 @@ void setupPulsesPPM(enum ppmtype proto)
   uint16_t *ptr = (proto == PPM || proto == PPM16FIRST) ? &pulses2MHz.pword[0] : &pulses2MHz.pword[PULSES_WORD_SIZE/2];
 
   uint8_t p;
-  // Fix PPM16 to 16 channels (8+8), no modification by GUI.
+  // Fix PPM16 to 16 channels (8+8), No modification by GUI.
 
   if(proto == PPM || proto == PPMSIM) p = 8 + (g_model.ppmNCH * 2); // Channels *2
-  else if(proto == PPM16FIRST) p =8;
-  else p= 16; // PPM16 Channels 9-16.
+  else if(proto == PPM16FIRST) p = 8;
+  else p = 16; // PPM16 Channels 9-16.
 
   for (uint8_t i=(proto == PPM16LAST) ? 8 : 0; i<p; i++) { // Just do channels 1-8 unless PPM16 (9-16).
     int16_t v = limit((int16_t)-PPM_range, channelOutputs[i], (int16_t)PPM_range) + 2*PPM_CH_CENTER(i);

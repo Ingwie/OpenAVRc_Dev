@@ -117,7 +117,7 @@ inline void boardInit()
 #endif
 
 #if defined(RTCLOCK) || defined(LCD_SSD1306) || defined(EXTERNALEEPROM)
-  /* Hardware I2C init                               */
+  /*  Hardware I2C init  */
   i2c_init();
 #endif
 

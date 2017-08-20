@@ -92,4 +92,4 @@ FORCEINLINE void sendStopPulses();
 #define SEND_FAILSAFE_1S()
 
 #endif
-/*eof*/
+
