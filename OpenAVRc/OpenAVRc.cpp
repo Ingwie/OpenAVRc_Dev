@@ -1180,11 +1180,8 @@ void doMixerCalculations()
 void OpenAVRcStart()
 {
   doSplash();
-#if !defined(VOICE) && defined(AUDIO)
-  audioDefevent(AU_INACTIVITY);
-#endif
 
-#if defined(SDCARD) && !defined(SIMU)
+  #if defined(SDCARD) && !defined(SIMU)
   sdMountPoll();
 #endif
 
