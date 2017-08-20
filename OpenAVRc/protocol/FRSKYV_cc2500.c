@@ -241,6 +241,9 @@ static void FRSKYV_build_data_packet()
 
 static uint16_t FRSKYV_data_cb()
 {
+  // Schedule next Mixer calculations.
+  SCHEDULE_MIXER_END(9*16);
+
   // Build next packet.
   seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323.
   FRSKYV_build_data_packet(); // 16MHz AVR = 127us.
