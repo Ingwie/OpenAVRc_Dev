@@ -36,6 +36,7 @@
 
 #include "../../OpenAVRc.h"
 
+#define FATFSTINY // Reduce SDdriver buffer size
 
 //Xmitter
 #define SPIMODULES // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?

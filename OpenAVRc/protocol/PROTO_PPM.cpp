@@ -41,8 +41,8 @@
 */
 static uint16_t PROTO_PPM_cb2()
 {
-  if(*ppm2MHzRPtr == 0) { // End of timing events.
-    ppm2MHzRPtr = &pulses2MHz.pword[0];
+  if(*RptrB == 0) { // End of timing events.
+    RptrB = &pulses2MHz.pword[0];
     // Set the PPM idle level.
     if (g_model.pulsePol) {
       TCCR1A = (TCCR1A | (1<<COM1B1)) & ~(1<<COM1B0); // Clear
@@ -55,21 +55,21 @@ static uint16_t PROTO_PPM_cb2()
 
     // Schedule next Mixer calculations.
     SCHEDULE_MIXER_END(45*8+g_model.ppmFrameLength*8);
-    setupPulsesPPM(PROTO_PPM);
+    setupPulsesPPM(PPM);
     heartbeat |= HEART_TIMER_PULSES;
     dt = TCNT1 - OCR1B; // Show how long to setup pulses and ISR jitter.
     return PULSES_SETUP_TIME *2;
   }
-  else if (*(ppm2MHzRPtr+1) == 0) { // Look ahead one timing event.
+  else if (*(RptrB +1) == 0) { // Look ahead one timing event.
     // Need to prevent next toggle.
     // Read pin and store before disconnecting switching output.
     if(PINB & PIN6_bm) PORTB |= PIN6_bm;
     else PORTB &= ~PIN6_bm;
     TCCR1A &= ~(0b11<<COM1B0);
-    return *ppm2MHzRPtr++;
+    return *RptrB++;
   }
   else // Toggle pin.
-    return *ppm2MHzRPtr++;
+    return *RptrB++;
 }
 
 
@@ -96,8 +96,8 @@ static void PROTO_PPM_initialize()
   telemetryInit();
 #endif
 
-  ppm2MHzRPtr = &pulses2MHz.pword[0];
-  *ppm2MHzRPtr = 0;
+  RptrB = &pulses2MHz.pword[0];
+  *RptrB = 0;
 
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     ocr1b_function_ptr = PROTO_PPM_cb1; // Setup function pointer used in ISR.
@@ -111,36 +111,34 @@ static void PROTO_PPM_initialize()
 const void * PROTO_PPM_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
-      case PROTOCMD_INIT: PROTO_PPM_initialize(); return 0;
-      case PROTOCMD_DEINIT:
-      case PROTOCMD_RESET:
-          // Make pin idle state before disconnecting switching output.
-          if(g_model.pulsePol) PORTB &= ~PIN6_bm;
-          else PORTB |= PIN6_bm;
-
-          TCCR1A &= ~(0b11<<COM1B0);
-
-          TIMSK1 &= ~(1<<OCIE1B); // Disable Output Compare B interrupt.
-          TIFR1 |= 1<<OCF1B; // Reset Flag.
-
-//        PROTO_Stop_Callback();
-            return (void *) 1L;
-//        case PROTOCMD_CHECK_AUTOBIND: return 0;
-//        case PROTOCMD_BIND:  ppm_bb_initialize(); return 0;
-//        case PROTOCMD_NUMCHAN: return (void *) 16L;
-//        case PROTOCMD_DEFAULT_NUMCHAN: return (void *) 8L;
-/*        case PROTOCMD_GETOPTIONS:
-            if (Model.proto_opts[CENTER_PW] == 0) {
-                Model.proto_opts[CENTER_PW] = 1100;
-                Model.proto_opts[DELTA_PW] = 500;
-                Model.proto_opts[NOTCH_PW] = 400;
-                Model.proto_opts[PERIOD_PW] = 22500;
-            }
-            return ppm_opts;
-*/
-//        case PROTOCMD_TELEMETRYSTATE: return (void *)(long) PROTO_TELEM_UNSUPPORTED;
-        default: break;
-    }
+    case PROTOCMD_INIT: PROTO_PPM_initialize();
     return 0;
+    case PROTOCMD_DEINIT:
+    case PROTOCMD_RESET:
+      // Make pin idle state before disconnecting switching output.
+      if(g_model.pulsePol) PORTB &= ~PIN6_bm;
+      else PORTB |= PIN6_bm;
+      TCCR1A &= ~(0b11<<COM1B0);
+      TIMSK1 &= ~(1<<OCIE1B); // Disable Output Compare B interrupt.
+      TIFR1 |= 1<<OCF1B; // Reset Flag.
+    return (void *) 1L;
+//  case PROTOCMD_CHECK_AUTOBIND: return 0;
+//  case PROTOCMD_BIND:  ppm_bb_initialize(); return 0;
+//  case PROTOCMD_NUMCHAN: return (void *) 16L;
+//  case PROTOCMD_DEFAULT_NUMCHAN: return (void *) 8L;
+/*
+    case PROTOCMD_GETOPTIONS:
+    if (Model.proto_opts[CENTER_PW] == 0) {
+    Model.proto_opts[CENTER_PW] = 1100;
+    Model.proto_opts[DELTA_PW] = 500;
+    Model.proto_opts[NOTCH_PW] = 400;
+    Model.proto_opts[PERIOD_PW] = 22500;
+    }
+  return ppm_opts;
+*/
+//  case PROTOCMD_TELEMETRYSTATE: return (void *)(long) PROTO_TELEM_UNSUPPORTED;
+        default: break;
+  }
+  return 0;
 }
 

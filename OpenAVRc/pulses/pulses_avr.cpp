@@ -31,8 +31,7 @@
 */
 
 
-//#include "../protocol/common.h"
-//#include "../protocol/interface.h"
+
 #include "../OpenAVRc.h"
 #include "../protocol/misc.c"
 #include "../spi.h"
@@ -70,7 +69,7 @@ void startPulses(enum ProtoCmds Command)
 {
   spi_enable_master_mode(); // Todo check if Proto need SPI
   PROTO_Stop_Callback();
-// Reset CS pin
+  // Reset CS pin
   RF_CS_CC2500_INACTIVE();
   RF_CS_CYRF6936_INACTIVE();
 
@@ -79,12 +78,13 @@ void startPulses(enum ProtoCmds Command)
     TRACE("  ->  RESET Proto - %s -",  Protos[s_current_protocol].ProtoName);
     SIMU_SLEEP(500);
   }
-  PROTO_CMD_ID = limit((uint8_t)1, PROTO_CMD_ID, (uint8_t)(DIM(Protos)-1)); // verify limits do not use PPM_BB
+  PROTO_CMD_ID = limit((uint8_t)2, PROTO_CMD_ID, (uint8_t)(DIM(Protos)-1)); // verify limits do not use PPM_BB
   s_current_protocol = PROTO_CMD_ID;
   PROTO_Cmds = *Protos[PROTO_CMD_ID].Cmds;
   TRACE("  ->  INIT Proto - %s -", Protos[PROTO_CMD_ID].ProtoName);
   SIMU_SLEEP(500);
   PROTO_Cmds(Command);
+//  PROTO_PPM16_Cmds(PROTOCMD_INIT);
 }
 
 // This ISR should work for xmega.
@@ -120,47 +120,46 @@ ISR(TIMER1_COMPA_vect) // ISR for Protocol Callback, PPMSIM and PPM16 (Last 8 ch
 }
 
 
-void setupPulsesPPM(uint8_t proto)
+
+void setupPulsesPPM(enum ppmtype proto)
 {
   // Total frame length is a fixed 22.5msec (more than 9 channels is non-standard and requires this to be extended.)
   // Each channel's pulse is 0.7 to 1.7ms long, with a 0.3ms stop tail, making each complete cycle 1 to 2ms.
 
+  // The pulse ISR is 2MHz that's why everything is multiplied by 2
+
   int16_t PPM_range = g_model.extendedLimits ? 640*2 : 512*2;   //range of 0.7..1.7msec
 
-/*
- * PROTO_PPMSIM & PROTO_PPM16 start halfway down the array.
-*/
-  uint16_t *ptr = (proto == PROTO_PPM) ? pulses2MHz.pword : &pulses2MHz.pword[PULSES_WORD_SIZE/2] ;
+  uint16_t q = (g_model.ppmDelay*50+300)*2; // Channel sync pulse.
 
-  //The pulse ISR is 2mhz that's why everything is multiplied by 2
-  uint8_t p = (proto == PROTO_PPM16 ? 16 : 8) + (g_model.ppmNCH * 2); //Channels *2
-  uint16_t q = (g_model.ppmDelay*50+300)*2; // Stoplen *2
   int32_t rest = 22500u*2 - q;
 
-  rest += (int32_t(g_model.ppmFrameLength))*1000;
-  for (uint8_t i=(proto==PROTO_PPM16) ? p-8 : 0; i<p; i++) {
+  // PPM 16 uses a fixed frame length of 22.5msec.
+  if(proto == PPM || proto == PPMSIM) rest += (int32_t(g_model.ppmFrameLength))*1000;
+
+  // PPM and PPM16 (Channels 1-8) use first half of array. PPMSIM and PPM16 (Channels 9-16) use last half.
+  uint16_t *ptr = (proto == PPM || proto == PPM16FIRST) ? &pulses2MHz.pword[0] : &pulses2MHz.pword[PULSES_WORD_SIZE/2];
+
+  uint8_t p;
+  // Fix PPM16 to 16 channels (8+8), no modification by GUI.
+
+  if(proto == PPM || proto == PPMSIM) p = 8 + (g_model.ppmNCH * 2); // Channels *2
+  else if(proto == PPM16FIRST) p =8;
+  else p= 16; // PPM16 Channels 9-16.
+
+  for (uint8_t i=(proto == PPM16LAST) ? 8 : 0; i<p; i++) { // Just do channels 1-8 unless PPM16 (9-16).
     int16_t v = limit((int16_t)-PPM_range, channelOutputs[i], (int16_t)PPM_range) + 2*PPM_CH_CENTER(i);
     rest -= v;
     *ptr++ = q;
-    *ptr++ = v - q; // total pulse width includes stop phase
+    *ptr++ = v - q; // Total pulse width includes channel sync pulse.
   }
 
   *ptr++ = q;
-  if (rest > 65535) rest = 65535; // prevents overflows.
+  if (rest > 65535) rest = 65535; // Prevents overflows.
   if (rest < 9000)  rest = 9000;
 
-
-//  if (proto == PROTO_PPM) {
-    *ptr++ = rest - (PULSES_SETUP_TIME *2);
-#if 0
-    ppm2MHzRPtr = pulses2MHz.pword;
-  } else {
-    *ptr++ = rest;
-    B3_comp_value = rest - SETUP_PULSES_DURATION; // 500us before end of sync pulse.
-  }
-#endif
-
-  *ptr = 0;
+  *ptr++ = rest - (PULSES_SETUP_TIME *2);
+  *ptr = 0; // End array with (uint16_t) 0;
 }
 
 

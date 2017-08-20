@@ -35,7 +35,9 @@
 #define pulses_avr_h
 
 extern uint8_t s_current_protocol;
-uint16_t *ppm2MHzRPtr;
+uint16_t *RptrA; // For OCR1A
+uint16_t *RptrB; // Zum OCR1B
+
 extern uint8_t *pulses2MHzWPtr;
 
 extern uint16_t nextMixerEndTime;
@@ -44,7 +46,7 @@ extern uint8_t moduleFlag;
 
 #define MAX_MIXER_DELTA (50*16) /* 50ms max as an interval between 2 mixer calculations */
 
-#define PULSES_SETUP_TIME 1000 // 1ms
+#define PULSES_SETUP_TIME 500 // 500usec
 void (*ocr1b_function_ptr)(void); // Function pointer to add flexibility and simplicity to ISR.
 
 extern uint16_t dt;
@@ -71,9 +73,15 @@ union p2mhz_t
 //uint8_t pulses2MHz[PULSES_SIZE] = {0}; // TODO check this length, pulled from er9x, perhaps too big.
 //uint8_t * pulses2MHzRPtr = pulses2MHz;
 
+enum ppmtype{
+PPM,
+PPMSIM,
+PPM16LAST,
+PPM16FIRST,
+};
 
 void setupPulses();
-void setupPulsesPPM(uint8_t proto);
+void setupPulsesPPM(enum ppmtype proto);
 void DSM2_Init();
 void DSM2_Done();
 

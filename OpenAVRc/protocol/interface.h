@@ -39,9 +39,9 @@
 #include "misc.h"
 
 
-#include "PROTO_PPMSIM.cpp"
 #include "PROTO_PPM.cpp"
-//#include "PROTO_PPM16.cpp"
+#include "PROTO_PPM16.cpp"
+#include "PROTO_PPMSIM.cpp"
 
 
 #ifdef PROTO_HAS_A7105
