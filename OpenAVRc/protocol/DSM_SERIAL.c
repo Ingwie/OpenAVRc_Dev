@@ -80,6 +80,15 @@ normal:
 // DSM2=SERIAL mode
 
 
+// ToDo Temporary patch.
+#if !defined(PROTO_DSM_LP45)
+#define PROTO_DSM_LP45 253
+#endif
+#if !defined(PROTO_DSM_DSM2)
+#define PROTO_DSM_DSM2 254
+#endif
+
+
 static void DSM2_SERIAL_Reset()
 {
 #if defined(FRSKY)
@@ -100,9 +109,9 @@ static uint16_t DSM_SERIAL_cb()
 
   uint8_t dsm2_header;
 
-  if(s_current_protocol == PROTO_DSM2_LP45)
+  if(s_current_protocol == PROTO_DSM_LP45)
     dsm2_header = 0x00;
-  else if(s_current_protocol == PROTO_DSM2_DSM2)
+  else if(s_current_protocol == PROTO_DSM_DSM2)
     dsm2_header = 0x10;
   else dsm2_header = 0x10 | DSMX_BIT; // PROTO_DSM2_DSMX
 
@@ -114,7 +123,7 @@ static uint16_t DSM_SERIAL_cb()
 
   frskyTxBuffer[--dsm2TxBufferCount] = dsm2_header;
 
-  frskyTxBuffer[--dsm2TxBufferCount] = g_model.header.modelId[0]; // DSM2 Header. Second byte for model match.
+  frskyTxBuffer[--dsm2TxBufferCount] = g_model.header.modelId; // DSM2 Header. Second byte for model match.
 
   for (uint8_t i = 0; i < DSM2_CHANS; i++) {
     uint16_t pulse = limit(0, ((channelOutputs[i]*13)>>5)+512,1023);
@@ -132,7 +141,7 @@ static uint16_t DSM_SERIAL_cb()
 }
 
 
-static void DSM2_SERIAL_initialize(uint8_t bind)
+static void DSM_SERIAL_initialize(void)
 {
 // 125K 8N1
 #if defined(FRSKY) && defined(DSM2_SERIAL)
@@ -159,25 +168,23 @@ static void DSM2_SERIAL_initialize(uint8_t bind)
 #endif // SIMU
 #endif // defined(DSM2_SERIAL)
 #if defined(DSM2) || defined(PXX)
-uint8_t moduleFlag[NUM_MODULES] = { 0 };
+//uint8_t moduleFlag[NUM_MODULES] = { 0 };
 #endif
 
-  if (bind) dsm2Bind = 1;
-  else dsm2Bind = 0;
-  PROTO_Start_Callback(25000U *2, DSM_SERIAL_cb();
+  PROTO_Start_Callback(25000U *2, DSM_SERIAL_cb);
 }
 
 
-const void *DSM2_SERIAL_Cmds(enum ProtoCmds cmd)
+const void *DSM_SERIAL_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
   case PROTOCMD_INIT:
     dsm2Bind = 0;
-    DSM2_SERIAL_initialize();
+    DSM_SERIAL_initialize();
     return 0;
   case PROTOCMD_BIND:
     dsm2Bind = 1;
-    DSM2_SERIAL_initialize();
+    DSM_SERIAL_initialize();
     return 0;
   //case PROTOCMD_DEINIT:
   case PROTOCMD_RESET:
