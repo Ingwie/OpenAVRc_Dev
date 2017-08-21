@@ -155,10 +155,17 @@ void perMain()
 
 #endif // if defined(GUI)
 
-  if (SLAVE_MODE()) {
+  if(SLAVE_MODE()) {
     JACK_PPM_OUT();
   } else {
     JACK_PPM_IN();
+    if(isFunctionActive(FUNCTION_TRAINER)) {
+      TIFR1 |= (1<<ICF1); // Clear Flag.
+      TIMSK1 |= (1<<ICIE1); // Enable ICP Interrupt.
+    }
+    else {
+      TIMSK1 &= ~(1<<ICIE1); // Disable ICP Interrupt.
+    }
   }
 
   checkBattery();

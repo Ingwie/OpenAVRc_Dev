@@ -82,6 +82,7 @@ ISR(TIMER1_CAPT_vect) // G: High frequency noise can cause stack overflow with I
     }
 
   cli(); // Disable other interrupts for stack pops before this function's RETI.
+  TIFR1 |= (1<<ICF1); // Clear Flag, just in case ISR has taken too long or high frequency noise is on input.
   TIMSK1 |= (1<<ICIE1); // Enable ICP Interrupt.
 }
 
