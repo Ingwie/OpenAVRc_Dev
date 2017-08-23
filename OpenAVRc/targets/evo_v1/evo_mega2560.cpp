@@ -43,11 +43,12 @@ inline void boardInit()
 {
   DDRA  = 0b00000000;// Trim Button Inputs ...
   PORTA = 0b11111111; // ... with Pullup.
-  DDRB  = PIN6_bm | PIN5_bm | 0b00000111; // uSDCARD [3:MISO 2:MOSI 1:SCK 0:CS]
+  DDRB  = OUT_B_PPM_B | OUT_B_PPMSIM | 0b00000111; // uSDCARD [3:MISO 2:MOSI 1:SCK 0:CS]
   PORTB = 1<<3; // Pullup on MISO - No latch-up because MISO connects via 1K0.
   DDRC  = OUT_C_RF_CS_N | OUT_C_PWR_LED | OUT_C_PWR_HOLD;
   PORTC = INP_C_PWR_STATUS | OUT_C_PWR_HOLD; // Input pullup on pwr_sw_status, power_hold = 1.
-  // DDRD
+  DDRD = 0;
+  PORTD = INP_D_PPM_IN;
   DDRE  = 0;
   PORTE = INP_E_ROT_ENC_LH_INT | INP_E_ROT_ENC_LH_DIR | INP_E_ROT_ENC_RH_INT | INP_E_ROT_ENC_RH_DIR;
   // DDRF
@@ -57,9 +58,9 @@ inline void boardInit()
   PORTJ = IO_J_MPX_RF_EN; // Pullup on mpx_rf_en
   DDRK  = 0;
   PORTK = INP_K_KEYB_COL_C | INP_K_KEYB_COL_B | INP_K_KEYB_COL_A; // Pullups on keyboard matrix inputs.
-  DDRL  = OUT_L_CPPM_TRN;
+  //DDRL  = ;
 //todo  DDRL  = OUT_L_CPPM_OC5A | OUT_L_CPPM_TRN;
-  PORTL = INP_L_PPM_IN; // Pullup on input capture.
+  //PORTL = ; // Pullup on input capture.
 
   adcInit();
   getADC(); // Best to get some values before we start.

@@ -106,11 +106,9 @@
 #define speakerOn()                TCCR4A |=  (0b01 << COM4A0)
 #define speakerOff()               TCCR4A &= ~(0b01 << COM4A0)
 
-
-#define OUT_B_PPM                  6
-#define OUT_L_CPPM_OC5A            PIN3_bm // OC5A
-#define OUT_L_CPPM_TRN             PIN4_bm // OC5B
-#define INP_L_PPM_IN               PIN1_bm // ICP5
+#define OUT_B_PPMSIM               PIN5_bm // OC1A
+#define OUT_B_PPM_B                PIN6_bm // OC1B
+#define INP_D_PPM_IN               PIN4_bm // ICP1
 
 // Trainer
 #define OUT_G_SIM_CTL              PIN0_bm // done

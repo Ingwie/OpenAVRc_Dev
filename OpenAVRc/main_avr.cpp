@@ -160,7 +160,6 @@ void perMain()
   } else {
     JACK_PPM_IN();
     if(isFunctionActive(FUNCTION_TRAINER)) {
-      TIFR1 |= (1<<ICF1); // Clear Flag.
       TIMSK1 |= (1<<ICIE1); // Enable ICP Interrupt.
     }
     else {

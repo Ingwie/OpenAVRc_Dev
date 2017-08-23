@@ -35,55 +35,33 @@
 
 int16_t ppmInput[NUM_TRAINER];
 uint8_t ppmInputValidityTimer;
-
-// Timer3 used for PPM_IN pulse width capture. Counter running at 16MHz / 8 = 2MHz
-// equating to one count every half millisecond. (2 counts = 1ms). Control channel
-// count delta values thus can range from about 1600 to 4400 counts (800us to 2200us),
-// corresponding to a PPM signal in the range 0.8ms to 2.2ms (1.5ms at center).
-// (The timer is free-running and is thus not reset to zero at each capture interval.)
+/*
+ * Trainer PPM input capture ISR.
+ * Timer 1 is free running as it serves other purposes.
+ * 1 count is 0.5us
+*/
 ISR(TIMER1_CAPT_vect) // G: High frequency noise can cause stack overflow with ISR_NOBLOCK
 {
-  // Prevent rentrance for this IRQ only.
-  TIMSK1 &= ~(1<<ICIE1); // Disable ICP Interrupt.
-
   uint16_t capture = ICR1;
 
-  sei(); // enable other interrupts
+  static uint16_t lastCapt = 0;
+  static uint8_t channelNumber = 0;
 
-  // captureTrainerPulses(capture);
-  // Needs to be inlined to avoid slow function calls in ISR routines
-  // inline void captureTrainerPulses(uint16_t capture)
+  uint16_t val = (uint16_t) (capture - lastCapt) / 2; // Convert from timer counts to usec.
+  lastCapt = capture;
 
-
-  static uint16_t lastCapt=0;
-  static uint8_t channelNumber=0;
-
-    uint16_t val = (uint16_t)(capture - lastCapt) / 2;
-    lastCapt = capture;
-
-    // We process ppmInput right here to make servo movement as smooth as possible
-    //    while under trainee control
-    //
-    // G: Prioritize reset pulse. (Needed when less than 16 incoming pulses)
-    //
-    if (val>4000 && val<19000) {
-      channelNumber = 1; // triggered
-    } else {
-      if ((channelNumber > 0) && (channelNumber <= NUM_TRAINER)) {
-        if (val>800 && val<2200) {
-          ppmInputValidityTimer = PPM_IN_VALID_TIMEOUT;
-          ppmInput[channelNumber++ - 1] =
-            //+-500 != 512, but close enough.
-            (int16_t)(val - 1500)*(g_eeGeneral.PPM_Multiplier+10)/10;
-        } else {
-          channelNumber = 0; // not triggered
-        }
-      }
-    }
-
-  cli(); // Disable other interrupts for stack pops before this function's RETI.
-  TIFR1 |= (1<<ICF1); // Clear Flag, just in case ISR has taken too long or high frequency noise is on input.
-  TIMSK1 |= (1<<ICIE1); // Enable ICP Interrupt.
+  if(channelNumber && val > 800 && val < 2200 && channelNumber <= NUM_TRAINER)
+  { // Accepted range is 800 to 2200 us  1500us+/-700.
+    ppmInputValidityTimer = PPM_IN_VALID_TIMEOUT;
+    ppmInput[channelNumber++ -1] =
+      (int16_t)(val - 1500)*(g_eeGeneral.PPM_Multiplier+10)/10;
+  }
+  else if(val > 4000 && val < 19000)
+  { // Frame sync pulse >4 <19 ms.
+    channelNumber = 1; // Indicates start of new frame.
+  }
+  else channelNumber = 0; /* Glitches (<800us) or long channel pulses (2200 to 4000us) or
+  pulses > 19000us reset the process */
 }
 
 
