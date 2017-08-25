@@ -1,12 +1,4 @@
-Cmp-Mod V01 Created by PcbNew   date = 29/06/2017 15:13:32
-
-BeginCmp
-TimeStamp = 58F095E0
-Path = /58F1A570
-Reference = D1;
-ValeurCmp = MBR0520;
-IdModule  = Diodes_SMD:D_SOD-123;
-EndCmp
+Cmp-Mod V01 Created by PcbNew   date = 27/07/2017 17:12:43
 
 BeginCmp
 TimeStamp = 58EA4922
@@ -17,19 +9,147 @@ IdModule  = anthoperso:SOP4;
 EndCmp
 
 BeginCmp
-TimeStamp = 58ADE5A0
-Path = /58AF4E8C
-Reference = R35;
-ValeurCmp = 10K;
-IdModule  = Resistors_SMD:R_1206;
-EndCmp
-
-BeginCmp
 TimeStamp = 58A771C9
 Path = /58A78C17
 Reference = P1;
 ValeurCmp = 2560-core;
 IdModule  = anthoperso:Connectors-2560-core;
+EndCmp
+
+BeginCmp
+TimeStamp = 59732E6F
+Path = /597235EC
+Reference = P17;
+ValeurCmp = BATT;
+IdModule  = Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 597322F2
+Path = /58A78BCC
+Reference = P24;
+ValeurCmp = Rot_2;
+IdModule  = Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5932B277
+Path = /58A78BF0
+Reference = P25;
+ValeurCmp = Keys;
+IdModule  = Pin_Headers:Pin_Header_Straight_2x04_Pitch2.54mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5933DFF6
+Path = /58EF95DD
+Reference = P22;
+ValeurCmp = CONN_JQ6500_28P_mini;
+IdModule  = anthoperso:connector_mini-JQ6500-28P;
+EndCmp
+
+BeginCmp
+TimeStamp = 596E2345
+Path = /596E2CEC
+Reference = P29;
+ValeurCmp = RXTX;
+IdModule  = Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58EA491A
+Path = /58EA0B44
+Reference = U2;
+ValeurCmp = TLP290;
+IdModule  = anthoperso:SOP4;
+EndCmp
+
+BeginCmp
+TimeStamp = 5969D9FA
+Path = /596A45A1
+Reference = C14;
+ValeurCmp = 100nF;
+IdModule  = Capacitors_SMD:C_1206;
+EndCmp
+
+BeginCmp
+TimeStamp = 5969D9EA
+Path = /596A4430
+Reference = C13;
+ValeurCmp = 100nF;
+IdModule  = Capacitors_SMD:C_1206;
+EndCmp
+
+BeginCmp
+TimeStamp = 5969D9DA
+Path = /596A0908
+Reference = C12;
+ValeurCmp = 100nF;
+IdModule  = Capacitors_SMD:C_1206;
+EndCmp
+
+BeginCmp
+TimeStamp = 59564708
+Path = /59568790
+Reference = RV6;
+ValeurCmp = 22K;
+IdModule  = Potentiometers:Potentiometer_Trimmer_Bourns_3296W;
+EndCmp
+
+BeginCmp
+TimeStamp = 59564811
+Path = /5956AF2E
+Reference = RV1;
+ValeurCmp = 220K;
+IdModule  = Potentiometers:Potentiometer_Trimmer_Bourns_3296W;
+EndCmp
+
+BeginCmp
+TimeStamp = 595CACC9
+Path = /595CDA49
+Reference = C10;
+ValeurCmp = 100nF;
+IdModule  = Capacitors_SMD:C_1206;
+EndCmp
+
+BeginCmp
+TimeStamp = 595A354F
+Path = /58DCA141
+Reference = P10;
+ValeurCmp = SPI_libre;
+IdModule  = Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 595506DB
+Path = /595556C6
+Reference = P27;
+ValeurCmp = HP;
+IdModule  = Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 595500C1
+Path = /58A78BCE
+Reference = R18;
+ValeurCmp = 5.1k;
+IdModule  = Resistors_SMD:R_1206;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F095E0
+Path = /58F1A570
+Reference = D1;
+ValeurCmp = MBR0520;
+IdModule  = Diodes_SMD:D_SOD-123;
+EndCmp
+
+BeginCmp
+TimeStamp = 58ADE5A0
+Path = /58AF4E8C
+Reference = R35;
+ValeurCmp = 10K;
+IdModule  = Resistors_SMD:R_1206;
 EndCmp
 
 BeginCmp
@@ -54,22 +174,6 @@ Path = /58AF4E6F
 Reference = R26;
 ValeurCmp = 10K;
 IdModule  = Resistors_SMD:R_1206;
-EndCmp
-
-BeginCmp
-TimeStamp = 5933DFF6
-Path = /58EF95DD
-Reference = P22;
-ValeurCmp = CONN_JQ6500_28P_mini;
-IdModule  = anthoperso:connector_mini-JQ6500-28P;
-EndCmp
-
-BeginCmp
-TimeStamp = 58A77394
-Path = /58A78C7A
-Reference = U5;
-ValeurCmp = LD1117S33TR;
-IdModule  = TO_SOT_Packages_SMD:SOT-223;
 EndCmp
 
 BeginCmp
@@ -109,14 +213,6 @@ TimeStamp = 58EA9955
 Path = /58A78BFB
 Reference = P15;
 ValeurCmp = LCD_I2C;
-IdModule  = Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 58EA9934
-Path = /58AF4E65
-Reference = P12;
-ValeurCmp = Stick_left;
 IdModule  = Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm;
 EndCmp
 
@@ -169,14 +265,6 @@ IdModule  = Capacitors_SMD:C_1206;
 EndCmp
 
 BeginCmp
-TimeStamp = 5932B277
-Path = /58A78BF0
-Reference = P25;
-ValeurCmp = Key_select_menu_ESC;
-IdModule  = Pin_Headers:Pin_Header_Straight_2x04_Pitch2.54mm;
-EndCmp
-
-BeginCmp
 TimeStamp = 58A770A7
 Path = /58AF4E61
 Reference = C16;
@@ -222,14 +310,6 @@ Path = /58AF4E70
 Reference = R28;
 ValeurCmp = 10K;
 IdModule  = Resistors_SMD:R_1206;
-EndCmp
-
-BeginCmp
-TimeStamp = 58A77362
-Path = /58A78BBF
-Reference = RV1;
-ValeurCmp = 200K;
-IdModule  = Potentiometers:Potentiometer_Triwood_RM-065;
 EndCmp
 
 BeginCmp
@@ -522,9 +602,9 @@ EndCmp
 
 BeginCmp
 TimeStamp = 58DC15C4
-Path = /58DCA141
-Reference = P10;
-ValeurCmp = SPI_libre;
+Path = /595AE5EC
+Reference = P28;
+ValeurCmp = 5v/3,3v manches;
 IdModule  = Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm;
 EndCmp
 
@@ -532,16 +612,8 @@ BeginCmp
 TimeStamp = 58EA4912
 Path = /58A78C0A
 Reference = R7;
-ValeurCmp = 500;
+ValeurCmp = 470;
 IdModule  = Resistors_SMD:R_1206;
-EndCmp
-
-BeginCmp
-TimeStamp = 58EA491A
-Path = /58EA0B44
-Reference = U2;
-ValeurCmp = TLP290;
-IdModule  = anthoperso:SOP4;
 EndCmp
 
 BeginCmp
@@ -561,14 +633,6 @@ IdModule  = Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm;
 EndCmp
 
 BeginCmp
-TimeStamp = 58EA98EC
-Path = /58A78C0C
-Reference = P4;
-ValeurCmp = Potentiometre;
-IdModule  = Pin_Headers:Pin_Header_Straight_2x05_Pitch2.54mm;
-EndCmp
-
-BeginCmp
 TimeStamp = 58EA98F9
 Path = /58A78C6D
 Reference = P5;
@@ -585,43 +649,11 @@ IdModule  = Pin_Headers:Pin_Header_Straight_1x06_Pitch2.54mm;
 EndCmp
 
 BeginCmp
-TimeStamp = 58EA9907
-Path = /58A78C67
-Reference = P7;
-ValeurCmp = Option;
-IdModule  = Pin_Headers:Pin_Header_Straight_1x06_Pitch2.54mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 58EA9910
-Path = /58A78BBB
-Reference = P8;
-ValeurCmp = Audio;
-IdModule  = Pin_Headers:Pin_Header_Straight_1x05_Pitch2.54mm;
-EndCmp
-
-BeginCmp
 TimeStamp = 58EA9918
 Path = /58A78BA9
 Reference = P9;
 ValeurCmp = SPI;
 IdModule  = Pin_Headers:Pin_Header_Straight_2x03_Pitch2.54mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 58EA993B
-Path = /58AF4E66
-Reference = P13;
-ValeurCmp = Stick_right;
-IdModule  = Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 58EA9973
-Path = /58A78C88
-Reference = P17;
-ValeurCmp = Battery LIPO;
-IdModule  = Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm;
 EndCmp
 
 BeginCmp
@@ -634,9 +666,9 @@ EndCmp
 
 BeginCmp
 TimeStamp = 58EA9997
-Path = /58A78BCC
-Reference = P24;
-ValeurCmp = Rot_2;
+Path = /59715B3E
+Reference = P8;
+ValeurCmp = Audio;
 IdModule  = Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm;
 EndCmp
 
@@ -644,7 +676,7 @@ BeginCmp
 TimeStamp = 58EA99A9
 Path = /58A78C05
 Reference = P26;
-ValeurCmp = LCD_Vcc_select;
+ValeurCmp = LCD_Alim;
 IdModule  = Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm;
 EndCmp
 
@@ -662,14 +694,6 @@ Path = /58A78BCB
 Reference = P23;
 ValeurCmp = Rot_1;
 IdModule  = Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 58EA457C
-Path = /58EB2071
-Reference = P20;
-ValeurCmp = Module_RS232/TTL;
-IdModule  = anthoperso:Con_RS232_TTL;
 EndCmp
 
 BeginCmp
@@ -785,14 +809,6 @@ IdModule  = Potentiometers:Potentiometer_Trimmer_Bourns_3296W;
 EndCmp
 
 BeginCmp
-TimeStamp = 59370249
-Path = /593776DD
-Reference = RV6;
-ValeurCmp = 120;
-IdModule  = Potentiometers:Potentiometer_Trimmer_Bourns_3266W;
-EndCmp
-
-BeginCmp
 TimeStamp = 593C0332
 Path = /593C2136
 Reference = C4;
@@ -822,6 +838,86 @@ Path = /593F8B53
 Reference = C8;
 ValeurCmp = 47µF;
 IdModule  = Capacitors_SMD:CP_Elec_6.3x5.3;
+EndCmp
+
+BeginCmp
+TimeStamp = 59709833
+Path = /58EB2071
+Reference = P20;
+ValeurCmp = TTL/RS232;
+IdModule  = MegaCore_Shield:Con_RS232_TTL;
+EndCmp
+
+BeginCmp
+TimeStamp = 5969D24C
+Path = /5969F6BA
+Reference = P13;
+ValeurCmp = Stick_right;
+IdModule  = MegaCore_Shield:Pin_Header_Straight_2x03_Pitch2.54mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 59626A34
+Path = /595FBAA3
+Reference = P7;
+ValeurCmp = HF_modules;
+IdModule  = MegaCore_Shield:Pin_Header_Straight_1x09_Pitch2.54mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58A77394
+Path = /58A78C7A
+Reference = U5;
+ValeurCmp = LD1117S33TR;
+IdModule  = TO_SOT_Packages_SMD:SOT-223;
+EndCmp
+
+BeginCmp
+TimeStamp = 5957BE6E
+Path = 
+Reference = REF**;
+ValeurCmp = MountingHole_3.2mm_M3;
+IdModule  = MegaCore_Shield:MountingHole_3.2mm_M3;
+EndCmp
+
+BeginCmp
+TimeStamp = 5958BF02
+Path = 
+Reference = REF**;
+ValeurCmp = MountingHole_3.2mm_M3;
+IdModule  = MegaCore_Shield:MountingHole_3.2mm_M3;
+EndCmp
+
+BeginCmp
+TimeStamp = 5957CBB6
+Path = 
+Reference = REF**;
+ValeurCmp = MountingHole_3.2mm_M3;
+IdModule  = MegaCore_Shield:MountingHole_3.2mm_M3;
+EndCmp
+
+BeginCmp
+TimeStamp = 59679151
+Path = /58A78C0C
+Reference = P4;
+ValeurCmp = 3 Pots;
+IdModule  = MegaCore_Shield:Pin_Header_Straight_3x03_Pitch2.54mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5969D281
+Path = /596A22F2
+Reference = P12;
+ValeurCmp = Stick_left;
+IdModule  = MegaCore_Shield:Pin_Header_Straight_2x03_Pitch2.54mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 59731FA0
+Path = /59708367
+Reference = P30;
+ValeurCmp = MiniDCDC3A;
+IdModule  = MegaCore_Shield:MiniDCDC3A;
 EndCmp
 
 EndListe
