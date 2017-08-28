@@ -160,12 +160,13 @@ void perMain()
   } else {
     JACK_PPM_IN();
     if(isFunctionActive(FUNCTION_TRAINER)) {
-      TIMSK1 |= (1<<ICIE1); // Enable ICP Interrupt.
+      ENABLE_TRAINER_INTERRUPT();
     }
     else {
-      TIMSK1 &= ~(1<<ICIE1); // Disable ICP Interrupt.
+      DISABLE_TRAINER_INTERRUPT();
     }
   }
 
   checkBattery();
 }
+

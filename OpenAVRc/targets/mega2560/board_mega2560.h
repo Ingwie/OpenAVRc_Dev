@@ -84,6 +84,9 @@ void readKeysAndTrims();
 #define SLAVE_MODE()              ~PINH & (1<<INP_H_RF_Activated)
 #define JACK_PPM_OUT()            PORTB &= ~(1<<OUT_B_SIM_CTL)
 #define JACK_PPM_IN()             PORTB |= (1<<OUT_B_SIM_CTL)
+#define ENABLE_TRAINER_INTERRUPT()   TIMSK1 |= (1<<ICIE1);  // Enable ICP Interrupt.
+#define DISABLE_TRAINER_INTERRUPT()  TIMSK1 &= ~(1<<ICIE1); // Disable ICP Interrupt.
+
 
 // Backlight driver
 #define backlightEnable()         PORTC |= (1<<OUT_C_LIGHT)

@@ -111,9 +111,12 @@
 #define INP_D_PPM_IN               PIN4_bm // ICP1
 
 // Trainer
-#define OUT_G_SIM_CTL              PIN0_bm // done
-#define JACK_PPM_OUT()             PORTG |= (OUT_G_SIM_CTL) // Pupil
+#define OUT_G_SIM_CTL              PIN0_bm
+#define JACK_PPM_OUT()             PORTG |= (OUT_G_SIM_CTL)  // Pupil
 #define JACK_PPM_IN()              PORTG &= ~(OUT_G_SIM_CTL) // Master
+#define ENABLE_TRAINER_INTERRUPT()   TIMSK1 |= (1<<ICIE1);   // Enable ICP Interrupt.
+#define DISABLE_TRAINER_INTERRUPT()  TIMSK1 &= ~(1<<ICIE1);  // Disable ICP Interrupt.
+
 
 #define IO_J_MPX_RF_EN             PIN2_bm
 bool check_slave_mode(void);
