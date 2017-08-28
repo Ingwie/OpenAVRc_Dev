@@ -324,6 +324,12 @@
 					<bitmap stock_id="wxART_GO_BACK" stock_client="wxART_MENU" />
 					<handler function="OnMenuSaveeeSelected" entry="EVT_MENU" />
 				</object>
+				<object class="wxMenuItem" name="IdMenuExportEeprom" variable="MenuExportEeprom" member="yes">
+					<label>Exporter Eeprom</label>
+					<help>Exporte les données</help>
+					<bitmap stock_id="wxART_HARDDISK" />
+					<handler function="OnMenuExportEepromSelected" entry="EVT_MENU" />
+				</object>
 				<object class="wxMenuItem" name="idMenuQuit" variable="MenuItem1" member="no">
 					<label>Quitter</label>
 					<accel>Alt-F4</accel>

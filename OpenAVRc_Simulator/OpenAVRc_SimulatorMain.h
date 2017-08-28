@@ -183,6 +183,10 @@ private:
   void OnBpReaLeftUp(wxMouseEvent& event);
   void OnBpRebLeftDown(wxMouseEvent& event);
   void OnBpRebLeftUp(wxMouseEvent& event);
+  void OnMenuExportEepromSelected(wxCommandEvent& event);
+  void ExportEeprom();
+  void save_EEGeneral_217(EEGeneral General);
+  void save_ModelData_217();
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)
@@ -227,6 +231,7 @@ private:
   static const long ID_PANELPRINCIPAL;
   static const long IdMenuOpenEE;
   static const long IdMenuSaveEE;
+  static const long IdMenuExportEeprom;
   static const long idMenuQuit;
   static const long ID_LCDB;
   static const long ID_LCDF;
@@ -248,6 +253,7 @@ private:
   //(*Variables(OpenAVRc_SimulatorFrame)
   wxFileConfig* configFile;
   wxString Ini_Filename;
+  wxFileConfig* eepromfile;
   wxString CurrentEEPath;
 
   wxColour Col_Lcd_Back;
@@ -287,6 +293,7 @@ private:
   wxTimer Timer10ms;
   wxMenuItem* MenuStickBack;
   wxMenuItem* OutputBars;
+  wxMenuItem* MenuExportEeprom;
   wxPanel* RrTrim;
   wxPanel* LdTrim;
   wxSpinButton* SpinRea;

@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -147,6 +147,7 @@ const long OpenAVRc_SimulatorFrame::ID_PANELL = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_PANELPRINCIPAL = wxNewId();
 const long OpenAVRc_SimulatorFrame::IdMenuOpenEE = wxNewId();
 const long OpenAVRc_SimulatorFrame::IdMenuSaveEE = wxNewId();
+const long OpenAVRc_SimulatorFrame::IdMenuExportEeprom = wxNewId();
 const long OpenAVRc_SimulatorFrame::idMenuQuit = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_LCDB = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_LCDF = wxNewId();
@@ -288,6 +289,9 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   MenuSaveee = new wxMenuItem(MenuFile, IdMenuSaveEE, _("Sauver Eeprom"), _("Sauvegarde du fichier BIN"), wxITEM_NORMAL);
   MenuSaveee->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_BACK")),wxART_MENU));
   MenuFile->Append(MenuSaveee);
+  MenuExportEeprom = new wxMenuItem(MenuFile, IdMenuExportEeprom, _("Exporter Eeprom"), _("Exporte les données"), wxITEM_NORMAL);
+  MenuExportEeprom->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_HARDDISK")),wxART_OTHER));
+  MenuFile->Append(MenuExportEeprom);
   MenuItem1 = new wxMenuItem(MenuFile, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter le simulateur"), wxITEM_NORMAL);
   MenuItem1->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_QUIT")),wxART_MENU));
   MenuFile->Append(MenuItem1);
@@ -392,6 +396,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_BUTTONSTARTDESKTOP,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnButtonStartDesktopClick);
   Connect(IdMenuOpenEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuLoadEeprom);
   Connect(IdMenuSaveEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuSaveeeSelected);
+  Connect(IdMenuExportEeprom,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuExportEepromSelected);
   Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnQuit);
   Connect(ID_LCDB,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuLcdBackSelected);
   Connect(ID_LCDF,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuLcdPixelSelected);
@@ -852,6 +857,316 @@ void OpenAVRc_SimulatorFrame::SaveConfig()
 
 
   configFile->Flush();
+}
+
+void OpenAVRc_SimulatorFrame::OnMenuExportEepromSelected(wxCommandEvent& event)
+{
+  ExportEeprom();
+}
+
+void OpenAVRc_SimulatorFrame::ExportEeprom()
+{
+  EEGeneral General = g_eeGeneral;
+  if (General.version == 0 ) {
+    wxMessageBox( _("Aucune eeprom detectée en mémoire"), _("    OpenAVRc Simulateur"));
+    return;
+  }
+
+  wxFileDialog saveFileDialog(this, _("Exporter Eeprom"), "", "", "Fichier TXT (*.txt)|*.txt", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+  if (saveFileDialog.ShowModal() == wxID_CANCEL)
+    return;     // the user changed idea...
+
+  eepromfile = new wxFileConfig( "", "", saveFileDialog.GetPath());
+
+  ChronoMain->Pause();
+  Chrono10ms->Pause();
+
+  if (General.version == 217) {
+    save_EEGeneral_217(General);
+    save_ModelData_217();
+  }
+
+  eepromfile->Flush();
+  delete eepromfile;
+
+  ChronoMain->Resume();
+  Chrono10ms->Resume();
+}
+
+void OpenAVRc_SimulatorFrame::save_ModelData_217()
+{
+  for (uint8_t m=0; m<MAX_MODELS; ++m) {
+    wxString num = wxString::Format(wxT("%i"),m+1);
+    if (eeModelExists(m)) {
+      theFile.openRlc(FILE_MODEL(m));
+      theFile.readRlc((uint8_t*)&g_model, sizeof(g_model));
+      eepromfile->SetPath("/MODEL"+num+"/");
+      eepromfile->Write(wxT("header.name"),ConvCharFwToWxstr(g_model.header.name, LEN_MODEL_NAME));
+      eepromfile->Write(wxT("header.modelId"),g_model.header.modelId);
+
+      for (int i=0; i<MAX_TIMERS; ++i) { //TimerData timers[MAX_TIMERS];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Write(wxT("timers.mode"+num),(int)g_model.timers[i].mode);
+        eepromfile->Write(wxT("timers.start"+num),g_model.timers[i].start);
+        eepromfile->Write(wxT("timers.countdownBeep"+num),g_model.timers[i].countdownBeep);
+        eepromfile->Write(wxT("timers.minuteBeep"+num),g_model.timers[i].minuteBeep);
+        eepromfile->Write(wxT("timers.persistent"+num),g_model.timers[i].persistent);
+        eepromfile->Write(wxT("timers.spare"+num),g_model.timers[i].spare);
+        eepromfile->Write(wxT("timers.value"+num),g_model.timers[i].value);
+      }
+
+      eepromfile->Write(wxT("protocol"),g_model.protocol);
+      eepromfile->Write(wxT("thrTrim"),g_model.thrTrim);
+      eepromfile->Write(wxT("ppmNCH"),(int)g_model.ppmNCH);
+      eepromfile->Write(wxT("trimInc"),(int)g_model.trimInc);
+      eepromfile->Write(wxT("disableThrottleWarning"),g_model.disableThrottleWarning);
+      eepromfile->Write(wxT("pulsePol"),g_model.pulsePol);
+      eepromfile->Write(wxT("extendedLimits"),g_model.extendedLimits);
+      eepromfile->Write(wxT("extendedTrims"),g_model.extendedTrims);
+      eepromfile->Write(wxT("throttleReversed"),g_model.throttleReversed);
+      eepromfile->Write(wxT("ppmDelay"),(int)g_model.ppmDelay);
+      eepromfile->Write(wxT("beepANACenter"),g_model.beepANACenter);
+
+      for (int i=0; i<MAX_MIXERS; ++i) { //MixData   mixData[MAX_MIXERS];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Write(wxT("mixData.destCh"+num),g_model.mixData[i].destCh);
+        eepromfile->Write(wxT("mixData.curveMode"+num),g_model.mixData[i].curveMode);
+        eepromfile->Write(wxT("mixData.noExpo"+num),g_model.mixData[i].noExpo);
+        eepromfile->Write(wxT("mixData.weightMode"+num),g_model.mixData[i].weightMode);
+        eepromfile->Write(wxT("mixData.destCh"+num),g_model.mixData[i].destCh);
+        eepromfile->Write(wxT("mixData.offsetMode"+num),g_model.mixData[i].offsetMode);
+        eepromfile->Write(wxT("mixData.srcRaw"+num),g_model.mixData[i].srcRaw);
+        eepromfile->Write(wxT("mixData.weight"+num),(int)g_model.mixData[i].weight);
+        eepromfile->Write(wxT("mixData.swtch"+num),(int)g_model.mixData[i].swtch);
+        eepromfile->Write(wxT("mixData.flightModes"+num),g_model.mixData[i].flightModes);
+        eepromfile->Write(wxT("mixData.mltpx"+num),g_model.mixData[i].mltpx);
+        eepromfile->Write(wxT("mixData.carryTrim"+num),(int)g_model.mixData[i].carryTrim);
+        eepromfile->Write(wxT("mixData.mixWarn"+num),g_model.mixData[i].mixWarn);
+        eepromfile->Write(wxT("mixData.spare"+num),g_model.mixData[i].spare);
+        eepromfile->Write(wxT("mixData.delayUp"+num),g_model.mixData[i].delayUp);
+        eepromfile->Write(wxT("mixData.delayDown"+num),g_model.mixData[i].delayDown);
+        eepromfile->Write(wxT("mixData.speedUp"+num),g_model.mixData[i].speedUp);
+        eepromfile->Write(wxT("mixData.speedDown"+num),g_model.mixData[i].speedDown);
+        eepromfile->Write(wxT("mixData.curveParam"+num),(int)g_model.mixData[i].curveParam);
+        eepromfile->Write(wxT("mixData.offset"+num),(int)g_model.mixData[i].offset);
+      }
+
+      for (int i=0; i<NUM_CHNOUT; ++i) { //LimitData limitData[NUM_CHNOUT];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Write(wxT("limitData.min"+num),(int)g_model.limitData[i].min);
+        eepromfile->Write(wxT("limitData.max"+num),(int)g_model.limitData[i].max);
+        eepromfile->Write(wxT("limitData.ppmCenter"+num),(int)g_model.limitData[i].ppmCenter);
+        eepromfile->Write(wxT("limitData.offset"+num),(int)g_model.limitData[i].offset);
+        eepromfile->Write(wxT("limitData.symetrical"+num),g_model.limitData[i].symetrical);
+        eepromfile->Write(wxT("limitData.revert"+num),g_model.limitData[i].revert);
+      }
+
+      for (int i=0; i<MAX_EXPOS; ++i) { //ExpoData  expoData[MAX_EXPOS];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Write(wxT("expoData.mode"+num),g_model.expoData[i].mode);
+        eepromfile->Write(wxT("expoData.chn"+num),g_model.expoData[i].chn);
+        eepromfile->Write(wxT("expoData.curveMode"+num),g_model.expoData[i].curveMode);
+        eepromfile->Write(wxT("expoData.spare"+num),g_model.expoData[i].spare);
+        eepromfile->Write(wxT("expoData.flightModes"+num),g_model.expoData[i].flightModes);
+        eepromfile->Write(wxT("expoData.swtch"+num),(int)g_model.expoData[i].swtch);
+        eepromfile->Write(wxT("expoData.weight"+num),g_model.expoData[i].weight);
+        eepromfile->Write(wxT("expoData.curveParam"+num),(int)g_model.expoData[i].curveParam);
+      }
+
+      for (int i=0; i<MAX_CURVES; ++i) { //CURVDATA(=int8)  curves[MAX_CURVES];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Write(wxT("curves"+num),(int)g_model.curves[i]);
+      }
+
+      for (int i=0; i<NUM_POINTS; ++i) { //int8_t    points[NUM_POINTS];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Write(wxT("points"+num),(int)g_model.points[i]);
+      }
+
+      for (int i=0; i<NUM_LOGICAL_SWITCH; ++i) { //LogicalSwitchData logicalSw[NUM_LOGICAL_SWITCH];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Write(wxT("logicalSw.v1"+num),(int)g_model.logicalSw[i].v1);
+        eepromfile->Write(wxT("logicalSw.v2"+num),(int)g_model.logicalSw[i].v2);
+        eepromfile->Write(wxT("logicalSw.func"+num),g_model.logicalSw[i].func);
+        eepromfile->Write(wxT("logicalSw.andsw"+num),g_model.logicalSw[i].andsw);
+      }
+
+      for (int i=0; i<NUM_CFN; ++i) { //CustomFunctionData customFn[NUM_CFN];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Write(wxT("customFn.swtch"+num),(int)g_model.customFn[i].swtch);
+        eepromfile->Write(wxT("customFn.func"+num),g_model.customFn[i].func);
+        eepromfile->Write(wxT("customFn.mode"+num),g_model.customFn[i].mode);
+        eepromfile->Write(wxT("customFn.param"+num),g_model.customFn[i].param);
+        eepromfile->Write(wxT("customFn.active"+num),g_model.customFn[i].active);
+        eepromfile->Write(wxT("customFn.spare"+num),g_model.customFn[i].spare);
+        eepromfile->Write(wxT("customFn.value"+num),g_model.customFn[i].value);
+      }
+
+      eepromfile->Write(wxT("swashR.invertELE"+num),g_model.swashR.invertELE); //SwashRingData swashR;
+      eepromfile->Write(wxT("swashR.invertAIL"+num),g_model.swashR.invertAIL);
+      eepromfile->Write(wxT("swashR.invertCOL"+num),g_model.swashR.invertCOL);
+      eepromfile->Write(wxT("swashR.type"+num),g_model.swashR.type);
+      eepromfile->Write(wxT("swashR.collectiveSource"+num),g_model.swashR.collectiveSource);
+      eepromfile->Write(wxT("swashR.value"+num),g_model.swashR.value);
+
+      for (int i=0; i<MAX_FLIGHT_MODES; ++i) { //FlightModeData flightModeData[MAX_FLIGHT_MODES];
+        wxString num = wxString::Format(wxT("%i"),i);
+
+        for (int j=0; j<4; ++j) { //int16 trim[4] TRIMS_ARRAY;
+          wxString numtrim = wxString::Format(wxT("%i"),j);
+          eepromfile->Write(wxT("flightModeData.trim"+num+numtrim),(int)g_model.flightModeData[i].trim[j]);
+        }
+
+        eepromfile->Write(wxT("flightModeData.swtch"+num),(int)g_model.flightModeData[i].swtch);
+        eepromfile->Write(wxT("flightModeData.name"+num),ConvCharFwToWxstr(g_model.flightModeData[i].name, LEN_FLIGHT_MODE_NAME));
+        eepromfile->Write(wxT("flightModeData.fadeIn"+num),g_model.flightModeData[i].fadeIn);
+        eepromfile->Write(wxT("flightModeData.fadeOut"+num),g_model.flightModeData[i].fadeOut);
+
+        for (int j=0; j<NUM_ROTARY_ENCODERS; ++j) { //ROTARY_ENCODER_ARRAY int16_t rotaryEncoders[2];
+          wxString numtrim = wxString::Format(wxT("%i"),j);
+          eepromfile->Write(wxT("flightModeData.rotaryEncoders"+num+numtrim),(int)g_model.flightModeData[i].rotaryEncoders[j]);
+        }
+
+        for (int k=0; k<MAX_GVARS; ++k) { //PHASE_GVARS_DATA gvar_t gvars[MAX_GVARS]
+          wxString numgvar = wxString::Format(wxT("%i"),k);
+          eepromfile->Write(wxT("flightModeData.gvars"+num+numgvar),(int)g_model.flightModeData[i].gvars[k]);
+        }
+      }
+
+      eepromfile->Write(wxT("ppmFrameLength"),(int)g_model.ppmFrameLength);
+      eepromfile->Write(wxT("thrTraceSrc"),g_model.thrTraceSrc);
+      eepromfile->Write(wxT("switchWarningState"),g_model.switchWarningState);
+      eepromfile->Write(wxT("switchWarningEnable"),g_model.switchWarningEnable);
+
+        for (int i=0; i<MAX_GVARS; ++i) { //global_gvar_t gvars[MAX_GVARS];
+          wxString num = wxString::Format(wxT("%i"),i);
+          eepromfile->Write(wxT("gvars.name"+num),ConvCharFwToWxstr(g_model.gvars[i].name, LEN_GVAR_NAME));
+          eepromfile->Write(wxT("gvars.popup"+num),g_model.gvars[i].popup);
+          eepromfile->Write(wxT("gvars.spare"+num),g_model.gvars[i].spare);
+        }
+
+
+
+      /*
+
+
+        TELEMETRY_DATA
+#define MAX_FRSKY_A_CHANNELS 2
+
+  FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
+    uint8_t   ratio;              // 0.0 means not used, 0.1V steps EG. 6.6 Volts = 66. 25.1V = 251, etc.
+  int16_t   offset:12;
+  uint16_t  type:4;             // channel unit (0=volts, ...)
+  uint8_t   alarms_value[2];    // 0.1V steps EG. 6.6 Volts = 66. 25.1V = 251, etc.
+  uint8_t   alarms_level:4;
+  uint8_t   alarms_greater:2;   // 0=LT(<), 1=GT(>)
+  uint8_t   multiplier:2;       // 0=no multiplier, 1=*2 multiplier
+}) FrSkyChannelData;
+
+
+
+
+
+  uint8_t usrProto:2; // Protocol in FrSky user data, 0=None, 1=FrSky hub, 2=WS HowHigh, 3=Halcyon
+  uint8_t blades:2;   // How many blades for RPMs, 0=2 blades
+  uint8_t screensType:2;
+  uint8_t voltsSource:2;
+  int8_t  varioMin:4;
+  int8_t  varioMax:4;
+
+
+
+  FrSkyRSSIAlarm rssiAlarms[2];
+PACK(typedef struct {
+  int8_t    level:2;
+  int8_t    value:6;
+}) FrSkyRSSIAlarm;
+
+
+
+
+
+#define MAX_TELEMETRY_SCREENS 2
+  FrSkyScreenData screens[MAX_TELEMETRY_SCREENS];
+
+
+
+
+
+  uint8_t varioSource:3;
+  int8_t  varioCenterMin:5;
+  uint8_t currentSource:3;
+  int8_t  varioCenterMax:5;
+  int8_t  fasOffset;
+}) FrSkyData;
+        */
+
+
+    }
+  }
+  //bool eeModelExists(uint8_t id)
+  theFile.openRlc(FILE_MODEL(g_eeGeneral.currModel));
+  theFile.readRlc((uint8_t*)&g_model, sizeof(g_model));
+}
+
+void OpenAVRc_SimulatorFrame::save_EEGeneral_217(EEGeneral General)
+{
+  eepromfile->SetPath("/EEGENERAL/");
+  eepromfile->Write(wxT("version"),General.version);
+  eepromfile->Write(wxT("variant"),General.variant);
+
+  for (int i=0; i<(NUM_STICKS+NUM_POTS); ++i) { //CalibData calib[NUM_STICKS+NUM_POTS]
+    wxString num = wxString::Format(wxT("%i"),i);
+    eepromfile->Write(wxT("calib.mid"+num),(int)General.calib[i].mid);
+    eepromfile->Write(wxT("calib.spanNeg"+num),(int)General.calib[i].spanNeg);
+    eepromfile->Write(wxT("calib.spanPos"+num),(int)General.calib[i].spanPos);
+  }
+
+  eepromfile->Write(wxT("chkSum"),General.chkSum);
+  eepromfile->Write(wxT("currModel"),(int)General.currModel);
+  eepromfile->Write(wxT("contrast"),General.contrast);
+  eepromfile->Write(wxT("vBatWarn"),General.vBatWarn);
+  eepromfile->Write(wxT("txVoltageCalibration"),(int)General.txVoltageCalibration);
+  eepromfile->Write(wxT("backlightMode"),(int)General.backlightMode);
+
+  for (int i=0; i<4; ++i) { //TrainerData trainer;
+    wxString num = wxString::Format(wxT("%i"),i);
+    eepromfile->Write(wxT("trainer.calib"+num),(int)General.trainer.calib[i]);
+    eepromfile->Write(wxT("trainer.mix.srcChn"+num),General.trainer.mix[i].srcChn);
+    eepromfile->Write(wxT("trainer.mix.mode"+num),General.trainer.mix[i].mode);
+    eepromfile->Write(wxT("trainer.mix.studWeight"+num),(int)General.trainer.mix[i].studWeight);
+  }
+
+  eepromfile->Write(wxT("view"),General.view);
+  eepromfile->Write(wxT("buzzerMode"),(int)General.buzzerMode);
+  eepromfile->Write(wxT("fai"),General.fai);
+  eepromfile->Write(wxT("beepMode"),(int)General.beepMode);
+  eepromfile->Write(wxT("alarmsFlash"),General.alarmsFlash);
+  eepromfile->Write(wxT("disableMemoryWarning"),General.disableMemoryWarning);
+  eepromfile->Write(wxT("disableAlarmWarning"),General.disableAlarmWarning);
+  eepromfile->Write(wxT("stickMode"),General.stickMode);
+  eepromfile->Write(wxT("timezone"),(int)General.timezone);
+  eepromfile->Write(wxT("adjustRTC"),General.adjustRTC);
+  eepromfile->Write(wxT("inactivityTimer"),General.inactivityTimer);
+  eepromfile->Write(wxT("mavbaud"),General.mavbaud);
+  eepromfile->Write(wxT("splashMode"),General.splashMode);
+  eepromfile->Write(wxT("hapticMode"),(int)General.hapticMode);
+  eepromfile->Write(wxT("blOffBright"),General.blOffBright);
+  eepromfile->Write(wxT("blOnBright"),General.blOnBright);
+  eepromfile->Write(wxT("lightAutoOff"),General.lightAutoOff);
+  eepromfile->Write(wxT("templateSetup"),General.templateSetup);
+  eepromfile->Write(wxT("PPM_Multiplier"),(int)General.PPM_Multiplier);
+  eepromfile->Write(wxT("hapticLength"),(int)General.hapticLength);
+  eepromfile->Write(wxT("reNavigation"),General.reNavigation);
+  eepromfile->Write(wxT("stickReverse"),General.stickReverse);
+  eepromfile->Write(wxT("beepLength"),(int)General.beepLength);
+  eepromfile->Write(wxT("hapticStrength"),(int)General.hapticStrength);
+  eepromfile->Write(wxT("gpsFormat"),General.gpsFormat);
+  eepromfile->Write(wxT("unexpectedShutdown"),General.unexpectedShutdown);
+  eepromfile->Write(wxT("speakerPitch"),General.speakerPitch);
+  eepromfile->Write(wxT("speakerVolume"),(int)General.speakerVolume);
+  eepromfile->Write(wxT("vBatMin"),(int)General.vBatMin);
+  eepromfile->Write(wxT("vBatMax"),(int)General.vBatMax);
 }
 
 //////////////////////////////VIRTUAL PIN WORD !! JOB /////////////////////////
@@ -1414,7 +1729,6 @@ wxString ConvCharFwToWxstr(char *cstr, uint8_t length) //Convert Firmware chars[
 wxString int2wxString(int integer)
 {
   wxString intString = wxString::Format(wxT("%i"), integer);
-  wxMessageBox(intString);
+  //wxMessageBox(intString);
 }
 /////////////////////////////////////////////////////////
-

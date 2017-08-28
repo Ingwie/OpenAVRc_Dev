@@ -512,6 +512,7 @@
 			<Add option="-D__WXMSW__" />
 			<Add option="-DWXUSINGDLL" />
 			<Add option="-DwxUSE_UNICODE" />
+			<Add option="-Wno-packed-bitfield-compat" />
 			<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/include" />
 		</Compiler>
 		<ResourceCompiler>
