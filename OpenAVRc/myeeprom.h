@@ -60,7 +60,7 @@
 
 #define NUM_STICKS           4
 
-#if   defined(CPUM2560)
+//#if   defined(CPUM2560)
 #if defined(EXTERNALEEPROM)
 #define MAX_MODELS           60
 #define NUM_CHNOUT           16 // number of real output channels CH1-CH16
@@ -86,8 +86,8 @@
 #define NUM_XPOTS            0
 #define MAX_SENSORS          0
 #endif
-#else
-#endif
+//#else
+//#endif
 
 #define MAX_TIMERS           2
 
