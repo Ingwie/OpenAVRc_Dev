@@ -38,8 +38,6 @@
 #include <wx/fileconf.h>
 #include <wx/dcclient.h>
 
-#include "Eeprom.h"
-
 #define LCD_W 128
 #define LCD_H 64
 #define SPLASHLENGHT 1026
@@ -191,8 +189,7 @@ private:
     wxArrayString SavedConfig;
 
     wxString defaut;
-Eeprom* Ee217_4k;
-Eeprom* Ee217_10k;
+
     DECLARE_EVENT_TABLE()
 };
 
