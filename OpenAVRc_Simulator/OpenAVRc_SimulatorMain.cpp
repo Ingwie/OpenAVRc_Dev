@@ -866,6 +866,10 @@ void OpenAVRc_SimulatorFrame::OnMenuExportEepromSelected(wxCommandEvent& event)
 
 void OpenAVRc_SimulatorFrame::ExportEeprom()
 {
+  eeDirty(EE_GENERAL); //Save Radio eeprom immediatly
+  eeCheck(true);
+  eeDirty(EE_MODEL);
+  eeCheck(true);
   EEGeneral General = g_eeGeneral;
   if (General.version == 0 ) {
     wxMessageBox( _("Aucune eeprom detectée en mémoire"), _("    OpenAVRc Simulateur"));
@@ -1038,70 +1042,49 @@ void OpenAVRc_SimulatorFrame::save_ModelData_217()
       eepromfile->Write(wxT("switchWarningState"),g_model.switchWarningState);
       eepromfile->Write(wxT("switchWarningEnable"),g_model.switchWarningEnable);
 
-        for (int i=0; i<MAX_GVARS; ++i) { //global_gvar_t gvars[MAX_GVARS];
-          wxString num = wxString::Format(wxT("%i"),i);
-          eepromfile->Write(wxT("gvars.name"+num),ConvCharFwToWxstr(g_model.gvars[i].name, LEN_GVAR_NAME));
-          eepromfile->Write(wxT("gvars.popup"+num),g_model.gvars[i].popup);
-          eepromfile->Write(wxT("gvars.spare"+num),g_model.gvars[i].spare);
+      for (int i=0; i<MAX_GVARS; ++i) { //global_gvar_t gvars[MAX_GVARS];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Write(wxT("gvars.name"+num),ConvCharFwToWxstr(g_model.gvars[i].name, LEN_GVAR_NAME));
+        eepromfile->Write(wxT("gvars.popup"+num),g_model.gvars[i].popup);
+        eepromfile->Write(wxT("gvars.spare"+num),g_model.gvars[i].spare);
+      }
+
+      for (int i=0; i<MAX_FRSKY_A_CHANNELS; ++i) { //FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Write(wxT("frsky.channels.ratio"+num),g_model.frsky.channels[i].ratio);
+        eepromfile->Write(wxT("frsky.channels.offset"+num),(int)g_model.frsky.channels[i].offset);
+        for (int j=0; j<2; ++j) { //alarms_value[2];
+          wxString numvalue = wxString::Format(wxT("%i"),j);
+          eepromfile->Write(wxT("frsky.channels.alarms_value"+num+numvalue),g_model.frsky.channels[i].alarms_value[j]);
         }
-
-
-
-      /*
-
-
-        TELEMETRY_DATA
-#define MAX_FRSKY_A_CHANNELS 2
-
-  FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
-    uint8_t   ratio;              // 0.0 means not used, 0.1V steps EG. 6.6 Volts = 66. 25.1V = 251, etc.
-  int16_t   offset:12;
-  uint16_t  type:4;             // channel unit (0=volts, ...)
-  uint8_t   alarms_value[2];    // 0.1V steps EG. 6.6 Volts = 66. 25.1V = 251, etc.
-  uint8_t   alarms_level:4;
-  uint8_t   alarms_greater:2;   // 0=LT(<), 1=GT(>)
-  uint8_t   multiplier:2;       // 0=no multiplier, 1=*2 multiplier
-}) FrSkyChannelData;
-
-
-
-
-
-  uint8_t usrProto:2; // Protocol in FrSky user data, 0=None, 1=FrSky hub, 2=WS HowHigh, 3=Halcyon
-  uint8_t blades:2;   // How many blades for RPMs, 0=2 blades
-  uint8_t screensType:2;
-  uint8_t voltsSource:2;
-  int8_t  varioMin:4;
-  int8_t  varioMax:4;
-
-
-
-  FrSkyRSSIAlarm rssiAlarms[2];
-PACK(typedef struct {
-  int8_t    level:2;
-  int8_t    value:6;
-}) FrSkyRSSIAlarm;
-
-
-
-
-
-#define MAX_TELEMETRY_SCREENS 2
-  FrSkyScreenData screens[MAX_TELEMETRY_SCREENS];
-
-
-
-
-
-  uint8_t varioSource:3;
-  int8_t  varioCenterMin:5;
-  uint8_t currentSource:3;
-  int8_t  varioCenterMax:5;
-  int8_t  fasOffset;
-}) FrSkyData;
-        */
-
-
+        eepromfile->Write(wxT("frsky.channels.alarms_level"+num),g_model.frsky.channels[i].alarms_level);
+        eepromfile->Write(wxT("frsky.channels.alarms_greater"+num),g_model.frsky.channels[i].alarms_greater);
+        eepromfile->Write(wxT("frsky.channels.multiplier"+num),g_model.frsky.channels[i].multiplier);
+      }
+      eepromfile->Write(wxT("frsky.usrProto"),g_model.frsky.usrProto);
+      eepromfile->Write(wxT("frsky.blades"),g_model.frsky.blades);
+      eepromfile->Write(wxT("frsky.screensType"),g_model.frsky.screensType);
+      eepromfile->Write(wxT("frsky.voltsSource"),g_model.frsky.voltsSource);
+      eepromfile->Write(wxT("frsky.varioMin"),(int)g_model.frsky.varioMin);
+      eepromfile->Write(wxT("frsky.varioMax"),(int)g_model.frsky.varioMax);
+      for (int i=0; i<2; ++i) { //FrSkyRSSIAlarm rssiAlarms[2];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Write(wxT("frsky.rssiAlarms.level"+num),(int)g_model.frsky.rssiAlarms[i].level);
+        eepromfile->Write(wxT("frsky.rssiAlarms.value"+num),(int)g_model.frsky.rssiAlarms[i].value);
+      }
+      for (int i=0; i<MAX_TELEMETRY_SCREENS; ++i) { //FrSkyScreenData screens[MAX_TELEMETRY_SCREENS];
+        wxString num = wxString::Format(wxT("%i"),i);
+        for (int j=0; j<4; ++j) { //FrSkyBarData bars[4]; or FrSkyLineData
+          wxString numbl = wxString::Format(wxT("%i"),j);
+          eepromfile->Write(wxT("frsky.screens.alarms_value"+num+numbl),g_model.frsky.screens[i].bars[j].barMin);
+          eepromfile->Write(wxT("frsky.screens.alarms_value"+num+numbl),g_model.frsky.screens[i].bars[j].barMax);
+        }
+      }
+      eepromfile->Write(wxT("frsky.varioSource"),g_model.frsky.varioSource);
+      eepromfile->Write(wxT("frsky.varioCenterMin"),(int)g_model.frsky.varioCenterMin);
+      eepromfile->Write(wxT("frsky.currentSource"),g_model.frsky.currentSource);
+      eepromfile->Write(wxT("frsky.varioCenterMax"),(int)g_model.frsky.varioCenterMax);
+      eepromfile->Write(wxT("frsky.fasOffset"),(int)g_model.frsky.fasOffset);
     }
   }
   //bool eeModelExists(uint8_t id)
