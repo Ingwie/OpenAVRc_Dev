@@ -185,8 +185,12 @@ private:
   void OnBpRebLeftUp(wxMouseEvent& event);
   void OnMenuExportEepromSelected(wxCommandEvent& event);
   void ExportEeprom();
+  void ImportEeprom();
   void save_EEGeneral_217(EEGeneral General);
   void save_ModelData_217();
+  void load_EEGeneral_217();
+  void load_ModelData_217();
+  void OnMenuImportEepromSelected(wxCommandEvent& event);
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)
@@ -232,6 +236,7 @@ private:
   static const long IdMenuOpenEE;
   static const long IdMenuSaveEE;
   static const long IdMenuExportEeprom;
+  static const long IdImportEeprom;
   static const long idMenuQuit;
   static const long ID_LCDB;
   static const long ID_LCDF;
@@ -339,6 +344,7 @@ private:
   wxMenuItem* MenuButOff;
   wxMenuItem* MenuSaveee;
   wxMenuItem* OutputMixeur;
+  wxMenuItem* MenuImportEeprom;
   wxSpinButton* SpinReb;
   wxPanel* LuTrim;
   wxPanel* BpId1;

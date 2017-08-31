@@ -148,6 +148,7 @@ const long OpenAVRc_SimulatorFrame::ID_PANELPRINCIPAL = wxNewId();
 const long OpenAVRc_SimulatorFrame::IdMenuOpenEE = wxNewId();
 const long OpenAVRc_SimulatorFrame::IdMenuSaveEE = wxNewId();
 const long OpenAVRc_SimulatorFrame::IdMenuExportEeprom = wxNewId();
+const long OpenAVRc_SimulatorFrame::IdImportEeprom = wxNewId();
 const long OpenAVRc_SimulatorFrame::idMenuQuit = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_LCDB = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_LCDF = wxNewId();
@@ -289,9 +290,12 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   MenuSaveee = new wxMenuItem(MenuFile, IdMenuSaveEE, _("Sauver Eeprom"), _("Sauvegarde du fichier BIN"), wxITEM_NORMAL);
   MenuSaveee->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_BACK")),wxART_MENU));
   MenuFile->Append(MenuSaveee);
-  MenuExportEeprom = new wxMenuItem(MenuFile, IdMenuExportEeprom, _("Exporter Eeprom"), _("Exporte les données"), wxITEM_NORMAL);
-  MenuExportEeprom->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_HARDDISK")),wxART_OTHER));
+  MenuExportEeprom = new wxMenuItem(MenuFile, IdMenuExportEeprom, _("Exporter Eeprom"), _("Exporte l\'eeprom en format texte"), wxITEM_NORMAL);
+  MenuExportEeprom->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_DOWN")),wxART_MENU));
   MenuFile->Append(MenuExportEeprom);
+  MenuImportEeprom = new wxMenuItem(MenuFile, IdImportEeprom, _("Importer Eeprom"), _("Importe une eeprom en format texte"), wxITEM_NORMAL);
+  MenuImportEeprom->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_UP")),wxART_MENU));
+  MenuFile->Append(MenuImportEeprom);
   MenuItem1 = new wxMenuItem(MenuFile, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter le simulateur"), wxITEM_NORMAL);
   MenuItem1->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_QUIT")),wxART_MENU));
   MenuFile->Append(MenuItem1);
@@ -397,6 +401,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(IdMenuOpenEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuLoadEeprom);
   Connect(IdMenuSaveEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuSaveeeSelected);
   Connect(IdMenuExportEeprom,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuExportEepromSelected);
+  Connect(IdImportEeprom,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuImportEepromSelected);
   Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnQuit);
   Connect(ID_LCDB,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuLcdBackSelected);
   Connect(ID_LCDF,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuLcdPixelSelected);
@@ -488,7 +493,7 @@ void OpenAVRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
         }
       }
       if ((CurrentEEPath == "") || (answer == wxNO)) {
-        int answer = wxMessageBox(_("Charger un fichier eeprom ?"), _("EEPROM VIDE"), wxYES_NO, this);
+        answer = wxMessageBox(_("Charger un fichier eeprom ?"), _("EEPROM VIDE"), wxYES_NO, this);
         if (answer == wxYES) LoadEeprom();
       }
     }
@@ -864,6 +869,464 @@ void OpenAVRc_SimulatorFrame::OnMenuExportEepromSelected(wxCommandEvent& event)
   ExportEeprom();
 }
 
+void OpenAVRc_SimulatorFrame::OnMenuImportEepromSelected(wxCommandEvent& event)
+{
+  int answer = wxMessageBox( _("L'eeprom va être formatée, étes vous sur ?"), _("    OpenAVRc Simulateur"), wxYES_NO, this);
+  if (answer == wxNO) {
+    return;
+  }
+  ImportEeprom();
+}
+
+void OpenAVRc_SimulatorFrame::ImportEeprom()
+{
+  wxFileDialog loaFileDialog(this, _("Importer Eeprom"), "", "", "Fichier TXT (*.txt)|*.txt", wxFD_OPEN |wxFD_FILE_MUST_EXIST);
+  if (loaFileDialog.ShowModal() == wxID_CANCEL)
+    return;     // the user changed idea...
+
+  eepromfile = new wxFileConfig( "", "", loaFileDialog.GetPath());
+
+  int version = 0;
+  eepromfile->SetPath("/EEGENERAL/");
+  eepromfile->Read(wxT("version"),&version);
+
+  ChronoMain->Pause();
+  Chrono10ms->Pause();
+
+  if (version == 217) {
+    eepromFormat();
+    load_EEGeneral_217();
+    load_ModelData_217();
+    eeDirty(EE_GENERAL); //Save Radio eeprom immediatly
+    eeCheck(true);
+
+  } else {
+    ChronoMain->Resume();
+    Chrono10ms->Resume();
+    return;
+  }
+
+  delete eepromfile;
+
+  ChronoMain->Resume();
+  Chrono10ms->Resume();
+
+}
+
+void OpenAVRc_SimulatorFrame::load_ModelData_217()
+{
+  int tmp =0;
+  wxString strtmp;
+
+  for (uint8_t m=0; m<MAX_MODELS; ++m) {
+    wxString num = wxString::Format(wxT("%i"),m+1);
+
+
+    if (eepromfile->HasGroup("/MODEL"+num+"/")) {
+
+      theFile.openRlc(FILE_MODEL(m));
+
+      eepromfile->SetPath("/MODEL"+num+"/");
+      eepromfile->Read(wxT("header.name"),&strtmp);
+      ConvWxstrToCharFw(strtmp,g_model.header.name, LEN_MODEL_NAME);
+      eepromfile->Read(wxT("header.modelId"),&tmp);
+      g_model.header.modelId = tmp;
+
+      for (int i=0; i<MAX_TIMERS; ++i) { //TimerData timers[MAX_TIMERS];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Read(wxT("timers"+num+".mode"),&tmp);
+        g_model.timers[i].mode = tmp;
+        eepromfile->Read(wxT("timers"+num+".start"),&tmp);
+        g_model.timers[i].start = tmp;
+        eepromfile->Read(wxT("timers"+num+".countdownBeep"),&tmp);
+        g_model.timers[i].countdownBeep = tmp;
+        eepromfile->Read(wxT("timers"+num+".minuteBeep"),&tmp);
+        g_model.timers[i].minuteBeep = tmp;
+        eepromfile->Read(wxT("timers"+num+".persistent"),&tmp);
+        g_model.timers[i].persistent = tmp;
+        eepromfile->Read(wxT("timers"+num+".spare"),&tmp);
+        g_model.timers[i].spare = tmp;
+        eepromfile->Read(wxT("timers"+num+".value"),&tmp);
+        g_model.timers[i].value = tmp;
+      }
+
+      eepromfile->Read(wxT("protocol"),&tmp);
+      g_model.protocol = tmp;
+      eepromfile->Read(wxT("thrTrim"),&tmp);
+      g_model.thrTrim = tmp;
+      eepromfile->Read(wxT("ppmNCH"),&tmp);
+      g_model.ppmNCH = tmp;
+      eepromfile->Read(wxT("trimInc"),&tmp);
+      g_model.trimInc = tmp;
+      eepromfile->Read(wxT("disableThrottleWarning"),&tmp);
+      g_model.disableThrottleWarning = tmp;
+      eepromfile->Read(wxT("pulsePol"),&tmp);
+      g_model.pulsePol = tmp;
+      eepromfile->Read(wxT("extendedLimits"),&tmp);
+      g_model.extendedLimits = tmp;
+      eepromfile->Read(wxT("extendedTrims"),&tmp);
+      g_model.extendedTrims = tmp;
+      eepromfile->Read(wxT("throttleReversed"),&tmp);
+      g_model.throttleReversed = tmp;
+      eepromfile->Read(wxT("ppmDelay"),&tmp);
+      g_model.ppmDelay = tmp;
+      eepromfile->Read(wxT("beepANACenter"),&tmp);
+      g_model.beepANACenter = tmp;
+
+      for (int i=0; i<MAX_MIXERS; ++i) { //MixData   mixData[MAX_MIXERS];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Read(wxT("mixData"+num+".destCh"),&tmp);
+        g_model.mixData[i].destCh = tmp;
+        eepromfile->Read(wxT("mixData"+num+".curveMode"),&tmp);
+        g_model.mixData[i].curveMode = tmp;
+        eepromfile->Read(wxT("mixData"+num+".noExpo"),&tmp);
+        g_model.mixData[i].noExpo = tmp;
+        eepromfile->Read(wxT("mixData"+num+".weightMode"),&tmp);
+        g_model.mixData[i].weightMode = tmp;
+        eepromfile->Read(wxT("mixData"+num+".destCh"),&tmp);
+        g_model.mixData[i].destCh = tmp;
+        eepromfile->Read(wxT("mixData"+num+".offsetMode"),&tmp);
+        g_model.mixData[i].offsetMode = tmp;
+        eepromfile->Read(wxT("mixData"+num+".srcRaw"),&tmp);
+        g_model.mixData[i].srcRaw = tmp;
+        eepromfile->Read(wxT("mixData"+num+".weight"),&tmp);
+        g_model.mixData[i].weight = tmp;
+        eepromfile->Read(wxT("mixData"+num+".swtch"),&tmp);
+        g_model.mixData[i].swtch = tmp;
+        eepromfile->Read(wxT("mixData"+num+".flightModes"),&tmp);
+        g_model.mixData[i].flightModes = tmp;
+        eepromfile->Read(wxT("mixData"+num+".mltpx"),&tmp);
+        g_model.mixData[i].mltpx = tmp;
+        eepromfile->Read(wxT("mixData"+num+".carryTrim"),&tmp);
+        g_model.mixData[i].carryTrim = tmp;
+        eepromfile->Read(wxT("mixData"+num+".mixWarn"),&tmp);
+        g_model.mixData[i].mixWarn = tmp;
+        eepromfile->Read(wxT("mixData"+num+".spare"),&tmp);
+        g_model.mixData[i].spare = tmp;
+        eepromfile->Read(wxT("mixData"+num+".delayUp"),&tmp);
+        g_model.mixData[i].delayUp = tmp;
+        eepromfile->Read(wxT("mixData"+num+".delayDown"),&tmp);
+        g_model.mixData[i].delayDown = tmp;
+        eepromfile->Read(wxT("mixData"+num+".speedUp"),&tmp);
+        g_model.mixData[i].speedUp = tmp;
+        eepromfile->Read(wxT("mixData"+num+".speedDown"),&tmp);
+        g_model.mixData[i].speedDown = tmp;
+        eepromfile->Read(wxT("mixData"+num+".curveParam"),&tmp);
+        g_model.mixData[i].curveParam = tmp;
+        eepromfile->Read(wxT("mixData"+num+".offset"),&tmp);
+        g_model.mixData[i].offset = tmp;
+      }
+
+      for (int i=0; i<NUM_CHNOUT; ++i) { //LimitData limitData[NUM_CHNOUT];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Read(wxT("limitData"+num+".min"),&tmp);
+        g_model.limitData[i].min = tmp;
+        eepromfile->Read(wxT("limitData"+num+".max"),&tmp);
+        g_model.limitData[i].max = tmp;
+        eepromfile->Read(wxT("limitData"+num+".ppmCenter"),&tmp);
+        g_model.limitData[i].ppmCenter = tmp;
+        eepromfile->Read(wxT("limitData"+num+".offset"),&tmp);
+        g_model.limitData[i].offset = tmp;
+        eepromfile->Read(wxT("limitData"+num+".symetrical"),&tmp);
+        g_model.limitData[i].symetrical = tmp;
+        eepromfile->Read(wxT("limitData"+num+".revert"),&tmp);
+        g_model.limitData[i].revert = tmp;
+      }
+
+      for (int i=0; i<MAX_EXPOS; ++i) { //ExpoData  expoData[MAX_EXPOS];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Read(wxT("expoData"+num+".mode"),&tmp);
+        g_model.expoData[i].mode = tmp;
+        eepromfile->Read(wxT("expoData"+num+".chn"),&tmp);
+        g_model.expoData[i].chn = tmp;
+        eepromfile->Read(wxT("expoData"+num+".curveMode"),&tmp);
+        g_model.expoData[i].curveMode = tmp;
+        eepromfile->Read(wxT("expoData"+num+".spare"),&tmp);
+        g_model.expoData[i].spare = tmp;
+        eepromfile->Read(wxT("expoData"+num+".flightModes"),&tmp);
+        g_model.expoData[i].flightModes = tmp;
+        eepromfile->Read(wxT("expoData"+num+".swtch"),&tmp);
+        g_model.expoData[i].swtch = tmp;
+        eepromfile->Read(wxT("expoData"+num+".weight"),&tmp);
+        g_model.expoData[i].weight = tmp;
+        eepromfile->Read(wxT("expoData"+num+".curveParam"),&tmp);
+        g_model.expoData[i].curveParam = tmp;
+      }
+
+      for (int i=0; i<MAX_CURVES; ++i) { //CURVDATA(=int8)  curves[MAX_CURVES];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Read(wxT("curves"+num),&tmp);
+        g_model.curves[i] = tmp;
+      }
+
+      for (int i=0; i<NUM_POINTS; ++i) { //int8_t    points[NUM_POINTS];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Read(wxT("points"+num),&tmp);
+        g_model.points[i] = tmp;
+      }
+
+      for (int i=0; i<NUM_LOGICAL_SWITCH; ++i) { //LogicalSwitchData logicalSw[NUM_LOGICAL_SWITCH];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Read(wxT("logicalSw"+num+".v1"),&tmp);
+        g_model.logicalSw[i].v1 = tmp;
+        eepromfile->Read(wxT("logicalSw"+num+".v2"),&tmp);
+        g_model.logicalSw[i].v2 = tmp;
+        eepromfile->Read(wxT("logicalSw"+num+".func"),&tmp);
+        g_model.logicalSw[i].func = tmp;
+        eepromfile->Read(wxT("logicalSw"+num+".andsw"),&tmp);
+        g_model.logicalSw[i].andsw = tmp;
+      }
+
+      for (int i=0; i<NUM_CFN; ++i) { //CustomFunctionData customFn[NUM_CFN];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Read(wxT("customFn"+num+".swtch"),&tmp);
+        g_model.customFn[i].swtch = tmp;
+        eepromfile->Read(wxT("customFn"+num+".func"),&tmp);
+        g_model.customFn[i].func = tmp;
+        eepromfile->Read(wxT("customFn"+num+".mode"),&tmp);
+        g_model.customFn[i].mode = tmp;
+        eepromfile->Read(wxT("customFn"+num+".param"),&tmp);
+        g_model.customFn[i].param = tmp;
+        eepromfile->Read(wxT("customFn"+num+".active"),&tmp);
+        g_model.customFn[i].active = tmp;
+        eepromfile->Read(wxT("customFn"+num+".spare"),&tmp);
+        g_model.customFn[i].spare = tmp;
+        eepromfile->Read(wxT("customFn"+num+".value"),&tmp);
+        g_model.customFn[i].value = tmp;
+      }
+
+      eepromfile->Read(wxT("swashR.invertELE"),&tmp);
+      g_model.swashR.invertELE = tmp; //SwashRingData swashR;
+      eepromfile->Read(wxT("swashR.invertAIL"),&tmp);
+      g_model.swashR.invertAIL = tmp;
+      eepromfile->Read(wxT("swashR.invertCOL"),&tmp);
+      g_model.swashR.invertCOL = tmp;
+      eepromfile->Read(wxT("swashR.type"),&tmp);
+      g_model.swashR.type = tmp;
+      eepromfile->Read(wxT("swashR.collectiveSource"),&tmp);
+      g_model.swashR.collectiveSource = tmp;
+      eepromfile->Read(wxT("swashR.value"),&tmp);
+      g_model.swashR.value = tmp;
+
+      for (int i=0; i<MAX_FLIGHT_MODES; ++i) { //FlightModeData flightModeData[MAX_FLIGHT_MODES];
+        wxString num = wxString::Format(wxT("%i"),i);
+
+        for (int j=0; j<4; ++j) { //int16 trim[4] TRIMS_ARRAY;
+          wxString numtrim = wxString::Format(wxT("%i"),j);
+          eepromfile->Read(wxT("flightModeData"+num+".trim"+numtrim),&tmp);
+          g_model.flightModeData[i].trim[j] = tmp;
+        }
+
+        eepromfile->Read(wxT("flightModeData"+num+".swtch"),&tmp);
+        g_model.flightModeData[i].swtch = tmp;
+        eepromfile->Read(wxT("flightModeData"+num+".name"),&strtmp);
+        ConvWxstrToCharFw(strtmp,g_model.flightModeData[i].name, LEN_FLIGHT_MODE_NAME);
+        eepromfile->Read(wxT("flightModeData"+num+".fadeIn"),&tmp);
+        g_model.flightModeData[i].fadeIn = tmp;
+        eepromfile->Read(wxT("flightModeData"+num+".fadeOut"),&tmp);
+        g_model.flightModeData[i].fadeOut = tmp;
+
+        for (int j=0; j<NUM_ROTARY_ENCODERS; ++j) { //ROTARY_ENCODER_ARRAY int16_t rotaryEncoders[2];
+          wxString numtrim = wxString::Format(wxT("%i"),j);
+          eepromfile->Read(wxT("flightModeData"+num+".rotaryEncoders"+numtrim),&tmp);
+          g_model.flightModeData[i].rotaryEncoders[j] = tmp;
+        }
+
+        for (int k=0; k<MAX_GVARS; ++k) { //PHASE_GVARS_DATA gvar_t gvars[MAX_GVARS]
+          wxString numgvar = wxString::Format(wxT("%i"),k);
+          eepromfile->Read(wxT("flightModeData"+num+".gvars"+numgvar),&tmp);
+          g_model.flightModeData[i].gvars[k] = tmp;
+        }
+      }
+
+      eepromfile->Read(wxT("ppmFrameLength"),&tmp);
+      g_model.ppmFrameLength = tmp;
+      eepromfile->Read(wxT("thrTraceSrc"),&tmp);
+      g_model.thrTraceSrc = tmp;
+      eepromfile->Read(wxT("switchWarningState"),&tmp);
+      g_model.switchWarningState = tmp;
+      eepromfile->Read(wxT("switchWarningEnable"),&tmp);
+      g_model.switchWarningEnable = tmp;
+
+      for (int i=0; i<MAX_GVARS; ++i) { //global_gvar_t gvars[MAX_GVARS];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Read(wxT("gvars"+num+".name"),&strtmp);
+        ConvWxstrToCharFw(strtmp,g_model.gvars[i].name, LEN_GVAR_NAME);
+        eepromfile->Read(wxT("gvars"+num+".popup"),&tmp);
+        g_model.gvars[i].popup = tmp;
+        eepromfile->Read(wxT("gvars"+num+".spare"),&tmp);
+        g_model.gvars[i].spare = tmp;
+      }
+
+      for (int i=0; i<MAX_FRSKY_A_CHANNELS; ++i) { //FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Read(wxT("frsky.channels"+num+".ratio"),&tmp);
+        g_model.frsky.channels[i].ratio = tmp;
+        eepromfile->Read(wxT("frsky.channels"+num+".offset"),&tmp);
+        g_model.frsky.channels[i].offset = tmp;
+        for (int j=0; j<2; ++j) { //alarms_value[2];
+          wxString numvalue = wxString::Format(wxT("%i"),j);
+          eepromfile->Read(wxT("frsky.channels"+num+".alarms_value"+numvalue),&tmp);
+          g_model.frsky.channels[i].alarms_value[j] = tmp;
+        }
+        eepromfile->Read(wxT("frsky.channels"+num+".alarms_level"),&tmp);
+        g_model.frsky.channels[i].alarms_level = tmp;
+        eepromfile->Read(wxT("frsky.channels"+num+".alarms_greater"),&tmp);
+        g_model.frsky.channels[i].alarms_greater = tmp;
+        eepromfile->Read(wxT("frsky.channels"+num+".multiplier"),&tmp);
+        g_model.frsky.channels[i].multiplier = tmp;
+      }
+      eepromfile->Read(wxT("frsky.usrProto"),&tmp);
+      g_model.frsky.usrProto = tmp;
+      eepromfile->Read(wxT("frsky.blades"),&tmp);
+      g_model.frsky.blades = tmp;
+      eepromfile->Read(wxT("frsky.screensType"),&tmp);
+      g_model.frsky.screensType = tmp;
+      eepromfile->Read(wxT("frsky.voltsSource"),&tmp);
+      g_model.frsky.voltsSource = tmp;
+      eepromfile->Read(wxT("frsky.varioMin"),&tmp);
+      g_model.frsky.varioMin = tmp;
+      eepromfile->Read(wxT("frsky.varioMax"),&tmp);
+      g_model.frsky.varioMax = tmp;
+      for (int i=0; i<2; ++i) { //FrSkyRSSIAlarm rssiAlarms[2];
+        wxString num = wxString::Format(wxT("%i"),i);
+        eepromfile->Read(wxT("frsky.rssiAlarms"+num+".level"),&tmp);
+        g_model.frsky.rssiAlarms[i].level = tmp;
+        eepromfile->Read(wxT("frsky.rssiAlarms"+num+".value"),&tmp);
+        g_model.frsky.rssiAlarms[i].value = tmp;
+      }
+      for (int i=0; i<MAX_TELEMETRY_SCREENS; ++i) { //FrSkyScreenData screens[MAX_TELEMETRY_SCREENS];
+        wxString num = wxString::Format(wxT("%i"),i);
+        for (int j=0; j<4; ++j) { //FrSkyBarData bars[4]; or FrSkyLineData
+          wxString numbl = wxString::Format(wxT("%i"),j);
+          eepromfile->Read(wxT("frsky.screens"+num+".bars"+numbl+"barMin"),&tmp);
+          g_model.frsky.screens[i].bars[j].barMin = tmp;
+          eepromfile->Read(wxT("frsky.screens"+num+".bars"+numbl+"barMax"),&tmp);
+          g_model.frsky.screens[i].bars[j].barMax = tmp;
+        }
+      }
+      eepromfile->Read(wxT("frsky.varioSource"),&tmp);
+      g_model.frsky.varioSource = tmp;
+      eepromfile->Read(wxT("frsky.varioCenterMin"),&tmp);
+      g_model.frsky.varioCenterMin = tmp;
+      eepromfile->Read(wxT("frsky.currentSource"),&tmp);
+      g_model.frsky.currentSource = tmp;
+      eepromfile->Read(wxT("frsky.varioCenterMax"),&tmp);
+      g_model.frsky.varioCenterMax = tmp;
+      eepromfile->Read(wxT("frsky.fasOffset"),&tmp);
+      g_model.frsky.fasOffset = tmp;
+
+      theFile.writeRlc(FILE_MODEL(m), FILE_TYP_MODEL, (uint8_t*)&g_model, sizeof(g_model), 1);
+
+    }
+  }
+}
+
+void OpenAVRc_SimulatorFrame::load_EEGeneral_217()
+{
+  int tmp =0;
+  eepromfile->SetPath("/EEGENERAL/");
+  eepromfile->Read(wxT("version"),&tmp);
+  g_eeGeneral.version = tmp;
+  eepromfile->Read(wxT("variant"),&tmp);
+  g_eeGeneral.variant = tmp;
+
+  for (int i=0; i<(NUM_STICKS+NUM_POTS); ++i) { //CalibData calib[NUM_STICKS+NUM_POTS]
+    wxString num = wxString::Format(wxT("%i"),i);
+    eepromfile->Read(wxT("calib"+num+".mid"),&tmp);
+    g_eeGeneral.calib[i].mid = tmp;
+    eepromfile->Read(wxT("calib"+num+".spanNeg"),&tmp);
+    g_eeGeneral.calib[i].spanNeg = tmp;
+    eepromfile->Read(wxT("calib"+num+".spanPos"),&tmp);
+    g_eeGeneral.calib[i].spanPos = tmp;
+  }
+
+  eepromfile->Read(wxT("chkSum"),g_eeGeneral.chkSum);
+  eepromfile->Read(wxT("currModel"),&tmp);
+  g_eeGeneral.currModel = tmp;
+  eepromfile->Read(wxT("contrast"),&tmp);
+  g_eeGeneral.contrast = tmp;
+  eepromfile->Read(wxT("vBatWarn"),&tmp);
+  g_eeGeneral.vBatWarn = tmp;
+  eepromfile->Read(wxT("txVoltageCalibration"),&tmp);
+  g_eeGeneral.txVoltageCalibration = tmp;
+  eepromfile->Read(wxT("backlightMode"),&tmp);
+  g_eeGeneral.backlightMode = tmp;
+
+  for (int i=0; i<4; ++i) { //TrainerData trainer;
+    wxString num = wxString::Format(wxT("%i"),i);
+    eepromfile->Read(wxT("trainer.calib"+num),&tmp);
+    g_eeGeneral.trainer.calib[i] = tmp;
+    eepromfile->Read(wxT("trainer.mix"+num+".srcChn"),&tmp);
+    g_eeGeneral.trainer.mix[i].srcChn = tmp;
+    eepromfile->Read(wxT("trainer.mix"+num+".mode"),&tmp);
+    g_eeGeneral.trainer.mix[i].mode = tmp;
+    eepromfile->Read(wxT("trainer.mix"+num+".studWeight"),&tmp);
+    g_eeGeneral.trainer.mix[i].studWeight = tmp;
+  }
+
+  eepromfile->Read(wxT("view"),&tmp);
+  g_eeGeneral.view = tmp;
+  eepromfile->Read(wxT("buzzerMode"),&tmp);
+  g_eeGeneral.buzzerMode = tmp;
+  eepromfile->Read(wxT("fai"),&tmp);
+  g_eeGeneral.fai = tmp;
+  eepromfile->Read(wxT("beepMode"),&tmp);
+  g_eeGeneral.beepMode = tmp;
+  eepromfile->Read(wxT("alarmsFlash"),&tmp);
+  g_eeGeneral.alarmsFlash = tmp;
+  eepromfile->Read(wxT("disableMemoryWarning"),&tmp);
+  g_eeGeneral.disableMemoryWarning = tmp;
+  eepromfile->Read(wxT("disableAlarmWarning"),&tmp);
+  g_eeGeneral.disableAlarmWarning = tmp;
+  eepromfile->Read(wxT("stickMode"),&tmp);
+  g_eeGeneral.stickMode = tmp;
+  eepromfile->Read(wxT("timezone"),&tmp);
+  g_eeGeneral.timezone = tmp;
+  eepromfile->Read(wxT("adjustRTC"),&tmp);
+  g_eeGeneral.adjustRTC = tmp;
+  eepromfile->Read(wxT("inactivityTimer"),&tmp);
+  g_eeGeneral.inactivityTimer = tmp;
+  eepromfile->Read(wxT("mavbaud"),&tmp);
+  g_eeGeneral.mavbaud = tmp;
+  eepromfile->Read(wxT("splashMode"),&tmp);
+  g_eeGeneral.splashMode = tmp;
+  eepromfile->Read(wxT("hapticMode"),&tmp);
+  g_eeGeneral.hapticMode = tmp;
+  eepromfile->Read(wxT("blOffBright"),&tmp);
+  g_eeGeneral.blOffBright = tmp;
+  eepromfile->Read(wxT("blOnBright"),&tmp);
+  g_eeGeneral.blOnBright = tmp;
+  eepromfile->Read(wxT("lightAutoOff"),&tmp);
+  g_eeGeneral.lightAutoOff = tmp;
+  eepromfile->Read(wxT("templateSetup"),&tmp);
+  g_eeGeneral.templateSetup = tmp;
+  eepromfile->Read(wxT("PPM_Multiplier"),&tmp);
+  g_eeGeneral.PPM_Multiplier = tmp;
+  eepromfile->Read(wxT("hapticLength"),&tmp);
+  g_eeGeneral.hapticLength = tmp;
+  eepromfile->Read(wxT("reNavigation"),&tmp);
+  g_eeGeneral.reNavigation = tmp;
+  eepromfile->Read(wxT("stickReverse"),&tmp);
+  g_eeGeneral.stickReverse = tmp;
+  eepromfile->Read(wxT("beepLength"),&tmp);
+  g_eeGeneral.beepLength = tmp;
+  eepromfile->Read(wxT("hapticStrength"),&tmp);
+  g_eeGeneral.hapticStrength = tmp;
+  eepromfile->Read(wxT("gpsFormat"),&tmp);
+  g_eeGeneral.gpsFormat = tmp;
+  eepromfile->Read(wxT("unexpectedShutdown"),&tmp);
+  g_eeGeneral.unexpectedShutdown = tmp;
+  eepromfile->Read(wxT("speakerPitch"),&tmp);
+  g_eeGeneral.speakerPitch = tmp;
+  eepromfile->Read(wxT("speakerVolume"),&tmp);
+  g_eeGeneral.speakerVolume = tmp;
+  eepromfile->Read(wxT("vBatMin"),&tmp);
+  g_eeGeneral.vBatMin = tmp;
+  eepromfile->Read(wxT("vBatMax"),&tmp);
+  g_eeGeneral.vBatMax = tmp;
+}
+
 void OpenAVRc_SimulatorFrame::ExportEeprom()
 {
   eeDirty(EE_GENERAL); //Save Radio eeprom immediatly
@@ -886,6 +1349,7 @@ void OpenAVRc_SimulatorFrame::ExportEeprom()
   Chrono10ms->Pause();
 
   if (General.version == 217) {
+    eepromfile->DeleteAll();
     save_EEGeneral_217(General);
     save_ModelData_217();
   }
@@ -906,51 +1370,51 @@ void OpenAVRc_SimulatorFrame::save_ModelData_217()
       theFile.readRlc((uint8_t*)&g_model, sizeof(g_model));
       eepromfile->SetPath("/MODEL"+num+"/");
       eepromfile->Write(wxT("header.name"),ConvCharFwToWxstr(g_model.header.name, LEN_MODEL_NAME));
-      eepromfile->Write(wxT("header.modelId"),g_model.header.modelId);
+      eepromfile->Write(wxT("header.modelId"),(int)g_model.header.modelId);
 
       for (int i=0; i<MAX_TIMERS; ++i) { //TimerData timers[MAX_TIMERS];
         wxString num = wxString::Format(wxT("%i"),i);
         eepromfile->Write(wxT("timers"+num+".mode"),(int)g_model.timers[i].mode);
-        eepromfile->Write(wxT("timers"+num+".start"),g_model.timers[i].start);
-        eepromfile->Write(wxT("timers"+num+".countdownBeep"),g_model.timers[i].countdownBeep);
-        eepromfile->Write(wxT("timers"+num+".minuteBeep"),g_model.timers[i].minuteBeep);
-        eepromfile->Write(wxT("timers"+num+".persistent"),g_model.timers[i].persistent);
-        eepromfile->Write(wxT("timers"+num+".spare"),g_model.timers[i].spare);
-        eepromfile->Write(wxT("timers"+num+".value"),g_model.timers[i].value);
+        eepromfile->Write(wxT("timers"+num+".start"),(int)g_model.timers[i].start);
+        eepromfile->Write(wxT("timers"+num+".countdownBeep"),(int)g_model.timers[i].countdownBeep);
+        eepromfile->Write(wxT("timers"+num+".minuteBeep"),(int)g_model.timers[i].minuteBeep);
+        eepromfile->Write(wxT("timers"+num+".persistent"),(int)g_model.timers[i].persistent);
+        eepromfile->Write(wxT("timers"+num+".spare"),(int)g_model.timers[i].spare);
+        eepromfile->Write(wxT("timers"+num+".value"),(int)g_model.timers[i].value);
       }
 
-      eepromfile->Write(wxT("protocol"),g_model.protocol);
-      eepromfile->Write(wxT("thrTrim"),g_model.thrTrim);
+      eepromfile->Write(wxT("protocol"),(int)g_model.protocol);
+      eepromfile->Write(wxT("thrTrim"),(int)g_model.thrTrim);
       eepromfile->Write(wxT("ppmNCH"),(int)g_model.ppmNCH);
       eepromfile->Write(wxT("trimInc"),(int)g_model.trimInc);
-      eepromfile->Write(wxT("disableThrottleWarning"),g_model.disableThrottleWarning);
-      eepromfile->Write(wxT("pulsePol"),g_model.pulsePol);
-      eepromfile->Write(wxT("extendedLimits"),g_model.extendedLimits);
-      eepromfile->Write(wxT("extendedTrims"),g_model.extendedTrims);
-      eepromfile->Write(wxT("throttleReversed"),g_model.throttleReversed);
+      eepromfile->Write(wxT("disableThrottleWarning"),(int)g_model.disableThrottleWarning);
+      eepromfile->Write(wxT("pulsePol"),(int)g_model.pulsePol);
+      eepromfile->Write(wxT("extendedLimits"),(int)g_model.extendedLimits);
+      eepromfile->Write(wxT("extendedTrims"),(int)g_model.extendedTrims);
+      eepromfile->Write(wxT("throttleReversed"),(int)g_model.throttleReversed);
       eepromfile->Write(wxT("ppmDelay"),(int)g_model.ppmDelay);
-      eepromfile->Write(wxT("beepANACenter"),g_model.beepANACenter);
+      eepromfile->Write(wxT("beepANACenter"),(int)g_model.beepANACenter);
 
       for (int i=0; i<MAX_MIXERS; ++i) { //MixData   mixData[MAX_MIXERS];
         wxString num = wxString::Format(wxT("%i"),i);
-        eepromfile->Write(wxT("mixData"+num+".destCh"),g_model.mixData[i].destCh);
-        eepromfile->Write(wxT("mixData"+num+".curveMode"),g_model.mixData[i].curveMode);
-        eepromfile->Write(wxT("mixData"+num+".noExpo"),g_model.mixData[i].noExpo);
-        eepromfile->Write(wxT("mixData"+num+".weightMode"),g_model.mixData[i].weightMode);
-        eepromfile->Write(wxT("mixData"+num+".destCh"),g_model.mixData[i].destCh);
-        eepromfile->Write(wxT("mixData"+num+".offsetMode"),g_model.mixData[i].offsetMode);
-        eepromfile->Write(wxT("mixData"+num+".srcRaw"),g_model.mixData[i].srcRaw);
+        eepromfile->Write(wxT("mixData"+num+".destCh"),(int)g_model.mixData[i].destCh);
+        eepromfile->Write(wxT("mixData"+num+".curveMode"),(int)g_model.mixData[i].curveMode);
+        eepromfile->Write(wxT("mixData"+num+".noExpo"),(int)g_model.mixData[i].noExpo);
+        eepromfile->Write(wxT("mixData"+num+".weightMode"),(int)g_model.mixData[i].weightMode);
+        eepromfile->Write(wxT("mixData"+num+".destCh"),(int)g_model.mixData[i].destCh);
+        eepromfile->Write(wxT("mixData"+num+".offsetMode"),(int)g_model.mixData[i].offsetMode);
+        eepromfile->Write(wxT("mixData"+num+".srcRaw"),(int)g_model.mixData[i].srcRaw);
         eepromfile->Write(wxT("mixData"+num+".weight"),(int)g_model.mixData[i].weight);
         eepromfile->Write(wxT("mixData"+num+".swtch"),(int)g_model.mixData[i].swtch);
-        eepromfile->Write(wxT("mixData"+num+".flightModes"),g_model.mixData[i].flightModes);
-        eepromfile->Write(wxT("mixData"+num+".mltpx"),g_model.mixData[i].mltpx);
+        eepromfile->Write(wxT("mixData"+num+".flightModes"),(int)g_model.mixData[i].flightModes);
+        eepromfile->Write(wxT("mixData"+num+".mltpx"),(int)g_model.mixData[i].mltpx);
         eepromfile->Write(wxT("mixData"+num+".carryTrim"),(int)g_model.mixData[i].carryTrim);
-        eepromfile->Write(wxT("mixData"+num+".mixWarn"),g_model.mixData[i].mixWarn);
-        eepromfile->Write(wxT("mixData"+num+".spare"),g_model.mixData[i].spare);
-        eepromfile->Write(wxT("mixData"+num+".delayUp"),g_model.mixData[i].delayUp);
-        eepromfile->Write(wxT("mixData"+num+".delayDown"),g_model.mixData[i].delayDown);
-        eepromfile->Write(wxT("mixData"+num+".speedUp"),g_model.mixData[i].speedUp);
-        eepromfile->Write(wxT("mixData"+num+".speedDown"),g_model.mixData[i].speedDown);
+        eepromfile->Write(wxT("mixData"+num+".mixWarn"),(int)g_model.mixData[i].mixWarn);
+        eepromfile->Write(wxT("mixData"+num+".spare"),(int)g_model.mixData[i].spare);
+        eepromfile->Write(wxT("mixData"+num+".delayUp"),(int)g_model.mixData[i].delayUp);
+        eepromfile->Write(wxT("mixData"+num+".delayDown"),(int)g_model.mixData[i].delayDown);
+        eepromfile->Write(wxT("mixData"+num+".speedUp"),(int)g_model.mixData[i].speedUp);
+        eepromfile->Write(wxT("mixData"+num+".speedDown"),(int)g_model.mixData[i].speedDown);
         eepromfile->Write(wxT("mixData"+num+".curveParam"),(int)g_model.mixData[i].curveParam);
         eepromfile->Write(wxT("mixData"+num+".offset"),(int)g_model.mixData[i].offset);
       }
@@ -961,19 +1425,19 @@ void OpenAVRc_SimulatorFrame::save_ModelData_217()
         eepromfile->Write(wxT("limitData"+num+".max"),(int)g_model.limitData[i].max);
         eepromfile->Write(wxT("limitData"+num+".ppmCenter"),(int)g_model.limitData[i].ppmCenter);
         eepromfile->Write(wxT("limitData"+num+".offset"),(int)g_model.limitData[i].offset);
-        eepromfile->Write(wxT("limitData"+num+".symetrical"),g_model.limitData[i].symetrical);
-        eepromfile->Write(wxT("limitData"+num+".revert"),g_model.limitData[i].revert);
+        eepromfile->Write(wxT("limitData"+num+".symetrical"),(int)g_model.limitData[i].symetrical);
+        eepromfile->Write(wxT("limitData"+num+".revert"),(int)g_model.limitData[i].revert);
       }
 
       for (int i=0; i<MAX_EXPOS; ++i) { //ExpoData  expoData[MAX_EXPOS];
         wxString num = wxString::Format(wxT("%i"),i);
-        eepromfile->Write(wxT("expoData"+num+".mode"),g_model.expoData[i].mode);
-        eepromfile->Write(wxT("expoData"+num+".chn"),g_model.expoData[i].chn);
-        eepromfile->Write(wxT("expoData"+num+".curveMode"),g_model.expoData[i].curveMode);
-        eepromfile->Write(wxT("expoData"+num+".spare"),g_model.expoData[i].spare);
-        eepromfile->Write(wxT("expoData"+num+".flightModes"),g_model.expoData[i].flightModes);
+        eepromfile->Write(wxT("expoData"+num+".mode"),(int)g_model.expoData[i].mode);
+        eepromfile->Write(wxT("expoData"+num+".chn"),(int)g_model.expoData[i].chn);
+        eepromfile->Write(wxT("expoData"+num+".curveMode"),(int)g_model.expoData[i].curveMode);
+        eepromfile->Write(wxT("expoData"+num+".spare"),(int)g_model.expoData[i].spare);
+        eepromfile->Write(wxT("expoData"+num+".flightModes"),(int)g_model.expoData[i].flightModes);
         eepromfile->Write(wxT("expoData"+num+".swtch"),(int)g_model.expoData[i].swtch);
-        eepromfile->Write(wxT("expoData"+num+".weight"),g_model.expoData[i].weight);
+        eepromfile->Write(wxT("expoData"+num+".weight"),(int)g_model.expoData[i].weight);
         eepromfile->Write(wxT("expoData"+num+".curveParam"),(int)g_model.expoData[i].curveParam);
       }
 
@@ -991,27 +1455,27 @@ void OpenAVRc_SimulatorFrame::save_ModelData_217()
         wxString num = wxString::Format(wxT("%i"),i);
         eepromfile->Write(wxT("logicalSw"+num+".v1"),(int)g_model.logicalSw[i].v1);
         eepromfile->Write(wxT("logicalSw"+num+".v2"),(int)g_model.logicalSw[i].v2);
-        eepromfile->Write(wxT("logicalSw"+num+".func"),g_model.logicalSw[i].func);
-        eepromfile->Write(wxT("logicalSw"+num+".andsw"),g_model.logicalSw[i].andsw);
+        eepromfile->Write(wxT("logicalSw"+num+".func"),(int)g_model.logicalSw[i].func);
+        eepromfile->Write(wxT("logicalSw"+num+".andsw"),(int)g_model.logicalSw[i].andsw);
       }
 
       for (int i=0; i<NUM_CFN; ++i) { //CustomFunctionData customFn[NUM_CFN];
         wxString num = wxString::Format(wxT("%i"),i);
         eepromfile->Write(wxT("customFn"+num+".swtch"),(int)g_model.customFn[i].swtch);
-        eepromfile->Write(wxT("customFn"+num+".func"),g_model.customFn[i].func);
-        eepromfile->Write(wxT("customFn"+num+".mode"),g_model.customFn[i].mode);
-        eepromfile->Write(wxT("customFn"+num+".param"),g_model.customFn[i].param);
-        eepromfile->Write(wxT("customFn"+num+".active"),g_model.customFn[i].active);
-        eepromfile->Write(wxT("customFn"+num+".spare"),g_model.customFn[i].spare);
-        eepromfile->Write(wxT("customFn"+num+".value"),g_model.customFn[i].value);
+        eepromfile->Write(wxT("customFn"+num+".func"),(int)g_model.customFn[i].func);
+        eepromfile->Write(wxT("customFn"+num+".mode"),(int)g_model.customFn[i].mode);
+        eepromfile->Write(wxT("customFn"+num+".param"),(int)g_model.customFn[i].param);
+        eepromfile->Write(wxT("customFn"+num+".active"),(int)g_model.customFn[i].active);
+        eepromfile->Write(wxT("customFn"+num+".spare"),(int)g_model.customFn[i].spare);
+        eepromfile->Write(wxT("customFn"+num+".value"),(int)g_model.customFn[i].value);
       }
 
-      eepromfile->Write(wxT("swashR.invertELE"),g_model.swashR.invertELE); //SwashRingData swashR;
-      eepromfile->Write(wxT("swashR.invertAIL"),g_model.swashR.invertAIL);
-      eepromfile->Write(wxT("swashR.invertCOL"),g_model.swashR.invertCOL);
-      eepromfile->Write(wxT("swashR.type"),g_model.swashR.type);
-      eepromfile->Write(wxT("swashR.collectiveSource"),g_model.swashR.collectiveSource);
-      eepromfile->Write(wxT("swashR.value"),g_model.swashR.value);
+      eepromfile->Write(wxT("swashR.invertELE"),(int)g_model.swashR.invertELE); //SwashRingData swashR;
+      eepromfile->Write(wxT("swashR.invertAIL"),(int)g_model.swashR.invertAIL);
+      eepromfile->Write(wxT("swashR.invertCOL"),(int)g_model.swashR.invertCOL);
+      eepromfile->Write(wxT("swashR.type"),(int)g_model.swashR.type);
+      eepromfile->Write(wxT("swashR.collectiveSource"),(int)g_model.swashR.collectiveSource);
+      eepromfile->Write(wxT("swashR.value"),(int)g_model.swashR.value);
 
       for (int i=0; i<MAX_FLIGHT_MODES; ++i) { //FlightModeData flightModeData[MAX_FLIGHT_MODES];
         wxString num = wxString::Format(wxT("%i"),i);
@@ -1023,8 +1487,8 @@ void OpenAVRc_SimulatorFrame::save_ModelData_217()
 
         eepromfile->Write(wxT("flightModeData"+num+".swtch"),(int)g_model.flightModeData[i].swtch);
         eepromfile->Write(wxT("flightModeData"+num+".name"),ConvCharFwToWxstr(g_model.flightModeData[i].name, LEN_FLIGHT_MODE_NAME));
-        eepromfile->Write(wxT("flightModeData"+num+".fadeIn"),g_model.flightModeData[i].fadeIn);
-        eepromfile->Write(wxT("flightModeData"+num+".fadeOut"),g_model.flightModeData[i].fadeOut);
+        eepromfile->Write(wxT("flightModeData"+num+".fadeIn"),(int)g_model.flightModeData[i].fadeIn);
+        eepromfile->Write(wxT("flightModeData"+num+".fadeOut"),(int)g_model.flightModeData[i].fadeOut);
 
         for (int j=0; j<NUM_ROTARY_ENCODERS; ++j) { //ROTARY_ENCODER_ARRAY int16_t rotaryEncoders[2];
           wxString numtrim = wxString::Format(wxT("%i"),j);
@@ -1038,33 +1502,33 @@ void OpenAVRc_SimulatorFrame::save_ModelData_217()
       }
 
       eepromfile->Write(wxT("ppmFrameLength"),(int)g_model.ppmFrameLength);
-      eepromfile->Write(wxT("thrTraceSrc"),g_model.thrTraceSrc);
-      eepromfile->Write(wxT("switchWarningState"),g_model.switchWarningState);
-      eepromfile->Write(wxT("switchWarningEnable"),g_model.switchWarningEnable);
+      eepromfile->Write(wxT("thrTraceSrc"),(int)g_model.thrTraceSrc);
+      eepromfile->Write(wxT("switchWarningState"),(int)g_model.switchWarningState);
+      eepromfile->Write(wxT("switchWarningEnable"),(int)g_model.switchWarningEnable);
 
       for (int i=0; i<MAX_GVARS; ++i) { //global_gvar_t gvars[MAX_GVARS];
         wxString num = wxString::Format(wxT("%i"),i);
         eepromfile->Write(wxT("gvars"+num+".name"),ConvCharFwToWxstr(g_model.gvars[i].name, LEN_GVAR_NAME));
-        eepromfile->Write(wxT("gvars"+num+".popup"),g_model.gvars[i].popup);
-        eepromfile->Write(wxT("gvars"+num+".spare"),g_model.gvars[i].spare);
+        eepromfile->Write(wxT("gvars"+num+".popup"),(int)g_model.gvars[i].popup);
+        eepromfile->Write(wxT("gvars"+num+".spare"),(int)g_model.gvars[i].spare);
       }
 
       for (int i=0; i<MAX_FRSKY_A_CHANNELS; ++i) { //FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
         wxString num = wxString::Format(wxT("%i"),i);
-        eepromfile->Write(wxT("frsky.channels"+num+".ratio"),g_model.frsky.channels[i].ratio);
+        eepromfile->Write(wxT("frsky.channels"+num+".ratio"),(int)g_model.frsky.channels[i].ratio);
         eepromfile->Write(wxT("frsky.channels"+num+".offset"),(int)g_model.frsky.channels[i].offset);
         for (int j=0; j<2; ++j) { //alarms_value[2];
           wxString numvalue = wxString::Format(wxT("%i"),j);
-          eepromfile->Write(wxT("frsky.channels"+num+".alarms_value"+numvalue),g_model.frsky.channels[i].alarms_value[j]);
+          eepromfile->Write(wxT("frsky.channels"+num+".alarms_value"+numvalue),(int)g_model.frsky.channels[i].alarms_value[j]);
         }
-        eepromfile->Write(wxT("frsky.channels"+num+".alarms_level"),g_model.frsky.channels[i].alarms_level);
-        eepromfile->Write(wxT("frsky.channels"+num+".alarms_greater"),g_model.frsky.channels[i].alarms_greater);
-        eepromfile->Write(wxT("frsky.channels"+num+".multiplier"),g_model.frsky.channels[i].multiplier);
+        eepromfile->Write(wxT("frsky.channels"+num+".alarms_level"),(int)g_model.frsky.channels[i].alarms_level);
+        eepromfile->Write(wxT("frsky.channels"+num+".alarms_greater"),(int)g_model.frsky.channels[i].alarms_greater);
+        eepromfile->Write(wxT("frsky.channels"+num+".multiplier"),(int)g_model.frsky.channels[i].multiplier);
       }
-      eepromfile->Write(wxT("frsky.usrProto"),g_model.frsky.usrProto);
-      eepromfile->Write(wxT("frsky.blades"),g_model.frsky.blades);
-      eepromfile->Write(wxT("frsky.screensType"),g_model.frsky.screensType);
-      eepromfile->Write(wxT("frsky.voltsSource"),g_model.frsky.voltsSource);
+      eepromfile->Write(wxT("frsky.usrProto"),(int)g_model.frsky.usrProto);
+      eepromfile->Write(wxT("frsky.blades"),(int)g_model.frsky.blades);
+      eepromfile->Write(wxT("frsky.screensType"),(int)g_model.frsky.screensType);
+      eepromfile->Write(wxT("frsky.voltsSource"),(int)g_model.frsky.voltsSource);
       eepromfile->Write(wxT("frsky.varioMin"),(int)g_model.frsky.varioMin);
       eepromfile->Write(wxT("frsky.varioMax"),(int)g_model.frsky.varioMax);
       for (int i=0; i<2; ++i) { //FrSkyRSSIAlarm rssiAlarms[2];
@@ -1076,18 +1540,17 @@ void OpenAVRc_SimulatorFrame::save_ModelData_217()
         wxString num = wxString::Format(wxT("%i"),i);
         for (int j=0; j<4; ++j) { //FrSkyBarData bars[4]; or FrSkyLineData
           wxString numbl = wxString::Format(wxT("%i"),j);
-          eepromfile->Write(wxT("frsky.screens"+num+".bars"+numbl+"barMin"),g_model.frsky.screens[i].bars[j].barMin);
-          eepromfile->Write(wxT("frsky.screens"+num+".bars"+numbl+"barMax"),g_model.frsky.screens[i].bars[j].barMax);
+          eepromfile->Write(wxT("frsky.screens"+num+".bars"+numbl+"barMin"),(int)g_model.frsky.screens[i].bars[j].barMin);
+          eepromfile->Write(wxT("frsky.screens"+num+".bars"+numbl+"barMax"),(int)g_model.frsky.screens[i].bars[j].barMax);
         }
       }
-      eepromfile->Write(wxT("frsky.varioSource"),g_model.frsky.varioSource);
+      eepromfile->Write(wxT("frsky.varioSource"),(int)g_model.frsky.varioSource);
       eepromfile->Write(wxT("frsky.varioCenterMin"),(int)g_model.frsky.varioCenterMin);
-      eepromfile->Write(wxT("frsky.currentSource"),g_model.frsky.currentSource);
+      eepromfile->Write(wxT("frsky.currentSource"),(int)g_model.frsky.currentSource);
       eepromfile->Write(wxT("frsky.varioCenterMax"),(int)g_model.frsky.varioCenterMax);
       eepromfile->Write(wxT("frsky.fasOffset"),(int)g_model.frsky.fasOffset);
     }
   }
-  //bool eeModelExists(uint8_t id)
   theFile.openRlc(FILE_MODEL(g_eeGeneral.currModel));
   theFile.readRlc((uint8_t*)&g_model, sizeof(g_model));
 }
@@ -1100,9 +1563,9 @@ void OpenAVRc_SimulatorFrame::save_EEGeneral_217(EEGeneral General)
 
   for (int i=0; i<(NUM_STICKS+NUM_POTS); ++i) { //CalibData calib[NUM_STICKS+NUM_POTS]
     wxString num = wxString::Format(wxT("%i"),i);
-    eepromfile->Write(wxT("calib.mid"+num),(int)General.calib[i].mid);
-    eepromfile->Write(wxT("calib.spanNeg"+num),(int)General.calib[i].spanNeg);
-    eepromfile->Write(wxT("calib.spanPos"+num),(int)General.calib[i].spanPos);
+    eepromfile->Write(wxT("calib"+num+".mid"),(int)General.calib[i].mid);
+    eepromfile->Write(wxT("calib"+num+".spanNeg"),(int)General.calib[i].spanNeg);
+    eepromfile->Write(wxT("calib"+num+".spanPos"),(int)General.calib[i].spanPos);
   }
 
   eepromfile->Write(wxT("chkSum"),General.chkSum);
@@ -1115,9 +1578,9 @@ void OpenAVRc_SimulatorFrame::save_EEGeneral_217(EEGeneral General)
   for (int i=0; i<4; ++i) { //TrainerData trainer;
     wxString num = wxString::Format(wxT("%i"),i);
     eepromfile->Write(wxT("trainer.calib"+num),(int)General.trainer.calib[i]);
-    eepromfile->Write(wxT("trainer.mix.srcChn"+num),General.trainer.mix[i].srcChn);
-    eepromfile->Write(wxT("trainer.mix.mode"+num),General.trainer.mix[i].mode);
-    eepromfile->Write(wxT("trainer.mix.studWeight"+num),(int)General.trainer.mix[i].studWeight);
+    eepromfile->Write(wxT("trainer.mix"+num+".srcChn"),General.trainer.mix[i].srcChn);
+    eepromfile->Write(wxT("trainer.mix"+num+".mode"),General.trainer.mix[i].mode);
+    eepromfile->Write(wxT("trainer.mix"+num+".studWeight"),(int)General.trainer.mix[i].studWeight);
   }
 
   eepromfile->Write(wxT("view"),General.view);

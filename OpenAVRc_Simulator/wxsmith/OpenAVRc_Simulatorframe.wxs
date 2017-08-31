@@ -326,9 +326,15 @@
 				</object>
 				<object class="wxMenuItem" name="IdMenuExportEeprom" variable="MenuExportEeprom" member="yes">
 					<label>Exporter Eeprom</label>
-					<help>Exporte les données</help>
-					<bitmap stock_id="wxART_HARDDISK" />
+					<help>Exporte l&apos;eeprom en format texte</help>
+					<bitmap stock_id="wxART_GO_DOWN" stock_client="wxART_MENU" />
 					<handler function="OnMenuExportEepromSelected" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="IdImportEeprom" variable="MenuImportEeprom" member="yes">
+					<label>Importer Eeprom</label>
+					<help>Importe une eeprom en format texte</help>
+					<bitmap stock_id="wxART_GO_UP" stock_client="wxART_MENU" />
+					<handler function="OnMenuImportEepromSelected" entry="EVT_MENU" />
 				</object>
 				<object class="wxMenuItem" name="idMenuQuit" variable="MenuItem1" member="no">
 					<label>Quitter</label>

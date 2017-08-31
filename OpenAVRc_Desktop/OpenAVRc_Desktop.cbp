@@ -68,8 +68,6 @@
 		<Unit filename="CommunicationsFrame.h" />
 		<Unit filename="CompilerOptionsFrame.cpp" />
 		<Unit filename="CompilerOptionsFrame.h" />
-		<Unit filename="Eeprom.cpp" />
-		<Unit filename="Eeprom.h" />
 		<Unit filename="OpenAVRc_DesktopApp.cpp" />
 		<Unit filename="OpenAVRc_DesktopApp.h" />
 		<Unit filename="OpenAVRc_DesktopMain.cpp" />
@@ -78,12 +76,6 @@
 		<Unit filename="VoiceEditFrame.h" />
 		<Unit filename="Voice_choice.cpp" />
 		<Unit filename="Voice_choice.h" />
-		<Unit filename="eeprom_driver.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
-		<Unit filename="eeprom_driver.h" />
-		<Unit filename="myeeprom.h" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
