@@ -597,9 +597,9 @@ const pm_char * eeBackupModel(uint8_t i_fileSrc)
 
   buf[sizeof(MODELS_PATH)-1] = '/';
   eeLoadModelName(i_fileSrc, &buf[sizeof(MODELS_PATH)]);
-  buf[sizeof(MODELS_PATH)+sizeof(g_model.header.name)] = '\0';
+  buf[sizeof(MODELS_PATH)+sizeof(g_model.name)] = '\0';
 
-  uint8_t i = sizeof(MODELS_PATH)+sizeof(g_model.header.name)-1;
+  uint8_t i = sizeof(MODELS_PATH)+sizeof(g_model.name)-1;
   uint8_t len = 0;
   while (i>sizeof(MODELS_PATH)-1) {
     if (!len && buf[i])
@@ -897,10 +897,10 @@ bool eeLoadGeneral()
 
 void eeLoadModelName(uint8_t id, char *name)
 {
-  memclear(name, sizeof(g_model.header.name));
+  memclear(name, sizeof(g_model.name));
   if (id < MAX_MODELS) {
     theFile.openRlc(FILE_MODEL(id));
-    theFile.readRlc((uint8_t*)name, sizeof(g_model.header.name));
+    theFile.readRlc((uint8_t*)name, sizeof(g_model.name));
   }
 }
 

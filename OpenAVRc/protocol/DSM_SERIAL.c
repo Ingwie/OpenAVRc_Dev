@@ -123,7 +123,7 @@ static uint16_t DSM_SERIAL_cb()
 
   frskyTxBuffer[--dsm2TxBufferCount] = dsm2_header;
 
-  frskyTxBuffer[--dsm2TxBufferCount] = g_model.header.modelId; // DSM2 Header. Second byte for model match.
+  frskyTxBuffer[--dsm2TxBufferCount] = g_model.modelId; // DSM2 Header. Second byte for model match.
 
   for (uint8_t i = 0; i < DSM2_CHANS; i++) {
     uint16_t pulse = limit(0, ((channelOutputs[i]*13)>>5)+512,1023);

@@ -1038,7 +1038,7 @@ enum AUDIO_SOUNDS {
 ///////////////// SPI MODULES PROTOCOLES ///////////////////
 #if defined(SPIMODULES)
 
-#define PROTO_CMD_ID g_model.header.modelId     // 1 byte Proto Identifier
+#define PROTO_CMD_ID g_model.modelId     // 1 byte Proto Identifier
 #define PROTO_OPT_1 g_model.ppmDelay        // 1 byte - proto option data eeprom store
 #define PROTO_OPT_2 g_model.ppmFrameLength  // 1 byte
 #define PROTO_OPT_3 g_model.ppmNCH          // 4 bit

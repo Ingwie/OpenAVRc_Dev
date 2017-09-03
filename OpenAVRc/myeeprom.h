@@ -48,10 +48,8 @@
 #define WARN_MEM     (!(g_eeGeneral.warnOpts & WARN_MEM_BIT))
 #define BEEP_VAL     ( (g_eeGeneral.warnOpts & WARN_BVAL_BIT) >>3 )
 
-#if   defined(CPUM2560)
-#define EEPROM_VER             217
+#define EEPROM_VER             30 // New eeprom format
 #define FIRST_CONV_EEPROM_VER  EEPROM_VER
-#endif
 
 #ifndef PACK
 #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
@@ -169,7 +167,7 @@ enum BeeperMode {
 #define swarnstate_t        uint8_t
 #define swarnenable_t       uint8_t
 
-#if   defined(PXX)
+#if   defined(PXX) // todo find another place
 #define EXTRA_GENERAL_FIELDS uint8_t  countryCode;
 #else
 #define EXTRA_GENERAL_FIELDS
@@ -340,7 +338,6 @@ PACK(typedef struct {
   int8_t    vBatMin;
   int8_t    vBatMax;
 
-  EXTRA_GENERAL_FIELDS
 
 }) EEGeneral;
 
@@ -1023,11 +1020,6 @@ enum FailsafeModes {
 #define BeepANACenter uint16_t
 #endif
 
-PACK(typedef struct {
-  char      name[LEN_MODEL_NAME]; // must be first for eeLoadModelName
-  uint8_t   modelId;
-}) ModelHeader;
-
 enum ThrottleSources {
   THROTTLE_SOURCE_THR,
   THROTTLE_SOURCE_FIRST_POT,
@@ -1117,6 +1109,7 @@ PACK(typedef struct {
 }) ModuleDataData;
 #endif
 
+/* V217
 PACK(typedef struct {
   ModelHeader header;
   TimerData timers[MAX_TIMERS];
@@ -1159,7 +1152,51 @@ PACK(typedef struct {
   #endif
 
 }) ModelData;
+*/
 
+PACK(typedef struct {
+  char      name[LEN_MODEL_NAME]; // must be first for eeLoadModelName
+  uint8_t   modelId;
+  TimerData timers[MAX_TIMERS];
+  uint8_t   protocol:(PROTO_MAX > 8)?4:3;  // compatibility with old EEPROM structure (if not all protocols are used)
+  uint8_t   thrTrim:1;            // Enable Throttle Trim
+  int8_t    ppmNCH:4;
+  int8_t    trimInc:3;            // Trim Increments
+  uint8_t   disableThrottleWarning:1;
+  uint8_t   pulsePol:1;
+  uint8_t   extendedLimits:1;
+  uint8_t   extendedTrims:1;
+  uint8_t   throttleReversed:1;
+  int8_t    ppmDelay;
+  BeepANACenter beepANACenter;
+  MixData   mixData[MAX_MIXERS];
+  LimitData limitData[NUM_CHNOUT];
+  ExpoData  expoData[MAX_EXPOS];
+
+  CURVDATA  curves[MAX_CURVES];
+  int8_t    points[NUM_POINTS];
+
+  LogicalSwitchData logicalSw[NUM_LOGICAL_SWITCH];
+  CustomFunctionData customFn[NUM_CFN];
+  SwashRingData swashR;
+  FlightModeData flightModeData[MAX_FLIGHT_MODES];
+
+  int8_t ppmFrameLength;     // 0=22.5ms  (10ms-30ms) 0.5ms increments
+
+  uint8_t thrTraceSrc;
+
+  swarnstate_t  switchWarningState;
+  swarnenable_t switchWarningEnable;
+
+  MODEL_GVARS_DATA
+
+  TELEMETRY_DATA
+
+  #if defined(MULTIMODULE)
+  ModuleDataData moduleData;
+  #endif
+
+}) ModelData;
 
 extern EEGeneral g_eeGeneral;
 extern ModelData g_model;

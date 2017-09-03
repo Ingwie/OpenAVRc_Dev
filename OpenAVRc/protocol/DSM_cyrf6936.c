@@ -198,7 +198,7 @@ static void build_bind_packet()
     packet[9] = sum & 0xff;
     packet[10] = 0x01; //???
     packet[11] = num_channels;
-    if(Protos[g_model.header.modelId].Protocol == PROTOCOL_DSMX) {
+    if(Protos[g_model.modelId].Protocol == PROTOCOL_DSMX) {
         packet[12] = num_channels < 8 /*&& Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_OFF*/ ? 0xa2 : 0xb2;
     } else {
         packet[12] = num_channels < 8 ? 0x01 : 0x02;
@@ -219,14 +219,14 @@ static void build_data_packet(uint8_t upper)
       //  PROTOCOL_SetBindState(0);  //Turn off Bind dialog
         //binding = 0;
     //}
-    if (Protos[g_model.header.modelId].Protocol == PROTOCOL_DSMX) {
+    if (Protos[g_model.modelId].Protocol == PROTOCOL_DSMX) {
         packet[0] = cyrfmfg_id[2];
         packet[1] = cyrfmfg_id[3] + model;
     } else {
         packet[0] = (0xff ^ cyrfmfg_id[2]);
         packet[1] = (0xff ^ cyrfmfg_id[3]) + model;
     }
-    uint8_t bits = Protos[g_model.header.modelId].Protocol == PROTOCOL_DSMX ? 11 : 10;
+    uint8_t bits = Protos[g_model.modelId].Protocol == PROTOCOL_DSMX ? 11 : 10;
     if(num_channels < 8) {
         chmap = ch_map7;
 /*#ifndef MODULAR
@@ -327,7 +327,7 @@ static void cyrf_transfer_config()
 
 static uint8_t get_pn_row(uint8_t channel)
 {
-    return Protos[g_model.header.modelId].Protocol == PROTOCOL_DSMX ? (channel - 2) % 5 : channel % 5;
+    return Protos[g_model.modelId].Protocol == PROTOCOL_DSMX ? (channel - 2) % 5 : channel % 5;
 }
 
 static void set_sop_data_crc()
@@ -345,7 +345,7 @@ static void set_sop_data_crc()
         CYRF_ConfigDataCode(pncodes[pn_row][data_col + 1], 8); //last eight bytes
     //}
     /* setup for next iteration */
-    if(Protos[g_model.header.modelId].Protocol == PROTOCOL_DSMX)
+    if(Protos[g_model.modelId].Protocol == PROTOCOL_DSMX)
         chidx = (chidx + 1) % 23;
     else
         chidx = (chidx + 1) % 2;
@@ -744,7 +744,7 @@ static void DSM_initialize(uint8_t bind)
         cyrfmfg_id[2] ^= (DSM_fixed_id >> 16) & 0xff;
         cyrfmfg_id[3] ^= (DSM_fixed_id >> 24) & 0xff;
 
-    if (Protos[g_model.header.modelId].Protocol == PROTOCOL_DSMX) {
+    if (Protos[g_model.modelId].Protocol == PROTOCOL_DSMX) {
         calc_dsmx_channel();
     } else {
         if (0) /*(RANDOM_CHANNELS)*/ {

@@ -69,7 +69,7 @@ void onModelSelectMenu(const char *result)
     POPUP_CONFIRMATION(STR_DELETEMODEL);
     char * name = reusableBuffer.modelsel.mainname;
     eeLoadModelName(sub, name);
-    SET_WARNING_INFO(name, sizeof(g_model.header.name), ZCHAR);
+    SET_WARNING_INFO(name, sizeof(g_model.name), ZCHAR);
   }
 #if defined(SDCARD)
   else {
@@ -131,7 +131,7 @@ void menuModelSelect(uint8_t event)
       POPUP_CONFIRMATION(STR_DELETEMODEL);
       char * name = reusableBuffer.modelsel.mainname;
       eeLoadModelName(sub, name);
-      SET_WARNING_INFO(name, sizeof(g_model.header.name), ZCHAR);
+      SET_WARNING_INFO(name, sizeof(g_model.name), ZCHAR);
     } else {
       s_copyMode = 0;
       menuVerticalPosition = g_eeGeneral.currModel;

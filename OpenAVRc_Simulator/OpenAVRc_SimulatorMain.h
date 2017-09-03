@@ -190,6 +190,10 @@ private:
   void save_ModelData_217();
   void load_EEGeneral_217();
   void load_ModelData_217();
+  void save_EEGeneral_30(EEGeneral General);
+  void save_ModelData_30();
+  void load_EEGeneral_30();
+  void load_ModelData_30();
   void OnMenuImportEepromSelected(wxCommandEvent& event);
   //*)
 

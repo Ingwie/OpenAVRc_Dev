@@ -93,7 +93,7 @@ ModelNameDialog::~ModelNameDialog()
 
 void ModelNameDialog::OnInit(wxInitDialogEvent& event)
 {
- wxString oldName = ConvCharFwToWxstr(g_model.header.name, LEN_MODEL_NAME);
+ wxString oldName = ConvCharFwToWxstr(g_model.name, LEN_MODEL_NAME);
  TextCtrlnewName->SetValue(oldName);
 }
 
@@ -102,6 +102,6 @@ void ModelNameDialog::OnTextCtrlnewNameTextEnter(wxCommandEvent& event)
   wxString newName;
   newName = TextCtrlnewName->GetValue();
   //CheckEntryValues(newName);
-  ConvWxstrToCharFw(newName, g_model.header.name, LEN_MODEL_NAME);
+  ConvWxstrToCharFw(newName, g_model.name, LEN_MODEL_NAME);
   Close();
 }

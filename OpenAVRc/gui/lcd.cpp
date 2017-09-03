@@ -315,7 +315,7 @@ void lcdDrawFilledRect(coord_t x, scoord_t y, coord_t w, coord_t h, uint8_t pat,
 
 void lcdDrawTelemetryTopBar()
 {
-  putsModelName(0, 0, g_model.header.name, g_eeGeneral.currModel, 0);
+  putsModelName(0, 0, g_model.name, g_eeGeneral.currModel, 0);
   uint8_t att = (IS_TXBATT_WARNING() ? BLINK : 0);
   putsVBat(14*FW,0,att);
   if (g_model.timers[0].mode) {
@@ -400,12 +400,12 @@ void lcdPutsChnLetter(coord_t x, coord_t y, uint8_t idx, LcdFlags att)
 
 void putsModelName(coord_t x, coord_t y, char *name, uint8_t id, LcdFlags att)
 {
-  uint8_t len = sizeof(g_model.header.name);
+  uint8_t len = sizeof(g_model.name);
   while (len>0 && !name[len-1]) --len;
   if (len==0) {
     lcdDrawStringWithIndex(x, y, STR_MODEL, id+1, att|LEADING0);
   } else {
-    lcdDrawSizedTextAtt(x, y, name, sizeof(g_model.header.name), ZCHAR|att);
+    lcdDrawSizedTextAtt(x, y, name, sizeof(g_model.name), ZCHAR|att);
   }
 }
 

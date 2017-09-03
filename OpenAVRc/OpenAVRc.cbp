@@ -139,6 +139,9 @@
 		<Unit filename="protocol/DEVO_cyrf6936.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="protocol/DSM_SERIAL.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="protocol/DSM_cyrf6936.c">
 			<Option compilerVar="CC" />
 		</Unit>
