@@ -159,7 +159,7 @@ private:
   wxColour SetColour();
   void LoadConfig();
   void SaveConfig();
-  void ResetSimu();
+  void ResetSimuLcd();
   void PaintSticks(int x, int y, int xm, int ym, wxPanel* stick);
   void OnClose(wxCloseEvent& event);
   void OnMenuLcdBackSelected(wxCommandEvent& event);
