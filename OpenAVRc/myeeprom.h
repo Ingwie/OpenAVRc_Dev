@@ -107,7 +107,7 @@ PACK(typedef struct {
 
 extern CurveInfo curveInfo(uint8_t idx);
 
-typedef int16_t gvar_t;
+typedef int8_t gvar_t;
 
 typedef uint8_t source_t;
 
@@ -124,7 +124,7 @@ PACK(typedef struct {
 #define RESERVE_RANGE_FOR_GVARS 10
 // even we do not spend space in EEPROM for 10 GVARS, we reserve the space inside the range of values, like offset, weight, etc.
 
-#define MAX_GVARS 5
+#define MAX_GVARS 6
 #define MODEL_GVARS_DATA global_gvar_t gvars[MAX_GVARS];
 #define PHASE_GVARS_DATA gvar_t gvars[MAX_GVARS]
 #define GVAR_VALUE(x, p) g_model.flightModeData[p].gvars[x]

@@ -129,6 +129,8 @@
 				<pos>2,132</pos>
 				<size>58,22</size>
 				<style>wxTE_CENTRE|wxWANTS_CHARS</style>
+				<handler function="OnTextCtrlpersoAllText" entry="EVT_TEXT" />
+				<handler function="OnTextCtrlpersoGvar6TextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMERGVARS" variable="gvarsTimer" member="yes">

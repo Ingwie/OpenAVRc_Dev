@@ -85,34 +85,33 @@ GvarsFrame::GvarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
   GVARSGrid->SetDefaultColSize(60, true);
   GVARSGrid->SetDefaultCellFont( GVARSGrid->GetFont() );
   GVARSGrid->SetDefaultCellTextColour( GVARSGrid->GetForegroundColour() );
-  TextCtrlpersoPhase0 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase0, _("npha0"), wxPoint(63,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoPhase0"));
+  TextCtrlpersoPhase0 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase0, _("npha0"), wxPoint(63,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase0"));
   TextCtrlpersoPhase0->SetMaxLength(6);
-  TextCtrlpersoPhase1 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase1, _("npha1"), wxPoint(123,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoPhase1"));
+  TextCtrlpersoPhase1 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase1, _("npha1"), wxPoint(123,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase1"));
   TextCtrlpersoPhase1->SetMaxLength(6);
-  TextCtrlpersoPhase2 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase2, _("npha2"), wxPoint(183,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoPhase2"));
+  TextCtrlpersoPhase2 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase2, _("npha2"), wxPoint(183,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase2"));
   TextCtrlpersoPhase2->SetMaxLength(6);
-  TextCtrlpersoPhase3 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase3, _("npha3"), wxPoint(243,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoPhase3"));
+  TextCtrlpersoPhase3 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase3, _("npha3"), wxPoint(243,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase3"));
   TextCtrlpersoPhase3->SetMaxLength(6);
-  TextCtrlpersoPhase4 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase4, _("npha4"), wxPoint(303,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoPhase4"));
+  TextCtrlpersoPhase4 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase4, _("npha4"), wxPoint(303,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase4"));
   TextCtrlpersoPhase4->SetMaxLength(6);
-  TextCtrlpersoPhase5 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase5, _("npha5"), wxPoint(363,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoPhase5"));
+  TextCtrlpersoPhase5 = new wxTextCtrl(Panel1, ID_TextCtrlpersoPhase5, _("npha5"), wxPoint(363,2), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoPhase5"));
   TextCtrlpersoPhase5->SetMaxLength(6);
-  TextCtrlpersoGvar1 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar1, _("valvg1"), wxPoint(2,22), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, validator, _T("ID_TextCtrlpersoGvar1"));
+  TextCtrlpersoGvar1 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar1, _("valvg1"), wxPoint(2,22), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, wxDefaultValidator, _T("ID_TextCtrlpersoGvar1"));
   TextCtrlpersoGvar1->SetMaxLength(6);
-  TextCtrlpersoGvar2 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar2, _("valvg2"), wxPoint(2,44), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, validator, _T("ID_TextCtrlpersoGvar2"));
+  TextCtrlpersoGvar2 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar2, _("valvg2"), wxPoint(2,44), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, wxDefaultValidator, _T("ID_TextCtrlpersoGvar2"));
   TextCtrlpersoGvar2->SetMaxLength(6);
-  TextCtrlpersoGvar3 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar3, _("valvg3"), wxPoint(2,66), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, validator, _T("ID_TextCtrlpersoGvar3"));
+  TextCtrlpersoGvar3 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar3, _("valvg3"), wxPoint(2,66), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS|wxFULL_REPAINT_ON_RESIZE, wxDefaultValidator, _T("ID_TextCtrlpersoGvar3"));
   TextCtrlpersoGvar3->SetMaxLength(6);
-  TextCtrlpersoGvar4 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar4, _("valvg4"), wxPoint(2,88), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoGvar4"));
+  TextCtrlpersoGvar4 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar4, _("valvg4"), wxPoint(2,88), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoGvar4"));
   TextCtrlpersoGvar4->SetMaxLength(6);
-  TextCtrlpersoGvar5 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar5, _("valvg5"), wxPoint(2,110), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoGvar5"));
+  TextCtrlpersoGvar5 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar5, _("valvg5"), wxPoint(2,110), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoGvar5"));
   TextCtrlpersoGvar5->SetMaxLength(6);
-  TextCtrlpersoGvar6 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar6, wxEmptyString, wxPoint(2,132), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, validator, _T("ID_TextCtrlpersoGvar6"));
+  TextCtrlpersoGvar6 = new wxTextCtrl(Panel1, ID_TextCtrlpersoGvar6, _("valvg6"), wxPoint(2,132), wxSize(58,22), wxTE_CENTRE|wxWANTS_CHARS, wxDefaultValidator, _T("ID_TextCtrlpersoGvar6"));
   TextCtrlpersoGvar6->SetMaxLength(6);
   gvarsTimer.SetOwner(this, ID_TIMERGVARS);
   gvarsTimer.Start(2000, false);
 
-  Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&GvarsFrame::OnGVARSGridCellLeftClick);
   Connect(ID_TextCtrlpersoPhase0,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
   Connect(ID_TextCtrlpersoPhase0,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoPhase0TextEnter);
   Connect(ID_TextCtrlpersoPhase1,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
@@ -135,6 +134,8 @@ GvarsFrame::GvarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
   Connect(ID_TextCtrlpersoGvar4,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar4TextEnter);
   Connect(ID_TextCtrlpersoGvar5,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
   Connect(ID_TextCtrlpersoGvar5,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar5TextEnter);
+  Connect(ID_TextCtrlpersoGvar6,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoGvar6,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar6TextEnter);
   Connect(ID_TIMERGVARS,wxEVT_TIMER,(wxObjectEventFunction)&GvarsFrame::OngvarsTimerTrigger);
   Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&GvarsFrame::OnClose);
   //*)
@@ -199,6 +200,10 @@ void GvarsFrame::PopulateGvarsFrame()
   if (myString == "") myString = "GVAR5";
   TextCtrlpersoGvar5->SetValue(myString);
 
+  myString = ConvCharFwToWxstr(g_model.gvars[5].name,LEN_GVAR_NAME);
+  if (myString == "") myString = "GVAR6";
+  TextCtrlpersoGvar6->SetValue(myString);
+
   //TextCtrlpersoGvar1->SetValue(ConvCharFwToWxstr(g_model.gvars[0].name,LEN_GVAR_NAME));
   //TextCtrlpersoGvar2->SetValue(ConvCharFwToWxstr(g_model.gvars[1].name,LEN_GVAR_NAME));
   //TextCtrlpersoGvar3->SetValue(ConvCharFwToWxstr(g_model.gvars[2].name,LEN_GVAR_NAME));
@@ -210,6 +215,7 @@ void GvarsFrame::PopulateGvarsFrame()
   TextCtrlpersoGvar3->Refresh();
   TextCtrlpersoGvar4->Refresh();
   TextCtrlpersoGvar5->Refresh(); // Refresh all vertical textctrl because wxgrid mask them
+  TextCtrlpersoGvar6->Refresh();
 
   //Noms des phases de vol
 
@@ -296,6 +302,13 @@ void GvarsFrame::OnTextCtrlpersoGvar5TextEnter(wxCommandEvent& event)
   ConvWxstrToCharFw(persoGvar5,g_model.gvars[4].name, LEN_GVAR_NAME);
   gvarsTimer.Start(-1,wxTIMER_CONTINUOUS);
 }
+// VG6 *************************************
+void GvarsFrame::OnTextCtrlpersoGvar6TextEnter(wxCommandEvent& event)
+{
+  wxString persoGvar6 = TextCtrlpersoGvar6->GetValue();
+  ConvWxstrToCharFw(persoGvar6,g_model.gvars[5].name, LEN_GVAR_NAME);
+  gvarsTimer.Start(-1,wxTIMER_CONTINUOUS);
+}
 
 // Ajouts Variables au dela de VG5
 
@@ -346,13 +359,10 @@ void GvarsFrame::OnTextCtrlpersoPhase5TextEnter(wxCommandEvent& event)
   ConvWxstrToCharFw(persoPhase5,g_model.flightModeData[5].name, LEN_FLIGHT_MODE_NAME);
   gvarsTimer.Start(-1,wxTIMER_CONTINUOUS);
 }
+
 // Fin
 
 void GvarsFrame::OnTextCtrlpersoAllText(wxCommandEvent& event)
 {
   gvarsTimer.Stop();  // Stop timer in "edit" mode
-}
-
-void GvarsFrame::OnGVARSGridCellLeftClick(wxGridEvent& event)
-{
 }

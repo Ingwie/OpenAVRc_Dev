@@ -953,7 +953,7 @@ void OpenAVRc_SimulatorFrame::ExportEeprom()
 
   if (General.version == 217) {
     eepromfile->DeleteAll();
-    save_EEGeneral_217(General);
+    save_EEGeneral_217();
     save_ModelData_217();
   }
   if (General.version == 30) {
@@ -1120,7 +1120,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_30()
 
       for (int i=0; i<NUM_POINTS; ++i) { //int8_t    points[NUM_POINTS];
         wxString num = wxString::Format(wxT("%i"),i);
-        eepromfile->Read(wxT("points"+num),&tmp);
+        eepromfile->Read(wxT("points"+num),&tmp,0);
         temp_model.points[i] = tmp;
       }
 
@@ -1193,7 +1193,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_30()
 
         for (int k=0; k<MAX_GVARS; ++k) { //PHASE_GVARS_DATA gvar_t gvars[MAX_GVARS]
           wxString numgvar = wxString::Format(wxT("%i"),k);
-          eepromfile->Read(wxT("flightModeData"+num+".gvars"+numgvar),&tmp);
+          eepromfile->Read(wxT("flightModeData"+num+".gvars"+numgvar),&tmp,0);
           temp_model.flightModeData[i].gvars[k] = tmp;
         }
       }
@@ -1209,11 +1209,11 @@ void OpenAVRc_SimulatorFrame::load_ModelData_30()
 
       for (int i=0; i<MAX_GVARS; ++i) { //global_gvar_t gvars[MAX_GVARS];
         wxString num = wxString::Format(wxT("%i"),i);
-        eepromfile->Read(wxT("gvars"+num+".name"),&strtmp);
+        eepromfile->Read(wxT("gvars"+num+".name"),&strtmp,"      ");
         ConvWxstrToCharFw(strtmp,temp_model.gvars[i].name, LEN_GVAR_NAME);
-        eepromfile->Read(wxT("gvars"+num+".popup"),&tmp);
+        eepromfile->Read(wxT("gvars"+num+".popup"),&tmp,0);
         temp_model.gvars[i].popup = tmp;
-        eepromfile->Read(wxT("gvars"+num+".spare"),&tmp);
+        eepromfile->Read(wxT("gvars"+num+".spare"),&tmp,0);
         temp_model.gvars[i].spare = tmp;
       }
 
@@ -1432,7 +1432,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
 
       for (int i=0; i<NUM_POINTS; ++i) { //int8_t    points[NUM_POINTS];
         wxString num = wxString::Format(wxT("%i"),i);
-        eepromfile->Read(wxT("points"+num),&tmp);
+        eepromfile->Read(wxT("points"+num),&tmp,0);
         temp_model.points[i] = tmp;
       }
 
@@ -1505,7 +1505,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
 
         for (int k=0; k<MAX_GVARS; ++k) { //PHASE_GVARS_DATA gvar_t gvars[MAX_GVARS]
           wxString numgvar = wxString::Format(wxT("%i"),k);
-          eepromfile->Read(wxT("flightModeData"+num+".gvars"+numgvar),&tmp);
+          eepromfile->Read(wxT("flightModeData"+num+".gvars"+numgvar),&tmp,0);
           temp_model.flightModeData[i].gvars[k] = tmp;
         }
       }
@@ -1521,11 +1521,11 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
 
       for (int i=0; i<MAX_GVARS; ++i) { //global_gvar_t gvars[MAX_GVARS];
         wxString num = wxString::Format(wxT("%i"),i);
-        eepromfile->Read(wxT("gvars"+num+".name"),&strtmp);
+        eepromfile->Read(wxT("gvars"+num+".name"),&strtmp,"      ");
         ConvWxstrToCharFw(strtmp,temp_model.gvars[i].name, LEN_GVAR_NAME);
-        eepromfile->Read(wxT("gvars"+num+".popup"),&tmp);
+        eepromfile->Read(wxT("gvars"+num+".popup"),&tmp),0;
         temp_model.gvars[i].popup = tmp;
-        eepromfile->Read(wxT("gvars"+num+".spare"),&tmp);
+        eepromfile->Read(wxT("gvars"+num+".spare"),&tmp,0);
         temp_model.gvars[i].spare = tmp;
       }
 
@@ -2005,7 +2005,51 @@ void OpenAVRc_SimulatorFrame::save_ModelData_30()
 
 void OpenAVRc_SimulatorFrame::save_ModelData_217()
 {
-  /*ModelData temp_model;
+PACK(typedef struct {
+  char      name[LEN_MODEL_NAME]; // must be first for eeLoadModelName
+  uint8_t   modelId;
+}) ModelHeader;
+
+PACK(typedef struct {
+  ModelHeader header;
+  TimerData timers[MAX_TIMERS];
+  uint8_t   protocol:(PROTO_MAX > 8)?4:3;  // compatibility with old EEPROM structure (if not all protocols are used)
+  uint8_t   thrTrim:1;            // Enable Throttle Trim
+  int8_t    ppmNCH:4;
+  int8_t    trimInc:3;            // Trim Increments
+  uint8_t   disableThrottleWarning:1;
+  uint8_t   pulsePol:1;
+  uint8_t   extendedLimits:1;
+  uint8_t   extendedTrims:1;
+  uint8_t   throttleReversed:1;
+  int8_t    ppmDelay;
+  BeepANACenter beepANACenter;
+  MixData   mixData[MAX_MIXERS];
+  LimitData limitData[NUM_CHNOUT];
+  ExpoData  expoData[MAX_EXPOS];
+
+  CURVDATA  curves[MAX_CURVES];
+  int8_t    points[NUM_POINTS];
+
+  LogicalSwitchData logicalSw[NUM_LOGICAL_SWITCH];
+  CustomFunctionData customFn[NUM_CFN];
+  SwashRingData swashR;
+  FlightModeData flightModeData[MAX_FLIGHT_MODES];
+
+  int8_t ppmFrameLength;     // 0=22.5ms  (10ms-30ms) 0.5ms increments
+
+  uint8_t thrTraceSrc;
+
+  swarnstate_t  switchWarningState;
+  swarnenable_t switchWarningEnable;
+
+  MODEL_GVARS_DATA
+
+  TELEMETRY_DATA
+
+}) OldModelData217;
+
+  OldModelData217 temp_model;
 
   for (uint8_t m=0; m<MAX_MODELS; ++m) {
     wxString num = wxString::Format(wxT("%i"),m+1);
@@ -2194,7 +2238,7 @@ void OpenAVRc_SimulatorFrame::save_ModelData_217()
       eepromfile->Write(wxT("frsky.varioCenterMax"),(int)temp_model.frsky.varioCenterMax);
       eepromfile->Write(wxT("frsky.fasOffset"),(int)temp_model.frsky.fasOffset);
     }
-  }*/
+  }
 }
 
 void OpenAVRc_SimulatorFrame::save_EEGeneral_30(EEGeneral General)
@@ -2257,8 +2301,55 @@ void OpenAVRc_SimulatorFrame::save_EEGeneral_30(EEGeneral General)
   eepromfile->Write(wxT("vBatMax"),(int)General.vBatMax);
 }
 
-void OpenAVRc_SimulatorFrame::save_EEGeneral_217(EEGeneral General)
+void OpenAVRc_SimulatorFrame::save_EEGeneral_217()
 {
+PACK(typedef struct {
+  uint8_t   version;
+  uint16_t  variant;
+  CalibData calib[NUM_STICKS+NUM_POTS];
+  uint16_t  chkSum;
+  int8_t    currModel;
+  uint8_t   contrast;
+  uint8_t   vBatWarn;
+  int8_t    txVoltageCalibration;
+  int8_t    backlightMode;
+  TrainerData trainer;
+  uint8_t   view;            // index of view in main screen
+  int8_t    buzzerMode:2;    // -2=quiet, -1=only alarms, 0=no keys, 1=all
+  uint8_t   fai:1;
+  int8_t    beepMode:2;      // -2=quiet, -1=only alarms, 0=no keys, 1=all
+  uint8_t   alarmsFlash:1;
+  uint8_t   disableMemoryWarning:1;
+  uint8_t   disableAlarmWarning:1;
+  uint8_t   stickMode:2;
+  int8_t    timezone:5;
+  uint8_t   adjustRTC:1;
+  uint8_t   inactivityTimer;
+  uint8_t   mavbaud:3;
+  SPLASH_MODE; /* 3bits */
+  int8_t    hapticMode:2;    // -2=quiet, -1=only alarms, 0=no keys, 1=all
+  uint8_t blOffBright:4;
+  uint8_t blOnBright:4;
+  uint8_t   lightAutoOff;
+  uint8_t   templateSetup;   // RETA order for receiver channels
+  int8_t    PPM_Multiplier;
+  int8_t    hapticLength;
+  uint8_t   reNavigation;
+  uint8_t   stickReverse;
+  int8_t    beepLength:3;
+  int8_t    hapticStrength:3;
+  uint8_t   gpsFormat:1;
+  uint8_t   unexpectedShutdown:1;
+  uint8_t   speakerPitch;
+  int8_t    speakerVolume;
+  int8_t    vBatMin;
+  int8_t    vBatMax;
+
+
+}) OldEEGeneral217;
+
+OldEEGeneral217 General;
+
   eepromfile->SetPath("/EEGENERAL/");
   eepromfile->Write(wxT("version"),General.version);
   eepromfile->Write(wxT("variant"),General.variant);

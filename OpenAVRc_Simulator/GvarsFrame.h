@@ -108,7 +108,7 @@ class GvarsFrame: public wxFrame
 		void OnTextCtrlpersoPhase4TextEnter(wxCommandEvent& event);
 		void OnTextCtrlpersoPhase5TextEnter(wxCommandEvent& event);
 		void OnTextCtrlpersoAllText(wxCommandEvent& event);
-		void OnGVARSGridCellLeftClick(wxGridEvent& event);
+		void OnTextCtrlpersoGvar6TextEnter(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

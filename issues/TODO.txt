@@ -7,8 +7,6 @@
 
 > - telemetrie GPS : Ajout distance (a partir du point fixe ?)
 
-> - Ecolage : ordres eleve vers entree mixeur
-
 
 Simu :
 
@@ -37,7 +35,7 @@ Firmware :
 
 -> Ajouter module emetteur perso
 
--> Passer les Gvar de 16 à 8 bit, enlever les bits de "haptic strenght", etc pour gagner de la mémoire
+-> Passer les Gvar de 16 à 8 bit, enlever les bits de "haptic strenght", etc pour gagner de la mémoire (Gvar : Fait)
 
 -> Ajouter une fonction spéciale sécurité moteur qui fonctionne comme le template.
 

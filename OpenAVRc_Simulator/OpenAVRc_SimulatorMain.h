@@ -186,7 +186,7 @@ private:
   void OnMenuExportEepromSelected(wxCommandEvent& event);
   void ExportEeprom();
   void ImportEeprom();
-  void save_EEGeneral_217(EEGeneral General);
+  void save_EEGeneral_217();
   void save_ModelData_217();
   void load_EEGeneral_217();
   void load_ModelData_217();
