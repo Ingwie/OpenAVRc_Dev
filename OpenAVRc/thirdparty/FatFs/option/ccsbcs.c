@@ -341,7 +341,7 @@ const WCHAR Tbl[] = {	/*  CP1251(0x80-0xFF) to Unicode conversion table */
 #elif _CODE_PAGE == 1252
 #define _TBLDEF 1
 
-#if !defined(SIMU) && defined(CPUM2560)
+#if !defined(SIMU)
 static
 const WCHAR Tbl[] PROGMEM = {	/*  CP1252(0x80-0xFF) to Unicode conversion table */
 #else
@@ -506,7 +506,7 @@ const WCHAR Tbl[] = {	/*  CP1258(0x80-0xFF) to Unicode conversion table */
 #endif
 
 
-#if !defined(SIMU) && defined(CPUM2560)
+#if !defined(SIMU)
 WCHAR ff_convert (	/* Converted character, Returns zero on error */
 	WCHAR	chr,	/* Character code to be converted */
 	UINT	dir		/* 0: Unicode to OEMCP, 1: OEMCP to Unicode */
