@@ -382,7 +382,7 @@
   #define TR_SW_VSRCRAW        "3POS"
   #define TR_9X_3POS_SWITCHES  "ID0""ID1""ID2"
 
-  #define TR_LOGICALSW         "L1\0""L2\0""L3\0""L4\0""L5\0""L6\0""L7\0""L8\0""L9\0""L10""L11""L12"
+  #define TR_LOGICALSW         "L1\0""L2\0""L3\0""L4\0""L5\0""L6\0""L7\0""L8\0""L9\0""L10""L11""L12""L13""L14""L15"
 
 #define TR_TRIMS_SWITCHES      TR("tDg""tDd""tPb""tPh""tGb""tGh""tAg""tAd", "\313Dg""\313Dd""\313Pb""\313Ph""\313Gb""\313Gh""\313Ag""\313Ad")
 

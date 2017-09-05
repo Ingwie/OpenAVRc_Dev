@@ -49,7 +49,7 @@ const char* inputText[] = { "Dir\t","Prf\t","Gaz\t","Ail\t",
             "CYC1","CYC2","CYC3",
             "TrmD","TrmP","TrmG","TrmA",
             "3POS","THR","RUD","ELE\t","AIL\t","GEA","TRN",
-            "L1\t","L2\t","L3\t","L4\t","L5\t","L6\t","L7\t","L8\t","L9\t","L10\t","L11\t","L12\t",
+            "L1\t","L2\t","L3\t","L4\t","L5\t","L6\t","L7\t","L8\t","L9\t","L10\t","L11\t","L12\t","L13\t","L14\t","L15\t",
             "TR1\t","TR2\t","TR3\t","TR4\t","TR5\t","TR6\t","TR7\t","TR8\t",
             "CH1","CH2","CH3","CH4","CH5","CH6","CH7","CH8","CH9","CH10","CH11","CH12","CH13","CH14","CH15","CH16"};
 

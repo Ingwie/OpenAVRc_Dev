@@ -58,14 +58,13 @@
 
 #define NUM_STICKS           4
 
-//#if   defined(CPUM2560)
 #if defined(EXTERNALEEPROM)
 #define MAX_MODELS           60
 #define NUM_CHNOUT           16 // number of real output channels CH1-CH16
 #define MAX_FLIGHT_MODES     6
 #define MAX_MIXERS           32
 #define MAX_EXPOS            16
-#define NUM_LOGICAL_SWITCH   12 // number of custom switches
+#define NUM_LOGICAL_SWITCH   15 // number of custom switches
 #define NUM_CFN              24 // number of functions assigned to switches
 #define NUM_TRAINER          8
 #define NUM_POTS             3
@@ -77,15 +76,13 @@
 #define MAX_FLIGHT_MODES     6
 #define MAX_MIXERS           32
 #define MAX_EXPOS            16
-#define NUM_LOGICAL_SWITCH   12 // number of custom switches
+#define NUM_LOGICAL_SWITCH   15 // number of custom switches
 #define NUM_CFN              24 // number of functions assigned to switches
 #define NUM_TRAINER          8
 #define NUM_POTS             3
 #define NUM_XPOTS            0
 #define MAX_SENSORS          0
 #endif
-//#else
-//#endif
 
 #define MAX_TIMERS           2
 
@@ -107,13 +104,18 @@ PACK(typedef struct {
 
 extern CurveInfo curveInfo(uint8_t idx);
 
-typedef int8_t gvar_t;
-
 typedef uint8_t source_t;
 
+
+#define MAX_GVARS 6
 #define LEN_GVAR_NAME 6
 #define GVAR_MAX      128
 #define GVAR_LIMIT    125
+#define MODEL_GVARS_DATA global_gvar_t gvars[MAX_GVARS];
+#define PHASE_GVARS_DATA gvar_t gvars[MAX_GVARS]
+#define GVAR_VALUE(x, p) g_model.flightModeData[p].gvars[x]
+
+typedef int8_t gvar_t;
 
 PACK(typedef struct {
   char    name[LEN_GVAR_NAME];
@@ -124,10 +126,6 @@ PACK(typedef struct {
 #define RESERVE_RANGE_FOR_GVARS 10
 // even we do not spend space in EEPROM for 10 GVARS, we reserve the space inside the range of values, like offset, weight, etc.
 
-#define MAX_GVARS 6
-#define MODEL_GVARS_DATA global_gvar_t gvars[MAX_GVARS];
-#define PHASE_GVARS_DATA gvar_t gvars[MAX_GVARS]
-#define GVAR_VALUE(x, p) g_model.flightModeData[p].gvars[x]
 
 PACK(typedef struct {
   uint8_t srcChn:6; // 0-7 = ch1-8
