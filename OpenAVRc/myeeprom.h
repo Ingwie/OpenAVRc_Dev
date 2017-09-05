@@ -1138,18 +1138,26 @@ PACK(typedef struct {
 
 PACK(typedef struct {
   char      name[LEN_MODEL_NAME]; // must be first for eeLoadModelName
+
+////////// TO CHANGE (MIX, ADD, MOVE, MAKE UNION, ETC .../////////////////////////
   uint8_t   modelId;
-  TimerData timers[MAX_TIMERS];
-  uint8_t   protocol:(PROTO_MAX > 8)?4:3;  // compatibility with old EEPROM structure (if not all protocols are used)
-  uint8_t   thrTrim:1;            // Enable Throttle Trim
+  uint8_t   protocol:3;  //old EEPROM structure
   int8_t    ppmNCH:4;
+  uint8_t   pulsePol:1;
+  int8_t    ppmFrameLength;     // 0=22.5ms  (10ms-30ms) 0.5ms increments
+  int8_t    ppmDelay;
+  #if defined(MULTIMODULE)
+  ModuleDataData moduleData;
+  #endif
+////////// TO CHANGE (ADD, MOVE, MAKE UNION, ETC .../////////////////////////
+
+  TimerData timers[MAX_TIMERS];
+  uint8_t   thrTrim:1;            // Enable Throttle Trim
   int8_t    trimInc:3;            // Trim Increments
   uint8_t   disableThrottleWarning:1;
-  uint8_t   pulsePol:1;
   uint8_t   extendedLimits:1;
   uint8_t   extendedTrims:1;
   uint8_t   throttleReversed:1;
-  int8_t    ppmDelay;
   BeepANACenter beepANACenter;
   MixData   mixData[MAX_MIXERS];
   LimitData limitData[NUM_CHNOUT];
@@ -1163,7 +1171,6 @@ PACK(typedef struct {
   SwashRingData swashR;
   FlightModeData flightModeData[MAX_FLIGHT_MODES];
 
-  int8_t ppmFrameLength;     // 0=22.5ms  (10ms-30ms) 0.5ms increments
 
   uint8_t thrTraceSrc;
 
@@ -1173,10 +1180,6 @@ PACK(typedef struct {
   MODEL_GVARS_DATA
 
   TELEMETRY_DATA
-
-  #if defined(MULTIMODULE)
-  ModuleDataData moduleData;
-  #endif
 
 }) ModelData;
 
