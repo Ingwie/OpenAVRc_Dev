@@ -130,11 +130,7 @@
 
 #define LEN_RETA123            "\001"
 
-#if defined(CPUM2560)
   #define TR_RETA123           "SHGQ123ab"
-#else
-  #define TR_RETA123           "SHGQ123"
-#endif
 
 #define LEN_VPROTOS            "\006"
 

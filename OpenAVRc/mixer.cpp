@@ -188,9 +188,7 @@ getvalue_t getValue(mixsrc_t i)
   if (i==MIXSRC_NONE) return 0;
   else if (i>=MIXSRC_FIRST_STICK && i<=MIXSRC_LAST_POT) return calibratedStick[i-MIXSRC_Rud];
 
-#if defined(CPUM2560) || defined(ROTARY_ENCODERS)
   else if (i<=MIXSRC_LAST_ROTARY_ENCODER) return getRotaryEncoder(i-MIXSRC_REa);
-#endif
 
   else if (i==MIXSRC_MAX) return 1024;
 
@@ -732,7 +730,7 @@ uint8_t lastFlightMode = 255; // TODO reinit everything here when the model chan
 
 void evalMixes(uint8_t tick10ms)
 {
-#if defined(CPUM2560) && defined(DEBUG) && !defined(VOICE)
+#if defined(DEBUG) && !defined(VOICE)
   PORTH |= 0x40; // PORTH:6 LOW->HIGH signals start of mixer interrupt
 #endif
 
@@ -833,7 +831,7 @@ void evalMixes(uint8_t tick10ms)
     }
   }
 
-#if defined(CPUM2560) && defined(DEBUG) && !defined(VOICE)
+#if defined(DEBUG) && !defined(VOICE)
   PORTH &= ~0x40; // PORTH:6 HIGH->LOW signals end of mixer interrupt
 #endif
 }

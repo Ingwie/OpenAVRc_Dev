@@ -144,12 +144,8 @@ extern const pm_char STR_OPEN9X[];
 #define OFS_VSRCRAW             (OFS_VSWITCHES + sizeof(TR_VSWITCHES))
 #define OFS_VTMRMODES           (OFS_VSRCRAW + sizeof(TR_VSRCRAW))
 #define OFS_DATETIME            (OFS_VTMRMODES + sizeof(TR_VTMRMODES))
-#if defined(CPUM2560)
 #define OFS_VPERSISTENT       (OFS_DATETIME + sizeof(TR_DATETIME))
 #define OFS_VLCD              (OFS_VPERSISTENT + sizeof(TR_VPERSISTENT))
-#else
-#define OFS_VLCD              (OFS_DATETIME)
-#endif
 #define OFS_COUNTRYCODES      (OFS_VLCD)
 #if defined(PXX)
 #define OFS_VFAILSAFE         (OFS_COUNTRYCODES + sizeof(TR_COUNTRYCODES))
@@ -236,10 +232,8 @@ extern const pm_char STR_OPEN9X[];
 #define STR_VRENCODERS        (STR_OPEN9X + OFS_VRENCODERS)
 #endif
 
-#if defined(CPUM2560)
 #define STR_DATETIME          (STR_OPEN9X + OFS_DATETIME)
 #define STR_VPERSISTENT       (STR_OPEN9X + OFS_VPERSISTENT)
-#endif
 
 
 #if defined(PXX)
@@ -495,10 +489,8 @@ extern const pm_char STR_LATITUDE[];
 extern const pm_char STR_LONGITUDE[];
 #endif
 
-#if defined(CPUM2560)
 extern const pm_char STR_SHUTDOWN[];
 extern const pm_char STR_SAVEMODEL[];
-#endif
 
 
 extern const pm_char STR_BATT_CALIB[];

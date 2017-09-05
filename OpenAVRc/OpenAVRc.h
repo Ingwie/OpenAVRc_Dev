@@ -83,9 +83,7 @@ static uint16_t DurationValue;
 #endif
 
 
-#if defined(CPUM2560)
 #define CASE_PERSISTENT_TIMERS(x) x,
-#endif
 
 #if defined(RTCLOCK)
 #define CASE_RTCLOCK(x) x,
@@ -705,7 +703,7 @@ void getADC();
 extern void backlightOn();
 
 enum Analogs {
-#if defined(CPUM2560) && defined(REV_EVO_V1)
+#if defined(REV_EVO_V1)
   STICK1,
   STICK2,
   STICK3,

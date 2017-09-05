@@ -35,7 +35,7 @@
 #define board_avr_h
 
 
-#if   defined(CPUM2560) && defined(REV_EVO_V1)
+#if defined(REV_EVO_V1)
 #include "targets/evo_v1/evo_mega2560.h"
 #elif defined(PCBMEGA2560)
 #include "targets/mega2560/board_mega2560.h"

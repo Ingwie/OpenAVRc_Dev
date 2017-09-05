@@ -58,13 +58,8 @@ extern TimerState timersStates[TIMERS];
 void timerReset(uint8_t idx);
 
 
-#if defined(CPUM2560)
 void saveTimers();
 void restoreTimers();
-#else
-#define saveTimers()
-#define restoreTimers()
-#endif
 
 void evalTimers(int16_t throttle, uint8_t tick10ms);
 

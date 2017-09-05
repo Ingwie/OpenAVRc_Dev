@@ -907,13 +907,11 @@ uint8_t checkTrim(uint8_t event)
 
 uint16_t s_anaFilt[NUMBER_ANALOG];
 
-#if defined(CPUM2560)
 // #define STARTADCONV (ADCSRA  = (1<<ADEN) | (1<<ADPS0) | (1<<ADPS1) | (1<<ADPS2) | (1<<ADSC) | (1 << ADIE))
 // G: Note that the above would have set the ADC prescaler to 128, equating to
 // 125KHz sample rate. We now sample at 500KHz, with oversampling and other
 // filtering options to produce 11-bit results.
 uint16_t BandGap = 2040 ;
-#endif
 
 #if defined(JITTER_MEASURE)
 JitterMeter<uint16_t> rawJitter[NUMBER_ANALOG];
@@ -1199,7 +1197,6 @@ void OpenAVRcStart()
 
 }
 
-#if defined(CPUM2560)
 void OpenAVRcClose()
 {
   AUDIO_BYE();
@@ -1233,7 +1230,6 @@ void OpenAVRcClose()
   sdDone();
 #endif
 }
-#endif
 
 void checkBattery()
 {
@@ -1249,12 +1245,12 @@ void checkBattery()
     counter = 10;
     int32_t instant_vbat = anaIn(TX_VOLTAGE);
 
-#if defined(CPUM2560) && defined(REV_EVO_V1)
+#if defined(REV_EVO_V1)
     instant_vbat *= 40L * BandGap;
     instant_vbat /= (4095L * 100L);
     instant_vbat += 20L; // No Calibration Allowed.
     // Schottky Diode drops 0.2V before a potential divider which reduces the input to the ADC by 1/4.
-#elif defined(CPUM2560)
+#else
     instant_vbat = (instant_vbat*1112 + instant_vbat*g_eeGeneral.txVoltageCalibration + (BandGap<<2)) / ((BandGap<<3)/10);
 #endif
     static uint8_t  s_batCheck;
@@ -1519,9 +1515,7 @@ uint16_t freeRam()
 #endif
 }
 
-#if defined(CPUM2560)
 #define OpenAVRc_INIT_ARGS const uint8_t mcusr
-#endif
 
 void OpenAVRcInit(OpenAVRc_INIT_ARGS)
 {
@@ -1551,12 +1545,10 @@ void OpenAVRcInit(OpenAVRc_INIT_ARGS)
     OpenAVRcStart();
   }
 
-#if defined(CPUM2560)
   if (!g_eeGeneral.unexpectedShutdown) {
     g_eeGeneral.unexpectedShutdown = 1;
     eeDirty(EE_GENERAL);
   }
-#endif
 
 #if defined(GUI)
   lcdSetContrast();
@@ -1585,12 +1577,10 @@ int simumain(void)
   // we could put a bunch more MYWDT_RESET()s in. But I don't like that approach
   // during boot up.)
 #if !defined(SIMU)
-#if defined(CPUM2560)
   uint8_t mcusr = MCUSR; // save the WDT (etc) flags
   MCUSR = 0; // must be zeroed before disabling the WDT
   MCUCR |= (1<<JTD);    // Disable JTAG port that can interfere with POT3
   MCUCR |= (1<<JTD);   // Must be done twice within four cycles
-#endif
   wdt_disable();
 #endif //SIMU
   boardInit();
@@ -1653,14 +1643,12 @@ void SimuMainLoop(void) // Create loop function
 {
   simu_mainloop_is_runing = true;
 #endif //SIMU
-#if defined(CPUM2560)
     uint8_t shutdown_state = 0;
     if ((shutdown_state=pwrCheck()) > e_power_trainer)
 #if !defined(SIMU)
       break;
 #else
       shutDownSimu();
-#endif
 #endif
 
     perMain();
@@ -1680,7 +1668,6 @@ void SimuMainLoop(void) // Create loop function
     simu_shutDownSimu_is_runing = true;
 #endif
 
-#if defined(CPUM2560)
     // Time to switch off
     lcdClear();
     displayPopup(STR_SHUTDOWN);
@@ -1693,7 +1680,6 @@ void SimuMainLoop(void) // Create loop function
     wdt_disable();
 #if !defined(SIMU)
     while(1); // never return from main() - there is no code to return back, if any delays occurs in physical power it does dead loop.
-#endif
 #endif
   }
 

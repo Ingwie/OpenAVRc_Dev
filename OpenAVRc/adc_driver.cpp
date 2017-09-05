@@ -40,9 +40,7 @@ void adcInit()
 {
   ADMUX = ADC_VREF_TYPE;
   ADCSRA = 0x85; // ADC enabled, pre-scaler division=32 (no interrupt, no auto-triggering)
-#if defined(CPUM2560)
   ADCSRB = (1 << MUX5);
-#endif
 }
 
 void adcPrepareBandgap()

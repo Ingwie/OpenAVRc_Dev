@@ -247,11 +247,9 @@ void menuModelFlightModesAll(uint8_t event)
       for (uint8_t t=0; t<NUM_STICKS; t++) {
         lcdPutsTrimMode((9+LEN_FLIGHT_MODE_NAME+t)*FW+TRIMS_OFS, y, i, t, 0);
       }
-#if defined(CPUM2560)
       for (uint8_t t=0; t<NUM_ROTARY_ENCODERS; t++) {
         lcdPutsRotaryEncoderMode((13+LEN_FLIGHT_MODE_NAME+t)*FW+TRIMS_OFS+ROTARY_ENC_OFS, y, i, t, 0);
       }
-#endif
     }
 
     if (p->fadeIn || p->fadeOut) {

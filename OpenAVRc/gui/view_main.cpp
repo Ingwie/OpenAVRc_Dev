@@ -478,13 +478,8 @@ void menuMainView(uint8_t event)
 #endif // PCBGRUVIN9X && ROTARY_ENCODERS
 
       // Logical Switches
-#if   defined(CPUM2560)
       for (uint8_t i=0; i<NUM_LOGICAL_SWITCH; i++)
         lcdPutsSwitches(2*FW-3 + (i/3)*(i/3>2 ? 3*FW+2 : (3*FW-1)) + (i/3>2 ? 2*FW : 0), 4*FH+1 + (i%3)*FH, SWSRC_SW1+i, getSwitch(SWSRC_SW1+i) ? INVERS : 0);
-#else
-      for (uint8_t i=0; i<NUM_LOGICAL_SWITCH; i++)
-        lcdPutsSwitches(2*FW-2 + (i/3)*(4*FW-1), 4*FH+1 + (i%3)*FH, SWSRC_SW1+i, getSwitch(SWSRC_SW1+i) ? INVERS : 0);
-#endif
     }
   } else { // timer2
 #if defined(TRANSLATIONS_CZ)

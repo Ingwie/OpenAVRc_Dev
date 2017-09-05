@@ -56,12 +56,10 @@ void audioQueue::heartbeat()
     if (toneFreq == 0) {  //pause only events
       speakerOff();
     } else {
-#if defined(CPUM2560)
       if (toneFreq) {
         OCR4A = (5000 / toneFreq); // sticking with old values approx 20(abs. min) to 90, 60 being the default tone(?).
         speakerOn();
       }
-#endif
       toneFreq += toneFreqIncr;
     }
     toneTimeLeft--; //time gets counted down
@@ -79,14 +77,10 @@ void audioQueue::heartbeat()
       }
     } else {
       if (tone2TimeLeft > 0) {
-#if defined(CPUM2560)
         if (tone2Freq) {
           OCR4A = (5000 / tone2Freq); // sticking with old values approx 20(abs. min) to 90, 60 being the default tone(?).
           speakerOn();
         }
-#else
-        toneFreq = tone2Freq;
-#endif
         tone2TimeLeft--; //time gets counted down
       } else {
         speakerOff();

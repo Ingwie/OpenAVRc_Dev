@@ -54,7 +54,7 @@ void adcInit()
 
 void adcPrepareBandgap()
 {
-#if defined(CPUM2560) && defined(REV_EVO_V1)
+#if defined(REV_EVO_V1)
   // Done in adcInit().
 #else
   ADMUX = 0x1E | ADC_VREF_TYPE; // Switch MUX to internal reference.
@@ -86,7 +86,7 @@ void getADC()
 
 void getADC_bandgap()
 {
-#if defined(CPUM2560) && defined(REV_EVO_V1)
+#if defined(REV_EVO_V1)
   BandGap = 5000; // 5 Volt.
 #endif
 }

@@ -38,7 +38,6 @@
 #include "timers.h"
 
 
-#if defined(CPUM2560)
 #if defined(EXTERNALEEPROM)
 #define blkid_t    uint16_t
 #define EESIZE     10240
@@ -51,7 +50,6 @@
 #define EEFS_VERS  5
 #define MAXFILES   36
 #define BS         16
-#endif
 #endif
 
 

@@ -49,7 +49,6 @@ void timerReset(uint8_t idx)
 }
 
 
-#if defined(CPUM2560)
 void restoreTimers()
 {
   for (uint8_t i=0; i<TIMERS; i++) {
@@ -72,7 +71,6 @@ void saveTimers()
   }
 
 }
-#endif  // #if defined(CPUARM) || defined(CPUM2560)
 
 #if defined(ACCURAT_THROTTLE_TIMER)
 #define THR_TRG_TRESHOLD    13      // approximately 10% full throttle

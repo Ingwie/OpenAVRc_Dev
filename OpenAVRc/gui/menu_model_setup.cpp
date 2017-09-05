@@ -148,10 +148,8 @@ void menuModelSetup(uint8_t event)
           case 2:
             qr.rem -= checkIncDecModel(event, qr.rem+2, 1, 62)-2;
             timer->start -= qr.rem ;
-#if defined(CPUM2560)
             if ((int16_t)timer->start < 0) timer->start=0;
             if ((int16_t)timer->start > 5999) timer->start=32399; // 8:59:59
-#endif
             break;
           }
         }
@@ -159,14 +157,12 @@ void menuModelSetup(uint8_t event)
       break;
     }
 
-#if defined(CPUM2560)
     case ITEM_MODEL_TIMER1_PERSISTENT:
     case ITEM_MODEL_TIMER2_PERSISTENT: {
       TimerData &timer = g_model.timers[k==ITEM_MODEL_TIMER2_PERSISTENT];
       timer.persistent = selectMenuItem(MODEL_SETUP_2ND_COLUMN, y, STR_PERSISTENT, STR_VPERSISTENT, timer.persistent, 0, 2, attr, event);
       break;
     }
-#endif
 
     case ITEM_MODEL_EXTENDED_LIMITS:
       ON_OFF_MENU_ITEM(g_model.extendedLimits, MODEL_SETUP_2ND_COLUMN, y, STR_ELIMITS, attr, event);

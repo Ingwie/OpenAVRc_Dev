@@ -268,7 +268,6 @@ enum AdjustGvarFunctionParam {
   FUNC_ADJUST_GVAR_INC,
 };
 
-#if defined(CPUM2560)
 PACK(typedef struct {
   int8_t  swtch;
   uint8_t func;
@@ -290,7 +289,6 @@ PACK(typedef struct {
 #define CFN_PARAM(p)        ((p)->value)
 #define CFN_RESET(p)        ((p)->active = 0, CFN_PARAM(p) = 0)
 #define CFN_GVAR_CST_MAX    125
-#endif
 
 
 #define ALTERNATE_VIEW 0x10
@@ -359,7 +357,6 @@ PACK(typedef struct {
 #define MODE_EXPO          0
 #define MODE_CURVE         1
 
-#if defined(CPUM2560)
 PACK(typedef struct {
   uint8_t mode:2;         // 0=end, 1=pos, 2=neg, 3=both
   uint8_t chn:2;
@@ -373,7 +370,6 @@ PACK(typedef struct {
 #define MIN_EXPO_WEIGHT         0
 #define EXPO_VALID(ed)          ((ed)->mode)
 #define EXPO_MODE_ENABLE(ed, v) (((v)<0 && ((ed)->mode&1)) || ((v)>=0 && ((ed)->mode&2)))
-#endif
 
 #define limit_min_max_t     int8_t
 #define LIMIT_EXT_PERCENT   125
@@ -417,7 +413,6 @@ PACK(typedef struct {
 #define DELAY_MAX   15 /* 7.5 seconds */
 #define SLOW_MAX    15 /* 7.5 seconds */
 
-#if defined(CPUM2560)
 PACK(typedef struct {
   uint8_t destCh:4;          // 0, 1..NUM_CHNOUT
   uint8_t curveMode:1;       // O=curve, 1=differential
@@ -439,7 +434,6 @@ PACK(typedef struct {
   int8_t  curveParam;
   int8_t  offset;
 }) MixData;
-#endif
 
 PACK(union u_gvarint_t {
   struct {
@@ -733,10 +727,8 @@ PACK(typedef struct {
 
 #define ROTARY_ENCODER_MAX  1000 // =125 was 1024
 
-#if defined(CPUM2560)
 #define NUM_ROTARY_ENCODERS 2
 #define ROTARY_ENCODER_ARRAY int16_t rotaryEncoders[2];
-#endif
 #define trim_t          int16_t
 #define TRIMS_ARRAY       trim_t trim[4]
 #define TRIMS_ARRAY_SIZE  8
@@ -784,10 +776,8 @@ enum SwitchSources {
   SWSRC_TrimAilRight,
   SWSRC_LAST_TRIM = SWSRC_TrimAilRight,
 
-#if defined(CPUM2560)
   SWSRC_REa,
   SWSRC_REb,
-#endif
 
   SWSRC_FIRST_LOGICAL_SWITCH,
   SWSRC_SW1 = SWSRC_FIRST_LOGICAL_SWITCH,
@@ -837,7 +827,6 @@ enum MixSources {
   MIXSRC_P3,
   MIXSRC_LAST_POT = MIXSRC_P3,
 
-#if   defined(CPUM2560)
   MIXSRC_REa,
   MIXSRC_REb,
 #if ROTARY_ENCODERS > 2
@@ -846,7 +835,6 @@ enum MixSources {
   MIXSRC_LAST_ROTARY_ENCODER = MIXSRC_REd,
 #else
   MIXSRC_LAST_ROTARY_ENCODER = MIXSRC_REb,
-#endif
 #endif
 
   MIXSRC_MAX,
@@ -929,7 +917,6 @@ enum TimerModes {
   TMRMODE_COUNT
 };
 
-#if defined(CPUM2560)
 PACK(typedef struct {
   int8_t   mode;            // timer trigger source -> off, abs, stk, stk%, sw/!sw, !m_sw/!m_sw
   uint16_t start;
@@ -940,7 +927,6 @@ PACK(typedef struct {
   uint16_t value;
 }) TimerData;
 #define IS_MANUAL_RESET_TIMER(idx) (g_model.timers[idx].persistent == 2)
-#endif
 
 enum Protocols {
   PROTO_PPM,
@@ -1014,9 +1000,7 @@ enum FailsafeModes {
 #define TELEMETRY_DATA FrSkyData frsky;
 #endif
 
-#if defined(CPUM2560)
 #define BeepANACenter uint16_t
-#endif
 
 enum ThrottleSources {
   THROTTLE_SOURCE_THR,
