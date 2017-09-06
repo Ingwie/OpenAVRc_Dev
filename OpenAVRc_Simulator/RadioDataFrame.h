@@ -61,7 +61,6 @@ class RadioDataFrame: public wxFrame
 		wxTextCtrl* TextCtrlstickMode;
 		wxStaticText* StaticText2;
 		wxTextCtrl* TextCtrlhapticMode;
-		wxTextCtrl* TextCtrlvariant;
 		wxTextCtrl* TextCtrlversion;
 		wxPanel* Panel1;
 		wxStaticText* StaticText1;
@@ -78,7 +77,6 @@ class RadioDataFrame: public wxFrame
 		//(*Identifiers(RadioDataFrame)
 		static const long ID_STATICBOX1;
 		static const long ID_TEXTCTRLVERSION;
-		static const long ID_TEXTCTRL2;
 		static const long ID_TEXTCTRL3;
 		static const long ID_TEXTCTRLBATT;
 		static const long ID_TEXTCTRLSTICKMODE;

@@ -192,7 +192,6 @@ void generalDefault()
 {
   memclear(&g_eeGeneral, sizeof(g_eeGeneral));
   g_eeGeneral.version  = EEPROM_VER;
-  g_eeGeneral.variant = EEPROM_VARIANT;
   g_eeGeneral.contrast = 15;
 
 
@@ -1530,7 +1529,7 @@ void OpenAVRcInit(OpenAVRc_INIT_ARGS)
 #endif
 
 #if defined(VOICE)
-  setVolume(g_eeGeneral.speakerVolume+VOLUME_LEVEL_DEF);
+//  setVolume(g_eeGeneral.speakerVolume+VOLUME_LEVEL_DEF);
 #endif
 
 #if defined(RTCLOCK)

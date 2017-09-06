@@ -390,12 +390,6 @@ void evalFunctions()
           newActiveFunctions |= (1 << FUNCTION_BACKLIGHT);
           break;
 
-
-#if defined(DEBUGaa)
-        case FUNC_TEST:
-          testFunc();
-          break;
-#endif
         }
 
         newActiveSwitches |= switch_mask;

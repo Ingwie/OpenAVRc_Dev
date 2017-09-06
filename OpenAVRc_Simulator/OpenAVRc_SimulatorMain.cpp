@@ -1603,8 +1603,6 @@ void OpenAVRc_SimulatorFrame::load_EEGeneral_30()
   eepromfile->SetPath("/EEGENERAL/");
   eepromfile->Read(wxT("version"),&tmp);
   g_eeGeneral.version = tmp;
-  eepromfile->Read(wxT("variant"),&tmp);
-  g_eeGeneral.variant = tmp;
 
   for (int i=0; i<(NUM_STICKS+NUM_POTS); ++i) { //CalibData calib[NUM_STICKS+NUM_POTS]
     wxString num = wxString::Format(wxT("%i"),i);
@@ -1710,8 +1708,6 @@ void OpenAVRc_SimulatorFrame::load_EEGeneral_217()
   eepromfile->SetPath("/EEGENERAL/");
   eepromfile->Read(wxT("version"),&tmp);
   g_eeGeneral.version = 30; //todo convertion dialog
-  eepromfile->Read(wxT("variant"),&tmp);
-  g_eeGeneral.variant = tmp;
 
   for (int i=0; i<(NUM_STICKS+NUM_POTS); ++i) { //CalibData calib[NUM_STICKS+NUM_POTS]
     wxString num = wxString::Format(wxT("%i"),i);
@@ -2247,7 +2243,6 @@ void OpenAVRc_SimulatorFrame::save_EEGeneral_30(EEGeneral General)
 {
   eepromfile->SetPath("/EEGENERAL/");
   eepromfile->Write(wxT("version"),General.version);
-  eepromfile->Write(wxT("variant"),General.variant);
 
   for (int i=0; i<(NUM_STICKS+NUM_POTS); ++i) { //CalibData calib[NUM_STICKS+NUM_POTS]
     wxString num = wxString::Format(wxT("%i"),i);

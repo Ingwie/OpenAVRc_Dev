@@ -209,9 +209,6 @@ enum Functions {
   FUNC_HAPTIC,
   FUNC_LOGS,
   FUNC_BACKLIGHT,
-#if defined(DEBUG)
-  FUNC_TEST, // should remain the last before MAX as not added in companion9x
-#endif
   FUNC_MAX
 };
 
@@ -294,7 +291,6 @@ PACK(typedef struct {
 #define ALTERNATE_VIEW 0x10
 PACK(typedef struct {
   uint8_t   version;
-  uint16_t  variant;
   CalibData calib[NUM_STICKS+NUM_POTS];
   uint16_t  chkSum;
   int8_t    currModel;
@@ -317,23 +313,23 @@ PACK(typedef struct {
   uint8_t   mavbaud:3;
   SPLASH_MODE; /* 3bits */
   int8_t    hapticMode:2;    // -2=quiet, -1=only alarms, 0=no keys, 1=all
-  uint8_t blOffBright:4;
-  uint8_t blOnBright:4;
   uint8_t   lightAutoOff;
   uint8_t   templateSetup;   // RETA order for receiver channels
   int8_t    PPM_Multiplier;
   int8_t    hapticLength;
   uint8_t   reNavigation;
   uint8_t   stickReverse;
-  int8_t    beepLength:3;
-  int8_t    hapticStrength:3;
-  uint8_t   gpsFormat:1;
-  uint8_t   unexpectedShutdown:1;
   uint8_t   speakerPitch;
-  int8_t    speakerVolume;
   int8_t    vBatMin;
   int8_t    vBatMax;
-
+  int8_t    beepLength:3;
+  uint8_t   gpsFormat:1;
+  uint8_t   unexpectedShutdown:1;
+// Free fields ! Todo ?
+  int8_t    hapticStrength:3;
+  int8_t    speakerVolume;
+  uint8_t   blOffBright:4;   // used if defined PWM_BACKLIGHT
+  uint8_t   blOnBright:4;    // used if defined PWM_BACKLIGHT
 
 }) EEGeneral;
 

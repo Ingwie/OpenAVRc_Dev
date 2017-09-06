@@ -880,13 +880,12 @@ bool eeLoadGeneral()
   theFile.openRlc(FILE_GENERAL);
   if (theFile.readRlc((uint8_t*)&g_eeGeneral, 1) == 1 && g_eeGeneral.version == EEPROM_VER) {
     theFile.openRlc(FILE_GENERAL);
-    //if (theFile.readRlc((uint8_t*)&g_eeGeneral, sizeof(g_eeGeneral)) <= sizeof(EEGeneral) && g_eeGeneral.variant == EEPROM_VARIANT) { //bracame test
     if (theFile.readRlc((uint8_t*)&g_eeGeneral, sizeof(g_eeGeneral)) <= sizeof(EEGeneral)) {
       return true;
     }
   }
 
-  TRACE("EEPROM version %d (%d) instead of %d (%d)", g_eeGeneral.version, g_eeGeneral.variant, EEPROM_VER, EEPROM_VARIANT);
+  TRACE("EEPROM version %d instead of %d", g_eeGeneral.version, EEPROM_VER);
   return false;
 }
 

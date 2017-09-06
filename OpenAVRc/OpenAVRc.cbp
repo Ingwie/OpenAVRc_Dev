@@ -77,7 +77,6 @@
 		<Unit filename="diskio.cpp" />
 		<Unit filename="eeprom_common.cpp" />
 		<Unit filename="eeprom_common.h" />
-		<Unit filename="eeprom_conversions.cpp" />
 		<Unit filename="eeprom_rlc.cpp" />
 		<Unit filename="eeprom_rlc.h" />
 		<Unit filename="fifo.h" />
@@ -157,6 +156,9 @@
 		<Unit filename="protocol/MULTI.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="protocol/PROTO_PPM.cpp" />
+		<Unit filename="protocol/PROTO_PPM16.cpp" />
+		<Unit filename="protocol/PROTO_PPMSIM.cpp" />
 		<Unit filename="protocol/SKYARTEC_cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -176,8 +178,6 @@
 		</Unit>
 		<Unit filename="protocol/misc.h" />
 		<Unit filename="protocol/mpx_serial.h" />
-		<Unit filename="protocol/ppm_bit_bang.cpp" />
-		<Unit filename="protocol/ppm_hw_switching.cpp" />
 		<Unit filename="protocol/protocol.h" />
 		<Unit filename="pulses/pulses.h" />
 		<Unit filename="pulses/pulses_avr.cpp" />

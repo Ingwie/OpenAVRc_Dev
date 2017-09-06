@@ -45,7 +45,6 @@ wxString vTxt;
 //(*IdInit(RadioDataFrame)
 const long RadioDataFrame::ID_STATICBOX1 = wxNewId();
 const long RadioDataFrame::ID_TEXTCTRLVERSION = wxNewId();
-const long RadioDataFrame::ID_TEXTCTRL2 = wxNewId();
 const long RadioDataFrame::ID_TEXTCTRL3 = wxNewId();
 const long RadioDataFrame::ID_TEXTCTRLBATT = wxNewId();
 const long RadioDataFrame::ID_TEXTCTRLSTICKMODE = wxNewId();
@@ -76,7 +75,6 @@ RadioDataFrame::RadioDataFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Calibration"), wxPoint(8,144), wxSize(192,176), 0, _T("ID_STATICBOX1"));
 	TextCtrlversion = new wxTextCtrl(Panel1, ID_TEXTCTRLVERSION, wxEmptyString, wxPoint(8,8), wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRLVERSION"));
-	TextCtrlvariant = new wxTextCtrl(Panel1, ID_TEXTCTRL2, wxEmptyString, wxPoint(112,8), wxSize(88,21), wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRL2"));
 	TextCtrlcurrModel = new wxTextCtrl(Panel1, ID_TEXTCTRL3, wxEmptyString, wxPoint(8,32), wxDefaultSize, wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRL3"));
 	TextCtrlBatt = new wxTextCtrl(Panel1, ID_TEXTCTRLBATT, wxEmptyString, wxPoint(8,88), wxSize(192,21), wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRLBATT"));
 	TextCtrlstickMode = new wxTextCtrl(Panel1, ID_TEXTCTRLSTICKMODE, wxEmptyString, wxPoint(8,112), wxSize(144,21), wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRLSTICKMODE"));
@@ -114,7 +112,6 @@ void RadioDataFrame::PopulateRadioDataFrame()
   EEGeneral Radio = g_eeGeneral;
   if (Radio.version != 0 ){
     TextCtrlversion->SetValue(vTxt = (_T("Version:\t")) + int2wxString(Radio.version));
-    TextCtrlvariant->SetValue(vTxt = (_T("Variante:\t")) + int2wxString(Radio.variant));
     TextCtrlcurrModel->SetValue(vTxt = (_T("Modele:\t")) + int2wxString(Radio.currModel+1));
 
     vTxt = _T("Batterie\t") + int2wxString((Radio.vBatMax + 120)/10) + ".";

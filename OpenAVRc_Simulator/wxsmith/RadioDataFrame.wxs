@@ -17,11 +17,6 @@
 			<object class="wxTextCtrl" name="ID_TEXTCTRLVERSION" variable="TextCtrlversion" member="yes">
 				<pos>8,8</pos>
 			</object>
-			<object class="wxTextCtrl" name="ID_TEXTCTRL2" variable="TextCtrlvariant" member="yes">
-				<pos>112,8</pos>
-				<size>88,21</size>
-				<style>wxTE_READONLY</style>
-			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL3" variable="TextCtrlcurrModel" member="yes">
 				<pos>8,32</pos>
 				<style>wxTE_READONLY</style>

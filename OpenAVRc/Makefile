@@ -38,13 +38,6 @@ GUI = YES
 # Values = YES, NO, CHOICE
 FAI = NO
 
-# the latests deliveries for Turnigy 9x transmitters (since 2 years now, 2014) do not stop sending if no pulses are generated.
-# This fact totally breaks the nice throttle and switch warning concept, because even we prevent sending pulses the
-# transmitter module ignores this, and continues to send the last value or 0 at beginning. And 0 means in the middle of throttle -> 50%.
-# To cope with this situation, we need a new concept how to handle throttle and switch warnings.
-# if you have a 0 value (50% ) for throttle, while throttle warning is active, you should activate this switch
-# Values = YES, NO
-TURNIGY_TRANSMITTER_FIX = NO
 
 # Enable heli menu
 # Values = YES, NO
@@ -276,12 +269,6 @@ MIXERS_MONITOR = NO
 # Values = NO, YES
 NANO = NO
 
-# Use custom bin based allocator for Lua
-# Values = NO, YES
-# YES - use our bin based allocator
-# NO - use default Lua allocator
-USE_BIN_ALLOCATOR = NO
-
 # Enable trace of events into Trace Buffer for debugging purposes
 # Activating any of these options also activates DEBUG and DEBUG_TRACE_BUFFER
 # Values = NO, YES
@@ -291,10 +278,6 @@ USE_BIN_ALLOCATOR = NO
 TRACE_SD_CARD = NO
 TRACE_FATFS = NO
 TRACE_AUDIO = NO
-
-# Support for D16-EU only (no D8, no LR12 which are not EU compatible)
-# Value = NO, YES
-SUPPORT_D16_EU_ONLY = NO
 
 # Enable Watchdog test (DANGEROUS)
 # Values = NO, YES
@@ -315,9 +298,9 @@ BIN2LBM = -python ../util/bin2lbm.py
 FONT2PNG = -python ../util/font2png.py
 TRANSLATE = -python ../util/translate.py
 
-VERSION_MAJOR = 2
-VERSION_MINOR = 1
-VERSION_REVISION = 11
+VERSION_MAJOR = 3
+VERSION_MINOR = 0
+VERSION_REVISION = 0
 
 VERSION = $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_REVISION)$(OpenAVRc_VERSION_SUFFIX)
 
@@ -327,7 +310,6 @@ FATFSDIR = $(THIRDPARTY)/FatFs
 SRC =
 CPPSRC =
 INCDIRS = . translations
-LUADEP =
 DEBUG_TRACE_BUFFER = NO
 
 # PCB name
@@ -335,11 +317,6 @@ ifneq ($(PCB), $(filter $(PCB), MEGA2560 EVO_V1))
   $(error Sorry, the PCB $(PCB) is not supported yet in OpenAVRc)
 endif
 
-GVARS_VARIANT   = +1
-FRSKY_VARIANT   = +2
-3POS_VARIANT    = +4
-MAVLINK_VARIANT = +8
-EEPROM_VARIANT  = 0
 
 GUIMODELSRC = gui/menu_model.cpp gui/menu_model_select.cpp gui/menu_model_setup.cpp gui/menu_model_inputs_mixes.cpp gui/menu_model_limits.cpp gui/menu_model_logical_switches.cpp gui/menu_model_custom_functions.cpp gui/menu_model_telemetry.cpp
 GUIGENERALSRC = gui/menu_general.cpp gui/menu_general_setup.cpp gui/menu_general_trainer.cpp gui/menu_general_version.cpp gui/menu_general_calib.cpp
@@ -360,7 +337,7 @@ ifeq ($(PCB), EVO_V1)
   OPT = s
   # Processor frequency.
   F_CPU = 16000000
-  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DREV_EVO_V1 -DEEPROM_RLC -DEEPROM_VARIANT=0
+  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DREV_EVO_V1 -DEEPROM_RLC
   SDCARD = YES
   BUZZER = NO
   EXTERNALEEPROM = YES
@@ -370,7 +347,7 @@ ifeq ($(PCB), EVO_V1)
   THR_TRACE = YES
   PERSONAMES = YES
   PWRMANAGE = NO
-  
+
   INCDIRS += targets/evo_v1 targets/stock $(FATFSDIR) $(FATFSDIR)/option
   BOARDSRC = main_avr.cpp i2c_master.cpp spi.c targets/evo_v1/evo_mega2560.cpp targets/evo_v1/evo_lcd_driver.cpp targets/evo_v1/evo_adc_driver.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
@@ -439,7 +416,7 @@ ifeq ($(PCB), MEGA2560)
   OPT = s
   # Processor frequency.
   F_CPU = 16000000
-  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DEEPROM_RLC -DEEPROM_VARIANT=0
+  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DEEPROM_RLC
   # -DAUDIO Removed by Bracame
   SDCARD = NO
   BUZZER = YES
@@ -679,7 +656,6 @@ endif
 
 ifeq ($(GVARS), YES)
   CPPDEFS += -DGVARS
-  EEPROM_VARIANT += ${GVARS_VARIANT}
 endif
 
 ifeq ($(MENUS_LOCK), READONLY)
@@ -730,7 +706,6 @@ ifeq ($(EXT), MAVLINK)
   CPPDEFS += -DMAVLINK
   INCDIRS += thirdparty
   CPPSRC += telemetry/mavlink.cpp gui/view_mavlink.cpp serial_driver.cpp
-  EEPROM_VARIANT += ${MAVLINK_VARIANT}
 endif
 
 ifeq ($(EXT), TELEMETREZ)
@@ -769,7 +744,6 @@ ifeq ($(EXT), $(filter $(EXT), FRSKY FRSKY_SPORT TELEMETREZ))
     CPPSRC += vario.cpp
     CPPDEFS += -DVARIO
   endif
-  EEPROM_VARIANT += ${FRSKY_VARIANT}
 endif
 
 ifeq ($(SIMU), YES)
@@ -863,15 +837,12 @@ endif
 
 ifeq ($(3POS), POT1)
   CPPDEFS += -DEXTRA_3POS=1
-  # EEPROM_VARIANT += ${3POS_VARIANT}
 endif
 ifeq ($(3POS), POT2)
   CPPDEFS += -DEXTRA_3POS=2
-  # EEPROM_VARIANT += ${3POS_VARIANT}
 endif
 ifeq ($(3POS), POT3)
   CPPDEFS += -DEXTRA_3POS=3
-  # EEPROM_VARIANT += ${3POS_VARIANT}
 endif
 
 #---------------- Compiler Options C++ ----------------
