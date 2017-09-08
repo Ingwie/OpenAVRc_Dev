@@ -344,11 +344,7 @@ void menuMainView(uint8_t event)
     break;
 
   case EVT_KEY_FIRST(KEY_EXIT):
-#if defined(GVARS)
-    if (s_gvar_timer > 0) {
-      s_gvar_timer = 0;
-    }
-#endif
+
     if (view == VIEW_TIMER2) {
       timerReset(1);
     }
@@ -496,18 +492,6 @@ void menuMainView(uint8_t event)
   if (unexpectedShutdown) {
     lcdDrawCharAtt(REBOOT_X, 0*FH, '!', INVERS);
   }
-
-#if defined(GVARS)
-  if (s_gvar_timer > 0) {
-    s_gvar_timer--;
-    warningText = STR_GLOBAL_VAR;
-    displayBox();
-    lcdDrawSizedTextAtt(16, 5*FH, g_model.gvars[s_gvar_last].name, LEN_GVAR_NAME, ZCHAR);
-    lcdDrawTextAtt(16+7*FW, 5*FH, PSTR("[\010]"), BOLD);
-    lcdDrawNumberAttUnit(16+7*FW+4*FW+FW/2, 5*FH, GVAR_VALUE(s_gvar_last, getGVarFlightPhase(mixerCurrentFlightMode, s_gvar_last)), BOLD);
-    warningText = NULL;
-  }
-#endif
 
 #if defined(DSM2)
   if (moduleFlag == MODULE_BIND) {

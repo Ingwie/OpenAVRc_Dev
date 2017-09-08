@@ -119,8 +119,6 @@ typedef int8_t gvar_t;
 
 PACK(typedef struct {
   char    name[LEN_GVAR_NAME];
-  uint8_t popup:1;
-  uint8_t spare:7;
 }) global_gvar_t;
 
 #define RESERVE_RANGE_FOR_GVARS 10
@@ -363,6 +361,7 @@ PACK(typedef struct {
   uint8_t weight;
   int8_t  curveParam;
 }) ExpoData;
+
 #define MIN_EXPO_WEIGHT         0
 #define EXPO_VALID(ed)          ((ed)->mode)
 #define EXPO_MODE_ENABLE(ed, v) (((v)<0 && ((ed)->mode&1)) || ((v)>=0 && ((ed)->mode&2)))
@@ -1143,7 +1142,7 @@ PACK(typedef struct {
   int8_t    ppmFrameLength;     // 0=22.5ms  (10ms-30ms) 0.5ms increments
   int8_t    ppmDelay;
   #if defined(MULTIMODULE)
-  ModuleDataData moduleData;
+  //ModuleDataData moduleData;
   #endif
 ////////// TO CHANGE (ADD, MOVE, MAKE UNION, ETC .../////////////////////////
 
@@ -1167,13 +1166,12 @@ PACK(typedef struct {
   SwashRingData swashR;
   FlightModeData flightModeData[MAX_FLIGHT_MODES];
 
+  MODEL_GVARS_DATA // gvars name
 
   uint8_t thrTraceSrc;
 
   swarnstate_t  switchWarningState;
   swarnenable_t switchWarningEnable;
-
-  MODEL_GVARS_DATA
 
   TELEMETRY_DATA
 

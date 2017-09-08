@@ -628,7 +628,7 @@ void OpenAVRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
 {
   wxAboutDialogInfo Aboutbox;
   Aboutbox.SetName(_("OpenAVRc Simulateur"));
-  Aboutbox.SetVersion(_("V NEXT"));
+  Aboutbox.SetVersion(_("V 3.0"));
   Aboutbox.SetLicence(" GPLv2 . Firmware basé sur NextStepRc 2.18 ");
   Aboutbox.SetDescription(_("Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "));
   Aboutbox.SetCopyright(wxT("(C) 2016-2017 OpenAVRc Team"));
@@ -1213,10 +1213,6 @@ void OpenAVRc_SimulatorFrame::load_ModelData_30()
         wxString num = wxString::Format(wxT("%i"),i);
         eepromfile->Read(wxT("gvars"+num+".name"),&strtmp,"      ");
         ConvWxstrToCharFw(strtmp,temp_model.gvars[i].name, LEN_GVAR_NAME);
-        eepromfile->Read(wxT("gvars"+num+".popup"),&tmp,0);
-        temp_model.gvars[i].popup = tmp;
-        eepromfile->Read(wxT("gvars"+num+".spare"),&tmp,0);
-        temp_model.gvars[i].spare = tmp;
       }
 
       for (int i=0; i<MAX_FRSKY_A_CHANNELS; ++i) { //FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
@@ -1525,10 +1521,6 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
         wxString num = wxString::Format(wxT("%i"),i);
         eepromfile->Read(wxT("gvars"+num+".name"),&strtmp,"      ");
         ConvWxstrToCharFw(strtmp,temp_model.gvars[i].name, LEN_GVAR_NAME);
-        eepromfile->Read(wxT("gvars"+num+".popup"),&tmp),0;
-        temp_model.gvars[i].popup = tmp;
-        eepromfile->Read(wxT("gvars"+num+".spare"),&tmp,0);
-        temp_model.gvars[i].spare = tmp;
       }
 
       for (int i=0; i<MAX_FRSKY_A_CHANNELS; ++i) { //FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
@@ -1957,8 +1949,6 @@ void OpenAVRc_SimulatorFrame::save_ModelData_30()
       for (int i=0; i<MAX_GVARS; ++i) { //global_gvar_t gvars[MAX_GVARS];
         wxString num = wxString::Format(wxT("%i"),i);
         eepromfile->Write(wxT("gvars"+num+".name"),ConvCharFwToWxstr(temp_model.gvars[i].name, LEN_GVAR_NAME));
-        eepromfile->Write(wxT("gvars"+num+".popup"),(int)temp_model.gvars[i].popup);
-        eepromfile->Write(wxT("gvars"+num+".spare"),(int)temp_model.gvars[i].spare);
       }
 
       for (int i=0; i<MAX_FRSKY_A_CHANNELS; ++i) { //FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
@@ -2195,8 +2185,6 @@ PACK(typedef struct {
       for (int i=0; i<MAX_GVARS; ++i) { //global_gvar_t gvars[MAX_GVARS];
         wxString num = wxString::Format(wxT("%i"),i);
         eepromfile->Write(wxT("gvars"+num+".name"),ConvCharFwToWxstr(temp_model.gvars[i].name, LEN_GVAR_NAME));
-        eepromfile->Write(wxT("gvars"+num+".popup"),(int)temp_model.gvars[i].popup);
-        eepromfile->Write(wxT("gvars"+num+".spare"),(int)temp_model.gvars[i].spare);
       }
 
       for (int i=0; i<MAX_FRSKY_A_CHANNELS; ++i) { //FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];

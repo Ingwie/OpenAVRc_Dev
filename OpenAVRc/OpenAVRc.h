@@ -604,9 +604,6 @@ int16_t getGVarValue(int16_t x, int16_t min, int16_t max, int8_t phase);
 void setGVarValue(uint8_t x, int16_t value, int8_t phase);
 #define GET_GVAR(x, min, max, p) getGVarValue(x, min, max, p)
 #define SET_GVAR(idx, val, p) setGVarValue(idx, val, p)
-#define GVAR_DISPLAY_TIME     100 /*1 second*/;
-extern uint8_t s_gvar_timer;
-extern uint8_t s_gvar_last;
 #else
 #define GET_GVAR(x, ...) (x)
 #endif

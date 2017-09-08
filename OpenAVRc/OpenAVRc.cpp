@@ -367,15 +367,10 @@ void incRotaryEncoder(uint8_t idx, int8_t inc)
 #if defined(GVARS)
 
 #define SET_GVAR_VALUE(idx, phase, value) \
-	GVAR_VALUE(idx, phase) = value; \
-	eeDirty(EE_MODEL); \
-	if (g_model.gvars[idx].popup) { \
-		s_gvar_last = idx; \
-		s_gvar_timer = GVAR_DISPLAY_TIME; \
-	}
+	GVAR_VALUE(idx, phase) = value;         \
+	eeDirty(EE_MODEL);                      \
 
-uint8_t s_gvar_timer = 0;
-uint8_t s_gvar_last = 0;
+
 
 uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx)
 {
