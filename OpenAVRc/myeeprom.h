@@ -333,7 +333,7 @@ PACK(typedef struct {
 
 #define SWITCHES_DELAY()            uint8_t(15+g_eeGeneral.switchesDelay)
 #define SWITCHES_DELAY_NONE         (-15)
-#define HAPTIC_STRENGTH()           (3+g_eeGeneral.hapticStrength)
+//#define HAPTIC_STRENGTH()           (3+g_eeGeneral.hapticStrength)
 
 enum CurveRefType {
   CURVE_REF_DIFF,

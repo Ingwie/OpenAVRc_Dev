@@ -52,7 +52,7 @@ void hapticQueue::heartbeat()
       hapticOn();
     } else {
       hapticOff();
-      hapticTick = HAPTIC_STRENGTH();
+      //hapticTick = HAPTIC_STRENGTH();
     }
   } else {
     hapticOff();
