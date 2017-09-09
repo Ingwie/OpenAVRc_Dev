@@ -278,7 +278,7 @@ static uint16_t MULTI_cb()
 #endif
 
   heartbeat |= HEART_TIMER_PULSES;
-  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return 9000 *2; // 9 mSec loop
 }
 

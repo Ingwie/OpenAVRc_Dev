@@ -218,7 +218,7 @@ static uint16_t FRSKYD_bind_cb()
   CC2500_WriteData(packet, 18);
   CC2500_Strobe(CC2500_STX); // Tx
   heartbeat |= HEART_TIMER_PULSES;
-  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return 18000U *2;
 }
 
@@ -309,7 +309,7 @@ static uint16_t FRSKYD_data_cb()
       if(packet_number > 187) packet_number =0;
       start_tx_rx =0;
       heartbeat |= HEART_TIMER_PULSES;
-      dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+      CALCULATE_LAT_JIT(); // Calculate latency and jitter.
       return 8500 *2;
     }
 }

@@ -180,7 +180,7 @@ static uint16_t SKYARTEC_bind_cb()
 {
   send_bind_packet();
   heartbeat |= HEART_TIMER_PULSES;
-  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return 18000U *2;
 }
 
@@ -189,7 +189,7 @@ static uint16_t SKYARTEC_cb()
   // SCHEDULE_MIXER_END((uint16_t) (6 *2) *8); // Todo
   send_data_packet();
   heartbeat |= HEART_TIMER_PULSES;
-  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return 12000U *2;
 }
 

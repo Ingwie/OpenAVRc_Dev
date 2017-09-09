@@ -518,7 +518,7 @@ static uint16_t DEVO_cb()
         CYRF_WriteDataPacket(packet);
 
         heartbeat |= HEART_TIMER_PULSES;
-        dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+        CALCULATE_LAT_JIT(); // Calculate latency and jitter.
         return 1200 *2;
     }
     txState = 0;
@@ -541,7 +541,7 @@ static uint16_t DEVO_cb()
     }
 
     heartbeat |= HEART_TIMER_PULSES;
-    dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+    CALCULATE_LAT_JIT(); // Calculate latency and jitter.
     return 1200 *2;
 }
 

@@ -621,7 +621,7 @@ static uint16_t FRSKYX_bind_cb()
   CC2500_WriteData(packet, packet[0]+1);
   CC2500_Strobe(CC2500_STX);
   heartbeat |= HEART_TIMER_PULSES;
-  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return 18000U *2;
 }
 
@@ -650,7 +650,7 @@ static uint16_t FRSKYX_cb()
     channr = (channr + chanskip) % 47;
     X_state++;
     heartbeat |= HEART_TIMER_PULSES;
-    dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+    CALCULATE_LAT_JIT(); // Calculate latency and jitter.
     return 5500*2;
 
   case FRSKYX_DATA2:

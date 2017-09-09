@@ -51,6 +51,7 @@
 #endif
 //SUPIIIK FILE
 
+#define CALCULATE_LAT_JIT()  dt = TCNT1 - OCR1A // Calculate latency and jitter.
 
 #if defined(SPIMODULES)
   #define OUT_C_RF_CS_N       PIN4_bm

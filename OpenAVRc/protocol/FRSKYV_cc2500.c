@@ -263,7 +263,7 @@ static uint16_t FRSKYV_data_cb()
   // Wait for transmit to finish. Timing is tight. Only 581uS between packet being emitted and idle strobe.
   // while( 0x0F != CC2500_Strobe(CC2500_SNOP)) { _delay_us(5); }
   heartbeat |= HEART_TIMER_PULSES;
-  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return 9000 *2;
 }
 
@@ -276,7 +276,7 @@ static uint16_t FRSKYV_bind_cb()
   CC2500_WriteData(packet, 15);
   CC2500_Strobe(CC2500_STX); // Tx
   heartbeat |= HEART_TIMER_PULSES;
-  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return 18000U *2;
 }
 

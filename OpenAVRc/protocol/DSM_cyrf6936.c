@@ -616,7 +616,7 @@ static uint16_t dsm2_cb()
                             // Telemetry read+processing =~200us and switch channels =~300us
 
   heartbeat |= HEART_TIMER_PULSES; // Todo better placeto find
-  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
 
 
     if(state < DSM2_CHANSEL) {

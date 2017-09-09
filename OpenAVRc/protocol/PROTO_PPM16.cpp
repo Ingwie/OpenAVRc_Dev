@@ -57,7 +57,7 @@ static uint16_t PROTO_PPM16A_cb()
     SCHEDULE_MIXER_END(45*8+g_model.ppmFrameLength*8);
     setupPulsesPPM(PPM16LAST); // Channels 8-16.
     heartbeat |= HEART_TIMER_PULSES;
-    dt = TCNT1 - OCR1A; // Show how long to setup pulses and ISR jitter.
+    CALCULATE_LAT_JIT(); // Show how long to setup pulses and ISR jitter.
     return PULSES_SETUP_TIME *2;
   }
   else if (*(RptrA +1) == 0) { // Look ahead one timing event.
