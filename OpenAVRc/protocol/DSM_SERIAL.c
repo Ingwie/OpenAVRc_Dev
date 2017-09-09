@@ -44,8 +44,8 @@
 #define DSM2_SEND_BIND                     0x80
 #define DSM2_SEND_RANGECHECK               0x20
 
-bool dsm2Bind = 0;
-bool dsm2Range = 0;
+bool dsmBind = 0;
+bool dsmRange = 0;
 
 // DSM2 protocol pulled from th9x - Thanks thus!!!
 
@@ -102,41 +102,41 @@ static uint16_t DSM_SERIAL_cb()
   // Schedule next Mixer calculations.
   SCHEDULE_MIXER_END(22*16);
 
+  frskyTxBufferCount = 0;
 
-  if (frskyTxBufferCount) return 1000 *2; // return, if buffer is not empty
-  frskyTxBufferCount = 14; //
-  uint8_t dsm2TxBufferCount = frskyTxBufferCount;
+  uint8_t dsmTxBufferCount = 14;
 
-  uint8_t dsm2_header;
+  uint8_t dsm_header;
 
   if(s_current_protocol == PROTO_DSM_LP45)
-    dsm2_header = 0x00;
+    dsm_header = 0x00;
   else if(s_current_protocol == PROTO_DSM_DSM2)
-    dsm2_header = 0x10;
-  else dsm2_header = 0x10 | DSMX_BIT; // PROTO_DSM2_DSMX
+    dsm_header = 0x10;
+  else dsm_header = 0x10 | DSMX_BIT; // PROTO_DSM2_DSMX
 
-  if(dsm2Bind)
-    dsm2_header |= DSM2_SEND_BIND;
-  else if(dsm2Range)
-    dsm2_header |= DSM2_SEND_RANGECHECK;
+  if(dsmBind)
+    dsm_header |= DSM2_SEND_BIND;
+  else if(dsmRange)
+    dsm_header |= DSM2_SEND_RANGECHECK;
   else;
 
-  frskyTxBuffer[--dsm2TxBufferCount] = dsm2_header;
+  frskyTxBuffer[--dsmTxBufferCount] = dsm_header;
 
-  frskyTxBuffer[--dsm2TxBufferCount] = g_model.modelId; // DSM2 Header. Second byte for model match.
+  frskyTxBuffer[--dsmTxBufferCount] = g_model.modelId; // DSM2 Header. Second byte for model match.
 
   for (uint8_t i = 0; i < DSM2_CHANS; i++) {
     uint16_t pulse = limit(0, ((channelOutputs[i]*13)>>5)+512,1023);
-    frskyTxBuffer[--dsm2TxBufferCount] = (i<<2) | ((pulse>>8)&0x03); // Encoded channel + upper 2 bits pulse width.
-    frskyTxBuffer[--dsm2TxBufferCount] = pulse & 0xff; // Low byte
+    frskyTxBuffer[--dsmTxBufferCount] = (i<<2) | ((pulse>>8)&0x03); // Encoded channel + upper 2 bits pulse width.
+    frskyTxBuffer[--dsmTxBufferCount] = pulse & 0xff; // Low byte
   }
+  frskyTxBufferCount = 14; // Indicates data to transmit.
 
 #if !defined(SIMU)
   telemetryTransmitBuffer();
 #endif
 
   heartbeat |= HEART_TIMER_PULSES;
-  dt = TCNT1 - OCR1A; // Calculate latency and jitter.
+  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return 22000U *2; // 22 mSec Frame.
 }
 
@@ -179,11 +179,11 @@ const void *DSM_SERIAL_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
   case PROTOCMD_INIT:
-    dsm2Bind = 0;
+    dsmBind = 0;
     DSM_SERIAL_initialize();
     return 0;
   case PROTOCMD_BIND:
-    dsm2Bind = 1;
+    dsmBind = 1;
     DSM_SERIAL_initialize();
     return 0;
   //case PROTOCMD_DEINIT:
@@ -207,4 +207,3 @@ const void *DSM_SERIAL_Cmds(enum ProtoCmds cmd)
   }
   return 0;
 }
-
