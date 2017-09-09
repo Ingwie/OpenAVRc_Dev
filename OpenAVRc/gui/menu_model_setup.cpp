@@ -291,7 +291,9 @@ void menuModelSetup(uint8_t event)
 
     case ITEM_MODEL_PPM1_PROTOCOL:
       lcdDrawTextLeft(y, NO_INDENT(STR_PROTO));
-      lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN, y, STR_VPROTOS, protocol, menuHorizontalPosition<=0 ? attr : 0);
+      lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, Protos[g_model.rfProtocol].ProtoName, menuHorizontalPosition<=0 ? attr : 0);
+
+      //lcdDrawT extAtIndex(MODEL_SETUP_2ND_COLUMN, y, STR_VPROTOS, protocol, menuHorizontalPosition<=0 ? attr : 0);
       if (IS_PPM_PROTOCOL(protocol)) {
         lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+7*FW, y, STR_NCHANNELS, g_model.PPMNCH+2, menuHorizontalPosition!=0 ? attr : 0);
       } else if (menuHorizontalPosition>0 && attr) {
@@ -303,7 +305,7 @@ void menuModelSetup(uint8_t event)
           CHECK_INCDEC_MODELVAR_ZERO(event, protocol, (uint8_t)(DIM(Protos)-1));
           if (IS_PPM_PROTOCOL(protocol)||IS_DSM_PROTOCOL(protocol)||IS_PXX_PROTOCOL(protocol)) {g_model.rfProtocol = protocol;}
 #if defined(MULTIMODULE)
-	        if (IS_MULTIMODULE_PROTOCOL(protocol)) {g_model.rfProtocol = PROTOCOL_MULTI-1;}
+	        if (IS_MULTIMODULE_PROTOCOL(protocol)) {g_model.rfProtocol = PROTOCOL_MULTI;}
 #define NEXT_CMD 3
 #else
 #define NEXT_CMD 2
@@ -391,7 +393,7 @@ void menuModelSetup(uint8_t event)
 
           switch (menuHorizontalPosition) {
           case 0: {
-            CHECK_INCDEC_MODELVAR(event, g_model.rfProtocol, NEXT_CMD, (DIM(Protos)-1));
+            //CHECK_INCDEC_MODELVAR(event, g_model.rfProtocol, NEXT_CMD, (DIM(Protos)-1));
             if (memproto != g_model.rfProtocol) {
               SpiRFModule.mode = NORMAL_MODE;
               startPulses(PROTOCMD_INIT);

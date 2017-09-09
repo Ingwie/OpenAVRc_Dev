@@ -179,7 +179,6 @@ extern const pm_char STR_OPEN9X[];
 #define STR_VTRIMINC            (STR_OPEN9X + OFS_VTRIMINC)
 #define STR_VDISPLAYTRIMS       (STR_OPEN9X + OFS_VDISPLAYTRIMS)
 #define STR_RETA123             (STR_OPEN9X + OFS_RETA123)
-#define STR_VPROTOS             (STR_OPEN9X + OFS_VPROTOS)
 #if defined(MULTIMODULE)
   #define STR_MULTIPROTOCOLS    (STR_OPEN9X + OFS_MULTIPROTOCOLS)
 #endif
