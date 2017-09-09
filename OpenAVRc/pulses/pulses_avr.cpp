@@ -142,7 +142,7 @@ void setupPulsesPPM(enum ppmtype proto)
   uint8_t p;
   // Fix PPM16 to 16 channels (8+8), No modification by GUI.
 
-  if(proto == PPM || proto == PPMSIM) p = 8 + (g_model.ppmNCH * 2); // Channels *2
+  if(proto == PPM || proto == PPMSIM) p = 8 + (g_model.PPMNCH * 2); // Channels *2
   else if(proto == PPM16FIRST) p = 8;
   else p = 16; // PPM16 Channels 9-16.
 

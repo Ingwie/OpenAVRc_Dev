@@ -54,7 +54,6 @@
 #ifndef PACK
 #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
 #endif
-//#define NOBACKUP(...)                __VA_ARGS__
 
 #define NUM_STICKS           4
 
@@ -111,7 +110,7 @@ typedef uint8_t source_t;
 #define LEN_GVAR_NAME 6
 #define GVAR_MAX      128
 #define GVAR_LIMIT    125
-#define MODEL_GVARS_DATA global_gvar_t gvars[MAX_GVARS];
+#define MODEL_GVARS_NAME global_gvar_t gvars[MAX_GVARS];
 #define PHASE_GVARS_DATA gvar_t gvars[MAX_GVARS]
 #define GVAR_VALUE(x, p) g_model.flightModeData[p].gvars[x]
 
@@ -923,71 +922,6 @@ PACK(typedef struct {
 }) TimerData;
 #define IS_MANUAL_RESET_TIMER(idx) (g_model.timers[idx].persistent == 2)
 
-enum Protocols {
-  PROTO_PPM,
-  PROTO_PPM16,
-  PROTO_PPMSIM,
-#if defined(PXX) || defined(DSM2)
-  PROTO_PXX,
-#endif
-#if defined(DSM2)
-  PROTO_DSM2_LP45,
-  PROTO_DSM2_DSM2,
-  PROTO_DSM2_DSMX,
-#endif
-#if defined(MULTIMODULE)
-  PROTO_MULTIMODULE,
-#endif
-#if defined(SPIMODULES)
-  PROTO_SPIMODULE,
-#endif
-  PROTO_MAX,
-  PROTO_NONE
-};
-
-enum RFProtocols {
-  RF_PROTO_OFF = -1,
-  RF_PROTO_X16,
-  RF_PROTO_D8,
-  RF_PROTO_LR12,
-  RF_PROTO_LAST = RF_PROTO_LR12
-};
-
-#define HAS_RF_PROTOCOL_FAILSAFE(rf)   ((rf) == RF_PROTO_X16)
-#define HAS_RF_PROTOCOL_MODELINDEX(rf) (((rf) == RF_PROTO_X16) || ((rf) == RF_PROTO_LR12))
-
-enum DSM2Protocols {
-  DSM2_PROTO_LP45,
-  DSM2_PROTO_DSM2,
-  DSM2_PROTO_DSMX,
-};
-
-enum ModuleTypes {
-  MODULE_TYPE_NONE = 0,
-  MODULE_TYPE_PPM,
-  MODULE_TYPE_XJT,
-#if defined(DSM2)
-  MODULE_TYPE_DSM2,
-#endif
-#if defined(MULTIMODULE)
-  MODULE_TYPE_MULTIMODULE,
-#endif
-#if defined(SPIMODULES)
-  MODULE_TYPE_SPIMODULE,
-#endif
-  MODULE_TYPE_COUNT
-};
-
-#define IS_PULSES_EXTERNAL_MODULE() (g_model.moduleData[EXTERNAL_MODULE].type != MODULE_TYPE_NONE)
-
-enum FailsafeModes {
-  FAILSAFE_NOT_SET,
-  FAILSAFE_HOLD,
-  FAILSAFE_CUSTOM,
-  FAILSAFE_NOPULSES,
-  FAILSAFE_RECEIVER,
-  FAILSAFE_LAST = FAILSAFE_RECEIVER
-};
 
 #if defined(MAVLINK)
 #define TELEMETRY_DATA MavlinkData mavlink;
@@ -1110,7 +1044,7 @@ PACK(typedef struct {
   swarnstate_t  switchWarningState;
   swarnenable_t switchWarningEnable;
 
-  MODEL_GVARS_DATA
+  MODEL_GVARS_NAME
 
   TELEMETRY_DATA
 
@@ -1120,35 +1054,33 @@ PACK(typedef struct {
 
 }) ModelData;
 */
-PACK(typedef struct {
-  uint8_t customProto:1;
-  uint8_t autoBindMode:1;
-  uint8_t lowPowerMode:1;
-  uint8_t subType:3;
-}) ModuleDataData;
 
-
-
+// PPM Def
+#define PPMFRAMELENGTH  rfOptionValue1 // 0=22.5ms  (10ms-30ms) 0.5ms increments
+#define PPMDELAY        rfOptionValue2
+#define PPMNCH          rfSubType
+#define PULSEPOL        rfOptionBool1
+//Multi Def
 #define MULTIRFPROTOCOL rfOptionValue1
-#define PPMFRAMELENGTH rfOptionValue1 // 0=22.5ms  (10ms-30ms) 0.5ms increments
-#define PPMDELAY rfOptionValue2
+#define CUSTOMPROTO     rfOptionBool1
+#define AUTOBINDMODE    rfOptionBool2
+#define LOWPOWERMODE    rfOptionBool3
+//SPI Def
+#define RFPOWER         rfOptionValue3
 
 PACK(typedef struct {
   char      name[LEN_MODEL_NAME]; // must be first for eeLoadModelName
-
-////////// TO CHANGE (MIX, ADD, MOVE, MAKE UNION, ETC .../////////////////////////
-  uint8_t   modelId;
-  uint8_t   protocol:3;  //old EEPROM structure
-  uint8_t   rfProtocol; //new ??
-
-  int8_t    ppmNCH:4;
-  uint8_t   pulsePol:1;
+  //Rf data
+  uint8_t   modelId:6;         //64 max
+  uint8_t   rfProtocol:6;      //64 max
+  uint8_t   rfSubType:4;       //16 max
   int8_t    rfOptionValue1;
   int8_t    rfOptionValue2;
-  #if defined(MULTIMODULE)
-  ModuleDataData moduleData;
-  #endif
-////////// TO CHANGE (ADD, MOVE, MAKE UNION, ETC .../////////////////////////
+  uint8_t   rfOptionValue3:5;  //32 max
+  uint8_t   rfOptionBool1:1;
+  uint8_t   rfOptionBool2:1;
+  uint8_t   rfOptionBool3:1;
+  //end of RF data
 
   TimerData timers[MAX_TIMERS];
   uint8_t   thrTrim:1;            // Enable Throttle Trim
@@ -1161,19 +1093,14 @@ PACK(typedef struct {
   MixData   mixData[MAX_MIXERS];
   LimitData limitData[NUM_CHNOUT];
   ExpoData  expoData[MAX_EXPOS];
-
   CURVDATA  curves[MAX_CURVES];
   int8_t    points[NUM_POINTS];
-
   LogicalSwitchData logicalSw[NUM_LOGICAL_SWITCH];
   CustomFunctionData customFn[NUM_CFN];
-  SwashRingData swashR;
+  SwashRingData swashR;          // Heli data
   FlightModeData flightModeData[MAX_FLIGHT_MODES];
-
-  MODEL_GVARS_DATA // gvars name
-
+  MODEL_GVARS_NAME // gvars name
   uint8_t thrTraceSrc;
-
   swarnstate_t  switchWarningState;
   swarnenable_t switchWarningEnable;
 

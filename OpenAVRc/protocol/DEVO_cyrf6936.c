@@ -570,7 +570,7 @@ static void DEVO_initialize(void)
   radio_ch_ptr = radio_ch;
   CYRF_ConfigRFChannel(*radio_ch_ptr);
 
-  DEVO_num_channels = 8 + (g_model.ppmNCH *2);
+  DEVO_num_channels = 8 + (g_model.PPMNCH *2);
   if(DEVO_num_channels > 12) DEVO_num_channels = 12;
   DEVO_num_channels = ((DEVO_num_channels  +3) >> 2) * 4;
 

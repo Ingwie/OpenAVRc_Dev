@@ -423,7 +423,7 @@ enum BaseCurves {
 
 #define THRCHK_DEADBAND 16
 
-#define SPLASH_NEEDED() (!IS_DSM2_PROTOCOL(g_model.protocol) && !g_eeGeneral.splashMode)
+#define SPLASH_NEEDED() (!IS_DSM_PROTOCOL(g_model.rfProtocol) && !g_eeGeneral.splashMode)
 
 #if defined(FSPLASH)
 #define SPLASH_TIMEOUT  (g_eeGeneral.splashMode == 0 ? 60000/*infinite=10mn*/ : ((4*100) * (g_eeGeneral.splashMode & 0x03)))
@@ -1089,7 +1089,7 @@ enum PinConfigState {
 };
 
 #define PROTODEF(proto, module, map, init, name, progmem_name) proto,
-enum Protocols_spi { // TODO mix with native protocols
+enum Protocols { // TODO mix with native protocols
     PROTOCOL_NONE,
     #include "protocol/protocol.h"
     PROTOCOL_COUNT,
@@ -1153,7 +1153,7 @@ typedef const void* (*CMDS)(enum ProtoCmds);
 /*Load proto, pm_char name and Cmds */
 #define PROTODEF(proto, module, map, cmd, name, progmem_name) { proto, name, cmd },
 struct Proto_struct {
-  enum Protocols_spi Protocol;
+  enum Protocols Protocol;
   const pm_char* ProtoName;
   CMDS Cmds; // Cmds
 }Protos[] = {

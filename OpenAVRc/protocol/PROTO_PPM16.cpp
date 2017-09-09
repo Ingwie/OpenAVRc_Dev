@@ -44,7 +44,7 @@ static uint16_t PROTO_PPM16A_cb()
   if(*RptrA == 0) { // End of timing events.
     RptrA = &pulses2MHz.pword[PULSES_WORD_SIZE/2];
     // Set the PPM idle level.
-    if (g_model.pulsePol) {
+    if (g_model.PULSEPOL) {
       TCCR1A = (TCCR1A | (1<<COM1A1)) & ~(1<<COM1A0); // Clear
     }
     else {
@@ -79,7 +79,7 @@ static uint16_t PROTO_PPM16B_cb2()
   if(*RptrB == 0) { // End of timing events.
     RptrB = &pulses2MHz.pword[0];
     // Set the PPM idle level.
-    if (g_model.pulsePol) {
+    if (g_model.PULSEPOL) {
       TCCR1A = (TCCR1A | (1<<COM1B1)) & ~(1<<COM1B0); // Clear
     }
     else {
@@ -156,12 +156,12 @@ const void * PROTO_PPM16_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_DEINIT:
     case PROTOCMD_RESET:
       // Make pin idle state before disconnecting switching output.
-      if(g_model.pulsePol) PORTB &= ~PIN6_bm;
+      if(g_model.PULSEPOL) PORTB &= ~PIN6_bm;
       else PORTB |= PIN6_bm;
       TCCR1A &= ~(0b11<<COM1B0);
       TIMSK1 &= ~(1<<OCIE1B); // Disable Output Compare B interrupt.
       TIFR1 |= 1<<OCF1B; // Reset Flag.
-      if(g_model.pulsePol) PORTB &= ~PIN5_bm;
+      if(g_model.PULSEPOL) PORTB &= ~PIN5_bm;
       else PORTB |= PIN5_bm;
       TCCR1A &= ~(0b11<<COM1A0);
       PROTO_Stop_Callback();

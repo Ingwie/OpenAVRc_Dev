@@ -162,7 +162,7 @@ static uint16_t MULTI_cb()
 
   // Our enumeration starts at 0
   int8_t type = g_model.MULTIRFPROTOCOL + 1;
-  int8_t subtype = g_model.moduleData.subType;
+  int8_t subtype = g_model.rfSubType;
   int8_t optionValue = g_model.rfOptionValue2;
 
   uint8_t protoByte = 0;
@@ -175,7 +175,7 @@ static uint16_t MULTI_cb()
   if (g_model.MULTIRFPROTOCOL == MM_RF_PROTO_DSM2) {
 
     // Autobinding should always be done in DSMX 11ms
-    if(g_model.moduleData.autoBindMode && moduleFlag == MODULE_BIND)
+    if(g_model.AUTOBINDMODE && moduleFlag == MODULE_BIND)
       subtype = MM_RF_DSM2_SUBTYPE_AUTO;
 
     // Multi module in DSM mode wants the number of channels to be used as option value
@@ -220,7 +220,7 @@ static uint16_t MULTI_cb()
     optionValue = optionValue | 0x80;
 
   // For custom protocol send unmodified type byte
-  if (g_model.moduleData.customProto)
+  if (g_model.CUSTOMPROTO)
     type = g_model.MULTIRFPROTOCOL;
 
 
@@ -236,7 +236,7 @@ static uint16_t MULTI_cb()
   // protocol byte 1
   protoByte |= (type & 0x1f);
   if(g_model.MULTIRFPROTOCOL != MM_RF_PROTO_DSM2)
-    protoByte |= (g_model.moduleData.autoBindMode << 6);
+    protoByte |= (g_model.AUTOBINDMODE << 6);
 
 //  sendByteMulti(protoByte);
   frskyTxBuffer[--multiTxBufferCount] = protoByte;
@@ -244,7 +244,7 @@ static uint16_t MULTI_cb()
   // byte 2, subtype, powermode, model id
   frskyTxBuffer[--multiTxBufferCount] = ((uint8_t) ((g_model.modelId & 0x0f)
                                          | ((subtype & 0x7) << 4)
-                                         | (g_model.moduleData.lowPowerMode << 7))
+                                         | (g_model.LOWPOWERMODE << 7))
                                         );
 
   // byte 3

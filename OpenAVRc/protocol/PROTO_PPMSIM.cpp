@@ -44,7 +44,7 @@ static uint16_t PROTO_PPMSIM_cb()
   if(*RptrA == 0) { // End of timing events.
     RptrA = &pulses2MHz.pword[PULSES_WORD_SIZE/2];
     // Set the PPM idle level.
-    if (g_model.pulsePol) {
+    if (g_model.PULSEPOL) {
       TCCR1A = (TCCR1A | (1<<COM1A1)) & ~(1<<COM1A0); // Clear
     }
     else {
@@ -93,7 +93,7 @@ const void * PROTO_PPMSIM_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_DEINIT:
     case PROTOCMD_RESET:
       // Make pin idle state before disconnecting switching output.
-      if(g_model.pulsePol) PORTB &= ~PIN5_bm;
+      if(g_model.PULSEPOL) PORTB &= ~PIN5_bm;
       else PORTB |= PIN5_bm;
       TCCR1A &= ~(0b11<<COM1A0);
       PROTO_Stop_Callback();

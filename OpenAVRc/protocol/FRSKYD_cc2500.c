@@ -182,7 +182,7 @@ static void FRSKYD_build_data_packet()
   packet[16] = 0;
   packet[17] = 0;
 
-  uint8_t num_chan = 8 + (g_model.ppmNCH *2);
+  uint8_t num_chan = 8 + (g_model.PPMNCH *2);
   if(num_chan > 8) num_chan = 8;
 
   for(uint8_t i = 0; i < 8; i++) {

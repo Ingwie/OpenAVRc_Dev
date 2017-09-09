@@ -1011,26 +1011,34 @@ void OpenAVRc_SimulatorFrame::load_ModelData_30()
         temp_model.timers[i].value = tmp;
       }
 
-      eepromfile->Read(wxT("protocol"),&tmp,0);
-      temp_model.protocol = tmp;
+      eepromfile->Read(wxT("rfProtocol"),&tmp,0);
+      temp_model.rfProtocol = tmp;
       eepromfile->Read(wxT("thrTrim"),&tmp,0);
       temp_model.thrTrim = tmp;
-      eepromfile->Read(wxT("ppmNCH"),&tmp,0);
-      temp_model.ppmNCH = tmp;
+      eepromfile->Read(wxT("rfSubType"),&tmp,0);
+      temp_model.rfSubType = tmp;
       eepromfile->Read(wxT("trimInc"),&tmp,0);
       temp_model.trimInc = tmp;
       eepromfile->Read(wxT("disableThrottleWarning"),&tmp,0);
       temp_model.disableThrottleWarning = tmp;
-      eepromfile->Read(wxT("pulsePol"),&tmp,0);
-      temp_model.pulsePol = tmp;
+      eepromfile->Read(wxT("rfOptionBool1"),&tmp,0);
+      temp_model.rfOptionBool1 = tmp;
+      eepromfile->Read(wxT("rfOptionBool2"),&tmp,0);
+      temp_model.rfOptionBool2 = tmp;
+      eepromfile->Read(wxT("rfOptionBool3"),&tmp,0);
+      temp_model.rfOptionBool3 = tmp;
       eepromfile->Read(wxT("extendedLimits"),&tmp,0);
       temp_model.extendedLimits = tmp;
       eepromfile->Read(wxT("extendedTrims"),&tmp,0);
       temp_model.extendedTrims = tmp;
       eepromfile->Read(wxT("throttleReversed"),&tmp,0);
       temp_model.throttleReversed = tmp;
+      eepromfile->Read(wxT("rfOptionValue1"),&tmp,0);
+      temp_model.rfOptionValue1 = tmp;
       eepromfile->Read(wxT("rfOptionValue2"),&tmp,0);
       temp_model.rfOptionValue2 = tmp;
+      eepromfile->Read(wxT("rfOptionValue3"),&tmp,0);
+      temp_model.rfOptionValue3 = tmp;
       eepromfile->Read(wxT("beepANACenter"),&tmp,0);
       temp_model.beepANACenter = tmp;
 
@@ -1202,6 +1210,10 @@ void OpenAVRc_SimulatorFrame::load_ModelData_30()
 
       eepromfile->Read(wxT("rfOptionValue1"),&tmp,0);
       temp_model.rfOptionValue1 = tmp;
+      eepromfile->Read(wxT("rfOptionValue2"),&tmp,0);
+      temp_model.rfOptionValue2 = tmp;
+      eepromfile->Read(wxT("rfOptionValue3"),&tmp,0);
+      temp_model.rfOptionValue3 = tmp;
       eepromfile->Read(wxT("thrTraceSrc"),&tmp,0);
       temp_model.thrTraceSrc = tmp;
       eepromfile->Read(wxT("switchWarningState"),&tmp,0);
@@ -1322,17 +1334,17 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
       }
 
       eepromfile->Read(wxT("protocol"),&tmp,0);
-      temp_model.protocol = tmp;
+      temp_model.rfProtocol = tmp;
       eepromfile->Read(wxT("thrTrim"),&tmp,0);
       temp_model.thrTrim = tmp;
       eepromfile->Read(wxT("ppmNCH"),&tmp,0);
-      temp_model.ppmNCH = tmp;
+      temp_model.rfSubType = tmp;
       eepromfile->Read(wxT("trimInc"),&tmp,0);
       temp_model.trimInc = tmp;
       eepromfile->Read(wxT("disableThrottleWarning"),&tmp,0);
       temp_model.disableThrottleWarning = tmp;
       eepromfile->Read(wxT("pulsePol"),&tmp,0);
-      temp_model.pulsePol = tmp;
+      temp_model.rfOptionBool1 = tmp;
       eepromfile->Read(wxT("extendedLimits"),&tmp,0);
       temp_model.extendedLimits = tmp;
       eepromfile->Read(wxT("extendedTrims"),&tmp,0);
@@ -1827,16 +1839,20 @@ void OpenAVRc_SimulatorFrame::save_ModelData_30()
         eepromfile->Write(wxT("timers"+num+".value"),(int)temp_model.timers[i].value);
       }
 
-      eepromfile->Write(wxT("protocol"),(int)temp_model.protocol);
+      eepromfile->Write(wxT("rfProtocol"),(int)temp_model.rfProtocol);
       eepromfile->Write(wxT("thrTrim"),(int)temp_model.thrTrim);
-      eepromfile->Write(wxT("ppmNCH"),(int)temp_model.ppmNCH);
+      eepromfile->Write(wxT("rfSubType"),(int)temp_model.rfSubType);
       eepromfile->Write(wxT("trimInc"),(int)temp_model.trimInc);
       eepromfile->Write(wxT("disableThrottleWarning"),(int)temp_model.disableThrottleWarning);
-      eepromfile->Write(wxT("pulsePol"),(int)temp_model.pulsePol);
+      eepromfile->Write(wxT("rfOptionBool1"),(int)temp_model.rfOptionBool1);
+      eepromfile->Write(wxT("rfOptionBool2"),(int)temp_model.rfOptionBool2);
+      eepromfile->Write(wxT("rfOptionBool3"),(int)temp_model.rfOptionBool3);
       eepromfile->Write(wxT("extendedLimits"),(int)temp_model.extendedLimits);
       eepromfile->Write(wxT("extendedTrims"),(int)temp_model.extendedTrims);
       eepromfile->Write(wxT("throttleReversed"),(int)temp_model.throttleReversed);
+      eepromfile->Write(wxT("rfOptionValue1"),(int)temp_model.rfOptionValue1);
       eepromfile->Write(wxT("rfOptionValue2"),(int)temp_model.rfOptionValue2);
+      eepromfile->Write(wxT("rfOptionValue3"),(int)temp_model.rfOptionValue3);
       eepromfile->Write(wxT("beepANACenter"),(int)temp_model.beepANACenter);
 
       for (int i=0; i<MAX_MIXERS; ++i) { //MixData   mixData[MAX_MIXERS];
@@ -1946,6 +1962,8 @@ void OpenAVRc_SimulatorFrame::save_ModelData_30()
       }
 
       eepromfile->Write(wxT("rfOptionValue1"),(int)temp_model.rfOptionValue1);
+      eepromfile->Write(wxT("rfOptionValue2"),(int)temp_model.rfOptionValue2);
+      eepromfile->Write(wxT("rfOptionValue3"),(int)temp_model.rfOptionValue3);
       eepromfile->Write(wxT("thrTraceSrc"),(int)temp_model.thrTraceSrc);
       eepromfile->Write(wxT("switchWarningState"),(int)temp_model.switchWarningState);
       eepromfile->Write(wxT("switchWarningEnable"),(int)temp_model.switchWarningEnable);
@@ -2006,7 +2024,7 @@ PACK(typedef struct {
 PACK(typedef struct {
   ModelHeader header;
   TimerData timers[MAX_TIMERS];
-  uint8_t   protocol:(PROTO_MAX > 8)?4:3;  // compatibility with old EEPROM structure (if not all protocols are used)
+  uint8_t   protocol:3;  // compatibility with old EEPROM structure (if not all protocols are used)
   uint8_t   thrTrim:1;            // Enable Throttle Trim
   int8_t    ppmNCH:4;
   int8_t    trimInc:3;            // Trim Increments
@@ -2036,7 +2054,7 @@ PACK(typedef struct {
   swarnstate_t  switchWarningState;
   swarnenable_t switchWarningEnable;
 
-  MODEL_GVARS_DATA
+  MODEL_GVARS_NAME
 
   TELEMETRY_DATA
 
