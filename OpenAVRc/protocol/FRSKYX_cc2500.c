@@ -633,7 +633,7 @@ static uint16_t FRSKYX_cb()
   switch(X_state) {
 
   case FRSKYX_DATA1:
-    finetmp = (int8_t)PROTO_OPT_1;
+    finetmp = g_model.rfOptionValue1;
     if (fine != finetmp) {
       fine = finetmp;
       CC2500_WriteReg(CC2500_0C_FSCTRL0, fine);
@@ -777,10 +777,10 @@ static void FRSKYX_initialize(uint8_t bind)
 
   CC2500_Reset();
 
-  PROTO_OPT_1 = (uint8_t)-50; // TODO remove after tests
+  g_model.rfOptionValue1 = -50; // TODO remove after tests
 
   // initialize statics since 7e modules don't initialize
-  fine = (int8_t)PROTO_OPT_1;
+  fine = g_model.rfOptionValue1;
   packet_size = frskyX_format_EU ? 33 : 30;
   frsky_id = SpiRFModule.fixed_id & 0x7FFF;
   failsafe_count = 0;

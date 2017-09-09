@@ -161,9 +161,9 @@ static uint16_t MULTI_cb()
   uint8_t multiTxBufferCount = frskyTxBufferCount;
 
   // Our enumeration starts at 0
-  int type = g_model.moduleData.rfProtocol + 1;
-  int subtype = g_model.moduleData.subType;
-  int8_t optionValue = g_model.moduleData.optionValue;
+  int8_t type = g_model.MULTIRFPROTOCOL + 1;
+  int8_t subtype = g_model.moduleData.subType;
+  int8_t optionValue = g_model.rfOptionValue2;
 
   uint8_t protoByte = 0;
   if (moduleFlag == MODULE_BIND)
@@ -172,7 +172,7 @@ static uint16_t MULTI_cb()
     protoByte |= MULTI_SEND_RANGECHECK;
 
   // rfProtocol
-  if (g_model.moduleData.rfProtocol == MM_RF_PROTO_DSM2) {
+  if (g_model.MULTIRFPROTOCOL == MM_RF_PROTO_DSM2) {
 
     // Autobinding should always be done in DSMX 11ms
     if(g_model.moduleData.autoBindMode && moduleFlag == MODULE_BIND)
@@ -192,7 +192,7 @@ static uint16_t MULTI_cb()
   if (type >= 25)
     type = type + 1;
 
-  if (g_model.moduleData.rfProtocol == MM_RF_PROTO_FRSKY) {
+  if (g_model.MULTIRFPROTOCOL == MM_RF_PROTO_FRSKY) {
     if(subtype == MM_RF_FRSKY_SUBTYPE_D8) {
       //D8
       type = 3;
@@ -216,12 +216,12 @@ static uint16_t MULTI_cb()
 
   // Set the highest bit of option byte in AFHDS2A protocol to instruct MULTI to passthrough telemetry bytes instead
   // of sending Frsky D telemetry
-  if (g_model.moduleData.rfProtocol == MM_RF_PROTO_FS_AFHDS2A)
+  if (g_model.MULTIRFPROTOCOL == MM_RF_PROTO_FS_AFHDS2A)
     optionValue = optionValue | 0x80;
 
   // For custom protocol send unmodified type byte
   if (g_model.moduleData.customProto)
-    type = g_model.moduleData.rfProtocol;
+    type = g_model.MULTIRFPROTOCOL;
 
 
   // header, byte 0,  0x55 for proto 0-31 0x54 for 32-63
@@ -235,14 +235,14 @@ static uint16_t MULTI_cb()
 
   // protocol byte 1
   protoByte |= (type & 0x1f);
-  if(g_model.moduleData.rfProtocol != MM_RF_PROTO_DSM2)
+  if(g_model.MULTIRFPROTOCOL != MM_RF_PROTO_DSM2)
     protoByte |= (g_model.moduleData.autoBindMode << 6);
 
 //  sendByteMulti(protoByte);
   frskyTxBuffer[--multiTxBufferCount] = protoByte;
 
   // byte 2, subtype, powermode, model id
-  frskyTxBuffer[--multiTxBufferCount] = ((uint8_t) ((g_model.moduleData.rxnum & 0x0f)
+  frskyTxBuffer[--multiTxBufferCount] = ((uint8_t) ((g_model.modelId & 0x0f)
                                          | ((subtype & 0x7) << 4)
                                          | (g_model.moduleData.lowPowerMode << 7))
                                         );

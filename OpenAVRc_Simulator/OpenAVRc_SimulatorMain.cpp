@@ -1029,8 +1029,8 @@ void OpenAVRc_SimulatorFrame::load_ModelData_30()
       temp_model.extendedTrims = tmp;
       eepromfile->Read(wxT("throttleReversed"),&tmp,0);
       temp_model.throttleReversed = tmp;
-      eepromfile->Read(wxT("ppmDelay"),&tmp,0);
-      temp_model.ppmDelay = tmp;
+      eepromfile->Read(wxT("rfOptionValue2"),&tmp,0);
+      temp_model.rfOptionValue2 = tmp;
       eepromfile->Read(wxT("beepANACenter"),&tmp,0);
       temp_model.beepANACenter = tmp;
 
@@ -1200,8 +1200,8 @@ void OpenAVRc_SimulatorFrame::load_ModelData_30()
         }
       }
 
-      eepromfile->Read(wxT("ppmFrameLength"),&tmp,0);
-      temp_model.ppmFrameLength = tmp;
+      eepromfile->Read(wxT("rfOptionValue1"),&tmp,0);
+      temp_model.rfOptionValue1 = tmp;
       eepromfile->Read(wxT("thrTraceSrc"),&tmp,0);
       temp_model.thrTraceSrc = tmp;
       eepromfile->Read(wxT("switchWarningState"),&tmp,0);
@@ -1340,7 +1340,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
       eepromfile->Read(wxT("throttleReversed"),&tmp,0);
       temp_model.throttleReversed = tmp;
       eepromfile->Read(wxT("ppmDelay"),&tmp,0);
-      temp_model.ppmDelay = tmp;
+      temp_model.rfOptionValue2 = tmp;
       eepromfile->Read(wxT("beepANACenter"),&tmp,0);
       temp_model.beepANACenter = tmp;
 
@@ -1511,7 +1511,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
       }
 
       eepromfile->Read(wxT("ppmFrameLength"),&tmp,0);
-      temp_model.ppmFrameLength = tmp;
+      temp_model.rfOptionValue1 = tmp;
       eepromfile->Read(wxT("thrTraceSrc"),&tmp,0);
       temp_model.thrTraceSrc = tmp;
       eepromfile->Read(wxT("switchWarningState"),&tmp,0);
@@ -1836,7 +1836,7 @@ void OpenAVRc_SimulatorFrame::save_ModelData_30()
       eepromfile->Write(wxT("extendedLimits"),(int)temp_model.extendedLimits);
       eepromfile->Write(wxT("extendedTrims"),(int)temp_model.extendedTrims);
       eepromfile->Write(wxT("throttleReversed"),(int)temp_model.throttleReversed);
-      eepromfile->Write(wxT("ppmDelay"),(int)temp_model.ppmDelay);
+      eepromfile->Write(wxT("rfOptionValue2"),(int)temp_model.rfOptionValue2);
       eepromfile->Write(wxT("beepANACenter"),(int)temp_model.beepANACenter);
 
       for (int i=0; i<MAX_MIXERS; ++i) { //MixData   mixData[MAX_MIXERS];
@@ -1945,7 +1945,7 @@ void OpenAVRc_SimulatorFrame::save_ModelData_30()
         }
       }
 
-      eepromfile->Write(wxT("ppmFrameLength"),(int)temp_model.ppmFrameLength);
+      eepromfile->Write(wxT("rfOptionValue1"),(int)temp_model.rfOptionValue1);
       eepromfile->Write(wxT("thrTraceSrc"),(int)temp_model.thrTraceSrc);
       eepromfile->Write(wxT("switchWarningState"),(int)temp_model.switchWarningState);
       eepromfile->Write(wxT("switchWarningEnable"),(int)temp_model.switchWarningEnable);

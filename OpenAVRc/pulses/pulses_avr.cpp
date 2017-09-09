@@ -78,10 +78,10 @@ void startPulses(enum ProtoCmds Command)
     TRACE("  ->  RESET Proto - %s -",  Protos[s_current_protocol].ProtoName);
     SIMU_SLEEP(500);
   }
-  PROTO_CMD_ID = limit((uint8_t)2, PROTO_CMD_ID, (uint8_t)(DIM(Protos)-1)); // verify limits do not use PPM_BB
-  s_current_protocol = PROTO_CMD_ID;
-  PROTO_Cmds = *Protos[PROTO_CMD_ID].Cmds;
-  TRACE("  ->  INIT Proto - %s -", Protos[PROTO_CMD_ID].ProtoName);
+  g_model.rfProtocol = limit((uint8_t)2, g_model.rfProtocol, (uint8_t)(DIM(Protos)-1)); // verify limits do not use PPM_BB
+  s_current_protocol = g_model.rfProtocol;
+  PROTO_Cmds = *Protos[g_model.rfProtocol].Cmds;
+  TRACE("  ->  INIT Proto - %s -", Protos[g_model.rfProtocol].ProtoName);
   SIMU_SLEEP(500);
   PROTO_Cmds(Command);
 }
@@ -129,12 +129,12 @@ void setupPulsesPPM(enum ppmtype proto)
 
   int16_t PPM_range = g_model.extendedLimits ? 640*2 : 512*2;   //range of 0.7..1.7msec
 
-  uint16_t q = (g_model.ppmDelay*50+300)*2; // Channel sync pulse.
+  uint16_t q = (g_model.PPMDELAY*50+300)*2; // Channel sync pulse.
 
   int32_t rest = 22500u*2 - q;
 
   // PPM 16 uses a fixed frame length of 22.5msec.
-  if(proto == PPM || proto == PPMSIM) rest += (int32_t(g_model.ppmFrameLength))*1000;
+  if(proto == PPM || proto == PPMSIM) rest += (int32_t(g_model.PPMFRAMELENGTH))*1000;
 
   // PPM and PPM16 (Channels 1-8) use first half of array. PPMSIM and PPM16 (Channels 9-16) use last half.
   uint16_t *ptr = (proto == PPM || proto == PPM16FIRST) ? &pulses2MHz.pword[0] : &pulses2MHz.pword[PULSES_WORD_SIZE/2];

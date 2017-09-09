@@ -1074,16 +1074,6 @@ enum MMRFrskySubtypes {
   MM_RF_FRSKY_SUBTYPE_D16_LBT_8CH
 };
 
-PACK(typedef struct {
-  uint8_t type:4;
-  int8_t  rfProtocol:6;
-  uint8_t rxnum:4;
-  uint8_t customProto:1;
-  uint8_t autoBindMode:1;
-  uint8_t lowPowerMode:1;
-  int8_t optionValue;
-  uint8_t subType:3;
-}) ModuleDataData;
 #endif
 
 /* V217
@@ -1099,7 +1089,7 @@ PACK(typedef struct {
   uint8_t   extendedLimits:1;
   uint8_t   extendedTrims:1;
   uint8_t   throttleReversed:1;
-  int8_t    ppmDelay;
+  int8_t    PPMDELAY;
   BeepANACenter beepANACenter;
   MixData   mixData[MAX_MIXERS];
   LimitData limitData[NUM_CHNOUT];
@@ -1113,7 +1103,7 @@ PACK(typedef struct {
   SwashRingData swashR;
   FlightModeData flightModeData[MAX_FLIGHT_MODES];
 
-  int8_t ppmFrameLength;     // 0=22.5ms  (10ms-30ms) 0.5ms increments
+  int8_t PPMFRAMELENGTH;     // 0=22.5ms  (10ms-30ms) 0.5ms increments
 
   uint8_t thrTraceSrc;
 
@@ -1130,6 +1120,18 @@ PACK(typedef struct {
 
 }) ModelData;
 */
+PACK(typedef struct {
+  uint8_t customProto:1;
+  uint8_t autoBindMode:1;
+  uint8_t lowPowerMode:1;
+  uint8_t subType:3;
+}) ModuleDataData;
+
+
+
+#define MULTIRFPROTOCOL rfOptionValue1
+#define PPMFRAMELENGTH rfOptionValue1 // 0=22.5ms  (10ms-30ms) 0.5ms increments
+#define PPMDELAY rfOptionValue2
 
 PACK(typedef struct {
   char      name[LEN_MODEL_NAME]; // must be first for eeLoadModelName
@@ -1137,12 +1139,14 @@ PACK(typedef struct {
 ////////// TO CHANGE (MIX, ADD, MOVE, MAKE UNION, ETC .../////////////////////////
   uint8_t   modelId;
   uint8_t   protocol:3;  //old EEPROM structure
+  uint8_t   rfProtocol; //new ??
+
   int8_t    ppmNCH:4;
   uint8_t   pulsePol:1;
-  int8_t    ppmFrameLength;     // 0=22.5ms  (10ms-30ms) 0.5ms increments
-  int8_t    ppmDelay;
+  int8_t    rfOptionValue1;
+  int8_t    rfOptionValue2;
   #if defined(MULTIMODULE)
-  //ModuleDataData moduleData;
+  ModuleDataData moduleData;
   #endif
 ////////// TO CHANGE (ADD, MOVE, MAKE UNION, ETC .../////////////////////////
 

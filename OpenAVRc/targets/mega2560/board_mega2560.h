@@ -230,7 +230,7 @@ extern ISR(INT5_vect);
 #define TX_FIXED_ID 0x1a2b3c4d // Loaded in SpiRFModule.fixed_id
 
 //SUPIIIK FILE
-//#define MULTIMODULE
+#define MULTIMODULE
 #if defined (MULTIMODULE)
 #define PROTO_HAS_MULTISUPIIIK
 #endif
