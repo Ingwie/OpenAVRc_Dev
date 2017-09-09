@@ -816,56 +816,56 @@
   #define TR_MAVLINK_LON                  "LON"
 #endif
 
-// Taranis column headers
-#define TR_PHASES_HEADERS      { " Namn ", " Brytare ", " Rodertrim ", " H\202jdrodertrim ", " Gastrim ", " Skevrodertrim ", " Tona Upp ", " Tona Ned " }
-#define TR_LIMITS_HEADERS      { " Namn ", " Subtrim ", " Min ", " Max ", " Riktning  ", " Kurva ", " PPM-center ", " Subtrim-l\201ge " }
-#define TR_CSW_HEADERS         { " Funktion ", " V1 ", " V2 ", " V2 ", " OCH Brytare ", " Tidsl\201ngd ", " F\202rdr\202j " }
+
+
+
+
 
 // About screen
-#define TR_ABOUTUS             "Om Oss"
 
-#define TR_ABOUT_OpenAVRc_1      "OpenAVRc \201r icke-kommersiell,"
-#define TR_ABOUT_OpenAVRc_2      "\202ppen programvara utan"
-#define TR_ABOUT_OpenAVRc_3      "garantier som uvecklas helt"
-#define TR_ABOUT_OpenAVRc_4      "ideellt. St\202d i form av"
-#define TR_ABOUT_OpenAVRc_5      "donationer v\201lkomnas!"
 
-#define TR_ABOUT_BERTRAND_1    "Bertrand Songis"
-#define TR_ABOUT_BERTRAND_2    "Chefsutvecklare av OpenAVRc"
-#define TR_ABOUT_BERTRAND_3    "Hj\201lputvecklare av Companion9x"
 
-#define TR_ABOUT_MIKE_1        "Mike Blandford"
-#define TR_ABOUT_MIKE_2        "Kod och drivrutins-guru"
-#define TR_ABOUT_MIKE_3        "Stor inspirationsk\201lla"
-#define TR_ABOUT_MIKE_4        ""
 
-#define TR_ABOUT_ROMOLO_1      "Romolo Manfredini"
-#define TR_ABOUT_ROMOLO_2      "Chefsutvecklare av Companion9x"
-#define TR_ABOUT_ROMOLO_3      ""
 
-#define TR_ABOUT_ANDRE_1       "Andre Bernet"
-#define TR_ABOUT_ANDRE_2       "Funktionalitet, Anv\201ndbarhet,"
-#define TR_ABOUT_ANDRE_3       "Fels\202kning, Dokumentation"
 
-#define TR_ABOUT_ROB_1         "Rob Thomson"
-#define TR_ABOUT_ROB_2         "Webmaster f\202r openRCforums"
 
-#define TR_ABOUT_KJELL_1       "Kjell Kernen"
-#define TR_ABOUT_KJELL_2       "Utvecklare av www.open-tx.org"
-#define TR_ABOUT_KJELL_3       "Utvecklare av OpenAVRc Recorder"
-#define TR_ABOUT_KJELL_4       "Hj\201lputvecklare av Companion"
 
-#define TR_ABOUT_MARTIN_1      "Martin Hotar"
-#define TR_ABOUT_MARTIN_2      "Grafikdesigner"
 
-  #define TR_ABOUT_HARDWARE_1  "Brent Nelson"
-  #define TR_ABOUT_HARDWARE_2  "Sky9x design/producent"
-  #define TR_ABOUT_HARDWARE_3  ""
 
-#define TR_ABOUT_PARENTS_1     "Ursprungsprojekt"
-#define TR_ABOUT_PARENTS_2     "ersky9x (Mike Blandford)"
-#define TR_ABOUT_PARENTS_3     "ER9X (Erez Raviv)"
-#define TR_ABOUT_PARENTS_4     "TH9X (Thomas Husterer)"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #define TR_CHR_SHORT           's'
 #define TR_CHR_LONG            'l'
@@ -893,18 +893,18 @@
 #define TR_LOGS                "Logs"
 #define TR_OPTIONS             "Options"
 
-#define TR_ALTSENSOR           "H\202jd sensor"
-#define TR_CELLSENSOR          "Cell sensor"
-#define TR_GPSSENSOR           "GPS sensor"
-#define TR_CURRENTSENSOR       "Sensor"
-#define TR_AUTOOFFSET          "Auto Offset"
-#define TR_ONLYPOSITIVE        "Positiv"
-#define TR_FILTER              "Filter"
-#define TR_TELEMETRYFULL       "Ingen ledig plats!"
+
+
+
+
+
+
+
+
 #define TR_INVERTED_SERIAL INDENT "Invertera"
-#define TR_IGNORE_INSTANCE     INDENT "Ignorera denna"
-#define TR_DISCOVER_SENSORS    INDENT "S\202k nya sensorer"
-#define TR_STOP_DISCOVER_SENSORS INDENT "Avbryt s\202kning"
+
+
+
 #define TR_DELETE_ALL_SENSORS  INDENT "Ta bort alla sensorer"
 #define TR_CONFIRMDELETE       "Ta bort alla?"
 

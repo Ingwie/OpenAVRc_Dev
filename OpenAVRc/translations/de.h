@@ -832,55 +832,55 @@
 #endif
 
 // Taranis Info Zeile Anzeigen
-#define TR_PHASES_HEADERS      { " Name ", " Schalter ", " Trim Seite ", " Trim H\203he ", " Trim Gas ", " Trim Quer ", " Fade In ", " Fade Out " }
-#define TR_LIMITS_HEADERS      { " Name ", " Mitte ", " Min ", " Max ", " Richtung ", " Kurve ", " PPM-Mitte ", " Mitte-Mode " }
-#define TR_CSW_HEADERS         { " Funktion ", " Var1 ", " Var2 ", " Var2 ", " UND-Schalter ", " Dauer ", " Verz\203gerung " }
 
-//Taranis About screen
-#define TR_ABOUTUS             "\204ber OpenAVRc"
 
-#define TR_ABOUT_OpenAVRc_1      "OpenAVRc ist Open Source,"
-#define TR_ABOUT_OpenAVRc_2      "nicht kommerziell, ohne"
-#define TR_ABOUT_OpenAVRc_3      "Funktionsgarantie, frei"
-#define TR_ABOUT_OpenAVRc_4      "verf\205gbar. Unterst\205tzung"
-#define TR_ABOUT_OpenAVRc_5      "durch Spenden willkommen"
 
-#define TR_ABOUT_BERTRAND_1    "Bertrand Songis"
-#define TR_ABOUT_BERTRAND_2    "OpenAVRc Hauptauthor"
-#define TR_ABOUT_BERTRAND_3    "Companion9x-Mitentwickler"
 
-#define TR_ABOUT_MIKE_1        "Mike Blandford"
-#define TR_ABOUT_MIKE_2        "Code- und Treiber-Guru"
-#define TR_ABOUT_MIKE_3        "Wohl einer der Besten."
-#define TR_ABOUT_MIKE_4        "Sehr inspirierend."
 
-#define TR_ABOUT_ROMOLO_1      "Romolo Manfredini"
-#define TR_ABOUT_ROMOLO_2      "Companion9x-Hauptentwickler"
-#define TR_ABOUT_ROMOLO_3      ""
 
-#define TR_ABOUT_ANDRE_1       "Andre Bernet"
-#define TR_ABOUT_ANDRE_2       "Funktionalit\201t und Tests,"
-#define TR_ABOUT_ANDRE_3       "Debugging, Dokumentation"
 
-#define TR_ABOUT_ROB_1         "Rob Thomson"
-#define TR_ABOUT_ROB_2         "Openrcforums Webmaster"
 
-#define TR_ABOUT_KJELL_1       "Kjell Kernen"
-#define TR_ABOUT_KJELL_2       "www.open-tx.org Hauptautor"
-#define TR_ABOUT_KJELL_3       "Author von OpenAVRc Recorder"
-#define TR_ABOUT_KJELL_4       "Companion contributor"
 
-#define TR_ABOUT_MARTIN_1      "Martin Hotar"
-#define TR_ABOUT_MARTIN_2      "Grafikdesigner"
 
-  #define TR_ABOUT_HARDWARE_1  "Brent Nelson"
-  #define TR_ABOUT_HARDWARE_2  "Sky9x Design/Produktion"
-  #define TR_ABOUT_HARDWARE_3  ""
 
-#define TR_ABOUT_PARENTS_1     "Vorg\201nger-Projekte"
-#define TR_ABOUT_PARENTS_2     "Ersky9x (Mike Blandford)"
-#define TR_ABOUT_PARENTS_3     "ER9X (Erez Raviv)"
-#define TR_ABOUT_PARENTS_4     "TH9X (Thomas Husterer)"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #define TR_CHR_SHORT  's' // Taste short
 #define TR_CHR_LONG   'l' // Taste long
@@ -908,18 +908,18 @@
 #define TR_LOGS                "Log Daten"
 #define TR_OPTIONS             "Optionen"
 
-#define TR_ALTSENSOR           "H\203hen Sensor"
-#define TR_CELLSENSOR          "Zellen Sensor"
-#define TR_GPSSENSOR           "GPS Sensor"
-#define TR_CURRENTSENSOR       "Sensor"
-#define TR_AUTOOFFSET          "Auto Offset"
-#define TR_ONLYPOSITIVE        "Nur Positiv"
-#define TR_FILTER              "Filter aktiv"
-#define TR_TELEMETRYFULL       "Telemetriezeilen voll!"
-#define TR_INVERTED_SERIAL     INDENT "Invert."
-#define TR_IGNORE_INSTANCE     TR(INDENT "Keine ID", INDENT "Keine Multisen-ID")	//unklar
-#define TR_DISCOVER_SENSORS    INDENT "Start Sensorsuche"
-#define TR_STOP_DISCOVER_SENSORS INDENT "Stop Sensorsuche"
+
+
+
+
+
+
+
+
+
+
+
+
 #define TR_DELETE_ALL_SENSORS  INDENT "L\203sche alle Sensoren"
 #define TR_CONFIRMDELETE       "Wirklich alle l\203schen?"
 // ----------------------------- Symbole f\205r Auswahlliste----------

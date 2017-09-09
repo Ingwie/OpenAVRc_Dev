@@ -820,56 +820,56 @@
   #define TR_MAVLINK_LON                  "LON"
 #endif
 
-// Taranis column headers
-#define TR_PHASES_HEADERS      { " Name ", " Switch ", " Rudder Trim ", " Elevator Trim ", " Throttle Trim ", " Aileron Trim ", " Fade In ", " Fade Out " }
-#define TR_LIMITS_HEADERS      { " Name ", " Subtrim ", " Min ", " Max ", " Direction ", " Curve ", " PPM Center ", " Subtrim mode " }
-#define TR_CSW_HEADERS         { " Function ", " V1 ", " V2 ", " V2 ", " AND Switch ", " Duration ", " Delay " }
+
+
+
+
 
 // About screen
-#define TR_ABOUTUS             TR(" ABOUT ", "ABOUT")
 
-#define TR_ABOUT_OpenAVRc_1      TR("OpenAVRc\001is\001open\001source,\001non", "OpenAVRc is open source, non-")
-#define TR_ABOUT_OpenAVRc_2      TR("commercial,\001wo\001warranties.", "commercial and comes with no")
-#define TR_ABOUT_OpenAVRc_3      TR("It\001was\001developed\001for\001free.", "warranties. It was developed")
-#define TR_ABOUT_OpenAVRc_4      TR("Support through donations", "for free. Support through")
-#define TR_ABOUT_OpenAVRc_5      TR("is welcome!", "donations is welcome!")
 
-#define TR_ABOUT_BERTRAND_1    "Bertrand Songis"
-#define TR_ABOUT_BERTRAND_2    "OpenAVRc main author"
-#define TR_ABOUT_BERTRAND_3    "Companion9x co-author"
 
-#define TR_ABOUT_MIKE_1        "Mike Blandford"
-#define TR_ABOUT_MIKE_2        "Code and drivers guru"
-#define TR_ABOUT_MIKE_3        TR("Arguably,\001one\001of\001the\001best", "Arguably, one of the best")
-#define TR_ABOUT_MIKE_4        "Inspirational"
 
-#define TR_ABOUT_ROMOLO_1      "Romolo Manfredini"
-#define TR_ABOUT_ROMOLO_2      "Companion co-author"
-#define TR_ABOUT_ROMOLO_3      ""
 
-#define TR_ABOUT_ANDRE_1       "Andre Bernet"
-#define TR_ABOUT_ANDRE_2       "Functionality, usability,"
-#define TR_ABOUT_ANDRE_3       "debugging, documentation"
 
-#define TR_ABOUT_ROB_1         "Rob Thomson"
-#define TR_ABOUT_ROB_2         "openrcforums webmaster"
 
-#define TR_ABOUT_KJELL_1       "Kjell Kernen"
-#define TR_ABOUT_KJELL_2       "www.open-tx.org main author"
-#define TR_ABOUT_KJELL_3       "OpenAVRc Recorder author"
-#define TR_ABOUT_KJELL_4       "Companion contributor"
 
-#define TR_ABOUT_MARTIN_1      "Martin Hotar"
-#define TR_ABOUT_MARTIN_2      "Graphics designer"
 
-  #define TR_ABOUT_HARDWARE_1  "Brent Nelson"
-  #define TR_ABOUT_HARDWARE_2  "Sky9x designer/producer"
-  #define TR_ABOUT_HARDWARE_3  ""
 
-#define TR_ABOUT_PARENTS_1     "Parent projects"
-#define TR_ABOUT_PARENTS_2     TR("Ersky9x (Mike Blandford)", "Ersky9x (Mike Blandford)")
-#define TR_ABOUT_PARENTS_3     "ER9X (Erez Raviv)"
-#define TR_ABOUT_PARENTS_4     "TH9X (Thomas Husterer)"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #define TR_CHR_SHORT           's'
 #define TR_CHR_LONG            'l'
@@ -897,18 +897,18 @@
 #define TR_LOGS                "Logs"
 #define TR_OPTIONS             "Options"
 
-#define TR_ALTSENSOR           "Alt sensor"
-#define TR_CELLSENSOR          "Cell sensor"
-#define TR_GPSSENSOR           "GPS sensor"
-#define TR_CURRENTSENSOR       "Sensor"
-#define TR_AUTOOFFSET          "Auto Offset"
-#define TR_ONLYPOSITIVE        "Positive"
-#define TR_FILTER              "Filter"
-#define TR_TELEMETRYFULL       "All telemetry slots full!"
-#define TR_INVERTED_SERIAL     INDENT "Invert"
-#define TR_IGNORE_INSTANCE     TR(INDENT "No inst.", INDENT "Ignore instances")
-#define TR_DISCOVER_SENSORS    INDENT "Discover new sensors"
-#define TR_STOP_DISCOVER_SENSORS INDENT "Stop discovery"
+
+
+
+
+
+
+
+
+
+
+
+
 #define TR_DELETE_ALL_SENSORS  INDENT "Delete all sensors"
 #define TR_CONFIRMDELETE       "Really delete all?"
 

@@ -823,56 +823,56 @@
   #define TR_MAVLINK_LON                        "LON"
 #endif
 
-// Taranis column headers
-#define TR_PHASES_HEADERS      { " Název ", " Spínač ", " Trim směrovky ", " Trim výškovky ", " Trim plynu ", " Trim křidélek ", " Přechod náběhu ", " Přechod konce " }
-#define TR_LIMITS_HEADERS      { " Název ", " Subtrim ", " Min ", " Max ", " Invertovat ", " Křivka ", " Střed PPM ", " Symetrické " }
-#define TR_CSW_HEADERS         { " Funkce ", " Hodnota 1 ", " Hodnota 2 ", " Hodnota 2 ", " AND Spínač ", " Trvání ", " Zpoždění " }
 
-//Taranis About screen
-#define TR_ABOUTUS             TR("  O nás   ", "O nás")
 
-#define TR_ABOUT_OpenAVRc_1      TR("OpenAVRc je nekomerční,", "OpenAVRc\001je\001open-source,")
-#define TR_ABOUT_OpenAVRc_2      TR("opensource bez záruky.", "nekomerční a bez\001záruky.")
-#define TR_ABOUT_OpenAVRc_3      TR("Vytvořen ve volném čase.", "Byl\001vytvořen\001nadšenými\001modeláři")
-#define TR_ABOUT_OpenAVRc_4      TR("Podpora vývoje pomocí", "Podpora\001vývoje\001pomocí")
-#define TR_ABOUT_OpenAVRc_5      TR("finančního daru je vítána!", "drobného\001daru\001je\001vítána!")
 
-#define TR_ABOUT_BERTRAND_1    "Bertrand Songis"
-#define TR_ABOUT_BERTRAND_2    "Hlavní vývojář OpenAVRc"
-#define TR_ABOUT_BERTRAND_3    "Spoluautor Companion"
 
-#define TR_ABOUT_MIKE_1        "Mike Blandford"
-#define TR_ABOUT_MIKE_2        "Specialista na kód,"
-#define TR_ABOUT_MIKE_3        " a ovladače hardwaru."
-#define TR_ABOUT_MIKE_4        ""
 
-#define TR_ABOUT_ROMOLO_1      "Romolo Manfredini"
-#define TR_ABOUT_ROMOLO_2      "Hlavní vývojář"
-#define TR_ABOUT_ROMOLO_3      "Companion"
 
-#define TR_ABOUT_ANDRE_1       "Andre Bernet"
-#define TR_ABOUT_ANDRE_2       "Funkčnost, použitelnost,"
-#define TR_ABOUT_ANDRE_3       "ladění a dokumentace"
 
-#define TR_ABOUT_ROB_1         "Rob Thomson"
-#define TR_ABOUT_ROB_2         "openrcforums webmaster"
 
-#define TR_ABOUT_KJELL_1       "Kjell Kernen"
-#define TR_ABOUT_KJELL_2       "www.open-tx.org main author"
-#define TR_ABOUT_KJELL_3       "autor OpenAVRc Recorder"
-#define TR_ABOUT_KJELL_4       "Spoluautor Companion"
 
-#define TR_ABOUT_MARTIN_1      "Martin Hotař"
-#define TR_ABOUT_MARTIN_2      "Grafický design, Čeština"
 
-  #define TR_ABOUT_HARDWARE_1  "Brent Nelson"
-  #define TR_ABOUT_HARDWARE_2  "Sky9x designer/výrobce"
-  #define TR_ABOUT_HARDWARE_3  ""
 
-#define TR_ABOUT_PARENTS_1     "Mateřské projekty"
-#define TR_ABOUT_PARENTS_2     "ersky9x (Mike Blandford)"
-#define TR_ABOUT_PARENTS_3     "ER9X (Erez Raviv)"
-#define TR_ABOUT_PARENTS_4     "TH9X (Thomas Husterer)"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #define TR_CHR_SHORT  's'
 #define TR_CHR_LONG   'l'
@@ -900,19 +900,19 @@
 #define TR_LOGS                "Logovat"
 #define TR_OPTIONS             "Options"
 
-#define TR_ALTSENSOR           "Senzor výšky"
-#define TR_CELLSENSOR          "Senzor článků"
-#define TR_GPSSENSOR           "GPS senzor"
-#define TR_CURRENTSENSOR       "Senzor"
-#define TR_AUTOOFFSET          "Auto ofset"
-#define TR_ONLYPOSITIVE        "Jen kladné"
-#define TR_FILTER              "Filtr"
-#define TR_TELEMETRYFULL       "Všechny sloty jsou plné!"
+
+
+
+
+
+
+
+
 //TODO: translation
-#define TR_INVERTED_SERIAL     INDENT "Invert"
-#define TR_IGNORE_INSTANCE     INDENT "Ignoruj chyby ID"
-#define TR_DISCOVER_SENSORS    INDENT "Detekovat nové senzory"
-#define TR_STOP_DISCOVER_SENSORS INDENT "Zastavit autodetekci"
+
+
+
+
 #define TR_DELETE_ALL_SENSORS  INDENT "Odstranit všechny senzory"
 #define TR_CONFIRMDELETE       "Opravdu odstranit vše?"
 
