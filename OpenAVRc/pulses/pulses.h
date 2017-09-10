@@ -50,7 +50,7 @@ enum ModuleFlag {
 extern uint8_t dsm2BindTimer;
 #endif
 
-#define IS_PPM_PROTOCOL(protocol)          (protocol<=PROTOCOL_PPMSIM)
+#define IS_PPM_PROTOCOL(protocol)          (protocol<PROTOCOL_PPMSIM)
 
 #if defined(PXX)
 //#define IS_PXX_PROTOCOL(protocol)          (protocol==PROTO_PXX)
@@ -59,25 +59,25 @@ extern uint8_t dsm2BindTimer;
 #endif
 
 #if defined(DSM2)
-#define IS_DSM_PROTOCOL(protocol)         (protocol==PROTOCOL_DSM_SERIAL)
+#define IS_DSM_PROTOCOL(protocol)         (protocol==PROTOCOL_DSM_SERIAL-1)
 #else
 #define IS_DSM_PROTOCOL(protocol)         (0)
 #endif
 
-#if defined(DSM2_SERIAL)
-//#define IS_DSM2_SERIAL_PROTOCOL(protocol)  (IS_DSM_PROTOCOL(protocol))
+#if defined(DSM2_SERIAL) // Todo check in needed in per10ms
+#define IS_DSM2_SERIAL_PROTOCOL(protocol)  (protocol==PROTOCOL_DSM_SERIAL-1)
 #else
 #define IS_DSM2_SERIAL_PROTOCOL(protocol)  (0)
 #endif
 
 #if defined(MULTIMODULE)
-	#define IS_MULTIMODULE_PROTOCOL(protocol)  (protocol==PROTOCOL_MULTI)
+	#define IS_MULTIMODULE_PROTOCOL(protocol)  (protocol==PROTOCOL_MULTI-1)
 #else
 	#define IS_MULTIMODULE_PROTOCOL(protocol)  (0)
 #endif
 
 #if defined(SPIMODULES)
-#define IS_SPIMODULES_PROTOCOL(protocol)  (protocol>=PROTOCOL_MULTI+1)
+#define IS_SPIMODULES_PROTOCOL(protocol)  (protocol>=PROTOCOL_MULTI)
 #else
 #define IS_SPIMODULES_PROTOCOL(protocol)  (0)
 #endif

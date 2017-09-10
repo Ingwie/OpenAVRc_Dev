@@ -23,7 +23,7 @@
 					<Add option="-DEXTERNALEEPROM" />
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />
-					<Add option="-DDSM2_PPM" />
+					<Add option="-DDSM2_SERIAL" />
 					<Add option="-DPCBMEGA2560" />
 					<Add option="-DCPUM2560" />
 					<Add option="-DOFFSET_ON_INPUT=YES" />
@@ -92,7 +92,7 @@
 					<Add option="-DNOEXTERNALEEPROM" />
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />
-					<Add option="-DDSM2_PPM" />
+					<Add option="-DDSM2_SERIAL" />
 					<Add option="-DPCBMEGA2560" />
 					<Add option="-DCPUM2560" />
 					<Add option="-DOFFSET_ON_INPUT=YES" />
@@ -163,7 +163,7 @@
 					<Add option="-DNOEXTERNALEEPROM" />
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />
-					<Add option="-DDSM2_PPM" />
+					<Add option="-DDSM2_SERIAL" />
 					<Add option="-DPCBMEGA2560" />
 					<Add option="-DCPUM2560" />
 					<Add option="-DOFFSET_ON_INPUT=YES" />
@@ -234,7 +234,7 @@
 					<Add option="-DNOEXTERNALEEPROM" />
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />
-					<Add option="-DDSM2_PPM" />
+					<Add option="-DDSM2_SERIAL" />
 					<Add option="-DPCBMEGA2560" />
 					<Add option="-DCPUM2560" />
 					<Add option="-DOFFSET_ON_INPUT=YES" />
@@ -305,7 +305,7 @@
 					<Add option="-DEXTERNALEEPROM" />
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />
-					<Add option="-DDSM2_PPM" />
+					<Add option="-DDSM2_SERIAL" />
 					<Add option="-DPCBMEGA2560" />
 					<Add option="-DCPUM2560" />
 					<Add option="-DOFFSET_ON_INPUT=YES" />
@@ -376,7 +376,7 @@
 					<Add option="-DEXTERNALEEPROM" />
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />
-					<Add option="-DDSM2_PPM" />
+					<Add option="-DDSM2_SERIAL" />
 					<Add option="-DPCBMEGA2560" />
 					<Add option="-DCPUM2560" />
 					<Add option="-DOFFSET_ON_INPUT=YES" />
@@ -447,7 +447,7 @@
 					<Add option="-DEXTERNALEEPROM" />
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />
-					<Add option="-DDSM2_PPM" />
+					<Add option="-DDSM2_SERIAL" />
 					<Add option="-DPCBMEGA2560" />
 					<Add option="-DCPUM2560" />
 					<Add option="-DOFFSET_ON_INPUT=YES" />

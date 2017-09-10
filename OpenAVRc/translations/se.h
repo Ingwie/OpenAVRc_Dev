@@ -161,9 +161,9 @@
   #define TR_MMOD
 #endif
 
-  #define TR_XPPM              "PPM16\0""PPMsim"
+  
 
-#define TR_VPROTOS             "PPM\0  " TR_XPPM TR_PXX TR_DSM2 TR_MMOD TR_SPIM
+
 
 #define LEN_POSNEG             "\003"
 #define TR_POSNEG              "Pos""Neg"

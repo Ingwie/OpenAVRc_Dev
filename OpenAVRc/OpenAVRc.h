@@ -423,7 +423,7 @@ enum BaseCurves {
 
 #define THRCHK_DEADBAND 16
 
-#define SPLASH_NEEDED() (!IS_DSM_PROTOCOL(g_model.rfProtocol) && !g_eeGeneral.splashMode)
+#define SPLASH_NEEDED() (!g_eeGeneral.splashMode)
 
 #if defined(FSPLASH)
 #define SPLASH_TIMEOUT  (g_eeGeneral.splashMode == 0 ? 60000/*infinite=10mn*/ : ((4*100) * (g_eeGeneral.splashMode & 0x03)))

@@ -78,7 +78,7 @@ void startPulses(enum ProtoCmds Command)
     TRACE("  ->  RESET Proto - %s -",  Protos[s_current_protocol].ProtoName);
     SIMU_SLEEP(500);
   }
-  g_model.rfProtocol = limit((uint8_t)2, g_model.rfProtocol, (uint8_t)(DIM(Protos)-1)); // verify limits do not use PPM_BB
+  //g_model.rfProtocol = limit((uint8_t)PROTOCOL_NONE, g_model.rfProtocol, (uint8_t)PROTOCOL_COUNT-2);
   s_current_protocol = g_model.rfProtocol;
   PROTO_Cmds = *Protos[g_model.rfProtocol].Cmds;
   TRACE("  ->  INIT Proto - %s -", Protos[g_model.rfProtocol].ProtoName);
@@ -142,7 +142,7 @@ void setupPulsesPPM(enum ppmtype proto)
   uint8_t p;
   // Fix PPM16 to 16 channels (8+8), No modification by GUI.
 
-  if(proto == PPM || proto == PPMSIM) p = 8 + (g_model.PPMNCH * 2); // Channels *2
+  if(proto == PPM || proto == PPMSIM) p = 4 + (g_model.PPMNCH * 2); // Channels *2
   else if(proto == PPM16FIRST) p = 8;
   else p = 16; // PPM16 Channels 9-16.
 

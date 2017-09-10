@@ -823,13 +823,7 @@ enum MixSources {
 
   MIXSRC_REa,
   MIXSRC_REb,
-#if ROTARY_ENCODERS > 2
-  MIXSRC_REc,
-  MIXSRC_REd,
-  MIXSRC_LAST_ROTARY_ENCODER = MIXSRC_REd,
-#else
   MIXSRC_LAST_ROTARY_ENCODER = MIXSRC_REb,
-#endif
 
   MIXSRC_MAX,
 
@@ -1050,6 +1044,19 @@ PACK(typedef struct {
 
   #if defined(MULTIMODULE)
   ModuleDataData moduleData;
+
+  PACK(typedef struct {
+  uint8_t type:4;
+  int8_t  rfProtocol:6;
+  uint8_t rxnum:4;
+  uint8_t customProto:1;
+  uint8_t autoBindMode:1;
+  uint8_t lowPowerMode:1;
+  int8_t optionValue;
+  uint8_t subType:3;
+}) ModuleDataData;
+#endif
+
   #endif
 
 }) ModelData;

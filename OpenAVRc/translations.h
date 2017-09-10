@@ -100,12 +100,11 @@ extern const pm_char STR_OPEN9X[];
 #define OFS_TRNCHN             (OFS_TRNMODE + sizeof(TR_TRNMODE))
 #define OFS_VTRIMINC         (OFS_TRNCHN + sizeof(TR_TRNCHN))
 #define OFS_RETA123          (OFS_VTRIMINC + sizeof(TR_VTRIMINC))
-#define OFS_VPROTOS            (OFS_RETA123 + sizeof(TR_RETA123))
 #if defined(MULTIMODULE)
-  #define OFS_MULTIPROTOCOLS   (OFS_VPROTOS + sizeof(TR_VPROTOS))
+  #define OFS_MULTIPROTOCOLS   (OFS_RETA123 + sizeof(TR_RETA123))
   #define OFS_POSNEG           (OFS_MULTIPROTOCOLS + sizeof(TR_MULTIPROTOCOLS))
 #else
-  #define OFS_POSNEG           (OFS_VPROTOS + sizeof(TR_VPROTOS))
+  #define OFS_POSNEG           (OFS_RETA123 + sizeof(TR_RETA123))
 #endif
 #define OFS_VBLMODE          (OFS_POSNEG + sizeof(TR_POSNEG))
 #define OFS_VCURVEFUNC         (OFS_VBLMODE + sizeof(TR_VBLMODE))
