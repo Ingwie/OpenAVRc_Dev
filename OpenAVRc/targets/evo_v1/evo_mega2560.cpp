@@ -204,7 +204,7 @@ bool switchState(EnumKeys enuk)
 
 
 // Trim Buttons.
-static const pm_uchar crossTrim[] PROGMEM ={
+static const pm_uchar crossTrim[] PROGMEM = {
   TRIMS_GPIO_PIN_LH_PO, //left hand -port
   TRIMS_GPIO_PIN_LH_ST, //left hand -starboard
   TRIMS_GPIO_PIN_LH_UP,
@@ -262,7 +262,7 @@ Switches L O feed A10
 
 void read_A7_A9(void)
 {
-  static const uint16_t A7A9[16] = {
+  static const uint16_t A7A9[16] PROGMEM = {
     // AD reading, switch state bitmap value for two position switches
     // e.g. H/M I/N K/P EncRight/EncLeft
     0xDB0,// 0 0 0 0
@@ -298,7 +298,7 @@ void read_A7_A9(void)
   else lower = AD_value - ANA_TOL;
 
   for(uint8_t x=0; x<16; x++) {
-    if( A7A9[x] < upper && A7A9[x] > lower ) {
+    if( pgm_read_word(A7A9[x]) < upper && A7A9[x] > lower ) {
       switches[SW_H - SW_BASE] = ( (x & 8) ? 1 : 0); // H
       switches[SW_I - SW_BASE] = ( (x & 4) ? 1 : 0); // I
       switches[SW_K - SW_BASE] = ( (x & 2) ? 1 : 0); // K
@@ -317,7 +317,7 @@ void read_A7_A9(void)
   else lower = AD_value - ANA_TOL;
 
   for(uint8_t x=0; x<16; x++) {
-    if( A7A9[x] < upper && A7A9[x] > lower ) {
+    if( pgm_read_word(A7A9[x]) < upper && A7A9[x] > lower ) {
       switches[SW_M - SW_BASE] = ( (x & 8) ? 1 : 0); // M
       switches[SW_N - SW_BASE] = ( (x & 4) ? 1 : 0); // N
       switches[SW_P - SW_BASE] = ( (x & 2) ? 1 : 0); // P
@@ -329,7 +329,7 @@ void read_A7_A9(void)
 
 void read_A8_A10(void)
 {
-  static const uint16_t A8A10[9] = {
+  static const uint16_t A8A10[9] PROGMEM = {
   // AD reading, switch state for three position switches
   // e.g.  O/J L/G.
     0x9B2,// up up
@@ -358,7 +358,7 @@ void read_A8_A10(void)
   else lower = AD_value - ANA_TOL;
 
   for(uint8_t x=0; x<9; x++) {
-    if( A8A10[x] < upper && A8A10[x] > lower ) {
+    if( pgm_read_word(A8A10[x]) < upper && A8A10[x] > lower ) {
       switches[SW_Jup - SW_BASE] = ( (x==0 || x==1 || x==2) ? 1 : 0); // J Up
       switches[SW_Jmi - SW_BASE] = ( (x==3 || x==4 || x==5) ? 1 : 0); // J Middle
       switches[SW_Jdn - SW_BASE] = ( (x==6 || x==7 || x==8) ? 1 : 0); // J Down
@@ -379,7 +379,7 @@ void read_A8_A10(void)
   else lower = AD_value - ANA_TOL;
 
   for(uint8_t x=0; x<9; x++) {
-    if( A8A10[x] < upper && A8A10[x] > lower ) {
+    if( pgm_read_word(A8A10[x]) < upper && A8A10[x] > lower ) {
       switches[SW_Oup - SW_BASE] = ( (x==0 || x==1 || x==2) ? 1 : 0); // O Up
       switches[SW_Omi - SW_BASE] = ( (x==3 || x==4 || x==5) ? 1 : 0); // O Middle
       switches[SW_Odn - SW_BASE] = ( (x==6 || x==7 || x==8) ? 1 : 0); // O Down
