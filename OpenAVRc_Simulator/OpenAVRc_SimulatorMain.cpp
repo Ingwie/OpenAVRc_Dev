@@ -1052,8 +1052,6 @@ void OpenAVRc_SimulatorFrame::load_ModelData_30()
         temp_model.mixData[i].noExpo = tmp;
         eepromfile->Read(wxT("mixData"+num+".weightMode"),&tmp,0);
         temp_model.mixData[i].weightMode = tmp;
-        eepromfile->Read(wxT("mixData"+num+".destCh"),&tmp,0);
-        temp_model.mixData[i].destCh = tmp;
         eepromfile->Read(wxT("mixData"+num+".offsetMode"),&tmp,0);
         temp_model.mixData[i].offsetMode = tmp;
         eepromfile->Read(wxT("mixData"+num+".srcRaw"),&tmp,0);
@@ -1270,6 +1268,8 @@ void OpenAVRc_SimulatorFrame::load_ModelData_30()
         wxString num = wxString::Format(wxT("%i"),i);
         for (int j=0; j<4; ++j) { //FrSkyBarData bars[4]; or FrSkyLineData
           wxString numbl = wxString::Format(wxT("%i"),j);
+          eepromfile->Read(wxT("frsky.screens"+num+".bars"+numbl+"source"),&tmp,0);
+          temp_model.frsky.screens[i].bars[j].source = tmp;
           eepromfile->Read(wxT("frsky.screens"+num+".bars"+numbl+"barMin"),&tmp,0);
           temp_model.frsky.screens[i].bars[j].barMin = tmp;
           eepromfile->Read(wxT("frsky.screens"+num+".bars"+numbl+"barMax"),&tmp,0);
@@ -1297,6 +1297,10 @@ void OpenAVRc_SimulatorFrame::load_ModelData_30()
 
 void OpenAVRc_SimulatorFrame::load_ModelData_217()
 {
+
+#define L_offset(x) if (x > (MIXSRC_LAST_LOGICAL_SWITCH-3)) {x+=3;} // 3 more "L" SWITCHES_DELAY
+#define GV_offset(x) if (x > (MIXSRC_LAST_GVAR-1)) {++x;} // 1 more Gvar
+
   ModelData temp_model;
   int tmp =0;
   wxString strtmp;
@@ -1366,11 +1370,10 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
         temp_model.mixData[i].noExpo = tmp;
         eepromfile->Read(wxT("mixData"+num+".weightMode"),&tmp,0);
         temp_model.mixData[i].weightMode = tmp;
-        eepromfile->Read(wxT("mixData"+num+".destCh"),&tmp,0);
-        temp_model.mixData[i].destCh = tmp;
         eepromfile->Read(wxT("mixData"+num+".offsetMode"),&tmp,0);
         temp_model.mixData[i].offsetMode = tmp;
         eepromfile->Read(wxT("mixData"+num+".srcRaw"),&tmp,0);
+        L_offset(tmp);
         temp_model.mixData[i].srcRaw = tmp;
         eepromfile->Read(wxT("mixData"+num+".weight"),&tmp,0);
         temp_model.mixData[i].weight = tmp;
@@ -1475,6 +1478,8 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
         eepromfile->Read(wxT("customFn"+num+".spare"),&tmp,0);
         temp_model.customFn[i].spare = tmp;
         eepromfile->Read(wxT("customFn"+num+".value"),&tmp,0);
+        L_offset(tmp);
+        GV_offset(tmp);
         temp_model.customFn[i].value = tmp;
       }
 
@@ -1580,6 +1585,8 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
         wxString num = wxString::Format(wxT("%i"),i);
         for (int j=0; j<4; ++j) { //FrSkyBarData bars[4]; or FrSkyLineData
           wxString numbl = wxString::Format(wxT("%i"),j);
+          eepromfile->Read(wxT("frsky.screens"+num+".bars"+numbl+"source"),&tmp,0);
+          temp_model.frsky.screens[i].bars[j].source = tmp;
           eepromfile->Read(wxT("frsky.screens"+num+".bars"+numbl+"barMin"),&tmp,0);
           temp_model.frsky.screens[i].bars[j].barMin = tmp;
           eepromfile->Read(wxT("frsky.screens"+num+".bars"+numbl+"barMax"),&tmp,0);
@@ -1861,7 +1868,6 @@ void OpenAVRc_SimulatorFrame::save_ModelData_30()
         eepromfile->Write(wxT("mixData"+num+".curveMode"),(int)temp_model.mixData[i].curveMode);
         eepromfile->Write(wxT("mixData"+num+".noExpo"),(int)temp_model.mixData[i].noExpo);
         eepromfile->Write(wxT("mixData"+num+".weightMode"),(int)temp_model.mixData[i].weightMode);
-        eepromfile->Write(wxT("mixData"+num+".destCh"),(int)temp_model.mixData[i].destCh);
         eepromfile->Write(wxT("mixData"+num+".offsetMode"),(int)temp_model.mixData[i].offsetMode);
         eepromfile->Write(wxT("mixData"+num+".srcRaw"),(int)temp_model.mixData[i].srcRaw);
         eepromfile->Write(wxT("mixData"+num+".weight"),(int)temp_model.mixData[i].weight);
@@ -2001,6 +2007,7 @@ void OpenAVRc_SimulatorFrame::save_ModelData_30()
         wxString num = wxString::Format(wxT("%i"),i);
         for (int j=0; j<4; ++j) { //FrSkyBarData bars[4]; or FrSkyLineData
           wxString numbl = wxString::Format(wxT("%i"),j);
+          eepromfile->Write(wxT("frsky.screens"+num+".bars"+numbl+"source"),(int)temp_model.frsky.screens[i].bars[j].source);
           eepromfile->Write(wxT("frsky.screens"+num+".bars"+numbl+"barMin"),(int)temp_model.frsky.screens[i].bars[j].barMin);
           eepromfile->Write(wxT("frsky.screens"+num+".bars"+numbl+"barMax"),(int)temp_model.frsky.screens[i].bars[j].barMax);
         }
@@ -2100,7 +2107,6 @@ PACK(typedef struct {
         eepromfile->Write(wxT("mixData"+num+".curveMode"),(int)temp_model.mixData[i].curveMode);
         eepromfile->Write(wxT("mixData"+num+".noExpo"),(int)temp_model.mixData[i].noExpo);
         eepromfile->Write(wxT("mixData"+num+".weightMode"),(int)temp_model.mixData[i].weightMode);
-        eepromfile->Write(wxT("mixData"+num+".destCh"),(int)temp_model.mixData[i].destCh);
         eepromfile->Write(wxT("mixData"+num+".offsetMode"),(int)temp_model.mixData[i].offsetMode);
         eepromfile->Write(wxT("mixData"+num+".srcRaw"),(int)temp_model.mixData[i].srcRaw);
         eepromfile->Write(wxT("mixData"+num+".weight"),(int)temp_model.mixData[i].weight);
@@ -2238,6 +2244,7 @@ PACK(typedef struct {
         wxString num = wxString::Format(wxT("%i"),i);
         for (int j=0; j<4; ++j) { //FrSkyBarData bars[4]; or FrSkyLineData
           wxString numbl = wxString::Format(wxT("%i"),j);
+          eepromfile->Write(wxT("frsky.screens"+num+".bars"+numbl+"source"),(int)temp_model.frsky.screens[i].bars[j].source);
           eepromfile->Write(wxT("frsky.screens"+num+".bars"+numbl+"barMin"),(int)temp_model.frsky.screens[i].bars[j].barMin);
           eepromfile->Write(wxT("frsky.screens"+num+".bars"+numbl+"barMax"),(int)temp_model.frsky.screens[i].bars[j].barMax);
         }
