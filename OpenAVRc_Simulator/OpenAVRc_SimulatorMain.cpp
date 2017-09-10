@@ -150,8 +150,8 @@ const long OpenAVRc_SimulatorFrame::ID_PANELL = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_PANELPRINCIPAL = wxNewId();
 const long OpenAVRc_SimulatorFrame::IdMenuOpenEE = wxNewId();
 const long OpenAVRc_SimulatorFrame::IdMenuSaveEE = wxNewId();
-const long OpenAVRc_SimulatorFrame::IdMenuExportEeprom = wxNewId();
-const long OpenAVRc_SimulatorFrame::IdImportEeprom = wxNewId();
+const long OpenAVRc_SimulatorFrame::IDMENUEXPORTEEPROM = wxNewId();
+const long OpenAVRc_SimulatorFrame::IDMENUIMPORTEEPROM = wxNewId();
 const long OpenAVRc_SimulatorFrame::idMenuQuit = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_LCDB = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_LCDF = wxNewId();
@@ -191,7 +191,6 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   wxMenu* MenuHelp;
   wxMenuItem* MenuAbout;
   wxMenuItem* MenuItem1;
-  wxMenu* MenuFile;
   wxMenuBar* MenuBar1;
 
   Create(parent, wxID_ANY, _("Simulateur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER, _T("wxID_ANY"));
@@ -293,12 +292,14 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   MenuSaveee = new wxMenuItem(MenuFile, IdMenuSaveEE, _("Sauver Eeprom"), _("Sauvegarde du fichier BIN"), wxITEM_NORMAL);
   MenuSaveee->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_BACK")),wxART_MENU));
   MenuFile->Append(MenuSaveee);
-  MenuExportEeprom = new wxMenuItem(MenuFile, IdMenuExportEeprom, _("Exporter Eeprom"), _("Exporte l\'eeprom en format texte"), wxITEM_NORMAL);
+  MenuExportEeprom = new wxMenuItem(MenuFile, IDMENUEXPORTEEPROM, _("Exporter Eeprom"), _("Exporte l\'eeprom en format texte"), wxITEM_NORMAL);
   MenuExportEeprom->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_DOWN")),wxART_MENU));
   MenuFile->Append(MenuExportEeprom);
-  MenuImportEeprom = new wxMenuItem(MenuFile, IdImportEeprom, _("Importer Eeprom"), _("Importe une eeprom en format texte"), wxITEM_NORMAL);
+  MenuExportEeprom->Enable(false);
+  MenuImportEeprom = new wxMenuItem(MenuFile, IDMENUIMPORTEEPROM, _("Importer Eeprom"), _("Importe une eeprom en format texte"), wxITEM_NORMAL);
   MenuImportEeprom->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_UP")),wxART_MENU));
   MenuFile->Append(MenuImportEeprom);
+  MenuImportEeprom->Enable(false);
   MenuItem1 = new wxMenuItem(MenuFile, idMenuQuit, _("Quitter\tAlt-F4"), _("Quitter le simulateur"), wxITEM_NORMAL);
   MenuItem1->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_QUIT")),wxART_MENU));
   MenuFile->Append(MenuItem1);
@@ -403,8 +404,8 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_BUTTONSTARTDESKTOP,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnButtonStartDesktopClick);
   Connect(IdMenuOpenEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuLoadEeprom);
   Connect(IdMenuSaveEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuSaveeeSelected);
-  Connect(IdMenuExportEeprom,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuExportEepromSelected);
-  Connect(IdImportEeprom,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuImportEepromSelected);
+  Connect(IDMENUEXPORTEEPROM,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuExportEepromSelected);
+  Connect(IDMENUIMPORTEEPROM,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuImportEepromSelected);
   Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnQuit);
   Connect(ID_LCDB,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuLcdBackSelected);
   Connect(ID_LCDF,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuLcdPixelSelected);
@@ -533,6 +534,8 @@ void OpenAVRc_SimulatorFrame::StartFirmwareCode()
   Timer10ms.Start(10, false); //Simulate 10mS Interrupt vector
   simumain();
   TimerMain.Start(1, false); // Simulate ?mS cycle for mainloop function
+  MenuFile->Enable(IDMENUEXPORTEEPROM, true);
+  MenuFile->Enable(IDMENUIMPORTEEPROM, true);
 }
 
 void OpenAVRc_SimulatorFrame::ResetSimuLcd()

@@ -310,7 +310,7 @@
 			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar1" member="no">
-			<object class="wxMenu" variable="MenuFile" member="no">
+			<object class="wxMenu" variable="MenuFile" member="yes">
 				<label>&amp;Fichier</label>
 				<object class="wxMenuItem" name="IdMenuOpenEE" variable="MenuLoadee" member="yes">
 					<label>Charger Eeprom</label>
@@ -324,15 +324,17 @@
 					<bitmap stock_id="wxART_GO_BACK" stock_client="wxART_MENU" />
 					<handler function="OnMenuSaveeeSelected" entry="EVT_MENU" />
 				</object>
-				<object class="wxMenuItem" name="IdMenuExportEeprom" variable="MenuExportEeprom" member="yes">
+				<object class="wxMenuItem" name="IDMENUEXPORTEEPROM" variable="MenuExportEeprom" member="yes">
 					<label>Exporter Eeprom</label>
 					<help>Exporte l&apos;eeprom en format texte</help>
+					<enabled>0</enabled>
 					<bitmap stock_id="wxART_GO_DOWN" stock_client="wxART_MENU" />
 					<handler function="OnMenuExportEepromSelected" entry="EVT_MENU" />
 				</object>
-				<object class="wxMenuItem" name="IdImportEeprom" variable="MenuImportEeprom" member="yes">
+				<object class="wxMenuItem" name="IDMENUIMPORTEEPROM" variable="MenuImportEeprom" member="yes">
 					<label>Importer Eeprom</label>
 					<help>Importe une eeprom en format texte</help>
+					<enabled>0</enabled>
 					<bitmap stock_id="wxART_GO_UP" stock_client="wxART_MENU" />
 					<handler function="OnMenuImportEepromSelected" entry="EVT_MENU" />
 				</object>

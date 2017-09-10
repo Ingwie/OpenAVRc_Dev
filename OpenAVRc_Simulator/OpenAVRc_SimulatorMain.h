@@ -239,8 +239,8 @@ private:
   static const long ID_PANELPRINCIPAL;
   static const long IdMenuOpenEE;
   static const long IdMenuSaveEE;
-  static const long IdMenuExportEeprom;
-  static const long IdImportEeprom;
+  static const long IDMENUEXPORTEEPROM;
+  static const long IDMENUIMPORTEEPROM;
   static const long idMenuQuit;
   static const long ID_LCDB;
   static const long ID_LCDF;
@@ -337,6 +337,7 @@ private:
   wxPanel* BpTrn;
   wxButton* ButtonStartDesktop;
   wxPanel* PanelMain;
+  wxMenu* MenuFile;
   wxMenu* MenuFrame;
   wxToggleButton* OnTglButton;
   wxTimer TimerMain;
