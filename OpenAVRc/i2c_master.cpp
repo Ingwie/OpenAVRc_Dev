@@ -47,6 +47,16 @@
 #define Prescaler 1
 #define TWBR_val ((((F_CPU / F_SCL) / Prescaler) - 16 ) / 2)
 #endif
+// DS3231M = 400KHz
+// DS3231  = 400KHz
+// FM24W256 = 1MHz
+// 400KHz SCL ... TWPS =0b01 in register TWSR(1:0), TWBR =3.
+/*
+ *        FCPU
+ * --------------------  = SCL frequency
+ * 16 + 2(TWBR) .4^TWPS
+ */
+
 
 void wait()
 {
