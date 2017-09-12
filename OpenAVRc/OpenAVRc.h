@@ -1030,6 +1030,24 @@ enum AUDIO_SOUNDS {
 #include "rtc.h"
 #endif
 
+#if defined(MULTIMODULE)
+PACK(
+  struct mm_protocol_definition {
+    uint8_t protocol;
+    const pm_char *subTypeString;
+    uint8_t maxSubtype;
+    const char *optionsstr;
+  } );
+const mm_protocol_definition *getMultiProtocolDefinition (uint8_t protocol);
+
+//enum MultiBindStatus : uint8_t {
+enum MultiBindStatus {
+  MULTI_NORMAL_OPERATION,
+  MULTI_BIND_INITIATED,
+  MULTI_BIND_FINISHED,
+};
+#endif
+
 ///////////////// SPI MODULES PROTOCOLES ///////////////////
 #if defined(SPIMODULES)
 

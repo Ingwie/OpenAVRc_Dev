@@ -149,16 +149,16 @@
 #endif
 
 #if defined(SPIMODULES)
-   #define TR_SPIM "SPIMOD"
-#else
-   #define TR_SPIM
+   #define TR_SPIM "SPIRfMod"
 #endif
 
 #if defined(MULTIMODULE)
-  #define TR_MMOD                "MultiM"
   #define LEN_MULTIPROTOCOLS    "\006"
   #define TR_MULTIPROTOCOLS     "FlySky""Hubsan""FrSky\0""Hisky\0""V2x2\0 ""DSM\0  ""Devo\0 ""YD717\0""KN\0   ""SymaX\0""SLT\0  ""CX10\0 ""CG023\0""Bayang""ESky\0 ""MT99XX""MJXQ\0 ""Shenqi""FY326\0""SFHSS\0""J6 PRO""FQ777\0""Assan\0""Hontai""OLRS\0 ""FS 2A\0""Q2x2\0 ""Walk.\0""Q303\0 ""GW008\0""DM002\0"
   #define TR_MULTI_CUSTOM       "Custom"
+#endif
+
+#if defined(MULTIMODULE) || defined(SPIMODULES)
   #define TR_SUBTYPE            "SubType"
   #define TR_MULTI_RFTUNE        TR(INDENT "Ajust.fr\200q", INDENT "Ajustement fr\200q.")
   #define TR_MULTI_TELEMETRY             "Telemetry"
@@ -170,8 +170,6 @@
   #define TR_MULTI_DSM_AUTODTECT TR(INDENT "Autod\200t.", INDENT "Autod\200tection")
   #define TR_MULTI_LOWPOWER      TR(INDENT "Basse puis.", INDENT "Mode basse puiss.")
   #define TR_RECEIVER_NUM        TR(INDENT "NumRx", INDENT "No. r\200cepteur")
-#else
-  #define TR_MMOD
 #endif
 
   
