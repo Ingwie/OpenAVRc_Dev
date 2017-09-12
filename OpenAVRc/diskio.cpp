@@ -68,8 +68,8 @@
 #define CT_SDC		(CT_SD1|CT_SD2)	/* SD */
 #define CT_BLOCK	0x08		/* Block addressing */
 
-#define	FCLK_SLOW()	SPCR = 0x52		/* Set slow clock (100k-400k) */
-#define	FCLK_FAST()	SPCR = 0x50		/* Set fast clock (depends on the CSD) */
+//#define	FCLK_SLOW()	SPCR = 0x52		/* Set slow clock (100k-400k) */
+//#define	FCLK_FAST()	SPCR = 0x50		/* Set fast clock (depends on the CSD) */
 
 
 /*--------------------------------------------------------------------------
@@ -354,7 +354,7 @@ DSTATUS disk_initialize (
   if (Stat & STA_NODISK) return Stat;	/* No card in the socket */
 
   power_on();				/* Force socket power on */
-  FCLK_SLOW();
+  SPI_SLOW();
   for (n = 10; n; n--) rcvr_spi();	/* 80 dummy clocks */
 
   ty = 0;
@@ -387,7 +387,7 @@ DSTATUS disk_initialize (
 
   if (ty) {			/* Initialization succeded */
     Stat &= ~STA_NOINIT;	/* Clear STA_NOINIT */
-    FCLK_FAST();
+    SPI_FAST();
   } else {			/* Initialization failed */
     power_off();
   }

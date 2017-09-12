@@ -183,6 +183,8 @@ bool check_slave_mode(void);
 bool sdMounted();
 void sdMountPoll();
 void sdPoll10ms();
+#define SPI_SLOW()  SPI_250K()
+#define SPI_FAST()  SPI_4M()
 
 #if 0
 // Keys driver
