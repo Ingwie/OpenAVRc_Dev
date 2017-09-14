@@ -48,12 +48,12 @@ typedef struct {
   uint8_t    hour;   /* 0..23 */
   uint8_t    min;    /* 0..59 */
   uint8_t    sec;    /* 0..59 */
-} RTC;
+} RTClock_t;
 
 /*-------------------------------------------------*/
 /* RTC functions                                   */
 
-uint8_t g9x_rtcGetTime (RTC *rtc)
+uint8_t g9x_rtcGetTime (RTClock_t *rtc)
 {
   uint8_t buf[7];
 
@@ -70,7 +70,7 @@ uint8_t g9x_rtcGetTime (RTC *rtc)
   return 1;
 }
 
-uint8_t g9x_rtcSetTime (const RTC *rtc)
+uint8_t g9x_rtcSetTime (const RTClock_t *rtc)
 {
   uint8_t buf[7];
 
@@ -86,7 +86,7 @@ uint8_t g9x_rtcSetTime (const RTC *rtc)
 
 void rtcGetTime(struct gtm * utm)
 {
-  RTC rtc = {0,0,0,0,0,0,0};
+  RTClock_t rtc = {0,0,0,0,0,0,0};
 
   g9x_rtcGetTime(&rtc);
 
@@ -104,7 +104,7 @@ void rtcSetTime(struct gtm * t)
   g_rtcTime = gmktime(t); // update local timestamp and get wday calculated
   g_ms100 = 0; // start of next second begins now
 
-  RTC rtc;
+  RTClock_t rtc;
   rtc.year = t->tm_year + 1900;
   rtc.month = t->tm_mon + 1;
   rtc.mday = t->tm_mday;
