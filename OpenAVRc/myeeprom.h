@@ -114,7 +114,7 @@ typedef uint8_t source_t;
 #define PHASE_GVARS_DATA gvar_t gvars[MAX_GVARS]
 #define GVAR_VALUE(x, p) g_model.flightModeData[p].gvars[x]
 
-typedef int8_t gvar_t;
+typedef int16_t gvar_t;
 
 PACK(typedef struct {
   char    name[LEN_GVAR_NAME];
