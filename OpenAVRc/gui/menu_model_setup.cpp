@@ -370,8 +370,10 @@ void menuModelSetup(uint8_t event)
 
         lcdDrawTextLeft(y, NO_INDENT(STR_TYPE));
         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN-5*FW, y, Protos[g_model.rfProtocol].ProtoName, menuHorizontalPosition == 0 ? attr : 0);
-        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+3 * FW, y, "Subtyp",  (menuHorizontalPosition == 1 ? attr : 0));
-        lcd_outdez8(MODEL_SETUP_2ND_COLUMN+10 * FW, y, g_model.rfSubType);
+        if (1) { // Check if Subtype
+          lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+3 * FW, y, "Subtyp",  (menuHorizontalPosition == 1 ? attr : 0));
+          lcd_outdez8(MODEL_SETUP_2ND_COLUMN+10 * FW, y, g_model.rfSubType);
+        }
         if (attr  && (editMode>0)) {
 
           switch (menuHorizontalPosition) {
@@ -384,7 +386,6 @@ void menuModelSetup(uint8_t event)
           }
           break;
           }
-          break;
         }
       }
 #endif
@@ -447,7 +448,10 @@ void menuModelSetup(uint8_t event)
       }
 
       break;
-    case ITEM_MODEL_EXTERNAL_MODULE_BIND: {
+#endif
+#if defined(MULTIMODULE) || defined(SPIMODULES)
+    case ITEM_MODEL_EXTERNAL_MODULE_BIND:
+#if defined(MULTIMODULE)
       if IS_MULTIMODULE_PROTOCOL(protocol) {
         horzpos_t l_posHorz = menuHorizontalPosition;
         lcdDrawTextLeft(y, STR_RECEIVER_NUM);
@@ -476,9 +480,33 @@ void menuModelSetup(uint8_t event)
         if (newFlag == MODULE_BIND)
           multiBindStatus = MULTI_BIND_INITIATED;
       }
-    }
-    break;
-    case   ITEM_MODEL_EXTERNAL_MODULE_OPTION:
+#endif
+#if defined(MULTIMODULE)
+      if IS_SPIMODULES_PROTOCOL(protocol) {
+        horzpos_t l_posHorz = menuHorizontalPosition;
+        lcdDrawTextLeft(y, STR_RECEIVER_NUM);
+        coord_t xOffsetBind = MODEL_SETUP_BIND_OFS;
+        if (xOffsetBind) lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
+        if (attr && l_posHorz==0) {
+          if (editMode>0 || p1valdiff) {
+            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, 15);
+          }
+        }
+        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+xOffsetBind, y, STR_MODULE_BIND, l_posHorz==1 ? attr : 0);
+        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+MODEL_SETUP_RANGE_OFS+xOffsetBind, y, STR_MODULE_RANGE, l_posHorz==2 ? attr : 0);
+
+        if (attr && l_posHorz>0) {
+          if (l_posHorz == 1)  SpiRFModule.mode = BIND_MODE; // TODO Call bind
+          else if (l_posHorz == 2) {
+            SpiRFModule.mode = RANGE_MODE; // TODO Call PRT
+          }
+        }
+      }
+#endif
+      break;
+
+    case ITEM_MODEL_EXTERNAL_MODULE_OPTION:
+#if defined(MULTIMODULE)
       if IS_MULTIMODULE_PROTOCOL(protocol) {
         int optionValue =  g_model.rfOptionValue2;
 
@@ -512,6 +540,7 @@ void menuModelSetup(uint8_t event)
       if IS_MULTIMODULE_PROTOCOL(protocol)
         ON_OFF_MENU_ITEM(g_model.LOWPOWERMODE, MODEL_SETUP_2ND_COLUMN, y, STR_MULTI_LOWPOWER, attr, event);
 
+#endif
 #endif
       break;
     }
