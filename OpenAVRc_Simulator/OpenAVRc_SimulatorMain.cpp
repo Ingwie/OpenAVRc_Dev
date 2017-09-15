@@ -1520,6 +1520,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
         for (int k=0; k<MAX_GVARS; ++k) { //PHASE_GVARS_DATA gvar_t gvars[MAX_GVARS]
           wxString numgvar = wxString::Format(wxT("%i"),k);
           eepromfile->Read(wxT("flightModeData"+num+".gvars"+numgvar),&tmp,0);
+          if (tmp >128) {tmp = tmp-128 /*GVAR_MAX V217*/+121/*GVAR_MAX V30*/;}
           temp_model.flightModeData[i].gvars[k] = tmp;
         }
       }

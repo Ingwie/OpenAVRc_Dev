@@ -108,13 +108,13 @@ typedef uint8_t source_t;
 
 #define MAX_GVARS 6
 #define LEN_GVAR_NAME 6
-#define GVAR_MAX      128
-#define GVAR_LIMIT    125
+#define GVAR_MAX      121 // used for phase decrypt
+#define GVAR_LIMIT    120
 #define MODEL_GVARS_NAME global_gvar_t gvars[MAX_GVARS];
 #define PHASE_GVARS_DATA gvar_t gvars[MAX_GVARS]
 #define GVAR_VALUE(x, p) g_model.flightModeData[p].gvars[x]
 
-typedef int16_t gvar_t;
+typedef int8_t gvar_t;
 
 PACK(typedef struct {
   char    name[LEN_GVAR_NAME];
