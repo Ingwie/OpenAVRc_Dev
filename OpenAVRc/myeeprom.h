@@ -396,12 +396,6 @@ PACK(typedef struct {
 #define MLTPX_MUL   1
 #define MLTPX_REP   2
 
-
-// highest bit used for small values in mix 128 --> 8 bit is enough
-#define GV1_SMALL  128
-// highest bit used for large values in mix 256 --> 9 bits is used (8 bits + 1 extra bit from weightMode/offsetMode)
-#define GV1_LARGE  256 // bracame toto remove all to switch gvar to int8
-
 #define DELAY_STEP  2
 #define SLOW_STEP   2
 #define DELAY_MAX   15 /* 7.5 seconds */

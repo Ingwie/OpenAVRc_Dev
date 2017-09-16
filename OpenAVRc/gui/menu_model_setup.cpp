@@ -79,12 +79,10 @@ enum menuModelSetupItems {
 #define MODEL_SETUP_RANGE_OFS         4*FW+3
 #define MODEL_SETUP_SET_FAILSAFE_OFS  7*FW-2
 
-#define CURRENT_MODULE_EDITED(k)         (EXTERNAL_MODULE)
-
 void menuModelSetup(uint8_t event)
 {
 #define CURSOR_ON_CELL                    (true)
-#define MODEL_SETUP_MAX_LINES             (IS_PPM_PROTOCOL(protocol)||IS_DSM_PROTOCOL(protocol)||IS_SPIMODULES_PROTOCOL(protocol)) ? ITEM_MODEL_SETUP_MAX+MODEL_SETUP_MMsetupItemsPlus-3 : (IS_MULTIMODULE_PROTOCOL(protocol) ? ITEM_MODEL_SETUP_MAX+MODEL_SETUP_MMsetupItemsPlus+1 : ITEM_MODEL_SETUP_MAX+MODEL_SETUP_MMsetupItemsPlus-4)
+#define MODEL_SETUP_MAX_LINES             (IS_PPM_PROTOCOL(protocol)) ? ITEM_MODEL_SETUP_MAX+MODEL_SETUP_MMsetupItemsPlus-3 : (IS_DSM_PROTOCOL(protocol)) ? ITEM_MODEL_SETUP_MAX+MODEL_SETUP_MMsetupItemsPlus-2 :  (IS_MULTIMODULE_PROTOCOL(protocol||IS_SPIMODULES_PROTOCOL(protocol)) ? ITEM_MODEL_SETUP_MAX+MODEL_SETUP_MMsetupItemsPlus+1 : ITEM_MODEL_SETUP_MAX+MODEL_SETUP_MMsetupItemsPlus-4)
   uint8_t protocol = g_model.rfProtocol;
   uint8_t memproto = protocol;
   MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 0, 1, 0, 0, 0, 0, 0, NUM_SWITCHES, NUM_STICKS+NUM_POTS+NUM_ROTARY_ENCODERS-1, FIELD_PROTOCOL_MAX, 2,
@@ -336,37 +334,30 @@ void menuModelSetup(uint8_t event)
           }
         }
       }
-#if defined(DSM2) || defined(PXX)
-      else if (IS_DSM_PROTOCOL(protocol) || IS_PXX_PROTOCOL(protocol)) {
-        if (attr && menuHorizontalPosition > 1) {
-          REPEAT_LAST_CURSOR_MOVE(); // limit 3 column row to 2 colums (Rx_Num and RANGE fields)
-        }
-        lcdDrawTextLeft(y, STR_RXNUM);
-        lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y, g_model.modelId, (menuHorizontalPosition<=0 ? attr : 0) | LEADING0|LEFT, 2);
-        if (attr && (menuHorizontalPosition==0 && (editMode>0 || p1valdiff))) {
-          CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, MAX_MODELS);
-        }
-#if defined(PXX)
-        if IS_PXX_PROTOCOL(protocol) {
-          lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+4*FW, y, STR_SYNCMENU, menuHorizontalPosition!=0 ? attr : 0);
-          uint8_t newFlag = 0;
-          if (attr && menuHorizontalPosition>0 && editMode>0) {
-            // send reset code
-            newFlag = MODULE_BIND;
-          }
-          moduleFlag = newFlag;
-        }
-#endif
 #if defined(DSM2)
         if (IS_DSM_PROTOCOL(protocol)) {
-          lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+4*FW, y, STR_MODULE_RANGE, menuHorizontalPosition!=0 ? attr : 0);
-          moduleFlag = (attr && menuHorizontalPosition>0 && editMode>0) ? MODULE_RANGECHECK : 0; // [MENU] key toggles range check mode
+        horzpos_t l_posHorz = menuHorizontalPosition;
+        lcdDrawTextLeft(y, STR_RECEIVER_NUM);
+        coord_t xOffsetBind = MODEL_SETUP_BIND_OFS;
+        if (xOffsetBind) lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
+        if (attr && l_posHorz==0) {
+          if (editMode>0 || p1valdiff) {
+            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, MAX_MODELS);
+          }
+        }
+        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+xOffsetBind, y, STR_MODULE_BIND, l_posHorz==1 ? attr : 0);
+        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+MODEL_SETUP_RANGE_OFS+xOffsetBind, y, STR_MODULE_RANGE, l_posHorz==2 ? attr : 0);
+
+        if (attr && l_posHorz>0) {
+          if (l_posHorz == 1)  SpiRFModule.mode = BIND_MODE; // TODO Call bind
+          else if (l_posHorz == 2) {
+            SpiRFModule.mode = RANGE_MODE; // TODO Call PRT
+          }
+        }
         }
 #endif
-      }
-#endif
 #if defined(SPIMODULES)
-      else if IS_SPIMODULES_PROTOCOL(protocol) {
+      if IS_SPIMODULES_PROTOCOL(protocol) {
 
         lcdDrawTextLeft(y, NO_INDENT(STR_TYPE));
         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN-5*FW, y, Protos[g_model.rfProtocol].ProtoName, menuHorizontalPosition == 0 ? attr : 0);
@@ -446,11 +437,17 @@ void menuModelSetup(uint8_t event)
           }
         }
       }
-
-      break;
 #endif
+      break;
 #if defined(MULTIMODULE) || defined(SPIMODULES)
     case ITEM_MODEL_EXTERNAL_MODULE_BIND:
+#if defined(DSM2)
+        if (IS_DSM_PROTOCOL(protocol)) {
+      lcdDrawTextLeft(y, "TODO");
+      limit((uint8_t)0, (uint8_t)g_model.rfSubType,(uint8_t)2);
+      // Call subtype fonction (to build !)
+        }
+#endif
 #if defined(MULTIMODULE)
       if IS_MULTIMODULE_PROTOCOL(protocol) {
         horzpos_t l_posHorz = menuHorizontalPosition;
@@ -481,7 +478,7 @@ void menuModelSetup(uint8_t event)
           multiBindStatus = MULTI_BIND_INITIATED;
       }
 #endif
-#if defined(MULTIMODULE)
+#if defined(SPIMODULES)
       if IS_SPIMODULES_PROTOCOL(protocol) {
         horzpos_t l_posHorz = menuHorizontalPosition;
         lcdDrawTextLeft(y, STR_RECEIVER_NUM);
@@ -489,7 +486,7 @@ void menuModelSetup(uint8_t event)
         if (xOffsetBind) lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
         if (attr && l_posHorz==0) {
           if (editMode>0 || p1valdiff) {
-            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, 15);
+            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, MAX_MODELS);
           }
         }
         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+xOffsetBind, y, STR_MODULE_BIND, l_posHorz==1 ? attr : 0);
@@ -505,10 +502,45 @@ void menuModelSetup(uint8_t event)
 #endif
       break;
 
+    case ITEM_MODEL_EXTERNAL_MODULE_AUTOBIND:
+#if defined(MULTIMODULE)
+      if IS_MULTIMODULE_PROTOCOL(protocol) {
+        if (g_model.MULTIRFPROTOCOL == MM_RF_PROTO_DSM2)
+          ON_OFF_MENU_ITEM(g_model.AUTOBINDMODE, MODEL_SETUP_2ND_COLUMN, y, STR_MULTI_DSM_AUTODTECT, attr, event);
+        else
+          ON_OFF_MENU_ITEM(g_model.AUTOBINDMODE, MODEL_SETUP_2ND_COLUMN, y, STR_MULTI_AUTOBIND, attr, event);
+      }
+#endif
+#if defined(SPIMODULES)
+      if IS_SPIMODULES_PROTOCOL(protocol) {
+        ON_OFF_MENU_ITEM(g_model.AUTOBINDMODE, MODEL_SETUP_2ND_COLUMN, y, STR_MULTI_AUTOBIND, attr, event);
+      }
+#endif
+      break;
+    case  ITEM_MODEL_EXTERNAL_MODULE_LOWPOWER: //Option1 for SPIMOD
+#if defined(MULTIMODULE)
+      if IS_MULTIMODULE_PROTOCOL(protocol) {
+        ON_OFF_MENU_ITEM(g_model.LOWPOWERMODE, MODEL_SETUP_2ND_COLUMN, y, STR_MULTI_LOWPOWER, attr, event);
+      }
+#endif
+#if defined(SPIMODULES)
+      if IS_SPIMODULES_PROTOCOL(protocol) {
+        //todo check if proto need option1
+        int8_t optionValue =  g_model.rfOptionValue1;
+
+        lcdDrawTextAtt(FW/2, y, "Option1 Name",0);
+        lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 5 * FW, y, optionValue, attr);
+        if (attr) {
+          CHECK_INCDEC_MODELVAR(event, g_model.rfOptionValue1, -128, 127);
+        }
+      }
+#endif
+      break;
+
     case ITEM_MODEL_EXTERNAL_MODULE_OPTION:
 #if defined(MULTIMODULE)
       if IS_MULTIMODULE_PROTOCOL(protocol) {
-        int optionValue =  g_model.rfOptionValue2;
+        int8_t optionValue =  g_model.rfOptionValue2;
 
         const uint8_t multi_proto = g_model.MULTIRFPROTOCOL;
         const mm_protocol_definition* pdef = getMultiProtocolDefinition(multi_proto);
@@ -527,19 +559,18 @@ void menuModelSetup(uint8_t event)
           }
         }
       }
-      break;
-    case ITEM_MODEL_EXTERNAL_MODULE_AUTOBIND:
-      if IS_MULTIMODULE_PROTOCOL(protocol) {
-        if (g_model.MULTIRFPROTOCOL == MM_RF_PROTO_DSM2)
-          ON_OFF_MENU_ITEM(g_model.AUTOBINDMODE, MODEL_SETUP_2ND_COLUMN, y, STR_MULTI_DSM_AUTODTECT, attr, event);
-        else
-          ON_OFF_MENU_ITEM(g_model.AUTOBINDMODE, MODEL_SETUP_2ND_COLUMN, y, STR_MULTI_AUTOBIND, attr, event);
-      }
-      break;
-    case  ITEM_MODEL_EXTERNAL_MODULE_LOWPOWER:
-      if IS_MULTIMODULE_PROTOCOL(protocol)
-        ON_OFF_MENU_ITEM(g_model.LOWPOWERMODE, MODEL_SETUP_2ND_COLUMN, y, STR_MULTI_LOWPOWER, attr, event);
+#endif
+#if defined(SPIMODULES)
+      if IS_SPIMODULES_PROTOCOL(protocol) {
+        //todo check if proto need option1
+        int8_t optionValue =  g_model.rfOptionValue2;
 
+        lcdDrawTextAtt(FW/2, y, "Option2 Name", 0);
+        lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 5 * FW, y, optionValue, attr);
+        if (attr) {
+          CHECK_INCDEC_MODELVAR(event, g_model.rfOptionValue2, -128, 127);
+        }
+      }
 #endif
 #endif
       break;

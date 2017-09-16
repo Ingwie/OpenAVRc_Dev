@@ -33,7 +33,7 @@
 
 #include "../OpenAVRc.h"
 
-#define TLM_MULTI 0 // usart 0
+#define TLM_DSM_SERIAL 0 // usart 0
 
 
 // DSM2 control bits
@@ -152,18 +152,18 @@ static void DSM_SERIAL_initialize(void)
 
 #include <util/setbaud.h>
 
-  UBRRH_N(TLM_MULTI) = UBRRH_VALUE;
-  UBRRL_N(TLM_MULTI) = UBRRL_VALUE;
-  UCSRA_N(TLM_MULTI) &= ~(1 << U2X_N(TLM_MULTI)); // disable double speed operation.
+  UBRRH_N(TLM_DSM_SERIAL) = UBRRH_VALUE;
+  UBRRL_N(TLM_DSM_SERIAL) = UBRRL_VALUE;
+  UCSRA_N(TLM_DSM_SERIAL) &= ~(1 << U2X_N(TLM_DSM_SERIAL)); // disable double speed operation.
 
   // Set 8N1 (leave TX and RX disabled for now)
-  UCSRB_N(TLM_MULTI) = (0 << RXCIE_N(TLM_MULTI)) | (0 << TXCIE_N(TLM_MULTI)) | (0 << UDRIE_N(TLM_MULTI)) | (0 << RXEN_N(TLM_MULTI)) | (0 << TXEN_N(TLM_MULTI)) | (0 << UCSZ2_N(TLM_MULTI));
-  UCSRC_N(TLM_MULTI) = (1 << UCSZ1_N(TLM_MULTI)) | (1 << UCSZ0_N(TLM_MULTI)); // Set 1 stop bit, No parity bit.
-  while (UCSRA_N(TLM_MULTI) & (1 << RXC_N(TLM_MULTI))) UDR_N(TLM_MULTI); // Flush receive buffer.
+  UCSRB_N(TLM_DSM_SERIAL) = (0 << RXCIE_N(TLM_DSM_SERIAL)) | (0 << TXCIE_N(TLM_DSM_SERIAL)) | (0 << UDRIE_N(TLM_DSM_SERIAL)) | (0 << RXEN_N(TLM_DSM_SERIAL)) | (0 << TXEN_N(TLM_DSM_SERIAL)) | (0 << UCSZ2_N(TLM_DSM_SERIAL));
+  UCSRC_N(TLM_DSM_SERIAL) = (1 << UCSZ1_N(TLM_DSM_SERIAL)) | (1 << UCSZ0_N(TLM_DSM_SERIAL)); // Set 1 stop bit, No parity bit.
+  while (UCSRA_N(TLM_DSM_SERIAL) & (1 << RXC_N(TLM_DSM_SERIAL))) UDR_N(TLM_DSM_SERIAL); // Flush receive buffer.
 
   // These should be running right from power up on a FrSky enabled '9X.
   frskyTxBufferCount = 0; // TODO not driver code
-  UCSRB_N(TLM_MULTI) |= (1 << TXEN_N(TLM_MULTI)); // Enable USART Tx.
+  UCSRB_N(TLM_DSM_SERIAL) |= (1 << TXEN_N(TLM_DSM_SERIAL)); // Enable USART Tx.
 
 #endif // SIMU
 #endif // defined(DSM2_SERIAL)

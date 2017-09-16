@@ -608,8 +608,13 @@ void setGVarValue(uint8_t x, int8_t value, int8_t phase);
 #define GET_GVAR(x, ...) (x)
 #endif
 
+// highest bit used for small values in mix 128 --> 8 bit is enough
+#define GV1_SMALL  128
+// highest bit used for large values in mix 256 --> 9 bits is used (8 bits + 1 extra bit from weightMode/offsetMode)
+#define GV1_LARGE  256 // bracame toto remove all (to switch gvar to int8 : done) unused code
+
 #define GV_GET_GV1_VALUE(max)        ( (max<=GV_RANGESMALL) ? GV1_SMALL : GV1_LARGE )
-#define GV_INDEX_CALCULATION(x,max)  ( (max<=GV1_SMALL) ? (uint8_t) x-GV1_SMALL : ((x&(GV1_LARGE*2-1))-GV1_LARGE) )
+#define GV_INDEX_CALCULATION(x,max)  /*( (max<=GV1_SMALL) ?*/ (uint8_t) x-GV1_SMALL /*: ((x&(GV1_LARGE*2-1))-GV1_LARGE) )*/
 #define GV_IS_GV_VALUE(x,min,max)    ( (x>max) || (x<min) )
 
 #define GV_INDEX_CALC_DELTA(x,delta) ((x&(delta*2-1)) - delta)

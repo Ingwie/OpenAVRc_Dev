@@ -376,7 +376,7 @@ uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx)
 {
   for (uint8_t i=0; i<MAX_FLIGHT_MODES; i++) {
     if (phase == 0) return 0;
-    int16_t val = GVAR_VALUE(idx, phase); // TODO phase at the end everywhere to be consistent!
+    int8_t val = GVAR_VALUE(idx, phase); // TODO phase at the end everywhere to be consistent!
     if (val <= GVAR_MAX) return phase;
     uint8_t result = val-GVAR_MAX-1;
     if (result >= phase) ++result;

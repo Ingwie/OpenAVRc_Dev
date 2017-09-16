@@ -450,6 +450,9 @@ extern const pm_char STR_FAS_OFFSET[];
 
 #if defined(MULTIMODULE)
 extern const pm_char STR_MULTI_CUSTOM[];
+#endif
+
+#if defined(MULTIMODULE) || defined(SPIMODULES)
 extern const pm_char STR_SUBTYPE[];
 extern const pm_char STR_MULTI_VIDFREQ[];
 extern const pm_char STR_MULTI_RFTUNE[];
