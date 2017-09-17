@@ -302,7 +302,19 @@ void menuModelSetup(uint8_t event)
       if (attr && (editMode>0 || p1valdiff)) {
         switch (menuHorizontalPosition) {
         case 0:
-          CHECK_INCDEC_MODELVAR_ZERO(event, protocol, LASTPROTOMENU1);
+#if defined(SPIMODULES)
+          uint8_t prototemp;
+          if IS_SPIMODULES_PROTOCOL(protocol) {
+            prototemp = LASTPROTOMENU1;
+            CHECK_INCDEC_MODELVAR_ZERO(event, prototemp, LASTPROTOMENU1);
+            if (prototemp < LASTPROTOMENU1) {
+              protocol = prototemp;
+            }
+          } else
+#endif
+          {
+            CHECK_INCDEC_MODELVAR_ZERO(event, protocol, LASTPROTOMENU1);
+          }
           break;
         case 1:
           CHECK_INCDEC_MODELVAR(event, g_model.PPMNCH, 0, 6);
@@ -335,7 +347,7 @@ void menuModelSetup(uint8_t event)
         }
       }
 #if defined(DSM2)
-        if (IS_DSM_PROTOCOL(protocol)) {
+      if (IS_DSM_PROTOCOL(protocol)) {
         horzpos_t l_posHorz = menuHorizontalPosition;
         lcdDrawTextLeft(y, STR_RECEIVER_NUM);
         coord_t xOffsetBind = MODEL_SETUP_BIND_OFS;
@@ -354,14 +366,14 @@ void menuModelSetup(uint8_t event)
             SpiRFModule.mode = RANGE_MODE; // TODO Call PRT
           }
         }
-        }
+      }
 #endif
 #if defined(SPIMODULES)
       if IS_SPIMODULES_PROTOCOL(protocol) {
 
         lcdDrawTextLeft(y, NO_INDENT(STR_TYPE));
         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN-5*FW, y, Protos[g_model.rfProtocol].ProtoName, menuHorizontalPosition == 0 ? attr : 0);
-        if (1) { // Check if Subtype
+        if (1) { // Check if Subtype exist
           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+3 * FW, y, "Subtyp",  (menuHorizontalPosition == 1 ? attr : 0));
           lcd_outdez8(MODEL_SETUP_2ND_COLUMN+10 * FW, y, g_model.rfSubType);
         }
@@ -442,11 +454,11 @@ void menuModelSetup(uint8_t event)
 #if defined(MULTIMODULE) || defined(SPIMODULES)
     case ITEM_MODEL_EXTERNAL_MODULE_BIND:
 #if defined(DSM2)
-        if (IS_DSM_PROTOCOL(protocol)) {
-      lcdDrawTextLeft(y, "TODO");
-      limit((uint8_t)0, (uint8_t)g_model.rfSubType,(uint8_t)2);
-      // Call subtype fonction (to build !)
-        }
+      if (IS_DSM_PROTOCOL(protocol)) {
+        lcdDrawTextLeft(y, "TODO");
+        limit((uint8_t)0, (uint8_t)g_model.rfSubType,(uint8_t)2);
+        // Call subtype fonction (to build !)
+      }
 #endif
 #if defined(MULTIMODULE)
       if IS_MULTIMODULE_PROTOCOL(protocol) {
