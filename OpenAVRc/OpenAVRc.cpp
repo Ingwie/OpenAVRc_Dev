@@ -376,7 +376,7 @@ uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx)
 {
   for (uint8_t i=0; i<MAX_FLIGHT_MODES; i++) {
     if (phase == 0) return 0;
-    int8_t val = GVAR_VALUE(idx, phase); // TODO phase at the end everywhere to be consistent!
+    int16_t val = GVAR_VALUE(idx, phase); // TODO phase at the end everywhere to be consistent!
     if (val <= GVAR_MAX) return phase;
     uint8_t result = val-GVAR_MAX-1;
     if (result >= phase) ++result;
@@ -385,7 +385,7 @@ uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx)
   return 0;
 }
 
-int8_t getGVarValue(int8_t x, int8_t min, int8_t max, int8_t phase)
+int16_t getGVarValue(int16_t x, int16_t min, int16_t max, int8_t phase)
 {
   if (GV_IS_GV_VALUE(x, min, max)) {
     int8_t idx = GV_INDEX_CALCULATION(x, max);
@@ -401,9 +401,9 @@ int8_t getGVarValue(int8_t x, int8_t min, int8_t max, int8_t phase)
   return limit(min, x, max);
 }
 
-void setGVarValue(uint8_t idx, int8_t value, int8_t phase)
+void setGVarValue(uint8_t idx, int16_t value, int8_t phase)
 {
-  value = limit((int8_t)-GVAR_LIMIT,value,(int8_t)GVAR_LIMIT); //Limit Gvar value
+  value = limit((int16_t)-GVAR_LIMIT,value,(int16_t)GVAR_LIMIT); //Limit Gvar value
   phase = getGVarFlightPhase(phase, idx);
   if (GVAR_VALUE(idx, phase) != value) {
     SET_GVAR_VALUE(idx, phase, value);

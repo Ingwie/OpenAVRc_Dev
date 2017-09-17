@@ -600,8 +600,8 @@ void incRotaryEncoder(uint8_t idx, int8_t inc);
 
 #if defined(GVARS)
 uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx);
-int8_t getGVarValue(int8_t x, int8_t min, int8_t max, int8_t phase);
-void setGVarValue(uint8_t x, int8_t value, int8_t phase);
+int16_t getGVarValue(int16_t x, int16_t min, int16_t max, int8_t phase);
+void setGVarValue(uint8_t x, int16_t value, int8_t phase);
 #define GET_GVAR(x, min, max, p) getGVarValue(x, min, max, p)
 #define SET_GVAR(idx, val, p) setGVarValue(idx, val, p)
 #else
@@ -613,8 +613,9 @@ void setGVarValue(uint8_t x, int8_t value, int8_t phase);
 // highest bit used for large values in mix 256 --> 9 bits is used (8 bits + 1 extra bit from weightMode/offsetMode)
 #define GV1_LARGE  256 // bracame toto remove all (to switch gvar to int8 : done) unused code
 
+
 #define GV_GET_GV1_VALUE(max)        ( (max<=GV_RANGESMALL) ? GV1_SMALL : GV1_LARGE )
-#define GV_INDEX_CALCULATION(x,max)  /*( (max<=GV1_SMALL) ?*/ (uint8_t) x-GV1_SMALL /*: ((x&(GV1_LARGE*2-1))-GV1_LARGE) )*/
+#define GV_INDEX_CALCULATION(x,max)  ( (max<=GV1_SMALL) ? (uint8_t) x-GV1_SMALL : ((x&(GV1_LARGE*2-1))-GV1_LARGE) )
 #define GV_IS_GV_VALUE(x,min,max)    ( (x>max) || (x<min) )
 
 #define GV_INDEX_CALC_DELTA(x,delta) ((x&(delta*2-1)) - delta)

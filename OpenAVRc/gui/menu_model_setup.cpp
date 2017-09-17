@@ -303,9 +303,8 @@ void menuModelSetup(uint8_t event)
         switch (menuHorizontalPosition) {
         case 0:
 #if defined(SPIMODULES)
-          uint8_t prototemp;
           if IS_SPIMODULES_PROTOCOL(protocol) {
-            prototemp = LASTPROTOMENU1;
+            uint8_t prototemp = LASTPROTOMENU1;
             CHECK_INCDEC_MODELVAR_ZERO(event, prototemp, LASTPROTOMENU1);
             if (prototemp < LASTPROTOMENU1) {
               protocol = prototemp;
