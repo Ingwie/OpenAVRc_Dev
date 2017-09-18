@@ -348,9 +348,14 @@ void menuModelSetup(uint8_t event)
       }
 #if defined(DSM2)
       if (IS_DSM_PROTOCOL(protocol)) {
-        lcdDrawTextLeft(y, "TODO");
-        limit((uint8_t)0, (uint8_t)g_model.rfSubType,(uint8_t)2);
-        // Call subtype fonction (to build !)
+        lcdDrawTextLeft(y, STR_TYPE);
+        if PROTO_IS_SYNC {
+        lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+4*g_model.rfSubType, 4, menuHorizontalPosition == 0 ? attr : 0);
+          if (attr && (editMode>0 || p1valdiff))
+          {
+            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.rfSubType, RfOptionSettings.rfSubTypeMax);
+          }
+        }
       }
 #endif
 #if defined(SPIMODULES)
@@ -359,7 +364,7 @@ void menuModelSetup(uint8_t event)
         lcdDrawTextLeft(y, NO_INDENT(STR_TYPE));
         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN-5*FW, y, Protos[g_model.rfProtocol].ProtoName, menuHorizontalPosition == 0 ? attr : 0);
         if (1) { // Check if Subtype exist
-          lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+3 * FW, y, "Subtyp",  (menuHorizontalPosition == 1 ? attr : 0));
+          lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+3 * FW, y, STR_SUBTYPE,  (menuHorizontalPosition == 1 ? attr : 0));
           lcd_outdez8(MODEL_SETUP_2ND_COLUMN+10 * FW, y, g_model.rfSubType);
         }
         if (attr  && (editMode>0)) {
@@ -440,8 +445,8 @@ void menuModelSetup(uint8_t event)
     case ITEM_MODEL_EXTERNAL_MODULE_BIND:
 #if defined(DSM2)
       if (IS_DSM_PROTOCOL(protocol)) {
-horzpos_t l_posHorz = menuHorizontalPosition;
-        lcdDrawTextLeft(y, STR_RECEIVER_NUM);
+        horzpos_t l_posHorz = menuHorizontalPosition;
+        lcdDrawTextLeft(y, STR_RXNUM);
         coord_t xOffsetBind = MODEL_SETUP_BIND_OFS;
         if (xOffsetBind) lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
         if (attr && l_posHorz==0) {
@@ -454,7 +459,8 @@ horzpos_t l_posHorz = menuHorizontalPosition;
 
         if (attr && l_posHorz>0) {
           if (l_posHorz == 1)  SpiRFModule.mode = BIND_MODE; // TODO Call bind
-          else if (l_posHorz == 2) { SpiRFModule.mode = RANGE_MODE; // TODO Call PRT
+          else if (l_posHorz == 2) {
+            SpiRFModule.mode = RANGE_MODE; // TODO Call PRT
           }
         }
       }

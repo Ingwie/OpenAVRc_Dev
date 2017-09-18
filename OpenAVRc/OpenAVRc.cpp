@@ -104,10 +104,10 @@ void SetRfOptionSettings(uint8_t rfSubTypeState,
 
 void LimitRfOptionSettings()
 {
-limit((uint8_t) 0, (uint8_t) g_model.rfSubType, (uint8_t) RfOptionSettings.rfSubTypeMax);
-limit( RfOptionSettings.rfOptionValue1Min, g_model.rfOptionValue1, RfOptionSettings.rfOptionValue1Max);
-limit( RfOptionSettings.rfOptionValue2Min, g_model.rfOptionValue2, RfOptionSettings.rfOptionValue2Max);
-limit( (int8_t) -16, (int8_t) g_model.rfOptionValue3, (int8_t) RfOptionSettings.rfOptionValue3Max);
+  g_model.rfSubType = limit( (uint8_t)0x0, (uint8_t)g_model.rfSubType, (uint8_t)RfOptionSettings.rfSubTypeMax);
+  g_model.rfOptionValue1 = limit( RfOptionSettings.rfOptionValue1Min, g_model.rfOptionValue1, RfOptionSettings.rfOptionValue1Max);
+  g_model.rfOptionValue2 = limit( RfOptionSettings.rfOptionValue2Min, g_model.rfOptionValue2, RfOptionSettings.rfOptionValue2Max);
+  g_model.rfOptionValue3 = limit( (int8_t) -16, (int8_t) g_model.rfOptionValue3, (int8_t) RfOptionSettings.rfOptionValue3Max);
 }
 
 union ReusableBuffer reusableBuffer;
