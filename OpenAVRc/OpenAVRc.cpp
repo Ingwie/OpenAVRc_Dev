@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -47,7 +47,7 @@ uint8_t unexpectedShutdown = 0;
 uint16_t maxMixerDuration;
 
 #if defined(AUDIO)
-audioQueue  audio;
+  audioQueue  audio;
 #endif
 
 uint8_t heartbeat;
@@ -55,14 +55,52 @@ uint8_t heartbeat;
 uint8_t stickMode;
 
 #if defined(OVERRIDE_CHANNEL_FUNCTION)
-safetych_t safetyCh[NUM_CHNOUT];
+  safetych_t safetyCh[NUM_CHNOUT];
 #endif
 
-#if defined(SPIMODULES)
 struct Module SpiRFModule;
 //uint8_t packet[40]; //protocol global packet
 uint8_t * packet = pulses2MHz.pbyte; //protocol global packet
-#endif // defined
+
+struct RfOptionSettingsstruct RfOptionSettings; // used in menumodelsetup
+
+void SetRfOptionSettings(uint8_t rfSubTypeState,
+                         uint8_t rfSubTypeMax,
+                         pm_char* rfSubTypeNames,
+                         int8_t rfOptionValue1Min,
+                         int8_t rfOptionValue1Max,
+                         pm_char* rfOptionValue1Name,
+                         int8_t rfOptionValue2Min,
+                         int8_t rfOptionValue2Max,
+                         pm_char* rfOptionValue2Name,
+                         int8_t rfOptionValue3Max,
+                         pm_char* rfOptionValue3Name,
+                         bool rfOptionBool1Used,
+                         pm_char* rfOptionBool1Name,
+                         bool rfOptionBool2Used,
+                         pm_char* rfOptionBool2Name,
+                         bool rfOptionBool3Used,
+                         pm_char* rfOptionBool3Name
+                        )
+{
+  RfOptionSettings.rfSubTypeState = rfSubTypeState;
+  RfOptionSettings.rfSubTypeMax = rfSubTypeMax;
+  RfOptionSettings.rfSubTypeNames = rfSubTypeNames;
+  RfOptionSettings.rfOptionValue1Min = rfOptionValue1Min;
+  RfOptionSettings.rfOptionValue1Max = rfOptionValue1Max;
+  RfOptionSettings.rfOptionValue1Name = rfOptionValue1Name;
+  RfOptionSettings.rfOptionValue2Min = rfOptionValue2Min;
+  RfOptionSettings.rfOptionValue2Max = rfOptionValue2Max;
+  RfOptionSettings.rfOptionValue2Name = rfOptionValue2Name;
+  RfOptionSettings.rfOptionValue3Max = rfOptionValue3Max;
+  RfOptionSettings.rfOptionValue3Name = rfOptionValue3Name;
+  RfOptionSettings.rfOptionBool1Used = rfOptionBool1Used;
+  RfOptionSettings.rfOptionBool1Name = rfOptionBool1Name;
+  RfOptionSettings.rfOptionBool2Used = rfOptionBool2Used;
+  RfOptionSettings.rfOptionBool2Name = rfOptionBool2Name;
+  RfOptionSettings.rfOptionBool3Used = rfOptionBool3Used;
+  RfOptionSettings.rfOptionBool3Name = rfOptionBool3Name;
+};
 
 union ReusableBuffer reusableBuffer;
 
@@ -367,48 +405,48 @@ void incRotaryEncoder(uint8_t idx, int8_t inc)
 #if defined(GVARS)
 
 #define SET_GVAR_VALUE(idx, phase, value) \
-	GVAR_VALUE(idx, phase) = value;         \
-	eeDirty(EE_MODEL);                      \
+  GVAR_VALUE(idx, phase) = value;         \
+  eeDirty(EE_MODEL);                      \
 
 
 
-uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx)
-{
-  for (uint8_t i=0; i<MAX_FLIGHT_MODES; i++) {
-    if (phase == 0) return 0;
-    int16_t val = GVAR_VALUE(idx, phase); // TODO phase at the end everywhere to be consistent!
-    if (val <= GVAR_MAX) return phase;
-    uint8_t result = val-GVAR_MAX-1;
-    if (result >= phase) ++result;
-    phase = result;
-  }
-  return 0;
-}
-
-int16_t getGVarValue(int16_t x, int16_t min, int16_t max, int8_t phase)
-{
-  if (GV_IS_GV_VALUE(x, min, max)) {
-    int8_t idx = GV_INDEX_CALCULATION(x, max);
-    int8_t mul = 1;
-
-    if (idx < 0) {
-      idx = -1-idx;
-      mul = -1;
+  uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx)
+  {
+    for (uint8_t i=0; i<MAX_FLIGHT_MODES; i++) {
+      if (phase == 0) return 0;
+      int16_t val = GVAR_VALUE(idx, phase); // TODO phase at the end everywhere to be consistent!
+      if (val <= GVAR_MAX) return phase;
+      uint8_t result = val-GVAR_MAX-1;
+      if (result >= phase) ++result;
+      phase = result;
     }
-
-    x = GVAR_VALUE(idx, getGVarFlightPhase(phase, idx)) * mul;
+    return 0;
   }
-  return limit(min, x, max);
-}
 
-void setGVarValue(uint8_t idx, int16_t value, int8_t phase)
-{
-  value = limit((int16_t)-GVAR_LIMIT,value,(int16_t)GVAR_LIMIT); //Limit Gvar value
-  phase = getGVarFlightPhase(phase, idx);
-  if (GVAR_VALUE(idx, phase) != value) {
-    SET_GVAR_VALUE(idx, phase, value);
+  int16_t getGVarValue(int16_t x, int16_t min, int16_t max, int8_t phase)
+  {
+    if (GV_IS_GV_VALUE(x, min, max)) {
+      int8_t idx = GV_INDEX_CALCULATION(x, max);
+      int8_t mul = 1;
+
+      if (idx < 0) {
+        idx = -1-idx;
+        mul = -1;
+      }
+
+      x = GVAR_VALUE(idx, getGVarFlightPhase(phase, idx)) * mul;
+    }
+    return limit(min, x, max);
   }
-}
+
+  void setGVarValue(uint8_t idx, int16_t value, int8_t phase)
+  {
+    value = limit((int16_t)-GVAR_LIMIT,value,(int16_t)GVAR_LIMIT); //Limit Gvar value
+    phase = getGVarFlightPhase(phase, idx);
+    if (GVAR_VALUE(idx, phase) != value) {
+      SET_GVAR_VALUE(idx, phase, value);
+    }
+  }
 
 #endif
 
@@ -908,10 +946,10 @@ uint16_t s_anaFilt[NUMBER_ANALOG];
 uint16_t BandGap = 2040 ;
 
 #if defined(JITTER_MEASURE)
-JitterMeter<uint16_t> rawJitter[NUMBER_ANALOG];
-JitterMeter<uint16_t> avgJitter[NUMBER_ANALOG];
-tmr10ms_t jitterResetTime = 0;
-#define JITTER_MEASURE_ACTIVE()   (menuHandlers[menuLevel] == menuGeneralDiagAna)
+  JitterMeter<uint16_t> rawJitter[NUMBER_ANALOG];
+  JitterMeter<uint16_t> avgJitter[NUMBER_ANALOG];
+  tmr10ms_t jitterResetTime = 0;
+  #define JITTER_MEASURE_ACTIVE()   (menuHandlers[menuLevel] == menuGeneralDiagAna)
 #endif  // defined(JITTER_MEASURE)
 
 uint16_t anaIn(uint8_t chan)
@@ -978,12 +1016,12 @@ void flightReset()
 }
 
 #if defined(THRTRACE)
-uint8_t  s_traceBuf[MAXTRACE];
-uint8_t  s_traceWr;
-int16_t  s_traceCnt;
-uint8_t  s_cnt_10s;
-uint16_t s_cnt_samples_thr_10s;
-uint16_t s_sum_samples_thr_10s;
+  uint8_t  s_traceBuf[MAXTRACE];
+  uint8_t  s_traceWr;
+  int16_t  s_traceCnt;
+  uint8_t  s_cnt_10s;
+  uint16_t s_cnt_samples_thr_10s;
+  uint16_t s_sum_samples_thr_10s;
 #endif
 
 FORCEINLINE void evalTrims()
@@ -1156,12 +1194,12 @@ void doMixerCalculations()
 
 #if defined(PXX) || defined(DSM2)
     static uint8_t countRangecheck = 0;
-      if (moduleFlag != MODULE_NORMAL_MODE) {
-        if (++countRangecheck >= 250) {
-          countRangecheck = 0;
-          AUDIO_PLAY(AU_FRSKY_CHEEP);
-        }
+    if (moduleFlag != MODULE_NORMAL_MODE) {
+      if (++countRangecheck >= 250) {
+        countRangecheck = 0;
+        AUDIO_PLAY(AU_FRSKY_CHEEP);
       }
+    }
 #endif
 
   }
@@ -1173,7 +1211,7 @@ void OpenAVRcStart()
 {
   doSplash();
 
-  #if defined(SDCARD) && !defined(SIMU)
+#if defined(SDCARD) && !defined(SIMU)
   sdMountPoll();
 #endif
 
@@ -1259,7 +1297,7 @@ void checkBattery()
     s_batSum += instant_vbat;
 
     if (g_vbat10mV == 0) {
-	  g_vbat10mV = instant_vbat;
+      g_vbat10mV = instant_vbat;
       s_batSum = 0;
       s_batCheck = 0;
     }
@@ -1268,7 +1306,7 @@ void checkBattery()
 #else
     else if (s_batCheck == 0) {
 #endif
-  	  g_vbat10mV = s_batSum / 8;
+      g_vbat10mV = s_batSum / 8;
       s_batSum = 0;
 #if defined(VOICE)
       if (s_batCheck != 0) {

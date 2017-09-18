@@ -36,10 +36,6 @@
 extern volatile uint8_t g_sync_count;
 static volatile uint32_t msecs = 0;
 
-uint16_t (*timer_callback)(void);
-const void * (*PROTO_Cmds)(enum ProtoCmds);
-
-
 void inline PROTO_Change_Callback(uint16_t (*cb)(void))
 {
   /*

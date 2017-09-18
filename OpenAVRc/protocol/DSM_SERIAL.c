@@ -88,6 +88,30 @@ normal:
 #define PROTO_DSM_DSM2 254
 #endif
 
+const pm_char STR_DSMSERSUBTYPE[] PROGMEM = "LP45""DSM2""DSMX";
+
+static void dsmSetOptions()
+{
+  SetRfOptionSettings(
+/*rfSubTypeState*/0,
+/*rfSubTypeMax*/2,
+/*rfSubTypeNames*/STR_DSMSERSUBTYPE,
+/*rfOptionValue1Min*/0,
+/*rfOptionValue1Max*/0,
+/*rfOptionValue1Name*/NULL,
+/*rfOptionValue2Min*/0,
+/*rfOptionValue2Max*/0,
+/*rfOptionValue2Name*/NULL,
+/*rfOptionValue3Max*/0,
+/*rfOptionValue3Name*/NULL,
+/*rfOptionBool1Used*/0,
+/*rfOptionBool1Name*/NULL,
+/*rfOptionBool2Used*/0,
+/*rfOptionBool2Name*/NULL,
+/*rfOptionBool3Used*/0,
+/*rfOptionBool3Name*/NULL
+);
+};
 
 static void DSM2_SERIAL_Reset()
 {
@@ -191,6 +215,9 @@ const void *DSM_SERIAL_Cmds(enum ProtoCmds cmd)
     PROTO_Stop_Callback();
     DSM2_SERIAL_Reset();
     return 0;
+  case PROTOCMD_GETOPTIONS:
+    dsmSetOptions();
+     return 0;
   //case PROTOCMD_CHECK_AUTOBIND:
     //return (void *)1L; // Always Autobind
 

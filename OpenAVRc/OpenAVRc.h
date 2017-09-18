@@ -1054,8 +1054,7 @@ enum MultiBindStatus {
 };
 #endif
 
-///////////////// SPI MODULES PROTOCOLES ///////////////////
-#if defined(SPIMODULES)
+///////////////// PROTOCOLS ///////////////////
 
 enum PROTO_MODE {
   BIND_MODE,
@@ -1087,6 +1086,7 @@ enum ProtoCmds {
   PROTOCMD_INIT,
   PROTOCMD_BIND,
   PROTOCMD_RESET,
+  PROTOCMD_GETOPTIONS,
   PROTOCMD_SET_TXPOWER,
   PROTOCMD_GETNUMOPTIONS,
   PROTOCMD_DEINIT,
@@ -1094,7 +1094,6 @@ enum ProtoCmds {
   PROTOCMD_NUMCHAN,
   PROTOCMD_DEFAULT_NUMCHAN,
   PROTOCMD_CURRENT_ID,
-  PROTOCMD_GETOPTIONS,
   PROTOCMD_SETOPTIONS,
   PROTOCMD_TELEMETRYSTATE,
 };
@@ -1126,7 +1125,6 @@ struct Module {
 //    char icon[24];
 //    enum ModelType type;
 //  enum DevoProtocols protocol;
-#define NUM_PROTO_OPTS 4
 //  int16_t proto_opts[NUM_PROTO_OPTS];
 //  uint8_t num_channels;
 //    uint8_t num_ppmin;
@@ -1158,12 +1156,56 @@ struct Module {
 //#endif
 };
 
+struct RfOptionSettingsstruct {
+  uint8_t         rfSubTypeState:4;     // Todo : find usage
+  uint8_t         rfSubTypeMax:4;       //16 max
+  pm_char*        rfSubTypeNames;
+  int8_t          rfOptionValue1Min;
+  int8_t          rfOptionValue1Max;
+  pm_char*         rfOptionValue1Name;
+  int8_t          rfOptionValue2Min;
+  int8_t          rfOptionValue2Max;
+  pm_char*         rfOptionValue2Name;
+  int8_t          rfOptionValue3Max:5;  //32 max -16 is min
+  pm_char*         rfOptionValue3Name;
+  uint8_t         rfOptionBool1Used:1;
+  pm_char*         rfOptionBool1Name;
+  uint8_t         rfOptionBool2Used:1;
+  pm_char*         rfOptionBool2Name;
+  uint8_t         rfOptionBool3Used:1;
+  pm_char*         rfOptionBool3Name;
+};
+
+void SetRfOptionSettings(uint8_t rfSubTypeState, // Called by protocols
+                         uint8_t rfSubTypeMax,
+                         pm_char* rfSubTypeNames,
+                         int8_t rfOptionValue1Min,
+                         int8_t rfOptionValue1Max,
+                         pm_char* rfOptionValue1Name,
+                         int8_t rfOptionValue2Min,
+                         int8_t rfOptionValue2Max,
+                         pm_char* rfOptionValue2Name,
+                         int8_t rfOptionValue3Max,
+                         pm_char* rfOptionValue3Name,
+                         bool rfOptionBool1Used,
+                         pm_char* rfOptionBool1Name,
+                         bool rfOptionBool2Used,
+                         pm_char* rfOptionBool2Name,
+                         bool rfOptionBool3Used,
+                         pm_char* rfOptionBool3Name
+                        );
+
 extern struct Module SpiRFModule;
+extern struct RfOptionSettingsstruct RfOptionSettings;
 //extern uint8_t packet[40]; //protocol global packet
 extern uint8_t * packet; //protocol global packet
 extern void startPulses(enum ProtoCmds Command);
 
+uint16_t (*timer_callback)(void);
+const void * (*PROTO_Cmds)(enum ProtoCmds);
+
 typedef const void* (*CMDS)(enum ProtoCmds);
+
 
 /*Load Progmem name for GUI */
 #define PROTODEF(proto, module, map, cmd, name, progmem_name) progmem_name;
@@ -1190,7 +1232,7 @@ struct Proto_struct {
 #include "protocol/interface.h"
 #include "protocol/misc.h"
 
-#endif
+///////////////// PROTOCOLS ///////////////////
 
 
 extern void checkBattery();
