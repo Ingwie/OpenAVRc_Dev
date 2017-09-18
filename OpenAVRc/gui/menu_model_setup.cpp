@@ -34,6 +34,7 @@
 #include "../OpenAVRc.h"
 #include "menu_model.h"
 
+#define PROTO_IS_SYNC (memproto == protocol)
 
 enum menuModelSetupItems {
   ITEM_MODEL_NAME,
@@ -347,24 +348,9 @@ void menuModelSetup(uint8_t event)
       }
 #if defined(DSM2)
       if (IS_DSM_PROTOCOL(protocol)) {
-        horzpos_t l_posHorz = menuHorizontalPosition;
-        lcdDrawTextLeft(y, STR_RECEIVER_NUM);
-        coord_t xOffsetBind = MODEL_SETUP_BIND_OFS;
-        if (xOffsetBind) lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
-        if (attr && l_posHorz==0) {
-          if (editMode>0 || p1valdiff) {
-            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, MAX_MODELS);
-          }
-        }
-        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+xOffsetBind, y, STR_MODULE_BIND, l_posHorz==1 ? attr : 0);
-        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+MODEL_SETUP_RANGE_OFS+xOffsetBind, y, STR_MODULE_RANGE, l_posHorz==2 ? attr : 0);
-
-        if (attr && l_posHorz>0) {
-          if (l_posHorz == 1)  SpiRFModule.mode = BIND_MODE; // TODO Call bind
-          else if (l_posHorz == 2) {
-            SpiRFModule.mode = RANGE_MODE; // TODO Call PRT
-          }
-        }
+        lcdDrawTextLeft(y, "TODO");
+        limit((uint8_t)0, (uint8_t)g_model.rfSubType,(uint8_t)2);
+        // Call subtype fonction (to build !)
       }
 #endif
 #if defined(SPIMODULES)
@@ -454,15 +440,29 @@ void menuModelSetup(uint8_t event)
     case ITEM_MODEL_EXTERNAL_MODULE_BIND:
 #if defined(DSM2)
       if (IS_DSM_PROTOCOL(protocol)) {
-        lcdDrawTextLeft(y, "TODO");
-        limit((uint8_t)0, (uint8_t)g_model.rfSubType,(uint8_t)2);
-        // Call subtype fonction (to build !)
+horzpos_t l_posHorz = menuHorizontalPosition;
+        lcdDrawTextLeft(y, STR_RECEIVER_NUM);
+        coord_t xOffsetBind = MODEL_SETUP_BIND_OFS;
+        if (xOffsetBind) lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
+        if (attr && l_posHorz==0) {
+          if (editMode>0 || p1valdiff) {
+            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, MAX_MODELS);
+          }
+        }
+        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+xOffsetBind, y, STR_MODULE_BIND, l_posHorz==1 ? attr : 0);
+        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+MODEL_SETUP_RANGE_OFS+xOffsetBind, y, STR_MODULE_RANGE, l_posHorz==2 ? attr : 0);
+
+        if (attr && l_posHorz>0) {
+          if (l_posHorz == 1)  SpiRFModule.mode = BIND_MODE; // TODO Call bind
+          else if (l_posHorz == 2) { SpiRFModule.mode = RANGE_MODE; // TODO Call PRT
+          }
+        }
       }
 #endif
 #if defined(MULTIMODULE)
       if IS_MULTIMODULE_PROTOCOL(protocol) {
         horzpos_t l_posHorz = menuHorizontalPosition;
-        lcdDrawTextLeft(y, STR_RECEIVER_NUM);
+        lcdDrawTextLeft(y, TR_RXNUM);
         coord_t xOffsetBind = MODEL_SETUP_BIND_OFS;
         if (xOffsetBind) lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
         if (attr && l_posHorz==0) {
@@ -492,7 +492,7 @@ void menuModelSetup(uint8_t event)
 #if defined(SPIMODULES)
       if IS_SPIMODULES_PROTOCOL(protocol) {
         horzpos_t l_posHorz = menuHorizontalPosition;
-        lcdDrawTextLeft(y, STR_RECEIVER_NUM);
+        lcdDrawTextLeft(y, TR_RXNUM);
         coord_t xOffsetBind = MODEL_SETUP_BIND_OFS;
         if (xOffsetBind) lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
         if (attr && l_posHorz==0) {
@@ -587,7 +587,7 @@ void menuModelSetup(uint8_t event)
       break;
     }
   }
-  if (memproto != protocol) {
+  if (!PROTO_IS_SYNC) {
     g_model.rfProtocol = protocol;
     SpiRFModule.mode = NORMAL_MODE;
     startPulses(PROTOCMD_INIT);

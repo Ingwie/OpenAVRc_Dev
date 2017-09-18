@@ -166,7 +166,7 @@
   #define TR_MULTI_DSM_AUTODTECT         TR(INDENT "Autodetect", INDENT "Autodetect format")
   #define TR_MULTI_LOWPOWER              TR(INDENT "Low power", INDENT "Low power mode")
   #define TR_MULTI_SERVOFREQ             TR(INDENT "Servo rate", INDENT "Servo update rate")
-  #define TR_RECEIVER_NUM        TR(INDENT "RxNum", INDENT "Receiver No.")
+
 #endif
 
   

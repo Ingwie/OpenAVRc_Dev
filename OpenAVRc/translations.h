@@ -463,7 +463,6 @@ extern const pm_char STR_MULTI_OPTION[];
 extern const pm_char STR_MULTI_DSM_AUTODTECT[];
 extern const pm_char STR_MULTI_AUTOBIND[];
 extern const pm_char STR_MULTI_LOWPOWER[];
-extern const pm_char STR_RECEIVER_NUM[];
 #endif
 
 #if defined(DSM2) || defined(PXX)

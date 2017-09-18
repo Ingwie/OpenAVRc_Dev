@@ -169,7 +169,7 @@
   #define TR_MULTI_AUTOBIND      TR(INDENT "Bind auto", INDENT "Bind automatique")
   #define TR_MULTI_DSM_AUTODTECT TR(INDENT "Autodét.", INDENT "Autodétection")
   #define TR_MULTI_LOWPOWER      TR(INDENT "Basse puis.", INDENT "Mode basse puiss.")
-  #define TR_RECEIVER_NUM        TR(INDENT "NumRx", INDENT "No. récepteur")
+
 #endif
 
   
