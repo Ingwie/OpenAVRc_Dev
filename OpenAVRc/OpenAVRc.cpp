@@ -66,21 +66,21 @@ struct RfOptionSettingsstruct RfOptionSettings; // used in menumodelsetup
 
 void SetRfOptionSettings(uint8_t rfSubTypeState,
                          uint8_t rfSubTypeMax,
-                         pm_char* rfSubTypeNames,
+                         const pm_char* rfSubTypeNames,
                          int8_t rfOptionValue1Min,
                          int8_t rfOptionValue1Max,
-                         pm_char* rfOptionValue1Name,
+                         const pm_char* rfOptionValue1Name,
                          int8_t rfOptionValue2Min,
                          int8_t rfOptionValue2Max,
-                         pm_char* rfOptionValue2Name,
+                         const pm_char* rfOptionValue2Name,
                          int8_t rfOptionValue3Max,
-                         pm_char* rfOptionValue3Name,
+                         const pm_char* rfOptionValue3Name,
                          bool rfOptionBool1Used,
-                         pm_char* rfOptionBool1Name,
+                         const pm_char* rfOptionBool1Name,
                          bool rfOptionBool2Used,
-                         pm_char* rfOptionBool2Name,
+                         const pm_char* rfOptionBool2Name,
                          bool rfOptionBool3Used,
-                         pm_char* rfOptionBool3Name
+                         const pm_char* rfOptionBool3Name
                         )
 {
   RfOptionSettings.rfSubTypeState = rfSubTypeState;

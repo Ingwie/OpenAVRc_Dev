@@ -1159,40 +1159,40 @@ struct Module {
 struct RfOptionSettingsstruct {
   uint8_t         rfSubTypeState:4;     // Todo : find usage
   uint8_t         rfSubTypeMax:4;       //16 max
-  pm_char*        rfSubTypeNames;
+  const pm_char*        rfSubTypeNames;
   int8_t          rfOptionValue1Min;
   int8_t          rfOptionValue1Max;
-  pm_char*         rfOptionValue1Name;
+  const pm_char*         rfOptionValue1Name;
   int8_t          rfOptionValue2Min;
   int8_t          rfOptionValue2Max;
-  pm_char*         rfOptionValue2Name;
+  const pm_char*         rfOptionValue2Name;
   int8_t          rfOptionValue3Max:5;  //32 max -16 is min
-  pm_char*         rfOptionValue3Name;
+  const pm_char*         rfOptionValue3Name;
   uint8_t         rfOptionBool1Used:1;
-  pm_char*         rfOptionBool1Name;
+  const pm_char*         rfOptionBool1Name;
   uint8_t         rfOptionBool2Used:1;
-  pm_char*         rfOptionBool2Name;
+  const pm_char*         rfOptionBool2Name;
   uint8_t         rfOptionBool3Used:1;
-  pm_char*         rfOptionBool3Name;
+  const pm_char*         rfOptionBool3Name;
 };
 
 void SetRfOptionSettings(uint8_t rfSubTypeState, // Called by protocols
                          uint8_t rfSubTypeMax,
-                         pm_char* rfSubTypeNames,
+                         const pm_char* rfSubTypeNames,
                          int8_t rfOptionValue1Min,
                          int8_t rfOptionValue1Max,
-                         pm_char* rfOptionValue1Name,
+                         const pm_char* rfOptionValue1Name,
                          int8_t rfOptionValue2Min,
                          int8_t rfOptionValue2Max,
-                         pm_char* rfOptionValue2Name,
+                         const pm_char* rfOptionValue2Name,
                          int8_t rfOptionValue3Max,
-                         pm_char* rfOptionValue3Name,
+                         const pm_char* rfOptionValue3Name,
                          bool rfOptionBool1Used,
-                         pm_char* rfOptionBool1Name,
+                         const pm_char* rfOptionBool1Name,
                          bool rfOptionBool2Used,
-                         pm_char* rfOptionBool2Name,
+                         const pm_char* rfOptionBool2Name,
                          bool rfOptionBool3Used,
-                         pm_char* rfOptionBool3Name
+                         const pm_char* rfOptionBool3Name
                         );
 
 extern struct Module SpiRFModule;
