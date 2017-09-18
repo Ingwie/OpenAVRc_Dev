@@ -353,13 +353,14 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
     CC2500_SetTxRxMode(TXRX_OFF);
     CC2500_Strobe(CC2500_SIDLE);
     return 0;
-  //case PROTOCMD_GETNUMOPTIONS:
+    case PROTOCMD_GETOPTIONS:
+    return 0;
+	//case PROTOCMD_GETNUMOPTIONS:
     //return (void *)1L;
   //case PROTOCMD_DEFAULT_NUMCHAN:
     //return (void *)8L;
 //        case PROTOCMD_CURRENT_ID: return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;
-  //case PROTOCMD_GETOPTIONS:
-    //return FRSKYD_opts;
+
 //        case PROTOCMD_TELEMETRYSTATE:
 //            return (void *)(long)(Model.proto_opts[PROTO_OPTS_TELEM] == TELEM_ON ? PROTO_TELEM_ON : PROTO_TELEM_OFF);
   default:

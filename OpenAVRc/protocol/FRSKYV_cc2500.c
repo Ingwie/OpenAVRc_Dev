@@ -334,13 +334,13 @@ const void * FRSKYV_Cmds(enum ProtoCmds cmd)
     return 0;
   case PROTOCMD_GETNUMOPTIONS:
     return (void *)1L;
+    case PROTOCMD_GETOPTIONS:
+    return 0;
   //case PROTOCMD_NUMCHAN:
     //return (void *)8L;
   //case PROTOCMD_DEFAULT_NUMCHAN:
     //return (void *)8L;
 //        case PROTOCMD_CURRENT_ID: return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id % 0x4000) : 0;
-  //case PROTOCMD_GETOPTIONS:
-    //return FRSKYV_opts;
   //case PROTOCMD_TELEMETRYSTATE:
     //return (void *)(long) PROTO_TELEM_UNSUPPORTED;
   default:

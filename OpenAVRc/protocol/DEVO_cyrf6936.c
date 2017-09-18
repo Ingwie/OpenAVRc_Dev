@@ -607,9 +607,10 @@ const void *DEVO_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_BIND:
       DEVO_bind();
     return 0;
+    case PROTOCMD_GETOPTIONS:
+    return 0;
    // case PROTOCMD_NUMCHAN: return (void *)12L;
    // case PROTOCMD_DEFAULT_NUMCHAN: return (void *)8L;
-   // case PROTOCMD_GETOPTIONS: return DEVO_opts;
 // case PROTOCMD_SETOPTIONS:
 // PROTOCOL_Init(0);  // only 1 prot_ops item, it is to enable/disable telemetry
 //    break;

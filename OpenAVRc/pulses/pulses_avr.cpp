@@ -83,6 +83,8 @@ void startPulses(enum ProtoCmds Command)
   PROTO_Cmds = *Protos[g_model.rfProtocol].Cmds;
   TRACE("  ->  INIT Proto - %s -", Protos[g_model.rfProtocol].ProtoName);
   SIMU_SLEEP(500);
+  PROTO_Cmds(PROTOCMD_GETOPTIONS);
+  LimitRfOptionSettings();
   PROTO_Cmds(Command);
 }
 

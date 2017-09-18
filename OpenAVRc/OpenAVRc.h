@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -40,26 +40,26 @@
 #include <stdlib.h>
 
 #if !defined(SIMU)
-#include <avr/pgmspace.h>
-#include "pgmtypes.h"
-#define assert(x)
-#include "board_avr.h"
+  #include <avr/pgmspace.h>
+  #include "pgmtypes.h"
+  #define assert(x)
+  #include "board_avr.h"
 #else //SIMU define
-#include <stdbool.h>
-#include "targets/simu/simu_interface.h"
-#include "targets/mega2560/board_mega2560.h" //todo
+  #include <stdbool.h>
+  #include "targets/simu/simu_interface.h"
+  #include "targets/mega2560/board_mega2560.h" //todo
 #endif
 
 /////////////////DEBUG FUNCTION DEFINITION///////////////////
 
 //#define SHOWDURATIONLCD 1  //Show LCD fast refresh duration
 #if defined(SHOWDURATIONLCD)
-#define SHOWDURATIONLCD1 SHOWDURATION1
-#define SHOWDURATIONLCD2 SHOWDURATION2
-#define SHOWDURATION 1
+  #define SHOWDURATIONLCD1 SHOWDURATION1
+  #define SHOWDURATIONLCD2 SHOWDURATION2
+  #define SHOWDURATION 1
 #else
-#define SHOWDURATIONLCD1
-#define SHOWDURATIONLCD2
+  #define SHOWDURATIONLCD1
+  #define SHOWDURATIONLCD2
 #endif // defined LCD
 
 
@@ -86,172 +86,172 @@ static uint16_t DurationValue;
 #define CASE_PERSISTENT_TIMERS(x) x,
 
 #if defined(RTCLOCK)
-#define CASE_RTCLOCK(x) x,
+  #define CASE_RTCLOCK(x) x,
 #else
-#define CASE_RTCLOCK(x)
+  #define CASE_RTCLOCK(x)
 #endif
 
 #if defined(BUZZER)
-#define CASE_BUZZER(x) x,
+  #define CASE_BUZZER(x) x,
 #else
-#define CASE_BUZZER(x)
+  #define CASE_BUZZER(x)
 #endif
 
 #if defined(AUDIO)
-#define CASE_AUDIO(x) x,
+  #define CASE_AUDIO(x) x,
 #else
-#define CASE_AUDIO(x)
+  #define CASE_AUDIO(x)
 #endif
 
 #if defined(VOICE)
-#define CASE_VOICE(x) x,
+  #define CASE_VOICE(x) x,
 #else
-#define CASE_VOICE(x)
+  #define CASE_VOICE(x)
 #endif
 
 #if defined(PWM_BACKLIGHT)
-#define CASE_PWM_BACKLIGHT(x) x,
+  #define CASE_PWM_BACKLIGHT(x) x,
 #else
-#define CASE_PWM_BACKLIGHT(x)
+  #define CASE_PWM_BACKLIGHT(x)
 #endif
 
 #if defined(FRSKY) && defined(FRSKY_HUB) && defined(GPS)
-#define CASE_GPS(x) x,
+  #define CASE_GPS(x) x,
 #else
-#define CASE_GPS(x)
+  #define CASE_GPS(x)
 #endif
 
 #if defined(VARIO)
-#define CASE_VARIO(x) x,
+  #define CASE_VARIO(x) x,
 #else
-#define CASE_VARIO(x)
+  #define CASE_VARIO(x)
 #endif
 
 #if defined(HAPTIC)
-#define CASE_HAPTIC(x) x,
+  #define CASE_HAPTIC(x) x,
 #else
-#define CASE_HAPTIC(x)
+  #define CASE_HAPTIC(x)
 #endif
 
 #if defined(SPLASH)
-#define CASE_SPLASH(x) x,
+  #define CASE_SPLASH(x) x,
 #else
-#define CASE_SPLASH(x)
+  #define CASE_SPLASH(x)
 #endif
 
 #if defined(FRSKY)
-#define CASE_FRSKY(x) x,
+  #define CASE_FRSKY(x) x,
 #else
-#define CASE_FRSKY(x)
+  #define CASE_FRSKY(x)
 #endif
 
 #if defined(MAVLINK)
-#define CASE_MAVLINK(x) x,
+  #define CASE_MAVLINK(x) x,
 #else
-#define CASE_MAVLINK(x)
+  #define CASE_MAVLINK(x)
 #endif
 
 #if defined(PXX)
-#define CASE_PXX(x) x,
+  #define CASE_PXX(x) x,
 #else
-#define CASE_PXX(x)
+  #define CASE_PXX(x)
 #endif
 
 #if defined(SDCARD)
-#define CASE_SDCARD(x) x,
+  #define CASE_SDCARD(x) x,
 #else
-#define CASE_SDCARD(x)
+  #define CASE_SDCARD(x)
 #endif
 
 #if defined(HELI)
-#define CASE_HELI(x) x,
+  #define CASE_HELI(x) x,
 #else
-#define CASE_HELI(x)
+  #define CASE_HELI(x)
 #endif
 
 #if defined(TEMPLATES)
-#define CASE_TEMPLATES(x) x,
+  #define CASE_TEMPLATES(x) x,
 #else
-#define CASE_TEMPLATES(x)
+  #define CASE_TEMPLATES(x)
 #endif
 
 #if defined(FLIGHT_MODES)
-#define CASE_FLIGHT_MODES(x) x,
+  #define CASE_FLIGHT_MODES(x) x,
 #else
-#define CASE_FLIGHT_MODES(x)
+  #define CASE_FLIGHT_MODES(x)
 #endif
 
 #if defined(CURVES)
-#define CASE_CURVES(x) x,
+  #define CASE_CURVES(x) x,
 #else
-#define CASE_CURVES(x)
+  #define CASE_CURVES(x)
 #endif
 
 #if defined(GVARS)
-#define CASE_GVARS(x) x,
+  #define CASE_GVARS(x) x,
 #else
-#define CASE_GVARS(x)
+  #define CASE_GVARS(x)
 #endif
 
 #if ROTARY_ENCODERS > 0
-#define ROTARY_ENCODER_NAVIGATION
+  #define ROTARY_ENCODER_NAVIGATION
 #endif
 
 #if defined(FAI)
-#define IS_FAI_ENABLED() true
-#define IF_FAI_CHOICE(x)
+  #define IS_FAI_ENABLED() true
+  #define IF_FAI_CHOICE(x)
 #elif defined(FAI_CHOICE)
-#define IS_FAI_ENABLED() g_eeGeneral.fai
-#define IF_FAI_CHOICE(x) x,
+  #define IS_FAI_ENABLED() g_eeGeneral.fai
+  #define IF_FAI_CHOICE(x) x,
 #else
-#define IS_FAI_ENABLED() false
-#define IF_FAI_CHOICE(x)
+  #define IS_FAI_ENABLED() false
+  #define IF_FAI_CHOICE(x)
 #endif
 
 #define IS_FAI_FORBIDDEN(idx) (IS_FAI_ENABLED() && idx >= MIXSRC_FIRST_TELEM)
 
 #if defined(SIMU)
-#ifndef FORCEINLINE
-#define FORCEINLINE
-#endif
-#if !defined(NOINLINE)
-#define NOINLINE
-#endif
-#define F_CPU 16000000UL  // 16 MHz ... Should be defined in makefile.
-#define TRACE(...) simuTrace(__VA_ARGS__)
-#define SIMU_PROCESSEVENTS SimuSleepMs(0)  //This function tell the simu app to process events
-#define MYWDT_RESET(x) x; SimuSleepMs(1)
-#define SIMU_SLEEP(x) SimuSleepMs(x)
-#define SIMU_UNLOCK_MACRO(x) (false)
-#define wdt_disable() simu_off = true; simu_mainloop_is_runing = true; return
-char *convertSimuPath(const char *path);
-extern ISR(TIMER_10MS_VECT, ISR_NOBLOCK);
-extern int simumain(void);
-extern  void SimuMainLoop(void);
-extern  void shutDownSimu(void);
-extern  void simu_EditModelName();
+  #ifndef FORCEINLINE
+    #define FORCEINLINE
+  #endif
+  #if !defined(NOINLINE)
+    #define NOINLINE
+  #endif
+  #define F_CPU 16000000UL  // 16 MHz ... Should be defined in makefile.
+  #define TRACE(...) simuTrace(__VA_ARGS__)
+  #define SIMU_PROCESSEVENTS SimuSleepMs(0)  //This function tell the simu app to process events
+  #define MYWDT_RESET(x) x; SimuSleepMs(1)
+  #define SIMU_SLEEP(x) SimuSleepMs(x)
+  #define SIMU_UNLOCK_MACRO(x) (false)
+  #define wdt_disable() simu_off = true; simu_mainloop_is_runing = true; return
+  char *convertSimuPath(const char *path);
+  extern ISR(TIMER_10MS_VECT, ISR_NOBLOCK);
+  extern int simumain(void);
+  extern  void SimuMainLoop(void);
+  extern  void shutDownSimu(void);
+  extern  void simu_EditModelName();
 
 #else //NOT SIMU NOW
 
-#define FORCEINLINE inline __attribute__ ((always_inline))
-#define NOINLINE __attribute__ ((noinline))
-#define TRACE(...)
-#define SIMU_SLEEP(x)
-#define SIMU_PROCESSEVENTS
-#define MYWDT_RESET(x) wdt_reset()
-#define SIMU_UNLOCK_MACRO(x) (x)
-#define CONVERT_PTR_UINT(x) ((uint32_t)(x))
-#define CONVERT_UINT_PTR(x) ((uint32_t *)(x))
-#define convertSimuPath(x) (x)
+  #define FORCEINLINE inline __attribute__ ((always_inline))
+  #define NOINLINE __attribute__ ((noinline))
+  #define TRACE(...)
+  #define SIMU_SLEEP(x)
+  #define SIMU_PROCESSEVENTS
+  #define MYWDT_RESET(x) wdt_reset()
+  #define SIMU_UNLOCK_MACRO(x) (x)
+  #define CONVERT_PTR_UINT(x) ((uint32_t)(x))
+  #define CONVERT_UINT_PTR(x) ((uint32_t *)(x))
+  #define convertSimuPath(x) (x)
 #endif
 
 #if !defined(ACCURAT_THROTTLE_TIMER)
-//  code cost is about 16 bytes for higher throttle accuracy for timer
-//  would not be noticable anyway, because all version up to this change had only 16 steps;
-//  now it has already 32  steps; this define would increase to 128 steps
-#if !defined(ACCURAT_THROTTLE_TIMER)
-#define ACCURAT_THROTTLE_TIMER
-#endif
+  //  code cost is about 16 bytes for higher throttle accuracy for timer
+  //  would not be noticable anyway, because all version up to this change had only 16 steps;
+  //  now it has already 32  steps; this define would increase to 128 steps
+  #if !defined(ACCURAT_THROTTLE_TIMER)
+    #define ACCURAT_THROTTLE_TIMER
+  #endif
 #endif
 
 // RESX range is used for internal calculation; The menu says -100.0 to 100.0; internally it is -1024 to 1024 to allow some optimizations
@@ -265,13 +265,13 @@ extern  void simu_EditModelName();
 #include "gui/gui.h"
 
 #if !defined(SIMU)
-#include <avr/io.h>
-#include <avr/eeprom.h>
-#include <avr/sleep.h>
-#include <avr/interrupt.h>
-#include <util/delay.h>
-#include <util/atomic.h>
-#include <avr/wdt.h>
+  #include <avr/io.h>
+  #include <avr/eeprom.h>
+  #include <avr/sleep.h>
+  #include <avr/interrupt.h>
+  #include <util/delay.h>
+  #include <util/atomic.h>
+  #include <avr/wdt.h>
 #endif
 
 
@@ -293,13 +293,13 @@ extern  void simu_EditModelName();
 #define memclear(p, s) memset(p, 0, s)
 
 #if defined(REV_EVO_V1)
-#define IS_POT_AVAILABLE(x)       ( (x)==POT1 || (x)==POT2 )
-#define IS_POT_MULTIPOS(x)        (false)
-#define IS_POT_WITHOUT_DETENT(x)  (false)
+  #define IS_POT_AVAILABLE(x)       ( (x)==POT1 || (x)==POT2 )
+  #define IS_POT_MULTIPOS(x)        (false)
+  #define IS_POT_WITHOUT_DETENT(x)  (false)
 #else
-#define IS_POT_AVAILABLE(x)       (true)
-#define IS_POT_MULTIPOS(x)        (false)
-#define IS_POT_WITHOUT_DETENT(x)  (true)
+  #define IS_POT_AVAILABLE(x)       (true)
+  #define IS_POT_MULTIPOS(x)        (false)
+  #define IS_POT_WITHOUT_DETENT(x)  (true)
 #endif
 
 #define IS_POT(x)                   ((x)>=POT1 && (x)<=POT_LAST)
@@ -308,17 +308,17 @@ extern  void simu_EditModelName();
 #define SAVE_POT_POSITION(i)        g_model.potsWarnPosition[i] = GET_LOWRES_POT_POSITION(i)
 
 #if ROTARY_ENCODERS > 0
-#define IF_ROTARY_ENCODERS(x) x,
+  #define IF_ROTARY_ENCODERS(x) x,
 #else
-#define IF_ROTARY_ENCODERS(x)
+  #define IF_ROTARY_ENCODERS(x)
 #endif
 
 #define PPM_CENTER 1500
 
 #if defined(PPM_CENTER_ADJUSTABLE)
-#define PPM_CH_CENTER(ch) (PPM_CENTER+limitAddress(ch)->ppmCenter)
+  #define PPM_CH_CENTER(ch) (PPM_CENTER+limitAddress(ch)->ppmCenter)
 #else
-#define PPM_CH_CENTER(ch) (PPM_CENTER)
+  #define PPM_CH_CENTER(ch) (PPM_CENTER)
 #endif
 
 #define tmr10ms_t uint16_t
@@ -341,13 +341,13 @@ typedef int8_t swsrc_t;
 
 
 #if defined(NAVIGATION_STICKS)
-extern uint8_t getSticksNavigationEvent();
-extern uint8_t StickScrollAllowed;
-extern uint8_t StickScrollTimer;
-#define STICK_SCROLL_TIMEOUT          9
-#define STICK_SCROLL_DISABLE()        StickScrollAllowed = 0
+  extern uint8_t getSticksNavigationEvent();
+  extern uint8_t StickScrollAllowed;
+  extern uint8_t StickScrollTimer;
+  #define STICK_SCROLL_TIMEOUT          9
+  #define STICK_SCROLL_DISABLE()        StickScrollAllowed = 0
 #else
-#define STICK_SCROLL_DISABLE()
+  #define STICK_SCROLL_DISABLE()
 #endif
 
 #include "pulses/pulses_avr.h"
@@ -356,7 +356,7 @@ extern uint8_t StickScrollTimer;
 #include "eeprom_common.h"
 
 #if defined(EEPROM_RLC)
-#include "eeprom_rlc.h"
+  #include "eeprom_rlc.h"
 #endif
 
 #define LOAD_MODEL_BITMAP()
@@ -391,7 +391,7 @@ typedef struct {
 #include "gui/gui.h"
 
 #if defined(TEMPLATES)
-#include "templates.h"
+  #include "templates.h"
 #endif
 
 
@@ -426,17 +426,17 @@ enum BaseCurves {
 #define SPLASH_NEEDED() (!g_eeGeneral.splashMode)
 
 #if defined(FSPLASH)
-#define SPLASH_TIMEOUT  (g_eeGeneral.splashMode == 0 ? 60000/*infinite=10mn*/ : ((4*100) * (g_eeGeneral.splashMode & 0x03)))
+  #define SPLASH_TIMEOUT  (g_eeGeneral.splashMode == 0 ? 60000/*infinite=10mn*/ : ((4*100) * (g_eeGeneral.splashMode & 0x03)))
 #else
-#define SPLASH_TIMEOUT  (4*100)  // 4 seconds
+  #define SPLASH_TIMEOUT  (4*100)  // 4 seconds
 #endif
 
 #if defined(ROTARY_ENCODERS)
-#define NAVIGATION_RE_IDX()         (g_eeGeneral.reNavigation - 1)
-#define IS_RE_NAVIGATION_ENABLE()   g_eeGeneral.reNavigation
+  #define NAVIGATION_RE_IDX()         (g_eeGeneral.reNavigation - 1)
+  #define IS_RE_NAVIGATION_ENABLE()   g_eeGeneral.reNavigation
 #elif defined(ROTARY_ENCODER_NAVIGATION)
-#define IS_RE_NAVIGATION_ENABLE()   true
-#define NAVIGATION_RE_IDX()         0
+  #define IS_RE_NAVIGATION_ENABLE()   true
+  #define NAVIGATION_RE_IDX()         0
 #endif
 
 #define HEART_TIMER_10MS     1
@@ -458,17 +458,17 @@ extern struct t_inactivity inactivity;
 #define LEN_STD_CHARS 40
 
 #if defined(TRANSLATIONS_CZ)
-#define ZCHAR_MAX (LEN_STD_CHARS)
+  #define ZCHAR_MAX (LEN_STD_CHARS)
 #else
-#define ZCHAR_MAX (LEN_STD_CHARS + LEN_SPECIAL_CHARS)
+  #define ZCHAR_MAX (LEN_STD_CHARS + LEN_SPECIAL_CHARS)
 #endif
 
 char hex2zchar(uint8_t hex);
 char idx2char(int8_t idx);
 #if defined(SIMU)
-int8_t char2idx(char c);
-void str2zchar(char *dest, const char *src, int size);
-int zchar2str(char *dest, const char *src, int size);
+  int8_t char2idx(char c);
+  void str2zchar(char *dest, const char *src, int size);
+  int zchar2str(char *dest, const char *src, int size);
 #endif
 
 #include "keys.h"
@@ -481,17 +481,17 @@ uint8_t trimDown(uint8_t idx);
 uint16_t evalChkSum();
 
 #if !defined(GUI)
-#define MESSAGE_SOUND_ARG
-#define MESSAGE(...)
-#define ALERT(...)
+  #define MESSAGE_SOUND_ARG
+  #define MESSAGE(...)
+  #define ALERT(...)
 #elif defined(VOICE)
-#define MESSAGE_SOUND_ARG , uint8_t sound
-#define MESSAGE(title, msg, info, sound) message(title, msg, info, sound)
-#define ALERT(title, msg, sound) alert(title, msg, sound)
+  #define MESSAGE_SOUND_ARG , uint8_t sound
+  #define MESSAGE(title, msg, info, sound) message(title, msg, info, sound)
+  #define ALERT(title, msg, sound) alert(title, msg, sound)
 #else
-#define MESSAGE_SOUND_ARG
-#define MESSAGE(title, msg, info, sound) message(title, msg, info)
-#define ALERT(title, msg, sound) alert(title, msg)
+  #define MESSAGE_SOUND_ARG
+  #define MESSAGE(title, msg, info, sound) message(title, msg, info)
+  #define ALERT(title, msg, sound) alert(title, msg)
 #endif
 
 extern void message(const pm_char *title, const pm_char *s, const char *last MESSAGE_SOUND_ARG);
@@ -520,9 +520,9 @@ enum StartupWarningStates {
 
 // Fiddle to force compiler to use a pointer
 #if defined(SIMU)
-#define FORCE_INDIRECT(ptr)
+  #define FORCE_INDIRECT(ptr)
 #else
-#define FORCE_INDIRECT(ptr) __asm__ __volatile__ ("" : "=e" (ptr) : "0" (ptr))
+  #define FORCE_INDIRECT(ptr) __asm__ __volatile__ ("" : "=e" (ptr) : "0" (ptr))
 #endif
 
 extern uint8_t mixerCurrentFlightMode;
@@ -568,18 +568,18 @@ int8_t getMovedSource();
 #define GET_MOVED_SOURCE(min, max) getMovedSource()
 
 #if defined(FLIGHT_MODES)
-extern uint8_t getFlightMode();
+  extern uint8_t getFlightMode();
 #else
-#define getFlightMode() 0
+  #define getFlightMode() 0
 #endif
 
 uint8_t getTrimFlightPhase(uint8_t phase, uint8_t idx);
 
 #if defined(GVARS)
-extern int8_t trimGvar[NUM_STICKS];
-#define TRIM_REUSED(idx) trimGvar[idx] >= 0
+  extern int8_t trimGvar[NUM_STICKS];
+  #define TRIM_REUSED(idx) trimGvar[idx] >= 0
 #else
-#define TRIM_REUSED(idx) 0
+  #define TRIM_REUSED(idx) 0
 #endif
 
 trim_t getRawTrimValue(uint8_t phase, uint8_t idx);
@@ -588,24 +588,24 @@ int getTrimValue(uint8_t phase, uint8_t idx);
 void setTrimValue(uint8_t phase, uint8_t idx, int trim);
 
 #if defined(ROTARY_ENCODERS)
-int16_t getRotaryEncoder(uint8_t idx);
-void incRotaryEncoder(uint8_t idx, int8_t inc);
+  int16_t getRotaryEncoder(uint8_t idx);
+  void incRotaryEncoder(uint8_t idx, int8_t inc);
 #endif
 
 #if defined(PCBMEGA2560)
-#define ROTARY_ENCODER_GRANULARITY (1)
+  #define ROTARY_ENCODER_GRANULARITY (1)
 #else
-#define ROTARY_ENCODER_GRANULARITY (2)
+  #define ROTARY_ENCODER_GRANULARITY (2)
 #endif
 
 #if defined(GVARS)
-uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx);
-int16_t getGVarValue(int16_t x, int16_t min, int16_t max, int8_t phase);
-void setGVarValue(uint8_t x, int16_t value, int8_t phase);
-#define GET_GVAR(x, min, max, p) getGVarValue(x, min, max, p)
-#define SET_GVAR(idx, val, p) setGVarValue(idx, val, p)
+  uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx);
+  int16_t getGVarValue(int16_t x, int16_t min, int16_t max, int8_t phase);
+  void setGVarValue(uint8_t x, int16_t value, int8_t phase);
+  #define GET_GVAR(x, min, max, p) getGVarValue(x, min, max, p)
+  #define SET_GVAR(idx, val, p) setGVarValue(idx, val, p)
 #else
-#define GET_GVAR(x, ...) (x)
+  #define GET_GVAR(x, ...) (x)
 #endif
 
 // highest bit used for small values in mix 128 --> 8 bit is enough
@@ -638,9 +638,9 @@ extern uint16_t s_timeCumThr;
 extern uint16_t s_timeCum16ThrP;
 
 #if defined(OVERRIDE_CHANNEL_FUNCTION)
-typedef int8_t safetych_t;
-#define OVERRIDE_CHANNEL_UNDEFINED -128
-extern safetych_t safetyCh[NUM_CHNOUT];
+  typedef int8_t safetych_t;
+  #define OVERRIDE_CHANNEL_UNDEFINED -128
+  extern safetych_t safetyCh[NUM_CHNOUT];
 #endif
 
 extern uint8_t trimsCheckTimer;
@@ -659,21 +659,21 @@ extern uint16_t lastMixerDuration;
 #define DURATION_MS_PREC2(x) ((x)*100)/16
 
 #if defined(THRTRACE)
-#define MAXTRACE (LCD_W - 8)
-extern uint8_t  s_traceBuf[MAXTRACE];
-#if LCD_W >= 255
-extern int16_t  s_traceWr;
-extern int16_t  s_traceCnt;
+  #define MAXTRACE (LCD_W - 8)
+  extern uint8_t  s_traceBuf[MAXTRACE];
+  #if LCD_W >= 255
+    extern int16_t  s_traceWr;
+    extern int16_t  s_traceCnt;
+  #else
+    extern uint8_t  s_traceWr;
+    extern int16_t  s_traceCnt;
+  #endif
+  extern uint8_t  s_cnt_10s;
+  extern uint16_t s_cnt_samples_thr_10s;
+  extern uint16_t s_sum_samples_thr_10s;
+  #define RESET_THR_TRACE() s_traceCnt = s_traceWr = s_cnt_10s = s_cnt_samples_thr_10s = s_sum_samples_thr_10s = s_timeCum16ThrP = s_timeCumThr = 0
 #else
-extern uint8_t  s_traceWr;
-extern int16_t  s_traceCnt;
-#endif
-extern uint8_t  s_cnt_10s;
-extern uint16_t s_cnt_samples_thr_10s;
-extern uint16_t s_sum_samples_thr_10s;
-#define RESET_THR_TRACE() s_traceCnt = s_traceWr = s_cnt_10s = s_cnt_samples_thr_10s = s_sum_samples_thr_10s = s_timeCum16ThrP = s_timeCumThr = 0
-#else
-#define RESET_THR_TRACE() s_timeCum16ThrP = s_timeCumThr = 0
+  #define RESET_THR_TRACE() s_timeCum16ThrP = s_timeCumThr = 0
 #endif
 
 uint16_t getTmr16KHz();
@@ -682,17 +682,17 @@ uint16_t stackAvailable();
 uint16_t freeRam();
 
 #if defined(SPLASH)
-void doSplash();
+  void doSplash();
 #endif
 
 #if MENUS_LOCK == 1
-extern bool readonly;
-extern bool readonlyUnlocked();
-#define READ_ONLY() readonly
-#define READ_ONLY_UNLOCKED() readonlyUnlocked()
+  extern bool readonly;
+  extern bool readonlyUnlocked();
+  #define READ_ONLY() readonly
+  #define READ_ONLY_UNLOCKED() readonlyUnlocked()
 #else
-#define READ_ONLY() false
-#define READ_ONLY_UNLOCKED() true
+  #define READ_ONLY() false
+  #define READ_ONLY_UNLOCKED() true
 #endif
 
 void checkLowEEPROM();
@@ -803,9 +803,9 @@ int intpol(int x, uint8_t idx);
 int expo(int x, int k);
 
 #if defined(CURVES)
-int applyCurve(int x, int8_t idx);
+  int applyCurve(int x, int8_t idx);
 #else
-#define applyCurve(x, idx) (x)
+  #define applyCurve(x, idx) (x)
 #endif
 
 
@@ -923,28 +923,28 @@ void evalFunctions();
 #define customFunctionsReset() modelFunctionsContext.reset()
 
 #if defined(ROTARY_ENCODERS)
-// Global rotary encoder registers
-extern volatile rotenc_t g_rotenc[ROTARY_ENCODERS];
+  // Global rotary encoder registers
+  extern volatile rotenc_t g_rotenc[ROTARY_ENCODERS];
 #elif defined(ROTARY_ENCODER_NAVIGATION)
-extern volatile rotenc_t g_rotenc[1];
+  extern volatile rotenc_t g_rotenc[1];
 #endif
 
 
 #if defined (FRSKY)
-// FrSky Telemetry
-#include "telemetry/frsky.h"
+  // FrSky Telemetry
+  #include "telemetry/frsky.h"
 #elif defined(JETI)
-// Jeti-DUPLEX Telemetry
-#include "telemetry/jeti.h"
+  // Jeti-DUPLEX Telemetry
+  #include "telemetry/jeti.h"
 #elif defined(ARDUPILOT)
-// ArduPilot Telemetry
-#include "telemetry/ardupilot.h"
+  // ArduPilot Telemetry
+  #include "telemetry/ardupilot.h"
 #elif defined(NMEA)
-// NMEA Telemetry
-#include "telemetry/nmea.h"
+  // NMEA Telemetry
+  #include "telemetry/nmea.h"
 #elif defined(MAVLINK)
-// Mavlink Telemetry
-#include "telemetry/mavlink.h"
+  // Mavlink Telemetry
+  #include "telemetry/mavlink.h"
 #endif
 
 
@@ -1007,43 +1007,43 @@ enum AUDIO_SOUNDS {
 };
 
 #if defined(AUDIO)
-#include "audio_avr.h"
+  #include "audio_avr.h"
 #endif
 
 #include "buzzer.h"
 
 #if defined(PCBMEGA2560) && defined(VOICE)
-#include "targets/mega2560/voice.h"
+  #include "targets/mega2560/voice.h"
 #endif
 
 #include "translations.h"
 
 #if defined(PERSONAMES)
-#include "personames.h"
+  #include "personames.h"
 #endif
 
 #include "fonts.h"
 
 #if defined(HAPTIC)
-#include "haptic.h"
+  #include "haptic.h"
 #endif
 
 #if defined(SDCARD)
-#include "sdcard.h"
+  #include "sdcard.h"
 #endif
 
 #if defined(RTCLOCK)
-#include "rtc.h"
+  #include "rtc.h"
 #endif
 
 #if defined(MULTIMODULE)
 PACK(
-  struct mm_protocol_definition {
-    uint8_t protocol;
-    const pm_char *subTypeString;
-    uint8_t maxSubtype;
-    const char *optionsstr;
-  } );
+struct mm_protocol_definition {
+  uint8_t protocol;
+  const pm_char *subTypeString;
+  uint8_t maxSubtype;
+  const char *optionsstr;
+} );
 const mm_protocol_definition *getMultiProtocolDefinition (uint8_t protocol);
 
 //enum MultiBindStatus : uint8_t {
@@ -1113,9 +1113,9 @@ enum PinConfigState {
 
 #define PROTODEF(proto, module, map, init, name, progmem_name) proto,
 enum Protocols { // TODO mix with native protocols
-    PROTOCOL_NONE,
-    #include "protocol/protocol.h"
-    PROTOCOL_COUNT,
+  PROTOCOL_NONE,
+#include "protocol/protocol.h"
+  PROTOCOL_COUNT,
 };
 #undef PROTODEF
 
@@ -1195,6 +1195,8 @@ void SetRfOptionSettings(uint8_t rfSubTypeState, // Called by protocols
                          const pm_char* rfOptionBool3Name
                         );
 
+void LimitRfOptionSettings();
+
 extern struct Module SpiRFModule;
 extern struct RfOptionSettingsstruct RfOptionSettings;
 //extern uint8_t packet[40]; //protocol global packet
@@ -1222,7 +1224,7 @@ struct Proto_struct {
   enum Protocols Protocol;
   const pm_char* ProtoName;
   CMDS Cmds; // Cmds
-}Protos[] = {
+} Protos[] = {
 #include "protocol/protocol.h"
 };
 #undef PROTODEF
@@ -1281,9 +1283,9 @@ extern union ReusableBuffer reusableBuffer;
 void checkFlashOnBeep();
 
 #if   defined(FRSKY)
-void convertUnit(getvalue_t & val, uint8_t & unit); // TODO check FORCEINLINE on stock
+  void convertUnit(getvalue_t & val, uint8_t & unit); // TODO check FORCEINLINE on stock
 #else
-#define convertUnit(...)
+  #define convertUnit(...)
 #endif
 
 
@@ -1317,11 +1319,11 @@ extern bar_threshold_t barsThresholds[THLD_MAX];
 #endif
 
 #if defined(FRSKY)
-ls_telemetry_value_t minTelemValue(source_t channel);
-ls_telemetry_value_t maxTelemValue(source_t channel);
+  ls_telemetry_value_t minTelemValue(source_t channel);
+  ls_telemetry_value_t maxTelemValue(source_t channel);
 #else
-#define minTelemValue(channel) 255
-#define maxTelemValue(channel) 255
+  #define minTelemValue(channel) 255
+  #define maxTelemValue(channel) 255
 #endif
 
 
@@ -1333,8 +1335,8 @@ getvalue_t convertLswTelemValue(LogicalSwitchData * cs);
 #define maxBarTelemValue(channel) maxTelemValue(channel)
 
 #if defined(FRSKY)
-lcdint_t applyChannelRatio(source_t channel, lcdint_t val);
-#define ANA_CHANNEL_UNIT(channel) g_model.frsky.channels[channel].type
+  lcdint_t applyChannelRatio(source_t channel, lcdint_t val);
+  #define ANA_CHANNEL_UNIT(channel) g_model.frsky.channels[channel].type
 #endif
 
 getvalue_t div10_and_round(getvalue_t value);
@@ -1367,35 +1369,35 @@ void getGpsDistance();
 void varioWakeup();
 
 #if defined(AUDIO) && defined(BUZZER)
-#define IS_SOUND_OFF() (g_eeGeneral.buzzerMode==e_mode_quiet && g_eeGeneral.beepMode==e_mode_quiet)
+  #define IS_SOUND_OFF() (g_eeGeneral.buzzerMode==e_mode_quiet && g_eeGeneral.beepMode==e_mode_quiet)
 #else
-#define IS_SOUND_OFF() (g_eeGeneral.beepMode == e_mode_quiet)
+  #define IS_SOUND_OFF() (g_eeGeneral.beepMode == e_mode_quiet)
 #endif
 
 #if   defined(IMPERIAL_UNITS)
-#define IS_IMPERIAL_ENABLE() (1)
+  #define IS_IMPERIAL_ENABLE() (1)
 #else
-#define IS_IMPERIAL_ENABLE() (0)
+  #define IS_IMPERIAL_ENABLE() (0)
 #endif
 
 #define IS_USR_PROTO_FRSKY_HUB()   (g_model.frsky.usrProto == USR_PROTO_FRSKY)
 #define IS_USR_PROTO_WS_HOW_HIGH() (g_model.frsky.usrProto == USR_PROTO_WS_HOW_HIGH)
 
 #if defined(FRSKY) && defined(FRSKY_HUB) && defined(GPS)
-#define IS_GPS_AVAILABLE()         IS_USR_PROTO_FRSKY_HUB()
+  #define IS_GPS_AVAILABLE()         IS_USR_PROTO_FRSKY_HUB()
 #else
-#define IS_GPS_AVAILABLE()         (0)
+  #define IS_GPS_AVAILABLE()         (0)
 #endif
 
 
 #if defined(SDCARD)
 
-extern uint16_t s_anaFilt[NUMBER_ANALOG];
+  extern uint16_t s_anaFilt[NUMBER_ANALOG];
 
-#if defined(JITTER_MEASURE)
-extern JitterMeter<uint16_t> rawJitter[NUMBER_ANALOG];
-extern JitterMeter<uint16_t> avgJitter[NUMBER_ANALOG];
-#endif  // defined(JITTER_MEASURE)
+  #if defined(JITTER_MEASURE)
+    extern JitterMeter<uint16_t> rawJitter[NUMBER_ANALOG];
+    extern JitterMeter<uint16_t> avgJitter[NUMBER_ANALOG];
+  #endif  // defined(JITTER_MEASURE)
 
 #endif
 
