@@ -154,8 +154,18 @@ int8_t checkIncDecMovedSwitch(int8_t val);
 #define CHECK_INCDEC_MODELVAR(event, var, min, max) \
   var = checkIncDecModel(event,var,min,max)
 
+#define CHECK_INCDEC_MODELVAR_STARTPULSES_IF_CHANGE(event, var, min, max) \
+  tmp = checkIncDecModel(event,var,min,max);                              \
+  if (tmp != var) { startPulses(PROTOCMD_INIT); };                        \
+  var = tmp
+
 #define CHECK_INCDEC_MODELVAR_ZERO(event, var, max) \
   var = checkIncDecModelZero(event,var,max)
+
+#define CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, var, max) \
+  tmp = checkIncDecModelZero(event,var,max);                              \
+  if (tmp != var) { startPulses(PROTOCMD_INIT); };                        \
+  var = tmp
 
 #define CHECK_INCDEC_MODELVAR_CHECK(event, var, min, max, check) \
     var = checkIncDec(event, var, min, max, EE_MODEL)
@@ -295,7 +305,7 @@ void displayWarning(uint8_t event);
 #define SET_WARNING_INFO(info, len, flags) (warningInfoText = info, warningInfoLength = len)
 #endif
 
-#if defined(SDCARD) || defined(ROTARY_ENCODER_NAVIGATION) 
+#if defined(SDCARD) || defined(ROTARY_ENCODER_NAVIGATION)
 #define NAVIGATION_MENUS
 #define POPUP_MENU_ADD_ITEM(s) popupMenuItems[popupMenuNoItems++] = s
 #define POPUP_MENU_MAX_LINES               6

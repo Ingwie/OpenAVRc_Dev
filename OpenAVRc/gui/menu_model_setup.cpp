@@ -286,6 +286,7 @@ void menuModelSetup(uint8_t event)
       }
       break;
 
+      int16_t tmp; // used for CHECK_INCDEC_MODELVAR_STARTPULSES_IF_CHANGE
 
     case ITEM_MODEL_PROTOCOL:
       lcdDrawTextLeft(y, NO_INDENT(STR_PROTO));
@@ -317,7 +318,7 @@ void menuModelSetup(uint8_t event)
           }
           break;
         case 1:
-          CHECK_INCDEC_MODELVAR(event, g_model.PPMNCH, 0, 6);
+          CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.PPMNCH, 6);
           g_model.PPMFRAMELENGTH = (g_model.PPMNCH-2) * 8;
           break;
         }
@@ -337,13 +338,13 @@ void menuModelSetup(uint8_t event)
           if (attr && (editMode>0 || p1valdiff)) {
             switch (menuHorizontalPosition) {
             case 0:
-              CHECK_INCDEC_MODELVAR(event, g_model.PPMFRAMELENGTH, -20, 35);
+              CHECK_INCDEC_MODELVAR_STARTPULSES_IF_CHANGE(event, g_model.PPMFRAMELENGTH, -20, 35);
               break;
             case 1:
-              CHECK_INCDEC_MODELVAR(event, g_model.PPMDELAY, -4, 10);
+              CHECK_INCDEC_MODELVAR_STARTPULSES_IF_CHANGE(event, g_model.PPMDELAY, -4, 10);
               break;
             case 2:
-              CHECK_INCDEC_MODELVAR_ZERO(event, g_model.PULSEPOL, 1);
+              CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.PULSEPOL, 1);
               break;
             }
           }
@@ -354,7 +355,7 @@ void menuModelSetup(uint8_t event)
           lcdDrawTextLeft(y, STR_TYPE);
           lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+4*g_model.rfSubType, 4, menuHorizontalPosition == 0 ? attr : 0);
           if (attr && (editMode>0 || p1valdiff)) {
-            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.rfSubType, RfOptionSettings.rfSubTypeMax);
+            CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.rfSubType, RfOptionSettings.rfSubTypeMax);
           }
         }
 #endif
@@ -376,7 +377,7 @@ void menuModelSetup(uint8_t event)
               break;
             }
             case 1: {
-              CHECK_INCDEC_MODELVAR_ZERO(event, g_model.rfSubType, 15); // TODO SUBTYPE
+              CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.rfSubType, 15); // TODO SUBTYPE
             }
             break;
             }
