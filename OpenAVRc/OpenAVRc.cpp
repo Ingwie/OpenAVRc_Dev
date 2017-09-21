@@ -64,7 +64,7 @@ uint8_t * packet = pulses2MHz.pbyte; //protocol global packet
 
 struct RfOptionSettingsstruct RfOptionSettings; // used in menumodelsetup
 
-void SetRfOptionSettings(uint8_t rfSubTypeState,
+void SetRfOptionSettings(uint8_t rfProtoNeed,
                          uint8_t rfSubTypeMax,
                          const pm_char* rfSubTypeNames,
                          int8_t rfOptionValue1Min,
@@ -83,7 +83,7 @@ void SetRfOptionSettings(uint8_t rfSubTypeState,
                          const pm_char* rfOptionBool3Name
                         )
 {
-  RfOptionSettings.rfSubTypeState = rfSubTypeState;
+  RfOptionSettings.rfProtoNeed = rfProtoNeed;
   RfOptionSettings.rfSubTypeMax = rfSubTypeMax;
   RfOptionSettings.rfSubTypeNames = rfSubTypeNames;
   RfOptionSettings.rfOptionValue1Min = rfOptionValue1Min;

@@ -93,7 +93,7 @@ const pm_char STR_DSMSERSUBTYPE[] PROGMEM = "LP45""DSM2""DSMX";
 static void dsmSetOptions()
 {
   SetRfOptionSettings(
-/*rfSubTypeState*/0,
+/*rfProtoNeed*/0,
 /*rfSubTypeMax*/2,
 /*rfSubTypeNames*/STR_DSMSERSUBTYPE,
 /*rfOptionValue1Min*/0,

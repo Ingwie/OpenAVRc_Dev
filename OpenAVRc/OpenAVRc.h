@@ -1156,8 +1156,10 @@ struct Module {
 //#endif
 };
 
+#define PROTO_NEED_SPI (RfOptionSettings.rfProtoNeed & PIN3_bm)
+
 struct RfOptionSettingsstruct {
-  uint8_t         rfSubTypeState:4;     // Todo : find usage
+  uint8_t         rfProtoNeed:4;     // See usage in "PROTO_NEED_XX" Def
   uint8_t         rfSubTypeMax:4;       //16 max
   const pm_char*        rfSubTypeNames;
   int8_t          rfOptionValue1Min;
@@ -1176,7 +1178,7 @@ struct RfOptionSettingsstruct {
   const pm_char*         rfOptionBool3Name;
 };
 
-void SetRfOptionSettings(uint8_t rfSubTypeState, // Called by protocols
+void SetRfOptionSettings(uint8_t rfProtoNeed, // Called by protocols
                          uint8_t rfSubTypeMax,
                          const pm_char* rfSubTypeNames,
                          int8_t rfOptionValue1Min,

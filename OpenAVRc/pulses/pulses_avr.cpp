@@ -67,7 +67,7 @@ FORCEINLINE void sendStopPulses()
 
 void startPulses(enum ProtoCmds Command)
 {
-  spi_enable_master_mode(); // Todo check if Proto need SPI
+  if PROTO_NEED_SPI spi_enable_master_mode(); // Todo Call correct SPI changed soon ;-)
   PROTO_Stop_Callback();
   // Reset CS pin
   RF_CS_CC2500_INACTIVE();
