@@ -463,10 +463,12 @@ void menuModelSetup(uint8_t event)
           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+xOffsetBind, y, STR_MODULE_BIND, l_posHorz==1 ? attr : 0);
           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+MODEL_SETUP_RANGE_OFS+xOffsetBind, y, STR_MODULE_RANGE, l_posHorz==2 ? attr : 0);
 
-          if (attr && l_posHorz>0) {
-            if (l_posHorz == 1)  SpiRFModule.mode = BIND_MODE; // TODO Call bind
-            else if (l_posHorz == 2) {
-              SpiRFModule.mode = RANGE_MODE; // TODO Call PRT
+          if (attr && l_posHorz>0 && s_editMode>0) {
+            if (l_posHorz == 1) {
+              SpiRFModule.mode = BIND_MODE;
+              startPulses(PROTOCMD_BIND);
+            } else if (l_posHorz == 2) {
+              SpiRFModule.mode = RANGE_MODE; // TODO Call PRT if availlable
             }
           }
         }
