@@ -62,6 +62,19 @@ struct Module SpiRFModule;
 //uint8_t packet[40]; //protocol global packet
 uint8_t * packet = pulses2MHz.pbyte; //protocol global packet
 
+void sendOptionsSettingsPpm()
+{
+  SetRfOptionSettings(pgm_get_far_address(RfOpt_PPM_Ser), // Used by all PPM
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY);
+}
+
+
 struct RfOptionSettingsstruct RfOptionSettings; // used in menumodelsetup
 
 void SetRfOptionSettings(uint_farptr_t RfOptSet,
@@ -263,6 +276,7 @@ uint16_t evalChkSum()
 inline void applyDefaultTemplate()
 {
   applyTemplate(TMPL_SIMPLE_4CH); // calls eeDirty internally
+  g_model.PPMNCH = 2; // 8Ch
 }
 #else
 void applyDefaultTemplate()
@@ -275,6 +289,7 @@ void applyDefaultTemplate()
     mix->weight = 100;
     mix->srcRaw = MIXSRC_Rud - 1 + channel_order(i+1);
   }
+  g_model.PPMNCH = 2; // 8Ch
 }
 #endif
 

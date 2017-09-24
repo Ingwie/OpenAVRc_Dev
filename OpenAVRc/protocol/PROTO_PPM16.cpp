@@ -166,20 +166,13 @@ const void * PROTO_PPM16_Cmds(enum ProtoCmds cmd)
       TCCR1A &= ~(0b11<<COM1A0);
       PROTO_Stop_Callback();
     return (void *) 1L;
+  case PROTOCMD_GETOPTIONS:
+     sendOptionsSettingsPpm();
+     return 0;
 //  case PROTOCMD_CHECK_AUTOBIND: return 0;
 //  case PROTOCMD_BIND:  ppm_bb_initialize(); return 0;
 //  case PROTOCMD_NUMCHAN: return (void *) 16L;
 //  case PROTOCMD_DEFAULT_NUMCHAN: return (void *) 8L;
-/*
-    case PROTOCMD_GETOPTIONS:
-    if (Model.proto_opts[CENTER_PW] == 0) {
-    Model.proto_opts[CENTER_PW] = 1100;
-    Model.proto_opts[DELTA_PW] = 500;
-    Model.proto_opts[NOTCH_PW] = 400;
-    Model.proto_opts[PERIOD_PW] = 22500;
-    }
-  return ppm_opts;
-*/
 //  case PROTOCMD_TELEMETRYSTATE: return (void *)(long) PROTO_TELEM_UNSUPPORTED;
         default: break;
   }
