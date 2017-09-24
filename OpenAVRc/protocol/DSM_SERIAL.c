@@ -92,7 +92,6 @@ const int8_t RfOpt_Dsm_Ser[] PROGMEM = {
 /*rfOptionValue1Max*/0,
 /*rfOptionValue2Min*/0,
 /*rfOptionValue2Max*/0,
-/*rfOptionValue2Name*/0,
 /*rfOptionValue3Max*/0,
 /*rfOptionBoolXUsed*/0, // BOOL1USED & BOOL2USED & BOOL3USED
 };

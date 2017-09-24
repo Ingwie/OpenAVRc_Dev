@@ -585,7 +585,7 @@ void menuModelSetup(uint8_t event)
           if (pdef->optionsstr) {
             lcdDrawTextLeft(y, pdef->optionsstr);
             if (multi_proto == MM_RF_PROTO_FS_AFHDS2A) optionValue = 50 + 5 * optionValue;
-            lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, optionValue, attr);
+            lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 2 * FW, y, optionValue, attr);
             if (attr) {
               if (multi_proto == MM_RF_PROTO_FS_AFHDS2A) {
                 CHECK_INCDEC_MODELVAR(event, g_model.rfOptionValue2, 0, 70);

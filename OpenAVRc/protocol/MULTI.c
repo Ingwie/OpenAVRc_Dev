@@ -47,6 +47,16 @@ static uint32_t MULTI_fixed_id;
 #define NO_SUBTYPE  0
 #define MM_RF_CUSTOM_SELECTED 0xff
 
+const int8_t RfOpt_Multi_Ser[] PROGMEM = {
+/*rfProtoNeed*/0,
+/*rfSubTypeMax*/16,
+/*rfOptionValue1Min*/-128,
+/*rfOptionValue1Max*/127,
+/*rfOptionValue2Min*/-128,
+/*rfOptionValue2Max*/127,
+/*rfOptionValue3Max*/0,
+/*rfOptionBoolXUsed*/BOOL1USED & BOOL2USED & BOOL3USED, // BOOL1USED & BOOL2USED & BOOL3USED
+};
 
 const pm_char STR_SUBTYPE_FLYSKY[] PROGMEM =     "\004""Std\0""V9x9""V6x6""V912""CX20";
 
@@ -336,6 +346,14 @@ const void *MULTI_Cmds(enum ProtoCmds cmd)
     MULTI_initialize(1);
     return 0;
   case PROTOCMD_GETOPTIONS:
+    SetRfOptionSettings(pgm_get_far_address(RfOpt_Multi_Ser),
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY);
      return 0;
   //case PROTOCMD_NUMCHAN:
     //return (void *)7L;
