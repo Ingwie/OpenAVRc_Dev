@@ -1158,6 +1158,11 @@ struct Module {
 
 #define PROTO_NEED_SPI (RfOptionSettings.rfProtoNeed & PIN3_bm)
 
+#define BOOL1USED PIN0_bm
+#define BOOL2USED PIN1_bm
+#define BOOL3USED PIN2_bm
+
+
 struct RfOptionSettingsstruct {
   uint8_t         rfProtoNeed:4;     // See usage in "PROTO_NEED_XX" Def
   uint8_t         rfSubTypeMax:4;       //16 max
@@ -1178,24 +1183,14 @@ struct RfOptionSettingsstruct {
   const pm_char*         rfOptionBool3Name;
 };
 
-void SetRfOptionSettings(uint8_t rfProtoNeed, // Called by protocols
-                         uint8_t rfSubTypeMax,
+void SetRfOptionSettings(uint_farptr_t RfOptSet,
                          const pm_char* rfSubTypeNames,
-                         int8_t rfOptionValue1Min,
-                         int8_t rfOptionValue1Max,
                          const pm_char* rfOptionValue1Name,
-                         int8_t rfOptionValue2Min,
-                         int8_t rfOptionValue2Max,
                          const pm_char* rfOptionValue2Name,
-                         int8_t rfOptionValue3Max,
                          const pm_char* rfOptionValue3Name,
-                         bool rfOptionBool1Used,
                          const pm_char* rfOptionBool1Name,
-                         bool rfOptionBool2Used,
                          const pm_char* rfOptionBool2Name,
-                         bool rfOptionBool3Used,
-                         const pm_char* rfOptionBool3Name
-                        );
+                         const pm_char* rfOptionBool3Name);
 
 void LimitRfOptionSettings();
 

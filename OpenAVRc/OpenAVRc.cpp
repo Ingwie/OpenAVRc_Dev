@@ -64,41 +64,31 @@ uint8_t * packet = pulses2MHz.pbyte; //protocol global packet
 
 struct RfOptionSettingsstruct RfOptionSettings; // used in menumodelsetup
 
-void SetRfOptionSettings(uint8_t rfProtoNeed,
-                         uint8_t rfSubTypeMax,
+void SetRfOptionSettings(uint_farptr_t RfOptSet,
                          const pm_char* rfSubTypeNames,
-                         int8_t rfOptionValue1Min,
-                         int8_t rfOptionValue1Max,
                          const pm_char* rfOptionValue1Name,
-                         int8_t rfOptionValue2Min,
-                         int8_t rfOptionValue2Max,
                          const pm_char* rfOptionValue2Name,
-                         int8_t rfOptionValue3Max,
                          const pm_char* rfOptionValue3Name,
-                         bool rfOptionBool1Used,
                          const pm_char* rfOptionBool1Name,
-                         bool rfOptionBool2Used,
                          const pm_char* rfOptionBool2Name,
-                         bool rfOptionBool3Used,
-                         const pm_char* rfOptionBool3Name
-                        )
+                         const pm_char* rfOptionBool3Name)
 {
-  RfOptionSettings.rfProtoNeed = rfProtoNeed;
-  RfOptionSettings.rfSubTypeMax = rfSubTypeMax;
+  RfOptionSettings.rfProtoNeed = pgm_read_byte_far(RfOptSet);
+  RfOptionSettings.rfSubTypeMax = pgm_read_byte_far(++RfOptSet);
   RfOptionSettings.rfSubTypeNames = rfSubTypeNames;
-  RfOptionSettings.rfOptionValue1Min = rfOptionValue1Min;
-  RfOptionSettings.rfOptionValue1Max = rfOptionValue1Max;
+  RfOptionSettings.rfOptionValue1Min = pgm_read_byte_far(++RfOptSet);
+  RfOptionSettings.rfOptionValue1Max = pgm_read_byte_far(++RfOptSet);
   RfOptionSettings.rfOptionValue1Name = rfOptionValue1Name;
-  RfOptionSettings.rfOptionValue2Min = rfOptionValue2Min;
-  RfOptionSettings.rfOptionValue2Max = rfOptionValue2Max;
+  RfOptionSettings.rfOptionValue2Min = pgm_read_byte_far(++RfOptSet);
+  RfOptionSettings.rfOptionValue2Max = pgm_read_byte_far(++RfOptSet);
   RfOptionSettings.rfOptionValue2Name = rfOptionValue2Name;
-  RfOptionSettings.rfOptionValue3Max = rfOptionValue3Max;
+  RfOptionSettings.rfOptionValue3Max = pgm_read_byte_far(++RfOptSet);
   RfOptionSettings.rfOptionValue3Name = rfOptionValue3Name;
-  RfOptionSettings.rfOptionBool1Used = rfOptionBool1Used;
+  RfOptionSettings.rfOptionBool1Used = (pgm_read_byte_far(++RfOptSet) & BOOL1USED);
   RfOptionSettings.rfOptionBool1Name = rfOptionBool1Name;
-  RfOptionSettings.rfOptionBool2Used = rfOptionBool2Used;
+  RfOptionSettings.rfOptionBool2Used = (pgm_read_byte_far(RfOptSet) & BOOL2USED);
   RfOptionSettings.rfOptionBool2Name = rfOptionBool2Name;
-  RfOptionSettings.rfOptionBool3Used = rfOptionBool3Used;
+  RfOptionSettings.rfOptionBool3Used = (pgm_read_byte_far(RfOptSet) & BOOL3USED);
   RfOptionSettings.rfOptionBool3Name = rfOptionBool3Name;
 }
 

@@ -80,37 +80,21 @@ normal:
 // DSM2=SERIAL mode
 
 
-// ToDo Temporary patch.
-#if !defined(PROTO_DSM_LP45)
-#define PROTO_DSM_LP45 253
-#endif
-#if !defined(PROTO_DSM_DSM2)
-#define PROTO_DSM_DSM2 254
-#endif
+enum SubProtoDsm{
+  Sub_LP45 = 0,
+  Sub_DSM2,
+  Sub_DSMX};
 
-const pm_char STR_DSMSERSUBTYPE[] PROGMEM = "LP45""DSM2""DSMX";
-
-static void dsmSetOptions()
-{
-  SetRfOptionSettings(
+const int8_t RfOpt_Dsm_Ser[] PROGMEM = {
 /*rfProtoNeed*/0,
 /*rfSubTypeMax*/2,
-/*rfSubTypeNames*/STR_DSMSERSUBTYPE,
 /*rfOptionValue1Min*/0,
 /*rfOptionValue1Max*/0,
-/*rfOptionValue1Name*/NULL,
 /*rfOptionValue2Min*/0,
 /*rfOptionValue2Max*/0,
-/*rfOptionValue2Name*/NULL,
+/*rfOptionValue2Name*/0,
 /*rfOptionValue3Max*/0,
-/*rfOptionValue3Name*/NULL,
-/*rfOptionBool1Used*/0,
-/*rfOptionBool1Name*/NULL,
-/*rfOptionBool2Used*/0,
-/*rfOptionBool2Name*/NULL,
-/*rfOptionBool3Used*/0,
-/*rfOptionBool3Name*/NULL
-);
+/*rfOptionBoolXUsed*/0, // BOOL1USED & BOOL2USED & BOOL3USED
 };
 
 static void DSM2_SERIAL_Reset()
@@ -132,9 +116,9 @@ static uint16_t DSM_SERIAL_cb()
 
   uint8_t dsm_header;
 
-  if(s_current_protocol == PROTO_DSM_LP45)
+  if(g_model.rfSubType == Sub_LP45)
     dsm_header = 0x00;
-  else if(s_current_protocol == PROTO_DSM_DSM2)
+  else if(g_model.rfSubType == Sub_DSM2)
     dsm_header = 0x10;
   else dsm_header = 0x10 | DSMX_BIT; // PROTO_DSM2_DSMX
 
@@ -142,7 +126,6 @@ static uint16_t DSM_SERIAL_cb()
     dsm_header |= DSM2_SEND_BIND;
   else if(dsmRange)
     dsm_header |= DSM2_SEND_RANGECHECK;
-  else;
 
   frskyTxBuffer[--dsmTxBufferCount] = dsm_header;
 
@@ -191,9 +174,6 @@ static void DSM_SERIAL_initialize(void)
 
 #endif // SIMU
 #endif // defined(DSM2_SERIAL)
-#if defined(DSM2) || defined(PXX)
-//uint8_t moduleFlag[NUM_MODULES] = { 0 };
-#endif
 
   PROTO_Start_Callback(25000U *2, DSM_SERIAL_cb);
 }
@@ -216,7 +196,14 @@ const void *DSM_SERIAL_Cmds(enum ProtoCmds cmd)
     DSM2_SERIAL_Reset();
     return 0;
   case PROTOCMD_GETOPTIONS:
-    dsmSetOptions();
+    SetRfOptionSettings(pgm_get_far_address(RfOpt_Dsm_Ser),
+                        TR_DSM_PROTOCOLS,
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY);
      return 0;
   //case PROTOCMD_CHECK_AUTOBIND:
     //return (void *)1L; // Always Autobind
