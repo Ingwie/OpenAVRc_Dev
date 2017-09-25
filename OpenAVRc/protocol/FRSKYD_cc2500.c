@@ -43,6 +43,18 @@ static const char * const FRSKYD_opts[] = {
   NULL
 };
 
+const int8_t RfOpt_FrskyD_Ser[] PROGMEM = {
+/*rfProtoNeed*/PIN3_bm,
+/*rfSubTypeMax*/0,
+/*rfOptionValue1Min*/-128,
+/*rfOptionValue1Max*/127,
+/*rfOptionValue2Min*/0,
+/*rfOptionValue2Max*/0,
+/*rfOptionValue3Max*/0,
+/*rfOptionBoolXUsed*/0, // BOOL1USED & BOOL2USED & BOOL3USED
+};
+
+
 enum FRSKYD_opts {
   FRSKYD_OPT_FREQFINE =0,
   FRSKYD_OPT_TELEM,
@@ -354,6 +366,14 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
     CC2500_Strobe(CC2500_SIDLE);
     return 0;
     case PROTOCMD_GETOPTIONS:
+          SetRfOptionSettings(pgm_get_far_address(RfOpt_FrskyD_Ser),
+                        STR_RFTUNE,
+                        STR_RFTUNE,
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY,
+                        STR_DUMMY);
     return 0;
 	//case PROTOCMD_GETNUMOPTIONS:
     //return (void *)1L;

@@ -150,19 +150,19 @@
 
 #if defined(MULTIMODULE) || defined(SPIMODULES)
   #define TR_SUBTYPE            "SubType"
-  #define TR_MULTI_RFTUNE                TR(INDENT "Freq tune",INDENT "RF Freq. fine tune")
+  #define TR_RFTUNE                TR(INDENT "Freq tune",INDENT "RF Freq. fine tune")
   #define TR_MULTI_TELEMETRY             "Telemetry"
   #define TR_MULTI_VIDFREQ               TR(INDENT "Vid. freq.", INDENT "Video frequency")
   #define TR_MULTI_RFPOWER               INDENT "RF Power"
   #define TR_MULTI_OPTION                TR(INDENT "Option", INDENT "Option value")
-  #define TR_MULTI_AUTOBIND              TR(INDENT "Autobind",INDENT "Bind on powerup")
+  #define TR_AUTOBIND              TR(INDENT "Autobind",INDENT "Bind on powerup")
   #define TR_MULTI_DSM_AUTODTECT         TR(INDENT "Autodetect", INDENT "Autodetect format")
   #define TR_MULTI_LOWPOWER              TR(INDENT "Low power", INDENT "Low power mode")
   #define TR_MULTI_SERVOFREQ             TR(INDENT "Servo rate", INDENT "Servo update rate")
 
 #endif
 
-  
+
 
 
 

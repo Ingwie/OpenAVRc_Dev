@@ -72,6 +72,7 @@ void sendOptionsSettingsPpm()
                         STR_DUMMY,
                         STR_DUMMY,
                         STR_DUMMY);
+  g_model.PPMFRAMELENGTH = (g_model.PPMNCH-2) * 8;
 }
 
 

@@ -455,18 +455,15 @@ extern const pm_char STR_MULTI_CUSTOM[];
 #if defined(MULTIMODULE) || defined(SPIMODULES)
 extern const pm_char STR_SUBTYPE[];
 extern const pm_char STR_MULTI_VIDFREQ[];
-extern const pm_char STR_MULTI_RFTUNE[];
+extern const pm_char STR_RFTUNE[];
 extern const pm_char STR_MULTI_TELEMETRY[];
 extern const pm_char STR_MULTI_RFPOWER[];
 extern const pm_char STR_MULTI_SERVOFREQ[];
 extern const pm_char STR_MULTI_OPTION[];
 extern const pm_char STR_MULTI_DSM_AUTODTECT[];
-extern const pm_char STR_MULTI_AUTOBIND[];
+extern const pm_char STR_AUTOBIND[];
 extern const pm_char STR_MULTI_LOWPOWER[];
-#endif
-
-#if defined(DSM2) || defined(PXX)
-extern const pm_char STR_RXNUM[];
+extern const pm_char STR_SPIM[];
 #endif
 
 #if defined(PXX)
@@ -638,6 +635,7 @@ extern const pm_char STR_MODS_FORBIDDEN[];
 #if defined(DSM2) || defined(SPIMODULES) || defined(MULTIMODULE)
 extern const pm_char STR_MODULE_RANGE[];
 extern const pm_char STR_MODULE_BIND[];
+extern const pm_char STR_RXNUM[];
 #endif
 
 

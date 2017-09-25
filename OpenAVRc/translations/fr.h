@@ -160,19 +160,19 @@
 
 #if defined(MULTIMODULE) || defined(SPIMODULES)
   #define TR_SUBTYPE            "SubType"
-  #define TR_MULTI_RFTUNE        TR(INDENT "Ajust.fr\200q", INDENT "Ajustement fr\200q.")
+  #define TR_RFTUNE        TR(INDENT "Ajust.fr\200q", INDENT "Ajustement fr\200q.")
   #define TR_MULTI_TELEMETRY             "Telemetry"
   #define TR_MULTI_VIDFREQ       TR(INDENT "Fr\200q. vid\200o", INDENT "Fr\200quence vid\200o")
   #define TR_MULTI_RFPOWER       TR(INDENT "Puiss. RF", INDENT "Puissance RF")
   #define TR_MULTI_OPTION        TR(INDENT "Option", INDENT "Option perso")
   #define TR_MULTI_SERVOFREQ     TR(INDENT "Fr\200q.servo", INDENT "Fr\200quence servos")
-  #define TR_MULTI_AUTOBIND      TR(INDENT "Bind auto", INDENT "Bind automatique")
+  #define TR_AUTOBIND      TR(INDENT "Bind auto", INDENT "Bind automatique")
   #define TR_MULTI_DSM_AUTODTECT TR(INDENT "Autod\200t.", INDENT "Autod\200tection")
   #define TR_MULTI_LOWPOWER      TR(INDENT "Basse puis.", INDENT "Mode basse puiss.")
 
 #endif
 
-  
+
 
 
 
