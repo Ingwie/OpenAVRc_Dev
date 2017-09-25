@@ -40,22 +40,29 @@
 
 #include "i2c_master.h"
 
-#if defined(PCBMEGA2560)
-#define TWBR_val 1 //(1.0 MhZ roadrunner speed : Beep,Beep ! :)
-#else
-#define F_SCL 400000UL // SCL frequency
-#define Prescaler 1
-#define TWBR_val ((((F_CPU / F_SCL) / Prescaler) - 16 ) / 2)
-#endif
-
-void wait()
-{
-  while( !(TWCR & (1<<TWINT)) );
-}
+// DS3231M = 400KHz
+// DS3231  = 400KHz
+// FM24W256 = 1MHz
+// 400KHz SCL ... TWPS =0b01 in register TWSR(1:0), TWBR =3.
+// 1MHz SCL ... TWPS =0b00 in register TWSR(1:0), TWBR =0.
+/*
+ *        FCPU
+ * --------------------  = SCL frequency
+ * 16 + 2(TWBR) .4^TWPS
+ */
 
 void i2c_init(void)
 {
-  TWBR = (uint8_t)TWBR_val;
+// 1MHz
+  TWBR = (uint8_t) 0;
+  TWSR |= 0b00; // Prescaler.
+  TWSR &= 0b11111100;
+}
+
+inline void wait()
+{
+  // Poll TWI Interrupt flag.
+  while(! (TWCR & (1<<TWINT)) );
 }
 
 uint8_t i2c_start(uint8_t address)
