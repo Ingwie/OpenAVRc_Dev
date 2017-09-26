@@ -35,7 +35,7 @@
 
 #if defined(FONTSTD)
 
-const pm_uchar font_5x7[] PROGMEM = {
+const pm_uchar zzfont_5x7[] PROGMEM = {
 #include "../fonts/std/font_05x07_avr.lbm"
 #if defined(TRANSLATIONS_DE)
 #include "../fonts/std/font_de_05x07.lbm"
@@ -59,18 +59,18 @@ const pm_uchar font_5x7[] PROGMEM = {
 };
 
 #if defined(BOLD_SPECIFIC_FONT)
-const pm_uchar font_5x7_B[] PROGMEM = {
+const pm_uchar zzfont_5x7_B[] PROGMEM = {
 #include "../fonts/std/font_05x07_B_compressed.lbm"
 };
 #endif
 
-const pm_uchar font_10x14[] PROGMEM = {
+const pm_uchar zzfont_10x14[] PROGMEM = {
 #include "../fonts/std/font_10x14_compressed.lbm"
 };
 
 #else //SQT5
 
-const pm_uchar font_5x7[] PROGMEM = {
+const pm_uchar zzfont_5x7[] PROGMEM = {
 #include "../fonts/sqt5/font_05x07_avr.lbm"
 #if defined(TRANSLATIONS_DE)
 #include "../fonts/sqt5/font_de_05x07.lbm"
@@ -94,12 +94,12 @@ const pm_uchar font_5x7[] PROGMEM = {
 };
 
 #if defined(BOLD_SPECIFIC_FONT)
-const pm_uchar font_5x7_B[] PROGMEM = {
+const pm_uchar zzfont_5x7_B[] PROGMEM = {
 #include "../fonts/sqt5/font_05x07_B_compressed.lbm"
 };
 #endif
 
-const pm_uchar font_10x14[] PROGMEM = {
+const pm_uchar zzfont_10x14[] PROGMEM = {
 #include "../fonts/sqt5/font_10x14_compressed.lbm"
 };
 

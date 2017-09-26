@@ -653,7 +653,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 {
   uint8_t *p = &displayBuf[ y / 8 * LCD_W + x ];
 
-  uint_farptr_t q=pgm_get_far_address(font_5x7);
+  uint_farptr_t q=pgm_get_far_address(zzfont_5x7);
   q += (c-0x20)*5;
   lcdNextPos = x-1;
   p--;
@@ -702,7 +702,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
     /* each letter consists of ten top bytes followed by
      * by ten bottom bytes (20 bytes per * char) */
 
-    q = pgm_get_far_address(font_10x14);
+    q = pgm_get_far_address(zzfont_10x14);
     q += (uint16_t)c_remapped*20;
 
     for (int8_t i=0; i<=11; i++) {
@@ -738,7 +738,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 #if defined(BOLD_FONT)
 #if defined(BOLD_SPECIFIC_FONT)
     if (flags & BOLD) {
-      q = pgm_get_far_address(font_5x7_B);
+      q = pgm_get_far_address(zzfont_5x7_B);
       q += (c_remapped)*5;
     }
 #else
