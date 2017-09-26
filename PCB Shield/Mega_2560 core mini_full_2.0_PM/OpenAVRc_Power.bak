@@ -319,7 +319,7 @@ Text Label 4150 3000 0    60   ~ 0
 LIPO+
 Text Notes 3750 4500 0    60   ~ 0
 DCDC_IN-
-Text Label 3750 4300 0    60   ~ 0
+Text Label 4200 4300 2    60   ~ 0
 DCDC_IN+
 $Comp
 L CONN_01X02 P17

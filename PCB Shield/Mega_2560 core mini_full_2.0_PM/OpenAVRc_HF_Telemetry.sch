@@ -477,17 +477,6 @@ Wire Wire Line
 Wire Wire Line
 	5700 1750 5500 1750
 Connection ~ 5500 1750
-$Comp
-L 4050-RESCUE-Mega_2560_core_mini_full_2.0 U9
-U 1 1 59C530CC
-P 7300 1450
-F 0 "U9" H 7495 1565 60  0000 C CNN
-F 1 "4050" H 7490 1325 60  0000 C CNN
-F 2 "SO-16-N" H 7300 1450 60  0001 C CNN
-F 3 "" H 7300 1450 60  0001 C CNN
-	1    7300 1450
-	1    0    0    -1  
-$EndComp
 Wire Notes Line
 	6250 4850 10250 4850
 Wire Notes Line
