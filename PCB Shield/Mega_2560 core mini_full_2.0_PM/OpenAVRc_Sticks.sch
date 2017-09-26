@@ -749,8 +749,6 @@ F 3 "" H 2850 5850 50  0000 C CNN
 $EndComp
 Text Label 1200 6050 1    60   ~ 0
 Power_manches
-Text Label 3050 6150 1    60   ~ 0
-P3_3V
 $Comp
 L CONN_01X06 P13
 U 1 1 59C5C1AE
@@ -1058,8 +1056,6 @@ Wire Wire Line
 Connection ~ 4000 4250
 Wire Wire Line
 	3700 4700 3700 4600
-Wire Wire Line
-	3050 5750 3050 6150
 Wire Wire Line
 	2950 6050 2950 5750
 Wire Wire Line
@@ -1750,4 +1746,17 @@ Text GLabel 7800 3900 1    60   Output ~ 0
 Stick_LV
 Text GLabel 9500 3950 1    60   Output ~ 0
 Stick_LH
+$Comp
+L +3,3V #PWR046
+U 1 1 59CA5E51
+P 3050 5850
+F 0 "#PWR046" H 3050 5810 30  0001 C CNN
+F 1 "+3,3V" H 3050 6000 39  0000 C CNN
+F 2 "" H 3050 5850 60  0001 C CNN
+F 3 "" H 3050 5850 60  0001 C CNN
+	1    3050 5850
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	3050 5850 3050 5750
 $EndSCHEMATC
