@@ -41,6 +41,9 @@
 #define I2C_READ 0x01
 #define I2C_WRITE 0x00
 
+#define I2C_SPEED_400K()  { TWBR = (uint8_t) 12;}
+#define I2C_SPEED_1M()    { TWBR = (uint8_t) 0;  }
+
 void i2c_init(void);
 uint8_t i2c_start(uint8_t address);
 uint8_t i2c_write(uint8_t data);

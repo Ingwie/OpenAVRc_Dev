@@ -53,9 +53,8 @@
 
 void i2c_init(void)
 {
-// 1MHz
-  TWBR = (uint8_t) 0;
-  TWSR |= 0b00; // Prescaler.
+  I2C_SPEED_400K();
+  TWSR |= 0b00; // Prescaler =0.
   TWSR &= 0b11111100;
 }
 
