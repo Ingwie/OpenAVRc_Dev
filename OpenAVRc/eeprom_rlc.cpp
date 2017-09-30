@@ -98,6 +98,7 @@ void Ext_eeprom_read_block(uint8_t * pointer_ram, uint16_t pointer_eeprom, size_
     *pointer_ram++ = i2c_read_ack(); // read value from EEPROM
     size--;
   } while (size);
+  i2c_read_nack();
   i2c_stop(); // set stop conditon = release bus
 }
 

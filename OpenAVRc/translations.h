@@ -636,6 +636,7 @@ extern const pm_char STR_MODS_FORBIDDEN[];
 extern const pm_char STR_MODULE_RANGE[];
 extern const pm_char STR_MODULE_BIND[];
 extern const pm_char STR_RXNUM[];
+extern const pm_char STR_DSM_PROTOCOLS[];
 #endif
 
 

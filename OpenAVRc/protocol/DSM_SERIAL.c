@@ -196,7 +196,7 @@ const void *DSM_SERIAL_Cmds(enum ProtoCmds cmd)
     return 0;
   case PROTOCMD_GETOPTIONS:
     SetRfOptionSettings(pgm_get_far_address(RfOpt_Dsm_Ser),
-                        TR_DSM_PROTOCOLS,
+                        STR_DSM_PROTOCOLS,
                         STR_DUMMY,
                         STR_DUMMY,
                         STR_DUMMY,
