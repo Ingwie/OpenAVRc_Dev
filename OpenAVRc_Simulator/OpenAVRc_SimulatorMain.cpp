@@ -491,7 +491,7 @@ void OpenAVRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
   if (OnTglButton->GetValue()) {
     if (simu_eeprom[1] == 0) {
       if (CurrentEEPath != "") {
-        answer = wxMessageBox(_("Recharger le fichier eeprom "+CurrentEEPath+" ?"), _("EEPROM VIDE"), wxYES_NO, this);
+        answer = wxMessageBox((_("Recharger le fichier eeprom ") +CurrentEEPath+" ?"), _("EEPROM VIDE"), wxYES_NO, this);
         if (answer == wxYES) {
           LoadEepromFile(CurrentEEPath);
         }

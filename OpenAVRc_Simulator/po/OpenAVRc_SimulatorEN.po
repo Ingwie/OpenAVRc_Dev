@@ -1,0 +1,428 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-10-01 15:52+0200\n"
+"PO-Revision-Date: 2017-10-01 16:02+0200\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.4\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es\n"
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:83
+msgid "                     Max         Min       Alarm"
+msgstr "                     Max         Min       Alarm"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:799
+msgid "      OpenAVRc Simulateur"
+msgstr "      OpenAVRc Simulator"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:882
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:938
+msgid "    OpenAVRc Simulateur"
+msgstr "    OpenAVRc Simulator"
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:84
+msgid " 1008            1024           1008"
+msgstr " 1008            1024           1008"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:494
+msgid " ?"
+msgstr " ?"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:343
+msgid "&Aide"
+msgstr "&Help"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:338
+msgid "&Fenêtres"
+msgstr "&Windows"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:306
+msgid "&Fichier"
+msgstr "&File"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:328
+msgid "&Option"
+msgstr "&Option"
+
+#: A:\cb\OpenAVRc_Simulator\ModelNameDialog.cpp:67
+msgid "10 Chars Max"
+msgstr "10 Chars Max"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:340
+msgid "A propos ...\tF1"
+msgstr "About ...\tF1"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:258
+msgid "AIL"
+msgstr "AIL"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:938
+msgid "Aucune eeprom detectée en mémoire"
+msgstr "No eeprom detected in memory"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:280
+msgid "BP REA"
+msgstr "BP REA"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:283
+msgid "BP REB"
+msgstr "BP REB"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:315
+msgid "Boutons (off)"
+msgstr "Buttons (off)"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:318
+msgid "Boutons (on)"
+msgstr "Buttons (on)"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:340
+msgid "C'est quoi donc ?"
+msgstr "What is it?"
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:76
+msgid "Calibration"
+msgstr "calibration"
+
+#: A:\cb\OpenAVRc_Simulator\Spin.cpp:64 A:\cb\OpenAVRc_Simulator\Spin.cpp:74
+#: A:\cb\OpenAVRc_Simulator\Spin.cpp:85
+msgid "Ceci est une sortie"
+msgstr "This is an output"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:124
+msgid "Ch1"
+msgstr "Ch1"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:133
+msgid "Ch10"
+msgstr "Ch10"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:134
+msgid "Ch11"
+msgstr "Ch11"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:135
+msgid "Ch12"
+msgstr "Ch12"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:136
+msgid "Ch13"
+msgstr "Ch13"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:137
+msgid "Ch14"
+msgstr "Ch14"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:138
+msgid "Ch15"
+msgstr "Ch15"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:139
+msgid "Ch16"
+msgstr "Ch16"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:125
+msgid "Ch2"
+msgstr "Ch2"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:126
+msgid "Ch3"
+msgstr "Ch3"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:127
+msgid "Ch4"
+msgstr "Ch4"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:128
+msgid "Ch5"
+msgstr "Ch5"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:129
+msgid "Ch6"
+msgstr "Ch6"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:130
+msgid "Ch7"
+msgstr "Ch7"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:131
+msgid "Ch8"
+msgstr "Ch8"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:132
+msgid "Ch9"
+msgstr "Ch9"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:289
+msgid "Charger Eeprom"
+msgstr "Charger Eeprom"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:289
+msgid "Charger fichier BIN"
+msgstr "Load BIN file"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:500
+msgid "Charger un fichier eeprom ?"
+msgstr "Load an eeprom file?"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:327
+msgid "Couleurs"
+msgstr "Colors"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:286
+msgid "Desktop"
+msgstr "Desktop"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:494
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:500
+msgid "EEPROM VIDE"
+msgstr "EEPROM EMPTY"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:252
+msgid "ELE"
+msgstr "ELE"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:216
+msgid "EXIT"
+msgstr "EXIT"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:295
+msgid "Exporte l'eeprom en format texte"
+msgstr "Exports the eeprom in text format"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:295
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:949
+msgid "Exporter Eeprom"
+msgstr "Export Eeprom"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:261
+msgid "GEA"
+msgstr "GEA"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:332
+msgid "Graphique Sorties"
+msgstr "Chart Output"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:264
+msgid "ID1"
+msgstr "ID1"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:267
+msgid "ID2"
+msgstr "ID2"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:299
+msgid "Importe une eeprom en format texte"
+msgstr "Imports an eeprom in text format"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:299
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:891
+msgid "Importer Eeprom"
+msgstr "Import Eeprom"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:882
+msgid "L'eeprom va être formatée, étes vous sur ?"
+msgstr "The eeprom will be formatted, were you on?"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:309
+msgid "Lcd (fond)"
+msgstr "Lcd (background)"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:312
+msgid "Lcd (pixel)"
+msgstr "Lcd (pixel)"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:858
+msgid "Les paramètres sont sauvé dans :"
+msgstr "The settings are saved in:"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:211
+msgid "MENU"
+msgstr "MENU"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:321
+msgid "Manches (fond)"
+msgstr "Sleeves (bottom)"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:324
+msgid "Manches (stick)"
+msgstr "Sleeves (stick)"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:799
+msgid "Merci d'éteindre le simulateur pour quitter"
+msgstr "Please turn off the simulator to exit"
+
+#: A:\cb\OpenAVRc_Simulator\MixerFrame.cpp:81
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:330
+msgid "Mixeur"
+msgstr "Blender"
+
+#: A:\cb\OpenAVRc_Simulator\ModelNameDialog.cpp:66
+msgid "Nom du modèle"
+msgstr "Name of the model"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:285
+msgid "ON"
+msgstr "ON"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:633
+msgid "OpenAVRc Simulateur"
+msgstr "OpenAVRc Simulator"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:676
+msgid "Ouvrir Fichier BIN"
+msgstr "Open BIN File"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:336
+msgid "Paramètres Radio"
+msgstr "Radio Settings"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:303
+msgid "Quitter\tAlt-F4"
+msgstr "Exit\tAlt-F4"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:303
+msgid "Quitter le simulateur"
+msgstr "Leaving the simulator"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:249
+msgid "RUD"
+msgstr "RUD"
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:71
+msgid "Radio Data"
+msgstr "Radio Data"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:273
+msgid "Rea"
+msgstr "Rea"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:276
+msgid "Reb"
+msgstr "Reb"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:494
+msgid "Recharger le fichier eeprom "
+msgstr "Reload the eeprom file "
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:292
+msgid "Sauvegarde du fichier BIN"
+msgstr "BIN file backup"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:763
+msgid "Sauver Capture écran"
+msgstr "Save Screen Capture"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:292
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:778
+msgid "Sauver Eeprom"
+msgstr "Save Eeprom"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:196
+msgid "Simulateur"
+msgstr "Simulator"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:636
+msgid "Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "
+msgstr "Simulator of OpenAVRc code 'all options' on Méga 2560 card     "
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:246
+msgid "THR"
+msgstr "THR"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:255
+msgid "TRN"
+msgstr "TRN"
+
+#: A:\cb\OpenAVRc_Simulator\MixerFrame.cpp:87
+#: A:\cb\OpenAVRc_Simulator\MixerFrame.cpp:90
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:108
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:109
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:110
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:111
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:112
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:113
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:114
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:115
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:116
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:117
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:118
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:119
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:120
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:121
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:122
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:123
+msgid "Texte"
+msgstr "Text"
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:634
+msgid "V 3.0"
+msgstr "V 3.0"
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:73
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:334
+msgid "Variables globales"
+msgstr "Global variables"
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:88
+msgid "npha0"
+msgstr "npha0"
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:90
+msgid "npha1"
+msgstr "npha1"
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:92
+msgid "npha2"
+msgstr "npha2"
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:94
+msgid "npha3"
+msgstr "npha3"
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:96
+msgid "npha4"
+msgstr "npha4"
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:98
+msgid "npha5"
+msgstr "npha5"
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:100
+msgid "valvg1"
+msgstr "valvg1"
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:102
+msgid "valvg2"
+msgstr "valvg2"
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:104
+msgid "valvg3"
+msgstr "valvg3"
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:106
+msgid "valvg4"
+msgstr "valvg4"
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:108
+msgid "valvg5"
+msgstr "valvg5"
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:110
+msgid "valvg6"
+msgstr "valvg6"
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:104
+msgid "État des sorties."
+msgstr "Status of outputs."

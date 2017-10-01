@@ -65,7 +65,6 @@ public:
     OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id = -1);
     virtual ~OpenAVRc_DesktopFrame();
 
-
 private:
 
     //(*Handlers(OpenAVRc_DesktopFrame)

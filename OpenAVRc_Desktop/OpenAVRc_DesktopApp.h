@@ -39,6 +39,7 @@
 class OpenAVRc_DesktopApp : public wxApp
 {
 public:
+    wxLocale myLocale;
     virtual bool OnInit();
 };
 

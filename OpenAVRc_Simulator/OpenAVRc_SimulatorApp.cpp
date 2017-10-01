@@ -42,6 +42,11 @@ IMPLEMENT_APP(OpenAVRc_SimulatorApp);
 
 bool OpenAVRc_SimulatorApp::OnInit()
 {
+  // Translation
+  myLocale.Init(wxLANGUAGE_FRENCH , wxLOCALE_LOAD_DEFAULT);
+  wxLocale::AddCatalogLookupPathPrefix(".");
+  myLocale.AddCatalog("OpenAVRc_Simulator");
+
   //(*AppInitialize
   bool wxsOK = true;
   wxInitAllImageHandlers();

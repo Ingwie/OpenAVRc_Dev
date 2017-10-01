@@ -728,14 +728,14 @@ void CompilerOptionsFrame::CollectDatas()
      if (x.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-+:*=?") != std::string::npos)
      {
         doNotClose = 1;
-        wxMessageBox(switchArray[i]+_(" :\nIl y a au moins ce nom avec des caractères spéciaux non autorisés.\nVeuillez le changer.\nCaractères spéciaux autorisés : _-+:*=?"));
+        wxMessageBox(switchArray[i]+":\n"+_(": Il y a au moins ce nom avec des caractères spéciaux non autorisés.\nVeuillez le changer.\nCaractères spéciaux autorisés : _-+:*=?"));
         break;
      }
 
      if (switchArray[i].length() < 3)
      {
         doNotClose = 1;
-        wxMessageBox(switchArray[i]+_(" :\nIl y a au moins ce nom trop court, veuillez le compléter."));
+        wxMessageBox(switchArray[i]+":\n"+_(": Il y a au moins ce nom trop court, veuillez le compléter."));
         break;
      }
 
@@ -745,7 +745,7 @@ void CompilerOptionsFrame::CollectDatas()
         if (switchArray[i] == switchArray[j])
         {
            doNotClose = 1;
-           wxMessageBox(switchArray[i]+_(" :\nIl y a au moins ce nom répété , veuillez le changer."));
+           wxMessageBox(switchArray[i]+":\n"+_(": Il y a au moins ce nom répété , veuillez le changer."));
            break;
         }
      }
@@ -871,7 +871,7 @@ void CompilerOptionsFrame::OnChoiceNAVIGATIONSelect(wxCommandEvent& event)
 void CompilerOptionsFrame::OnChoiceVOICESelect(wxCommandEvent& event)
 {
   CollectDatas();
-  if (VOICE == (_("NO")))
+  if (VOICE == ("NO"))
     {
       CheckBoxNOANDSECONDE->SetValue(0);
       Panel3->Refresh ();

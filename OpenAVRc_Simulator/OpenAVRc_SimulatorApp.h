@@ -41,6 +41,7 @@
 class OpenAVRc_SimulatorApp : public wxApp
 {
 public:
+  wxLocale myLocale;
   OpenAVRc_SimulatorFrame* SimuFrame;
   virtual bool OnInit();
   int FilterEvent(wxEvent& event);

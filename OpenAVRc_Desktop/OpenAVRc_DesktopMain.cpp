@@ -417,8 +417,8 @@ void OpenAVRc_DesktopFrame::OnQuit(wxCommandEvent& event)
 void OpenAVRc_DesktopFrame::OnAbout(wxCommandEvent& event)
 {
   wxAboutDialogInfo Aboutbox;
-  Aboutbox.SetName(_("OpenAVRc Desktop"));
-  Aboutbox.SetVersion(_("V1.15 test"));
+  Aboutbox.SetName("OpenAVRc Desktop");
+  Aboutbox.SetVersion("V1.15 test");
   Aboutbox.SetLicence(" GPLv2 . Firmware basé sur NextStepRc 2.18 ");
   Aboutbox.SetDescription(_("Logiciel pour la personnalisation, la compilation, le flashage, la sauvegarde de votre radio OpenAVRc     "));
   Aboutbox.SetCopyright(wxT("(C) 2016-2017 OpenAVRc Team"));
@@ -458,9 +458,7 @@ void OpenAVRc_DesktopFrame::OnWriteModelToRadioSelected(wxCommandEvent& event)
   wxFileDialog openFileDialog(this, _("Choisir le fichier (.bin) pour transferer les modêles à la radio."), AppPath + "\\eeprom\\", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
   if (openFileDialog.ShowModal() == wxID_CANCEL) return;
   wxString dude_tmpfile = (openFileDialog.GetPath());
-  //wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_write+dude_tmpfile+dude_raw+dude_verify;
   wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_write+dude_tmpfile+dude_raw;
-  //wxMessageBox(dude_send);
   wxExecute(dude_send);
 }
 
@@ -468,13 +466,10 @@ void OpenAVRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& event
 {
   wxFileDialog openFileDialog(this, _("Choisir le fichier pour transferer le Firmware à la radio."), AppPath + "\\firmware\\", "","Fichiers HEX (*.hex)|*.hex", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
   if (openFileDialog.ShowModal() == wxID_CANCEL) return;
-  wxMessageDialog *bkup = new wxMessageDialog(NULL,wxT("Il est recommande de sauvegarder vos modeles avant, voulez vous continuer ?"), wxT("Firmware"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
-  //bkup->SetEventHandler(bkup);
+  wxMessageDialog *bkup = new wxMessageDialog(NULL,_("Il est recommande de sauvegarder vos modeles avant, voulez vous continuer ?"), wxT("Firmware"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
   if (bkup->ShowModal()!= wxID_OK) return;
   wxString dude_tmpfile = (openFileDialog.GetPath());//write firmware
-  //wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_intel+dude_verify;
   wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_intel;
-  //wxMessageBox(dude_send);
 
   wxExecute(dude_send);
 }
@@ -483,13 +478,12 @@ void OpenAVRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& event
 void OpenAVRc_DesktopFrame::OnEcrirelesFuseesSelected(wxCommandEvent& event)// Write fuses
 {
   wxMessageDialog *susto = new wxMessageDialog(NULL,
-      ("Sûr? Vous voulez continuer?"), wxT("Programmation des fusibles"),
+      _("Sûr? Vous voulez continuer?"), _("Programmation des fusibles"),
       wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
   susto->SetEventHandler(susto);
   if (susto->ShowModal()!= wxID_OK) return;
   wxString FUSES(" -c usbasp -P usb -F -e -u -Ulfuse:w:0xFF:m -Uhfuse:w:0xD8:m -Uefuse:w:0xFD:m -v");
   wxString dude_send = (keepopen+avrdudepath+dude_p+dude_type+FUSES);
-  //wxMessageBox(dude_send);
   wxExecute(dude_send);
 }
 
@@ -647,7 +641,6 @@ void OpenAVRc_DesktopFrame::RestoreDefaultSplash()
 
 extern void OpenAVRc_DesktopFrame::SaveConfig()
 {
-  //wxMessageBox( Ini_Filename, _("Les paramètres sont sauvé dans :"));
   if (Profil == "") return;
   configFile->SetPath("/");
   configFile->Write(wxT("Latestprofil"),Profil);
@@ -822,7 +815,7 @@ void OpenAVRc_DesktopFrame::OnMenuDeleteActiveConfigSelected(wxCommandEvent& eve
     wxMessageBox(_("Defaut ne peut être effacé"), "",wxICON_EXCLAMATION | wxCENTRE, this);
     return;
   } else {
-    int answer = wxMessageBox(_("Supprimer " + Profil + " ?"), "",wxOK | wxCANCEL | wxICON_EXCLAMATION | wxCENTRE | wxCANCEL_DEFAULT, this);
+    int answer = wxMessageBox((_("Supprimer ")) + Profil + " ?", "",wxOK | wxCANCEL | wxICON_EXCLAMATION | wxCENTRE | wxCANCEL_DEFAULT, this);
     if (answer == wxOK) {
       SavedConfig.Remove(Profil);
       ListBoxConfig->Delete(ListBoxConfig->FindString(Profil));
@@ -968,7 +961,7 @@ void OpenAVRc_DesktopFrame::OnButtonCarteSDClick(wxCommandEvent& event)
         Ext = "AD4";
       }
 
-      wxBusyInfo wait("Copie en cours, attendez SVP......");
+      wxBusyInfo wait(_("Copie en cours, attendez SVP......"));
 
       for (int i = 0; i < 512 ; i++) {
         FileName.Printf("%04d.",i);
@@ -995,7 +988,7 @@ void OpenAVRc_DesktopFrame::OnButtonCarteSDClick(wxCommandEvent& event)
       wxString DestinationDirectory = DataDrive + "\\VOICE\\";
       if (!wxDirExists(DestinationDirectory)) wxMkdir(DestinationDirectory);
       wxCopyFile(AppPath + "\\" + VOICETXT_FILE, DestinationDirectory + VOICETXT_FILE, true); // overwrite on
-      wxBusyInfo wait("Copie en cours, attendez SVP......");
+      wxBusyInfo wait(_("Copie en cours, attendez SVP......"));
     }
   }
   Sleep(500);
