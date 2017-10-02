@@ -853,7 +853,7 @@ void CompilerOptionsFrame::OnCheckBoxAUTOSOURCEClick1(wxCommandEvent& event)//pa
   CollectDatas();
   if ((NAVIGATION == wxT("STICKS")) & (AUTOSOURCE))
     {
-      wxMessageBox("Non compatible avec NAVIGATION = STICKS");
+      wxMessageBox(_("Non compatible avec NAVIGATION = STICKS"));
       CheckBoxAUTOSOURCE->SetValue(0);
     }
 }
@@ -863,7 +863,7 @@ void CompilerOptionsFrame::OnChoiceNAVIGATIONSelect(wxCommandEvent& event)
   CollectDatas();
   if ((AUTOSOURCE) & (NAVIGATION == wxT("STICKS")))
     {
-      wxMessageBox("Non compatible avec AUTOSOURCE. AUTOSOURCE décoché.");
+      wxMessageBox(_("Non compatible avec AUTOSOURCE. AUTOSOURCE décoché."));
       CheckBoxAUTOSOURCE->SetValue(0);
     }
 }
@@ -882,7 +882,7 @@ void CompilerOptionsFrame::OnChoiceVOICESelect(wxCommandEvent& event)
 void CompilerOptionsFrame::OnCheckBoxNOANDSECONDEClick1(wxCommandEvent& event)
 {
   CollectDatas();
-  if (VOICE == (_("NO")))
+  if (VOICE == ("NO"))
     {
       wxMessageBox("Non compatible avec VOICE=NO.");
       CheckBoxAUTOSOURCE->SetValue(0);
@@ -893,7 +893,7 @@ void CompilerOptionsFrame::OnCheckBoxNOANDSECONDEClick1(wxCommandEvent& event)
 void CompilerOptionsFrame::OnChoiceEXTSelect2(wxCommandEvent& event)
 {
   CollectDatas();
-  if (EXT == (_("STD")))
+  if (EXT == ("STD"))
     {
       CheckBoxFRSKY_HUB->SetValue(0);
       CheckBoxFAS_OFFSET->SetValue(0);
@@ -908,7 +908,7 @@ void CompilerOptionsFrame::OnChoiceEXTSelect2(wxCommandEvent& event)
 void CompilerOptionsFrame::OnCheckBoxFRSKY_HUBClick(wxCommandEvent& event)
 {
   CollectDatas();
-  if (EXT == (_("STD")))
+  if (EXT == ("STD"))
     {
       wxMessageBox("Non compatible avec TELEMETRY = STD.");
       CheckBoxFRSKY_HUB->SetValue(0);
@@ -918,9 +918,9 @@ void CompilerOptionsFrame::OnCheckBoxFRSKY_HUBClick(wxCommandEvent& event)
 void CompilerOptionsFrame::OnCheckBoxFAS_OFFSETClick2(wxCommandEvent& event)
 {
   CollectDatas();
-  if (EXT == (_("STD")))
+  if (EXT == ("STD"))
     {
-      wxMessageBox("Non compatible avec TELEMETRY = STD.");
+      wxMessageBox(_("Non compatible avec TELEMETRY = STD."));
       CheckBoxFAS_OFFSET->SetValue(0);
     }
 
@@ -929,9 +929,9 @@ void CompilerOptionsFrame::OnCheckBoxFAS_OFFSETClick2(wxCommandEvent& event)
 void CompilerOptionsFrame::OnCheckBoxGAUGESClick1(wxCommandEvent& event)
 {
   CollectDatas();
-  if (EXT == (_("STD")))
+  if (EXT == ("STD"))
     {
-      wxMessageBox("Non compatible avec TELEMETRY = STD.");
+      wxMessageBox(_("Non compatible avec TELEMETRY = STD."));
       CheckBoxGAUGES->SetValue(0);
     }
 }
@@ -939,9 +939,9 @@ void CompilerOptionsFrame::OnCheckBoxGAUGESClick1(wxCommandEvent& event)
 void CompilerOptionsFrame::OnCheckBoxGPSClick1(wxCommandEvent& event)
 {
   CollectDatas();
-  if (EXT == (_("STD")))
+  if (EXT == ("STD"))
     {
-      wxMessageBox("Non compatible avec TELEMETRY = STD.");
+      wxMessageBox(_("Non compatible avec TELEMETRY = STD."));
       CheckBoxGPS->SetValue(0);
     }
 }
@@ -949,9 +949,9 @@ void CompilerOptionsFrame::OnCheckBoxGPSClick1(wxCommandEvent& event)
 void CompilerOptionsFrame::OnCheckBoxVARIOClick2(wxCommandEvent& event)
 {
   CollectDatas();
-  if (EXT == (_("STD")))
+  if (EXT == ("STD"))
     {
-      wxMessageBox("Non compatible avec TELEMETRY = STD.");
+      wxMessageBox(_("Non compatible avec TELEMETRY = STD."));
       CheckBoxVARIO->SetValue(0);
     }
 }
@@ -959,9 +959,9 @@ void CompilerOptionsFrame::OnCheckBoxVARIOClick2(wxCommandEvent& event)
 void CompilerOptionsFrame::OnCheckBoxSPORT_FILE_LOGClick1(wxCommandEvent& event)
 {
   CollectDatas();
-  if (EXT == (_("STD")))
+  if (EXT == ("STD"))
     {
-      wxMessageBox("Non compatible avec TELEMETRY = STD.");
+      wxMessageBox(_("Non compatible avec TELEMETRY = STD."));
       CheckBoxSPORT_FILE_LOG->SetValue(0);
     }
 }
@@ -969,9 +969,9 @@ void CompilerOptionsFrame::OnCheckBoxSPORT_FILE_LOGClick1(wxCommandEvent& event)
 void CompilerOptionsFrame::OnCheckBoxWS_HOW_HIGHClick2(wxCommandEvent& event)
 {
   CollectDatas();
-  if (EXT == (_("STD")))
+  if (EXT == ("STD"))
     {
-      wxMessageBox("Non compatible avec TELEMETRY = STD.");
+      wxMessageBox(_("Non compatible avec TELEMETRY = STD."));
       CheckBoxWS_HOW_HIGH->SetValue(0);
     }
 }

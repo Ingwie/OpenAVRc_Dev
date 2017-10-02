@@ -111,10 +111,10 @@ void RadioDataFrame::PopulateRadioDataFrame()
 {
   EEGeneral Radio = g_eeGeneral;
   if (Radio.version != 0 ){
-    TextCtrlversion->SetValue(vTxt = (_T("Version:\t")) + int2wxString(Radio.version));
-    TextCtrlcurrModel->SetValue(vTxt = (_T("Modele:\t")) + int2wxString(Radio.currModel+1));
+    TextCtrlversion->SetValue(vTxt = (_("Version:\t")) + int2wxString(Radio.version));
+    TextCtrlcurrModel->SetValue(vTxt = (_("Modele:\t")) + int2wxString(Radio.currModel+1));
 
-    vTxt = _T("Batterie\t") + int2wxString((Radio.vBatMax + 120)/10) + ".";
+    vTxt = _("Batterie\t") + int2wxString((Radio.vBatMax + 120)/10) + ".";
     vTxt = vTxt.Append(int2wxString((Radio.vBatMax + 120) % 10) + "\t");
 
     vTxt = vTxt.Append(int2wxString((Radio.vBatMin + 90)/10) + ".");
@@ -125,7 +125,7 @@ void RadioDataFrame::PopulateRadioDataFrame()
 
     TextCtrlBatt->SetValue(vTxt);
 
-    TextCtrlstickMode->SetValue(vTxt = (_T("Mode:\t")) + int2wxString(Radio.stickMode+1));
+    TextCtrlstickMode->SetValue(vTxt = (_("Mode:\t")) + int2wxString(Radio.stickMode+1));
 
     vTxt = "";
     for (int8_t i = 0; i < (NUM_STICKS+NUM_POTS); i++){
@@ -136,13 +136,13 @@ void RadioDataFrame::PopulateRadioDataFrame()
       TextCtrlcalibration->SetValue(vTxt);
     }
 
-    TextCtrlcontrast->SetValue(vTxt = (_T("Contraste:\t")) + int2wxString(Radio.contrast));
+    TextCtrlcontrast->SetValue(vTxt = (_("Contraste:\t")) + int2wxString(Radio.contrast));
 
     wxString hapStr;
-    if (Radio.hapticMode == -2) hapStr = (_T("Haptic:\tSilence"));
-    if (Radio.hapticMode == -1) hapStr = (_T("Haptic:\tAlarmes"));
-    if (Radio.hapticMode == 0) hapStr = (_T("Haptic:\tNo keys"));
-    if (Radio.hapticMode == 1) hapStr = (_T("Haptic:\tTout"));
+    if (Radio.hapticMode == -2) hapStr = (_("Haptic:\tSilence"));
+    if (Radio.hapticMode == -1) hapStr = (_("Haptic:\tAlarmes"));
+    if (Radio.hapticMode == 0) hapStr = (_("Haptic:\tNo keys"));
+    if (Radio.hapticMode == 1) hapStr = (_("Haptic:\tTout"));
 
     TextCtrlhapticMode->SetValue(hapStr);
   }

@@ -204,12 +204,6 @@ void GvarsFrame::PopulateGvarsFrame()
   if (myString == "") myString = "GVAR6";
   TextCtrlpersoGvar6->SetValue(myString);
 
-  //TextCtrlpersoGvar1->SetValue(ConvCharFwToWxstr(g_model.gvars[0].name,LEN_GVAR_NAME));
-  //TextCtrlpersoGvar2->SetValue(ConvCharFwToWxstr(g_model.gvars[1].name,LEN_GVAR_NAME));
-  //TextCtrlpersoGvar3->SetValue(ConvCharFwToWxstr(g_model.gvars[2].name,LEN_GVAR_NAME));
-  //TextCtrlpersoGvar4->SetValue(ConvCharFwToWxstr(g_model.gvars[3].name,LEN_GVAR_NAME));
-  //TextCtrlpersoGvar5->SetValue(ConvCharFwToWxstr(g_model.gvars[4].name,LEN_GVAR_NAME));
-
   TextCtrlpersoGvar1->Refresh();
   TextCtrlpersoGvar2->Refresh();
   TextCtrlpersoGvar3->Refresh();
@@ -242,13 +236,6 @@ void GvarsFrame::PopulateGvarsFrame()
   myString = ConvCharFwToWxstr(g_model.flightModeData[5].name,LEN_FLIGHT_MODE_NAME);
   if (myString == "") myString = "FM6";
   TextCtrlpersoPhase5->SetValue(myString);
-
-  //TextCtrlpersoPhase0->SetValue(ConvCharFwToWxstr(g_model.flightModeData[0].name, LEN_FLIGHT_MODE_NAME));
-  //TextCtrlpersoPhase1->SetValue(ConvCharFwToWxstr(g_model.flightModeData[1].name, LEN_FLIGHT_MODE_NAME));
-  //TextCtrlpersoPhase2->SetValue(ConvCharFwToWxstr(g_model.flightModeData[2].name, LEN_FLIGHT_MODE_NAME));
-  //TextCtrlpersoPhase3->SetValue(ConvCharFwToWxstr(g_model.flightModeData[3].name, LEN_FLIGHT_MODE_NAME));
-  //TextCtrlpersoPhase4->SetValue(ConvCharFwToWxstr(g_model.flightModeData[4].name, LEN_FLIGHT_MODE_NAME));
-  //TextCtrlpersoPhase5->SetValue(ConvCharFwToWxstr(g_model.flightModeData[5].name, LEN_FLIGHT_MODE_NAME));
 
   gvarsTimer.Start(-1,wxTIMER_CONTINUOUS);
 }

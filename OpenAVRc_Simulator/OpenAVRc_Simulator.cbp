@@ -508,11 +508,12 @@
 			<Add option="-pipe" />
 			<Add option="-mthreads" />
 			<Add option="-Wno-deprecated-declarations" />
+			<Add option="-Wno-packed-bitfield-compat" />
+			<Add option="-Wno-trigraphs" />
 			<Add option="-D__GNUWIN32__" />
 			<Add option="-D__WXMSW__" />
 			<Add option="-DWXUSINGDLL" />
 			<Add option="-DwxUSE_UNICODE" />
-			<Add option="-Wno-packed-bitfield-compat" />
 			<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/include" />
 		</Compiler>
 		<ResourceCompiler>

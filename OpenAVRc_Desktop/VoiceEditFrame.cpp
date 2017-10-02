@@ -672,7 +672,7 @@ void VoiceEditFrame::OnButtonSauvegarderClick(wxCommandEvent& event)
 
 void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
 {
-  wxBusyInfo wait("Génération en cours, attendez SVP......");
+  wxBusyInfo wait_("Génération en cours, attendez SVP......");
   wxString quote = "\"";
   wxString tts_o_look = " -o look ";
   wxString label;
