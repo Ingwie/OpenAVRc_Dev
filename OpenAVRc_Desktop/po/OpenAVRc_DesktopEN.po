@@ -2,12 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Christophe, 2017.
+# Christophe, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-01 13:41+0200\n"
-"PO-Revision-Date: 2017-10-02 16:11+0200\n"
+"POT-Creation-Date: 2017-10-02 20:32+0200\n"
+"PO-Revision-Date: 2017-10-02 20:39+0200\n"
 "Last-Translator: Christophe <>\n"
 "Language-Team: \n"
 "Language: en\n"
@@ -15,7 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Virtaal 0.7.1\n"
+
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:422
+msgid " GPLv2 . Firmware basé sur NextStepRc 2.18 "
+msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:407
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:412
@@ -2183,6 +2188,12 @@ msgstr "Voice announcements"
 msgid "Annuler"
 msgstr "Cancel"
 
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:798
+#, fuzzy
+#| msgid "Nouvelle configuration"
+msgid "Appelation de la nouvelle configuration"
+msgstr "New configuration"
+
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:249
 msgid "Attention : Tous ce qui n'est pas blanc sera converti en noir"
 msgstr "Caution: All pixels not white will be converted to black"
@@ -2217,7 +2228,7 @@ msgstr "Other Options"
 msgid "Autres paramètres"
 msgstr "Other Settings"
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:975
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:973
 msgid ""
 "Avez vous une carte SD de sauvegarde ? \n"
 " Insérez la avant de cliquer sur OUI"
@@ -2245,14 +2256,14 @@ msgstr "CHOICE"
 msgid "CORRECT_NEGATIVE_VALUES"
 msgstr "CORRECT_NEGATIVE_VALUES"
 
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:254
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:232
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:247
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:254
 msgid "CZ"
 msgstr "CZ"
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:228
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:271
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:228
 msgid "Carte SD"
 msgstr "SD card"
 
@@ -2260,11 +2271,17 @@ msgstr "SD card"
 msgid "Change les trim de la main droite à la main gauche, et vice-versa"
 msgstr "Swaps trims from right to left hand and vice-versa"
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:458
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:783
+#, fuzzy
+#| msgid "Supprimer la configuration active"
+msgid "Charger la configuration "
+msgstr "Delete active configuration"
+
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:456
 msgid "Choisir le fichier (.bin) pour transferer les modêles à la radio."
 msgstr "Choose the file (.bin) to transfer models to the radio."
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:449
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:447
 msgid "Choisir le fichier pour importer le Firmware des la radio."
 msgstr "Select the file to import the firmware from the radio."
 
@@ -2272,11 +2289,11 @@ msgstr "Select the file to import the firmware from the radio."
 msgid "Choisir le fichier pour importer les modèles des la radio."
 msgstr "Choose the file to import models from the radio."
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:467
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:465
 msgid "Choisir le fichier pour transferer le Firmware à la radio."
 msgstr "Choose the file to transfer the firmware to the radio."
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:980
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:978
 msgid "Choisissez la carte SD de sauvegarde de la radio"
 msgstr "Choose the backup SD card from the radio"
 
@@ -2293,8 +2310,8 @@ msgstr "Choose your voice synthesis engine"
 msgid "Communication avec la radio "
 msgstr "Communication with the radio "
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:170
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:322
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:170
 msgid "Compil-O-matic"
 msgstr "Compil-O-matic"
 
@@ -2312,8 +2329,8 @@ msgstr "Compile"
 msgid "Configuration"
 msgstr "Configuration"
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:964
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:991
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:962
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:989
 msgid "Copie en cours, attendez SVP......"
 msgstr "Copy in progress, please wait ......"
 
@@ -2321,9 +2338,9 @@ msgstr "Copy in progress, please wait ......"
 msgid "Curves"
 msgstr "Curves"
 
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:255
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:233
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:248
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:255
 msgid "DE"
 msgstr "DE"
 
@@ -2335,7 +2352,7 @@ msgstr "DSM2 PPM"
 msgid "DSM2 SERIAL"
 msgstr "DSM2 SERIAL"
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:815
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:813
 msgid "Defaut ne peut être effacé"
 msgstr "Default can not be deleted"
 
@@ -2371,9 +2388,9 @@ msgstr "EEPROM bar"
 msgid "ELE"
 msgstr "ELE"
 
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:256
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:234
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:249
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:256
 msgid "EN"
 msgstr "EN"
 
@@ -2381,9 +2398,9 @@ msgstr "EN"
 msgid "ERC12864FSF"
 msgstr "ERC12864FSF"
 
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:257
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:235
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:250
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:257
 msgid "ES"
 msgstr "ES"
 
@@ -2391,8 +2408,8 @@ msgstr "ES"
 msgid "EVO_V1"
 msgstr "EVO_V1"
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:297
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:241
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:297
 msgid "Ecran d'accueil"
 msgstr "Splash welcome page"
 
@@ -2424,9 +2441,9 @@ msgstr "FAI"
 msgid "FAS Offset"
 msgstr "FAS Offset"
 
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:258
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:236
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:251
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:258
 msgid "FR"
 msgstr "FR"
 
@@ -2442,7 +2459,7 @@ msgstr "FRSKY_SPORT"
 msgid "Fichier"
 msgstr "File"
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:872
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:870
 msgid "Fichier image"
 msgstr "Image file"
 
@@ -2490,9 +2507,9 @@ msgstr "Generate Files"
 msgid "HELI"
 msgstr "HELI"
 
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:259
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:237
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:252
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:259
 msgid "HU"
 msgstr "HU"
 
@@ -2519,13 +2536,13 @@ msgstr "ID2"
 msgid "IMPERIAL"
 msgstr "IMPERIAL"
 
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:260
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:238
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:253
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:260
 msgid "IT"
 msgstr "IT"
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:469
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:467
 msgid "Il est recommande de sauvegarder vos modeles avant, voulez vous continuer ?"
 msgstr "It is recommended to save your models before, do you want to continue?"
 
@@ -2581,7 +2598,7 @@ msgstr "KS108"
 msgid "LCD"
 msgstr "LCD"
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:934
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:932
 msgid ""
 "La carte SD doit avoir été formatée pour\n"
 " un bon fonctionnement sur la radio"
@@ -2589,8 +2606,8 @@ msgstr ""
 "The SD card must be formatted for\n"
 "good operation on the radio"
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:245
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:267
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:245
 msgid "Langue"
 msgstr "Language"
 
@@ -2638,6 +2655,11 @@ msgstr "METRIC"
 msgid "Matériel"
 msgstr "Equipment"
 
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:502
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:523
+msgid "Mauvais type de radio selectionné"
+msgstr ""
+
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:395
 msgid "Merci de vérifier les paramètres"
 msgstr "Please check Settings"
@@ -2650,9 +2672,9 @@ msgstr "Mode"
 msgid "Mode de la radio"
 msgstr "Radio mode"
 
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:261
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:239
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:254
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:261
 msgid "NL"
 msgstr "NL"
 
@@ -2665,7 +2687,6 @@ msgstr "NMEA"
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:279
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:310
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:316
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:885
 msgid "NO"
 msgstr "NO"
 
@@ -2684,6 +2705,23 @@ msgstr "Name"
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:404
 msgid "Nom des interrupteurs"
 msgstr "Switch name"
+
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:866
+msgid "Non compatible avec AUTOSOURCE. AUTOSOURCE décoché."
+msgstr ""
+
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:856
+msgid "Non compatible avec NAVIGATION = STICKS"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:923
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:934
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:944
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:954
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:964
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:974
+msgid "Non compatible avec TELEMETRY = STD."
+msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:275
 msgid "Nouvelle configuration"
@@ -2765,9 +2803,9 @@ msgstr "PERCENT_PREC1"
 msgid "PERSONAMES"
 msgstr "PERSONAMES"
 
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:262
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:240
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:255
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:262
 msgid "PL"
 msgstr "PL"
 
@@ -2802,9 +2840,9 @@ msgstr "PPM Center adjust"
 msgid "PPM Simm limits"
 msgstr "PPM Simm limits"
 
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:263
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:241
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:256
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:263
 msgid "PT"
 msgstr "PT"
 
@@ -2860,13 +2898,22 @@ msgstr "For Competitions"
 msgid "Processeur"
 msgstr "Processor"
 
-#: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:96
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:286
+#: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:96
 msgid "Programmateur"
 msgstr "Programmer"
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:481
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:479
 msgid "Programmation des fusibles"
+msgstr "Fuse flashing"
+
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:493
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:502
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:514
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:523
+#, fuzzy
+#| msgid "Programmation des fusibles"
+msgid "Programmation du Bootloader"
 msgstr "Fuse flashing"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:395
@@ -2897,7 +2944,7 @@ msgstr "DSM Protocols"
 msgid "Protocoles DSM .."
 msgstr "DSM Protocols .."
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:941
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:939
 msgid "Quel module VOICE est dans la radio"
 msgstr "Choose VOICE module"
 
@@ -2950,13 +2997,13 @@ msgstr "Settings"
 msgid "Répertoire de avrdude"
 msgstr "Avrdude's directory"
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:975
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:973
 msgid "SD DATA"
 msgstr "SD DATA"
 
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:264
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:242
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:257
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:264
 msgid "SE"
 msgstr "SE"
 
@@ -2972,9 +3019,9 @@ msgstr "F-RAM SIMULATOR"
 msgid "SIMULATEUR STANDARD"
 msgstr "STANDARD SIMULATOR"
 
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:265
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:243
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:258
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:265
 msgid "SK"
 msgstr "SK"
 
@@ -3000,14 +3047,6 @@ msgstr "ST7920"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:299
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:339
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:896
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:911
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:921
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:932
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:942
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:952
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:962
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:972
 msgid "STD"
 msgstr "STD"
 
@@ -3029,12 +3068,12 @@ msgstr "Save and exit"
 msgid "Sauvegarder réglage"
 msgstr "Save settings"
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:935
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:981
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:933
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:979
 msgid "Selectionnez le lecteur"
 msgstr "Select the drive"
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:942
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:940
 msgid "Selectionnez le module"
 msgstr "Select the module"
 
@@ -3042,7 +3081,7 @@ msgstr "Select the module"
 msgid "Sport file log"
 msgstr "Sport file log"
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:818
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:816
 msgid "Supprimer "
 msgstr "Remove "
 
@@ -3059,7 +3098,8 @@ msgstr "Symmetrizes displayed values"
 msgid "Synthèse vocale"
 msgstr "Vocal synthesis"
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:481
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:479
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:493
 msgid "Sûr? Vous voulez continuer?"
 msgstr "Sure? Do you want to continue?"
 
@@ -3091,8 +3131,8 @@ msgstr "Test"
 msgid "Toggle trims"
 msgstr "Toggle trims"
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:196
 #: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:104
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:196
 msgid "Type de radio"
 msgstr "Type of radio"
 
