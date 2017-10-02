@@ -82,14 +82,15 @@
 					<item>SK</item>
 				</content>
 				<selection>0</selection>
-				<pos>504,32</pos>
-				<size>48,21</size>
+				<pos>512,32</pos>
+				<size>40,21</size>
 				<tooltip>Choisissez la langue des mensages vocales</tooltip>
 				<handler function="OnChoiceLangueSelect" entry="EVT_CHOICE" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 				<label>Langue</label>
 				<pos>456,40</pos>
+				<size>48,13</size>
 				<tooltip>Choisissez la langue des mensages vocales</tooltip>
 			</object>
 			<object class="wxButton" name="ID_BUTTON2" variable="ButtonEditeur" member="yes">
