@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 14:21+0200\n"
-"PO-Revision-Date: 2017-10-02 21:19+0200\n"
+"PO-Revision-Date: 2017-10-03 16:08+0200\n"
 "Last-Translator: Christophe <>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Poedit 2.0.4\n"
 
 #: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:52
 msgid "                     Max         Min       Alarm"
@@ -45,11 +45,11 @@ msgstr "&Ayuda"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:338
 msgid "&Fenêtres"
-msgstr "&ventanas"
+msgstr "&Ventanas"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:306
 msgid "&Fichier"
-msgstr "& archivo"
+msgstr "& Archivo"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:328
 msgid "&Option"
@@ -85,20 +85,20 @@ msgstr "Botones (off)"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:318
 msgid "Boutons (on)"
-msgstr "Botones (a)"
+msgstr "Botones (on)"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:340
 msgid "C'est quoi donc ?"
-msgstr "¿Qué es?"
+msgstr "¿Qué es ésto?"
 
 #: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:44
 msgid "Calibration"
-msgstr "calibración"
+msgstr "Calibración"
 
 #: A:\cb\OpenAVRc_Simulator\Spin.cpp:57 A:\cb\OpenAVRc_Simulator\Spin.cpp:67
 #: A:\cb\OpenAVRc_Simulator\Spin.cpp:78
 msgid "Ceci est une sortie"
-msgstr "Esta es una salida"
+msgstr "Ésto es una salida"
 
 #: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:91
 msgid "Ch1"
@@ -174,20 +174,20 @@ msgstr "Cargar el archivo BIN"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:500
 msgid "Charger un fichier eeprom ?"
-msgstr "archivo EEPROM carga?"
+msgstr "¿Cargar un fichero EEPROM ?"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:327
 msgid "Couleurs"
-msgstr "colores"
+msgstr "Colores"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:286
 msgid "Desktop"
-msgstr "escritorio"
+msgstr "Escritorio"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:494
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:500
 msgid "EEPROM VIDE"
-msgstr "EEPROM VACÍO"
+msgstr "EEPROM VACÍA"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:252
 msgid "ELE"
@@ -199,12 +199,12 @@ msgstr "EXIT"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:295
 msgid "Exporte l'eeprom en format texte"
-msgstr "Exporta EEPROM como texto"
+msgstr "Exporta EEPROM en formato texto"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:295
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:943
 msgid "Exporter Eeprom"
-msgstr "EEPROM de exportación"
+msgstr "Exportar EEPROM"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:261
 msgid "GEA"
@@ -212,7 +212,7 @@ msgstr "GEA"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:332
 msgid "Graphique Sorties"
-msgstr "Salidas gráfico"
+msgstr "Gráfico de salidas"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:264
 msgid "ID1"
@@ -229,7 +229,7 @@ msgstr "Importa una EEPROM en formato de texto"
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:299
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:889
 msgid "Importer Eeprom"
-msgstr "EEPROM importación"
+msgstr "Importar una EEPROM "
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:673
 msgid "Impossible : Simulateur en fonctionnement"
@@ -242,7 +242,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:880
 msgid "L'eeprom va être formatée, étes vous sur ?"
-msgstr "La EEPROM será formateado, ¿está seguro?"
+msgstr "La EEPROM será formateado, ¿estás seguro?"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:309
 msgid "Lcd (fond)"
@@ -254,7 +254,7 @@ msgstr "Lcd (píxel)"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:858
 msgid "Les paramètres sont sauvé dans :"
-msgstr "Los ajustes se guardan en:"
+msgstr "Los ajustes se han guardado en:"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:211
 msgid "MENU"
@@ -262,20 +262,20 @@ msgstr "MENU"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:321
 msgid "Manches (fond)"
-msgstr "Mangas (fondo)"
+msgstr "Palancas (fondo)"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:324
 msgid "Manches (stick)"
-msgstr "Mangas (stick)"
+msgstr "Palancas (stick)"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:799
 msgid "Merci d'éteindre le simulateur pour quitter"
-msgstr "Gracias a apagar el simulador para salir"
+msgstr "Apagar el simulador antes de salir "
 
 #: A:\cb\OpenAVRc_Simulator\MixerFrame.cpp:48
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:330
 msgid "Mixeur"
-msgstr "mezclador"
+msgstr "Mezclador"
 
 #: A:\cb\OpenAVRc_Simulator\ModelNameDialog.cpp:33
 msgid "Nom du modèle"
@@ -291,7 +291,7 @@ msgstr "Abrir archivo BIN"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:336
 msgid "Paramètres Radio"
-msgstr "ajustes de la radio"
+msgstr "Ajustes de la radio"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:303
 msgid "Quitter\tAlt-F4"
@@ -307,7 +307,7 @@ msgstr "RUD"
 
 #: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:39
 msgid "Radio Data"
-msgstr "radio de datos"
+msgstr "Datos de la radio"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:273
 msgid "Rea"
@@ -319,7 +319,7 @@ msgstr "Reb"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:494
 msgid "Recharger le fichier eeprom "
-msgstr "Recargar archivo EEPROM "
+msgstr "Recargar el archivo EEPROM "
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:292
 msgid "Sauvegarde du fichier BIN"
@@ -332,16 +332,15 @@ msgstr "Guardar captura de pantalla"
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:292
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:778
 msgid "Sauver Eeprom"
-msgstr "guardar EEPROM"
+msgstr "Guardar EEPROM"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:196
 msgid "Simulateur"
-msgstr "simulador"
+msgstr "Simulador"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:636
 msgid "Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "
-msgstr ""
-"simulador de código OpenAVRc 'todas las opciones' a bordo Mega 2560     "
+msgstr "Simulador de código OpenAVRc con todas las opciones sobre Mega 2560     "
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:246
 msgid "THR"
@@ -375,7 +374,7 @@ msgstr "Texto"
 #: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:40
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:334
 msgid "Variables globales"
-msgstr "Las variables globales"
+msgstr "Variables globales"
 
 #: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:55
 msgid "npha0"
@@ -427,7 +426,7 @@ msgstr "valvg6"
 
 #: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:71
 msgid "État des sorties."
-msgstr "Estado de salida."
+msgstr "Estado de las salidas."
 
 #~ msgid "OpenAVRc Simulateur"
 #~ msgstr "Simulador OpenAVRc"
