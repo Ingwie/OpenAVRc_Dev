@@ -250,7 +250,7 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   ButtonSplashDefault = new wxButton(Panel1, ID_BUTTONSPLASHDEFAULT, _("Par défaut"), wxPoint(312,30), wxSize(75,24), 0, wxDefaultValidator, _T("ID_BUTTONSPLASHDEFAULT"));
   ButtonSplashDefault->SetToolTip(_("Restaurer l\'écran par défaut"));
   StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Fichiers Voix"), wxPoint(440,8), wxSize(136,128), 0, _T("ID_STATICBOX1"));
-  ChoiceLangue = new wxChoice(Panel1, ID_CHOICE1, wxPoint(504,32), wxSize(48,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
+  ChoiceLangue = new wxChoice(Panel1, ID_CHOICE1, wxPoint(512,32), wxSize(40,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
   ChoiceLangue->SetSelection( ChoiceLangue->Append(_("CZ")) );
   ChoiceLangue->Append(_("DE"));
   ChoiceLangue->Append(_("EN"));
@@ -264,7 +264,7 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   ChoiceLangue->Append(_("SE"));
   ChoiceLangue->Append(_("SK"));
   ChoiceLangue->SetToolTip(_("Choisissez la langue des mensages vocales"));
-  StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("Langue"), wxPoint(456,40), wxDefaultSize, 0, _T("ID_STATICTEXT1"));
+  StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("Langue"), wxPoint(456,40), wxSize(48,13), 0, _T("ID_STATICTEXT1"));
   StaticText1->SetToolTip(_("Choisissez la langue des mensages vocales"));
   ButtonEditeur = new wxButton(Panel1, ID_BUTTON2, _("Éditeur"), wxPoint(472,72), wxSize(83,23), 0, wxDefaultValidator, _T("ID_BUTTON2"));
   ButtonEditeur->SetToolTip(_("Pour changer les messages"));
