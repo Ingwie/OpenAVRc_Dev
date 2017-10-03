@@ -44,7 +44,7 @@ msgid "&Aide"
 msgstr "&Ayuda"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:338
-msgid "&Fen√™tres"
+msgid "&FenÍtres"
 msgstr "&Ventanas"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:306
@@ -53,7 +53,7 @@ msgstr "& Archivo"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:328
 msgid "&Option"
-msgstr "&Opci√≥n"
+msgstr "&OpciÛn"
 
 #: A:\cb\OpenAVRc_Simulator\ModelNameDialog.cpp:34
 msgid "10 Chars Max"
@@ -68,8 +68,8 @@ msgid "AIL"
 msgstr "AIL"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:932
-msgid "Aucune eeprom detect√©e en m√©moire"
-msgstr "No se detect√≥ la memoria EEPROM"
+msgid "Aucune eeprom detectÈe en mÈmoire"
+msgstr "No se detectÛ la memoria EEPROM"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:280
 msgid "BP REA"
@@ -89,16 +89,16 @@ msgstr "Botones (on)"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:340
 msgid "C'est quoi donc ?"
-msgstr "¬øQu√© es √©sto?"
+msgstr "øQuÈ es Èsto?"
 
 #: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:44
 msgid "Calibration"
-msgstr "Calibraci√≥n"
+msgstr "CalibraciÛn"
 
 #: A:\cb\OpenAVRc_Simulator\Spin.cpp:57 A:\cb\OpenAVRc_Simulator\Spin.cpp:67
 #: A:\cb\OpenAVRc_Simulator\Spin.cpp:78
 msgid "Ceci est une sortie"
-msgstr "√âsto es una salida"
+msgstr "…sto es una salida"
 
 #: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:91
 msgid "Ch1"
@@ -174,7 +174,7 @@ msgstr "Cargar el archivo BIN"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:500
 msgid "Charger un fichier eeprom ?"
-msgstr "¬øCargar un fichero EEPROM ?"
+msgstr "øCargar un fichero EEPROM ?"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:327
 msgid "Couleurs"
@@ -187,7 +187,7 @@ msgstr "Escritorio"
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:494
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:500
 msgid "EEPROM VIDE"
-msgstr "EEPROM VAC√çA"
+msgstr "EEPROM VACÕA"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:252
 msgid "ELE"
@@ -212,7 +212,7 @@ msgstr "GEA"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:332
 msgid "Graphique Sorties"
-msgstr "Gr√°fico de salidas"
+msgstr "Gr·fico de salidas"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:264
 msgid "ID1"
@@ -241,8 +241,8 @@ msgid "Impossible d'ouvrir le fichier '%s'."
 msgstr ""
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:880
-msgid "L'eeprom va √™tre format√©e, √©tes vous sur ?"
-msgstr "La EEPROM ser√° formateado, ¬øest√°s seguro?"
+msgid "L'eeprom va Ítre formatÈe, Ètes vous sur ?"
+msgstr "La EEPROM ser· formateado, øest·s seguro?"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:309
 msgid "Lcd (fond)"
@@ -250,10 +250,10 @@ msgstr "Lcd (fondo)"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:312
 msgid "Lcd (pixel)"
-msgstr "Lcd (p√≠xel)"
+msgstr "Lcd (pÌxel)"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:858
-msgid "Les param√®tres sont sauv√© dans :"
+msgid "Les paramËtres sont sauvÈ dans :"
 msgstr "Los ajustes se han guardado en:"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:211
@@ -269,7 +269,7 @@ msgid "Manches (stick)"
 msgstr "Palancas (stick)"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:799
-msgid "Merci d'√©teindre le simulateur pour quitter"
+msgid "Merci d'Èteindre le simulateur pour quitter"
 msgstr "Apagar el simulador antes de salir"
 
 #: A:\cb\OpenAVRc_Simulator\MixerFrame.cpp:48
@@ -278,7 +278,7 @@ msgid "Mixeur"
 msgstr "Mezclador"
 
 #: A:\cb\OpenAVRc_Simulator\ModelNameDialog.cpp:33
-msgid "Nom du mod√®le"
+msgid "Nom du modËle"
 msgstr "Nombre del modelo"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:285
@@ -290,7 +290,7 @@ msgid "Ouvrir Fichier BIN"
 msgstr "Abrir archivo BIN"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:336
-msgid "Param√®tres Radio"
+msgid "ParamËtres Radio"
 msgstr "Ajustes de la radio"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:303
@@ -326,7 +326,7 @@ msgid "Sauvegarde du fichier BIN"
 msgstr "Guardar el archivo BIN"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:763
-msgid "Sauver Capture √©cran"
+msgid "Sauver Capture Ècran"
 msgstr "Guardar captura de pantalla"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:292
@@ -339,8 +339,8 @@ msgid "Simulateur"
 msgstr "Simulador"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:636
-msgid "Simulateur du code OpenAVRc 'toutes options' sur carte M√©ga 2560     "
-msgstr "Simulador de c√≥digo OpenAVRc con todas las opciones sobre Mega 2560     "
+msgid "Simulateur du code OpenAVRc 'toutes options' sur carte MÈga 2560     "
+msgstr "Simulador de cÛdigo OpenAVRc con todas las opciones sobre Mega 2560     "
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:246
 msgid "THR"
@@ -425,7 +425,7 @@ msgid "valvg6"
 msgstr "valvg6"
 
 #: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:71
-msgid "√âtat des sorties."
+msgid "…tat des sorties."
 msgstr "Estado de las salidas."
 
 #~ msgid "OpenAVRc Simulateur"
