@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 20:32+0200\n"
-"PO-Revision-Date: 2017-10-02 20:39+0200\n"
+"PO-Revision-Date: 2017-10-03 10:14+0200\n"
 "Last-Translator: Christophe <>\n"
 "Language-Team: \n"
 "Language: en\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Poedit 2.0.4\n"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:422
 msgid " GPLv2 . Firmware basé sur NextStepRc 2.18 "
@@ -2189,10 +2189,8 @@ msgid "Annuler"
 msgstr "Cancel"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:798
-#, fuzzy
-#| msgid "Nouvelle configuration"
 msgid "Appelation de la nouvelle configuration"
-msgstr "New configuration"
+msgstr "New configuration name"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:249
 msgid "Attention : Tous ce qui n'est pas blanc sera converti en noir"
@@ -2272,10 +2270,8 @@ msgid "Change les trim de la main droite à la main gauche, et vice-versa"
 msgstr "Swaps trims from right to left hand and vice-versa"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:783
-#, fuzzy
-#| msgid "Supprimer la configuration active"
 msgid "Charger la configuration "
-msgstr "Delete active configuration"
+msgstr "Load active configuration"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:456
 msgid "Choisir le fichier (.bin) pour transferer les modêles à la radio."
@@ -2418,8 +2414,12 @@ msgid "Emplacement d'AVRDUDE"
 msgstr "Location of AVRDUDE"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:325
-msgid "Empèche la synthèse vocale de dire \"et\". Exemple : entre minutes \"et\" seconde"
-msgstr "Prevents voice unnecessary \"and \". For instance: between minutes \"and \" seconds"
+msgid ""
+"Empèche la synthèse vocale de dire \"et\". Exemple : entre minutes \"et\" "
+"seconde"
+msgstr ""
+"Prevents voice unnecessary \"and \". For instance: between minutes \"and \" "
+"seconds"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:438
 msgid "EncodeurA"
@@ -2543,7 +2543,8 @@ msgid "IT"
 msgstr "IT"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:467
-msgid "Il est recommande de sauvegarder vos modeles avant, voulez vous continuer ?"
+msgid ""
+"Il est recommande de sauvegarder vos modeles avant, voulez vous continuer ?"
 msgstr "It is recommended to save your models before, do you want to continue?"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:427
@@ -2636,8 +2637,12 @@ msgid "Lire/Écrire"
 msgstr "Read/Write"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:423
-msgid "Logiciel pour la personnalisation, la compilation, le flashage, la sauvegarde de votre radio OpenAVRc     "
-msgstr "Software for customizing, compiling, flashing, and saving your OpenAVRc radio    "
+msgid ""
+"Logiciel pour la personnalisation, la compilation, le flashage, la "
+"sauvegarde de votre radio OpenAVRc     "
+msgstr ""
+"Software for customizing, compiling, flashing, and saving your OpenAVRc "
+"radio    "
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:345
 msgid "MAVLINK"
@@ -2911,10 +2916,8 @@ msgstr "Fuse flashing"
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:502
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:514
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:523
-#, fuzzy
-#| msgid "Programmation des fusibles"
 msgid "Programmation du Bootloader"
-msgstr "Fuse flashing"
+msgstr "Bootloader flash"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:395
 msgid "Programmeur :"
