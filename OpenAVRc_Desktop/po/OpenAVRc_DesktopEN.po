@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 20:32+0200\n"
-"PO-Revision-Date: 2017-10-03 10:14+0200\n"
+"PO-Revision-Date: 2017-10-03 15:58+0200\n"
 "Last-Translator: Christophe <>\n"
 "Language-Team: \n"
 "Language: en\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:422
 msgid " GPLv2 . Firmware basé sur NextStepRc 2.18 "
-msgstr ""
+msgstr " GPLv2 . Firmware based on NextStepRc 2.18 "
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:407
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:412
@@ -2663,7 +2663,7 @@ msgstr "Equipment"
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:502
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:523
 msgid "Mauvais type de radio selectionné"
-msgstr ""
+msgstr "Wrong radio selection"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:395
 msgid "Merci de vérifier les paramètres"
@@ -2713,11 +2713,11 @@ msgstr "Switch name"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:866
 msgid "Non compatible avec AUTOSOURCE. AUTOSOURCE décoché."
-msgstr ""
+msgstr "Not compatible avec AUTOSOURCE. AUTOSOURCE disabled."
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:856
 msgid "Non compatible avec NAVIGATION = STICKS"
-msgstr ""
+msgstr "Not compatible with NAVIGATION = STICKS"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:923
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:934
@@ -2726,7 +2726,7 @@ msgstr ""
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:964
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:974
 msgid "Non compatible avec TELEMETRY = STD."
-msgstr ""
+msgstr "Not compatible with TELEMETRY = STD."
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:275
 msgid "Nouvelle configuration"
@@ -3094,7 +3094,7 @@ msgstr "Delete active configuration"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:362
 msgid "Symétrise les valeurs affichées"
-msgstr "Symmetrizes displayed values"
+msgstr "Displayed values symmetrical"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:289
 #: A:\cb\OpenAVRc_Desktop\Voice_choice.cpp:59
