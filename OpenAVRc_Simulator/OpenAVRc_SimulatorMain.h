@@ -156,7 +156,7 @@ private:
   void OnBpEleLeftDown(wxMouseEvent& event);
   void OnBpAilLeftDown(wxMouseEvent& event);
   void LoadEepromFile(wxString path);
-  wxColour SetColour();
+  wxColour SetColour(wxColour mem);
   void LoadConfig();
   void SaveConfig();
   void ResetSimuLcd();

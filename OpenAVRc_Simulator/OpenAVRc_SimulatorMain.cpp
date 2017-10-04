@@ -2437,7 +2437,7 @@ void OpenAVRc_SimulatorFrame::CheckInputs()
 
 ///// UTILS ///////////
 
-wxColour OpenAVRc_SimulatorFrame::SetColour()
+wxColour OpenAVRc_SimulatorFrame::SetColour(wxColour mem)
 {
   wxColourDialog ColourDlg(this);
   ColourDlg.GetColourData().SetChooseFull(true);
@@ -2445,33 +2445,34 @@ wxColour OpenAVRc_SimulatorFrame::SetColour()
     Ini_Changed = true;
     return ColourDlg.GetColourData().GetColour().GetAsString();
   }
+  return mem;
 }
 
 void OpenAVRc_SimulatorFrame::OnMenuLcdBackSelected(wxCommandEvent& event)
 {
-  Col_Lcd_Back = SetColour();
+  Col_Lcd_Back = SetColour(Col_Lcd_Back);
   DrawWxSimuLcd();
 }
 
 void OpenAVRc_SimulatorFrame::OnMenuLcdPixelSelected(wxCommandEvent& event)
 {
-  Col_Lcd_Front = SetColour();
+  Col_Lcd_Front = SetColour(Col_Lcd_Front);
   DrawWxSimuLcd();
 }
 
 void OpenAVRc_SimulatorFrame::OnMenuButOffSelected(wxCommandEvent& event)
 {
-  Col_Button_Off = SetColour();
+  Col_Button_Off = SetColour(Col_Button_Off);
 }
 
 void OpenAVRc_SimulatorFrame::OnMenuButOnSelected(wxCommandEvent& event)
 {
-  Col_Button_On = SetColour();
+  Col_Button_On = SetColour(Col_Button_On);
 }
 
 void OpenAVRc_SimulatorFrame::OnMenuStickBackSelected(wxCommandEvent& event)
 {
-  Col_Stick_Back = SetColour();
+  Col_Stick_Back = SetColour(Col_Stick_Back);
   Lstick->SetBackgroundColour(Col_Stick_Back);
   Rstick->SetBackgroundColour(Col_Stick_Back);
   Lstick->Refresh();
@@ -2480,7 +2481,7 @@ void OpenAVRc_SimulatorFrame::OnMenuStickBackSelected(wxCommandEvent& event)
 
 void OpenAVRc_SimulatorFrame::OnMenuStickStickSelected(wxCommandEvent& event)
 {
-  Col_Stick_Circle = SetColour();
+  Col_Stick_Circle = SetColour(Col_Stick_Circle);
   Lstick->SetForegroundColour(Col_Stick_Circle);
   Rstick->SetForegroundColour(Col_Stick_Circle);
 }
