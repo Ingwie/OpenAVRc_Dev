@@ -288,9 +288,7 @@ Connection ~ 1850 4400
 Wire Wire Line
 	1950 4400 1850 4400
 Wire Wire Line
-	1850 3900 1850 4400
-Wire Wire Line
-	1850 4400 1850 4600
+	1850 3900 1850 4600
 Wire Wire Line
 	1950 3900 1850 3900
 Wire Wire Line
@@ -317,13 +315,9 @@ Wire Wire Line
 	2900 4050 3800 4050
 Connection ~ 3750 4350
 Wire Wire Line
-	3750 3950 3750 4350
+	3750 3950 3750 4400
 Wire Wire Line
-	3750 4350 3750 4400
-Wire Wire Line
-	3700 3600 3700 3850
-Wire Wire Line
-	3700 3850 3700 4250
+	3700 3600 3700 4250
 Wire Wire Line
 	3800 3850 3700 3850
 Connection ~ 3700 3850
@@ -346,9 +340,7 @@ Wire Wire Line
 Wire Wire Line
 	6800 3600 7600 3600
 Wire Wire Line
-	7050 4200 7550 4200
-Wire Wire Line
-	7550 4200 7600 4200
+	7050 4200 7600 4200
 Wire Wire Line
 	7050 4450 7200 4450
 Wire Wire Line
@@ -359,9 +351,7 @@ Wire Notes Line
 Wire Wire Line
 	1750 4200 1950 4200
 Wire Wire Line
-	1750 3700 1750 3950
-Wire Wire Line
-	1750 3950 1750 4200
+	1750 3700 1750 4200
 Wire Wire Line
 	1750 3700 1950 3700
 Wire Wire Line
@@ -473,9 +463,7 @@ Wire Wire Line
 Wire Wire Line
 	4600 1700 4600 2300
 Wire Wire Line
-	5500 1700 5500 1750
-Wire Wire Line
-	5500 1750 5500 1950
+	5500 1700 5500 1950
 Wire Wire Line
 	4900 1700 4900 2300
 Wire Wire Line
@@ -520,10 +508,10 @@ Master_PPMout
 Text GLabel 9150 3600 2    60   Input ~ 0
 Sim_control
 $Comp
-L +3,3V #PWR?
+L +3,3V #PWR081
 U 1 1 59CA7757
 P 5200 1900
-F 0 "#PWR?" H 5200 1860 30  0001 C CNN
+F 0 "#PWR081" H 5200 1860 30  0001 C CNN
 F 1 "+3,3V" V 5200 2100 39  0000 C CNN
 F 2 "" H 5200 1900 60  0001 C CNN
 F 3 "" H 5200 1900 60  0001 C CNN
