@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 14:21+0200\n"
-"PO-Revision-Date: 2017-10-03 16:17+0200\n"
+"PO-Revision-Date: 2017-10-04 10:17+0200\n"
 "Last-Translator: Christophe <>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -166,7 +166,7 @@ msgstr "Ch9"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:289
 msgid "Charger Eeprom"
-msgstr "EEPROM de carga"
+msgstr "Cargar EEPROM"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:289
 msgid "Charger fichier BIN"
@@ -233,16 +233,16 @@ msgstr "Importar una EEPROM"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:673
 msgid "Impossible : Simulateur en fonctionnement"
-msgstr ""
+msgstr "No es posible con el simulador funcionando"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:680
 #, c-format
 msgid "Impossible d'ouvrir le fichier '%s'."
-msgstr ""
+msgstr "No se ha podido abrir el fichero  '%s'."
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:880
 msgid "L'eeprom va être formatée, étes vous sur ?"
-msgstr "La EEPROM será formateado, ¿estás seguro?"
+msgstr "La EEPROM será formateada, ¿estás seguro?"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:309
 msgid "Lcd (fond)"

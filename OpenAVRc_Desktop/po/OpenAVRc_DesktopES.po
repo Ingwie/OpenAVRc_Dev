@@ -2156,7 +2156,7 @@ msgstr "AUTOSWITCH"
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:185
 #, c-format
 msgid "Affichage des valeurs des voies en % ou uS"
-msgstr "Visualización de los valores de canal en% o US"
+msgstr "Visualización de los valores de salida en% o US"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:301
 msgid "Affichage graphique de l'état de la batterie"
@@ -2180,9 +2180,7 @@ msgstr "Agrega la función especial \"Reemplazar CHx\""
 
 #: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:90
 msgid "Annonces vocales"
-msgstr ""
-"A\n"
-"nuncios de voz"
+msgstr "Anuncios de voz"
 
 #: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:98
 msgid "Annuler"
@@ -2279,11 +2277,11 @@ msgstr "Seleccione el archivo (.bin) para transferir los modelos a la radio la r
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:440
 msgid "Choisir le fichier pour importer le Firmware des la radio."
-msgstr "Seleccione el archivo para importar el firmware de la radio."
+msgstr "Seleccione el archivo para importar el firmware desde la radio."
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:431
 msgid "Choisir le fichier pour importer les modèles des la radio."
-msgstr "Seleccione el archivo para importar los modelos de la radio."
+msgstr "Seleccione el archivo para importar los modelos desde la radio."
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:458
 msgid "Choisir le fichier pour transferer le Firmware à la radio."

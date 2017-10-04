@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 20:32+0200\n"
-"PO-Revision-Date: 2017-10-03 15:58+0200\n"
+"PO-Revision-Date: 2017-10-04 10:36+0200\n"
 "Last-Translator: Christophe <>\n"
 "Language-Team: \n"
 "Language: en\n"
@@ -2158,7 +2158,7 @@ msgstr "AUTOSWITCH"
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:192
 #, c-format
 msgid "Affichage des valeurs des voies en % ou uS"
-msgstr "Display channel values ??in% or uS"
+msgstr "Display channel values in% or uS"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:308
 msgid "Affichage graphique de l'état de la batterie"
@@ -2166,7 +2166,7 @@ msgstr "Graphical display of battery status"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:386
 msgid "Affiche une mini barre pour visualiser une sauvegarde en cours"
-msgstr "Displays a mini bar to show a backup is in progress"
+msgstr "Displays a backup progress bar"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:342
 msgid "Aide"
@@ -2182,7 +2182,7 @@ msgstr "Adds the special function \\ \"Replace CHx \""
 
 #: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:97
 msgid "Annonces vocales"
-msgstr "Voice announcements"
+msgstr "Voice messages"
 
 #: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:107
 msgid "Annuler"
@@ -2194,7 +2194,7 @@ msgstr "New configuration name"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:249
 msgid "Attention : Tous ce qui n'est pas blanc sera converti en noir"
-msgstr "Caution: All pixels not white will be converted to black"
+msgstr "Caution: All pixels not white will turn black"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:213
 msgid "Audio"
@@ -2279,7 +2279,7 @@ msgstr "Choose the file (.bin) to transfer models to the radio."
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:447
 msgid "Choisir le fichier pour importer le Firmware des la radio."
-msgstr "Select the file to import the firmware from the radio."
+msgstr "Choose the file to import the firmware from the radio."
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:438
 msgid "Choisir le fichier pour importer les modèles des la radio."
@@ -2418,8 +2418,7 @@ msgid ""
 "Empèche la synthèse vocale de dire \"et\". Exemple : entre minutes \"et\" "
 "seconde"
 msgstr ""
-"Prevents voice unnecessary \"and \". For instance: between minutes \"and \" "
-"seconds"
+"Avoids unnecessary \"and \". For instance: between minutes \"and \" seconds"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:438
 msgid "EncodeurA"
@@ -2605,7 +2604,7 @@ msgid ""
 " un bon fonctionnement sur la radio"
 msgstr ""
 "The SD card must be formatted for\n"
-"good operation on the radio"
+"good operation"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:267
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:245
@@ -2618,7 +2617,7 @@ msgstr "Displayed language"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:259
 msgid "Langue de la synthése vocale"
-msgstr "Sinthesys language"
+msgstr "Synthesis language"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:260
 msgid "Langue voice"
@@ -2713,7 +2712,7 @@ msgstr "Switch name"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:866
 msgid "Non compatible avec AUTOSOURCE. AUTOSOURCE décoché."
-msgstr "Not compatible avec AUTOSOURCE. AUTOSOURCE disabled."
+msgstr "Not compatible with AUTOSOURCE. AUTOSOURCE disabled."
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:856
 msgid "Non compatible avec NAVIGATION = STICKS"
@@ -2910,7 +2909,7 @@ msgstr "Programmer"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:479
 msgid "Programmation des fusibles"
-msgstr "Fuse flashing"
+msgstr "Fuse flash"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:493
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:502
@@ -3059,7 +3058,7 @@ msgstr "STICKS"
 
 #: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:612
 msgid "Sauvegarder et quitter"
-msgstr "Save and exit"
+msgstr "Save and quit"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:271
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:401
