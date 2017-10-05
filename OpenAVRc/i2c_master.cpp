@@ -51,11 +51,13 @@
  * 16 + 2(TWBR) .4^TWPS
  */
 
+#if defined(CPUM2560)
 void i2c_init(void)
 {
-  I2C_SPEED_400K();
+  TWCR = (1<<TWEN);
   TWSR |= 0b00; // Prescaler =0.
   TWSR &= 0b11111100;
+  I2C_SPEED_888K();
 }
 
 inline void wait()
@@ -66,15 +68,14 @@ inline void wait()
 
 uint8_t i2c_start(uint8_t address)
 {
-  // reset TWI control register
-  TWCR = 0;
   // transmit START condition
   TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
   // wait for end of transmission
   wait();
 
   // check if the start condition was successfully transmitted
-  if((TWSR & 0xF8) != TW_START) {
+  uint8_t twst = TW_STATUS & 0xF8;
+  if(! ((twst == TW_START) || (twst == TW_REP_START)) ) {
     return 1;
   }
 
@@ -85,10 +86,9 @@ uint8_t i2c_start(uint8_t address)
   // wait for end of transmission
   wait();
   // check if the device has acknowledged the READ / WRITE mode
-  uint8_t twst = TW_STATUS & 0xF8;
-  if ( (twst != TW_MT_SLA_ACK) && (twst != TW_MR_SLA_ACK) ) return 1;
-
-  return 0;
+  twst = TW_STATUS & 0xF8;
+  if ( (twst == TW_MT_SLA_ACK) || (twst == TW_MR_SLA_ACK) ) return 0;
+  else return 1;
 }
 
 uint8_t i2c_write(uint8_t data)
@@ -103,23 +103,11 @@ uint8_t i2c_write(uint8_t data)
   if( (TWSR & 0xF8) != TW_MT_DATA_ACK ) {
     return 1;
   }
-
   return 0;
 }
 
-inline void i2c_writeISR(uint8_t data)
-{
-  // load data into data register
-  TWDR = data;
-  // start transmission of data with isr activated
-  TWCR = ((1<<TWINT) | (1<<TWEN) | (1 << TWIE));
-  // Send data and enable IRQ
-}
-
-
 uint8_t i2c_read_ack(void)
 {
-
   // start TWI module and acknowledge data after reception
   TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWEA);
   // wait for end of transmission
@@ -130,7 +118,6 @@ uint8_t i2c_read_ack(void)
 
 uint8_t i2c_read_nack(void)
 {
-
   // start receiving without acknowledging reception
   TWCR = (1<<TWINT) | (1<<TWEN);
   // wait for end of transmission
@@ -138,6 +125,37 @@ uint8_t i2c_read_nack(void)
   // return received data from TWDR
   return TWDR;
 }
+
+void i2c_stop(void)
+{
+  // transmit STOP condition
+  TWCR = (1<<TWINT) | (1<<TWSTO) | (1<<TWEN);
+  while(TWCR & (1<<TWSTO));
+}
+
+inline void i2c_writeISR(uint8_t data)
+{
+  // load data into data register
+  TWDR = data;
+  // start transmission of data with isr activated
+  TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWIE);
+  // Send data and enable IRQ
+}
+
+extern uint8_t * eeprom_buffer_data;
+extern volatile int8_t eeprom_buffer_size;
+ISR(TWI_vect)
+{
+  if (--eeprom_buffer_size > 0) {
+    i2c_writeISR(*eeprom_buffer_data);
+    ++eeprom_buffer_data;
+  } else {
+    i2c_stop(); // This resets the TWINT Flag.
+    TWCR &= ~(1<<TWIE); // Disable TWI interrupts.
+  }
+}
+#endif
+
 
 uint8_t i2c_transmit(uint8_t address, uint8_t* data, uint16_t length)
 {
@@ -168,7 +186,7 @@ uint8_t i2c_receive(uint8_t address, uint8_t* data, uint16_t length)
 
 uint8_t i2c_writeReg(uint8_t devaddr, uint8_t regaddr, uint8_t* data, uint16_t length)
 {
-  if (i2c_start(devaddr | 0x00)) return 1;
+  if (i2c_start(devaddr | I2C_WRITE)) return 1;
 
   i2c_write(regaddr);
 
@@ -183,11 +201,11 @@ uint8_t i2c_writeReg(uint8_t devaddr, uint8_t regaddr, uint8_t* data, uint16_t l
 
 uint8_t i2c_readReg(uint8_t devaddr, uint8_t regaddr, uint8_t* data, uint16_t length)
 {
-  if (i2c_start(devaddr)) return 1;
+  if (i2c_start(devaddr | I2C_WRITE)) return 1;
 
   i2c_write(regaddr);
 
-  if (i2c_start(devaddr | 0x01)) return 1;
+  if (i2c_start(devaddr | I2C_READ)) return 1;
 
   for (uint16_t i = 0; i < (length-1); i++) {
     data[i] = i2c_read_ack();
@@ -197,12 +215,6 @@ uint8_t i2c_readReg(uint8_t devaddr, uint8_t regaddr, uint8_t* data, uint16_t le
   i2c_stop();
 
   return 0;
-}
-
-void i2c_stop(void)
-{
-  // transmit STOP condition
-  TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
 }
 
 uint8_t iic_read (
