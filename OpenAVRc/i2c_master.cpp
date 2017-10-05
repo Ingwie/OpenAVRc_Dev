@@ -130,7 +130,9 @@ void i2c_stop(void)
 {
   // transmit STOP condition
   TWCR = (1<<TWINT) | (1<<TWSTO) | (1<<TWEN);
+#if !defined (SIMU)
   while(TWCR & (1<<TWSTO));
+#endif
 }
 
 inline void i2c_writeISR(uint8_t data)
