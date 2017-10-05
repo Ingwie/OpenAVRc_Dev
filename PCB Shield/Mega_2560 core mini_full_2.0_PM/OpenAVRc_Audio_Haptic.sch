@@ -68,7 +68,7 @@ F 3 "" H 6200 3750 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 Text Label 6000 4300 1    60   ~ 0
-audio_right_in
+JQ_Left_Out
 $Comp
 L C-RESCUE-Mega_2560_core_mini_full_2.0 C5
 U 1 1 59C5A55A
@@ -125,7 +125,7 @@ F 3 "" H 6000 3550 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Text Label 5350 3050 2    60   ~ 0
-audio_right_in
+JQ_Left_Out
 $Comp
 L R-RESCUE-Mega_2560_core_mini_full_2.0 R3
 U 1 1 59C5A580
@@ -236,7 +236,7 @@ F 3 "" H 6150 3050 50  0000 C CNN
 	1    6150 3050
 	0    -1   -1   0   
 $EndComp
-Text Notes 6100 5250 0    60   ~ 0
+Text Notes 6100 5400 0    60   ~ 0
 Buzzer
 $Comp
 L R-RESCUE-Mega_2560_core_mini_full_2.0 R10
@@ -376,13 +376,13 @@ Wire Wire Line
 Wire Wire Line
 	6000 3300 6000 3250
 Wire Notes Line
-	6500 3850 6500 5200
+	6500 4000 6500 5350
 Wire Notes Line
-	6500 5200 6450 5200
+	6500 5350 6450 5350
 Wire Notes Line
-	6050 5200 5900 5200
+	6050 5350 5900 5350
 Wire Notes Line
-	5900 5200 5900 5050
+	5900 5350 5900 5200
 Wire Wire Line
 	5100 3600 5100 3050
 Connection ~ 5100 3050
@@ -399,7 +399,7 @@ Wire Wire Line
 Wire Wire Line
 	3650 4700 3650 4750
 Text GLabel 5900 4300 3    60   Input ~ 0
-audio_left_in
+Audio_Buzzer_out
 Text GLabel 4950 3250 2    60   Input ~ 0
 JQ6500Data
 Text GLabel 4950 3450 2    60   Output ~ 0

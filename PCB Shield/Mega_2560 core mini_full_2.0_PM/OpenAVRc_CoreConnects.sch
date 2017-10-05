@@ -871,12 +871,10 @@ Text GLabel 1450 2850 0    60   Input ~ 0
 Xmitter_MISO
 Text GLabel 1450 2950 0    60   Input ~ 0
 Rot_2A
-Text GLabel 1450 3050 0    60   Input ~ 0
+Text GLabel 1450 3050 0    60   Output ~ 0
 Scl
 Text GLabel 1450 3150 0    60   Output ~ 0
-audio_left_in
-Text GLabel 1450 3250 0    60   Input ~ 0
-Vibreur
+Audio_Buzzer_out
 Text GLabel 1450 3650 0    60   Input ~ 0
 Key_UP
 Text GLabel 1450 3750 0    60   Input ~ 0
@@ -899,7 +897,7 @@ Text GLabel 2400 2850 2    60   Output ~ 0
 Xmitter_MOSI
 Text GLabel 2400 2950 2    60   Input ~ 0
 Rot_2B
-Text GLabel 2400 3050 2    60   BiDi ~ 0
+Text GLabel 2400 3050 2    60   Output ~ 0
 Sda
 Text GLabel 2400 3150 2    60   Output ~ 0
 Xmitter_SCK
@@ -979,4 +977,6 @@ Wire Wire Line
 	8950 2150 8850 2150
 Wire Wire Line
 	8850 2150 8850 2250
+Text GLabel 1450 3250 0    60   Output ~ 0
+Vibreur
 $EndSCHEMATC
