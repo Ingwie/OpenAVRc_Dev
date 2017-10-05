@@ -37,31 +37,17 @@
 
 extern uint8_t frskyRxBuffer[];
 
-static const char * const FRSKYD_opts[] = {
-  _tr_noop("Freq-Fine"),  "-127", "+127", NULL,
-  _tr_noop("Telemetry"),  _tr_noop("Off"), _tr_noop("On"), NULL,
-  NULL
-};
+#define FREQFINE g_model.rfOptionValue1
 
-const int8_t RfOpt_FrskyD_Ser[] PROGMEM = {
-/*rfProtoNeed*/PIN3_bm,
+const static int8_t RfOpt_FrskyD_Ser[] PROGMEM = {
+/*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
 /*rfSubTypeMax*/0,
 /*rfOptionValue1Min*/-128,
 /*rfOptionValue1Max*/127,
 /*rfOptionValue2Min*/0,
 /*rfOptionValue2Max*/0,
 /*rfOptionValue3Max*/0,
-/*rfOptionBoolXUsed*/0, // BOOL1USED & BOOL2USED & BOOL3USED
 };
-
-
-enum FRSKYD_opts {
-  FRSKYD_OPT_FREQFINE =0,
-  FRSKYD_OPT_TELEM,
-  FRSKYD_OPT_LAST,
-};
-//ctassert(LAST_PROTO_OPT <= NUM_PROTO_OPTS, too_many_protocol_opts);
-
 
 static uint8_t packet_number = 0;
 
@@ -113,7 +99,7 @@ static void FRSKYD_init(uint8_t bind)
     ++pdata;
   }
 
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, (uint8_t) 0); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
+  CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
   CC2500_WriteReg(CC2500_09_ADDR, bind ? 0x03 : (frsky_id & 0xff));
 
 //  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
@@ -252,7 +238,7 @@ static uint16_t FRSKYD_data_cb()
 
       if(packet_number & 0x1F) {
         CC2500_SetPower(TXPOWER_4); // TODO update power level.
-        CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) 0); // TODO Update fine frequency value.
+        CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
       }
 
       CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[packet_number %47]);
@@ -367,13 +353,14 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
     return 0;
     case PROTOCMD_GETOPTIONS:
           SetRfOptionSettings(pgm_get_far_address(RfOpt_FrskyD_Ser),
-                        STR_RFTUNE,
-                        STR_RFTUNE,
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY);
+                        STR_DUMMY,       //Sub proto
+                        STR_RFTUNE,      //Option 1 (int)
+                        STR_DUMMY,       //Option 2 (int)
+                        STR_DUMMY,       //Option 3 (uint 0 to 31)
+                        STR_TELEMETRY,   //OptionBool 1
+                        STR_DUMMY,       //OptionBool 2
+                        STR_DUMMY        //OptionBool 3
+                        );
     return 0;
 	//case PROTOCMD_GETNUMOPTIONS:
     //return (void *)1L;

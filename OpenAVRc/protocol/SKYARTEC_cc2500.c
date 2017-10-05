@@ -37,6 +37,17 @@ static uint32_t Skyartec_fixed_id;
 #define TX_ADDR ((Skyartec_fixed_id >> 16) & 0xff)
 #define TX_CHANNEL ((Skyartec_fixed_id >> 24) & 0xff)
 
+const static int8_t RfOpt_Skyartec_Ser[] PROGMEM = {
+/*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+/*rfSubTypeMax*/0,
+/*rfOptionValue1Min*/0,
+/*rfOptionValue1Max*/0,
+/*rfOptionValue2Min*/0,
+/*rfOptionValue2Max*/0,
+/*rfOptionValue3Max*/0,
+};
+
+
 const static uint8_t ZZ_skyartecInitSequence[] PROGMEM = {
   CC2500_16_MCSM2, 0x07,
   CC2500_17_MCSM1, 0x30,// Switch in idle Skyartec_state after transmission
@@ -225,6 +236,15 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
     SKYARTEC_initialize(1);
     return 0;
   case PROTOCMD_GETOPTIONS:
+          SetRfOptionSettings(pgm_get_far_address(RfOpt_Skyartec_Ser),
+                        STR_DUMMY,      //Sub proto
+                        STR_DUMMY,      //Option 1 (int)
+                        STR_DUMMY,      //Option 2 (int)
+                        STR_DUMMY,      //Option 3 (uint 0 to 31)
+                        STR_DUMMY,      //OptionBool 1
+                        STR_DUMMY,      //OptionBool 2
+                        STR_DUMMY       //OptionBool 3
+                        );
     return 0;
 
   //case PROTOCMD_NUMCHAN:

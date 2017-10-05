@@ -31,9 +31,7 @@
 */
 
 
-//#include "lcd_simu_driver.h"
 #include "../../../OpenAVRc_Simulator/OpenAVRc_SimulatorApp.h"
-//#include "../../../OpenAVRc_Simulator/OpenAVRc_SimulatorMain.h"
 #include "../../../OpenAVRc_Simulator/ModelNameDialog.h"
 
 #include <wx/filename.h>

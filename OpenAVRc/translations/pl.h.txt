@@ -151,7 +151,7 @@
 #if defined(MULTIMODULE) || defined(SPIMODULES)
   #define TR_SUBTYPE            "SubType"
   #define TR_RFTUNE                TR(INDENT "Freq tune",INDENT "RF Freq. fine tune")
-  #define TR_MULTI_TELEMETRY             "Telemetry"
+  #define TR_TELEMETRY             "Telemetry"
   #define TR_MULTI_VIDFREQ               TR(INDENT "Vid. freq.", INDENT "Video frequency")
   #define TR_MULTI_RFPOWER               INDENT "RF Power"
   #define TR_MULTI_OPTION                TR(INDENT "Option", INDENT "Option value")

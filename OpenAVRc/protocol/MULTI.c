@@ -47,15 +47,14 @@ static uint32_t MULTI_fixed_id;
 #define NO_SUBTYPE  0
 #define MM_RF_CUSTOM_SELECTED 0xff
 
-const int8_t RfOpt_Multi_Ser[] PROGMEM = {
-/*rfProtoNeed*/0,
+const static int8_t RfOpt_Multi_Ser[] PROGMEM = {
+/*rfProtoNeed*/BOOL1USED | BOOL2USED | BOOL3USED,
 /*rfSubTypeMax*/16,
 /*rfOptionValue1Min*/0,
 /*rfOptionValue1Max*/24,
 /*rfOptionValue2Min*/-128,
 /*rfOptionValue2Max*/127,
 /*rfOptionValue3Max*/0,
-/*rfOptionBoolXUsed*/BOOL1USED & BOOL2USED & BOOL3USED, // BOOL1USED & BOOL2USED & BOOL3USED
 };
 
 const pm_char STR_SUBTYPE_FLYSKY[] PROGMEM =     "\004""Std\0""V9x9""V6x6""V912""CX20";
@@ -111,7 +110,7 @@ const mm_protocol_definition multi_protocols[] = {
   { MM_RF_PROTO_SLT,        STR_SUBTYPE_SLT,      1,  0             },
   { MM_RF_PROTO_CX10,       STR_SUBTYPE_CX10,     7,  0             },
   { MM_RF_PROTO_CG023,      STR_SUBTYPE_CG023,    2,  0             },
-  { MM_RF_PROTO_BAYANG,     STR_SUBTYPE_BAYANG,   1,  STR_MULTI_TELEMETRY },
+  { MM_RF_PROTO_BAYANG,     STR_SUBTYPE_BAYANG,   1,  STR_TELEMETRY },
   { MM_RF_PROTO_MT99XX,     STR_SUBTYPE_MT99,     4,  0             },
   { MM_RF_PROTO_MJXQ,       STR_SUBTYPE_MJXQ,     5,  0             },
   { MM_RF_PROTO_FY326,      STR_SUBTYPE_FY326,    1,  0             },
@@ -347,13 +346,14 @@ const void *MULTI_Cmds(enum ProtoCmds cmd)
     return 0;
   case PROTOCMD_GETOPTIONS:
     SetRfOptionSettings(pgm_get_far_address(RfOpt_Multi_Ser),
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY);
+                        STR_DUMMY,       //Sub proto
+                        STR_DUMMY,       //Option 1 (int)
+                        STR_DUMMY,       //Option 2 (int)
+                        STR_DUMMY,       //Option 3 (uint 0 to 31)
+                        STR_DUMMY,       //OptionBool 1
+                        STR_DUMMY,       //OptionBool 2
+                        STR_DUMMY        //OptionBool 3
+                        );
      return 0;
   //case PROTOCMD_NUMCHAN:
     //return (void *)7L;

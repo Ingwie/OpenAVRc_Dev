@@ -225,6 +225,9 @@ extern ISR(INT4_vect);
 extern ISR(INT5_vect);
 #endif
 
+//Mixer
+#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
+
 //Xmitter
 #define SPIMODULES
 #define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
@@ -265,8 +268,6 @@ extern ISR(INT5_vect);
   PORTG |= (OUT_G_CYRF6936_CS_N);             \
   if (!Sdnotinuse) {SDCARD_CS_N_ACTIVE();}    \
 
-
-#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
 
 #endif // SPIMODULES
 

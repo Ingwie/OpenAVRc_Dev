@@ -448,6 +448,9 @@ extern const pm_char STR_GF[];
 
 extern const pm_char STR_FAS_OFFSET[];
 
+#if defined(SPIMODULES)
+extern const pm_char STR_SPIM[];
+#endif
 #if defined(MULTIMODULE)
 extern const pm_char STR_MULTI_CUSTOM[];
 #endif
@@ -456,14 +459,13 @@ extern const pm_char STR_MULTI_CUSTOM[];
 extern const pm_char STR_SUBTYPE[];
 extern const pm_char STR_MULTI_VIDFREQ[];
 extern const pm_char STR_RFTUNE[];
-extern const pm_char STR_MULTI_TELEMETRY[];
+extern const pm_char STR_TELEMETRY[];
 extern const pm_char STR_MULTI_RFPOWER[];
 extern const pm_char STR_MULTI_SERVOFREQ[];
 extern const pm_char STR_MULTI_OPTION[];
 extern const pm_char STR_MULTI_DSM_AUTODTECT[];
 extern const pm_char STR_AUTOBIND[];
 extern const pm_char STR_MULTI_LOWPOWER[];
-extern const pm_char STR_SPIM[];
 #endif
 
 #if defined(PXX)

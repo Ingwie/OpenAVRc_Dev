@@ -34,16 +34,17 @@
 #include "../OpenAVRc.h"
 #include "frsky.h"
 
-/*static const char * const FRSKYV_opts[] = {
-  _tr_noop("Freq-Fine"),  "-127", "+127", NULL,
-  NULL
-};
+#define FREQFINE g_model.rfOptionValue1
 
-enum FRSKYV_opts {
-  FRSKYV_OPT_FREQFINE =0,
-  FRSKYV_OPT_LAST,
+const static int8_t RfOpt_FrskyV_Ser[] PROGMEM = {
+/*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+/*rfSubTypeMax*/0,
+/*rfOptionValue1Min*/-128,
+/*rfOptionValue1Max*/127,
+/*rfOptionValue2Min*/0,
+/*rfOptionValue2Max*/0,
+/*rfOptionValue3Max*/0,
 };
-*/
 
 static uint32_t seed;
 static uint8_t dp_crc_init;
@@ -99,7 +100,7 @@ static void FRSKYV_init(uint8_t bind)
 
 
   CC2500_SetTxRxMode(TX_EN);
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) 0); // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
+  CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
 //  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
   CC2500_Strobe(CC2500_SFTX); // 3b
   CC2500_Strobe(CC2500_SFRX); // 3a
@@ -252,7 +253,7 @@ static uint16_t FRSKYV_data_cb()
   static uint8_t option = 0;
   if(option == 0) CC2500_SetTxRxMode(TX_EN); // Keep Power Amp activated.
   else if(option == 64) CC2500_SetPower(TXPOWER_4); // TODO update power level.
-  else if(option == 128) CC2500_WriteReg(CC2500_0C_FSCTRL0, (int8_t) 0); // TODO Update fine frequency value.
+  else if(option == 128) CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
   else if(option == 196) CC2500_Strobe(CC2500_SIDLE); // MCSM1 register setting puts CC2500 back into idle after TX.
 
   CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[ ( (seed & 0xFF) % 50) ] ); // 16MHz AVR = 38us.
@@ -332,9 +333,16 @@ const void * FRSKYV_Cmds(enum ProtoCmds cmd)
   case PROTOCMD_BIND:
     FRSKYV_initialise(1);
     return 0;
-  case PROTOCMD_GETNUMOPTIONS:
-    return (void *)1L;
-    case PROTOCMD_GETOPTIONS:
+  case PROTOCMD_GETOPTIONS:
+          SetRfOptionSettings(pgm_get_far_address(RfOpt_FrskyV_Ser),
+                        STR_DUMMY,       //Sub proto
+                        STR_RFTUNE,      //Option 1 (int)
+                        STR_DUMMY,       //Option 2 (int)
+                        STR_DUMMY,       //Option 3 (uint 0 to 31)
+                        STR_TELEMETRY,   //OptionBool 1
+                        STR_DUMMY,       //OptionBool 2
+                        STR_DUMMY        //OptionBool 3
+                        );
     return 0;
   //case PROTOCMD_NUMCHAN:
     //return (void *)8L;

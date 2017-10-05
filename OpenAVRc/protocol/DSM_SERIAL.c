@@ -85,7 +85,7 @@ enum SubProtoDsm{
   Sub_DSM2,
   Sub_DSMX};
 
-const int8_t RfOpt_Dsm_Ser[] PROGMEM = {
+const static int8_t RfOpt_Dsm_Ser[] PROGMEM = {
 /*rfProtoNeed*/0,
 /*rfSubTypeMax*/2,
 /*rfOptionValue1Min*/0,
@@ -93,7 +93,6 @@ const int8_t RfOpt_Dsm_Ser[] PROGMEM = {
 /*rfOptionValue2Min*/0,
 /*rfOptionValue2Max*/0,
 /*rfOptionValue3Max*/0,
-/*rfOptionBoolXUsed*/0, // BOOL1USED & BOOL2USED & BOOL3USED
 };
 
 static void DSM2_SERIAL_Reset()

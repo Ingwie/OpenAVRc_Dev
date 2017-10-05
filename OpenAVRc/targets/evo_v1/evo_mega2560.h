@@ -38,6 +38,16 @@
 
 #define FATFSTINY // Reduce SDdriver buffer size
 
+//Mixer
+  #if   F_CPU == 16000000UL
+  #define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
+  #elif F_CPU == 32000000UL
+  #define HALF_MICRO_SEC_COUNTS(half_us) (half_us *2)
+  #else
+  #define HALF_MICRO_SEC_COUNTS(half_us) (((F_CPU/800)*(half_us))/20000)
+  #endif
+
+
 //Xmitter
 #define SPIMODULES // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 #define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
@@ -63,13 +73,6 @@
   uint8_t USART3_mspi_xfer(uint8_t data);
   #define RF_SPI_xfer  USART3_mspi_xfer
 
-  #if   F_CPU == 16000000UL
-  #define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
-  #elif F_CPU == 32000000UL
-  #define HALF_MICRO_SEC_COUNTS(half_us) (half_us *2)
-  #else
-  #define HALF_MICRO_SEC_COUNTS(half_us) (((F_CPU/800)*(half_us))/20000)
-  #endif
 #endif // SPIMODULES
 
 //#define GPIO_SET(sfr, bit) (sfr) |=  (1<<(bit))

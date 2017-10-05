@@ -1157,7 +1157,8 @@ struct Module {
 //#endif
 };
 
-#define PROTO_NEED_SPI (RfOptionSettings.rfProtoNeed & PIN3_bm)
+#define PROTO_NEED_SPI PIN3_bm
+#define IS_PROTO_NEED_SPI if (RfOptionSettings.rfProtoNeed & PIN3_bm)
 
 #define BOOL1USED PIN0_bm
 #define BOOL2USED PIN1_bm
@@ -1198,14 +1199,13 @@ void LimitRfOptionSettings();
 //PPM Defaut
 
 const int8_t RfOpt_PPM_Ser[] PROGMEM = {
-/*rfProtoNeed*/0,
+/*rfProtoNeed*/BOOL1USED,
 /*rfSubTypeMax*/6,
 /*rfOptionValue1Min*/-20,
 /*rfOptionValue1Max*/35,
 /*rfOptionValue2Min*/-4,
 /*rfOptionValue2Max*/10,
 /*rfOptionValue3Max*/0,
-/*rfOptionBoolXUsed*/BOOL1USED, // BOOL1USED & BOOL2USED & BOOL3USED
 };
 
 void sendOptionsSettingsPpm();
