@@ -264,11 +264,7 @@
 
 #define TR_SF_RESERVE         "[Reserve]\0"
 
-#if defined(PCBMEGA2560)
   #define TR_VFSWFUNC          TR_SF_SAFETY "Lehrer \0  ""Inst. Trim""Rücksetz.\0" TR_ADJUST_GVAR TR_SOUND TR_PLAY_TRACK TR_PLAY_BOTH TR_PLAY_VALUE TR_VVARIO TR_HAPTIC TR_SDCLOGS "LCD Licht\0" TR_SF_TEST
-#else
-  #define TR_VFSWFUNC          TR_SF_SAFETY "Lehrer \0  ""Inst. Trim""Rücksetz.\0" TR_ADJUST_GVAR TR_SOUND TR_PLAY_TRACK TR_PLAY_BOTH TR_PLAY_VALUE TR_VVARIO TR_HAPTIC "LCD Licht\0" TR_SF_TEST
-#endif
 
 #define LEN_VFSWRESET          TR("\004", "\011")
 
@@ -380,13 +376,8 @@
 
 #define TR_TRIMS_SWITCHES      TR("tSl""tSr""tHd""tHu""tGd""tGu""tQl""tQr", "\313Sl""\313Sr""\313Hd""\313Hu""\313Gd""\313Gu""\313Ql""\313Qr")
 
-#if defined(PCBMEGA2560)
   #define TR_ROTARY_ENCODERS   "DGa\0""DGb\0"
   #define TR_ROTENC_SWITCHES   "DGa""DGb"
-#else
-  #define TR_ROTARY_ENCODERS
-  #define TR_ROTENC_SWITCHES
-#endif
 
   #define TR_PHYS_SWITCHES     "THR""RUD""ELE""AIL""GEA""TRN"
 

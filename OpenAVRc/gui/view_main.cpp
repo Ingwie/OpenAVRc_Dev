@@ -422,7 +422,7 @@ void menuMainView(uint8_t event)
       }
     }
   }
-#if defined(PCBMEGA2560) && defined(GVARS) // Show current Gvars values
+#if defined(GVARS) // Show current Gvars values
   else if (view_base == VIEW_GVARS) {
     uint8_t x0,y0;
     bool test;
@@ -459,7 +459,7 @@ void menuMainView(uint8_t event)
         lcdPutsSwitches(x, y, sw, getSwitch(i) ? INVERS : 0);
       }
     } else {
-#if defined(PCBMEGA2560) && defined(ROTARY_ENCODERS)
+#if defined(ROTARY_ENCODERS)
       for (uint8_t i=0; i<NUM_ROTARY_ENCODERS; i++) {
         int16_t val = getRotaryEncoder(i);
         int8_t len = limit((int16_t)0, (int16_t)(((val+1024) * BAR_HEIGHT) / 2048), (int16_t)BAR_HEIGHT);

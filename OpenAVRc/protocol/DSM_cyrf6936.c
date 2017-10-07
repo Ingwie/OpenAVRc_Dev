@@ -706,8 +706,10 @@ static uint16_t dsm2_cb()
         if((rx_state & 0x07) == 0x02) { // good data (complete with no errors)
             CYRF_WriteRegister(CYRF_07_RX_IRQ_STATUS, 0x80); // need to set RXOW before data read
             CYRF_ReadDataPacketLen(packet, CYRF_ReadRegister(CYRF_09_RX_COUNT));
+#if defined(FRSKY)
             frskyData.rssi[1].value = CYRF_ReadRegister(CYRF_13_RSSI) & 0x1F; // RSSI of the received telemetry signal
             // TODO parse_telemetry_packet();
+#endif
         }
         if (state == DSM2_CH2_READ_A && num_channels < 8) {
             state = DSM2_CH2_READ_B;

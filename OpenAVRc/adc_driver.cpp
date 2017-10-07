@@ -46,10 +46,6 @@ void adcInit()
 void adcPrepareBandgap()
 {
   // #if structure identical to the one in getADC_bandgap()
-#if   defined(PCBMEGA2560)
-#else
-  ADMUX = 0x1E|ADC_VREF_TYPE; // Switch MUX to internal reference
-#endif
 }
 
 void getADC()
@@ -72,21 +68,5 @@ void getADC()
 
 void getADC_bandgap()
 {
-#if defined(PCBMEGA2560)
   BandGap = 2000;
-#else
-  /*
-    MCUCR|=0x28;  // enable Sleep (bit5) enable ADC Noise Reduction (bit2)
-    asm volatile(" sleep        \n\t");  // if _SLEEP() is not defined use this
-    // ADCSRA|=0x40;
-    while ((ADCSRA & 0x10)==0);
-    ADCSRA|=0x10; // take sample  clear flag?
-    BandGap=ADC;
-    MCUCR&=0x08;  // disable sleep
-    */
-
-  ADCSRA |= (1 << ADSC);
-  while (ADCSRA & (1 << ADSC));
-  BandGap = ADC;
-#endif
 }

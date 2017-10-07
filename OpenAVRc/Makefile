@@ -313,7 +313,7 @@ INCDIRS = . translations
 DEBUG_TRACE_BUFFER = NO
 
 # PCB name
-ifneq ($(PCB), $(filter $(PCB), MEGA2560 EVO_V1))
+ifneq ($(PCB), $(filter $(PCB), MEGA2560 EVO_V1 MEGAMINI))
   $(error Sorry, the PCB $(PCB) is not supported yet in OpenAVRc)
 endif
 
@@ -324,6 +324,81 @@ GUIGENERALSRC = gui/menu_general.cpp gui/menu_general_setup.cpp gui/menu_general
 BITMAPS = bitmaps/sticks.lbm
 
 #FONTS = $(patsubst %.png,%.lbm,$(wildcard fonts/std/*.png))
+
+ifeq ($(PCB), MEGAMINI)
+  # Antho & Pierro's Shield
+
+  FLAVOUR = mega2560
+  ARCH = AVR
+  LCDSIZE = 128
+  TRGT = avr-
+  MCU = atmega2560
+  OPT = s
+  # Processor frequency.
+  F_CPU = 16000000
+  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DEEPROM_RLC
+  # -DAUDIO Removed by Bracame
+  SDCARD = NO
+  BUZZER = YES
+  THR_TRACE = YES
+  PWRMANAGE = NO
+  INCDIRS += targets/megamini targets/stock $(FATFSDIR) $(FATFSDIR)/option
+  BOARDSRC = main_avr.cpp i2c_master.cpp spi.c targets/megamini/board_megamini.cpp
+  EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
+  PULSESSRC = pulses/pulses_avr.cpp
+  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
+  GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
+
+  EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp telemetry_driver.cpp
+
+  ifeq ($(PWRMANAGE), YES)
+    CPPDEFS += -DPWRMANAGE
+  endif
+
+  ifeq ($(SDCARD), YES)
+    EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/option/ccsbcs.c diskio.cpp
+    CPPDEFS += -DSDCARD -DRTCLOCK
+    GUIGENERALSRC += gui/menu_general_sdmanager.cpp
+    CPPSRC += rtc.cpp sdcard.cpp logs.cpp rtc_driver.cpp
+  endif
+
+  ifeq ($(AUDIO), YES)
+    CPPDEFS += -DAUDIO
+    CPPSRC += audio_avr.cpp
+    BUZZER = NO
+  else
+    BUZZER = YES
+  endif
+
+  ifeq ($(BUZZER), YES)
+    CPPDEFS += -DBUZZER
+    CPPSRC += buzzer.cpp
+  endif
+
+  ifeq ($(VOICE), JQ6500)
+  CPPDEFS += -DVOICE
+  CPPDEFS += -DVOICE_JQ6500
+  CPPSRC += targets/mega2560/voice_jq6500.cpp
+  endif
+
+  ifeq ($(HAPTIC), YES)
+   CPPDEFS += -DHAPTIC
+   CPPSRC += haptic.cpp
+  endif
+
+  ifeq ($(EXTERNALEEPROM), YES)
+   CPPDEFS += -DEXTERNALEEPROM
+  endif
+
+  ifeq ($(PERSONAMES), YES)
+   CPPDEFS += -DPERSONAMES
+  endif
+
+  # Enable extra rotary encoders
+  ROTARY_ENCODERS = 2
+  CPPDEFS += -DROTARY_ENCODERS=${ROTARY_ENCODERS}
+endif
+
 
 ifeq ($(PCB), EVO_V1)
   # Evo V1 PCB with Mega2560

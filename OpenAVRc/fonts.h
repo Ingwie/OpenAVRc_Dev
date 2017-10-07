@@ -37,7 +37,7 @@
 extern const pm_uchar zzfont_5x7[];
 extern const pm_uchar zzfont_10x14[];
 
-#if defined(BOLD_FONT) && (defined(EXTSTD) || defined(PCBMEGA2560))
+#if defined(BOLD_FONT) 
 #define BOLD_SPECIFIC_FONT
 extern const pm_uchar zzfont_5x7_B[];
 #endif

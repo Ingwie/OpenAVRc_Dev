@@ -47,7 +47,7 @@
 #else //SIMU define
   #include <stdbool.h>
   #include "targets/simu/simu_interface.h"
-  #include "targets/mega2560/board_mega2560.h" //todo
+  #include "targets/megamini/board_megamini.h" //todo
 #endif
 
 /////////////////DEBUG FUNCTION DEFINITION///////////////////
@@ -592,11 +592,7 @@ void setTrimValue(uint8_t phase, uint8_t idx, int trim);
   void incRotaryEncoder(uint8_t idx, int8_t inc);
 #endif
 
-#if defined(PCBMEGA2560)
   #define ROTARY_ENCODER_GRANULARITY (1)
-#else
-  #define ROTARY_ENCODER_GRANULARITY (2)
-#endif
 
 #if defined(GVARS)
   uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx);
@@ -1012,7 +1008,7 @@ enum AUDIO_SOUNDS {
 
 #include "buzzer.h"
 
-#if defined(PCBMEGA2560) && defined(VOICE)
+#if defined(VOICE)
   #include "targets/mega2560/voice.h"
 #endif
 

@@ -108,6 +108,7 @@ static uint16_t DSM_SERIAL_cb()
   // Schedule next Mixer calculations.
   SCHEDULE_MIXER_END(22*16);
 
+#if defined(FRSKY)
   frskyTxBufferCount = 0;
 
   uint8_t dsmTxBufferCount = 14;
@@ -136,6 +137,7 @@ static uint16_t DSM_SERIAL_cb()
   }
   frskyTxBufferCount = 14; // Indicates data to transmit.
 
+#endif
 #if !defined(SIMU)
   telemetryTransmitBuffer();
 #endif

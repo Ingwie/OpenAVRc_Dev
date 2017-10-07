@@ -114,10 +114,8 @@ void menuStatisticsDebug(uint8_t event)
   lcdDrawNumberAttUnit(MENU_DEBUG_COL1_OFS, 4*FH, DURATION_MS_PREC2(maxMixerDuration), PREC2);
   lcdDrawTextLeft(5*FH, STR_FREESTACKMINB);
   lcdDrawNumberAttUnit(14*FW, 5*FH, stackAvailable(), UNSIGN);
-#if defined(PCBMEGA2560)
   lcdDrawTextLeft(6*FH, STR_FREERAMINB);
   lcdDrawNumberAttUnit(14*FW, 6*FH, freeRam(), UNSIGN);
-#endif
   lcdDrawText(4*FW, 7*FH+1, STR_MENUTORESET);
   lcd_status_line();
 }

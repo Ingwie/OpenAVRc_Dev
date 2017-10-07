@@ -505,12 +505,14 @@ extern REG8 simu_twcr;
 extern REG8 simu_twbr;
 extern REG8 simu_twsr;
 extern REG8 simu_twdr;
+extern REG8 simu_tw_rep_start;
 extern REG8 simu_tw_start;
 extern REG8 simu_tw_status;
 extern REG8 simu_tw_mt_sla_ack;
 extern REG8 simu_tw_mr_sla_ack;
 extern REG8 simu_tw_mt_data_ack;
 
+#define TW_REP_START    simu_tw_rep_start
 #define TW_START        simu_tw_start
 #define TW_STATUS       simu_tw_status
 #define TW_MT_SLA_ACK   simu_tw_mt_sla_ack

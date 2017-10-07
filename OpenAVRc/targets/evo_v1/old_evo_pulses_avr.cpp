@@ -841,11 +841,7 @@ void setupPulses()
     setupPulsesDSM2(); // Different versions for DSM2=SERIAL vs. DSM2=PPM
 #if defined(DSM2_PPM)
     // Ensure each DSM2=PPM serial packet starts out with the correct bit polarity
-#if defined(PCBMEGA2560)
     TCCR1A = (0 << WGM10) | (2<<COM1B1);  // Revert phase for direct drive on M2560
-#else
-    TCCR1A = (0 << WGM10) | (3<<COM1B1);  // Make Waveform Generator 'SET' OCR1B pin on next compare event and ...
-#endif
     TCCR1C = (1<<FOC1B);                  // ... force compare event, to set OCR1B pin high.
     TCCR1A = (1<<COM1B0);                 // Output is ready. Now configure OCR1B pin into 'TOGGLE' mode.
 #endif

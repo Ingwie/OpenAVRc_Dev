@@ -106,6 +106,7 @@ REG8 simu_twcr;
 REG8 simu_twbr;
 REG8 simu_twsr;
 REG8 simu_twdr;
+REG8 simu_tw_rep_start;
 REG8 simu_tw_start;
 REG8 simu_tw_status;
 REG8 simu_tw_mt_sla_ack;

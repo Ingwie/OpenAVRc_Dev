@@ -41,7 +41,7 @@ const pm_uchar splashdata[] PROGMEM = {
   'S','P','E',0
 };
 
-#if (!defined(PCBMEGA2560) || defined(SIMU))
+#if  defined(SIMU)
 const pm_uchar * const splash_lbm = splashdata+4;
 #endif
 
