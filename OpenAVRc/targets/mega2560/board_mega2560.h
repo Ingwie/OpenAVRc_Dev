@@ -147,7 +147,7 @@ void sdPoll10ms();
 #define INP_J_ROT_ENC_1_PUSH      0
 #define INP_J_ROT_ENC_2_PUSH      1
 #define REA_DOWN()                (~PINJ & (1<<INP_J_ROT_ENC_1_PUSH))
-#define REB_DOWN()                (~PINJ & (1<<INP_J_ROT_ENC_1_PUSH)) // Todo move (~PINJ & (1<<INP_J_ROT_ENC_2_PUSH))
+#define REB_DOWN()                (~PINJ & (1<<INP_J_ROT_ENC_2_PUSH))
 #define ROTENC_DOWN()             (REA_DOWN() || REB_DOWN())
 
 // LCD driver
@@ -242,31 +242,23 @@ extern ISR(INT5_vect);
 //SUPIIIK FILE
 
 
-#if defined(SPIMODULES)
+#if defined(SPIMODULES) && !defined(SDCARD) //Alow Spimodule if no sdcard on this board
 
-  //uint8_t USART2_mspi_xfer(uint8_t data);
   #define RF_SPI_xfer  spi_xfer//USART2_mspi_xfer
   #define OUT_H_CC2500_CS_N       PIN1_bm
   #define OUT_G_CYRF6936_CS_N     PIN5_bm
 
-  uint8_t Sdnotinuse = 1;
 #define RF_CS_CC2500_ACTIVE();                \
-  Sdnotinuse = SDCARD_CS_N_IS_INACTIVE();     \
-  if (!Sdnotinuse) {SDCARD_CS_N_INACTIVE();}  \
   PORTH &= ~(OUT_H_CC2500_CS_N);              \
 
 #define RF_CS_CC2500_INACTIVE();              \
   PORTH |= (OUT_H_CC2500_CS_N);               \
-  if (!Sdnotinuse) {SDCARD_CS_N_ACTIVE();}    \
 
 #define RF_CS_CYRF6936_ACTIVE();              \
-  Sdnotinuse = SDCARD_CS_N_IS_INACTIVE();     \
-  if (!Sdnotinuse) {SDCARD_CS_N_INACTIVE();}  \
   PORTG &= ~(OUT_G_CYRF6936_CS_N);            \
 
 #define RF_CS_CYRF6936_INACTIVE();            \
   PORTG |= (OUT_G_CYRF6936_CS_N);             \
-  if (!Sdnotinuse) {SDCARD_CS_N_ACTIVE();}    \
 
 
 #endif // SPIMODULES

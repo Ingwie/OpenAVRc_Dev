@@ -39,14 +39,14 @@ FORCEINLINE void boardInit()
 {
   // Set up I/O port data directions and initial states (unused pin setting : input, pull-up on)
   DDRA = 0b11111111;  PORTA = 0b00000000; // LCD data
-  DDRB = 0b01100111;  PORTB = 0b10111111; // 7:N/A, 6:PPM_OUT, 5:PPMSIM_OUT, 4:JQ6500Busy, SDCARD[3:MISO 2:MOSI 1:SCK 0:CS]
+  DDRB = 0b01100111;  PORTB = 0b10111111; // 7:N/A, 6:PPM_OUT, 5:PPMSIM_OUT, 4:N/A, SDCARD[3:MISO 2:MOSI 1:SCK 0:CS]
   DDRC = 0b11111100;  PORTC = 0b00000011; // 7-3:LCD, 2:BackLight, 1:ID2_SW, 0:ID1_SW
-  DDRD = 0b00000000;  PORTD = 0b11111111; // 7:AilDR_SW, 6:N/A, 5:N/A, 4:PPM_IN, 3:RENC2_B, 2:RENC2_A, 1:I2C_SDA, 0:I2C_SCL
-  DDRE = 0b00000010;  PORTE = 0b01111100; // 7:PPM_IN, 6:N/A, 5:RENC1_B, 4:RENC1_A, 3:N/A, 2:N/A, 1:TELEM_TX, 0:TELEM_RX
+  DDRD = 0b00000000;  PORTD = 0b11111111; // 7:AilDR_SW, 6:N/A, 5:N/A, 4:PPM_IN, 3:N/A, 2:N/A, 1:I2C_SDA, 0:I2C_SCL
+  DDRE = 0b00000010;  PORTE = 0b01111100; // 7:Rot_2A, 6:Rot_2B, 5:RENC1_B, 4:RENC1_A, 3:Rot_2_Push, 2:N/A, 1:TELEM_TX, 0:TELEM_RX
   DDRF = 0b00000000;  PORTF = 0b11111111; // 7-0:Trim switch inputs
-  DDRG = 0b00100000;  PORTG = 0b11111111; // 7:N/A, 6:N/A, 5:CS_CYRF6936, 4:N/A, 3:N/A, 2:TCut_SW, 1:Gear_SW, 0: RudDr_SW
-  DDRH = 0b00011011;  PORTH = 0b11110110; // 7:N/A, 6:RF_Activated, 5:DSC_Activated, 4:Hold_Power, 3:Speaker, 2:N/A, 1:CS_CC2500, 0:Haptic
-  DDRJ = 0b00000010;  PORTJ = 0b11111111; // 7:N/A, 6:N/A, 5:N/A, 4:N/A, 3:N/A, 2:N/A, 1:JQ6500Data (Was RENC2_push), 0:RENC1_push
+  DDRG = 0b00100000;  PORTG = 0b11111111; // 7:N/A, 6:N/A, 5:Rot_1_Push, 4:N/A, 3:N/A, 2:TCut_SW, 1:Gear_SW, 0: RudDr_SW
+  DDRH = 0b00011011;  PORTH = 0b11110110; // 7:N/A, 6:Sim_Control/RF_Power, 5:Haptic, 4:Hold_Power, 3:Speaker, 2:SPI_Xmitter_SCK, 1:SPI_Xmitter_MOSI, 0:SPI_Xmitter_MISO
+  DDRJ = 0b00000010;  PORTJ = 0b11111111; // 7:N/A, 6:CS_A7105, 5:CS_NRF24L01, 4:CS_CYRF6936, 3:CS_CC2500, 2:N/A, 1:JQ6500Data , 0:JQ6500Busy
   DDRK = 0b00000000;  PORTK = 0b00000000; // Analogic input (no pull-ups)
   DDRL = 0b00000000;  PORTL = 0b11111111; // 7:TRN_SW 6:EleDR_SW, 5:ESC, 4:MENU 3:Keyb_Left, 2:Keyb_Right, 1:Keyb_Up, 0:Keyb_Down
 
@@ -304,44 +304,29 @@ void readKeysAndTrims()
   }
 }
 
-// Rotary encoders increment/decrement (0 = rotary 1, 1 = rotary 2)
-ISR(INT4_vect)     // Arduino2560 IO02 (portE pin4)
+// Rotary encoders increment/decrement
+
+ISR(INT4_vect)     // Mega2560 INT4 (portE pin4)
 {
-  uint8_t input = (PINE & 0x30);
-#if defined (ROTENC_DIV2)// Rotenc resolution/2
-  if (input == 0) incRotaryEncoder(0, -1);
-#else
-  if (input == 0 || input == 0x30) incRotaryEncoder(0, -1);
-#endif
+  //if (PINE & INP_E_ROT_ENC_1_A)
+  incRotaryEncoder(0, -1);
 }
 
-ISR(INT5_vect)     // Arduino2560 IO03 (portE pin5)
+ISR(INT5_vect)     // Mega2560 INT5 (portE pin5)
 {
-  uint8_t input = (PINE & 0x30);
-#if defined (ROTENC_DIV2)// Rotenc resolution/2
-  if (input == 0) incRotaryEncoder(0, +1);
-#else
-  if (input == 0 || input == 0x30) incRotaryEncoder(0, +1);
-#endif
+  //if (PINE & INP_E_ROT_ENC_1_B)
+  incRotaryEncoder(0, +1);
 }
 
-ISR(INT2_vect)     // Arduino2560 IO19 (portD pin2)
+ISR(INT7_vect)     // Mega2560 INT7 (portE pin7)
 {
-  uint8_t input = (PIND & 0x0C);
-#if defined (ROTENC_DIV2)// Rotenc resolution/2
-  if (input == 0) incRotaryEncoder(1, -1);
-#else
-  if (input == 0 || input == 0x0C) incRotaryEncoder(1, -1);
-#endif
+  //if (PINE & INP_E_ROT_ENC_2_A)
+  incRotaryEncoder(1, -1);
 }
 
-ISR(INT3_vect)     // Arduino2560 IO18 (portD pin3)
+ISR(INT6_vect)     // Mega2560 INT6 (portE pin6)
 {
-  uint8_t input = (PIND & 0x0C);
-#if defined (ROTENC_DIV2)// Rotenc resolution/2
-  if (input == 0) incRotaryEncoder(1, +1);
-#else
-  if (input == 0 || input == 0x0C) incRotaryEncoder(1, +1);
-#endif
+  //if (PINE & INP_E_ROT_ENC_2_B)
+  incRotaryEncoder(1, +1);
 }
 

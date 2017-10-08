@@ -47,7 +47,7 @@
 #else //SIMU define
   #include <stdbool.h>
   #include "targets/simu/simu_interface.h"
-  #include "targets/megamini/board_megamini.h" //todo
+  #include "targets/megamini/board_megamini.h" //New reference board
 #endif
 
 /////////////////DEBUG FUNCTION DEFINITION///////////////////

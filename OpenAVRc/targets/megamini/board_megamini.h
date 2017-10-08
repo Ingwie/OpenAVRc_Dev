@@ -39,7 +39,6 @@
 #define CALCULATE_LAT_JIT()  dt = TCNT1 - OCR1A // Calculate latency and jitter.
 
 //Mods
-#define ROTENC_DIV2 // rotenc resolution/2
 #define FATFSTINY // Reduce SDdriver buffer size
 
 // Keys
@@ -128,22 +127,22 @@ void sdPoll10ms();
 #define INP_E_TELEM_RX            1
 #define OUT_E_TELEM_TX            0
 #define INP_H_RF_Activated        6
-#define INP_H_DSC_Activated       5    //not used, reserved for pwrCheck()
-#define INP_H_Hold_Power          4    //not used, reserved for pwrCheck()
+//#define INP_H_DSC_Activated       5    //not used, reserved for pwrCheck()
+//#define INP_H_Hold_Power          4    //not used, reserved for pwrCheck()
 #define OUT_H_SpeakerBuzzer       3
 //#define OUT_B_JQ_SERIAL           7    //JQ6500
-#define INP_B_JQ_BUSY             4    //JQ6500
-#define OUT_H_HAPTIC              0
+#define INP_J_JQ_BUSY             0    //JQ6500
+#define OUT_H_HAPTIC              5
 
 // Rotary encoders driver
 #define INP_E_ROT_ENC_1_A         4
 #define INP_E_ROT_ENC_1_B         5
-#define INP_D_ROT_ENC_2_A         2
-#define INP_D_ROT_ENC_2_B         3
-#define INP_J_ROT_ENC_1_PUSH      0
-#define INP_J_ROT_ENC_2_PUSH      1
-#define REA_DOWN()                (~PINJ & (1<<INP_J_ROT_ENC_1_PUSH))
-#define REB_DOWN()                (~PINJ & (1<<INP_J_ROT_ENC_1_PUSH)) // Todo move (~PINJ & (1<<INP_J_ROT_ENC_2_PUSH))
+#define INP_E_ROT_ENC_2_A         7
+#define INP_E_ROT_ENC_2_B         6
+#define INP_G_ROT_ENC_1_PUSH      5
+#define INP_E_ROT_ENC_2_PUSH      3
+#define REA_DOWN()                (~PINJ & (1<<INP_G_ROT_ENC_1_PUSH))
+#define REB_DOWN()                (~PINJ & (1<<INP_E_ROT_ENC_2_PUSH)) // Todo move (~PINJ & (1<<INP_J_ROT_ENC_2_PUSH))
 #define ROTENC_DOWN()             (REA_DOWN() || REB_DOWN())
 
 // LCD driver
@@ -189,7 +188,7 @@ void pwrOff();
 // Voice driver
 
 //JQ6500
-#define JQ6500_BUSY                   (PINB & (1<<INP_B_JQ_BUSY))
+#define JQ6500_BUSY                   (PINJ & (1<<INP_J_JQ_BUSY))
 #if defined(VOICE_JQ6500)
 extern void InitJQ6500UartTx();
 #endif
@@ -230,30 +229,15 @@ extern ISR(INT5_vect);
 
 #if defined(SPIMODULES)
 
-  //uint8_t USART2_mspi_xfer(uint8_t data);
-  #define RF_SPI_xfer  spi_xfer//USART2_mspi_xfer
+  uint8_t USART2_mspi_xfer(uint8_t data);
+  #define RF_SPI_xfer  USART2_mspi_xfer
   #define OUT_H_CC2500_CS_N       PIN1_bm
   #define OUT_G_CYRF6936_CS_N     PIN5_bm
 
-  uint8_t Sdnotinuse = 1;
-#define RF_CS_CC2500_ACTIVE();                \
-  Sdnotinuse = SDCARD_CS_N_IS_INACTIVE();     \
-  if (!Sdnotinuse) {SDCARD_CS_N_INACTIVE();}  \
-  PORTH &= ~(OUT_H_CC2500_CS_N);              \
-
-#define RF_CS_CC2500_INACTIVE();              \
-  PORTH |= (OUT_H_CC2500_CS_N);               \
-  if (!Sdnotinuse) {SDCARD_CS_N_ACTIVE();}    \
-
-#define RF_CS_CYRF6936_ACTIVE();              \
-  Sdnotinuse = SDCARD_CS_N_IS_INACTIVE();     \
-  if (!Sdnotinuse) {SDCARD_CS_N_INACTIVE();}  \
-  PORTG &= ~(OUT_G_CYRF6936_CS_N);            \
-
-#define RF_CS_CYRF6936_INACTIVE();            \
-  PORTG |= (OUT_G_CYRF6936_CS_N);             \
-  if (!Sdnotinuse) {SDCARD_CS_N_ACTIVE();}    \
-
+#define RF_CS_CC2500_ACTIVE() PORTH &= ~(OUT_H_CC2500_CS_N)
+#define RF_CS_CC2500_INACTIVE() PORTH |= (OUT_H_CC2500_CS_N)
+#define RF_CS_CYRF6936_ACTIVE() PORTG &= ~(OUT_G_CYRF6936_CS_N)
+#define RF_CS_CYRF6936_INACTIVE() PORTG |= (OUT_G_CYRF6936_CS_N)
 
 #endif // SPIMODULES
 
