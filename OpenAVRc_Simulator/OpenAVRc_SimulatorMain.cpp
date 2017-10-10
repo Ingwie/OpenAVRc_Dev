@@ -523,13 +523,17 @@ void OpenAVRc_SimulatorFrame::StartFirmwareCode()
   SpinJ->init();
   SpinK->init();
   SpinL->init();
+#if !defined(PCBMEGAMINI)
   SpinH->SetPin(6); //Rf activated pin
   SpinH->ResetPin(5); //Dsc inactivated
+#endif
   SpinC->ResetPin(0); // Set 3pos at ID0
   s_anaFilt[0] = 1024;
   s_anaFilt[1] = 1024;
   s_anaFilt[2] = 1024;
   s_anaFilt[3] = 1024;
+
+  s_anaFilt[7] = 1500; //Battery
 
   Timer10ms.Start(10, false); //Simulate 10mS Interrupt vector
   simumain();
@@ -544,15 +548,16 @@ void OpenAVRc_SimulatorFrame::ResetSimuLcd()
   DrawWxSimuLcd();
 }
 
-
-
 void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
 {
   if (!OnTglButton->GetValue()) {
+#if defined(PCBMEGAMINI)
+    s_anaFilt[7] = 0;
+#else
     SpinH->ResetPin(6);
+#endif
   }
   if ((!simu_mainloop_is_runing) && (!simu_shutDownSimu_is_runing)) {
-    s_anaFilt[7] = 1500;
 
     ChronoMain->Start(0);
     SimuMainLoop();
@@ -2275,22 +2280,38 @@ void OpenAVRc_SimulatorFrame::OnBpId2LeftDown(wxMouseEvent& event)
 
 void OpenAVRc_SimulatorFrame::OnBpReaLeftDown(wxMouseEvent& event)
 {
+#if defined(PCBMEGAMINI)
+  SpinG->ResetPin(5);
+#else
   SpinJ->ResetPin(0);
+#endif
 }
 
 void OpenAVRc_SimulatorFrame::OnBpReaLeftUp(wxMouseEvent& event)
 {
+#if defined(PCBMEGAMINI)
+  SpinG->SetPin(5);
+#else
   SpinJ->SetPin(0);
+#endif
 }
 
 void OpenAVRc_SimulatorFrame::OnBpRebLeftDown(wxMouseEvent& event)
 {
+#if defined(PCBMEGAMINI)
+  SpinE->ResetPin(3);
+#else
   SpinJ->ResetPin(1);
+#endif
 }
 
 void OpenAVRc_SimulatorFrame::OnBpRebLeftUp(wxMouseEvent& event)
 {
+#if defined(PCBMEGAMINI)
+  SpinE->SetPin(3);
+#else
   SpinJ->SetPin(1);
+#endif
 }
 
 void OpenAVRc_SimulatorFrame::CheckInputs()
@@ -2316,20 +2337,36 @@ void OpenAVRc_SimulatorFrame::CheckInputs()
 
   if (SpinReb->GetValue() > 0) {
     SpinReb->SetValue(0);
+#if defined(PCBMEGAMINI)
+    SpinD->ResetPin(7);
+    SpinD->ResetPin(6);
+    INT6_vect();
+    SpinD->SetPin(7);
+    SpinD->SetPin(6);
+#else
     SpinD->ResetPin(2);
     SpinD->ResetPin(3);
     INT3_vect();
     SpinD->SetPin(2);
     SpinD->SetPin(3);
+#endif
   }
 
   if (SpinReb->GetValue() < 0) {
     SpinReb->SetValue(0);
+#if defined(PCBMEGAMINI)
+    SpinD->ResetPin(7);
+    SpinD->ResetPin(6);
+    INT7_vect();
+    SpinD->SetPin(7);
+    SpinD->SetPin(6);
+#else
     SpinD->ResetPin(2);
     SpinD->ResetPin(3);
     INT2_vect();
     SpinD->SetPin(2);
     SpinD->SetPin(3);
+#endif
   }
 
   //Pots1,2&3
@@ -2425,11 +2462,19 @@ void OpenAVRc_SimulatorFrame::CheckInputs()
   else BpId2->SetBackgroundColour(Col_Button_Off);
   BpId2->Refresh();
 
+#if defined(PCBMEGAMINI)
+  if (!SpinG->GetPin(5)) BpRea->SetBackgroundColour(Col_Button_On);
+#else
   if (!SpinJ->GetPin(0)) BpRea->SetBackgroundColour(Col_Button_On);
+#endif
   else BpRea->SetBackgroundColour(Col_Button_Off);
   BpRea->Refresh();
 
+ #if defined(PCBMEGAMINI)
+ if (!SpinE->GetPin(3)) BpReb->SetBackgroundColour(Col_Button_On);
+#else
   if (!SpinJ->GetPin(1)) BpReb->SetBackgroundColour(Col_Button_On);
+#endif
   else BpReb->SetBackgroundColour(Col_Button_Off);
   BpReb->Refresh();
 

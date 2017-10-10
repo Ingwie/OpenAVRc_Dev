@@ -155,7 +155,7 @@ void perMain()
 
 #endif // if defined(GUI)
 
-  if(SLAVE_MODE()) {
+  if(SLAVE_MODE()) { // TODO rebuild
     JACK_PPM_OUT();
   } else {
     JACK_PPM_IN();

@@ -24,7 +24,7 @@
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />
 					<Add option="-DDSM2_SERIAL" />
-					<Add option="-DPCBMEGA2560" />
+					<Add option="-DPCBMEGAMINI" />
 					<Add option="-DCPUM2560" />
 					<Add option="-DOFFSET_ON_INPUT=YES" />
 					<Add option="-DEEPROM_RLC" />
@@ -93,7 +93,7 @@
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />
 					<Add option="-DDSM2_SERIAL" />
-					<Add option="-DPCBMEGA2560" />
+					<Add option="-DPCBMEGAMINI" />
 					<Add option="-DCPUM2560" />
 					<Add option="-DOFFSET_ON_INPUT=YES" />
 					<Add option="-DEEPROM_RLC" />
@@ -164,7 +164,7 @@
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />
 					<Add option="-DDSM2_SERIAL" />
-					<Add option="-DPCBMEGA2560" />
+					<Add option="-DPCBMEGAMINI" />
 					<Add option="-DCPUM2560" />
 					<Add option="-DOFFSET_ON_INPUT=YES" />
 					<Add option="-DEEPROM_RLC" />
@@ -235,7 +235,7 @@
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />
 					<Add option="-DDSM2_SERIAL" />
-					<Add option="-DPCBMEGA2560" />
+					<Add option="-DPCBMEGAMINI" />
 					<Add option="-DCPUM2560" />
 					<Add option="-DOFFSET_ON_INPUT=YES" />
 					<Add option="-DEEPROM_RLC" />
@@ -306,7 +306,7 @@
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />
 					<Add option="-DDSM2_SERIAL" />
-					<Add option="-DPCBMEGA2560" />
+					<Add option="-DPCBMEGAMINI" />
 					<Add option="-DCPUM2560" />
 					<Add option="-DOFFSET_ON_INPUT=YES" />
 					<Add option="-DEEPROM_RLC" />
@@ -377,7 +377,7 @@
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />
 					<Add option="-DDSM2_SERIAL" />
-					<Add option="-DPCBMEGA2560" />
+					<Add option="-DPCBMEGAMINI" />
 					<Add option="-DCPUM2560" />
 					<Add option="-DOFFSET_ON_INPUT=YES" />
 					<Add option="-DEEPROM_RLC" />
@@ -448,7 +448,7 @@
 					<Add option="-DSIMU" />
 					<Add option="-DDSM2" />
 					<Add option="-DDSM2_SERIAL" />
-					<Add option="-DPCBMEGA2560" />
+					<Add option="-DPCBMEGAMINI" />
 					<Add option="-DCPUM2560" />
 					<Add option="-DOFFSET_ON_INPUT=YES" />
 					<Add option="-DEEPROM_RLC" />
@@ -686,11 +686,18 @@
 		<Unit filename="../OpenAVRc/switches.cpp" />
 		<Unit filename="../OpenAVRc/targets/lcd/lcd_simu_driver.cpp" />
 		<Unit filename="../OpenAVRc/targets/lcd/lcd_simu_driver.h" />
-		<Unit filename="../OpenAVRc/targets/mega2560/board_mega2560.cpp" />
-		<Unit filename="../OpenAVRc/targets/mega2560/board_mega2560.h" />
+		<Unit filename="../OpenAVRc/targets/mega2560/board_mega2560.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="../OpenAVRc/targets/mega2560/voice.h" />
 		<Unit filename="../OpenAVRc/targets/mega2560/voice_jq6500.cpp" />
-		<Unit filename="../OpenAVRc/targets/mega2560/voice_wtv20sd.cpp" />
+		<Unit filename="../OpenAVRc/targets/mega2560/voice_wtv20sd.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/targets/megamini/board_megamini.cpp" />
+		<Unit filename="../OpenAVRc/targets/megamini/board_megamini.h" />
 		<Unit filename="../OpenAVRc/targets/simu/simu_interface.cpp" />
 		<Unit filename="../OpenAVRc/targets/simu/simu_interface.h" />
 		<Unit filename="../OpenAVRc/targets/stock/board_stock.h" />

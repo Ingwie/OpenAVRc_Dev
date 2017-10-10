@@ -42,11 +42,11 @@ FORCEINLINE void boardInit()
   DDRB = 0b01100111;  PORTB = 0b10111111; // 7:N/A, 6:PPM_OUT, 5:PPMSIM_OUT, 4:N/A, SDCARD[3:MISO 2:MOSI 1:SCK 0:CS]
   DDRC = 0b11111100;  PORTC = 0b00000011; // 7-3:LCD, 2:BackLight, 1:ID2_SW, 0:ID1_SW
   DDRD = 0b00000000;  PORTD = 0b11111111; // 7:AilDR_SW, 6:N/A, 5:N/A, 4:PPM_IN, 3:N/A, 2:N/A, 1:I2C_SDA, 0:I2C_SCL
-  DDRE = 0b00000010;  PORTE = 0b01111100; // 7:Rot_2A, 6:Rot_2B, 5:RENC1_B, 4:RENC1_A, 3:Rot_2_Push, 2:N/A, 1:TELEM_TX, 0:TELEM_RX
+  DDRE = 0b00000010;  PORTE = 0b11111100; // 7:Rot_2A, 6:Rot_2B, 5:Rot_1B, 4:Rot_1A, 3:Rot_2_Push, 2:N/A, 1:TELEM_TX, 0:TELEM_RX
   DDRF = 0b00000000;  PORTF = 0b11111111; // 7-0:Trim switch inputs
-  DDRG = 0b00100000;  PORTG = 0b11111111; // 7:N/A, 6:N/A, 5:Rot_1_Push, 4:N/A, 3:N/A, 2:TCut_SW, 1:Gear_SW, 0: RudDr_SW
-  DDRH = 0b00011011;  PORTH = 0b11110110; // 7:N/A, 6:Sim_Control/RF_Power, 5:Haptic, 4:Hold_Power, 3:Speaker, 2:SPI_Xmitter_SCK, 1:SPI_Xmitter_MOSI, 0:SPI_Xmitter_MISO
-  DDRJ = 0b00000010;  PORTJ = 0b11111111; // 7:N/A, 6:CS_A7105, 5:CS_NRF24L01, 4:CS_CYRF6936, 3:CS_CC2500, 2:N/A, 1:JQ6500Data , 0:JQ6500Busy
+  DDRG = 0b00000000;  PORTG = 0b11111111; // 7:N/A, 6:N/A, 5:Rot_1_Push, 4:N/A, 3:N/A, 2:TCut_SW, 1:Gear_SW, 0: RudDr_SW
+  DDRH = 0b01111110;  PORTH = 0b10010000; // 7:N/A, 6:Sim_Control/RF_Power, 5:Haptic, 4:Hold_Power, 3:Speaker, 2:SPI_Xmitter_SCK, 1:SPI_Xmitter_MOSI, 0:SPI_Xmitter_MISO
+  DDRJ = 0b01111010;  PORTJ = 0b11111111; // 7:N/A, 6:CS_A7105, 5:CS_NRF24L01, 4:CS_CYRF6936, 3:CS_CC2500, 2:N/A, 1:JQ6500Data , 0:JQ6500Busy
   DDRK = 0b00000000;  PORTK = 0b00000000; // Analogic input (no pull-ups)
   DDRL = 0b00000000;  PORTL = 0b11111111; // 7:TRN_SW 6:EleDR_SW, 5:ESC, 4:MENU 3:Keyb_Left, 2:Keyb_Right, 1:Keyb_Up, 0:Keyb_Down
 
@@ -112,8 +112,6 @@ FORCEINLINE void boardInit()
   i2c_init();
 #endif
 
-#endif // !SIMU
-
 #if defined(SPIMODULES)
 // Setup (M)SPI Port.
 // USART2
@@ -121,19 +119,14 @@ FORCEINLINE void boardInit()
 // PORTH1 TXD2
 // PORTH2 XCK2
 
-// Setup pin states and USART in MSPI mode.
+// Setup USART in MSPI mode.
 // Initialisation of USART.
 
-  /*
   UBRR2 = 0; // Reset is part of initialisation sequence.
   UCSR2C = 0xC3; // UMSEL21:0 = 3 DORD2=0 CPHA2=1 CPOL2=1  USART in Master SPI mode, MSB first, Clock phase=1 Polarity=1.
-  UCSR2B = (1 << RXEN3) | (1 << TXEN3); // Transmit and Receive.
+  UCSR2B = (1 << RXEN2) | (1 << TXEN2); // Transmit and Receive.
   UBRR2 = 3; // 2.0MHz clock ... 16MHz/(2*(UBRR+1))
 
-  DDRJ |= (1<<PORTH1) | (1<<PORTH2);
-  DDRJ &= ~(1<<PORTH0);*/
-
-  SDCARD_CS_N_INACTIVE();
   RF_CS_CC2500_INACTIVE();
   RF_CS_CYRF6936_INACTIVE();
 
@@ -141,6 +134,8 @@ FORCEINLINE void boardInit()
   SpiRFModule.mode = NORMAL_MODE;
 
 #endif // SPIMODULES
+
+#endif // !SIMU
 
 }
 
@@ -161,13 +156,16 @@ uint8_t USART2_mspi_xfer(uint8_t data)
 
 uint8_t pwrCheck()
 {
-  if ((~PINH & 0b00100000) && (~PINH & 0b01000000))   return e_power_off;
+  //if ((~PINH & 0b00100000) && (~PINH & 0b01000000))   return e_power_off;
+#if defined(SIMU)
+  if (s_anaFilt[7] == 0) return e_power_off; // TODO
+#endif
   return e_power_on;
 }
 
 void pwrOff()
 {
-  PORTH &= ~0x10;   // PortH-4 set to 0
+  PORTH &= ~(1<<INP_H_Hold_Power);   // PortH-4 set to 0
 }
 
 uint8_t keyDown()
@@ -179,7 +177,7 @@ bool switchState(EnumKeys enuk)
 {
   uint8_t result = 0 ;
 
-  if (enuk < (int)DIM(keys))
+  if (enuk < (uint8_t)DIM(keys))
     return keys[enuk].state() ? 1 : 0;
 
   switch(enuk) {
@@ -257,7 +255,7 @@ static const pm_uchar crossTrim[] PROGMEM = {
 
 uint8_t trimDown(uint8_t idx)
 {
-  uint8_t in = ~PINF;                //was PIND
+  uint8_t in = ~PINF;
   return (in & pgm_read_byte_near(crossTrim+idx));
 }
 
@@ -282,8 +280,8 @@ void readKeysAndTrims()
 
   uint8_t enuk = KEY_MENU;
 
-  keys[BTN_REa].input(~PINJ & 0x01);
-  keys[BTN_REb].input(~PINJ & 0x02);
+  keys[BTN_REa].input(REA_DOWN());
+  keys[BTN_REb].input(REB_DOWN());
 
   uint8_t tin = ~PINL;
   uint8_t in;
