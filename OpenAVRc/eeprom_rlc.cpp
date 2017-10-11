@@ -91,15 +91,15 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
 void Ext_eeprom_read_block(uint8_t * pointer_ram, uint16_t pointer_eeprom, size_t size)
 {
   i2c_start(ADDRESS_EXTERN_EEPROM+I2C_WRITE);     // set device address and write mode
-  i2c_write((uint8_t)(pointer_eeprom >> 8)); //MSB write address
-  i2c_write((uint8_t)(pointer_eeprom & 0x00FF)); //LSB write address
-  i2c_start(ADDRESS_EXTERN_EEPROM+I2C_READ);     // set device address and write mode
+  i2c_write((uint8_t)(pointer_eeprom >> 8));      //MSB write address
+  i2c_write((uint8_t)(pointer_eeprom & 0x00FF));  //LSB write address
+  i2c_start(ADDRESS_EXTERN_EEPROM+I2C_READ);      // set device address and write mode
   do {
-    *pointer_ram++ = i2c_read_ack(); // read value from EEPROM
+    *pointer_ram++ = i2c_read_ack();              // read value from EEPROM
     size--;
   } while (size);
   i2c_read_nack();
-  i2c_stop(); // set stop conditon = release bus
+  i2c_stop();                                     // set stop conditon = release bus
 }
 
 void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t size) // Write I2C eeprom

@@ -137,8 +137,10 @@ void sdPoll10ms();
 // Rotary encoders driver
 #define INP_E_ROT_ENC_1_A         4
 #define INP_E_ROT_ENC_1_B         5
+#define ROT_ENC_1_MASK            ((1<<INP_E_ROT_ENC_1_A) | (1<<INP_E_ROT_ENC_1_B))
 #define INP_E_ROT_ENC_2_A         7
 #define INP_E_ROT_ENC_2_B         6
+#define ROT_ENC_2_MASK            ((1<<INP_E_ROT_ENC_2_A) | (1<<INP_E_ROT_ENC_2_B))
 #define INP_G_ROT_ENC_1_PUSH      5
 #define INP_E_ROT_ENC_2_PUSH      3
 #define REA_DOWN()                (~PING & (1<<INP_G_ROT_ENC_1_PUSH))
