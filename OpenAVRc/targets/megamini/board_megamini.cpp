@@ -100,7 +100,7 @@ FORCEINLINE void boardInit()
   /* Rotary encoder interrupt set-up                 */
   EIMSK = 0; // disable ALL external interrupts.
   // encoder 1&2
-  EICRB = (1<<ISC71) | (1<<ISC61) | (1<<ISC51) | (1<<ISC41); // 01 = interrupt on falling edge
+  EICRB = (1<<ISC71) | (1<<ISC61) | (1<<ISC51) | (1<<ISC41); // 10 = interrupt on falling edge
   EIFR = (1<<INTF7) | (1<<INTF6) | (1<<INTF5) | (1<<INTF4); // clear the int. flag in case it got set when changing modes
   EIMSK = (1<<INT7) | (1<<INT6) | (1<<INT5) | (1<<INT4); // enable the rot. enc. ext. int.
 
