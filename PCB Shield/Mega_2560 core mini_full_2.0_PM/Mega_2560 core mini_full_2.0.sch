@@ -37,19 +37,19 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 7
 Title "Shield Mega2560 core Full"
-Date "2017-08-22"
+Date "2017-10-12"
 Rev "2.00"
 Comp ""
 Comment1 "Reproduction et commercialisation interdite"
-Comment2 "By Antho.breizh"
+Comment2 "By Antho.breizh / pierrotm777"
 Comment3 ""
 Comment4 "Shield pour RC OpenAVRc"
 $EndDescr
 $Comp
-L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR2
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR01
 U 1 1 58A78C75
 P 6600 7400
-F 0 "#PWR2" H 6600 7150 50  0001 C CNN
+F 0 "#PWR01" H 6600 7150 50  0001 C CNN
 F 1 "GND" H 6600 7250 50  0000 C CNN
 F 2 "" H 6600 7400 50  0000 C CNN
 F 3 "" H 6600 7400 50  0000 C CNN
@@ -57,10 +57,10 @@ F 3 "" H 6600 7400 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L PWR_FLAG #FLG2
+L PWR_FLAG #FLG02
 U 1 1 58A78C76
 P 6600 7400
-F 0 "#FLG2" H 6600 7495 50  0001 C CNN
+F 0 "#FLG02" H 6600 7495 50  0001 C CNN
 F 1 "PWR_FLAG" H 6600 7580 50  0000 C CNN
 F 2 "" H 6600 7400 50  0000 C CNN
 F 3 "" H 6600 7400 50  0000 C CNN
@@ -68,10 +68,10 @@ F 3 "" H 6600 7400 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +BATT #PWR1
+L +BATT #PWR03
 U 1 1 58A78C78
 P 6600 6850
-F 0 "#PWR1" H 6600 6700 50  0001 C CNN
+F 0 "#PWR03" H 6600 6700 50  0001 C CNN
 F 1 "+BATT" H 6600 6990 50  0000 C CNN
 F 2 "" H 6600 6850 50  0000 C CNN
 F 3 "" H 6600 6850 50  0000 C CNN
@@ -79,10 +79,10 @@ F 3 "" H 6600 6850 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L PWR_FLAG #FLG1
+L PWR_FLAG #FLG04
 U 1 1 58A78C79
 P 6600 6850
-F 0 "#FLG1" H 6600 6945 50  0001 C CNN
+F 0 "#FLG04" H 6600 6945 50  0001 C CNN
 F 1 "PWR_FLAG" H 6600 7030 50  0000 C CNN
 F 2 "" H 6600 6850 50  0000 C CNN
 F 3 "" H 6600 6850 50  0000 C CNN
