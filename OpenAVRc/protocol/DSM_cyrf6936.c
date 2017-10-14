@@ -46,15 +46,16 @@
 
 #define NUM_WAIT_LOOPS (100 )// 5) //each loop is ~5us.  Do not wait more than 100us TODO : better wait function
 
-static const char * const dsm_opts[] = {
-    _tr_noop("Telemetry"),  _tr_noop("Off"), _tr_noop("On"), NULL,
-    _tr_noop("OrangeRx"),  _tr_noop("No"), _tr_noop("Yes"), NULL,
-#ifndef MODULAR
-    _tr_noop("HighSpeed"),  _tr_noop("Off"), _tr_noop("On"), NULL,
-    _tr_noop("F.Log filter"),  _tr_noop("Off"), _tr_noop("On"), NULL,
-#endif
-    NULL
+const static int8_t RfOpt_DSM_Ser[] PROGMEM = {
+/*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+/*rfSubTypeMax*/0,
+/*rfOptionValue1Min*/0,
+/*rfOptionValue1Max*/0,
+/*rfOptionValue2Min*/0,
+/*rfOptionValue2Max*/0,
+/*rfOptionValue3Max*/0,
 };
+
 
 enum {
     DSM_OPT_TELEMETRY = 0,
@@ -262,7 +263,7 @@ static void build_data_packet(uint8_t upper)
 
 static const uint8_t init_vals[][2] = {
     //{CYRF_1D_MODE_OVERRIDE, 0x01},  //moved to CYRF_Reset()
-    {CYRF_03_TX_CFG, 0x38 | TXPOWER_1},     //Data Code Length = 64 chip codes + Data Mode = SDR Mode + (todo,was)max-power(+4 dBm)
+    {CYRF_03_TX_CFG, 0x38 | TXPOWER_3},     //Data Code Length = 64 chip codes + Data Mode = SDR Mode + (todo,was)max-power(+4 dBm)
     {CYRF_06_RX_CFG, 0x4A},         //LNA + FAST TURN EN + RXOW EN, enable low noise amplifier, fast turning, overwrite enable
     {CYRF_12_DATA64_THOLD, 0x0a},   //TH64 = 0Ah, set pn correlation threshold (0Eh???)
     {CYRF_1B_TX_OFFSET_LSB, 0x55},  //STRIM LSB = 0x55, typical configuration
@@ -286,7 +287,7 @@ static void cyrf_startup_config()
 }
 
 static const uint8_t bind_vals[][2] = {
-    {CYRF_03_TX_CFG, 0x38 | TXPOWER_1},  //Data Code Length = 64 chip codes + Data Mode = SDR Mode + max-power(+4 dBm)
+    {CYRF_03_TX_CFG, 0x38 | TXPOWER_3},  //Data Code Length = 64 chip codes + Data Mode = SDR Mode + max-power(+4 dBm)
     {CYRF_10_FRAMING_CFG, 0x4a}, //SOP LEN + SOP TH = 0Ah (0Eh???)
     {CYRF_1E_RX_OVERRIDE, 0x14}, //FRC RXDR + DIS RXCRC (disable rx checksum)
     {CYRF_1F_TX_OVERRIDE, 0x04}, //DIS TXCRC (disable tx checksum)
@@ -313,7 +314,7 @@ static const uint8_t transfer_vals[][2] = {
     //{CYRF_29_RX_ABORT, 0x20},    //RX abort anable                   (RX mode abort in time Rx bind responce)
     //{CYRF_0F_XACT_CFG, 0x28},    //Force end state = Synth Mode (TX) (RX mode abort in time Rx bind responce)
     //{CYRF_29_RX_ABORT, 0x00},    //Clear RX abort                    (RX mode abort in time Rx bind responce)
-    {CYRF_03_TX_CFG, 0x28 | TXPOWER_1},  //Data Code Length = 64 chip codes + Data Mode = 8DR Mode + (todo,was)max-power(+4 dBm)
+    {CYRF_03_TX_CFG, 0x28 | TXPOWER_3},  //Data Code Length = 64 chip codes + Data Mode = 8DR Mode + (todo,was)max-power(+4 dBm)
     {CYRF_10_FRAMING_CFG, 0xea}, //SOP EN + SOP LEN = 64 chips + LEN EN + SOP TH = 0Ah (0Eh???)
     {CYRF_1E_RX_OVERRIDE, 0x00}, //Reset RX overrides
     {CYRF_1F_TX_OVERRIDE, 0x00}, //Reset TX overrides
@@ -677,19 +678,21 @@ static uint16_t dsm2_cb()
         }
         if (state == DSM2_CH2_CHECK_A) {
             //Keep transmit power in sync
-            CYRF_WriteRegister(CYRF_03_TX_CFG, 0x28 | TXPOWER_1); //Data Code Length = 64 chip codes + Data Mode = 8DR Mode + tx_power
+            CYRF_WriteRegister(CYRF_03_TX_CFG, 0x28 | TXPOWER_3); //Data Code Length = 64 chip codes + Data Mode = 8DR Mode + tx_power
         }
         if (1) /*(Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_OFF)*/ {
             set_sop_data_crc();
             if (state == DSM2_CH2_CHECK_A) {
                 if(num_channels < 8) {
                     state = DSM2_CH1_WRITE_A;
+                    SCHEDULE_MIXER_END(22*16);
                     return 22000U *2 - CH1_CH2_DELAY - WRITE_DELAY;
                 }
                 state = DSM2_CH1_WRITE_B;
             } else {
                 state = DSM2_CH1_WRITE_A;
             }
+            SCHEDULE_MIXER_END(11*16);
             return 11000U*2 - CH1_CH2_DELAY - WRITE_DELAY;
         } else {
             state++;
@@ -804,6 +807,17 @@ switch(cmd) {
         case PROTOCMD_BIND:
           DSM_initialize(1);
           return 0;
+  case PROTOCMD_GETOPTIONS:
+          SetRfOptionSettings(pgm_get_far_address(RfOpt_DSM_Ser),
+                        STR_DUMMY,      //Sub proto
+                        STR_DUMMY,      //Option 1 (int)
+                        STR_DUMMY,      //Option 2 (int)
+                        STR_DUMMY,      //Option 3 (uint 0 to 31)
+                        STR_DUMMY,      //OptionBool 1
+                        STR_DUMMY,      //OptionBool 2
+                        STR_DUMMY       //OptionBool 3
+                        );
+    return 0;
         //case PROTOCMD_NUMCHAN: return (void *)12L;
         //case PROTOCMD_DEFAULT_NUMCHAN: return (void *)7L;
         //case PROTOCMD_CURRENT_ID: return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;

@@ -227,6 +227,9 @@ static uint16_t FRSKYD_data_cb()
   static uint8_t len;
   uint8_t rx_packet[21]; // Down-link packet is 20 bytes.
 
+  // Schedule next Mixer calculations.
+  SCHEDULE_MIXER_END(8.5*16);
+
     if(! start_tx_rx) {
 
       if((packet_number & 0x03) == 0) {

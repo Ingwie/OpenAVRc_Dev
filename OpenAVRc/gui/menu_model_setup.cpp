@@ -85,15 +85,15 @@ void menuModelSetup(uint8_t event)
 {
 #define CURSOR_ON_CELL         (true)
 #define MODEL_SETUP_MAX_LINES  (IS_PPM_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+2 : \
-                               (IS_DSM_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_2+2 : \
-                               (IS_MULTIMODULE_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_5+2 :  \
-                               (IS_SPIMODULES_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_7+2 :   \
-                               1
+  (IS_DSM_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_2+2 : \
+  (IS_MULTIMODULE_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_5+2 :  \
+  (IS_SPIMODULES_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_7+2 :   \
+  1
 
   uint8_t protocol = g_model.rfProtocol;
   uint8_t memproto = protocol;
   MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 0, 1, 0, 0, 0, 0, 0, NUM_SWITCHES, NUM_STICKS+NUM_POTS+NUM_ROTARY_ENCODERS-1, FIELD_PROTOCOL_MAX,
-           2,2,0,2,0,0,0
+             2,2,0,2,0,0,0
            });
 
 
@@ -525,11 +525,17 @@ void menuModelSetup(uint8_t event)
           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+xOffsetBind, y, STR_MODULE_BIND, l_posHorz==1 ? attr : 0);
           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+MODEL_SETUP_RANGE_OFS+xOffsetBind, y, STR_MODULE_RANGE, l_posHorz==2 ? attr : 0);
 
-          if (attr && l_posHorz>0) {
-            if (l_posHorz == 1)  SpiRFModule.mode = BIND_MODE; // TODO Call bind
-            else if (l_posHorz == 2) {
-              SpiRFModule.mode = RANGE_MODE; // TODO Call PRT
+          if (attr && l_posHorz>0 && s_editMode>0) {
+            if (l_posHorz == 1) {
+              if (SpiRFModule.mode != BIND_MODE) startPulses(PROTOCMD_BIND);
+              SpiRFModule.mode = BIND_MODE;
+            } else if (l_posHorz == 2) {
+              if (SpiRFModule.mode != RANGE_MODE) startPulses(PROTOCMD_SET_TXPOWER);
+              SpiRFModule.mode = RANGE_MODE;
             }
+          } else {
+            if (SpiRFModule.mode != NORMAL_MODE) startPulses(PROTOCMD_INIT);
+            SpiRFModule.mode = NORMAL_MODE;
           }
         }
 #endif

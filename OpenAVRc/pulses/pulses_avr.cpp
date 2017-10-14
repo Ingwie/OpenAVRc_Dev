@@ -73,6 +73,10 @@ void startPulses(enum ProtoCmds Command)
 #if defined(SPIMODULES)
   RF_CS_CC2500_INACTIVE();
   RF_CS_CYRF6936_INACTIVE();
+  #if defined(PCBMEGAMINI)
+    RF_CS_NRF24L01_INACTIVE();
+    RF_CS_A7105_INACTIVE();
+  #endif
 #endif
 
   if (pulsesStarted()) {

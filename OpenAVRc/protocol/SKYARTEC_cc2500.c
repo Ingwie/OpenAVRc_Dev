@@ -197,7 +197,8 @@ static uint16_t SKYARTEC_bind_cb()
 
 static uint16_t SKYARTEC_cb()
 {
-  // SCHEDULE_MIXER_END((uint16_t) (6 *2) *8); // Todo
+  // Schedule next Mixer calculations.
+  SCHEDULE_MIXER_END(12*16);
   send_data_packet();
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.

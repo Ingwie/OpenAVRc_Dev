@@ -269,16 +269,6 @@ MIXERS_MONITOR = NO
 # Values = NO, YES
 NANO = NO
 
-# Enable trace of events into Trace Buffer for debugging purposes
-# Activating any of these options also activates DEBUG and DEBUG_TRACE_BUFFER
-# Values = NO, YES
-#   TRACE_SD_CARD     SD card operations (read, write, etc)
-#   TRACE_FATFS       FatFs file operations
-#   TRACE_AUDIO       Audio processing (not yet implemented)
-TRACE_SD_CARD = NO
-TRACE_FATFS = NO
-TRACE_AUDIO = NO
-
 # Enable Watchdog test (DANGEROUS)
 # Values = NO, YES
 WATCHDOG_TEST = NO
@@ -310,7 +300,6 @@ FATFSDIR = $(THIRDPARTY)/FatFs
 SRC =
 CPPSRC =
 INCDIRS = . translations
-DEBUG_TRACE_BUFFER = NO
 
 # PCB name
 ifneq ($(PCB), $(filter $(PCB), MEGA2560 EVO_V1 MEGAMINI))

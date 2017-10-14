@@ -87,10 +87,6 @@ FORCEINLINE void boardInit()
 
 
 #if defined(VOICE_JQ6500)
-  // JQ6500 set-up, with TIMER5
-  /*JQ6500_Serial_on;      // Idle state (1)
-  OCR5A = 0x19; // 0x1A=104µs needed for the 9600Bps serial command
-  TCCR5B = (1 << WGM52) | (0b011 << CS50); // CTC OCR5A*/
 
   #define TLM_JQ6500 3 // use uart3 on mega board (TX = PJ1)
   InitJQ6500UartTx();
@@ -122,10 +118,12 @@ FORCEINLINE void boardInit()
   UBRR2 = 0; // Reset is part of initialisation sequence.
   UCSR2C = 0xC3; // UMSEL21:0 = 3 DORD2=0 CPHA2=1 CPOL2=1  USART in Master SPI mode, MSB first, Clock phase=1 Polarity=1.
   UCSR2B = (1 << RXEN2) | (1 << TXEN2); // Transmit and Receive.
-  UBRR2 = 3; // 2.0MHz clock ... 16MHz/(2*(UBRR+1))
+  UBRR2 = 1; // 4.0MHz clock ... 16MHz/(2*(UBRR+1))
 
   RF_CS_CC2500_INACTIVE();
   RF_CS_CYRF6936_INACTIVE();
+  RF_CS_NRF24L01_INACTIVE();
+  RF_CS_A7105_INACTIVE();
 
   SpiRFModule.fixed_id = 0x1a2b3c4d;
   SpiRFModule.mode = NORMAL_MODE;

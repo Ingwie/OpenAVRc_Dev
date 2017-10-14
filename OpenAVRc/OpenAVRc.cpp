@@ -959,13 +959,6 @@ uint16_t s_anaFilt[NUMBER_ANALOG];
 // filtering options to produce 11-bit results.
 uint16_t BandGap = 2040 ;
 
-#if defined(JITTER_MEASURE)
-  JitterMeter<uint16_t> rawJitter[NUMBER_ANALOG];
-  JitterMeter<uint16_t> avgJitter[NUMBER_ANALOG];
-  tmr10ms_t jitterResetTime = 0;
-  #define JITTER_MEASURE_ACTIVE()   (menuHandlers[menuLevel] == menuGeneralDiagAna)
-#endif  // defined(JITTER_MEASURE)
-
 uint16_t anaIn(uint8_t chan)
 {
 #if defined REV_EVO_V1
@@ -1009,12 +1002,6 @@ void flightReset()
 #if TIMERS > 1
   if (!IS_MANUAL_RESET_TIMER(1)) {
     timerReset(1);
-  }
-#endif
-
-#if TIMERS > 2
-  if (!IS_MANUAL_RESET_TIMER(2)) {
-    timerReset(2);
   }
 #endif
 
@@ -1227,10 +1214,6 @@ void OpenAVRcStart()
 
 #if defined(SDCARD) && !defined(SIMU)
   sdMountPoll();
-#endif
-
-#if defined(DEBUG_TRACE_BUFFER)
-  trace_event(trace_start, 0x12345678);
 #endif
 
 #if defined(GUI)

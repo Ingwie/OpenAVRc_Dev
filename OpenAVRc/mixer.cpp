@@ -730,10 +730,6 @@ uint8_t lastFlightMode = 255; // TODO reinit everything here when the model chan
 
 void evalMixes(uint8_t tick10ms)
 {
-#if defined(DEBUG) && !defined(VOICE)
-  PORTH |= 0x40; // PORTH:6 LOW->HIGH signals start of mixer interrupt
-#endif
-
   static uint16_t fp_act[MAX_FLIGHT_MODES] = {0};
   static uint16_t delta = 0;
   static ACTIVE_PHASES_TYPE flightModesFade = 0;
@@ -785,7 +781,6 @@ void evalMixes(uint8_t tick10ms)
   // must be done after mixing because some functions use the inputs/channels values
   // must be done before limits because of the applyLimit function: it checks for safety switches which would be not initialized otherwise
   if (tick10ms) {
-    //requiredSpeakerVolume = g_eeGeneral.speakerVolume + VOLUME_LEVEL_DEF;  //FA: was not in 2.18 original file ?
     evalFunctions();
   }
 
@@ -830,8 +825,4 @@ void evalMixes(uint8_t tick10ms)
       }
     }
   }
-
-#if defined(DEBUG) && !defined(VOICE)
-  PORTH &= ~0x40; // PORTH:6 HIGH->LOW signals end of mixer interrupt
-#endif
 }

@@ -71,6 +71,9 @@ void perMain()
     MCUCR&=0x00;  // disable sleep
     ADCSRA|=0x80;  // enable ADC
 #endif
+#if defined(SDCARD) && !defined(SIMU)
+  if (isFunctionActive(FUNCTION_LOGS) && delta > (3*16)) writeLogs(); // Minimise writelogs perturbation
+#endif
     return;
   }
 
@@ -102,8 +105,8 @@ void perMain()
   }
 
 #if defined(SDCARD) && !defined(SIMU) // bracame toto emulate sd for simu
-  //sdMountPoll();
-  writeLogs();
+  sdMountPoll();
+  //writeLogs();
 #endif
 
   uint8_t evt = getEvent();
