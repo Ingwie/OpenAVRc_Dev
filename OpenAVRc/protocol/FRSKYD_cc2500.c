@@ -105,7 +105,7 @@ static void FRSKYD_init(uint8_t bind)
 //  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
   CC2500_Strobe(CC2500_SFTX); // 3b
   CC2500_Strobe(CC2500_SFRX); // 3a
-  CC2500_SetPower(bind ? TXPOWER_4 : TXPOWER_4);
+  CC2500_SetPower(bind ? TXPOWER_1 : TXPOWER_1);
 
   CC2500_WriteReg(CC2500_0A_CHANNR, 0x00);
   CC2500_Strobe(CC2500_SIDLE); // Go to idle...
@@ -240,7 +240,7 @@ static uint16_t FRSKYD_data_cb()
       }
 
       if(packet_number & 0x1F) {
-        CC2500_SetPower(TXPOWER_4); // TODO update power level.
+        CC2500_SetPower(TXPOWER_1); // TODO update power level.
         CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
       }
 

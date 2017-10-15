@@ -189,6 +189,7 @@ static void send_bind_packet()
 
 static uint16_t SKYARTEC_bind_cb()
 {
+  SCHEDULE_MIXER_END(18*16); // Schedule next Mixer calculations.
   send_bind_packet();
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
@@ -197,8 +198,7 @@ static uint16_t SKYARTEC_bind_cb()
 
 static uint16_t SKYARTEC_cb()
 {
-  // Schedule next Mixer calculations.
-  SCHEDULE_MIXER_END(12*16);
+  SCHEDULE_MIXER_END(12*16); // Schedule next Mixer calculations.
   send_data_packet();
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.

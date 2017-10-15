@@ -42,8 +42,6 @@
 
 #define BIND_CHANNEL 0x0d //This can be any odd channel
 
-#define MODEL 0
-
 #define NUM_WAIT_LOOPS (100 )// 5) //each loop is ~5us.  Do not wait more than 100us TODO : better wait function
 
 const static int8_t RfOpt_DSM_Ser[] PROGMEM = {
@@ -179,7 +177,6 @@ uint8_t crcidx;
 uint8_t binding;
 uint8_t num_channels;
 uint16_t checksum;
-uint8_t model;
 static uint32_t DSM_fixed_id;
 
 static void build_bind_packet()
@@ -188,7 +185,7 @@ static void build_bind_packet()
     packet[0] = checksum >> 8;
     packet[1] = checksum & 0xff;
     packet[2] = 0xff ^ cyrfmfg_id[2];
-    packet[3] = (0xff ^ cyrfmfg_id[3]) + model;
+    packet[3] = (0xff ^ cyrfmfg_id[3]) + g_model.modelId;
     packet[4] = packet[0];
     packet[5] = packet[1];
     packet[6] = packet[2];
@@ -199,7 +196,7 @@ static void build_bind_packet()
     packet[9] = sum & 0xff;
     packet[10] = 0x01; //???
     packet[11] = num_channels;
-    if(Protos[g_model.modelId].Protocol == PROTOCOL_DSMX) {
+    if(Protos[g_model.rfProtocol].Protocol == PROTOCOL_DSMX) {
         packet[12] = num_channels < 8 /*&& Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_OFF*/ ? 0xa2 : 0xb2;
     } else {
         packet[12] = num_channels < 8 ? 0x01 : 0x02;
@@ -220,14 +217,14 @@ static void build_data_packet(uint8_t upper)
       //  PROTOCOL_SetBindState(0);  //Turn off Bind dialog
         //binding = 0;
     //}
-    if (Protos[g_model.modelId].Protocol == PROTOCOL_DSMX) {
+    if (Protos[g_model.rfProtocol].Protocol == PROTOCOL_DSMX) {
         packet[0] = cyrfmfg_id[2];
-        packet[1] = cyrfmfg_id[3] + model;
+        packet[1] = cyrfmfg_id[3] + g_model.modelId;
     } else {
         packet[0] = (0xff ^ cyrfmfg_id[2]);
-        packet[1] = (0xff ^ cyrfmfg_id[3]) + model;
+        packet[1] = (0xff ^ cyrfmfg_id[3]) + g_model.modelId;
     }
-    uint8_t bits = Protos[g_model.modelId].Protocol == PROTOCOL_DSMX ? 11 : 10;
+    uint8_t bits = Protos[g_model.rfProtocol].Protocol == PROTOCOL_DSMX ? 11 : 10;
     if(num_channels < 8) {
         chmap = ch_map7;
 /*#ifndef MODULAR
@@ -263,7 +260,7 @@ static void build_data_packet(uint8_t upper)
 
 static const uint8_t init_vals[][2] = {
     //{CYRF_1D_MODE_OVERRIDE, 0x01},  //moved to CYRF_Reset()
-    {CYRF_03_TX_CFG, 0x38 | TXPOWER_3},     //Data Code Length = 64 chip codes + Data Mode = SDR Mode + (todo,was)max-power(+4 dBm)
+    {CYRF_03_TX_CFG, 0x38 | TXPOWER_1},     //Data Code Length = 64 chip codes + Data Mode = SDR Mode + (todo,was)max-power(+4 dBm)
     {CYRF_06_RX_CFG, 0x4A},         //LNA + FAST TURN EN + RXOW EN, enable low noise amplifier, fast turning, overwrite enable
     {CYRF_12_DATA64_THOLD, 0x0a},   //TH64 = 0Ah, set pn correlation threshold (0Eh???)
     {CYRF_1B_TX_OFFSET_LSB, 0x55},  //STRIM LSB = 0x55, typical configuration
@@ -287,7 +284,7 @@ static void cyrf_startup_config()
 }
 
 static const uint8_t bind_vals[][2] = {
-    {CYRF_03_TX_CFG, 0x38 | TXPOWER_3},  //Data Code Length = 64 chip codes + Data Mode = SDR Mode + max-power(+4 dBm)
+    {CYRF_03_TX_CFG, 0x38 | TXPOWER_1},  //Data Code Length = 64 chip codes + Data Mode = SDR Mode + max-power(+4 dBm)
     {CYRF_10_FRAMING_CFG, 0x4a}, //SOP LEN + SOP TH = 0Ah (0Eh???)
     {CYRF_1E_RX_OVERRIDE, 0x14}, //FRC RXDR + DIS RXCRC (disable rx checksum)
     {CYRF_1F_TX_OVERRIDE, 0x04}, //DIS TXCRC (disable tx checksum)
@@ -314,7 +311,7 @@ static const uint8_t transfer_vals[][2] = {
     //{CYRF_29_RX_ABORT, 0x20},    //RX abort anable                   (RX mode abort in time Rx bind responce)
     //{CYRF_0F_XACT_CFG, 0x28},    //Force end state = Synth Mode (TX) (RX mode abort in time Rx bind responce)
     //{CYRF_29_RX_ABORT, 0x00},    //Clear RX abort                    (RX mode abort in time Rx bind responce)
-    {CYRF_03_TX_CFG, 0x28 | TXPOWER_3},  //Data Code Length = 64 chip codes + Data Mode = 8DR Mode + (todo,was)max-power(+4 dBm)
+    {CYRF_03_TX_CFG, 0x28 | TXPOWER_1},  //Data Code Length = 64 chip codes + Data Mode = 8DR Mode + (todo,was)max-power(+4 dBm)
     {CYRF_10_FRAMING_CFG, 0xea}, //SOP EN + SOP LEN = 64 chips + LEN EN + SOP TH = 0Ah (0Eh???)
     {CYRF_1E_RX_OVERRIDE, 0x00}, //Reset RX overrides
     {CYRF_1F_TX_OVERRIDE, 0x00}, //Reset TX overrides
@@ -328,7 +325,7 @@ static void cyrf_transfer_config()
 
 static uint8_t get_pn_row(uint8_t channel)
 {
-    return Protos[g_model.modelId].Protocol == PROTOCOL_DSMX ? (channel - 2) % 5 : channel % 5;
+    return Protos[g_model.rfProtocol].Protocol == PROTOCOL_DSMX ? (channel - 2) % 5 : channel % 5;
 }
 
 static void set_sop_data_crc()
@@ -346,7 +343,7 @@ static void set_sop_data_crc()
         CYRF_ConfigDataCode(pncodes[pn_row][data_col + 1], 8); //last eight bytes
     //}
     /* setup for next iteration */
-    if(Protos[g_model.modelId].Protocol == PROTOCOL_DSMX)
+    if(Protos[g_model.rfProtocol].Protocol == PROTOCOL_DSMX)
         chidx = (chidx + 1) % 23;
     else
         chidx = (chidx + 1) % 2;
@@ -678,7 +675,7 @@ static uint16_t dsm2_cb()
         }
         if (state == DSM2_CH2_CHECK_A) {
             //Keep transmit power in sync
-            CYRF_WriteRegister(CYRF_03_TX_CFG, 0x28 | TXPOWER_3); //Data Code Length = 64 chip codes + Data Mode = 8DR Mode + tx_power
+            CYRF_WriteRegister(CYRF_03_TX_CFG, 0x28 | TXPOWER_1); //Data Code Length = 64 chip codes + Data Mode = 8DR Mode + tx_power
         }
         if (1) /*(Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_OFF)*/ {
             set_sop_data_crc();
@@ -749,7 +746,7 @@ static void DSM_initialize(uint8_t bind)
         cyrfmfg_id[2] ^= (DSM_fixed_id >> 16) & 0xff;
         cyrfmfg_id[3] ^= (DSM_fixed_id >> 24) & 0xff;
 
-    if (Protos[g_model.modelId].Protocol == PROTOCOL_DSMX) {
+    if (Protos[g_model.rfProtocol].Protocol == PROTOCOL_DSMX) {
         calc_dsmx_channel();
     } else {
         if (0) /*(RANDOM_CHANNELS)*/ {
@@ -775,7 +772,6 @@ static void DSM_initialize(uint8_t bind)
     crcidx = 0;
     sop_col = (cyrfmfg_id[0] + cyrfmfg_id[1] + cyrfmfg_id[2] + 2) & 0x07;
     data_col = 7 - sop_col;
-    model = MODEL;
     num_channels = 12;
 
     if (bind) {

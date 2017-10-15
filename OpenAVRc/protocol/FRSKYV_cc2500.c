@@ -104,7 +104,7 @@ static void FRSKYV_init(uint8_t bind)
 //  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
   CC2500_Strobe(CC2500_SFTX); // 3b
   CC2500_Strobe(CC2500_SFRX); // 3a
-  CC2500_SetPower(bind ? TXPOWER_4 : TXPOWER_4);
+  CC2500_SetPower(bind ? TXPOWER_1 : TXPOWER_1);
   CC2500_Strobe(CC2500_SIDLE); // Go to idle...
 
 }
@@ -252,7 +252,7 @@ static uint16_t FRSKYV_data_cb()
   /* TODO Update options which don't need to be every 9ms. */
   static uint8_t option = 0;
   if(option == 0) CC2500_SetTxRxMode(TX_EN); // Keep Power Amp activated.
-  else if(option == 64) CC2500_SetPower(TXPOWER_4); // TODO update power level.
+  else if(option == 64) CC2500_SetPower(TXPOWER_1); // TODO update power level.
   else if(option == 128) CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
   else if(option == 196) CC2500_Strobe(CC2500_SIDLE); // MCSM1 register setting puts CC2500 back into idle after TX.
 
