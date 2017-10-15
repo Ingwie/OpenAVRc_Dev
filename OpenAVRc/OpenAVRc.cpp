@@ -59,7 +59,7 @@ uint8_t stickMode;
 #endif
 
 struct Module SpiRFModule;
-//uint8_t packet[40]; //protocol global packet
+
 uint8_t * packet = pulses2MHz.pbyte; //protocol global packet
 
 void sendOptionsSettingsPpm()

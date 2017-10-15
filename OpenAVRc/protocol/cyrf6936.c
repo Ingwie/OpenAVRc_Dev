@@ -163,7 +163,7 @@ void CYRF_ConfigCRCSeed(uint16_t crc)
 }
 
 
-void CYRF_ConfigSOPCode(const uint8_t *sopcodes)
+void CYRF_ConfigSOPCode(uint8_t *sopcodes)
 {
   // NOTE: This can also be implemented as:
   // for(uint32_t i = 0; i < 8; i++) WriteRegister(CYRF_22_SOP_CODE, sopcodes[i]);
@@ -171,7 +171,7 @@ void CYRF_ConfigSOPCode(const uint8_t *sopcodes)
 }
 
 
-void CYRF_ConfigDataCode(const uint8_t *datacodes, uint8_t len)
+void CYRF_ConfigDataCode(uint8_t *datacodes, uint8_t len)
 {
   // NOTE: This can also be implemented as:
   // for(uint32_t i = 0; i < len; i++) WriteRegister(CYRF_23_DATA_CODE, datacodes[i]);
