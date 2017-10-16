@@ -94,8 +94,6 @@ enum {
   DSM2_CH2_READ_B  = DSM_BIND_COUNT + 10,
 };
 
-#define OFSETINPACKETFORPNCODE 20
-
 static const uint8_t zzpncodes[5][9][8] PROGMEM = {
   /* Note these are in order transmitted (LSB 1st) */
   { /* Row 0 */
@@ -162,15 +160,15 @@ static const uint8_t zzpncodes[5][9][8] PROGMEM = {
 
 
 //up to 7 channels
-static const uint8_t ch_map7[] =  {1, 5, 2, 3, 0,  4,    6}; //DX6i
+static const uint8_t ch_map7[] =  {1, 5, 2, 3, 0, 4, 6}; //DX6i
 //from 8 channels up to 12 channels
-static const uint8_t ch_map12[] = {1, 5, 2, 4, 6, 10, 0xff,    0, 7, 3, 8, 9, 11, 0xff}; //12ch - DX18
+static const uint8_t ch_map12[] = {1, 5, 2, 4, 6, 10, 0xff, 0, 7, 3, 8, 9, 11, 0xff}; //12ch - DX18
 #ifndef MODULAR
 // "High Speed" 11ms for 8...10 channels
-static const uint8_t ch_map14[] = {1, 5, 2, 3, 4,  6,    8,    1, 5, 2, 3, 0,  7,    9};
+static const uint8_t ch_map14[] = {1, 5, 2, 3, 4, 6, 8, 1, 5, 2, 3, 0, 7, 9};
 #endif
 
-uint8_t channels[23];
+//uint8_t channels[23]; Use packet[30 - 53] to save memory
 uint8_t chidx;
 uint8_t sop_col;
 uint8_t data_col;
@@ -181,14 +179,19 @@ uint8_t num_channels;
 uint16_t checksum;
 static uint32_t DSM_fixed_id;
 
+#define OFFSETINPACKETFORPNCODE 20
+
+#define OFFSETINPACKETFORCHANNEL 30
+#define CHANNELS packet
+
 static void CYRF_Send_pncodes_ConfigDataCode(uint8_t row, uint8_t col)
 {
   uint_farptr_t pncodes = pgm_get_far_address(zzpncodes);
   pncodes += (72*row + 8*col); // Find good adress
   for (uint8_t i=0; i<8 ; i++) {
-    packet[OFSETINPACKETFORPNCODE+i] = pgm_read_byte_far(pncodes+i); // Load into packet to save ram
+    packet[OFFSETINPACKETFORPNCODE+i] = pgm_read_byte_far(pncodes+i); // Load into packet to save ram
   }
-  CYRF_ConfigDataCode(&packet[OFSETINPACKETFORPNCODE], 8);
+  CYRF_ConfigDataCode(&packet[OFFSETINPACKETFORPNCODE], 8);
 }
 
 static void CYRF_Send_pncodes_ConfigSOPCode(uint8_t row, uint8_t col)
@@ -196,9 +199,9 @@ static void CYRF_Send_pncodes_ConfigSOPCode(uint8_t row, uint8_t col)
   uint_farptr_t pncodes = pgm_get_far_address(zzpncodes);
   pncodes += (72*row + 8*col); // Find good adress
   for (uint8_t i=0; i<8 ; i++) {
-    packet[OFSETINPACKETFORPNCODE+i] = pgm_read_byte_far(pncodes+i); // Load into packet to save ram
+    packet[OFFSETINPACKETFORPNCODE+i] = pgm_read_byte_far(pncodes+i); // Load into packet to save ram
   }
-    CYRF_ConfigSOPCode(&packet[OFSETINPACKETFORPNCODE]);
+    CYRF_ConfigSOPCode(&packet[OFFSETINPACKETFORPNCODE]);
 }
 
 
@@ -353,9 +356,9 @@ static uint8_t get_pn_row(uint8_t channel)
 
 static void set_sop_data_crc()
 {
-  uint8_t pn_row = get_pn_row(channels[chidx]);
+  uint8_t pn_row = get_pn_row(CHANNELS[OFFSETINPACKETFORCHANNEL+chidx]);
   //printf("Ch: %d Row: %d SOP: %d Data: %d\n", ch[chidx], pn_row, sop_col, data_col);
-  CYRF_WriteRegister(CYRF_00_CHANNEL, channels[chidx]);
+  CYRF_WriteRegister(CYRF_00_CHANNEL, CHANNELS[OFFSETINPACKETFORCHANNEL+chidx]);
   CYRF_ConfigCRCSeed(crcidx ? ~checksum : checksum);
   CYRF_Send_pncodes_ConfigSOPCode(pn_row,sop_col);
   //In 64-8DR mode, all sixteen bytes are used
@@ -386,11 +389,11 @@ static void calc_dsmx_channel()
     if (((next_ch ^ id) & 0x01) == 0)
       continue;
     for (i = 0; i < idx; i++) {
-      if(channels[i] == next_ch)
+      if(CHANNELS[OFFSETINPACKETFORCHANNEL+i] == next_ch)
         break;
-      if(channels[i] <= 27)
+      if(CHANNELS[OFFSETINPACKETFORCHANNEL+i] <= 27)
         count_3_27++;
-      else if (channels[i] <= 51)
+      else if (CHANNELS[OFFSETINPACKETFORCHANNEL+i] <= 51)
         count_28_51++;
       else
         count_52_76++;
@@ -400,7 +403,7 @@ static void calc_dsmx_channel()
     if ((next_ch < 28 && count_3_27 < 8)
         ||(next_ch >= 28 && next_ch < 52 && count_28_51 < 7)
         ||(next_ch >= 52 && count_52_76 < 8)) {
-      channels[idx++] = next_ch;
+      CHANNELS[OFFSETINPACKETFORCHANNEL+idx++] = next_ch;
     }
   }
 }
@@ -774,20 +777,20 @@ static void DSM_initialize(uint8_t bind)
       /*uint8_t tmpch[10];
       CYRF_FindBestChannels(tmpch, 10, 5, 3, 75);
       uint8_t idx = rand32() % 10;
-      channels[0] = tmpch[idx];
+      CHANNELS[OFFSETINPACKETFORCHANNEL+0] = tmpch[idx];
       while(1) {
          idx = rand32() % 10;
-         if (tmpch[idx] != channels[0])
+         if (tmpch[idx] != CHANNELS[OFFSETINPACKETFORCHANNEL+0])
              break;
       }
-      channels[1] = tmpch[idx];*/
+      CHANNELS[OFFSETINPACKETFORCHANNEL+1] = tmpch[idx];*/
     } else {
-      channels[0] = (cyrfmfg_id[0] + cyrfmfg_id[2] + cyrfmfg_id[4]
+      CHANNELS[OFFSETINPACKETFORCHANNEL+0] = (cyrfmfg_id[0] + cyrfmfg_id[2] + cyrfmfg_id[4]
                      + ((DSM_fixed_id >> 0) & 0xff) + ((DSM_fixed_id >> 16) & 0xff)) % 39 + 1;
-      channels[1] = (cyrfmfg_id[1] + cyrfmfg_id[3] + cyrfmfg_id[5]
+      CHANNELS[OFFSETINPACKETFORCHANNEL+1] = (cyrfmfg_id[1] + cyrfmfg_id[3] + cyrfmfg_id[5]
                      + ((DSM_fixed_id >> 8) & 0xff) + ((DSM_fixed_id >> 8) & 0xff)) % 40 + 40;
     }
-    //printf("DSM2 Channels: %02x %02x\n", channels[0], channels[1]);
+    //printf("DSM2 Channels: %02x %02x\n", CHANNELS[OFFSETINPACKETFORCHANNEL+0], CHANNELS[OFFSETINPACKETFORCHANNEL+1]);
   }
   checksum = ~((cyrfmfg_id[0] << 8) + cyrfmfg_id[1]);
   crcidx = 0;
