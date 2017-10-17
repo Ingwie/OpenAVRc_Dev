@@ -40,8 +40,8 @@ static uint32_t Skyartec_fixed_id;
 const static int8_t RfOpt_Skyartec_Ser[] PROGMEM = {
 /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
 /*rfSubTypeMax*/0,
-/*rfOptionValue1Min*/0,
-/*rfOptionValue1Max*/0,
+/*rfOptionValue1Min*/-128,
+/*rfOptionValue1Max*/127,
 /*rfOptionValue2Min*/0,
 /*rfOptionValue2Max*/0,
 /*rfOptionValue3Max*/0,
@@ -57,7 +57,7 @@ const static uint8_t ZZ_skyartecInitSequence[] PROGMEM = {
   CC2500_2A_PTEST, 0x7f,
   CC2500_2B_AGCTEST, 0x3f,
   CC2500_0B_FSCTRL1, 0x09,
-  CC2500_0C_FSCTRL0, (int8_t) 0, // TODO Model.proto_opts[PROTO_OPTS_FREQFINE]);
+  CC2500_0C_FSCTRL0, 0x00,
   CC2500_0D_FREQ2, 0x5d,
   CC2500_0E_FREQ1, 0x93,
   CC2500_0F_FREQ0, 0xb1,
@@ -152,6 +152,7 @@ static void send_data_packet()
   }
   add_pkt_suffix();
 
+  CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
   CC2500_WriteReg(CC2500_04_SYNC1, ((Skyartec_fixed_id >> 0) & 0xff));
   CC2500_WriteReg(CC2500_05_SYNC0, ((Skyartec_fixed_id >> 8) & 0xff));
   CC2500_WriteReg(CC2500_09_ADDR, TX_ADDR);
@@ -178,6 +179,7 @@ static void send_bind_packet()
   uint8_t bxor = 0;
   for(uint8_t i = 3; i < 11; i++)  bxor ^= packet[i];
   packet[11] = bxor;
+  CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
   CC2500_WriteReg(CC2500_04_SYNC1, 0x7d);
   CC2500_WriteReg(CC2500_05_SYNC0, 0x7d);
   CC2500_WriteReg(CC2500_09_ADDR, 0x7d);
@@ -239,7 +241,7 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
   case PROTOCMD_GETOPTIONS:
           SetRfOptionSettings(pgm_get_far_address(RfOpt_Skyartec_Ser),
                         STR_DUMMY,      //Sub proto
-                        STR_DUMMY,      //Option 1 (int)
+                        STR_RFTUNE,      //Option 1 (int)
                         STR_DUMMY,      //Option 2 (int)
                         STR_DUMMY,      //Option 3 (uint 0 to 31)
                         STR_DUMMY,      //OptionBool 1

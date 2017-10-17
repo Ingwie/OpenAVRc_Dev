@@ -788,7 +788,7 @@ void evalMixes(uint8_t tick10ms)
   for (uint8_t i=0; i<NUM_CHNOUT; i++) {
     // chans[i] holds data from mixer.   chans[i] = v*weight => 1024*256
     // later we multiply by the limit (up to 100) and then we need to normalize
-    // at the end chans[i] = chans[i]/256 =>  -1024..1024
+    // at the end chans[i] = chans[i]/256 =>  -1024..1024 (100%) -1281..1280 (125%)
     // interpolate value with min/max so we get smooth motion from center to stop
     // this limits based on v original values and min=-1024, max=1024  RESX=1024
     int32_t q = (flightModesFade ? (sum_chans512[i] / weight) << 4 : chans[i]);

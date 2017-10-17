@@ -34,8 +34,6 @@
 #include "../OpenAVRc.h"
 #include "frsky.h"
 
-#define FREQFINE g_model.rfOptionValue1
-
 const static int8_t RfOpt_FrskyV_Ser[] PROGMEM = {
 /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
 /*rfSubTypeMax*/0,
@@ -242,8 +240,7 @@ static void FRSKYV_build_data_packet()
 
 static uint16_t FRSKYV_data_cb()
 {
-  // Schedule next Mixer calculations.
-  SCHEDULE_MIXER_END(9*16);
+  SCHEDULE_MIXER_END(9*16); // Schedule next Mixer calculations.
 
   // Build next packet.
   seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323.
@@ -270,6 +267,7 @@ static uint16_t FRSKYV_data_cb()
 
 static uint16_t FRSKYV_bind_cb()
 {
+  SCHEDULE_MIXER_END(18*16); // Schedule next Mixer calculations.
   FRSKYV_build_bind_packet();
   CC2500_Strobe(CC2500_SIDLE);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0);

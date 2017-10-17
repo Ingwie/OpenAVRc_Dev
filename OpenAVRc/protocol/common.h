@@ -54,6 +54,9 @@
 
 #define PROTO_TELEM_UNSUPPORTED -1
 
+#define FREQFINE g_model.rfOptionValue1 // CC2500 freq. tune
+
+
 //extern struct Model Model;
 
 //extern volatile uint8_t g_initializing;

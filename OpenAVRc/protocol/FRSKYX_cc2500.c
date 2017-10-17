@@ -36,13 +36,23 @@
 extern uint8_t frskyRxBuffer[];
 
 
-static const char * const frskyx_opts[] = {
+/*static const char * const frskyx_opts[] = {
   _tr_noop("Failsafe"), "Hold", "NoPulse", "RX", NULL,
   _tr_noop("AD2GAIN"),  "0", "2000", "655361", NULL,       // big step 10, little step 1
   _tr_noop("Freq-Fine"),  "-127", "127", NULL,
   _tr_noop("Format"),  "FCC", "EU", NULL,
   _tr_noop("RSSIChan"),  "None", "LastChan", NULL,
   NULL
+};*/
+
+const static int8_t RfOpt_FrskyX_Ser[] PROGMEM = {
+/*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+/*rfSubTypeMax*/0,
+/*rfOptionValue1Min*/-128,
+/*rfOptionValue1Max*/127,
+/*rfOptionValue2Min*/0,
+/*rfOptionValue2Max*/0,
+/*rfOptionValue3Max*/0,
 };
 
 bool frskyX_format_EU = 1; //0 US , 1 EU
@@ -69,7 +79,6 @@ static uint8_t calData[48][3];
 static uint8_t channr;
 static uint8_t counter_rst;
 static uint8_t ctr;
-static int8_t fine;
 static uint8_t seq_last_sent;
 static uint8_t seq_last_rcvd;
 static uint8_t packet_size;
@@ -98,55 +107,96 @@ static const uint8_t hop_data[] = {
   0x34, 0x1B, 0x00, 0x1D, 0x03
 };
 
-
-static const uint16_t CRCTable[] = {
-  0x0000,0x1189,0x2312,0x329b,0x4624,0x57ad,0x6536,0x74bf,
-  0x8c48,0x9dc1,0xaf5a,0xbed3,0xca6c,0xdbe5,0xe97e,0xf8f7,
-  0x1081,0x0108,0x3393,0x221a,0x56a5,0x472c,0x75b7,0x643e,
-  0x9cc9,0x8d40,0xbfdb,0xae52,0xdaed,0xcb64,0xf9ff,0xe876,
-  0x2102,0x308b,0x0210,0x1399,0x6726,0x76af,0x4434,0x55bd,
-  0xad4a,0xbcc3,0x8e58,0x9fd1,0xeb6e,0xfae7,0xc87c,0xd9f5,
-  0x3183,0x200a,0x1291,0x0318,0x77a7,0x662e,0x54b5,0x453c,
-  0xbdcb,0xac42,0x9ed9,0x8f50,0xfbef,0xea66,0xd8fd,0xc974,
-  0x4204,0x538d,0x6116,0x709f,0x0420,0x15a9,0x2732,0x36bb,
-  0xce4c,0xdfc5,0xed5e,0xfcd7,0x8868,0x99e1,0xab7a,0xbaf3,
-  0x5285,0x430c,0x7197,0x601e,0x14a1,0x0528,0x37b3,0x263a,
-  0xdecd,0xcf44,0xfddf,0xec56,0x98e9,0x8960,0xbbfb,0xaa72,
-  0x6306,0x728f,0x4014,0x519d,0x2522,0x34ab,0x0630,0x17b9,
-  0xef4e,0xfec7,0xcc5c,0xddd5,0xa96a,0xb8e3,0x8a78,0x9bf1,
-  0x7387,0x620e,0x5095,0x411c,0x35a3,0x242a,0x16b1,0x0738,
-  0xffcf,0xee46,0xdcdd,0xcd54,0xb9eb,0xa862,0x9af9,0x8b70,
-  0x8408,0x9581,0xa71a,0xb693,0xc22c,0xd3a5,0xe13e,0xf0b7,
-  0x0840,0x19c9,0x2b52,0x3adb,0x4e64,0x5fed,0x6d76,0x7cff,
-  0x9489,0x8500,0xb79b,0xa612,0xd2ad,0xc324,0xf1bf,0xe036,
-  0x18c1,0x0948,0x3bd3,0x2a5a,0x5ee5,0x4f6c,0x7df7,0x6c7e,
-  0xa50a,0xb483,0x8618,0x9791,0xe32e,0xf2a7,0xc03c,0xd1b5,
-  0x2942,0x38cb,0x0a50,0x1bd9,0x6f66,0x7eef,0x4c74,0x5dfd,
-  0xb58b,0xa402,0x9699,0x8710,0xf3af,0xe226,0xd0bd,0xc134,
-  0x39c3,0x284a,0x1ad1,0x0b58,0x7fe7,0x6e6e,0x5cf5,0x4d7c,
-  0xc60c,0xd785,0xe51e,0xf497,0x8028,0x91a1,0xa33a,0xb2b3,
-  0x4a44,0x5bcd,0x6956,0x78df,0x0c60,0x1de9,0x2f72,0x3efb,
-  0xd68d,0xc704,0xf59f,0xe416,0x90a9,0x8120,0xb3bb,0xa232,
-  0x5ac5,0x4b4c,0x79d7,0x685e,0x1ce1,0x0d68,0x3ff3,0x2e7a,
-  0xe70e,0xf687,0xc41c,0xd595,0xa12a,0xb0a3,0x8238,0x93b1,
-  0x6b46,0x7acf,0x4854,0x59dd,0x2d62,0x3ceb,0x0e70,0x1ff9,
-  0xf78f,0xe606,0xd49d,0xc514,0xb1ab,0xa022,0x92b9,0x8330,
-  0x7bc7,0x6a4e,0x58d5,0x495c,0x3de3,0x2c6a,0x1ef1,0x0f78
+// register, FCC, EU
+static const uint8_t ZZ_frsky_init_data[] PROGMEM = {
+  //{CC2500_02_IOCFG0,    0x06,  0x06},
+  //{CC2500_00_IOCFG2,    0x06,  0x06},
+  CC2500_17_MCSM1,     0x0c,  0x0E,
+  CC2500_18_MCSM0,     0x18,  0x18,
+  CC2500_06_PKTLEN,    0x1E,  0x23,
+  CC2500_07_PKTCTRL1,  0x04,  0x04,
+  CC2500_08_PKTCTRL0,  0x01,  0x01,
+  CC2500_3E_PATABLE,   TXPOWER_1, TXPOWER_1,
+  CC2500_0B_FSCTRL1,   0x0A,  0x08,
+  CC2500_0C_FSCTRL0,   0x00,  0x00,
+  CC2500_0D_FREQ2,     0x5c,  0x5c,
+  CC2500_0E_FREQ1,     0x76,  0x80,
+  CC2500_0F_FREQ0,     0x27,  0x00,
+  CC2500_10_MDMCFG4,   0x7B,  0x7B,
+  CC2500_11_MDMCFG3,   0x61,  0xF8,
+  CC2500_12_MDMCFG2,   0x13,  0x03,
+  CC2500_13_MDMCFG1,   0x23,  0x23,
+  CC2500_14_MDMCFG0,   0x7a,  0x7a,
+  CC2500_15_DEVIATN,   0x51,  0x53
 };
 
-
+// register, value
+static const uint8_t ZZ_frsky_init_data_shared[] PROGMEM = {
+  CC2500_19_FOCCFG,    0x16,
+  CC2500_1A_BSCFG,     0x6c,
+  CC2500_1B_AGCCTRL2,  0x43,
+  CC2500_1C_AGCCTRL1,  0x40,
+  CC2500_1D_AGCCTRL0,  0x91,
+  CC2500_21_FREND1,    0x56,
+  CC2500_22_FREND0,    0x10,
+  CC2500_23_FSCAL3,    0xa9,
+  CC2500_24_FSCAL2,    0x0A,
+  CC2500_25_FSCAL1,    0x00,
+  CC2500_26_FSCAL0,    0x11,
+  CC2500_29_FSTEST,    0x59,
+  CC2500_2C_TEST2,     0x88,
+  CC2500_2D_TEST1,     0x31,
+  CC2500_2E_TEST0,     0x0B,
+  CC2500_03_FIFOTHR,   0x07,
+  CC2500_09_ADDR,      0x00
+};
 
 static uint16_t crc(uint8_t *data, uint8_t len)
 {
+  static const uint16_t ZZCRCTable[] PROGMEM = {
+    0x0000,0x1189,0x2312,0x329b,0x4624,0x57ad,0x6536,0x74bf,
+    0x8c48,0x9dc1,0xaf5a,0xbed3,0xca6c,0xdbe5,0xe97e,0xf8f7,
+    0x1081,0x0108,0x3393,0x221a,0x56a5,0x472c,0x75b7,0x643e,
+    0x9cc9,0x8d40,0xbfdb,0xae52,0xdaed,0xcb64,0xf9ff,0xe876,
+    0x2102,0x308b,0x0210,0x1399,0x6726,0x76af,0x4434,0x55bd,
+    0xad4a,0xbcc3,0x8e58,0x9fd1,0xeb6e,0xfae7,0xc87c,0xd9f5,
+    0x3183,0x200a,0x1291,0x0318,0x77a7,0x662e,0x54b5,0x453c,
+    0xbdcb,0xac42,0x9ed9,0x8f50,0xfbef,0xea66,0xd8fd,0xc974,
+    0x4204,0x538d,0x6116,0x709f,0x0420,0x15a9,0x2732,0x36bb,
+    0xce4c,0xdfc5,0xed5e,0xfcd7,0x8868,0x99e1,0xab7a,0xbaf3,
+    0x5285,0x430c,0x7197,0x601e,0x14a1,0x0528,0x37b3,0x263a,
+    0xdecd,0xcf44,0xfddf,0xec56,0x98e9,0x8960,0xbbfb,0xaa72,
+    0x6306,0x728f,0x4014,0x519d,0x2522,0x34ab,0x0630,0x17b9,
+    0xef4e,0xfec7,0xcc5c,0xddd5,0xa96a,0xb8e3,0x8a78,0x9bf1,
+    0x7387,0x620e,0x5095,0x411c,0x35a3,0x242a,0x16b1,0x0738,
+    0xffcf,0xee46,0xdcdd,0xcd54,0xb9eb,0xa862,0x9af9,0x8b70,
+    0x8408,0x9581,0xa71a,0xb693,0xc22c,0xd3a5,0xe13e,0xf0b7,
+    0x0840,0x19c9,0x2b52,0x3adb,0x4e64,0x5fed,0x6d76,0x7cff,
+    0x9489,0x8500,0xb79b,0xa612,0xd2ad,0xc324,0xf1bf,0xe036,
+    0x18c1,0x0948,0x3bd3,0x2a5a,0x5ee5,0x4f6c,0x7df7,0x6c7e,
+    0xa50a,0xb483,0x8618,0x9791,0xe32e,0xf2a7,0xc03c,0xd1b5,
+    0x2942,0x38cb,0x0a50,0x1bd9,0x6f66,0x7eef,0x4c74,0x5dfd,
+    0xb58b,0xa402,0x9699,0x8710,0xf3af,0xe226,0xd0bd,0xc134,
+    0x39c3,0x284a,0x1ad1,0x0b58,0x7fe7,0x6e6e,0x5cf5,0x4d7c,
+    0xc60c,0xd785,0xe51e,0xf497,0x8028,0x91a1,0xa33a,0xb2b3,
+    0x4a44,0x5bcd,0x6956,0x78df,0x0c60,0x1de9,0x2f72,0x3efb,
+    0xd68d,0xc704,0xf59f,0xe416,0x90a9,0x8120,0xb3bb,0xa232,
+    0x5ac5,0x4b4c,0x79d7,0x685e,0x1ce1,0x0d68,0x3ff3,0x2e7a,
+    0xe70e,0xf687,0xc41c,0xd595,0xa12a,0xb0a3,0x8238,0x93b1,
+    0x6b46,0x7acf,0x4854,0x59dd,0x2d62,0x3ceb,0x0e70,0x1ff9,
+    0xf78f,0xe606,0xd49d,0xc514,0xb1ab,0xa022,0x92b9,0x8330,
+    0x7bc7,0x6a4e,0x58d5,0x495c,0x3de3,0x2c6a,0x1ef1,0x0f78
+  };
+  uint_farptr_t pdata = pgm_get_far_address(ZZCRCTable);
   uint16_t crc = 0;
   for(uint8_t i=0; i < len; i++)
-    crc = (crc<<8) ^ CRCTable[(uint8_t)(crc>>8) ^ *data++];
+    crc = (crc<<8) ^ pgm_read_word_far(ZZCRCTable+(uint8_t)((crc>>8) ^ *data++));
   return crc;
 }
 
 static void FRSKYX_initialize_data(uint8_t adr)
 {
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, fine);  // Frequency offset hack
+  CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);  // Frequency offset hack
   CC2500_WriteReg(CC2500_18_MCSM0,    0x08);
   CC2500_WriteReg(CC2500_09_ADDR, adr ? 0x03 : (frsky_id & 0xff));
   CC2500_WriteReg(CC2500_07_PKTCTRL1,0x05);
@@ -162,7 +212,8 @@ static void set_start(uint8_t ch)
   CC2500_WriteReg(CC2500_0A_CHANNR, (ch == 47) ? 0 : channels_used[ch]);
 }
 
-#define RXNUM 16
+#define RXNUM g_model.modelId
+
 static void frskyX_build_bind_packet()
 {
   packet[0] = frskyX_format_EU ? 0x20 : 0x1D;// LBT (EU) or  FCC (US)
@@ -190,36 +241,26 @@ static void frskyX_build_bind_packet()
 }
 
 
-//#define STICK_SCALE    819  // full scale at +-125
-#define STICK_SCALE    751  // +/-100 gives 2000/1000 us pwm
 static uint16_t scaleForPXX(uint8_t chan, uint8_t failsafe)
 {
-  //mapped 860,2140(125%) range to 64,1984(PXX values);
-//  return (uint16_t)(((Servo_data[i]-PPM_MIN)*3)>>1)+64;
 // 0-2047, 0 = 817, 1024 = 1500, 2047 = 2182
   int16_t value = channelOutputs[chan];
-  value /= 2; // x/2
   value = limit((int16_t)-1024, value, (int16_t)+1024);
-  value += 1024;
+  (chan > 7) ? value += 2048 : value += 1024;   // upper channels offset 2048, lower 1014
   return value;
 }
 
 #define FAILSAFE_TIMEOUT 1032
 
-// These are local to function but 7e modules don't initialize statics
-// so make file scope and set in initialize()
-static uint16_t failsafe_count;
-static uint8_t FS_flag;
-
-
 static void frskyX_data_frame()
 {
   //0x1D 0xB3 0xFD 0x02 0x56 0x07 0x15 0x00 0x00 0x00 0x04 0x40 0x00 0x04 0x40 0x00 0x04 0x40 0x00 0x04 0x40 0x08 0x00 0x00 0x00 0x00 0x00 0x00 0x96 0x12
   // channel packing: H (0)7-4, L (0)3-0; H (1)3-0, L (0)11-8; H (1)11-8, L (1)7-4 etc
-
   uint16_t chan_0;
   uint16_t chan_1;
   static uint8_t failsafe_chan;
+  static uint16_t failsafe_count;
+  static uint8_t FS_flag;
   uint8_t startChan = 0;
 
 
@@ -612,6 +653,7 @@ static void frsky_check_telemetry(uint8_t *pkt, uint8_t len)
 
 static uint16_t FRSKYX_bind_cb()
 {
+  SCHEDULE_MIXER_END(18*16); // Schedule next Mixer calculations.
   frskyX_build_bind_packet();
   set_start(47);
   CC2500_SetPower(TXPOWER_1);
@@ -628,16 +670,12 @@ static uint16_t FRSKYX_bind_cb()
 static uint16_t FRSKYX_cb()
 {
   uint8_t len;
-  int8_t finetmp;
 
   switch(X_state) {
 
   case FRSKYX_DATA1:
-    finetmp = g_model.rfOptionValue1;
-    if (fine != finetmp) {
-      fine = finetmp;
-      CC2500_WriteReg(CC2500_0C_FSCTRL0, fine);
-    }
+    SCHEDULE_MIXER_END(9*16); // Schedule next Mixer calculations.
+    CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
     frskyX_data_frame();
     CC2500_SetTxRxMode(TX_EN);
     CC2500_Strobe(CC2500_SIDLE); // Force idle if still receiving in error condition.
@@ -648,7 +686,7 @@ static uint16_t FRSKYX_cb()
     CC2500_WriteData(packet, packet[0]+1);
     CC2500_Strobe(CC2500_STX);
     channr = (channr + chanskip) % 47;
-    X_state++;
+    ++X_state;
     heartbeat |= HEART_TIMER_PULSES;
     CALCULATE_LAT_JIT(); // Calculate latency and jitter.
     return 5500*2;
@@ -656,12 +694,12 @@ static uint16_t FRSKYX_cb()
   case FRSKYX_DATA2:
     CC2500_SetTxRxMode(RX_EN);
     CC2500_Strobe(CC2500_SIDLE);
-    X_state++;
+    ++X_state;
     return 200*2;
 
   case FRSKYX_DATA3:
     CC2500_Strobe(CC2500_SRX);
-    X_state++;
+    ++X_state;
     return 3000*2;
 
   case FRSKYX_DATA4:
@@ -698,59 +736,29 @@ static uint16_t FRSKYX_cb()
   }
 }
 
-// register, FCC, EU
-static const uint8_t init_data[][3] = {
-  //{CC2500_02_IOCFG0,    0x06,  0x06},
-  //{CC2500_00_IOCFG2,    0x06,  0x06},
-  {CC2500_17_MCSM1,     0x0c,  0x0E},
-  {CC2500_18_MCSM0,     0x18,  0x18},
-  {CC2500_06_PKTLEN,    0x1E,  0x23},
-  {CC2500_07_PKTCTRL1,  0x04,  0x04},
-  {CC2500_08_PKTCTRL0,  0x01,  0x01},
-  {CC2500_3E_PATABLE,   TXPOWER_1,  TXPOWER_1},
-  {CC2500_0B_FSCTRL1,   0x0A,  0x08},
-  {CC2500_0C_FSCTRL0,   0x00,  0x00},
-  {CC2500_0D_FREQ2,     0x5c,  0x5c},
-  {CC2500_0E_FREQ1,     0x76,  0x80},
-  {CC2500_0F_FREQ0,     0x27,  0x00},
-  {CC2500_10_MDMCFG4,   0x7B,  0x7B},
-  {CC2500_11_MDMCFG3,   0x61,  0xF8},
-  {CC2500_12_MDMCFG2,   0x13,  0x03},
-  {CC2500_13_MDMCFG1,   0x23,  0x23},
-  {CC2500_14_MDMCFG0,   0x7a,  0x7a},
-  {CC2500_15_DEVIATN,   0x51,  0x53},
-};
-
-// register, value
-static const uint8_t init_data_shared[][2] = {
-  {CC2500_19_FOCCFG,    0x16},
-  {CC2500_1A_BSCFG,     0x6c},
-  {CC2500_1B_AGCCTRL2,  0x43},
-  {CC2500_1C_AGCCTRL1,  0x40},
-  {CC2500_1D_AGCCTRL0,  0x91},
-  {CC2500_21_FREND1,    0x56},
-  {CC2500_22_FREND0,    0x10},
-  {CC2500_23_FSCAL3,    0xa9},
-  {CC2500_24_FSCAL2,    0x0A},
-  {CC2500_25_FSCAL1,    0x00},
-  {CC2500_26_FSCAL0,    0x11},
-  {CC2500_29_FSTEST,    0x59},
-  {CC2500_2C_TEST2,     0x88},
-  {CC2500_2D_TEST1,     0x31},
-  {CC2500_2E_TEST0,     0x0B},
-  {CC2500_03_FIFOTHR,   0x07},
-  {CC2500_09_ADDR,      0x00},
-};
-
 static void FRSKYX_init()
 {
   CC2500_Strobe(CC2500_SIDLE);
 
-  for (uint8_t i=0; i < DIM(init_data); i++)
-    CC2500_WriteReg(init_data[i][0], init_data[i][frskyX_format_EU ? 2 : 1]);
-  for (uint8_t i=0; i < DIM(init_data_shared); i++)
-    CC2500_WriteReg(init_data_shared[i][0], init_data_shared[i][1]);
+  uint_farptr_t pdata = pgm_get_far_address(ZZ_frsky_init_data);
 
+  for (uint8_t i=0; i<(DIM(ZZ_frsky_init_data)/3); i++) { // Send init EU or US
+    uint8_t add = pgm_read_byte_far(pdata);
+    uint8_t dat = frskyX_format_EU ? pgm_read_byte_far(pdata+=2) : pgm_read_byte_far(++pdata);
+    CC2500_WriteReg(add,dat);
+    ++pdata;
+  }
+
+  pdata = pgm_get_far_address(ZZ_frsky_init_data_shared);
+
+    for (uint8_t i=0; i<(DIM(ZZ_frsky_init_data_shared)/2); i++) { // Send init shared
+    uint8_t add = pgm_read_byte_far(pdata);
+    uint8_t dat = pgm_read_byte_far(++pdata);
+    CC2500_WriteReg(add,dat);
+    ++pdata;
+  }
+
+  SCHEDULE_MIXER_END(41*16); // Schedule next Mixer calculations.
   //calibrate hop channels
   for (uint8_t c = 0; c < 47; c++) {
     CC2500_Strobe(CC2500_SIDLE);
@@ -768,24 +776,15 @@ static void FRSKYX_init()
   calData[47][0] = CC2500_ReadReg(CC2500_23_FSCAL3); // Charge pump current calibration
   calData[47][1] = CC2500_ReadReg(CC2500_24_FSCAL2); // VCO current calibration
   calData[47][2] = CC2500_ReadReg(CC2500_25_FSCAL1); // VCO capacitance calibration
-
 }
 
 static void FRSKYX_initialize(uint8_t bind)
 {
   PROTO_Stop_Callback();
-
   CC2500_Reset();
-
-  g_model.rfOptionValue1 = -50; // TODO remove after tests
-
-  // initialize statics since 7e modules don't initialize
-  fine = g_model.rfOptionValue1;
   packet_size = frskyX_format_EU ? 33 : 30;
   frsky_id = SpiRFModule.fixed_id & 0x7FFF;
-  failsafe_count = 0;
   channel_offset = 0;
-  FS_flag = 0;
   channr = 0;
   chanskip = 0;
   ctr = 0;
@@ -793,7 +792,7 @@ static void FRSKYX_initialize(uint8_t bind)
   seq_last_rcvd = 8;
 #if HAS_EXTENDED_TELEMETRY
   Telemetry.value[TELEM_FRSKY_MIN_CELL] = TELEMETRY_GetMaxValue(TELEM_FRSKY_MIN_CELL);
-  UART_SetDataRate(57600);    // set for s.port compatibility
+  //UART_SetDataRate(57600);    // set for s.port compatibility
 #endif
 
 
@@ -855,6 +854,17 @@ const void *FRSKYX_Cmds(enum ProtoCmds cmd)
     CC2500_Reset();
     CC2500_SetTxRxMode(TXRX_OFF);
     CC2500_Strobe(CC2500_SIDLE);
+    return 0;
+    case PROTOCMD_GETOPTIONS:
+          SetRfOptionSettings(pgm_get_far_address(RfOpt_FrskyX_Ser),
+                        STR_DUMMY,       //Sub proto
+                        STR_RFTUNE,      //Option 1 (int)
+                        STR_DUMMY,       //Option 2 (int)
+                        STR_DUMMY,       //Option 3 (uint 0 to 31)
+                        STR_TELEMETRY,   //OptionBool 1
+                        STR_DUMMY,       //OptionBool 2
+                        STR_DUMMY        //OptionBool 3
+                        );
     return 0;
 
   /*case PROTOCMD_CHECK_AUTOBIND:

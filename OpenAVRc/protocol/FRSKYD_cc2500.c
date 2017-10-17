@@ -37,8 +37,6 @@
 
 extern uint8_t frskyRxBuffer[];
 
-#define FREQFINE g_model.rfOptionValue1
-
 const static int8_t RfOpt_FrskyD_Ser[] PROGMEM = {
 /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
 /*rfSubTypeMax*/0,
@@ -90,9 +88,9 @@ static void FRSKYD_init(uint8_t bind)
 {
   CC2500_Reset(); // 0x30
 
-   uint_farptr_t pdata = pgm_get_far_address(ZZ_frskyDInitSequence);
+  uint_farptr_t pdata = pgm_get_far_address(ZZ_frskyDInitSequence);
 
-  for (uint8_t i=0; i<(DIM(ZZ_frskyDInitSequence)/2); i++) { // Send init sequance
+  for (uint8_t i=0; i<(DIM(ZZ_frskyDInitSequence)/2); i++) { // Send init
     uint8_t add = pgm_read_byte_far(pdata);
     uint8_t dat = pgm_read_byte_far(++pdata);
     CC2500_WriteReg(add,dat);
@@ -180,7 +178,7 @@ static void FRSKYD_build_data_packet()
   packet[16] = 0;
   packet[17] = 0;
 
-  uint8_t num_chan = 8 + (g_model.PPMNCH *2);
+  uint8_t num_chan = 8 + (g_model.PPMNCH *2); //TODO Why ?? use num_chan ??
   if(num_chan > 8) num_chan = 8;
 
   for(uint8_t i = 0; i < 8; i++) {
@@ -209,6 +207,7 @@ static void FRSKYD_build_data_packet()
 
 static uint16_t FRSKYD_bind_cb()
 {
+  SCHEDULE_MIXER_END(18*16); // Schedule next Mixer calculations.
   CC2500_Strobe(CC2500_SIDLE);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0);
   FRSKYD_build_bind_packet();
@@ -227,8 +226,7 @@ static uint16_t FRSKYD_data_cb()
   static uint8_t len;
   uint8_t rx_packet[21]; // Down-link packet is 20 bytes.
 
-  // Schedule next Mixer calculations.
-  SCHEDULE_MIXER_END(8.5*16);
+  SCHEDULE_MIXER_END(8.5*16); // Schedule next Mixer calculations.
 
     if(! start_tx_rx) {
 
