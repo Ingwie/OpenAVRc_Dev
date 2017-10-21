@@ -21,7 +21,7 @@ PCB = MEGA2560
 PCBREV =
 
 # LCD
-# Values: ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306
+# Values: ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306, SH1106
 LCD = ST7565P
 
 # Enable JETI-Telemetry or FrSky Telemetry reception on UART0
@@ -651,6 +651,8 @@ else ifeq ($(LCD), KS108)
   CPPDEFS += -DLCD_KS108
 else ifeq ($(LCD), SSD1306)
   CPPDEFS += -DLCD_SSD1306
+else ifeq ($(LCD), SH1106)
+  CPPDEFS += -DLCD_SH1106
 endif
 
 ifeq ($(AUTOSWITCH), YES)

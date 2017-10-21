@@ -201,6 +201,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceLCD->Append(_("ST7920"));
   ChoiceLCD->SetSelection( ChoiceLCD->Append(_("KS108")) );
   ChoiceLCD->Append(_("SSD1306"));
+  ChoiceLCD->Append(_("SH1106"));
   ChoiceLCD->SetToolTip(_("Référence de l\'écran"));
   StaticText2 = new wxStaticText(Panel2, ID_STATICTEXT2, _("Processeur"), wxPoint(32,40), wxSize(64,13), 0, _T("ID_STATICTEXT2"));
   StaticText1 = new wxStaticText(Panel2, ID_STATICTEXT1, _("LCD"), wxPoint(64,80), wxDefaultSize, 0, _T("ID_STATICTEXT1"));

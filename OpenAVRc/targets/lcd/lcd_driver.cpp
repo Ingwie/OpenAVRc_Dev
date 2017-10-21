@@ -43,6 +43,8 @@
 #include "targets/lcd/lcd_st7920_driver.cpp"
 #elif defined(LCD_SSD1306)
 #include "targets/lcd/lcd_ssd1306_driver.cpp"
+#elif defined(LCD_SH1106)
+#include "targets/lcd/lcd_sh1106_driver.cpp"
 #else
 #include "targets/lcd/lcd_default_driver.cpp"
 #endif

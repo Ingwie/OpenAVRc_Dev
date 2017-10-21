@@ -141,7 +141,7 @@ FORCEINLINE void boardInit()
   EIFR = (3<<INTF2);
   EIMSK = (3<<INT4) | (3<<INT2); // enable the two rot. enc. ext. int. pairs.
 
-#if defined(RTCLOCK) || defined(LCD_SSD1306) || defined(EXTERNALEEPROM)
+#if defined(RTCLOCK) || defined(LCD_SSD1306) || defined(LCD_SH1106) || defined(EXTERNALEEPROM)
   /* Hardware I2C init                               */
   i2c_init();
 #endif

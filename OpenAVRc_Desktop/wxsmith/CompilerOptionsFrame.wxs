@@ -78,6 +78,7 @@
 								<item>ST7920</item>
 								<item>KS108</item>
 								<item>SSD1306</item>
+								<item>SH1106</item>
 							</content>
 							<selection>4</selection>
 							<pos>112,72</pos>

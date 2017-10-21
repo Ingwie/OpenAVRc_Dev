@@ -117,7 +117,7 @@ inline void boardInit()
   EIMSK = (1<<INT6) | (1<<INT4); // Enable the first of each encoder interrupt pairs.
 #endif
 
-#if defined(RTCLOCK) || defined(LCD_SSD1306) || defined(EXTERNALEEPROM)
+#if defined(RTCLOCK) || defined(LCD_SSD1306) || defined(LCD_SH1106) || defined(EXTERNALEEPROM)
 // Hardware TWI init.
   DDRD &= ~(INP_D_I2C_SDA | INP_D_I2C_SCL);
   PORTD |= (INP_D_I2C_SDA | INP_D_I2C_SCL); // Add weak pullup.

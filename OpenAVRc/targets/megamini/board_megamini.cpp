@@ -100,7 +100,7 @@ FORCEINLINE void boardInit()
   EIFR = (1<<INTF7) | (1<<INTF6) | (1<<INTF5) | (1<<INTF4); // clear the int. flag in case it got set when changing modes
   EIMSK = (1<<INT7) | (1<<INT6) | (1<<INT5) | (1<<INT4); // enable the rot. enc. ext. int.
 
-#if defined(RTCLOCK) || defined(LCD_SSD1306) || defined(EXTERNALEEPROM)
+#if defined(RTCLOCK) || defined(LCD_SSD1306) || defined(LCD_SH1106) || defined(EXTERNALEEPROM)
   /* Hardware I2C init                               */
   i2c_init();
 #endif
