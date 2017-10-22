@@ -144,6 +144,7 @@ REG8 simu_ocr2b;
 REG16 simu_icr3;
 REG8 simu_icr3l;
 REG8 simu_icr3h;
+REG16 simu_ocr4a;
 
 REG8 simu_tccr5c;
 REG16 simu_tcnt5;

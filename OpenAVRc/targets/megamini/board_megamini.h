@@ -182,7 +182,7 @@ void pwrOff();
 #define buzzerOff()               PORTH &= ~(1 << OUT_H_SpeakerBuzzer)
 
 // Speaker driver
-#if defined(AUDIO)
+#if defined(AUDIO) && !defined(SIMU)
   #define speakerOff()              TCCR4A &= ~(1 << COM4A0)
   #define speakerOn()               TCCR4A |=  (1 << COM4A0)
 #endif

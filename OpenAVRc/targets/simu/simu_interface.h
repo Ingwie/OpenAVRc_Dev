@@ -576,6 +576,8 @@ extern REG8 simu_ocr3bh;
 extern REG16 simu_icr3;
 extern REG8 simu_icr3l;
 extern REG8 simu_icr3h;
+extern REG16 simu_ocr4a;
+
 extern REG8 simu_tccr5c;
 extern REG16 simu_tcnt5;
 extern REG8 simu_tcnt5l;
@@ -659,6 +661,8 @@ extern REG8 simu_ocr5ah;
 #define OCIE3B  2
 #define OCIE3A  1
 #define TOIE3   0
+
+#define OCR4A simu_ocr4a
 
 #define TCCR5B  simu_tccr5b
 #define ICNC5   7

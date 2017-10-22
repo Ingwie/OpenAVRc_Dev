@@ -48,7 +48,7 @@ void adcPrepareBandgap()
   // #if structure identical to the one in getADC_bandgap()
 }
 
-void getADC()
+void getADC() // 0.56 mS
 {
   for (uint8_t adc_input=0; adc_input<8; adc_input++) {
     uint16_t temp_ana;
