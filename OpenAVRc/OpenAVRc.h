@@ -226,6 +226,8 @@ static uint16_t DurationValue;
   #define wdt_disable() simu_off = true; simu_mainloop_is_runing = true; return
   #define speakerOff()
   #define speakerOn()
+  #define SIMUBEEP1() Beep(toneFreq*15, toneTimeLeft*50); toneTimeLeft/=2;if (!toneTimeLeft) ++toneTimeLeft
+  #define SIMUBEEP2() Beep(tone2Freq*15, tone2TimeLeft*50); tone2TimeLeft/=2; if (!tone2TimeLeft) ++tone2TimeLeft;
 
   char *convertSimuPath(const char *path);
   extern ISR(TIMER_10MS_VECT, ISR_NOBLOCK);
@@ -242,6 +244,8 @@ static uint16_t DurationValue;
   #define SIMU_SLEEP(x)
   #define SIMU_PROCESSEVENTS
   #define MYWDT_RESET(x) wdt_reset()
+  #define SIMUBEEP1()
+  #define SIMUBEEP2()
   #define SIMU_UNLOCK_MACRO(x) (x)
   #define CONVERT_PTR_UINT(x) ((uint32_t)(x))
   #define CONVERT_UINT_PTR(x) ((uint32_t *)(x))
