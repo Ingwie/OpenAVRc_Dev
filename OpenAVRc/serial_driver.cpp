@@ -290,9 +290,6 @@ void SERIAL_DisableTXD(void)
 
 void SERIAL_Init(void)
 {
-  DDRE &= ~(1 << DDE0); // set RXD0 pin as input
-  PORTE &= ~(1 << PE0); // disable pullup on RXD0 pin
-
   switch (g_eeGeneral.mavbaud) {
   case BAUDS_4800:
     uart_4800();
