@@ -57,16 +57,15 @@ enum menuModelSetupItems {
   ITEM_MODEL_BEEP_CENTER,
   ITEM_MODEL_PROTOCOL,
   ITEM_MODEL_PROTOCOL_PARAMS_LINE_1,
-#if defined(MULTIMODULE) || defined(SPIMODULES)
+//Used with(MULTIMODULE) || (SPIMODULES)
   ITEM_MODEL_PROTOCOL_PARAMS_LINE_2,
   ITEM_MODEL_PROTOCOL_PARAMS_LINE_3,
   ITEM_MODEL_PROTOCOL_PARAMS_LINE_4,
   ITEM_MODEL_PROTOCOL_PARAMS_LINE_5,
-#endif
-#if defined(SPIMODULES)
+//#endif
+//Used with(SPIMODULES)
   ITEM_MODEL_PROTOCOL_PARAMS_LINE_6,
   ITEM_MODEL_PROTOCOL_PARAMS_LINE_7,
-#endif
   ITEM_MODEL_SETUP_MAX
 
 };
@@ -451,7 +450,7 @@ void menuModelSetup(uint8_t event)
 #endif
       }
       break;
-#if defined(MULTIMODULE) || defined(SPIMODULES) || defined(DSM2)
+
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_2:
       if PROTO_IS_SYNC {
 #if defined(DSM2)
@@ -629,7 +628,6 @@ void menuModelSetup(uint8_t event)
           }
         }
 #endif
-#endif
       }
       break;
 #if defined(SPIMODULES)
@@ -661,6 +659,7 @@ void menuModelSetup(uint8_t event)
 #endif
     }
   }
+
   if (!PROTO_IS_SYNC) {
     g_model.rfProtocol = protocol;
     SpiRFModule.mode = NORMAL_MODE;

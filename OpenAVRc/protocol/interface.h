@@ -43,7 +43,9 @@
 #include "PROTO_PPM16.cpp"
 #include "PROTO_PPMSIM.cpp"
 
+#ifdef DSM2_SERIAL
 #include "DSM_SERIAL.c"
+#endif
 
 #ifdef PROTO_HAS_A7105
 #include "iface_a7105.h"
