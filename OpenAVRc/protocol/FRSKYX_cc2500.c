@@ -370,14 +370,14 @@ static void frskyX_data_frame()
   [16] LQI
 */
 
-#define START_STOP              0x7e
-#define BYTESTUFF               0x7d
-#define STUFF_MASK              0x20
+//#define START_STOP              0x7e
+//#define BYTESTUFF               0x7d
+//#define STUFF_MASK              0x20
 //#define FRSKY_SPORT_PACKET_SIZE    8
 #define TELEM_PKT_SIZE            17
 
 // FrSky PRIM IDs (1 byte)
-#define DATA_FRAME                0x10
+//#define DATA_FRAME                0x10
 
 #define SPORT_DATA_uint8_t(packet)   (packet[4])
 #define SPORT_DATA_S32(packet)  (*((int32_t *)(packet+4)))
