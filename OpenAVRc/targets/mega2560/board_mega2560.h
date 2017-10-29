@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -154,9 +154,9 @@ void sdPoll10ms();
 #define PORTA_LCD_DAT            PORTA
 #define PORTC_LCD_CTRL           PORTC
 #if defined(LCD_KS108)              // (For KS108 LCD only) MEGA R/W pin always at 0 state in OpenAVRc then
-#define OUT_C_LCD_CS2            6  // use this pin to control second KS108 (CS2)
+  #define OUT_C_LCD_CS2            6  // use this pin to control second KS108 (CS2)
 #else                               // and connect KS108 R/W pin to ground via a 1k resistor
-#define OUT_C_LCD_RnW            6
+  #define OUT_C_LCD_RnW            6
 #endif
 #define OUT_C_LCD_E              7
 #define OUT_C_LCD_A0             5
@@ -171,9 +171,9 @@ void sdPoll10ms();
 uint8_t pwrCheck();
 void pwrOff();
 #if defined(PWRMANAGE)
-#define UNEXPECTED_SHUTDOWN()   ((mcusr & (1 << WDRF)) || g_eeGeneral.unexpectedShutdown)
+  #define UNEXPECTED_SHUTDOWN()   ((mcusr & (1 << WDRF)) || g_eeGeneral.unexpectedShutdown)
 #else
-#define UNEXPECTED_SHUTDOWN()   (mcusr & (1 << WDRF))
+  #define UNEXPECTED_SHUTDOWN()   (mcusr & (1 << WDRF))
 #endif
 
 // Haptic driver
@@ -186,8 +186,8 @@ void pwrOff();
 
 // Speaker driver
 #if defined(AUDIO)
-#define speakerOff()              TCCR4A &= ~(1 << COM4A0)
-#define speakerOn()               TCCR4A |=  (1 << COM4A0)
+  #define speakerOff()              TCCR4A &= ~(1 << COM4A0)
+  #define speakerOn()               TCCR4A |=  (1 << COM4A0)
 #endif
 
 // Voice driver
@@ -205,48 +205,48 @@ void pwrOff();
 //JQ6500
 #define JQ6500_BUSY                   (PINB & (1<<INP_B_JQ_BUSY))
 #if defined(VOICE_JQ6500)
-extern void InitJQ6500UartTx();
+  extern void InitJQ6500UartTx();
 #endif
 
 // EEPROM driver
 #if !defined(SIMU)
 
-#if defined(EXTERNALEEPROM)
-#define ADDRESS_EXTERN_EEPROM  (0x50 << 1) //0x50 with all strap closed on ZS042 module (or alone), EEPROM FM24W256, see datasheet
-#define eepromReadBlock(a, b, c)   Ext_eeprom_read_block(a, b, c) //External EEPROM
+  #if defined(EXTERNALEEPROM)
+    #define ADDRESS_EXTERN_EEPROM  (0x50 << 1) //0x50 with all strap closed on ZS042 module (or alone), EEPROM FM24W256, see datasheet
+    #define eepromReadBlock(a, b, c)   Ext_eeprom_read_block(a, b, c) //External EEPROM
+  #else
+    #define eepromReadBlock(a, b, c)   eeprom_read_block(a, (const void *)b, c) //Internal EEPROM
+  #endif
 #else
-#define eepromReadBlock(a, b, c)   eeprom_read_block(a, (const void *)b, c) //Internal EEPROM
-#endif
-#else
-extern void boardInit();
-extern ISR(INT2_vect);
-extern ISR(INT3_vect);
-extern ISR(INT4_vect);
-extern ISR(INT5_vect);
+  extern void boardInit();
+  extern ISR(INT2_vect);
+  extern ISR(INT3_vect);
+  extern ISR(INT4_vect);
+  extern ISR(INT5_vect);
 #endif
 
 //Mixer
 #define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
 
+//SUPIIIK FILE
+//#define MULTIMODULE
+#if defined (MULTIMODULE)
+  #define PROTO_HAS_MULTISUPIIIK
+#endif
+//SUPIIIK FILE
+
 //Xmitter
-#define SPIMODULES
+//#define SPIMODULES
+
+#if defined(SPIMODULES) && !defined(SDCARD) //Alow Spimodule if no sdcard on this board
+
 #define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 #define PROTO_HAS_CYRF6936
 #define TX_FIXED_ID 0x1a2b3c4d // Loaded in SpiRFModule.fixed_id
 
-//SUPIIIK FILE
-#define MULTIMODULE
-#if defined (MULTIMODULE)
-#define PROTO_HAS_MULTISUPIIIK
-#endif
-//SUPIIIK FILE
-
-
-#if defined(SPIMODULES) && !defined(SDCARD) //Alow Spimodule if no sdcard on this board
-
-  #define RF_SPI_xfer  spi_xfer//USART2_mspi_xfer
-  #define OUT_H_CC2500_CS_N       PIN1_bm
-  #define OUT_G_CYRF6936_CS_N     PIN5_bm
+#define RF_SPI_xfer  spi_xfer//USART2_mspi_xfer
+#define OUT_H_CC2500_CS_N       PIN1_bm
+#define OUT_G_CYRF6936_CS_N     PIN5_bm
 
 #define RF_CS_CC2500_ACTIVE();                \
   PORTH &= ~(OUT_H_CC2500_CS_N);              \

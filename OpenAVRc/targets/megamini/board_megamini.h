@@ -215,12 +215,6 @@ void pwrOff();
 //Mixer
 #define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
 
-//Xmitter
-#define SPIMODULES
-#define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
-#define PROTO_HAS_CYRF6936
-#define TX_FIXED_ID 0x1a2b3c4d // Loaded in SpiRFModule.fixed_id
-
 //SUPIIIK FILE
 #define MULTIMODULE
 #if defined (MULTIMODULE)
@@ -228,8 +222,14 @@ void pwrOff();
 #endif
 //SUPIIIK FILE
 
+//Xmitter
+#define SPIMODULES
 
 #if defined(SPIMODULES)
+
+  #define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
+  #define PROTO_HAS_CYRF6936
+  #define TX_FIXED_ID 0x1a2b3c4d // Loaded in SpiRFModule.fixed_id
 
   uint8_t USART2_mspi_xfer(uint8_t data);
   #define RF_SPI_xfer  USART2_mspi_xfer
