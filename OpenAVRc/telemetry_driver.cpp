@@ -104,8 +104,6 @@ ISR(USART_RX_vect_N(TLM_USART))
 void telemetryPortInit()
 {
 #if !defined(SIMU)
-  RXD_DDR_N(TLM_USART) &= ~(1 << RXD_DDR_PIN_N(TLM_USART));   // set RXD pin as input
-  RXD_PORT_N(TLM_USART) &= ~(1 << RXD_PORT_PIN_N(TLM_USART)); // disable pullup on RXD pin
 
 #undef BAUD
 #define BAUD 9600
