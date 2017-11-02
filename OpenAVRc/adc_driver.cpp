@@ -43,10 +43,6 @@ void adcInit()
   ADCSRB = (1 << MUX5);
 }
 
-void adcPrepareBandgap()
-{
-  // #if structure identical to the one in getADC_bandgap()
-}
 
 void getADC() // 0.56 mS
 {
@@ -63,10 +59,4 @@ void getADC() // 0.56 mS
     s_anaFilt[adc_input] = temp_ana;
 #endif
   }
-
-}
-
-void getADC_bandgap()
-{
-  BandGap = 2000;
 }

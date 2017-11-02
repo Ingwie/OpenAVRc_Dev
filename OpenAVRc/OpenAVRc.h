@@ -800,7 +800,6 @@ extern uint8_t            g_beepVal[5];
 extern int32_t            chans[NUM_CHNOUT];
 extern int16_t            ex_chans[NUM_CHNOUT]; // Outputs (before LIMITS) of the last perMain
 extern int16_t            channelOutputs[NUM_CHNOUT];
-extern uint16_t           BandGap;
 
 #define NUM_INPUTS      (NUM_STICKS)
 
