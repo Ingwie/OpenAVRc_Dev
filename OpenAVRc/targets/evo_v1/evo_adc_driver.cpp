@@ -52,16 +52,6 @@ void adcInit()
 }
 
 
-void adcPrepareBandgap()
-{
-#if defined(REV_EVO_V1)
-  // Done in adcInit().
-#else
-  ADMUX = 0x1E | ADC_VREF_TYPE; // Switch MUX to internal reference.
-#endif
-}
-
-
 void getADC()
 {
   // If conversion is running, then exit - feeble re-enterant check.
@@ -81,12 +71,4 @@ void getADC()
     temp_ana += ADC;
     s_anaFilt[adc_input] = temp_ana << 1; // Change to 12 Bit Value for future developments and Analogue Switches code.
   }
-}
-
-
-void getADC_bandgap()
-{
-#if defined(REV_EVO_V1)
-  BandGap = 5000; // 5 Volt.
-#endif
 }

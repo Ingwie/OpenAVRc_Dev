@@ -957,7 +957,6 @@ uint16_t s_anaFilt[NUMBER_ANALOG];
 // G: Note that the above would have set the ADC prescaler to 128, equating to
 // 125KHz sample rate. We now sample at 500KHz, with oversampling and other
 // filtering options to produce 11-bit results.
-uint16_t BandGap = 2040 ;
 
 uint16_t anaIn(uint8_t chan)
 {
@@ -1061,12 +1060,7 @@ void doMixerCalculations()
 
   getSwitchesPosition(!s_mixer_first_run_done);
 
-  adcPrepareBandgap();
-
   evalMixes(tick10ms);
-
-  // Bandgap has had plenty of time to settle...
-  getADC_bandgap();
 
   if (tick10ms) {
 
@@ -1270,17 +1264,22 @@ void checkBattery()
     counter = 0;
   }
 #endif
-  if (counter-- == 0) {
+  if (!counter--) {
     counter = 10;
     int32_t instant_vbat = anaIn(TX_VOLTAGE);
 
+#define BANDGAP 5000 // 5 Volts : We use AVCC.
 #if defined(REV_EVO_V1)
-    instant_vbat *= 40L * BandGap;
+    instant_vbat *= 40L * BANDGAP;
     instant_vbat /= (4095L * 100L);
     instant_vbat += 20L; // No Calibration Allowed.
     // Schottky Diode drops 0.2V before a potential divider which reduces the input to the ADC by 1/4.
 #else
-    instant_vbat = (instant_vbat*1112 + instant_vbat*g_eeGeneral.txVoltageCalibration + (BandGap<<2)) / ((BandGap<<3)/10);
+    instant_vbat *= 2889L*(BANDGAP/100);
+    instant_vbat /= 2047L*100L;
+    instant_vbat += 40L;
+    instant_vbat += g_eeGeneral.txVoltageCalibration;
+    // Schottky Diode drops 0.4V before a potential divider which reduces the input to the ADC by 1/2.8889.
 #endif
     static uint8_t  s_batCheck;
     static uint16_t s_batSum;

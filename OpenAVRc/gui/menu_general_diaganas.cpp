@@ -42,27 +42,16 @@ void menuGeneralDiagAna(uint8_t event)
 
   STICK_SCROLL_DISABLE();
 
-  for (uint8_t i=0; i<NUM_STICKS+NUM_POTS; i++) {
-#if (NUM_STICKS+NUM_POTS) > 9
-    coord_t y = MENU_HEADER_HEIGHT + 1 + (i/3)*FH;
-    const uint8_t x_coord[] = {0, 70, 154};
-    uint8_t x = x_coord[i%3];
-    lcdDrawNumberNAtt(x, y, i+1, LEADING0|LEFT, 2);
-    lcdDrawChar(x+2*FW-2, y, ':');
-#else
+  uint8_t numLoop = NUM_STICKS+NUM_POTS;
+
+  for (uint8_t i=0; i<numLoop+1; i++) { // Add battery input
     coord_t y = MENU_HEADER_HEIGHT + 1 + (i/2)*FH;
     uint8_t x = i&1 ? 64+5 : 0;
     lcdDrawStringWithIndex(x, y, PSTR("A"), i+1);
     lcdDrawChar(lcdNextPos, y, ':');
-#endif
     lcd_outhex4(x+3*FW-1, y, anaIn(i));
-    lcd_outdez8(x+10*FW-1, y, (int16_t)calibratedStick[CONVERT_MODE(i)]*25/256);
+    if (i<numLoop) lcd_outdez8(x+10*FW-1, y, (int16_t)calibratedStick[CONVERT_MODE(i)]*25/256);
   }
-
-  // Display raw BandGap result (debug)
-  lcdDrawText(64+5, MENU_HEADER_HEIGHT+1+3*FH, STR_BG);
-  lcdDrawNumberAttUnit(64+5+6*FW-3, 1+4*FH, BandGap, 0);
-
   lcdDrawTextLeft(6*FH-2, STR_BATT_CALIB);
   lcdPutsVolts(LEN_CALIB_FIELDS*FW+4*FW, 6*FH-2, g_vbat10mV, (menuVerticalPosition==1 ? INVERS : 0)|PREC2);
   if (menuVerticalPosition==1) CHECK_INCDEC_GENVAR(event, g_eeGeneral.txVoltageCalibration, -127, 127);

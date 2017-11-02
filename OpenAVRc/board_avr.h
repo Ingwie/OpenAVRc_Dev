@@ -72,9 +72,7 @@
 
 // ADC driver
 extern void adcInit();
-extern void adcPrepareBandgap();
 extern void getADC();
-extern void getADC_bandgap();
 
 // USART driver (static register dispatcher)
 #define RXD_DDR1 DDRD
