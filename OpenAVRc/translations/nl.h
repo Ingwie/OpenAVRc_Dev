@@ -147,6 +147,7 @@
 #endif
 
 #if defined(MULTIMODULE) || defined(SPIMODULES)
+  #define TR_SUBTYPE            "SubType"
   #define TR_RFTUNE                TR(INDENT "Freq tune",INDENT "RF Freq. fine tune")
   #define TR_TELEMETRY             "Telemetry"
   #define TR_MULTI_VIDFREQ               TR(INDENT "Vid. freq.", INDENT "Video frequency")
@@ -743,6 +744,7 @@
 #define TR_RESET_TIMER3        "Reset Timer3"
 #define TR_RESET_TELEMETRY     "Reset Telemetrie"
 #define TR_STATISTICS          "Statistieken"
+#define TR_SAVE_TIMERS         "Save Timers"
 #define TR_ABOUT_US            "De Programmeurs"
 #define TR_AND_SWITCH          "AND Switch"
 #define TR_SF                  "SF"
