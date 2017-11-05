@@ -327,7 +327,8 @@ PACK(typedef struct {
   int8_t    speakerVolume;
   uint8_t   blOffBright:4;   // used if defined PWM_BACKLIGHT
   uint8_t   blOnBright:4;    // used if defined PWM_BACKLIGHT
-
+// 32 bits fixed ID
+  uint8_t   fixed_ID[4];
 }) EEGeneral;
 
 #define SWITCHES_DELAY()            uint8_t(15+g_eeGeneral.switchesDelay)
