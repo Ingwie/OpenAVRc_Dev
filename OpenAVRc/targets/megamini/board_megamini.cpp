@@ -132,6 +132,8 @@ FORCEINLINE void boardInit()
 
 #endif // !SIMU
 
+ WAIT_PUPIL();
+
 }
 
 uint8_t USART2_mspi_xfer(uint8_t data)

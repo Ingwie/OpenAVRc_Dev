@@ -547,9 +547,10 @@ uint16_t getTmr16KHz()
 }
 #endif
 
+#if 0 // Puppy input run all the time but not in PPM16 mode
 bool check_slave_mode(void)
 {
-#if 0
+
   /*
   * This quirky function reads the mpx_rf_en signal which goes
   * to the mpx module and the trainer DIN.
@@ -564,6 +565,8 @@ bool check_slave_mode(void)
     DDRJ |= IO_J_MPX_RF_EN; // Pin is output.
     return 1;
   }
-#endif
 return 0;
 }
+
+WAIT_PUPIL();
+#endif

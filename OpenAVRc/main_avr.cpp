@@ -158,18 +158,6 @@ void perMain()
 
 #endif // if defined(GUI)
 
-  if(SLAVE_MODE()) { // TODO rebuild
-    JACK_PPM_OUT();
-  } else {
-    JACK_PPM_IN();
-    if(isFunctionActive(FUNCTION_TRAINER)) {
-      ENABLE_TRAINER_INTERRUPT();
-    }
-    else {
-      DISABLE_TRAINER_INTERRUPT();
-    }
-  }
-
   checkBattery();
 }
 

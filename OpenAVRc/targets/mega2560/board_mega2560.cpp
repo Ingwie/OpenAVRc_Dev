@@ -159,6 +159,7 @@ FORCEINLINE void boardInit()
 
 #endif // SPIMODULES
 
+  WAIT_PUPIL();
 }
 
 uint8_t pwrCheck()

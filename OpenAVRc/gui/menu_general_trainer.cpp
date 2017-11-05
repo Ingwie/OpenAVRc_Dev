@@ -39,7 +39,7 @@
 
 void menuGeneralTrainer(uint8_t event)
 {
-  bool slave = SLAVE_MODE();
+  bool slave = IS_WAIT_PUPIL_STATE();
 
   MENU(STR_MENUTRAINER, menuTabGeneral, e_Trainer, (slave ? 1 : 7), {0, 2, 2, 2, 2, 0/*, 0*/});
 
