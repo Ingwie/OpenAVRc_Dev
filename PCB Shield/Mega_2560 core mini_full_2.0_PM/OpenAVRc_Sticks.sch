@@ -37,7 +37,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 2 7
 Title "Shield Mega2560 core Full"
-Date "2017-10-12"
+Date "2017-11-05"
 Rev "2.00"
 Comp ""
 Comment1 "Reproduction et commercialisation interdite"
@@ -570,7 +570,7 @@ $EndComp
 Text Notes 2300 3950 2    60   ~ 0
 Stick control
 Text Notes 5900 3350 0    60   Italic 0
-Option Amplification des sticks (Fonctionne sans)
+Option Amplification des manches (Fonctionne sans)
 $Comp
 L TEST_2P W1
 U 1 1 59C5C13E
