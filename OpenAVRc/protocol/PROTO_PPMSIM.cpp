@@ -75,6 +75,8 @@ static uint16_t PROTO_PPMSIM_cb()
 
 static void PROTO_PPMSIM_initialize()
 {
+  PPM16_CONF();
+
 #if defined(FRSKY) && !defined(DSM2_SERIAL)
   telemetryInit();
 #endif
@@ -97,6 +99,7 @@ const void * PROTO_PPMSIM_Cmds(enum ProtoCmds cmd)
       else PORTB |= PIN5_bm;
       TCCR1A &= ~(0b11<<COM1A0);
       PROTO_Stop_Callback();
+      WAIT_PUPIL();
     return (void *) 1L;
   case PROTOCMD_GETOPTIONS:
      sendOptionsSettingsPpm();

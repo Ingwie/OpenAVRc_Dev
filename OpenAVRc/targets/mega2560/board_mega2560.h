@@ -82,14 +82,6 @@ void readKeysAndTrims();
 #define PAUSE_10MS_INTERRUPT()    TIMSK2 &= ~(1<<OCIE2A)
 #define RESUME_10MS_INTERRUPT()   TIMSK2 |= (1<<OCIE2A)
 
-
-#define SLAVE_MODE()              ~PINH & (1<<INP_H_RF_Activated)
-#define JACK_PPM_OUT()            PORTB &= ~(1<<OUT_B_SIM_CTL)
-#define JACK_PPM_IN()             PORTB |= (1<<OUT_B_SIM_CTL)
-#define ENABLE_TRAINER_INTERRUPT()   TIMSK1 |= (1<<ICIE1);  // Enable ICP Interrupt.
-#define DISABLE_TRAINER_INTERRUPT()  TIMSK1 &= ~(1<<ICIE1); // Disable ICP Interrupt.
-
-
 // Backlight driver
 #define backlightEnable()         PORTC |= (1<<OUT_C_LIGHT)
 #define backlightDisable()        PORTC &= ~(1<<OUT_C_LIGHT)
@@ -119,10 +111,7 @@ void sdPoll10ms();
 #define INP_L_Trainer             7
 
 // Servitudes driver
-#define INP_E_PPM_IN              7    //not used (reserved)
 #define INP_B_WTV_BUSY            7    //WTV20SD, not used (reserved)
-#define OUT_B_PPM                 6
-#define OUT_B_SIM_CTL             5    // ***CLASHES WITH PPMSIM***
 #define I_O_B_UNUSED              4    //unused was Buzzer
 #define INP_D_I2C_SCL             1
 #define INP_D_I2C_SDA             0
@@ -130,14 +119,27 @@ void sdPoll10ms();
 #define INP_E_TELEM_RX            1
 #define OUT_E_TELEM_TX            0
 #define OUT_G_WTV_CLK             5    //WTV20SD
-#define INP_H_RF_Activated        6
+//#define INP_H_RF_Activated        6
 #define INP_H_DSC_Activated       5    //not used, reserved for pwrCheck()
 #define INP_H_Hold_Power          4    //not used, reserved for pwrCheck()
 #define OUT_H_SpeakerBuzzer       3
+#define INP_D_PPM_IN              4    // ICP1
+#define OUT_B_PPM                 6    // Master_PPM_out OC1A
+#define OUT_B_PPM16_SIM           5    // OC1B
+#define OUT_H_PPM16_SIM_CTL       6
 #define OUT_H_WTV_RESET           1    //WTV20SD
 //#define OUT_B_JQ_SERIAL           7    //JQ6500
 #define INP_B_JQ_BUSY             4    //JQ6500
 #define OUT_H_HAPTIC              0
+
+//Puppy Master Mode
+#define ACTIVE_PPM_OUT()            PORTH &= ~(1<<OUT_H_PPM16_SIM_CTL)
+#define ACTIVE_PPM_IN()             PORTH |= (1<<OUT_H_PPM16_SIM_CTL)
+#define ENABLE_TRAINER_INTERRUPT()  TIMSK1 |= (1<<ICIE1);  // Enable ICP Interrupt.
+#define DISABLE_TRAINER_INTERRUPT() TIMSK1 &= ~(1<<ICIE1); // Disable ICP Interrupt.
+#define WAIT_PUPIL()                ENABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_IN()
+#define PPM16_CONF()                DISABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_OUT()
+#define IS_WAIT_PUPIL_STATE()       ((g_model.rfProtocol == (PROTOCOL_PPM16-1)) || (g_model.rfProtocol == (PROTOCOL_PPMSIM-1)))
 
 // Rotary encoders driver
 #define INP_E_ROT_ENC_1_A         4

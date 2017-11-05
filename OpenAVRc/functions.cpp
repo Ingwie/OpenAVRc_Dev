@@ -37,19 +37,6 @@
 CustomFunctionsContext modelFunctionsContext = { 0 };
 
 
-
-#if defined(DEBUGaa)
-/*
- * This is a test function for debugging purpose, you may insert there your code and compile with the option DEBUG=YES
- */
-void testFunc()
-{
-#ifdef SIMU
-//  printf("testFunc\n"); fflush(stdout);
-#endif
-}
-#endif
-
 #if defined(VOICE)
 PLAY_FUNCTION(playValue, source_t idx)
 {

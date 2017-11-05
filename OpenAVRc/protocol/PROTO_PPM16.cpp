@@ -127,6 +127,8 @@ uint16_t half_us = PROTO_PPM16B_cb2();
 
 static void PROTO_PPM16_initialize()
 {
+  PPM16_CONF();
+
 #if defined(FRSKY) && !defined(DSM2_SERIAL)
   telemetryInit();
 #endif
@@ -165,6 +167,7 @@ const void * PROTO_PPM16_Cmds(enum ProtoCmds cmd)
       else PORTB |= PIN5_bm;
       TCCR1A &= ~(0b11<<COM1A0);
       PROTO_Stop_Callback();
+      WAIT_PUPIL();
     return (void *) 1L;
   case PROTOCMD_GETOPTIONS:
      sendOptionsSettingsPpm();

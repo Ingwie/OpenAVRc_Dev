@@ -115,16 +115,17 @@
 #define INP_D_PPM_IN               PIN4_bm // ICP1
 
 // Trainer
-#define OUT_G_SIM_CTL              PIN0_bm
-#define JACK_PPM_OUT()             PORTG |= (OUT_G_SIM_CTL)  // Pupil
-#define JACK_PPM_IN()              PORTG &= ~(OUT_G_SIM_CTL) // Master
+#define OUT_G_SIM_CTL                PIN0_bm
+#define ACTIVE_PPM_OUT()             PORTG |= (OUT_G_SIM_CTL)  // Pupil
+#define ACTIVE_PPM_IN()              PORTG &= ~(OUT_G_SIM_CTL) // Master
 #define ENABLE_TRAINER_INTERRUPT()   TIMSK1 |= (1<<ICIE1);   // Enable ICP Interrupt.
 #define DISABLE_TRAINER_INTERRUPT()  TIMSK1 &= ~(1<<ICIE1);  // Disable ICP Interrupt.
+#define WAIT_PUPIL()                ENABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_IN()
+#define PPM16_CONF()                DISABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_OUT()
+#define IS_WAIT_PUPIL_STATE()       ((g_model.rfProtocol == (PROTOCOL_PPM16-1)) || (g_model.rfProtocol == (PROTOCOL_PPMSIM-1)))
 
 
 #define IO_J_MPX_RF_EN             PIN2_bm
-bool check_slave_mode(void);
-#define SLAVE_MODE()               check_slave_mode()
 
 // Backlight driver
 #define OUT_C_LIGHT                PIN5_bm
