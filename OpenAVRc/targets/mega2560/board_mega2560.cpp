@@ -164,13 +164,13 @@ FORCEINLINE void boardInit()
 
 uint8_t pwrCheck()
 {
-  if ((~PINH & 0b00100000) && (~PINH & 0b01000000))   return e_power_off;
+  //if ((~PINH & 0b00100000) && (~PINH & 0b01000000))   return e_power_off;
   return e_power_on;
 }
 
 void pwrOff()
 {
-  PORTH &= ~0x10;   // PortH-4 set to 0
+  //PORTH &= ~0x10;   // PortH-4 set to 0
 }
 
 uint8_t keyDown()
@@ -285,8 +285,8 @@ void readKeysAndTrims()
 
   uint8_t enuk = KEY_MENU;
 
-  keys[BTN_REa].input(~PINJ & 0x01);
-  keys[BTN_REb].input(~PINJ & 0x02);
+  //keys[BTN_REa].input(~PINJ & 0x01);
+  //keys[BTN_REb].input(~PINJ & 0x02);
 
   uint8_t tin = ~PINL;
   uint8_t in;
