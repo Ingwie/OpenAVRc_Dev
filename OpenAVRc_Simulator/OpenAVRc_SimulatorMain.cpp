@@ -37,6 +37,7 @@
 #include "GvarsFrame.h"
 #include "RadioDataFrame.h"
 #include "ModelNameDialog.h"
+//#include "FrSky/FrskySimu.h"
 
 #include <wx/msgdlg.h>
 #include <wx/dcclient.h>
@@ -481,6 +482,9 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   //Test if MP3 exist
   wxString Filename = AppPath + "\\VOICEMP3\\0000.mp3";
   if(wxFileExists(Filename)) Mp3RepExist = true;
+
+  //frskySimuSetup();
+
 }
 
 //// FW Functions ///////////////////////////////////////////////////
@@ -533,7 +537,7 @@ void OpenAVRc_SimulatorFrame::StartFirmwareCode()
   s_anaFilt[2] = 1024;
   s_anaFilt[3] = 1024;
 
-  s_anaFilt[7] = 1500; //Battery
+  s_anaFilt[7] = 2047;//1134; // 8.4 V Battery (8V dac + 0.4 V Schottky Diode)
 
   Timer10ms.Start(10, false); //Simulate 10mS Interrupt vector
   simumain();
@@ -571,6 +575,9 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
     ResetSimuLcd();
     Close();
   }
+
+  //frskySimuloop();
+
 }
 
 void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
@@ -1717,6 +1724,12 @@ void OpenAVRc_SimulatorFrame::load_EEGeneral_30()
   eepromfile->Read(wxT("vBatMax"),&tmp);
   g_eeGeneral.vBatMax = tmp;
 
+  for (int i=0; i<4; ++i) { //fixed_ID[4]
+    wxString num = wxString::Format(wxT("%i"),i);
+    eepromfile->Read(wxT("fixed_ID"+num),&tmp);
+    g_eeGeneral.fixed_ID[i] = tmp;
+  }
+
   theFile.writeRlc(FILE_GENERAL, FILE_TYP_GENERAL, (uint8_t*)&g_eeGeneral, sizeof(EEGeneral), 1);
 }
 
@@ -2081,6 +2094,12 @@ void OpenAVRc_SimulatorFrame::save_EEGeneral_30(EEGeneral General)
   eepromfile->Write(wxT("speakerVolume"),(int)General.speakerVolume);
   eepromfile->Write(wxT("vBatMin"),(int)General.vBatMin);
   eepromfile->Write(wxT("vBatMax"),(int)General.vBatMax);
+
+  for (int i=0; i<4; ++i) { // fixed_ID[4]
+    wxString num = wxString::Format(wxT("%i"),i);
+    eepromfile->Write(wxT("fixed_ID"+num),(int)General.fixed_ID[i]);
+  }
+
 }
 
 //////////////////////////////VIRTUAL PIN WORD !! JOB /////////////////////////
