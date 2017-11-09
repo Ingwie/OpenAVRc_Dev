@@ -2357,11 +2357,11 @@ void OpenAVRc_SimulatorFrame::CheckInputs()
   if (SpinReb->GetValue() > 0) {
     SpinReb->SetValue(0);
 #if defined(PCBMEGAMINI)
-    SpinD->ResetPin(7);
-    SpinD->ResetPin(6);
+    SpinE->ResetPin(7);
+    SpinE->ResetPin(6);
     INT6_vect();
-    SpinD->SetPin(7);
-    SpinD->SetPin(6);
+    SpinE->SetPin(7);
+    SpinE->SetPin(6);
 #else
     SpinD->ResetPin(2);
     SpinD->ResetPin(3);
