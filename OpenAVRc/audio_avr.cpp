@@ -192,9 +192,16 @@ void audioQueue::event(uint8_t e, uint8_t f)
         play(BEEP_DEFAULT_FREQ+54, 5, 1, PLAY_REPEAT(3));
         break;
       case AU_FRSKY_TADA:
-        play(50, 5, 5);
+        play(140, 7, 2, PLAY_REPEAT(1)|PLAY_INCREMENT(5));
+        play(140, 5, 2);
+        play(135, 15, 5);
+        play(125, 20, 3);
+        play(125, 20, 5);
+
+
+        /*play(50, 5, 5);
         play(90, 5, 5);
-        play(110, 3, 4, PLAY_REPEAT(2));
+        play(110, 3, 4, PLAY_REPEAT(2));*/
         break;
       case AU_FRSKY_CRICKET:
         play(80, 5, 10, PLAY_REPEAT(3));

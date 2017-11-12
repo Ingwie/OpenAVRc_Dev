@@ -197,10 +197,10 @@
     #define TR_CSWRANGE
     #define TR_CSWSTAY
 
-  #define TR_CSWEQUAL
+
 
 #define LEN_VCSWFUNC           "\005"
-#define TR_VCSWFUNC            "---\0 " TR_CSWEQUAL "a\173x\0 ""a>x\0 ""a<x\0 " TR_CSWRANGE "|a|>x""|a|<x""ET\0  ""OU\0  ""OUX\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""^}x\0 ""|^|}x" TR_CSWTIMER TR_CSWSTICKY
+#define TR_VCSWFUNC            "---\0 " "a=x\0 " "a\173x\0 ""a>x\0 ""a<x\0 " TR_CSWRANGE "|a|>x""|a|<x""ET\0  ""OU\0  ""OUX\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""^}x\0 ""|^|}x" TR_CSWTIMER TR_CSWSTICKY
 
 #define LEN_VFSWFUNC           "\015"
 
@@ -627,7 +627,7 @@
 #define TR_PITCH_AT_ZERO       INDENT "Tonalit\200 au z\200ro"
 #define TR_PITCH_AT_MAX        INDENT "Tonalit\200 au max"
 #define TR_REPEAT_AT_ZERO      TR(INDENT "Interv. au z\200ro", INDENT "Intervalle au z\200ro")
-#define TR_POWEROFF            "\037\120ARRET..."
+#define TR_POWEROFF            "\002ETEINDRE ?"
 #define TR_SHUTDOWN            "ARRET EN COURS"
 #define TR_SAVEMODEL           "Sauvegarde mod\201le..."
 #define TR_BATT_CALIB          "Calib. Batterie"

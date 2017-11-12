@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -55,10 +55,7 @@ bool getLogicalSwitch(uint8_t idx)
   LogicalSwitchData * ls = lswAddress(idx);
   bool result;
 
-  uint8_t s = ls->andsw;
-  if (s > SWSRC_LAST_SWITCH) {
-    s += SWSRC_SW1-SWSRC_LAST_SWITCH-1;
-  }
+  uint8_t s = computeAndswOffset(ls->andsw);
 
   if (ls->func == LS_FUNC_NONE || (s && !getSwitch(s))) {
     if (ls->func != LS_FUNC_STICKY) {
@@ -141,6 +138,11 @@ bool getLogicalSwitch(uint8_t idx)
 #endif
 
       switch (ls->func) {
+
+      case LS_FUNC_VEQUAL:// v==offset
+        result = (x==y);
+        break;
+
       case LS_FUNC_VALMOSTEQUAL:
 #if defined(GVARS)
         if (v1 >= MIXSRC_GVAR1 && v1 <= MIXSRC_LAST_GVAR)
@@ -358,7 +360,7 @@ void checkSwitches()
     }
 
 #if defined(MODULE_ALWAYS_SEND_PULSES)
-    if (pwrCheck()==e_power_off || keyDown()) {
+    if (!pwrCheck) || keyDown()) {
       startupWarningState = STARTUP_WARNING_SWITCHES+1;
       last_bad_switches = 0xff;
     }
@@ -368,7 +370,7 @@ void checkSwitches()
       return;
     }
 
-    if (pwrCheck() == e_power_off) {
+    if (!pwrCheck) {
       return;
     }
 
@@ -461,3 +463,18 @@ void checkSwitches()
     return val;
   }
 
+  int8_t computeAndswOffset(int8_t andsw)
+  {
+    int8_t sign=(andsw<0?-1:1);
+    andsw = abs(andsw);
+
+    if (andsw > SWSRC_LAST_SWITCH) {
+      if (andsw == SWSRC_LAST_SWITCH+1)
+        andsw = SWSRC_REa;
+      else if (andsw == SWSRC_LAST_SWITCH+2)
+        andsw = SWSRC_REb;
+      else if (andsw > SWSRC_LAST_SWITCH+2)
+        andsw += SWSRC_SW1-SWSRC_LAST_SWITCH-3;
+    }
+    return andsw*sign;
+  }

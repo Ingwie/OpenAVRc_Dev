@@ -466,6 +466,7 @@ PACK(union u_int8int16_t {
 
 enum LogicalSwitchesFunctions {
   LS_FUNC_NONE,
+  LS_FUNC_VEQUAL, // v==offset
   LS_FUNC_VALMOSTEQUAL, // v~=offset
   LS_FUNC_VPOS,   // v>offset
   LS_FUNC_VNEG,   // v<offset
@@ -486,12 +487,13 @@ enum LogicalSwitchesFunctions {
 };
 
 typedef uint8_t ls_telemetry_value_t;
-#define MAX_LS_ANDSW    15
+#define MAX_LS_ANDSW    SWSRC_LAST_SWITCH + NUM_LOGICAL_SWITCH + ROTARY_ENCODERS
+#define MIN_LS_ANDSW    -(MAX_LS_ANDSW)
 PACK(typedef struct { // Logical Switches data
   int8_t  v1; //input
-  int8_t  v2; //offset
-  uint8_t func:4;
-  uint8_t andsw:4;
+  int16_t  v2:11; //offset
+  uint16_t func:5;
+  int8_t andsw; // TODO : Better repartition
 }) LogicalSwitchData;
 
 enum TelemetryUnit {
@@ -781,6 +783,9 @@ enum SwitchSources {
   SWSRC_SWA,
   SWSRC_SWB,
   SWSRC_SWC,
+  SWSRC_SWD,
+  SWSRC_SWE,
+  SWSRC_SWF,
   SWSRC_LAST_LOGICAL_SWITCH = SWSRC_FIRST_LOGICAL_SWITCH+NUM_LOGICAL_SWITCH-1,
 
   SWSRC_ON,

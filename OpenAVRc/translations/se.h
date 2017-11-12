@@ -184,10 +184,10 @@
     #define TR_CSWRANGE
     #define TR_CSWSTAY
 
-  #define TR_CSWEQUAL
+
 
 #define LEN_VCSWFUNC           "\005"
-#define TR_VCSWFUNC            "---\0 " TR_CSWEQUAL "a\173x\0 ""a>x\0 ""a<x\0 " TR_CSWRANGE "|a|>x""|a|<x""AND\0 ""OR\0  ""XOR\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""^}x\0 ""|^|}x" TR_CSWTIMER TR_CSWSTICKY
+#define TR_VCSWFUNC            "---\0 " "a=x\0 " "a\173x\0 ""a>x\0 ""a<x\0 " TR_CSWRANGE "|a|>x""|a|<x""AND\0 ""OR\0  ""XOR\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""^}x\0 ""|^|}x" TR_CSWTIMER TR_CSWSTICKY
 
 #define LEN_VFSWFUNC           "\012"
 
@@ -612,7 +612,7 @@
 #define TR_PITCH_AT_ZERO       INDENT "Ton vid Noll"
 #define TR_PITCH_AT_MAX        INDENT "Ton vid Max"
 #define TR_REPEAT_AT_ZERO      INDENT "Repetera vid Noll"
-#define TR_POWEROFF            "\027Power OFF..."
+#define TR_POWEROFF            "\002SHUT DOWN ?"
 #define TR_SHUTDOWN            "ST\204NGER AV"
 #define TR_SAVEMODEL           "Spara modellinst\201lln."
 #define TR_BATT_CALIB          "Kalib. Batteri"
@@ -724,7 +724,6 @@
 #define TR_RESET_TIMER3        "Nollst\201ll Timer3"
 #define TR_RESET_TELEMETRY     "Nollst\201ll Telemetri"
 #define TR_STATISTICS          "Statistik"
-#define TR_SAVE_TIMERS         "Save Timers"
 #define TR_ABOUT_US            "Om Oss"
 #define TR_AND_SWITCH          "OCH Brytare"
 #define TR_SF                  "BF"

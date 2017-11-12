@@ -187,10 +187,10 @@
     #define TR_CSWRANGE
     #define TR_CSWSTAY
 
-  #define TR_CSWEQUAL
+
 
 #define LEN_VCSWFUNC           "\005"
-#define TR_VCSWFUNC            "---\0 " TR_CSWEQUAL "a\173x\0 ""a>x\0 ""a<x\0 " TR_CSWRANGE "|a|>x""|a|<x""AND\0 ""OR\0  ""XOR\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""^}x\0 ""|^|}x" TR_CSWTIMER TR_CSWSTICKY
+#define TR_VCSWFUNC            "---\0 " "a=x\0 " "a\173x\0 ""a>x\0 ""a<x\0 " TR_CSWRANGE "|a|>x""|a|<x""AND\0 ""OR\0  ""XOR\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""^}x\0 ""|^|}x" TR_CSWTIMER TR_CSWSTICKY
 
 #define LEN_VFSWFUNC           "\012" /*10 decimal*/
 
@@ -528,7 +528,7 @@
 #define TR_BLOFFBRIGHTNESS     INDENT"Jasno\206\201 wy\203."
 #define TR_BLCOLOR             INDENT "Color"
 #define TR_SPLASHSCREEN        "Logo ekranu"
-#define TR_THROTTLEWARNING     TR("OstrzGaz", INDENT "Ostrze\207enieGaz")
+#define TR_THROTTLEWARNING     TR(IF_CPUARM(INDENT)"OstrzGaz", INDENT "Ostrze\207enieGaz")
 #define TR_SWITCHWARNING       TR("OstrzPrze\203", INDENT "PozycjaPrze\203")
 #define TR_POTWARNING          TR("Ostrz.Poten.", INDENT "PozycjaPotencj.")
 #define TR_TIMEZONE            TR("Strefa czasowa" ,"Strefa czasowa GPS")
@@ -729,7 +729,6 @@
 #define TR_RESET_TIMER3        "Zeruj Timer3"
 #define TR_RESET_TELEMETRY     "Wyczy\206\201 telemetri\202"
 #define TR_STATISTICS          "Statystyki"
-#define TR_SAVE_TIMERS         "Save Timers"
 #define TR_ABOUT_US            "O nas"
 #define TR_AND_SWITCH          "Prze\203\200cznik AND"
 #define TR_SF                  "FS"

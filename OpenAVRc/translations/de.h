@@ -197,10 +197,10 @@
     #define TR_CSWRANGE
     #define TR_CSWSTAY
 
-#define TR_CSWEQUAL
+#define "a=x\0 "
 
 #define LEN_VCSWFUNC           "\005"
-#define TR_VCSWFUNC            "---\0 " TR_CSWEQUAL "a\173x\0 ""a>x\0 ""a<x\0 " TR_CSWRANGE "|a|>x""|a|<x""AND\0 ""OR\0  ""XOR\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""^}x\0 ""|^|}x" TR_CSWTIMER TR_CSWSTICKY
+#define TR_VCSWFUNC            "---\0 " "a=x\0 " "a\173x\0 ""a>x\0 ""a<x\0 " TR_CSWRANGE "|a|>x""|a|<x""AND\0 ""OR\0  ""XOR\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""^}x\0 ""|^|}x" TR_CSWTIMER TR_CSWSTICKY
 
 #define LEN_VFSWFUNC           "\012"
 
@@ -627,7 +627,7 @@
 #define TR_PITCH_AT_ZERO       INDENT "Niedrigster Ton"
 #define TR_PITCH_AT_MAX        INDENT "H\203chster Ton"
 #define TR_REPEAT_AT_ZERO      INDENT "Wiederholrate"
-#define TR_POWEROFF            "\027Power OFF..."
+#define TR_POWEROFF            "\002SHUT DOWN ?"
 #define TR_SHUTDOWN            "Herunterfahren"
 #define TR_SAVEMODEL           "Modelleinstellungen speichern"
 #define TR_BATT_CALIB          "Akku Spg messen"
@@ -739,7 +739,6 @@
 #define TR_RESET_TIMER3	       "Reset Timer3"
 #define TR_RESET_TELEMETRY     "Reset Telemetrie"
 #define TR_STATISTICS          "Statistik und Gas"
-#define TR_SAVE_TIMERS         "Save Timers"
 #define TR_ABOUT_US            "Die Programmierer"
 #define TR_AND_SWITCH          "UND Schalt" //UND mit weiterem Schaltern
 #define TR_SF                  "SF" //Spezial Funktionen
