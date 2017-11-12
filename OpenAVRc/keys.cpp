@@ -148,7 +148,6 @@ void clearKeyEvents()
     MYWDT_RESET();
 
   }
-
   memclear(keys, sizeof(keys));
   putEvent(0);
 }

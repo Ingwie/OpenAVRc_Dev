@@ -40,7 +40,7 @@ const pm_char * warningText = NULL;
 const pm_char * warningInfoText;
 uint8_t         warningInfoLength;
 uint8_t         warningType;
-uint8_t         warningResult = 0;
+bool            warningResult = false;
 
 const pm_uchar asterisk_lbm[] PROGMEM = {
 #include "../bitmaps/asterisk.lbm"

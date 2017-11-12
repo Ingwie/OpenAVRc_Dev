@@ -156,7 +156,6 @@
 #endif
 
 #if defined(MULTIMODULE) || defined(SPIMODULES)
-  #define TR_SUBTYPE            "SubType"
   #define TR_RFTUNE                TR(INDENT "Freq tune",INDENT "RF Freq. fine tune")
   #define TR_TELEMETRY             "Telemetry"
   #define TR_MULTI_VIDFREQ               TR(INDENT "Vid. freq.", INDENT "Video frequency")
@@ -194,10 +193,10 @@
     #define TR_CSWRANGE
     #define TR_CSWSTAY
 
-  #define TR_CSWEQUAL
+
 
 #define LEN_VCSWFUNC     "\005"
-#define TR_VCSWFUNC      "---\0 " TR_CSWEQUAL "a\173x\0 ""a>x\0 ""a<x\0 " TR_CSWRANGE "|a|>x""|a|<x""AND\0 ""OR\0  ""XOR\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""^}x\0 ""|^|}x" TR_CSWTIMER TR_CSWSTICKY
+#define TR_VCSWFUNC      "---\0 " "a=x\0 " "a\173x\0 ""a>x\0 ""a<x\0 " TR_CSWRANGE "|a|>x""|a|<x""AND\0 ""OR\0  ""XOR\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""^}x\0 ""|^|}x" TR_CSWTIMER TR_CSWSTICKY
 
 #define LEN_VFSWFUNC     "\015"
 
@@ -626,7 +625,7 @@
 #define TR_PITCH_AT_ZERO       INDENT "Pitch at Zero"
 #define TR_PITCH_AT_MAX        INDENT "Pitch at Max"
 #define TR_REPEAT_AT_ZERO      INDENT "Repeat at Zero"
-#define TR_POWEROFF            "\027Power OFF..."
+#define TR_POWEROFF            "\002SHUT DOWN ?"
 #define TR_SHUTDOWN            "DESLIGANDOo"
 #define TR_SAVEMODEL           "Saving model settings"
 #define TR_BATT_CALIB          "CALIBRAR BATT"
@@ -738,7 +737,6 @@
 #define TR_RESET_TIMER3        "Reset Timer3"
 #define TR_RESET_TELEMETRY     "Reset Telemetry"
 #define TR_STATISTICS          "Statistics"
-#define TR_SAVE_TIMERS         "Save Timers"
 #define TR_ABOUT_US            "About Us"
 #define TR_AND_SWITCH          "AND Switch"
 #define TR_SF                  "CF"

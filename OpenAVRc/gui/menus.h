@@ -275,7 +275,7 @@ void editName(coord_t x, coord_t y, char *name, uint8_t size, uint8_t event, uin
 extern const pm_char * warningText;
 extern const pm_char * warningInfoText;
 extern uint8_t         warningInfoLength;
-extern uint8_t         warningResult;
+extern bool            warningResult;
 extern uint8_t         warningType;
 
 #define MENU_X   10

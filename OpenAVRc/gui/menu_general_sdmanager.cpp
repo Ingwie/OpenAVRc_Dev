@@ -103,7 +103,7 @@ void menuGeneralSdManager(uint8_t _event)
 
 #if defined(SDCARD)
   if (warningResult) {
-    warningResult = 0;
+    warningResult = false;
     displayPopup(STR_FORMATTING);
     closeLogs();
     if (f_mkfs(0, 1, 0) == FR_OK) {

@@ -479,8 +479,6 @@ char idx2char(int8_t idx);
 #endif
 
 #include "keys.h"
-#include "pwr.h"
-
 
 bool switchState(EnumKeys enuk);
 uint8_t trimDown(uint8_t idx);
@@ -558,6 +556,7 @@ bool getSwitch(swsrc_t swtch);
 
 void logicalSwitchesTimerTick();
 void logicalSwitchesReset();
+int8_t computeAndswOffset(int8_t andsw);
 
 #define evalLogicalSwitches(xxx)
 #define GETSWITCH_RECURSIVE_TYPE uint16_t
@@ -651,7 +650,8 @@ extern uint8_t trimsCheckTimer;
 
 void flightReset();
 
-extern uint8_t unexpectedShutdown;
+extern bool pwrCheck;
+extern bool unexpectedShutdown;
 
 extern uint16_t maxMixerDuration;
 
@@ -1162,7 +1162,7 @@ struct Module {
 };
 
 #define PROTO_NEED_SPI PIN3_bm
-#define IS_PROTO_NEED_SPI if (RfOptionSettings.rfProtoNeed & PIN3_bm)
+#define IS_PROTO_NEED_SPI if (RfOptionSettings.rfProtoNeed & PROTO_NEED_SPI)
 
 #define BOOL1USED PIN0_bm
 #define BOOL2USED PIN1_bm
@@ -1172,21 +1172,21 @@ struct Module {
 struct RfOptionSettingsstruct {
   uint8_t         rfProtoNeed:4;     // See usage in "PROTO_NEED_XX" Def
   uint8_t         rfSubTypeMax:4;       //16 max
-  const pm_char*        rfSubTypeNames;
+  const pm_char*  rfSubTypeNames;
   int8_t          rfOptionValue1Min;
   int8_t          rfOptionValue1Max;
-  const pm_char*         rfOptionValue1Name;
+  const pm_char*  rfOptionValue1Name;
   int8_t          rfOptionValue2Min;
   int8_t          rfOptionValue2Max;
-  const pm_char*         rfOptionValue2Name;
+  const pm_char*  rfOptionValue2Name;
   int8_t          rfOptionValue3Max:5;  //32 max -16 is min
-  const pm_char*         rfOptionValue3Name;
+  const pm_char*  rfOptionValue3Name;
   uint8_t         rfOptionBool1Used:1;
-  const pm_char*         rfOptionBool1Name;
+  const pm_char*  rfOptionBool1Name;
   uint8_t         rfOptionBool2Used:1;
-  const pm_char*         rfOptionBool2Name;
+  const pm_char*  rfOptionBool2Name;
   uint8_t         rfOptionBool3Used:1;
-  const pm_char*         rfOptionBool3Name;
+  const pm_char*  rfOptionBool3Name;
 };
 
 void SetRfOptionSettings(uint_farptr_t RfOptSet,

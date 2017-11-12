@@ -609,6 +609,7 @@ extern const pm_char STR_CONFIRMRESET[];
 extern const pm_char STR_TOO_MANY_LUA_SCRIPTS[];
 extern const pm_char STR_BLCOLOR[];*/
 extern const pm_char STR_DUMMY[];
+extern const pm_char STR_POWEROFF[];
 
 
 #if defined(VOICE)
