@@ -150,19 +150,9 @@ uint8_t USART2_mspi_xfer(uint8_t data)
 #endif
 }
 
-
-uint8_t pwrCheck()
-{
-  //if ((~PINH & 0b00100000) && (~PINH & 0b01000000))   return e_power_off;
-#if defined(SIMU)
-  if (s_anaFilt[7] == 0) return e_power_off; // TODO
-#endif
-  return e_power_on;
-}
-
 void pwrOff()
 {
-  PORTH &= ~(1<<INP_H_Hold_Power);   // PortH-4 set to 0
+  PORTH &= ~ INP_H_Hold_Power;   // PortH-4 set to 0
 }
 
 uint8_t keyDown()

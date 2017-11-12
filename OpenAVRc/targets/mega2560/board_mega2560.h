@@ -113,7 +113,7 @@ void sdPoll10ms();
 #define OUT_G_WTV_CLK             5    //WTV20SD
 //#define INP_H_RF_Activated        6
 #define INP_H_DSC_Activated       5    //not used, reserved for pwrCheck()
-#define INP_H_Hold_Power          4    //not used, reserved for pwrCheck()
+#define INP_H_Hold_Power          PIN4_bm
 #define OUT_H_SpeakerBuzzer       3
 #define INP_D_PPM_IN              4    // ICP1
 #define OUT_B_PPM                 6    // Master_PPM_out OC1A

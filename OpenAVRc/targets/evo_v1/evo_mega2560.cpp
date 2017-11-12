@@ -164,7 +164,7 @@ uint8_t USART3_mspi_xfer(uint8_t data)
 }
 
 
-enum PowerState pwrCheck(void)
+enum PowerState pwrCheck(void) // Todo : Rebuild use pwrCheck = false to shut down
 {
   static tmr10ms_t last10ms;
 

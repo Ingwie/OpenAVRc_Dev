@@ -41,7 +41,8 @@ uint16_t g_tmr1Latency_max;
 uint16_t g_tmr1Latency_min;
 uint16_t lastMixerDuration;
 
-uint8_t unexpectedShutdown = 0;
+bool pwrCheck = true;
+bool unexpectedShutdown = false;
 
 /* AVR: mixer duration in 1/16ms */
 uint16_t maxMixerDuration;
@@ -705,7 +706,7 @@ void doSplash()
       }
 #endif
 
-      if (pwrCheck() == e_power_off) {
+      if (!pwrCheck) {
         return;
       }
 
@@ -782,7 +783,7 @@ void checkTHR()
 
 #if defined(MODULE_ALWAYS_SEND_PULSES)
   int16_t v = calibratedStick[thrchn];
-  if (v<=THRCHK_DEADBAND-1024 || g_model.disableThrottleWarning || pwrCheck()==e_power_off || keyDown()) {
+  if (v<=THRCHK_DEADBAND-1024 || g_model.disableThrottleWarning || (!pwrCheck) || keyDown()) {
     startupWarningState = STARTUP_WARNING_THROTTLE+1;
   } else {
     calibratedStick[thrchn] = -1024;
@@ -817,7 +818,7 @@ void checkTHR()
 
     v = calibratedStick[thrchn];
 
-    if (pwrCheck() == e_power_off) {
+    if (!pwrCheck) {
       break;
     }
 
@@ -856,7 +857,7 @@ void alert(const pm_char * t, const pm_char *s MESSAGE_SOUND_ARG)
 
     MYWDT_RESET();
 
-    if (pwrCheck() == e_power_off) {
+    if (!pwrCheck) {
       boardOff(); // turn power off now
     }
   }
@@ -1568,7 +1569,7 @@ void OpenAVRcInit(OpenAVRc_INIT_ARGS)
   if (g_eeGeneral.backlightMode != e_backlight_mode_off) backlightOn(); // on Tx start turn the light on
 
   if (UNEXPECTED_SHUTDOWN()) {
-    unexpectedShutdown = 1;
+    unexpectedShutdown = true;
   } else {
     OpenAVRcStart();
   }
@@ -1671,8 +1672,7 @@ void SimuMainLoop(void) // Create loop function
 {
   simu_mainloop_is_runing = true;
 #endif //SIMU
-    uint8_t shutdown_state = 0;
-    if ((shutdown_state=pwrCheck()) > e_power_trainer)
+    if (!pwrCheck)
 #if !defined(SIMU)
       break;
 #else

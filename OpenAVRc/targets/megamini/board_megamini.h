@@ -111,7 +111,7 @@ void sdPoll10ms();
 #define OUT_E_TELEM_TX            0
 //#define INP_H_RF_Activated        6
 //#define INP_H_DSC_Activated       5    //not used, reserved for pwrCheck()
-#define INP_H_Hold_Power          4    //not used, reserved for pwrCheck()
+#define INP_H_Hold_Power          PIN4_bm
 #define OUT_H_SpeakerBuzzer       3
 #define OUT_H_PPM16_SIM_CTL       6
 #define OUT_J_JQ_SERIAL           1    //JQ6500
@@ -128,16 +128,16 @@ void sdPoll10ms();
 #define IS_WAIT_PUPIL_STATE()       ((g_model.rfProtocol == (PROTOCOL_PPM16-1)) || (g_model.rfProtocol == (PROTOCOL_PPMSIM-1)))
 
 // Rotary encoders driver
-#define INP_E_ROT_ENC_1_A         4
-#define INP_E_ROT_ENC_1_B         5
-#define ROT_ENC_1_MASK            ((1<<INP_E_ROT_ENC_1_A) | (1<<INP_E_ROT_ENC_1_B))
-#define INP_E_ROT_ENC_2_A         7
-#define INP_E_ROT_ENC_2_B         6
-#define ROT_ENC_2_MASK            ((1<<INP_E_ROT_ENC_2_A) | (1<<INP_E_ROT_ENC_2_B))
-#define INP_G_ROT_ENC_1_PUSH      5
-#define INP_E_ROT_ENC_2_PUSH      3
-#define REA_DOWN()                (~PING & (1<<INP_G_ROT_ENC_1_PUSH))
-#define REB_DOWN()                (~PINE & (1<<INP_E_ROT_ENC_2_PUSH))
+#define INP_E_ROT_ENC_1_A         PIN4_bm
+#define INP_E_ROT_ENC_1_B         PIN5_bm
+#define ROT_ENC_1_MASK            (INP_E_ROT_ENC_1_A | INP_E_ROT_ENC_1_B)
+#define INP_E_ROT_ENC_2_A         PIN7_bm
+#define INP_E_ROT_ENC_2_B         PIN6_bm
+#define ROT_ENC_2_MASK            (INP_E_ROT_ENC_2_A | INP_E_ROT_ENC_2_B)
+#define INP_G_ROT_ENC_1_PUSH      PIN5_bm
+#define INP_E_ROT_ENC_2_PUSH      PIN3_bm
+#define REA_DOWN()                (~PING & INP_G_ROT_ENC_1_PUSH)
+#define REB_DOWN()                (~PINE & INP_E_ROT_ENC_2_PUSH)
 #define ROTENC_DOWN()             (REA_DOWN() || REB_DOWN())
 
 // LCD driver
@@ -155,7 +155,6 @@ void sdPoll10ms();
 #define OUT_C_LIGHT              2
 
 // Power driver
-uint8_t pwrCheck();
 void pwrOff();
 #if defined(PWRMANAGE)
   #define UNEXPECTED_SHUTDOWN()   ((mcusr & (1 << WDRF)) || g_eeGeneral.unexpectedShutdown)
