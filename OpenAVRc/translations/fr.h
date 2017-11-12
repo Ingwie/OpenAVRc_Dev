@@ -627,7 +627,7 @@
 #define TR_PITCH_AT_ZERO       INDENT "Tonalit\200 au z\200ro"
 #define TR_PITCH_AT_MAX        INDENT "Tonalit\200 au max"
 #define TR_REPEAT_AT_ZERO      TR(INDENT "Interv. au z\200ro", INDENT "Intervalle au z\200ro")
-#define TR_POWEROFF            "\002ETEINDRE ?"
+#define TR_POWEROFF            "\006ETEINDRE ?"
 #define TR_SHUTDOWN            "ARRET EN COURS"
 #define TR_SAVEMODEL           "Sauvegarde mod\201le..."
 #define TR_BATT_CALIB          "Calib. Batterie"

@@ -160,7 +160,7 @@ GvarsFrame::~GvarsFrame()
 void GvarsFrame::PopulateGvarsFrame()
 {
   //#define CFN_GVAR_CST_MAX    125 (from myeeprom.h)
-  //#define MAX_GVARS            5
+  //#define MAX_GVARS            6
   //#define MAX_FLIGHT_MODES     6
 
   for (uint8_t p = 0; p < MAX_FLIGHT_MODES; p++) {
@@ -242,6 +242,7 @@ void GvarsFrame::PopulateGvarsFrame()
 
 void GvarsFrame::OnClose(wxCloseEvent& event)
 {
+  event.Skip();
   OpenAVRc_SimulatorFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_SimulatorFrame);
   if(parent)
     parent->EnableOutputGvarsMenu();
@@ -250,6 +251,7 @@ void GvarsFrame::OnClose(wxCloseEvent& event)
 
 void GvarsFrame::OngvarsTimerTrigger(wxTimerEvent& event)
 {
+  event.Skip();
   PopulateGvarsFrame();
 }
 
@@ -257,6 +259,7 @@ void GvarsFrame::OngvarsTimerTrigger(wxTimerEvent& event)
 // VG1 *************************************
 void GvarsFrame::OnTextCtrlpersoGvar1TextEnter(wxCommandEvent& event)
 {
+  event.Skip();
   wxString persoGvar1 = TextCtrlpersoGvar1->GetValue();
   ConvWxstrToCharFw(persoGvar1,g_model.gvars[0].name, LEN_GVAR_NAME);
   gvarsTimer.Start(-1,wxTIMER_CONTINUOUS);
@@ -264,6 +267,7 @@ void GvarsFrame::OnTextCtrlpersoGvar1TextEnter(wxCommandEvent& event)
 // VG2 *************************************
 void GvarsFrame::OnTextCtrlpersoGvar2TextEnter(wxCommandEvent& event)
 {
+  event.Skip();
   wxString persoGvar2 = TextCtrlpersoGvar2->GetValue();
   ConvWxstrToCharFw(persoGvar2,g_model.gvars[1].name, LEN_GVAR_NAME);
   gvarsTimer.Start(-1,wxTIMER_CONTINUOUS);
@@ -271,6 +275,7 @@ void GvarsFrame::OnTextCtrlpersoGvar2TextEnter(wxCommandEvent& event)
 // VG3 *************************************
 void GvarsFrame::OnTextCtrlpersoGvar3TextEnter(wxCommandEvent& event)
 {
+  event.Skip();
   wxString persoGvar3 = TextCtrlpersoGvar3->GetValue();
   ConvWxstrToCharFw(persoGvar3,g_model.gvars[2].name, LEN_GVAR_NAME);
   gvarsTimer.Start(-1,wxTIMER_CONTINUOUS);
@@ -278,6 +283,7 @@ void GvarsFrame::OnTextCtrlpersoGvar3TextEnter(wxCommandEvent& event)
 // VG4 *************************************
 void GvarsFrame::OnTextCtrlpersoGvar4TextEnter(wxCommandEvent& event)
 {
+  event.Skip();
   wxString persoGvar4 = TextCtrlpersoGvar4->GetValue();
   ConvWxstrToCharFw(persoGvar4,g_model.gvars[3].name, LEN_GVAR_NAME);
   gvarsTimer.Start(-1,wxTIMER_CONTINUOUS);
@@ -285,6 +291,7 @@ void GvarsFrame::OnTextCtrlpersoGvar4TextEnter(wxCommandEvent& event)
 // VG5 *************************************
 void GvarsFrame::OnTextCtrlpersoGvar5TextEnter(wxCommandEvent& event)
 {
+  event.Skip();
   wxString persoGvar5 = TextCtrlpersoGvar5->GetValue();
   ConvWxstrToCharFw(persoGvar5,g_model.gvars[4].name, LEN_GVAR_NAME);
   gvarsTimer.Start(-1,wxTIMER_CONTINUOUS);
@@ -292,6 +299,7 @@ void GvarsFrame::OnTextCtrlpersoGvar5TextEnter(wxCommandEvent& event)
 // VG6 *************************************
 void GvarsFrame::OnTextCtrlpersoGvar6TextEnter(wxCommandEvent& event)
 {
+  event.Skip();
   wxString persoGvar6 = TextCtrlpersoGvar6->GetValue();
   ConvWxstrToCharFw(persoGvar6,g_model.gvars[5].name, LEN_GVAR_NAME);
   gvarsTimer.Start(-1,wxTIMER_CONTINUOUS);
@@ -303,6 +311,7 @@ void GvarsFrame::OnTextCtrlpersoGvar6TextEnter(wxCommandEvent& event)
 // Phase de vol PV0 **********************
 void GvarsFrame::OnTextCtrlpersoPhase0TextEnter(wxCommandEvent& event)
 {
+  event.Skip();
   wxString persoPhase0 = TextCtrlpersoPhase0->GetValue();
   ConvWxstrToCharFw(persoPhase0,g_model.flightModeData[0].name, LEN_FLIGHT_MODE_NAME);
   gvarsTimer.Start(-1,wxTIMER_CONTINUOUS);
@@ -311,6 +320,7 @@ void GvarsFrame::OnTextCtrlpersoPhase0TextEnter(wxCommandEvent& event)
 // Phase de vol PV1 **********************
 void GvarsFrame::OnTextCtrlpersoPhase1TextEnter(wxCommandEvent& event)
 {
+  event.Skip();
   wxString persoPhase1 = TextCtrlpersoPhase1->GetValue();
   ConvWxstrToCharFw(persoPhase1,g_model.flightModeData[1].name, LEN_FLIGHT_MODE_NAME);
   gvarsTimer.Start(-1,wxTIMER_CONTINUOUS);
@@ -319,6 +329,7 @@ void GvarsFrame::OnTextCtrlpersoPhase1TextEnter(wxCommandEvent& event)
 // Phase de vol PV2 **********************
 void GvarsFrame::OnTextCtrlpersoPhase2TextEnter(wxCommandEvent& event)
 {
+  event.Skip();
   wxString persoPhase2 = TextCtrlpersoPhase2->GetValue();
   ConvWxstrToCharFw(persoPhase2,g_model.flightModeData[2].name, LEN_FLIGHT_MODE_NAME);
   gvarsTimer.Start(-1,wxTIMER_CONTINUOUS);
@@ -327,6 +338,7 @@ void GvarsFrame::OnTextCtrlpersoPhase2TextEnter(wxCommandEvent& event)
 // Phase de vol PV3 **********************
 void GvarsFrame::OnTextCtrlpersoPhase3TextEnter(wxCommandEvent& event)
 {
+  event.Skip();
   wxString persoPhase3 = TextCtrlpersoPhase3->GetValue();
   ConvWxstrToCharFw(persoPhase3,g_model.flightModeData[3].name, LEN_FLIGHT_MODE_NAME);
   gvarsTimer.Start(-1,wxTIMER_CONTINUOUS);
@@ -334,6 +346,7 @@ void GvarsFrame::OnTextCtrlpersoPhase3TextEnter(wxCommandEvent& event)
 // Phase de vol PV4 **********************
 void GvarsFrame::OnTextCtrlpersoPhase4TextEnter(wxCommandEvent& event)
 {
+  event.Skip();
   wxString persoPhase4 = TextCtrlpersoPhase4->GetValue();
   ConvWxstrToCharFw(persoPhase4,g_model.flightModeData[4].name, LEN_FLIGHT_MODE_NAME);
   gvarsTimer.Start(-1,wxTIMER_CONTINUOUS);
@@ -342,6 +355,7 @@ void GvarsFrame::OnTextCtrlpersoPhase4TextEnter(wxCommandEvent& event)
 // Phase de vol PV5 **********************
 void GvarsFrame::OnTextCtrlpersoPhase5TextEnter(wxCommandEvent& event)
 {
+  event.Skip();
   wxString persoPhase5 = TextCtrlpersoPhase5->GetValue();
   ConvWxstrToCharFw(persoPhase5,g_model.flightModeData[5].name, LEN_FLIGHT_MODE_NAME);
   gvarsTimer.Start(-1,wxTIMER_CONTINUOUS);
@@ -351,5 +365,6 @@ void GvarsFrame::OnTextCtrlpersoPhase5TextEnter(wxCommandEvent& event)
 
 void GvarsFrame::OnTextCtrlpersoAllText(wxCommandEvent& event)
 {
+  event.Skip();
   gvarsTimer.Stop();  // Stop timer in "edit" mode
 }

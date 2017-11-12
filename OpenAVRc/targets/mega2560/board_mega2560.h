@@ -159,7 +159,6 @@ void sdPoll10ms();
 #define OUT_C_LIGHT              2
 
 // Power driver
-uint8_t pwrCheck();
 void pwrOff();
 #if defined(PWRMANAGE)
   #define UNEXPECTED_SHUTDOWN()   ((mcusr & (1 << WDRF)) || g_eeGeneral.unexpectedShutdown)
@@ -176,7 +175,7 @@ void pwrOff();
 #define buzzerOff()               PORTH &= ~(1 << OUT_H_SpeakerBuzzer)
 
 // Speaker driver
-#if defined(AUDIO)
+#if defined(AUDIO) && !defined(SIMU)
   #define speakerOff()              TCCR4A &= ~(1 << COM4A0)
   #define speakerOn()               TCCR4A |=  (1 << COM4A0)
 #endif

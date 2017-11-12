@@ -615,7 +615,7 @@
 #define TR_PITCH_AT_ZERO       INDENT "Pitch at Zero"
 #define TR_PITCH_AT_MAX        INDENT "Pitch at Max"
 #define TR_REPEAT_AT_ZERO      INDENT "Repeat at Zero"
-#define TR_POWEROFF            "\002SHUT DOWN ?"
+#define TR_POWEROFF            "\006SHUT DOWN ?"
 #define TR_SHUTDOWN            "SHUTTING DOWN"
 #define TR_SAVEMODEL           "Saving model settings"
 #define TR_BATT_CALIB          "Battery Calib"

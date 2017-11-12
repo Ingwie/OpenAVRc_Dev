@@ -612,7 +612,7 @@
 #define TR_PITCH_AT_ZERO       INDENT "Ton vid Noll"
 #define TR_PITCH_AT_MAX        INDENT "Ton vid Max"
 #define TR_REPEAT_AT_ZERO      INDENT "Repetera vid Noll"
-#define TR_POWEROFF            "\002SHUT DOWN ?"
+#define TR_POWEROFF            "\006SHUT DOWN ?"
 #define TR_SHUTDOWN            "ST\204NGER AV"
 #define TR_SAVEMODEL           "Spara modellinst\201lln."
 #define TR_BATT_CALIB          "Kalib. Batteri"
