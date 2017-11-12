@@ -37,7 +37,7 @@
 #include "GvarsFrame.h"
 #include "RadioDataFrame.h"
 #include "ModelNameDialog.h"
-//#include "FrSky/FrskySimu.h"
+#include "FrSky/FrskySimu.h"
 
 #include <wx/msgdlg.h>
 #include <wx/dcclient.h>
@@ -483,7 +483,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   wxString Filename = AppPath + "\\VOICEMP3\\0000.mp3";
   if(wxFileExists(Filename)) Mp3RepExist = true;
 
-  //frskySimuSetup();
+  frskySimuSetup();
 
 }
 
@@ -556,7 +556,7 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
 {
   if (!OnTglButton->GetValue()) {
 #if defined(PCBMEGAMINI)
-    s_anaFilt[7] = 0;
+    pwrCheck = false;
 #else
     SpinH->ResetPin(6);
 #endif
@@ -576,7 +576,7 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
     Close();
   }
 
-  //frskySimuloop();
+  frskySimuloop();
 
 }
 
@@ -1467,7 +1467,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
         eepromfile->Read(wxT("logicalSw"+num+".v2"),&tmp,0);
         temp_model.logicalSw[i].v2 = tmp;
         eepromfile->Read(wxT("logicalSw"+num+".func"),&tmp,0);
-        temp_model.logicalSw[i].func = tmp;
+        temp_model.logicalSw[i].func = (tmp == 0 ? tmp : tmp+1); // Function v==offset added
         eepromfile->Read(wxT("logicalSw"+num+".andsw"),&tmp,0);
         temp_model.logicalSw[i].andsw = tmp;
       }
