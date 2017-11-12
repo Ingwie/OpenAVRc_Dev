@@ -619,7 +619,7 @@
 #define TR_PITCH_AT_ZERO       INDENT "T\205n na nule"
 #define TR_PITCH_AT_MAX        INDENT "T\205n na maximu"
 #define TR_REPEAT_AT_ZERO      INDENT "Opakov\200n\204 na nule"
-#define TR_POWEROFF            "\002SHUT DOWN ?"
+#define TR_POWEROFF            "\006SHUT DOWN ?"
 #define TR_SHUTDOWN            "Vyp\204n\200n\204.."
 #define TR_SAVEMODEL           "Ukl\200d\200m nastaven\204 modelu"
 #define TR_BATT_CALIB          "Kalib. baterie"

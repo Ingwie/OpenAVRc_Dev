@@ -614,7 +614,7 @@
 #define TR_PITCH_AT_ZERO       INDENT "Tono a Zero"
 #define TR_PITCH_AT_MAX        INDENT "Tono al Max"
 #define TR_REPEAT_AT_ZERO      INDENT "Ripeti a Zero"
-#define TR_POWEROFF            "\002SHUT DOWN ?"
+#define TR_POWEROFF            "\006SHUT DOWN ?"
 #define TR_SHUTDOWN            "ARRESTO.."
 #define TR_SAVEMODEL           "Salvataggio dati modello"
 #define TR_BATT_CALIB          "Calibra batt."

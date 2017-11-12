@@ -151,6 +151,7 @@ void RadioDataFrame::PopulateRadioDataFrame()
 
 void RadioDataFrame::OnClose(wxCloseEvent& event)
 {
+  event.Skip();
   OpenAVRc_SimulatorFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_SimulatorFrame);
   if(parent)
     parent->EnableRadioDataMenu();
@@ -159,5 +160,6 @@ void RadioDataFrame::OnClose(wxCloseEvent& event)
 
 void RadioDataFrame::OnRadioDataTrigger(wxTimerEvent& event)
 {
+  event.Skip();
   PopulateRadioDataFrame();
 }

@@ -45,9 +45,10 @@
   #define assert(x)
   #include "board_avr.h"
 #else //SIMU define
-  #include <stdbool.h>
-  #include "targets/simu/simu_interface.h"
-  #include "targets/megamini/board_megamini.h" //New reference board
+#include <stdbool.h>
+#include "targets/simu/simu_interface.h"
+#include "targets/megamini/board_megamini.h" //New reference board
+//#include "targets/mega2560/board_mega2560.h"
 #endif
 
 /////////////////DEBUG FUNCTION DEFINITION///////////////////

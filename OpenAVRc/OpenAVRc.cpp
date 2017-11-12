@@ -1676,7 +1676,11 @@ void SimuMainLoop(void) // Create loop function
 #if !defined(SIMU)
       break;
 #else
+      {
       shutDownSimu();
+      simu_mainloop_is_runing = false;
+      return;
+      }
 #endif
 
     perMain();

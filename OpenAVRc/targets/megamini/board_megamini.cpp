@@ -147,6 +147,8 @@ uint8_t USART2_mspi_xfer(uint8_t data)
   while ( !(UCSR2A & (1<<RXC2)) );
   /* Get and return received data from buffer */
   return UDR2;
+#else
+TRACE("MSPI Send to RF module : ", data);
 #endif
 }
 

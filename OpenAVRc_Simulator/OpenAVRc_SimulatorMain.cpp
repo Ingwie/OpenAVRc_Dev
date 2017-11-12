@@ -491,6 +491,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
 
 void OpenAVRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
 {
+  event.Skip();
   int answer;
   if (OnTglButton->GetValue()) {
     if (simu_eeprom[1] == 0) {
@@ -554,6 +555,7 @@ void OpenAVRc_SimulatorFrame::ResetSimuLcd()
 
 void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
 {
+  event.Skip();
   if (!OnTglButton->GetValue()) {
 #if defined(PCBMEGAMINI)
     pwrCheck = false;
@@ -574,6 +576,7 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
     Timer10ms.Stop();
     ResetSimuLcd();
     Close();
+    return;
   }
 
   frskySimuloop();
@@ -582,7 +585,7 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
 
 void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
 {
-
+  event.Skip();
   if (Mp3RepExist) PlayTts(); // Check and play voice if needed
   CheckInputs();
   Chrono10ms->Start(0);
@@ -636,11 +639,13 @@ OpenAVRc_SimulatorFrame::~OpenAVRc_SimulatorFrame()
 
 void OpenAVRc_SimulatorFrame::OnQuit(wxCommandEvent& event)
 {
+  event.Skip();
   Close();
 }
 
 void OpenAVRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
 {
+  event.Skip();
   wxAboutDialogInfo Aboutbox;
   Aboutbox.SetName(_("OpenAVRc Simulateur"));
   Aboutbox.SetVersion(_("V 3.0"));
@@ -654,6 +659,7 @@ void OpenAVRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
 
 void OpenAVRc_SimulatorFrame::OnwxsimulcdPaint(wxPaintEvent& event)
 {
+  event.Skip();
   DrawWxSimuLcd();
 }
 
@@ -709,6 +715,7 @@ void OpenAVRc_SimulatorFrame::LoadEepromFile(wxString path)
 
 void OpenAVRc_SimulatorFrame::OnMenuLoadEeprom(wxCommandEvent& event)
 {
+  event.Skip();
   LoadEeprom();
 }
 
@@ -729,6 +736,7 @@ void OpenAVRc_SimulatorFrame::PaintSticks(int x, int y, int x_mem, int y_mem, wx
 
 void OpenAVRc_SimulatorFrame::OnLstickMouseMove(wxMouseEvent& event)
 {
+  event.Skip();
   static int x_mem = (Lstick->GetSize().GetWidth())/2;
   static int y_mem = (Lstick->GetSize().GetWidth())/2;
 
@@ -750,6 +758,7 @@ void OpenAVRc_SimulatorFrame::OnLstickMouseMove(wxMouseEvent& event)
 
 void OpenAVRc_SimulatorFrame::OnRstickMouseMove(wxMouseEvent& event)
 {
+  event.Skip();
   static int x_mem = (Rstick->GetSize().GetWidth())/2;
   static int y_mem = (Rstick->GetSize().GetWidth())/2;
 
@@ -772,6 +781,7 @@ void OpenAVRc_SimulatorFrame::OnRstickMouseMove(wxMouseEvent& event)
 
 void OpenAVRc_SimulatorFrame::OnSimulcdLeftDClick(wxMouseEvent& event)
 {
+  event.Skip();
   wxFileDialog saveFileDialog(this, _("Sauver Capture écran"), "", "", "Fichier BMP (*.bmp)|*.bmp", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
   if (saveFileDialog.ShowModal() == wxID_CANCEL)
     return;     // the user changed idea...
@@ -787,6 +797,7 @@ void OpenAVRc_SimulatorFrame::OnSimulcdLeftDClick(wxMouseEvent& event)
 
 void OpenAVRc_SimulatorFrame::OnMenuSaveeeSelected(wxCommandEvent& event)
 {
+  event.Skip();
   wxFileDialog saveFileDialog(this, _("Sauver Eeprom"), "", "", "Fichier BIN (*.bin)|*.bin", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
   if (saveFileDialog.ShowModal() == wxID_CANCEL)
     return;     // the user changed idea...
@@ -807,6 +818,7 @@ void OpenAVRc_SimulatorFrame::OnMenuSaveeeSelected(wxCommandEvent& event)
 
 void OpenAVRc_SimulatorFrame::OnClose(wxCloseEvent& event)
 {
+  event.Skip();
   if (OnTglButton->GetValue() && (!simu_off)) {
     wxMessageBox( _("Merci d'éteindre le simulateur pour quitter"), _("      OpenAVRc Simulateur"));
     event.Veto();
@@ -886,11 +898,13 @@ void OpenAVRc_SimulatorFrame::SaveConfig()
 
 void OpenAVRc_SimulatorFrame::OnMenuExportEepromSelected(wxCommandEvent& event)
 {
+  event.Skip();
   ExportEeprom();
 }
 
 void OpenAVRc_SimulatorFrame::OnMenuImportEepromSelected(wxCommandEvent& event)
 {
+  event.Skip();
   int answer = wxMessageBox( _("L'eeprom va être formatée, étes vous sur ?"), _("    OpenAVRc Simulateur"), wxYES_NO, this);
   if (answer == wxNO) {
     return;
@@ -2106,199 +2120,238 @@ void OpenAVRc_SimulatorFrame::save_EEGeneral_30(EEGeneral General)
 
 void OpenAVRc_SimulatorFrame::OnBPmenuLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinL->ResetPin(4);
 }
 
 void OpenAVRc_SimulatorFrame::OnBPmenuLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
   SpinL->SetPin(4);
 }
 
 void OpenAVRc_SimulatorFrame::OnBPexitLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinL->ResetPin(5);
 }
 
 void OpenAVRc_SimulatorFrame::OnBPexitLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
   SpinL->SetPin(5);
 }
 
 void OpenAVRc_SimulatorFrame::OnBPhLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinL->ResetPin(1);
 }
 
 void OpenAVRc_SimulatorFrame::OnBPhLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
   SpinL->SetPin(1);
 }
 
 void OpenAVRc_SimulatorFrame::OnBPbLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinL->ResetPin(0);
 }
 
 void OpenAVRc_SimulatorFrame::OnBPbLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
   SpinL->SetPin(0);
 }
 
 void OpenAVRc_SimulatorFrame::OnBPgLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinL->ResetPin(3);
 }
 
 void OpenAVRc_SimulatorFrame::OnBPgLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
   SpinL->SetPin(3);
 }
 
 void OpenAVRc_SimulatorFrame::OnBPdLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinL->ResetPin(2);
 }
 
 void OpenAVRc_SimulatorFrame::OnBPdLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
   SpinL->SetPin(2);
 }
 
 void OpenAVRc_SimulatorFrame::OnLlTrimLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinF->ResetPin(7);
 }
 
 void OpenAVRc_SimulatorFrame::OnLlTrimLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
   SpinF->SetPin(7);
 }
 
 void OpenAVRc_SimulatorFrame::OnLrTrimLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinF->ResetPin(6);
 }
 
 void OpenAVRc_SimulatorFrame::OnLrTrimLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
   SpinF->SetPin(6);
 }
 
 void OpenAVRc_SimulatorFrame::OnLdTrimLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinF->ResetPin(5);
 }
 
 void OpenAVRc_SimulatorFrame::OnLdTrimLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
   SpinF->SetPin(5);
 }
 
 void OpenAVRc_SimulatorFrame::OnLuTrimLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinF->ResetPin(4);
 }
 
 void OpenAVRc_SimulatorFrame::OnLuTrimLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
   SpinF->SetPin(4);
 }
 
 void OpenAVRc_SimulatorFrame::OnRdTrimLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinF->ResetPin(3);
 }
 
 void OpenAVRc_SimulatorFrame::OnRdTrimLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
   SpinF->SetPin(3);
 }
 
 void OpenAVRc_SimulatorFrame::OnRuTrimLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinF->ResetPin(2);
 }
 
 void OpenAVRc_SimulatorFrame::OnRuTrimLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
   SpinF->SetPin(2);
 }
 
 void OpenAVRc_SimulatorFrame::OnRlTrimLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinF->ResetPin(1);
 }
 
 void OpenAVRc_SimulatorFrame::OnRlTrimLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
   SpinF->SetPin(1);
 }
 
 void OpenAVRc_SimulatorFrame::OnRrTrimLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinF->ResetPin(0);
 }
 
 void OpenAVRc_SimulatorFrame::OnRrTrimLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
   SpinF->SetPin(0);
 }
 
 void OpenAVRc_SimulatorFrame::OnBpTrnLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinL->ResetPin(7);
 }
 
 void OpenAVRc_SimulatorFrame::OnBpTrnLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
   SpinL->SetPin(7);
 }
 
 void OpenAVRc_SimulatorFrame::OnBpTrnRightDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinL->ResetPin(7);
   CheckInputs();
 }
 
 void OpenAVRc_SimulatorFrame::OnBpThrLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinG->TogglePin(2);
 }
 
 void OpenAVRc_SimulatorFrame::OnBpRudLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinG->TogglePin(0);
 }
 
 void OpenAVRc_SimulatorFrame::OnBpEleLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinL->TogglePin(6);
 }
 
 void OpenAVRc_SimulatorFrame::OnBpAilLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinD->TogglePin(7);
 }
 
 void OpenAVRc_SimulatorFrame::OnBpGeaLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   SpinG->TogglePin(1);
 }
 
 void OpenAVRc_SimulatorFrame::OnBpId1LeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   if (!SpinC->GetPin(1)) SpinC->TogglePin(1);
   else SpinC->TogglePin(0);
 }
 
 void OpenAVRc_SimulatorFrame::OnBpId2LeftDown(wxMouseEvent& event)
 {
+  event.Skip();
   if (!SpinC->GetPin(0)) SpinC->TogglePin(0);
   else SpinC->TogglePin(1);
 }
 
 void OpenAVRc_SimulatorFrame::OnBpReaLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
 #if defined(PCBMEGAMINI)
   SpinG->ResetPin(5);
 #else
@@ -2308,6 +2361,7 @@ void OpenAVRc_SimulatorFrame::OnBpReaLeftDown(wxMouseEvent& event)
 
 void OpenAVRc_SimulatorFrame::OnBpReaLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
 #if defined(PCBMEGAMINI)
   SpinG->SetPin(5);
 #else
@@ -2317,6 +2371,7 @@ void OpenAVRc_SimulatorFrame::OnBpReaLeftUp(wxMouseEvent& event)
 
 void OpenAVRc_SimulatorFrame::OnBpRebLeftDown(wxMouseEvent& event)
 {
+  event.Skip();
 #if defined(PCBMEGAMINI)
   SpinE->ResetPin(3);
 #else
@@ -2326,6 +2381,7 @@ void OpenAVRc_SimulatorFrame::OnBpRebLeftDown(wxMouseEvent& event)
 
 void OpenAVRc_SimulatorFrame::OnBpRebLeftUp(wxMouseEvent& event)
 {
+  event.Skip();
 #if defined(PCBMEGAMINI)
   SpinE->SetPin(3);
 #else
@@ -2514,28 +2570,33 @@ wxColour OpenAVRc_SimulatorFrame::SetColour(wxColour mem)
 
 void OpenAVRc_SimulatorFrame::OnMenuLcdBackSelected(wxCommandEvent& event)
 {
+  event.Skip();
   Col_Lcd_Back = SetColour(Col_Lcd_Back);
   DrawWxSimuLcd();
 }
 
 void OpenAVRc_SimulatorFrame::OnMenuLcdPixelSelected(wxCommandEvent& event)
 {
+  event.Skip();
   Col_Lcd_Front = SetColour(Col_Lcd_Front);
   DrawWxSimuLcd();
 }
 
 void OpenAVRc_SimulatorFrame::OnMenuButOffSelected(wxCommandEvent& event)
 {
+  event.Skip();
   Col_Button_Off = SetColour(Col_Button_Off);
 }
 
 void OpenAVRc_SimulatorFrame::OnMenuButOnSelected(wxCommandEvent& event)
 {
+  event.Skip();
   Col_Button_On = SetColour(Col_Button_On);
 }
 
 void OpenAVRc_SimulatorFrame::OnMenuStickBackSelected(wxCommandEvent& event)
 {
+  event.Skip();
   Col_Stick_Back = SetColour(Col_Stick_Back);
   Lstick->SetBackgroundColour(Col_Stick_Back);
   Rstick->SetBackgroundColour(Col_Stick_Back);
@@ -2552,19 +2613,21 @@ void OpenAVRc_SimulatorFrame::OnMenuStickStickSelected(wxCommandEvent& event)
 
 void OpenAVRc_SimulatorFrame::OnLstickPaint(wxPaintEvent& event)
 {
+  event.Skip();
   int pos = (Lstick->GetSize().GetWidth())/2;
   PaintSticks(pos,pos,pos,pos,Lstick);
 }
 
 void OpenAVRc_SimulatorFrame::OnRstickPaint(wxPaintEvent& event)
 {
+  event.Skip();
   int pos = (Rstick->GetSize().GetWidth())/2;
   PaintSticks(pos,pos,pos,pos,Rstick);
-
 }
 
 void OpenAVRc_SimulatorFrame::OnButtonStartDesktopClick(wxCommandEvent& event)
 {
+  event.Skip();
   wxString desktop("OpenAVRc_Desktop.exe");
   wxExecute(desktop);
 }
@@ -2632,6 +2695,7 @@ void OpenAVRc_SimulatorFrame::OnKey(wxKeyEvent& event)
 
 void OpenAVRc_SimulatorFrame::OnMixeurSelected(wxCommandEvent& event)//Draws the mixer display screen
 {
+  event.Skip();
   MixFr = new  MixerFrame(this);
   MixFr->Show(TRUE);
   MenuFrame->Enable(ID_MENUITEMOUTPUTMIXER, false);
@@ -2644,6 +2708,7 @@ void OpenAVRc_SimulatorFrame::EnableMixerFrameMenu()
 
 void OpenAVRc_SimulatorFrame::OnOutputBarsSelected(wxCommandEvent& event)
 {
+  event.Skip();
   BarFr = new  OutBarsFrame(this);
   BarFr->Show(TRUE);
   MenuFrame->Enable(ID_MENUITEMOUTPUTOUTPUT, false);
@@ -2656,6 +2721,7 @@ void OpenAVRc_SimulatorFrame::EnableOutputBarsMenu()
 
 void OpenAVRc_SimulatorFrame::OnOutputGvarsSelected(wxCommandEvent& event)
 {
+  event.Skip();
   GvFr = new  GvarsFrame(this);
   GvFr->Show(TRUE);
   MenuFrame->Enable(ID_MENUITEMOUTPUTGVARS, false);
@@ -2668,6 +2734,7 @@ void OpenAVRc_SimulatorFrame::EnableOutputGvarsMenu()
 
 void OpenAVRc_SimulatorFrame::OnRadioDataSelected(wxCommandEvent& event)
 {
+  event.Skip();
   RaFr = new  RadioDataFrame(this);
   RaFr->Show(TRUE);
   MenuFrame->Enable(ID_MENUITEMRADIODATA, false);

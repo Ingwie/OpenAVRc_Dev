@@ -120,10 +120,11 @@ MixerFrame::~MixerFrame()
 
 void MixerFrame::OnClose(wxCloseEvent& event)
 {
- OpenAVRc_SimulatorFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_SimulatorFrame);
-if(parent)
+  event.Skip();
+  OpenAVRc_SimulatorFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_SimulatorFrame);
+  if(parent)
     parent->EnableMixerFrameMenu();
- Destroy();
+  Destroy();
 }
 
 wxString int2wxString(int integer)
@@ -339,5 +340,6 @@ wxString verlen(const wxString &strSource)//reverse flight modes binary and chan
 
 void MixerFrame::OnTimerRefreshFrameTrigger(wxTimerEvent& event)
 {
+  event.Skip();
   FillMixerFrame();
 }
