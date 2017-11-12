@@ -1,4 +1,4 @@
-### Module positions - created on 11/05/17 09:28:02 ###
+### Module positions - created on 11/12/17 17:19:51 ###
 ### Printed by Pcbnew version kicad 4.0.7
 ## Unit = mm, Angle = deg.
 ## Side : top
@@ -6,7 +6,7 @@
 C2        100nF          C_1206                   78.7400    17.7800  270.0000  top
 C3        100nF          C_1206                   50.8000    37.4650  180.0000  top
 C6        100nF          C_1206                   52.0700    43.8150   90.0000  top
-C7        100µF         CP_Elec_6.3x5.3          77.4700    45.0850   90.0000  top
+C7        100µF         CP_Elec_6.3x5.3          77.0890    45.0850   90.0000  top
 C8        47µF          CP_Elec_6.3x5.3          70.4850    45.0850  270.0000  top
 C14       100nF          C_1206                    9.6520    20.4470  180.0000  top
 C15       100nF          C_1206                   57.2770     5.4610  270.0000  top
