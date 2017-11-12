@@ -208,6 +208,7 @@ void displayBattVoltage()
 #define EVT_KEY_TELEMETRY    EVT_KEY_LONG(KEY_DOWN)
 #define EVT_KEY_STATISTICS   EVT_KEY_LONG(KEY_UP)
 #define EVT_KEY_CONTEXT_MENU EVT_KEY_BREAK(KEY_MENU)
+#define EVT_KEY_SHUTDOWN     EVT_KEY_LONG(KEY_EXIT)
 
 #if defined(NAVIGATION_MENUS)
 void onMainViewMenu(const char *result)
@@ -243,6 +244,10 @@ void onMainViewMenu(const char *result)
 
 void menuMainView(uint8_t event)
 {
+          if (warningResult) { // Power Off
+            pwrCheck = false;
+          }
+
   STICK_SCROLL_DISABLE();
 
   uint8_t view = g_eeGeneral.view;
@@ -351,12 +356,18 @@ void menuMainView(uint8_t event)
     AUDIO_KEYPAD_UP();
     break;
 
+  case EVT_KEY_SHUTDOWN: // Shutdown confirmation
+          POPUP_CONFIRMATION(STR_POWEROFF);
+          killEvents(event);
+    break;
+
 #if !defined(NAVIGATION_MENUS)
   case EVT_KEY_LONG(KEY_EXIT):
     flightReset();
     AUDIO_KEYPAD_UP();
     break;
 #endif
+
   }
 
   {

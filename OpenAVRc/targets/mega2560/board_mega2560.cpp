@@ -162,15 +162,9 @@ FORCEINLINE void boardInit()
   WAIT_PUPIL();
 }
 
-uint8_t pwrCheck()
-{
-  //if ((~PINH & 0b00100000) && (~PINH & 0b01000000))   return e_power_off;
-  return e_power_on;
-}
-
 void pwrOff()
 {
-  //PORTH &= ~0x10;   // PortH-4 set to 0
+  PORTH &= ~ INP_H_Hold_Power;   // PortH-4 set to 0
 }
 
 uint8_t keyDown()
