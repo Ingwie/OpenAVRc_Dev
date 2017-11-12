@@ -1,4 +1,44 @@
-Cmp-Mod V01 Created by PcbNew   date = 05/11/2017 09:47:39
+Cmp-Mod V01 Created by PcbNew   date = 12/11/2017 16:55:19
+
+BeginCmp
+TimeStamp = 59A0462C
+Path = /59C6AC14/59C6B490
+Reference = U1;
+ValeurCmp = 74LVC1G3157GV;
+IdModule  = MegaCore_Shield:SOT-457;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A08577D
+Path = /59C5272D/5A087968
+Reference = P29;
+ValeurCmp = Sw_On;
+IdModule  = Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A08573D
+Path = /59C5272D/5A086B2F
+Reference = R43;
+ValeurCmp = 10K;
+IdModule  = Resistors_SMD:R_1206;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A08572D
+Path = /59C5272D/5A087144
+Reference = R42;
+ValeurCmp = 2.2K;
+IdModule  = Resistors_SMD:R_1206;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A08571D
+Path = /59C5272D/5A086C25
+Reference = R41;
+ValeurCmp = 33K;
+IdModule  = Resistors_SMD:R_1206;
+EndCmp
 
 BeginCmp
 TimeStamp = 59E74D1E
@@ -110,14 +150,6 @@ Path = /59C59DB3/59C5A5A0
 Reference = P22;
 ValeurCmp = JQ6500_28P;
 IdModule  = anthoperso:connector_mini-JQ6500-28P;
-EndCmp
-
-BeginCmp
-TimeStamp = 59A0462C
-Path = /59C6AC14/59C6B490
-Reference = U1;
-ValeurCmp = 74LVC1G3157GV;
-IdModule  = MegaCore_Shield:SOT-457;
 EndCmp
 
 BeginCmp
