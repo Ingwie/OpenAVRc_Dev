@@ -190,7 +190,7 @@ static uint16_t crc(uint8_t *data, uint8_t len)
   uint_farptr_t pdata = pgm_get_far_address(ZZCRCTable);
   uint16_t crc = 0;
   for(uint8_t i=0; i < len; i++)
-    crc = (crc<<8) ^ pgm_read_word_far(pdata+(uint8_t)((crc>>8) ^ *data++));
+    crc = (crc<<8) ^ pgm_read_word_far(pdata+2*(((crc>>8) ^ *data++) & 0xFF));
   return crc;
 }
 
