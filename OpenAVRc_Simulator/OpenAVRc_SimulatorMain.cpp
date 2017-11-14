@@ -818,7 +818,6 @@ void OpenAVRc_SimulatorFrame::OnMenuSaveeeSelected(wxCommandEvent& event)
 
 void OpenAVRc_SimulatorFrame::OnClose(wxCloseEvent& event)
 {
-  event.Skip();
   if (OnTglButton->GetValue() && (!simu_off)) {
     wxMessageBox( _("Merci d'éteindre le simulateur pour quitter"), _("      OpenAVRc Simulateur"));
     event.Veto();
