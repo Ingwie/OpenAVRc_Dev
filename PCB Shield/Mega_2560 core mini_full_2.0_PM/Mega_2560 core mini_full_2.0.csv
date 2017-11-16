@@ -71,5 +71,4 @@
 70;"P20";"Con_RS232_TTL";1;"TTL/RS232";;;
 71;"U2";"SOP4";1;"TLP290";;;
 72;"U8";"SO-16-DS3231";1;"DS3231SN";;;
-73;"D4,D3";"D_SCD80_HandSoldering";2;"LL4148";;;
-74;"P7";"Pin_Header_Straight_2x05_Pitch2.54mm";1;"SPIX";;;
+73;"P7";"Pin_Header_Straight_2x05_Pitch2.54mm";1;"SPIX";;;
