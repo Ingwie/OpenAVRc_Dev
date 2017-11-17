@@ -40,7 +40,7 @@ EeFs      eeFs;
 blkid_t   freeBlocks = 0;
 #endif
 
-uint8_t  s_sync_write = false;
+bool  s_sync_write = false;
 
 uint16_t eeprom_pointer;
 uint8_t * eeprom_buffer_data;
@@ -78,7 +78,13 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
   eeprom_pointer = i_pointer_eeprom;
   eeprom_buffer_data = i_pointer_ram;
   eeprom_buffer_size = size+1;
-
+#if defined(SIMU)
+  if (eeprom_buffer_size>0xFF)
+  {
+    TRACE ("Error !! eeprom_buffer_size = %d", eeprom_buffer_size);
+    Sleep(10000);
+  }
+#endif
   EECR |= (1<<EERIE);
 
   if (s_sync_write) {

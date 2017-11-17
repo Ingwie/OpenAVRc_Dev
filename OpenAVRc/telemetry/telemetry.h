@@ -151,10 +151,10 @@ public:
     lastReceived = TELEMETRY_VALUE_UNAVAILABLE;
   }
 
-  void eval(const TelemetrySensor & sensor);
-  void per10ms(const TelemetrySensor & sensor);
+  //void eval(const TelemetrySensor & sensor);
+  //void per10ms(const TelemetrySensor & sensor);
 
-  void setValue(const TelemetrySensor & sensor, int32_t newVal, uint32_t unit, uint32_t prec=0);
+  //void setValue(const TelemetrySensor & sensor, int32_t newVal, uint32_t unit, uint32_t prec=0);
   bool isAvailable();
   bool isFresh();
   bool isOld();
@@ -166,18 +166,18 @@ extern uint8_t allowNewSensors;
 
 inline bool isTelemetryFieldAvailable(int index)
 {
-  TelemetrySensor & sensor = g_model.telemetrySensors[index];
-  return sensor.isAvailable();
+  //TelemetrySensor & sensor = g_model.telemetrySensors[index];
+  //return sensor.isAvailable();
 }
 
 inline bool isTelemetryFieldComparisonAvailable(int index)
 {
-  TelemetrySensor & sensor = g_model.telemetrySensors[index];
+  /*TelemetrySensor & sensor = g_model.telemetrySensors[index];
   if (sensor.type == TELEM_TYPE_CALCULATED)
     return true;
   if (sensor.unit >= UNIT_DATETIME)
     return false;
-  return (sensor.id != 0);
+  return (sensor.id != 0);*/
 }
 
 void setTelemetryValue(TelemetryProtocol protocol, uint16_t id, uint8_t subId, uint8_t instance, int32_t value, uint32_t unit, uint32_t prec);

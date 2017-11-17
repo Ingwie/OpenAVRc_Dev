@@ -49,7 +49,7 @@ void spi_enable_master_mode(void)
 // Enable SPI as Master, MSB first.
 SPCR = (1<<SPE) | (1<<MSTR) | (0<<DORD);
 // Set clock rate Fosc/2
-//SPSR |= (1<<SPI2X); // 8 Mhz on M2560
+SPSR |= (1<<SPI2X); // 8 Mhz on M2560
 //SPSR |= (0<<SPI2X); // 4 Mhz on M2560
 // Note : Make sure Slave Select pin is output or input pullup.
 }
