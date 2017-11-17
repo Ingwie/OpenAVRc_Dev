@@ -32,6 +32,7 @@
 
 
 #include "../OpenAVRc.h"
+#include "telemetry.h"
 
 #define PRIM_REQ_POWERUP    (0)
 #define PRIM_REQ_VERSION    (1)
@@ -62,11 +63,11 @@ const FrSkySportSensor sportSensors[] = {
   { A3_FIRST_ID, A3_LAST_ID, 0, ZSTR_A3, UNIT_VOLTS, 2 },
   { A4_FIRST_ID, A4_LAST_ID, 0, ZSTR_A4, UNIT_VOLTS, 2 },
   { BATT_ID, BATT_ID, 0, ZSTR_BATT, UNIT_VOLTS, 1 },
-  { T1_FIRST_ID, T1_LAST_ID, 0, ZSTR_TEMP1, UNIT_CELSIUS, 0 },
-  { T2_FIRST_ID, T2_LAST_ID, 0, ZSTR_TEMP2, UNIT_CELSIUS, 0 },
+ // { T1_FIRST_ID, T1_LAST_ID, 0, ZSTR_TEMP1, UNIT_CELSIUS, 0 }, TODOTODO
+ // { T2_FIRST_ID, T2_LAST_ID, 0, ZSTR_TEMP2, UNIT_CELSIUS, 0 },
   { RPM_FIRST_ID, RPM_LAST_ID, 0, ZSTR_RPM, UNIT_RPMS, 0 },
   { FUEL_FIRST_ID, FUEL_LAST_ID, 0, ZSTR_FUEL, UNIT_PERCENT, 0 },
-  { ALT_FIRST_ID, ALT_LAST_ID, 0, ZSTR_ALT, UNIT_METERS, 2 },
+ // { ALT_FIRST_ID, ALT_LAST_ID, 0, ZSTR_ALT, UNIT_METERS, 2 },
   { VARIO_FIRST_ID, VARIO_LAST_ID, 0, ZSTR_VSPD, UNIT_METERS_PER_SECOND, 2 },
   { ACCX_FIRST_ID, ACCX_LAST_ID, 0, ZSTR_ACCX, UNIT_G, 2 },
   { ACCY_FIRST_ID, ACCY_LAST_ID, 0, ZSTR_ACCY, UNIT_G, 2 },
@@ -75,12 +76,12 @@ const FrSkySportSensor sportSensors[] = {
   { VFAS_FIRST_ID, VFAS_LAST_ID, 0, ZSTR_VFAS, UNIT_VOLTS, 2 },
   { AIR_SPEED_FIRST_ID, AIR_SPEED_LAST_ID, 0, ZSTR_ASPD, UNIT_KTS, 1 },
   { GPS_SPEED_FIRST_ID, GPS_SPEED_LAST_ID, 0, ZSTR_GSPD, UNIT_KTS, 3 },
-  { CELLS_FIRST_ID, CELLS_LAST_ID, 0, ZSTR_CELLS, UNIT_CELLS, 2 },
-  { GPS_ALT_FIRST_ID, GPS_ALT_LAST_ID, 0, ZSTR_GPSALT, UNIT_METERS, 2 },
-  { GPS_TIME_DATE_FIRST_ID, GPS_TIME_DATE_LAST_ID, 0, ZSTR_GPSDATETIME, UNIT_DATETIME, 0 },
-  { GPS_LONG_LATI_FIRST_ID, GPS_LONG_LATI_LAST_ID, 0, ZSTR_GPS, UNIT_GPS, 0 },
-  { FUEL_QTY_FIRST_ID, FUEL_QTY_LAST_ID, 0, ZSTR_FUEL, UNIT_MILLILITERS, 2 },
-  { GPS_COURS_FIRST_ID, GPS_COURS_LAST_ID, 0, ZSTR_HDG, UNIT_DEGREE, 2 },
+ // { CELLS_FIRST_ID, CELLS_LAST_ID, 0, ZSTR_CELLS, UNIT_CELLS, 2 },
+ // { GPS_ALT_FIRST_ID, GPS_ALT_LAST_ID, 0, ZSTR_GPSALT, UNIT_METERS, 2 },
+ // { GPS_TIME_DATE_FIRST_ID, GPS_TIME_DATE_LAST_ID, 0, ZSTR_GPSDATETIME, UNIT_DATETIME, 0 },
+ // { GPS_LONG_LATI_FIRST_ID, GPS_LONG_LATI_LAST_ID, 0, ZSTR_GPS, UNIT_GPS, 0 },
+ // { FUEL_QTY_FIRST_ID, FUEL_QTY_LAST_ID, 0, ZSTR_FUEL, UNIT_MILLILITERS, 2 },
+ // { GPS_COURS_FIRST_ID, GPS_COURS_LAST_ID, 0, ZSTR_HDG, UNIT_DEGREE, 2 },
   { POWERBOX_BATT1_FIRST_ID, POWERBOX_BATT1_LAST_ID, 0, ZSTR_BATT1_VOLTAGE, UNIT_VOLTS, 3 },
   { POWERBOX_BATT2_FIRST_ID, POWERBOX_BATT2_LAST_ID, 0, ZSTR_BATT2_VOLTAGE, UNIT_VOLTS, 3 },
   { POWERBOX_BATT1_FIRST_ID, POWERBOX_BATT1_LAST_ID, 1, ZSTR_BATT1_CURRENT, UNIT_AMPS, 2 },
@@ -191,7 +192,7 @@ void processSportPacket(uint16_t id, uint8_t subId, uint8_t instance, uint32_t d
     unit = sensor->unit;
     precision = sensor->prec;
   }
-  if (unit == UNIT_CELLS) {
+  if (0){// (unit == UNIT_CELLS) { TODOTODO
     uint8_t cellsCount = (data & 0xF0) >> 4;
     uint8_t cellIndex = (data & 0x0F);
     uint32_t mask = (cellsCount << 24) + (cellIndex << 16);
@@ -201,7 +202,7 @@ void processSportPacket(uint16_t id, uint8_t subId, uint8_t instance, uint32_t d
       setTelemetryValue(TELEM_PROTO_FRSKY_SPORT, id, subId, instance, mask + (((data & 0xFFF00000) >> 20) / 5), unit, precision);
     }
   } else {
-    setTelemetryValue(TELEM_PROTO_FRSKY_SPORT, id, subId, instance, data, unit, precision);
+//    setTelemetryValue(TELEM_PROTO_FRSKY_SPORT, id, subId, instance, data, unit, precision);
   }
 }
 
@@ -214,11 +215,11 @@ void processSportPacket(uint8_t * packet)
 
   if (!checkSportPacket(packet)) {
     TRACE("processSportPacket(): checksum error ");
-    DUMP(packet, FRSKY_SPORT_PACKET_SIZE);
+    //DUMP(packet, FRSKY_SPORT_PACKET_SIZE);
     return;
   }
 
-  if (prim == DATA_FRAME)  {
+  /*if (prim == DATA_FRAME)  {
     uint32_t data = SPORT_DATA_S32(packet);
 
     if (id == RSSI_ID) {
@@ -234,7 +235,7 @@ void processSportPacket(uint8_t * packet)
       frskyData.swr.set(SPORT_DATA_U8(packet));
     }
 
-    if (TELEMETRY_STREAMING()/* because when Rx is OFF it happens that some old A1/A2 values are sent from the XJT module*/) {
+    if (TELEMETRY_STREAMING()// because when Rx is OFF it happens that some old A1/A2 values are sent from the XJT module) {
       if ((id >> 8) == 0) {
         // The old FrSky IDs
         processHubPacket(id, HUB_DATA_U16(packet));
@@ -262,11 +263,11 @@ void processSportPacket(uint8_t * packet)
         }
       }
     }
-  }
+  }*/
 }
 
 void frskySportSetDefault(int index, uint16_t id, uint8_t subId, uint8_t instance)
-{
+{/*
   TelemetrySensor & telemetrySensor = g_model.telemetrySensors[index];
 
   telemetrySensor.id = id;
@@ -300,6 +301,6 @@ void frskySportSetDefault(int index, uint16_t id, uint8_t subId, uint8_t instanc
     telemetrySensor.init(id);
   }
 
-  eeDirty(EE_MODEL);
+  eeDirty(EE_MODEL);*/
 }
 

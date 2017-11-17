@@ -362,10 +362,10 @@ void menuMainView(uint8_t event)
     break;
 
 #if !defined(NAVIGATION_MENUS)
-  case EVT_KEY_LONG(KEY_EXIT):
+  /*case EVT_KEY_LONG(KEY_EXIT):
     flightReset();
     AUDIO_KEYPAD_UP();
-    break;
+    break;*/
 #endif
 
   }

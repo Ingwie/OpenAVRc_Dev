@@ -87,8 +87,8 @@ void readKeysAndTrims();
 bool sdMounted();
 void sdMountPoll();
 void sdPoll10ms();
-#define SPI_SLOW()  SPI_250K()
-#define SPI_FAST()  SPI_4M()
+#define SPI_SLOW()
+#define SPI_FAST()
 
 // Switchs driver
 #define INP_C_ID2                 PIN1_bm

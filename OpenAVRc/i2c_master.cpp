@@ -54,13 +54,10 @@
 #if defined(CPUM2560)
 void i2c_init(void)
 {
-  TWCR = (1<<TWEN);
-  TWSR |= 0b00; // Prescaler =0.
-  TWSR &= 0b11111100;
   I2C_SPEED_888K();
 }
 
-inline void wait()
+void i2c_Wait()
 {
   // Poll TWI Interrupt flag.
   while(! (TWCR & (1<<TWINT)) );
@@ -70,8 +67,8 @@ uint8_t i2c_start(uint8_t address)
 {
   // transmit START condition
   TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
-  // wait for end of transmission
-  wait();
+  // i2c_Wait for end of transmission
+  i2c_Wait();
 
   // check if the start condition was successfully transmitted
   uint8_t twst = TW_STATUS & 0xF8;
@@ -83,8 +80,8 @@ uint8_t i2c_start(uint8_t address)
   TWDR = address;
   // start transmission of address
   TWCR = (1<<TWINT) | (1<<TWEN);
-  // wait for end of transmission
-  wait();
+  // i2c_Wait for end of transmission
+  i2c_Wait();
   // check if the device has acknowledged the READ / WRITE mode
   twst = TW_STATUS & 0xF8;
   if ( (twst == TW_MT_SLA_ACK) || (twst == TW_MR_SLA_ACK) ) return 0;
@@ -97,8 +94,8 @@ uint8_t i2c_write(uint8_t data)
   TWDR = data;
   // start transmission of data
   TWCR = (1<<TWINT) | (1<<TWEN);
-  // wait for end of transmission
-  wait();
+  // i2c_Wait for end of transmission
+  i2c_Wait();
 
   if( (TWSR & 0xF8) != TW_MT_DATA_ACK ) {
     return 1;
@@ -110,8 +107,8 @@ uint8_t i2c_read_ack(void)
 {
   // start TWI module and acknowledge data after reception
   TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWEA);
-  // wait for end of transmission
-  wait();
+  // i2c_Wait for end of transmission
+  i2c_Wait();
   // return received data from TWDR
   return TWDR;
 }
@@ -120,8 +117,8 @@ uint8_t i2c_read_nack(void)
 {
   // start receiving without acknowledging reception
   TWCR = (1<<TWINT) | (1<<TWEN);
-  // wait for end of transmission
-  wait();
+  // i2c_Wait for end of transmission
+  i2c_Wait();
   // return received data from TWDR
   return TWDR;
 }

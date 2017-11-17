@@ -67,7 +67,6 @@ FORCEINLINE void sendStopPulses()
 
 void startPulses(enum ProtoCmds Command)
 {
-  IS_PROTO_NEED_SPI spi_enable_master_mode(); // Todo Call correct SPI changed soon ;-)
   PROTO_Stop_Callback();
   // Reset CS pin
 #if defined(SPIMODULES)

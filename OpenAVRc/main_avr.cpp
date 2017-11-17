@@ -72,7 +72,7 @@ void perMain()
     ADCSRA|=0x80;  // enable ADC
 #endif
 #if defined(SDCARD) && !defined(SIMU)
-  if (isFunctionActive(FUNCTION_LOGS) && delta > (3*16)) writeLogs(); // Minimise writelogs perturbation
+  if (isFunctionActive(FUNCTION_LOGS)) writeLogs(); // Minimise writelogs perturbation  && delta > (3*16)
 #endif
     return;
   }
@@ -104,7 +104,7 @@ void perMain()
       eeCheck(false);
   }
 
-#if defined(SDCARD) && !defined(SIMU) // bracame toto emulate sd for simu
+#if defined(SDCARD) && !defined(SIMU)
   sdMountPoll();
   //writeLogs();
 #endif

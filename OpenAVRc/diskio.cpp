@@ -113,7 +113,7 @@ void xmit_spi(uint8_t dat)
 {
   checkMixer();
   MYWDT_RESET();
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {spi_tx(dat);}
+  spi_tx(dat);
 }
 
 
@@ -127,7 +127,7 @@ BYTE rcvr_spi (void)
   checkMixer();
   MYWDT_RESET();
   uint8_t rcvr;
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {rcvr = spi_rx();}
+  rcvr = spi_rx();
   return rcvr;
 }
 
