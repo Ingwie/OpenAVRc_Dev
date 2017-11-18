@@ -38,12 +38,5 @@ void spi_disable(void);
 void spi_enable_master_mode(void);
 uint8_t spi_xfer(uint8_t value);
 
-#if defined(CPUM2560)
-// SPI Speeds.
-#define SPI_250K() { SPSR &= ~(1<<SPI2X); SPCR = (SPCR | 0b10) & 0b11111110; }
-#define SPI_500K() { SPSR |=  (1<<SPI2X); SPCR = (SPCR | 0b10) & 0b11111110; }
-#define SPI_4M() { SPSR &= ~(1<<SPI2X); SPCR &= 0b11111100; }
-#define SPI_8M() { SPSR |=  (1<<SPI2X); SPCR &= 0b11111100; }
-#endif
 
 #endif // _SPI_H_

@@ -57,7 +57,7 @@ uint8_t g9x_rtcGetTime (RTClock_t *rtc)
 {
   uint8_t buf[7];
 
-  if (!iic_read(RTC_ADRESS, 0, 7, buf)) return 0;
+  if (i2c_readReg(RTC_ADRESS, 0, buf, 7)) return 0;
 
   rtc->sec = (buf[0] & 0x0F) + ((buf[0] >> 4) & 7) * 10;
   rtc->min = (buf[1] & 0x0F) + (buf[1] >> 4) * 10;
@@ -81,7 +81,7 @@ uint8_t g9x_rtcSetTime (const RTClock_t *rtc)
   buf[4] = rtc->mday / 10 * 16 + rtc->mday % 10;
   buf[5] = rtc->month / 10 * 16 + rtc->month % 10;
   buf[6] = (rtc->year - 2000) / 10 * 16 + (rtc->year - 2000) % 10;
-  return iic_write(RTC_ADRESS, 0, 7, buf);
+  return !i2c_writeReg(RTC_ADRESS, 0, buf, 7);
 }
 
 void rtcGetTime(struct gtm * utm)
@@ -120,18 +120,18 @@ void rtcInit (void)
   uint8_t buf[8];	/* RTC R/W buffer */
 
   /* Read RTC registers */
-  if (!iic_read(RTC_ADRESS, 0, 8, buf)) return;	/* IIC error */
+  if (i2c_readReg(RTC_ADRESS, 0, buf, 8)) return;	/* IIC error */
 
   if (buf[7] & 0x20) {	/* When data has been volatiled, set default time */
     /* Clear nv-ram. Reg[8..63] */
     memset(buf, 0, 8);
     for (uint8_t adr = 8; adr < 64; adr += 8)
-      iic_write(0x0D, adr, 8, buf);
+      i2c_writeReg(0x0D, adr, buf, 8);
     /* Reset time to Jan 1, '08. Reg[0..7] */
     buf[4] = 1;
     buf[5] = 1;
     buf[6] = 8;
-    iic_write(0x0D, 0, 8, buf);
+    i2c_writeReg(0x0D, 0, buf, 8);
   }
 
   struct gtm utm;

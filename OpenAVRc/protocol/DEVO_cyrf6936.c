@@ -117,11 +117,11 @@ static void DEVO_build_beacon_pkt(uint8_t upper)
     packet[0] = ((DEVO_num_channels << 4) | 0x07);
     uint8_t enable = 0;
     int max = 8;
-    int offset = 0;
+    //int offset = 0;
     if (upper) {
         packet[0] += 1;
         max = 4;
-        offset = 8;
+        //offset = 8;
     }
     for(uint8_t i = 0; i < max; i++) {
 //        if (i + offset < Model.num_channels && Model.limits[i+offset].flags & CH_FAILSAFE_EN) {
@@ -396,7 +396,7 @@ void DEVO_BuildPacket()
             DEVO_scramble_pkt();
             if (bind_counter <= 0) {
                 DEVO_state = DEVO_BOUND;
-                PROTOCOL_SetBindState(0);
+                //PROTOCOL_SetBindState(0);
             } else {
                 DEVO_state = DEVO_BIND;
             }
@@ -416,8 +416,8 @@ void DEVO_BuildPacket()
             DEVO_state ++;
             if (bind_counter > 0) {
                 bind_counter--;
-                if (bind_counter == 0)
-                    PROTOCOL_SetBindState(0);
+                //if (bind_counter == 0)
+                    //PROTOCOL_SetBindState(0);
             }
             break;
         case DEVO_BOUND_10:
@@ -548,7 +548,7 @@ static uint16_t DEVO_cb()
 static void DEVO_bind()
 {
   bind_counter = DEVO_BIND_COUNT;
-  PROTOCOL_SetBindState(0x1388 * 2400U / 1000); // 12 seconds.
+  //PROTOCOL_SetBindState(0x1388 * 2400U / 1000); // 12 seconds.
 }
 
 
@@ -570,7 +570,7 @@ static void DEVO_initialize(void)
   radio_ch_ptr = radio_ch;
   CYRF_ConfigRFChannel(*radio_ch_ptr);
 
-  DEVO_num_channels = 8 + (g_model.PPMNCH *2);
+  DEVO_num_channels = 8 + (g_model.rfOptionBool1 ? 8 : 0); // Todo menu
   if(DEVO_num_channels > 12) DEVO_num_channels = 12;
   DEVO_num_channels = ((DEVO_num_channels  +3) >> 2) * 4;
 
@@ -581,7 +581,7 @@ static void DEVO_initialize(void)
   // use_fixed_id = 1;
   bind_counter = DEVO_BIND_COUNT;
   DEVO_state = DEVO_BIND;
-  PROTOCOL_SetBindState(0x1388 * 2400U / 1000U); // 12 seconds.
+  //PROTOCOL_SetBindState(0x1388 * 2400U / 1000U); // 12 seconds.
   CYRF_SetPower(TXPOWER_1); // ToDo
 
 //    if (Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_ON) {

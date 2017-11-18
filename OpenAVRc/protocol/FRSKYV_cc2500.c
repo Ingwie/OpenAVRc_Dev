@@ -298,7 +298,7 @@ static void FRSKYV_initialise(uint8_t bind)
 
   if(bind) {
     FRSKYV_init(1);
-    PROTOCOL_SetBindState(0xFFFFFFFF);
+    //PROTOCOL_SetBindState(0xFFFFFFFF);
     PROTO_Start_Callback(25000U *2, FRSKYV_bind_cb);
   } else {
     FRSKYV_init(0);
