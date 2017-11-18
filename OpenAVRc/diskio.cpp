@@ -193,20 +193,15 @@ uint8_t power_status(void)		/* Socket power state: 0=off, 1=on */
 static
 void power_on (void)
 {
-#ifndef SIMU
-  //for (Timer1 = 2; Timer1; );	// Wait for 20ms
-#endif
   spi_enable_master_mode();
 }
 
 
 static
-void power_off (void)
+void spi_power_off (void)
 {
   deselect();
-#if !defined(SPIMODULES)
   spi_disable();
-#endif
   Stat |= STA_NOINIT;
 }
 
@@ -386,7 +381,7 @@ DSTATUS disk_initialize (
     Stat &= ~STA_NOINIT;	/* Clear STA_NOINIT */
     SPI_FAST();
   } else {			/* Initialization failed */
-    power_off();
+    spi_power_off();
   }
 
   return Stat;
@@ -505,7 +500,7 @@ DRESULT disk_ioctl (
   if (ctrl == CTRL_POWER) {
     switch (ptr[0]) {
     case 0:		/* Sub control code (POWER_OFF) */
-      power_off();		/* Power off */
+      spi_power_off();		/* Power off */
       res = RES_OK;
       break;
     case 1:		/* Sub control code (POWER_GET) */
@@ -636,13 +631,13 @@ bool sdMounted()
 
 void sdMountPoll()
 {
-  static uint8_t mountTimer;
-  if (mountTimer-- == 0) {
-    mountTimer = 100;
-    if (!sdMounted()) {
-      f_mount(&g_FATFS_Obj, "", 1);
-      f_chdir(ROOT_PATH);
-    }
+  if (!sdMounted()) {
+    f_mount(&g_FATFS_Obj, "", 1);
+    f_chdir(ROOT_PATH);
+  }
+  if (!sdMounted()) {
+      spi_power_off();
+      POPUP_WARNING(STR_SDCARD_ERROR);
   }
 }
 
