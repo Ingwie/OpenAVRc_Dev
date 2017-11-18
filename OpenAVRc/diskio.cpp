@@ -126,9 +126,7 @@ BYTE rcvr_spi (void)
 {
   checkMixer();
   MYWDT_RESET();
-  uint8_t rcvr;
-  rcvr = spi_rx();
-  return rcvr;
+  return spi_rx();
 }
 
 /*-----------------------------------------------------------------------*/
@@ -188,7 +186,7 @@ uint8_t select (void)	/* 1:Successful, 0:Timeout */
 static
 uint8_t power_status(void)		/* Socket power state: 0=off, 1=on */
 {
-  return (PORTE & 0x80) ? 0 : 1;
+  return 1;
 }
 
 
@@ -196,7 +194,7 @@ static
 void power_on (void)
 {
 #ifndef SIMU
-  for (Timer1 = 2; Timer1; );	// Wait for 20ms
+  //for (Timer1 = 2; Timer1; );	// Wait for 20ms
 #endif
   spi_enable_master_mode();
 }
@@ -235,11 +233,10 @@ uint8_t rcvr_datablock (
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     do {							/* Receive the data block into buffer */
     SDCARD_CS_N_ACTIVE();
-      *buff++ = spi_rx();
     *buff++ = spi_rx();
     *buff++ = spi_rx();
     *buff++ = spi_rx();
-
+    *buff++ = spi_rx();
   } while (btr -= 4);
   rcvr_spi();						/* Discard CRC */
   rcvr_spi();
@@ -354,8 +351,8 @@ DSTATUS disk_initialize (
   if (Stat & STA_NODISK) return Stat;	/* No card in the socket */
 
   power_on();				/* Force socket power on */
-  SPI_SLOW();
-  for (n = 10; n; n--) rcvr_spi();	/* 80 dummy clocks */
+  //SPI_SLOW();
+  for (n = 10; n; --n) rcvr_spi();	/* 80 dummy clocks */
 
   ty = 0;
   if (send_cmd(CMD0, 0) == 1) {		/* Enter Idle state */

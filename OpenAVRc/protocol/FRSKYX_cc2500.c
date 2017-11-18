@@ -604,10 +604,10 @@ static void frsky_parse_sport_stream(uint8_t data)
 
 #endif // HAS_EXTENDED_TELEMETRY
 
-static void frsky_check_telemetry(uint8_t *pkt, uint8_t len)
+/*static void frsky_check_telemetry(uint8_t *pkt, uint8_t len)
 {
   // only process packets with the required id and packet length and good crc
-  /*  if (len == TELEM_PKT_SIZE
+    if (len == TELEM_PKT_SIZE
         && pkt[0] == TELEM_PKT_SIZE - 3
         && pkt[1] == (frsky_id & 0xff)
         && pkt[2] == (frsky_id >> 8)
@@ -648,8 +648,8 @@ static void frsky_check_telemetry(uint8_t *pkt, uint8_t len)
             for (uint8_t i=0; i < pkt[6]; i++)
                 frsky_parse_sport_stream(pkt[7+i]);
   #endif
-    }*/
-}
+    }
+}*/
 
 static uint16_t FRSKYX_bind_cb()
 {
@@ -826,13 +826,13 @@ static void FRSKYX_initialize(uint8_t bind)
   CC2500_SetTxRxMode(TX_EN);  // enable PA
 
   if (bind) {
-    PROTOCOL_SetBindState(0xFFFFFFFF);
+    //PROTOCOL_SetBindState(0xFFFFFFFF);
     FRSKYX_initialize_data(1);
     X_state = 0;
     PROTO_Start_Callback(25000U *2, FRSKYX_bind_cb);
 
   } else {
-    PROTOCOL_SetBindState(0);
+    //PROTOCOL_SetBindState(0);
     FRSKYX_initialize_data(0);
     channr = 0;
     X_state = FRSKYX_DATA1;

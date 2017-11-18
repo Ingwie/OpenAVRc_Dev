@@ -408,7 +408,7 @@ static void calc_dsmx_channel()
   }
 }
 
-static uint8_t bcd_to_int(uint8_t data)
+/*static uint8_t bcd_to_int(uint8_t data)
 {
   uint8_t value = 0, multi = 1;
   while (data) {
@@ -417,14 +417,14 @@ static uint8_t bcd_to_int(uint8_t data)
     data >>= 4;
   }
   return value;
-}
+}*/
 
-static uint32_t pkt32_to_coord(uint8_t *ptr)
+/*static uint32_t pkt32_to_coord(uint8_t *ptr)
 {
   // (decimal, format DD MM.MMMM)
   return bcd_to_int(ptr[3]) * 3600000
          + bcd_to_int(((uint32_t)ptr[2] << 16) | ((uint32_t)ptr[1] << 8) | ptr[0]) * 6;
-}
+}*/
 
 /*NOINLINE static void parse_telemetry_packet()
 {
@@ -800,7 +800,7 @@ static void DSM_initialize(uint8_t bind)
 
   if (bind) {
     state = DSM2_BIND;
-    PROTOCOL_SetBindState((DSM_BIND_COUNT > 200 ? DSM_BIND_COUNT / 2 : 200) * 10); //msecs
+    //PROTOCOL_SetBindState((DSM_BIND_COUNT > 200 ? DSM_BIND_COUNT / 2 : 200) * 10); //msecs
     initialize_bind_state();
     binding = 1;
   } else {

@@ -93,7 +93,7 @@ void CLOCK_delayms(uint32_t delay_ms)
 }
 
 
-void PROTOCOL_SetBindState(uint32_t msec)
+/*void PROTOCOL_SetBindState(uint32_t msec)
 {
   uint32_t bind_time;
 
@@ -103,5 +103,5 @@ void PROTOCOL_SetBindState(uint32_t msec)
     else bind_time = CLOCK_getms() + msec;
   }
   else SpiRFModule.mode = NORMAL_MODE; // unimod rick added. Can't go from bind to range test.
-}
+}*/
 

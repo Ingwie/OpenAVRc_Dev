@@ -324,7 +324,7 @@ static void FRSKYD_initialize(uint8_t bind)
 
   if(bind) {
     FRSKYD_init(1);
-    PROTOCOL_SetBindState(0xFFFFFFFF);
+    //PROTOCOL_SetBindState(0xFFFFFFFF);
     PROTO_Start_Callback(25000U *2, FRSKYD_bind_cb);
   } else {
     FRSKYD_init(0);

@@ -57,22 +57,6 @@ uint8_t i2c_writeReg(uint8_t devaddr, uint8_t regaddr, uint8_t* data, uint16_t l
 uint8_t i2c_readReg(uint8_t devaddr, uint8_t regaddr, uint8_t* data, uint16_t length);
 void i2c_stop(void);
 
-// OpenAVRc functions
-
-uint8_t iic_read (
-  uint8_t dev,    /* Device address */
-  uint8_t adr,    /* Read start address */
-  uint16_t cnt,   /* Read uint8_t count */
-  uint8_t *buff   /* Read data buffer */
-);
-
-uint8_t iic_write (
-  uint8_t dev,      /* Device address */
-  uint8_t adr,      /* Write start address */
-  uint16_t cnt,     /* Write uint8_t count */
-  const uint8_t *buff /* Data to be written */
-);
-
 #endif // I2C_MASTER_H
 /*
 ##### void I2C_init(void)

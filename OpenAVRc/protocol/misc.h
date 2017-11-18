@@ -38,6 +38,6 @@ void PROTO_Start_Callback(uint16_t us, uint16_t (*cb)(void));
 void PROTO_Stop_Callback();
 uint32_t CLOCK_getms(void);
 void CLOCK_delayms(uint32_t delay_ms);
-void PROTOCOL_SetBindState(uint32_t msec);
+//void PROTOCOL_SetBindState(uint32_t msec);
 
 #endif

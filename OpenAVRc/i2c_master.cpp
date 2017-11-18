@@ -127,9 +127,7 @@ void i2c_stop(void)
 {
   // transmit STOP condition
   TWCR = (1<<TWINT) | (1<<TWSTO) | (1<<TWEN);
-#if !defined (SIMU)
-  while(TWCR & (1<<TWSTO));
-#endif
+  while SIMU_UNLOCK_MACRO(TWCR & (1<<TWSTO));
 }
 
 inline void i2c_writeISR(uint8_t data)
@@ -215,28 +213,3 @@ uint8_t i2c_readReg(uint8_t devaddr, uint8_t regaddr, uint8_t* data, uint16_t le
 
   return 0;
 }
-
-uint8_t iic_read (
-  uint8_t dev,    /* Device address */
-  uint8_t adr,    /* Read start address */
-  uint16_t cnt,   /* Read uint8_t count */
-  uint8_t *buff   /* Read data buffer */
-)
-{
-  uint8_t ret;
-  ret = i2c_readReg(dev, adr, buff, cnt);
-  return (!ret);
-}
-
-uint8_t iic_write (
-  uint8_t dev,      /* Device address */
-  uint8_t adr,      /* Write start address */
-  uint16_t cnt,     /* Write uint8_t count */
-  const uint8_t *buff /* Data to be written */
-)
-{
-  uint8_t ret;
-  ret = i2c_writeReg(dev, adr, (uint8_t *)buff, cnt);
-  return (!ret);
-}
-
