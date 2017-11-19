@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -77,8 +77,8 @@
  Module Private Functions
 
  ---------------------------------------------------------------------------*/
-#define spi_tx(value)  spi_xfer(value)
-#define spi_rx()  spi_xfer(0xFF) //-> SD bug without 0xFF.
+#define spi_tx(value)  master_spi_xfer(value)
+#define spi_rx()  master_spi_xfer(0xFF) //-> SD bug without 0xFF.
 
 
 static volatile
@@ -136,7 +136,7 @@ BYTE rcvr_spi (void)
 static
 uint8_t wait_ready (void)	/* 1:OK, 0:Timeout */
 {
-  Timer2 = 50;	/* Wait for ready in timeout of 500ms (G: now 50x16ms) */
+  Timer2 = 5;	/* Wait for ready in timeout of 50ms */
   rcvr_spi();
   do
     if (rcvr_spi() == 0xFF) return 1;
@@ -154,8 +154,8 @@ uint8_t wait_ready (void)	/* 1:OK, 0:Timeout */
 static
 void deselect (void)
 {
-  rcvr_spi();
   SDCARD_CS_N_INACTIVE();
+  rcvr_spi();
 }
 
 
@@ -193,15 +193,15 @@ uint8_t power_status(void)		/* Socket power state: 0=off, 1=on */
 static
 void power_on (void)
 {
-  spi_enable_master_mode();
+  enable_spi_master_mode();
 }
 
 
-static
-void spi_power_off (void)
+
+void SD_spi_power_off (void)
 {
-  deselect();
-  spi_disable();
+  SDCARD_CS_N_INACTIVE();
+  master_spi_disable();
   Stat |= STA_NOINIT;
 }
 
@@ -219,23 +219,23 @@ uint8_t rcvr_datablock (
   BYTE token;
 
 
-  Timer1 = 20;
-  do {				/* Wait for data packet in timeout of 200ms */
+  Timer1 = 2;
+  do {				/* Wait for data packet in timeout of 20ms */
     token = rcvr_spi();
   } while ((token == 0xFF) && Timer1);
   if(token != 0xFE) return 0;		/* If not valid data token, retutn with error */
 
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     do {							/* Receive the data block into buffer */
-    SDCARD_CS_N_ACTIVE();
-    *buff++ = spi_rx();
-    *buff++ = spi_rx();
-    *buff++ = spi_rx();
-    *buff++ = spi_rx();
-  } while (btr -= 4);
-  rcvr_spi();						/* Discard CRC */
-  rcvr_spi();
-  SDCARD_CS_N_INACTIVE();
+      //SDCARD_CS_N_ACTIVE();
+      *buff++ = spi_rx();
+      *buff++ = spi_rx();
+      *buff++ = spi_rx();
+      *buff++ = spi_rx();
+    } while (btr -= 4);
+    rcvr_spi();						/* Discard CRC */
+    rcvr_spi();
+    //SDCARD_CS_N_INACTIVE();
   }
   return 1;						/* Return with success */
 }
@@ -258,17 +258,17 @@ uint8_t xmit_datablock (
   xmit_spi(token);	/* Xmit data token */
   if (token != 0xFD) {	/* Is data token */
     BYTE wc = 0;
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
       do {		/* Xmit the 512 byte data block to MMC */
-      xmit_spi(*buff++);
-      xmit_spi(*buff++);
-    } while (--wc);
-    xmit_spi(0xFF);			/* CRC (Dummy) */
-    xmit_spi(0xFF);
-    BYTE resp = rcvr_spi();		/* Reveive data response */
-    if ((resp & 0x1F) != 0x05)	/* If not accepted, return with error */
-      return 0;
-  }
+        xmit_spi(*buff++);
+        xmit_spi(*buff++);
+      } while (--wc);
+      xmit_spi(0xFF);			/* CRC (Dummy) */
+      xmit_spi(0xFF);
+      BYTE resp = rcvr_spi();		/* Reveive data response */
+      if ((resp & 0x1F) != 0x05)	/* If not accepted, return with error */
+        return 0;
+    }
   }
 
   return 1;
@@ -302,14 +302,14 @@ BYTE send_cmd (		/* Returns R1 resp (bit7==1:Send failed) */
   /* Send command packet */
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     xmit_spi(0x40 | cmd);			/* Start + Command index */
-  xmit_spi((BYTE)(arg >> 24));		/* Argument[31..24] */
-  xmit_spi((BYTE)(arg >> 16));		/* Argument[23..16] */
-  xmit_spi((BYTE)(arg >> 8));		/* Argument[15..8] */
-  xmit_spi((BYTE)arg);			/* Argument[7..0] */
-  n = 0x01;				/* Dummy CRC + Stop */
-  if (cmd == CMD0) n = 0x95;		/* Valid CRC for CMD0(0) */
-  if (cmd == CMD8) n = 0x87;		/* Valid CRC for CMD8(0x1AA) */
-  xmit_spi(n);
+    xmit_spi((BYTE)(arg >> 24));		/* Argument[31..24] */
+    xmit_spi((BYTE)(arg >> 16));		/* Argument[23..16] */
+    xmit_spi((BYTE)(arg >> 8));		/* Argument[15..8] */
+    xmit_spi((BYTE)arg);			/* Argument[7..0] */
+    n = 0x01;				/* Dummy CRC + Stop */
+    if (cmd == CMD0) n = 0x95;		/* Valid CRC for CMD0(0) */
+    if (cmd == CMD8) n = 0x87;		/* Valid CRC for CMD8(0x1AA) */
+    xmit_spi(n);
   }
 
   /* Receive command response */
@@ -346,7 +346,7 @@ DSTATUS disk_initialize (
   if (Stat & STA_NODISK) return Stat;	/* No card in the socket */
 
   power_on();				/* Force socket power on */
-  //SPI_SLOW();
+  SPI_250K();
   for (n = 10; n; --n) rcvr_spi();	/* 80 dummy clocks */
 
   ty = 0;
@@ -379,9 +379,9 @@ DSTATUS disk_initialize (
 
   if (ty) {			/* Initialization succeded */
     Stat &= ~STA_NOINIT;	/* Clear STA_NOINIT */
-    SPI_FAST();
+    SPI_8M();
   } else {			/* Initialization failed */
-    spi_power_off();
+    SD_spi_power_off();
   }
 
   return Stat;
@@ -500,7 +500,7 @@ DRESULT disk_ioctl (
   if (ctrl == CTRL_POWER) {
     switch (ptr[0]) {
     case 0:		/* Sub control code (POWER_OFF) */
-      spi_power_off();		/* Power off */
+      SD_spi_power_off();		/* Power off */
       res = RES_OK;
       break;
     case 1:		/* Sub control code (POWER_GET) */
@@ -626,18 +626,22 @@ void sdPoll10ms()
 
 bool sdMounted()
 {
-  return g_FATFS_Obj.fs_type != 0;
+  return (g_FATFS_Obj.fs_type != 0);
 }
 
 void sdMountPoll()
 {
+  uint8_t mountTimer = 5;
+  do {
+    if (!sdMounted()) {
+      f_mount(&g_FATFS_Obj, "", 1);
+      f_chdir(ROOT_PATH);
+    } else break;
+  } while (--mountTimer);
+
   if (!sdMounted()) {
-    f_mount(&g_FATFS_Obj, "", 1);
-    f_chdir(ROOT_PATH);
-  }
-  if (!sdMounted()) {
-      spi_power_off();
-      POPUP_WARNING(STR_SDCARD_ERROR);
+    SD_spi_power_off();
+    POPUP_WARNING(STR_SDCARD_ERROR);
   }
 }
 

@@ -178,12 +178,9 @@
 
 
 // SD Card driver
-#define sdDone()
-#define SD_IS_HC()                (0)
-#define SD_GET_SPEED()            (0)
 #if defined(CPUM2560)
 // SPI Speeds.
-#define SPI_250K() { SPSR &= ~(1<<SPI2X); SPCR = (SPCR | 0b10) & 0b11111110; }
+#define SPI_250K() { SPSR &= ~(1<<SPI2X); SPCR = (SPCR | 0b10) & 0b11111110; } // We don't use interrupt
 #define SPI_500K() { SPSR |=  (1<<SPI2X); SPCR = (SPCR | 0b10) & 0b11111110; }
 #define SPI_4M() { SPSR &= ~(1<<SPI2X); SPCR &= 0b11111100; }
 #define SPI_8M() { SPSR |=  (1<<SPI2X); SPCR &= 0b11111100; }
@@ -191,11 +188,6 @@
 #define SDCARD_CS_N_ACTIVE()        PORTB &= ~PIN0_bm // MMC CS = L
 #define SDCARD_CS_N_INACTIVE()      PORTB |= PIN0_bm // MMC CS = H
 #define SDCARD_CS_N_IS_INACTIVE()   (PINB & PIN0_bm)
-bool sdMounted();
-void sdMountPoll();
-void sdPoll10ms();
-#define SPI_SLOW()  SPI_250K()
-#define SPI_FAST()  SPI_4M()
 
 #if 0
 // Keys driver
@@ -215,7 +207,7 @@ void sdPoll10ms();
 #define GPIO_C_PWR_LED             PORTC
 #define OUT_C_PWR_LED              PIN4_bm // Used for CC2500 chip select.
 
-void pwrOff();
+void boardOff();
 #if defined(PWRMANAGE)
   #define UNEXPECTED_SHUTDOWN()    ((mcusr & (1 << WDRF)) || g_eeGeneral.unexpectedShutdown)
 #else

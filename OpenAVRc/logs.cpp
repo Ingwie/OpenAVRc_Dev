@@ -51,8 +51,8 @@ const pm_char *openLogs()
   if (!sdMounted())
     return STR_NO_SDCARD;
 
-  if (sdGetFreeSectors() == 0)
-    return STR_SDCARD_FULL;
+  //if (sdGetFreeSectors() == 0) Todo : better place
+    //return STR_SDCARD_FULL;
 
   // check and create folder here
   strcpy_P(filename, STR_LOGS_PATH);

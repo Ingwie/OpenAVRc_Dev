@@ -72,7 +72,7 @@ void perMain()
     ADCSRA|=0x80;  // enable ADC
 #endif
 #if defined(SDCARD) && !defined(SIMU)
-  if (isFunctionActive(FUNCTION_LOGS) && delta > (3*16)) writeLogs(); // Minimise writelogs perturbation
+  if (sdMounted() && isFunctionActive(FUNCTION_LOGS) && delta > (4*16)) writeLogs(); // Minimise writelogs perturbation
 #endif
     return;
   }

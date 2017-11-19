@@ -1208,7 +1208,7 @@ void OpenAVRcStart()
   doSplash();
 
 #if defined(SDCARD) && !defined(SIMU)
-  sdMountPoll();
+  sdMountPoll(); // Mount SD if it is not a WDT reset
 #endif
 
 #if defined(GUI)
@@ -1251,7 +1251,7 @@ void OpenAVRcClose()
 
 
 #if defined(SDCARD)
-  sdDone();
+  SD_spi_power_off();
 #endif
 }
 
