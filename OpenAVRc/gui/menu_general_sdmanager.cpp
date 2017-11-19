@@ -40,25 +40,15 @@ void menuGeneralSdManagerInfo(uint8_t event)
   SIMPLE_SUBMENU(STR_SD_INFO_TITLE, 1);
 
   lcdDrawTextLeft(2*FH, STR_SD_TYPE);
-  lcdDrawText(10*FW, 2*FH, SD_IS_HC() ? STR_SDHC_CARD : STR_SD_CARD);
+  lcdDrawText(10*FW, 2*FH, STR_SD_CARD);
 
   lcdDrawTextLeft(3*FH, STR_SD_SIZE);
   lcdDrawNumberAttUnit(10*FW, 3*FH, sdGetSize(), LEFT);
   lcdDrawChar(lcdLastPos, 3*FH, 'M');
 
   lcdDrawTextLeft(4*FH, STR_SD_SECTORS);
-#if defined(SD_GET_FREE_BLOCKNR)
-  lcdDrawNumberAttUnit(10*FW, 4*FH,  SD_GET_FREE_BLOCKNR()/1000, LEFT);
-  lcdDrawChar(lcdLastPos, 4*FH, '/');
-  lcdDrawNumberAttUnit(lcdLastPos+FW, 4*FH, sdGetNoSectors()/1000, LEFT);
-#else
-  lcdDrawNumberAttUnit(10*FW, 4*FH, sdGetNoSectors()/1000, LEFT);
-#endif
+  lcdDrawNumberAttUnit(10*FW, 4*FH, sdGetNoSectors(), LEFT);
   lcdDrawChar(lcdLastPos, 4*FH, 'k');
-
-  lcdDrawTextLeft(5*FH, STR_SD_SPEED);
-  lcdDrawNumberAttUnit(10*FW, 5*FH, SD_GET_SPEED()/1000, LEFT);
-  lcdDrawText(lcdLastPos, 5*FH, "kb/s");
 }
 
 inline bool isFilenameGreater(bool isfile, const char * fn, const char * line)
@@ -78,8 +68,6 @@ void onSdManagerMenu(const char *result)
   uint8_t index = menuVerticalPosition-1-menuVerticalOffset;
   if (result == STR_SD_INFO) {
     pushMenu(menuGeneralSdManagerInfo);
-  } else if (result == STR_SD_FORMAT) {
-    POPUP_CONFIRMATION(STR_CONFIRM_FORMAT);
   } else if (result == STR_DELETE_FILE) {
     f_getcwd(lfn, _MAX_LFN);
     strcat_P(lfn, PSTR("/"));
@@ -101,22 +89,9 @@ void menuGeneralSdManager(uint8_t _event)
   fno.lfname = lfn;
   fno.lfsize = sizeof(lfn);
 
-#if defined(SDCARD)
-  if (warningResult) {
-    warningResult = false;
-    displayPopup(STR_FORMATTING);
-    closeLogs();
-    if (f_mkfs(0, 1, 0) == FR_OK) {
-      f_chdir("/");
-      reusableBuffer.sdmanager.offset = -1;
-    } else {
-      POPUP_WARNING(STR_SDCARD_ERROR);
-    }
-  }
-#endif
 
   uint8_t event = ((READ_ONLY() && EVT_KEY_MASK(_event) == KEY_ENTER) ? 0 : _event);
-  SIMPLE_MENU(SD_IS_HC() ? STR_SDHC_CARD : STR_SD_CARD, menuTabGeneral, e_Sd, 1+reusableBuffer.sdmanager.count);
+  SIMPLE_MENU(STR_SD_CARD, menuTabGeneral, e_Sd, 1+reusableBuffer.sdmanager.count);
 
   if (s_editMode > 0)
     s_editMode = 0;
@@ -150,12 +125,9 @@ void menuGeneralSdManager(uint8_t _event)
     killEvents(_event);
     if (menuVerticalPosition == 0) {
       POPUP_MENU_ADD_ITEM(STR_SD_INFO);
-      POPUP_MENU_ADD_ITEM(STR_SD_FORMAT);
     } else {
       if (!READ_ONLY()) {
         POPUP_MENU_ADD_ITEM(STR_DELETE_FILE);
-        // POPUP_MENU_ADD_ITEM(STR_RENAME_FILE);  TODO: Implement
-        // POPUP_MENU_ADD_ITEM(STR_COPY_FILE);    TODO: Implement
       }
     }
     popupMenuHandler = onSdManagerMenu;

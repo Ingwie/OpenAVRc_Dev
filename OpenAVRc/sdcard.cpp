@@ -162,16 +162,16 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
 #if !defined(SIMU)
 uint32_t sdGetNoSectors()
 {
-  static DWORD noSectors = 0;
+  DWORD noSectors = 0;
   if (noSectors == 0 ) {
     disk_ioctl(0, GET_SECTOR_COUNT, &noSectors);
   }
-  return noSectors;
+  return noSectors/1000;
 }
 
 uint32_t sdGetSize()
 {
-  return (sdGetNoSectors() * 512) / 1000000;
+  return (sdGetNoSectors() * 512) / 1000;
 }
 
 uint32_t sdGetFreeSectors()

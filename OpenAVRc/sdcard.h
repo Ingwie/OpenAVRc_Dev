@@ -51,6 +51,10 @@
 extern FATFS g_FATFS_Obj;
 extern FIL g_oLogFile;
 
+extern bool sdMounted();
+extern void sdMountPoll();
+extern void sdPoll10ms();
+extern void SD_spi_power_off();
 extern uint8_t logDelay;
 const pm_char *openLogs();
 void writeHeader();

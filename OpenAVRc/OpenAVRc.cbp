@@ -249,28 +249,13 @@
 		</Unit>
 		<Unit filename="thirdparty/FatFs/ff.h" />
 		<Unit filename="thirdparty/FatFs/ffconf.h" />
+		<Unit filename="thirdparty/FatFs/ffsystem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="thirdparty/FatFs/ffunicode.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="thirdparty/FatFs/integer.h" />
-		<Unit filename="thirdparty/FatFs/option/cc932.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="thirdparty/FatFs/option/cc936.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="thirdparty/FatFs/option/cc949.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="thirdparty/FatFs/option/cc950.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="thirdparty/FatFs/option/ccsbcs.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="thirdparty/FatFs/option/syscall.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="thirdparty/FatFs/option/unicode.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="thirdparty/GCS_MAVLink/include_v1.0/ardupilotmega/ardupilotmega.h" />
 		<Unit filename="thirdparty/GCS_MAVLink/include_v1.0/ardupilotmega/mavlink.h" />
 		<Unit filename="thirdparty/GCS_MAVLink/include_v1.0/ardupilotmega/mavlink_msg_ahrs.h" />

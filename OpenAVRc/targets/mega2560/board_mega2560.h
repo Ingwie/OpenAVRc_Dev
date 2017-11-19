@@ -80,17 +80,11 @@ void readKeysAndTrims();
 #define isBacklightEnable()       PORTC & (1<<OUT_C_LIGHT)
 
 // SD driver
-#define sdDone()
-#define SD_IS_HC()                (0)
-#define SD_GET_SPEED()            (0)
 #define SDCARD_CS_N_ACTIVE()        PORTB &= ~PIN0_bm // MMC CS = L
 #define SDCARD_CS_N_INACTIVE()      PORTB |= PIN0_bm // MMC CS = H
 #define SDCARD_CS_N_IS_INACTIVE()   (PINB & PIN0_bm)
-bool sdMounted();
-void sdMountPoll();
-void sdPoll10ms();
-#define SPI_SLOW()  SPI_250K()
-#define SPI_FAST()  SPI_4M()
+#define SPI_250K() { SPSR = _BV(SPI2X); SPCR = _BV(SPE) | _BV(MSTR) | _BV(SPR1) | _BV(SPR0); }
+#define SPI_8M()   { SPSR = _BV(SPI2X); SPCR = _BV(SPE) | _BV(MSTR); }
 
 // Switchs driver
 #define INP_C_ID2                 PIN1_bm
@@ -159,7 +153,7 @@ void sdPoll10ms();
 #define OUT_C_LIGHT              2
 
 // Power driver
-void pwrOff();
+void boardOff();
 #if defined(PWRMANAGE)
   #define UNEXPECTED_SHUTDOWN()   ((mcusr & (1 << WDRF)) || g_eeGeneral.unexpectedShutdown)
 #else
@@ -234,7 +228,7 @@ void pwrOff();
 #define PROTO_HAS_CYRF6936
 #define TX_FIXED_ID 0x1a2b3c4d // Loaded in SpiRFModule.fixed_id
 
-#define RF_SPI_xfer  spi_xfer//USART2_mspi_xfer
+#define RF_SPI_xfer  master_spi_xfer//USART2_mspi_xfer
 #define OUT_H_CC2500_CS_N       PIN1_bm
 #define OUT_G_CYRF6936_CS_N     PIN5_bm
 

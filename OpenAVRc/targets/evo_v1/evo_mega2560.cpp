@@ -184,7 +184,7 @@ enum PowerState pwrCheck(void) // Todo : Rebuild use pwrCheck = false to shut do
 }
 
 
-void pwrOff(void) // aka boardOff()
+void boardOff(void)
 {
   GPIO_C_PWR_HOLD &= ~OUT_C_PWR_HOLD;
 }

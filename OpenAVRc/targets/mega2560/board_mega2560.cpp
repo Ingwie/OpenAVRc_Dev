@@ -162,7 +162,7 @@ FORCEINLINE void boardInit()
   WAIT_PUPIL();
 }
 
-void pwrOff()
+void boardOff()
 {
   PORTH &= ~ INP_H_Hold_Power;   // PortH-4 set to 0
 }

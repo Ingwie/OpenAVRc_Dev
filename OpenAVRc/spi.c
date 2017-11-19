@@ -37,26 +37,23 @@
 // AVR SPI functions
 //---------------------------
 
-void spi_disable(void)
+void master_spi_disable(void)
 {
   SPCR &= ~(1<<SPE);
 }
 
 //----------------------
 
-void spi_enable_master_mode(void)
+void enable_spi_master_mode(void)
 {
 // Enable SPI as Master, MSB first.
-SPCR = (1<<SPE) | (1<<MSTR) | (0<<DORD);
-// Set clock rate Fosc/2
-SPSR |= (1<<SPI2X); // 8 Mhz on M2560
-//SPSR |= (0<<SPI2X); // 4 Mhz on M2560
+  SPI_250K(); // Fosc/64
 // Note : Make sure Slave Select pin is output or input pullup.
 }
 
 //----------------------
 
-uint8_t spi_xfer(uint8_t value)
+uint8_t master_spi_xfer(uint8_t value)
 {
   // Full Duplex (4 wire) spi
   SPDR = value;
