@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by PcbNew   date = 12/11/2017 16:55:19
+Cmp-Mod V01 Created by PcbNew   date = 19/11/2017 14:33:47
 
 BeginCmp
 TimeStamp = 59A0462C
@@ -1102,22 +1102,6 @@ Path = /59C560A1/59C56738
 Reference = U8;
 ValeurCmp = DS3231SN;
 IdModule  = MegaCore_Shield:SO-16-DS3231;
-EndCmp
-
-BeginCmp
-TimeStamp = 598EE9CD
-Path = /59C5272D/59C531ED
-Reference = D4;
-ValeurCmp = LL4148;
-IdModule  = MegaCore_Shield:D_SCD80_HandSoldering;
-EndCmp
-
-BeginCmp
-TimeStamp = 598EE9B0
-Path = /59C5272D/59C531E6
-Reference = D3;
-ValeurCmp = LL4148;
-IdModule  = MegaCore_Shield:D_SCD80_HandSoldering;
 EndCmp
 
 BeginCmp
