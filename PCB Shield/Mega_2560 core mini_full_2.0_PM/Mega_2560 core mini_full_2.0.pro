@@ -1,4 +1,4 @@
-update=12/11/2017 17:08:25
+update=19/11/2017 15:02:24
 version=1
 last_client=kicad
 [pcbnew]
@@ -25,9 +25,19 @@ version=1
 NetIExt=net
 [general]
 version=1
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=Pcbnew
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60
 [eeschema]
 version=1
-LibDir=Librairie/Librairie perso.pretty
+LibDir=Librairie/Librairie perso.pretty;Shield_Lib.pretty
 [eeschema/libraries]
 LibName1=Mega_2560 core mini_full_2.0-rescue
 LibName2=power
@@ -60,14 +70,4 @@ LibName28=atmel
 LibName29=contrib
 LibName30=valves
 LibName31=Librairie/Librairie perso.pretty/OPEN_EVO
-[schematic_editor]
-version=1
-PageLayoutDescrFile=
-PlotDirectoryName=
-SubpartIdSeparator=0
-SubpartFirstId=65
-NetFmtName=Pcbnew
-SpiceForceRefPrefix=0
-SpiceUseNetNumbers=0
-LabSize=60
 
