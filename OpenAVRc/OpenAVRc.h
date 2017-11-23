@@ -44,11 +44,60 @@
   #include "pgmtypes.h"
   #define assert(x)
   #include "board_avr.h"
+  #include <avr/io.h>
+  #include <avr/eeprom.h>
+  #include <avr/sleep.h>
+  #include <avr/interrupt.h>
+  #include <util/delay.h>
+  #include <util/atomic.h>
+  #include <avr/wdt.h>
+
+  #define FORCEINLINE inline __attribute__ ((always_inline))
+  #define NOINLINE __attribute__ ((noinline))
+  #define TRACE(...)
+  #define SIMU_SLEEP(x)
+  #define SIMU_PROCESSEVENTS
+  #define MYWDT_RESET(x) wdt_reset()
+  #define SIMUBEEP1()
+  #define SIMUBEEP2()
+  #define SIMU_UNLOCK_MACRO(x) (x)
+  #define CONVERT_PTR_UINT(x) ((uint32_t)(x))
+  #define CONVERT_UINT_PTR(x) ((uint32_t *)(x))
+  #define convertSimuPath(x) (x)
+
 #else //SIMU define
-#include <stdbool.h>
-#include "targets/simu/simu_interface.h"
-#include "targets/megamini/board_megamini.h" //New reference board
-//#include "targets/mega2560/board_mega2560.h"
+
+  #include <stdbool.h>
+  #include "targets/simu/simu_interface.h"
+  #include "targets/megamini/board_megamini.h" //New reference board
+  //#include "targets/mega2560/board_mega2560.h"
+
+  #ifndef FORCEINLINE
+    #define FORCEINLINE
+  #endif
+  #if !defined(NOINLINE)
+    #define NOINLINE
+  #endif
+  #define F_CPU 16000000UL  // 16 MHz ... Should be defined in makefile.
+  #define TRACE(...) simuTrace(__VA_ARGS__)
+  #define SIMU_PROCESSEVENTS SimuSleepMs(0)  //This function tell the simu app to process events
+  #define MYWDT_RESET(x) x; SimuSleepMs(1)
+  #define SIMU_SLEEP(x) SimuSleepMs(x)
+  #define SIMU_UNLOCK_MACRO(x) (false)
+  #define wdt_disable() simu_off = true; simu_mainloop_is_runing = true; return
+  #define _BV(x) (1<<x)
+  #define speakerOff()
+  #define speakerOn()
+  #define SIMUBEEP1() Beep(toneFreq*15, toneTimeLeft*50); toneTimeLeft/=2;if (!toneTimeLeft) ++toneTimeLeft
+  #define SIMUBEEP2() Beep(tone2Freq*15, tone2TimeLeft*50); tone2TimeLeft/=2; if (!tone2TimeLeft) ++tone2TimeLeft;
+
+  char *convertSimuPath(const char *path);
+  extern ISR(TIMER_10MS_VECT, ISR_NOBLOCK);
+  extern int simumain(void);
+  extern  void SimuMainLoop(void);
+  extern  void shutDownSimu(void);
+  extern  void simu_EditModelName();
+
 #endif
 
 /////////////////DEBUG FUNCTION DEFINITION///////////////////
@@ -211,49 +260,6 @@ static uint16_t DurationValue;
 
 #define IS_FAI_FORBIDDEN(idx) (IS_FAI_ENABLED() && idx >= MIXSRC_FIRST_TELEM)
 
-#if defined(SIMU)
-  #ifndef FORCEINLINE
-    #define FORCEINLINE
-  #endif
-  #if !defined(NOINLINE)
-    #define NOINLINE
-  #endif
-  #define F_CPU 16000000UL  // 16 MHz ... Should be defined in makefile.
-  #define TRACE(...) simuTrace(__VA_ARGS__)
-  #define SIMU_PROCESSEVENTS SimuSleepMs(0)  //This function tell the simu app to process events
-  #define MYWDT_RESET(x) x; SimuSleepMs(1)
-  #define SIMU_SLEEP(x) SimuSleepMs(x)
-  #define SIMU_UNLOCK_MACRO(x) (false)
-  #define wdt_disable() simu_off = true; simu_mainloop_is_runing = true; return
-  #define _BV(x) (1<<x)
-  #define speakerOff()
-  #define speakerOn()
-  #define SIMUBEEP1() Beep(toneFreq*15, toneTimeLeft*50); toneTimeLeft/=2;if (!toneTimeLeft) ++toneTimeLeft
-  #define SIMUBEEP2() Beep(tone2Freq*15, tone2TimeLeft*50); tone2TimeLeft/=2; if (!tone2TimeLeft) ++tone2TimeLeft;
-
-  char *convertSimuPath(const char *path);
-  extern ISR(TIMER_10MS_VECT, ISR_NOBLOCK);
-  extern int simumain(void);
-  extern  void SimuMainLoop(void);
-  extern  void shutDownSimu(void);
-  extern  void simu_EditModelName();
-
-#else //NOT SIMU NOW
-
-  #define FORCEINLINE inline __attribute__ ((always_inline))
-  #define NOINLINE __attribute__ ((noinline))
-  #define TRACE(...)
-  #define SIMU_SLEEP(x)
-  #define SIMU_PROCESSEVENTS
-  #define MYWDT_RESET(x) wdt_reset()
-  #define SIMUBEEP1()
-  #define SIMUBEEP2()
-  #define SIMU_UNLOCK_MACRO(x) (x)
-  #define CONVERT_PTR_UINT(x) ((uint32_t)(x))
-  #define CONVERT_UINT_PTR(x) ((uint32_t *)(x))
-  #define convertSimuPath(x) (x)
-#endif
-
 #if !defined(ACCURAT_THROTTLE_TIMER)
   //  code cost is about 16 bytes for higher throttle accuracy for timer
   //  would not be noticable anyway, because all version up to this change had only 16 steps;
@@ -272,16 +278,6 @@ static uint16_t DurationValue;
 
 #include "myeeprom.h"
 #include "gui/gui.h"
-
-#if !defined(SIMU)
-  #include <avr/io.h>
-  #include <avr/eeprom.h>
-  #include <avr/sleep.h>
-  #include <avr/interrupt.h>
-  #include <util/delay.h>
-  #include <util/atomic.h>
-  #include <avr/wdt.h>
-#endif
 
 
 #define NUM_SWITCHES     7
