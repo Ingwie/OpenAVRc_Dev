@@ -92,7 +92,6 @@ ARITHMETIC_OVERFLOW_CHECK = NO
 # increases resolution for throttle statistics and throttle counting, in very rare cases.
 # this will be only true if an output channel is used for throttle calculation, and this channel has changed limits, e.g. -90% to +80%
 # if you use standard limits for throttle or directly the throttle stick you do not need to bother about this option
-# not valid for ARM based transmitters like Taranis, They do not have this rounding issue at all
 # Values = YES, NO
 ACCURAT_THROTTLE_STATS = NO
 
@@ -228,7 +227,7 @@ DEBUG = NO
 SPORT_FILE_LOG = NO
 
 # Timers Count
-# Values = 1, 2, 3 (on ARM boards)
+# Values = 2
 TIMERS = 2
 
 # Flight Modes
@@ -322,22 +321,23 @@ ifeq ($(PCB), MEGAMINI)
   LCDSIZE = 128
   TRGT = avr-
   MCU = atmega2560
-  OPT = s
+  OPT = 2
   # Processor frequency.
   F_CPU = 16000000
   CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGAMINI -DCPUM2560 -DEEPROM_RLC
-  SDCARD = NO
+  SDCARD = YES
   BUZZER = YES
   THR_TRACE = YES
-  PWRMANAGE = NO
+  PWRMANAGE = YES
   INCDIRS += targets/megamini targets/stock $(FATFSDIR) $(FATFSDIR)/option
-  BOARDSRC = main_avr.cpp i2c_master.cpp spi.c targets/megamini/board_megamini.cpp
+  BOARDSRC += main_avr.cpp i2c_master.cpp spi.c targets/megamini/board_megamini.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
   BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
-
   EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp telemetry_driver.cpp
+
+  ASRC =
 
   ifeq ($(PWRMANAGE), YES)
     CPPDEFS += -DPWRMANAGE
@@ -480,7 +480,6 @@ ifeq ($(PCB), MEGA2560)
   # Processor frequency.
   F_CPU = 16000000
   CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DEEPROM_RLC
-  # -DAUDIO Removed by Bracame
   SDCARD = NO
   BUZZER = YES
   THR_TRACE = YES
@@ -514,19 +513,19 @@ ifeq ($(PCB), MEGA2560)
   endif
 
   ifeq ($(BUZZER), YES)
-    CPPDEFS += -DBUZZER
-    CPPSRC += buzzer.cpp
+   CPPDEFS += -DBUZZER
+   CPPSRC += buzzer.cpp
   endif
 
   ifeq ($(VOICE), WTV20SD)
-  CPPDEFS += -DVOICE
-  CPPDEFS += -DVOICE_WTV20SD
-  CPPSRC += targets/mega2560/voice_wtv20sd.cpp
+   CPPDEFS += -DVOICE
+   CPPDEFS += -DVOICE_WTV20SD
+   CPPSRC += targets/mega2560/voice_wtv20sd.cpp
   endif
   ifeq ($(VOICE), JQ6500)
-  CPPDEFS += -DVOICE
-  CPPDEFS += -DVOICE_JQ6500
-  CPPSRC += targets/mega2560/voice_jq6500.cpp
+   CPPDEFS += -DVOICE
+   CPPDEFS += -DVOICE_JQ6500
+   CPPSRC += targets/mega2560/voice_jq6500.cpp
   endif
 
   ifeq ($(HAPTIC), YES)
@@ -811,17 +810,6 @@ ifeq ($(EXT), $(filter $(EXT), FRSKY FRSKY_SPORT TELEMETREZ))
   endif
 endif
 
-ifeq ($(SIMU), YES)
-  CPPDEFS += -DDEBUG
-  CPPSRC += dump.cpp
-else ifeq ($(CLI), YES)
-  CPPDEFS += -DCLI -DDEBUG
-  CPPSRC += cli.cpp dump.cpp
-else ifeq ($(DEBUG), YES)
-  CPPDEFS += -DDEBUG
-  CPPSRC += dump.cpp
-endif
-
 ifeq ($(EEPROM_PROGRESS_BAR), YES)
   CPPDEFS += -DEEPROM_PROGRESS_BAR
 endif
@@ -892,14 +880,6 @@ ifeq ($(DSM2), PPM)
   CPPDEFS += -DDSM2 -DDSM2_PPM
 endif
 
-ifeq ($(TX_CADDY), YES)
-  CPPDEFS += -DTX_CADDY
-endif
-
-ifeq ($(IRPROTOS), YES)
-  CPPDEFS += -DIRPROTOS
-endif
-
 ifeq ($(3POS), POT1)
   CPPDEFS += -DEXTRA_3POS=1
 endif
@@ -945,33 +925,20 @@ MSG_BEGIN = -------- begin --------
 MSG_END = --------  end  --------
 MSG_SIZE_BEFORE = Size before:
 MSG_SIZE_AFTER = Size after:
-MSG_FLASH = Creating load file for Flash:
+MSG_FLASH = Creating OpenAVRc Firmware:
 MSG_EEPROM = Creating load file for EEPROM:
 MSG_EXTENDED_LISTING = Creating Extended Listing:
 MSG_SYMBOL_TABLE = Creating Symbol Table:
 MSG_COMPILING = Compiling C++:
+MSG_COMPILINGASM = Compiling ASM:
 MSG_CLEANING = Cleaning project:
 
 # Combine all necessary flags and optional flags.
 # Add target processor to flags.
 
 CPPFLAGS += -DFLAVOUR=\"$(FLAVOUR)\"
-ARMCPPFLAGS = -c -mcpu=$(MCU) -mthumb -fomit-frame-pointer -fverbose-asm -Wa,-ahlms=OpenAVRc.lst -DRUN_FROM_FLASH=1 -O$(OPT) $(CPPFLAGS) -fdata-sections -ffunction-sections $(INCFLAGS) $(GENDEPFLAGS)
-AVRCPPFLAGS = -mmcu=$(MCU) -I. -x c++ -O$(OPT) $(CPPFLAGS) $(INCFLAGS) $(GENDEPFLAGS) -fwhole-program
+AVRCPPFLAGS = -mmcu=$(MCU) -I. -x c++ -O$(OPT) $(CPPFLAGS) $(INCFLAGS) $(GENDEPFLAGS) -fwhole-program -mstrict-X
 
-ifeq ($(ARCH), AVR)
-  GCCVERSIONGTE462 := $(shell expr 4.6.2 \<= `$(CC) -dumpversion`)
-  ifeq ($(GCCVERSIONGTE462),1)
-    CPPFLAGS += -flto
-  endif
-
-  AVRCPPFLAGS += -fno-inline-small-functions
-
-  GCCVERSIONGTE470 := $(shell expr 4.7.0 \<= `$(CC) -dumpversion`)
-  ifeq ($(GCCVERSIONGTE470),1)
-    AVRCPPFLAGS += -mstrict-X
-  endif
-endif
 
 MAJ_VER = ${shell sh -c "grep \"MAJ_VERS\" OpenAVRc.h | cut -d\  -f3 | egrep -o \"[[:digit:]]\""}
 MIN_VER = ${shell sh -c "grep \"MIN_VERS\" OpenAVRc.h | cut -d\  -f3"}
@@ -979,13 +946,10 @@ MIN_VER = ${shell sh -c "grep \"MIN_VERS\" OpenAVRc.h | cut -d\  -f3"}
 .SECONDARY:
 
 # Default target.
-all: begin gccversion sizebefore build sizeafter end
+all: begin gccversion build end
 
 # Change the build target to build a HEX file or a library.
-ifeq ($(ARCH), AVR)
-  build: stamp_header tra lbm allsrc.cpp elf remallsrc hex
-  build: stamp_header tra lbm allsrc.cpp elf remallsrc bin
-endif
+  build: stamp_header tra lbm allsrc.cpp allasm.S elf remallsrc hex sizeafter
 
 tra: translations/en.h translations/cz.h translations/de.h translations/es.h translations/fi.h translations/fr.h translations/it.h translations/nl.h translations/pl.h translations/pt.h translations/se.h
 lbm: fonts bitmaps
@@ -1108,10 +1072,6 @@ else
   PARSER = gcc -E -x c++
 endif
 
-# Eye candy.
-# AVR Studio 3.x does not check make's exit code but relies on
-# the following magic strings to be generated by the compile job.
-
 begin:
 	@echo
 	@echo $(MSG_BEGIN)
@@ -1121,64 +1081,25 @@ end:
 	@echo
 
 # Display size of file.
-ifeq ($(ARCH), AVR)
-  MCU_FLAG = $(shell $(SIZE) --help | grep -- --mcu > /dev/null && echo --mcu=$(MCU) )
-  FORMAT_FLAG = $(shell $(SIZE) --help | grep -- --format=.*avr > /dev/null && echo --format=avr )
-  ELFSIZE = $(SIZE) $(MCU_FLAG) $(FORMAT_FLAG) $(TARGET).elf
-else
-  ELFSIZE = $(SIZE) $(TARGET).elf
-endif
+HEXSIZE = $(SIZE) --target=$(FORMAT) $(TARGET).hex
+#ELFSIZE = $(SIZE) -A $(TARGET).elf
+ELFSIZE = $(SIZE) --mcu=$(MCU) --format=avr $(TARGET).elf
+AVRMEM = avr-mem.sh $(TARGET).elf $(MCU)
 
-sizebefore:
-	@if test -f $(TARGET).elf; then echo; echo $(MSG_SIZE_BEFORE); $(ELFSIZE); fi
-
-sizeafter:
-	@if test -f $(TARGET).elf; then echo; echo $(MSG_SIZE_AFTER); $(ELFSIZE); fi
 
 # Display compiler version information.
 gccversion:
 	@$(CC) --version
-
-FOXINC=-I/usr/local/include/fox-1.6 -I/usr/include/fox-1.6 \
-       -I$(FOXPATH)/include \
-       -I/opt/local/include/fox-1.6
-FOXLIB=-L/usr/local/lib \
-       -L$(FOXPATH)/src/.libs \
-       -L/opt/local/lib \
-       -lFOX-1.6 \
-       -Wl,-rpath,$(FOXPATH)/src/.libs
-
-SIMUDEFS = -DSIMU -DLUA_USE_APICHECK
-ifeq ($(SIMU_AUDIO), YES)
-  AUDIOLIB = -L/usr/lib/x86_64-linux-gnu/ -lSDLmain -lSDL
-  AUDIOINC = -I/usr/include/SDL
-  SIMUDEFS += -DSIMU_AUDIO
-endif
-
-ifeq ($(SIMU_DISKIO), YES)
-  CPPSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/option/ccsbcs.c
-  SIMUDEFS += -DSIMU_DISKIO
-endif
-
-simu: $(LUADEP) stamp_header allsimusrc.cpp Makefile simu.cpp targets/simu/simpgmspace.cpp *.h tra lbm eeprom.bin
-	g++ $(CPPFLAGS) $(SIMUCPPFLAGS) $(INCFLAGS) simu.cpp allsimusrc.cpp $(LUASRC) targets/simu/simpgmspace.cpp -MD $(SIMUDEFS) -O0 -o simu $(FOXINC) $(FOXLIB) $(AUDIOINC) $(AUDIOLIB) -pthread -fexceptions
 
 eeprom.bin:
 	dd if=/dev/zero of=$@ bs=1 count=2048
 
 
 # Create final output files (.hex, .eep) from ELF output file.
-ifeq ($(ARCH), AVR)
 %.hex: %.elf
 	@echo
 	@echo $(MSG_FLASH) $@
 	$(OBJCOPY) -O $(FORMAT) -R .eeprom $< $@
-else
-%.hex: %.elf
-	@echo
-	@echo $(MSG_FLASH) $@
-	$(OBJCOPY) -O ihex OpenAVRc.elf OpenAVRc.hex
-endif
 
 %.bin: %.elf
 	@echo
@@ -1207,32 +1128,40 @@ allsrc.cpp: Makefile $(BOARDSRC) $(CPPSRC) $(EXTRABOARDSRC)
 	@rm -f allsrc.cpp
 	for f in $(BOARDSRC) $(CPPSRC) $(EXTRABOARDSRC) ; do echo "# 1 \"$$f\"" >> allsrc.cpp; cat "$$f" >> allsrc.cpp; done
 
-allsimusrc.cpp: Makefile $(BOARDSRC) $(CPPSRC)
-	@rm -f allsimusrc.cpp
-	for f in $(BOARDSRC) $(CPPSRC) ; do echo "# 1 \"$$f\"" >> allsimusrc.cpp; cat "$$f" >> allsimusrc.cpp; done
+# Concatenate all sources files in one big file to optimize size
+allasm.S: Makefile $(ASRC)
+	@rm -f allasm.S
+ifneq ($(ASRC),  )
+	for f in $(ASRC) ; do echo "# 1 \"$$f\"" >> allasm.S; cat "$$f" >> allasm.S; done
+endif
 
 remallsrc:
 	$(REMOVE) allsrc.cpp
-	$(REMOVE) allsimusrc.cpp
+	$(REMOVE) allsrc.o
+	$(REMOVE) allasm.S
+	$(REMOVE) allasm.o
+
+sizebefore:
+	@if test -f $(TARGET).elf; then echo; echo $(MSG_SIZE_BEFORE); $(ELFSIZE); \
+	$(AVRMEM) 2>/dev/null; echo; fi
+
+sizeafter:
+	@if test -f $(TARGET).elf; then echo; echo $(MSG_SIZE_AFTER); $(ELFSIZE); \
+	$(AVRMEM) 2>/dev/null; echo; fi
+
 
 # Link: create ELF output file from object files.
-ifeq ($(ARCH), AVR)
 OpenAVRc.elf: allsrc.cpp
 	@echo
+ifneq ($(ASRC),  )
+	@echo $(MSG_COMPILINGASM) $@
+	$(CC) -c $(AVRCPPFLAGS) -I. -x assembler-with-cpp allasm.S
+	@echo $(MSG_COMPILING) $@
+	$(CC) -c $(AVRCPPFLAGS) $<
+	$(CC) -mmcu=$(MCU) allasm.o allsrc.o --output $@ $(LDFLAGS)
+else
 	@echo $(MSG_COMPILING) $@
 	$(CC) $(AVRCPPFLAGS) $< --output $@ $(LDFLAGS)
-else
-%.o: %.c
-	$(CC) $(ARMCPPFLAGS) -Wimplicit $< -o $@
-%.o: %.s
-	$(AS) $< -o $@
-TMP = $(SRC:.c=.o)
-OBJS =  $(TMP:.s=.o)
-OpenAVRc.elf: allsrc.cpp $(OBJS)
-	@echo
-	@echo $(MSG_COMPILING) $@
-	$(CC) $(ARMCPPFLAGS) $< -o allsrc.o
-	$(CC) $(OBJS) allsrc.o -mcpu=$(MCU) -mthumb -nostartfiles -lm -T$(LDSCRIPT) -Wl,-Map=$(TARGET).map,--cref,--no-warn-mismatch,--gc-sections $(NEWLIB_NANO_FLAGS) -o $@
 endif
 
 # Target: clean project.
@@ -1256,7 +1185,9 @@ clean_list :
 	$(REMOVE) *.d
 	$(REMOVE) *.lst
 	$(REMOVE) allsrc.cpp
-	$(REMOVE) allsimusrc.cpp
+	$(REMOVE) allsrc.o
+	$(REMOVE) allasm.S
+	$(REMOVE) allasm.o
 	$(REMOVE) stamp-OpenAVRc.h
 #	$(REMOVE) *.lbm
 #	$(REMOVE) bitmaps/*.lbm
@@ -1265,35 +1196,3 @@ clean_list :
 #	$(REMOVE) fonts/*/*.lbm
 #	$(REMOVE) translations/*.h
 
-#### Install
-
-DATE = ${shell sh -c "date +%F:%T" }
-AVRCOMMAND = $(AVRDUDE) $(AVRDEVICE)
-
-WRITE_COMMAND = $(AVRCOMMAND) -U flash:w:OpenAVRc.hex:i
-ifeq ($(RESTORE_EEPROM), YES)
-  BACKUP_EEPROM = YES
-  ifeq ($(DOUBLE_WRITE_OK), YES)
-    WRITE_COMMAND += -U eeprom:w:$(DATA_DIR)/eeprom-$(DATE).hex:i
-  else
-    SECOND_WRITE_COMMAND = -U eeprom:w:$(DATA_DIR)/eeprom-$(DATE).hex:i
-  endif
-endif
-
-ifeq ($(BACKUP_FLASH), YES)
-  BACKUP_ARGS += -U eeprom:r:$(DATA_DIR)/eeprom-$(DATE).hex:i $(BACKUPFLASH)
-endif
-ifeq ($(BACKUP_EEPROM), YES)
-  BACKUP_ARGS += -U flash:r:$(DATA_DIR)/OpenAVRc-$(DATE).hex:i
-endif
-
-install: all
-ifdef BACKUP_ARGS
-	$(AVRCOMMAND) $(BACKUP_ARGS)
-	$(SLEEP) $(DELAY)
-endif
-	$(WRITE_COMMAND)
-ifdef	SECOND_WRITE_COMMAND
-	$(SLEEP) $(DELAY)
-	$(SECOND_WRITE_COMMAND)
-endif
