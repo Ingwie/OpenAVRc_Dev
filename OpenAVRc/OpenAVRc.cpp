@@ -66,13 +66,13 @@ uint8_t * packet = pulses2MHz.pbyte; //protocol global packet
 void sendOptionsSettingsPpm()
 {
   SetRfOptionSettings(pgm_get_far_address(RfOpt_PPM_Ser), // Used by all PPM
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY);
+                      STR_DUMMY,
+                      STR_DUMMY,
+                      STR_DUMMY,
+                      STR_DUMMY,
+                      STR_DUMMY,
+                      STR_DUMMY,
+                      STR_DUMMY);
   g_model.PPMFRAMELENGTH = (g_model.PPMNCH-2) * 8;
 }
 
@@ -736,14 +736,10 @@ void checkAll()
   checkLowEEPROM();
 #endif
 
-#if defined(MODULE_ALWAYS_SEND_PULSES)
-  startupWarningState = STARTUP_WARNING_THROTTLE;
-#else
   checkTHR();
   checkSwitches();
   PLAY_MODEL_NAME();
   checkFailsafe();
-#endif
 
   clearKeyEvents();
 
@@ -751,17 +747,6 @@ void checkAll()
 }
 #endif // GUI
 
-#if defined(MODULE_ALWAYS_SEND_PULSES)
-void checkStartupWarnings()
-{
-  if (startupWarningState < STARTUP_WARNING_DONE) {
-    if (startupWarningState == STARTUP_WARNING_THROTTLE)
-      checkTHR();
-    else
-      checkSwitches();
-  }
-}
-#endif
 
 #if defined(EEPROM_RLC)
 void checkLowEEPROM()
@@ -781,18 +766,6 @@ void checkTHR()
   // in case an output channel is choosen as throttle source (thrTraceSrc>NUM_POTS) we assume the throttle stick is the input
   // no other information available at the moment, and good enough to my option (otherwise too much exceptions...)
 
-#if defined(MODULE_ALWAYS_SEND_PULSES)
-  int16_t v = calibratedStick[thrchn];
-  if (v<=THRCHK_DEADBAND-1024 || g_model.disableThrottleWarning || (!pwrCheck) || keyDown()) {
-    startupWarningState = STARTUP_WARNING_THROTTLE+1;
-  } else {
-    calibratedStick[thrchn] = -1024;
-    if (thrchn < NUM_STICKS) {
-      rawAnas[thrchn] = anas[thrchn] = calibratedStick[thrchn];
-    }
-    MESSAGE(STR_THROTTLEWARN, STR_THROTTLENOTIDLE, STR_PRESSANYKEYTOSKIP, AU_THROTTLE_ALERT);
-  }
-#else
   if (g_model.disableThrottleWarning) {
     return;
   }
@@ -830,7 +803,6 @@ void checkTHR()
 
     MYWDT_RESET();
   }
-#endif
 }
 
 void checkAlarm() // added by Gohst
@@ -1369,25 +1341,10 @@ ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
   TIMER_10MS_COMPVAL += (++accuracyWarble & 0x03) ? 156 : 157; // Clock correction
 }
 
-#if 0 // Use FRSKY_USART_vect() as it is perfectly suited to the job.
-#if defined(DSM2_SERIAL)
-FORCEINLINE void DSM2_USART_vect()
-{
-  UDR0 = *((uint16_t*)pulses2MHzRPtr); // transmit next byte
-
-  pulses2MHzRPtr += sizeof(uint16_t);
-
-  if (pulses2MHzRPtr == pulses2MHzWPtr) { // if reached end of DSM2 data buffer ...
-    UCSRB_N(TLM_USART) &= ~(1 << UDRIE_N(TLM_USART)); // Disable UDRE interrupt.
-  }
-}
-#endif
-#endif
-
 #if !defined(SIMU)
 #if defined (FRSKY) || defined (MULTIPROTOCOL) || defined(DSM2_SERIAL)
 
-FORCEINLINE void FRSKY_USART_vect()
+FORCEINLINE void FRSKY_USART_vect() // TODO rename
 {
   if (frskyTxBufferCount > 0) {
     UDR_N(TLM_USART) = frskyTxBuffer[--frskyTxBufferCount];
@@ -1544,9 +1501,7 @@ uint16_t freeRam()
 #endif
 }
 
-#define OpenAVRc_INIT_ARGS const uint8_t mcusr
-
-void OpenAVRcInit(OpenAVRc_INIT_ARGS)
+void OpenAVRcInit(uint8_t mcusr)
 {
 
   eeReadAll();
@@ -1612,6 +1567,7 @@ int simumain(void)
   MCUCR |= (1<<JTD);   // Must be done twice within four cycles
   wdt_disable();
 #endif //SIMU
+
   boardInit();
 
 #if defined(GUI)
@@ -1633,35 +1589,13 @@ int simumain(void)
   lcdSetRefVolt(25);
 #endif
 
-
   sei(); // interrupts needed for telemetryInit and eeReadAll.
-
-#if defined(DSM2_SERIAL) && !defined(FRSKY)
-  DSM2_Init();
-#endif
-
-#ifdef JETI
-  JETI_Init();
-#endif
-
-#ifdef ARDUPILOT
-  ARDUPILOT_Init();
-#endif
-
-#ifdef NMEA
-  NMEA_Init();
-#endif
-
-#ifdef MAVLINK
-  MAVLINK_Init();
-#endif
 
 #ifdef MENU_ROTARY_SW
   init_rotary_sw();
 #endif
 
   OpenAVRcInit(mcusr);
-
 
 #if !defined(SIMU)
   while (1) {
@@ -1676,11 +1610,11 @@ void SimuMainLoop(void) // Create loop function
 #if !defined(SIMU)
       break;
 #else
-      {
+    {
       shutDownSimu();
       simu_mainloop_is_runing = false;
       return;
-      }
+    }
 #endif
 
     perMain();

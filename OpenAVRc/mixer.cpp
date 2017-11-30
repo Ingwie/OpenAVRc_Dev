@@ -45,9 +45,6 @@ SwOn    swOn  [MAX_MIXERS];   // TODO better name later...
 
 uint8_t mixWarning;
 
-#if defined(MODULE_ALWAYS_SEND_PULSES)
-uint8_t startupWarningState;
-#endif
 
 int16_t calibratedStick[NUM_STICKS+NUM_POTS];
 int16_t channelOutputs[NUM_CHNOUT] = {0};
@@ -370,9 +367,6 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
 
   if (tick10ms) evalLogicalSwitches(mode==e_perout_mode_normal);
 
-#if defined(MODULE_ALWAYS_SEND_PULSES)
-  checkStartupWarnings();
-#endif
 
 #if defined(HELI)
   int16_t heliEleValue = anas[ELE_STICK];

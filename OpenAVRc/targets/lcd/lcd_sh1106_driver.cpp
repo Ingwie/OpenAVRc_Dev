@@ -131,9 +131,9 @@ SHOWDURATIONLCD1
   lcdSendCommand(SH1106_SETPAGENUMBER | state);
 
   p = displayBuf;
-  i2c_writeReg(SH1106_ADDRESS, SH1106_DATA, (p-2 + (LCD_W*state)), (LCD_W + 4)); // Send datas ( 800 Khz I2C bus ;-)
+  i2c_writeReg(SH1106_ADDRESS, SH1106_DATA, (p-2 + (LCD_W*state)), (LCD_W + 4)); // Send datas ( 888 Khz I2C bus ;-)
   lcdSendCommand(SH1106_SETPAGENUMBER | ++state);
-  i2c_writeReg(SH1106_ADDRESS, SH1106_DATA, (p-2 + (LCD_W*state)), (LCD_W + 4)); // Send datas ( 800 Khz I2C bus ;-)
+  i2c_writeReg(SH1106_ADDRESS, SH1106_DATA, (p-2 + (LCD_W*state)), (LCD_W + 4)); // Send datas ( 888 Khz I2C bus ;-)
   ++state;
   if (state == (NUMITERATIONFULLREFRESH*2)) {
     state = 0;

@@ -139,7 +139,7 @@ SHOWDURATIONLCD1
   lcdSendCommand(state+1);// End Page address
 
   p = displayBuf;
-  i2c_writeReg(SSD1306_ADDRESS, SSD1306_DATA, (p + (LCD_W*state)), (2*LCD_W)); // Send datas ( 800 Khz I2C bus ;-)
+  i2c_writeReg(SSD1306_ADDRESS, SSD1306_DATA, (p + (LCD_W*state)), (2*LCD_W)); // Send datas ( 888 Khz I2C bus ;-)
   state+=2;
   if (state == (NUMITERATIONFULLREFRESH*2)) {
     state = 0;
