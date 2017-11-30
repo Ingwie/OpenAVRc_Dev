@@ -117,7 +117,7 @@ U 1 1 5A1D61ED
 P 8750 3200
 F 0 "J1" H 8400 3000 60  0000 C CNN
 F 1 "JACK_2P" H 8600 3450 60  0000 C CNN
-F 2 "Capacitors_Tantalum_SMD:Pin_Header_Straight_1x02_Pitch2.54mm" H 8750 3200 60  0001 C CNN
+F 2 "Pin_Header_Straight_1x03_Pitch2.54mm" H 8750 3200 60  0001 C CNN
 F 3 "" H 8750 3200 60  0000 C CNN
 	1    8750 3200
 	-1   0    0    1   
@@ -506,9 +506,9 @@ F 3 "" H 4650 4350 30  0000 C CNN
 $EndComp
 Wire Wire Line
 	4350 4350 4400 4350
-Text Notes 3500 3850 0    60   ~ 0
+Text Notes 3450 4000 0    60   ~ 0
 Out Buzzer\n\n
-Text Notes 3500 3900 0    60   ~ 0
+Text Notes 3450 3800 0    60   ~ 0
 Out JQ6500\n
 Wire Wire Line
 	5700 3450 5700 3500

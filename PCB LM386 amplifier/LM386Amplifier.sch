@@ -37,9 +37,9 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "LM386 Amplifier with two input"
-Date "2017-11-28"
+Date "2017-11-30"
 Rev "v1.0"
-Comp "OpenAVRc Team"
+Comp "©OpenAVRc Team"
 Comment1 ""
 Comment2 ""
 Comment3 ""
@@ -506,9 +506,9 @@ F 3 "" H 4650 4350 30  0000 C CNN
 $EndComp
 Wire Wire Line
 	4350 4350 4400 4350
-Text Notes 3500 3850 0    60   ~ 0
+Text Notes 3450 4000 0    60   ~ 0
 Out Buzzer\n\n
-Text Notes 3500 3900 0    60   ~ 0
+Text Notes 3450 3800 0    60   ~ 0
 Out JQ6500\n
 Wire Wire Line
 	5700 3450 5700 3500
