@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name Capacitors_Tantalum_SMD)(type KiCad)(uri "C:/tmp/_OpenAVRc/MegaCore LM386 amplifier")(options "")(descr ""))
+)
