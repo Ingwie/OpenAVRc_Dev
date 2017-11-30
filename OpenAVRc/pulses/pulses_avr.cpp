@@ -44,7 +44,6 @@ uint8_t moduleFlag = { 0 };
 uint16_t nextMixerEndTime = 0;
 uint8_t s_current_protocol = 255;
 uint16_t dt;
-uint16_t B3_comp_value;
 #if F_CPU > 16000000UL
 static volatile uint32_t timer_counts; // Could be uint16_t for mega2560.
 #else

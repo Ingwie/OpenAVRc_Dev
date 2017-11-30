@@ -214,20 +214,6 @@ bool getSwitch(swsrc_t swtch)
     result = true;
   } else if (cs_idx <= SWSRC_LAST_SWITCH) {
     result = switchState((EnumKeys)(SW_BASE+cs_idx-SWSRC_FIRST_SWITCH));
-
-#if defined(MODULE_ALWAYS_SEND_PULSES)
-    if (startupWarningState < STARTUP_WARNING_DONE) {
-      // if throttle or switch warning is currently active, ignore actual stick position and use wanted values
-      if (cs_idx <= 3) {
-        if (!(g_model.switchWarningEnable & 1)) {     // ID1 to ID3 is just one bit in switchWarningEnable
-          result = (cs_idx)==((g_model.switchWarningState & 3)+1);  // overwrite result with desired value
-        }
-      } else if (!(g_model.switchWarningEnable & (1<<(cs_idx-3)))) {
-        // current switch should not be ignored for warning
-        result = g_model.switchWarningState & (1<<(cs_idx-2)); // overwrite result with desired value
-      }
-    }
-#endif
   } else if (cs_idx <= SWSRC_LAST_TRIM) {
     uint8_t idx = cs_idx - SWSRC_FIRST_TRIM;
     idx = (CONVERT_MODE(idx/2) << 1) + (idx & 1);
@@ -298,16 +284,11 @@ swsrc_t getMovedSwitch()
 #if defined(GUI)
 void checkSwitches()
 {
-#if defined(MODULE_ALWAYS_SEND_PULSES)
-  static swarnstate_t last_bad_switches = 0xff;
-#else
   swarnstate_t last_bad_switches = 0xff;
-#endif
   swarnstate_t states = g_model.switchWarningState;
 
 
 
-#if !defined(MODULE_ALWAYS_SEND_PULSES)
   while (1) {
 
 #ifdef GETADC_COUNT
@@ -316,7 +297,6 @@ void checkSwitches()
     }
 #undef GETADC_COUNT
 #endif
-#endif  // !defined(MODULE_ALWAYS_SEND_PULSES)
 
     getMovedSwitch();
 
@@ -334,10 +314,6 @@ void checkSwitches()
     }
 
     if (!warn) {
-#if defined(MODULE_ALWAYS_SEND_PULSES)
-      startupWarningState = STARTUP_WARNING_SWITCHES+1;
-      last_bad_switches = 0xff;
-#endif
       return;
     }
 
@@ -359,12 +335,6 @@ void checkSwitches()
       last_bad_switches = switches_states;
     }
 
-#if defined(MODULE_ALWAYS_SEND_PULSES)
-    if (!pwrCheck) || keyDown()) {
-      startupWarningState = STARTUP_WARNING_SWITCHES+1;
-      last_bad_switches = 0xff;
-    }
-#else
 
     if (keyDown()) {
       return;
@@ -378,7 +348,6 @@ void checkSwitches()
 
     MYWDT_RESET();
   }
-#endif
   }
 #endif // GUI
 

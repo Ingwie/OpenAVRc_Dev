@@ -328,7 +328,7 @@ ifeq ($(PCB), MEGAMINI)
   SDCARD = YES
   BUZZER = YES
   THR_TRACE = YES
-  PWRMANAGE = YES
+  PWRMANAGE = NO
   INCDIRS += targets/megamini targets/stock $(FATFSDIR) $(FATFSDIR)/option
   BOARDSRC += main_avr.cpp i2c_master.cpp spi.c targets/megamini/board_megamini.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
@@ -634,10 +634,6 @@ ifeq ($(NAVIGATION), STICKS)
 endif
 ifeq ($(NAVIGATION), ROTENC)
   CPPDEFS += -DROTARY_ENCODER_NAVIGATION
-endif
-
-ifeq ($(TURNIGY_TRANSMITTER_FIX), YES)
-    CPPDEFS += -DMODULE_ALWAYS_SEND_PULSES
 endif
 
 ifeq ($(LCD), ST7565R)

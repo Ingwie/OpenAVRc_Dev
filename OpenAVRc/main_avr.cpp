@@ -79,8 +79,7 @@ void perMain()
 
   nextMixerEndTime = t0 + MAX_MIXER_DELTA;
   // this is a very tricky implementation; lastMixerEndTime is just like a default value not to stop mixcalculations totally;
-  // the real value for lastMixerEndTime is calculated inside pulses_XXX.cpp which aligns the timestamp to the pulses generated
-  // nextMixerEndTime is actually defined inside pulses_XXX.h
+  // the real value for lastMixerEndTime is calculated inside protocol files
 
   doMixerCalculations();
 
@@ -90,12 +89,6 @@ void perMain()
   lastMixerDuration = t0;
   if (t0 > maxMixerDuration) maxMixerDuration = t0;
 
-#if defined(MODULE_ALWAYS_SEND_PULSES)
-  if (startupWarningState < STARTUP_WARNING_DONE) {
-    // don't do menu's until throttle and switch warnings are handled
-    return;
-  }
-#endif
 
   if (!eeprom_buffer_size) {
     if (theFile.isWriting())
