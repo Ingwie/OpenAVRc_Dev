@@ -127,18 +127,6 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
   }
 }
 
-/*  Moved to i2c_master.cpp
-ISR(TWI_vect)
-{
-  if (--eeprom_buffer_size > 0) {
-    i2c_writeISR(*eeprom_buffer_data);
-    ++eeprom_buffer_data;
-  } else {
-    TWCR &= ~(1<<TWINT);
-    i2c_stop();
-  }
-}
-*/
 #endif
 
 static uint8_t EeFsRead(blkid_t blk, uint8_t ofs)

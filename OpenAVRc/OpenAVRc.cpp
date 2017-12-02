@@ -245,9 +245,9 @@ void generalDefault()
   g_eeGeneral.version  = EEPROM_VER;
   g_eeGeneral.contrast = 15;
 
-
-
-  g_eeGeneral.vBatWarn = 90;
+  g_eeGeneral.vBatMin = 50;
+  g_eeGeneral.vBatMax = 90;
+  g_eeGeneral.vBatWarn = 60;
 
 #if defined(DEFAULT_MODE)
   g_eeGeneral.stickMode = DEFAULT_MODE-1;
@@ -1229,17 +1229,7 @@ void OpenAVRcClose()
 
 void checkBattery()
 {
-  static uint8_t counter = 10;
-#if defined(GUI)
-  // TODO not the right menu I think ...
-  if (menuHandlers[menuLevel] == menuGeneralDiagAna) {
-    g_vbat10mV = 0;
-    counter = 0;
-  }
-#endif
-  if (!counter--) {
-    counter = 10;
-    int32_t instant_vbat = anaIn(TX_VOLTAGE);
+   uint32_t instant_vbat = anaIn(TX_VOLTAGE);
 
 #define BANDGAP 5000 // 5 Volts : We use AVCC.
 #if defined(REV_EVO_V1)
@@ -1255,8 +1245,7 @@ void checkBattery()
     // Schottky Diode drops 0.4V before a potential divider which reduces the input to the ADC by 1/2.8889.
 #endif
 
-
-    if (g_vbat10mV == 0)
+    if (!g_vbat10mV)
     {
       g_vbat10mV = instant_vbat;
     }
@@ -1267,8 +1256,6 @@ void checkBattery()
     {
       AUDIO_TX_BATTERY_LOW();
     }
-
-  }
 }
 
 volatile uint8_t g_tmr16KHz; //continuous timer 16ms (16MHz/1024/256) -- 8-bit counter overflow

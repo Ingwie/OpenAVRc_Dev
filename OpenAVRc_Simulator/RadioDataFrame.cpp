@@ -114,11 +114,11 @@ void RadioDataFrame::PopulateRadioDataFrame()
     TextCtrlversion->SetValue(vTxt = (_("Version:\t")) + int2wxString(Radio.version));
     TextCtrlcurrModel->SetValue(vTxt = (_("Modele:\t")) + int2wxString(Radio.currModel+1));
 
-    vTxt = _("Batterie\t") + int2wxString((Radio.vBatMax + 120)/10) + ".";
-    vTxt = vTxt.Append(int2wxString((Radio.vBatMax + 120) % 10) + "\t");
+    vTxt = _("Batterie\t") + int2wxString((Radio.vBatMax)/10) + ".";
+    vTxt = vTxt.Append(int2wxString((Radio.vBatMax) % 10) + "\t");
 
-    vTxt = vTxt.Append(int2wxString((Radio.vBatMin + 90)/10) + ".");
-    vTxt = vTxt.Append(int2wxString((Radio.vBatMin + 90) % 10) + "\t");
+    vTxt = vTxt.Append(int2wxString((Radio.vBatMin)/10) + ".");
+    vTxt = vTxt.Append(int2wxString((Radio.vBatMin) % 10) + "\t");
 
     vTxt = vTxt.Append(int2wxString((Radio.vBatWarn)/10)+ ".");
     vTxt = vTxt.Append(int2wxString(Radio.vBatWarn % 10));
