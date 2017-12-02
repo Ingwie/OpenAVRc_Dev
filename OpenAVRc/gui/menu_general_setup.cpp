@@ -196,14 +196,14 @@ void menuGeneralSetup(uint8_t event)
 #if defined(BATTGRAPH)
     case ITEM_SETUP_BATT_RANGE:
       lcdDrawTextLeft(y, STR_BATTERY_RANGE);
-      lcdPutsVolts(RADIO_SETUP_2ND_COLUMN, y,  90+g_eeGeneral.vBatMin, (menuHorizontalPosition==0 ? attr : 0)|LEFT|NO_UNIT);
+      lcdPutsVolts(RADIO_SETUP_2ND_COLUMN, y,  g_eeGeneral.vBatMin, (menuHorizontalPosition==0 ? attr : 0)|LEFT|NO_UNIT);
       lcdDrawChar(lcdLastPos, y, '-');
-      lcdPutsVolts(lcdLastPos+FW, y, 120+g_eeGeneral.vBatMax, (menuHorizontalPosition>0 ? attr : 0)|LEFT|NO_UNIT);
+      lcdPutsVolts(lcdLastPos+FW, y, g_eeGeneral.vBatMax, (menuHorizontalPosition>0 ? attr : 0)|LEFT|NO_UNIT);
       if (attr && s_editMode>0) {
         if (menuHorizontalPosition==0)
-          CHECK_INCDEC_GENVAR(event, g_eeGeneral.vBatMin, -50, g_eeGeneral.vBatMax+29); // min=4.0V
+          CHECK_INCDEC_GENVAR(event, g_eeGeneral.vBatMin, 30, g_eeGeneral.vBatMax-10); // min=3.0V
         else
-          CHECK_INCDEC_GENVAR(event, g_eeGeneral.vBatMax, g_eeGeneral.vBatMin-29, +40); // max=16.0V
+          CHECK_INCDEC_GENVAR(event, g_eeGeneral.vBatMax, g_eeGeneral.vBatMin+10, 160); // max=16.0V
       }
       break;
 #endif
@@ -304,7 +304,7 @@ void menuGeneralSetup(uint8_t event)
     case ITEM_SETUP_BATTERY_WARNING:
       lcdDrawTextLeft(y, STR_BATTERYWARNING);
       lcdPutsVolts(RADIO_SETUP_2ND_COLUMN, y, g_eeGeneral.vBatWarn, attr|LEFT);
-      if(attr) CHECK_INCDEC_GENVAR(event, g_eeGeneral.vBatWarn, 40, 120); //4-12V
+      if(attr) CHECK_INCDEC_GENVAR(event, g_eeGeneral.vBatWarn, g_eeGeneral.vBatMin, g_eeGeneral.vBatMax); //Min- Max
       break;
 
     case ITEM_SETUP_MEMORY_WARNING: {
