@@ -317,8 +317,8 @@ PACK(typedef struct {
   uint8_t   reNavigation;
   uint8_t   stickReverse;
   uint8_t   speakerPitch;
-  int8_t    vBatMin;
-  int8_t    vBatMax;
+  uint8_t   vBatMin;
+  uint8_t   vBatMax;
   int8_t    beepLength:3;
   uint8_t   gpsFormat:1;
   uint8_t   unexpectedShutdown:1;

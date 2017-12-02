@@ -69,8 +69,6 @@ void readKeysAndTrims();
 #define COUNTER_16KHZ             TCNT2
 #define TIMER_10MS_VECT           TIMER2_COMPA_vect
 #define TIMER_10MS_COMPVAL        OCR2A
-#define PAUSE_10MS_INTERRUPT()    TIMSK2 &= ~(1<<OCIE2A)
-#define RESUME_10MS_INTERRUPT()   TIMSK2 |= (1<<OCIE2A)
 
 // Backlight driver
 #define backlightEnable()         PORTC |= (1<<OUT_C_LIGHT)

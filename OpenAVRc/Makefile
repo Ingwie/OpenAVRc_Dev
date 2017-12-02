@@ -1142,7 +1142,7 @@ sizebefore:
 	$(AVRMEM) 2>/dev/null; echo; fi
 
 sizeafter:
-	@if test -f $(TARGET).elf; then echo; echo $(MSG_SIZE_AFTER); $(ELFSIZE); \
+	@if test -f $(TARGET).elf; then echo; echo ----------------; $(ELFSIZE); \
 	$(AVRMEM) 2>/dev/null; echo; fi
 
 

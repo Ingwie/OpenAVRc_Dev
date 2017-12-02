@@ -49,7 +49,7 @@
 void lcdPulseEnable(void)
 {
   E_on;
-  _delay_us(10); //Was 4 on the first tested
+  _delay_us(9); //Was 4 on the first tested
   E_off;
 }
 

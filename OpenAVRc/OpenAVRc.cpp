@@ -189,7 +189,7 @@ void per10ms()
   }
 #endif
 
-#if defined(FRSKY) || defined(JETI)
+#if defined(FRSKY)
   if (!IS_DSM2_SERIAL_PROTOCOL(s_current_protocol))
     telemetryInterrupt10ms();
 #endif
@@ -1116,7 +1116,7 @@ void doMixerCalculations()
         struct t_inactivity *ptrInactivity = &inactivity;
         FORCE_INDIRECT(ptrInactivity) ;
         ptrInactivity->counter++;
-        if ((((uint8_t)ptrInactivity->counter)&0x07)==0x01 && g_eeGeneral.inactivityTimer && g_vbat10mV>400 && ptrInactivity->counter > ((uint16_t)g_eeGeneral.inactivityTimer*60))
+        if ((((uint8_t)ptrInactivity->counter)&0x07)==0x01 && g_eeGeneral.inactivityTimer && g_vbat10mV >(uint8_t)g_eeGeneral.vBatMin && ptrInactivity->counter > ((uint16_t)g_eeGeneral.inactivityTimer*60))
           AUDIO_INACTIVITY();
 
 #if defined(AUDIO)
@@ -1160,7 +1160,7 @@ void doMixerCalculations()
       }
     }
 
-#if defined(PXX) || defined(DSM2)
+#if defined(DSM2)
     static uint8_t countRangecheck = 0;
     if (moduleFlag != MODULE_NORMAL_MODE) {
       if (++countRangecheck >= 250) {
@@ -1254,38 +1254,20 @@ void checkBattery()
     instant_vbat += g_eeGeneral.txVoltageCalibration;
     // Schottky Diode drops 0.4V before a potential divider which reduces the input to the ADC by 1/2.8889.
 #endif
-    static uint8_t  s_batCheck;
-    static uint16_t s_batSum;
 
-#if defined(VOICE)
-    s_batCheck += 8;
-#else
-    s_batCheck += 32;
-#endif
 
-    s_batSum += instant_vbat;
-
-    if (g_vbat10mV == 0) {
+    if (g_vbat10mV == 0)
+    {
       g_vbat10mV = instant_vbat;
-      s_batSum = 0;
-      s_batCheck = 0;
     }
-#if defined(VOICE)
-    else if (!(s_batCheck & 0x3f)) {
-#else
-    else if (s_batCheck == 0) {
-#endif
-      g_vbat10mV = s_batSum / 8;
-      s_batSum = 0;
-#if defined(VOICE)
-      if (s_batCheck != 0) {
-        // no alarms
-      } else
-#endif
-        if (IS_TXBATT_WARNING() && g_vbat10mV>400) { // No Audio Alarm if TX Battery < VCC.
-          AUDIO_TX_BATTERY_LOW();
-        }
+
+    g_vbat10mV = ((g_vbat10mV << 3) + instant_vbat) / 9; // Simple low pass filter
+
+    if (IS_TXBATT_WARNING() && g_vbat10mV > g_eeGeneral.vBatMin*0.9)   // No Audio Alarm if TX Battery < VCCMIN X .9
+    {
+      AUDIO_TX_BATTERY_LOW();
     }
+
   }
 }
 

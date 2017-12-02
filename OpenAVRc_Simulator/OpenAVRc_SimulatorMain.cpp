@@ -538,7 +538,7 @@ void OpenAVRc_SimulatorFrame::StartFirmwareCode()
   s_anaFilt[2] = 1024;
   s_anaFilt[3] = 1024;
 
-  s_anaFilt[7] = 2047;//1134; // 8.4 V Battery (8V dac + 0.4 V Schottky Diode)
+  s_anaFilt[7] = 1024; // 7.62 V Battery (7.22V dac + 0.4 V Schottky Diode)
 
   Timer10ms.Start(10, false); //Simulate 10mS Interrupt vector
   simumain();
@@ -1844,9 +1844,9 @@ void OpenAVRc_SimulatorFrame::load_EEGeneral_217()
   eepromfile->Read(wxT("speakerVolume"),&tmp);
   g_eeGeneral.speakerVolume = tmp;
   eepromfile->Read(wxT("vBatMin"),&tmp);
-  g_eeGeneral.vBatMin = tmp;
+  g_eeGeneral.vBatMin = tmp+90;
   eepromfile->Read(wxT("vBatMax"),&tmp);
-  g_eeGeneral.vBatMax = tmp;
+  g_eeGeneral.vBatMax = tmp+120;
 
   theFile.writeRlc(FILE_GENERAL, FILE_TYP_GENERAL, (uint8_t*)&g_eeGeneral, sizeof(EEGeneral), 1);
 }
