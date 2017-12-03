@@ -766,10 +766,10 @@ extern REG8 simu_bssebd;
 #define ISR(x, ...)  void x()
 extern REG8 simu_EIMSK;
 #define  EIMSK simu_EIMSK
-#define  INT4
-#define  INT5
-#define  INT6
-#define  INT7
+#define  INT4  4
+#define  INT5  5
+#define  INT6  6
+#define  INT7  7
 
 //AVR
 #define PROGMEM
