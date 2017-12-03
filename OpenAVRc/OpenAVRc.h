@@ -315,6 +315,11 @@ static uint16_t DurationValue;
 
 #if ROTARY_ENCODERS > 0
   #define IF_ROTARY_ENCODERS(x) x,
+  #define ROTENCDEBOUNCEVAL _BV(2)
+  extern uint8_t rotEncADebounce;
+  #if ROTARY_ENCODERS > 1
+    extern uint8_t rotEncBDebounce;
+  #endif
 #else
   #define IF_ROTARY_ENCODERS(x)
 #endif
@@ -328,9 +333,6 @@ static uint16_t DurationValue;
 #endif
 
 #define tmr10ms_t uint16_t
-
-#define ROTENCDEBOUNCEVAL _BV(2)
-extern uint8_t rotEncDebounce;
 
 extern volatile tmr10ms_t g_tmr10ms;
 
@@ -589,7 +591,7 @@ void setTrimValue(uint8_t phase, uint8_t idx, int trim);
   void incRotaryEncoder(uint8_t idx, int8_t inc);
 #endif
 
-  #define ROTARY_ENCODER_GRANULARITY (1)
+#define ROTARY_ENCODER_GRANULARITY (1)
 
 #if defined(GVARS)
   uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx);
@@ -1193,13 +1195,13 @@ void LimitRfOptionSettings();
 //PPM Defaut
 
 const int8_t RfOpt_PPM_Ser[] PROGMEM = {
-/*rfProtoNeed*/BOOL1USED,
-/*rfSubTypeMax*/6,
-/*rfOptionValue1Min*/-20,
-/*rfOptionValue1Max*/35,
-/*rfOptionValue2Min*/-4,
-/*rfOptionValue2Max*/10,
-/*rfOptionValue3Max*/0,
+  /*rfProtoNeed*/BOOL1USED,
+  /*rfSubTypeMax*/6,
+  /*rfOptionValue1Min*/-20,
+  /*rfOptionValue1Max*/35,
+  /*rfOptionValue2Min*/-4,
+  /*rfOptionValue2Max*/10,
+  /*rfOptionValue3Max*/0,
 };
 
 void sendOptionsSettingsPpm();

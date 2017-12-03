@@ -53,7 +53,12 @@ uint16_t g_tmr1Latency_min;
 uint8_t heartbeat;
 uint8_t stickMode;
 
-uint8_t rotEncDebounce = ROTENCDEBOUNCEVAL;
+#if ROTARY_ENCODERS > 0
+  uint8_t rotEncADebounce;
+#endif
+#if ROTARY_ENCODERS > 1
+  uint8_t rotEncBDebounce;
+#endif
 
 
 #if defined(OVERRIDE_CHANNEL_FUNCTION)
@@ -215,10 +220,16 @@ void per10ms()
   sdPoll10ms();
 #endif
 
-  if (rotEncDebounce)
-  {
-    if (!(rotEncDebounce >>= 1)) ENABLEROTENCISR(); // Re enable rotenc isr (deboucing)
+#if ROTARY_ENCODERS > 0
+  if (rotEncADebounce) {
+    if (!(rotEncADebounce >>= 1)) ENABLEROTENCAISR(); // Re enable rotencA isr (deboucing)
   }
+#endif
+#if ROTARY_ENCODERS > 1
+  if (rotEncBDebounce) {
+    if (!(rotEncBDebounce >>= 1)) ENABLEROTENCBISR(); // Re enable rotencB isr (deboucing)
+  }
+#endif
 
   heartbeat |= HEART_TIMER_10MS;
 
@@ -1227,30 +1238,31 @@ void OpenAVRcClose()
 
 void checkBattery()
 {
-   uint32_t instant_vbat = anaIn(TX_VOLTAGE);
+  uint32_t instant_vbat = anaIn(TX_VOLTAGE);
 
 #define BANDGAP 5000 // 5 Volts : We use AVCC.
 #if defined(REV_EVO_V1)
-    instant_vbat *= 40L * BANDGAP;
-    instant_vbat /= (4095L * 100L);
-    instant_vbat += 20L; // No Calibration Allowed.
-    // Schottky Diode drops 0.2V before a potential divider which reduces the input to the ADC by 1/4.
+  instant_vbat *= 40L * BANDGAP;
+  instant_vbat /= (4095L * 100L);
+  instant_vbat += 20L; // No Calibration Allowed.
+  // Schottky Diode drops 0.2V before a potential divider which reduces the input to the ADC by 1/4.
 #else
-    instant_vbat *= 2889L*(BANDGAP/100);
-    instant_vbat /= 2047L*100L;
-    instant_vbat += 40L;
-    instant_vbat += g_eeGeneral.txVoltageCalibration;
-    // Schottky Diode drops 0.4V before a potential divider which reduces the input to the ADC by 1/2.8889.
+  instant_vbat *= 2889L*(BANDGAP/100);
+  instant_vbat /= 2047L*100L;
+  instant_vbat += 40L;
+  instant_vbat += g_eeGeneral.txVoltageCalibration;
+  // Schottky Diode drops 0.4V before a potential divider which reduces the input to the ADC by 1/2.8889.
 #endif
 
-    if (!g_vbat10mV) {g_vbat10mV = instant_vbat;}
+  if (!g_vbat10mV) {
+    g_vbat10mV = instant_vbat;
+  }
 
-    g_vbat10mV = ((g_vbat10mV << 3) + instant_vbat) / 9; // Simple low pass filter
+  g_vbat10mV = ((g_vbat10mV << 3) + instant_vbat) / 9; // Simple low pass filter
 
-    if (IS_TXBATT_WARNING() && g_vbat10mV > g_eeGeneral.vBatMin*0.9)   // No Audio Alarm if TX Battery < VCCMIN X .9
-    {
-      AUDIO_TX_BATTERY_LOW();
-    }
+  if (IS_TXBATT_WARNING() && g_vbat10mV > g_eeGeneral.vBatMin*0.9) { // No Audio Alarm if TX Battery < VCCMIN X .9
+    AUDIO_TX_BATTERY_LOW();
+  }
 }
 
 volatile uint8_t g_tmr16KHz; //continuous timer 16ms (16MHz/1024/256) -- 8-bit counter overflow

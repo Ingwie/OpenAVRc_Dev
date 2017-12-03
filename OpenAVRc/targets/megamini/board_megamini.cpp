@@ -98,7 +98,8 @@ FORCEINLINE void boardInit()
   // encoder 1&2
   EICRB = (1<<ISC71) | (1<<ISC61) | (1<<ISC51) | (1<<ISC41); // 10 = interrupt on falling edge
   EIFR = (1<<INTF7) | (1<<INTF6) | (1<<INTF5) | (1<<INTF4); // clear the int. flag in case it got set when changing modes
-  ENABLEROTENCISR();
+  ENABLEROTENCAISR();
+  ENABLEROTENCBISR();
 
 #if defined(RTCLOCK) || defined(LCD_SSD1306) || defined(LCD_SH1106) || defined(EXTERNALEEPROM)
   /* Hardware I2C init */
@@ -292,28 +293,34 @@ void readKeysAndTrims()
 
 // Rotary encoders increment/decrement
 
-void debounceRotEnc()
+void debounceRotEncA()
 {
-  EIMSK = 0; // disable ALL external interrupts.
-  rotEncDebounce = ROTENCDEBOUNCEVAL;
+  DISABLEROTENCAISR();
+  rotEncADebounce = ROTENCDEBOUNCEVAL;
+}
+
+void debounceRotEncB()
+{
+  DISABLEROTENCBISR();
+  rotEncBDebounce = ROTENCDEBOUNCEVAL;
 }
 
 ISR(INT4_vect)     // Mega2560 INT4 (portE pin4)
 {
-  if (!(PINE & ROT_ENC_1_MASK)) {debounceRotEnc(); incRotaryEncoder(0, -1);}
+  if (!(PINE & ROT_ENC_1_MASK)) {debounceRotEncA(); incRotaryEncoder(0, -1);}
 }
 
 ISR(INT5_vect)     // Mega2560 INT5 (portE pin5)
 {
-  if (!(PINE & ROT_ENC_1_MASK)) {debounceRotEnc(); incRotaryEncoder(0, +1);}
+  if (!(PINE & ROT_ENC_1_MASK)) {debounceRotEncA(); incRotaryEncoder(0, +1);}
 }
 
 ISR(INT7_vect)     // Mega2560 INT7 (portE pin7)
 {
-  if (!(PINE & ROT_ENC_2_MASK)) {debounceRotEnc(); incRotaryEncoder(1, -1);}
+  if (!(PINE & ROT_ENC_2_MASK)) {debounceRotEncB(); incRotaryEncoder(1, -1);}
 }
 
 ISR(INT6_vect)     // Mega2560 INT6 (portE pin6)
 {
-  if (!(PINE & ROT_ENC_2_MASK)) {debounceRotEnc(); incRotaryEncoder(1, +1);}
+  if (!(PINE & ROT_ENC_2_MASK)) {debounceRotEncB(); incRotaryEncoder(1, +1);}
 }
