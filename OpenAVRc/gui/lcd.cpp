@@ -818,7 +818,7 @@ void lcdDrawPoint(coord_t x, coord_t y, LcdFlags att)
 {
   uint8_t *p = &displayBuf[ y / 8 * LCD_W + x ];
   if (p<DISPLAY_END)
-    lcdMaskPoint(p, BITMASK(y%8), att);
+    lcdMaskPoint(p, _BV(y%8), att);
 }
 
 void lcdDrawSolidHorizontalLineStip(coord_t x, coord_t y, coord_t w, uint8_t pat, LcdFlags att)
@@ -829,7 +829,7 @@ void lcdDrawSolidHorizontalLineStip(coord_t x, coord_t y, coord_t w, uint8_t pat
   }
 
   uint8_t *p  = &displayBuf[ y / 8 * LCD_W + x ];
-  uint8_t msk = BITMASK(y%8);
+  uint8_t msk = _BV(y%8);
   while (w--) {
     if(pat&1) {
       lcdMaskPoint(p, msk, att);
@@ -865,10 +865,10 @@ void lcdDrawSolidVerticalLineStip(coord_t x, scoord_t y, scoord_t h, uint8_t pat
   y = (y & 0x07);
   if (y) {
     ASSERT_IN_DISPLAY(p);
-    uint8_t msk = ~(BITMASK(y)-1);
+    uint8_t msk = ~(_BV(y)-1);
     h -= 8-y;
     if (h < 0)
-      msk -= ~(BITMASK(8+h)-1);
+      msk -= ~(_BV(8+h)-1);
     lcdMaskPoint(p, msk & pat, att);
     p += LCD_W;
   }
@@ -880,7 +880,7 @@ void lcdDrawSolidVerticalLineStip(coord_t x, scoord_t y, scoord_t h, uint8_t pat
   }
   if (h>0) {
     ASSERT_IN_DISPLAY(p);
-    lcdMaskPoint(p, (BITMASK(h)-1) & pat, att);
+    lcdMaskPoint(p, (_BV(h)-1) & pat, att);
   }
 }
 

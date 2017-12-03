@@ -61,10 +61,6 @@ NAVIGATION = NO
 # Values = YES, NO
 AUTOSWITCH = NO
 
-# Stock sticks replaced by FrSky ones
-# Values = YES, NO
-FRSKY_STICKS = NO
-
 # Sources automatic selection
 # Values = YES, NO
 AUTOSOURCE = NO
@@ -168,7 +164,6 @@ RTCLOCK = YES
 
 # Hardware volume
 # Values = YES, NO
-# default = YES (AR9X board doesn't have a hardware volume control as delivered but it can be fitted optionally)
 HARDWARE_VOLUME = YES
 
 # PXX (FrSky PCM) protocol
@@ -656,10 +651,6 @@ endif
 
 ifeq ($(AUTOSOURCE), YES)
   CPPDEFS += -DAUTOSOURCE
-endif
-
-ifeq ($(FRSKY_STICKS), YES)
-  CPPDEFS += -DFRSKY_STICKS
 endif
 
 ifeq ($(DBLKEYS), YES)

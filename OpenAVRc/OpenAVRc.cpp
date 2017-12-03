@@ -37,23 +37,24 @@
 EEGeneral  g_eeGeneral;
 ModelData  g_model;
 
-uint16_t g_tmr1Latency_max;
-uint16_t g_tmr1Latency_min;
-uint16_t lastMixerDuration;
-
 bool pwrCheck = true;
 bool unexpectedShutdown = false;
 
 /* AVR: mixer duration in 1/16ms */
 uint16_t maxMixerDuration;
+uint16_t lastMixerDuration;
+uint16_t g_tmr1Latency_max;
+uint16_t g_tmr1Latency_min;
 
 #if defined(AUDIO)
   audioQueue  audio;
 #endif
 
 uint8_t heartbeat;
-
 uint8_t stickMode;
+
+uint8_t rotEncDebounce = ROTENCDEBOUNCEVAL;
+
 
 #if defined(OVERRIDE_CHANNEL_FUNCTION)
   safetych_t safetyCh[NUM_CHNOUT];
@@ -213,6 +214,11 @@ void per10ms()
 #if defined(SDCARD)
   sdPoll10ms();
 #endif
+
+  if (rotEncDebounce)
+  {
+    if (!(rotEncDebounce >>= 1)) ENABLEROTENCISR(); // Re enable rotenc isr (deboucing)
+  }
 
   heartbeat |= HEART_TIMER_10MS;
 
@@ -412,7 +418,7 @@ void incRotaryEncoder(uint8_t idx, int8_t inc)
 {
   g_rotenc[idx] += inc;
   int16_t *value = &(flightModeAddress(getRotaryEncoderFlightPhase(idx))->rotaryEncoders[idx]);
-  *value = limit((int16_t)-ROTARY_ENCODER_MAX, (int16_t)(*value + (inc * 10)), (int16_t)+ROTARY_ENCODER_MAX);
+  *value = limit((int16_t)-ROTARY_ENCODER_MAX, (int16_t)(*value + (inc * 8)), (int16_t)+ROTARY_ENCODER_MAX);
   eeDirty(EE_MODEL);
 }
 #endif
@@ -939,16 +945,8 @@ uint16_t anaIn(uint8_t chan)
   static const pm_char crossAna[] PROGMEM = {3,1,2,0,4,5,6,7};
 #endif
 
-#if defined(FRSKY_STICKS)
-  volatile uint16_t temp = s_anaFilt[pgm_read_byte_near(crossAna+chan)];  // volatile saves here 40 bytes; maybe removed for newer AVR when available
-  if (chan < NUM_STICKS && (g_eeGeneral.stickReverse & (1 << chan))) {
-    temp = 2048 - temp;
-  }
-  return temp;
-#else
-  volatile uint16_t *p = &s_anaFilt[pgm_read_byte_near(crossAna+chan)];
+  uint16_t *p = &s_anaFilt[pgm_read_byte_near(crossAna+chan)];
   return *p;
-#endif
 }
 
 uint16_t g_vbat10mV = 0;
@@ -1245,10 +1243,7 @@ void checkBattery()
     // Schottky Diode drops 0.4V before a potential divider which reduces the input to the ADC by 1/2.8889.
 #endif
 
-    if (!g_vbat10mV)
-    {
-      g_vbat10mV = instant_vbat;
-    }
+    if (!g_vbat10mV) {g_vbat10mV = instant_vbat;}
 
     g_vbat10mV = ((g_vbat10mV << 3) + instant_vbat) / 9; // Simple low pass filter
 

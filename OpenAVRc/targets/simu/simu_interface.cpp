@@ -170,6 +170,9 @@ REG8 simu_spcr;
 REG8 simu_spsr;
 REG8 simu_spdr;
 
+//OTHER
+REG8 simu_EIMSK;
+
 //STACK
 unsigned char * simu_stackadd;
 REG8 simu_bssebd;
