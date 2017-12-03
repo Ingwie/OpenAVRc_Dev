@@ -764,6 +764,12 @@ extern REG8 simu_bssebd;
 #define __bss_end simu_bssebd
 //IRQ
 #define ISR(x, ...)  void x()
+extern REG8 simu_EIMSK;
+#define  EIMSK simu_EIMSK
+#define  INT4
+#define  INT5
+#define  INT6
+#define  INT7
 
 //AVR
 #define PROGMEM

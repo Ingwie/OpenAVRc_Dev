@@ -90,6 +90,8 @@
   #define speakerOn()
   #define SIMUBEEP1() Beep(toneFreq*15, toneTimeLeft*50); toneTimeLeft/=2;if (!toneTimeLeft) ++toneTimeLeft
   #define SIMUBEEP2() Beep(tone2Freq*15, tone2TimeLeft*50); tone2TimeLeft/=2; if (!tone2TimeLeft) ++tone2TimeLeft;
+  #define ENABLEROTENCISR()
+
 
   char *convertSimuPath(const char *path);
   extern ISR(TIMER_10MS_VECT, ISR_NOBLOCK);
@@ -326,6 +328,9 @@ static uint16_t DurationValue;
 #endif
 
 #define tmr10ms_t uint16_t
+
+#define ROTENCDEBOUNCEVAL _BV(2)
+extern uint8_t rotEncDebounce;
 
 extern volatile tmr10ms_t g_tmr10ms;
 
@@ -729,7 +734,6 @@ void checkBacklight();
 #define BACKLIGHT_ON()    backlightEnable()
 #define BACKLIGHT_OFF()   backlightDisable()
 
-#define BITMASK(bit) (1<<(bit))
 
 #undef min // Avoid double declaration in wingw
 #undef max

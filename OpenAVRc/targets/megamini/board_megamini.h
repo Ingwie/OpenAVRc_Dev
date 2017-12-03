@@ -131,6 +131,7 @@ void readKeysAndTrims();
 #define REA_DOWN()                (~PING & INP_G_ROT_ENC_1_PUSH)
 #define REB_DOWN()                (~PINE & INP_E_ROT_ENC_2_PUSH)
 #define ROTENC_DOWN()             (REA_DOWN() || REB_DOWN())
+#define ENABLEROTENCISR()         EIMSK = (1<<INT7) | (1<<INT6) | (1<<INT5) | (1<<INT4) // enable the rot. enc. ext. int.
 
 // LCD driver
 #define PORTA_LCD_DAT            PORTA
