@@ -136,7 +136,6 @@ void beep(uint8_t val);
   #define PLAY_LOGICAL_SWITCH_OFF(sw)
   #define PLAY_LOGICAL_SWITCH_ON(sw)
   #define PLAY_MODEL_NAME()
-  #define START_SILENCE_PERIOD()
 #endif /* !AUDIO */
 
 #if defined(BUZZER)

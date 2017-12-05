@@ -319,7 +319,7 @@ ifeq ($(PCB), MEGAMINI)
   OPT = 2
   # Processor frequency.
   F_CPU = 16000000
-  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGAMINI -DCPUM2560 -DEEPROM_RLC
+  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGAMINI -DCPUM2560
   SDCARD = YES
   BUZZER = YES
   THR_TRACE = YES
@@ -395,7 +395,7 @@ ifeq ($(PCB), EVO_V1)
   OPT = s
   # Processor frequency.
   F_CPU = 16000000
-  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DREV_EVO_V1 -DEEPROM_RLC
+  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DREV_EVO_V1
   SDCARD = YES
   BUZZER = NO
   EXTERNALEEPROM = YES
@@ -474,7 +474,7 @@ ifeq ($(PCB), MEGA2560)
   OPT = s
   # Processor frequency.
   F_CPU = 16000000
-  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DEEPROM_RLC
+  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560
   SDCARD = NO
   BUZZER = YES
   THR_TRACE = YES
@@ -1070,7 +1070,7 @@ end:
 # Display size of file.
 HEXSIZE = $(SIZE) --target=$(FORMAT) $(TARGET).hex
 #ELFSIZE = $(SIZE) -A $(TARGET).elf
-ELFSIZE = $(SIZE) --mcu=$(MCU) --format=avr $(TARGET).elf
+ELFSIZE = avr-sizeold --mcu=$(MCU) --format=avr $(TARGET).elf
 AVRMEM = avr-mem.sh $(TARGET).elf $(MCU)
 
 

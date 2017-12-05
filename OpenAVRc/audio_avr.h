@@ -161,6 +161,5 @@ void audioDefevent(uint8_t e);
 #define PLAY_LOGICAL_SWITCH_OFF(sw)
 #define PLAY_LOGICAL_SWITCH_ON(sw)
 #define PLAY_MODEL_NAME()        VOICE_AUDIO_BUZZER(PUSH_CUSTOM_PROMPT(PLAY_MODEL_NAME_NUM_FILE,0); PUSH_CUSTOM_PROMPT(PLAY_MODEL_NAME_NUM_FILE + 1 + g_eeGeneral.currModel,0);,,)
-#define START_SILENCE_PERIOD()
 
 #endif
