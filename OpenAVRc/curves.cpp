@@ -55,7 +55,7 @@ CurveInfo curveInfo(uint8_t idx)
 }
 
 
-int intpol(int x, uint8_t idx) // -100, -75, -50, -25, 0 ,25 ,50, 75, 100
+int16_t intpol(int16_t x, uint8_t idx) // -100, -75, -50, -25, 0 ,25 ,50, 75, 100
 {
   CurveInfo crv = curveInfo(idx);
   int8_t *points = crv.crv;
@@ -91,7 +91,7 @@ int intpol(int x, uint8_t idx) // -100, -75, -50, -25, 0 ,25 ,50, 75, 100
 }
 
 #if   defined(CURVES)
-int applyCurve(int x, int8_t idx)
+int16_t applyCurve(int16_t x, int8_t idx)
 {
   /* already tried to have only one return at the end */
   switch(idx) {
@@ -163,7 +163,7 @@ int applyCurve(int x, int8_t idx)
 //  x 0 to 1024;
 //  k 0 to 100;
 // output between 0 and 1024
-unsigned int expou(unsigned int x, unsigned int k)
+uint16_t expou(uint16_t x, uint16_t k)
 {
 #if defined(EXTENDED_EXPO)
   bool extended;
@@ -197,10 +197,10 @@ unsigned int expou(unsigned int x, unsigned int k)
   return value>>8;
 }
 
-int expo(int x, int k)
+int16_t expo(int16_t x, int16_t k)
 {
   if (k == 0) return x;
-  int y;
+  int16_t y;
   bool neg = (x < 0);
 
   if (neg) x = -x;

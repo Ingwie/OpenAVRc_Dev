@@ -934,16 +934,12 @@ void eeLoadModel(uint8_t id)
 
     restoreTimers();
 
-    LOAD_MODEL_CURVES();
-
     // TODO pulses should be started after mixer calculations ...
 
 #if defined(FRSKY)
     frskySendAlarms();
 #endif
 
-    LOAD_MODEL_BITMAP();
-    SEND_FAILSAFE_1S();
   }
 }
 

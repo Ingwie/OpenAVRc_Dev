@@ -288,8 +288,8 @@ static uint16_t DurationValue;
 #define NUM_SW_SRCRAW    1
 #define SW_DSM2_BIND     SW_TRN
 
-#define NUM_PSWITCH        (SWSRC_LAST_SWITCH-SWSRC_FIRST_SWITCH+1)
-#define NUM_POTSSW         (NUM_XPOTS*6)
+#define NUM_PSWITCH      (SWSRC_LAST_SWITCH-SWSRC_FIRST_SWITCH+1)
+#define NUM_POTSSW       (NUM_XPOTS*6)
 
 #define KEY_ENTER        KEY_MENU
 #define KEY_PLUS         KEY_RIGHT
@@ -363,16 +363,8 @@ typedef int8_t swsrc_t;
 
 #include "pulses/pulses_avr.h"
 #include "pulses/pulses.h"
-
 #include "eeprom_common.h"
-
-#if defined(EEPROM_RLC)
-  #include "eeprom_rlc.h"
-#endif
-
-#define LOAD_MODEL_BITMAP()
-
-#define LOAD_MODEL_CURVES()
+#include "eeprom_rlc.h"
 
 
 #define MASK_CFN_TYPE  uint32_t  // current max = 32 function switches
@@ -795,11 +787,11 @@ extern int16_t            channelOutputs[NUM_CHNOUT];
 
 #define NUM_INPUTS      (NUM_STICKS)
 
-int intpol(int x, uint8_t idx);
-int expo(int x, int k);
+int16_t intpol(int16_t x, uint8_t idx);
+int16_t expo(int16_t x, int16_t k);
 
 #if defined(CURVES)
-  int applyCurve(int x, int8_t idx);
+  int16_t applyCurve(int16_t x, int8_t idx);
 #else
   #define applyCurve(x, idx) (x)
 #endif
@@ -855,7 +847,6 @@ void copyTrimsToOffset(uint8_t ch);
 void copySticksToOffset(uint8_t ch);
 void moveTrimsToOffsets();
 
-#define ACTIVE_PHASES_TYPE uint8_t
 #define delayval_t         int8_t
 
 PACK(typedef struct {

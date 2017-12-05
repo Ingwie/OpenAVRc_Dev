@@ -50,10 +50,10 @@ void getADC() // 0.56 mS
     uint16_t temp_ana;
     ADMUX = adc_input|ADC_VREF_TYPE;
     ADCSRA |= 1 << ADSC; // Start the AD conversion
-    while SIMU_UNLOCK_MACRO(ADCSRA & (1 << ADSC)); // Wait for the AD conversion to complete
+    while SIMU_UNLOCK_MACRO(bit_is_set(ADCSRA,ADSC)); // Wait for the AD conversion to complete
     temp_ana = ADC;
     ADCSRA |= 1 << ADSC; // Start the second AD conversion
-    while SIMU_UNLOCK_MACRO(ADCSRA & (1 << ADSC)); // Wait for the AD conversion to complete
+    while SIMU_UNLOCK_MACRO(bit_is_set(ADCSRA,ADSC)); // Wait for the AD conversion to complete
     temp_ana += ADC;
 #if !defined(SIMU)
     s_anaFilt[adc_input] = temp_ana;

@@ -65,13 +65,7 @@ union p2mhz_t
 {
   uint16_t pword[PULSES_WORD_SIZE];
   uint8_t  pbyte[PULSES_BYTE_SIZE];  // 144
-// uint8_t packet[40]; // protocol global packet uses this union via pointer.
 } pulses2MHz;
-
-//#define PULSES_SIZE 144
-// TODO Initialisation
-//uint8_t pulses2MHz[PULSES_SIZE] = {0}; // TODO check this length, pulled from er9x, perhaps too big.
-//uint8_t * pulses2MHzRPtr = pulses2MHz;
 
 enum ppmtype{
 PPM,
@@ -87,9 +81,6 @@ void DSM2_Done();
 
 FORCEINLINE bool pulsesStarted();
 FORCEINLINE void sendStopPulses();
-
-#define SEND_FAILSAFE_NOW()
-#define SEND_FAILSAFE_1S()
 
 #endif
 
