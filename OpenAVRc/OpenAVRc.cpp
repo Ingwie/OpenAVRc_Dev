@@ -875,8 +875,8 @@ uint8_t checkTrim(uint8_t event)
     int8_t v = (trimInc==-1) ? min(32, abs(before)/4+1) : (1 << trimInc); // TODO flash saving if (trimInc < 0)
     if (thro) v = 4; // if throttle trim and trim trottle then step=4
     int16_t after = (k&1) ? before + v : before - v;   // positive = k&1
-    uint8_t beepTrim = false;
-    for (int8_t mark=TRIM_MIN; mark<=TRIM_MAX; mark+=TRIM_MAX) {
+    bool beepTrim = false;
+    for (int16_t mark=TRIM_MIN; mark<=TRIM_MAX; mark+=TRIM_MAX) {
       if ((mark!=0 || !thro) && ((mark!=TRIM_MIN && after>=mark && before<mark) || (mark!=TRIM_MAX && after<=mark && before>mark))) {
         after = mark;
         beepTrim = (mark == 0 ? 1 : 2);
