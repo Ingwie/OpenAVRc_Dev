@@ -262,14 +262,6 @@ static uint16_t DurationValue;
 
 #define IS_FAI_FORBIDDEN(idx) (IS_FAI_ENABLED() && idx >= MIXSRC_FIRST_TELEM)
 
-#if !defined(ACCURAT_THROTTLE_TIMER)
-  //  code cost is about 16 bytes for higher throttle accuracy for timer
-  //  would not be noticable anyway, because all version up to this change had only 16 steps;
-  //  now it has already 32  steps; this define would increase to 128 steps
-  #if !defined(ACCURAT_THROTTLE_TIMER)
-    #define ACCURAT_THROTTLE_TIMER
-  #endif
-#endif
 
 // RESX range is used for internal calculation; The menu says -100.0 to 100.0; internally it is -1024 to 1024 to allow some optimizations
 #define RESX_SHIFT 10

@@ -85,16 +85,9 @@ CORRECT_NEGATIVE_VALUES = YES
 # Values = YES, NO
 ARITHMETIC_OVERFLOW_CHECK = NO
 
-# increases resolution for throttle statistics and throttle counting, in very rare cases.
-# this will be only true if an output channel is used for throttle calculation, and this channel has changed limits, e.g. -90% to +80%
-# if you use standard limits for throttle or directly the throttle stick you do not need to bother about this option
-# Values = YES, NO
-ACCURAT_THROTTLE_STATS = NO
-
 # HAPTIC Mods
 # Values = YES, NO
 HAPTIC = NO
-
 
 # Fade Backlight using PWM
 # Values = YES, NO
@@ -725,10 +718,6 @@ ifeq ($(ARITHMETIC_OVERFLOW_CHECK), YES)
   CPPDEFS += -DPREVENT_ARITHMETIC_OVERFLOW
 endif
 
-ifeq ($(ACCURAT_THROTTLE_STATS), YES)
-  CPPDEFS += -DACCURAT_THROTTLE_TIMER
-endif
-
 # EXTENSIONS (for Telemetry protocols)
 ifneq ($(EXT), $(filter $(EXT), STD FRSKY FRSKY_SPORT ARDUPILOT NMEA JETI MAVLINK TELEMETREZ))
   $(error Sorry, the EXT $(EXT) is not supported yet in OpenAVRc)
@@ -738,40 +727,15 @@ ifeq ($(EXT), STD)
   CPPDEFS += -DEXTSTD
 endif
 
-ifeq ($(EXT), ARDUPILOT)
-  CPPDEFS += -DARDUPILOT
-  CPPSRC += telemetry/ardupilot.cpp
-endif
-
-ifeq ($(EXT), NMEA)
-  CPPDEFS += -DNMEA
-  CPPSRC += telemetry/nmea.cpp
-endif
-
-ifeq ($(EXT), JETI)
-  CPPDEFS += -DJETI
-  CPPSRC += telemetry/jeti.cpp
-endif
-
-ifeq ($(EXT), MAVLINK)
-  CPPDEFS += -DMAVLINK
-  INCDIRS += thirdparty
-  CPPSRC += telemetry/mavlink.cpp gui/view_mavlink.cpp serial_driver.cpp
-endif
-
-ifeq ($(EXT), TELEMETREZ)
-  CPPDEFS += -DTELEMETREZ
-endif
-
 ifeq ($(EXT), $(filter $(EXT), FRSKY FRSKY_SPORT TELEMETREZ))
   CPPDEFS += -DFRSKY
   CPPSRC += telemetry/frsky.cpp telemetry/frsky_d.cpp
 
-  ifeq ($(EXT), FRSKY_SPORT)
-    CPPSRC += telemetry/frsky_sport.cpp
-    CPPSRC += crc16.cpp
-    CPPDEFS += -DFRSKY_SPORT
-  endif
+  #ifeq ($(EXT), FRSKY_SPORT)
+    #CPPSRC += telemetry/frsky_sport.cpp
+    #CPPSRC += crc16.cpp
+    #CPPDEFS += -DFRSKY_SPORT
+  #endif
 
   CPPSRC += gui/view_telemetry.cpp
 
