@@ -875,7 +875,7 @@ uint8_t checkTrim(uint8_t event)
     int8_t v = (trimInc==-1) ? min(32, abs(before)/4+1) : (1 << trimInc); // TODO flash saving if (trimInc < 0)
     if (thro) v = 4; // if throttle trim and trim trottle then step=4
     int16_t after = (k&1) ? before + v : before - v;   // positive = k&1
-    bool beepTrim = false;
+    int8_t beepTrim = false;
     for (int16_t mark=TRIM_MIN; mark<=TRIM_MAX; mark+=TRIM_MAX) {
       if ((mark!=0 || !thro) && ((mark!=TRIM_MIN && after>=mark && before<mark) || (mark!=TRIM_MAX && after<=mark && before>mark))) {
         after = mark;
@@ -944,8 +944,7 @@ uint16_t anaIn(uint8_t chan)
 #else // M2560 "Standard"
   static const pm_char crossAna[] PROGMEM = {3,1,2,0,4,5,6,7};
 #endif
-
-  uint16_t *p = &s_anaFilt[pgm_read_byte_near(crossAna+chan)];
+  volatile uint16_t *p = &s_anaFilt[pgm_read_byte_near(crossAna+chan)];
   return *p;
 }
 
@@ -1033,12 +1032,6 @@ void doMixerCalculations()
 
   if (tick10ms) {
 
-#if !defined(ACCURAT_THROTTLE_TIMER)
-    //  code cost is about 16 bytes for higher throttle accuracy for timer
-    //  would not be noticable anyway, because all version up to this change had only 16 steps;
-    //  now it has already 32  steps; this define would increase to 128 steps
-#define ACCURAT_THROTTLE_TIMER
-#endif
 
     /* Throttle trace */
     int16_t val;
@@ -1065,28 +1058,14 @@ void doMixerCalculations()
       gModelMax -= gModelMin; // we compare difference between Max and Mix for recaling needed; Max and Min are shifted to 0 by default
       // usually max is 1024 min is -1024 --> max-min = 2048 full range
 
-#ifdef ACCURAT_THROTTLE_TIMER
       if (gModelMax!=0 && gModelMax!=2048) val = (int32_t) (val << 11) / (gModelMax); // rescaling only needed if Min, Max differs
-#else
-      // @@@ open.20.fsguruh  optimized calculation; now *8 /8 instead of 10 base; (*16/16 already cause a overrun; unsigned calculation also not possible, because v may be negative)
-      gModelMax+=255; // force rounding up --> gModelMax is bigger --> val is smaller
-      gModelMax >>= (10-2);
-
-      if (gModelMax!=0 && gModelMax!=8) {
-        val = (val << 3) / gModelMax; // rescaling only needed if Min, Max differs
-      }
-#endif
 
       if (val<0) val=0;  // prevent val be negative, which would corrupt throttle trace and timers; could occur if safetyswitch is smaller than limits
     } else {
       val = RESX + (g_model.thrTraceSrc == 0 ? rawAnas[THR_STICK] : calibratedStick[g_model.thrTraceSrc+NUM_STICKS-1]);
     }
 
-#if defined(ACCURAT_THROTTLE_TIMER)
     val >>= (RESX_SHIFT-6); // calibrate it (resolution increased by factor 4)
-#else
-    val >>= (RESX_SHIFT-4); // calibrate it
-#endif
 
     evalTimers(val, tick10ms);
 
@@ -1121,16 +1100,10 @@ void doMixerCalculations()
         if (mixWarning & 4) if ((sessionTimer&0x03)==2) AUDIO_MIX_WARNING(3);
 #endif
 
-#if defined(ACCURAT_THROTTLE_TIMER)
         val = s_sum_samples_thr_1s / s_cnt_samples_thr_1s;
         s_timeCum16ThrP += (val>>3);  // s_timeCum16ThrP would overrun if we would store throttle value with higher accuracy; therefore stay with 16 steps
         if (val) s_timeCumThr += 1;
         s_sum_samples_thr_1s>>=2;  // correct better accuracy now, because trace graph can show this information; in case thrtrace is not active, the compile should remove this
-#else
-        val = s_sum_samples_thr_1s / s_cnt_samples_thr_1s;
-        s_timeCum16ThrP += (val>>1);
-        if (val) s_timeCumThr += 1;
-#endif
 
 #if defined(THRTRACE)
         // throttle trace is done every 10 seconds; Tracebuffer is adjusted to screen size.
@@ -1144,7 +1117,6 @@ void doMixerCalculations()
           val = s_sum_samples_thr_10s / s_cnt_samples_thr_10s;
           s_sum_samples_thr_10s = 0;
           s_cnt_samples_thr_10s = 0;
-
           s_traceBuf[s_traceWr++] = val;
           if (s_traceWr >= MAXTRACE) s_traceWr = 0;
           if (s_traceCnt >= 0) ++s_traceCnt;
