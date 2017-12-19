@@ -125,7 +125,7 @@ FORCEINLINE void boardInit()
   RF_CS_NRF24L01_INACTIVE();
   RF_CS_A7105_INACTIVE();
 
-  SpiRFModule.fixed_id = 0x1a2b3c4d;
+  g_eeGeneral.fixed_ID.ID_32 = 0x1a2b3c4d;
   SpiRFModule.mode = NORMAL_MODE;
 
 #endif // SPIMODULES

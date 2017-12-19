@@ -761,9 +761,9 @@ static uint16_t dsm2_cb()
 static void DSM_initialize(uint8_t bind)
 {
   PROTO_Stop_Callback();
-  DSM_fixed_id = SpiRFModule.fixed_id;
+  DSM_fixed_id = g_eeGeneral.fixed_ID.ID_32;
   cyrf_startup_config();
-
+uint8_t  todousefixedID_8here;
   CYRF_GetMfgData(cyrfmfg_id);
   cyrfmfg_id[0] ^= (DSM_fixed_id >> 0) & 0xff;
   cyrfmfg_id[1] ^= (DSM_fixed_id >> 8) & 0xff;

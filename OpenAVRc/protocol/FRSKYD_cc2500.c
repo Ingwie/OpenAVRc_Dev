@@ -35,7 +35,7 @@
 #include "../OpenAVRc.h"
 #include "frsky.h"
 
-extern uint8_t frskyRxBuffer[];
+extern uint8_t Usart0RxBuffer[];
 
 const static int8_t RfOpt_FrskyD_Ser[] PROGMEM = {
 /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
@@ -115,8 +115,8 @@ void FRSKYD_generate_channels(void)
  * Make sure adjacent channels in the array are spread across the band and are not repeated.
  */
 
-  uint8_t chan_offset = ((SpiRFModule.fixed_id >> 16) & 0xFF) % 10; // 10 channel bases.
-  uint8_t step = (((SpiRFModule.fixed_id >> 24) & 0xFF) % 11); // 11 sequences for now.
+  uint8_t chan_offset = ((g_eeGeneral.fixed_ID.ID_32 >> 16) & 0xFF) % 10; // 10 channel bases.
+  uint8_t step = (((g_eeGeneral.fixed_ID.ID_32 >> 24) & 0xFF) % 11); // 11 sequences for now.
 
   step = step + 73; // 73 to 83.
   // Build channel array.
@@ -285,7 +285,7 @@ static uint16_t FRSKYD_data_cb()
         else if(rx_packet[1] != (frsky_id & 0xff)) break;
         else if(rx_packet[2] != frsky_id >>8) break;
 #if defined(FRSKY)
-        memcpy(frskyRxBuffer, rx_packet, len);
+        memcpy(Usart0RxBuffer, rx_packet, len);
         if(frskyStreaming < FRSKY_TIMEOUT10ms -5) frskyStreaming +=5;
         // frskyStreaming gets decremented every 10ms, however we can only add to it every 4 *9ms, so we add 5.
 #endif
@@ -317,7 +317,7 @@ static void FRSKYD_initialize(uint8_t bind)
 {
   PROTO_Stop_Callback();
 
-  frsky_id = SpiRFModule.fixed_id;// % 0x4000;
+  frsky_id = g_eeGeneral.fixed_ID.ID_32;// % 0x4000;
   FRSKYD_generate_channels();
 
   CC2500_Reset(); // 0x30

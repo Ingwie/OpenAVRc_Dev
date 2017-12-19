@@ -33,31 +33,36 @@
 
 #include "OpenAVRc.h"
 
-#if defined(FRSKY) || defined(MULTIPROTOCOL)
+uint8_t Usart0RxBuffer[USART0_RX_PACKET_SIZE];   // Receive buffer. 9 bytes (full packet), worst case 18 bytes with byte-stuffing (+1)
+
+uint8_t Usart0TxBuffer[USART0_TX_PACKET_SIZE];
+
+uint8_t Usart0TxBufferCount = 0;
+
+uint8_t Usart0RxBufferCount = 0;
 
 void telemetryEnableTx(void)
 {
-  UCSRB_N(TLM_USART) |= (1 << TXEN_N(TLM_USART)); // enable TX
+  UCSRB_N(TLM_USART0) |= (1 << TXEN_N(TLM_USART0)); // enable TX
 }
 
 void telemetryEnableRx(void)
 {
-  UCSRB_N(TLM_USART) |= (1 << RXEN_N(TLM_USART));  // enable RX
-  UCSRB_N(TLM_USART) |= (1 << RXCIE_N(TLM_USART)); // enable Interrupt
+  UCSRB_N(TLM_USART0) |= (1 << RXEN_N(TLM_USART0));  // enable RX
+  UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
 }
 
 void processSerialData(uint8_t data);
-extern uint8_t frskyRxBufferCount; // TODO not driver, change name
 
-ISR(USART_RX_vect_N(TLM_USART))
+ISR(USART_RX_vect_N(TLM_USART0))
 {
   uint8_t stat;
   uint8_t data;
 
-  UCSRB_N(TLM_USART) &= ~(1 << RXCIE_N(TLM_USART)); // disable Interrupt
+  UCSRB_N(TLM_USART0) &= ~(1 << RXCIE_N(TLM_USART0)); // disable Interrupt
   sei();
 
-  stat = UCSRA_N(TLM_USART); // USART control and Status Register 0/1 A
+  stat = UCSRA_N(TLM_USART0); // USART control and Status Register 0/1 A
 
   /*
               bit      7      6      5      4      3      2      1      0
@@ -72,7 +77,7 @@ ISR(USART_RX_vect_N(TLM_USART))
               U2X0:   Double Tx Speed
               PCM0:   MultiProcessor Comms Mode
    */
-  // rh = UCSRB_N(TLM_USART); //USART control and Status Register 0/1 B
+  // rh = UCSRB_N(TLM_USART0); //USART control and Status Register 0/1 B
 
   /*
             bit      7      6      5      4      3      2      1      0
@@ -88,17 +93,17 @@ ISR(USART_RX_vect_N(TLM_USART))
             TXB80:    Tx data bit 8
   */
 
-  data = UDR_N(TLM_USART); // USART data register 0
+  data = UDR_N(TLM_USART0); // USART data register 0
 
-  if (stat & ((1 << FE_N(TLM_USART)) | (1 << DOR_N(TLM_USART)) | (1 << UPE_N(TLM_USART)))) {
+  if (stat & ((1 << FE_N(TLM_USART0)) | (1 << DOR_N(TLM_USART0)) | (1 << UPE_N(TLM_USART0)))) {
     // discard buffer and start fresh on any comms error
-    frskyRxBufferCount = 0;
+    Usart0RxBufferCount = 0;
   } else {
     processSerialData(data);
   }
 
   cli() ;
-  UCSRB_N(TLM_USART) |= (1 << RXCIE_N(TLM_USART)); // enable Interrupt
+  UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
 }
 
 void telemetryPortInit()
@@ -109,20 +114,20 @@ void telemetryPortInit()
 #define BAUD 9600
 #include <util/setbaud.h>
 
-  UBRRH_N(TLM_USART) = UBRRH_VALUE;
-  UBRRL_N(TLM_USART) = UBRRL_VALUE;
-  UCSRA_N(TLM_USART) &= ~(1 << U2X_N(TLM_USART)); // disable double speed operation.
+  UBRRH_N(TLM_USART0) = UBRRH_VALUE;
+  UBRRL_N(TLM_USART0) = UBRRL_VALUE;
+  UCSRA_N(TLM_USART0) &= ~(1 << U2X_N(TLM_USART0)); // disable double speed operation.
 
   // set 8N1
-  UCSRB_N(TLM_USART) = 0 | (0 << RXCIE_N(TLM_USART)) | (0 << TXCIE_N(TLM_USART)) | (0 << UDRIE_N(TLM_USART)) | (0 << RXEN_N(TLM_USART)) | (0 << TXEN_N(TLM_USART)) | (0 << UCSZ2_N(TLM_USART));
-  UCSRC_N(TLM_USART) = 0 | (1 << UCSZ1_N(TLM_USART)) | (1 << UCSZ0_N(TLM_USART));
+  UCSRB_N(TLM_USART0) = 0 | (0 << RXCIE_N(TLM_USART0)) | (0 << TXCIE_N(TLM_USART0)) | (0 << UDRIE_N(TLM_USART0)) | (0 << RXEN_N(TLM_USART0)) | (0 << TXEN_N(TLM_USART0)) | (0 << UCSZ2_N(TLM_USART0));
+  UCSRC_N(TLM_USART0) = 0 | (1 << UCSZ1_N(TLM_USART0)) | (1 << UCSZ0_N(TLM_USART0));
 
 
-  while (UCSRA_N(TLM_USART) & (1 << RXC_N(TLM_USART))) UDR_N(TLM_USART); // flush receive buffer
+  while (UCSRA_N(TLM_USART0) & (1 << RXC_N(TLM_USART0))) UDR_N(TLM_USART0); // flush receive buffer
 
   // These should be running right from power up on a FrSky enabled '9X.
   telemetryEnableTx(); // enable FrSky-Telemetry emission
-  frskyTxBufferCount = 0; // TODO not driver code
+  Usart0TxBufferCount = 0; // TODO not driver code
 
   telemetryEnableRx(); // enable FrSky-Telemetry reception
 #endif
@@ -130,7 +135,16 @@ void telemetryPortInit()
 
 void telemetryTransmitBuffer()
 {
-  UCSRB_N(TLM_USART) |= (1 << UDRIE_N(TLM_USART)); // enable  UDRE1 interrupt
+  UCSRB_N(TLM_USART0) |= (1 << UDRIE_N(TLM_USART0)); // enable  UDRE1 interrupt
 }
 
-#endif
+// USART0 Transmit Data Register Emtpy ISR
+ISR(USART_UDRE_vect_N(TLM_USART0))
+{
+  if (Usart0TxBufferCount > 0) {
+    UDR_N(TLM_USART0) = Usart0TxBuffer[--Usart0TxBufferCount];
+  } else {
+    UCSRB_N(TLM_USART0) &= ~(1 << UDRIE_N(TLM_USART0)); // Disable UDRE interrupt.
+  }
+}
+

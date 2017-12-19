@@ -33,7 +33,7 @@
 
 #include "../OpenAVRc.h"
 
-#define TLM_MULTI 0 // usart 0 ????????
+#define TLM_MULTI TLM_USART0 // usart 0 ????????
 
 static uint32_t MULTI_fixed_id;
 
@@ -49,10 +49,10 @@ static uint32_t MULTI_fixed_id;
 
 const static int8_t RfOpt_Multi_Ser[] PROGMEM = {
 /*rfProtoNeed*/BOOL1USED | BOOL2USED | BOOL3USED,
-/*rfSubTypeMax*/16,
+/*rfSubTypeMax*/15,
 /*rfOptionValue1Min*/0,
 /*rfOptionValue1Max*/24,
-/*rfOptionValue2Min*/-128,
+/*rfOptionValue2Min*/-127,
 /*rfOptionValue2Max*/127,
 /*rfOptionValue3Max*/0,
 };
@@ -165,9 +165,9 @@ static uint16_t MULTI_cb()
 {
   // Send datas
 
-  if (frskyTxBufferCount) return 1000 *2; // return, if buffer is not empty
-  frskyTxBufferCount = 26;
-  uint8_t multiTxBufferCount = frskyTxBufferCount;
+  if (Usart0TxBufferCount) return 1000 *2; // return, if buffer is not empty
+  Usart0TxBufferCount = 26;
+  uint8_t multiTxBufferCount = Usart0TxBufferCount;
 
   // Our enumeration starts at 0
   int8_t type = g_model.MULTIRFPROTOCOL + 1;
@@ -235,11 +235,11 @@ static uint16_t MULTI_cb()
 
   // header, byte 0,  0x55 for proto 0-31 0x54 for 32-63
   if (type <= 31)
-    frskyTxBuffer[--multiTxBufferCount] = 0x55;
+    Usart0TxBuffer[--multiTxBufferCount] = 0x55;
 //    sendByteMulti(0x55);
   else
 //    sendByteMulti(0x54);
-    frskyTxBuffer[--multiTxBufferCount] = 0x54;
+    Usart0TxBuffer[--multiTxBufferCount] = 0x54;
 
 
   // protocol byte 1
@@ -248,17 +248,17 @@ static uint16_t MULTI_cb()
     protoByte |= (g_model.AUTOBINDMODE << 6);
 
 //  sendByteMulti(protoByte);
-  frskyTxBuffer[--multiTxBufferCount] = protoByte;
+  Usart0TxBuffer[--multiTxBufferCount] = protoByte;
 
   // byte 2, subtype, powermode, model id
-  frskyTxBuffer[--multiTxBufferCount] = ((uint8_t) ((g_model.modelId & 0x0f)
+  Usart0TxBuffer[--multiTxBufferCount] = ((uint8_t) ((g_model.modelId & 0x0f)
                                          | ((subtype & 0x7) << 4)
                                          | (g_model.LOWPOWERMODE << 7))
                                         );
 
   // byte 3
 //  sendByteMulti((uint8_t) optionValue);
-  frskyTxBuffer[--multiTxBufferCount] = (uint8_t) optionValue;
+  Usart0TxBuffer[--multiTxBufferCount] = (uint8_t) optionValue;
 
   uint32_t bits = 0;
   uint8_t bitsavailable = 0;
@@ -276,7 +276,7 @@ static uint16_t MULTI_cb()
     bitsavailable += MULTI_CHAN_BITS;
     while (bitsavailable >= 8) {
 //      sendByteMulti((uint8_t) (bits & 0xff));
-      frskyTxBuffer[--multiTxBufferCount] = ((uint8_t) (bits & 0xff));
+      Usart0TxBuffer[--multiTxBufferCount] = ((uint8_t) (bits & 0xff));
       bits >>= 8;
       bitsavailable -= 8;
     }
@@ -288,39 +288,36 @@ static uint16_t MULTI_cb()
 
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-  return 9000 *2; // 9 mSec loop
+  return 9000U *2; // 9 mSec loop
 }
 
 
 static void MULTI_initialize(uint8_t bind)
 {
-#if defined(FRSKY) && !defined(DSM2_SERIAL)
+
 #if !defined(SIMU)
 
+// 100K 8E2
 	#undef BAUD
 	#define BAUD 100000
 	#include <util/setbaud.h>
 
 	UBRRH_N(TLM_MULTI) = UBRRH_VALUE;
 	UBRRL_N(TLM_MULTI) = UBRRL_VALUE;
-	UCSRA_N(TLM_MULTI) &= ~(1 << U2X_N(TLM_MULTI)); // disable double speed operation.
-    UCSRB_N(TLM_MULTI) = 0 | (0 << RXCIE_N(TLM_MULTI)) | (0 << TXCIE_N(TLM_MULTI)) | (0 << UDRIE_N(TLM_MULTI)) | (0 << RXEN_N(TLM_MULTI)) | (0 << TXEN_N(TLM_MULTI)) | (0 << UCSZ2_N(TLM_MULTI));
-    UCSRC_N(TLM_MULTI) = 0 | (1 << UPM01) | (1 << USBS0)| (1 << UCSZ1_N(TLM_MULTI)) | (1 << UCSZ0_N(TLM_MULTI)); // set 2 stop bits, even parity BIT
+	UCSRA_N(TLM_MULTI) = ~(1 << U2X_N(TLM_MULTI)); // disable double speed operation.
+  UCSRB_N(TLM_MULTI) = (0 << RXCIE_N(TLM_MULTI)) | (0 << TXCIE_N(TLM_MULTI)) | (0 << UDRIE_N(TLM_MULTI)) | (0 << RXEN_N(TLM_MULTI)) | (0 << TXEN_N(TLM_MULTI)) | (0 << UCSZ2_N(TLM_MULTI));
+  UCSRC_N(TLM_MULTI) = (1 << UPM01) | (1 << USBS0)| (1 << UCSZ1_N(TLM_MULTI)) | (1 << UCSZ0_N(TLM_MULTI)); // set 2 stop bits, even parity BIT
 
     while (UCSRA_N(TLM_MULTI) & (1 << RXC_N(TLM_MULTI))) UDR_N(TLM_MULTI); // flush receive buffer
 
 	// These should be running right from power up on a FrSky enabled '9X.
 	UCSRB_N(TLM_MULTI) |= (1 << TXEN_N(TLM_MULTI)); // enable FrSky-Telemetry emission
-	frskyTxBufferCount = 0; // TODO not driver code
-	UCSRB_N(TLM_MULTI) |= (1 << RXEN_N(TLM_MULTI));  // enable RX
-    UCSRB_N(TLM_MULTI) |= (1 << RXCIE_N(TLM_MULTI)); // enable Interrupt
+	Usart0TxBufferCount = 0; // TODO not driver code
 
 #endif
-#endif
 
-  PROTO_Stop_Callback();
   MULTI_init();
-  MULTI_fixed_id = SpiRFModule.fixed_id;
+  MULTI_fixed_id = g_eeGeneral.fixed_ID.ID_32;
   if (bind) {
   PROTO_Start_Callback(25000U *2, MULTI_bind_cb);
   } else {

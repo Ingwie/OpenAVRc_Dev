@@ -353,6 +353,7 @@ typedef int8_t swsrc_t;
   #define STICK_SCROLL_DISABLE()
 #endif
 
+#include "telemetry_driver.h"
 #include "pulses/pulses_avr.h"
 #include "pulses/pulses.h"
 #include "eeprom_common.h"
@@ -1112,7 +1113,7 @@ struct Module {
 //    uint16_t ppmin_deltapw;
 //    uint8_t train_sw;
 //    int8_t ppm_map[MAX_PPM_IN_CHANNELS];
-  uint32_t fixed_id;
+//  uint32_t fixed_id;
   enum TxPower tx_power;
   enum PROTO_MODE mode;
 //    enum SwashType swash_type;

@@ -706,7 +706,10 @@
 		<Unit filename="../OpenAVRc/telemetry/frsky.cpp" />
 		<Unit filename="../OpenAVRc/telemetry/frsky.h" />
 		<Unit filename="../OpenAVRc/telemetry/frsky_d.cpp" />
-		<Unit filename="../OpenAVRc/telemetry/frsky_sport.cpp" />
+		<Unit filename="../OpenAVRc/telemetry/frsky_sport.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="../OpenAVRc/telemetry/telemetry.h" />
 		<Unit filename="../OpenAVRc/telemetry_driver.cpp" />
 		<Unit filename="../OpenAVRc/templates.cpp" />

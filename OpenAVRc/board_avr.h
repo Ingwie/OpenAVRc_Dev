@@ -136,10 +136,5 @@ extern void getADC();
 #define USART_RX_vect_N(usart_no) _USART_RX_vect_N(usart_no)
 #define USART_UDRE_vect_N(usart_no) _USART_UDRE_vect_N(usart_no)
 
-// Telemetry driver
-#define TLM_USART 0
-void telemetryPortInit();
-void telemetryTransmitBuffer();
-
 
 #endif

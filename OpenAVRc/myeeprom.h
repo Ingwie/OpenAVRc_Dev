@@ -286,6 +286,13 @@ PACK(typedef struct {
 
 
 #define ALTERNATE_VIEW 0x10
+
+typedef union {
+  uint8_t   ID_8[4];
+  uint32_t  ID_32;
+} fixed_ID_Union;
+
+
 PACK(typedef struct {
   uint8_t   version;
   CalibData calib[NUM_STICKS+NUM_POTS];
@@ -327,8 +334,8 @@ PACK(typedef struct {
   int8_t    speakerVolume;
   uint8_t   blOffBright:4;   // used if defined PWM_BACKLIGHT
   uint8_t   blOnBright:4;    // used if defined PWM_BACKLIGHT
-// 32 bits fixed ID
-  uint8_t   fixed_ID[4];
+// 32 bits or 4*8 bits fixed ID
+  fixed_ID_Union fixed_ID;
 }) EEGeneral;
 
 #define SWITCHES_DELAY()            uint8_t(15+g_eeGeneral.switchesDelay)

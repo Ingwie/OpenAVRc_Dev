@@ -33,7 +33,7 @@
 #include "../OpenAVRc.h"
 #include "frsky.h"
 
-extern uint8_t frskyRxBuffer[];
+extern uint8_t Usart0RxBuffer[];
 
 
 /*static const char * const frskyx_opts[] = {
@@ -716,7 +716,7 @@ static uint16_t FRSKYX_cb()
 
 #if defined(FRSKY)
       if (good) {
-        memcpy(frskyRxBuffer, packet, len);
+        memcpy(Usart0RxBuffer, packet, len);
         if(frskyStreaming < FRSKY_TIMEOUT10ms -5) frskyStreaming +=5;
       }
       // frskyStreaming gets decremented every 10ms, however we can only add to it every 4 *9ms, so we add 5.
@@ -783,7 +783,7 @@ static void FRSKYX_initialize(uint8_t bind)
   PROTO_Stop_Callback();
   CC2500_Reset();
   packet_size = frskyX_format_EU ? 33 : 30;
-  frsky_id = SpiRFModule.fixed_id & 0x7FFF;
+  frsky_id = g_eeGeneral.fixed_ID.ID_32 & 0x7FFF;
   channel_offset = 0;
   channr = 0;
   chanskip = 0;
@@ -813,7 +813,7 @@ static void FRSKYX_initialize(uint8_t bind)
 #endif
 
   while (!chanskip) {
-    srandom(SpiRFModule.fixed_id & 0xfefefefe);
+    srandom(g_eeGeneral.fixed_ID.ID_32 & 0xfefefefe);
     chanskip = random()%47;
   }
   while((chanskip - ctr) % 4) {
