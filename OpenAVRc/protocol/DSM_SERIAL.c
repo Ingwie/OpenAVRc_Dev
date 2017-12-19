@@ -33,7 +33,7 @@
 
 #include "../OpenAVRc.h"
 
-#define TLM_DSM_SERIAL 0 // usart 0
+#define TLM_DSM_SERIAL TLM_USART0 // usart 0
 
 
 // DSM2 control bits
@@ -109,7 +109,7 @@ static uint16_t DSM_SERIAL_cb()
   SCHEDULE_MIXER_END(22*16);
 
 #if defined(FRSKY)
-  frskyTxBufferCount = 0;
+  Usart0TxBufferCount = 0;
 
   uint8_t dsmTxBufferCount = 14;
 
@@ -126,16 +126,16 @@ static uint16_t DSM_SERIAL_cb()
   else if(dsmRange)
     dsm_header |= DSM2_SEND_RANGECHECK;
 
-  frskyTxBuffer[--dsmTxBufferCount] = dsm_header;
+  Usart0TxBuffer[--dsmTxBufferCount] = dsm_header;
 
-  frskyTxBuffer[--dsmTxBufferCount] = g_model.modelId; // DSM2 Header. Second byte for model match.
+  Usart0TxBuffer[--dsmTxBufferCount] = g_model.modelId; // DSM2 Header. Second byte for model match.
 
   for (uint8_t i = 0; i < DSM2_CHANS; i++) {
     uint16_t pulse = limit(0, ((channelOutputs[i]*13)>>5)+512,1023);
-    frskyTxBuffer[--dsmTxBufferCount] = (i<<2) | ((pulse>>8)&0x03); // Encoded channel + upper 2 bits pulse width.
-    frskyTxBuffer[--dsmTxBufferCount] = pulse & 0xff; // Low byte
+    Usart0TxBuffer[--dsmTxBufferCount] = (i<<2) | ((pulse>>8)&0x03); // Encoded channel + upper 2 bits pulse width.
+    Usart0TxBuffer[--dsmTxBufferCount] = pulse & 0xff; // Low byte
   }
-  frskyTxBufferCount = 14; // Indicates data to transmit.
+  Usart0TxBufferCount = 14; // Indicates data to transmit.
 
 #endif
 #if !defined(SIMU)
@@ -150,8 +150,8 @@ static uint16_t DSM_SERIAL_cb()
 
 static void DSM_SERIAL_initialize(void)
 {
+
 // 125K 8N1
-#if defined(FRSKY) && defined(DSM2_SERIAL)
 #if !defined(SIMU)
 
 #undef BAUD
@@ -169,11 +169,10 @@ static void DSM_SERIAL_initialize(void)
   while (UCSRA_N(TLM_DSM_SERIAL) & (1 << RXC_N(TLM_DSM_SERIAL))) UDR_N(TLM_DSM_SERIAL); // Flush receive buffer.
 
   // These should be running right from power up on a FrSky enabled '9X.
-  frskyTxBufferCount = 0; // TODO not driver code
+  Usart0TxBufferCount = 0; // TODO not driver code
   UCSRB_N(TLM_DSM_SERIAL) |= (1 << TXEN_N(TLM_DSM_SERIAL)); // Enable USART Tx.
 
 #endif // SIMU
-#endif // defined(DSM2_SERIAL)
 
   PROTO_Start_Callback(25000U *2, DSM_SERIAL_cb);
 }

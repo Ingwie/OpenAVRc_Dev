@@ -51,8 +51,8 @@
 // Enumerate FrSky packet codes
 #define LINKPKT                   0xfe
 #define USRPKT                    0xfd
-#define BFSPPKT 				  0x1b
-#define RXSPPKT 				  0x98
+#define BFSPPKT 				          0x1b
+#define RXSPPKT 			        	  0x98
 #define A11PKT                    0xfc
 #define A12PKT                    0xfb
 #define A21PKT                    0xfa
@@ -61,8 +61,6 @@
 #define RSSI1PKT                  0xf7
 #define RSSI2PKT                  0xf6
 #define RSSI_REQUEST              0xf1
-
-
 
 // FrSky PRIM IDs (1 byte)
 #define DATA_FRAME                0x10
@@ -404,9 +402,8 @@ enum FrSkyDataState {
 #define SEND_RSSI_ALARMS  6
 #define SEND_MODEL_ALARMS 4
 extern uint8_t frskyAlarmsSendState;
-#define FRSKY_TX_PACKET_SIZE 26
-extern uint8_t frskyTxBuffer[FRSKY_TX_PACKET_SIZE];
-extern uint8_t frskyTxBufferCount;
+extern uint8_t Usart0TxBuffer[USART0_TX_PACKET_SIZE];
+extern uint8_t Usart0TxBufferCount;
 inline void frskySendAlarms(void)
 {
   frskyAlarmsSendState = SEND_RSSI_ALARMS;
@@ -423,10 +420,9 @@ typedef enum {
 #endif
 
 // FrSky D Protocol
-void processHubPacket(uint8_t id, int16_t value);
+void processHubPacket(uint8_t id, uint16_t value);
 void frskyDSendNextAlarm(void);
 void frskyDProcessPacket(uint8_t *packet);
-void frskyRFProcessPacket(uint8_t *packet);
 
 // FrSky S.PORT Protocol
 void processSportPacket(uint8_t *packet);

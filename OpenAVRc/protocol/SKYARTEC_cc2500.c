@@ -169,6 +169,7 @@ static void send_bind_packet()
   packet[1] = 0x7d;
   packet[2] = 0x01;
   packet[3] = 0x01;
+uint8_t  todousefixedID_8here;
   packet[4] = (Skyartec_fixed_id >> 24) & 0xff;
   packet[5] = (Skyartec_fixed_id >> 16) & 0xff;
   packet[6] = (Skyartec_fixed_id >> 8)  & 0xff;
@@ -212,7 +213,7 @@ static void SKYARTEC_initialize(uint8_t bind)
 {
   PROTO_Stop_Callback();
   skyartec_init();
-  Skyartec_fixed_id = SpiRFModule.fixed_id;
+  Skyartec_fixed_id = g_eeGeneral.fixed_ID.ID_32;
   if (bind) {
   PROTO_Start_Callback(25000U *2, SKYARTEC_bind_cb);
   } else {

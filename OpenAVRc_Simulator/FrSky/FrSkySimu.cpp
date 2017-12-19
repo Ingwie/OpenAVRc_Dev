@@ -56,13 +56,13 @@ void frskySimuloop()
 #define POLLING_ENABLED
 
   // Set airspeed sensor (ASS) data
-  ass.setData(76.5);  // Airspeed in km/h
+  ass.setData(77.7);  // Airspeed in km/h
 
   // Set current/voltage sensor (FCS) data
   // (set Voltage source to FAS in menu to use this data for battery voltage,
   //  set Current source to FAS in menu to use this data for current readins)
-  fcs.setData(25.3,   // Current consumption in amps
-              12.6);  // Battery voltage in volts
+  fcs.setData(33.3,   // Current consumption in amps
+              11.1);  // Battery voltage in volts
 
   // Set LiPo voltage sensor (FLVSS) data (we use two sensors to simulate 8S battery
   // (set Voltage source to Cells in menu to use this data for battery voltage)
@@ -72,14 +72,14 @@ void frskySimuloop()
   // Set GPS data
   gps.setData(48.858289, 2.294502,   // Latitude and longitude in degrees decimal (positive for N/E, negative for S/W)
               245.5,                 // Altitude in m (can be negative)
-              100.0,                 // Speed in m/s
+              10.0,                 // Speed in m/s
               90.23,                 // Course over ground in degrees (0-359, 0 = north)
               14, 9, 14,             // Date (year - 2000, month, day)
-              12, 00, 00);           // Time (hour, minute, second) - will be affected by timezone setings in your radio
+              12, 30, 50);           // Time (hour, minute, second) - will be affected by timezone setings in your radio
 
   // Set RPM/temperature sensor data
   // (set number of blades to 2 in telemetry menu to get correct rpm value)
-  rpm.setData(200,    // Rotations per minute
+  rpm.setData(222,    // Rotations per minute
               25.6,   // Temperature #1 in degrees Celsuis (can be negative, will be rounded)
               -7.8);  // Temperature #2 in degrees Celsuis (can be negative, will be rounded)
 

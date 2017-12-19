@@ -615,8 +615,8 @@ void sdPoll10ms()
 {
   BYTE s;
 
-  if (Timer1) Timer1--;
-  if (Timer2) Timer2--;
+  if (Timer1) --Timer1;
+  if (Timer2) --Timer2;
 
   s = Stat;
   s &= ~STA_NODISK;

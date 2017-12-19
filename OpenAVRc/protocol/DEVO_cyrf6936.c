@@ -106,6 +106,7 @@ static void DEVO_add_pkt_suffix()
   packet[10] = bind_state | (PKTS_PER_CHANNEL - pkt_num - 1);
   packet[11] = *(radio_ch_ptr + 1);
   packet[12] = *(radio_ch_ptr + 2);
+  uint8_t  todousefixedID_8here;
   packet[13] = DEVO_fixed_id  & 0xff;
   packet[14] = (DEVO_fixed_id >> 8) & 0xff;
   packet[15] = (DEVO_fixed_id >> 16) & 0xff;
@@ -577,7 +578,7 @@ static void DEVO_initialize(void)
   pkt_num = 0;
   txState = 0;
 
-  DEVO_fixed_id = SpiRFModule.fixed_id % 1000000;
+  DEVO_fixed_id = g_eeGeneral.fixed_ID.ID_32 % 1000000;
   // use_fixed_id = 1;
   bind_counter = DEVO_BIND_COUNT;
   DEVO_state = DEVO_BIND;

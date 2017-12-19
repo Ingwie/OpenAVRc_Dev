@@ -69,7 +69,7 @@ void lcdInit()
 
 void lcdSetRefVolt(uint8_t val)
 {
-
+val=val;
 }
 
 void lcdRefreshFast()
@@ -100,7 +100,6 @@ void simu_EditModelName()
 
 void Simu_showVoiceTextLine(uint8_t Numline, char * PromptText)
 {
-  char c[SIMU_VOICE_PROMPT_TEXT_LEN] = {0};
   wxTextFile MyVoiceListfile(AppPath+"\\list.txt");
   wxString voiceText;
 

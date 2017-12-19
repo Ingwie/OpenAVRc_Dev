@@ -414,7 +414,7 @@ void menuModelSetup(uint8_t event)
 
             switch (menuHorizontalPosition) {
             case 0: {
-              int8_t multiRfProto = g_model.CUSTOMPROTO == 1 ? MM_RF_PROTO_CUSTOM : g_model.MULTIRFPROTOCOL;
+              int8_t multiRfProto = g_model.CUSTOMPROTO == true ? MM_RF_PROTO_CUSTOM : g_model.MULTIRFPROTOCOL;
               CHECK_INCDEC_MODELVAR(event, multiRfProto, MM_RF_PROTO_FIRST, MM_RF_PROTO_LAST);
               if (checkIncDec_Ret) {
                 g_model.CUSTOMPROTO = (multiRfProto == MM_RF_PROTO_CUSTOM);
@@ -599,7 +599,6 @@ void menuModelSetup(uint8_t event)
       if IS_MULTIMODULE_PROTOCOL(protocol)
         {
           int8_t optionValue =  g_model.rfOptionValue2;
-
           const uint8_t multi_proto = g_model.MULTIRFPROTOCOL;
           const mm_protocol_definition* pdef = getMultiProtocolDefinition(multi_proto);
           if (pdef->optionsstr) {

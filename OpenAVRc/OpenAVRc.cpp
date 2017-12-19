@@ -261,23 +261,15 @@ void generalDefault()
   memclear(&g_eeGeneral, sizeof(g_eeGeneral));
   g_eeGeneral.version  = EEPROM_VER;
   g_eeGeneral.contrast = 15;
-
   g_eeGeneral.vBatMin = 50;
   g_eeGeneral.vBatMax = 90;
   g_eeGeneral.vBatWarn = 60;
-
 #if defined(DEFAULT_MODE)
   g_eeGeneral.stickMode = DEFAULT_MODE-1;
 #endif
-
-
   g_eeGeneral.backlightMode = e_backlight_mode_all;
   g_eeGeneral.lightAutoOff = 2;
   g_eeGeneral.inactivityTimer = 10;
-
-
-
-
   g_eeGeneral.chkSum = 0xFFFF;
 }
 
@@ -323,13 +315,8 @@ bool isFileAvailable(const char * filename)
 void modelDefault(uint8_t id)
 {
   memset(&g_model, 0, sizeof(g_model));
-
   applyDefaultTemplate();
-
-#if defined(MAVLINK)
-  g_model.mavlink.rc_rssi_scale = 15;
-  g_model.mavlink.pc_rssi_en = 1;
-#endif
+  g_model.modelId = id+1;
 }
 
 
@@ -875,6 +862,7 @@ uint8_t checkTrim(uint8_t event)
     int8_t v = (trimInc==-1) ? min(32, abs(before)/4+1) : (1 << trimInc); // TODO flash saving if (trimInc < 0)
     if (thro) v = 4; // if throttle trim and trim trottle then step=4
     int16_t after = (k&1) ? before + v : before - v;   // positive = k&1
+    int8_t TODOcheckbeeptrimalwaysat1;
     int8_t beepTrim = false;
     for (int16_t mark=TRIM_MIN; mark<=TRIM_MAX; mark+=TRIM_MAX) {
       if ((mark!=0 || !thro) && ((mark!=TRIM_MIN && after>=mark && before<mark) || (mark!=TRIM_MAX && after<=mark && before>mark))) {
@@ -887,12 +875,14 @@ uint8_t checkTrim(uint8_t event)
       if (!g_model.extendedTrims || TRIM_REUSED(idx)) after = before;
     }
 
-    if (after < TRIM_EXTENDED_MIN) {
+    /*if (after < TRIM_EXTENDED_MIN) {
       after = TRIM_EXTENDED_MIN;
     }
     if (after > TRIM_EXTENDED_MAX) {
       after = TRIM_EXTENDED_MAX;
-    }
+    }*/
+    limit<int16_t>(TRIM_EXTENDED_MIN,after,TRIM_EXTENDED_MAX);
+
 
 #if defined(GVARS)
     if (TRIM_REUSED(idx)) {
@@ -906,10 +896,13 @@ uint8_t checkTrim(uint8_t event)
 #if defined(AUDIO)
     // toneFreq higher/lower according to trim position
     // limit the frequency, range -125 to 125 = toneFreq: 19 to 101
-    if (after > TRIM_MAX)
+
+    /*if (after > TRIM_MAX)
       after = TRIM_MAX;
     if (after < TRIM_MIN)
-      after = TRIM_MIN;
+      after = TRIM_MIN;*/
+    limit<int16_t>(TRIM_MIN,after,TRIM_MAX);
+
     after >>= 2;
     after += 60;
 #endif
@@ -1275,26 +1268,6 @@ ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
 
   TIMER_10MS_COMPVAL += (++accuracyWarble & 0x03) ? 156 : 157; // Clock correction
 }
-
-#if !defined(SIMU)
-#if defined (FRSKY) || defined (MULTIPROTOCOL) || defined(DSM2_SERIAL)
-
-FORCEINLINE void FRSKY_USART_vect() // TODO rename
-{
-  if (frskyTxBufferCount > 0) {
-    UDR_N(TLM_USART) = frskyTxBuffer[--frskyTxBufferCount];
-  } else {
-    UCSRB_N(TLM_USART) &= ~(1 << UDRIE_N(TLM_USART)); // Disable UDRE interrupt.
-  }
-}
-
-// USART0/1 Transmit Data Register Emtpy ISR
-ISR(USART_UDRE_vect_N(TLM_USART))
-{
-  FRSKY_USART_vect();
-}
-#endif
-#endif
 
 #define INSTANT_TRIM_MARGIN 15 /* around 1.5% */
 

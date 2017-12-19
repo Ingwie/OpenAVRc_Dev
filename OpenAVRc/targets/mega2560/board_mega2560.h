@@ -224,7 +224,6 @@ void boardOff();
 
 #define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
 #define PROTO_HAS_CYRF6936
-#define TX_FIXED_ID 0x1a2b3c4d // Loaded in SpiRFModule.fixed_id
 
 #define RF_SPI_xfer  master_spi_xfer//USART2_mspi_xfer
 #define OUT_H_CC2500_CS_N       PIN1_bm

@@ -746,7 +746,7 @@ void OpenAVRc_SimulatorFrame::OnLstickMouseMove(wxMouseEvent& event)
   int x = (pt.x * xmul)/1000;
   int y = 2048 - (pt.y * ymul)/1000;
 
-  if (event.LeftUp()) ; //TODO
+  //if (event.LeftUp()) ; //TODO
   if (event.LeftIsDown()) {
     s_anaFilt[3] = (uint16_t)x;
     s_anaFilt[1] = (uint16_t)y;
@@ -768,7 +768,7 @@ void OpenAVRc_SimulatorFrame::OnRstickMouseMove(wxMouseEvent& event)
   int x = (pt.x * xmul)/1000;
   int y = 2048 - (pt.y * ymul)/1000;
 
-  if (event.LeftUp()) ; //TODO
+  //if (event.LeftUp()) ; //TODO
   if (event.LeftIsDown()) {
     s_anaFilt[0] = (uint16_t)x;
     s_anaFilt[2] = (uint16_t)y;
@@ -1740,7 +1740,7 @@ void OpenAVRc_SimulatorFrame::load_EEGeneral_30()
   for (int i=0; i<4; ++i) { //fixed_ID[4]
     wxString num = wxString::Format(wxT("%i"),i);
     eepromfile->Read(wxT("fixed_ID"+num),&tmp);
-    g_eeGeneral.fixed_ID[i] = tmp;
+    g_eeGeneral.fixed_ID.ID_8[i] = tmp;
   }
 
   theFile.writeRlc(FILE_GENERAL, FILE_TYP_GENERAL, (uint8_t*)&g_eeGeneral, sizeof(EEGeneral), 1);
@@ -2110,7 +2110,7 @@ void OpenAVRc_SimulatorFrame::save_EEGeneral_30(EEGeneral General)
 
   for (int i=0; i<4; ++i) { // fixed_ID[4]
     wxString num = wxString::Format(wxT("%i"),i);
-    eepromfile->Write(wxT("fixed_ID"+num),(int)General.fixed_ID[i]);
+    eepromfile->Write(wxT("fixed_ID"+num),(int)General.fixed_ID.ID_8[i]);
   }
 
 }

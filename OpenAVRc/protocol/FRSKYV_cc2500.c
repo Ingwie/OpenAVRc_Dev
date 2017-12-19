@@ -284,7 +284,7 @@ static void FRSKYV_initialise(uint8_t bind)
 {
   PROTO_Stop_Callback();
 
-  frsky_id = SpiRFModule.fixed_id & 0x7FFF;
+  frsky_id = g_eeGeneral.fixed_ID.ID_32 & 0x7FFF;
 
   // Build channel array.
   channel_offset = frsky_id % 5;
