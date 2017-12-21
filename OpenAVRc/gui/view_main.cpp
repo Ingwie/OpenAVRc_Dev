@@ -230,7 +230,7 @@ void onMainViewMenu(const char *result)
 #endif
 #if defined(FRSKY)
   else if (result == STR_RESET_TELEMETRY) {
-    telemetryReset();
+    telemetryResetValue();
   }
 #endif
   else if (result == STR_RESET_FLIGHT) {

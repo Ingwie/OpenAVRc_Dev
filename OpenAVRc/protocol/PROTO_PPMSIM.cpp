@@ -73,11 +73,17 @@ static uint16_t PROTO_PPMSIM_cb()
 }
 
 
+static void PROTO_PPMSIM_reset()
+{
+
+}
+
+
 static void PROTO_PPMSIM_initialize()
 {
   PPM16_CONF();
 
-#if defined(FRSKY) && !defined(DSM2_SERIAL)
+#if defined(FRSKY)
   telemetryInit();
 #endif
 
@@ -94,13 +100,8 @@ const void * PROTO_PPMSIM_Cmds(enum ProtoCmds cmd)
     return 0;
     case PROTOCMD_DEINIT:
     case PROTOCMD_RESET:
-      // Make pin idle state before disconnecting switching output.
-      if(g_model.PULSEPOL) PORTB &= ~PIN5_bm;
-      else PORTB |= PIN5_bm;
-      TCCR1A &= ~(0b11<<COM1A0);
-      PROTO_Stop_Callback();
-      WAIT_PUPIL();
-    return (void *) 1L;
+      PROTO_PPMSIM_reset();
+      return (void *) 1L;
   case PROTOCMD_GETOPTIONS:
      sendOptionsSettingsPpm();
      return 0;

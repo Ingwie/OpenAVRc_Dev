@@ -968,7 +968,7 @@ void flightReset()
 #endif
 
 #if defined(FRSKY)
-  telemetryReset();
+  telemetryResetValue();
 #endif
 
   s_mixer_first_run_done = false;

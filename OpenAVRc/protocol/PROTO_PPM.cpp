@@ -90,9 +90,22 @@ uint16_t half_us = PROTO_PPM_cb2();
 }
 
 
+static void PROTO_PPM_reset()
+{
+#if defined(FRSKY)
+  telemetryReset();
+#endif
+  // Make pin idle state before disconnecting switching output.
+  if(g_model.PULSEPOL) PORTB &= ~PIN6_bm;
+  else PORTB |= PIN6_bm;
+  TCCR1A &= ~(0b11<<COM1B0);
+  TIMSK1 &= ~(1<<OCIE1B); // Disable Output Compare B interrupt.
+  TIFR1 |= 1<<OCF1B; // Reset Flag.
+}
+
 static void PROTO_PPM_initialize()
 {
-#if defined(FRSKY) && !defined(DSM2_SERIAL)
+#if defined(FRSKY)
   telemetryInit();
 #endif
 
@@ -115,12 +128,7 @@ const void * PROTO_PPM_Cmds(enum ProtoCmds cmd)
     return 0;
     case PROTOCMD_DEINIT:
     case PROTOCMD_RESET:
-      // Make pin idle state before disconnecting switching output.
-      if(g_model.PULSEPOL) PORTB &= ~PIN6_bm;
-      else PORTB |= PIN6_bm;
-      TCCR1A &= ~(0b11<<COM1B0);
-      TIMSK1 &= ~(1<<OCIE1B); // Disable Output Compare B interrupt.
-      TIFR1 |= 1<<OCF1B; // Reset Flag.
+      PROTO_PPM_reset();
     return (void *) 1L;
   case PROTOCMD_GETOPTIONS:
      sendOptionsSettingsPpm();
