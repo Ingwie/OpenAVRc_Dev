@@ -674,6 +674,12 @@ void telemetryInterrupt10ms()
 
 void telemetryReset()
 {
+  Usart0DisableTx();
+  Usart0DisableRx();
+  telemetryResetValue();
+}
+void telemetryResetValue()
+{
   memclear(&frskyData, sizeof(frskyData));
 
 

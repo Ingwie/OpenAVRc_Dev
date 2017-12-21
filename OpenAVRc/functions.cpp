@@ -251,7 +251,7 @@ void evalFunctions()
             break;
 #if defined(FRSKY)
           case FUNC_RESET_TELEMETRY:
-            telemetryReset();
+            telemetryResetValue();
             break;
 #endif
 #if ROTARY_ENCODERS > 0

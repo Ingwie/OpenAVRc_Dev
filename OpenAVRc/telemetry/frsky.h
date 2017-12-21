@@ -427,8 +427,8 @@ void frskyDProcessPacket(uint8_t *packet);
 // FrSky S.PORT Protocol
 void processSportPacket(uint8_t *packet);
 void telemetryWakeup(void);
+void telemetryResetValue();
 void telemetryReset();
-
 void telemetryInit(void);
 
 void telemetryInterrupt10ms(void);

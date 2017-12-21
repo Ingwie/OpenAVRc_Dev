@@ -400,7 +400,7 @@ void menuTelemetryFrsky(uint8_t event)
     break;
 
   case EVT_KEY_FIRST(KEY_ENTER):
-    telemetryReset();
+    telemetryResetValue();
     break;
   }
 
