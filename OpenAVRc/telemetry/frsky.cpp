@@ -43,8 +43,8 @@ uint8_t link_counter = 0;
 
 FrskyData frskyData;
 
-#define IS_FRSKY_D_PROTOCOL()     (1)
-#define IS_FRSKY_SPORT_PROTOCOL() (0)
+#define IS_FRSKY_D_PROTOCOL()     (0)
+#define IS_FRSKY_SPORT_PROTOCOL() (1)
 
 #if (defined(FRSKY_HUB) || defined(WS_HOW_HIGH))
 void checkMinMaxAltitude()
@@ -749,7 +749,13 @@ void telemetryReset()
 
 void telemetryInit()
 {
-  telemetryPortInit();
+//9600 8N1 - "D" 57600 8N1 -> "S.port"
+  Usart0Set9600BAUDS();
+  Usart0Set8N1();
+  Usart0EnableTx(); // enable FrSky-Telemetry emission
+  Usart0EnableRx(); // enable FrSky-Telemetry reception}
+
+  Usart0TxBufferCount = 0; // TODO not driver code
 }
 
 void parseTelemMMsmartData(uint16_t SP_id, uint32_t SP_data, uint8_t SP_data8)

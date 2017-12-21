@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -80,26 +80,26 @@ normal:
 // DSM2=SERIAL mode
 
 
-enum SubProtoDsm{
+enum SubProtoDsm {
   Sub_LP45 = 0,
   Sub_DSM2,
-  Sub_DSMX};
+  Sub_DSMX
+};
 
 const static int8_t RfOpt_Dsm_Ser[] PROGMEM = {
-/*rfProtoNeed*/0,
-/*rfSubTypeMax*/2,
-/*rfOptionValue1Min*/0,
-/*rfOptionValue1Max*/0,
-/*rfOptionValue2Min*/0,
-/*rfOptionValue2Max*/0,
-/*rfOptionValue3Max*/0,
+  /*rfProtoNeed*/0,
+  /*rfSubTypeMax*/2,
+  /*rfOptionValue1Min*/0,
+  /*rfOptionValue1Max*/0,
+  /*rfOptionValue2Min*/0,
+  /*rfOptionValue2Max*/0,
+  /*rfOptionValue3Max*/0,
 };
 
 static void DSM2_SERIAL_Reset()
 {
-#if defined(FRSKY)
- // Reset DSM2.
-#endif
+  Usart0DisableTx();
+  Usart0DisableRx();
 }
 
 
@@ -139,7 +139,7 @@ static uint16_t DSM_SERIAL_cb()
 
 #endif
 #if !defined(SIMU)
-  telemetryTransmitBuffer();
+  Usart0TransmitBuffer();
 #endif
 
   heartbeat |= HEART_TIMER_PULSES;
@@ -150,29 +150,12 @@ static uint16_t DSM_SERIAL_cb()
 
 static void DSM_SERIAL_initialize(void)
 {
-
 // 125K 8N1
-#if !defined(SIMU)
+  Usart0Set125000BAUDS();
+  Usart0Set8N1();
+  Usart0EnableTx();
 
-#undef BAUD
-#define BAUD 125000
-
-#include <util/setbaud.h>
-
-  UBRRH_N(TLM_DSM_SERIAL) = UBRRH_VALUE;
-  UBRRL_N(TLM_DSM_SERIAL) = UBRRL_VALUE;
-  UCSRA_N(TLM_DSM_SERIAL) &= ~(1 << U2X_N(TLM_DSM_SERIAL)); // disable double speed operation.
-
-  // Set 8N1 (leave TX and RX disabled for now)
-  UCSRB_N(TLM_DSM_SERIAL) = (0 << RXCIE_N(TLM_DSM_SERIAL)) | (0 << TXCIE_N(TLM_DSM_SERIAL)) | (0 << UDRIE_N(TLM_DSM_SERIAL)) | (0 << RXEN_N(TLM_DSM_SERIAL)) | (0 << TXEN_N(TLM_DSM_SERIAL)) | (0 << UCSZ2_N(TLM_DSM_SERIAL));
-  UCSRC_N(TLM_DSM_SERIAL) = (1 << UCSZ1_N(TLM_DSM_SERIAL)) | (1 << UCSZ0_N(TLM_DSM_SERIAL)); // Set 1 stop bit, No parity bit.
-  while (UCSRA_N(TLM_DSM_SERIAL) & (1 << RXC_N(TLM_DSM_SERIAL))) UDR_N(TLM_DSM_SERIAL); // Flush receive buffer.
-
-  // These should be running right from power up on a FrSky enabled '9X.
-  Usart0TxBufferCount = 0; // TODO not driver code
-  UCSRB_N(TLM_DSM_SERIAL) |= (1 << TXEN_N(TLM_DSM_SERIAL)); // Enable USART Tx.
-
-#endif // SIMU
+  Usart0TxBufferCount = 0;
 
   PROTO_Start_Callback(25000U *2, DSM_SERIAL_cb);
 }
@@ -203,14 +186,14 @@ const void *DSM_SERIAL_Cmds(enum ProtoCmds cmd)
                         STR_DUMMY,
                         STR_DUMMY,
                         STR_DUMMY);
-     return 0;
+    return 0;
   //case PROTOCMD_CHECK_AUTOBIND:
-    //return (void *)1L; // Always Autobind
+  //return (void *)1L; // Always Autobind
 
   //case PROTOCMD_NUMCHAN:
-    //return (void *)7L;
+  //return (void *)7L;
   //case PROTOCMD_DEFAULT_NUMCHAN:
-    //return (void *)7L;
+  //return (void *)7L;
 //  case PROTOCMD_CURRENT_ID:
 //    return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;
 //  case PROTOCMD_TELEMETRYMULTI_state:

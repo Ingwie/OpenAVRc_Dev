@@ -41,15 +41,93 @@ uint8_t Usart0TxBufferCount = 0;
 
 uint8_t Usart0RxBufferCount = 0;
 
-void telemetryEnableTx(void)
+void Usart0EnableTx(void)
 {
   UCSRB_N(TLM_USART0) |= (1 << TXEN_N(TLM_USART0)); // enable TX
 }
 
-void telemetryEnableRx(void)
+void Usart0EnableRx(void)
 {
   UCSRB_N(TLM_USART0) |= (1 << RXEN_N(TLM_USART0));  // enable RX
   UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
+  while (UCSRA_N(TLM_USART0) & (1 << RXC_N(TLM_USART0))) UDR_N(TLM_USART0); // Flush RX buffer.
+}
+
+void Usart0DisableTx(void)
+{
+  UCSRB_N(TLM_USART0) &= ~(1 << UDRIE_N(TLM_USART0));// disable Interrupt
+  UCSRB_N(TLM_USART0) &= ~(1 << TXEN_N(TLM_USART0)); // disable TX
+}
+
+void Usart0DisableRx(void)
+{
+  UCSRB_N(TLM_USART0) &= ~(1 << RXCIE_N(TLM_USART0)); // disable Interrupt
+  UCSRB_N(TLM_USART0) &= ~(1 << RXEN_N(TLM_USART0));  // disable RX
+}
+
+void Usart0Set8N1(void)
+{
+  UCSRB_N(TLM_USART0) = (0 << RXCIE_N(TLM_USART0)) | (0 << TXCIE_N(TLM_USART0)) | (0 << UDRIE_N(TLM_USART0)) | (0 << RXEN_N(TLM_USART0)) | (0 << TXEN_N(TLM_USART0)) | (0 << UCSZ2_N(TLM_USART0));
+  UCSRC_N(TLM_USART0) = (1 << UCSZ1_N(TLM_USART0)) | (1 << UCSZ0_N(TLM_USART0)); // Set 1 stop bit, No parity bit.
+}
+
+void Usart0Set8E2(void)
+{
+  UCSRB_N(TLM_MULTI) = (0 << RXCIE_N(TLM_MULTI)) | (0 << TXCIE_N(TLM_MULTI)) | (0 << UDRIE_N(TLM_MULTI)) | (0 << RXEN_N(TLM_MULTI)) | (0 << TXEN_N(TLM_MULTI)) | (0 << UCSZ2_N(TLM_MULTI));
+  UCSRC_N(TLM_MULTI) = (1 << UPM01) | (1 << USBS0)| (1 << UCSZ1_N(TLM_MULTI)) | (1 << UCSZ0_N(TLM_MULTI)); // set 2 stop bits, even parity BIT
+}
+
+void Usart0Set9600BAUDS(void) //Frsky "D" telemetry
+{
+#undef BAUD
+#define BAUD 9600
+#if !defined(SIMU)
+#include <util/setbaud.h>
+  UBRRH_N(TLM_USART0) = UBRRH_VALUE;
+  UBRRL_N(TLM_USART0) = UBRRL_VALUE;
+  UCSRA_N(TLM_USART0) &= ~(1 << U2X_N(TLM_USART0)); // disable double speed operation.
+#endif
+}
+
+void Usart0Set57600BAUDS(void) //Frsky S.port telemetry
+{
+#undef BAUD
+#define BAUD 57600
+#if !defined(SIMU)
+#include <util/setbaud.h>
+  UBRRH_N(TLM_USART0) = UBRRH_VALUE;
+  UBRRL_N(TLM_USART0) = UBRRL_VALUE;
+  UCSRA_N(TLM_USART0) &= ~(1 << U2X_N(TLM_USART0)); // disable double speed operation.
+#endif
+}
+
+void Usart0Set125000BAUDS(void) //DSM Serial protocol
+{
+#undef BAUD
+#define BAUD 125000
+#if !defined(SIMU)
+#include <util/setbaud.h>
+  UBRRH_N(TLM_USART0) = UBRRH_VALUE;
+  UBRRL_N(TLM_USART0) = UBRRL_VALUE;
+  UCSRA_N(TLM_USART0) &= ~(1 << U2X_N(TLM_USART0)); // disable double speed operation.
+#endif
+}
+
+void Usart0Set100000BAUDS(void) //Multiprotocole Serial
+{
+#undef BAUD
+#define BAUD 100000
+#if !defined(SIMU)
+#include <util/setbaud.h>
+  UBRRH_N(TLM_USART0) = UBRRH_VALUE;
+  UBRRL_N(TLM_USART0) = UBRRL_VALUE;
+  UCSRA_N(TLM_USART0) &= ~(1 << U2X_N(TLM_USART0)); // disable double speed operation.
+#endif
+}
+
+void Usart0TransmitBuffer()
+{
+  UCSRB_N(TLM_USART0) |= (1 << UDRIE_N(TLM_USART0)); // enable Data Register Empty Interrupt
 }
 
 void processSerialData(uint8_t data);
@@ -106,39 +184,7 @@ ISR(USART_RX_vect_N(TLM_USART0))
   UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
 }
 
-void telemetryPortInit()
-{
-#if !defined(SIMU)
-
-#undef BAUD
-#define BAUD 9600
-#include <util/setbaud.h>
-
-  UBRRH_N(TLM_USART0) = UBRRH_VALUE;
-  UBRRL_N(TLM_USART0) = UBRRL_VALUE;
-  UCSRA_N(TLM_USART0) &= ~(1 << U2X_N(TLM_USART0)); // disable double speed operation.
-
-  // set 8N1
-  UCSRB_N(TLM_USART0) = 0 | (0 << RXCIE_N(TLM_USART0)) | (0 << TXCIE_N(TLM_USART0)) | (0 << UDRIE_N(TLM_USART0)) | (0 << RXEN_N(TLM_USART0)) | (0 << TXEN_N(TLM_USART0)) | (0 << UCSZ2_N(TLM_USART0));
-  UCSRC_N(TLM_USART0) = 0 | (1 << UCSZ1_N(TLM_USART0)) | (1 << UCSZ0_N(TLM_USART0));
-
-
-  while (UCSRA_N(TLM_USART0) & (1 << RXC_N(TLM_USART0))) UDR_N(TLM_USART0); // flush receive buffer
-
-  // These should be running right from power up on a FrSky enabled '9X.
-  telemetryEnableTx(); // enable FrSky-Telemetry emission
-  Usart0TxBufferCount = 0; // TODO not driver code
-
-  telemetryEnableRx(); // enable FrSky-Telemetry reception
-#endif
-}
-
-void telemetryTransmitBuffer()
-{
-  UCSRB_N(TLM_USART0) |= (1 << UDRIE_N(TLM_USART0)); // enable  UDRE1 interrupt
-}
-
-// USART0 Transmit Data Register Emtpy ISR
+// USART0 Transmit Data Register Emtpy ISR (UDR was loaded in Shift Register)
 ISR(USART_UDRE_vect_N(TLM_USART0))
 {
   if (Usart0TxBufferCount > 0) {

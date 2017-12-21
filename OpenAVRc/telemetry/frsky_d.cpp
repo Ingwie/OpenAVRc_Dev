@@ -75,7 +75,7 @@ void frskySendPacket(uint8_t type, uint8_t value, uint8_t p1, uint8_t p2)
 
   Usart0TxBufferCount = ptr - &Usart0TxBuffer[0];
 #if !defined(SIMU)
-  telemetryTransmitBuffer();
+  Usart0TransmitBuffer();
 #endif
 }
 
