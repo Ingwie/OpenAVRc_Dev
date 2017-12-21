@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -48,13 +48,13 @@ static uint32_t MULTI_fixed_id;
 #define MM_RF_CUSTOM_SELECTED 0xff
 
 const static int8_t RfOpt_Multi_Ser[] PROGMEM = {
-/*rfProtoNeed*/BOOL1USED | BOOL2USED | BOOL3USED,
-/*rfSubTypeMax*/15,
-/*rfOptionValue1Min*/0,
-/*rfOptionValue1Max*/24,
-/*rfOptionValue2Min*/-127,
-/*rfOptionValue2Max*/127,
-/*rfOptionValue3Max*/0,
+  /*rfProtoNeed*/BOOL1USED | BOOL2USED | BOOL3USED,
+  /*rfSubTypeMax*/15,
+  /*rfOptionValue1Min*/0,
+  /*rfOptionValue1Max*/24,
+  /*rfOptionValue2Min*/-127,
+  /*rfOptionValue2Max*/127,
+  /*rfOptionValue3Max*/0,
 };
 
 const pm_char STR_SUBTYPE_FLYSKY[] PROGMEM =     "\004""Std\0""V9x9""V6x6""V912""CX20";
@@ -143,15 +143,14 @@ const mm_protocol_definition *getMultiProtocolDefinition (uint8_t protocol)
 
 static void MULTI_Reset()
 {
-#if defined(FRSKY)
-  // Reset multi telemetry
-#endif
+  Usart0DisableTx();
+  Usart0DisableRx();
 }
 
 static void MULTI_init()
 {
 #if defined(FRSKY)
-  //telemetryPortInit(Multi); //todo we need to build 3 function/or one with 3 parameters : PPM/DSM_PPM mode - Multi mode - SPI mode
+  //Usart0PortInit(Multi); //todo we need to build 3 function/or one with 3 parameters : PPM/DSM_PPM mode - Multi mode - SPI mode
 #endif
 }
 
@@ -252,9 +251,9 @@ static uint16_t MULTI_cb()
 
   // byte 2, subtype, powermode, model id
   Usart0TxBuffer[--multiTxBufferCount] = ((uint8_t) ((g_model.modelId & 0x0f)
-                                         | ((subtype & 0x7) << 4)
-                                         | (g_model.LOWPOWERMODE << 7))
-                                        );
+                                          | ((subtype & 0x7) << 4)
+                                          | (g_model.LOWPOWERMODE << 7))
+                                         );
 
   // byte 3
 //  sendByteMulti((uint8_t) optionValue);
@@ -283,45 +282,31 @@ static uint16_t MULTI_cb()
   }
 
 #if !defined(SIMU)
-  telemetryTransmitBuffer();
+  Usart0TransmitBuffer();
 #endif
 
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-  return 9000U *2; // 9 mSec loop
+  return 22000U *2; // 22 mSec loop
 }
 
 
 static void MULTI_initialize(uint8_t bind)
 {
-
-#if !defined(SIMU)
-
 // 100K 8E2
-	#undef BAUD
-	#define BAUD 100000
-	#include <util/setbaud.h>
+  Usart0Set100000BAUDS();
+  Usart0Set8E2();
+  Usart0EnableTx();
+  Usart0EnableRx();
 
-	UBRRH_N(TLM_MULTI) = UBRRH_VALUE;
-	UBRRL_N(TLM_MULTI) = UBRRL_VALUE;
-	UCSRA_N(TLM_MULTI) = ~(1 << U2X_N(TLM_MULTI)); // disable double speed operation.
-  UCSRB_N(TLM_MULTI) = (0 << RXCIE_N(TLM_MULTI)) | (0 << TXCIE_N(TLM_MULTI)) | (0 << UDRIE_N(TLM_MULTI)) | (0 << RXEN_N(TLM_MULTI)) | (0 << TXEN_N(TLM_MULTI)) | (0 << UCSZ2_N(TLM_MULTI));
-  UCSRC_N(TLM_MULTI) = (1 << UPM01) | (1 << USBS0)| (1 << UCSZ1_N(TLM_MULTI)) | (1 << UCSZ0_N(TLM_MULTI)); // set 2 stop bits, even parity BIT
-
-    while (UCSRA_N(TLM_MULTI) & (1 << RXC_N(TLM_MULTI))) UDR_N(TLM_MULTI); // flush receive buffer
-
-	// These should be running right from power up on a FrSky enabled '9X.
-	UCSRB_N(TLM_MULTI) |= (1 << TXEN_N(TLM_MULTI)); // enable FrSky-Telemetry emission
-	Usart0TxBufferCount = 0; // TODO not driver code
-
-#endif
+  Usart0TxBufferCount = 0;
 
   MULTI_init();
   MULTI_fixed_id = g_eeGeneral.fixed_ID.ID_32;
   if (bind) {
-  PROTO_Start_Callback(25000U *2, MULTI_bind_cb);
+    PROTO_Start_Callback(25000U *2, MULTI_bind_cb);
   } else {
-  PROTO_Start_Callback(25000U *2, MULTI_cb);
+    PROTO_Start_Callback(25000U *2, MULTI_cb);
   }
 }
 
@@ -337,7 +322,7 @@ const void *MULTI_Cmds(enum ProtoCmds cmd)
     MULTI_Reset();
     return 0;
   //case PROTOCMD_CHECK_AUTOBIND:
-    //return (void *)1L; // Always Autobind
+  //return (void *)1L; // Always Autobind
   case PROTOCMD_BIND:
     MULTI_initialize(1);
     return 0;
@@ -350,12 +335,12 @@ const void *MULTI_Cmds(enum ProtoCmds cmd)
                         STR_DUMMY,       //OptionBool 1
                         STR_DUMMY,       //OptionBool 2
                         STR_DUMMY        //OptionBool 3
-                        );
-     return 0;
+                       );
+    return 0;
   //case PROTOCMD_NUMCHAN:
-    //return (void *)7L;
+  //return (void *)7L;
   //case PROTOCMD_DEFAULT_NUMCHAN:
-    //return (void *)7L;
+  //return (void *)7L;
 //  case PROTOCMD_CURRENT_ID:
 //    return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;
 //  case PROTOCMD_TELEMETRYMULTI_state:
