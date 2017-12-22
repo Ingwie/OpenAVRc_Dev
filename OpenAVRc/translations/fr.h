@@ -564,12 +564,12 @@
 #define TR_ACCEL               "Acc:"
 #define TR_NODATA              CENTER "NO DATA"
 #define TR_TOTTM1TM2THRTHP     "\037\146SES\036TM1\037\146TM2\036GAZ\037\146GZ%"
-#define TR_TMR1LATMAXUS        "Tmr1Lat max\037\124us"
+#define TR_TMR1LATMAXUS        "ProtoCompute max\037\161us"
 #define STR_US                 (STR_TMR1LATMAXUS+13)
-#define TR_TMR1LATMINUS        "Tmr1Lat min\037\124us"
-#define TR_TMR1JITTERUS        "Tmr1 Jitter\037\124us"
+#define TR_TMR1LATMINUS        "ProtoCompute min\037\161us"
+#define TR_TMR1JITTERUS        "Protocol Jitter\037\161us"
 
-  #define TR_TMIXMAXMS         "Tmix max\037\124ms"
+  #define TR_TMIXMAXMS         "MixerCompute max\037\161ms"
   #define TR_FREESTACKMINB     "Free Stack\037\124b"
 
 #define TR_MENUTORESET         CENTER TR_ENTER" pour reset"

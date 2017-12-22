@@ -75,7 +75,7 @@ void menuStatisticsView(uint8_t event)
 #endif
 }
 
-#define MENU_DEBUG_COL1_OFS   (14*FW)
+#define MENU_DEBUG_COL1_OFS   (14*FW+28)
 
 void menuStatisticsDebug(uint8_t event)
 {
@@ -99,15 +99,12 @@ void menuStatisticsDebug(uint8_t event)
 
 
   lcdDrawTextLeft(1*FH, STR_TMR1LATMAXUS);
-//  lcd_outdez8(MENU_DEBUG_COL1_OFS, 1*FH, g_tmr1Latency_max/2 );
   lcdDrawNumberAttUnit(MENU_DEBUG_COL1_OFS, 1*FH, (g_tmr1Latency_max/2), UNSIGN);
 
   lcdDrawTextLeft(2*FH, STR_TMR1LATMINUS);
-//  lcd_outdez8(MENU_DEBUG_COL1_OFS, 2*FH, g_tmr1Latency_min/2 );
   lcdDrawNumberAttUnit(MENU_DEBUG_COL1_OFS, 2*FH, (g_tmr1Latency_min/2), UNSIGN);
 
   lcdDrawTextLeft(3*FH, STR_TMR1JITTERUS);
-//  lcd_outdez8(MENU_DEBUG_COL1_OFS, 3*FH, (g_tmr1Latency_max - g_tmr1Latency_min) /2 );
   lcdDrawNumberAttUnit(MENU_DEBUG_COL1_OFS, 3*FH, ((g_tmr1Latency_max - g_tmr1Latency_min) /2), UNSIGN);
 
   lcdDrawTextLeft(4*FH, STR_TMIXMAXMS);
