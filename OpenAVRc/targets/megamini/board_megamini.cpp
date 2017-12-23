@@ -65,6 +65,7 @@ FORCEINLINE void boardInit()
 #if defined(AUDIO)
   // TIMER4 (16bit) set to mode 9, prescaler 16MHz/64=250kHz.
   // Used for audio tone generation.
+ #define AUDIO_OCRxA OCR4A // used in audio_avr.cpp
   TCCR4B = (0b10<<WGM42) | (0b011 << CS40);
   TCCR4A = (0b01<<WGM40);
 #endif

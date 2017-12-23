@@ -553,7 +553,7 @@ static void DEVO_bind()
 }
 
 
-static void DEVO_initialize(void)
+static void DEVO_initialize()
 {
   PROTO_Stop_Callback();
   CYRF_Reset();

@@ -47,7 +47,7 @@ extern uint8_t moduleFlag;
 #define MAX_MIXER_DELTA (40*16) /* 50ms max as an interval between 2 mixer calculations */
 
 #define PULSES_SETUP_TIME 500 // 500usec
-void (*ocr1b_function_ptr)(void); // Function pointer to add flexibility and simplicity to ISR.
+void (*ocr1b_function_ptr)(); // Function pointer to add flexibility and simplicity to ISR.
 
 extern uint16_t dt;
 

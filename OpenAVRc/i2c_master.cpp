@@ -52,7 +52,7 @@
  */
 
 #if defined(CPUM2560)
-void i2c_init(void)
+void i2c_init()
 {
   I2C_SPEED_888K();
 }
@@ -103,7 +103,7 @@ uint8_t i2c_write(uint8_t data)
   return 0;
 }
 
-uint8_t i2c_read_ack(void)
+uint8_t i2c_read_ack()
 {
   // start TWI module and acknowledge data after reception
   TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWEA);
@@ -113,7 +113,7 @@ uint8_t i2c_read_ack(void)
   return TWDR;
 }
 
-uint8_t i2c_read_nack(void)
+uint8_t i2c_read_nack()
 {
   // start receiving without acknowledging reception
   TWCR = (1<<TWINT) | (1<<TWEN);
@@ -123,7 +123,7 @@ uint8_t i2c_read_nack(void)
   return TWDR;
 }
 
-void i2c_stop(void)
+void i2c_stop()
 {
   // transmit STOP condition
   TWCR = (1<<TWINT) | (1<<TWSTO) | (1<<TWEN);

@@ -34,9 +34,9 @@
 #include "../../i2c_master.h"
 #include "evo_mega2560.h"
 
-bool read_keyb_matrix(void);
-void read_A7_A9(void);
-void read_A8_A10(void);
+bool read_keyb_matrix();
+void read_A7_A9();
+void read_A8_A10();
 
 #ifndef SIMU
 inline void boardInit()
@@ -164,7 +164,7 @@ uint8_t USART3_mspi_xfer(uint8_t data)
 }
 
 
-enum PowerState pwrCheck(void) // Todo : Rebuild use pwrCheck = false to shut down
+enum PowerState pwrCheck() // Todo : Rebuild use pwrCheck = false to shut down
 {
   static tmr10ms_t last10ms;
 
@@ -184,7 +184,7 @@ enum PowerState pwrCheck(void) // Todo : Rebuild use pwrCheck = false to shut do
 }
 
 
-void boardOff(void)
+void boardOff()
 {
   GPIO_C_PWR_HOLD &= ~OUT_C_PWR_HOLD;
 }
@@ -262,7 +262,7 @@ Switches L O feed A10
 #define ANA_TOL 40 // Assumed 1% resistors fitted.
 // Therefore 1% of Max Value into 10 Bit AD (0x39D). Bit shifted due to pseudo 12 bit resolution.
 
-void read_A7_A9(void)
+void read_A7_A9()
 {
   static const uint16_t A7A9[16] PROGMEM = {
     // AD reading, switch state bitmap value for two position switches
@@ -329,7 +329,7 @@ void read_A7_A9(void)
 }
 
 
-void read_A8_A10(void)
+void read_A8_A10()
 {
   static const uint16_t A8A10[9] PROGMEM = {
   // AD reading, switch state for three position switches
@@ -531,7 +531,7 @@ ISR(TIMER_10MS_VECT, ISR_NOBLOCK) // TIMER_COMPA_vect
 }
 #endif
 
-uint16_t getTmr16KHz(void);
+uint16_t getTmr16KHz();
 extern volatile uint8_t g_tmr16KHz;
 
 #if 0
@@ -548,7 +548,7 @@ uint16_t getTmr16KHz()
 #endif
 
 #if 0 // Puppy input run all the time but not in PPM16 mode
-bool check_slave_mode(void)
+bool check_slave_mode()
 {
 
   /*

@@ -37,16 +37,16 @@
 #define TLM_USART0 0
 
 void Usart0TransmitBuffer();
-void Usart0EnableTx(void);
-void Usart0EnableRx(void);
-void Usart0DisableTx(void);
-void Usart0DisableRx(void);
-void Usart0Set8N1(void);
-void Usart0Set8E2(void);
-void Usart0Set9600BAUDS(void);    //Frsky "D" telemetry
-void Usart0Set57600BAUDS(void);   //Frsky S.port telemetry
-void Usart0Set125000BAUDS(void);  //DSM Serial protocol
-void Usart0Set100000BAUDS(void);  //Multiprotocole Serial
+void Usart0EnableTx();
+void Usart0EnableRx();
+void Usart0DisableTx();
+void Usart0DisableRx();
+void Usart0Set8N1();
+void Usart0Set8E2();
+void Usart0Set9600BAUDS();    //Frsky "D" telemetry
+void Usart0Set57600BAUDS();   //Frsky S.port telemetry
+void Usart0Set125000BAUDS();  //DSM Serial protocol
+void Usart0Set100000BAUDS();  //Multiprotocole Serial
 
 #define USART0_RX_PACKET_SIZE 27 // Modified for FrSky via SPIMODULES.21
 #define USART0_TX_PACKET_SIZE 26

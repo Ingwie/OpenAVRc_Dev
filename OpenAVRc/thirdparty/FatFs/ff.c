@@ -563,7 +563,7 @@ static const BYTE ExCvt[] PROGMEM = _EXCVT;	/* Upper conversion table for extend
 /* String functions                                                      */
 /*-----------------------------------------------------------------------*/
 
-DWORD get_fattime(void)
+DWORD get_fattime()
 {
   struct gtm t;
 
@@ -688,7 +688,7 @@ FRESULT chk_lock (	/* Check if the file can be accessed */
 
 
 static
-int enq_lock (void)	/* Check if an entry is available for a new object */
+int enq_lock ()	/* Check if an entry is available for a new object */
 {
 	UINT i;
 

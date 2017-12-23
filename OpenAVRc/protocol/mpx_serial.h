@@ -34,8 +34,8 @@
 //
 
 
-void mpx_start(void);
-void mpx_telem_send(void);
+void mpx_start();
+void mpx_telem_send();
 void uart_putc(char);
 void uart_puts(char *);
 

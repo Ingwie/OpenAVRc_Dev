@@ -47,7 +47,7 @@
 //uint8_t  hopping_frequency[50];
 
 
-//uint8_t read_bind_sw(void);
+//uint8_t read_bind_sw();
 
 #define TELEM_ON 1
 #define TELEM_OFF 0

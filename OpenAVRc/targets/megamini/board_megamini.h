@@ -71,9 +71,9 @@ void readKeysAndTrims();
 #define TIMER_10MS_COMPVAL        OCR2A
 
 // Backlight driver
-#define backlightEnable()         PORTC |= (1<<OUT_C_LIGHT)
-#define backlightDisable()        PORTC &= ~(1<<OUT_C_LIGHT)
-#define isBacklightEnable()       PORTC & (1<<OUT_C_LIGHT)
+#define backlightEnable()         PORTC |= _BV(OUT_C_LIGHT)
+#define backlightDisable()        PORTC &= ~_BV(OUT_C_LIGHT)
+#define isBacklightEnable()       PORTC & _BV(OUT_C_LIGHT)
 
 // SD driver
 #define SDCARD_CS_N_ACTIVE()        PORTB &= ~PIN0_bm // MMC CS = L
@@ -111,10 +111,10 @@ void readKeysAndTrims();
 #define OUT_H_HAPTIC              5
 
 //Puppy Master Mode
-#define ACTIVE_PPM_OUT()            PORTH &= ~(1<<OUT_H_PPM16_SIM_CTL)
-#define ACTIVE_PPM_IN()             PORTH |= (1<<OUT_H_PPM16_SIM_CTL)
-#define ENABLE_TRAINER_INTERRUPT()  TIMSK1 |= (1<<ICIE1);  // Enable ICP Interrupt.
-#define DISABLE_TRAINER_INTERRUPT() TIMSK1 &= ~(1<<ICIE1); // Disable ICP Interrupt.
+#define ACTIVE_PPM_OUT()            PORTH &= ~_BV(OUT_H_PPM16_SIM_CTL)
+#define ACTIVE_PPM_IN()             PORTH |= _BV(OUT_H_PPM16_SIM_CTL)
+#define ENABLE_TRAINER_INTERRUPT()  TIMSK1 |= _BV(ICIE1);  // Enable ICP Interrupt.
+#define DISABLE_TRAINER_INTERRUPT() TIMSK1 &= ~_BV(ICIE1); // Disable ICP Interrupt.
 #define WAIT_PUPIL()                ENABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_IN()
 #define PPM16_CONF()                DISABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_OUT()
 #define IS_WAIT_PUPIL_STATE()       ((g_model.rfProtocol == (PROTOCOL_PPM16-1)) || (g_model.rfProtocol == (PROTOCOL_PPMSIM-1)))
@@ -131,10 +131,10 @@ void readKeysAndTrims();
 #define REA_DOWN()                (~PING & INP_G_ROT_ENC_1_PUSH)
 #define REB_DOWN()                (~PINE & INP_E_ROT_ENC_2_PUSH)
 #define ROTENC_DOWN()             (REA_DOWN() || REB_DOWN())
-#define ENABLEROTENCAISR()        EIMSK |= (1<<INT5) | (1<<INT4) // enable the rot. enc.A ext. int.
-#define ENABLEROTENCBISR()        EIMSK |= (1<<INT7) | (1<<INT6) // enable the rot. enc.B ext. int.
-#define DISABLEROTENCAISR()       EIMSK &= (~((1<<INT5) | (1<<INT4))) // disable the rot.A enc. ext. int.
-#define DISABLEROTENCBISR()       EIMSK &= (~((1<<INT7) | (1<<INT6))) // disable the rot.B enc. ext. int.
+#define ENABLEROTENCAISR()        EIMSK |= _BV(INT5) | _BV(INT4) // enable the rot. enc.A ext. int.
+#define ENABLEROTENCBISR()        EIMSK |= _BV(INT7) | _BV(INT6) // enable the rot. enc.B ext. int.
+#define DISABLEROTENCAISR()       EIMSK &= (~(_BV(INT5) | _BV(INT4))) // disable the rot.A enc. ext. int.
+#define DISABLEROTENCBISR()       EIMSK &= (~(_BV(INT7) | _BV(INT6))) // disable the rot.B enc. ext. int.
 
 // LCD driver
 #define PORTA_LCD_DAT            PORTA
@@ -153,29 +153,29 @@ void readKeysAndTrims();
 // Power driver
 void boardOff();
 #if defined(PWRMANAGE)
-  #define UNEXPECTED_SHUTDOWN()   ((mcusr & (1 << WDRF)) || g_eeGeneral.unexpectedShutdown)
+  #define UNEXPECTED_SHUTDOWN()   ((mcusr & _BV(WDRF)) || g_eeGeneral.unexpectedShutdown)
 #else
-  #define UNEXPECTED_SHUTDOWN()   (mcusr & (1 << WDRF))
+  #define UNEXPECTED_SHUTDOWN()   (mcusr & _BV(WDRF))
 #endif
 
 // Haptic driver
-#define hapticOn()                PORTH |=  (1 << OUT_H_HAPTIC)
-#define hapticOff()               PORTH &= ~(1 << OUT_H_HAPTIC)
+#define hapticOn()                PORTH |=  _BV(OUT_H_HAPTIC)
+#define hapticOff()               PORTH &= ~_BV(OUT_H_HAPTIC)
 
 // Buzzer driver
-#define buzzerOn()                PORTH |=  (1 << OUT_H_SpeakerBuzzer)
-#define buzzerOff()               PORTH &= ~(1 << OUT_H_SpeakerBuzzer)
+#define buzzerOn()                PORTH |=  _BV(OUT_H_SpeakerBuzzer)
+#define buzzerOff()               PORTH &= ~_BV(OUT_H_SpeakerBuzzer)
 
 // Speaker driver
 #if defined(AUDIO) && !defined(SIMU)
-  #define speakerOff()              TCCR4A &= ~(1 << COM4A0)
-  #define speakerOn()               TCCR4A |=  (1 << COM4A0)
+  #define speakerOff()              TCCR4A &= ~_BV(COM4A0)
+  #define speakerOn()               TCCR4A |=  _BV(COM4A0)
 #endif
 
 // Voice driver
 
 //JQ6500
-#define JQ6500_BUSY                   (PINJ & (1<<INP_J_JQ_BUSY))
+#define JQ6500_BUSY                   (PINJ & _BV(INP_J_JQ_BUSY))
 #if defined(VOICE_JQ6500)
   extern void InitJQ6500UartTx();
 #endif
@@ -190,11 +190,11 @@ void boardOff();
     #define eepromReadBlock(a, b, c)   eeprom_read_block(a, (const void *)b, c) //Internal EEPROM
   #endif
 #else
-  extern void boardInit();
-  extern ISR(INT7_vect);
-  extern ISR(INT6_vect);
-  extern ISR(INT4_vect);
-  extern ISR(INT5_vect);
+  void boardInit();
+  ISR(INT7_vect);
+  ISR(INT6_vect);
+  ISR(INT4_vect);
+  ISR(INT5_vect);
 #endif
 
 //Mixer

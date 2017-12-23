@@ -67,13 +67,13 @@ extern uint8_t serialTxBufferCount;
 extern uint8_t * ptrTxISR;
 //#endif
 
-void SERIAL_Init(void);
+void SERIAL_Init();
 //void SERIAL_transmitBuffer(uint8_t len);
 extern void SERIAL_start_uart_send();
 extern void SERIAL_end_uart_send();
 extern void SERIAL_send_uart_bytes(uint8_t * buf, uint16_t len);
 
-void SERIAL_startTX(void);
+void SERIAL_startTX();
 #define IS_TX_BUSY (serialTxState!=TX_STATE_EMPTY)
 
 #endif

@@ -74,7 +74,7 @@ void pushPrompt(uint16_t prompt)
 
 }
 
-void InitJQ6500UartTx(void)
+void InitJQ6500UartTx()
 {
 #if !defined(SIMU)
 

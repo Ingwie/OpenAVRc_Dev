@@ -79,7 +79,7 @@ void frskySendPacket(uint8_t type, uint8_t value, uint8_t p1, uint8_t p2)
 #endif
 }
 
-inline void frskyDSendNextAlarm(void)
+inline void frskyDSendNextAlarm()
 {
   if (Usart0TxBufferCount)
     return; // we only have one buffer. If it's in use, then we can't send yet.

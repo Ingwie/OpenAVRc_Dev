@@ -134,7 +134,7 @@ void CC2500_SetTxRxMode(enum TXRX_State mode)
   }
 }
 
-void CC2500_Reset(void)
+void CC2500_Reset()
 {
   CC2500_Strobe(CC2500_SRES);
   _delay_us(100); // Should be > 50us. see datasheet.

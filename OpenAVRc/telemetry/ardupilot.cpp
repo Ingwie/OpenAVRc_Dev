@@ -368,7 +368,7 @@ ISR (USART0_RX_vect)
 }
 #endif
 
-void ARDUPILOT_Init (void)
+void ARDUPILOT_Init ()
 {
   DDRE  &= ~(1 << DDE0);              // set RXD0 pin as input
   PORTE &= ~(1 << PORTE0);            // disable pullup on RXD0 pin
@@ -394,23 +394,23 @@ void ARDUPILOT_Init (void)
 #endif
 }
 
-void ARDUPILOT_DisableTXD (void)
+void ARDUPILOT_DisableTXD ()
 {
   UCSR0B &= ~(1 << TXEN0);            // disable TX
 }
 
-void ARDUPILOT_EnableTXD (void)
+void ARDUPILOT_EnableTXD ()
 {
   UCSR0B |=  (1 << TXEN0);            // enable TX
 }
 
-void ARDUPILOT_DisableRXD (void)
+void ARDUPILOT_DisableRXD ()
 {
   UCSR0B &= ~(1 << RXEN0);            // disable RX
   UCSR0B &= ~(1 << RXCIE0);           // disable Interrupt
 }
 
-void ARDUPILOT_EnableRXD (void)
+void ARDUPILOT_EnableRXD ()
 {
   for (i = 0; i < NB_BUF; i++) {
     ibuf[i] = 0;

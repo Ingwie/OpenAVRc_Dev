@@ -122,7 +122,7 @@ void xmit_spi(uint8_t dat)
 /*-----------------------------------------------------------------------*/
 
 static
-BYTE rcvr_spi (void)
+BYTE rcvr_spi ()
 {
   checkMixer();
   MYWDT_RESET();
@@ -134,7 +134,7 @@ BYTE rcvr_spi (void)
 /*-----------------------------------------------------------------------*/
 
 static
-uint8_t wait_ready (void)	/* 1:OK, 0:Timeout */
+uint8_t wait_ready ()	/* 1:OK, 0:Timeout */
 {
   Timer2 = 5;	/* Wait for ready in timeout of 50ms */
   rcvr_spi();
@@ -152,7 +152,7 @@ uint8_t wait_ready (void)	/* 1:OK, 0:Timeout */
 /*-----------------------------------------------------------------------*/
 
 static
-void deselect (void)
+void deselect ()
 {
   SDCARD_CS_N_INACTIVE();
   rcvr_spi();
@@ -165,7 +165,7 @@ void deselect (void)
 /*-----------------------------------------------------------------------*/
 
 static
-uint8_t select (void)	/* 1:Successful, 0:Timeout */
+uint8_t select ()	/* 1:Successful, 0:Timeout */
 {
   SDCARD_CS_N_ACTIVE();
   if (!wait_ready()) {
@@ -184,21 +184,21 @@ uint8_t select (void)	/* 1:Successful, 0:Timeout */
 /* is nothing to do in these functions and chk_power always returns 1.   */
 
 static
-uint8_t power_status(void)		/* Socket power state: 0=off, 1=on */
+uint8_t power_status()		/* Socket power state: 0=off, 1=on */
 {
   return 1;
 }
 
 
 static
-void power_on (void)
+void power_on ()
 {
   enable_spi_master_mode();
 }
 
 
 
-void SD_spi_power_off (void)
+void SD_spi_power_off ()
 {
   SDCARD_CS_N_INACTIVE();
   master_spi_disable();

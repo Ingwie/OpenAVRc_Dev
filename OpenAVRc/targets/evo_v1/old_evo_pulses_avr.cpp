@@ -63,15 +63,15 @@ uint8_t s_pulses_paused = 0;
 uint16_t B3_comp_value;
 
 #if defined(DSM2_SERIAL)
-inline void DSM2_EnableTXD(void)
+inline void DSM2_EnableTXD()
 {
   UCSR0B |= (1 << TXEN0); // enable TX
   // don't enable UDRE0 interrupt now, it will be enabled during next setupPulses
 }
 #endif
 
-void set_timer3_capture(void);
-void set_timer3_ppm(void);
+void set_timer3_capture();
+void set_timer3_ppm();
 
 void startPulses()
 {
@@ -424,7 +424,7 @@ void DSM2_Done()
 }
 
 // DSM2=SERIAL mode
-void DSM2_Init(void)
+void DSM2_Init()
 {
 #ifndef SIMU
 

@@ -1457,10 +1457,10 @@ void OpenAVRcInit(uint8_t mcusr)
 }
 
 #if !defined(SIMU)
-int main(void)
+int main()
 {
 #else
-int simumain(void)
+int simumain()
 {
   simu_off = false;
 #endif
@@ -1510,7 +1510,7 @@ int simumain(void)
 #else // Simu main loop function
   SimuMainLoop();
 } // Close simumain()
-void SimuMainLoop(void) // Create loop function
+void SimuMainLoop() // Create loop function
 {
   simu_mainloop_is_runing = true;
 #endif //SIMU
