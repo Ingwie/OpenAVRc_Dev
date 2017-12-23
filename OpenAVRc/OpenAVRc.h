@@ -764,8 +764,8 @@ extern int8_t  calcRESXto100(int16_t x);
 extern const char vers_stamp[];
 
 extern uint16_t           g_vbat10mV;
-#define GET_TXBATT_BARS() (limit<int8_t>(2, 20 * (g_vbat10mV/10 - g_eeGeneral.vBatMin) / (g_eeGeneral.vBatMax - g_eeGeneral.vBatMin), 20))
-#define IS_TXBATT_WARNING() (g_vbat10mV <= g_eeGeneral.vBatWarn*10)
+#define GET_TXBATT_BARS() (limit<uint8_t>(2, 20 * ((uint8_t)(g_vbat10mV/10) - g_eeGeneral.vBatMin) / (g_eeGeneral.vBatMax - g_eeGeneral.vBatMin), 20))
+#define IS_TXBATT_WARNING() (g_vbat10mV <= (g_eeGeneral.vBatWarn*10))
 
 
 #define g_blinkTmr10ms    (*(uint8_t*)&g_tmr10ms)

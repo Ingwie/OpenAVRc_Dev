@@ -350,7 +350,6 @@ void putsTimer(coord_t x, coord_t y, putstime_t tme, LcdFlags att, LcdFlags att2
   lcdDrawNumberNAtt(lcdNextPos, y, qr.rem, att2|LEADING0|LEFT, 2);
 }
 
-// TODO to be optimized with lcdPutsValueWithUnit
 void lcdPutsVolts(coord_t x, coord_t y, uint16_t volts, LcdFlags att)
 {
   lcdDrawNumberAttUnit(x, y, (int16_t)volts, (~NO_UNIT) & (att | ((att&PREC2)==PREC2 ? PREC2 : PREC1)));
@@ -360,7 +359,7 @@ void lcdPutsVolts(coord_t x, coord_t y, uint16_t volts, LcdFlags att)
 void putsVBat(coord_t x, coord_t y, LcdFlags att)
 {
 #if defined(BATTGRAPH)
-    lcdPutsVolts(x, y, (g_vbat10mV < 1000)? g_vbat10mV : g_vbat10mV/10, att | (g_vbat10mV < 1000)? PREC2 : PREC1);
+    lcdPutsVolts(x, y, (g_vbat10mV < 1000)? g_vbat10mV : g_vbat10mV/10, (g_vbat10mV < 1000)? att | PREC2 : att | PREC1);
 #else
     lcdPutsVolts(x, y, g_vbat10mV/10, att | PREC1);
 #endif
