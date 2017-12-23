@@ -1212,7 +1212,7 @@ void checkBattery()
 
   g_vbat10mV = ((g_vbat10mV << 3) + instant_vbat) / 9; // Simple low pass filter
 
-  if (IS_TXBATT_WARNING() && g_vbat10mV > g_eeGeneral.vBatMin*0.9) { // No Audio Alarm if TX Battery < VCCMIN X .9
+  if (IS_TXBATT_WARNING() && (g_vbat10mV > g_eeGeneral.vBatMin*0.9)) { // No Audio Alarm if TX Battery < VCCMIN X .9
     AUDIO_TX_BATTERY_LOW();
   }
 }
