@@ -538,7 +538,7 @@ void OpenAVRc_SimulatorFrame::StartFirmwareCode()
   s_anaFilt[2] = 1024;
   s_anaFilt[3] = 1024;
 
-  s_anaFilt[7] = 1024; // 7.62 V Battery (7.22V dac + 0.4 V Schottky Diode)
+  s_anaFilt[7] = 1024; // 7.62 V Battery (7.22V adc + 0.4 V Schottky Diode)
 
   Timer10ms.Start(10, false); //Simulate 10mS Interrupt vector
   simumain();
@@ -549,7 +549,7 @@ void OpenAVRc_SimulatorFrame::StartFirmwareCode()
 
 void OpenAVRc_SimulatorFrame::ResetSimuLcd()
 {
-  for (int i=0; i<(sizeof(displayBuf)); ++i) displayBuf[i] = 0xFF;
+  for (uint32_t i=0; i<(sizeof(displayBuf)); ++i) displayBuf[i] = 0xFF;
   DrawWxSimuLcd();
 }
 

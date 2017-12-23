@@ -148,7 +148,7 @@ static uint16_t DSM_SERIAL_cb()
 }
 
 
-static void DSM_SERIAL_initialize(void)
+static void DSM_SERIAL_initialize()
 {
 // 125K 8N1
   Usart0Set125000BAUDS();

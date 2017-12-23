@@ -123,7 +123,7 @@ void MAVLINK_reset(uint8_t warm_reset)
 }
 
 //! \brief initalize mavlink extension
-void MAVLINK_Init(void)
+void MAVLINK_Init()
 {
   mav_statustext[0] = 0;
   MAVLINK_reset(0);

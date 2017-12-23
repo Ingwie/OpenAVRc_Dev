@@ -863,7 +863,7 @@ void frskyDProcessPacket(uint8_t *packet)
 }
 
 #if   defined(FRSKY_HUB)
-void frskyUpdateCells(void)
+void frskyUpdateCells()
 {
   // Voltage => Cell number + Cell voltage
   uint8_t battnumber = ((frskyData.hub.volts & 0x00F0) >> 4);

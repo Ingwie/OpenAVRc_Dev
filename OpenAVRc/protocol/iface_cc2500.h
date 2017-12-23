@@ -162,7 +162,7 @@ enum {
 
 void CC2500_WriteReg(uint8_t addr, uint8_t data);
 uint8_t CC2500_ReadReg(uint8_t addr);
-void CC2500_Reset(void);
+void CC2500_Reset();
 uint8_t CC2500_Strobe(uint8_t cmd);
 void CC2500_WriteData(uint8_t *packet, uint8_t length);
 void CC2500_ReadData(uint8_t *dpbuffer, int len);

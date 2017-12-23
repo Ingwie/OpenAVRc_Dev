@@ -120,7 +120,7 @@ static uint8_t FRSKYV_crc8(uint8_t result, uint8_t *data, uint8_t len)
 }
 
 
-static uint8_t FRSKYV_crc8_le(void)
+static uint8_t FRSKYV_crc8_le()
 {
 /*
   How Tx Id relates to data packet initial crc value.

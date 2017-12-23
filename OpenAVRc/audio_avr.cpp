@@ -54,7 +54,7 @@ void audioQueue::heartbeat()
       speakerOff();
     } else {
       if (toneFreq) {
-        OCR4A = (5000 / toneFreq); // sticking with old values approx 20(abs. min) to 90, 60 being the default tone(?).
+        AUDIO_OCRxA = (5000 / toneFreq); // sticking with old values approx 20(abs. min) to 90, 60 being the default tone(?).
         speakerOn();
         SIMUBEEP1();
       }
@@ -76,7 +76,7 @@ void audioQueue::heartbeat()
     } else {
       if (tone2TimeLeft > 0) {
         if (tone2Freq) {
-          OCR4A = (5000 / tone2Freq); // sticking with old values approx 20(abs. min) to 90, 60 being the default tone(?).
+          AUDIO_OCRxA = (5000 / tone2Freq); // sticking with old values approx 20(abs. min) to 90, 60 being the default tone(?).
           speakerOn();
           SIMUBEEP2();
         }

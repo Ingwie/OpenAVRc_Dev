@@ -109,7 +109,7 @@ static void FRSKYD_init(uint8_t bind)
   CC2500_Strobe(CC2500_SIDLE); // Go to idle...
 }
 
-void FRSKYD_generate_channels(void)
+void FRSKYD_generate_channels()
 {
 /*
  * Make sure adjacent channels in the array are spread across the band and are not repeated.

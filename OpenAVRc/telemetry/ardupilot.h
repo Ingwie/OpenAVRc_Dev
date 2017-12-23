@@ -33,8 +33,8 @@
 
 #ifndef ardupilot_h
 #define ardupilot_h
-void ARDUPILOT_Init(void);
-void ARDUPILOT_EnableRXD (void);
+void ARDUPILOT_Init();
+void ARDUPILOT_EnableRXD ();
 void menuTelemetryArduPilot(uint8_t event);
 #endif
 

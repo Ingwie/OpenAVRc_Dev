@@ -404,7 +404,7 @@ enum FrSkyDataState {
 extern uint8_t frskyAlarmsSendState;
 extern uint8_t Usart0TxBuffer[USART0_TX_PACKET_SIZE];
 extern uint8_t Usart0TxBufferCount;
-inline void frskySendAlarms(void)
+inline void frskySendAlarms()
 {
   frskyAlarmsSendState = SEND_RSSI_ALARMS;
 }
@@ -421,17 +421,17 @@ typedef enum {
 
 // FrSky D Protocol
 void processHubPacket(uint8_t id, uint16_t value);
-void frskyDSendNextAlarm(void);
+void frskyDSendNextAlarm();
 void frskyDProcessPacket(uint8_t *packet);
 
 // FrSky S.PORT Protocol
 void processSportPacket(uint8_t *packet);
-void telemetryWakeup(void);
+void telemetryWakeup();
 void telemetryResetValue();
 void telemetryReset();
-void telemetryInit(void);
+void telemetryInit();
 
-void telemetryInterrupt10ms(void);
+void telemetryInterrupt10ms();
 
 #if   defined(FRSKY_HUB)
 typedef uint8_t frskyCellVoltage_t;
@@ -440,7 +440,7 @@ typedef uint8_t frskyCellVoltage_t;
 #if defined(FRSKY_HUB)
 void frskySetCellsCount(uint8_t cellscount);
 void frskySetCellVoltage(uint8_t battnumber, frskyCellVoltage_t cellVolts);
-void frskyUpdateCells(void);
+void frskyUpdateCells();
 #endif
 
 

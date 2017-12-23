@@ -309,7 +309,7 @@ ISR (USART0_RX_vect)
 }
 #endif
 
-void NMEA_Init (void)
+void NMEA_Init ()
 {
 #ifndef SIMU
   DDRE  &= ~(1 << DDE0);              // set RXD0 pin as input
@@ -339,23 +339,23 @@ void NMEA_Init (void)
 }
 
 // TX Capabilities are not required for NMEA
-// void NMEA_DisableTXD (void)
+// void NMEA_DisableTXD ()
 // {
 //    UCSR0B &= ~(1 << TXEN0);            // disable TX
 // }
 
-// void NMEA_EnableTXD (void)
+// void NMEA_EnableTXD ()
 // {
 //    UCSR0B |=  (1 << TXEN0);            // enable TX
 // }
 
-void NMEA_DisableRXD (void)
+void NMEA_DisableRXD ()
 {
   UCSR0B &= ~(1 << RXEN0);            // disable RX
   UCSR0B &= ~(1 << RXCIE0);           // disable Interrupt
 }
 
-void NMEA_EnableRXD (void)
+void NMEA_EnableRXD ()
 {
   for (i = 0; i < NB_LONG_BUF; i++) {
     ibuf[i] = 0;

@@ -37,14 +37,14 @@
 // AVR SPI functions
 //---------------------------
 
-void master_spi_disable(void)
+void master_spi_disable()
 {
   SPCR &= ~(1<<SPE);
 }
 
 //----------------------
 
-void enable_spi_master_mode(void)
+void enable_spi_master_mode()
 {
 // Enable SPI as Master, MSB first.
   SPI_250K(); // Fosc/64

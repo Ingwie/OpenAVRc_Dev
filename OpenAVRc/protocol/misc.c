@@ -36,7 +36,7 @@
 extern volatile uint8_t g_sync_count;
 static volatile uint32_t msecs = 0;
 
-void inline PROTO_Change_Callback(uint16_t (*cb)(void))
+void inline PROTO_Change_Callback(uint16_t (*cb)())
 {
   /*
    * Change the pointer to the callback function.
@@ -49,7 +49,7 @@ void inline PROTO_Change_Callback(uint16_t (*cb)(void))
 }
 
 
-void PROTO_Start_Callback(uint16_t half_us, uint16_t (*cb)(void))
+void PROTO_Start_Callback(uint16_t half_us, uint16_t (*cb)())
 {
   if(! cb) return;
   if(! half_us) return;

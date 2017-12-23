@@ -64,41 +64,14 @@
   #define CONVERT_PTR_UINT(x) ((uint32_t)(x))
   #define CONVERT_UINT_PTR(x) ((uint32_t *)(x))
   #define convertSimuPath(x) (x)
+// Fiddle to force compiler to use a pointer
+  #define FORCE_INDIRECT(ptr) __asm__ __volatile__ ("" : "=e" (ptr) : "0" (ptr))
 
 #else //SIMU define
 
-  #include <stdbool.h>
   #include "targets/simu/simu_interface.h"
   #include "targets/megamini/board_megamini.h" //New reference board
   //#include "targets/mega2560/board_mega2560.h"
-
-  #ifndef FORCEINLINE
-    #define FORCEINLINE
-  #endif
-  #if !defined(NOINLINE)
-    #define NOINLINE
-  #endif
-  #define F_CPU 16000000UL  // 16 MHz ... Should be defined in makefile.
-  #define TRACE(...) simuTrace(__VA_ARGS__)
-  #define SIMU_PROCESSEVENTS SimuSleepMs(0)  //This function tell the simu app to process events
-  #define MYWDT_RESET(x) x; SimuSleepMs(1)
-  #define SIMU_SLEEP(x) SimuSleepMs(x)
-  #define SIMU_UNLOCK_MACRO(x) (false)
-  #define wdt_disable() simu_off = true; simu_mainloop_is_runing = true; return
-  #define _BV(x) (1<<x)
-  #define speakerOff()
-  #define speakerOn()
-  #define SIMUBEEP1() Beep(toneFreq*15, toneTimeLeft*50); toneTimeLeft/=2;if (!toneTimeLeft) ++toneTimeLeft
-  #define SIMUBEEP2() Beep(tone2Freq*15, tone2TimeLeft*50); tone2TimeLeft/=2; if (!tone2TimeLeft) ++tone2TimeLeft;
-  #define ENABLEROTENCISR()
-
-
-  char *convertSimuPath(const char *path);
-  extern ISR(TIMER_10MS_VECT, ISR_NOBLOCK);
-  extern int simumain(void);
-  extern  void SimuMainLoop(void);
-  extern  void shutDownSimu(void);
-  extern  void simu_EditModelName();
 
 #endif
 
@@ -114,14 +87,10 @@
   #define SHOWDURATIONLCD2
 #endif // defined LCD
 
-
 //#define SHOWDURATION 1  //Show a duration
 
 #if defined(SHOWDURATION)
-
 static uint16_t DurationValue;
-
-
 #define SHOWDURATION1                                                        \
   uint16_t t0 = getTmr16KHz();                                               \
 
@@ -133,7 +102,6 @@ static uint16_t DurationValue;
 #define SHOWDURATION1
 #define SHOWDURATION2
 #endif
-
 
 #define CASE_PERSISTENT_TIMERS(x) x,
 
@@ -461,11 +429,6 @@ extern struct t_inactivity inactivity;
 
 char hex2zchar(uint8_t hex);
 char idx2char(int8_t idx);
-#if defined(SIMU)
-  int8_t char2idx(char c);
-  void str2zchar(char *dest, const char *src, int size);
-  int zchar2str(char *dest, const char *src, int size);
-#endif
 
 #include "keys.h"
 
@@ -501,25 +464,11 @@ enum PerOutMode {
 };
 
 
-// Fiddle to force compiler to use a pointer
-#if defined(SIMU)
-  #define FORCE_INDIRECT(ptr)
-#else
-  #define FORCE_INDIRECT(ptr) __asm__ __volatile__ ("" : "=e" (ptr) : "0" (ptr))
-#endif
-
 extern uint8_t mixerCurrentFlightMode;
 extern uint8_t lastFlightMode;
 extern uint8_t flightModeTransitionLast;
 
 #define bitfield_channels_t uint16_t
-
-#if defined(SIMU)
-inline int availableMemory()
-{
-  return 1000;
-}
-#endif
 
 void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms);
 void evalMixes(uint8_t tick10ms);
@@ -1093,7 +1042,7 @@ enum PinConfigState {
 };
 
 #define PROTODEF(proto, module, map, init, name, progmem_name) proto,
-enum Protocols { // TODO mix with native protocols
+enum Protocols {
   PROTOCOL_NONE,
 #include "protocol/protocol.h"
   PROTOCOL_COUNT,
@@ -1137,7 +1086,7 @@ struct Module {
 //#endif
 };
 
-#define PROTO_NEED_SPI PIN3_bm
+#define PROTO_NEED_SPI PIN3_bm // bitmask
 #define IS_PROTO_NEED_SPI if (RfOptionSettings.rfProtoNeed & PROTO_NEED_SPI)
 
 #define BOOL1USED PIN0_bm
@@ -1193,7 +1142,6 @@ void sendOptionsSettingsPpm();
 
 extern struct Module SpiRFModule;
 extern struct RfOptionSettingsstruct RfOptionSettings;
-//extern uint8_t packet[40]; //protocol global packet
 extern uint8_t * packet; //protocol global packet
 extern void startPulses(enum ProtoCmds Command);
 

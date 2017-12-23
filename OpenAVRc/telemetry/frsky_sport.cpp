@@ -691,13 +691,13 @@ void telemetryWakeup()
   }
 }
 
-void FRSKY_Init(void)
+void FRSKY_Init()
 {
   // clear frsky variables
   resetTelemetry();
 }
 
-void FRSKY_End(void)
+void FRSKY_End()
 {
 }
 

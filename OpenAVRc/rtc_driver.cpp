@@ -115,7 +115,7 @@ void rtcSetTime(struct gtm * t)
   g9x_rtcSetTime(&rtc);
 }
 
-void rtcInit (void)
+void rtcInit ()
 {
   uint8_t buf[8];	/* RTC R/W buffer */
 

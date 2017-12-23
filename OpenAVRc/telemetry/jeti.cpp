@@ -107,7 +107,7 @@ ISR (USART0_RX_vect)
 }
 #endif
 
-void JETI_Init (void)
+void JETI_Init ()
 {
   DDRE  &= ~(1 << DDE0);          // set RXD0 pin as input
   PORTE &= ~(1 << PORTE0);        // disable pullup on RXD0 pin
@@ -132,25 +132,25 @@ void JETI_Init (void)
 #endif
 }
 
-void JETI_EnableTXD (void)
+void JETI_EnableTXD ()
 {
   UCSR0B |=  (1 << TXEN0);        // enable TX
   UCSR0B |=  (1 << UDRIE0);       // enable UDRE0 interrupt
 }
 
-void JETI_DisableTXD (void)
+void JETI_DisableTXD ()
 {
   UCSR0B &= ~(1 << TXEN0);        // disable TX
   UCSR0B &= ~(1 << UDRIE0);       // disable UDRE0 interrupt
 }
 
-void JETI_EnableRXD (void)
+void JETI_EnableRXD ()
 {
   UCSR0B |=  (1 << RXEN0);        // enable RX
   UCSR0B |=  (1 << RXCIE0);       // enable Interrupt
 }
 
-void JETI_DisableRXD (void)
+void JETI_DisableRXD ()
 {
   UCSR0B &= ~(1 << RXEN0);        // disable RX
   UCSR0B &= ~(1 << RXCIE0);       // disable Interrupt
@@ -183,14 +183,14 @@ void JETI_puts (char *s)
   }
 }
 
-void JETI_put_start (void)
+void JETI_put_start ()
 {
   loop_until_bit_is_set(UCSR0A, UDRE0);
   UCSR0B &= ~(1 << TXB80);
   UDR0 = 0xFE;
 }
 
-void JETI_put_stop (void)
+void JETI_put_stop ()
 {
   loop_until_bit_is_set(UCSR0A, UDRE0);
   UCSR0B &= ~(1 << TXB80);

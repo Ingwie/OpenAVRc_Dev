@@ -239,7 +239,7 @@ extern inline uint8_t MAVLINK_Action2CtrlMode(uint8_t action)
 }
 #endif
 void telemetryWakeup();
-void MAVLINK_Init(void);
+void MAVLINK_Init();
 void menuTelemetryMavlink(uint8_t event);
 void MAVLINK10mspoll(uint16_t time);
 

@@ -46,7 +46,7 @@
 #define E_on                     PORTC_LCD_CTRL |=  (1<<OUT_C_LCD_E)
 #define E_off                    PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_E)
 
-void lcdPulseEnable(void)
+void lcdPulseEnable()
 {
   E_on;
   _delay_us(9); //Was 4 on the first tested

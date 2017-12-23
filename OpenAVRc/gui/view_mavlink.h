@@ -49,11 +49,11 @@ void menuTelemetryMavlink(uint8_t event);
 void displayScreenIndex(uint8_t index, uint8_t count, uint8_t attr);
 void lcd_outdezFloat(uint8_t x, uint8_t y, float val, uint8_t precis, uint8_t mode = 0);
 void mav_title(const pm_char * s, uint8_t index);
-void menuTelemetryMavlinkInfos(void);
-void menuTelemetryMavlinkFlightMode(void);
-void menuTelemetryMavlinkBattery(void);
-void menuTelemetryMavlinkNavigation(void);
-void menuTelemetryMavlinkGPS(void);
+void menuTelemetryMavlinkInfos();
+void menuTelemetryMavlinkFlightMode();
+void menuTelemetryMavlinkBattery();
+void menuTelemetryMavlinkNavigation();
+void menuTelemetryMavlinkGPS();
 #ifdef DUMP_RX_TX
 void lcd_outhex2(uint8_t x, uint8_t y, uint8_t val);
 void menuTelemetryMavlinkDump(uint8_t event);

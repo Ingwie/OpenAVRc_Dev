@@ -85,14 +85,14 @@ ISR (USART0_RX_vect)
 }
 #endif
 
-inline void SERIAL_EnableRXD(void)
+inline void SERIAL_EnableRXD()
 {
   UCSR0B |= (1 << RXEN0); // enable RX
   UCSR0B |= (1 << RXCIE0); // enable Interrupt
 }
 
 #if 0
-void SERIAL_DisableRXD(void)
+void SERIAL_DisableRXD()
 {
   UCSR0B &= ~(1 << RXEN0); // disable RX
   UCSR0B &= ~(1 << RXCIE0); // disable Interrupt
@@ -153,7 +153,7 @@ void SERIAL_transmitBuffer(uint8_t len)
 }
 #endif
 
-void SERIAL_startTX(void)
+void SERIAL_startTX()
 {
   if (serialTxState == TX_STATE_READY) {
     serialTxState = TX_STATE_BUSY;
@@ -161,7 +161,7 @@ void SERIAL_startTX(void)
   }
 }
 
-static void uart_4800(void)
+static void uart_4800()
 {
 #ifndef SIMU
 #undef BAUD  // avoid compiler warning
@@ -177,7 +177,7 @@ static void uart_4800(void)
 #endif
 }
 
-static void uart_9600(void)
+static void uart_9600()
 {
 #ifndef SIMU
 #undef BAUD  // avoid compiler warning
@@ -193,7 +193,7 @@ static void uart_9600(void)
 #endif
 }
 
-static void uart_14400(void)
+static void uart_14400()
 {
 #ifndef SIMU
 #undef BAUD  // avoid compiler warning
@@ -209,7 +209,7 @@ static void uart_14400(void)
 #endif
 }
 
-static void uart_19200(void)
+static void uart_19200()
 {
 #ifndef SIMU
 #undef BAUD  // avoid compiler warning
@@ -225,7 +225,7 @@ static void uart_19200(void)
 #endif
 }
 
-static void uart_38400(void)
+static void uart_38400()
 {
 #ifndef SIMU
 #undef BAUD  // avoid compiler warning
@@ -241,7 +241,7 @@ static void uart_38400(void)
 #endif
 }
 
-static void uart_57600(void)
+static void uart_57600()
 {
 #ifndef SIMU
 #undef BAUD  // avoid compiler warning
@@ -258,7 +258,7 @@ static void uart_57600(void)
 }
 
 
-static void uart_76800(void)
+static void uart_76800()
 {
 #ifndef SIMU
 #undef BAUD  // avoid compiler warning
@@ -274,21 +274,21 @@ static void uart_76800(void)
 #endif
 }
 
-inline void SERIAL_EnableTXD(void)
+inline void SERIAL_EnableTXD()
 {
   //UCSR0B |= (1 << TXEN0); // enable TX
   UCSR0B |= (1 << TXEN0) | (1 << UDRIE0); // enable TX and TX interrupt
 }
 
 #if 0
-void SERIAL_DisableTXD(void)
+void SERIAL_DisableTXD()
 {
   UCSR0B &= ~(1 << TXEN0); // disable TX
   UCSR0B &= ~(1 << UDRIE0); // disable Interrupt
 }
 #endif
 
-void SERIAL_Init(void)
+void SERIAL_Init()
 {
   switch (g_eeGeneral.mavbaud) {
   case BAUDS_4800:

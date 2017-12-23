@@ -210,7 +210,7 @@ void mav_title(const pm_char * s, uint8_t index)
  *	readable with a quick glance.
  *	\todo Make menu as described as above.
  */
-void menuTelemetryMavlinkInfos(void)
+void menuTelemetryMavlinkInfos()
 {
 
   mav_title(STR_MAVLINK_INFOS, MAVLINK_menu);
@@ -271,7 +271,7 @@ void menuTelemetryMavlinkInfos(void)
  *	\details Clear display of current flight mode.
  *	\todo Add functionality to change flight mode.
  */
-void menuTelemetryMavlinkFlightMode(void)
+void menuTelemetryMavlinkFlightMode()
 {
 
   mav_title(STR_MAVLINK_MODE, MAVLINK_menu);
@@ -305,7 +305,7 @@ void menuTelemetryMavlinkFlightMode(void)
  *	\details Shows flight batery status.
  *	Also RC and PC RSSI are in this menu.
  */
-void menuTelemetryMavlinkBattery(void)
+void menuTelemetryMavlinkBattery()
 {
 
   mav_title(STR_MAVLINK_BAT_MENU_TITLE, MAVLINK_menu);
@@ -348,7 +348,7 @@ void menuTelemetryMavlinkBattery(void)
  *	is the same altitude used by the waypoints.
  *	\todo Add a similar menu to fly back to the home location.
  */
-void menuTelemetryMavlinkNavigation(void)
+void menuTelemetryMavlinkNavigation()
 {
 
   mav_title(STR_MAVLINK_NAV_MENU_TITLE, MAVLINK_menu);
@@ -388,7 +388,7 @@ void menuTelemetryMavlinkNavigation(void)
  *	\todo Text is small. Should we do something about this or leaf it like this.
  *	I don't think will be used much when a user is concentrated on flying.
  */
-void menuTelemetryMavlinkGPS(void)
+void menuTelemetryMavlinkGPS()
 {
   mav_title(STR_MAVLINK_GPS, MAVLINK_menu);
 

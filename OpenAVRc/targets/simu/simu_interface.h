@@ -34,10 +34,9 @@
 #ifndef simu_interface_h
 #define simu_interface_h
 
+#include <stdbool.h>
 #include <inttypes.h>
 #include <assert.h>
-
-
 
 typedef const unsigned char pm_uchar;
 typedef const char pm_char;
@@ -663,6 +662,7 @@ extern REG8 simu_ocr5ah;
 #define TOIE3   0
 
 #define OCR4A simu_ocr4a
+#define AUDIO_OCRxA OCR4A
 
 #define TCCR5B  simu_tccr5b
 #define ICNC5   7
@@ -795,5 +795,37 @@ extern REG8 simu_EIMSK;
 //#undef assert
 //#define assert(x)
 //#define printf(x)
+  #ifndef FORCEINLINE
+    #define FORCEINLINE
+  #endif
+  #if !defined(NOINLINE)
+    #define NOINLINE
+  #endif
+  #define F_CPU 16000000UL  // 16 MHz ... Should be defined in makefile.
+  #define TRACE(...) simuTrace(__VA_ARGS__)
+  #define SIMU_PROCESSEVENTS SimuSleepMs(0)  //This function tell the simu app to process events
+  #define MYWDT_RESET(x) x; SimuSleepMs(1)
+  #define SIMU_SLEEP(x) SimuSleepMs(x)
+  #define SIMU_UNLOCK_MACRO(x) (false)
+  #define wdt_disable() simu_off = true; simu_mainloop_is_runing = true; return
+  #define _BV(x) (1<<x)
+  #define speakerOff()
+  #define speakerOn()
+  #define SIMUBEEP1() Beep(toneFreq*15, toneTimeLeft*50); toneTimeLeft/=2;if (!toneTimeLeft) ++toneTimeLeft
+  #define SIMUBEEP2() Beep(tone2Freq*15, tone2TimeLeft*50); tone2TimeLeft/=2; if (!tone2TimeLeft) ++tone2TimeLeft;
+  #define ENABLEROTENCISR()
+  #define FORCE_INDIRECT(ptr)
+
+
+  char *convertSimuPath(const char *path);
+  extern ISR(TIMER2_COMPA_vect, ISR_NOBLOCK); //TIMER_10MS_VECT
+  extern int simumain();
+  extern  void SimuMainLoop();
+  extern  void shutDownSimu();
+  extern  void simu_EditModelName();
+
+  extern int8_t char2idx(char c);
+  extern void str2zchar(char *dest, const char *src, int size);
+  extern int zchar2str(char *dest, const char *src, int size);
 
 #endif

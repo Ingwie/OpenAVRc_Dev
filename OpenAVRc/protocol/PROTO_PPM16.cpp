@@ -108,7 +108,7 @@ static uint16_t PROTO_PPM16B_cb2()
 }
 
 
-void PROTO_PPM16B_cb1(void)
+void PROTO_PPM16B_cb1()
 {
 uint16_t half_us = PROTO_PPM16B_cb2();
 
