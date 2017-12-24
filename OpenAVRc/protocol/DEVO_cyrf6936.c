@@ -71,7 +71,6 @@ enum PktState {
 static int16_t bind_counter;
 static uint8_t DEVO_state;
 static uint8_t txState;
-static uint32_t DEVO_fixed_id;
 static uint8_t radio_ch[5];
 static uint8_t *radio_ch_ptr;
 static uint8_t pkt_num;
@@ -106,10 +105,9 @@ static void DEVO_add_pkt_suffix()
   packet[10] = bind_state | (PKTS_PER_CHANNEL - pkt_num - 1);
   packet[11] = *(radio_ch_ptr + 1);
   packet[12] = *(radio_ch_ptr + 2);
-  uint8_t  todousefixedID_8here;
-  packet[13] = DEVO_fixed_id  & 0xff;
-  packet[14] = (DEVO_fixed_id >> 8) & 0xff;
-  packet[15] = (DEVO_fixed_id >> 16) & 0xff;
+  packet[13] = g_eeGeneral.fixed_ID.ID_8[0];
+  packet[14] = g_eeGeneral.fixed_ID.ID_8[1];
+  packet[15] = g_eeGeneral.fixed_ID.ID_8[2];
 }
 
 
@@ -233,7 +231,7 @@ static void parse_telemetry_packet()
 
     scramble_pkt(); //This will unscramble the packet
     if (((packet[0] & 0xF0) != TELEMETRY_ENABLE) ||
-        ((((uint32_t)packet[15] << 16) | ((uint32_t)packet[14] << 8) | packet[13]) != (DEVO_fixed_id & 0x00ffffff)))
+        ((((uint32_t)packet[15] << 16) | ((uint32_t)packet[14] << 8) | packet[13]) != (g_eeGeneral.fixed_ID.ID_32 & 0x00ffffff)))
     {
         return;
     }
@@ -578,7 +576,6 @@ static void DEVO_initialize()
   pkt_num = 0;
   txState = 0;
 
-  DEVO_fixed_id = g_eeGeneral.fixed_ID.ID_32 % 1000000;
   // use_fixed_id = 1;
   bind_counter = DEVO_BIND_COUNT;
   DEVO_state = DEVO_BIND;

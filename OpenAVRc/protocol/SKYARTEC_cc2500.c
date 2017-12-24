@@ -168,7 +168,6 @@ static void send_bind_packet()
   packet[1] = 0x7d;
   packet[2] = 0x01;
   packet[3] = 0x01;
-uint8_t  todousefixedID_8here;
   packet[4] = g_eeGeneral.fixed_ID.ID_8[3];
   packet[5] = g_eeGeneral.fixed_ID.ID_8[2];
   packet[6] = g_eeGeneral.fixed_ID.ID_8[1];

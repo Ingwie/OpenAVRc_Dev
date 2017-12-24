@@ -44,7 +44,8 @@ const static int8_t RfOpt_FrskyV_Ser[] PROGMEM = {
 /*rfOptionValue3Max*/0,
 };
 
-static uint32_t seed;
+static uint8_t frskyV_id[2];
+static uint16_t seed;
 static uint8_t dp_crc_init;
 
 const static uint8_t ZZ_frskyVInitSequence[] PROGMEM = {
@@ -99,7 +100,6 @@ static void FRSKYV_init(uint8_t bind)
 
   CC2500_SetTxRxMode(TX_EN);
   CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
-//  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
   CC2500_Strobe(CC2500_SFTX); // 3b
   CC2500_Strobe(CC2500_SFRX); // 3a
   CC2500_SetPower(bind ? TXPOWER_1 : TXPOWER_1);
@@ -141,13 +141,13 @@ static uint8_t FRSKYV_crc8_le()
 
   uint8_t result = 0xD6;
 
-    result = result ^ (frsky_id >> 8);
+    result = result ^ frskyV_id[1];
     for(uint8_t j = 0; j < 8; j++) {
       if(result & 0x01) result = (result >> 1) ^ 0x83;
       else result = result >> 1;
     }
 
-    result = result ^ (frsky_id & 0xFF);
+    result = result ^ frskyV_id[0];
     for(uint8_t j = 0; j < 8; j++) {
       if(result & 0x01) result = (result >> 1) ^ 0x83;
       else result = result >> 1;
@@ -181,8 +181,8 @@ static void FRSKYV_build_bind_packet()
   packet[0] = 0x0E; //Length
   packet[1] = 0x03; //Packet type
   packet[2] = 0x01; //Packet type
-  packet[3] = frsky_id & 0xFF;
-  packet[4] = frsky_id >> 8;
+  packet[3] = frskyV_id[0];
+  packet[4] = frskyV_id[1];
   packet[5] = bind_idx *5; // Index into channels_used array.
   packet[6] =  channels_used[ (packet[5]) +0];
   packet[7] =  channels_used[ (packet[5]) +1];
@@ -205,8 +205,8 @@ static void FRSKYV_build_data_packet()
   uint8_t ofsetChan = 0;
 
   packet[0] = 0x0E;
-  packet[1] = frsky_id & 0xFF;
-  packet[2] = frsky_id >> 8;
+  packet[1] = frskyV_id[0];
+  packet[2] = frskyV_id[1];
   packet[3] = seed & 0xFF;
   packet[4] = seed >> 8;
 
@@ -267,13 +267,13 @@ static uint16_t FRSKYV_data_cb()
 
 static uint16_t FRSKYV_bind_cb()
 {
-  SCHEDULE_MIXER_END(18*16); // Schedule next Mixer calculations.
   FRSKYV_build_bind_packet();
   CC2500_Strobe(CC2500_SIDLE);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0);
   CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO
   CC2500_WriteData(packet, 15);
   CC2500_Strobe(CC2500_STX); // Tx
+  SCHEDULE_MIXER_END(18*16); // Schedule next Mixer calculations.
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return 18000U *2;
@@ -284,10 +284,11 @@ static void FRSKYV_initialise(uint8_t bind)
 {
   PROTO_Stop_Callback();
 
-  frsky_id = g_eeGeneral.fixed_ID.ID_32 & 0x7FFF;
+  frskyV_id[0] = g_eeGeneral.fixed_ID.ID_8[0];
+  frskyV_id[1] = g_eeGeneral.fixed_ID.ID_8[0] & 0x7F; // 15 bit max ID
 
   // Build channel array.
-  channel_offset = frsky_id % 5;
+  channel_offset = (uint16_t)(frskyV_id[1] << 8 | frskyV_id[0]) % 5;
   uint8_t chan_num;
   for(uint8_t x = 0; x < 50; x ++) {
     chan_num = (x*5) + 3 + channel_offset;

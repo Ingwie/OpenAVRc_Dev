@@ -198,7 +198,7 @@ static void FRSKYX_initialize_data(uint8_t adr)
 {
   CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);  // Frequency offset hack
   CC2500_WriteReg(CC2500_18_MCSM0,    0x08);
-  CC2500_WriteReg(CC2500_09_ADDR, adr ? 0x03 : (frsky_id & 0xff));
+  CC2500_WriteReg(CC2500_09_ADDR, adr ? 0x03 : g_eeGeneral.fixed_ID.ID_8[0]);
   CC2500_WriteReg(CC2500_07_PKTCTRL1,0x05);
 }
 
@@ -219,8 +219,8 @@ static void frskyX_build_bind_packet()
   packet[0] = frskyX_format_EU ? 0x20 : 0x1D;// LBT (EU) or  FCC (US)
   packet[1] = 0x03;
   packet[2] = 0x01;
-  packet[3] = frsky_id;
-  packet[4] = frsky_id >> 8;
+  packet[3] = g_eeGeneral.fixed_ID.ID_8[0];
+  packet[4] = g_eeGeneral.fixed_ID.ID_8[1];
   packet[5] = X_state *5; // Index into channels_used array.
   packet[6] =  channels_used[ (packet[5]) +0];
   packet[7] =  channels_used[ (packet[5]) +1];
@@ -279,8 +279,8 @@ static void frskyX_data_frame()
 
 
   packet[0] = frskyX_format_EU ? 0x20 : 0x1D;
-  packet[1] = frsky_id;
-  packet[2] = frsky_id >> 8;
+  packet[1] = g_eeGeneral.fixed_ID.ID_8[0];
+  packet[2] = g_eeGeneral.fixed_ID.ID_8[1];
 
   packet[3] = 0x02;
   packet[4] = (ctr << 6) + channr;  //*64
@@ -609,8 +609,8 @@ static void frsky_parse_sport_stream(uint8_t data)
   // only process packets with the required id and packet length and good crc
     if (len == TELEM_PKT_SIZE
         && pkt[0] == TELEM_PKT_SIZE - 3
-        && pkt[1] == (frsky_id & 0xff)
-        && pkt[2] == (frsky_id >> 8)
+        && pkt[1] == g_eeGeneral.fixed_ID.ID_8[0]
+        && pkt[2] == g_eeGeneral.fixed_ID.ID_8[1]
         && crc(&pkt[3], TELEM_PKT_SIZE-7) == (pkt[TELEM_PKT_SIZE-4] << 8 | pkt[TELEM_PKT_SIZE-3])
        ) {
         if (pkt[4] & 0x80) {   // distinguish RSSI from VOLT1
@@ -710,8 +710,8 @@ static uint16_t FRSKYX_cb()
 
        uint8_t good = (
         packet[0] == len - 3
-        && packet[1] == (frsky_id & 0xff)
-        && packet[2] == (frsky_id >> 8)
+        && packet[1] == g_eeGeneral.fixed_ID.ID_8[0]
+        && packet[2] == g_eeGeneral.fixed_ID.ID_8[1]
        );
 
 #if defined(FRSKY)
@@ -783,7 +783,6 @@ static void FRSKYX_initialize(uint8_t bind)
   PROTO_Stop_Callback();
   CC2500_Reset();
   packet_size = frskyX_format_EU ? 33 : 30;
-  frsky_id = g_eeGeneral.fixed_ID.ID_32 & 0x7FFF;
   channel_offset = 0;
   channr = 0;
   chanskip = 0;
@@ -799,7 +798,7 @@ static void FRSKYX_initialize(uint8_t bind)
   //for(uint8_t x = 0; x < 50; x ++) { channels_used[x] = hop_data[x]; }
 
   // Build channel array. (V code for test)
-  channel_offset = frsky_id % 5;
+  channel_offset = (g_eeGeneral.fixed_ID.ID_8[1] << 8 | g_eeGeneral.fixed_ID.ID_8[0]) % 5;
   uint8_t chan_num;
   for(uint8_t x = 0; x < 50; x ++) {
     chan_num = (x*5) + 3 + channel_offset;
