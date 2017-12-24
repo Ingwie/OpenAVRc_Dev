@@ -33,9 +33,8 @@
 
 #include "../OpenAVRc.h"
 
-static uint32_t Skyartec_fixed_id;
-#define TX_ADDR ((Skyartec_fixed_id >> 16) & 0xff)
-#define TX_CHANNEL ((Skyartec_fixed_id >> 24) & 0xff)
+#define TX_ADDR g_eeGeneral.fixed_ID.ID_8[2]
+#define TX_CHANNEL g_eeGeneral.fixed_ID.ID_8[3]
 
 const static int8_t RfOpt_Skyartec_Ser[] PROGMEM = {
 /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
@@ -153,8 +152,8 @@ static void send_data_packet()
   add_pkt_suffix();
 
   CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
-  CC2500_WriteReg(CC2500_04_SYNC1, ((Skyartec_fixed_id >> 0) & 0xff));
-  CC2500_WriteReg(CC2500_05_SYNC0, ((Skyartec_fixed_id >> 8) & 0xff));
+  CC2500_WriteReg(CC2500_04_SYNC1, g_eeGeneral.fixed_ID.ID_8[0]);
+  CC2500_WriteReg(CC2500_05_SYNC0, g_eeGeneral.fixed_ID.ID_8[1]);
   CC2500_WriteReg(CC2500_09_ADDR, TX_ADDR);
   CC2500_WriteReg(CC2500_0A_CHANNR, TX_CHANNEL);
   CC2500_Strobe(CC2500_SFTX);
@@ -170,10 +169,10 @@ static void send_bind_packet()
   packet[2] = 0x01;
   packet[3] = 0x01;
 uint8_t  todousefixedID_8here;
-  packet[4] = (Skyartec_fixed_id >> 24) & 0xff;
-  packet[5] = (Skyartec_fixed_id >> 16) & 0xff;
-  packet[6] = (Skyartec_fixed_id >> 8)  & 0xff;
-  packet[7] = (Skyartec_fixed_id >> 0)  & 0xff;
+  packet[4] = g_eeGeneral.fixed_ID.ID_8[3];
+  packet[5] = g_eeGeneral.fixed_ID.ID_8[2];
+  packet[6] = g_eeGeneral.fixed_ID.ID_8[1];
+  packet[7] = g_eeGeneral.fixed_ID.ID_8[0];
   packet[8] = 0x00;
   packet[9] = 0x00;
   packet[10] = TX_ADDR;
@@ -213,7 +212,6 @@ static void SKYARTEC_initialize(uint8_t bind)
 {
   PROTO_Stop_Callback();
   skyartec_init();
-  Skyartec_fixed_id = g_eeGeneral.fixed_ID.ID_32;
   if (bind) {
   PROTO_Start_Callback(25000U *2, SKYARTEC_bind_cb);
   } else {
