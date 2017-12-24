@@ -44,6 +44,16 @@ static const char * const DEVO_opts[] = {
   NULL
 };
 
+const static int8_t RfOpt_DEVO[] PROGMEM = {
+  /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+  /*rfSubTypeMax*/0,
+  /*rfOptionValue1Min*/0,
+  /*rfOptionValue1Max*/0,
+  /*rfOptionValue2Min*/0,
+  /*rfOptionValue2Max*/0,
+  /*rfOptionValue3Max*/0,
+};
+
 enum {
   DEVO_OPT_TELEMETRY = 0,
   DEVO_OPT_BIND_TYPE,
@@ -605,7 +615,16 @@ const void *DEVO_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_BIND:
       DEVO_bind();
     return 0;
-    case PROTOCMD_GETOPTIONS:
+  case PROTOCMD_GETOPTIONS:
+    SetRfOptionSettings(pgm_get_far_address(RfOpt_DEVO),
+                        STR_DUMMY,      //Sub proto
+                        STR_DUMMY,      //Option 1 (int)
+                        STR_DUMMY,      //Option 2 (int)
+                        STR_DUMMY,      //Option 3 (uint 0 to 31)
+                        STR_DUMMY,      //OptionBool 1
+                        STR_DUMMY,      //OptionBool 2
+                        STR_DUMMY       //OptionBool 3
+                       );
     return 0;
    // case PROTOCMD_NUMCHAN: return (void *)12L;
    // case PROTOCMD_DEFAULT_NUMCHAN: return (void *)8L;
