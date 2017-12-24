@@ -34,7 +34,6 @@
 #ifndef PROTOCOL_FRSKY_H_
 #define PROTOCOL_FRSKY_H_
 
-static uint16_t frsky_id;
 static uint8_t channels_used[50]; // Todo use packet[OFFSET+ to save memory
 static uint8_t channel_offset;
 

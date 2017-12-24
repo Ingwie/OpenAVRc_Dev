@@ -177,7 +177,6 @@ uint8_t crcidx;
 uint8_t binding;
 uint8_t num_channels;
 uint16_t checksum;
-static uint32_t DSM_fixed_id;
 
 #define OFFSETINPACKETFORPNCODE 20
 
@@ -761,14 +760,12 @@ static uint16_t dsm2_cb()
 static void DSM_initialize(uint8_t bind)
 {
   PROTO_Stop_Callback();
-  DSM_fixed_id = g_eeGeneral.fixed_ID.ID_32;
   cyrf_startup_config();
-uint8_t  todousefixedID_8here;
   CYRF_GetMfgData(cyrfmfg_id);
-  cyrfmfg_id[0] ^= (DSM_fixed_id >> 0) & 0xff;
-  cyrfmfg_id[1] ^= (DSM_fixed_id >> 8) & 0xff;
-  cyrfmfg_id[2] ^= (DSM_fixed_id >> 16) & 0xff;
-  cyrfmfg_id[3] ^= (DSM_fixed_id >> 24) & 0xff;
+  cyrfmfg_id[0] ^= g_eeGeneral.fixed_ID.ID_8[0];
+  cyrfmfg_id[1] ^= g_eeGeneral.fixed_ID.ID_8[1];
+  cyrfmfg_id[2] ^= g_eeGeneral.fixed_ID.ID_8[2];
+  cyrfmfg_id[3] ^= g_eeGeneral.fixed_ID.ID_8[3];
 
   if (Protos[g_model.rfProtocol].Protocol == PROTOCOL_DSMX) {
     calc_dsmx_channel();
@@ -786,9 +783,9 @@ uint8_t  todousefixedID_8here;
       CHANNELS[OFFSETINPACKETFORCHANNEL+1] = tmpch[idx];*/
     } else {
       CHANNELS[OFFSETINPACKETFORCHANNEL+0] = (cyrfmfg_id[0] + cyrfmfg_id[2] + cyrfmfg_id[4]
-                     + ((DSM_fixed_id >> 0) & 0xff) + ((DSM_fixed_id >> 16) & 0xff)) % 39 + 1;
+                     + g_eeGeneral.fixed_ID.ID_8[0] + g_eeGeneral.fixed_ID.ID_8[2]) % 39 + 1;
       CHANNELS[OFFSETINPACKETFORCHANNEL+1] = (cyrfmfg_id[1] + cyrfmfg_id[3] + cyrfmfg_id[5]
-                     + ((DSM_fixed_id >> 8) & 0xff) + ((DSM_fixed_id >> 8) & 0xff)) % 40 + 40;
+                     + g_eeGeneral.fixed_ID.ID_8[1] + g_eeGeneral.fixed_ID.ID_8[1]) % 40 + 40;
     }
     //printf("DSM2 Channels: %02x %02x\n", CHANNELS[OFFSETINPACKETFORCHANNEL+0], CHANNELS[OFFSETINPACKETFORCHANNEL+1]);
   }

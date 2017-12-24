@@ -98,13 +98,10 @@ static void FRSKYD_init(uint8_t bind)
   }
 
   CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
-  CC2500_WriteReg(CC2500_09_ADDR, bind ? 0x03 : (frsky_id & 0xff));
-
-//  CC2500_Strobe(CC2500_SIDLE); // Go to idle...
+  CC2500_WriteReg(CC2500_09_ADDR, bind ? 0x03 : g_eeGeneral.fixed_ID.ID_8[0]);
   CC2500_Strobe(CC2500_SFTX); // 3b
   CC2500_Strobe(CC2500_SFRX); // 3a
   CC2500_SetPower(bind ? TXPOWER_1 : TXPOWER_1);
-
   CC2500_WriteReg(CC2500_0A_CHANNR, 0x00);
   CC2500_Strobe(CC2500_SIDLE); // Go to idle...
 }
@@ -115,8 +112,8 @@ void FRSKYD_generate_channels()
  * Make sure adjacent channels in the array are spread across the band and are not repeated.
  */
 
-  uint8_t chan_offset = ((g_eeGeneral.fixed_ID.ID_32 >> 16) & 0xFF) % 10; // 10 channel bases.
-  uint8_t step = (((g_eeGeneral.fixed_ID.ID_32 >> 24) & 0xFF) % 11); // 11 sequences for now.
+  uint8_t chan_offset = g_eeGeneral.fixed_ID.ID_8[2] % 10; // 10 channel bases.
+  uint8_t step = g_eeGeneral.fixed_ID.ID_8[3] % 11; // 11 sequences for now.
 
   step = step + 73; // 73 to 83.
   // Build channel array.
@@ -138,8 +135,8 @@ static void FRSKYD_build_bind_packet()
   packet[0] = 0x11; //Length (17)
   packet[1] = 0x03; //Packet type
   packet[2] = 0x01; //Packet type
-  packet[3] = frsky_id & 0xff;
-  packet[4] = frsky_id >> 8;
+  packet[3] = g_eeGeneral.fixed_ID.ID_8[0];
+  packet[4] = g_eeGeneral.fixed_ID.ID_8[1];
   packet[5] = bind_idx *5; // Index into channels_used array.
   packet[6] =  channels_used[ (packet[5]) +0];
   packet[7] =  channels_used[ (packet[5]) +1];
@@ -162,8 +159,8 @@ static void FRSKYD_build_bind_packet()
 static void FRSKYD_build_data_packet()
 {
   packet[0] = 0x11; // Length
-  packet[1] = frsky_id & 0xff;
-  packet[2] = frsky_id >> 8;
+  packet[1] = g_eeGeneral.fixed_ID.ID_8[0];
+  packet[2] = g_eeGeneral.fixed_ID.ID_8[1];
   packet[3] = packet_number;
 #if HAS_EXTENDED_TELEMETRY
   packet[4] = sequence; // acknowledge last hub packet
@@ -282,8 +279,8 @@ static uint16_t FRSKYD_data_cb()
 
         // Packet checks: sensible length, good CRC, matching fixed id
         if(len != rx_packet[0] + 3 || rx_packet[0] < 5 || !(rx_packet[len-1] & 0x80)) break;
-        else if(rx_packet[1] != (frsky_id & 0xff)) break;
-        else if(rx_packet[2] != frsky_id >>8) break;
+        else if(rx_packet[1] != g_eeGeneral.fixed_ID.ID_8[0]) break;
+        else if(rx_packet[2] != g_eeGeneral.fixed_ID.ID_8[1]) break;
 #if defined(FRSKY)
         memcpy(Usart0RxBuffer, rx_packet, len);
         if(frskyStreaming < FRSKY_TIMEOUT10ms -5) frskyStreaming +=5;
@@ -316,10 +313,7 @@ static uint16_t FRSKYD_data_cb()
 static void FRSKYD_initialize(uint8_t bind)
 {
   PROTO_Stop_Callback();
-
-  frsky_id = g_eeGeneral.fixed_ID.ID_32;// % 0x4000;
   FRSKYD_generate_channels();
-
   CC2500_Reset(); // 0x30
 
   if(bind) {
