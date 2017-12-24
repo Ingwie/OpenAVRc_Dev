@@ -45,7 +45,7 @@ const static int8_t RfOpt_FrskyV_Ser[] PROGMEM = {
 };
 
 static uint8_t frskyV_id[2];
-static uint16_t seed;
+static uint32_t seed;
 static uint8_t dp_crc_init;
 
 const static uint8_t ZZ_frskyVInitSequence[] PROGMEM = {
@@ -285,7 +285,7 @@ static void FRSKYV_initialise(uint8_t bind)
   PROTO_Stop_Callback();
 
   frskyV_id[0] = g_eeGeneral.fixed_ID.ID_8[0];
-  frskyV_id[1] = g_eeGeneral.fixed_ID.ID_8[0] & 0x7F; // 15 bit max ID
+  frskyV_id[1] = g_eeGeneral.fixed_ID.ID_8[1] & 0x7F; // 15 bit max ID
 
   // Build channel array.
   channel_offset = (uint16_t)(frskyV_id[1] << 8 | frskyV_id[0]) % 5;
