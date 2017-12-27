@@ -118,14 +118,14 @@ void lcdDrawTextAtIndex(coord_t x, coord_t y, const pm_char * s,uint8_t idx, Lcd
   lcdDrawSizedTextAtt(x, y, s+length*idx, length, flags & ~(BSS|ZCHAR));
 }
 
-void lcd_outhex4(coord_t x, coord_t y, uint16_t val)
+void lcd_outhex(uint8_t digit, coord_t x, coord_t y, uint16_t val, LcdFlags mode)
 {
   x += FWNUM*4+1;
-  for(int i=0; i<4; i++) {
+  for(int i=0; i<digit; i++) {
     x -= FWNUM;
     char c = val & 0xf;
     c = c>9 ? c+'A'-10 : c+'0';
-    lcdDrawCharAtt(x, y, c, c>='A' ? CONDENSED : 0);
+    lcdDrawCharAtt(x, y, c, (c>='A' ? CONDENSED : 0 ) | mode);
     val >>= 4;
   }
 }

@@ -247,7 +247,7 @@ void menuGeneralSetup(uint8_t event)
           }
         }
         break;
-      } Bracame not used */
+      } Bracame not used but will be used ;-)*/
 #endif
 
 

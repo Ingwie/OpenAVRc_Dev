@@ -795,8 +795,8 @@
 #define TR_OUTPUTS             "Outputs"
 #define TR_EEBACKUP            "\012[ENTER Lang] voor een EEPROM backup"
 #define TR_FACTORYRESET        "\012[MENU Lang]: Factory reset"
-#define TR_CONFIRMRESET        "Wis ALLE modellen en instellingen?"
-#define TR_TO_MANY_LUA_SCRIPTS "Te veel Lua scripts!"
+
+
 
 #if defined(MAVLINK)
   #define TR_MAVLINK_RC_RSSI_SCALE_LABEL   "Max RSSI"

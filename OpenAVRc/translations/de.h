@@ -789,8 +789,8 @@
 #define TR_OUTPUTS             "Outputs"
 #define TR_EEBACKUP            "\002[ENTER Long] Backup EEPROM->SD-Karte"
 #define TR_FACTORYRESET        "\004[MENU Long] ALLES komplett l\203schen"
-#define TR_CONFIRMRESET        "ALLE Modelle + Einst. l\203schen?"
-#define TR_TO_MANY_LUA_SCRIPTS "Zu viele Lua-Scripte!!"
+
+
 
 #if defined(MAVLINK)
   #define TR_MAVLINK_RC_RSSI_SCALE_LABEL   "Max RSSI"

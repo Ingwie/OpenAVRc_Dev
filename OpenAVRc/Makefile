@@ -234,7 +234,7 @@ GVARS = NO
 # Values = NO, POT1, POT2, POT3,
 3POS = NO
 
-# Allow to change buttons names (only Mega2560)
+# Allow to change buttons names
 # Values = NO, YES with personames.h edited
 PERSONAMES = NO
 
@@ -304,7 +304,7 @@ BITMAPS = bitmaps/sticks.lbm
 ifeq ($(PCB), MEGAMINI)
   # Antho & Pierro's Shield
 
-  FLAVOUR = mega2560
+  FLAVOUR = MegaMini
   ARCH = AVR
   LCDSIZE = 128
   TRGT = avr-
@@ -380,7 +380,7 @@ ifeq ($(PCB), EVO_V1)
   # Evo V1 PCB with Mega2560
 
   GUIDIRECTORY = 9X
-  FLAVOUR = mega2560
+  FLAVOUR = Mega_EVO_V1
   ARCH = AVR
   LCDSIZE = 128
   TRGT = avr-
@@ -459,7 +459,7 @@ endif
 ifeq ($(PCB), MEGA2560)
   # ARDUINO2560 DIY RADIO
 
-  FLAVOUR = mega2560
+  FLAVOUR = Mega2560
   ARCH = AVR
   LCDSIZE = 128
   TRGT = avr-
