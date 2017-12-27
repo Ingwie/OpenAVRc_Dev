@@ -783,8 +783,8 @@
 #define TR_OUTPUTS             "V\212stupy"
 #define TR_EEBACKUP            "\010[dlouze ENTER] z\200lohuje EEPROM"
 #define TR_FACTORYRESET        "\012[dlouze MENU]: Factory reset"
-#define TR_CONFIRMRESET        "Smazat modely a nastaven\204?"
-#define TR_TO_MANY_LUA_SCRIPTS "P\206\204li\207 mnoho skript\211!"
+
+
 
 #if defined(MAVLINK)
   #define TR_MAVLINK_RC_RSSI_SCALE_LABEL        "Max RSSI"

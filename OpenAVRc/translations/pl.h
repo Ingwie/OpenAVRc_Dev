@@ -781,8 +781,8 @@
 #define TR_OUTPUTS             "Wyj\206cia"
 #define TR_EEBACKUP            "\012[ENTER D\203ugo] Backup EEPROMu"
 #define TR_FACTORYRESET        "\012[MENU Long]: Ustaw.Fabrycz"
-#define TR_CONFIRMRESET        "WYkasowa\201 wszytkie modele?    "
-#define TR_TO_MANY_LUA_SCRIPTS "Za du\207o skrypt\205w Lua!"
+
+
 
 #if defined(MAVLINK)
   #define TR_MAVLINK_RC_RSSI_SCALE_LABEL  "MaksRSSI"

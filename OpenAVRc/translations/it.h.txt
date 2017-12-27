@@ -778,8 +778,8 @@
 #define TR_OUTPUTS             "Uscita"
 #define TR_EEBACKUP            "\004[ENTER Lungo] per copiare la EEPROM"
 #define TR_FACTORYRESET        "\012[MENU Lungo]: Inizializza dati"
-#define TR_CONFIRMRESET        "Resettare TUTTI i dati?"
-#define TR_TO_MANY_LUA_SCRIPTS "Troppi Scripts Lua!"
+
+
 
 #if defined(MAVLINK)
   #define TR_MAVLINK_RC_RSSI_SCALE_LABEL  "Max RSSI"

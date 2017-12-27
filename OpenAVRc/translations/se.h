@@ -776,8 +776,8 @@
 #define TR_OUTPUTS             "Outputs"
 #define TR_EEBACKUP            "\004[ENTER L\200ng] s\201kerhetskopiera EEPROM"
 #define TR_FACTORYRESET        "\012[MENU Long]: Factory reset"
-#define TR_CONFIRMRESET        "Erase ALL models and settings?"
-#define TR_TO_MANY_LUA_SCRIPTS "F\202r m\200nga Lua-skript!"
+
+
 
 #if defined(MAVLINK)
   #define TR_MAVLINK_RC_RSSI_SCALE_LABEL  "Max RSSI"

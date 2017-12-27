@@ -36,11 +36,7 @@
 
 void menuGeneralDiagAna(uint8_t event)
 {
-#if defined(TX_CAPACITY_MEASUREMENT)
-  #define ANAS_ITEMS_COUNT 4
-#else
   #define ANAS_ITEMS_COUNT 2
-#endif
 
   SIMPLE_MENU(STR_MENUANA, menuTabGeneral, e_Ana, ANAS_ITEMS_COUNT);
 
@@ -52,7 +48,7 @@ void menuGeneralDiagAna(uint8_t event)
     uint8_t x = x_coord[i%2];
     lcdDrawNumberNAtt(x, y, i, LEADING0|LEFT, 2);
     lcdDrawChar(x+2*FW-2, y, ':');
-    lcd_outhex4(x+3*FW-1, y, s_anaFilt[i]);
+    lcd_outhex(4 ,x+3*FW-1, y, s_anaFilt[i], 0);
   }
 }
 
