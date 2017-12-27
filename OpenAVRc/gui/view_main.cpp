@@ -505,8 +505,7 @@ void menuMainView(uint8_t event)
   }
 
 #if defined(DSM2)
-  if (moduleFlag == MODULE_BIND) {
-    // Issue 98
+  if (RFModule.mode == BIND_MODE) {
     lcdDrawTextAtt(15*FW, 0, PSTR("BIND"), 0);
   }
 #endif

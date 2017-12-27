@@ -1064,7 +1064,7 @@ struct Module {
 //    int8_t ppm_map[MAX_PPM_IN_CHANNELS];
 //  uint32_t fixed_id;
   enum TxPower tx_power;
-  enum PROTO_MODE mode;
+  uint8_t mode;
 //    enum SwashType swash_type;
 //    uint8_t swash_invert;
 //    uint8_t swashmix[3];
@@ -1140,7 +1140,7 @@ const int8_t RfOpt_PPM_Ser[] PROGMEM = {
 void sendOptionsSettingsPpm();
 //PPM
 
-extern struct Module SpiRFModule;
+extern struct Module RFModule;
 extern struct RfOptionSettingsstruct RfOptionSettings;
 extern uint8_t * packet; //protocol global packet
 extern void startPulses(enum ProtoCmds Command);

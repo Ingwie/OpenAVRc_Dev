@@ -42,8 +42,6 @@ extern uint8_t *pulses2MHzWPtr;
 
 extern uint16_t nextMixerEndTime;
 
-extern uint8_t moduleFlag;
-
 #define MAX_MIXER_DELTA (40*16) /* 50ms max as an interval between 2 mixer calculations */
 
 #define PULSES_SETUP_TIME 500 // 500usec

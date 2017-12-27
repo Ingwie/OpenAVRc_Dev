@@ -470,10 +470,10 @@ void menuModelSetup(uint8_t event)
 
           if (attr && l_posHorz>0 && s_editMode>0) {
             if (l_posHorz == 1) {
-              SpiRFModule.mode = BIND_MODE;
+              RFModule.mode = BIND_MODE;
               startPulses(PROTOCMD_BIND);
             } else if (l_posHorz == 2) {
-              SpiRFModule.mode = RANGE_MODE; // TODO Call PRT if availlable
+              RFModule.mode = RANGE_MODE; // TODO Call PRT if availlable
             }
           }
         }
@@ -499,13 +499,13 @@ void menuModelSetup(uint8_t event)
           }
           if (attr && l_posHorz>0 && s_editMode>0) {
             if (l_posHorz == 1)
-              newFlag = MODULE_BIND;
+              newFlag = BIND_MODE;
             else if (l_posHorz == 2) {
-              newFlag = MODULE_RANGECHECK;
+              newFlag = RANGE_MODE;
             }
           }
-          moduleFlag = newFlag;
-          if (newFlag == MODULE_BIND)
+          RFModule.mode = newFlag;
+          if (newFlag == BIND_MODE)
             multiBindStatus = MULTI_BIND_INITIATED;
         }
 #endif
@@ -526,15 +526,15 @@ void menuModelSetup(uint8_t event)
 
           if (attr && l_posHorz>0 && s_editMode>0) {
             if (l_posHorz == 1) {
-              if (SpiRFModule.mode != BIND_MODE) startPulses(PROTOCMD_BIND);
-              SpiRFModule.mode = BIND_MODE;
+              if (RFModule.mode != BIND_MODE) startPulses(PROTOCMD_BIND);
+              RFModule.mode = BIND_MODE;
             } else if (l_posHorz == 2) {
-              if (SpiRFModule.mode != RANGE_MODE) startPulses(PROTOCMD_SET_TXPOWER);
-              SpiRFModule.mode = RANGE_MODE;
+              if (RFModule.mode != RANGE_MODE) startPulses(PROTOCMD_SET_TXPOWER);
+              RFModule.mode = RANGE_MODE;
             }
           } else {
-            if (SpiRFModule.mode != NORMAL_MODE) startPulses(PROTOCMD_INIT);
-            SpiRFModule.mode = NORMAL_MODE;
+            if (RFModule.mode != NORMAL_MODE) startPulses(PROTOCMD_INIT);
+            RFModule.mode = NORMAL_MODE;
           }
         }
 #endif
@@ -661,7 +661,7 @@ void menuModelSetup(uint8_t event)
 
   if (!PROTO_IS_SYNC) {
     g_model.rfProtocol = protocol;
-    SpiRFModule.mode = NORMAL_MODE;
+    RFModule.mode = NORMAL_MODE;
     startPulses(PROTOCMD_INIT);
   }
 }
