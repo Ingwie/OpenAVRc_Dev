@@ -73,8 +73,8 @@ void Usart0Set8N1()
 
 void Usart0Set8E2()
 {
-  UCSRB_N(TLM_MULTI) = (0 << RXCIE_N(TLM_MULTI)) | (0 << TXCIE_N(TLM_MULTI)) | (0 << UDRIE_N(TLM_MULTI)) | (0 << RXEN_N(TLM_MULTI)) | (0 << TXEN_N(TLM_MULTI)) | (0 << UCSZ2_N(TLM_MULTI));
-  UCSRC_N(TLM_MULTI) = (1 << UPM01) | (1 << USBS0)| (1 << UCSZ1_N(TLM_MULTI)) | (1 << UCSZ0_N(TLM_MULTI)); // set 2 stop bits, even parity BIT
+  UCSRB_N(TLM_USART0) = (0 << RXCIE_N(TLM_USART0)) | (0 << TXCIE_N(TLM_USART0)) | (0 << UDRIE_N(TLM_USART0)) | (0 << RXEN_N(TLM_USART0)) | (0 << TXEN_N(TLM_USART0)) | (0 << UCSZ2_N(TLM_USART0));
+  UCSRC_N(TLM_USART0) = (1 << UPM01) | (1 << USBS0)| (1 << UCSZ1_N(TLM_USART0)) | (1 << UCSZ0_N(TLM_USART0)); // set 2 stop bits, even parity BIT
 }
 
 void Usart0Set9600BAUDS() //Frsky "D" telemetry
@@ -130,6 +130,8 @@ void Usart0TransmitBuffer()
   UCSRB_N(TLM_USART0) |= (1 << UDRIE_N(TLM_USART0)); // enable Data Register Empty Interrupt
 }
 
+#if defined(FRSKY) || defined(MULTI)
+
 void processSerialData(uint8_t data);
 
 ISR(USART_RX_vect_N(TLM_USART0))
@@ -183,6 +185,7 @@ ISR(USART_RX_vect_N(TLM_USART0))
   cli() ;
   UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
 }
+#endif
 
 // USART0 Transmit Data Register Emtpy ISR (UDR was loaded in Shift Register)
 ISR(USART_UDRE_vect_N(TLM_USART0))

@@ -54,7 +54,7 @@ uint8_t  dsm2BindTimer = DSM2_BIND_TIMEOUT;
 #endif
 
 #if defined(DSM2) || defined(PXX)
-uint8_t moduleFlag[NUM_MODULES] = { 0 };
+uint8_t RFModule.mode[NUM_MODULES] = { 0 };
 #endif
 
 uint8_t s_current_protocol[1] = { 255 };
@@ -319,9 +319,9 @@ void setupPulsesPXX()
   putPcmHead();
   putPcmByte(g_model.header.modelId[0]);
   uint8_t flag1 = 0;
-  if (moduleFlag[0] == MODULE_BIND)
+  if (RFModule.mode[0] == BIND_MODE)
     flag1 |= (g_eeGeneral.countryCode << 1) | PXX_SEND_BIND;
-  else if (moduleFlag[0] == MODULE_RANGECHECK)
+  else if (RFModule.mode[0] == RANGE_MODE)
     flag1 |= PXX_SEND_RANGECHECK;
   putPcmByte(flag1);     // First byte of flags
   putPcmByte(0);     // Second byte of flags
@@ -393,13 +393,13 @@ FORCEINLINE void setupPulsesDSM2()
   if (dsm2BindTimer > 0) {
     dsm2BindTimer--;
     if (switchState(SW_DSM2_BIND)) {
-      moduleFlag[0] = MODULE_BIND;
+      RFModule.mode[0] = BIND_MODE;
       *ptr |= DSM2_SEND_BIND;
     }
-  } else if (moduleFlag[0] == MODULE_RANGECHECK) {
+  } else if (RFModule.mode[0] == RANGE_MODE) {
     *ptr |= DSM2_SEND_RANGECHECK;
   } else {
-    moduleFlag[0] = 0;
+    RFModule.mode[0] = 0;
   }
 
   ptr++;
@@ -510,13 +510,13 @@ void setupPulsesDSM2()
   if (dsm2BindTimer > 0) {
     dsm2BindTimer--;
     if (switchState(SW_DSM2_BIND)) {
-      moduleFlag[0] = MODULE_BIND;
+      RFModule.mode[0] = BIND_MODE;
       dsmDat[0] |= DSM2_SEND_BIND;
     }
-  } else if (moduleFlag[0] == MODULE_RANGECHECK) {
+  } else if (RFModule.mode[0] == RANGE_MODE) {
     dsmDat[0] |= DSM2_SEND_RANGECHECK;
   } else {
-    moduleFlag[0] = 0;
+    RFModule.mode[0] = 0;
   }
 
   dsmDat[1] = g_model.header.modelId[0];

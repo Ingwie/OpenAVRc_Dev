@@ -65,7 +65,7 @@ uint8_t stickMode;
   safetych_t safetyCh[NUM_CHNOUT];
 #endif
 
-struct Module SpiRFModule;
+struct Module RFModule;
 
 uint8_t * packet = pulses2MHz.pbyte; //protocol global packet
 
@@ -1123,7 +1123,7 @@ void doMixerCalculations()
 
 #if defined(DSM2)
     static uint8_t countRangecheck = 0;
-    if (moduleFlag != MODULE_NORMAL_MODE) {
+    if (RFModule.mode != NORMAL_MODE) {
       if (++countRangecheck >= 250) {
         countRangecheck = 0;
         AUDIO_PLAY(AU_FRSKY_CHEEP);

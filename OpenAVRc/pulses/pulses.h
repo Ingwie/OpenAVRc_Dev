@@ -37,14 +37,6 @@
 #define SCHEDULE_MIXER_END(delay) nextMixerEndTime = getTmr16KHz() + (delay) - 2*16 // 2ms
 
 
-enum ModuleFlag {
-  MODULE_NORMAL_MODE,
-  MODULE_RANGECHECK,
-  MODULE_BIND,
-  // MODULE_OFF, // will need an EEPROM conversion
-};
-
-
 #if defined(DSM2)
   #define DSM2_BIND_TIMEOUT      255         // 255*11ms
   extern uint8_t dsm2BindTimer;

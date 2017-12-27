@@ -272,7 +272,7 @@ void evalFunctions()
         case FUNC_BIND: {
           unsigned int moduleIndex = CFN_PARAM(cfn);
           if (moduleIndex < NUM_MODULES) {
-            moduleFlag[moduleIndex] = 1 + CFN_FUNC(cfn) - FUNC_RANGECHECK;
+            RFModule.mode[moduleIndex] = 1 + CFN_FUNC(cfn) - FUNC_RANGECHECK;
           }
           break;
         }
@@ -389,7 +389,7 @@ void evalFunctions()
           case FUNC_BIND: {
             unsigned int moduleIndex = CFN_PARAM(cfn);
             if (moduleIndex < NUM_MODULES) {
-              moduleFlag[moduleIndex] = 0;
+              RFModule.mode[moduleIndex] = 0;
             }
             break;
           }

@@ -708,13 +708,13 @@ static uint16_t FRSKYX_cb()
       CC2500_ReadData(packet, len);
       //frsky_check_telemetry(packet, len);
 
+#if defined(FRSKY)
        uint8_t good = (
         packet[0] == len - 3
         && packet[1] == g_eeGeneral.fixed_ID.ID_8[0]
         && packet[2] == g_eeGeneral.fixed_ID.ID_8[1]
        );
 
-#if defined(FRSKY)
       if (good) {
         memcpy(Usart0RxBuffer, packet, len);
         if(frskyStreaming < FRSKY_TIMEOUT10ms -5) frskyStreaming +=5;

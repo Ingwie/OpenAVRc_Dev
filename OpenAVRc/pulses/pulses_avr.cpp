@@ -36,11 +36,6 @@
 #include "../protocol/misc.c"
 #include "../spi.h"
 
-#if defined(DSM2) || defined(PXX) || defined(SPIMODULES)
-uint8_t moduleFlag = { 0 };
-#endif
-
-
 uint16_t nextMixerEndTime = 0;
 uint8_t s_current_protocol = 255;
 uint16_t dt;
