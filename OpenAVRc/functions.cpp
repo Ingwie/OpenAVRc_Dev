@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -265,19 +265,6 @@ void evalFunctions()
           }
           break;
 
-
-
-#if defined(DANGEROUS_MODULE_FUNCTIONS)
-        case FUNC_RANGECHECK:
-        case FUNC_BIND: {
-          unsigned int moduleIndex = CFN_PARAM(cfn);
-          if (moduleIndex < NUM_MODULES) {
-            RFModule.mode[moduleIndex] = 1 + CFN_FUNC(cfn) - FUNC_RANGECHECK;
-          }
-          break;
-        }
-#endif
-
 #if defined(GVARS)
         case FUNC_ADJUST_GVAR:
           if (CFN_GVAR_MODE(cfn) == FUNC_ADJUST_GVAR_CONSTANT) {
@@ -306,7 +293,7 @@ void evalFunctions()
 #endif
 
 
-#if   defined(VOICE)
+#if defined(VOICE)
         case FUNC_PLAY_SOUND:
         case FUNC_PLAY_TRACK:
         case FUNC_PLAY_BOTH:
@@ -382,20 +369,6 @@ void evalFunctions()
         newActiveSwitches |= switch_mask;
       } else {
         functionsContext.lastFunctionTime[i] = 0;
-#if defined(DANGEROUS_MODULE_FUNCTIONS)
-        if (functionsContext.activeSwitches & switch_mask) {
-          switch (CFN_FUNC(cfn)) {
-          case FUNC_RANGECHECK:
-          case FUNC_BIND: {
-            unsigned int moduleIndex = CFN_PARAM(cfn);
-            if (moduleIndex < NUM_MODULES) {
-              RFModule.mode[moduleIndex] = 0;
-            }
-            break;
-          }
-          }
-        }
-#endif
       }
     }
   }

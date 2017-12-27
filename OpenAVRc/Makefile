@@ -122,10 +122,6 @@ PPM_UNIT = PERCENT_PREC1
 # Values = YES, NO
 OVERRIDE_CHANNEL_FUNCTION = YES
 
-# Dangerous functions available in Custom Functions (range test, bind, module off)
-# Values = YES, NO
-DANGEROUS_MODULE_FUNCTIONS = NO
-
 # FrSky Hub
 # Values = YES, NO
 FRSKY_HUB = YES
@@ -783,10 +779,6 @@ endif
 
 ifeq ($(OVERRIDE_CHANNEL_FUNCTION), YES)
   CPPDEFS += -DOVERRIDE_CHANNEL_FUNCTION
-endif
-
-ifeq ($(DANGEROUS_MODULE_FUNCTIONS), YES)
-  CPPDEFS += -DDANGEROUS_MODULE_FUNCTIONS
 endif
 
 ifeq ($(PPM_UNIT), US)
