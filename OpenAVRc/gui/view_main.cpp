@@ -504,7 +504,7 @@ void menuMainView(uint8_t event)
     lcdDrawCharAtt(REBOOT_X, 0*FH, '!', INVERS);
   }
 
-#if defined(DSM2)
+#if defined(DSM2) | defined(MULTIMODULE) | defined(SPIMODULES)
   if (RFModule.mode == BIND_MODE) {
     lcdDrawTextAtt(15*FW, 0, PSTR("BIND"), 0);
   }
