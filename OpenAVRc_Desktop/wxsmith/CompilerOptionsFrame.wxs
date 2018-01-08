@@ -30,7 +30,6 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX17" variable="CheckBoxPPM_LIMITS_SYMETRICAL" member="yes">
 							<label>PPM Simm limits</label>
-							<checked>1</checked>
 							<pos>528,296</pos>
 							<tooltip>Option ajuster le gain fonction du subtrim</tooltip>
 						</object>
@@ -45,7 +44,6 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX16" variable="CheckBoxPPM_CENTER_ADJUSTABLE" member="yes">
 							<label>PPM Center adjust</label>
-							<checked>1</checked>
 							<pos>528,272</pos>
 							<tooltip>Option réglage des neutres indépendant</tooltip>
 						</object>
@@ -62,6 +60,7 @@
 						</object>
 						<object class="wxChoice" name="ID_CHOICE6" variable="ChoicePCB" member="yes">
 							<content>
+								<item>MEGAMINI</item>
 								<item>MEGA2560</item>
 								<item>EVO_V1</item>
 							</content>
@@ -97,7 +96,6 @@
 						<object class="wxChoice" name="ID_CHOICE3" variable="ChoiceVOICE" member="yes">
 							<content>
 								<item>NO</item>
-								<item>WTV20SD</item>
 								<item>JQ6500</item>
 							</content>
 							<selection>0</selection>
@@ -254,19 +252,16 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX18" variable="CheckBoxFLIGHT_MODES" member="yes">
 							<label>Flight modes</label>
-							<checked>1</checked>
 							<pos>528,200</pos>
 							<tooltip>Option phases de vol</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX19" variable="CheckBoxCURVES" member="yes">
 							<label>Curves</label>
-							<checked>1</checked>
 							<pos>528,248</pos>
 							<tooltip>Option courbes</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX20" variable="CheckBoxGVARS" member="yes">
 							<label>Global vars</label>
-							<checked>1</checked>
 							<pos>528,224</pos>
 							<tooltip>Option variables globales</tooltip>
 						</object>
@@ -335,6 +330,16 @@
 				<object class="notebookpage">
 					<object class="wxPanel" name="ID_PANEL3" variable="Panel3" member="yes">
 						<size>800,356</size>
+						<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
+							<label>Protocole</label>
+							<pos>8,16</pos>
+							<size>168,312</size>
+						</object>
+						<object class="wxStaticBox" name="ID_STATICBOX9" variable="StaticBox9" member="yes">
+							<label>Beta test</label>
+							<pos>24,152</pos>
+							<size>136,160</size>
+						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX3" variable="StaticBox3" member="yes">
 							<label>Autres paramètres</label>
 							<pos>328,16</pos>
@@ -352,39 +357,28 @@
 							<pos>184,16</pos>
 							<size>136,312</size>
 						</object>
-						<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
-							<label>Protocole</label>
-							<pos>8,16</pos>
-							<size>168,264</size>
-						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX10" variable="CheckBoxPPM" member="yes">
 							<label>PPM</label>
 							<checked>1</checked>
 							<pos>72,56</pos>
+							<enabled>0</enabled>
 							<tooltip>Protocole PPM 8 à 16 voies</tooltip>
 						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX11" variable="CheckBoxPXX" member="yes">
-							<label>PXX</label>
-							<pos>72,88</pos>
+						<object class="wxCheckBox" name="ID_CHECKBOX11" variable="CheckBoxSPIRF" member="yes">
+							<label>SPI Xmitters</label>
+							<pos>48,176</pos>
 							<enabled>0</enabled>
-							<tooltip>Protocole PXX </tooltip>
+							<tooltip>Protocole SPI RF </tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX13" variable="CheckBoxDSM2SERIAL" member="yes">
 							<label>DSM2 SERIAL</label>
-							<pos>72,120</pos>
+							<pos>72,88</pos>
 							<tooltip>Protocoles DSM ..</tooltip>
-							<handler function="OnCheckBoxDSM2SERIALClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxChoice" name="ID_CHOICE2" variable="ChoiceEXT" member="yes">
 							<content>
 								<item>STD</item>
 								<item>FRSKY</item>
-								<item>FRSKY_SPORT</item>
-								<item>JETI</item>
-								<item>NMEA</item>
-								<item>ARDUPILOT</item>
-								<item>MAVLINK</item>
-								<item>TELEMETREZ</item>
 							</content>
 							<selection>0</selection>
 							<pos>208,40</pos>
@@ -435,6 +429,7 @@
 						<object class="wxCheckBox" name="ID_CHECKBOX30" variable="CheckBoxPWM_BACKLIGHT" member="yes">
 							<label>PWM__BACKLIGHT</label>
 							<pos>456,56</pos>
+							<enabled>0</enabled>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX31" variable="CheckBoxOVERRIDE_CHANNEL_FUNCTION" member="yes">
 							<label>Override channel function</label>
@@ -460,7 +455,9 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX38" variable="CheckBoxSHUTDOWN_CONFIRMATION" member="yes">
 							<label>SHUTDOWN__CONFIRMATION</label>
+							<checked>1</checked>
 							<pos>456,248</pos>
+							<enabled>0</enabled>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX39" variable="CheckBoxACCURAT_THROTTLE_STATS" member="yes">
 							<label>ACCURAT__THROTTLE__STATS</label>
@@ -488,11 +485,10 @@
 							<pos>336,152</pos>
 							<tooltip>Raccourcis avec deux touches pour passer une valeur à min/max/0</tooltip>
 						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX28" variable="CheckBoxDSM2PPM" member="yes">
-							<label>DSM2 PPM</label>
-							<pos>72,152</pos>
-							<tooltip>Protocole DSM via la sortie ppm</tooltip>
-							<handler function="OnCheckBoxDSM2PPMClick" entry="EVT_CHECKBOX" />
+						<object class="wxCheckBox" name="ID_CHECKBOX28" variable="CheckBoxMULTI" member="yes">
+							<label>MULTI</label>
+							<pos>72,120</pos>
+							<tooltip>Protocole MULTI</tooltip>
 						</object>
 						<object class="wxButton" name="ID_BUTTON1" variable="Compilerpage2" member="yes">
 							<label>Compiler</label>
@@ -503,6 +499,26 @@
 							<label>Sauvegarder et sortir</label>
 							<pos>512,296</pos>
 							<handler function="OnButtonEXITClick" entry="EVT_BUTTON" />
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX23" variable="CheckBoxCC2500" member="yes">
+							<label>CC2500</label>
+							<pos>80,216</pos>
+							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX24" variable="CheckBoxCYRF6936" member="yes">
+							<label>CYRF6936</label>
+							<pos>80,240</pos>
+							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX25" variable="CheckBoxNRF24l01" member="yes">
+							<label>NRF24l01</label>
+							<pos>80,264</pos>
+							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX29" variable="CheckBoxA7105" member="yes">
+							<label>A7105</label>
+							<pos>80,288</pos>
+							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
 					</object>
 					<label>Options avancées</label>

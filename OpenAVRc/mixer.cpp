@@ -126,8 +126,9 @@ int16_t applyLimits(uint8_t channel, int32_t value)
   int16_t lim_p = LIMIT_MAX_RESX(lim);
   int16_t lim_n = LIMIT_MIN_RESX(lim);
 
-  if (ofs > lim_p) ofs = lim_p;
-  if (ofs < lim_n) ofs = lim_n;
+  //if (ofs > lim_p) ofs = lim_p;
+  //if (ofs < lim_n) ofs = lim_n;
+  ofs = limit(lim_n, ofs, lim_p);
 
   // because the rescaling optimization would reduce the calculation reserve we activate this for all builds
   // it increases the calculation reserve from factor 20,25x to 32x, which it slightly better as original
@@ -165,8 +166,9 @@ int16_t applyLimits(uint8_t channel, int32_t value)
     ofs += tmp;  // ofs can to added directly because already recalculated,
   }
 
-  if (ofs > lim_p) ofs = lim_p;
-  if (ofs < lim_n) ofs = lim_n;
+  //if (ofs > lim_p) ofs = lim_p;
+  //if (ofs < lim_n) ofs = lim_n;
+  ofs = limit(lim_n, ofs, lim_p);
 
   if (lim->revert) ofs = -ofs; // finally do the reverse.
 
@@ -292,8 +294,9 @@ void evalInputs(uint8_t mode)
       }
     }
 
-    if (v < -RESX) v = -RESX;
-    if (v >  RESX) v =  RESX;
+    //if (v < -RESX) v = -RESX;
+    //if (v >  RESX) v =  RESX;
+    v = limit<int16_t>(-RESX, v, RESX);
 
     if (g_model.throttleReversed && ch==THR_STICK) {
       v = -v;

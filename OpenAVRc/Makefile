@@ -202,10 +202,6 @@ OFFSET_ON_INPUT = YES
 # Values = YES, NO
 EEPROM_PROGRESS_BAR = NO
 
-# Shutdown confirmation (for boards which have soft power)
-# Values = NO, YES
-SHUTDOWN_CONFIRMATION = NO
-
 # Activates the DEBUG Mode (all boards)
 # Values = YES, NO
 DEBUG = NO
@@ -263,6 +259,30 @@ WATCHDOG_TEST = NO
 # Treat compiler warnings as errors
 # Values = NO, YES
 WARNINGS_AS_ERRORS = NO
+
+# Enable MULTI protocol
+# Values = NO, YES
+MULTIMODULE = NO
+
+# Enable SPIMODULES protocols
+# Values = NO, YES
+SPIMODULES = NO
+
+# Enable CC2500 SPI protocols
+# Values = NO, YES
+CC2500 = NO
+
+# Enable CYRF6936 SPI protocols
+# Values = NO, YES
+CYRF6936 = NO
+
+# Enable NRF24l01 SPI protocols
+# Values = NO, YES
+NRF24l01 = NO
+
+# Enable A7105 SPI protocols
+# Values = NO, YES
+A7105 = NO
 
 
 #------- END BUILD OPTIONS ---------------------------
@@ -373,6 +393,30 @@ ifeq ($(PCB), MEGAMINI)
   # Enable extra rotary encoders
   ROTARY_ENCODERS = 2
   CPPDEFS += -DROTARY_ENCODERS=${ROTARY_ENCODERS}
+
+  ifeq ($(MULTIMODULE), YES)
+   CPPDEFS += -DMULTIMODULE
+  endif
+
+  ifeq ($(SPIMODULES), YES)
+   CPPDEFS += -DSPIMODULES
+     ifeq ($(CC2500), YES)
+ 	  	CPPDEFS += -DPROTO_HAS_CC2500
+		endif
+
+		ifeq ($(CYRF6936), YES)
+   		CPPDEFS += -DPROTO_HAS_CYRF6936
+  	endif
+
+  	ifeq ($(NRF24l01), YES)
+   		CPPDEFS += -DPROTO_HAS_NRF24l01
+  	endif
+
+  	ifeq ($(A7105), YES)
+   		CPPDEFS += -DPROTO_HAS_A7105
+  	endif
+  endif
+
 endif
 
 
@@ -765,11 +809,6 @@ ifeq ($(EEPROM_PROGRESS_BAR), YES)
   CPPDEFS += -DEEPROM_PROGRESS_BAR
 endif
 
-ifeq ($(SHUTDOWN_CONFIRMATION), YES)
-  CPPDEFS += -DSHUTDOWN_CONFIRMATION
-endif
-
-RUN_FROM_FLASH = 1
 
 ### Global Build-Option Directives ###
 

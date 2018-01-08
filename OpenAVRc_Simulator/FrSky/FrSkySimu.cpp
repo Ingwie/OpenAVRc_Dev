@@ -35,7 +35,7 @@
 FrSkySportSensorAss ass;                               // Create ASS sensor with default ID
 FrSkySportSensorFcs fcs;                               // Create FCS-40A sensor with default ID (use ID8 for FCS-150A)
 FrSkySportSensorFlvss flvss1;                          // Create FLVSS sensor with default ID
-FrSkySportSensorFlvss flvss2(FrSkySportSensor::ID15);  // Create FLVSS sensor with given ID
+//FrSkySportSensorFlvss flvss2(FrSkySportSensor::ID15);  // Create FLVSS sensor with given ID
 FrSkySportSensorGps gps;                               // Create GPS sensor with default ID
 FrSkySportSensorRpm rpm;                               // Create RPM sensor with default ID
 FrSkySportSensorSp2uart sp2uart;                       // Create SP2UART Type B sensor with default ID
@@ -48,7 +48,7 @@ FrSkySportTelemetry telemetry(true);                 // Create telemetry object 
 void frskySimuSetup()
 {
   // Configure the telemetry serial port and sensors (remember to use & to specify a pointer to sensor)
-  telemetry.begin( &ass, &fcs, &flvss1, &flvss2, &gps, &rpm, &sp2uart, &vario);
+  telemetry.begin( &ass, &fcs, &flvss1, /*&flvss2,*/ &gps, &rpm, &sp2uart, &vario);
 }
 
 void frskySimuloop()
@@ -66,8 +66,8 @@ void frskySimuloop()
 
   // Set LiPo voltage sensor (FLVSS) data (we use two sensors to simulate 8S battery
   // (set Voltage source to Cells in menu to use this data for battery voltage)
-  flvss1.setData(4.07, 4.08, 4.09, 4.10, 4.11, 4.12);  // Cell voltages in volts (cells 1-6)
-  flvss2.setData(4.13, 4.14);                          // Cell voltages in volts (cells 7-8)
+  flvss1.setData(4.06, 4.08, 4.04, 4.10, 4.02, 4.12);  // Cell voltages in volts (cells 1-6)
+  //flvss2.setData(4.13, 4.14);                          // Cell voltages in volts (cells 7-8)
 
   // Set GPS data
   gps.setData(48.858289, 2.294502,   // Latitude and longitude in degrees decimal (positive for N/E, negative for S/W)

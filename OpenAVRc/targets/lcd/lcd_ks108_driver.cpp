@@ -37,14 +37,14 @@
 #define DISPLAY_SET_PAGE         0xB8
 #define DISPLAY_SET_START        0XC0
 #define DISPLAY_ON_CMD           0x3F //or 3E
-#define CS1_on                   PORTC_LCD_CTRL |=  (1<<OUT_C_LCD_CS1)
-#define CS1_off                  PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_CS1)
-#define CS2_on                   PORTC_LCD_CTRL |=  (1<<OUT_C_LCD_CS2)
-#define CS2_off                  PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_CS2)
-#define A0_on                    PORTC_LCD_CTRL |=  (1<<OUT_C_LCD_A0)
-#define A0_off                   PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_A0)
-#define E_on                     PORTC_LCD_CTRL |=  (1<<OUT_C_LCD_E)
-#define E_off                    PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_E)
+#define CS1_on                   PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_CS1)
+#define CS1_off                  PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_CS1)
+#define CS2_on                   PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_CS2)
+#define CS2_off                  PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_CS2)
+#define A0_on                    PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_A0)
+#define A0_off                   PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_A0)
+#define E_on                     PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_E)
+#define E_off                    PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_E)
 
 void lcdPulseEnable()
 {
@@ -70,9 +70,9 @@ static void LcdInitCommand()
 
 void lcdInit()
 {
-  PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_RES);  //LCD reset
+  PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_RES);  //LCD reset
   _delay_us(20);
-  PORTC_LCD_CTRL |= (1<<OUT_C_LCD_RES);  //LCD normal operation
+  PORTC_LCD_CTRL |= _BV(OUT_C_LCD_RES);  //LCD normal operation
   CS1_on;                                //Init KS108 who need hight level on CS pin
   CS2_on;
   LcdInitCommand();                      //Init the two KS in one time

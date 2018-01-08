@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxFrame" name="OpenAVRc_SimulatorFrame">
-		<title>Simulateur</title>
+		<title>Simulateur V3</title>
 		<centered>1</centered>
 		<pos>25,25</pos>
 		<size>787,415</size>
