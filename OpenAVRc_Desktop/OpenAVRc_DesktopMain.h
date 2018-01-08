@@ -47,14 +47,14 @@
 
 
 //(*Headers(OpenAVRc_DesktopFrame)
-#include <wx/stattext.h>
-#include <wx/menu.h>
-#include <wx/listbox.h>
-#include <wx/statbox.h>
-#include <wx/panel.h>
-#include <wx/choice.h>
 #include <wx/button.h>
+#include <wx/choice.h>
 #include <wx/frame.h>
+#include <wx/listbox.h>
+#include <wx/menu.h>
+#include <wx/panel.h>
+#include <wx/statbox.h>
+#include <wx/stattext.h>
 #include <wx/statusbr.h>
 //*)
 
@@ -143,43 +143,43 @@ private:
     //*)
 
     //(*Declarations(OpenAVRc_DesktopFrame)
-    wxButton* ButtonSimuFram;
-    wxButton* ButtonPerso;
-    wxButton* ButtonSimuSTD;
-    wxMenuItem* MenuItem7;
-    wxMenuItem* MenuDeleteActiveConfig;
-    wxPanel* PanelSplash;
-    wxMenuItem* MenuItem5;
-    wxButton* ButtonSplashDefault;
-    wxMenu* MenuHtmlDoc;
-    wxMenu* Menu3;
-    wxButton* ButtonEditeur;
-    wxMenuItem* MenuItem4;
-    wxChoice* ChoiceLangue;
-    wxMenuItem* MenuItem11;
-    wxMenuItem* MenuItem15;
-    wxStaticBox* StaticBoxSplash;
-    wxPanel* Panel1;
-    wxStaticText* StaticText1;
-    wxMenuItem* MenuItem13;
-    wxStaticBox* StaticBox1;
-    wxMenu* MenuItem8;
-    wxMenuItem* MenuItem10;
     wxButton* ButtonCarteSD;
-    wxMenuItem* MenuItem12;
-    wxMenuBar* MenuBar_main;
-    wxMenuItem* MenuItem3;
-    wxMenu* Menu7;
+    wxButton* ButtonEditeur;
+    wxButton* ButtonPerso;
+    wxButton* ButtonSimuFram;
+    wxButton* ButtonSimuSTD;
+    wxButton* ButtonSplashDefault;
+    wxChoice* ChoiceLangue;
     wxListBox* ListBoxConfig;
-    wxMenuItem* Menu5;
-    wxStatusBar* StatusBar_main;
-    wxStaticBox* StaticBoxConfig;
+    wxMenu* Menu3;
+    wxMenu* Menu4;
+    wxMenu* Menu7;
+    wxMenu* MenuHtmlDoc;
+    wxMenu* MenuItem8;
+    wxMenuBar* MenuBar_main;
     wxMenuItem* ATMEGA2560Compiler;
-    wxMenuItem* MenuItem6;
+    wxMenuItem* Menu5;
     wxMenuItem* MenuChoiceVoice;
+    wxMenuItem* MenuDeleteActiveConfig;
+    wxMenuItem* MenuItem10;
+    wxMenuItem* MenuItem11;
+    wxMenuItem* MenuItem12;
+    wxMenuItem* MenuItem13;
+    wxMenuItem* MenuItem15;
+    wxMenuItem* MenuItem3;
+    wxMenuItem* MenuItem4;
+    wxMenuItem* MenuItem5;
+    wxMenuItem* MenuItem6;
+    wxMenuItem* MenuItem7;
     wxMenuItem* MenuItem9;
     wxMenuItem* MenuNewconfig;
-    wxMenu* Menu4;
+    wxPanel* Panel1;
+    wxPanel* PanelSplash;
+    wxStaticBox* StaticBox1;
+    wxStaticBox* StaticBoxConfig;
+    wxStaticBox* StaticBoxSplash;
+    wxStaticText* StaticText1;
+    wxStatusBar* StatusBar_main;
     //*)
 
     wxFileConfig* configFile;

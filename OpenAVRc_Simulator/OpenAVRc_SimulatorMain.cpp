@@ -57,8 +57,8 @@
 //(*InternalHeaders(OpenAVRc_SimulatorFrame)
 #include <wx/artprov.h>
 #include <wx/bitmap.h>
-#include <wx/intl.h>
 #include <wx/image.h>
+#include <wx/intl.h>
 #include <wx/string.h>
 //*)
 
@@ -190,11 +190,11 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
 {
   //(*Initialize(OpenAVRc_SimulatorFrame)
   wxMenu* MenuHelp;
+  wxMenuBar* MenuBar1;
   wxMenuItem* MenuAbout;
   wxMenuItem* MenuItem1;
-  wxMenuBar* MenuBar1;
 
-  Create(parent, wxID_ANY, _("Simulateur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER, _T("wxID_ANY"));
+  Create(parent, wxID_ANY, _("Simulateur V3"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER, _T("wxID_ANY"));
   SetClientSize(wxSize(787,415));
   Move(wxPoint(25,25));
   SetMaxSize(wxSize(-1,-1));
@@ -432,7 +432,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   wxFileName appPathWithExeName = wxStandardPaths::Get().GetExecutablePath();
   AppPath = (appPathWithExeName.GetPath());
   //Ini File
-  Ini_Filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "OpenAVRcSimulator.ini";
+  Ini_Filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "OpenAVRcSimulatorV3.ini";
   configFile = new wxFileConfig( "", "", Ini_Filename);
   Col_Lcd_Back = *wxGREEN;
   Col_Lcd_Front = *wxBLACK;
@@ -579,7 +579,8 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
     return;
   }
 
-  frskySimuloop();
+  if (frskyStreaming % 10) frskySimuloop();
+  if(frskyStreaming < FRSKY_TIMEOUT10ms) ++frskyStreaming;
 
 }
 
@@ -648,11 +649,20 @@ void OpenAVRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
   event.Skip();
   wxAboutDialogInfo Aboutbox;
   Aboutbox.SetName(_("OpenAVRc Simulateur"));
-  Aboutbox.SetVersion(_("V 3.0"));
+  Aboutbox.SetVersion(_("V 3.0 Beta"));
   Aboutbox.SetLicence(_(" GPLv2 . Firmware basé sur NextStepRc 2.18 "));
   Aboutbox.SetDescription(_("Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "));
-  Aboutbox.SetCopyright(wxT("(C) 2016-2017 OpenAVRc Team"));
+  Aboutbox.SetCopyright(wxT("(C) 2016-2018 OpenAVRc Team"));
   Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
+  Aboutbox.AddDeveloper(wxT("OpenAVRc Team :\n\n"));
+  Aboutbox.AddDeveloper(wxT("Firmware : Bracame, Sloped Soarer, Supiiik. \n"));
+  Aboutbox.AddDeveloper(wxT("Applications : Bracame, Mentero. \n"));
+  Aboutbox.AddDeveloper(wxT("PCB Shield : Anthobreizh, Pierrotm777 , Pyrall. \n"));
+  Aboutbox.AddDeveloper(wxT("Documentation : JPZ(Testeur68), Pierrotm777 , Pyrall. \n"));
+  Aboutbox.AddDeveloper(wxT("Translations : Mentero. \n"));
+  Aboutbox.AddDeveloper(wxT("Beta tests : JPZ(Testeur68), Pyrall. \n\n"));
+  Aboutbox.AddDeveloper(wxT("Forum contributors :\n\n"));
+  Aboutbox.AddDeveloper(wxT("ElectoPete (English Voice file), Ievgen (Ukrainian translation). \n"));
 
   wxAboutBox(Aboutbox);
 }

@@ -38,15 +38,15 @@
 
 
 //(*Headers(CompilerOptionsFrame)
-#include <wx/notebook.h>
-#include <wx/stattext.h>
-#include <wx/checkbox.h>
-#include <wx/statbox.h>
-#include <wx/panel.h>
-#include <wx/choice.h>
 #include <wx/button.h>
-#include <wx/frame.h>
+#include <wx/checkbox.h>
+#include <wx/choice.h>
 #include <wx/combobox.h>
+#include <wx/frame.h>
+#include <wx/notebook.h>
+#include <wx/panel.h>
+#include <wx/statbox.h>
+#include <wx/stattext.h>
 //*)
 
 //SPLASH
@@ -74,9 +74,14 @@ extern bool VARIO;//defaults to NO
 extern bool RTCLOCK;//defaults to NO
 extern bool SPORT_FILE_LOG;//defaults to NO
 extern bool PPM;//defaults to YES
-extern bool PXX;//defaults to NO
+extern bool MULTI;//defaults to NO
 extern bool DSM2SERIAL;//defaults to NO
-extern bool DSM2PPM;//defaults to NO
+extern bool SPIRF;//defaults to NO
+extern bool CC2500;//defaults to NO
+extern bool CYRF6936;//defaults to NO
+extern bool NRF24l01;//defaults to NO
+extern bool A7105;//defaults to NO
+
 extern bool SD_CARD;//defaults to NO
 extern bool FAS_OFFSET;//defaults to NO
 extern bool TEMPLATES;//defaults to NO
@@ -132,112 +137,117 @@ public:
     //wxFileConfig* configFile;
 
     //(*Declarations(CompilerOptionsFrame)
-    wxStaticText* StaticText10;
-    wxStaticText* StaticText22;
-    wxStaticText* StaticText9;
-    wxCheckBox* CheckBoxBATTGRAPH;
-    wxComboBox* ComboBoxID1;
-    wxStaticText* StaticText20;
-    wxCheckBox* CheckBoxSHUTDOWN_CONFIRMATION;
-    wxCheckBox* CheckBoxSD_CARD;
-    wxCheckBox* CheckBoxNOANDSECONDE;
-    wxCheckBox* CheckBoxTEMPLATES;
-    wxStaticBox* StaticBox8;
-    wxComboBox* ComboBoxswitch1;
+    wxButton* ButtonCOMPILE;
     wxButton* ButtonDefaut;
-    wxStaticBox* StaticBox5;
-    wxCheckBox* CheckBoxPXX;
-    wxCheckBox* CheckBoxPPM;
-    wxChoice* ChoiceUNITS;
-    wxNotebook* Notebook1;
+    wxButton* ButtonEXIT;
+    wxButton* Compilerpage2;
+    wxButton* Compilerpage3;
+    wxButton* Sortirpage2;
+    wxButton* Sortirpage3;
+    wxCheckBox* CheckBoxA7105;
+    wxCheckBox* CheckBoxACCURAT_THROTTLE_STATS;
+    wxCheckBox* CheckBoxARITHMETIC_OVERFLOW_CHECK;
+    wxCheckBox* CheckBoxAUDIO;
+    wxCheckBox* CheckBoxAUTOSOURCE;
+    wxCheckBox* CheckBoxAUTOSWITCH;
+    wxCheckBox* CheckBoxBATTGRAPH;
+    wxCheckBox* CheckBoxBOLD;
+    wxCheckBox* CheckBoxCC2500;
+    wxCheckBox* CheckBoxCORRECT_NEGATIVE_VALUES;
+    wxCheckBox* CheckBoxCURVES;
+    wxCheckBox* CheckBoxCYRF6936;
+    wxCheckBox* CheckBoxDBLKEYS;
     wxCheckBox* CheckBoxDSM2SERIAL;
-    wxStaticBox* StaticBox7;
-    wxStaticText* StaticText13;
-    wxStaticText* StaticText2;
-    wxPanel* Panel4;
-    wxChoice* ChoiceTRANSLATIONS;
-    wxStaticText* StaticText14;
-    wxChoice* ChoiceFAI;
+    wxCheckBox* CheckBoxEEPROM_PROGRESS_BAR;
+    wxCheckBox* CheckBoxFAS_OFFSET;
+    wxCheckBox* CheckBoxFLIGHT_MODES;
+    wxCheckBox* CheckBoxFRAM;
     wxCheckBox* CheckBoxFRSKY_HUB;
     wxCheckBox* CheckBoxGAUGES;
-    wxStaticText* StaticText6;
-    wxCheckBox* CheckBoxDBLKEYS;
-    wxCheckBox* CheckBoxOVERRIDE_CHANNEL_FUNCTION;
-    wxCheckBox* CheckBoxCURVES;
-    wxCheckBox* CheckBoxFAS_OFFSET;
-    wxStaticText* StaticText19;
-    wxStaticText* StaticText8;
-    wxStaticText* StaticText11;
-    wxStaticText* StaticText18;
-    wxCheckBox* CheckBoxWS_HOW_HIGH;
-    wxCheckBox* CheckBoxTOGGLETRIM;
-    wxPanel* Panel1;
-    wxCheckBox* CheckBoxPPM_CENTER_ADJUSTABLE;
-    wxCheckBox* CheckBoxAUDIO;
-    wxStaticText* StaticText1;
-    wxCheckBox* CheckBoxPPM_LIMITS_SYMETRICAL;
-    wxStaticBox* StaticBox6;
-    wxStaticText* StaticText3;
-    wxStaticBox* StaticBox1;
-    wxButton* Sortirpage2;
-    wxChoice* ChoiceTHREE_POS;
-    wxChoice* ChoiceNAVIGATION;
-    wxButton* ButtonEXIT;
-    wxStaticText* StaticText21;
-    wxPanel* Panel3;
-    wxComboBox* ComboBoxID0;
-    wxStaticBox* StaticBox2;
-    wxStaticText* StaticText23;
     wxCheckBox* CheckBoxGPS;
-    wxCheckBox* CheckBoxFRAM;
-    wxButton* ButtonCOMPILE;
-    wxChoice* ChoiceTTS;
-    wxCheckBox* CheckBoxVARIO;
-    wxChoice* ChoicePPM_UNIT ;
-    wxStaticText* StaticText5;
-    wxStaticText* StaticText7;
-    wxChoice* ChoiceEXT;
-    wxComboBox* ComboBoxEncodeurB;
-    wxComboBox* ComboBoxswitch5;
-    wxCheckBox* CheckBoxSPLASH;
-    wxStaticBox* StaticBox3;
-    wxCheckBox* CheckBoxPERSONAMES;
-    wxComboBox* ComboBoxswitch4;
-    wxCheckBox* CheckBoxARITHMETIC_OVERFLOW_CHECK;
-    wxChoice* ChoiceFONT;
-    wxComboBox* ComboBoxswitch6;
-    wxStaticText* StaticText15;
-    wxCheckBox* CheckBoxSPORT_FILE_LOG;
-    wxCheckBox* CheckBoxHELI;
-    wxStaticText* StaticText12;
-    wxCheckBox* CheckBoxFLIGHT_MODES;
-    wxComboBox* ComboBoxswitch2;
-    wxCheckBox* CheckBoxACCURAT_THROTTLE_STATS;
-    wxCheckBox* CheckBoxPWM_BACKLIGHT;
-    wxPanel* Panel2;
-    wxChoice* ChoiceLCD;
-    wxChoice* ChoiceVOICE;
-    wxStaticText* StaticText17;
-    wxStaticText* StaticText4;
-    wxCheckBox* CheckBoxAUTOSWITCH;
-    wxCheckBox* CheckBoxCORRECT_NEGATIVE_VALUES;
-    wxButton* Sortirpage3;
-    wxCheckBox* CheckBoxDSM2PPM;
-    wxCheckBox* CheckBoxBOLD;
-    wxComboBox* ComboBoxEncodeurA;
-    wxButton* Compilerpage2;
-    wxCheckBox* CheckBoxRTCLOCK;
-    wxChoice* ChoicePCB;
-    wxCheckBox* CheckBoxHAPTIC;
-    wxStaticText* StaticText16;
-    wxButton* Compilerpage3;
     wxCheckBox* CheckBoxGVARS;
-    wxComboBox* ComboBoxID2;
+    wxCheckBox* CheckBoxHAPTIC;
+    wxCheckBox* CheckBoxHELI;
+    wxCheckBox* CheckBoxMULTI;
+    wxCheckBox* CheckBoxNOANDSECONDE;
+    wxCheckBox* CheckBoxNRF24l01;
+    wxCheckBox* CheckBoxOVERRIDE_CHANNEL_FUNCTION;
+    wxCheckBox* CheckBoxPERSONAMES;
+    wxCheckBox* CheckBoxPPM;
+    wxCheckBox* CheckBoxPPM_CENTER_ADJUSTABLE;
+    wxCheckBox* CheckBoxPPM_LIMITS_SYMETRICAL;
+    wxCheckBox* CheckBoxPWM_BACKLIGHT;
+    wxCheckBox* CheckBoxRTCLOCK;
+    wxCheckBox* CheckBoxSD_CARD;
+    wxCheckBox* CheckBoxSHUTDOWN_CONFIRMATION;
+    wxCheckBox* CheckBoxSPIRF;
+    wxCheckBox* CheckBoxSPLASH;
+    wxCheckBox* CheckBoxSPORT_FILE_LOG;
+    wxCheckBox* CheckBoxTEMPLATES;
+    wxCheckBox* CheckBoxTOGGLETRIM;
+    wxCheckBox* CheckBoxVARIO;
+    wxCheckBox* CheckBoxWS_HOW_HIGH;
     wxChoice* ChoiceDEFAULT_MODE;
-    wxCheckBox* CheckBoxAUTOSOURCE;
-    wxStaticBox* StaticBox4;
+    wxChoice* ChoiceEXT;
+    wxChoice* ChoiceFAI;
+    wxChoice* ChoiceFONT;
+    wxChoice* ChoiceLCD;
+    wxChoice* ChoiceNAVIGATION;
+    wxChoice* ChoicePCB;
+    wxChoice* ChoicePPM_UNIT ;
+    wxChoice* ChoiceTHREE_POS;
+    wxChoice* ChoiceTRANSLATIONS;
+    wxChoice* ChoiceTTS;
+    wxChoice* ChoiceUNITS;
+    wxChoice* ChoiceVOICE;
+    wxComboBox* ComboBoxEncodeurA;
+    wxComboBox* ComboBoxEncodeurB;
+    wxComboBox* ComboBoxID0;
+    wxComboBox* ComboBoxID1;
+    wxComboBox* ComboBoxID2;
+    wxComboBox* ComboBoxswitch1;
+    wxComboBox* ComboBoxswitch2;
     wxComboBox* ComboBoxswitch3;
-    wxCheckBox* CheckBoxEEPROM_PROGRESS_BAR;
+    wxComboBox* ComboBoxswitch4;
+    wxComboBox* ComboBoxswitch5;
+    wxComboBox* ComboBoxswitch6;
+    wxNotebook* Notebook1;
+    wxPanel* Panel1;
+    wxPanel* Panel2;
+    wxPanel* Panel3;
+    wxPanel* Panel4;
+    wxStaticBox* StaticBox1;
+    wxStaticBox* StaticBox2;
+    wxStaticBox* StaticBox3;
+    wxStaticBox* StaticBox4;
+    wxStaticBox* StaticBox5;
+    wxStaticBox* StaticBox6;
+    wxStaticBox* StaticBox7;
+    wxStaticBox* StaticBox8;
+    wxStaticBox* StaticBox9;
+    wxStaticText* StaticText10;
+    wxStaticText* StaticText11;
+    wxStaticText* StaticText12;
+    wxStaticText* StaticText13;
+    wxStaticText* StaticText14;
+    wxStaticText* StaticText15;
+    wxStaticText* StaticText16;
+    wxStaticText* StaticText17;
+    wxStaticText* StaticText18;
+    wxStaticText* StaticText19;
+    wxStaticText* StaticText1;
+    wxStaticText* StaticText20;
+    wxStaticText* StaticText21;
+    wxStaticText* StaticText22;
+    wxStaticText* StaticText23;
+    wxStaticText* StaticText2;
+    wxStaticText* StaticText3;
+    wxStaticText* StaticText4;
+    wxStaticText* StaticText5;
+    wxStaticText* StaticText6;
+    wxStaticText* StaticText7;
+    wxStaticText* StaticText8;
+    wxStaticText* StaticText9;
     //*)
 
 protected:
@@ -287,10 +297,11 @@ protected:
     static const long ID_CHOICE12;
     static const long ID_STATICTEXT11;
     static const long ID_PANEL2;
+    static const long ID_STATICBOX1;
+    static const long ID_STATICBOX9;
     static const long ID_STATICBOX3;
     static const long ID_CHECKBOXNOANDSECONDE;
     static const long ID_STATICBOX2;
-    static const long ID_STATICBOX1;
     static const long ID_CHECKBOX10;
     static const long ID_CHECKBOX11;
     static const long ID_CHECKBOX13;
@@ -317,6 +328,10 @@ protected:
     static const long ID_CHECKBOX28;
     static const long ID_BUTTON1;
     static const long ID_BUTTON4;
+    static const long ID_CHECKBOX23;
+    static const long ID_CHECKBOX24;
+    static const long ID_CHECKBOX25;
+    static const long ID_CHECKBOX29;
     static const long ID_PANEL3;
     static const long ID_STATICBOX8;
     static const long ID_STATICBOX7;
@@ -444,14 +459,12 @@ private:
     void OnChoiceLCDSelect(wxCommandEvent& event);
     void OnCheckBoxPPM_CENTER_ADJUSTABLEClick1(wxCommandEvent& event);
     void OnCheckBoxDSM2Click1(wxCommandEvent& event);
-    void OnCheckBoxDSM2PPMClick(wxCommandEvent& event);
     void OnCheckBoxAUTOSWITCHClick(wxCommandEvent& event);
     void OnCheckBoxSPLASHClick1(wxCommandEvent& event);
     void OnChoiceFAISelect(wxCommandEvent& event);
     void OnCheckBoxOVERRIDE_CHANNEL_FUNCTIONClick(wxCommandEvent& event);
     void OnCheckBoxAUTOSOURCEClick1(wxCommandEvent& event);
     void OnChoiceNAVIGATIONSelect(wxCommandEvent& event);
-    void OnCheckBoxDSM2SERIALClick(wxCommandEvent& event);
     void OnChoiceVOICESelect(wxCommandEvent& event);
     void OnCheckBoxNOANDSECONDEClick1(wxCommandEvent& event);
     void OnChoiceEXTSelect2(wxCommandEvent& event);

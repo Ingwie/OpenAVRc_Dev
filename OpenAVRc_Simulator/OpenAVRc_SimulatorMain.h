@@ -35,16 +35,16 @@
 #define OpenAVRc_SIMULATORMAIN_H
 
 //(*Headers(OpenAVRc_SimulatorFrame)
-#include <wx/menu.h>
-#include <wx/textctrl.h>
-#include <wx/tglbtn.h>
-#include <wx/slider.h>
-#include <wx/panel.h>
 #include <wx/button.h>
 #include <wx/frame.h>
-#include <wx/timer.h>
+#include <wx/menu.h>
+#include <wx/panel.h>
+#include <wx/slider.h>
 #include <wx/spinbutt.h>
 #include <wx/statusbr.h>
+#include <wx/textctrl.h>
+#include <wx/tglbtn.h>
+#include <wx/timer.h>
 //*)
 
 #include <wx/stdpaths.h>
@@ -295,66 +295,66 @@ private:
 
 
   //(*Declarations(OpenAVRc_SimulatorFrame)
-  wxPanel* BpId2;
-  wxPanel* BPg;
-  wxTimer Timer10ms;
-  wxMenuItem* MenuStickBack;
-  wxMenuItem* OutputBars;
-  wxMenuItem* MenuExportEeprom;
-  wxPanel* RrTrim;
-  wxPanel* LdTrim;
-  wxSpinButton* SpinRea;
-  wxPanel* RdTrim;
-  wxMenu* MenuOption;
-  wxMenuItem* MenuLoadee;
-  wxMenuItem* RadioData;
-  wxPanel* Lstick;
-  wxPanel* BpGea;
-  wxPanel* BpRud;
-  wxPanel* BPexit;
-  wxPanel* BpEle;
-  wxSlider* Pot1;
-  wxPanel* PanelH;
-  wxMenuItem* MenuLcdPixel;
-  wxMenuItem* OutputGvars;
-  wxPanel* BPd;
-  wxPanel* BPmenu;
-  wxPanel* LlTrim;
-  wxPanel* LrTrim;
-  wxPanel* PanelL;
-  wxPanel* Simulcd;
-  wxPanel* BPh;
-  wxMenuItem* MenuStickStick;
-  wxPanel* BpAil;
-  wxMenuItem* MenuLcdBack;
-  wxSlider* Pot3;
-  wxPanel* BpReb;
-  wxPanel* BpRea;
-  wxPanel* BPb;
-  wxPanel* RuTrim;
-  wxPanel* BpTrn;
   wxButton* ButtonStartDesktop;
-  wxPanel* PanelMain;
+  wxMenu* MenuColours;
   wxMenu* MenuFile;
   wxMenu* MenuFrame;
-  wxToggleButton* OnTglButton;
-  wxTimer TimerMain;
-  wxTextCtrl* TextCtrlgetkbinput;
-  wxPanel* Rstick;
-  wxPanel* RlTrim;
-  wxMenuItem* MenuButOn;
-  wxMenu* MenuColours;
+  wxMenu* MenuOption;
   wxMenuItem* MenuButOff;
-  wxMenuItem* MenuSaveee;
-  wxMenuItem* OutputMixeur;
+  wxMenuItem* MenuButOn;
+  wxMenuItem* MenuExportEeprom;
   wxMenuItem* MenuImportEeprom;
-  wxSpinButton* SpinReb;
-  wxPanel* LuTrim;
+  wxMenuItem* MenuLcdBack;
+  wxMenuItem* MenuLcdPixel;
+  wxMenuItem* MenuLoadee;
+  wxMenuItem* MenuSaveee;
+  wxMenuItem* MenuStickBack;
+  wxMenuItem* MenuStickStick;
+  wxMenuItem* OutputBars;
+  wxMenuItem* OutputGvars;
+  wxMenuItem* OutputMixeur;
+  wxMenuItem* RadioData;
+  wxPanel* BPb;
+  wxPanel* BPd;
+  wxPanel* BPexit;
+  wxPanel* BPg;
+  wxPanel* BPh;
+  wxPanel* BPmenu;
+  wxPanel* BpAil;
+  wxPanel* BpEle;
+  wxPanel* BpGea;
   wxPanel* BpId1;
-  wxStatusBar* StatusBar;
-  wxPanel* PanelPrincipal;
+  wxPanel* BpId2;
+  wxPanel* BpRea;
+  wxPanel* BpReb;
+  wxPanel* BpRud;
   wxPanel* BpThr;
+  wxPanel* BpTrn;
+  wxPanel* LdTrim;
+  wxPanel* LlTrim;
+  wxPanel* LrTrim;
+  wxPanel* Lstick;
+  wxPanel* LuTrim;
+  wxPanel* PanelH;
+  wxPanel* PanelL;
+  wxPanel* PanelMain;
+  wxPanel* PanelPrincipal;
+  wxPanel* RdTrim;
+  wxPanel* RlTrim;
+  wxPanel* RrTrim;
+  wxPanel* Rstick;
+  wxPanel* RuTrim;
+  wxPanel* Simulcd;
+  wxSlider* Pot1;
   wxSlider* Pot2;
+  wxSlider* Pot3;
+  wxSpinButton* SpinRea;
+  wxSpinButton* SpinReb;
+  wxStatusBar* StatusBar;
+  wxTextCtrl* TextCtrlgetkbinput;
+  wxTimer Timer10ms;
+  wxTimer TimerMain;
+  wxToggleButton* OnTglButton;
   //*)
 
 

@@ -68,9 +68,6 @@
 #define CT_SDC		(CT_SD1|CT_SD2)	/* SD */
 #define CT_BLOCK	0x08		/* Block addressing */
 
-//#define	FCLK_SLOW()	SPCR = 0x52		/* Set slow clock (100k-400k) */
-//#define	FCLK_FAST()	SPCR = 0x50		/* Set fast clock (depends on the CSD) */
-
 
 /*--------------------------------------------------------------------------
 
@@ -631,7 +628,7 @@ bool sdMounted()
 
 void sdMountPoll()
 {
-  uint8_t mountTimer = 5;
+  uint8_t mountTimer = 40;
   do {
     if (!sdMounted()) {
       f_mount(&g_FATFS_Obj, "", 1);

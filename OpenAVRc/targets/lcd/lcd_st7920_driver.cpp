@@ -35,14 +35,14 @@
 
 void lcdSendCtl(uint8_t val)
 {
-  PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_CS1);
-  PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_A0);
-  PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_RnW);
+  PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_CS1);
+  PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_A0);
+  PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_RnW);
   PORTA_LCD_DAT = val;
-  PORTC_LCD_CTRL |=  (1<<OUT_C_LCD_E);
-  PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_E);
-  PORTC_LCD_CTRL |=  (1<<OUT_C_LCD_A0);
-  PORTC_LCD_CTRL |=  (1<<OUT_C_LCD_CS1);
+  PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_E);
+  PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_E);
+  PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_A0);
+  PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_CS1);
 }
 
 const static pm_uchar lcdInitSequence[] PROGMEM = {
@@ -55,9 +55,9 @@ const static pm_uchar lcdInitSequence[] PROGMEM = {
 
 void lcdInit()
 {
-  PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_RES); //LCD reset
+  PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_RES); //LCD reset
   _delay_us(2);
-  PORTC_LCD_CTRL |= (1<<OUT_C_LCD_RES);  //LCD normal operation
+  PORTC_LCD_CTRL |= _BV(OUT_C_LCD_RES);  //LCD normal operation
   _delay_ms(40);
   for (uint8_t i=0; i<DIM(lcdInitSequence); i++) {
     lcdSendCtl(pgm_read_byte_near(&lcdInitSequence[i])) ;
@@ -108,8 +108,8 @@ SHOWDURATIONLCD1
     _delay_us(49);
     lcdSendCtl( 0x80 | x_addr );  //Set Horizontal Address
     _delay_us(49);
-    PORTC_LCD_CTRL |= (1<<OUT_C_LCD_A0);    //HIGH RS and LOW RW will put the LCD to
-    PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_RnW);  //Write data register mode
+    PORTC_LCD_CTRL |= _BV(OUT_C_LCD_A0);    //HIGH RS and LOW RW will put the LCD to
+    PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_RnW);  //Write data register mode
     uint8_t bit_count = y & 0x07; //Count from 0 bis 7 -> 0=0, 1=1..7=7, 8=0, 9=1...
     col_offset = 1 << bit_count; //Build a value for a AND operation with the vorrect bitposition
     uint16_t line_offset = ( y / 8 ) * 128; //On the ST7920 there are 8 lines with each 128 bytes width
@@ -126,10 +126,10 @@ SHOWDURATIONLCD1
       result |= ((*p++  & col_offset) !=0?0x02:0);
       result |= ((*p++  & col_offset)!=0?0x01:0);
       PORTA_LCD_DAT = result;
-      PORTC_LCD_CTRL |= (1<<OUT_C_LCD_E); // ST7920 auto increase x counter and roll from 0F to 00
-      _delay_us(1);
-      PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_E);
-      _delay_us(8);
+      PORTC_LCD_CTRL |= _BV(OUT_C_LCD_E); // ST7920 auto increase x counter and roll from 0F to 00
+      _delay_us(2);//was 1
+      PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_E);
+      _delay_us(8);//10
     }
     _delay_us(41);
 

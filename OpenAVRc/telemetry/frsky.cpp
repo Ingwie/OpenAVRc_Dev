@@ -318,7 +318,7 @@ void processSportPacket(uint8_t *packet)
     return;
 
   frskyStreaming = FRSKY_TIMEOUT10ms; // reset counter only if valid frsky packets are being detected
-  //link_counter += 256 / FRSKY_SPORT_AVERAGING;
+  link_counter += 256 / FRSKY_SPORT_AVERAGING;
 
   switch (prim) {
   case DATA_FRAME:

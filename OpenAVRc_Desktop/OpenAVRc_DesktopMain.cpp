@@ -49,8 +49,8 @@
 //(*InternalHeaders(OpenAVRc_DesktopFrame)
 #include <wx/artprov.h>
 #include <wx/bitmap.h>
-#include <wx/intl.h>
 #include <wx/image.h>
+#include <wx/intl.h>
 #include <wx/string.h>
 //*)
 
@@ -135,9 +135,13 @@ bool VARIO = 0;
 bool RTCLOCK = 0;
 bool SPORT_FILE_LOG = 0;
 bool PPM = 1;
-bool PXX = 0;
+bool MULTI = 0;
 bool DSM2SERIAL = 0;
-bool DSM2PPM = 0;
+bool SPIRF = 0;
+bool CC2500 = 0;
+bool CYRF6936 = 0;
+bool NRF24l01 = 0;
+bool A7105 = 0;
 bool SD_CARD = 0;
 bool FAS_OFFSET = 0;
 bool TEMPLATES = 0;
@@ -154,7 +158,7 @@ bool AUTOSWITCH = 0;
 bool AUTOSOURCE = 0;
 bool DBLKEYS = 0;
 bool PPM_CENTER_ADJUSTABLE = 0;
-bool PPM_LIMITS_SYMETRICAL = 1;
+bool PPM_LIMITS_SYMETRICAL = 0;
 bool FLIGHT_MODES = 0;
 bool CURVES = 0;
 bool GVARS = 0;
@@ -229,12 +233,12 @@ END_EVENT_TABLE()
 OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
 {
   //(*Initialize(OpenAVRc_DesktopFrame)
-  wxMenuItem* MenuItem2;
-  wxMenuItem* MenuItem1;
   wxMenu* Menu1;
   wxMenu* Menu2;
+  wxMenuItem* MenuItem1;
+  wxMenuItem* MenuItem2;
 
-  Create(parent, wxID_ANY, _("OpenAVRc Desktop"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
+  Create(parent, wxID_ANY, _("OpenAVRc Desktop V3"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
   SetClientSize(wxSize(592,282));
   Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxSize(848,280), 0, _T("ID_PANEL1"));
   Panel1->SetFocus();
@@ -389,7 +393,7 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
 
   defaut = wxT("Defaut");
   //Ini File
-  Ini_Filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "OpenAVRcDesktop.ini";
+  Ini_Filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "OpenAVRcDesktopV3.ini";
   configFile = new wxFileConfig( "", "", Ini_Filename);
   LoadConfig("");
   if (avrdudepath == _("non défini")) wxMessageBox( _("Merci de vérifier les paramètres"), _("Programmeur :"), wxICON_WARNING | wxCENTRE);//Ini File
@@ -418,11 +422,20 @@ void OpenAVRc_DesktopFrame::OnAbout(wxCommandEvent& event)
 {
   wxAboutDialogInfo Aboutbox;
   Aboutbox.SetName("OpenAVRc Desktop");
-  Aboutbox.SetVersion("V1.15 test");
+  Aboutbox.SetVersion("V 3.0 Beta");
   Aboutbox.SetLicence(_(" GPLv2 . Firmware basé sur NextStepRc 2.18 "));
   Aboutbox.SetDescription(_("Logiciel pour la personnalisation, la compilation, le flashage, la sauvegarde de votre radio OpenAVRc     "));
-  Aboutbox.SetCopyright(wxT("(C) 2016-2017 OpenAVRc Team"));
+  Aboutbox.SetCopyright(wxT("(C) 2016-2018 OpenAVRc Team"));
   Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
+  Aboutbox.AddDeveloper(wxT("OpenAVRc Team :\n\n"));
+  Aboutbox.AddDeveloper(wxT("Firmware : Bracame, Sloped Soarer, Supiiik. \n"));
+  Aboutbox.AddDeveloper(wxT("Applications : Bracame, Mentero. \n"));
+  Aboutbox.AddDeveloper(wxT("PCB Shield : Anthobreizh, Pierrotm777 , Pyrall. \n"));
+  Aboutbox.AddDeveloper(wxT("Documentation : JPZ(Testeur68), Pierrotm777 , Pyrall. \n"));
+  Aboutbox.AddDeveloper(wxT("Translations : Mentero. \n"));
+  Aboutbox.AddDeveloper(wxT("Beta tests : JPZ(Testeur68), Pyrall. \n\n"));
+  Aboutbox.AddDeveloper(wxT("Forum contributors :\n\n"));
+  Aboutbox.AddDeveloper(wxT("ElectoPete (English Voice file), Ievgen (Ukrainian translation). \n"));
 
   wxAboutBox(Aboutbox);
 }
@@ -570,9 +583,13 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
   configFile->Read(wxT("RTCLOCK"),&RTCLOCK);
   configFile->Read(wxT("SPORT_FILE_LOG"),&SPORT_FILE_LOG);
   configFile->Read(wxT("PPM"),&PPM);
-  configFile->Read(wxT("PXX"),&PXX);
+  configFile->Read(wxT("MULTI"),&MULTI);
   configFile->Read(wxT("DSM2"),&DSM2SERIAL);
-  configFile->Read(wxT("DSM2PPM"),&DSM2PPM);
+  configFile->Read(wxT("SPIRF"),&SPIRF);
+  configFile->Read(wxT("CC2500"),&CC2500);
+  configFile->Read(wxT("CYRF6936"),&CYRF6936);
+  configFile->Read(wxT("NRF24l01"),&NRF24l01);
+  configFile->Read(wxT("A7105"),&A7105);
   configFile->Read(wxT("SD_CARD"),&SD_CARD);
   configFile->Read(wxT("FAS_OFFSET"),&FAS_OFFSET);
   configFile->Read(wxT("TEMPLATES"),&TEMPLATES);
@@ -682,9 +699,13 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
   configFile->Write(wxT("RTCLOCK"),RTCLOCK);
   configFile->Write(wxT("SPORT_FILE_LOG"),SPORT_FILE_LOG);
   configFile->Write(wxT("PPM"),PPM);
-  configFile->Write(wxT("PXX"),PXX);
+  configFile->Write(wxT("MULTI"),MULTI);
   configFile->Write(wxT("DSM2"),DSM2SERIAL);
-  configFile->Write(wxT("DSM2PPM"),DSM2PPM);
+  configFile->Write(wxT("SPIRF"),SPIRF);
+  configFile->Write(wxT("CC2500"),CC2500);
+  configFile->Write(wxT("CYRF6936"),CYRF6936);
+  configFile->Write(wxT("NRF24l01"),NRF24l01);
+  configFile->Write(wxT("A7105"),A7105);
   configFile->Write(wxT("SD_CARD"),SD_CARD);
   configFile->Write(wxT("FAS_OFFSET"),FAS_OFFSET);
   configFile->Write(wxT("TEMPLATES"),TEMPLATES);

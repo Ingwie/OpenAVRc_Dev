@@ -64,7 +64,7 @@
 #define SSD1306_SWITCHCAPVCC        0x02
 
 #if defined(EXTERNALEEPROM)
-#define CHECK_IIC_USED_IRQ_MODE if (TWCR & (1<<TWINT)) return;
+#define CHECK_IIC_USED_IRQ_MODE if (TWCR & _BV(TWINT)) return;
 #else
 #define CHECK_IIC_USED_IRQ_MODE // I2C bus is free !
 #endif

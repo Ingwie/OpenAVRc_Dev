@@ -201,19 +201,14 @@ void boardOff();
 #define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
 
 //SUPIIIK FILE
-#define MULTIMODULE
 #if defined (MULTIMODULE)
   #define PROTO_HAS_MULTISUPIIIK
 #endif
 //SUPIIIK FILE
 
 //Xmitter
-#define SPIMODULES
 
 #if defined(SPIMODULES)
-
-  #define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
-  #define PROTO_HAS_CYRF6936
 
   uint8_t USART2_mspi_xfer(uint8_t data);
   #define RF_SPI_xfer  USART2_mspi_xfer
