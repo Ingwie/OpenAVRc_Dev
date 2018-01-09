@@ -616,7 +616,7 @@
 #define TR_MENUSTAT            "STATS"
 #define TR_MENUDEBUG           "DEBUG"
 #define TR_RXNUM               TR("RxNum", INDENT"Receptor No.")
-#define TR_SYNCMENU            "Sync "TR_ENTER
+#define TR_SYNCMENU            "Sync [MENU]"
 #define TR_LIMIT               INDENT"Limite"
 #define TR_MINRSSI             "Min Rssi"
 #define TR_LATITUDE            "Latitud"

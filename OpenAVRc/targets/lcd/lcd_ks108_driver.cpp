@@ -31,7 +31,7 @@
 */
 
 
-#define NUMITERATIONFULLREFRESH  2
+#define NUMITERATIONFULLREFRESH  4
 
 #define DISPLAY_SET_COLUMN       0x40
 #define DISPLAY_SET_PAGE         0xB8
@@ -49,7 +49,7 @@
 void lcdPulseEnable()
 {
   E_on;
-  _delay_us(9); //Was 4 on the first tested
+  _delay_us(9);
   E_off;
 }
 
@@ -59,7 +59,6 @@ void lcdSendCtl(uint8_t val)
   A0_off;
   lcdPulseEnable();
   A0_on;
-
 }
 
 static void LcdInitCommand()
@@ -91,21 +90,25 @@ SHOWDURATIONLCD1
 #if defined(SHOWDURATION)
   lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
 #endif
-  static uint8_t change = 0; // toggle left or right lcd writing
+  static uint8_t step = 0; // toggle left/right/high/low sector of lcd writing
   uint8_t *p;
-  if (!change) {
+  if (step>3) step = 0;
+  if (step<2) {
     CS2_off;  // Right
     CS1_on;
     p = displayBuf;
-    change = 1;
   } else {
     CS1_off;  // Left
     CS2_on;
     p = displayBuf + 64;
-    change = 0;
   }
+  uint8_t offset = (step & 0x01);
+  uint8_t start = 4 * offset;
+  uint8_t stop = 4 + start;
+  p += offset*512; //add half screen offset
 
-  for (uint8_t page=0; page < 8; page++) {
+
+  for (uint8_t page=start; page < stop; page++) {
     lcdSendCtl(DISPLAY_SET_COLUMN); // Column addr 0
     lcdSendCtl( page | DISPLAY_SET_PAGE); //Page addr
     A0_on;
@@ -115,6 +118,7 @@ SHOWDURATIONLCD1
     }
     p += 64;
   }
+  ++step;
   A0_off;
 SHOWDURATIONLCD2
 }

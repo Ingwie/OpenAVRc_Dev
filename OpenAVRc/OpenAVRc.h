@@ -1174,7 +1174,6 @@ struct Proto_struct {
 /* Load Protocols */
 #include "protocol/common.h"
 #include "protocol/interface.h"
-#include "protocol/misc.h"
 
 ///////////////// PROTOCOLS ///////////////////
 

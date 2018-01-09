@@ -244,6 +244,7 @@ static void frskyX_build_bind_packet()
 static uint16_t scaleForPXX(uint8_t chan, uint8_t failsafe)
 {
 // 0-2047, 0 = 817, 1024 = 1500, 2047 = 2182
+failsafe = failsafe; //for compiler warning
   int16_t value = channelOutputs[chan];
   value = limit((int16_t)-1024, value, (int16_t)+1024);
   (chan > 7) ? value += 2048 : value += 1024;   // upper channels offset 2048, lower 1014

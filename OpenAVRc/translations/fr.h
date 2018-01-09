@@ -642,7 +642,7 @@
 #define TR_DELETE_MODEL        "Supprimer Mod\201le"
 #define TR_RESTORE_MODEL       "Restaurer Mod\201le"
 #define TR_SDCARD_ERROR        "Erreur carte SD"
-#define TR_NO_SDCARD           "Carte SD indisponible"
+#define TR_NO_SDCARD           "Carte SD muette"
 #define TR_SDCARD_FULL         "Carte SD pleine"
 #define TR_INCOMPATIBLE        "Incompatible"
 #define TR_WARNING             "ALERTE"
