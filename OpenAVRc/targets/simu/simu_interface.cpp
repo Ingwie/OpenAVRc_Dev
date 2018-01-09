@@ -31,7 +31,6 @@
 */
 
 
-#include "simu_interface.h"
 #include "../../OpenAVRc.h"
 
 bool simu_mainloop_is_runing; //main run signal

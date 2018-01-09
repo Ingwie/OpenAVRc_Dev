@@ -34,10 +34,10 @@
 #ifndef misc_h
 #define misc_h
 
-void PROTO_Start_Callback(uint16_t us, uint16_t (*cb)());
-void PROTO_Stop_Callback();
-uint32_t CLOCK_getms();
-void CLOCK_delayms(uint32_t delay_ms);
-//void PROTOCOL_SetBindState(uint32_t msec);
+extern void PROTO_Start_Callback(uint16_t us, uint16_t (*cb)());
+extern void PROTO_Stop_Callback();
+extern uint32_t CLOCK_getms();
+extern void CLOCK_delayms(uint32_t delay_ms);
+//extern void PROTOCOL_SetBindState(uint32_t msec);
 
 #endif

@@ -213,6 +213,7 @@
 		<Unit filename="targets/lcd/lcd_default_driver.cpp" />
 		<Unit filename="targets/lcd/lcd_driver.cpp" />
 		<Unit filename="targets/lcd/lcd_ks108_driver.cpp" />
+		<Unit filename="targets/lcd/lcd_ks108bis_driver.cpp" />
 		<Unit filename="targets/lcd/lcd_sh1106_driver.cpp" />
 		<Unit filename="targets/lcd/lcd_simu_driver.cpp" />
 		<Unit filename="targets/lcd/lcd_simu_driver.h" />

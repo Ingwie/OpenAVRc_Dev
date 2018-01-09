@@ -808,7 +808,7 @@ extern REG8 simu_EIMSK;
   #define SIMU_SLEEP(x) SimuSleepMs(x)
   #define SIMU_UNLOCK_MACRO(x) (false)
   #define wdt_disable() simu_off = true; simu_mainloop_is_runing = true; return
-  #define _BV(x) (1<<x)
+  #define _BV(x) (1<<(x))
   #define speakerOff()
   #define speakerOn()
   #define SIMUBEEP1() Beep(toneFreq*15, toneTimeLeft*50); toneTimeLeft/=2;if (!toneTimeLeft) ++toneTimeLeft
