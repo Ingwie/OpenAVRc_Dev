@@ -612,6 +612,7 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
   configFile->Read(wxT("GVARS"),&GVARS);
   configFile->Read(wxT("CORRECT_NEGATIVE_VALUES"),&CORRECT_NEGATIVE_VALUES);
   configFile->Read(wxT("ARITHMETIC_OVERFLOW_CHECK"),&ARITHMETIC_OVERFLOW_CHECK);
+  configFile->Read(wxT("ACCURAT_THROTTLE_STATS"),&ACCURAT_THROTTLE_STATS);
   configFile->Read(wxT("PWM_BACKLIGHT"),&PWM_BACKLIGHT);
   configFile->Read(wxT("OVERRIDE_CHANNEL_FUNCTION"),&OVERRIDE_CHANNEL_FUNCTION);
   configFile->Read(wxT("WS_HOW_HIGH"),&WS_HOW_HIGH);
