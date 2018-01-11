@@ -33,7 +33,6 @@
 
 #include "../OpenAVRc.h"
 
-static uint32_t MULTI_fixed_id;
 
 // Third row is number of subtypes -1 (max valid subtype)
 #define MULTI_SEND_BIND                     (1 << 7)
@@ -233,11 +232,8 @@ static uint16_t MULTI_cb()
   // header, byte 0,  0x55 for proto 0-31 0x54 for 32-63
   if (type <= 31)
     Usart0TxBuffer[--multiTxBufferCount] = 0x55;
-//    sendByteMulti(0x55);
   else
-//    sendByteMulti(0x54);
     Usart0TxBuffer[--multiTxBufferCount] = 0x54;
-
 
   // protocol byte 1
   protoByte |= (type & 0x1f);
@@ -254,7 +250,6 @@ static uint16_t MULTI_cb()
                                          );
 
   // byte 3
-//  sendByteMulti((uint8_t) optionValue);
   Usart0TxBuffer[--multiTxBufferCount] = (uint8_t) optionValue;
 
   uint32_t bits = 0;
@@ -264,15 +259,14 @@ static uint16_t MULTI_cb()
   // Range for pulses (channelsOutputs) is [-1024:+1024] for [-100%;100%]
   // Multi uses [204;1843] as [-100%;100%]
   for (uint8_t i=0; i<MULTI_CHANS; i++) {
-//    int channel = i;//g_model.moduleData[port].channelsStart+i;
-    int value = channelOutputs[i] + 2*PPM_CH_CENTER(i) - 2*PPM_CENTER;
+    int16_t value = channelOutputs[i] + 2*PPM_CH_CENTER(i) - 2*PPM_CENTER;
 
     // Scale to 80%
     value =  value*8/10 + 1024;
-    bits |= ((uint32_t) limit(0, value, 2047)) << bitsavailable;
+    bits |= (limit<int16_t>(0, value, 2047)) << bitsavailable;
     bitsavailable += MULTI_CHAN_BITS;
+
     while (bitsavailable >= 8) {
-//      sendByteMulti((uint8_t) (bits & 0xff));
       Usart0TxBuffer[--multiTxBufferCount] = ((uint8_t) (bits & 0xff));
       bits >>= 8;
       bitsavailable -= 8;
@@ -300,7 +294,6 @@ static void MULTI_initialize(uint8_t bind)
   Usart0TxBufferCount = 0;
 
   MULTI_init();
-  MULTI_fixed_id = g_eeGeneral.fixed_ID.ID_32;
   if (bind) {
     PROTO_Start_Callback(25000U *2, MULTI_bind_cb);
   } else {
