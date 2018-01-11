@@ -482,7 +482,7 @@ void menuMainView(uint8_t event)
         V_BAR(LCD_W/2-3+V_BAR_W*i, LCD_H-8, len);
 #endif
       }
-#endif // PCBGRUVIN9X && ROTARY_ENCODERS
+#endif // ROTARY_ENCODERS
 
       // Logical Switches
       for (uint8_t i=0; i<NUM_LOGICAL_SWITCH; i++)
