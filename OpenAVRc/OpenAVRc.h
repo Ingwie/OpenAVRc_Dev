@@ -491,8 +491,6 @@ extern volatile GETSWITCH_RECURSIVE_TYPE s_last_switch_used;
 extern volatile GETSWITCH_RECURSIVE_TYPE s_last_switch_value;
 #define LS_RECURSIVE_EVALUATION_RESET() s_last_switch_used = 0
 
-#define getSwitchesPosition(...)
-
 extern swarnstate_t switches_states;
 swsrc_t getMovedSwitch();
 
@@ -774,7 +772,7 @@ extern int16_t  anas[NUM_INPUTS];
 extern int16_t  trims[NUM_STICKS];
 extern BeepANACenter bpanaCenter;
 
-extern uint8_t s_mixer_first_run_done;
+extern bool s_mixer_first_run_done;
 
 extern int8_t s_currCh;
 uint8_t getExpoMixCount(uint8_t expo);
@@ -975,12 +973,6 @@ struct mm_protocol_definition {
 } );
 const mm_protocol_definition *getMultiProtocolDefinition (uint8_t protocol);
 
-//enum MultiBindStatus : uint8_t {
-enum MultiBindStatus {
-  MULTI_NORMAL_OPERATION,
-  MULTI_BIND_INITIATED,
-  MULTI_BIND_FINISHED,
-};
 #endif
 
 

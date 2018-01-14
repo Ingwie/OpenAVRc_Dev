@@ -71,7 +71,7 @@ uint8_t * packet = pulses2MHz.pbyte; //protocol global packet
 
 void sendOptionsSettingsPpm()
 {
-  SetRfOptionSettings(pgm_get_far_address(RfOpt_PPM_Ser), // Used by all PPM
+  SetRfOptionSettings(pgm_get_far_address(RfOpt_PPM_Ser), // Used by PPM
                       STR_DUMMY,
                       STR_DUMMY,
                       STR_DUMMY,
@@ -79,10 +79,10 @@ void sendOptionsSettingsPpm()
                       STR_DUMMY,
                       STR_DUMMY,
                       STR_DUMMY);
+  if (s_current_protocol!=(PROTOCOL_PPM-1)) g_model.PPMNCH = limit<uint8_t>(0,g_model.PPMNCH,2);
   g_model.PPMFRAMELENGTH = (g_model.PPMNCH-2) * 8;
   RFModule.mode = NORMAL_MODE;
 }
-
 
 struct RfOptionSettingsstruct RfOptionSettings; // used in menumodelsetup
 
@@ -1004,7 +1004,7 @@ FORCEINLINE void evalTrims()
   }
 }
 
-uint8_t s_mixer_first_run_done = false;
+bool s_mixer_first_run_done = false;
 
 void doMixerCalculations()
 {
@@ -1019,8 +1019,6 @@ void doMixerCalculations()
   lastTMR = tmr10ms;
 
   getADC();
-
-  getSwitchesPosition(!s_mixer_first_run_done);
 
   evalMixes(tick10ms);
 
@@ -1133,18 +1131,14 @@ void doMixerCalculations()
 #endif
 
   }
-
-  s_mixer_first_run_done = true;
 }
 
 void OpenAVRcStart()
 {
-  doSplash();
-
 #if defined(SDCARD) && !defined(SIMU)
-  sdMountPoll(); // Mount SD if it is not a WDT reset
+  sdMountPoll(); // Mount SD if it is not a WDT reboot
 #endif
-
+  doSplash();
 #if defined(GUI)
   checkAlarm();
   checkAll();
@@ -1449,6 +1443,7 @@ void OpenAVRcInit(uint8_t mcusr)
   backlightOn();
 
   doMixerCalculations();
+  s_mixer_first_run_done = true;
 
   startPulses(PROTOCMD_INIT);
 
