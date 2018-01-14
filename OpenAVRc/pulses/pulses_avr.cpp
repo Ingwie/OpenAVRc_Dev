@@ -54,7 +54,7 @@ FORCEINLINE void sendStopPulses()
 {
   PROTO_Cmds(PROTOCMD_RESET);
   TRACE("  ->  RESET Proto - %s -",  Protos[s_current_protocol].ProtoName);
-  SIMU_SLEEP(500);
+  SIMU_SLEEP(100);
   PROTO_Stop_Callback();
   //s_current_protocol = 255;
 }
@@ -75,13 +75,13 @@ void startPulses(enum ProtoCmds Command)
   if (pulsesStarted()) {
     PROTO_Cmds(PROTOCMD_RESET);
     TRACE("  ->  RESET Proto - %s -",  Protos[s_current_protocol].ProtoName);
-    SIMU_SLEEP(500);
+    SIMU_SLEEP(100);
   }
   if (g_model.rfProtocol > (PROTOCOL_COUNT-2)) g_model.rfProtocol = PROTOCOL_NONE+1;
   s_current_protocol = g_model.rfProtocol;
   PROTO_Cmds = *Protos[g_model.rfProtocol].Cmds;
   TRACE("  ->  INIT Proto - %s -", Protos[g_model.rfProtocol].ProtoName);
-  SIMU_SLEEP(500);
+  SIMU_SLEEP(100);
   PROTO_Cmds(PROTOCMD_GETOPTIONS);
   LimitRfOptionSettings();
   PROTO_Cmds(Command);

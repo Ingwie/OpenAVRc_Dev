@@ -91,7 +91,7 @@ void checkMixer()
   // TODO duplicated code ...
   uint16_t t0 = getTmr16KHz();
   int16_t delta = (nextMixerEndTime - lastMixerDuration) - t0;
-  if (delta > 0 && delta < MAX_MIXER_DELTA) return;
+  if ((delta > 0 && delta < MAX_MIXER_DELTA) || (!s_mixer_first_run_done)) return;
 
   nextMixerEndTime = t0 + MAX_MIXER_DELTA;
 

@@ -126,7 +126,6 @@ FORCEINLINE void boardInit()
   RF_CS_NRF24L01_INACTIVE();
   RF_CS_A7105_INACTIVE();
 
-  g_eeGeneral.fixed_ID.ID_32 = 0x1a2b3c4d;
   RFModule.mode = NORMAL_MODE;
 
 #endif // SPIMODULES
