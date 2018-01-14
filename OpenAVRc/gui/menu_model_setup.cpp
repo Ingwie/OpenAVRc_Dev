@@ -69,9 +69,6 @@ enum menuModelSetupItems {
   ITEM_MODEL_SETUP_MAX
 
 };
-#if defined(MULTIMODULE)
-  uint8_t multiBindStatus = MULTI_NORMAL_OPERATION;
-#endif
 
 #define FIELD_PROTOCOL_MAX 1
 
@@ -324,7 +321,7 @@ void menuModelSetup(uint8_t event)
           }
           break;
         case 1:
-          CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.PPMNCH, 6);
+          CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.PPMNCH, protocol==(PROTOCOL_PPM-1) ? 6 : 2); //limit 8 channels for PPMSim and PPM16
           g_model.PPMFRAMELENGTH = (g_model.PPMNCH-2) * 8;
           break;
         }
@@ -493,10 +490,7 @@ void menuModelSetup(uint8_t event)
           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+xOffsetBind, y, STR_MODULE_BIND, l_posHorz==1 ? attr : 0);
           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+MODEL_SETUP_RANGE_OFS+xOffsetBind, y, STR_MODULE_RANGE, l_posHorz==2 ? attr : 0);
           uint8_t newFlag = 0;
-          if (multiBindStatus == MULTI_BIND_FINISHED) {
-            multiBindStatus = MULTI_NORMAL_OPERATION;
-            s_editMode=0;
-          }
+
           if (attr && l_posHorz>0 && s_editMode>0) {
             if (l_posHorz == 1)
               newFlag = BIND_MODE;
@@ -505,8 +499,6 @@ void menuModelSetup(uint8_t event)
             }
           }
           RFModule.mode = newFlag;
-          if (newFlag == BIND_MODE)
-            multiBindStatus = MULTI_BIND_INITIATED;
         }
 #endif
 #if defined(SPIMODULES)
@@ -660,6 +652,7 @@ void menuModelSetup(uint8_t event)
   }
 
   if (!PROTO_IS_SYNC) {
+    flightReset();
     g_model.rfProtocol = protocol;
     RFModule.mode = NORMAL_MODE;
     startPulses(PROTOCMD_INIT);
