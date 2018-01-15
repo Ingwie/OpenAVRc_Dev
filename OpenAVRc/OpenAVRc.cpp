@@ -79,7 +79,7 @@ void sendOptionsSettingsPpm()
                       STR_DUMMY,
                       STR_DUMMY,
                       STR_DUMMY);
-  if (s_current_protocol!=(PROTOCOL_PPM-1)) g_model.PPMNCH = limit<uint8_t>(0,g_model.PPMNCH,2);
+  if (s_current_protocol==(PROTOCOL_PPM16-1)) g_model.PPMNCH = limit<uint8_t>(0,g_model.PPMNCH,2);
   g_model.PPMFRAMELENGTH = (g_model.PPMNCH-2) * 8;
   RFModule.mode = NORMAL_MODE;
 }
