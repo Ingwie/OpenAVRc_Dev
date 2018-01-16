@@ -37,7 +37,7 @@
 #include "../../OpenAVRc.h"
 
 
-#define QUEUE_LENGTH (18*2)  //bytes
+#define QUEUE_LENGTH (24*2)  //bytes
 
 enum JQ6500_State {
 	START = 0, //0x7E Start
@@ -48,7 +48,7 @@ enum JQ6500_State {
 	TERMI,     //0xEF Termination
 };
 
-volatile uint8_t JQstate = START;
+uint8_t JQstate = START;
 uint8_t JQ6500_Data[6] = {0x7E, //Start
                           0x04, //Num bytes follow
                           0X03, //Select file
@@ -66,10 +66,8 @@ void pushPrompt(uint16_t prompt)
 	if (g_eeGeneral.beepMode == e_mode_quiet) return;
 	++prompt;  // With SDformatter, first FAT address = 1 : MP3 files in a directory
 	/* Load playlist and activate interrupt */
-	JQ6500_playlist[JQ6500_InputIndex] = (uint8_t)(prompt >> 8);    // MSB first
-	++JQ6500_InputIndex;
-	JQ6500_playlist[JQ6500_InputIndex] = (uint8_t)(prompt & 0xFF);  // LSB after
-	++JQ6500_InputIndex;
+	JQ6500_playlist[JQ6500_InputIndex++] = (uint8_t)(prompt >> 8);    // MSB first
+	JQ6500_playlist[JQ6500_InputIndex++] = (uint8_t)(prompt);  // LSB after
 	if (JQ6500_InputIndex == QUEUE_LENGTH) JQ6500_InputIndex = 0;
 
 }
@@ -100,14 +98,13 @@ void JQ6500Check()
 #if !defined(SIMU)
   if ((JQ6500_PlayIndex == JQ6500_InputIndex) || (JQstate != START) || (JQ6500_BUSY) ) return;
 
-  JQ6500_Data[3] = JQ6500_playlist[JQ6500_PlayIndex];
-  ++JQ6500_PlayIndex;
-  JQ6500_Data[4] = JQ6500_playlist[JQ6500_PlayIndex];
-  ++JQ6500_PlayIndex;
+  JQstate = START;
+
+  JQ6500_Data[3] = JQ6500_playlist[JQ6500_PlayIndex++];
+  JQ6500_Data[4] = JQ6500_playlist[JQ6500_PlayIndex++];
   if (JQ6500_PlayIndex == QUEUE_LENGTH) JQ6500_PlayIndex = 0;
 
   UDR_N(TLM_JQ6500) = JQ6500_Data[JQstate]; // Send Datas
-  JQstate = START;
   UCSRB_N(TLM_JQ6500) |= (1 << UDRIE_N(TLM_JQ6500)); // enable UDRE(TLM_JQ6500) interrupt
 #endif
 }
