@@ -190,6 +190,7 @@ uint8_t power_status()		/* Socket power state: 0=off, 1=on */
 static
 void power_on ()
 {
+  for (Timer1 = 2; Timer1; );	// Wait for 20ms
   enable_spi_master_mode();
 }
 
