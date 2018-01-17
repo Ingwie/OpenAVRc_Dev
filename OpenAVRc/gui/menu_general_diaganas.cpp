@@ -33,6 +33,9 @@
 
 #include "menu_general.h"
 
+#define TR_ANAIN "L.H""L.V""R.V""R.H""Pt1""Pt2""Pt3""Bat"
+const pm_char STR_TR_ANAIN[] PROGMEM = TR_ANAIN;
+
 
 void menuGeneralDiagAna(uint8_t event)
 {
@@ -46,11 +49,11 @@ void menuGeneralDiagAna(uint8_t event)
 
   for (uint8_t i=0; i<numLoop+1; i++) { // Add battery input
     coord_t y = MENU_HEADER_HEIGHT + 1 + (i/2)*FH;
-    uint8_t x = i&1 ? 64+5 : 0;
-    lcdDrawStringWithIndex(x, y, PSTR("A"), i+1);
-    lcdDrawChar(lcdNextPos, y, ':');
-    lcd_outhex(4, x+3*FW-1, y, anaIn(i), 0);
-    if (i<numLoop) lcd_outdez8(x+10*FW-1, y, (int16_t)calibratedStick[CONVERT_MODE(i)]*25/256);
+    uint8_t x = i&1 ? 66 : 3;
+    lcdDrawSizedTextAtt(x, y, STR_TR_ANAIN+3*i, 3, (anaIn(i) < 1 || anaIn(i) > 0x7FD) ? INVERS : 0);
+    lcdDrawChar(x+16, y, ':');
+    lcd_outhex(4, x+3*FW+2, y, anaIn(i), 0);
+    if (i<numLoop) lcd_outdez8(x+10*FW, y, (int16_t)calibratedStick[CONVERT_MODE(i)]*25/256);
   }
   lcdDrawTextLeft(6*FH-2, STR_BATT_CALIB);
   lcdPutsVolts(LEN_CALIB_FIELDS*FW+4*FW, 6*FH-2, g_vbat10mV, (menuVerticalPosition==1 ? INVERS : 0)|PREC2);

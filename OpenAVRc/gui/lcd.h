@@ -62,9 +62,9 @@
 /* lcd text flags */
 #define INVERS          0x02
 #if defined(BOLD_FONT)
-#define BOLD          0x40
+#define BOLD            0x40
 #else
-#define BOLD          0x00
+#define BOLD            0x00
 #endif
 
 /* lcd putc flags */
@@ -73,7 +73,7 @@
 /* lcd puts flags */
 /* no 0x80 here because of "GV"1 which is aligned LEFT */
 /* no 0x10 here because of "MODEL"01 which uses LEADING0 */
-#define BSS           0x20
+#define BSS             0x20
 #define ZCHAR           0x80
 
 /* lcd outdez flags */
