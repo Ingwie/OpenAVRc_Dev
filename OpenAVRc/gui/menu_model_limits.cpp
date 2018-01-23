@@ -158,7 +158,7 @@ void menuModelLimits(uint8_t event)
     for (uint8_t j=0; j<ITEM_LIMITS_COUNT; j++) {
       uint8_t attr = ((sub==k && menuHorizontalPosition==j) ? ((s_editMode>0) ? BLINK|INVERS : INVERS) : 0);
       uint8_t active = (attr && (s_editMode>0 || p1valdiff)) ;
-      if (active) STICK_SCROLL_DISABLE();
+      if (active) { STICK_SCROLL_DISABLE(); }
       switch(j) {
       case ITEM_LIMITS_OFFSET:
 #if defined(PPM_UNIT_US)
