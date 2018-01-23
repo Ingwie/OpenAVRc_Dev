@@ -39,7 +39,7 @@ uint8_t frskyStreaming = 0;
   uint8_t frskyUsrStreaming = 0;
 #endif
 
-uint8_t link_counter = 0;
+uint16_t link_counter = 0;
 
 FrskyData frskyData;
 

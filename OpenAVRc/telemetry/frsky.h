@@ -182,7 +182,7 @@ extern uint8_t frskyStreaming; // >0 (true) == data is streaming in. 0 = nodata 
 extern uint8_t frskyUsrStreaming;
 #endif
 
-extern uint8_t link_counter;
+extern uint16_t link_counter;
 
 
 #define RAW_FRSKY_MINMAX(v)       v.value

@@ -183,6 +183,9 @@
 		<Unit filename="protocol/misc.h" />
 		<Unit filename="protocol/mpx_serial.h" />
 		<Unit filename="protocol/protocol.h" />
+		<Unit filename="protocol/squeleton.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="pulses/pulses.h" />
 		<Unit filename="pulses/pulses_avr.cpp" />
 		<Unit filename="pulses/pulses_avr.h" />
