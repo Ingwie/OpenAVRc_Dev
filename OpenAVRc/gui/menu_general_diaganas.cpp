@@ -50,13 +50,14 @@ void menuGeneralDiagAna(uint8_t event)
   for (uint8_t i=0; i<numLoop+1; i++) { // Add battery input
     coord_t y = MENU_HEADER_HEIGHT + 1 + (i/2)*FH;
     uint8_t x = i&1 ? 65 : 2;
+    uint8_t attr = (anaIn(i) < 1 || anaIn(i) > 0x7FD) ? INVERS : 0;
     if (i<4) {
-      putsMixerSource(x, y, MIXSRC_Rud + pgm_read_byte_near(modn12x3 + 4*g_eeGeneral.stickMode + i), (anaIn(i) < 1 || anaIn(i) > 0x7FD) ? INVERS : 0);
+      putsMixerSource(x, y, MIXSRC_Rud + pgm_read_byte_near(modn12x3 + 4*g_eeGeneral.stickMode + i), attr);
     } else {
-      lcdDrawSizedTextAtt(x, y, STR_TR_ANAIN_POT_BAT+3*(i-4), 3, (anaIn(i) < 1 || anaIn(i) > 0x7FD) ? INVERS : 0);
+      lcdDrawSizedTextAtt(x, y, STR_TR_ANAIN_POT_BAT+3*(i-4), 3, attr);
     }
     lcdDrawChar(x+18, y, ':');
-    lcd_outhex(4, x+3*FW+4, y, anaIn(i), 0);
+    lcd_outhex(4, x+3*FW+4, y, anaIn(i), attr);
     if (i<numLoop)
       lcd_outdez8(x+10*FW+2, y, (int16_t)calibratedStick[CONVERT_MODE(i)]*25/256);
   }
