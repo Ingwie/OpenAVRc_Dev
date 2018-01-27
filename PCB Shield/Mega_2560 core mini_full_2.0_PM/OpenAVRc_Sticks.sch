@@ -37,7 +37,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 2 7
 Title "Shield Mega2560 core Full"
-Date "2017-11-12"
+Date "2018-01-27"
 Rev "2.00"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -528,7 +528,7 @@ L R-RESCUE-Mega_2560_core_mini_full_2.0 R24
 U 1 1 59C5C121
 P 4000 4850
 F 0 "R24" V 4080 4850 50  0000 C CNN
-F 1 "82K" V 4000 4850 50  0000 C CNN
+F 1 "39K" V 4000 4850 50  0000 C CNN
 F 2 "Resistors_SMD:R_1206" V 3930 4850 50  0001 C CNN
 F 3 "" H 4000 4850 50  0000 C CNN
 	1    4000 4850
@@ -1501,72 +1501,6 @@ F 3 "" H 8300 1250 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R-RESCUE-Mega_2560_core_mini_full_2.0 R19
-U 1 1 59C63F8D
-P 6700 1650
-F 0 "R19" V 6780 1650 50  0000 C CNN
-F 1 "5.1K" V 6700 1650 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 6630 1650 50  0001 C CNN
-F 3 "" H 6700 1650 50  0000 C CNN
-	1    6700 1650
-	0    -1   -1   0   
-$EndComp
-$Comp
-L R-RESCUE-Mega_2560_core_mini_full_2.0 R18
-U 1 1 59C63F94
-P 6700 1500
-F 0 "R18" V 6780 1500 50  0000 C CNN
-F 1 "5.1K" V 6700 1500 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 6630 1500 50  0001 C CNN
-F 3 "" H 6700 1500 50  0000 C CNN
-	1    6700 1500
-	0    -1   -1   0   
-$EndComp
-$Comp
-L R-RESCUE-Mega_2560_core_mini_full_2.0 R23
-U 1 1 59C63F9B
-P 7950 1650
-F 0 "R23" V 8030 1650 50  0000 C CNN
-F 1 "5.1K" V 7950 1650 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 7880 1650 50  0001 C CNN
-F 3 "" H 7950 1650 50  0000 C CNN
-	1    7950 1650
-	0    -1   -1   0   
-$EndComp
-$Comp
-L R-RESCUE-Mega_2560_core_mini_full_2.0 R22
-U 1 1 59C63FA2
-P 7950 1500
-F 0 "R22" V 8030 1500 50  0000 C CNN
-F 1 "5.1K" V 7950 1500 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 7880 1500 50  0001 C CNN
-F 3 "" H 7950 1500 50  0000 C CNN
-	1    7950 1500
-	0    -1   -1   0   
-$EndComp
-$Comp
-L VCC #PWR042
-U 1 1 59C63FA9
-P 6550 1950
-F 0 "#PWR042" H 6550 1800 50  0001 C CNN
-F 1 "VCC" H 6550 2100 50  0000 C CNN
-F 2 "" H 6550 1950 50  0000 C CNN
-F 3 "" H 6550 1950 50  0000 C CNN
-	1    6550 1950
-	-1   0    0    1   
-$EndComp
-$Comp
-L VCC #PWR043
-U 1 1 59C63FAF
-P 7800 1950
-F 0 "#PWR043" H 7800 1800 50  0001 C CNN
-F 1 "VCC" H 7800 2100 50  0000 C CNN
-F 2 "" H 7800 1950 50  0000 C CNN
-F 3 "" H 7800 1950 50  0000 C CNN
-	1    7800 1950
-	-1   0    0    1   
-$EndComp
-$Comp
 L CONN_01X08 P25
 U 1 1 59C63FBD
 P 9650 1250
@@ -1607,28 +1541,12 @@ Wire Wire Line
 	7000 1450 7000 2400
 Wire Wire Line
 	7100 1450 7100 2400
-Connection ~ 6550 1650
-Wire Wire Line
-	6550 1500 6550 1950
-Connection ~ 7800 1650
-Wire Wire Line
-	7800 1500 7800 1950
-Connection ~ 8150 1650
-Wire Wire Line
-	8150 1650 8100 1650
-Connection ~ 8250 1500
-Wire Wire Line
-	8100 1500 8250 1500
 Wire Wire Line
 	8650 2000 8450 2000
 Wire Wire Line
 	8650 1900 8550 1900
 Wire Wire Line
 	8450 1450 8650 1450
-Wire Wire Line
-	6850 1650 6900 1650
-Wire Wire Line
-	7000 1500 6850 1500
 Connection ~ 8650 1800
 Connection ~ 8350 1800
 Connection ~ 8650 2000
@@ -1653,8 +1571,6 @@ Connection ~ 6900 2000
 Connection ~ 7000 1900
 Connection ~ 7100 1800
 Connection ~ 8250 1900
-Connection ~ 6900 1650
-Connection ~ 7000 1500
 Wire Wire Line
 	7400 1450 7200 1450
 Wire Wire Line

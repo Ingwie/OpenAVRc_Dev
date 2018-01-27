@@ -37,7 +37,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 6 7
 Title "Shield Mega2560 core Full"
-Date "2017-11-12"
+Date "2018-01-27"
 Rev "2.00"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -197,7 +197,7 @@ L MBR0520 D1
 U 1 1 59C5A5A7
 P 7400 3450
 F 0 "D1" H 7400 3550 50  0000 C CNN
-F 1 "MBR0520" H 7750 3550 50  0000 C CNN
+F 1 "LL4148" H 7750 3550 50  0000 C CNN
 F 2 "Diodes_SMD:D_SOD-123" H 7400 3275 50  0001 C CNN
 F 3 "" H 7400 3450 50  0001 C CNN
 	1    7400 3450
@@ -238,28 +238,6 @@ F 3 "" H 6150 3050 50  0000 C CNN
 $EndComp
 Text Notes 6100 5400 0    60   ~ 0
 Buzzer
-$Comp
-L R-RESCUE-Mega_2560_core_mini_full_2.0 R10
-U 1 1 59C5A5C4
-P 5100 3750
-F 0 "R10" V 5180 3750 50  0000 C CNN
-F 1 "22K" V 5100 3750 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 5030 3750 50  0001 C CNN
-F 3 "" H 5100 3750 50  0000 C CNN
-	1    5100 3750
-	1    0    0    -1  
-$EndComp
-$Comp
-L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR0110
-U 1 1 59C5A5CB
-P 5100 4000
-F 0 "#PWR0110" H 5100 3750 50  0001 C CNN
-F 1 "GND" H 5100 3850 50  0000 C CNN
-F 2 "" H 5100 4000 50  0000 C CNN
-F 3 "" H 5100 4000 50  0000 C CNN
-	1    5100 4000
-	1    0    0    -1  
-$EndComp
 $Comp
 L C-RESCUE-Mega_2560_core_mini_full_2.0 C20
 U 1 1 59C5A5D1
@@ -383,11 +361,6 @@ Wire Notes Line
 	6050 5350 5900 5350
 Wire Notes Line
 	5900 5350 5900 5200
-Wire Wire Line
-	5100 3600 5100 3050
-Connection ~ 5100 3050
-Wire Wire Line
-	5100 3900 5100 4000
 Wire Wire Line
 	3650 4400 3650 4350
 Connection ~ 3650 4350
