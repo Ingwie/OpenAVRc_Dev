@@ -37,7 +37,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 4 7
 Title "Shield Mega2560 core Full"
-Date "2017-11-12"
+Date "2018-01-27"
 Rev "2.00"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -141,17 +141,6 @@ F 3 "" H 9300 4800 50  0000 C CNN
 $EndComp
 Text Notes 7150 3850 2    60   ~ 0
 PPM Management
-$Comp
-L MBR0520 D2
-U 1 1 59C6B455
-P 7350 5050
-F 0 "D2" H 7350 4950 50  0000 C CNN
-F 1 "MBR0520" H 7350 5150 50  0000 C CNN
-F 2 "Diodes_SMD:D_SOD-123" H 7350 4875 50  0001 C CNN
-F 3 "" H 7350 5050 50  0001 C CNN
-	1    7350 5050
-	1    0    0    -1  
-$EndComp
 Text Notes 2100 3950 0    60   Italic 0
 ( Option si utilisation de la télémètrie )
 $Comp
@@ -342,7 +331,7 @@ Wire Wire Line
 Wire Wire Line
 	7050 4800 7600 4800
 Wire Wire Line
-	7050 5050 7200 5050
+	7050 5050 7550 5050
 Wire Wire Line
 	7550 5050 7550 4800
 Connection ~ 7550 4800
@@ -381,8 +370,6 @@ Wire Wire Line
 	3700 4850 3800 4850
 Wire Wire Line
 	3750 4950 3800 4950
-Wire Wire Line
-	7550 5050 7500 5050
 Wire Wire Line
 	3950 2000 3950 1900
 Wire Wire Line
