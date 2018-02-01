@@ -1,4 +1,4 @@
-update=31/01/2018 15:09:45
+update=01/02/2018 09:35:47
 version=1
 last_client=kicad
 [pcbnew]
@@ -60,6 +60,7 @@ LibName28=atmel
 LibName29=contrib
 LibName30=valves
 LibName31=Librairie/Librairie perso.pretty/OPEN_EVO
+LibName32=Mega_2560 core mini_full_2.1
 [schematic_editor]
 version=1
 PageLayoutDescrFile=

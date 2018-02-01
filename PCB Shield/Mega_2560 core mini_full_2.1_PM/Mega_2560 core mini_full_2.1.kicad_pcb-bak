@@ -23,7 +23,7 @@
   )
 
   (layers
-    (0 F.Cu signal hide)
+    (0 F.Cu signal)
     (31 B.Cu signal)
     (32 B.Adhes user hide)
     (33 F.Adhes user hide)
@@ -6044,10 +6044,10 @@
   (gr_text + (at 195.16852 107.21848) (layer F.SilkS)
     (effects (font (size 1.5 1.5) (thickness 0.21)))
   )
-  (gr_text - (at 195.29552 111.28248) (layer B.SilkS)
+  (gr_text - (at 195.80352 111.28248) (layer B.SilkS)
     (effects (font (size 1.5 1.5) (thickness 0.21)))
   )
-  (gr_text + (at 195.29552 108.74248) (layer B.SilkS)
+  (gr_text + (at 195.80352 108.74248) (layer B.SilkS)
     (effects (font (size 1.5 1.5) (thickness 0.21)))
   )
   (gr_text - (at 197.32752 62.89548 180) (layer F.SilkS)

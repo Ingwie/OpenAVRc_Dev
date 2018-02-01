@@ -37,7 +37,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 2 7
 Title "Shield Mega2560 core Full"
-Date "2018-01-30"
+Date "2018-01-31"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -1457,17 +1457,6 @@ F 3 "" H 8400 1900 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C-RESCUE-Mega_2560_core_mini_full_2.0 C32
-U 1 1 59C63F72
-P 8300 2000
-F 0 "C32" H 8325 2100 50  0000 L CNN
-F 1 "100nF" H 7950 2000 50  0000 L CNN
-F 2 "Capacitors_SMD:C_1206" H 8338 1850 50  0001 C CNN
-F 3 "" H 8300 2000 50  0000 C CNN
-	1    8300 2000
-	0    -1   -1   0   
-$EndComp
-$Comp
 L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR34
 U 1 1 59C63F79
 P 8650 2150
@@ -1704,4 +1693,15 @@ Wire Wire Line
 Wire Wire Line
 	10500 1550 10500 1450
 Connection ~ 10400 1550
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C32
+U 1 1 5A72E2A9
+P 8300 2000
+F 0 "C32" H 8325 2100 50  0000 L CNN
+F 1 "100nF" H 7950 2000 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 8338 1850 50  0001 C CNN
+F 3 "" H 8300 2000 50  0000 C CNN
+	1    8300 2000
+	0    -1   -1   0   
+$EndComp
 $EndSCHEMATC
