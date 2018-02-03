@@ -30,6 +30,7 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:OPEN_EVO
+LIBS:Mega_2560 core mini_full_2.1
 LIBS:Mega_2560 core mini_full_2.1-cache
 EELAYER 25 0
 EELAYER END
@@ -295,17 +296,6 @@ F 2 "" H 4850 2100 50  0000 C CNN
 F 3 "" H 4850 2100 50  0000 C CNN
 	1    4850 2100
 	0    -1   -1   0   
-$EndComp
-$Comp
-L 2560-core P1
-U 1 1 59C5DE8E
-P 50 3400
-F 0 "P1" H 2100 4650 50  0000 C CNN
-F 1 "2560-core" V 2100 3600 50  0000 C CNN
-F 2 "anthoperso:Connectors-2560-core" H 2100 2650 50  0001 C CNN
-F 3 "" H 2100 2650 50  0000 C CNN
-	1    50   3400
-	1    0    0    -1  
 $EndComp
 $Comp
 L CONN_01X06 P6
@@ -1072,4 +1062,17 @@ Wire Wire Line
 	10450 2500 10450 2700
 Wire Wire Line
 	10450 2700 10350 2700
+$Comp
+L 2560-core-RESCUE-Mega_2560_core_mini_full_2.1 P1
+U 1 1 5A758C27
+P 50 3400
+AR Path="/5A758C27" Ref="P1"  Part="1" 
+AR Path="/59C5D60D/5A758C27" Ref="P1"  Part="1" 
+F 0 "P1" H 2100 4650 50  0000 C CNN
+F 1 "2560-core" V 2100 3600 50  0000 C CNN
+F 2 "" H 2100 2650 50  0000 C CNN
+F 3 "" H 2100 2650 50  0000 C CNN
+	1    50   3400
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

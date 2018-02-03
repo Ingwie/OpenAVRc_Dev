@@ -30,6 +30,7 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:OPEN_EVO
+LIBS:Mega_2560 core mini_full_2.1
 LIBS:Mega_2560 core mini_full_2.1-cache
 EELAYER 25 0
 EELAYER END
