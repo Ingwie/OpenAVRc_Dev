@@ -132,8 +132,6 @@ void Usart0TransmitBuffer()
 
 #if defined(FRSKY) || defined(MULTI)
 
-void processSerialData(uint8_t data);
-
 ISR(USART_RX_vect_N(TLM_USART0))
 {
   uint8_t stat;

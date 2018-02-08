@@ -329,7 +329,7 @@
 #define TR_VALARMFN            "<>"
 
 #define LEN_VTELPROTO          "\007"
-#define TR_VTELPROTO           "Kein\0  ""Hub\0   ""WSHHigh"
+#define TR_VTELPROTO           "Kein\0  ""Hub\0   ""WSHHigh""S.Port\0"
 
   #define LEN_AMPSRC           TR("\003", "\005")
   #define TR_AMPSRC            TR("---""A1\0""A2\0""FAS""Cel", "---\0 ""A1\0  ""A2\0  ""FAS\0 ""Cells")

@@ -420,7 +420,7 @@ typedef enum {
 #endif
 
 // FrSky D Protocol
-void processHubPacket(uint8_t id, uint16_t value);
+void processHubPacket(int8_t id, uint16_t value);
 void frskyDSendNextAlarm();
 void frskyDProcessPacket(uint8_t *packet);
 

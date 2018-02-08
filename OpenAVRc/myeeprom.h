@@ -650,7 +650,8 @@ enum FrskyUsrProtocols {
   USR_PROTO_NONE,
   USR_PROTO_FRSKY,
   USR_PROTO_WS_HOW_HIGH,
-  USR_PROTO_LAST = USR_PROTO_WS_HOW_HIGH,
+  USR_PROTO_SMART_PORT,
+  USR_PROTO_LAST = USR_PROTO_SMART_PORT
 };
 
 enum FrskyCurrentSource {
@@ -674,7 +675,7 @@ enum FrskyVoltsSource {
 #define IS_BARS_SCREEN(screenIndex) (g_model.frsky.screensType & (1<<(screenIndex)))
 PACK(typedef struct {
   FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
-  uint8_t usrProto:2; // Protocol in FrSky user data, 0=None, 1=FrSky hub, 2=WS HowHigh, 3=Halcyon
+  uint8_t usrProto:2; // Protocol in FrSky user data, 0=None, 1=FrSky hub, 2=WS HowHigh, 3=S.port
   uint8_t blades:2;   // How many blades for RPMs, 0=2 blades
   uint8_t screensType:2;
   uint8_t voltsSource:2;
@@ -956,6 +957,9 @@ enum DisplayTrims {
 };
 
 #if defined(MULTIMODULE)
+
+#define MULTI_RF_PROTO_LAST 37  // Corona at this time
+
 enum MultiModuleRFProtocols {
   MM_RF_PROTO_CUSTOM = -1,
   MM_RF_PROTO_FIRST = MM_RF_PROTO_CUSTOM,

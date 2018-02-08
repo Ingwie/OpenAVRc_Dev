@@ -429,7 +429,7 @@ void menuModelSetup(uint8_t event)
             break;
             case 1: {
               if (g_model.CUSTOMPROTO) {
-                CHECK_INCDEC_MODELVAR_ZERO(event, multi_rfProto, MM_RF_PROTO_LAST);
+                CHECK_INCDEC_MODELVAR_ZERO(event, multi_rfProto, MULTI_RF_PROTO_LAST);
                 g_model.MULTIRFPROTOCOL = multi_rfProto;
               } else if (pdef->maxSubtype > 0)
                 CHECK_INCDEC_MODELVAR(event, g_model.rfSubType, 0, pdef->maxSubtype);

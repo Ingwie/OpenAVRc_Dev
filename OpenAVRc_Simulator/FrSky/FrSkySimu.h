@@ -45,9 +45,11 @@
 #include "FrSkySportSingleWireSerial.h"
 #include "FrSkySportTelemetry.h"
 
+#include "FrSkyDTelemetry.h"
 
-void frskySimuSetup();
-void frskySimuloop();
+void frskySportSimuSetup();
+void frskySportSimuloop();
 
+void frskyDSimuloop();
 
 #endif

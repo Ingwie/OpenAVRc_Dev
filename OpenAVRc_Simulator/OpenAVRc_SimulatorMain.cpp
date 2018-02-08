@@ -483,7 +483,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   wxString Filename = AppPath + "\\VOICEMP3\\0000.mp3";
   if(wxFileExists(Filename)) Mp3RepExist = true;
 
-  frskySimuSetup();
+  frskySportSimuSetup();
 
 }
 
@@ -579,8 +579,8 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
     return;
   }
 
-  if (frskyStreaming % 10) frskySimuloop();
-  if(frskyStreaming < FRSKY_TIMEOUT10ms) ++frskyStreaming;
+  frskySportSimuloop();
+  frskyDSimuloop();
 
 }
 
@@ -686,7 +686,7 @@ void OpenAVRc_SimulatorFrame::PlayTts()
     prompt <<= 8;
     prompt |= JQ6500_playlist[JQ6500_PlayIndex];
     ++JQ6500_PlayIndex;
-    if (JQ6500_PlayIndex == (18*2)) JQ6500_PlayIndex = 0; //QUEUE_LENGTH = 16*2 in JQ6500 driver
+    if (JQ6500_PlayIndex == (24*2)) JQ6500_PlayIndex = 0; //QUEUE_LENGTH = 24*2 in JQ6500 driver
     wxString Mp3file;
     --prompt;
     Mp3file.Printf("%04d.mp3",prompt);

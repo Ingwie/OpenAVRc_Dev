@@ -254,7 +254,10 @@ void menuModelTelemetry(uint8_t event)
     case ITEM_TELEMETRY_USR_PROTO:
       lcdDrawTextLeft(y, STR_PROTO);
       lcdDrawTextAtIndex(TELEM_COL2, y, STR_VTELPROTO, g_model.frsky.usrProto, attr);
-      if (attr) CHECK_INCDEC_MODELVAR_ZERO(event, g_model.frsky.usrProto, USR_PROTO_LAST);
+      if (attr) {
+          CHECK_INCDEC_MODELVAR_ZERO(event, g_model.frsky.usrProto, USR_PROTO_LAST);
+          telemetryReset();
+      }
       break;
 
     case ITEM_TELEMETRY_USR_BLADES:
