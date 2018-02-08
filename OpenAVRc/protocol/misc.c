@@ -93,15 +93,15 @@ void CLOCK_delayms(uint32_t delay_ms)
 }
 
 
-/*void PROTOCOL_SetBindState(uint32_t msec)
+void PROTOCOL_SetBindState(uint32_t msec)
 {
-  uint32_t bind_time;
+  //uint32_t bind_time;
 
   if(msec) {
     RFModule.mode = BIND_MODE;
-    if (msec == 0xFFFFFFFF) bind_time = msec;
-    else bind_time = CLOCK_getms() + msec;
+    //if (msec == 0xFFFFFFFF) bind_time = msec;
+    //else bind_time = CLOCK_getms() + msec;
   }
   else RFModule.mode = NORMAL_MODE; // unimod rick added. Can't go from bind to range test.
-}*/
+}
 

@@ -43,8 +43,7 @@ uint16_t link_counter = 0;
 
 FrskyData frskyData;
 
-#define IS_FRSKY_D_PROTOCOL()     (0)
-#define IS_FRSKY_SPORT_PROTOCOL() (1)
+#define USE_PROTO_FRSKY_HUB()     (!IS_USR_PROTO_SMART_PORT())
 
 #if (defined(FRSKY_HUB) || defined(WS_HOW_HIGH))
 void checkMinMaxAltitude()
@@ -57,7 +56,7 @@ void checkMinMaxAltitude()
 #endif
 
 #if defined(FRSKY_HUB)
-void processHubPacket(uint8_t id, uint16_t value)
+void processHubPacket(int8_t id, uint16_t value)
 {
 #if defined(GPS)
   if ((uint8_t)id == offsetof(FrskySerialData, gpsLatitude_bp)) {
@@ -73,14 +72,17 @@ void processHubPacket(uint8_t id, uint16_t value)
   }
 
   if ((uint8_t)id == offsetof(FrskySerialData, gpsAltitude_bp) ||
-      ((uint8_t)id >= offsetof(FrskySerialData, gpsAltitude_ap) && (uint8_t)id <= offsetof(FrskySerialData, gpsLatitudeNS) && (uint8_t)id != offsetof(FrskySerialData, baroAltitude_bp) && (uint8_t)id != offsetof(FrskySerialData, baroAltitude_ap))) {
+      ((uint8_t)id >= offsetof(FrskySerialData, gpsAltitude_ap) &&
+       (uint8_t)id <= offsetof(FrskySerialData, gpsLatitudeNS) &&
+       (uint8_t)id != offsetof(FrskySerialData, baroAltitude_bp)
+       && (uint8_t)id != offsetof(FrskySerialData, baroAltitude_ap))) {
     // If we don't have a fix, we may discard the value
     if (frskyData.hub.gpsFix <= 0)
       return;
   }
 #endif  // #if defined(GPS)
 
-  ((uint16_t*)&frskyData.hub)[id] = value;
+  ((uint8_t*)&frskyData.hub)[id] = value;
 
   switch ((uint8_t)id) {
 
@@ -194,7 +196,7 @@ void parseTelemWSHowHighByte(uint8_t byte)
 #if defined(FRSKY_HUB)
 void parseTelemHubByte(uint8_t byte)
 {
-  static uint8_t structPos;
+  static int8_t structPos;
   static uint8_t lowByte;
   static TS_STATE state = TS_IDLE;
 
@@ -257,7 +259,7 @@ void FrskyValueWithMin::set(uint8_t value)
   } else {
     sum += value;
     if (link_counter == 0) {
-      this->value = sum / (IS_FRSKY_D_PROTOCOL() ? FRSKY_D_AVERAGING : FRSKY_SPORT_AVERAGING);
+      this->value = sum / (USE_PROTO_FRSKY_HUB() ? FRSKY_D_AVERAGING : FRSKY_SPORT_AVERAGING);
       sum = 0;
     }
   }
@@ -497,7 +499,7 @@ NOINLINE void processSerialData(uint8_t data)
   switch (dataState) {
   case STATE_DATA_START:
     if (data == START_STOP) {
-      if (IS_FRSKY_SPORT_PROTOCOL()) {
+      if (IS_USR_PROTO_SMART_PORT()) {
         dataState = STATE_DATA_IN_FRAME ;
         Usart0RxBufferCount = 0;
       }
@@ -513,7 +515,7 @@ NOINLINE void processSerialData(uint8_t data)
     if (data == BYTESTUFF) {
       dataState = STATE_DATA_XOR; // XOR next byte
     } else if (data == START_STOP) {
-      if (IS_FRSKY_SPORT_PROTOCOL()) {
+      if (IS_USR_PROTO_SMART_PORT()) {
         dataState = STATE_DATA_IN_FRAME ;
         Usart0RxBufferCount = 0;
       } else {
@@ -543,7 +545,7 @@ NOINLINE void processSerialData(uint8_t data)
 
   } // switch
 
-  if (IS_FRSKY_SPORT_PROTOCOL() && Usart0RxBufferCount >= FRSKY_SPORT_PACKET_SIZE) {
+  if (IS_USR_PROTO_SMART_PORT() && Usart0RxBufferCount >= FRSKY_SPORT_PACKET_SIZE) {
     processSportPacket(Usart0RxBuffer);
     dataState = STATE_DATA_IDLE;
   }
@@ -551,7 +553,7 @@ NOINLINE void processSerialData(uint8_t data)
 
 void telemetryWakeup()
 {
-  if (IS_FRSKY_D_PROTOCOL()) {
+  if (USE_PROTO_FRSKY_HUB()) {
     // Attempt to transmit any waiting Fr-Sky alarm set packets every 50ms (subject to packet buffer availability)
     static uint8_t frskyTxDelay = 5;
     if (frskyAlarmsSendState && (--frskyTxDelay == 0)) {
@@ -603,7 +605,7 @@ void frskyRFProcessPacket(uint8_t *packet)
 void telemetryInterrupt10ms()
 {
 #if defined(SPIMODULES)
-  frskyRFProcessPacket(Usart0RxBuffer);
+  //frskyRFProcessPacket(Usart0RxBuffer);
 #endif
 
 #if defined(FRSKY_HUB)
@@ -665,10 +667,8 @@ void telemetryInterrupt10ms()
   if (frskyStreaming) {
     --frskyStreaming;
   } else {
-#if !defined(SIMUaa)
     frskyData.rssi[0].set(0);
     frskyData.rssi[1].set(0);
-#endif
   }
 }
 
@@ -756,15 +756,18 @@ void telemetryResetValue()
 void telemetryInit()
 {
 //9600 8N1 - "D" 57600 8N1 -> "S.port"
+  if IS_USR_PROTO_SMART_PORT() {
   Usart0Set9600BAUDS();
+  } else {
   Usart0Set8N1();
+  }
   Usart0EnableTx(); // enable FrSky-Telemetry emission
   Usart0EnableRx(); // enable FrSky-Telemetry reception}
 
   Usart0TxBufferCount = 0; // TODO not driver code
 }
 
-void parseTelemMMsmartData(uint16_t SP_id, uint32_t SP_data, uint8_t SP_data8)
+/*void parseTelemMMsmartData(uint16_t SP_id, uint32_t SP_data, uint8_t SP_data8)
 {
   switch (SP_id) {
   case CURR_FIRST_ID:
@@ -800,7 +803,7 @@ void parseTelemMMsmartData(uint16_t SP_id, uint32_t SP_data, uint8_t SP_data8)
     break;
 
   }
-}
+}*/
 
 void frskyDProcessPacket(uint8_t *packet)
 {
@@ -821,33 +824,33 @@ void frskyDProcessPacket(uint8_t *packet)
 #endif
     break;
   }
-  case BFSPPKT:
-  case RXSPPKT: {
-    uint16_t MMSmartPort_id; // = (packet[3] << 8) | packet[2];
-    uint32_t MMSmartPort_data;
-    MMSmartPort_id = packet[3];
-    MMSmartPort_id <<=8;
-    MMSmartPort_id |=packet[2];
-    MMSmartPort_data = packet[7];
-    MMSmartPort_data <<=8;
-    MMSmartPort_data |= packet[6];
-    MMSmartPort_data <<=8;
-    MMSmartPort_data |= packet[5];
-    MMSmartPort_data <<=8;
-    MMSmartPort_data |= packet[4];
-    parseTelemMMsmartData(MMSmartPort_id, MMSmartPort_data, packet[4]);
+    /*case BFSPPKT:
+    case RXSPPKT: {
+      uint16_t MMSmartPort_id; // = (packet[3] << 8) | packet[2];
+      uint32_t MMSmartPort_data;
+      MMSmartPort_id = packet[3];
+      MMSmartPort_id <<=8;
+      MMSmartPort_id |=packet[2];
+      MMSmartPort_data = packet[7];
+      MMSmartPort_data <<=8;
+      MMSmartPort_data |= packet[6];
+      MMSmartPort_data <<=8;
+      MMSmartPort_data |= packet[5];
+      MMSmartPort_data <<=8;
+      MMSmartPort_data |= packet[4];
+      parseTelemMMsmartData(MMSmartPort_id, MMSmartPort_data, packet[4]);
 
-    frskyStreaming = FRSKY_TIMEOUT10ms; // reset counter only if valid frsky packets are being detected
-    link_counter += 256 / FRSKY_D_AVERAGING;
+      frskyStreaming = FRSKY_TIMEOUT10ms; // reset counter only if valid frsky packets are being detected
+      link_counter += 256 / FRSKY_D_AVERAGING;
 
-    break;
-  }
+      break;
+    }*/
 #if defined(FRSKY_HUB) || defined (WS_HOW_HIGH)
   case USRPKT: // User Data packet
     uint8_t numBytes = 3 + (packet[1] & 0x07); // sanitize in case of data corruption leading to buffer overflow
     for (uint8_t i=3; i<numBytes; i++) {
 #if defined(FRSKY_HUB)
-      if (IS_USR_PROTO_FRSKY_HUB()) {
+      if (USE_PROTO_FRSKY_HUB()) {
         parseTelemHubByte(packet[i]);
       }
 #endif
@@ -862,7 +865,7 @@ void frskyDProcessPacket(uint8_t *packet)
   }
 }
 
-#if   defined(FRSKY_HUB)
+#if defined(FRSKY_HUB)
 void frskyUpdateCells()
 {
   // Voltage => Cell number + Cell voltage

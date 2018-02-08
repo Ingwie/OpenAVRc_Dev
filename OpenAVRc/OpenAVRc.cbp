@@ -221,6 +221,7 @@
 		<Unit filename="targets/lcd/lcd_simu_driver.h" />
 		<Unit filename="targets/lcd/lcd_ssd1306_driver.cpp" />
 		<Unit filename="targets/lcd/lcd_st7920_driver.cpp" />
+		<Unit filename="targets/lcd/lcd_st7920_mcp23017driver.cpp" />
 		<Unit filename="targets/mega2560/board_mega2560.cpp" />
 		<Unit filename="targets/mega2560/board_mega2560.h" />
 		<Unit filename="targets/mega2560/voice.h" />

@@ -856,7 +856,7 @@ void evalFunctions();
   extern volatile rotenc_t g_rotenc[1];
 #endif
 
-
+extern void processSerialData(uint8_t data);
 #if defined (FRSKY)
   // FrSky Telemetry
   #include "telemetry/frsky.h"
@@ -1315,9 +1315,10 @@ void varioWakeup();
 
 #define IS_USR_PROTO_FRSKY_HUB()   (g_model.frsky.usrProto == USR_PROTO_FRSKY)
 #define IS_USR_PROTO_WS_HOW_HIGH() (g_model.frsky.usrProto == USR_PROTO_WS_HOW_HIGH)
+#define IS_USR_PROTO_SMART_PORT() (g_model.frsky.usrProto == USR_PROTO_SMART_PORT)
 
 #if defined(FRSKY) && defined(FRSKY_HUB) && defined(GPS)
-  #define IS_GPS_AVAILABLE()         IS_USR_PROTO_FRSKY_HUB()
+  #define IS_GPS_AVAILABLE()         IS_USR_PROTO_FRSKY_HUB() || IS_USR_PROTO_SMART_PORT()
 #else
   #define IS_GPS_AVAILABLE()         (0)
 #endif

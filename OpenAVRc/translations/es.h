@@ -328,7 +328,7 @@
 #define TR_VALARMFN            "<>"
 
 #define LEN_VTELPROTO          "\007"
-#define TR_VTELPROTO           "Nada\0  ""Hub\0   ""WSHHigh"
+#define TR_VTELPROTO           "Nada\0  ""Hub\0   ""WSHHigh""S.Port\0"
 
   #define LEN_AMPSRC           TR("\003", "\007")
   #define TR_AMPSRC            TR("---""A1\0""A2\0""FAS""Cel", "---\0   ""A1\0    ""A2\0    ""FAS\0   ""Cells\0 ")
@@ -616,7 +616,7 @@
 #define TR_MENUSTAT            "STATS"
 #define TR_MENUDEBUG           "DEBUG"
 #define TR_RXNUM               TR("RxNum", INDENT"Receptor No.")
-#define TR_SYNCMENU            "Sync [MENU]"
+#define TR_SYNCMENU            "Sync "TR_ENTER
 #define TR_LIMIT               INDENT"Limite"
 #define TR_MINRSSI             "Min Rssi"
 #define TR_LATITUDE            "Latitud"

@@ -145,7 +145,7 @@ void setBaroAltitude(int32_t baroAltitude)
     frskyData.hub.minAltitude = baroAltitude;
 }
 
-void processHubPacket(uint8_t id, uint16_t value)
+void processHubPacketaa(uint8_t id, uint16_t value)
 {
   if (id > FRSKY_LAST_ID)
     return;

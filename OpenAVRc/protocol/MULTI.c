@@ -48,7 +48,7 @@ const static int8_t RfOpt_Multi_Ser[] PROGMEM = {
   /*rfProtoNeed*/BOOL1USED | BOOL2USED | BOOL3USED,
   /*rfSubTypeMax*/15,
   /*rfOptionValue1Min*/0,
-  /*rfOptionValue1Max*/24,
+  /*rfOptionValue1Max*/MULTI_RF_PROTO_LAST,
   /*rfOptionValue2Min*/-127,
   /*rfOptionValue2Max*/127,
   /*rfOptionValue3Max*/0,
@@ -151,11 +151,6 @@ static void MULTI_init()
 #endif
 }
 
-static uint16_t MULTI_bind_cb()
-{
-  //send bind command
-  return 18000U *2;
-}
 
 static uint16_t MULTI_cb()
 {
@@ -283,7 +278,7 @@ static uint16_t MULTI_cb()
 }
 
 
-static void MULTI_initialize(uint8_t bind)
+static void MULTI_initialize()
 {
 // 100K 8E2
   Usart0Set100000BAUDS();
@@ -294,20 +289,15 @@ static void MULTI_initialize(uint8_t bind)
   Usart0TxBufferCount = 0;
 
   MULTI_init();
-  if (bind) {
-    PROTO_Start_Callback(25000U *2, MULTI_bind_cb);
-  } else {
-    PROTO_Start_Callback(25000U *2, MULTI_cb);
-  }
+  PROTO_Start_Callback(25000U *2, MULTI_cb);
 }
 
 const void *MULTI_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
   case PROTOCMD_INIT:
-    MULTI_initialize(0);
+    MULTI_initialize();
     return 0;
-  //case PROTOCMD_DEINIT:
   case PROTOCMD_RESET:
     PROTO_Stop_Callback();
     MULTI_Reset();
@@ -315,7 +305,8 @@ const void *MULTI_Cmds(enum ProtoCmds cmd)
   //case PROTOCMD_CHECK_AUTOBIND:
   //return (void *)1L; // Always Autobind
   case PROTOCMD_BIND:
-    MULTI_initialize(1);
+    MULTI_initialize();
+    //PROTOCOL_SetBindState(2000000U);
     return 0;
   case PROTOCMD_GETOPTIONS:
     SetRfOptionSettings(pgm_get_far_address(RfOpt_Multi_Ser),

@@ -1078,7 +1078,7 @@ void doMixerCalculations()
 
       if (s_cnt_1s >= 10) { // 1sec
         s_cnt_1s -= 10;
-        sessionTimer += 1;
+        ++sessionTimer;
 
         struct t_inactivity *ptrInactivity = &inactivity;
         FORCE_INDIRECT(ptrInactivity) ;
@@ -1196,9 +1196,9 @@ void checkBattery()
 #else
   instant_vbat *= 2889L*(BANDGAP/100);
   instant_vbat /= 2047L*100L;
-  instant_vbat += 40L;
+  instant_vbat += 38L;
   instant_vbat += g_eeGeneral.txVoltageCalibration;
-  // Schottky Diode drops 0.4V before a potential divider which reduces the input to the ADC by 1/2.8889.
+  // Schottky Diode drops 0.38V before a potential divider which reduces the input to the ADC by 1/2.8889.
 #endif
 
   if (!g_vbat10mV) {
@@ -1207,7 +1207,7 @@ void checkBattery()
 
   g_vbat10mV = ((g_vbat10mV << 3) + instant_vbat) / 9; // Simple low pass filter
 
-  if (IS_TXBATT_WARNING() && (g_vbat10mV > g_eeGeneral.vBatMin*0.9)) { // No Audio Alarm if TX Battery < VCCMIN X .9
+  if (IS_TXBATT_WARNING() && (g_vbat10mV > g_eeGeneral.vBatMin*0.9) && (sessionTimer&0x03)) { // No Audio Alarm if TX Battery < VCCMIN X .9 & 3 Sec
     AUDIO_TX_BATTERY_LOW();
   }
 }
