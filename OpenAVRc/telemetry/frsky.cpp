@@ -56,35 +56,36 @@ void checkMinMaxAltitude()
 #endif
 
 #if defined(FRSKY_HUB)
-void processHubPacket(int8_t id, uint16_t value)
+void processHubPacket(uint8_t id, uint16_t value)
 {
 #if defined(GPS)
-  if ((uint8_t)id == offsetof(FrskySerialData, gpsLatitude_bp)) {
+  if (id == offsetof(FrskySerialData, gpsLatitude_bp)) {
     if (value)
       frskyData.hub.gpsFix = 1;
     else if (frskyData.hub.gpsFix > 0 && frskyData.hub.gpsLatitude_bp > 1)
       frskyData.hub.gpsFix = 0;
-  } else if ((uint8_t)id == offsetof(FrskySerialData, gpsLongitude_bp)) {
+  } else if (id == offsetof(FrskySerialData, gpsLongitude_bp)) {
     if (value)
       frskyData.hub.gpsFix = 1;
     else if (frskyData.hub.gpsFix > 0 && frskyData.hub.gpsLongitude_bp > 1)
       frskyData.hub.gpsFix = 0;
   }
 
-  if ((uint8_t)id == offsetof(FrskySerialData, gpsAltitude_bp) ||
-      ((uint8_t)id >= offsetof(FrskySerialData, gpsAltitude_ap) &&
-       (uint8_t)id <= offsetof(FrskySerialData, gpsLatitudeNS) &&
-       (uint8_t)id != offsetof(FrskySerialData, baroAltitude_bp)
-       && (uint8_t)id != offsetof(FrskySerialData, baroAltitude_ap))) {
+  if (id == offsetof(FrskySerialData, gpsAltitude_bp) ||
+      (id >= offsetof(FrskySerialData, gpsAltitude_ap) &&
+       id <= offsetof(FrskySerialData, gpsLatitudeNS) &&
+       id != offsetof(FrskySerialData, baroAltitude_bp)
+       && id != offsetof(FrskySerialData, baroAltitude_ap))) {
     // If we don't have a fix, we may discard the value
     if (frskyData.hub.gpsFix <= 0)
       return;
   }
 #endif  // #if defined(GPS)
 
-  ((uint8_t*)&frskyData.hub)[id] = value;
+  ((uint8_t*)&frskyData.hub)[id] = (uint8_t)value;
+  ((uint8_t*)&frskyData.hub)[id+1] = value>>8;
 
-  switch ((uint8_t)id) {
+  switch (id) {
 
   case offsetof(FrskySerialData, rpm):
     frskyData.hub.rpm *= (uint8_t)60/(g_model.frsky.blades+2);
@@ -196,7 +197,7 @@ void parseTelemWSHowHighByte(uint8_t byte)
 #if defined(FRSKY_HUB)
 void parseTelemHubByte(uint8_t byte)
 {
-  static int8_t structPos;
+  static uint8_t structPos;
   static uint8_t lowByte;
   static TS_STATE state = TS_IDLE;
 
@@ -300,7 +301,7 @@ lcdint_t applyChannelRatio(source_t channel, lcdint_t val)
 bool checkSportPacket(uint8_t *packet)
 {
   uint16_t crc = 0;
-  for (int i=1; i<USART0_RX_PACKET_SIZE; i++) {
+  for (uint8_t i=1; i<USART0_RX_PACKET_SIZE; i++) {
     crc += packet[i]; //0-1FF
     crc += crc >> 8; //0-100
     crc &= 0x00ff;
@@ -343,9 +344,8 @@ void processSportPacket(uint8_t *packet)
       frskyData.analog[0].set(SPORT_DATA_U8(packet),UNIT_VOLTS);
     } else if ((appId >> 8) == 0) {
       // The old FrSky IDs
-      uint8_t  id = (uint8_t)appId;
       uint16_t value = HUB_DATA_U16(packet);
-      processHubPacket(id, value);
+      processHubPacket((uint8_t)appId, value);
     } else if (appId == BETA_BARO_ALT_ID) {
       int32_t baroAltitude = SPORT_DATA_S32(packet);
       setBaroAltitude(10 * (baroAltitude >> 8));
@@ -410,7 +410,7 @@ void processSportPacket(uint8_t *packet)
 //          frskyData.hub.gpsAltitudeOffset = -frskyData.hub.gpsAltitude;
 
         if (!frskyData.hub.baroAltitudeOffset) {
-          int altitude = TELEMETRY_RELATIVE_GPS_ALT_BP;
+          int16_t altitude = TELEMETRY_RELATIVE_GPS_ALT_BP;
           if (altitude > frskyData.hub.maxAltitude)
             frskyData.hub.maxAltitude = altitude;
           if (altitude < frskyData.hub.minAltitude)
@@ -575,6 +575,7 @@ void telemetryWakeup()
 
 }
 
+#if (0)
 void frskyRFProcessPacket(uint8_t *packet)
 {
   // 20 bytes
@@ -601,6 +602,7 @@ void frskyRFProcessPacket(uint8_t *packet)
 
   link_counter += 256 / FRSKY_D_AVERAGING;
 }
+#endif
 
 void telemetryInterrupt10ms()
 {

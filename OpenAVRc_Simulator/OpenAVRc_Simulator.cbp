@@ -492,8 +492,6 @@
 		<Unit filename="FrSky/FrSkyDTelemetry.h" />
 		<Unit filename="FrSky/FrSkySimu.cpp" />
 		<Unit filename="FrSky/FrSkySimu.h" />
-		<Unit filename="FrSky/FrSkySportDecoder.cpp" />
-		<Unit filename="FrSky/FrSkySportDecoder.h" />
 		<Unit filename="FrSky/FrSkySportPolling.cpp" />
 		<Unit filename="FrSky/FrSkySportPolling.h" />
 		<Unit filename="FrSky/FrSkySportSensor.cpp" />

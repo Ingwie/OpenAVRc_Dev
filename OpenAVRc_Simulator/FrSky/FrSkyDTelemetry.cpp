@@ -48,8 +48,8 @@ void FrSkyDTelemetry::setFgsData(float fuel)
   FrSkyDTelemetry::fuel = (uint16_t)round(fuel);
 }
 
-void FrSkyDTelemetry::setFlvsData(float cell1, float cell2, float cell3, float cell4, float cell5, float cell6)
-                                  //,float cell7, float cell8, float cell9, float cell10, float cell11, float cell12)
+void FrSkyDTelemetry::setFlvsData(float cell1, float cell2, float cell3, float cell4, float cell5, float cell6
+ ,float cell7, float cell8, float cell9, float cell10, float cell11, float cell12)
 {
   enabledSensors |= SENSOR_FLVS;
   // DEVIATION FROM SPEC: in reality cells are numbered from 0 not from 1 like in the FrSky protocol spec
@@ -64,7 +64,7 @@ void FrSkyDTelemetry::setFlvsData(float cell1, float cell2, float cell3, float c
     FrSkyDTelemetry::cell[4]  = 0x4000 | (uint16_t)round(cell5  * 500.0);
   if(cell6  != 0)
     FrSkyDTelemetry::cell[5]  = 0x5000 | (uint16_t)round(cell6  * 500.0);
-  /*if(cell7  != 0)
+  if(cell7  != 0)
     FrSkyDTelemetry::cell[6]  = 0x6000 | (uint16_t)round(cell7  * 500.0);
   if(cell8  != 0)
     FrSkyDTelemetry::cell[7]  = 0x7000 | (uint16_t)round(cell8  * 500.0);
@@ -75,7 +75,7 @@ void FrSkyDTelemetry::setFlvsData(float cell1, float cell2, float cell3, float c
   if(cell11 != 0)
     FrSkyDTelemetry::cell[10] = 0xA000 | (uint16_t)round(cell11 * 500.0);
   if(cell12 != 0)
-    FrSkyDTelemetry::cell[11] = 0xB000 | (uint16_t)round(cell12 * 500.0);*/
+    FrSkyDTelemetry::cell[11] = 0xB000 | (uint16_t)round(cell12 * 500.0);
 }
 
 void FrSkyDTelemetry::setFasData(float current, float voltage)
@@ -153,37 +153,47 @@ void FrSkyDTelemetry::setRpmsData(float rpm)
 
 void FrSkyDTelemetry::sendSeparator()
 {
-  processSerialData(0x5E);
+  SendSerialDataToUART(0x5E);
 }
 
 void FrSkyDTelemetry::sendByte(uint8_t byte)
 {
   if(byte == 0x5E) { // use 5D 3E sequence instead of 5E to distinguish between separator character and real data
-    processSerialData(0x5D);
-    processSerialData(0x3E);
+    SendSerialDataToUART(0x5D);
+    SendSerialDataToUART(0x3E);
   } else if(byte == 0x5D) { // use 5D 3D sequence instead of 5D to distinguish between stuffing character and real data
-    processSerialData(0x5D);
-    processSerialData(0x3D);
+    SendSerialDataToUART(0x5D);
+    SendSerialDataToUART(0x3D);
   } else if(byte == 0x7E) {
-    processSerialData(0x7D);
-    processSerialData(0x5E);
+    SendSerialDataToUART(0x7D);
+    SendSerialDataToUART(0x5E);
   } else if(byte == 0x7D) {
-    processSerialData(0x7D);
-    processSerialData(0x5D);
+    SendSerialDataToUART(0x7D);
+    SendSerialDataToUART(0x5D);
   } else {
-    processSerialData(byte);
+    SendSerialDataToUART(byte);
   }
 }
 
 void FrSkyDTelemetry::sendData(uint8_t dataId, uint16_t data, bool bigEndian)
 {
-  processSerialData(0x7E);
-  processSerialData(0xFD);
-  processSerialData(0x06);
-  processSerialData(0x00);
-  sendSeparator();
-  sendByte(dataId);
+  uint8_t numdata = 0;
   uint8_t *bytes = (uint8_t*)&data;
+
+  for (int i=0; i<2; ++i) {
+    if ((bytes[i] == 0X5E)||(bytes[i] == 0X5D)||(bytes[i] == 0X7E)||(bytes[i] == 0X7D)) {
+      ++numdata;
+    }
+  }
+
+  SendSerialDataToUART(0x7E);
+  SendSerialDataToUART(0xFD);
+  SendSerialDataToUART(0x05 + numdata);
+  SendSerialDataToUART(0x00);
+  sendSeparator();
+
+  sendByte(dataId);
+
   if(bigEndian == false) {
     sendByte(bytes[0]);
     sendByte(bytes[1]);
@@ -192,10 +202,9 @@ void FrSkyDTelemetry::sendData(uint8_t dataId, uint16_t data, bool bigEndian)
     sendByte(bytes[0]);
   }
   sendSeparator();
-  processSerialData(0x00);
-  processSerialData(0x00);
-  processSerialData(0x00);
-  processSerialData(0x7E);
+  if (numdata<2) SendSerialDataToUART(0x00);
+  if (numdata<1) SendSerialDataToUART(0x00);
+  SendSerialDataToUART(0x7E);
 }
 
 bool FrSkyDTelemetry::sendFasData()
@@ -223,7 +232,7 @@ bool FrSkyDTelemetry::sendFlvsData()
   bool enabled = enabledSensors & SENSOR_FLVS;
   if(enabled == true) {
     // Only send one cell at a time
-    if((cell[cellIdx] == 0) || (cellIdx == 5))
+    if((cell[cellIdx] == 0) || (cellIdx == 12))
       cellIdx = 0;
     sendData(0x06, cell[cellIdx], true);
     cellIdx++;
@@ -355,16 +364,16 @@ void FrSkyDTelemetry::send()
   else if(currentTime > frameRSSITime) { // Sent every 100ms
     frameRSSITime = currentTime + 100;
 
-    processSerialData(0x7E);
-    processSerialData(0xFE);
-    processSerialData(0x40);//A1
-    processSerialData(0x40);//A2
-    processSerialData(0x40);//RX
-    processSerialData(0x82);//TX*2
-    processSerialData(0x00);
-    processSerialData(0x00);
-    processSerialData(0x00);
-    processSerialData(0x00);
-    processSerialData(0x7E);
+    SendSerialDataToUART(0x7E);
+    SendSerialDataToUART(0xFE);
+    SendSerialDataToUART(0x40);//A1
+    SendSerialDataToUART(0x40);//A2
+    SendSerialDataToUART(0x40);//RX
+    SendSerialDataToUART(0x82);//TX*2
+    SendSerialDataToUART(0x00);
+    SendSerialDataToUART(0x00);
+    SendSerialDataToUART(0x00);
+    SendSerialDataToUART(0x00);
+    SendSerialDataToUART(0x7E);
   }
 }

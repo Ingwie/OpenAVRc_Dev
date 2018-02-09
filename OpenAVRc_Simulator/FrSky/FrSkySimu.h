@@ -49,7 +49,6 @@
 
 void frskySportSimuSetup();
 void frskySportSimuloop();
-
 void frskyDSimuloop();
-
+void SendSerialDataToUART(uint8_t data);
 #endif

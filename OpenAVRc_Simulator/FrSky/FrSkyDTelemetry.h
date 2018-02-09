@@ -44,6 +44,7 @@
 #include "../../OpenAVRc/OpenAVRc.h"
 #include <cmath>
 
+extern void SendSerialDataToUART(uint8_t data);
 
 #define SENSOR_NONE 0x0000
 #define SENSOR_FAS  0x0001
@@ -64,8 +65,8 @@ class FrSkyDTelemetry
     // Set the FGS sensor data: fuel in percent
     void setFgsData(float fuel);
     // Set the FLVS sensor data: each cell voltage in volts. Skip non-existing cells
-    void setFlvsData(float cell1, float cell2 = 0.0, float cell3 = 0.0, float cell4 = 0.0, float cell5 = 0.0, float cell6 = 0.0);
-                    //, float cell7 = 0.0, float cell8 = 0.0, float cell9 = 0.0, float cell10 = 0.0, float cell11 = 0.0, float cell12 = 0.0);
+    void setFlvsData(float cell1 = 0.0, float cell2 = 0.0, float cell3 = 0.0, float cell4 = 0.0, float cell5 = 0.0, float cell6 = 0.0
+                    , float cell7 = 0.0, float cell8 = 0.0, float cell9 = 0.0, float cell10 = 0.0, float cell11 = 0.0, float cell12 = 0.0);
     // Set the FAS sensor data: current in amperes, voltage in volts
     void setFasData(float current, float voltage);
     // Set the FVAS sensor data: altitude in meters (can be negative), vertical speed in m/s (can be nevative, 0.0m/s will be set when skipped)
@@ -99,7 +100,7 @@ class FrSkyDTelemetry
     uint16_t fuel;
 
     // FLVS sensor
-    uint16_t cell[6];
+    uint16_t cell[12];
 
     // FVAS sensor
     int16_t  altBD;
