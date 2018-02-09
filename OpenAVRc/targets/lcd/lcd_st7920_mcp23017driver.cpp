@@ -33,18 +33,31 @@
 
 #define NUMITERATIONFULLREFRESH  5
 
-static uint8_t MCP_GPIOA, MCP_GPIOB;
+#define MCP23017_ADDRESS (0x20 << 1)
+#define MCP23017_IODIRA  0x00
+#define MCP23017_IODIRB  0x01
+#define MCP23017_GPIOA   0x12
+#define MCP23017_GPIOB   0x13
+
+
+#define MCP_ST7920_LCD_CS1       3
+#define MCP_ST7920_LCD_A0        5
+#define MCP_ST7920_LCD_RnW       6
+#define MCP_ST7920_LCD_E         7
+#define MCP_ST7920_LCD_RES       4
+
+static uint8_t MCP_GPIOA, MCP_GPIOB = 0x00;
 
 void lcdSendCtl(uint8_t val)
 {
-  MCP_GPIOA &= ~_BV(LCD_CS1);
-  MCP_GPIOA &= ~_BV(LCD_A0);
-  MCP_GPIOA &= ~_BV(LCD_RnW);
+  MCP_GPIOA &= ~_BV(MCP_ST7920_LCD_CS1);
+  MCP_GPIOA &= ~_BV(MCP_ST7920_LCD_A0);
+  MCP_GPIOA &= ~_BV(MCP_ST7920_LCD_RnW);
   MCP_GPIOB = val;
-  MCP_GPIOA |=  _BV(LCD_E);
-  MCP_GPIOA &= ~_BV(LCD_E);
-  MCP_GPIOA |=  _BV(LCD_A0);
-  MCP_GPIOA |=  _BV(LCD_CS1);
+  MCP_GPIOA |=  _BV(MCP_ST7920_LCD_E);
+  MCP_GPIOA &= ~_BV(MCP_ST7920_LCD_E);
+  MCP_GPIOA |=  _BV(MCP_ST7920_LCD_A0);
+  MCP_GPIOA |=  _BV(MCP_ST7920_LCD_CS1);
 }
 
 const static pm_uchar lcdInitSequence[] PROGMEM = {
@@ -57,9 +70,12 @@ const static pm_uchar lcdInitSequence[] PROGMEM = {
 
 void lcdInit()
 {
-  MCP_GPIOA &= ~_BV(LCD_RES); //LCD reset
+  i2c_writeReg(MCP23017_ADDRESS, IODIRA, &(0x00),1); // GPIOA as output
+  i2c_writeReg(MCP23017_ADDRESS, IODIRB, &(0x00),1); // GPIOB as output
+
+  MCP_GPIOA &= ~_BV(MCP_ST7920_LCD_RES); //LCD reset
   _delay_us(2);
-  MCP_GPIOA |= _BV(LCD_RES);  //LCD normal operation
+  MCP_GPIOA |= _BV(MCP_ST7920_LCD_RES);  //LCD normal operation
   _delay_ms(40);
   for (uint8_t i=0; i<DIM(lcdInitSequence); i++) {
     lcdSendCtl(pgm_read_byte_near(&lcdInitSequence[i])) ;
@@ -110,8 +126,8 @@ SHOWDURATIONLCD1
     _delay_us(49);
     lcdSendCtl( 0x80 | x_addr );  //Set Horizontal Address
     _delay_us(49);
-    MCP_GPIOA |= _BV(LCD_A0);    //HIGH RS and LOW RW will put the LCD to
-    MCP_GPIOA &= ~_BV(LCD_RnW);  //Write data register mode
+    MCP_GPIOA |= _BV(MCP_ST7920_LCD_A0);    //HIGH RS and LOW RW will put the LCD to
+    MCP_GPIOA &= ~_BV(MCP_ST7920_LCD_RnW);  //Write data register mode
     uint8_t bit_count = y & 0x07; //Count from 0 bis 7 -> 0=0, 1=1..7=7, 8=0, 9=1...
     col_offset = 1 << bit_count; //Build a value for a AND operation with the vorrect bitposition
     uint16_t line_offset = ( y / 8 ) * 128; //On the ST7920 there are 8 lines with each 128 bytes width
@@ -128,9 +144,9 @@ SHOWDURATIONLCD1
       result |= ((*p++  & col_offset) !=0?0x02:0);
       result |= ((*p++  & col_offset)!=0?0x01:0);
       MCP_GPIOB = result;
-      MCP_GPIOA |= _BV(LCD_E); // ST7920 auto increase x counter and roll from 0F to 00
+      MCP_GPIOA |= _BV(MCP_ST7920_LCD_E); // ST7920 auto increase x counter and roll from 0F to 00
       _delay_us(2);//was 1
-      MCP_GPIOA &= ~_BV(LCD_E);
+      MCP_GPIOA &= ~_BV(MCP_ST7920_LCD_E);
       _delay_us(8);//10
     }
     _delay_us(41);

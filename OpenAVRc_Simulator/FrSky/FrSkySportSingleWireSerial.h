@@ -45,11 +45,12 @@
 
 #include "../../OpenAVRc/OpenAVRc.h"
 
+extern void SendSerialDataToUART(uint8_t data);
+
 #define FRSKY_TELEMETRY_START_FRAME 0x7E
 #define FRSKY_SENSOR_FRSKY_DATA_FRAME 0x10
 #define FRSKY_STUFFING 0x7D
 
-extern void processSerialData(uint8_t data);
 static uint8_t FrSkySportSingleWireSerialmemdata = 0xFF;
 
 class FrSkySportSingleWireSerial

@@ -29,6 +29,7 @@
 *                                                                        *
 **************************************************************************
 */
+#include "../OpenAVRc_SimulatorApp.h"
 
 #include "FrSkySimu.h"
 
@@ -44,6 +45,14 @@ FrSkySportSensorVario vario;                           // Create Variometer sens
 FrSkySportTelemetry telemetrySport(true);              // Create telemetry object with polling
 
 FrSkyDTelemetry telemetryD;                             // Create telemetry D object
+
+
+void SendSerialDataToUART(uint8_t data)
+{
+  wxString dat = wxString::Format(wxT("%X"),data);
+  //wxLogDebug("dat");
+  processSerialData(data);
+}
 
 
 void frskySportSimuSetup()
@@ -112,7 +121,7 @@ void frskyDSimuloop()
 
   // Set LiPo voltage sensor (FLVS) data (we use two sensors to simulate 8S battery
   // (set Voltage source to Cells in menu to use this data for battery voltage)
-  telemetryD.setFlvsData(4.07, 4.08, 4.09, 4.10, 4.11, 4.12);  // Cell voltages in volts (cells 1-8). Cells 9-12 are not used in this example
+  telemetryD.setFlvsData(4.06, 4.08, 4.10, 4.12, 4.14, 4.16);  // Cell voltages in volts (cells 1-8). Cells 9-12 are not used in this example
 
   // Set variometer sensor (FVAS) data
   telemetryD.setFvasData(245.5,   // Altitude in m (can be nevative)

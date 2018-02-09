@@ -55,8 +55,8 @@ void FrSkySportSingleWireSerial::setMode(SerialMode mode)
 void FrSkySportSingleWireSerial::sendHeader(uint8_t id)
 {
     setMode(TX);
-    processSerialData(FRSKY_TELEMETRY_START_FRAME);
-    processSerialData(id);
+    SendSerialDataToUART(FRSKY_TELEMETRY_START_FRAME);
+    SendSerialDataToUART(id);
     FrSkySportSingleWireSerialmemdata = id;
     setMode(RX);
 }
@@ -66,19 +66,19 @@ void FrSkySportSingleWireSerial::sendByte(uint8_t byte)
 {
     if(byte == 0x7E)
     {
-      processSerialData(FRSKY_STUFFING);
-      processSerialData(0x5E); // 0x7E xor 0x20
+      SendSerialDataToUART(FRSKY_STUFFING);
+      SendSerialDataToUART(0x5E); // 0x7E xor 0x20
       FrSkySportSingleWireSerialmemdata = 0x5E;
     }
     else if(byte == 0x7D)
     {
-      processSerialData(FRSKY_STUFFING);
-      processSerialData(0x5D); // 0x7D xor 0x20
+      SendSerialDataToUART(FRSKY_STUFFING);
+      SendSerialDataToUART(0x5D); // 0x7D xor 0x20
       FrSkySportSingleWireSerialmemdata = 0x5D;
     }
     else
     {
-      processSerialData(byte);
+      SendSerialDataToUART(byte);
       FrSkySportSingleWireSerialmemdata = byte;
     }
     crc += byte;

@@ -63,7 +63,9 @@ FrSkySportSensor::SensorId FrSkySportPolling::pollData(FrSkySportSingleWireSeria
     if(now >= rssiPollTime)
     {
       serial.sendHeader(FrSkySportSensor::ID25);
-      serial.sendData(POLLING_RSSI_DATA_ID, 92);
+      serial.sendData(POLLING_RSSI_DATA_ID, 67);
+      serial.sendHeader(FrSkySportSensor::ID25);
+      serial.sendData(0xF105, 65);
       rssiPollTime = now + POLLING_RSSI_POLL_TIME;
       nextPollTime = now + POLLING_ID_POLL_TIME;
     }

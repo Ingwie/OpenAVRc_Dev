@@ -41,7 +41,6 @@
 
 
 #include "FrSkySportTelemetry.h"
-uint32_t simuTelemetryNow;
 FrSkySportTelemetry::FrSkySportTelemetry(bool polling)
 {
   if(polling == true) pollingClass = new FrSkySportPolling();
@@ -101,11 +100,11 @@ void FrSkySportTelemetry::begin(
 void FrSkySportTelemetry::send()
 {
     uint8_t polledId = FrSkySportSensor::ID_IGNORE;
-    simuTelemetryNow += 5;
+    uint32_t currentTime = GetTickCount();
 
     if(pollingClass != NULL)
     {
-      polledId = pollingClass->pollData(serial, simuTelemetryNow);
+      polledId = pollingClass->pollData(serial, currentTime);
     }
     else
     {
@@ -119,7 +118,7 @@ void FrSkySportTelemetry::send()
       // Send the actual data
       for(uint8_t i = 0; i < sensorCount; i++)
       {
-        sensors[i]->send(serial, polledId, simuTelemetryNow);
+        sensors[i]->send(serial, polledId, currentTime);
       }
     }
 }

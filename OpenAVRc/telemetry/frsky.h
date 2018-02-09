@@ -420,12 +420,14 @@ typedef enum {
 #endif
 
 // FrSky D Protocol
-void processHubPacket(int8_t id, uint16_t value);
+void processHubPacket(uint8_t id, uint16_t value);
 void frskyDSendNextAlarm();
 void frskyDProcessPacket(uint8_t *packet);
 
 // FrSky S.PORT Protocol
 void processSportPacket(uint8_t *packet);
+
+
 void telemetryWakeup();
 void telemetryResetValue();
 void telemetryReset();
