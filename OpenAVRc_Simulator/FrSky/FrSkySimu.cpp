@@ -66,42 +66,42 @@ void frskySportSimuloop()
 #define POLLING_ENABLED
 
   // Set airspeed sensor (ASS) data
-  ass.setData(77.7);  // Airspeed in km/h
+  ass.setData(Tele_Airspeed);  // Airspeed in km/h
 
   // Set current/voltage sensor (FCS) data
   // (set Voltage source to FAS in menu to use this data for battery voltage,
   //  set Current source to FAS in menu to use this data for current readins)
-  fcs.setData(33.3,   // Current consumption in amps
-              11.1);  // Battery voltage in volts
+  fcs.setData(Tele_EscCurrent,   // Current consumption in amps
+              Tele_EscVolt);  // Battery voltage in volts
 
   // Set LiPo voltage sensor (FLVSS) data (we use two sensors to simulate 8S battery
   // (set Voltage source to Cells in menu to use this data for battery voltage)
-  flvss1.setData(4.06, 4.08, 4.04, 4.10, 4.02, 4.12);  // Cell voltages in volts (cells 1-6)
-  //flvss2.setData(4.13, 4.14);                          // Cell voltages in volts (cells 7-8)
+  flvss1.setData(Tele_Cell1, Tele_Cell2, Tele_Cell3, Tele_Cell6, Tele_Cell5, Tele_Cell6);  // Cell voltages in volts (cells 1-6)
+  //flvss2.setData(Tele_Cell7, Tele_Cell8, Tele_Cell9, Tele_Cell10, Tele_Cell11, Tele_Cell12);                          // Cell voltages in volts (cells 7-8)
 
   // Set GPS data
-  gps.setData(48.858289, 2.294502,   // Latitude and longitude in degrees decimal (positive for N/E, negative for S/W)
-              245.5,                 // Altitude in m (can be negative)
-              10.0,                 // Speed in m/s
-              90.23,                 // Course over ground in degrees (0-359, 0 = north)
-              14, 9, 14,             // Date (year - 2000, month, day)
-              12, 30, 50);           // Time (hour, minute, second) - will be affected by timezone setings in your radio
+  gps.setData(Tele_GPSLat, Tele_GPSLong,   // Latitude and longitude in degrees decimal (positive for N/E, negative for S/W)
+              Tele_GPSAlt,                 // Altitude in m (can be negative)
+              Tele_GPSSpeed,                 // Speed in m/s
+              Tele_GPSSpeed,                 // Course over ground in degrees (0-359, 0 = north)
+              Tele_GPSYear, Tele_GPSMonth, Tele_GPSDay,             // Date (year - 2000, month, day)
+              Tele_GPSHour, Tele_GPSMinute, Tele_GPSSecond);           // Time (hour, minute, second) - will be affected by timezone setings in your radio
 
   // Set RPM/temperature sensor data
   // (set number of blades to 2 in telemetry menu to get correct rpm value)
-  rpm.setData(222,    // Rotations per minute
-              25.6,   // Temperature #1 in degrees Celsuis (can be negative, will be rounded)
-              -7.8);  // Temperature #2 in degrees Celsuis (can be negative, will be rounded)
+  rpm.setData(Tele_RPM,    // Rotations per minute
+              Tele_Temp1,   // Temperature #1 in degrees Celsuis (can be negative, will be rounded)
+              Tele_Temp2);  // Temperature #2 in degrees Celsuis (can be negative, will be rounded)
 
   // Set SP2UART sensor data
   // (values from 0.0 to 3.3 are accepted)
-  sp2uart.setData(1.5,    // ADC3 voltage in volts
-                  3.3);   // ADC4 voltage in volts
+  sp2uart.setData(Tele_Analog3,    // ADC3 voltage in volts
+                  Tele_Analog4);   // ADC4 voltage in volts
 
 // Set variometer data
   // (set Variometer source to VSpd in menu to use the vertical speed data from this sensor for variometer).
-  vario.setData(250.5,  // Altitude in meters (can be negative)
-                -1.5);  // Vertical speed in m/s (positive - up, negative - down)
+  vario.setData(Tele_VarioAlt,  // Altitude in meters (can be negative)
+                Tele_VarioAccelH);  // Vertical speed in m/s (positive - up, negative - down)
 
   // Send the telemetry data, note that the data will only be sent for sensors
   // that are being polled at given moment
@@ -113,40 +113,41 @@ void frskyDSimuloop()
   // Set current/voltage sensor (FAS) data
   // (set Voltage source to FAS in menu to use this data for battery voltage,
   //  set Current source to FAS in menu to use this data for current readins)
-  telemetryD.setFasData(25.3,   // Current consumption in amps
-                        12.6);  // Battery voltage in volts
+  telemetryD.setFasData(Tele_EscCurrent,   // Current consumption in amps
+                        Tele_EscVolt);  // Battery voltage in volts
 
   // Set fuel sensor (FGS) data
-  telemetryD.setFgsData(55.5);  // Fuel level in percent
+  telemetryD.setFgsData(Tele_Fuel);  // Fuel level in percent
 
   // Set LiPo voltage sensor (FLVS) data (we use two sensors to simulate 8S battery
   // (set Voltage source to Cells in menu to use this data for battery voltage)
-  telemetryD.setFlvsData(4.06, 4.08, 4.10, 4.12, 4.14, 4.16);  // Cell voltages in volts (cells 1-8). Cells 9-12 are not used in this example
+  telemetryD.setFlvsData(Tele_Cell1, Tele_Cell2, Tele_Cell3, Tele_Cell6, Tele_Cell5, Tele_Cell6
+                         ,Tele_Cell7, Tele_Cell8, Tele_Cell9, Tele_Cell10, Tele_Cell11, Tele_Cell12);  // Cell voltages in volts
 
   // Set variometer sensor (FVAS) data
-  telemetryD.setFvasData(222.2,   // Altitude in m (can be nevative)
-                         -3.5);  // Vertical speed in m/s (can be nevative, 0.0m/s will be set when skipped)
+  telemetryD.setFvasData(Tele_VarioAlt,   // Altitude in m (can be nevative)
+                         Tele_VarioAccelH);  // Vertical speed in m/s (can be nevative, 0.0m/s will be set when skipped)
 
   // Set GPS data
-  telemetryD.setGpsData(48.858289, 2.294502,   // Latitude and longitude in degrees decimal (positive for N/E, negative for S/W)
-                        333.3,                 // Altitude in m (can be nevative)
-                        100.0,                 // Speed in m/s
-                        90.23,                 // Course over ground in degrees
-                        18, 2, 8,              // Date (year - 2000, month, day)
-                        12, 29, 05);           // Time (hour, minute, second) - will be affected by timezone setings in your radio
+  telemetryD.setGpsData(Tele_GPSLat, Tele_GPSLong,   // Latitude and longitude in degrees decimal (positive for N/E, negative for S/W)
+              Tele_GPSAlt,                 // Altitude in m (can be negative)
+              Tele_GPSSpeed,                 // Speed in m/s
+              Tele_GPSSpeed,                 // Course over ground in degrees (0-359, 0 = north)
+              Tele_GPSYear, Tele_GPSMonth, Tele_GPSDay,             // Date (year - 2000, month, day)
+              Tele_GPSHour, Tele_GPSMinute, Tele_GPSSecond);           // Time (hour, minute, second) - will be affected by timezone setings in your radio
 
   // Set triaxial acceleration sensor (TAS) data
-  telemetryD.setTasData(17.95,    // x-axis acceleration in g (can be negative)
-                        0.0,      // y-axis acceleration in g (can be negative)
-                        -17.95);  // z-axis acceleration in g (can be negative)
+  telemetryD.setTasData(Tele_AccelX,    // x-axis acceleration in g (can be negative)
+                        Tele_AccelY,      // y-axis acceleration in g (can be negative)
+                        Tele_AccelZ);  // z-axis acceleration in g (can be negative)
 
   // Set temperature sensor (TEMS) data
-  telemetryD.setTemsData(25.6,   // Temperature #1 in degrees Celsuis (can be negative)
-                         -7.8);  // Temperature #2 in degrees Celsuis (can be negative)
+  telemetryD.setTemsData(Tele_Temp1,   // Temperature #1 in degrees Celsuis (can be negative)
+                         Tele_Temp2);  // Temperature #2 in degrees Celsuis (can be negative)
 
   // Set RPM sensor (RPMS) data
   // (set number of blades to 2 in telemetry menu to get correct rpm value)
-  telemetryD.setRpmsData(2000);  // Rotations per minute
+  telemetryD.setRpmsData(Tele_RPM);  // Rotations per minute
 
   // Send the telemetry data, note that the data will only be sent for sensors
   // that had their data set at least once. Also it will only be set in defined

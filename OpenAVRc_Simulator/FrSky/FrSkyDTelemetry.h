@@ -43,6 +43,7 @@
 
 #include "../../OpenAVRc/OpenAVRc.h"
 #include <cmath>
+#include "FrSkySimu.h"
 
 extern void SendSerialDataToUART(uint8_t data);
 

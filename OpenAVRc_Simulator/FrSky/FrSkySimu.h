@@ -47,6 +47,57 @@
 
 #include "FrSkyDTelemetry.h"
 
+// Telemetry datas
+extern float Tele_GPSLat;
+extern float Tele_GPSLong;
+extern float Tele_GPSAlt;
+extern float Tele_GPSSpeed;
+extern float Tele_GPSCourse;
+extern int Tele_GPSYear;
+extern int Tele_GPSMonth;
+extern int Tele_GPSDay;
+extern int Tele_GPSHour;
+extern int Tele_GPSMinute;
+extern int Tele_GPSSecond;
+
+extern float Tele_AccelX;
+extern float Tele_AccelY;
+extern float Tele_AccelZ;
+
+extern float Tele_VarioAlt;
+extern float Tele_VarioAccelH;
+
+extern int Tele_RSSITx;
+extern int Tele_RSSIRx;
+
+extern float Tele_Analog1;
+extern float Tele_Analog2;
+extern float Tele_Analog3;
+extern float Tele_Analog4;
+
+extern float Tele_EscVolt;
+extern float Tele_EscCurrent;
+
+extern float Tele_RPM;
+extern float Tele_Fuel;
+extern float Tele_Temp1;
+extern float Tele_Temp2;
+extern float Tele_Airspeed;
+
+extern float Tele_Cell1;
+extern float Tele_Cell2;
+extern float Tele_Cell3;
+extern float Tele_Cell4;
+extern float Tele_Cell5;
+extern float Tele_Cell6;
+extern float Tele_Cell7;
+extern float Tele_Cell8;
+extern float Tele_Cell9;
+extern float Tele_Cell10;
+extern float Tele_Cell11;
+extern float Tele_Cell12;
+
+
 void frskySportSimuSetup();
 void frskySportSimuloop();
 void frskyDSimuloop();
