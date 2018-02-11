@@ -35,12 +35,12 @@
 #define OUTBARSFRAME_H
 
 //(*Headers(OutBarsFrame)
+#include <wx/frame.h>
+#include <wx/panel.h>
+#include <wx/slider.h>
+#include <wx/statline.h>
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
-#include <wx/statline.h>
-#include <wx/slider.h>
-#include <wx/panel.h>
-#include <wx/frame.h>
 #include <wx/timer.h>
 //*)
 #define wxDEFAULT_DIALOG_STYLE  (wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX)
@@ -55,57 +55,57 @@ class OutBarsFrame: public wxFrame
     void PopulateBarFrame();
 
 		//(*Declarations(OutBarsFrame)
-		wxSlider* Slider1;
-		wxStaticText* StaticText10;
-		wxStaticText* StaticText9;
-		wxTextCtrl* output6;
-		wxTextCtrl* output12;
-		wxTextCtrl* output1;
-		wxSlider* Slider10;
-		wxSlider* Slider2;
 		wxPanel* PanelOutputSliders;
-		wxStaticText* StaticText13;
-		wxStaticText* StaticText2;
-		wxTextCtrl* output8;
-		wxStaticText* StaticText14;
-		wxSlider* Slider5;
-		wxTimer TimerRefreshFrame;
-		wxStaticText* StaticText6;
-		wxTextCtrl* output11;
-		wxTextCtrl* output7;
-		wxTextCtrl* output2;
-		wxTextCtrl* output3;
-		wxSlider* Slider3;
-		wxStaticText* StaticText8;
-		wxStaticText* StaticText11;
-		wxTextCtrl* output13;
-		wxSlider* Slider7;
-		wxStaticText* StaticText1;
-		wxTextCtrl* output16;
-		wxStaticText* StaticText3;
-		wxTextCtrl* output4;
-		wxSlider* Slider13;
-		wxTextCtrl* output15;
+		wxSlider* Slider10;
 		wxSlider* Slider11;
-		wxSlider* Slider9;
-		wxStaticText* StaticText5;
-		wxStaticText* StaticText7;
-		wxTextCtrl* output14;
+		wxSlider* Slider12;
+		wxSlider* Slider13;
+		wxSlider* Slider14;
 		wxSlider* Slider15;
 		wxSlider* Slider16;
+		wxSlider* Slider1;
+		wxSlider* Slider2;
+		wxSlider* Slider3;
 		wxSlider* Slider4;
-		wxStaticLine* StaticLine1;
-		wxSlider* Slider12;
-		wxSlider* Slider8;
-		wxTextCtrl* output10;
-		wxStaticText* StaticText15;
-		wxStaticText* StaticText12;
-		wxTextCtrl* output9;
+		wxSlider* Slider5;
 		wxSlider* Slider6;
-		wxTextCtrl* output5;
-		wxStaticText* StaticText4;
+		wxSlider* Slider7;
+		wxSlider* Slider8;
+		wxSlider* Slider9;
+		wxStaticLine* StaticLine1;
+		wxStaticText* StaticText10;
+		wxStaticText* StaticText11;
+		wxStaticText* StaticText12;
+		wxStaticText* StaticText13;
+		wxStaticText* StaticText14;
+		wxStaticText* StaticText15;
 		wxStaticText* StaticText16;
-		wxSlider* Slider14;
+		wxStaticText* StaticText1;
+		wxStaticText* StaticText2;
+		wxStaticText* StaticText3;
+		wxStaticText* StaticText4;
+		wxStaticText* StaticText5;
+		wxStaticText* StaticText6;
+		wxStaticText* StaticText7;
+		wxStaticText* StaticText8;
+		wxStaticText* StaticText9;
+		wxTextCtrl* output10;
+		wxTextCtrl* output11;
+		wxTextCtrl* output12;
+		wxTextCtrl* output13;
+		wxTextCtrl* output14;
+		wxTextCtrl* output15;
+		wxTextCtrl* output16;
+		wxTextCtrl* output1;
+		wxTextCtrl* output2;
+		wxTextCtrl* output3;
+		wxTextCtrl* output4;
+		wxTextCtrl* output5;
+		wxTextCtrl* output6;
+		wxTextCtrl* output7;
+		wxTextCtrl* output8;
+		wxTextCtrl* output9;
+		wxTimer TimerRefreshFrame;
 		//*)
 
 	protected:

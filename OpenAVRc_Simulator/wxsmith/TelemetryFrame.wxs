@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxFrame" name="TelemetryFrame">
+		<title>Télémétrie</title>
+		<size>1152,248</size>
+		<id_arg>0</id_arg>
+		<style>wxDEFAULT_DIALOG_STYLE</style>
+		<handler function="OnClose" entry="EVT_CLOSE" />
+		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
+			<pos>472,72</pos>
+			<size>1152,232</size>
+			<object class="wxStaticBox" name="ID_GPSBOX" variable="gpsbox" member="yes">
+				<label>GPS</label>
+				<pos>8,8</pos>
+				<size>1136,96</size>
+				<style>wxDOUBLE_BORDER</style>
+			</object>
+			<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBox2" member="yes">
+				<label>Latitude</label>
+				<pos>16,24</pos>
+				<size>192,72</size>
+				<style>wxRAISED_BORDER</style>
+			</object>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL4" variable="GPSLatSecond" member="yes">
+				<value>0</value>
+				<max>60000</max>
+				<pos>136,64</pos>
+				<size>64,21</size>
+			</object>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL5" variable="GPSLatMinute" member="yes">
+				<value>0</value>
+				<max>60</max>
+				<pos>80,64</pos>
+				<size>48,21</size>
+			</object>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL6" variable="GPSLatDegres" member="yes">
+				<value>0</value>
+				<min>-90</min>
+				<max>90</max>
+				<pos>24,64</pos>
+				<size>48,21</size>
+			</object>
+			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
+				<label>Longitude</label>
+				<pos>224,24</pos>
+				<size>192,72</size>
+				<style>wxRAISED_BORDER</style>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText4" member="yes">
+				<label>Degrés</label>
+				<pos>24,40</pos>
+				<size>37,13</size>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
+				<label>Degrés</label>
+				<pos>232,40</pos>
+				<size>37,13</size>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
+				<label>Minutes</label>
+				<pos>80,40</pos>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
+				<label>Minutes</label>
+				<pos>288,40</pos>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText6" member="yes">
+				<label>Secondes</label>
+				<pos>144,40</pos>
+				<size>48,13</size>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
+				<label>Secondes</label>
+				<pos>352,40</pos>
+				<size>48,13</size>
+			</object>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL1" variable="GPSLongDEgres" member="yes">
+				<value>0</value>
+				<min>-180</min>
+				<max>180</max>
+				<pos>232,64</pos>
+				<size>48,21</size>
+			</object>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL2" variable="GPSLongMinute" member="yes">
+				<value>0</value>
+				<max>60</max>
+				<pos>288,64</pos>
+				<size>48,21</size>
+			</object>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL3" variable="GPSLongSecond" member="yes">
+				<value>0</value>
+				<max>60000</max>
+				<pos>344,64</pos>
+				<size>64,21</size>
+			</object>
+			<object class="wxStaticBox" name="ID_STATICBOX3" variable="StaticBox3" member="yes">
+				<label>Altitude</label>
+				<pos>424,32</pos>
+				<size>88,64</size>
+			</object>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL7" variable="GPSAltitude" member="yes">
+				<value>0</value>
+				<min>-100</min>
+				<max>1000</max>
+				<pos>432,64</pos>
+				<size>64,21</size>
+			</object>
+		</object>
+	</object>
+</wxsmith>

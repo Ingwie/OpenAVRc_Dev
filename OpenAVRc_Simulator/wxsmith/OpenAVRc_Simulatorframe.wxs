@@ -400,6 +400,10 @@
 					<label>Paramètres Radio</label>
 					<handler function="OnRadioDataSelected" entry="EVT_MENU" />
 				</object>
+				<object class="wxMenuItem" name="ID_MENUITEMTELEMETRY" variable="telemetry" member="yes">
+					<label>Télémétrie</label>
+					<handler function="OntelemetrySelected" entry="EVT_MENU" />
+				</object>
 			</object>
 			<object class="wxMenu" variable="MenuHelp" member="no">
 				<label>&amp;Aide</label>

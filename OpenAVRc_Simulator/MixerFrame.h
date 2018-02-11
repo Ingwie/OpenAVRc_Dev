@@ -42,10 +42,10 @@ mixStr18, mixStr19, mixStr20, mixStr22 ;
 
 
 //(*Headers(MixerFrame)
+#include <wx/frame.h>
+#include <wx/panel.h>
 #include <wx/sizer.h>
 #include <wx/textctrl.h>
-#include <wx/panel.h>
-#include <wx/frame.h>
 #include <wx/timer.h>
 //*)
 
@@ -60,10 +60,10 @@ class MixerFrame: public wxFrame
     MixerFrame *MixFr;
 
 		//(*Declarations(MixerFrame)
-		wxTimer TimerRefreshFrame;
 		wxPanel* Panel1;
 		wxTextCtrl* Headerline;
 		wxTextCtrl* Mixerline1;
+		wxTimer TimerRefreshFrame;
 		//*)
 
 	protected:

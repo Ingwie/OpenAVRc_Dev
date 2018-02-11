@@ -37,11 +37,11 @@
 #include "OpenAVRc_SimulatorApp.h"
 
 //(*Headers(RadioDataFrame)
+#include <wx/frame.h>
+#include <wx/panel.h>
+#include <wx/statbox.h>
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
-#include <wx/statbox.h>
-#include <wx/panel.h>
-#include <wx/frame.h>
 #include <wx/timer.h>
 //*)
 #define wxDEFAULT_DIALOG_STYLE  (wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX)
@@ -58,18 +58,18 @@ class RadioDataFrame: public wxFrame
 		RadioDataFrame *RaFr;
 
 		//(*Declarations(RadioDataFrame)
-		wxTextCtrl* TextCtrlstickMode;
-		wxStaticText* StaticText2;
-		wxTextCtrl* TextCtrlhapticMode;
-		wxTextCtrl* TextCtrlversion;
 		wxPanel* Panel1;
-		wxStaticText* StaticText1;
 		wxStaticBox* StaticBox1;
+		wxStaticText* StaticText1;
+		wxStaticText* StaticText2;
 		wxTextCtrl* TextCtrlBatt;
 		wxTextCtrl* TextCtrlcalibration;
-		wxTimer RadioData;
-		wxTextCtrl* TextCtrlcurrModel;
 		wxTextCtrl* TextCtrlcontrast;
+		wxTextCtrl* TextCtrlcurrModel;
+		wxTextCtrl* TextCtrlhapticMode;
+		wxTextCtrl* TextCtrlstickMode;
+		wxTextCtrl* TextCtrlversion;
+		wxTimer RadioData;
 		//*)
 
 	protected:

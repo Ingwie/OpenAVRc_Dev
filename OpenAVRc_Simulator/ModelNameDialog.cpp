@@ -37,6 +37,7 @@
 #include <wx/valtext.h>
 
 //(*InternalHeaders(ModelNameDialog)
+#include <wx/frame.h>
 #include <wx/intl.h>
 #include <wx/string.h>
 //*)

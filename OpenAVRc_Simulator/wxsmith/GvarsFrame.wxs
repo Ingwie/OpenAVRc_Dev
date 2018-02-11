@@ -22,7 +22,6 @@
 				<size>432,184</size>
 				<enabled>0</enabled>
 				<style>wxSUNKEN_BORDER</style>
-				<handler function="OnGVARSGridCellLeftClick" entry="EVT_CMD_GRID_CELL_LEFT_CLICK" />
 			</object>
 			<object class="wxTextCtrl" name="ID_TextCtrlpersoPhase0" variable="TextCtrlpersoPhase0" member="yes">
 				<value>npha0</value>
