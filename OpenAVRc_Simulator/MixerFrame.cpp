@@ -55,8 +55,8 @@ const char* inputText[] = { "Dir\t","Prf\t","Gaz\t","Ail\t",
 
 
 //(*InternalHeaders(MixerFrame)
-#include <wx/settings.h>
 #include <wx/intl.h>
+#include <wx/settings.h>
 #include <wx/string.h>
 //*)
 

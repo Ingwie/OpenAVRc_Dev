@@ -37,6 +37,7 @@
 #include "GvarsFrame.h"
 #include "RadioDataFrame.h"
 #include "ModelNameDialog.h"
+#include "TelemetryFrame.h"
 #include "FrSky/FrskySimu.h"
 
 #include <wx/msgdlg.h>
@@ -101,6 +102,7 @@ MixerFrame *MixFr;
 OutBarsFrame *BarFr;
 GvarsFrame *GvFr;
 RadioDataFrame *RaFr;
+TelemetryFrame *TeleFr;
 
 bool Mp3RepExist = false;
 extern volatile uint8_t JQ6500_InputIndex;
@@ -165,6 +167,7 @@ const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTMIXER = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTOUTPUT = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTGVARS = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMRADIODATA = wxNewId();
+const long OpenAVRc_SimulatorFrame::ID_MENUITEMTELEMETRY = wxNewId();
 const long OpenAVRc_SimulatorFrame::idMenuAbout = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_STATUSBAR = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_TIMER10MS = wxNewId();
@@ -336,6 +339,8 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   MenuFrame->Append(OutputGvars);
   RadioData = new wxMenuItem(MenuFrame, ID_MENUITEMRADIODATA, _("Paramètres Radio"), wxEmptyString, wxITEM_NORMAL);
   MenuFrame->Append(RadioData);
+  telemetry = new wxMenuItem(MenuFrame, ID_MENUITEMTELEMETRY, _("Télémétrie"), wxEmptyString, wxITEM_NORMAL);
+  MenuFrame->Append(telemetry);
   MenuBar1->Append(MenuFrame, _("&Fenêtres"));
   MenuHelp = new wxMenu();
   MenuAbout = new wxMenuItem(MenuHelp, idMenuAbout, _("A propos ...\tF1"), _("C\'est quoi donc \?"), wxITEM_NORMAL);
@@ -418,6 +423,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_MENUITEMOUTPUTOUTPUT,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOutputBarsSelected);
   Connect(ID_MENUITEMOUTPUTGVARS,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOutputGvarsSelected);
   Connect(ID_MENUITEMRADIODATA,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnRadioDataSelected);
+  Connect(ID_MENUITEMTELEMETRY,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OntelemetrySelected);
   Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnAbout);
   Connect(ID_TIMER10MS,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimer10msTrigger);
   Connect(ID_TIMERMAIN,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimerMainTrigger);
@@ -2754,6 +2760,18 @@ void OpenAVRc_SimulatorFrame::EnableRadioDataMenu()
   MenuFrame->Enable(ID_MENUITEMRADIODATA, true);
 }
 
+void OpenAVRc_SimulatorFrame::OntelemetrySelected(wxCommandEvent& event)
+{
+  event.Skip();
+  TeleFr = new  TelemetryFrame(this);
+  TeleFr->Show(TRUE);
+  MenuFrame->Enable(ID_MENUITEMTELEMETRY, false);
+}
+
+void OpenAVRc_SimulatorFrame::EnableTelemetryMenu()
+{
+  MenuFrame->Enable(ID_MENUITEMTELEMETRY, true);
+}
 
 /////////////////////////////////////////////////////
 //               UTILS
@@ -2780,3 +2798,4 @@ wxString int2wxString(int integer)
   //wxMessageBox(intString);
 }
 /////////////////////////////////////////////////////////
+

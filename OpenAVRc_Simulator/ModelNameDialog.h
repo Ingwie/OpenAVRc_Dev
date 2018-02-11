@@ -41,6 +41,8 @@
 #include <wx/dialog.h>
 //*)
 
+#define wxDEFAULT_DIALOG_STYLE  (wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX)
+
 class ModelNameDialog: public wxDialog
 {
 	public:

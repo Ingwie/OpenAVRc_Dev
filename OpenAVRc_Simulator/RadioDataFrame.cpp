@@ -37,8 +37,8 @@
 wxString vTxt;
 
 //(*InternalHeaders(RadioDataFrame)
-#include <wx/settings.h>
 #include <wx/intl.h>
+#include <wx/settings.h>
 #include <wx/string.h>
 //*)
 

@@ -124,15 +124,15 @@ void frskyDSimuloop()
   telemetryD.setFlvsData(4.06, 4.08, 4.10, 4.12, 4.14, 4.16);  // Cell voltages in volts (cells 1-8). Cells 9-12 are not used in this example
 
   // Set variometer sensor (FVAS) data
-  telemetryD.setFvasData(245.5,   // Altitude in m (can be nevative)
+  telemetryD.setFvasData(222.2,   // Altitude in m (can be nevative)
                          -3.5);  // Vertical speed in m/s (can be nevative, 0.0m/s will be set when skipped)
 
   // Set GPS data
   telemetryD.setGpsData(48.858289, 2.294502,   // Latitude and longitude in degrees decimal (positive for N/E, negative for S/W)
-                        245.5,                 // Altitude in m (can be nevative)
+                        333.3,                 // Altitude in m (can be nevative)
                         100.0,                 // Speed in m/s
                         90.23,                 // Course over ground in degrees
-                        18, 2, 8,             // Date (year - 2000, month, day)
+                        18, 2, 8,              // Date (year - 2000, month, day)
                         12, 29, 05);           // Time (hour, minute, second) - will be affected by timezone setings in your radio
 
   // Set triaxial acceleration sensor (TAS) data

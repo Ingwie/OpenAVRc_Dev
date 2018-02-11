@@ -35,10 +35,10 @@
 #define GVARS_H
 
 //(*Headers(GvarsFrame)
-#include <wx/textctrl.h>
-#include <wx/panel.h>
-#include <wx/grid.h>
 #include <wx/frame.h>
+#include <wx/grid.h>
+#include <wx/panel.h>
+#include <wx/textctrl.h>
 #include <wx/timer.h>
 //*)
 #define wxDEFAULT_DIALOG_STYLE  (wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX)
@@ -54,21 +54,21 @@ class GvarsFrame: public wxFrame
     void PopulateGvarsFrame();
 
 		//(*Declarations(GvarsFrame)
-		wxTextCtrl* TextCtrlpersoPhase2;
-		wxTextCtrl* TextCtrlpersoPhase5;
-		wxTextCtrl* TextCtrlpersoGvar2;
-		wxTextCtrl* TextCtrlpersoGvar3;
-		wxTextCtrl* TextCtrlpersoPhase3;
-		wxTextCtrl* TextCtrlpersoPhase1;
 		wxGrid* GVARSGrid;
 		wxPanel* Panel1;
-		wxTextCtrl* TextCtrlpersoPhase4;
-		wxTextCtrl* TextCtrlpersoGvar4;
 		wxTextCtrl* TextCtrlpersoGvar1;
-		wxTextCtrl* TextCtrlpersoPhase0;
+		wxTextCtrl* TextCtrlpersoGvar2;
+		wxTextCtrl* TextCtrlpersoGvar3;
+		wxTextCtrl* TextCtrlpersoGvar4;
 		wxTextCtrl* TextCtrlpersoGvar5;
-		wxTimer gvarsTimer;
 		wxTextCtrl* TextCtrlpersoGvar6;
+		wxTextCtrl* TextCtrlpersoPhase0;
+		wxTextCtrl* TextCtrlpersoPhase1;
+		wxTextCtrl* TextCtrlpersoPhase2;
+		wxTextCtrl* TextCtrlpersoPhase3;
+		wxTextCtrl* TextCtrlpersoPhase4;
+		wxTextCtrl* TextCtrlpersoPhase5;
+		wxTimer gvarsTimer;
 		//*)
 
 	protected:

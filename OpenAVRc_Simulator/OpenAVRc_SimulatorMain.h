@@ -93,7 +93,7 @@ public:
   void EnableOutputBarsMenu();
   void EnableOutputGvarsMenu();
   void EnableRadioDataMenu();
-
+  void EnableTelemetryMenu();
 
 
 private:
@@ -193,6 +193,7 @@ private:
   void load_EEGeneral_30();
   void load_ModelData_30();
   void OnMenuImportEepromSelected(wxCommandEvent& event);
+  void OntelemetrySelected(wxCommandEvent& event);
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)
@@ -251,6 +252,7 @@ private:
   static const long ID_MENUITEMOUTPUTOUTPUT;
   static const long ID_MENUITEMOUTPUTGVARS;
   static const long ID_MENUITEMRADIODATA;
+  static const long ID_MENUITEMTELEMETRY;
   static const long idMenuAbout;
   static const long ID_STATUSBAR;
   static const long ID_TIMER10MS;
@@ -314,6 +316,7 @@ private:
   wxMenuItem* OutputGvars;
   wxMenuItem* OutputMixeur;
   wxMenuItem* RadioData;
+  wxMenuItem* telemetry;
   wxPanel* BPb;
   wxPanel* BPd;
   wxPanel* BPexit;

@@ -532,6 +532,8 @@
 		<Unit filename="RadioDataFrame.h" />
 		<Unit filename="Spin.cpp" />
 		<Unit filename="Spin.h" />
+		<Unit filename="TelemetryFrame.cpp" />
+		<Unit filename="TelemetryFrame.h" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
@@ -541,6 +543,7 @@
 		<Unit filename="wxsmith/OpenAVRc_Simulatorframe.wxs" />
 		<Unit filename="wxsmith/OutBarsFrame.wxs" />
 		<Unit filename="wxsmith/RadioDataFrame.wxs" />
+		<Unit filename="wxsmith/TelemetryFrame.wxs" />
 		<Extensions>
 			<code_completion />
 			<envvars />
@@ -555,6 +558,7 @@
 					<wxFrame wxs="wxsmith/GvarsFrame.wxs" src="GvarsFrame.cpp" hdr="GvarsFrame.h" fwddecl="0" i18n="1" name="GvarsFrame" language="CPP" />
 					<wxFrame wxs="wxsmith/RadioDataFrame.wxs" src="RadioDataFrame.cpp" hdr="RadioDataFrame.h" fwddecl="0" i18n="1" name="RadioDataFrame" language="CPP" />
 					<wxDialog wxs="wxsmith/ModelNameDialog.wxs" src="ModelNameDialog.cpp" hdr="ModelNameDialog.h" fwddecl="0" i18n="1" name="ModelNameDialog" language="CPP" />
+					<wxFrame wxs="wxsmith/TelemetryFrame.wxs" src="TelemetryFrame.cpp" hdr="TelemetryFrame.h" fwddecl="0" i18n="1" name="TelemetryFrame" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>
