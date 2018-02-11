@@ -109,6 +109,55 @@ extern volatile uint8_t JQ6500_InputIndex;
 extern uint8_t JQ6500_PlayIndex;
 extern uint8_t JQ6500_playlist[];
 
+// Telemetry datas
+float Tele_GPSLat;
+float Tele_GPSLong;
+float Tele_GPSAlt;
+float Tele_GPSSpeed;
+float Tele_GPSCourse;
+int Tele_GPSYear;
+int Tele_GPSMonth;
+int Tele_GPSDay;
+int Tele_GPSHour;
+int Tele_GPSMinute;
+int Tele_GPSSecond;
+
+float Tele_AccelX;
+float Tele_AccelY;
+float Tele_AccelZ;
+
+float Tele_VarioAlt;
+float Tele_VarioAccelH;
+
+int Tele_RSSITx;
+int Tele_RSSIRx;
+
+float Tele_Analog1;
+float Tele_Analog2;
+float Tele_Analog3;
+float Tele_Analog4;
+
+float Tele_EscVolt;
+float Tele_EscCurrent;
+
+float Tele_RPM;
+float Tele_Fuel;
+float Tele_Temp1;
+float Tele_Temp2;
+float Tele_Airspeed;
+
+float Tele_Cell1;
+float Tele_Cell2;
+float Tele_Cell3;
+float Tele_Cell4;
+float Tele_Cell5;
+float Tele_Cell6;
+float Tele_Cell7;
+float Tele_Cell8;
+float Tele_Cell9;
+float Tele_Cell10;
+float Tele_Cell11;
+float Tele_Cell12;
 
 
 //(*IdInit(OpenAVRc_SimulatorFrame)
@@ -888,13 +937,62 @@ void OpenAVRc_SimulatorFrame::LoadConfig()
   configFile->Read(wxT("Col_Button_On"),&Col_Button_On);
   configFile->Read(wxT("Col_Stick_Back"),&Col_Stick_Back);
   configFile->Read(wxT("Col_Stick_Circle"),&Col_Stick_Circle);
+  // Telemetry datas
+  configFile->Read(wxT("Tele_GPSLat"),&Tele_GPSLat);
+  configFile->Read(wxT("Tele_GPSLong"),&Tele_GPSLong);
+  configFile->Read(wxT("Tele_GPSAlt"),&Tele_GPSAlt);
+  configFile->Read(wxT("Tele_GPSSpeed"),&Tele_GPSSpeed);
+  configFile->Read(wxT("Tele_GPSCourse"),&Tele_GPSCourse);
+  configFile->Read(wxT("Tele_GPSYear"),&Tele_GPSYear);
+  configFile->Read(wxT("Tele_GPSMonth"),&Tele_GPSMonth);
+  configFile->Read(wxT("Tele_GPSDay"),&Tele_GPSDay);
+  configFile->Read(wxT("Tele_GPSHour"),&Tele_GPSHour);
+  configFile->Read(wxT("Tele_GPSMinute"),&Tele_GPSMinute);
+  configFile->Read(wxT("Tele_GPSSecond"),&Tele_GPSSecond);
+
+  configFile->Read(wxT("Tele_AccelX"),&Tele_AccelX);
+  configFile->Read(wxT("Tele_AccelY"),&Tele_AccelY);
+  configFile->Read(wxT("Tele_AccelZ"),&Tele_AccelZ);
+
+  configFile->Read(wxT("Tele_VarioAlt"),&Tele_VarioAlt);
+  configFile->Read(wxT("Tele_VarioAccelH"),&Tele_VarioAccelH);
+
+  configFile->Read(wxT("Tele_RSSITx"),&Tele_RSSITx);
+  configFile->Read(wxT("Tele_RSSIRx"),&Tele_RSSIRx);
+
+  configFile->Read(wxT("Tele_Analog1"),&Tele_Analog1);
+  configFile->Read(wxT("Tele_Analog2"),&Tele_Analog2);
+  configFile->Read(wxT("Tele_Analog3"),&Tele_Analog3);
+  configFile->Read(wxT("Tele_Analog4"),&Tele_Analog4);
+
+  configFile->Read(wxT("Tele_EscVolt"),&Tele_EscVolt);
+  configFile->Read(wxT("Tele_EscCurrent"),&Tele_EscCurrent);
+
+  configFile->Read(wxT("Tele_RPM"),&Tele_RPM);
+  configFile->Read(wxT("Tele_Fuel"),&Tele_Fuel);
+  configFile->Read(wxT("Tele_Temp1"),&Tele_Temp1);
+  configFile->Read(wxT("Tele_Temp2"),&Tele_Temp2);
+  configFile->Read(wxT("Tele_Airspeed"),&Tele_Airspeed);
+
+  configFile->Read(wxT("Tele_Cell1"),&Tele_Cell1);
+  configFile->Read(wxT("Tele_Cell2"),&Tele_Cell2);
+  configFile->Read(wxT("Tele_Cell3"),&Tele_Cell3);
+  configFile->Read(wxT("Tele_Cell4"),&Tele_Cell4);
+  configFile->Read(wxT("Tele_Cell5"),&Tele_Cell5);
+  configFile->Read(wxT("Tele_Cell6"),&Tele_Cell6);
+  configFile->Read(wxT("Tele_Cell7"),&Tele_Cell7);
+  configFile->Read(wxT("Tele_Cell8"),&Tele_Cell8);
+  configFile->Read(wxT("Tele_Cell9"),&Tele_Cell9);
+  configFile->Read(wxT("Tele_Cell10"),&Tele_Cell10);
+  configFile->Read(wxT("Tele_Cell11"),&Tele_Cell11);
+  configFile->Read(wxT("Tele_Cell12"),&Tele_Cell12);
 
   configFile->Read(wxT("EEfile"),&CurrentEEPath);
 }
 
 void OpenAVRc_SimulatorFrame::SaveConfig()
 {
-  wxMessageBox( Ini_Filename, _("Les paramètres sont sauvé dans :"));
+  //wxMessageBox( Ini_Filename, _("Les paramètres sont sauvé dans :"));
 
   configFile->Write(wxT("Col_Lcd_Back"),Col_Lcd_Back);
   configFile->Write(wxT("Col_Lcd_Front"),Col_Lcd_Front);
@@ -902,6 +1000,55 @@ void OpenAVRc_SimulatorFrame::SaveConfig()
   configFile->Write(wxT("Col_Button_On"),Col_Button_On);
   configFile->Write(wxT("Col_Stick_Back"),Col_Stick_Back);
   configFile->Write(wxT("Col_Stick_Circle"),Col_Stick_Circle);
+  // Telemetry datas
+  configFile->Write(wxT("Tele_GPSLat"),Tele_GPSLat);
+  configFile->Write(wxT("Tele_GPSLong"),Tele_GPSLong);
+  configFile->Write(wxT("Tele_GPSAlt"),Tele_GPSAlt);
+  configFile->Write(wxT("Tele_GPSSpeed"),Tele_GPSSpeed);
+  configFile->Write(wxT("Tele_GPSCourse"),Tele_GPSCourse);
+  configFile->Write(wxT("Tele_GPSYear"),Tele_GPSYear);
+  configFile->Write(wxT("Tele_GPSMonth"),Tele_GPSMonth);
+  configFile->Write(wxT("Tele_GPSDay"),Tele_GPSDay);
+  configFile->Write(wxT("Tele_GPSHour"),Tele_GPSHour);
+  configFile->Write(wxT("Tele_GPSMinute"),Tele_GPSMinute);
+  configFile->Write(wxT("Tele_GPSSecond"),Tele_GPSSecond);
+
+  configFile->Write(wxT("Tele_AccelX"),Tele_AccelX);
+  configFile->Write(wxT("Tele_AccelY"),Tele_AccelY);
+  configFile->Write(wxT("Tele_AccelZ"),Tele_AccelZ);
+
+  configFile->Write(wxT("Tele_VarioAlt"),Tele_VarioAlt);
+  configFile->Write(wxT("Tele_VarioAccelH"),Tele_VarioAccelH);
+
+  configFile->Write(wxT("Tele_RSSITx"),Tele_RSSITx);
+  configFile->Write(wxT("Tele_RSSIRx"),Tele_RSSIRx);
+
+  configFile->Write(wxT("Tele_Analog1"),Tele_Analog1);
+  configFile->Write(wxT("Tele_Analog2"),Tele_Analog2);
+  configFile->Write(wxT("Tele_Analog3"),Tele_Analog3);
+  configFile->Write(wxT("Tele_Analog4"),Tele_Analog4);
+
+  configFile->Write(wxT("Tele_EscVolt"),Tele_EscVolt);
+  configFile->Write(wxT("Tele_EscCurrent"),Tele_EscCurrent);
+
+  configFile->Write(wxT("Tele_RPM"),Tele_RPM);
+  configFile->Write(wxT("Tele_Fuel"),Tele_Fuel);
+  configFile->Write(wxT("Tele_Temp1"),Tele_Temp1);
+  configFile->Write(wxT("Tele_Temp2"),Tele_Temp2);
+  configFile->Write(wxT("Tele_Airspeed"),Tele_Airspeed);
+
+  configFile->Write(wxT("Tele_Cell1"),Tele_Cell1);
+  configFile->Write(wxT("Tele_Cell2"),Tele_Cell2);
+  configFile->Write(wxT("Tele_Cell3"),Tele_Cell3);
+  configFile->Write(wxT("Tele_Cell4"),Tele_Cell4);
+  configFile->Write(wxT("Tele_Cell5"),Tele_Cell5);
+  configFile->Write(wxT("Tele_Cell6"),Tele_Cell6);
+  configFile->Write(wxT("Tele_Cell7"),Tele_Cell7);
+  configFile->Write(wxT("Tele_Cell8"),Tele_Cell8);
+  configFile->Write(wxT("Tele_Cell9"),Tele_Cell9);
+  configFile->Write(wxT("Tele_Cell10"),Tele_Cell10);
+  configFile->Write(wxT("Tele_Cell11"),Tele_Cell11);
+  configFile->Write(wxT("Tele_Cell12"),Tele_Cell12);
 
   configFile->Write(wxT("EEfile"),CurrentEEPath);
 

@@ -366,10 +366,10 @@ void FrSkyDTelemetry::send()
 
     SendSerialDataToUART(0x7E);
     SendSerialDataToUART(0xFE);
-    SendSerialDataToUART(0x40);//A1
-    SendSerialDataToUART(0x40);//A2
-    SendSerialDataToUART(0x40);//RX
-    SendSerialDataToUART(0x82);//TX*2
+    SendSerialDataToUART((uint8_t)(Tele_Analog1*10));//A1
+    SendSerialDataToUART((uint8_t)(Tele_Analog2*10));//A2
+    SendSerialDataToUART(Tele_RSSIRx);//RX
+    SendSerialDataToUART(Tele_RSSITx*2);//TX*2
     SendSerialDataToUART(0x00);
     SendSerialDataToUART(0x00);
     SendSerialDataToUART(0x00);

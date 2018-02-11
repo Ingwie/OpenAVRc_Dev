@@ -41,6 +41,7 @@
 
 
 #include "FrSkySportPolling.h"
+#include "FrSkySimu.h"
 
 FrSkySportPolling::FrSkySportPolling()
 {
@@ -63,9 +64,9 @@ FrSkySportSensor::SensorId FrSkySportPolling::pollData(FrSkySportSingleWireSeria
     if(now >= rssiPollTime)
     {
       serial.sendHeader(FrSkySportSensor::ID25);
-      serial.sendData(POLLING_RSSI_DATA_ID, 67);
+      serial.sendData(POLLING_RSSI_DATA_ID, Tele_RSSIRx);
       serial.sendHeader(FrSkySportSensor::ID25);
-      serial.sendData(0xF105, 65);
+      serial.sendData(0xF105, Tele_RSSITx);
       rssiPollTime = now + POLLING_RSSI_POLL_TIME;
       nextPollTime = now + POLLING_ID_POLL_TIME;
     }
