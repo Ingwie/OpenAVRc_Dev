@@ -71,12 +71,12 @@ void frskySportSimuloop()
   // Set current/voltage sensor (FCS) data
   // (set Voltage source to FAS in menu to use this data for battery voltage,
   //  set Current source to FAS in menu to use this data for current readins)
-  fcs.setData(Tele_EscCurrent,   // Current consumption in amps
-              Tele_EscVolt);  // Battery voltage in volts
+  fcs.setData(Tele_BattCurrent,   // Current consumption in amps
+              Tele_BattVolt);  // Battery voltage in volts
 
   // Set LiPo voltage sensor (FLVSS) data (we use two sensors to simulate 8S battery
   // (set Voltage source to Cells in menu to use this data for battery voltage)
-  flvss1.setData(Tele_Cell1, Tele_Cell2, Tele_Cell3, Tele_Cell6, Tele_Cell5, Tele_Cell6);  // Cell voltages in volts (cells 1-6)
+  flvss1.setData(Tele_Cell1, Tele_Cell2, Tele_Cell3, Tele_Cell4, Tele_Cell5, Tele_Cell6);  // Cell voltages in volts (cells 1-6)
   //flvss2.setData(Tele_Cell7, Tele_Cell8, Tele_Cell9, Tele_Cell10, Tele_Cell11, Tele_Cell12);                          // Cell voltages in volts (cells 7-8)
 
   // Set GPS data
@@ -113,15 +113,15 @@ void frskyDSimuloop()
   // Set current/voltage sensor (FAS) data
   // (set Voltage source to FAS in menu to use this data for battery voltage,
   //  set Current source to FAS in menu to use this data for current readins)
-  telemetryD.setFasData(Tele_EscCurrent,   // Current consumption in amps
-                        Tele_EscVolt);  // Battery voltage in volts
+  telemetryD.setFasData(Tele_BattCurrent,   // Current consumption in amps
+                        Tele_BattVolt);  // Battery voltage in volts
 
   // Set fuel sensor (FGS) data
   telemetryD.setFgsData(Tele_Fuel);  // Fuel level in percent
 
   // Set LiPo voltage sensor (FLVS) data (we use two sensors to simulate 8S battery
   // (set Voltage source to Cells in menu to use this data for battery voltage)
-  telemetryD.setFlvsData(Tele_Cell1, Tele_Cell2, Tele_Cell3, Tele_Cell6, Tele_Cell5, Tele_Cell6
+  telemetryD.setFlvsData(Tele_Cell1, Tele_Cell2, Tele_Cell3, Tele_Cell4, Tele_Cell5, Tele_Cell6
                          ,Tele_Cell7, Tele_Cell8, Tele_Cell9, Tele_Cell10, Tele_Cell11, Tele_Cell12);  // Cell voltages in volts
 
   // Set variometer sensor (FVAS) data

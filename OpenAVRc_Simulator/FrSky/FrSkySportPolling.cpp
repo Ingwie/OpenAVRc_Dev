@@ -63,10 +63,13 @@ FrSkySportSensor::SensorId FrSkySportPolling::pollData(FrSkySportSingleWireSeria
     // Send RSSI every 444ms independent of other IDs
     if(now >= rssiPollTime)
     {
+    uint8_t RX = (Tele_RSSIRx);
+    uint8_t TX = (Tele_RSSITx);
+
       serial.sendHeader(FrSkySportSensor::ID25);
-      serial.sendData(POLLING_RSSI_DATA_ID, Tele_RSSIRx);
+      serial.sendData(POLLING_RSSI_DATA_ID, (uint8_t)Tele_RSSIRx);
       serial.sendHeader(FrSkySportSensor::ID25);
-      serial.sendData(0xF105, Tele_RSSITx);
+      serial.sendData(0xF105, (uint8_t)Tele_RSSITx);
       rssiPollTime = now + POLLING_RSSI_POLL_TIME;
       nextPollTime = now + POLLING_ID_POLL_TIME;
     }

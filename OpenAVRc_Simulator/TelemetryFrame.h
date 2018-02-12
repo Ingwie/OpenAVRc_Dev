@@ -40,8 +40,9 @@ class TelemetryFrame: public wxFrame
 		wxSlider* Cell7;
 		wxSlider* Cell8;
 		wxSlider* Cell9;
-		wxSlider* Slider1;
 		wxSlider* VarioAlt;
+		wxSlider* VarioHSpeed;
+		wxSpinCtrl* AirSpeed;
 		wxSpinCtrl* Analog1;
 		wxSpinCtrl* Analog2;
 		wxSpinCtrl* Analog3;
@@ -59,7 +60,6 @@ class TelemetryFrame: public wxFrame
 		wxSpinCtrl* RPM;
 		wxSpinCtrl* RSSIRx;
 		wxSpinCtrl* RSSITx;
-		wxSpinCtrl* SpinCtrl1;
 		wxSpinCtrl* Temp1;
 		wxSpinCtrl* Temp2;
 		wxStaticBox* StaticBox10;
@@ -215,6 +215,8 @@ class TelemetryFrame: public wxFrame
 		//(*Handlers(TelemetryFrame)
 		void OnClose(wxCloseEvent& event);
 		void OnTeleChange(wxSpinEvent& event);
+		void OnGPSDateTimeChanged(wxDateEvent& event);
+		void OnTeleScrollChanged(wxScrollEvent& event);
 		//*)
 
 		void WriteDatas();

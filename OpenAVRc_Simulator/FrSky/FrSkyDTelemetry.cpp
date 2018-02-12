@@ -368,8 +368,8 @@ void FrSkyDTelemetry::send()
     SendSerialDataToUART(0xFE);
     SendSerialDataToUART((uint8_t)(Tele_Analog1*10));//A1
     SendSerialDataToUART((uint8_t)(Tele_Analog2*10));//A2
-    SendSerialDataToUART(Tele_RSSIRx);//RX
-    SendSerialDataToUART(Tele_RSSITx*2);//TX*2
+    SendSerialDataToUART((uint8_t)Tele_RSSIRx);//RX
+    SendSerialDataToUART((uint8_t)Tele_RSSITx*2);//TX*2
     SendSerialDataToUART(0x00);
     SendSerialDataToUART(0x00);
     SendSerialDataToUART(0x00);
