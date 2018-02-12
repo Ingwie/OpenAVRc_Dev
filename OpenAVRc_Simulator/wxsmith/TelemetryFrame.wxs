@@ -144,10 +144,12 @@
 			<object class="wxDatePickerCtrl" name="ID_DATEPICKERCTRL1" variable="GPSDate" member="yes">
 				<pos>648,48</pos>
 				<size>80,21</size>
+				<handler function="OnGPSDateTimeChanged" entry="EVT_DATE_CHANGED" />
 			</object>
 			<object class="wxTimePickerCtrl" name="ID_TIMEPICKERCTRL1" variable="GPSTime" member="yes">
 				<pos>648,72</pos>
 				<size>80,21</size>
+				<handler function="OnGPSDateTimeChanged" entry="EVT_DATE_CHANGED" />
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX7" variable="StaticBox7" member="yes">
 				<label>Accéléromètres</label>
@@ -155,22 +157,25 @@
 				<size>184,96</size>
 			</object>
 			<object class="wxSlider" name="ID_SLIDER1" variable="AcclX" member="yes">
-				<min>-30</min>
-				<max>30</max>
+				<min>-300</min>
+				<max>300</max>
 				<pos>792,32</pos>
 				<size>144,20</size>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER2" variable="AcclY" member="yes">
-				<min>-30</min>
-				<max>30</max>
+				<min>-300</min>
+				<max>300</max>
 				<pos>792,56</pos>
 				<size>144,20</size>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER3" variable="AcclZ" member="yes">
-				<min>-30</min>
-				<max>30</max>
+				<min>-300</min>
+				<max>300</max>
 				<pos>792,80</pos>
 				<size>144,20</size>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
 				<label>X</label>
@@ -192,16 +197,18 @@
 				<size>192,96</size>
 			</object>
 			<object class="wxSlider" name="ID_SLIDER5" variable="VarioAlt" member="yes">
-				<min>-5</min>
-				<max>200</max>
+				<min>-50</min>
+				<max>2000</max>
 				<pos>960,40</pos>
 				<size>176,20</size>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
-			<object class="wxSlider" name="ID_SLIDER4" variable="Slider1" member="yes">
-				<min>-20</min>
-				<max>20</max>
+			<object class="wxSlider" name="ID_SLIDER4" variable="VarioHSpeed" member="yes">
+				<min>-200</min>
+				<max>200</max>
 				<pos>960,80</pos>
 				<size>176,20</size>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText8" member="yes">
 				<label>Altitude</label>
@@ -221,6 +228,7 @@
 				<value>0</value>
 				<pos>72,136</pos>
 				<size>48,21</size>
+				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT11" variable="StaticText11" member="yes">
 				<label>TX</label>
@@ -252,12 +260,14 @@
 				<max>1000</max>
 				<pos>16,200</pos>
 				<size>48,21</size>
+				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL10" variable="Analog2" member="yes">
 				<value>0</value>
 				<max>1000</max>
 				<pos>72,200</pos>
 				<size>48,21</size>
+				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT13" variable="StaticText13" member="yes">
 				<label>A1</label>
@@ -272,12 +282,14 @@
 				<max>900</max>
 				<pos>144,136</pos>
 				<size>48,21</size>
+				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL12" variable="BattAmp" member="yes">
 				<value>0</value>
 				<max>2000</max>
 				<pos>200,136</pos>
 				<size>56,21</size>
+				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT14" variable="StaticText14" member="yes">
 				<label>Tension</label>
@@ -289,15 +301,17 @@
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL14" variable="Analog3" member="yes">
 				<value>0</value>
-				<max>330</max>
+				<max>3300</max>
 				<pos>136,200</pos>
 				<size>48,21</size>
+				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL15" variable="Analog4" member="yes">
 				<value>0</value>
-				<max>330</max>
+				<max>3300</max>
 				<pos>192,200</pos>
 				<size>48,21</size>
+				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT16" variable="StaticText16" member="yes">
 				<label>A3</label>
@@ -317,23 +331,28 @@
 				<max>10000</max>
 				<pos>280,136</pos>
 				<size>64,21</size>
+				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL17" variable="FUEL" member="yes">
 				<value>0</value>
+				<max>1000</max>
 				<pos>352,136</pos>
 				<size>48,21</size>
+				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL18" variable="Temp1" member="yes">
 				<value>0</value>
 				<max>1000</max>
 				<pos>280,178</pos>
 				<size>56,21</size>
+				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL19" variable="Temp2" member="yes">
 				<value>0</value>
 				<max>1000</max>
 				<pos>344,178</pos>
 				<size>56,21</size>
+				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT18" variable="StaticText18" member="yes">
 				<label>RPM</label>
@@ -356,72 +375,84 @@
 				<pos>432,118</pos>
 				<size>20,112</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER17" variable="Cell12" member="yes">
 				<max>500</max>
 				<pos>696,118</pos>
 				<size>20,112</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER16" variable="Cell11" member="yes">
 				<max>500</max>
 				<pos>672,118</pos>
 				<size>20,112</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER15" variable="Cell10" member="yes">
 				<max>500</max>
 				<pos>648,118</pos>
 				<size>20,112</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER14" variable="Cell9" member="yes">
 				<max>500</max>
 				<pos>624,118</pos>
 				<size>20,112</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER13" variable="Cell8" member="yes">
 				<max>500</max>
 				<pos>600,118</pos>
 				<size>20,112</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER12" variable="Cell7" member="yes">
 				<max>500</max>
 				<pos>576,118</pos>
 				<size>20,112</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER11" variable="Cell6" member="yes">
 				<max>500</max>
 				<pos>552,118</pos>
 				<size>20,112</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER10" variable="Cell5" member="yes">
 				<max>500</max>
 				<pos>528,118</pos>
 				<size>20,112</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER6" variable="Cell4" member="yes">
 				<max>500</max>
 				<pos>504,118</pos>
 				<size>20,112</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER8" variable="Cell2" member="yes">
 				<max>500</max>
 				<pos>456,118</pos>
 				<size>20,112</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER7" variable="Cell3" member="yes">
 				<max>500</max>
 				<pos>480,118</pos>
 				<size>20,112</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX14" variable="StaticBox14" member="yes">
 				<label>Réglages</label>
@@ -561,11 +592,12 @@
 					<face>Arial</face>
 				</font>
 			</object>
-			<object class="wxSpinCtrl" name="ID_SPINCTRL20" variable="SpinCtrl1" member="yes">
+			<object class="wxSpinCtrl" name="ID_SPINCTRL20" variable="AirSpeed" member="yes">
 				<value>0</value>
 				<max>3000</max>
 				<pos>344,204</pos>
 				<size>56,21</size>
+				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT34" variable="StaticText34" member="yes">
 				<label>Vitesse</label>

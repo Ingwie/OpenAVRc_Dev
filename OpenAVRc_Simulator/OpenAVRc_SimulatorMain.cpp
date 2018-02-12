@@ -137,8 +137,8 @@ float Tele_Analog2;
 float Tele_Analog3;
 float Tele_Analog4;
 
-float Tele_EscVolt;
-float Tele_EscCurrent;
+float Tele_BattVolt;
+float Tele_BattCurrent;
 
 float Tele_RPM;
 float Tele_Fuel;
@@ -943,12 +943,12 @@ void OpenAVRc_SimulatorFrame::LoadConfig()
   configFile->Read(wxT("Tele_GPSAlt"),&Tele_GPSAlt);
   configFile->Read(wxT("Tele_GPSSpeed"),&Tele_GPSSpeed);
   configFile->Read(wxT("Tele_GPSCourse"),&Tele_GPSCourse);
-  configFile->Read(wxT("Tele_GPSYear"),&Tele_GPSYear);
+  /*configFile->Read(wxT("Tele_GPSYear"),&Tele_GPSYear); Use real Date Time as default
   configFile->Read(wxT("Tele_GPSMonth"),&Tele_GPSMonth);
   configFile->Read(wxT("Tele_GPSDay"),&Tele_GPSDay);
   configFile->Read(wxT("Tele_GPSHour"),&Tele_GPSHour);
   configFile->Read(wxT("Tele_GPSMinute"),&Tele_GPSMinute);
-  configFile->Read(wxT("Tele_GPSSecond"),&Tele_GPSSecond);
+  configFile->Read(wxT("Tele_GPSSecond"),&Tele_GPSSecond);*/
 
   configFile->Read(wxT("Tele_AccelX"),&Tele_AccelX);
   configFile->Read(wxT("Tele_AccelY"),&Tele_AccelY);
@@ -965,8 +965,8 @@ void OpenAVRc_SimulatorFrame::LoadConfig()
   configFile->Read(wxT("Tele_Analog3"),&Tele_Analog3);
   configFile->Read(wxT("Tele_Analog4"),&Tele_Analog4);
 
-  configFile->Read(wxT("Tele_EscVolt"),&Tele_EscVolt);
-  configFile->Read(wxT("Tele_EscCurrent"),&Tele_EscCurrent);
+  configFile->Read(wxT("Tele_BattVolt"),&Tele_BattVolt);
+  configFile->Read(wxT("Tele_BattCurrent"),&Tele_BattCurrent);
 
   configFile->Read(wxT("Tele_RPM"),&Tele_RPM);
   configFile->Read(wxT("Tele_Fuel"),&Tele_Fuel);
@@ -1006,12 +1006,12 @@ void OpenAVRc_SimulatorFrame::SaveConfig()
   configFile->Write(wxT("Tele_GPSAlt"),Tele_GPSAlt);
   configFile->Write(wxT("Tele_GPSSpeed"),Tele_GPSSpeed);
   configFile->Write(wxT("Tele_GPSCourse"),Tele_GPSCourse);
-  configFile->Write(wxT("Tele_GPSYear"),Tele_GPSYear);
+  /*configFile->Write(wxT("Tele_GPSYear"),Tele_GPSYear);
   configFile->Write(wxT("Tele_GPSMonth"),Tele_GPSMonth);
   configFile->Write(wxT("Tele_GPSDay"),Tele_GPSDay);
   configFile->Write(wxT("Tele_GPSHour"),Tele_GPSHour);
   configFile->Write(wxT("Tele_GPSMinute"),Tele_GPSMinute);
-  configFile->Write(wxT("Tele_GPSSecond"),Tele_GPSSecond);
+  configFile->Write(wxT("Tele_GPSSecond"),Tele_GPSSecond);*/
 
   configFile->Write(wxT("Tele_AccelX"),Tele_AccelX);
   configFile->Write(wxT("Tele_AccelY"),Tele_AccelY);
@@ -1028,8 +1028,8 @@ void OpenAVRc_SimulatorFrame::SaveConfig()
   configFile->Write(wxT("Tele_Analog3"),Tele_Analog3);
   configFile->Write(wxT("Tele_Analog4"),Tele_Analog4);
 
-  configFile->Write(wxT("Tele_EscVolt"),Tele_EscVolt);
-  configFile->Write(wxT("Tele_EscCurrent"),Tele_EscCurrent);
+  configFile->Write(wxT("Tele_BattVolt"),Tele_BattVolt);
+  configFile->Write(wxT("Tele_BattCurrent"),Tele_BattCurrent);
 
   configFile->Write(wxT("Tele_RPM"),Tele_RPM);
   configFile->Write(wxT("Tele_Fuel"),Tele_Fuel);

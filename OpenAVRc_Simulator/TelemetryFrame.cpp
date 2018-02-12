@@ -68,8 +68,8 @@ extern float Tele_Analog2;
 extern float Tele_Analog3;
 extern float Tele_Analog4;
 
-extern float Tele_EscVolt;
-extern float Tele_EscCurrent;
+extern float Tele_BattVolt;
+extern float Tele_BattCurrent;
 
 extern float Tele_RPM;
 extern float Tele_Fuel;
@@ -90,6 +90,8 @@ extern float Tele_Cell10;
 extern float Tele_Cell11;
 extern float Tele_Cell12;
 
+
+extern bool Ini_Changed;
 
 //(*IdInit(TelemetryFrame)
 const long TelemetryFrame::ID_STATICBOX13 = wxNewId();
@@ -229,15 +231,15 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	GPSDate = new wxDatePickerCtrl(Panel1, ID_DATEPICKERCTRL1, wxDefaultDateTime, wxPoint(648,48), wxSize(80,21), wxDP_DEFAULT|wxDP_SHOWCENTURY, wxDefaultValidator, _T("ID_DATEPICKERCTRL1"));
 	GPSTime = new wxTimePickerCtrl(Panel1, ID_TIMEPICKERCTRL1, wxDateTime::Now(), wxPoint(648,72), wxSize(80,21), 0, wxDefaultValidator, _T("ID_TIMEPICKERCTRL1"));
 	StaticBox7 = new wxStaticBox(Panel1, ID_STATICBOX7, _("Accéléromètres"), wxPoint(760,8), wxSize(184,96), 0, _T("ID_STATICBOX7"));
-	AcclX = new wxSlider(Panel1, ID_SLIDER1, 0, -30, 30, wxPoint(792,32), wxSize(144,20), 0, wxDefaultValidator, _T("ID_SLIDER1"));
-	AcclY = new wxSlider(Panel1, ID_SLIDER2, 0, -30, 30, wxPoint(792,56), wxSize(144,20), 0, wxDefaultValidator, _T("ID_SLIDER2"));
-	AcclZ = new wxSlider(Panel1, ID_SLIDER3, 0, -30, 30, wxPoint(792,80), wxSize(144,20), 0, wxDefaultValidator, _T("ID_SLIDER3"));
+	AcclX = new wxSlider(Panel1, ID_SLIDER1, 0, -300, 300, wxPoint(792,32), wxSize(144,20), 0, wxDefaultValidator, _T("ID_SLIDER1"));
+	AcclY = new wxSlider(Panel1, ID_SLIDER2, 0, -300, 300, wxPoint(792,56), wxSize(144,20), 0, wxDefaultValidator, _T("ID_SLIDER2"));
+	AcclZ = new wxSlider(Panel1, ID_SLIDER3, 0, -300, 300, wxPoint(792,80), wxSize(144,20), 0, wxDefaultValidator, _T("ID_SLIDER3"));
 	StaticText3 = new wxStaticText(Panel1, ID_STATICTEXT3, _("X"), wxPoint(776,32), wxDefaultSize, 0, _T("ID_STATICTEXT3"));
 	StaticText6 = new wxStaticText(Panel1, ID_STATICTEXT6, _("Y"), wxPoint(776,56), wxSize(16,16), 0, _T("ID_STATICTEXT6"));
 	StaticText7 = new wxStaticText(Panel1, ID_STATICTEXT7, _("Z"), wxPoint(776,80), wxSize(16,13), 0, _T("ID_STATICTEXT7"));
 	StaticBox8 = new wxStaticBox(Panel1, ID_STATICBOX8, _("Variomètre"), wxPoint(952,8), wxSize(192,96), 0, _T("ID_STATICBOX8"));
-	VarioAlt = new wxSlider(Panel1, ID_SLIDER5, 0, -5, 200, wxPoint(960,40), wxSize(176,20), 0, wxDefaultValidator, _T("ID_SLIDER5"));
-	Slider1 = new wxSlider(Panel1, ID_SLIDER4, 0, -20, 20, wxPoint(960,80), wxSize(176,20), 0, wxDefaultValidator, _T("ID_SLIDER4"));
+	VarioAlt = new wxSlider(Panel1, ID_SLIDER5, 0, -50, 2000, wxPoint(960,40), wxSize(176,20), 0, wxDefaultValidator, _T("ID_SLIDER5"));
+	VarioHSpeed = new wxSlider(Panel1, ID_SLIDER4, 0, -200, 200, wxPoint(960,80), wxSize(176,20), 0, wxDefaultValidator, _T("ID_SLIDER4"));
 	StaticText8 = new wxStaticText(Panel1, ID_STATICTEXT8, _("Altitude"), wxPoint(976,24), wxDefaultSize, 0, _T("ID_STATICTEXT8"));
 	StaticText9 = new wxStaticText(Panel1, ID_STATICTEXT9, _("Vitesse Verticale"), wxPoint(976,64), wxDefaultSize, 0, _T("ID_STATICTEXT9"));
 	RSSITx = new wxSpinCtrl(Panel1, ID_SPINCTRL4, _T("0"), wxPoint(16,136), wxSize(48,21), 0, 0, 100, 0, _T("ID_SPINCTRL4"));
@@ -262,16 +264,16 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	BattAmp->SetValue(_T("0"));
 	StaticText14 = new wxStaticText(Panel1, ID_STATICTEXT14, _("Tension"), wxPoint(144,120), wxDefaultSize, 0, _T("ID_STATICTEXT14"));
 	StaticText15 = new wxStaticText(Panel1, ID_STATICTEXT15, _("Courant"), wxPoint(208,120), wxDefaultSize, 0, _T("ID_STATICTEXT15"));
-	Analog3 = new wxSpinCtrl(Panel1, ID_SPINCTRL14, _T("0"), wxPoint(136,200), wxSize(48,21), 0, 0, 330, 0, _T("ID_SPINCTRL14"));
+	Analog3 = new wxSpinCtrl(Panel1, ID_SPINCTRL14, _T("0"), wxPoint(136,200), wxSize(48,21), 0, 0, 3300, 0, _T("ID_SPINCTRL14"));
 	Analog3->SetValue(_T("0"));
-	Analog4 = new wxSpinCtrl(Panel1, ID_SPINCTRL15, _T("0"), wxPoint(192,200), wxSize(48,21), 0, 0, 330, 0, _T("ID_SPINCTRL15"));
+	Analog4 = new wxSpinCtrl(Panel1, ID_SPINCTRL15, _T("0"), wxPoint(192,200), wxSize(48,21), 0, 0, 3300, 0, _T("ID_SPINCTRL15"));
 	Analog4->SetValue(_T("0"));
 	StaticText16 = new wxStaticText(Panel1, ID_STATICTEXT16, _("A3"), wxPoint(144,184), wxDefaultSize, 0, _T("ID_STATICTEXT16"));
 	StaticText17 = new wxStaticText(Panel1, ID_STATICTEXT17, _("A4"), wxPoint(200,184), wxDefaultSize, 0, _T("ID_STATICTEXT17"));
 	StaticBox12 = new wxStaticBox(Panel1, ID_STATICBOX12, _("Autres"), wxPoint(264,104), wxSize(152,128), 0, _T("ID_STATICBOX12"));
 	RPM = new wxSpinCtrl(Panel1, ID_SPINCTRL16, _T("0"), wxPoint(280,136), wxSize(64,21), 0, 0, 10000, 0, _T("ID_SPINCTRL16"));
 	RPM->SetValue(_T("0"));
-	FUEL = new wxSpinCtrl(Panel1, ID_SPINCTRL17, _T("0"), wxPoint(352,136), wxSize(48,21), 0, 0, 100, 0, _T("ID_SPINCTRL17"));
+	FUEL = new wxSpinCtrl(Panel1, ID_SPINCTRL17, _T("0"), wxPoint(352,136), wxSize(48,21), 0, 0, 1000, 0, _T("ID_SPINCTRL17"));
 	FUEL->SetValue(_T("0"));
 	Temp1 = new wxSpinCtrl(Panel1, ID_SPINCTRL18, _T("0"), wxPoint(280,178), wxSize(56,21), 0, 0, 1000, 0, _T("ID_SPINCTRL18"));
 	Temp1->SetValue(_T("0"));
@@ -327,8 +329,8 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	StaticText22 = new wxStaticText(Panel1, ID_STATICTEXT22, _("X10"), wxPoint(432,56), wxDefaultSize, 0, _T("ID_STATICTEXT22"));
 	wxFont StaticText22Font(5,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
 	StaticText22->SetFont(StaticText22Font);
-	SpinCtrl1 = new wxSpinCtrl(Panel1, ID_SPINCTRL20, _T("0"), wxPoint(344,204), wxSize(56,21), 0, 0, 3000, 0, _T("ID_SPINCTRL20"));
-	SpinCtrl1->SetValue(_T("0"));
+	AirSpeed = new wxSpinCtrl(Panel1, ID_SPINCTRL20, _T("0"), wxPoint(344,204), wxSize(56,21), 0, 0, 3000, 0, _T("ID_SPINCTRL20"));
+	AirSpeed->SetValue(_T("0"));
 	StaticText34 = new wxStaticText(Panel1, ID_STATICTEXT34, _("Vitesse"), wxPoint(280,208), wxDefaultSize, 0, _T("ID_STATICTEXT34"));
 
 	Connect(ID_SPINCTRL5,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
@@ -338,7 +340,38 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	Connect(ID_SPINCTRL7,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
 	Connect(ID_SPINCTRL8,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
 	Connect(ID_SPINCTRL9,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
+	Connect(ID_DATEPICKERCTRL1,wxEVT_DATE_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnGPSDateTimeChanged);
+	Connect(ID_TIMEPICKERCTRL1,wxEVT_DATE_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnGPSDateTimeChanged);
+	Connect(ID_SLIDER1,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
+	Connect(ID_SLIDER2,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
+	Connect(ID_SLIDER3,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
+	Connect(ID_SLIDER5,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
+	Connect(ID_SLIDER4,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
 	Connect(ID_SPINCTRL4,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
+	Connect(ID_SPINCTRL3,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
+	Connect(ID_SPINCTRL11,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
+	Connect(ID_SPINCTRL10,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
+	Connect(ID_SPINCTRL13,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
+	Connect(ID_SPINCTRL12,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
+	Connect(ID_SPINCTRL14,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
+	Connect(ID_SPINCTRL15,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
+	Connect(ID_SPINCTRL16,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
+	Connect(ID_SPINCTRL17,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
+	Connect(ID_SPINCTRL18,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
+	Connect(ID_SPINCTRL19,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
+	Connect(ID_SLIDER9,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
+	Connect(ID_SLIDER17,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
+	Connect(ID_SLIDER16,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
+	Connect(ID_SLIDER15,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
+	Connect(ID_SLIDER14,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
+	Connect(ID_SLIDER13,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
+	Connect(ID_SLIDER12,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
+	Connect(ID_SLIDER11,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
+	Connect(ID_SLIDER10,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
+	Connect(ID_SLIDER6,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
+	Connect(ID_SLIDER8,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
+	Connect(ID_SLIDER7,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
+	Connect(ID_SPINCTRL20,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&TelemetryFrame::OnClose);
 	//*)
 
@@ -346,6 +379,52 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
     wxIcon FrameIcon;
     SetIcon(wxICON(oavrc_icon));
   }
+
+  GPSLatDegres->SetValue((int)Tele_GPSLat);
+  GPSLatMinute->SetValue((Tele_GPSLat - GPSLatDegres->GetValue())*1000000);
+  GPSLongDEgres->SetValue((int)Tele_GPSLong);
+  GPSLatMinute->SetValue((Tele_GPSLong - GPSLongDEgres->GetValue())*1000000);
+  GPSAltitude->SetValue(Tele_GPSAlt*10);
+  GPSSpeed->SetValue(Tele_GPSSpeed*10);
+  GPSCourse->SetValue(Tele_GPSCourse*1000);
+
+  AcclX->SetValue(Tele_AccelX*10);
+  AcclY->SetValue(Tele_AccelY*10);
+  AcclZ->SetValue(Tele_AccelZ*10);
+
+  VarioAlt->SetValue(Tele_VarioAlt*10);
+  VarioHSpeed->SetValue(Tele_VarioAccelH*10);
+
+  RSSITx->SetValue(Tele_RSSITx);
+  RSSIRx->SetValue(Tele_RSSIRx);
+
+  Analog1->SetValue(Tele_Analog1*100);
+  Analog2->SetValue(Tele_Analog2*100);
+  Analog3->SetValue(Tele_Analog3*100);
+  Analog4->SetValue(Tele_Analog4*100);
+
+  BattVolts->SetValue(Tele_BattVolt*10);
+  BattAmp->SetValue(Tele_BattCurrent*10);
+
+  RPM->SetValue(Tele_RPM);
+  FUEL->SetValue(Tele_Fuel*10);
+  Temp1->SetValue(Tele_Temp1*10);
+  Temp2->SetValue(Tele_Temp2*10);
+  AirSpeed->SetValue(Tele_Airspeed*10);
+
+  Cell1->SetValue(Tele_Cell1*100);
+  Cell2->SetValue(Tele_Cell2*100);
+  Cell3->SetValue(Tele_Cell3*100);
+  Cell4->SetValue(Tele_Cell4*100);
+  Cell5->SetValue(Tele_Cell5*100);
+  Cell6->SetValue(Tele_Cell6*100);
+  Cell7->SetValue(Tele_Cell7*100);
+  Cell8->SetValue(Tele_Cell8*100);
+  Cell9->SetValue(Tele_Cell9*100);
+  Cell10->SetValue(Tele_Cell10*100);
+  Cell11->SetValue(Tele_Cell11*100);
+  Cell12->SetValue(Tele_Cell12*100);
+
 }
 
 TelemetryFrame::~TelemetryFrame()
@@ -376,46 +455,57 @@ void TelemetryFrame::WriteDatas()
   Tele_GPSHour = GPSTime->GetValue().GetHour();
   Tele_GPSMinute = GPSTime->GetValue().GetMinute();
   Tele_GPSSecond = GPSTime->GetValue().GetSecond();
-/*
 
-float Tele_AccelX;
-float Tele_AccelY;
-float Tele_AccelZ;
+  Tele_AccelX = (float)AcclX->GetValue()/10;
+  Tele_AccelY = (float)AcclY->GetValue()/10;
+  Tele_AccelZ = (float)AcclZ->GetValue()/10;
 
-float Tele_VarioAlt;
-float Tele_VarioAccelH;
+  Tele_VarioAlt = (float)VarioAlt->GetValue()/10;
+  Tele_VarioAccelH = (float)VarioHSpeed->GetValue()/10;
 
-int Tele_RSSITx;
-int Tele_RSSIRx;
+  Tele_RSSITx = RSSITx->GetValue();
+  Tele_RSSIRx = RSSIRx->GetValue();
 
-float Tele_Analog1;
-float Tele_Analog2;
-float Tele_Analog3;
-float Tele_Analog4;
+  Tele_Analog1 = (float)Analog1->GetValue()/100;
+  Tele_Analog2 = (float)Analog2->GetValue()/100;
+  Tele_Analog3 = (float)Analog3->GetValue()/100;
+  Tele_Analog4 = (float)Analog4->GetValue()/100;
 
-float Tele_EscVolt;
-float Tele_EscCurrent;
+  Tele_BattVolt = (float)BattVolts->GetValue()/10;
+  Tele_BattCurrent = (float)BattAmp->GetValue()/10;
 
-float Tele_RPM;
-float Tele_Fuel;
-float Tele_Temp1;
-float Tele_Temp2;
-float Tele_Airspeed;
+  Tele_RPM = RPM->GetValue();
+  Tele_Fuel = (float)FUEL->GetValue()/10;
+  Tele_Temp1 = (float)Temp1->GetValue()/10;
+  Tele_Temp2 = (float)Temp2->GetValue()/10;
+  Tele_Airspeed = (float)AirSpeed->GetValue()/10;
 
-float Tele_Cell1;
-float Tele_Cell2;
-float Tele_Cell3;
-float Tele_Cell4;
-float Tele_Cell5;
-float Tele_Cell6;
-float Tele_Cell7;
-float Tele_Cell8;
-float Tele_Cell9;
-float Tele_Cell10;
-float Tele_Cell11;
-float Tele_Cell12;*/
+  Tele_Cell1 = (float)Cell1->GetValue()/100;
+  Tele_Cell2 = (float)Cell2->GetValue()/100;
+  Tele_Cell3 = (float)Cell3->GetValue()/100;
+  Tele_Cell4 = (float)Cell4->GetValue()/100;
+  Tele_Cell5 = (float)Cell5->GetValue()/100;
+  Tele_Cell6 = (float)Cell6->GetValue()/100;
+  Tele_Cell7 = (float)Cell7->GetValue()/100;
+  Tele_Cell8 = (float)Cell8->GetValue()/100;
+  Tele_Cell9 = (float)Cell9->GetValue()/100;
+  Tele_Cell10 = (float)Cell10->GetValue()/100;
+  Tele_Cell11 = (float)Cell11->GetValue()/100;
+  Tele_Cell12 = (float)Cell12->GetValue()/100;
+
+  Ini_Changed = true;
 }
 void TelemetryFrame::OnTeleChange(wxSpinEvent& event)
+{
+  WriteDatas();
+}
+
+void TelemetryFrame::OnGPSDateTimeChanged(wxDateEvent& event)
+{
+  WriteDatas();
+}
+
+void TelemetryFrame::OnTeleScrollChanged(wxScrollEvent& event)
 {
   WriteDatas();
 }

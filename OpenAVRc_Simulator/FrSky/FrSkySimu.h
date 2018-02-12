@@ -75,8 +75,8 @@ extern float Tele_Analog2;
 extern float Tele_Analog3;
 extern float Tele_Analog4;
 
-extern float Tele_EscVolt;
-extern float Tele_EscCurrent;
+extern float Tele_BattVolt;
+extern float Tele_BattCurrent;
 
 extern float Tele_RPM;
 extern float Tele_Fuel;
