@@ -383,7 +383,7 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   GPSLatDegres->SetValue((int)Tele_GPSLat);
   GPSLatMinute->SetValue((Tele_GPSLat - GPSLatDegres->GetValue())*1000000);
   GPSLongDEgres->SetValue((int)Tele_GPSLong);
-  GPSLatMinute->SetValue((Tele_GPSLong - GPSLongDEgres->GetValue())*1000000);
+  GPSLongMinute->SetValue((Tele_GPSLong - GPSLongDEgres->GetValue())*1000000);
   GPSAltitude->SetValue(Tele_GPSAlt*10);
   GPSSpeed->SetValue(Tele_GPSSpeed*10);
   GPSCourse->SetValue(Tele_GPSCourse*1000);
