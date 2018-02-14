@@ -1,2 +1,3 @@
 (fp_lib_table
+  (lib (name v2.1)(type KiCad)(uri "C:/tmp/_OpenAVRc/MegaCore 2560 Shield.v2.1/Mega_2560 core mini_full_2.1_PM/Shield_Lib.pretty")(options "")(descr ""))
 )
