@@ -61,8 +61,6 @@
 						<object class="wxChoice" name="ID_CHOICE6" variable="ChoicePCB" member="yes">
 							<content>
 								<item>MEGAMINI</item>
-								<item>MEGA2560</item>
-								<item>EVO_V1</item>
 							</content>
 							<selection>0</selection>
 							<pos>112,32</pos>
@@ -139,6 +137,7 @@
 							<label>Carte SD</label>
 							<pos>112,224</pos>
 							<tooltip>Option carte SD (Sauvegarde - Fichiers log)</tooltip>
+							<handler function="OnCheckBoxSD_CARDClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxChoice" name="ID_CHOICE7" variable="ChoiceTRANSLATIONS" member="yes">
 							<content>

@@ -197,8 +197,6 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoicePPM_UNIT ->SetToolTip(_("Affichage des valeurs des voies en % ou uS"));
   ChoicePCB = new wxChoice(Panel2, ID_CHOICE6, wxPoint(112,32), wxSize(96,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE6"));
   ChoicePCB->SetSelection( ChoicePCB->Append(_("MEGAMINI")) );
-  ChoicePCB->Append(_("MEGA2560"));
-  ChoicePCB->Append(_("EVO_V1"));
   ChoicePCB->SetToolTip(_("Type de radio"));
   ChoiceLCD = new wxChoice(Panel2, ID_CHOICE1, wxPoint(112,72), wxSize(96,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
   ChoiceLCD->Append(_("ST7565P"));
@@ -468,6 +466,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   Notebook1->AddPage(Panel4, _("Personnalisation"), false);
 
   Connect(ID_CHOICE3,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&CompilerOptionsFrame::OnChoiceVOICESelect);
+  Connect(ID_CHECKBOX12,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxSD_CARDClick);
   Connect(ID_CHOICE8,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&CompilerOptionsFrame::OnChoiceNAVIGATIONSelect);
   Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonEXITClick);
   Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonCOMPILEClick);
@@ -694,7 +693,6 @@ void CompilerOptionsFrame::CollectDatas()
   GAUGES = CheckBoxGAUGES->GetValue();
   GPS = CheckBoxGPS->GetValue();
   VARIO = CheckBoxVARIO->GetValue();
-  RTCLOCK = CheckBoxRTCLOCK->GetValue();
   SPORT_FILE_LOG = CheckBoxSPORT_FILE_LOG->GetValue();
   PPM = CheckBoxPPM->GetValue();
   MULTI = CheckBoxMULTI->GetValue();
@@ -707,6 +705,8 @@ void CompilerOptionsFrame::CollectDatas()
   CheckBoxSPIRF->SetValue(SPIRF);
 
   SD_CARD = CheckBoxSD_CARD->GetValue();
+  CheckBoxRTCLOCK->SetValue(SD_CARD); //SD need RTC code
+  RTCLOCK = CheckBoxRTCLOCK->GetValue();
   FAS_OFFSET = CheckBoxFAS_OFFSET->GetValue();
   TEMPLATES = CheckBoxTEMPLATES->GetValue();
   THREE_POS = ChoiceTHREE_POS->GetString(ChoiceTHREE_POS->GetSelection());// defaults to NO
@@ -1001,6 +1001,11 @@ void CompilerOptionsFrame::OnCheckBoxPERSONAMESClick(wxCommandEvent& event)
   CollectDatas();
 }
 
+
+void CompilerOptionsFrame::OnCheckBoxSD_CARDClick(wxCommandEvent& event)
+{
+  CollectDatas();
+}
 
 void CompilerOptionsFrame::OnButtonDefautClick1(wxCommandEvent& event)
 {
