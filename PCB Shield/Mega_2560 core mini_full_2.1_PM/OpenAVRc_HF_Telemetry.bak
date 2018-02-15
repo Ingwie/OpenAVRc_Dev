@@ -38,7 +38,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 4 7
 Title "Shield Mega2560 core Full"
-Date "2018-02-03"
+Date "2018-02-14"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -93,23 +93,23 @@ $EndComp
 $Comp
 L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR069
 U 1 1 59C6B436
-P 3850 2000
-F 0 "#PWR069" H 3850 1750 50  0001 C CNN
-F 1 "GND" V 3850 1800 50  0000 C CNN
-F 2 "" H 3850 2000 50  0000 C CNN
-F 3 "" H 3850 2000 50  0000 C CNN
-	1    3850 2000
+P 3950 2000
+F 0 "#PWR069" H 3950 1750 50  0001 C CNN
+F 1 "GND" V 3950 1800 50  0000 C CNN
+F 2 "" H 3950 2000 50  0000 C CNN
+F 3 "" H 3950 2000 50  0000 C CNN
+	1    3950 2000
 	1    0    0    -1  
 $EndComp
 $Comp
 L VCC #PWR070
 U 1 1 59C6B43D
-P 3550 2000
-F 0 "#PWR070" H 3550 1850 50  0001 C CNN
-F 1 "VCC" V 3550 2200 50  0000 C CNN
-F 2 "" H 3550 2000 50  0000 C CNN
-F 3 "" H 3550 2000 50  0000 C CNN
-	1    3550 2000
+P 3450 2000
+F 0 "#PWR070" H 3450 1850 50  0001 C CNN
+F 1 "VCC" V 3450 2200 50  0000 C CNN
+F 2 "" H 3450 2000 50  0000 C CNN
+F 3 "" H 3450 2000 50  0000 C CNN
+	1    3450 2000
 	-1   0    0    1   
 $EndComp
 Text Notes 3350 3800 2    60   ~ 0
@@ -117,12 +117,12 @@ Isolation Module TTL
 $Comp
 L +BATT #PWR071
 U 1 1 59C6B445
-P 3450 2000
-F 0 "#PWR071" H 3450 1850 50  0001 C CNN
-F 1 "+BATT" V 3450 2250 50  0000 C CNN
-F 2 "" H 3450 2000 50  0000 C CNN
-F 3 "" H 3450 2000 50  0000 C CNN
-	1    3450 2000
+P 3550 2000
+F 0 "#PWR071" H 3550 1850 50  0001 C CNN
+F 1 "+BATT" V 3550 2250 50  0000 C CNN
+F 2 "" H 3550 2000 50  0000 C CNN
+F 3 "" H 3550 2000 50  0000 C CNN
+	1    3550 2000
 	-1   0    0    1   
 $EndComp
 $Comp
@@ -221,9 +221,9 @@ Text Label 3200 4350 0    60   ~ 0
 TX_module
 Text Label 3200 4250 0    60   ~ 0
 RX_module
-Text Label 4150 3250 1    60   ~ 0
+Text Label 4050 3250 1    60   ~ 0
 TX_module
-Text Label 3950 3250 1    60   ~ 0
+Text Label 3850 3250 1    60   ~ 0
 RX_module
 $Comp
 L 74LVC1G3157 U1
@@ -278,9 +278,9 @@ Wire Wire Line
 Wire Wire Line
 	2600 4300 2550 4300
 Wire Wire Line
-	4150 1900 4150 3250
+	4050 1900 4050 3250
 Wire Wire Line
-	3950 1900 3950 3250
+	3850 1900 3850 3250
 Wire Wire Line
 	3750 4550 3800 4550
 Wire Wire Line
@@ -343,9 +343,7 @@ Wire Wire Line
 Wire Wire Line
 	3750 4950 3800 4950
 Wire Wire Line
-	3850 2000 3850 1900
-Wire Wire Line
-	3450 2000 3450 1900
+	3550 2000 3550 1900
 $Comp
 L C-RESCUE-Mega_2560_core_mini_full_2.0 C6
 U 1 1 59C6C67F
@@ -484,12 +482,12 @@ Wire Wire Line
 $Comp
 L R-RESCUE-Mega_2560_core_mini_full_2.0 R18
 U 1 1 5A718C98
-P 3650 2250
-F 0 "R18" V 3750 2250 50  0000 C CNN
-F 1 "200" V 3650 2250 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 3580 2250 50  0001 C CNN
-F 3 "" H 3650 2250 50  0000 C CNN
-	1    3650 2250
+P 3750 2250
+F 0 "R18" V 3650 2250 50  0000 C CNN
+F 1 "200" V 3750 2250 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 3680 2250 50  0001 C CNN
+F 3 "" H 3750 2250 50  0000 C CNN
+	1    3750 2250
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -507,10 +505,10 @@ Wire Wire Line
 	3100 5000 2950 5000
 Wire Wire Line
 	2650 5000 2550 5000
-Text GLabel 3650 2500 3    60   Input ~ 0
+Text GLabel 3600 2500 3    60   Input ~ 0
 Master_PPMout
 Wire Wire Line
-	3650 2500 3650 2400
+	3600 2500 3750 2400
 Wire Notes Line
 	4350 3300 3200 3300
 Wire Notes Line
@@ -518,12 +516,14 @@ Wire Notes Line
 Wire Notes Line
 	3200 3300 3200 1200
 Wire Wire Line
-	3650 2100 3650 1900
-Connection ~ 3850 1950
+	3750 2100 3750 1900
 Wire Wire Line
-	3550 2000 3550 1900
+	3450 2000 3450 1900
 Wire Wire Line
-	3750 1900 3750 1950
+	3650 1950 3950 1950
 Wire Wire Line
-	3750 1950 3850 1950
+	3950 1900 3950 2000
+Connection ~ 3950 1950
+Wire Wire Line
+	3650 1950 3650 1900
 $EndSCHEMATC

@@ -38,7 +38,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 7
 Title "Shield Mega2560 core Full"
-Date "2018-02-14"
+Date "2018-02-15"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -945,7 +945,7 @@ L MOSFET_P Q1
 U 1 1 59E0D99E
 P 9100 4800
 F 0 "Q1" V 9000 5000 60  0000 R CNN
-F 1 "IRLML5302" V 9300 5050 60  0000 R CNN
+F 1 "IRLML5203" V 9300 5050 60  0000 R CNN
 F 2 "" H 9100 4800 60  0000 C CNN
 F 3 "" H 9100 4800 60  0000 C CNN
 	1    9100 4800
