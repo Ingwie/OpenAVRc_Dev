@@ -45,9 +45,6 @@
 #define FRSKY_TIMEOUT10ms         100 // 1 second
 #define WSHH_TIMEOUT10ms          60  // 600ms
 
-#define FRSKY_SPORT_AVERAGING     4
-#define FRSKY_D_AVERAGING         8
-
 // Enumerate FrSky packet codes
 #define LINKPKT                   0xfe
 #define USRPKT                    0xfd
@@ -182,16 +179,12 @@ extern uint8_t frskyStreaming; // >0 (true) == data is streaming in. 0 = nodata 
 extern uint8_t frskyUsrStreaming;
 #endif
 
-extern uint16_t link_counter;
-
-
 #define RAW_FRSKY_MINMAX(v)       v.value
 class FrskyValueWithMin
 {
 public:
   uint8_t value;
   uint8_t min;
-  uint16_t sum;
   void set(uint8_t value);
 };
 
