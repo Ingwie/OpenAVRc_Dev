@@ -38,6 +38,9 @@ GUI = YES
 # Values = YES, NO, CHOICE
 FAI = NO
 
+# SD card is present
+# Values = YES, NO
+SDCARD = NO
 
 # Enable heli menu
 # Values = YES, NO
@@ -332,13 +335,12 @@ ifeq ($(PCB), MEGAMINI)
   OPT = 2
   # Processor frequency.
   F_CPU = 16000000
-  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGAMINI -DCPUM2560
-  SDCARD = YES
+  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGAMINI -DCPUM2560 -DRTCLOCK
   BUZZER = YES
   THR_TRACE = YES
   PWRMANAGE = NO
   INCDIRS += targets/megamini targets/stock $(FATFSDIR) $(FATFSDIR)/option
-  BOARDSRC += main_avr.cpp i2c_master.cpp spi.c targets/megamini/board_megamini.cpp
+  BOARDSRC += main_avr.cpp i2c_master.cpp spi.c rtc.cpp rtc_driver.cpp targets/megamini/board_megamini.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
   BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
@@ -353,9 +355,9 @@ ifeq ($(PCB), MEGAMINI)
 
   ifeq ($(SDCARD), YES)
     EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/option/ccsbcs.c diskio.cpp
-    CPPDEFS += -DSDCARD -DRTCLOCK
+    CPPDEFS += -DSDCARD
     GUIGENERALSRC += gui/menu_general_sdmanager.cpp
-    CPPSRC += rtc.cpp sdcard.cpp logs.cpp rtc_driver.cpp
+    CPPSRC += sdcard.cpp logs.cpp
   endif
 
   ifeq ($(AUDIO), YES)
@@ -512,7 +514,6 @@ ifeq ($(PCB), MEGA2560)
   # Processor frequency.
   F_CPU = 16000000
   CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560
-  SDCARD = NO
   BUZZER = YES
   THR_TRACE = YES
   PWRMANAGE = NO
