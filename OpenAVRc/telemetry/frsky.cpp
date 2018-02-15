@@ -39,8 +39,6 @@ uint8_t frskyStreaming = 0;
   uint8_t frskyUsrStreaming = 0;
 #endif
 
-uint16_t link_counter = 0;
-
 FrskyData frskyData;
 
 #define USE_PROTO_FRSKY_HUB()     (!IS_USR_PROTO_SMART_PORT())
@@ -137,8 +135,9 @@ void processHubPacket(uint8_t id, uint16_t value)
 
 #if defined(GPS)
   case offsetof(FrskySerialData, gpsAltitude_ap):
-    if (!frskyData.hub.gpsAltitudeOffset)
+    if (!frskyData.hub.gpsAltitudeOffset) {
       frskyData.hub.gpsAltitudeOffset = -frskyData.hub.gpsAltitude_bp;
+    }
     frskyData.hub.gpsAltitude_bp += frskyData.hub.gpsAltitudeOffset;
     if (!frskyData.hub.baroAltitudeOffset) {
       if (frskyData.hub.gpsAltitude_bp > frskyData.hub.maxAltitude)
@@ -255,14 +254,11 @@ void setBaroAltitude(int32_t baroAltitude) //S.port function
 
 void FrskyValueWithMin::set(uint8_t value)
 {
-  if (this->value == 0) {
+  if (!this->value) {
     this->value = value;
   } else {
-    sum += value;
-    if (link_counter == 0) {
-      this->value = sum / (USE_PROTO_FRSKY_HUB() ? FRSKY_D_AVERAGING : FRSKY_SPORT_AVERAGING);
-      sum = 0;
-    }
+        this->value = (((this->value<<1) + value)/3);
+        if (this->value<value) { ++this->value; }
   }
   if (!min || value < min) {
     min = value;
@@ -321,7 +317,6 @@ void processSportPacket(uint8_t *packet)
     return;
 
   frskyStreaming = FRSKY_TIMEOUT10ms; // reset counter only if valid frsky packets are being detected
-  link_counter += 256 / FRSKY_SPORT_AVERAGING;
 
   switch (prim) {
   case DATA_FRAME:
@@ -422,9 +417,9 @@ void processSportPacket(uint8_t *packet)
           // First received GPS position => Pilot GPS position
           getGpsPilotPosition();
         }
-//          else if (frskyData.hub.gpsDistNeeded || g_menuStack[g_menuStackPtr] == menuTelemetryFrsky) {
-//            getGpsDistance();
-//          }
+          else if (frskyData.hub.gpsDistNeeded || menuHandlers[menuLevel] == menuTelemetryFrsky) {
+            getGpsDistance();
+          }
       }
     } else if (appId >= GPS_LONG_LATI_FIRST_ID && appId <= GPS_LONG_LATI_LAST_ID) {
       uint32_t gps_long_lati_data = SPORT_DATA_U32(packet);
@@ -599,8 +594,6 @@ void frskyRFProcessPacket(uint8_t *packet)
   frskyData.rssi[0].set(packet[5]); // RSSI Tx -> Rx.
 
   frskyData.rssi[1].set(packet[ packet[0]+1 ]); // RSSI Rx -> Tx.
-
-  link_counter += 256 / FRSKY_D_AVERAGING;
 }
 #endif
 
@@ -684,10 +677,7 @@ void telemetryResetValue()
 {
   memclear(&frskyData, sizeof(frskyData));
 
-
   frskyStreaming = 0; // reset counter only if valid frsky packets are being detected
-  link_counter = 0;
-
 
 #if defined(FRSKY_HUB)
   frskyData.hub.gpsLatitude_bp = 2;
@@ -817,7 +807,7 @@ void frskyDProcessPacket(uint8_t *packet)
     frskyData.rssi[0].set(packet[3]);
     frskyData.rssi[1].set(packet[4] / 2);
     frskyStreaming = FRSKY_TIMEOUT10ms; // reset counter only if valid frsky packets are being detected
-    link_counter += 256 / FRSKY_D_AVERAGING;
+
 #if defined(VARIO)
     uint8_t varioSource = g_model.frsky.varioSource - VARIO_SOURCE_A1;
     if (varioSource < 2) {
