@@ -102,6 +102,8 @@ private:
     void OnEcrirelebootloaderF_RAMSelected(wxCommandEvent& event);
     void OnButtonSimuFramClick(wxCommandEvent& event);
     void OnButtonSimuSTDClick(wxCommandEvent& event);
+    void OnMenuItem16Selected(wxCommandEvent& event);
+    void OnMenuItem14Selected(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(OpenAVRc_DesktopFrame)
@@ -134,6 +136,8 @@ private:
     static const long ID_MENUITEM7;
     static const long ID_MENUCOMPILOMATIC;
     static const long ID_MENUITEM11;
+    static const long ID_MENUITEM14;
+    static const long ID_MENUITEM16;
     static const long ID_MENUITEM8;
     static const long ID_MENUITEM12;
     static const long ID_MENUITEM15;
@@ -165,7 +169,9 @@ private:
     wxMenuItem* MenuItem11;
     wxMenuItem* MenuItem12;
     wxMenuItem* MenuItem13;
+    wxMenuItem* MenuItem14;
     wxMenuItem* MenuItem15;
+    wxMenuItem* MenuItem16;
     wxMenuItem* MenuItem3;
     wxMenuItem* MenuItem4;
     wxMenuItem* MenuItem5;

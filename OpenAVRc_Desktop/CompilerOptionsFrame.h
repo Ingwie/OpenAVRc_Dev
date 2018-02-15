@@ -410,7 +410,6 @@ private:
     void WriteSplashFile();
     void CreateCompileBatFile(wxString line4);
     void CreatePersonames_H();
-    void OnCheckBoxSD_CARDClick(wxCommandEvent& event);
     void OnCheckBoxPPMClick(wxCommandEvent& event);
     void OnCheckBoxSPORT_FILE_LOGClick(wxCommandEvent& event);
     void OnCheckBoxPXXClick(wxCommandEvent& event);
@@ -434,7 +433,6 @@ private:
     void OnCheckBox2Click2(wxCommandEvent& event);
     void OnNotebook1PageChanged(wxNotebookEvent& event);
     void OnCheckBoxHELIClick(wxCommandEvent& event);
-    void OnCheckBoxSD_CARDClick1(wxCommandEvent& event);
     void OnCheckBoxHAPTICClick(wxCommandEvent& event);
     void OnPanel2Paint(wxPaintEvent& event);
     void OnChoiceTRANSLATIONSSelect(wxCommandEvent& event);
@@ -488,6 +486,7 @@ private:
     void OnButtonDefautClick1(wxCommandEvent& event);
     void OnComboBoxEncodeurASelected(wxCommandEvent& event);
     void OnComboBoxEncodeurBSelected(wxCommandEvent& event);
+    void OnCheckBoxSD_CARDClick(wxCommandEvent& event);
     //*)
 
     DECLARE_EVENT_TABLE()

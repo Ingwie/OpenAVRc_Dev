@@ -216,6 +216,8 @@ const long OpenAVRc_DesktopFrame::ID_MENUITEM13 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM7 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUCOMPILOMATIC = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM11 = wxNewId();
+const long OpenAVRc_DesktopFrame::ID_MENUITEM14 = wxNewId();
+const long OpenAVRc_DesktopFrame::ID_MENUITEM16 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM8 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM12 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM15 = wxNewId();
@@ -331,6 +333,10 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   MenuHtmlDoc = new wxMenu();
   MenuItem9 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM11, _("OpenAVRc Manual (JPZ)"), wxEmptyString, wxITEM_NORMAL);
   MenuHtmlDoc->Append(MenuItem9);
+  MenuItem14 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM14, _("Mégamini shield"), wxEmptyString, wxITEM_NORMAL);
+  MenuHtmlDoc->Append(MenuItem14);
+  MenuItem16 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM16, _("Mégamini schema"), wxEmptyString, wxITEM_NORMAL);
+  MenuHtmlDoc->Append(MenuItem16);
   MenuItem4 = new wxMenuItem(MenuHtmlDoc, ID_MENUITEM8, _("JQ6500 PCB (by Pyrall)"), wxEmptyString, wxITEM_NORMAL);
   MenuItem4->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_FILE_OPEN")),wxART_MENU));
   MenuHtmlDoc->Append(MenuItem4);
@@ -376,6 +382,8 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_MENUITEM13,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnEcrirelebootloaderF_RAMSelected);
   Connect(ID_MENUCOMPILOMATIC,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnATMEGA2560CompilerSelected);
   Connect(ID_MENUITEM11,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuItem9Selected);
+  Connect(ID_MENUITEM14,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuItem14Selected);
+  Connect(ID_MENUITEM16,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuItem16Selected);
   Connect(ID_MENUITEM8,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuJQ6500_PCBSelected);
   Connect(ID_MENUITEM12,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuVOICE_AUDIO_PCBSelected);
   Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnAbout);
@@ -797,6 +805,16 @@ void OpenAVRc_DesktopFrame::OnMenuJQ6500_PCBSelected(wxCommandEvent& event)
 void OpenAVRc_DesktopFrame::OnMenuVOICE_AUDIO_PCBSelected(wxCommandEvent& event)
 {
   wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/tree/master/documentation/Beta%20tester%20files/Voice-audio%20pcb%20and%20rtc%20by%20Pyrall"), 0);
+}
+
+void OpenAVRc_DesktopFrame::OnMenuItem16Selected(wxCommandEvent& event)
+{
+  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/DIY-SPI-Xmiter/PCB%20Shield/Schema_Mega_2560%20core%20mini_full.pdf"), 0);
+}
+
+void OpenAVRc_DesktopFrame::OnMenuItem14Selected(wxCommandEvent& event)
+{
+  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/DIY-SPI-Xmiter/PCB%20Shield/ShieldV2.0.doc?raw=true"), 0);
 }
 
 void OpenAVRc_DesktopFrame::OnListBoxConfigDClick(wxCommandEvent& event)

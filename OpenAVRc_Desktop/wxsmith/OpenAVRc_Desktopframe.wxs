@@ -202,6 +202,14 @@
 						<label>OpenAVRc Manual (JPZ)</label>
 						<handler function="OnMenuItem9Selected" entry="EVT_MENU" />
 					</object>
+					<object class="wxMenuItem" name="ID_MENUITEM14" variable="MenuItem14" member="yes">
+						<label>Mégamini shield</label>
+						<handler function="OnMenuItem14Selected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenuItem" name="ID_MENUITEM16" variable="MenuItem16" member="yes">
+						<label>Mégamini schema</label>
+						<handler function="OnMenuItem16Selected" entry="EVT_MENU" />
+					</object>
 					<object class="wxMenuItem" name="ID_MENUITEM8" variable="MenuItem4" member="yes">
 						<label>JQ6500 PCB (by Pyrall)</label>
 						<bitmap stock_id="wxART_FILE_OPEN" stock_client="wxART_MENU" />
