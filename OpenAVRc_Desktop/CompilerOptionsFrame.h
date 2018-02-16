@@ -397,7 +397,6 @@ private:
     void OnChoicePPM_UNITSelect(wxCommandEvent& event);
     void OnAUDIOClick(wxCommandEvent& event);
     void OnCheckBoxAUDIOClick(wxCommandEvent& event);
-    void OnCheckBoxRTCLOCKClick(wxCommandEvent& event);
     void OnButtonCOMPILEClick(wxCommandEvent& event);
     void OnButtonEXITClick(wxCommandEvent& event);
     void OnCheckBox2Click1(wxCommandEvent& event);
