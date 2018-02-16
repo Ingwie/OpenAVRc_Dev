@@ -212,6 +212,7 @@
 			<Add option="-DEXTERNALEEPROM" />
 			<Add option="-DSIMU" />
 			<Add option="-DDSM2" />
+			<Add option="-DRTCLOCK" />
 			<Add option="-DDSM2_SERIAL" />
 			<Add option="-DPCBMEGAMINI" />
 			<Add option="-DCPUM2560" />
@@ -219,7 +220,7 @@
 			<Add option="-DEEPROM_RLC" />
 			<Add option="-DEEPROM_VARIANT=0" />
 			<Add option="-DSDCARD" />
-			<Add option="-DRTCLOCK" />
+			<Add option="-DRTCLOCKaaa" />
 			<Add option="-DAUDIO" />
 			<Add option="-DVOICE" />
 			<Add option="-DVOICE_JQ6500" />
