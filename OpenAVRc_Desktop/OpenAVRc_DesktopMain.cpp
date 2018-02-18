@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -404,7 +404,8 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   Ini_Filename = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "OpenAVRcDesktopV3.ini";
   configFile = new wxFileConfig( "", "", Ini_Filename);
   LoadConfig("");
-  if (avrdudepath == _("non défini")) wxMessageBox( _("Merci de vérifier les paramètres"), _("Programmeur :"), wxICON_WARNING | wxCENTRE);//Ini File
+  if (avrdudepath == _("non défini"))
+    wxMessageBox( _("Merci de vérifier les paramètres"), _("Programmeur :"), wxICON_WARNING | wxCENTRE);//Ini File
   if (SavedConfig.GetCount() == 0) {
     SavedConfig.Add(defaut,1);
     Profil = defaut;
@@ -457,7 +458,8 @@ void OpenAVRc_DesktopFrame::OnProgrammerSelected(wxCommandEvent& event)
 void OpenAVRc_DesktopFrame::OnreadmodelsSelected(wxCommandEvent& event)//READ MODELS FROM RADIO.
 {
   wxFileDialog saveDialog(this, _("Choisir le fichier pour importer les modèles des la radio."), AppPath + "\\eeprom\\", "",  "Fichiers BIN (*.bin)|*.bin|Tous (*.*)|*.*", wxFD_SAVE);
-  if (saveDialog.ShowModal() == wxID_CANCEL) return;
+  if (saveDialog.ShowModal() == wxID_CANCEL)
+    return;
   wxString dude_tmpfile = (saveDialog.GetPath());
   wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_read+dude_tmpfile+dude_raw;
   wxExecute(dude_send);//send command
@@ -466,7 +468,8 @@ void OpenAVRc_DesktopFrame::OnreadmodelsSelected(wxCommandEvent& event)//READ MO
 void OpenAVRc_DesktopFrame::OnreadfirmwareSelected(wxCommandEvent& event)//read firmware from radio
 {
   wxFileDialog saveDialog(this, _("Choisir le fichier pour importer le Firmware des la radio."), AppPath + "\\firmware\\", "","Fichiers HEX (*.hex)|*.hex", wxFD_SAVE);
-  if (saveDialog.ShowModal() == wxID_CANCEL) return;
+  if (saveDialog.ShowModal() == wxID_CANCEL)
+    return;
   wxString dude_tmpfile = (saveDialog.GetPath());
   wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_read+dude_tmpfile+dude_intel;
   wxExecute(dude_send);
@@ -475,7 +478,8 @@ void OpenAVRc_DesktopFrame::OnreadfirmwareSelected(wxCommandEvent& event)//read 
 void OpenAVRc_DesktopFrame::OnWriteModelToRadioSelected(wxCommandEvent& event)
 {
   wxFileDialog openFileDialog(this, _("Choisir le fichier (.bin) pour transferer les modêles à la radio."), AppPath + "\\eeprom\\", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
-  if (openFileDialog.ShowModal() == wxID_CANCEL) return;
+  if (openFileDialog.ShowModal() == wxID_CANCEL)
+    return;
   wxString dude_tmpfile = (openFileDialog.GetPath());
   wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_write+dude_tmpfile+dude_raw;
   wxExecute(dude_send);
@@ -484,9 +488,11 @@ void OpenAVRc_DesktopFrame::OnWriteModelToRadioSelected(wxCommandEvent& event)
 void OpenAVRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& event)
 {
   wxFileDialog openFileDialog(this, _("Choisir le fichier pour transferer le Firmware à la radio."), AppPath + "\\firmware\\", "","Fichiers HEX (*.hex)|*.hex", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
-  if (openFileDialog.ShowModal() == wxID_CANCEL) return;
+  if (openFileDialog.ShowModal() == wxID_CANCEL)
+    return;
   wxMessageDialog *bkup = new wxMessageDialog(NULL,_("Il est recommande de sauvegarder vos modeles avant, voulez vous continuer ?"), wxT("Firmware"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
-  if (bkup->ShowModal()!= wxID_OK) return;
+  if (bkup->ShowModal()!= wxID_OK)
+    return;
   wxString dude_tmpfile = (openFileDialog.GetPath());//write firmware
   wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_intel;
 
@@ -500,7 +506,8 @@ void OpenAVRc_DesktopFrame::OnEcrirelesFuseesSelected(wxCommandEvent& event)// W
       _("Sûr? Vous voulez continuer?"), _("Programmation des fusibles"),
       wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
   susto->SetEventHandler(susto);
-  if (susto->ShowModal()!= wxID_OK) return;
+  if (susto->ShowModal()!= wxID_OK)
+    return;
   wxString FUSES(" -c usbasp -P usb -F -e -u -Ulfuse:w:0xFF:m -Uhfuse:w:0xD8:m -Uefuse:w:0xFD:m -v");
   wxString dude_send = (keepopen+avrdudepath+dude_p+dude_type+FUSES);
   wxExecute(dude_send);
@@ -513,7 +520,8 @@ void OpenAVRc_DesktopFrame::OnEcrirelebootloaderSelected(wxCommandEvent& event) 
     wxMessageDialog *susto = new wxMessageDialog(NULL,
         _("Sûr? Vous voulez continuer?"), _("Programmation du Bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
     susto->SetEventHandler(susto);
-    if (susto->ShowModal()!= wxID_OK) return;
+    if (susto->ShowModal()!= wxID_OK)
+      return;
     wxString BOOTLOADER(" -c usbasp -P usb -U lock:w:0x3F:m -V -U flash:w:OpenAVRcBootLoaderM2560.hex -U lock:w:0x0F:m");
     wxString dude_send = (keepopen+avrdudepath+dude_p+dude_type+BOOTLOADER);
     //wxMessageBox(dude_send);
@@ -522,7 +530,8 @@ void OpenAVRc_DesktopFrame::OnEcrirelebootloaderSelected(wxCommandEvent& event) 
     wxMessageDialog *susto = new wxMessageDialog(NULL,
         _("Mauvais type de radio selectionné"), _("Programmation du Bootloader"),wxICON_WARNING | wxOK);
     susto->SetEventHandler(susto);
-    if (susto->ShowModal()== wxID_OK) return;
+    if (susto->ShowModal()== wxID_OK)
+      return;
   }
 }
 
@@ -534,7 +543,8 @@ void OpenAVRc_DesktopFrame::OnEcrirelebootloaderF_RAMSelected(wxCommandEvent& ev
     wxMessageDialog *susto = new wxMessageDialog(NULL,
         ("Sûr? Vous voulez continuer?"), _("Programmation du Bootloader"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
     susto->SetEventHandler(susto);
-    if (susto->ShowModal()!= wxID_OK) return;
+    if (susto->ShowModal()!= wxID_OK)
+      return;
     wxString BOOTLOADER(" -c usbasp -P usb -U lock:w:0x3F:m -V -U flash:w:OpenAVRcBootLoaderM2560_FRAM.hex -U lock:w:0x0F:m");
     wxString dude_send = (keepopen+avrdudepath+dude_p+dude_type+BOOTLOADER);
     //wxMessageBox(dude_send);
@@ -543,7 +553,8 @@ void OpenAVRc_DesktopFrame::OnEcrirelebootloaderF_RAMSelected(wxCommandEvent& ev
     wxMessageDialog *susto = new wxMessageDialog(NULL,
         _("Mauvais type de radio selectionné"), _("Programmation du Bootloader"),wxICON_WARNING | wxOK);
     susto->SetEventHandler(susto);
-    if (susto->ShowModal()== wxID_OK) return;
+    if (susto->ShowModal()== wxID_OK)
+      return;
   }
 }
 
@@ -551,8 +562,10 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
 {
 
   configFile->SetPath("/");
-  if (temp == "") configFile->Read(wxT("Latestprofil"),&Profil);
-  else Profil = temp;
+  if (temp == "")
+    configFile->Read(wxT("Latestprofil"),&Profil);
+  else
+    Profil = temp;
   configFile->SetPath("/PROFILS/");
   long dummy;
   bool again = configFile->GetFirstEntry(temp, dummy);
@@ -665,7 +678,8 @@ void OpenAVRc_DesktopFrame::RestoreDefaultSplash()
 
 extern void OpenAVRc_DesktopFrame::SaveConfig()
 {
-  if (Profil == "") return;
+  if (Profil == "")
+    return;
   configFile->SetPath("/");
   configFile->Write(wxT("Latestprofil"),Profil);
   //PROFILS
@@ -782,7 +796,8 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
 
 void OpenAVRc_DesktopFrame::OnClose(wxCloseEvent& event)
 {
-  if (Ini_Changed) SaveConfig();
+  if (Ini_Changed)
+    SaveConfig();
   Destroy();
 }
 
@@ -885,7 +900,8 @@ void OpenAVRc_DesktopFrame::DrawLbmSplash()
       uint8_t bit = LbmSplash[p];
       ++p;
       for (uint8_t i=0; i < 8; i++) {
-        if (bit & 0x01) dc.DrawRectangle(x*LcdScale,(y*8*LcdScale) +(i*LcdScale),LcdScale,LcdScale);
+        if (bit & 0x01)
+          dc.DrawRectangle(x*LcdScale,(y*8*LcdScale) +(i*LcdScale),LcdScale,LcdScale);
         bit >>=1;
       }
     }
@@ -908,7 +924,8 @@ void OpenAVRc_DesktopFrame::OnButtonSplashDefaultClick(wxCommandEvent& event)
 void OpenAVRc_DesktopFrame::OnButtonPersoClick(wxCommandEvent& event)
 {
   wxFileDialog openFileDialog(this, _("Fichier image"), "", "","Fichier image (*.*)|*.*", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
-  if (openFileDialog.ShowModal() == wxID_CANCEL) return;
+  if (openFileDialog.ShowModal() == wxID_CANCEL)
+    return;
 
   wxInitAllImageHandlers();
   wxImage ImageSplash;
@@ -927,7 +944,8 @@ void OpenAVRc_DesktopFrame::OnButtonPersoClick(wxCommandEvent& event)
 
   for (uint32_t i=0; (i<(LCD_W*LCD_H*3)); i+=3) {
     imgpix[j+2] >>= 1;
-    if (imgraw[i] == 0) imgpix[j+2] |= 0x80;
+    if (imgraw[i] == 0)
+      imgpix[j+2] |= 0x80;
     ++j;
     if ((j%LCD_W) == 0) {
       ++line;
@@ -958,11 +976,7 @@ void OpenAVRc_DesktopFrame::OnButtonGenerateurClick(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnButtonCarteSDClick(wxCommandEvent& event)
 {
-  wxArrayString DriveList, VoiceModule;
-
-  VoiceModule.Add("JQ6500");
-  VoiceModule.Add("WTV20SD");
-  VoiceModule.Add("SOMO14D");
+  wxArrayString DriveList;
 
   wxFSVolume DriveSearch;
 
@@ -975,40 +989,27 @@ void OpenAVRc_DesktopFrame::OnButtonCarteSDClick(wxCommandEvent& event)
                                 );
 
   if (DriveName.ShowModal() == wxID_OK) {
-    wxSingleChoiceDialog ModuleName(this,
-                                    _("Quel module ""VOICE"" est dans la radio"),
-                                    _("Selectionnez le module"),
-                                    VoiceModule
-                                   );
+    wxString Drive = DriveName.GetStringSelection();
+    wxString SourceDirectory;
+    wxString DestinationDirectory;
+    wxString FileName;
+    wxString Ext;
 
-    if (ModuleName.ShowModal() == wxID_OK) {
-      wxString Drive = DriveName.GetStringSelection();
-      wxString SourceDirectory;
-      wxString DestinationDirectory;
-      wxString FileName;
-      wxString Ext;
+    SourceDirectory = "\\VOICEMP3\\";
+    DestinationDirectory = "\\VOICEMP3\\";
+    Ext = "mp3";
+    wxMkdir(Drive + DestinationDirectory);
 
-      if (ModuleName.GetStringSelection() == "JQ6500") {
-        SourceDirectory = "\\VOICEMP3\\";
-        DestinationDirectory = "\\VOICEMP3\\";
-        Ext = "mp3";
-        wxMkdir(Drive + DestinationDirectory);
-      } else {
-        SourceDirectory = "\\VOICEAD4\\";
-        DestinationDirectory = "\\";
-        Ext = "AD4";
-      }
+    wxBusyInfo wait(_("Copie en cours, attendez SVP......"));
 
-      wxBusyInfo wait(_("Copie en cours, attendez SVP......"));
-
-      for (int i = 0; i < 512 ; i++) {
-        FileName.Printf("%04d.",i);
-        wxCopyFile(AppPath + SourceDirectory + FileName + Ext, Drive + DestinationDirectory + FileName + Ext, false);
-      }
+    for (int i = 0; i < 512 ; i++) {
+      FileName.Printf("%04d.",i);
+      wxCopyFile(AppPath + SourceDirectory + FileName + Ext, Drive + DestinationDirectory + FileName + Ext, false);
     }
   }
 
-  // Copy text prompt
+
+// Copy text prompt
 
   int answer = wxMessageBox(_("Avez vous une carte SD de sauvegarde ? \n Insérez la avant de cliquer sur ""OUI"""), _("SD ""DATA"""), wxYES | wxNO | wxCENTRE, this);
   if (answer == wxYES) {
@@ -1024,7 +1025,8 @@ void OpenAVRc_DesktopFrame::OnButtonCarteSDClick(wxCommandEvent& event)
       // Now copy prompt
       wxString DataDrive = DataDriveName.GetStringSelection();
       wxString DestinationDirectory = DataDrive + "\\VOICE\\";
-      if (!wxDirExists(DestinationDirectory)) wxMkdir(DestinationDirectory);
+      if (!wxDirExists(DestinationDirectory))
+        wxMkdir(DestinationDirectory);
       wxCopyFile(AppPath + "\\" + VOICETXT_FILE, DestinationDirectory + VOICETXT_FILE, true); // overwrite on
       wxBusyInfo wait(_("Copie en cours, attendez SVP......"));
     }
@@ -1041,7 +1043,8 @@ void OpenAVRc_DesktopFrame::OnChoiceLangueSelect(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnMenuChoiceVoiceSelected(wxCommandEvent& event)
 {
-  if (wxSetWorkingDirectory(AppPath)) wxExecute("CMD /c" + AppPath + "\\tools\\tts.exe -V ->voices.txt", wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
+  if (wxSetWorkingDirectory(AppPath))
+    wxExecute("CMD /c" + AppPath + "\\tools\\tts.exe -V ->voices.txt", wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
   Ini_Changed = true;
   Sleep(500);
   Voice_choice* voiceChoiceFrame = new Voice_choice(this);
