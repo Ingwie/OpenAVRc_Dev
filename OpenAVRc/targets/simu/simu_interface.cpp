@@ -46,7 +46,6 @@ unsigned char simu_eeprom[4096] = {0xFF};
 extern uint16_t eeprom_pointer;
 extern uint8_t * eeprom_buffer_data;
 
-
 //AVR REG
 
 //PORT & PIN

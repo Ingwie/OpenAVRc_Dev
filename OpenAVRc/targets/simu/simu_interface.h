@@ -62,6 +62,7 @@ extern bool simu_mainloop_is_runing; //main run signal
 extern bool simu_shutDownSimu_is_runing; //main run signal
 extern bool simu_off; //Off signal
 
+extern void PlayBeep(uint32_t freq, uint32_t time);
 
 //PORT & PIN
 extern REG8  simu_pina;
@@ -811,8 +812,8 @@ extern REG8 simu_EIMSK;
   #define _BV(x) (1<<(x))
   #define speakerOff()
   #define speakerOn()
-  #define SIMUBEEP1() Beep(toneFreq*15, toneTimeLeft*50); toneTimeLeft/=2;if (!toneTimeLeft) ++toneTimeLeft
-  #define SIMUBEEP2() Beep(tone2Freq*15, tone2TimeLeft*50); tone2TimeLeft/=2; if (!tone2TimeLeft) ++tone2TimeLeft;
+  #define SIMUBEEP1() PlayBeep(toneFreq*15, toneTimeLeft*50); toneTimeLeft/=2;if (!toneTimeLeft) ++toneTimeLeft
+  #define SIMUBEEP2() PlayBeep(tone2Freq*15, tone2TimeLeft*50); tone2TimeLeft/=2; if (!tone2TimeLeft) ++tone2TimeLeft;
   #define ENABLEROTENCISR()
   #define FORCE_INDIRECT(ptr)
 

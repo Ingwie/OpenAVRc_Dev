@@ -112,6 +112,11 @@ void Simu_showVoiceTextLine(uint8_t Numline, char * PromptText)
   }
 }
 
+void PlayBeep(uint32_t freq, uint32_t time)
+{
+  wxString datas= wxString::Format(wxT("%i %i"),freq,time);
+  wxProcess::Open(AppPath + "\\tools\\Beep.exe " + datas, wxEXEC_HIDE_CONSOLE  | wxEXEC_ASYNC);
+}
 
 FRESULT f_close (FIL * fil)
 {
