@@ -749,10 +749,11 @@ void telemetryInit()
 {
 //9600 8N1 - "D" 57600 8N1 -> "S.port"
   if IS_USR_PROTO_SMART_PORT() {
-  Usart0Set9600BAUDS();
+  Usart0Set57600BAUDS();
   } else {
-  Usart0Set8N1();
+  Usart0Set9600BAUDS();
   }
+  Usart0Set8N1();
   Usart0EnableTx(); // enable FrSky-Telemetry emission
   Usart0EnableRx(); // enable FrSky-Telemetry reception}
 
