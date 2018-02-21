@@ -38,7 +38,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 2 7
 Title "Shield Mega2560 core Full"
-Date "2018-02-15"
+Date "2018-02-21"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -1357,21 +1357,21 @@ F 3 "" H 3900 1250 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 Wire Wire Line
-	3450 2200 3450 1450
-Wire Wire Line
-	3550 1450 3550 2200
-Wire Wire Line
-	3650 2200 3650 1450
-Wire Wire Line
 	3750 2200 3750 1450
 Wire Wire Line
+	4150 1450 4150 2200
+Wire Wire Line
+	3450 2200 3450 1450
+Wire Wire Line
+	3550 2200 3550 1450
+Wire Wire Line
 	3850 2200 3850 1450
+Wire Wire Line
+	3650 2200 3650 1450
 Wire Wire Line
 	3950 2200 3950 1450
 Wire Wire Line
 	4050 2200 4050 1450
-Wire Wire Line
-	4150 2200 4150 1450
 Wire Wire Line
 	4350 1450 4350 1650
 Wire Wire Line
@@ -1582,21 +1582,21 @@ Wire Wire Line
 	9900 2050 9900 1450
 Wire Wire Line
 	10000 2050 10000 1450
-Text GLabel 3450 2200 3    60   Output ~ 0
-Trim_LH->
-Text GLabel 3550 2200 3    60   Output ~ 0
-Trim_LH<-
-Text GLabel 3650 2200 3    60   Output ~ 0
-Trim_RV<-
 Text GLabel 3750 2200 3    60   Output ~ 0
+Trim_LH->
+Text GLabel 4150 2200 3    60   Output ~ 0
+Trim_LH<-
+Text GLabel 3450 2200 3    60   Output ~ 0
+Trim_RV<-
+Text GLabel 3550 2200 3    60   Output ~ 0
 Trim_LV<-
 Text GLabel 3850 2200 3    60   Output ~ 0
 Trim_RH->
-Text GLabel 3950 2200 3    60   Output ~ 0
+Text GLabel 3650 2200 3    60   Output ~ 0
 Trim_RH<-
-Text GLabel 4050 2200 3    60   Output ~ 0
+Text GLabel 3950 2200 3    60   Output ~ 0
 Trim_LV->
-Text GLabel 4150 2200 3    60   Output ~ 0
+Text GLabel 4050 2200 3    60   Output ~ 0
 Trim_RV->
 Text GLabel 5100 2200 3    60   Output ~ 0
 Sw_id1

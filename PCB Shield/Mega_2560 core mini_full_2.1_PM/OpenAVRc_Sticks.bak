@@ -38,7 +38,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 2 7
 Title "Shield Mega2560 core Full"
-Date "2018-02-15"
+Date "2018-02-17"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -125,7 +125,7 @@ L MCP6004 U6
 U 2 1 59C5C02D
 P 6100 4500
 F 0 "U6" H 6100 4700 50  0000 L CNN
-F 1 "MCP604-I/SL" H 6100 4300 50  0000 L CNN
+F 1 "MCP6004" H 6100 4300 50  0000 L CNN
 F 2 "Librairie master:SOP14" H 6050 4600 50  0001 C CNN
 F 3 "" H 6150 4700 50  0000 C CNN
 	2    6100 4500
@@ -136,7 +136,7 @@ L MCP6004 U6
 U 4 1 59C5C034
 P 9500 4550
 F 0 "U6" H 9500 4750 50  0000 L CNN
-F 1 "MCP604-I/SL" H 9500 4350 50  0000 L CNN
+F 1 "MCP6004" H 9500 4350 50  0000 L CNN
 F 2 "Librairie master:SOP14" H 9450 4650 50  0001 C CNN
 F 3 "" H 9550 4750 50  0000 C CNN
 	4    9500 4550
@@ -147,7 +147,7 @@ L MCP6004 U6
 U 3 1 59C5C03B
 P 7800 4500
 F 0 "U6" H 7800 4700 50  0000 L CNN
-F 1 "MCP604-I/SL" H 7800 4300 50  0000 L CNN
+F 1 "MCP6004" H 7800 4300 50  0000 L CNN
 F 2 "Librairie master:SOP14" H 7750 4600 50  0001 C CNN
 F 3 "" H 7850 4700 50  0000 C CNN
 	3    7800 4500
@@ -158,7 +158,7 @@ L MCP6004 U6
 U 1 1 59C5C042
 P 4400 4500
 F 0 "U6" H 4400 4700 50  0000 L CNN
-F 1 "MCP604-I/SL" H 4400 4300 50  0000 L CNN
+F 1 "MCP6004" H 4400 4300 50  0000 L CNN
 F 2 "Librairie master:SOP14" H 4350 4600 50  0001 C CNN
 F 3 "" H 4450 4700 50  0000 C CNN
 	1    4400 4500
@@ -1357,21 +1357,21 @@ F 3 "" H 3900 1250 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 Wire Wire Line
-	3450 2200 3450 1450
-Wire Wire Line
-	3550 1450 3550 2200
-Wire Wire Line
-	3650 2200 3650 1450
-Wire Wire Line
 	3750 2200 3750 1450
 Wire Wire Line
+	4150 1450 4150 2200
+Wire Wire Line
+	3450 2200 3450 1450
+Wire Wire Line
+	3550 2200 3550 1450
+Wire Wire Line
 	3850 2200 3850 1450
+Wire Wire Line
+	3650 2200 3650 1450
 Wire Wire Line
 	3950 2200 3950 1450
 Wire Wire Line
 	4050 2200 4050 1450
-Wire Wire Line
-	4150 2200 4150 1450
 Wire Wire Line
 	4350 1450 4350 1650
 Wire Wire Line
@@ -1582,21 +1582,21 @@ Wire Wire Line
 	9900 2050 9900 1450
 Wire Wire Line
 	10000 2050 10000 1450
-Text GLabel 3450 2200 3    60   Output ~ 0
-Trim_LH->
-Text GLabel 3550 2200 3    60   Output ~ 0
-Trim_LH<-
-Text GLabel 3650 2200 3    60   Output ~ 0
-Trim_RV<-
 Text GLabel 3750 2200 3    60   Output ~ 0
+Trim_LH->
+Text GLabel 4150 2200 3    60   Output ~ 0
+Trim_LH<-
+Text GLabel 3450 2200 3    60   Output ~ 0
+Trim_RV<-
+Text GLabel 3550 2200 3    60   Output ~ 0
 Trim_LV<-
 Text GLabel 3850 2200 3    60   Output ~ 0
 Trim_RH->
-Text GLabel 3950 2200 3    60   Output ~ 0
+Text GLabel 3650 2200 3    60   Output ~ 0
 Trim_RH<-
-Text GLabel 4050 2200 3    60   Output ~ 0
+Text GLabel 3950 2200 3    60   Output ~ 0
 Trim_LV->
-Text GLabel 4150 2200 3    60   Output ~ 0
+Text GLabel 4050 2200 3    60   Output ~ 0
 Trim_RV->
 Text GLabel 5100 2200 3    60   Output ~ 0
 Sw_id1
