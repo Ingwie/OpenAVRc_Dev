@@ -154,8 +154,9 @@ static void MULTI_init()
 
 static uint16_t MULTI_cb()
 {
-  // Send datas
+  SCHEDULE_MIXER_END(22*16); // Schedule next Mixer calculations.
 
+  // Send datas
   if (Usart0TxBufferCount) return 1000 *2; // return, if buffer is not empty
   Usart0TxBufferCount = 26;
   uint8_t multiTxBufferCount = Usart0TxBufferCount;

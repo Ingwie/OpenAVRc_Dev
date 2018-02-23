@@ -65,7 +65,6 @@ void selectModel(uint8_t sub)
   g_eeGeneral.currModel = sub;
   eeDirty(EE_GENERAL);
   eeLoadModel(sub);
-  chainMenu(menuMainView);
 }
 
 void eeReadAll()
