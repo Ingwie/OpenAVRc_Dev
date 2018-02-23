@@ -45,6 +45,8 @@ void onModelSelectMenu(const char *result)
 
   if (result == STR_SELECT_MODEL || result == STR_CREATE_MODEL) {
     selectModel(sub);
+    popMenu();
+    return;
   } else if (result == STR_COPY_MODEL) {
     s_copyMode = COPY_MODE;
     s_copyTgtOfs = 0;
@@ -177,7 +179,6 @@ void menuModelSelect(uint8_t event)
     s_editMode = 0;
     if (READ_ONLY()) {
       if (g_eeGeneral.currModel != sub && eeModelExists(sub)) {
-        selectModel(sub);
       }
     } else if (s_copyMode && (s_copyTgtOfs || s_copySrcRow>=0)) {
       displayPopup(s_copyMode==COPY_MODE ? STR_COPYINGMODEL : STR_MOVINGMODEL);
