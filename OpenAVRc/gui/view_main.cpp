@@ -506,7 +506,7 @@ void menuMainView(uint8_t event)
 
 #if defined(DSM2) | defined(MULTIMODULE) | defined(SPIMODULES)
   if (RFModule.mode == BIND_MODE) {
-    lcdDrawTextAtt(15*FW, 0, PSTR("BIND"), 0);
+    lcdDrawTextAtt(15*FW, 0, STR_BIND, BLINK);
   }
 #endif
 }

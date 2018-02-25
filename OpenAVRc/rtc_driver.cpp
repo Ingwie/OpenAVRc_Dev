@@ -119,8 +119,10 @@ void rtcInit ()
 {
   uint8_t buf[8];	/* RTC R/W buffer */
 
+  //i2c_writeReg(RTC_ADRESS, 0x0E, 0x00, 1); /* Init registers */
+  //i2c_writeReg(RTC_ADRESS, 0x0F, 0x00, 1); /* Init registers */
   /* Read RTC registers */
-  if (i2c_readReg(RTC_ADRESS, 0, buf, 8)) return;	/* IIC error */
+  if (i2c_readReg(RTC_ADRESS, 0x00, buf, 8)) return;	/* Check IIC error */
 
   if (buf[7] & 0x20) {	/* When data has been volatiled, set default time */
     /* Clear nv-ram. Reg[8..63] */

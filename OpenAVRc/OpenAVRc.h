@@ -296,6 +296,8 @@ static uint16_t DurationValue;
 
 extern volatile tmr10ms_t g_tmr10ms;
 
+extern tmr10ms_t Bind_tmr10ms;
+
 inline uint16_t get_tmr10ms()
 {
   uint16_t time  ;
@@ -712,7 +714,7 @@ extern const char vers_stamp[];
 
 extern uint16_t           g_vbat10mV;
 #define GET_TXBATT_BARS() (limit<uint8_t>(2, 20 * ((uint8_t)(g_vbat10mV/10) - g_eeGeneral.vBatMin) / (g_eeGeneral.vBatMax - g_eeGeneral.vBatMin), 20))
-#define IS_TXBATT_WARNING() (g_vbat10mV <= (g_eeGeneral.vBatWarn*10))
+#define IS_TXBATT_WARNING() (g_vbat10mV < (g_eeGeneral.vBatWarn*10))
 
 
 #define g_blinkTmr10ms    (*(uint8_t*)&g_tmr10ms)
@@ -979,8 +981,8 @@ const mm_protocol_definition *getMultiProtocolDefinition (uint8_t protocol);
 ///////////////// PROTOCOLS ///////////////////
 
 enum PROTO_MODE {
-  BIND_MODE,
   NORMAL_MODE,
+  BIND_MODE,
   RANGE_MODE,
 };
 

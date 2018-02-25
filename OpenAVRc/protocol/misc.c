@@ -93,15 +93,12 @@ void CLOCK_delayms(uint32_t delay_ms)
 }
 
 
-void PROTOCOL_SetBindState(uint32_t msec)
+void PROTOCOL_SetBindState(tmr10ms_t t10ms)
 {
-  //uint32_t bind_time;
-
-  if(msec) {
+  if(t10ms) {
     RFModule.mode = BIND_MODE;
-    //if (msec == 0xFFFFFFFF) bind_time = msec;
-    //else bind_time = CLOCK_getms() + msec;
+    Bind_tmr10ms = t10ms;
   }
-  else RFModule.mode = NORMAL_MODE; // unimod rick added. Can't go from bind to range test.
+  else RFModule.mode = NORMAL_MODE; // Can't go from bind to range test.
 }
 
