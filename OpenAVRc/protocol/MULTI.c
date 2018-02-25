@@ -144,14 +144,6 @@ static void MULTI_Reset()
   Usart0DisableRx();
 }
 
-static void MULTI_init()
-{
-#if defined(FRSKY)
-  //Usart0PortInit(Multi); //todo we need to build 3 function/or one with 3 parameters : PPM/DSM_PPM mode - Multi mode - SPI mode
-#endif
-}
-
-
 static uint16_t MULTI_cb()
 {
   SCHEDULE_MIXER_END(22*16); // Schedule next Mixer calculations.
@@ -286,10 +278,10 @@ static void MULTI_initialize()
   Usart0Set8E2();
   Usart0EnableTx();
   Usart0EnableRx();
-
   Usart0TxBufferCount = 0;
 
-  MULTI_init();
+  if (g_model.AUTOBINDMODE) PROTOCOL_SetBindState(500); // 5 Sec
+
   PROTO_Start_Callback(25000U *2, MULTI_cb);
 }
 
@@ -303,12 +295,6 @@ const void *MULTI_Cmds(enum ProtoCmds cmd)
     PROTO_Stop_Callback();
     MULTI_Reset();
     return 0;
-  //case PROTOCMD_CHECK_AUTOBIND:
-  //return (void *)1L; // Always Autobind
-  case PROTOCMD_BIND:
-    MULTI_initialize();
-    //PROTOCOL_SetBindState(2000000U);
-    return 0;
   case PROTOCMD_GETOPTIONS:
     SetRfOptionSettings(pgm_get_far_address(RfOpt_Multi_Ser),
                         STR_DUMMY,       //Sub proto
@@ -320,14 +306,6 @@ const void *MULTI_Cmds(enum ProtoCmds cmd)
                         STR_DUMMY        //OptionBool 3
                        );
     return 0;
-  //case PROTOCMD_NUMCHAN:
-  //return (void *)7L;
-  //case PROTOCMD_DEFAULT_NUMCHAN:
-  //return (void *)7L;
-//  case PROTOCMD_CURRENT_ID:
-//    return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;
-//  case PROTOCMD_TELEMETRYMULTI_state:
-//    return (void *)(long)PROTO_TELEM_UNSUPPORTED;
   default:
     break;
   }

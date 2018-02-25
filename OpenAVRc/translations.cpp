@@ -471,6 +471,7 @@ const pm_char STR_BLCOLOR[]  PROGMEM = TR_BLCOLOR;
 const pm_char STR_DUMMY[]  PROGMEM = "<N/A>";
 const pm_char STR_POWEROFF[]  PROGMEM = TR_POWEROFF;
 const pm_char STR_RFID[]  PROGMEM = "RFID  :";
+const pm_char STR_BIND[]  PROGMEM = "-BIND-";
 
 #if MENUS_LOCK == 1
 const pm_char STR_UNLOCKED[] PROGMEM = TR_UNLOCKED;

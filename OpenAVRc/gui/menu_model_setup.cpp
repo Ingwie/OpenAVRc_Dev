@@ -467,8 +467,7 @@ void menuModelSetup(uint8_t event)
 
           if (attr && l_posHorz>0 && s_editMode>0) {
             if (l_posHorz == 1) {
-              RFModule.mode = BIND_MODE;
-              startPulses(PROTOCMD_BIND);
+              PROTOCOL_SetBindState(1000); // 10 Sec
             } else if (l_posHorz == 2) {
               RFModule.mode = RANGE_MODE; // TODO Call PRT if availlable
             }
@@ -489,16 +488,14 @@ void menuModelSetup(uint8_t event)
           }
           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+xOffsetBind, y, STR_MODULE_BIND, l_posHorz==1 ? attr : 0);
           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+MODEL_SETUP_RANGE_OFS+xOffsetBind, y, STR_MODULE_RANGE, l_posHorz==2 ? attr : 0);
-          uint8_t newFlag = 0;
 
           if (attr && l_posHorz>0 && s_editMode>0) {
             if (l_posHorz == 1)
-              newFlag = BIND_MODE;
+              PROTOCOL_SetBindState(500); // 5 Sec
             else if (l_posHorz == 2) {
-              newFlag = RANGE_MODE;
+              RFModule.mode = RANGE_MODE;
             }
           }
-          RFModule.mode = newFlag;
         }
 #endif
 #if defined(SPIMODULES)
@@ -519,7 +516,7 @@ void menuModelSetup(uint8_t event)
           if (attr && l_posHorz>0 && s_editMode>0) {
             if (l_posHorz == 1) {
               if (RFModule.mode != BIND_MODE) startPulses(PROTOCMD_BIND);
-              RFModule.mode = BIND_MODE;
+              PROTOCOL_SetBindState(1000); // 10 Sec
             } else if (l_posHorz == 2) {
               if (RFModule.mode != RANGE_MODE) startPulses(PROTOCMD_SET_TXPOWER);
               RFModule.mode = RANGE_MODE;
@@ -542,6 +539,7 @@ void menuModelSetup(uint8_t event)
             ON_OFF_MENU_ITEM(g_model.AUTOBINDMODE, MODEL_SETUP_2ND_COLUMN, y, STR_MULTI_DSM_AUTODTECT, attr, event);
           else
             ON_OFF_MENU_ITEM(g_model.AUTOBINDMODE, MODEL_SETUP_2ND_COLUMN, y, STR_AUTOBIND, attr, event);
+            if (event) { PROTOCOL_SetBindState((g_model.AUTOBINDMODE) ? 500 : 0 );}
         }
 #endif
 #if defined(SPIMODULES)

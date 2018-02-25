@@ -629,7 +629,7 @@ bool sdMounted()
 
 void sdMountPoll()
 {
-  uint8_t mountTimer = 40;
+  uint8_t mountTimer = 100;
   do {
     if (!sdMounted()) {
       f_mount(&g_FATFS_Obj, "", 1);

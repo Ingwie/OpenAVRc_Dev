@@ -607,6 +607,7 @@ extern const pm_char STR_EEBACKUP[];
 extern const pm_char STR_DUMMY[];
 extern const pm_char STR_POWEROFF[];
 extern const pm_char STR_RFID[];
+extern const pm_char STR_BIND[];
 
 
 #if defined(VOICE)

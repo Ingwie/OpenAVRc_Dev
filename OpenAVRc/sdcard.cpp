@@ -36,8 +36,6 @@
 #include "thirdparty/FatFs/ff.h"
 #include "OpenAVRc.h"
 
-#define LIST_NONE_SD_FILE  1
-
 bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, const char *selection, uint8_t flags=0)
 {
   FILINFO fno;
@@ -75,7 +73,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
   FRESULT res = f_opendir(&dir, path);        /* Open the directory */
   if (res == FR_OK) {
 
-    if (flags & LIST_NONE_SD_FILE) {
+    if (flags) {
       ++popupMenuNoItems;
       if (selection) {
         lastpopupMenuOffset++;

@@ -151,6 +151,7 @@ const pm_uint8_t modn12x3[] PROGMEM = {
 
 volatile tmr10ms_t g_tmr10ms;
 
+tmr10ms_t Bind_tmr10ms = 0;
 
 void per10ms()
 {
@@ -231,6 +232,12 @@ void per10ms()
     if (!(rotEncBDebounce >>= 1)) ENABLEROTENCBISR(); // Re enable rotencB isr (deboucing)
   }
 #endif
+
+  if (Bind_tmr10ms)
+  {
+    if (!--Bind_tmr10ms)
+      RFModule.mode = NORMAL_MODE;
+  }
 
   heartbeat |= HEART_TIMER_10MS;
 
@@ -996,10 +1003,9 @@ FORCEINLINE void evalTrims()
       int16_t trimMin = g_model.extendedTrims ? TRIM_EXTENDED_MIN : TRIM_MIN;
       trim = (((g_model.throttleReversed)?(int32_t)(trim+trimMin):(int32_t)(trim-trimMin)) * (RESX-anas[i])) >> (RESX_SHIFT+1);
     }
-    if (trimsCheckTimer > 0) {
+    if (trimsCheckTimer) {
       trim = 0;
     }
-
     trims[i] = trim*2;
   }
 }
@@ -1083,7 +1089,7 @@ void doMixerCalculations()
         struct t_inactivity *ptrInactivity = &inactivity;
         FORCE_INDIRECT(ptrInactivity) ;
         ptrInactivity->counter++;
-        if ((((uint8_t)ptrInactivity->counter)&0x07)==0x01 && g_eeGeneral.inactivityTimer && g_vbat10mV >(uint8_t)g_eeGeneral.vBatMin && ptrInactivity->counter > ((uint16_t)g_eeGeneral.inactivityTimer*60))
+        if ((((uint8_t)ptrInactivity->counter)&0x07)==0x01 && g_eeGeneral.inactivityTimer && ptrInactivity->counter > ((uint16_t)g_eeGeneral.inactivityTimer*60))
           AUDIO_INACTIVITY();
 
 #if defined(AUDIO)
@@ -1119,17 +1125,6 @@ void doMixerCalculations()
         s_sum_samples_thr_1s = 0;
       }
     }
-
-#if defined(DSM2)
-    static uint8_t countRangecheck = 0;
-    if (RFModule.mode != NORMAL_MODE) {
-      if (++countRangecheck >= 250) {
-        countRangecheck = 0;
-        AUDIO_PLAY(AU_FRSKY_CHEEP);
-      }
-    }
-#endif
-
   }
 }
 
@@ -1207,7 +1202,7 @@ void checkBattery()
 
   g_vbat10mV = ((g_vbat10mV << 3) + instant_vbat) / 9; // Simple low pass filter
 
-  if (IS_TXBATT_WARNING() && (g_vbat10mV > g_eeGeneral.vBatMin*0.9) && (sessionTimer&0x03)) { // No Audio Alarm if TX Battery < VCCMIN X .9 & 3 Sec
+  if (IS_TXBATT_WARNING() && (g_vbat10mV > (g_eeGeneral.vBatMin*9)) && ((sessionTimer&0x1F)==0x10)) { // No Audio Alarm if TX Battery < VCCMIN X .9 & 30 Sec
     AUDIO_TX_BATTERY_LOW();
   }
 }
