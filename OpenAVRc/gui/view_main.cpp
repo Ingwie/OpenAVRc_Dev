@@ -377,6 +377,12 @@ void menuMainView(uint8_t event)
 
     // Model Name
     putsModelName(MODELNAME_X, MODELNAME_Y, g_model.name, g_eeGeneral.currModel, BIGSIZE);
+#if defined(DSM2) | defined(MULTIMODULE) | defined(SPIMODULES)
+    if (RFModule.mode == BIND_MODE)
+    {
+      lcdDrawTextAtt(MODELNAME_X, MODELNAME_Y, STR_BIND, BLINK|BIGSIZE);
+    }
+#endif
 
     // Main Voltage (or alarm if any)
     displayVoltageOrAlarm();
@@ -504,9 +510,4 @@ void menuMainView(uint8_t event)
     lcdDrawCharAtt(REBOOT_X, 0*FH, '!', INVERS);
   }
 
-#if defined(DSM2) | defined(MULTIMODULE) | defined(SPIMODULES)
-  if (RFModule.mode == BIND_MODE) {
-    lcdDrawTextAtt(15*FW, 0, STR_BIND, BLINK);
-  }
-#endif
 }
