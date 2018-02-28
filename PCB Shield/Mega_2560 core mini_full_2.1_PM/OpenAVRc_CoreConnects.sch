@@ -38,7 +38,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 7
 Title "Shield Mega2560 core Full"
-Date "2018-02-25"
+Date "2018-02-28"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -426,7 +426,7 @@ L POT-RESCUE-Mega_2560_core_mini_full_2.0 RV6
 U 1 1 59C5BE8C
 P 10200 2700
 F 0 "RV6" V 10100 2700 50  0000 C CNN
-F 1 "500" V 10200 2700 50  0000 C CNN
+F 1 "1K" V 10200 2700 50  0000 C CNN
 F 2 "trimpot_5x5_vertical" H 10200 2700 50  0001 C CNN
 F 3 "" H 10200 2700 50  0000 C CNN
 	1    10200 2700
