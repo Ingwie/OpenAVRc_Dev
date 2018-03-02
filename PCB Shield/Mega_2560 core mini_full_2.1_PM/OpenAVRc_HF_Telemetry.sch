@@ -38,7 +38,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 4 7
 Title "Shield Mega2560 core Full"
-Date "2018-03-01"
+Date "2018-03-02"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -241,8 +241,6 @@ Wire Notes Line
 	6250 3700 10250 3700
 Wire Notes Line
 	4400 800  3250 800 
-Wire Wire Line
-	1100 5200 1450 5200
 Wire Wire Line
 	1150 5300 1100 5300
 Wire Wire Line
@@ -571,33 +569,6 @@ Wire Wire Line
 	1800 5400 1800 5100
 Wire Wire Line
 	1800 5100 1100 5100
-$Comp
-L C-RESCUE-Mega_2560_core_mini_full_2.0 C2
-U 1 1 5A92C79D
-P 1450 5400
-F 0 "C2" H 1500 5500 50  0000 L CNN
-F 1 "100nF" H 1500 5300 50  0000 L CNN
-F 2 "Capacitors_SMD:C_1206" H 1488 5250 50  0001 C CNN
-F 3 "" H 1450 5400 50  0000 C CNN
-	1    1450 5400
-	1    0    0    -1  
-$EndComp
-$Comp
-L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR085
-U 1 1 5A92C7A3
-P 1450 5600
-F 0 "#PWR085" H 1450 5350 50  0001 C CNN
-F 1 "GND" H 1450 5450 50  0000 C CNN
-F 2 "" H 1450 5600 50  0000 C CNN
-F 3 "" H 1450 5600 50  0000 C CNN
-	1    1450 5600
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1450 5600 1450 5550
-Wire Wire Line
-	1450 5200 1450 5250
-Connection ~ 1200 5200
 Wire Wire Line
 	2550 4700 2550 4800
 Wire Wire Line
@@ -629,4 +600,6 @@ Wire Notes Line
 	700  6300 5500 6300
 Wire Wire Line
 	2900 5700 2750 5700
+Wire Wire Line
+	1200 5200 1100 5200
 $EndSCHEMATC
