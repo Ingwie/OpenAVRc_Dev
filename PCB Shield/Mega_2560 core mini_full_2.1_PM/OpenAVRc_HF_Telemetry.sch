@@ -38,7 +38,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 4 7
 Title "Shield Mega2560 core Full"
-Date "2018-02-25"
+Date "2018-03-02"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -209,10 +209,6 @@ Wire Wire Line
 	9650 4800 9450 4800
 Wire Wire Line
 	9650 4900 9650 5100
-Wire Notes Line
-	1950 6400 4850 6400
-Wire Wire Line
-	3900 4700 4700 4700
 Wire Wire Line
 	4100 1500 4100 2850
 Wire Wire Line
@@ -244,11 +240,7 @@ Wire Wire Line
 Wire Notes Line
 	6250 3700 10250 3700
 Wire Notes Line
-	1950 3500 4850 3500
-Wire Notes Line
 	4400 800  3250 800 
-Wire Wire Line
-	1100 5200 1450 5200
 Wire Wire Line
 	1150 5300 1100 5300
 Wire Wire Line
@@ -345,7 +337,7 @@ Wire Notes Line
 	6250 5450 6250 3700
 Text GLabel 4750 6000 2    60   Output ~ 0
 Tele_RX
-Text GLabel 4700 4700 2    60   Input ~ 0
+Text GLabel 4750 4700 2    60   Input ~ 0
 Tele_TX
 Text GLabel 6500 1950 3    60   Input ~ 0
 CS_CC2500
@@ -486,16 +478,16 @@ Wire Wire Line
 $Comp
 L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR081
 U 1 1 5A9279DC
-P 2650 4400
-F 0 "#PWR081" H 2650 4150 50  0001 C CNN
-F 1 "GND" H 2650 4250 50  0000 C CNN
-F 2 "" H 2650 4400 50  0000 C CNN
-F 3 "" H 2650 4400 50  0000 C CNN
-	1    2650 4400
+P 2750 4400
+F 0 "#PWR081" H 2750 4150 50  0001 C CNN
+F 1 "GND" H 2750 4250 50  0000 C CNN
+F 2 "" H 2750 4400 50  0000 C CNN
+F 3 "" H 2750 4400 50  0000 C CNN
+	1    2750 4400
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	2900 4400 2650 4400
+	2900 4400 2750 4400
 $Comp
 L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR082
 U 1 1 5A9279FD
@@ -507,8 +499,6 @@ F 3 "" H 2750 5700 50  0000 C CNN
 	1    2750 5700
 	0    1    1    0   
 $EndComp
-Wire Wire Line
-	3000 5700 2750 5700
 $Comp
 L CONN_01X05 P3
 U 1 1 5A927E08
@@ -563,9 +553,9 @@ Wire Wire Line
 Wire Wire Line
 	4050 4100 3900 4100
 Wire Wire Line
-	4050 5000 4550 5000
+	4050 5000 4750 5000
 Connection ~ 4050 5000
-Text GLabel 4550 5000 2    60   Input ~ 0
+Text GLabel 4750 5000 2    60   Input ~ 0
 Hold_Power
 Wire Wire Line
 	1800 5400 2900 5400
@@ -579,37 +569,37 @@ Wire Wire Line
 	1800 5400 1800 5100
 Wire Wire Line
 	1800 5100 1100 5100
-$Comp
-L C-RESCUE-Mega_2560_core_mini_full_2.0 C2
-U 1 1 5A92C79D
-P 1450 5400
-F 0 "C2" H 1500 5500 50  0000 L CNN
-F 1 "100nF" H 1500 5300 50  0000 L CNN
-F 2 "Capacitors_SMD:C_1206" H 1488 5250 50  0001 C CNN
-F 3 "" H 1450 5400 50  0000 C CNN
-	1    1450 5400
-	1    0    0    -1  
-$EndComp
-$Comp
-L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR085
-U 1 1 5A92C7A3
-P 1450 5600
-F 0 "#PWR085" H 1450 5350 50  0001 C CNN
-F 1 "GND" H 1450 5450 50  0000 C CNN
-F 2 "" H 1450 5600 50  0000 C CNN
-F 3 "" H 1450 5600 50  0000 C CNN
-	1    1450 5600
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1450 5600 1450 5550
-Wire Wire Line
-	1450 5200 1450 5250
-Connection ~ 1200 5200
 Wire Wire Line
 	2550 4700 2550 4800
 Wire Wire Line
 	2550 4800 2300 4800
 Wire Wire Line
 	2350 4900 2300 4900
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R7
+U 1 1 5A96F891
+P 4450 4700
+F 0 "R7" V 4530 4700 50  0000 C CNN
+F 1 "220" V 4450 4700 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 4380 4700 50  0001 C CNN
+F 3 "" H 4450 4700 50  0000 C CNN
+	1    4450 4700
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4750 4700 4600 4700
+Wire Wire Line
+	4300 4700 3900 4700
+Wire Notes Line
+	5500 6300 5500 3400
+Wire Notes Line
+	5500 3400 700  3400
+Wire Notes Line
+	700  3400 700  6300
+Wire Notes Line
+	700  6300 5500 6300
+Wire Wire Line
+	2900 5700 2750 5700
+Wire Wire Line
+	1200 5200 1100 5200
 $EndSCHEMATC
