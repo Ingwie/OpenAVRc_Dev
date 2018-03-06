@@ -38,7 +38,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 6 7
 Title "Shield Mega2560 core Full"
-Date "2018-03-02"
+Date "2018-03-06"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -205,17 +205,6 @@ F 3 "" H 8400 3950 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L CONN_01X02 P27
-U 1 1 59C5A5B5
-P 3200 3000
-F 0 "P27" H 3200 3150 50  0000 C CNN
-F 1 "HP" V 3350 3000 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm" H 3200 3000 50  0001 C CNN
-F 3 "" H 3200 3000 50  0000 C CNN
-	1    3200 3000
-	-1   0    0    1   
-$EndComp
-$Comp
 L CONN_01X04 P8
 U 1 1 59C5A5BC
 P 6150 3050
@@ -286,7 +275,7 @@ U 1 1 5A97FDE8
 P 8950 3950
 F 0 "Q2" H 9250 3850 50  0000 R CNN
 F 1 "MMBT2222ALT1" H 9700 3950 50  0000 R CNN
-F 2 "" H 8950 3950 60  0000 C CNN
+F 2 "SOT-23_MMBT2222" H 8950 3950 60  0001 C CNN
 F 3 "" H 8950 3950 60  0000 C CNN
 	1    8950 3950
 	1    0    0    -1  
@@ -393,10 +382,6 @@ Wire Wire Line
 	4500 3050 5350 3050
 Wire Wire Line
 	8250 3950 7950 3950
-Wire Wire Line
-	3400 3050 3500 3050
-Wire Wire Line
-	3500 2950 3400 2950
 Wire Wire Line
 	6000 3400 6000 3350
 Wire Wire Line

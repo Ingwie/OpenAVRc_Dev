@@ -38,7 +38,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 7
 Title "Shield Mega2560 core Full"
-Date "2018-03-02"
+Date "2018-03-06"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -196,10 +196,7 @@ F 3 "" H 2350 5300 50  0000 C CNN
 	1    2350 5300
 	1    0    0    -1  
 $EndComp
-NoConn ~ 1850 4050
-NoConn ~ 2350 4050
 NoConn ~ 2900 4700
-NoConn ~ 2700 5200
 NoConn ~ 2800 5200
 NoConn ~ 3750 3250
 Text Label 4300 4050 0    60   ~ 0
@@ -611,6 +608,128 @@ Text GLabel 1300 3250 0    60   Output ~ 0
 Vibreur
 Text GLabel 1450 2950 0    60   Input ~ 0
 BT_Rxd1
+Text GLabel 2400 2950 2    60   Output ~ 0
+BT_Txd1
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R39
+U 1 1 59E0D037
+P 9600 4900
+F 0 "R39" V 9500 4900 50  0000 C CNN
+F 1 "47K" V 9600 4900 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 9530 4900 50  0001 C CNN
+F 3 "" H 9600 4900 50  0000 C CNN
+	1    9600 4900
+	1    0    0    -1  
+$EndComp
+$Comp
+L MOSFET_P Q1
+U 1 1 59E0D99E
+P 9100 4800
+F 0 "Q1" V 9000 5000 60  0000 R CNN
+F 1 "IRLML5203" V 9300 5050 60  0000 R CNN
+F 2 "SOT-23_MOS_P" H 9100 4800 60  0001 C CNN
+F 3 "" H 9100 4800 60  0000 C CNN
+	1    9100 4800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L VCC #PWR065
+U 1 1 59E0DFF9
+P 9600 4550
+F 0 "#PWR065" H 9600 4400 50  0001 C CNN
+F 1 "VCC" H 9600 4700 50  0000 C CNN
+F 2 "" H 9600 4550 50  0000 C CNN
+F 3 "" H 9600 4550 50  0000 C CNN
+	1    9600 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R40
+U 1 1 59E0E920
+P 9350 5300
+F 0 "R40" V 9250 5300 50  0000 C CNN
+F 1 "100" V 9350 5300 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 9280 5300 50  0001 C CNN
+F 3 "" H 9350 5300 50  0000 C CNN
+	1    9350 5300
+	0    1    1    0   
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R5
+U 1 1 59EF4793
+P 7650 5050
+F 0 "R5" V 7550 5050 50  0000 C CNN
+F 1 "4K7" V 7650 5050 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 7580 5050 50  0001 C CNN
+F 3 "" H 7650 5050 50  0000 C CNN
+	1    7650 5050
+	0    1    1    0   
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R6
+U 1 1 59EF4881
+P 7900 4850
+F 0 "R6" V 8000 4850 50  0000 C CNN
+F 1 "4K7" V 7900 4850 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 7830 4850 50  0001 C CNN
+F 3 "" H 7900 4850 50  0000 C CNN
+	1    7900 4850
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR066
+U 1 1 59EF4C7A
+P 7400 5050
+F 0 "#PWR066" H 7400 4800 50  0001 C CNN
+F 1 "GND" H 7400 4900 50  0000 C CNN
+F 2 "" H 7400 5050 50  0000 C CNN
+F 3 "" H 7400 5050 50  0000 C CNN
+	1    7400 5050
+	0    1    1    0   
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R10
+U 1 1 5A718CF7
+P 10450 2350
+F 0 "R10" V 10350 2350 50  0000 C CNN
+F 1 "100" V 10450 2350 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 10380 2350 50  0001 C CNN
+F 3 "" H 10450 2350 50  0000 C CNN
+	1    10450 2350
+	1    0    0    -1  
+$EndComp
+$Comp
+L 2560-core-RESCUE-Mega_2560_core_mini_full_2.1 P1
+U 1 1 5A758C27
+P 50 3400
+AR Path="/5A758C27" Ref="P1"  Part="1" 
+AR Path="/59C5D60D/5A758C27" Ref="P1"  Part="1" 
+F 0 "P1" H 2100 4650 50  0000 C CNN
+F 1 "2560-core" V 2100 3600 50  0000 C CNN
+F 2 "Connectors-2560-core" H 2100 2650 50  0000 C CNN
+F 3 "" H 2100 2650 50  0000 C CNN
+	1    50   3400
+	1    0    0    -1  
+$EndComp
+Text GLabel 1450 3550 0    60   Output ~ 0
+BT_OnOff
+Text GLabel 10000 5300 2    60   Input ~ 0
+BT_OnOff
+Text GLabel 3500 2450 0    60   Input ~ 0
+lsp_rst
+Text GLabel 2550 1550 0    60   Input ~ 0
+lsp_rst
+$Comp
+L CONN_01X03 P15
+U 1 1 5A9E6547
+P 4350 6650
+F 0 "P15" H 4350 6850 50  0000 C CNN
+F 1 "DUMMY" V 4450 6650 50  0000 C CNN
+F 2 "" H 4350 6650 50  0000 C CNN
+F 3 "" H 4350 6650 50  0000 C CNN
+	1    4350 6650
+	-1   0    0    1   
+$EndComp
 Wire Wire Line
 	2400 2950 2350 2950
 Wire Wire Line
@@ -910,8 +1029,6 @@ Wire Wire Line
 	3400 5650 3400 5200
 Wire Wire Line
 	1450 3450 1850 3450
-Text GLabel 2400 2950 2    60   Output ~ 0
-BT_Txd1
 Wire Wire Line
 	8500 4700 8500 4800
 Wire Wire Line
@@ -921,39 +1038,6 @@ Wire Wire Line
 Wire Wire Line
 	2400 2650 2350 2650
 Connection ~ 8500 4700
-$Comp
-L R-RESCUE-Mega_2560_core_mini_full_2.0 R39
-U 1 1 59E0D037
-P 9600 4900
-F 0 "R39" V 9500 4900 50  0000 C CNN
-F 1 "47K" V 9600 4900 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 9530 4900 50  0001 C CNN
-F 3 "" H 9600 4900 50  0000 C CNN
-	1    9600 4900
-	1    0    0    -1  
-$EndComp
-$Comp
-L MOSFET_P Q1
-U 1 1 59E0D99E
-P 9100 4800
-F 0 "Q1" V 9000 5000 60  0000 R CNN
-F 1 "IRLML5203" V 9300 5050 60  0000 R CNN
-F 2 "" H 9100 4800 60  0000 C CNN
-F 3 "" H 9100 4800 60  0000 C CNN
-	1    9100 4800
-	0    -1   -1   0   
-$EndComp
-$Comp
-L VCC #PWR065
-U 1 1 59E0DFF9
-P 9600 4550
-F 0 "#PWR065" H 9600 4400 50  0001 C CNN
-F 1 "VCC" H 9600 4700 50  0000 C CNN
-F 2 "" H 9600 4550 50  0000 C CNN
-F 3 "" H 9600 4550 50  0000 C CNN
-	1    9600 4550
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	9300 4700 9600 4700
 Wire Wire Line
@@ -966,17 +1050,6 @@ Connection ~ 9600 4700
 Wire Wire Line
 	9500 5300 10000 5300
 Connection ~ 9100 5100
-$Comp
-L R-RESCUE-Mega_2560_core_mini_full_2.0 R40
-U 1 1 59E0E920
-P 9350 5300
-F 0 "R40" V 9250 5300 50  0000 C CNN
-F 1 "100" V 9350 5300 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 9280 5300 50  0001 C CNN
-F 3 "" H 9350 5300 50  0000 C CNN
-	1    9350 5300
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	9100 5300 9200 5300
 Wire Wire Line
@@ -995,28 +1068,6 @@ Wire Wire Line
 	3100 4650 3050 4650
 Wire Wire Line
 	3050 4650 3050 4600
-$Comp
-L R-RESCUE-Mega_2560_core_mini_full_2.0 R5
-U 1 1 59EF4793
-P 7650 5050
-F 0 "R5" V 7550 5050 50  0000 C CNN
-F 1 "4K7" V 7650 5050 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 7580 5050 50  0001 C CNN
-F 3 "" H 7650 5050 50  0000 C CNN
-	1    7650 5050
-	0    1    1    0   
-$EndComp
-$Comp
-L R-RESCUE-Mega_2560_core_mini_full_2.0 R6
-U 1 1 59EF4881
-P 7900 4850
-F 0 "R6" V 8000 4850 50  0000 C CNN
-F 1 "4K7" V 7900 4850 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 7830 4850 50  0001 C CNN
-F 3 "" H 7900 4850 50  0000 C CNN
-	1    7900 4850
-	-1   0    0    1   
-$EndComp
 Wire Wire Line
 	7900 5000 7900 5500
 Wire Wire Line
@@ -1026,59 +1077,48 @@ Wire Wire Line
 Connection ~ 7900 5050
 Wire Wire Line
 	7500 5050 7400 5050
-$Comp
-L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR066
-U 1 1 59EF4C7A
-P 7400 5050
-F 0 "#PWR066" H 7400 4800 50  0001 C CNN
-F 1 "GND" H 7400 4900 50  0000 C CNN
-F 2 "" H 7400 5050 50  0000 C CNN
-F 3 "" H 7400 5050 50  0000 C CNN
-	1    7400 5050
-	0    1    1    0   
-$EndComp
-$Comp
-L R-RESCUE-Mega_2560_core_mini_full_2.0 R10
-U 1 1 5A718CF7
-P 10450 2350
-F 0 "R10" V 10350 2350 50  0000 C CNN
-F 1 "100" V 10450 2350 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 10380 2350 50  0001 C CNN
-F 3 "" H 10450 2350 50  0000 C CNN
-	1    10450 2350
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	10450 2500 10450 2700
 Wire Wire Line
 	10450 2700 10350 2700
-$Comp
-L 2560-core-RESCUE-Mega_2560_core_mini_full_2.1 P1
-U 1 1 5A758C27
-P 50 3400
-AR Path="/5A758C27" Ref="P1"  Part="1" 
-AR Path="/59C5D60D/5A758C27" Ref="P1"  Part="1" 
-F 0 "P1" H 2100 4650 50  0000 C CNN
-F 1 "2560-core" V 2100 3600 50  0000 C CNN
-F 2 "" H 2100 2650 50  0000 C CNN
-F 3 "" H 2100 2650 50  0000 C CNN
-	1    50   3400
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	1850 3550 1450 3550
-Text GLabel 1450 3550 0    60   Output ~ 0
-BT_OnOff
-Text GLabel 10000 5300 2    60   Input ~ 0
-BT_OnOff
-Text GLabel 4950 5200 1    60   Input ~ 0
-Sw_id1
-Text GLabel 3500 2450 0    60   Input ~ 0
-lsp_rst
 Wire Wire Line
 	3750 2450 3500 2450
-Text GLabel 2550 1550 0    60   Input ~ 0
-lsp_rst
 Wire Wire Line
 	2850 1550 2550 1550
+Text GLabel 2400 4050 2    60   Input ~ 0
+Dummy_1
+Wire Wire Line
+	2400 4050 2350 4050
+Text GLabel 1450 4050 0    60   Input ~ 0
+Dummy_2
+Wire Wire Line
+	1850 4050 1450 4050
+Text GLabel 2700 5650 3    60   Input ~ 0
+Dummy_3
+Wire Wire Line
+	2700 5650 2700 5200
+Text GLabel 4900 6650 2    60   Input ~ 0
+Dummy_1
+Text GLabel 4900 6750 2    60   Input ~ 0
+Dummy_2
+Text GLabel 4900 6550 2    60   Input ~ 0
+Dummy_3
+Wire Wire Line
+	4900 6750 4550 6750
+Wire Wire Line
+	4900 6650 4550 6650
+Wire Wire Line
+	4900 6550 4550 6550
+Text Notes 4500 6350 0    60   ~ 0
+Pin out libre
+Wire Notes Line
+	4100 6200 5500 6200
+Wire Notes Line
+	5500 6200 5500 7000
+Wire Notes Line
+	5500 7000 4100 7000
+Wire Notes Line
+	4100 7000 4100 6200
 $EndSCHEMATC
