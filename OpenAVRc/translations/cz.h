@@ -447,6 +447,7 @@
 #define TR_TRIMINC             TR("Krok Trimu", "Krok trimu")
 #define TR_DISPLAY_TRIMS       "Zobr.hodnotu trimu"
 #define TR_TTRACE              TR("StopaPlynu", INDENT "Stopa plynu")
+#define TR_TSWITCH             "T-Switch"
 #define TR_TTRIM               TR("TrimVolnob.", INDENT "Trim jen volnob\203h")
 #define TR_BEEPCTR             TR("St\206edy \221\222", "P\204pat st\206edy \221\222")
 #define TR_USE_GLOBAL_FUNCS    "Pou\217\204t Glob.Funkce"

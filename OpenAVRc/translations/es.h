@@ -448,6 +448,7 @@
 #define TR_TRIMINC             "Paso Trim"
 #define TR_DISPLAY_TRIMS       "Display Trims"
 #define TR_TTRACE              TR("Fuente-A", INDENT "Fuente Acelerad")
+#define TR_TSWITCH             "A-Switch"
 #define TR_TTRIM               TR("Trim-A", INDENT "Trim Acelerad")
 #define TR_BEEPCTR             TR("Ctr Beep","Center Beep")
 #define TR_USE_GLOBAL_FUNCS    "Use Global Funcs"

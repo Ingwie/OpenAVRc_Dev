@@ -448,6 +448,7 @@
 #define TR_TRIMINC             "Trim Step"
 #define TR_DISPLAY_TRIMS       "Display Trims"
 #define TR_TTRACE              TR("T-Source", INDENT "Throttle Source")
+#define TR_TSWITCH             "T-Switch"
 #define TR_TTRIM               TR("T-Trim", INDENT "Throttle Trim")
 #define TR_BEEPCTR             TR("Ctr Beep", "Center Beep")
 #define TR_USE_GLOBAL_FUNCS    "Use Global Funcs"

@@ -185,7 +185,6 @@ void menuModelSetup(uint8_t event)
       }
       break;
 
-
     case ITEM_MODEL_TRIM_INC:
       g_model.trimInc = selectMenuItem(MODEL_SETUP_2ND_COLUMN, y, STR_TRIMINC, STR_VTRIMINC, g_model.trimInc, -2, 2, attr, event);
       break;
@@ -203,7 +202,7 @@ void menuModelSetup(uint8_t event)
     }
 
     case ITEM_MODEL_THROTTLE_SWITCH: {
-      lcdDrawTextLeft(y, PSTR("Switch Gaz"));
+      lcdDrawTextLeft(y, STR_TSWITCH);
       if (attr) CHECK_INCDEC_MODELVAR_ZERO(event, g_model.thrSwitch, NUM_SWITCHES-2);
       uint8_t idx = g_model.thrSwitch;
       if (idx) idx +=3;
@@ -214,7 +213,6 @@ void menuModelSetup(uint8_t event)
     case ITEM_MODEL_THROTTLE_TRIM:
       ON_OFF_MENU_ITEM(g_model.thrTrim, MODEL_SETUP_2ND_COLUMN, y, STR_TTRIM, attr, event);
       break;
-
 
     case ITEM_MODEL_THROTTLE_WARNING:
       g_model.disableThrottleWarning = !onoffMenuItem(!g_model.disableThrottleWarning, MODEL_SETUP_2ND_COLUMN, y, STR_THROTTLEWARNING, attr, event);

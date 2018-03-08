@@ -444,6 +444,7 @@
 #define TR_TRIMINC             TR("Trimning","Trim\202kning")
 #define TR_DISPLAY_TRIMS       "Display Trims"
 #define TR_TTRACE              TR("F\202lj Gas", INDENT "F\202lj Gas")
+#define TR_TSWITCH             "G-Switch"
 #define TR_TTRIM               TR("Gastrim", INDENT "Gastrim")
 #define TR_BEEPCTR             TR("Cent.pip", "Centerpip")
 #define TR_USE_GLOBAL_FUNCS    TR("Glob.Funkt", "Anv\201nd Global Funktioner")

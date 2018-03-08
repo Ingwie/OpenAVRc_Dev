@@ -447,6 +447,7 @@
 #define TR_TRIMINC             "Krok Trym"
 #define TR_DISPLAY_TRIMS       TR("Pok.Trym.","Poka\207 Trymery")
 #define TR_TTRACE              TR("\221r\205d gaz", INDENT "\221r\205d\203o gazu ")
+#define TR_TSWITCH             "T-Switch"
 #define TR_TTRIM               TR("TryGaz", INDENT "TrymWolnObrot\205")
 #define TR_BEEPCTR             TR("\217rodBeep", "Pikn.\217rodka")
 #define TR_USE_GLOBAL_FUNCS    TR("Funk.Glb.","U\207yj Funkcji Glb")
