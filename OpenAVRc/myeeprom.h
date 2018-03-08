@@ -1118,7 +1118,8 @@ PACK(typedef struct {
   SwashRingData swashR;          // Heli data
   FlightModeData flightModeData[MAX_FLIGHT_MODES];
   MODEL_GVARS_NAME // gvars name
-  uint8_t thrTraceSrc;
+  uint8_t thrTraceSrc:5;
+  uint8_t thrSwitch:3;
   swarnstate_t  switchWarningState;
   swarnenable_t switchWarningEnable;
 

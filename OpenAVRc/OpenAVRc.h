@@ -577,6 +577,9 @@ extern uint8_t trimsCheckTimer;
 
 void flightReset();
 
+void setGazSource();
+extern uint8_t gazSource;
+extern bool enableGaz;
 extern bool pwrCheck;
 extern bool unexpectedShutdown;
 

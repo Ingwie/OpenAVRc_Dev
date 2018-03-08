@@ -920,6 +920,7 @@ void eeLoadModel(uint8_t id)
     AUDIO_FLUSH();
     flightReset();
     logicalSwitchesReset();
+    setGazSource();
 
     if (pulsesStarted()) {
 #if defined(GUI)

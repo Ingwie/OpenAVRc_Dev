@@ -51,6 +51,7 @@ enum menuModelSetupItems {
   ITEM_MODEL_TRIM_INC,
   ITEM_MODEL_THROTTLE_REVERSED,
   ITEM_MODEL_THROTTLE_TRACE,
+  ITEM_MODEL_THROTTLE_SWITCH,
   ITEM_MODEL_THROTTLE_TRIM,
   ITEM_MODEL_THROTTLE_WARNING,
   ITEM_MODEL_SWITCHES_WARNING,
@@ -196,12 +197,17 @@ void menuModelSetup(uint8_t event)
     case ITEM_MODEL_THROTTLE_TRACE: {
       lcdDrawTextLeft(y, STR_TTRACE);
       if (attr) CHECK_INCDEC_MODELVAR_ZERO(event, g_model.thrTraceSrc, NUM_POTS+NUM_CHNOUT);
-      uint8_t idx = g_model.thrTraceSrc + MIXSRC_Thr;
-      if (idx > MIXSRC_Thr)
-        idx += 1;
-      if (idx >= MIXSRC_FIRST_POT+NUM_POTS)
-        idx += MIXSRC_CH1 - MIXSRC_FIRST_POT - NUM_POTS;
-      putsMixerSource(MODEL_SETUP_2ND_COLUMN, y, idx, attr);
+      setGazSource();
+      putsMixerSource(MODEL_SETUP_2ND_COLUMN, y, gazSource, attr);
+      break;
+    }
+
+    case ITEM_MODEL_THROTTLE_SWITCH: {
+      lcdDrawTextLeft(y, PSTR("Switch Gaz"));
+      if (attr) CHECK_INCDEC_MODELVAR_ZERO(event, g_model.thrSwitch, NUM_SWITCHES-2);
+      uint8_t idx = g_model.thrSwitch;
+      if (idx) idx +=3;
+      lcdPutsSwitches(MODEL_SETUP_2ND_COLUMN, y, idx, attr);
       break;
     }
 

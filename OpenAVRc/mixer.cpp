@@ -362,8 +362,8 @@ void evalInputs(uint8_t mode)
   }
 }
 
-
 uint8_t mixerCurrentFlightMode;
+
 void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
 {
   evalInputs(mode);
@@ -500,6 +500,23 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
           mixEnabled = v>>10;
         }
       }
+
+        //========== GAZ SECURITY ============
+        if (md->srcRaw == gazSource)
+        {
+          if (getSwitch(g_model.thrSwitch ? g_model.thrSwitch+3 : SWSRC_NONE))
+          {
+            if (v <= (-RESX+10))
+              enableGaz = true;
+          }
+          else
+          {
+            enableGaz = false;
+          }
+          if (!enableGaz)
+            v = - RESX; // Gaz to min.
+        }
+
 
       //========== DELAYS ===================
       if (mode <= e_perout_mode_inactive_flight_mode && (md->delayDown || md->delayUp)) { // there are delay values
