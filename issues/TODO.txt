@@ -1,8 +1,6 @@
 
 *****************  TODO and/or TO DECIDE  *****************
 
-> - re faire une vraie doc de câblage
-
 > - interrupteur 3 positions avec potar
 
 > - telemetrie GPS : Ajout distance (a partir du point fixe ?)
@@ -33,13 +31,8 @@ Desktop :
 
 Firmware :
 
--> Ajouter module emetteur perso
+-> Ajouter module emetteur perso ( A finir)
 
--> Passer les Gvar de 16 à 8 bit, enlever les bits de "haptic strenght", etc pour gagner de la mémoire (Gvar : Fait)
-
--> Ajouter une fonction spéciale sécurité moteur qui fonctionne comme le template.
-
--> Optimisation "vitesse" du compilateur pour M2560 (+10%) : -O1 ou -O2 (Merci Rich ;-)
 
 General:
 
@@ -49,6 +42,10 @@ General:
 
 
 *****************  DONE DONE DONE DONE  *****************
+> - re faire une vraie doc de câblage FAIT pour MegaMini
+> - Passer les Gvar de 16 à 8 bit, enlever les bits de "haptic strenght", etc pour gagner de la mémoire (Gvar : Fait)
+> - Ajouter une fonction spéciale sécurité moteur qui fonctionne comme le template. FAIT
+> - Optimisation "vitesse" du compilateur pour M2560 (+10%) : -O1 ou -O2 (Merci Rich ;-) FAIT
 > - afficher le nom du fichier "voice" lors de la programmation de la radio (sur la radio grace au fichier readtext qui ne sert à rien pour l'instant)
 > - Customiser (comme le splash) les noms : AIL, TRN; RUD , etc ... dans le firmware par ce que l'on veux - FAIT
 > - Ajouter la génération des fichier voice. Et mettre tous les prompt dans un seul fichier. (Possible pour 9X ?)- FAIT

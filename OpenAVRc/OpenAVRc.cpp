@@ -65,6 +65,19 @@ uint8_t stickMode;
   safetych_t safetyCh[NUM_CHNOUT];
 #endif
 
+uint8_t gazSource;
+bool enableGaz = false;
+
+void setGazSource()
+{
+  uint8_t idx = g_model.thrTraceSrc + MIXSRC_Thr;
+  if (idx > MIXSRC_Thr)
+    idx += 1;
+  if (idx >= MIXSRC_FIRST_POT+NUM_POTS)
+    idx += MIXSRC_CH1 - MIXSRC_FIRST_POT - NUM_POTS;
+  gazSource = idx;
+}
+
 struct Module RFModule;
 
 uint8_t * packet = pulses2MHz.pbyte; //protocol global packet
