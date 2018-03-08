@@ -454,6 +454,7 @@
 #define TR_TRIMINC             "Trim Step"
 #define TR_DISPLAY_TRIMS       TR("Show Trims", "Display Trims")
 #define TR_TTRACE              TR("T-Source", INDENT "Source")
+#define TR_TSWITCH             "T-Switch"
 #define TR_TTRIM               TR("T-Trim", INDENT "Trim Idle Only")
 #define TR_BEEPCTR             TR("Ctr Beep", "Center Beep")
 #define TR_USE_GLOBAL_FUNCS    TR("Glob.Funcs", "Use Global Funcs")

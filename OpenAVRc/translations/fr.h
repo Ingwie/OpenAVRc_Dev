@@ -457,6 +457,7 @@
 #define TR_TRIMINC             TR("Pas Trim", "Pas des trims")
 #define TR_DISPLAY_TRIMS       TR("Aff. trims", "Affichage Trims")
 #define TR_TTRACE              TR("Source Gaz", INDENT "Source")
+#define TR_TSWITCH             "Switch Gaz"
 #define TR_TTRIM               TR("Trim gaz", INDENT "Trim ralenti uniq.")
 #define TR_BEEPCTR             TR("Bips centr", "Bips centrage")
 #define TR_USE_GLOBAL_FUNCS    TR("Fonc. glob.", "Fonctions Globales")

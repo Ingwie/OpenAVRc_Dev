@@ -272,6 +272,7 @@ extern const pm_char STR_ETRIMS[];
 extern const pm_char STR_TRIMINC[];
 extern const pm_char STR_DISPLAY_TRIMS[];
 extern const pm_char STR_TTRACE[];
+extern const pm_char STR_TSWITCH[];
 extern const pm_char STR_TTRIM[];
 extern const pm_char STR_BEEPCTR[];
 extern const pm_char STR_USE_GLOBAL_FUNCS[];

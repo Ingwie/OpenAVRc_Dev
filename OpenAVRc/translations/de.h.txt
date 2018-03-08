@@ -455,6 +455,7 @@
 #define TR_TRIMINC             TR("Trim Schr.", "Trimmschritte")
 #define TR_DISPLAY_TRIMS       TR("Trim anzeig", "Trimwerte anzeigen")
 #define TR_TTRACE              TR("Gasquelle", INDENT "Gas-Timerquelle")
+#define TR_TSWITCH             "T-Switch"
 #define TR_TTRIM 	       			 TR("Gastrim", INDENT "Gas-Leerlauftrim")
 #define TR_BEEPCTR             TR("Mitt.Piep", "Mittelstell. -Pieps")
 #define TR_USE_GLOBAL_FUNCS    TR("Glob. Funkt.", "Globale Funkt verw.")

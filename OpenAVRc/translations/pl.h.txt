@@ -447,6 +447,7 @@
 #define TR_TRIMINC             "Krok Trym"
 #define TR_DISPLAY_TRIMS       TR("Pok.Trym.","Pokaż Trymery")
 #define TR_TTRACE              TR("Źród gaz", INDENT "Źródło gazu ")
+#define TR_TSWITCH             "T-Switch"
 #define TR_TTRIM               TR("TryGaz", INDENT "TrymWolnObrotó")
 #define TR_BEEPCTR             TR("ŚrodBeep", "Pikn.Środka")
 #define TR_USE_GLOBAL_FUNCS    TR("Funk.Glb.","Użyj Funkcji Glb")

@@ -444,6 +444,7 @@
 #define TR_TRIMINC             "Passo Trim"
 #define TR_DISPLAY_TRIMS       "Mostra Trims"
 #define TR_TTRACE              TR("T-Source", INDENT "Sorgente Motore")
+#define TR_TSWITCH             "T-Switch"
 #define TR_TTRIM               TR("T-Trim", INDENT "Trim Motore")
 #define TR_BEEPCTR             TR("Ctr Beep","Beep al centro")
 #define TR_USE_GLOBAL_FUNCS    "Usa Funz Globali"
