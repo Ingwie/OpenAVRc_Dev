@@ -9,6 +9,12 @@
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>472,72</pos>
 			<size>1152,232</size>
+			<object class="wxStaticBox" name="ID_STATICBOX14" variable="StaticBox14" member="yes">
+				<label>Réglages</label>
+				<pos>728,104</pos>
+				<size>416,128</size>
+				<style>wxWANTS_CHARS</style>
+			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX13" variable="StaticBox13" member="yes">
 				<label>Batterie</label>
 				<pos>416,104</pos>
@@ -257,14 +263,12 @@
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL11" variable="Analog1" member="yes">
 				<value>0</value>
-				<max>1000</max>
 				<pos>16,200</pos>
 				<size>48,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL10" variable="Analog2" member="yes">
 				<value>0</value>
-				<max>1000</max>
 				<pos>72,200</pos>
 				<size>48,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
@@ -454,11 +458,6 @@
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
 				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
-			<object class="wxStaticBox" name="ID_STATICBOX14" variable="StaticBox14" member="yes">
-				<label>Réglages</label>
-				<pos>728,104</pos>
-				<size>416,128</size>
-			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT27" variable="StaticText27" member="yes">
 				<label>X10</label>
 				<pos>249,128</pos>
@@ -593,7 +592,7 @@
 				</font>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL20" variable="AirSpeed" member="yes">
-				<value>0</value>
+				<value></value>
 				<max>3000</max>
 				<pos>344,204</pos>
 				<size>56,21</size>
@@ -602,6 +601,30 @@
 			<object class="wxStaticText" name="ID_STATICTEXT34" variable="StaticText34" member="yes">
 				<label>Vitesse</label>
 				<pos>280,208</pos>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT36" variable="StaticText36" member="yes">
+				<label>Sortie vers :</label>
+				<pos>1072,184</pos>
+			</object>
+			<object class="wxComboBox" name="ID_COMBOBOXCOM" variable="ComboBoxCom" member="yes">
+				<pos>1064,200</pos>
+				<size>72,23</size>
+				<handler function="OnComboBoxComSelected" entry="EVT_COMBOBOX" />
+				<handler function="OnComboBoxComDropdown" entry="EVT_COMBOBOX_DROPDOWN" />
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT37" variable="StaticText37" member="yes">
+				<label>Protocoles</label>
+				<pos>744,128</pos>
+			</object>
+			<object class="wxRadioButton" name="ID_RADIOBUTTON2" variable="RBFrskyd" member="yes">
+				<label>Frsky &quot;D&quot;</label>
+				<pos>816,136</pos>
+				<handler function="OnRBProtoSelect" entry="EVT_RADIOBUTTON" />
+			</object>
+			<object class="wxRadioButton" name="ID_RADIOBUTTON1" variable="RBFrskysport" member="yes">
+				<label>Frsky S.Port</label>
+				<pos>816,160</pos>
+				<handler function="OnRBProtoSelect" entry="EVT_RADIOBUTTON" />
 			</object>
 		</object>
 	</object>

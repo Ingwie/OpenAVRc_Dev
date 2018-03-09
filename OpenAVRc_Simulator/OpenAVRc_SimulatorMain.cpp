@@ -38,7 +38,6 @@
 #include "RadioDataFrame.h"
 #include "ModelNameDialog.h"
 #include "TelemetryFrame.h"
-#include "FrSky/FrskySimu.h"
 
 #include <wx/msgdlg.h>
 #include <wx/dcclient.h>
@@ -110,6 +109,8 @@ extern uint8_t JQ6500_PlayIndex;
 extern uint8_t JQ6500_playlist[];
 
 // Telemetry datas
+int Tele_Protocol;
+
 float Tele_GPSLat;
 float Tele_GPSLong;
 float Tele_GPSAlt;
@@ -159,6 +160,7 @@ float Tele_Cell10;
 float Tele_Cell11;
 float Tele_Cell12;
 
+bool SimuComIsValid;
 
 //(*IdInit(OpenAVRc_SimulatorFrame)
 const long OpenAVRc_SimulatorFrame::ID_PANELH = wxNewId();
@@ -538,6 +540,9 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   wxString Filename = AppPath + "\\VOICEMP3\\0000.mp3";
   if(wxFileExists(Filename)) Mp3RepExist = true;
 
+  //Telemetry
+  comPort = new Tserial();
+  SimuComIsValid = false;
   frskySportSimuSetup();
 
 }
@@ -634,8 +639,8 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
     return;
   }
 
-  frskySportSimuloop();
-  frskyDSimuloop();
+  if (Tele_Protocol == Tele_Proto_Frsky_Sport) frskySportSimuloop();
+  if (Tele_Protocol == Tele_Proto_Frsky_D) frskyDSimuloop();
 
 }
 
@@ -938,6 +943,7 @@ void OpenAVRc_SimulatorFrame::LoadConfig()
   configFile->Read(wxT("Col_Stick_Back"),&Col_Stick_Back);
   configFile->Read(wxT("Col_Stick_Circle"),&Col_Stick_Circle);
   // Telemetry datas
+  configFile->Read(wxT("Tele_Protocol"),&Tele_Protocol);
   configFile->Read(wxT("Tele_GPSLat"),&Tele_GPSLat);
   configFile->Read(wxT("Tele_GPSLong"),&Tele_GPSLong);
   configFile->Read(wxT("Tele_GPSAlt"),&Tele_GPSAlt);
@@ -1001,6 +1007,7 @@ void OpenAVRc_SimulatorFrame::SaveConfig()
   configFile->Write(wxT("Col_Stick_Back"),Col_Stick_Back);
   configFile->Write(wxT("Col_Stick_Circle"),Col_Stick_Circle);
   // Telemetry datas
+  configFile->Write(wxT("Tele_Protocol"),Tele_Protocol);
   configFile->Write(wxT("Tele_GPSLat"),Tele_GPSLat);
   configFile->Write(wxT("Tele_GPSLong"),Tele_GPSLong);
   configFile->Write(wxT("Tele_GPSAlt"),Tele_GPSAlt);
@@ -1399,6 +1406,8 @@ void OpenAVRc_SimulatorFrame::load_ModelData_30()
       temp_model.rfOptionValue3 = tmp;
       eepromfile->Read(wxT("thrTraceSrc"),&tmp,0);
       temp_model.thrTraceSrc = tmp;
+      eepromfile->Read(wxT("thrSwitch"),&tmp,0);
+      temp_model.thrSwitch = tmp;
       eepromfile->Read(wxT("switchWarningState"),&tmp,0);
       temp_model.switchWarningState = tmp;
       eepromfile->Read(wxT("switchWarningEnable"),&tmp,0);
@@ -2163,6 +2172,7 @@ void OpenAVRc_SimulatorFrame::save_ModelData_30()
       eepromfile->Write(wxT("rfOptionValue2"),(int)temp_model.rfOptionValue2);
       eepromfile->Write(wxT("rfOptionValue3"),(int)temp_model.rfOptionValue3);
       eepromfile->Write(wxT("thrTraceSrc"),(int)temp_model.thrTraceSrc);
+      eepromfile->Write(wxT("thrSwitch"),(int)temp_model.thrSwitch);
       eepromfile->Write(wxT("switchWarningState"),(int)temp_model.switchWarningState);
       eepromfile->Write(wxT("switchWarningEnable"),(int)temp_model.switchWarningEnable);
 
@@ -2935,6 +2945,7 @@ void ConvWxstrToCharFw(wxString str,char *fwchar, uint8_t length) //Convert wxSt
 wxString ConvCharFwToWxstr(char *cstr, uint8_t length) //Convert Firmware chars[] to wxString
 {
   char buff[length];
+
   zchar2str(buff, cstr, length);
   return wxString(buff,wxConvUTF8);
 }
@@ -2946,3 +2957,36 @@ wxString int2wxString(int integer)
 }
 /////////////////////////////////////////////////////////
 
+void ConnectCom(wxString name)
+{
+  int error;
+  char comMame[20];
+  strncpy(comMame, (const char*)name.mb_str(wxConvUTF8), 20);
+  assert(comPort);
+  comPort->disconnect();
+  switch (Tele_Protocol)
+  {
+  case Tele_Proto_Frsky_D :
+    error = comPort->connect(comMame, 9600, spNONE);
+    break;
+  case Tele_Proto_Frsky_Sport :
+    error = comPort->connect(comMame, 57600, spNONE);
+    break;
+  default :
+    SimuComIsValid = false;
+    break;
+  }
+  if (error == 0) SimuComIsValid = true;
+  else {
+    wxString intString = wxString::Format(wxT("%i"), error);
+    wxMessageBox(intString);
+    }
+}
+
+void SendByteCom(uint8_t data)
+{
+  if (SimuComIsValid)
+  {
+    comPort->sendChar(data);
+  }
+}

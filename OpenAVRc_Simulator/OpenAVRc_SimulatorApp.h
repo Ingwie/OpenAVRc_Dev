@@ -37,7 +37,6 @@
 
 #include <wx/app.h>
 
-
 class OpenAVRc_SimulatorApp : public wxApp
 {
 public:
