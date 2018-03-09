@@ -1,17 +1,22 @@
 #ifndef TELEMETRYFRAME_H
 #define TELEMETRYFRAME_H
 
+
 //(*Headers(TelemetryFrame)
+#include <wx/combobox.h>
 #include <wx/datectrl.h>
 #include <wx/dateevt.h>
 #include <wx/frame.h>
 #include <wx/panel.h>
+#include <wx/radiobut.h>
 #include <wx/slider.h>
 #include <wx/spinctrl.h>
 #include <wx/statbox.h>
 #include <wx/stattext.h>
 #include <wx/timectrl.h>
 //*)
+
+#include "OpenAVRc_SimulatorMain.h"
 
 #define wxDEFAULT_DIALOG_STYLE  (wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX)
 
@@ -23,8 +28,11 @@ class TelemetryFrame: public wxFrame
 		virtual ~TelemetryFrame();
 
 		//(*Declarations(TelemetryFrame)
+		wxComboBox* ComboBoxCom;
 		wxDatePickerCtrl* GPSDate;
 		wxPanel* Panel1;
+		wxRadioButton* RBFrskyd;
+		wxRadioButton* RBFrskysport;
 		wxSlider* AcclX;
 		wxSlider* AcclY;
 		wxSlider* AcclZ;
@@ -105,6 +113,8 @@ class TelemetryFrame: public wxFrame
 		wxStaticText* StaticText33;
 		wxStaticText* StaticText34;
 		wxStaticText* StaticText35;
+		wxStaticText* StaticText36;
+		wxStaticText* StaticText37;
 		wxStaticText* StaticText3;
 		wxStaticText* StaticText4;
 		wxStaticText* StaticText5;
@@ -118,6 +128,7 @@ class TelemetryFrame: public wxFrame
 	protected:
 
 		//(*Identifiers(TelemetryFrame)
+		static const long ID_STATICBOX14;
 		static const long ID_STATICBOX13;
 		static const long ID_STATICBOX11;
 		static const long ID_STATICBOX9;
@@ -193,7 +204,6 @@ class TelemetryFrame: public wxFrame
 		static const long ID_SLIDER6;
 		static const long ID_SLIDER8;
 		static const long ID_SLIDER7;
-		static const long ID_STATICBOX14;
 		static const long ID_STATICTEXT27;
 		static const long ID_STATICTEXT28;
 		static const long ID_STATICTEXT32;
@@ -207,6 +217,11 @@ class TelemetryFrame: public wxFrame
 		static const long ID_STATICTEXT22;
 		static const long ID_SPINCTRL20;
 		static const long ID_STATICTEXT34;
+		static const long ID_STATICTEXT36;
+		static const long ID_COMBOBOXCOM;
+		static const long ID_STATICTEXT37;
+		static const long ID_RADIOBUTTON2;
+		static const long ID_RADIOBUTTON1;
 		static const long ID_PANEL1;
 		//*)
 
@@ -217,8 +232,12 @@ class TelemetryFrame: public wxFrame
 		void OnTeleChange(wxSpinEvent& event);
 		void OnGPSDateTimeChanged(wxDateEvent& event);
 		void OnTeleScrollChanged(wxScrollEvent& event);
+		void OnComboBoxComDropdown(wxCommandEvent& event);
+		void OnRBProtoSelect(wxCommandEvent& event);
+		void OnComboBoxComSelected(wxCommandEvent& event);
 		//*)
 
+		void DetectSerial();
 		void WriteDatas();
 		DECLARE_EVENT_TABLE()
 };

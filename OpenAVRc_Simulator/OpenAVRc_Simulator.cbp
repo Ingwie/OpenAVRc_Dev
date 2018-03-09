@@ -537,6 +537,8 @@
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="serial/tserial.cpp" />
+		<Unit filename="serial/tserial.h" />
 		<Unit filename="wxsmith/GvarsFrame.wxs" />
 		<Unit filename="wxsmith/MixerFrame.wxs" />
 		<Unit filename="wxsmith/ModelNameDialog.wxs" />

@@ -59,6 +59,19 @@
 #include "Spin.h"
 //*)
 
+//Telemetry
+#include "FrSky/FrskySimu.h"
+#include "serial/tserial.h"
+Tserial *comPort;
+extern bool SimuComIsValid;
+void ConnectCom(wxString name);
+void SendByteCom(uint8_t data);
+
+enum TeleProtocols {
+Tele_Proto_Frsky_D,
+Tele_Proto_Frsky_Sport,
+};
+
 //SD
 wxString simu_dir;
 

@@ -29,7 +29,7 @@
 *                                                                        *
 **************************************************************************
 */
-#include "../OpenAVRc_SimulatorApp.h"
+#include "../OpenAVRc_SimulatorMain.h"
 
 #include "FrSkySimu.h"
 
@@ -49,8 +49,9 @@ FrSkyDTelemetry telemetryD;                             // Create telemetry D ob
 
 void SendSerialDataToUART(uint8_t data)
 {
-  wxString dat = wxString::Format(wxT("%X"),data);
+  //wxString dat = wxString::Format(wxT("%X"),data);
   //wxLogDebug("dat");
+  SendByteCom(data);
   processSerialData(data);
 }
 
