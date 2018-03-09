@@ -843,7 +843,7 @@ void frskyDProcessPacket(uint8_t *packet)
     uint8_t numBytes = 3 + (packet[1] & 0x07); // sanitize in case of data corruption leading to buffer overflow
     for (uint8_t i=3; i<numBytes; i++) {
 #if defined(FRSKY_HUB)
-      if (USE_PROTO_FRSKY_HUB()) {
+      if (IS_USR_PROTO_FRSKY_HUB()) {
         parseTelemHubByte(packet[i]);
       }
 #endif

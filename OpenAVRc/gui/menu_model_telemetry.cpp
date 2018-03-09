@@ -257,6 +257,7 @@ void menuModelTelemetry(uint8_t event)
       if (attr) {
           CHECK_INCDEC_MODELVAR_ZERO(event, g_model.frsky.usrProto, USR_PROTO_LAST);
           telemetryReset();
+          telemetryInit();
       }
       break;
 
