@@ -85,7 +85,11 @@ void Usart0Set9600BAUDS() //Frsky "D" telemetry
 #include <util/setbaud.h>
   UBRRH_N(TLM_USART0) = UBRRH_VALUE;
   UBRRL_N(TLM_USART0) = UBRRL_VALUE;
-  UCSRA_N(TLM_USART0) &= ~(1 << U2X_N(TLM_USART0)); // disable double speed operation.
+#if USE_2X
+   UCSRA_N(TLM_USART0) |= (1 << U2X_N(TLM_USART0));
+#else
+   UCSRA_N(TLM_USART0) &= ~(1 << U2X_N(TLM_USART0));
+#endif
 #endif
 }
 
@@ -97,7 +101,11 @@ void Usart0Set57600BAUDS() //Frsky S.port telemetry
 #include <util/setbaud.h>
   UBRRH_N(TLM_USART0) = UBRRH_VALUE;
   UBRRL_N(TLM_USART0) = UBRRL_VALUE;
-  UCSRA_N(TLM_USART0) &= ~(1 << U2X_N(TLM_USART0)); // disable double speed operation.
+#if USE_2X
+   UCSRA_N(TLM_USART0) |= (1 << U2X_N(TLM_USART0));
+#else
+   UCSRA_N(TLM_USART0) &= ~(1 << U2X_N(TLM_USART0));
+#endif
 #endif
 }
 
@@ -109,7 +117,11 @@ void Usart0Set125000BAUDS() //DSM Serial protocol
 #include <util/setbaud.h>
   UBRRH_N(TLM_USART0) = UBRRH_VALUE;
   UBRRL_N(TLM_USART0) = UBRRL_VALUE;
-  UCSRA_N(TLM_USART0) &= ~(1 << U2X_N(TLM_USART0)); // disable double speed operation.
+#if USE_2X
+   UCSRA_N(TLM_USART0) |= (1 << U2X_N(TLM_USART0));
+#else
+   UCSRA_N(TLM_USART0) &= ~(1 << U2X_N(TLM_USART0));
+#endif
 #endif
 }
 
@@ -121,7 +133,11 @@ void Usart0Set100000BAUDS() //Multiprotocole Serial
 #include <util/setbaud.h>
   UBRRH_N(TLM_USART0) = UBRRH_VALUE;
   UBRRL_N(TLM_USART0) = UBRRL_VALUE;
-  UCSRA_N(TLM_USART0) &= ~(1 << U2X_N(TLM_USART0)); // disable double speed operation.
+#if USE_2X
+   UCSRA_N(TLM_USART0) |= (1 << U2X_N(TLM_USART0));
+#else
+   UCSRA_N(TLM_USART0) &= ~(1 << U2X_N(TLM_USART0));
+#endif
 #endif
 }
 

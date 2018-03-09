@@ -75,7 +75,9 @@ static uint16_t PROTO_PPMSIM_cb()
 
 static void PROTO_PPMSIM_reset()
 {
-
+#if defined(FRSKY)
+  telemetryReset();
+#endif
 }
 
 
