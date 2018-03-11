@@ -699,6 +699,8 @@ template<class t> void SWAP(t & a, t & b)
   a = tmp;
 }
 
+#define IS_IN_RANGE(value,low,high) (!(value<low) && (value<(high+1)))
+
 uint16_t isqrt32(uint32_t n);
 
 void generalDefault();
