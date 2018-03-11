@@ -70,10 +70,8 @@ void processHubPacket(uint8_t id, uint16_t value)
   }
 
   if (id == offsetof(FrskySerialData, gpsAltitude_bp) ||
-      (id >= offsetof(FrskySerialData, gpsAltitude_ap) &&
-       id <= offsetof(FrskySerialData, gpsLatitudeNS) &&
-       id != offsetof(FrskySerialData, baroAltitude_bp)
-       && id != offsetof(FrskySerialData, baroAltitude_ap))) {
+      IS_IN_RANGE(id, offsetof(FrskySerialData, gpsAltitude_ap), offsetof(FrskySerialData, gpsLatitudeNS) &&
+       id != offsetof(FrskySerialData, baroAltitude_bp) && id != offsetof(FrskySerialData, baroAltitude_ap))) {
     // If we don't have a fix, we may discard the value
     if (frskyData.hub.gpsFix <= 0)
       return;
@@ -145,13 +143,14 @@ void processHubPacket(uint8_t id, uint16_t value)
       if (frskyData.hub.gpsAltitude_bp < frskyData.hub.minAltitude)
         frskyData.hub.minAltitude = frskyData.hub.gpsAltitude_bp;
     }
-    if (!frskyData.hub.pilotLatitude && !frskyData.hub.pilotLongitude) {
-      // First received GPS position => Pilot GPS position
-      getGpsPilotPosition();
-    } else if (frskyData.hub.gpsDistNeeded || menuHandlers[menuLevel] == menuTelemetryFrsky) {
-      getGpsDistance();
-    }
-    break;
+        if (!frskyData.hub.pilotLatitude && !frskyData.hub.pilotLongitude) {
+          // First received GPS position => Pilot GPS position
+          getGpsPilotPosition();
+        }
+          else if (frskyData.hub.gpsDistNeeded || menuHandlers[menuLevel] == menuTelemetryFrsky) {
+            getGpsDistance();
+          }
+              break;
 
   case offsetof(FrskySerialData, gpsSpeed_bp):
     // Speed => Max speed
@@ -347,42 +346,42 @@ void processSportPacket(uint8_t *packet)
     } else if (appId == BETA_VARIO_ID) {
       int32_t varioSpeed = SPORT_DATA_S32(packet);
       frskyData.hub.varioSpeed = 10 * (varioSpeed >> 8);
-    } else if (appId >= T1_FIRST_ID && appId <= T1_LAST_ID) {
+    } else if IS_IN_RANGE(appId, T1_FIRST_ID, T1_LAST_ID) {
       frskyData.hub.temperature1 = SPORT_DATA_S32(packet);
       if (frskyData.hub.temperature1 > frskyData.hub.maxTemperature1)
         frskyData.hub.maxTemperature1 = frskyData.hub.temperature1;
-    } else if (appId >= T2_FIRST_ID && appId <= T2_LAST_ID) {
+    } else if IS_IN_RANGE(appId, T2_FIRST_ID, T2_LAST_ID) {
       frskyData.hub.temperature2 = SPORT_DATA_S32(packet);
       if (frskyData.hub.temperature2 > frskyData.hub.maxTemperature2)
         frskyData.hub.maxTemperature2 = frskyData.hub.temperature2;
-    } else if (appId >= RPM_FIRST_ID && appId <= RPM_LAST_ID) {
+    } else if IS_IN_RANGE(appId, RPM_FIRST_ID, RPM_LAST_ID) {
       frskyData.hub.rpm = SPORT_DATA_U32(packet) / (g_model.frsky.blades+2);
       if (frskyData.hub.rpm > frskyData.hub.maxRpm)
         frskyData.hub.maxRpm = frskyData.hub.rpm;
-    } else if (appId >= FUEL_FIRST_ID && appId <= FUEL_LAST_ID) {
+    } else if IS_IN_RANGE(appId, FUEL_FIRST_ID, FUEL_LAST_ID) {
       frskyData.hub.fuelLevel = SPORT_DATA_U32(packet);
-    } else if (appId >= ALT_FIRST_ID && appId <= ALT_LAST_ID) {
+    } else if IS_IN_RANGE(appId, ALT_FIRST_ID, ALT_LAST_ID) {
       setBaroAltitude(SPORT_DATA_S32(packet));
-    } else if (appId >= VARIO_FIRST_ID && appId <= VARIO_LAST_ID) {
+    } else if IS_IN_RANGE(appId, VARIO_FIRST_ID, VARIO_LAST_ID) {
       frskyData.hub.varioSpeed = SPORT_DATA_S32(packet);
-    } else if (appId >= ACCX_FIRST_ID && appId <= ACCX_LAST_ID) {
+    } else if IS_IN_RANGE(appId, ACCX_FIRST_ID, ACCX_LAST_ID) {
       frskyData.hub.accelX = SPORT_DATA_S32(packet);
-    } else if (appId >= ACCY_FIRST_ID && appId <= ACCY_LAST_ID) {
+    } else if IS_IN_RANGE(appId, ACCY_FIRST_ID, ACCY_LAST_ID) {
       frskyData.hub.accelY = SPORT_DATA_S32(packet);
-    } else if (appId >= ACCZ_FIRST_ID && appId <= ACCZ_LAST_ID) {
+    } else if IS_IN_RANGE(appId, ACCZ_FIRST_ID, ACCZ_LAST_ID) {
       frskyData.hub.accelZ = SPORT_DATA_S32(packet);
-    } else if (appId >= CURR_FIRST_ID && appId <= CURR_LAST_ID) {
+    } else if IS_IN_RANGE(appId, CURR_FIRST_ID, CURR_LAST_ID) {
       frskyData.hub.current = SPORT_DATA_U32(packet);
       if (frskyData.hub.current > frskyData.hub.maxCurrent)
         frskyData.hub.maxCurrent = frskyData.hub.current;
-    } else if (appId >= VFAS_FIRST_ID && appId <= VFAS_LAST_ID) {
+    } else if IS_IN_RANGE(appId, VFAS_FIRST_ID, VFAS_LAST_ID) {
       frskyData.hub.vfas = SPORT_DATA_U32(packet)/10;   //TODO: remove /10 and display with PREC2 when using SPORT
     } else if (appId >= GPS_SPEED_FIRST_ID && appId <= GPS_SPEED_LAST_ID) {
       frskyData.hub.gpsSpeed_bp = SPORT_DATA_U32(packet);
       frskyData.hub.gpsSpeed_bp = (frskyData.hub.gpsSpeed_bp * 46) / 25 / 1000;
       if (frskyData.hub.gpsSpeed_bp > frskyData.hub.maxGpsSpeed)
         frskyData.hub.maxGpsSpeed = frskyData.hub.gpsSpeed_bp;
-    } else if (appId >= GPS_TIME_DATE_FIRST_ID && appId <= GPS_TIME_DATE_LAST_ID) {
+    } else if IS_IN_RANGE(appId, GPS_TIME_DATE_FIRST_ID, GPS_TIME_DATE_LAST_ID) {
       uint32_t gps_time_date = SPORT_DATA_U32(packet);
       if (gps_time_date & 0x000000ff) {
         frskyData.hub.year = (uint16_t) ((gps_time_date & 0xff000000) >> 24);
@@ -394,15 +393,18 @@ void processSportPacket(uint8_t *packet)
         frskyData.hub.sec = (uint16_t) ((gps_time_date & 0x0000ff00) >> 8);
         frskyData.hub.hour = ((uint8_t) (frskyData.hub.hour + g_eeGeneral.timezone + 24)) % 24;
       }
-    } else if (appId >= GPS_COURS_FIRST_ID && appId <= GPS_COURS_LAST_ID) {
+    } else if IS_IN_RANGE(appId, GPS_COURS_FIRST_ID, GPS_COURS_LAST_ID) {
       uint32_t course = SPORT_DATA_U32(packet);
       frskyData.hub.gpsCourse_bp = course / 100;
       frskyData.hub.gpsCourse_ap = course % 100;
-    } else if (appId >= GPS_ALT_FIRST_ID && appId <= GPS_ALT_LAST_ID) {
-//        frskyData.hub.gpsAltitude = SPORT_DATA_S32(packet);
+    } else if IS_IN_RANGE(appId, GPS_ALT_FIRST_ID, GPS_ALT_LAST_ID) {
+      uint32_t gpsAlt = SPORT_DATA_S32(packet);
+      frskyData.hub.gpsAltitude_bp = gpsAlt / 100;
+      frskyData.hub.gpsAltitude_ap = gpsAlt % 100;
+
 
       if (!frskyData.hub.gpsAltitudeOffset)
-//          frskyData.hub.gpsAltitudeOffset = -frskyData.hub.gpsAltitude;
+          frskyData.hub.gpsAltitudeOffset = -frskyData.hub.gpsAltitude_bp;
 
         if (!frskyData.hub.baroAltitudeOffset) {
           int16_t altitude = TELEMETRY_RELATIVE_GPS_ALT_BP;
@@ -421,7 +423,7 @@ void processSportPacket(uint8_t *packet)
             getGpsDistance();
           }
       }
-    } else if (appId >= GPS_LONG_LATI_FIRST_ID && appId <= GPS_LONG_LATI_LAST_ID) {
+    } else if IS_IN_RANGE(appId, GPS_LONG_LATI_FIRST_ID, GPS_LONG_LATI_LAST_ID) {
       uint32_t gps_long_lati_data = SPORT_DATA_U32(packet);
       uint32_t gps_long_lati_b1w, gps_long_lati_a1w;
       gps_long_lati_b1w = (gps_long_lati_data & 0x3fffffff) / 10000;
@@ -455,7 +457,7 @@ void processSportPacket(uint8_t *packet)
       }
     }
 
-    else if (appId >= CELLS_FIRST_ID && appId <= CELLS_LAST_ID) {
+    else if IS_IN_RANGE(appId, CELLS_FIRST_ID, CELLS_LAST_ID) {
       uint32_t cells = SPORT_DATA_U32(packet);
       uint8_t battnumber = cells & 0xF;
       uint32_t minCell, minCellNum;
@@ -673,6 +675,7 @@ void telemetryReset()
   Usart0DisableRx();
   telemetryResetValue();
 }
+
 void telemetryResetValue()
 {
   memclear(&frskyData, sizeof(frskyData));
