@@ -70,8 +70,8 @@ void processHubPacket(uint8_t id, uint16_t value)
   }
 
   if (id == offsetof(FrskySerialData, gpsAltitude_bp) ||
-      IS_IN_RANGE(id, offsetof(FrskySerialData, gpsAltitude_ap), offsetof(FrskySerialData, gpsLatitudeNS) &&
-       id != offsetof(FrskySerialData, baroAltitude_bp) && id != offsetof(FrskySerialData, baroAltitude_ap))) {
+      IS_IN_RANGE(id, offsetof(FrskySerialData, gpsAltitude_ap), offsetof(FrskySerialData, gpsLatitudeNS)) &&
+       (id != offsetof(FrskySerialData, baroAltitude_bp) && id != offsetof(FrskySerialData, baroAltitude_ap))) {
     // If we don't have a fix, we may discard the value
     if (frskyData.hub.gpsFix <= 0)
       return;
