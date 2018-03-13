@@ -78,7 +78,7 @@ void PROTO_PPM_cb1()
 uint16_t half_us = PROTO_PPM_cb2();
 
   if(! half_us) {
-    PROTO_PPM_Cmds(PROTOCMD_DEINIT);
+    PROTO_PPM_Cmds(PROTOCMD_RESET);
     return;
   }
 
@@ -126,7 +126,6 @@ const void * PROTO_PPM_Cmds(enum ProtoCmds cmd)
   switch(cmd) {
     case PROTOCMD_INIT: PROTO_PPM_initialize();
     return 0;
-    case PROTOCMD_DEINIT:
     case PROTOCMD_RESET:
       PROTO_PPM_reset();
     return (void *) 1L;

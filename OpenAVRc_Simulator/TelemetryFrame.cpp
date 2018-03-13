@@ -211,7 +211,7 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   StaticText23->SetFont(StaticText23Font);
   gpsbox = new wxStaticBox(Panel1, ID_GPSBOX, _("GPS"), wxPoint(8,8), wxSize(744,96), 0, _T("ID_GPSBOX"));
   StaticBox2 = new wxStaticBox(Panel1, ID_STATICBOX2, _("Latitude"), wxPoint(16,24), wxSize(168,72), 0, _T("ID_STATICBOX2"));
-  GPSLatMinute = new wxSpinCtrl(Panel1, ID_SPINCTRL5, _T("0"), wxPoint(80,64), wxSize(80,21), 0, 0, 999999, 0, _T("ID_SPINCTRL5"));
+  GPSLatMinute = new wxSpinCtrl(Panel1, ID_SPINCTRL5, _T("0"), wxPoint(80,64), wxSize(80,21), 0, 0, 99999, 0, _T("ID_SPINCTRL5"));
   GPSLatMinute->SetValue(_T("0"));
   GPSLatDegres = new wxSpinCtrl(Panel1, ID_SPINCTRL6, _T("0"), wxPoint(24,64), wxSize(48,21), 0, -90, 90, 0, _T("ID_SPINCTRL6"));
   GPSLatDegres->SetValue(_T("0"));
@@ -222,7 +222,7 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, _("Minutes - Secondes"), wxPoint(264,40), wxDefaultSize, 0, _T("ID_STATICTEXT2"));
   GPSLongDEgres = new wxSpinCtrl(Panel1, ID_SPINCTRL1, _T("0"), wxPoint(208,64), wxSize(48,21), 0, -180, 180, 0, _T("ID_SPINCTRL1"));
   GPSLongDEgres->SetValue(_T("0"));
-  GPSLongMinute = new wxSpinCtrl(Panel1, ID_SPINCTRL2, _T("0"), wxPoint(264,64), wxSize(80,21), 0, 0, 999999, 0, _T("ID_SPINCTRL2"));
+  GPSLongMinute = new wxSpinCtrl(Panel1, ID_SPINCTRL2, _T("0"), wxPoint(264,64), wxSize(80,21), 0, 0, 99999, 0, _T("ID_SPINCTRL2"));
   GPSLongMinute->SetValue(_T("0"));
   StaticBox3 = new wxStaticBox(Panel1, ID_STATICBOX3, _("Altitude"), wxPoint(376,32), wxSize(88,64), 0, _T("ID_STATICBOX3"));
   GPSAltitude = new wxSpinCtrl(Panel1, ID_SPINCTRL7, _T("0"), wxPoint(384,64), wxSize(72,21), 0, -1000, 10000, 0, _T("ID_SPINCTRL7"));
@@ -407,9 +407,9 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   }
 
   GPSLatDegres->SetValue((int)Tele_GPSLat);
-  GPSLatMinute->SetValue((Tele_GPSLat - GPSLatDegres->GetValue())*1000000);
+  GPSLatMinute->SetValue((Tele_GPSLat - GPSLatDegres->GetValue())*100000);
   GPSLongDEgres->SetValue((int)Tele_GPSLong);
-  GPSLongMinute->SetValue((Tele_GPSLong - GPSLongDEgres->GetValue())*1000000);
+  GPSLongMinute->SetValue((Tele_GPSLong - GPSLongDEgres->GetValue())*100000);
   GPSAltitude->SetValue(Tele_GPSAlt*10);
   GPSSpeed->SetValue(Tele_GPSSpeed*10);
   GPSCourse->SetValue(Tele_GPSCourse*1000);
@@ -475,8 +475,8 @@ void TelemetryFrame::WriteDatas()
   if (RBFrskysport->GetValue())
     Tele_Protocol = Tele_Proto_Frsky_Sport;
 
-  Tele_GPSLat = GPSLatDegres->GetValue() + (float)GPSLatMinute->GetValue()/1000000;
-  Tele_GPSLong = GPSLongDEgres->GetValue() + (float)GPSLongMinute->GetValue()/1000000;
+  Tele_GPSLat = GPSLatDegres->GetValue() + (float)GPSLatMinute->GetValue()/100000;
+  Tele_GPSLong = GPSLongDEgres->GetValue() + (float)GPSLongMinute->GetValue()/100000;
   Tele_GPSAlt = (float)GPSAltitude->GetValue()/10;
   Tele_GPSSpeed = (float)GPSSpeed->GetValue()/10;
   Tele_GPSCourse = (float)GPSCourse->GetValue()/100;

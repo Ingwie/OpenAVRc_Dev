@@ -418,7 +418,10 @@
 		<Unit filename="../OpenAVRc/rtc_driver.cpp" />
 		<Unit filename="../OpenAVRc/sdcard.cpp" />
 		<Unit filename="../OpenAVRc/sdcard.h" />
-		<Unit filename="../OpenAVRc/serial_driver.cpp" />
+		<Unit filename="../OpenAVRc/serial_driver.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="../OpenAVRc/spi.c">
 			<Option compilerVar="CC" />
 		</Unit>

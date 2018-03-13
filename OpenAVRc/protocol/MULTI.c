@@ -161,7 +161,7 @@ static uint16_t MULTI_cb()
   uint8_t protoByte = 0;
   if (RFModule.mode == BIND_MODE)
     protoByte |= MULTI_SEND_BIND;
-  else if (RFModule.mode == RANGE_MODE)
+  else if (rangeModeIsOn)
     protoByte |= MULTI_SEND_RANGECHECK;
 
   // rfProtocol

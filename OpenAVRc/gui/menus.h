@@ -100,6 +100,7 @@ extern void menuGeneralDiagAna(uint8_t event);
 extern void menuTelemetryFrsky(uint8_t event);
 #endif
 extern void menuGeneralSetup(uint8_t event);
+extern void menuModelSetup(uint8_t event);
 extern void menuGeneralCalib(uint8_t event);
 //void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFunctionsContext * functionsContext);
 

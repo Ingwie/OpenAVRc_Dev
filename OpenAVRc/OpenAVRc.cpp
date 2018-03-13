@@ -78,6 +78,7 @@ void setGazSource()
   gazSource = idx;
 }
 
+bool rangeModeIsOn = false; // manage low power TX
 struct Module RFModule;
 
 uint8_t * packet = pulses2MHz.pbyte; //protocol global packet
@@ -1098,6 +1099,11 @@ void doMixerCalculations()
       if (s_cnt_1s >= 10) { // 1sec
         s_cnt_1s -= 10;
         ++sessionTimer;
+
+      if ((rangeModeIsOn) && !(menuHandlers[menuLevel] == menuModelSetup))
+      {
+         rangeModeIsOn = false; // Reset range mode if not in menuModelSetup
+      }
 
         struct t_inactivity *ptrInactivity = &inactivity;
         FORCE_INDIRECT(ptrInactivity) ;

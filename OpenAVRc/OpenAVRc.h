@@ -985,10 +985,11 @@ const mm_protocol_definition *getMultiProtocolDefinition (uint8_t protocol);
 
 ///////////////// PROTOCOLS ///////////////////
 
+extern bool rangeModeIsOn;
+
 enum PROTO_MODE {
   NORMAL_MODE,
   BIND_MODE,
-  RANGE_MODE,
 };
 
 enum TxPower {
@@ -1016,7 +1017,7 @@ enum ProtoCmds {
   PROTOCMD_BIND,
   PROTOCMD_RESET,
   PROTOCMD_GETOPTIONS,
-  PROTOCMD_SET_TXPOWER,
+  /*PROTOCMD_SET_TXPOWER,
   PROTOCMD_GETNUMOPTIONS,
   PROTOCMD_DEINIT,
   PROTOCMD_CHECK_AUTOBIND,
@@ -1024,20 +1025,13 @@ enum ProtoCmds {
   PROTOCMD_DEFAULT_NUMCHAN,
   PROTOCMD_CURRENT_ID,
   PROTOCMD_SETOPTIONS,
-  PROTOCMD_TELEMETRYSTATE,
+  PROTOCMD_TELEMETRYSTATE,*/
 };
 
 enum TXRX_State {
   TXRX_OFF,
   TX_EN,
   RX_EN,
-};
-
-enum PinConfigState {
-  CSN_PIN,
-  ENABLED_PIN,
-  DISABLED_PIN,
-  RESET_PIN,
 };
 
 #define PROTODEF(proto, module, map, init, name, progmem_name) proto,
