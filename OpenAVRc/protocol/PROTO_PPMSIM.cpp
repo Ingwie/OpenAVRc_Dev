@@ -100,7 +100,6 @@ const void * PROTO_PPMSIM_Cmds(enum ProtoCmds cmd)
   switch(cmd) {
     case PROTOCMD_INIT: PROTO_PPMSIM_initialize();
     return 0;
-    case PROTOCMD_DEINIT:
     case PROTOCMD_RESET:
       PROTO_PPMSIM_reset();
       return (void *) 1L;

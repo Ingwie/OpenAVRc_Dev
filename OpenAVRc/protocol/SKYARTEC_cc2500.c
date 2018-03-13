@@ -224,15 +224,12 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
   case PROTOCMD_INIT:
     SKYARTEC_initialize(0);
     return 0;
-  //case PROTOCMD_DEINIT:
   case PROTOCMD_RESET:
     PROTO_Stop_Callback();
     CC2500_Reset();
     CC2500_SetTxRxMode(TXRX_OFF);
     CC2500_Strobe(CC2500_SIDLE);
     return 0;
-  //case PROTOCMD_CHECK_AUTOBIND:
-    //return (void *)1L; // Always Autobind
   case PROTOCMD_BIND:
     SKYARTEC_initialize(1);
     return 0;

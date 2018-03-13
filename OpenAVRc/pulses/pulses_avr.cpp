@@ -95,7 +95,7 @@ ISR(TIMER1_COMPA_vect) // ISR for Protocol Callback, PPMSIM and PPM16 (Last 8 ch
     uint16_t half_us = timer_callback(); // Function pointer e.g. skyartec_cb().
 
     if(! half_us) {
-      PROTO_Cmds(PROTOCMD_DEINIT);
+      PROTO_Cmds(PROTOCMD_RESET);
       return;
     }
 

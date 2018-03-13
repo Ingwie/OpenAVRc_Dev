@@ -605,7 +605,6 @@ const void *DEVO_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_INIT:
       DEVO_initialize();
       return 0;
-    case PROTOCMD_DEINIT:
     case PROTOCMD_RESET:
       PROTO_Stop_Callback();
       CYRF_Reset();

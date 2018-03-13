@@ -40,7 +40,7 @@
 #define MCP23017_GPIOB   0x13
 
 
-#define MCP_ST7920_LCD_CS1       3
+//#define MCP_ST7920_LCD_CS1       3
 #define MCP_ST7920_LCD_A0        5
 #define MCP_ST7920_LCD_RnW       6
 #define MCP_ST7920_LCD_E         7

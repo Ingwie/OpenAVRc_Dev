@@ -99,6 +99,6 @@ void PROTOCOL_SetBindState(tmr10ms_t t10ms)
     RFModule.mode = BIND_MODE;
     Bind_tmr10ms = t10ms;
   }
-  else RFModule.mode = NORMAL_MODE; // Can't go from bind to range test.
+  else RFModule.mode = NORMAL_MODE;
 }
 

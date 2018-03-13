@@ -292,7 +292,7 @@ void menuModelSetup(uint8_t event)
       }
       break;
 
-      int16_t tmp; // used for CHECK_INCDEC_MODELVAR_STARTPULSES_IF_CHANGE
+    int16_t tmp; // used for CHECK_INCDEC_MODELVAR_STARTPULSES_IF_CHANGE
 
     case ITEM_MODEL_PROTOCOL:
       lcdDrawTextLeft(y, NO_INDENT(STR_PROTO));
@@ -473,7 +473,7 @@ void menuModelSetup(uint8_t event)
             if (l_posHorz == 1) {
               PROTOCOL_SetBindState(1000); // 10 Sec
             } else if (l_posHorz == 2) {
-              RFModule.mode = RANGE_MODE; // TODO Call PRT if availlable
+              rangeModeIsOn = true;
             }
           }
         }
@@ -497,7 +497,7 @@ void menuModelSetup(uint8_t event)
             if (l_posHorz == 1)
               PROTOCOL_SetBindState(500); // 5 Sec
             else if (l_posHorz == 2) {
-              RFModule.mode = RANGE_MODE;
+              rangeModeIsOn = true;
             }
           }
         }
@@ -522,12 +522,8 @@ void menuModelSetup(uint8_t event)
               if (RFModule.mode != BIND_MODE) startPulses(PROTOCMD_BIND);
               PROTOCOL_SetBindState(1000); // 10 Sec
             } else if (l_posHorz == 2) {
-              if (RFModule.mode != RANGE_MODE) startPulses(PROTOCMD_SET_TXPOWER);
-              RFModule.mode = RANGE_MODE;
+              rangeModeIsOn = true;
             }
-          } else {
-            if (RFModule.mode != NORMAL_MODE) startPulses(PROTOCMD_INIT);
-            RFModule.mode = NORMAL_MODE;
           }
         }
 #endif
@@ -543,7 +539,6 @@ void menuModelSetup(uint8_t event)
             ON_OFF_MENU_ITEM(g_model.AUTOBINDMODE, MODEL_SETUP_2ND_COLUMN, y, STR_MULTI_DSM_AUTODTECT, attr, event);
           else
             ON_OFF_MENU_ITEM(g_model.AUTOBINDMODE, MODEL_SETUP_2ND_COLUMN, y, STR_AUTOBIND, attr, event);
-            if (event) { PROTOCOL_SetBindState((g_model.AUTOBINDMODE) ? 500 : 0 );}
         }
 #endif
 #if defined(SPIMODULES)
@@ -655,6 +650,7 @@ void menuModelSetup(uint8_t event)
 
   if (!PROTO_IS_SYNC) {
     flightReset();
+    rangeModeIsOn = false;
     g_model.rfProtocol = protocol;
     RFModule.mode = NORMAL_MODE;
     startPulses(PROTOCMD_INIT);
