@@ -336,17 +336,21 @@ static void sendchar(char c)
 //************************************************************************
 static int	Serial_Available(void)
 {
-  return(UART_STATUS_REG & (1 << UART_RECEIVE_COMPLETE));	// wait for data
+  if ((UART_STATUS_REG & 0x1C)==0) // Check errors
+  {
+    return(UART_STATUS_REG & (1 << UART_RECEIVE_COMPLETE));	// wait for data
+  }
+  else return 0;
 }
 
 
-#define	MAX_TIME_COUNT	(F_CPU >> 1)
+#define	MAX_TIME_COUNT	(F_CPU >> 4)
 //*****************************************************************************
 static unsigned char recchar_timeout(void)
 {
   uint32_t count = 0;
 
-  while (!(UART_STATUS_REG & (1 << UART_RECEIVE_COMPLETE))) {
+  while (!(UART_STATUS_REG & (1 << UART_RECEIVE_COMPLETE)) || (UART_STATUS_REG & 0x1C)) {
     // wait for data
     count++;
     if (count > MAX_TIME_COUNT) {
@@ -726,7 +730,7 @@ int main(void)
             i2c_start(ADDRESS_EXTERN_EEPROM+I2C_WRITE);     // set device address and write mode
             i2c_write(((address) & 0xFF00) >> 8); //MSB write address
             i2c_write(((address) & 0x00FF)); //LSB write address
-            //delay_ms(5);     // Delay for 24C32
+            //delay_ms(5);     // Delay for 24C32 no delay for F-ram
           while (size) {
             i2c_write(*p++); // write value to EEPROM
             address++;						// Select next EEPROM byte
@@ -800,6 +804,7 @@ int main(void)
       default:
         msgLength		=	2;
         msgBuffer[1]	=	STATUS_CMD_FAILED;
+        isLeave	=	1;
         break;
       }
 

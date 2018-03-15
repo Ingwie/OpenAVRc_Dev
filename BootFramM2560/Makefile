@@ -163,7 +163,8 @@ LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 #--------------- bootloader linker Options -------
 # BOOTLOADER_ADDRESS (=Start of Boot Loader section
 # in bytes - not words) is defined above.
-LDFLAGS += -Wl,--section-start=.text=$(BOOTLOADER_ADDRESS) -nostartfiles -nodefaultlibs
+LDFLAGS += -mmcu=$(MCU) -Wl,--section-start=.text=$(BOOTLOADER_ADDRESS) -nostartfiles
+# -nostartfiles -nodefaultlibs
 
 
 #---------------- Programming Options (avrdude) ----------------
@@ -318,7 +319,7 @@ gccversion :
 
 # Display size of file.
 size: ${TARGET}.elf
-	@avr-size -C --mcu=${MCU} ${TARGET}.elf
+	@avr-sizeold -C --mcu=${MCU} ${TARGET}.elf
 
 
 # Program the device.
