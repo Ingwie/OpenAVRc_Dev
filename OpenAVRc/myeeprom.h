@@ -138,7 +138,7 @@ PACK(typedef struct {
 PACK(typedef struct {
   int8_t    level:2;
   int8_t    value:6;
-}) FrSkyRSSIAlarm;
+}) telemetryRSSIAlarm;
 
 enum MainViews {
   VIEW_OUTPUTS_VALUES,
@@ -535,7 +535,7 @@ PACK(typedef struct {
   uint8_t   alarms_level:4;
   uint8_t   alarms_greater:2;   // 0=LT(<), 1=GT(>)
   uint8_t   multiplier:2;       // 0=no multiplier, 1=*2 multiplier
-}) FrSkyChannelData;
+}) TelemetryChannelData;
 
 
 enum TelemetrySource {
@@ -602,21 +602,17 @@ enum TelemetrySource {
 };
 
 enum VarioSource {
-#if !defined(FRSKY_SPORT)
   VARIO_SOURCE_ALTI,
   VARIO_SOURCE_ALTI_PLUS,
-#endif
   VARIO_SOURCE_VSPEED,
   VARIO_SOURCE_A1,
   VARIO_SOURCE_A2,
-#if defined(FRSKY_SPORT)
-  VARIO_SOURCE_DTE,
-#endif
+  //VARIO_SOURCE_DTE, TODO check vario selection code
   VARIO_SOURCE_COUNT,
   VARIO_SOURCE_LAST = VARIO_SOURCE_COUNT-1
 };
 
-#if defined(FRSKY_HUB)
+#if defined(FRSKY)
 #define NUM_TELEMETRY      TELEM_CSW_MAX
 #elif defined(WS_HOW_HIGH)
 #define NUM_TELEMETRY      TELEM_ALT
@@ -644,7 +640,7 @@ PACK(typedef struct {
 typedef union {
   FrSkyBarData  bars[4];
   FrSkyLineData lines[4];
-} FrSkyScreenData;
+} telemetryScreenData;
 
 enum FrskyUsrProtocols {
   USR_PROTO_NONE,
@@ -672,17 +668,17 @@ enum FrskyVoltsSource {
 
 #define MAX_FRSKY_A_CHANNELS 2
 #define MAX_TELEMETRY_SCREENS 2
-#define IS_BARS_SCREEN(screenIndex) (g_model.frsky.screensType & (1<<(screenIndex)))
+#define IS_BARS_SCREEN(screenIndex) (g_model.telemetry.screensType & (1<<(screenIndex)))
 PACK(typedef struct {
-  FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
-  uint8_t usrProto:2; // Protocol in FrSky user data, 0=None, 1=FrSky hub, 2=WS HowHigh, 3=S.port
+  TelemetryChannelData channels[MAX_FRSKY_A_CHANNELS];
+  uint8_t usrProto:2; // Protocol in FrSky user data, 0=None, 1=FrSky value, 2=WS HowHigh, 3=S.port
   uint8_t blades:2;   // How many blades for RPMs, 0=2 blades
   uint8_t screensType:2;
   uint8_t voltsSource:2;
   int8_t  varioMin:4;
   int8_t  varioMax:4;
-  FrSkyRSSIAlarm rssiAlarms[2];
-  FrSkyScreenData screens[MAX_TELEMETRY_SCREENS];
+  telemetryRSSIAlarm rssiAlarms[2];
+  telemetryScreenData screens[MAX_TELEMETRY_SCREENS];
   uint8_t varioSource:3;
   int8_t  varioCenterMin:5;
   uint8_t currentSource:3;
@@ -928,7 +924,7 @@ PACK(typedef struct {
 #if defined(MAVLINK)
 #define TELEMETRY_DATA MavlinkData mavlink;
 #else
-#define TELEMETRY_DATA FrSkyData frsky;
+#define TELEMETRY_DATA FrSkyData telemetry;
 #endif
 
 #define BeepANACenter uint16_t

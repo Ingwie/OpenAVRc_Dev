@@ -63,10 +63,10 @@ extern float Tele_VarioAccelH;
 extern int Tele_RSSITx;
 extern int Tele_RSSIRx;
 
-extern float Tele_Analog1;
-extern float Tele_Analog2;
-extern float Tele_Analog3;
-extern float Tele_Analog4;
+extern int Tele_Analog1;
+extern int Tele_Analog2;
+extern int Tele_Analog3;
+extern int Tele_Analog4;
 
 extern float Tele_BattVolt;
 extern float Tele_BattCurrent;
@@ -94,6 +94,7 @@ extern float Tele_Cell12;
 extern bool Ini_Changed;
 
 //(*IdInit(TelemetryFrame)
+const long TelemetryFrame::ID_STATICBOX10 = wxNewId();
 const long TelemetryFrame::ID_STATICBOX14 = wxNewId();
 const long TelemetryFrame::ID_STATICBOX13 = wxNewId();
 const long TelemetryFrame::ID_STATICBOX11 = wxNewId();
@@ -135,8 +136,6 @@ const long TelemetryFrame::ID_SPINCTRL4 = wxNewId();
 const long TelemetryFrame::ID_SPINCTRL3 = wxNewId();
 const long TelemetryFrame::ID_STATICTEXT11 = wxNewId();
 const long TelemetryFrame::ID_STATICTEXT10 = wxNewId();
-const long TelemetryFrame::ID_STATICTEXT30 = wxNewId();
-const long TelemetryFrame::ID_STATICBOX10 = wxNewId();
 const long TelemetryFrame::ID_SPINCTRL11 = wxNewId();
 const long TelemetryFrame::ID_SPINCTRL10 = wxNewId();
 const long TelemetryFrame::ID_STATICTEXT13 = wxNewId();
@@ -171,13 +170,10 @@ const long TelemetryFrame::ID_SLIDER6 = wxNewId();
 const long TelemetryFrame::ID_SLIDER8 = wxNewId();
 const long TelemetryFrame::ID_SLIDER7 = wxNewId();
 const long TelemetryFrame::ID_STATICTEXT27 = wxNewId();
-const long TelemetryFrame::ID_STATICTEXT28 = wxNewId();
 const long TelemetryFrame::ID_STATICTEXT32 = wxNewId();
 const long TelemetryFrame::ID_STATICTEXT35 = wxNewId();
 const long TelemetryFrame::ID_STATICTEXT33 = wxNewId();
 const long TelemetryFrame::ID_STATICTEXT31 = wxNewId();
-const long TelemetryFrame::ID_STATICTEXT29 = wxNewId();
-const long TelemetryFrame::ID_STATICTEXT25 = wxNewId();
 const long TelemetryFrame::ID_STATICTEXT26 = wxNewId();
 const long TelemetryFrame::ID_STATICTEXT24 = wxNewId();
 const long TelemetryFrame::ID_STATICTEXT22 = wxNewId();
@@ -202,6 +198,7 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   Create(parent, wxID_ANY, _("Télémétrie"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
   SetClientSize(wxSize(1152,239));
   Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(472,72), wxSize(1152,232), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+  StaticBox10 = new wxStaticBox(Panel1, ID_STATICBOX10, _("Analog"), wxPoint(8,168), wxSize(256,64), 0, _T("ID_STATICBOX10"));
   StaticBox14 = new wxStaticBox(Panel1, ID_STATICBOX14, _("Réglages"), wxPoint(728,104), wxSize(416,128), wxWANTS_CHARS, _T("ID_STATICBOX14"));
   StaticBox13 = new wxStaticBox(Panel1, ID_STATICBOX13, _("Batterie"), wxPoint(416,104), wxSize(304,128), 0, _T("ID_STATICBOX13"));
   StaticBox11 = new wxStaticBox(Panel1, ID_STATICBOX11, _("Variateur"), wxPoint(136,104), wxSize(128,64), 0, _T("ID_STATICBOX11"));
@@ -254,13 +251,9 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   RSSIRx->SetValue(_T("0"));
   StaticText11 = new wxStaticText(Panel1, ID_STATICTEXT11, _("TX"), wxPoint(24,120), wxDefaultSize, 0, _T("ID_STATICTEXT11"));
   StaticText10 = new wxStaticText(Panel1, ID_STATICTEXT10, _("RX"), wxPoint(80,120), wxDefaultSize, 0, _T("ID_STATICTEXT10"));
-  StaticText30 = new wxStaticText(Panel1, ID_STATICTEXT30, _("X10"), wxPoint(96,192), wxDefaultSize, 0, _T("ID_STATICTEXT30"));
-  wxFont StaticText30Font(5,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
-  StaticText30->SetFont(StaticText30Font);
-  StaticBox10 = new wxStaticBox(Panel1, ID_STATICBOX10, _("Analog"), wxPoint(8,168), wxSize(256,64), 0, _T("ID_STATICBOX10"));
-  Analog1 = new wxSpinCtrl(Panel1, ID_SPINCTRL11, _T("0"), wxPoint(16,200), wxSize(48,21), 0, 0, 100, 0, _T("ID_SPINCTRL11"));
+  Analog1 = new wxSpinCtrl(Panel1, ID_SPINCTRL11, _T("0"), wxPoint(16,200), wxSize(48,21), 0, 0, 255, 0, _T("ID_SPINCTRL11"));
   Analog1->SetValue(_T("0"));
-  Analog2 = new wxSpinCtrl(Panel1, ID_SPINCTRL10, _T("0"), wxPoint(72,200), wxSize(48,21), 0, 0, 100, 0, _T("ID_SPINCTRL10"));
+  Analog2 = new wxSpinCtrl(Panel1, ID_SPINCTRL10, _T("0"), wxPoint(72,200), wxSize(48,21), 0, 0, 255, 0, _T("ID_SPINCTRL10"));
   Analog2->SetValue(_T("0"));
   StaticText13 = new wxStaticText(Panel1, ID_STATICTEXT13, _("A1"), wxPoint(24,184), wxDefaultSize, 0, _T("ID_STATICTEXT13"));
   StaticText12 = new wxStaticText(Panel1, ID_STATICTEXT12, _("A2"), wxPoint(80,184), wxDefaultSize, 0, _T("ID_STATICTEXT12"));
@@ -270,9 +263,9 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   BattAmp->SetValue(_T("0"));
   StaticText14 = new wxStaticText(Panel1, ID_STATICTEXT14, _("Tension"), wxPoint(144,120), wxDefaultSize, 0, _T("ID_STATICTEXT14"));
   StaticText15 = new wxStaticText(Panel1, ID_STATICTEXT15, _("Courant"), wxPoint(208,120), wxDefaultSize, 0, _T("ID_STATICTEXT15"));
-  Analog3 = new wxSpinCtrl(Panel1, ID_SPINCTRL14, _T("0"), wxPoint(136,200), wxSize(48,21), 0, 0, 3300, 0, _T("ID_SPINCTRL14"));
+  Analog3 = new wxSpinCtrl(Panel1, ID_SPINCTRL14, _T("0"), wxPoint(136,200), wxSize(48,21), 0, 0, 255, 0, _T("ID_SPINCTRL14"));
   Analog3->SetValue(_T("0"));
-  Analog4 = new wxSpinCtrl(Panel1, ID_SPINCTRL15, _T("0"), wxPoint(192,200), wxSize(48,21), 0, 0, 3300, 0, _T("ID_SPINCTRL15"));
+  Analog4 = new wxSpinCtrl(Panel1, ID_SPINCTRL15, _T("0"), wxPoint(192,200), wxSize(48,21), 0, 0, 255, 0, _T("ID_SPINCTRL15"));
   Analog4->SetValue(_T("0"));
   StaticText16 = new wxStaticText(Panel1, ID_STATICTEXT16, _("A3"), wxPoint(144,184), wxDefaultSize, 0, _T("ID_STATICTEXT16"));
   StaticText17 = new wxStaticText(Panel1, ID_STATICTEXT17, _("A4"), wxPoint(200,184), wxDefaultSize, 0, _T("ID_STATICTEXT17"));
@@ -304,9 +297,6 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   StaticText27 = new wxStaticText(Panel1, ID_STATICTEXT27, _("X10"), wxPoint(249,128), wxDefaultSize, 0, _T("ID_STATICTEXT27"));
   wxFont StaticText27Font(5,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
   StaticText27->SetFont(StaticText27Font);
-  StaticText28 = new wxStaticText(Panel1, ID_STATICTEXT28, _("X10"), wxPoint(40,192), wxDefaultSize, 0, _T("ID_STATICTEXT28"));
-  wxFont StaticText28Font(5,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
-  StaticText28->SetFont(StaticText28Font);
   StaticText32 = new wxStaticText(Panel1, ID_STATICTEXT32, _("X10"), wxPoint(320,168), wxSize(13,39), 0, _T("ID_STATICTEXT32"));
   wxFont StaticText32Font(5,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
   StaticText32->SetFont(StaticText32Font);
@@ -319,12 +309,6 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   StaticText31 = new wxStaticText(Panel1, ID_STATICTEXT31, _("X10"), wxPoint(384,128), wxDefaultSize, 0, _T("ID_STATICTEXT31"));
   wxFont StaticText31Font(5,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
   StaticText31->SetFont(StaticText31Font);
-  StaticText29 = new wxStaticText(Panel1, ID_STATICTEXT29, _("X10"), wxPoint(216,192), wxDefaultSize, 0, _T("ID_STATICTEXT29"));
-  wxFont StaticText29Font(5,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
-  StaticText29->SetFont(StaticText29Font);
-  StaticText25 = new wxStaticText(Panel1, ID_STATICTEXT25, _("X10"), wxPoint(160,192), wxDefaultSize, 0, _T("ID_STATICTEXT25"));
-  wxFont StaticText25Font(5,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
-  StaticText25->SetFont(StaticText25Font);
   StaticText26 = new wxStaticText(Panel1, ID_STATICTEXT26, _("X10"), wxPoint(520,56), wxDefaultSize, 0, _T("ID_STATICTEXT26"));
   wxFont StaticText26Font(5,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
   StaticText26->SetFont(StaticText26Font);
@@ -424,10 +408,10 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   RSSITx->SetValue(Tele_RSSITx);
   RSSIRx->SetValue(Tele_RSSIRx);
 
-  Analog1->SetValue(Tele_Analog1*100);
-  Analog2->SetValue(Tele_Analog2*100);
-  Analog3->SetValue(Tele_Analog3*100);
-  Analog4->SetValue(Tele_Analog4*100);
+  Analog1->SetValue(Tele_Analog1);
+  Analog2->SetValue(Tele_Analog2);
+  Analog3->SetValue(Tele_Analog3);
+  Analog4->SetValue(Tele_Analog4);
 
   BattVolts->SetValue(Tele_BattVolt*10);
   BattAmp->SetValue(Tele_BattCurrent*10);
@@ -497,10 +481,10 @@ void TelemetryFrame::WriteDatas()
   Tele_RSSITx = RSSITx->GetValue();
   Tele_RSSIRx = RSSIRx->GetValue();
 
-  Tele_Analog1 = (float)Analog1->GetValue()/100;
-  Tele_Analog2 = (float)Analog2->GetValue()/100;
-  Tele_Analog3 = (float)Analog3->GetValue()/100;
-  Tele_Analog4 = (float)Analog4->GetValue()/100;
+  Tele_Analog1 = Analog1->GetValue();
+  Tele_Analog2 = Analog2->GetValue();
+  Tele_Analog3 = Analog3->GetValue();
+  Tele_Analog4 = Analog4->GetValue();
 
   Tele_BattVolt = (float)BattVolts->GetValue()/10;
   Tele_BattCurrent = (float)BattAmp->GetValue()/10;

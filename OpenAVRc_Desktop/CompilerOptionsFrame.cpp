@@ -68,7 +68,6 @@ const long CompilerOptionsFrame::ID_CHECKBOX7 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX14 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX1 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX15 = wxNewId();
-const long CompilerOptionsFrame::ID_CHECKBOX9 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX12 = wxNewId();
 const long CompilerOptionsFrame::ID_CHOICE7 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT6 = wxNewId();
@@ -104,12 +103,8 @@ const long CompilerOptionsFrame::ID_CHECKBOX10 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX11 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX13 = wxNewId();
 const long CompilerOptionsFrame::ID_CHOICE2 = wxNewId();
-const long CompilerOptionsFrame::ID_CHECKBOX2 = wxNewId();
-const long CompilerOptionsFrame::ID_CHECKBOX3 = wxNewId();
-const long CompilerOptionsFrame::ID_CHECKBOX4 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX5 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX6 = wxNewId();
-const long CompilerOptionsFrame::ID_CHECKBOX8 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX26 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX27 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX30 = wxNewId();
@@ -226,9 +221,6 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxTEMPLATES = new wxCheckBox(Panel2, ID_CHECKBOX15, _("TEMPLATES"), wxPoint(528,176), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX15"));
   CheckBoxTEMPLATES->SetValue(false);
   CheckBoxTEMPLATES->SetToolTip(_("Option modèles pré programmés"));
-  CheckBoxRTCLOCK = new wxCheckBox(Panel2, ID_CHECKBOX9, _("RTC Clock"), wxPoint(112,248), wxSize(80,21), 0, wxDefaultValidator, _T("ID_CHECKBOX9"));
-  CheckBoxRTCLOCK->SetValue(false);
-  CheckBoxRTCLOCK->SetToolTip(_("Option horloge temps réel"));
   CheckBoxSD_CARD = new wxCheckBox(Panel2, ID_CHECKBOX12, _("Carte SD"), wxPoint(112,224), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX12"));
   CheckBoxSD_CARD->SetValue(false);
   CheckBoxSD_CARD->SetToolTip(_("Option carte SD (Sauvegarde - Fichiers log)"));
@@ -236,8 +228,8 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceTRANSLATIONS->Append(_("CZ"));
   ChoiceTRANSLATIONS->Append(_("DE"));
   ChoiceTRANSLATIONS->Append(_("EN"));
-  ChoiceTRANSLATIONS->SetSelection( ChoiceTRANSLATIONS->Append(_("ES")) );
-  ChoiceTRANSLATIONS->Append(_("FR"));
+  ChoiceTRANSLATIONS->Append(_("ES"));
+  ChoiceTRANSLATIONS->SetSelection( ChoiceTRANSLATIONS->Append(_("FR")) );
   ChoiceTRANSLATIONS->Append(_("HU"));
   ChoiceTRANSLATIONS->Append(_("IT"));
   ChoiceTRANSLATIONS->Append(_("NL"));
@@ -251,8 +243,8 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceTTS->Append(_("CZ"));
   ChoiceTTS->Append(_("DE"));
   ChoiceTTS->Append(_("EN"));
-  ChoiceTTS->SetSelection( ChoiceTTS->Append(_("ES")) );
-  ChoiceTTS->Append(_("FR"));
+  ChoiceTTS->Append(_("ES"));
+  ChoiceTTS->SetSelection( ChoiceTTS->Append(_("FR")) );
   ChoiceTTS->Append(_("HU"));
   ChoiceTTS->Append(_("IT"));
   ChoiceTTS->Append(_("NL"));
@@ -345,18 +337,10 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceEXT->SetSelection( ChoiceEXT->Append(_("STD")) );
   ChoiceEXT->Append(_("FRSKY"));
   ChoiceEXT->SetToolTip(_("Télémétrie installée"));
-  CheckBoxFRSKY_HUB = new wxCheckBox(Panel3, ID_CHECKBOX2, _("FrSky Hub"), wxPoint(208,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX2"));
-  CheckBoxFRSKY_HUB->SetValue(false);
-  CheckBoxFAS_OFFSET = new wxCheckBox(Panel3, ID_CHECKBOX3, _("FAS Offset"), wxPoint(208,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX3"));
-  CheckBoxFAS_OFFSET->SetValue(false);
-  CheckBoxGAUGES = new wxCheckBox(Panel3, ID_CHECKBOX4, _("Gauges"), wxPoint(208,152), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX4"));
-  CheckBoxGAUGES->SetValue(false);
-  CheckBoxGPS = new wxCheckBox(Panel3, ID_CHECKBOX5, _("GPS"), wxPoint(208,184), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX5"));
+  CheckBoxGPS = new wxCheckBox(Panel3, ID_CHECKBOX5, _("GPS"), wxPoint(208,112), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX5"));
   CheckBoxGPS->SetValue(false);
-  CheckBoxVARIO = new wxCheckBox(Panel3, ID_CHECKBOX6, _("Vario"), wxPoint(208,216), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX6"));
+  CheckBoxVARIO = new wxCheckBox(Panel3, ID_CHECKBOX6, _("Vario"), wxPoint(208,144), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX6"));
   CheckBoxVARIO->SetValue(false);
-  CheckBoxSPORT_FILE_LOG = new wxCheckBox(Panel3, ID_CHECKBOX8, _("Sport file log"), wxPoint(208,248), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX8"));
-  CheckBoxSPORT_FILE_LOG->SetValue(false);
   CheckBoxCORRECT_NEGATIVE_VALUES = new wxCheckBox(Panel3, ID_CHECKBOX26, _("CORRECT_NEGATIVE_VALUES"), wxPoint(456,152), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX26"));
   CheckBoxCORRECT_NEGATIVE_VALUES->SetValue(false);
   CheckBoxCORRECT_NEGATIVE_VALUES->SetToolTip(_("Symétrise les valeurs affichées"));
@@ -369,7 +353,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxOVERRIDE_CHANNEL_FUNCTION = new wxCheckBox(Panel3, ID_CHECKBOX31, _("Override channel function"), wxPoint(456,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX31"));
   CheckBoxOVERRIDE_CHANNEL_FUNCTION->SetValue(false);
   CheckBoxOVERRIDE_CHANNEL_FUNCTION->SetToolTip(_("Ajoute la fonction spéciale \"Remplacer CHx\""));
-  CheckBoxWS_HOW_HIGH = new wxCheckBox(Panel3, ID_CHECKBOX32, _("WS_HOW_HIGH"), wxPoint(208,280), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX32"));
+  CheckBoxWS_HOW_HIGH = new wxCheckBox(Panel3, ID_CHECKBOX32, _("WS_HOW_HIGH"), wxPoint(208,80), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX32"));
   CheckBoxWS_HOW_HIGH->SetValue(false);
   CheckBoxWS_HOW_HIGH->SetToolTip(_("WS HowHigh Altimeter"));
   CheckBoxTOGGLETRIM = new wxCheckBox(Panel3, ID_CHECKBOX36, _("Toggle trims"), wxPoint(456,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX36"));
@@ -472,12 +456,8 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonCOMPILEClick);
   Connect(ID_CHECKBOXNOANDSECONDE,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxNOANDSECONDEClick1);
   Connect(ID_CHOICE2,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&CompilerOptionsFrame::OnChoiceEXTSelect2);
-  Connect(ID_CHECKBOX2,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxFRSKY_HUBClick);
-  Connect(ID_CHECKBOX3,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxFAS_OFFSETClick2);
-  Connect(ID_CHECKBOX4,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxGAUGESClick1);
   Connect(ID_CHECKBOX5,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxGPSClick1);
   Connect(ID_CHECKBOX6,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxVARIOClick2);
-  Connect(ID_CHECKBOX8,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxSPORT_FILE_LOGClick1);
   Connect(ID_CHECKBOX32,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxWS_HOW_HIGHClick2);
   Connect(ID_CHECKBOX45,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxAUTOSOURCEClick1);
   Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonCOMPILEClick);
@@ -507,14 +487,10 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceTTS->SetStringSelection(TTS);
   ChoiceTRANSLATIONS->SetStringSelection(TRANSLATIONS);
   ChoiceNAVIGATION->SetStringSelection(NAVIGATION);
-  CheckBoxFRSKY_HUB->SetValue(FRSKY_HUB);
   CheckBoxHAPTIC->SetValue(HAPTIC);
   ChoicePPM_UNIT->SetStringSelection(PPM_UNIT);
-  CheckBoxGAUGES->SetValue(GAUGES);
   CheckBoxGPS->SetValue(GPS);
   CheckBoxVARIO->SetValue(VARIO);
-  CheckBoxRTCLOCK->SetValue(RTCLOCK);
-  CheckBoxSPORT_FILE_LOG->SetValue(SPORT_FILE_LOG);
   CheckBoxPPM->SetValue(PPM);
   CheckBoxMULTI->SetValue(MULTI);
   CheckBoxDSM2SERIAL->SetValue(DSM2SERIAL);
@@ -524,7 +500,6 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxNRF24l01->SetValue(NRF24l01);
   CheckBoxA7105->SetValue(A7105);
   CheckBoxSD_CARD->SetValue(SD_CARD);
-  CheckBoxFAS_OFFSET->SetValue(FAS_OFFSET);
   CheckBoxTEMPLATES->SetValue(TEMPLATES);
   ChoiceTHREE_POS->SetStringSelection(THREE_POS);
   CheckBoxSPLASH->SetValue(SPLASH);
@@ -608,14 +583,10 @@ void CompilerOptionsFrame::BatFunction()
   CompiBat += (" TTS=" + TTS);
   CompiBat += (" TRANSLATIONS=" + TRANSLATIONS);
   CompiBat += (" NAVIGATION=" + NAVIGATION);
-  if (FRSKY_HUB) CompiBat += (" FRSKY_HUB=YES");// default should be NO
   if (HAPTIC) CompiBat += (" HAPTIC=YES");// default should be NO
   CompiBat += (" PPM_UNIT=" + PPM_UNIT);
-  if (GAUGES) CompiBat += (" GAUGES=YES");// default should be NO
   if (GPS) CompiBat += (" GPS=YES");// default should be NO
   if (VARIO) CompiBat += (" VARIO=YES");// default should be NO
-  if (RTCLOCK) CompiBat += (" RTCLOCK=YES");// default should be NO
-  if (SPORT_FILE_LOG) CompiBat += (" SPORT_FILE_LOG=YES");// default should be NO
   if (PPM) CompiBat += (" PPM=YES");// default should be YES
   if (MULTI) CompiBat += (" MULTIMODULE=YES");// default should be NO
   if (DSM2SERIAL) CompiBat += (" DSM2=SERIAL");// default should be NO
@@ -627,7 +598,6 @@ void CompilerOptionsFrame::BatFunction()
       if (A7105) CompiBat += (" A7105=YES");// default should be NO
   }
   if (SD_CARD) CompiBat += (" SDCARD=YES");// default should be NO
-  if (FAS_OFFSET) CompiBat += (" FAS_OFFSET=YES");// default should be NO
   if (TEMPLATES) CompiBat += (" TEMPLATES=YES");// default should be NO
   CompiBat += (" THREE_POS=" + THREE_POS);
   if (SPLASH) CompiBat += (" SPLASH=YES");
@@ -687,13 +657,10 @@ void CompilerOptionsFrame::CollectDatas()
   TTS  = ChoiceTTS->GetString(ChoiceTTS->GetSelection());
   TRANSLATIONS  = ChoiceTRANSLATIONS->GetString(ChoiceTRANSLATIONS->GetSelection());
   NAVIGATION  = ChoiceNAVIGATION->GetString(ChoiceNAVIGATION->GetSelection());
-  FRSKY_HUB = CheckBoxFRSKY_HUB->GetValue();
   HAPTIC = CheckBoxHAPTIC->GetValue();
   PPM_UNIT  = ChoicePPM_UNIT->GetString(ChoicePPM_UNIT->GetSelection());
-  GAUGES = CheckBoxGAUGES->GetValue();
   GPS = CheckBoxGPS->GetValue();
   VARIO = CheckBoxVARIO->GetValue();
-  SPORT_FILE_LOG = CheckBoxSPORT_FILE_LOG->GetValue();
   PPM = CheckBoxPPM->GetValue();
   MULTI = CheckBoxMULTI->GetValue();
   DSM2SERIAL = CheckBoxDSM2SERIAL->GetValue();
@@ -705,9 +672,6 @@ void CompilerOptionsFrame::CollectDatas()
   CheckBoxSPIRF->SetValue(SPIRF);
 
   SD_CARD = CheckBoxSD_CARD->GetValue();
-  CheckBoxRTCLOCK->SetValue(SD_CARD); //SD need RTC code
-  RTCLOCK = CheckBoxRTCLOCK->GetValue();
-  FAS_OFFSET = CheckBoxFAS_OFFSET->GetValue();
   TEMPLATES = CheckBoxTEMPLATES->GetValue();
   THREE_POS = ChoiceTHREE_POS->GetString(ChoiceTHREE_POS->GetSelection());// defaults to NO
   SPLASH = CheckBoxSPLASH->GetValue();
@@ -915,44 +879,9 @@ void CompilerOptionsFrame::OnChoiceEXTSelect2(wxCommandEvent& event)
   CollectDatas();
   if (EXT == ("STD"))
     {
-      CheckBoxFRSKY_HUB->SetValue(0);
-      CheckBoxFAS_OFFSET->SetValue(0);
-      CheckBoxGAUGES->SetValue(0);
       CheckBoxGPS->SetValue(0);
       CheckBoxVARIO->SetValue(0);
-      CheckBoxSPORT_FILE_LOG->SetValue(0);
       CheckBoxWS_HOW_HIGH->SetValue(0);
-    }
-}
-
-void CompilerOptionsFrame::OnCheckBoxFRSKY_HUBClick(wxCommandEvent& event)
-{
-  CollectDatas();
-  if (EXT == ("STD"))
-    {
-      wxMessageBox("Non compatible avec TELEMETRY = STD.");
-      CheckBoxFRSKY_HUB->SetValue(0);
-    }
-}
-
-void CompilerOptionsFrame::OnCheckBoxFAS_OFFSETClick2(wxCommandEvent& event)
-{
-  CollectDatas();
-  if (EXT == ("STD"))
-    {
-      wxMessageBox(_("Non compatible avec TELEMETRY = STD."));
-      CheckBoxFAS_OFFSET->SetValue(0);
-    }
-
-}
-
-void CompilerOptionsFrame::OnCheckBoxGAUGESClick1(wxCommandEvent& event)
-{
-  CollectDatas();
-  if (EXT == ("STD"))
-    {
-      wxMessageBox(_("Non compatible avec TELEMETRY = STD."));
-      CheckBoxGAUGES->SetValue(0);
     }
 }
 
@@ -973,16 +902,6 @@ void CompilerOptionsFrame::OnCheckBoxVARIOClick2(wxCommandEvent& event)
     {
       wxMessageBox(_("Non compatible avec TELEMETRY = STD."));
       CheckBoxVARIO->SetValue(0);
-    }
-}
-
-void CompilerOptionsFrame::OnCheckBoxSPORT_FILE_LOGClick1(wxCommandEvent& event)
-{
-  CollectDatas();
-  if (EXT == ("STD"))
-    {
-      wxMessageBox(_("Non compatible avec TELEMETRY = STD."));
-      CheckBoxSPORT_FILE_LOG->SetValue(0);
     }
 }
 

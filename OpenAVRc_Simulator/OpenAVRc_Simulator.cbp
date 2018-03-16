@@ -219,7 +219,6 @@
 			<Add option="-DEEPROM_RLC" />
 			<Add option="-DEEPROM_VARIANT=0" />
 			<Add option="-DSDCARD" />
-			<Add option="-DRTCLOCKaaa" />
 			<Add option="-DAUDIO" />
 			<Add option="-DVOICE" />
 			<Add option="-DVOICE_JQ6500" />
@@ -239,10 +238,7 @@
 			<Add option="-DGVARS" />
 			<Add option="-DCORRECT_NEGATIVE_SHIFTS" />
 			<Add option="-DFRSKY" />
-			<Add option="-DaaFRSKY_SPORT" />
-			<Add option="-DFRSKY_HUB" />
 			<Add option="-DWS_HOW_HIGH" />
-			<Add option="-DGAUGES" />
 			<Add option="-DGPS" />
 			<Add option="-DVARIO" />
 			<Add option="-DEEPROM_PROGRESS_BAR" />
@@ -418,10 +414,6 @@
 		<Unit filename="../OpenAVRc/rtc_driver.cpp" />
 		<Unit filename="../OpenAVRc/sdcard.cpp" />
 		<Unit filename="../OpenAVRc/sdcard.h" />
-		<Unit filename="../OpenAVRc/serial_driver.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
 		<Unit filename="../OpenAVRc/spi.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -450,11 +442,6 @@
 		<Unit filename="../OpenAVRc/targets/stock/lcd_simu_driver.h" />
 		<Unit filename="../OpenAVRc/telemetry/frsky.cpp" />
 		<Unit filename="../OpenAVRc/telemetry/frsky.h" />
-		<Unit filename="../OpenAVRc/telemetry/frsky_d.cpp" />
-		<Unit filename="../OpenAVRc/telemetry/frsky_sport.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
 		<Unit filename="../OpenAVRc/telemetry/telemetry.h" />
 		<Unit filename="../OpenAVRc/telemetry_driver.cpp" />
 		<Unit filename="../OpenAVRc/templates.cpp" />

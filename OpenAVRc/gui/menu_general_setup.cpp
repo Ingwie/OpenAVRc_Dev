@@ -373,7 +373,7 @@ void menuGeneralSetup(uint8_t event)
     }
 #endif
 
-#if defined(FRSKY) && defined(FRSKY_HUB) && defined(GPS)
+#if defined(FRSKY) && defined(GPS)
     case ITEM_SETUP_TIMEZONE:
       lcdDrawTextLeft(y, STR_TIMEZONE);
       lcdDrawNumberAttUnit(RADIO_SETUP_2ND_COLUMN, y, g_eeGeneral.timezone, attr|LEFT);

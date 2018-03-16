@@ -135,7 +135,7 @@ static uint16_t DurationValue;
   #define CASE_PWM_BACKLIGHT(x)
 #endif
 
-#if defined(FRSKY) && defined(FRSKY_HUB) && defined(GPS)
+#if defined(FRSKY) && defined(GPS)
   #define CASE_GPS(x) x,
 #else
   #define CASE_GPS(x)
@@ -1226,7 +1226,7 @@ void checkFlashOnBeep();
 // Stick tolerance varies between transmitters, Higher is better
 #define STICK_TOLERANCE 64
 
-#if defined(FRSKY_HUB) && defined(GAUGES)
+#if defined(FRSKY)
 enum BarThresholdIdx {
   THLD_ALT,
   THLD_RPM,
@@ -1270,7 +1270,7 @@ getvalue_t convertLswTelemValue(LogicalSwitchData * cs);
 
 #if defined(FRSKY)
   lcdint_t applyChannelRatio(source_t channel, lcdint_t val);
-  #define ANA_CHANNEL_UNIT(channel) g_model.frsky.channels[channel].type
+  #define ANA_CHANNEL_UNIT(channel) g_model.telemetry.channels[channel].type
 #endif
 
 getvalue_t div10_and_round(getvalue_t value);
@@ -1298,9 +1298,9 @@ extern uint8_t s_frsky_view;
 #define EARTH_RADIUSKM ((uint32_t)6371)
 #define EARTH_RADIUS ((uint32_t)111194)
 
-void getGpsPilotPosition();
-void getGpsDistance();
-void varioWakeup();
+extern void getGpsPilotPosition();
+extern void getGpsDistance();
+extern void varioWakeup();
 
 #if defined(AUDIO) && defined(BUZZER)
   #define IS_SOUND_OFF() (g_eeGeneral.buzzerMode==e_mode_quiet && g_eeGeneral.beepMode==e_mode_quiet)
@@ -1314,11 +1314,11 @@ void varioWakeup();
   #define IS_IMPERIAL_ENABLE() (0)
 #endif
 
-#define IS_USR_PROTO_FRSKY_HUB()   (g_model.frsky.usrProto == USR_PROTO_FRSKY)
-#define IS_USR_PROTO_WS_HOW_HIGH() (g_model.frsky.usrProto == USR_PROTO_WS_HOW_HIGH)
-#define IS_USR_PROTO_SMART_PORT() (g_model.frsky.usrProto == USR_PROTO_SMART_PORT)
+#define IS_USR_PROTO_FRSKY_HUB()   (g_model.telemetry.usrProto == USR_PROTO_FRSKY)
+#define IS_USR_PROTO_WS_HOW_HIGH() (g_model.telemetry.usrProto == USR_PROTO_WS_HOW_HIGH)
+#define IS_USR_PROTO_SMART_PORT() (g_model.telemetry.usrProto == USR_PROTO_SMART_PORT)
 
-#if defined(FRSKY) && defined(FRSKY_HUB) && defined(GPS)
+#if defined(FRSKY) && defined(GPS)
   #define IS_GPS_AVAILABLE()         IS_USR_PROTO_FRSKY_HUB() || IS_USR_PROTO_SMART_PORT()
 #else
   #define IS_GPS_AVAILABLE()         (0)

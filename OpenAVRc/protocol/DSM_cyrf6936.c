@@ -730,7 +730,7 @@ static uint16_t dsm2_cb()
       CYRF_WriteRegister(CYRF_07_RX_IRQ_STATUS, 0x80); // need to set RXOW before data read
       CYRF_ReadDataPacketLen(packet, CYRF_ReadRegister(CYRF_09_RX_COUNT));
 #if defined(FRSKY)
-      frskyData.rssi[1].value = CYRF_ReadRegister(CYRF_13_RSSI) & 0x1F; // RSSI of the received telemetry signal
+      telemetryData.rssi[1].value = CYRF_ReadRegister(CYRF_13_RSSI) & 0x1F; // RSSI of the received telemetry signal
       // TODO parse_telemetry_packet();
 #endif
     }

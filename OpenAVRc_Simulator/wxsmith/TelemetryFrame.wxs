@@ -9,6 +9,11 @@
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>472,72</pos>
 			<size>1152,232</size>
+			<object class="wxStaticBox" name="ID_STATICBOX10" variable="StaticBox10" member="yes">
+				<label>Analog</label>
+				<pos>8,168</pos>
+				<size>256,64</size>
+			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX14" variable="StaticBox14" member="yes">
 				<label>Réglages</label>
 				<pos>728,104</pos>
@@ -54,7 +59,7 @@
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL5" variable="GPSLatMinute" member="yes">
 				<value>0</value>
-				<max>999999</max>
+				<max>99999</max>
 				<pos>80,64</pos>
 				<size>80,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
@@ -100,7 +105,7 @@
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL2" variable="GPSLongMinute" member="yes">
 				<value>0</value>
-				<max>999999</max>
+				<max>99999</max>
 				<pos>264,64</pos>
 				<size>80,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
@@ -244,31 +249,16 @@
 				<label>RX</label>
 				<pos>80,120</pos>
 			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT30" variable="StaticText30" member="yes">
-				<label>X10</label>
-				<pos>96,192</pos>
-				<font>
-					<size>5</size>
-					<style>normal</style>
-					<weight>normal</weight>
-					<underlined>0</underlined>
-					<family>swiss</family>
-					<face>Arial</face>
-				</font>
-			</object>
-			<object class="wxStaticBox" name="ID_STATICBOX10" variable="StaticBox10" member="yes">
-				<label>Analog</label>
-				<pos>8,168</pos>
-				<size>256,64</size>
-			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL11" variable="Analog1" member="yes">
 				<value>0</value>
+				<max>255</max>
 				<pos>16,200</pos>
 				<size>48,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL10" variable="Analog2" member="yes">
 				<value>0</value>
+				<max>255</max>
 				<pos>72,200</pos>
 				<size>48,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
@@ -305,14 +295,14 @@
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL14" variable="Analog3" member="yes">
 				<value>0</value>
-				<max>3300</max>
+				<max>255</max>
 				<pos>136,200</pos>
 				<size>48,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL15" variable="Analog4" member="yes">
 				<value>0</value>
-				<max>3300</max>
+				<max>255</max>
 				<pos>192,200</pos>
 				<size>48,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
@@ -470,18 +460,6 @@
 					<face>Arial</face>
 				</font>
 			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT28" variable="StaticText28" member="yes">
-				<label>X10</label>
-				<pos>40,192</pos>
-				<font>
-					<size>5</size>
-					<style>normal</style>
-					<weight>normal</weight>
-					<underlined>0</underlined>
-					<family>swiss</family>
-					<face>Arial</face>
-				</font>
-			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT32" variable="StaticText32" member="yes">
 				<label>X10</label>
 				<pos>320,168</pos>
@@ -522,30 +500,6 @@
 			<object class="wxStaticText" name="ID_STATICTEXT31" variable="StaticText31" member="yes">
 				<label>X10</label>
 				<pos>384,128</pos>
-				<font>
-					<size>5</size>
-					<style>normal</style>
-					<weight>normal</weight>
-					<underlined>0</underlined>
-					<family>swiss</family>
-					<face>Arial</face>
-				</font>
-			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT29" variable="StaticText29" member="yes">
-				<label>X10</label>
-				<pos>216,192</pos>
-				<font>
-					<size>5</size>
-					<style>normal</style>
-					<weight>normal</weight>
-					<underlined>0</underlined>
-					<family>swiss</family>
-					<face>Arial</face>
-				</font>
-			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT25" variable="StaticText25" member="yes">
-				<label>X10</label>
-				<pos>160,192</pos>
 				<font>
 					<size>5</size>
 					<style>normal</style>

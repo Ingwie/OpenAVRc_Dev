@@ -37,9 +37,6 @@
 #include <inttypes.h>
 #include "../OpenAVRc.h"
 
-#define FRSKY_SPORT_BAUDRATE      57600
-#define FRSKY_D_BAUDRATE          9600
-
 #define FRSKY_SPORT_PACKET_SIZE   9
 
 #define FRSKY_TIMEOUT10ms         100 // 1 second
@@ -179,146 +176,6 @@ extern uint8_t frskyStreaming; // >0 (true) == data is streaming in. 0 = nodata 
 extern uint8_t frskyUsrStreaming;
 #endif
 
-#define RAW_FRSKY_MINMAX(v)       v.value
-class FrskyValueWithMin
-{
-public:
-  uint8_t value;
-  uint8_t min;
-  void set(uint8_t value);
-};
-
-class FrskyValueWithMinMax: public FrskyValueWithMin
-{
-public:
-  uint8_t max;
-  void set(uint8_t value, uint8_t unit);
-};
-
-#if defined(FRSKY_HUB)
-PACK(struct FrskySerialData {
-  int16_t  baroAltitudeOffset;    //        spare reused
-  int16_t  gpsAltitude_bp;        // 0x01   before punct
-  int16_t  temperature1;          // 0x02   -20 .. 250 deg. celcius
-  uint16_t rpm;                   // 0x03   0..60,000 revs. per minute
-  uint16_t fuelLevel;             // 0x04   0, 25, 50, 75, 100 percent
-  int16_t  temperature2;          // 0x05   -20 .. 250 deg. celcius
-  uint16_t volts;                 // 0x06   1/500V increments (0..4.2V)
-  uint32_t distFromEarthAxis;     //        2 spares reused
-  int16_t  gpsAltitude_ap;        // 0x01+8 after punct
-  uint8_t  cellVolts[12];         //        6 spares reused
-  int16_t  baroAltitude_bp;       // 0x10   0..9,999 meters
-  uint16_t gpsSpeed_bp;           // 0x11   before punct
-  uint16_t gpsLongitude_bp;       // 0x12   before punct
-  uint16_t gpsLatitude_bp;        // 0x13   before punct
-  uint16_t gpsCourse_bp;          // 0x14   before punct (0..359.99 deg. -- seemingly 2-decimal precision)
-  uint8_t  day;                   // 0x15
-  uint8_t  month;                 // 0x15
-  uint16_t year;                  // 0x16
-  uint8_t  hour;                  // 0x17
-  uint8_t  min;                   // 0x17
-  uint16_t sec;                   // 0x18
-  uint16_t gpsSpeed_ap;           // 0x11+8
-  uint16_t gpsLongitude_ap;       // 0x12+8
-  uint16_t gpsLatitude_ap;        // 0x13+8
-  uint16_t gpsCourse_ap;          // 0x14+8
-  uint32_t pilotLatitude;         //        2 spares reused
-  uint32_t pilotLongitude;        //        2 spares reused
-  uint16_t baroAltitude_ap;       // 0x21   after punct
-  uint16_t gpsLongitudeEW;        // 0x1A+8 East/West
-  uint16_t gpsLatitudeNS;         // 0x1B+8 North/South
-  int16_t  accelX;                // 0x24   1/256th gram (-8g ~ +8g)
-  int16_t  accelY;                // 0x25   1/256th gram (-8g ~ +8g)
-  int16_t  accelZ;                // 0x26   1/256th gram (-8g ~ +8g)
-  uint8_t  gpsDistNeeded:1;       //        1bits out of 16bits spare reused
-  int8_t   gpsFix:2;              //        2bits out of 16bits spare reused: -1=never fixed, 0=not fixed now, 1=fixed
-  uint8_t  openXsensor:1;         //        1bits out of 16bits spare reused: we receive data from the openXsensor
-  uint8_t  cellsCount:4;          //        4bits out of 16bits spare reused
-  uint8_t  minCellVolts;          //        8bits out of 16bits spare reused
-  uint16_t current;               // 0x28   Current
-  int16_t  spare[5];
-  int32_t  varioAltitude_cm;
-  int16_t  varioSpeed;            // 0x30  Vertical speed in cm/s
-
-  uint16_t gpsDistance;
-  int16_t  gpsAltitudeOffset;
-  uint8_t  varioAltitudeQueuePointer;     // circular-buffer pointer
-  uint8_t  minCellIdx;
-  int16_t  cellsSum;
-  uint16_t currentConsumption;    // 0x35 openXsensor only! Otherwise calculated by the Tx from current
-  uint16_t currentPrescale;
-  uint16_t power;                 // 0x37 openXsensor only! Otherwise calculated by the Tx from current and voltage
-  int16_t  airSpeed;
-
-  uint16_t vfas;                  // 0x39  Added to FrSky protocol for home made sensors with a better precision
-  uint16_t volts_bp;              // 0x3A
-  uint16_t volts_ap;              // 0x3B
-  // end of FrSky Hub data
-
-  /* next fields must keep this order! */
-  int16_t  minAltitude;
-  int16_t  maxAltitude;
-  uint16_t maxRpm;
-  int16_t  maxTemperature1;
-  int16_t  maxTemperature2;
-  uint16_t maxGpsSpeed;
-  uint16_t maxGpsDistance;
-  uint16_t maxAirSpeed;
-  int16_t  minCell;
-  int16_t  minCells;
-  uint16_t minVfas;
-  uint16_t maxCurrent;
-  uint16_t maxPower;
-  /* end */
-
-  int16_t  dTE;
-});
-#elif defined(WS_HOW_HIGH)
-PACK(struct FrskySerialData {
-  int16_t  baroAltitude_bp;       // 0..9,999 meters
-  int16_t  baroAltitudeOffset;
-  int16_t  minAltitude;
-  int16_t  maxAltitude;
-  uint16_t currentConsumption;
-  uint16_t currentPrescale;
-  uint16_t power;
-  uint16_t maxPower;
-#if defined(VARIO)
-  int16_t  varioSpeed;            // Vertical speed in cm/s
-#endif
-});
-#elif defined(VARIO)
-PACK(struct FrskySerialData {
-  int16_t  varioSpeed;            // Vertical speed in cm/s
-  uint16_t currentConsumption;
-  uint16_t currentPrescale;
-  uint16_t power;
-  uint16_t maxPower;
-});
-#else
-PACK(struct FrskySerialData {
-  uint16_t currentConsumption;
-  uint16_t currentPrescale;
-  uint16_t power;
-  uint16_t maxPower;
-});
-#endif
-
-enum TelemAnas {
-  TELEM_ANA_A1,
-  TELEM_ANA_A2,
-  TELEM_ANA_COUNT
-};
-
-struct FrskyData {
-  FrskyValueWithMinMax analog[TELEM_ANA_COUNT];
-  FrskyValueWithMin    rssi[2];
-  FrskySerialData hub;
-};
-
-
-#define IS_VALID_XJT_VERSION()      (1)
-#define IS_HIDDEN_TELEMETRY_VALUE(id) ((id == SP2UART_A_ID) || (id == SP2UART_B_ID) || (id == XJT_VERSION_ID) || ((id == SWR_ID) && !IS_VALID_XJT_VERSION()))
 
 enum AlarmLevel {
   alarm_off = 0,
@@ -327,54 +184,50 @@ enum AlarmLevel {
   alarm_red = 3
 };
 
-#define ALARM_GREATER(channel, alarm)     ((g_model.frsky.channels[channel].alarms_greater >> alarm) & 1)
-#define ALARM_LEVEL(channel, alarm)       ((g_model.frsky.channels[channel].alarms_level >> (2*alarm)) & 3)
+#define ALARM_GREATER(channel, alarm)     ((g_model.telemetry.channels[channel].alarms_greater >> alarm) & 1)
+#define ALARM_LEVEL(channel, alarm)       ((g_model.telemetry.channels[channel].alarms_level >> (2*alarm)) & 3)
 
 #define TELEMETRY_STREAMING()           (frskyStreaming > 0)
-#define TELEMETRY_RSSI()                (frskyData.rssi[0].value)
-#define TELEMETRY_RSSI_MIN()            (frskyData.rssi[0].min)
+#define TELEMETRY_RSSI()                (telemetryData.rssi[0].value)
+#define TELEMETRY_RSSI_MIN()            (telemetryData.rssi[0].min)
 
 #define TELEMETRY_CELL_VOLTAGE_MUTLIPLIER  2
 
-#define TELEMETRY_BARO_ALT_AVAILABLE()  (frskyData.hub.baroAltitudeOffset)
+#define TELEMETRY_BARO_ALT_AVAILABLE()  (telemetryData.value.baroAltitudeOffset)
 #define TELEMETRY_BARO_ALT_UNIT         (IS_IMPERIAL_ENABLE() ? LENGTH_UNIT_IMP : LENGTH_UNIT_METR)
 
-#define TELEMETRY_RELATIVE_BARO_ALT_BP  frskyData.hub.baroAltitude_bp
-#define TELEMETRY_RELATIVE_BARO_ALT_AP  frskyData.hub.baroAltitude_ap
-#define TELEMETRY_RELATIVE_GPS_ALT_BP   frskyData.hub.gpsAltitude_bp
-#define TELEMETRY_GPS_SPEED_BP          frskyData.hub.gpsSpeed_bp
-#define TELEMETRY_GPS_SPEED_AP          frskyData.hub.gpsSpeed_ap
+#define TELEMETRY_RELATIVE_BARO_ALT_BP  telemetryData.value.baroAltitude_bp
+#define TELEMETRY_RELATIVE_BARO_ALT_AP  telemetryData.value.baroAltitude_ap
+#define TELEMETRY_RELATIVE_GPS_ALT_BP   telemetryData.value.gpsAltitude_bp
+#define TELEMETRY_GPS_SPEED_BP          telemetryData.value.gpsSpeed_bp
+#define TELEMETRY_GPS_SPEED_AP          telemetryData.value.gpsSpeed_ap
 
 #define TELEMETRY_BARO_ALT_PREPARE()
 #define TELEMETRY_BARO_ALT_FORMAT       "%d,"
-#define TELEMETRY_BARO_ALT_ARGS         frskyData.hub.baroAltitude_bp,
+#define TELEMETRY_BARO_ALT_ARGS         telemetryData.value.baroAltitude_bp,
 #define TELEMETRY_GPS_ALT_FORMAT        "%d,"
-#define TELEMETRY_GPS_ALT_ARGS          frskyData.hub.gpsAltitude_bp,
+#define TELEMETRY_GPS_ALT_ARGS          telemetryData.value.gpsAltitude_bp,
 #define TELEMETRY_SPEED_UNIT            (IS_IMPERIAL_ENABLE() ? SPEED_UNIT_IMP : SPEED_UNIT_METR)
 #define TELEMETRY_GPS_SPEED_FORMAT      "%d,"
-#define TELEMETRY_GPS_SPEED_ARGS        frskyData.hub.gpsSpeed_bp,
-#define TELEMETRY_CELLS_ARGS          frskyData.hub.cellsSum / 10, frskyData.hub.cellsSum % 10, frskyData.hub.cellVolts[0]*2/100, frskyData.hub.cellVolts[0]*2%100, frskyData.hub.cellVolts[1]*2/100, frskyData.hub.cellVolts[1]*2%100, frskyData.hub.cellVolts[2]*2/100, frskyData.hub.cellVolts[2]*2%100, frskyData.hub.cellVolts[3]*2/100, frskyData.hub.cellVolts[3]*2%100, frskyData.hub.cellVolts[4]*2/100, frskyData.hub.cellVolts[4]*2%100, frskyData.hub.cellVolts[5]*2/100, frskyData.hub.cellVolts[5]*2%100,
+#define TELEMETRY_GPS_SPEED_ARGS        telemetryData.value.gpsSpeed_bp,
+#define TELEMETRY_CELLS_ARGS          telemetryData.value.cellsSum / 10, telemetryData.value.cellsSum % 10, telemetryData.value.cellVolts[0]*2/100, telemetryData.value.cellVolts[0]*2%100, telemetryData.value.cellVolts[1]*2/100, telemetryData.value.cellVolts[1]*2%100, telemetryData.value.cellVolts[2]*2/100, telemetryData.value.cellVolts[2]*2%100, telemetryData.value.cellVolts[3]*2/100, telemetryData.value.cellVolts[3]*2%100, telemetryData.value.cellVolts[4]*2/100, telemetryData.value.cellVolts[4]*2%100, telemetryData.value.cellVolts[5]*2/100, telemetryData.value.cellVolts[5]*2%100,
 #define TELEMETRY_CELLS_FORMAT        "%d.%d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,"
 #define TELEMETRY_CELLS_LABEL         "Cell volts,Cell 1,Cell 2,Cell 3,Cell 4,Cell 5,Cell 6,"
 #define TELEMETRY_CURRENT_FORMAT        "%d.%02d,"
-#define TELEMETRY_CURRENT_ARGS          frskyData.hub.current / 100, frskyData.hub.current % 100,
+#define TELEMETRY_CURRENT_ARGS          telemetryData.value.current / 100, telemetryData.value.current % 100,
 #define TELEMETRY_VFAS_FORMAT           "%d.%d,"
-#define TELEMETRY_VFAS_ARGS             frskyData.hub.vfas / 10, frskyData.hub.vfas % 10,
+#define TELEMETRY_VFAS_ARGS             telemetryData.value.vfas / 10, telemetryData.value.vfas % 10,
 #define TELEMETRY_VSPEED_FORMAT         "%c%d.%02d,"
-#define TELEMETRY_VSPEED_ARGS           frskyData.hub.varioSpeed < 0 ? '-' : ' ', frskyData.hub.varioSpeed / 100, frskyData.hub.varioSpeed % 100,
+#define TELEMETRY_VSPEED_ARGS           telemetryData.value.varioSpeed < 0 ? '-' : ' ', telemetryData.value.varioSpeed / 100, telemetryData.value.varioSpeed % 100,
 #define TELEMETRY_ASPEED_FORMAT         "%d.%d,"
-#define TELEMETRY_ASPEED_ARGS           frskyData.hub.airSpeed / 10, frskyData.hub.airSpeed % 10,
+#define TELEMETRY_ASPEED_ARGS           telemetryData.value.airSpeed / 10, telemetryData.value.airSpeed % 10,
 
-#if defined(FRSKY_HUB)
-#define TELEMETRY_OPENXSENSOR()       (frskyData.hub.openXsensor)
-#else
-#define TELEMETRY_OPENXSENSOR()       (0)
-#endif
+#define TELEMETRY_OPENXSENSOR()       (telemetryData.value.openXsensor)
 
-#define TELEMETRY_CELL_VOLTAGE(k)         (frskyData.hub.cellVolts[k] * TELEMETRY_CELL_VOLTAGE_MUTLIPLIER)
-#define TELEMETRY_MIN_CELL_VOLTAGE        (frskyData.hub.minCellVolts * TELEMETRY_CELL_VOLTAGE_MUTLIPLIER)
+#define TELEMETRY_CELL_VOLTAGE(k)         (telemetryData.value.cellVolts[k] * TELEMETRY_CELL_VOLTAGE_MUTLIPLIER)
+#define TELEMETRY_MIN_CELL_VOLTAGE        (telemetryData.value.minCellVolts * TELEMETRY_CELL_VOLTAGE_MUTLIPLIER)
 
-extern FrskyData frskyData;
+extern TelemetryData telemetryData;
 
 #define START_STOP              0x7e
 #define BYTESTUFF               0x7d
@@ -402,7 +255,6 @@ inline void frskySendAlarms()
   frskyAlarmsSendState = SEND_RSSI_ALARMS;
 }
 
-#if defined(FRSKY_HUB)
 typedef enum {
   TS_IDLE = 0,  // waiting for 0x5e frame marker
   TS_DATA_ID,   // waiting for dataID
@@ -410,7 +262,6 @@ typedef enum {
   TS_DATA_HIGH, // waiting for data high byte
   TS_XOR = 0x80 // decode stuffed byte
 } TS_STATE;
-#endif
 
 // FrSky D Protocol
 void processHubPacket(uint8_t id, uint16_t value);
@@ -428,15 +279,10 @@ void telemetryInit();
 
 void telemetryInterrupt10ms();
 
-#if   defined(FRSKY_HUB)
 typedef uint8_t frskyCellVoltage_t;
-#endif
 
-#if defined(FRSKY_HUB)
 void frskySetCellsCount(uint8_t cellscount);
 void frskySetCellVoltage(uint8_t battnumber, frskyCellVoltage_t cellVolts);
 void frskyUpdateCells();
-#endif
-
 
 #endif

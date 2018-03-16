@@ -33,18 +33,17 @@
 
 #ifndef DEFAULTFRAME_H
 #define DEFAULTFRAME_H
-#include <wx/combobox.h>
 #include <wx/string.h>
 
 
 
 //(*Headers(CommunicationsFrame)
+#include <wx/button.h>
+#include <wx/combobox.h>
+#include <wx/frame.h>
+#include <wx/statbox.h>
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
-#include <wx/statbox.h>
-#include <wx/button.h>
-#include <wx/frame.h>
-#include <wx/combobox.h>
 //*)
 
 
@@ -56,20 +55,20 @@ public:
     virtual ~CommunicationsFrame();
 
     //(*Declarations(CommunicationsFrame)
-    wxStaticText* StaticText2;
     wxButton* Button1;
-    wxButton* ButtonEnter;
-    wxStaticText* StaticText1;
-    wxStaticText* StaticText3;
-    wxStaticBox* StaticBox1;
-    wxButton* ButtonSearchavrdudepath;
-    wxButton* ButtonEsc;
-    wxComboBox* ComboBox3;
-    wxStaticText* StaticText5;
     wxButton* ButtonDetect;
+    wxButton* ButtonEnter;
+    wxButton* ButtonEsc;
+    wxButton* ButtonSearchavrdudepath;
     wxComboBox* ComboBox1;
-    wxTextCtrl* TextCtrl1;
     wxComboBox* ComboBox2;
+    wxComboBox* ComboBox3;
+    wxStaticBox* StaticBox1;
+    wxStaticText* StaticText1;
+    wxStaticText* StaticText2;
+    wxStaticText* StaticText3;
+    wxStaticText* StaticText5;
+    wxTextCtrl* TextCtrl1;
     //*)
 
 protected:

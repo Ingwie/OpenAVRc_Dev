@@ -481,9 +481,6 @@ extern const pm_char STR_COUNTRYCODE[];
 
 #if defined(FRSKY)
 extern const pm_char STR_LIMIT[];
-#endif
-
-#ifdef FRSKY_HUB
 extern const pm_char STR_MINRSSI[];
 extern const pm_char STR_LATITUDE[];
 extern const pm_char STR_LONGITUDE[];

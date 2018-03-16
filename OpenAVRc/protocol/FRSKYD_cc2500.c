@@ -163,7 +163,7 @@ static void FRSKYD_build_data_packet()
   packet[2] = g_eeGeneral.fixed_ID.ID_8[1];
   packet[3] = packet_number;
 #if HAS_EXTENDED_TELEMETRY
-  packet[4] = sequence; // acknowledge last hub packet
+  packet[4] = sequence; // acknowledge last value packet
 #else
   packet[4] = 0x00;
 #endif

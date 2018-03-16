@@ -44,12 +44,12 @@ void varioWakeup()
   if (isFunctionActive(FUNCTION_VARIO)) {
 #if defined(AUDIO)
     cli();
-    int16_t verticalSpeed = frskyData.hub.varioSpeed;
+    int16_t verticalSpeed = telemetryData.value.varioSpeed;
     sei();
-    int varioCenterMin = (int)g_model.frsky.varioCenterMin * 10 - 50;
-    int varioCenterMax = (int)g_model.frsky.varioCenterMax * 10 + 50;
-    int varioMax = (10+(int)g_model.frsky.varioMax) * 100;
-    int varioMin = (-10+(int)g_model.frsky.varioMin) * 100;
+    int varioCenterMin = (int)g_model.telemetry.varioCenterMin * 10 - 50;
+    int varioCenterMax = (int)g_model.telemetry.varioCenterMax * 10 + 50;
+    int varioMax = (10+(int)g_model.telemetry.varioMax) * 100;
+    int varioMin = (-10+(int)g_model.telemetry.varioMin) * 100;
 
     if (verticalSpeed < varioCenterMin || (verticalSpeed > varioCenterMax && (int16_t)(s_varioTmr - tmr10ms) < 0)) {
       if (verticalSpeed > varioMax)
@@ -71,7 +71,7 @@ void varioWakeup()
 
 #elif defined(BUZZER) // && !defined(AUDIO)
 
-    int8_t verticalSpeed = limit((int16_t)-100, (int16_t)(frskyData.hub.varioSpeed/10), (int16_t)+100);
+    int8_t verticalSpeed = limit((int16_t)-100, (int16_t)(telemetryData.value.varioSpeed/10), (int16_t)+100);
 
     uint16_t interval;
     if (verticalSpeed == 0) {
