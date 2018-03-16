@@ -133,10 +133,10 @@ float Tele_VarioAccelH;
 int Tele_RSSITx;
 int Tele_RSSIRx;
 
-float Tele_Analog1;
-float Tele_Analog2;
-float Tele_Analog3;
-float Tele_Analog4;
+int Tele_Analog1;
+int Tele_Analog2;
+int Tele_Analog3;
+int Tele_Analog4;
 
 float Tele_BattVolt;
 float Tele_BattCurrent;
@@ -1421,65 +1421,65 @@ void OpenAVRc_SimulatorFrame::load_ModelData_30()
 
       for (int i=0; i<MAX_FRSKY_A_CHANNELS; ++i) { //FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
         wxString num = wxString::Format(wxT("%i"),i);
-        eepromfile->Read(wxT("frsky.channels"+num+".ratio"),&tmp,0);
-        temp_model.frsky.channels[i].ratio = tmp;
-        eepromfile->Read(wxT("frsky.channels"+num+".offset"),&tmp,0);
-        temp_model.frsky.channels[i].offset = tmp;
-        eepromfile->Read(wxT("frsky.channels"+num+".type"),&tmp,0);
-        temp_model.frsky.channels[i].type = tmp;
+        eepromfile->Read(wxT("telemetry.channels"+num+".ratio"),&tmp,0);
+        temp_model.telemetry.channels[i].ratio = tmp;
+        eepromfile->Read(wxT("telemetry.channels"+num+".offset"),&tmp,0);
+        temp_model.telemetry.channels[i].offset = tmp;
+        eepromfile->Read(wxT("telemetry.channels"+num+".type"),&tmp,0);
+        temp_model.telemetry.channels[i].type = tmp;
         for (int j=0; j<2; ++j) { //alarms_value[2];
           wxString numvalue = wxString::Format(wxT("%i"),j);
-          eepromfile->Read(wxT("frsky.channels"+num+".alarms_value"+numvalue),&tmp,0);
-          temp_model.frsky.channels[i].alarms_value[j] = tmp;
+          eepromfile->Read(wxT("telemetry.channels"+num+".alarms_value"+numvalue),&tmp,0);
+          temp_model.telemetry.channels[i].alarms_value[j] = tmp;
         }
-        eepromfile->Read(wxT("frsky.channels"+num+".alarms_level"),&tmp,0);
-        temp_model.frsky.channels[i].alarms_level = tmp;
-        eepromfile->Read(wxT("frsky.channels"+num+".alarms_greater"),&tmp,0);
-        temp_model.frsky.channels[i].alarms_greater = tmp;
-        eepromfile->Read(wxT("frsky.channels"+num+".multiplier"),&tmp,0);
-        temp_model.frsky.channels[i].multiplier = tmp;
+        eepromfile->Read(wxT("telemetry.channels"+num+".alarms_level"),&tmp,0);
+        temp_model.telemetry.channels[i].alarms_level = tmp;
+        eepromfile->Read(wxT("telemetry.channels"+num+".alarms_greater"),&tmp,0);
+        temp_model.telemetry.channels[i].alarms_greater = tmp;
+        eepromfile->Read(wxT("telemetry.channels"+num+".multiplier"),&tmp,0);
+        temp_model.telemetry.channels[i].multiplier = tmp;
       }
-      eepromfile->Read(wxT("frsky.usrProto"),&tmp,0);
-      temp_model.frsky.usrProto = tmp;
-      eepromfile->Read(wxT("frsky.blades"),&tmp,0);
-      temp_model.frsky.blades = tmp;
-      eepromfile->Read(wxT("frsky.screensType"),&tmp,0);
-      temp_model.frsky.screensType = tmp;
-      eepromfile->Read(wxT("frsky.voltsSource"),&tmp,0);
-      temp_model.frsky.voltsSource = tmp;
-      eepromfile->Read(wxT("frsky.varioMin"),&tmp,0);
-      temp_model.frsky.varioMin = tmp;
-      eepromfile->Read(wxT("frsky.varioMax"),&tmp,0);
-      temp_model.frsky.varioMax = tmp;
+      eepromfile->Read(wxT("telemetry.usrProto"),&tmp,0);
+      temp_model.telemetry.usrProto = tmp;
+      eepromfile->Read(wxT("telemetry.blades"),&tmp,0);
+      temp_model.telemetry.blades = tmp;
+      eepromfile->Read(wxT("telemetry.screensType"),&tmp,0);
+      temp_model.telemetry.screensType = tmp;
+      eepromfile->Read(wxT("telemetry.voltsSource"),&tmp,0);
+      temp_model.telemetry.voltsSource = tmp;
+      eepromfile->Read(wxT("telemetry.varioMin"),&tmp,0);
+      temp_model.telemetry.varioMin = tmp;
+      eepromfile->Read(wxT("telemetry.varioMax"),&tmp,0);
+      temp_model.telemetry.varioMax = tmp;
       for (int i=0; i<2; ++i) { //FrSkyRSSIAlarm rssiAlarms[2];
         wxString num = wxString::Format(wxT("%i"),i);
-        eepromfile->Read(wxT("frsky.rssiAlarms"+num+".level"),&tmp,0);
-        temp_model.frsky.rssiAlarms[i].level = tmp;
-        eepromfile->Read(wxT("frsky.rssiAlarms"+num+".value"),&tmp,0);
-        temp_model.frsky.rssiAlarms[i].value = tmp;
+        eepromfile->Read(wxT("telemetry.rssiAlarms"+num+".level"),&tmp,0);
+        temp_model.telemetry.rssiAlarms[i].level = tmp;
+        eepromfile->Read(wxT("telemetry.rssiAlarms"+num+".value"),&tmp,0);
+        temp_model.telemetry.rssiAlarms[i].value = tmp;
       }
       for (int i=0; i<MAX_TELEMETRY_SCREENS; ++i) { //FrSkyScreenData screens[MAX_TELEMETRY_SCREENS];
         wxString num = wxString::Format(wxT("%i"),i);
         for (int j=0; j<4; ++j) { //FrSkyBarData bars[4]; or FrSkyLineData
           wxString numbl = wxString::Format(wxT("%i"),j);
-          eepromfile->Read(wxT("frsky.screens"+num+".bars"+numbl+"source"),&tmp,0);
-          temp_model.frsky.screens[i].bars[j].source = tmp;
-          eepromfile->Read(wxT("frsky.screens"+num+".bars"+numbl+"barMin"),&tmp,0);
-          temp_model.frsky.screens[i].bars[j].barMin = tmp;
-          eepromfile->Read(wxT("frsky.screens"+num+".bars"+numbl+"barMax"),&tmp,0);
-          temp_model.frsky.screens[i].bars[j].barMax = tmp;
+          eepromfile->Read(wxT("telemetry.screens"+num+".bars"+numbl+"source"),&tmp,0);
+          temp_model.telemetry.screens[i].bars[j].source = tmp;
+          eepromfile->Read(wxT("telemetry.screens"+num+".bars"+numbl+"barMin"),&tmp,0);
+          temp_model.telemetry.screens[i].bars[j].barMin = tmp;
+          eepromfile->Read(wxT("telemetry.screens"+num+".bars"+numbl+"barMax"),&tmp,0);
+          temp_model.telemetry.screens[i].bars[j].barMax = tmp;
         }
       }
-      eepromfile->Read(wxT("frsky.varioSource"),&tmp,0);
-      temp_model.frsky.varioSource = tmp;
-      eepromfile->Read(wxT("frsky.varioCenterMin"),&tmp,0);
-      temp_model.frsky.varioCenterMin = tmp;
-      eepromfile->Read(wxT("frsky.currentSource"),&tmp,0);
-      temp_model.frsky.currentSource = tmp;
-      eepromfile->Read(wxT("frsky.varioCenterMax"),&tmp,0);
-      temp_model.frsky.varioCenterMax = tmp;
-      eepromfile->Read(wxT("frsky.fasOffset"),&tmp,0);
-      temp_model.frsky.fasOffset = tmp;
+      eepromfile->Read(wxT("telemetry.varioSource"),&tmp,0);
+      temp_model.telemetry.varioSource = tmp;
+      eepromfile->Read(wxT("telemetry.varioCenterMin"),&tmp,0);
+      temp_model.telemetry.varioCenterMin = tmp;
+      eepromfile->Read(wxT("telemetry.currentSource"),&tmp,0);
+      temp_model.telemetry.currentSource = tmp;
+      eepromfile->Read(wxT("telemetry.varioCenterMax"),&tmp,0);
+      temp_model.telemetry.varioCenterMax = tmp;
+      eepromfile->Read(wxT("telemetry.fasOffset"),&tmp,0);
+      temp_model.telemetry.fasOffset = tmp;
 
       theFile.writeRlc(FILE_MODEL(m), FILE_TYP_MODEL, (uint8_t*)&temp_model, sizeof(temp_model), 1);
 
@@ -1740,64 +1740,64 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
       for (int i=0; i<MAX_FRSKY_A_CHANNELS; ++i) { //FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
         wxString num = wxString::Format(wxT("%i"),i);
         eepromfile->Read(wxT("frsky.channels"+num+".ratio"),&tmp,0);
-        temp_model.frsky.channels[i].ratio = tmp;
+        temp_model.telemetry.channels[i].ratio = tmp;
         eepromfile->Read(wxT("frsky.channels"+num+".offset"),&tmp,0);
-        temp_model.frsky.channels[i].offset = tmp;
+        temp_model.telemetry.channels[i].offset = tmp;
         eepromfile->Read(wxT("frsky.channels"+num+".type"),&tmp,0);
-        temp_model.frsky.channels[i].type = tmp;
+        temp_model.telemetry.channels[i].type = tmp;
         for (int j=0; j<2; ++j) { //alarms_value[2];
           wxString numvalue = wxString::Format(wxT("%i"),j);
           eepromfile->Read(wxT("frsky.channels"+num+".alarms_value"+numvalue),&tmp,0);
-          temp_model.frsky.channels[i].alarms_value[j] = tmp;
+          temp_model.telemetry.channels[i].alarms_value[j] = tmp;
         }
         eepromfile->Read(wxT("frsky.channels"+num+".alarms_level"),&tmp,0);
-        temp_model.frsky.channels[i].alarms_level = tmp;
+        temp_model.telemetry.channels[i].alarms_level = tmp;
         eepromfile->Read(wxT("frsky.channels"+num+".alarms_greater"),&tmp,0);
-        temp_model.frsky.channels[i].alarms_greater = tmp;
+        temp_model.telemetry.channels[i].alarms_greater = tmp;
         eepromfile->Read(wxT("frsky.channels"+num+".multiplier"),&tmp,0);
-        temp_model.frsky.channels[i].multiplier = tmp;
+        temp_model.telemetry.channels[i].multiplier = tmp;
       }
       eepromfile->Read(wxT("frsky.usrProto"),&tmp,0);
-      temp_model.frsky.usrProto = tmp;
+      temp_model.telemetry.usrProto = tmp;
       eepromfile->Read(wxT("frsky.blades"),&tmp,0);
-      temp_model.frsky.blades = tmp;
+      temp_model.telemetry.blades = tmp;
       eepromfile->Read(wxT("frsky.screensType"),&tmp,0);
-      temp_model.frsky.screensType = tmp;
+      temp_model.telemetry.screensType = tmp;
       eepromfile->Read(wxT("frsky.voltsSource"),&tmp,0);
-      temp_model.frsky.voltsSource = tmp;
+      temp_model.telemetry.voltsSource = tmp;
       eepromfile->Read(wxT("frsky.varioMin"),&tmp,0);
-      temp_model.frsky.varioMin = tmp;
+      temp_model.telemetry.varioMin = tmp;
       eepromfile->Read(wxT("frsky.varioMax"),&tmp,0);
-      temp_model.frsky.varioMax = tmp;
+      temp_model.telemetry.varioMax = tmp;
       for (int i=0; i<2; ++i) { //FrSkyRSSIAlarm rssiAlarms[2];
         wxString num = wxString::Format(wxT("%i"),i);
         eepromfile->Read(wxT("frsky.rssiAlarms"+num+".level"),&tmp,0);
-        temp_model.frsky.rssiAlarms[i].level = tmp;
+        temp_model.telemetry.rssiAlarms[i].level = tmp;
         eepromfile->Read(wxT("frsky.rssiAlarms"+num+".value"),&tmp,0);
-        temp_model.frsky.rssiAlarms[i].value = tmp;
+        temp_model.telemetry.rssiAlarms[i].value = tmp;
       }
       for (int i=0; i<MAX_TELEMETRY_SCREENS; ++i) { //FrSkyScreenData screens[MAX_TELEMETRY_SCREENS];
         wxString num = wxString::Format(wxT("%i"),i);
         for (int j=0; j<4; ++j) { //FrSkyBarData bars[4]; or FrSkyLineData
           wxString numbl = wxString::Format(wxT("%i"),j);
           eepromfile->Read(wxT("frsky.screens"+num+".bars"+numbl+"source"),&tmp,0);
-          temp_model.frsky.screens[i].bars[j].source = tmp;
+          temp_model.telemetry.screens[i].bars[j].source = tmp;
           eepromfile->Read(wxT("frsky.screens"+num+".bars"+numbl+"barMin"),&tmp,0);
-          temp_model.frsky.screens[i].bars[j].barMin = tmp;
+          temp_model.telemetry.screens[i].bars[j].barMin = tmp;
           eepromfile->Read(wxT("frsky.screens"+num+".bars"+numbl+"barMax"),&tmp,0);
-          temp_model.frsky.screens[i].bars[j].barMax = tmp;
+          temp_model.telemetry.screens[i].bars[j].barMax = tmp;
         }
       }
       eepromfile->Read(wxT("frsky.varioSource"),&tmp,0);
-      temp_model.frsky.varioSource = tmp;
+      temp_model.telemetry.varioSource = tmp;
       eepromfile->Read(wxT("frsky.varioCenterMin"),&tmp,0);
-      temp_model.frsky.varioCenterMin = tmp;
+      temp_model.telemetry.varioCenterMin = tmp;
       eepromfile->Read(wxT("frsky.currentSource"),&tmp,0);
-      temp_model.frsky.currentSource = tmp;
+      temp_model.telemetry.currentSource = tmp;
       eepromfile->Read(wxT("frsky.varioCenterMax"),&tmp,0);
-      temp_model.frsky.varioCenterMax = tmp;
+      temp_model.telemetry.varioCenterMax = tmp;
       eepromfile->Read(wxT("frsky.fasOffset"),&tmp,0);
-      temp_model.frsky.fasOffset = tmp;
+      temp_model.telemetry.fasOffset = tmp;
 
       theFile.writeRlc(FILE_MODEL(m), FILE_TYP_MODEL, (uint8_t*)&temp_model, sizeof(temp_model), 1);
 
@@ -2183,42 +2183,42 @@ void OpenAVRc_SimulatorFrame::save_ModelData_30()
 
       for (int i=0; i<MAX_FRSKY_A_CHANNELS; ++i) { //FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
         wxString num = wxString::Format(wxT("%i"),i);
-        eepromfile->Write(wxT("frsky.channels"+num+".ratio"),(int)temp_model.frsky.channels[i].ratio);
-        eepromfile->Write(wxT("frsky.channels"+num+".offset"),(int)temp_model.frsky.channels[i].offset);
-        eepromfile->Write(wxT("frsky.channels"+num+".type"),(int)temp_model.frsky.channels[i].type);
+        eepromfile->Write(wxT("telemetry.channels"+num+".ratio"),(int)temp_model.telemetry.channels[i].ratio);
+        eepromfile->Write(wxT("telemetry.channels"+num+".offset"),(int)temp_model.telemetry.channels[i].offset);
+        eepromfile->Write(wxT("telemetry.channels"+num+".type"),(int)temp_model.telemetry.channels[i].type);
         for (int j=0; j<2; ++j) { //alarms_value[2];
           wxString numvalue = wxString::Format(wxT("%i"),j);
-          eepromfile->Write(wxT("frsky.channels"+num+".alarms_value"+numvalue),(int)temp_model.frsky.channels[i].alarms_value[j]);
+          eepromfile->Write(wxT("telemetry.channels"+num+".alarms_value"+numvalue),(int)temp_model.telemetry.channels[i].alarms_value[j]);
         }
-        eepromfile->Write(wxT("frsky.channels"+num+".alarms_level"),(int)temp_model.frsky.channels[i].alarms_level);
-        eepromfile->Write(wxT("frsky.channels"+num+".alarms_greater"),(int)temp_model.frsky.channels[i].alarms_greater);
-        eepromfile->Write(wxT("frsky.channels"+num+".multiplier"),(int)temp_model.frsky.channels[i].multiplier);
+        eepromfile->Write(wxT("telemetry.channels"+num+".alarms_level"),(int)temp_model.telemetry.channels[i].alarms_level);
+        eepromfile->Write(wxT("telemetry.channels"+num+".alarms_greater"),(int)temp_model.telemetry.channels[i].alarms_greater);
+        eepromfile->Write(wxT("telemetry.channels"+num+".multiplier"),(int)temp_model.telemetry.channels[i].multiplier);
       }
-      eepromfile->Write(wxT("frsky.usrProto"),(int)temp_model.frsky.usrProto);
-      eepromfile->Write(wxT("frsky.blades"),(int)temp_model.frsky.blades);
-      eepromfile->Write(wxT("frsky.screensType"),(int)temp_model.frsky.screensType);
-      eepromfile->Write(wxT("frsky.voltsSource"),(int)temp_model.frsky.voltsSource);
-      eepromfile->Write(wxT("frsky.varioMin"),(int)temp_model.frsky.varioMin);
-      eepromfile->Write(wxT("frsky.varioMax"),(int)temp_model.frsky.varioMax);
+      eepromfile->Write(wxT("telemetry.usrProto"),(int)temp_model.telemetry.usrProto);
+      eepromfile->Write(wxT("telemetry.blades"),(int)temp_model.telemetry.blades);
+      eepromfile->Write(wxT("telemetry.screensType"),(int)temp_model.telemetry.screensType);
+      eepromfile->Write(wxT("telemetry.voltsSource"),(int)temp_model.telemetry.voltsSource);
+      eepromfile->Write(wxT("telemetry.varioMin"),(int)temp_model.telemetry.varioMin);
+      eepromfile->Write(wxT("telemetry.varioMax"),(int)temp_model.telemetry.varioMax);
       for (int i=0; i<2; ++i) { //FrSkyRSSIAlarm rssiAlarms[2];
         wxString num = wxString::Format(wxT("%i"),i);
-        eepromfile->Write(wxT("frsky.rssiAlarms"+num+".level"),(int)temp_model.frsky.rssiAlarms[i].level);
-        eepromfile->Write(wxT("frsky.rssiAlarms"+num+".value"),(int)temp_model.frsky.rssiAlarms[i].value);
+        eepromfile->Write(wxT("telemetry.rssiAlarms"+num+".level"),(int)temp_model.telemetry.rssiAlarms[i].level);
+        eepromfile->Write(wxT("telemetry.rssiAlarms"+num+".value"),(int)temp_model.telemetry.rssiAlarms[i].value);
       }
       for (int i=0; i<MAX_TELEMETRY_SCREENS; ++i) { //FrSkyScreenData screens[MAX_TELEMETRY_SCREENS];
         wxString num = wxString::Format(wxT("%i"),i);
         for (int j=0; j<4; ++j) { //FrSkyBarData bars[4]; or FrSkyLineData
           wxString numbl = wxString::Format(wxT("%i"),j);
-          eepromfile->Write(wxT("frsky.screens"+num+".bars"+numbl+"source"),(int)temp_model.frsky.screens[i].bars[j].source);
-          eepromfile->Write(wxT("frsky.screens"+num+".bars"+numbl+"barMin"),(int)temp_model.frsky.screens[i].bars[j].barMin);
-          eepromfile->Write(wxT("frsky.screens"+num+".bars"+numbl+"barMax"),(int)temp_model.frsky.screens[i].bars[j].barMax);
+          eepromfile->Write(wxT("telemetry.screens"+num+".bars"+numbl+"source"),(int)temp_model.telemetry.screens[i].bars[j].source);
+          eepromfile->Write(wxT("telemetry.screens"+num+".bars"+numbl+"barMin"),(int)temp_model.telemetry.screens[i].bars[j].barMin);
+          eepromfile->Write(wxT("telemetry.screens"+num+".bars"+numbl+"barMax"),(int)temp_model.telemetry.screens[i].bars[j].barMax);
         }
       }
-      eepromfile->Write(wxT("frsky.varioSource"),(int)temp_model.frsky.varioSource);
-      eepromfile->Write(wxT("frsky.varioCenterMin"),(int)temp_model.frsky.varioCenterMin);
-      eepromfile->Write(wxT("frsky.currentSource"),(int)temp_model.frsky.currentSource);
-      eepromfile->Write(wxT("frsky.varioCenterMax"),(int)temp_model.frsky.varioCenterMax);
-      eepromfile->Write(wxT("frsky.fasOffset"),(int)temp_model.frsky.fasOffset);
+      eepromfile->Write(wxT("telemetry.varioSource"),(int)temp_model.telemetry.varioSource);
+      eepromfile->Write(wxT("telemetry.varioCenterMin"),(int)temp_model.telemetry.varioCenterMin);
+      eepromfile->Write(wxT("telemetry.currentSource"),(int)temp_model.telemetry.currentSource);
+      eepromfile->Write(wxT("telemetry.varioCenterMax"),(int)temp_model.telemetry.varioCenterMax);
+      eepromfile->Write(wxT("telemetry.fasOffset"),(int)temp_model.telemetry.fasOffset);
     }
   }
 }

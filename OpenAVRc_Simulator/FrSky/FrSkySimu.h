@@ -70,10 +70,10 @@ extern float Tele_VarioAccelH;
 extern int Tele_RSSITx;
 extern int Tele_RSSIRx;
 
-extern float Tele_Analog1;
-extern float Tele_Analog2;
-extern float Tele_Analog3;
-extern float Tele_Analog4;
+extern int Tele_Analog1;
+extern int Tele_Analog2;
+extern int Tele_Analog3;
+extern int Tele_Analog4;
 
 extern float Tele_BattVolt;
 extern float Tele_BattCurrent;

@@ -347,12 +347,6 @@ const pm_char STR_AND_SWITCH[] PROGMEM = TR_AND_SWITCH;
 const pm_char STR_SF[] PROGMEM = TR_SF;
 const pm_char STR_GF[] PROGMEM = TR_GF;
 
-#if defined(FRSKY_HUB)
-const pm_char STR_MINRSSI[] PROGMEM = TR_MINRSSI;
-const pm_char STR_LATITUDE[] PROGMEM = TR_LATITUDE;
-const pm_char STR_LONGITUDE[] PROGMEM = TR_LONGITUDE;
-#endif
-
 const pm_char STR_SHUTDOWN[] PROGMEM = TR_SHUTDOWN;
 const pm_char STR_SAVEMODEL[] PROGMEM = TR_SAVEMODEL;
 
@@ -360,6 +354,9 @@ const pm_char STR_SAVEMODEL[] PROGMEM = TR_SAVEMODEL;
 const pm_char STR_BATT_CALIB[] PROGMEM = TR_BATT_CALIB;
 
 #if defined(FRSKY)
+const pm_char STR_MINRSSI[] PROGMEM = TR_MINRSSI;
+const pm_char STR_LATITUDE[] PROGMEM = TR_LATITUDE;
+const pm_char STR_LONGITUDE[] PROGMEM = TR_LONGITUDE;
 const pm_char STR_VOLTAGE[] PROGMEM = TR_VOLTAGE;
 const pm_char STR_CURRENT[] PROGMEM = TR_CURRENT;
 #endif

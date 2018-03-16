@@ -143,13 +143,11 @@ void writeHeader()
 
 #if defined(FRSKY)
   f_puts("Buffer,RX,TX,A1,A2,", &g_oLogFile);
-#if defined(FRSKY_HUB)
   if (IS_USR_PROTO_FRSKY_HUB()) {
     f_puts("GPS Date,GPS Time,Long,Lat,Course,GPS Speed(kts),GPS Alt,Baro Alt(", &g_oLogFile);
     f_puts(TELEMETRY_BARO_ALT_UNIT, &g_oLogFile);
     f_puts("),Vertical Speed,Air Speed(kts),Temp1,Temp2,RPM,Fuel," TELEMETRY_CELLS_LABEL "Current,Consumption,Vfas,AccelX,AccelY,AccelZ,", &g_oLogFile);
   }
-#endif
 #if defined(WS_HOW_HIGH)
   if (IS_USR_PROTO_WS_HOW_HIGH()) {
     f_puts("WSHH Alt,", &g_oLogFile);
@@ -195,49 +193,47 @@ void writeLogs()
 #endif
 
 #if defined(FRSKY)
-      f_printf(&g_oLogFile, "%d,%d,%d,", frskyStreaming, RAW_FRSKY_MINMAX(frskyData.rssi[0]), RAW_FRSKY_MINMAX(frskyData.rssi[1]));
+      f_printf(&g_oLogFile, "%d,%d,%d,", frskyStreaming, RAW_FRSKY_MINMAX(telemetryData.rssi[0]), RAW_FRSKY_MINMAX(telemetryData.rssi[1]));
       for (uint8_t i=0; i<MAX_FRSKY_A_CHANNELS; i++) {
-        int16_t converted_value = applyChannelRatio(i, RAW_FRSKY_MINMAX(frskyData.analog[i]));
+        int16_t converted_value = applyChannelRatio(i, RAW_FRSKY_MINMAX(telemetryData.analog[i]));
         f_printf(&g_oLogFile, "%d.%02d,", converted_value/100, converted_value%100);
       }
 
-#if defined(FRSKY_HUB)
       TELEMETRY_BARO_ALT_PREPARE();
 
       if (IS_USR_PROTO_FRSKY_HUB()) {
         f_printf(&g_oLogFile, "%4d-%02d-%02d,%02d:%02d:%02d,%03d.%04d%c,%03d.%04d%c,%03d.%02d," TELEMETRY_GPS_SPEED_FORMAT TELEMETRY_GPS_ALT_FORMAT TELEMETRY_BARO_ALT_FORMAT TELEMETRY_VSPEED_FORMAT TELEMETRY_ASPEED_FORMAT "%d,%d,%d,%d," TELEMETRY_CELLS_FORMAT TELEMETRY_CURRENT_FORMAT "%d," TELEMETRY_VFAS_FORMAT "%d,%d,%d,",
-                 frskyData.hub.year+2000,
-                 frskyData.hub.month,
-                 frskyData.hub.day,
-                 frskyData.hub.hour,
-                 frskyData.hub.min,
-                 frskyData.hub.sec,
-                 frskyData.hub.gpsLongitude_bp,
-                 frskyData.hub.gpsLongitude_ap,
-                 frskyData.hub.gpsLongitudeEW ? frskyData.hub.gpsLongitudeEW : '-',
-                 frskyData.hub.gpsLatitude_bp,
-                 frskyData.hub.gpsLatitude_ap,
-                 frskyData.hub.gpsLatitudeNS ? frskyData.hub.gpsLatitudeNS : '-',
-                 frskyData.hub.gpsCourse_bp,
-                 frskyData.hub.gpsCourse_ap,
+                 telemetryData.value.year+2000,
+                 telemetryData.value.month,
+                 telemetryData.value.day,
+                 telemetryData.value.hour,
+                 telemetryData.value.min,
+                 telemetryData.value.sec,
+                 telemetryData.value.gpsLongitude_bp,
+                 telemetryData.value.gpsLongitude_ap,
+                 telemetryData.value.gpsLongitudeEW ? telemetryData.value.gpsLongitudeEW : '-',
+                 telemetryData.value.gpsLatitude_bp,
+                 telemetryData.value.gpsLatitude_ap,
+                 telemetryData.value.gpsLatitudeNS ? telemetryData.value.gpsLatitudeNS : '-',
+                 telemetryData.value.gpsCourse_bp,
+                 telemetryData.value.gpsCourse_ap,
                  TELEMETRY_GPS_SPEED_ARGS
                  TELEMETRY_GPS_ALT_ARGS
                  TELEMETRY_BARO_ALT_ARGS
                  TELEMETRY_VSPEED_ARGS
                  TELEMETRY_ASPEED_ARGS
-                 frskyData.hub.temperature1,
-                 frskyData.hub.temperature2,
-                 frskyData.hub.rpm,
-                 frskyData.hub.fuelLevel,
+                 telemetryData.value.temperature1,
+                 telemetryData.value.temperature2,
+                 telemetryData.value.rpm,
+                 telemetryData.value.fuelLevel,
                  TELEMETRY_CELLS_ARGS
                  TELEMETRY_CURRENT_ARGS
-                 frskyData.hub.currentConsumption,
+                 telemetryData.value.currentConsumption,
                  TELEMETRY_VFAS_ARGS
-                 frskyData.hub.accelX,
-                 frskyData.hub.accelY,
-                 frskyData.hub.accelZ);
+                 telemetryData.value.accelX,
+                 telemetryData.value.accelY,
+                 telemetryData.value.accelZ);
       }
-#endif
 
 #if defined(WS_HOW_HIGH)
       if (IS_USR_PROTO_WS_HOW_HIGH()) {

@@ -24,9 +24,7 @@ PCBREV =
 # Values: ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306, SH1106
 LCD = ST7565P
 
-# Enable JETI-Telemetry or FrSky Telemetry reception on UART0
-# For this option you need to modify your hardware!
-# More information at [insertURLhere]
+# Enable FrSky Telemetry reception on UART0
 # Values = STD, FRSKY, FRSKY_SPORT, JETI, NMEA, ARDUPILOT, MAVLINK, TELEMETREZ
 EXT = STD
 
@@ -129,21 +127,9 @@ OVERRIDE_CHANNEL_FUNCTION = YES
 # Values = YES, NO
 DANGEROUS_MODULE_FUNCTIONS = NO
 
-# FrSky Hub
-# Values = YES, NO
-FRSKY_HUB = YES
-
-# FrSky FAS current sensor offset compensation
-# Values = YES, NO
-FAS_OFFSET = NO
-
 # WS HowHigh
 # Values = YES, NO
 WS_HOW_HIGH = YES
-
-# Gauges in Telemetry screen
-# Values = YES, NO
-GAUGES = YES
 
 # GPS
 # Values = YES, NO
@@ -168,10 +154,6 @@ PXX = NO
 # DSM2 (Spektrum) protocol
 # Values = NO, SERIAL, PPM
 DSM2 = NO
-
-# HUBSAN protocol
-# Values = NO, YES
-HUBSAN = NO
 
 # TRANSLATIONS
 # Values = cz, de, en, fi, fr, it, se, es, pl, pt, nl
@@ -208,10 +190,6 @@ EEPROM_PROGRESS_BAR = NO
 # Activates the DEBUG Mode (all boards)
 # Values = YES, NO
 DEBUG = NO
-
-# Activate writing of SPORT telemetry received data to sport.log file
-# Values = YES, NO
-SPORT_FILE_LOG = NO
 
 # Timers Count
 # Values = 2
@@ -770,36 +748,19 @@ ifeq ($(ARITHMETIC_OVERFLOW_CHECK), YES)
 endif
 
 # EXTENSIONS (for Telemetry protocols)
-ifneq ($(EXT), $(filter $(EXT), STD FRSKY FRSKY_SPORT ARDUPILOT NMEA JETI MAVLINK TELEMETREZ))
+ifneq ($(EXT), $(filter $(EXT), STD FRSKY))
   $(error Sorry, the EXT $(EXT) is not supported yet in OpenAVRc)
 endif
 
-ifeq ($(EXT), STD)
-  CPPDEFS += -DEXTSTD
-endif
 
-ifeq ($(EXT), $(filter $(EXT), FRSKY FRSKY_SPORT TELEMETREZ))
+ifeq ($(EXT), $(filter $(EXT), FRSKY ))
   CPPDEFS += -DFRSKY
-  CPPSRC += telemetry/frsky.cpp telemetry/frsky_d.cpp
-
-  #ifeq ($(EXT), FRSKY_SPORT)
-    #CPPSRC += telemetry/frsky_sport.cpp
-    #CPPSRC += crc16.cpp
-    #CPPDEFS += -DFRSKY_SPORT
-  #endif
+  CPPSRC += telemetry/frsky.cpp
 
   CPPSRC += gui/view_telemetry.cpp
 
-  ifeq ($(FRSKY_HUB), YES)
-    CPPDEFS += -DFRSKY_HUB
-  endif
-
   ifeq ($(WS_HOW_HIGH), YES)
     CPPDEFS += -DWS_HOW_HIGH
-  endif
-
-  ifeq ($(GAUGES), YES)
-    CPPDEFS += -DGAUGES
   endif
 
   ifeq ($(GPS), YES)

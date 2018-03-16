@@ -101,13 +101,9 @@ class TelemetryFrame: public wxFrame
 		wxStaticText* StaticText22;
 		wxStaticText* StaticText23;
 		wxStaticText* StaticText24;
-		wxStaticText* StaticText25;
 		wxStaticText* StaticText26;
 		wxStaticText* StaticText27;
-		wxStaticText* StaticText28;
-		wxStaticText* StaticText29;
 		wxStaticText* StaticText2;
-		wxStaticText* StaticText30;
 		wxStaticText* StaticText31;
 		wxStaticText* StaticText32;
 		wxStaticText* StaticText33;
@@ -128,6 +124,7 @@ class TelemetryFrame: public wxFrame
 	protected:
 
 		//(*Identifiers(TelemetryFrame)
+		static const long ID_STATICBOX10;
 		static const long ID_STATICBOX14;
 		static const long ID_STATICBOX13;
 		static const long ID_STATICBOX11;
@@ -169,8 +166,6 @@ class TelemetryFrame: public wxFrame
 		static const long ID_SPINCTRL3;
 		static const long ID_STATICTEXT11;
 		static const long ID_STATICTEXT10;
-		static const long ID_STATICTEXT30;
-		static const long ID_STATICBOX10;
 		static const long ID_SPINCTRL11;
 		static const long ID_SPINCTRL10;
 		static const long ID_STATICTEXT13;
@@ -205,13 +200,10 @@ class TelemetryFrame: public wxFrame
 		static const long ID_SLIDER8;
 		static const long ID_SLIDER7;
 		static const long ID_STATICTEXT27;
-		static const long ID_STATICTEXT28;
 		static const long ID_STATICTEXT32;
 		static const long ID_STATICTEXT35;
 		static const long ID_STATICTEXT33;
 		static const long ID_STATICTEXT31;
-		static const long ID_STATICTEXT29;
-		static const long ID_STATICTEXT25;
 		static const long ID_STATICTEXT26;
 		static const long ID_STATICTEXT24;
 		static const long ID_STATICTEXT22;

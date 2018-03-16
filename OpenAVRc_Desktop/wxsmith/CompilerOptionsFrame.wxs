@@ -127,12 +127,6 @@
 							<pos>528,176</pos>
 							<tooltip>Option modèles pré programmés</tooltip>
 						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX9" variable="CheckBoxRTCLOCK" member="yes">
-							<label>RTC Clock</label>
-							<pos>112,248</pos>
-							<size>80,21</size>
-							<tooltip>Option horloge temps réel</tooltip>
-						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX12" variable="CheckBoxSD_CARD" member="yes">
 							<label>Carte SD</label>
 							<pos>112,224</pos>
@@ -154,7 +148,7 @@
 								<item>SE</item>
 								<item>SK</item>
 							</content>
-							<selection>3</selection>
+							<selection>4</selection>
 							<pos>336,32</pos>
 							<size>72,21</size>
 							<tooltip>Langue affichée</tooltip>
@@ -178,7 +172,7 @@
 								<item>SE</item>
 								<item>SK</item>
 							</content>
-							<selection>3</selection>
+							<selection>4</selection>
 							<pos>336,72</pos>
 							<size>72,21</size>
 							<tooltip>Langue de la synthése vocale</tooltip>
@@ -385,35 +379,15 @@
 							<tooltip>Télémétrie installée</tooltip>
 							<handler function="OnChoiceEXTSelect2" entry="EVT_CHOICE" />
 						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX2" variable="CheckBoxFRSKY_HUB" member="yes">
-							<label>FrSky Hub</label>
-							<pos>208,88</pos>
-							<handler function="OnCheckBoxFRSKY_HUBClick" entry="EVT_CHECKBOX" />
-						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX3" variable="CheckBoxFAS_OFFSET" member="yes">
-							<label>FAS Offset</label>
-							<pos>208,120</pos>
-							<handler function="OnCheckBoxFAS_OFFSETClick2" entry="EVT_CHECKBOX" />
-						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX4" variable="CheckBoxGAUGES" member="yes">
-							<label>Gauges</label>
-							<pos>208,152</pos>
-							<handler function="OnCheckBoxGAUGESClick1" entry="EVT_CHECKBOX" />
-						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX5" variable="CheckBoxGPS" member="yes">
 							<label>GPS</label>
-							<pos>208,184</pos>
+							<pos>208,112</pos>
 							<handler function="OnCheckBoxGPSClick1" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX6" variable="CheckBoxVARIO" member="yes">
 							<label>Vario</label>
-							<pos>208,216</pos>
+							<pos>208,144</pos>
 							<handler function="OnCheckBoxVARIOClick2" entry="EVT_CHECKBOX" />
-						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX8" variable="CheckBoxSPORT_FILE_LOG" member="yes">
-							<label>Sport file log</label>
-							<pos>208,248</pos>
-							<handler function="OnCheckBoxSPORT_FILE_LOGClick1" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX26" variable="CheckBoxCORRECT_NEGATIVE_VALUES" member="yes">
 							<label>CORRECT__NEGATIVE__VALUES</label>
@@ -437,7 +411,7 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX32" variable="CheckBoxWS_HOW_HIGH" member="yes">
 							<label>WS__HOW__HIGH</label>
-							<pos>208,280</pos>
+							<pos>208,80</pos>
 							<tooltip>WS HowHigh Altimeter</tooltip>
 							<handler function="OnCheckBoxWS_HOW_HIGHClick2" entry="EVT_CHECKBOX" />
 						</object>

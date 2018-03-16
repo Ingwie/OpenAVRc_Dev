@@ -159,11 +159,8 @@ public:
     wxCheckBox* CheckBoxDBLKEYS;
     wxCheckBox* CheckBoxDSM2SERIAL;
     wxCheckBox* CheckBoxEEPROM_PROGRESS_BAR;
-    wxCheckBox* CheckBoxFAS_OFFSET;
     wxCheckBox* CheckBoxFLIGHT_MODES;
     wxCheckBox* CheckBoxFRAM;
-    wxCheckBox* CheckBoxFRSKY_HUB;
-    wxCheckBox* CheckBoxGAUGES;
     wxCheckBox* CheckBoxGPS;
     wxCheckBox* CheckBoxGVARS;
     wxCheckBox* CheckBoxHAPTIC;
@@ -177,12 +174,10 @@ public:
     wxCheckBox* CheckBoxPPM_CENTER_ADJUSTABLE;
     wxCheckBox* CheckBoxPPM_LIMITS_SYMETRICAL;
     wxCheckBox* CheckBoxPWM_BACKLIGHT;
-    wxCheckBox* CheckBoxRTCLOCK;
     wxCheckBox* CheckBoxSD_CARD;
     wxCheckBox* CheckBoxSHUTDOWN_CONFIRMATION;
     wxCheckBox* CheckBoxSPIRF;
     wxCheckBox* CheckBoxSPLASH;
-    wxCheckBox* CheckBoxSPORT_FILE_LOG;
     wxCheckBox* CheckBoxTEMPLATES;
     wxCheckBox* CheckBoxTOGGLETRIM;
     wxCheckBox* CheckBoxVARIO;
@@ -270,7 +265,6 @@ protected:
     static const long ID_CHECKBOX14;
     static const long ID_CHECKBOX1;
     static const long ID_CHECKBOX15;
-    static const long ID_CHECKBOX9;
     static const long ID_CHECKBOX12;
     static const long ID_CHOICE7;
     static const long ID_STATICTEXT6;
@@ -306,12 +300,8 @@ protected:
     static const long ID_CHECKBOX11;
     static const long ID_CHECKBOX13;
     static const long ID_CHOICE2;
-    static const long ID_CHECKBOX2;
-    static const long ID_CHECKBOX3;
-    static const long ID_CHECKBOX4;
     static const long ID_CHECKBOX5;
     static const long ID_CHECKBOX6;
-    static const long ID_CHECKBOX8;
     static const long ID_CHECKBOX26;
     static const long ID_CHECKBOX27;
     static const long ID_CHECKBOX30;
@@ -465,12 +455,8 @@ private:
     void OnChoiceVOICESelect(wxCommandEvent& event);
     void OnCheckBoxNOANDSECONDEClick1(wxCommandEvent& event);
     void OnChoiceEXTSelect2(wxCommandEvent& event);
-    void OnCheckBoxFRSKY_HUBClick(wxCommandEvent& event);
-    void OnCheckBoxFAS_OFFSETClick2(wxCommandEvent& event);
-    void OnCheckBoxGAUGESClick1(wxCommandEvent& event);
     void OnCheckBoxGPSClick1(wxCommandEvent& event);
     void OnCheckBoxVARIOClick2(wxCommandEvent& event);
-    void OnCheckBoxSPORT_FILE_LOGClick1(wxCommandEvent& event);
     void OnCheckBoxWS_HOW_HIGHClick2(wxCommandEvent& event);
     void OnSortirpage3Click(wxCommandEvent& event);
     void Onswitch3Selected(wxCommandEvent& event);

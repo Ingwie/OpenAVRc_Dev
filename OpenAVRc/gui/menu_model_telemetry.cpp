@@ -49,7 +49,7 @@ enum menuModelTelemetryItems {
   ITEM_TELEMETRY_RSSI_LABEL,
   ITEM_TELEMETRY_RSSI_ALARM1,
   ITEM_TELEMETRY_RSSI_ALARM2,
-#if defined(FRSKY_HUB) || defined(WS_HOW_HIGH)
+#if defined(FRSKY)
   ITEM_TELEMETRY_USR_LABEL,
   ITEM_TELEMETRY_USR_PROTO,
   ITEM_TELEMETRY_USR_BLADES,
@@ -86,7 +86,7 @@ enum menuModelTelemetryItems {
 #define TELEM_BARS_COLMAX            (14*FW-3)
 #define TELEM_SCRTYPE_COL            TELEM_COL2
 
-#define IS_RANGE_DEFINED(k)            (g_model.frsky.channels[k].ratio > 0)
+#define IS_RANGE_DEFINED(k)            (g_model.telemetry.channels[k].ratio > 0)
 
 #define CHANNEL_ROWS(x)              LABEL(CHANNEL), 1, 0, 2, 2
 #define CHANNELS_ROWS                CHANNEL_ROWS(0), CHANNEL_ROWS(1),
@@ -94,7 +94,7 @@ enum menuModelTelemetryItems {
 
 #define IF_FAS_OFFSET(x)             x,
 
-#if   defined(FRSKY_HUB) || defined(WS_HOW_HIGH)
+#if   defined(FRSKY)
 #define USRDATA_ROWS                 LABEL(UsrData), 0, 0, 0, 0, IF_FAS_OFFSET(0)
 #else
 #define USRDATA_ROWS                 0, 0, IF_FAS_OFFSET(0)
@@ -102,11 +102,7 @@ enum menuModelTelemetryItems {
 
 #define RSSI_ROWS                      LABEL(RSSI), 1, 1,
 
-#if defined(GAUGES)
 #define SCREEN_TYPE_ROWS             0
-#else
-#define SCREEN_TYPE_ROWS             LABEL(SCREEN)
-#endif
 
 #define VARIO_RANGE_ROWS             3
 
@@ -142,7 +138,7 @@ void menuModelTelemetry(uint8_t event)
     uint8_t attr = (sub == k ? blink : 0);
 
     uint8_t ch = TELEMETRY_CURRENT_CHANNEL(k);
-    FrSkyChannelData & channel = g_model.frsky.channels[ch];
+    TelemetryChannelData & channel = g_model.telemetry.channels[ch];
     uint8_t dest = TELEM_A1-1+ch;
 
 
@@ -153,7 +149,7 @@ void menuModelTelemetry(uint8_t event)
     case ITEM_TELEMETRY_A2_LABEL:
       lcdDrawTextLeft(y, STR_ACHANNEL);
       lcdDrawNumberAttUnit(2*FW, y, ch+1, 0);
-      lcdPutsTelemetryChannelValue(TELEM_COL2+6*FW, y, dest, frskyData.analog[ch].value, LEFT);
+      lcdPutsTelemetryChannelValue(TELEM_COL2+6*FW, y, dest, telemetryData.analog[ch].value, LEFT);
       break;
 
     case ITEM_TELEMETRY_A1_RANGE:
@@ -230,33 +226,33 @@ void menuModelTelemetry(uint8_t event)
     case ITEM_TELEMETRY_RSSI_ALARM2: {
       uint8_t alarm = k-ITEM_TELEMETRY_RSSI_ALARM1;
       lcdDrawTextLeft(y, STR_ALARM);
-      lcdDrawTextAtIndex(TELEM_COL2, y, STR_VALARM, ((2+alarm+g_model.frsky.rssiAlarms[alarm].level)%4), menuHorizontalPosition<=0 ? attr : 0);
+      lcdDrawTextAtIndex(TELEM_COL2, y, STR_VALARM, ((2+alarm+g_model.telemetry.rssiAlarms[alarm].level)%4), menuHorizontalPosition<=0 ? attr : 0);
       lcdDrawChar(TELEM_COL2+4*FW, y, '<');
       lcdDrawNumberNAtt(TELEM_COL2+6*FW, y, getRssiAlarmValue(alarm), LEFT|(menuHorizontalPosition!=0 ? attr : 0), 3);
 
       if (attr && (s_editMode>0 || p1valdiff)) {
         switch (menuHorizontalPosition) {
         case 0:
-          CHECK_INCDEC_MODELVAR(event, g_model.frsky.rssiAlarms[alarm].level, -3, 2); // circular (saves flash)
+          CHECK_INCDEC_MODELVAR(event, g_model.telemetry.rssiAlarms[alarm].level, -3, 2); // circular (saves flash)
           break;
         case 1:
-          CHECK_INCDEC_MODELVAR(event, g_model.frsky.rssiAlarms[alarm].value, -30, 30);
+          CHECK_INCDEC_MODELVAR(event, g_model.telemetry.rssiAlarms[alarm].value, -30, 30);
           break;
         }
       }
       break;
     }
 
-#if defined(FRSKY_HUB) || defined(WS_HOW_HIGH)
+#if defined(FRSKY)
     case ITEM_TELEMETRY_USR_LABEL:
       lcdDrawTextLeft(y, STR_USRDATA);
       break;
 
     case ITEM_TELEMETRY_USR_PROTO:
       lcdDrawTextLeft(y, STR_PROTO);
-      lcdDrawTextAtIndex(TELEM_COL2, y, STR_VTELPROTO, g_model.frsky.usrProto, attr);
+      lcdDrawTextAtIndex(TELEM_COL2, y, STR_VTELPROTO, g_model.telemetry.usrProto, attr);
       if (attr) {
-          CHECK_INCDEC_MODELVAR_ZERO(event, g_model.frsky.usrProto, USR_PROTO_LAST);
+          CHECK_INCDEC_MODELVAR_ZERO(event, g_model.telemetry.usrProto, USR_PROTO_LAST);
           if (!IS_MULTIMODULE_PROTOCOL(protocol)) { // No reset in Multi mode
               telemetryReset();
               telemetryInit();
@@ -266,29 +262,29 @@ void menuModelTelemetry(uint8_t event)
 
     case ITEM_TELEMETRY_USR_BLADES:
       lcdDrawTextLeft(y, STR_BLADES);
-      lcdDrawNumberAttUnit(TELEM_COL2+FWNUM, y, 2+g_model.frsky.blades, attr);
-      if (attr) CHECK_INCDEC_MODELVAR_ZERO(event, g_model.frsky.blades, MAX_BLADES);
+      lcdDrawNumberAttUnit(TELEM_COL2+FWNUM, y, 2+g_model.telemetry.blades, attr);
+      if (attr) CHECK_INCDEC_MODELVAR_ZERO(event, g_model.telemetry.blades, MAX_BLADES);
       break;
 #endif
 
     case ITEM_TELEMETRY_USR_VOLTAGE_SOURCE:
       lcdDrawTextLeft(y, STR_VOLTAGE);
-      lcdDrawTextAtIndex(TELEM_COL2, y, STR_AMPSRC, g_model.frsky.voltsSource+1, attr);
-      if (attr) CHECK_INCDEC_MODELVAR_ZERO(event, g_model.frsky.voltsSource, FRSKY_VOLTS_SOURCE_LAST);
+      lcdDrawTextAtIndex(TELEM_COL2, y, STR_AMPSRC, g_model.telemetry.voltsSource+1, attr);
+      if (attr) CHECK_INCDEC_MODELVAR_ZERO(event, g_model.telemetry.voltsSource, FRSKY_VOLTS_SOURCE_LAST);
       break;
 
     case ITEM_TELEMETRY_USR_CURRENT_SOURCE:
       lcdDrawTextLeft(y, STR_CURRENT);
-      lcdDrawTextAtIndex(TELEM_COL2, y, STR_AMPSRC, g_model.frsky.currentSource, attr);
-      if (attr) CHECK_INCDEC_MODELVAR_ZERO(event, g_model.frsky.currentSource, FRSKY_CURRENT_SOURCE_LAST);
+      lcdDrawTextAtIndex(TELEM_COL2, y, STR_AMPSRC, g_model.telemetry.currentSource, attr);
+      if (attr) CHECK_INCDEC_MODELVAR_ZERO(event, g_model.telemetry.currentSource, FRSKY_CURRENT_SOURCE_LAST);
       break;
 
     case ITEM_TELEMETRY_FAS_OFFSET:
       lcdDrawTextLeft(y, STR_FAS_OFFSET);
-      lcdDrawNumberAttUnit(TELEM_COL2, y, g_model.frsky.fasOffset, attr|LEFT|PREC1);
-      lcdDrawNumberAttUnit(TELEM_COL2+6*FW, y, frskyData.hub.current, LEFT|PREC1);
+      lcdDrawNumberAttUnit(TELEM_COL2, y, g_model.telemetry.fasOffset, attr|LEFT|PREC1);
+      lcdDrawNumberAttUnit(TELEM_COL2+6*FW, y, telemetryData.value.current, LEFT|PREC1);
       lcdDrawChar(TELEM_COL2+8*FW, y, 'A');
-      if (attr) g_model.frsky.fasOffset = checkIncDec(event, g_model.frsky.fasOffset, -120, 120, EE_MODEL);
+      if (attr) g_model.telemetry.fasOffset = checkIncDec(event, g_model.telemetry.fasOffset, -120, 120, EE_MODEL);
       break;
 
 #if defined(VARIO)
@@ -298,29 +294,29 @@ void menuModelTelemetry(uint8_t event)
 
     case ITEM_TELEMETRY_VARIO_SOURCE:
       lcdDrawTextLeft(y, STR_SOURCE);
-      lcdDrawTextAtIndex(TELEM_COL2, y, STR_VARIOSRC, g_model.frsky.varioSource, attr);
-      if (attr) CHECK_INCDEC_MODELVAR(event, g_model.frsky.varioSource, 0, VARIO_SOURCE_LAST);
+      lcdDrawTextAtIndex(TELEM_COL2, y, STR_VARIOSRC, g_model.telemetry.varioSource, attr);
+      if (attr) CHECK_INCDEC_MODELVAR(event, g_model.telemetry.varioSource, 0, VARIO_SOURCE_LAST);
       break;
 
     case ITEM_TELEMETRY_VARIO_RANGE:
       lcdDrawTextLeft(y, STR_LIMIT);
-      lcdDrawNumberAttUnit(TELEM_COL2, y, -10+g_model.frsky.varioMin, (menuHorizontalPosition<=0 ? attr : 0)|LEFT);
-      lcdDrawNumberAttUnit(TELEM_COL2+7*FW-2, y, -5+g_model.frsky.varioCenterMin, ((CURSOR_ON_LINE() || menuHorizontalPosition==1) ? attr : 0)|PREC1);
-      lcdDrawNumberAttUnit(TELEM_COL2+10*FW, y, 5+g_model.frsky.varioCenterMax, ((CURSOR_ON_LINE() || menuHorizontalPosition==2) ? attr : 0)|PREC1);
-      lcdDrawNumberAttUnit(TELEM_COL2+13*FW+2, y, 10+g_model.frsky.varioMax, ((CURSOR_ON_LINE() || menuHorizontalPosition==3) ? attr : 0));
+      lcdDrawNumberAttUnit(TELEM_COL2, y, -10+g_model.telemetry.varioMin, (menuHorizontalPosition<=0 ? attr : 0)|LEFT);
+      lcdDrawNumberAttUnit(TELEM_COL2+7*FW-2, y, -5+g_model.telemetry.varioCenterMin, ((CURSOR_ON_LINE() || menuHorizontalPosition==1) ? attr : 0)|PREC1);
+      lcdDrawNumberAttUnit(TELEM_COL2+10*FW, y, 5+g_model.telemetry.varioCenterMax, ((CURSOR_ON_LINE() || menuHorizontalPosition==2) ? attr : 0)|PREC1);
+      lcdDrawNumberAttUnit(TELEM_COL2+13*FW+2, y, 10+g_model.telemetry.varioMax, ((CURSOR_ON_LINE() || menuHorizontalPosition==3) ? attr : 0));
       if (attr && (s_editMode>0 || p1valdiff)) {
         switch (menuHorizontalPosition) {
         case 0:
-          CHECK_INCDEC_MODELVAR(event, g_model.frsky.varioMin, -7, 7);
+          CHECK_INCDEC_MODELVAR(event, g_model.telemetry.varioMin, -7, 7);
           break;
         case 1:
-          CHECK_INCDEC_MODELVAR(event, g_model.frsky.varioCenterMin, -16, 5+min<int8_t>(10, g_model.frsky.varioCenterMax+5));
+          CHECK_INCDEC_MODELVAR(event, g_model.telemetry.varioCenterMin, -16, 5+min<int8_t>(10, g_model.telemetry.varioCenterMax+5));
           break;
         case 2:
-          CHECK_INCDEC_MODELVAR(event, g_model.frsky.varioCenterMax, -5+max<int8_t>(-10, g_model.frsky.varioCenterMin-5), +15);
+          CHECK_INCDEC_MODELVAR(event, g_model.telemetry.varioCenterMax, -5+max<int8_t>(-10, g_model.telemetry.varioCenterMin-5), +15);
           break;
         case 3:
-          CHECK_INCDEC_MODELVAR(event, g_model.frsky.varioMax, -7, 7);
+          CHECK_INCDEC_MODELVAR(event, g_model.telemetry.varioMax, -7, 7);
           break;
         }
       }
@@ -331,11 +327,9 @@ void menuModelTelemetry(uint8_t event)
     case ITEM_TELEMETRY_SCREEN_LABEL2: {
       uint8_t screenIndex = (k < ITEM_TELEMETRY_SCREEN_LABEL2 ? 1 : 2);
       lcdDrawStringWithIndex(0*FW, y, STR_SCREEN, screenIndex);
-#if defined(GAUGES)
-      bool screenType = g_model.frsky.screensType & screenIndex;
+      bool screenType = g_model.telemetry.screensType & screenIndex;
       if (screenType != (bool)selectMenuItem(TELEM_SCRTYPE_COL, y, PSTR(""), STR_VTELEMSCREENTYPE, screenType, 0, 1, attr, event))
-        g_model.frsky.screensType ^= screenIndex;
-#endif
+        g_model.telemetry.screensType ^= screenIndex;
       break;
     }
 
@@ -358,9 +352,8 @@ void menuModelTelemetry(uint8_t event)
         lineIndex = k-ITEM_TELEMETRY_SCREEN_LINE5;
       }
 
-#if defined(GAUGES)
       if (IS_BARS_SCREEN(screenIndex)) {
-        FrSkyBarData & bar = g_model.frsky.screens[screenIndex].bars[lineIndex];
+        FrSkyBarData & bar = g_model.telemetry.screens[screenIndex].bars[lineIndex];
         source_t barSource = bar.source;
         lcdDrawTextAtIndex(TELEM_COL1, y, STR_VTELEMCHNS, barSource, menuHorizontalPosition==0 ? attr : 0);
         if (barSource) {
@@ -387,11 +380,10 @@ void menuModelTelemetry(uint8_t event)
           }
         }
       } else
-#endif
       {
         for (uint8_t c=0; c<NUM_LINE_ITEMS; c++) {
           uint8_t cellAttr = (menuHorizontalPosition==c ? attr : 0);
-          source_t & value = g_model.frsky.screens[screenIndex].lines[lineIndex].sources[c];
+          source_t & value = g_model.telemetry.screens[screenIndex].lines[lineIndex].sources[c];
           uint8_t pos[] = {INDENT_WIDTH, TELEM_COL2};
           lcdDrawTextAtIndex(pos[c], y, STR_VTELEMCHNS, value, cellAttr);
           if (cellAttr && (s_editMode>0 || p1valdiff)) {
