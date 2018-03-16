@@ -38,7 +38,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 4 7
 Title "Shield Mega2560 core Full"
-Date "2018-03-06"
+Date "2018-03-16"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
