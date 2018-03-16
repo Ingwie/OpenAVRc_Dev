@@ -38,7 +38,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 7
 Title "Shield Mega2560 core Full"
-Date "2018-03-06"
+Date "2018-03-16"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -1100,9 +1100,9 @@ Dummy_3
 Wire Wire Line
 	2700 5650 2700 5200
 Text GLabel 4900 6650 2    60   Input ~ 0
-Dummy_1
-Text GLabel 4900 6750 2    60   Input ~ 0
 Dummy_2
+Text GLabel 4900 6750 2    60   Input ~ 0
+Dummy_1
 Text GLabel 4900 6550 2    60   Input ~ 0
 Dummy_3
 Wire Wire Line
