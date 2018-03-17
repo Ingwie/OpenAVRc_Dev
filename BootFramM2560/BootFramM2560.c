@@ -86,7 +86,7 @@ LICENSE:
 //************************************************************************
 
 // OpenAVRc Defines EEprom used type
-//#define STOCK_EE
+#define STOCK_EE
 #define ADDRESS_EXTERN_EEPROM  (0x50 << 1) //0x50 with all strap closed on ZS042 module, EEPROM FM24W256, see datasheet
 
 
@@ -774,6 +774,7 @@ int main(void)
 #if defined(STOCK_EE)
           do {
             EEARH	=	((address >> 8));
+            EEARL = address;
             address++;					// Select next EEPROM byte
             EECR	|=	(1<<EERE);			// Read EEPROM
             *p++	=	EEDR;				// Send EEPROM data
@@ -804,7 +805,6 @@ int main(void)
       default:
         msgLength		=	2;
         msgBuffer[1]	=	STATUS_CMD_FAILED;
-        isLeave	=	1;
         break;
       }
 
