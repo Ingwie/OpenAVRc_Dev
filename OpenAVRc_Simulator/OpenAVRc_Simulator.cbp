@@ -46,7 +46,6 @@
 					<Add option="-mno-ms-bitfields" />
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
-					<Add option="-DNOEXTERNALEEPROM" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 					<Add directory="include" />
 				</Compiler>
@@ -73,7 +72,6 @@
 					<Add option="-mno-ms-bitfields" />
 					<Add option="-DTRANSLATIONS_ES" />
 					<Add option="-DTTS_ES" />
-					<Add option="-DNOEXTERNALEEPROM" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 					<Add directory="include" />
 				</Compiler>
@@ -100,7 +98,6 @@
 					<Add option="-mno-ms-bitfields" />
 					<Add option="-DTRANSLATIONS_EN" />
 					<Add option="-DTTS_EN" />
-					<Add option="-DNOEXTERNALEEPROM" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 					<Add directory="include" />
 				</Compiler>
@@ -208,7 +205,6 @@
 			<Add option="-DWXUSINGDLL" />
 			<Add option="-DwxUSE_UNICODE" />
 			<Add option="-DFAI_CHOICE" />
-			<Add option="-DEXTERNALEEPROM" />
 			<Add option="-DSIMU" />
 			<Add option="-DDSM2" />
 			<Add option="-DRTCLOCK" />
