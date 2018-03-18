@@ -72,6 +72,7 @@ private:
     void OnAbout(wxCommandEvent& event);
     void OnavrdudeSelected(wxCommandEvent& event);
     void OnProgrammerSelected(wxCommandEvent& event);
+    bool CheckIfSerialAvailable();
     void OnreadmodelsSelected(wxCommandEvent& event);
     void OnreadfirmwareSelected(wxCommandEvent& event);
     void OnEcrirelesFuseesSelected(wxCommandEvent& event);
