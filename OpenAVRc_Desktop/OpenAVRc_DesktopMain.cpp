@@ -98,7 +98,7 @@ wxString avrdudepath = _("non défini");
 wxString dude_programmer = _("non défini");
 wxString dude_type = _("non défini");
 wxString dude_port = _("non défini");
-wxString COMM = _("non défini");
+//wxString COMM = _("non défini");
 wxString voice_Langue = "ES"; //TTS langue
 //Const
 wxString dude_c = (" -c ");
@@ -450,48 +450,70 @@ void OpenAVRc_DesktopFrame::OnProgrammerSelected(wxCommandEvent& event)
   DudeFrame->Show(TRUE);//opens CommunicationsFrame
 }
 
+bool OpenAVRc_DesktopFrame::CheckIfSerialAvailable()
+{
+  if (dude_port == "usb")
+  {
+    wxMessageBox(_(" Opération annulée \n\nCette opération nécessite un port COM."));
+    return false;
+  }
+  return true;
+}
+
 void OpenAVRc_DesktopFrame::OnreadmodelsSelected(wxCommandEvent& event)//READ MODELS FROM RADIO.
 {
-  wxFileDialog saveDialog(this, _("Choisir le fichier pour importer les modèles des la radio."), AppPath + "\\eeprom\\", "",  "Fichiers BIN (*.bin)|*.bin|Tous (*.*)|*.*", wxFD_SAVE);
-  if (saveDialog.ShowModal() == wxID_CANCEL)
-    return;
-  wxString dude_tmpfile = (saveDialog.GetPath());
-  wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_read+dude_tmpfile+dude_raw;
-  wxExecute(dude_send);//send command
+  if (CheckIfSerialAvailable())
+  {
+    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer les modèles des la radio."), AppPath + "\\eeprom\\", "",  "Fichiers BIN (*.bin)|*.bin|Tous (*.*)|*.*", wxFD_SAVE);
+    if (saveDialog.ShowModal() == wxID_CANCEL)
+      return;
+    wxString dude_tmpfile = (saveDialog.GetPath());
+    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_read+dude_tmpfile+dude_raw;
+    wxExecute(dude_send);//send command
+  }
 }
 
 void OpenAVRc_DesktopFrame::OnreadfirmwareSelected(wxCommandEvent& event)//read firmware from radio
 {
-  wxFileDialog saveDialog(this, _("Choisir le fichier pour importer le Firmware des la radio."), AppPath + "\\firmware\\", "","Fichiers HEX (*.hex)|*.hex", wxFD_SAVE);
-  if (saveDialog.ShowModal() == wxID_CANCEL)
-    return;
-  wxString dude_tmpfile = (saveDialog.GetPath());
-  wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_read+dude_tmpfile+dude_intel;
-  wxExecute(dude_send);
+  if (CheckIfSerialAvailable())
+  {
+    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer le Firmware des la radio."), AppPath + "\\firmware\\", "","Fichiers HEX (*.hex)|*.hex", wxFD_SAVE);
+    if (saveDialog.ShowModal() == wxID_CANCEL)
+      return;
+    wxString dude_tmpfile = (saveDialog.GetPath());
+    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_read+dude_tmpfile+dude_intel;
+    wxExecute(dude_send);
+  }
 }
 
 void OpenAVRc_DesktopFrame::OnWriteModelToRadioSelected(wxCommandEvent& event)
 {
-  wxFileDialog openFileDialog(this, _("Choisir le fichier (.bin) pour transferer les modêles à la radio."), AppPath + "\\eeprom\\", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
-  if (openFileDialog.ShowModal() == wxID_CANCEL)
-    return;
-  wxString dude_tmpfile = (openFileDialog.GetPath());
-  wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_write+dude_tmpfile+dude_raw;
-  wxExecute(dude_send);
+  if (CheckIfSerialAvailable())
+  {
+    wxFileDialog openFileDialog(this, _("Choisir le fichier (.bin) pour transferer les modêles à la radio."), AppPath + "\\eeprom\\", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+    if (openFileDialog.ShowModal() == wxID_CANCEL)
+      return;
+    wxString dude_tmpfile = (openFileDialog.GetPath());
+    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_write+dude_tmpfile+dude_raw;
+    wxExecute(dude_send);
+  }
 }
 
 void OpenAVRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& event)
 {
-  wxFileDialog openFileDialog(this, _("Choisir le fichier pour transferer le Firmware à la radio."), AppPath + "\\firmware\\", "","Fichiers HEX (*.hex)|*.hex", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
-  if (openFileDialog.ShowModal() == wxID_CANCEL)
-    return;
-  wxMessageDialog *bkup = new wxMessageDialog(NULL,_("Il est recommande de sauvegarder vos modeles avant, voulez vous continuer ?"), wxT("Firmware"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
-  if (bkup->ShowModal()!= wxID_OK)
-    return;
-  wxString dude_tmpfile = (openFileDialog.GetPath());//write firmware
-  wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_intel;
+  if (CheckIfSerialAvailable())
+  {
+    wxFileDialog openFileDialog(this, _("Choisir le fichier pour transferer le Firmware à la radio."), AppPath + "\\firmware\\", "","Fichiers HEX (*.hex)|*.hex", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+    if (openFileDialog.ShowModal() == wxID_CANCEL)
+      return;
+    wxMessageDialog *bkup = new wxMessageDialog(NULL,_("Il est recommande de sauvegarder vos modeles avant, voulez vous continuer ?"), wxT("Firmware"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
+    if (bkup->ShowModal()!= wxID_OK)
+      return;
+    wxString dude_tmpfile = (openFileDialog.GetPath());//write firmware
+    wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_intel;
 
-  wxExecute(dude_send);
+    wxExecute(dude_send);
+  }
 }
 
 
@@ -794,7 +816,7 @@ void OpenAVRc_DesktopFrame::OnATMEGA2560CompilerSelected(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnMenuItem9Selected(wxCommandEvent& event)
 {
-  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/master/documentation/Beta%20tester%20files/Compilez%20votre%20FW%20OpenAVRc_V1.doc?raw=true"), 0);
+  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/DIY-SPI-Xmiter/documentation/Beta%20tester%20files/Compilez%20votre%20FW%20OpenAVRc_V3.0.doc?raw=true"), 0);
 }
 
 void OpenAVRc_DesktopFrame::OnMenuJQ6500_PCBSelected(wxCommandEvent& event)
