@@ -34,8 +34,10 @@
 #include "../OpenAVRc.h"
 #include "menu_model.h"
 
-
 enum menuModelTelemetryItems {
+#if defined(FRSKY)
+  ITEM_TELEMETRY_USR_PROTO,
+#endif
   ITEM_TELEMETRY_A1_LABEL,
   ITEM_TELEMETRY_A1_RANGE,
   ITEM_TELEMETRY_A1_OFFSET,
@@ -51,7 +53,6 @@ enum menuModelTelemetryItems {
   ITEM_TELEMETRY_RSSI_ALARM2,
 #if defined(FRSKY)
   ITEM_TELEMETRY_USR_LABEL,
-  ITEM_TELEMETRY_USR_PROTO,
   ITEM_TELEMETRY_USR_BLADES,
 #endif
   ITEM_TELEMETRY_USR_VOLTAGE_SOURCE,
@@ -75,7 +76,6 @@ enum menuModelTelemetryItems {
   ITEM_TELEMETRY_MAX
 };
 
-#if defined(FRSKY)
 #define TELEM_COL1                   INDENT_WIDTH
 #if defined(TRANSLATIONS_FR) || defined(TRANSLATIONS_CZ)
 #define TELEM_COL2                 (9*FW)
@@ -94,9 +94,11 @@ enum menuModelTelemetryItems {
 
 #define IF_FAS_OFFSET(x)             x,
 
-#if   defined(FRSKY)
-#define USRDATA_ROWS                 LABEL(UsrData), 0, 0, 0, 0, IF_FAS_OFFSET(0)
+#if defined(FRSKY)
+#define USRPROTO                     1,
+#define USRDATA_ROWS                 LABEL(UsrData), 0, 0, 0, IF_FAS_OFFSET(0)
 #else
+#define USRPROTO
 #define USRDATA_ROWS                 0, 0, IF_FAS_OFFSET(0)
 #endif
 
@@ -115,7 +117,7 @@ enum menuModelTelemetryItems {
 void menuModelTelemetry(uint8_t event)
 {
 
-  MENU(STR_MENUTELEMETRY, menuTabModel, e_Telemetry, ITEM_TELEMETRY_MAX+1, {0, TELEMETRY_TYPE_ROWS CHANNELS_ROWS RSSI_ROWS SENSORS_ROWS USRDATA_ROWS CASE_VARIO(LABEL(Vario)) CASE_VARIO(0) CASE_VARIO(VARIO_RANGE_ROWS) TELEMETRY_SCREEN_ROWS(0), TELEMETRY_SCREEN_ROWS(1), });
+  MENU(STR_MENUTELEMETRY, menuTabModel, e_Telemetry, ITEM_TELEMETRY_MAX+1, {USRPROTO 0, TELEMETRY_TYPE_ROWS CHANNELS_ROWS RSSI_ROWS SENSORS_ROWS USRDATA_ROWS CASE_VARIO(LABEL(Vario)) CASE_VARIO(0) CASE_VARIO(VARIO_RANGE_ROWS) TELEMETRY_SCREEN_ROWS(0), TELEMETRY_SCREEN_ROWS(1), });
 
   uint8_t protocol = g_model.rfProtocol;
   uint8_t sub = menuVerticalPosition - 1;
@@ -399,4 +401,3 @@ void menuModelTelemetry(uint8_t event)
     }
   }
 }
-#endif
