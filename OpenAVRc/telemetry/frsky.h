@@ -168,14 +168,23 @@
 #define DATA_ID_SP2UH             0x45 // 5
 #define DATA_ID_SP2UR             0xC6 // 6
 
+// FrSky wrong IDs ?
+#define BETA_VARIO_ID      0x8030
+#define BETA_BARO_ALT_ID   0x8010
+
+#define SPORT_DATA_U8(packet)   (packet[4])
+#define SPORT_DATA_S32(packet)  (*((int32_t *)(packet+4)))
+#define SPORT_DATA_U32(packet)  (*((uint32_t *)(packet+4)))
+#define HUB_DATA_U16(packet)    (*((uint16_t *)(packet+4)))
 
 // Global Fr-Sky telemetry data variables
 extern uint8_t frskyStreaming; // >0 (true) == data is streaming in. 0 = nodata detected for some time
 
+void parseTelemHubByte(uint8_t byte);
 #if defined(WS_HOW_HIGH)
 extern uint8_t frskyUsrStreaming;
+void parseTelemWSHowHighByte(uint8_t byte);
 #endif
-
 
 enum AlarmLevel {
   alarm_off = 0,
@@ -271,7 +280,7 @@ void frskyDProcessPacket(uint8_t *packet);
 // FrSky S.PORT Protocol
 void processSportPacket(uint8_t *packet);
 
-
+void checkMinMaxAltitude();
 void telemetryWakeup();
 void telemetryResetValue();
 void telemetryReset();

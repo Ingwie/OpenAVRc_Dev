@@ -1519,6 +1519,7 @@ int simumain()
   while (1) {
 #else // Simu main loop function
   SimuMainLoop();
+  return 0;
 } // Close simumain()
 void SimuMainLoop() // Create loop function
 {
