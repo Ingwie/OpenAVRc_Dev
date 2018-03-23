@@ -246,6 +246,7 @@
 			<Add option="-DTEMPLATES" />
 			<Add option="-DAUTOSWITCH" />
 			<Add option="-DAUTOSOURCE" />
+			<Add option="-DEXTRA_3POS=2" />
 			<Add option="-DMULTIMODULE" />
 			<Add option="-DSPIMODULES" />
 			<Add option="-DPROTO_HAS_CC2500" />

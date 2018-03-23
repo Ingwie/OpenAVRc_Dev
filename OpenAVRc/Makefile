@@ -14,11 +14,8 @@
 #----------- BUILD OPTIONS ---------------------------
 
 # PCB version
-# Values: MEGA2560
-PCB = MEGA2560
-
-# PCB revision
-PCBREV =
+# Values: MEGAMINI, MEGA2560
+PCB = MEGAMINI
 
 # LCD
 # Values: ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306, SH1106
@@ -123,10 +120,6 @@ PPM_UNIT = PERCENT_PREC1
 # Values = YES, NO
 OVERRIDE_CHANNEL_FUNCTION = YES
 
-# Dangerous functions available in Custom Functions (range test, bind, module off)
-# Values = YES, NO
-DANGEROUS_MODULE_FUNCTIONS = NO
-
 # WS HowHigh
 # Values = YES, NO
 WS_HOW_HIGH = YES
@@ -152,7 +145,7 @@ HARDWARE_VOLUME = YES
 PXX = NO
 
 # DSM2 (Spektrum) protocol
-# Values = NO, SERIAL, PPM
+# Values = NO, SERIAL
 DSM2 = NO
 
 # TRANSLATIONS
@@ -207,9 +200,9 @@ CURVES = YES
 # Values = YES, NO
 GVARS = NO
 
-# Enable another 3 positions switch to replace a pot
-# Values = NO, POT1, POT2, POT3,
-3POS = NO
+# Choose the other 3 positions switch build with a pot
+# Values = POT1, POT2, POT3
+3POS = POT2
 
 # Allow to change buttons names
 # Values = NO, YES with personames.h edited
@@ -294,6 +287,10 @@ ifneq ($(PCB), $(filter $(PCB), MEGA2560 EVO_V1 MEGAMINI))
   $(error Sorry, the PCB $(PCB) is not supported yet in OpenAVRc)
 endif
 
+# 3POS
+ifneq ($(3POS), $(filter $(3POS), POT1 POT2 POT3))
+  $(error Sorry, the 3POS $(3POS) is not supported yet in OpenAVRc)
+endif
 
 GUIMODELSRC = gui/menu_model.cpp gui/menu_model_select.cpp gui/menu_model_setup.cpp gui/menu_model_inputs_mixes.cpp gui/menu_model_limits.cpp gui/menu_model_logical_switches.cpp gui/menu_model_custom_functions.cpp gui/menu_model_telemetry.cpp
 GUIGENERALSRC = gui/menu_general.cpp gui/menu_general_setup.cpp gui/menu_general_trainer.cpp gui/menu_general_version.cpp gui/menu_general_calib.cpp
@@ -792,10 +789,6 @@ ifeq ($(OVERRIDE_CHANNEL_FUNCTION), YES)
   CPPDEFS += -DOVERRIDE_CHANNEL_FUNCTION
 endif
 
-ifeq ($(DANGEROUS_MODULE_FUNCTIONS), YES)
-  CPPDEFS += -DDANGEROUS_MODULE_FUNCTIONS
-endif
-
 ifeq ($(PPM_UNIT), US)
   CPPDEFS += -DPPM_UNIT_US
 endif
@@ -832,10 +825,6 @@ endif
 
 ifeq ($(DSM2), SERIAL)
   CPPDEFS += -DDSM2 -DDSM2_SERIAL
-endif
-
-ifeq ($(DSM2), PPM)
-  CPPDEFS += -DDSM2 -DDSM2_PPM
 endif
 
 ifeq ($(3POS), POT1)

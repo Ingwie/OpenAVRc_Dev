@@ -362,9 +362,6 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
 {
   evalInputs(mode);
 
-  if (tick10ms) evalLogicalSwitches(mode==e_perout_mode_normal);
-
-
 #if defined(HELI)
   int16_t heliEleValue = anas[ELE_STICK];
   int16_t heliAilValue = anas[AIL_STICK];

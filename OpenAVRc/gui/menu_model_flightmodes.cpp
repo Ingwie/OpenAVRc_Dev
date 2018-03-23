@@ -61,6 +61,14 @@ enum menuModelPhaseItems {
   ITEM_MODEL_PHASE_GV4,
   ITEM_MODEL_PHASE_GV5,
   ITEM_MODEL_PHASE_GV6,
+#if defined(EXTERNALEEPROM)
+  ITEM_MODEL_PHASE_GV7,
+  ITEM_MODEL_PHASE_GV8,
+  ITEM_MODEL_PHASE_GV9,
+  ITEM_MODEL_PHASE_GV10,
+  ITEM_MODEL_PHASE_GV11,
+  ITEM_MODEL_PHASE_GV12,
+#endif
 #endif
   ITEM_MODEL_PHASE_MAX
 };
@@ -71,8 +79,8 @@ void menuModelPhaseOne(uint8_t event)
   putsFlightMode(13*FW, 0, s_currIdx+1, (getFlightMode()==s_currIdx ? BOLD : 0));
 
 #if defined(GVARS)
-  static const pm_uint8_t mstate_tab_fm1[] PROGMEM = {0, 0, 0, (uint8_t)-1, 1, 1, 1, 1, 1};
-  static const pm_uint8_t mstate_tab_others[] PROGMEM = {0, 0, 3, IF_ROTARY_ENCODERS(NUM_ROTARY_ENCODERS-1) 0, 0, (uint8_t)-1, 2, 2, 2, 2, 2};
+  static const pm_uint8_t mstate_tab_fm1[] PROGMEM = {0, 0, 0, (uint8_t)-1, 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1, 1, 1};
+  static const pm_uint8_t mstate_tab_others[] PROGMEM = {0, 0, 3, IF_ROTARY_ENCODERS(NUM_ROTARY_ENCODERS-1) 0, 0, (uint8_t)-1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
 
   check(event, 0, NULL, 0, (s_currIdx == 0) ? mstate_tab_fm1 : mstate_tab_others, DIM(mstate_tab_others)-1, ITEM_MODEL_PHASE_MAX - 1 - (s_currIdx==0 ? (ITEM_MODEL_PHASE_FADE_IN-ITEM_MODEL_PHASE_SWITCH) : 0));
 
@@ -161,7 +169,7 @@ void menuModelPhaseOne(uint8_t event)
 
       lcdDrawStringWithIndex(INDENT_WIDTH, y, STR_GV, idx+1);
 
-      editName(4*FW, y, g_model.gvars[idx].name, LEN_GVAR_NAME, event, posHorz==0 ? attr : 0);
+      editName(4*FW+2, y, g_model.gvars[idx].name, LEN_GVAR_NAME, event, posHorz==0 ? attr : 0);
 
       int16_t v = fm->gvars[idx];
       if (v > GVAR_MAX) {

@@ -73,7 +73,7 @@ ISR(EE_READY_vect)
 
 void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t size)
 {
-  assert(!eeprom_buffer_size);
+  //assert(!eeprom_buffer_size);
 
   eeprom_pointer = i_pointer_eeprom;
   eeprom_buffer_data = i_pointer_ram;

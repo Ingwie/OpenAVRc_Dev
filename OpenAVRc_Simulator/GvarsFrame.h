@@ -56,12 +56,18 @@ class GvarsFrame: public wxFrame
 		//(*Declarations(GvarsFrame)
 		wxGrid* GVARSGrid;
 		wxPanel* Panel1;
+		wxTextCtrl* TextCtrlpersoGvar10;
+		wxTextCtrl* TextCtrlpersoGvar11;
+		wxTextCtrl* TextCtrlpersoGvar12;
 		wxTextCtrl* TextCtrlpersoGvar1;
 		wxTextCtrl* TextCtrlpersoGvar2;
 		wxTextCtrl* TextCtrlpersoGvar3;
 		wxTextCtrl* TextCtrlpersoGvar4;
 		wxTextCtrl* TextCtrlpersoGvar5;
 		wxTextCtrl* TextCtrlpersoGvar6;
+		wxTextCtrl* TextCtrlpersoGvar7;
+		wxTextCtrl* TextCtrlpersoGvar8;
+		wxTextCtrl* TextCtrlpersoGvar9;
 		wxTextCtrl* TextCtrlpersoPhase0;
 		wxTextCtrl* TextCtrlpersoPhase1;
 		wxTextCtrl* TextCtrlpersoPhase2;
@@ -75,6 +81,13 @@ class GvarsFrame: public wxFrame
 
 		//(*Identifiers(GvarsFrame)
 		static const long ID_GRID1;
+		static const long ID_TextCtrlpersoGvar6;
+		static const long ID_TextCtrlpersoGvar8;
+		static const long ID_TextCtrlpersoGvar11;
+		static const long ID_TextCtrlpersoGvar12;
+		static const long ID_TextCtrlpersoGvar10;
+		static const long ID_TextCtrlpersoGvar9;
+		static const long ID_TextCtrlpersoGvar7;
 		static const long ID_TextCtrlpersoPhase0;
 		static const long ID_TextCtrlpersoPhase1;
 		static const long ID_TextCtrlpersoPhase2;
@@ -86,7 +99,6 @@ class GvarsFrame: public wxFrame
 		static const long ID_TextCtrlpersoGvar3;
 		static const long ID_TextCtrlpersoGvar4;
 		static const long ID_TextCtrlpersoGvar5;
-		static const long ID_TextCtrlpersoGvar6;
 		static const long ID_PANEL1;
 		static const long ID_TIMERGVARS;
 		//*)
@@ -109,6 +121,12 @@ class GvarsFrame: public wxFrame
 		void OnTextCtrlpersoPhase5TextEnter(wxCommandEvent& event);
 		void OnTextCtrlpersoAllText(wxCommandEvent& event);
 		void OnTextCtrlpersoGvar6TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar7TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar8TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar9TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar10TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar11TextEnter(wxCommandEvent& event);
+		void OnTextCtrlpersoGvar12TextEnter(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

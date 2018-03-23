@@ -343,7 +343,7 @@ void modelDefault(uint8_t id)
 
 
 #if defined(AUTOSOURCE)
-int8_t getMovedSource(GET_MOVED_SOURCE_PARAMS)
+int8_t getMovedSource()
 {
   int8_t result = 0;
   static tmr10ms_t s_move_last_time = 0;

@@ -38,21 +38,6 @@
 #include "timers.h"
 
 
-#if defined(EXTERNALEEPROM)
-#define blkid_t    uint16_t
-#define EESIZE     10240
-#define EEFS_VERS  6
-#define MAXFILES   36*2
-#define BS         64
-#else
-#define blkid_t    uint8_t
-#define EESIZE     4096
-#define EEFS_VERS  5
-#define MAXFILES   36
-#define BS         16
-#endif
-
-
 PACK(struct DirEnt { // File header
   blkid_t  startBlk;
   uint16_t size:12;

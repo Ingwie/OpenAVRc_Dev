@@ -304,18 +304,17 @@
 						</object>
 						<object class="wxChoice" name="ID_CHOICE12" variable="ChoiceTHREE_POS" member="yes">
 							<content>
-								<item>NO</item>
 								<item>POT1</item>
 								<item>POT2</item>
 								<item>POT3</item>
 							</content>
-							<selection>0</selection>
+							<selection>1</selection>
 							<pos>112,288</pos>
 							<size>96,21</size>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT11" variable="StaticText11" member="yes">
-							<label>3POS</label>
-							<pos>64,296</pos>
+							<label>EXTRA 3POS</label>
+							<pos>32,296</pos>
 						</object>
 					</object>
 					<label>Réglages</label>
@@ -498,15 +497,29 @@
 				</object>
 				<object class="notebookpage">
 					<object class="wxPanel" name="ID_PANEL4" variable="Panel4" member="yes">
-						<object class="wxStaticBox" name="ID_STATICBOX8" variable="StaticBox8" member="yes">
+						<object class="wxStaticBox" name="ID_STATICBOX7" variable="StaticBox7" member="yes">
+							<label>Nom des interrupteurs</label>
+							<pos>72,8</pos>
+							<size>424,328</size>
+						</object>
+						<object class="wxStaticBox" name="ID_STATICBOX10" variable="StaticBox10" member="yes">
 							<label>3POS</label>
 							<pos>208,32</pos>
 							<size>160,104</size>
 						</object>
-						<object class="wxStaticBox" name="ID_STATICBOX7" variable="StaticBox7" member="yes">
-							<label>Nom des interrupteurs</label>
-							<pos>72,8</pos>
-							<size>312,328</size>
+						<object class="wxStaticBox" name="ID_STATICBOX8" variable="StaticBox8" member="yes">
+							<label>Extra 3POS</label>
+							<pos>352,32</pos>
+							<size>136,104</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX12" variable="ComboBoxEncodeurNo" member="yes">
+							<content>
+								<item>REn</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>288,224</pos>
+							<size>54,-1</size>
 						</object>
 						<object class="wxComboBox" name="ID_COMBOBOX1" variable="ComboBoxswitch1" member="yes">
 							<content>
@@ -519,12 +532,12 @@
 						</object>
 						<object class="wxButton" name="ID_BUTTON5" variable="Sortirpage3" member="yes">
 							<label>Sauvegarder et sortir</label>
-							<pos>512,296</pos>
+							<pos>544,296</pos>
 							<handler function="OnButtonEXITClick" entry="EVT_BUTTON" />
 						</object>
 						<object class="wxButton" name="ID_BUTTON6" variable="Compilerpage3" member="yes">
 							<label>Compiler</label>
-							<pos>680,296</pos>
+							<pos>688,296</pos>
 							<handler function="OnButtonCOMPILEClick" entry="EVT_BUTTON" />
 						</object>
 						<object class="wxComboBox" name="ID_COMBOBOX2" variable="ComboBoxswitch2" member="yes">
@@ -574,7 +587,7 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX22" variable="CheckBoxPERSONAMES" member="yes">
 							<label>PERSONAMES</label>
-							<pos>256,248</pos>
+							<pos>240,280</pos>
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT13" variable="StaticText13" member="yes">
@@ -603,12 +616,43 @@
 						</object>
 						<object class="wxButton" name="ID_BUTTON7" variable="ButtonDefaut" member="yes">
 							<label>Défaut</label>
-							<pos>272,296</pos>
+							<pos>392,272</pos>
 							<handler function="OnButtonDefautClick1" entry="EVT_BUTTON" />
 						</object>
-						<object class="wxStaticText" name="ID_STATICTEXT19" variable="StaticText19" member="yes">
+						<object class="wxStaticText" name="ID_STATICTEXT25" variable="StaticText25" member="yes">
 							<label>ID0</label>
 							<pos>248,56</pos>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT19" variable="StaticText19" member="yes">
+							<label>XD0</label>
+							<pos>376,56</pos>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX14" variable="ComboBoxXD0" member="yes">
+							<content>
+								<item>XD0</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>416,48</pos>
+							<size>54,-1</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX15" variable="ComboBoxXD2" member="yes">
+							<content>
+								<item>XD2</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>416,96</pos>
+							<size>54,-1</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX13" variable="ComboBoxXD1" member="yes">
+							<content>
+								<item>XD1</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>416,72</pos>
+							<size>54,-1</size>
 						</object>
 						<object class="wxComboBox" name="ID_COMBOBOX7" variable="ComboBoxID0" member="yes">
 							<content>
@@ -621,11 +665,16 @@
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT20" variable="StaticText20" member="yes">
 							<label>EncodeurA</label>
-							<pos>224,168</pos>
+							<pos>224,152</pos>
+							<size>53,21</size>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT24" variable="StaticText24" member="yes">
+							<label>EncodeurB</label>
+							<pos>224,192</pos>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT21" variable="StaticText21" member="yes">
-							<label>EncodeurB</label>
-							<pos>224,208</pos>
+							<label> Encodeur à 0</label>
+							<pos>216,232</pos>
 						</object>
 						<object class="wxComboBox" name="ID_COMBOBOX8" variable="ComboBoxEncodeurA" member="yes">
 							<content>
@@ -633,7 +682,7 @@
 								<item>---</item>
 							</content>
 							<selection>0</selection>
-							<pos>288,160</pos>
+							<pos>288,144</pos>
 							<size>54,-1</size>
 						</object>
 						<object class="wxComboBox" name="ID_COMBOBOX9" variable="ComboBoxEncodeurB" member="yes">
@@ -642,7 +691,7 @@
 								<item>---</item>
 							</content>
 							<selection>0</selection>
-							<pos>288,200</pos>
+							<pos>288,184</pos>
 							<size>54,-1</size>
 						</object>
 						<object class="wxComboBox" name="ID_COMBOBOX10" variable="ComboBoxID1" member="yes">
@@ -663,13 +712,21 @@
 							<pos>288,96</pos>
 							<size>54,0</size>
 						</object>
-						<object class="wxStaticText" name="ID_STATICTEXT22" variable="StaticText22" member="yes">
+						<object class="wxStaticText" name="ID_STATICTEXT26" variable="StaticText26" member="yes">
 							<label>ID1</label>
 							<pos>248,80</pos>
 						</object>
-						<object class="wxStaticText" name="ID_STATICTEXT23" variable="StaticText23" member="yes">
+						<object class="wxStaticText" name="ID_STATICTEXT22" variable="StaticText22" member="yes">
+							<label>ID1</label>
+							<pos>376,80</pos>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT27" variable="StaticText27" member="yes">
 							<label>ID2</label>
 							<pos>248,104</pos>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT23" variable="StaticText23" member="yes">
+							<label>ID2</label>
+							<pos>376,104</pos>
 						</object>
 					</object>
 					<label>Personnalisation</label>

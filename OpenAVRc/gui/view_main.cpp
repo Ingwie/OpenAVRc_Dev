@@ -272,7 +272,7 @@ void menuMainView(uint8_t event)
 
   case EVT_KEY_BREAK(KEY_RIGHT):
   case EVT_KEY_BREAK(KEY_LEFT):
-    if (view_base <= VIEW_INPUTS) {
+    if (view_base < VIEW_TIMER2) {
       g_eeGeneral.view ^= ALTERNATE_VIEW;
       eeDirty(EE_GENERAL);
       AUDIO_KEYPAD_UP();
@@ -446,20 +446,25 @@ void menuMainView(uint8_t event)
   else if (view_base == VIEW_GVARS) {
     uint8_t x0,y0;
     bool test;
-    for (uint8_t i=0; i<MAX_GVARS; i++) {
+#if defined(EXTERNALEEPROM)
+    uint8_t offset = (g_eeGeneral.view & ALTERNATE_VIEW) ? MAX_GVARS/2 : 0;
+#else
+    uint8_t offset = 0;
+#endif
+    for (uint8_t i=0; i<6; i++) {
       x0 = (FW+FW/3)+(i%2)*2*FW*(LEN_GVAR_NAME-1)-(i%2)*FW/2;
       y0 = i/2*FH+33;
       test = false;
       for (uint8_t j=0; j<LEN_GVAR_NAME; j++) {
-        if (g_model.gvars[i].name[j]) {
+        if (g_model.gvars[i+offset].name[j]) {
           test = true;
           break;
         }
       }
-      if (!test) lcdDrawStringWithIndex(x0+3*FW, y0, STR_GV, i+1);
-      else lcdDrawSizedTextAtt(x0, y0, g_model.gvars[i].name, LEN_GVAR_NAME, ZCHAR|FIXEDWIDTH);
+      if (!test) lcdDrawStringWithIndex(x0+3*FW, y0, STR_GV, i+1+offset);
+      else lcdDrawSizedTextAtt(x0, y0, g_model.gvars[i+offset].name, LEN_GVAR_NAME, ZCHAR|FIXEDWIDTH);
       x0 += (LEN_GVAR_NAME+3)*FW+FW/3;
-      lcd_outdez8(x0, y0, GVAR_VALUE(i, getGVarFlightPhase(mixerCurrentFlightMode, i)));
+      lcd_outdez8(x0, y0, GVAR_VALUE(i+offset, getGVarFlightPhase(mixerCurrentFlightMode, i+offset)));
     }
   }
 #endif
@@ -494,7 +499,7 @@ void menuMainView(uint8_t event)
 #endif // ROTARY_ENCODERS
 
       // Logical Switches
-      for (uint8_t i=0; i<NUM_LOGICAL_SWITCH; i++)
+      for (uint8_t i=0; i<15; i++) //Can't draw all NUM_LOGICAL_SWITCH
         lcdPutsSwitches(2*FW-3 + (i/3)*(i/3>2 ? 3*FW+2 : (3*FW-1)) + (i/3>2 ? 2*FW : 0), 4*FH+1 + (i%3)*FH, SWSRC_SW1+i, getSwitch(SWSRC_SW1+i) ? INVERS : 0);
     }
   } else { // timer2

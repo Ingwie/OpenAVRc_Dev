@@ -777,7 +777,7 @@ void OpenAVRc_SimulatorFrame::LoadEepromFile(wxString path)
 {
   wxFile bin_file(path);
   if(bin_file.IsOpened()) {
-    for (int i=0; i<(sizeof(simu_eeprom)); ++i) simu_eeprom[i] = 0;
+    for (int i=0; i<EESIZE; ++i) simu_eeprom[i] = 0x00;
     bin_file.Read(&simu_eeprom[0], EESIZE);
     bin_file.Close();
   }
@@ -1165,10 +1165,40 @@ void OpenAVRc_SimulatorFrame::ExportEeprom()
   Chrono10ms->Resume();
 }
 
+int calculeSwitchOffset(int switchnum) // From 217 to 30
+{
+  int add = 0;
+  int sign = switchnum<0 ? -1 : 1;
+  switchnum = abs(switchnum);
+  if (switchnum > SWSRC_REb) add = 4;
+    if (sign == -1)
+     sign = -1;
+
+  if (switchnum > (SWSRC_REb+12)) add = 4 + 8;
+
+  return ((switchnum + add) * sign);
+}
+
+int calculeAndSwitchOffset(int switchnum) // From 217 to 30
+{
+  int sign = (switchnum<0) ? -1 : 1;
+  switchnum = abs(switchnum);
+  if (switchnum > SWSRC_TRN) switchnum += 14;
+  return (switchnum) * sign;
+}
+
+int calculeMixSwitchOffset(int mixsrcnum)
+{
+  int add = 0;
+  if (mixsrcnum > (MIXSRC_FIRST_LOGICAL_SWITCH +11)) add += 8;
+  if (mixsrcnum > (MIXSRC_FIRST_GVAR +4)) add += 7;
+  return (mixsrcnum + add);
+}
+
 void OpenAVRc_SimulatorFrame::load_ModelData_30()
 {
   ModelData temp_model;
-  int tmp =0;
+  int tmp = 0;
   wxString strtmp;
 
   for (uint8_t m=0; m<MAX_MODELS; ++m) {
@@ -1419,6 +1449,11 @@ void OpenAVRc_SimulatorFrame::load_ModelData_30()
         ConvWxstrToCharFw(strtmp,temp_model.gvars[i].name, LEN_GVAR_NAME);
       }
 
+      eepromfile->Read(wxT("PCF8574Channel1"),&tmp,0);
+      temp_model.PCF8574Channel1 = tmp;
+      eepromfile->Read(wxT("PCF8574Channel2"),&tmp,0);
+      temp_model.PCF8574Channel2 = tmp;
+
       for (int i=0; i<MAX_FRSKY_A_CHANNELS; ++i) { //FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
         wxString num = wxString::Format(wxT("%i"),i);
         eepromfile->Read(wxT("telemetry.channels"+num+".ratio"),&tmp,0);
@@ -1491,13 +1526,10 @@ void OpenAVRc_SimulatorFrame::load_ModelData_30()
 
 void OpenAVRc_SimulatorFrame::load_ModelData_217()
 {
-
-#define L_offset(x) if (x > (MIXSRC_LAST_LOGICAL_SWITCH-3)) {x+=3;} // 3 more "L" SWITCHES_DELAY
-#define GV_offset(x) if (x > (MIXSRC_LAST_GVAR-1)) {++x;} // 1 more Gvar
-
   ModelData temp_model;
-  int tmp =0;
+  int tmp = 0;
   wxString strtmp;
+  uint8_t cstate;
 
   for (uint8_t m=0; m<MAX_MODELS; ++m) {
     wxString num = wxString::Format(wxT("%i"),m+1);
@@ -1567,12 +1599,11 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
         eepromfile->Read(wxT("mixData"+num+".offsetMode"),&tmp,0);
         temp_model.mixData[i].offsetMode = tmp;
         eepromfile->Read(wxT("mixData"+num+".srcRaw"),&tmp,0);
-        L_offset(tmp);
-        temp_model.mixData[i].srcRaw = tmp;
+        temp_model.mixData[i].srcRaw = calculeSwitchOffset(tmp);
         eepromfile->Read(wxT("mixData"+num+".weight"),&tmp,0);
         temp_model.mixData[i].weight = tmp;
         eepromfile->Read(wxT("mixData"+num+".swtch"),&tmp,0);
-        temp_model.mixData[i].swtch = tmp;
+        temp_model.mixData[i].swtch = calculeSwitchOffset(tmp);
         eepromfile->Read(wxT("mixData"+num+".flightModes"),&tmp,0);
         temp_model.mixData[i].flightModes = tmp;
         eepromfile->Read(wxT("mixData"+num+".mltpx"),&tmp,0);
@@ -1626,7 +1657,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
         eepromfile->Read(wxT("expoData"+num+".flightModes"),&tmp,0);
         temp_model.expoData[i].flightModes = tmp;
         eepromfile->Read(wxT("expoData"+num+".swtch"),&tmp,0);
-        temp_model.expoData[i].swtch = tmp;
+        temp_model.expoData[i].swtch = calculeSwitchOffset(tmp);
         eepromfile->Read(wxT("expoData"+num+".weight"),&tmp,0);
         temp_model.expoData[i].weight = tmp;
         eepromfile->Read(wxT("expoData"+num+".curveParam"),&tmp,0);
@@ -1645,22 +1676,35 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
         temp_model.points[i] = tmp;
       }
 
-      for (int i=0; i<NUM_LOGICAL_SWITCH; ++i) { //LogicalSwitchData logicalSw[NUM_LOGICAL_SWITCH];
+      for (int i=0; i<NUM_LOGICAL_SWITCH; ++i)
+      {
+        //LogicalSwitchData logicalSw[NUM_LOGICAL_SWITCH];
         wxString num = wxString::Format(wxT("%i"),i);
-        eepromfile->Read(wxT("logicalSw"+num+".v1"),&tmp,0);
-        temp_model.logicalSw[i].v1 = tmp;
-        eepromfile->Read(wxT("logicalSw"+num+".v2"),&tmp,0);
-        temp_model.logicalSw[i].v2 = tmp;
         eepromfile->Read(wxT("logicalSw"+num+".func"),&tmp,0);
         temp_model.logicalSw[i].func = (tmp == 0 ? tmp : tmp+1); // Function v==offset added
         eepromfile->Read(wxT("logicalSw"+num+".andsw"),&tmp,0);
-        temp_model.logicalSw[i].andsw = tmp;
+        temp_model.logicalSw[i].andsw = calculeAndSwitchOffset(tmp);
+        cstate = lswFamily(temp_model.logicalSw[i].func);
+        if (cstate == LS_FAMILY_BOOL || cstate == LS_FAMILY_STICKY)
+        {
+          eepromfile->Read(wxT("logicalSw"+num+".v1"),&tmp,0);
+          temp_model.logicalSw[i].v1 = calculeSwitchOffset(tmp);
+          eepromfile->Read(wxT("logicalSw"+num+".v2"),&tmp,0);
+          temp_model.logicalSw[i].v2 = calculeSwitchOffset(tmp);
+        }
+        else
+        {
+          eepromfile->Read(wxT("logicalSw"+num+".v1"),&tmp,0);
+          temp_model.logicalSw[i].v1 = (tmp);
+          eepromfile->Read(wxT("logicalSw"+num+".v2"),&tmp,0);
+          temp_model.logicalSw[i].v2 = (tmp);
+        }
       }
 
-      for (int i=0; i<NUM_CFN; ++i) { //CustomFunctionData customFn[NUM_CFN];
+      for (int i=0; i<NUM_CFN; ++i) {  //CustomFunctionData customFn[NUM_CFN];
         wxString num = wxString::Format(wxT("%i"),i);
         eepromfile->Read(wxT("customFn"+num+".swtch"),&tmp,0);
-        temp_model.customFn[i].swtch = tmp;
+        temp_model.customFn[i].swtch = calculeSwitchOffset(tmp);
         eepromfile->Read(wxT("customFn"+num+".func"),&tmp,0);
         temp_model.customFn[i].func = tmp;
         eepromfile->Read(wxT("customFn"+num+".mode"),&tmp,0);
@@ -1672,9 +1716,11 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
         eepromfile->Read(wxT("customFn"+num+".spare"),&tmp,0);
         temp_model.customFn[i].spare = tmp;
         eepromfile->Read(wxT("customFn"+num+".value"),&tmp,0);
-        L_offset(tmp);
-        GV_offset(tmp);
+        if (temp_model.customFn[i].func == FUNC_PLAY_VALUE ) {
+        temp_model.customFn[i].value = calculeMixSwitchOffset(tmp);
+        } else {
         temp_model.customFn[i].value = tmp;
+        }
       }
 
       eepromfile->Read(wxT("swashR.invertELE"),&tmp,0);
@@ -1700,7 +1746,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
         }
 
         eepromfile->Read(wxT("flightModeData"+num+".swtch"),&tmp,0);
-        temp_model.flightModeData[i].swtch = tmp;
+        temp_model.flightModeData[i].swtch = calculeSwitchOffset(tmp);
         eepromfile->Read(wxT("flightModeData"+num+".name"),&strtmp,"      ");
         ConvWxstrToCharFw(strtmp,temp_model.flightModeData[i].name, LEN_FLIGHT_MODE_NAME);
         eepromfile->Read(wxT("flightModeData"+num+".fadeIn"),&tmp,0);
@@ -1736,6 +1782,9 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
         eepromfile->Read(wxT("gvars"+num+".name"),&strtmp,"      ");
         ConvWxstrToCharFw(strtmp,temp_model.gvars[i].name, LEN_GVAR_NAME);
       }
+
+      temp_model.PCF8574Channel1 = 0;
+      temp_model.PCF8574Channel2 = 0;
 
       for (int i=0; i<MAX_FRSKY_A_CHANNELS; ++i) { //FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
         wxString num = wxString::Format(wxT("%i"),i);
@@ -1811,107 +1860,121 @@ void OpenAVRc_SimulatorFrame::load_EEGeneral_30()
 {
   int tmp =0;
   eepromfile->SetPath("/EEGENERAL/");
-  eepromfile->Read(wxT("version"),&tmp);
+  eepromfile->Read(wxT("version"),&tmp,0);
   g_eeGeneral.version = tmp;
+  wxString strtmp;
 
   for (int i=0; i<(NUM_STICKS+NUM_POTS); ++i) { //CalibData calib[NUM_STICKS+NUM_POTS]
     wxString num = wxString::Format(wxT("%i"),i);
-    eepromfile->Read(wxT("calib"+num+".mid"),&tmp);
+    eepromfile->Read(wxT("calib"+num+".mid"),&tmp,0);
     g_eeGeneral.calib[i].mid = tmp;
-    eepromfile->Read(wxT("calib"+num+".spanNeg"),&tmp);
+    eepromfile->Read(wxT("calib"+num+".spanNeg"),&tmp,0);
     g_eeGeneral.calib[i].spanNeg = tmp;
-    eepromfile->Read(wxT("calib"+num+".spanPos"),&tmp);
+    eepromfile->Read(wxT("calib"+num+".spanPos"),&tmp,0);
     g_eeGeneral.calib[i].spanPos = tmp;
   }
 
   eepromfile->Read(wxT("chkSum"),g_eeGeneral.chkSum);
-  eepromfile->Read(wxT("currModel"),&tmp);
+  eepromfile->Read(wxT("currModel"),&tmp,0);
   g_eeGeneral.currModel = tmp;
-  eepromfile->Read(wxT("contrast"),&tmp);
+  eepromfile->Read(wxT("contrast"),&tmp,0);
   g_eeGeneral.contrast = tmp;
-  eepromfile->Read(wxT("vBatWarn"),&tmp);
+  eepromfile->Read(wxT("vBatWarn"),&tmp,0);
   g_eeGeneral.vBatWarn = tmp;
-  eepromfile->Read(wxT("txVoltageCalibration"),&tmp);
+  eepromfile->Read(wxT("txVoltageCalibration"),&tmp,0);
   g_eeGeneral.txVoltageCalibration = tmp;
-  eepromfile->Read(wxT("backlightMode"),&tmp);
+  eepromfile->Read(wxT("backlightMode"),&tmp,0);
   g_eeGeneral.backlightMode = tmp;
 
   for (int i=0; i<4; ++i) { //TrainerData trainer;
     wxString num = wxString::Format(wxT("%i"),i);
-    eepromfile->Read(wxT("trainer.calib"+num),&tmp);
+    eepromfile->Read(wxT("trainer.calib"+num),&tmp,0);
     g_eeGeneral.trainer.calib[i] = tmp;
-    eepromfile->Read(wxT("trainer.mix"+num+".srcChn"),&tmp);
+    eepromfile->Read(wxT("trainer.mix"+num+".srcChn"),&tmp,0);
     g_eeGeneral.trainer.mix[i].srcChn = tmp;
-    eepromfile->Read(wxT("trainer.mix"+num+".mode"),&tmp);
+    eepromfile->Read(wxT("trainer.mix"+num+".mode"),&tmp,0);
     g_eeGeneral.trainer.mix[i].mode = tmp;
-    eepromfile->Read(wxT("trainer.mix"+num+".studWeight"),&tmp);
+    eepromfile->Read(wxT("trainer.mix"+num+".studWeight"),&tmp,0);
     g_eeGeneral.trainer.mix[i].studWeight = tmp;
   }
 
-  eepromfile->Read(wxT("view"),&tmp);
+  eepromfile->Read(wxT("view"),&tmp,0);
   g_eeGeneral.view = tmp;
-  eepromfile->Read(wxT("buzzerMode"),&tmp);
+  eepromfile->Read(wxT("buzzerMode"),&tmp,0);
   g_eeGeneral.buzzerMode = tmp;
-  eepromfile->Read(wxT("fai"),&tmp);
+  eepromfile->Read(wxT("fai"),&tmp,0);
   g_eeGeneral.fai = tmp;
-  eepromfile->Read(wxT("beepMode"),&tmp);
+  eepromfile->Read(wxT("beepMode"),&tmp,0);
   g_eeGeneral.beepMode = tmp;
-  eepromfile->Read(wxT("alarmsFlash"),&tmp);
+  eepromfile->Read(wxT("alarmsFlash"),&tmp,0);
   g_eeGeneral.alarmsFlash = tmp;
-  eepromfile->Read(wxT("disableMemoryWarning"),&tmp);
+  eepromfile->Read(wxT("disableMemoryWarning"),&tmp,0);
   g_eeGeneral.disableMemoryWarning = tmp;
-  eepromfile->Read(wxT("disableAlarmWarning"),&tmp);
+  eepromfile->Read(wxT("disableAlarmWarning"),&tmp,0);
   g_eeGeneral.disableAlarmWarning = tmp;
-  eepromfile->Read(wxT("stickMode"),&tmp);
+  eepromfile->Read(wxT("stickMode"),&tmp,0);
   g_eeGeneral.stickMode = tmp;
-  eepromfile->Read(wxT("timezone"),&tmp);
+  eepromfile->Read(wxT("timezone"),&tmp,0);
   g_eeGeneral.timezone = tmp;
-  eepromfile->Read(wxT("adjustRTC"),&tmp);
+  eepromfile->Read(wxT("adjustRTC"),&tmp,0);
   g_eeGeneral.adjustRTC = tmp;
-  eepromfile->Read(wxT("inactivityTimer"),&tmp);
+  eepromfile->Read(wxT("inactivityTimer"),&tmp,0);
   g_eeGeneral.inactivityTimer = tmp;
-  eepromfile->Read(wxT("mavbaud"),&tmp);
+  eepromfile->Read(wxT("mavbaud"),&tmp,0);
   g_eeGeneral.mavbaud = tmp;
-  eepromfile->Read(wxT("splashMode"),&tmp);
+  eepromfile->Read(wxT("splashMode"),&tmp,0);
   g_eeGeneral.splashMode = tmp;
-  eepromfile->Read(wxT("hapticMode"),&tmp);
+  eepromfile->Read(wxT("hapticMode"),&tmp,0);
   g_eeGeneral.hapticMode = tmp;
-  eepromfile->Read(wxT("blOffBright"),&tmp);
+  eepromfile->Read(wxT("blOffBright"),&tmp,0);
   g_eeGeneral.blOffBright = tmp;
-  eepromfile->Read(wxT("blOnBright"),&tmp);
+  eepromfile->Read(wxT("blOnBright"),&tmp,0);
   g_eeGeneral.blOnBright = tmp;
-  eepromfile->Read(wxT("lightAutoOff"),&tmp);
+  eepromfile->Read(wxT("lightAutoOff"),&tmp,0);
   g_eeGeneral.lightAutoOff = tmp;
-  eepromfile->Read(wxT("templateSetup"),&tmp);
+  eepromfile->Read(wxT("templateSetup"),&tmp,0);
   g_eeGeneral.templateSetup = tmp;
-  eepromfile->Read(wxT("PPM_Multiplier"),&tmp);
+  eepromfile->Read(wxT("PPM_Multiplier"),&tmp,0);
   g_eeGeneral.PPM_Multiplier = tmp;
-  eepromfile->Read(wxT("hapticLength"),&tmp);
+  eepromfile->Read(wxT("hapticLength"),&tmp,0);
   g_eeGeneral.hapticLength = tmp;
-  eepromfile->Read(wxT("reNavigation"),&tmp);
+  eepromfile->Read(wxT("reNavigation"),&tmp,0);
   g_eeGeneral.reNavigation = tmp;
-  eepromfile->Read(wxT("stickReverse"),&tmp);
+  eepromfile->Read(wxT("stickReverse"),&tmp,0);
   g_eeGeneral.stickReverse = tmp;
-  eepromfile->Read(wxT("beepLength"),&tmp);
+  eepromfile->Read(wxT("beepLength"),&tmp,0);
   g_eeGeneral.beepLength = tmp;
-  eepromfile->Read(wxT("hapticStrength"),&tmp);
+  eepromfile->Read(wxT("hapticStrength"),&tmp,0);
   g_eeGeneral.hapticStrength = tmp;
-  eepromfile->Read(wxT("gpsFormat"),&tmp);
+  eepromfile->Read(wxT("gpsFormat"),&tmp,0);
   g_eeGeneral.gpsFormat = tmp;
-  eepromfile->Read(wxT("unexpectedShutdown"),&tmp);
+  eepromfile->Read(wxT("unexpectedShutdown"),&tmp,0);
   g_eeGeneral.unexpectedShutdown = tmp;
-  eepromfile->Read(wxT("speakerPitch"),&tmp);
+  eepromfile->Read(wxT("speakerPitch"),&tmp,0);
   g_eeGeneral.speakerPitch = tmp;
-  eepromfile->Read(wxT("speakerVolume"),&tmp);
+  eepromfile->Read(wxT("speakerVolume"),&tmp,0);
   g_eeGeneral.speakerVolume = tmp;
-  eepromfile->Read(wxT("vBatMin"),&tmp);
+  eepromfile->Read(wxT("vBatMin"),&tmp,0);
   g_eeGeneral.vBatMin = tmp;
-  eepromfile->Read(wxT("vBatMax"),&tmp);
+  eepromfile->Read(wxT("vBatMax"),&tmp,0);
   g_eeGeneral.vBatMax = tmp;
+
+  eepromfile->Read(wxT("BTParams"),&tmp,0);
+  g_eeGeneral.BTParams = tmp;
+
+  eepromfile->Read(wxT("BTName"),&strtmp,"      ");
+  ConvWxstrToCharFw(strtmp,g_eeGeneral.BTName, 6);
+  eepromfile->Read(wxT("BTSlaveName"),&strtmp,"      ");
+  ConvWxstrToCharFw(strtmp,g_eeGeneral.BTSlaveName, 6);
+  for (int i=0; i<6; ++i) {
+    wxString num = wxString::Format(wxT("%i"),i);
+    eepromfile->Read(wxT("BTSlaveMac"+num),&tmp,0);
+    g_eeGeneral.BTSlaveMac[i] = tmp;
+  }
 
   for (int i=0; i<4; ++i) { //fixed_ID[4]
     wxString num = wxString::Format(wxT("%i"),i);
-    eepromfile->Read(wxT("fixed_ID"+num),&tmp);
+    eepromfile->Read(wxT("fixed_ID"+num),&tmp,0);
     g_eeGeneral.fixed_ID.ID_8[i] = tmp;
   }
 
@@ -1922,102 +1985,102 @@ void OpenAVRc_SimulatorFrame::load_EEGeneral_217()
 {
   int tmp =0;
   eepromfile->SetPath("/EEGENERAL/");
-  eepromfile->Read(wxT("version"),&tmp);
+  eepromfile->Read(wxT("version"),&tmp,0);
   g_eeGeneral.version = 30; //todo convertion dialog
 
   for (int i=0; i<(NUM_STICKS+NUM_POTS); ++i) { //CalibData calib[NUM_STICKS+NUM_POTS]
     wxString num = wxString::Format(wxT("%i"),i);
-    eepromfile->Read(wxT("calib"+num+".mid"),&tmp);
+    eepromfile->Read(wxT("calib"+num+".mid"),&tmp,0);
     g_eeGeneral.calib[i].mid = tmp;
-    eepromfile->Read(wxT("calib"+num+".spanNeg"),&tmp);
+    eepromfile->Read(wxT("calib"+num+".spanNeg"),&tmp,0);
     g_eeGeneral.calib[i].spanNeg = tmp;
-    eepromfile->Read(wxT("calib"+num+".spanPos"),&tmp);
+    eepromfile->Read(wxT("calib"+num+".spanPos"),&tmp,0);
     g_eeGeneral.calib[i].spanPos = tmp;
   }
 
   eepromfile->Read(wxT("chkSum"),g_eeGeneral.chkSum);
-  eepromfile->Read(wxT("currModel"),&tmp);
+  eepromfile->Read(wxT("currModel"),&tmp,0);
   g_eeGeneral.currModel = tmp;
-  eepromfile->Read(wxT("contrast"),&tmp);
+  eepromfile->Read(wxT("contrast"),&tmp,0);
   g_eeGeneral.contrast = tmp;
-  eepromfile->Read(wxT("vBatWarn"),&tmp);
+  eepromfile->Read(wxT("vBatWarn"),&tmp,0);
   g_eeGeneral.vBatWarn = tmp;
-  eepromfile->Read(wxT("txVoltageCalibration"),&tmp);
+  eepromfile->Read(wxT("txVoltageCalibration"),&tmp,0);
   g_eeGeneral.txVoltageCalibration = tmp;
-  eepromfile->Read(wxT("backlightMode"),&tmp);
+  eepromfile->Read(wxT("backlightMode"),&tmp,0);
   g_eeGeneral.backlightMode = tmp;
 
   for (int i=0; i<4; ++i) { //TrainerData trainer;
     wxString num = wxString::Format(wxT("%i"),i);
-    eepromfile->Read(wxT("trainer.calib"+num),&tmp);
+    eepromfile->Read(wxT("trainer.calib"+num),&tmp,0);
     g_eeGeneral.trainer.calib[i] = tmp;
-    eepromfile->Read(wxT("trainer.mix"+num+".srcChn"),&tmp);
+    eepromfile->Read(wxT("trainer.mix"+num+".srcChn"),&tmp,0);
     g_eeGeneral.trainer.mix[i].srcChn = tmp;
-    eepromfile->Read(wxT("trainer.mix"+num+".mode"),&tmp);
+    eepromfile->Read(wxT("trainer.mix"+num+".mode"),&tmp,0);
     g_eeGeneral.trainer.mix[i].mode = tmp;
-    eepromfile->Read(wxT("trainer.mix"+num+".studWeight"),&tmp);
+    eepromfile->Read(wxT("trainer.mix"+num+".studWeight"),&tmp,0);
     g_eeGeneral.trainer.mix[i].studWeight = tmp;
   }
 
-  eepromfile->Read(wxT("view"),&tmp);
+  eepromfile->Read(wxT("view"),&tmp,0);
   g_eeGeneral.view = tmp;
-  eepromfile->Read(wxT("buzzerMode"),&tmp);
+  eepromfile->Read(wxT("buzzerMode"),&tmp,0);
   g_eeGeneral.buzzerMode = tmp;
-  eepromfile->Read(wxT("fai"),&tmp);
+  eepromfile->Read(wxT("fai"),&tmp,0);
   g_eeGeneral.fai = tmp;
-  eepromfile->Read(wxT("beepMode"),&tmp);
+  eepromfile->Read(wxT("beepMode"),&tmp,0);
   g_eeGeneral.beepMode = tmp;
-  eepromfile->Read(wxT("alarmsFlash"),&tmp);
+  eepromfile->Read(wxT("alarmsFlash"),&tmp,0);
   g_eeGeneral.alarmsFlash = tmp;
-  eepromfile->Read(wxT("disableMemoryWarning"),&tmp);
+  eepromfile->Read(wxT("disableMemoryWarning"),&tmp,0);
   g_eeGeneral.disableMemoryWarning = tmp;
-  eepromfile->Read(wxT("disableAlarmWarning"),&tmp);
+  eepromfile->Read(wxT("disableAlarmWarning"),&tmp,0);
   g_eeGeneral.disableAlarmWarning = tmp;
-  eepromfile->Read(wxT("stickMode"),&tmp);
+  eepromfile->Read(wxT("stickMode"),&tmp,0);
   g_eeGeneral.stickMode = tmp;
-  eepromfile->Read(wxT("timezone"),&tmp);
+  eepromfile->Read(wxT("timezone"),&tmp,0);
   g_eeGeneral.timezone = tmp;
-  eepromfile->Read(wxT("adjustRTC"),&tmp);
+  eepromfile->Read(wxT("adjustRTC"),&tmp,0);
   g_eeGeneral.adjustRTC = tmp;
-  eepromfile->Read(wxT("inactivityTimer"),&tmp);
+  eepromfile->Read(wxT("inactivityTimer"),&tmp,0);
   g_eeGeneral.inactivityTimer = tmp;
-  eepromfile->Read(wxT("mavbaud"),&tmp);
+  eepromfile->Read(wxT("mavbaud"),&tmp,0);
   g_eeGeneral.mavbaud = tmp;
-  eepromfile->Read(wxT("splashMode"),&tmp);
+  eepromfile->Read(wxT("splashMode"),&tmp,0);
   g_eeGeneral.splashMode = tmp;
-  eepromfile->Read(wxT("hapticMode"),&tmp);
+  eepromfile->Read(wxT("hapticMode"),&tmp,0);
   g_eeGeneral.hapticMode = tmp;
-  eepromfile->Read(wxT("blOffBright"),&tmp);
+  eepromfile->Read(wxT("blOffBright"),&tmp,0);
   g_eeGeneral.blOffBright = tmp;
-  eepromfile->Read(wxT("blOnBright"),&tmp);
+  eepromfile->Read(wxT("blOnBright"),&tmp,0);
   g_eeGeneral.blOnBright = tmp;
-  eepromfile->Read(wxT("lightAutoOff"),&tmp);
+  eepromfile->Read(wxT("lightAutoOff"),&tmp,0);
   g_eeGeneral.lightAutoOff = tmp;
-  eepromfile->Read(wxT("templateSetup"),&tmp);
+  eepromfile->Read(wxT("templateSetup"),&tmp,0);
   g_eeGeneral.templateSetup = tmp;
-  eepromfile->Read(wxT("PPM_Multiplier"),&tmp);
+  eepromfile->Read(wxT("PPM_Multiplier"),&tmp,0);
   g_eeGeneral.PPM_Multiplier = tmp;
-  eepromfile->Read(wxT("hapticLength"),&tmp);
+  eepromfile->Read(wxT("hapticLength"),&tmp,0);
   g_eeGeneral.hapticLength = tmp;
-  eepromfile->Read(wxT("reNavigation"),&tmp);
+  eepromfile->Read(wxT("reNavigation"),&tmp,0);
   g_eeGeneral.reNavigation = tmp;
-  eepromfile->Read(wxT("stickReverse"),&tmp);
+  eepromfile->Read(wxT("stickReverse"),&tmp,0);
   g_eeGeneral.stickReverse = tmp;
-  eepromfile->Read(wxT("beepLength"),&tmp);
+  eepromfile->Read(wxT("beepLength"),&tmp,0);
   g_eeGeneral.beepLength = tmp;
-  eepromfile->Read(wxT("hapticStrength"),&tmp);
+  eepromfile->Read(wxT("hapticStrength"),&tmp,0);
   g_eeGeneral.hapticStrength = tmp;
-  eepromfile->Read(wxT("gpsFormat"),&tmp);
+  eepromfile->Read(wxT("gpsFormat"),&tmp,0);
   g_eeGeneral.gpsFormat = tmp;
-  eepromfile->Read(wxT("unexpectedShutdown"),&tmp);
+  eepromfile->Read(wxT("unexpectedShutdown"),&tmp,0);
   g_eeGeneral.unexpectedShutdown = tmp;
-  eepromfile->Read(wxT("speakerPitch"),&tmp);
+  eepromfile->Read(wxT("speakerPitch"),&tmp,0);
   g_eeGeneral.speakerPitch = tmp;
-  eepromfile->Read(wxT("speakerVolume"),&tmp);
+  eepromfile->Read(wxT("speakerVolume"),&tmp,0);
   g_eeGeneral.speakerVolume = tmp;
-  eepromfile->Read(wxT("vBatMin"),&tmp);
+  eepromfile->Read(wxT("vBatMin"),&tmp,0);
   g_eeGeneral.vBatMin = tmp+90;
-  eepromfile->Read(wxT("vBatMax"),&tmp);
+  eepromfile->Read(wxT("vBatMax"),&tmp,0);
   g_eeGeneral.vBatMax = tmp+120;
 
   theFile.writeRlc(FILE_GENERAL, FILE_TYP_GENERAL, (uint8_t*)&g_eeGeneral, sizeof(EEGeneral), 1);
@@ -2181,6 +2244,9 @@ void OpenAVRc_SimulatorFrame::save_ModelData_30()
         eepromfile->Write(wxT("gvars"+num+".name"),ConvCharFwToWxstr(temp_model.gvars[i].name, LEN_GVAR_NAME));
       }
 
+      eepromfile->Write(wxT("PCF8574Channel1"),(int)temp_model.PCF8574Channel1);
+      eepromfile->Write(wxT("PCF8574Channel2"),(int)temp_model.PCF8574Channel2);
+
       for (int i=0; i<MAX_FRSKY_A_CHANNELS; ++i) { //FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
         wxString num = wxString::Format(wxT("%i"),i);
         eepromfile->Write(wxT("telemetry.channels"+num+".ratio"),(int)temp_model.telemetry.channels[i].ratio);
@@ -2280,6 +2346,14 @@ void OpenAVRc_SimulatorFrame::save_EEGeneral_30(EEGeneral General)
   eepromfile->Write(wxT("speakerVolume"),(int)General.speakerVolume);
   eepromfile->Write(wxT("vBatMin"),(int)General.vBatMin);
   eepromfile->Write(wxT("vBatMax"),(int)General.vBatMax);
+
+  eepromfile->Write(wxT("BTParams"),(int)General.BTParams);
+  eepromfile->Write(wxT("BTName"),ConvCharFwToWxstr(General.BTName, 6));
+  eepromfile->Write(wxT("BTSlaveName"),ConvCharFwToWxstr(General.BTSlaveName, 6));
+  for (int i=0; i<6; ++i) {
+    wxString num = wxString::Format(wxT("%i"),i);
+    eepromfile->Write(wxT("BTSlaveMac"+num),(int)General.BTSlaveMac[i]);
+  }
 
   for (int i=0; i<4; ++i) { // fixed_ID[4]
     wxString num = wxString::Format(wxT("%i"),i);
@@ -2954,6 +3028,7 @@ wxString int2wxString(int integer)
 {
   wxString intString = wxString::Format(wxT("%i"), integer);
   //wxMessageBox(intString);
+  return intString;
 }
 /////////////////////////////////////////////////////////
 
