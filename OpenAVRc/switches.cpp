@@ -42,9 +42,6 @@ int16_t lsLastValue[NUM_LOGICAL_SWITCH];
 volatile GETSWITCH_RECURSIVE_TYPE s_last_switch_used = 0;
 volatile GETSWITCH_RECURSIVE_TYPE s_last_switch_value = 0;
 
-
-#define getValueForLogicalSwitch(i) getValue(i)
-
 PACK(typedef struct {
   uint8_t state;
   uint8_t last;
@@ -55,7 +52,7 @@ bool getLogicalSwitch(uint8_t idx)
   LogicalSwitchData * ls = lswAddress(idx);
   bool result;
 
-  uint8_t s = computeAndswOffset(ls->andsw);
+  uint8_t s = (ls->andsw);
 
   if (ls->func == LS_FUNC_NONE || (s && !getSwitch(s))) {
     if (ls->func != LS_FUNC_STICKY) {
@@ -83,10 +80,10 @@ bool getLogicalSwitch(uint8_t idx)
   } else if (s == LS_FAMILY_STICKY) {
     result = (LS_LAST_VALUE(mixerCurrentFlightMode, idx) & (1<<0));
   } else {
-    getvalue_t x = getValueForLogicalSwitch(ls->v1);
+    getvalue_t x = getValue(ls->v1);
     getvalue_t y;
     if (s == LS_FAMILY_COMP) {
-      y = getValueForLogicalSwitch(ls->v2);
+      y = getValue(ls->v2);
 
       switch (ls->func) {
       case LS_FUNC_EQUAL:
@@ -227,6 +224,18 @@ bool getSwitch(swsrc_t swtch)
     result = REB_DOWN();
   }
 #endif
+  else if (cs_idx == SWSRC_REn) {
+    result = !(REA_DOWN() || REB_DOWN());
+  }
+  else if (cs_idx == SWSRC_XD0) {
+    result = (calibratedStick[NUM_STICKS+EXTRA_3POS-1] > 0x200); // > 512
+  }
+  else if (cs_idx == SWSRC_XD1) {
+    result = IS_IN_RANGE(calibratedStick[NUM_STICKS+EXTRA_3POS-1],-(0x200),0x200); // -512 < X < 512
+  }
+  else if (cs_idx == SWSRC_XD2) {
+    result = (calibratedStick[NUM_STICKS+EXTRA_3POS-1] < -(0x200)); // < -512
+  }
   else {
     cs_idx -= SWSRC_FIRST_LOGICAL_SWITCH;
     GETSWITCH_RECURSIVE_TYPE mask = ((GETSWITCH_RECURSIVE_TYPE)1 << cs_idx);
@@ -246,8 +255,8 @@ bool getSwitch(swsrc_t swtch)
   return swtch > 0 ? result : !result;
 }
 
-
 swarnstate_t switches_states = 0;
+
 swsrc_t getMovedSwitch()
 {
   static tmr10ms_t s_move_last_time = 0;
@@ -284,8 +293,6 @@ void checkSwitches()
 {
   swarnstate_t last_bad_switches = 0xff;
   swarnstate_t states = g_model.switchWarningState;
-
-
 
   while (1) {
 
@@ -428,20 +435,4 @@ void checkSwitches()
     else
       val = convert8bitsTelemValue(ls->v1 - MIXSRC_FIRST_TELEM + 1, 128+ls->v2) - convert8bitsTelemValue(ls->v1 - MIXSRC_FIRST_TELEM + 1, 128);
     return val;
-  }
-
-  int8_t computeAndswOffset(int8_t andsw)
-  {
-    int8_t sign=(andsw<0?-1:1);
-    andsw = abs(andsw);
-
-    if (andsw > SWSRC_LAST_SWITCH) {
-      if (andsw == SWSRC_LAST_SWITCH+1)
-        andsw = SWSRC_REa;
-      else if (andsw == SWSRC_LAST_SWITCH+2)
-        andsw = SWSRC_REb;
-      else if (andsw > SWSRC_LAST_SWITCH+2)
-        andsw += SWSRC_SW1-SWSRC_LAST_SWITCH-3;
-    }
-    return andsw*sign;
   }

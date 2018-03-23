@@ -36,7 +36,6 @@
 
 #include "OpenAVRc_DesktopMain.h"
 
-
 //(*Headers(CompilerOptionsFrame)
 #include <wx/button.h>
 #include <wx/checkbox.h>
@@ -126,6 +125,11 @@ extern wxString switchID1;
 extern wxString switchID2;
 extern wxString encoderA;
 extern wxString encoderB;
+extern wxString encoderNo;
+extern wxString switchXD0;
+extern wxString switchXD1;
+extern wxString switchXD2;
+
 
 class CompilerOptionsFrame: public wxFrame
 {
@@ -197,9 +201,13 @@ public:
     wxChoice* ChoiceVOICE;
     wxComboBox* ComboBoxEncodeurA;
     wxComboBox* ComboBoxEncodeurB;
+    wxComboBox* ComboBoxEncodeurNo;
     wxComboBox* ComboBoxID0;
     wxComboBox* ComboBoxID1;
     wxComboBox* ComboBoxID2;
+    wxComboBox* ComboBoxXD0;
+    wxComboBox* ComboBoxXD1;
+    wxComboBox* ComboBoxXD2;
     wxComboBox* ComboBoxswitch1;
     wxComboBox* ComboBoxswitch2;
     wxComboBox* ComboBoxswitch3;
@@ -211,6 +219,7 @@ public:
     wxPanel* Panel2;
     wxPanel* Panel3;
     wxPanel* Panel4;
+    wxStaticBox* StaticBox10;
     wxStaticBox* StaticBox1;
     wxStaticBox* StaticBox2;
     wxStaticBox* StaticBox3;
@@ -235,6 +244,10 @@ public:
     wxStaticText* StaticText21;
     wxStaticText* StaticText22;
     wxStaticText* StaticText23;
+    wxStaticText* StaticText24;
+    wxStaticText* StaticText25;
+    wxStaticText* StaticText26;
+    wxStaticText* StaticText27;
     wxStaticText* StaticText2;
     wxStaticText* StaticText3;
     wxStaticText* StaticText4;
@@ -323,8 +336,10 @@ protected:
     static const long ID_CHECKBOX25;
     static const long ID_CHECKBOX29;
     static const long ID_PANEL3;
-    static const long ID_STATICBOX8;
     static const long ID_STATICBOX7;
+    static const long ID_STATICBOX10;
+    static const long ID_STATICBOX8;
+    static const long ID_COMBOBOX12;
     static const long ID_COMBOBOX1;
     static const long ID_BUTTON5;
     static const long ID_BUTTON6;
@@ -341,15 +356,22 @@ protected:
     static const long ID_STATICTEXT17;
     static const long ID_STATICTEXT18;
     static const long ID_BUTTON7;
+    static const long ID_STATICTEXT25;
     static const long ID_STATICTEXT19;
+    static const long ID_COMBOBOX14;
+    static const long ID_COMBOBOX15;
+    static const long ID_COMBOBOX13;
     static const long ID_COMBOBOX7;
     static const long ID_STATICTEXT20;
+    static const long ID_STATICTEXT24;
     static const long ID_STATICTEXT21;
     static const long ID_COMBOBOX8;
     static const long ID_COMBOBOX9;
     static const long ID_COMBOBOX10;
     static const long ID_COMBOBOX11;
+    static const long ID_STATICTEXT26;
     static const long ID_STATICTEXT22;
+    static const long ID_STATICTEXT27;
     static const long ID_STATICTEXT23;
     static const long ID_PANEL4;
     static const long ID_NOTEBOOK1;
@@ -472,6 +494,7 @@ private:
     void OnComboBoxEncodeurASelected(wxCommandEvent& event);
     void OnComboBoxEncodeurBSelected(wxCommandEvent& event);
     void OnCheckBoxSD_CARDClick(wxCommandEvent& event);
+    void OnChoiceTHREE_POSSelect1(wxCommandEvent& event);
     //*)
 
     DECLARE_EVENT_TABLE()

@@ -146,7 +146,7 @@
 				<label>Lire/Écrire</label>
 				<object class="separator" />
 				<object class="wxMenuItem" name="ID_MENUITEM3" variable="Menu5" member="yes">
-					<label>Lire les réglages et le modèles de la radio (eeprom)</label>
+					<label>Lire les réglages et les modèles de la radio (eeprom)</label>
 					<bitmap stock_id="wxART_GO_FORWARD" stock_client="wxART_MENU" />
 					<handler function="OnreadmodelsSelected" entry="EVT_MENU" />
 				</object>

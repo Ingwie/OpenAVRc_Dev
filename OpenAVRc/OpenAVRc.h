@@ -249,7 +249,6 @@ static uint16_t DurationValue;
 #define SW_DSM2_BIND     SW_TRN
 
 #define NUM_PSWITCH      (SWSRC_LAST_SWITCH-SWSRC_FIRST_SWITCH+1)
-#define NUM_POTSSW       (NUM_XPOTS*6)
 
 #define KEY_ENTER        KEY_MENU
 #define KEY_PLUS         KEY_RIGHT
@@ -485,10 +484,7 @@ bool getSwitch(swsrc_t swtch);
 
 void logicalSwitchesTimerTick();
 void logicalSwitchesReset();
-int8_t computeAndswOffset(int8_t andsw);
 
-#define evalLogicalSwitches(xxx)
-#define GETSWITCH_RECURSIVE_TYPE uint16_t
 extern volatile GETSWITCH_RECURSIVE_TYPE s_last_switch_used;
 extern volatile GETSWITCH_RECURSIVE_TYPE s_last_switch_value;
 #define LS_RECURSIVE_EVALUATION_RESET() s_last_switch_used = 0
@@ -496,7 +492,6 @@ extern volatile GETSWITCH_RECURSIVE_TYPE s_last_switch_value;
 extern swarnstate_t switches_states;
 swsrc_t getMovedSwitch();
 
-#define GET_MOVED_SOURCE_PARAMS
 int8_t getMovedSource();
 #define GET_MOVED_SOURCE(min, max) getMovedSource()
 
@@ -540,7 +535,7 @@ void setTrimValue(uint8_t phase, uint8_t idx, int trim);
 // highest bit used for small values in mix 128 --> 8 bit is enough
 #define GV1_SMALL  128
 // highest bit used for large values in mix 256 --> 9 bits is used (8 bits + 1 extra bit from weightMode/offsetMode)
-#define GV1_LARGE  256 // bracame toto remove all (to switch gvar to int8 : done) unused code
+#define GV1_LARGE  256
 
 
 #define GV_GET_GV1_VALUE(max)        ( (max<=GV_RANGESMALL) ? GV1_SMALL : GV1_LARGE )

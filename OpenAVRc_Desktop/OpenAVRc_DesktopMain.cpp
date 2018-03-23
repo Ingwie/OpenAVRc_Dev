@@ -180,6 +180,11 @@ wxString switchID1 = ("ID1");
 wxString switchID2 = ("ID2");
 wxString encoderA  = ("ENA");
 wxString encoderB  = ("ENB");
+wxString encoderNo  = ("EN0");
+wxString switchXD0 = ("XD0");
+wxString switchXD1 = ("XD1");
+wxString switchXD2 = ("XD2");
+
 
 //(*IdInit(OpenAVRc_DesktopFrame)
 const long OpenAVRc_DesktopFrame::ID_STATICBOXSPLASH = wxNewId();
@@ -293,7 +298,7 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   MenuBar_main->Append(Menu3, _("Paramètres"));
   Menu4 = new wxMenu();
   Menu4->AppendSeparator();
-  Menu5 = new wxMenuItem(Menu4, ID_MENUITEM3, _("Lire les réglages et le modèles de la radio (eeprom)"), wxEmptyString, wxITEM_NORMAL);
+  Menu5 = new wxMenuItem(Menu4, ID_MENUITEM3, _("Lire les réglages et les modèles de la radio (eeprom)"), wxEmptyString, wxITEM_NORMAL);
   Menu5->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_FORWARD")),wxART_MENU));
   Menu4->Append(Menu5);
   MenuItem6 = new wxMenuItem(Menu4, ID_MENUITEM5, _("Lire le firmware de la radio"), wxEmptyString, wxITEM_NORMAL);
@@ -665,6 +670,11 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
   configFile->Read(wxT("switchID2"),&switchID2);
   configFile->Read(wxT("encoderA"),&encoderA);
   configFile->Read(wxT("encoderB"),&encoderB);
+  configFile->Read(wxT("encoderB"),&encoderB);
+  configFile->Read(wxT("encoderNo"),&encoderNo);
+  configFile->Read(wxT("switchXD0"),&switchXD0);
+  configFile->Read(wxT("switchXD1"),&switchXD1);
+  configFile->Read(wxT("switchXD2"),&switchXD2);
 
   // [SPLASH]
   configFile->SetPath("/"+Profil+"/");
@@ -778,6 +788,10 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
   configFile->Write(wxT("switchID2"),switchID2);
   configFile->Write(wxT("encoderA"),encoderA);
   configFile->Write(wxT("encoderB"),encoderB);
+  configFile->Write(wxT("encoderNo"),encoderNo);
+  configFile->Write(wxT("switchXD0"),switchXD0);
+  configFile->Write(wxT("switchXD1"),switchXD1);
+  configFile->Write(wxT("switchXD2"),switchXD2);
 
   // [SPLASH]
   configFile->SetPath("/"+Profil+"/");

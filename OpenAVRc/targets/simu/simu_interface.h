@@ -50,11 +50,8 @@ typedef const int8_t pm_int8_t;
 #define REG16 uint16_t
 
 //Function
-#if defined(EXTERNALEEPROM)
-extern unsigned char simu_eeprom[10240];
-#else
-extern unsigned char simu_eeprom[4096];
-#endif
+extern unsigned char simu_eeprom[];
+
 extern void eepromReadBlock (uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size);
 
 

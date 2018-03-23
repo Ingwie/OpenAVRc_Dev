@@ -61,14 +61,15 @@
 #define MAX_MODELS           60
 #define NUM_CHNOUT           16 // number of real output channels CH1-CH16
 #define MAX_FLIGHT_MODES     6
-#define MAX_MIXERS           32
+#define MAX_MIXERS           40
 #define MAX_EXPOS            16
-#define NUM_LOGICAL_SWITCH   15 // number of custom switches
-#define NUM_CFN              24 // number of functions assigned to switches
+#define NUM_LOGICAL_SWITCH   20 // number of custom switches
+#define GETSWITCH_RECURSIVE_TYPE uint32_t
+#define NUM_CFN              32 // number of functions assigned to switches
+#define MAX_GVARS            12
 #define NUM_TRAINER          8
 #define NUM_POTS             3
-#define NUM_XPOTS            0
-#define MAX_SENSORS          0
+
 #else
 #define MAX_MODELS           30
 #define NUM_CHNOUT           16 // number of real output channels CH1-CH16
@@ -76,15 +77,35 @@
 #define MAX_MIXERS           32
 #define MAX_EXPOS            16
 #define NUM_LOGICAL_SWITCH   15 // number of custom switches
+#define GETSWITCH_RECURSIVE_TYPE uint16_t
 #define NUM_CFN              24 // number of functions assigned to switches
+#define MAX_GVARS            6
 #define NUM_TRAINER          8
 #define NUM_POTS             3
-#define NUM_XPOTS            0
-#define MAX_SENSORS          0
+
 #endif
 
-#define MAX_TIMERS           2
+#if defined(EXTERNALEEPROM)
+#define blkid_t    uint16_t
+#define EESIZE     1024*16
+#define EEFS_VERS  6
+#define MAXFILES   64
+#define BS         64
+#else
+#define blkid_t    uint8_t
+#define EESIZE     4096
+#define EEFS_VERS  5
+#define MAXFILES   36
+#define BS         16
+#endif
 
+#define BLUETOOTH_FIELDS \
+uint8_t BTParams;        \
+char BTName[6];          \
+char BTSlaveName[6];     \
+uint8_t BTSlaveMac[6];   \
+
+#define MAX_TIMERS           2
 #define NUM_CYC              3
 #define NUM_CAL_PPM          4
 
@@ -97,8 +118,8 @@
 
 PACK(typedef struct {
   int8_t * crv;
-  uint8_t points;
-  bool custom;
+  uint8_t points:7;
+  uint8_t custom:1;
 }) CurveInfo;
 
 extern CurveInfo curveInfo(uint8_t idx);
@@ -106,7 +127,6 @@ extern CurveInfo curveInfo(uint8_t idx);
 typedef uint8_t source_t;
 
 
-#define MAX_GVARS 6
 #define LEN_GVAR_NAME 6
 #define GVAR_MAX      121 // used for phase decrypt
 #define GVAR_LIMIT    120
@@ -120,8 +140,8 @@ PACK(typedef struct {
   char    name[LEN_GVAR_NAME];
 }) global_gvar_t;
 
-#define RESERVE_RANGE_FOR_GVARS 10
-// even we do not spend space in EEPROM for 10 GVARS, we reserve the space inside the range of values, like offset, weight, etc.
+#define RESERVE_RANGE_FOR_GVARS MAX_GVARS + 2
+// even we do not spend space in EEPROM for GVARS, we reserve the space inside the range of values, like offset, weight, etc.
 
 
 PACK(typedef struct {
@@ -161,12 +181,6 @@ enum BeeperMode {
 
 #define swarnstate_t        uint8_t
 #define swarnenable_t       uint8_t
-
-#if   defined(PXX) // todo find another place
-#define EXTRA_GENERAL_FIELDS uint8_t  countryCode;
-#else
-#define EXTRA_GENERAL_FIELDS
-#endif
 
 enum BacklightMode {
   e_backlight_mode_off  = 0,
@@ -271,6 +285,7 @@ PACK(typedef struct {
   uint8_t spare:1;
   uint8_t value;
 }) CustomFunctionData;
+
 #define CFN_SWITCH(p)       ((p)->swtch)
 #define CFN_FUNC(p)         ((p)->func)
 #define CFN_ACTIVE(p)       ((p)->active)
@@ -312,7 +327,7 @@ PACK(typedef struct {
   uint8_t   disableAlarmWarning:1;
   uint8_t   stickMode:2;
   int8_t    timezone:5;
-  uint8_t   adjustRTC:1;
+  uint8_t   adjustRTC:1; ////////////////////////////////////////////////////////////////////////////!!!!!!!!!!!????
   uint8_t   inactivityTimer;
   uint8_t   mavbaud:3;       // Not used
   SPLASH_MODE; /* 3bits */
@@ -334,6 +349,7 @@ PACK(typedef struct {
   int8_t    speakerVolume;
   uint8_t   blOffBright:4;   // used if defined PWM_BACKLIGHT
   uint8_t   blOnBright:4;    // used if defined PWM_BACKLIGHT
+  BLUETOOTH_FIELDS
 // 32 bits or 4*8 bits fixed ID
   fixed_ID_Union fixed_ID;
 }) EEGeneral;
@@ -494,8 +510,7 @@ enum LogicalSwitchesFunctions {
 };
 
 typedef uint8_t ls_telemetry_value_t;
-#define MAX_LS_ANDSW    SWSRC_LAST_SWITCH + NUM_LOGICAL_SWITCH + ROTARY_ENCODERS
-#define MIN_LS_ANDSW    -(MAX_LS_ANDSW)
+
 PACK(typedef struct { // Logical Switches data
   int8_t  v1; //input
   int16_t  v2:11; //offset
@@ -755,11 +770,6 @@ enum SwitchSources {
   SWSRC_TRAINER = SWSRC_TRN,
   SWSRC_LAST_SWITCH = SWSRC_TRN,
 
-#if NUM_XPOTS > 0
-  SWSRC_FIRST_MULTIPOS_SWITCH,
-  SWSRC_LAST_MULTIPOS_SWITCH = SWSRC_FIRST_MULTIPOS_SWITCH + (NUM_XPOTS*XPOTS_MULTIPOS_COUNT) - 1,
-#endif
-
   SWSRC_FIRST_TRIM,
   SWSRC_TrimRudLeft = SWSRC_FIRST_TRIM,
   SWSRC_TrimRudRight,
@@ -773,6 +783,11 @@ enum SwitchSources {
 
   SWSRC_REa,
   SWSRC_REb,
+  SWSRC_REn,
+
+  SWSRC_XD0,
+  SWSRC_XD1,
+  SWSRC_XD2,
 
   SWSRC_FIRST_LOGICAL_SWITCH,
   SWSRC_SW1 = SWSRC_FIRST_LOGICAL_SWITCH,
@@ -790,11 +805,15 @@ enum SwitchSources {
   SWSRC_SWD,
   SWSRC_SWE,
   SWSRC_SWF,
+  /*SWSRC_SW10,
+  SWSRC_SW11,
+  SWSRC_SW12,
+  SWSRC_SW13,
+  SWSRC_SW14,*/
   SWSRC_LAST_LOGICAL_SWITCH = SWSRC_FIRST_LOGICAL_SWITCH+NUM_LOGICAL_SWITCH-1,
 
   SWSRC_ON,
   SWSRC_ONE,
-
 
   SWSRC_COUNT,
 
@@ -1111,13 +1130,15 @@ PACK(typedef struct {
   int8_t    points[NUM_POINTS];
   LogicalSwitchData logicalSw[NUM_LOGICAL_SWITCH];
   CustomFunctionData customFn[NUM_CFN];
-  SwashRingData swashR;          // Heli data
   FlightModeData flightModeData[MAX_FLIGHT_MODES];
   MODEL_GVARS_NAME // gvars name
   uint8_t thrTraceSrc:5;
   uint8_t thrSwitch:3;
   swarnstate_t  switchWarningState;
   swarnenable_t switchWarningEnable;
+  SwashRingData swashR;          // Heli data
+  uint8_t PCF8574Channel1:4; // Code todo
+  uint8_t PCF8574Channel2:4;
 
   TELEMETRY_DATA
 
@@ -1127,5 +1148,6 @@ extern EEGeneral g_eeGeneral;
 extern ModelData g_model;
 
 #define TOTAL_EEPROM_USAGE (sizeof(ModelData)*MAX_MODELS + sizeof(EEGeneral))
+//uint32_t eeprom_max = TOTAL_EEPROM_USAGE;
 
 #endif

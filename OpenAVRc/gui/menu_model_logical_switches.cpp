@@ -145,9 +145,7 @@ void menuModelLogicalSwitches(uint8_t event)
     }
 
     // CSW AND switch
-    int8_t s = computeAndswOffset(cs->andsw);
-
-    lcdPutsSwitches(CSW_4TH_COLUMN, y, s, horz==LS_FIELD_ANDSW ? attr : 0);
+    lcdPutsSwitches(CSW_4TH_COLUMN, y, (cs->andsw), horz==LS_FIELD_ANDSW ? attr : 0);
 
 
     if ((s_editMode>0 || p1valdiff) && attr) {
@@ -162,14 +160,21 @@ void menuModelLogicalSwitches(uint8_t event)
       }
       case LS_FIELD_V1:
         cs->v1 = CHECK_INCDEC_PARAM(event, v1_val, v1_min, v1_max);
+#if defined(SIMU) // Not needed but ...
+        if (checkIncDec_Ret) TRACE("v1=%d", cs->v1);
+#endif
         break;
       case LS_FIELD_V2:
         cs->v2 = CHECK_INCDEC_PARAM(event, cs->v2, v2_min, v2_max);
+#if defined(SIMU)
         if (checkIncDec_Ret) TRACE("v2=%d", cs->v2);
+#endif
         break;
       case LS_FIELD_ANDSW:
-        CHECK_INCDEC_MODELVAR(event, cs->andsw, MIN_LS_ANDSW, MAX_LS_ANDSW);
+        CHECK_INCDEC_MODELVAR(event, cs->andsw, SWSRC_FIRST, SWSRC_LAST);
+#if defined(SIMU)
         if (checkIncDec_Ret) TRACE("andsw=%d", cs->andsw);
+#endif
         break;
       }
     }
