@@ -1190,8 +1190,8 @@ int calculeAndSwitchOffset(int switchnum) // From 217 to 30
 int calculeMixSwitchOffset(int mixsrcnum)
 {
   int add = 0;
-  if (mixsrcnum > (MIXSRC_FIRST_LOGICAL_SWITCH +11)) add += 8;
-  if (mixsrcnum > (MIXSRC_FIRST_GVAR +4)) add += 7;
+  if (mixsrcnum > (MIXSRC_FIRST_LOGICAL_SWITCH +10)) add += 8;
+  if (mixsrcnum > (MIXSRC_FIRST_GVAR +3)) add += 7;
   return (mixsrcnum + add);
 }
 
@@ -1599,7 +1599,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
         eepromfile->Read(wxT("mixData"+num+".offsetMode"),&tmp,0);
         temp_model.mixData[i].offsetMode = tmp;
         eepromfile->Read(wxT("mixData"+num+".srcRaw"),&tmp,0);
-        temp_model.mixData[i].srcRaw = calculeSwitchOffset(tmp);
+        temp_model.mixData[i].srcRaw = calculeMixSwitchOffset(tmp);
         eepromfile->Read(wxT("mixData"+num+".weight"),&tmp,0);
         temp_model.mixData[i].weight = tmp;
         eepromfile->Read(wxT("mixData"+num+".swtch"),&tmp,0);
