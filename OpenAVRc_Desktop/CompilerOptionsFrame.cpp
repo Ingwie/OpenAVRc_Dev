@@ -858,9 +858,9 @@ void CompilerOptionsFrame::CreatePersonames_H()
   PersoNameFile.AddLine("#undef TR_9X_3POS_SWITCHES");
   PersoNameFile.AddLine("#define TR_9X_3POS_SWITCHES "+g+switchID0+g+g+switchID1+g+g+switchID2+g);
   PersoNameFile.AddLine("#undef TR_ROTARY_ENCODERS");
-  PersoNameFile.AddLine("#define TR_ROTARY_ENCODERS "+g+encoderA+"\\"+"0"+g+g+encoderB+"\\"+"0"+g); //"REa\0""REb\0"
+  PersoNameFile.AddLine("#define TR_ROTARY_ENCODERS "+g+encoderA+"\\"+"0"+g+g+encoderB+"\\"+"0"+g);
   PersoNameFile.AddLine("#undef TR_ROTENC_SWITCHES");
-  PersoNameFile.AddLine("#define TR_ROTENC_SWITCHES "+g+encoderA+g+g+encoderB+g+g+encoderNo+g);
+  PersoNameFile.AddLine("#define TR_ROTENC_SWITCHES "+g+encoderA.Upper()+g+g+encoderB.Upper()+g+g+encoderNo.Upper()+g);
   PersoNameFile.AddLine("#undef TR_EXTRA_3POS_SWITCHES");
   PersoNameFile.AddLine("#define TR_EXTRA_3POS_SWITCHES "+g+switchXD0+g+g+switchXD1+g+g+switchXD2+g);
   PersoNameFile.AddLine("#endif");
