@@ -781,10 +781,9 @@ enum SwitchSources {
   SWSRC_TrimAilRight,
   SWSRC_LAST_TRIM = SWSRC_TrimAilRight,
 
-  SWSRC_REa,
-  SWSRC_REb,
-  SWSRC_REn,
-
+  SWSRC_REA,
+  SWSRC_REB,
+  SWSRC_REN,
   SWSRC_XD0,
   SWSRC_XD1,
   SWSRC_XD2,

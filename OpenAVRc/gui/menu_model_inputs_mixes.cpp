@@ -472,9 +472,7 @@ void menuModelMixOne(uint8_t event)
 
     uint8_t attr = (sub==i ? (editMode>0 ? BLINK|INVERS : INVERS) : 0);
     switch(i) {
-    /*  case MIX_FIELD_NAME:      //FA: to remove ?
-        editSingleName(COLUMN_X+MIXES_2ND_COLUMN, y, STR_MIXNAME, md2->name, sizeof(md2->name), event, attr);
-        break;    */
+
     case MIX_FIELD_SOURCE:
       lcdDrawTextColumnLeft(COLUMN_X, y, NO_INDENT(STR_SOURCE));
       putsMixerSource(COLUMN_X+MIXES_2ND_COLUMN, y, md2->srcRaw, STREXPANDED|attr);
@@ -493,7 +491,6 @@ void menuModelMixOne(uint8_t event)
       drawOffsetBar(COLUMN_X+MIXES_2ND_COLUMN+22, y, md2);
       break;
     }
-
     case MIX_FIELD_TRIM: {
       uint8_t not_stick = (md2->srcRaw > NUM_STICKS);
       int8_t carryTrim = -md2->carryTrim;

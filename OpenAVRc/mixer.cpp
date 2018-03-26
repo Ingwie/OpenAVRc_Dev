@@ -185,38 +185,38 @@ int16_t applyLimits(uint8_t channel, int32_t value)
 getvalue_t getValue(mixsrc_t i)
 {
   if (i==MIXSRC_NONE) return 0;
-  else if (i>=MIXSRC_FIRST_STICK && i<=MIXSRC_LAST_POT) return calibratedStick[i-MIXSRC_Rud];
+  else if IS_IN_RANGE(i, MIXSRC_FIRST_STICK, MIXSRC_LAST_POT) return calibratedStick[i-MIXSRC_Rud];
 
-  else if (i<=MIXSRC_LAST_ROTARY_ENCODER) return getRotaryEncoder(i-MIXSRC_REa);
+  else if (i<MIXSRC_LAST_ROTARY_ENCODER+1) return getRotaryEncoder(i-MIXSRC_REa);
 
   else if (i==MIXSRC_MAX) return 1024;
 
-  else if (i<=MIXSRC_CYC3)
+  else if (i<MIXSRC_CYC3+1)
 #if defined(HELI)
     return cyc_anas[i-MIXSRC_CYC1];
 #else
     return 0;
 #endif
 
-  else if (i<=MIXSRC_TrimAil) return calc1000toRESX((int16_t)8 * getTrimValue(mixerCurrentFlightMode, i-MIXSRC_TrimRud));
+  else if (i<MIXSRC_TrimAil+1) return calc1000toRESX((int16_t)8 * getTrimValue(mixerCurrentFlightMode, i-MIXSRC_TrimRud));
   else if (i==MIXSRC_3POS) return (getSwitch(SW_ID0-SW_BASE+1) ? -1024 : (getSwitch(SW_ID1-SW_BASE+1) ? 0 : 1024));
   // don't use switchState directly to give getSwitch possibility to hack values if needed for switch warning
   else if (i<MIXSRC_SW1) return getSwitch(SWSRC_THR+i-MIXSRC_THR) ? 1024 : -1024;
-  else if (i<=MIXSRC_LAST_LOGICAL_SWITCH) return getSwitch(SWSRC_FIRST_LOGICAL_SWITCH+i-MIXSRC_FIRST_LOGICAL_SWITCH) ? 1024 : -1024;
-  else if (i<=MIXSRC_LAST_TRAINER) {
+  else if (i<MIXSRC_LAST_LOGICAL_SWITCH+1) return getSwitch(SWSRC_FIRST_LOGICAL_SWITCH+i-MIXSRC_FIRST_LOGICAL_SWITCH) ? 1024 : -1024;
+  else if (i<MIXSRC_LAST_TRAINER+1) {
     int16_t x = ppmInput[i-MIXSRC_FIRST_TRAINER];
     if (i<MIXSRC_FIRST_TRAINER+NUM_CAL_PPM) {
       x-= g_eeGeneral.trainer.calib[i-MIXSRC_FIRST_TRAINER];
     }
     return x*2;
-  } else if (i<=MIXSRC_LAST_CH) return ex_chans[i-MIXSRC_CH1];
+  } else if (i<MIXSRC_LAST_CH+1) return ex_chans[i-MIXSRC_CH1];
 
 #if defined(GVARS)
-  else if (i<=MIXSRC_LAST_GVAR) return GVAR_VALUE(i-MIXSRC_GVAR1, getGVarFlightPhase(mixerCurrentFlightMode, i-MIXSRC_GVAR1));
+  else if (i<MIXSRC_LAST_GVAR+1) return GVAR_VALUE(i-MIXSRC_GVAR1, getGVarFlightPhase(mixerCurrentFlightMode, i-MIXSRC_GVAR1));
 #endif
 
   else if (i==MIXSRC_FIRST_TELEM-1+TELEM_TX_VOLTAGE) return g_vbat10mV/10;
-  else if (i<=MIXSRC_FIRST_TELEM-1+TELEM_TIMER2) return timersStates[i-MIXSRC_FIRST_TELEM+1-TELEM_TIMER1].val;
+  else if (i<MIXSRC_FIRST_TELEM+TELEM_TIMER2) return timersStates[i-MIXSRC_FIRST_TELEM+1-TELEM_TIMER1].val;
 
 #if defined(FRSKY)
   else if (i==MIXSRC_FIRST_TELEM-1+TELEM_RSSI_TX) return telemetryData.rssi[1].value;

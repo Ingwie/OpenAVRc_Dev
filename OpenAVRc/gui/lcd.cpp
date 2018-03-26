@@ -375,10 +375,10 @@ void putsMixerSource(coord_t x, coord_t y, uint8_t idx, LcdFlags att)
 {
   if (idx < MIXSRC_THR)
     lcdDrawTextAtIndex(x, y, STR_VSRCRAW, idx, att);
-  else if (idx < MIXSRC_SW1)
+  else if (idx < MIXSRC_FIRST_LOGICAL_SWITCH)
     lcdPutsSwitches(x, y, idx-MIXSRC_THR+1+3*(1), att);
   else if (idx <= MIXSRC_LAST_LOGICAL_SWITCH)
-    lcdPutsSwitches(x, y, SWSRC_SW1+idx-MIXSRC_SW1, att);
+    lcdPutsSwitches(x, y, SWSRC_SW1+idx-MIXSRC_FIRST_LOGICAL_SWITCH, att);
   else if (idx < MIXSRC_CH1)
     lcdDrawStringWithIndex(x, y, STR_PPM_TRAINER, idx-MIXSRC_FIRST_TRAINER+1, att);
   else if (idx <= MIXSRC_LAST_CH) {
