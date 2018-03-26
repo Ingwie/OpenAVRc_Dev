@@ -215,16 +215,16 @@ bool getSwitch(swsrc_t swtch)
     result = trimDown(idx);
   }
 #if ROTARY_ENCODERS > 0
-  else if (cs_idx == SWSRC_REa) {
+  else if (cs_idx == SWSRC_REA) {
     result = REA_DOWN();
   }
 #endif
 #if ROTARY_ENCODERS > 1
-  else if (cs_idx == SWSRC_REb) {
+  else if (cs_idx == SWSRC_REB) {
     result = REB_DOWN();
   }
 #endif
-  else if (cs_idx == SWSRC_REn) {
+  else if (cs_idx == SWSRC_REN) {
     result = !(REA_DOWN() || REB_DOWN());
   }
   else if (cs_idx == SWSRC_XD0) {

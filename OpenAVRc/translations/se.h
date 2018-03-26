@@ -364,7 +364,7 @@
 #define TR_TRIMS_SWITCHES      TR("tRv""tRh""tHn""tHu""tGn""tGu""tSv""tSh", "\313Rv""\313Rh""\313Hn""\313Hu""\313Gn""\313Gu""\313Sv""\313Sh")
 
   #define TR_ROTARY_ENCODERS   "REa\0""REb\0"
-  #define TR_ROTENC_SWITCHES   "REa""REb""REn"
+  #define TR_ROTENC_SWITCHES   "REA""REB""REN"
 
   #define TR_PHYS_SWITCHES     "THR""RUD""ELE""AIL""GEA""TRN"
 
