@@ -1170,11 +1170,11 @@ int calculeSwitchOffset(int switchnum) // From 217 to 30
   int add = 0;
   int sign = switchnum<0 ? -1 : 1;
   switchnum = abs(switchnum);
-  if (switchnum > SWSRC_REb) add = 4;
+  if (switchnum > SWSRC_REB) add = 4;
     if (sign == -1)
      sign = -1;
 
-  if (switchnum > (SWSRC_REb+12)) add = 4 + 8;
+  if (switchnum > (SWSRC_REB+12)) add = 4 + 8;
 
   return ((switchnum + add) * sign);
 }
@@ -3053,8 +3053,8 @@ void ConnectCom(wxString name)
   }
   if (error == 0) SimuComIsValid = true;
   else {
-    wxString intString = wxString::Format(wxT("%i"), error);
-    wxMessageBox(intString);
+    //wxString intString = wxString::Format(wxT("%i"), error);
+    wxMessageBox("Erreur port COM");
     }
 }
 
