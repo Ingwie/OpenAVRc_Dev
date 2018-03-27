@@ -122,7 +122,7 @@ int16_t gvarMenuItem(coord_t x, coord_t y, int16_t value, int16_t min, int16_t m
   uint16_t delta = GV_GET_GV1_VALUE(max);
   bool invers = (attr & INVERS);
 
-  // TRACE("gvarMenuItem(val=%d min=%d max=%d)", value, min, max);
+  TRACE("gvarMenuItem(val=%d min=%d max=%d)", value, min, max);
 
   if (invers && event == EVT_KEY_LONG(KEY_ENTER)) {
     s_editMode = !s_editMode;

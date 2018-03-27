@@ -48,7 +48,7 @@
 #define WARN_MEM     (!(g_eeGeneral.warnOpts & WARN_MEM_BIT))
 #define BEEP_VAL     ( (g_eeGeneral.warnOpts & WARN_BVAL_BIT) >>3 )
 
-#define EEPROM_VER             30 // New eeprom format
+#define EEPROM_VER             31 // New eeprom format
 #define FIRST_CONV_EEPROM_VER  EEPROM_VER
 
 #ifndef PACK
@@ -140,7 +140,7 @@ PACK(typedef struct {
   char    name[LEN_GVAR_NAME];
 }) global_gvar_t;
 
-#define RESERVE_RANGE_FOR_GVARS MAX_GVARS + 2
+#define RESERVE_RANGE_FOR_GVARS MAX_GVARS
 // even we do not spend space in EEPROM for GVARS, we reserve the space inside the range of values, like offset, weight, etc.
 
 
