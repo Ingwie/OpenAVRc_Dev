@@ -201,10 +201,10 @@ private:
   void ImportEeprom();
   void load_EEGeneral_217();
   void load_ModelData_217();
-  void save_EEGeneral_30(EEGeneral General);
-  void save_ModelData_30();
-  void load_EEGeneral_30();
-  void load_ModelData_30();
+  void save_EEGeneral_EEPROM_VER(EEGeneral General);
+  void save_ModelData_EEPROM_VER();
+  void load_EEGeneral_EEPROM_VER();
+  void load_ModelData_EEPROM_VER();
   void OnMenuImportEepromSelected(wxCommandEvent& event);
   void OntelemetrySelected(wxCommandEvent& event);
   //*)
