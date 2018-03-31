@@ -44,7 +44,7 @@ bool  s_sync_write = false;
 
 uint16_t eeprom_pointer;
 uint8_t * eeprom_buffer_data;
-volatile int8_t eeprom_buffer_size = 0;
+volatile uint8_t eeprom_buffer_size = 0;
 
 #if !defined(EXTERNALEEPROM) | defined(SIMU)
 inline void eeprom_write_byte()
@@ -73,7 +73,7 @@ ISR(EE_READY_vect)
 
 void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t size)
 {
-  //assert(!eeprom_buffer_size);
+  assert(!eeprom_buffer_size);
 
   eeprom_pointer = i_pointer_eeprom;
   eeprom_buffer_data = i_pointer_ram;
@@ -271,6 +271,13 @@ void eepromCheck()
 void eepromFormat()
 {
   ENABLE_SYNC_WRITE(true);
+
+  uint8_t fil[4] = {0xFF,0xFF,0xFF,0xFF};
+
+  for (uint16_t i=0; i<(EESIZE/DIM(fil)); i+=DIM(fil)) // erase eeprom
+  {
+    eepromWriteBlock((uint8_t*)&fil, i, DIM(fil));
+  }
 
 #if defined(SIMU)
   // write zero to the end of the new EEPROM file to set it's proper size
@@ -672,7 +679,7 @@ const pm_char * eeRestoreModel(uint8_t i_fileDst, char *model_name)
   }
 
   uint8_t version = (uint8_t)buf[4];
-  if (*(uint32_t*)&buf[0] != O9X_FOURCC || version < FIRST_CONV_EEPROM_VER || version > EEPROM_VER || buf[5] != 'M') {
+  if (*(uint32_t*)&buf[0] != O9X_FOURCC || version != EEPROM_VER || buf[5] != 'M') {
     f_close(&g_oLogFile);
     return STR_INCOMPATIBLE;
   }

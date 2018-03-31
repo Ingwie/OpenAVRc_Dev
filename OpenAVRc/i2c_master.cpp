@@ -140,7 +140,7 @@ inline void i2c_writeISR(uint8_t data)
 }
 
 extern uint8_t * eeprom_buffer_data;
-extern volatile int8_t eeprom_buffer_size;
+extern volatile uint8_t eeprom_buffer_size;
 ISR(TWI_vect)
 {
   if (--eeprom_buffer_size > 0) {

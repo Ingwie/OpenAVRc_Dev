@@ -49,7 +49,6 @@
 #define BEEP_VAL     ( (g_eeGeneral.warnOpts & WARN_BVAL_BIT) >>3 )
 
 #define EEPROM_VER             31 // New eeprom format
-#define FIRST_CONV_EEPROM_VER  EEPROM_VER
 
 #ifndef PACK
 #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
@@ -58,7 +57,7 @@
 #define NUM_STICKS           4
 
 #if defined(EXTERNALEEPROM)
-#define MAX_MODELS           60
+#define MAX_MODELS           55
 #define NUM_CHNOUT           16 // number of real output channels CH1-CH16
 #define MAX_FLIGHT_MODES     6
 #define MAX_MIXERS           40
@@ -89,11 +88,11 @@
 #define blkid_t    uint16_t
 #define EESIZE     1024*16
 #define EEFS_VERS  6
-#define MAXFILES   64
-#define BS         64
+#define MAXFILES   60
+#define BS         128
 #else
 #define blkid_t    uint8_t
-#define EESIZE     4096
+#define EESIZE     1024*4
 #define EEFS_VERS  5
 #define MAXFILES   36
 #define BS         16
