@@ -78,7 +78,7 @@ extern EeFs eeFs;
 void eepromFormat();
 uint16_t EeFsGetFree();
 
-extern volatile int8_t eeprom_buffer_size;
+extern volatile uint8_t eeprom_buffer_size;
 
 class EFile
 {

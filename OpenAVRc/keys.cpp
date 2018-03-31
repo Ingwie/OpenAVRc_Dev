@@ -144,9 +144,7 @@ void clearKeyEvents()
 {
   // loop until all keys are up
   while (keyDown()) {
-
     MYWDT_RESET();
-
   }
   memclear(keys, sizeof(keys));
   putEvent(0);

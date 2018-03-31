@@ -835,18 +835,19 @@ void alert(const pm_char * t, const pm_char *s MESSAGE_SOUND_ARG)
 {
   MESSAGE(t, s, STR_PRESSANYKEY, sound);
 
+  while(1)
+  {
 
-  while(1) {
-
-    if (keyDown()) return;  // wait for key release
+    if (keyDown())
+      return;  // wait for key release
 
     checkBacklight();
 
-    MYWDT_RESET();
-
-    if (!pwrCheck) {
+    if (!pwrCheck)
+    {
       boardOff(); // turn power off now
     }
+    MYWDT_RESET();
   }
 }
 
@@ -1251,8 +1252,6 @@ uint16_t getTmr16KHz()
   return (hb<<8)|lb;
 #endif
 }
-
-
 
 ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
 {
