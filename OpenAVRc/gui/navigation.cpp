@@ -467,25 +467,21 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
 #if defined(NAVIGATION_STICKS)
 uint8_t StickScrollAllowed;
 uint8_t StickScrollTimer;
-static const pm_uint8_t rate[] PROGMEM = { 0, 0, 100, 40, 16, 7, 3, 1 } ;
+static const pm_uint8_t rate[] PROGMEM = { 0, 0, 40, 15, 7, 5, 2, 1 } ;
 
 uint8_t calcStickScroll( uint8_t index )
 {
   uint8_t direction;
   int8_t value;
 
-  if (( g_eeGeneral.stickMode & 1 ) == 0 )
-    index ^= 3;
+  if (!g_eeGeneral.stickMode & 1)  index ^= 3;
 
   value = calibratedStick[index] / 128;
   direction = value > 0 ? 0x80 : 0;
-  if (value < 0)
-    value = -value;                             // (abs)
-  if (value > 7)
-    value = 7;
+  if (value < 0) value = -value;  // (abs)
+  if (value > 7) value = 7;
   value = pgm_read_byte_near(rate+(uint8_t)value);
-  if (value)
-    StickScrollTimer = STICK_SCROLL_TIMEOUT;    // Seconds
+  if (value) StickScrollTimer = STICK_SCROLL_TIMEOUT; // Seconds
   return value | direction;
 }
 
@@ -498,17 +494,17 @@ uint8_t getSticksNavigationEvent()
       uint8_t direction;
       uint8_t value;
 
-      if ( repeater < 128 ) {
-        repeater += 1;
-      }
+      if (repeater < 128) {++repeater;}
       value = calcStickScroll(CONVERT_MODE(THR_STICK));
       direction = value & 0x80;
       value &= 0x7F;
-      if ( value ) {
-        if ( repeater > value ) {
+
+      if (value) {
+
+        if (repeater > value) {
           repeater = 0;
-          if ( evt == 0 ) {
-            if ( direction ) {
+          if (!evt) {
+            if (direction) {
               evt = KEY_UP;
             } else {
               evt = KEY_DOWN;
@@ -516,14 +512,16 @@ uint8_t getSticksNavigationEvent()
           }
         }
       } else {
+
         value = calcStickScroll(CONVERT_MODE(AIL_STICK));
         direction = value & 0x80;
         value &= 0x7F;
-        if ( value ) {
-          if ( repeater > value ) {
+
+        if (value) {
+          if (repeater > value) {
             repeater = 0;
-            if ( evt == 0 ) {
-              if ( direction ) {
+            if (!evt) {
+              if (direction) {
                 evt = KEY_RIGHT;
               } else {
                 evt = KEY_LEFT;
