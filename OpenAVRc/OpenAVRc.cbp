@@ -73,7 +73,6 @@
 		<Unit filename="board_avr.h" />
 		<Unit filename="buzzer.cpp" />
 		<Unit filename="buzzer.h" />
-		<Unit filename="crc16.cpp" />
 		<Unit filename="curves.cpp" />
 		<Unit filename="diskio.cpp" />
 		<Unit filename="eeprom_common.cpp" />
@@ -201,9 +200,6 @@
 		<Unit filename="stamp.cpp" />
 		<Unit filename="strhelpers.cpp" />
 		<Unit filename="switches.cpp" />
-		<Unit filename="syscalls.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="targets/evo_v1/evo_adc_driver.cpp" />
 		<Unit filename="targets/evo_v1/evo_lcd_driver.cpp" />
 		<Unit filename="targets/evo_v1/evo_mega2560.cpp" />
