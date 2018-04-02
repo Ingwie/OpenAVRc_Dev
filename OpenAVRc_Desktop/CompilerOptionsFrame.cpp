@@ -178,8 +178,6 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   //(*Initialize(CompilerOptionsFrame)
   Create(parent, wxID_ANY, _("Compil-O-matic"), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
   SetClientSize(wxSize(807,377));
-  SetToolTip(_("Référence de l\'écran"));
-  SetHelpText(_("Protocoles DSM"));
   Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(0,0), wxSize(752,327), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
   Panel1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
   Notebook1 = new wxNotebook(Panel1, ID_NOTEBOOK1, wxPoint(0,0), wxSize(808,376), 0, _T("ID_NOTEBOOK1"));
@@ -275,12 +273,12 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   StaticText7 = new wxStaticText(Panel2, ID_STATICTEXT7, _("Navigation"), wxPoint(248,256), wxDefaultSize, 0, _T("ID_STATICTEXT7"));
   ButtonEXIT = new wxButton(Panel2, ID_BUTTON3, _("Sauvegarder et sortir"), wxPoint(664,272), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON3"));
   ButtonCOMPILE = new wxButton(Panel2, ID_BUTTON2, _("Compiler"), wxPoint(704,208), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON2"));
-  ChoiceUNITS = new wxChoice(Panel2, ID_CHOICE9, wxPoint(528,32), wxSize(64,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE9"));
+  ChoiceUNITS = new wxChoice(Panel2, ID_CHOICE9, wxPoint(528,32), wxSize(72,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE9"));
   ChoiceUNITS->SetSelection( ChoiceUNITS->Append(_("METRIC")) );
   ChoiceUNITS->Append(_("IMPERIAL"));
   ChoiceUNITS->SetToolTip(_("Unitées"));
   StaticText8 = new wxStaticText(Panel2, ID_STATICTEXT8, _("Unités"), wxPoint(480,40), wxDefaultSize, 0, _T("ID_STATICTEXT8"));
-  ChoiceDEFAULT_MODE = new wxChoice(Panel2, ID_CHOICE10, wxPoint(528,72), wxSize(64,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE10"));
+  ChoiceDEFAULT_MODE = new wxChoice(Panel2, ID_CHOICE10, wxPoint(528,72), wxSize(72,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE10"));
   ChoiceDEFAULT_MODE->SetSelection( ChoiceDEFAULT_MODE->Append(_("NO")) );
   ChoiceDEFAULT_MODE->Append(_("1"));
   ChoiceDEFAULT_MODE->Append(_("2"));
@@ -311,7 +309,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxBATTGRAPH = new wxCheckBox(Panel2, ID_CHECKBOX41, _("Batt graph"), wxPoint(336,144), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX41"));
   CheckBoxBATTGRAPH->SetValue(false);
   CheckBoxBATTGRAPH->SetToolTip(_("Affichage graphique de l\'état de la batterie"));
-  ChoiceFAI = new wxChoice(Panel2, ID_CHOICE13, wxPoint(528,112), wxSize(64,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE13"));
+  ChoiceFAI = new wxChoice(Panel2, ID_CHOICE13, wxPoint(528,112), wxSize(72,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE13"));
   ChoiceFAI->SetSelection( ChoiceFAI->Append(_("NO")) );
   ChoiceFAI->Append(_("YES"));
   ChoiceFAI->Append(_("CHOICE"));
@@ -321,6 +319,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceTHREE_POS->Append(_("POT1"));
   ChoiceTHREE_POS->SetSelection( ChoiceTHREE_POS->Append(_("POT2")) );
   ChoiceTHREE_POS->Append(_("POT3"));
+  ChoiceTHREE_POS->SetToolTip(_("Selection du potentiomètre utilisé pour XD0"));
   StaticText11 = new wxStaticText(Panel2, ID_STATICTEXT11, _("EXTRA 3POS"), wxPoint(32,296), wxDefaultSize, 0, _T("ID_STATICTEXT11"));
   Panel3 = new wxPanel(Notebook1, ID_PANEL3, wxDefaultPosition, wxSize(800,356), wxTAB_TRAVERSAL, _T("ID_PANEL3"));
   StaticBox1 = new wxStaticBox(Panel3, ID_STATICBOX1, _("Protocole"), wxPoint(8,16), wxSize(168,312), 0, _T("ID_STATICBOX1"));
@@ -451,8 +450,8 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ComboBoxID0 = new wxComboBox(Panel4, ID_COMBOBOX7, wxEmptyString, wxPoint(288,48), wxSize(54,-1), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX7"));
   ComboBoxID0->SetSelection( ComboBoxID0->Append(_("ID0")) );
   ComboBoxID0->Append(_("---"));
-  StaticText20 = new wxStaticText(Panel4, ID_STATICTEXT20, _("EncodeurA"), wxPoint(224,152), wxSize(53,21), 0, _T("ID_STATICTEXT20"));
-  StaticText24 = new wxStaticText(Panel4, ID_STATICTEXT24, _("EncodeurB"), wxPoint(224,192), wxDefaultSize, 0, _T("ID_STATICTEXT24"));
+  StaticText20 = new wxStaticText(Panel4, ID_STATICTEXT20, _("EncodeurA"), wxPoint(216,152), wxSize(64,16), 0, _T("ID_STATICTEXT20"));
+  StaticText24 = new wxStaticText(Panel4, ID_STATICTEXT24, _("EncodeurB"), wxPoint(216,192), wxSize(64,13), 0, _T("ID_STATICTEXT24"));
   StaticText21 = new wxStaticText(Panel4, ID_STATICTEXT21, _(" Encodeur à 0"), wxPoint(216,232), wxDefaultSize, 0, _T("ID_STATICTEXT21"));
   ComboBoxEncodeurA = new wxComboBox(Panel4, ID_COMBOBOX8, wxEmptyString, wxPoint(288,144), wxSize(54,-1), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX8"));
   ComboBoxEncodeurA->SetSelection( ComboBoxEncodeurA->Append(_("REa")) );
@@ -467,9 +466,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ComboBoxID2->SetSelection( ComboBoxID2->Append(_("ID2")) );
   ComboBoxID2->Append(_("---"));
   StaticText26 = new wxStaticText(Panel4, ID_STATICTEXT26, _("ID1"), wxPoint(248,80), wxDefaultSize, 0, _T("ID_STATICTEXT26"));
-  StaticText22 = new wxStaticText(Panel4, ID_STATICTEXT22, _("ID1"), wxPoint(376,80), wxDefaultSize, 0, _T("ID_STATICTEXT22"));
+  StaticText22 = new wxStaticText(Panel4, ID_STATICTEXT22, _("XD1"), wxPoint(376,80), wxDefaultSize, 0, _T("ID_STATICTEXT22"));
   StaticText27 = new wxStaticText(Panel4, ID_STATICTEXT27, _("ID2"), wxPoint(248,104), wxDefaultSize, 0, _T("ID_STATICTEXT27"));
-  StaticText23 = new wxStaticText(Panel4, ID_STATICTEXT23, _("ID2"), wxPoint(376,104), wxDefaultSize, 0, _T("ID_STATICTEXT23"));
+  StaticText23 = new wxStaticText(Panel4, ID_STATICTEXT23, _("XD2"), wxPoint(376,104), wxDefaultSize, 0, _T("ID_STATICTEXT23"));
   Notebook1->AddPage(Panel2, _("Réglages"), false);
   Notebook1->AddPage(Panel3, _("Options avancées"), false);
   Notebook1->AddPage(Panel4, _("Personnalisation"), false);
