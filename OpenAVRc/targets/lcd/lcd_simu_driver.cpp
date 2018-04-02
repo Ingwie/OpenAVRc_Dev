@@ -55,10 +55,14 @@ void simuTrace(const char * format, ...)
   va_end(arglist);
 }
 
+/*bool wxYieldIfNeeded() //undocumented function save a copy here ...
+{
+  return wxTheApp && wxTheApp->Yield(true);
+}*/
 
 void SimuSleepMs(uint16_t x)
 {
-  wxTheApp->Yield(FALSE); //This function tell the app to process events
+  wxYieldIfNeeded();
   wxMilliSleep(x);
 }
 
