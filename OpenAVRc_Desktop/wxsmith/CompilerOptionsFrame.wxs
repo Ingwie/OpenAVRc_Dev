@@ -3,8 +3,6 @@
 	<object class="wxFrame" name="CompilerOptionsFrame">
 		<title>Compil-O-matic</title>
 		<size>807,377</size>
-		<tooltip>Référence de l&apos;écran</tooltip>
-		<help>Protocoles DSM</help>
 		<id_arg>0</id_arg>
 		<style>wxCAPTION|wxDEFAULT_DIALOG_STYLE</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
@@ -219,7 +217,7 @@
 							</content>
 							<selection>0</selection>
 							<pos>528,32</pos>
-							<size>64,21</size>
+							<size>72,21</size>
 							<tooltip>Unitées</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText8" member="yes">
@@ -236,7 +234,7 @@
 							</content>
 							<selection>0</selection>
 							<pos>528,72</pos>
-							<size>64,21</size>
+							<size>72,21</size>
 							<tooltip>Mode de la radio</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT9" variable="StaticText9" member="yes">
@@ -295,7 +293,7 @@
 							</content>
 							<selection>0</selection>
 							<pos>528,112</pos>
-							<size>64,21</size>
+							<size>72,21</size>
 							<tooltip>Pour les compétitions</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT12" variable="StaticText12" member="yes">
@@ -311,6 +309,7 @@
 							<selection>1</selection>
 							<pos>112,288</pos>
 							<size>96,21</size>
+							<tooltip>Selection du potentiomètre utilisé pour XD0</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT11" variable="StaticText11" member="yes">
 							<label>EXTRA 3POS</label>
@@ -665,12 +664,13 @@
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT20" variable="StaticText20" member="yes">
 							<label>EncodeurA</label>
-							<pos>224,152</pos>
-							<size>53,21</size>
+							<pos>216,152</pos>
+							<size>64,16</size>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT24" variable="StaticText24" member="yes">
 							<label>EncodeurB</label>
-							<pos>224,192</pos>
+							<pos>216,192</pos>
+							<size>64,13</size>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT21" variable="StaticText21" member="yes">
 							<label> Encodeur à 0</label>
@@ -717,7 +717,7 @@
 							<pos>248,80</pos>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT22" variable="StaticText22" member="yes">
-							<label>ID1</label>
+							<label>XD1</label>
 							<pos>376,80</pos>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT27" variable="StaticText27" member="yes">
@@ -725,7 +725,7 @@
 							<pos>248,104</pos>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT23" variable="StaticText23" member="yes">
-							<label>ID2</label>
+							<label>XD2</label>
 							<pos>376,104</pos>
 						</object>
 					</object>
