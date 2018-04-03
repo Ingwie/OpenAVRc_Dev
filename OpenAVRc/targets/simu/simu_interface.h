@@ -56,6 +56,7 @@ extern void eepromReadBlock (uint8_t * pointer_ram, uint16_t pointer_eeprom, uin
 
 
 extern bool simu_mainloop_is_runing; //main run signal
+extern bool ISR10msLoop_is_runing; //10 ms interupt run signal
 extern bool simu_shutDownSimu_is_runing; //main run signal
 extern bool simu_off; //Off signal
 
