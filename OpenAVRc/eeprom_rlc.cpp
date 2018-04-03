@@ -63,7 +63,7 @@ inline void eeprom_write_byte()
 
 ISR(EE_READY_vect)
 {
-  if (--eeprom_buffer_size > 0) {
+  if (--eeprom_buffer_size) {
     eeprom_write_byte();
   } else {
     TRACE("ISR 'EE_READY_vect' Cleared : Eeprom is saved");
@@ -81,7 +81,7 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
   EECR |= (1<<EERIE);
 
   if (s_sync_write) {
-    while (eeprom_buffer_size > 0) MYWDT_RESET(EE_READY_vect()); //Simulate ISR in Simu mode, else reset watchdog
+    while (eeprom_buffer_size) MYWDT_RESET(EE_READY_vect()); //Simulate ISR in Simu mode, else reset watchdog
   }
 }
 
@@ -116,7 +116,7 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
   ++eeprom_buffer_data; // increase data adress
   --eeprom_buffer_size; // one byte less to write
   if (s_sync_write) {
-    while (eeprom_buffer_size > 0) MYWDT_RESET(); // Wait completion and reset watchdog
+    while (eeprom_buffer_size) MYWDT_RESET(); // Wait completion and reset watchdog
   }
 }
 
@@ -846,7 +846,7 @@ close:
 
 void RlcFile::flush()
 {
-  while (eeprom_buffer_size > 0) MYWDT_RESET(EE_READY_vect()); //Simulate ISR in Simu mode
+  while (eeprom_buffer_size) MYWDT_RESET(EE_READY_vect()); //Simulate ISR in Simu mode
 
   ENABLE_SYNC_WRITE(true);
 
