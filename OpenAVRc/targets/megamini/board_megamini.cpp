@@ -39,7 +39,7 @@ FORCEINLINE void boardInit()
 {
   // Set up I/O port data directions and initial states (unused pin setting : input, pull-up on)
   DDRA = 0b11111111;  PORTA = 0b00000000; // LCD data
-  DDRB = 0b01100111;  PORTB = 0b10111111; // 7:N/A, 6:PPM_OUT, 5:PPMSIM_OUT, 4:N/A, SDCARD[3:MISO 2:MOSI 1:SCK 0:CS]
+  DDRB = 0b11100111;  PORTB = 0b10111111; // 7:MegaCore Led, 6:PPM_OUT, 5:PPMSIM_OUT, 4:N/A, SDCARD[3:MISO 2:MOSI 1:SCK 0:CS]
   DDRC = 0b11111100;  PORTC = 0b00000011; // 7-3:LCD, 2:BackLight, 1:ID2_SW, 0:ID1_SW
   DDRD = 0b00000000;  PORTD = 0b11111111; // 7:AilDR_SW, 6:N/A, 5:N/A, 4:PPM_IN, 3:N/A, 2:N/A, 1:I2C_SDA, 0:I2C_SCL
   DDRE = 0b00000010;  PORTE = 0b11111101; // 7:Rot_2A, 6:Rot_2B, 5:Rot_1B, 4:Rot_1A, 3:Rot_2_Push, 2:N/A, 1:TELEM_TX, 0:TELEM_RX

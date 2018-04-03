@@ -77,6 +77,7 @@ void perMain()
 #endif
     return;
   }
+  EnableCoreLed();
 
   nextMixerEndTime = t0 + MAX_MIXER_DELTA;
   // this is a very tricky implementation; lastMixerEndTime is just like a default value not to stop mixcalculations totally;
@@ -157,5 +158,7 @@ void perMain()
 #endif // if defined(GUI)
 
   checkBattery();
+
+  DisableCoreLed();
 }
 
