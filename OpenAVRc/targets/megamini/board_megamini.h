@@ -41,6 +41,8 @@
 //Mods
 #define FATFSTINY // Reduce SDdriver buffer size
 
+#define MEGACORELEDPIN            PIN7_bm
+
 // Keys
 void readKeysAndTrims();
 #define GPIO_KEYS                 PINL
@@ -227,5 +229,8 @@ void boardOff();
   #define RF_CS_A7105_INACTIVE() PORTJ |= (OUT_J_A7105_CS_N)
 
 #endif // SPIMODULES
+
+#define EnableCoreLed()            PORTB |= (MEGACORELEDPIN) // Blink on function
+#define DisableCoreLed()           PORTB &= ~(MEGACORELEDPIN) // Blink off function
 
 #endif // _BOARD_MEGAMINI_H_
