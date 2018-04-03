@@ -1255,6 +1255,10 @@ uint16_t getTmr16KHz()
 
 ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
 {
+#if defined(SIMU)
+ISR10msLoop_is_runing = true;
+#endif;
+
 // Clocks every 9.984ms & 10.048ms
   static uint8_t accuracyWarble = 0;
 
@@ -1275,6 +1279,11 @@ ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
   per10ms();
 
   TIMER_10MS_COMPVAL += (++accuracyWarble & 0x03) ? 156 : 157; // Clock correction
+
+#if defined(SIMU)
+ISR10msLoop_is_runing = false;
+#endif;
+
 }
 
 #define INSTANT_TRIM_MARGIN 15 /* around 1.5% */

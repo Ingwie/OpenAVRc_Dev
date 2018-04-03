@@ -34,6 +34,7 @@
 #include "../../OpenAVRc.h"
 
 bool simu_mainloop_is_runing; //main run signal
+bool ISR10msLoop_is_runing; //10 ms interupt run signal
 bool simu_shutDownSimu_is_runing; //main run signal
 bool simu_off; //Off signal
 
