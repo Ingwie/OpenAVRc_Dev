@@ -1257,7 +1257,7 @@ ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
 {
 #if defined(SIMU)
 ISR10msLoop_is_runing = true;
-#endif;
+#endif
 
 // Clocks every 9.984ms & 10.048ms
   static uint8_t accuracyWarble = 0;
@@ -1282,7 +1282,7 @@ ISR10msLoop_is_runing = true;
 
 #if defined(SIMU)
 ISR10msLoop_is_runing = false;
-#endif;
+#endif
 
 }
 
