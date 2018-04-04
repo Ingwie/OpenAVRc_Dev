@@ -211,6 +211,7 @@ ISR(USART_UDRE_vect_N(TLM_USART0))
   }
 }
 
+#if defined(FRSKY)
 void TelemetryValueWithMin::set(uint8_t value)
 {
   if (!this->value) {
@@ -234,6 +235,7 @@ void TelemetryValueWithMinMax::set(uint8_t value, uint8_t unit)
     max = value;
   }
 }
+#endif
 
 uint16_t getChannelRatio(source_t channel)
 {
