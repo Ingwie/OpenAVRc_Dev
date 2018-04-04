@@ -292,7 +292,7 @@ ifneq ($(3POS), $(filter $(3POS), POT1 POT2 POT3))
   $(error Sorry, the 3POS $(3POS) is not supported yet in OpenAVRc)
 endif
 
-GUIMODELSRC = gui/menu_model.cpp gui/menu_model_select.cpp gui/menu_model_setup.cpp gui/menu_model_inputs_mixes.cpp gui/menu_model_limits.cpp gui/menu_model_logical_switches.cpp gui/menu_model_custom_functions.cpp gui/menu_model_telemetry.cpp
+GUIMODELSRC = gui/menu_model.cpp gui/menu_model_select.cpp gui/menu_model_setup.cpp gui/menu_model_inputs_mixes.cpp gui/menu_model_limits.cpp gui/menu_model_logical_switches.cpp gui/menu_model_custom_functions.cpp
 GUIGENERALSRC = gui/menu_general.cpp gui/menu_general_setup.cpp gui/menu_general_trainer.cpp gui/menu_general_version.cpp gui/menu_general_calib.cpp
 
 BITMAPS = bitmaps/sticks.lbm
@@ -673,11 +673,7 @@ ifeq ($(AUTOSOURCE), YES)
 endif
 
 ifeq ($(DBLKEYS), YES)
-  ifeq ($(PCB), $(filter $(PCB), 9XR 9XR128 9XR2561))
-    $(warning Sorry, DBLKEYS doesnt work on 9XR)
-  else
-    CPPDEFS += -DDBLKEYS
-  endif
+  CPPDEFS += -DDBLKEYS
 endif
 
 ifeq ($(SPLASH), YES)
@@ -753,6 +749,7 @@ endif
 ifeq ($(EXT), $(filter $(EXT), FRSKY ))
   CPPDEFS += -DFRSKY
   CPPSRC += telemetry/frsky.cpp
+  GUIMODELSRC +=  gui/menu_model_telemetry.cpp
 
   CPPSRC += gui/view_telemetry.cpp
 
