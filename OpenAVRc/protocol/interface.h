@@ -46,7 +46,7 @@
 #endif
 
 #ifdef PROTO_HAS_A7105
-#include "iface_a7105.h"
+//#include "iface_a7105.h"
 #endif
 
 #ifdef PROTO_HAS_CYRF6936
@@ -66,7 +66,7 @@
 #endif
 
 #ifdef PROTO_HAS_NRF24L01
-#include "iface_nrf24l01.h"
+//#include "iface_nrf24l01.h"
 #endif
 
 #ifdef PROTO_HAS_MULTISUPIIIK
