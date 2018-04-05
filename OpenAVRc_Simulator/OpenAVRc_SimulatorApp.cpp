@@ -34,11 +34,11 @@
 #include "OpenAVRc_SimulatorApp.h"
 
 //(*AppHeaders
+#include "OpenAVRc_SimulatorMain.h"
 #include <wx/image.h>
 //*)
 
-IMPLEMENT_APP(OpenAVRc_SimulatorApp);
-
+wxIMPLEMENT_APP(OpenAVRc_SimulatorApp);
 
 bool OpenAVRc_SimulatorApp::OnInit()
 {
@@ -47,15 +47,16 @@ bool OpenAVRc_SimulatorApp::OnInit()
   wxLocale::AddCatalogLookupPathPrefix(".");
   myLocale.AddCatalog("OpenAVRc_Simulator");
 
-  //(*AppInitialize
+  //AppInitialize
   bool wxsOK = true;
   wxInitAllImageHandlers();
-  if ( wxsOK ) {
-    SimuFrame = new OpenAVRc_SimulatorFrame(0);
-    SimuFrame->Show();
-    SetTopWindow(SimuFrame);
+  if ( wxsOK )
+  {
+  	SimuFrame = new OpenAVRc_SimulatorFrame(0);
+  	SimuFrame->Show();
+  	SetTopWindow(SimuFrame);
   }
-  //*)
+
   return wxsOK;
 }
 
