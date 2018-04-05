@@ -675,7 +675,7 @@ void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
   StatusBar->SetStatusText(_T("10 mS IRQ ")+Chronoval.ToString()+_T(" uS"),2);
 }
 
-const void OpenAVRc_SimulatorFrame::DrawWxSimuLcd()
+void OpenAVRc_SimulatorFrame::DrawWxSimuLcd()
 {
   uint8_t *p;
   p = displayBuf;
@@ -911,11 +911,9 @@ void OpenAVRc_SimulatorFrame::OnClose(wxCloseEvent& event)
   }
   if (Ini_Changed) SaveConfig();
   if (ChronoMain != NULL) {
-    ChronoMain->Pause();
     delete ChronoMain;
   }
   if (Chrono10ms != NULL) {
-    Chrono10ms->Pause();
     delete Chrono10ms;
   }
   Sleep(100);

@@ -3,6 +3,7 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="OpenAVRc_Simulator" />
+		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Option extended_obj_names="1" />
 		<Build>
@@ -15,6 +16,7 @@
 				<Compiler>
 					<Add option="-Winline" />
 					<Add option="-Wall" />
+					<Add option="-m32" />
 					<Add option="-g" />
 					<Add option="-mno-ms-bitfields" />
 					<Add option="-DDEBUG=YES" />
@@ -28,6 +30,7 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 				</ResourceCompiler>
 				<Linker>
+					<Add option="-m32" />
 					<Add option="-Xlinker --allow-multiple-definition" />
 					<Add library="libwxmsw31u.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
@@ -194,7 +197,6 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
 			<Add option="-pipe" />
 			<Add option="-mthreads" />
 			<Add option="-Wno-deprecated-declarations" />

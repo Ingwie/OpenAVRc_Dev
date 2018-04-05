@@ -100,7 +100,7 @@ public:
 
   OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id = -1);
   virtual ~OpenAVRc_SimulatorFrame();
-  const void DrawWxSimuLcd();
+  void DrawWxSimuLcd();
   void OnKey(wxKeyEvent& Event);
   void EnableMixerFrameMenu();
   void EnableOutputBarsMenu();
@@ -113,8 +113,6 @@ private:
   //(*Handlers(OpenAVRc_SimulatorFrame)
   void OnQuit(wxCommandEvent& event);
   void OnAbout(wxCommandEvent& event);
-  void DrawLcd(wxCommandEvent& event);
-  void OnwxlcdKeyDown(wxKeyEvent& event);
   void OnwxsimulcdPaint(wxPaintEvent& event);
   void StartFirmwareCode();
   void CheckInputs();
@@ -382,7 +380,7 @@ private:
   wxProcess* Mp3process;
 
 
-  DECLARE_EVENT_TABLE()
+  wxDECLARE_EVENT_TABLE();
 };
 
 
