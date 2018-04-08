@@ -396,6 +396,7 @@ extern const pm_char STR_TOTTM1TM2THRTHP[];
 extern const pm_char STR_TMR1LATMAXUS[];
 extern const pm_char STR_TMR1LATMINUS[];
 extern const pm_char STR_TMR1JITTERUS[];
+extern const pm_char STR_US[];
 extern const pm_char STR_TMIXMAXMS[];
 extern const pm_char STR_FREESTACKMINB[];
 extern const pm_char STR_MENUTORESET[];

@@ -568,7 +568,7 @@
 #define TR_NODATA              CENTER "NO DATA"
 #define TR_TOTTM1TM2THRTHP     "\037\146SES\036TM1\037\146TM2\036GAZ\037\146GZ%"
 #define TR_TMR1LATMAXUS        "ProtoCompute max\037\161us"
-#define STR_US                 (STR_TMR1LATMAXUS+13)
+#define TR_US                 "us"
 #define TR_TMR1LATMINUS        "ProtoCompute min\037\161us"
 #define TR_TMR1JITTERUS        "Protocol Jitter\037\161us"
 
