@@ -1243,13 +1243,20 @@ uint16_t getTmr16KHz()
   uint16_t simu_tmr16 = get_tmr10ms() * 160;
   return simu_tmr16;
 #else
-  uint8_t hb;
+  /*uint8_t hb;
   uint8_t lb;
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     hb  = g_tmr16KHz;
     lb  = COUNTER_16KHZ;
   }
-  return (hb<<8)|lb;
+  return (hb<<8)|lb;*/
+
+  while(1){
+    uint8_t hb  = g_tmr16KHz;
+    uint8_t lb  = COUNTER_16KHZ;
+    if(hb-g_tmr16KHz==0) return (hb<<8)|lb;
+  }
+
 #endif
 }
 
