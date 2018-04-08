@@ -395,6 +395,8 @@ void menuMainView(uint8_t event)
 
     // Trims sliders
     displayTrims(mode);
+
+    DISPLAY_PROGRESS_BAR(20*FW+1);
   }
 
   if (view_base < VIEW_INPUTS) {

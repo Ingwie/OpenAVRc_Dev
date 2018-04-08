@@ -105,7 +105,6 @@ void menuModelCurveOne(uint8_t event)
 {
   TITLE(STR_MENUCURVE);
   lcdDrawNumberAttUnit(PSIZE(TR_MENUCURVE)*FW+1, 0, s_curveChan+1, INVERS|LEFT);
-  DISPLAY_PROGRESS_BAR(20*FW+1);
 
   CurveInfo crv = curveInfo(s_curveChan);
 
