@@ -44,40 +44,15 @@ void perMain()
   uint16_t t0 = getTmr16KHz();
   int16_t delta = (nextMixerEndTime - lastMixerDuration) - t0;
   if (delta > 0 && delta < MAX_MIXER_DELTA) {
+LEDON();
 
-    // @@@ open.20.fsguruh
-    // SLEEP();   // wouldn't that make sense? should save a lot of battery power!!!
-    /*  for future use; currently very very beta...  */
-#if defined(POWER_SAVE)
-    ADCSRA&=0x7F;   // disable ADC for power saving
-    ACSR&=0xF7;   // disable ACIE Interrupts
-    ACSR|=0x80;   // disable Analog Comparator
-    // maybe we disable here a lot more hardware components in future to save even more power
-
-
-
-    MCUCR|=0x20;  // enable Sleep (bit5)
-    // MCUCR|=0x28;  // enable Sleep (bit5) enable ADC Noise Reduction (bit3)
-    // first tests showed: simple sleep would reduce cpu current from 40.5mA to 32.0mA
-    //                     noise reduction sleep would reduce it down to 28.5mA; However this would break pulses in theory
-    // however with standard module, it will need about 95mA. Therefore the drop to 88mA is not much noticable
-    do {
-      asm volatile(" sleep        \n\t");  // if _SLEEP() is not defined use this
-      t0=getTmr16KHz();
-      delta= (nextMixerEndTime - lastMixerDuration) - t0;
-    } while ((delta>0) && (delta<MAX_MIXER_DELTA));
-
-    // reenabling of the hardware components needed here
-    MCUCR&=0x00;  // disable sleep
-    ADCSRA|=0x80;  // enable ADC
-#endif
 #if defined(SDCARD) && !defined(SIMU)
     if (sdMounted() && isFunctionActive(FUNCTION_LOGS) && delta > (4*16))
       writeLogs(); // Minimise writelogs perturbation
 #endif
+LEDOFF();
     return;
   }
-  EnableCoreLed();
 
   nextMixerEndTime = t0 + MAX_MIXER_DELTA;
   // this is a very tricky implementation; lastMixerEndTime is just like a default value not to stop mixcalculations totally;
@@ -152,13 +127,10 @@ void perMain()
 #endif
 
   drawStatusLine();
-
   lcdRefreshFast();
 
 #endif // if defined(GUI)
 
   checkBattery();
-
-  DisableCoreLed();
 }
 
