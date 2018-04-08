@@ -115,6 +115,7 @@ ISR(TIMER1_COMPA_vect) // ISR for Protocol Callback, PPMSIM and PPM16 (Last 8 ch
 
   if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
   if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
+
 }
 
 
