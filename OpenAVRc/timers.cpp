@@ -42,10 +42,9 @@ TimerState timersStates[TIMERS] = { { 0 } };
 
 void timerReset(uint8_t idx)
 {
-  TimerState & timerState = timersStates[idx];
-  timerState.state = TMR_OFF; // is changed to RUNNING dep from mode
-  timerState.val = g_model.timers[idx].start;
-  timerState.val_10ms = 0 ;
+  timersStates[idx].state = TMR_OFF; // is changed to RUNNING dep from mode
+  timersStates[idx].val = g_model.timers[idx].start;
+  timersStates[idx].val_10ms = 0 ;
 }
 
 
