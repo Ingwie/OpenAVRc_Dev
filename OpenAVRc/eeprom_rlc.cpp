@@ -40,13 +40,13 @@ EeFs      eeFs;
 blkid_t   freeBlocks = 0;
 #endif
 
-bool  s_sync_write = false;
+uint8_t  s_sync_write = false;
 
 uint16_t eeprom_pointer;
 uint8_t * eeprom_buffer_data;
 volatile uint8_t eeprom_buffer_size = 0;
 
-#if !defined(EXTERNALEEPROM) | defined(SIMU)
+#if !defined(EXTERNALEEPROM) || defined(SIMU)
 inline void eeprom_write_byte()
 {
   EEAR = eeprom_pointer;
@@ -863,7 +863,7 @@ void RlcFile::flush()
 void RlcFile::DisplayProgressBar(uint8_t x)
 {
   if (s_eeDirtyMsk || isWriting() || eeprom_buffer_size) {
-    uint8_t len = s_eeDirtyMsk ? 1 : limit((uint8_t)1, (uint8_t)(7 - (m_rlc_len/m_ratio)), (uint8_t)7);
+    uint8_t len = s_eeDirtyMsk ? 1 : limit<uint8_t>(1, (7 - (m_rlc_len/m_ratio)), 7);
     lcdDrawFilledRect(x+1, 0, 5, FH, SOLID, ERASE);
     lcdDrawFilledRect(x+2, 7-len, 3, len);
   }
