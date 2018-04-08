@@ -232,5 +232,7 @@ void boardOff();
 
 #define EnableCoreLed()            PORTB |= (MEGACORELEDPIN) // Blink on function
 #define DisableCoreLed()           PORTB &= ~(MEGACORELEDPIN) // Blink off function
+#define LEDON()                      EnableCoreLed()
+#define LEDOFF()                     DisableCoreLed()
 
 #endif // _BOARD_MEGAMINI_H_
