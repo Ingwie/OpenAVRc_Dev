@@ -143,7 +143,7 @@ extern uint8_t * eeprom_buffer_data;
 extern volatile uint8_t eeprom_buffer_size;
 ISR(TWI_vect)
 {
-  if (--eeprom_buffer_size > 0) {
+  if (--eeprom_buffer_size) {
     i2c_writeISR(*eeprom_buffer_data);
     ++eeprom_buffer_data;
   } else {
