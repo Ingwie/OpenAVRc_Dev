@@ -30,7 +30,7 @@ Desktop :
 
 
 Firmware :
-
+-> Philippe : Au boulot ! ;-)
 -> Ajouter module emetteur perso ( A finir)
 
 
