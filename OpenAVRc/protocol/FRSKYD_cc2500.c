@@ -204,7 +204,7 @@ static void FRSKYD_build_data_packet()
 
 static uint16_t FRSKYD_bind_cb()
 {
-  SCHEDULE_MIXER_END(18*16); // Schedule next Mixer calculations.
+  SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
   CC2500_Strobe(CC2500_SIDLE);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0);
   FRSKYD_build_bind_packet();
@@ -223,7 +223,7 @@ static uint16_t FRSKYD_data_cb()
   static uint8_t len;
   uint8_t rx_packet[21]; // Down-link packet is 20 bytes.
 
-  SCHEDULE_MIXER_END(8.5*16); // Schedule next Mixer calculations.
+  SCHEDULE_MIXER_END_IN_US(8500); // Schedule next Mixer calculations.
 
     if(! start_tx_rx) {
 

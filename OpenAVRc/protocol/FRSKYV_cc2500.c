@@ -240,7 +240,7 @@ static void FRSKYV_build_data_packet()
 
 static uint16_t FRSKYV_data_cb()
 {
-  SCHEDULE_MIXER_END(9*16); // Schedule next Mixer calculations.
+  SCHEDULE_MIXER_END_IN_US(9000); // Schedule next Mixer calculations.
 
   // Build next packet.
   seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323.
@@ -273,7 +273,7 @@ static uint16_t FRSKYV_bind_cb()
   CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO
   CC2500_WriteData(packet, 15);
   CC2500_Strobe(CC2500_STX); // Tx
-  SCHEDULE_MIXER_END(18*16); // Schedule next Mixer calculations.
+  SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return 18000U *2;

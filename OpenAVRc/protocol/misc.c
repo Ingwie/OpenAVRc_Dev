@@ -53,7 +53,7 @@ void PROTO_Start_Callback(uint16_t half_us, uint16_t (*cb)())
 {
   if(! cb) return;
   if(! half_us) return;
-  SCHEDULE_MIXER_END((half_us/1000)*8); // Schedule next Mixer calculations.
+  SCHEDULE_MIXER_END_IN_US(half_us / 2); // Schedule next Mixer calculations.
   timer_callback = cb; // timer_callback = pointer to function.
 
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {

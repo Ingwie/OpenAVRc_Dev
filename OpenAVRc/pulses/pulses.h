@@ -34,8 +34,7 @@
 #ifndef PULSES_COMMON_H
 #define PULSES_COMMON_H
 
-#define SCHEDULE_MIXER_END(delay) nextMixerEndTime = getTmr16KHz() + (delay) - 2*16 // 2ms
-
+#define SCHEDULE_MIXER_END_IN_US(delay_us) nextMixerEndTime = getTmr16KHz() + US_TO_16KHZ_TICK(delay_us) - US_TO_16KHZ_TICK(2000) // 2ms
 
 #if defined(DSM2)
   #define DSM2_BIND_TIMEOUT      255         // 255*11ms
