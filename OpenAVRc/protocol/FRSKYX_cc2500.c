@@ -654,7 +654,7 @@ static void frsky_parse_sport_stream(uint8_t data)
 
 static uint16_t FRSKYX_bind_cb()
 {
-  SCHEDULE_MIXER_END(18*16); // Schedule next Mixer calculations.
+  SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
   frskyX_build_bind_packet();
   set_start(47);
   CC2500_SetPower(TXPOWER_1);
@@ -675,7 +675,7 @@ static uint16_t FRSKYX_cb()
   switch(X_state) {
 
   case FRSKYX_DATA1:
-    SCHEDULE_MIXER_END(9*16); // Schedule next Mixer calculations.
+    SCHEDULE_MIXER_END_IN_US(9000); // Schedule next Mixer calculations.
     CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
     frskyX_data_frame();
     CC2500_SetTxRxMode(TX_EN);
@@ -759,7 +759,7 @@ static void FRSKYX_init()
     ++pdata;
   }
 
-  SCHEDULE_MIXER_END(41*16); // Schedule next Mixer calculations.
+  SCHEDULE_MIXER_END_IN_US(41000); // Schedule next Mixer calculations.
   //calibrate hop channels
   for (uint8_t c = 0; c < 47; c++) {
     CC2500_Strobe(CC2500_SIDLE);
