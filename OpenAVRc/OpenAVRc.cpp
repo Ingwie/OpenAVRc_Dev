@@ -33,6 +33,7 @@
 
 #include "OpenAVRc.h"
 #include "timers.h"
+#include "misclib.h"
 
 EEGeneral  g_eeGeneral;
 ModelData  g_model;
@@ -218,7 +219,7 @@ void per10ms()
 
   // These moved here from evalFlightModeMixes() to improve beep trigger reliability.
 #if defined(PWM_BACKLIGHT)
-  if ((g_tmr10ms&0x03) == 0x00)
+  if (EVERY_PERIOD(g_tmr10ms, 4))
     backlightFade(); // increment or decrement brightness until target brightness is reached
 #endif
 
@@ -227,9 +228,9 @@ void per10ms()
 #endif
 
 #if !defined(AUDIO)
-  if (mixWarning & 1) if(((g_tmr10ms&0xFF)==  0)) AUDIO_MIX_WARNING(1);
-  if (mixWarning & 2) if(((g_tmr10ms&0xFF)== 64) || ((g_tmr10ms&0xFF)== 72)) AUDIO_MIX_WARNING(2);
-  if (mixWarning & 4) if(((g_tmr10ms&0xFF)==128) || ((g_tmr10ms&0xFF)==136) || ((g_tmr10ms&0xFF)==144)) AUDIO_MIX_WARNING(3);
+  if (mixWarning & 1) if(EVERY_PERIOD_WITH_OFFSET(g_tmr10ms, 256,  0)) AUDIO_MIX_WARNING(1);
+  if (mixWarning & 2) if(EVERY_PERIOD_WITH_OFFSET(g_tmr10ms, 256, 64) || EVERY_PERIOD_WITH_OFFSET(g_tmr10ms, 256, 72)) AUDIO_MIX_WARNING(2);
+  if (mixWarning & 4) if(EVERY_PERIOD_WITH_OFFSET(g_tmr10ms, 256,128) || EVERY_PERIOD_WITH_OFFSET(g_tmr10ms, 256,136) || EVERY_PERIOD_WITH_OFFSET(g_tmr10ms, 256, 144)) AUDIO_MIX_WARNING(3);
 #endif
 
 #if defined(SDCARD)

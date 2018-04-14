@@ -132,6 +132,7 @@
 		<Unit filename="logs.cpp" />
 		<Unit filename="main_avr.cpp" />
 		<Unit filename="maths.cpp" />
+		<Unit filename="misclib.h" />
 		<Unit filename="mixer.cpp" />
 		<Unit filename="myeeprom.h" />
 		<Unit filename="personames.h" />
