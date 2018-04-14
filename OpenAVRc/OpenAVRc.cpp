@@ -347,7 +347,7 @@ void modelDefault(uint8_t id)
 int8_t getMovedSource()
 {
   int8_t result = 0;
-  static tmr10ms_t s_move_last_time = 0;
+  static tmr10ms_t lastMove10msTick = 0;
   static int16_t sourcesStates[NUM_STICKS+NUM_POTS];
 
   for (uint8_t i=0; i<NUM_STICKS+NUM_POTS; i++) {
@@ -357,7 +357,7 @@ int8_t getMovedSource()
     }
   }
 
-  bool recent = ((tmr10ms_t)(get_tmr10ms() - s_move_last_time) > 10);
+  bool recent = (ELAPSED_10MS_TICK_SINCE(lastMove10msTick) >= MS_TO_10MS_TICK(100));
   if (recent) {
     result = 0;
   }
@@ -366,7 +366,7 @@ int8_t getMovedSource()
     memcpy(sourcesStates, calibratedStick, sizeof(sourcesStates));
   }
 
-  s_move_last_time = get_tmr10ms();
+  lastMove10msTick = get_tmr10ms();
   return result;
 }
 #endif
@@ -695,23 +695,22 @@ bool readonlyUnlocked()
 #if defined(SPLASH)
 void doSplash()
 {
-  uint8_t memtada = 0;
+  uint8_t audioTadaPerformed = 0;
 
   if (SPLASH_NEEDED()) {
     displaySplash();
 
-    tmr10ms_t curTime = get_tmr10ms() + 10;
+    tmr10ms_t contrastStart10msTick = get_tmr10ms();
+    tmr10ms_t splashStart10msTick   = get_tmr10ms();
     uint8_t contrast = 10;
+
     lcdSetRefVolt(contrast);
 
     getADC(); // init ADC array
 
     inputsMoved();
 
-    tmr10ms_t tgtime = get_tmr10ms() + SPLASH_TIMEOUT;
-
-
-    while (tgtime > get_tmr10ms()) {
+    do{
 
       getADC();
 
@@ -722,9 +721,9 @@ void doSplash()
       if (!(g_eeGeneral.splashMode & 0x04)) {
 #endif
 
-        if (((tgtime/2) == get_tmr10ms()) && (!memtada)) {
-          ++memtada;    // Splash duration/2 to play TADA sound
+        if (ELAPSED_10MS_TICK_SINCE(splashStart10msTick) >= MS_TO_10MS_TICK(SPLASH_TIMEOUT_MS / 2) && (!audioTadaPerformed)) {
           AUDIO_TADA();
+          audioTadaPerformed = 1;    // Splash duration/2 to play TADA sound
         }
 
         if (keyDown() || inputsMoved()) return;
@@ -737,8 +736,8 @@ void doSplash()
         return;
       }
 
-      if (curTime < get_tmr10ms()) {
-        curTime += 10;
+      if (ELAPSED_10MS_TICK_SINCE(contrastStart10msTick) >= MS_TO_10MS_TICK(100)) {
+        contrastStart10msTick = get_tmr10ms();
         if (contrast < g_eeGeneral.contrast) {
           contrast += 1;
           lcdSetRefVolt(contrast);
@@ -746,7 +745,7 @@ void doSplash()
       }
 
       checkBacklight();
-    }
+    }while(ELAPSED_10MS_TICK_SINCE(splashStart10msTick) < MS_TO_10MS_TICK(SPLASH_TIMEOUT_MS));
   }
 }
 #else
