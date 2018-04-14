@@ -293,6 +293,43 @@ static uint16_t DurationValue;
 
 #define tmr10ms_t uint16_t
 
+/**
+* \file   OpenAVRc.h
+* \def    ELAPSED_10MS_TICK_SINCE(Start10msTick)
+* \brief  Returns the amount of elapsed 10msTick since a starting point expressed in 10msTick
+* \param  Start10msTick: starting point expressed in 10msTick
+* \return The amount of elapsed 10msTicks since the starting point expressed in 10msTick
+*/
+#define ELAPSED_10MS_TICK_SINCE(Start10msTick)    ((tmr10ms_t)(get_tmr10ms() - (Start10msTick)))
+
+/**
+* \file   OpenAVRc.h
+* \def    MS_TO_10MS_TICK(Ms)
+* \brief  Returns the amount of 10msTick corresponding to a duration expressed in ms
+* \param  Ms: a duration expressed in ms
+* \return The amount of 10msTicks corresponding to a duration expressed in ms
+*/
+#define MS_TO_10MS_TICK(Ms)                       ((tmr10ms_t)(((Ms) + 9) / 10))
+
+
+/**
+* \file   OpenAVRc.h
+* \def    ELAPSED_16KHZ_TICK_SINCE(Start16KHzTick)
+* \brief  Returns the amount of elapsed 16KHzTick since a starting point expressed in 16KHzTick
+* \param  Start16KHzTick: starting point expressed in 16KHzTick
+* \return The amount of elapsed 16KHzTicks since a starting point expressed in 16KHzTick
+*/
+#define ELAPSED_16KHZ_TICK_SINCE(Start16KHzTick)  ((uint16_t)(getTmr16KHz() - (Start16KHzTick)))
+
+/**
+* \file   OpenAVRc.h
+* \def    US_TO_16KHZ_TICK(Us)
+* \brief  Returns the amount of 16KHzTick corresponding to a duration expressed in us
+* \param  Ms: a duration expressed in ms
+* \return The amount of 16KHzTick corresponding to a duration expressed in us
+*/
+#define US_TO_16KHZ_TICK(Us)                      ((uint16_t)(((2UL * (Us)) + 123) / 125)) /* Tick is 62.5 us @ 16KHz (62.5=125/2) */
+
 extern volatile tmr10ms_t g_tmr10ms;
 
 extern tmr10ms_t Bind_tmr10ms;
@@ -386,14 +423,16 @@ enum BaseCurves {
   CURVE_BASE
 };
 
-#define THRCHK_DEADBAND 16
+#define THRCHK_DEADBAND               16
 
-#define SPLASH_NEEDED() (!g_eeGeneral.splashMode)
+#define SPLASH_NEEDED()               (!g_eeGeneral.splashMode)
 
 #if defined(FSPLASH)
-  #define SPLASH_TIMEOUT  (g_eeGeneral.splashMode == 0 ? 60000/*infinite=10mn*/ : ((4*100) * (g_eeGeneral.splashMode & 0x03)))
+  #define SPLASH_INFINITE_MS          (10*60*1000UL)  // 10 minutes = infinite
+  #define SPLASH_DEFAULT_TIMEOUT_MS   (4000)  // 4 seconds
+  #define SPLASH_TIMEOUT_MS           (g_eeGeneral.splashMode == 0 ? MS_TO_10MS_TICK(SPLASH_INFINITE_MS) : (MS_TO_10MS_TICK(SPLASH_DEFAULT_TIMEOUT_MS) * (g_eeGeneral.splashMode & 0x03)))
 #else
-  #define SPLASH_TIMEOUT  (4*100)  // 4 seconds
+  #define SPLASH_TIMEOUT_MS           (4000)  // 4 seconds
 #endif
 
 #if defined(ROTARY_ENCODERS)
@@ -404,9 +443,9 @@ enum BaseCurves {
   #define NAVIGATION_RE_IDX()         0
 #endif
 
-#define HEART_TIMER_10MS     1
-#define HEART_TIMER_PULSES   2 // when multiple modules this is the first one
-#define HEART_WDT_CHECK      (HEART_TIMER_10MS + HEART_TIMER_PULSES)
+#define HEART_TIMER_10MS              1
+#define HEART_TIMER_PULSES            2 // when multiple modules this is the first one
+#define HEART_WDT_CHECK               (HEART_TIMER_10MS + HEART_TIMER_PULSES)
 
 extern uint8_t heartbeat;
 
