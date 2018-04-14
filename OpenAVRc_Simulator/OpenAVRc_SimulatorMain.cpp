@@ -569,11 +569,8 @@ void OpenAVRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
     StartFirmwareCode();
   }
   else {
-#if defined(PCBMEGAMINI)
-    pwrCheck = false;
-#else
-    SpinH->ResetPin(6);
-#endif
+
+    pwrCheck = false; // Shut down firmware
   }
 }
 
@@ -608,9 +605,9 @@ void OpenAVRc_SimulatorFrame::StartFirmwareCode()
 
   s_anaFilt[7] = 1024; // 7.62 V Battery (7.22V adc + 0.4 V Schottky Diode)
 
-  Timer10ms.Start(10, true); //Simulate 10mS Interrupt vector
+  Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
   simumain();
-  TimerMain.Start(3, false); // Simulate ?mS cycle for mainloop function
+  TimerMain.StartOnce(18); // Simulate ?mS cycle for mainloop function
   MenuFile->Enable(IDMENUEXPORTEEPROM, true);
   MenuFile->Enable(IDMENUIMPORTEEPROM, true);
 }
@@ -627,42 +624,51 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
 
   if (simu_mainloop_is_runing) // Avoid re-entrance
   {
-    TimerMain.Start(1, true); //whait 1 mS
+    TimerMain.StartOnce(1); //whait 1 mS
     return;
   }
-  else TimerMain.Start(3, true);
+  else MainFirmwareTask();
+}
 
+void OpenAVRc_SimulatorFrame::MainFirmwareTask()
+{
+  if ((simu_off) && (!simu_mainloop_is_runing)) {
+    TimerMain.Stop();
+    ChronoMain->Pause();
+    Timer10ms.Stop();
+    Chrono10ms->Pause();
+    ResetSimuLcd();
+    CloseApp();
+  } else {
   if (/*(!simu_mainloop_is_runing) && */(!simu_shutDownSimu_is_runing)) {
-
     ChronoMain->Start(0);
     SimuMainLoop();
     Chronoval = ChronoMain->TimeInMicro();
     ChronoMain->Pause();
     StatusBar->SetStatusText(_T("MAIN ")+Chronoval.ToString()+_T(" uS"),1);
-  }
-  if ((simu_off) && (!simu_mainloop_is_runing)) {
-    TimerMain.Stop();
-    Timer10ms.Stop();
-    ResetSimuLcd();
-    Close();
-    return;
+    TimerMain.StartOnce(18);
   }
 
   if (Tele_Protocol == Tele_Proto_Frsky_Sport) frskySportSimuloop();
   if (Tele_Protocol == Tele_Proto_Frsky_D) frskyDSimuloop();
 
+  }
 }
 
 void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
 {
   event.Skip();
+
   if (ISR10msLoop_is_runing) // Avoid re-entrance
   {
-    Timer10ms.Start(1, true); //whait 1 mS
+    Timer10ms.StartOnce(1); //whait 1 mS
     return;
   }
-  else Timer10ms.Start(10, true); //Simulate 10mS Interrupt vector
+  else Isr10msTaskFirmware();
+}
 
+void OpenAVRc_SimulatorFrame::Isr10msTaskFirmware()
+{
   if (Mp3RepExist) PlayTts(); // Check and play voice if needed
   CheckInputs();
   Chrono10ms->Start(0);
@@ -673,6 +679,8 @@ void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
   Chronoval = Chrono10ms->TimeInMicro();
   Chrono10ms->Pause();
   StatusBar->SetStatusText(_T("10 mS IRQ ")+Chronoval.ToString()+_T(" uS"),2);
+
+Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
 }
 
 void OpenAVRc_SimulatorFrame::DrawWxSimuLcd()
@@ -712,12 +720,6 @@ OpenAVRc_SimulatorFrame::~OpenAVRc_SimulatorFrame()
 {
   //(*Destroy(OpenAVRc_SimulatorFrame)
   //*)
-}
-
-void OpenAVRc_SimulatorFrame::OnQuit(wxCommandEvent& event)
-{
-  event.Skip();
-  Close();
 }
 
 void OpenAVRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
@@ -902,21 +904,16 @@ void OpenAVRc_SimulatorFrame::OnMenuSaveeeSelected(wxCommandEvent& event)
   }
 }
 
-void OpenAVRc_SimulatorFrame::OnClose(wxCloseEvent& event)
+void OpenAVRc_SimulatorFrame::CloseApp()
 {
-  if (OnTglButton->GetValue() && (!simu_off)) {
-    wxMessageBox( _("Merci d'éteindre le simulateur pour quitter"), _("      OpenAVRc Simulateur"));
-    event.Veto();
-    return;
-  }
   if (Ini_Changed) SaveConfig();
-  if (ChronoMain != NULL) {
-    delete ChronoMain;
-  }
-  if (Chrono10ms != NULL) {
-    delete Chrono10ms;
-  }
-  Sleep(100);
+
+  while (TimerMain.IsRunning() || Timer10ms.IsRunning()) {SimuSleepMs(1);}
+
+  TimerMain.DeletePendingEvents();
+  Timer10ms.DeletePendingEvents();
+  if (ChronoMain != NULL) {delete ChronoMain;}
+  if (Chrono10ms != NULL) {delete Chrono10ms;}
 
   PanelMain->PopEventHandler(NULL);
   PanelH->PopEventHandler(NULL);
@@ -928,7 +925,7 @@ void OpenAVRc_SimulatorFrame::OnClose(wxCloseEvent& event)
   //delete PanelH;
   //delete PanelB;
 
-  /*delete SpinA;
+  delete SpinA;
   delete SpinB;
   delete SpinC;
   delete SpinD;
@@ -938,12 +935,30 @@ void OpenAVRc_SimulatorFrame::OnClose(wxCloseEvent& event)
   delete SpinH;
   delete SpinJ;
   delete SpinK;
-  delete SpinL;*/
+  delete SpinL;
+
+  if (comPort != NULL) delete comPort;
 
   if (SimuLcd_MemoryDC != NULL) delete SimuLcd_MemoryDC;
   if (SimuLcd_ClientDC != NULL)	delete SimuLcd_ClientDC;
 
   Destroy();
+}
+
+void OpenAVRc_SimulatorFrame::OnQuit(wxCommandEvent& event)
+{
+  event.Skip();
+  if (OnTglButton->GetValue() && (!simu_off)) {
+    pwrCheck = false; // Shut down firmware
+  } else CloseApp();
+}
+
+void OpenAVRc_SimulatorFrame::OnClose(wxCloseEvent& event)
+{
+  event.Veto();
+  if (OnTglButton->GetValue() && (!simu_off)) {
+    pwrCheck = false; // Shut down firmware
+  } else CloseApp();
 }
 
 void OpenAVRc_SimulatorFrame::LoadConfig()
@@ -1124,15 +1139,15 @@ void OpenAVRc_SimulatorFrame::ImportEeprom()
     load_ModelData_EEPROM_VER();
   } else {
     wxMessageBox( _("Version d'eeprom non prise en charge"), _("    OpenAVRc Simulateur"));
-    Timer10ms.Start(10, true); //Simulate 10mS Interrupt vector
-    TimerMain.Start(1, true); // Simulate ?mS cycle for mainloop function
+    Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
+    TimerMain.StartOnce(18); // Simulate ?mS cycle for mainloop function
     ChronoMain->Resume();
     Chrono10ms->Resume();
     return;
   }
 
-  Timer10ms.Start(10, true); //Simulate 10mS Interrupt vector
-  TimerMain.Start(1, true); // Simulate ?mS cycle for mainloop function
+  Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
+  TimerMain.StartOnce(18); // Simulate ?mS cycle for mainloop function
 
   delete eepromfile;
 
@@ -1172,8 +1187,8 @@ void OpenAVRc_SimulatorFrame::ExportEeprom()
   eepromfile->Flush();
   delete eepromfile;
 
-  Timer10ms.Start(10, true); //Simulate 10mS Interrupt vector
-  TimerMain.Start(3, true); // Simulate ?mS cycle for mainloop function
+  Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
+  TimerMain.StartOnce(18); // Simulate ?mS cycle for mainloop function
   ChronoMain->Resume();
   Chrono10ms->Resume();
 }

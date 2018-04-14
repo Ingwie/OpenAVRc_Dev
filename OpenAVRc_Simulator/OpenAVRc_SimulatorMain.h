@@ -195,8 +195,11 @@ private:
   void OnBpRebLeftDown(wxMouseEvent& event);
   void OnBpRebLeftUp(wxMouseEvent& event);
   void OnMenuExportEepromSelected(wxCommandEvent& event);
+  void MainFirmwareTask();
+  void Isr10msTaskFirmware();
   void ExportEeprom();
   void ImportEeprom();
+  void CloseApp();
   void load_EEGeneral_217();
   void load_ModelData_217();
   void save_EEGeneral_EEPROM_VER(EEGeneral General);
@@ -282,9 +285,6 @@ private:
   wxColour Col_Button_On;
   wxColour Col_Stick_Back;
   wxColour Col_Stick_Circle;
-
-
-
 
   uint8_t SimuLcdScale;
   wxClientDC* SimuLcd_ClientDC;
