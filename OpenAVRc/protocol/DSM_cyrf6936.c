@@ -704,7 +704,7 @@ static uint16_t dsm2_cb()
         if(num_channels < 8) {
           state = DSM2_CH1_WRITE_A;
           CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-          SCHEDULE_MIXER_END(22*16);
+          SCHEDULE_MIXER_END_IN_US(22000);
           return 22000U *2 - CH1_CH2_DELAY - WRITE_DELAY;
         }
         state = DSM2_CH1_WRITE_B;
@@ -712,7 +712,7 @@ static uint16_t dsm2_cb()
         state = DSM2_CH1_WRITE_A;
       }
       CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-      SCHEDULE_MIXER_END(11*16);
+      SCHEDULE_MIXER_END_IN_US(11000);
       return 11000U*2 - CH1_CH2_DELAY - WRITE_DELAY;
     } else {
       state++;

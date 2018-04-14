@@ -146,7 +146,7 @@ static void MULTI_Reset()
 
 static uint16_t MULTI_cb()
 {
-  SCHEDULE_MIXER_END(22*16); // Schedule next Mixer calculations.
+  SCHEDULE_MIXER_END_IN_US(22000); // Schedule next Mixer calculations.
 
   // Send datas
   if (Usart0TxBufferCount) return 1000 *2; // return, if buffer is not empty

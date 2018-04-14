@@ -106,7 +106,7 @@ static void DSM2_SERIAL_Reset()
 static uint16_t DSM_SERIAL_cb()
 {
   // Schedule next Mixer calculations.
-  SCHEDULE_MIXER_END(22*16);
+  SCHEDULE_MIXER_END_IN_US(22000);
 
 #if defined(FRSKY)
   Usart0TxBufferCount = 0;
