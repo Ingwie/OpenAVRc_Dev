@@ -58,7 +58,7 @@ static uint16_t PROTO_PPMSIM_cb()
     setupPulsesPPM(PPMSIM);
     heartbeat |= HEART_TIMER_PULSES;
     CALCULATE_LAT_JIT(); // Show how long to setup pulses and ISR jitter.
-    return PULSES_SETUP_TIME *2;
+    return PULSES_SETUP_TIME_US *2;
   }
   else if (*(RptrA +1) == 0) { // Look ahead one timing event.
     // Need to prevent next toggle.
