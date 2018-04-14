@@ -58,7 +58,7 @@ static uint16_t PROTO_PPM16A_cb()
     setupPulsesPPM(PPM16LAST); // Channels 8-16.
     heartbeat |= HEART_TIMER_PULSES;
     CALCULATE_LAT_JIT(); // Show how long to setup pulses and ISR jitter.
-    return PULSES_SETUP_TIME *2;
+    return PULSES_SETUP_TIME_US *2;
   }
   else if (*(RptrA +1) == 0) { // Look ahead one timing event.
     // Need to prevent next toggle.
@@ -93,7 +93,7 @@ static uint16_t PROTO_PPM16B_cb2()
     setupPulsesPPM(PPM16FIRST);
     heartbeat |= HEART_TIMER_PULSES;
     dt = TCNT1 - OCR1B; // Show how long to setup pulses and ISR jitter.
-    return PULSES_SETUP_TIME *2;
+    return PULSES_SETUP_TIME_US *2;
   }
   else if (*(RptrB +1) == 0) { // Look ahead one timing event.
     // Need to prevent next toggle.

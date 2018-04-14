@@ -157,7 +157,7 @@ void setupPulsesPPM(enum ppmtype proto)
   if (rest > 65535) rest = 65535; // Prevents overflows.
   if (rest < 9000)  rest = 9000;
 
-  *ptr++ = rest - (PULSES_SETUP_TIME *2);
+  *ptr++ = rest - (PULSES_SETUP_TIME_US *2);
   *ptr = 0; // End array with (uint16_t) 0;
 }
 
