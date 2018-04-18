@@ -570,7 +570,7 @@ void OpenAVRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
   }
   else {
 
-    pwrCheck = false; // Shut down firmware
+    pwrCheck = false; // Shut down firmware command (Pin simulation)
   }
 }
 
@@ -632,25 +632,28 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
 
 void OpenAVRc_SimulatorFrame::MainFirmwareTask()
 {
-  if ((simu_off) && (!simu_mainloop_is_runing)) {
+  if ((simu_off) && (!simu_mainloop_is_runing))
+  {
     TimerMain.Stop();
     ChronoMain->Pause();
     Timer10ms.Stop();
     Chrono10ms->Pause();
     ResetSimuLcd();
     CloseApp();
-  } else {
-  if (/*(!simu_mainloop_is_runing) && */(!simu_shutDownSimu_is_runing)) {
-    ChronoMain->Start(0);
-    SimuMainLoop();
-    Chronoval = ChronoMain->TimeInMicro();
-    ChronoMain->Pause();
-    StatusBar->SetStatusText(_T("MAIN ")+Chronoval.ToString()+_T(" uS"),1);
-    TimerMain.StartOnce(18);
   }
+  else
+  {
+    if ((!simu_mainloop_is_runing) && (!simu_shutDownSimu_is_runing))
+    {
+      MainFWThread = new MainFirmwareThread;
+      StatusBar->SetStatusText(_T("MAIN ")+MaintTaskChronoval.ToString()+_T(" uS"),1);
+      TimerMain.StartOnce(18);
+    }
 
-  if (Tele_Protocol == Tele_Proto_Frsky_Sport) frskySportSimuloop();
-  if (Tele_Protocol == Tele_Proto_Frsky_D) frskyDSimuloop();
+    if (Tele_Protocol == Tele_Proto_Frsky_Sport)
+      frskySportSimuloop();
+    if (Tele_Protocol == Tele_Proto_Frsky_D)
+      frskyDSimuloop();
 
   }
 }
@@ -669,18 +672,19 @@ void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
 
 void OpenAVRc_SimulatorFrame::Isr10msTaskFirmware()
 {
-  if (Mp3RepExist) PlayTts(); // Check and play voice if needed
+  if (Mp3RepExist)
+    PlayTts(); // Check and play voice if needed
   CheckInputs();
-  Chrono10ms->Start(0);
-  if (!simu_off) {
-    TIMER_10MS_VECT();
-  } else {
+  if (!simu_off)
+  {
+    Isr10msFWThread = new Isr10msFirmwareThread;
   }
-  Chronoval = Chrono10ms->TimeInMicro();
-  Chrono10ms->Pause();
-  StatusBar->SetStatusText(_T("10 mS IRQ ")+Chronoval.ToString()+_T(" uS"),2);
+  else
+  {
+  }
+  StatusBar->SetStatusText(_T("10 mS IRQ ")+Isr10msTaskChronoval.ToString()+_T(" uS"),2);
 
-Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
+  Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
 }
 
 void OpenAVRc_SimulatorFrame::DrawWxSimuLcd()
