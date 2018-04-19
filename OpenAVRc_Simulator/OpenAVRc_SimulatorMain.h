@@ -75,6 +75,9 @@ Tele_Proto_Frsky_Sport,
 //SD
 wxString simu_dir;
 
+//Beep
+extern uint32_t BeepFreq;
+extern uint32_t BeepTime;
 
 extern wxString AppPath;
 wxLongLong MaintTaskChronoval;
