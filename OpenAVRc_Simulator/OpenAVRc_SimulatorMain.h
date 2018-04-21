@@ -75,9 +75,16 @@ Tele_Proto_Frsky_Sport,
 //SD
 wxString simu_dir;
 
+//Beep
+extern uint32_t BeepFreq;
+extern uint32_t BeepTime;
 
 extern wxString AppPath;
-static wxLongLong Chronoval;
+wxLongLong MaintTaskChronoval;
+wxLongLong Isr10msTaskChronoval;
+wxStopWatch* ChronoMain;
+wxStopWatch* Chrono10ms;
+
 
 //UTILS
 wxString ConvCharFwToWxstr(char *cstr, uint8_t length);
@@ -92,6 +99,48 @@ public:
   virtual bool ProcessEvent(wxEvent &Event);
 protected:
   wxBitmap Bitmap;
+};
+
+class MainFirmwareThread: public wxThread
+{
+public:
+  MainFirmwareThread() : wxThread(wxTHREAD_DETACHED)
+  {
+    if(wxTHREAD_NO_ERROR == Create())
+    {
+      Run();
+    }
+  }
+protected:
+  virtual void* Entry()
+  {
+    ChronoMain->Start(0);
+    SimuMainLoop(); /**< Main firmware task */
+    MaintTaskChronoval = ChronoMain->TimeInMicro();
+    ChronoMain->Pause();
+    while (TestDestroy()) {};  /**< Auto closed ? */
+  }
+};
+
+class Isr10msFirmwareThread: public wxThread
+{
+public:
+  Isr10msFirmwareThread() : wxThread(wxTHREAD_DETACHED)
+  {
+    if(wxTHREAD_NO_ERROR == Create())
+    {
+      Run();
+    }
+  }
+protected:
+  virtual void* Entry()
+  {
+    Chrono10ms->Start(0);
+    TIMER_10MS_VECT(); /**< Isr10ms firmware task */
+    Isr10msTaskChronoval = Chrono10ms->TimeInMicro();
+    Chrono10ms->Pause();
+    while (TestDestroy()) {};  /**< Auto closed ? */
+  }
 };
 
 class OpenAVRc_SimulatorFrame: public wxFrame
@@ -290,8 +339,9 @@ private:
   wxClientDC* SimuLcd_ClientDC;
   wxBitmap SimuLcd_Bitmap;
   wxMemoryDC* SimuLcd_MemoryDC;
-  wxStopWatch* ChronoMain;
-  wxStopWatch* Chrono10ms;
+
+  MainFirmwareThread* MainFWThread;
+  Isr10msFirmwareThread* Isr10msFWThread;
 
   Spin* SpinA;
   Spin* SpinB;
