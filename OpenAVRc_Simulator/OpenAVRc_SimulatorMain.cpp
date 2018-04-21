@@ -103,10 +103,15 @@ GvarsFrame *GvFr;
 RadioDataFrame *RaFr;
 TelemetryFrame *TeleFr;
 
+// Voice
 bool Mp3RepExist = false;
 extern volatile uint8_t JQ6500_InputIndex;
 extern uint8_t JQ6500_PlayIndex;
 extern uint8_t JQ6500_playlist[];
+
+//Audio
+uint32_t BeepFreq;
+uint32_t BeepTime;
 
 // Telemetry datas
 int Tele_Protocol;
@@ -570,7 +575,11 @@ void OpenAVRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
   }
   else {
 
+<<<<<<< HEAD
     pwrCheck = false; // Shut down firmware
+=======
+    pwrCheck = false; // Shut down firmware command (Pin simulation)
+>>>>>>> 07424ee12d9ddff3571a45131e4aa445ac724238
   }
 }
 
@@ -632,13 +641,19 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
 
 void OpenAVRc_SimulatorFrame::MainFirmwareTask()
 {
+<<<<<<< HEAD
   if ((simu_off) && (!simu_mainloop_is_runing)) {
+=======
+  if ((simu_off) && (!simu_mainloop_is_runing))
+  {
+>>>>>>> 07424ee12d9ddff3571a45131e4aa445ac724238
     TimerMain.Stop();
     ChronoMain->Pause();
     Timer10ms.Stop();
     Chrono10ms->Pause();
     ResetSimuLcd();
     CloseApp();
+<<<<<<< HEAD
   } else {
   if (/*(!simu_mainloop_is_runing) && */(!simu_shutDownSimu_is_runing)) {
     ChronoMain->Start(0);
@@ -653,6 +668,22 @@ void OpenAVRc_SimulatorFrame::MainFirmwareTask()
   if (Tele_Protocol == Tele_Proto_Frsky_D) frskyDSimuloop();
 
   }
+=======
+  }
+  else
+  {
+    if ((!simu_mainloop_is_runing) && (!simu_shutDownSimu_is_runing))
+    {
+      if (Tele_Protocol == Tele_Proto_Frsky_Sport) // Telemetry simulation
+        frskySportSimuloop();
+      if (Tele_Protocol == Tele_Proto_Frsky_D) // Telemetry simulation
+        frskyDSimuloop();
+      StatusBar->SetStatusText(_T("MAIN ")+MaintTaskChronoval.ToString()+_T(" uS"),1);
+      TimerMain.StartOnce(18);
+      MainFWThread = new MainFirmwareThread;
+    }
+  }
+>>>>>>> 07424ee12d9ddff3571a45131e4aa445ac724238
 }
 
 void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
@@ -670,7 +701,17 @@ void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
 void OpenAVRc_SimulatorFrame::Isr10msTaskFirmware()
 {
   if (Mp3RepExist) PlayTts(); // Check and play voice if needed
+
+  if ((BeepFreq != 0) || (BeepTime != 0)) // A beep to play ?
+    {
+      wxString datas = wxString::Format(wxT("%i %i"),BeepFreq,BeepTime);
+      wxProcess::Open(AppPath + "\\tools\\Beep.exe " + datas, wxEXEC_HIDE_CONSOLE  | wxEXEC_ASYNC);
+      BeepFreq = 0;
+      BeepTime = 0;
+    }
+
   CheckInputs();
+<<<<<<< HEAD
   Chrono10ms->Start(0);
   if (!simu_off) {
     TIMER_10MS_VECT();
@@ -681,6 +722,19 @@ void OpenAVRc_SimulatorFrame::Isr10msTaskFirmware()
   StatusBar->SetStatusText(_T("10 mS IRQ ")+Chronoval.ToString()+_T(" uS"),2);
 
 Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
+=======
+
+  if (!simu_off)
+    {
+      StatusBar->SetStatusText(_T("10 mS IRQ ")+Isr10msTaskChronoval.ToString()+_T(" uS"),2);
+      Isr10msFWThread = new Isr10msFirmwareThread;
+    }
+  else
+    {
+    }
+
+  Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
+>>>>>>> 07424ee12d9ddff3571a45131e4aa445ac724238
 }
 
 void OpenAVRc_SimulatorFrame::DrawWxSimuLcd()
