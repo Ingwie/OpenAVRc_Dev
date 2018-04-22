@@ -251,7 +251,7 @@ static uint16_t MULTI_cb()
 
     // Scale to 80%
     value =  value*8/10 + 1024;
-    bits |= (limit<int16_t>(0, value, 2047)) << bitsavailable;
+    bits |= ((uint32_t)limit<int16_t>(0, value, 2047)) << bitsavailable;
     bitsavailable += MULTI_CHAN_BITS;
 
     while (bitsavailable >= 8) {
