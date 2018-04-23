@@ -109,7 +109,7 @@ typedef struct{
                   Switches :6;  /* 6 bits of a PCF8574 or Mcp (2 bits are lost) */
 }WordAglSwSt_t; /* Size = 2 bytes */
 
-union{
+typedef union{
   WordAglSwSt_t   AglSw;
   WordBytesSt_t   Byte;
   uint16_t        Word;
@@ -161,7 +161,7 @@ void Xany_init(void)
   uint8_t Idx;
 
   /* Clear the whole structure for the 2 groups */
-  memset((void*)&X_SwWriteMsg, 0, sizeof(X_SwWriteMsg));
+  memset((void*)&X_AnyWriteMsg, 0, sizeof(X_AnyWriteMsg));
 
   /* Probe I2C bus to discover Io Expender chips */
   for(Idx = 0; Idx < IO_EXP_SUP_MAX_NB; Idx++)
@@ -187,7 +187,7 @@ uint8_t Xany_readInputsAndLoadMsg(uint8_t XanyIdx)
 {
   uint8_t Done = 0;
 
-  if(X_SwWriteMsg[XanyIdx].ByteIdx >= (X_ANY_MSG_LEN + 1))
+  if(X_AnyWriteMsg[XanyIdx].ByteIdx >= (X_ANY_MSG_LEN + 1))
   {
     /* No need to mask interrupt since X_AnyWriteMsg[] is not use when X_AnyWriteMsg[XanyIdx].ByteIdx is >= (X_ANY_MSG_LEN + 1) */
     Xany_readInputs(XanyIdx); /* This reads the I2C bus */
@@ -213,7 +213,7 @@ void Xany_scheduleTx(uint8_t XanyIdx)
 
   if(g_model.Xany[XanyIdx].Active)
   {
-    t = X_AnyWriteMsg[XanyIdx]; /* XanyIdx SHALL be < NUM_X_ANY */
+    t = (X_OneAnyWriteMsgSt_t *)&X_AnyWriteMsg[XanyIdx]; /* XanyIdx SHALL be < NUM_X_ANY */
 
     if(!t->Nibble.TxInProgress)
     {
@@ -244,7 +244,7 @@ void Xany_scheduleTx(uint8_t XanyIdx)
       t->Nibble.PrevIdx = t->Nibble.CurIdx;
     }
     /* Send the Nibble or the Repeat or the Idle symbol */
-    channelOuputs[t->Ch] = GET_PULSE_WIDTH_US(t->Nibble.CurIdx);
+    channelOutputs[g_model.Xany[XanyIdx].ChId] = GET_PULSE_WIDTH_US(t->Nibble.CurIdx);
     t->Nibble.SentCnt++;
     if(t->Nibble.SentCnt >= t->Nibble.NbToSend)
     {
@@ -268,7 +268,7 @@ static void Xany_readInputs(uint8_t XanyIdx)
   uint8_t  BitIdx, One8bitPort;
   uint16_t Two8bitPorts;
 
-  X_AnyReadMsg[XanyIdx].Word  = 0;
+  X_AnyReadMsg[XanyIdx].Payload.Word  = 0;
   for(BitIdx = 0; BitIdx < IO_EXP_SUP_MAX_NB; BitIdx++)
   {
     if(IoExtMap | (1<<BitIdx))
@@ -277,15 +277,15 @@ static void Xany_readInputs(uint8_t XanyIdx)
       if(BitIdx < 4)
       {
         /* Read one 8 bit port */
-        i2c_receive((IO_EXP_BASE_ADDR  + Idx), (uint8_t*)&One8bitPort, 1); /* This function expects a nack for last byte: will work? */
+        i2c_receive((IO_EXP_BASE_ADDR  + BitIdx), (uint8_t*)&One8bitPort, 1); /* This function expects a nack for last byte: will work? */
         if(BitIdx & 1) X_AnyReadMsg[XanyIdx].Payload.Byte.High = One8bitPort; /* Odd  */
         else           X_AnyReadMsg[XanyIdx].Payload.Byte.Low  = One8bitPort; /* Even */
       }
       else
       {
         /* Read two 8 bit ports */
-        i2c_receive((IO_EXP_BASE_ADDR  + Idx), (uint8_t*)&Two8bitPorts, 2); /* This function expects a nack for last byte: will work? */
-        X_AnyReadMsg[XanyIdx].Word  = Two8bitPorts;
+        i2c_receive((IO_EXP_BASE_ADDR  + BitIdx), (uint8_t*)&Two8bitPorts, 2); /* This function expects a nack for last byte: will work? */
+        X_AnyReadMsg[XanyIdx].Payload.Word  = Two8bitPorts;
       }
     }
   }
@@ -296,5 +296,5 @@ static void Xany_readInputs(uint8_t XanyIdx)
     //X_AnyReadMsg[XanyIdx].Payload.Angle = Angle; //This will overwrite some digital inputs!
   }
   /* Update Checksum */
-  X_AnyReadMsg[XanyIdx].Chks = X_AnyReadMsg[XanyIdx].Byte.High ^ X_AnyReadMsg[XanyIdx].Byte.Low ^ 0x55;
+  X_AnyReadMsg[XanyIdx].Chks = X_AnyReadMsg[XanyIdx].Payload.Byte.High ^ X_AnyReadMsg[XanyIdx].Payload.Byte.Low ^ 0x55;
 }

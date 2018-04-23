@@ -67,8 +67,8 @@
 		<Unit filename="Makefile" />
 		<Unit filename="OpenAVRc.cpp" />
 		<Unit filename="OpenAVRc.h" />
-		<Unit filename="Xswitch.cpp" />
-		<Unit filename="Xswitch.h" />
+		<Unit filename="Xany.cpp" />
+		<Unit filename="Xany.h" />
 		<Unit filename="adc_driver.cpp" />
 		<Unit filename="audio_avr.cpp" />
 		<Unit filename="audio_avr.h" />
