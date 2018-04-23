@@ -1145,8 +1145,11 @@ PACK(typedef struct {
   swarnstate_t  switchWarningState;
   swarnenable_t switchWarningEnable;
   SwashRingData swashR;          // Heli data
-  OneXanyEepSt_t Xany[NUM_X_ANY]; // NUM_X_ANY bytes
+  uint8_t UnusedModel; // Use later .. todo
+
   TELEMETRY_DATA
+
+  OneXanyEepSt_t Xany[NUM_X_ANY]; // NUM_X_ANY bytes
 
 }) ModelData;
 
