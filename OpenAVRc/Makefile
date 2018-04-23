@@ -258,6 +258,10 @@ NRF24l01 = NO
 # Values = NO, YES
 A7105 = NO
 
+# Enable X-ANY feature
+# Values = NO, YES
+X_ANY = YES
+
 
 #------- END BUILD OPTIONS ---------------------------
 
@@ -399,6 +403,10 @@ ifeq ($(PCB), MEGAMINI)
    		CPPDEFS += -DPROTO_HAS_A7105
   	endif
   endif
+
+	ifeq ($(X_ANY), YES)
+	CPPDEFS += -DX_ANY
+	endif
 
 endif
 

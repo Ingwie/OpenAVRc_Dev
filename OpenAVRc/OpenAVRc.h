@@ -1004,6 +1004,10 @@ enum AUDIO_SOUNDS {
   #include "rtc.h"
 #endif
 
+#if defined(X_ANY)
+  #include "Xany.h"
+#endif
+
 #if defined(MULTIMODULE)
 PACK(
 struct mm_protocol_definition {
