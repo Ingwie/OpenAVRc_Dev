@@ -1099,6 +1099,16 @@ PACK(typedef struct {
 //SPI Def
 #define RFPOWER         rfOptionValue3
 
+#define NUM_X_ANY       2
+
+typedef struct{
+  uint8_t
+    Active       :1, /* Allow to used the channel as usual (without messages) */
+    ChId         :4, /* Channel used to transport the message (0 to 15) */
+    RepeatNb     :2, /* 0 repeat to 3 repeats */
+    AbsAglSensor :1; /* Transport of the angle of an analog absolute sensor */
+}OneXanyEepSt_t;
+
 PACK(typedef struct {
   char      name[LEN_MODEL_NAME]; // must be first for eeLoadModelName
   //Rf data
@@ -1135,9 +1145,7 @@ PACK(typedef struct {
   swarnstate_t  switchWarningState;
   swarnenable_t switchWarningEnable;
   SwashRingData swashR;          // Heli data
-  uint8_t PCF8574Channel1:4; // Code todo
-  uint8_t PCF8574Channel2:4;
-
+  OneXanyEepSt_t Xany[NUM_X_ANY]; // NUM_X_ANY bytes
   TELEMETRY_DATA
 
 }) ModelData;
