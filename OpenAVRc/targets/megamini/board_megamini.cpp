@@ -102,7 +102,7 @@ FORCEINLINE void boardInit()
   ENABLEROTENCAISR();
   ENABLEROTENCBISR();
 
-#if defined(RTCLOCK) || defined(LCD_SSD1306) || defined(LCD_SH1106) || defined(EXTERNALEEPROM)| defined(X_ANY)
+#if defined(RTCLOCK) || defined(LCD_SSD1306) || defined(LCD_SH1106) || defined(EXTERNALEEPROM) || defined(X_ANY)
   /* Hardware I2C init */
   i2c_init();
 #endif

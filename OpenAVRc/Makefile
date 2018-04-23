@@ -406,6 +406,7 @@ ifeq ($(PCB), MEGAMINI)
 
 	ifeq ($(X_ANY), YES)
 	CPPDEFS += -DX_ANY
+	CPPSRC += Xany.cpp
 	endif
 
 endif
