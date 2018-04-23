@@ -1107,7 +1107,7 @@ typedef struct{
     ChId         :4, /* Channel used to transport the message (0 to 15) */
     RepeatNb     :2, /* 0 repeat to 3 repeats */
     AbsAglSensor :1; /* Transport of the angle of an analog absolute sensor */
-}OneXanyEepSt_t;
+}XanyEepSt_t;
 
 PACK(typedef struct {
   char      name[LEN_MODEL_NAME]; // must be first for eeLoadModelName
@@ -1149,7 +1149,7 @@ PACK(typedef struct {
 
   TELEMETRY_DATA
 
-  OneXanyEepSt_t Xany[NUM_X_ANY]; // NUM_X_ANY bytes
+  XanyEepSt_t Xany[NUM_X_ANY]; // NUM_X_ANY bytes
 
 }) ModelData;
 
