@@ -38,7 +38,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 2 7
 Title "Shield Mega2560 core Full"
-Date "2018-04-19"
+Date "2018-04-25"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -1671,7 +1671,7 @@ U 1 1 5A71A89A
 P 10450 1250
 F 0 "P33" H 10450 1400 50  0000 C CNN
 F 1 "5V_CODERS" V 10550 1250 50  0000 C CNN
-F 2 "" H 10450 1250 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm" H 10450 1250 50  0001 C CNN
 F 3 "" H 10450 1250 50  0000 C CNN
 	1    10450 1250
 	0    -1   -1   0   

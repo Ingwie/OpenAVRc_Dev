@@ -38,7 +38,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 7
 Title "Shield Mega2560 core Full"
-Date "2018-04-19"
+Date "2018-04-25"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -188,12 +188,12 @@ $EndComp
 $Comp
 L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR053
 U 1 1 59C5DE2D
-P 2350 5300
-F 0 "#PWR053" H 2350 5050 50  0001 C CNN
-F 1 "GND" H 2350 5150 50  0000 C CNN
-F 2 "" H 2350 5300 50  0000 C CNN
-F 3 "" H 2350 5300 50  0000 C CNN
-	1    2350 5300
+P 2350 4850
+F 0 "#PWR053" H 2350 4600 50  0001 C CNN
+F 1 "GND" H 2350 4700 50  0000 C CNN
+F 2 "" H 2350 4850 50  0000 C CNN
+F 3 "" H 2350 4850 50  0000 C CNN
+	1    2350 4850
 	1    0    0    -1  
 $EndComp
 NoConn ~ 2900 4700
@@ -400,7 +400,7 @@ U 1 1 59C5BE8C
 P 10200 2700
 F 0 "RV6" V 10100 2700 50  0000 C CNN
 F 1 "1K" V 10200 2700 50  0000 C CNN
-F 2 "trimpot_5x5_vertical" H 10200 2700 50  0001 C CNN
+F 2 "v2.1:trimpot_5x5_vertical" H 10200 2700 50  0001 C CNN
 F 3 "" H 10200 2700 50  0000 C CNN
 	1    10200 2700
 	1    0    0    -1  
@@ -411,7 +411,7 @@ U 1 1 59C5BE93
 P 9150 2400
 F 0 "RV1" V 9050 2400 50  0000 C CNN
 F 1 "10K" V 9150 2400 50  0000 C CNN
-F 2 "trimpot_5x5_vertical" H 9150 2400 50  0001 C CNN
+F 2 "v2.1:trimpot_5x5_vertical" H 9150 2400 50  0001 C CNN
 F 3 "" H 9150 2400 50  0000 C CNN
 	1    9150 2400
 	-1   0    0    1   
@@ -603,7 +603,7 @@ U 1 1 59E0D99E
 P 9100 4800
 F 0 "Q1" V 9000 5000 60  0000 R CNN
 F 1 "IRLML5203" V 9300 5050 60  0000 R CNN
-F 2 "SOT-23_MOS_P" H 9100 4800 60  0001 C CNN
+F 2 "v2.1:SOT-23_MOS_P" H 9100 4800 60  0001 C CNN
 F 3 "" H 9100 4800 60  0000 C CNN
 	1    9100 4800
 	0    -1   -1   0   
@@ -674,19 +674,6 @@ F 3 "" H 10450 2350 50  0000 C CNN
 	1    10450 2350
 	1    0    0    -1  
 $EndComp
-$Comp
-L 2560-core-RESCUE-Mega_2560_core_mini_full_2.1 P1
-U 1 1 5A758C27
-P 50 3400
-AR Path="/5A758C27" Ref="P1"  Part="1" 
-AR Path="/59C5D60D/5A758C27" Ref="P1"  Part="1" 
-F 0 "P1" H 2100 4650 50  0000 C CNN
-F 1 "2560-core" V 2100 3600 50  0000 C CNN
-F 2 "Connectors-2560-core" H 3100 4800 50  0000 C CNN
-F 3 "" H 2100 2650 50  0000 C CNN
-	1    50   3400
-	1    0    0    -1  
-$EndComp
 Text GLabel 1450 3550 0    60   Output ~ 0
 BT_OnOff
 Text GLabel 10000 5300 2    60   Input ~ 0
@@ -701,7 +688,7 @@ U 1 1 5A9E6547
 P 4350 6650
 F 0 "P15" H 4350 6850 50  0000 C CNN
 F 1 "DUMMY" V 4450 6650 50  0000 C CNN
-F 2 "" H 4350 6650 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm" H 4350 6650 50  0001 C CNN
 F 3 "" H 4350 6650 50  0000 C CNN
 	1    4350 6650
 	-1   0    0    1   
@@ -976,10 +963,7 @@ Connection ~ 3650 4700
 Wire Wire Line
 	2600 4700 2350 4700
 Wire Wire Line
-	2350 4700 2350 5300
-Wire Wire Line
-	2600 5200 2350 5200
-Connection ~ 2350 5200
+	2350 4700 2350 4850
 Wire Wire Line
 	1850 4400 2350 4400
 Wire Wire Line
@@ -1091,4 +1075,32 @@ Wire Notes Line
 	5500 7000 4100 7000
 Wire Notes Line
 	4100 7000 4100 6200
+Text Notes 2600 5450 1    60   ~ 0
+AGND
+$Comp
+L 2560-core-RESCUE-Mega_2560_core_mini_full_2.1 P1
+U 1 1 5A758C27
+P 50 3400
+AR Path="/5A758C27" Ref="P1"  Part="1" 
+AR Path="/59C5D60D/5A758C27" Ref="P1"  Part="1" 
+F 0 "P1" H 2100 4650 50  0000 C CNN
+F 1 "2560-core" V 2100 3600 50  0000 C CNN
+F 2 "v2.1:Connectors-2560-core" H 3100 4800 50  0000 C CNN
+F 3 "" H 2100 2650 50  0000 C CNN
+	1    50   3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR066
+U 1 1 5AE0CD8D
+P 2150 5200
+F 0 "#PWR066" H 2150 5050 50  0001 C CNN
+F 1 "VCC" V 2150 5400 50  0000 C CNN
+F 2 "" H 2150 5200 50  0000 C CNN
+F 3 "" H 2150 5200 50  0000 C CNN
+	1    2150 5200
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	2600 5200 2150 5200
 $EndSCHEMATC
