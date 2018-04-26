@@ -263,6 +263,8 @@
 		</Linker>
 		<Unit filename="../OpenAVRc/OpenAVRc.cpp" />
 		<Unit filename="../OpenAVRc/OpenAVRc.h" />
+		<Unit filename="../OpenAVRc/Xany.cpp" />
+		<Unit filename="../OpenAVRc/Xany.h" />
 		<Unit filename="../OpenAVRc/adc_driver.cpp" />
 		<Unit filename="../OpenAVRc/audio_avr.cpp" />
 		<Unit filename="../OpenAVRc/audio_avr.h" />

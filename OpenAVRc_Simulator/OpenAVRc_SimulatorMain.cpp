@@ -575,11 +575,7 @@ void OpenAVRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
   }
   else {
 
-<<<<<<< HEAD
-    pwrCheck = false; // Shut down firmware
-=======
     pwrCheck = false; // Shut down firmware command (Pin simulation)
->>>>>>> 07424ee12d9ddff3571a45131e4aa445ac724238
   }
 }
 
@@ -641,34 +637,14 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
 
 void OpenAVRc_SimulatorFrame::MainFirmwareTask()
 {
-<<<<<<< HEAD
-  if ((simu_off) && (!simu_mainloop_is_runing)) {
-=======
   if ((simu_off) && (!simu_mainloop_is_runing))
   {
->>>>>>> 07424ee12d9ddff3571a45131e4aa445ac724238
     TimerMain.Stop();
     ChronoMain->Pause();
     Timer10ms.Stop();
     Chrono10ms->Pause();
     ResetSimuLcd();
     CloseApp();
-<<<<<<< HEAD
-  } else {
-  if (/*(!simu_mainloop_is_runing) && */(!simu_shutDownSimu_is_runing)) {
-    ChronoMain->Start(0);
-    SimuMainLoop();
-    Chronoval = ChronoMain->TimeInMicro();
-    ChronoMain->Pause();
-    StatusBar->SetStatusText(_T("MAIN ")+Chronoval.ToString()+_T(" uS"),1);
-    TimerMain.StartOnce(18);
-  }
-
-  if (Tele_Protocol == Tele_Proto_Frsky_Sport) frskySportSimuloop();
-  if (Tele_Protocol == Tele_Proto_Frsky_D) frskyDSimuloop();
-
-  }
-=======
   }
   else
   {
@@ -683,7 +659,6 @@ void OpenAVRc_SimulatorFrame::MainFirmwareTask()
       MainFWThread = new MainFirmwareThread;
     }
   }
->>>>>>> 07424ee12d9ddff3571a45131e4aa445ac724238
 }
 
 void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
@@ -711,18 +686,6 @@ void OpenAVRc_SimulatorFrame::Isr10msTaskFirmware()
     }
 
   CheckInputs();
-<<<<<<< HEAD
-  Chrono10ms->Start(0);
-  if (!simu_off) {
-    TIMER_10MS_VECT();
-  } else {
-  }
-  Chronoval = Chrono10ms->TimeInMicro();
-  Chrono10ms->Pause();
-  StatusBar->SetStatusText(_T("10 mS IRQ ")+Chronoval.ToString()+_T(" uS"),2);
-
-Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
-=======
 
   if (!simu_off)
     {
@@ -734,7 +697,6 @@ Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
     }
 
   Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
->>>>>>> 07424ee12d9ddff3571a45131e4aa445ac724238
 }
 
 void OpenAVRc_SimulatorFrame::DrawWxSimuLcd()
@@ -1531,10 +1493,8 @@ void OpenAVRc_SimulatorFrame::load_ModelData_EEPROM_VER()
         ConvWxstrToCharFw(strtmp,temp_model.gvars[i].name, LEN_GVAR_NAME);
       }
 
-      eepromfile->Read(wxT("PCF8574Channel1"),&tmp,0);
-      temp_model.PCF8574Channel1 = tmp;
-      eepromfile->Read(wxT("PCF8574Channel2"),&tmp,0);
-      temp_model.PCF8574Channel2 = tmp;
+      eepromfile->Read(wxT("UnusedModel"),&tmp,0);
+      temp_model.UnusedModel = tmp;
 
       for (int i=0; i<MAX_FRSKY_A_CHANNELS; ++i) { //FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
         num = wxString::Format(wxT("%i"),i);
@@ -1597,6 +1557,19 @@ void OpenAVRc_SimulatorFrame::load_ModelData_EEPROM_VER()
       temp_model.telemetry.varioCenterMax = tmp;
       eepromfile->Read(wxT("telemetry.fasOffset"),&tmp,0);
       temp_model.telemetry.fasOffset = tmp;
+
+      for (int i=0; i<NUM_X_ANY; ++i)
+        {
+          num = wxString::Format(wxT("%i"),i);
+          eepromfile->Read(wxT("Xany"+num+"Active"),&tmp,0);
+          temp_model.Xany[i].Active = tmp;
+          eepromfile->Read(wxT("Xany"+num+"ChId"),&tmp,0);
+          temp_model.Xany[i].ChId = tmp;
+          eepromfile->Read(wxT("Xany"+num+"RepeatNb"),&tmp,0);
+          temp_model.Xany[i].RepeatNb = tmp;
+          eepromfile->Read(wxT("Xany"+num+"AbsAglSensor"),&tmp,0);
+          temp_model.Xany[i].AbsAglSensor = tmp;
+        }
 
       theFile.writeRlc(FILE_MODEL(m), FILE_TYP_MODEL, (uint8_t*)&temp_model, sizeof(temp_model), 1);
 
@@ -1865,8 +1838,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
         ConvWxstrToCharFw(strtmp,temp_model.gvars[i].name, LEN_GVAR_NAME);
       }
 
-      temp_model.PCF8574Channel1 = 0;
-      temp_model.PCF8574Channel2 = 0;
+      temp_model.UnusedModel = 0;
 
       for (int i=0; i<MAX_FRSKY_A_CHANNELS; ++i) { //FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
         num = wxString::Format(wxT("%i"),i);
@@ -1929,6 +1901,14 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
       temp_model.telemetry.varioCenterMax = tmp;
       eepromfile->Read(wxT("frsky.fasOffset"),&tmp,0);
       temp_model.telemetry.fasOffset = tmp;
+
+      for (int i=0; i<NUM_X_ANY; ++i)
+        {
+          temp_model.Xany[i].Active = 0;
+          temp_model.Xany[i].ChId = 0;
+          temp_model.Xany[i].RepeatNb = 0;
+          temp_model.Xany[i].AbsAglSensor = 0;
+        }
 
       theFile.writeRlc(FILE_MODEL(m), FILE_TYP_MODEL, (uint8_t*)&temp_model, sizeof(temp_model), 1);
 
@@ -2326,8 +2306,7 @@ void OpenAVRc_SimulatorFrame::save_ModelData_EEPROM_VER()
         eepromfile->Write(wxT("gvars"+num+".name"),ConvCharFwToWxstr(temp_model.gvars[i].name, LEN_GVAR_NAME));
       }
 
-      eepromfile->Write(wxT("PCF8574Channel1"),(int)temp_model.PCF8574Channel1);
-      eepromfile->Write(wxT("PCF8574Channel2"),(int)temp_model.PCF8574Channel2);
+      eepromfile->Write(wxT("UnusedModel"),(int)temp_model.UnusedModel);
 
       for (int i=0; i<MAX_FRSKY_A_CHANNELS; ++i) { //FrSkyChannelData channels[MAX_FRSKY_A_CHANNELS];
         num = wxString::Format(wxT("%i"),i);
@@ -2367,6 +2346,15 @@ void OpenAVRc_SimulatorFrame::save_ModelData_EEPROM_VER()
       eepromfile->Write(wxT("telemetry.currentSource"),(int)temp_model.telemetry.currentSource);
       eepromfile->Write(wxT("telemetry.varioCenterMax"),(int)temp_model.telemetry.varioCenterMax);
       eepromfile->Write(wxT("telemetry.fasOffset"),(int)temp_model.telemetry.fasOffset);
+
+      for (int i=0; i<NUM_X_ANY; ++i)
+        {
+          num = wxString::Format(wxT("%i"),i);
+          eepromfile->Write(wxT("Xany"+num+"Active"),(int)temp_model.Xany[i].Active);
+          eepromfile->Write(wxT("Xany"+num+"ChId"),(int)temp_model.Xany[i].ChId);
+          eepromfile->Write(wxT("Xany"+num+"RepeatNb"),(int)temp_model.Xany[i].RepeatNb);
+          eepromfile->Write(wxT("Xany"+num+"AbsAglSensor"),(int)temp_model.Xany[i].AbsAglSensor);
+        }
     }
   }
 }
