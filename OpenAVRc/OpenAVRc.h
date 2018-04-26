@@ -213,6 +213,12 @@ static uint16_t DurationValue;
   #define CASE_GVARS(x)
 #endif
 
+#if defined(X_ANY)
+  #define CASE_X_ANY(x) x,
+#else
+  #define CASE_X_ANY(x)
+#endif
+
 #if ROTARY_ENCODERS > 0
   #define ROTARY_ENCODER_NAVIGATION
 #endif

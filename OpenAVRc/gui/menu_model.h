@@ -42,6 +42,7 @@ void menuModelSelect(uint8_t event);
 void menuModelSetup(uint8_t event);
 void menuModelHeli(uint8_t event);
 void menuModelFlightModesAll(uint8_t event);
+void menuModelXany(uint8_t event);
 void menuModelExposAll(uint8_t event);
 void menuModelMixAll(uint8_t event);
 void menuModelLimits(uint8_t event);
@@ -89,6 +90,7 @@ enum EnumTabModel {
   e_ModelSetup,
   CASE_HELI(e_Heli)
   CASE_FLIGHT_MODES(e_FlightModesAll)
+  CASE_X_ANY(e_Xany)
   e_InputsAll,
   e_MixAll,
   e_Limits,
@@ -105,6 +107,7 @@ const MenuFuncP_PROGMEM menuTabModel[] PROGMEM = {
   menuModelSetup,
   CASE_HELI(menuModelHeli)
   CASE_FLIGHT_MODES(menuModelFlightModesAll)
+  CASE_X_ANY(menuModelXany)
   menuModelExposAll,
   menuModelMixAll,
   menuModelLimits,
