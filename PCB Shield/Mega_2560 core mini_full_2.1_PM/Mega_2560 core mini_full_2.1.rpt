@@ -1,13 +1,52 @@
-## Footprint report - date 04/25/18 16:30:02
+## Footprint report - date 04/26/18 15:47:55
 ## Created by Pcbnew version kicad 4.0.7
 ## Unit = mm, Angle = deg.
 
 $BeginDESCRIPTION
 
 $BOARD
-upper_left_corner 121.212377 50.489480
+upper_left_corner 126.612522 50.489480
 lower_right_corner 245.222521 131.689480
 $EndBOARD
+
+$MODULE "P3"
+reference "P3"
+value "FTDI"
+footprint "v2.1:Pin_Header_Straight_1x05_Pitch2.54mm"
+attribut none
+position 208.122520 91.089480  orientation 0.00
+layer front
+$PAD "1"
+Shape Rect Layer both
+position  0.000000  0.000000  size  1.700000  1.700000  orientation 0.00
+drill  1.000000
+shape_offset  0.000000  0.000000
+$EndPAD
+$PAD "2"
+Shape Ovale Layer both
+position  0.000000  2.540000  size  1.700000  1.700000  orientation 0.00
+drill  1.000000
+shape_offset  0.000000  0.000000
+$EndPAD
+$PAD "3"
+Shape Ovale Layer both
+position  0.000000  5.080000  size  1.700000  1.700000  orientation 0.00
+drill  1.000000
+shape_offset  0.000000  0.000000
+$EndPAD
+$PAD "4"
+Shape Ovale Layer both
+position  0.000000  7.620000  size  1.700000  1.700000  orientation 0.00
+drill  1.000000
+shape_offset  0.000000  0.000000
+$EndPAD
+$PAD "5"
+Shape Ovale Layer both
+position  0.000000 10.160000  size  1.700000  1.700000  orientation 0.00
+drill  1.000000
+shape_offset  0.000000  0.000000
+$EndPAD
+$EndMODULE  P3
 
 $MODULE "P1"
 reference "P1"
@@ -953,45 +992,6 @@ drill  0.000000
 shape_offset  0.000000  0.000000
 $EndPAD
 $EndMODULE  R7
-
-$MODULE "P3"
-reference "P3"
-value "FTDI"
-footprint "v2.1:Pin_Header_Straight_1x05_Pitch2.54mm"
-attribut none
-position 208.122520 91.089480  orientation 0.00
-layer front
-$PAD "1"
-Shape Rect Layer both
-position  0.000000  0.000000  size  1.700000  1.700000  orientation 0.00
-drill  1.000000
-shape_offset  0.000000  0.000000
-$EndPAD
-$PAD "2"
-Shape Ovale Layer both
-position  0.000000  2.540000  size  1.700000  1.700000  orientation 0.00
-drill  1.000000
-shape_offset  0.000000  0.000000
-$EndPAD
-$PAD "3"
-Shape Ovale Layer both
-position  0.000000  5.080000  size  1.700000  1.700000  orientation 0.00
-drill  1.000000
-shape_offset  0.000000  0.000000
-$EndPAD
-$PAD "4"
-Shape Ovale Layer both
-position  0.000000  7.620000  size  1.700000  1.700000  orientation 0.00
-drill  1.000000
-shape_offset  0.000000  0.000000
-$EndPAD
-$PAD "5"
-Shape Ovale Layer both
-position  0.000000 10.160000  size  1.700000  1.700000  orientation 0.00
-drill  1.000000
-shape_offset  0.000000  0.000000
-$EndPAD
-$EndMODULE  P3
 
 $MODULE "U3"
 reference "U3"
