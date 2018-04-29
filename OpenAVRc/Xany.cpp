@@ -247,6 +247,7 @@ void Xany_scheduleTx(uint8_t XanyIdx)
     /* Send the Nibble or the Repeat or the Idle symbol */
     channelOutputs[g_model.Xany[XanyIdx].ChId] = GET_EXCURSION_HALF_US(t->Nibble.CurIdx);
     t->Nibble.SentCnt++;
+    t->Nibble.NbToSend = g_model.Xany[XanyIdx].RepeatNb + 1;
     if(t->Nibble.SentCnt >= t->Nibble.NbToSend)
     {
       t->Nibble.SentCnt = 0;
