@@ -81,21 +81,22 @@ INTER_NIBBLE
 */
 enum {NIBBLE_0=0, NIBBLE_1, NIBBLE_2, NIBBLE_3, NIBBLE_4, NIBBLE_5, NIBBLE_6, NIBBLE_7, NIBBLE_8, NIBBLE_9, NIBBLE_A, NIBBLE_B, NIBBLE_C, NIBBLE_D, NIBBLE_E, NIBBLE_F, NIBBLE_R, NIBBLE_I, NIBBLE_NB};
 
-#define NEUTRAL_WIDTH_US              1500
-#define NIBBLE_WIDTH_US               56
-#define FULL_EXCURSION_US             (NIBBLE_WIDTH_US * NIBBLE_NB)
-#define PULSE_MIN_US                  (NEUTRAL_WIDTH_US - (FULL_EXCURSION_US / 2))
-#define PULSE_WIDTH_US(NibbleIdx)     (PULSE_MIN_US + (NIBBLE_WIDTH_US / 2)+ ((NibbleIdx) * NIBBLE_WIDTH_US))
+#define NEUTRAL_WIDTH_US                  1500
+#define NIBBLE_WIDTH_US                   56
+#define FULL_EXCURSION_US                 (NIBBLE_WIDTH_US * NIBBLE_NB)
+#define PULSE_MIN_US                      (NEUTRAL_WIDTH_US - (FULL_EXCURSION_US / 2))
+#define PULSE_WIDTH_US(NibbleIdx)         (PULSE_MIN_US + (NIBBLE_WIDTH_US / 2)+ ((NibbleIdx) * NIBBLE_WIDTH_US))
+#define EXCURSION_HALF_US(NibbleIdx)      ((PULSE_WIDTH_US(NibbleIdx) - NEUTRAL_WIDTH_US) * 2)
 
-#define GET_PULSE_WIDTH_US(NibbleIdx) (uint16_t)pgm_read_word_far(&PulseWidth[(NibbleIdx)])
+#define GET_EXCURSION_HALF_US(NibbleIdx)  (int16_t)pgm_read_word_far(&ExcursionHalf_us[(NibbleIdx)])
 
-#define X_ANY_MSG_LEN                 sizeof(X_OneAnyReadMsgSt_t)
+#define X_ANY_MSG_LEN                     sizeof(X_OneAnyReadMsgSt_t)
 
-const uint16_t PulseWidth[] PROGMEM = {PULSE_WIDTH_US(NIBBLE_0), PULSE_WIDTH_US(NIBBLE_1), PULSE_WIDTH_US(NIBBLE_2), PULSE_WIDTH_US(NIBBLE_3),
-                                       PULSE_WIDTH_US(NIBBLE_4), PULSE_WIDTH_US(NIBBLE_5), PULSE_WIDTH_US(NIBBLE_6), PULSE_WIDTH_US(NIBBLE_7),
-                                       PULSE_WIDTH_US(NIBBLE_8), PULSE_WIDTH_US(NIBBLE_9), PULSE_WIDTH_US(NIBBLE_A), PULSE_WIDTH_US(NIBBLE_B),
-                                       PULSE_WIDTH_US(NIBBLE_C), PULSE_WIDTH_US(NIBBLE_D), PULSE_WIDTH_US(NIBBLE_E), PULSE_WIDTH_US(NIBBLE_F),
-                                       PULSE_WIDTH_US(NIBBLE_R), PULSE_WIDTH_US(NIBBLE_I)};
+const int16_t ExcursionHalf_us[] PROGMEM = {EXCURSION_HALF_US(NIBBLE_0), EXCURSION_HALF_US(NIBBLE_1), EXCURSION_HALF_US(NIBBLE_2), EXCURSION_HALF_US(NIBBLE_3),
+                                            EXCURSION_HALF_US(NIBBLE_4), EXCURSION_HALF_US(NIBBLE_5), EXCURSION_HALF_US(NIBBLE_6), EXCURSION_HALF_US(NIBBLE_7),
+                                            EXCURSION_HALF_US(NIBBLE_8), EXCURSION_HALF_US(NIBBLE_9), EXCURSION_HALF_US(NIBBLE_A), EXCURSION_HALF_US(NIBBLE_B),
+                                            EXCURSION_HALF_US(NIBBLE_C), EXCURSION_HALF_US(NIBBLE_D), EXCURSION_HALF_US(NIBBLE_E), EXCURSION_HALF_US(NIBBLE_F),
+                                            EXCURSION_HALF_US(NIBBLE_R), EXCURSION_HALF_US(NIBBLE_I)};
 
 typedef struct{
   uint8_t         Low;
@@ -244,7 +245,7 @@ void Xany_scheduleTx(uint8_t XanyIdx)
       t->Nibble.PrevIdx = t->Nibble.CurIdx;
     }
     /* Send the Nibble or the Repeat or the Idle symbol */
-    channelOutputs[g_model.Xany[XanyIdx].ChId] = GET_PULSE_WIDTH_US(t->Nibble.CurIdx);
+    channelOutputs[g_model.Xany[XanyIdx].ChId] = GET_EXCURSION_HALF_US(t->Nibble.CurIdx);
     t->Nibble.SentCnt++;
     if(t->Nibble.SentCnt >= t->Nibble.NbToSend)
     {
