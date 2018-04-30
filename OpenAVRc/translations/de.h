@@ -821,54 +821,15 @@
   #define TR_MAVLINK_LON                   "LON"
 #endif
 
-// Taranis Info Zeile Anzeigen
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#if defined(X_ANY)
+  #define TR_X_ANY                        "X ANY"
+  #define TR_ACTIVED                      "Active"
+  #define TR_NUMBER                       "Number"
+  #define TR_CHANNEL                      "Channel "
+  #define TR_NB_REPEAT                    "Nb repeat  "
+  #define TR_ANGLE_SENSOR                 "Angle"
+#endif
 
 
 

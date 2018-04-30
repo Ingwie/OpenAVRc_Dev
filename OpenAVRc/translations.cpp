@@ -510,4 +510,12 @@ const pm_char STR_MAVLINK_LAT[] PROGMEM = TR_MAVLINK_LAT;
 const pm_char STR_MAVLINK_LON[] PROGMEM = TR_MAVLINK_LON;
 #endif
 
+#if defined(X_ANY)
+const pm_char STR_X_ANY[] PROGMEM = TR_X_ANY;
+const pm_char STR_ACTIVED[] PROGMEM = TR_ACTIVED;
+const pm_char STR_NUMBER[] PROGMEM = TR_NUMBER;
+const pm_char STR_CHANNEL[] PROGMEM = TR_CHANNEL;
+const pm_char STR_NB_REPEAT[] PROGMEM = TR_NB_REPEAT;
+const pm_char STR_ANGLE_SENSOR[] PROGMEM = TR_ANGLE_SENSOR;
+#endif
 

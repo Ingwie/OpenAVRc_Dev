@@ -825,53 +825,14 @@
 #endif
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#if defined(X_ANY)
+  #define TR_X_ANY                        "X ANY"
+  #define TR_ACTIVED                      "Actif"
+  #define TR_NUMBER                       "Numéro"
+  #define TR_CHANNEL                      "Voie "
+  #define TR_NB_REPEAT                    "Nb répétition  "
+  #define TR_ANGLE_SENSOR                 "Angle"
+#endif
 
 
 
