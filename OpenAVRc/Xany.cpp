@@ -167,7 +167,7 @@ void Xany_init(void)
   /* Probe I2C bus to discover Io Expender chips */
   for(Idx = 0; Idx < IO_EXP_SUP_MAX_NB; Idx++)
   {
-    if(!i2c_start((IO_EXP_BASE_ADDR  + Idx) | I2C_READ))
+    if(!i2c_start((IO_EXP_BASE_ADDR  + (Idx << 1)) | I2C_READ))
     {
       /* OK: device is present quit gracefully by sending a stop() */
       i2c_stop();
@@ -279,14 +279,14 @@ static void Xany_readInputs(uint8_t XanyIdx)
       if(BitIdx < 4)
       {
         /* Read one 8 bit port */
-        i2c_receive((IO_EXP_BASE_ADDR  + BitIdx), (uint8_t*)&One8bitPort, 1); /* This function expects a nack for last byte: will work? */
+        i2c_receive((IO_EXP_BASE_ADDR + (BitIdx << 1)), (uint8_t*)&One8bitPort, 1); /* This function expects a nack for last byte: will work? */
         if(BitIdx & 1) X_AnyReadMsg[XanyIdx].Payload.Byte.High = One8bitPort; /* Odd  */
         else           X_AnyReadMsg[XanyIdx].Payload.Byte.Low  = One8bitPort; /* Even */
       }
       else
       {
         /* Read two 8 bit ports */
-        i2c_receive((IO_EXP_BASE_ADDR  + BitIdx), (uint8_t*)&Two8bitPorts, 2); /* This function expects a nack for last byte: will work? */
+        i2c_receive((IO_EXP_BASE_ADDR + (BitIdx << 1)), (uint8_t*)&Two8bitPorts, 2); /* This function expects a nack for last byte: will work? */
         X_AnyReadMsg[XanyIdx].Payload.Word  = Two8bitPorts;
       }
     }
