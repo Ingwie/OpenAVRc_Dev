@@ -672,4 +672,15 @@ extern const pm_char STR_MAVLINK_LON[];
 #define CHR_HOUR   TR_CHR_HOUR
 #define CHR_INPUT  TR_CHR_INPUT
 
+#if defined(X_ANY)
+extern const pm_char STR_X_ANY[];
+extern const pm_char STR_ACTIVED[];
+extern const pm_char STR_NUMBER[];
+extern const pm_char STR_CHANNEL[];
+extern const pm_char STR_NB_REPEAT[];
+extern const pm_char STR_ANGLE_SENSOR[];
+#endif
+
+
+
 #endif
