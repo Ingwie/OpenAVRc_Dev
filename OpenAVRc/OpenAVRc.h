@@ -103,6 +103,12 @@ static uint16_t DurationValue;
 #define SHOWDURATION2
 #endif
 
+#if defined(EXTERNALEEPROM)
+#define CHECK_IIC_USED_IRQ_MODE(x) if (TWCR & _BV(TWINT)) return x
+#else
+#define CHECK_IIC_USED_IRQ_MODE(x) // I2C bus is free !
+#endif
+
 #define CASE_PERSISTENT_TIMERS(x) x,
 
 #if defined(RTCLOCK)
