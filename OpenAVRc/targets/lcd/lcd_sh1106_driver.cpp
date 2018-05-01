@@ -62,11 +62,6 @@
 #define SH1106_EXTERNALVCC         0x01
 #define SH1106_SWITCHCAPVCC        0x02
 
-#if defined(EXTERNALEEPROM)
-#define CHECK_IIC_USED_IRQ_MODE if (TWCR & _BV(TWINT)) return;
-#else
-#define CHECK_IIC_USED_IRQ_MODE // I2C bus is free !
-#endif
 const static uint8_t lcdInitSequence[] PROGMEM = {
   // Init sequence for 128x64 OLED module (Modded from SSD1306 driver)
   SH1106_DISPLAYOFF,                    // 0xAE
@@ -95,7 +90,7 @@ const static uint8_t lcdInitSequence[] PROGMEM = {
 
 void lcdSendCommand(uint8_t data)
 {
-  CHECK_IIC_USED_IRQ_MODE
+  CHECK_IIC_USED_IRQ_MODE();
   i2c_start(SH1106_ADDRESS);
   i2c_write(SH1106_COMMAND);
   i2c_write(data);
@@ -124,7 +119,7 @@ SHOWDURATIONLCD1
   static uint8_t state = 0;
   uint8_t *p;
 
-  CHECK_IIC_USED_IRQ_MODE
+  CHECK_IIC_USED_IRQ_MODE();
   // Set Column
   lcdSendCommand(SH1106_SETLOWCOLUMN);
   lcdSendCommand(SH1106_SETHIGHCOLUMN);

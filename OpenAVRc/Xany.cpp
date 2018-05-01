@@ -88,8 +88,6 @@ enum {NIBBLE_0=0, NIBBLE_1, NIBBLE_2, NIBBLE_3, NIBBLE_4, NIBBLE_5, NIBBLE_6, NI
 #define PULSE_WIDTH_US(NibbleIdx)         (PULSE_MIN_US + (NIBBLE_WIDTH_US / 2)+ ((NibbleIdx) * NIBBLE_WIDTH_US))
 #define EXCURSION_HALF_US(NibbleIdx)      ((PULSE_WIDTH_US(NibbleIdx) - NEUTRAL_WIDTH_US) * 2)
 
-#define GET_EXCURSION_HALF_US(NibbleIdx)  (int16_t)pgm_read_word_far(&ExcursionHalf_us[(NibbleIdx)])
-
 #define X_ANY_MSG_LEN                     sizeof(X_OneAnyReadMsgSt_t)
 
 const int16_t ExcursionHalf_us[] PROGMEM = {EXCURSION_HALF_US(NIBBLE_0), EXCURSION_HALF_US(NIBBLE_1), EXCURSION_HALF_US(NIBBLE_2), EXCURSION_HALF_US(NIBBLE_3),
@@ -188,6 +186,8 @@ uint8_t Xany_readInputsAndLoadMsg(uint8_t XanyIdx)
 {
   uint8_t Done = 0;
 
+  CHECK_IIC_USED_IRQ_MODE(Done); /* Return if I2C is used */
+
   if(X_AnyWriteMsg[XanyIdx].ByteIdx >= (X_ANY_MSG_LEN + 1))
   {
     /* No need to mask interrupt since X_AnyWriteMsg[] is not use when X_AnyWriteMsg[XanyIdx].ByteIdx is >= (X_ANY_MSG_LEN + 1) */
@@ -245,7 +245,9 @@ void Xany_scheduleTx(uint8_t XanyIdx)
       t->Nibble.PrevIdx = t->Nibble.CurIdx;
     }
     /* Send the Nibble or the Repeat or the Idle symbol */
-    channelOutputs[g_model.Xany[XanyIdx].ChId] = GET_EXCURSION_HALF_US(t->Nibble.CurIdx);
+    uint_farptr_t ExcursionHalf_us_Far_Adress = pgm_get_far_address(ExcursionHalf_us); /* Get 32 bits adress */
+    ExcursionHalf_us_Far_Adress += (2 * t->Nibble.CurIdx); /* Compute offset */
+    channelOutputs[g_model.Xany[XanyIdx].ChId] = (int16_t)pgm_read_word_far(ExcursionHalf_us_Far_Adress);
     t->Nibble.SentCnt++;
     t->Nibble.NbToSend = g_model.Xany[XanyIdx].RepeatNb + 1;
     if(t->Nibble.SentCnt >= t->Nibble.NbToSend)
