@@ -1039,6 +1039,11 @@ void doMixerCalculations()
 
   lastTMR = tmr10ms;
 
+#if defined(X_ANY)
+  Xany_readInputsAndLoadMsg(0);
+  Xany_readInputsAndLoadMsg(1);
+#endif
+
   getADC();
 
   evalMixes(tick10ms);
