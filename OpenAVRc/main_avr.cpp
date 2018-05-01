@@ -75,10 +75,6 @@ LEDOFF();
       eeCheck(false);
   }
 
-#if defined(X_ANY)
-  Xany_readInputsAndLoadMsg(0);
-  Xany_readInputsAndLoadMsg(1);
-#endif
 
 #if defined(SDCARD) && !defined(SIMU)
   //sdMountPoll();
