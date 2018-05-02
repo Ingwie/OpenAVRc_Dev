@@ -32,6 +32,7 @@
 
 
 #include "../OpenAVRc.h"
+#include "../Xany.h"
 #include "menu_model.h"
 
 enum menuModelXanyItems
@@ -41,17 +42,19 @@ enum menuModelXanyItems
   ITEM_MODEL_CHID_A,
   ITEM_MODEL_REPEATNB_A,
   ITEM_MODEL_ABSAGLSENSOR_A,
+  ITEM_MODEL_INPUT_A,
   ITEM_MODEL_SEPARATOR,
   ITEM_MODEL_NAME_B,
   ITEM_MODEL_ACTIVE_B,
   ITEM_MODEL_CHID_B,
   ITEM_MODEL_REPEATNB_B,
   ITEM_MODEL_ABSAGLSENSOR_B,
+  ITEM_MODEL_INPUT_B,
 };
 
 void menuModelXany(uint8_t event)
 {
-#define NUM_LINE_PER_XANY 6
+#define NUM_LINE_PER_XANY 7
 #define MODEL_XANY_MAX_LINES  NUM_X_ANY*NUM_LINE_PER_XANY
 
 #define MODEL_XANY_2ND_COLUMN  (10*FW)
@@ -63,7 +66,7 @@ void menuModelXany(uint8_t event)
 
   coord_t y = MENU_HEADER_HEIGHT + 1;
 
-  for (uint8_t i=0; i<MODEL_XANY_MAX_LINES-5; ++i)
+  for (uint8_t i=0; i<LCD_LINES-1; ++i)
     {
       uint8_t k = i+menuVerticalOffset;
 
@@ -73,7 +76,7 @@ void menuModelXany(uint8_t event)
       switch(k)
         {
         case ITEM_MODEL_NAME_A :
-          lcdDrawStringWithIndex(0, y, STR_NUMBER, 1,attr);
+          lcdDrawStringWithIndex(0, y, STR_NUMBER, 1, attr);
           break;
 
         case ITEM_MODEL_ACTIVE_A :
@@ -96,11 +99,15 @@ void menuModelXany(uint8_t event)
           ON_OFF_MENU_ITEM(g_model.Xany[0].AbsAglSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event);
           break;
 
+        case ITEM_MODEL_INPUT_A :
+          lcd_outbin(16,4*FW,y,Xany_getInput(0),attr);
+          break;
+
         case ITEM_MODEL_SEPARATOR :
           break;
 
         case ITEM_MODEL_NAME_B :
-          lcdDrawStringWithIndex(0, y, STR_NUMBER, 2,attr);
+          lcdDrawStringWithIndex(0, y, STR_NUMBER, 2, attr);
           break;
 
         case ITEM_MODEL_ACTIVE_B :
@@ -121,6 +128,10 @@ void menuModelXany(uint8_t event)
 
         case ITEM_MODEL_ABSAGLSENSOR_B :
           ON_OFF_MENU_ITEM(g_model.Xany[1].AbsAglSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event);
+          break;
+
+        case ITEM_MODEL_INPUT_B :
+          lcd_outbin(16,4*FW,y,Xany_getInput(1),attr);
           break;
         }
       y += FH;

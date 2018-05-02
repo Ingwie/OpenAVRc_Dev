@@ -121,12 +121,23 @@ void lcdDrawTextAtIndex(coord_t x, coord_t y, const pm_char * s,uint8_t idx, Lcd
 void lcd_outhex(uint8_t digit, coord_t x, coord_t y, uint16_t val, LcdFlags mode)
 {
   x += FWNUM*4+1;
-  for(int i=0; i<digit; i++) {
+  for(uint8_t i=0; i<digit; ++i) {
     x -= FWNUM;
     char c = val & 0xf;
     c = c>9 ? c+'A'-10 : c+'0';
     lcdDrawCharAtt(x, y, c, (c>='A' ? CONDENSED : 0 ) | mode);
     val >>= 4;
+  }
+}
+
+void lcd_outbin(uint8_t digit, coord_t x, coord_t y, uint16_t val, LcdFlags mode)
+{
+  x += FWNUM*(digit+1);
+  for(uint8_t i=0; i<digit; ++i) {
+    x -= FWNUM;
+    uint8_t b = val & 0x01;
+    lcdDrawNumberNAtt(x, y, b, mode);
+    val >>= 1;
   }
 }
 
