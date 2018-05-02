@@ -138,7 +138,7 @@ typedef struct{
 
 static uint8_t IoExtMap = 0; /* 1 byte for the map of the 2 X-Any */
 
-                X_OneAnyReadMsgSt_t  X_AnyReadMsg[NUM_X_ANY]; /* 3 bytes per X-Any for storing read Msg */
+static          X_OneAnyReadMsgSt_t  X_AnyReadMsg[NUM_X_ANY]; /* 3 bytes per X-Any for storing read Msg */
 static volatile X_OneAnyWriteMsgSt_t X_AnyWriteMsg[NUM_X_ANY];/* 4 bytes per X-Any for sending Msg in interrupt (-> Volatile) */
 
 /* PRIVATE FUNCTION PROTOYPES */
