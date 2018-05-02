@@ -138,7 +138,7 @@ typedef struct{
 
 static uint8_t IoExtMap = 0; /* 1 byte for the map of the 2 X-Any */
 
-static          X_OneAnyReadMsgSt_t  X_AnyReadMsg[NUM_X_ANY]; /* 3 bytes per X-Any for storing read Msg */
+                X_OneAnyReadMsgSt_t  X_AnyReadMsg[NUM_X_ANY]; /* 3 bytes per X-Any for storing read Msg */
 static volatile X_OneAnyWriteMsgSt_t X_AnyWriteMsg[NUM_X_ANY];/* 4 bytes per X-Any for sending Msg in interrupt (-> Volatile) */
 
 /* PRIVATE FUNCTION PROTOYPES */
@@ -146,6 +146,18 @@ static void Xany_readInputs(uint8_t XanyIdx);
 
 
 /* PUBLIC FUNCTIONS */
+
+/**
+* \file   Xany.cpp
+* \fn     uint16_t Xany_getInput(uint8_t XanyIdx)
+* \brief  Return Xany[XanyIdx] input wold
+* \param  XanyIdx: Index of the group
+* \return 16 bits from specified I/O expenders
+*/
+uint16_t Xany_getInput(uint8_t XanyIdx)
+{
+  return X_AnyReadMsg[XanyIdx].Payload.Word;
+}
 
 /**
 * \file   Xany.cpp

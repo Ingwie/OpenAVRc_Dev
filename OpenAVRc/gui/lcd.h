@@ -135,6 +135,7 @@ void lcdDrawTextLeft(coord_t y, const pm_char * s);
 #define lcdDrawTextCenter(y, s) lcdDrawText((LCD_W-sizeof(TR_##s)*FW+FW+1)/2, y, STR_##s)
 
 void lcd_outhex(uint8_t digit, coord_t x, coord_t y, uint16_t val, LcdFlags mode);
+void lcd_outbin(uint8_t digit, coord_t x, coord_t y, uint16_t val, LcdFlags mode);
 
 void lcdDrawNumberNAtt(coord_t x, coord_t y, lcdint_t val, LcdFlags mode=0, uint8_t len=0);
 void lcdDrawNumberAttUnit(coord_t x, coord_t y, lcdint_t val, LcdFlags mode=0);

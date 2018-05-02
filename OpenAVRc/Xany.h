@@ -37,5 +37,6 @@
 void    Xany_init(void);
 uint8_t Xany_readInputsAndLoadMsg(uint8_t XanyIdx);
 void    Xany_scheduleTx(uint8_t XanyIdx);
+uint16_t Xany_getInput(uint8_t XanyIdx);
 
 #endif // X_ANY_H
