@@ -63,6 +63,7 @@
 #include "FRSKYD_cc2500.c"
 #include "FRSKYX_cc2500.c"
 #include "SKYARTEC_cc2500.c"
+#include "CORONA_cc2500.c"
 #endif
 
 #ifdef PROTO_HAS_NRF24L01
