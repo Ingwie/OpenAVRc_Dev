@@ -38,35 +38,29 @@
 
 void CC2500_WriteReg(uint8_t address, uint8_t data)
 {
-  NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    RF_CS_CC2500_ACTIVE();
-    RF_SPI_xfer(address);
-    RF_SPI_xfer(data);
-    RF_CS_CC2500_INACTIVE();
-  }
+  RF_CS_CC2500_ACTIVE();
+  RF_SPI_xfer(address);
+  RF_SPI_xfer(data);
+  RF_CS_CC2500_INACTIVE();
 }
 
 static void CC2500_ReadRegisterMulti(uint8_t address, uint8_t data[], uint8_t length)
 {
-  NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    RF_CS_CC2500_ACTIVE();
-    RF_SPI_xfer(address);
-    for(uint8_t i = 0; i < length; i++) {
+  RF_CS_CC2500_ACTIVE();
+  RF_SPI_xfer(address);
+  for(uint8_t i = 0; i < length; i++)
+    {
       data[i] = RF_SPI_xfer(0);
     }
-    RF_CS_CC2500_INACTIVE();
-  }
+  RF_CS_CC2500_INACTIVE();
 }
 
 uint8_t CC2500_ReadReg(uint8_t address)
 {
-  uint8_t data;
-  NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    RF_CS_CC2500_ACTIVE();
-    RF_SPI_xfer(CC2500_READ_SINGLE | address);
-    data = RF_SPI_xfer(0);
-    RF_CS_CC2500_INACTIVE();
-  }
+  RF_CS_CC2500_ACTIVE();
+  RF_SPI_xfer(CC2500_READ_SINGLE | address);
+  uint8_t data = RF_SPI_xfer(0);
+  RF_CS_CC2500_INACTIVE();
   return data;
 }
 
@@ -77,33 +71,29 @@ void CC2500_ReadData(uint8_t *dpbuffer, uint8_t len)
 
 uint8_t CC2500_Strobe(uint8_t strobe_cmd)
 {
-  uint8_t chip_status;
-  NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    RF_CS_CC2500_ACTIVE();
-    chip_status = RF_SPI_xfer(strobe_cmd);
-    RF_CS_CC2500_INACTIVE();
-  }
+  RF_CS_CC2500_ACTIVE();
+  uint8_t chip_status = RF_SPI_xfer(strobe_cmd);
+  RF_CS_CC2500_INACTIVE();
   return chip_status;
 }
 
 
 void CC2500_WriteRegisterMulti(uint8_t address, const uint8_t data[], uint8_t length)
 {
-  NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    RF_CS_CC2500_ACTIVE();
+  RF_CS_CC2500_ACTIVE();
   RF_SPI_xfer(CC2500_WRITE_BURST | address);
-  for(uint8_t i = 0; i < length; i++) {
-    RF_SPI_xfer(data[i]);
-  }
+  for(uint8_t i = 0; i < length; i++)
+    {
+      RF_SPI_xfer(data[i]);
+    }
   RF_CS_CC2500_INACTIVE();
-  }
 }
 
 void CC2500_WriteData(uint8_t *dpbuffer, uint8_t len)
 {
-//  CC2500_Strobe(CC2500_SFTX);
+  CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO.
   CC2500_WriteRegisterMulti(CC2500_3F_TXFIFO, dpbuffer, len);
-//  CC2500_Strobe(CC2500_STX);
+  CC2500_Strobe(CC2500_STX); //TX
 }
 
 
@@ -122,16 +112,21 @@ void CC2500_SetTxRxMode(enum TXRX_State mode)
 #define PA_DISABLE()   CC2500_WriteReg(CC2500_02_IOCFG0, 0x2F);//clear
 #define LNA_DISABLE()  CC2500_WriteReg(CC2500_00_IOCFG2, 0x2F);//clear
 
-  if(mode == TX_EN) {
-    LNA_DISABLE();
-    PA_ENABLE();
-  } else if (mode == RX_EN) {
-    PA_DISABLE();
-    LNA_ENABLE();
-  } else {
-    PA_DISABLE();
-    LNA_DISABLE();
-  }
+  if(mode == TX_EN)
+    {
+      LNA_DISABLE();
+      PA_ENABLE();
+    }
+  else if (mode == RX_EN)
+    {
+      PA_DISABLE();
+      LNA_ENABLE();
+    }
+  else
+    {
+      PA_DISABLE();
+      LNA_DISABLE();
+    }
 }
 
 void CC2500_Reset()
@@ -160,35 +155,36 @@ void CC2500_SetPower(uint8_t Power)
 
   uint8_t cc2500_patable = 0;
 
-  switch(Power) {
-  case 0:
-    cc2500_patable = 0;
-    break; //
-  case 1:
-    cc2500_patable = 0x46;
-    break; //
-  case 2:
-    cc2500_patable = 0x55;
-    break; //
-  case 3:
-    cc2500_patable = 0xc6;
-    break; //
-  case 4:
-    cc2500_patable = 0x6e;
-    break; //
-  case 5:
-    cc2500_patable = 0xa9;
-    break; //
-  case 6:
-    cc2500_patable = 0xfe;
-    break; //
-  case 7:
-    cc2500_patable = 0xff;
-    break; //
-  default:
-    cc2500_patable = 0;
-    break;
-  };
+  switch(Power)
+    {
+    case 0:
+      cc2500_patable = 0;
+      break; //
+    case 1:
+      cc2500_patable = 0x46;
+      break; //
+    case 2:
+      cc2500_patable = 0x55;
+      break; //
+    case 3:
+      cc2500_patable = 0xc6;
+      break; //
+    case 4:
+      cc2500_patable = 0x6e;
+      break; //
+    case 5:
+      cc2500_patable = 0xa9;
+      break; //
+    case 6:
+      cc2500_patable = 0xfe;
+      break; //
+    case 7:
+      cc2500_patable = 0xff;
+      break; //
+    default:
+      cc2500_patable = 0;
+      break;
+    };
 
   CC2500_WriteReg(CC2500_3E_PATABLE, cc2500_patable);
 }
