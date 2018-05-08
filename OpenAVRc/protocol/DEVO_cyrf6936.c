@@ -38,11 +38,11 @@
 #define TELEMETRY_ENABLE 0x30
 #define DEVO_NUM_WAIT_LOOPS (100 / 5) // Each loop is ~5us.  Do not wait more than 100us
 
-static const char * const DEVO_opts[] = {
+/*static const char * const DEVO_opts[] = {
   _tr_noop("Telemetry"),  _tr_noop("On"), _tr_noop("Off"), NULL,
   _tr_noop("Bind_type"),  _tr_noop("Temp"), _tr_noop("Perm"), NULL,
   NULL
-};
+};*/
 
 const static int8_t RfOpt_DEVO[] PROGMEM = {
   /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED

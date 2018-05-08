@@ -127,7 +127,7 @@ static void add_pkt_suffix()
   packet[19] = sum & 0xff;
 }
 
-static void send_data_packet()
+static void Skyartec_send_data_packet()
 {
   //13 c5 01 0259 0168 0000 0259 030c 021a 0489 f3 7e 0a
 
@@ -156,9 +156,7 @@ static void send_data_packet()
   CC2500_WriteReg(CC2500_05_SYNC0, g_eeGeneral.fixed_ID.ID_8[1]);
   CC2500_WriteReg(CC2500_09_ADDR, TX_ADDR);
   CC2500_WriteReg(CC2500_0A_CHANNR, TX_CHANNEL);
-  CC2500_Strobe(CC2500_SFTX);
   CC2500_WriteData(packet, packet[0]+1);
-  CC2500_Strobe(CC2500_STX);
 }
 
 static void send_bind_packet()
@@ -183,9 +181,7 @@ static void send_bind_packet()
   CC2500_WriteReg(CC2500_05_SYNC0, 0x7d);
   CC2500_WriteReg(CC2500_09_ADDR, 0x7d);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0x7d);
-  CC2500_Strobe(CC2500_SFTX);
   CC2500_WriteData(packet, 12);
-  CC2500_Strobe(CC2500_STX);
 }
 
 static uint16_t SKYARTEC_bind_cb()
@@ -200,7 +196,7 @@ static uint16_t SKYARTEC_bind_cb()
 static uint16_t SKYARTEC_cb()
 {
   SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations.
-  send_data_packet();
+  Skyartec_send_data_packet();
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return 12000U *2;
