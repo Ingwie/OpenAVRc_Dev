@@ -34,6 +34,16 @@
 #ifndef misc_h
 #define misc_h
 
+#define RX_TX_ADDR_OFFSET       128
+#define RF_ID_ADDR(x)           packet[(x)+RX_TX_ADDR_OFFSET]
+#define CHANNEL_USED_OFFSET     50
+#define CHANNEL_USED(x)         packet[(x)+RX_TX_ADDR_OFFSET]
+
+static uint8_t rfState;
+static uint8_t channel_index;
+static uint8_t channel_offset;
+static uint16_t packet_period;
+
 extern void PROTO_Start_Callback(uint16_t us, uint16_t (*cb)());
 extern void PROTO_Stop_Callback();
 extern uint32_t CLOCK_getms();
