@@ -46,14 +46,14 @@ const static int8_t RfOpt_Squeleton_Ser[] PROGMEM = {
 
 
 const static uint8_t ZZ_SqueletonInitSequence[] PROGMEM = {
-}
+};
 
 static void Squeleton_init()
 {
 }
 
 
-static void send_data_packet()
+static void Squeleton_send_data_packet()
 {
 }
 
@@ -73,7 +73,7 @@ static uint16_t Squeleton_bind_cb()
 static uint16_t Squeleton_cb()
 {
   SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations.
-  send_data_packet();
+  Squeleton_send_data_packet();
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return 12000U *2;

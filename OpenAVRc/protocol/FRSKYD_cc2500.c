@@ -33,7 +33,6 @@
 
 
 #include "../OpenAVRc.h"
-#include "frsky.h"
 
 extern uint8_t Usart0RxBuffer[];
 
@@ -124,7 +123,7 @@ void FRSKYD_generate_channels()
     if(res == 1) res = 80; // Channel 1 probably indicates end of sequence in bind packet.
     if(idx == 47) res = 1; // Unused but sent to rx in bind packet, may indicate end of sequence.
     if(idx > 47) res = 0; // Unused but sent to rx in bind packet.
-    channels_used[idx] = res;
+    CHANNEL_USED(idx) = res;
    }
 }
 
@@ -138,11 +137,11 @@ static void FRSKYD_build_bind_packet()
   packet[3] = g_eeGeneral.fixed_ID.ID_8[0];
   packet[4] = g_eeGeneral.fixed_ID.ID_8[1];
   packet[5] = bind_idx *5; // Index into channels_used array.
-  packet[6] =  channels_used[ (packet[5]) +0];
-  packet[7] =  channels_used[ (packet[5]) +1];
-  packet[8] =  channels_used[ (packet[5]) +2];
-  packet[9] =  channels_used[ (packet[5]) +3];
-  packet[10] = channels_used[ (packet[5]) +4];
+  packet[6] =  CHANNEL_USED( (packet[5]) +0);
+  packet[7] =  CHANNEL_USED( (packet[5]) +1);
+  packet[8] =  CHANNEL_USED( (packet[5]) +2);
+  packet[9] =  CHANNEL_USED( (packet[5]) +3);
+  packet[10] = CHANNEL_USED( (packet[5]) +4);
   packet[11] = 0x00;
   packet[12] = 0x00;
   packet[13] = 0x00;
@@ -208,9 +207,7 @@ static uint16_t FRSKYD_bind_cb()
   CC2500_Strobe(CC2500_SIDLE);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0);
   FRSKYD_build_bind_packet();
-  CC2500_Strobe(CC2500_SFTX); // Flush Tx FIFO
   CC2500_WriteData(packet, 18);
-  CC2500_Strobe(CC2500_STX); // Tx
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return 18000U *2;
@@ -239,7 +236,7 @@ static uint16_t FRSKYD_data_cb()
         CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
       }
 
-      CC2500_WriteReg(CC2500_0A_CHANNR, channels_used[packet_number %47]);
+      CC2500_WriteReg(CC2500_0A_CHANNR, CHANNEL_USED(packet_number %47));
       start_tx_rx =1;
       return 500 *2;
     } else {
@@ -248,16 +245,12 @@ static uint16_t FRSKYD_data_cb()
 
       case 0: // Tx data
         FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
-        CC2500_Strobe(CC2500_SFTX);
         CC2500_WriteData(packet, 18);
-        CC2500_Strobe(CC2500_STX);
         break;
 
       case 1: // Tx data
         FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
-        CC2500_Strobe(CC2500_SFTX);
         CC2500_WriteData(packet, 18);
-        CC2500_Strobe(CC2500_STX);
 
         // Process previous telemetry packet
         len = CC2500_ReadReg(CC2500_3B_RXBYTES | CC2500_READ_BURST);
@@ -290,9 +283,7 @@ static uint16_t FRSKYD_data_cb()
 
       case 2: // Tx data
         FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
-        CC2500_Strobe(CC2500_SFTX);
         CC2500_WriteData(packet, 18);
-        CC2500_Strobe(CC2500_STX);
         break;
 
       case 3: // Rx data
@@ -357,14 +348,6 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
                         STR_DUMMY        //OptionBool 3
                         );
     return 0;
-	//case PROTOCMD_GETNUMOPTIONS:
-    //return (void *)1L;
-  //case PROTOCMD_DEFAULT_NUMCHAN:
-    //return (void *)8L;
-//        case PROTOCMD_CURRENT_ID: return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;
-
-//        case PROTOCMD_TELEMETRYSTATE:
-//            return (void *)(long)(Model.proto_opts[PROTO_OPTS_TELEM] == TELEM_ON ? PROTO_TELEM_ON : PROTO_TELEM_OFF);
   default:
     break;
   }
