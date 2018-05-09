@@ -82,8 +82,6 @@ void setGazSource()
 bool rangeModeIsOn = false; // manage low power TX
 struct Module RFModule;
 
-uint8_t * packet = pulses2MHz.pbyte; //protocol global packet
-
 void sendOptionsSettingsPpm()
 {
   SetRfOptionSettings(pgm_get_far_address(RfOpt_PPM_Ser), // Used by PPM
@@ -1039,17 +1037,16 @@ void doMixerCalculations()
 
   lastTMR = tmr10ms;
 
-#if defined(X_ANY)
-  Xany_readInputsAndLoadMsg(0);
-  Xany_readInputsAndLoadMsg(1);
-#endif
-
   getADC();
 
   evalMixes(tick10ms);
 
   if (tick10ms) {
 
+#if defined(X_ANY)
+  Xany_readInputsAndLoadMsg(0);
+  Xany_readInputsAndLoadMsg(1);
+#endif
 
     /* Throttle trace */
     int16_t val;

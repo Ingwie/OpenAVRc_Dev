@@ -123,7 +123,7 @@ void FRSKYD_generate_channels()
     if(res == 1) res = 80; // Channel 1 probably indicates end of sequence in bind packet.
     if(idx == 47) res = 1; // Unused but sent to rx in bind packet, may indicate end of sequence.
     if(idx > 47) res = 0; // Unused but sent to rx in bind packet.
-    CHANNEL_USED(idx) = res;
+    channel_used[idx] = res;
    }
 }
 
@@ -137,11 +137,11 @@ static void FRSKYD_build_bind_packet()
   packet[3] = g_eeGeneral.fixed_ID.ID_8[0];
   packet[4] = g_eeGeneral.fixed_ID.ID_8[1];
   packet[5] = bind_idx *5; // Index into channels_used array.
-  packet[6] =  CHANNEL_USED( (packet[5]) +0);
-  packet[7] =  CHANNEL_USED( (packet[5]) +1);
-  packet[8] =  CHANNEL_USED( (packet[5]) +2);
-  packet[9] =  CHANNEL_USED( (packet[5]) +3);
-  packet[10] = CHANNEL_USED( (packet[5]) +4);
+  packet[6] =  channel_used[packet[5]+0];
+  packet[7] =  channel_used[packet[5]+1];
+  packet[8] =  channel_used[packet[5]+2];
+  packet[9] =  channel_used[packet[5]+3];
+  packet[10] = channel_used[packet[5]+4];
   packet[11] = 0x00;
   packet[12] = 0x00;
   packet[13] = 0x00;
@@ -236,7 +236,7 @@ static uint16_t FRSKYD_data_cb()
         CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
       }
 
-      CC2500_WriteReg(CC2500_0A_CHANNR, CHANNEL_USED(packet_number %47));
+      CC2500_WriteReg(CC2500_0A_CHANNR, channel_used[packet_number %47]);
       start_tx_rx =1;
       return 500 *2;
     } else {

@@ -208,7 +208,7 @@ static void set_start(uint8_t ch)
   CC2500_WriteReg(CC2500_23_FSCAL3, calData[ch][0]);
   CC2500_WriteReg(CC2500_24_FSCAL2, calData[ch][1]);
   CC2500_WriteReg(CC2500_25_FSCAL1, calData[ch][2]);
-  CC2500_WriteReg(CC2500_0A_CHANNR, (ch == 47) ? 0 : CHANNEL_USED(ch));
+  CC2500_WriteReg(CC2500_0A_CHANNR, (ch == 47) ? 0 : channel_used[ch]);
 }
 
 #define RXNUM g_model.modelId
@@ -221,11 +221,11 @@ static void frskyX_build_bind_packet()
   packet[3] = g_eeGeneral.fixed_ID.ID_8[0];
   packet[4] = g_eeGeneral.fixed_ID.ID_8[1];
   packet[5] = X_state *5; // Index into channels_used array.
-  packet[6] =  CHANNEL_USED( (packet[5]) +0);
-  packet[7] =  CHANNEL_USED( (packet[5]) +1);
-  packet[8] =  CHANNEL_USED( (packet[5]) +2);
-  packet[9] =  CHANNEL_USED( (packet[5]) +3);
-  packet[10] = CHANNEL_USED( (packet[5]) +4);
+  packet[6] =  channel_used[packet[5]+0];
+  packet[7] =  channel_used[packet[5]+1];
+  packet[8] =  channel_used[packet[5]+2];
+  packet[9] =  channel_used[packet[5]+3];
+  packet[10] = channel_used[packet[5]+4];
   packet[11] = 0x02;
   packet[12] = RXNUM;
 
@@ -758,7 +758,7 @@ static void FRSKYX_init()
   //calibrate hop channels
   for (uint8_t c = 0; c < 47; c++) {
     CC2500_Strobe(CC2500_SIDLE);
-    CC2500_WriteReg(CC2500_0A_CHANNR, CHANNEL_USED(c));
+    CC2500_WriteReg(CC2500_0A_CHANNR, channel_used[c]);
     CC2500_Strobe(CC2500_SCAL);
     _delay_us(900);
     calData[c][0] = CC2500_ReadReg(CC2500_23_FSCAL3);
@@ -791,14 +791,14 @@ static void FRSKYX_initialize(uint8_t bind)
 #endif
 
 
-  //for(uint8_t x = 0; x < 50; x ++) { CHANNEL_USED(x] = hop_data[x]; }
+  //for(uint8_t x = 0; x < 50; x ++) { channel_used[x] = hop_data[x]; }
 
   // Build channel array. (V code for test)
   channel_offset = (g_eeGeneral.fixed_ID.ID_8[1] << 8 | g_eeGeneral.fixed_ID.ID_8[0]) % 5;
   uint8_t chan_num;
   for(uint8_t x = 0; x < 50; x ++) {
     chan_num = (x*5) + 3 + channel_offset;
-    CHANNEL_USED(x) = (chan_num ? chan_num : 1); // Avoid binding channel 0.
+    channel_used[x] = (chan_num ? chan_num : 1); // Avoid binding channel 0.
   }
 
 
