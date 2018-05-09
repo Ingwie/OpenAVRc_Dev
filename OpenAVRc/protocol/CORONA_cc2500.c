@@ -67,31 +67,31 @@ static void corona_init()
 {
   for (uint8_t i = 0; i<4; ++i)
     {
-      RF_ID_ADDR(i) = g_eeGeneral.fixed_ID.ID_8[i]; /* Use packet[128 to 131 to store a copy of FixedID  */
+      t_rf_id_addr[i] = g_eeGeneral.fixed_ID.ID_8[i]; /* Use packet[139 to 143 to store a copy of FixedID  */
     }
 
   // From dumps channels are anything between 0x00 and 0xC5 on V1.
   // But 0x00 and 0xB8 should be avoided on V2 since they are used for bind.
   // Below code make sure channels are between 0x02 and 0xA0, spaced with a minimum of 2 and not ordered (RX only use the 1st channel unless there is an issue).
-  uint8_t order=RF_ID_ADDR(3)&0x03;
+  uint8_t order=t_rf_id_addr[3]&0x03;
   for(uint8_t i=0; i<CORONA_RF_NUM_CHANNELS+1; i++)
     {
-      CHANNEL_USED(i^order)=2+RF_ID_ADDR(3-i)%39+(i<<5)+(i<<3);
+      channel_used[i^order]=2+t_rf_id_addr[3-i]%39+(i<<5)+(i<<3);
     }
   // ID looks random but on the 15 V1 dumps they all show the same odd/even rule
-  if(RF_ID_ADDR(3)&0x01)
+  if(t_rf_id_addr[3]&0x01)
     {
       // If [3] is odd then [0] is odd and [2] is even
-      RF_ID_ADDR(0)|=0x01;
-      RF_ID_ADDR(2)&=0xFE;
+      t_rf_id_addr[0]|=0x01;
+      t_rf_id_addr[2]&=0xFE;
     }
   else
     {
       // If [3] is even then [0] is even and [2] is odd
-      RF_ID_ADDR(0)&=0xFE;
-      RF_ID_ADDR(2)|=0x01;
+      t_rf_id_addr[0]&=0xFE;
+      t_rf_id_addr[2]|=0x01;
     }
-  RF_ID_ADDR(1)=0xFE;			// Always FE in the dumps of V1 and V2
+  t_rf_id_addr[1]=0xFE;			// Always FE in the dumps of V1 and V2
 
 
   CC2500_Strobe(CC2500_SIDLE);
@@ -149,7 +149,7 @@ static void corona_send_data_packet()
 
       //TX ID
       for(uint8_t i=0; i<CORONA_ADDRESS_LENGTH; i++)
-        packet[i+13] = RF_ID_ADDR(i);
+        packet[i+13] = t_rf_id_addr[i];
 
       packet[17] = 0x00;
 
@@ -175,7 +175,7 @@ static void corona_send_data_packet()
           break;
         }
       // Set channel
-      CC2500_WriteReg(CC2500_0A_CHANNR, CHANNEL_USED(channel_index));
+      CC2500_WriteReg(CC2500_0A_CHANNR, channel_used[channel_index]);
       channel_index++;
       channel_index%=CORONA_RF_NUM_CHANNELS;
       // Update power
@@ -188,10 +188,10 @@ static void corona_send_data_packet()
       packet[0]=0x07;		// 8 bytes to follow
       // Send hopping freq
       for(uint8_t i=0; i<CORONA_RF_NUM_CHANNELS; i++)
-        packet[i+1]=CHANNEL_USED(i);
+        packet[i+1]=channel_used[i];
       // Send TX ID
       for(uint8_t i=0; i<CORONA_ADDRESS_LENGTH; i++)
-        packet[i+4]=RF_ID_ADDR(i);
+        packet[i+4]=t_rf_id_addr[i];
       packet[8]=0;
       packet_period=6647;
       // Set channel
@@ -213,7 +213,7 @@ static void corona_send_bind_packet()
             // Send TX ID
             packet[0]=0x04;		// 5 bytes to follow
             for(uint8_t i=0; i<CORONA_ADDRESS_LENGTH; i++)
-              packet[i+1]=RF_ID_ADDR(i);
+              packet[i+1]=t_rf_id_addr[i];
             packet[5]=0xCD;		// Unknown but seems to be always the same value for V1
             packet_period=3689;
           }
@@ -222,7 +222,7 @@ static void corona_send_bind_packet()
             // Send hopping freq
             packet[0]=0x03;		// 4 bytes to follow
             for(uint8_t i=0; i<CORONA_RF_NUM_CHANNELS+1; i++)
-              packet[i+1]=CHANNEL_USED(i);
+              packet[i+1]=channel_used[i];
             // Not sure what the last byte (+1) is for now since only the first 3 channels are used...
             packet_period=3438;
           }
@@ -232,7 +232,7 @@ static void corona_send_bind_packet()
         // V2
         packet[0]=0x04;		// 5 bytes to follow
         for(uint8_t i=0; i<CORONA_ADDRESS_LENGTH; i++)
-          packet[i+1]=RF_ID_ADDR(i);
+          packet[i+1]=t_rf_id_addr[i];
         packet[5]=0x00;		// Unknown but seems to be always the same value for V2
         packet_period=26791;
       }

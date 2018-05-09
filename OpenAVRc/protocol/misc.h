@@ -34,15 +34,28 @@
 #ifndef misc_h
 #define misc_h
 
-#define RX_TX_ADDR_OFFSET       128
-#define RF_ID_ADDR(x)           packet[(x)+RX_TX_ADDR_OFFSET]
+#define RX_TX_ADDR_OFFSET       PULSES_BYTE_SIZE - 5
 #define CHANNEL_USED_OFFSET     50
-#define CHANNEL_USED(x)         packet[(x)+RX_TX_ADDR_OFFSET]
 
-static uint8_t rfState;
-static uint8_t channel_index;
-static uint8_t channel_offset;
-static uint16_t packet_period;
+uint8_t * packet = pulses2MHz.pbyte; //protocol global packet (Use 50 MAX)
+uint8_t * channel_used = &pulses2MHz.pbyte[CHANNEL_USED_OFFSET]; //protocol global channel (Use 50 MAX -> 44 bytes free to use in SPI protocols)
+uint8_t * t_rf_id_addr = &pulses2MHz.pbyte[RX_TX_ADDR_OFFSET];
+
+#define RF_ID_ADDR_OFFSET_VAR   4
+#define PULSES_WORD_OFFSET_VAR  50 // 100 bytes
+#define PULSES_BYTE_OFFSET_VAR         PULSES_BYTE_SIZE - RF_ID_ADDR_OFFSET_VAR //139
+
+/**< USE to store Protocols dynamic datas
+  uint16_t pword[PULSES_WORD_SIZE];
+  uint8_t  pbyte[PULSES_BYTE_SIZE];  // 144
+ */
+//U8
+#define rfState pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-1]
+#define channel_index pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-2]
+#define channel_offset pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-3]
+//U16
+#define packet_period pulses2MHz.pword[PULSES_WORD_OFFSET_VAR]
+
 
 extern void PROTO_Start_Callback(uint16_t us, uint16_t (*cb)());
 extern void PROTO_Stop_Callback();

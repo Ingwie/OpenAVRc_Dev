@@ -138,13 +138,13 @@ static uint8_t FRSKYV_crc8_le()
 
   uint8_t result = 0xD6;
 
-    result = result ^ RF_ID_ADDR(1);
+    result = result ^ t_rf_id_addr[1];
     for(uint8_t j = 0; j < 8; j++) {
       if(result & 0x01) result = (result >> 1) ^ 0x83;
       else result = result >> 1;
     }
 
-    result = result ^ RF_ID_ADDR(0);
+    result = result ^ t_rf_id_addr[0];
     for(uint8_t j = 0; j < 8; j++) {
       if(result & 0x01) result = (result >> 1) ^ 0x83;
       else result = result >> 1;
@@ -178,14 +178,14 @@ static void FRSKYV_build_bind_packet()
   packet[0] = 0x0E; //Length
   packet[1] = 0x03; //Packet type
   packet[2] = 0x01; //Packet type
-  packet[3] = RF_ID_ADDR(0);
-  packet[4] = RF_ID_ADDR(1);
+  packet[3] = t_rf_id_addr[0];
+  packet[4] = t_rf_id_addr[1];
   packet[5] = bind_idx *5; // Index into channels_used array.
-  packet[6] =  CHANNEL_USED( (packet[5]) +0);
-  packet[7] =  CHANNEL_USED( (packet[5]) +1);
-  packet[8] =  CHANNEL_USED( (packet[5]) +2);
-  packet[9] =  CHANNEL_USED( (packet[5]) +3);
-  packet[10] = CHANNEL_USED( (packet[5]) +4);
+  packet[6] =  channel_used[packet[5]+0];
+  packet[7] =  channel_used[packet[5]+1];
+  packet[8] =  channel_used[packet[5]+2];
+  packet[9] =  channel_used[packet[5]+3];
+  packet[10] = channel_used[packet[5]+4];
   packet[11] = 0x00;
   packet[12] = 0x00;
   packet[13] = 0x00;
@@ -202,8 +202,8 @@ static void FRSKYV_build_data_packet()
   uint8_t ofsetChan = 0;
 
   packet[0] = 0x0E;
-  packet[1] = RF_ID_ADDR(0);
-  packet[2] = RF_ID_ADDR(1);
+  packet[1] = t_rf_id_addr[0];
+  packet[2] = t_rf_id_addr[1];
   packet[3] = seed & 0xFF;
   packet[4] = seed >> 8;
 
@@ -250,7 +250,7 @@ static uint16_t FRSKYV_data_cb()
   else if(option == 128) CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
   else if(option == 196) CC2500_Strobe(CC2500_SIDLE); // MCSM1 register setting puts CC2500 back into idle after TX.
 
-  CC2500_WriteReg(CC2500_0A_CHANNR, CHANNEL_USED(((seed & 0xFF)%50))); // 16MHz AVR = 38us.
+  CC2500_WriteReg(CC2500_0A_CHANNR, channel_used[((seed & 0xFF)%50)]); // 16MHz AVR = 38us.
   CC2500_WriteData(packet, 15); // 8.853ms before we start again with the idle strobe.
 
   // Wait for transmit to finish. Timing is tight. Only 581uS between packet being emitted and idle strobe.
@@ -277,15 +277,15 @@ static void FRSKYV_initialise(uint8_t bind)
 {
   PROTO_Stop_Callback();
 
-  RF_ID_ADDR(0) = g_eeGeneral.fixed_ID.ID_8[0];
-  RF_ID_ADDR(1) = g_eeGeneral.fixed_ID.ID_8[1] & 0x7F; // 15 bit max ID
+  t_rf_id_addr[0] = g_eeGeneral.fixed_ID.ID_8[0];
+  t_rf_id_addr[1] = g_eeGeneral.fixed_ID.ID_8[1] & 0x7F; // 15 bit max ID
 
   // Build channel array.
-  channel_offset = (uint16_t)(RF_ID_ADDR(1) << 8 | RF_ID_ADDR(0)) % 5;
+  channel_offset = (uint16_t)(t_rf_id_addr[1] << 8 | t_rf_id_addr[0]) % 5;
   uint8_t chan_num;
   for(uint8_t x = 0; x < 50; x ++) {
     chan_num = (x*5) + 3 + channel_offset;
-	CHANNEL_USED(x) = (chan_num ? chan_num : 1); // Avoid binding channel 0.
+	channel_used[x] = (chan_num ? chan_num : 1); // Avoid binding channel 0.
   }
 
   dp_crc_init = FRSKYV_crc8_le();
