@@ -66,7 +66,7 @@ Supported combination: /!\ 2 Devices supported max per X-Any: 1 X-Any is associa
 #include "Xany.h"
 #include "i2c_master.h"
 
-#define IO_EXP_BASE_ADDR              (0x20 << 1) /* Bit 0 is for R/W# */
+#define IO_EXP_BASE_ADDR              (0x38 << 1) /* Bit 0 is for R/W# */
 #define IO_EXP_SUP_MAX_NB             6
 /*
 NIBBLE_WIDTH_US
@@ -177,14 +177,15 @@ void Xany_init(void)
   /* Probe I2C bus to discover Io Expender chips */
   for(Idx = 0; Idx < IO_EXP_SUP_MAX_NB; Idx++)
   {
-    if(!i2c_start((IO_EXP_BASE_ADDR  + (Idx << 1)) | I2C_READ))
+    if(!i2c_start((IO_EXP_BASE_ADDR  + (Idx << 1)) | I2C_WRITE))
     {
       /* OK: device is present quit gracefully by sending a stop() */
+      i2c_write(0xFF); /* Set pin as input (pullup) */
+      if (Idx > 3) {i2c_write(0xFF);} /* Set second byte of 16 bits GPIO pin as input (pullup) */
       i2c_stop();
       IoExtMap |= (1 << Idx); /* Mark it as present */
     }
   }
-
 }
 
 /**
@@ -259,7 +260,10 @@ void Xany_scheduleTx(uint8_t XanyIdx)
     /* Send the Nibble or the Repeat or the Idle symbol */
     uint_farptr_t ExcursionHalf_us_Far_Adress = pgm_get_far_address(ExcursionHalf_us); /* Get 32 bits adress */
     ExcursionHalf_us_Far_Adress += (2 * t->Nibble.CurIdx); /* Compute offset */
-    channelOutputs[g_model.Xany[XanyIdx].ChId] = (int16_t)pgm_read_word_far(ExcursionHalf_us_Far_Adress);
+    uint16_t valueTemp = pgm_read_word_far(ExcursionHalf_us_Far_Adress);
+    cli();
+    channelOutputs[g_model.Xany[XanyIdx].ChId] = valueTemp; /* overwrite in int-level */
+    sei();
     t->Nibble.SentCnt++;
     t->Nibble.NbToSend = g_model.Xany[XanyIdx].RepeatNb + 1;
     if(t->Nibble.SentCnt >= t->Nibble.NbToSend)
@@ -281,26 +285,26 @@ void Xany_scheduleTx(uint8_t XanyIdx)
 */
 static void Xany_readInputs(uint8_t XanyIdx)
 {
-  uint8_t  BitIdx, One8bitPort;
+  uint8_t  One8bitPort = 0;
   uint16_t Two8bitPorts;
 
   X_AnyReadMsg[XanyIdx].Payload.Word  = 0;
-  for(BitIdx = 0; BitIdx < IO_EXP_SUP_MAX_NB; BitIdx++)
+  for(uint8_t BitIdx = 0; BitIdx < IO_EXP_SUP_MAX_NB; BitIdx++)
   {
-    if(IoExtMap | (1<<BitIdx))
+    if(IoExtMap & (1<<BitIdx))
     {
       /* Chip is present in the map */
       if(BitIdx < 4)
       {
         /* Read one 8 bit port */
-        i2c_receive((IO_EXP_BASE_ADDR + (BitIdx << 1)), (uint8_t*)&One8bitPort, 1); /* This function expects a nack for last byte: will work? */
+        i2c_receive((IO_EXP_BASE_ADDR + (BitIdx << 1)), (uint8_t*)&One8bitPort, 1); /* This function send a nack */
         if(BitIdx & 1) X_AnyReadMsg[XanyIdx].Payload.Byte.High = One8bitPort; /* Odd  */
         else           X_AnyReadMsg[XanyIdx].Payload.Byte.Low  = One8bitPort; /* Even */
       }
       else
       {
         /* Read two 8 bit ports */
-        i2c_receive((IO_EXP_BASE_ADDR + (BitIdx << 1)), (uint8_t*)&Two8bitPorts, 2); /* This function expects a nack for last byte: will work? */
+        i2c_receive((IO_EXP_BASE_ADDR + (BitIdx << 1)), (uint8_t*)&Two8bitPorts, 2); /* This function send a nack for last byte */
         X_AnyReadMsg[XanyIdx].Payload.Word  = Two8bitPorts;
       }
     }
