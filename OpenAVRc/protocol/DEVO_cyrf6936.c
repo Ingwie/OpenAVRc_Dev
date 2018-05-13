@@ -78,7 +78,6 @@ enum PktState {
   DEVO_BOUND_10,
 };
 
-static int16_t bind_counter;
 static uint8_t DEVO_state;
 static uint8_t txState;
 static uint8_t radio_ch[5];

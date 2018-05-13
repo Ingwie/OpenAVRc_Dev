@@ -50,11 +50,13 @@ uint8_t * t_rf_id_addr = &pulses2MHz.pbyte[RX_TX_ADDR_OFFSET];
   uint8_t  pbyte[PULSES_BYTE_SIZE];  // 144
  */
 //U8
-#define rfState pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-1]
+#define rfState8 pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-1]
 #define channel_index pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-2]
 #define channel_offset pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-3]
 //U16
 #define packet_period pulses2MHz.pword[PULSES_WORD_OFFSET_VAR]
+#define bind_counter  pulses2MHz.pword[PULSES_WORD_OFFSET_VAR+1]
+#define rfState16     pulses2MHz.pword[PULSES_WORD_OFFSET_VAR+2]
 
 
 extern void PROTO_Start_Callback(uint16_t us, uint16_t (*cb)());

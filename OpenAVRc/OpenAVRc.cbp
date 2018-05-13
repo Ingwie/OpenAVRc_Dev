@@ -138,7 +138,6 @@
 		<Unit filename="misclib.h" />
 		<Unit filename="mixer.cpp" />
 		<Unit filename="myeeprom.h" />
-		<Unit filename="personames.h" />
 		<Unit filename="pgmtypes.h" />
 		<Unit filename="protocol/CORONA_cc2500.c">
 			<Option compilerVar="CC" />
@@ -197,7 +196,6 @@
 		<Unit filename="rtc_driver.cpp" />
 		<Unit filename="sdcard.cpp" />
 		<Unit filename="sdcard.h" />
-		<Unit filename="serial_driver.h" />
 		<Unit filename="spi.c">
 			<Option compilerVar="CC" />
 		</Unit>
