@@ -51,7 +51,7 @@ const static int8_t RfOpt_corona_Ser[] PROGMEM =
   /*rfOptionValue3Max*/0,
 };
 
-const pm_char STR_SUBTYPE_CORONA[] PROGMEM =     " V1 "" V2 ";
+const pm_char STR_SUBTYPE_CORONA[] PROGMEM =     " FSS""DSSS";
 
 const static uint8_t ZZ_coronaInitSequence[] PROGMEM =
 {
@@ -106,7 +106,7 @@ static void corona_init()
 
   if(g_model.rfSubType!=COR_V1)
     {
-      rfState = 400; // V2 send channel at startup while rfstate
+      rfState16 = 400; // V2 send channel at startup while rfstate
       CC2500_WriteReg(CC2500_0A_CHANNR, CORONA_BIND_CHANNEL_V2);
       CC2500_WriteReg(CC2500_0E_FREQ1, 0x80);
       CC2500_WriteReg(CC2500_0F_FREQ0, 0x00 + CORONA_COARSE);
@@ -118,7 +118,7 @@ static void corona_init()
     }
   else
     {
-      rfState = 0;
+      rfState16 = 0;
     }
 
   CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
@@ -132,7 +132,7 @@ static void corona_init()
 
 static void corona_send_data_packet()
 {
-  if(rfState==0 || g_model.rfSubType==COR_V1)
+  if(rfState16==0 || g_model.rfSubType==COR_V1)
     {
       // Build standard packet
       packet[0] = 0x10;		// 17 bytes to follow
@@ -143,7 +143,7 @@ static void corona_send_data_packet()
       for(uint8_t i=0; i<8; i++)
         {
           // Channel values are packed
-          packet[i+1] = channelOutputs[i];
+          packet[i+1] = channelOutputs[i]; // TODO scale
           packet[9 + (i>>1)] |= (i&0x01)?(channelOutputs[i]>>4)&0xF0:(channelOutputs[i]>>8)&0x0F;
         }
 
@@ -184,7 +184,7 @@ static void corona_send_data_packet()
   else
     {
       // Send identifier packet for 2.65sec. This is how the RX learns the hopping table after a bind. Why it's not part of the bind like V1 is a mistery...
-      rfState--;
+      rfState16--;
       packet[0]=0x07;		// 8 bytes to follow
       // Send hopping freq
       for(uint8_t i=0; i<CORONA_RF_NUM_CHANNELS; i++)
