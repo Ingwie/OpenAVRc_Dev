@@ -174,6 +174,7 @@ void Xany_init(void)
   /* Clear the whole structure for the 2 groups */
   memset((void*)&X_AnyWriteMsg, 0, sizeof(X_AnyWriteMsg));
 
+  I2C_SPEED_400K();
   /* Probe I2C bus to discover Io Expender chips */
   for(Idx = 0; Idx < IO_EXP_SUP_MAX_NB; Idx++)
   {
@@ -186,6 +187,7 @@ void Xany_init(void)
       IoExtMap |= (1 << Idx); /* Mark it as present */
     }
   }
+  I2C_SPEED_888K();
 }
 
 /**
@@ -260,7 +262,7 @@ void Xany_scheduleTx(uint8_t XanyIdx)
     /* Send the Nibble or the Repeat or the Idle symbol */
     uint_farptr_t ExcursionHalf_us_Far_Adress = pgm_get_far_address(ExcursionHalf_us); /* Get 32 bits adress */
     ExcursionHalf_us_Far_Adress += (2 * t->Nibble.CurIdx); /* Compute offset */
-    uint16_t valueTemp = pgm_read_word_far(ExcursionHalf_us_Far_Adress);
+    int16_t valueTemp = (int16_t)pgm_read_word_far(ExcursionHalf_us_Far_Adress);
     cli();
     channelOutputs[g_model.Xany[XanyIdx].ChId] = valueTemp; /* overwrite in int-level */
     sei();
@@ -289,6 +291,7 @@ static void Xany_readInputs(uint8_t XanyIdx)
   uint16_t Two8bitPorts;
 
   X_AnyReadMsg[XanyIdx].Payload.Word  = 0;
+  I2C_SPEED_400K();
   for(uint8_t BitIdx = 0; BitIdx < IO_EXP_SUP_MAX_NB; BitIdx++)
   {
     if(IoExtMap & (1<<BitIdx))
@@ -309,6 +312,7 @@ static void Xany_readInputs(uint8_t XanyIdx)
       }
     }
   }
+  I2C_SPEED_888K();
   if(g_model.Xany[XanyIdx].AbsAglSensor)
   {
     //read the Absolute Angular Sensor:
