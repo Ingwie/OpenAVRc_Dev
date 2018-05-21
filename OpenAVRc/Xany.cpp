@@ -246,8 +246,8 @@ void Xany_scheduleTx(uint8_t XanyIdx)
         else
         {
           t->Nibble.CurIdx = NIBBLE_I; /* Nothing to transmit */
+          if(t->ByteIdx < (X_ANY_MSG_LEN + 1)) t->ByteIdx++; /* Bounded to 4: meanst synchro to allow reload of the new message */
         }
-        if(t->ByteIdx < (X_ANY_MSG_LEN + 1)) t->ByteIdx++; /* Bounded to 4: meanst synchro to allow reload of the new message */
       }
       else
       {
@@ -255,6 +255,7 @@ void Xany_scheduleTx(uint8_t XanyIdx)
         TxChar = t->Byte[t->ByteIdx];
         t->Nibble.CurIdx = TxChar & 0x0F; /* LSN */
         t->Nibble.TxCharInProgress = 0;
+        if(t->ByteIdx < (X_ANY_MSG_LEN + 1)) t->ByteIdx++; /* Bounded to 4: meanst synchro to allow reload of the new message */
       }
       if(t->Nibble.CurIdx == t->Nibble.PrevIdx) t->Nibble.CurIdx = NIBBLE_R; /* Repeat symbol */
       t->Nibble.PrevIdx = t->Nibble.CurIdx;
