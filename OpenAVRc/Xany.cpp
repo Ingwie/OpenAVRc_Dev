@@ -32,26 +32,26 @@
 /*
 Supported combination: /!\ 2 Devices supported max per X-Any: 1 X-Any is associated to one proportionnal channel /!\
 =====================
-.---------.-----.-----.-----.-------.-----------.
-| Device  | A2  | A1  | A0  |Address| X-Any Idx |
-+---------+-----+-----+-----+-------+-----------+
-|         |  0  |  0  |  0  |  0x20 |     0     |
-|         +-----+-----+-----+-------+-----------+
-|         |  0  |  0  |  1  |  0x21 |     0     |
-| PCF8574 +-----+-----+-----+-------+-----------+
-|         |  0  |  1  |  0  |  0x22 |     1     |
-|         +-----+-----+-----+-------+-----------+
-|         |  0  |  1  |  1  |  0x23 |     1     |
-+-------- +-----+-----+-----+-------+-----------+
-|         |  1  |  0  |  0  |  0x24 |     0     |
-| PCF8575 +-----+-----+-----+-------+-----------+
-|         |  1  |  0  |  1  |  0x25 |     1     |
-'---------'-----'-----'-----'-------'-----------'
+.---------.-----.-----.-----.-----------.-----------.
+| Device  | A2  | A1  | A0  |Addr Offset| X-Any Idx |
++---------+-----+-----+-----+-----------+-----------+
+|         |  0  |  0  |  0  |     0     |     0     |
+|         +-----+-----+-----+-----------+-----------+
+|         |  0  |  0  |  1  |     1     |     0     |
+| PCF8574 +-----+-----+-----+-----------+-----------+
+|         |  0  |  1  |  0  |     2     |     1     |
+|         +-----+-----+-----+-----------+-----------+
+|         |  0  |  1  |  1  |     3     |     1     |
++-------- +-----+-----+-----+-----------+-----------+
+|         |  1  |  0  |  0  |     4     |     0     |
+| PCF8575 +-----+-----+-----+-----------+-----------+
+|         |  1  |  0  |  1  |     5     |     1     |
+'---------'-----'-----'-----'-----------'-----------'
 
 .-------------.---------------------------.---------------------------.
-| Device Type |         PCF8575           |         PCF8574           |
+| Device Type |         PCF8575(A)        |         PCF8574(A)        |
 +-------------+------+------+------+------+------+------+------+------+
-| I2C Address |  NU  |  NU  | 0x25 | 0x24 | 0x23 | 0x22 | 0x21 | 0x20 |
+| Addr Offset |  NU  |  NU  |   5  |   4  |   3  |   2  |   1  |   0  |
 +-------------+------+------+------+------+------+------+------+------+
 |IoExtMap Bit#|  b7  |  b6  |  b5  |  b4  |  b3  |  b2  |  b1  |  b0  |
 +-------------+------+------+------+------+------+------+------+------+
@@ -66,7 +66,7 @@ Supported combination: /!\ 2 Devices supported max per X-Any: 1 X-Any is associa
 #include "Xany.h"
 #include "i2c_master.h"
 
-#define IO_EXP_BASE_ADDR              (0x38 << 1) /* Bit 0 is for R/W# */
+#define IO_EXP_BASE_ADDR              (0x38 << 1) /* PCF857xA Bit 0 is for R/W# */
 #define IO_EXP_SUP_MAX_NB             6
 /*
 NIBBLE_WIDTH_US
@@ -295,21 +295,21 @@ static void Xany_readInputs(uint8_t XanyIdx)
   I2C_SPEED_400K();
   for(uint8_t BitIdx = 0; BitIdx < IO_EXP_SUP_MAX_NB; BitIdx++)
   {
-    if(IoExtMap & (1<<BitIdx))
+    if(IoExtMap & (1 << BitIdx))
     {
       /* Chip is present in the map */
       if(BitIdx < 4)
       {
         /* Read one 8 bit port */
-        i2c_receive((IO_EXP_BASE_ADDR + (BitIdx << 1)), (uint8_t*)&One8bitPort, 1); /* This function send a nack */
+        if(!i2c_receive((IO_EXP_BASE_ADDR + (BitIdx << 1)), (uint8_t*)&One8bitPort, 1)) One8bitPort ^= 0xFF; /* Apply polarity: close contact = 1 */
         if(BitIdx & 1) X_AnyReadMsg[XanyIdx].Payload.Byte.High = One8bitPort; /* Odd  */
         else           X_AnyReadMsg[XanyIdx].Payload.Byte.Low  = One8bitPort; /* Even */
       }
       else
       {
         /* Read two 8 bit ports */
-        i2c_receive((IO_EXP_BASE_ADDR + (BitIdx << 1)), (uint8_t*)&Two8bitPorts, 2); /* This function send a nack for last byte */
-        X_AnyReadMsg[XanyIdx].Payload.Word  = Two8bitPorts;
+        if(!i2c_receive((IO_EXP_BASE_ADDR + (BitIdx << 1)), (uint8_t*)&Two8bitPorts, 2)) Two8bitPorts ^= 0xFFFF; /* Apply polarity: close contact = 1 */
+        X_AnyReadMsg[XanyIdx].Payload.Word = Two8bitPorts;
       }
     }
   }
