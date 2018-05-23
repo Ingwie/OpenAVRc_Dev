@@ -36,7 +36,7 @@
 
 extern uint8_t Usart0RxBuffer[];
 
-const static int8_t RfOpt_FrskyD_Ser[] PROGMEM = {
+const static RfOptionSettingsvarstruct RfOpt_FrskyD_Ser[] PROGMEM = {
 /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
 /*rfSubTypeMax*/0,
 /*rfOptionValue1Min*/-128,
@@ -184,7 +184,7 @@ static void FRSKYD_build_data_packet()
       // 0x05DC -> 1000us 5ca
       // 0x0BB8 -> 2000us bca
 
-      value = channelOutputs[i];
+      value = channelOutputs[i] + 2*PPM_CH_CENTER(i) - 2*PPM_CENTER;
       value -= (value>>2); // x-x/4
       value = limit((int16_t)-(640 + (640>>1)), value, (int16_t)+(640 + (640>>1)));
       value += 0x08CA;
