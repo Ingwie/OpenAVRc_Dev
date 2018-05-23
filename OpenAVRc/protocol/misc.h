@@ -50,9 +50,10 @@ uint8_t * t_rf_id_addr = &pulses2MHz.pbyte[RX_TX_ADDR_OFFSET];
   uint8_t  pbyte[PULSES_BYTE_SIZE];  // 144
  */
 //U8
-#define rfState8 pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-1]
-#define channel_index pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-2]
+#define rfState8       pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-1]
+#define channel_index  pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-2]
 #define channel_offset pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-3]
+#define rf_power       pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-4]
 //U16
 #define packet_period pulses2MHz.pword[PULSES_WORD_OFFSET_VAR]
 #define bind_counter  pulses2MHz.pword[PULSES_WORD_OFFSET_VAR+1]

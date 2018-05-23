@@ -44,7 +44,7 @@
   NULL
 };*/
 
-const static int8_t RfOpt_DEVO[] PROGMEM = {
+const static RfOptionSettingsvarstruct RfOpt_DEVO[] PROGMEM = {
   /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/0,
   /*rfOptionValue1Min*/0,

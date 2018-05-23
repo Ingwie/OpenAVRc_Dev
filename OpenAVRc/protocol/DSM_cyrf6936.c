@@ -44,7 +44,7 @@
 
 #define NUM_WAIT_LOOPS (100 )// 5) //each loop is ~5us.  Do not wait more than 100us TODO : better wait function
 
-const static int8_t RfOpt_DSM_Ser[] PROGMEM = {
+const static RfOptionSettingsvarstruct RfOpt_DSM_Ser[] PROGMEM = {
   /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/0,
   /*rfOptionValue1Min*/0,

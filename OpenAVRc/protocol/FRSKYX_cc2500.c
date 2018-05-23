@@ -44,7 +44,7 @@ extern uint8_t Usart0RxBuffer[];
   NULL
 };*/
 
-const static int8_t RfOpt_FrskyX_Ser[] PROGMEM = {
+const static RfOptionSettingsvarstruct RfOpt_FrskyX_Ser[] PROGMEM = {
 /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
 /*rfSubTypeMax*/0,
 /*rfOptionValue1Min*/-128,
@@ -244,7 +244,7 @@ static uint16_t scaleForPXX(uint8_t chan, uint8_t failsafe)
 {
 // 0-2047, 0 = 817, 1024 = 1500, 2047 = 2182
 failsafe = failsafe; //for compiler warning
-  int16_t value = channelOutputs[chan];
+  int16_t value = channelOutputs[chan] + 2*PPM_CH_CENTER(chan) - 2*PPM_CENTER;
   value = limit((int16_t)-1024, value, (int16_t)+1024);
   (chan > 7) ? value += 2048 : value += 1024;   // upper channels offset 2048, lower 1014
   return value;

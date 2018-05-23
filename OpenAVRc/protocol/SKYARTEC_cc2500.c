@@ -36,7 +36,7 @@
 #define TX_ADDR g_eeGeneral.fixed_ID.ID_8[2]
 #define TX_CHANNEL g_eeGeneral.fixed_ID.ID_8[3]
 
-const static int8_t RfOpt_Skyartec_Ser[] PROGMEM = {
+const static RfOptionSettingsvarstruct RfOpt_Skyartec_Ser[] PROGMEM = {
 /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
 /*rfSubTypeMax*/0,
 /*rfOptionValue1Min*/-128,
@@ -137,14 +137,12 @@ static void Skyartec_send_data_packet()
 
   // Each channel has a minimum of '0' and a maximum of 1280 (0x500).
 
-  int16_t value;
-
   for(uint8_t i = 0; i < 7; i++) {
 
-      value = channelOutputs[i];//* 0x280 / 0x500 + 0x280; // 0X500 = +125%
+      int16_t value = channelOutputs[i];//* 0x280 / 0x500 + 0x280; // 0X500 = +125%
       value /= 2;
-      value = limit((int16_t)-640, value, (int16_t)+640);
-      value += 0x280; // 640.
+      //value = limit((int16_t)-640, value, (int16_t)+640);
+      value += PPM_CH_CENTER(i) -  PPM_CENTER + 0x280; // Center + 640 (offset).
 
     packet[3+2*i] = value >> 8;
     packet[4+2*i] = value & 0xff;

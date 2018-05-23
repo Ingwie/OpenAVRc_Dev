@@ -44,7 +44,7 @@
 #define NO_SUBTYPE  0
 #define MM_RF_CUSTOM_SELECTED 0xff
 
-const static int8_t RfOpt_Multi_Ser[] PROGMEM = {
+const static RfOptionSettingsvarstruct RfOpt_Multi_Ser[] PROGMEM = {
   /*rfProtoNeed*/BOOL1USED | BOOL2USED | BOOL3USED,
   /*rfSubTypeMax*/15,
   /*rfOptionValue1Min*/0,

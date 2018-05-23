@@ -40,7 +40,7 @@
 #define CORONA_COARSE			      0x00
 #define COR_V1                  0
 
-const static int8_t RfOpt_corona_Ser[] PROGMEM =
+const static RfOptionSettingsvarstruct RfOpt_corona_Ser[] PROGMEM =
 {
   /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/1,
@@ -143,8 +143,14 @@ static void corona_send_data_packet()
       for(uint8_t i=0; i<8; i++)
         {
           // Channel values are packed
-          packet[i+1] = channelOutputs[i]; // TODO scale
-          packet[9 + (i>>1)] |= (i&0x01)?(channelOutputs[i]>>4)&0xF0:(channelOutputs[i]>>8)&0x0F;
+          // Compute value +-1280 to range 860<-1500->2140 -125%<-0->+125%
+          int16_t value = channelOutputs[i];
+          value /= 2; // +-1280 to +-640
+          value += PPM_CH_CENTER(i); // Center value
+          value = limit((int16_t)-860, value, (int16_t)+2140);
+
+          packet[i+1] = value;
+          packet[9 + (i>>1)] |= (i&0x01)?(value>>4)&0xF0:(value>>8)&0x0F;
         }
 
       //TX ID
@@ -199,6 +205,7 @@ static void corona_send_data_packet()
     }
   // Send packet
   CC2500_WriteData(packet, packet[0]+2);
+  packet_period=10000;
 }
 
 static void corona_send_bind_packet()
@@ -243,20 +250,20 @@ static void corona_send_bind_packet()
 
 static uint16_t CORONA_bind_cb()
 {
-  SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
+  SCHEDULE_MIXER_END_IN_US((g_model.rfSubType==COR_V1)? 3500 : 26700); // Schedule next Mixer calculations.
   corona_send_bind_packet();
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-  return 18000U *2;
+  return packet_period *2;
 }
 
 static uint16_t CORONA_cb()
 {
-  SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations.
+  SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations. //TODO better switch value ....
   corona_send_data_packet();
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-  return 12000U *2;
+  return packet_period *2;
 }
 
 
