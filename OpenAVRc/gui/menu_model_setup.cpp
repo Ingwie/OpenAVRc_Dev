@@ -551,7 +551,7 @@ void menuModelSetup(uint8_t event)
               CHECK_INCDEC_MODELVAR(event, g_model.rfOptionValue1, RfOptionSettings.rfOptionValue1Min, RfOptionSettings.rfOptionValue1Max);
             }
           } else {
-            lcdDrawTextLeft(y,STR_DUMMY);
+            lcdDrawTextAtt(0,y,STR_DUMMY,attr);
           }
         }
 #endif
@@ -575,7 +575,7 @@ void menuModelSetup(uint8_t event)
               CHECK_INCDEC_MODELVAR(event, g_model.rfOptionValue2, RfOptionSettings.rfOptionValue2Min, RfOptionSettings.rfOptionValue2Max);
             }
           } else {
-            lcdDrawTextLeft(y,STR_DUMMY);
+            lcdDrawTextAtt(0,y,STR_DUMMY,attr);
           }
         }
 #endif
@@ -612,7 +612,7 @@ void menuModelSetup(uint8_t event)
           if (RfOptionSettings.rfOptionBool1Used) {
             ON_OFF_MENU_ITEM(g_model.rfOptionBool1, MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfOptionBool1Name, attr, event);
           } else {
-            lcdDrawTextLeft(y,STR_DUMMY);
+            lcdDrawTextAtt(0,y,STR_DUMMY,attr);
           }
         }
 #endif
@@ -626,7 +626,7 @@ void menuModelSetup(uint8_t event)
           if (RfOptionSettings.rfOptionBool2Used) {
             ON_OFF_MENU_ITEM(g_model.rfOptionBool2, MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfOptionBool2Name, attr, event);
           } else {
-            lcdDrawTextLeft(y,STR_DUMMY);
+            lcdDrawTextAtt(0,y,STR_DUMMY,attr);
           }
         }
       }
@@ -639,7 +639,7 @@ void menuModelSetup(uint8_t event)
           if (RfOptionSettings.rfOptionBool3Used) {
             ON_OFF_MENU_ITEM(g_model.rfOptionBool3, MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfOptionBool3Name, attr, event);
           } else {
-            lcdDrawTextLeft(y,STR_DUMMY);
+            lcdDrawTextAtt(0,y,STR_DUMMY,attr);
           }
         }
       }
