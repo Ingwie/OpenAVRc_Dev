@@ -1136,6 +1136,15 @@ struct Module {
 #define BOOL2USED PIN1_bm
 #define BOOL3USED PIN2_bm
 
+struct RfOptionSettingsvarstruct {
+  uint8_t         rfProtoNeed:4;     // See usage in "PROTO_NEED_XX" Def
+  uint8_t         rfSubTypeMax:4;       //16 max
+  int8_t          rfOptionValue1Min;
+  int8_t          rfOptionValue1Max;
+  int8_t          rfOptionValue2Min;
+  int8_t          rfOptionValue2Max;
+  int8_t          rfOptionValue3Max/*:5*/;  //32 max -16 is min
+};
 
 struct RfOptionSettingsstruct {
   uint8_t         rfProtoNeed:4;     // See usage in "PROTO_NEED_XX" Def
@@ -1170,7 +1179,7 @@ void LimitRfOptionSettings();
 
 //PPM Defaut
 
-const int8_t RfOpt_PPM_Ser[] PROGMEM = {
+const RfOptionSettingsvarstruct RfOpt_PPM_Ser[] PROGMEM = {
   /*rfProtoNeed*/BOOL1USED,
   /*rfSubTypeMax*/6,
   /*rfOptionValue1Min*/-20,

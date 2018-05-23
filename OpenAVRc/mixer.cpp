@@ -798,7 +798,6 @@ void evalMixes(uint8_t tick10ms)
     ex_chans[i] = q / 256;
 
     int16_t value = applyLimits(i, q);  // applyLimits will remove the 256 100% basis
-
     cli();
     channelOutputs[i] = value;  // copy consistent word to int-level
     sei();

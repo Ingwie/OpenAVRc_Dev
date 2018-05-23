@@ -108,8 +108,9 @@ void SetRfOptionSettings(uint_farptr_t RfOptSet,
                          const pm_char* rfOptionBool2Name,
                          const pm_char* rfOptionBool3Name)
 {
-  RfOptionSettings.rfProtoNeed = pgm_read_byte_far(RfOptSet);
-  RfOptionSettings.rfSubTypeMax = pgm_read_byte_far(++RfOptSet);
+  uint8_t tmp = pgm_read_byte_far(RfOptSet);
+  RfOptionSettings.rfProtoNeed = (tmp & 0x0F);                                      // rfProtoNeed:4
+  RfOptionSettings.rfSubTypeMax = (tmp >>4);                                        // rfSubTypeMax:4
   RfOptionSettings.rfSubTypeNames = rfSubTypeNames;
   RfOptionSettings.rfOptionValue1Min = pgm_read_byte_far(++RfOptSet);
   RfOptionSettings.rfOptionValue1Max = pgm_read_byte_far(++RfOptSet);
@@ -117,7 +118,7 @@ void SetRfOptionSettings(uint_farptr_t RfOptSet,
   RfOptionSettings.rfOptionValue2Min = pgm_read_byte_far(++RfOptSet);
   RfOptionSettings.rfOptionValue2Max = pgm_read_byte_far(++RfOptSet);
   RfOptionSettings.rfOptionValue2Name = rfOptionValue2Name;
-  RfOptionSettings.rfOptionValue3Max = pgm_read_byte_far(++RfOptSet);
+  RfOptionSettings.rfOptionValue3Max = (pgm_read_byte_far(++RfOptSet) & 0b00011111); // rfOptionValue3Max:/*5*/
   RfOptionSettings.rfOptionValue3Name = rfOptionValue3Name;
   RfOptionSettings.rfOptionBool1Used = (RfOptionSettings.rfProtoNeed & BOOL1USED);
   RfOptionSettings.rfOptionBool1Name = rfOptionBool1Name;
@@ -883,7 +884,6 @@ uint8_t checkTrim(uint8_t event)
     int8_t v = (trimInc==-1) ? min(32, abs(before)/4+1) : (1 << trimInc); // TODO flash saving if (trimInc < 0)
     if (thro) v = 4; // if throttle trim and trim trottle then step=4
     int16_t after = (k&1) ? before + v : before - v;   // positive = k&1
-    int8_t TODOcheckbeeptrimalwaysat1;
     int8_t beepTrim = false;
     for (int16_t mark=TRIM_MIN; mark<=TRIM_MAX; mark+=TRIM_MAX) {
       if ((mark!=0 || !thro) && ((mark!=TRIM_MIN && after>=mark && before<mark) || (mark!=TRIM_MAX && after<=mark && before>mark))) {
