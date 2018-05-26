@@ -377,7 +377,7 @@ void menuMainView(uint8_t event)
 
     // Model Name
 #if defined(DSM2) || defined(MULTIMODULE) || defined(SPIMODULES)
-    if ((RFModule.mode == BIND_MODE) && !BLINK_ON_PHASE)
+    if ((protoMode == BIND_MODE) && !BLINK_ON_PHASE)
     {
       lcdDrawTextAtt(MODELNAME_X, MODELNAME_Y, STR_BIND, BLINK|BIGSIZE);
     } else {

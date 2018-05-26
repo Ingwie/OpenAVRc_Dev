@@ -155,7 +155,7 @@ FORCEINLINE void boardInit()
   RF_CS_CYRF6936_INACTIVE();
 
   g_eeGeneral.fixed_ID.ID_32 = 0x1a2b3c4d;
-  RFModule.mode = NORMAL_MODE;
+  protoMode = NORMAL_MODE;
 
 #endif // SPIMODULES
 

@@ -159,7 +159,7 @@ static uint16_t MULTI_cb()
   int8_t optionValue = g_model.rfOptionValue2;
 
   uint8_t protoByte = 0;
-  if (RFModule.mode == BIND_MODE)
+  if (protoMode == BIND_MODE)
     protoByte |= MULTI_SEND_BIND;
   else if (rangeModeIsOn)
     protoByte |= MULTI_SEND_RANGECHECK;
@@ -168,7 +168,7 @@ static uint16_t MULTI_cb()
   if (g_model.MULTIRFPROTOCOL == MM_RF_PROTO_DSM2) {
 
     // Autobinding should always be done in DSMX 11ms
-    if(g_model.AUTOBINDMODE && RFModule.mode == BIND_MODE)
+    if(g_model.AUTOBINDMODE && protoMode == BIND_MODE)
       subtype = MM_RF_DSM2_SUBTYPE_AUTO;
 
     // Multi module in DSM mode wants the number of channels to be used as option value

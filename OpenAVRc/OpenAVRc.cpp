@@ -80,7 +80,7 @@ void setGazSource()
 }
 
 bool rangeModeIsOn = false; // manage low power TX
-struct Module RFModule;
+uint8_t protoMode = NORMAL_MODE;
 
 void sendOptionsSettingsPpm()
 {
@@ -94,7 +94,7 @@ void sendOptionsSettingsPpm()
                       STR_DUMMY);
   if (s_current_protocol==(PROTOCOL_PPM16-1)) g_model.PPMNCH = limit<uint8_t>(0,g_model.PPMNCH,2);
   g_model.PPMFRAMELENGTH = (g_model.PPMNCH-2) * 8;
-  RFModule.mode = NORMAL_MODE;
+  protoMode = NORMAL_MODE;
 }
 
 struct RfOptionSettingsstruct RfOptionSettings; // used in menumodelsetup
@@ -250,7 +250,7 @@ void per10ms()
   if (Bind_tmr10ms)
   {
     if (!--Bind_tmr10ms)
-      RFModule.mode = NORMAL_MODE;
+      protoMode = NORMAL_MODE;
   }
 
   heartbeat |= HEART_TIMER_10MS;

@@ -130,7 +130,7 @@ FORCEINLINE void boardInit()
   RF_CS_NRF24L01_INACTIVE();
   RF_CS_A7105_INACTIVE();
 
-  RFModule.mode = NORMAL_MODE;
+  protoMode = NORMAL_MODE;
 
 #endif // SPIMODULES
 

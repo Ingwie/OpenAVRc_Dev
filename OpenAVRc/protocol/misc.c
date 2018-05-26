@@ -96,9 +96,9 @@ void CLOCK_delayms(uint32_t delay_ms)
 void PROTOCOL_SetBindState(tmr10ms_t t10ms)
 {
   if(t10ms) {
-    RFModule.mode = BIND_MODE;
+    protoMode = BIND_MODE;
     Bind_tmr10ms = t10ms;
   }
-  else RFModule.mode = NORMAL_MODE;
+  else protoMode = NORMAL_MODE;
 }
 

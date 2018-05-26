@@ -1036,6 +1036,7 @@ const mm_protocol_definition *getMultiProtocolDefinition (uint8_t protocol);
 ///////////////// PROTOCOLS ///////////////////
 
 extern bool rangeModeIsOn;
+extern uint8_t protoMode;
 
 enum PROTO_MODE {
   NORMAL_MODE,
@@ -1067,15 +1068,6 @@ enum ProtoCmds {
   PROTOCMD_BIND,
   PROTOCMD_RESET,
   PROTOCMD_GETOPTIONS,
-  /*PROTOCMD_SET_TXPOWER,
-  PROTOCMD_GETNUMOPTIONS,
-  PROTOCMD_DEINIT,
-  PROTOCMD_CHECK_AUTOBIND,
-  PROTOCMD_NUMCHAN,
-  PROTOCMD_DEFAULT_NUMCHAN,
-  PROTOCMD_CURRENT_ID,
-  PROTOCMD_SETOPTIONS,
-  PROTOCMD_TELEMETRYSTATE,*/
 };
 
 enum TXRX_State {
@@ -1091,43 +1083,6 @@ enum Protocols {
   PROTOCOL_COUNT,
 };
 #undef PROTODEF
-
-
-struct Module {
-//    char name[24];
-//    char icon[24];
-//    enum ModelType type;
-//  enum DevoProtocols protocol;
-//  int16_t proto_opts[NUM_PROTO_OPTS];
-//  uint8_t num_channels;
-//    uint8_t num_ppmin;
-//   uint16_t ppmin_centerpw;
-//    uint16_t ppmin_deltapw;
-//    uint8_t train_sw;
-//    int8_t ppm_map[MAX_PPM_IN_CHANNELS];
-//  uint32_t fixed_id;
-  enum TxPower tx_power;
-  uint8_t mode;
-//    enum SwashType swash_type;
-//    uint8_t swash_invert;
-//    uint8_t swashmix[3];
-//    struct Trim trims[NUM_TRIMS];
-//    struct Mixer mixers[NUM_MIXERS];
-//    struct Limit limits[NUM_OUT_CHANNELS];
-//    char virtname[NUM_VIRT_CHANNELS][VIRT_NAME_LEN];
-//    struct Timer timer[NUM_TIMERS];
-//    uint8_t templates[NUM_CHANNELS];
-//    struct PageCfg2 pagecfg2;
-//    uint8_t safety[NUM_SOURCES+1];
-//    uint8_t telem_alarm[TELEM_NUM_ALARMS];
-//    uint16_t telem_alarm_val[TELEM_NUM_ALARMS];
-//    uint8_t telem_flags;
-//    MixerMode mixer_mode;
-//    uint32_t permanent_timer;
-//#if HAS_DATALOG
-//    struct datalog datalog;
-//#endif
-};
 
 #define PROTO_NEED_SPI PIN3_bm // bitmask
 #define IS_PROTO_NEED_SPI if (RfOptionSettings.rfProtoNeed & PROTO_NEED_SPI)
