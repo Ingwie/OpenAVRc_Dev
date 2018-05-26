@@ -39,11 +39,11 @@
 const static RfOptionSettingsvarstruct RfOpt_Skyartec_Ser[] PROGMEM = {
 /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
 /*rfSubTypeMax*/0,
-/*rfOptionValue1Min*/-128,
-/*rfOptionValue1Max*/127,
-/*rfOptionValue2Min*/0,
-/*rfOptionValue2Max*/0,
-/*rfOptionValue3Max*/0,
+  /*rfOptionValue1Min*/-128, // FREQFINE MIN
+  /*rfOptionValue1Max*/127,  // FREQFINE MAX
+  /*rfOptionValue2Min*/0,
+  /*rfOptionValue2Max*/0,
+  /*rfOptionValue3Max*/7,    // RF POWER
 };
 
 
@@ -150,6 +150,7 @@ static void Skyartec_send_data_packet()
   add_pkt_suffix();
 
   CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
+  CC2500_ManagePower();
   CC2500_WriteReg(CC2500_04_SYNC1, g_eeGeneral.fixed_ID.ID_8[0]);
   CC2500_WriteReg(CC2500_05_SYNC0, g_eeGeneral.fixed_ID.ID_8[1]);
   CC2500_WriteReg(CC2500_09_ADDR, TX_ADDR);
@@ -232,7 +233,7 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
                         STR_DUMMY,      //Sub proto
                         STR_RFTUNE,      //Option 1 (int)
                         STR_DUMMY,      //Option 2 (int)
-                        STR_DUMMY,      //Option 3 (uint 0 to 31)
+                        STR_RFPOWER,    //Option 3 (uint 0 to 31)
                         STR_DUMMY,      //OptionBool 1
                         STR_DUMMY,      //OptionBool 2
                         STR_DUMMY       //OptionBool 3

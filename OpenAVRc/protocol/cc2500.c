@@ -135,11 +135,16 @@ void CC2500_Reset()
   _delay_us(100); // Should be > 50us. see datasheet.
 }
 
+#define CC2500_POWER_CHOICE  7
+const static int8_t CC2500_Powers[] PROGMEM = {-55,-20,-16,-12,-8,-4,0,1};
 
 void CC2500_SetPower(uint8_t Power)
 {
   /*
     CC2500 Power Output
+
+    P(dBm) = 10Xlog10( P(mW) / 1mW)
+    P(mW) = 1mWX10(P(dBm)/ 10)
 
     <-55 dBm == 0x00
     -20 dBm	== 0x46
@@ -186,8 +191,18 @@ void CC2500_SetPower(uint8_t Power)
       break;
     };
 
+  rf_power_mem = Power;
   CC2500_WriteReg(CC2500_3E_PATABLE, cc2500_patable);
 }
 
+void CC2500_ManagePower()
+{
+  if (rangeModeIsOn) rf_power = TXPOWER_1;
+  else rf_power = g_model.rfOptionValue3;
+  if (rf_power != rf_power_mem)
+  {
+    CC2500_SetPower(rf_power);
+  }
+}
 #endif // PROTO_HAS_CC2500
 

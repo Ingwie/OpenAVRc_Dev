@@ -138,6 +138,7 @@
 
 #if defined(SPIMODULES)
    #define TR_SPIM "SPIRfMod"
+   #define TR_RFPOWER "RF Power"
 #endif
 
 #if defined(MULTIMODULE)

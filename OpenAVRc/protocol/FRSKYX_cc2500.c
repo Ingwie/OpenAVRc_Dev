@@ -47,11 +47,11 @@ extern uint8_t Usart0RxBuffer[];
 const static RfOptionSettingsvarstruct RfOpt_FrskyX_Ser[] PROGMEM = {
 /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
 /*rfSubTypeMax*/0,
-/*rfOptionValue1Min*/-128,
-/*rfOptionValue1Max*/127,
+/*rfOptionValue1Min*/-128, // FREQFINE MIN
+/*rfOptionValue1Max*/127,  // FREQFINE MAX
 /*rfOptionValue2Min*/0,
 /*rfOptionValue2Max*/0,
-/*rfOptionValue3Max*/0,
+/*rfOptionValue3Max*/7,    // RF POWER
 };
 
 bool frskyX_format_EU = 1; //0 US , 1 EU
@@ -678,7 +678,7 @@ static uint16_t FRSKYX_cb()
     CC2500_SetTxRxMode(TX_EN);
     CC2500_Strobe(CC2500_SIDLE); // Force idle if still receiving in error condition.
     set_start(channr);
-    CC2500_SetPower(TXPOWER_1);
+    CC2500_ManagePower();
     CC2500_Strobe(CC2500_SIDLE);
     CC2500_WriteData(packet, packet[0]+1);
     channr = (channr + chanskip) % 47;
@@ -855,32 +855,12 @@ const void *FRSKYX_Cmds(enum ProtoCmds cmd)
                         STR_DUMMY,       //Sub proto
                         STR_RFTUNE,      //Option 1 (int)
                         STR_DUMMY,       //Option 2 (int)
-                        STR_DUMMY,       //Option 3 (uint 0 to 31)
+                        STR_RFPOWER,     //Option 3 (uint 0 to 31)
                         STR_TELEMETRY,   //OptionBool 1
                         STR_DUMMY,       //OptionBool 2
                         STR_DUMMY        //OptionBool 3
                         );
     return 0;
-
-  /*case PROTOCMD_CHECK_AUTOBIND:
-    return 0; //Never Autobind
-  case PROTOCMD_NUMCHAN:
-    return (void *)12L;
-  case PROTOCMD_DEFAULT_NUMCHAN:
-    return (void *)8L;
-  case PROTOCMD_CURRENT_ID:
-    return Model.frsky_id ? (void *)((unsigned long)Model.frsky_id) : 0;
-  case PROTOCMD_GETOPTIONS:
-    if (!Model.proto_opts[PROTO_OPTS_AD2GAIN]) Model.proto_opts[PROTO_OPTS_AD2GAIN] = 100;  // if not set, default to no gain
-    return frskyx_opts;
-  case PROTOCMD_TELEMETRYX_state:
-    return (void *)1L;
-  case PROTOCMD_TELEMETRYTYPE:
-    return (void *)(long) TELEM_FRSKY;
-  case PROTOCMD_DEINIT:
-  #if HAS_EXTENDED_TELEMETRY
-    UART_SetDataRate(0);  // restore data rate to default
-  #endif*/
   default:
     break;
   }
