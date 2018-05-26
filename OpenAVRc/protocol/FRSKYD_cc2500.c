@@ -39,11 +39,11 @@ extern uint8_t Usart0RxBuffer[];
 const static RfOptionSettingsvarstruct RfOpt_FrskyD_Ser[] PROGMEM = {
 /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
 /*rfSubTypeMax*/0,
-/*rfOptionValue1Min*/-128,
-/*rfOptionValue1Max*/127,
+/*rfOptionValue1Min*/-128, // FREQFINE MIN
+/*rfOptionValue1Max*/127,  // FREQFINE MAX
 /*rfOptionValue2Min*/0,
 /*rfOptionValue2Max*/0,
-/*rfOptionValue3Max*/0,
+/*rfOptionValue3Max*/7,    // RF POWER
 };
 
 static uint8_t packet_number = 0;
@@ -100,7 +100,7 @@ static void FRSKYD_init(uint8_t bind)
   CC2500_WriteReg(CC2500_09_ADDR, bind ? 0x03 : g_eeGeneral.fixed_ID.ID_8[0]);
   CC2500_Strobe(CC2500_SFTX); // 3b
   CC2500_Strobe(CC2500_SFRX); // 3a
-  CC2500_SetPower(bind ? TXPOWER_1 : TXPOWER_1);
+  CC2500_SetPower(TXPOWER_1);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0x00);
   CC2500_Strobe(CC2500_SIDLE); // Go to idle...
 }
@@ -232,7 +232,7 @@ static uint16_t FRSKYD_data_cb()
       }
 
       if(packet_number & 0x1F) {
-        CC2500_SetPower(TXPOWER_1); // TODO update power level.
+        CC2500_ManagePower();
         CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
       }
 
@@ -342,7 +342,7 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
                         STR_DUMMY,       //Sub proto
                         STR_RFTUNE,      //Option 1 (int)
                         STR_DUMMY,       //Option 2 (int)
-                        STR_DUMMY,       //Option 3 (uint 0 to 31)
+                        STR_RFPOWER,    //Option 3 (uint 0 to 31)
                         STR_TELEMETRY,   //OptionBool 1
                         STR_DUMMY,       //OptionBool 2
                         STR_DUMMY        //OptionBool 3

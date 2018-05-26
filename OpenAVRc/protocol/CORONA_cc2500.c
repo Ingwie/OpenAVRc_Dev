@@ -44,11 +44,11 @@ const static RfOptionSettingsvarstruct RfOpt_corona_Ser[] PROGMEM =
 {
   /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/1,
-  /*rfOptionValue1Min*/-128,
-  /*rfOptionValue1Max*/127,
+  /*rfOptionValue1Min*/-128, // FREQFINE MIN
+  /*rfOptionValue1Max*/127,  // FREQFINE MAX
   /*rfOptionValue2Min*/0,
   /*rfOptionValue2Max*/0,
-  /*rfOptionValue3Max*/0,
+  /*rfOptionValue3Max*/7,    // RF POWER
 };
 
 const pm_char STR_SUBTYPE_CORONA[] PROGMEM =     " FSS""DSSS";
@@ -185,7 +185,7 @@ static void corona_send_data_packet()
       channel_index++;
       channel_index%=CORONA_RF_NUM_CHANNELS;
       // Update power
-      CC2500_SetPower(TXPOWER_1);
+      CC2500_ManagePower();
     }
   else
     {
@@ -300,9 +300,9 @@ const void *CORONA_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_GETOPTIONS:
       SetRfOptionSettings(pgm_get_far_address(RfOpt_corona_Ser),
                           STR_SUBTYPE_CORONA,      //Sub proto
-                          STR_RFTUNE,      //Option 1 (int)
+                          STR_RFTUNE,     //Option 1 (int)
                           STR_DUMMY,      //Option 2 (int)
-                          STR_DUMMY,      //Option 3 (uint 0 to 31)
+                          STR_RFPOWER,    //Option 3 (uint 0 to 31)
                           STR_DUMMY,      //OptionBool 1
                           STR_DUMMY,      //OptionBool 2
                           STR_DUMMY       //OptionBool 3

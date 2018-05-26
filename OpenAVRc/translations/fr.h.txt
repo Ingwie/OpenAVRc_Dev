@@ -150,6 +150,7 @@
 
 #if defined(SPIMODULES)
    #define TR_SPIM "SPIRfMod"
+   #define TR_RFPOWER "Puissance RF"
 #endif
 
 #if defined(MULTIMODULE)

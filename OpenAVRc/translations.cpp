@@ -274,6 +274,7 @@ const pm_char STR_FAS_OFFSET[] PROGMEM = TR_FAS_OFFSET;
 
 #if defined(SPIMODULES)
 const pm_char STR_SPIM[] PROGMEM = TR_SPIM;
+const pm_char STR_RFPOWER[] PROGMEM = TR_RFPOWER;
 #endif
 #if defined(MULTIMODULE)
 const pm_char STR_MULTI_CUSTOM[] PROGMEM = TR_MULTI_CUSTOM;
@@ -467,7 +468,7 @@ const pm_char STR_CONFIRM_FORMAT[] PROGMEM = TR_CONFIRM_FORMAT;
 const pm_char STR_EEBACKUP[] PROGMEM = TR_EEBACKUP;
 const pm_char STR_FACTORYRESET[] PROGMEM = TR_FACTORYRESET;
 const pm_char STR_BLCOLOR[]  PROGMEM = TR_BLCOLOR;
-const pm_char STR_DUMMY[]  PROGMEM = "<N/A>";
+const pm_char STR_DUMMY[]  PROGMEM = "***";
 const pm_char STR_POWEROFF[]  PROGMEM = TR_POWEROFF;
 const pm_char STR_RFID[]  PROGMEM = "RFID  :";
 const pm_char STR_BIND[]  PROGMEM = "    -BIND-     ";

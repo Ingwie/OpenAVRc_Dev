@@ -452,7 +452,9 @@ extern const pm_char STR_FAS_OFFSET[];
 
 #if defined(SPIMODULES)
 extern const pm_char STR_SPIM[];
+extern const pm_char STR_RFPOWER[];
 #endif
+
 #if defined(MULTIMODULE)
 extern const pm_char STR_MULTI_CUSTOM[];
 #endif

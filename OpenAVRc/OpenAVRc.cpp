@@ -118,13 +118,13 @@ void SetRfOptionSettings(uint_farptr_t RfOptSet,
   RfOptionSettings.rfOptionValue2Min = pgm_read_byte_far(++RfOptSet);
   RfOptionSettings.rfOptionValue2Max = pgm_read_byte_far(++RfOptSet);
   RfOptionSettings.rfOptionValue2Name = rfOptionValue2Name;
-  RfOptionSettings.rfOptionValue3Max = (pgm_read_byte_far(++RfOptSet) & 0b00011111); // rfOptionValue3Max:/*5*/
+  RfOptionSettings.rfOptionValue3Max = (pgm_read_byte_far(++RfOptSet) & 0b00011111); // rfOptionValue3Max/*:5*/
   RfOptionSettings.rfOptionValue3Name = rfOptionValue3Name;
-  RfOptionSettings.rfOptionBool1Used = (RfOptionSettings.rfProtoNeed & BOOL1USED);
+  RfOptionSettings.rfOptionBool1Used = ((tmp & BOOL1USED) == BOOL1USED);
   RfOptionSettings.rfOptionBool1Name = rfOptionBool1Name;
-  RfOptionSettings.rfOptionBool2Used = (RfOptionSettings.rfProtoNeed & BOOL2USED);
+  RfOptionSettings.rfOptionBool2Used = ((tmp & BOOL2USED) == BOOL2USED);
   RfOptionSettings.rfOptionBool2Name = rfOptionBool2Name;
-  RfOptionSettings.rfOptionBool3Used = (RfOptionSettings.rfProtoNeed & BOOL3USED);
+  RfOptionSettings.rfOptionBool3Used = ((tmp & BOOL3USED) == BOOL3USED);
   RfOptionSettings.rfOptionBool3Name = rfOptionBool3Name;
 }
 

@@ -34,13 +34,13 @@
 #include "../OpenAVRc.h"
 
 const static RfOptionSettingsvarstruct RfOpt_FrskyV_Ser[] PROGMEM = {
-/*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+/*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
 /*rfSubTypeMax*/0,
-/*rfOptionValue1Min*/-128,
-/*rfOptionValue1Max*/127,
+/*rfOptionValue1Min*/-128, // FREQFINE MIN
+/*rfOptionValue1Max*/127,  // FREQFINE MAX
 /*rfOptionValue2Min*/0,
 /*rfOptionValue2Max*/0,
-/*rfOptionValue3Max*/0,
+/*rfOptionValue3Max*/7,    // RF POWER
 };
 
 static uint32_t seed;
@@ -99,7 +99,7 @@ static void FRSKYV_init(uint8_t bind)
   CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
   CC2500_Strobe(CC2500_SFTX); // 3b
   CC2500_Strobe(CC2500_SFRX); // 3a
-  CC2500_SetPower(bind ? TXPOWER_1 : TXPOWER_1);
+  CC2500_SetPower(TXPOWER_1);
   CC2500_Strobe(CC2500_SIDLE); // Go to idle...
 
 }
@@ -242,11 +242,11 @@ static uint16_t FRSKYV_data_cb()
   // Build next packet.
   seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323.
   FRSKYV_build_data_packet(); // 16MHz AVR = 127us.
+  CC2500_ManagePower();
 
   /* TODO Update options which don't need to be every 9ms. */
   static uint8_t option = 0;
   if(option == 0) CC2500_SetTxRxMode(TX_EN); // Keep Power Amp activated.
-  else if(option == 64) CC2500_SetPower(TXPOWER_1); // TODO update power level.
   else if(option == 128) CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
   else if(option == 196) CC2500_Strobe(CC2500_SIDLE); // MCSM1 register setting puts CC2500 back into idle after TX.
 
@@ -324,8 +324,8 @@ const void * FRSKYV_Cmds(enum ProtoCmds cmd)
                         STR_DUMMY,       //Sub proto
                         STR_RFTUNE,      //Option 1 (int)
                         STR_DUMMY,       //Option 2 (int)
-                        STR_DUMMY,       //Option 3 (uint 0 to 31)
-                        STR_TELEMETRY,   //OptionBool 1
+                        STR_RFPOWER,    //Option 3 (uint 0 to 31)
+                        STR_DUMMY,   //OptionBool 1
                         STR_DUMMY,       //OptionBool 2
                         STR_DUMMY        //OptionBool 3
                         );

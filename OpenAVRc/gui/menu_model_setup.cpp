@@ -67,6 +67,7 @@ enum menuModelSetupItems {
 //Used with(SPIMODULES)
   ITEM_MODEL_PROTOCOL_PARAMS_LINE_6,
   ITEM_MODEL_PROTOCOL_PARAMS_LINE_7,
+  ITEM_MODEL_PROTOCOL_PARAMS_LINE_8,
   ITEM_MODEL_SETUP_MAX
 
 };
@@ -84,13 +85,13 @@ void menuModelSetup(uint8_t event)
 #define MODEL_SETUP_MAX_LINES  (IS_PPM_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+2 : \
   (IS_DSM_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_2+2 : \
   (IS_MULTIMODULE_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_5+2 :  \
-  (IS_SPIMODULES_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_7+2 :   \
+  (IS_SPIMODULES_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_8+2 :   \
   1
 
   uint8_t protocol = g_model.rfProtocol;
   uint8_t memproto = protocol;
   MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, NUM_SWITCHES, NUM_STICKS+NUM_POTS+NUM_ROTARY_ENCODERS-1, FIELD_PROTOCOL_MAX,
-             2,2,0,2,0,0,0
+             2,2,0,2,0,0,0,0
            });
 
 
@@ -609,8 +610,12 @@ void menuModelSetup(uint8_t event)
 #if defined(SPIMODULES)
         if IS_SPIMODULES_PROTOCOL(protocol)
         {
-          if (RfOptionSettings.rfOptionBool1Used) {
-            ON_OFF_MENU_ITEM(g_model.rfOptionBool1, MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfOptionBool1Name, attr, event);
+          if (RfOptionSettings.rfOptionValue3Max) {
+            lcdDrawTextLeft(y, RfOptionSettings.rfOptionValue3Name);
+            lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 5 * FW, y, g_model.rfOptionValue3, attr);
+            if (attr) {
+              CHECK_INCDEC_MODELVAR_ZERO(event, g_model.rfOptionValue3, RfOptionSettings.rfOptionValue3Max);
+            }
           } else {
             lcdDrawTextAtt(0,y,STR_DUMMY,attr);
           }
@@ -623,8 +628,8 @@ void menuModelSetup(uint8_t event)
       if PROTO_IS_SYNC {
       if IS_SPIMODULES_PROTOCOL(protocol)
         {
-          if (RfOptionSettings.rfOptionBool2Used) {
-            ON_OFF_MENU_ITEM(g_model.rfOptionBool2, MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfOptionBool2Name, attr, event);
+          if (RfOptionSettings.rfOptionBool1Used) {
+            ON_OFF_MENU_ITEM(g_model.rfOptionBool1, MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfOptionBool1Name, attr, event);
           } else {
             lcdDrawTextAtt(0,y,STR_DUMMY,attr);
           }
@@ -636,6 +641,19 @@ void menuModelSetup(uint8_t event)
       if PROTO_IS_SYNC {
       if IS_SPIMODULES_PROTOCOL(protocol)
         {
+          if (RfOptionSettings.rfOptionBool2Used) {
+            ON_OFF_MENU_ITEM(g_model.rfOptionBool2, MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfOptionBool2Name, attr, event);
+          } else {
+            lcdDrawTextAtt(0,y,STR_DUMMY,attr);
+          }
+        }
+      }
+      break;
+
+    case ITEM_MODEL_PROTOCOL_PARAMS_LINE_8:
+      if PROTO_IS_SYNC {
+      if IS_SPIMODULES_PROTOCOL(protocol)
+        {
           if (RfOptionSettings.rfOptionBool3Used) {
             ON_OFF_MENU_ITEM(g_model.rfOptionBool3, MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfOptionBool3Name, attr, event);
           } else {
@@ -644,6 +662,7 @@ void menuModelSetup(uint8_t event)
         }
       }
       break;
+
 #endif
     }
   }
