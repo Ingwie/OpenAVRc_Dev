@@ -519,7 +519,7 @@ void menuModelSetup(uint8_t event)
 
           if (attr && l_posHorz>0 && s_editMode>0) {
             if (l_posHorz == 1) {
-              if (RFModule.mode != BIND_MODE) startPulses(PROTOCMD_BIND);
+              if (protoMode != BIND_MODE) startPulses(PROTOCMD_BIND);
               PROTOCOL_SetBindState(1000); // 10 Sec
             } else if (l_posHorz == 2) {
               rangeModeIsOn = true;
@@ -652,7 +652,7 @@ void menuModelSetup(uint8_t event)
     flightReset();
     rangeModeIsOn = false;
     g_model.rfProtocol = protocol;
-    RFModule.mode = NORMAL_MODE;
+    protoMode = NORMAL_MODE;
     startPulses(PROTOCMD_INIT);
   }
 }
