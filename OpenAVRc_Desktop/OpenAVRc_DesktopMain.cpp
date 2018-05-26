@@ -437,7 +437,7 @@ void OpenAVRc_DesktopFrame::OnAbout(wxCommandEvent& event)
   Aboutbox.SetCopyright(wxT("(C) 2016-2018 OpenAVRc Team"));
   Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
   Aboutbox.AddDeveloper(wxT("OpenAVRc Team :\n\n"));
-  Aboutbox.AddDeveloper(wxT("Firmware : Bracame, Sloped Soarer, Supiiik. \n"));
+  Aboutbox.AddDeveloper(wxT("Firmware : Bracame, RC-Navy, Sloped Soarer, Supiiik. \n"));
   Aboutbox.AddDeveloper(wxT("Applications : Bracame, Mentero. \n"));
   Aboutbox.AddDeveloper(wxT("PCB Shield : Anthobreizh, Pierrotm777 , Pyrall. \n"));
   Aboutbox.AddDeveloper(wxT("Documentation : JPZ(Testeur68), Pierrotm777 , Pyrall. \n"));
