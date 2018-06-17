@@ -1099,7 +1099,7 @@ PACK(typedef struct {
 //SPI Def
 #define RFPOWER         rfOptionValue3
 
-#define NUM_X_ANY       4
+#define NUM_X_ANY       X_ANY
 
 
 #define X_ANY_SW_BIT_NB           2
