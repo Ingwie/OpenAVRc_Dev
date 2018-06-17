@@ -71,69 +71,85 @@ void telemetryResetValue()
 
   }
 
-NOINLINE void processSerialData(uint8_t data)
+NOINLINE void parseTelemSportByte(uint8_t data, uint8_t no_chk_telefr_crc)
 {
   static uint8_t dataState = STATE_DATA_IDLE;
 
-  switch (dataState) {
-  case STATE_DATA_START:
-    if (data == START_STOP) {
-      if (IS_USR_PROTO_SMART_PORT()) {
-        dataState = STATE_DATA_IN_FRAME ;
-        Usart0RxBufferCount = 0;
-      }
-    } else {
-      if (Usart0RxBufferCount < USART0_RX_PACKET_SIZE) {
-        Usart0RxBuffer[Usart0RxBufferCount++] = data;
-      }
-      dataState = STATE_DATA_IN_FRAME;
-    }
-    break;
-
-  case STATE_DATA_IN_FRAME:
-    if (data == BYTESTUFF) {
-      dataState = STATE_DATA_XOR; // XOR next byte
-    } else if (data == START_STOP) {
-      if (IS_USR_PROTO_SMART_PORT()) {
-        dataState = STATE_DATA_IN_FRAME ;
-        Usart0RxBufferCount = 0;
-      } else {
-        // end of frame detected
-        frskyDProcessPacket(Usart0RxBuffer);
-        dataState = STATE_DATA_IDLE;
-      }
+  switch (dataState)
+    {
+    case STATE_DATA_START:
+      if (data == START_STOP)
+        {
+          if (IS_USR_PROTO_SMART_PORT())
+            {
+              Usart0RxBufferCount = 0;
+            }
+        }
+      else
+        {
+          if (Usart0RxBufferCount < USART0_RX_PACKET_SIZE)
+            {
+              Usart0RxBuffer[Usart0RxBufferCount++] = data;
+            }
+        }
+      dataState = STATE_DATA_IN_FRAME ;
       break;
-    } else if (Usart0RxBufferCount < USART0_RX_PACKET_SIZE) {
-      Usart0RxBuffer[Usart0RxBufferCount++] = data;
+
+    case STATE_DATA_IN_FRAME:
+      if (data == BYTESTUFF)
+        {
+          dataState = STATE_DATA_XOR; // XOR next byte
+        }
+      else if (data == START_STOP)
+        {
+          if (IS_USR_PROTO_SMART_PORT())
+            {
+              dataState = STATE_DATA_IN_FRAME ;
+              Usart0RxBufferCount = 0;
+            }
+          else
+            {
+              // end of frame detected in "D" mode
+              frskyDProcessPacket(Usart0RxBuffer);
+              dataState = STATE_DATA_IDLE;
+              break;
+            }
+        }
+      else if (Usart0RxBufferCount < USART0_RX_PACKET_SIZE)
+        {
+          Usart0RxBuffer[Usart0RxBufferCount++] = data;
+        }
+      break;
+
+    case STATE_DATA_XOR:
+      if (Usart0RxBufferCount < USART0_RX_PACKET_SIZE)
+        {
+          Usart0RxBuffer[Usart0RxBufferCount++] = data ^ STUFF_MASK;
+        }
+      dataState = STATE_DATA_IN_FRAME;
+      break;
+
+    case STATE_DATA_IDLE:
+      if (data == START_STOP)
+        {
+          Usart0RxBufferCount = 0;
+          dataState = STATE_DATA_START;
+        }
+      break;
+
+    } // switch
+
+  if (IS_USR_PROTO_SMART_PORT() && Usart0RxBufferCount >= (FRSKY_SPORT_PACKET_SIZE - no_chk_telefr_crc))
+    {
+      processSportPacket(Usart0RxBuffer, no_chk_telefr_crc);
+      dataState = STATE_DATA_IDLE;
     }
-    break;
-
-  case STATE_DATA_XOR:
-    if (Usart0RxBufferCount < USART0_RX_PACKET_SIZE) {
-      Usart0RxBuffer[Usart0RxBufferCount++] = data ^ STUFF_MASK;
-    }
-    dataState = STATE_DATA_IN_FRAME;
-    break;
-
-  case STATE_DATA_IDLE:
-    if (data == START_STOP) {
-      Usart0RxBufferCount = 0;
-      dataState = STATE_DATA_START;
-    }
-    break;
-
-  } // switch
-
-  if (IS_USR_PROTO_SMART_PORT() && Usart0RxBufferCount >= FRSKY_SPORT_PACKET_SIZE) {
-    processSportPacket(Usart0RxBuffer);
-    dataState = STATE_DATA_IDLE;
-  }
 }
 
 bool checkSportPacket(uint8_t *packet)
 {
   uint16_t crc = 0;
-  for (uint8_t i=1; i<USART0_RX_PACKET_SIZE; i++) {
+  for (uint8_t i=1; i<FRSKY_SPORT_PACKET_SIZE; i++) {
     crc += packet[i]; //0-1FF
     crc += crc >> 8; //0-100
     crc &= 0x00ff;
@@ -159,107 +175,154 @@ void setBaroAltitude(int32_t baroAltitude) //S.port function
     telemetryData.value.minAltitude = baroAltitude;
 }
 
-void processSportPacket(uint8_t *packet)
+void processSportPacket(uint8_t *sport_packet, uint8_t no_chk_telefr_crc)
 {
-  /* uint8_t  dataId = packet[0]; */
-  uint8_t  prim   = packet[1];
-  uint16_t appId  = *((uint16_t *)(packet+2));
+  /* uint8_t  dataId = sport_packet[0]; */
+  uint8_t  prim   = sport_packet[1];
+  uint16_t appId  = *((uint16_t *)(sport_packet+2));
 
-  if (!checkSportPacket(packet))
+  if (!no_chk_telefr_crc && !checkSportPacket(sport_packet))
     return;
 
   frskyStreaming = FRSKY_TIMEOUT10ms; // reset counter only if valid frsky packets are being detected
 
-  switch (prim) {
-  case DATA_FRAME:
+  if (prim != DATA_FRAME)
+    return;
 
-    if (appId == RSSI_ID) {
-      telemetryData.rssi[0].set(SPORT_DATA_U8(packet));
+  if (appId == RSSI_ID)
+    {
+      telemetryData.rssi[0].set(SPORT_DATA_U8(sport_packet));
     }
-    if (appId == SWR_ID) {
-      telemetryData.rssi[1].set(SPORT_DATA_U8(packet));
-    } else if (appId == ADC1_ID || appId == ADC2_ID) {
+  if (appId == SWR_ID)
+    {
+      telemetryData.rssi[1].set(SPORT_DATA_U8(sport_packet));
+    }
+  else if (appId == ADC1_ID || appId == ADC2_ID)
+    {
       // A1/A2 of DxR receivers
-      telemetryData.analog[appId-ADC1_ID].set(SPORT_DATA_U8(packet),g_model.telemetry.channels[appId-ADC1_ID].type);
+      telemetryData.analog[appId-ADC1_ID].set(SPORT_DATA_U8(sport_packet),g_model.telemetry.channels[appId-ADC1_ID].type);
 #if defined(VARIO)
       uint8_t varioSource = g_model.telemetry.varioSource - VARIO_SOURCE_A1;
-      if (varioSource == appId-ADC1_ID) {
-        telemetryData.value.varioSpeed = applyChannelRatio(varioSource, telemetryData.analog[varioSource].value);
-      }
+      if (varioSource == appId-ADC1_ID)
+        {
+          telemetryData.value.varioSpeed = applyChannelRatio(varioSource, telemetryData.analog[varioSource].value);
+        }
 #endif
-    } else if (appId == BATT_ID) {
-      telemetryData.analog[0].set(SPORT_DATA_U8(packet),UNIT_VOLTS);
-    } else if ((appId >> 8) == 0) {
+    }
+  else if (appId == BATT_ID)
+    {
+      telemetryData.analog[0].set(SPORT_DATA_U8(sport_packet),UNIT_VOLTS);
+    }
+  else if ((appId >> 8) == 0)
+    {
       // The old FrSky IDs
-      uint16_t value = HUB_DATA_U16(packet);
+      uint16_t value = HUB_DATA_U16(sport_packet);
       processHubPacket((uint8_t)appId, value);
-    } else if (appId == BETA_BARO_ALT_ID) {
-      int32_t baroAltitude = SPORT_DATA_S32(packet);
+    }
+  else if (appId == BETA_BARO_ALT_ID)
+    {
+      int32_t baroAltitude = SPORT_DATA_S32(sport_packet);
       setBaroAltitude(10 * (baroAltitude >> 8));
-    } else if (appId == BETA_VARIO_ID) {
-      int32_t varioSpeed = SPORT_DATA_S32(packet);
+    }
+  else if (appId == BETA_VARIO_ID)
+    {
+      int32_t varioSpeed = SPORT_DATA_S32(sport_packet);
       telemetryData.value.varioSpeed = 10 * (varioSpeed >> 8);
-    } else if IS_IN_RANGE(appId, T1_FIRST_ID, T1_LAST_ID) {
-      telemetryData.value.temperature1 = SPORT_DATA_S32(packet);
+    }
+  else if IS_IN_RANGE(appId, T1_FIRST_ID, T1_LAST_ID)
+    {
+      telemetryData.value.temperature1 = SPORT_DATA_S32(sport_packet);
       if (telemetryData.value.temperature1 > telemetryData.value.maxTemperature1)
         telemetryData.value.maxTemperature1 = telemetryData.value.temperature1;
-    } else if IS_IN_RANGE(appId, T2_FIRST_ID, T2_LAST_ID) {
-      telemetryData.value.temperature2 = SPORT_DATA_S32(packet);
+    }
+  else if IS_IN_RANGE(appId, T2_FIRST_ID, T2_LAST_ID)
+    {
+      telemetryData.value.temperature2 = SPORT_DATA_S32(sport_packet);
       if (telemetryData.value.temperature2 > telemetryData.value.maxTemperature2)
         telemetryData.value.maxTemperature2 = telemetryData.value.temperature2;
-    } else if IS_IN_RANGE(appId, RPM_FIRST_ID, RPM_LAST_ID) {
-      telemetryData.value.rpm = SPORT_DATA_U32(packet) / (g_model.telemetry.blades+2);
+    }
+  else if IS_IN_RANGE(appId, RPM_FIRST_ID, RPM_LAST_ID)
+    {
+      telemetryData.value.rpm = SPORT_DATA_U32(sport_packet) / (g_model.telemetry.blades+2);
       if (telemetryData.value.rpm > telemetryData.value.maxRpm)
         telemetryData.value.maxRpm = telemetryData.value.rpm;
-    } else if IS_IN_RANGE(appId, FUEL_FIRST_ID, FUEL_LAST_ID) {
-      telemetryData.value.fuelLevel = SPORT_DATA_U32(packet);
-    } else if IS_IN_RANGE(appId, ALT_FIRST_ID, ALT_LAST_ID) {
-      setBaroAltitude(SPORT_DATA_S32(packet));
-    } else if IS_IN_RANGE(appId, VARIO_FIRST_ID, VARIO_LAST_ID) {
-      telemetryData.value.varioSpeed = SPORT_DATA_S32(packet);
-    } else if IS_IN_RANGE(appId, ACCX_FIRST_ID, ACCX_LAST_ID) {
-      telemetryData.value.accelX = SPORT_DATA_S32(packet);
-    } else if IS_IN_RANGE(appId, ACCY_FIRST_ID, ACCY_LAST_ID) {
-      telemetryData.value.accelY = SPORT_DATA_S32(packet);
-    } else if IS_IN_RANGE(appId, ACCZ_FIRST_ID, ACCZ_LAST_ID) {
-      telemetryData.value.accelZ = SPORT_DATA_S32(packet);
-    } else if IS_IN_RANGE(appId, CURR_FIRST_ID, CURR_LAST_ID) {
-      telemetryData.value.current = SPORT_DATA_U32(packet);
+    }
+  else if IS_IN_RANGE(appId, FUEL_FIRST_ID, FUEL_LAST_ID)
+    {
+      telemetryData.value.fuelLevel = SPORT_DATA_U32(sport_packet);
+    }
+  else if IS_IN_RANGE(appId, ALT_FIRST_ID, ALT_LAST_ID)
+    {
+      setBaroAltitude(SPORT_DATA_S32(sport_packet));
+    }
+  else if IS_IN_RANGE(appId, VARIO_FIRST_ID, VARIO_LAST_ID)
+    {
+      telemetryData.value.varioSpeed = SPORT_DATA_S32(sport_packet);
+    }
+  else if IS_IN_RANGE(appId, ACCX_FIRST_ID, ACCX_LAST_ID)
+    {
+      telemetryData.value.accelX = SPORT_DATA_S32(sport_packet);
+    }
+  else if IS_IN_RANGE(appId, ACCY_FIRST_ID, ACCY_LAST_ID)
+    {
+      telemetryData.value.accelY = SPORT_DATA_S32(sport_packet);
+    }
+  else if IS_IN_RANGE(appId, ACCZ_FIRST_ID, ACCZ_LAST_ID)
+    {
+      telemetryData.value.accelZ = SPORT_DATA_S32(sport_packet);
+    }
+  else if IS_IN_RANGE(appId, CURR_FIRST_ID, CURR_LAST_ID)
+    {
+      telemetryData.value.current = SPORT_DATA_U32(sport_packet);
       if (telemetryData.value.current > telemetryData.value.maxCurrent)
         telemetryData.value.maxCurrent = telemetryData.value.current;
-    } else if IS_IN_RANGE(appId, VFAS_FIRST_ID, VFAS_LAST_ID) {
-      telemetryData.value.vfas = SPORT_DATA_U32(packet)/10;   //TODO: remove /10 and display with PREC2 when using SPORT
-    } else if (appId >= GPS_SPEED_FIRST_ID && appId <= GPS_SPEED_LAST_ID) {
-      telemetryData.value.gpsSpeed_bp = SPORT_DATA_U32(packet);
+    }
+  else if IS_IN_RANGE(appId, VFAS_FIRST_ID, VFAS_LAST_ID)
+    {
+      telemetryData.value.vfas = SPORT_DATA_U32(sport_packet)/10;   //TODO: remove /10 and display with PREC2 when using SPORT
+    }
+  else if (appId >= GPS_SPEED_FIRST_ID && appId <= GPS_SPEED_LAST_ID)
+    {
+      telemetryData.value.gpsSpeed_bp = SPORT_DATA_U32(sport_packet);
       telemetryData.value.gpsSpeed_bp = (telemetryData.value.gpsSpeed_bp * 46) / 25 / 1000;
       if (telemetryData.value.gpsSpeed_bp > telemetryData.value.maxGpsSpeed)
         telemetryData.value.maxGpsSpeed = telemetryData.value.gpsSpeed_bp;
-    } else if IS_IN_RANGE(appId, GPS_TIME_DATE_FIRST_ID, GPS_TIME_DATE_LAST_ID) {
-      uint32_t gps_time_date = SPORT_DATA_U32(packet);
-      if (gps_time_date & 0x000000ff) {
-        telemetryData.value.year = (uint16_t) ((gps_time_date & 0xff000000) >> 24);
-        telemetryData.value.month = (uint8_t) ((gps_time_date & 0x00ff0000) >> 16);
-        telemetryData.value.day = (uint8_t) ((gps_time_date & 0x0000ff00) >> 8);
-      } else {
-        telemetryData.value.hour = (uint8_t) ((gps_time_date & 0xff000000) >> 24);
-        telemetryData.value.min = (uint8_t) ((gps_time_date & 0x00ff0000) >> 16);
-        telemetryData.value.sec = (uint16_t) ((gps_time_date & 0x0000ff00) >> 8);
-        telemetryData.value.hour = ((uint8_t) (telemetryData.value.hour + g_eeGeneral.timezone + 24)) % 24;
-      }
-    } else if IS_IN_RANGE(appId, GPS_COURS_FIRST_ID, GPS_COURS_LAST_ID) {
-      uint32_t course = SPORT_DATA_U32(packet);
+    }
+  else if IS_IN_RANGE(appId, GPS_TIME_DATE_FIRST_ID, GPS_TIME_DATE_LAST_ID)
+    {
+      uint32_t gps_time_date = SPORT_DATA_U32(sport_packet);
+      if (gps_time_date & 0x000000ff)
+        {
+          telemetryData.value.year = (uint16_t) ((gps_time_date & 0xff000000) >> 24);
+          telemetryData.value.month = (uint8_t) ((gps_time_date & 0x00ff0000) >> 16);
+          telemetryData.value.day = (uint8_t) ((gps_time_date & 0x0000ff00) >> 8);
+        }
+      else
+        {
+          telemetryData.value.hour = (uint8_t) ((gps_time_date & 0xff000000) >> 24);
+          telemetryData.value.min = (uint8_t) ((gps_time_date & 0x00ff0000) >> 16);
+          telemetryData.value.sec = (uint16_t) ((gps_time_date & 0x0000ff00) >> 8);
+          telemetryData.value.hour = ((uint8_t) (telemetryData.value.hour + g_eeGeneral.timezone + 24)) % 24;
+        }
+    }
+  else if IS_IN_RANGE(appId, GPS_COURS_FIRST_ID, GPS_COURS_LAST_ID)
+    {
+      uint32_t course = SPORT_DATA_U32(sport_packet);
       telemetryData.value.gpsCourse_bp = course / 100;
       telemetryData.value.gpsCourse_ap = course % 100;
-    } else if IS_IN_RANGE(appId, GPS_ALT_FIRST_ID, GPS_ALT_LAST_ID) {
-      uint32_t gpsAlt = SPORT_DATA_S32(packet);
+    }
+  else if IS_IN_RANGE(appId, GPS_ALT_FIRST_ID, GPS_ALT_LAST_ID)
+    {
+      uint32_t gpsAlt = SPORT_DATA_S32(sport_packet);
       telemetryData.value.gpsAltitude_bp = gpsAlt / 100;
       telemetryData.value.gpsAltitude_ap = gpsAlt % 100;
 
 
       if (!telemetryData.value.gpsAltitudeOffset)
-          telemetryData.value.gpsAltitudeOffset = -telemetryData.value.gpsAltitude_bp;
+        telemetryData.value.gpsAltitudeOffset = -telemetryData.value.gpsAltitude_bp;
 
-        if (!telemetryData.value.baroAltitudeOffset) {
+      if (!telemetryData.value.baroAltitudeOffset)
+        {
           int16_t altitude = TELEMETRY_RELATIVE_GPS_ALT_BP;
           if (altitude > telemetryData.value.maxAltitude)
             telemetryData.value.maxAltitude = altitude;
@@ -267,51 +330,61 @@ void processSportPacket(uint8_t *packet)
             telemetryData.value.minAltitude = altitude;
         }
 
-      if (telemetryData.value.gpsFix > 0) {
-        if (!telemetryData.value.pilotLatitude && !telemetryData.value.pilotLongitude) {
-          // First received GPS position => Pilot GPS position
-          getGpsPilotPosition();
+      if (telemetryData.value.gpsFix > 0)
+        {
+          if (!telemetryData.value.pilotLatitude && !telemetryData.value.pilotLongitude)
+            {
+              // First received GPS position => Pilot GPS position
+              getGpsPilotPosition();
+            }
+          else if (telemetryData.value.gpsDistNeeded || menuHandlers[menuLevel] == menuTelemetryFrsky)
+            {
+              getGpsDistance();
+            }
         }
-          else if (telemetryData.value.gpsDistNeeded || menuHandlers[menuLevel] == menuTelemetryFrsky) {
-            getGpsDistance();
-          }
-      }
-    } else if IS_IN_RANGE(appId, GPS_LONG_LATI_FIRST_ID, GPS_LONG_LATI_LAST_ID) {
-      uint32_t gps_long_lati_data = SPORT_DATA_U32(packet);
+    }
+  else if IS_IN_RANGE(appId, GPS_LONG_LATI_FIRST_ID, GPS_LONG_LATI_LAST_ID)
+    {
+      uint32_t gps_long_lati_data = SPORT_DATA_U32(sport_packet);
       uint32_t gps_long_lati_b1w, gps_long_lati_a1w;
       gps_long_lati_b1w = (gps_long_lati_data & 0x3fffffff) / 10000;
       gps_long_lati_a1w = (gps_long_lati_data & 0x3fffffff) % 10000;
-      switch ((gps_long_lati_data & 0xc0000000) >> 30) {
-      case 0:
-        telemetryData.value.gpsLatitude_bp = (gps_long_lati_b1w / 60 * 100) + (gps_long_lati_b1w % 60);
-        telemetryData.value.gpsLatitude_ap = gps_long_lati_a1w;
-        telemetryData.value.gpsLatitudeNS = 'N';
-        break;
-      case 1:
-        telemetryData.value.gpsLatitude_bp = (gps_long_lati_b1w / 60 * 100) + (gps_long_lati_b1w % 60);
-        telemetryData.value.gpsLatitude_ap = gps_long_lati_a1w;
-        telemetryData.value.gpsLatitudeNS = 'S';
-        break;
-      case 2:
-        telemetryData.value.gpsLongitude_bp = (gps_long_lati_b1w / 60 * 100) + (gps_long_lati_b1w % 60);
-        telemetryData.value.gpsLongitude_ap = gps_long_lati_a1w;
-        telemetryData.value.gpsLongitudeEW = 'E';
-        break;
-      case 3:
-        telemetryData.value.gpsLongitude_bp = (gps_long_lati_b1w / 60 * 100) + (gps_long_lati_b1w % 60);
-        telemetryData.value.gpsLongitude_ap = gps_long_lati_a1w;
-        telemetryData.value.gpsLongitudeEW = 'W';
-        break;
-      }
-      if (telemetryData.value.gpsLongitudeEW && telemetryData.value.gpsLatitudeNS) {
-        telemetryData.value.gpsFix = 1;
-      } else if (telemetryData.value.gpsFix > 0) {
-        telemetryData.value.gpsFix = 0;
-      }
+      switch ((gps_long_lati_data & 0xc0000000) >> 30)
+        {
+        case 0:
+          telemetryData.value.gpsLatitude_bp = (gps_long_lati_b1w / 60 * 100) + (gps_long_lati_b1w % 60);
+          telemetryData.value.gpsLatitude_ap = gps_long_lati_a1w;
+          telemetryData.value.gpsLatitudeNS = 'N';
+          break;
+        case 1:
+          telemetryData.value.gpsLatitude_bp = (gps_long_lati_b1w / 60 * 100) + (gps_long_lati_b1w % 60);
+          telemetryData.value.gpsLatitude_ap = gps_long_lati_a1w;
+          telemetryData.value.gpsLatitudeNS = 'S';
+          break;
+        case 2:
+          telemetryData.value.gpsLongitude_bp = (gps_long_lati_b1w / 60 * 100) + (gps_long_lati_b1w % 60);
+          telemetryData.value.gpsLongitude_ap = gps_long_lati_a1w;
+          telemetryData.value.gpsLongitudeEW = 'E';
+          break;
+        case 3:
+          telemetryData.value.gpsLongitude_bp = (gps_long_lati_b1w / 60 * 100) + (gps_long_lati_b1w % 60);
+          telemetryData.value.gpsLongitude_ap = gps_long_lati_a1w;
+          telemetryData.value.gpsLongitudeEW = 'W';
+          break;
+        }
+      if (telemetryData.value.gpsLongitudeEW && telemetryData.value.gpsLatitudeNS)
+        {
+          telemetryData.value.gpsFix = 1;
+        }
+      else if (telemetryData.value.gpsFix > 0)
+        {
+          telemetryData.value.gpsFix = 0;
+        }
     }
 
-    else if IS_IN_RANGE(appId, CELLS_FIRST_ID, CELLS_LAST_ID) {
-      uint32_t cells = SPORT_DATA_U32(packet);
+  else if IS_IN_RANGE(appId, CELLS_FIRST_ID, CELLS_LAST_ID)
+    {
+      uint32_t cells = SPORT_DATA_U32(sport_packet);
       uint8_t battnumber = cells & 0xF;
       uint32_t minCell, minCellNum;
 
@@ -324,33 +397,34 @@ void processSportPacket(uint8_t *packet)
       if (telemetryData.value.cellVolts[battnumber+1] == 0)
         --telemetryData.value.cellsCount;
 
-      if ((telemetryData.value.cellVolts[battnumber] < telemetryData.value.cellVolts[battnumber+1]) || (telemetryData.value.cellVolts[battnumber+1] == 0)) {
-        minCell = telemetryData.value.cellVolts[battnumber];
-        minCellNum = battnumber;
-      } else {
-        minCell = telemetryData.value.cellVolts[battnumber+1];
-        minCellNum = battnumber+1;
-      }
+      if ((telemetryData.value.cellVolts[battnumber] < telemetryData.value.cellVolts[battnumber+1]) || (telemetryData.value.cellVolts[battnumber+1] == 0))
+        {
+          minCell = telemetryData.value.cellVolts[battnumber];
+          minCellNum = battnumber;
+        }
+      else
+        {
+          minCell = telemetryData.value.cellVolts[battnumber+1];
+          minCellNum = battnumber+1;
+        }
 
-      if (!telemetryData.value.minCellVolts || minCell < telemetryData.value.minCellVolts || minCellNum==telemetryData.value.minCellIdx) {
-        telemetryData.value.minCellIdx = minCellNum;
-        telemetryData.value.minCellVolts = minCell;
-      }
+      if (!telemetryData.value.minCellVolts || minCell < telemetryData.value.minCellVolts || minCellNum==telemetryData.value.minCellIdx)
+        {
+          telemetryData.value.minCellIdx = minCellNum;
+          telemetryData.value.minCellVolts = minCell;
+        }
     }
-    break;
-
-  }
 }
 
-void frskyDProcessPacket(uint8_t *packet)
+void frskyDProcessPacket(uint8_t *d_packet)
 {
-  // What type of packet?
-  switch (packet[0]) {
+  // What type of d_packet?
+  switch (d_packet[0]) {
   case LINKPKT: { // A1/A2/RSSI values
-    telemetryData.analog[TELEM_ANA_A1].set(packet[1], g_model.telemetry.channels[TELEM_ANA_A1].type);
-    telemetryData.analog[TELEM_ANA_A2].set(packet[2], g_model.telemetry.channels[TELEM_ANA_A2].type);
-    telemetryData.rssi[0].set(packet[3]);
-    telemetryData.rssi[1].set(packet[4] / 2);
+    telemetryData.analog[TELEM_ANA_A1].set(d_packet[1], g_model.telemetry.channels[TELEM_ANA_A1].type);
+    telemetryData.analog[TELEM_ANA_A2].set(d_packet[2], g_model.telemetry.channels[TELEM_ANA_A2].type);
+    telemetryData.rssi[0].set(d_packet[3]);
+    telemetryData.rssi[1].set(d_packet[4] / 2);
     frskyStreaming = FRSKY_TIMEOUT10ms; // reset counter only if valid frsky packets are being detected
 
 #if defined(VARIO)
@@ -363,19 +437,19 @@ void frskyDProcessPacket(uint8_t *packet)
   }
     /*case BFSPPKT:
     case RXSPPKT: {
-      uint16_t MMSmartPort_id; // = (packet[3] << 8) | packet[2];
+      uint16_t MMSmartPort_id; // = (d_packet[3] << 8) | d_packet[2];
       uint32_t MMSmartPort_data;
-      MMSmartPort_id = packet[3];
+      MMSmartPort_id = d_packet[3];
       MMSmartPort_id <<=8;
-      MMSmartPort_id |=packet[2];
-      MMSmartPort_data = packet[7];
+      MMSmartPort_id |=d_packet[2];
+      MMSmartPort_data = d_packet[7];
       MMSmartPort_data <<=8;
-      MMSmartPort_data |= packet[6];
+      MMSmartPort_data |= d_packet[6];
       MMSmartPort_data <<=8;
-      MMSmartPort_data |= packet[5];
+      MMSmartPort_data |= d_packet[5];
       MMSmartPort_data <<=8;
-      MMSmartPort_data |= packet[4];
-      parseTelemMMsmartData(MMSmartPort_id, MMSmartPort_data, packet[4]);
+      MMSmartPort_data |= d_packet[4];
+      parseTelemMMsmartData(MMSmartPort_id, MMSmartPort_data, d_packet[4]);
 
       frskyStreaming = FRSKY_TIMEOUT10ms; // reset counter only if valid frsky packets are being detected
       link_counter += 256 / FRSKY_D_AVERAGING;
@@ -383,15 +457,15 @@ void frskyDProcessPacket(uint8_t *packet)
       break;
     }*/
 
-  case USRPKT: // User Data packet
-    uint8_t numBytes = 3 + (packet[1] & 0x07); // sanitize in case of data corruption leading to buffer overflow
+  case USRPKT: // User Data d_packet
+    uint8_t numBytes = 3 + (d_packet[1] & 0x07); // sanitize in case of data corruption leading to buffer overflow
     for (uint8_t i=3; i<numBytes; i++) {
       if (IS_USR_PROTO_FRSKY_HUB()) {
-        parseTelemHubByte(packet[i]);
+        parseTelemHubByte(d_packet[i]);
       }
 #if defined(WS_HOW_HIGH)
       if (IS_USR_PROTO_WS_HOW_HIGH()) {
-        parseTelemWSHowHighByte(packet[i]);
+        parseTelemWSHowHighByte(d_packet[i]);
       }
 #endif
     }
