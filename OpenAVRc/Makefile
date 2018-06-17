@@ -22,7 +22,7 @@ PCB = MEGAMINI
 LCD = ST7565P
 
 # Enable FrSky Telemetry reception on UART0
-# Values = STD, FRSKY, FRSKY_SPORT, JETI, NMEA, ARDUPILOT, MAVLINK, TELEMETREZ
+# Values = STD, FRSKY // FRSKY_SPORT, JETI, NMEA, ARDUPILOT, MAVLINK, TELEMETREZ
 EXT = STD
 
 # GUI enabled
@@ -259,8 +259,8 @@ NRF24l01 = NO
 A7105 = NO
 
 # Enable X-ANY feature
-# Values = NO, YES
-X_ANY = YES
+# Values = NO, 1, 2, 3 ,4
+X_ANY = NO
 
 
 #------- END BUILD OPTIONS ---------------------------
@@ -404,9 +404,20 @@ ifeq ($(PCB), MEGAMINI)
   	endif
   endif
 
-	ifeq ($(X_ANY), YES)
-	CPPDEFS += -DX_ANY
+	ifneq ($(X_ANY), NO)
 	CPPSRC += Xany.cpp gui/menu_model_Xany.cpp
+		ifeq ($(X_ANY), 1)
+		CPPDEFS += -DX_ANY=1
+		endif
+		ifeq ($(X_ANY), 2)
+		CPPDEFS += -DX_ANY=2
+		endif
+		ifeq ($(X_ANY), 3)
+		CPPDEFS += -DX_ANY=3
+		endif
+		ifeq ($(X_ANY), 4)
+		CPPDEFS += -DX_ANY=4
+		endif
 	endif
 
 endif
