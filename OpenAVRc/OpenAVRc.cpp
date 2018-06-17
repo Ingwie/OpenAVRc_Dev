@@ -1028,7 +1028,7 @@ bool s_mixer_first_run_done = false;
 void doMixerCalculations()
 {
   static tmr10ms_t lastTMR = 0;
-
+  static uint8_t Phase = 0;
   tmr10ms_t tmr10ms = get_tmr10ms();
   uint8_t tick10ms = (tmr10ms >= lastTMR ? tmr10ms - lastTMR : 1);
   // handle tick10ms overrun
@@ -1042,10 +1042,28 @@ void doMixerCalculations()
   evalMixes(tick10ms);
 
   if (tick10ms) {
-
+  Phase = !Phase;
 #if defined(X_ANY)
-  Xany_readInputsAndLoadMsg(0);
-  Xany_readInputsAndLoadMsg(1);
+  if(Phase)
+  {
+#if (X_ANY >= 1)
+    Xany_readInputsAndLoadMsg(0);
+#endif
+
+#if (X_ANY >= 2)
+    Xany_readInputsAndLoadMsg(1);
+#endif
+  }
+  else
+  {
+#if (X_ANY >= 3)
+    Xany_readInputsAndLoadMsg(2);
+#endif
+
+#if (X_ANY >= 4)
+    Xany_readInputsAndLoadMsg(3);
+#endif
+  }
 #endif
 
     /* Throttle trace */

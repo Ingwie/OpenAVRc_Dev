@@ -34,9 +34,22 @@
 
 #include "OpenAVRc.h"
 
-void    Xany_init(void);
-uint8_t Xany_readInputsAndLoadMsg(uint8_t XanyIdx);
-void    Xany_scheduleTx(uint8_t XanyIdx);
-uint16_t Xany_getInput(uint8_t XanyIdx);
+/* Possible operation for Xany_operation() */
+#define XANY_OP_BUILD_MSG    (1 << 0)
+#define XANY_OP_READ_INFO    (1 << 1)
+
+typedef struct{
+    uint8_t  MsgNibbleLen;
+    uint8_t  SwNb;
+    uint16_t SwValue;
+    uint16_t Angle;
+    uint8_t  RotPotValue;
+    uint16_t TxPeriodMs;
+}XanyInfoSt_t;
+
+void     Xany_init(void);
+uint8_t  Xany_readInputsAndLoadMsg(uint8_t XanyIdx);
+void     Xany_scheduleTx(uint8_t XanyIdx);
+uint8_t  Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo);
 
 #endif // X_ANY_H

@@ -1099,14 +1099,46 @@ PACK(typedef struct {
 //SPI Def
 #define RFPOWER         rfOptionValue3
 
-#define NUM_X_ANY       2
+#define NUM_X_ANY       4
+
+
+#define X_ANY_SW_BIT_NB           2
+#define X_ANY_ROT_POT_BIT_NB      1
+#define X_ANY_ANGLE_BIT_NB        1
+#define X_ANY_ANGLE_MIN_BIT_NB    12
+#define X_ANY_ANGLE_MAX_BIT_NB    12
+#define X_ANY_CFG_RESERVED_BIT_NB 4
+
+#if ((X_ANY_SW_BIT_NB + X_ANY_ROT_POT_BIT_NB + X_ANY_ANGLE_BIT_NB + X_ANY_ANGLE_MIN_BIT_NB + X_ANY_ANGLE_MAX_BIT_NB + X_ANY_CFG_RESERVED_BIT_NB) > 32)
+#error Members cannot fit in XanyPayloadCfgSt_t!
+#endif
+
+#define X_ANY_CFG_MSK             ((1 << (X_ANY_SW_BIT_NB + X_ANY_ROT_POT_BIT_NB + X_ANY_ANGLE_BIT_NB)) - 1)
+#define X_ANY_CFG(Sw, Agl, Pot)   (((Agl) << (X_ANY_SW_BIT_NB + X_ANY_ROT_POT_BIT_NB)) | ((Pot) << X_ANY_SW_BIT_NB) | (Sw))
+
+typedef struct{
+  uint32_t
+    Switches       :X_ANY_SW_BIT_NB,        /* 0: 0 x SW, 1: 4 x SW, 2: 8 x SW, 3: 16 x SW  Nb of SW = 0 if XanyCfg.Switches = 0 else Nb of SW = 2 ^ (XanyCfg.Switches + 1) */
+    RotPot         :X_ANY_ROT_POT_BIT_NB,   /* Rotative Potentiometer (8 bit encoded) */
+    AbsAngleSensor :X_ANY_ANGLE_BIT_NB, /* 0/1 */
+    AngleMin       :X_ANY_ANGLE_MIN_BIT_NB, /* Calibration Value @ 0° */
+    AngleMax       :X_ANY_ANGLE_MAX_BIT_NB, /* Calibration Value @ 360° - Epsilon */
+    Reserved2      :X_ANY_CFG_RESERVED_BIT_NB;
+}XanyPayloadCfgSt_t;
+
+typedef union{
+  uint32_t           Raw;
+  XanyPayloadCfgSt_t Item;
+}XanyPayloadUnionSt_t;
 
 typedef struct{
   uint8_t
-    Active       :1, /* Allow to used the channel as usual (without messages) */
-    ChId         :4, /* Channel used to transport the message (0 to 15) */
-    RepeatNb     :2, /* 0 repeat to 3 repeats */
-    AbsAglSensor :1; /* Transport of the angle of an analog absolute sensor */
+                       Active    :1,  /* If set to 0: allows to used the channel as usual (without messages) */
+                       ChId      :4,  /* Channel used to transport the message (0 to 15) */
+                       RepeatNb  :2,  /* 0 repeat to 3 repeats */
+                       Reserved1 :1;
+  XanyPayloadUnionSt_t PayloadCfg;
+  uint8_t              Rfu[3];        /* Reserved for Future Use */
 }XanyEepSt_t;
 
 PACK(typedef struct {
@@ -1149,7 +1181,7 @@ PACK(typedef struct {
 
   TELEMETRY_DATA
 
-  XanyEepSt_t Xany[NUM_X_ANY]; // NUM_X_ANY bytes
+  XanyEepSt_t Xany[NUM_X_ANY]; // NUM_X_ANY x sizeof(XanyEepSt_t) bytes
 
 }) ModelData;
 

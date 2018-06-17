@@ -32,42 +32,11 @@
 /*
 Supported combination: /!\ 2 Devices supported max per X-Any: 1 X-Any is associated to one proportionnal channel /!\
 =====================
-.---------.-----.-----.-----.-----------.-----------.
-| Device  | A2  | A1  | A0  |Addr Offset| X-Any Idx |
-+---------+-----+-----+-----+-----------+-----------+
-|         |  0  |  0  |  0  |     0     |     0     |
-|         +-----+-----+-----+-----------+-----------+
-|         |  0  |  0  |  1  |     1     |     0     |
-| PCF8574 +-----+-----+-----+-----------+-----------+
-|         |  0  |  1  |  0  |     2     |     1     |
-|         +-----+-----+-----+-----------+-----------+
-|         |  0  |  1  |  1  |     3     |     1     |
-+-------- +-----+-----+-----+-----------+-----------+
-|         |  1  |  0  |  0  |     4     |     0     |
-| PCF8575 +-----+-----+-----+-----------+-----------+
-|         |  1  |  0  |  1  |     5     |     1     |
-'---------'-----'-----'-----'-----------'-----------'
 
-.-------------.---------------------------.---------------------------.
-| Device Type |         PCF8575(A)        |         PCF8574(A)        |
-+-------------+------+------+------+------+------+------+------+------+
-| Addr Offset |  NU  |  NU  |   5  |   4  |   3  |   2  |   1  |   0  |
-+-------------+------+------+------+------+------+------+------+------+
-|IoExtMap Bit#|  b7  |  b6  |  b5  |  b4  |  b3  |  b2  |  b1  |  b0  |
-+-------------+------+------+------+------+------+------+------+------+
-|  X-Any Idx  |  NU  |  NU  |   1  |   0  |   1  |   1  |   0  |   0  |
-+-------------+------+------+------+------+------+------+------+------+
-|Payload field|  NU  |  NU  | Word | Word |Byte.h|Byte.l|Byte.h|Byte.l|
-+-------------+------+------+------+------+------+------+------+------+
-|     Each bit set in IoExtMap indicates presence of device at the    |
-|     corresponding I2C address.                                      |
-'---------------------------------------------------------------------'
 */
 #include "Xany.h"
 #include "i2c_master.h"
 
-#define IO_EXP_BASE_ADDR              (0x38 << 1) /* PCF857xA Bit 0 is for R/W# */
-#define IO_EXP_SUP_MAX_NB             6
 /*
 NIBBLE_WIDTH_US
   <--->
@@ -88,76 +57,218 @@ enum {NIBBLE_0=0, NIBBLE_1, NIBBLE_2, NIBBLE_3, NIBBLE_4, NIBBLE_5, NIBBLE_6, NI
 #define PULSE_WIDTH_US(NibbleIdx)         (PULSE_MIN_US + (NIBBLE_WIDTH_US / 2)+ ((NibbleIdx) * NIBBLE_WIDTH_US))
 #define EXCURSION_HALF_US(NibbleIdx)      ((PULSE_WIDTH_US(NibbleIdx) - NEUTRAL_WIDTH_US) * 2)
 
-#define X_ANY_MSG_LEN                     sizeof(X_OneAnyReadMsgSt_t)
-
 const int16_t ExcursionHalf_us[] PROGMEM = {EXCURSION_HALF_US(NIBBLE_0), EXCURSION_HALF_US(NIBBLE_1), EXCURSION_HALF_US(NIBBLE_2), EXCURSION_HALF_US(NIBBLE_3),
                                             EXCURSION_HALF_US(NIBBLE_4), EXCURSION_HALF_US(NIBBLE_5), EXCURSION_HALF_US(NIBBLE_6), EXCURSION_HALF_US(NIBBLE_7),
                                             EXCURSION_HALF_US(NIBBLE_8), EXCURSION_HALF_US(NIBBLE_9), EXCURSION_HALF_US(NIBBLE_A), EXCURSION_HALF_US(NIBBLE_B),
                                             EXCURSION_HALF_US(NIBBLE_C), EXCURSION_HALF_US(NIBBLE_D), EXCURSION_HALF_US(NIBBLE_E), EXCURSION_HALF_US(NIBBLE_F),
                                             EXCURSION_HALF_US(NIBBLE_R), EXCURSION_HALF_US(NIBBLE_I)};
 
+/* Different supported Payload formats */
 typedef struct{
-  uint8_t         Low;
-  uint8_t         High;
-}WordBytesSt_t; /* Size = 2 bytes */
+  uint32_t
+                  Sw          :4,
+                  Checksum    :8,
+                  NotUsed     :16,
+                  NibbleNbToTx:4;
+}Msg4SwSt_t; /* Size = 4 bytes */
 
-/* Futur use? */
 typedef struct{
-  uint16_t
-                  Angle    :10, /* Angle coded on 10 bits */
-                  Switches :6;  /* 6 bits of a PCF8574 or Mcp (2 bits are lost) */
-}WordAglSwSt_t; /* Size = 2 bytes */
+  uint32_t
+                  Sw          :8,
+                  Checksum    :8,
+                  NotUsed     :12,
+                  NibbleNbToTx:4;
+}Msg8SwSt_t; /* Size = 4 bytes */
+
+typedef struct{
+  uint32_t
+                  Sw          :16,
+                  Checksum    :8,
+                  NotUsed     :4,
+                  NibbleNbToTx:4;
+}Msg16SwSt_t; /* Size = 4 bytes */
+
+typedef struct{
+  uint32_t
+                  Angle       :12,
+                  Checksum    :8,
+                  NotUsed     :8,
+                  NibbleNbToTx:4;
+}MsgAngleSt_t; /* Size = 4 bytes */
+
+typedef struct{
+  uint32_t
+                  Angle       :12,
+                  Sw          :4,
+                  Checksum    :8,
+                  NotUsed     :4,
+                  NibbleNbToTx:4;
+}MsgAngle4SwSt_t; /* Size = 4 bytes */
+
+typedef struct{
+  uint32_t
+                  Angle       :12,
+                  Sw          :8,
+                  Checksum    :8,
+                  NibbleNbToTx:4;
+}MsgAngle8SwSt_t; /* Size = 4 bytes */
+
+typedef struct{
+  uint32_t
+                  Angle       :12,
+                  Pot         :8,
+                  Checksum    :8,
+                  NibbleNbToTx:4;
+}MsgAnglePotSt_t; /* Size = 4 bytes */
+
+typedef struct{
+  uint32_t
+                  Pot         :8,
+                  Sw          :4,
+                  Checksum    :8,
+                  NotUsed     :8,
+                  NibbleNbToTx:4;
+}MsgPot4SwSt_t; /* Size = 4 bytes */
+
+typedef struct{
+  uint32_t
+                  Pot         :8,
+                  Sw          :8,
+                  Checksum    :8,
+                  NotUsed     :4,
+                  NibbleNbToTx:4;
+}MsgPot8SwSt_t; /* Size = 4 bytes */
+
+typedef struct{
+  uint32_t
+                  PayloadAndChecksum:28,
+                  NibbleNbToTx      :4;
+}MsgCommonSt_t; /* Size = 4 bytes */
 
 typedef union{
-  WordAglSwSt_t   AglSw;
-  WordBytesSt_t   Byte;
-  uint16_t        Word;
-}WordBytes_union;  /* Size = 2 bytes */
+  Msg4SwSt_t       Msg4Sw;
+  Msg8SwSt_t       Msg8Sw;
+  Msg16SwSt_t      Msg16Sw;
+  MsgAngleSt_t     MsgAngle;
+  MsgAngle4SwSt_t  MsgAngle4Sw;
+  MsgAngle8SwSt_t  MsgAngle8Sw;
+  MsgAnglePotSt_t  MsgAnglePot;
+  MsgPot4SwSt_t    MsgPot4Sw;
+  MsgPot8SwSt_t    MsgPot8Sw;
+  MsgCommonSt_t    Common;
+}XanyMsg_union;  /* Size = 4 bytes */
+
+/* Declaration of supported combinations (See X_ANY_CFG() macro in myeeprom.h) */
+#define XANY_MSG_4SW              X_ANY_CFG(1, 0, 0)
+#define XANY_MSG_8SW              X_ANY_CFG(2, 0, 0)
+#define XANY_MSG_16_SW            X_ANY_CFG(3, 0, 0)
+#define XANY_MSG_ANGLE            X_ANY_CFG(0, 1, 0)
+#define XANY_MSG_ANGLE_4SW        X_ANY_CFG(1, 1, 0)
+#define XANY_MSG_ANGLE_8SW        X_ANY_CFG(2, 1, 0)
+#define XANY_MSG_ANGLE_POT        X_ANY_CFG(0, 1, 1)
+#define XANY_MSG_POT_4SW          X_ANY_CFG(1, 0, 1)
+#define XANY_MSG_POT_8SW          X_ANY_CFG(2, 0, 1)
+
+/* Message length (in nibbles) including the checksum for each supported combination */
+#define XANY_MSG_4SW_NBL_NB       (1 + 2)
+#define XANY_MSG_8SW_NBL_NB       (2 + 2)
+#define XANY_MSG_16_SW_NBL_NB     (4 + 2)
+#define XANY_MSG_ANGLE_NBL_NB     (3 + 2)
+#define XANY_MSG_ANGLE_4SW_NBL_NB (3 + 1 + 2)
+#define XANY_MSG_ANGLE_8SW_NBL_NB (3 + 2 + 2)
+#define XANY_MSG_ANGLE_POT_NBL_NB (3 + 2 + 2)
+#define XANY_MSG_POT_4SW_NBL_NB   (2 + 1 + 2)
+#define XANY_MSG_POT_8SW_NBL_NB   (2 + 2 + 2)
+
+
+/*    <------------------8 I/O Expenders------------------><----------------16 I/O Expenders--------------->    */
+enum {IO_EXP_PCF8574 = 0, IO_EXP_PCF8574A, IO_EXP_PCA9654E, IO_EXP_MCP23017, IO_EXP_PCF8575A, IO_EXP_PCA9671, IO_EXP_TYPE_NB};
+
+/* PRIVATE FUNCTION PROTOYPES */
+static uint8_t getMsgType     (uint8_t XanyIdx);
+static uint8_t readIoExtender (uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRead);
+static uint8_t readPcf8574    (uint8_t I2cAddr, uint8_t *RxBuf);
+static uint8_t readPcf8574A   (uint8_t I2cAddr, uint8_t *RxBuf);
+static uint8_t readMcp23017   (uint8_t I2cAddr, uint8_t *RxBuf);
+static uint8_t readPcf8575A   (uint8_t I2cAddr, uint8_t *RxBuf);
+static uint8_t readPca9671    (uint8_t I2cAddr, uint8_t *RxBuf);
+static uint8_t readPca9654e   (uint8_t I2cAddr, uint8_t *RxBuf);
+
+/* A little typedef to short the notation */
+typedef uint8_t (*ReadIoExpPtr)(uint8_t I2cAddr, uint8_t *RxBuf);
 
 typedef struct{
-  WordBytes_union Payload;
-  uint8_t         Chks;
-}X_OneAnyReadMsgSt_t;  /* Size = 3 bytes */
+  uint8_t      IoExtType;
+  uint8_t      I2c7bAddr;
+  ReadIoExpPtr ReadIoExp;
+}I2cIoExpSt_t;
+
+const I2cIoExpSt_t XanyI2cTypeAddr[] PROGMEM = {
+          /*  IoExtType   I2c7bAddr ReadIoExp   Idx in IoExpMap */
+/*Xany0*/ {IO_EXP_PCF8574,  0x20, readPcf8574 }, /* Idx =  0 */
+          {IO_EXP_PCF8574,  0x22, readPcf8574 }, /* Idx =  1 */
+          {IO_EXP_PCF8574A, 0x38, readPcf8574A}, /* Idx =  2 */
+          {IO_EXP_PCF8574A, 0x3A, readPcf8574A}, /* Idx =  3 */
+          {IO_EXP_MCP23017, 0x24, readMcp23017}, /* Idx =  4 */
+          {IO_EXP_PCF8575A, 0x3C, readPcf8575A}, /* Idx =  5 */
+          {IO_EXP_PCA9671,  0xC0, readPca9671 }, /* Idx =  6 */
+/*Xany1*/ {IO_EXP_PCF8574,  0x21, readPcf8574 }, /* Idx =  7 */
+          {IO_EXP_PCF8574,  0x23, readPcf8574 }, /* Idx =  8 */
+          {IO_EXP_PCF8574A, 0x39, readPcf8574A}, /* Idx =  9 */
+          {IO_EXP_PCF8574A, 0x3B, readPcf8574A}, /* Idx = 10 */
+          {IO_EXP_MCP23017, 0x25, readMcp23017}, /* Idx = 11 */
+          {IO_EXP_PCF8575A, 0x3D, readPcf8575A}, /* Idx = 12 */
+          {IO_EXP_PCA9671,  0x4A, readPca9671 }, /* Idx = 13 */
+/*Xany2*/ {IO_EXP_PCA9654E, 0x40, readPca9654e}, /* Idx = 14 */
+          {IO_EXP_PCA9654E, 0x44, readPca9654e}, /* Idx = 15 */
+          {IO_EXP_MCP23017, 0x26, readMcp23017}, /* Idx = 16 */
+          {IO_EXP_PCF8575A, 0x3E, readPcf8575A}, /* Idx = 17 */
+          {IO_EXP_PCA9671,  0x4C, readPca9671 }, /* Idx = 18 */
+/*Xany3*/ {IO_EXP_PCA9654E, 0x42, readPca9654e}, /* Idx = 19 */
+          {IO_EXP_PCA9654E, 0x46, readPca9654e}, /* Idx = 20 */
+          {IO_EXP_MCP23017, 0x27, readMcp23017}, /* Idx = 21 */
+          {IO_EXP_PCF8575A, 0x3F, readPcf8575A}, /* Idx = 22 */
+          {IO_EXP_PCA9671,  0x4E, readPca9671 }, /* Idx = 23 */
+                            };
+
+typedef struct{
+    uint8_t FirstIdx;
+    uint8_t LastIdx;
+}XanyIdxRangeSt_t;
+
+const XanyIdxRangeSt_t XanyIdxRange[] PROGMEM = {{0, 6}, {7, 13}, {14, 18}, {19, 23}};
+
+#define SUPPORTED_I2C_IO_EXP_NB       (sizeof(XanyI2cTypeAddr) / sizeof(XanyI2cTypeAddr[0]))
+
+#define GET_FIRST_IDX(XanyIdx)        (uint8_t)     pgm_read_byte_far(&XanyIdxRange[(XanyIdx)].FirstIdx)
+#define GET_LAST_IDX(XanyIdx)         (uint8_t)     pgm_read_byte_far(&XanyIdxRange[(XanyIdx)].LastIdx)
+
+#define GET_I2C_IO_EXP_TYPE(Idx)      (uint8_t)     pgm_read_byte_far(&XanyI2cTypeAddr[(Idx)].IoExtType)
+#define GET_I2C_IO_EXP_7B_ADDR(Idx)   (uint8_t)     pgm_read_byte_far(&XanyI2cTypeAddr[(Idx)].I2c7bAddr)
+#define GET_I2C_IO_EXP_READ(Idx)      (ReadIoExpPtr)pgm_read_word_far(&XanyI2cTypeAddr[(Idx)].ReadIoExp)
 
 typedef struct {
-  uint8_t
-                  TxInProgress:     1,
-                  TxCharInProgress: 1;
   uint16_t
-                  NbToSend:         3,
+                  TxInProgress:     1,
                   SentCnt:          3,
                   CurIdx:           5, /* Prev Nibble to compare to the following one */
-                  PrevIdx:          5; /* Prev Nibble to compare to the following one */
+                  PrevIdx:          5, /* Prev Nibble to compare to the following one */
+                  Reserved:         2;
 }TxNibbleSt_t;  /* Size = 3 bytes */
 
 typedef struct{
-  char            Byte[sizeof(X_OneAnyReadMsgSt_t)]; /* Sending buffer (in interrupt) */
-  uint8_t         ByteIdx;
+  XanyMsg_union   Msg; /* Sending buffer (in interrupt) */
+  uint8_t         NibbleIdx;
   TxNibbleSt_t    Nibble;
 }X_OneAnyWriteMsgSt_t;
 
-static uint8_t IoExtMap = 0; /* 1 byte for the map of the 2 X-Any */
+static uint32_t IoExpMap = 0L; /* 4 bytes for the map of the 4 X-Any instances */
 
-static          X_OneAnyReadMsgSt_t  X_AnyReadMsg[NUM_X_ANY]; /* 3 bytes per X-Any for storing read Msg */
-static volatile X_OneAnyWriteMsgSt_t X_AnyWriteMsg[NUM_X_ANY];/* 4 bytes per X-Any for sending Msg in interrupt (-> Volatile) */
-
-/* PRIVATE FUNCTION PROTOYPES */
-static void Xany_readInputs(uint8_t XanyIdx);
+static          XanyMsg_union        X_AnyReadMsg[NUM_X_ANY]; /* 4 bytes per X-Any for storing read Msg */
+static volatile X_OneAnyWriteMsgSt_t X_AnyWriteMsg[NUM_X_ANY];/* 8 bytes per X-Any for sending Msg in interrupt (-> Volatile) */
 
 
 /* PUBLIC FUNCTIONS */
-
-/**
-* \file   Xany.cpp
-* \fn     uint16_t Xany_getInput(uint8_t XanyIdx)
-* \brief  Return Xany[XanyIdx] input wold
-* \param  XanyIdx: Index of the group
-* \return 16 bits from specified I/O expenders
-*/
-uint16_t Xany_getInput(uint8_t XanyIdx)
-{
-  return X_AnyReadMsg[XanyIdx].Payload.Word;
-}
 
 /**
 * \file   Xany.cpp
@@ -169,22 +280,28 @@ uint16_t Xany_getInput(uint8_t XanyIdx)
 void Xany_init(void)
 {
   /* I2C drive SHALL be initilized before calling Xany_init() */
-  uint8_t Idx;
+  uint8_t Idx, I2c7bAddr, Data;
 
-  /* Clear the whole structure for the 2 groups */
+  /* Clear the whole structure for the n instances */
   memset((void*)&X_AnyWriteMsg, 0, sizeof(X_AnyWriteMsg));
 
   I2C_SPEED_400K();
   /* Probe I2C bus to discover Io Expender chips */
-  for(Idx = 0; Idx < IO_EXP_SUP_MAX_NB; Idx++)
+  for(Idx = 0; Idx < SUPPORTED_I2C_IO_EXP_NB; Idx++)
   {
-    if(!i2c_start((IO_EXP_BASE_ADDR  + (Idx << 1)) | I2C_WRITE))
+    I2c7bAddr = GET_I2C_IO_EXP_7B_ADDR(Idx);;
+    if(!i2c_start((I2c7bAddr << 1) | I2C_WRITE))
     {
       /* OK: device is present quit gracefully by sending a stop() */
-      i2c_write(0xFF); /* Set pin as input (pullup) */
-      if (Idx > 3) {i2c_write(0xFF);} /* Set second byte of 16 bits GPIO pin as input (pullup) */
       i2c_stop();
-      IoExtMap |= (1 << Idx); /* Mark it as present */
+      if(GET_I2C_IO_EXP_TYPE(Idx) == IO_EXP_MCP23017)
+      {
+        /* Enable internal Pull-up */
+        Data = 0xFF;
+        i2c_writeReg((I2c7bAddr << 1), 0x06, &Data, 1);
+        i2c_writeReg((I2c7bAddr << 1), 0x16, &Data, 1);
+      }
+      IoExpMap |= (1L << Idx); /* Mark it as present */
     }
   }
   I2C_SPEED_888K();
@@ -193,23 +310,24 @@ void Xany_init(void)
 /**
 * \file   Xany.cpp
 * \fn     uint8_t Xany_readInputsAndLoadMsg(uint8_t XanyIdx)
-* \brief  Reads the I2C I/O expenders associated to the specified group and load it in the Tx buffer
-* \param  XanyIdx: Index of the group
+* \brief  Reads the I2C I/O expenders, Angle sensor and Rot POT associated to the specified X-Any instance and load it in the Tx buffer
+* \param  XanyIdx: Index of the X-Any instance
 * \return 0: Not done, previous message not completely sent, 1: Done, new message in the Tx buffer
 */
 uint8_t Xany_readInputsAndLoadMsg(uint8_t XanyIdx)
 {
-  uint8_t Done = 0;
+  uint8_t      Done = 0;
+  XanyInfoSt_t XanyInfo;
 
   CHECK_IIC_USED_IRQ_MODE(Done); /* Return if I2C is used */
 
-  if(X_AnyWriteMsg[XanyIdx].ByteIdx >= (X_ANY_MSG_LEN + 1))
+  if(X_AnyWriteMsg[XanyIdx].NibbleIdx >= (X_AnyWriteMsg[XanyIdx].Msg.Common.NibbleNbToTx + 1))
   {
-    /* No need to mask interrupt since X_AnyWriteMsg[] is not use when X_AnyWriteMsg[XanyIdx].ByteIdx is >= (X_ANY_MSG_LEN + 1) */
-    Xany_readInputs(XanyIdx); /* This reads the I2C bus */
+    /* No need to mask interrupt since X_AnyWriteMsg[] is not use when X_AnyWriteMsg[XanyIdx].NibbleIdx is >= (X_AnyWriteMsg[XanyIdx].Msg.NibbleNbToTx + 1) */
+    Xany_operation(XanyIdx, XANY_OP_BUILD_MSG, &XanyInfo); /* This reads the I2C bus */
     /* Load from Read structure to Write structure */
-    memcpy((void*)&X_AnyWriteMsg[XanyIdx], (void*)&X_AnyReadMsg[XanyIdx], sizeof(X_OneAnyReadMsgSt_t)); /* Copy 3 bytes */
-    X_AnyWriteMsg[XanyIdx].ByteIdx = 0; /* Go! */
+    memcpy((void*)&X_AnyWriteMsg[XanyIdx].Msg, (void*)&X_AnyReadMsg[XanyIdx], sizeof(XanyMsg_union)); /* Copy 3 bytes */
+    X_AnyWriteMsg[XanyIdx].NibbleIdx = 0; /* Go! */
     Done = 1;
   }
   return(Done);
@@ -219,13 +337,13 @@ uint8_t Xany_readInputsAndLoadMsg(uint8_t XanyIdx)
 * \file   Xany.cpp
 * \fn     void Xany_scheduleTx(uint8_t XanyIdx)
 * \brief  Schedule the transmisson of the X-Any message
-* \param  XanyIdx: Index of X-Any
+* \param  XanyIdx: Index of the X-Any instance
 * \return Void
 */
 void Xany_scheduleTx(uint8_t XanyIdx)
 {
   X_OneAnyWriteMsgSt_t *t;
-  char                 TxChar;
+  char                 *CharPtr, TxChar;
 
   if(g_model.Xany[XanyIdx].Active)
   {
@@ -234,28 +352,18 @@ void Xany_scheduleTx(uint8_t XanyIdx)
     if(!t->Nibble.TxInProgress)
     {
       t->Nibble.TxInProgress = 1;
-      if(!t->Nibble.TxCharInProgress)
+      /* Get next char to send */
+      if(t->NibbleIdx < t->Msg.Common.NibbleNbToTx)
       {
-        /* Get next char to send */
-        if(t->ByteIdx < X_ANY_MSG_LEN)
-        {
-          TxChar = t->Byte[t->ByteIdx];
-          t->Nibble.CurIdx = ((TxChar & 0xF0) >> 4); /* MSN first */
-          t->Nibble.TxCharInProgress = 1;
-        }
-        else
-        {
-          t->Nibble.CurIdx = NIBBLE_I; /* Nothing to transmit */
-          if(t->ByteIdx < (X_ANY_MSG_LEN + 1)) t->ByteIdx++; /* Bounded to 4: meanst synchro to allow reload of the new message */
-        }
+        CharPtr = (char *)t;
+        TxChar = CharPtr[t->NibbleIdx / 2];
+        if(!(t->NibbleIdx & 1)) t->Nibble.CurIdx = ((TxChar & 0xF0) >> 4); /* MSN first */
+        else                    t->Nibble.CurIdx =   TxChar & 0x0F;        /* LSN */
       }
       else
       {
-        /* Tx Char in progress: send least significant nibble */
-        TxChar = t->Byte[t->ByteIdx];
-        t->Nibble.CurIdx = TxChar & 0x0F; /* LSN */
-        t->Nibble.TxCharInProgress = 0;
-        if(t->ByteIdx < (X_ANY_MSG_LEN + 1)) t->ByteIdx++; /* Bounded to 4: meanst synchro to allow reload of the new message */
+        t->Nibble.CurIdx = NIBBLE_I; /* Nothing to transmit */
+        if(t->NibbleIdx < (t->Msg.Common.NibbleNbToTx + 1)) t->Msg.Common.NibbleNbToTx++; /* Bounded to 4: meanst synchro to allow reload of the new message */
       }
       if(t->Nibble.CurIdx == t->Nibble.PrevIdx) t->Nibble.CurIdx = NIBBLE_R; /* Repeat symbol */
       t->Nibble.PrevIdx = t->Nibble.CurIdx;
@@ -268,8 +376,7 @@ void Xany_scheduleTx(uint8_t XanyIdx)
     channelOutputs[g_model.Xany[XanyIdx].ChId] = valueTemp; /* overwrite in int-level */
     sei();
     t->Nibble.SentCnt++;
-    t->Nibble.NbToSend = g_model.Xany[XanyIdx].RepeatNb + 1;
-    if(t->Nibble.SentCnt >= t->Nibble.NbToSend)
+    if(t->Nibble.SentCnt >= (g_model.Xany[XanyIdx].RepeatNb + 1))
     {
       t->Nibble.SentCnt = 0;
       t->Nibble.TxInProgress = 0;
@@ -277,49 +384,353 @@ void Xany_scheduleTx(uint8_t XanyIdx)
   }
 }
 
-/* PRIVATE FUNCTIONS */
+#define COMPUTE_X_ANY_MSG_CHECKSUM(Msg, BytePtr, Checksum) do{                                    \
+    Msg->Checksum = 0;/* Clear Checksum which can share a nibble with previous byte */            \
+    for(uint8_t ByteIdx = 0; ByteIdx < ((Msg->NibbleNbToTx + 1) / 2); ByteIdx++)                  \
+    {                                                                                             \
+      Checksum ^= BytePtr[ByteIdx];                                                               \
+    }                                                                                             \
+    Checksum ^= 0x55;                                                                             \
+    Msg->Checksum = Checksum;                                                                     \
+  }while(0)
 
 /**
 * \file   Xany.cpp
-* \fn     void Xany_readInputs(uint8_t XanyIdx)
-* \brief  Reads the I2C I/O expenders associated to the specified X-Any
-* \param  XanyIdx: Index of the X-Any
-* \return Void
+* \fn     void Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
+* \brief  Reads the I2C I/O expenders and sensors or information associated to the specified X-Any instance
+* \param  XanyIdx:  Index of the X-Any instance
+* \param  XanyOp:   The X-Any operation
+* \param  XanyInfo: Pointer on an X-Any information structure to fill
+* \return 0: Message non supporte, 1: Message supporte
 */
-static void Xany_readInputs(uint8_t XanyIdx)
+uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
 {
-  uint8_t  One8bitPort = 0;
-  uint16_t Two8bitPorts;
+  Msg4SwSt_t      *Msg4Sw;
+  Msg8SwSt_t      *Msg8Sw;
+  Msg16SwSt_t     *Msg16Sw;
+  MsgAngleSt_t    *MsgAngle;
+  MsgAngle4SwSt_t *MsgAngle4Sw;
+  MsgAngle8SwSt_t *MsgAngle8Sw;
+  MsgAnglePotSt_t *MsgAnglePot;
+  MsgPot4SwSt_t   *MsgPot4Sw;
+  MsgPot8SwSt_t   *MsgPot8Sw;
+  MsgCommonSt_t   *MsgCommon;
+  uint8_t          MsgType, One8bitPort = 0, Checksum, *BytePtr, ValidMsg = 1;
+  uint16_t         Two8bitPorts;
 
-  X_AnyReadMsg[XanyIdx].Payload.Word  = 0;
-  I2C_SPEED_400K();
-  for(uint8_t BitIdx = 0; BitIdx < IO_EXP_SUP_MAX_NB; BitIdx++)
+  Checksum = 0;
+  BytePtr = (uint8_t *)&X_AnyReadMsg[XanyIdx];
+
+  MsgType = getMsgType(XanyIdx);
+
+  switch(MsgType)
   {
-    if(IoExtMap & (1 << BitIdx))
+    case XANY_MSG_4SW:
+    Msg4Sw = (Msg4SwSt_t *)&X_AnyReadMsg[XanyIdx];
+    Msg4Sw->NibbleNbToTx = XANY_MSG_4SW_NBL_NB;
+    if(XanyOp & XANY_OP_BUILD_MSG)
     {
-      /* Chip is present in the map */
-      if(BitIdx < 4)
+      readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
+      Msg4Sw->Sw = One8bitPort & 0x0F; /* Keep 4 bits */
+      /* Update Checksum */
+      COMPUTE_X_ANY_MSG_CHECKSUM(Msg4Sw, BytePtr, Checksum);
+    }
+    if(XanyOp & XANY_OP_READ_INFO)
+    {
+      XanyInfo->MsgNibbleLen = Msg4Sw->NibbleNbToTx;
+      XanyInfo->SwNb         = 4;
+      XanyInfo->SwValue      = (uint16_t)Msg4Sw->Sw;
+      XanyInfo->Angle        = 0;
+      XanyInfo->RotPotValue  = 0;
+    }
+    break;
+
+    case XANY_MSG_8SW:
+    Msg8Sw = (Msg8SwSt_t *)&X_AnyReadMsg[XanyIdx];
+    Msg8Sw->NibbleNbToTx = XANY_MSG_8SW_NBL_NB;
+    if(XanyOp & XANY_OP_BUILD_MSG)
+    {
+      readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
+      Msg8Sw->Sw = One8bitPort;
+      /* Update Checksum */
+      COMPUTE_X_ANY_MSG_CHECKSUM(Msg8Sw, BytePtr, Checksum);
+    }
+    if(XanyOp & XANY_OP_READ_INFO)
+    {
+      XanyInfo->MsgNibbleLen = Msg8Sw->NibbleNbToTx;
+      XanyInfo->SwNb         = 8;
+      XanyInfo->SwValue      = (uint16_t)Msg8Sw->Sw;
+      XanyInfo->Angle        = 0;
+      XanyInfo->RotPotValue  = 0;
+    }
+    break;
+
+    case XANY_MSG_16_SW:
+    Msg16Sw = (Msg16SwSt_t *)&X_AnyReadMsg[XanyIdx];
+    Msg16Sw->NibbleNbToTx = XANY_MSG_16_SW_NBL_NB;
+    if(XanyOp & XANY_OP_BUILD_MSG)
+    {
+      readIoExtender(XanyIdx, (uint8_t *)&Two8bitPorts, 2);
+      Msg16Sw->Sw = Two8bitPorts;
+      /* Update Checksum */
+      COMPUTE_X_ANY_MSG_CHECKSUM(Msg16Sw, BytePtr, Checksum);
+    }
+    if(XanyOp & XANY_OP_READ_INFO)
+    {
+      XanyInfo->MsgNibbleLen = Msg16Sw->NibbleNbToTx;
+      XanyInfo->SwNb         = 16;
+      XanyInfo->SwValue      = (uint16_t)Msg16Sw->Sw;
+      XanyInfo->Angle        = 0;
+      XanyInfo->RotPotValue  = 0;
+    }
+    break;
+
+    case XANY_MSG_ANGLE:
+    MsgAngle = (MsgAngleSt_t *)&X_AnyReadMsg[XanyIdx];
+    MsgAngle->NibbleNbToTx = XANY_MSG_ANGLE_NBL_NB;
+    if(XanyOp & XANY_OP_BUILD_MSG)
+    {
+      MsgAngle->Angle = 0; /* TODO: read ADS1015 CAN Channel */
+      /* Update Checksum */
+      COMPUTE_X_ANY_MSG_CHECKSUM(MsgAngle, BytePtr, Checksum);
+    }
+    if(XanyOp & XANY_OP_READ_INFO)
+    {
+      XanyInfo->MsgNibbleLen = MsgAngle->NibbleNbToTx;
+      XanyInfo->SwNb         = 0;
+      XanyInfo->SwValue      = 0;
+      XanyInfo->Angle        = MsgAngle->Angle;
+      XanyInfo->RotPotValue  = 0;
+    }
+    break;
+
+    case XANY_MSG_ANGLE_4SW:
+    MsgAngle4Sw = (MsgAngle4SwSt_t *)&X_AnyReadMsg[XanyIdx];
+    MsgAngle4Sw->NibbleNbToTx = XANY_MSG_ANGLE_4SW_NBL_NB;
+    if(XanyOp & XANY_OP_BUILD_MSG)
+    {
+      readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
+      MsgAngle4Sw->Sw    = One8bitPort & 0x0F; /* Keep 4 bits */
+      MsgAngle4Sw->Angle = 0; /* TODO: read ADS1015 CAN Channel */
+      /* Update Checksum */
+      COMPUTE_X_ANY_MSG_CHECKSUM(MsgAngle4Sw, BytePtr, Checksum);
+    }
+    if(XanyOp & XANY_OP_READ_INFO)
+    {
+      XanyInfo->MsgNibbleLen = MsgAngle4Sw->NibbleNbToTx;
+      XanyInfo->SwNb         = 4;
+      XanyInfo->SwValue      = (uint16_t)MsgAngle4Sw->Sw;
+      XanyInfo->Angle        = MsgAngle4Sw->Angle;
+      XanyInfo->RotPotValue  = 0;
+    }
+    break;
+
+    case XANY_MSG_ANGLE_8SW:
+    MsgAngle8Sw = (MsgAngle8SwSt_t *)&X_AnyReadMsg[XanyIdx];
+    MsgAngle8Sw->NibbleNbToTx = XANY_MSG_ANGLE_8SW_NBL_NB;
+    if(XanyOp & XANY_OP_BUILD_MSG)
+    {
+      readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
+      MsgAngle8Sw->Sw    = One8bitPort;
+      MsgAngle8Sw->Angle = 0; /* TODO: read ADS1015 CAN Channel */
+      /* Update Checksum */
+      COMPUTE_X_ANY_MSG_CHECKSUM(MsgAngle8Sw, BytePtr, Checksum);
+    }
+    if(XanyOp & XANY_OP_READ_INFO)
+    {
+      XanyInfo->MsgNibbleLen = MsgAngle8Sw->NibbleNbToTx;
+      XanyInfo->SwNb         = 8;
+      XanyInfo->SwValue      = (uint16_t)MsgAngle8Sw->Sw;
+      XanyInfo->Angle        = MsgAngle8Sw->Angle;
+      XanyInfo->RotPotValue  = 0;
+    }
+    break;
+
+    case XANY_MSG_ANGLE_POT:
+    MsgAnglePot = (MsgAnglePotSt_t *)&X_AnyReadMsg[XanyIdx];
+    MsgAnglePot->NibbleNbToTx = XANY_MSG_ANGLE_POT_NBL_NB;
+    if(XanyOp & XANY_OP_BUILD_MSG)
+    {
+      MsgAnglePot->Angle = 0;              /* TODO: read ADS1015 CAN Channel */
+      MsgAnglePot->Pot   = (calibratedStick[NUM_STICKS + XanyIdx] << 2); /* 8 bits value */
+      /* Update Checksum */
+      COMPUTE_X_ANY_MSG_CHECKSUM(MsgAnglePot, BytePtr, Checksum);
+    }
+    if(XanyOp & XANY_OP_READ_INFO)
+    {
+      XanyInfo->MsgNibbleLen = MsgAnglePot->NibbleNbToTx;
+      XanyInfo->SwNb         = 0;
+      XanyInfo->SwValue      = 0;
+      XanyInfo->Angle        = MsgAnglePot->Angle;
+      XanyInfo->RotPotValue  = 0;
+    }
+    break;
+
+    case XANY_MSG_POT_4SW:
+    MsgPot4Sw = (MsgPot4SwSt_t *)&X_AnyReadMsg[XanyIdx];
+    MsgPot4Sw->NibbleNbToTx = XANY_MSG_POT_4SW_NBL_NB;
+    if(XanyOp & XANY_OP_BUILD_MSG)
+    {
+      readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
+      MsgPot4Sw->Sw    = One8bitPort & 0x0F; /* Keep 4 bits */
+      MsgPot4Sw->Pot   = (calibratedStick[NUM_STICKS + XanyIdx] << 2); /* 8 bits value */
+      /* Update Checksum */
+      COMPUTE_X_ANY_MSG_CHECKSUM(MsgPot4Sw, BytePtr, Checksum);
+    }
+    if(XanyOp & XANY_OP_READ_INFO)
+    {
+      XanyInfo->MsgNibbleLen = MsgPot4Sw->NibbleNbToTx;
+      XanyInfo->SwNb         = 4;
+      XanyInfo->SwValue      = MsgPot4Sw->Sw;
+      XanyInfo->Angle        = 0;
+      XanyInfo->RotPotValue  = MsgPot4Sw->Pot;
+    }
+    break;
+
+    case XANY_MSG_POT_8SW:
+    MsgPot8Sw = (MsgPot8SwSt_t *)&X_AnyReadMsg[XanyIdx];
+    MsgPot8Sw->NibbleNbToTx = XANY_MSG_POT_8SW_NBL_NB;
+    if(XanyOp & XANY_OP_BUILD_MSG)
+    {
+      readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
+      MsgPot8Sw->Sw    = One8bitPort;
+      MsgPot8Sw->Pot   = (calibratedStick[NUM_STICKS + XanyIdx] << 2); /* 8 bits value */
+      /* Update Checksum */
+      COMPUTE_X_ANY_MSG_CHECKSUM(MsgPot8Sw, BytePtr, Checksum);
+    }
+    if(XanyOp & XANY_OP_READ_INFO)
+    {
+      XanyInfo->MsgNibbleLen = MsgPot8Sw->NibbleNbToTx;
+      XanyInfo->SwNb         = 8;
+      XanyInfo->SwValue      = MsgPot8Sw->Sw;
+      XanyInfo->Angle        = 0;
+      XanyInfo->RotPotValue  = MsgPot8Sw->Pot;
+    }
+    break;
+
+    default: /* We arrive here if the composed X-Any message from the LCD menu is not supported */
+    ValidMsg = 0; /* Invalid or not yet supported message */
+    MsgCommon = (MsgCommonSt_t *)&X_AnyReadMsg[XanyIdx];
+    if(XanyOp & XANY_OP_BUILD_MSG)
+    {
+      MsgCommon->PayloadAndChecksum = 0; /* Detroy the checksum to be sure the message won't be interpreted at receiver side (1st stage) */
+      MsgCommon->NibbleNbToTx       = 0; /* Prevent transmission (2nd stage) */
+    }
+    if(XanyOp & XANY_OP_READ_INFO)
+    {
+      XanyInfo->MsgNibbleLen = 0;
+      XanyInfo->SwNb         = 0;
+      XanyInfo->SwValue      = 0;
+      XanyInfo->Angle        = 0;
+      XanyInfo->RotPotValue  = 0;
+    }
+    break;
+  }
+  /* Can be common */
+  if(XanyOp & XANY_OP_READ_INFO)
+  {
+    XanyInfo->TxPeriodMs = ((g_model.Xany[XanyIdx].RepeatNb + 1) * (XanyInfo->MsgNibbleLen + 1) * 225) / 10; /* + 1 for IDLE symbol */
+  }
+  return(ValidMsg);
+}
+
+/* PRIVATE FUNCTIONS */
+/**
+* \file   Xany.cpp
+* \fn     uint8_t getMsgType(uint8_t XanyIdx)
+* \brief  Returns the type of X-Any message
+* \param  XanyIdx: Index of the X-Any
+* \return The type of X-Any message among XANY_MSG_4SW - XANY_MSG_POT_8SW
+*/
+static uint8_t getMsgType(uint8_t XanyIdx)
+{
+  return(g_model.Xany[XanyIdx].PayloadCfg.Raw & X_ANY_CFG_MSK);
+}
+
+/**
+* \file   Xany.cpp
+* \fn     uint8_t readIoExtender(uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRead)
+* \brief  Reads the I2C I/O expenders associated to the specified X-Any instance
+* \param  XanyIdx:    Index of the X-Any
+* \param  RxBuf:      Pointer on Rx Buffer
+* \param  ByteToRead: The number of bytes to read
+* \return The number of read byte(s)
+*/
+static uint8_t readIoExtender(uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRead)
+{
+  ReadIoExpPtr ReadIoExp;
+  uint8_t      I2c7bAddr, ExpType, One8bitPort = 0, ByteRead = 0;
+  uint16_t     Two8bitPorts = 0;
+  uint8_t     *BytePtr  = (uint8_t  *)RxBuf;
+  uint16_t    *WordPtr  = (uint16_t *)RxBuf;
+
+  for(uint8_t BitIdx = GET_FIRST_IDX(XanyIdx); BitIdx <= GET_LAST_IDX(XanyIdx); BitIdx++)
+  {
+    if(IoExpMap & (1 << BitIdx))
+    {
+      /* Chip is present in the I/O Expender map */
+      I2c7bAddr = GET_I2C_IO_EXP_7B_ADDR(BitIdx);
+      ExpType   = GET_I2C_IO_EXP_TYPE(BitIdx);
+      ReadIoExp = GET_I2C_IO_EXP_READ(BitIdx);
+      if((ExpType == IO_EXP_PCF8574) || (ExpType == IO_EXP_PCF8574A) || (ExpType == IO_EXP_PCF8575A))
+      {
+        I2C_SPEED_400K();
+      }
+      else
+      {
+        I2C_SPEED_888K();
+      }
+      if(ExpType < IO_EXP_MCP23017)
       {
         /* Read one 8 bit port */
-        if(!i2c_receive((IO_EXP_BASE_ADDR + (BitIdx << 1)), (uint8_t*)&One8bitPort, 1)) One8bitPort ^= 0xFF; /* Apply polarity: close contact = 1 */
-        if(BitIdx & 1) X_AnyReadMsg[XanyIdx].Payload.Byte.High = One8bitPort; /* Odd  */
-        else           X_AnyReadMsg[XanyIdx].Payload.Byte.Low  = One8bitPort; /* Even */
+        if(!ReadIoExp((I2c7bAddr << 1), (uint8_t*)&One8bitPort)) One8bitPort ^= 0xFF; /* Apply polarity: close contact = 1 */
+        if(BitIdx & 1) BytePtr[1] = One8bitPort; /* Odd  */
+        else           BytePtr[0] = One8bitPort; /* Even */
+        ByteRead++;
       }
       else
       {
         /* Read two 8 bit ports */
-        if(!i2c_receive((IO_EXP_BASE_ADDR + (BitIdx << 1)), (uint8_t*)&Two8bitPorts, 2)) Two8bitPorts ^= 0xFFFF; /* Apply polarity: close contact = 1 */
-        X_AnyReadMsg[XanyIdx].Payload.Word = Two8bitPorts;
+        if(!ReadIoExp((I2c7bAddr << 1), (uint8_t*)&Two8bitPorts)) Two8bitPorts ^= 0xFFFF; /* Apply polarity: close contact = 1 */
+        *WordPtr = Two8bitPorts;
+        ByteRead += 2;
       }
+      if(ByteRead >= ByteToRead) break;
     }
   }
   I2C_SPEED_888K();
-  if(g_model.Xany[XanyIdx].AbsAglSensor)
-  {
-    //read the Absolute Angular Sensor:
-    /* TODO */
-    //X_AnyReadMsg[XanyIdx].Payload.Angle = Angle; //This will overwrite some digital inputs!
-  }
-  /* Update Checksum */
-  X_AnyReadMsg[XanyIdx].Chks = X_AnyReadMsg[XanyIdx].Payload.Byte.High ^ X_AnyReadMsg[XanyIdx].Payload.Byte.Low ^ 0x55;
+
+ return(ByteRead);
+}
+
+/* The read functions for all the supported I/O expenders */
+
+static uint8_t readPcf8574(uint8_t I2cAddr, uint8_t *RxBuf)
+{
+  return(i2c_receive((I2cAddr << 1), RxBuf, 1));
+}
+
+static uint8_t readPcf8574A(uint8_t I2cAddr, uint8_t *RxBuf)
+{
+  return(i2c_receive((I2cAddr << 1), RxBuf, 1));
+}
+
+static uint8_t readMcp23017(uint8_t I2cAddr, uint8_t *RxBuf)
+{
+  return(i2c_receive((I2cAddr << 1), RxBuf, 2));
+}
+
+static uint8_t readPcf8575A(uint8_t I2cAddr, uint8_t *RxBuf)
+{
+  return(i2c_receive((I2cAddr << 1), RxBuf, 2));
+}
+
+static uint8_t readPca9671 (uint8_t I2cAddr, uint8_t *RxBuf)
+{
+  return(i2c_receive((I2cAddr << 1), RxBuf, 2));
+}
+
+static uint8_t readPca9654e(uint8_t I2cAddr, uint8_t *RxBuf)
+{
+  return(i2c_receive((I2cAddr << 1), RxBuf, 1));
 }
