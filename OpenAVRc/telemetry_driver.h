@@ -48,8 +48,8 @@ void Usart0Set57600BAUDS();   //Frsky S.port telemetry
 void Usart0Set125000BAUDS();  //DSM Serial protocol
 void Usart0Set100000BAUDS();  //Multiprotocole Serial
 
-#define USART0_RX_PACKET_SIZE 21 // Modified for FrSky via SPIMODULES.21
-#define USART0_TX_PACKET_SIZE 26
+#define USART0_RX_PACKET_SIZE 19 // Modified for FrSky via SPIMODULES.21
+#define USART0_TX_PACKET_SIZE 26 // used in Multiprotocole serial
 
 extern uint8_t Usart0RxBuffer[USART0_RX_PACKET_SIZE];
 
