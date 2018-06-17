@@ -269,7 +269,6 @@ static uint16_t CORONA_cb()
 
 static void CORONA_initialize(uint8_t bind)
 {
-  PROTO_Stop_Callback();
   corona_init();
   if (bind)
     {

@@ -172,7 +172,7 @@ static const uint8_t ch_map14[] = {1, 5, 2, 3, 4, 6, 8, 1, 5, 2, 3, 0, 7, 9};
 uint8_t chidx;
 uint8_t sop_col;
 uint8_t data_col;
-uint16_t state;
+uint16_t dsm_state;
 uint8_t crcidx;
 uint8_t binding;
 uint8_t num_channels;
@@ -334,7 +334,7 @@ void initialize_bind_state()
 
 static const uint8_t transfer_vals[][2] = {
   //{CYRF_29_RX_ABORT, 0x20},    //RX abort anable                   (RX mode abort in time Rx bind responce)
-  //{CYRF_0F_XACT_CFG, 0x28},    //Force end state = Synth Mode (TX) (RX mode abort in time Rx bind responce)
+  //{CYRF_0F_XACT_CFG, 0x28},    //Force end dsm_state = Synth Mode (TX) (RX mode abort in time Rx bind responce)
   //{CYRF_29_RX_ABORT, 0x00},    //Clear RX abort                    (RX mode abort in time Rx bind responce)
   {CYRF_03_TX_CFG, 0x28 | TXPOWER_1},  //Data Code Length = 64 chip codes + Data Mode = 8DR Mode + (todo,was)max-power(+4 dBm)
   {CYRF_10_FRAMING_CFG, 0xea}, //SOP EN + SOP LEN = 64 chips + LEN EN + SOP TH = 0Ah (0Eh???)
@@ -498,7 +498,7 @@ static void calc_dsmx_channel()
                 if(pktTelem[6] > 15) { //holds
                     break;
                 } else if(pktTelem[6] > (uint16_t)Telemetry.value[TELEM_DSM_FLOG_HOLDS]) {
-                    update = update7f; //refresh "Flight Log" in case "Hold" state
+                    update = update7f; //refresh "Flight Log" in case "Hold" dsm_state
                     break;
                 }
                 //if(pktTelem[1] > 255) //fadesA - unknown if it's right for third party Rx, so will use generic condition
@@ -634,17 +634,17 @@ static uint16_t dsm2_cb()
 {
 #define CH1_CH2_DELAY 4010*2  // Time between write of channel 1 and channel 2
 #define WRITE_DELAY   1550*2  // Time after write to verify write complete
-#define READ_DELAY     600*2  // Time before write to check read state, and switch channels.
+#define READ_DELAY     600*2  // Time before write to check read dsm_state, and switch channels.
   // Telemetry read+processing =~200us and switch channels =~300us
 
   heartbeat |= HEART_TIMER_PULSES; // Todo better placeto find
 
-  if(state < DSM2_CHANSEL) {
+  if(dsm_state < DSM2_CHANSEL) {
     //Binding
-    state += 1;
-    if(state & 1) {
+    dsm_state += 1;
+    if(dsm_state & 1) {
       //Send packet on even states
-      //Note state has already incremented, so this is actually 'even' state
+      //Note dsm_state has already incremented, so this is actually 'even' dsm_state
       CYRF_WriteDataPacket(packet);
       return 8500*2;
     } else {
@@ -652,24 +652,24 @@ static uint16_t dsm2_cb()
       CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS);
       return 1500*2;
     }
-  } else if(state < DSM2_CH1_WRITE_A) {
+  } else if(dsm_state < DSM2_CH1_WRITE_A) {
     //Select channels and configure for writing data
     //CYRF_FindBestChannels(ch, 2, 10, 1, 79);
     cyrf_transfer_config();
     CYRF_SetTxRxMode(TX_EN);
     chidx = 0;
     crcidx = 0;
-    state = DSM2_CH1_WRITE_A;
+    dsm_state = DSM2_CH1_WRITE_A;
     set_sop_data_crc();
     return 10000U*2;
-  } else if(state == DSM2_CH1_WRITE_A || state == DSM2_CH1_WRITE_B
-            || state == DSM2_CH2_WRITE_A || state == DSM2_CH2_WRITE_B) {
-    if (state == DSM2_CH1_WRITE_A || state == DSM2_CH1_WRITE_B)
-      build_data_packet(state == DSM2_CH1_WRITE_B);
+  } else if(dsm_state == DSM2_CH1_WRITE_A || dsm_state == DSM2_CH1_WRITE_B
+            || dsm_state == DSM2_CH2_WRITE_A || dsm_state == DSM2_CH2_WRITE_B) {
+    if (dsm_state == DSM2_CH1_WRITE_A || dsm_state == DSM2_CH1_WRITE_B)
+      build_data_packet(dsm_state == DSM2_CH1_WRITE_B);
     CYRF_WriteDataPacket(packet);
-    state++;
+    dsm_state++;
     return WRITE_DELAY;
-  } else if(state == DSM2_CH1_CHECK_A || state == DSM2_CH1_CHECK_B) {
+  } else if(dsm_state == DSM2_CH1_CHECK_A || dsm_state == DSM2_CH1_CHECK_B) {
     uint32_t i = 0;
     uint8_t reg;
     while (! ((reg = CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS)) & 0x02)) {
@@ -686,41 +686,41 @@ static uint16_t dsm2_cb()
       }
     }
     set_sop_data_crc();
-    state++;
+    dsm_state++;
     return CH1_CH2_DELAY - WRITE_DELAY;
-  } else if(state == DSM2_CH2_CHECK_A || state == DSM2_CH2_CHECK_B) {
+  } else if(dsm_state == DSM2_CH2_CHECK_A || dsm_state == DSM2_CH2_CHECK_B) {
     uint32_t i = 0;
     while (! (CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS) & 0x02)) {
       if(++i > NUM_WAIT_LOOPS)
         break;
     }
-    if (state == DSM2_CH2_CHECK_A) {
+    if (dsm_state == DSM2_CH2_CHECK_A) {
       //Keep transmit power in sync
       CYRF_WriteRegister(CYRF_03_TX_CFG, 0x28 | TXPOWER_1); //Data Code Length = 64 chip codes + Data Mode = 8DR Mode + tx_power
     }
     if (1) { /*(Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_OFF)*/
       set_sop_data_crc();
-      if (state == DSM2_CH2_CHECK_A) {
+      if (dsm_state == DSM2_CH2_CHECK_A) {
         if(num_channels < 8) {
-          state = DSM2_CH1_WRITE_A;
+          dsm_state = DSM2_CH1_WRITE_A;
           CALCULATE_LAT_JIT(); // Calculate latency and jitter.
           SCHEDULE_MIXER_END_IN_US(22000);
           return 22000U *2 - CH1_CH2_DELAY - WRITE_DELAY;
         }
-        state = DSM2_CH1_WRITE_B;
+        dsm_state = DSM2_CH1_WRITE_B;
       } else {
-        state = DSM2_CH1_WRITE_A;
+        dsm_state = DSM2_CH1_WRITE_A;
       }
       CALCULATE_LAT_JIT(); // Calculate latency and jitter.
       SCHEDULE_MIXER_END_IN_US(11000);
       return 11000U*2 - CH1_CH2_DELAY - WRITE_DELAY;
     } else {
-      state++;
+      dsm_state++;
       CYRF_SetTxRxMode(RX_EN); //Receive mode
       CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x80); //Prepare to receive
       return 11000*2 - CH1_CH2_DELAY - WRITE_DELAY - READ_DELAY;
     }
-  } else if(state == DSM2_CH2_READ_A || state == DSM2_CH2_READ_B) {
+  } else if(dsm_state == DSM2_CH2_READ_A || dsm_state == DSM2_CH2_READ_B) {
     //Read telemetry if needed
     uint8_t rx_state = CYRF_ReadRegister(CYRF_07_RX_IRQ_STATUS);
     if((rx_state & 0x03) == 0x02) {  // RXC=1, RXE=0 then 2nd check is required (debouncing)
@@ -734,10 +734,10 @@ static uint16_t dsm2_cb()
       // TODO parse_telemetry_packet();
 #endif
     }
-    if (state == DSM2_CH2_READ_A && num_channels < 8) {
-      state = DSM2_CH2_READ_B;
+    if (dsm_state == DSM2_CH2_READ_A && num_channels < 8) {
+      dsm_state = DSM2_CH2_READ_B;
       //Reseat RX mode just in case any error
-      CYRF_WriteRegister(CYRF_0F_XACT_CFG, (CYRF_ReadRegister(CYRF_0F_XACT_CFG) | 0x20));  // Force end state
+      CYRF_WriteRegister(CYRF_0F_XACT_CFG, (CYRF_ReadRegister(CYRF_0F_XACT_CFG) | 0x20));  // Force end dsm_state
       uint8_t i = 0;
       while (CYRF_ReadRegister(CYRF_0F_XACT_CFG) & 0x20) {
         if(++i > NUM_WAIT_LOOPS)
@@ -746,10 +746,10 @@ static uint16_t dsm2_cb()
       CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x80);  //Prepare to receive
       return 11000U*2;
     }
-    if (state == DSM2_CH2_READ_A)
-      state = DSM2_CH1_WRITE_B;
+    if (dsm_state == DSM2_CH2_READ_A)
+      dsm_state = DSM2_CH1_WRITE_B;
     else
-      state = DSM2_CH1_WRITE_A;
+      dsm_state = DSM2_CH1_WRITE_A;
     CYRF_SetTxRxMode(TX_EN); //Write mode
     set_sop_data_crc();
     return READ_DELAY;
@@ -796,12 +796,12 @@ static void DSM_initialize(uint8_t bind)
   num_channels = 12;
 
   if (bind) {
-    state = DSM2_BIND;
+    dsm_state = DSM2_BIND;
     //PROTOCOL_SetBindState((DSM_BIND_COUNT > 200 ? DSM_BIND_COUNT / 2 : 200) * 10); //msecs
     initialize_bind_state();
     binding = 1;
   } else {
-    state = DSM2_CHANSEL;
+    dsm_state = DSM2_CHANSEL;
     binding = 0;
   }
   CYRF_SetTxRxMode(TX_EN);

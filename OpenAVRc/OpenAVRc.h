@@ -909,7 +909,7 @@ void evalFunctions();
   extern volatile rotenc_t g_rotenc[1];
 #endif
 
-extern void processSerialData(uint8_t data);
+extern void parseTelemSportByte(uint8_t data, uint8_t no_chk_telefr_crc);
 #if defined (FRSKY)
   // FrSky Telemetry
   #include "telemetry/frsky.h"
