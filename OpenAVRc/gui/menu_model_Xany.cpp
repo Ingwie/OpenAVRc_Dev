@@ -61,8 +61,9 @@ void menuModelXany(uint8_t event)
 
   SIMPLE_MENU(STR_X_ANY, menuTabModel, e_Xany, MODEL_XANY_MAX_LINES);
 
-  uint8_t sub = menuVerticalPosition - 1;
-  int8_t editMode = s_editMode;
+  uint8_t      sub = menuVerticalPosition - 1, ValidMsg;
+  int8_t       editMode = s_editMode;
+  XanyInfoSt_t XanyInfo;
 
   coord_t y = MENU_HEADER_HEIGHT + 1;
 
@@ -96,11 +97,13 @@ void menuModelXany(uint8_t event)
           break;
 
         case ITEM_MODEL_ABSAGLSENSOR_A :
-          ON_OFF_MENU_ITEM(g_model.Xany[0].AbsAglSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event);
+          ON_OFF_MENU_ITEM(g_model.Xany[0].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event);
           break;
 
         case ITEM_MODEL_INPUT_A :
-          lcd_outbin(16,4*FW,y,Xany_getInput(0),attr);
+          ValidMsg = Xany_operation(0, XANY_OP_READ_INFO, &XanyInfo);
+          /* If ValidMsg == 0, this means the combination is not supported */
+          lcd_outbin(XanyInfo.SwNb,4*FW,y,XanyInfo.SwValue,attr);
           break;
 
         case ITEM_MODEL_SEPARATOR :
@@ -127,11 +130,13 @@ void menuModelXany(uint8_t event)
           break;
 
         case ITEM_MODEL_ABSAGLSENSOR_B :
-          ON_OFF_MENU_ITEM(g_model.Xany[1].AbsAglSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event);
+          ON_OFF_MENU_ITEM(g_model.Xany[1].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event);
           break;
 
         case ITEM_MODEL_INPUT_B :
-          lcd_outbin(16,4*FW,y,Xany_getInput(1),attr);
+          ValidMsg = Xany_operation(1, XANY_OP_READ_INFO, &XanyInfo);
+          /* If ValidMsg == 0, this means the combination is not supported */
+          lcd_outbin(XanyInfo.SwNb,4*FW,y,XanyInfo.SwValue,attr);
           break;
         }
       y += FH;

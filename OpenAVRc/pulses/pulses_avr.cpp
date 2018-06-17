@@ -145,10 +145,24 @@ void setupPulsesPPM(enum ppmtype proto)
   if(proto == PPM || proto == PPMSIM) p = 4 + (g_model.PPMNCH * 2); // Channels *2
   else if(proto == PPM16FIRST) p = 8;
   else p = 16; // PPM16 Channels 9-16.
+
 #if defined(X_ANY)
+
+#if (X_ANY >= 1)
   Xany_scheduleTx(0);
+#endif
+#if (X_ANY >= 2)
   Xany_scheduleTx(1);
 #endif
+#if (X_ANY >= 3)
+  Xany_scheduleTx(2);
+#endif
+#if (X_ANY >= 4)
+  Xany_scheduleTx(3);
+#endif
+
+#endif
+
   for (uint8_t i=(proto == PPM16LAST) ? 8 : 0; i<p; i++) { // Just do channels 1-8 unless PPM16 (9-16).
     int16_t v = limit((int16_t)-PPM_range, channelOutputs[i], (int16_t)PPM_range) + 2*PPM_CH_CENTER(i);
     rest -= v;
