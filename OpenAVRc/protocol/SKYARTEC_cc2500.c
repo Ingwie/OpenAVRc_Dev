@@ -158,7 +158,7 @@ static void Skyartec_send_data_packet()
   CC2500_WriteData(packet, packet[0]+1);
 }
 
-static void send_bind_packet()
+static void Skyartec_send_bind_packet()
 {
   //0b 7d 01 01 b2 c5 4a 2f 00 00 c5 d6
   packet[0] = 0x0b;       //Length
@@ -186,7 +186,7 @@ static void send_bind_packet()
 static uint16_t SKYARTEC_bind_cb()
 {
   SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
-  send_bind_packet();
+  Skyartec_send_bind_packet();
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return 18000U *2;

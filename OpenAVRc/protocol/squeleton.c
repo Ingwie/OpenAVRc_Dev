@@ -57,7 +57,7 @@ static void Squeleton_send_data_packet()
 {
 }
 
-static void send_bind_packet()
+static void Squeleton_send_bind_packet()
 {
 }
 
@@ -82,7 +82,6 @@ static uint16_t Squeleton_cb()
 
 static void Squeleton_initialize(uint8_t bind)
 {
-  PROTO_Stop_Callback();
   Squeleton_init();
   if (bind) {
   PROTO_Start_Callback(25000U *2, Squeleton_bind_cb);

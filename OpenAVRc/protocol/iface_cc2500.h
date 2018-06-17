@@ -165,7 +165,7 @@ uint8_t CC2500_ReadReg(uint8_t addr);
 void CC2500_Reset();
 uint8_t CC2500_Strobe(uint8_t cmd);
 void CC2500_WriteData(uint8_t *packet, uint8_t length);
-void CC2500_ReadData(uint8_t *dpbuffer, int len);
+void CC2500_ReadData(uint8_t *dpbuffer, uint8_t len);
 
 
 void CC2500_SetTxRxMode(enum TXRX_State);
