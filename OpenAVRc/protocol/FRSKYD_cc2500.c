@@ -245,7 +245,7 @@ static uint16_t FRSKYD_data_cb()
         else if(packet[1] != g_eeGeneral.fixed_ID.ID_8[0]) break;
         else if(packet[2] != g_eeGeneral.fixed_ID.ID_8[1]) break;
 #if defined(FRSKY)
-        memcpy(Usart0RxBuffer, packet, len);
+        //memcpy(Usart0RxBuffer, packet, len);
         if(frskyStreaming < FRSKY_TIMEOUT10ms -5) frskyStreaming +=5;
         // frskyStreaming gets decremented every 10ms, however we can only add to it every 4 *9ms, so we add 5.
 #endif
