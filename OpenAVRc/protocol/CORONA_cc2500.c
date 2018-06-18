@@ -69,6 +69,7 @@ static void corona_init()
     {
       t_rf_id_addr[i] = g_eeGeneral.fixed_ID.ID_8[i]; /* Use packet[139 to 143 to store a copy of FixedID  */
     }
+    t_rf_id_addr[3] ^= RXNUM; // Like model match function
 
   // From dumps channels are anything between 0x00 and 0xC5 on V1.
   // But 0x00 and 0xB8 should be avoided on V2 since they are used for bind.

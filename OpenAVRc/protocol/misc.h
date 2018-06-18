@@ -34,6 +34,8 @@
 #ifndef misc_h
 #define misc_h
 
+#define RXNUM g_model.modelId
+
 #define RX_TX_ADDR_OFFSET       PULSES_BYTE_SIZE - 5
 #define MAX_PACKET              40
 #define CHANNEL_USED_OFFSET     MAX_PACKET

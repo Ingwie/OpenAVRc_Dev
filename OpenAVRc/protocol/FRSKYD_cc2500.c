@@ -111,7 +111,7 @@ static void FRSKYD_build_bind_packet()
   packet[1] = 0x03; //Packet type
   packet[2] = 0x01; //Packet type
   packet[3] = g_eeGeneral.fixed_ID.ID_8[0];
-  packet[4] = g_eeGeneral.fixed_ID.ID_8[1];
+  packet[4] = g_eeGeneral.fixed_ID.ID_8[1]^RXNUM;
   packet[5] = bind_idx; // Index into channels_used array.
   packet[6] =  channel_used[bind_idx++];
   packet[7] =  channel_used[bind_idx++];
@@ -134,7 +134,7 @@ static void FRSKYD_build_data_packet()
 {
   packet[0] = 0x11; // Length
   packet[1] = g_eeGeneral.fixed_ID.ID_8[0];
-  packet[2] = g_eeGeneral.fixed_ID.ID_8[1];
+  packet[2] = g_eeGeneral.fixed_ID.ID_8[1]^RXNUM;
   packet[3] = packet_count;
 #if HAS_EXTENDED_TELEMETRY
   packet[4] = sequence; // acknowledge last value packet
@@ -149,21 +149,14 @@ static void FRSKYD_build_data_packet()
   packet[16] = 0;
   packet[17] = 0;
 
-  uint8_t num_chan = 8 + (g_model.PPMNCH *2); //TODO Why ?? use num_chan ??
-  if(num_chan > 8) num_chan = 8;
-
   for(uint8_t i = 0; i < 8; i++) {
-    int16_t value;
-    if(i < num_chan) {
       // 0x08CA / 1.5 = 1500 (us). Probably because they use 12MHz clocks.
       // 0x05DC -> 1000us 5ca
       // 0x0BB8 -> 2000us bca
-
-      value = channelOutputs[i] + 2*PPM_CH_CENTER(i) - 2*PPM_CENTER;
+      int16_t value = channelOutputs[i] + 2*PPM_CH_CENTER(i) - 2*PPM_CENTER;
       value -= (value>>2); // x-x/4
       value = limit((int16_t)-(640 + (640>>1)), value, (int16_t)+(640 + (640>>1)));
       value += 0x08CA;
-    } else value = 0x8C9;
 
     if(i < 4) {
       packet[6+i] = value & 0xff;
@@ -206,7 +199,7 @@ static uint16_t FRSKYD_data_cb()
       }
 
       CC2500_WriteReg(CC2500_0A_CHANNR, channel_used[packet_count %47]);
-      start_tx_rx =1;
+      start_tx_rx = 1;
       return 500 *2;
     } else {
 
@@ -243,7 +236,7 @@ static uint16_t FRSKYD_data_cb()
         // Packet checks: sensible length, good CRC, matching fixed id
         if(len != packet[0] + 3 || packet[0] < 5 || !(packet[len-1] & 0x80)) break;
         else if(packet[1] != g_eeGeneral.fixed_ID.ID_8[0]) break;
-        else if(packet[2] != g_eeGeneral.fixed_ID.ID_8[1]) break;
+        else if(packet[2] != g_eeGeneral.fixed_ID.ID_8[1]^RXNUM) break;
 #if defined(FRSKY)
         //memcpy(Usart0RxBuffer, packet, len);
         if(frskyStreaming < FRSKY_TIMEOUT10ms -5) frskyStreaming +=5;
