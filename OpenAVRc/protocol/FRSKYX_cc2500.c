@@ -182,8 +182,6 @@ static void frskyX_set_start(uint8_t ch)
   CC2500_WriteReg(CC2500_0A_CHANNR, channel_used[ch]);
 }
 
-#define RXNUM g_model.modelId
-
 static void frskyX_build_bind_packet()
 {
   packet[0] = (g_model.rfSubType & 0x01) ? 0x20 : 0x1D;// LBT (EU) or  FCC (US)
