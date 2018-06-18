@@ -1558,7 +1558,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_EEPROM_VER()
       eepromfile->Read(wxT("telemetry.fasOffset"),&tmp,0);
       temp_model.telemetry.fasOffset = tmp;
 
-      for (int i=0; i<NUM_X_ANY; ++i)
+      for (int i=0; i<NUM_MAX_X_ANY; ++i)
         {
           num = wxString::Format(wxT("%i"),i);
           eepromfile->Read(wxT("Xany"+num+"Active"),&tmp,0);
@@ -1567,8 +1567,16 @@ void OpenAVRc_SimulatorFrame::load_ModelData_EEPROM_VER()
           temp_model.Xany[i].ChId = tmp;
           eepromfile->Read(wxT("Xany"+num+"RepeatNb"),&tmp,0);
           temp_model.Xany[i].RepeatNb = tmp;
-          eepromfile->Read(wxT("Xany"+num+"AbsAglSensor"),&tmp,0);
-          temp_model.Xany[i].AbsAglSensor = tmp;
+          eepromfile->Read(wxT("Xany"+num+"Reserved1"),&tmp,0);
+          temp_model.Xany[i].Reserved1 = tmp;
+          eepromfile->Read(wxT("Xany"+num+"PayloadCfg.Raw"),&tmp,0);
+          temp_model.Xany[i].PayloadCfg.Raw = tmp;
+          eepromfile->Read(wxT("Xany"+num+"Rfu0"),&tmp,0);
+          temp_model.Xany[i].Rfu[0] = tmp;
+          eepromfile->Read(wxT("Xany"+num+"Rfu1"),&tmp,0);
+          temp_model.Xany[i].Rfu[1] = tmp;
+          eepromfile->Read(wxT("Xany"+num+"Rfu2"),&tmp,0);
+          temp_model.Xany[i].Rfu[2] = tmp;
         }
 
       theFile.writeRlc(FILE_MODEL(m), FILE_TYP_MODEL, (uint8_t*)&temp_model, sizeof(temp_model), 1);
@@ -1902,12 +1910,17 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
       eepromfile->Read(wxT("frsky.fasOffset"),&tmp,0);
       temp_model.telemetry.fasOffset = tmp;
 
-      for (int i=0; i<NUM_X_ANY; ++i)
+      for (int i=0; i<NUM_MAX_X_ANY; ++i)
         {
           temp_model.Xany[i].Active = 0;
           temp_model.Xany[i].ChId = 0;
           temp_model.Xany[i].RepeatNb = 0;
-          temp_model.Xany[i].AbsAglSensor = 0;
+          temp_model.Xany[i].Reserved1 = 0;
+          temp_model.Xany[i].PayloadCfg.Raw = 0;
+          temp_model.Xany[i].Rfu[0] = 0;
+          temp_model.Xany[i].Rfu[1] = 0;
+          temp_model.Xany[i].Rfu[2] = 0;
+
         }
 
       theFile.writeRlc(FILE_MODEL(m), FILE_TYP_MODEL, (uint8_t*)&temp_model, sizeof(temp_model), 1);
@@ -2347,13 +2360,17 @@ void OpenAVRc_SimulatorFrame::save_ModelData_EEPROM_VER()
       eepromfile->Write(wxT("telemetry.varioCenterMax"),(int)temp_model.telemetry.varioCenterMax);
       eepromfile->Write(wxT("telemetry.fasOffset"),(int)temp_model.telemetry.fasOffset);
 
-      for (int i=0; i<NUM_X_ANY; ++i)
+      for (int i=0; i<NUM_MAX_X_ANY; ++i)
         {
           num = wxString::Format(wxT("%i"),i);
           eepromfile->Write(wxT("Xany"+num+"Active"),(int)temp_model.Xany[i].Active);
           eepromfile->Write(wxT("Xany"+num+"ChId"),(int)temp_model.Xany[i].ChId);
           eepromfile->Write(wxT("Xany"+num+"RepeatNb"),(int)temp_model.Xany[i].RepeatNb);
-          eepromfile->Write(wxT("Xany"+num+"AbsAglSensor"),(int)temp_model.Xany[i].AbsAglSensor);
+          eepromfile->Write(wxT("Xany"+num+"Reserved1"),(int)temp_model.Xany[i].Reserved1);
+          eepromfile->Write(wxT("Xany"+num+"PayloadCfg.Raw"),(int)temp_model.Xany[i].PayloadCfg.Raw);
+          eepromfile->Write(wxT("Xany"+num+"Rfu0"),(int)temp_model.Xany[i].Rfu[0]);
+          eepromfile->Write(wxT("Xany"+num+"Rfu1"),(int)temp_model.Xany[i].Rfu[1]);
+          eepromfile->Write(wxT("Xany"+num+"Rfu2"),(int)temp_model.Xany[i].Rfu[2]);
         }
     }
   }

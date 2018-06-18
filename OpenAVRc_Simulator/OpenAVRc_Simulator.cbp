@@ -23,6 +23,7 @@
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
 					<Add option="-DEXTERNALEEPROM" />
+					<Add option="-DX_ANY=4" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 					<Add directory="include" />
 				</Compiler>
@@ -294,6 +295,7 @@
 		<Unit filename="../OpenAVRc/gui/menu_general_version.cpp" />
 		<Unit filename="../OpenAVRc/gui/menu_model.cpp" />
 		<Unit filename="../OpenAVRc/gui/menu_model.h" />
+		<Unit filename="../OpenAVRc/gui/menu_model_Xany.cpp" />
 		<Unit filename="../OpenAVRc/gui/menu_model_curves.cpp" />
 		<Unit filename="../OpenAVRc/gui/menu_model_custom_functions.cpp" />
 		<Unit filename="../OpenAVRc/gui/menu_model_flightmodes.cpp" />
@@ -332,6 +334,11 @@
 		<Unit filename="../OpenAVRc/mixer.cpp" />
 		<Unit filename="../OpenAVRc/myeeprom.h" />
 		<Unit filename="../OpenAVRc/pgmtypes.h" />
+		<Unit filename="../OpenAVRc/protocol/CORONA_cc2500.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="../OpenAVRc/protocol/DEVO_cyrf6936.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
@@ -362,6 +369,7 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
+		<Unit filename="../OpenAVRc/protocol/FRSKY_DEF_cc2500.h" />
 		<Unit filename="../OpenAVRc/protocol/MULTI.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
@@ -395,7 +403,6 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
-		<Unit filename="../OpenAVRc/protocol/frsky.h" />
 		<Unit filename="../OpenAVRc/protocol/iface_cc2500.h" />
 		<Unit filename="../OpenAVRc/protocol/iface_cyrf6936.h" />
 		<Unit filename="../OpenAVRc/protocol/interface.h" />
@@ -539,7 +546,7 @@
 		<Unit filename="wxsmith/TelemetryFrame.wxs" />
 		<Extensions>
 			<code_completion />
-			<envvars />
+			<envvars set="default" />
 			<debugger />
 			<lib_finder disable_auto="1" />
 			<wxsmith version="1">
