@@ -1099,8 +1099,11 @@ PACK(typedef struct {
 //SPI Def
 #define RFPOWER         rfOptionValue3
 
+#if defined(X_ANY)
 #define NUM_X_ANY       X_ANY
+#endif
 
+#define NUM_MAX_X_ANY   4
 
 #define X_ANY_SW_BIT_NB           2
 #define X_ANY_ROT_POT_BIT_NB      1
@@ -1181,7 +1184,7 @@ PACK(typedef struct {
 
   TELEMETRY_DATA
 
-  XanyEepSt_t Xany[NUM_X_ANY]; // NUM_X_ANY x sizeof(XanyEepSt_t) bytes
+  XanyEepSt_t Xany[NUM_MAX_X_ANY]; // NUM_X_ANY x sizeof(XanyEepSt_t) bytes
 
 }) ModelData;
 
