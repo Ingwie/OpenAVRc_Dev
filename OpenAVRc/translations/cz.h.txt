@@ -541,7 +541,6 @@
 #define TR_RXCHANNELORD        TR("Pořadí kanálů", "Výchozí pořadí kanálů")
 #define TR_STICKS              "Páky"
 #define TR_POTS                "Potenciometry"
-#define TR_SWITCHES            "Spínače"
 #define TR_SWITCHES_DELAY      "Přechod středu přepínače"
 #define TR_SLAVE               "Podřízený"
 #define TR_MODESRC             " Mód\006% Zdroj"
@@ -823,7 +822,8 @@
   #define TR_ACTIVED                      "Active"
   #define TR_NUMBER                       "Number"
   #define TR_CHANNEL                      "Channel "
-  #define TR_NB_REPEAT                    "Nb repeat  "
+  #define TR_NB_REPEAT                    "Nb repeat "
+  #define TR_SWITCHES                     "Spínače "
   #define TR_ANGLE_SENSOR                 "Angle"
 #endif
 
