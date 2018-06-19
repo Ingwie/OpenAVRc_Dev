@@ -826,7 +826,8 @@
   #define TR_ACTIVED                      "Active"
   #define TR_NUMBER                       "Number"
   #define TR_CHANNEL                      "Channel "
-  #define TR_NB_REPEAT                    "Nb repeat  "
+  #define TR_NB_REPEAT                    "Nb repeat "
+  #define TR_SWITCHES                     "Switches "
   #define TR_ANGLE_SENSOR                 "Angle"
 #endif
 

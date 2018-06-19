@@ -375,7 +375,6 @@ extern const pm_char STR_REPEAT_AT_ZERO[];
 extern const pm_char STR_RXCHANNELORD[];
 extern const pm_char STR_STICKS[];
 extern const pm_char STR_POTS[];
-extern const pm_char STR_SWITCHES[];
 extern const pm_char STR_SWITCHES_DELAY[];
 extern const pm_char STR_SLAVE[];
 extern const pm_char STR_MODESRC[];
@@ -680,6 +679,7 @@ extern const pm_char STR_ACTIVED[];
 extern const pm_char STR_NUMBER[];
 extern const pm_char STR_CHANNEL[];
 extern const pm_char STR_NB_REPEAT[];
+extern const pm_char STR_SWITCHES[];
 extern const pm_char STR_ANGLE_SENSOR[];
 #endif
 

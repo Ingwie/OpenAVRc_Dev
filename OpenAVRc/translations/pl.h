@@ -541,7 +541,6 @@
 #define TR_RXCHANNELORD        TR("KolejnKan.RX", "Bazowa kolejno\206\201 kana\203\205w")
 #define TR_STICKS              "Dr\200\207ki"
 #define TR_POTS                "Pots"
-#define TR_SWITCHES            "Prze\203\200cz"
 #define TR_SWITCHES_DELAY      "Op\205\210n.Prze\203."
 #define TR_SLAVE               "Ucze\204"
 #define TR_MODESRC             " Tryb\006% \221r\205d\203o"
@@ -821,7 +820,8 @@
   #define TR_ACTIVED                      "Active"
   #define TR_NUMBER                       "Number"
   #define TR_CHANNEL                      "Channel "
-  #define TR_NB_REPEAT                    "Nb repeat  "
+  #define TR_NB_REPEAT                    "Nb repeat "
+  #define TR_SWITCHES                     "Prze\203\200cz "
   #define TR_ANGLE_SENSOR                 "Angle"
 #endif
 

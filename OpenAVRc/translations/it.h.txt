@@ -538,7 +538,6 @@
 #define TR_RXCHANNELORD        "Ordine ch RX"
 #define TR_STICKS              "Sticks"
 #define TR_POTS                "Pot."
-#define TR_SWITCHES            "Interutt."
 #define TR_SWITCHES_DELAY      "Ritardo voce FV"
 #define TR_SLAVE               "Allievo"
 #define TR_MODESRC             "Modo\006% Origine"
@@ -817,7 +816,8 @@
   #define TR_ACTIVED                      "Active"
   #define TR_NUMBER                       "Number"
   #define TR_CHANNEL                      "Channel "
-  #define TR_NB_REPEAT                    "Nb repeat  "
+  #define TR_NB_REPEAT                    "Nb repeat "
+  #define TR_SWITCHES                     "Interutt. "
   #define TR_ANGLE_SENSOR                 "Angle"
 #endif
 

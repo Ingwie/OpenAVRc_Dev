@@ -549,7 +549,6 @@
 #define TR_RXCHANNELORD        TR("Kanalanordnung", "Kanalvoreinstellung")
 #define TR_STICKS              "Knüppel"
 #define TR_POTS                "Potis"
-#define TR_SWITCHES            "Schalter"
 #define TR_SWITCHES_DELAY      TR("Sw. Mitte Delay", "Schaltermitte Verz.")   //Schalter Mitten verzögern Anpassung
 #define TR_SLAVE               TR("Schüler PPM1-16", "Schüler PPM1-16 als Ausgang")
 #define TR_MODESRC             " Modus\003%  Quelle"
@@ -829,6 +828,7 @@
   #define TR_NUMBER                       "Number"
   #define TR_CHANNEL                      "Channel "
   #define TR_NB_REPEAT                    "Nb repeat  "
+  #define TR_SWITCHES                     "Schalter "
   #define TR_ANGLE_SENSOR                 "Angle"
 #endif
 
