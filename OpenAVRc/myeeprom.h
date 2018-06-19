@@ -1086,18 +1086,6 @@ PACK(typedef struct {
 }) ModelData;
 */
 
-// PPM Def
-#define PPMFRAMELENGTH  rfOptionValue1 // 0=22.5ms  (10ms-30ms) 0.5ms increments
-#define PPMDELAY        rfOptionValue2
-#define PPMNCH          rfSubType
-#define PULSEPOL        rfOptionBool1
-//Multi Def
-#define MULTIRFPROTOCOL rfOptionValue1
-#define CUSTOMPROTO     rfOptionBool1
-#define AUTOBINDMODE    rfOptionBool2
-#define LOWPOWERMODE    rfOptionBool3
-//SPI Def
-#define RFPOWER         rfOptionValue3
 
 #if defined(X_ANY)
 #define NUM_X_ANY       X_ANY

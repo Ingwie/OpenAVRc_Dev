@@ -236,7 +236,7 @@ static uint16_t FRSKYD_data_cb()
         // Packet checks: sensible length, good CRC, matching fixed id
         if(len != packet[0] + 3 || packet[0] < 5 || !(packet[len-1] & 0x80)) break;
         else if(packet[1] != g_eeGeneral.fixed_ID.ID_8[0]) break;
-        else if(packet[2] != g_eeGeneral.fixed_ID.ID_8[1]^RXNUM) break;
+        else if(packet[2] != (g_eeGeneral.fixed_ID.ID_8[1]^RXNUM)) break;
 #if defined(FRSKY)
         //memcpy(Usart0RxBuffer, packet, len);
         if(frskyStreaming < FRSKY_TIMEOUT10ms -5) frskyStreaming +=5;
