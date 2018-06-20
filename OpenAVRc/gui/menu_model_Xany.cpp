@@ -157,12 +157,15 @@ void menuModelXany(uint8_t event)
         case ITEM_MODEL_ABSAGLSENSOR_A :
           if (ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event))
             {
-              lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
+              if (ValidMsg) lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
             }
           break;
 
         case ITEM_MODEL_POT_A :
-          ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.RotPot, MODEL_XANY_2ND_COLUMN, y, STR_POTS, attr, event);
+          if (ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.RotPot, MODEL_XANY_2ND_COLUMN, y, STR_POTS, attr, event))
+          {
+            if (ValidMsg) lcdDrawNumberNAtt(16*FW, y, XanyInfo.RotPotValue, INVERS | UNSIGN | LEADING0, 3);
+          }
           break;
 #if (X_ANY >= 2)
         case ITEM_MODEL_SEPARATOR :
@@ -207,12 +210,15 @@ void menuModelXany(uint8_t event)
         case ITEM_MODEL_ABSAGLSENSOR_B :
           if (ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event))
             {
-              lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
+              if (ValidMsg) lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
             }
           break;
 
         case ITEM_MODEL_POT_B :
-          ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.RotPot, MODEL_XANY_2ND_COLUMN, y, STR_POTS, attr, event);
+          if (ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.RotPot, MODEL_XANY_2ND_COLUMN, y, STR_POTS, attr, event))
+          {
+            if (ValidMsg) lcdDrawNumberNAtt(16*FW, y, XanyInfo.RotPotValue, INVERS | UNSIGN | LEADING0, 3);
+          }
           break;
 #endif
 #if (X_ANY >= 3)
@@ -258,12 +264,15 @@ void menuModelXany(uint8_t event)
         case ITEM_MODEL_ABSAGLSENSOR_C :
           if (ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event))
             {
-              lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
+              if (ValidMsg) lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
             }
           break;
 
         case ITEM_MODEL_POT_C :
-          ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.RotPot, MODEL_XANY_2ND_COLUMN, y, STR_POTS, attr, event);
+          if (ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.RotPot, MODEL_XANY_2ND_COLUMN, y, STR_POTS, attr, event))
+          {
+            if (ValidMsg) lcdDrawNumberNAtt(16*FW, y, XanyInfo.RotPotValue, INVERS | UNSIGN | LEADING0, 3);
+          }
           break;
 #endif
 #if (X_ANY >= 4)
@@ -309,12 +318,15 @@ void menuModelXany(uint8_t event)
         case ITEM_MODEL_ABSAGLSENSOR_D :
           if (ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event))
             {
-              lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
+              if (ValidMsg) lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
             }
           break;
 
         case ITEM_MODEL_POT_D :
-          ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.RotPot, MODEL_XANY_2ND_COLUMN, y, STR_POTS, attr, event);
+          if (ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.RotPot, MODEL_XANY_2ND_COLUMN, y, STR_POTS, attr, event))
+          {
+            if (ValidMsg) lcdDrawNumberNAtt(16*FW, y, XanyInfo.RotPotValue, INVERS | UNSIGN | LEADING0, 3);
+          }
           break;
 #endif
         }
