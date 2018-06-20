@@ -155,7 +155,10 @@ void menuModelXany(uint8_t event)
           break;
 
         case ITEM_MODEL_ABSAGLSENSOR_A :
-          ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event);
+          if (ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event))
+            {
+              lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
+            }
           break;
 
         case ITEM_MODEL_POT_A :
@@ -202,7 +205,10 @@ void menuModelXany(uint8_t event)
           break;
 
         case ITEM_MODEL_ABSAGLSENSOR_B :
-          ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event);
+          if (ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event))
+            {
+              lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
+            }
           break;
 
         case ITEM_MODEL_POT_B :
@@ -250,7 +256,10 @@ void menuModelXany(uint8_t event)
           break;
 
         case ITEM_MODEL_ABSAGLSENSOR_C :
-          ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event);
+          if (ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event))
+            {
+              lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
+            }
           break;
 
         case ITEM_MODEL_POT_C :
@@ -298,7 +307,10 @@ void menuModelXany(uint8_t event)
           break;
 
         case ITEM_MODEL_ABSAGLSENSOR_D :
-          ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event);
+          if (ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event))
+            {
+              lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
+            }
           break;
 
         case ITEM_MODEL_POT_D :
