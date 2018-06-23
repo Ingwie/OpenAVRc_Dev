@@ -823,8 +823,8 @@
   #define TR_NUMBER                       "Number"
   #define TR_CHANNEL                      "Channel "
   #define TR_NB_REPEAT                    "Nb repeat "
-  #define TR_SWITCHES                     "Sp\204na\201e "
-  #define TR_ANGLE_SENSOR                 "Angle"
+  #define TR_SWITCHES                     "Sw. "
+  #define TR_ANGLE_SENSOR                 "0:360"
 #endif
 
 

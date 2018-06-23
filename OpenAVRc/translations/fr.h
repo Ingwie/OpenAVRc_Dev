@@ -831,8 +831,8 @@
   #define TR_NUMBER                       "Num\200ro"
   #define TR_CHANNEL                      "Voie "
   #define TR_NB_REPEAT                    "Nb r\200p\200tition "
-  #define TR_SWITCHES                     "Inters "
-  #define TR_ANGLE_SENSOR                 "Angle"
+  #define TR_SWITCHES                     "Sw. "
+  #define TR_ANGLE_SENSOR                 "0:360"
 #endif
 
 
