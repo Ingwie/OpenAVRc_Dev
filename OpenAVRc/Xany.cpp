@@ -254,7 +254,7 @@ typedef struct {
                   CurIdx:           5, /* Prev Nibble to compare to the following one */
                   PrevIdx:          5, /* Prev Nibble to compare to the following one */
                   Reserved:         2;
-}TxNibbleSt_t;  /* Size = 3 bytes */
+}TxNibbleSt_t;  /* Size = 2 bytes */
 
 typedef struct{
   XanyMsg_union   Msg; /* Sending buffer (in interrupt) */
@@ -326,7 +326,7 @@ uint8_t Xany_readInputsAndLoadMsg(uint8_t XanyIdx)
     /* No need to mask interrupt since X_AnyWriteMsg[] is not use when X_AnyWriteMsg[XanyIdx].NibbleIdx is >= (X_AnyWriteMsg[XanyIdx].Msg.NibbleNbToTx + 1) */
     Xany_operation(XanyIdx, XANY_OP_BUILD_MSG, &XanyInfo); /* This reads the I2C bus */
     /* Load from Read structure to Write structure */
-    memcpy((void*)&X_AnyWriteMsg[XanyIdx].Msg, (void*)&X_AnyReadMsg[XanyIdx], sizeof(XanyMsg_union)); /* Copy 3 bytes */
+    memcpy((void*)&X_AnyWriteMsg[XanyIdx].Msg, (void*)&X_AnyReadMsg[XanyIdx], sizeof(XanyMsg_union)); /* Copy 4 bytes */
     X_AnyWriteMsg[XanyIdx].NibbleIdx = 0; /* Go! */
     Done = 1;
   }
@@ -363,7 +363,7 @@ void Xany_scheduleTx(uint8_t XanyIdx)
       else
       {
         t->Nibble.CurIdx = NIBBLE_I; /* Nothing to transmit */
-        if(t->NibbleIdx < (t->Msg.Common.NibbleNbToTx + 1)) t->Msg.Common.NibbleNbToTx++; /* Bounded to 4: meanst synchro to allow reload of the new message */
+        if(t->NibbleIdx < (t->Msg.Common.NibbleNbToTx + 1)) t->Msg.Common.NibbleNbToTx++; /* Bounded to NibbleNbToTx + 1: meanst synchro to allow reload of the new message */
       }
       if(t->Nibble.CurIdx == t->Nibble.PrevIdx) t->Nibble.CurIdx = NIBBLE_R; /* Repeat symbol */
       t->Nibble.PrevIdx = t->Nibble.CurIdx;
