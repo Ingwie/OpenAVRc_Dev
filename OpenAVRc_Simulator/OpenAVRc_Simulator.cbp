@@ -23,7 +23,6 @@
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
 					<Add option="-DEXTERNALEEPROM" />
-					<Add option="-DX_ANY=4" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 					<Add directory="include" />
 				</Compiler>
@@ -250,6 +249,11 @@
 			<Add option="-DAUTOSWITCH" />
 			<Add option="-DAUTOSOURCE" />
 			<Add option="-DEXTRA_3POS=2" />
+			<Add option="-DX_ANY=4" />
+			<Add option="-DX_ANY_1_POT=POT1" />
+			<Add option="-DX_ANY_2_POT=POT2" />
+			<Add option="-DX_ANY_3_POT=POT3" />
+			<Add option="-DX_ANY_4_POT=STICK2" />
 			<Add option="-DMULTIMODULE" />
 			<Add option="-DSPIMODULES" />
 			<Add option="-DPROTO_HAS_CC2500" />
