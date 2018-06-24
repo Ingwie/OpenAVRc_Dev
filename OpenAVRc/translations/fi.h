@@ -542,7 +542,6 @@
 #define TR_RXCHANNELORD        TR("Rx Channel Ord","Default channel order")
 #define TR_STICKS              "Sticks"
 #define TR_POTS                "Pots"
-#define TR_SWITCHES            "Switches"
 #define TR_SWITCHES_DELAY      "Switches Delay"
 #define TR_SLAVE               "Slave"
 #define TR_MODESRC             "Mode\006% Source"
@@ -827,8 +826,9 @@
   #define TR_ACTIVED                      "Active"
   #define TR_NUMBER                       "Number"
   #define TR_CHANNEL                      "Channel "
-  #define TR_NB_REPEAT                    "Nb repeat  "
-  #define TR_ANGLE_SENSOR                 "Angle"
+  #define TR_NB_REPEAT                    "Nb repeat "
+  #define TR_SWITCHES                     "Sw. "
+  #define TR_ANGLE_SENSOR                 "0:360"
 #endif
 
 

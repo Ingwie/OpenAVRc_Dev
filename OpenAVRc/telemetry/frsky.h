@@ -248,10 +248,6 @@ enum FrSkyDataState {
   STATE_DATA_START,
   STATE_DATA_IN_FRAME,
   STATE_DATA_XOR,
-#if defined(TELEMETREZ)
-  STATE_DATA_PRIVATE_LEN,
-  STATE_DATA_PRIVATE_VALUE
-#endif
 };
 
 #define SEND_RSSI_ALARMS  6
@@ -278,7 +274,7 @@ void frskyDSendNextAlarm();
 void frskyDProcessPacket(uint8_t *packet);
 
 // FrSky S.PORT Protocol
-void processSportPacket(uint8_t *packet);
+void processSportPacket(uint8_t *packet, uint8_t no_chk_telefr_crc);
 
 void checkMinMaxAltitude();
 void telemetryWakeup();

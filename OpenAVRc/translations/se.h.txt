@@ -538,7 +538,6 @@
 #define TR_RXCHANNELORD        "Kanaler i RX"
 #define TR_STICKS              "Spakar"
 #define TR_POTS                "Rattar"
-#define TR_SWITCHES            "Brytare"
 #define TR_SWITCHES_DELAY      "Brytarfördröjning"
 #define TR_SLAVE               "Elev"
 #define TR_MODESRC             " Läge\004% Källa"
@@ -815,8 +814,9 @@
   #define TR_ACTIVED                      "Active"
   #define TR_NUMBER                       "Number"
   #define TR_CHANNEL                      "Channel "
-  #define TR_NB_REPEAT                    "Nb repeat  "
-  #define TR_ANGLE_SENSOR                 "Angle"
+  #define TR_NB_REPEAT                    "Nb repeat "
+  #define TR_SWITCHES                     "Sw. "
+  #define TR_ANGLE_SENSOR                 "0:360"
 #endif
 
 

@@ -193,7 +193,7 @@ ISR(USART_RX_vect_N(TLM_USART0))
     // discard buffer and start fresh on any comms error
     Usart0RxBufferCount = 0;
   } else {
-    processSerialData(data);
+    parseTelemSportByte(data, 0);
   }
 
   cli() ;

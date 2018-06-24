@@ -541,7 +541,6 @@
 #define TR_RXCHANNELORD        TR("Po\206ad\204 kan\200l\211", "V\212choz\204 po\206ad\204 kan\200l\211")
 #define TR_STICKS              "P\200ky"
 #define TR_POTS                "Potenciometry"
-#define TR_SWITCHES            "Sp\204na\201e"
 #define TR_SWITCHES_DELAY      "P\206echod st\206edu p\206ep\204na\201e"
 #define TR_SLAVE               "Pod\206\204zen\212"
 #define TR_MODESRC             " M\205d\006% Zdroj"
@@ -823,8 +822,9 @@
   #define TR_ACTIVED                      "Active"
   #define TR_NUMBER                       "Number"
   #define TR_CHANNEL                      "Channel "
-  #define TR_NB_REPEAT                    "Nb repeat  "
-  #define TR_ANGLE_SENSOR                 "Angle"
+  #define TR_NB_REPEAT                    "Nb repeat "
+  #define TR_SWITCHES                     "Sw. "
+  #define TR_ANGLE_SENSOR                 "0:360"
 #endif
 
 

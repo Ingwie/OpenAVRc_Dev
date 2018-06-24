@@ -103,7 +103,7 @@ static uint16_t DurationValue;
 #define SHOWDURATION2
 #endif
 
-#if defined(EXTERNALEEPROM)
+#if defined(EXTERNALEEPROM) && !defined(SIMU)
 #define CHECK_IIC_USED_IRQ_MODE(x) if (TWCR & _BV(TWINT)) return x
 #else
 #define CHECK_IIC_USED_IRQ_MODE(x) // I2C bus is free !
@@ -909,7 +909,7 @@ void evalFunctions();
   extern volatile rotenc_t g_rotenc[1];
 #endif
 
-extern void processSerialData(uint8_t data);
+extern void parseTelemSportByte(uint8_t data, uint8_t no_chk_telefr_crc);
 #if defined (FRSKY)
   // FrSky Telemetry
   #include "telemetry/frsky.h"

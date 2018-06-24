@@ -1086,21 +1086,12 @@ PACK(typedef struct {
 }) ModelData;
 */
 
-// PPM Def
-#define PPMFRAMELENGTH  rfOptionValue1 // 0=22.5ms  (10ms-30ms) 0.5ms increments
-#define PPMDELAY        rfOptionValue2
-#define PPMNCH          rfSubType
-#define PULSEPOL        rfOptionBool1
-//Multi Def
-#define MULTIRFPROTOCOL rfOptionValue1
-#define CUSTOMPROTO     rfOptionBool1
-#define AUTOBINDMODE    rfOptionBool2
-#define LOWPOWERMODE    rfOptionBool3
-//SPI Def
-#define RFPOWER         rfOptionValue3
 
-#define NUM_X_ANY       4
+#if defined(X_ANY)
+#define NUM_X_ANY       X_ANY
+#endif
 
+#define NUM_MAX_X_ANY   4
 
 #define X_ANY_SW_BIT_NB           2
 #define X_ANY_ROT_POT_BIT_NB      1
@@ -1181,7 +1172,7 @@ PACK(typedef struct {
 
   TELEMETRY_DATA
 
-  XanyEepSt_t Xany[NUM_X_ANY]; // NUM_X_ANY x sizeof(XanyEepSt_t) bytes
+  XanyEepSt_t Xany[NUM_MAX_X_ANY]; // NUM_X_ANY x sizeof(XanyEepSt_t) bytes
 
 }) ModelData;
 

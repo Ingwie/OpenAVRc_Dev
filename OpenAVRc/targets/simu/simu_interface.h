@@ -763,6 +763,7 @@ extern REG8 simu_bssebd;
 #define __bss_end simu_bssebd
 //IRQ
 #define ISR(x, ...)  void x()
+extern void TIMER1_COMPA_vect();
 extern REG8 simu_EIMSK;
 #define  EIMSK simu_EIMSK
 #define  INT4  4

@@ -541,7 +541,6 @@
 #define TR_RXCHANNELORD        TR("KolejnKan.RX", "Bazowa kolejność kanałów")
 #define TR_STICKS              "Drążki"
 #define TR_POTS                "Pots"
-#define TR_SWITCHES            "Przełącz"
 #define TR_SWITCHES_DELAY      "Opóźn.Przeł."
 #define TR_SLAVE               "Uczeń"
 #define TR_MODESRC             " Tryb\006% Źródło"
@@ -821,8 +820,9 @@
   #define TR_ACTIVED                      "Active"
   #define TR_NUMBER                       "Number"
   #define TR_CHANNEL                      "Channel "
-  #define TR_NB_REPEAT                    "Nb repeat  "
-  #define TR_ANGLE_SENSOR                 "Angle"
+  #define TR_NB_REPEAT                    "Nb repeat "
+  #define TR_SWITCHES                     "Sw. "
+  #define TR_ANGLE_SENSOR                 "0:360"
 #endif
 
 

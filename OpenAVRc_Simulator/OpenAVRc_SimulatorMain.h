@@ -119,6 +119,7 @@ protected:
     MaintTaskChronoval = ChronoMain->TimeInMicro();
     ChronoMain->Pause();
     while (TestDestroy()) {};  /**< Auto closed ? */
+    return 0;
   }
 };
 
@@ -140,6 +141,7 @@ protected:
     Isr10msTaskChronoval = Chrono10ms->TimeInMicro();
     Chrono10ms->Pause();
     while (TestDestroy()) {};  /**< Auto closed ? */
+    return 0;
   }
 };
 
