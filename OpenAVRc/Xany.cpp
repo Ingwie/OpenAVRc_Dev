@@ -238,7 +238,7 @@ typedef struct{
 
 const XanyIdxRangeSt_t XanyIdxRange[] PROGMEM = {{0, 6}, {7, 13}, {14, 18}, {19, 23}};
 
-#define SUPPORTED_I2C_IO_EXP_NB       (sizeof(XanyI2cTypeAddr) / sizeof(XanyI2cTypeAddr[0]))
+#define SUPPORTED_I2C_IO_EXP_NB       DIM(XanyI2cTypeAddr)
 
 #define GET_FIRST_IDX(XanyIdx)        (uint8_t)     pgm_read_byte_far(&XanyIdxRange[(XanyIdx)].FirstIdx)
 #define GET_LAST_IDX(XanyIdx)         (uint8_t)     pgm_read_byte_far(&XanyIdxRange[(XanyIdx)].LastIdx)

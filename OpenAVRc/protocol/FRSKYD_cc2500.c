@@ -33,6 +33,7 @@
 
 
 #include "../OpenAVRc.h"
+#include "FRSKY_DEF_cc2500.h"
 
 extern uint8_t Usart0RxBuffer[];
 
@@ -45,8 +46,6 @@ const static RfOptionSettingsvarstruct RfOpt_FrskyD_Ser[] PROGMEM = {
 /*rfOptionValue2Max*/0,
 /*rfOptionValue3Max*/7,    // RF POWER
 };
-
-static uint8_t packet_number = 0;
 
 const static uint8_t ZZ_frskyDInitSequence[] PROGMEM = {
   CC2500_17_MCSM1, 0x00, // Go to idle after tx & rx.
@@ -82,9 +81,10 @@ const static uint8_t ZZ_frskyDInitSequence[] PROGMEM = {
   CC2500_2E_TEST0, 0x0b,
   CC2500_03_FIFOTHR, 0x07};
 
-
 static void FRSKYD_init(uint8_t bind)
 {
+  packet_count = 0;
+
   CC2500_Reset(); // 0x30
 
   uint_farptr_t pdata = pgm_get_far_address(ZZ_frskyDInitSequence);
@@ -105,43 +105,19 @@ static void FRSKYD_init(uint8_t bind)
   CC2500_Strobe(CC2500_SIDLE); // Go to idle...
 }
 
-void FRSKYD_generate_channels()
-{
-/*
- * Make sure adjacent channels in the array are spread across the band and are not repeated.
- */
-
-  uint8_t chan_offset = g_eeGeneral.fixed_ID.ID_8[2] % 10; // 10 channel bases.
-  uint8_t step = g_eeGeneral.fixed_ID.ID_8[3] % 11; // 11 sequences for now.
-
-  step = step + 73; // 73 to 83.
-  // Build channel array.
-  for(uint8_t idx =0; idx <50; idx++) {
-    uint16_t res = ((step * idx) + chan_offset) % 236; // 235 is the highest channel used.
-
-    if(res == 0) res = 161; // Avoid binding channel 0.
-    if(res == 1) res = 80; // Channel 1 probably indicates end of sequence in bind packet.
-    if(idx == 47) res = 1; // Unused but sent to rx in bind packet, may indicate end of sequence.
-    if(idx > 47) res = 0; // Unused but sent to rx in bind packet.
-    channel_used[idx] = res;
-   }
-}
-
 static void FRSKYD_build_bind_packet()
 {
-  static uint8_t bind_idx = 0;
-
   packet[0] = 0x11; //Length (17)
   packet[1] = 0x03; //Packet type
   packet[2] = 0x01; //Packet type
   packet[3] = g_eeGeneral.fixed_ID.ID_8[0];
-  packet[4] = g_eeGeneral.fixed_ID.ID_8[1];
-  packet[5] = bind_idx *5; // Index into channels_used array.
-  packet[6] =  channel_used[packet[5]+0];
-  packet[7] =  channel_used[packet[5]+1];
-  packet[8] =  channel_used[packet[5]+2];
-  packet[9] =  channel_used[packet[5]+3];
-  packet[10] = channel_used[packet[5]+4];
+  packet[4] = g_eeGeneral.fixed_ID.ID_8[1]^RXNUM;
+  packet[5] = bind_idx; // Index into channels_used array.
+  packet[6] =  channel_used[bind_idx++];
+  packet[7] =  channel_used[bind_idx++];
+  packet[8] =  channel_used[bind_idx++];
+  packet[9] =  channel_used[bind_idx++];
+  packet[10] = channel_used[bind_idx++];
   packet[11] = 0x00;
   packet[12] = 0x00;
   packet[13] = 0x00;
@@ -150,17 +126,16 @@ static void FRSKYD_build_bind_packet()
   packet[16] = 0x00;
   packet[17] = 0x01;
 
-  ++bind_idx;
-  if(bind_idx > 9) bind_idx = 0;
+  if(bind_idx > 49)
+    bind_idx = 0;
 }
-
 
 static void FRSKYD_build_data_packet()
 {
   packet[0] = 0x11; // Length
   packet[1] = g_eeGeneral.fixed_ID.ID_8[0];
-  packet[2] = g_eeGeneral.fixed_ID.ID_8[1];
-  packet[3] = packet_number;
+  packet[2] = g_eeGeneral.fixed_ID.ID_8[1]^RXNUM;
+  packet[3] = packet_count;
 #if HAS_EXTENDED_TELEMETRY
   packet[4] = sequence; // acknowledge last value packet
 #else
@@ -174,21 +149,14 @@ static void FRSKYD_build_data_packet()
   packet[16] = 0;
   packet[17] = 0;
 
-  uint8_t num_chan = 8 + (g_model.PPMNCH *2); //TODO Why ?? use num_chan ??
-  if(num_chan > 8) num_chan = 8;
-
   for(uint8_t i = 0; i < 8; i++) {
-    int16_t value;
-    if(i < num_chan) {
       // 0x08CA / 1.5 = 1500 (us). Probably because they use 12MHz clocks.
       // 0x05DC -> 1000us 5ca
       // 0x0BB8 -> 2000us bca
-
-      value = channelOutputs[i] + 2*PPM_CH_CENTER(i) - 2*PPM_CENTER;
+      int16_t value = channelOutputs[i] + 2*PPM_CH_CENTER(i) - 2*PPM_CENTER;
       value -= (value>>2); // x-x/4
       value = limit((int16_t)-(640 + (640>>1)), value, (int16_t)+(640 + (640>>1)));
       value += 0x08CA;
-    } else value = 0x8C9;
 
     if(i < 4) {
       packet[6+i] = value & 0xff;
@@ -199,7 +167,6 @@ static void FRSKYD_build_data_packet()
     }
   }
 }
-
 
 static uint16_t FRSKYD_bind_cb()
 {
@@ -213,35 +180,30 @@ static uint16_t FRSKYD_bind_cb()
   return 18000U *2;
 }
 
-
 static uint16_t FRSKYD_data_cb()
 {
-  static uint8_t start_tx_rx = 0;
-  static uint8_t len;
-  uint8_t rx_packet[21]; // Down-link packet is 20 bytes.
-
   SCHEDULE_MIXER_END_IN_US(8500); // Schedule next Mixer calculations.
 
     if(! start_tx_rx) {
 
-      if((packet_number & 0x03) == 0) {
+      if((packet_count & 0x03) == 0) {
         CC2500_SetTxRxMode(TX_EN);
         CC2500_Strobe(CC2500_SIDLE); // Force idle if still receiving in error condition.
-      } else if((packet_number & 0x03) == 3) {
+      } else if((packet_count & 0x03) == 3) {
         CC2500_SetTxRxMode(RX_EN);
       }
 
-      if(packet_number & 0x1F) {
+      if(packet_count & 0x1F) {
         CC2500_ManagePower();
         CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
       }
 
-      CC2500_WriteReg(CC2500_0A_CHANNR, channel_used[packet_number %47]);
-      start_tx_rx =1;
+      CC2500_WriteReg(CC2500_0A_CHANNR, channel_used[packet_count %47]);
+      start_tx_rx = 1;
       return 500 *2;
     } else {
 
-      switch(packet_number & 0x03) {
+      switch(packet_count & 0x03) {
 
       case 0: // Tx data
         FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
@@ -253,9 +215,10 @@ static uint16_t FRSKYD_data_cb()
         CC2500_WriteData(packet, 18);
 
         // Process previous telemetry packet
+        uint8_t len;
         len = CC2500_ReadReg(CC2500_3B_RXBYTES | CC2500_READ_BURST);
         if(len > 0x14) break; // 20 bytes
-        CC2500_ReadData(rx_packet, len);
+        CC2500_ReadData(packet, len);
 
         /*
         *  pkt 0 = length not counting appended status bytes
@@ -271,11 +234,11 @@ static uint16_t FRSKYD_data_cb()
         */
 
         // Packet checks: sensible length, good CRC, matching fixed id
-        if(len != rx_packet[0] + 3 || rx_packet[0] < 5 || !(rx_packet[len-1] & 0x80)) break;
-        else if(rx_packet[1] != g_eeGeneral.fixed_ID.ID_8[0]) break;
-        else if(rx_packet[2] != g_eeGeneral.fixed_ID.ID_8[1]) break;
+        if(len != packet[0] + 3 || packet[0] < 5 || !(packet[len-1] & 0x80)) break;
+        else if(packet[1] != g_eeGeneral.fixed_ID.ID_8[0]) break;
+        else if(packet[2] != (g_eeGeneral.fixed_ID.ID_8[1]^RXNUM)) break;
 #if defined(FRSKY)
-        memcpy(Usart0RxBuffer, rx_packet, len);
+        //memcpy(Usart0RxBuffer, packet, len);
         if(frskyStreaming < FRSKY_TIMEOUT10ms -5) frskyStreaming +=5;
         // frskyStreaming gets decremented every 10ms, however we can only add to it every 4 *9ms, so we add 5.
 #endif
@@ -292,8 +255,8 @@ static uint16_t FRSKYD_data_cb()
         break;
       }
 
-      packet_number ++;
-      if(packet_number > 187) packet_number =0;
+      packet_count ++;
+      if(packet_count > 187) packet_count =0;
       start_tx_rx =0;
       heartbeat |= HEART_TIMER_PULSES;
       CALCULATE_LAT_JIT(); // Calculate latency and jitter.
@@ -303,8 +266,7 @@ static uint16_t FRSKYD_data_cb()
 
 static void FRSKYD_initialize(uint8_t bind)
 {
-  PROTO_Stop_Callback();
-  FRSKYD_generate_channels();
+  FRSKY_generate_channels();
   CC2500_Reset(); // 0x30
 
   if(bind) {
@@ -329,6 +291,7 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
   //case PROTOCMD_CHECK_AUTOBIND:
     //return 0; // Never Autobind
   case PROTOCMD_BIND:
+    bind_idx = 0;
     FRSKYD_initialize(1);
     return 0;
   case PROTOCMD_RESET:

@@ -550,8 +550,7 @@
 #define TR_GPS                 "GPS"
 #define TR_RXCHANNELORD        TR("Ordre voies RX","Ordre des voies préféré")
 #define TR_STICKS              "Manches"
-#define TR_POTS                "Potentios"
-#define TR_SWITCHES            "Inters"
+#define TR_POTS                "Pot."
 #define TR_SWITCHES_DELAY      "Délai inters son"
 #define TR_SLAVE               "Elève"
 #define TR_MODESRC             "Mode\006% Source"
@@ -831,8 +830,9 @@
   #define TR_ACTIVED                      "Actif"
   #define TR_NUMBER                       "Numéro"
   #define TR_CHANNEL                      "Voie "
-  #define TR_NB_REPEAT                    "Nb répétition  "
-  #define TR_ANGLE_SENSOR                 "Angle"
+  #define TR_NB_REPEAT                    "Nb répétition "
+  #define TR_SWITCHES                     "Sw. "
+  #define TR_ANGLE_SENSOR                 "0:360"
 #endif
 
 
