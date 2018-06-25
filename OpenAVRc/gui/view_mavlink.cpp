@@ -238,7 +238,7 @@ void menuTelemetryMavlinkInfos()
     lcdDrawSizedTextAtt(x1, y, STR_MAVLINK_MODE, 4, 0);
     if (telemetry_data.active)
       lcdDrawSizedTextAtt(x2, y, PSTR("A"), 1, 0);
-    lcdDrawNumberAttUnit(xnum, y, telemetry_data.mode, 0);
+    lcdDrawNumberNAtt(xnum, y, telemetry_data.mode, 0);
 
     y += FH;
     lcdDrawText(x1, y, PSTR("BATT"));
@@ -246,22 +246,22 @@ void menuTelemetryMavlinkInfos()
 
     y += FH;
     lcdDrawText(x1, y, PSTR("DROP"));
-    lcdDrawNumberAttUnit(xnum, y, telemetry_data.packet_drop, 0);
+    lcdDrawNumberNAtt(xnum, y, telemetry_data.packet_drop, 0);
     /*		y += FH;
     		lcdDrawText(x1, y, PSTR("FIX"));
-    		lcdDrawNumberAttUnit(xnum, y, telemetry_data.packet_fixed, 0);
+    		lcdDrawNumberNAtt(xnum, y, telemetry_data.packet_fixed, 0);
     		y += FH;
     		lcdDrawText(x1, y, PSTR("MAV Comp"));
-    		lcdDrawNumberAttUnit(xnum, y, telemetry_data.mav_compid, 0);
+    		lcdDrawNumberNAtt(xnum, y, telemetry_data.mav_compid, 0);
     		y += FH;
     		lcdDrawText(x1, y, PSTR("MAV Sys"));
-    		lcdDrawNumberAttUnit(xnum, y, telemetry_data.mav_sysid, 0);
+    		lcdDrawNumberNAtt(xnum, y, telemetry_data.mav_sysid, 0);
     		y += FH;
     		lcdDrawText(x1, y, PSTR("Rad Comp"));
-    		lcdDrawNumberAttUnit(xnum, y, telemetry_data.radio_compid, 0);
+    		lcdDrawNumberNAtt(xnum, y, telemetry_data.radio_compid, 0);
     		y += FH;
     		lcdDrawText(x1, y, PSTR("Rad Sys"));
-    		lcdDrawNumberAttUnit(xnum, y, telemetry_data.radio_sysid, 0);
+    		lcdDrawNumberNAtt(xnum, y, telemetry_data.radio_sysid, 0);
     */
 
   }
@@ -318,25 +318,25 @@ void menuTelemetryMavlinkBattery()
 
   lcdDrawText(0, 1*FH, STR_MAVLINK_BATTERY_LABEL);
 
-  lcdDrawNumberAttUnit(x, ynum, telemetry_data.vbat, (DBLSIZE | PREC1 | UNSIGN));
+  lcdDrawNumberNAtt(x, ynum, telemetry_data.vbat, (DBLSIZE | PREC1 | UNSIGN));
   lcdDrawText(x, y, PSTR("V"));
   x += 4 * (2 * FWNUM);
-  lcdDrawNumberAttUnit(x, ynum, telemetry_data.ibat, (DBLSIZE | PREC1 | UNSIGN));
+  lcdDrawNumberNAtt(x, ynum, telemetry_data.ibat, (DBLSIZE | PREC1 | UNSIGN));
   lcdDrawText(x, y, PSTR("A"));
   x += 4 * (2 * FWNUM);
-  lcdDrawNumberAttUnit(x, ynum, telemetry_data.rem_bat, (DBLSIZE | UNSIGN));
+  lcdDrawNumberNAtt(x, ynum, telemetry_data.rem_bat, (DBLSIZE | UNSIGN));
   lcdDrawText(x, y, PSTR("%"));
   y += FH;
   ynum += 3 * FH;
 
   x = 0;
   lcdDrawText  (x, y, STR_MAVLINK_RC_RSSI_LABEL);
-  lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.rc_rssi, (DBLSIZE | UNSIGN));
+  lcdDrawNumberNAtt(x + 7 * FWNUM, ynum, telemetry_data.rc_rssi, (DBLSIZE | UNSIGN));
   lcdDrawText(x + 7 * FWNUM, ynum + FH, PSTR("%"));
   if (g_model.mavlink.pc_rssi_en) {
     x += 8 * (2 * FWNUM);
     lcdDrawText(x, y, STR_MAVLINK_PC_RSSI_LABEL);
-    lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.pc_rssi, (DBLSIZE));
+    lcdDrawNumberNAtt(x + 7 * FWNUM, ynum, telemetry_data.pc_rssi, (DBLSIZE));
     lcdDrawText(x + 7 * FWNUM, ynum + FH,  PSTR("%"));
   }
 
@@ -359,18 +359,18 @@ void menuTelemetryMavlinkNavigation()
   y = FH;
   x = 0;
   lcdDrawText  (x, y, STR_MAVLINK_COURSE);
-  lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.course, (DBLSIZE | UNSIGN));
+  lcdDrawNumberNAtt(x + 7 * FWNUM, ynum, telemetry_data.course, (DBLSIZE | UNSIGN));
   lcdDrawText(x + 7 * FWNUM, ynum, PSTR("o"));
   x += 8 * (2 * FWNUM);
   lcdDrawText(x, y, STR_MAVLINK_HEADING);
-  lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.heading, (DBLSIZE | UNSIGN));
+  lcdDrawNumberNAtt(x + 7 * FWNUM, ynum, telemetry_data.heading, (DBLSIZE | UNSIGN));
   lcdDrawText(x + 7 * FWNUM, ynum,  PSTR("o"));
   y += 3 * FH;
   ynum += 3 * FH;
 
   x = 0;
   lcdDrawText  (x, y, STR_MAVLINK_BEARING);
-  lcdDrawNumberAttUnit(x + 7 * FWNUM, ynum, telemetry_data.bearing, (DBLSIZE | UNSIGN));
+  lcdDrawNumberNAtt(x + 7 * FWNUM, ynum, telemetry_data.bearing, (DBLSIZE | UNSIGN));
   lcdDrawText(x + 7 * FWNUM, ynum, PSTR("o"));
   x += 8 * (2 * FWNUM);
   lcdDrawText(x, y, STR_MAVLINK_ALTITUDE);
@@ -423,7 +423,7 @@ void menuTelemetryMavlinkGPS()
 
   y += FH;
   lcdDrawSizedTextAtt(x1, y, STR_MAVLINK_ALTITUDE, 3, 0);
-  lcdDrawNumberAttUnit(xnum, y, telemetry_data.loc_current.gps_alt, 0);
+  lcdDrawNumberNAtt(xnum, y, telemetry_data.loc_current.gps_alt, 0);
 
   y += FH;
   lcdDrawSizedTextAtt(x1, y, STR_MAVLINK_COURSE, 6, 0);
@@ -431,7 +431,7 @@ void menuTelemetryMavlinkGPS()
 
   y += FH;
   lcdDrawSizedTextAtt(x1, y, PSTR("V"), 1, 0);
-  lcdDrawNumberAttUnit(xnum, y, telemetry_data.v, 0);
+  lcdDrawNumberNAtt(xnum, y, telemetry_data.v, 0);
   //}
 }
 
@@ -514,7 +514,7 @@ void menuTelemetryMavlinkSetup(uint8_t event)
     switch(k) {
     case ITEM_MAVLINK_RC_RSSI_SCALE:
       lcdDrawTextLeft(y, STR_MAVLINK_RC_RSSI_SCALE_LABEL);
-      lcdDrawNumberAttUnit(RADIO_SETUP_2ND_COLUMN, y, (25 + g_model.mavlink.rc_rssi_scale * 5), attr|LEFT);
+      lcdDrawNumberNAtt(RADIO_SETUP_2ND_COLUMN, y, (25 + g_model.mavlink.rc_rssi_scale * 5), attr|LEFT);
       lcdDrawChar(lcdLastPos, y, '%');
       if (attr) CHECK_INCDEC_MODELVAR(event, g_model.mavlink.rc_rssi_scale, 0, 15);
       break;

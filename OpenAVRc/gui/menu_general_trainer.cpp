@@ -70,7 +70,7 @@ void menuGeneralTrainer(uint8_t event)
           break;
 
         case 1:
-          lcdDrawNumberAttUnit(11*FW, y, td->studWeight, attr);
+          lcdDrawNumberNAtt(11*FW, y, td->studWeight, attr);
           if (attr&BLINK) CHECK_INCDEC_GENVAR(event, td->studWeight, -125, 125);
           break;
 
@@ -85,7 +85,7 @@ void menuGeneralTrainer(uint8_t event)
 
     attr = (menuVerticalPosition==5) ? blink : 0;
     lcdDrawTextLeft(MENU_HEADER_HEIGHT+1+5*FH, STR_MULTIPLIER);
-    lcdDrawNumberAttUnit(LEN_MULTIPLIER*FW+3*FW, MENU_HEADER_HEIGHT+1+5*FH, g_eeGeneral.PPM_Multiplier+10, attr|PREC1);
+    lcdDrawNumberNAtt(LEN_MULTIPLIER*FW+3*FW, MENU_HEADER_HEIGHT+1+5*FH, g_eeGeneral.PPM_Multiplier+10, attr|PREC1);
     if (attr) CHECK_INCDEC_GENVAR(event, g_eeGeneral.PPM_Multiplier, -10, 40);
 
     attr = (menuVerticalPosition==6) ? INVERS : 0;
@@ -94,9 +94,9 @@ void menuGeneralTrainer(uint8_t event)
     for (uint8_t i=0; i<4; i++) {
       uint8_t x = (i*TRAINER_CALIB_POS+16)*FW/2;
 #if defined (PPM_UNIT_PERCENT_PREC1)
-      lcdDrawNumberAttUnit(x, MENU_HEADER_HEIGHT+1+6*FH, (ppmInput[i]-g_eeGeneral.trainer.calib[i])*2, PREC1);
+      lcdDrawNumberNAtt(x, MENU_HEADER_HEIGHT+1+6*FH, (ppmInput[i]-g_eeGeneral.trainer.calib[i])*2, PREC1);
 #else
-      lcdDrawNumberAttUnit(x, MENU_HEADER_HEIGHT+1+6*FH, (ppmInput[i]-g_eeGeneral.trainer.calib[i])/5, 0);
+      lcdDrawNumberNAtt(x, MENU_HEADER_HEIGHT+1+6*FH, (ppmInput[i]-g_eeGeneral.trainer.calib[i])/5, 0);
 #endif
     }
 

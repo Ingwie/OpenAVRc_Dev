@@ -94,8 +94,8 @@ void menuModelLogicalSwitches(uint8_t event)
       INCDEC_SET_FLAG(EE_MODEL | INCDEC_SOURCE);
       INCDEC_ENABLE_CHECK(isSourceAvailable);
     } else if (cstate == LS_FAMILY_TIMER) {
-      lcdDrawNumberAttUnit(CSW_2ND_COLUMN, y, lswTimerValue(cs->v1), LEFT|PREC1|attr1);
-      lcdDrawNumberAttUnit(CSW_3RD_COLUMN, y, lswTimerValue(cs->v2), LEFT|PREC1|attr2);
+      lcdDrawNumberNAtt(CSW_2ND_COLUMN, y, lswTimerValue(cs->v1), LEFT|PREC1|attr1);
+      lcdDrawNumberNAtt(CSW_3RD_COLUMN, y, lswTimerValue(cs->v2), LEFT|PREC1|attr2);
       v1_min = v2_min = -128;
       v1_max = v2_max = 122;
       INCDEC_SET_FLAG(EE_MODEL);
@@ -125,7 +125,7 @@ void menuModelLogicalSwitches(uint8_t event)
           eeDirty(EE_MODEL);
         }
       } else {
-        lcdDrawNumberAttUnit(CSW_3RD_COLUMN, y, cs->v2, LEFT|attr2);
+        lcdDrawNumberNAtt(CSW_3RD_COLUMN, y, cs->v2, LEFT|attr2);
         {
           v2_min = -LIMIT_EXT_PERCENT;
           v2_max = +LIMIT_EXT_PERCENT;
@@ -137,7 +137,7 @@ void menuModelLogicalSwitches(uint8_t event)
         v2_min = -128;
         v2_max = 127;
       } else {
-        lcdDrawNumberAttUnit(CSW_3RD_COLUMN, y, cs->v2, LEFT|attr2);
+        lcdDrawNumberNAtt(CSW_3RD_COLUMN, y, cs->v2, LEFT|attr2);
         v2_min = -LIMIT_EXT_PERCENT;
         v2_max = +LIMIT_EXT_PERCENT;
       }

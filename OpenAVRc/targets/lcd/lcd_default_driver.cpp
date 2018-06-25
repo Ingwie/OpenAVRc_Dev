@@ -124,7 +124,7 @@ void lcdRefreshFast()
 {
 SHOWDURATIONLCD1
 #if defined(SHOWDURATION)
-  lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
+  lcdDrawNumberNAtt(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
 #endif
   uint8_t * p = displayBuf;
   for (uint8_t y=0; y < 8; y++) {

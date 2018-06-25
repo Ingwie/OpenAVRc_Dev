@@ -62,10 +62,10 @@ void menu_lcd_onoff(coord_t x, coord_t y, uint8_t value, LcdFlags attr)
 
 void displayScreenIndex(uint8_t index, uint8_t count, uint8_t attr)
 {
-  lcdDrawNumberAttUnit(LCD_W, 0, count, attr);
+  lcdDrawNumberNAtt(LCD_W, 0, count, attr);
   coord_t x = 1+LCD_W-FW*(count>9 ? 3 : 2);
   lcdDrawCharAtt(x, 0, '/', attr);
-  lcdDrawNumberAttUnit(x, 0, index+1, attr);
+  lcdDrawNumberNAtt(x, 0, index+1, attr);
 }
 
 void displayScrollbar(coord_t x, coord_t y, coord_t h, uint16_t offset, uint16_t count, uint8_t visible)
@@ -149,7 +149,7 @@ int16_t gvarMenuItem(coord_t x, coord_t y, int16_t value, int16_t min, int16_t m
     }
     lcdDrawStringWithIndex(x, y, STR_GV, idx, attr);
   } else {
-    lcdDrawNumberAttUnit(x, y, value, attr);
+    lcdDrawNumberNAtt(x, y, value, attr);
     if (invers) value = checkIncDec(event, value, min, max, EE_MODEL);
   }
   return value;
@@ -157,7 +157,7 @@ int16_t gvarMenuItem(coord_t x, coord_t y, int16_t value, int16_t min, int16_t m
 #else
 int16_t gvarMenuItem(coord_t x, coord_t y, int16_t value, int16_t min, int16_t max, LcdFlags attr, uint8_t event)
 {
-  lcdDrawNumberAttUnit(x, y, value, attr);
+  lcdDrawNumberNAtt(x, y, value, attr);
   if (attr&INVERS) value = checkIncDec(event, value, min, max, EE_MODEL);
   return value;
 }

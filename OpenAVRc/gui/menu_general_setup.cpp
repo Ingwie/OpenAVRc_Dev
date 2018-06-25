@@ -140,7 +140,7 @@ void menuGeneralSetup(uint8_t event)
         uint8_t rowattr = (menuHorizontalPosition==j ? attr : 0);
         switch (j) {
         case 0:
-          lcdDrawNumberAttUnit(RADIO_SETUP_DATE_COLUMN, y, t.tm_year+1900, rowattr);
+          lcdDrawNumberNAtt(RADIO_SETUP_DATE_COLUMN, y, t.tm_year+1900, rowattr);
           if (rowattr && (s_editMode>0 || p1valdiff)) t.tm_year = checkIncDec(event, t.tm_year, 112, 200, 0);
           break;
         case 1:
@@ -258,7 +258,7 @@ void menuGeneralSetup(uint8_t event)
 #if defined(AUDIO)
     case ITEM_SETUP_SPEAKER_PITCH:
       lcdDrawTextLeft( y, STR_SPKRPITCH);
-      lcdDrawNumberAttUnit(RADIO_SETUP_2ND_COLUMN, y, g_eeGeneral.speakerPitch, attr|LEFT);
+      lcdDrawNumberNAtt(RADIO_SETUP_2ND_COLUMN, y, g_eeGeneral.speakerPitch, attr|LEFT);
       if (attr) {
         CHECK_INCDEC_GENVAR(event, g_eeGeneral.speakerPitch, 0, 20);
       }
@@ -286,7 +286,7 @@ void menuGeneralSetup(uint8_t event)
 
     case ITEM_SETUP_CONTRAST:
       lcdDrawTextLeft(y, STR_CONTRAST);
-      lcdDrawNumberAttUnit(RADIO_SETUP_2ND_COLUMN, y, g_eeGeneral.contrast, attr|LEFT);
+      lcdDrawNumberNAtt(RADIO_SETUP_2ND_COLUMN, y, g_eeGeneral.contrast, attr|LEFT);
       if (attr) {
         CHECK_INCDEC_GENVAR(event, g_eeGeneral.contrast, CONTRAST_MIN, CONTRAST_MAX);
         lcdSetContrast();
@@ -317,7 +317,7 @@ void menuGeneralSetup(uint8_t event)
 
     case ITEM_SETUP_INACTIVITY_ALARM:
       lcdDrawTextLeft( y,STR_INACTIVITYALARM);
-      lcdDrawNumberAttUnit(RADIO_SETUP_2ND_COLUMN, y, g_eeGeneral.inactivityTimer, attr|LEFT);
+      lcdDrawNumberNAtt(RADIO_SETUP_2ND_COLUMN, y, g_eeGeneral.inactivityTimer, attr|LEFT);
       lcdDrawChar(lcdLastPos, y, 'm');
       if(attr) g_eeGeneral.inactivityTimer = checkIncDec(event, g_eeGeneral.inactivityTimer, 0, 250, EE_GENERAL); //0..250minutes
       break;
@@ -345,7 +345,7 @@ void menuGeneralSetup(uint8_t event)
 
     case ITEM_SETUP_BACKLIGHT_DELAY:
       lcdDrawTextLeft(y, STR_BLDELAY);
-      lcdDrawNumberAttUnit(RADIO_SETUP_2ND_COLUMN, y, g_eeGeneral.lightAutoOff*5, attr|LEFT);
+      lcdDrawNumberNAtt(RADIO_SETUP_2ND_COLUMN, y, g_eeGeneral.lightAutoOff*5, attr|LEFT);
       lcdDrawChar(lcdLastPos, y, 's');
       if (attr) CHECK_INCDEC_GENVAR(event, g_eeGeneral.lightAutoOff, 0, 600/5);
       break;
@@ -354,13 +354,13 @@ void menuGeneralSetup(uint8_t event)
 #if defined(PWM_BACKLIGHT)
     case ITEM_SETUP_BACKLIGHT_BRIGHTNESS_OFF:
       lcdDrawTextLeft(y, STR_BLOFFBRIGHTNESS);
-      lcdDrawNumberAttUnit(RADIO_SETUP_2ND_COLUMN, y, g_eeGeneral.blOffBright, attr|LEFT);
+      lcdDrawNumberNAtt(RADIO_SETUP_2ND_COLUMN, y, g_eeGeneral.blOffBright, attr|LEFT);
       if (attr) CHECK_INCDEC_GENVAR(event, g_eeGeneral.blOffBright, 0, 15);
       break;
 
     case ITEM_SETUP_BACKLIGHT_BRIGHTNESS_ON:
       lcdDrawTextLeft(y, STR_BLONBRIGHTNESS);
-      lcdDrawNumberAttUnit(RADIO_SETUP_2ND_COLUMN, y, 15-g_eeGeneral.blOnBright, attr|LEFT);
+      lcdDrawNumberNAtt(RADIO_SETUP_2ND_COLUMN, y, 15-g_eeGeneral.blOnBright, attr|LEFT);
       if (attr) g_eeGeneral.blOnBright = 15 - checkIncDecGen(event, 15-g_eeGeneral.blOnBright, 0, 15);
       break;
 #endif
@@ -376,7 +376,7 @@ void menuGeneralSetup(uint8_t event)
 #if defined(FRSKY) && defined(GPS)
     case ITEM_SETUP_TIMEZONE:
       lcdDrawTextLeft(y, STR_TIMEZONE);
-      lcdDrawNumberAttUnit(RADIO_SETUP_2ND_COLUMN, y, g_eeGeneral.timezone, attr|LEFT);
+      lcdDrawNumberNAtt(RADIO_SETUP_2ND_COLUMN, y, g_eeGeneral.timezone, attr|LEFT);
       if (attr) CHECK_INCDEC_GENVAR(event, g_eeGeneral.timezone, -12, 12);
       break;
 

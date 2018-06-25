@@ -125,7 +125,7 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
           val_displayed = (int8_t)CFN_PARAM(cfn);
           val_min = -LIMIT_EXT_PERCENT;
           val_max = +LIMIT_EXT_PERCENT;
-          lcdDrawNumberAttUnit(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed, attr|LEFT);
+          lcdDrawNumberNAtt(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed, attr|LEFT);
         }
 #endif
 #if defined(AUDIO)
@@ -137,7 +137,7 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
 #if defined(HAPTIC)
         else if (func == FUNC_HAPTIC) {
           val_max = 3;
-          lcdDrawNumberAttUnit(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed, attr|LEFT);
+          lcdDrawNumberNAtt(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed, attr|LEFT);
         }
 #endif
 #if   defined(VOICE)
@@ -152,10 +152,10 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
           if (val_displayed > 250) {
             lcdDrawStringWithIndex(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, STR_GV, val_displayed-250, attr);
           } else {
-            lcdDrawNumberAttUnit(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed+PROMPT_CUSTOM_BASE, attr|LEFT);
+            lcdDrawNumberNAtt(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed+PROMPT_CUSTOM_BASE, attr|LEFT);
           }
 #else
-          lcdDrawNumberAttUnit(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed+PROMPT_CUSTOM_BASE, attr|LEFT);
+          lcdDrawNumberNAtt(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed+PROMPT_CUSTOM_BASE, attr|LEFT);
 #endif
 
 #if defined(SDCARD)
@@ -172,8 +172,8 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
 
         } else if (func == FUNC_PLAY_BOTH) {
           lcdDrawCharAtt(MODEL_CUSTOM_FUNC_3RD_COLUMN+3*FWNUM, y, '|', attr);
-          lcdDrawNumberAttUnit(MODEL_CUSTOM_FUNC_3RD_COLUMN+3*FWNUM, y, val_displayed+PROMPT_CUSTOM_BASE, attr);
-          lcdDrawNumberAttUnit(MODEL_CUSTOM_FUNC_3RD_COLUMN+2+3*FWNUM, y, (val_displayed+PROMPT_CUSTOM_BASE+1)%10, attr|LEFT);
+          lcdDrawNumberNAtt(MODEL_CUSTOM_FUNC_3RD_COLUMN+3*FWNUM, y, val_displayed+PROMPT_CUSTOM_BASE, attr);
+          lcdDrawNumberNAtt(MODEL_CUSTOM_FUNC_3RD_COLUMN+2+3*FWNUM, y, (val_displayed+PROMPT_CUSTOM_BASE+1)%10, attr|LEFT);
         } else if (func == FUNC_PLAY_VALUE) {
           val_max = MIXSRC_FIRST_TELEM + TELEM_DISPLAY_MAX - 1;
           putsMixerSource(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed, attr);
@@ -183,7 +183,7 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
 #if defined(SDCARD)
         else if (func == FUNC_LOGS) {
           if (val_displayed) {
-            lcdDrawNumberAttUnit(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed*10, attr|PREC1|LEFT);
+            lcdDrawNumberNAtt(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed*10, attr|PREC1|LEFT);
             lcdDrawChar(lcdLastPos, y, 's');
           } else {
             lcdDrawTextAtIndex(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, STR_MMMINV, 0, attr);
@@ -197,7 +197,7 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
             val_displayed = (int16_t)CFN_PARAM(cfn);
             val_min = -CFN_GVAR_CST_MAX;
             val_max = +CFN_GVAR_CST_MAX;
-            lcdDrawNumberAttUnit(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed, attr|LEFT);
+            lcdDrawNumberNAtt(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed, attr|LEFT);
             break;
           case FUNC_ADJUST_GVAR_SOURCE:
             val_max = MIXSRC_LAST_CH;
@@ -242,7 +242,7 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
           if (CFN_PLAY_REPEAT(cfn) == 0) {
             lcdDrawCharAtt(MODEL_CUSTOM_FUNC_4TH_COLUMN_ONOFF+3, y, '-', attr);
           } else {
-            lcdDrawNumberAttUnit(MODEL_CUSTOM_FUNC_4TH_COLUMN+2+FW, y, CFN_PLAY_REPEAT(cfn)*CFN_PLAY_REPEAT_MUL, attr);
+            lcdDrawNumberNAtt(MODEL_CUSTOM_FUNC_4TH_COLUMN+2+FW, y, CFN_PLAY_REPEAT(cfn)*CFN_PLAY_REPEAT_MUL, attr);
           }
           if (active) CHECK_INCDEC_MODELVAR_ZERO(event, CFN_PLAY_REPEAT(cfn), 60/CFN_PLAY_REPEAT_MUL);
         } else if (attr) {

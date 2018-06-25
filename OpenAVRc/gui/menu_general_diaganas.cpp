@@ -59,7 +59,7 @@ void menuGeneralDiagAna(uint8_t event)
     lcdDrawChar(x+18, y, ':');
     lcd_outhex(4, x+3*FW+4, y, anaIn(i), attr);
     if (i<numLoop)
-      lcd_outdez8(x+10*FW+2, y, (int16_t)calibratedStick[CONVERT_MODE(i)]*25/256);
+      lcdDrawNumberNAtt(x+10*FW+2, y, (int16_t)calibratedStick[CONVERT_MODE(i)]*25/256);
   }
   lcdDrawTextLeft(6*FH-2, STR_BATT_CALIB);
   lcdPutsVolts(LEN_CALIB_FIELDS*FW+4*FW, 6*FH-2, g_vbat10mV, (menuVerticalPosition==1 ? INVERS : 0)|PREC2);

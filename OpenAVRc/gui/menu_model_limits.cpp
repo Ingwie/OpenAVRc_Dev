@@ -105,10 +105,10 @@ void menuModelLimits(uint8_t event)
 
   if (sub < NUM_CHNOUT) {
 #if defined(PPM_CENTER_ADJUSTABLE) || defined(PPM_UNIT_US)
-    lcdDrawNumberAttUnit(13*FW, 0, PPM_CH_CENTER(sub)+channelOutputs[sub]/2, 0);
+    lcdDrawNumberNAtt(13*FW, 0, PPM_CH_CENTER(sub)+channelOutputs[sub]/2, 0);
     lcdDrawText(13*FW, 0, STR_US);
 #else
-    lcdDrawNumberAttUnit(13*FW, 0, calcRESXto1000(channelOutputs[sub]), PREC1);
+    lcdDrawNumberNAtt(13*FW, 0, calcRESXto1000(channelOutputs[sub]), PREC1);
 #endif
   }
 
@@ -162,9 +162,9 @@ void menuModelLimits(uint8_t event)
       switch(j) {
       case ITEM_LIMITS_OFFSET:
 #if defined(PPM_UNIT_US)
-        lcdDrawNumberAttUnit(LIMITS_OFFSET_POS, y, ((int32_t)ld->offset*128) / 25, attr|PREC1);
+        lcdDrawNumberNAtt(LIMITS_OFFSET_POS, y, ((int32_t)ld->offset*128) / 25, attr|PREC1);
 #else
-        lcdDrawNumberAttUnit(LIMITS_OFFSET_POS, y, ld->offset, attr|PREC1);
+        lcdDrawNumberNAtt(LIMITS_OFFSET_POS, y, ld->offset, attr|PREC1);
 #endif
         if (active) {
           ld->offset = checkIncDec(event, ld->offset, -1000, 1000, EE_MODEL|NO_INCDEC_MARKS);
@@ -175,12 +175,12 @@ void menuModelLimits(uint8_t event)
         break;
 
       case ITEM_LIMITS_MIN:
-        lcdDrawNumberAttUnit(LIMITS_MIN_POS, y, MIN_MAX_DISPLAY(ld->min-LIMITS_MIN_MAX_OFFSET), MIN_MAX_ATTR);
+        lcdDrawNumberNAtt(LIMITS_MIN_POS, y, MIN_MAX_DISPLAY(ld->min-LIMITS_MIN_MAX_OFFSET), MIN_MAX_ATTR);
         if (active) ld->min = LIMITS_MIN_MAX_OFFSET + checkIncDec(event, ld->min-LIMITS_MIN_MAX_OFFSET, -limit, 0, EE_MODEL);
         break;
 
       case ITEM_LIMITS_MAX:
-        lcdDrawNumberAttUnit(LIMITS_MAX_POS, y, MIN_MAX_DISPLAY(ld->max+LIMITS_MIN_MAX_OFFSET), MIN_MAX_ATTR);
+        lcdDrawNumberNAtt(LIMITS_MAX_POS, y, MIN_MAX_DISPLAY(ld->max+LIMITS_MIN_MAX_OFFSET), MIN_MAX_ATTR);
         if (active) ld->max = -LIMITS_MIN_MAX_OFFSET + checkIncDec(event, ld->max+LIMITS_MIN_MAX_OFFSET, 0, +limit, EE_MODEL);
         break;
 
@@ -204,7 +204,7 @@ void menuModelLimits(uint8_t event)
 
 #if defined(PPM_CENTER_ADJUSTABLE)
       case ITEM_LIMITS_PPM_CENTER:
-        lcdDrawNumberAttUnit(LIMITS_PPM_CENTER_POS, y, PPM_CENTER+ld->ppmCenter, attr);
+        lcdDrawNumberNAtt(LIMITS_PPM_CENTER_POS, y, PPM_CENTER+ld->ppmCenter, attr);
         if (active) {
           CHECK_INCDEC_MODELVAR(event, ld->ppmCenter, -PPM_CENTER_MAX, +PPM_CENTER_MAX);
         }
