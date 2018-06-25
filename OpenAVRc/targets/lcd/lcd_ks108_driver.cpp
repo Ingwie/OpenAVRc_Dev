@@ -88,7 +88,7 @@ void lcdRefreshFast()
 {
 SHOWDURATIONLCD1
 #if defined(SHOWDURATION)
-  lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
+  lcdDrawNumberNAtt(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
 #endif
   static uint8_t step = 0; // toggle left/right/high/low sector of lcd writing
   uint8_t *p;

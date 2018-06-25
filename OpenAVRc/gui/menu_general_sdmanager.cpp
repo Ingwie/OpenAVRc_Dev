@@ -43,11 +43,11 @@ void menuGeneralSdManagerInfo(uint8_t event)
   lcdDrawText(10*FW, 2*FH, STR_SD_CARD);
 
   lcdDrawTextLeft(3*FH, STR_SD_SIZE);
-  lcdDrawNumberAttUnit(10*FW, 3*FH, sdGetSize(), LEFT);
+  lcdDrawNumberNAtt(10*FW, 3*FH, sdGetSize(), LEFT);
   lcdDrawChar(lcdLastPos, 3*FH, 'M');
 
   lcdDrawTextLeft(4*FH, STR_SD_SECTORS);
-  lcdDrawNumberAttUnit(10*FW, 4*FH, sdGetNoSectors(), LEFT);
+  lcdDrawNumberNAtt(10*FW, 4*FH, sdGetNoSectors(), LEFT);
   lcdDrawChar(lcdLastPos, 4*FH, 'k');
 }
 

@@ -150,7 +150,7 @@ void menuModelTelemetry(uint8_t event)
     case ITEM_TELEMETRY_A1_LABEL:
     case ITEM_TELEMETRY_A2_LABEL:
       lcdDrawTextLeft(y, STR_ACHANNEL);
-      lcdDrawNumberAttUnit(2*FW, y, ch+1, 0);
+      lcdDrawNumberNAtt(2*FW, y, ch+1, 0);
       lcdPutsTelemetryChannelValue(TELEM_COL2+6*FW, y, dest, telemetryData.analog[ch].value, LEFT);
       break;
 
@@ -264,7 +264,7 @@ void menuModelTelemetry(uint8_t event)
 
     case ITEM_TELEMETRY_USR_BLADES:
       lcdDrawTextLeft(y, STR_BLADES);
-      lcdDrawNumberAttUnit(TELEM_COL2+FWNUM, y, 2+g_model.telemetry.blades, attr);
+      lcdDrawNumberNAtt(TELEM_COL2+FWNUM, y, 2+g_model.telemetry.blades, attr);
       if (attr) CHECK_INCDEC_MODELVAR_ZERO(event, g_model.telemetry.blades, MAX_BLADES);
       break;
 #endif
@@ -283,8 +283,8 @@ void menuModelTelemetry(uint8_t event)
 
     case ITEM_TELEMETRY_FAS_OFFSET:
       lcdDrawTextLeft(y, STR_FAS_OFFSET);
-      lcdDrawNumberAttUnit(TELEM_COL2, y, g_model.telemetry.fasOffset, attr|LEFT|PREC1);
-      lcdDrawNumberAttUnit(TELEM_COL2+6*FW, y, telemetryData.value.current, LEFT|PREC1);
+      lcdDrawNumberNAtt(TELEM_COL2, y, g_model.telemetry.fasOffset, attr|LEFT|PREC1);
+      lcdDrawNumberNAtt(TELEM_COL2+6*FW, y, telemetryData.value.current, LEFT|PREC1);
       lcdDrawChar(TELEM_COL2+8*FW, y, 'A');
       if (attr) g_model.telemetry.fasOffset = checkIncDec(event, g_model.telemetry.fasOffset, -120, 120, EE_MODEL);
       break;
@@ -302,10 +302,10 @@ void menuModelTelemetry(uint8_t event)
 
     case ITEM_TELEMETRY_VARIO_RANGE:
       lcdDrawTextLeft(y, STR_LIMIT);
-      lcdDrawNumberAttUnit(TELEM_COL2, y, -10+g_model.telemetry.varioMin, (menuHorizontalPosition<=0 ? attr : 0)|LEFT);
-      lcdDrawNumberAttUnit(TELEM_COL2+7*FW-2, y, -5+g_model.telemetry.varioCenterMin, ((CURSOR_ON_LINE() || menuHorizontalPosition==1) ? attr : 0)|PREC1);
-      lcdDrawNumberAttUnit(TELEM_COL2+10*FW, y, 5+g_model.telemetry.varioCenterMax, ((CURSOR_ON_LINE() || menuHorizontalPosition==2) ? attr : 0)|PREC1);
-      lcdDrawNumberAttUnit(TELEM_COL2+13*FW+2, y, 10+g_model.telemetry.varioMax, ((CURSOR_ON_LINE() || menuHorizontalPosition==3) ? attr : 0));
+      lcdDrawNumberNAtt(TELEM_COL2, y, -10+g_model.telemetry.varioMin, (menuHorizontalPosition<=0 ? attr : 0)|LEFT);
+      lcdDrawNumberNAtt(TELEM_COL2+7*FW-2, y, -5+g_model.telemetry.varioCenterMin, ((CURSOR_ON_LINE() || menuHorizontalPosition==1) ? attr : 0)|PREC1);
+      lcdDrawNumberNAtt(TELEM_COL2+10*FW, y, 5+g_model.telemetry.varioCenterMax, ((CURSOR_ON_LINE() || menuHorizontalPosition==2) ? attr : 0)|PREC1);
+      lcdDrawNumberNAtt(TELEM_COL2+13*FW+2, y, 10+g_model.telemetry.varioMax, ((CURSOR_ON_LINE() || menuHorizontalPosition==3) ? attr : 0));
       if (attr && (s_editMode>0 || p1valdiff)) {
         switch (menuHorizontalPosition) {
         case 0:

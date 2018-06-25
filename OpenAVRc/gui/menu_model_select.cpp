@@ -295,7 +295,7 @@ void menuModelSelect(uint8_t event)
 
   lcdDrawText(9*FW-(LEN_FREE-4)*FW, 0, STR_FREE);
   if (event) reusableBuffer.modelsel.eepromfree = EeFsGetFree();
-  lcdDrawNumberAttUnit(17*FW, 0, reusableBuffer.modelsel.eepromfree, 0);
+  lcdDrawNumberNAtt(17*FW, 0, reusableBuffer.modelsel.eepromfree, 0);
 
 #if defined(ROTARY_ENCODER_NAVIGATION)
   displayScreenIndex(e_ModelSelect, DIM(menuTabModel), (sub == g_eeGeneral.currModel) ? ((IS_RE_NAVIGATION_ENABLE() && s_editMode < 0) ? INVERS|BLINK : INVERS) : 0);
@@ -331,7 +331,7 @@ void menuModelSelect(uint8_t event)
       char * name = reusableBuffer.modelsel.listnames[i];
       if (event) eeLoadModelName(k, name);
       putsModelName(4*FW, y, name, k, 0);
-      lcdDrawNumberAttUnit(20*FW, y, eeModelSize(k), 0);
+      lcdDrawNumberNAtt(20*FW, y, eeModelSize(k), 0);
       if (k==g_eeGeneral.currModel && (s_copyMode!=COPY_MODE || s_copySrcRow<0 || i+menuVerticalOffset!=(vertpos_t)sub))
         lcdDrawChar(1, y, '*');
     }

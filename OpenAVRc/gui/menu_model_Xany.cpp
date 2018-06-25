@@ -58,6 +58,7 @@ enum menuModelXanyItems
   ITEM_MODEL_SWITCHS_A,
   ITEM_MODEL_ABSAGLSENSOR_A,
   ITEM_MODEL_POT_A,
+  ITEM_MODEL_TIME_A,
 #if (X_ANY >= 2)
   ITEM_MODEL_SEPARATOR,
   ITEM_MODEL_NAME_B,
@@ -164,6 +165,10 @@ void menuModelXany(uint8_t event)
                   lcdDrawNumberNAtt(16*FW, y, XanyInfo.RotPotValue, INVERS | UNSIGN | LEADING0, 3);
                 }
             }
+          break;
+
+        case ITEM_MODEL_TIME_A :
+
           break;
 #if (X_ANY >= 2)
         case ITEM_MODEL_SEPARATOR :
