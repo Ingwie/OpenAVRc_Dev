@@ -264,7 +264,7 @@ int16_t gvarMenuItem(coord_t x, coord_t y, int16_t value, int16_t min, int16_t m
 #define displayGVar(x, y, v, min, max) GVAR_MENU_ITEM(x, y, v, min, max, 0, 0, 0)
 #else
 int16_t gvarMenuItem(coord_t x, coord_t y, int16_t value, int16_t min, int16_t max, LcdFlags attr, uint8_t event);
-#define displayGVar(x, y, v, min, max) lcd_outdez8(x, y, v)
+#define displayGVar(x, y, v, min, max) lcdDrawNumberNAtt(x, y, v)
 #endif
 
 void editName(coord_t x, coord_t y, char *name, uint8_t size, uint8_t event, uint8_t active);

@@ -116,13 +116,6 @@ extern coord_t lcdNextPos;
 #define DISPLAY_END            (displayBuf + DISPLAY_BUF_SIZE)
 #define ASSERT_IN_DISPLAY(p)   assert((p) >= displayBuf && (p) < DISPLAY_END)
 
-
-#if defined(DEBUG)
-// TODO quick & dirty :(
-typedef const unsigned char pm_uchar;
-typedef const char pm_char;
-#endif
-
 void lcdDrawChar(coord_t x, coord_t y, const unsigned char c);
 void lcdDrawCharAtt(coord_t x, coord_t y, const unsigned char c, LcdFlags mode);
 void lcdDrawTextAtt(coord_t x, coord_t y, const pm_char * s, LcdFlags mode);
@@ -138,8 +131,6 @@ void lcd_outhex(uint8_t digit, coord_t x, coord_t y, uint16_t val, LcdFlags mode
 void lcd_outbin(uint8_t digit, coord_t x, coord_t y, uint16_t val, LcdFlags mode);
 
 void lcdDrawNumberNAtt(coord_t x, coord_t y, lcdint_t val, LcdFlags mode=0, uint8_t len=0);
-void lcdDrawNumberAttUnit(coord_t x, coord_t y, lcdint_t val, LcdFlags mode=0);
-void lcd_outdez8(coord_t x, coord_t y, int8_t val);
 
 void lcdDrawStringWithIndex(coord_t x, coord_t y, const pm_char *str, uint8_t idx, LcdFlags att=0);
 void putsModelName(coord_t x, coord_t y, char *name, uint8_t id, LcdFlags att);

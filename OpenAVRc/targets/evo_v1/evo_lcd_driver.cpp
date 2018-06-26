@@ -165,7 +165,7 @@ inline void lcdInit()
 void lcdRefreshFast()
 {
 #if defined(SHOWDURATION)
-  lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
+  lcdDrawNumberNAtt(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
 #endif
   SHOWDURATIONLCD1
 

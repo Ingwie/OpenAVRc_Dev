@@ -189,7 +189,7 @@ void menuModelPhaseOne(uint8_t event)
       }
 
       uint8_t p = getGVarFlightPhase(s_currIdx, idx);
-      lcdDrawNumberAttUnit(21*FW, y, GVAR_VALUE(idx, p), posHorz==2 ? attr : 0);
+      lcdDrawNumberNAtt(21*FW, y, GVAR_VALUE(idx, p), posHorz==2 ? attr : 0);
       if (attr && posHorz==2 && ((editMode>0) || p1valdiff)) {
         GVAR_VALUE(idx, p) = checkIncDec(event, GVAR_VALUE(idx, p), -GVAR_LIMIT, GVAR_LIMIT, EE_MODEL);
       }

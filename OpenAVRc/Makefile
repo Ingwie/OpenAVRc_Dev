@@ -262,6 +262,21 @@ A7105 = NO
 # Values = NO, 1, 2, 3 ,4
 X_ANY = NO
 
+# Pot available in X-any1
+# Values =   STICK1, STICK2, STICK3, STICK4, POT1, POT2, POT3
+X_ANY_1_POT = POT1
+
+# Pot available in X-any2
+# Values =   STICK1, STICK2, STICK3, STICK4, POT1, POT2, POT3
+X_ANY_2_POT = POT2
+
+# Pot available in X-any3
+# Values =   STICK1, STICK2, STICK3, STICK4, POT1, POT2, POT3
+X_ANY_3_POT = POT3
+
+# Pot available in X-any4
+# Values =   STICK1, STICK2, STICK3, STICK4, POT1, POT2, POT3
+X_ANY_4_POT = STICK2
 
 #------- END BUILD OPTIONS ---------------------------
 
@@ -418,6 +433,10 @@ ifeq ($(PCB), MEGAMINI)
 		ifeq ($(X_ANY), 4)
 		CPPDEFS += -DX_ANY=4
 		endif
+		CPPDEFS += -DX_ANY_1_POT=$(X_ANY_1_POT)
+		CPPDEFS += -DX_ANY_2_POT=$(X_ANY_2_POT)
+		CPPDEFS += -DX_ANY_3_POT=$(X_ANY_3_POT)
+		CPPDEFS += -DX_ANY_4_POT=$(X_ANY_4_POT)
 	endif
 
 endif
