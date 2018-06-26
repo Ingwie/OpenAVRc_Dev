@@ -336,9 +336,9 @@ void menuModelExpoOne(uint8_t event)
   DrawFunction(expoFn);
 
   int16_t x512 = calibratedStick[ed->chn];
-  lcdDrawNumberAttUnit(LCD_W-8, 6*FH, calcRESXto100(x512), 0);
+  lcdDrawNumberNAtt(LCD_W-8, 6*FH, calcRESXto100(x512), 0);
   int16_t y512 = expoFn(x512);
-  lcdDrawNumberAttUnit(LCD_W-8-6*FW, 1*FH, calcRESXto100(y512), 0);
+  lcdDrawNumberNAtt(LCD_W-8-6*FW, 1*FH, calcRESXto100(y512), 0);
 
   x512 = X0+x512/(RESXu/WCHART);
   y512 = (LCD_H-1) - (uint16_t)((y512+RESX)/2) * (LCD_H-1) / RESX;
@@ -393,8 +393,8 @@ void drawOffsetBar(uint8_t x, uint8_t y, MixData * md)
 
 #endif
   if (y > 15) {
-    lcdDrawNumberAttUnit(x-((barMin >= 0) ? 2 : 3), y-8, barMin, LEFT);
-    lcdDrawNumberAttUnit(x+GAUGE_WIDTH+1, y-8, barMax);
+    lcdDrawNumberNAtt(x-((barMin >= 0) ? 2 : 3), y-8, barMin, LEFT);
+    lcdDrawNumberNAtt(x+GAUGE_WIDTH+1, y-8, barMax);
   }
   if (barMin < -101)
     barMin = -101;
@@ -549,7 +549,7 @@ void menuModelMixOne(uint8_t event)
     case MIX_FIELD_WARNING:
       lcdDrawTextColumnLeft(COLUMN_X+MIXES_2ND_COLUMN, y, STR_MIXWARNING);
       if (md2->mixWarn)
-        lcdDrawNumberAttUnit(COLUMN_X+MIXES_2ND_COLUMN, y, md2->mixWarn, attr|LEFT);
+        lcdDrawNumberNAtt(COLUMN_X+MIXES_2ND_COLUMN, y, md2->mixWarn, attr|LEFT);
       else
         lcdDrawTextAtt(COLUMN_X+MIXES_2ND_COLUMN, y, STR_OFF, attr);
       if (attr) CHECK_INCDEC_MODELVAR_ZERO(event, md2->mixWarn, 3);
@@ -806,7 +806,7 @@ void menuModelExpoMix(uint8_t expo, uint8_t event)
     break;
   }
 
-  lcdDrawNumberAttUnit(FW*max(sizeof(TR_MENUINPUTS), sizeof(TR_MIXER))+FW+FW/2, 0, getExpoMixCount(expo));
+  lcdDrawNumberNAtt(FW*max(sizeof(TR_MENUINPUTS), sizeof(TR_MIXER))+FW+FW/2, 0, getExpoMixCount(expo));
   lcdDrawText(FW*max(sizeof(TR_MENUINPUTS), sizeof(TR_MIXER))+FW+FW/2, 0, expo ? STR_MAX(MAX_EXPOS) : STR_MAX(MAX_MIXERS));
 
   SIMPLE_MENU(expo ? STR_MENUINPUTS : STR_MIXER, menuTabModel, expo ? e_InputsAll : e_MixAll, s_maxLines);

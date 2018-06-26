@@ -180,6 +180,10 @@ typedef union{
 #define XANY_MSG_POT_4SW_NBL_NB   (2 + 1 + 2)
 #define XANY_MSG_POT_8SW_NBL_NB   (2 + 2 + 2)
 
+/* Array of Pots choosen */
+const uint8_t XANY_POT[] PROGMEM = {X_ANY_1_POT, X_ANY_2_POT, X_ANY_3_POT, X_ANY_4_POT};
+#define GET_XANY_POT(PotIdx)        (uint8_t)     pgm_read_byte_far(&XANY_POT[PotIdx])
+
 
 /*    <------------------8 I/O Expenders------------------><----------------16 I/O Expenders--------------->    */
 enum {IO_EXP_PCF8574 = 0, IO_EXP_PCF8574A, IO_EXP_PCA9654E, IO_EXP_MCP23017, IO_EXP_PCF8575A, IO_EXP_PCA9671, IO_EXP_TYPE_NB};
@@ -552,7 +556,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
     if(XanyOp & XANY_OP_BUILD_MSG)
     {
       MsgAnglePot->Angle = 0;              /* TODO: read ADS1015 CAN Channel */
-      MsgAnglePot->Pot   = (calibratedStick[NUM_STICKS + XanyIdx] << 2); /* 8 bits value */
+      MsgAnglePot->Pot   = ((calibratedStick[GET_XANY_POT(XanyIdx)] + RESX-1) /8); /* 8 bits value */
       /* Update Checksum */
       COMPUTE_X_ANY_MSG_CHECKSUM(MsgAnglePot, BytePtr, Checksum);
     }
@@ -573,7 +577,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
     {
       readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
       MsgPot4Sw->Sw    = One8bitPort & 0x0F; /* Keep 4 bits */
-      MsgPot4Sw->Pot   = (calibratedStick[NUM_STICKS + XanyIdx] << 2); /* 8 bits value */
+      MsgPot4Sw->Pot   = ((calibratedStick[GET_XANY_POT(XanyIdx)] + RESX-1) /8); /* 8 bits value */
       /* Update Checksum */
       COMPUTE_X_ANY_MSG_CHECKSUM(MsgPot4Sw, BytePtr, Checksum);
     }
@@ -590,11 +594,11 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
     case XANY_MSG_POT_8SW:
     MsgPot8Sw = (MsgPot8SwSt_t *)&X_AnyReadMsg[XanyIdx];
     MsgPot8Sw->NibbleNbToTx = XANY_MSG_POT_8SW_NBL_NB;
-    if(XanyOp & XANY_OP_BUILD_MSG)
+    if (XanyOp & XANY_OP_BUILD_MSG)
     {
       readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
       MsgPot8Sw->Sw    = One8bitPort;
-      MsgPot8Sw->Pot   = (calibratedStick[NUM_STICKS + XanyIdx] << 2); /* 8 bits value */
+      MsgPot8Sw->Pot   = ((calibratedStick[GET_XANY_POT(XanyIdx)] + RESX-1) /8); /* 8 bits value */
       /* Update Checksum */
       COMPUTE_X_ANY_MSG_CHECKSUM(MsgPot8Sw, BytePtr, Checksum);
     }

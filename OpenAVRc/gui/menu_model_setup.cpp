@@ -339,9 +339,9 @@ void menuModelSetup(uint8_t event)
         {
           lcdDrawTextLeft(y, STR_PPMFRAME);
           lcdDrawText(MODEL_SETUP_2ND_COLUMN+3*FW, y, STR_MS);
-          lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN, y, (int16_t)g_model.PPMFRAMELENGTH*5 + 225, (menuHorizontalPosition<=0 ? attr : 0) | PREC1|LEFT);
+          lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y, (int16_t)g_model.PPMFRAMELENGTH*5 + 225, (menuHorizontalPosition<=0 ? attr : 0) | PREC1|LEFT);
           lcdDrawChar(MODEL_SETUP_2ND_COLUMN+8*FW+2, y, 'u');
-          lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN+8*FW+2, y, (g_model.PPMDELAY*50)+300, (CURSOR_ON_LINE() || menuHorizontalPosition==1) ? attr : 0);
+          lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN+8*FW+2, y, (g_model.PPMDELAY*50)+300, (CURSOR_ON_LINE() || menuHorizontalPosition==1) ? attr : 0);
           lcdDrawCharAtt(MODEL_SETUP_2ND_COLUMN+10*FW, y, g_model.PULSEPOL ? '+' : '-', (CURSOR_ON_LINE() || menuHorizontalPosition==2) ? attr : 0);
           if (attr && (editMode>0 || p1valdiff)) {
             switch (menuHorizontalPosition) {
@@ -405,8 +405,8 @@ void menuModelSetup(uint8_t event)
           }
           const mm_protocol_definition *pdef = getMultiProtocolDefinition(multi_rfProto);
           if(g_model.CUSTOMPROTO) {
-            lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 3 * FW, y, g_model.MULTIRFPROTOCOL, (menuHorizontalPosition == 1 ? attr : 0));
-            lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 5 * FW, y, g_model.rfSubType, (menuHorizontalPosition == 2 ? attr : 0));
+            lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 3 * FW, y, g_model.MULTIRFPROTOCOL, (menuHorizontalPosition == 1 ? attr : 0));
+            lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 5 * FW, y, g_model.rfSubType, (menuHorizontalPosition == 2 ? attr : 0));
           } else {
             if (pdef->subTypeString != 0)
               lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+ 2 * FW, y, pdef->subTypeString, g_model.rfSubType, (menuHorizontalPosition == 1 ? attr : 0));
@@ -461,7 +461,7 @@ void menuModelSetup(uint8_t event)
           horzpos_t l_posHorz = menuHorizontalPosition;
           lcdDrawTextLeft(y, STR_RXNUM);
           coord_t xOffsetBind = MODEL_SETUP_BIND_OFS;
-          if (xOffsetBind) lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
+          if (xOffsetBind) lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
           if (attr && l_posHorz==0) {
             if (editMode>0 || p1valdiff) {
               CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, MAX_MODELS);
@@ -485,7 +485,7 @@ void menuModelSetup(uint8_t event)
           horzpos_t l_posHorz = menuHorizontalPosition;
           lcdDrawTextLeft(y, STR_RXNUM);
           coord_t xOffsetBind = MODEL_SETUP_BIND_OFS;
-          if (xOffsetBind) lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
+          if (xOffsetBind) lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
           if (attr && l_posHorz==0) {
             if (editMode>0 || p1valdiff) {
               CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, 15);
@@ -509,7 +509,7 @@ void menuModelSetup(uint8_t event)
           horzpos_t l_posHorz = menuHorizontalPosition;
           lcdDrawTextLeft(y, STR_RXNUM);
           coord_t xOffsetBind = MODEL_SETUP_BIND_OFS;
-          if (xOffsetBind) lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
+          if (xOffsetBind) lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
           if (attr && l_posHorz==0) {
             if (editMode>0 || p1valdiff) {
               CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, MAX_MODELS);
@@ -547,7 +547,7 @@ void menuModelSetup(uint8_t event)
         {
           if (RfOptionSettings.rfOptionValue1Max != RfOptionSettings.rfOptionValue1Min) {
             lcdDrawTextLeft(y, RfOptionSettings.rfOptionValue1Name);
-            lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 5 * FW, y, g_model.rfOptionValue1, attr);
+            lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 5 * FW, y, g_model.rfOptionValue1, attr);
             if (attr) {
               CHECK_INCDEC_MODELVAR(event, g_model.rfOptionValue1, RfOptionSettings.rfOptionValue1Min, RfOptionSettings.rfOptionValue1Max);
             }
@@ -571,7 +571,7 @@ void menuModelSetup(uint8_t event)
         {
           if (RfOptionSettings.rfOptionValue2Max != RfOptionSettings.rfOptionValue2Min) {
             lcdDrawTextLeft(y, RfOptionSettings.rfOptionValue2Name);
-            lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 5 * FW, y, g_model.rfOptionValue2, attr);
+            lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 5 * FW, y, g_model.rfOptionValue2, attr);
             if (attr) {
               CHECK_INCDEC_MODELVAR(event, g_model.rfOptionValue2, RfOptionSettings.rfOptionValue2Min, RfOptionSettings.rfOptionValue2Max);
             }
@@ -594,7 +594,7 @@ void menuModelSetup(uint8_t event)
           if (pdef->optionsstr) {
             lcdDrawTextLeft(y, pdef->optionsstr);
             if (multi_proto == MM_RF_PROTO_FS_AFHDS2A) optionValue = 50 + 5 * optionValue;
-            lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 2 * FW, y, optionValue, attr);
+            lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 2 * FW, y, optionValue, attr);
             if (attr) {
               if (multi_proto == MM_RF_PROTO_FS_AFHDS2A) {
                 CHECK_INCDEC_MODELVAR(event, g_model.rfOptionValue2, 0, 70);
@@ -612,7 +612,7 @@ void menuModelSetup(uint8_t event)
         {
           if (RfOptionSettings.rfOptionValue3Max) {
             lcdDrawTextLeft(y, RfOptionSettings.rfOptionValue3Name);
-            lcdDrawNumberAttUnit(MODEL_SETUP_2ND_COLUMN + 5 * FW, y, g_model.rfOptionValue3, attr);
+            lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 5 * FW, y, g_model.rfOptionValue3, attr);
             if (attr) {
               CHECK_INCDEC_MODELVAR_ZERO(event, g_model.rfOptionValue3, RfOptionSettings.rfOptionValue3Max);
             }

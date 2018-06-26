@@ -415,11 +415,11 @@ void menuMainView(uint8_t event)
         x0 = (i%4*9+3)*FW/2;
         y0 = i/4*FH+40;
 #if defined(PPM_UNIT_US)
-        lcdDrawNumberAttUnit(x0+4*FW, y0, PPM_CH_CENTER(chan)+val/2, 0);
+        lcdDrawNumberNAtt(x0+4*FW, y0, PPM_CH_CENTER(chan)+val/2, 0);
 #elif defined(PPM_UNIT_PERCENT_PREC1)
-        lcdDrawNumberAttUnit(x0+4*FW, y0, calcRESXto1000(val), PREC1);
+        lcdDrawNumberNAtt(x0+4*FW, y0, calcRESXto1000(val), PREC1);
 #else
-        lcdDrawNumberAttUnit(x0+4*FW, y0, calcRESXto1000(val)/10, 0);  // G: Don't like the decimal part*
+        lcdDrawNumberNAtt(x0+4*FW, y0, calcRESXto1000(val)/10, 0);  // G: Don't like the decimal part*
 #endif
         break;
 
@@ -466,7 +466,7 @@ void menuMainView(uint8_t event)
       if (!test) lcdDrawStringWithIndex(x0+3*FW, y0, STR_GV, i+1+offset);
       else lcdDrawSizedTextAtt(x0, y0, g_model.gvars[i+offset].name, LEN_GVAR_NAME, ZCHAR|FIXEDWIDTH);
       x0 += (LEN_GVAR_NAME+3)*FW+FW/3;
-      lcd_outdez8(x0, y0, GVAR_VALUE(i+offset, getGVarFlightPhase(mixerCurrentFlightMode, i+offset)));
+      lcdDrawNumberNAtt(x0, y0, GVAR_VALUE(i+offset, getGVarFlightPhase(mixerCurrentFlightMode, i+offset)));
     }
   }
 #endif

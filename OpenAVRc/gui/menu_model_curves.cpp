@@ -104,7 +104,7 @@ bool moveCurve(uint8_t index, int8_t shift, int8_t custom=0)
 void menuModelCurveOne(uint8_t event)
 {
   TITLE(STR_MENUCURVE);
-  lcdDrawNumberAttUnit(PSIZE(TR_MENUCURVE)*FW+1, 0, s_curveChan+1, INVERS|LEFT);
+  lcdDrawNumberNAtt(PSIZE(TR_MENUCURVE)*FW+1, 0, s_curveChan+1, INVERS|LEFT);
 
   CurveInfo crv = curveInfo(s_curveChan);
 
@@ -181,7 +181,7 @@ void menuModelCurveOne(uint8_t event)
 
   lcdDrawTextLeft(7*FH, STR_TYPE);
   uint8_t attr = (s_editMode <= 0 ? INVERS : 0);
-  lcdDrawNumberAttUnit(5*FW-2, 7*FH, crv.points, LEFT|attr);
+  lcdDrawNumberNAtt(5*FW-2, 7*FH, crv.points, LEFT|attr);
   lcdDrawTextAtt(lcdLastPos, 7*FH, crv.custom ? PSTR("pt'") : PSTR("pt"), attr);
 
   DrawCurve();
@@ -199,9 +199,9 @@ void menuModelCurveOne(uint8_t event)
     int8_t x = -100 + 200*i/(crv.points-1);
     if (crv.custom && i>0 && i<crv.points-1) x = crv.crv[crv.points+i-1];
     lcdDrawText(7, 2*FH, PSTR("x="));
-    lcdDrawNumberAttUnit(7+2*FW, 2*FH, x, LEFT);
+    lcdDrawNumberNAtt(7+2*FW, 2*FH, x, LEFT);
     lcdDrawText(7, 3*FH, PSTR("y="));
-    lcdDrawNumberAttUnit(7+2*FW, 3*FH, crv.crv[i], LEFT);
+    lcdDrawNumberNAtt(7+2*FW, 3*FH, crv.crv[i], LEFT);
     lcdDrawRect(3, 1*FH+4, 7*FW-2, 3*FH-2);
 
     if (p1valdiff || event==EVT_KEY_FIRST(KEY_DOWN) || event==EVT_KEY_FIRST(KEY_UP) || event==EVT_KEY_REPT(KEY_DOWN) || event==EVT_KEY_REPT(KEY_UP))

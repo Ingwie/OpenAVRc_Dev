@@ -141,16 +141,6 @@ void lcd_outbin(uint8_t digit, coord_t x, coord_t y, uint16_t val, LcdFlags mode
   }
 }
 
-void lcd_outdez8(coord_t x, coord_t y, int8_t val)
-{
-  lcdDrawNumberAttUnit(x, y, val);
-}
-
-void lcdDrawNumberAttUnit(coord_t x, coord_t y, lcdint_t val, LcdFlags flags)
-{
-  lcdDrawNumberNAtt(x, y, val, flags);
-}
-
 void lcdDrawNumberNAtt(coord_t x, coord_t y, lcdint_t val, LcdFlags flags, uint8_t len)
 {
   uint8_t fw = FWNUM;
@@ -363,7 +353,7 @@ void putsTimer(coord_t x, coord_t y, putstime_t tme, LcdFlags att, LcdFlags att2
 
 void lcdPutsVolts(coord_t x, coord_t y, uint16_t volts, LcdFlags att)
 {
-  lcdDrawNumberAttUnit(x, y, (int16_t)volts, (~NO_UNIT) & (att | ((att&PREC2)==PREC2 ? PREC2 : PREC1)));
+  lcdDrawNumberNAtt(x, y, (int16_t)volts, (~NO_UNIT) & (att | ((att&PREC2)==PREC2 ? PREC2 : PREC1)));
   if (~att & NO_UNIT) lcdDrawCharAtt(lcdLastPos, y, 'V', att);
 }
 
@@ -503,7 +493,7 @@ void lcdPutsRotaryEncoderMode(coord_t x, coord_t y, uint8_t phase, uint8_t idx, 
 void lcdPutsValueWithUnit(coord_t x, coord_t y, lcdint_t val, uint8_t unit, LcdFlags att)
 {
   convertUnit(val, unit);
-  lcdDrawNumberAttUnit(x, y, val, att & (~NO_UNIT));
+  lcdDrawNumberNAtt(x, y, val, att & (~NO_UNIT));
   if (!(att & NO_UNIT) && unit != UNIT_RAW) {
     lcdDrawTextAtIndex(lcdLastPos/*+1*/, y, STR_VTELEMUNIT, unit, 0);
   }
@@ -633,7 +623,7 @@ void lcdPutsTelemetryChannelValue(coord_t x, coord_t y, uint8_t channel, lcdint_
     break;
 
   case TELEM_TX_VOLTAGE-1:
-    lcdDrawNumberAttUnit(x, y, val, (att|PREC1) & (~NO_UNIT));
+    lcdDrawNumberNAtt(x, y, val, (att|PREC1) & (~NO_UNIT));
     if (!(att & NO_UNIT))
       lcdDrawChar(lcdLastPos/*+1*/, y, 'V');
     break;
