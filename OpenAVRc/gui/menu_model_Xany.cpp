@@ -35,20 +35,6 @@
 #include "../Xany.h"
 #include "menu_model.h"
 
-/*
--- X-Any N°x --
-Actif:  [x]              <-- Implémenté par Christophe: OK
-Voie:   0-15           <-- Implémenté par Christophe: OK
-Répétition: 0/1/2/3 <-- Implémenté par Christophe: OK
-Sw:     0/4/8/16      <-- Implémenté par Christophe: OK
-1010101010101010<-- Affichage de l'état des 0/4/8/16 inters Implémenté par Christophe: OK (si possible sur même ligne que ci-dessus)
-0-360°: [x]           <-- Implémenté par Christophe: OK
-      Cur: 1234  Min: 0003  Max: 4093  <-- A implémenter (1234=valeur liée=XanyInfo.Angle; min et max sont des valeurs de calibrations pour plus tard...)
-Pot:    [x]             <-- A implémenter (valeur liée=g_model.Xany[xanynumber].PayloadCfg.Item.RotPot=0/1)
-         0-255          <-- A implémenter (valeur liée= XanyInfo.RotPotValue; si possible sur même ligne que ci-dessus)
-Tx Time: ----- ms    <-- A implémenter (des tirets si combinaison ValidMsg==0, sinon temps de transmission du message, valeur liée=XanyInfo.TxPeriodMs)
-*/
-
 enum menuModelXanyItems
 {
   ITEM_MODEL_NAME_A,
@@ -58,7 +44,6 @@ enum menuModelXanyItems
   ITEM_MODEL_SWITCHS_A,
   ITEM_MODEL_ABSAGLSENSOR_A,
   ITEM_MODEL_POT_A,
-  ITEM_MODEL_TIME_A,
 #if (X_ANY >= 2)
   ITEM_MODEL_SEPARATOR,
   ITEM_MODEL_NAME_B,
@@ -118,11 +103,17 @@ void menuModelXany(uint8_t event)
         {
         case ITEM_MODEL_NAME_A :
           lcdDrawStringWithIndex(0, y, STR_NUMBER, xanynumber + 1, ValidMsg?attr:attr|BLINK);
+          if (ValidMsg)
+            {
+              lcdDrawNumberNAtt(19*FW, y, XanyInfo.TxPeriodMs, attr);
+              lcdDrawText(19*FW, y, STR_MS);
+            }
           break;
 
         case ITEM_MODEL_ACTIVE_A :
           ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].Active, MODEL_XANY_2ND_COLUMN, y, STR_ACTIVED, attr, event);
-          if (!ValidMsg) g_model.Xany[xanynumber].Active = 0;
+          if (!ValidMsg)
+            g_model.Xany[xanynumber].Active = 0;
           break;
 
         case ITEM_MODEL_CHID_A :
@@ -166,21 +157,23 @@ void menuModelXany(uint8_t event)
                 }
             }
           break;
-
-        case ITEM_MODEL_TIME_A :
-
-          break;
 #if (X_ANY >= 2)
         case ITEM_MODEL_SEPARATOR :
           break;
 
         case ITEM_MODEL_NAME_B :
           lcdDrawStringWithIndex(0, y, STR_NUMBER, xanynumber + 1, ValidMsg?attr:attr|BLINK);
+          if (ValidMsg)
+            {
+              lcdDrawNumberNAtt(19*FW, y, XanyInfo.TxPeriodMs, attr);
+              lcdDrawText(19*FW, y, STR_MS);
+            }
           break;
 
         case ITEM_MODEL_ACTIVE_B :
           ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].Active, MODEL_XANY_2ND_COLUMN, y, STR_ACTIVED, attr, event);
-          if (!ValidMsg) g_model.Xany[xanynumber].Active = 0;
+          if (!ValidMsg)
+            g_model.Xany[xanynumber].Active = 0;
           break;
 
         case ITEM_MODEL_CHID_B :
@@ -212,7 +205,7 @@ void menuModelXany(uint8_t event)
             {
               if (ValidMsg)
                 {
-                lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
+                  lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
                 }
             }
           break;
@@ -231,11 +224,17 @@ void menuModelXany(uint8_t event)
 
         case ITEM_MODEL_NAME_C :
           lcdDrawStringWithIndex(0, y, STR_NUMBER, xanynumber + 1, ValidMsg?attr:attr|BLINK);
+          if (ValidMsg)
+            {
+              lcdDrawNumberNAtt(19*FW, y, XanyInfo.TxPeriodMs, attr);
+              lcdDrawText(19*FW, y, STR_MS);
+            }
           break;
 
         case ITEM_MODEL_ACTIVE_C :
           ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].Active, MODEL_XANY_2ND_COLUMN, y, STR_ACTIVED, attr, event);
-          if (!ValidMsg) g_model.Xany[xanynumber].Active = 0;
+          if (!ValidMsg)
+            g_model.Xany[xanynumber].Active = 0;
           break;
 
         case ITEM_MODEL_CHID_C :
@@ -267,7 +266,7 @@ void menuModelXany(uint8_t event)
             {
               if (ValidMsg)
                 {
-                lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
+                  lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
                 }
             }
           break;
@@ -286,11 +285,17 @@ void menuModelXany(uint8_t event)
 
         case ITEM_MODEL_NAME_D :
           lcdDrawStringWithIndex(0, y, STR_NUMBER, xanynumber + 1, ValidMsg?attr:attr|BLINK);
+          if (ValidMsg)
+            {
+              lcdDrawNumberNAtt(19*FW, y, XanyInfo.TxPeriodMs, attr);
+              lcdDrawText(19*FW, y, STR_MS);
+            }
           break;
 
         case ITEM_MODEL_ACTIVE_D :
           ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].Active, MODEL_XANY_2ND_COLUMN, y, STR_ACTIVED, attr, event);
-          if (!ValidMsg) g_model.Xany[xanynumber].Active = 0;
+          if (!ValidMsg)
+            g_model.Xany[xanynumber].Active = 0;
           break;
 
         case ITEM_MODEL_CHID_D :
