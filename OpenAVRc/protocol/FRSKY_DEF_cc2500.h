@@ -93,8 +93,8 @@ void FRSKY_Init_Common_End()
 void FRSKY_Init_Channels(void)
 { // Multiprotocole function
 	uint8_t val;
-	uint8_t channel = g_eeGeneral.fixed_ID.ID_8[0]&0x07;
-	uint8_t channel_spacing = g_eeGeneral.fixed_ID.ID_8[1];
+	uint8_t channel = temp_rfid_addr[0]&0x07;
+	uint8_t channel_spacing = temp_rfid_addr[1];
 	//Filter bad tables
 	if(channel_spacing<0x02) channel_spacing+=0x02;
 	if(channel_spacing>0xE9) channel_spacing-=0xE7;
@@ -117,8 +117,8 @@ void FRSKY_generate_channels()
  * Make sure adjacent channels in the array are spread across the band and are not repeated.
  */
 
-  uint8_t chan_offset = g_eeGeneral.fixed_ID.ID_8[2] % 10; // 10 channel bases.
-  uint8_t step = g_eeGeneral.fixed_ID.ID_8[3] % 11; // 11 sequences for now.
+  uint8_t chan_offset = temp_rfid_addr[2] % 10; // 10 channel bases.
+  uint8_t step = temp_rfid_addr[3] % 11; // 11 sequences for now.
 
   step = step + 73; // 73 to 83.
   // Build channel array.
