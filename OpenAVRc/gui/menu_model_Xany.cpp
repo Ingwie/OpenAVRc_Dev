@@ -102,6 +102,15 @@ void menuModelXany(uint8_t event)
       switch(k)
         {
         case ITEM_MODEL_NAME_A :
+#if (X_ANY >= 2)
+        case ITEM_MODEL_NAME_B :
+#endif
+#if (X_ANY >= 3)
+        case ITEM_MODEL_NAME_C :
+#endif
+#if (X_ANY >= 4)
+        case ITEM_MODEL_NAME_D :
+#endif
           lcdDrawStringWithIndex(0, y, STR_NUMBER, xanynumber + 1, ValidMsg?attr:attr|BLINK);
           if (ValidMsg)
             {
@@ -111,24 +120,60 @@ void menuModelXany(uint8_t event)
           break;
 
         case ITEM_MODEL_ACTIVE_A :
+#if (X_ANY >= 2)
+        case ITEM_MODEL_ACTIVE_B :
+#endif
+#if (X_ANY >= 3)
+        case ITEM_MODEL_ACTIVE_C :
+#endif
+#if (X_ANY >= 4)
+        case ITEM_MODEL_ACTIVE_D :
+#endif
           ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].Active, MODEL_XANY_2ND_COLUMN, y, STR_ACTIVED, attr, event);
           if (!ValidMsg)
             g_model.Xany[xanynumber].Active = 0;
           break;
 
         case ITEM_MODEL_CHID_A :
+#if (X_ANY >= 2)
+        case ITEM_MODEL_CHID_B :
+#endif
+#if (X_ANY >= 3)
+        case ITEM_MODEL_CHID_C :
+#endif
+#if (X_ANY >= 4)
+        case ITEM_MODEL_CHID_D :
+#endif
           lcdDrawStringWithIndex(0, y, STR_CHANNEL, g_model.Xany[xanynumber].ChId+1, attr);
           if (attr)
             CHECK_INCDEC_MODELVAR_ZERO(event, g_model.Xany[xanynumber].ChId, NUM_CHNOUT);
           break;
 
         case ITEM_MODEL_REPEATNB_A :
+#if (X_ANY >= 2)
+        case ITEM_MODEL_REPEATNB_B :
+#endif
+#if (X_ANY >= 3)
+        case ITEM_MODEL_REPEATNB_C :
+#endif
+#if (X_ANY >= 4)
+        case ITEM_MODEL_REPEATNB_D :
+#endif
           lcdDrawStringWithIndex(0, y, STR_NB_REPEAT, g_model.Xany[xanynumber].RepeatNb, attr);
           if (attr)
             CHECK_INCDEC_MODELVAR_ZERO(event, g_model.Xany[xanynumber].RepeatNb, 3);
           break;
 
         case ITEM_MODEL_SWITCHS_A :
+#if (X_ANY >= 2)
+        case ITEM_MODEL_SWITCHS_B :
+#endif
+#if (X_ANY >= 3)
+        case ITEM_MODEL_SWITCHS_C :
+#endif
+#if (X_ANY >= 4)
+        case ITEM_MODEL_SWITCHS_D :
+#endif
           num_switchs = (g_model.Xany[xanynumber].PayloadCfg.Item.Switches < 3) ? g_model.Xany[xanynumber].PayloadCfg.Item.Switches*4 : 16;
           lcdDrawStringWithIndex(0, y, STR_SWITCHES, num_switchs, attr);
           if (attr)
@@ -141,6 +186,15 @@ void menuModelXany(uint8_t event)
           break;
 
         case ITEM_MODEL_ABSAGLSENSOR_A :
+#if (X_ANY >= 2)
+        case ITEM_MODEL_ABSAGLSENSOR_B :
+#endif
+#if (X_ANY >= 3)
+        case ITEM_MODEL_ABSAGLSENSOR_C :
+#endif
+#if (X_ANY >= 4)
+        case ITEM_MODEL_ABSAGLSENSOR_D :
+#endif
           if ((ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event)))
             {
               if (ValidMsg)
@@ -149,6 +203,15 @@ void menuModelXany(uint8_t event)
           break;
 
         case ITEM_MODEL_POT_A :
+#if (X_ANY >= 2)
+        case ITEM_MODEL_POT_B :
+#endif
+#if (X_ANY >= 3)
+        case ITEM_MODEL_POT_C :
+#endif
+#if (X_ANY >= 4)
+        case ITEM_MODEL_POT_D :
+#endif
           if ((ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.RotPot, MODEL_XANY_2ND_COLUMN, y, STR_POTS, attr, event)))
             {
               if (ValidMsg)
@@ -157,189 +220,17 @@ void menuModelXany(uint8_t event)
                 }
             }
           break;
+
 #if (X_ANY >= 2)
         case ITEM_MODEL_SEPARATOR :
-          break;
-
-        case ITEM_MODEL_NAME_B :
-          lcdDrawStringWithIndex(0, y, STR_NUMBER, xanynumber + 1, ValidMsg?attr:attr|BLINK);
-          if (ValidMsg)
-            {
-              lcdDrawNumberNAtt(19*FW, y, XanyInfo.TxPeriodMs, attr);
-              lcdDrawText(19*FW, y, STR_MS);
-            }
-          break;
-
-        case ITEM_MODEL_ACTIVE_B :
-          ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].Active, MODEL_XANY_2ND_COLUMN, y, STR_ACTIVED, attr, event);
-          if (!ValidMsg)
-            g_model.Xany[xanynumber].Active = 0;
-          break;
-
-        case ITEM_MODEL_CHID_B :
-          lcdDrawStringWithIndex(0, y, STR_CHANNEL, g_model.Xany[xanynumber].ChId+1, attr);
-          if (attr)
-            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.Xany[xanynumber].ChId, NUM_CHNOUT);
-          break;
-
-        case ITEM_MODEL_REPEATNB_B :
-          lcdDrawStringWithIndex(0, y, STR_NB_REPEAT, g_model.Xany[xanynumber].RepeatNb, attr);
-          if (attr)
-            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.Xany[xanynumber].RepeatNb, 3);
-          break;
-
-        case ITEM_MODEL_SWITCHS_B :
-          num_switchs = (g_model.Xany[xanynumber].PayloadCfg.Item.Switches < 3) ? g_model.Xany[xanynumber].PayloadCfg.Item.Switches*4 : 16;
-          lcdDrawStringWithIndex(0, y, STR_SWITCHES, num_switchs, attr);
-          if (attr)
-            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.Xany[xanynumber].PayloadCfg.Item.Switches, 3);
-          /* If ValidMsg == 0, this means the combination is not supported */
-          if (ValidMsg)
-            {
-              lcd_outbin(XanyInfo.SwNb,14*FW-3*XanyInfo.SwNb,y,XanyInfo.SwValue, INVERS);
-            }
-          break;
-
-        case ITEM_MODEL_ABSAGLSENSOR_B :
-          if ((ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event)))
-            {
-              if (ValidMsg)
-                {
-                  lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
-                }
-            }
-          break;
-
-        case ITEM_MODEL_POT_B :
-          if ((ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.RotPot, MODEL_XANY_2ND_COLUMN, y, STR_POTS, attr, event)))
-            {
-              if (ValidMsg)
-                lcdDrawNumberNAtt(16*FW, y, XanyInfo.RotPotValue, INVERS | UNSIGN | LEADING0, 3);
-            }
-          break;
 #endif
 #if (X_ANY >= 3)
         case ITEM_MODEL_SEPARATOR1 :
-          break;
-
-        case ITEM_MODEL_NAME_C :
-          lcdDrawStringWithIndex(0, y, STR_NUMBER, xanynumber + 1, ValidMsg?attr:attr|BLINK);
-          if (ValidMsg)
-            {
-              lcdDrawNumberNAtt(19*FW, y, XanyInfo.TxPeriodMs, attr);
-              lcdDrawText(19*FW, y, STR_MS);
-            }
-          break;
-
-        case ITEM_MODEL_ACTIVE_C :
-          ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].Active, MODEL_XANY_2ND_COLUMN, y, STR_ACTIVED, attr, event);
-          if (!ValidMsg)
-            g_model.Xany[xanynumber].Active = 0;
-          break;
-
-        case ITEM_MODEL_CHID_C :
-          lcdDrawStringWithIndex(0, y, STR_CHANNEL, g_model.Xany[xanynumber].ChId+1, attr);
-          if (attr)
-            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.Xany[xanynumber].ChId, NUM_CHNOUT);
-          break;
-
-        case ITEM_MODEL_REPEATNB_C :
-          lcdDrawStringWithIndex(0, y, STR_NB_REPEAT, g_model.Xany[xanynumber].RepeatNb, attr);
-          if (attr)
-            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.Xany[xanynumber].RepeatNb, 3);
-          break;
-
-        case ITEM_MODEL_SWITCHS_C :
-          num_switchs = (g_model.Xany[xanynumber].PayloadCfg.Item.Switches < 3) ? g_model.Xany[xanynumber].PayloadCfg.Item.Switches*4 : 16;
-          lcdDrawStringWithIndex(0, y, STR_SWITCHES, num_switchs, attr);
-          if (attr)
-            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.Xany[xanynumber].PayloadCfg.Item.Switches, 3);
-          /* If ValidMsg == 0, this means the combination is not supported */
-          if (ValidMsg)
-            {
-              lcd_outbin(XanyInfo.SwNb,14*FW-3*XanyInfo.SwNb,y,XanyInfo.SwValue, INVERS);
-            }
-          break;
-
-        case ITEM_MODEL_ABSAGLSENSOR_C :
-          if ((ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event)))
-            {
-              if (ValidMsg)
-                {
-                  lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
-                }
-            }
-          break;
-
-        case ITEM_MODEL_POT_C :
-          if ((ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.RotPot, MODEL_XANY_2ND_COLUMN, y, STR_POTS, attr, event)))
-            {
-              if (ValidMsg)
-                lcdDrawNumberNAtt(16*FW, y, XanyInfo.RotPotValue, INVERS | UNSIGN | LEADING0, 3);
-            }
-          break;
 #endif
 #if (X_ANY >= 4)
         case ITEM_MODEL_SEPARATOR2 :
-          break;
-
-        case ITEM_MODEL_NAME_D :
-          lcdDrawStringWithIndex(0, y, STR_NUMBER, xanynumber + 1, ValidMsg?attr:attr|BLINK);
-          if (ValidMsg)
-            {
-              lcdDrawNumberNAtt(19*FW, y, XanyInfo.TxPeriodMs, attr);
-              lcdDrawText(19*FW, y, STR_MS);
-            }
-          break;
-
-        case ITEM_MODEL_ACTIVE_D :
-          ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].Active, MODEL_XANY_2ND_COLUMN, y, STR_ACTIVED, attr, event);
-          if (!ValidMsg)
-            g_model.Xany[xanynumber].Active = 0;
-          break;
-
-        case ITEM_MODEL_CHID_D :
-          lcdDrawStringWithIndex(0, y, STR_CHANNEL, g_model.Xany[xanynumber].ChId+1, attr);
-          if (attr)
-            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.Xany[xanynumber].ChId, NUM_CHNOUT);
-          break;
-
-        case ITEM_MODEL_REPEATNB_D :
-          lcdDrawStringWithIndex(0, y, STR_NB_REPEAT, g_model.Xany[xanynumber].RepeatNb, attr);
-          if (attr)
-            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.Xany[xanynumber].RepeatNb, 3);
-          break;
-
-        case ITEM_MODEL_SWITCHS_D :
-          num_switchs = (g_model.Xany[xanynumber].PayloadCfg.Item.Switches < 3) ? g_model.Xany[xanynumber].PayloadCfg.Item.Switches*4 : 16;
-          lcdDrawStringWithIndex(0, y, STR_SWITCHES, num_switchs, attr);
-          if (attr)
-            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.Xany[xanynumber].PayloadCfg.Item.Switches, 3);
-          /* If ValidMsg == 0, this means the combination is not supported */
-          if (ValidMsg)
-            {
-              lcd_outbin(XanyInfo.SwNb,14*FW-3*XanyInfo.SwNb,y,XanyInfo.SwValue, INVERS);
-            }
-          break;
-
-        case ITEM_MODEL_ABSAGLSENSOR_D :
-          if ((ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event)))
-            {
-              if (ValidMsg)
-                lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
-            }
-          break;
-
-        case ITEM_MODEL_POT_D :
-          if ((ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.RotPot, MODEL_XANY_2ND_COLUMN, y, STR_POTS, attr, event)))
-            {
-              if (ValidMsg)
-                {
-                  lcdDrawNumberNAtt(16*FW, y, XanyInfo.RotPotValue, INVERS | UNSIGN | LEADING0, 3);
-                }
-            }
-          break;
 #endif
+          break;
         }
       y += FH;
     }

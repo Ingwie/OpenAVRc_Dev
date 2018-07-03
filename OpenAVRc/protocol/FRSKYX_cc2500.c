@@ -171,7 +171,7 @@ static uint16_t Xcrc(uint8_t *data, uint8_t len)
 static void FRSKYX_initialize_data(uint8_t adr)
 {
   CC2500_WriteReg(CC2500_18_MCSM0,0x08);
-  CC2500_WriteReg(CC2500_09_ADDR, adr ? 0x03 : g_eeGeneral.fixed_ID.ID_8[3]);
+  CC2500_WriteReg(CC2500_09_ADDR, adr ? 0x03 : temp_rfid_addr[3]);
   CC2500_WriteReg(CC2500_07_PKTCTRL1,0x05);
 }
 
@@ -187,8 +187,8 @@ static void frskyX_build_bind_packet()
   packet[0] = (g_model.rfSubType & 0x01) ? 0x20 : 0x1D;// LBT (EU) or  FCC (US)
   packet[1] = 0x03;
   packet[2] = 0x01;
-  packet[3] = g_eeGeneral.fixed_ID.ID_8[3];
-  packet[4] = g_eeGeneral.fixed_ID.ID_8[2];
+  packet[3] = temp_rfid_addr[3];
+  packet[4] = temp_rfid_addr[2];
   packet[5] = bind_idx; // Index into channels_used array.
   packet[6] =  channel_used[bind_idx++];
   packet[7] =  channel_used[bind_idx++];
@@ -244,8 +244,8 @@ static void frskyX_data_frame()
   #endif */
 
   packet[0] = (g_model.rfSubType & 0x01) ? 0x20 : 0x1D ;	// LBT or FCC
-  packet[1] = g_eeGeneral.fixed_ID.ID_8[3];
-  packet[2] = g_eeGeneral.fixed_ID.ID_8[2];
+  packet[1] = temp_rfid_addr[3];
+  packet[2] = temp_rfid_addr[2];
   packet[3] = 0x02;
   //
   packet[4] = (channel_skip<<6)|channel_index;
@@ -331,8 +331,8 @@ static void frsky_check_telemetry(uint8_t *pkt, uint8_t len)
 {
   // only process packets with the required id and packet length and good crc
   if (      pkt[0] == len - 3
-            && pkt[1] == g_eeGeneral.fixed_ID.ID_8[3]
-            && pkt[2] == g_eeGeneral.fixed_ID.ID_8[2]
+            && pkt[1] == temp_rfid_addr[3]
+            && pkt[2] == temp_rfid_addr[2]
             && (Xcrc(&pkt[3], len-7) == (uint16_t)(pkt[len-4] << 8 | pkt[len-3]))
      )
     {
@@ -489,8 +489,10 @@ static void FRSKYX_initialize(uint8_t bind)
   channel_skip = 0;
   send_seq = 0x08 ;
   receive_seq = 0 ;
+
+
   /* Build channel array. (V code for test)
-  channel_offset = (g_eeGeneral.fixed_ID.ID_8[1] << 8 | g_eeGeneral.fixed_ID.ID_8[0]) % 5;
+  channel_offset = (temp_rfid_addr[1] << 8 | temp_rfid_addr[0]) % 5;
   uint8_t chan_num;
   for(uint8_t x = 0; x < 50; x ++)
     {
