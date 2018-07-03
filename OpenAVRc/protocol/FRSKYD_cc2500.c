@@ -97,7 +97,7 @@ static void FRSKYD_init(uint8_t bind)
   }
 
   CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
-  CC2500_WriteReg(CC2500_09_ADDR, bind ? 0x03 : g_eeGeneral.fixed_ID.ID_8[0]);
+  CC2500_WriteReg(CC2500_09_ADDR, bind ? 0x03 : temp_rfid_addr[0]);
   CC2500_Strobe(CC2500_SFTX); // 3b
   CC2500_Strobe(CC2500_SFRX); // 3a
   CC2500_SetPower(TXPOWER_1);
@@ -110,8 +110,8 @@ static void FRSKYD_build_bind_packet()
   packet[0] = 0x11; //Length (17)
   packet[1] = 0x03; //Packet type
   packet[2] = 0x01; //Packet type
-  packet[3] = g_eeGeneral.fixed_ID.ID_8[0];
-  packet[4] = g_eeGeneral.fixed_ID.ID_8[1]^RXNUM;
+  packet[3] = temp_rfid_addr[0];
+  packet[4] = temp_rfid_addr[1];
   packet[5] = bind_idx; // Index into channels_used array.
   packet[6] =  channel_used[bind_idx++];
   packet[7] =  channel_used[bind_idx++];
@@ -133,8 +133,8 @@ static void FRSKYD_build_bind_packet()
 static void FRSKYD_build_data_packet()
 {
   packet[0] = 0x11; // Length
-  packet[1] = g_eeGeneral.fixed_ID.ID_8[0];
-  packet[2] = g_eeGeneral.fixed_ID.ID_8[1]^RXNUM;
+  packet[1] = temp_rfid_addr[0];
+  packet[2] = temp_rfid_addr[1];
   packet[3] = packet_count;
 #if HAS_EXTENDED_TELEMETRY
   packet[4] = sequence; // acknowledge last value packet
@@ -235,8 +235,8 @@ static uint16_t FRSKYD_data_cb()
 
         // Packet checks: sensible length, good CRC, matching fixed id
         if(len != packet[0] + 3 || packet[0] < 5 || !(packet[len-1] & 0x80)) break;
-        else if(packet[1] != g_eeGeneral.fixed_ID.ID_8[0]) break;
-        else if(packet[2] != (g_eeGeneral.fixed_ID.ID_8[1]^RXNUM)) break;
+        else if(packet[1] != temp_rfid_addr[0]) break;
+        else if(packet[2] != temp_rfid_addr[1]) break;
 #if defined(FRSKY)
         //memcpy(Usart0RxBuffer, packet, len);
         if(frskyStreaming < FRSKY_TIMEOUT10ms -5) frskyStreaming +=5;
@@ -266,17 +266,16 @@ static uint16_t FRSKYD_data_cb()
 
 static void FRSKYD_initialize(uint8_t bind)
 {
-  FRSKY_generate_channels();
+  loadrfidaddr_rxnum(0);
+  //FRSKY_generate_channels();
+  FRSKY_Init_Channels();
   CC2500_Reset(); // 0x30
 
   if(bind) {
     FRSKYD_init(1);
-    //PROTOCOL_SetBindState(0xFFFFFFFF);
     PROTO_Start_Callback(25000U *2, FRSKYD_bind_cb);
   } else {
     FRSKYD_init(0);
-    FRSKYD_build_data_packet();
-    // TELEMETRY_SetType(TELEM_FRSKY);
     PROTO_Start_Callback(25000U *2, FRSKYD_data_cb);
   }
 }

@@ -38,7 +38,8 @@
 #define CORONA_BIND_CHANNEL_V1	0xD1
 #define CORONA_BIND_CHANNEL_V2	0xB8
 #define CORONA_COARSE			      0x00
-#define COR_V1                  0
+#define COR_V1                  1
+#define proto_is_V1             channel_skip
 
 const static RfOptionSettingsvarstruct RfOpt_corona_Ser[] PROGMEM =
 {
@@ -51,7 +52,7 @@ const static RfOptionSettingsvarstruct RfOpt_corona_Ser[] PROGMEM =
   /*rfOptionValue3Max*/7,    // RF POWER
 };
 
-const pm_char STR_SUBTYPE_CORONA[] PROGMEM =     " FSS""DSSS";
+const pm_char STR_SUBTYPE_CORONA[] PROGMEM =     "DSSS"" FSS";
 
 const static uint8_t ZZ_coronaInitSequence[] PROGMEM =
 {
@@ -65,34 +66,33 @@ const static uint8_t ZZ_coronaInitSequence[] PROGMEM =
 
 static void corona_init()
 {
-  for (uint8_t i = 0; i<4; ++i)
-    {
-      t_rf_id_addr[i] = g_eeGeneral.fixed_ID.ID_8[i]; /* Use packet[139 to 143 to store a copy of FixedID  */
-    }
-    t_rf_id_addr[3] ^= RXNUM; // Like model match function
-
   // From dumps channels are anything between 0x00 and 0xC5 on V1.
   // But 0x00 and 0xB8 should be avoided on V2 since they are used for bind.
   // Below code make sure channels are between 0x02 and 0xA0, spaced with a minimum of 2 and not ordered (RX only use the 1st channel unless there is an issue).
-  uint8_t order=t_rf_id_addr[3]&0x03;
+
+  uint8_t order = temp_rfid_addr[3]&0x03;
+  bind_counter = 0;
+  rfState16 = 0;
+  channel_index = 0;
+
   for(uint8_t i=0; i<CORONA_RF_NUM_CHANNELS+1; i++)
     {
-      channel_used[i^order]=2+t_rf_id_addr[3-i]%39+(i<<5)+(i<<3);
+      channel_used[i^order]=2+temp_rfid_addr[3-i]%39+(i<<5)+(i<<3);
     }
   // ID looks random but on the 15 V1 dumps they all show the same odd/even rule
-  if(t_rf_id_addr[3]&0x01)
+  if(temp_rfid_addr[3]&0x01)
     {
       // If [3] is odd then [0] is odd and [2] is even
-      t_rf_id_addr[0]|=0x01;
-      t_rf_id_addr[2]&=0xFE;
+      temp_rfid_addr[0]|=0x01;
+      temp_rfid_addr[2]&=0xFE;
     }
   else
     {
       // If [3] is even then [0] is even and [2] is odd
-      t_rf_id_addr[0]&=0xFE;
-      t_rf_id_addr[2]|=0x01;
+      temp_rfid_addr[0]&=0xFE;
+      temp_rfid_addr[2]|=0x01;
     }
-  t_rf_id_addr[1]=0xFE;			// Always FE in the dumps of V1 and V2
+  temp_rfid_addr[1]=0xFE;			// Always FE in the dumps of V1 and V2
 
 
   CC2500_Strobe(CC2500_SIDLE);
@@ -105,7 +105,7 @@ static void corona_init()
       CC2500_WriteReg(i, dat);
     }
 
-  if(g_model.rfSubType!=COR_V1)
+  if(!proto_is_V1)
     {
       rfState16 = 400; // V2 send channel at startup while rfstate
       CC2500_WriteReg(CC2500_0A_CHANNR, CORONA_BIND_CHANNEL_V2);
@@ -125,15 +125,17 @@ static void corona_init()
   CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
 
   //not sure what they are doing to the PATABLE since basically only the first byte is used and it's only 8 bytes long. So I think they end up filling the PATABLE fully with 0xFF
-  CC2500_WriteRegisterMulti(CC2500_3E_PATABLE,(const uint8_t *)"\x08\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF", 13);
+  //CC2500_WriteRegisterMulti(CC2500_3E_PATABLE,(const uint8_t *)"\x08\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF", 13);
 
   CC2500_SetTxRxMode(TX_EN);
   CC2500_SetPower(TXPOWER_1);
 }
 
-static void corona_send_data_packet()
+static uint16_t corona_send_data_packet()
 {
-  if(rfState16==0 || g_model.rfSubType==COR_V1)
+  uint16_t packet_period = 1;
+
+  if(!rfState16) // V1 or V2&identifier sended
     {
       // Build standard packet
       packet[0] = 0x10;		// 17 bytes to follow
@@ -156,7 +158,9 @@ static void corona_send_data_packet()
 
       //TX ID
       for(uint8_t i=0; i<CORONA_ADDRESS_LENGTH; i++)
-        packet[i+13] = t_rf_id_addr[i];
+        {
+          packet[i+13] = temp_rfid_addr[i];
+        }
 
       packet[17] = 0x00;
 
@@ -170,15 +174,19 @@ static void corona_send_data_packet()
       switch(channel_index)
         {
         case 0:
-          packet_period=g_model.rfSubType==COR_V1?4991:4248;
+          packet_period = 4000;
+          SCHEDULE_MIXER_END_IN_US(20000); // Schedule next Mixer calculations.
           break;
         case 1:
-          packet_period=g_model.rfSubType==COR_V1?4991:4345;
+          packet_period = 4000;
           break;
         case 2:
-          packet_period=g_model.rfSubType==COR_V1?12520:13468;
-          if(g_model.rfSubType!=COR_V1)
-            packet[17] = 0x03;
+          packet_period = 12000;
+
+          if(!proto_is_V1)
+            {
+              packet[17] = 0x03;
+            }
           break;
         }
       // Set channel
@@ -190,87 +198,94 @@ static void corona_send_data_packet()
     }
   else
     {
-      // Send identifier packet for 2.65sec. This is how the RX learns the hopping table after a bind. Why it's not part of the bind like V1 is a mistery...
-      rfState16--;
-      packet[0]=0x07;		// 8 bytes to follow
+      // V2 : Send identifier packet for 2.65sec. This is how the RX learns the hopping table after a bind. Why it's not part of the bind like V1 is a mistery...
+      if(--rfState16&1) SCHEDULE_MIXER_END_IN_US(13000); // Dec state & send Schedule next Mixer calculations.
+      packet[0] = 0x07;		// 8 bytes to follow
       // Send hopping freq
       for(uint8_t i=0; i<CORONA_RF_NUM_CHANNELS; i++)
-        packet[i+1]=channel_used[i];
+        {
+          packet[i+1]=channel_used[i];
+        }
       // Send TX ID
       for(uint8_t i=0; i<CORONA_ADDRESS_LENGTH; i++)
-        packet[i+4]=t_rf_id_addr[i];
+        {
+          packet[i+4]=temp_rfid_addr[i];
+        }
       packet[8]=0;
-      packet_period=6647;
+      packet_period=6500;
       // Set channel
       CC2500_WriteReg(CC2500_0A_CHANNR, 0x00);
     }
   // Send packet
   CC2500_WriteData(packet, packet[0]+2);
-  packet_period=10000;
+  return packet_period;
 }
 
-static void corona_send_bind_packet()
+static uint16_t corona_send_bind_packet()
 {
-  {
-    // Build bind packets
-    if(g_model.rfSubType==COR_V1)
-      {
-        // V1
-        if(bind_counter&1)
-          {
-            // Send TX ID
-            packet[0]=0x04;		// 5 bytes to follow
-            for(uint8_t i=0; i<CORONA_ADDRESS_LENGTH; i++)
-              packet[i+1]=t_rf_id_addr[i];
-            packet[5]=0xCD;		// Unknown but seems to be always the same value for V1
-            packet_period=3689;
-          }
-        else
-          {
-            // Send hopping freq
-            packet[0]=0x03;		// 4 bytes to follow
-            for(uint8_t i=0; i<CORONA_RF_NUM_CHANNELS+1; i++)
-              packet[i+1]=channel_used[i];
-            // Not sure what the last byte (+1) is for now since only the first 3 channels are used...
-            packet_period=3438;
-          }
-      }
-    else
-      {
-        // V2
-        packet[0]=0x04;		// 5 bytes to follow
-        for(uint8_t i=0; i<CORONA_ADDRESS_LENGTH; i++)
-          packet[i+1]=t_rf_id_addr[i];
-        packet[5]=0x00;		// Unknown but seems to be always the same value for V2
-        packet_period=26791;
-      }
-  }
+  uint16_t packet_period;
+
+  // Build bind packets
+  if(proto_is_V1)
+    {
+      // V1
+      if(bind_counter++&1)
+        {
+          SCHEDULE_MIXER_END_IN_US(14000); // Schedule next Mixer calculations.
+          // Send TX ID
+          packet[0]=0x04;		// 5 bytes to follow
+          for(uint8_t i=0; i<CORONA_ADDRESS_LENGTH; i++)
+            packet[i+1]=temp_rfid_addr[i];
+          packet[5]=0xCD;		// Unknown but seems to be always the same value for V1
+        }
+      else
+        {
+          // Send hopping freq
+          packet[0]=0x03;		// 4 bytes to follow
+          for(uint8_t i=0; i<CORONA_RF_NUM_CHANNELS+1; i++)
+            packet[i+1]=channel_used[i];
+          // Not sure what the last byte (+1) is for now since only the first 3 channels are used...
+        }
+      packet_period=3500;
+    }
+  else
+    {
+      // V2
+      SCHEDULE_MIXER_END_IN_US(25000); // Schedule next Mixer calculations.
+      packet[0]=0x04;		// 5 bytes to follow
+      for(uint8_t i=0; i<CORONA_ADDRESS_LENGTH; i++)
+        packet[i+1]=temp_rfid_addr[i];
+      packet[5]=0x00;		// Unknown but seems to be always the same value for V2
+      packet_period=25000;
+    }
   // Send packet
   CC2500_WriteData(packet, packet[0]+2);
+  return packet_period;
 }
 
 static uint16_t CORONA_bind_cb()
 {
-  SCHEDULE_MIXER_END_IN_US((g_model.rfSubType==COR_V1)? 3500 : 26700); // Schedule next Mixer calculations.
-  corona_send_bind_packet();
+  uint16_t time = corona_send_bind_packet();
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-  return packet_period *2;
+  return time*2;
 }
 
 static uint16_t CORONA_cb()
 {
-  SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations. //TODO better switch value ....
-  corona_send_data_packet();
+  uint16_t time = corona_send_data_packet();
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-  return packet_period *2;
+  return time*2;
 }
 
 
 static void CORONA_initialize(uint8_t bind)
 {
+  loadrfidaddr_rxnum(3);
+  (g_model.rfSubType==COR_V1)?proto_is_V1=1:proto_is_V1=0;
   corona_init();
+
   if (bind)
     {
       PROTO_Start_Callback(25000U *2, CORONA_bind_cb);

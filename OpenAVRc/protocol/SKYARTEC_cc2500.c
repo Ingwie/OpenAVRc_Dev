@@ -33,8 +33,8 @@
 
 #include "../OpenAVRc.h"
 
-#define TX_ADDR g_eeGeneral.fixed_ID.ID_8[2]
-#define TX_CHANNEL g_eeGeneral.fixed_ID.ID_8[3]
+#define TX_ADDR temp_rfid_addr[2]
+#define TX_CHANNEL temp_rfid_addr[3]
 
 const static RfOptionSettingsvarstruct RfOpt_Skyartec_Ser[] PROGMEM = {
 /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
@@ -151,8 +151,8 @@ static void Skyartec_send_data_packet()
 
   CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
   CC2500_ManagePower();
-  CC2500_WriteReg(CC2500_04_SYNC1, g_eeGeneral.fixed_ID.ID_8[0]);
-  CC2500_WriteReg(CC2500_05_SYNC0, g_eeGeneral.fixed_ID.ID_8[1]);
+  CC2500_WriteReg(CC2500_04_SYNC1, temp_rfid_addr[0]);
+  CC2500_WriteReg(CC2500_05_SYNC0, temp_rfid_addr[1]);
   CC2500_WriteReg(CC2500_09_ADDR, TX_ADDR);
   CC2500_WriteReg(CC2500_0A_CHANNR, TX_CHANNEL);
   CC2500_WriteData(packet, packet[0]+1);
@@ -165,10 +165,10 @@ static void Skyartec_send_bind_packet()
   packet[1] = 0x7d;
   packet[2] = 0x01;
   packet[3] = 0x01;
-  packet[4] = g_eeGeneral.fixed_ID.ID_8[3];
-  packet[5] = g_eeGeneral.fixed_ID.ID_8[2];
-  packet[6] = g_eeGeneral.fixed_ID.ID_8[1];
-  packet[7] = g_eeGeneral.fixed_ID.ID_8[0];
+  packet[4] = temp_rfid_addr[3];
+  packet[5] = temp_rfid_addr[2];
+  packet[6] = temp_rfid_addr[1];
+  packet[7] = temp_rfid_addr[0];
   packet[8] = 0x00;
   packet[9] = 0x00;
   packet[10] = TX_ADDR;
@@ -205,6 +205,7 @@ static uint16_t SKYARTEC_cb()
 static void SKYARTEC_initialize(uint8_t bind)
 {
   PROTO_Stop_Callback();
+  loadrfidaddr_rxnum(2);
   skyartec_init();
   if (bind) {
   PROTO_Start_Callback(25000U *2, SKYARTEC_bind_cb);
@@ -239,15 +240,6 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
                         STR_DUMMY       //OptionBool 3
                         );
     return 0;
-
-  //case PROTOCMD_NUMCHAN:
-    //return (void *)7L;
-  //case PROTOCMD_DEFAULT_NUMCHAN:
-    //return (void *)7L;
-//  case PROTOCMD_CURRENT_ID:
-//    return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;
-//  case PROTOCMD_TELEMETRYSkyartec_state:
-//    return (void *)(long)PROTO_TELEM_UNSUPPORTED;
   default:
     break;
   }
