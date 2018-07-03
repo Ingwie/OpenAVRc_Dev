@@ -142,7 +142,7 @@ static uint8_t FRSKYV_crc8_le()
 
   uint8_t result = 0xD6;
 
-  result = result ^ t_rf_id_addr[1];
+  result = result ^ temp_rfid_addr[1];
   for(uint8_t j = 0; j < 8; j++)
     {
       if(result & 0x01)
@@ -151,7 +151,7 @@ static uint8_t FRSKYV_crc8_le()
         result = result >> 1;
     }
 
-  result = result ^ t_rf_id_addr[0];
+  result = result ^ temp_rfid_addr[0];
   for(uint8_t j = 0; j < 8; j++)
     {
       if(result & 0x01)
@@ -186,8 +186,8 @@ static void FRSKYV_build_bind_packet()
   packet[0] = 0x0E; //Length
   packet[1] = 0x03; //Packet type
   packet[2] = 0x01; //Packet type
-  packet[3] = t_rf_id_addr[0];
-  packet[4] = t_rf_id_addr[1];
+  packet[3] = temp_rfid_addr[0];
+  packet[4] = temp_rfid_addr[1];
   packet[5] = bind_idx *5; // Index into channels_used array.
   packet[6] =  channel_used[packet[5]+0];
   packet[7] =  channel_used[packet[5]+1];
@@ -210,8 +210,8 @@ static void FRSKYV_build_data_packet()
   channel_offset = 0;
 
   packet[0] = 0x0E;
-  packet[1] = t_rf_id_addr[0];
-  packet[2] = t_rf_id_addr[1];
+  packet[1] = temp_rfid_addr[0];
+  packet[2] = temp_rfid_addr[1];
   packet[3] = seed & 0xFF;
   packet[4] = seed >> 8;
 
@@ -296,12 +296,12 @@ static void FRSKYV_initialise(uint8_t bind)
 {
   CC2500_Reset(); // 0x30
 
-  t_rf_id_addr[0] = g_eeGeneral.fixed_ID.ID_8[0];
-  t_rf_id_addr[1] = g_eeGeneral.fixed_ID.ID_8[1] & 0x7F; // 15 bit max ID
+  temp_rfid_addr[0] = g_eeGeneral.fixed_ID.ID_8[0];
+  temp_rfid_addr[1] = g_eeGeneral.fixed_ID.ID_8[1] & 0x7F; // 15 bit max ID
   rfState8 = 0;
 
   // Build channel array.
-  channel_offset = (uint16_t)(t_rf_id_addr[1] << 8 | t_rf_id_addr[0]) % 5;
+  channel_offset = (uint16_t)(temp_rfid_addr[1] << 8 | temp_rfid_addr[0]) % 5;
   uint8_t chan_num;
   for(uint8_t x = 0; x < 50; x ++)
     {
