@@ -59,6 +59,7 @@
 #ifdef PROTO_HAS_CC2500
 #include "iface_cc2500.h"
 #include "cc2500.c"
+#include "FRSKY_DEF_cc2500.cpp"
 #include "FRSKYV_cc2500.c"
 #include "FRSKYD_cc2500.c"
 #include "FRSKYX_cc2500.c"

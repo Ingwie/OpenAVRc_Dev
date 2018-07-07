@@ -33,9 +33,6 @@
 
 
 #include "../OpenAVRc.h"
-#include "FRSKY_DEF_cc2500.h"
-
-extern uint8_t Usart0RxBuffer[];
 
 const static RfOptionSettingsvarstruct RfOpt_FrskyD_Ser[] PROGMEM = {
 /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
@@ -47,45 +44,28 @@ const static RfOptionSettingsvarstruct RfOpt_FrskyD_Ser[] PROGMEM = {
 /*rfOptionValue3Max*/7,    // RF POWER
 };
 
-const static uint8_t ZZ_frskyDInitSequence[] PROGMEM = {
-  CC2500_17_MCSM1, 0x00, // Go to idle after tx & rx.
-  CC2500_18_MCSM0, 0x18, // Auto calibrate when going from idle to tx/rx/fstxon
-  CC2500_06_PKTLEN, 0x19,
-  CC2500_07_PKTCTRL1, 0x05, // Address checking no broadcasts, Append status bytes to payload.
-  CC2500_08_PKTCTRL0, 0x05, // No data whitening, FIFO for tx/rx, CRC generation and checking,
-  // Variable packet length mode set by first byte after sync word (0x11).
-  CC2500_0B_FSCTRL1, 0x08,
-  CC2500_0D_FREQ2, 0x5c,
-  CC2500_0E_FREQ1, 0x76, // V8 was 0x58
-  CC2500_0F_FREQ0, 0x27, // V8 was 0x9d
-  CC2500_10_MDMCFG4, 0xaa,
-  CC2500_11_MDMCFG3, 0x39, // 31044 baud.
-  CC2500_12_MDMCFG2, 0x11, // V8 was 0x93
-  CC2500_13_MDMCFG1, 0x23,
-  CC2500_14_MDMCFG0, 0x7a,
-  CC2500_15_DEVIATN, 0x42, // 0x41 (+-28564Hz) for 1way, 0x42 for 2way.
-  CC2500_19_FOCCFG, 0x16,
-  CC2500_1A_BSCFG, 0x6c,
-  CC2500_1B_AGCCTRL2, 0x03, // 0x03 for bind and normal.
-  CC2500_1C_AGCCTRL1, 0x40,
-  CC2500_1D_AGCCTRL0, 0x91,
-  CC2500_21_FREND1, 0x56,
-  CC2500_22_FREND0, 0x10,
-  CC2500_23_FSCAL3, 0xA9, // Enable charge pump calibration, calibrate for each hop.
-  CC2500_24_FSCAL2, 0x0a,
-  CC2500_25_FSCAL1, 0x00,
-  CC2500_26_FSCAL0, 0x11,
-  CC2500_29_FSTEST, 0x59,
-  CC2500_2C_TEST2, 0x88,
-  CC2500_2D_TEST1, 0x31,
-  CC2500_2E_TEST0, 0x0b,
-  CC2500_03_FIFOTHR, 0x07};
+const static uint8_t ZZ_frskyDInitSequence[] PROGMEM =
+{
+  CC2500_17_MCSM1,      0x00, // Go to idle after tx & rx.
+  CC2500_18_MCSM0,      0x18, // Auto calibrate when going from idle to tx/rx/fstxon
+  CC2500_06_PKTLEN,     0x19,
+  CC2500_07_PKTCTRL1,   0x05, // Address checking no broadcasts, Append status bytes to payload.
+  CC2500_08_PKTCTRL0,   0x05, // No data whitening, FIFO for tx/rx, CRC generation and checking,
+  CC2500_0B_FSCTRL1,    0x08,
+  CC2500_0D_FREQ2,      0x5C,
+  CC2500_0E_FREQ1,      0x76, // V8 was 0x58
+  CC2500_0F_FREQ0,      0x27, // V8 was 0x9d
+  CC2500_10_MDMCFG4,    0xAA,
+  CC2500_11_MDMCFG3,    0x39, // 31044 baud.
+  CC2500_12_MDMCFG2,    0x11, // V8 was 0x93
+  CC2500_13_MDMCFG1,    0x23,
+  CC2500_14_MDMCFG0,    0x7A,
+  CC2500_15_DEVIATN,    0x42, // 0x41 (+-28564Hz) for 1way, 0x42 for 2way.
+};
 
 static void FRSKYD_init(uint8_t bind)
 {
   packet_count = 0;
-
-  CC2500_Reset(); // 0x30
 
   uint_farptr_t pdata = pgm_get_far_address(ZZ_frskyDInitSequence);
 
@@ -96,12 +76,14 @@ static void FRSKYD_init(uint8_t bind)
     ++pdata;
   }
 
+  FRSKY_Init_Common_End();
+
   CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
+  CC2500_SetPower(TXPOWER_1);
+
   CC2500_WriteReg(CC2500_09_ADDR, bind ? 0x03 : temp_rfid_addr[0]);
   CC2500_Strobe(CC2500_SFTX); // 3b
   CC2500_Strobe(CC2500_SFRX); // 3a
-  CC2500_SetPower(TXPOWER_1);
-  CC2500_WriteReg(CC2500_0A_CHANNR, 0x00);
   CC2500_Strobe(CC2500_SIDLE); // Go to idle...
 }
 
@@ -267,8 +249,7 @@ static uint16_t FRSKYD_data_cb()
 static void FRSKYD_initialize(uint8_t bind)
 {
   loadrfidaddr_rxnum(0);
-  //FRSKY_generate_channels();
-  FRSKY_Init_Channels();
+  FRSKY_generate_channels();
   CC2500_Reset(); // 0x30
 
   if(bind) {
@@ -287,8 +268,6 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
   case PROTOCMD_INIT:
     FRSKYD_initialize(0);
     return 0;
-  //case PROTOCMD_CHECK_AUTOBIND:
-    //return 0; // Never Autobind
   case PROTOCMD_BIND:
     bind_idx = 0;
     FRSKYD_initialize(1);

@@ -34,9 +34,9 @@
 
 
 #include "../OpenAVRc.h"
-#include "FRSKY_DEF_cc2500.h"
 
-extern uint8_t Usart0RxBuffer[];
+#define LBTMODE (g_model.rfSubType == 0)
+#define X8MODE  0
 
 const static RfOptionSettingsvarstruct RfOpt_FrskyX_Ser[] PROGMEM =
 {
@@ -49,7 +49,7 @@ const static RfOptionSettingsvarstruct RfOpt_FrskyX_Ser[] PROGMEM =
   /*rfOptionValue3Max*/7,    // RF POWER
 };
 
-const pm_char STR_SUBTYPE_FRSKYX[] PROGMEM = "XFCC""XLBT";
+const pm_char STR_SUBTYPE_FRSKYX[] PROGMEM = "XLBT""XFCC";
 
 enum
 {
@@ -61,27 +61,27 @@ enum
 };
 
 // FCC,       EU  ,
-static const uint8_t ZZ_FRSKY_InitData_Start[] PROGMEM =
+static const uint8_t ZZ_FRSKYX_InitData_Start[] PROGMEM =
 {
-  0x06,       0x06,
-  0x06,       0x06,
-  0x0c,       0x0E,
-  0x18,       0x18,
-  0x1E,       0x23,
-  0x04,       0x04,
-  0x01,       0x01,
-  TXPOWER_1,  TXPOWER_1,
-  0x0A,       0x08,
-  0x00,       0x00,
-  0x5c,       0x5c,
-  0x76,       0x80,
-  0x27,       0x00,
-  0x7B,       0x7B,
-  0x61,       0xF8,
-  0x13,       0x03,
-  0x23,       0x23,
-  0x7a,       0x7a,
-  0x51,       0x53
+  CC2500_02_IOCFG0,  0x06,       0x06,
+  CC2500_00_IOCFG2,  0x06,       0x06,
+  CC2500_17_MCSM1,   0x0c,       0x0E,
+  CC2500_18_MCSM0,   0x18,       0x18,
+  CC2500_06_PKTLEN,  0x1E,       0x23,
+  CC2500_07_PKTCTRL1,0x04,       0x04,
+  CC2500_08_PKTCTRL0,0x01,       0x01,
+  CC2500_3E_PATABLE, TXPOWER_1,  TXPOWER_1,
+  CC2500_0B_FSCTRL1, 0x0A,       0x08,
+  CC2500_0C_FSCTRL0, 0x00,       0x00,
+  CC2500_0D_FREQ2,   0x5c,       0x5c,
+  CC2500_0E_FREQ1,   0x76,       0x80,
+  CC2500_0F_FREQ0,   0x27,       0x00,
+  CC2500_10_MDMCFG4, 0x7B,       0x7B,
+  CC2500_11_MDMCFG3, 0x61,       0xF8,
+  CC2500_12_MDMCFG2, 0x13,       0x03,
+  CC2500_13_MDMCFG1, 0x23,       0x23,
+  CC2500_14_MDMCFG0, 0x7a,       0x7a,
+  CC2500_15_DEVIATN, 0x51,       0x53
 };
 
 static void FRSKYX_init()
@@ -90,17 +90,14 @@ static void FRSKYX_init()
 
   SCHEDULE_MIXER_END_IN_US(41000U); // Schedule next Mixer calculations.
 
-  uint_farptr_t preg = pgm_get_far_address(ZZ_FRSKY_InitRegister_Start);
-  uint_farptr_t pdata = pgm_get_far_address(ZZ_FRSKY_InitData_Start);
+  uint_farptr_t pdata = pgm_get_far_address(ZZ_FRSKYX_InitData_Start);
 
-  if (g_model.rfSubType & 0x01)
-    ++pdata; // EU settings
-
-  for (uint8_t i=0; i<DIM(ZZ_FRSKY_InitRegister_Start); ++i)   // Send init
+  for (uint8_t i=0; i<(DIM(ZZ_FRSKYX_InitData_Start)/3); i++)
     {
-      uint8_t reg = pgm_read_byte_far(preg++);
-      uint8_t dat = pgm_read_byte_far(pdata++);
-      CC2500_WriteReg(reg,dat);
+      // Send init EU or US
+      uint8_t add = pgm_read_byte_far(pdata);
+      uint8_t dat = LBTMODE ? pgm_read_byte_far(pdata+=2) : pgm_read_byte_far(++pdata);
+      CC2500_WriteReg(add,dat);
       ++pdata;
     }
 
@@ -184,7 +181,7 @@ static void frskyX_set_start(uint8_t ch)
 
 static void frskyX_build_bind_packet()
 {
-  packet[0] = (g_model.rfSubType & 0x01) ? 0x20 : 0x1D;// LBT (EU) or  FCC (US)
+  packet[0] = LBTMODE ? 0x20 : 0x1D; // LBT (EU) or  FCC (US)
   packet[1] = 0x03;
   packet[2] = 0x01;
   packet[3] = temp_rfid_addr[3];
@@ -198,7 +195,7 @@ static void frskyX_build_bind_packet()
   packet[11] = 0x02;
   packet[12] = RXNUM;
 
-  uint8_t end_packet = (g_model.rfSubType & 0x02 ) ? 31 : 28 ;
+  uint8_t end_packet = LBTMODE ? 31 : 28 ;
   memset(&packet[13], 0, end_packet - 13);
   uint16_t lcrc = Xcrc(&packet[3], end_packet-3);
   packet[end_packet++] = lcrc >> 8;
@@ -243,7 +240,7 @@ static void frskyX_data_frame()
   	failsafe_count++;
   #endif */
 
-  packet[0] = (g_model.rfSubType & 0x01) ? 0x20 : 0x1D ;	// LBT or FCC
+  packet[0] = LBTMODE ? 0x20 : 0x1D ;	// LBT or FCC
   packet[1] = temp_rfid_addr[3];
   packet[2] = temp_rfid_addr[2];
   packet[3] = 0x02;
@@ -288,12 +285,12 @@ static void frskyX_data_frame()
     }
   packet[21] = (receive_seq << 4) | send_seq ;//8 at start
 
-  /*if(g_model.rfSubType & 0x02)			// in X8 mode send only 8ch every 9ms
+  if(X8MODE)			// in X8 mode send only 8ch every 9ms
     channel_offset = 0 ;
-  else */
-  channel_offset^=0x08;
+  else
+    channel_offset^=0x08;
 
-  uint8_t end_packet = /*(g_model.rfSubType & 2) ? 31 :*/ 28;
+  uint8_t end_packet = X8MODE ? 31 : 28;
 
   for (uint8_t i=22; i<end_packet; i++)
     packet[i]=0;
@@ -406,9 +403,9 @@ static uint16_t FRSKYX_send_data_packet()
     {
     case FRSKYX_DATA1:
       if (!channel_offset)
-       {
-         SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
-       }
+        {
+          SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
+        }
       frskyX_data_frame();
       CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
       CC2500_ManagePower();
@@ -440,7 +437,8 @@ static uint16_t FRSKYX_send_data_packet()
 #if defined(FRSKY)
           if (g_model.rfOptionBool1) // telemetry on?
             {
-              NONATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+              NONATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+              {
                 frsky_check_telemetry(packet, len);
               }
             }
@@ -481,7 +479,6 @@ static uint16_t FRSKYX_cb()
   return time*2;
 }
 
-
 static void FRSKYX_initialize(uint8_t bind)
 {
   CC2500_Reset();
@@ -490,17 +487,9 @@ static void FRSKYX_initialize(uint8_t bind)
   send_seq = 0x08 ;
   receive_seq = 0 ;
 
+  loadrfidaddr();
 
-  /* Build channel array. (V code for test)
-  channel_offset = (temp_rfid_addr[1] << 8 | temp_rfid_addr[0]) % 5;
-  uint8_t chan_num;
-  for(uint8_t x = 0; x < 50; x ++)
-    {
-      chan_num = (x*5) + 3 + channel_offset;
-      channel_used[x] = (chan_num ? chan_num : 1); // Avoid binding channel 0.
-    }*/
-  FRSKY_Init_Channels();
-  //FRSKY_generate_channels(); // Todo : Choose hop gen func
+  FRSKY_generate_channels();
 
 #if defined (SIMU)
 #define srandom(x) srand(x)

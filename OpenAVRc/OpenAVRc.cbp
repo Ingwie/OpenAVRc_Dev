@@ -160,6 +160,7 @@
 		<Unit filename="protocol/FRSKYX_cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="protocol/FRSKY_DEF_cc2500.cpp" />
 		<Unit filename="protocol/FRSKY_DEF_cc2500.h" />
 		<Unit filename="protocol/MULTI.c">
 			<Option compilerVar="CC" />

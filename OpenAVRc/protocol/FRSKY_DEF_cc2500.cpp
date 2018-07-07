@@ -30,33 +30,41 @@
 **************************************************************************
 */
 
-#ifndef FRSKY_DEF_CC2500_H_INCLUDED
-#define FRSKY_DEF_CC2500_H_INCLUDED
+#include "FRSKY_DEF_cc2500.h"
 
-#include "../OpenAVRc.h"
-
-const uint8_t ZZ_FRSKY_Common_End[] PROGMEM =
+void FRSKY_Init_Common_End()
 {
-  CC2500_19_FOCCFG,   0x16,
-  CC2500_1A_BSCFG,    0x6C,
-  CC2500_1B_AGCCTRL2, 0x43,
-  CC2500_1C_AGCCTRL1, 0x40,
-  CC2500_1D_AGCCTRL0, 0x91,
-  CC2500_21_FREND1,   0x56,
-  CC2500_22_FREND0,   0x10,
-  CC2500_23_FSCAL3,   0xA9,
-  CC2500_24_FSCAL2,   0x0A,
-  CC2500_25_FSCAL1,   0x00,
-  CC2500_26_FSCAL0,   0x11,
-  CC2500_29_FSTEST,   0x59,
-  CC2500_2C_TEST2,    0x88,
-  CC2500_2D_TEST1,    0x31,
-  CC2500_2E_TEST0,    0x0B,
-  CC2500_03_FIFOTHR,  0x07,
-  CC2500_09_ADDR,     0x00,
-};
+  uint_farptr_t pdata = pgm_get_far_address(ZZ_FRSKY_Common_End);
 
-void FRSKY_Init_Common_End();
-void FRSKY_generate_channels();
+  for (uint8_t i=0; i<(DIM(ZZ_FRSKY_Common_End)/2); ++i) { // Send init
+    uint8_t reg = pgm_read_byte_far(pdata);
+    uint8_t dat = pgm_read_byte_far(++pdata);
+    CC2500_WriteReg(reg,dat);
+    ++pdata;
+  }
+}
 
-#endif // FRSKY_DEF_CC2500_H_INCLUDED
+void FRSKY_generate_channels()
+{
+/*
+ * Make sure adjacent channels in the array are spread across the band and are not repeated.
+ */
+
+  uint16_t firstId = temp_rfid_addr[0] + temp_rfid_addr[3];
+  uint16_t secondID = temp_rfid_addr[1] + temp_rfid_addr[2];
+  uint8_t chan_offset = firstId % 10; // 10 channel bases.
+  uint8_t step = secondID % 11; // 11 sequences for now.
+
+  step = step + 73; // 73 to 83.
+  // Build channel array.
+  for(uint8_t idx =0; idx <50; idx++) {
+    uint16_t res = ((step * idx) + chan_offset) % 236; // 235 is the highest channel used.
+
+		if((res==0x00) || (res==0x5A) || (res==0xDC))
+    {
+      ++res;
+    }
+    if(idx > 46) res = 0; // Unused but sent to rx in bind packet.
+    channel_used[idx] = res;
+   }
+}
