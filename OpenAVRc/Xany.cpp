@@ -367,7 +367,7 @@ void Xany_scheduleTx(uint8_t XanyIdx)
       else
       {
         t->Nibble.CurIdx = NIBBLE_I; /* Nothing to transmit */
-        if(t->NibbleIdx < (t->Msg.Common.NibbleNbToTx + 1)) t->Msg.Common.NibbleNbToTx++; /* Bounded to NibbleNbToTx + 1: meanst synchro to allow reload of the new message */
+        if(t->NibbleIdx < (t->Msg.Common.NibbleNbToTx + 1)) t->NibbleIdx++; /* Bounded to NibbleNbToTx + 1: meanst synchro to allow reload of the new message */
       }
       if(t->Nibble.CurIdx == t->Nibble.PrevIdx) t->Nibble.CurIdx = NIBBLE_R; /* Repeat symbol */
       t->Nibble.PrevIdx = t->Nibble.CurIdx;
