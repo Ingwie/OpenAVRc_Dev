@@ -520,12 +520,22 @@ void menuModelSetup(uint8_t event)
 
           if (attr && l_posHorz>0 && s_editMode>0) {
             if (l_posHorz == 1) {
-              if (protoMode != BIND_MODE) startPulses(PROTOCMD_BIND);
-              PROTOCOL_SetBindState(1000); // 10 Sec
-            } else if (l_posHorz == 2) {
-              rangeModeIsOn = true;
+              if (protoMode != BIND_MODE)
+                {
+                  protoMode = BIND_MODE;
+                  startPulses(PROTOCMD_BIND);
+                }
             }
+            else if (l_posHorz == 2)
+              {
+                rangeModeIsOn = true;
+              }
           }
+          if (attr && l_posHorz == 1 && protoMode == BIND_MODE && s_editMode<1)
+            {
+              protoMode = NORMAL_MODE;
+              startPulses(PROTOCMD_INIT);
+            }
         }
 #endif
       }

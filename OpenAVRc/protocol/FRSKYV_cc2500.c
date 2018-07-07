@@ -61,23 +61,6 @@ const static uint8_t ZZ_frskyVInitSequence[] PROGMEM =
   CC2500_13_MDMCFG1, 0x23,
   CC2500_14_MDMCFG0, 0x7A,
   CC2500_15_DEVIATN, 0x41, // 0x41 (+-28564Hz) for 1way, 0x42 for 2way.
-  CC2500_19_FOCCFG, 0x16,
-  CC2500_1A_BSCFG, 0x6C,
-  CC2500_1B_AGCCTRL2, 0x43,
-  CC2500_1C_AGCCTRL1, 0x40,
-  CC2500_1D_AGCCTRL0, 0x91,
-  CC2500_21_FREND1, 0x56,
-  CC2500_22_FREND0, 0x10, // power index 0
-  CC2500_23_FSCAL3, 0xA9, // Enable charge pump calibration, calibrate for each hop.
-  CC2500_24_FSCAL2, 0x0A,
-  CC2500_25_FSCAL1, 0x00,
-  CC2500_26_FSCAL0, 0x11,
-  CC2500_29_FSTEST, 0x59,
-  CC2500_2C_TEST2, 0x88,
-  CC2500_2D_TEST1, 0x31,
-  CC2500_2E_TEST0, 0x0B,
-  CC2500_03_FIFOTHR, 0x07,
-  CC2500_09_ADDR, 0x00 // address 0
 };
 
 
@@ -95,13 +78,14 @@ static void FRSKYV_init()
       ++pdata;
     }
 
-  CC2500_SetTxRxMode(TX_EN);
+  FRSKY_Init_Common_End();
+
   CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
+  CC2500_SetPower(TXPOWER_1);
+  CC2500_SetTxRxMode(TX_EN); // Keep Power Amp activated.
   CC2500_Strobe(CC2500_SFTX); // 3b
   CC2500_Strobe(CC2500_SFRX); // 3a
-  CC2500_SetPower(TXPOWER_1);
   CC2500_Strobe(CC2500_SIDLE); // Go to idle...
-
 }
 
 static uint8_t FRSKYV_crc8(uint8_t result, uint8_t *data, uint8_t len)
@@ -188,26 +172,25 @@ static void FRSKYV_build_bind_packet()
   packet[2] = 0x01; //Packet type
   packet[3] = temp_rfid_addr[0];
   packet[4] = temp_rfid_addr[1];
-  packet[5] = bind_idx *5; // Index into channels_used array.
-  packet[6] =  channel_used[packet[5]+0];
-  packet[7] =  channel_used[packet[5]+1];
-  packet[8] =  channel_used[packet[5]+2];
-  packet[9] =  channel_used[packet[5]+3];
-  packet[10] = channel_used[packet[5]+4];
+  packet[5] = bind_idx; // Index into channels_used array.
+  packet[6] =  channel_used[bind_idx++];
+  packet[7] =  channel_used[bind_idx++];
+  packet[8] =  channel_used[bind_idx++];
+  packet[9] =  channel_used[bind_idx++];
+  packet[10] = channel_used[bind_idx++];
   packet[11] = 0x00;
   packet[12] = 0x00;
   packet[13] = 0x00;
   packet[14] = FRSKYV_crc8(0x93, packet, 14);
 
-  ++bind_idx;
-  if(bind_idx > 9)
+  if(bind_idx > 49)
     bind_idx = 0;
 }
 
 
 static void FRSKYV_build_data_packet()
 {
-  channel_offset = 0;
+  //channel_offset = 0;
 
   packet[0] = 0x0E;
   packet[1] = temp_rfid_addr[0];
@@ -218,7 +201,9 @@ static void FRSKYV_build_data_packet()
   // Appears to be a bitmap relating to the number of channels sent e.g.
   // 0x0F -> first 4 channels, 0x70 -> channels 5,6,7, 0xF0 -> channels 5,6,7,8
   if(rfState8 == 0 || rfState8 == 2)
-    packet[5] = 0x0F;
+    {
+      packet[5] = 0x0F;
+    }
   else if(rfState8 == 1 || rfState8 == 3)
     {
       channel_offset = 4;
@@ -244,30 +229,23 @@ static void FRSKYV_build_data_packet()
     }
 
   packet[14] = FRSKYV_crc8(dp_crc_init, packet, 14);
+
   ++rfState8;
   if(rfState8 > 4)
-    rfState8 =0;
-  // Potentially if we had only four channels we could send them every 9ms.
+    {
+      rfState8 = 0; // Potentially if we had only four channels we could send them every 9ms.
+      SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
+    }
 }
 
 
 static uint16_t FRSKYV_data_cb()
 {
-  SCHEDULE_MIXER_END_IN_US(9000); // Schedule next Mixer calculations.
-
   // Build next packet.
   seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323.
   FRSKYV_build_data_packet(); // 16MHz AVR = 127us.
   CC2500_ManagePower();
-
-  /* TODO Update options which don't need to be every 9ms. */
-  static uint8_t option = 0;
-  if(option == 0)
-    CC2500_SetTxRxMode(TX_EN); // Keep Power Amp activated.
-  else if(option == 128)
-    CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
-  else if(option == 196)
-    CC2500_Strobe(CC2500_SIDLE); // MCSM1 register setting puts CC2500 back into idle after TX.
+  CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
 
   CC2500_WriteReg(CC2500_0A_CHANNR, channel_used[((seed & 0xFF)%50)]); // 16MHz AVR = 38us.
   CC2500_WriteData(packet, 15); // 8.853ms before we start again with the idle strobe.
@@ -295,19 +273,10 @@ static uint16_t FRSKYV_bind_cb()
 static void FRSKYV_initialise(uint8_t bind)
 {
   CC2500_Reset(); // 0x30
-
+  FRSKY_generate_channels();
   temp_rfid_addr[0] = g_eeGeneral.fixed_ID.ID_8[0];
   temp_rfid_addr[1] = g_eeGeneral.fixed_ID.ID_8[1] & 0x7F; // 15 bit max ID
   rfState8 = 0;
-
-  // Build channel array.
-  channel_offset = (uint16_t)(temp_rfid_addr[1] << 8 | temp_rfid_addr[0]) % 5;
-  uint8_t chan_num;
-  for(uint8_t x = 0; x < 50; x ++)
-    {
-      chan_num = (x*5) + 3 + channel_offset;
-      channel_used[x] = (chan_num ? chan_num : 1); // Avoid binding channel 0.
-    }
 
   dp_crc_init = FRSKYV_crc8_le();
 

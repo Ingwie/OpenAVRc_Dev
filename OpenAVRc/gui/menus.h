@@ -170,6 +170,7 @@ int8_t checkIncDecMovedSwitch(int8_t val);
 
 #define CHECK_INCDEC_MODELVAR_CHECK(event, var, min, max, check) \
     var = checkIncDec(event, var, min, max, EE_MODEL)
+
 #define CHECK_INCDEC_MODELVAR_ZERO_CHECK(event, var, max, check) \
     CHECK_INCDEC_MODELVAR_ZERO(event, var, max)
 
