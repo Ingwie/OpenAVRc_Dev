@@ -382,6 +382,7 @@ void Xany_scheduleTx(uint8_t XanyIdx)
     t->Nibble.SentCnt++;
     if(t->Nibble.SentCnt >= (g_model.Xany[XanyIdx].RepeatNb + 1))
     {
+      t->NibbleIdx++;
       t->Nibble.SentCnt = 0;
       t->Nibble.TxInProgress = 0;
     }
