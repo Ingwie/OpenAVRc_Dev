@@ -165,82 +165,93 @@ static uint16_t FRSKYD_bind_cb()
 
 static uint16_t FRSKYD_data_cb()
 {
-    if(!start_tx_rx) {
+  uint8_t packet_count_and_3 = packet_count & 0x03;
 
-      uint8_t packet_count_and_3 = packet_count & 0x03;
-      if(packet_count_and_3 == 0) {
-        CC2500_SetTxRxMode(TX_EN);
-        CC2500_Strobe(CC2500_SIDLE); // Force idle if still receiving in error condition.
-      } else if(packet_count_and_3 == 3) {
-        CC2500_SetTxRxMode(RX_EN);
-      }
+  if(!start_tx_rx)
+    {
 
-      if(packet_count & 0x1F) {
-        CC2500_ManagePower();
-        CC2500_ManageFreqFine();
-      }
+      if(packet_count_and_3 == 0)
+        {
+          CC2500_SetTxRxMode(TX_EN);
+          CC2500_Strobe(CC2500_SIDLE); // Force idle if still receiving in error condition.
+        }
+      else if(packet_count_and_3 == 3)
+        {
+          CC2500_SetTxRxMode(RX_EN);
+        }
+
+      if(packet_count & 0x1F)
+        {
+          CC2500_ManagePower();
+          CC2500_ManageFreqFine();
+        }
 
       CC2500_WriteReg(CC2500_0A_CHANNR, channel_used[packet_count %47]);
       //CC2500_WriteReg(CC2500_23_FSCAL3, 0x89) // Todo have a try
       start_tx_rx = 1;
       return 500 *2;
-    } else {
+    }
+  else
+    {
 
-      switch(packet_count & 0x03) {
+      switch(packet_count_and_3)
+        {
 
-      case 0: // Tx data
-        SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
-        FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
-        CC2500_WriteData(packet, 18);
-        break;
+        case 0: // Tx data
+        case 2: // Tx data
+          SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
+          FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
+          CC2500_WriteData(packet, 18);
+          break;
 
-      case 1: // Tx data
-        FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
-        CC2500_WriteData(packet, 18);
+        case 1: // Tx data
+          FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
+          CC2500_WriteData(packet, 18);
 
-        // Process previous telemetry packet
-        uint8_t len;
-        len = CC2500_ReadReg(CC2500_3B_RXBYTES | CC2500_READ_BURST);
-        if(len > 0x14) break; // 20 bytes
-        CC2500_ReadData(packet, len);
+          // Process previous telemetry packet
+          uint8_t len;
+          len = CC2500_ReadReg(CC2500_3B_RXBYTES | CC2500_READ_BURST);
+          if(len > 0x14)
+            break; // 20 bytes
+          CC2500_ReadData(packet, len);
 
-        /*
-        *  pkt 0 = length not counting appended status bytes
-        *  pkt 1,2 = fixed_id
-        *  pkt 3 = A1 : 52mV per count; 4.5V = 0x56
-        *  pkt 4 = A2 : 13.4mV per count; 3.0V = 0xE3 on D6FR
-        *  pkt 5 = RSSI
-        *  pkt 6 = number of stream bytes
-        *  pkt 7 = sequence number increments mod 32 when packet containing stream data acknowledged
-        *  pkt 8-(8+(pkt[6]-1)) = stream data
-        *  pkt len-2 = downlink RSSI
-        *  pkt len-1 = crc status (bit7 set indicates good), link quality indicator (bits6-0)
-        */
+          /*
+          *  pkt 0 = length not counting appended status bytes
+          *  pkt 1,2 = fixed_id
+          *  pkt 3 = A1 : 52mV per count; 4.5V = 0x56
+          *  pkt 4 = A2 : 13.4mV per count; 3.0V = 0xE3 on D6FR
+          *  pkt 5 = RSSI
+          *  pkt 6 = number of stream bytes
+          *  pkt 7 = sequence number increments mod 32 when packet containing stream data acknowledged
+          *  pkt 8-(8+(pkt[6]-1)) = stream data
+          *  pkt len-2 = downlink RSSI
+          *  pkt len-1 = crc status (bit7 set indicates good), link quality indicator (bits6-0)
+          */
 
-        // Packet checks: sensible length, good CRC, matching fixed id
-        if(len != packet[0] + 3 || packet[0] < 5 || !(packet[len-1] & 0x80)) break;
-        else if(packet[1] != temp_rfid_addr[0]) break;
-        else if(packet[2] != temp_rfid_addr[1]) break;
+          // Packet checks: sensible length, good CRC, matching fixed id
+          if(len != packet[0] + 3 || packet[0] < 5 || !(packet[len-1] & 0x80))
+            break;
+          else if(packet[1] != temp_rfid_addr[0])
+            break;
+          else if(packet[2] != temp_rfid_addr[1])
+            break;
 #if defined(FRSKY)
-        //memcpy(Usart0RxBuffer, packet, len);
-        if(frskyStreaming < FRSKY_TIMEOUT10ms -5) frskyStreaming +=5;
-        // frskyStreaming gets decremented every 10ms, however we can only add to it every 4 *9ms, so we add 5.
+          //memcpy(Usart0RxBuffer, packet, len);
+          if(frskyStreaming < FRSKY_TIMEOUT10ms -5)
+            frskyStreaming +=5;
+          // frskyStreaming gets decremented every 10ms, however we can only add to it every 4 *9ms, so we add 5.
 #endif
-        break;
+          break;
 
-      case 2: // Tx data
-        FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
-        CC2500_WriteData(packet, 18);
-        break;
-
-      case 3: // Rx data
-        CC2500_Strobe(CC2500_SFRX);
-        CC2500_Strobe(CC2500_SRX);
-        break;
-      }
+        case 3: // Rx data
+          CC2500_Strobe(CC2500_SFRX);
+          CC2500_Strobe(CC2500_SRX);
+          break;
+        }
 
       packet_count ++;
-      if(packet_count > 187) packet_count =0;
+      if(packet_count > 187)
+        packet_count =0;
       start_tx_rx = 0;
       heartbeat |= HEART_TIMER_PULSES;
       CALCULATE_LAT_JIT(); // Calculate latency and jitter.
