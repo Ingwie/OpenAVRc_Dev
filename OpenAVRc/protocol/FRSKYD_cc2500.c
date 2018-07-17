@@ -78,7 +78,7 @@ static void FRSKYD_init(uint8_t bind)
 
   FRSKY_Init_Common_End();
 
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
+  CC2500_ManageFreqFine();
   CC2500_SetPower(TXPOWER_1);
 
   CC2500_WriteReg(CC2500_09_ADDR, bind ? 0x03 : temp_rfid_addr[0]);
@@ -155,6 +155,7 @@ static uint16_t FRSKYD_bind_cb()
   SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
   CC2500_Strobe(CC2500_SIDLE);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0);
+  //CC2500_WriteReg(CC2500_23_FSCAL3, 0x89) // Todo have a try
   FRSKYD_build_bind_packet();
   CC2500_WriteData(packet, 18);
   heartbeat |= HEART_TIMER_PULSES;
@@ -164,23 +165,23 @@ static uint16_t FRSKYD_bind_cb()
 
 static uint16_t FRSKYD_data_cb()
 {
-  SCHEDULE_MIXER_END_IN_US(8500); // Schedule next Mixer calculations.
+    if(!start_tx_rx) {
 
-    if(! start_tx_rx) {
-
-      if((packet_count & 0x03) == 0) {
+      uint8_t packet_count_and_3 = packet_count & 0x03;
+      if(packet_count_and_3 == 0) {
         CC2500_SetTxRxMode(TX_EN);
         CC2500_Strobe(CC2500_SIDLE); // Force idle if still receiving in error condition.
-      } else if((packet_count & 0x03) == 3) {
+      } else if(packet_count_and_3 == 3) {
         CC2500_SetTxRxMode(RX_EN);
       }
 
       if(packet_count & 0x1F) {
         CC2500_ManagePower();
-        CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
+        CC2500_ManageFreqFine();
       }
 
       CC2500_WriteReg(CC2500_0A_CHANNR, channel_used[packet_count %47]);
+      //CC2500_WriteReg(CC2500_23_FSCAL3, 0x89) // Todo have a try
       start_tx_rx = 1;
       return 500 *2;
     } else {
@@ -188,6 +189,7 @@ static uint16_t FRSKYD_data_cb()
       switch(packet_count & 0x03) {
 
       case 0: // Tx data
+        SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
         FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
         CC2500_WriteData(packet, 18);
         break;
@@ -239,7 +241,7 @@ static uint16_t FRSKYD_data_cb()
 
       packet_count ++;
       if(packet_count > 187) packet_count =0;
-      start_tx_rx =0;
+      start_tx_rx = 0;
       heartbeat |= HEART_TIMER_PULSES;
       CALCULATE_LAT_JIT(); // Calculate latency and jitter.
       return 8500 *2;
@@ -248,19 +250,21 @@ static uint16_t FRSKYD_data_cb()
 
 static void FRSKYD_initialize(uint8_t bind)
 {
+  freq_fine_mem = 0;
+
   loadrfidaddr_rxnum(0);
   FRSKY_generate_channels();
   CC2500_Reset(); // 0x30
 
   if(bind) {
     FRSKYD_init(1);
+    CC2500_SetTxRxMode(TX_EN);
     PROTO_Start_Callback(25000U *2, FRSKYD_bind_cb);
   } else {
     FRSKYD_init(0);
     PROTO_Start_Callback(25000U *2, FRSKYD_data_cb);
   }
 }
-
 
 const void * FRSKYD_Cmds(enum ProtoCmds cmd)
 {
@@ -275,8 +279,6 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
   case PROTOCMD_RESET:
     PROTO_Stop_Callback();
     CC2500_Reset();
-    CC2500_SetTxRxMode(TXRX_OFF);
-    CC2500_Strobe(CC2500_SIDLE);
     return 0;
     case PROTOCMD_GETOPTIONS:
           SetRfOptionSettings(pgm_get_far_address(RfOpt_FrskyD_Ser),

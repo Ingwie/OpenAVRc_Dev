@@ -132,7 +132,9 @@ void CC2500_SetTxRxMode(enum TXRX_State mode)
 void CC2500_Reset()
 {
   CC2500_Strobe(CC2500_SRES);
-  _delay_us(100); // Should be > 50us. see datasheet.
+  _delay_us(500);
+  CC2500_SetTxRxMode(TXRX_OFF);
+  CC2500_Strobe(CC2500_SIDLE);
 }
 
 #define CC2500_POWER_CHOICE  7
@@ -204,5 +206,15 @@ void CC2500_ManagePower()
     CC2500_SetPower(rf_power);
   }
 }
+
+void CC2500_ManageFreqFine()
+{
+  if (freq_fine_mem != g_model.rfOptionValue1)
+  {
+    freq_fine_mem = g_model.rfOptionValue1;
+    CC2500_WriteReg(CC2500_0C_FSCTRL0, freq_fine_mem);
+  }
+}
+
 #endif // PROTO_HAS_CC2500
 

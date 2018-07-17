@@ -103,7 +103,7 @@ static void FRSKYX_init()
 
   FRSKY_Init_Common_End();
 
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
+  CC2500_ManageFreqFine();
   CC2500_SetPower(TXPOWER_1);
 
   //calibrate hop channels
@@ -407,7 +407,7 @@ static uint16_t FRSKYX_send_data_packet()
           SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
         }
       frskyX_data_frame();
-      CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
+      CC2500_ManageFreqFine();
       CC2500_ManagePower();
       CC2500_SetTxRxMode(TX_EN);
       frskyX_set_start(channel_index);
@@ -481,13 +481,14 @@ static uint16_t FRSKYX_cb()
 
 static void FRSKYX_initialize(uint8_t bind)
 {
-  CC2500_Reset();
+  freq_fine_mem = 0;
   channel_index = 0;
   channel_skip = 0;
   send_seq = 0x08 ;
   receive_seq = 0 ;
 
   loadrfidaddr();
+  CC2500_Reset();
 
   FRSKY_generate_channels();
 
@@ -507,6 +508,7 @@ static void FRSKYX_initialize(uint8_t bind)
   if (bind)
     {
       FRSKYX_initialize_data(1);
+      CC2500_SetTxRxMode(TX_EN);
       PROTO_Start_Callback(25000U *2, FRSKYX_bind_cb);
     }
   else
@@ -531,8 +533,6 @@ const void *FRSKYX_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_RESET:
       PROTO_Stop_Callback();
       CC2500_Reset();
-      CC2500_SetTxRxMode(TXRX_OFF);
-      CC2500_Strobe(CC2500_SIDLE);
       return 0;
     case PROTOCMD_GETOPTIONS:
       SetRfOptionSettings(pgm_get_far_address(RfOpt_FrskyX_Ser),
