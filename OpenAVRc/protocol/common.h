@@ -41,10 +41,7 @@
 #define TELEM_ON 1
 #define TELEM_OFF 0
 
-#define FREQFINE g_model.rfOptionValue1 // CC2500 freq. tune
-
 #define NUM_OUT_CHANNELS 7
-
 
 // For Multiplex M-Link & PPM
 #define CHAN_MAX_VALUE (1520L)

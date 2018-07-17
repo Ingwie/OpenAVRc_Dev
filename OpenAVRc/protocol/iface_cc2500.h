@@ -171,5 +171,6 @@ void CC2500_ReadData(uint8_t *dpbuffer, uint8_t len);
 void CC2500_SetTxRxMode(enum TXRX_State);
 void CC2500_SetPower(uint8_t Power);
 void CC2500_ManagePower();
+void CC2500_ManageFreqFine();
 
 #endif // _IFACE_CC2500_H_

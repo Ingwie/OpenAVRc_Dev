@@ -52,6 +52,7 @@ void FRSKY_generate_channels()
 
   uint16_t firstId = temp_rfid_addr[0] + temp_rfid_addr[3];
   uint16_t secondID = temp_rfid_addr[1] + temp_rfid_addr[2];
+
   uint8_t chan_offset = firstId % 10; // 10 channel bases.
   uint8_t step = secondID % 11; // 11 sequences for now.
 

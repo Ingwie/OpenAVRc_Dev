@@ -122,7 +122,7 @@ static void corona_init()
       rfState16 = 0;
     }
 
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
+  CC2500_ManageFreqFine();
 
   //not sure what they are doing to the PATABLE since basically only the first byte is used and it's only 8 bytes long. So I think they end up filling the PATABLE fully with 0xFF
   //CC2500_WriteRegisterMulti(CC2500_3E_PATABLE,(const uint8_t *)"\x08\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF", 13);
@@ -133,7 +133,7 @@ static void corona_init()
 
 static uint16_t corona_send_data_packet()
 {
-  uint16_t packet_period = 1;
+  uint16_t packet_period = 1; // unused value
 
   if(!rfState16) // V1 or V2&identifier sended
     {
@@ -165,11 +165,7 @@ static uint16_t corona_send_data_packet()
       packet[17] = 0x00;
 
       // Tune frequency if it has been changed
-      //if ( prev_option != option )
-      {
-        CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE); //TODO buil a global cc2500 frqfine function
-        //  prev_option = option ;
-      }
+      CC2500_ManageFreqFine();
       // Packet period is based on hopping
       switch(channel_index)
         {
@@ -282,8 +278,13 @@ static uint16_t CORONA_cb()
 
 static void CORONA_initialize(uint8_t bind)
 {
+  freq_fine_mem = 0;
+
   loadrfidaddr_rxnum(3);
+  CC2500_Reset();
+
   (g_model.rfSubType==COR_V1)?proto_is_V1=1:proto_is_V1=0;
+
   corona_init();
 
   if (bind)
@@ -306,8 +307,6 @@ const void *CORONA_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_RESET:
       PROTO_Stop_Callback();
       CC2500_Reset();
-      CC2500_SetTxRxMode(TXRX_OFF);
-      CC2500_Strobe(CC2500_SIDLE);
       return 0;
     case PROTOCMD_BIND:
       CORONA_initialize(1);

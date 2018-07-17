@@ -93,8 +93,6 @@ const static uint8_t ZZ_skyartecInitSequence[] PROGMEM = {
 
 static void skyartec_init()
 {
-  CC2500_Reset();
-
   uint_farptr_t pdata = pgm_get_far_address(ZZ_skyartecInitSequence);
 
   for (uint8_t i=0; i<(DIM(ZZ_skyartecInitSequence)/2); i++) {
@@ -149,7 +147,7 @@ static void Skyartec_send_data_packet()
   }
   add_pkt_suffix();
 
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
+  CC2500_ManageFreqFine();
   CC2500_ManagePower();
   CC2500_WriteReg(CC2500_04_SYNC1, temp_rfid_addr[0]);
   CC2500_WriteReg(CC2500_05_SYNC0, temp_rfid_addr[1]);
@@ -175,7 +173,7 @@ static void Skyartec_send_bind_packet()
   uint8_t bxor = 0;
   for(uint8_t i = 3; i < 11; i++)  bxor ^= packet[i];
   packet[11] = bxor;
-  CC2500_WriteReg(CC2500_0C_FSCTRL0, FREQFINE);
+  CC2500_ManageFreqFine();
   CC2500_WriteReg(CC2500_04_SYNC1, 0x7d);
   CC2500_WriteReg(CC2500_05_SYNC0, 0x7d);
   CC2500_WriteReg(CC2500_09_ADDR, 0x7d);
@@ -204,8 +202,10 @@ static uint16_t SKYARTEC_cb()
 
 static void SKYARTEC_initialize(uint8_t bind)
 {
-  PROTO_Stop_Callback();
+  freq_fine_mem = 0;
+
   loadrfidaddr_rxnum(2);
+  CC2500_Reset();
   skyartec_init();
   if (bind) {
   PROTO_Start_Callback(25000U *2, SKYARTEC_bind_cb);
@@ -223,8 +223,6 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
   case PROTOCMD_RESET:
     PROTO_Stop_Callback();
     CC2500_Reset();
-    CC2500_SetTxRxMode(TXRX_OFF);
-    CC2500_Strobe(CC2500_SIDLE);
     return 0;
   case PROTOCMD_BIND:
     SKYARTEC_initialize(1);
