@@ -38,6 +38,7 @@
 #include "RadioDataFrame.h"
 #include "ModelNameDialog.h"
 #include "TelemetryFrame.h"
+#include "ModelNameDialog.h"
 
 #include <wx/msgdlg.h>
 #include <wx/dcclient.h>
@@ -166,6 +167,7 @@ float Tele_Cell11;
 float Tele_Cell12;
 
 bool SimuComIsValid;
+bool showeditmodeldialog = 0;
 
 //(*IdInit(OpenAVRc_SimulatorFrame)
 const long OpenAVRc_SimulatorFrame::ID_PANELH = wxNewId();
@@ -628,11 +630,21 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
   event.Skip();
 
   if (simu_mainloop_is_runing) // Avoid re-entrance
-  {
-    TimerMain.StartOnce(1); //whait 1 mS
-    return;
-  }
-  else MainFirmwareTask();
+    {
+      TimerMain.StartOnce(1); //whait 1 mS
+      return;
+    }
+  else
+    {
+      if (showeditmodeldialog) // Edit model name in main thread
+        {
+          ModelNameDialog *MoDi = new  ModelNameDialog(NULL); // In ModelNameDialog.cpp
+          MoDi->ShowModal();
+          MoDi->Destroy();
+          showeditmodeldialog = 0;
+        }
+      MainFirmwareTask();
+    }
 }
 
 void OpenAVRc_SimulatorFrame::MainFirmwareTask()
@@ -697,6 +709,11 @@ void OpenAVRc_SimulatorFrame::Isr10msTaskFirmware()
     }
 
   Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
+}
+
+void OpenAVRc_SimulatorFrame::EditModelName()
+{
+  showeditmodeldialog = 1;
 }
 
 void OpenAVRc_SimulatorFrame::DrawWxSimuLcd()
