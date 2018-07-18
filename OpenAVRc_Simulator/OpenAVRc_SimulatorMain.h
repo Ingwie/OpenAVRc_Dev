@@ -151,6 +151,7 @@ public:
 
   OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id = -1);
   virtual ~OpenAVRc_SimulatorFrame();
+  void EditModelName();
   void DrawWxSimuLcd();
   void OnKey(wxKeyEvent& Event);
   void EnableMixerFrameMenu();

@@ -32,7 +32,6 @@
 
 
 #include "../../../OpenAVRc_Simulator/OpenAVRc_SimulatorApp.h"
-#include "../../../OpenAVRc_Simulator/ModelNameDialog.h"
 
 #include <wx/filename.h>
 #include <wx/dir.h>
@@ -95,9 +94,7 @@ void lcdRefresh()
 
 void simu_EditModelName()
 {
-  ModelNameDialog *MoDi = new  ModelNameDialog(NULL); // In ModelNameDialog.cpp
-  MoDi->ShowModal();
-  MoDi->Destroy();
+  wxGetApp().SimuFrame->EditModelName();
 }
 
 //SD FUNCTIONS
