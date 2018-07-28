@@ -633,10 +633,6 @@ extern const pm_char STR_UNLOCKED[];
 extern const pm_char STR_MODS_FORBIDDEN[];
 #endif
 
-#if defined(SPIMODULES)
-extern const pm_char STR_mW[];
-#endif
-
 #if defined(DSM2) || defined(SPIMODULES) || defined(MULTIMODULE)
 extern const pm_char STR_MODULE_RANGE[];
 extern const pm_char STR_MODULE_BIND[];

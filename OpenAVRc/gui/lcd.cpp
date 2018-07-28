@@ -359,7 +359,11 @@ void lcdPutsVolts(coord_t x, coord_t y, uint16_t volts, LcdFlags att)
 
 void putsVBat(coord_t x, coord_t y, LcdFlags att)
 {
-  lcdPutsVolts(x, y, (g_vbat10mV < 1000)? g_vbat10mV : g_vbat10mV/10, (g_vbat10mV < 1000)? att | PREC2 : att | PREC1);
+#if defined(BATTGRAPH)
+    lcdPutsVolts(x, y, (g_vbat10mV < 1000)? g_vbat10mV : g_vbat10mV/10, (g_vbat10mV < 1000)? att | PREC2 : att | PREC1);
+#else
+    lcdPutsVolts(x, y, g_vbat10mV/10, att | PREC1);
+#endif
 }
 
 void lcdDrawStringWithIndex(coord_t x, coord_t y, const pm_char *str, uint8_t idx, LcdFlags att)
