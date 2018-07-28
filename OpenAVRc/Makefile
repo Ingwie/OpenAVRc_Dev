@@ -215,6 +215,25 @@ EXTERNALEEPROM = NO
 # Values = NO, READONLY, NOMENUS
 MENUS_LOCK = NO
 
+# Mixers monitor view added to Channels monitor one
+# Values = NO, YES
+# YES - Adds mixers output view to Channels monitor screen,
+# pressing [ENT] switches between views.
+# NO - classic Channels monitor
+MIXERS_MONITOR = NO
+
+# Use newlib-nano
+# Values = NO, YES
+NANO = NO
+
+# Enable Watchdog test (DANGEROUS)
+# Values = NO, YES
+WATCHDOG_TEST = NO
+
+# Treat compiler warnings as errors
+# Values = NO, YES
+WARNINGS_AS_ERRORS = NO
+
 # Enable MULTI protocol
 # Values = NO, YES
 MULTIMODULE = NO
@@ -226,10 +245,6 @@ SPIMODULES = NO
 # Enable CC2500 SPI protocols
 # Values = NO, YES
 CC2500 = NO
-
-# Set CC2500 PA gain
-# Values = ANY (in DB)
-CC2500PAG = 20
 
 # Enable CYRF6936 SPI protocols
 # Values = NO, YES
@@ -389,7 +404,6 @@ ifeq ($(PCB), MEGAMINI)
    CPPDEFS += -DSPIMODULES
      ifeq ($(CC2500), YES)
  	  	CPPDEFS += -DPROTO_HAS_CC2500
- 	  	CPPDEFS += -DCC2500PA_GAIN=$(CC2500PAG)
 		endif
 
 		ifeq ($(CYRF6936), YES)
@@ -874,6 +888,10 @@ CPPFLAGS += -fno-exceptions
 CPPFLAGS += -Wno-strict-aliasing
 CPPFLAGS += -Wformat -Wreturn-type -Wunused -Wuninitialized -Wunknown-pragmas -Wno-switch -Wtype-limits
 INCFLAGS = $(patsubst %,-I%,$(INCDIRS))
+
+ifeq ($(WARNINGS_AS_ERRORS), YES)
+  CPPFLAGS += -Werror
+endif
 
 MATH_LIB = -lm
 

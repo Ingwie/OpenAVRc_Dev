@@ -138,6 +138,7 @@ void CC2500_Reset()
 }
 
 #define CC2500_POWER_CHOICE  7
+const static int8_t CC2500_Powers[] PROGMEM = {-55,-20,-16,-12,-8,-4,0,1};
 
 void CC2500_SetPower(uint8_t Power)
 {
@@ -158,16 +159,6 @@ void CC2500_SetPower(uint8_t Power)
   */
 
 // Power Amp (RDA T212).
-#define dbmpato10mwatt(x) 100*pow(10,((CC2500PA_GAIN+(x))/10))
-const uint16_t aa = dbmpato10mwatt(-55);
-const uint16_t bb = dbmpato10mwatt(-20);
-const uint16_t cc = dbmpato10mwatt(-16);
-const uint16_t dd = dbmpato10mwatt(-12);
-const uint16_t ee = dbmpato10mwatt(-8);
-const uint16_t ff = dbmpato10mwatt(-4);
-const uint16_t gg = dbmpato10mwatt(0);
-const uint16_t hh = dbmpato10mwatt(1);
-const static uint16_t CC2500_Powers[] PROGMEM = {aa,bb,cc,dd,ee,ff,gg,hh};
 
   uint8_t cc2500_patable = 0;
 
@@ -201,8 +192,7 @@ const static uint16_t CC2500_Powers[] PROGMEM = {aa,bb,cc,dd,ee,ff,gg,hh};
       cc2500_patable = 0;
       break;
     };
-  uint_farptr_t powerdata = pgm_get_far_address(CC2500_Powers);
-  RFPowerOut = pgm_read_word_far(powerdata + (2*Power)); // Gui value
+
   rf_power_mem = Power;
   CC2500_WriteReg(CC2500_3E_PATABLE, cc2500_patable);
 }

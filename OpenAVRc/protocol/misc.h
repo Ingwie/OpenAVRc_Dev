@@ -102,10 +102,7 @@ void PROTO_Stop_Callback();
 uint32_t CLOCK_getms();
 void CLOCK_delayms(uint32_t delay_ms);
 void PROTOCOL_SetBindState(tmr10ms_t t10ms);
-#if defined(SPIMODULES)
-extern uint16_t RFPowerOut;
 void loadrfidaddr();
 void loadrfidaddr_rxnum(uint8_t addrnum);
-#endif
 
 #endif
