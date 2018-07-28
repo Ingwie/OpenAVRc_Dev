@@ -625,6 +625,9 @@ void menuModelSetup(uint8_t event)
             lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 5 * FW, y, g_model.rfOptionValue3, attr);
             if (attr) {
               CHECK_INCDEC_MODELVAR_ZERO(event, g_model.rfOptionValue3, RfOptionSettings.rfOptionValue3Max);
+#if defined(SIMU)
+              CC2500_ManagePower(); // Change value on gui
+#endif
             }
           } else {
             lcdDrawTextAtt(0,y,STR_DUMMY,attr);

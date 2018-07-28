@@ -102,6 +102,9 @@ void PROTOCOL_SetBindState(tmr10ms_t t10ms)
   else protoMode = NORMAL_MODE;
 }
 
+#if defined(SPIMODULES)
+uint16_t RFPowerOut = 0;
+
 void loadrfidaddr()
 {
   for (uint8_t i = 0; i<4; ++i)
@@ -115,3 +118,5 @@ void loadrfidaddr_rxnum(uint8_t addrnum)
   loadrfidaddr();
   temp_rfid_addr[addrnum] ^= (RXNUM*3); // Like model match function
 }
+
+#endif
