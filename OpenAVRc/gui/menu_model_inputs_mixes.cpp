@@ -475,7 +475,7 @@ void menuModelMixOne(uint8_t event)
 
     case MIX_FIELD_SOURCE:
       lcdDrawTextColumnLeft(COLUMN_X, y, NO_INDENT(STR_SOURCE));
-      putsMixerSource(COLUMN_X+MIXES_2ND_COLUMN, y, md2->srcRaw, attr);
+      putsMixerSource(COLUMN_X+MIXES_2ND_COLUMN, y, md2->srcRaw, STREXPANDED|attr);
       if (attr) CHECK_INCDEC_MODELSOURCE(event, md2->srcRaw, 1, MIXSRC_LAST);
       break;
     case MIX_FIELD_WEIGHT:
