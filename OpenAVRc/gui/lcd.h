@@ -92,13 +92,22 @@
 /* telemetry flags */
 #define NO_UNIT         0x40
 
-#define DBLSIZE         0x04
+#define DBLSIZE       0x04
+#define SMLSIZE       0x00
+#define TINSIZE       0x00
+#define XXLSIZE       0x00
+#define ERASEBG       0x00
+
+#define STREXPANDED   0x00
 
 #define LcdFlags             uint8_t
+
 #define display_t            uint8_t
 #define DISPLAY_BUF_SIZE     (LCD_W*((LCD_H+7)/8))
 
 extern display_t displayBuf[DISPLAY_BUF_SIZE];
+
+#define lcdRefreshWait()
 
 extern coord_t lcdLastPos;
 extern coord_t lcdNextPos;
@@ -196,7 +205,6 @@ void lcdRefresh();
 void lcdRefreshFast();
 
 #define BLINK_ON_PHASE (g_blinkTmr10ms & (1<<6))
-#define DOUBLE_BLINK_ON_PHASE (g_blinkTmr10ms & (1<<7))
 
 char *strAppend(char * dest, const char * source, int len=0);
 char *strSetCursor(char *dest, int position);

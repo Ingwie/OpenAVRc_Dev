@@ -472,10 +472,6 @@ const pm_char STR_POWEROFF[]  PROGMEM = TR_POWEROFF;
 const pm_char STR_RFID[]  PROGMEM = "RFID  :";
 const pm_char STR_BIND[]  PROGMEM = "    -BIND-     ";
 
-#if defined(SPIMODULES)
-const pm_char STR_mW[]  PROGMEM = "mW";
-#endif
-
 #if MENUS_LOCK == 1
 const pm_char STR_UNLOCKED[] PROGMEM = TR_UNLOCKED;
 const pm_char STR_MODS_FORBIDDEN[] PROGMEM = TR_MODS_FORBIDDEN;
