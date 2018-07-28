@@ -35,7 +35,6 @@
 #include "../timers.h"
 #include "widgets.h"
 
-#define BIGSIZE       DBLSIZE
 #define LBOX_CENTERX  (LCD_W/4 + 10)
 #define RBOX_CENTERX  (3*LCD_W/4 - 10)
 #define MODELNAME_X   (2*FW-2)
@@ -187,17 +186,43 @@ void displayBattVoltage()
 {
 #if defined(BATTGRAPH)
   putsVBat(VBATT_X-8, VBATT_Y+1, 0);
-  lcdDrawFilledRect(VBATT_X-25, VBATT_Y+9, 21, 5);
-  lcdDrawSolidVerticalLine(VBATT_X-4, VBATT_Y+10, 3);
-  uint8_t count = GET_TXBATT_BARS();
-  for (uint8_t i=0; i<count; i+=2)
-    lcdDrawSolidVerticalLine(VBATT_X-24+i, VBATT_Y+10, 3);
-  if (!IS_TXBATT_WARNING() || BLINK_ON_PHASE)
-    lcdDrawFilledRect(VBATT_X-26, VBATT_Y, 24, 15);
+#if defined(SPIMODULES)
+  if (!IS_SPIMODULES_PROTOCOL(g_model.rfProtocol) || (IS_SPIMODULES_PROTOCOL(g_model.rfProtocol) && DOUBLE_BLINK_ON_PHASE))
+    {
+#endif
+      lcdDrawFilledRect(VBATT_X-25, VBATT_Y+9, 21, 5);
+      lcdDrawSolidVerticalLine(VBATT_X-4, VBATT_Y+10, 3);
+      uint8_t count = GET_TXBATT_BARS();
+      for (uint8_t i=0; i<count; i+=2)
+        lcdDrawSolidVerticalLine(VBATT_X-24+i, VBATT_Y+10, 3);
+      if (!IS_TXBATT_WARNING() || BLINK_ON_PHASE)
+        lcdDrawFilledRect(VBATT_X-26, VBATT_Y, 24, 15);
+#if defined(SPIMODULES)
+    }
+  else
+    {
+      lcdDrawFilledRect(VBATT_X-26, VBATT_Y, 24, 8);
+      lcdDrawNumberNAtt(VBATT_X+1, VBATTUNIT_Y+1, RFPowerOut, CONDENSED|PREC2);
+      lcdDrawText(VBATT_X+1,VBATTUNIT_Y+1,STR_mW);
+      lcdDrawFilledRect(VBATT_X-26, VBATTUNIT_Y, 39, 9);
+    }
+#endif
 #else
-  LcdFlags att = (IS_TXBATT_WARNING() ? BLINK|INVERS : 0) | BIGSIZE;
-  putsVBat(VBATT_X-1, VBATT_Y, att|NO_UNIT);
-  lcdDrawChar(VBATT_X, VBATTUNIT_Y, 'V');
+#if defined(SPIMODULES)
+  if (!IS_SPIMODULES_PROTOCOL(g_model.rfProtocol) || (IS_SPIMODULES_PROTOCOL(g_model.rfProtocol) && DOUBLE_BLINK_ON_PHASE))
+    {
+#endif
+      LcdFlags att = (IS_TXBATT_WARNING() ? BLINK|INVERS : 0) | DBLSIZE;
+      putsVBat(VBATT_X-1, VBATT_Y, att|NO_UNIT);
+      lcdDrawChar(VBATT_X, VBATTUNIT_Y, 'V');
+#if defined(SPIMODULES)
+    }
+  else
+    {
+      lcdDrawNumberNAtt(VBATT_X, VBATTUNIT_Y, RFPowerOut, CONDENSED|PREC2);
+      lcdDrawText(VBATT_X,VBATTUNIT_Y,STR_mW);
+    }
+#endif
 #endif
 }
 
@@ -379,12 +404,12 @@ void menuMainView(uint8_t event)
 #if defined(DSM2) || defined(MULTIMODULE) || defined(SPIMODULES)
     if ((protoMode == BIND_MODE) && !BLINK_ON_PHASE)
     {
-      lcdDrawTextAtt(MODELNAME_X, MODELNAME_Y, STR_BIND, BLINK|BIGSIZE);
+      lcdDrawTextAtt(MODELNAME_X, MODELNAME_Y, STR_BIND, BLINK|DBLSIZE);
     } else {
-      putsModelName(MODELNAME_X, MODELNAME_Y, g_model.name, g_eeGeneral.currModel, BIGSIZE);
+      putsModelName(MODELNAME_X, MODELNAME_Y, g_model.name, g_eeGeneral.currModel, DBLSIZE);
     }
 #else
-    putsModelName(MODELNAME_X, MODELNAME_Y, g_model.name, g_eeGeneral.currModel, BIGSIZE);
+    putsModelName(MODELNAME_X, MODELNAME_Y, g_model.name, g_eeGeneral.currModel, DBLSIZE);
 #endif
 
     // Main Voltage (or alarm if any)
