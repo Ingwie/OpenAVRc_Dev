@@ -526,7 +526,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceNUMXANY->Append(_("3"));
   ChoiceNUMXANY->Append(_("4"));
   ChoiceNUMXANY->SetToolTip(_("Nombre d\'instances"));
-  StaticText29 = new wxStaticText(Panel5, ID_STATICTEXT29, _("Num X-ANY"), wxPoint(56,56), wxDefaultSize, 0, _T("ID_STATICTEXT29"));
+  StaticText29 = new wxStaticText(Panel5, ID_STATICTEXT29, _("Nb X-ANY"), wxPoint(56,56), wxDefaultSize, 0, _T("ID_STATICTEXT29"));
   ChoiceXANY1POT = new wxChoice(Panel5, ID_CHOICEXANY1POT, wxPoint(176,136), wxSize(66,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICEXANY1POT"));
   ChoiceXANY1POT->SetSelection( ChoiceXANY1POT->Append(_("POT1")) );
   ChoiceXANY1POT->Append(_("POT2"));
