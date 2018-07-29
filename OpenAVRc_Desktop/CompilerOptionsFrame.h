@@ -80,6 +80,10 @@ extern bool CC2500;//defaults to NO
 extern bool CYRF6936;//defaults to NO
 extern bool NRF24l01;//defaults to NO
 extern bool A7105;//defaults to NO
+extern wxString CC2500PAG;//defaults to 0
+extern wxString CYRF6936PAG;//defaults to 0
+extern wxString NRF24l01PAG;//defaults to 0
+extern wxString A7105PAG;//defaults to 0
 
 extern bool SD_CARD;//defaults to NO
 extern bool FAS_OFFSET;//defaults to NO
@@ -141,6 +145,8 @@ public:
     //wxFileConfig* configFile;
 
     //(*Declarations(CompilerOptionsFrame)
+    wxButton* Button1;
+    wxButton* Button2;
     wxButton* ButtonCOMPILE;
     wxButton* ButtonDefaut;
     wxButton* ButtonEXIT;
@@ -148,6 +154,8 @@ public:
     wxButton* Compilerpage3;
     wxButton* Sortirpage2;
     wxButton* Sortirpage3;
+    wxCheckBox* CheckBox1;
+    wxCheckBox* CheckBox2;
     wxCheckBox* CheckBoxA7105;
     wxCheckBox* CheckBoxACCURAT_THROTTLE_STATS;
     wxCheckBox* CheckBoxARITHMETIC_OVERFLOW_CHECK;
@@ -186,12 +194,18 @@ public:
     wxCheckBox* CheckBoxTOGGLETRIM;
     wxCheckBox* CheckBoxVARIO;
     wxCheckBox* CheckBoxWS_HOW_HIGH;
+    wxCheckBox* XSwitch_Channel1_CheckBox;
+    wxCheckBox* XSwitch_Channel2_CheckBox;
+    wxChoice* ChoiceA7105PAG;
+    wxChoice* ChoiceCC2500PAG;
+    wxChoice* ChoiceCYRF6936PAG;
     wxChoice* ChoiceDEFAULT_MODE;
     wxChoice* ChoiceEXT;
     wxChoice* ChoiceFAI;
     wxChoice* ChoiceFONT;
     wxChoice* ChoiceLCD;
     wxChoice* ChoiceNAVIGATION;
+    wxChoice* ChoiceNRF24l01PAG;
     wxChoice* ChoicePCB;
     wxChoice* ChoicePPM_UNIT ;
     wxChoice* ChoiceTHREE_POS;
@@ -219,7 +233,10 @@ public:
     wxPanel* Panel2;
     wxPanel* Panel3;
     wxPanel* Panel4;
+    wxPanel* Panel5;
     wxStaticBox* StaticBox10;
+    wxStaticBox* StaticBox11;
+    wxStaticBox* StaticBox12;
     wxStaticBox* StaticBox1;
     wxStaticBox* StaticBox2;
     wxStaticBox* StaticBox3;
@@ -248,6 +265,7 @@ public:
     wxStaticText* StaticText25;
     wxStaticText* StaticText26;
     wxStaticText* StaticText27;
+    wxStaticText* StaticText28;
     wxStaticText* StaticText2;
     wxStaticText* StaticText3;
     wxStaticText* StaticText4;
@@ -306,6 +324,9 @@ protected:
     static const long ID_PANEL2;
     static const long ID_STATICBOX1;
     static const long ID_STATICBOX9;
+    static const long ID_CHOICECC2500PAG;
+    static const long ID_CHOICEA7105PAG;
+    static const long ID_CHOICENRF24l01PAG;
     static const long ID_STATICBOX3;
     static const long ID_CHECKBOXNOANDSECONDE;
     static const long ID_STATICBOX2;
@@ -335,6 +356,8 @@ protected:
     static const long ID_CHECKBOX24;
     static const long ID_CHECKBOX25;
     static const long ID_CHECKBOX29;
+    static const long ID_CHOICECYRF6936PAG;
+    static const long ID_STATICTEXT28;
     static const long ID_PANEL3;
     static const long ID_STATICBOX7;
     static const long ID_STATICBOX10;
@@ -374,6 +397,15 @@ protected:
     static const long ID_STATICTEXT27;
     static const long ID_STATICTEXT23;
     static const long ID_PANEL4;
+    static const long ID_CHECKBOX4;
+    static const long ID_STATICBOX11;
+    static const long ID_CHECKBOX8;
+    static const long ID_STATICBOX12;
+    static const long ID_CHECKBOX2;
+    static const long ID_CHECKBOX3;
+    static const long ID_BUTTON8;
+    static const long ID_BUTTON9;
+    static const long ID_PANEL5;
     static const long ID_NOTEBOOK1;
     static const long ID_PANEL1;
     //*)
