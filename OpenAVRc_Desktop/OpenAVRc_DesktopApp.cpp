@@ -50,10 +50,11 @@ bool OpenAVRc_DesktopApp::OnInit()
   //(*AppInitialize
   bool wxsOK = true;
   wxInitAllImageHandlers();
-  if ( wxsOK ) {
-    OpenAVRc_DesktopFrame* Frame = new OpenAVRc_DesktopFrame(0);
-    Frame->Show();
-    SetTopWindow(Frame);
+  if ( wxsOK )
+  {
+  	OpenAVRc_DesktopFrame* Frame = new OpenAVRc_DesktopFrame(0);
+  	Frame->Show();
+  	SetTopWindow(Frame);
   }
   //*)
   return wxsOK;
