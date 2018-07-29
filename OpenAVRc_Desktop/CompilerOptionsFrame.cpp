@@ -169,14 +169,20 @@ const long CompilerOptionsFrame::ID_STATICTEXT22 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT27 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT23 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL4 = wxNewId();
-const long CompilerOptionsFrame::ID_CHECKBOX4 = wxNewId();
-const long CompilerOptionsFrame::ID_STATICBOX11 = wxNewId();
-const long CompilerOptionsFrame::ID_CHECKBOX8 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX12 = wxNewId();
-const long CompilerOptionsFrame::ID_CHECKBOX2 = wxNewId();
-const long CompilerOptionsFrame::ID_CHECKBOX3 = wxNewId();
 const long CompilerOptionsFrame::ID_BUTTON8 = wxNewId();
 const long CompilerOptionsFrame::ID_BUTTON9 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICBOX11 = wxNewId();
+const long CompilerOptionsFrame::ID_CHOICENUMXANY = wxNewId();
+const long CompilerOptionsFrame::ID_STATICTEXT29 = wxNewId();
+const long CompilerOptionsFrame::ID_CHOICEXANY1POT = wxNewId();
+const long CompilerOptionsFrame::ID_CHOICEXANY2POT = wxNewId();
+const long CompilerOptionsFrame::ID_CHOICEXANY3POT = wxNewId();
+const long CompilerOptionsFrame::ID_STATICTEXT31 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICTEXT32 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICTEXT33 = wxNewId();
+const long CompilerOptionsFrame::ID_CHOICEXANY4POT = wxNewId();
+const long CompilerOptionsFrame::ID_STATICTEXT30 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL5 = wxNewId();
 const long CompilerOptionsFrame::ID_NOTEBOOK1 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL1 = wxNewId();
@@ -509,18 +515,58 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   StaticText27 = new wxStaticText(Panel4, ID_STATICTEXT27, _("ID2"), wxPoint(248,104), wxDefaultSize, 0, _T("ID_STATICTEXT27"));
   StaticText23 = new wxStaticText(Panel4, ID_STATICTEXT23, _("XD2"), wxPoint(376,104), wxDefaultSize, 0, _T("ID_STATICTEXT23"));
   Panel5 = new wxPanel(Notebook1, ID_PANEL5, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL5"));
-  CheckBox1 = new wxCheckBox(Panel5, ID_CHECKBOX4, _("X-Angle"), wxPoint(64,96), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX4"));
-  CheckBox1->SetValue(false);
-  StaticBox11 = new wxStaticBox(Panel5, ID_STATICBOX11, _("Canal 1"), wxPoint(16,16), wxSize(360,264), 0, _T("ID_STATICBOX11"));
-  CheckBox2 = new wxCheckBox(Panel5, ID_CHECKBOX8, _("X-Angle"), wxPoint(440,96), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX8"));
-  CheckBox2->SetValue(false);
-  StaticBox12 = new wxStaticBox(Panel5, ID_STATICBOX12, _("Canal 2"), wxPoint(392,16), wxSize(392,264), 0, _T("ID_STATICBOX12"));
-  XSwitch_Channel1_CheckBox = new wxCheckBox(Panel5, ID_CHECKBOX2, _("X-Switch"), wxPoint(64,64), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX2"));
-  XSwitch_Channel1_CheckBox->SetValue(false);
-  XSwitch_Channel2_CheckBox = new wxCheckBox(Panel5, ID_CHECKBOX3, _("X-Switch"), wxPoint(440,64), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX3"));
-  XSwitch_Channel2_CheckBox->SetValue(false);
-  Button1 = new wxButton(Panel5, ID_BUTTON8, _("Sauvegarder et sortir"), wxPoint(112,304), wxSize(168,23), 0, wxDefaultValidator, _T("ID_BUTTON8"));
-  Button2 = new wxButton(Panel5, ID_BUTTON9, _("Compiler"), wxPoint(488,304), wxSize(136,23), 0, wxDefaultValidator, _T("ID_BUTTON9"));
+  StaticBox12 = new wxStaticBox(Panel5, ID_STATICBOX12, _("Choix des POTs"), wxPoint(56,104), wxSize(224,200), 0, _T("ID_STATICBOX12"));
+  Button1 = new wxButton(Panel5, ID_BUTTON8, _("Sauvegarder et sortir"), wxPoint(448,88), wxSize(168,23), 0, wxDefaultValidator, _T("ID_BUTTON8"));
+  Button2 = new wxButton(Panel5, ID_BUTTON9, _("Compiler"), wxPoint(472,200), wxSize(136,23), 0, wxDefaultValidator, _T("ID_BUTTON9"));
+  StaticBox11 = new wxStaticBox(Panel5, ID_STATICBOX11, _("X-Any Options"), wxPoint(16,16), wxSize(280,304), 0, _T("ID_STATICBOX11"));
+  ChoiceNUMXANY = new wxChoice(Panel5, ID_CHOICENUMXANY, wxPoint(128,48), wxSize(56,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICENUMXANY"));
+  ChoiceNUMXANY->SetSelection( ChoiceNUMXANY->Append(_("NO")) );
+  ChoiceNUMXANY->Append(_("1"));
+  ChoiceNUMXANY->Append(_("2"));
+  ChoiceNUMXANY->Append(_("3"));
+  ChoiceNUMXANY->Append(_("4"));
+  ChoiceNUMXANY->SetToolTip(_("Nombre d\'instances"));
+  StaticText29 = new wxStaticText(Panel5, ID_STATICTEXT29, _("Num X-ANY"), wxPoint(56,56), wxDefaultSize, 0, _T("ID_STATICTEXT29"));
+  ChoiceXANY1POT = new wxChoice(Panel5, ID_CHOICEXANY1POT, wxPoint(176,136), wxSize(66,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICEXANY1POT"));
+  ChoiceXANY1POT->SetSelection( ChoiceXANY1POT->Append(_("POT1")) );
+  ChoiceXANY1POT->Append(_("POT2"));
+  ChoiceXANY1POT->Append(_("POT3"));
+  ChoiceXANY1POT->Append(_("STICK1"));
+  ChoiceXANY1POT->Append(_("STICK2"));
+  ChoiceXANY1POT->Append(_("STICK3"));
+  ChoiceXANY1POT->Append(_("STICK4"));
+  ChoiceXANY1POT->SetToolTip(_("Potentiomètre pour X-Any"));
+  ChoiceXANY2POT = new wxChoice(Panel5, ID_CHOICEXANY2POT, wxPoint(176,176), wxSize(66,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICEXANY2POT"));
+  ChoiceXANY2POT->SetSelection( ChoiceXANY2POT->Append(_("POT1")) );
+  ChoiceXANY2POT->Append(_("POT2"));
+  ChoiceXANY2POT->Append(_("POT3"));
+  ChoiceXANY2POT->Append(_("STICK1"));
+  ChoiceXANY2POT->Append(_("STICK2"));
+  ChoiceXANY2POT->Append(_("STICK3"));
+  ChoiceXANY2POT->Append(_("STICK4"));
+  ChoiceXANY2POT->SetToolTip(_("Potentiomètre pour X-Any"));
+  ChoiceXANY3POT = new wxChoice(Panel5, ID_CHOICEXANY3POT, wxPoint(176,216), wxSize(66,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICEXANY3POT"));
+  ChoiceXANY3POT->SetSelection( ChoiceXANY3POT->Append(_("POT1")) );
+  ChoiceXANY3POT->Append(_("POT2"));
+  ChoiceXANY3POT->Append(_("POT3"));
+  ChoiceXANY3POT->Append(_("STICK1"));
+  ChoiceXANY3POT->Append(_("STICK2"));
+  ChoiceXANY3POT->Append(_("STICK3"));
+  ChoiceXANY3POT->Append(_("STICK4"));
+  ChoiceXANY3POT->SetToolTip(_("Potentiomètre pour X-Any"));
+  StaticText31 = new wxStaticText(Panel5, ID_STATICTEXT31, _("X-Any N°1 :"), wxPoint(96,144), wxDefaultSize, 0, _T("ID_STATICTEXT31"));
+  StaticText32 = new wxStaticText(Panel5, ID_STATICTEXT32, _("X-Any N°2 :"), wxPoint(96,184), wxDefaultSize, 0, _T("ID_STATICTEXT32"));
+  StaticText33 = new wxStaticText(Panel5, ID_STATICTEXT33, _("X-Any N°3 :"), wxPoint(96,224), wxDefaultSize, 0, _T("ID_STATICTEXT33"));
+  ChoiceXANY4POT = new wxChoice(Panel5, ID_CHOICEXANY4POT, wxPoint(176,256), wxSize(66,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICEXANY4POT"));
+  ChoiceXANY4POT->SetSelection( ChoiceXANY4POT->Append(_("POT1")) );
+  ChoiceXANY4POT->Append(_("POT2"));
+  ChoiceXANY4POT->Append(_("POT3"));
+  ChoiceXANY4POT->Append(_("STICK1"));
+  ChoiceXANY4POT->Append(_("STICK2"));
+  ChoiceXANY4POT->Append(_("STICK3"));
+  ChoiceXANY4POT->Append(_("STICK4"));
+  ChoiceXANY4POT->SetToolTip(_("Potentiomètre pour X-Any"));
+  StaticText30 = new wxStaticText(Panel5, ID_STATICTEXT30, _("X-Any N°4 :"), wxPoint(96,264), wxDefaultSize, 0, _T("ID_STATICTEXT30"));
   Notebook1->AddPage(Panel2, _("Réglages"), false);
   Notebook1->AddPage(Panel3, _("Options avancées"), false);
   Notebook1->AddPage(Panel4, _("Personnalisation"), false);
@@ -549,6 +595,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   Connect(ID_BUTTON7,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonDefautClick1);
   Connect(ID_BUTTON8,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonEXITClick);
   Connect(ID_BUTTON9,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonCOMPILEClick);
+  Connect(ID_CHOICENUMXANY,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxPERSONAMESClick);
   Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&CompilerOptionsFrame::OnClose);
   //*)
 
@@ -612,6 +659,18 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxSHUTDOWN_CONFIRMATION->SetValue(SHUTDOWN_CONFIRMATION);
   CheckBoxFRAM->SetValue(FRAM);
   CheckBoxPERSONAMES->SetValue(PERSONAMES);
+
+  //X-Any
+  ChoiceNUMXANY->SetStringSelection(NUMXANY);
+  ChoiceXANY1POT->SetStringSelection(XANY1POT);
+  ChoiceXANY2POT->SetStringSelection(XANY2POT);
+  ChoiceXANY3POT->SetStringSelection(XANY3POT);
+  ChoiceXANY4POT->SetStringSelection(XANY4POT);
+  if (atoi(NUMXANY.c_str()) >= 1) ChoiceXANY1POT->Enable(); else ChoiceXANY1POT->Disable();
+  if (atoi(NUMXANY.c_str()) >= 2) ChoiceXANY2POT->Enable(); else ChoiceXANY2POT->Disable();
+  if (atoi(NUMXANY.c_str()) >= 3) ChoiceXANY3POT->Enable(); else ChoiceXANY3POT->Disable();
+  if (atoi(NUMXANY.c_str()) >= 4) ChoiceXANY4POT->Enable(); else ChoiceXANY4POT->Disable();
+
 
   ComboBoxswitch1->SetMaxLength(3); // Limit 3 caracteres
   ComboBoxswitch2->SetMaxLength(3);
@@ -679,22 +738,32 @@ void CompilerOptionsFrame::BatFunction()
   if (PPM) CompiBat += (" PPM=YES");// default should be YES
   if (MULTI) CompiBat += (" MULTIMODULE=YES");// default should be NO
   if (DSM2SERIAL) CompiBat += (" DSM2=SERIAL");// default should be NO
-  if (SPIRF) {
+  if (SPIRF)
+    {
       CompiBat += (" SPIMODULES=YES");// default should be NO
-      if (CC2500) { CompiBat += (" CC2500=YES");// default should be NO
-      CompiBat += (" CC2500PAG=" + CC2500PAG);
-      }
-      if (CYRF6936) { CompiBat += (" CYRF6936=YES");// default should be NO
-      CompiBat += (" CYRF6936PAG=" + CYRF6936PAG);
-      }
-      if (NRF24l01) { CompiBat += (" NRF24l01=YES");// default should be NO
-      CompiBat += (" NRF24l01PAG=" + NRF24l01PAG);
-      }
-      if (A7105) { CompiBat += (" A7105=YES");// default should be NO
-      CompiBat += (" A7105PAG=" + A7105PAG);
-      }
-  }
-  if (SD_CARD) CompiBat += (" SDCARD=YES");// default should be NO
+      if (CC2500)
+        {
+          CompiBat += (" CC2500=YES");// default should be NO
+          CompiBat += (" CC2500PAG=" + CC2500PAG);
+        }
+      if (CYRF6936)
+        {
+          CompiBat += (" CYRF6936=YES");// default should be NO
+          CompiBat += (" CYRF6936PAG=" + CYRF6936PAG);
+        }
+      if (NRF24l01)
+        {
+          CompiBat += (" NRF24l01=YES");// default should be NO
+          CompiBat += (" NRF24l01PAG=" + NRF24l01PAG);
+        }
+      if (A7105)
+        {
+          CompiBat += (" A7105=YES");// default should be NO
+          CompiBat += (" A7105PAG=" + A7105PAG);
+        }
+    }
+  if (SD_CARD)
+    CompiBat += (" SDCARD=YES");// default should be NO
   if (TEMPLATES) CompiBat += (" TEMPLATES=YES");// default should be NO
   CompiBat += (" THREE_POS=" + THREE_POS);
   if (SPLASH) CompiBat += (" SPLASH=YES");
@@ -728,6 +797,19 @@ void CompilerOptionsFrame::BatFunction()
       CompiBat += (" PERSONAMES=YES");
       CreatePersonames_H(); // Create the header file
     }
+  if (NUMXANY != "NO")
+    {
+      CompiBat += (" X_ANY=" + NUMXANY);
+      if (atoi(NUMXANY.c_str()) >= 1)
+        CompiBat += (" X_ANY_1_POT=" + XANY1POT);
+      if (atoi(NUMXANY.c_str()) >= 2)
+        CompiBat += (" X_ANY_2_POT=" + XANY2POT);
+      if (atoi(NUMXANY.c_str()) >= 3)
+        CompiBat += (" X_ANY_3_POT=" + XANY3POT);
+      if (atoi(NUMXANY.c_str()) >= 4)
+        CompiBat += (" X_ANY_4_POT=" + XANY4POT);
+    }
+
   wxMessageBox(CompiBat);
   CreateCompileBatFile(CompiBat);
   wxExecute(AppPath+ "\\CompileBatFile.bat",wxEXEC_ASYNC );// Create firmware
@@ -802,6 +884,18 @@ void CompilerOptionsFrame::CollectDatas()
   SHUTDOWN_CONFIRMATION = CheckBoxSHUTDOWN_CONFIRMATION->GetValue();
   FRAM = CheckBoxFRAM->GetValue();
   PERSONAMES = CheckBoxPERSONAMES->GetValue();
+
+  //X-Any
+  NUMXANY = ChoiceNUMXANY->GetString(ChoiceNUMXANY->GetSelection());
+  XANY1POT = ChoiceXANY1POT->GetString(ChoiceXANY1POT->GetSelection());
+  XANY2POT = ChoiceXANY2POT->GetString(ChoiceXANY2POT->GetSelection());
+  XANY3POT = ChoiceXANY3POT->GetString(ChoiceXANY3POT->GetSelection());
+  XANY4POT = ChoiceXANY4POT->GetString(ChoiceXANY4POT->GetSelection());
+  if (atoi(NUMXANY.c_str()) >= 1) ChoiceXANY1POT->Enable(); else ChoiceXANY1POT->Disable();
+  if (atoi(NUMXANY.c_str()) >= 2) ChoiceXANY2POT->Enable(); else ChoiceXANY2POT->Disable();
+  if (atoi(NUMXANY.c_str()) >= 3) ChoiceXANY3POT->Enable(); else ChoiceXANY3POT->Disable();
+  if (atoi(NUMXANY.c_str()) >= 4) ChoiceXANY4POT->Enable(); else ChoiceXANY4POT->Disable();
+
 
   switch1  = ComboBoxswitch1->GetValue();
   switch2  = ComboBoxswitch2->GetValue();
@@ -1049,5 +1143,4 @@ void CompilerOptionsFrame::OnButtonDefautClick1(wxCommandEvent& event)
   ComboBoxXD0->SetSelection(0);
   ComboBoxXD1->SetSelection(0);
   ComboBoxXD2->SetSelection(0);
-
 }
