@@ -148,7 +148,7 @@ void CC2500_SetPower(uint8_t Power)
     CC2500 Power Output
 
     P(dBm) = 10Xlog10( P(mW) / 1mW)
-    P(mW) = 1mWX10(P(dBm)/ 10)
+    P(mW) = 1mWX10^(P(dBm)/ 10)
 
     <-55 dBm == 0x00
     -20 dBm	== 0x46
@@ -161,16 +161,19 @@ void CC2500_SetPower(uint8_t Power)
   */
 
 // Power Amp (RDA T212).
-#define dbmpato10mwatt(x) 100*pow(10,((CC2500PA_GAIN+(x))/10))
-const uint16_t aa = dbmpato10mwatt(-55);
-const uint16_t bb = dbmpato10mwatt(-20);
-const uint16_t cc = dbmpato10mwatt(-16);
-const uint16_t dd = dbmpato10mwatt(-12);
-const uint16_t ee = dbmpato10mwatt(-8);
-const uint16_t ff = dbmpato10mwatt(-4);
-const uint16_t gg = dbmpato10mwatt(0);
-const uint16_t hh = dbmpato10mwatt(1);
-const static uint16_t CC2500_Powers[] PROGMEM = {aa,bb,cc,dd,ee,ff,gg,hh};
+
+#if (CC2500PA_GAIN == 0)
+  const static uint16_t CC2500_Powers[] PROGMEM = {0,1,3,6,16,40,100,126};
+#endif
+#if (CC2500PA_GAIN == 10)
+  const static uint16_t CC2500_Powers[] PROGMEM = {0,10,25,63,158,398,1000,1259};
+#endif
+#if (CC2500PA_GAIN == 20)
+  const static uint16_t CC2500_Powers[] PROGMEM = {0,100,251,631,1585,3981,10000,12589};
+#endif
+#if (CC2500PA_GAIN == 22)
+  const static uint16_t CC2500_Powers[] PROGMEM = {0,158,398,1000,2512,6310,15849,19953};
+#endif
 
   uint8_t cc2500_patable = 0;
 
