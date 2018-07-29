@@ -150,29 +150,21 @@ void CC2500_SetPower(uint8_t Power)
     P(dBm) = 10Xlog10( P(mW) / 1mW)
     P(mW) = 1mWX10^(P(dBm)/ 10)
 
-    <-55 dBm == 0x00
-    -20 dBm	== 0x46
-    -16 dBm	== 0x55
-    -12 dBm	== 0xC6
-    -8 dBm	== 0x6E
-    -4 dBm  == 0xA9
-    +0 dBm	== 0xFE
-    +1 dBm	== 0xFF
   */
 
 // Power Amp (RDA T212).
 
 #if (CC2500PA_GAIN == 0)
-  const static uint16_t CC2500_Powers[] PROGMEM = {0,1,3,6,16,40,100,126};
+  const static uint16_t CC2500_Powers[] PROGMEM = {0,1,10,16,40,63,100,126};
 #endif
 #if (CC2500PA_GAIN == 10)
-  const static uint16_t CC2500_Powers[] PROGMEM = {0,10,25,63,158,398,1000,1259};
+  const static uint16_t CC2500_Powers[] PROGMEM = {0,10,100,158,398,631,1000,1259};
 #endif
 #if (CC2500PA_GAIN == 20)
-  const static uint16_t CC2500_Powers[] PROGMEM = {0,100,251,631,1585,3981,10000,12589};
+  const static uint16_t CC2500_Powers[] PROGMEM = {0,100,1000,1585,3981,6310,10000,12589};
 #endif
 #if (CC2500PA_GAIN == 22)
-  const static uint16_t CC2500_Powers[] PROGMEM = {0,158,398,1000,2512,6310,15849,19953};
+  const static uint16_t CC2500_Powers[] PROGMEM = {0,158,1585,2512,6310,10000,15849,19953};
 #endif
 
   uint8_t cc2500_patable = 0;
@@ -180,28 +172,28 @@ void CC2500_SetPower(uint8_t Power)
   switch(Power)
     {
     case 0:
-      cc2500_patable = 0;
+      cc2500_patable = 0x00;
       break; //
     case 1:
       cc2500_patable = 0x46;
       break; //
     case 2:
-      cc2500_patable = 0x55;
+      cc2500_patable = 0x97;
       break; //
     case 3:
-      cc2500_patable = 0xc6;
+      cc2500_patable = 0x6E;
       break; //
     case 4:
-      cc2500_patable = 0x6e;
+      cc2500_patable = 0xA9;
       break; //
     case 5:
-      cc2500_patable = 0xa9;
+      cc2500_patable = 0xBB;
       break; //
     case 6:
-      cc2500_patable = 0xfe;
+      cc2500_patable = 0xFE;
       break; //
     case 7:
-      cc2500_patable = 0xff;
+      cc2500_patable = 0xFF;
       break; //
     default:
       cc2500_patable = 0;
