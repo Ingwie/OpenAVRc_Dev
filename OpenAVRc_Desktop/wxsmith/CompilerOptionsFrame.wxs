@@ -822,7 +822,7 @@
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHOICE" />
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT29" variable="StaticText29" member="yes">
-							<label>Num X-ANY</label>
+							<label>Nb X-ANY</label>
 							<pos>56,56</pos>
 						</object>
 						<object class="wxChoice" name="ID_CHOICEXANY1POT" variable="ChoiceXANY1POT" member="yes">
