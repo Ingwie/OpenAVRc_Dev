@@ -134,6 +134,12 @@ extern wxString switchXD0;
 extern wxString switchXD1;
 extern wxString switchXD2;
 
+//X ANY
+extern wxString NUMXANY;
+extern wxString XANY1POT;
+extern wxString XANY2POT;
+extern wxString XANY3POT;
+extern wxString XANY4POT;
 
 class CompilerOptionsFrame: public wxFrame
 {
@@ -154,8 +160,6 @@ public:
     wxButton* Compilerpage3;
     wxButton* Sortirpage2;
     wxButton* Sortirpage3;
-    wxCheckBox* CheckBox1;
-    wxCheckBox* CheckBox2;
     wxCheckBox* CheckBoxA7105;
     wxCheckBox* CheckBoxACCURAT_THROTTLE_STATS;
     wxCheckBox* CheckBoxARITHMETIC_OVERFLOW_CHECK;
@@ -194,8 +198,6 @@ public:
     wxCheckBox* CheckBoxTOGGLETRIM;
     wxCheckBox* CheckBoxVARIO;
     wxCheckBox* CheckBoxWS_HOW_HIGH;
-    wxCheckBox* XSwitch_Channel1_CheckBox;
-    wxCheckBox* XSwitch_Channel2_CheckBox;
     wxChoice* ChoiceA7105PAG;
     wxChoice* ChoiceCC2500PAG;
     wxChoice* ChoiceCYRF6936PAG;
@@ -206,6 +208,7 @@ public:
     wxChoice* ChoiceLCD;
     wxChoice* ChoiceNAVIGATION;
     wxChoice* ChoiceNRF24l01PAG;
+    wxChoice* ChoiceNUMXANY;
     wxChoice* ChoicePCB;
     wxChoice* ChoicePPM_UNIT ;
     wxChoice* ChoiceTHREE_POS;
@@ -213,6 +216,10 @@ public:
     wxChoice* ChoiceTTS;
     wxChoice* ChoiceUNITS;
     wxChoice* ChoiceVOICE;
+    wxChoice* ChoiceXANY1POT;
+    wxChoice* ChoiceXANY2POT;
+    wxChoice* ChoiceXANY3POT;
+    wxChoice* ChoiceXANY4POT;
     wxComboBox* ComboBoxEncodeurA;
     wxComboBox* ComboBoxEncodeurB;
     wxComboBox* ComboBoxEncodeurNo;
@@ -266,7 +273,12 @@ public:
     wxStaticText* StaticText26;
     wxStaticText* StaticText27;
     wxStaticText* StaticText28;
+    wxStaticText* StaticText29;
     wxStaticText* StaticText2;
+    wxStaticText* StaticText30;
+    wxStaticText* StaticText31;
+    wxStaticText* StaticText32;
+    wxStaticText* StaticText33;
     wxStaticText* StaticText3;
     wxStaticText* StaticText4;
     wxStaticText* StaticText5;
@@ -397,14 +409,20 @@ protected:
     static const long ID_STATICTEXT27;
     static const long ID_STATICTEXT23;
     static const long ID_PANEL4;
-    static const long ID_CHECKBOX4;
-    static const long ID_STATICBOX11;
-    static const long ID_CHECKBOX8;
     static const long ID_STATICBOX12;
-    static const long ID_CHECKBOX2;
-    static const long ID_CHECKBOX3;
     static const long ID_BUTTON8;
     static const long ID_BUTTON9;
+    static const long ID_STATICBOX11;
+    static const long ID_CHOICENUMXANY;
+    static const long ID_STATICTEXT29;
+    static const long ID_CHOICEXANY1POT;
+    static const long ID_CHOICEXANY2POT;
+    static const long ID_CHOICEXANY3POT;
+    static const long ID_STATICTEXT31;
+    static const long ID_STATICTEXT32;
+    static const long ID_STATICTEXT33;
+    static const long ID_CHOICEXANY4POT;
+    static const long ID_STATICTEXT30;
     static const long ID_PANEL5;
     static const long ID_NOTEBOOK1;
     static const long ID_PANEL1;
