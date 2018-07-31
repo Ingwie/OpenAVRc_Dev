@@ -201,6 +201,7 @@ static void FRSKYV_build_data_packet()
   if(rfState8 == 0 || rfState8 == 2)
     {
       packet[5] = 0x0F;
+      SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
     }
   else if(rfState8 == 1 || rfState8 == 3)
     {
@@ -231,8 +232,7 @@ static void FRSKYV_build_data_packet()
   ++rfState8;
   if(rfState8 > 4)
     {
-      rfState8 = 0; // Potentially if we had only four channels we could send them every 9ms.
-      SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
+      rfState8 = 0; // Potentially if we had only four channels we could send them every 9ms. TODO ;-)
     }
 }
 
