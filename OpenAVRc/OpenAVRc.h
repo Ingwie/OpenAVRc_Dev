@@ -257,8 +257,6 @@ static uint16_t DurationValue;
 #define NUM_SWITCHES     7
 #define IS_3POS(sw)      ((sw) == 0)
 #define IS_MOMENTARY(sw) (sw == SWSRC_TRN)
-#define NUM_SW_SRCRAW    1
-#define SW_DSM2_BIND     SW_TRN
 
 #define NUM_PSWITCH      (SWSRC_LAST_SWITCH-SWSRC_FIRST_SWITCH+1)
 
@@ -304,6 +302,7 @@ static uint16_t DurationValue;
 #endif
 
 #define tmr10ms_t uint16_t
+#define CALCULATE_LAT_JIT()  dt = TCNT1 - OCR1A // Calculate latency and jitter.
 
 /**
 * \file   OpenAVRc.h
@@ -633,9 +632,13 @@ extern uint16_t maxMixerDuration;
 
 extern uint16_t g_tmr1Latency_max;
 extern uint16_t g_tmr1Latency_min;
+extern uint16_t g_guibuild_max;
+extern uint16_t g_guibuild_min;
+extern uint16_t g_lcddraw_max;
+extern uint16_t g_lcddraw_min;
 extern uint16_t lastMixerDuration;
 
-#define DURATION_MS_PREC2(x) ((x)*100)/16
+#define DURATION_MS_PREC2(x) (((x)*100)>>4)
 
 #if defined(THRTRACE)
   #define MAXTRACE (LCD_W - 8)
@@ -658,7 +661,7 @@ extern uint16_t lastMixerDuration;
 uint16_t getTmr16KHz();
 
 uint16_t stackAvailable();
-uint16_t freeRam();
+//uint16_t freeRam();
 
 #if defined(SPLASH)
   void doSplash();
@@ -1076,7 +1079,7 @@ enum TXRX_State {
   RX_EN,
 };
 
-#define PROTODEF(proto, module, map, init, name, progmem_name) proto,
+#define PROTODEF(proto, module, cmd, name, progmem_name) proto,
 enum Protocols {
   PROTOCOL_NONE,
 #include "protocol/protocol.h"
@@ -1159,16 +1162,16 @@ typedef const void* (*CMDS)(enum ProtoCmds);
 
 
 /*Load Progmem name for GUI */
-#define PROTODEF(proto, module, map, cmd, name, progmem_name) progmem_name;
+#define PROTODEF(proto, module, cmd, name, progmem_name) progmem_name;
 #include "protocol/protocol.h"
 #undef PROTODEF
 
-#define PROTODEF(proto, module, map, cmd, name, progmem_name) extern const void * cmd(enum ProtoCmds);
+#define PROTODEF(proto, module, cmd, name, progmem_name) extern const void * cmd(enum ProtoCmds);
 #include "protocol/protocol.h"
 #undef PROTODEF
 
 /*Load proto, pm_char name and Cmds */
-#define PROTODEF(proto, module, map, cmd, name, progmem_name) { proto, name, cmd },
+#define PROTODEF(proto, module, cmd, name, progmem_name) { proto, name, cmd },
 struct Proto_struct {
   enum Protocols Protocol;
   const pm_char* ProtoName;

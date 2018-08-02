@@ -45,7 +45,11 @@ bool unexpectedShutdown = false;
 uint16_t maxMixerDuration;
 uint16_t lastMixerDuration;
 uint16_t g_tmr1Latency_max;
-uint16_t g_tmr1Latency_min;
+uint16_t g_tmr1Latency_min = -1;
+uint16_t g_guibuild_max;
+uint16_t g_guibuild_min = -1;
+uint16_t g_lcddraw_max;
+uint16_t g_lcddraw_min = -1;
 
 #if defined(AUDIO)
   audioQueue  audio;
@@ -1451,7 +1455,7 @@ uint16_t stackAvailable()
 }
 
 
-uint16_t freeRam()
+/*uint16_t freeRam()
 {
 #if defined(SIMU)
   return 2000;
@@ -1460,7 +1464,7 @@ uint16_t freeRam()
   uint16_t v;
   return (uint16_t) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
 #endif
-}
+}*/
 
 void OpenAVRcInit(uint8_t mcusr)
 {

@@ -75,8 +75,6 @@ void menuStatisticsView(uint8_t event)
 #endif
 }
 
-#define MENU_DEBUG_COL1_OFS   (14*FW+28)
-
 void menuStatisticsDebug(uint8_t event)
 {
   TITLE(STR_MENUDEBUG);
@@ -85,6 +83,10 @@ void menuStatisticsDebug(uint8_t event)
   case EVT_KEY_FIRST(KEY_ENTER):
     g_tmr1Latency_min = -1;
     g_tmr1Latency_max = 0;
+    g_guibuild_min = -1;
+    g_guibuild_max = 0;
+    g_lcddraw_min = -1;
+    g_lcddraw_max = 0;
     maxMixerDuration  = 0;
     AUDIO_KEYPAD_UP();
     break;
@@ -97,22 +99,35 @@ void menuStatisticsDebug(uint8_t event)
     break;
   }
 
+#define COLDEBUG1 10*FW
+#define COLDEBUG2 15*FW
+#define COLDEBUG3 19*FW
+#define OFSDEBUG  3*FW
 
-  lcdDrawTextLeft(1*FH, STR_TMR1LATMAXUS);
-  lcdDrawNumberNAtt(MENU_DEBUG_COL1_OFS, 1*FH, (g_tmr1Latency_max/2), UNSIGN);
+  lcdDrawTextLeft(1*FH, STR_COMPUTE);
+  lcdDrawText(COLDEBUG1, 1*FH, STR_MAX);
+  lcdDrawText(COLDEBUG2, 1*FH, STR_MIN);
 
-  lcdDrawTextLeft(2*FH, STR_TMR1LATMINUS);
-  lcdDrawNumberNAtt(MENU_DEBUG_COL1_OFS, 2*FH, (g_tmr1Latency_min/2), UNSIGN);
+  lcdDrawText(FW/2, 2*FH, STR_PROTOCOL);
+  lcdDrawNumberNAtt(COLDEBUG1+OFSDEBUG, 2*FH, (g_tmr1Latency_max/2), UNSIGN);
+  lcdDrawNumberNAtt(COLDEBUG2+OFSDEBUG, 2*FH, (g_tmr1Latency_min/2), UNSIGN);
 
-  lcdDrawTextLeft(3*FH, STR_TMR1JITTERUS);
-  lcdDrawNumberNAtt(MENU_DEBUG_COL1_OFS, 3*FH, ((g_tmr1Latency_max - g_tmr1Latency_min) /2), UNSIGN);
+  lcdDrawText(FW/2, 3*FH, STR_GUIBUILD);
+  lcdDrawNumberNAtt(COLDEBUG1+OFSDEBUG, 3*FH, DURATION_MS_PREC2(g_guibuild_max), PREC2);
+  lcdDrawNumberNAtt(COLDEBUG2+OFSDEBUG, 3*FH, DURATION_MS_PREC2(g_guibuild_min), PREC2);
 
-  lcdDrawTextLeft(4*FH, STR_TMIXMAXMS);
-  lcdDrawNumberNAtt(MENU_DEBUG_COL1_OFS, 4*FH, DURATION_MS_PREC2(maxMixerDuration), PREC2);
-  lcdDrawTextLeft(5*FH, STR_FREESTACKMINB);
-  lcdDrawNumberNAtt(14*FW, 5*FH, stackAvailable(), UNSIGN);
-  lcdDrawTextLeft(6*FH, STR_FREERAMINB);
-  lcdDrawNumberNAtt(14*FW, 6*FH, freeRam(), UNSIGN);
+  lcdDrawText(FW/2, 4*FH, STR_LCDDRAW);
+  lcdDrawNumberNAtt(COLDEBUG1+OFSDEBUG, 4*FH, DURATION_MS_PREC2(g_lcddraw_max), PREC2);
+  lcdDrawNumberNAtt(COLDEBUG2+OFSDEBUG, 4*FH, DURATION_MS_PREC2(g_lcddraw_min), PREC2);
+
+  lcdDrawText(FW/2, 5*FH, STR_MIXERlowcase);
+  lcdDrawNumberNAtt(COLDEBUG2+OFSDEBUG, 5*FH, DURATION_MS_PREC2(maxMixerDuration), PREC2);
+  lcdDrawText(FW/2, 6*FH, STR_FREESRAM);
+  lcdDrawNumberNAtt(COLDEBUG2+OFSDEBUG, 6*FH, stackAvailable(), UNSIGN);
+
+
+//  lcdDrawTextLeft(6*FH, STR_FREERAMINB);
+//  lcdDrawNumberNAtt(14*FW, 6*FH, freeRam(), UNSIGN);
   lcdDrawText(4*FW, 7*FH+1, STR_MENUTORESET);
   lcd_status_line();
 }
