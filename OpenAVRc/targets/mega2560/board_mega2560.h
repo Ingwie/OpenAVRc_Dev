@@ -36,8 +36,6 @@
 
 #include "../../board_avr.h"
 
-#define CALCULATE_LAT_JIT()  dt = TCNT1 - OCR1A // Calculate latency and jitter.
-
 //Mods
 #define ROTENC_DIV2 // rotenc resolution/2
 #define FATFSTINY // Reduce SDdriver buffer size

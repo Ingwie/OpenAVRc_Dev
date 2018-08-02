@@ -196,7 +196,7 @@ void CC2500_SetPower(uint8_t Power)
       cc2500_patable = 0xFF;
       break; //
     default:
-      cc2500_patable = 0;
+      cc2500_patable = 0x00;
       break;
     };
   uint_farptr_t powerdata = pgm_get_far_address(CC2500_Powers);
