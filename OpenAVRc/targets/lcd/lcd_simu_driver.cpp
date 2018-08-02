@@ -130,7 +130,7 @@ FRESULT f_close (FIL * fil)
 FRESULT f_opendir (DIR * rep, const TCHAR * name)
 {
   char temp[20];
-  sprintf(temp, "%s", name);
+  //sprintf(temp, "%s", name);
   wxString dir(temp,wxConvUTF8);
   dir.Replace("/","\\",true);
   if (dir == ".") dir = "";

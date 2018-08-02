@@ -95,7 +95,7 @@ icr1_previous = icr1_current;
 	}
 	else if (! need_to_sync) // Pulse within limits and we don't need to sync.
 	{
-		if (servo_count < NUM_OUT_CHANNELS)
+		if (servo_count < (NUM_TRAINER-1))
 		{
 		if (icr1_diff > MICRO_SEC_CONVERT(1500 + DELTA_PPM_IN)) icr1_diff = MICRO_SEC_CONVERT(1500 + DELTA_PPM_IN);
    		else if (icr1_diff < MICRO_SEC_CONVERT(1500 - DELTA_PPM_IN)) icr1_diff = MICRO_SEC_CONVERT(1500 - DELTA_PPM_IN);

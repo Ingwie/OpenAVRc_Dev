@@ -38,11 +38,6 @@
 
 #include "../OpenAVRc.h"
 
-#define TELEM_ON 1
-#define TELEM_OFF 0
-
-#define NUM_OUT_CHANNELS 7
-
 // For Multiplex M-Link & PPM
 #define CHAN_MAX_VALUE (1520L)
 #define CHAN_MIN_VALUE (-CHAN_MAX_VALUE)
