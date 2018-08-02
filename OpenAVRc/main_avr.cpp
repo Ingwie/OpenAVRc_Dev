@@ -44,13 +44,13 @@ void perMain()
   uint16_t t0 = getTmr16KHz();
   int16_t delta = (nextMixerEndTime - lastMixerDuration) - t0;
   if (delta > 0 && delta < (int16_t)US_TO_16KHZ_TICK(MAX_MIXER_DELTA_US)) {
-LEDON();
+  LEDON();
 
 #if defined(SDCARD) && !defined(SIMU)
     if (sdMounted() && isFunctionActive(FUNCTION_LOGS) && delta > (int16_t)US_TO_16KHZ_TICK(4000))
       writeLogs(); // Minimise writelogs perturbation
 #endif
-LEDOFF();
+  LEDOFF();
     return;
   }
 
@@ -112,7 +112,11 @@ LEDOFF();
     AUDIO_MENUS();
   }
 
+  uint16_t tguibuid = getTmr16KHz(); // gui build duration
   menuHandlers[menuLevel]((warn || popupMenuActive) ? 0 : evt);
+  tguibuid = getTmr16KHz() - tguibuid;
+  if (tguibuid > g_guibuild_max) g_guibuild_max = tguibuid;
+  if (tguibuid < g_guibuild_min) g_guibuild_min = tguibuid;
 
   if (warn)
     DISPLAY_WARNING(evt);
@@ -128,7 +132,12 @@ LEDOFF();
 #endif
 
   drawStatusLine();
+
+  uint16_t tlcddraw = getTmr16KHz(); // lcd draw (fast) duration
   lcdRefreshFast();
+  tlcddraw = getTmr16KHz() - tlcddraw;
+  if (tlcddraw > g_lcddraw_max) g_lcddraw_max = tlcddraw;
+  if (tlcddraw < g_lcddraw_min) g_lcddraw_min = tlcddraw;
 
 #endif // if defined(GUI)
 

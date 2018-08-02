@@ -245,12 +245,7 @@ const pm_char STR_TX[] PROGMEM = TR_TXnRX;
 const pm_char STR_ACCEL[] PROGMEM = TR_ACCEL;
 const pm_char STR_NODATA[] PROGMEM = TR_NODATA;
 const pm_char STR_TOTTM1TM2THRTHP[] PROGMEM = TR_TOTTM1TM2THRTHP;
-const pm_char STR_TMR1LATMAXUS[] PROGMEM = TR_TMR1LATMAXUS;
-const pm_char STR_TMR1LATMINUS[] PROGMEM = TR_TMR1LATMINUS;
-const pm_char STR_TMR1JITTERUS[] PROGMEM = TR_TMR1JITTERUS;
 const pm_char STR_US[] PROGMEM = TR_US;
-const pm_char STR_TMIXMAXMS[] PROGMEM = TR_TMIXMAXMS;
-const pm_char STR_FREESTACKMINB[] PROGMEM = TR_FREESTACKMINB;
 const pm_char STR_MENUTORESET[] PROGMEM = TR_MENUTORESET;
 const pm_char STR_PPM_TRAINER[] PROGMEM = TR_PPM_TRAINER;
 const pm_char STR_CH[] PROGMEM = TR_CH;
@@ -292,7 +287,7 @@ const pm_char STR_MULTI_LOWPOWER[] PROGMEM = TR_MULTI_LOWPOWER;
 #endif
 
 const pm_char STR_MENUDATEANDTIME[] PROGMEM = TR_MENUDATEANDTIME;
-const pm_char STR_FREERAMINB[] PROGMEM = "Free Ram\037\124b";
+//const pm_char STR_FREERAMINB[] PROGMEM = "Free Ram\037\124b";
 
 const pm_char STR_MENUTRAINER[] PROGMEM = TR_MENUTRAINER;
 const pm_char STR_MENUGLOBALFUNCS[] PROGMEM = TR_MENUGLOBALFUNCS;
@@ -524,3 +519,12 @@ const pm_char STR_SWITCHES[] PROGMEM = TR_SWITCHES;
 const pm_char STR_ANGLE_SENSOR[] PROGMEM = TR_ANGLE_SENSOR;
 #endif
 
+// New Debug Menu
+const pm_char STR_COMPUTE[] PROGMEM = "Compute";
+const pm_char STR_MIN[] PROGMEM = "Min";
+const pm_char STR_MAX[] PROGMEM = "Max";
+const pm_char STR_PROTOCOL[] PROGMEM = "Protocol\037\162us";
+const pm_char STR_GUIBUILD[] PROGMEM = "Gui Build\037\162ms";
+const pm_char STR_LCDDRAW[] PROGMEM = "Lcd Send\037\162ms";
+const pm_char STR_MIXERlowcase[] PROGMEM = "Mixer\037\162ms";
+const pm_char STR_FREESRAM[] PROGMEM = "Free Sram\037\170b";

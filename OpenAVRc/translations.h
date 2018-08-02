@@ -392,12 +392,7 @@ extern const pm_char STR_TX[];
 extern const pm_char STR_ACCEL[];
 extern const pm_char STR_NODATA[];
 extern const pm_char STR_TOTTM1TM2THRTHP[];
-extern const pm_char STR_TMR1LATMAXUS[];
-extern const pm_char STR_TMR1LATMINUS[];
-extern const pm_char STR_TMR1JITTERUS[];
 extern const pm_char STR_US[];
-extern const pm_char STR_TMIXMAXMS[];
-extern const pm_char STR_FREESTACKMINB[];
 extern const pm_char STR_MENUTORESET[];
 extern const pm_char STR_PPM_TRAINER[];
 extern const pm_char STR_CH[];
@@ -416,7 +411,7 @@ extern const pm_char STR_EEPROMOVERFLOW[];
 extern const pm_char STR_TRIMS2OFFSETS[];
 extern const pm_char STR_MENURADIOSETUP[];
 extern const pm_char STR_MENUDATEANDTIME[];
-extern const pm_char STR_FREERAMINB[];
+//extern const pm_char STR_FREERAMINB[];
 extern const pm_char STR_MENUTRAINER[];
 extern const pm_char STR_MENUGLOBALFUNCS[];
 extern const pm_char STR_MENUVERSION[];
@@ -687,6 +682,15 @@ extern const pm_char STR_SWITCHES[];
 extern const pm_char STR_ANGLE_SENSOR[];
 #endif
 
+// New Debug Menu
+extern const pm_char STR_COMPUTE[];
+extern const pm_char STR_MIN[];
+extern const pm_char STR_MAX[];
+extern const pm_char STR_PROTOCOL[];
+extern const pm_char STR_GUIBUILD[];
+extern const pm_char STR_LCDDRAW[];
+extern const pm_char STR_MIXERlowcase[];
+extern const pm_char STR_FREESRAM[];
 
 
 #endif
