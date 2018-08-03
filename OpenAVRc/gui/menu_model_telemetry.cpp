@@ -119,7 +119,6 @@ void menuModelTelemetry(uint8_t event)
 
   MENU(STR_MENUTELEMETRY, menuTabModel, e_Telemetry, ITEM_TELEMETRY_MAX+1, {USRPROTO 0, TELEMETRY_TYPE_ROWS CHANNELS_ROWS RSSI_ROWS SENSORS_ROWS USRDATA_ROWS CASE_VARIO(LABEL(Vario)) CASE_VARIO(0) CASE_VARIO(VARIO_RANGE_ROWS) TELEMETRY_SCREEN_ROWS(0), TELEMETRY_SCREEN_ROWS(1), });
 
-  uint8_t protocol = g_model.rfProtocol;
   uint8_t sub = menuVerticalPosition - 1;
 
   switch (event) {
@@ -255,7 +254,7 @@ void menuModelTelemetry(uint8_t event)
       lcdDrawTextAtIndex(TELEM_COL2, y, STR_VTELPROTO, g_model.telemetry.usrProto, attr);
       if (attr) {
           CHECK_INCDEC_MODELVAR_ZERO(event, g_model.telemetry.usrProto, USR_PROTO_LAST);
-          if (!IS_MULTIMODULE_PROTOCOL(protocol)) { // No reset in Multi mode
+          if (!IS_MULTIMODULE_PROTOCOL(g_model.rfProtocol)) { // No reset in Multi mode
               telemetryReset();
               telemetryInit();
           }

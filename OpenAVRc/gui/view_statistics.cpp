@@ -125,9 +125,9 @@ void menuStatisticsDebug(uint8_t event)
   lcdDrawText(FW/2, 6*FH, STR_FREESRAM);
   lcdDrawNumberNAtt(COLDEBUG2+OFSDEBUG, 6*FH, stackAvailable(), UNSIGN);
 
-
 //  lcdDrawTextLeft(6*FH, STR_FREERAMINB);
 //  lcdDrawNumberNAtt(14*FW, 6*FH, freeRam(), UNSIGN);
+
   lcdDrawText(4*FW, 7*FH+1, STR_MENUTORESET);
   lcd_status_line();
 }
