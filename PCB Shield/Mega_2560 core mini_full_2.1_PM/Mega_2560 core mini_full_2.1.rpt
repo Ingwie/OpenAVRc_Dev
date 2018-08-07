@@ -1,4 +1,4 @@
-## Footprint report - date 04/26/18 15:47:55
+## Footprint report - date 08/07/18 09:19:32
 ## Created by Pcbnew version kicad 4.0.7
 ## Unit = mm, Angle = deg.
 
@@ -8,6 +8,33 @@ $BOARD
 upper_left_corner 126.612522 50.489480
 lower_right_corner 245.222521 131.689480
 $EndBOARD
+
+$MODULE "Q4"
+reference "Q4"
+value "SI2319DS"
+footprint "SOT-23_MOS_P"
+attribut none
+position 207.106520 67.340480  orientation 90.00
+layer back
+$PAD "S"
+Shape Rect Layer back
+position  0.950000 -1.100000  size  0.600000  1.000000  orientation 0.00
+drill  0.000000
+shape_offset  0.000000  0.000000
+$EndPAD
+$PAD "D"
+Shape Rect Layer back
+position  0.000000  1.100000  size  0.600000  1.000000  orientation 0.00
+drill  0.000000
+shape_offset  0.000000  0.000000
+$EndPAD
+$PAD "G"
+Shape Rect Layer back
+position -0.950000 -1.100000  size  0.600000  1.000000  orientation 0.00
+drill  0.000000
+shape_offset  0.000000  0.000000
+$EndPAD
+$EndMODULE  Q4
 
 $MODULE "P3"
 reference "P3"
@@ -737,33 +764,6 @@ drill  0.000000
 shape_offset  0.000000  0.000000
 $EndPAD
 $EndMODULE  D4
-
-$MODULE "Q4"
-reference "Q4"
-value "SI2319DS"
-footprint "SOT-23_MOS_P"
-attribut none
-position 207.106520 67.340480  orientation 90.00
-layer back
-$PAD "S"
-Shape Rect Layer back
-position  0.950000 -1.100000  size  0.600000  1.000000  orientation 0.00
-drill  0.000000
-shape_offset  0.000000  0.000000
-$EndPAD
-$PAD "D"
-Shape Rect Layer back
-position  0.000000  1.100000  size  0.600000  1.000000  orientation 0.00
-drill  0.000000
-shape_offset  0.000000  0.000000
-$EndPAD
-$PAD "G"
-Shape Rect Layer back
-position -0.950000 -1.100000  size  0.600000  1.000000  orientation 0.00
-drill  0.000000
-shape_offset  0.000000  0.000000
-$EndPAD
-$EndMODULE  Q4
 
 $MODULE "P30"
 reference "P30"

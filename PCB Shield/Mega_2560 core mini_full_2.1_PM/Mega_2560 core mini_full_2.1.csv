@@ -1,10 +1,10 @@
 "Id";"Référence";"Boitier";"Quantité";"Désignation";"Fournisseur et réf.";
-1;"P3";"Pin_Header_Straight_1x05_Pitch2.54mm";1;"FTDI";;;
-2;"P1";"Connectors-2560-core";1;"2560-core";;;
-3;"U4";"Pm5033_sil5";1;"PM5033";;;
-4;"R22";"R_1206";1;"8,2K";;;
-5;"D4,D3,D2,D1";"D_SOD-123";4;"LL4148";;;
-6;"Q4";"SOT-23_MOS_P";1;"SI2319DS";;;
+1;"Q4";"SOT-23_MOS_P";1;"SI2319DS";;;
+2;"P3";"Pin_Header_Straight_1x05_Pitch2.54mm";1;"FTDI";;;
+3;"P1";"Connectors-2560-core";1;"2560-core";;;
+4;"U4";"Pm5033_sil5";1;"PM5033";;;
+5;"R22";"R_1206";1;"8,2K";;;
+6;"D4,D3,D2,D1";"D_SOD-123";4;"LL4148";;;
 7;"P30";"MiniDCDC3A";1;"MiniDCDC3A";;;
 8;"P15";"Pin_Header_Straight_1x03_Pitch2.54mm";1;"DUMMY";;;
 9;"P8";"Pin_Header_Straight_1x04_Pitch2.54mm";1;"Audio";;;
