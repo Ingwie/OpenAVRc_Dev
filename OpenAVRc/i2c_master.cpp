@@ -73,6 +73,7 @@ uint8_t i2c_start(uint8_t address)
   // check if the start condition was successfully transmitted
   uint8_t twst = TW_STATUS & 0xF8;
   if(! ((twst == TW_START) || (twst == TW_REP_START)) ) {
+    i2c_stop();
     return 1;
   }
 
@@ -85,7 +86,10 @@ uint8_t i2c_start(uint8_t address)
   // check if the device has acknowledged the READ / WRITE mode
   twst = TW_STATUS & 0xF8;
   if ( (twst == TW_MT_SLA_ACK) || (twst == TW_MR_SLA_ACK) ) return 0;
-  else return 1;
+  else {
+      i2c_stop();
+      return 1;
+  }
 }
 
 uint8_t i2c_write(uint8_t data)
