@@ -29,6 +29,12 @@
  *                                                                        *
  **************************************************************************
 */
+#if defined(EXTERNALEEPROM)
+#define CHECK_IIC_USED_IRQ_MODE if (TWCR & _BV(TWINT)) return;
+#else
+#define CHECK_IIC_USED_IRQ_MODE // I2C bus is free !
+#endif
+#define CASE_PERSISTENT_TIMERS(x) x,
 
 
 #define NUMITERATIONFULLREFRESH  4
@@ -94,7 +100,7 @@ const static uint8_t lcdInitSequence[] PROGMEM = {
 
 void lcdSendCommand(uint8_t data)
 {
-  CHECK_IIC_USED_IRQ_MODE();
+  CHECK_IIC_USED_IRQ_MODE;
   i2c_start(SSD1306_ADDRESS);
   i2c_write(SSD1306_COMMAND);
   i2c_write(data);
@@ -123,7 +129,7 @@ SHOWDURATIONLCD1
   static uint8_t state = 0;
   uint8_t *p;
 
-  CHECK_IIC_USED_IRQ_MODE();
+  CHECK_IIC_USED_IRQ_MODE;
   // Set Column
   lcdSendCommand(SSD1306_COLUMNADDR); // 0x21 COMMAND
   lcdSendCommand(0); // Column start address
