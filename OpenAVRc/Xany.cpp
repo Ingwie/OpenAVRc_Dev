@@ -323,7 +323,13 @@ uint8_t Xany_readInputsAndLoadMsg(uint8_t XanyIdx)
   uint8_t      Done = 0;
   XanyInfoSt_t XanyInfo;
 
-  CHECK_IIC_USED_IRQ_MODE(Done); /* Return if I2C is used */
+#if defined(EXTERNALEEPROM) && !defined(SIMU)
+#define CHECK_IIC_USED_IRQ_MODE_RETURN(x) if (TWCR & _BV(TWINT)) return(x)
+#else
+#define CHECK_IIC_USED_IRQ_MODE_RETURN(x) // I2C bus is free !
+#endif
+
+  CHECK_IIC_USED_IRQ_MODE_RETURN(Done); /* Return if I2C is used */
 
   if(X_AnyWriteMsg[XanyIdx].NibbleIdx >= (X_AnyWriteMsg[XanyIdx].Msg.Common.NibbleNbToTx + 1))
   {
