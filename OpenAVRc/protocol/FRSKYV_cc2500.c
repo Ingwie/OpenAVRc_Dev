@@ -188,7 +188,7 @@ static void FRSKYV_build_bind_packet()
 
 static void FRSKYV_build_data_packet()
 {
-  //channel_offset = 0;
+  channel_offset = 0;
 
   packet[0] = 0x0E;
   packet[1] = temp_rfid_addr[0];
