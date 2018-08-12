@@ -534,7 +534,7 @@
 #define TR_SWITCHWARNING       TR("S-Warning", INDENT "Switch Positions")
 #define TR_POTWARNING          TR("Pot Warn.", INDENT "Pot Positions")
 #define TR_TIMEZONE            TR("Time Zone", INDENT "Time zone")
-#define TR_ADJUST_RTC          INDENT "Adjust RTC"
+#define TR_ADJUST_RTC          "Adjust RTC"
 #define TR_GPS                 "GPS"
 #define TR_RXCHANNELORD        TR("Rx Channel Ord", "Default channel order")
 #define TR_STICKS              "Sticks"

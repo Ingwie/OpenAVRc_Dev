@@ -303,6 +303,13 @@ void processSportPacket(uint8_t *sport_packet, uint8_t no_chk_telefr_crc)
           telemetryData.value.min = (uint8_t) ((gps_time_date & 0x00ff0000) >> 16);
           telemetryData.value.sec = (uint16_t) ((gps_time_date & 0x0000ff00) >> 8);
           telemetryData.value.hour = ((uint8_t) (telemetryData.value.hour + g_eeGeneral.timezone + 24)) % 24;
+
+#if defined(RTCLOCK)
+      if (g_eeGeneral.adjustRTC)
+        {
+          adjustRTChour();
+        }
+#endif
         }
     }
   else if IS_IN_RANGE(appId, GPS_COURS_FIRST_ID, GPS_COURS_LAST_ID)
@@ -626,6 +633,13 @@ void processHubPacket(uint8_t id, uint16_t value)
 #if defined(GPS)
   case offsetof(TelemetrySerialData, hour):
     telemetryData.value.hour = ((uint8_t)(telemetryData.value.hour + g_eeGeneral.timezone + 24)) % 24;
+
+#if defined(RTCLOCK)
+    if (g_eeGeneral.adjustRTC)
+      {
+        adjustRTChour();
+      }
+#endif
     break;
 #endif
 
@@ -826,6 +840,20 @@ inline void frskyDSendNextAlarm()
   } else {
     frskySendPacket(RSSI1PKT-alarm, getRssiAlarmValue(alarm), 0, (2+alarm+g_model.telemetry.rssiAlarms[alarm].level) % 4);
   }
+}
+
+void adjustRTChour()
+{
+  struct gtm t;
+  gettime(&t);
+  if (abs((t.tm_hour-telemetryData.value.hour)*3600 + (t.tm_min-telemetryData.value.min)*60 + (t.tm_sec-telemetryData.value.sec)) > 20)
+    {
+      // we adjust RTC only if difference is > 20 seconds
+      t.tm_hour = telemetryData.value.hour;
+      t.tm_min = telemetryData.value.min;
+      t.tm_sec = telemetryData.value.sec;
+      rtcSetTime(&t); // update and save local time
+    }
 }
 
 #if (0)

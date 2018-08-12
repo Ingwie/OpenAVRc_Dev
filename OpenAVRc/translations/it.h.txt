@@ -533,7 +533,7 @@
 #define TR_SWITCHWARNING       TR("Avv. Int.", INDENT "Avviso Interr.")
 #define TR_POTWARNING          TR("Avv. Pot.", INDENT "Avviso Pot.")
 #define TR_TIMEZONE            "Ora locale"
-#define TR_ADJUST_RTC          INDENT "Aggiusta RTC"
+#define TR_ADJUST_RTC          "Aggiusta RTC"
 #define TR_GPS                 "GPS"
 #define TR_RXCHANNELORD        "Ordine ch RX"
 #define TR_STICKS              "Sticks"

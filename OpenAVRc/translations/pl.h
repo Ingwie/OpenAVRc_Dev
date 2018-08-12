@@ -536,7 +536,7 @@
 #define TR_SWITCHWARNING       TR("OstrzPrze\203", INDENT "PozycjaPrze\203")
 #define TR_POTWARNING          TR("Ostrz.Poten.", INDENT "PozycjaPotencj.")
 #define TR_TIMEZONE            TR("Strefa czasowa" ,"Strefa czasowa GPS")
-#define TR_ADJUST_RTC          INDENT "RegulujRTC"
+#define TR_ADJUST_RTC          "RegulujRTC"
 #define TR_GPS                 "GPS"
 #define TR_RXCHANNELORD        TR("KolejnKan.RX", "Bazowa kolejno\206\201 kana\203\205w")
 #define TR_STICKS              "Dr\200\207ki"

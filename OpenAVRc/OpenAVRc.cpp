@@ -1255,7 +1255,7 @@ void checkBattery()
 
   g_vbat10mV = ((g_vbat10mV << 3) + instant_vbat) / 9; // Simple low pass filter
 
-  if (IS_TXBATT_WARNING() && (g_vbat10mV > (g_eeGeneral.vBatMin*9)) && ((sessionTimer&0x1F)==0x10)) { // No Audio Alarm if TX Battery < VCCMIN X .9 & 30 Sec
+  if (IS_TXBATT_WARNING() && (g_vbat10mV > (g_eeGeneral.vBatMin*9)) && ((sessionTimer&0x1F)==0x01)) { // No Audio Alarm if TX Battery < VCCMIN X .9 & 30 Sec
     AUDIO_TX_BATTERY_LOW();
   }
 }
@@ -1276,14 +1276,6 @@ uint16_t getTmr16KHz()
   uint16_t simu_tmr16 = get_tmr10ms() * 160;
   return simu_tmr16;
 #else
-  /*uint8_t hb;
-  uint8_t lb;
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    hb  = g_tmr16KHz;
-    lb  = COUNTER_16KHZ;
-  }
-  return (hb<<8)|lb;*/
-
   while(1){
     uint8_t hb  = g_tmr16KHz;
     uint8_t lb  = COUNTER_16KHZ;

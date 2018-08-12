@@ -289,5 +289,6 @@ typedef uint8_t frskyCellVoltage_t;
 void frskySetCellsCount(uint8_t cellscount);
 void frskySetCellVoltage(uint8_t battnumber, frskyCellVoltage_t cellVolts);
 void frskyUpdateCells();
+void adjustRTChour();
 
 #endif
