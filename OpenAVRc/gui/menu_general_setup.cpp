@@ -86,6 +86,7 @@ enum menuGeneralSetupItems {
   ITEM_SETUP_FLASH_BEEP,
   CASE_SPLASH_PARAM(ITEM_SETUP_DISABLE_SPLASH)
   CASE_GPS(ITEM_SETUP_TIMEZONE)
+  CASE_GPS(ITEM_SETUP_ADJUST_RTC)
   CASE_GPS(ITEM_SETUP_GPSFORMAT)
   CASE_PXX(ITEM_SETUP_COUNTRYCODE)
   IF_FAI_CHOICE(ITEM_SETUP_FAI)
@@ -379,6 +380,10 @@ void menuGeneralSetup(uint8_t event)
       lcdDrawNumberNAtt(RADIO_SETUP_2ND_COLUMN, y, g_eeGeneral.timezone, attr|LEFT);
       if (attr) CHECK_INCDEC_GENVAR(event, g_eeGeneral.timezone, -12, 12);
       break;
+
+    case ITEM_SETUP_ADJUST_RTC:
+        g_eeGeneral.adjustRTC = onoffMenuItem(g_eeGeneral.adjustRTC, RADIO_SETUP_2ND_COLUMN, y, STR_ADJUST_RTC, attr, event);
+        break;
 
     case ITEM_SETUP_GPSFORMAT:
       g_eeGeneral.gpsFormat = selectMenuItem(RADIO_SETUP_2ND_COLUMN, y, STR_GPSCOORD, STR_GPSFORMAT, g_eeGeneral.gpsFormat, 0, 1, attr, event);

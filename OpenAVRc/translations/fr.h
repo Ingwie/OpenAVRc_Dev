@@ -546,7 +546,7 @@
 #define TR_SWITCHWARNING       TR("Alerte int", INDENT "Pos. interrupteurs")
 #define TR_POTWARNING          TR("Alerte pot", INDENT "Pos. potentios")
 #define TR_TIMEZONE            "Fuseau horaire"
-#define TR_ADJUST_RTC          INDENT "Ajust. heure auto"
+#define TR_ADJUST_RTC          "Ajust. heure auto"
 #define TR_GPS                 "GPS"
 #define TR_RXCHANNELORD        TR("Ordre voies RX","Ordre des voies pr\200f\200r\200")
 #define TR_STICKS              "Manches"

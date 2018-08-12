@@ -536,7 +536,7 @@
 #define TR_SWITCHWARNING       TR("* Sp\204na\201e", INDENT "Polohy sp\204na\201\211")
 #define TR_POTWARNING          TR("* Potenc.", INDENT "Nastaven\204 Pot.")
 #define TR_TIMEZONE            "\201asov\202 p\200smo"
-#define TR_ADJUST_RTC          INDENT "Upravit RTC"
+#define TR_ADJUST_RTC          "Upravit RTC"
 #define TR_GPS                 "GPS"
 #define TR_RXCHANNELORD        TR("Po\206ad\204 kan\200l\211", "V\212choz\204 po\206ad\204 kan\200l\211")
 #define TR_STICKS              "P\200ky"
