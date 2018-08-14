@@ -97,7 +97,7 @@ const pm_char STR_SUBTYPE_FY326[] PROGMEM =      "\005""FY326""FY319";
 const mm_protocol_definition multi_protocols[] = {
   { MM_RF_PROTO_FLYSKY,     STR_SUBTYPE_FLYSKY,   4,  0             },
   { MM_RF_PROTO_HUBSAN,     NO_SUBTYPE,           0,  STR_MULTI_VIDFREQ   },
-  { MM_RF_PROTO_FRSKY,      STR_SUBTYPE_FRSKY,    5,  STR_RFTUNE    },
+  { MM_RF_PROTO_FRSKY,      STR_SUBTYPE_FRSKY,    5,  STR_RFTUNEFINE    },
   { MM_RF_PROTO_HISKY,      STR_SUBTYPE_HISKY,    1,  0             },
   { MM_RF_PROTO_V2X2,       STR_SUBTYPE_V2X2,     1,  0             },
   { MM_RF_PROTO_DSM2,       STR_SUBTYPE_DSM,      3,  0             },
@@ -111,7 +111,7 @@ const mm_protocol_definition multi_protocols[] = {
   { MM_RF_PROTO_MT99XX,     STR_SUBTYPE_MT99,     4,  0             },
   { MM_RF_PROTO_MJXQ,       STR_SUBTYPE_MJXQ,     5,  0             },
   { MM_RF_PROTO_FY326,      STR_SUBTYPE_FY326,    1,  0             },
-  { MM_RF_PROTO_SFHSS,      NO_SUBTYPE,           0,  STR_RFTUNE    },
+  { MM_RF_PROTO_SFHSS,      NO_SUBTYPE,           0,  STR_RFTUNEFINE    },
   { MM_RF_PROTO_HONTAI,     STR_SUBTYPE_HONTAI,   2,  0             },
   { MM_RF_PROTO_OLRS,       NO_SUBTYPE,           0,  STR_MULTI_RFPOWER   },
   { MM_RF_PROTO_FS_AFHDS2A, STR_SUBTYPE_AFHDS2A,  3,  STR_MULTI_SERVOFREQ },

@@ -35,7 +35,6 @@
 #include "rtc.h"
 #include "OpenAVRc.h"
 
-extern void rtcdriver_settime(struct gtm * t);
 
 #define LEAP_SECONDS_POSSIBLE 0
 

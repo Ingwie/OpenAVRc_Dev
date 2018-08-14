@@ -37,12 +37,12 @@
 #define TX_CHANNEL temp_rfid_addr[3]
 
 const static RfOptionSettingsvarstruct RfOpt_Skyartec_Ser[] PROGMEM = {
-/*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
-/*rfSubTypeMax*/0,
+  /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+  /*rfSubTypeMax*/0,
   /*rfOptionValue1Min*/-128, // FREQFINE MIN
   /*rfOptionValue1Max*/127,  // FREQFINE MAX
-  /*rfOptionValue2Min*/0,
-  /*rfOptionValue2Max*/0,
+  /*rfOptionValue2Min*/-128, // FREQCOARSE MIN
+  /*rfOptionValue2Max*/127,  // FREQCOARSE MAX
   /*rfOptionValue3Max*/7,    // RF POWER
 };
 
@@ -147,7 +147,7 @@ static void Skyartec_send_data_packet()
   }
   add_pkt_suffix();
 
-  CC2500_ManageFreqFine();
+  CC2500_ManageFreq();
   CC2500_ManagePower();
   CC2500_WriteReg(CC2500_04_SYNC1, temp_rfid_addr[0]);
   CC2500_WriteReg(CC2500_05_SYNC0, temp_rfid_addr[1]);
@@ -173,7 +173,7 @@ static void Skyartec_send_bind_packet()
   uint8_t bxor = 0;
   for(uint8_t i = 3; i < 11; i++)  bxor ^= packet[i];
   packet[11] = bxor;
-  CC2500_ManageFreqFine();
+  CC2500_ManageFreq();
   CC2500_WriteReg(CC2500_04_SYNC1, 0x7d);
   CC2500_WriteReg(CC2500_05_SYNC0, 0x7d);
   CC2500_WriteReg(CC2500_09_ADDR, 0x7d);
@@ -230,8 +230,8 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
   case PROTOCMD_GETOPTIONS:
           SetRfOptionSettings(pgm_get_far_address(RfOpt_Skyartec_Ser),
                         STR_DUMMY,      //Sub proto
-                        STR_RFTUNE,      //Option 1 (int)
-                        STR_DUMMY,      //Option 2 (int)
+                        STR_RFTUNEFINE,      //Option 1 (int)
+                        STR_RFTUNECOARSE,      //Option 2 (int)
                         STR_RFPOWER,    //Option 3 (uint 0 to 31)
                         STR_DUMMY,      //OptionBool 1
                         STR_DUMMY,      //OptionBool 2

@@ -39,8 +39,8 @@ const static RfOptionSettingsvarstruct RfOpt_FrskyV_Ser[] PROGMEM =
   /*rfSubTypeMax*/0,
   /*rfOptionValue1Min*/-128, // FREQFINE MIN
   /*rfOptionValue1Max*/127,  // FREQFINE MAX
-  /*rfOptionValue2Min*/0,
-  /*rfOptionValue2Max*/0,
+  /*rfOptionValue2Min*/-128, // FREQCOARSE MIN
+  /*rfOptionValue2Max*/127,  // FREQCOARSE MAX
   /*rfOptionValue3Max*/7,    // RF POWER
 };
 
@@ -78,7 +78,7 @@ static void FRSKYV_init()
 
   FRSKY_Init_Common_End();
 
-  CC2500_ManageFreqFine();
+  CC2500_ManageFreq();
   CC2500_SetPower(TXPOWER_1);
   CC2500_SetTxRxMode(TX_EN); // Keep Power Amp activated.
   CC2500_Strobe(CC2500_SFTX); // 3b
@@ -243,7 +243,7 @@ static uint16_t FRSKYV_data_cb()
   seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323.
   FRSKYV_build_data_packet(); // 16MHz AVR = 127us.
   CC2500_ManagePower();
-  CC2500_ManageFreqFine();
+  CC2500_ManageFreq();
 
   CC2500_WriteReg(CC2500_0A_CHANNR, channel_used[((seed & 0xFF)%50)]); // 16MHz AVR = 38us.
   CC2500_WriteData(packet, 15); // 8.853ms before we start again with the idle strobe.
@@ -313,8 +313,8 @@ const void * FRSKYV_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_GETOPTIONS:
       SetRfOptionSettings(pgm_get_far_address(RfOpt_FrskyV_Ser),
                           STR_DUMMY,       //Sub proto
-                          STR_RFTUNE,      //Option 1 (int)
-                          STR_DUMMY,       //Option 2 (int)
+                          STR_RFTUNEFINE,      //Option 1 (int)
+                          STR_RFTUNECOARSE,       //Option 2 (int)
                           STR_RFPOWER,     //Option 3 (uint 0 to 31)
                           STR_DUMMY,       //OptionBool 1
                           STR_DUMMY,       //OptionBool 2

@@ -215,12 +215,17 @@ void CC2500_ManagePower()
   }
 }
 
-void CC2500_ManageFreqFine()
+void CC2500_ManageFreq()
 {
   if (freq_fine_mem != g_model.rfOptionValue1)
   {
     freq_fine_mem = g_model.rfOptionValue1;
     CC2500_WriteReg(CC2500_0C_FSCTRL0, freq_fine_mem);
+  }
+  if (freq_coarse_mem != g_model.rfOptionValue2)
+  {
+    freq_coarse_mem = g_model.rfOptionValue2;
+    CC2500_WriteReg(CC2500_0F_FREQ0, freq_coarse_mem);
   }
 }
 

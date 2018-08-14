@@ -39,8 +39,8 @@ const static RfOptionSettingsvarstruct RfOpt_FrskyD_Ser[] PROGMEM = {
 /*rfSubTypeMax*/0,
 /*rfOptionValue1Min*/-128, // FREQFINE MIN
 /*rfOptionValue1Max*/127,  // FREQFINE MAX
-/*rfOptionValue2Min*/0,
-/*rfOptionValue2Max*/0,
+/*rfOptionValue2Min*/-128, // FREQCOARSE MIN
+/*rfOptionValue2Max*/127,  // FREQCOARSE MAX
 /*rfOptionValue3Max*/7,    // RF POWER
 };
 
@@ -78,7 +78,7 @@ static void FRSKYD_init(uint8_t bind)
 
   FRSKY_Init_Common_End();
 
-  CC2500_ManageFreqFine();
+  CC2500_ManageFreq();
   CC2500_SetPower(TXPOWER_1);
 
   CC2500_WriteReg(CC2500_09_ADDR, bind ? 0x03 : temp_rfid_addr[0]);
@@ -183,7 +183,7 @@ static uint16_t FRSKYD_data_cb()
       if(packet_count & 0x1F)
         {
           CC2500_ManagePower();
-          CC2500_ManageFreqFine();
+          CC2500_ManageFreq();
         }
 
       CC2500_WriteReg(CC2500_0A_CHANNR, channel_used[packet_count %47]);
@@ -294,8 +294,8 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_GETOPTIONS:
           SetRfOptionSettings(pgm_get_far_address(RfOpt_FrskyD_Ser),
                         STR_DUMMY,       //Sub proto
-                        STR_RFTUNE,      //Option 1 (int)
-                        STR_DUMMY,       //Option 2 (int)
+                        STR_RFTUNEFINE,      //Option 1 (int)
+                        STR_RFTUNECOARSE,       //Option 2 (int)
                         STR_RFPOWER,    //Option 3 (uint 0 to 31)
                         STR_TELEMETRY,   //OptionBool 1
                         STR_DUMMY,       //OptionBool 2
