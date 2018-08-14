@@ -149,8 +149,9 @@
 #endif
 
 #if defined(SPIMODULES)
-   #define TR_SPIM "SPIRfMod"
-   #define TR_RFPOWER "RF Power"
+   #define TR_SPIM               "SPIRfMod"
+   #define TR_RFTUNECOARSE       INDENT "Freq.coarse"
+   #define TR_RFPOWER INDENT     "RF Power"
 #endif
 
 #if defined(MULTIMODULE)
@@ -161,7 +162,7 @@
 
 #if defined(MULTIMODULE) || defined(SPIMODULES)
   #define TR_SUBTYPE            "SubType"
-  #define TR_RFTUNE                TR(INDENT "Freq tune",INDENT "RF Freq. fine tune")
+  #define TR_RFTUNEFINE         INDENT "Freq.fine"
   #define TR_TELEMETRY             "Telemetry"
   #define TR_MULTI_VIDFREQ               TR(INDENT "Vid. freq.", INDENT "Video frequency")
   #define TR_MULTI_RFPOWER               INDENT "RF Power"

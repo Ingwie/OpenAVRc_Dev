@@ -44,8 +44,8 @@ const static RfOptionSettingsvarstruct RfOpt_FrskyX_Ser[] PROGMEM =
   /*rfSubTypeMax*/1,
   /*rfOptionValue1Min*/-128, // FREQFINE MIN
   /*rfOptionValue1Max*/127,  // FREQFINE MAX
-  /*rfOptionValue2Min*/0,
-  /*rfOptionValue2Max*/0,
+  /*rfOptionValue2Min*/-128, // FREQCOARSE MIN
+  /*rfOptionValue2Max*/127,  // FREQCOARSE MAX
   /*rfOptionValue3Max*/7,    // RF POWER
 };
 
@@ -103,7 +103,7 @@ static void FRSKYX_init()
 
   FRSKY_Init_Common_End();
 
-  CC2500_ManageFreqFine();
+  CC2500_ManageFreq();
   CC2500_SetPower(TXPOWER_1);
 
   //calibrate hop channels
@@ -407,7 +407,7 @@ static uint16_t FRSKYX_send_data_packet()
           SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
         }
       frskyX_data_frame();
-      CC2500_ManageFreqFine();
+      CC2500_ManageFreq();
       CC2500_ManagePower();
       CC2500_SetTxRxMode(TX_EN);
       frskyX_set_start(channel_index);
@@ -537,8 +537,8 @@ const void *FRSKYX_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_GETOPTIONS:
       SetRfOptionSettings(pgm_get_far_address(RfOpt_FrskyX_Ser),
                           STR_SUBTYPE_FRSKYX,       //Sub proto
-                          STR_RFTUNE,      //Option 1 (int)
-                          STR_DUMMY,       //Option 2 (int)
+                          STR_RFTUNEFINE,      //Option 1 (int)
+                          STR_RFTUNECOARSE,       //Option 2 (int)
                           STR_RFPOWER,     //Option 3 (uint 0 to 31)
                           STR_TELEMETRY,   //OptionBool 1
                           STR_DUMMY,       //OptionBool 2

@@ -81,7 +81,7 @@ uint8_t g9x_rtcSetTime (const RTClock_t *rtc)
   buf[4] = rtc->mday / 10 * 16 + rtc->mday % 10;
   buf[5] = rtc->month / 10 * 16 + rtc->month % 10;
   buf[6] = (rtc->year - 2000) / 10 * 16 + (rtc->year - 2000) % 10;
-  return !i2c_writeReg(RTC_ADRESS, 0, buf, 7);
+  return i2c_writeReg(RTC_ADRESS, 0, buf, 7);
 }
 
 void rtcGetTime(struct gtm * utm)

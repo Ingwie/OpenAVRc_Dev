@@ -37,7 +37,6 @@
 #define CORONA_ADDRESS_LENGTH	  4
 #define CORONA_BIND_CHANNEL_V1	0xD1
 #define CORONA_BIND_CHANNEL_V2	0xB8
-#define CORONA_COARSE			      0x00
 #define COR_V1                  1
 #define proto_is_V1             channel_skip
 
@@ -47,8 +46,8 @@ const static RfOptionSettingsvarstruct RfOpt_corona_Ser[] PROGMEM =
   /*rfSubTypeMax*/1,
   /*rfOptionValue1Min*/-128, // FREQFINE MIN
   /*rfOptionValue1Max*/127,  // FREQFINE MAX
-  /*rfOptionValue2Min*/0,
-  /*rfOptionValue2Max*/0,
+  /*rfOptionValue2Min*/-128, // FREQCOARSE MIN
+  /*rfOptionValue2Max*/127,  // FREQCOARSE MAX
   /*rfOptionValue3Max*/7,    // RF POWER
 };
 
@@ -57,7 +56,7 @@ const pm_char STR_SUBTYPE_CORONA[] PROGMEM =     "DSSS"" FSS";
 const static uint8_t ZZ_coronaInitSequence[] PROGMEM =
 {
   /* 00 */ 0x29, 0x2E, 0x06, 0x07, 0xD3, 0x91, 0xFF, 0x04,
-  /* 08 */ 0x05, 0x00, CORONA_BIND_CHANNEL_V1, 0x06, 0x00, 0x5C, 0x4E, 0xC4 + CORONA_COARSE,
+  /* 08 */ 0x05, 0x00, CORONA_BIND_CHANNEL_V1, 0x06, 0x00, 0x5C, 0x4E, 0xC4,
   /* 10 */ 0x5B, 0xF8, 0x03, 0x23, 0xF8, 0x47, 0x07, 0x30,
   /* 18 */ 0x18, 0x16, 0x6C, 0x43, 0x40, 0x91, 0x87, 0x6B,
   /* 20 */ 0xF8, 0x56, 0x10, 0xA9, 0x0A, 0x00, 0x11, 0x41,
@@ -110,7 +109,7 @@ static void corona_init()
       rfState16 = 400; // V2 send channel at startup while rfstate
       CC2500_WriteReg(CC2500_0A_CHANNR, CORONA_BIND_CHANNEL_V2);
       CC2500_WriteReg(CC2500_0E_FREQ1, 0x80);
-      CC2500_WriteReg(CC2500_0F_FREQ0, 0x00 + CORONA_COARSE);
+      CC2500_WriteReg(CC2500_0F_FREQ0, 0x00);
       CC2500_WriteReg(CC2500_15_DEVIATN, 0x50);
       CC2500_WriteReg(CC2500_17_MCSM1, 0x00);
       CC2500_WriteReg(CC2500_1B_AGCCTRL2, 0x67);
@@ -122,7 +121,7 @@ static void corona_init()
       rfState16 = 0;
     }
 
-  CC2500_ManageFreqFine();
+  CC2500_ManageFreq();
 
   //not sure what they are doing to the PATABLE since basically only the first byte is used and it's only 8 bytes long. So I think they end up filling the PATABLE fully with 0xFF
   //CC2500_WriteRegisterMulti(CC2500_3E_PATABLE,(const uint8_t *)"\x08\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF", 13);
@@ -165,7 +164,7 @@ static uint16_t corona_send_data_packet()
       packet[17] = 0x00;
 
       // Tune frequency if it has been changed
-      CC2500_ManageFreqFine();
+      CC2500_ManageFreq();
       // Packet period is based on hopping
       switch(channel_index)
         {
@@ -314,8 +313,8 @@ const void *CORONA_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_GETOPTIONS:
       SetRfOptionSettings(pgm_get_far_address(RfOpt_corona_Ser),
                           STR_SUBTYPE_CORONA,      //Sub proto
-                          STR_RFTUNE,     //Option 1 (int)
-                          STR_DUMMY,      //Option 2 (int)
+                          STR_RFTUNEFINE,     //Option 1 (int)
+                          STR_RFTUNECOARSE,      //Option 2 (int)
                           STR_RFPOWER,    //Option 3 (uint 0 to 31)
                           STR_DUMMY,      //OptionBool 1
                           STR_DUMMY,      //OptionBool 2
