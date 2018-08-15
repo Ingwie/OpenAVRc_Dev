@@ -91,7 +91,6 @@
 #define telem_save_seq     pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-12]
 #define start_tx_rx        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-13]
 #define freq_fine_mem      pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-14] // Only used with CC2500
-#define freq_coarse_mem    pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-15] // Only used with CC2500
 
 //U16
 #define rfState16          pulses2MHz.pword[PULSES_WORD_OFFSET_VAR]

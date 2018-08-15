@@ -457,7 +457,7 @@ extern const pm_char STR_MULTI_CUSTOM[];
 extern const pm_char STR_SUBTYPE[];
 extern const pm_char STR_MULTI_VIDFREQ[];
 extern const pm_char STR_RFTUNEFINE[];
-extern const pm_char STR_RFTUNECOARSE[];
+//extern const pm_char STR_RFTUNECOARSE[];
 extern const pm_char STR_TELEMETRY[];
 extern const pm_char STR_MULTI_RFPOWER[];
 extern const pm_char STR_MULTI_SERVOFREQ[];
