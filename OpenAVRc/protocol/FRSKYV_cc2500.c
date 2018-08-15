@@ -39,8 +39,8 @@ const static RfOptionSettingsvarstruct RfOpt_FrskyV_Ser[] PROGMEM =
   /*rfSubTypeMax*/0,
   /*rfOptionValue1Min*/-128, // FREQFINE MIN
   /*rfOptionValue1Max*/127,  // FREQFINE MAX
-  /*rfOptionValue2Min*/-128, // FREQCOARSE MIN
-  /*rfOptionValue2Max*/127,  // FREQCOARSE MAX
+  /*rfOptionValue2Min*/0,
+  /*rfOptionValue2Max*/0,
   /*rfOptionValue3Max*/7,    // RF POWER
 };
 
@@ -314,7 +314,7 @@ const void * FRSKYV_Cmds(enum ProtoCmds cmd)
       SetRfOptionSettings(pgm_get_far_address(RfOpt_FrskyV_Ser),
                           STR_DUMMY,       //Sub proto
                           STR_RFTUNEFINE,      //Option 1 (int)
-                          STR_RFTUNECOARSE,       //Option 2 (int)
+                          STR_DUMMY,       //Option 2 (int)
                           STR_RFPOWER,     //Option 3 (uint 0 to 31)
                           STR_DUMMY,       //OptionBool 1
                           STR_DUMMY,       //OptionBool 2

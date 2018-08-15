@@ -37,6 +37,7 @@
 #define CORONA_ADDRESS_LENGTH	  4
 #define CORONA_BIND_CHANNEL_V1	0xD1
 #define CORONA_BIND_CHANNEL_V2	0xB8
+#define CORONA_COARSE			      0x00
 #define COR_V1                  1
 #define proto_is_V1             channel_skip
 
@@ -46,8 +47,8 @@ const static RfOptionSettingsvarstruct RfOpt_corona_Ser[] PROGMEM =
   /*rfSubTypeMax*/1,
   /*rfOptionValue1Min*/-128, // FREQFINE MIN
   /*rfOptionValue1Max*/127,  // FREQFINE MAX
-  /*rfOptionValue2Min*/-128, // FREQCOARSE MIN
-  /*rfOptionValue2Max*/127,  // FREQCOARSE MAX
+  /*rfOptionValue2Min*/0,
+  /*rfOptionValue2Max*/0,
   /*rfOptionValue3Max*/7,    // RF POWER
 };
 
@@ -56,7 +57,7 @@ const pm_char STR_SUBTYPE_CORONA[] PROGMEM =     "DSSS"" FSS";
 const static uint8_t ZZ_coronaInitSequence[] PROGMEM =
 {
   /* 00 */ 0x29, 0x2E, 0x06, 0x07, 0xD3, 0x91, 0xFF, 0x04,
-  /* 08 */ 0x05, 0x00, CORONA_BIND_CHANNEL_V1, 0x06, 0x00, 0x5C, 0x4E, 0xC4,
+  /* 08 */ 0x05, 0x00, CORONA_BIND_CHANNEL_V1, 0x06, 0x00, 0x5C, 0x4E, 0xC4 + CORONA_COARSE,
   /* 10 */ 0x5B, 0xF8, 0x03, 0x23, 0xF8, 0x47, 0x07, 0x30,
   /* 18 */ 0x18, 0x16, 0x6C, 0x43, 0x40, 0x91, 0x87, 0x6B,
   /* 20 */ 0xF8, 0x56, 0x10, 0xA9, 0x0A, 0x00, 0x11, 0x41,
@@ -314,7 +315,7 @@ const void *CORONA_Cmds(enum ProtoCmds cmd)
       SetRfOptionSettings(pgm_get_far_address(RfOpt_corona_Ser),
                           STR_SUBTYPE_CORONA,      //Sub proto
                           STR_RFTUNEFINE,     //Option 1 (int)
-                          STR_RFTUNECOARSE,      //Option 2 (int)
+                          STR_DUMMY,      //Option 2 (int)
                           STR_RFPOWER,    //Option 3 (uint 0 to 31)
                           STR_DUMMY,      //OptionBool 1
                           STR_DUMMY,      //OptionBool 2

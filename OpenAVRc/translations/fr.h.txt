@@ -162,7 +162,7 @@
 
 #if defined(MULTIMODULE) || defined(SPIMODULES)
   #define TR_SUBTYPE            "SubType"
-  #define TR_RFTUNEFINE         INDENT "Freq.fin"
+  #define TR_RFTUNEFINE         INDENT "Ajust.fréq"
   #define TR_TELEMETRY             "Telemetry"
   #define TR_MULTI_VIDFREQ       TR(INDENT "Fréq. vidéo", INDENT "Fréquence vidéo")
   #define TR_MULTI_RFPOWER       TR(INDENT "Puiss. RF", INDENT "Puissance RF")
