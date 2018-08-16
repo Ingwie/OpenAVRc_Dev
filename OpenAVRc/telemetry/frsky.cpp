@@ -844,15 +844,15 @@ inline void frskyDSendNextAlarm()
 
 void adjustRTChour()
 {
-  struct gtm t;
-  gettime(&t);
-  if (abs((t.tm_hour-telemetryData.value.hour)*3600 + (t.tm_min-telemetryData.value.min)*60 + (t.tm_sec-telemetryData.value.sec)) > 20)
+  struct tm * t;
+  t = gmtime(&g_rtcTime);
+  if (abs((t->tm_hour-telemetryData.value.hour)*3600 + (t->tm_min-telemetryData.value.min)*60 + (t->tm_sec-telemetryData.value.sec)) > 20)
     {
       // we adjust RTC only if difference is > 20 seconds
-      t.tm_hour = telemetryData.value.hour;
-      t.tm_min = telemetryData.value.min;
-      t.tm_sec = telemetryData.value.sec;
-      rtcSetTime(&t); // update and save local time
+      t->tm_hour = telemetryData.value.hour;
+      t->tm_min = telemetryData.value.min;
+      t->tm_sec = telemetryData.value.sec;
+      rtcSetTime(t); // update and save local time
     }
 }
 

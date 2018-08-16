@@ -35,6 +35,7 @@
 
 int16_t ppmInput[NUM_TRAINER];
 uint8_t ppmInputValidityTimer;
+
 /*
  * Trainer PPM input capture ISR.
  * Timer 1 is free running as it serves other purposes.
@@ -63,53 +64,4 @@ ISR(TIMER1_CAPT_vect) // G: High frequency noise can cause stack overflow with I
   else channelNumber = 0; /* Glitches (<800us) or long channel pulses (2200 to 4000us) or
   pulses > 19000us reset the process */
 }
-
-
-#if 0
-ISR(TIMER1_CAPT_vect)
-{
-uint16_t icr1_diff;
-uint16_t icr1_current;
-
-static uint16_t icr1_previous = 0;
-static uint8_t servo_count = 0;
-static uint8_t need_to_sync = 1;
-
-icr1_current = ICR1;
-
-//icr1_diff = icr1_current - icr1_previous;
-if(icr1_current >= icr1_previous) icr1_diff = icr1_current - icr1_previous;
-else icr1_diff = (0xffff - icr1_previous) + icr1_current + 1 ;
-
-icr1_previous = icr1_current;
-
-	if (icr1_diff > MICRO_SEC_CONVERT(2300)) // > 2.3ms pulse seen as frame sync.
-	{
-	need_to_sync =0;
-	g_sync_count ++;
-	servo_count =0;
-   	}
-	else if (icr1_diff < MICRO_SEC_CONVERT(700)) // < 0.7ms pulse seen as glitch.
-	{
-	// Do nothing with glitch.
-	}
-	else if (! need_to_sync) // Pulse within limits and we don't need to sync.
-	{
-		if (servo_count < (NUM_TRAINER-1))
-		{
-		if (icr1_diff > MICRO_SEC_CONVERT(1500 + DELTA_PPM_IN)) icr1_diff = MICRO_SEC_CONVERT(1500 + DELTA_PPM_IN);
-   		else if (icr1_diff < MICRO_SEC_CONVERT(1500 - DELTA_PPM_IN)) icr1_diff = MICRO_SEC_CONVERT(1500 - DELTA_PPM_IN);
-
-		// Subtract 1.5 ms centre offset.
-		// Multiply by 2 to get max-min counter value difference to be +-1520
-		// (same scaling as M-Link Packet for MPX ppm (+-550us) range !).
-
-   		Channels[servo_count] = (icr1_diff - MICRO_SEC_CONVERT(1500)) * 2;
-   		servo_count++;
-		}
-		else need_to_sync = 1; // More servo pulses than we can handle ... need to sync.
-	}
-
-}
-#endif
 

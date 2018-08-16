@@ -138,14 +138,13 @@ char *getFileExtension(char *filename, int size)
 }
 
 #if defined(RTCLOCK)
-#include "rtc.h"
 
 char * strAppendDate(char * str, bool time)
 {
   str[0] = '-';
-  struct gtm utm;
-  gettime(&utm);
-  div_t qr = div(utm.tm_year+1900, 10);
+  struct tm * utm;
+  utm = gmtime(&g_rtcTime);
+  div_t qr = div(utm->tm_year+T1900_OFFSET, 10);
   str[4] = '0' + qr.rem;
   qr = div(qr.quot, 10);
   str[3] = '0' + qr.rem;
@@ -153,23 +152,23 @@ char * strAppendDate(char * str, bool time)
   str[2] = '0' + qr.rem;
   str[1] = '0' + qr.quot;
   str[5] = '-';
-  qr = div(utm.tm_mon+1, 10);
+  qr = div(utm->tm_mon+1, 10);
   str[7] = '0' + qr.rem;
   str[6] = '0' + qr.quot;
   str[8] = '-';
-  qr = div(utm.tm_mday, 10);
+  qr = div(utm->tm_mday, 10);
   str[10] = '0' + qr.rem;
   str[9] = '0' + qr.quot;
 
   if (time) {
     str[11] = '-';
-    div_t qr = div(utm.tm_hour, 10);
+    div_t qr = div(utm->tm_hour, 10);
     str[13] = '0' + qr.rem;
     str[12] = '0' + qr.quot;
-    qr = div(utm.tm_min, 10);
+    qr = div(utm->tm_min, 10);
     str[15] = '0' + qr.rem;
     str[14] = '0' + qr.quot;
-    qr = div(utm.tm_sec, 10);
+    qr = div(utm->tm_sec, 10);
     str[17] = '0' + qr.rem;
     str[16] = '0' + qr.quot;
     str[18] = '\0';

@@ -38,6 +38,7 @@
 #include <string.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <time.h>
 
 #if !defined(SIMU)
   #include <avr/pgmspace.h>
@@ -333,7 +334,13 @@ static uint16_t DurationValue;
 * \param  Ms: a duration expressed in ms
 * \return The amount of 16KHzTick corresponding to a duration expressed in us
 */
-#define US_TO_16KHZ_TICK(Us)                      ((uint16_t)(((2UL * (Us)) + 123) / 125)) /* Tick is 62.5 us @ 16KHz (62.5=125/2) */
+#define US_TO_16KHZ_TICK(Us) ((uint16_t)(((2UL * (Us)) + 123) / 125)) /* Tick is 62.5 us @ 16KHz (62.5=125/2) */
+
+#define T1900_OFFSET 1900
+extern time_t g_rtcTime;
+extern uint8_t g_ms100; // global to allow time set function to reset to zero
+void rtcInit();
+void rtcSetTime(struct tm * t);
 
 extern volatile tmr10ms_t g_tmr10ms;
 
@@ -342,9 +349,9 @@ extern tmr10ms_t Bind_tmr10ms;
 inline uint16_t get_tmr10ms()
 {
   uint16_t time  ;
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    time = g_tmr10ms;
-  }
+  cli();
+  time = g_tmr10ms ;
+  sei();
   return time ;
 }
 
@@ -1007,10 +1014,6 @@ enum AUDIO_SOUNDS {
 
 #if defined(SDCARD)
   #include "sdcard.h"
-#endif
-
-#if defined(RTCLOCK)
-  #include "rtc.h"
 #endif
 
 #if defined(X_ANY)

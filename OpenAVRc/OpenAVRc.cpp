@@ -171,6 +171,9 @@ volatile tmr10ms_t g_tmr10ms;
 
 tmr10ms_t Bind_tmr10ms = 0;
 
+time_t g_rtcTime;
+uint8_t g_ms100; // global to allow time set function to reset to zero
+
 void per10ms()
 {
   ++g_tmr10ms;
@@ -1128,7 +1131,6 @@ void doMixerCalculations()
       s_cnt_1s += 1;
 
       logicalSwitchesTimerTick();
-      checkTrainerSignalWarning();
 
       if (s_cnt_1s >= 10) { // 1sec
         s_cnt_1s -= 10;

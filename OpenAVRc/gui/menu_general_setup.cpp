@@ -102,14 +102,14 @@ enum menuGeneralSetupItems {
 void menuGeneralSetup(uint8_t event)
 {
 #if defined(RTCLOCK)
-  struct gtm t;
-  gettime(&t);
+  struct tm * t;
+  t = gmtime(&g_rtcTime); // 0.43 old 0.31 new
 
   if ((menuVerticalPosition==ITEM_SETUP_DATE+1 || menuVerticalPosition==ITEM_SETUP_TIME+1) &&
       (s_editMode>0) &&
       (event==EVT_KEY_FIRST(KEY_ENTER) || event==EVT_KEY_FIRST(KEY_EXIT) || IS_ROTARY_BREAK(event) || IS_ROTARY_LONG(event))) {
     // set the date and time into RTC chip
-    rtcSetTime(&t);
+    rtcSetTime(t);
   }
 #endif
 
@@ -141,26 +141,26 @@ void menuGeneralSetup(uint8_t event)
         uint8_t rowattr = (menuHorizontalPosition==j ? attr : 0);
         switch (j) {
         case 0:
-          lcdDrawNumberNAtt(RADIO_SETUP_DATE_COLUMN, y, t.tm_year+1900, rowattr);
-          if (rowattr && (s_editMode>0 || p1valdiff)) t.tm_year = checkIncDec(event, t.tm_year, 112, 200, 0);
+          lcdDrawNumberNAtt(RADIO_SETUP_DATE_COLUMN, y, t->tm_year+T1900_OFFSET, rowattr);
+          if (rowattr && (s_editMode>0 || p1valdiff)) t->tm_year = checkIncDec(event, t->tm_year, 100, 199, 0);
           break;
         case 1:
-          lcdDrawNumberNAtt(RADIO_SETUP_DATE_COLUMN+3*FW-2, y, t.tm_mon+1, rowattr|LEADING0, 2);
-          if (rowattr && (s_editMode>0 || p1valdiff)) t.tm_mon = checkIncDec(event, t.tm_mon, 0, 11, 0);
+          lcdDrawNumberNAtt(RADIO_SETUP_DATE_COLUMN+3*FW-2, y, t->tm_mon+1, rowattr|LEADING0, 2);
+          if (rowattr && (s_editMode>0 || p1valdiff)) t->tm_mon = checkIncDec(event, t->tm_mon, 0, 11, 0);
           break;
         case 2: {
-          int16_t year = 1900 + t.tm_year;
-          int8_t dlim = (((((year%4==0) && (year%100!=0)) || (year%400==0)) && (t.tm_mon==1)) ? 1 : 0);
+          int16_t year = T1900_OFFSET + t->tm_year;
+          int8_t dlim = (((((year%4==0) && (year%100!=0)) || (year%400==0)) && (t->tm_mon==1)) ? 1 : 0);
           static const pm_uint8_t dmon[] PROGMEM = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-          dlim += pgm_read_byte_near(&dmon[t.tm_mon]);
-          lcdDrawNumberNAtt(RADIO_SETUP_DATE_COLUMN+6*FW-4, y, t.tm_mday, rowattr|LEADING0, 2);
-          if (rowattr && (s_editMode>0 || p1valdiff)) t.tm_mday = checkIncDec(event, t.tm_mday, 1, dlim, 0);
+          dlim += pgm_read_byte_near(&dmon[t->tm_mon]);
+          lcdDrawNumberNAtt(RADIO_SETUP_DATE_COLUMN+6*FW-4, y, t->tm_mday, rowattr|LEADING0, 2);
+          if (rowattr && (s_editMode>0 || p1valdiff)) t->tm_mday = checkIncDec(event, t->tm_mday, 1, dlim, 0);
           break;
         }
         }
       }
       if (attr && checkIncDec_Ret) {
-        g_rtcTime = gmktime(&t); // update local timestamp and get wday calculated
+        g_rtcTime = mktime(t); // update local timestamp and get wday calculated // 0.5 old O.31 new
       }
       break;
 
@@ -172,21 +172,21 @@ void menuGeneralSetup(uint8_t event)
         uint8_t rowattr = (menuHorizontalPosition==j ? attr : 0);
         switch (j) {
         case 0:
-          lcdDrawNumberNAtt(RADIO_SETUP_TIME_COLUMN, y, t.tm_hour, rowattr|LEADING0, 2);
-          if (rowattr && (s_editMode>0 || p1valdiff)) t.tm_hour = checkIncDec(event, t.tm_hour, 0, 23, 0);
+          lcdDrawNumberNAtt(RADIO_SETUP_TIME_COLUMN, y, t->tm_hour, rowattr|LEADING0, 2);
+          if (rowattr && (s_editMode>0 || p1valdiff)) t->tm_hour = checkIncDec(event, t->tm_hour, 0, 23, 0);
           break;
         case 1:
-          lcdDrawNumberNAtt(RADIO_SETUP_TIME_COLUMN+3*FWNUM, y, t.tm_min, rowattr|LEADING0, 2);
-          if (rowattr && (s_editMode>0 || p1valdiff)) t.tm_min = checkIncDec(event, t.tm_min, 0, 59, 0);
+          lcdDrawNumberNAtt(RADIO_SETUP_TIME_COLUMN+3*FWNUM, y, t->tm_min, rowattr|LEADING0, 2);
+          if (rowattr && (s_editMode>0 || p1valdiff)) t->tm_min = checkIncDec(event, t->tm_min, 0, 59, 0);
           break;
         case 2:
-          lcdDrawNumberNAtt(RADIO_SETUP_TIME_COLUMN+6*FWNUM, y, t.tm_sec, rowattr|LEADING0, 2);
-          if (rowattr && (s_editMode>0 || p1valdiff)) t.tm_sec = checkIncDec(event, t.tm_sec, 0, 59, 0);
+          lcdDrawNumberNAtt(RADIO_SETUP_TIME_COLUMN+6*FWNUM, y, t->tm_sec, rowattr|LEADING0, 2);
+          if (rowattr && (s_editMode>0 || p1valdiff)) t->tm_sec = checkIncDec(event, t->tm_sec, 0, 59, 0);
           break;
         }
       }
       if (attr && checkIncDec_Ret)
-        g_rtcTime = gmktime(&t); // update local timestamp and get wday calculated
+        g_rtcTime = mktime(t); // update local timestamp and get wday calculated
       break;
 #endif
 
