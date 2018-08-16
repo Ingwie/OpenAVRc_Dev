@@ -565,17 +565,16 @@ static const BYTE ExCvt[] PROGMEM = _EXCVT;	/* Upper conversion table for extend
 
 DWORD get_fattime()
 {
-  struct gtm t;
-
-  gettime(&t);
+  struct tm * t;
+  t = gmtime(&g_rtcTime);
 
   /* Pack date and time into a DWORD variable */
-  return ((DWORD)(t.tm_year - 80) << 25)
-    | ((uint32_t)(t.tm_mon+1) << 21)
-    | ((uint32_t)t.tm_mday << 16)
-    | ((uint32_t)t.tm_hour << 11)
-    | ((uint32_t)t.tm_min << 5)
-    | ((uint32_t)t.tm_sec >> 1);
+  return ((DWORD)(t->tm_year - 80) << 25)
+    | ((uint32_t)(t->tm_mon+1) << 21)
+    | ((uint32_t)t->tm_mday << 16)
+    | ((uint32_t)t->tm_hour << 11)
+    | ((uint32_t)t->tm_min << 5)
+    | ((uint32_t)t->tm_sec >> 1);
 }
 
 /* Copy memory to memory */

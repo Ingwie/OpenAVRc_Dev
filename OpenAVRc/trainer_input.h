@@ -45,8 +45,4 @@ extern uint8_t ppmInputValidityTimer;
 
 #define IS_TRAINER_INPUT_VALID() (ppmInputValidityTimer != 0)
 
-#define checkTrainerSignalWarning()
-
-
-
 #endif

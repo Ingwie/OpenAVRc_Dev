@@ -367,7 +367,7 @@ ifeq ($(PCB), MEGAMINI)
 
   ifeq ($(RTCLOCK), YES)
     CPPDEFS += -DRTCLOCK
-    CPPSRC += rtc.cpp rtc_driver.cpp
+    CPPSRC += rtc_driver.cpp
   endif
 
   ifeq ($(VOICE), JQ6500)
@@ -556,7 +556,7 @@ ifeq ($(PCB), MEGA2560)
     EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/option/ccsbcs.c diskio.cpp
     CPPDEFS += -DSDCARD -DRTCLOCK
     GUIGENERALSRC += gui/menu_general_sdmanager.cpp
-    CPPSRC += rtc.cpp sdcard.cpp logs.cpp rtc_driver.cpp
+    CPPSRC += sdcard.cpp logs.cpp rtc_driver.cpp
   endif
 
   ifeq ($(AUDIO), YES)

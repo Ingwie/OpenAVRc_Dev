@@ -194,8 +194,6 @@
 		<Unit filename="pulses/pulses.h" />
 		<Unit filename="pulses/pulses_avr.cpp" />
 		<Unit filename="pulses/pulses_avr.h" />
-		<Unit filename="rtc.cpp" />
-		<Unit filename="rtc.h" />
 		<Unit filename="rtc_driver.cpp" />
 		<Unit filename="sdcard.cpp" />
 		<Unit filename="sdcard.h" />
