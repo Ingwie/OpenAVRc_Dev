@@ -119,3 +119,17 @@ void rtcInit ()
   g_rtcTime = mktime(&utm);
 }
 
+uint8_t rtcReadTenp(int16_t * temp)
+{
+  uint8_t buf[2];
+
+  if (i2c_readReg(RTC_ADRESS, 0x11, buf, 2)) // reg 0x11 & 0x12 send temp value but only the 2Msb on 0x12 -> we div by 64
+    return 1;
+
+    int16_t calc = (buf[0] << 8) | buf[1];
+    calc /= 64;
+    calc *= 25;                             // Value X 0.25°C
+    *temp = calc;
+
+  return 0;
+}

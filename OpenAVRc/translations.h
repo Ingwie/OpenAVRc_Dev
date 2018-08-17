@@ -693,5 +693,9 @@ extern const pm_char STR_LCDDRAW[];
 extern const pm_char STR_MIXERlowcase[];
 extern const pm_char STR_FREESRAM[];
 
+#if defined(RTCLOCK)
+extern const pm_char STR_TXTEMP[];
+#endif
+
 
 #endif

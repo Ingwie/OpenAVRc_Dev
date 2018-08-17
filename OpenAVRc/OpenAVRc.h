@@ -341,6 +341,7 @@ extern time_t g_rtcTime;
 extern uint8_t g_ms100; // global to allow time set function to reset to zero
 void rtcInit();
 void rtcSetTime(struct tm * t);
+uint8_t rtcReadTenp(int16_t * temp);
 
 extern volatile tmr10ms_t g_tmr10ms;
 

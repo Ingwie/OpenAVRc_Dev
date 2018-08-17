@@ -529,3 +529,7 @@ const pm_char STR_GUIBUILD[] PROGMEM = "Gui Build\037\162ms";
 const pm_char STR_LCDDRAW[] PROGMEM = "Lcd Send\037\162ms";
 const pm_char STR_MIXERlowcase[] PROGMEM = "Mixer\037\162ms";
 const pm_char STR_FREESRAM[] PROGMEM = "Free Sram\037\170b";
+
+#if defined(RTCLOCK)
+const pm_char STR_TXTEMP[] PROGMEM = TR_TXTEMP;
+#endif

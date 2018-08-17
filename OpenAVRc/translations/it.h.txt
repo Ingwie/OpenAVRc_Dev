@@ -677,6 +677,7 @@
 #define TR_FORMATTING          "Formattazione."
 #define TR_TEMP_CALIB          "Temp. Calib"
 #define TR_TIME                "Ora"
+#define TR_TXTEMP              "Temp. TX\037\170C"
 #define TR_BAUDRATE            "BT Baudrate"
 #define TR_SD_INFO_TITLE       "SD INFO"
 #define TR_SD_TYPE             "Tipo:"
