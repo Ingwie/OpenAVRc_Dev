@@ -193,7 +193,7 @@ void menuGeneralSetup(uint8_t event)
     case ITEM_TEMP:
       lcdDrawTextLeft(y, STR_TXTEMP);
       int16_t temptx;
-      if (!rtcReadTenp(&temptx)) {lcdDrawNumberNAtt(20*FW, y, temptx, attr|PREC2);}
+      if (!rtcReadTenp(&temptx)) {lcdDrawNumberNAtt(19*FW, y, temptx, attr|PREC2);}
       break;
 #endif
 

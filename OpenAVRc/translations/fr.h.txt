@@ -691,7 +691,11 @@
 #define TR_FORMATTING          "Formatage..."
 #define TR_TEMP_CALIB          "Calib. temp"
 #define TR_TIME                "Heure"
-#define TR_TXTEMP              "Temp. radio\037\170C"
+#if defined(IMPERIAL_UNITS)
+#define TR_TXTEMP              "Temp. radio\037\164@F"
+#else
+#define TR_TXTEMP              "Temp. radio\037\164@C"
+#endif
 #define TR_BAUDRATE            "Baudrate BT"
 #define TR_SD_INFO_TITLE       "INFO SD"
 #define TR_SD_TYPE             "Type:"

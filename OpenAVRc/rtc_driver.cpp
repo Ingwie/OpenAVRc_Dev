@@ -129,7 +129,15 @@ uint8_t rtcReadTenp(int16_t * temp)
     int16_t calc = (buf[0] << 8) | buf[1];
     calc /= 64;
     calc *= 25;                             // Value X 0.25°C
+#if defined(SIMU)
+    calc = 2000;                           // 20.00°C in Simu
+#endif
+#if defined(IMPERIAL_UNITS)
+    // f=1.8*c+32 (All is X 100)
+    int32_t fcalc = calc * 18;
+    fcalc += 32000;
+    calc = fcalc / 10;
+#endif
     *temp = calc;
-
   return 0;
 }
