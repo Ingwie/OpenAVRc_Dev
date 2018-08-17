@@ -104,7 +104,7 @@ void menuGeneralSetup(uint8_t event)
 {
 #if defined(RTCLOCK)
   struct tm * t;
-  t = gmtime(&g_rtcTime); // 0.43 old 0.31 new
+  t = localtime(&g_rtcTime); // 0.43 old 0.31 new
 
   if ((menuVerticalPosition==ITEM_SETUP_DATE+1 || menuVerticalPosition==ITEM_SETUP_TIME+1) &&
       (s_editMode>0) &&

@@ -117,6 +117,9 @@ void rtcInit ()
   struct tm utm;
   rtcGetTime(&utm);
   g_rtcTime = mktime(&utm);
+#if defined(SIMU)
+  g_rtcTime = time(NULL);
+#endif
 }
 
 uint8_t rtcReadTenp(int16_t * temp)
