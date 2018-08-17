@@ -60,6 +60,7 @@
 enum menuGeneralSetupItems {
   CASE_RTCLOCK(ITEM_SETUP_DATE)
   CASE_RTCLOCK(ITEM_SETUP_TIME)
+  CASE_RTCLOCK(ITEM_TEMP)
   CASE_BATTGRAPH(ITEM_SETUP_BATT_RANGE)
   ITEM_SETUP_SOUND_LABEL,
   CASE_AUDIO(ITEM_SETUP_BEEP_MODE)
@@ -121,7 +122,7 @@ void menuGeneralSetup(uint8_t event)
   }
 #endif
 
-  MENU(STR_MENURADIOSETUP, menuTabGeneral, e_Setup, ITEM_SETUP_MAX+1, {0, CASE_RTCLOCK(2) CASE_RTCLOCK(2) CASE_BATTGRAPH(1) LABEL(SOUND), CASE_AUDIO(0) CASE_BUZZER(0) /*CASE_VOICE(0)*/ 0, CASE_AUDIO(0) CASE_HAPTIC(LABEL(HAPTIC)) CASE_HAPTIC(0) CASE_HAPTIC(0) /*CASE_HAPTIC(0)*/ 0, LABEL(ALARMS), 0, 0, 0, 0, IF_ROTARY_ENCODERS(0) LABEL(BACKLIGHT), 0, 0, CASE_PWM_BACKLIGHT(0) CASE_PWM_BACKLIGHT(0) 0, CASE_SPLASH_PARAM(0) CASE_GPS(0) CASE_GPS(0) CASE_PXX(0) IF_FAI_CHOICE(0) CASE_MAVLINK(0) 0, COL_TX_MODE, 1/*to force edit mode*/});
+  MENU(STR_MENURADIOSETUP, menuTabGeneral, e_Setup, ITEM_SETUP_MAX+1, {0, CASE_RTCLOCK(2) CASE_RTCLOCK(2) CASE_RTCLOCK(0) CASE_BATTGRAPH(1) LABEL(SOUND), CASE_AUDIO(0) CASE_BUZZER(0) /*CASE_VOICE(0)*/ 0, CASE_AUDIO(0) CASE_HAPTIC(LABEL(HAPTIC)) CASE_HAPTIC(0) CASE_HAPTIC(0) /*CASE_HAPTIC(0)*/ 0, LABEL(ALARMS), 0, 0, 0, 0, IF_ROTARY_ENCODERS(0) LABEL(BACKLIGHT), 0, 0, CASE_PWM_BACKLIGHT(0) CASE_PWM_BACKLIGHT(0) 0, CASE_SPLASH_PARAM(0) CASE_GPS(0) CASE_GPS(0) CASE_PXX(0) IF_FAI_CHOICE(0) CASE_MAVLINK(0) 0, COL_TX_MODE, 1/*to force edit mode*/});
 
   uint8_t sub = menuVerticalPosition - 1;
 
@@ -187,6 +188,12 @@ void menuGeneralSetup(uint8_t event)
       }
       if (attr && checkIncDec_Ret)
         g_rtcTime = mktime(t); // update local timestamp and get wday calculated
+      break;
+
+    case ITEM_TEMP:
+      lcdDrawTextLeft(y, STR_TXTEMP);
+      int16_t temptx;
+      if (!rtcReadTenp(&temptx)) {lcdDrawNumberNAtt(20*FW, y, temptx, attr|PREC2);}
       break;
 #endif
 
