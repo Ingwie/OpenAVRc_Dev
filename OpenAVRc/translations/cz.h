@@ -683,7 +683,11 @@
 #define TR_FORMATTING          "Form\200tovan\204.."
 #define TR_TEMP_CALIB          " +=\006Teplota"
 #define TR_TIME                "\201as"
-#define TR_TXTEMP              "Temp. TX\037\170C"
+#if defined(IMPERIAL_UNITS)
+#define TR_TXTEMP              "Temp. TX\037\164@F"
+#else
+#define TR_TXTEMP              "Temp. TX\037\164@C"
+#endif
 #define TR_BAUDRATE            "BT Baudrate"
 #define TR_SD_INFO_TITLE       "SD INFO"
 #define TR_SD_TYPE             "Typ:"
