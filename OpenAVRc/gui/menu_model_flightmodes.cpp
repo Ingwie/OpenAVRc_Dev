@@ -110,7 +110,7 @@ void menuModelPhaseOne(uint8_t event)
 #endif
     switch(i) {
     case ITEM_MODEL_PHASE_NAME:
-      editSingleName(MIXES_2ND_COLUMN, y, STR_PHASENAME, fm->name, sizeof(fm->name), event, attr);
+      editSingleName(MIXES_2ND_COLUMN, y, STR_NAME, fm->name, sizeof(fm->name), event, attr);
       break;
     case ITEM_MODEL_PHASE_SWITCH:
       fm->swtch = switchMenuItem(MIXES_2ND_COLUMN, y, fm->swtch, attr, event);

@@ -579,14 +579,6 @@ PLAY_FUNCTION(playDuration, int seconds);
 #define LANGUAGE_PACK_DECLARE_DEFAULT(lng, name)
 #endif
 
-#define STR_MODELNAME STR_NAME
-#define STR_PHASENAME STR_NAME
-#define STR_MIXNAME   STR_NAME
-#define STR_EXPONAME  STR_NAME
-
-
-
-
 #if MENUS_LOCK == 1
 extern const pm_char STR_UNLOCKED[];
 extern const pm_char STR_MODS_FORBIDDEN[];
