@@ -43,12 +43,6 @@
 
 #define IS_PPM_PROTOCOL(protocol)          (protocol<PROTOCOL_PPMSIM)
 
-#if defined(PXX)
-  //#define IS_PXX_PROTOCOL(protocol)          (protocol==PROTO_PXX)
-#else
-  #define IS_PXX_PROTOCOL(protocol)          (0)
-#endif
-
 #if defined(DSM2)
   #define IS_DSM_PROTOCOL(protocol)         (protocol==PROTOCOL_DSM_SERIAL-1)
 #else

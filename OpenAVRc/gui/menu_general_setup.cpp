@@ -89,9 +89,7 @@ enum menuGeneralSetupItems {
   CASE_GPS(ITEM_SETUP_TIMEZONE)
   CASE_GPS(ITEM_SETUP_ADJUST_RTC)
   CASE_GPS(ITEM_SETUP_GPSFORMAT)
-  CASE_PXX(ITEM_SETUP_COUNTRYCODE)
   IF_FAI_CHOICE(ITEM_SETUP_FAI)
-  CASE_MAVLINK(ITEM_MAVLINK_BAUD)
   ITEM_SETUP_RX_CHANNEL_ORD,
   ITEM_SETUP_STICK_MODE_LABELS,
   ITEM_SETUP_STICK_MODE,
@@ -104,7 +102,7 @@ void menuGeneralSetup(uint8_t event)
 {
 #if defined(RTCLOCK)
   struct tm * t;
-  t = localtime(&g_rtcTime); // 0.43 old 0.31 new
+  t = localtime(&g_rtcTime);
 
   if ((menuVerticalPosition==ITEM_SETUP_DATE+1 || menuVerticalPosition==ITEM_SETUP_TIME+1) &&
       (s_editMode>0) &&
@@ -122,7 +120,7 @@ void menuGeneralSetup(uint8_t event)
   }
 #endif
 
-  MENU(STR_MENURADIOSETUP, menuTabGeneral, e_Setup, ITEM_SETUP_MAX+1, {0, CASE_RTCLOCK(2) CASE_RTCLOCK(2) CASE_RTCLOCK(0) CASE_BATTGRAPH(1) LABEL(SOUND), CASE_AUDIO(0) CASE_BUZZER(0) /*CASE_VOICE(0)*/ 0, CASE_AUDIO(0) CASE_HAPTIC(LABEL(HAPTIC)) CASE_HAPTIC(0) CASE_HAPTIC(0) /*CASE_HAPTIC(0)*/ 0, LABEL(ALARMS), 0, 0, 0, 0, IF_ROTARY_ENCODERS(0) LABEL(BACKLIGHT), 0, 0, CASE_PWM_BACKLIGHT(0) CASE_PWM_BACKLIGHT(0) 0, CASE_SPLASH_PARAM(0) CASE_GPS(0) CASE_GPS(0) CASE_PXX(0) IF_FAI_CHOICE(0) CASE_MAVLINK(0) 0, COL_TX_MODE, 1/*to force edit mode*/});
+  MENU(STR_MENURADIOSETUP, menuTabGeneral, e_Setup, ITEM_SETUP_MAX+1, {0, CASE_RTCLOCK(2) CASE_RTCLOCK(2) CASE_RTCLOCK(0) CASE_BATTGRAPH(1) LABEL(SOUND), CASE_AUDIO(0) CASE_BUZZER(0) /*CASE_VOICE(0)*/ 0, CASE_AUDIO(0) CASE_HAPTIC(LABEL(HAPTIC)) CASE_HAPTIC(0) CASE_HAPTIC(0) /*CASE_HAPTIC(0)*/ 0, LABEL(ALARMS), 0, 0, 0, 0, IF_ROTARY_ENCODERS(0) LABEL(BACKLIGHT), 0, 0, CASE_PWM_BACKLIGHT(0) CASE_PWM_BACKLIGHT(0) 0, CASE_SPLASH_PARAM(0) CASE_GPS(0) CASE_GPS(0) IF_FAI_CHOICE(0) 0, COL_TX_MODE, 1/*to force edit mode*/});
 
   uint8_t sub = menuVerticalPosition - 1;
 
@@ -161,7 +159,7 @@ void menuGeneralSetup(uint8_t event)
         }
       }
       if (attr && checkIncDec_Ret) {
-        g_rtcTime = mktime(t); // update local timestamp and get wday calculated // 0.5 old O.31 new
+        g_rtcTime = mktime(t); // update local timestamp and get wday calculated
       }
       break;
 
@@ -397,12 +395,6 @@ void menuGeneralSetup(uint8_t event)
       break;
 #endif
 
-#if defined(PXX)
-    case ITEM_SETUP_COUNTRYCODE:
-      g_eeGeneral.countryCode = selectMenuItem(RADIO_SETUP_2ND_COLUMN, y, STR_COUNTRYCODE, STR_COUNTRYCODES, g_eeGeneral.countryCode, 0, 2, attr, event);
-      break;
-#endif
-
 
 #if defined(FAI_CHOICE)
     case ITEM_SETUP_FAI:
@@ -415,13 +407,6 @@ void menuGeneralSetup(uint8_t event)
       }
       break;
 #endif
-
-#if defined(MAVLINK)
-    case ITEM_MAVLINK_BAUD:
-      g_eeGeneral.mavbaud = selectMenuItem(RADIO_SETUP_2ND_COLUMN, y, STR_MAVLINK_BAUD_LABEL, STR_MAVLINK_BAUDS, g_eeGeneral.mavbaud, 0, 7, attr, event);
-      break;
-#endif
-
 
     case ITEM_SETUP_RX_CHANNEL_ORD:
       lcdDrawTextLeft(y, STR_RXCHANNELORD); // RAET->AETR

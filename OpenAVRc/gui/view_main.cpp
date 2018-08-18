@@ -356,17 +356,6 @@ void menuMainView(uint8_t event)
 #if defined(FRSKY)
     if (!IS_FAI_ENABLED())
       chainMenu(menuTelemetryFrsky);
-#elif defined(JETI)
-    JETI_EnableRXD(); // enable JETI-Telemetry reception
-    chainMenu(menuTelemetryJeti);
-#elif defined(ARDUPILOT)
-    ARDUPILOT_EnableRXD(); // enable ArduPilot-Telemetry reception
-    chainMenu(menuTelemetryArduPilot);
-#elif defined(NMEA)
-    NMEA_EnableRXD(); // enable NMEA-Telemetry reception
-    chainMenu(menuTelemetryNMEA);
-#elif defined(MAVLINK)
-    chainMenu(menuTelemetryMavlink);
 #else
     chainMenu(menuStatisticsDebug);
 #endif

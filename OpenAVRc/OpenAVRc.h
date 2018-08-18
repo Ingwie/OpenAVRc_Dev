@@ -166,18 +166,6 @@ static uint16_t DurationValue;
   #define CASE_FRSKY(x)
 #endif
 
-#if defined(MAVLINK)
-  #define CASE_MAVLINK(x) x,
-#else
-  #define CASE_MAVLINK(x)
-#endif
-
-#if defined(PXX)
-  #define CASE_PXX(x) x,
-#else
-  #define CASE_PXX(x)
-#endif
-
 #if defined(SDCARD)
   #define CASE_SDCARD(x) x,
 #else
@@ -918,18 +906,6 @@ extern void parseTelemSportByte(uint8_t data, uint8_t no_chk_telefr_crc);
 #if defined (FRSKY)
   // FrSky Telemetry
   #include "telemetry/frsky.h"
-#elif defined(JETI)
-  // Jeti-DUPLEX Telemetry
-  #include "telemetry/jeti.h"
-#elif defined(ARDUPILOT)
-  // ArduPilot Telemetry
-  #include "telemetry/ardupilot.h"
-#elif defined(NMEA)
-  // NMEA Telemetry
-  #include "telemetry/nmea.h"
-#elif defined(MAVLINK)
-  // Mavlink Telemetry
-  #include "telemetry/mavlink.h"
 #endif
 
 

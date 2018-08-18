@@ -34,10 +34,6 @@
 #ifndef menu_model_h
 #define menu_model_h
 
-#if defined(MAVLINK)
-#include "view_mavlink.h"
-#endif
-
 void menuModelSelect(uint8_t event);
 void menuModelSetup(uint8_t event);
 void menuModelHeli(uint8_t event);
@@ -98,7 +94,6 @@ enum EnumTabModel {
   e_LogicalSwitches,
   e_CustomFunctions,
   CASE_FRSKY(e_Telemetry)
-  CASE_MAVLINK(e_MavSetup)
   CASE_TEMPLATES(e_Templates)
 };
 
@@ -115,7 +110,6 @@ const MenuFuncP_PROGMEM menuTabModel[] PROGMEM = {
   menuModelLogicalSwitches,
   menuModelCustomFunctions,
   CASE_FRSKY(menuModelTelemetry)
-  CASE_MAVLINK(menuTelemetryMavlinkSetup)
   CASE_TEMPLATES(menuModelTemplates)
 };
 

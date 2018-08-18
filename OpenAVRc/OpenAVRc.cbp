@@ -120,7 +120,6 @@
 		<Unit filename="gui/popups.h" />
 		<Unit filename="gui/splash.cpp" />
 		<Unit filename="gui/view_main.cpp" />
-		<Unit filename="gui/view_mavlink.cpp" />
 		<Unit filename="gui/view_mavlink.h" />
 		<Unit filename="gui/view_statistics.cpp" />
 		<Unit filename="gui/view_telemetry.cpp" />
@@ -227,15 +226,11 @@
 		<Unit filename="targets/megamini/board_megamini.h" />
 		<Unit filename="targets/simu/simu_interface.cpp" />
 		<Unit filename="targets/simu/simu_interface.h" />
-		<Unit filename="telemetry/ardupilot.cpp" />
 		<Unit filename="telemetry/ardupilot.h" />
 		<Unit filename="telemetry/frsky.cpp" />
 		<Unit filename="telemetry/frsky.h" />
-		<Unit filename="telemetry/jeti.cpp" />
 		<Unit filename="telemetry/jeti.h" />
-		<Unit filename="telemetry/mavlink.cpp" />
 		<Unit filename="telemetry/mavlink.h" />
-		<Unit filename="telemetry/nmea.cpp" />
 		<Unit filename="telemetry/nmea.h" />
 		<Unit filename="telemetry_driver.cpp" />
 		<Unit filename="telemetry_driver.h" />
