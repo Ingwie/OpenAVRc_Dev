@@ -632,8 +632,6 @@ enum VarioSource {
 #define NUM_TELEMETRY      TELEM_ALT
 #elif defined(FRSKY)
 #define NUM_TELEMETRY      TELEM_A2
-#elif defined(MAVLINK)
-#define NUM_TELEMETRY      4
 #else
 #define NUM_TELEMETRY      TELEM_TIMER2
 #endif
@@ -701,15 +699,6 @@ PACK(typedef struct {
 }) FrSkyData;
 #define MIN_BLADES 0 // 2 blades
 #define MAX_BLADES 3 // 5 blades
-
-#if defined(MAVLINK)
-PACK(typedef struct t_MavlinkData {
-  uint8_t rc_rssi_scale:4;
-  uint8_t pc_rssi_en:1;
-  uint8_t spare1:3;
-  uint8_t spare2[3];
-}) MavlinkData;
-#endif
 
 enum SwashType {
   SWASH_TYPE_NONE,
@@ -938,11 +927,7 @@ PACK(typedef struct {
 #define IS_MANUAL_RESET_TIMER(idx) (g_model.timers[idx].persistent == 2)
 
 
-#if defined(MAVLINK)
-#define TELEMETRY_DATA MavlinkData mavlink;
-#else
 #define TELEMETRY_DATA FrSkyData telemetry;
-#endif
 
 #define BeepANACenter uint16_t
 

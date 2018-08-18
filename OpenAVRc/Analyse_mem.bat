@@ -6,7 +6,7 @@ avr-size -B OpenAVRc.elf
 
 pause
 
-avr-nm --size-sort OpenAVRc.elf>AnalyseMem.txt
+avr-nm --print-size --size-sort OpenAVRc.elf>AnalyseMem.txt
 
 call AnalyseMem.txt
 

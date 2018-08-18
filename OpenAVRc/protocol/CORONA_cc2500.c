@@ -110,7 +110,7 @@ static void corona_init()
       rfState16 = 400; // V2 send channel at startup while rfstate
       CC2500_WriteReg(CC2500_0A_CHANNR, CORONA_BIND_CHANNEL_V2);
       CC2500_WriteReg(CC2500_0E_FREQ1, 0x80);
-      CC2500_WriteReg(CC2500_0F_FREQ0, 0x00);
+      CC2500_WriteReg(CC2500_0F_FREQ0, 0x00 + CORONA_COARSE);
       CC2500_WriteReg(CC2500_15_DEVIATN, 0x50);
       CC2500_WriteReg(CC2500_17_MCSM1, 0x00);
       CC2500_WriteReg(CC2500_1B_AGCCTRL2, 0x67);

@@ -84,7 +84,7 @@ void perMain()
   uint8_t evt = getEvent();
   evt = checkTrim(evt);
 
-#if defined(FRSKY) || defined(MAVLINK)
+#if defined(FRSKY)
   telemetryWakeup();
 #endif
 

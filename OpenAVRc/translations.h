@@ -146,21 +146,7 @@ extern const pm_char STR_OPEN9X[];
 #define OFS_VPERSISTENT       (OFS_DATETIME + sizeof(TR_DATETIME))
 #define OFS_VLCD              (OFS_VPERSISTENT + sizeof(TR_VPERSISTENT))
 #define OFS_COUNTRYCODES      (OFS_VLCD)
-#if defined(PXX)
-#define OFS_VFAILSAFE         (OFS_COUNTRYCODES + sizeof(TR_COUNTRYCODES))
-#define OFS_VTRAINERMODES     (OFS_VFAILSAFE + sizeof(TR_VFAILSAFE))
-#else
-#define OFS_VFAILSAFE         (OFS_COUNTRYCODES)
-#define OFS_VTRAINERMODES     (OFS_VFAILSAFE)
-#endif
 #define OFS_MAVLINK_BAUDS	(OFS_VTRAINERMODES)
-#if defined(MAVLINK)
-#define OFS_MAVLINK_AC_MODES	(OFS_MAVLINK_BAUDS + sizeof(TR_MAVLINK_BAUDS))
-#define OFS_MAVLINK_AP_MODES	(OFS_MAVLINK_AC_MODES + sizeof(TR_MAVLINK_AC_MODES))
-#define OFS_SPARE		(OFS_MAVLINK_AP_MODES + sizeof(TR_MAVLINK_AP_MODES))
-#else
-#define OFS_SPARE		(OFS_MAVLINK_BAUDS)
-#endif
 
 #define STR_OFFON               (STR_OPEN9X + OFS_OFFON)
 #define STR_MMMINV              (STR_OPEN9X + OFS_MMMINV)
@@ -232,19 +218,6 @@ extern const pm_char STR_OPEN9X[];
 
 #define STR_DATETIME          (STR_OPEN9X + OFS_DATETIME)
 #define STR_VPERSISTENT       (STR_OPEN9X + OFS_VPERSISTENT)
-
-
-#if defined(PXX)
-#define STR_COUNTRYCODES      (STR_OPEN9X + OFS_COUNTRYCODES)
-#define STR_VFAILSAFE         (STR_OPEN9X + OFS_VFAILSAFE)
-#endif
-
-
-#if defined(MAVLINK)
-#define STR_MAVLINK_BAUDS	(STR_OPEN9X + OFS_MAVLINK_BAUDS)
-#define STR_MAVLINK_AC_MODES	(STR_OPEN9X + OFS_MAVLINK_AC_MODES)
-#define STR_MAVLINK_AP_MODES	(STR_OPEN9X + OFS_MAVLINK_AP_MODES)
-#endif
 
 // The 0-terminated-strings
 #define NO_INDENT(x) (x)+LEN_INDENT
@@ -467,16 +440,6 @@ extern const pm_char STR_AUTOBIND[];
 extern const pm_char STR_MULTI_LOWPOWER[];
 #endif
 
-#if defined(PXX)
-extern const pm_char STR_SYNCMENU[];
-extern const pm_char STR_INTERNALRF[];
-extern const pm_char STR_EXTERNALRF[];
-extern const pm_char STR_FAILSAFE[];
-extern const pm_char STR_FAILSAFESET[];
-extern const pm_char STR_MENUSENSOR[];
-extern const pm_char STR_COUNTRYCODE[];
-#endif
-
 #if defined(FRSKY)
 extern const pm_char STR_LIMIT[];
 extern const pm_char STR_MINRSSI[];
@@ -638,33 +601,6 @@ extern const pm_char STR_MODULE_RANGE[];
 extern const pm_char STR_MODULE_BIND[];
 extern const pm_char STR_RXNUM[];
 extern const pm_char STR_DSM_PROTOCOLS[];
-#endif
-
-
-#if defined(MAVLINK)
-extern const pm_char STR_MAVLINK_RC_RSSI_SCALE_LABEL[];
-extern const pm_char STR_MAVLINK_PC_RSSI_EN_LABEL[];
-extern const pm_char STR_MAVMENUSETUP_TITLE[];
-extern const pm_char STR_MAVLINK_BAUD_LABEL[];
-extern const pm_char STR_MAVLINK_INFOS[];
-extern const pm_char STR_MAVLINK_MODE[];
-extern const pm_char STR_MAVLINK_CUR_MODE[];
-extern const pm_char STR_MAVLINK_ARMED[];
-extern const pm_char STR_MAVLINK_BAT_MENU_TITLE[];
-extern const pm_char STR_MAVLINK_BATTERY_LABEL[];
-extern const pm_char STR_MAVLINK_RC_RSSI_LABEL[];
-extern const pm_char STR_MAVLINK_PC_RSSI_LABEL[];
-extern const pm_char STR_MAVLINK_NAV_MENU_TITLE[];
-extern const pm_char STR_MAVLINK_COURSE[];
-extern const pm_char STR_MAVLINK_HEADING[];
-extern const pm_char STR_MAVLINK_BEARING[];
-extern const pm_char STR_MAVLINK_ALTITUDE[];
-extern const pm_char STR_MAVLINK_GPS[];
-extern const pm_char STR_MAVLINK_NO_FIX[];
-extern const pm_char STR_MAVLINK_SAT[];
-extern const pm_char STR_MAVLINK_HDOP[];
-extern const pm_char STR_MAVLINK_LAT[];
-extern const pm_char STR_MAVLINK_LON[];
 #endif
 
 #define CHR_SHORT  TR_CHR_SHORT

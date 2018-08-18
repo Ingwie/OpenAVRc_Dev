@@ -22,7 +22,7 @@ PCB = MEGAMINI
 LCD = ST7565P
 
 # Enable FrSky Telemetry reception on UART0
-# Values = STD, FRSKY // FRSKY_SPORT, JETI, NMEA, ARDUPILOT, MAVLINK, TELEMETREZ
+# Values = STD, FRSKY
 EXT = STD
 
 # GUI enabled
@@ -140,9 +140,6 @@ RTCLOCK = YES
 # Hardware volume
 # Values = YES, NO
 HARDWARE_VOLUME = YES
-
-# PXX (FrSky PCM) protocol
-PXX = NO
 
 # DSM2 (Spektrum) protocol
 # Values = NO, SERIAL
@@ -855,10 +852,6 @@ ifeq ($(TEMPLATES), YES)
     CPPDEFS += -DTEMPLATES
     CPPSRC += templates.cpp
     GUIMODELSRC += gui/menu_model_templates.cpp
-endif
-
-ifeq ($(PXX), YES)
-  CPPDEFS += -DPXX
 endif
 
 ifeq ($(DSM2), SERIAL)
