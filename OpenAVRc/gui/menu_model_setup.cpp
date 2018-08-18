@@ -112,7 +112,7 @@ void menuModelSetup(uint8_t event)
 
     switch(k) {
     case ITEM_MODEL_NAME:
-      editSingleName(MODEL_SETUP_2ND_COLUMN, y, STR_MODELNAME, g_model.name, sizeof(g_model.name), event, attr);
+      editSingleName(MODEL_SETUP_2ND_COLUMN, y, STR_NAME, g_model.name, sizeof(g_model.name), event, attr);
 #if defined(SIMU)
       if ((attr) && (editMode>0)) {
         s_editMode = 0;
