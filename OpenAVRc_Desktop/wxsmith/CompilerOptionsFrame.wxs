@@ -333,8 +333,6 @@
 						</object>
 						<object class="wxChoice" name="ID_CHOICECC2500PAG" variable="ChoiceCC2500PAG" member="yes">
 							<content>
-								<item>0</item>
-								<item>10</item>
 								<item>20</item>
 								<item>22</item>
 							</content>
@@ -344,8 +342,6 @@
 						</object>
 						<object class="wxChoice" name="ID_CHOICEA7105PAG" variable="ChoiceA7105PAG" member="yes">
 							<content>
-								<item>0</item>
-								<item>10</item>
 								<item>20</item>
 								<item>22</item>
 							</content>
@@ -356,8 +352,6 @@
 						</object>
 						<object class="wxChoice" name="ID_CHOICENRF24l01PAG" variable="ChoiceNRF24l01PAG" member="yes">
 							<content>
-								<item>0</item>
-								<item>10</item>
 								<item>20</item>
 								<item>22</item>
 							</content>
@@ -530,8 +524,6 @@
 						</object>
 						<object class="wxChoice" name="ID_CHOICECYRF6936PAG" variable="ChoiceCYRF6936PAG" member="yes">
 							<content>
-								<item>0</item>
-								<item>10</item>
 								<item>20</item>
 								<item>22</item>
 							</content>

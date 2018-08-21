@@ -225,7 +225,7 @@ SPIMODULES = NO
 CC2500 = NO
 
 # Set CC2500 PA gain in DB
-# Values = 0,10,20,22
+# Values = 20,22
 CC2500PAG = 20
 
 # Enable CYRF6936 SPI protocols
@@ -233,23 +233,23 @@ CC2500PAG = 20
 CYRF6936 = NO
 
 # Set CYRF6936 PA gain in DB
-# Values = 0,10,20,22
+# Values = 20,22
 CYRF6936PAG = 20
 
 # Enable NRF24l01 SPI protocols
 # Values = NO, YES
-NRF24l01 = NO
+NRF24L01 = NO
 
 # Set NRF24l01 PA gain in DB
-# Values = 0,10,20,22
-NRF24l01PAG = 20
+# Values = 20,22
+NRF24L01PAG = 20
 
 # Enable A7105 SPI protocols
 # Values = NO, YES
 A7105 = NO
 
 # Set A7105 PA gain in DB
-# Values = 0,10,20,22
+# Values = 20,22
 A7105PAG = 20
 
 # Enable X-ANY feature
@@ -407,9 +407,9 @@ ifeq ($(PCB), MEGAMINI)
  	  	CPPDEFS += -DCYRF6936PA_GAIN=$(CYRF6936PAG)
   	endif
 
-  	ifeq ($(NRF24l01), YES)
-   		CPPDEFS += -DPROTO_HAS_NRF24l01
- 	  	CPPDEFS += -DNRF24l01PA_GAIN=$(NRF24l01PAG)
+  	ifeq ($(NRF24L01), YES)
+   		CPPDEFS += -DPROTO_HAS_NRF24L01
+ 	  	CPPDEFS += -DNRF24L01PA_GAIN=$(NRF24L01PAG)
   	endif
 
   	ifeq ($(A7105), YES)
