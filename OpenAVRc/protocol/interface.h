@@ -68,7 +68,8 @@
 #endif
 
 #ifdef PROTO_HAS_NRF24L01
-//#include "iface_nrf24l01.h"
+#include "iface_nrf24l01.h"
+#include "nrf24l01.c"
 #endif
 
 #ifdef PROTO_HAS_MULTISUPIIIK
