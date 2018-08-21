@@ -35,8 +35,7 @@
 #ifndef _IFACE_CC2500_H_
 #define _IFACE_CC2500_H_
 
-#include "common.h"
-
+// Register map
 enum {
     CC2500_00_IOCFG2           = 0x00,        // GDO2 output pin configuration
     CC2500_01_IOCFG1           = 0x01,        // GDO1 output pin configuration
