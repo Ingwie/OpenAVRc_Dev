@@ -5,7 +5,6 @@
 		<Option title="OpenAVRc_Simulator" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option extended_obj_names="1" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/OpenAVRc_Simulator" prefix_auto="1" extension_auto="1" />
@@ -23,6 +22,7 @@
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
 					<Add option="-DEXTERNALEEPROM" />
+					<Add option="-DIMPERIAL_UNITSaaa" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 					<Add directory="include" />
 				</Compiler>
@@ -206,6 +206,7 @@
 			<Add option="-D__WXMSW__" />
 			<Add option="-DWXUSINGDLL" />
 			<Add option="-DwxUSE_UNICODE" />
+			<Add option="-DnoFONTSTD" />
 			<Add option="-DFAI_CHOICE" />
 			<Add option="-DSIMU" />
 			<Add option="-DDSM2" />
@@ -257,7 +258,9 @@
 			<Add option="-DMULTIMODULE" />
 			<Add option="-DSPIMODULES" />
 			<Add option="-DPROTO_HAS_CC2500" />
+			<Add option="-DCC2500PA_GAIN=20" />
 			<Add option="-DPROTO_HAS_CYRF6936" />
+			<Add option="-DCYRF6936PA_GAIN=20" />
 			<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/include" />
 		</Compiler>
 		<ResourceCompiler>
@@ -319,7 +322,6 @@
 		<Unit filename="../OpenAVRc/gui/popups.h" />
 		<Unit filename="../OpenAVRc/gui/splash.cpp" />
 		<Unit filename="../OpenAVRc/gui/view_main.cpp" />
-		<Unit filename="../OpenAVRc/gui/view_mavlink.cpp" />
 		<Unit filename="../OpenAVRc/gui/view_mavlink.h" />
 		<Unit filename="../OpenAVRc/gui/view_statistics.cpp" />
 		<Unit filename="../OpenAVRc/gui/view_telemetry.cpp" />
@@ -421,7 +423,6 @@
 		<Unit filename="../OpenAVRc/pulses/pulses.h" />
 		<Unit filename="../OpenAVRc/pulses/pulses_avr.cpp" />
 		<Unit filename="../OpenAVRc/pulses/pulses_avr.h" />
-		<Unit filename="../OpenAVRc/rtc.cpp" />
 		<Unit filename="../OpenAVRc/rtc.h" />
 		<Unit filename="../OpenAVRc/rtc_driver.cpp" />
 		<Unit filename="../OpenAVRc/sdcard.cpp" />
@@ -454,7 +455,6 @@
 		<Unit filename="../OpenAVRc/targets/stock/lcd_simu_driver.h" />
 		<Unit filename="../OpenAVRc/telemetry/frsky.cpp" />
 		<Unit filename="../OpenAVRc/telemetry/frsky.h" />
-		<Unit filename="../OpenAVRc/telemetry/telemetry.h" />
 		<Unit filename="../OpenAVRc/telemetry_driver.cpp" />
 		<Unit filename="../OpenAVRc/templates.cpp" />
 		<Unit filename="../OpenAVRc/templates.h" />
