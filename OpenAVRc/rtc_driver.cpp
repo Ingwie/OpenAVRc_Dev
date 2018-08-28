@@ -39,12 +39,14 @@
 uint8_t bin2bcd(uint8_t bin)
 {
   div_t qr = div(bin, 10);
-  return ((qr.quot << 4) + qr.rem);
+  uint8_t ret = ((qr.quot << 4) + qr.rem);
+  return ret;
 }
 
 uint8_t bcd2bin(uint8_t bcd)
 {
-  return (bcd & 0x0F) + ((bcd >> 4) * 10);
+  uint8_t ret = (bcd & 0x0F) + ((bcd >> 4) * 10);
+  return ret;
 }
 
 /*-------------------------------------------------*/
@@ -64,16 +66,6 @@ void rtcGetTime(struct tm * utm)
   utm->tm_min =  bcd2bin(buf[1]);             // 59 min
   utm->tm_sec =  bcd2bin(buf[0]);             // 59 sec
   utm->tm_wday = bcd2bin((buf[3] & 0x03) - 1);// 7 week days
-#if defined(SIMU)
-  utm->tm_year = 101;
-  utm->tm_mon =  0;
-  utm->tm_mday = 0;
-  utm->tm_hour = 0;
-  utm->tm_min =  0;
-  utm->tm_sec =  0;
-  utm->tm_wday = 0;
-  utm->tm_yday = 0;
-#endif // defined
 }
 
 void rtcSetTime(struct tm * t)
@@ -87,7 +79,7 @@ void rtcSetTime(struct tm * t)
   buf[2] = bin2bcd(t->tm_hour);
   buf[3] = bin2bcd(t->tm_wday + 1);
   buf[4] = bin2bcd(t->tm_mday);
-  buf[5] = bin2bcd(t->tm_mon + 1) + CENTURY; // Start is 2000
+  buf[5] = bin2bcd(t->tm_mon + 1) | CENTURY; // Start is 2000
   buf[6] = bin2bcd(t->tm_year - 100);
 
   i2c_writeReg(RTC_ADRESS, 0, buf, 7);
@@ -109,7 +101,7 @@ void rtcInit ()
         i2c_writeReg(RTC_ADRESS, adr, buf, 8);
       /* Reset time to aout 16 2018 (Now he he :-). Reg[0..7] */
       buf[4] = 0x16;
-      buf[5] = 0x08 + CENTURY;
+      buf[5] = 0x08 | CENTURY;
       buf[6] = 0x18;
       i2c_writeReg(RTC_ADRESS, 0x00, buf, 8);
     }
