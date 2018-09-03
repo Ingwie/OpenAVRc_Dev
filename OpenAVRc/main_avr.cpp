@@ -40,19 +40,15 @@ void perMain()
 {
 
   SIMU_PROCESSEVENTS;
+  LEDOFF();
 
   uint16_t t0 = getTmr16KHz();
   int16_t delta = (nextMixerEndTime - lastMixerDuration) - t0;
-  if (delta > 0 && delta < (int16_t)US_TO_16KHZ_TICK(MAX_MIXER_DELTA_US)) {
-  LEDON();
-
-#if defined(SDCARD) && !defined(SIMU)
-    if (sdMounted() && isFunctionActive(FUNCTION_LOGS) && delta > (int16_t)US_TO_16KHZ_TICK(4000))
-      writeLogs(); // Minimise writelogs perturbation
-#endif
-  LEDOFF();
-    return;
-  }
+  if (delta > 0 && delta < (int16_t)US_TO_16KHZ_TICK(MAX_MIXER_DELTA_US))
+    {
+      LEDON();
+      return;
+    }
 
   nextMixerEndTime = t0 + US_TO_16KHZ_TICK(MAX_MIXER_DELTA_US);
   // this is a very tricky implementation; lastMixerEndTime is just like a default value not to stop mixcalculations totally;
@@ -78,7 +74,10 @@ void perMain()
 
 #if defined(SDCARD) && !defined(SIMU)
   //sdMountPoll();
-  //writeLogs();
+  if (sdMounted() && isFunctionActive(FUNCTION_LOGS))
+    {
+      writeLogs(); // Minimise writelogs perturbation
+    }
 #endif
 
   uint8_t evt = getEvent();

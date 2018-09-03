@@ -67,9 +67,9 @@
   #define convertSimuPath(x) (x)
 // Fiddle to force compiler to use a pointer
   #define FORCE_INDIRECT(ptr) __asm__ __volatile__ ("" : "=e" (ptr) : "0" (ptr))
-
+  #define MKTIME mk_gmtime
 #else //SIMU define
-
+  #define MKTIME mktime
   #include "targets/simu/simu_interface.h"
   #include "targets/megamini/board_megamini.h" //New reference board
   //#include "targets/mega2560/board_mega2560.h"
@@ -329,7 +329,7 @@ extern time_t g_rtcTime;
 extern uint8_t g_ms100; // global to allow time set function to reset to zero
 void rtcInit();
 void rtcSetTime(struct tm * t);
-uint8_t rtcReadTenp(int16_t * temp);
+uint8_t rtcReadTemp(int16_t * temp);
 
 extern volatile tmr10ms_t g_tmr10ms;
 

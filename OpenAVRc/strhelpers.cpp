@@ -143,7 +143,7 @@ char * strAppendDate(char * str, bool time)
 {
   str[0] = '-';
   struct tm * utm;
-  utm = gmtime(&g_rtcTime);
+  utm = localtime(&g_rtcTime);
   div_t qr = div(utm->tm_year+T1900_OFFSET, 10);
   str[4] = '0' + qr.rem;
   qr = div(qr.quot, 10);
