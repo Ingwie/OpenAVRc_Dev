@@ -34,43 +34,24 @@
 #include "OpenAVRc.h"
 
 #define RTC_ADRESS  (0x68 << 1) // DS3231
-#define CENTURY _BV(7)
 
-uint8_t bin2bcd(uint8_t bin)
+uint8_t bin2bcd(int8_t bin)
 {
-  div_t qr = div(bin, 10);
-  uint8_t ret = ((qr.quot << 4) + qr.rem);
-  return ret;
+  return (uint8_t)(bin + 6 * (bin / 10));
 }
 
-uint8_t bcd2bin(uint8_t bcd)
+int8_t bcd2bin(uint8_t bcd)
 {
-  uint8_t ret = (bcd & 0x0F) + ((bcd >> 4) * 10);
-  return ret;
+  return (int8_t)(bcd - 6 * (bcd >> 4));
 }
 
 /*-------------------------------------------------*/
 /* RTC functions                                   */
 
-void rtcGetTime(struct tm * utm)
-{
-  uint8_t buf[7];
-
-  if (i2c_readReg(RTC_ADRESS, 0, buf, 7))
-    return;
-
-  utm->tm_year = bcd2bin(buf[6]) + 100;       // 1900 to 2000 offset
-  utm->tm_mon =  bcd2bin((buf[5] & 0x1F) - 1);// 12 month
-  utm->tm_mday = bcd2bin(buf[4] & 0x3F);      // 31 days
-  utm->tm_hour = bcd2bin(buf[2] & 0x3F);      // 23 hours
-  utm->tm_min =  bcd2bin(buf[1]);             // 59 min
-  utm->tm_sec =  bcd2bin(buf[0]);             // 59 sec
-  utm->tm_wday = bcd2bin((buf[3] & 0x03) - 1);// 7 week days
-}
-
 void rtcSetTime(struct tm * t)
 {
   g_ms100 = 0; // start of next second begins now
+  //g_rtcTime = MKTIME(t); needed ?
 
   uint8_t buf[7];
 
@@ -79,60 +60,82 @@ void rtcSetTime(struct tm * t)
   buf[2] = bin2bcd(t->tm_hour);
   buf[3] = bin2bcd(t->tm_wday + 1);
   buf[4] = bin2bcd(t->tm_mday);
-  buf[5] = bin2bcd(t->tm_mon + 1) | CENTURY; // Start is 2000
+  buf[5] = bin2bcd(t->tm_mon + 1);
   buf[6] = bin2bcd(t->tm_year - 100);
 
-  i2c_writeReg(RTC_ADRESS, 0, buf, 7);
+  i2c_writeReg(RTC_ADRESS, 0x00, buf, 7);
 }
 
-void rtcInit ()
+void rtcInit()
 {
   /* Read RTC registers */
   uint8_t powerlost;
+  uint8_t buf[7];	/* RTC R/W buffer */
+
   if (i2c_readReg(RTC_ADRESS, 0x0F, &powerlost, 1))
-    return;	/* Check data corruption and return on IIC error */
+    {
+      return;	/* Check data corruption and return on IIC error */
+    }
 
   if (powerlost >> 7)  	/* When data has been volatiled, set default time */
     {
-      /* Clear nv-ram. Reg[8..63] */
-      uint8_t buf[8];	/* RTC R/W buffer */
-      memset(buf, 0, 8);
-      for (uint8_t adr = 8; adr < 64; adr += 8)
-        i2c_writeReg(RTC_ADRESS, adr, buf, 8);
-      /* Reset time to aout 16 2018 (Now he he :-). Reg[0..7] */
+      /* Reset time to  16 08 2018 (Now he he :-). Reg[0..7] */
+      buf[0] = 0x00;
+      buf[1] = 0x00;
+      buf[2] = 0x00;
+      buf[3] = 0x04;
       buf[4] = 0x16;
-      buf[5] = 0x08 | CENTURY;
+      buf[5] = 0x08;
       buf[6] = 0x18;
-      i2c_writeReg(RTC_ADRESS, 0x00, buf, 8);
+      i2c_writeReg(RTC_ADRESS, 0x00, buf, 7);
+
+      uint8_t state;
+      i2c_readReg(RTC_ADRESS, 0x0F, &state, 1);
+      state &= ~0x80; // flip OSF bit
+      i2c_writeReg(RTC_ADRESS, 0x0F, &state, 1);
+    }
+
+  if (i2c_readReg(RTC_ADRESS, 0x00, buf, 7))
+    {
+      return;
     }
 
   struct tm utm;
-  rtcGetTime(&utm);
-  g_rtcTime = mktime(&utm);
+
+  utm.tm_year = bcd2bin(buf[6]) + 100;       // 1900 to 2000 offset
+  utm.tm_mon =  bcd2bin((buf[5] & 0x1F) - 1);// 12 month
+  utm.tm_mday = bcd2bin(buf[4] & 0x3F);      // 31 days
+  utm.tm_hour = bcd2bin(buf[2]);             // 23 hours
+  utm.tm_min =  bcd2bin(buf[1]);             // 59 min
+  utm.tm_sec =  bcd2bin(buf[0]);             // 59 sec
+  utm.tm_wday = bcd2bin((buf[3] & 0x03) - 1);// 7 week days
+
+  g_rtcTime = MKTIME(&utm);
 #if defined(SIMU)
   g_rtcTime = time(NULL);
 #endif
 }
 
-uint8_t rtcReadTenp(int16_t * temp)
+uint8_t rtcReadTemp(int16_t * temp)
 {
   uint8_t buf[2];
 
-  if (i2c_readReg(RTC_ADRESS, 0x11, buf, 2)) // reg 0x11 & 0x12 send temp value but only the 2Msb on 0x12 -> we div by 64
+  if (i2c_readReg(RTC_ADRESS, 0x11, buf, 2))
+    // reg 0x11 & 0x12 send temp value but only the 2Msb on 0x12 -> we div by 64
     return 1;
 
-    int16_t calc = (buf[0] << 8) | buf[1];
-    calc /= 64;
-    calc *= 25;                             // Value X 0.25°C
+  int16_t calc = (buf[0] << 8) | buf[1];
+  calc /= 64;
+  calc *= 25;                             // Value X 0.25°C
 #if defined(SIMU)
-    calc = 2000;                           // 20.00°C in Simu
+  calc = 2000;                           // 20.00°C in Simu
 #endif
 #if defined(IMPERIAL_UNITS)
-    // f=1.8*c+32 (All is X 100)
-    int32_t fcalc = calc * 18;
-    fcalc += 32000;
-    calc = fcalc / 10;
+  // f=1.8*c+32 (All is X 100)
+  int32_t fcalc = calc * 18;
+  fcalc += 32000;
+  calc = fcalc / 10;
 #endif
-    *temp = calc;
+  *temp = calc;
   return 0;
 }

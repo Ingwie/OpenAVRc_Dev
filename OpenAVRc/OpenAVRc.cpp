@@ -1185,6 +1185,9 @@ void doMixerCalculations()
 
 void OpenAVRcStart()
 {
+#if defined(RTCLOCK)
+  rtcInit();
+#endif
 #if defined(SDCARD) && !defined(SIMU)
   sdMountPoll(); // Mount SD if it is not a WDT reboot
 #endif
@@ -1196,7 +1199,6 @@ void OpenAVRcStart()
     chainMenu(menuFirstCalib);
   }
 #endif
-
 }
 
 void OpenAVRcClose()
@@ -1474,10 +1476,6 @@ void OpenAVRcInit(uint8_t mcusr)
 
 #if defined(VOICE)
 //  setVolume(g_eeGeneral.speakerVolume+VOLUME_LEVEL_DEF);
-#endif
-
-#if defined(RTCLOCK)
-  rtcInit();
 #endif
 
   if (g_eeGeneral.backlightMode != e_backlight_mode_off) backlightOn(); // on Tx start turn the light on

@@ -151,6 +151,9 @@
 		<Unit filename="protocol/DSM_cyrf6936.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="protocol/ESKY_nrf24l01.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="protocol/FRSKYD_cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -246,12 +249,6 @@
 		</Unit>
 		<Unit filename="thirdparty/FatFs/ff.h" />
 		<Unit filename="thirdparty/FatFs/ffconf.h" />
-		<Unit filename="thirdparty/FatFs/ffsystem.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="thirdparty/FatFs/ffunicode.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="thirdparty/FatFs/integer.h" />
 		<Unit filename="thirdparty/GCS_MAVLink/include_v1.0/ardupilotmega/ardupilotmega.h" />
 		<Unit filename="thirdparty/GCS_MAVLink/include_v1.0/ardupilotmega/mavlink.h" />

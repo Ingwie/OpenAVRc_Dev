@@ -845,7 +845,7 @@ inline void frskyDSendNextAlarm()
 void adjustRTChour()
 {
   struct tm * t;
-  t = gmtime(&g_rtcTime);
+  t = localtime(&g_rtcTime);
   if (abs((t->tm_hour-telemetryData.value.hour)*3600 + (t->tm_min-telemetryData.value.min)*60 + (t->tm_sec-telemetryData.value.sec)) > 20)
     {
       // we adjust RTC only if difference is > 20 seconds

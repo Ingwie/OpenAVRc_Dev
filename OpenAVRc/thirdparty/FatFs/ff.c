@@ -566,7 +566,7 @@ static const BYTE ExCvt[] PROGMEM = _EXCVT;	/* Upper conversion table for extend
 DWORD get_fattime()
 {
   struct tm * t;
-  t = gmtime(&g_rtcTime);
+  t = localtime(&g_rtcTime);
 
   /* Pack date and time into a DWORD variable */
   return ((DWORD)(t->tm_year - 80) << 25)

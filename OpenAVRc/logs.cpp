@@ -180,13 +180,10 @@ void writeLogs()
 
 #if defined(RTCLOCK)
       {
-        static struct tm utm;
-        static time_t lastRtcTime = 0;
-        if ( g_rtcTime != lastRtcTime ) {
-          lastRtcTime = g_rtcTime;
-          mktime(&utm);
-        }
-        f_printf(&g_oLogFile, "%4d-%02d-%02d,%02d:%02d:%02d.%02d0,", utm.tm_year+T1900_OFFSET, utm.tm_mon+1, utm.tm_mday, utm.tm_hour, utm.tm_min, utm.tm_sec, g_ms100);
+        struct tm * utm;
+        utm = localtime(&g_rtcTime);
+
+        f_printf(&g_oLogFile, "%4d-%02d-%02d,%02d:%02d:%02d.%02d0,", utm->tm_year+T1900_OFFSET, utm->tm_mon+1, utm->tm_mday, utm->tm_hour, utm->tm_min, utm->tm_sec, g_ms100);
       }
 #else
       f_printf(&g_oLogFile, "%d,", tmr10ms);

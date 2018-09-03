@@ -159,7 +159,7 @@ void menuGeneralSetup(uint8_t event)
         }
       }
       if (attr && checkIncDec_Ret) {
-        g_rtcTime = mktime(t); // update local timestamp and get wday calculated
+        g_rtcTime = MKTIME(t); // update local timestamp and get wday calculated
       }
       break;
 
@@ -185,13 +185,13 @@ void menuGeneralSetup(uint8_t event)
         }
       }
       if (attr && checkIncDec_Ret)
-        g_rtcTime = mktime(t); // update local timestamp and get wday calculated
+        g_rtcTime = MKTIME(t); // update local timestamp and get wday calculated
       break;
 
     case ITEM_TEMP:
       lcdDrawTextLeft(y, STR_TXTEMP);
       int16_t temptx;
-      if (!rtcReadTenp(&temptx)) {lcdDrawNumberNAtt(19*FW, y, temptx, attr|PREC2);}
+      if (!rtcReadTemp(&temptx)) {lcdDrawNumberNAtt(19*FW, y, temptx, attr|PREC2);}
       break;
 #endif
 
