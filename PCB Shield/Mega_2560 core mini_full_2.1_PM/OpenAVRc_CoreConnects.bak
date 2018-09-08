@@ -38,7 +38,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 7
 Title "Shield Mega2560 core Full"
-Date "2018-04-25"
+Date "2018-07-07"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -1090,17 +1090,4 @@ F 3 "" H 2100 2650 50  0000 C CNN
 	1    50   3400
 	1    0    0    -1  
 $EndComp
-$Comp
-L VCC #PWR066
-U 1 1 5AE0CD8D
-P 2150 5200
-F 0 "#PWR066" H 2150 5050 50  0001 C CNN
-F 1 "VCC" V 2150 5400 50  0000 C CNN
-F 2 "" H 2150 5200 50  0000 C CNN
-F 3 "" H 2150 5200 50  0000 C CNN
-	1    2150 5200
-	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	2600 5200 2150 5200
 $EndSCHEMATC

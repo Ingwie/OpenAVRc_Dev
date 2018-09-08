@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by PcbNew   date = 07/08/2018 09:18:39
+Cmp-Mod V01 Created by PcbNew   date = 08/09/2018 08:34:00
 
 BeginCmp
 TimeStamp = 5AAB9EA5
@@ -452,7 +452,7 @@ BeginCmp
 TimeStamp = 58D7F706
 Path = /59C5A6CD/59C5C161
 Reference = R11;
-ValeurCmp = 120K;
+ValeurCmp = 68K;
 IdModule  = Resistors_SMD:R_1206;
 EndCmp
 
@@ -516,7 +516,7 @@ BeginCmp
 TimeStamp = 5936E083
 Path = /59C5A6CD/59C5C16F
 Reference = R12;
-ValeurCmp = 120K;
+ValeurCmp = 68K;
 IdModule  = Resistors_SMD:R_1206;
 EndCmp
 
@@ -524,7 +524,7 @@ BeginCmp
 TimeStamp = 5936E089
 Path = /59C5A6CD/59C5C184
 Reference = R13;
-ValeurCmp = 120K;
+ValeurCmp = 68K;
 IdModule  = Resistors_SMD:R_1206;
 EndCmp
 
@@ -540,7 +540,7 @@ BeginCmp
 TimeStamp = 5936E08F
 Path = /59C5A6CD/59C5C18B
 Reference = R14;
-ValeurCmp = 120K;
+ValeurCmp = 68K;
 IdModule  = Resistors_SMD:R_1206;
 EndCmp
 
