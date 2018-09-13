@@ -38,7 +38,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 7
 Title "Shield Mega2560 core Full"
-Date "2018-09-08"
+Date "2018-09-13"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -674,7 +674,7 @@ F 3 "" H 10450 2350 50  0000 C CNN
 	1    10450 2350
 	1    0    0    -1  
 $EndComp
-Text GLabel 1450 3550 0    60   Output ~ 0
+Text GLabel 2400 3450 2    60   Output ~ 0
 BT_OnOff
 Text GLabel 10000 5300 2    60   Input ~ 0
 BT_OnOff
@@ -1036,8 +1036,6 @@ Wire Wire Line
 Wire Wire Line
 	10450 2700 10350 2700
 Wire Wire Line
-	1850 3550 1450 3550
-Wire Wire Line
 	3750 2450 3500 2450
 Wire Wire Line
 	2850 1550 2550 1550
@@ -1090,4 +1088,6 @@ F 3 "" H 2100 2650 50  0000 C CNN
 	1    50   3400
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	2400 3450 2350 3450
 $EndSCHEMATC
