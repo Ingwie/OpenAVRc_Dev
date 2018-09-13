@@ -324,6 +324,7 @@ static void frskyX_data_frame()
   packet[end_packet]=lcrc;//low byte
 }
 
+#if defined(FRSKY)
 static void frsky_check_telemetry(uint8_t *pkt, uint8_t len)
 {
   // only process packets with the required id and packet length and good crc
@@ -396,6 +397,7 @@ static void frsky_check_telemetry(uint8_t *pkt, uint8_t len)
         }
     }
 }
+#endif
 
 static uint16_t FRSKYX_send_data_packet()
 {
