@@ -279,7 +279,6 @@
 		<Unit filename="../OpenAVRc/buzzer.cpp" />
 		<Unit filename="../OpenAVRc/buzzer.h" />
 		<Unit filename="../OpenAVRc/curves.cpp" />
-		<Unit filename="../OpenAVRc/diskio.cpp" />
 		<Unit filename="../OpenAVRc/eeprom_common.cpp" />
 		<Unit filename="../OpenAVRc/eeprom_common.h" />
 		<Unit filename="../OpenAVRc/eeprom_rlc.cpp" />
@@ -322,7 +321,6 @@
 		<Unit filename="../OpenAVRc/gui/popups.h" />
 		<Unit filename="../OpenAVRc/gui/splash.cpp" />
 		<Unit filename="../OpenAVRc/gui/view_main.cpp" />
-		<Unit filename="../OpenAVRc/gui/view_mavlink.h" />
 		<Unit filename="../OpenAVRc/gui/view_statistics.cpp" />
 		<Unit filename="../OpenAVRc/gui/view_telemetry.cpp" />
 		<Unit filename="../OpenAVRc/gui/view_text.cpp" />
@@ -423,7 +421,6 @@
 		<Unit filename="../OpenAVRc/pulses/pulses.h" />
 		<Unit filename="../OpenAVRc/pulses/pulses_avr.cpp" />
 		<Unit filename="../OpenAVRc/pulses/pulses_avr.h" />
-		<Unit filename="../OpenAVRc/rtc.h" />
 		<Unit filename="../OpenAVRc/rtc_driver.cpp" />
 		<Unit filename="../OpenAVRc/sdcard.cpp" />
 		<Unit filename="../OpenAVRc/sdcard.h" />
@@ -451,26 +448,11 @@
 		<Unit filename="../OpenAVRc/targets/megamini/board_megamini.h" />
 		<Unit filename="../OpenAVRc/targets/simu/simu_interface.cpp" />
 		<Unit filename="../OpenAVRc/targets/simu/simu_interface.h" />
-		<Unit filename="../OpenAVRc/targets/stock/board_stock.h" />
-		<Unit filename="../OpenAVRc/targets/stock/lcd_simu_driver.h" />
 		<Unit filename="../OpenAVRc/telemetry/frsky.cpp" />
 		<Unit filename="../OpenAVRc/telemetry/frsky.h" />
 		<Unit filename="../OpenAVRc/telemetry_driver.cpp" />
 		<Unit filename="../OpenAVRc/templates.cpp" />
 		<Unit filename="../OpenAVRc/templates.h" />
-		<Unit filename="../OpenAVRc/thirdparty/FatFs/diskio.h" />
-		<Unit filename="../OpenAVRc/thirdparty/FatFs/ff.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../OpenAVRc/thirdparty/FatFs/ff.h" />
-		<Unit filename="../OpenAVRc/thirdparty/FatFs/ffconf.h" />
-		<Unit filename="../OpenAVRc/thirdparty/FatFs/integer.h" />
-		<Unit filename="../OpenAVRc/thirdparty/FatFs/option/syscall.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../OpenAVRc/thirdparty/FatFs/option/unicode.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="../OpenAVRc/timers.cpp" />
 		<Unit filename="../OpenAVRc/timers.h" />
 		<Unit filename="../OpenAVRc/trainer_input.cpp" />

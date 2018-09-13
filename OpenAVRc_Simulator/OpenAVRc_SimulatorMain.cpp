@@ -1206,7 +1206,6 @@ void OpenAVRc_SimulatorFrame::ExportEeprom()
   if (saveFileDialog.ShowModal() == wxID_CANCEL)
     return;     // the user changed idea...
 
-
   eepromfile = new wxFileConfig( "", "", saveFileDialog.GetPath());
 
   wxBusyInfo wait(_("Exportation en cours, attendez SVP......"));

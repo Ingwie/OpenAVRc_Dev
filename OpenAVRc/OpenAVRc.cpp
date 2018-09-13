@@ -239,10 +239,6 @@ void per10ms()
   if (mixWarning & 4) if(EVERY_PERIOD_WITH_OFFSET(g_tmr10ms, 256,128) || EVERY_PERIOD_WITH_OFFSET(g_tmr10ms, 256,136) || EVERY_PERIOD_WITH_OFFSET(g_tmr10ms, 256, 144)) AUDIO_MIX_WARNING(3);
 #endif
 
-#if defined(SDCARD)
-  sdPoll10ms();
-#endif
-
 #if ROTARY_ENCODERS > 0
   if (rotEncADebounce) {
     if (!(rotEncADebounce >>= 1)) ENABLEROTENCAISR(); // Re enable rotencA isr (deboucing)
@@ -333,13 +329,6 @@ void applyDefaultTemplate()
 }
 #endif
 
-
-#if defined(SDCARD)
-bool isFileAvailable(const char * filename)
-{
-  return f_stat(filename, 0) == FR_OK;
-}
-#endif
 
 void modelDefault(uint8_t id)
 {
@@ -1183,13 +1172,13 @@ void doMixerCalculations()
   }
 }
 
-void OpenAVRcStart()
+void OpenAVRcStart() // Run only if it is not a WDT reboot
 {
 #if defined(RTCLOCK)
   rtcInit();
 #endif
-#if defined(SDCARD) && !defined(SIMU)
-  sdMountPoll(); // Mount SD if it is not a WDT reboot
+#if defined(SDCARD)
+  if (!MountSD()) master_spi_disable();// Mount SD disable master SPI port on error
 #endif
   doSplash();
 #if defined(GUI)
@@ -1199,6 +1188,7 @@ void OpenAVRcStart()
     chainMenu(menuFirstCalib);
   }
 #endif
+
 }
 
 void OpenAVRcClose()
@@ -1231,7 +1221,8 @@ void OpenAVRcClose()
 
 
 #if defined(SDCARD)
-  SD_spi_power_off();
+  UmountSD();
+  master_spi_disable();
 #endif
 }
 

@@ -49,6 +49,72 @@ typedef const int8_t pm_int8_t;
 #define REG8 uint8_t
 #define REG16 uint16_t
 
+//SD
+#define FAT_ATTRIB_DIR 0xFF
+#define FAT_SEEK_SET 0 //wxFromStart
+#define FAT_SEEK_CUR 1 //wxFromCurrent
+#define FAT_SEEK_END 2 //wxFromEnd
+#define fat_delete_dir fat_delete_file
+
+#define fat_close(x);
+#define partition_close(x);
+
+
+struct sd_raw_info
+{
+  uint8_t manufacturing_year;
+  uint32_t capacity;
+};
+
+extern uint8_t sd_raw_read,sd_raw_read_interval,sd_raw_write,sd_raw_write_interval;
+
+struct partition_struct
+{
+};
+
+struct fat_fs_struct
+{
+    uint8_t* partition;
+};
+
+struct fat_dir_entry_struct
+{
+    char long_name[32];
+    uint8_t attributes;
+};
+
+struct fat_file_struct
+{
+    struct fat_fs_struct* fs;
+    struct fat_dir_entry_struct dir_entry;
+};
+
+struct fat_dir_struct
+{
+    struct fat_fs_struct* fs;
+    struct fat_dir_entry_struct dir_entry;
+};
+
+extern void sd_raw_get_info(struct sd_raw_info*);
+extern uint8_t sd_raw_init();
+extern uint8_t sd_raw_sync();
+extern partition_struct* partition_open(uint8_t a,uint8_t b,uint8_t c,uint8_t d,uint8_t e);
+extern uint8_t fat_create_file(struct fat_dir_struct* parent, const char* file, struct fat_dir_entry_struct* dir_entry);
+extern struct fat_file_struct* fat_open_file(struct fat_fs_struct* fs, const struct fat_dir_entry_struct* dir_entry);
+extern intptr_t fat_write_file(struct fat_file_struct* fd, const uint8_t* buffer, uintptr_t buffer_len);
+extern void fat_close_file(struct fat_file_struct* fd);
+extern intptr_t fat_read_file(struct fat_file_struct* fd, uint8_t* buffer, uintptr_t buffer_len);
+extern uint8_t fat_read_dir(struct fat_dir_struct* dd, struct fat_dir_entry_struct* dir_entry);
+extern uint8_t fat_seek_file(struct fat_file_struct* fd, int32_t* offset, uint8_t whence);
+extern struct fat_file_struct* fat_open_file(struct fat_fs_struct* fs, const struct fat_dir_entry_struct* dir_entry);
+extern uint8_t fat_get_dir_entry_of_path(struct fat_fs_struct* fs, const char* path, struct fat_dir_entry_struct* dir_entry);
+extern struct fat_dir_struct* fat_open_dir(struct fat_fs_struct* fs, const struct fat_dir_entry_struct* dir_entry);
+extern struct fat_fs_struct* fat_open(struct partition_struct* partition);
+extern uint8_t fat_create_dir(struct fat_dir_struct* parent, const char* dir, struct fat_dir_entry_struct* dir_entry);
+extern uint8_t fat_reset_dir(struct fat_dir_struct* dd);
+extern uint8_t fat_delete_file(struct fat_fs_struct* fs, struct fat_dir_entry_struct* dir_entry);
+extern void fat_close_dir(struct fat_dir_struct* dd);
+
 //Function
 extern unsigned char simu_eeprom[];
 

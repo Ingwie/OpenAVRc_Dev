@@ -40,15 +40,14 @@ void perMain()
 {
 
   SIMU_PROCESSEVENTS;
-  LEDOFF();
-
+  LEDON();
   uint16_t t0 = getTmr16KHz();
   int16_t delta = (nextMixerEndTime - lastMixerDuration) - t0;
-  if (delta > 0 && delta < (int16_t)US_TO_16KHZ_TICK(MAX_MIXER_DELTA_US))
-    {
-      LEDON();
-      return;
-    }
+  if (delta > 0 && delta < (int16_t)US_TO_16KHZ_TICK(MAX_MIXER_DELTA_US)) {
+
+  LEDOFF();
+    return;
+  }
 
   nextMixerEndTime = t0 + US_TO_16KHZ_TICK(MAX_MIXER_DELTA_US);
   // this is a very tricky implementation; lastMixerEndTime is just like a default value not to stop mixcalculations totally;
@@ -72,11 +71,10 @@ void perMain()
   }
 
 
-#if defined(SDCARD) && !defined(SIMU)
-  //sdMountPoll();
-  if (sdMounted() && isFunctionActive(FUNCTION_LOGS))
+#if defined(SDCARD)
+  if (menuHandlers[menuLevel] == menuMainView) // ReusableBuffer is the log's buffer, just use it in mainview
     {
-      writeLogs(); // Minimise writelogs perturbation
+      writeLogs();
     }
 #endif
 

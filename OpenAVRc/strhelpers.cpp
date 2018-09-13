@@ -139,7 +139,7 @@ char *getFileExtension(char *filename, int size)
 
 #if defined(RTCLOCK)
 
-char * strAppendDate(char * str, bool time)
+char * strAppendDate(char * str)//, bool time)
 {
   str[0] = '-';
   struct tm * utm;
@@ -160,7 +160,7 @@ char * strAppendDate(char * str, bool time)
   str[10] = '0' + qr.rem;
   str[9] = '0' + qr.quot;
 
-  if (time) {
+  /*if (time) {
     str[11] = '-';
     div_t qr = div(utm->tm_hour, 10);
     str[13] = '0' + qr.rem;
@@ -173,10 +173,10 @@ char * strAppendDate(char * str, bool time)
     str[16] = '0' + qr.quot;
     str[18] = '\0';
     return &str[18];
-  } else {
+  } else {*/
     str[11] = '\0';
     return &str[11];
-  }
+  //}
 }
 #endif
 #endif

@@ -33,6 +33,7 @@
 #ifndef frskysimu_h
 #define frskysimu_h
 
+#include  <windows.h>
 #include "FrSkySportSensor.h"
 //#include "FrSkySportSensorXjt.h"
 #include "FrSkySportSensorAss.h"

@@ -58,7 +58,7 @@ void onModelSelectMenu(const char *result)
 #if defined(SDCARD)
   else if (result == STR_BACKUP_MODEL) {
     eeCheck(true); // force writing of current model data before this is changed
-    POPUP_WARNING(eeBackupModel(sub));
+    if (!eeBackupModel(sub)) POPUP_WARNING(STR_SDCARD_ERROR);
   } else if (result == STR_RESTORE_MODEL || result == STR_UPDATE_LIST) {
     if (!listSdFiles(MODELS_PATH, MODELS_EXT, MENU_LINE_LENGTH-1, NULL, 0)) {
       POPUP_WARNING(STR_NO_MODELS_ON_SD);
@@ -76,6 +76,7 @@ void onModelSelectMenu(const char *result)
   else {
     // The user choosed a file on SD to restore
     POPUP_WARNING(eeRestoreModel(sub, (char *)result));
+    fat_close_file(SD_file);
     if (!warningText && g_eeGeneral.currModel == sub) {
       eeLoadModel(sub);
     }

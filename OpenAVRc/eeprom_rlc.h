@@ -115,7 +115,7 @@ extern uint8_t  s_write_err;    // error reasons
 
 extern uint8_t  s_sync_write;
 #define ENABLE_SYNC_WRITE(val) s_sync_write = val;
-#define IS_SYNC_WRITE_ENABLE() s_sync_write
+#define IS_SYNC_WRITE_ENABLE() (s_sync_write)
 
 ///deliver current errno, this is reset in open
 inline uint8_t write_errno()
@@ -206,7 +206,7 @@ inline void eepromWriteProcess()
 #define eeDeleteModel(idx) EFile::rm(FILE_MODEL(idx))
 
 #if defined(SDCARD)
-const pm_char * eeBackupModel(uint8_t i_fileSrc);
+uint8_t eeBackupModel(uint8_t i_fileSrc);
 const pm_char * eeRestoreModel(uint8_t i_fileDst, char *model_name);
 #endif
 
