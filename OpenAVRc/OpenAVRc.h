@@ -68,7 +68,11 @@
 // Fiddle to force compiler to use a pointer
   #define FORCE_INDIRECT(ptr) __asm__ __volatile__ ("" : "=e" (ptr) : "0" (ptr))
   #define MKTIME mk_gmtime
+  #define SPRINTF_P sprintf_P
+
 #else //SIMU define
+
+  #define SPRINTF_P sprintf
   #define MKTIME mktime
   #include "targets/simu/simu_interface.h"
   #include "targets/megamini/board_megamini.h" //New reference board
@@ -1169,21 +1173,21 @@ extern void OpenAVRcInit(uint8_t mcusr);
 // Re-useable byte array to save having multiple buffers
 #define SD_SCREEN_FILE_LENGTH (26)
 union ReusableBuffer {
-  // 275 bytes
+  // 231 bytes
   struct {
     char listnames[LCD_LINES-1][LEN_MODEL_NAME];
     uint16_t eepromfree;
 
 #if defined(SDCARD)
     char menu_bss[POPUP_MENU_MAX_LINES][MENU_LINE_LENGTH];
-    char mainname[45]; // because reused for SD backup / restore, max backup filename 44 chars: "/MODELS/MODEL0134353-2014-06-19-04-51-27.bin"
+    char mainname[25]; // used in logs : modelnamex-2013-01-01.log
 #else
     char mainname[LEN_MODEL_NAME];
 #endif
 
   } modelsel;
 
-  // 103 bytes
+  // 43 bytes
   struct {
     int16_t midVals[NUM_STICKS+NUM_POTS];
     int16_t loVals[NUM_STICKS+NUM_POTS];
@@ -1192,7 +1196,6 @@ union ReusableBuffer {
   } calib;
 
 #if defined(SDCARD)
-  // 274 bytes
   struct {
     char lines[LCD_LINES-1][SD_SCREEN_FILE_LENGTH+1+1]; // the last char is used to store the flags (directory) of the line
     uint32_t available;
@@ -1200,6 +1203,12 @@ union ReusableBuffer {
     uint16_t count;
     char originalName[SD_SCREEN_FILE_LENGTH+1];
   } sdmanager;
+
+  // 256 bytes
+  struct {
+    char data[240]; // Sd log buffer
+  } logsbuffer;
+
 #endif
 };
 
@@ -1208,7 +1217,7 @@ extern union ReusableBuffer reusableBuffer;
 void checkFlashOnBeep();
 
 #if   defined(FRSKY)
-  void convertUnit(getvalue_t & val, uint8_t & unit); // TODO check FORCEINLINE on stock
+  void convertUnit(getvalue_t & val, uint8_t & unit);
 #else
   #define convertUnit(...)
 #endif
@@ -1299,7 +1308,7 @@ extern void varioWakeup();
   #define IS_SOUND_OFF() (g_eeGeneral.beepMode == e_mode_quiet)
 #endif
 
-#if   defined(IMPERIAL_UNITS)
+#if defined(IMPERIAL_UNITS)
   #define IS_IMPERIAL_ENABLE() (1)
 #else
   #define IS_IMPERIAL_ENABLE() (0)

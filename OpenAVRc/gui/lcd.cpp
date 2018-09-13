@@ -38,7 +38,7 @@ display_t displayBuf[DISPLAY_BUF_SIZE];
 
 void lcdClear()
 {
-  memset(displayBuf, 0, DISPLAY_BUFER_SIZE);
+  memclear(displayBuf, DISPLAY_BUFER_SIZE);
 }
 
 coord_t lcdLastPos;

@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -72,7 +72,7 @@ void lcdInit()
 
 void lcdSetRefVolt(uint8_t val)
 {
-val=val;
+  val=val;
 }
 
 void lcdRefreshFast()
@@ -87,9 +87,10 @@ void lcdRefreshFast()
 
 void lcdRefresh()
 {
-  for (uint8_t i=0; i < NUMITERATIONFULLREFRESH; i++) {
-    lcdRefreshFast();
-  }
+  for (uint8_t i=0; i < NUMITERATIONFULLREFRESH; i++)
+    {
+      lcdRefreshFast();
+    }
 }
 
 void simu_EditModelName()
@@ -99,19 +100,186 @@ void simu_EditModelName()
 
 //SD FUNCTIONS
 
-void Simu_showVoiceTextLine(uint8_t Numline, char * PromptText)
-{
-  wxTextFile MyVoiceListfile(AppPath+"\\list.txt");
-  wxString voiceText;
+uint8_t sd_raw_read,sd_raw_read_interval,sd_raw_write,sd_raw_write_interval;
 
-  if (MyVoiceListfile.Exists()) {
-    MyVoiceListfile.Open(AppPath+"\\list.txt");
-    voiceText = MyVoiceListfile.GetLine(Numline);
-    voiceText.Truncate(SIMU_VOICE_PROMPT_TEXT_LEN);
-    memcpy(PromptText, voiceText.c_str(),SIMU_VOICE_PROMPT_TEXT_LEN);
-    MyVoiceListfile.Close();
-  }
+static wxString sdpath, sdroot;
+static wxDir sddir(sdroot);
+static wxFile sdfile;
+static bool cont = 0;
+
+void sd_raw_get_info(struct sd_raw_info* tmp)
+{
+  tmp->manufacturing_year = 18;
+  tmp->capacity = 1978 * 1024 * 1024;
 }
+
+uint8_t sd_raw_init()
+{
+  wxString root = AppPath+"\\SD\\";
+  if (!sddir.Exists(root))
+    {
+      sddir.Make(root);
+    }
+  sdroot = root;
+  return 1;
+}
+
+uint8_t sd_raw_sync()
+{
+  return 1;
+}
+
+struct fat_fs_struct* fat_open(struct partition_struct* partition)
+{
+  struct fat_fs_struct* tmp = 0;
+  return tmp;
+}
+
+partition_struct* partition_open(uint8_t a,uint8_t b,uint8_t c,uint8_t d,uint8_t e)
+{
+  partition_struct* tmp = 0;
+  return tmp;
+}
+
+uint8_t fat_seek_file(struct fat_file_struct* fd, int32_t* offset, uint8_t whence)
+{
+  uint8_t ret = 0;
+  if (sdfile.Seek(*offset,(wxSeekMode)whence) != wxInvalidOffset)
+    {
+      ret = 1;
+    }
+  return ret;
+}
+
+uint8_t fat_delete_file(struct fat_fs_struct* fs, struct fat_dir_entry_struct* dir_entry)
+{
+  return wxRemoveFile(sdroot + sdpath + wxString::FromUTF8(dir_entry->long_name));
+}
+
+uint8_t fat_create_file(struct fat_dir_struct* parent, const char* file, struct fat_dir_entry_struct* dir_entry)
+{
+  uint8_t ret = 0;
+  wxString temp = sdroot + sdpath + "\\" + wxString::FromUTF8(file);
+  if (wxFile::Exists(temp))
+    {
+      ret = 2;
+    }
+  else if (sdfile.Create(temp, true, wxS_DEFAULT))
+    {
+      ret = 1;
+    }
+  if (ret)
+    {
+      strncpy(dir_entry->long_name, file, 32);
+    }
+  return ret;
+}
+
+struct fat_file_struct* fat_open_file(struct fat_fs_struct* fs, const struct fat_dir_entry_struct* dir_entry)
+{
+  struct fat_file_struct* tmp = 0;
+  wxString temp = sdroot + sdpath + "\\" + wxString::FromUTF8(dir_entry->long_name);
+
+  if (wxFile::Exists(temp))
+    {
+      if (sdfile.Open(temp, wxFile::read_write, wxS_DEFAULT))
+        {
+          return (struct fat_file_struct*)1;
+        }
+    }
+  return tmp;
+}
+
+intptr_t fat_write_file(struct fat_file_struct* fd, const uint8_t* buffer, uintptr_t buffer_len)
+{
+  size_t ret = 0;
+  ret = sdfile.Write(buffer, buffer_len);
+  if (sdfile.Flush())
+    {
+      return ret;
+    }
+  return 0;
+}
+
+intptr_t fat_read_file(struct fat_file_struct* fd, uint8_t* buffer, uintptr_t buffer_len)
+{
+  return (intptr_t)sdfile.Read(buffer,buffer_len);
+}
+
+void fat_close_file(struct fat_file_struct* fd)
+{
+  sdfile.Close();
+  SD_file = 0;
+}
+
+uint8_t fat_read_dir(struct fat_dir_struct* dd, struct fat_dir_entry_struct* dir_entry)
+{
+  if (!sddir.IsOpened())
+    {
+      return 0;
+    }
+  wxString filename, filespec;
+  if (!cont)
+    {
+      cont = sddir.GetFirst(&filename, filespec, wxDIR_FILES | wxDIR_DIRS | ((sddir.GetName() == sdroot)? 0:wxDIR_DOTDOT));
+    }
+  else
+    {
+      cont = sddir.GetNext(&filename);
+    }
+  if (cont)
+    {
+      strncpy(dir_entry->long_name, (const char*)filename.mbc_str(), 32);
+      dir_entry->attributes = (wxDir::Exists(sddir.GetName() + "\\" + filename))? FAT_ATTRIB_DIR:0;
+    }
+  return cont? 1:0;
+}
+
+uint8_t fat_get_dir_entry_of_path(struct fat_fs_struct* fs, const char* path, struct fat_dir_entry_struct* dir_entry)
+{
+  strncpy(dir_entry->long_name, path, 32);
+  return 1;
+}
+
+struct fat_dir_struct* fat_open_dir(struct fat_fs_struct* fs, const struct fat_dir_entry_struct* dir_entry)
+{
+  struct fat_dir_struct* tmp = 0;
+
+  if (sddir.Open(sdroot + wxString::FromUTF8(dir_entry->long_name)))
+    {
+      sdpath = wxString::FromUTF8(dir_entry->long_name);
+      if (sdpath.length() != 1)
+        sdpath.Append("\\"); // Not root
+      return (struct fat_dir_struct*)1;
+    }
+  return tmp;
+}
+
+uint8_t fat_create_dir(struct fat_dir_struct* parent, const char* dir, struct fat_dir_entry_struct* dir_entry)
+{
+  uint8_t ret = 0;
+  if (sddir.Make(sdroot + wxString::FromUTF8(dir_entry->long_name), wxS_DIR_DEFAULT))
+    {
+      sdpath = wxString::FromUTF8(dir_entry->long_name);
+      ret = 1;
+    }
+  return ret;
+}
+
+uint8_t fat_reset_dir(struct fat_dir_struct* dd)
+{
+  cont = 0; // reset fat_read_dir function
+  return 1;
+}
+
+void fat_close_dir(struct fat_dir_struct* dd)
+{
+  if (sddir.IsOpened())
+    {
+      sddir.Close();
+    }
+}
+//////////////////////////////////
 
 void PlayBeep(uint32_t freq, uint32_t time)
 {
@@ -119,156 +287,4 @@ void PlayBeep(uint32_t freq, uint32_t time)
   BeepTime = time;
 }
 
-FRESULT f_close (FIL * fil)
-{
-  TRACE("f_close (FIL:%p)",  fil);
-  //if (fil->fs) {
-  //  fclose((FILE*)fil->fs);
-  return FR_OK;
-}
 
-FRESULT f_opendir (DIR * rep, const TCHAR * name)
-{
-  char temp[20];
-  //sprintf(temp, "%s", name);
-  wxString dir(temp,wxConvUTF8);
-  dir.Replace("/","\\",true);
-  if (dir == ".") dir = "";
-  //wxMessageBox("f_opendir  " +AppPath+dir);
-  if (Myfile.DirExists(AppPath+dir)) {
-    rep->fs = (FATFS *)true;
-    simu_dir = AppPath+dir;
-    TRACE("f_opendir(%s) = OK", name);
-    return FR_OK;
-  }
-  TRACE("f_opendir(%s) = error", name);
-  return FR_NO_PATH;
-}
-
-FRESULT f_readdir (DIR * rep, FILINFO * fil)
-{
-  static wxDir dir(simu_dir);
-  static wxString filename;
-  static bool cont = false;
-
-  if (!cont) {
-    cont = dir.GetFirst(&filename, wxEmptyString, wxDIR_DEFAULT );
-    //wxMessageBox(wxString::Format(wxT("%s\n"), filename.c_str()));
-
-    //fil->fattrib = AM_DIR; //todo check
-
-    /* memset(fil->fname, 0, 13);
-     memset(fil->lfname, 0, SD_SCREEN_FILE_LENGTH);
-    TCHAR fn[13];
-    const wxChar* myStringChars = filename.c_str();
-    for (int i = 0; i < 13; i++) {
-     fn[i] = myStringChars[i];
-    }*/
-    //strncpy(fil->fname, fn, 13-1);
-    //strcpy(fil->lfname, fn);
-
-    //fil->fname = wxString::Format(wxT("%13s\n"), filename.c_str());
-    if (!cont) return FR_NO_FILE;
-    else return FR_OK;
-  }
-
-//fil->fattrib = AM_DIR;
-
-  cont = dir.GetNext(&filename);
-
-  // wxMessageBox(wxString::Format(wxT("%s\n"), filename.c_str()));
-
-  //if (!rep->fs) return FR_NO_FILE;
-
-  if (!cont) return FR_NO_FILE;
-  else return FR_OK;
-
-  //fil->fattrib = (ent->d_type == DT_DIR ? AM_DIR : 0);
-
-  //return FR_OK;
-}
-
-FRESULT f_mkdir (const TCHAR*)
-{
-  return FR_OK;
-}
-
-FRESULT f_open (FIL * fil, const TCHAR *name, BYTE flag)
-{
-  return FR_INVALID_NAME;
-  return FR_OK;
-}
-
-FRESULT f_write (FIL* fil, const void* data, UINT size, UINT* written)
-{
-  return FR_OK;
-}
-
-FRESULT f_read (FIL* fil, void* data, UINT size, UINT* read)
-{
-  return FR_OK;
-}
-
-FRESULT f_getcwd (TCHAR *path, UINT sz_path)
-{
-  return FR_NO_PATH;
-  return FR_OK;
-}
-
-FRESULT f_unlink (const TCHAR* name)
-{
-  return FR_INVALID_NAME;
-  return FR_OK;
-}
-
-FRESULT f_mkfs (const TCHAR *path, BYTE, UINT)
-{
-  TRACE("Format SD...");
-  return FR_OK;
-}
-
-FRESULT f_chdir (const TCHAR *name)
-{
-  //chdir(convertSimuPath(name));
-  return FR_OK;
-}
-
-FRESULT f_lseek (FIL* fil, DWORD offset)
-{
-  return FR_OK;
-}
-
-int f_putc (TCHAR c, FIL * fil)
-{
-  //if (fil && fil->fs) fwrite(&c, 1, 1, (FILE*)fil->fs);
-  return FR_OK;
-}
-
-int f_puts (const TCHAR * str, FIL * fil)
-{
-  int n;
-  for (n = 0; *str; str++, n++) {
-    if (f_putc(*str, fil) == EOF) return EOF;
-  }
-  return n;
-}
-
-int f_printf (FIL *fil, const TCHAR * format, ...)
-{
-  va_list arglist;
-  va_start(arglist, format);
-  //if (fil && fil->fs) vfprintf((FILE*)fil->fs, format, arglist);
-  va_end(arglist);
-  return 0;
-}
-
-FRESULT f_stat (const TCHAR * name, FILINFO *)
-{
-  return FR_INVALID_NAME;
-  return FR_OK;
-}
-
-FRESULT f_mount (FATFS*,const TCHAR*, BYTE opt)
-{
-  return FR_OK;
-}

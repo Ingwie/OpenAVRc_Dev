@@ -193,8 +193,8 @@ enum AlarmLevel {
   alarm_red = 3
 };
 
-#define ALARM_GREATER(channel, alarm)     ((g_model.telemetry.channels[channel].alarms_greater >> alarm) & 1)
-#define ALARM_LEVEL(channel, alarm)       ((g_model.telemetry.channels[channel].alarms_level >> (2*alarm)) & 3)
+#define ALARM_GREATER(channel, alarm)   ((g_model.telemetry.channels[channel].alarms_greater >> alarm) & 1)
+#define ALARM_LEVEL(channel, alarm)     ((g_model.telemetry.channels[channel].alarms_level >> (2*alarm)) & 3)
 
 #define TELEMETRY_STREAMING()           (frskyStreaming > 0)
 #define TELEMETRY_RSSI()                (telemetryData.rssi[0].value)
@@ -203,7 +203,11 @@ enum AlarmLevel {
 #define TELEMETRY_CELL_VOLTAGE_MUTLIPLIER  2
 
 #define TELEMETRY_BARO_ALT_AVAILABLE()  (telemetryData.value.baroAltitudeOffset)
-#define TELEMETRY_BARO_ALT_UNIT         (IS_IMPERIAL_ENABLE() ? LENGTH_UNIT_IMP : LENGTH_UNIT_METR)
+#if defined(IMPERIAL_UNITS)
+#define TELEMETRY_BARO_ALT_UNIT         "ft"
+#else
+#define TELEMETRY_BARO_ALT_UNIT         "m"
+#endif
 
 #define TELEMETRY_RELATIVE_BARO_ALT_BP  telemetryData.value.baroAltitude_bp
 #define TELEMETRY_RELATIVE_BARO_ALT_AP  telemetryData.value.baroAltitude_ap
@@ -219,9 +223,9 @@ enum AlarmLevel {
 #define TELEMETRY_SPEED_UNIT            (IS_IMPERIAL_ENABLE() ? SPEED_UNIT_IMP : SPEED_UNIT_METR)
 #define TELEMETRY_GPS_SPEED_FORMAT      "%d,"
 #define TELEMETRY_GPS_SPEED_ARGS        telemetryData.value.gpsSpeed_bp,
-#define TELEMETRY_CELLS_ARGS          telemetryData.value.cellsSum / 10, telemetryData.value.cellsSum % 10, telemetryData.value.cellVolts[0]*2/100, telemetryData.value.cellVolts[0]*2%100, telemetryData.value.cellVolts[1]*2/100, telemetryData.value.cellVolts[1]*2%100, telemetryData.value.cellVolts[2]*2/100, telemetryData.value.cellVolts[2]*2%100, telemetryData.value.cellVolts[3]*2/100, telemetryData.value.cellVolts[3]*2%100, telemetryData.value.cellVolts[4]*2/100, telemetryData.value.cellVolts[4]*2%100, telemetryData.value.cellVolts[5]*2/100, telemetryData.value.cellVolts[5]*2%100,
-#define TELEMETRY_CELLS_FORMAT        "%d.%d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,"
-#define TELEMETRY_CELLS_LABEL         "Cell volts,Cell 1,Cell 2,Cell 3,Cell 4,Cell 5,Cell 6,"
+#define TELEMETRY_CELLS_ARGS            telemetryData.value.cellsSum / 10, telemetryData.value.cellsSum % 10, telemetryData.value.cellVolts[0]*2/100, telemetryData.value.cellVolts[0]*2%100, telemetryData.value.cellVolts[1]*2/100, telemetryData.value.cellVolts[1]*2%100, telemetryData.value.cellVolts[2]*2/100, telemetryData.value.cellVolts[2]*2%100, telemetryData.value.cellVolts[3]*2/100, telemetryData.value.cellVolts[3]*2%100, telemetryData.value.cellVolts[4]*2/100, telemetryData.value.cellVolts[4]*2%100, telemetryData.value.cellVolts[5]*2/100, telemetryData.value.cellVolts[5]*2%100,
+#define TELEMETRY_CELLS_FORMAT          "%d.%d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,"
+#define TELEMETRY_CELLS_LABEL           "Cell volts,Cell 1,Cell 2,Cell 3,Cell 4,Cell 5,Cell 6,"
 #define TELEMETRY_CURRENT_FORMAT        "%d.%02d,"
 #define TELEMETRY_CURRENT_ARGS          telemetryData.value.current / 100, telemetryData.value.current % 100,
 #define TELEMETRY_VFAS_FORMAT           "%d.%d,"
@@ -231,7 +235,7 @@ enum AlarmLevel {
 #define TELEMETRY_ASPEED_FORMAT         "%d.%d,"
 #define TELEMETRY_ASPEED_ARGS           telemetryData.value.airSpeed / 10, telemetryData.value.airSpeed % 10,
 
-#define TELEMETRY_OPENXSENSOR()       (telemetryData.value.openXsensor)
+#define TELEMETRY_OPENXSENSOR()         (telemetryData.value.openXsensor)
 
 #define TELEMETRY_CELL_VOLTAGE(k)         (telemetryData.value.cellVolts[k] * TELEMETRY_CELL_VOLTAGE_MUTLIPLIER)
 #define TELEMETRY_MIN_CELL_VOLTAGE        (telemetryData.value.minCellVolts * TELEMETRY_CELL_VOLTAGE_MUTLIPLIER)

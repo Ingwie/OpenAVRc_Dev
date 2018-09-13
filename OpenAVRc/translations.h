@@ -544,7 +544,7 @@ extern const pm_char STR_BAUDRATE[];
 extern const pm_char STR_SD_INFO_TITLE[];
 extern const pm_char STR_SD_TYPE[];
 extern const pm_char STR_SD_SPEED[];
-extern const pm_char STR_SD_SECTORS[];
+extern const pm_char STR_YEAR[];
 extern const pm_char STR_SD_SIZE[];
 extern const pm_char STR_TYPE[];
 extern const pm_char STR_GLOBAL_VARS[];

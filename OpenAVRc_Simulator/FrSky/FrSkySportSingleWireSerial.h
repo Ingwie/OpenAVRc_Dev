@@ -51,7 +51,7 @@ extern void SendSerialDataToUART(uint8_t data);
 #define FRSKY_SENSOR_FRSKY_DATA_FRAME 0x10
 #define FRSKY_STUFFING 0x7D
 
-static uint8_t FrSkySportSingleWireSerialmemdata = 0xFF;
+uint8_t FrSkySportSingleWireSerialmemdata = 0xFF;
 
 class FrSkySportSingleWireSerial
 {

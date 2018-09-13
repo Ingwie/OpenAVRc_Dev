@@ -189,7 +189,6 @@ void lcdInit();
 #if defined (SIMU)
 void simuTrace(const char * format, ...);
 void SimuSleepMs(uint16_t x);
-void Simu_showVoiceTextLine(uint8_t Numline, char * PromptText);
 void editModelName();
 #endif // defined
 void lcdRefresh();
@@ -200,7 +199,7 @@ void lcdRefreshFast();
 
 char *strAppend(char * dest, const char * source, int len=0);
 char *strSetCursor(char *dest, int position);
-char *strAppendDate(char * str, bool time=false);
+char *strAppendDate(char * str);
 char *strAppendFilename(char * dest, const char * filename, const int size);
 
 #endif

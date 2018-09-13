@@ -337,7 +337,7 @@ void FrSkyDTelemetry::sendFrame3()
 {
   bool result = false;
   result = sendDateTimeData();
-  //if (result == true) sendSeparator();
+  if (result == true) sendSeparator();
 }
 
 void FrSkyDTelemetry::send()

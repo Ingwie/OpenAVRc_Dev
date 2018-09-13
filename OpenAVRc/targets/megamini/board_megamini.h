@@ -77,7 +77,9 @@ void readKeysAndTrims();
 
 // SD driver
 #define SDCARD_CS_N_ACTIVE()        PORTB &= ~PIN0_bm // MMC CS = L
+#define select_card()               SDCARD_CS_N_ACTIVE()
 #define SDCARD_CS_N_INACTIVE()      PORTB |= PIN0_bm // MMC CS = H
+#define unselect_card()             SDCARD_CS_N_INACTIVE()
 #define SDCARD_CS_N_IS_INACTIVE()   (PINB & PIN0_bm)
 #define SPI_250K() { SPSR = _BV(SPI2X); SPCR = _BV(SPE) | _BV(MSTR) | _BV(SPR1) | _BV(SPR0); }
 #define SPI_8M()   { SPSR = _BV(SPI2X); SPCR = _BV(SPE) | _BV(MSTR); }

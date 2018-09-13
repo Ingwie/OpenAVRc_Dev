@@ -43,6 +43,7 @@
 #ifndef _FRSKY_SPORT_TELEMETRY_H_
 #define _FRSKY_SPORT_TELEMETRY_H_
 
+#include  <windows.h>
 #include "FrSkySportPolling.h"
 #include "FrSkySportSensor.h"
 #include "FrSkySportSingleWireSerial.h"

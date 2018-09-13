@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -35,57 +35,26 @@
 
 #define VOICE_PROMPT_TEXT_LEN  25
 
-FORCEINLINE void showVoiceTextLine(uint8_t Numline, char * PromptText)
+FORCEINLINE void loadVoiceTextLine(uint8_t Numline, char * PromptText)
 {
-  FIL file;
-  int result;
-  char c[VOICE_PROMPT_TEXT_LEN] = {0};
-  unsigned int sz;
+  checkLogActived();
 
-  result = f_chdir(VOICETXT_PATH);
-  if (result == FR_OK) {
-    result = f_open(&file,VOICETXT_FILE, FA_OPEN_EXISTING | FA_READ);
-    if (result == FR_OK) {
-      result = f_lseek(&file, Numline*(VOICE_PROMPT_TEXT_LEN+2));
-      if (result == FR_OK) {
-        result = f_read(&file, &c, VOICE_PROMPT_TEXT_LEN, &sz);
-        if (result == FR_OK) {
-          memcpy(PromptText,c,VOICE_PROMPT_TEXT_LEN);
+  if (sdChangeCurDir(VOICETXT_PATH))
+    {
+      if (sdFindFileStruct(VOICETXT_FILE))
+        {
+          SD_file = fat_open_file(SD_filesystem, &SD_dir_entry);
+          int32_t seekofs = Numline*(VOICE_PROMPT_TEXT_LEN+2);
+          if(fat_seek_file(SD_file, &seekofs, FAT_SEEK_SET))
+            {
+              if (fat_read_file(SD_file, (uint8_t*)PromptText, VOICE_PROMPT_TEXT_LEN) == VOICE_PROMPT_TEXT_LEN)
+                {
+                  PromptText[VOICE_PROMPT_TEXT_LEN] = '\n';
+                }
+            }
+          fat_close_file(SD_file);
         }
-      }
     }
-  }
-  f_close(&file);
-
-
-// test
-/*
-  PromptText[0] = '1';
-  PromptText[1] = '2';
-  PromptText[2] = '3';
-  PromptText[3] = '4';
-  PromptText[4] = '5';
-  PromptText[5] = '6';
-  PromptText[6] = '7';
-  PromptText[7] = '8';
-  PromptText[8] = '9';
-  PromptText[9] = 'A';
-  PromptText[10] = 'B';
-  PromptText[11] = 'C';
-  PromptText[12] = 'D';
-  PromptText[13] = 'E';
-  PromptText[14] = 'F';
-  PromptText[15] = 'G';
-  PromptText[16] = 'H';
-  PromptText[17] = 'I';
-  PromptText[18] = 'J';
-  PromptText[19] = 'K';
-  PromptText[20] = 'L';
-  PromptText[21] = 'M';
-  PromptText[22] = 'N';
-  PromptText[23] = 'O';
-  PromptText[24] = 'K';
-*/
 }
 
 
@@ -110,8 +79,8 @@ void readTextFile(int & lines_count)
   memset(s_text_screen, 0, sizeof(s_text_screen));
 
   result = f_open(&file, s_text_file, FA_OPEN_EXISTING | FA_READ);
-  if (result == FR_OK) {
-    for (int i=0; i<TEXT_FILE_MAXSIZE && f_read(&file, &c, 1, &sz)==FR_OK && sz==1 && (lines_count==0 || current_line-menuVerticalOffset<LCD_LINES-1); i++) {
+  if (result == 0) {
+    for (int i=0; i<TEXT_FILE_MAXSIZE && f_read(&file, &c, 1, &sz)==0 && sz==1 && (lines_count==0 || current_line-menuVerticalOffset<LCD_LINES-1); i++) {
       if (c == '\n') {
         ++current_line;
         line_length = 0;

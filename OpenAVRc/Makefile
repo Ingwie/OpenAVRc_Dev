@@ -289,7 +289,7 @@ VERSION_REVISION = 0
 VERSION = $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_REVISION)$(OpenAVRc_VERSION_SUFFIX)
 
 THIRDPARTY = thirdparty
-FATFSDIR = $(THIRDPARTY)/FatFs
+RRSDDIR = $(THIRDPARTY)/rrsd
 
 SRC =
 CPPSRC =
@@ -327,7 +327,7 @@ ifeq ($(PCB), MEGAMINI)
   BUZZER = YES
   THR_TRACE = YES
   PWRMANAGE = NO
-  INCDIRS += targets/megamini targets/stock $(FATFSDIR) $(FATFSDIR)/option
+  INCDIRS += targets/megamini targets/stock $(RRSDDIR)
   BOARDSRC += main_avr.cpp i2c_master.cpp spi.c targets/megamini/board_megamini.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
@@ -342,7 +342,7 @@ ifeq ($(PCB), MEGAMINI)
   endif
 
   ifeq ($(SDCARD), YES)
-    EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/option/ccsbcs.c diskio.cpp
+    EXTRABOARDSRC += $(RRSDDIR)/fat.c $(RRSDDIR)/partition.c $(RRSDDIR)/sd_raw.c $(RRSDDIR)/byteordering.c
     CPPDEFS += -DSDCARD
     GUIGENERALSRC += gui/menu_general_sdmanager.cpp
     CPPSRC += sdcard.cpp logs.cpp
@@ -464,7 +464,7 @@ ifeq ($(PCB), EVO_V1)
   PERSONAMES = YES
   PWRMANAGE = NO
 
-  INCDIRS += targets/evo_v1 targets/stock $(FATFSDIR) $(FATFSDIR)/option
+  INCDIRS += targets/evo_v1 targets/stock $(RRSDDIR)
   BOARDSRC = main_avr.cpp i2c_master.cpp spi.c targets/evo_v1/evo_mega2560.cpp targets/evo_v1/evo_lcd_driver.cpp targets/evo_v1/evo_adc_driver.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
@@ -478,7 +478,7 @@ ifeq ($(PCB), EVO_V1)
   endif
 
   ifeq ($(SDCARD), YES)
-    EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/option/ccsbcs.c diskio.cpp
+    EXTRABOARDSRC += $(RRSDDIR)/fat.c $(RRSDDIR)/partition.c $(RRSDDIR)/sd_raw.c $(RRSDDIR)/byteordering.c
     CPPDEFS += -DSDCARD -DRTCLOCK
     GUIGENERALSRC += gui/menu_general_sdmanager.cpp
     CPPSRC += sdcard.cpp logs.cpp
@@ -536,7 +536,7 @@ ifeq ($(PCB), MEGA2560)
   BUZZER = YES
   THR_TRACE = YES
   PWRMANAGE = NO
-  INCDIRS += targets/mega2560 targets/stock $(FATFSDIR) $(FATFSDIR)/option
+  INCDIRS += targets/mega2560 targets/stock $(RRSDDIR)
   BOARDSRC = main_avr.cpp i2c_master.cpp spi.c targets/mega2560/board_mega2560.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
@@ -550,7 +550,7 @@ ifeq ($(PCB), MEGA2560)
   endif
 
   ifeq ($(SDCARD), YES)
-    EXTRABOARDSRC += $(FATFSDIR)/ff.c $(FATFSDIR)/option/ccsbcs.c diskio.cpp
+    EXTRABOARDSRC += $(RRSDDIR)/fat.c $(RRSDDIR)/partition.c $(RRSDDIR)/sd_raw.c $(RRSDDIR)/byteordering.c
     CPPDEFS += -DSDCARD -DRTCLOCK
     GUIGENERALSRC += gui/menu_general_sdmanager.cpp
     CPPSRC += sdcard.cpp logs.cpp rtc_driver.cpp

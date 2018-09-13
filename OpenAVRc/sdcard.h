@@ -34,13 +34,29 @@
 #ifndef _SDCARD_H_
 #define _SDCARD_H_
 
-#include "thirdparty/FatFs/ff.h"
 #include "translations.h"
 
+#if !defined(SIMU)
+  #include "fat.h"
+  #include "fat_config.h"
+  #include "partition.h"
+  #include "sd_raw.h"
+  #include "sd_raw_config.h"
+#endif
+
+#if defined(SIMU)
+#define ROOT_PATH           "\\"
+#define MODELS_PATH         "MODELS"      // no trailing slash = important
+#define LOGS_PATH           "LOGS"
+#define VOICETXT_PATH       "VOICE"
+#define sdMounted()         (1)
+#else
 #define ROOT_PATH           "/"
 #define MODELS_PATH         ROOT_PATH "MODELS"      // no trailing slash = important
 #define LOGS_PATH           ROOT_PATH "LOGS"
 #define VOICETXT_PATH       ROOT_PATH "VOICE"
+#define sdMounted()         (SD_filesystem)
+#endif
 
 #define VOICETXT_FILE       "list.txt"
 
@@ -48,36 +64,38 @@
 #define LOGS_EXT            ".csv"
 #define TEXT_EXT            ".txt"
 
-extern FATFS g_FATFS_Obj;
-extern FIL g_oLogFile;
+extern struct partition_struct* SD_partition;
+extern struct fat_fs_struct*    SD_filesystem;
+extern struct fat_dir_entry_struct SD_dir_entry;
+extern struct fat_dir_struct* SD_dir;
+extern struct fat_file_struct* SD_file;
 
-extern bool sdMounted();
-extern void sdMountPoll();
-extern void sdPoll10ms();
-extern void SD_spi_power_off();
+uint8_t MountSD();
+void UmountSD();
+uint8_t sdChangeCurDir(const char* path);
+uint8_t sdOpenCreateDir(const char* path);
+uint8_t sdOpenCreateModelsDir();
+uint8_t sdOpenCreateLogsDir();
+
+
+uint8_t sdFindFileStruct(const char* name);
+uint8_t sdDeleteFile(const char* name);
+
+
 extern uint8_t logDelay;
-const pm_char *openLogs();
-void writeHeader();
+uint8_t openLogs();
+uint8_t writeHeader();
 void closeLogs();
+void checkLogActived();
 void writeLogs();
-
-uint32_t sdGetNoSectors();
-uint32_t sdGetSize();
-uint32_t sdGetFreeSectors();
-
-inline const pm_char *SDCARD_ERROR(FRESULT result)
-{
-  if (result == FR_NOT_READY)
-    return STR_NO_SDCARD;
-  else
-    return STR_SDCARD_ERROR;
-}
 
 #define O9X_FOURCC 0x3178396F // o9x for gruvin9x/MEGA2560
 
 extern bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, const char *selection, uint8_t flags);
 
 const char *fileCopy(const char *filename, const char *srcDir, const char *destDir);
+
+uint8_t setSdModelName(char *filename, uint8_t nummodel);
 
 #endif
 
