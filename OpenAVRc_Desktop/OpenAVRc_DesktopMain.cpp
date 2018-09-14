@@ -862,7 +862,7 @@ void OpenAVRc_DesktopFrame::OnATMEGA2560CompilerSelected(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnMenuItem9Selected(wxCommandEvent& event)
 {
-  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/DIY-SPI-Xmiter/documentation/Beta%20tester%20files/Compilez%20votre%20FW%20OpenAVRc_V3.0.doc?raw=true"), 0);
+  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/documentation/Compilez%20votre%20FW%20OpenAVRc_V3.pdf"), 0);
 }
 
 void OpenAVRc_DesktopFrame::OnMenuJQ6500_PCBSelected(wxCommandEvent& event)
@@ -877,12 +877,12 @@ void OpenAVRc_DesktopFrame::OnMenuVOICE_AUDIO_PCBSelected(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnMenuItem16Selected(wxCommandEvent& event)
 {
-  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/DIY-SPI-Xmiter/PCB%20Shield/Schema_Mega_2560%20core%20mini_full.pdf"), 0);
+  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/documentation/Schema_MegaMini.pdf"), 0);
 }
 
 void OpenAVRc_DesktopFrame::OnMenuItem14Selected(wxCommandEvent& event)
 {
-  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/DIY-SPI-Xmiter/PCB%20Shield/ShieldV2.0.doc?raw=true"), 0);
+  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/documentation/Doc_Shield.pdf"), 0);
 }
 
 void OpenAVRc_DesktopFrame::OnListBoxConfigDClick(wxCommandEvent& event)
