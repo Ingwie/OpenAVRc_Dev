@@ -138,6 +138,5 @@ void perMain()
 
 #endif // if defined(GUI)
 
-  checkBattery();
 }
 

@@ -1124,6 +1124,7 @@ void doMixerCalculations()
       if (s_cnt_1s >= 10) { // 1sec
         s_cnt_1s -= 10;
         ++sessionTimer;
+        checkBattery();
 
       if ((rangeModeIsOn) && !(menuHandlers[menuLevel] == menuModelSetup))
       {
@@ -1250,7 +1251,7 @@ void checkBattery()
 
   g_vbat10mV = ((g_vbat10mV << 3) + instant_vbat) / 9; // Simple low pass filter
 
-  if (IS_TXBATT_WARNING() && (g_vbat10mV > (g_eeGeneral.vBatMin*9)) && ((sessionTimer&0x1F)==0x01)) { // No Audio Alarm if TX Battery < VCCMIN X .9 & 30 Sec
+  if (IS_TXBATT_WARNING() && (g_vbat10mV > (g_eeGeneral.vBatMin*9)) && ((sessionTimer&0x0F)==0x04)) { // No Audio Alarm if TX Battery < VCCMIN X .9 & 30 Sec
     AUDIO_TX_BATTERY_LOW();
   }
 }
