@@ -703,6 +703,9 @@ void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
     }
     tfile.Write();
     tfile.Close();
+    if (!wxDirExists(AppPath + "\\SD")) wxMkdir(AppPath + "\\SD", wxS_DIR_DEFAULT);
+    if (!wxDirExists(AppPath + "\\SD\\VOICE")) wxMkdir(AppPath + "\\SD\\VOICE", wxS_DIR_DEFAULT);
+    wxCopyFile(AppPath + "\\" + VOICETXT_FILE, AppPath + "\\SD\\VOICE\\" + VOICETXT_FILE,true);
     Close();
   }
 }
