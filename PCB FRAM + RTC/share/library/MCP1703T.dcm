@@ -1,9 +1,0 @@
-EESchema-DOCLIB  Version 2.0  Date: 09-06-2015 21:42:09
-#
-$CMP MCP1703T
-D Linear Regulator +5V
-K POWER REGUL
-F regulator\lm78xx.pdf
-$ENDCMP
-#
-#End Doc Library

@@ -1,9 +1,0 @@
-EESchema-DOCLIB  Version 2.0  Date: 08-06-2015 18:59:17
-#
-$CMP MCP6002
-D Dual Op amp (low power)
-K ampliop
-F ns/lm158.pdf
-$ENDCMP
-#
-#End Doc Library

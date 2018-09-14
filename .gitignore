@@ -1,21 +1,19 @@
 *.depend
 *.layout
-OpenAVRc/stamp-OpenAVRc.h
-OpenAVRc/OpenAVRc.map
-OpenAVRc/allsrc.cpp
 *.hex
 *.elf
 *.bin
 *.o
 *.res
 *.bak
+**.kicad_pcb-bak
+Thumbs.db
 OpenAVRc_Simulator\obj\
 OpenAVRc_Desktop\obj\
 OpenAVRc_Simulator\bin\Debug\*.exe
 OpenAVRc_Simulator\bin\Release\*.exe
 OpenAVRc_Desktop\bin\Debug\*.exe
 OpenAVRc_Desktop\bin\Release\*.exe
-
-
-PCB Shield/.~lock.ShieldV2.1_bleu.odt#
-PCB Shield/.~lock.ShieldV2.1_bleu.odt#
+OpenAVRc/stamp-OpenAVRc.h
+OpenAVRc/OpenAVRc.map
+OpenAVRc/allsrc.cpp
