@@ -1201,11 +1201,6 @@ void OpenAVRcClose()
   // TODO needed? telemetryEnd();
 #endif
 
-
-#if defined(SDCARD)
-  closeLogs();
-#endif
-
 #if defined(HAPTIC)
   hapticOff();
 #endif
@@ -1221,10 +1216,9 @@ void OpenAVRcClose()
   eeDirty(EE_GENERAL);
   eeCheck(true);
 
-
 #if defined(SDCARD)
+  closeLogs();
   UmountSD();
-  master_spi_disable();
 #endif
 }
 
@@ -1589,9 +1583,11 @@ void SimuMainLoop() // Create loop function
     // Time to switch off
     lcdClear();
     displayPopup(STR_SHUTDOWN);
-    SIMU_SLEEP(200);
+    _delay_ms(400);
+    MYWDT_RESET();
     OpenAVRcClose();
-    SIMU_SLEEP(200);
+    _delay_ms(400);
+    MYWDT_RESET();
     lcdClear() ;
     lcdRefresh() ;
     boardOff(); // Only turn power off if necessary
