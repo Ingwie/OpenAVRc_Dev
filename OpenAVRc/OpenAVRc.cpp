@@ -702,6 +702,7 @@ void doSplash()
     lcdSetRefVolt(contrast);
 
     getADC(); // init ADC array
+    checkBattery();
 
     inputsMoved();
 
@@ -1249,7 +1250,7 @@ void checkBattery()
     g_vbat10mV = instant_vbat;
   }
 
-  g_vbat10mV = ((g_vbat10mV << 3) + instant_vbat) / 9; // Simple low pass filter
+  g_vbat10mV = ((g_vbat10mV << 1) + instant_vbat) / 3; // Simple low pass filter
 
   if (IS_TXBATT_WARNING() && (g_vbat10mV > (g_eeGeneral.vBatMin*9)) && ((sessionTimer&0x0F)==0x04)) { // No Audio Alarm if TX Battery < VCCMIN X .9 & 30 Sec
     AUDIO_TX_BATTERY_LOW();
