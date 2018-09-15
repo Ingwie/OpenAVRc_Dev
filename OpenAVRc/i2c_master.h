@@ -49,7 +49,7 @@
 void i2c_init();
 uint8_t i2c_start(uint8_t address);
 uint8_t i2c_write(uint8_t data);
-inline void i2c_writeISR(uint8_t data);
+FORCEINLINE void i2c_writeAndActiveISR(uint8_t data);
 uint8_t i2c_read_ack();
 uint8_t i2c_read_nack();
 uint8_t i2c_transmit(uint8_t address, uint8_t* data, uint16_t length);

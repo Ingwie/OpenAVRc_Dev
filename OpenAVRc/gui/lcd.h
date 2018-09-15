@@ -105,7 +105,7 @@ extern coord_t lcdNextPos;
 
 #define DISPLAY_BUFER_SIZE     (sizeof(display_t)*DISPLAY_BUF_SIZE)
 #define DISPLAY_END            (displayBuf + DISPLAY_BUF_SIZE)
-#define ASSERT_IN_DISPLAY(p)   assert((p) >= displayBuf && (p) < DISPLAY_END)
+#define ASSERT_IN_DISPLAY(p)   ASSERT((p) >= displayBuf && (p) < DISPLAY_END)
 
 void lcdDrawChar(coord_t x, coord_t y, const unsigned char c);
 void lcdDrawCharAtt(coord_t x, coord_t y, const unsigned char c, LcdFlags mode);

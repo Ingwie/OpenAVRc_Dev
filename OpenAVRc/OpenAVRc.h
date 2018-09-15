@@ -43,7 +43,7 @@
 #if !defined(SIMU)
   #include <avr/pgmspace.h>
   #include "pgmtypes.h"
-  #define assert(x)
+  #define ASSERT(x)
   #include "board_avr.h"
   #include <avr/io.h>
   #include <avr/eeprom.h>

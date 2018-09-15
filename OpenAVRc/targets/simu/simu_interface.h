@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -74,25 +74,25 @@ struct partition_struct
 
 struct fat_fs_struct
 {
-    uint8_t* partition;
+  uint8_t* partition;
 };
 
 struct fat_dir_entry_struct
 {
-    char long_name[32];
-    uint8_t attributes;
+  char long_name[32];
+  uint8_t attributes;
 };
 
 struct fat_file_struct
 {
-    struct fat_fs_struct* fs;
-    struct fat_dir_entry_struct dir_entry;
+  struct fat_fs_struct* fs;
+  struct fat_dir_entry_struct dir_entry;
 };
 
 struct fat_dir_struct
 {
-    struct fat_fs_struct* fs;
-    struct fat_dir_entry_struct dir_entry;
+  struct fat_fs_struct* fs;
+  struct fat_dir_entry_struct dir_entry;
 };
 
 extern void sd_raw_get_info(struct sd_raw_info*);
@@ -118,7 +118,7 @@ extern void fat_close_dir(struct fat_dir_struct* dd);
 //Function
 extern unsigned char simu_eeprom[];
 
-extern void eepromReadBlock (uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size);
+extern void simu_eepromReadBlock (uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size);
 
 
 extern bool simu_mainloop_is_runing; //main run signal
@@ -858,40 +858,38 @@ extern REG8 simu_EIMSK;
 #define bit_is_clear(sfr, bit) (!(REG8(sfr) & (1 << (bit))))
 #define loop_until_bit_is_set(sfr, bit) do {lcdInit();} while (bit_is_clear(sfr, bit))
 #define mcusr MCUSR
-//#undef assert
-//#define assert(x)
-//#define printf(x)
-  #ifndef FORCEINLINE
-    #define FORCEINLINE
-  #endif
-  #if !defined(NOINLINE)
-    #define NOINLINE
-  #endif
-  #define F_CPU 16000000UL  // 16 MHz ... Should be defined in makefile.
-  #define TRACE(...) simuTrace(__VA_ARGS__)
-  #define SIMU_PROCESSEVENTS SimuSleepMs(0)  //This function tell the simu app to process events
-  #define MYWDT_RESET(x) x; SimuSleepMs(1)
-  #define SIMU_SLEEP(x) SimuSleepMs(x)
-  #define SIMU_UNLOCK_MACRO(x) (false)
-  #define wdt_disable() simu_off = true; simu_mainloop_is_runing = true; return
-  #define _BV(x) (1<<(x))
-  #define speakerOff()
-  #define speakerOn()
-  #define SIMUBEEP1() PlayBeep(toneFreq*15, toneTimeLeft*50); toneTimeLeft/=2;if (!toneTimeLeft) ++toneTimeLeft
-  #define SIMUBEEP2() PlayBeep(tone2Freq*15, tone2TimeLeft*50); tone2TimeLeft/=2; if (!tone2TimeLeft) ++tone2TimeLeft;
-  #define ENABLEROTENCISR()
-  #define FORCE_INDIRECT(ptr)
+#define ASSERT(x) assert(x)
+#ifndef FORCEINLINE
+  #define FORCEINLINE
+#endif
+#if !defined(NOINLINE)
+  #define NOINLINE
+#endif
+#define F_CPU 16000000UL  // 16 MHz ... Should be defined in makefile.
+#define TRACE(...) simuTrace(__VA_ARGS__)
+#define SIMU_PROCESSEVENTS SimuSleepMs(0)  //This function tell the simu app to process events
+#define MYWDT_RESET(x) x; SimuSleepMs(1)
+#define SIMU_SLEEP(x) SimuSleepMs(x)
+#define SIMU_UNLOCK_MACRO(x) (false)
+#define wdt_disable() simu_off = true; simu_mainloop_is_runing = true; return
+#define _BV(x) (1<<(x))
+#define speakerOff()
+#define speakerOn()
+#define SIMUBEEP1() PlayBeep(toneFreq*15, toneTimeLeft*50); toneTimeLeft/=2;if (!toneTimeLeft) ++toneTimeLeft
+#define SIMUBEEP2() PlayBeep(tone2Freq*15, tone2TimeLeft*50); tone2TimeLeft/=2; if (!tone2TimeLeft) ++tone2TimeLeft;
+#define ENABLEROTENCISR()
+#define FORCE_INDIRECT(ptr)
+#define EEPROMREADBLOCK simu_eepromReadBlock
 
-
-  char *convertSimuPath(const char *path);
-  extern ISR(TIMER2_COMPA_vect, ISR_NOBLOCK); //TIMER_10MS_VECT
-  extern int simumain();
-  extern  void SimuMainLoop();
-  extern  void shutDownSimu();
-  extern  void simu_EditModelName();
-
-  extern int8_t char2idx(char c);
-  extern void str2zchar(char *dest, const char *src, int size);
-  extern int zchar2str(char *dest, const char *src, int size);
+char *convertSimuPath(const char *path);
+extern ISR(TIMER2_COMPA_vect, ISR_NOBLOCK); //TIMER_10MS_VECT
+extern int simumain();
+extern  void SimuMainLoop();
+extern  void shutDownSimu();
+extern  void simu_EditModelName();
+extern  void EE_READY_vect();
+extern int8_t char2idx(char c);
+extern void str2zchar(char *dest, const char *src, int size);
+extern int zchar2str(char *dest, const char *src, int size);
 
 #endif

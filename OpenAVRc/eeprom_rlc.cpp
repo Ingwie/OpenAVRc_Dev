@@ -75,7 +75,7 @@ ISR(EE_READY_vect)
 
 void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t size)
 {
-  assert(!eeprom_buffer_size);
+  ASSERT(!eeprom_buffer_size);
 
   eeprom_pointer = i_pointer_eeprom;
   eeprom_buffer_data = i_pointer_ram;
@@ -98,20 +98,18 @@ void Ext_eeprom_read_block(uint8_t * pointer_ram, uint16_t pointer_eeprom, size_
   i2c_write((uint8_t)pointer_eeprom);             //LSB write address
   i2c_start(ADDRESS_EXTERN_EEPROM+I2C_READ);      // set device address and write mode
   --size;
-  if (size)
-    do                                    // more than one value to read
+  while (size)                                    // more than one value to read
       {
-        *pointer_ram++ = i2c_read_ack();              // read value from EEPROM
+        *pointer_ram++ = i2c_read_ack();          // read value from EEPROM
         --size;
       }
-    while (size);
   *pointer_ram = i2c_read_nack();                 // read last value
   i2c_stop();                                     // set stop conditon = release bus
 }
 
 void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t size) // Write I2C eeprom
 {
-  assert(!eeprom_buffer_size);
+  ASSERT(!eeprom_buffer_size);
 
   eeprom_pointer = i_pointer_eeprom;
   eeprom_buffer_data = i_pointer_ram;
@@ -120,7 +118,7 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
   i2c_start(ADDRESS_EXTERN_EEPROM+I2C_WRITE);     // set device address and write mode
   i2c_write((uint8_t)(i_pointer_eeprom >> 8)); //MSB write address
   i2c_write((uint8_t)i_pointer_eeprom); //LSB write address
-  i2c_writeISR(*eeprom_buffer_data);    // write value to EEPROM
+  i2c_writeAndActiveISR(*eeprom_buffer_data);    // write value to EEPROM
   ++eeprom_buffer_data; // increase data adress
   --eeprom_buffer_size; // one byte less to write
   if (s_sync_write)
@@ -135,7 +133,7 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
 static uint8_t EeFsRead(blkid_t blk, uint8_t ofs)
 {
   uint8_t ret;
-  eepromReadBlock(&ret, (uint16_t)(blk*BS+ofs+BLOCKS_OFFSET), 1);
+  EEPROMREADBLOCK(&ret, (uint16_t)(blk*BS+ofs+BLOCKS_OFFSET), 1);
   return ret;
 }
 
@@ -143,7 +141,7 @@ static blkid_t EeFsGetLink(blkid_t blk)
 {
 #if defined(EXTERNALEEPROM)
   blkid_t ret;
-  eepromReadBlock((uint8_t *)&ret, blk*BS+BLOCKS_OFFSET, sizeof(blkid_t));
+  EEPROMREADBLOCK((uint8_t *)&ret, blk*BS+BLOCKS_OFFSET, sizeof(blkid_t));
   return ret;
 #else
   return EeFsRead(blk, 0);
@@ -328,7 +326,7 @@ void eepromFormat()
 
 bool eepromOpen()
 {
-  eepromReadBlock((uint8_t *)&eeFs, 0, sizeof(eeFs));
+  EEPROMREADBLOCK((uint8_t *)&eeFs, 0, sizeof(eeFs));
 
 #if defined(SIMU)
   if (eeFs.version != EEFS_VERS)
@@ -452,7 +450,7 @@ uint16_t RlcFile::readRlc(uint8_t *buf, uint16_t i_len)
       if (read(&m_bRlc, 1) !=1)
         break; // read how many bytes to read
 
-      assert(m_bRlc & 0x7f);
+      ASSERT(m_bRlc & 0x7f);
 
       if (m_bRlc&0x80)   // if contains high byte
         {
@@ -617,7 +615,7 @@ bool RlcFile::copy(uint8_t i_fileDst, uint8_t i_fileSrc)
   eeFs.files[FILE_TMP].size = m_pos;
   EFile::swap(m_fileId, FILE_TMP);
 
-  assert(!m_write_step);
+  ASSERT(!m_write_step);
 
   // s_sync_write is set to false in swap();
   return true;
@@ -633,52 +631,50 @@ uint8_t eeBackupModel(uint8_t i_fileSrc)
   checkLogActived();
 
   // check and create folder if needed
-  if (!sdOpenCreateModelsDir())
+  if (sdOpenCreateModelsDir())
     {
-      ret = 0;
-    }
 
-  eeLoadModelName(i_fileSrc, buf);
-  buf[sizeof(g_model.name)] = '\0';
+      eeLoadModelName(i_fileSrc, buf);
+      buf[sizeof(g_model.name)] = '\0';
 
-  uint8_t len = setSdModelName(buf, i_fileSrc);
+      uint8_t len = setSdModelName(buf, i_fileSrc);
 
-  strcpy_P(&buf[len], STR_MODELS_EXT);
+      strcpy_P(&buf[len], STR_MODELS_EXT);
 
-  TRACE("SD-card backup filename=%s", buf);
+      TRACE("SD-card backup filename=%s", buf);
 
-  /* Create the file */
-  if (!fat_create_file(SD_dir, buf, &SD_dir_entry))
-    {
-      ret = 0;
-    }
-
-  SD_file = fat_open_file(SD_filesystem, &SD_dir_entry);
-
-  EFile theFile2;
-  theFile2.openRd(FILE_MODEL(i_fileSrc));
-
-  *(uint32_t*)&buf[0] = O9X_FOURCC;
-  buf[4] = g_eeGeneral.version;
-  buf[5] = 'M';
-  *(uint16_t*)&buf[6] = eeModelSize(i_fileSrc);
-
-  /* write header to file */
-  if(fat_write_file(SD_file, (uint8_t*)buf, 8) != 8)
-    {
-      fat_close_file(SD_file);
-      ret = 0;
-    }
-
-  /* write datas to file */
-  while ((len=theFile2.read((uint8_t *)buf, 15)))
-    {
-      if(fat_write_file(SD_file, (uint8_t*)buf, len) != len)
+      /* Create the file */
+      if (fat_create_file(SD_dir, buf, &SD_dir_entry))
         {
-          fat_close_file(SD_file);
-          ret = 0;
-        }
-    }
+
+          SD_file = fat_open_file(SD_filesystem, &SD_dir_entry);
+
+          EFile theFile2;
+          theFile2.openRd(FILE_MODEL(i_fileSrc));
+
+          *(uint32_t*)&buf[0] = O9X_FOURCC;
+          buf[4] = g_eeGeneral.version;
+          buf[5] = 'M';
+          *(uint16_t*)&buf[6] = eeModelSize(i_fileSrc);
+
+          /* write header to file */
+          if(fat_write_file(SD_file, (uint8_t*)buf, 8) != 8)
+            {
+              fat_close_file(SD_file);
+              ret = 0;
+            }
+
+          /* write datas to file */
+          while ((len=theFile2.read((uint8_t *)buf, 15)))
+            {
+              if(fat_write_file(SD_file, (uint8_t*)buf, len) != len)
+                {
+                  fat_close_file(SD_file);
+                  ret = 0;
+                }
+            }
+        }  else { ret = 0; }
+    } else { ret = 0; }
 
   fat_close_file(SD_file);
   return ret;
@@ -799,7 +795,7 @@ void RlcFile::nextRlcWriteStep()
         {
           if (run0)
             {
-              assert(cnt0==0);
+              ASSERT(cnt0==0);
               if (cnt<8 && i!=m_rlc_len)
                 cnt0 = cnt; //aufbew fuer spaeter
               else
@@ -961,7 +957,7 @@ void eeLoadModel(uint8_t id)
 
 
 #if defined(SDCARD)
-    checkLogActived();
+      checkLogActived();
 #endif
 
       if (pulsesStarted())
