@@ -677,6 +677,15 @@ void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
 {
   event.Skip();
 
+  for (int i=0; i < 2; i++)
+    {
+      if (eeprom_buffer_size)
+        {
+          EE_READY_vect(); // simulate eeprom write ISR
+        }
+    }
+
+
   if (ISR10msLoop_is_runing) // Avoid re-entrance
   {
     Timer10ms.StartOnce(1); //whait 1 mS
@@ -786,7 +795,7 @@ void OpenAVRc_SimulatorFrame::OnwxsimulcdPaint(wxPaintEvent& event)
 
 void OpenAVRc_SimulatorFrame::PlayTts()
 {
-  static long pid = NULL;
+  static long pid = 0;
 
   if (Mp3process->Exists(pid)) return;
 

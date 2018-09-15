@@ -14,7 +14,6 @@
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-Winline" />
-					<Add option="-Wall" />
 					<Add option="-m32" />
 					<Add option="-g" />
 					<Add option="-mno-ms-bitfields" />
