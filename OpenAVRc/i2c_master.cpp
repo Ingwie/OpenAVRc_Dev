@@ -134,7 +134,7 @@ void i2c_stop()
   while SIMU_UNLOCK_MACRO(TWCR & (1<<TWSTO));
 }
 
-inline void i2c_writeISR(uint8_t data)
+FORCEINLINE void i2c_writeAndActiveISR(uint8_t data)
 {
   // load data into data register
   TWDR = data;
@@ -145,14 +145,16 @@ inline void i2c_writeISR(uint8_t data)
 
 extern uint8_t * eeprom_buffer_data;
 extern volatile uint8_t eeprom_buffer_size;
+
 ISR(TWI_vect)
 {
   if (--eeprom_buffer_size) {
-    i2c_writeISR(*eeprom_buffer_data);
+    i2c_writeAndActiveISR(*eeprom_buffer_data);
     ++eeprom_buffer_data;
   } else {
-    i2c_stop(); // This resets the TWINT Flag.
-    TWCR &= ~(1<<TWIE); // Disable TWI interrupts.
+  // transmit STOP condition this reset TWI interrupts
+  TWCR = (1<<TWINT) | (1<<TWSTO) | (1<<TWEN);
+  //while SIMU_UNLOCK_MACRO(TWCR & (1<<TWSTO)); // don't wait completion
   }
 }
 #endif

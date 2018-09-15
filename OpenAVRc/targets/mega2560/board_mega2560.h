@@ -193,9 +193,9 @@ void boardOff();
 
   #if defined(EXTERNALEEPROM)
     #define ADDRESS_EXTERN_EEPROM  (0x50 << 1) //0x50 with all strap closed on ZS042 module (or alone), EEPROM FM24W256, see datasheet
-    #define eepromReadBlock(a, b, c)   Ext_eeprom_read_block(a, b, c) //External EEPROM
+    #define EEPROMREADBLOCK(a, b, c)   Ext_eeprom_read_block(a, b, c) //External EEPROM
   #else
-    #define eepromReadBlock(a, b, c)   eeprom_read_block(a, (const void *)b, c) //Internal EEPROM
+    #define EEPROMREADBLOCK(a, b, c)   eeprom_read_block(a, (const void *)b, c) //Internal EEPROM
   #endif
 #else
   extern void boardInit();

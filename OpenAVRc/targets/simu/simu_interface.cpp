@@ -176,9 +176,9 @@ REG8 simu_bssebd;
 
 //END SIMU REG
 
-void eepromReadBlock (uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size)
+void simu_eepromReadBlock (uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size)
 {
-  assert(size);
+  ASSERT(size);
   memcpy(pointer_ram, &simu_eeprom[pointer_eeprom], size);
 }
 

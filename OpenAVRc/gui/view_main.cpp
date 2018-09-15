@@ -526,12 +526,11 @@ void menuMainView(uint8_t event)
 #endif
     putsTimer(33+FW+2+10*FWNUM-4, FH*5, timersStates[1].val, DBLSIZE, DBLSIZE);
     lcdPutsTimerMode(timersStates[1].val >= 0 ? TMR2_LBL_COL : TMR2_LBL_COL-7, FH*6, g_model.timers[1].mode);
-    // lcdDrawNumberNAtt(33+11*FW, FH*6, s_timerVal_10ms[1], LEADING0, 2); // 1/100s
   }
 
   // And ! in case of unexpected shutdown
   if (unexpectedShutdown) {
-    lcdDrawCharAtt(REBOOT_X, 0*FH, '!', INVERS);
+    lcdDrawCharAtt(REBOOT_X, 2, '!', INVERS);
   }
 
 }

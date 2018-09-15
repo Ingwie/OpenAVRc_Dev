@@ -40,7 +40,7 @@ uint8_t menuLevel = 0;
 
 void popMenu()
 {
-  assert(menuLevel>0);
+  ASSERT(menuLevel>0);
   menuLevel = menuLevel-1;
   menuEvent = EVT_ENTRY_UP;
 }
@@ -66,7 +66,7 @@ void pushMenu(MenuHandlerFunc newMenu)
 
   menuLevel++;
 
-  assert(menuLevel < DIM(menuHandlers));
+  ASSERT(menuLevel < DIM(menuHandlers));
 
   menuHandlers[menuLevel] = newMenu;
   menuEvent = EVT_ENTRY;

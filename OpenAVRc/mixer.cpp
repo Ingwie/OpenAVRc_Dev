@@ -772,7 +772,7 @@ void evalMixes(uint8_t tick10ms)
       }
       LS_RECURSIVE_EVALUATION_RESET();
     }
-    assert(weight);
+    ASSERT(weight);
     mixerCurrentFlightMode = fm;
   } else {
     mixerCurrentFlightMode = fm;
