@@ -33,7 +33,6 @@
 
 #include "OpenAVRc.h"
 
-extern void checkBattery();
 extern uint8_t checkTrim(uint8_t event);
 
 void perMain()
