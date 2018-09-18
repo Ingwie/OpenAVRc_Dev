@@ -169,6 +169,10 @@ float Tele_Cell12;
 bool SimuComIsValid;
 bool showeditmodeldialog = 0;
 
+int R_mid;
+int L_mid;
+bool Lspringactive = false;
+bool Rspringactive = false;
 //(*IdInit(OpenAVRc_SimulatorFrame)
 const long OpenAVRc_SimulatorFrame::ID_PANELH = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_POT1 = wxNewId();
@@ -445,7 +449,10 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   BPd->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBPdLeftDown,0,this);
   BPd->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBPdLeftUp,0,this);
   Rstick->Connect(wxEVT_PAINT,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnRstickPaint,0,this);
+  Rstick->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnRstickMouseMove,0,this);
+  Rstick->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnRstickLeftUp,0,this);
   Rstick->Connect(wxEVT_MOTION,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnRstickMouseMove,0,this);
+  Rstick->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnRstickLeftUp,0,this);
   Simulcd->Connect(wxEVT_PAINT,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnwxsimulcdPaint,0,this);
   Simulcd->Connect(wxEVT_LEFT_DCLICK,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnSimulcdLeftDClick,0,this);
   BpThr->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpThrLeftDown,0,this);
@@ -459,7 +466,10 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   BpId1->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpId1LeftDown,0,this);
   BpId2->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpId2LeftDown,0,this);
   Lstick->Connect(wxEVT_PAINT,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnLstickPaint,0,this);
+  Lstick->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnLstickMouseMove,0,this);
+  Lstick->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnLstickLeftUp,0,this);
   Lstick->Connect(wxEVT_MOTION,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnLstickMouseMove,0,this);
+  Lstick->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnLstickLeftUp,0,this);
   BpRea->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpReaLeftDown,0,this);
   BpRea->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpReaLeftUp,0,this);
   BpReb->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpRebLeftDown,0,this);
@@ -504,6 +514,10 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Col_Button_On = *wxWHITE;
   Col_Stick_Back = *wxBLACK;
   Col_Stick_Circle = *wxWHITE;
+
+  R_mid = (Rstick->GetSize().GetWidth())/2;
+  L_mid = (Lstick->GetSize().GetWidth())/2;
+
   CurrentEEPath = "";
 
   LoadConfig();
@@ -677,6 +691,12 @@ void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
 {
   event.Skip();
 
+  for(int i=0 ; i<4; ++i) // spring simulate
+    {
+      if (Lspringactive) PaintSticks(true,L_mid,L_mid,Lstick);
+      if (Rspringactive) PaintSticks(true,R_mid,R_mid,Rstick);
+    }
+
   for (int i=0; i < 2; i++)
     {
       if (eeprom_buffer_size)
@@ -849,8 +869,45 @@ void OpenAVRc_SimulatorFrame::OnMenuLoadEeprom(wxCommandEvent& event)
   LoadEeprom();
 }
 
-void OpenAVRc_SimulatorFrame::PaintSticks(int x, int y, int x_mem, int y_mem, wxPanel* stick)
+void OpenAVRc_SimulatorFrame::PaintSticks(bool spring, int x, int y, wxPanel* stick)
 {
+  static int Lx_mem = L_mid;
+  static int Ly_mem = L_mid;
+  static int Rx_mem = R_mid;
+  static int Ry_mem = R_mid;
+
+  if (spring)
+    {
+      if (stick == Lstick)
+        {
+          if (Lx_mem > L_mid)
+            x = Lx_mem-1;
+          if (Lx_mem < L_mid)
+            x = Lx_mem+1;
+          if (!(g_eeGeneral.stickMode & 0x01))
+            {
+              if (Ly_mem > L_mid)
+                y = Ly_mem-1;
+              if (Ly_mem < L_mid)
+                y = Ly_mem+1;
+            } else y = Ly_mem;
+        }
+      if (stick == Rstick )
+        {
+          if (Rx_mem > R_mid)
+            x = Rx_mem-1;
+          if (Rx_mem < R_mid)
+            x = Rx_mem+1;
+          if (g_eeGeneral.stickMode & 0x01)
+            {
+              if (Ry_mem > R_mid)
+                y = Ry_mem-1;
+              if (Ry_mem < R_mid)
+                y = Ry_mem+1;
+            } else y = Ry_mem;
+        }
+    }
+
   wxBrush brush_Stick(Col_Stick_Circle, wxBRUSHSTYLE_SOLID );
   wxBrush brush_Back(Col_Stick_Back, wxBRUSHSTYLE_SOLID );
   wxPen pen_Back(Col_Stick_Back,1,wxPENSTYLE_SOLID);
@@ -858,55 +915,64 @@ void OpenAVRc_SimulatorFrame::PaintSticks(int x, int y, int x_mem, int y_mem, wx
   wxClientDC dc(stick);
   dc.SetBrush(brush_Back);
   dc.SetPen(pen_Back);
-  dc.DrawCircle(x_mem,y_mem,8);
+  dc.DrawCircle((stick == Lstick)? Lx_mem:Rx_mem,(stick == Lstick)? Ly_mem:Ry_mem,8);
   dc.SetPen(pen_Stick);
   dc.SetBrush(brush_Stick);
   dc.DrawCircle(x,y,8);
+
+  int xmul = 2048000 / (stick->GetSize().GetWidth() - 5);
+  int ymul = 2048000 / (stick->GetSize().GetHeight() -5);
+  int xx = (x * xmul)/1000;
+  int yy = 2048 - (y * ymul)/1000;
+
+  if (stick == Lstick)
+    {
+      Lx_mem = x;
+      Ly_mem = y;
+      s_anaFilt[3] = (uint16_t)xx;
+      s_anaFilt[1] = (uint16_t)yy;
+    }
+  if (stick == Rstick)
+    {
+      Rx_mem = x;
+      Ry_mem = y;
+      s_anaFilt[0] = (uint16_t)xx;
+      s_anaFilt[2] = (uint16_t)yy;
+    }
 }
 
 void OpenAVRc_SimulatorFrame::OnLstickMouseMove(wxMouseEvent& event)
 {
   event.Skip();
-  static int x_mem = (Lstick->GetSize().GetWidth())/2;
-  static int y_mem = (Lstick->GetSize().GetWidth())/2;
-
-  int xmul = 2048000 / (Lstick->GetSize().GetWidth() - 5);
-  int ymul = 2048000 / (Lstick->GetSize().GetHeight() -5);
+  Lspringactive = false;
   wxPoint pt(event.GetPosition());
-  int x = (pt.x * xmul)/1000;
-  int y = 2048 - (pt.y * ymul)/1000;
 
   //if (event.LeftUp()) ; //TODO
   if (event.LeftIsDown()) {
-    s_anaFilt[3] = (uint16_t)x;
-    s_anaFilt[1] = (uint16_t)y;
-    PaintSticks( pt.x, pt.y, x_mem, y_mem, Lstick);
-    x_mem = pt.x;
-    y_mem = pt.y;
+    PaintSticks(false, pt.x, pt.y, Lstick);
   };
+}
+
+void OpenAVRc_SimulatorFrame::OnLstickLeftUp(wxMouseEvent& event)
+{
+  Lspringactive = true;
 }
 
 void OpenAVRc_SimulatorFrame::OnRstickMouseMove(wxMouseEvent& event)
 {
   event.Skip();
-  static int x_mem = (Rstick->GetSize().GetWidth())/2;
-  static int y_mem = (Rstick->GetSize().GetWidth())/2;
-
-  int xmul = 2048000 / (Rstick->GetSize().GetWidth() - 5);
-  int ymul = 2048000 / (Rstick->GetSize().GetHeight() -5);
+  Rspringactive = false;
   wxPoint pt(event.GetPosition());
-  int x = (pt.x * xmul)/1000;
-  int y = 2048 - (pt.y * ymul)/1000;
 
   //if (event.LeftUp()) ; //TODO
   if (event.LeftIsDown()) {
-    s_anaFilt[0] = (uint16_t)x;
-    s_anaFilt[2] = (uint16_t)y;
-
-    PaintSticks( pt.x, pt.y, x_mem, y_mem, Rstick);
-    x_mem = pt.x;
-    y_mem = pt.y;
+    PaintSticks(false, pt.x, pt.y, Rstick);
   };
+}
+
+void OpenAVRc_SimulatorFrame::OnRstickLeftUp(wxMouseEvent& event)
+{
+  Rspringactive = true;
 }
 
 void OpenAVRc_SimulatorFrame::OnSimulcdLeftDClick(wxMouseEvent& event)
@@ -2972,15 +3038,13 @@ void OpenAVRc_SimulatorFrame::OnMenuStickStickSelected(wxCommandEvent& event)
 void OpenAVRc_SimulatorFrame::OnLstickPaint(wxPaintEvent& event)
 {
   event.Skip();
-  int pos = (Lstick->GetSize().GetWidth())/2;
-  PaintSticks(pos,pos,pos,pos,Lstick);
+  PaintSticks(false,L_mid,L_mid,Lstick);
 }
 
 void OpenAVRc_SimulatorFrame::OnRstickPaint(wxPaintEvent& event)
 {
   event.Skip();
-  int pos = (Rstick->GetSize().GetWidth())/2;
-  PaintSticks(pos,pos,pos,pos,Rstick);
+  PaintSticks(false,R_mid,R_mid,Rstick);
 }
 
 void OpenAVRc_SimulatorFrame::OnButtonStartDesktopClick(wxCommandEvent& event)

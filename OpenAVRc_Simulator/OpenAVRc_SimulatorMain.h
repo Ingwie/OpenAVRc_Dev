@@ -223,7 +223,7 @@ private:
   void LoadConfig();
   void SaveConfig();
   void ResetSimuLcd();
-  void PaintSticks(int x, int y, int xm, int ym, wxPanel* stick);
+  void PaintSticks(bool spring,int x, int y, wxPanel* stick);
   void OnClose(wxCloseEvent& event);
   void OnMenuLcdBackSelected(wxCommandEvent& event);
   void OnMenuLcdPixelSelected(wxCommandEvent& event);
@@ -260,6 +260,8 @@ private:
   void load_ModelData_EEPROM_VER();
   void OnMenuImportEepromSelected(wxCommandEvent& event);
   void OntelemetrySelected(wxCommandEvent& event);
+  void OnLstickLeftUp(wxMouseEvent& event);
+  void OnRstickLeftUp(wxMouseEvent& event);
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)
