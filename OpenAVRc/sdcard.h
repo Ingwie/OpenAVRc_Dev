@@ -89,7 +89,7 @@ void closeLogs();
 void checkLogActived();
 void writeLogs();
 
-#define O9X_FOURCC 0x3178396F // o9x for gruvin9x/MEGA2560
+#define OAVRC_FOURCC 0x16180339 // OAVRC ID
 
 extern bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, const char *selection, uint8_t flags);
 

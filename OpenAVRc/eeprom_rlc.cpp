@@ -652,7 +652,7 @@ uint8_t eeBackupModel(uint8_t i_fileSrc)
           EFile theFile2;
           theFile2.openRd(FILE_MODEL(i_fileSrc));
 
-          *(uint32_t*)&buf[0] = O9X_FOURCC;
+          *(uint32_t*)&buf[0] = OAVRC_FOURCC;
           buf[4] = g_eeGeneral.version;
           buf[5] = 'M';
           *(uint16_t*)&buf[6] = eeModelSize(i_fileSrc);
@@ -700,7 +700,7 @@ const pm_char * eeRestoreModel(uint8_t i_fileDst, char *model_name)
     }
 
   uint8_t version = (uint8_t)buf[4];
-  if (*(uint32_t*)&buf[0] != O9X_FOURCC || version != EEPROM_VER || buf[5] != 'M')
+  if (*(uint32_t*)&buf[0] != OAVRC_FOURCC || version != EEPROM_VER || buf[5] != 'M')
     {
       return STR_INCOMPATIBLE;
     }
@@ -998,10 +998,6 @@ void eeLoadModel(uint8_t id)
       restoreTimers();
 
       // TODO pulses should be started after mixer calculations ...
-
-#if defined(FRSKY)
-      frskySendAlarms();
-#endif
 
     }
 }

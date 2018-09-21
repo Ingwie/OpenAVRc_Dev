@@ -259,10 +259,6 @@ enum FrSkyDataState {
 extern uint8_t frskyAlarmsSendState;
 extern uint8_t Usart0TxBuffer[USART0_TX_PACKET_SIZE];
 extern uint8_t Usart0TxBufferCount;
-inline void frskySendAlarms()
-{
-  frskyAlarmsSendState = SEND_RSSI_ALARMS;
-}
 
 typedef enum {
   TS_IDLE = 0,  // waiting for 0x5e frame marker
@@ -274,14 +270,12 @@ typedef enum {
 
 // FrSky D Protocol
 void processHubPacket(uint8_t id, uint16_t value);
-void frskyDSendNextAlarm();
 void frskyDProcessPacket(uint8_t *packet);
 
 // FrSky S.PORT Protocol
 void processSportPacket(uint8_t *packet, uint8_t no_chk_telefr_crc);
 
 void checkMinMaxAltitude();
-void telemetryWakeup();
 void telemetryResetValue();
 void telemetryReset();
 void telemetryInit();

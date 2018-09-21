@@ -52,13 +52,13 @@ void displayRssiLine()
     lcdDrawTextLeft(STATUS_BAR_Y, STR_TX);
     lcdDrawNumberNAtt(4*FW+1, STATUS_BAR_Y, rssi, LEADING0, 2);
     lcdDrawRect(BAR_LEFT+1, 57, 38, 7);
-    lcdDrawFilledRect(BAR_LEFT+1, 58, 4*rssi/11, 5, (rssi < getRssiAlarmValue(0)) ? DOTTED : SOLID);
+    lcdDrawFilledRect(BAR_LEFT+1, 58, 4*rssi/11, 5, (rssi < getRssiAlarmValue()) ? DOTTED : SOLID);
     rssi = min((uint8_t)99, TELEMETRY_RSSI());
     lcdDrawText(104, STATUS_BAR_Y, STR_RX);
     lcdDrawNumberNAtt(105+4*FW, STATUS_BAR_Y, rssi, LEADING0, 2);
     lcdDrawRect(65, 57, 38, 7);
     uint8_t v = 4*rssi/11;
-    lcdDrawFilledRect(66+36-v, 58, v, 5, (rssi < getRssiAlarmValue(0)) ? DOTTED : SOLID);
+    lcdDrawFilledRect(66+36-v, 58, v, 5, (rssi < getRssiAlarmValue()) ? DOTTED : SOLID);
   } else {
     lcdDrawTextAtt(7*FW, STATUS_BAR_Y, STR_NODATA, BLINK);
     lcd_status_line();
@@ -110,9 +110,9 @@ void displayGpsCoord(uint8_t y, char direction, int16_t bp, int16_t ap)
 #define displayGpsCoord(...)
 #endif
 
-NOINLINE uint8_t getRssiAlarmValue(uint8_t alarm)
+NOINLINE uint8_t getRssiAlarmValue()
 {
-  return (45 - 3*alarm + g_model.telemetry.rssiAlarms[alarm].value);
+  return (45 + g_model.telemetry.rssiAlarm);
 }
 
 void displayVoltageScreenLine(uint8_t y, uint8_t index)
@@ -227,9 +227,9 @@ bool displayGaugesTelemetryScreen(telemetryScreenData & screen)
       if (source <= TELEM_TIMER_MAX)
         threshold = 0;
       else if (source <= TELEM_RSSI_RX)
-        threshold = getRssiAlarmValue(source-TELEM_RSSI_TX);
+        threshold = getRssiAlarmValue();
       else if (source <= TELEM_A2)
-        threshold = g_model.telemetry.channels[source-TELEM_A1].alarms_value[0];
+        threshold = 255;//tdtele check if ok
       else {
         threshold = convertBarTelemValue(source, barsThresholds[source-TELEM_ALT]);
       }

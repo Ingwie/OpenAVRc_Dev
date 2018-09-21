@@ -80,8 +80,10 @@ void perMain()
   uint8_t evt = getEvent();
   evt = checkTrim(evt);
 
-#if defined(FRSKY)
-  telemetryWakeup();
+#if defined(FRSKY) && defined(VARIO)
+  if (TELEMETRY_STREAMING() && !IS_FAI_ENABLED()) {
+    varioWakeup();
+  }
 #endif
 
 #if defined(NAVIGATION_STICKS)
