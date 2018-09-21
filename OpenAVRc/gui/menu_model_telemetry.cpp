@@ -41,16 +41,16 @@ enum menuModelTelemetryItems {
   ITEM_TELEMETRY_A1_LABEL,
   ITEM_TELEMETRY_A1_RANGE,
   ITEM_TELEMETRY_A1_OFFSET,
-  ITEM_TELEMETRY_A1_ALARM1,
-  ITEM_TELEMETRY_A1_ALARM2,
+  /*ITEM_TELEMETRY_A1_ALARM1,
+  ITEM_TELEMETRY_A1_ALARM2,*/
   ITEM_TELEMETRY_A2_LABEL,
   ITEM_TELEMETRY_A2_RANGE,
   ITEM_TELEMETRY_A2_OFFSET,
-  ITEM_TELEMETRY_A2_ALARM1,
-  ITEM_TELEMETRY_A2_ALARM2,
+  /*ITEM_TELEMETRY_A2_ALARM1,
+  ITEM_TELEMETRY_A2_ALARM2,*/
   ITEM_TELEMETRY_RSSI_LABEL,
   ITEM_TELEMETRY_RSSI_ALARM1,
-  ITEM_TELEMETRY_RSSI_ALARM2,
+  /*ITEM_TELEMETRY_RSSI_ALARM2,*/
 #if defined(FRSKY)
   ITEM_TELEMETRY_USR_LABEL,
   ITEM_TELEMETRY_USR_BLADES,
@@ -78,18 +78,19 @@ enum menuModelTelemetryItems {
 
 #define TELEM_COL1                   INDENT_WIDTH
 #if defined(TRANSLATIONS_FR) || defined(TRANSLATIONS_CZ)
-#define TELEM_COL2                 (9*FW)
+#define TELEM_COL2                   (9*FW)
 #else
-#define TELEM_COL2                 (8*FW)
+#define TELEM_COL2                   (8*FW)
 #endif
 #define TELEM_BARS_COLMIN            (56-3*FW)
 #define TELEM_BARS_COLMAX            (14*FW-3)
 #define TELEM_SCRTYPE_COL            TELEM_COL2
 
-#define IS_RANGE_DEFINED(k)            (g_model.telemetry.channels[k].ratio > 0)
+#define IS_RANGE_DEFINED(k)          (g_model.telemetry.channels[k].ratio > 0)
 
-#define CHANNEL_ROWS(x)              LABEL(CHANNEL), 1, 0, 2, 2
+#define CHANNEL_ROWS(x)              LABEL(CHANNEL), 1, 0
 #define CHANNELS_ROWS                CHANNEL_ROWS(0), CHANNEL_ROWS(1),
+#define RSSI_ROWS                    0, 1,
 #define SENSORS_ROWS
 
 #define IF_FAS_OFFSET(x)             x,
@@ -102,13 +103,9 @@ enum menuModelTelemetryItems {
 #define USRDATA_ROWS                 0, 0, IF_FAS_OFFSET(0)
 #endif
 
-#define RSSI_ROWS                      LABEL(RSSI), 1, 1,
-
 #define SCREEN_TYPE_ROWS             0
 
 #define VARIO_RANGE_ROWS             3
-
-#define TELEMETRY_TYPE_ROWS
 
 #define TELEMETRY_SCREEN_ROWS(x)     SCREEN_TYPE_ROWS, 2, 2, 2, 2
 #define TELEMETRY_CURRENT_CHANNEL(k) (k >= ITEM_TELEMETRY_A2_LABEL ? TELEM_ANA_A2 : TELEM_ANA_A1)
@@ -117,19 +114,9 @@ enum menuModelTelemetryItems {
 void menuModelTelemetry(uint8_t event)
 {
 
-  MENU(STR_MENUTELEMETRY, menuTabModel, e_Telemetry, ITEM_TELEMETRY_MAX+1, {USRPROTO 0, TELEMETRY_TYPE_ROWS CHANNELS_ROWS RSSI_ROWS SENSORS_ROWS USRDATA_ROWS CASE_VARIO(LABEL(Vario)) CASE_VARIO(0) CASE_VARIO(VARIO_RANGE_ROWS) TELEMETRY_SCREEN_ROWS(0), TELEMETRY_SCREEN_ROWS(1), });
+  MENU(STR_MENUTELEMETRY, menuTabModel, e_Telemetry, ITEM_TELEMETRY_MAX+1, {USRPROTO 0, CHANNELS_ROWS RSSI_ROWS SENSORS_ROWS USRDATA_ROWS CASE_VARIO(LABEL(Vario)) CASE_VARIO(0) CASE_VARIO(VARIO_RANGE_ROWS) TELEMETRY_SCREEN_ROWS(0), TELEMETRY_SCREEN_ROWS(1), });
 
   uint8_t sub = menuVerticalPosition - 1;
-
-  switch (event) {
-  case EVT_KEY_BREAK(KEY_DOWN):
-  case EVT_KEY_BREAK(KEY_UP):
-  case EVT_KEY_BREAK(KEY_LEFT):
-  case EVT_KEY_BREAK(KEY_RIGHT):
-    if (s_editMode>0 && sub<=ITEM_TELEMETRY_RSSI_ALARM2)
-      frskySendAlarms(); // update FrSky module when edit mode exited
-    break;
-  }
 
   for (uint8_t i=0; i<LCD_LINES-1; i++) {
     coord_t y = MENU_HEADER_HEIGHT + 1 + i*FH;
@@ -187,62 +174,16 @@ void menuModelTelemetry(uint8_t event)
       if (attr) channel.offset = checkIncDec(event, channel.offset, -256, 256, EE_MODEL);
       break;
 
-    case ITEM_TELEMETRY_A1_ALARM1:
-    case ITEM_TELEMETRY_A1_ALARM2:
-    case ITEM_TELEMETRY_A2_ALARM1:
-    case ITEM_TELEMETRY_A2_ALARM2: {
-      uint8_t alarm = ((k==ITEM_TELEMETRY_A1_ALARM1 || k==ITEM_TELEMETRY_A2_ALARM1) ? 0 : 1);
-      lcdDrawTextLeft(y, STR_ALARM);
-      lcdDrawTextAtIndex(TELEM_COL2, y, STR_VALARM, ALARM_LEVEL(ch, alarm), menuHorizontalPosition<=0 ? attr : 0);
-      lcdDrawTextAtIndex(TELEM_COL2+4*FW, y, STR_VALARMFN, ALARM_GREATER(ch, alarm), (CURSOR_ON_LINE() || menuHorizontalPosition==1) ? attr : 0);
-      lcdPutsTelemetryChannelValue(TELEM_COL2+6*FW, y, dest, channel.alarms_value[alarm], ((CURSOR_ON_LINE() || menuHorizontalPosition==2) ? attr : 0) | LEFT);
-
-      if (attr && (s_editMode>0 || p1valdiff)) {
-        uint8_t t;
-        switch (menuHorizontalPosition) {
-        case 0:
-          t = ALARM_LEVEL(ch, alarm);
-          channel.alarms_level = (channel.alarms_level & ~(3<<(2*alarm))) + (checkIncDecModel(event, t, 0, 3) << (2*alarm));
-          break;
-        case 1:
-          t = ALARM_GREATER(ch, alarm);
-          if (t != checkIncDecModel(event, t, 0, 1)) {
-            channel.alarms_greater ^= (1 << alarm);
-            frskySendAlarms();
-          }
-          break;
-        case 2:
-          channel.alarms_value[alarm] = checkIncDec(event, channel.alarms_value[alarm], 0, 255, EE_MODEL);
-          break;
-        }
-      }
-      break;
-    }
-
     case ITEM_TELEMETRY_RSSI_LABEL:
       lcdDrawTextLeft(y, PSTR("RSSI"));
       break;
 
     case ITEM_TELEMETRY_RSSI_ALARM1:
-    case ITEM_TELEMETRY_RSSI_ALARM2: {
-      uint8_t alarm = k-ITEM_TELEMETRY_RSSI_ALARM1;
       lcdDrawTextLeft(y, STR_ALARM);
-      lcdDrawTextAtIndex(TELEM_COL2, y, STR_VALARM, ((2+alarm+g_model.telemetry.rssiAlarms[alarm].level)%4), menuHorizontalPosition<=0 ? attr : 0);
-      lcdDrawChar(TELEM_COL2+4*FW, y, '<');
-      lcdDrawNumberNAtt(TELEM_COL2+6*FW, y, getRssiAlarmValue(alarm), LEFT|(menuHorizontalPosition!=0 ? attr : 0), 3);
-
-      if (attr && (s_editMode>0 || p1valdiff)) {
-        switch (menuHorizontalPosition) {
-        case 0:
-          CHECK_INCDEC_MODELVAR(event, g_model.telemetry.rssiAlarms[alarm].level, -3, 2); // circular (saves flash)
-          break;
-        case 1:
-          CHECK_INCDEC_MODELVAR(event, g_model.telemetry.rssiAlarms[alarm].value, -30, 30);
-          break;
-        }
-      }
+      lcdDrawChar(TELEM_COL2-2*FW, y, '<');
+      lcdDrawNumberNAtt(TELEM_COL2+2*FW, y, getRssiAlarmValue(), attr, 3);
+      if (attr) {CHECK_INCDEC_MODELVAR(event, g_model.telemetry.rssiAlarm, -30, 30);}
       break;
-    }
 
 #if defined(FRSKY)
     case ITEM_TELEMETRY_USR_LABEL:

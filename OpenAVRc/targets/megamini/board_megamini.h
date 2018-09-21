@@ -155,7 +155,7 @@ void readKeysAndTrims();
 // Power driver
 void boardOff();
 #define PWRMANAGE
-#if defined(PWRMANAGE)
+#if defined(PWRMANAGE) && !defined(SIMU)
   #define UNEXPECTED_SHUTDOWN()   ((mcusr & _BV(WDRF)) || g_eeGeneral.unexpectedShutdown)
 #else
   #define UNEXPECTED_SHUTDOWN()   (mcusr & _BV(WDRF))

@@ -530,7 +530,7 @@ void menuMainView(uint8_t event)
 
   // And ! in case of unexpected shutdown
   if (unexpectedShutdown) {
-    lcdDrawCharAtt(REBOOT_X, 2, '!', INVERS);
+    lcdDrawCharAtt(REBOOT_X, 0, '!', INVERS);
   }
 
 }

@@ -154,11 +154,6 @@ PACK(typedef struct {
   TrainerMix     mix[4];
 }) TrainerData;
 
-PACK(typedef struct {
-  int8_t    level:2;
-  int8_t    value:6;
-}) telemetryRSSIAlarm;
-
 enum MainViews {
   VIEW_OUTPUTS_VALUES,
   VIEW_OUTPUTS_BARS,
@@ -514,7 +509,7 @@ PACK(typedef struct { // Logical Switches data
   int8_t  v1; //input
   int16_t  v2:11; //offset
   uint16_t func:5;
-  int8_t andsw; // TODO : Better repartition
+  int8_t andsw; // TODO : Better repartition tdtele
 }) LogicalSwitchData;
 
 enum TelemetryUnit {
@@ -543,12 +538,9 @@ enum TelemetryUnit {
 
 PACK(typedef struct {
   uint8_t   ratio;              // 0.0 means not used, 0.1V steps EG. 6.6 Volts = 66. 25.1V = 251, etc.
-  int16_t   offset:12;
+  int16_t   offset:10;
   uint16_t  type:4;             // channel unit (0=volts, ...)
-  uint8_t   alarms_value[2];    // 0.1V steps EG. 6.6 Volts = 66. 25.1V = 251, etc.
-  uint8_t   alarms_level:4;
-  uint8_t   alarms_greater:2;   // 0=LT(<), 1=GT(>)
-  uint8_t   multiplier:2;       // 0=no multiplier, 1=*2 multiplier
+  uint8_t   multiplier:2;       // 0=no multiplier, 1=*2 multiplier //tdtele offset à 10 ?????
 }) TelemetryChannelData;
 
 
@@ -683,13 +675,13 @@ enum FrskyVoltsSource {
 #define IS_BARS_SCREEN(screenIndex) (g_model.telemetry.screensType & (1<<(screenIndex)))
 PACK(typedef struct {
   TelemetryChannelData channels[MAX_FRSKY_A_CHANNELS];
-  uint8_t usrProto:2; // Protocol in FrSky user data, 0=None, 1=FrSky value, 2=WS HowHigh, 3=S.port
+  uint8_t usrProto:4; // Protocol in FrSky user data, 0=None, 1=HUB, 2=WS HowHigh, 3=S.port
   uint8_t blades:2;   // How many blades for RPMs, 0=2 blades
   uint8_t screensType:2;
   uint8_t voltsSource:2;
+  int8_t  rssiAlarm:6;
   int8_t  varioMin:4;
   int8_t  varioMax:4;
-  telemetryRSSIAlarm rssiAlarms[2];
   telemetryScreenData screens[MAX_TELEMETRY_SCREENS];
   uint8_t varioSource:3;
   int8_t  varioCenterMin:5;
@@ -926,9 +918,6 @@ PACK(typedef struct {
 }) TimerData;
 #define IS_MANUAL_RESET_TIMER(idx) (g_model.timers[idx].persistent == 2)
 
-
-#define TELEMETRY_DATA FrSkyData telemetry;
-
 #define BeepANACenter uint16_t
 
 enum ThrottleSources {
@@ -1154,9 +1143,7 @@ PACK(typedef struct {
   swarnenable_t switchWarningEnable;
   SwashRingData swashR;          // Heli data
   uint8_t UnusedModel; // Use later .. todo
-
-  TELEMETRY_DATA
-
+  FrSkyData telemetry;
   XanyEepSt_t Xany[NUM_MAX_X_ANY]; // NUM_X_ANY x sizeof(XanyEepSt_t) bytes
 
 }) ModelData;

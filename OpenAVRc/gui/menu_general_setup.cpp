@@ -217,25 +217,16 @@ void menuGeneralSetup(uint8_t event)
 #if defined(AUDIO)
     case ITEM_SETUP_BEEP_MODE:
       g_eeGeneral.beepMode = selectMenuItem(RADIO_SETUP_2ND_COLUMN, y, STR_SPEAKER, STR_VBEEPMODE, g_eeGeneral.beepMode, -2, 1, attr, event);
-#if defined(FRSKY)
-      if (attr && checkIncDec_Ret) frskySendAlarms();
-#endif
       break;
 
 #if defined(BUZZER)
     case ITEM_SETUP_BUZZER_MODE:
       g_eeGeneral.buzzerMode = selectMenuItem(RADIO_SETUP_2ND_COLUMN, y, STR_BUZZER, STR_VBEEPMODE, g_eeGeneral.buzzerMode, -2, 1, attr, event);
-#if defined(FRSKY)
-      if (attr && checkIncDec_Ret) frskySendAlarms();
-#endif
       break;
 #endif
 #elif defined(BUZZER)
     case ITEM_SETUP_BUZZER_MODE:
       g_eeGeneral.beepMode = selectMenuItem(RADIO_SETUP_2ND_COLUMN, y, STR_SPEAKER, STR_VBEEPMODE, g_eeGeneral.beepMode, -2, 1, attr, event);
-#if defined(FRSKY)
-      if (attr && checkIncDec_Ret) frskySendAlarms();
-#endif
       break;
 #endif
 
