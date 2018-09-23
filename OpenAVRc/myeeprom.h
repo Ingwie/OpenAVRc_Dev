@@ -540,7 +540,7 @@ PACK(typedef struct {
   uint8_t   ratio;              // 0.0 means not used, 0.1V steps EG. 6.6 Volts = 66. 25.1V = 251, etc.
   int16_t   offset:10;
   uint16_t  type:4;             // channel unit (0=volts, ...)
-  uint8_t   multiplier:2;       // 0=no multiplier, 1=*2 multiplier //tdtele offset à 10 ?????
+  uint8_t   multiplier:2;       // 0=no multiplier, 1=*2 multiplier //tdtele offset at 10 bits ?????
 }) TelemetryChannelData;
 
 
