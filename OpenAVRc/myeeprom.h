@@ -620,10 +620,10 @@ enum VarioSource {
 
 #if defined(FRSKY)
 #define NUM_TELEMETRY      TELEM_CSW_MAX
-#elif defined(WS_HOW_HIGH)
-#define NUM_TELEMETRY      TELEM_ALT
+/*#elif defined(WS_HOW_HIGH)
+#define NUM_TELEMETRY      TELEM_ALT //tdtele
 #elif defined(FRSKY)
-#define NUM_TELEMETRY      TELEM_A2
+#define NUM_TELEMETRY      TELEM_A2*/
 #else
 #define NUM_TELEMETRY      TELEM_TIMER2
 #endif
@@ -1126,7 +1126,7 @@ PACK(typedef struct {
   uint8_t   disableThrottleWarning:1;
   uint8_t   extendedLimits:1;
   uint8_t   extendedTrims:1;
-  uint8_t   throttleReversed:1;
+  uint8_t   unused:1;             // was throttleReversed
   BeepANACenter beepANACenter;
   MixData   mixData[MAX_MIXERS];
   LimitData limitData[NUM_CHNOUT];
