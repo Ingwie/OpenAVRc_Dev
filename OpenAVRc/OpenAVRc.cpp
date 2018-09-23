@@ -488,36 +488,6 @@ void incRotaryEncoder(uint8_t idx, int8_t inc)
 #endif
 
 #if   defined(FRSKY)
-
-/*
-ls_telemetry_value_t minTelemValue(uint8_t channel)
-{
-switch (channel) {
-	case TELEM_TIMER1:
-	case TELEM_TIMER2:
-	return -3600;
-	case TELEM_ALT:
-	case TELEM_MIN_ALT:
-	case TELEM_MAX_ALT:
-	case TELEM_GPSALT:
-	return -500;
-	case TELEM_T1:
-	case TELEM_MAX_T1:
-	case TELEM_T2:
-	case TELEM_MAX_T2:
-	return -30;
-	case TELEM_ACCx:
-	case TELEM_ACCy:
-	case TELEM_ACCz:
-	return -1000;
-	case TELEM_VSPEED:
-	return -3000;
-	default:
-	return 0;
-}
-}
-*/
-
 ls_telemetry_value_t maxTelemValue(uint8_t channel)
 {
   switch (channel) {

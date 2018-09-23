@@ -591,9 +591,16 @@ void lcdPutsTelemetryChannelValue(coord_t x, coord_t y, uint8_t channel, lcdint_
     lcdPutsValueWithUnit(x, y, val, UNIT_HDG, att);
     break;
 
+#if defined(WS_HOW_HIGH)
   case TELEM_ALT-1:
-    lcdPutsValueWithUnit(x, y, div10_and_round(val), UNIT_DIST, att|PREC1);
-    break;
+  case TELEM_MIN_ALT-1:
+  case TELEM_MAX_ALT-1:
+    if (IS_IMPERIAL_ENABLE() && IS_USR_PROTO_WS_HOW_HIGH()) {
+      lcdPutsValueWithUnit(x, y, val, UNIT_FEET, att);
+      break;
+    }
+#endif
+
 
   default: {
     uint8_t unit = 1;

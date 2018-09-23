@@ -1253,10 +1253,8 @@ extern bar_threshold_t barsThresholds[THLD_MAX];
 #endif
 
 #if defined(FRSKY)
-  ls_telemetry_value_t minTelemValue(source_t channel);
   ls_telemetry_value_t maxTelemValue(source_t channel);
 #else
-  #define minTelemValue(channel) 255
   #define maxTelemValue(channel) 255
 #endif
 

@@ -670,9 +670,6 @@ void parseTelemWSHowHighByte(uint8_t byte)
 
 void telemetryInterrupt10ms()
 {
-#if defined(SPIMODULES)
-  //frskyRFProcessPacket(Usart0RxBuffer);//tdtele
-#endif
 
   uint16_t voltage = 0; /* unit: 1/10 volts */
   for (uint8_t i=0; i<telemetryData.value.cellsCount; i++)
