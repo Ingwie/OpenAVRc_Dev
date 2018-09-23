@@ -173,7 +173,6 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
         } else if (func == FUNC_PLAY_VALUE) {
           val_max = MIXSRC_FIRST_TELEM + TELEM_DISPLAY_MAX - 1;
           putsMixerSource(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed, attr);
-          INCDEC_ENABLE_CHECK(functionsContext == &globalFunctionsContext ? isSourceAvailableInGlobalFunctions : isSourceAvailable);
         }
 #endif
 #if defined(SDCARD)
@@ -199,7 +198,6 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
             val_max = MIXSRC_LAST_CH;
             putsMixerSource(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed, attr);
             INCDEC_SET_FLAG(eeFlags | INCDEC_SOURCE);
-            INCDEC_ENABLE_CHECK(isSourceAvailable);
             break;
           case FUNC_ADJUST_GVAR_GVAR:
             val_max = MAX_GVARS-1;

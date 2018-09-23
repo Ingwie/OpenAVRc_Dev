@@ -77,7 +77,6 @@ void menuModelLogicalSwitches(uint8_t event)
     // CSW params
     uint8_t cstate = lswFamily(cs->func);
     int8_t v1_min=0, v1_max=MIXSRC_LAST_TELEM, v2_min=0, v2_max=MIXSRC_LAST_TELEM;
-#define v1_val cs->v1
 
     if (cstate == LS_FAMILY_BOOL || cstate == LS_FAMILY_STICKY) {
       lcdPutsSwitches(CSW_2ND_COLUMN, y, cs->v1, attr1);
@@ -87,32 +86,27 @@ void menuModelLogicalSwitches(uint8_t event)
       v2_min = SWSRC_FIRST_IN_LOGICAL_SWITCHES;
       v2_max = SWSRC_LAST_IN_LOGICAL_SWITCHES;
       INCDEC_SET_FLAG(EE_MODEL | INCDEC_SWITCH);
-      INCDEC_ENABLE_CHECK(isSwitchAvailableInLogicalSwitches);
     } else if (cstate == LS_FAMILY_COMP) {
-      putsMixerSource(CSW_2ND_COLUMN, y, v1_val, attr1);
+      putsMixerSource(CSW_2ND_COLUMN, y, cs->v1, attr1);
       putsMixerSource(CSW_3RD_COLUMN, y, cs->v2, attr2);
       INCDEC_SET_FLAG(EE_MODEL | INCDEC_SOURCE);
-      INCDEC_ENABLE_CHECK(isSourceAvailable);
     } else if (cstate == LS_FAMILY_TIMER) {
       lcdDrawNumberNAtt(CSW_2ND_COLUMN, y, lswTimerValue(cs->v1), LEFT|PREC1|attr1);
       lcdDrawNumberNAtt(CSW_3RD_COLUMN, y, lswTimerValue(cs->v2), LEFT|PREC1|attr2);
       v1_min = v2_min = -128;
       v1_max = v2_max = 122;
       INCDEC_SET_FLAG(EE_MODEL);
-      INCDEC_ENABLE_CHECK(NULL);
     } else {
-      putsMixerSource(CSW_2ND_COLUMN, y, v1_val, attr1);
+      putsMixerSource(CSW_2ND_COLUMN, y, cs->v1, attr1);
       if (horz == 1) {
         INCDEC_SET_FLAG(EE_MODEL | INCDEC_SOURCE);
-        INCDEC_ENABLE_CHECK(isSourceAvailableInCustomSwitches);
       } else {
         INCDEC_SET_FLAG(EE_MODEL);
-        INCDEC_ENABLE_CHECK(NULL);
       }
 #if   defined(FRSKY)
-      if (v1_val >= MIXSRC_FIRST_TELEM) {
-        lcdPutsTelemetryChannelValue(CSW_3RD_COLUMN, y, v1_val - MIXSRC_FIRST_TELEM, convertLswTelemValue(cs), LEFT|attr2);
-        v2_max = maxTelemValue(v1_val - MIXSRC_FIRST_TELEM + 1);
+      if (cs->v1 >= MIXSRC_FIRST_TELEM) {
+        lcdPutsTelemetryChannelValue(CSW_3RD_COLUMN, y, cs->v1 - MIXSRC_FIRST_TELEM, convertLswTelemValue(cs), LEFT|attr2);
+        v2_max = maxTelemValue(cs->v1 - MIXSRC_FIRST_TELEM + 1);
         if (cstate == LS_FAMILY_OFS) {
           v2_min = -128;
           v2_max -= 128;
@@ -132,8 +126,8 @@ void menuModelLogicalSwitches(uint8_t event)
         }
       }
 #else
-      if (v1_val >= MIXSRC_FIRST_TELEM) {
-        lcdPutsTelemetryChannelValue(CSW_3RD_COLUMN, y, v1_val - MIXSRC_FIRST_TELEM, convertLswTelemValue(cs), LEFT|attr2);
+      if (cs->v1 >= MIXSRC_FIRST_TELEM) {
+        lcdPutsTelemetryChannelValue(CSW_3RD_COLUMN, y, cs->v1 - MIXSRC_FIRST_TELEM, convertLswTelemValue(cs), LEFT|attr2);
         v2_min = -128;
         v2_max = 127;
       } else {
@@ -159,7 +153,7 @@ void menuModelLogicalSwitches(uint8_t event)
         break;
       }
       case LS_FIELD_V1:
-        cs->v1 = CHECK_INCDEC_PARAM(event, v1_val, v1_min, v1_max);
+        cs->v1 = CHECK_INCDEC_PARAM(event, cs->v1, v1_min, v1_max);
 #if defined(SIMU) // Not needed but ...
         if (checkIncDec_Ret) TRACE("v1=%d", cs->v1);
 #endif
