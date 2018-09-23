@@ -289,10 +289,6 @@ void evalInputs(uint8_t mode)
     if (v < -RESX) v = -RESX;
     else if (v >  RESX) v =  RESX;
 
-    if (g_model.throttleReversed && ch==THR_STICK) {
-      v = -v;
-    }
-
     BeepANACenter mask = (BeepANACenter)1 << ch;
 
     if (i < NUM_STICKS+NUM_POTS) {
@@ -594,9 +590,6 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
           if (mix_trim >= 0) {
             trim = trims[mix_trim];
             if (md->curveMode != MODE_DIFFERENTIAL) {
-              if (mix_trim == THR_STICK && g_model.throttleReversed)
-                v -= trim;
-              else
                 v += trim;
             }
           }

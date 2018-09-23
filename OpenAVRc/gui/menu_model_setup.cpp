@@ -49,7 +49,6 @@ enum menuModelSetupItems {
   ITEM_MODEL_EXTENDED_LIMITS,
   ITEM_MODEL_EXTENDED_TRIMS,
   ITEM_MODEL_TRIM_INC,
-  ITEM_MODEL_THROTTLE_REVERSED,
   ITEM_MODEL_THROTTLE_TRACE,
   ITEM_MODEL_THROTTLE_SWITCH,
   ITEM_MODEL_THROTTLE_TRIM,
@@ -90,7 +89,7 @@ void menuModelSetup(uint8_t event)
 
   uint8_t protocol = g_model.rfProtocol;
   uint8_t memproto = protocol;
-  MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, NUM_SWITCHES, NUM_STICKS+NUM_POTS+NUM_ROTARY_ENCODERS-1, FIELD_PROTOCOL_MAX,
+  MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 0, 1, 0, 0, 0, 0, 0, NUM_SWITCHES, NUM_STICKS+NUM_POTS+NUM_ROTARY_ENCODERS-1, FIELD_PROTOCOL_MAX,
              2,2,0,2,0,0,0,0
            });
 
@@ -188,10 +187,6 @@ void menuModelSetup(uint8_t event)
 
     case ITEM_MODEL_TRIM_INC:
       g_model.trimInc = selectMenuItem(MODEL_SETUP_2ND_COLUMN, y, STR_TRIMINC, STR_VTRIMINC, g_model.trimInc, -2, 2, attr, event);
-      break;
-
-    case ITEM_MODEL_THROTTLE_REVERSED:
-      ON_OFF_MENU_ITEM(g_model.throttleReversed, MODEL_SETUP_2ND_COLUMN, y, STR_THROTTLEREVERSE, attr, event ) ;
       break;
 
     case ITEM_MODEL_THROTTLE_TRACE: {
