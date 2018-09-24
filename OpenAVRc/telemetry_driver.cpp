@@ -35,11 +35,11 @@
 
 uint8_t Usart0RxBuffer[USART0_RX_PACKET_SIZE];   // Receive buffer. 9 bytes (full packet), worst case 18 bytes with byte-stuffing (+1)
 
-uint8_t Usart0TxBuffer[USART0_TX_PACKET_SIZE];
+uint8_t Usart0RxBufferCount = 0;
+
+uint8_t * Usart0TxBuffer = pulses2MHz.pbyte; // [USART0_TX_PACKET_SIZE] bytes used
 
 uint8_t Usart0TxBufferCount = 0;
-
-uint8_t Usart0RxBufferCount = 0;
 
 void Usart0EnableTx()
 {
