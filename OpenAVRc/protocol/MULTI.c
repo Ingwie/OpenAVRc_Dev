@@ -172,7 +172,7 @@ static uint16_t MULTI_cb()
       subtype = MM_RF_DSM2_SUBTYPE_AUTO;
 
     // Multi module in DSM mode wants the number of channels to be used as option value
-    optionValue = 16; //NUM_CHANNELS(EXTERNAL_MODULE);
+    optionValue = MULTI_CHANS;
 
   }
 
