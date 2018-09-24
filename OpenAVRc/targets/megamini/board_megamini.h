@@ -37,7 +37,6 @@
 #include "../../board_avr.h"
 
 //Mods
-#define FATFSTINY // Reduce SDdriver buffer size
 
 #define MEGACORELEDPIN            PIN7_bm
 

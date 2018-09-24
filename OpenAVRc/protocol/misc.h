@@ -65,7 +65,7 @@
   uint8_t * channel_used = &pulses2MHz.pbyte[CHANNEL_USED_OFFSET]; //protocol global channel (Use 50 MAX -> 54 bytes free to use in SPI protocols)
   uint8_t * temp_rfid_addr = &pulses2MHz.pbyte[RX_TX_ADDR_OFFSET];
   #if defined(PROTO_HAS_CC2500)
-    uint8_t calData[48];
+    uint8_t calData[48]; // used in FrskyX protocol
     uint8_t * telem_save_data = &pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-40]; // [9] used in FrskyX telemetry
     uint32_t seed; // [9] used in FrskyV telemetry
   #endif

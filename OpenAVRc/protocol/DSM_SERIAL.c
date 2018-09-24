@@ -108,7 +108,6 @@ static uint16_t DSM_SERIAL_cb()
   // Schedule next Mixer calculations.
   SCHEDULE_MIXER_END_IN_US(22000);
 
-#if defined(FRSKY)
   Usart0TxBufferCount = 0;
 
   uint8_t dsmTxBufferCount = 14;
@@ -137,7 +136,6 @@ static uint16_t DSM_SERIAL_cb()
   }
   Usart0TxBufferCount = 14; // Indicates data to transmit.
 
-#endif
 #if !defined(SIMU)
   Usart0TransmitBuffer();
 #endif
@@ -154,9 +152,7 @@ static void DSM_SERIAL_initialize()
   Usart0Set125000BAUDS();
   Usart0Set8N1();
   Usart0EnableTx();
-
   Usart0TxBufferCount = 0;
-
   PROTO_Start_Callback(25000U *2, DSM_SERIAL_cb);
 }
 
@@ -172,7 +168,6 @@ const void *DSM_SERIAL_Cmds(enum ProtoCmds cmd)
     dsmBind = 1;
     DSM_SERIAL_initialize();
     return 0;
-  //case PROTOCMD_DEINIT:
   case PROTOCMD_RESET:
     PROTO_Stop_Callback();
     DSM2_SERIAL_Reset();
@@ -187,17 +182,6 @@ const void *DSM_SERIAL_Cmds(enum ProtoCmds cmd)
                         STR_DUMMY,
                         STR_DUMMY);
     return 0;
-  //case PROTOCMD_CHECK_AUTOBIND:
-  //return (void *)1L; // Always Autobind
-
-  //case PROTOCMD_NUMCHAN:
-  //return (void *)7L;
-  //case PROTOCMD_DEFAULT_NUMCHAN:
-  //return (void *)7L;
-//  case PROTOCMD_CURRENT_ID:
-//    return Model.fixed_id ? (void *)((unsigned long)Model.fixed_id) : 0;
-//  case PROTOCMD_TELEMETRYMULTI_state:
-//    return (void *)(long)PROTO_TELEM_UNSUPPORTED;
   default:
     break;
   }
