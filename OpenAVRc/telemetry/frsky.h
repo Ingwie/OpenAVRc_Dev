@@ -257,8 +257,6 @@ enum FrSkyDataState {
 #define SEND_RSSI_ALARMS  6
 #define SEND_MODEL_ALARMS 4
 extern uint8_t frskyAlarmsSendState;
-extern uint8_t Usart0TxBuffer[USART0_TX_PACKET_SIZE];
-extern uint8_t Usart0TxBufferCount;
 
 typedef enum {
   TS_IDLE = 0,  // waiting for 0x5e frame marker

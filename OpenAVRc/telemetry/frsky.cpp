@@ -46,10 +46,7 @@ void telemetryInit()
   Usart0Set9600BAUDS();
   }
   Usart0Set8N1();
-  Usart0EnableTx(); // enable FrSky-Telemetry emission
-  Usart0EnableRx(); // enable FrSky-Telemetry reception}
-
-  Usart0TxBufferCount = 0; // TODO not driver code
+  Usart0EnableRx(); // enable FrSky-Telemetry reception
 }
 
 void telemetryReset()

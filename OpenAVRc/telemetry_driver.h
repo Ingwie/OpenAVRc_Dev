@@ -53,7 +53,7 @@ void Usart0Set100000BAUDS();  //Multiprotocole Serial
 
 extern uint8_t Usart0RxBuffer[USART0_RX_PACKET_SIZE];
 
-extern uint8_t Usart0TxBuffer[USART0_TX_PACKET_SIZE];
+extern uint8_t * Usart0TxBuffer; // [USART0_TX_PACKET_SIZE] used
 
 extern uint8_t Usart0TxBufferCount;
 
