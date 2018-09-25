@@ -191,15 +191,41 @@ enum {IO_EXP_PCF8574 = 0, IO_EXP_PCF8574A, IO_EXP_PCA9654E, IO_EXP_MCP23017, IO_
 /* PRIVATE FUNCTION PROTOYPES */
 static uint8_t getMsgType     (uint8_t XanyIdx);
 static uint8_t readIoExtender (uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRead);
-static uint8_t readPcf8574    (uint8_t I2cAddr, uint8_t *RxBuf);
-static uint8_t readPcf8574A   (uint8_t I2cAddr, uint8_t *RxBuf);
-static uint8_t readMcp23017   (uint8_t I2cAddr, uint8_t *RxBuf);
-static uint8_t readPcf8575A   (uint8_t I2cAddr, uint8_t *RxBuf);
-static uint8_t readPca9671    (uint8_t I2cAddr, uint8_t *RxBuf);
-static uint8_t readPca9654e   (uint8_t I2cAddr, uint8_t *RxBuf);
+
+/* The read functions for all the supported I/O expenders */
+
+static const uint8_t readPcf8574(uint8_t I2cAddr, uint8_t *RxBuf)
+{
+  return(i2c_receive( I2cAddr, RxBuf, 1));
+}
+
+static const uint8_t readPcf8574A(uint8_t I2cAddr, uint8_t *RxBuf)
+{
+  return(i2c_receive( I2cAddr, RxBuf, 1));
+}
+
+static const uint8_t readMcp23017(uint8_t I2cAddr, uint8_t *RxBuf)
+{
+  return(i2c_receive( I2cAddr, RxBuf, 2));
+}
+
+static const uint8_t readPcf8575A(uint8_t I2cAddr, uint8_t *RxBuf)
+{
+  return(i2c_receive( I2cAddr, RxBuf, 2));
+}
+
+static const uint8_t readPca9671 (uint8_t I2cAddr, uint8_t *RxBuf)
+{
+  return(i2c_receive( I2cAddr, RxBuf, 2));
+}
+
+static const uint8_t readPca9654e(uint8_t I2cAddr, uint8_t *RxBuf)
+{
+  return(i2c_receive( I2cAddr, RxBuf, 1));
+}
 
 /* A little typedef to short the notation */
-typedef uint8_t (*ReadIoExpPtr)(uint8_t I2cAddr, uint8_t *RxBuf);
+typedef const uint8_t (*ReadIoExpPtr)(uint8_t I2cAddr, uint8_t *RxBuf);
 
 typedef struct{
   uint8_t      IoExtType;
@@ -244,12 +270,12 @@ const XanyIdxRangeSt_t XanyIdxRange[] PROGMEM = {{0, 6}, {7, 13}, {14, 18}, {19,
 
 #define SUPPORTED_I2C_IO_EXP_NB       DIM(XanyI2cTypeAddr)
 
-#define GET_FIRST_IDX(XanyIdx)        (uint8_t)     pgm_read_byte_far(&XanyIdxRange[(XanyIdx)].FirstIdx)
-#define GET_LAST_IDX(XanyIdx)         (uint8_t)     pgm_read_byte_far(&XanyIdxRange[(XanyIdx)].LastIdx)
+#define GET_FIRST_IDX(XanyIdx)        (uint8_t)     (pgm_read_byte_far(pgm_get_far_address(XanyIdxRange) + XanyIdx*2))
+#define GET_LAST_IDX(XanyIdx)         (uint8_t)     (pgm_read_byte_far(pgm_get_far_address(XanyIdxRange) + XanyIdx*2 + 1))
 
-#define GET_I2C_IO_EXP_TYPE(Idx)      (uint8_t)     pgm_read_byte_far(&XanyI2cTypeAddr[(Idx)].IoExtType)
-#define GET_I2C_IO_EXP_7B_ADDR(Idx)   (uint8_t)     pgm_read_byte_far(&XanyI2cTypeAddr[(Idx)].I2c7bAddr)
-#define GET_I2C_IO_EXP_READ(Idx)      (ReadIoExpPtr)pgm_read_word_far(&XanyI2cTypeAddr[(Idx)].ReadIoExp)
+#define GET_I2C_IO_EXP_TYPE(Idx)      (uint8_t)     (pgm_read_byte_far(pgm_get_far_address(XanyI2cTypeAddr) + Idx*4))
+#define GET_I2C_IO_EXP_7B_ADDR(Idx)   (uint8_t)     (pgm_read_byte_far(pgm_get_far_address(XanyI2cTypeAddr) + Idx*4 + 1))
+#define GET_I2C_IO_EXP_READ(Idx)      (ReadIoExpPtr)(pgm_read_word_far(pgm_get_far_address(XanyI2cTypeAddr) + Idx*4 + 2))
 
 typedef struct {
   uint16_t
@@ -266,7 +292,7 @@ typedef struct{
   TxNibbleSt_t    Nibble;
 }X_OneAnyWriteMsgSt_t;
 
-static uint32_t IoExpMap = 0L; /* 4 bytes for the map of the 4 X-Any instances */
+static uint32_t IoExpMap = 0L;//xFFFFFFFF; /* 4 bytes for the map of the 4 X-Any instances */
 
 static          XanyMsg_union        X_AnyReadMsg[NUM_X_ANY]; /* 4 bytes per X-Any for storing read Msg */
 static volatile X_OneAnyWriteMsgSt_t X_AnyWriteMsg[NUM_X_ANY];/* 8 bytes per X-Any for sending Msg in interrupt (-> Volatile) */
@@ -712,36 +738,4 @@ static uint8_t readIoExtender(uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRea
   I2C_SPEED_888K();
 
  return(ByteRead);
-}
-
-/* The read functions for all the supported I/O expenders */
-
-static uint8_t readPcf8574(uint8_t I2cAddr, uint8_t *RxBuf)
-{
-  return(i2c_receive((I2cAddr << 1), RxBuf, 1));
-}
-
-static uint8_t readPcf8574A(uint8_t I2cAddr, uint8_t *RxBuf)
-{
-  return(i2c_receive((I2cAddr << 1), RxBuf, 1));
-}
-
-static uint8_t readMcp23017(uint8_t I2cAddr, uint8_t *RxBuf)
-{
-  return(i2c_receive((I2cAddr << 1), RxBuf, 2));
-}
-
-static uint8_t readPcf8575A(uint8_t I2cAddr, uint8_t *RxBuf)
-{
-  return(i2c_receive((I2cAddr << 1), RxBuf, 2));
-}
-
-static uint8_t readPca9671 (uint8_t I2cAddr, uint8_t *RxBuf)
-{
-  return(i2c_receive((I2cAddr << 1), RxBuf, 2));
-}
-
-static uint8_t readPca9654e(uint8_t I2cAddr, uint8_t *RxBuf)
-{
-  return(i2c_receive((I2cAddr << 1), RxBuf, 1));
 }
