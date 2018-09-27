@@ -235,30 +235,30 @@ typedef struct{
 
 const I2cIoExpSt_t XanyI2cTypeAddr[] PROGMEM = {
           /*  IoExtType   I2c7bAddr ReadIoExp   Idx in IoExpMap */
-/*Xany0*/ {IO_EXP_PCF8574,  0x20, readPcf8574 }, /* Idx =  0 */
-          {IO_EXP_PCF8574,  0x22, readPcf8574 }, /* Idx =  1 */
-          {IO_EXP_PCF8574A, 0x38, readPcf8574A}, /* Idx =  2 */
-          {IO_EXP_PCF8574A, 0x3A, readPcf8574A}, /* Idx =  3 */
-          {IO_EXP_MCP23017, 0x24, readMcp23017}, /* Idx =  4 */
-          {IO_EXP_PCF8575A, 0x3C, readPcf8575A}, /* Idx =  5 */
-          {IO_EXP_PCA9671,  0xC0, readPca9671 }, /* Idx =  6 */
-/*Xany1*/ {IO_EXP_PCF8574,  0x21, readPcf8574 }, /* Idx =  7 */
-          {IO_EXP_PCF8574,  0x23, readPcf8574 }, /* Idx =  8 */
-          {IO_EXP_PCF8574A, 0x39, readPcf8574A}, /* Idx =  9 */
-          {IO_EXP_PCF8574A, 0x3B, readPcf8574A}, /* Idx = 10 */
-          {IO_EXP_MCP23017, 0x25, readMcp23017}, /* Idx = 11 */
-          {IO_EXP_PCF8575A, 0x3D, readPcf8575A}, /* Idx = 12 */
-          {IO_EXP_PCA9671,  0x4A, readPca9671 }, /* Idx = 13 */
-/*Xany2*/ {IO_EXP_PCA9654E, 0x40, readPca9654e}, /* Idx = 14 */
-          {IO_EXP_PCA9654E, 0x44, readPca9654e}, /* Idx = 15 */
-          {IO_EXP_MCP23017, 0x26, readMcp23017}, /* Idx = 16 */
-          {IO_EXP_PCF8575A, 0x3E, readPcf8575A}, /* Idx = 17 */
-          {IO_EXP_PCA9671,  0x4C, readPca9671 }, /* Idx = 18 */
-/*Xany3*/ {IO_EXP_PCA9654E, 0x42, readPca9654e}, /* Idx = 19 */
-          {IO_EXP_PCA9654E, 0x46, readPca9654e}, /* Idx = 20 */
-          {IO_EXP_MCP23017, 0x27, readMcp23017}, /* Idx = 21 */
-          {IO_EXP_PCF8575A, 0x3F, readPcf8575A}, /* Idx = 22 */
-          {IO_EXP_PCA9671,  0x4E, readPca9671 }, /* Idx = 23 */
+/*Xany0*/ {IO_EXP_PCF8574,  (0x20<<1), readPcf8574 }, /* Idx =  0 */
+          {IO_EXP_PCF8574,  (0x22<<1), readPcf8574 }, /* Idx =  1 */
+          {IO_EXP_PCF8574A, (0x38<<1), readPcf8574A}, /* Idx =  2 */
+          {IO_EXP_PCF8574A, (0x3A<<1), readPcf8574A}, /* Idx =  3 */
+          {IO_EXP_MCP23017, (0x24<<1), readMcp23017}, /* Idx =  4 */
+          {IO_EXP_PCF8575A, (0x3C<<1), readPcf8575A}, /* Idx =  5 */
+          {IO_EXP_PCA9671,  (0x48<<1), readPca9671 }, /* Idx =  6 */
+/*Xany1*/ {IO_EXP_PCF8574,  (0x21<<1), readPcf8574 }, /* Idx =  7 */
+          {IO_EXP_PCF8574,  (0x23<<1), readPcf8574 }, /* Idx =  8 */
+          {IO_EXP_PCF8574A, (0x39<<1), readPcf8574A}, /* Idx =  9 */
+          {IO_EXP_PCF8574A, (0x3B<<1), readPcf8574A}, /* Idx = 10 */
+          {IO_EXP_MCP23017, (0x25<<1), readMcp23017}, /* Idx = 11 */
+          {IO_EXP_PCF8575A, (0x3D<<1), readPcf8575A}, /* Idx = 12 */
+          {IO_EXP_PCA9671,  (0x4A<<1), readPca9671 }, /* Idx = 13 */
+/*Xany2*/ {IO_EXP_PCA9654E, (0x40<<1), readPca9654e}, /* Idx = 14 */
+          {IO_EXP_PCA9654E, (0x44<<1), readPca9654e}, /* Idx = 15 */
+          {IO_EXP_MCP23017, (0x26<<1), readMcp23017}, /* Idx = 16 */
+          {IO_EXP_PCF8575A, (0x3E<<1), readPcf8575A}, /* Idx = 17 */
+          {IO_EXP_PCA9671,  (0x4C<<1), readPca9671 }, /* Idx = 18 */
+/*Xany3*/ {IO_EXP_PCA9654E, (0x42<<1), readPca9654e}, /* Idx = 19 */
+          {IO_EXP_PCA9654E, (0x46<<1), readPca9654e}, /* Idx = 20 */
+          {IO_EXP_MCP23017, (0x27<<1), readMcp23017}, /* Idx = 21 */
+          {IO_EXP_PCF8575A, (0x3F<<1), readPcf8575A}, /* Idx = 22 */
+          {IO_EXP_PCA9671,  (0x4E<<1), readPca9671 }, /* Idx = 23 */
                             };
 
 typedef struct{
@@ -320,7 +320,7 @@ void Xany_init(void)
   for(Idx = 0; Idx < SUPPORTED_I2C_IO_EXP_NB; Idx++)
   {
     I2c7bAddr = GET_I2C_IO_EXP_7B_ADDR(Idx);;
-    if(!i2c_start((I2c7bAddr << 1) | I2C_WRITE))
+    if(!i2c_start(I2c7bAddr | I2C_WRITE))
     {
       /* OK: device is present quit gracefully by sending a stop() */
       i2c_stop();
@@ -328,8 +328,8 @@ void Xany_init(void)
       {
         /* Enable internal Pull-up */
         Data = 0xFF;
-        i2c_writeReg((I2c7bAddr << 1), 0x06, &Data, 1);
-        i2c_writeReg((I2c7bAddr << 1), 0x16, &Data, 1);
+        i2c_writeReg(I2c7bAddr , 0x06, &Data, 1);
+        i2c_writeReg(I2c7bAddr , 0x16, &Data, 1);
       }
       IoExpMap |= (1L << Idx); /* Mark it as present */
     }
@@ -720,7 +720,7 @@ static uint8_t readIoExtender(uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRea
       if(ExpType < IO_EXP_MCP23017)
       {
         /* Read one 8 bit port */
-        if(!ReadIoExp((I2c7bAddr << 1), (uint8_t*)&One8bitPort)) One8bitPort ^= 0xFF; /* Apply polarity: close contact = 1 */
+        if(!ReadIoExp(I2c7bAddr , (uint8_t*)&One8bitPort)) One8bitPort ^= 0xFF; /* Apply polarity: close contact = 1 */
         if(BitIdx & 1) BytePtr[1] = One8bitPort; /* Odd  */
         else           BytePtr[0] = One8bitPort; /* Even */
         ByteRead++;
@@ -728,7 +728,7 @@ static uint8_t readIoExtender(uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRea
       else
       {
         /* Read two 8 bit ports */
-        if(!ReadIoExp((I2c7bAddr << 1), (uint8_t*)&Two8bitPorts)) Two8bitPorts ^= 0xFFFF; /* Apply polarity: close contact = 1 */
+        if(!ReadIoExp(I2c7bAddr, (uint8_t*)&Two8bitPorts)) Two8bitPorts ^= 0xFFFF; /* Apply polarity: close contact = 1 */
         *WordPtr = Two8bitPorts;
         ByteRead += 2;
       }
