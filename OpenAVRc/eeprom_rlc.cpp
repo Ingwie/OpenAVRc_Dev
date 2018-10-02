@@ -42,11 +42,12 @@ EeFs      eeFs;
 
 uint8_t  s_sync_write = false;
 
-uint16_t eeprom_pointer;
 uint8_t * eeprom_buffer_data;
 volatile uint8_t eeprom_buffer_size = 0;
 
 #if !defined(EXTERNALEEPROM) || defined(SIMU)
+uint16_t eeprom_pointer;
+
 inline void eeprom_write_byte()
 {
   EEAR = eeprom_pointer;
@@ -97,11 +98,9 @@ void Ext_eeprom_read_block(uint8_t * pointer_ram, uint16_t pointer_eeprom, size_
   i2c_write((uint8_t)(pointer_eeprom >> 8));      //MSB write address
   i2c_write((uint8_t)pointer_eeprom);             //LSB write address
   i2c_start(ADDRESS_EXTERN_EEPROM+I2C_READ);      // set device address and write mode
-  --size;
-  while (size)                                    // more than one value to read
+  while (--size)                                  // more than one value to read
       {
         *pointer_ram++ = i2c_read_ack();          // read value from EEPROM
-        --size;
       }
   *pointer_ram = i2c_read_nack();                 // read last value
   i2c_stop();                                     // set stop conditon = release bus
@@ -111,16 +110,13 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
 {
   ASSERT(!eeprom_buffer_size);
 
-  eeprom_pointer = i_pointer_eeprom;
   eeprom_buffer_data = i_pointer_ram;
-  eeprom_buffer_size = size+1;
+  eeprom_buffer_size = size;
 
   i2c_start(ADDRESS_EXTERN_EEPROM+I2C_WRITE);     // set device address and write mode
   i2c_write((uint8_t)(i_pointer_eeprom >> 8)); //MSB write address
   i2c_write((uint8_t)i_pointer_eeprom); //LSB write address
-  i2c_writeAndActiveISR(*eeprom_buffer_data);    // write value to EEPROM
-  ++eeprom_buffer_data; // increase data adress
-  --eeprom_buffer_size; // one byte less to write
+  i2c_writeAndActiveISR(*eeprom_buffer_data++);    // write value to EEPROM
   if (s_sync_write)
     {
       while (eeprom_buffer_size)

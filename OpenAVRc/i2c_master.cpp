@@ -148,9 +148,8 @@ extern volatile uint8_t eeprom_buffer_size;
 
 ISR(TWI_vect)
 {
-  if (--eeprom_buffer_size) {
-    i2c_writeAndActiveISR(*eeprom_buffer_data);
-    ++eeprom_buffer_data;
+  if (--eeprom_buffer_size) {                     // If there is another byte to write
+    i2c_writeAndActiveISR(*eeprom_buffer_data++); // Increase pointer and write
   } else {
   // transmit STOP condition this reset TWI interrupts
   TWCR = (1<<TWINT) | (1<<TWSTO) | (1<<TWEN);
