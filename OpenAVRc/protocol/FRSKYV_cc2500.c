@@ -78,7 +78,6 @@ static void FRSKYV_init()
 
   FRSKY_Init_Common_End();
 
-  CC2500_ManageFreq();
   CC2500_SetPower(TXPOWER_1);
   CC2500_SetTxRxMode(TX_EN); // Keep Power Amp activated.
   CC2500_Strobe(CC2500_SFTX); // 3b
@@ -244,7 +243,7 @@ static uint16_t FRSKYV_data_cb()
   FRSKYV_build_data_packet(); // 16MHz AVR = 127us.
   CC2500_ManagePower();
   CC2500_ManageFreq();
-
+  CC2500_Strobe(CC2500_SIDLE);
   CC2500_WriteReg(CC2500_0A_CHANNR, channel_used[((seed & 0xFF)%50)]); // 16MHz AVR = 38us.
   CC2500_WriteData(packet, 15); // 8.853ms before we start again with the idle strobe.
 
@@ -261,6 +260,7 @@ static uint16_t FRSKYV_bind_cb()
   CC2500_Strobe(CC2500_SIDLE);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0);
   CC2500_WriteData(packet, 15);
+  CC2500_ManageFreq();
   SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
@@ -276,8 +276,8 @@ static void FRSKYV_initialise(uint8_t bind)
   CC2500_Reset(); // 0x30
   FRSKY_generate_channels();
 
-  temp_rfid_addr[0] = g_eeGeneral.fixed_ID.ID_8[0];
-  temp_rfid_addr[1] = g_eeGeneral.fixed_ID.ID_8[1] & 0x7F; // 15 bit max ID
+  loadrfidaddr_rxnum(0);
+  temp_rfid_addr[1] &= 0x7F; // 15 bit max ID
 
   dp_crc_init = FRSKYV_crc8_le();
   FRSKYV_init();
@@ -303,12 +303,12 @@ const void * FRSKYV_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_INIT:
       FRSKYV_initialise(0);
       return 0;
+    case PROTOCMD_BIND:
+      FRSKYV_initialise(1);
+      return 0;
     case PROTOCMD_RESET:
       PROTO_Stop_Callback();
       CC2500_Reset();
-      return 0;
-    case PROTOCMD_BIND:
-      FRSKYV_initialise(1);
       return 0;
     case PROTOCMD_GETOPTIONS:
       SetRfOptionSettings(pgm_get_far_address(RfOpt_FrskyV_Ser),
