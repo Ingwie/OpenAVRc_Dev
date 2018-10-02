@@ -154,49 +154,54 @@ ISR(USART_RX_vect_N(TLM_USART0))
   uint8_t data;
 
   UCSRB_N(TLM_USART0) &= ~(1 << RXCIE_N(TLM_USART0)); // disable Interrupt
-  sei();
 
-  stat = UCSRA_N(TLM_USART0); // USART control and Status Register 0/1 A
+  NONATOMIC_BLOCK(NONATOMIC_RESTORESTATE)
+  {
 
-  /*
+    stat = UCSRA_N(TLM_USART0); // USART control and Status Register 0/1 A
+
+    /*
+                bit      7      6      5      4      3      2      1      0
+                        RxC0  TxC0  UDRE0    FE0   DOR0   UPE0   U2X0  MPCM0
+
+                RxC0:   Receive complete
+                TXC0:   Transmit Complete
+                UDRE0:  USART Data Register Empty
+                FE0:    Frame Error
+                DOR0:   Data OverRun
+                UPE0:   USART Parity Error
+                U2X0:   Double Tx Speed
+                PCM0:   MultiProcessor Comms Mode
+     */
+    // rh = UCSRB_N(TLM_USART0); //USART control and Status Register 0/1 B
+
+    /*
               bit      7      6      5      4      3      2      1      0
-                      RxC0  TxC0  UDRE0    FE0   DOR0   UPE0   U2X0  MPCM0
+                   RXCIE0 TxCIE0 UDRIE0  RXEN0  TXEN0 UCSZ02  RXB80  TXB80
 
-              RxC0:   Receive complete
-              TXC0:   Transmit Complete
-              UDRE0:  USART Data Register Empty
-              FE0:    Frame Error
-              DOR0:   Data OverRun
-              UPE0:   USART Parity Error
-              U2X0:   Double Tx Speed
-              PCM0:   MultiProcessor Comms Mode
-   */
-  // rh = UCSRB_N(TLM_USART0); //USART control and Status Register 0/1 B
+              RxCIE0:   Receive Complete int enable
+              TXCIE0:   Transmit Complete int enable
+              UDRIE0:   USART Data Register Empty int enable
+              RXEN0:    Rx Enable
+              TXEN0:    Tx Enable
+              UCSZ02:   Character Size bit 2
+              RXB80:    Rx data bit 8
+              TXB80:    Tx data bit 8
+    */
 
-  /*
-            bit      7      6      5      4      3      2      1      0
-                 RXCIE0 TxCIE0 UDRIE0  RXEN0  TXEN0 UCSZ02  RXB80  TXB80
+    data = UDR_N(TLM_USART0); // USART data register 0
 
-            RxCIE0:   Receive Complete int enable
-            TXCIE0:   Transmit Complete int enable
-            UDRIE0:   USART Data Register Empty int enable
-            RXEN0:    Rx Enable
-            TXEN0:    Tx Enable
-            UCSZ02:   Character Size bit 2
-            RXB80:    Rx data bit 8
-            TXB80:    Tx data bit 8
-  */
+    if (stat & ((1 << FE_N(TLM_USART0)) | (1 << DOR_N(TLM_USART0)) | (1 << UPE_N(TLM_USART0))))
+      {
+        // discard buffer and start fresh on any comms error
+        Usart0RxBufferCount = 0;
+      }
+    else
+      {
+        parseTelemSportByte(data, 0);
+      }
 
-  data = UDR_N(TLM_USART0); // USART data register 0
-
-  if (stat & ((1 << FE_N(TLM_USART0)) | (1 << DOR_N(TLM_USART0)) | (1 << UPE_N(TLM_USART0)))) {
-    // discard buffer and start fresh on any comms error
-    Usart0RxBufferCount = 0;
-  } else {
-    parseTelemSportByte(data, 0);
   }
-
-  cli() ;
   UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
 }
 #endif
@@ -204,11 +209,14 @@ ISR(USART_RX_vect_N(TLM_USART0))
 // USART0 Transmit Data Register Emtpy ISR (UDR was loaded in Shift Register)
 ISR(USART_UDRE_vect_N(TLM_USART0))
 {
-  if (Usart0TxBufferCount > 0) {
-    UDR_N(TLM_USART0) = Usart0TxBuffer[--Usart0TxBufferCount];
-  } else {
-    UCSRB_N(TLM_USART0) &= ~(1 << UDRIE_N(TLM_USART0)); // Disable UDRE interrupt.
-  }
+  if (Usart0TxBufferCount > 0)
+    {
+      UDR_N(TLM_USART0) = Usart0TxBuffer[--Usart0TxBufferCount];
+    }
+  else
+    {
+      UCSRB_N(TLM_USART0) &= ~(1 << UDRIE_N(TLM_USART0)); // Disable UDRE interrupt.
+    }
 }
 
 #if defined(FRSKY)
