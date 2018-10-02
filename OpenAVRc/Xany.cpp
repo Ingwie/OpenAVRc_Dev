@@ -408,9 +408,9 @@ void Xany_scheduleTx(uint8_t XanyIdx)
     uint_farptr_t ExcursionHalf_us_Far_Adress = pgm_get_far_address(ExcursionHalf_us); /* Get 32 bits adress */
     ExcursionHalf_us_Far_Adress += (2 * t->Nibble.CurIdx); /* Compute offset */
     int16_t valueTemp = (int16_t)pgm_read_word_far(ExcursionHalf_us_Far_Adress);
-    cli();
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     channelOutputs[g_model.Xany[XanyIdx].ChId] = valueTemp; /* overwrite in int-level */
-    sei();
+    }
     t->Nibble.SentCnt++;
     if(t->Nibble.SentCnt >= (g_model.Xany[XanyIdx].RepeatNb + 1))
     {

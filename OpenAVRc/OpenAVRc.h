@@ -342,9 +342,9 @@ extern tmr10ms_t Bind_tmr10ms;
 inline uint16_t get_tmr10ms()
 {
   uint16_t time  ;
-  cli();
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
   time = g_tmr10ms ;
-  sei();
+  }
   return time ;
 }
 

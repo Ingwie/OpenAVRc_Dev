@@ -41,7 +41,6 @@ bool simu_off; //Off signal
 //EEPROM
 unsigned char simu_eeprom[EESIZE] = {0xFF};
 
-extern uint16_t eeprom_pointer;
 extern uint8_t * eeprom_buffer_data;
 
 //AVR REG

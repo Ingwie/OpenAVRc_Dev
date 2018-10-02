@@ -43,9 +43,10 @@ void varioWakeup()
 
   if (isFunctionActive(FUNCTION_VARIO)) {
 #if defined(AUDIO)
-    cli();
-    int16_t verticalSpeed = telemetryData.value.varioSpeed;
-    sei();
+    int16_t verticalSpeed;
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    verticalSpeed = telemetryData.value.varioSpeed;
+    }
     int varioCenterMin = (int)g_model.telemetry.varioCenterMin * 10 - 50;
     int varioCenterMax = (int)g_model.telemetry.varioCenterMax * 10 + 50;
     int varioMax = (10+(int)g_model.telemetry.varioMax) * 100;
