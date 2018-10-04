@@ -38,7 +38,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 6 7
 Title "Shield Mega2560 core Full"
-Date "2018-09-13"
+Date "2018-10-03"
 Rev "2.10"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -394,9 +394,11 @@ F 3 "" H 9050 3400 60  0000 C CNN
 	1    9050 3400
 	0    -1   -1   0   
 $EndComp
+Wire Wire Line
+	9700 3050 9600 3050
 $Comp
 L DIODE D2
-U 1 1 5AABE736
+U 1 1 5BB5C069
 P 9400 3050
 F 0 "D2" H 9400 2950 40  0000 C CNN
 F 1 "LL4148" H 9400 3150 40  0000 C CNN
@@ -407,7 +409,7 @@ F 3 "" H 9400 3050 60  0000 C CNN
 $EndComp
 $Comp
 L DIODE D3
-U 1 1 5AABE7EC
+U 1 1 5BB5C0BE
 P 9900 3050
 F 0 "D3" H 9900 2950 40  0000 C CNN
 F 1 "LL4148" H 9900 3150 40  0000 C CNN
@@ -416,6 +418,4 @@ F 3 "" H 9900 3050 60  0000 C CNN
 	1    9900 3050
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	9700 3050 9600 3050
 $EndSCHEMATC
