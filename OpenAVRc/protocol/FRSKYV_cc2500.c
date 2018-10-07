@@ -274,10 +274,17 @@ static void FRSKYV_initialise(uint8_t bind)
   freq_fine_mem = 0;
 
   CC2500_Reset(); // 0x30
-  FRSKY_generate_channels();
 
   loadrfidaddr_rxnum(0);
   temp_rfid_addr[1] &= 0x7F; // 15 bit max ID
+
+  // Build channel array.
+  uint16_t V_offset = (uint16_t)(temp_rfid_addr[1] << 8 | temp_rfid_addr[0]) % 5;
+  uint8_t chan_num;
+  for(uint8_t x = 0; x < 50; x ++) {
+    chan_num = (x*5) + 3 + V_offset;
+	channel_used[x] = (chan_num ? chan_num : 1); // Avoid binding channel 0.
+  }
 
   dp_crc_init = FRSKYV_crc8_le();
   FRSKYV_init();
@@ -313,7 +320,7 @@ const void * FRSKYV_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_GETOPTIONS:
       SetRfOptionSettings(pgm_get_far_address(RfOpt_FrskyV_Ser),
                           STR_DUMMY,       //Sub proto
-                          STR_RFTUNEFINE,      //Option 1 (int)
+                          STR_RFTUNEFINE,  //Option 1 (int)
                           STR_DUMMY,       //Option 2 (int)
                           STR_RFPOWER,     //Option 3 (uint 0 to 31)
                           STR_DUMMY,       //OptionBool 1
