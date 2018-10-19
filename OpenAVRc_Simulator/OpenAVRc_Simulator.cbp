@@ -450,6 +450,7 @@
 		<Unit filename="../OpenAVRc/telemetry/frsky.cpp" />
 		<Unit filename="../OpenAVRc/telemetry/frsky.h" />
 		<Unit filename="../OpenAVRc/telemetry_driver.cpp" />
+		<Unit filename="../OpenAVRc/telemetry_driver.h" />
 		<Unit filename="../OpenAVRc/templates.cpp" />
 		<Unit filename="../OpenAVRc/templates.h" />
 		<Unit filename="../OpenAVRc/timers.cpp" />
