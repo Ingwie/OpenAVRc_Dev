@@ -52,7 +52,7 @@ void menuGeneralDiagKeys(uint8_t event)
 
     if (i<8) {
       y = MENU_HEADER_HEIGHT + FH*3 + FH*(i/2);
-      if (i&1) lcd_img(14*FW, y, sticks, i/2, 0);
+      if (i&1) lcd_imgfar(14*FW, y, (pgm_get_far_address(zz_sticks)), i/2, 0);
       displayKeyState(i&1? 20*FW : 18*FW, y, (EnumKeys)(TRM_BASE+i));
     }
 

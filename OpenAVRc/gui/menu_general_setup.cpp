@@ -104,8 +104,7 @@ void menuGeneralSetup(uint8_t event)
   struct tm * t;
   t = localtime(&g_rtcTime);
 
-  if ((menuVerticalPosition==ITEM_SETUP_DATE+1 || menuVerticalPosition==ITEM_SETUP_TIME+1) &&
-      (s_editMode>0) &&
+  if ((menuVerticalPosition==ITEM_SETUP_DATE+1 || menuVerticalPosition==ITEM_SETUP_TIME+1) && (s_editMode>0) &&
       (event==EVT_KEY_FIRST(KEY_ENTER) || event==EVT_KEY_FIRST(KEY_EXIT) || IS_ROTARY_BREAK(event) || IS_ROTARY_LONG(event))) {
     // set the date and time into RTC chip
     rtcSetTime(t);
@@ -120,7 +119,7 @@ void menuGeneralSetup(uint8_t event)
   }
 #endif
 
-  MENU(STR_MENURADIOSETUP, menuTabGeneral, e_Setup, ITEM_SETUP_MAX+1, {0, CASE_RTCLOCK(2) CASE_RTCLOCK(2) CASE_RTCLOCK(0) CASE_BATTGRAPH(1) LABEL(SOUND), CASE_AUDIO(0) CASE_BUZZER(0) /*CASE_VOICE(0)*/ 0, CASE_AUDIO(0) CASE_HAPTIC(LABEL(HAPTIC)) CASE_HAPTIC(0) CASE_HAPTIC(0) /*CASE_HAPTIC(0)*/ 0, LABEL(ALARMS), 0, 0, 0, 0, IF_ROTARY_ENCODERS(0) LABEL(BACKLIGHT), 0, 0, CASE_PWM_BACKLIGHT(0) CASE_PWM_BACKLIGHT(0) 0, CASE_SPLASH_PARAM(0) CASE_GPS(0) CASE_GPS(0) IF_FAI_CHOICE(0) 0, COL_TX_MODE, 1/*to force edit mode*/});
+  MENU(STR_MENURADIOSETUP, menuTabGeneral, e_Setup, ITEM_SETUP_MAX+1, {0, CASE_RTCLOCK(3) CASE_RTCLOCK(2) CASE_RTCLOCK(0) CASE_BATTGRAPH(1) LABEL(SOUND), CASE_AUDIO(0) CASE_BUZZER(0) /*CASE_VOICE(0)*/ 0, CASE_AUDIO(0) CASE_HAPTIC(LABEL(HAPTIC)) CASE_HAPTIC(0) CASE_HAPTIC(0) /*CASE_HAPTIC(0)*/ 0, LABEL(ALARMS), 0, 0, 0, 0, IF_ROTARY_ENCODERS(0) LABEL(BACKLIGHT), 0, 0, CASE_PWM_BACKLIGHT(0) CASE_PWM_BACKLIGHT(0) 0, CASE_SPLASH_PARAM(0) CASE_GPS(0) CASE_GPS(0) CASE_GPS(0) IF_FAI_CHOICE(0) 0, COL_TX_MODE, 1/*to force edit mode*/});
 
   uint8_t sub = menuVerticalPosition - 1;
 
@@ -410,7 +409,7 @@ void menuGeneralSetup(uint8_t event)
     case ITEM_SETUP_STICK_MODE_LABELS:
       lcdDrawTextLeft(y, NO_INDENT(STR_MODE));
       for (uint8_t i=0; i<4; i++) {
-        lcd_img((6+4*i)*FW, y, sticks, i, 0);
+        lcd_imgfar((6+4*i)*FW, y, (pgm_get_far_address(zz_sticks)), i, 0);
       }
       break;
 
