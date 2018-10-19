@@ -52,9 +52,9 @@
 #define sdMounted()         (1)
 #else
 #define ROOT_PATH           "/"
-#define MODELS_PATH         ROOT_PATH "MODELS"      // no trailing slash = important
-#define LOGS_PATH           ROOT_PATH "LOGS"
-#define VOICETXT_PATH       ROOT_PATH "VOICE"
+#define MODELS_PATH         "MODELS"      // no trailing slash = important
+#define LOGS_PATH           "LOGS"
+#define VOICETXT_PATH       "VOICE"
 #define sdMounted()         (SD_filesystem)
 #endif
 
@@ -72,10 +72,10 @@ extern struct fat_file_struct* SD_file;
 
 uint8_t MountSD();
 void UmountSD();
+void sdCreateSystemDir();
 uint8_t sdChangeCurDir(const char* path);
-uint8_t sdOpenCreateDir(const char* path);
-uint8_t sdOpenCreateModelsDir();
-uint8_t sdOpenCreateLogsDir();
+uint8_t sdOpenModelsDir();
+uint8_t sdOpenLogsDir();
 
 
 uint8_t sdFindFileStruct(const char* name);
@@ -86,7 +86,7 @@ extern uint8_t logDelay;
 uint8_t openLogs();
 uint8_t writeHeader();
 void closeLogs();
-void checkLogActived();
+void closeLogIfActived();
 void writeLogs();
 
 #define OAVRC_FOURCC 0x16180339 // OAVRC ID

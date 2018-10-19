@@ -116,6 +116,7 @@ void sd_raw_get_info(struct sd_raw_info* tmp)
 uint8_t sd_raw_init()
 {
   wxString root = AppPath+"\\SD\\";
+
   if (!sddir.Exists(root))
     {
       sddir.Make(root);
@@ -144,6 +145,7 @@ partition_struct* partition_open(uint8_t a,uint8_t b,uint8_t c,uint8_t d,uint8_t
 uint8_t fat_seek_file(struct fat_file_struct* fd, int32_t* offset, uint8_t whence)
 {
   uint8_t ret = 0;
+
   if (sdfile.Seek(*offset,(wxSeekMode)whence) != wxInvalidOffset)
     {
       ret = 1;
@@ -160,6 +162,7 @@ uint8_t fat_create_file(struct fat_dir_struct* parent, const char* file, struct 
 {
   uint8_t ret = 0;
   wxString temp = sdroot + sdpath + "\\" + wxString::FromUTF8(file);
+
   if (wxFile::Exists(temp))
     {
       ret = 2;
@@ -193,6 +196,7 @@ struct fat_file_struct* fat_open_file(struct fat_fs_struct* fs, const struct fat
 intptr_t fat_write_file(struct fat_file_struct* fd, const uint8_t* buffer, uintptr_t buffer_len)
 {
   size_t ret = 0;
+
   ret = sdfile.Write(buffer, buffer_len);
   if (sdfile.Flush())
     {
@@ -258,9 +262,13 @@ struct fat_dir_struct* fat_open_dir(struct fat_fs_struct* fs, const struct fat_d
 uint8_t fat_create_dir(struct fat_dir_struct* parent, const char* dir, struct fat_dir_entry_struct* dir_entry)
 {
   uint8_t ret = 0;
-  if (sddir.Make(sdroot + wxString::FromUTF8(dir_entry->long_name), wxS_DIR_DEFAULT))
+
+  if (sddir.Exists(sdroot + wxString::FromUTF8(dir)))
     {
-      sdpath = wxString::FromUTF8(dir_entry->long_name);
+      ret = 1;
+    }
+  else if (sddir.Make(sdroot + wxString::FromUTF8(dir), wxS_DIR_DEFAULT))
+    {
       ret = 1;
     }
   return ret;

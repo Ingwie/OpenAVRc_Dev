@@ -101,27 +101,25 @@ uint8_t sdChangeCurDir(const char* path)
   return ret;
 }
 
-uint8_t sdOpenCreateDir(const char* path)
+void sdCreateSystemDir()
 {
-  uint8_t ret = 1;
-  if (!sdChangeCurDir(path))
-    {
-      if (!(fat_create_dir(SD_dir, path, &SD_dir_entry)))
-        {
-          ret = 0;
-        }
-    }
-  return ret;
+  fat_create_dir(SD_dir, MODELS_PATH, &SD_dir_entry);
+  fat_create_dir(SD_dir, LOGS_PATH, &SD_dir_entry);
 }
 
-uint8_t sdOpenCreateModelsDir()
+uint8_t sdOpenDir(const char* path)
 {
-  return sdOpenCreateDir(MODELS_PATH);
+  return sdChangeCurDir(path);
 }
 
-uint8_t sdOpenCreateLogsDir()
+uint8_t sdOpenModelsDir()
 {
-  return sdOpenCreateDir(LOGS_PATH);
+  return sdOpenDir(ROOT_PATH MODELS_PATH);
+}
+
+uint8_t sdOpenLogsDir()
+{
+  return sdOpenDir(ROOT_PATH LOGS_PATH);
 }
 
 uint8_t sdFindFileStruct(const char* name)
@@ -148,7 +146,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
   static uint16_t lastpopupMenuOffset = 0;
 
   // we must close the logs as we reuse the same SDfile structure
-  checkLogActived();
+  closeLogIfActived();
 
   if (popupMenuOffset == 0)
     {

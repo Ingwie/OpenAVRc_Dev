@@ -37,7 +37,7 @@
 
 FORCEINLINE void loadVoiceTextLine(uint8_t Numline, char * PromptText)
 {
-  checkLogActived();
+  closeLogIfActived();
 
   if (sdChangeCurDir(VOICETXT_PATH))
     {

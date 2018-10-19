@@ -52,7 +52,7 @@ uint8_t openLogs()
       return ret;
     }
 
-  if (sdOpenCreateLogsDir())
+  if (sdOpenLogsDir())
     {
       /* Build the name of the file */
       memcpy(filename, g_model.name, sizeof(g_model.name));
@@ -103,7 +103,7 @@ void closeLogs()
   memclear(&reusableBuffer, sizeof(reusableBuffer));
 }
 
-void checkLogActived()
+void closeLogIfActived()
 {
   if (logDelay)
     {

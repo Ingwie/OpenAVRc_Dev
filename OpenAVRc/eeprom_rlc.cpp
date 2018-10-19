@@ -624,10 +624,10 @@ uint8_t eeBackupModel(uint8_t i_fileSrc)
   char *buf = reusableBuffer.modelsel.mainname;
 
   // we must close the logs as we reuse the same SD_file structure
-  checkLogActived();
+  closeLogIfActived();
 
   // check and create folder if needed
-  if (sdOpenCreateModelsDir())
+  if (sdOpenModelsDir())
     {
 
       eeLoadModelName(i_fileSrc, buf);
@@ -953,7 +953,7 @@ void eeLoadModel(uint8_t id)
 
 
 #if defined(SDCARD)
-      checkLogActived();
+      closeLogIfActived();
 #endif
 
       if (pulsesStarted())

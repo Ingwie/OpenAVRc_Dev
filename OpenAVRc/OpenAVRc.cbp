@@ -229,7 +229,6 @@
 		<Unit filename="targets/mega2560/voice_wtv20sd.cpp" />
 		<Unit filename="targets/megamini/board_megamini.cpp" />
 		<Unit filename="targets/megamini/board_megamini.h" />
-		<Unit filename="targets/simu/simu_interface.cpp" />
 		<Unit filename="telemetry/frsky.cpp" />
 		<Unit filename="telemetry/frsky.h" />
 		<Unit filename="telemetry_driver.cpp" />
