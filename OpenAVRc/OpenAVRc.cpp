@@ -1150,7 +1150,8 @@ void OpenAVRcStart() // Run only if it is not a WDT reboot
   rtcInit();
 #endif
 #if defined(SDCARD)
-  if (!MountSD()) master_spi_disable();// Mount SD disable master SPI port on error
+  if (!MountSD()) master_spi_disable(); // Mount SD, disable master SPI port on error
+  if sdMounted() sdCreateSystemDir();   // Create LOGS & MODELS dir if they don't exist
 #endif
   doSplash();
 #if defined(GUI)
@@ -1160,7 +1161,6 @@ void OpenAVRcStart() // Run only if it is not a WDT reboot
     chainMenu(menuFirstCalib);
   }
 #endif
-
 }
 
 void OpenAVRcClose()
@@ -1483,14 +1483,14 @@ int simumain()
   wdt_disable();
 #endif //SIMU
 
+#if !defined(SIMU)
+  stackPaint();
+#endif
+
   boardInit();
 
 #if defined(GUI)
   lcdInit();
-#endif
-
-#if !defined(SIMU)
-  stackPaint();
 #endif
 
 #if defined(GUI)
