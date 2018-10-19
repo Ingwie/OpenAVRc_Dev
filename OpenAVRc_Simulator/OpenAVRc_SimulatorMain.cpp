@@ -104,6 +104,8 @@ GvarsFrame *GvFr;
 RadioDataFrame *RaFr;
 TelemetryFrame *TeleFr;
 
+
+int comwaitcounter;
 // Voice
 bool Mp3RepExist = false;
 extern volatile uint8_t JQ6500_InputIndex;
@@ -3238,7 +3240,10 @@ void ConnectCom(wxString name)
     SimuComIsValid = false;
     break;
   }
-  if (error == 0) SimuComIsValid = true;
+  if (error == 0) {
+      SimuComIsValid = true;
+      comwaitcounter = GetTickCount();
+  }
   else {
     wxString intString = wxString::Format(wxT("%i"), error);
     wxMessageBox("Erreur N°"+ intString + " port COM");
@@ -3247,7 +3252,7 @@ void ConnectCom(wxString name)
 
 void SendByteCom(uint8_t data)
 {
-  if (SimuComIsValid)
+  if ((SimuComIsValid) && ((comwaitcounter + 1000) < GetTickCount()))
   {
     comPort->sendChar(data);
   }

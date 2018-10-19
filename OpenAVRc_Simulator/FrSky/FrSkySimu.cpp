@@ -32,7 +32,7 @@
 #include "../OpenAVRc_SimulatorMain.h"
 
 #include "FrSkySimu.h"
-
+#include <wx/log.h>
 FrSkySportSensorAss ass;                               // Create ASS sensor with default ID
 FrSkySportSensorFcs fcs;                               // Create FCS-40A sensor with default ID (use ID8 for FCS-150A)
 FrSkySportSensorFlvss flvss1;                          // Create FLVSS sensor with default ID
@@ -50,9 +50,9 @@ FrSkyDTelemetry telemetryD;                             // Create telemetry D ob
 void SendSerialDataToUART(uint8_t data)
 {
   //wxString dat = wxString::Format(wxT("%X"),data);
-  //wxLogDebug("dat");
+  //wxLogDebug(dat);
   SendByteCom(data);
-  parseTelemSportByte(data, 0);
+  parseTelemFrskyByte(data);
 }
 
 

@@ -38,6 +38,7 @@
 #include <wx/string.h>
 //*)
 
+extern int comwaitcounter;
 // Telemetry datas
 extern int Tele_Protocol;
 

@@ -210,11 +210,21 @@ void FrSkyDTelemetry::sendData(uint8_t dataId, uint16_t data, bool bigEndian)
 bool FrSkyDTelemetry::sendFasData()
 {
   bool enabled = enabledSensors & SENSOR_FAS;
-  if(enabled == true) {
-    sendData(0x28, current);
-    sendData(0x3A, voltageBD);
-    sendData(0x3B, voltageAD);
-  }
+  static uint8_t dispatch = 0;
+  if(enabled == true)
+    {
+      switch (dispatch)
+        {
+        case 0:
+          sendData(0x28, current); break;
+        case 1:
+          sendData(0x3A, voltageBD); break;
+        case 2:
+          sendData(0x3B, voltageAD); break;
+        }
+      if (++dispatch > 2)
+        dispatch = 0;
+    }
   return enabled;
 }
 
@@ -242,65 +252,146 @@ bool FrSkyDTelemetry::sendFlvsData()
 
 bool FrSkyDTelemetry::sendFvasData()
 {
+  static uint8_t dispatch = 0;
   bool enabled = enabledSensors & SENSOR_FVAS;
-  if(enabled == true) {
-    sendData(0x10, altBD);
-    sendData(0x21, altAD);
-    sendData(0x30, vsi); // Not documented in FrSky spec, added based on OpenTX sources.
-  }
+  if(enabled == true)
+    {
+      switch (dispatch)
+        {
+        case 0:
+          sendData(0x10, altBD);
+          break;
+        case 1:
+          sendData(0x21, altAD);
+          break;
+        case 2:
+          sendData(0x30, vsi);
+           // Not documented in FrSky spec, added based on OpenTX sources.
+        }
+      if (++dispatch > 2)
+        dispatch = 0;
+    }
   return enabled;
 }
 
 bool FrSkyDTelemetry::sendGpsData()
 {
+  static uint8_t dispatch = 0;
   bool enabled = enabledSensors & SENSOR_GPS;
-  if(enabled == true) {
-    sendData(0x01, gpsAltBD);
-    sendData(0x09, gpsAltAD);
-    sendData(0x11, speedBD);
-    sendData(0x19, speedAD);
-    sendData(0x12, lonBD); // DEVIATION FROM SPEC: FrSky protocol spec says lat shall be sent as big endian, but it reality little endian is expected
-    sendData(0x1A, lonAD); // DEVIATION FROM SPEC: FrSky protocol spec says lat shall be sent as big endian, but it reality little endian is expected
-    sendData(0x22, lonEW); // DEVIATION FROM SPEC: FrSky protocol spec says lon shall be sent as big endian, but it reality little endian is expected
-    sendData(0x13, latBD); // DEVIATION FROM SPEC: FrSky protocol spec says lon shall be sent as big endian, but it reality little endian is expected
-    sendData(0x1B, latAD);
-    sendData(0x23, latNS);
-    sendData(0x14, cogBD);
-    sendData(0x1C, cogAD);
-  }
+  if(enabled == true)
+    {
+      switch (dispatch)
+        {
+        case 0:
+          sendData(0x01, gpsAltBD);
+          sendData(0x09, gpsAltAD);
+          break;
+        case 1:
+          sendData(0x11, speedBD);
+          break;
+        case 2:
+          sendData(0x19, speedAD);
+          break;
+        case 3:
+          sendData(0x12, lonBD);
+          break; // DEVIATION FROM SPEC: FrSky protocol spec says lat shall be sent as big endian, but it reality little endian is expected
+        case 4:
+          sendData(0x1A, lonAD);
+          break; // DEVIATION FROM SPEC: FrSky protocol spec says lat shall be sent as big endian, but it reality little endian is expected
+        case 5:
+          sendData(0x22, lonEW);
+          break; // DEVIATION FROM SPEC: FrSky protocol spec says lon shall be sent as big endian, but it reality little endian is expected
+        case 6:
+          sendData(0x13, latBD);
+          break; // DEVIATION FROM SPEC: FrSky protocol spec says lon shall be sent as big endian, but it reality little endian is expected
+        case 7:
+          sendData(0x1B, latAD);
+          break;
+        case 8:
+          sendData(0x23, latNS);
+          break;
+        case 9:
+          sendData(0x14, cogBD);
+          break;
+        case 10:
+          sendData(0x1C, cogAD);
+          break;
+        }
+      if (++dispatch > 10)
+        dispatch = 0;
+    }
   return enabled;
 }
 
 bool FrSkyDTelemetry::sendDateTimeData()
 {
+  static uint8_t dispatch = 0;
   bool enabled = enabledSensors & SENSOR_GPS;
-  if(enabled == true) {
-    sendData(0x15, dayMonth, true);
-    sendData(0x16, year);
-    sendData(0x17, hourMinute, true);
-    sendData(0x18, second);
-  }
+  if(enabled == true)
+    {
+      switch (dispatch)
+        {
+        case 0:
+          sendData(0x15, dayMonth, true);
+          break;
+        case 1:
+          sendData(0x16, year);
+          break;
+        case 2:
+          sendData(0x17, hourMinute, true);
+          break;
+        case 3:
+          sendData(0x18, second);
+          break;
+        }
+      if (++dispatch > 3)
+        dispatch = 0;
+    }
   return enabled;
 }
 
 bool FrSkyDTelemetry::sendTasData()
 {
+  static uint8_t dispatch = 0;
   bool enabled = enabledSensors & SENSOR_TAS;
-  if(enabled == true) {
-    sendData(0x24, accX);
-    sendData(0x25, accY);
-    sendData(0x26, accZ);
-  }
+  if(enabled == true)
+    {
+      switch (dispatch)
+        {
+        case 0:
+          sendData(0x24, accX);
+          break;
+        case 1:
+          sendData(0x25, accY);
+          break;
+        case 2:
+          sendData(0x26, accZ);
+          break;
+        }
+      if (++dispatch > 2)
+        dispatch = 0;
+    }
   return enabled;
 }
 
 bool FrSkyDTelemetry::sendTemsData()
 {
+  static uint8_t dispatch = 0;
   bool enabled = enabledSensors & SENSOR_TEMS;
-  if(enabled == true) {
-    sendData(0x02, t1);
-    sendData(0x05, t2);
-  }
+  if(enabled == true)
+    {
+      switch (dispatch)
+        {
+        case 0:
+          sendData(0x02, t1);
+          break;
+        case 1:
+          sendData(0x05, t2);
+          break;
+        }
+      if (++dispatch > 1)
+        dispatch = 0;
+    }
   return enabled;
 }
 
@@ -315,22 +406,48 @@ bool FrSkyDTelemetry::sendRpmsData()
 
 void FrSkyDTelemetry::sendFrame1()
 {
-  bool result = false;
-  result  = sendFasData();
-  result |= sendFlvsData();
-  result |= sendFvasData();
-  result |= sendTasData();
-  result |= sendTemsData();
-  result |= sendRpmsData();
-  //if (result == true) sendSeparator();
+  static uint8_t dispatch = 0;
+
+  switch (dispatch)
+    {
+    case 0:
+      sendFasData();
+      break; // 3 occurences
+    case 1:
+      sendFlvsData();
+      break;
+    case 2:
+      sendFvasData();
+      break;
+    case 3:
+      sendTasData();
+      break;
+    case 4:
+      sendTemsData();
+      break;
+    case 5:
+      sendRpmsData();
+      break;
+    }
+  if (++dispatch > 5)
+    dispatch = 0;
 }
 
 void FrSkyDTelemetry::sendFrame2()
 {
-  bool result = false;
-  result  = sendFgsData();
-  result |= sendGpsData();
-  //if (result == true) sendSeparator();
+  static uint8_t dispatch = 0;
+
+  switch (dispatch)
+    {
+    case 0:
+      sendFgsData();
+      break;
+    case 1:
+      sendGpsData();
+      break;
+    }
+  if (++dispatch > 1)
+    dispatch = 0;
 }
 
 void FrSkyDTelemetry::sendFrame3()
@@ -342,38 +459,37 @@ void FrSkyDTelemetry::sendFrame3()
 
 void FrSkyDTelemetry::send()
 {
-  uint32_t currentTime = GetTickCount();
+  static uint8_t dispatch = 0;
 
-  if(currentTime > frame3Time) { // Sent every 5s (5000ms)
-    frame3Time = currentTime + 5000;
-    frame2Time = currentTime + 200; // Postpone frame 2 to next cycle
-    frame1Time = currentTime + 200; // Postpone frame 1 to next cycle
-    frameRSSITime = currentTime + 100;
-    sendFrame3();
-  } else if(currentTime > frame2Time) { // Sent every 1s (1000ms)
-    frame2Time = currentTime + 2000;
-    frame1Time = currentTime + 200; // Postpone frame 1 to next cycle
-    frameRSSITime = currentTime + 100;
-    sendFrame2();
-  } else if(currentTime > frame1Time) { // Sent every 200ms
-    frame1Time = currentTime + 200;
-    frameRSSITime = currentTime + 100;
-    sendFrame1();
-  }
-
-  else if(currentTime > frameRSSITime) { // Sent every 100ms
-    frameRSSITime = currentTime + 100;
-
-    SendSerialDataToUART(0x7E);
-    SendSerialDataToUART(0xFE);
-    SendSerialDataToUART((uint8_t)(Tele_Analog1));//A1
-    SendSerialDataToUART((uint8_t)(Tele_Analog2));//A2
-    SendSerialDataToUART((uint8_t)Tele_RSSIRx);//RX
-    SendSerialDataToUART((uint8_t)Tele_RSSITx*2);//TX*2
-    SendSerialDataToUART(0x00);
-    SendSerialDataToUART(0x00);
-    SendSerialDataToUART(0x00);
-    SendSerialDataToUART(0x00);
-    SendSerialDataToUART(0x7E);
-  }
+  switch (dispatch)
+    {
+    case 1:
+      sendFrame3();
+      break;
+    case 2:
+    case 4:
+    case 6:
+      sendFrame2();
+      break;
+    case 3:
+    case 5:
+    case 7:
+    case 8:
+      sendFrame1();
+      break;
+    }
+  if (++dispatch > 8)
+    dispatch = 0;
+  /* Send analog & rssi */
+  SendSerialDataToUART(0x7E);
+  SendSerialDataToUART(0xFE);
+  SendSerialDataToUART((uint8_t)(Tele_Analog1));//A1
+  SendSerialDataToUART((uint8_t)(Tele_Analog2));//A2
+  SendSerialDataToUART((uint8_t)Tele_RSSIRx);//RX
+  SendSerialDataToUART((uint8_t)Tele_RSSITx*2);//TX*2
+  SendSerialDataToUART(0x00);
+  SendSerialDataToUART(0x00);
+  SendSerialDataToUART(0x00);
+  SendSerialDataToUART(0x00);
+  SendSerialDataToUART(0x7E);
 }
