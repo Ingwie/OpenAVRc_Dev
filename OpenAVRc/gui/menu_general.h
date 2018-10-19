@@ -66,7 +66,7 @@ const MenuFuncP_PROGMEM menuTabGeneral[] PROGMEM = {
   menuGeneralCalib
 };
 
-const pm_uchar sticks[] PROGMEM = {
+const pm_uchar zz_sticks[] PROGMEM = {
 #include "../bitmaps/sticks.lbm"
 };
 

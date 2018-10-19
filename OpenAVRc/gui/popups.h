@@ -42,7 +42,7 @@ uint8_t         warningInfoLength;
 uint8_t         warningType;
 bool            warningResult = false;
 
-const pm_uchar asterisk_lbm[] PROGMEM = {
+const pm_uchar zz_asterisk_lbm[] PROGMEM = {
 #include "../bitmaps/asterisk.lbm"
 };
 

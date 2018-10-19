@@ -647,7 +647,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 {
   uint8_t *p = &displayBuf[ y / 8 * LCD_W + x ];
 
-  uint_farptr_t q=pgm_get_far_address(zzfont_5x7);
+  uint_farptr_t q = pgm_get_far_address(zzfont_5x7);
   q += (c-0x20)*5;
   lcdNextPos = x-1;
   p--;
@@ -1059,23 +1059,3 @@ void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags 
     }
   }
 }
-
-void lcd_img(coord_t x, coord_t y, const pm_uchar * img, uint8_t idx, LcdFlags att)
-{
-  const pm_uchar *q = img;
-  uint8_t w    = pgm_read_byte_near(q++);
-  uint8_t hb   = (pgm_read_byte_near(q++)+7)/8;
-  bool    inv  = (att & INVERS) ? true : (att & BLINK ? BLINK_ON_PHASE : false);
-  q += idx*w*hb;
-  for (uint8_t yb = 0; yb < hb; yb++) {
-    uint8_t *p = &displayBuf[ (y / 8 + yb) * LCD_W + x ];
-    for (coord_t i=0; i<w; i++) {
-      uint8_t b = pgm_read_byte_near(q);
-      q++;
-      ASSERT_IN_DISPLAY(p);
-      *p++ = inv ? ~b : b;
-    }
-  }
-}
-
-

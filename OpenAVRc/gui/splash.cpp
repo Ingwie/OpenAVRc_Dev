@@ -35,18 +35,14 @@
 
 #if defined(SPLASH)
 
-const pm_uchar splashdata[] PROGMEM = {
+const pm_uchar zz_splashdata[] PROGMEM = {
 #include "../bitmaps/splash.lbm"
 };
-
-#if  defined(SIMU)
-const pm_uchar * const splash_lbm = splashdata+4;
-#endif
 
 void displaySplash()
 {
   lcdClear();
-  lcd_imgfar(0, 0, (pgm_get_far_address(splashdata)), 0, 0); //use progmem "far" for splash working with all other options enabled
+  lcd_imgfar(0, 0, (pgm_get_far_address(zz_splashdata)), 0, 0); //use progmem "far" for splash working with all other options enabled
 
 #if MENUS_LOCK == 1
   if (readonly == false) {
