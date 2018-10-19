@@ -271,7 +271,7 @@ void processHubPacket(uint8_t id, uint16_t value);
 void frskyDProcessPacket(uint8_t *packet);
 
 // FrSky S.PORT Protocol
-void processSportPacket(uint8_t *packet, uint8_t no_chk_telefr_crc);
+void processSportPacket(uint8_t *packet);
 
 void checkMinMaxAltitude();
 void telemetryResetValue();

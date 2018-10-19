@@ -174,6 +174,7 @@ static uint16_t DurationValue;
   #define CASE_SDCARD(x) x,
 #else
   #define CASE_SDCARD(x)
+  #define logDelay 0
 #endif
 
 #if defined(HELI)
@@ -906,7 +907,7 @@ void evalFunctions();
   extern volatile rotenc_t g_rotenc[1];
 #endif
 
-extern void parseTelemSportByte(uint8_t data, uint8_t no_chk_telefr_crc);
+extern void parseTelemFrskyByte(uint8_t data);
 #if defined (FRSKY)
   // FrSky Telemetry
   #include "telemetry/frsky.h"

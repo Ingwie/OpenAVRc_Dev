@@ -118,8 +118,8 @@ static void FRSKYD_build_data_packet()
   packet[1] = temp_rfid_addr[0];
   packet[2] = temp_rfid_addr[1];
   packet[3] = packet_count;
-#if HAS_EXTENDED_TELEMETRY
-  packet[4] = sequence; // acknowledge last value packet
+#if defined(FRSKY)
+  packet[4] = receive_seq; // acknowledge last value packet
 #else
   packet[4] = 0x00;
 #endif
@@ -162,6 +162,74 @@ static uint16_t FRSKYD_bind_cb()
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return 18000U *2;
 }
+
+#if defined(FRSKY)
+static void frskyD_check_telemetry(uint8_t *pkt, uint8_t len)
+{
+
+  /*
+  *  pkt 0 = length not counting appended status bytes
+  *  pkt 1,2 = fixed_id
+  *  pkt 3 = A1 : 52mV per count; 4.5V = 0x56
+  *  pkt 4 = A2 : 13.4mV per count; 3.0V = 0xE3 on D6FR
+  *  pkt 5 = RSSI
+  *  pkt 6 = number of stream bytes
+  *  pkt 7 = sequence number increments mod 32 when packet containing stream data acknowledged
+  *  pkt 8-(8+(pkt[6]-1)) = stream data
+  *  pkt len-2 = downlink RSSI
+  *  pkt len-1 = crc status (bit7 set indicates good), link quality indicator (bits6-0)
+  */
+
+  // only process packets with the required id and packet length and good crc
+  if ( (pkt[len-1] & 0x80)
+       && pkt[0] == len - 3
+       && pkt[1] == temp_rfid_addr[0]
+       && pkt[2] == temp_rfid_addr[1] )
+    {
+      if(frskyStreaming < FRSKY_TIMEOUT10ms -5)
+        frskyStreaming +=5;
+      // frskyStreaming gets decremented every 10ms, however we can only add to it every 4 *9ms, so we add 5.
+
+    telemetryData.rssi[0].set(pkt[5] & 0x7f);
+
+    telemetryData.rssi[1].set(pkt[len-2] & 0x7f);
+
+    //Get voltage A1 (52mv/count)
+    telemetryData.analog[TELEM_ANA_A1].set(pkt[3], g_model.telemetry.channels[TELEM_ANA_A1].type);
+
+    //Get voltage A2 (~13.2mv/count) (Docs say 1/4 of A1)
+    telemetryData.analog[TELEM_ANA_A2].set(pkt[4], g_model.telemetry.channels[TELEM_ANA_A2].type);
+
+      if(pkt[6]>0 && pkt[6]<=10)
+        {
+          if ( ( pkt[7] & 0x1F ) == (receive_seq & 0x1F) )
+            {
+              uint8_t topBit = 0 ;
+              if ( receive_seq & 0x80 )
+                {
+                  if ( ( receive_seq & 0x1F ) != telem_save_seq )
+                    {
+                      topBit = 0x80 ;
+                    }
+                  receive_seq = ( (receive_seq+1)%32 ) | topBit ;	// Request next telemetry frame
+                }
+              for (uint8_t i=0; i < pkt[6]; i++)
+                {
+                  parseTelemFrskyByte(pkt[7+i]);
+                }
+
+            }
+          else
+            {
+              // incorrect sequence
+              telem_save_seq = pkt[7] & 0x1F ;
+              receive_seq |= 0x80 ;
+              pkt[6]=0 ;							// Discard current packet and wait for retransmit
+            }
+        }
+    }
+}
+#endif
 
 static uint16_t FRSKYD_data_cb()
 {
@@ -214,32 +282,11 @@ static uint16_t FRSKYD_data_cb()
           if(len > 0x14)
             break; // 20 bytes
           CC2500_ReadData(packet, len);
-
-          /*
-          *  pkt 0 = length not counting appended status bytes
-          *  pkt 1,2 = fixed_id
-          *  pkt 3 = A1 : 52mV per count; 4.5V = 0x56
-          *  pkt 4 = A2 : 13.4mV per count; 3.0V = 0xE3 on D6FR
-          *  pkt 5 = RSSI
-          *  pkt 6 = number of stream bytes
-          *  pkt 7 = sequence number increments mod 32 when packet containing stream data acknowledged
-          *  pkt 8-(8+(pkt[6]-1)) = stream data
-          *  pkt len-2 = downlink RSSI
-          *  pkt len-1 = crc status (bit7 set indicates good), link quality indicator (bits6-0)
-          */
-
-          // Packet checks: sensible length, good CRC, matching fixed id
-          if(len != packet[0] + 3 || packet[0] < 5 || !(packet[len-1] & 0x80))
-            break;
-          else if(packet[1] != temp_rfid_addr[0])
-            break;
-          else if(packet[2] != temp_rfid_addr[1])
-            break;
 #if defined(FRSKY)
-          //memcpy(Usart0RxBuffer, packet, len);
-          if(frskyStreaming < FRSKY_TIMEOUT10ms -5)
-            frskyStreaming +=5;
-          // frskyStreaming gets decremented every 10ms, however we can only add to it every 4 *9ms, so we add 5.
+          if (g_model.rfOptionBool1) // telemetry on?
+            {
+              frskyD_check_telemetry(packet, len);
+            }
 #endif
           break;
 
@@ -262,6 +309,8 @@ static uint16_t FRSKYD_data_cb()
 static void FRSKYD_initialize(uint8_t bind)
 {
   freq_fine_mem = 0;
+  receive_seq = 0;
+  telem_save_seq = 0;
 
   loadrfidaddr_rxnum(0);
   FRSKY_generate_channels();
