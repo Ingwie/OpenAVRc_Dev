@@ -325,14 +325,39 @@ static void frskyX_data_frame()
 }
 
 #if defined(FRSKY)
-static void frsky_check_telemetry(uint8_t *pkt, uint8_t len)
+static void frskyX_check_telemetry(uint8_t *pkt, uint8_t len)
 {
-  // only process packets with the required id and packet length and good crc
-  if (      pkt[0] == len - 3
-            && pkt[1] == temp_rfid_addr[3]
-            && pkt[2] == temp_rfid_addr[2]
-            && (Xcrc(&pkt[3], len-7) == (uint16_t)(pkt[len-4] << 8 | pkt[len-3]))
-     )
+/*
+Telemetry frames(RF) SPORT info 15 bytes
+  SPORT frame 6+3 bytes
+  [00] PKLEN  0E 0E 0E 0E
+  [01] TXID1  DD DD DD DD
+  [02] TXID2  6D 6D 6D 6D
+  [03] CONST  02 02 02 02
+  [04] RS/RB  2C D0 2C CE // D0,CE = 2*RSSI; ....2C = RX battery voltage(5V from Bec)
+  [05] SEQ    03 10 21 32 // TX/RX telemetry hand-shake sequence number
+  [06] NO.BT  00 00 06 03 // No.of valid SPORT frame bytes in the frame
+  [07] STRM1  00 00 7E 00
+  [08] STRM2  00 00 1A 00
+  [09] STRM3  00 00 10 00
+  [10] STRM4  03 03 03 03
+  [11] STRM5  F1 F1 F1 F1
+  [12] STRM6  D1 D1 D0 D0
+  [13] CHKSUM1
+  [14] CHKSUM2
+  [15] RSSI
+  [16] LQI
+
+  The sequence byte contains 2 nibbles. The low nibble normally contains a 2-bit
+  sequence number (0-3) that is the sequence of sending packets. The high nibble
+  contains the "next expected" packet sequence to be received.
+  Bit 2 of this nibble (bit 6 of the byte) is set to request a re-transmission of a missed packet.
+  Bit 3 of the nibbles is used to indicate/acknowledge startup synchronisation.  // only process packets with the required id and packet length and good crc*/
+
+  if ( pkt[0] == len - 3
+       && pkt[1] == temp_rfid_addr[3]
+       && pkt[2] == temp_rfid_addr[2]
+       && (Xcrc(&pkt[3], len-7) == (uint16_t)(pkt[len-4] << 8 | pkt[len-3])))
     {
       if(frskyStreaming < FRSKY_TIMEOUT10ms -5)
         frskyStreaming +=5;
@@ -345,17 +370,17 @@ static void frsky_check_telemetry(uint8_t *pkt, uint8_t len)
       /*else
         {
           telemetryData.analog[0].set(pkt[4] * 10,UNIT_VOLTS);      // In 1/100 of Volts
-        }*/
+        } TODO use*/
 
-      telemetryData.rssi[1].set(pkt[len-1] & 0x7f);
 
-      //Telemetry.value[TELEM_FRSKY_LRSSI] = (s8)pkt[len-2] / 2 - 70;  // Value in dBm*/
+      telemetryData.rssi[1].set(pkt[len-2] & 0x7f);
+
 
       if (((pkt[5] & 0x0f) == 0x08) || ((pkt[5] >> 4) == 0x08))     // restart
         {
           receive_seq = 8;
           send_seq = 0;
-          parseTelemSportByte(START_STOP, 1); // reset
+          parseTelemFrskyByte(START_STOP); // reset
         }
       else
         {
@@ -364,11 +389,10 @@ static void frsky_check_telemetry(uint8_t *pkt, uint8_t len)
               receive_seq = (receive_seq + 1) % 4;
 
               if(pkt[6]>0 && pkt[6]<=10)//
-                //if (pkt[6] && pkt[6] <= 6)
                 {
                   for (uint8_t i=0; i < pkt[6]; i++)
                     {
-                      parseTelemSportByte(pkt[7+i], 1);
+                      parseTelemFrskyByte(pkt[7+i]);
                     }
                 }
               // process any saved data from out-of-sequence packet if
@@ -378,7 +402,7 @@ static void frsky_check_telemetry(uint8_t *pkt, uint8_t len)
                   receive_seq = (receive_seq + 1) % 4;
                   for (uint8_t i=0; i < telem_save_data[0]; i++)
                     {
-                      parseTelemSportByte(telem_save_data[1+i], 1);
+                      parseTelemFrskyByte(telem_save_data[1+i]);
                     }
                 }
               telem_save_seq = 0xFF;
@@ -439,10 +463,7 @@ static uint16_t FRSKYX_send_data_packet()
 #if defined(FRSKY)
           if (g_model.rfOptionBool1) // telemetry on?
             {
-              NONATOMIC_BLOCK(ATOMIC_RESTORESTATE)
-              {
-                frsky_check_telemetry(packet, len);
-              }
+              frskyX_check_telemetry(packet, len);
             }
 #endif
         }

@@ -33,9 +33,7 @@
 
 #include "OpenAVRc.h"
 
-uint8_t Usart0RxBuffer[USART0_RX_PACKET_SIZE];   // Receive buffer. 9 bytes (full packet), worst case 18 bytes with byte-stuffing (+1)
-
-uint8_t Usart0RxBufferCount = 0;
+uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][TELEM_RX_PACKET_SIZE];
 
 uint8_t * Usart0TxBuffer = pulses2MHz.pbyte; // [USART0_TX_PACKET_SIZE] bytes used
 
@@ -194,11 +192,11 @@ ISR(USART_RX_vect_N(TLM_USART0))
     if (stat & ((1 << FE_N(TLM_USART0)) | (1 << DOR_N(TLM_USART0)) | (1 << UPE_N(TLM_USART0))))
       {
         // discard buffer and start fresh on any comms error
-        Usart0RxBufferCount = 0;
+        parseTelemFrskyByte(START_STOP); // reset
       }
     else
       {
-        parseTelemSportByte(data, 0);
+        parseTelemFrskyByte(data);
       }
 
   }
@@ -243,6 +241,20 @@ void TelemetryValueWithMinMax::set(uint8_t value, uint8_t unit)
     max = value;
   }
 }
+
+void LoadTelemBuffer(uint8_t *data)
+{
+  for (uint8_t i=0; i<NUM_TELEM_RX_BUFFER; ++i)
+  {
+    if (TelemetryRxBuffer[i][0] == 0x00) // Check buffer is free
+    {
+      memcpy(TelemetryRxBuffer[i], data, TELEM_RX_PACKET_SIZE);
+      break;
+    }
+  }
+}
+
+
 #endif
 
 uint16_t getChannelRatio(source_t channel)

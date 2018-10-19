@@ -68,9 +68,11 @@ void telemetryResetValue()
 
   }
 
-NOINLINE void parseTelemSportByte(uint8_t data, uint8_t no_chk_telefr_crc)
+NOINLINE void parseTelemFrskyByte(uint8_t data)
 {
   static uint8_t dataState = STATE_DATA_IDLE;
+  static uint8_t BufferCount;
+  static uint8_t Buffer[TELEM_RX_PACKET_SIZE];
 
   switch (dataState)
     {
@@ -79,14 +81,14 @@ NOINLINE void parseTelemSportByte(uint8_t data, uint8_t no_chk_telefr_crc)
         {
           if (IS_USR_PROTO_SMART_PORT())
             {
-              Usart0RxBufferCount = 0;
+              BufferCount = 0;
             }
         }
       else
         {
-          if (Usart0RxBufferCount < USART0_RX_PACKET_SIZE)
+          if (BufferCount < TELEM_RX_PACKET_SIZE)
             {
-              Usart0RxBuffer[Usart0RxBufferCount++] = data;
+              Buffer[BufferCount++] = data;
             }
         }
       dataState = STATE_DATA_IN_FRAME ;
@@ -102,26 +104,27 @@ NOINLINE void parseTelemSportByte(uint8_t data, uint8_t no_chk_telefr_crc)
           if (IS_USR_PROTO_SMART_PORT())
             {
               dataState = STATE_DATA_IN_FRAME ;
-              Usart0RxBufferCount = 0;
+              BufferCount = 0;
             }
           else
             {
               // end of frame detected in "D" mode
-              frskyDProcessPacket(Usart0RxBuffer);
+              //frskyDProcessPacket(Buffer);
+              LoadTelemBuffer(Buffer);
               dataState = STATE_DATA_IDLE;
               break;
             }
         }
-      else if (Usart0RxBufferCount < USART0_RX_PACKET_SIZE)
+      else if (BufferCount < TELEM_RX_PACKET_SIZE)
         {
-          Usart0RxBuffer[Usart0RxBufferCount++] = data;
+          Buffer[BufferCount++] = data;
         }
       break;
 
     case STATE_DATA_XOR:
-      if (Usart0RxBufferCount < USART0_RX_PACKET_SIZE)
+      if (BufferCount < TELEM_RX_PACKET_SIZE)
         {
-          Usart0RxBuffer[Usart0RxBufferCount++] = data ^ STUFF_MASK;
+          Buffer[BufferCount++] = data ^ STUFF_MASK;
         }
       dataState = STATE_DATA_IN_FRAME;
       break;
@@ -129,16 +132,17 @@ NOINLINE void parseTelemSportByte(uint8_t data, uint8_t no_chk_telefr_crc)
     case STATE_DATA_IDLE:
       if (data == START_STOP)
         {
-          Usart0RxBufferCount = 0;
+          BufferCount = 0;
           dataState = STATE_DATA_START;
         }
       break;
 
     } // switch
 
-  if (IS_USR_PROTO_SMART_PORT() && Usart0RxBufferCount >= (FRSKY_SPORT_PACKET_SIZE - no_chk_telefr_crc))
+  if (IS_USR_PROTO_SMART_PORT() && BufferCount >= (IS_SPIMODULES_PROTOCOL(g_model.rfProtocol)? FRSKY_SPORT_PACKET_SIZE - 1:FRSKY_SPORT_PACKET_SIZE))
     {
-      processSportPacket(Usart0RxBuffer, no_chk_telefr_crc);
+      //processSportPacket(Buffer);
+      LoadTelemBuffer(Buffer);
       dataState = STATE_DATA_IDLE;
     }
 }
@@ -172,13 +176,13 @@ void setBaroAltitude(int32_t baroAltitude) //S.port function
     telemetryData.value.minAltitude = baroAltitude;
 }
 
-void processSportPacket(uint8_t *sport_packet, uint8_t no_chk_telefr_crc)
+void processSportPacket(uint8_t *sport_packet)
 {
   /* uint8_t  dataId = sport_packet[0]; */
   uint8_t  prim   = sport_packet[1];
   uint16_t appId  = *((uint16_t *)(sport_packet+2));
 
-  if (!no_chk_telefr_crc && !checkSportPacket(sport_packet))
+  if (!IS_SPIMODULES_PROTOCOL(g_model.rfProtocol) && !checkSportPacket(sport_packet))
     return;
 
   frskyStreaming = FRSKY_TIMEOUT10ms; // reset counter only if valid frsky packets are being detected
@@ -538,7 +542,9 @@ void processHubPacket(uint8_t id, uint16_t value)
   {
     // If we don't have a fix, we may discard the value
     if (telemetryData.value.gpsFix <= 0)
+    {
       return;
+    }
   }
 #endif  // #if defined(GPS)
 
@@ -667,6 +673,22 @@ void parseTelemWSHowHighByte(uint8_t byte)
 
 void telemetryInterrupt10ms()
 {
+
+  for (uint8_t i=0; i<NUM_TELEM_RX_BUFFER; ++i)
+    {
+      if (TelemetryRxBuffer[i][0] || TelemetryRxBuffer[i][1]) // Check if buffer data are present
+        {
+          if (IS_USR_PROTO_SMART_PORT())
+            {
+              processSportPacket(TelemetryRxBuffer[i]);
+            }
+          else if (IS_USR_PROTO_FRSKY_HUB() || IS_USR_PROTO_WS_HOW_HIGH())
+            {
+              frskyDProcessPacket(TelemetryRxBuffer[i]);
+            }
+            memclear(TelemetryRxBuffer[i], TELEM_RX_PACKET_SIZE); // Reset buffer
+        }
+    }
 
   uint16_t voltage = 0; /* unit: 1/10 volts */
   for (uint8_t i=0; i<telemetryData.value.cellsCount; i++)

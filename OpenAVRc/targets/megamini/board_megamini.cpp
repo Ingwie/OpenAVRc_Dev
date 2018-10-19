@@ -124,6 +124,7 @@ FORCEINLINE void boardInit()
   UCSR2C = 0xC0; // UMSEL21:0 = 3 DORD2=0 CPHA2=0 CPOL2=0  USART in Master SPI mode, MSB first, Clock phase=0 Polarity=0.
   UCSR2B = (1 << RXEN2) | (1 << TXEN2); // Transmit and Receive.
   UBRR2 = 1; // 4.0MHz clock ... 16MHz/(2*(UBRR+1))
+  //UBRR2 = 0; // 8.0MHz clock ... 16MHz/(2*(UBRR+1))
 
   RF_CS_CC2500_INACTIVE();
   RF_CS_CYRF6936_INACTIVE();
