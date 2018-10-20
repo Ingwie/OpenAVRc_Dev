@@ -106,7 +106,7 @@ static void PROTO_PPM_reset()
 static void PROTO_PPM_initialize()
 {
 #if defined(FRSKY)
-  telemetryInit();
+  telemetryPPMInit();
 #endif
 
   RptrB = &pulses2MHz.pword[0];

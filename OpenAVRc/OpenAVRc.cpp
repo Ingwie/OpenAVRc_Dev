@@ -1504,7 +1504,7 @@ int simumain()
   lcdSetRefVolt(25);
 #endif
 
-  sei(); // interrupts needed for telemetryInit and eeReadAll.
+  sei(); // interrupts needed for telemetryPPMInit and eeReadAll.
 
 #ifdef MENU_ROTARY_SW
   init_rotary_sw();
