@@ -148,7 +148,7 @@ static void PROTO_PPM16_initialize()
   PPM16_CONF();
 
 #if defined(FRSKY)
-  telemetryInit();
+  telemetryPPMInit();
 #endif
 
   RptrA = &pulses2MHz.pword[PULSES_WORD_SIZE/2];

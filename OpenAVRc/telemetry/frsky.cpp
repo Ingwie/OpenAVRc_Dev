@@ -37,7 +37,7 @@ uint8_t frskyStreaming = 0;
 
 TelemetryData telemetryData;
 
-void telemetryInit()
+void telemetryPPMInit()
 {
 //9600 8N1 - "D" 57600 8N1 -> "S.port"
   if IS_USR_PROTO_SMART_PORT() {

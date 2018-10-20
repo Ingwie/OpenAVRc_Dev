@@ -276,7 +276,7 @@ void processSportPacket(uint8_t *packet);
 void checkMinMaxAltitude();
 void telemetryResetValue();
 void telemetryReset();
-void telemetryInit();
+void telemetryPPMInit();
 
 void telemetryInterrupt10ms();
 
