@@ -114,9 +114,9 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
   eeprom_buffer_size = size;
 
   i2c_start(ADDRESS_EXTERN_EEPROM+I2C_WRITE);     // set device address and write mode
-  i2c_write((uint8_t)(i_pointer_eeprom >> 8)); //MSB write address
-  i2c_write((uint8_t)i_pointer_eeprom); //LSB write address
-  i2c_writeAndActiveISR(*eeprom_buffer_data++);    // write value to EEPROM
+  i2c_write((uint8_t)(i_pointer_eeprom >> 8));    //MSB write address
+  i2c_write((uint8_t)i_pointer_eeprom);           //LSB write address
+  i2c_writeAndActiveISR(*eeprom_buffer_data);     // write value to EEPROM
   if (s_sync_write)
     {
       while (eeprom_buffer_size)
