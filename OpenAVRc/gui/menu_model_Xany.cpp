@@ -114,7 +114,7 @@ void menuModelXany(uint8_t event)
           lcdDrawStringWithIndex(0, y, STR_NUMBER, xanynumber + 1, ValidMsg?attr:attr|BLINK);
           if (ValidMsg)
             {
-              lcdDrawNumberNAtt(19*FW, y, XanyInfo.TxPeriodMs, attr);
+              lcdDrawNumberNAtt(19*FW, y, XanyInfo.TxPeriodMs, 0);
               lcdDrawText(19*FW, y, STR_MS);
             }
           break;
