@@ -51,8 +51,6 @@ void telemetryPPMInit()
 
 void telemetryReset()
 {
-  Usart0DisableTx();
-  Usart0DisableRx();
   telemetryResetValue();
 }
 
