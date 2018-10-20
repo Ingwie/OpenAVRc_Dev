@@ -140,7 +140,6 @@ FORCEINLINE void i2c_writeAndActiveISR(uint8_t data)
   TWDR = data;
   // start transmission of data with isr activated
   TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWIE);
-  // Send data and enable IRQ
 }
 
 extern uint8_t * eeprom_buffer_data;
@@ -148,8 +147,10 @@ extern volatile uint8_t eeprom_buffer_size;
 
 ISR(TWI_vect)
 {
-  if (--eeprom_buffer_size) {                     // If there is another byte to write
-    i2c_writeAndActiveISR(*eeprom_buffer_data++); // Increase pointer and write
+  if (--eeprom_buffer_size) {     // If there is another byte to write
+    TWDR = *++eeprom_buffer_data; // Increase pointer and write
+  // start transmission of data
+  TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWIE);
   } else {
   // transmit STOP condition this reset TWI interrupts
   TWCR = (1<<TWINT) | (1<<TWSTO) | (1<<TWEN);
