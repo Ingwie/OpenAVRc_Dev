@@ -152,7 +152,7 @@ uint8_t writeHeader()
   uint8_t len;
 
 #if defined(FRSKY)
-  if (IS_USR_PROTO_FRSKY_HUB())
+  if (IS_USR_PROTO_FRSKY_HUB() || IS_USR_PROTO_SMART_PORT())
     {
       strcpy_P(text,STR_LOGS_TELEMETRYHUB);
       len = PSIZE(TR_LOGS_TELEMETRYHUB);
