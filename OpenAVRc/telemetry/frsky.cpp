@@ -165,13 +165,13 @@ void setBaroAltitude(int32_t baroAltitude) //S.port function
     telemetryData.value.baroAltitudeOffset = -baroAltitude;
 
   baroAltitude += telemetryData.value.baroAltitudeOffset;
-  telemetryData.value.baroAltitude_bp = baroAltitude;
+  telemetryData.value.baroAltitude_bp = baroAltitude/100;
 
-  baroAltitude /= 100;
+  telemetryData.value.baroAltitude_ap = (uint16_t)baroAltitude-telemetryData.value.baroAltitude_bp;
   if (baroAltitude > telemetryData.value.maxAltitude)
-    telemetryData.value.maxAltitude = baroAltitude;
+    telemetryData.value.maxAltitude = telemetryData.value.baroAltitude_bp;
   if (baroAltitude < telemetryData.value.minAltitude)
-    telemetryData.value.minAltitude = baroAltitude;
+    telemetryData.value.minAltitude = telemetryData.value.baroAltitude_bp;
 }
 
 void processSportPacket(uint8_t *sport_packet)
