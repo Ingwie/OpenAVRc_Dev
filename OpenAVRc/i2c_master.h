@@ -41,10 +41,18 @@
 #define I2C_READ 0x01
 #define I2C_WRITE 0x00
 
+#if defined(CPUM2560)
 #define I2C_SPEED_100K()  { TWBR = (uint8_t) 72;}
 #define I2C_SPEED_400K()  { TWBR = (uint8_t) 12;}
-#define I2C_SPEED_888K()  { TWBR = (uint8_t) 1;}
-#define I2C_SPEED_1M()    { TWBR = (uint8_t) 0;}
+#define I2C_SPEED_888K()  { TWBR = (uint8_t) 1; }
+#define I2C_SPEED_1M()    { TWBR = (uint8_t) 0; }
+#endif
+
+#if defined(CPUXMEGA)
+#define I2C_SPEED_400K(port)  port.MASTER.BAUD = (uint8_t) 35; // 400KHz
+#define I2C_SPEED_500K(port)  port.MASTER.BAUD = (uint8_t) 27; // 500KHz
+#define I2C_SPEED_1M()(port)  port.MASTER.BAUD = (uint8_t) 11; // 1MHz
+#endif
 
 void i2c_init();
 uint8_t i2c_start(uint8_t address);
