@@ -159,6 +159,123 @@ ISR(TWI_vect)
 }
 #endif
 
+#if defined(CPUXMEGA)
+void i2c_init(void)
+{
+/*
+This function needs to be called only once to set up the correct SCL frequency
+for the bus.
+*/
+  FRAM_RTC_TWI.CTRL = 0;
+  I2C_SPEED_400K(FRAM_RTC_TWI);
+  FRAM_RTC_TWI.MASTER.CTRLA = TWI_MASTER_ENABLE_bm;
+
+  FRAM_RTC_TWI.MASTER.CTRLA |= (0b01 << TWI_MASTER_INTLVL_gp); // Low priority interrupt.
+
+  FRAM_RTC_TWI.MASTER.STATUS = TWI_MASTER_BUSSTATE_IDLE_gc;
+}
+
+
+uint8_t i2c_start(uint8_t address)
+{
+/*
+This function needs to be called any time a connection to a new slave device should
+be established. The function returns 1 if an error has occurred, otherwise it returns 0.
+*/
+  FRAM_RTC_TWI.MASTER.ADDR = address;
+
+  while(! (FRAM_RTC_TWI.MASTER.STATUS & TWI_MASTER_CLKHOLD_bm)); // CLKHOLD flag is (RIF | WIF).
+
+  // Check if the device has acknowledged the READ / WRITE mode
+  if(FRAM_RTC_TWI.MASTER.STATUS & TWI_MASTER_RXACK_bm) return 1; //ToDo bus error and fault.
+  return 0;
+}
+
+
+uint8_t i2c_write(uint8_t data)
+{
+/*
+This function is used to write data to the currently active device.
+The only parameter this function takes is the 8 bit unsigned integer to be sent.
+The function returns 1 if an error has occurred, otherwise it returns 0.
+*/
+  // load data into data register
+  FRAM_RTC_TWI.MASTER.DATA = data;
+
+  while(! (FRAM_RTC_TWI.MASTER.STATUS & TWI_MASTER_WIF_bm));
+
+  // Check if the device has acknowledged the READ / WRITE mode
+  if(FRAM_RTC_TWI.MASTER.STATUS & TWI_MASTER_RXACK_bm) return 1; //ToDo bus error and fault.
+  return 0;
+}
+
+
+uint8_t i2c_read_ack(void)
+{
+/*
+This function is used to read one byte from a device and request another byte of data
+after the transmission is complete by sending the acknowledge bit.
+This function returns the received byte.
+*/
+
+  while(! (FRAM_RTC_TWI.MASTER.STATUS & TWI_MASTER_RIF_bm));
+
+  uint8_t data = FRAM_RTC_TWI.MASTER.DATA;
+
+  FRAM_RTC_TWI.MASTER.CTRLC = (~TWI_MASTER_ACKACT_bm) & TWI_MASTER_CMD_RECVTRANS_gc; // Send ACK - smart mode enabled.
+
+  return data;
+}
+
+uint8_t i2c_read_nack(void)
+{
+/*
+This function is used to read one byte from a device an then not requesting another
+byte and therefore stopping the current transmission.
+This function returns the received byte.
+*/
+
+  while(! (FRAM_RTC_TWI.MASTER.STATUS & TWI_MASTER_RIF_bm));
+
+  uint8_t data = FRAM_RTC_TWI.MASTER.DATA;
+
+  FRAM_RTC_TWI.MASTER.CTRLC = TWI_MASTER_ACKACT_bm; // Send NACK and no new command.
+  return data;
+}
+
+void i2c_stop(void)
+{
+  // Transmit STOP condition.
+  // Send STOP command, preserve ACKACT bit.
+
+FRAM_RTC_TWI.MASTER.CTRLC |= TWI_MASTER_CMD_STOP_gc;
+}
+
+
+FORCEINLINE void i2c_writeAndActiveISR(uint8_t data)
+{
+  // Start transmission of data with interrupt activated.
+
+  FRAM_RTC_TWI.MASTER.STATUS |= TWI_MASTER_WIF_bm; // Clear write flag.
+  FRAM_RTC_TWI.MASTER.CTRLA |=  TWI_MASTER_WIEN_bm; // Activate Interrupt.
+  FRAM_RTC_TWI.MASTER.DATA  = data;
+}
+
+
+extern uint8_t * eeprom_buffer_data;
+extern volatile uint8_t eeprom_buffer_size;
+
+ISR(TWIC_TWIM_vect)
+{
+  if (--eeprom_buffer_size) { // One byte sent already by i2c_writeAndActiveISR(uint8_t data).
+    FRAM_RTC_TWI.MASTER.DATA = *++eeprom_buffer_data;
+  } else {
+    FRAM_RTC_TWI.MASTER.CTRLA &=  ~TWI_MASTER_WIEN_bm; // Disable TWI interrupts.
+    i2c_stop(); // Also clears write flag.
+  }
+}
+#endif
+
 
 uint8_t i2c_transmit(uint8_t address, uint8_t* data, uint16_t length)
 {
