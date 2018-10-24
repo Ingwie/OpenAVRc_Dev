@@ -173,7 +173,7 @@ uint8_t writeHeader()
 #endif
 
   strcpy_P(text,STR_LOGS_COMMANDS);
-  len = sizeof(TR_LOGS_COMMANDS);
+  len = PSIZE(TR_LOGS_COMMANDS);
 
   /* write text to file */
   if(fat_write_file(SD_file, (uint8_t*)text, len) != len)
