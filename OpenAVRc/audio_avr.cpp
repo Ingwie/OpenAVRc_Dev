@@ -44,9 +44,9 @@ audioQueue::audioQueue()
 }
 
 
-// heartbeat is responsibile for issueing the audio tones and general square waves
-// it is essentially the life of the class.
-// it is called every 10ms
+// Heartbeat is responsible for issuing the audio tones and general square waves.
+// It is essentially the life of the class.
+// It is called every 10ms.
 void audioQueue::heartbeat()
 {
   if (toneTimeLeft > 0) {
@@ -54,7 +54,11 @@ void audioQueue::heartbeat()
       speakerOff();
     } else {
       if (toneFreq) {
+#if defined(CPUM2560)
         AUDIO_OCRxA = (5000 / toneFreq); // sticking with old values approx 20(abs. min) to 90, 60 being the default tone(?).
+#elif defined(CPUXMEGA)
+        AUDIO_COMPARE_REG = (5000 / toneFreq) << 1; // Double the value.
+#endif
         speakerOn();
         SIMUBEEP1();
       }
@@ -76,7 +80,11 @@ void audioQueue::heartbeat()
     } else {
       if (tone2TimeLeft > 0) {
         if (tone2Freq) {
+#if defined(CPUM2560)
           AUDIO_OCRxA = (5000 / tone2Freq); // sticking with old values approx 20(abs. min) to 90, 60 being the default tone(?).
+#elif defined(CPUXMEGA)
+          AUDIO_COMPARE_REG = (5000 / tone2Freq) << 1; // Double the value.
+#endif
           speakerOn();
           SIMUBEEP2();
         }
