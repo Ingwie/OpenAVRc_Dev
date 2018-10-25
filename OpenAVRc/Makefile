@@ -288,7 +288,7 @@ CPPSRC =
 INCDIRS = . translations
 
 # PCB name
-ifneq ($(PCB), $(filter $(PCB), MEGA2560 EVO_V1 MEGAMINI))
+ifneq ($(PCB), $(filter $(PCB), MEGA2560 MEGAMINI))
   $(error Sorry, the PCB $(PCB) is not supported yet in OpenAVRc)
 endif
 
@@ -433,84 +433,7 @@ ifeq ($(PCB), MEGAMINI)
 endif
 
 
-ifeq ($(PCB), EVO_V1)
-  # Evo V1 PCB with Mega2560
 
-  GUIDIRECTORY = 9X
-  FLAVOUR = Mega_EVO_V1
-  ARCH = AVR
-  LCDSIZE = 128
-  TRGT = avr-
-  MCU = atmega2560
-  OPT = s
-  # Processor frequency.
-  F_CPU = 16000000
-  CPPDEFS = -DF_CPU=$(F_CPU)UL -DPCBMEGA2560 -DCPUM2560 -DREV_EVO_V1
-  SDCARD = YES
-  BUZZER = NO
-  EXTERNALEEPROM = YES
-  AUDIO = YES
-  VOICE = NO
-  HAPTIC = NO
-  THR_TRACE = YES
-  PERSONAMES = YES
-  PWRMANAGE = NO
-
-  INCDIRS += targets/evo_v1 targets/stock $(RRSDDIR)
-  BOARDSRC = main_avr.cpp i2c_master.cpp spi.c targets/evo_v1/evo_mega2560.cpp targets/evo_v1/evo_lcd_driver.cpp targets/evo_v1/evo_adc_driver.cpp
-  EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
-  PULSESSRC = pulses/pulses_avr.cpp
-# PULSESSRC = targets/evo_v1/evo_pulses_avr.cpp
-  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
-  GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v1/menu_general_diaganas.cpp
-  EXTRABOARDSRC = telemetry_driver.cpp
-
-  ifeq ($(PWRMANAGE), YES)
-    CPPDEFS += -DPWRMANAGE
-  endif
-
-  ifeq ($(SDCARD), YES)
-    EXTRABOARDSRC += $(RRSDDIR)/fat.c $(RRSDDIR)/partition.c $(RRSDDIR)/sd_raw.c $(RRSDDIR)/byteordering.c
-    CPPDEFS += -DSDCARD -DRTCLOCK
-    GUIGENERALSRC += gui/menu_general_sdmanager.cpp
-    CPPSRC += sdcard.cpp logs.cpp
-  endif
-
-  ifeq ($(AUDIO), YES)
-    CPPDEFS += -DAUDIO
-    CPPSRC += audio_avr.cpp
-    BUZZER = NO
-  else
-    BUZZER = YES
-  endif
-
-  ifeq ($(BUZZER), YES)
-    CPPDEFS += -DBUZZER
-    CPPSRC += buzzer.cpp
-  endif
-
-  ifeq ($(VOICE), YES)
-    CPPDEFS += -DVOICE
-    CPPSRC += somo14d.cpp
-  endif
-
-  ifeq ($(HAPTIC), YES)
-   CPPDEFS += -DHAPTIC
-   CPPSRC += haptic.cpp
-  endif
-
-  ifeq ($(EXTERNALEEPROM), YES)
-   CPPDEFS += -DEXTERNALEEPROM
-  endif
-
-  ifeq ($(PERSONAMES), YES)
-   CPPDEFS += -DPERSONAMES
-  endif
-
-  # Enable extra rotary encoders
-  ROTARY_ENCODERS = 2
-  CPPDEFS += -DROTARY_ENCODERS=${ROTARY_ENCODERS}
-endif
 
 
 ifeq ($(PCB), MEGA2560)
@@ -1045,7 +968,7 @@ end:
 # Display size of file.
 HEXSIZE = $(SIZE) --target=$(FORMAT) $(TARGET).hex
 #ELFSIZE = $(SIZE) -A $(TARGET).elf
-ELFSIZE = avr-sizeold --mcu=$(MCU) --format=avr $(TARGET).elf
+ELFSIZE = avr-size -d -t $(TARGET).elf
 AVRMEM = avr-mem.sh $(TARGET).elf $(MCU)
 
 
