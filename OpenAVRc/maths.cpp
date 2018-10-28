@@ -176,7 +176,7 @@ void getGpsPilotPosition()
   uint32_t angle2 = (lat*lat) / 10000;
   uint32_t angle4 = angle2 * angle2;
   telemetryData.value.distFromEarthAxis = 139*(((uint32_t)10000000-((angle2*(uint32_t)123370)/81)+(angle4/25))/12500);
-  //TRACE("telemetryData.value.distFromEarthAxis=%d", telemetryData.value.distFromEarthAxis);
+  TRACE("telemetryData.value.distFromEarthAxis=%d", telemetryData.value.distFromEarthAxis);
 }
 
 void getGpsDistance()

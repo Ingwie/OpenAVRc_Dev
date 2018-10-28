@@ -246,7 +246,7 @@ void LoadTelemBuffer(uint8_t *data)
 {
   for (uint8_t i=0; i<NUM_TELEM_RX_BUFFER; ++i)
   {
-    if (TelemetryRxBuffer[i][0] == 0x00) // Check buffer is free
+    if (!(TelemetryRxBuffer[i][0] || TelemetryRxBuffer[i][1])) // Check buffer is free
     {
       memcpy(TelemetryRxBuffer[i], data, TELEM_RX_PACKET_SIZE);
       break;
