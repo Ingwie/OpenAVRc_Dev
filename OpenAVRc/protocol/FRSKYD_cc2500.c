@@ -164,6 +164,22 @@ static uint16_t FRSKYD_bind_cb()
 }
 
 #if defined(FRSKY)
+
+#define HUB_MAX_BYTES 6
+
+static void frskyD_send_telemetry(uint8_t *pkt, uint8_t len)
+{
+  parseTelemHubByte(START_STOP);		// start
+  parseTelemHubByte(USRPKT);				// user frame
+  parseTelemHubByte(len);
+  parseTelemHubByte(0x00);          // dummy byte
+  for (uint8_t i=0; i <= len; ++i)
+    {
+      parseTelemHubByte(pkt[i]);
+    }
+  parseTelemHubByte(START_STOP);		// stop
+}
+
 static void frskyD_check_telemetry(uint8_t *pkt, uint8_t len)
 {
 
@@ -180,7 +196,7 @@ static void frskyD_check_telemetry(uint8_t *pkt, uint8_t len)
   *  pkt len-1 = crc status (bit7 set indicates good), link quality indicator (bits6-0)
   */
 
-  // only process packets with the required id and packet length and good crc
+  // only process packets with the required id and packet length
   if ( (pkt[len-1] & 0x80)
        && pkt[0] == len - 3
        && pkt[1] == temp_rfid_addr[0]
@@ -190,15 +206,15 @@ static void frskyD_check_telemetry(uint8_t *pkt, uint8_t len)
         frskyStreaming +=5;
       // frskyStreaming gets decremented every 10ms, however we can only add to it every 4 *9ms, so we add 5.
 
-    telemetryData.rssi[0].set(pkt[5] & 0x7f);
+      telemetryData.rssi[0].set(pkt[5] & 0x7f);
 
-    telemetryData.rssi[1].set(pkt[len-2] & 0x7f);
+      telemetryData.rssi[1].set(pkt[len-2] & 0x7f);
 
-    //Get voltage A1 (52mv/count)
-    telemetryData.analog[TELEM_ANA_A1].set(pkt[3], g_model.telemetry.channels[TELEM_ANA_A1].type);
+      //Get voltage A1 (52mv/count)
+      telemetryData.analog[TELEM_ANA_A1].set(pkt[3], g_model.telemetry.channels[TELEM_ANA_A1].type);
 
-    //Get voltage A2 (~13.2mv/count) (Docs say 1/4 of A1)
-    telemetryData.analog[TELEM_ANA_A2].set(pkt[4], g_model.telemetry.channels[TELEM_ANA_A2].type);
+      //Get voltage A2 (~13.2mv/count) (Docs say 1/4 of A1)
+      telemetryData.analog[TELEM_ANA_A2].set(pkt[4], g_model.telemetry.channels[TELEM_ANA_A2].type);
 
       if(pkt[6]>0 && pkt[6]<=10)
         {
@@ -213,18 +229,29 @@ static void frskyD_check_telemetry(uint8_t *pkt, uint8_t len)
                     }
                   receive_seq = ( (receive_seq+1)%32 ) | topBit ;	// Request next telemetry frame
                 }
-              for (uint8_t i=0; i < pkt[6]; i++)
+
+              if(pkt[6]>HUB_MAX_BYTES)
                 {
-                  parseTelemFrskyByte(pkt[7+i]);
+                  send_seq = pkt[6] - HUB_MAX_BYTES; // size of the second frame
+                  frskyD_send_telemetry(&pkt[8], HUB_MAX_BYTES);
+                }
+              else
+                {
+                  send_seq = 0;			// only 1 packet
+                  frskyD_send_telemetry(&pkt[8], pkt[6]);
                 }
 
+              if (send_seq)        // the the second frame
+                {
+                  frskyD_send_telemetry(&pkt[8 + HUB_MAX_BYTES], send_seq);
+                }
             }
           else
             {
               // incorrect sequence
               telem_save_seq = pkt[7] & 0x1F ;
               receive_seq |= 0x80 ;
-              pkt[6]=0 ;							// Discard current packet and wait for retransmit
+              pkt[6]=0;							// Discard current packet and wait for retransmit
             }
         }
     }
@@ -356,4 +383,3 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
   }
   return 0;
 }
-
