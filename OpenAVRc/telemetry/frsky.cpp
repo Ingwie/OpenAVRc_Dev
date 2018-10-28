@@ -781,7 +781,8 @@ void adjustRTChour()
       t->tm_hour = telemetryData.value.hour;
       t->tm_min = telemetryData.value.min;
       t->tm_sec = telemetryData.value.sec;
-      rtcSetTime(t); // update and save local time
+      g_rtcTime = MKTIME(t); // update OAVRC time
+      rtcSetTime(t); // update and save local time in RTC chip
     }
 }
 
