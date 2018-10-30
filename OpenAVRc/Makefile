@@ -288,7 +288,7 @@ CPPSRC =
 INCDIRS = . translations
 
 # PCB name
-ifneq ($(PCB), $(filter $(PCB), MEGA2560 MEGAMINI))
+ifneq ($(PCB), $(filter $(PCB), MEGA2560 MEGAMINI EVO_V2))
   $(error Sorry, the PCB $(PCB) is not supported yet in OpenAVRc)
 endif
 
@@ -433,7 +433,130 @@ ifeq ($(PCB), MEGAMINI)
 endif
 
 
+ifeq ($(PCB), EVO_V2)
+  # EVO V2 PCB with XMega256C3/D3
+ 
+  FLAVOUR = Evo
+  ARCH = AVR
+  LCDSIZE = 128
+  TRGT = avr-
+  MCU = atxmega256c3
+  # atxmega256d3 libc header files have errors.
+  # Processor frequency.
+  F_CPU = 32000000
+  OPT = s
+  CPPDEFS = -DF_CPU=$(F_CPU)UL -DCPUXMEGA -DPCB_EVO -DREV_EVO_V2
 
+  AUDIO = YES
+  BUZZER = NO
+  PWM_BACKLIGHT = NO
+  EXTERNALEEPROM = YES
+  HAPTIC = NO
+  PERSONAMES = YES
+  PWRMANAGE = NO
+  RTCLOCK = YES
+  SDCARD = YES
+  SPLASH = YES
+  THR_TRACE = YES
+  VOICE = NO
+  SPIMODULES = YES
+  CC2500 = YES
+  CC2500PAG = 20
+  CYRF6936 = YES
+  CYRF6936PAG = 20
+ 
+  
+  INCDIRS += targets/evo_v2 targets/stock $(RRSDDIR)
+  BOARDSRC += main_avr.cpp targets/evo_v2/xmega.cpp targets/evo_v2/xmega_lcd_driver.cpp targets/evo_v2/xmega_adc_driver.cpp
+  EEPROMSRC = eeprom_common.cpp targets/evo_v2/eeprom_rlc.cpp
+  PULSESSRC = targets/evo_v2/xmega_pulses.cpp
+  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
+  GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v2/menu_general_diaganas.cpp
+  EXTRABOARDSRC = targets/evo_v2/telemetry_driver.cpp targets/evo_v2/printf.c
+
+
+  ifeq ($(PWM_BACKLIGHT), YES)
+    CPPDEFS += -DPWM_BACKLIGHT
+  endif
+    
+  ifeq ($(PWRMANAGE), YES)
+    CPPDEFS += -DPWRMANAGE
+  endif
+
+  ifeq ($(SDCARD), YES)
+    EXTRABOARDSRC += $(RRSDDIR)/fat.c $(RRSDDIR)/partition.c $(RRSDDIR)/sd_raw.c $(RRSDDIR)/byteordering.c
+    CPPDEFS += -DSDCARD
+    GUIGENERALSRC += gui/menu_general_sdmanager.cpp
+    CPPSRC += sdcard.cpp logs.cpp spi.c
+    RTCLOCK = YES
+  endif
+ 
+  ifeq ($(RTCLOCK), YES)
+    CPPDEFS += -DRTCLOCK
+    CPPSRC += rtc_driver.cpp i2c_master.cpp
+    EXTERNALEEPROM = YES
+  endif
+
+  ifeq ($(EXTERNALEEPROM), YES)
+   CPPDEFS += -DEXTERNALEEPROM
+  endif
+ 
+  ifeq ($(AUDIO), YES)
+    CPPDEFS += -DAUDIO
+    CPPSRC += audio_avr.cpp
+    BUZZER = NO
+  else
+    BUZZER = YES
+  endif
+
+  ifeq ($(BUZZER), YES)
+    CPPDEFS += -DBUZZER
+    CPPSRC += buzzer.cpp
+  endif
+
+  ifeq ($(VOICE), YES)
+    CPPDEFS += -DVOICE
+    CPPSRC += somo14d.cpp
+  endif
+
+  ifeq ($(HAPTIC), YES)
+   CPPDEFS += -DHAPTIC
+   CPPSRC += haptic.cpp
+  endif
+
+  ifeq ($(PERSONAMES), YES)
+   CPPDEFS += -DPERSONAMES
+  endif
+  
+  ifeq ($(SPIMODULES), YES)
+    CPPDEFS += -DSPIMODULES
+
+	ifeq ($(CC2500), YES)
+ 	  CPPDEFS += -DPROTO_HAS_CC2500
+ 	  CPPDEFS += -DCC2500PA_GAIN=$(CC2500PAG)
+	endif 
+
+	ifeq ($(CYRF6936), YES)
+   	  CPPDEFS += -DPROTO_HAS_CYRF6936
+ 	  CPPDEFS += -DCYRF6936PA_GAIN=$(CYRF6936PAG)
+    endif
+
+  	ifeq ($(NRF24L01), YES)
+   	  CPPDEFS += -DPROTO_HAS_NRF24L01
+ 	  CPPDEFS += -DNRF24L01PA_GAIN=$(NRF24L01PAG)
+  	endif
+
+  	ifeq ($(A7105), YES)
+   	  CPPDEFS += -DPROTO_HAS_A7105
+ 	  CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
+  	endif
+
+  endif
+
+  # Enable extra rotary encoders
+  ROTARY_ENCODERS = 2
+  CPPDEFS += -DROTARY_ENCODERS=${ROTARY_ENCODERS}
+endif
 
 
 ifeq ($(PCB), MEGA2560)
