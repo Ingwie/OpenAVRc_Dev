@@ -196,9 +196,9 @@ void lcdRefreshFast();
 #define BLINK_ON_PHASE (g_blinkTmr10ms & (1<<6))
 #define DOUBLE_BLINK_ON_PHASE (g_blinkTmr10ms & (1<<7))
 
-char *strAppend(char * dest, const char * source, int len=0);
-char *strSetCursor(char *dest, int position);
+char *strAppend(char * dest, const char * source, uint8_t len=0);
+char *strSetCursor(char *dest, uint8_t position);
 char *strAppendDate(char * str);
-char *strAppendFilename(char * dest, const char * filename, const int size);
+char *strAppendFilename(char * dest, const char * filename, const uint8_t size);
 
 #endif

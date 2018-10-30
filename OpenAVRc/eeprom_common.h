@@ -49,7 +49,6 @@ bool eeModelExists(uint8_t id);
 void eeLoadModel(uint8_t id);
 bool eeConvert();
 void eeErase(bool warn);
-void ConvertModel(int id, int version);
 uint8_t eeFindEmptyModel(uint8_t id, bool down);
 void selectModel(uint8_t sub);
 

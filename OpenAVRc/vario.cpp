@@ -47,10 +47,10 @@ void varioWakeup()
     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     verticalSpeed = telemetryData.value.varioSpeed;
     }
-    int varioCenterMin = (int)g_model.telemetry.varioCenterMin * 10 - 50;
-    int varioCenterMax = (int)g_model.telemetry.varioCenterMax * 10 + 50;
-    int varioMax = (10+(int)g_model.telemetry.varioMax) * 100;
-    int varioMin = (-10+(int)g_model.telemetry.varioMin) * 100;
+    int16_t varioCenterMin = (int16_t)g_model.telemetry.varioCenterMin * 10 - 50;
+    int16_t varioCenterMax = (int16_t)g_model.telemetry.varioCenterMax * 10 + 50;
+    int16_t varioMax = (10+(int16_t)g_model.telemetry.varioMax) * 100;
+    int16_t varioMin = (-10+(int16_t)g_model.telemetry.varioMin) * 100;
 
     if (verticalSpeed < varioCenterMin || (verticalSpeed > varioCenterMax && (int16_t)(s_varioTmr - tmr10ms) < 0)) {
       if (verticalSpeed > varioMax)
