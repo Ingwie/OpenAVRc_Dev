@@ -124,7 +124,7 @@ EnumKeys Key::key() const
 void pauseEvents(uint8_t event)
 {
   event = EVT_KEY_MASK(event);
-  if (event < (int)DIM(keys)) keys[event].pauseEvents();
+  if (event < DIM(keys)) keys[event].pauseEvents();
 }
 
 void killEvents(uint8_t event)
@@ -136,7 +136,7 @@ void killEvents(uint8_t event)
 #endif
   {
     event = EVT_KEY_MASK(event);
-    if (event < (int)DIM(keys)) keys[event].killEvents();
+    if (event < DIM(keys)) keys[event].killEvents();
   }
 }
 

@@ -72,17 +72,17 @@ int8_t char2idx(char c)
   return 0;
 }
 
-void str2zchar(char *dest, const char *src, int size)
+void str2zchar(char *dest, const char *src, uint8_t size)
 {
   memset(dest, 0, size);
-  for (int c=0; c<size && src[c]; c++) {
+  for (uint8_t c=0; c<size && src[c]; c++) {
     dest[c] = char2idx(src[c]);
   }
 }
 
-int zchar2str(char *dest, const char *src, int size)
+uint8_t zchar2str(char *dest, const char *src, uint8_t size)
 {
-  for (int c=0; c<size; c++) {
+  for (uint8_t c=0; c<size; c++) {
     dest[c] = idx2char(src[c]);
   }
   do {
@@ -94,7 +94,7 @@ int zchar2str(char *dest, const char *src, int size)
 
 
 #if defined(SDCARD)
-char *strAppend(char *dest, const char *source, int len)
+char *strAppend(char *dest, const char *source, uint8_t len)
 {
   while ((*dest++ = *source++)) {
     if (--len == 0) {
@@ -105,7 +105,7 @@ char *strAppend(char *dest, const char *source, int len)
   return dest - 1;
 }
 
-char *strSetCursor(char *dest, int position)
+char *strSetCursor(char *dest, uint8_t position)
 {
   *dest++ = 0x1F;
   *dest++ = position;
@@ -113,10 +113,10 @@ char *strSetCursor(char *dest, int position)
   return dest;
 }
 
-char *strAppendFilename(char *dest, const char *filename, const int size)
+char *strAppendFilename(char *dest, const char *filename, const uint8_t size)
 {
   memset(dest, 0, size);
-  for (int i=0; i<size; i++) {
+  for (uint8_t i=0; i<size; i++) {
     char c = *filename++;
     if (c == '\0' || c == '.')
       break;
@@ -126,10 +126,10 @@ char *strAppendFilename(char *dest, const char *filename, const int size)
 }
 
 #define LEN_FILE_EXTENSION 4
-char *getFileExtension(char *filename, int size)
+char *getFileExtension(char *filename, uint8_t size)
 {
-  int len = min<int>(size, strlen(filename));
-  for (int i=len; i>=len-LEN_FILE_EXTENSION; --i) {
+  uint8_t len = min<uint8_t>(size, strlen(filename));
+  for (uint8_t i=len; i>=len-LEN_FILE_EXTENSION; --i) {
     if (filename[i] == '.') {
       return &filename[i];
     }

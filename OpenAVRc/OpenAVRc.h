@@ -556,9 +556,9 @@ uint8_t getTrimFlightPhase(uint8_t phase, uint8_t idx);
 #endif
 
 trim_t getRawTrimValue(uint8_t phase, uint8_t idx);
-int getTrimValue(uint8_t phase, uint8_t idx);
+int16_t getTrimValue(uint8_t phase, uint8_t idx);
 
-void setTrimValue(uint8_t phase, uint8_t idx, int trim);
+void setTrimValue(uint8_t phase, uint8_t idx, int16_t trim);
 
 #if defined(ROTARY_ENCODERS)
   int16_t getRotaryEncoder(uint8_t idx);
