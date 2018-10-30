@@ -464,7 +464,7 @@ void frskyDProcessPacket(uint8_t *d_packet)
     }*/
 
   case USRPKT: // User Data d_packet
-    uint8_t numBytes = 3 + (d_packet[1] & 0x07); // sanitize in case of data corruption leading to buffer overflow
+    uint8_t numBytes = 3 + (d_packet[1] /*& 0x07*/); //& 0x07 -> sanitize in case of data corruption leading to buffer overflow
     for (uint8_t i=3; i<numBytes; i++) {
       if (IS_USR_PROTO_FRSKY_HUB()) {
         parseTelemHubByte(d_packet[i]);
