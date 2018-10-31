@@ -173,7 +173,7 @@ bool switchState(EnumKeys enuk)
 {
   uint8_t result = 0 ;
 
-  if (enuk < (uint8_t)DIM(keys))
+  if (enuk < NUM_KEYS)
     return keys[enuk].state() ? 1 : 0;
 
   switch(enuk) {
