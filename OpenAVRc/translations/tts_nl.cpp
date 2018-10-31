@@ -175,7 +175,7 @@ I18N_PLAY_FUNCTION(nl, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
   }
 }
 
-I18N_PLAY_FUNCTION(nl, playDuration, int seconds PLAY_DURATION_ATT)
+I18N_PLAY_FUNCTION(nl, playDuration, int16_t seconds PLAY_DURATION_ATT)
 {
   if (seconds == 0) {
     PLAY_NUMBER(seconds, 0, 0);
