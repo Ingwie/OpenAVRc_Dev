@@ -137,7 +137,7 @@ NOINLINE void parseTelemFrskyByte(uint8_t data)
 
     } // switch
 
-  if (IS_USR_PROTO_SMART_PORT() && BufferCount >= (IS_SPIMODULES_PROTOCOL(g_model.rfProtocol)? FRSKY_SPORT_PACKET_SIZE - 1:FRSKY_SPORT_PACKET_SIZE))
+  if (IS_USR_PROTO_SMART_PORT() && BufferCount >= (IS_SPIMODULES_PROTOCOL(g_model.rfProtocol)? TELEM_RX_PACKET_SIZE - 1:TELEM_RX_PACKET_SIZE))
     {
       //processSportPacket(Buffer);
       LoadTelemBuffer(Buffer);
@@ -148,7 +148,7 @@ NOINLINE void parseTelemFrskyByte(uint8_t data)
 bool checkSportPacket(uint8_t *packet)
 {
   uint16_t crc = 0;
-  for (uint8_t i=1; i<FRSKY_SPORT_PACKET_SIZE; i++) {
+  for (uint8_t i=1; i<TELEM_RX_PACKET_SIZE; i++) {
     crc += packet[i]; //0-1FF
     crc += crc >> 8; //0-100
     crc &= 0x00ff;
@@ -464,8 +464,8 @@ void frskyDProcessPacket(uint8_t *d_packet)
     }*/
 
   case USRPKT: // User Data d_packet
-    uint8_t numBytes = 3 + (d_packet[1] /*& 0x07*/); //& 0x07 -> sanitize in case of data corruption leading to buffer overflow
-    for (uint8_t i=3; i<numBytes; i++) {
+    uint8_t numBytes = 3 + (d_packet[1] & 0x07); // sanitize in case of data corruption leading to buffer overflow
+    for (uint8_t i=3; i<numBytes; ++i) {
       if (IS_USR_PROTO_FRSKY_HUB()) {
         parseTelemHubByte(d_packet[i]);
       }
