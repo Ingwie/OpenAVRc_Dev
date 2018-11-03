@@ -30,9 +30,8 @@
  **************************************************************************
 */
 /*
-Supported combination: /!\ 2 Devices supported max per X-Any: 1 X-Any is associated to one proportionnal channel /!\
+Supported combination: /!\ 2x I2C Devices supported max per X-Any: 1 X-Any is associated to one proportionnal channel /!\
 =====================
-
 */
 #include "Xany.h"
 #include "i2c_master.h"
@@ -66,83 +65,83 @@ const int16_t ExcursionHalf_us[] PROGMEM = {EXCURSION_HALF_US(NIBBLE_0), EXCURSI
 /* Different supported Payload formats */
 typedef struct{
   uint32_t
-                  Sw          :4,
-                  Checksum    :8,
+                  NibbleNbToTx:4,
                   NotUsed     :16,
-                  NibbleNbToTx:4;
+                  Checksum    :8,
+                  Sw          :4;
 }Msg4SwSt_t; /* Size = 4 bytes */
 
 typedef struct{
   uint32_t
-                  Sw          :8,
-                  Checksum    :8,
+                  NibbleNbToTx:4,
                   NotUsed     :12,
-                  NibbleNbToTx:4;
+                  Checksum    :8,
+                  Sw          :8;
 }Msg8SwSt_t; /* Size = 4 bytes */
 
 typedef struct{
   uint32_t
-                  Sw          :16,
-                  Checksum    :8,
+                  NibbleNbToTx:4,
                   NotUsed     :4,
-                  NibbleNbToTx:4;
+                  Checksum    :8,
+                  Sw          :16;
 }Msg16SwSt_t; /* Size = 4 bytes */
 
 typedef struct{
   uint32_t
-                  Angle       :12,
-                  Checksum    :8,
+                  NibbleNbToTx:4,
                   NotUsed     :8,
-                  NibbleNbToTx:4;
+                  Checksum    :8,
+                  Angle       :12;
 }MsgAngleSt_t; /* Size = 4 bytes */
 
 typedef struct{
   uint32_t
-                  Angle       :12,
-                  Sw          :4,
-                  Checksum    :8,
+                  NibbleNbToTx:4,
                   NotUsed     :4,
-                  NibbleNbToTx:4;
+                  Checksum    :8,
+                  Sw          :4,
+                  Angle       :12;
 }MsgAngle4SwSt_t; /* Size = 4 bytes */
 
 typedef struct{
   uint32_t
-                  Angle       :12,
-                  Sw          :8,
+                  NibbleNbToTx:4,
                   Checksum    :8,
-                  NibbleNbToTx:4;
+                  Sw          :8,
+                  Angle       :12;
 }MsgAngle8SwSt_t; /* Size = 4 bytes */
 
 typedef struct{
   uint32_t
-                  Angle       :12,
-                  Pot         :8,
+                  NibbleNbToTx:4,
                   Checksum    :8,
-                  NibbleNbToTx:4;
+                  Pot         :8,
+                  Angle       :12;
 }MsgAnglePotSt_t; /* Size = 4 bytes */
 
 typedef struct{
   uint32_t
-                  Pot         :8,
-                  Sw          :4,
-                  Checksum    :8,
+                  NibbleNbToTx:4,
                   NotUsed     :8,
-                  NibbleNbToTx:4;
+                  Checksum    :8,
+                  Sw          :4,
+                  Pot         :8;
 }MsgPot4SwSt_t; /* Size = 4 bytes */
 
 typedef struct{
   uint32_t
-                  Pot         :8,
-                  Sw          :8,
-                  Checksum    :8,
+                  NibbleNbToTx:4,
                   NotUsed     :4,
-                  NibbleNbToTx:4;
+                  Checksum    :8,
+                  Sw          :8,
+                  Pot         :8;
 }MsgPot8SwSt_t; /* Size = 4 bytes */
 
 typedef struct{
   uint32_t
-                  PayloadAndChecksum:28,
-                  NibbleNbToTx      :4;
+                  NibbleNbToTx      :4,
+                  PayloadAndChecksum:28;
 }MsgCommonSt_t; /* Size = 4 bytes */
 
 typedef union{
@@ -156,12 +155,13 @@ typedef union{
   MsgPot4SwSt_t    MsgPot4Sw;
   MsgPot8SwSt_t    MsgPot8Sw;
   MsgCommonSt_t    Common;
+  uint32_t         Raw;
 }XanyMsg_union;  /* Size = 4 bytes */
 
 /* Declaration of supported combinations (See X_ANY_CFG() macro in myeeprom.h) */
 #define XANY_MSG_4SW              X_ANY_CFG(1, 0, 0)
 #define XANY_MSG_8SW              X_ANY_CFG(2, 0, 0)
-#define XANY_MSG_16_SW            X_ANY_CFG(3, 0, 0)
+#define XANY_MSG_16SW             X_ANY_CFG(3, 0, 0)
 #define XANY_MSG_ANGLE            X_ANY_CFG(0, 1, 0)
 #define XANY_MSG_ANGLE_4SW        X_ANY_CFG(1, 1, 0)
 #define XANY_MSG_ANGLE_8SW        X_ANY_CFG(2, 1, 0)
@@ -172,7 +172,7 @@ typedef union{
 /* Message length (in nibbles) including the checksum for each supported combination */
 #define XANY_MSG_4SW_NBL_NB       (1 + 2)
 #define XANY_MSG_8SW_NBL_NB       (2 + 2)
-#define XANY_MSG_16_SW_NBL_NB     (4 + 2)
+#define XANY_MSG_16SW_NBL_NB      (4 + 2)
 #define XANY_MSG_ANGLE_NBL_NB     (3 + 2)
 #define XANY_MSG_ANGLE_4SW_NBL_NB (3 + 1 + 2)
 #define XANY_MSG_ANGLE_8SW_NBL_NB (3 + 2 + 2)
@@ -191,6 +191,8 @@ enum {IO_EXP_PCF8574 = 0, IO_EXP_PCF8574A, IO_EXP_PCA9654E, IO_EXP_MCP23017, IO_
 /* PRIVATE FUNCTION PROTOYPES */
 static uint8_t getMsgType     (uint8_t XanyIdx);
 static uint8_t readIoExtender (uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRead);
+static void    updateXanyMsgChecksum(XanyMsg_union *XanyMsg);
+static uint8_t getBigEndianNibbleNbToTx(XanyMsg_union *XanyMsg);
 
 /* The read functions for all the supported I/O expenders */
 
@@ -277,6 +279,8 @@ const XanyIdxRangeSt_t XanyIdxRange[] PROGMEM = {{0, 6}, {7, 13}, {14, 18}, {19,
 #define GET_I2C_IO_EXP_7B_ADDR(Idx)   (uint8_t)     (pgm_read_byte_far(pgm_get_far_address(XanyI2cTypeAddr) + Idx*4 + 1))
 #define GET_I2C_IO_EXP_READ(Idx)      (ReadIoExpPtr)(pgm_read_word_far(pgm_get_far_address(XanyI2cTypeAddr) + Idx*4 + 2))
 
+#define htonl(x)                      __builtin_bswap32((uint32_t) (x))
+
 typedef struct {
   uint16_t
                   TxInProgress:     1,
@@ -292,10 +296,10 @@ typedef struct{
   TxNibbleSt_t    Nibble;
 }X_OneAnyWriteMsgSt_t;
 
-static uint32_t IoExpMap = 0L;//xFFFFFFFF; /* 4 bytes for the map of the 4 X-Any instances */
+static uint32_t IoExpMap = 0L; /* 4 bytes for the map of the 4 X-Any instances */
 
 static          XanyMsg_union        X_AnyReadMsg[NUM_X_ANY]; /* 4 bytes per X-Any for storing read Msg */
-static volatile X_OneAnyWriteMsgSt_t X_AnyWriteMsg[NUM_X_ANY];/* 8 bytes per X-Any for sending Msg in interrupt (-> Volatile) */
+static volatile X_OneAnyWriteMsgSt_t X_AnyWriteMsg[NUM_X_ANY];/* 7 bytes per X-Any for sending Msg in interrupt (-> Volatile) */
 
 
 /* PUBLIC FUNCTIONS */
@@ -347,7 +351,6 @@ void Xany_init(void)
 uint8_t Xany_readInputsAndLoadMsg(uint8_t XanyIdx)
 {
   uint8_t      Done = 0;
-  XanyInfoSt_t XanyInfo;
 
 #if defined(EXTERNALEEPROM) && !defined(SIMU)
 #define CHECK_IIC_USED_IRQ_MODE_RETURN(x) if (TWCR & _BV(TWINT)) return(x)
@@ -357,22 +360,16 @@ uint8_t Xany_readInputsAndLoadMsg(uint8_t XanyIdx)
 
   CHECK_IIC_USED_IRQ_MODE_RETURN(Done); /* Return if I2C is used */
 
-  if(X_AnyWriteMsg[XanyIdx].NibbleIdx >= (X_AnyWriteMsg[XanyIdx].Msg.Common.NibbleNbToTx + 1))
-  {
-    /* No need to mask interrupt since X_AnyWriteMsg[] is not use when X_AnyWriteMsg[XanyIdx].NibbleIdx is >= (X_AnyWriteMsg[XanyIdx].Msg.NibbleNbToTx + 1) */
-    Xany_operation(XanyIdx, XANY_OP_BUILD_MSG, &XanyInfo); /* This reads the I2C bus */
-    /* Load from Read structure to Write structure */
-    memcpy((void*)&X_AnyWriteMsg[XanyIdx].Msg, (void*)&X_AnyReadMsg[XanyIdx], sizeof(XanyMsg_union)); /* Copy 4 bytes */
-    X_AnyWriteMsg[XanyIdx].NibbleIdx = 0; /* Go! */
-    Done = 1;
-  }
+  /* Read inputs and load the message in X_AnyReadMsg[] (will be loaded in X_AnyWriteMsg[] in Xany_scheduleTx()) */
+  Xany_operation(XanyIdx, XANY_OP_BUILD_MSG, NULL); /* This reads the I2C bus */
+  Done = 1;
   return(Done);
 }
 
 /**
 * \file   Xany.cpp
 * \fn     void Xany_scheduleTx(uint8_t XanyIdx)
-* \brief  Schedule the transmisson of the X-Any message
+* \brief  Schedule the transmisson of the X-Any message (One nibble per CPPM frame with PPM proto)
 * \param  XanyIdx: Index of the X-Any instance
 * \return Void
 */
@@ -380,16 +377,18 @@ void Xany_scheduleTx(uint8_t XanyIdx)
 {
   X_OneAnyWriteMsgSt_t *t;
   char                 *CharPtr, TxChar;
+  uint8_t               NibbleNbToTx;
 
   if(g_model.Xany[XanyIdx].Active)
   {
     t = (X_OneAnyWriteMsgSt_t *)&X_AnyWriteMsg[XanyIdx]; /* XanyIdx SHALL be < NUM_X_ANY */
-
+    /* Here, take care that X_AnyWriteMsg is in big endian, then t->Msg.Common.NibbleNbToTx CANNOT be used! */
+    NibbleNbToTx = getBigEndianNibbleNbToTx((XanyMsg_union *)&t->Msg);
     if(!t->Nibble.TxInProgress)
     {
       t->Nibble.TxInProgress = 1;
       /* Get next char to send */
-      if(t->NibbleIdx < t->Msg.Common.NibbleNbToTx)
+      if(t->NibbleIdx < NibbleNbToTx)
       {
         CharPtr = (char *)t;
         TxChar = CharPtr[t->NibbleIdx / 2];
@@ -399,7 +398,6 @@ void Xany_scheduleTx(uint8_t XanyIdx)
       else
       {
         t->Nibble.CurIdx = NIBBLE_I; /* Nothing to transmit */
-        if(t->NibbleIdx < (t->Msg.Common.NibbleNbToTx + 1)) t->NibbleIdx++; /* Bounded to NibbleNbToTx + 1: meanst synchro to allow reload of the new message */
       }
       if(t->Nibble.CurIdx == t->Nibble.PrevIdx) t->Nibble.CurIdx = NIBBLE_R; /* Repeat symbol */
       t->Nibble.PrevIdx = t->Nibble.CurIdx;
@@ -414,22 +412,23 @@ void Xany_scheduleTx(uint8_t XanyIdx)
     t->Nibble.SentCnt++;
     if(t->Nibble.SentCnt >= (g_model.Xany[XanyIdx].RepeatNb + 1))
     {
-      t->NibbleIdx++;
+      /* Symbol sent taking into account the repetition(s) */
+      if(t->NibbleIdx < NibbleNbToTx)
+      {
+        /* Next Nibble */
+        t->NibbleIdx++;
+      }
+      else
+      {
+        /* The full message is sent: load the pending X_AnyReadMsg[XanyIdx] message in X_AnyWriteMsg[XanyIdx] message */
+        t->Msg.Raw   = X_AnyReadMsg[XanyIdx].Raw;
+        t->NibbleIdx = 0;
+      }
       t->Nibble.SentCnt = 0;
       t->Nibble.TxInProgress = 0;
     }
   }
 }
-
-#define COMPUTE_X_ANY_MSG_CHECKSUM(Msg, BytePtr, Checksum) do{                                    \
-    Msg->Checksum = 0;/* Clear Checksum which can share a nibble with previous byte */            \
-    for(uint8_t ByteIdx = 0; ByteIdx < ((Msg->NibbleNbToTx + 1) / 2); ByteIdx++)                  \
-    {                                                                                             \
-      Checksum ^= BytePtr[ByteIdx];                                                               \
-    }                                                                                             \
-    Checksum ^= 0x55;                                                                             \
-    Msg->Checksum = Checksum;                                                                     \
-  }while(0)
 
 /**
 * \file   Xany.cpp
@@ -438,220 +437,188 @@ void Xany_scheduleTx(uint8_t XanyIdx)
 * \param  XanyIdx:  Index of the X-Any instance
 * \param  XanyOp:   The X-Any operation
 * \param  XanyInfo: Pointer on an X-Any information structure to fill
-* \return 0: Message non supporte, 1: Message supporte
+* \return 0: not supported message, 1: supported message
 */
 uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
 {
-  Msg4SwSt_t      *Msg4Sw;
-  Msg8SwSt_t      *Msg8Sw;
-  Msg16SwSt_t     *Msg16Sw;
-  MsgAngleSt_t    *MsgAngle;
-  MsgAngle4SwSt_t *MsgAngle4Sw;
-  MsgAngle8SwSt_t *MsgAngle8Sw;
-  MsgAnglePotSt_t *MsgAnglePot;
-  MsgPot4SwSt_t   *MsgPot4Sw;
-  MsgPot8SwSt_t   *MsgPot8Sw;
-  MsgCommonSt_t   *MsgCommon;
-  uint8_t          MsgType, One8bitPort = 0, Checksum, *BytePtr, ValidMsg = 1;
-  uint16_t         Two8bitPorts;
+  XanyMsg_union    Built, Read;
+  uint8_t          MsgType, One8bitPort = 0, ValidMsg = 1;
+  uint16_t         Two8bitPorts = 0;
 
-  Checksum = 0;
-  BytePtr = (uint8_t *)&X_AnyReadMsg[XanyIdx];
+/* Test */
+//One8bitPort = 0x91;
+//Two8bitPorts = 0xAA12;
 
+  Built.Raw = 0; /* Clear temporary message */
   MsgType = getMsgType(XanyIdx);
-
+  if(XanyOp & XANY_OP_READ_INFO)
+  {
+    Read.Raw = htonl(X_AnyReadMsg[XanyIdx].Raw);
+  }
   switch(MsgType)
   {
     case XANY_MSG_4SW:
-    Msg4Sw = (Msg4SwSt_t *)&X_AnyReadMsg[XanyIdx];
-    Msg4Sw->NibbleNbToTx = XANY_MSG_4SW_NBL_NB;
+    Built.Msg4Sw.NibbleNbToTx = XANY_MSG_4SW_NBL_NB;
     if(XanyOp & XANY_OP_BUILD_MSG)
     {
       readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
-      Msg4Sw->Sw = One8bitPort & 0x0F; /* Keep 4 bits */
-      /* Update Checksum */
-      COMPUTE_X_ANY_MSG_CHECKSUM(Msg4Sw, BytePtr, Checksum);
+      Built.Msg4Sw.Sw = One8bitPort & 0x0F; /* Keep 4 bits */
     }
     if(XanyOp & XANY_OP_READ_INFO)
     {
-      XanyInfo->MsgNibbleLen = Msg4Sw->NibbleNbToTx;
+      XanyInfo->MsgNibbleLen = Read.Msg4Sw.NibbleNbToTx;
       XanyInfo->SwNb         = 4;
-      XanyInfo->SwValue      = (uint16_t)Msg4Sw->Sw;
+      XanyInfo->SwValue      = (uint16_t)Read.Msg4Sw.Sw;
       XanyInfo->Angle        = 0;
       XanyInfo->RotPotValue  = 0;
     }
     break;
 
     case XANY_MSG_8SW:
-    Msg8Sw = (Msg8SwSt_t *)&X_AnyReadMsg[XanyIdx];
-    Msg8Sw->NibbleNbToTx = XANY_MSG_8SW_NBL_NB;
+    Built.Msg8Sw.NibbleNbToTx = XANY_MSG_8SW_NBL_NB;
     if(XanyOp & XANY_OP_BUILD_MSG)
     {
       readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
-      Msg8Sw->Sw = One8bitPort;
-      /* Update Checksum */
-      COMPUTE_X_ANY_MSG_CHECKSUM(Msg8Sw, BytePtr, Checksum);
+      Built.Msg8Sw.Sw = One8bitPort;
     }
     if(XanyOp & XANY_OP_READ_INFO)
     {
-      XanyInfo->MsgNibbleLen = Msg8Sw->NibbleNbToTx;
+      XanyInfo->MsgNibbleLen = Read.Msg8Sw.NibbleNbToTx;
       XanyInfo->SwNb         = 8;
-      XanyInfo->SwValue      = (uint16_t)Msg8Sw->Sw;
+      XanyInfo->SwValue      = (uint16_t)Read.Msg8Sw.Sw;
       XanyInfo->Angle        = 0;
       XanyInfo->RotPotValue  = 0;
     }
     break;
 
-    case XANY_MSG_16_SW:
-    Msg16Sw = (Msg16SwSt_t *)&X_AnyReadMsg[XanyIdx];
-    Msg16Sw->NibbleNbToTx = XANY_MSG_16_SW_NBL_NB;
+    case XANY_MSG_16SW:
+    Built.Msg16Sw.NibbleNbToTx = XANY_MSG_16SW_NBL_NB;
     if(XanyOp & XANY_OP_BUILD_MSG)
     {
       readIoExtender(XanyIdx, (uint8_t *)&Two8bitPorts, 2);
-      Msg16Sw->Sw = Two8bitPorts;
-      /* Update Checksum */
-      COMPUTE_X_ANY_MSG_CHECKSUM(Msg16Sw, BytePtr, Checksum);
+      Built.Msg16Sw.Sw = Two8bitPorts;
     }
     if(XanyOp & XANY_OP_READ_INFO)
     {
-      XanyInfo->MsgNibbleLen = Msg16Sw->NibbleNbToTx;
+      XanyInfo->MsgNibbleLen = Read.Msg16Sw.NibbleNbToTx;
       XanyInfo->SwNb         = 16;
-      XanyInfo->SwValue      = (uint16_t)Msg16Sw->Sw;
+      XanyInfo->SwValue      = (uint16_t)Read.Msg16Sw.Sw;
       XanyInfo->Angle        = 0;
       XanyInfo->RotPotValue  = 0;
     }
     break;
 
     case XANY_MSG_ANGLE:
-    MsgAngle = (MsgAngleSt_t *)&X_AnyReadMsg[XanyIdx];
-    MsgAngle->NibbleNbToTx = XANY_MSG_ANGLE_NBL_NB;
+    Built.MsgAngle.NibbleNbToTx = XANY_MSG_ANGLE_NBL_NB;
     if(XanyOp & XANY_OP_BUILD_MSG)
     {
-      MsgAngle->Angle = 0; /* TODO: read ADS1015 CAN Channel */
-      /* Update Checksum */
-      COMPUTE_X_ANY_MSG_CHECKSUM(MsgAngle, BytePtr, Checksum);
+      Built.MsgAngle.Angle = 0; /* TODO: read ADS1015 CAN Channel */
     }
     if(XanyOp & XANY_OP_READ_INFO)
     {
-      XanyInfo->MsgNibbleLen = MsgAngle->NibbleNbToTx;
+      XanyInfo->MsgNibbleLen = Read.MsgAngle.NibbleNbToTx;
       XanyInfo->SwNb         = 0;
       XanyInfo->SwValue      = 0;
-      XanyInfo->Angle        = MsgAngle->Angle;
+      XanyInfo->Angle        = Read.MsgAngle.Angle;
       XanyInfo->RotPotValue  = 0;
     }
     break;
 
     case XANY_MSG_ANGLE_4SW:
-    MsgAngle4Sw = (MsgAngle4SwSt_t *)&X_AnyReadMsg[XanyIdx];
-    MsgAngle4Sw->NibbleNbToTx = XANY_MSG_ANGLE_4SW_NBL_NB;
+    Built.MsgAngle4Sw.NibbleNbToTx = XANY_MSG_ANGLE_4SW_NBL_NB;
     if(XanyOp & XANY_OP_BUILD_MSG)
     {
       readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
-      MsgAngle4Sw->Sw    = One8bitPort & 0x0F; /* Keep 4 bits */
-      MsgAngle4Sw->Angle = 0; /* TODO: read ADS1015 CAN Channel */
-      /* Update Checksum */
-      COMPUTE_X_ANY_MSG_CHECKSUM(MsgAngle4Sw, BytePtr, Checksum);
+      Built.MsgAngle4Sw.Sw    = One8bitPort & 0x0F; /* Keep 4 bits */
+      Built.MsgAngle4Sw.Angle = 0; /* TODO: read ADS1015 CAN Channel */
     }
     if(XanyOp & XANY_OP_READ_INFO)
     {
-      XanyInfo->MsgNibbleLen = MsgAngle4Sw->NibbleNbToTx;
+      XanyInfo->MsgNibbleLen = Read.MsgAngle4Sw.NibbleNbToTx;
       XanyInfo->SwNb         = 4;
-      XanyInfo->SwValue      = (uint16_t)MsgAngle4Sw->Sw;
-      XanyInfo->Angle        = MsgAngle4Sw->Angle;
+      XanyInfo->SwValue      = (uint16_t)Read.MsgAngle4Sw.Sw;
+      XanyInfo->Angle        = Read.MsgAngle4Sw.Angle;
       XanyInfo->RotPotValue  = 0;
     }
     break;
 
     case XANY_MSG_ANGLE_8SW:
-    MsgAngle8Sw = (MsgAngle8SwSt_t *)&X_AnyReadMsg[XanyIdx];
-    MsgAngle8Sw->NibbleNbToTx = XANY_MSG_ANGLE_8SW_NBL_NB;
+    Built.MsgAngle8Sw.NibbleNbToTx = XANY_MSG_ANGLE_8SW_NBL_NB;
     if(XanyOp & XANY_OP_BUILD_MSG)
     {
       readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
-      MsgAngle8Sw->Sw    = One8bitPort;
-      MsgAngle8Sw->Angle = 0; /* TODO: read ADS1015 CAN Channel */
-      /* Update Checksum */
-      COMPUTE_X_ANY_MSG_CHECKSUM(MsgAngle8Sw, BytePtr, Checksum);
+      Built.MsgAngle8Sw.Sw    = One8bitPort;
+      Built.MsgAngle8Sw.Angle = 0; /* TODO: read ADS1015 CAN Channel */
     }
     if(XanyOp & XANY_OP_READ_INFO)
     {
-      XanyInfo->MsgNibbleLen = MsgAngle8Sw->NibbleNbToTx;
+      XanyInfo->MsgNibbleLen = Read.MsgAngle8Sw.NibbleNbToTx;
       XanyInfo->SwNb         = 8;
-      XanyInfo->SwValue      = (uint16_t)MsgAngle8Sw->Sw;
-      XanyInfo->Angle        = MsgAngle8Sw->Angle;
+      XanyInfo->SwValue      = (uint16_t)Built.MsgAngle8Sw.Sw;
+      XanyInfo->Angle        = Read.MsgAngle8Sw.Angle;
       XanyInfo->RotPotValue  = 0;
     }
     break;
 
     case XANY_MSG_ANGLE_POT:
-    MsgAnglePot = (MsgAnglePotSt_t *)&X_AnyReadMsg[XanyIdx];
-    MsgAnglePot->NibbleNbToTx = XANY_MSG_ANGLE_POT_NBL_NB;
+    Built.MsgAnglePot.NibbleNbToTx = XANY_MSG_ANGLE_POT_NBL_NB;
     if(XanyOp & XANY_OP_BUILD_MSG)
     {
-      MsgAnglePot->Angle = 0;              /* TODO: read ADS1015 CAN Channel */
-      MsgAnglePot->Pot   = ((calibratedStick[GET_XANY_POT(XanyIdx)] + RESX-1) /8); /* 8 bits value */
-      /* Update Checksum */
-      COMPUTE_X_ANY_MSG_CHECKSUM(MsgAnglePot, BytePtr, Checksum);
+      Built.MsgAnglePot.Angle = 0;              /* TODO: read ADS1015 CAN Channel */
+      Built.MsgAnglePot.Pot   = ((calibratedStick[GET_XANY_POT(XanyIdx)] + RESX - 1) / 8); /* 8 bits value */
     }
     if(XanyOp & XANY_OP_READ_INFO)
     {
-      XanyInfo->MsgNibbleLen = MsgAnglePot->NibbleNbToTx;
+      XanyInfo->MsgNibbleLen = Read.MsgAnglePot.NibbleNbToTx;
       XanyInfo->SwNb         = 0;
       XanyInfo->SwValue      = 0;
-      XanyInfo->Angle        = MsgAnglePot->Angle;
+      XanyInfo->Angle        = Read.MsgAnglePot.Angle;
       XanyInfo->RotPotValue  = 0;
     }
     break;
 
     case XANY_MSG_POT_4SW:
-    MsgPot4Sw = (MsgPot4SwSt_t *)&X_AnyReadMsg[XanyIdx];
-    MsgPot4Sw->NibbleNbToTx = XANY_MSG_POT_4SW_NBL_NB;
+    Built.MsgPot4Sw.NibbleNbToTx = XANY_MSG_POT_4SW_NBL_NB;
     if(XanyOp & XANY_OP_BUILD_MSG)
     {
       readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
-      MsgPot4Sw->Sw    = One8bitPort & 0x0F; /* Keep 4 bits */
-      MsgPot4Sw->Pot   = ((calibratedStick[GET_XANY_POT(XanyIdx)] + RESX-1) /8); /* 8 bits value */
-      /* Update Checksum */
-      COMPUTE_X_ANY_MSG_CHECKSUM(MsgPot4Sw, BytePtr, Checksum);
+      Built.MsgPot4Sw.Sw    = One8bitPort & 0x0F; /* Keep 4 bits */
+      Built.MsgPot4Sw.Pot   = ((calibratedStick[GET_XANY_POT(XanyIdx)] + RESX - 1) / 8); /* 8 bits value */
     }
     if(XanyOp & XANY_OP_READ_INFO)
     {
-      XanyInfo->MsgNibbleLen = MsgPot4Sw->NibbleNbToTx;
+      XanyInfo->MsgNibbleLen = Read.MsgPot4Sw.NibbleNbToTx;
       XanyInfo->SwNb         = 4;
-      XanyInfo->SwValue      = MsgPot4Sw->Sw;
+      XanyInfo->SwValue      = Read.MsgPot4Sw.Sw;
       XanyInfo->Angle        = 0;
-      XanyInfo->RotPotValue  = MsgPot4Sw->Pot;
+      XanyInfo->RotPotValue  = Read.MsgPot4Sw.Pot;
     }
     break;
 
     case XANY_MSG_POT_8SW:
-    MsgPot8Sw = (MsgPot8SwSt_t *)&X_AnyReadMsg[XanyIdx];
-    MsgPot8Sw->NibbleNbToTx = XANY_MSG_POT_8SW_NBL_NB;
+    Built.MsgPot8Sw.NibbleNbToTx = XANY_MSG_POT_8SW_NBL_NB;
     if (XanyOp & XANY_OP_BUILD_MSG)
     {
       readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
-      MsgPot8Sw->Sw    = One8bitPort;
-      MsgPot8Sw->Pot   = ((calibratedStick[GET_XANY_POT(XanyIdx)] + RESX-1) /8); /* 8 bits value */
-      /* Update Checksum */
-      COMPUTE_X_ANY_MSG_CHECKSUM(MsgPot8Sw, BytePtr, Checksum);
+      Built.MsgPot8Sw.Sw    = One8bitPort;
+      Built.MsgPot8Sw.Pot   = ((calibratedStick[GET_XANY_POT(XanyIdx)] + RESX - 1) / 8); /* 8 bits value */
     }
     if(XanyOp & XANY_OP_READ_INFO)
     {
-      XanyInfo->MsgNibbleLen = MsgPot8Sw->NibbleNbToTx;
+      XanyInfo->MsgNibbleLen = Read.MsgPot8Sw.NibbleNbToTx;
       XanyInfo->SwNb         = 8;
-      XanyInfo->SwValue      = MsgPot8Sw->Sw;
+      XanyInfo->SwValue      = Read.MsgPot8Sw.Sw;
       XanyInfo->Angle        = 0;
-      XanyInfo->RotPotValue  = MsgPot8Sw->Pot;
+      XanyInfo->RotPotValue  = Read.MsgPot8Sw.Pot;
     }
     break;
 
     default: /* We arrive here if the composed X-Any message from the LCD menu is not supported */
     ValidMsg = 0; /* Invalid or not yet supported message */
-    MsgCommon = (MsgCommonSt_t *)&X_AnyReadMsg[XanyIdx];
     if(XanyOp & XANY_OP_BUILD_MSG)
     {
-      MsgCommon->PayloadAndChecksum = 0; /* Detroy the checksum to be sure the message won't be interpreted at receiver side (1st stage) */
-      MsgCommon->NibbleNbToTx       = 0; /* Prevent transmission (2nd stage) */
+      Built.Common.PayloadAndChecksum = 0; /* Detroy the checksum to be sure the message won't be interpreted at receiver side (1st stage) */
+      Built.Common.NibbleNbToTx       = 0; /* Prevent transmission (2nd stage) */
     }
     if(XanyOp & XANY_OP_READ_INFO)
     {
@@ -664,6 +631,14 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
     break;
   }
   /* Can be common */
+  if(XanyOp & XANY_OP_BUILD_MSG)
+  {
+    /* Update Checksum */
+    updateXanyMsgChecksum((XanyMsg_union *)&Built); /* /!\ Now, Built XanyMsg is in Big endian /!\ */
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    X_AnyReadMsg[XanyIdx].Raw = Built.Raw; /* Load the temporary built message in X_AnyReadMsg */
+    }
+  }
   if(XanyOp & XANY_OP_READ_INFO)
   {
     XanyInfo->TxPeriodMs = ((g_model.Xany[XanyIdx].RepeatNb + 1) * (XanyInfo->MsgNibbleLen + 1) * 225) / 10; /* + 1 for IDLE symbol */
@@ -739,3 +714,55 @@ static uint8_t readIoExtender(uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRea
 
  return(ByteRead);
 }
+
+/**
+* \file   Xany.cpp
+* \fn     void updateXanyMsgChecksum(XanyMsg_union *XanyMsg)
+* \brief  Computes the checksum for the X-Any message AND converts it in big endian
+* \param  XanyMsg:    pointer in an X-Any union
+* \return Void
+*/
+static void updateXanyMsgChecksum(XanyMsg_union *XanyMsg)
+{
+  uint8_t PayloadNibbleNb, Checksum = 0;
+  uint8_t *BytePtr;
+
+  /* Checksum of passed XanyMsg structure SHALL be 0 */
+  PayloadNibbleNb = XanyMsg -> Common.NibbleNbToTx - 2;
+  BytePtr = (uint8_t *)XanyMsg;
+  XanyMsg->Raw = htonl(XanyMsg->Raw); /* Now: Big endian to have Nibbles from most to least significant order */
+  for(uint8_t ByteIdx = 0; ByteIdx < (PayloadNibbleNb + 1) / 2; ByteIdx++)
+  {
+    Checksum ^= BytePtr[ByteIdx];
+  }
+  Checksum ^= 0x55;
+  if(PayloadNibbleNb & 1)
+  {
+    /* Odd number of nibble -> Checksum between 2 contiguous bytes */
+    BytePtr    = (uint8_t *)XanyMsg + (PayloadNibbleNb / 2);
+    *BytePtr = *BytePtr | ((Checksum & 0xF0) >> 4); /* Most  Significant Nibble of Checksum */
+    BytePtr++;
+    *BytePtr |= ((Checksum & 0x0F) << 4); /* Least Significant Nibble of Checksum */
+  }
+  else
+  {
+    /* Even number of nibble -> Checksum in a single byte */
+    BytePtr    = (uint8_t *)XanyMsg + (PayloadNibbleNb / 2);
+    *BytePtr   = Checksum;
+  }
+}
+
+/**
+* \file   Xany.cpp
+* \fn     uint8_t getBigEndianNibbleNbToTx(XanyMsg_union *XanyMsg)
+* \brief  Get the number of nibbles to transmit from a big endian X-Any message
+* \param  XanyMsg:    pointer in an X-Any union
+* \return The number of nibbles to transmit (including the checksum)
+*/
+static uint8_t getBigEndianNibbleNbToTx(XanyMsg_union *XanyMsg)
+{
+  uint8_t *BytePtr;
+  BytePtr = (uint8_t *)XanyMsg;
+  return(BytePtr[3] & 0x0F);
+}
+
