@@ -1026,14 +1026,14 @@ void doMixerCalculations()
     Xany_readInputsAndLoadMsg(0);
 #endif
 
-#if (X_ANY >= 2)
-    Xany_readInputsAndLoadMsg(1);
+#if (X_ANY >= 3)
+    Xany_readInputsAndLoadMsg(2);
 #endif
   }
   else
   {
-#if (X_ANY >= 3)
-    Xany_readInputsAndLoadMsg(2);
+#if (X_ANY >= 2)
+    Xany_readInputsAndLoadMsg(1);
 #endif
 
 #if (X_ANY >= 4)
