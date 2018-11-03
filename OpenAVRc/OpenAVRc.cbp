@@ -209,11 +209,9 @@
 		<Unit filename="stamp.cpp" />
 		<Unit filename="strhelpers.cpp" />
 		<Unit filename="switches.cpp" />
-		<Unit filename="targets/evo_v1/evo_adc_driver.cpp" />
-		<Unit filename="targets/evo_v1/evo_lcd_driver.cpp" />
-		<Unit filename="targets/evo_v1/evo_mega2560.cpp" />
-		<Unit filename="targets/evo_v1/evo_mega2560.h" />
-		<Unit filename="targets/evo_v1/menu_general_diaganas.cpp" />
+		<Unit filename="targets/evo_v2/menu_general_diaganas.cpp" />
+		<Unit filename="targets/evo_v2/xmega_adc_driver.cpp" />
+		<Unit filename="targets/evo_v2/xmega_board.h" />
 		<Unit filename="targets/lcd/lcd_default_driver.cpp" />
 		<Unit filename="targets/lcd/lcd_driver.cpp" />
 		<Unit filename="targets/lcd/lcd_ks108_driver.cpp" />
