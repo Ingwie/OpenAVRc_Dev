@@ -34,7 +34,8 @@
 
 #include "../OpenAVRc.h"
 
-const static RfOptionSettingsvarstruct RfOpt_FrskyD_Ser[] PROGMEM = {
+const static RfOptionSettingsvarstruct RfOpt_FrskyD_Ser[] PROGMEM =
+{
   /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/0,
   /*rfOptionValue1Min*/-128, // FREQFINE MIN
@@ -69,12 +70,13 @@ static void FRSKYD_init(uint8_t bind)
 
   uint_farptr_t pdata = pgm_get_far_address(ZZ_frskyDInitSequence);
 
-  for (uint8_t i=0; i<(DIM(ZZ_frskyDInitSequence)/2); i++) { // Send init
-    uint8_t add = pgm_read_byte_far(pdata);
-    uint8_t dat = pgm_read_byte_far(++pdata);
-    CC2500_WriteReg(add,dat);
-    ++pdata;
-  }
+  for (uint8_t i=0; i<(DIM(ZZ_frskyDInitSequence)/2); i++)   // Send init
+    {
+      uint8_t add = pgm_read_byte_far(pdata);
+      uint8_t dat = pgm_read_byte_far(++pdata);
+      CC2500_WriteReg(add,dat);
+      ++pdata;
+    }
 
   FRSKY_Init_Common_End();
 
@@ -119,7 +121,7 @@ static void FRSKYD_build_data_packet()
   packet[2] = temp_rfid_addr[1];
   packet[3] = packet_count;
 #if defined(FRSKY)
-  packet[4] = receive_seq; // acknowledge last value packet
+  packet[4] = receive_seq; // acknowledge last packet value
 #else
   packet[4] = 0x00;
 #endif
@@ -131,7 +133,8 @@ static void FRSKYD_build_data_packet()
   packet[16] = 0;
   packet[17] = 0;
 
-  for(uint8_t i = 0; i < 8; i++) {
+  for(uint8_t i = 0; i < 8; i++)
+    {
       // 0x08CA / 1.5 = 1500 (us). Probably because they use 12MHz clocks.
       // 0x05DC -> 1000us 5ca
       // 0x0BB8 -> 2000us bca
@@ -140,14 +143,17 @@ static void FRSKYD_build_data_packet()
       value = limit((int16_t)-(640 + (640>>1)), value, (int16_t)+(640 + (640>>1)));
       value += 0x08CA;
 
-    if(i < 4) {
-      packet[6+i] = value & 0xff;
-      packet[10+(i>>1)] |= ((value >> 8) & 0x0f) << (4 *(i & 0x01));
-    } else {
-      packet[8+i] = value & 0xff;
-      packet[16+((i-4)>>1)] |= ((value >> 8) & 0x0f) << (4 * ((i-4) & 0x01));
+      if(i < 4)
+        {
+          packet[6+i] = value & 0xff;
+          packet[10+(i>>1)] |= ((value >> 8) & 0x0f) << (4 *(i & 0x01));
+        }
+      else
+        {
+          packet[8+i] = value & 0xff;
+          packet[16+((i-4)>>1)] |= ((value >> 8) & 0x0f) << (4 * ((i-4) & 0x01));
+        }
     }
-  }
 }
 
 static uint16_t FRSKYD_bind_cb()
@@ -165,29 +171,25 @@ static uint16_t FRSKYD_bind_cb()
 
 #if defined(FRSKY)
 
-static void frskyD_send_HUB_telemetry(uint8_t *pkt, uint8_t len)
+#define HUB_MAX_BYTES 6
+
+static void frskyD_send_HUB_telemetry(uint8_t pkt_hub[], uint8_t len)
 {
-  parseTelemHubByte(START_STOP);		// start
-  parseTelemHubByte(USRPKT);				// user frame
-  parseTelemHubByte(len);
-  parseTelemHubByte(0x00);          // dummy byte
+  parseTelemFrskyByte(START_STOP);		// start
+  parseTelemFrskyByte(USRPKT);				// user frame
+  parseTelemFrskyByte(len);           // num of hub bytes
+  parseTelemFrskyByte(packet[7]);     // sequence
+
   for (uint8_t i=0; i < len; ++i)
     {
-      if(pkt[i] == 0x7E)
-        {
-          parseTelemHubByte(0x7D);
-          parseTelemHubByte(0x5E);
-        }
-      else if(pkt[i] == 0x7D)
-        {
-          parseTelemHubByte(0x7D);
-          parseTelemHubByte(0x5D);
-        }
-      else
-        parseTelemHubByte(pkt[i]);
+      parseTelemFrskyByte(pkt_hub[i]);
     }
-  parseTelemHubByte(0x5E);		      // HUB stop
-  parseTelemHubByte(START_STOP);		// stop
+  uint8_t emptybyte = HUB_MAX_BYTES - len;
+  while (emptybyte--)
+    {
+      parseTelemFrskyByte(0x00);
+    }
+  parseTelemFrskyByte(START_STOP);		// stop
 }
 
 static void frskyD_check_telemetry(uint8_t *pkt, uint8_t len)
@@ -206,11 +208,11 @@ static void frskyD_check_telemetry(uint8_t *pkt, uint8_t len)
   *  pkt len-1 = crc status (bit7 set indicates good), link quality indicator (bits6-0)
   */
 
-  // only process packets with the required id and packet length
-  if ( (pkt[len-1] & 0x80)
-       && pkt[0] == len - 3
-       && pkt[1] == temp_rfid_addr[0]
-       && pkt[2] == temp_rfid_addr[1] )
+  // only process packets with the required id and packet length and valid crc
+  if ((pkt[len-1] & 0x80)
+      && pkt[0] == len - 3
+      && pkt[1] == temp_rfid_addr[0]
+      && pkt[2] == temp_rfid_addr[1])
     {
       if(frskyStreaming < FRSKY_TIMEOUT10ms -5)
         frskyStreaming +=5;
@@ -226,9 +228,9 @@ static void frskyD_check_telemetry(uint8_t *pkt, uint8_t len)
       //Get voltage A2 (~13.2mv/count) (Docs say 1/4 of A1)
       telemetryData.analog[TELEM_ANA_A2].set(pkt[4], g_model.telemetry.channels[TELEM_ANA_A2].type);
 
-      if(pkt[6] && pkt[6]<=10)
+      if(pkt[6]>0 && pkt[6]<=10)
         {
-          if ((pkt[7] & 0x1F) == (receive_seq & 0x1F))
+          if ((pkt[7] & 0x1F) == (receive_seq & 0x1F)) // Is it the expected frame ?
             {
               uint8_t topBit = 0 ;
               if (receive_seq & 0x80)
@@ -240,13 +242,27 @@ static void frskyD_check_telemetry(uint8_t *pkt, uint8_t len)
                   receive_seq = ((receive_seq+1)%32) | topBit ;	// Request next telemetry frame
                 }
 
-                  frskyD_send_HUB_telemetry(&pkt[8], pkt[6]);
+              uint8_t numbyte = 0;
+              if(pkt[6]>HUB_MAX_BYTES)
+                {
+                  numbyte = pkt[6] - HUB_MAX_BYTES; // size of the second frame
+                  frskyD_send_HUB_telemetry(&pkt[8], HUB_MAX_BYTES);
+                }
+              else
+                {
+                  frskyD_send_HUB_telemetry(&pkt[8], pkt[6]); // only 1 frame
+                }
+
+              if (numbyte)          // the the second frame
+                {
+                  frskyD_send_HUB_telemetry(&pkt[8 + HUB_MAX_BYTES], numbyte);
+                }
             }
           else
             {
               // incorrect sequence
-              telem_save_seq = pkt[7] & 0x1F ;
-              receive_seq |= 0x80 ;
+              telem_save_seq = pkt[7] & 0x1F;
+              receive_seq |= 0x80;
               //pkt[6]=0;							// Discard current packet and wait for retransmit
             }
         }
@@ -332,50 +348,54 @@ static uint16_t FRSKYD_data_cb()
 static void FRSKYD_initialize(uint8_t bind)
 {
   freq_fine_mem = 0;
-  receive_seq = 0;
+  receive_seq = 8;
   telem_save_seq = 0;
 
   loadrfidaddr_rxnum(0);
   FRSKY_generate_channels();
   CC2500_Reset(); // 0x30
 
-  if(bind) {
-    FRSKYD_init(1);
-    CC2500_SetTxRxMode(TX_EN);
-    PROTO_Start_Callback(25000U *2, FRSKYD_bind_cb);
-  } else {
-    FRSKYD_init(0);
-    PROTO_Start_Callback(25000U *2, FRSKYD_data_cb);
-  }
+  if(bind)
+    {
+      FRSKYD_init(1);
+      CC2500_SetTxRxMode(TX_EN);
+      PROTO_Start_Callback(25000U *2, FRSKYD_bind_cb);
+    }
+  else
+    {
+      FRSKYD_init(0);
+      PROTO_Start_Callback(25000U *2, FRSKYD_data_cb);
+    }
 }
 
 const void * FRSKYD_Cmds(enum ProtoCmds cmd)
 {
-  switch(cmd) {
-  case PROTOCMD_INIT:
-    FRSKYD_initialize(0);
-    return 0;
-  case PROTOCMD_BIND:
-    bind_idx = 0;
-    FRSKYD_initialize(1);
-    return 0;
-  case PROTOCMD_RESET:
-    PROTO_Stop_Callback();
-    CC2500_Reset();
-    return 0;
+  switch(cmd)
+    {
+    case PROTOCMD_INIT:
+      FRSKYD_initialize(0);
+      return 0;
+    case PROTOCMD_BIND:
+      bind_idx = 0;
+      FRSKYD_initialize(1);
+      return 0;
+    case PROTOCMD_RESET:
+      PROTO_Stop_Callback();
+      CC2500_Reset();
+      return 0;
     case PROTOCMD_GETOPTIONS:
-          SetRfOptionSettings(pgm_get_far_address(RfOpt_FrskyD_Ser),
-                        STR_DUMMY,       //Sub proto
-                        STR_RFTUNEFINE,      //Option 1 (int)
-                        STR_DUMMY,       //Option 2 (int)
-                        STR_RFPOWER,    //Option 3 (uint 0 to 31)
-                        STR_TELEMETRY,   //OptionBool 1
-                        STR_DUMMY,       //OptionBool 2
-                        STR_DUMMY        //OptionBool 3
-                        );
-    return 0;
-  default:
-    break;
-  }
+      SetRfOptionSettings(pgm_get_far_address(RfOpt_FrskyD_Ser),
+                          STR_DUMMY,       //Sub proto
+                          STR_RFTUNEFINE,      //Option 1 (int)
+                          STR_DUMMY,       //Option 2 (int)
+                          STR_RFPOWER,    //Option 3 (uint 0 to 31)
+                          STR_TELEMETRY,   //OptionBool 1
+                          STR_DUMMY,       //OptionBool 2
+                          STR_DUMMY        //OptionBool 3
+                         );
+      return 0;
+    default:
+      break;
+    }
   return 0;
 }
