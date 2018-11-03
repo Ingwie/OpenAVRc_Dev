@@ -302,7 +302,7 @@ uint16_t evalChkSum()
 {
   uint16_t sum = 0;
   const int16_t *calibValues = (const int16_t *) &g_eeGeneral.calib[0];
-  for (int i=0; i<12; i++)
+  for (uint8_t i=0; i<12; i++)
     sum += calibValues[i];
   return sum;
 }
@@ -319,7 +319,7 @@ void applyDefaultTemplate()
 {
   eeDirty(EE_MODEL);
 
-  for (int i=0; i<NUM_STICKS; i++) {
+  for (uint8_t i=0; i<NUM_STICKS; ++i) {
     MixData *mix = mixAddress(i);
     mix->destCh = i;
     mix->weight = 100;
@@ -385,12 +385,12 @@ trim_t getRawTrimValue(uint8_t phase, uint8_t idx)
   return p->trim[idx];
 }
 
-int getTrimValue(uint8_t phase, uint8_t idx)
+int16_t getTrimValue(uint8_t phase, uint8_t idx)
 {
   return getRawTrimValue(getTrimFlightPhase(phase, idx), idx);
 }
 
-void setTrimValue(uint8_t phase, uint8_t idx, int trim)
+void setTrimValue(uint8_t phase, uint8_t idx, int16_t trim)
 {
   FlightModeData *p = flightModeAddress(phase);
   p->trim[idx] = trim;
@@ -828,7 +828,7 @@ uint8_t checkTrim(uint8_t event)
     // LH_DWN LH_UP LV_DWN LV_UP RV_DWN RV_UP RH_DWN RH_UP
     uint8_t idx = CONVERT_MODE((uint8_t)k/2);
     uint8_t phase;
-    int before;
+    int16_t before;
     bool thro;
 
 
@@ -1464,10 +1464,10 @@ void OpenAVRcInit(uint8_t mcusr)
 }
 
 #if !defined(SIMU)
-int main()
+int16_t main()
 {
 #else
-int simumain()
+int16_t simumain()
 {
   simu_off = false;
 #endif

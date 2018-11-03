@@ -331,7 +331,7 @@ bool eepromOpen()
     }
   if (eeFs.mySize != sizeof(eeFs))
     {
-      TRACE("bad eeFs.mySize (%d instead of %d)", (int)eeFs.mySize, (int)sizeof(eeFs));
+      TRACE("bad eeFs.mySize (%d instead of %d)", (int16_t)eeFs.mySize, (int16_t)sizeof(eeFs));
     }
 #endif
 

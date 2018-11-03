@@ -306,7 +306,7 @@ void checkSwitches()
     getMovedSwitch();
 
     bool warn = false;
-    for (int i=0; i<NUM_SWITCHES-1; i++) {
+    for (uint8_t i=0; i<NUM_SWITCHES-1; i++) {
       if (!(g_model.switchWarningEnable & (1<<i))) {
         if (i == 0) {
           if ((states & 0x03) != (switches_states & 0x03)) {
