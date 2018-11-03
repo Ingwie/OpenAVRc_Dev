@@ -58,10 +58,10 @@ static void CC2500_ReadRegisterMulti(uint8_t address, uint8_t data[], uint8_t le
   RF_CS_CC2500_INACTIVE();
 }
 
-uint8_t CC2500_ReadReg(uint8_t address)
+uint8_t CC2500_ReadReg(uint8_t addr)
 {
   RF_CS_CC2500_ACTIVE();
-  RF_SPI_xfer(CC2500_READ_SINGLE | address);
+  RF_SPI_xfer(CC2500_READ_SINGLE | addr);
   uint8_t data = RF_SPI_xfer(0);
   RF_CS_CC2500_INACTIVE();
   return data;
