@@ -249,7 +249,7 @@ void LoadTelemBuffer(uint8_t *data)
     if (!(TelemetryRxBuffer[i][0] || TelemetryRxBuffer[i][1])) // Check buffer is free
     {
       memcpy(TelemetryRxBuffer[i], data, TELEM_RX_PACKET_SIZE);
-      break;
+      return;
     }
   }
 }

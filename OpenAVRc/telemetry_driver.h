@@ -49,7 +49,7 @@ void Usart0Set125000BAUDS();  //DSM Serial protocol
 void Usart0Set100000BAUDS();  //Multiprotocole Serial
 
 #define NUM_TELEM_RX_BUFFER  2
-#define TELEM_RX_PACKET_SIZE 13  // Max HUB packet size
+#define TELEM_RX_PACKET_SIZE 9   // Frsky packet size
 #define USART0_TX_PACKET_SIZE 26 // used in Multiprotocole serial
 
 extern uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][TELEM_RX_PACKET_SIZE];
