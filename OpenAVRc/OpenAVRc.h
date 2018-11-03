@@ -255,7 +255,7 @@ static uint16_t DurationValue;
 
 #define memclear(p, s) memset(p, 0, s)
 
-#if defined(REV_EVO_V1)
+#if defined(PCB_EVO)
   #define IS_POT_AVAILABLE(x)       ( (x)==POT1 || (x)==POT2 )
   #define IS_POT_MULTIPOS(x)        (false)
   #define IS_POT_WITHOUT_DETENT(x)  (false)
@@ -365,11 +365,21 @@ typedef int8_t swsrc_t;
   #define STICK_SCROLL_DISABLE()
 #endif
 
+#if defined(CPUM2560)
 #include "telemetry_driver.h"
 #include "pulses/pulses_avr.h"
 #include "pulses/pulses.h"
 #include "eeprom_common.h"
 #include "eeprom_rlc.h"
+#endif
+#if defined(CPUXMEGA)
+#include "targets/evo_v2/xmega_board.h"
+#include "telemetry_driver.h"
+#include "pulses/pulses_avr.h"
+#include "pulses/pulses.h"
+#include "eeprom_common.h"
+#include "eeprom_rlc.h"
+#endif
 
 
 #define MASK_CFN_TYPE  uint32_t  // current max = 32 function switches
@@ -556,9 +566,9 @@ uint8_t getTrimFlightPhase(uint8_t phase, uint8_t idx);
 #endif
 
 trim_t getRawTrimValue(uint8_t phase, uint8_t idx);
-int getTrimValue(uint8_t phase, uint8_t idx);
+int16_t getTrimValue(uint8_t phase, uint8_t idx);
 
-void setTrimValue(uint8_t phase, uint8_t idx, int trim);
+void setTrimValue(uint8_t phase, uint8_t idx, int16_t trim);
 
 #if defined(ROTARY_ENCODERS)
   int16_t getRotaryEncoder(uint8_t idx);
@@ -683,19 +693,21 @@ void getADC();
 extern void backlightOn();
 
 enum Analogs {
-#if defined(REV_EVO_V1)
+#if defined(REV_EVO_V2)
   STICK1,
   STICK2,
   STICK3,
   STICK4,
+  AVCC_REF_N, // AVCC/2 used as VINN for differential conversion with gain.
   POT1, // SLIDER1,
   POT2, // SLIDER2,
   POT_LAST = POT2,
   TX_VOLTAGE,
-  ANALOG_A7,
-  ANALOG_A8,
-  ANALOG_A9,
-  ANALOG_A10,
+  ANAL_SWS_1,
+  ANAL_SWS_2,
+  ANAL_SWS_3,
+  ANAL_SWS_4,
+  KEYBOARD,
 #else
   STICK1,
   STICK2,

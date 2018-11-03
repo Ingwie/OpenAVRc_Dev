@@ -237,7 +237,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
             }
           else if (lastpopupMenuOffset == 0xffff)
             {
-              for (int i=MENU_MAX_DISPLAY_LINES-1; i>=0; i--)
+              for (int8_t i=(MENU_MAX_DISPLAY_LINES-1); i>=0; --i)
                 {
                   char *line = reusableBuffer.modelsel.menu_bss[i];
                   if (line[0] == '\0' || strcasecmp(SD_dir_entry.long_name, line) > 0)

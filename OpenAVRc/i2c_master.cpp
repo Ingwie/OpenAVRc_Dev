@@ -170,7 +170,7 @@ for the bus.
   I2C_SPEED_400K(FRAM_RTC_TWI);
   FRAM_RTC_TWI.MASTER.CTRLA = TWI_MASTER_ENABLE_bm;
 
-  FRAM_RTC_TWI.MASTER.CTRLA |= (0b01 << TWI_MASTER_INTLVL_gp); // Low priority interrupt.
+  FRAM_RTC_TWI.MASTER.CTRLA |= (0b10 << TWI_MASTER_INTLVL_gp); // Level 2 - Medium Priority.
 
   FRAM_RTC_TWI.MASTER.STATUS = TWI_MASTER_BUSSTATE_IDLE_gc;
 }
@@ -265,7 +265,7 @@ FORCEINLINE void i2c_writeAndActiveISR(uint8_t data)
 extern uint8_t * eeprom_buffer_data;
 extern volatile uint8_t eeprom_buffer_size;
 
-ISR(TWIC_TWIM_vect)
+ISR(FRAM_RTC_TWI_TWIM_VECT)
 {
   if (--eeprom_buffer_size) { // One byte sent already by i2c_writeAndActiveISR(uint8_t data).
     FRAM_RTC_TWI.MASTER.DATA = *++eeprom_buffer_data;

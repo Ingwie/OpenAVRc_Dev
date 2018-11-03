@@ -124,7 +124,7 @@ static void DEVO_build_beacon_pkt(uint8_t upper)
 {
     packet[0] = ((DEVO_num_channels << 4) | 0x07);
     uint8_t enable = 0;
-    int max = 8;
+    uint8_t max = 8;
     //int offset = 0;
     if (upper) {
         packet[0] += 1;

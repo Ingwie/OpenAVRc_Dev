@@ -7,8 +7,16 @@
 
 
 inline void ADC_atomic(uint8_t Analogs, int16_t sample);
-//#define SAMPCTRL  reserved_0x08
+
+#if !defined(ADCA_SAMPCTRL)
 #define ADCA_SAMPCTRL  _SFR_MEM8(0x0208)
+#endif
+#if !defined(PRODSIGNATURES_ADCACAL0)
+#define PRODSIGNATURES_ADCACAL0  _SFR_MEM8(0x0020)
+#endif
+#if !defined(PRODSIGNATURES_ADCACAL1)
+#define PRODSIGNATURES_ADCACAL1  _SFR_MEM8(0x0021)
+#endif
 
 
 void adcInit()
@@ -17,9 +25,6 @@ void adcInit()
   PORTA.PIN0CTRL =  PORT_ISC_INPUT_DISABLE_gc;
   PORTCFG.MPCMASK = 0x1f;
   PORTB.PIN0CTRL =  PORT_ISC_INPUT_DISABLE_gc;
-
-  #define PRODSIGNATURES_ADCACAL0  _SFR_MEM8(0x0020)
-  #define PRODSIGNATURES_ADCACAL1  _SFR_MEM8(0x0021)
 
   ADCA.CALL = (uint16_t) (PRODSIGNATURES_ADCACAL1 << 8) | PRODSIGNATURES_ADCACAL0; // Read from signature row.
 
@@ -57,16 +62,7 @@ void getADC()
         // VINN = AVCC_REF_N = 3.3V/2 connected to PINADC4.
         // Measured range = 3285 counts.
 
-        typedef enum ADC_REFSEL_enum
-        {
-            ADC_REFSEL_INT1V_gc = (0x00<<4),  /* Internal 1V */
-            ADC_REFSEL_INTVCC_gc = (0x01<<4),  /* Internal VCC / 1.6 */
-            ADC_REFSEL_AREFA_gc = (0x02<<4),  /* External reference on PORT A */
-            ADC_REFSEL_AREFB_gc = (0x03<<4),  /* External reference on PORT B */
-            ADC_REFSEL_INTVCC2_gc = (0x04<<4),  /* Internal VCC / 2 */
-        } ADC_REFSEL_t;
-
-        typedef enum ADC_CH_MUXNEG_enum  // File iox256d3.h is wrong. Use this typdef.
+         typedef enum ADC_CH_MUXNEG_enum  // File iox256d3.h is wrong. Use this typdef.
         {
             ADC_CH_MUXNEG_PIN4_gc = (0x00<<0),  /* Input pin 4 */
             ADC_CH_MUXNEG_PIN5_gc = (0x01<<0),  /* Input pin 5 */

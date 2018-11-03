@@ -173,7 +173,7 @@ bool switchState(EnumKeys enuk)
 {
   uint8_t result = 0 ;
 
-  if (enuk < (uint8_t)DIM(keys))
+  if (enuk < NUM_KEYS)
     return keys[enuk].state() ? 1 : 0;
 
   switch(enuk) {
@@ -284,14 +284,14 @@ void readKeysAndTrims()
   in = (tin & 0x0f) << 3;
   in |= (tin & 0x30) >> 3;
 
-  for (int i=1; i<7; i++) {
+  for (uint8_t i=1; i<7; i++) {
     keys[enuk].input(in & (1<<i));
     ++enuk;
   }
 
   // Trims
   in = ~PINF;
-  for (int i=0; i<8; i++) {
+  for (uint8_t i=0; i<8; i++) {
     // INP_D_TRM_RH_UP   0 .. INP_D_TRM_LH_UP   7
     keys[enuk].input(in & pgm_read_byte_near(crossTrim+i));
     ++enuk;
