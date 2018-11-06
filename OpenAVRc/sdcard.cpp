@@ -229,7 +229,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
                         }
                     }
                 }
-              for (uint8_t i=0; i<min(popupMenuNoItems, (uint16_t)MENU_MAX_DISPLAY_LINES); i++)
+              for (uint8_t i=0; i<min(popupMenuNoItems, (uint8_t)MENU_MAX_DISPLAY_LINES); ++i)
                 {
                   popupMenuItems[i] = reusableBuffer.modelsel.menu_bss[i];
                 }
@@ -249,7 +249,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
                       break;
                     }
                 }
-              for (uint8_t i=0; i<min(popupMenuNoItems, (uint16_t)MENU_MAX_DISPLAY_LINES); i++)
+              for (uint8_t i=0; i<min(popupMenuNoItems, (uint8_t)MENU_MAX_DISPLAY_LINES); ++i)
                 {
                   popupMenuItems[i] = reusableBuffer.modelsel.menu_bss[i];
                 }

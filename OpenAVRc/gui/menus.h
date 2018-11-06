@@ -320,9 +320,9 @@ void displayWarning(uint8_t event);
 #define MENU_LINE_LENGTH             (LEN_MODEL_NAME+1)
 #define POPUP_MENU_ITEMS_FROM_BSS()  (popupMenuFlags = BSS)
 extern const char *popupMenuItems[POPUP_MENU_MAX_LINES];
-extern uint16_t popupMenuNoItems;
+extern uint8_t popupMenuNoItems;
 extern uint8_t popupMenuFlags;
-extern uint16_t popupMenuOffset;
+extern uint8_t popupMenuOffset;
 const char * displayPopupMenu(uint8_t event);
 extern void (*popupMenuHandler)(const char *result);
 #else
