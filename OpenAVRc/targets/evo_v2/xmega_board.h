@@ -41,7 +41,7 @@ char rf_usart_mspi_xfer(char c);
 #define RF_SPI_xfer  rf_usart_mspi_xfer
 void rf_usart_mspi_init(void);
 
-#define RF_USART     USARTE0
+#define RF_USART   USARTE0
 #define RF_CS_PIN  PIN0_bm
 #define RF_CK_PIN  PIN1_bm
 #define RF_RX_PIN  PIN2_bm
@@ -112,8 +112,13 @@ void rf_usart_mspi_init(void);
 #define speakerOff()  AUDIO_TC.CTRLB &= ~TC0_CCAEN_bm
 #define O_D_AUDIO            PIN0_bm
 
-
-#if defined(VOICE)
+#if defined(VOICE_JQ6500)
+#define VOICE_USART      USARTC0
+#define VOICE_BUSY_PIN   PIN7_bm
+#define JQ6500_BUSY      (0) //(PORTB.IN & VOICE_BUSY_PIN)
+#define VOICE_TX_PIN     PIN3_bm
+extern void InitJQ6500UartTx();
+#define VOICE_DRE_VECT   USARTC0_DRE_vect
 #endif
 
 // Trims Button  Matrix.
@@ -228,8 +233,18 @@ void read_trim_matrix(void);
 #define EEPROMREADBLOCK(a, b, c)   Ext_eeprom_read_block(a, b, c) //External EEPROM
 #else
 #define EEPROMREADBLOCK(a, b, c) \
-memcpy(a, (const void *) (b + MAPPED_EEPROM_START), c) // Xmega EEPROM is memory mapped for read access.
+  memcpy(a, (const void *) (b + MAPPED_EEPROM_START), c) // Xmega EEPROM is memory mapped for read access.
 #endif
+
+// USART General defines.
+#define _USART_SET_BAUD(usartx, bsel, bscale) \
+  { usartx.BAUDCTRLA = bsel & 0xFF; usartx.BAUDCTRLB =  ((int8_t) bscale << USART_BSCALE_gp) | (bsel >> 8); }
+
+#define USART_SET_BAUD_9K6(usartx)  _USART_SET_BAUD(usartx, 12, +4)
+#define USART_SET_BAUD_57K6(usartx) _USART_SET_BAUD(usartx, 135,-2)
+#define USART_SET_BAUD_100K(usartx) _USART_SET_BAUD(usartx, 159,-3)
+#define USART_SET_BAUD_125K(usartx) _USART_SET_BAUD(usartx, 127,-3)
+
 #endif // ! SIMU
 
 #endif // xmega_board_h

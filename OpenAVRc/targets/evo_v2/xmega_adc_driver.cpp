@@ -18,6 +18,15 @@ inline void ADC_atomic(uint8_t Analogs, int16_t sample);
 #define PRODSIGNATURES_ADCACAL1  _SFR_MEM8(0x0021)
 #endif
 
+#if 0
+typedef enum ADC_CURRLIMIT_enum
+{
+    ADC_CURRLIMIT_NO_gc = (0x00<<5),  /* No current limit,     300ksps max sampling rate */
+    ADC_CURRLIMIT_LOW_gc = (0x01<<5),  /* Low current limit,    250ksps max sampling rate */
+    ADC_CURRLIMIT_MED_gc = (0x02<<5),  /* Medium current limit, 150ksps max sampling rate */
+    ADC_CURRLIMIT_HIGH_gc = (0x03<<5),  /* High current limit,   50ksps max sampling rate */
+} ADC_CURRLIMIT_t;
+#endif
 
 void adcInit()
 {
@@ -31,7 +40,7 @@ void adcInit()
   ADCA.CTRLA = ADC_ENABLE_bm; // Enable ADC.
 
   ADCA.CTRLB = ADC_CONMODE_bm; // Signed Mode.
-  ADCA.CTRLB |= ADC_CURRLIMIT_HIGH_gc; // High current limit, max sampling rate 75k samples/sec.
+  ADCA.CTRLB |= ADC_CURRLIMIT_NO_gc; // High current limit, max sampling rate 75k samples/sec.
   ADCA.CTRLB |= ADC_RESOLUTION_12BIT_gc; // 12 Bit right adjusted result .
 
   ADCA.PRESCALER = ADC_PRESCALER_DIV32_gc; // DIV32 = 1MHz Clock.
