@@ -358,7 +358,7 @@ uint8_t Xany_readInputsAndLoadMsg(uint8_t XanyIdx)
 #define CHECK_IIC_USED_IRQ_MODE_RETURN(x) // I2C bus is free !
 #endif
 
-  if(g_model.Xany[XanyIdx].Active)s
+  if(g_model.Xany[XanyIdx].Active)
   {
     CHECK_IIC_USED_IRQ_MODE_RETURN(Done); /* Return if I2C is used */
 
