@@ -358,11 +358,14 @@ uint8_t Xany_readInputsAndLoadMsg(uint8_t XanyIdx)
 #define CHECK_IIC_USED_IRQ_MODE_RETURN(x) // I2C bus is free !
 #endif
 
-  CHECK_IIC_USED_IRQ_MODE_RETURN(Done); /* Return if I2C is used */
+  if(g_model.Xany[XanyIdx].Active)s
+  {
+    CHECK_IIC_USED_IRQ_MODE_RETURN(Done); /* Return if I2C is used */
 
-  /* Read inputs and load the message in X_AnyReadMsg[] (will be loaded in X_AnyWriteMsg[] in Xany_scheduleTx()) */
-  Xany_operation(XanyIdx, XANY_OP_BUILD_MSG, NULL); /* This reads the I2C bus */
-  Done = 1;
+    /* Read inputs and load the message in X_AnyReadMsg[] (will be loaded in X_AnyWriteMsg[] in Xany_scheduleTx()) */
+    Xany_operation(XanyIdx, XANY_OP_BUILD_MSG, NULL); /* This reads the I2C bus */
+    Done = 1;
+  }
   return(Done);
 }
 
