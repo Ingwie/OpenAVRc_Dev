@@ -726,10 +726,6 @@ extern uint16_t s_anaFilt[NUMBER_ANALOG];
 
 void checkBacklight();
 
-#define BACKLIGHT_ON()    backlightEnable()
-#define BACKLIGHT_OFF()   backlightDisable()
-
-
 #undef min // Avoid double declaration in wingw
 #undef max
 template<class t> FORCEINLINE t min(t a, t b)

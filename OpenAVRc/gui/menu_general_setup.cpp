@@ -356,8 +356,8 @@ void menuGeneralSetup(uint8_t event)
 
     case ITEM_SETUP_BACKLIGHT_BRIGHTNESS_ON:
       lcdDrawTextLeft(y, STR_BLONBRIGHTNESS);
-      lcdDrawNumberNAtt(RADIO_SETUP_2ND_COLUMN, y, 15-g_eeGeneral.blOnBright, attr|LEFT);
-      if (attr) g_eeGeneral.blOnBright = 15 - checkIncDecGen(event, 15-g_eeGeneral.blOnBright, 0, 15);
+      lcdDrawNumberNAtt(RADIO_SETUP_2ND_COLUMN, y, g_eeGeneral.blOnBright, attr|LEFT);
+      if (attr) CHECK_INCDEC_GENVAR(event, g_eeGeneral.blOnBright, 0, 15);
       break;
 #endif
 

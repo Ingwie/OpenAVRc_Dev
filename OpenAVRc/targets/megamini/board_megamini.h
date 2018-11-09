@@ -70,9 +70,23 @@ void readKeysAndTrims();
 #define TIMER_10MS_COMPVAL        OCR2A
 
 // Backlight driver
+#if !defined(PWM_BACKLIGHT)
 #define backlightEnable()         PORTC |= _BV(OUT_C_LIGHT)
 #define backlightDisable()        PORTC &= ~_BV(OUT_C_LIGHT)
 #define isBacklightEnable()       PORTC & _BV(OUT_C_LIGHT)
+#define BACKLIGHT_ON()            PORTC |= _BV(OUT_C_LIGHT)
+#define BACKLIGHT_OFF()           PORTC &= ~_BV(OUT_C_LIGHT)
+#define EnableCoreLed()           PORTB |= (MEGACORELEDPIN) // Blink on function
+#define DisableCoreLed()          PORTB &= ~(MEGACORELEDPIN) // Blink off function
+#define LEDON()                   EnableCoreLed()
+#define LEDOFF()                  DisableCoreLed()
+#else
+// OC0A on pin PB7 (pin26) aka MEGACORELEDPIN
+#define BACKLIGHT_ON()            (OCR0A = ( (uint8_t) g_eeGeneral.blOnBright)  <<4)
+#define BACKLIGHT_OFF()           (OCR0A = ( (uint8_t) g_eeGeneral.blOffBright) <<4)
+#define LEDON()
+#define LEDOFF()
+#endif
 
 // SD driver
 #define SDCARD_CS_N_ACTIVE()        PORTB &= ~PIN0_bm // MMC CS = L
@@ -229,10 +243,5 @@ void boardOff();
   #define RF_CS_A7105_INACTIVE() PORTJ |= (OUT_J_A7105_CS_N)
 
 #endif // SPIMODULES
-
-#define EnableCoreLed()            PORTB |= (MEGACORELEDPIN) // Blink on function
-#define DisableCoreLed()           PORTB &= ~(MEGACORELEDPIN) // Blink off function
-#define LEDON()                      EnableCoreLed()
-#define LEDOFF()                     DisableCoreLed()
 
 #endif // _BOARD_MEGAMINI_H_
