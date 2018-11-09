@@ -156,6 +156,13 @@ FORCEINLINE void boardInit()
  LEDOFF();
 }
 
+void backlightFade(void)
+{
+// ToDo ... We can decrement the compare register until the target is reached.
+// At the moment we just have a backlight brightness of two levels.
+// OCR0A = OCR0A -1;
+}
+
 uint8_t USART2_mspi_xfer(uint8_t data)
 {
 #if !defined(SIMU)
