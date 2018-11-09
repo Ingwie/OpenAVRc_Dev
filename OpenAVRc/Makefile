@@ -333,6 +333,10 @@ ifeq ($(PCB), MEGAMINI)
     CPPDEFS += -DPWRMANAGE
   endif
 
+  ifeq ($(PWM_BACKLIGHT), YES)
+    CPPDEFS += -DPWM_BACKLIGHT
+  endif
+
   ifeq ($(SDCARD), YES)
     EXTRABOARDSRC += $(RRSDDIR)/fat.c $(RRSDDIR)/partition.c $(RRSDDIR)/sd_raw.c $(RRSDDIR)/byteordering.c
     CPPDEFS += -DSDCARD
@@ -449,7 +453,7 @@ ifeq ($(PCB), EVO_V2)
 
   AUDIO = YES
   BUZZER = NO
-  PWM_BACKLIGHT = NO
+  PWM_BACKLIGHT = YES
   EXTERNALEEPROM = YES
   HAPTIC = NO
   PERSONAMES = YES
