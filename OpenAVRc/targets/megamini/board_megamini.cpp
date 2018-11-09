@@ -55,11 +55,7 @@ FORCEINLINE void boardInit()
 #ifndef SIMU
 
   /**** Set up timer/counter 2 ****/
-<<<<<<< HEAD
-  // TCNT2  10ms = 16MHz/1024/156(.25) periodic timer (100ms interval)
-=======
   // TCNT  10ms = 16MHz/1024/156(.25) periodic timer (100ms interval)
->>>>>>> PWM_Backlight
   //        cycles at 9.984ms but includes 1:4 duty cycle correction to /157 to average at 10.0ms
   TCCR2B  = (0b111 << CS20); // Norm mode, clk/1024 (differs from ATmega64 chip)
   OCR2A   = 156;
@@ -90,7 +86,6 @@ FORCEINLINE void boardInit()
   TCCR1B |= (1<<ICNC1); // Input Capture Noise Canceler.
   TIMSK1 = 0;
 
-
 #if defined(PWM_BACKLIGHT)
 // Test PWM backlight on MEGACORELEDPIN.
   /*
@@ -104,6 +99,7 @@ FORCEINLINE void boardInit()
   TIMSK0 = 0;
   TCCR0B = 0b011 << CS00; // 16MHz / 64.
 #endif
+
 
 #if defined(VOICE_JQ6500)
 
@@ -158,14 +154,6 @@ FORCEINLINE void boardInit()
  WAIT_PUPIL();
 
  LEDOFF();
-}
-
-
-void backlightFade(void)
-{
-// ToDo ... We can decrement the compare register until the target is reached.
-// At the moment we just have a backlight brightness of two levels.
-// OCR0A = OCR0A -1;
 }
 
 uint8_t USART2_mspi_xfer(uint8_t data)
