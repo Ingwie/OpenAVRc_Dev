@@ -236,31 +236,31 @@ typedef struct{
 }I2cIoExpSt_t;
 
 const I2cIoExpSt_t XanyI2cTypeAddr[] PROGMEM = {
-          /*  IoExtType   I2c7bAddr ReadIoExp   Idx in IoExpMap */
+          /*  IoExtType   I2c7bAddr<<1 ReadIoExp   Idx in IoExpMap */
 /*Xany0*/ {IO_EXP_PCF8574,  (0x20<<1), readPcf8574 }, /* Idx =  0 */
           {IO_EXP_PCF8574,  (0x22<<1), readPcf8574 }, /* Idx =  1 */
           {IO_EXP_PCF8574A, (0x38<<1), readPcf8574A}, /* Idx =  2 */
           {IO_EXP_PCF8574A, (0x3A<<1), readPcf8574A}, /* Idx =  3 */
           {IO_EXP_MCP23017, (0x24<<1), readMcp23017}, /* Idx =  4 */
           {IO_EXP_PCF8575A, (0x3C<<1), readPcf8575A}, /* Idx =  5 */
-          {IO_EXP_PCA9671,  (0x48<<1), readPca9671 }, /* Idx =  6 */
+          {IO_EXP_PCA9671,  (0x28<<1), readPca9671 }, /* Idx =  6 */
 /*Xany1*/ {IO_EXP_PCF8574,  (0x21<<1), readPcf8574 }, /* Idx =  7 */
           {IO_EXP_PCF8574,  (0x23<<1), readPcf8574 }, /* Idx =  8 */
           {IO_EXP_PCF8574A, (0x39<<1), readPcf8574A}, /* Idx =  9 */
           {IO_EXP_PCF8574A, (0x3B<<1), readPcf8574A}, /* Idx = 10 */
           {IO_EXP_MCP23017, (0x25<<1), readMcp23017}, /* Idx = 11 */
           {IO_EXP_PCF8575A, (0x3D<<1), readPcf8575A}, /* Idx = 12 */
-          {IO_EXP_PCA9671,  (0x4A<<1), readPca9671 }, /* Idx = 13 */
-/*Xany2*/ {IO_EXP_PCA9654E, (0x40<<1), readPca9654e}, /* Idx = 14 */
-          {IO_EXP_PCA9654E, (0x44<<1), readPca9654e}, /* Idx = 15 */
+          {IO_EXP_PCA9671,  (0x29<<1), readPca9671 }, /* Idx = 13 */
+/*Xany2*/ {IO_EXP_PCA9654E, (0x10<<1), readPca9654e}, /* Idx = 14 */
+          {IO_EXP_PCA9654E, (0x12<<1), readPca9654e}, /* Idx = 15 */
           {IO_EXP_MCP23017, (0x26<<1), readMcp23017}, /* Idx = 16 */
           {IO_EXP_PCF8575A, (0x3E<<1), readPcf8575A}, /* Idx = 17 */
-          {IO_EXP_PCA9671,  (0x4C<<1), readPca9671 }, /* Idx = 18 */
-/*Xany3*/ {IO_EXP_PCA9654E, (0x42<<1), readPca9654e}, /* Idx = 19 */
-          {IO_EXP_PCA9654E, (0x46<<1), readPca9654e}, /* Idx = 20 */
+          {IO_EXP_PCA9671,  (0x2A<<1), readPca9671 }, /* Idx = 18 */
+/*Xany3*/ {IO_EXP_PCA9654E, (0x11<<1), readPca9654e}, /* Idx = 19 */
+          {IO_EXP_PCA9654E, (0x13<<1), readPca9654e}, /* Idx = 20 */
           {IO_EXP_MCP23017, (0x27<<1), readMcp23017}, /* Idx = 21 */
           {IO_EXP_PCF8575A, (0x3F<<1), readPcf8575A}, /* Idx = 22 */
-          {IO_EXP_PCA9671,  (0x4E<<1), readPca9671 }, /* Idx = 23 */
+          {IO_EXP_PCA9671,  (0x2B<<1), readPca9671 }, /* Idx = 23 */
                             };
 
 typedef struct{
