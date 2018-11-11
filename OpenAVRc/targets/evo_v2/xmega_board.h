@@ -11,11 +11,31 @@
 
 #include "../../OpenAVRc.h"
 
-//SUPIIIK FILE
+
+// USART General defines.
+#define USART_SET_BAUD_9K6(usartx)   _USART_SET_BAUD(usartx, 12, +4)
+#define USART_SET_BAUD_57K6(usartx)  _USART_SET_BAUD(usartx, 135,-2)
+#define USART_SET_BAUD_100K(usartx)  _USART_SET_BAUD(usartx, 159,-3)
+#define USART_SET_BAUD_125K(usartx)  _USART_SET_BAUD(usartx, 127,-3)
+
+#define _USART_SET_BAUD(usartx, bsel, bscale) \
+  { usartx.BAUDCTRLA = bsel & 0xFF; usartx.BAUDCTRLB = ((int8_t) bscale << USART_BSCALE_gp) | (bsel >> 8); }
+#define USART_SET_MODE_8N1(usartx) \
+  { usartx.CTRLC = USART_CMODE_ASYNCHRONOUS_gc | USART_PMODE_DISABLED_gc | (0 << USART_SBMODE_bp) | USART_CHSIZE_8BIT_gc; } // 8N1
+#define USART_SET_MODE_8E2(usartx) \
+  { usartx.CTRLC = USART_CMODE_ASYNCHRONOUS_gc | USART_PMODE_EVEN_gc | (1 << USART_SBMODE_bp) | USART_CHSIZE_8BIT_gc; } // 8E2
+
+#define USART_ENABLE_TX(usartx)  usartx.CTRLB |= USART_TXEN_bm;
+#define USART_ENABLE_RX(usartx)  usartx.CTRLB |= USART_RXEN_bm;
+
 #if defined (MULTIMODULE)
-  #define PROTO_HAS_MULTISUPIIIK
+#define PROTO_HAS_MULTISUPIIIK
+// Using USARTD0 which is the Telemetry / Bootloader USART.
+// Should be on USARTE0 which is the USART used for MSPI of SPIMODULES.
+#define TLM_USART    MULTI_USART
+#define MULTI_USART  USARTD0
+
 #endif
-//SUPIIIK FILE
 
 
 // RF Module Timer counter.
@@ -35,6 +55,7 @@
 #define HALF_MICRO_SEC_COUNTS(half_us) (((F_CPU/800)*(half_us))/20000)
 #endif
 
+#define CALCULATE_LAT_JIT()  dt = (RF_TC.CNT - RF_TIMER_CCA_REG) >> 1 // Calculate latency and jitter.
 
 #if defined(SPIMODULES) // PORTE 0
 char rf_usart_mspi_xfer(char c);
@@ -145,10 +166,10 @@ void read_trim_matrix(void);
 #define DBLKEYS_PRESSED_LFT_DWN(i) (false)
 #endif
 
-#define COUNTER_31250HZ          TCC1
-#define TIMER_10MS_VECT          TCC1_CCA_vect
-#define TIMER_10MS               COUNTER_31250HZ
-#define TIMER_10MS_COMPVAL       COUNTER_31250HZ.CCA
+#define COUNTER_31250HZ        TCC1
+#define TIMER_10MS_VECT        TCC1_CCA_vect
+#define TIMER_10MS             COUNTER_31250HZ
+#define TIMER_10MS_COMPVAL     COUNTER_31250HZ.CCA
 #define PAUSE_10MS_INTERRUPT   COUNTER_31250HZ.INTCTRLB &= ~(0b11 << TC1_CCAINTLVL_gp);
 #define RESUME_10MS_INTERRUPT  COUNTER_31250HZ.INTCTRLB |=  (0b01 << TC1_CCAINTLVL_gp); // Level 1 - Low Priority.
 #define COUNTER_31250HZ_CLEAR_CCAIF_FLAG   COUNTER_31250HZ.INTFLAGS = TC1_CCAIF_bm; // clear ccaif.
@@ -157,17 +178,17 @@ void read_trim_matrix(void);
 
 // SD Card driver
 #define sdDone()
-#define SD_IS_HC()               (0)
-#define SD_GET_SPEED()           (0)
-#define SDCARD_SPI             SPIC
-#define SDCARD_PORT            PORTC
-#define O_SDCARD_CS_N          PIN4_bm
-#define select_card()          SDCARD_PORT.OUTCLR = O_SDCARD_CS_N
-#define SDCARD_CS_N_ACTIVE()   SDCARD_PORT.OUTCLR = O_SDCARD_CS_N
-#define unselect_card()        SDCARD_PORT.OUTSET = O_SDCARD_CS_N
-#define SDCARD_CS_N_INACTIVE() SDCARD_PORT.OUTSET = O_SDCARD_CS_N
-#define SPI_8M()    MSPI_16M(SDCARD_SPI)
-#define SPI_250K()  MSPI_250K(SDCARD_SPI)
+#define SD_IS_HC()              (0)
+#define SD_GET_SPEED()          (0)
+#define SDCARD_SPI              SPIC
+#define SDCARD_PORT             PORTC
+#define O_SDCARD_CS_N           PIN4_bm
+#define select_card()           SDCARD_PORT.OUTCLR = O_SDCARD_CS_N
+#define SDCARD_CS_N_ACTIVE()    SDCARD_PORT.OUTCLR = O_SDCARD_CS_N
+#define unselect_card()         SDCARD_PORT.OUTSET = O_SDCARD_CS_N
+#define SDCARD_CS_N_INACTIVE()  SDCARD_PORT.OUTSET = O_SDCARD_CS_N
+#define SPI_8M()                MSPI_16M(SDCARD_SPI)
+#define SPI_250K()              MSPI_250K(SDCARD_SPI)
 #define LEDON()
 #define LEDOFF()
 
@@ -235,15 +256,6 @@ void read_trim_matrix(void);
 #define EEPROMREADBLOCK(a, b, c) \
   memcpy(a, (const void *) (b + MAPPED_EEPROM_START), c) // Xmega EEPROM is memory mapped for read access.
 #endif
-
-// USART General defines.
-#define _USART_SET_BAUD(usartx, bsel, bscale) \
-  { usartx.BAUDCTRLA = bsel & 0xFF; usartx.BAUDCTRLB =  ((int8_t) bscale << USART_BSCALE_gp) | (bsel >> 8); }
-
-#define USART_SET_BAUD_9K6(usartx)  _USART_SET_BAUD(usartx, 12, +4)
-#define USART_SET_BAUD_57K6(usartx) _USART_SET_BAUD(usartx, 135,-2)
-#define USART_SET_BAUD_100K(usartx) _USART_SET_BAUD(usartx, 159,-3)
-#define USART_SET_BAUD_125K(usartx) _USART_SET_BAUD(usartx, 127,-3)
 
 #endif // ! SIMU
 
