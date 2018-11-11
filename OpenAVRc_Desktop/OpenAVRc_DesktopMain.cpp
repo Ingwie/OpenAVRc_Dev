@@ -684,7 +684,6 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
   configFile->Read(wxT("switchID2"),&switchID2);
   configFile->Read(wxT("encoderA"),&encoderA);
   configFile->Read(wxT("encoderB"),&encoderB);
-  configFile->Read(wxT("encoderB"),&encoderB);
   configFile->Read(wxT("encoderNo"),&encoderNo);
   configFile->Read(wxT("switchXD0"),&switchXD0);
   configFile->Read(wxT("switchXD1"),&switchXD1);
