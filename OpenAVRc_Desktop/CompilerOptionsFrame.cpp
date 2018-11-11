@@ -690,6 +690,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ComboBoxID2->SetValue(switchID2);
   ComboBoxEncodeurA->SetValue(encoderA);
   ComboBoxEncodeurB->SetValue(encoderB);
+  ComboBoxEncodeurNo->SetValue(encoderNo);
   ComboBoxXD0->SetValue(switchXD0);
   ComboBoxXD1->SetValue(switchXD1);
   ComboBoxXD2->SetValue(switchXD2);
@@ -900,6 +901,7 @@ void CompilerOptionsFrame::CollectDatas()
   switchID2 = ComboBoxID2->GetValue();
   encoderA  = ComboBoxEncodeurA->GetValue();
   encoderB  = ComboBoxEncodeurB->GetValue();
+  encoderNo  = ComboBoxEncodeurNo->GetValue();
   switchXD0 = ComboBoxXD0->GetValue();
   switchXD1 = ComboBoxXD1->GetValue();
   switchXD2 = ComboBoxXD2->GetValue();
