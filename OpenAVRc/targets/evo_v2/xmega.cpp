@@ -31,7 +31,7 @@ inline void boardInit()
   OSC.XOSCCTRL = OSC_FRQRANGE_2TO9_gc; //Select XOSC 2-9MHz.
   //OSC.XOSCCTRL = OSC_XOSCSEL_32KHz_gc; // Select 32768Hz TOSC.
   OSC.XOSCCTRL |= OSC_XOSCSEL_XTAL_16KCLK_gc; // XTAL Startup time.
-  OSC.XOSCCTRL |= (0<<OSC_X32KLPM_bp) | (0<<OSC_XOSCPWR_bp); // high drive on TOSC, low drive on XOSC.
+  OSC.XOSCCTRL |= (0<<OSC_X32KLPM_bp) | (0<<OSC_XOSCPWR_bp); // High drive on TOSC, Low drive on XOSC.
 
   OSC.CTRL |= OSC_XOSCEN_bm; // Enable the XOSC (TOSC).
   while(!(OSC.STATUS & OSC_XOSCRDY_bm)); // Wait for XOSC (TOSC) to stabilise.
@@ -49,21 +49,14 @@ inline void boardInit()
   while(!(OSC.STATUS & OSC_PLLRDY_bm))
   OSC.CTRL |= OSC_PLLEN_bm;  // Enable PLL.
 
-//  CCP = CCP_IOREG_gc; // Disable register security for clock update (0xD8).
-_PROTECTED_WRITE(CLK.PSCTRL, 0); // No prescaling.
-//  CLK.PSCTRL = 0; // No prescaling.
-// TODO CCP function.
-//  CCP = CCP_IOREG_gc; // Disable register security for clock update (0xD8).
-_PROTECTED_WRITE(CLK.CTRL, CLK_SCLKSEL_PLL_gc); // Select PLL source.
-//  CLK.CTRL = CLK_SCLKSEL_PLL_gc; // Select PLL source.
+  _PROTECTED_WRITE(CLK.PSCTRL, 0); // No prescaling.
+
+  _PROTECTED_WRITE(CLK.CTRL, CLK_SCLKSEL_PLL_gc); // Select PLL source.
 
   OSC.CTRL &= ~OSC_RC2MEN_bm; // Disable 2MHz oscillator which was enabled after reset.
 
   // Lock the clock configuration.
-  // CCP = CCP_IOREG_gc; // Disable register security for clock update (0xD8).
-  //TODO Check this
-_PROTECTED_WRITE(CLK.LOCK, (CLK.LOCK |= CLK_LOCK_bm));
-  // CLK.LOCK |= CLK_LOCK_bm;
+  _PROTECTED_WRITE(CLK.LOCK, (CLK.LOCK |= CLK_LOCK_bm));
 
   EEPROM_EnableMapping();
 
@@ -199,11 +192,22 @@ _PROTECTED_WRITE(CLK.LOCK, (CLK.LOCK |= CLK_LOCK_bm));
   PORTB.DIRCLR = VOICE_BUSY_PIN;
   PORTB.PIN7CTRL = PORT_OPC_PULLUP_gc; // Pullup on Busy pin.
 
-  PORTC.OUTSET = VOICE_TX_PIN; // Marking state.
-  PORTC.DIRSET = VOICE_TX_PIN;
+  VOICE_USART_PORT.OUTSET = USART_TXD_PIN; // Marking state.
+  VOICE_USART_PORT.DIRSET = USART_TXD_PIN;
 
   InitJQ6500UartTx();
  #endif
+
+
+#if defined (MULTIMODULE)
+// 100K 8E2
+  MULTI_USART.CTRLA = 0; // Disable interrupts.
+  MULTI_USART.CTRLB = 0; // CLK2X = 0,
+  TLM_USART_PORT.OUTSET = USART_TXD_PIN; // Marking state.
+  TLM_USART_PORT.DIRSET = USART_TXD_PIN;
+  TLM_USART_PORT.DIRCLR = USART_RXD_PIN;
+#endif
+
 
 #if defined(SPIMODULES)
 // Setup USARTxn for MSPI.
@@ -225,6 +229,26 @@ _PROTECTED_WRITE(CLK.LOCK, (CLK.LOCK |= CLK_LOCK_bm));
 }
 
 
+void xmega_wdt_enable_512ms(void)
+{
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    _PROTECTED_WRITE(WDT.CTRL, WDT_PER_2KCLK_gc | WDT_ENABLE_bm | WDT_CEN_bm);
+//    _PROTECTED_WRITE(WDT.CTRL, WDT_PER_2KCLK_gc | WDT_ENABLE_bm | WDT_CEN_bm);
+     while (WDT.STATUS & WDT_SYNCBUSY_bm); // wait
+     // We don't want a windowed watchdog.
+    _PROTECTED_WRITE(WDT.WINCTRL, WDT_WCEN_bm);
+    while (WDT.STATUS & WDT_SYNCBUSY_bm); // wait
+  }
+}
+
+void xmega_wdt_disable(void)
+{
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    _PROTECTED_WRITE(WDT.CTRL, WDT_PER_512CLK_gc | WDT_CEN_bm);
+//    while (WDT.STATUS & WDT_SYNCBUSY_bm); // wait
+  }
+}
+
 
 #if defined(SPIMODULES)
 char rf_usart_mspi_xfer(char c)
@@ -232,10 +256,10 @@ char rf_usart_mspi_xfer(char c)
   WAIT_RF_BUFFER_EMPTY();
     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
       RF_USART.DATA = c;
-      RF_USART.STATUS = USART_TXCIF_bm | USART_RXCIF_bm; // Clear USART transmit complete flag.
+      RF_USART.STATUS = USART_TXCIF_bm | USART_RXCIF_bm; // Clear USART transmit and receive complete flag.
     }
-  WAIT_RF_TX_FIN();
-return RF_USART.DATA;
+  WAIT_RF_RX_FIN();
+  return RF_USART.DATA;
 }
 
 
@@ -248,8 +272,8 @@ void rf_usart_mspi_init()
   RF_CS_NRF24L01_INACTIVE();
   RF_CS_A7105_INACTIVE();
 
-  RF_PORT.DIRSET = RF_TX_PIN | RF_CS_PIN | RF_CK_PIN;
-  RF_PORT.DIRCLR = RF_RX_PIN;
+  RF_PORT.DIRSET = USART_TXD_PIN | RF_CS_PIN | USART_XCK_PIN;
+  RF_PORT.DIRCLR = USART_RXD_PIN;
 
   // Initialisation of USART in MSPI mode.
 
@@ -260,7 +284,7 @@ void rf_usart_mspi_init()
   // USART in Master SPI mode, MSB first, Clock rising = Sample. Clock falling = Setup.
   RF_USART.CTRLA = 0; // Disable interrupts.
   RF_USART.CTRLC = (USART_CMODE_MSPI_gc) | (0b00 << 1); // MSB first, UCPHA = 0. Check INVEN = 0.
-  RF_USART.CTRLB = USART_TXEN_bm; // Transmit and Receive.todo
+  RF_USART.CTRLB = USART_TXEN_bm | USART_RXEN_bm; // Transmit and Receive.
 }
 #endif
 
@@ -280,8 +304,6 @@ void boardOff(void)
   PWR_HOLD_PORT.OUTCLR = O_B_PWR_HOLD;
 }
 
-
-//extern bool pwrCheck;
 
 void Check_PWR_Switch(void)
 {
@@ -665,7 +687,4 @@ ISR(PORTF_INT1_vect) // REa (RH) Level change ISR.
 }
 
 
-#if defined(VOICE)
-//ToDo
-#endif
 

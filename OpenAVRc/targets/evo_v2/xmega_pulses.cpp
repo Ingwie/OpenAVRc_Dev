@@ -31,7 +31,6 @@
 */
 
 
-
 #include "../OpenAVRc.h"
 #include "../protocol/misc.c"
 #include "../spi.h"
@@ -79,8 +78,8 @@ void startPulses(enum ProtoCmds Command)
   SIMU_SLEEP(100);
   PROTO_Cmds(PROTOCMD_GETOPTIONS);
   LimitRfOptionSettings();
-//  PROTO_Cmds(Command);
-  DEVO_Cmds(Command);
+  PROTO_Cmds(Command);
+//  DEVO_Cmds(Command);
 }
 
 void setupPulsesPPM(enum ppmtype proto)
@@ -108,23 +107,6 @@ void setupPulsesPPM(enum ppmtype proto)
   if(proto == PPM || proto == PPMSIM) p = 4 + (g_model.PPMNCH * 2); // Channels *2
   else if(proto == PPM16FIRST) p = 8;
   else p = 16; // PPM16 Channels 9-16.
-
-#if defined(X_ANY)
-
-#if (X_ANY >= 1)
-  Xany_scheduleTx(0);
-#endif
-#if (X_ANY >= 2)
-  Xany_scheduleTx(1);
-#endif
-#if (X_ANY >= 3)
-  Xany_scheduleTx(2);
-#endif
-#if (X_ANY >= 4)
-  Xany_scheduleTx(3);
-#endif
-
-#endif
 
   for (uint8_t i=(proto == PPM16LAST) ? 8 : 0; i<p; i++) { // Just do channels 1-8 unless PPM16 (9-16).
     int16_t v = limit((int16_t)-PPM_range, channelOutputs[i], (int16_t)PPM_range) + 2*PPM_CH_CENTER(i);
@@ -156,7 +138,6 @@ ISR(RF_TIMER_CCA_VECT) // ISR for Protocol Callback, PPMSIM and PPM16 (Last 8 ch
 #endif
   {
     timer_counts = timer_callback(); // Function pointer e.g. skyartec_cb().
-//    PORTE.OUTTGL = RF_CS_PIN;
 
     if(! timer_counts) {
       PROTO_Cmds(PROTOCMD_RESET);
@@ -169,24 +150,24 @@ ISR(RF_TIMER_CCA_VECT) // ISR for Protocol Callback, PPMSIM and PPM16 (Last 8 ch
 
 #if defined(CPUXMEGA)
   if (timer_counts > 65535) {
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+//    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) { // Not really needed as this is the highest priority interrupt on the XMEGA and Blocking ISR on both XMEGA and ATMEGA.
       RF_TIMER_CCA_REG += 32000;
-    }
+//    }
     timer_counts -= 32000; // 16ms @ 16MHz, 8ms @ 32MHz counter clock.
   } else
 #endif
 
   {
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+//    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
       RF_TIMER_CCA_REG += timer_counts;
-    }
+//    }
 #if defined(CPUXMEGA)
     timer_counts = 0;
 #endif
 
   }
 
-  if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt; // ToDo
-  if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt; // ToDo
+  if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
+  if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
 }
 

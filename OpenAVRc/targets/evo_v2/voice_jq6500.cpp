@@ -74,14 +74,13 @@ void pushPrompt(uint16_t prompt)
 
 void InitJQ6500UartTx()
 {
-// 9600 N81
+// 9600 8N1
 #if !defined(SIMU)
 
-  USART_SET_BAUD_9K6(VOICE_USART);
   VOICE_USART.CTRLA = 0; // Disable interrupts.
   VOICE_USART.CTRLB = 0; // CLK2X = 0,
-
-  VOICE_USART.CTRLC = USART_CMODE_ASYNCHRONOUS_gc | USART_PMODE_DISABLED_gc | (0 << USART_SBMODE_bp) | USART_CHSIZE_8BIT_gc; // N81
+  USART_SET_BAUD_9K6(VOICE_USART);
+  USART_SET_MODE_8N1(VOICE_USART);
   VOICE_USART.CTRLB |= USART_TXEN_bm; // Enable transmitter.
 #endif
 }
@@ -100,7 +99,6 @@ void JQ6500Check()
 
   VOICE_USART.DATA = JQ6500_Data[JQstate]; // Send Data, clears DRE flag.
   VOICE_USART.CTRLA = USART_DREINTLVL_LO_gc;
-  //  UCSRB_N(TLM_JQ6500) |= (1 << UDRIE_N(TLM_JQ6500)); // enable UDRE(TLM_JQ6500) interrupt
 #endif
 }
 
@@ -111,9 +109,8 @@ ISR(VOICE_DRE_VECT)
   if (JQstate != TERMI) {
     VOICE_USART.DATA = JQ6500_Data[++JQstate];
   } else {
-    VOICE_USART.CTRLA = 0;
+    VOICE_USART.CTRLA &= ~USART_DREINTLVL_gm;
     VOICE_USART.STATUS &= ~USART_DREIF_bm; // precautionary.
-    //  UCSRB_N(TLM_JQ6500) &= ~(1 << UDRIE_N(TLM_JQ6500)); //
     JQstate = START;
   }
 #endif

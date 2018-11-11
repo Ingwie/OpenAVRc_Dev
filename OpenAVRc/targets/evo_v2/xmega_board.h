@@ -28,13 +28,20 @@
 #define USART_ENABLE_TX(usartx)  usartx.CTRLB |= USART_TXEN_bm;
 #define USART_ENABLE_RX(usartx)  usartx.CTRLB |= USART_RXEN_bm;
 
+#define USART_XCK_PIN  PIN1_bm
+#define USART_RXD_PIN  PIN2_bm
+#define USART_TXD_PIN  PIN3_bm
+
 #if defined (MULTIMODULE)
 #define PROTO_HAS_MULTISUPIIIK
 // Using USARTD0 which is the Telemetry / Bootloader USART.
 // Should be on USARTE0 which is the USART used for MSPI of SPIMODULES.
-#define TLM_USART    MULTI_USART
-#define MULTI_USART  USARTD0
-
+// All communication to RF module(s) will use the same pin ... e.g. USART MSPI, USART Asynch and PPM.
+#define TLM_USART           MULTI_USART
+#define MULTI_USART         USARTD0
+#define TLM_USART_PORT      PORTD
+#define TLM_USART_RXC_VECT  USARTD0_RXC_vect
+#define TLM_USART_DRE_VECT  USARTD0_DRE_vect
 #endif
 
 
@@ -43,8 +50,8 @@
 #define RF_PORT            PORTE
 #define RF_TIMER_CCA_VECT  TCE0_CCA_vect
 #define RF_TIMER_CCA_REG   RF_TC.CCA
-#define RF_TIMER_PAUSE_INTERRUPT   RF_TC.INTCTRLB &= ~(0b11 << TC1_CCAINTLVL_gp);
-#define RF_TIMER_RESUME_INTERRUPT  RF_TC.INTCTRLB |=  (0b11 << TC1_CCAINTLVL_gp); // Level 3 - High Priority.
+#define RF_TIMER_PAUSE_INTERRUPT   RF_TC.INTCTRLB &= ~TC0_CCAINTLVL_gm;
+#define RF_TIMER_RESUME_INTERRUPT  RF_TC.INTCTRLB |=  (0b11 << TC0_CCAINTLVL_gp); // Level 3 - High Priority.
 #define RF_TIMER_CLEAR_CCAIF_FLAG  RF_TC.INTFLAGS = TC1_CCAIF_bm; // clear ccaif.
 
 #if   F_CPU == 16000000UL
@@ -64,9 +71,6 @@ void rf_usart_mspi_init(void);
 
 #define RF_USART   USARTE0
 #define RF_CS_PIN  PIN0_bm
-#define RF_CK_PIN  PIN1_bm
-#define RF_RX_PIN  PIN2_bm
-#define RF_TX_PIN  PIN3_bm
 
 #define RF_CS_CC2500_ACTIVE()     PORTE.OUTCLR = RF_CS_PIN
 #define RF_CS_CC2500_INACTIVE()   PORTE.OUTSET = RF_CS_PIN
@@ -134,12 +138,12 @@ void rf_usart_mspi_init(void);
 #define O_D_AUDIO            PIN0_bm
 
 #if defined(VOICE_JQ6500)
-#define VOICE_USART      USARTC0
-#define VOICE_BUSY_PIN   PIN7_bm
-#define JQ6500_BUSY      (0) //(PORTB.IN & VOICE_BUSY_PIN)
-#define VOICE_TX_PIN     PIN3_bm
+#define VOICE_USART       USARTC0
+#define VOICE_USART_PORT  PORTC
+#define VOICE_BUSY_PIN    PIN7_bm
+#define JQ6500_BUSY       (0) //(PORTB.IN & VOICE_BUSY_PIN)
+#define VOICE_DRE_VECT    USARTC0_DRE_vect
 extern void InitJQ6500UartTx();
-#define VOICE_DRE_VECT   USARTC0_DRE_vect
 #endif
 
 // Trims Button  Matrix.
@@ -170,7 +174,7 @@ void read_trim_matrix(void);
 #define TIMER_10MS_VECT        TCC1_CCA_vect
 #define TIMER_10MS             COUNTER_31250HZ
 #define TIMER_10MS_COMPVAL     COUNTER_31250HZ.CCA
-#define PAUSE_10MS_INTERRUPT   COUNTER_31250HZ.INTCTRLB &= ~(0b11 << TC1_CCAINTLVL_gp);
+#define PAUSE_10MS_INTERRUPT   COUNTER_31250HZ.INTCTRLB &= ~TC1_CCAINTLVL_gm;
 #define RESUME_10MS_INTERRUPT  COUNTER_31250HZ.INTCTRLB |=  (0b01 << TC1_CCAINTLVL_gp); // Level 1 - Low Priority.
 #define COUNTER_31250HZ_CLEAR_CCAIF_FLAG   COUNTER_31250HZ.INTFLAGS = TC1_CCAIF_bm; // clear ccaif.
 #define getTmr16KHz()  getTmr31250Hz()
