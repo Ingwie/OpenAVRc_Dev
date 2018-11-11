@@ -41,47 +41,38 @@ uint8_t * Usart0TxBuffer = pulses2MHz.pbyte; // [USART0_TX_PACKET_SIZE] bytes us
 
 uint8_t Usart0TxBufferCount = 0;
 
-#if 0
+
 void Usart0EnableTx()
 {
-//  UCSRB_N(TLM_USART0) |= (1 << TXEN_N(TLM_USART0)); // enable TX
+  USART_ENABLE_TX(TLM_USART);
 }
-#endif
 
 void Usart0EnableRx()
 {
-//  UCSRB_N(TLM_USART0) |= (1 << RXEN_N(TLM_USART0));  // enable RX
-//  UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
-//  while (UCSRA_N(TLM_USART0) & (1 << RXC_N(TLM_USART0))) UDR_N(TLM_USART0); // Flush RX buffer.
+  USART_ENABLE_RX(TLM_USART);
+  // Flush RX buffer. Should be flushed already if the receiver was disabled.
+  while (TLM_USART.STATUS & USART_RXCIF_bm) (void) TLM_USART.DATA;
+  TLM_USART.CTRLA |= USART_RXCINTLVL_MED_gc; // Medium priority.
 }
+
 
 void Usart0DisableTx()
 {
-//  UCSRB_N(TLM_USART0) &= ~(1 << UDRIE_N(TLM_USART0));// disable Interrupt
-// UCSRB_N(TLM_USART0) &= ~(1 << TXEN_N(TLM_USART0)); // disable TX
+  TLM_USART.CTRLB &= ~USART_TXEN_bm;
+  TLM_USART.CTRLA &= ~USART_DREINTLVL_gm;
+  TLM_USART.STATUS &= ~USART_DREIF_bm; // precautionary.
 }
 
 void Usart0DisableRx()
 {
-//  UCSRB_N(TLM_USART0) &= ~(1 << RXCIE_N(TLM_USART0)); // disable Interrupt
-//  UCSRB_N(TLM_USART0) &= ~(1 << RXEN_N(TLM_USART0));  // disable RX
-}
-
-void Usart0Set8N1()
-{
-//  UCSRB_N(TLM_USART0) = (0 << RXCIE_N(TLM_USART0)) | (0 << TXCIE_N(TLM_USART0)) | (0 << UDRIE_N(TLM_USART0)) | (0 << RXEN_N(TLM_USART0)) | (0 << TXEN_N(TLM_USART0)) | (0 << UCSZ2_N(TLM_USART0));
-//  UCSRC_N(TLM_USART0) = (1 << UCSZ1_N(TLM_USART0)) | (1 << UCSZ0_N(TLM_USART0)); // Set 1 stop bit, No parity bit.
-}
-
-void Usart0Set8E2()
-{
-//  UCSRB_N(TLM_USART0) = (0 << RXCIE_N(TLM_USART0)) | (0 << TXCIE_N(TLM_USART0)) | (0 << UDRIE_N(TLM_USART0)) | (0 << RXEN_N(TLM_USART0)) | (0 << TXEN_N(TLM_USART0)) | (0 << UCSZ2_N(TLM_USART0));
-//  UCSRC_N(TLM_USART0) = (1 << UPM01) | (1 << USBS0)| (1 << UCSZ1_N(TLM_USART0)) | (1 << UCSZ0_N(TLM_USART0)); // set 2 stop bits, even parity BIT
+  TLM_USART.CTRLA &= ~USART_RXCINTLVL_gm;
+  // Disabling RX flushes buffer and clears RXCIF.
+  TLM_USART.CTRLB &= ~USART_RXEN_bm;
 }
 
 void Usart0TransmitBuffer()
 {
-//  UCSRB_N(TLM_USART0) |= (1 << UDRIE_N(TLM_USART0)); // enable Data Register Empty Interrupt
+  TLM_USART.CTRLA |= USART_DREINTLVL_MED_gc; // Medium priority.
 }
 
 
@@ -107,58 +98,54 @@ void Usart0TransmitBuffer()
  */
 
 
+void Usart0Set9600BAUDS() //Frsky "D" telemetry
+{
+  USART_SET_BAUD_9K6(TLM_USART);
+}
+
+void Usart0Set57600BAUDS() //Frsky S.port telemetry
+{
+  USART_SET_BAUD_57K6(TLM_USART);
+}
+
+void Usart0Set100000BAUDS() //Multiprotocole Serial
+{
+  USART_SET_BAUD_100K(TLM_USART);
+}
+
+void Usart0Set125000BAUDS() //DSM Serial protocol
+{
+  USART_SET_BAUD_125K(TLM_USART);
+}
+
+void Usart0Set8N1()
+{
+  USART_SET_MODE_8N1(TLM_USART);
+}
+
+void Usart0Set8E2()
+{
+  USART_SET_MODE_8E2(TLM_USART);
+}
 
 #if defined(FRSKY) || defined(MULTI)
-ISR(USART_RX_vect_N(TLM_USART0))
+ISR(TLM_USART_RXC_VECT)
 {
+// ToDo
+
   uint8_t stat;
   uint8_t data;
 
   UCSRB_N(TLM_USART0) &= ~(1 << RXCIE_N(TLM_USART0)); // disable Interrupt
 
-  NONATOMIC_BLOCK(NONATOMIC_RESTORESTATE)
-  {
+    stat = TLM_USART.STATUS;
+    data = TLM_USART.DATA;
 
-    stat = UCSRA_N(TLM_USART0); // USART control and Status Register 0/1 A
-
-    /*
-                bit      7      6      5      4      3      2      1      0
-                        RxC0  TxC0  UDRE0    FE0   DOR0   UPE0   U2X0  MPCM0
-
-                RxC0:   Receive complete
-                TXC0:   Transmit Complete
-                UDRE0:  USART Data Register Empty
-                FE0:    Frame Error
-                DOR0:   Data OverRun
-                UPE0:   USART Parity Error
-                U2X0:   Double Tx Speed
-                PCM0:   MultiProcessor Comms Mode
-     */
-    // rh = UCSRB_N(TLM_USART0); //USART control and Status Register 0/1 B
-
-    /*
-              bit      7      6      5      4      3      2      1      0
-                   RXCIE0 TxCIE0 UDRIE0  RXEN0  TXEN0 UCSZ02  RXB80  TXB80
-
-              RxCIE0:   Receive Complete int enable
-              TXCIE0:   Transmit Complete int enable
-              UDRIE0:   USART Data Register Empty int enable
-              RXEN0:    Rx Enable
-              TXEN0:    Tx Enable
-              UCSZ02:   Character Size bit 2
-              RXB80:    Rx data bit 8
-              TXB80:    Tx data bit 8
-    */
-
-    data = UDR_N(TLM_USART0); // USART data register 0
-
-    if (stat & ((1 << FE_N(TLM_USART0)) | (1 << DOR_N(TLM_USART0)) | (1 << UPE_N(TLM_USART0))))
-      {
+    if (stat & (USART_FERR_bm | USART_BUFOVF | USART_PERR_bm) ) {
         // discard buffer and start fresh on any comms error
         Usart0RxBufferCount = 0;
       }
-    else
-      {
+    else {
         parseTelemSportByte(data, 0);
       }
 
@@ -167,20 +154,19 @@ ISR(USART_RX_vect_N(TLM_USART0))
 }
 #endif
 
-#if 0
-// USART0 Transmit Data Register Emtpy ISR (UDR was loaded in Shift Register)
-ISR(USART_UDRE_vect_N(TLM_USART0))
+
+// USART Transmit Data Register Emtpy ISR (UDR was loaded in Shift Register)
+ISR(TLM_USART_DRE_VECT)
 {
-  if (Usart0TxBufferCount > 0)
-    {
-      UDR_N(TLM_USART0) = Usart0TxBuffer[--Usart0TxBufferCount];
-    }
-  else
-    {
-      UCSRB_N(TLM_USART0) &= ~(1 << UDRIE_N(TLM_USART0)); // Disable UDRE interrupt.
-    }
+  if (Usart0TxBufferCount > 0) {
+    TLM_USART.DATA = Usart0TxBuffer[--Usart0TxBufferCount];
+  }
+  else {
+    TLM_USART.CTRLA &= ~USART_DREINTLVL_gm;
+    TLM_USART.STATUS &= ~USART_DREIF_bm; // precautionary.
+  }
 }
-#endif
+
 
 #if defined(FRSKY)
 void TelemetryValueWithMin::set(uint8_t value)

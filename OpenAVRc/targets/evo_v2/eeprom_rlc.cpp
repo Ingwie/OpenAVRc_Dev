@@ -30,6 +30,7 @@
 **************************************************************************
 */
 
+
 #include "OpenAVRc.h"
 
 #if defined(CPUXMEGA)
@@ -134,10 +135,9 @@ void eepromWriteBlock(uint8_t * ram_ptr, const uint16_t eeprom_addrs, size_t len
 
 void EEPROM_WaitForNVM(void)
 {
-//  MYWDT_RESET(EE_READY_vect();
-  do {
-  /* Block execution while waiting for the NVM to be ready. */
-  } while (NVM.STATUS & NVM_NVMBUSY_bm);
+  while (NVM.STATUS & NVM_NVMBUSY_bm) {
+    MYWDT_RESET(EE_READY_vect();
+  }
 }
 
 void EEPROM_FlushBuffer(void)
