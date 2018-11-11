@@ -36,6 +36,8 @@
 
 #include "../../board_avr.h"
 
+#define CALCULATE_LAT_JIT()  dt = TCNT1 - OCR1A // Calculate latency and jitter.
+
 //Mods
 
 #define MEGACORELEDPIN            PIN7_bm

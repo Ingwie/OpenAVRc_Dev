@@ -290,7 +290,7 @@ static uint16_t DurationValue;
 #endif
 
 #define tmr10ms_t uint16_t
-#define CALCULATE_LAT_JIT()  dt = TCNT1 - OCR1A // Calculate latency and jitter.
+
 
 /**
 * \file   OpenAVRc.h
