@@ -190,7 +190,7 @@ uint8_t keyDown()
   return ((~PINL) & 0x3F) || ROTENC_DOWN();
 }
 
-bool switchState(EnumKeys enuk)
+uint8_t switchState(EnumKeys enuk)
 {
   uint8_t result = 0 ;
 

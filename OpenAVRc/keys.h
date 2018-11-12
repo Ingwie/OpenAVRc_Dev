@@ -164,8 +164,8 @@ private:
   uint8_t m_cnt;
   uint8_t m_state;
 public:
-  void input(bool val);
-  bool state()
+  void input(uint8_t val);
+  uint8_t state()
   {
     return m_vals > 0;
   }

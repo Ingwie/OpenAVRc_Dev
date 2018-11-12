@@ -390,7 +390,7 @@ typedef struct {
   MASK_CFN_TYPE  activeSwitches;
   tmr10ms_t lastFunctionTime[NUM_CFN];
 
-  inline bool isFunctionActive(uint8_t func)
+  inline uint8_t isFunctionActive(uint8_t func)
   {
     return activeFunctions & ((MASK_FUNC_TYPE)1 << func);
   }
@@ -488,7 +488,7 @@ char idx2char(int8_t idx);
 
 #include "keys.h"
 
-bool switchState(EnumKeys enuk);
+uint8_t switchState(EnumKeys enuk);
 uint8_t trimDown(uint8_t idx);
 
 uint16_t evalChkSum();
@@ -535,7 +535,7 @@ NOINLINE void per10ms();
 
 getvalue_t getValue(mixsrc_t i);
 
-bool getSwitch(swsrc_t swtch);
+uint8_t getSwitch(swsrc_t swtch);
 
 void logicalSwitchesTimerTick();
 void logicalSwitchesReset();
@@ -851,20 +851,20 @@ void moveTrimsToOffsets();
 PACK(typedef struct {
   int16_t hold;
   uint16_t delay:10;
-  bool activeMix:1;
-  bool activeExpo:1;
+  uint8_t activeMix:1;
+  uint8_t activeExpo:1;
 }) SwOn;
 
 extern SwOn     swOn  [MAX_MIXERS];
 extern int32_t  act   [MAX_MIXERS];
 
 #ifdef BOLD_FONT
-inline bool isExpoActive(uint8_t expo)
+inline uint8_t isExpoActive(uint8_t expo)
 {
   return swOn[expo].activeExpo;
 }
 
-inline bool isMixActive(uint8_t mix)
+inline uint8_t isMixActive(uint8_t mix)
 {
   return swOn[mix].activeMix;
 }
