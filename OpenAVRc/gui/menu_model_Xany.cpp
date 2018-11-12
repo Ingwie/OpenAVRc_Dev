@@ -80,10 +80,26 @@ void menuModelXany(uint8_t event)
 {
 #define NUM_LINE_PER_XANY 8
 #define MODEL_XANY_MAX_LINES  NUM_X_ANY*NUM_LINE_PER_XANY
-
+#define XANYLINES LABEL(NUMBER),1,1,1,1,1,1
+#define XANY1LINES 0, XANYLINES
+#if (X_ANY >= 2)
+#define XANY2LINES , LABEL(NUMBER) , XANYLINES
+#else
+#define XANY2LINES
+#endif
+#if (X_ANY >= 3)
+#define XANY3LINES , LABEL(NUMBER) , XANYLINES
+#else
+#define XANY3LINES
+#endif
+#if (X_ANY >= 4)
+#define XANY4LINES , LABEL(NUMBER) , XANYLINES
+#else
+#define XANY4LINES
+#endif
 #define MODEL_XANY_2ND_COLUMN  (10*FW)
 
-  SIMPLE_MENU(STR_X_ANY, menuTabModel, e_Xany, MODEL_XANY_MAX_LINES);
+  MENU(STR_X_ANY, menuTabModel, e_Xany, MODEL_XANY_MAX_LINES, {XANY1LINES XANY2LINES XANY3LINES XANY4LINES});
 
   uint8_t      sub = menuVerticalPosition - 1, num_switchs;
   int8_t       editMode = s_editMode;
