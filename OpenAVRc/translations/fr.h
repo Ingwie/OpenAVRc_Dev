@@ -163,7 +163,7 @@
 #if defined(MULTIMODULE) || defined(SPIMODULES)
   #define TR_SUBTYPE            "SubType"
   #define TR_RFTUNEFINE         INDENT "Ajust.fr\200q"
-  #define TR_TELEMETRY             "Telemetry"
+  #define TR_TELEMETRY           "T\200l\200m\200trie"
   #define TR_MULTI_VIDFREQ       TR(INDENT "Fr\200q. vid\200o", INDENT "Fr\200quence vid\200o")
   #define TR_MULTI_RFPOWER       TR(INDENT "Puiss. RF", INDENT "Puissance RF")
   #define TR_MULTI_OPTION        TR(INDENT "Option", INDENT "Option perso")
