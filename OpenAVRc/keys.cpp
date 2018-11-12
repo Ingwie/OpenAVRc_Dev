@@ -48,7 +48,7 @@ uint8_t getEvent()
 
 Key keys[NUM_KEYS];
 
-void Key::input(bool val)
+void Key::input(uint8_t val)
 {
   uint8_t t_vals = m_vals ;
   t_vals <<= 1 ;

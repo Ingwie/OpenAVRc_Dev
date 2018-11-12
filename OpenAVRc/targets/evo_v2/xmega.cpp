@@ -324,7 +324,7 @@ void Check_PWR_Switch(void)
 bool switches[NUM_SW - SW_BASE]; // Switches via R-2R ladder DAC.
 
 
-bool switchState(enum EnumKeys enuk)
+uint8_t switchState(enum EnumKeys enuk)
 {
 // Returns the state of the enum parameter (keys, trims, rotary encoder buttons and switches).
   if(enuk < NUM_KEYS)

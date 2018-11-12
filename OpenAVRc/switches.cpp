@@ -47,10 +47,10 @@ PACK(typedef struct {
   uint8_t last;
 }) ls_sticky_struct;
 
-bool getLogicalSwitch(uint8_t idx)
+uint8_t getLogicalSwitch(uint8_t idx)
 {
   LogicalSwitchData * ls = lswAddress(idx);
-  bool result;
+  uint8_t result;
 
   uint8_t s = (ls->andsw);
 
@@ -61,8 +61,8 @@ bool getLogicalSwitch(uint8_t idx)
     }
     result = false;
   } else if ((s=lswFamily(ls->func)) == LS_FAMILY_BOOL) {
-    bool res1 = getSwitch(ls->v1);
-    bool res2 = getSwitch(ls->v2);
+    uint8_t res1 = getSwitch(ls->v1);
+    uint8_t res2 = getSwitch(ls->v2);
     switch (ls->func) {
     case LS_FUNC_AND:
       result = (res1 && res2);
@@ -163,7 +163,7 @@ bool getLogicalSwitch(uint8_t idx)
           LS_LAST_VALUE(mixerCurrentFlightMode, idx) = x;
         }
         int16_t diff = x - LS_LAST_VALUE(mixerCurrentFlightMode, idx);
-        bool update = false;
+        uint8_t update = false;
         if (ls->func == LS_FUNC_DIFFEGREATER) {
           if (y >= 0) {
             result = (diff >= y);
@@ -194,9 +194,9 @@ DurationAndDelayProcessing:
   return result;
 }
 
-bool getSwitch(swsrc_t swtch)
+uint8_t getSwitch(swsrc_t swtch)
 {
-  bool result;
+  uint8_t result;
 
   if (swtch == SWSRC_NONE)
     return true;
@@ -268,10 +268,10 @@ swsrc_t getMovedSwitch()
   // 9 for Trainer switch if changed to true; Change to false is ignored
   swarnstate_t mask = 0x80;
   for (uint8_t i=NUM_PSWITCH; i>1; i--) {
-    bool prev;
+    uint8_t prev;
     prev = (switches_states & mask);
     // don't use getSwitch here to always get the proper value, even getSwitch manipulates
-    bool next = switchState((EnumKeys)(SW_BASE+i-1));
+    uint8_t next = switchState((EnumKeys)(SW_BASE+i-1));
     if (prev != next) {
       if (((i<NUM_PSWITCH) && (i>3)) || next==true)
         result = next ? i : -i;
@@ -305,7 +305,7 @@ void checkSwitches()
 
     getMovedSwitch();
 
-    bool warn = false;
+    uint8_t warn = false;
     for (uint8_t i=0; i<NUM_SWITCHES-1; i++) {
       if (!(g_model.switchWarningEnable & (1<<i))) {
         if (i == 0) {
@@ -372,9 +372,9 @@ void checkSwitches()
         }
       } else if (ls->func == LS_FUNC_STICKY) {
         ls_sticky_struct & lastValue = (ls_sticky_struct &)LS_LAST_VALUE(fm, i);
-        bool before = lastValue.last & 0x01;
+        uint8_t before = lastValue.last & 0x01;
         if (lastValue.state) {
-          bool now = getSwitch(ls->v2);
+          uint8_t now = getSwitch(ls->v2);
           if (now != before) {
             lastValue.last ^= 1;
             if (!before) {
@@ -382,7 +382,7 @@ void checkSwitches()
             }
           }
         } else {
-          bool now = getSwitch(ls->v1);
+          uint8_t now = getSwitch(ls->v1);
           if (before != now) {
             lastValue.last ^= 1;
             if (!before) {
