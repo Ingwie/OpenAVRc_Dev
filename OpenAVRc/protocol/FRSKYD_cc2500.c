@@ -179,17 +179,19 @@ static void frskyD_send_HUB_telemetry(uint8_t offset, uint8_t len)
   parseTelemFrskyByte(USRPKT);				// user frame
   parseTelemFrskyByte(len);           // num of hub bytes
   parseTelemFrskyByte(packet[7]);     // sequence
-  offset += 8;
+
   uint8_t lastcount = offset + len;
+
   for (uint8_t i=offset; i < lastcount; ++i)
     {
+      if ((packet[i] == START_STOP) || (packet[i] == BYTESTUFF))
+        {
+          parseTelemFrskyByte(BYTESTUFF);
+          packet[i] ^= STUFF_MASK;
+        }
       parseTelemFrskyByte(packet[i]);
     }
-  uint8_t emptybyte = HUB_MAX_BYTES - len;
-  while (emptybyte--)
-    {
-      parseTelemFrskyByte(0x00);
-    }
+
   parseTelemFrskyByte(START_STOP);		// stop
 }
 
@@ -246,17 +248,17 @@ static void frskyD_check_telemetry(uint8_t len)
               uint8_t numbyte = 0;
               if(packet[6]>HUB_MAX_BYTES)
                 {
-                  numbyte = packet[6] - HUB_MAX_BYTES; // size of the second frame
-                  frskyD_send_HUB_telemetry(0, HUB_MAX_BYTES);
+                  numbyte = packet[6] - HUB_MAX_BYTES;      // size of the second frame
+                  frskyD_send_HUB_telemetry(8, HUB_MAX_BYTES);
                 }
               else
                 {
-                  frskyD_send_HUB_telemetry(0, packet[6]); // only 1 frame
+                  frskyD_send_HUB_telemetry(8, packet[6]);  // only 1 frame
                 }
 
-              if (numbyte)          // the the second frame
+              if (numbyte)                                  // the the second frame
                 {
-                  frskyD_send_HUB_telemetry(HUB_MAX_BYTES, numbyte);
+                  frskyD_send_HUB_telemetry(8+HUB_MAX_BYTES, numbyte);
                 }
             }
           else
