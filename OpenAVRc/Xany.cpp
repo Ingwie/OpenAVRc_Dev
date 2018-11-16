@@ -208,7 +208,7 @@ static const uint8_t readPcf8574A(uint8_t I2cAddr, uint8_t *RxBuf)
 
 static const uint8_t readMcp23017(uint8_t I2cAddr, uint8_t *RxBuf)
 {
-  return(i2c_receive( I2cAddr, RxBuf, 2));
+  return(i2c_readReg(I2cAddr, 0x12, RxBuf, 2));
 }
 
 static const uint8_t readPcf8575A(uint8_t I2cAddr, uint8_t *RxBuf)
@@ -332,8 +332,8 @@ void Xany_init(void)
       {
         /* Enable internal Pull-up */
         Data = 0xFF;
-        i2c_writeReg(I2c7bAddr , 0x06, &Data, 1);
-        i2c_writeReg(I2c7bAddr , 0x16, &Data, 1);
+        i2c_writeReg(I2c7bAddr , 0x0C, &Data, 1);
+        i2c_writeReg(I2c7bAddr , 0x0D, &Data, 1);
       }
       IoExpMap |= (1L << Idx); /* Mark it as present */
     }
