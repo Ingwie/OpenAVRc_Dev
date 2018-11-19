@@ -39,10 +39,12 @@
 uint16_t nextMixerEndTime = 0;
 uint8_t s_current_protocol = 255;
 uint16_t dt;
-#if F_CPU > 16000000UL
-static volatile uint32_t timer_counts; // Could be uint16_t for mega2560.
-#else
-static volatile uint16_t timer_counts; // Is uint16_t for mega2560.
+
+#if defined(CPUXMEGA)
+static volatile uint32_t timer_counts;
+#endif
+#if defined(CPUM2560)
+static volatile uint16_t timer_counts;
 #endif
 
 FORCEINLINE bool pulsesStarted()
@@ -86,39 +88,53 @@ void startPulses(enum ProtoCmds Command)
   PROTO_Cmds(Command);
 }
 
-// This ISR should work for xmega.
+
+#if defined(CPUM2560)
 ISR(TIMER1_COMPA_vect) // ISR for Protocol Callback, PPMSIM and PPM16 (Last 8 channels).
 {
-#if F_CPU > 16000000UL
-  if (! timer_counts)
-#endif
-  {
-    uint16_t half_us = timer_callback(); // Function pointer e.g. skyartec_cb().
+  timer_counts = timer_callback(); // Function pointer e.g. skyartec_cb().
 
-    if(! half_us) {
+    if(! timer_counts) {
       PROTO_Cmds(PROTOCMD_RESET);
       return;
     }
 
-    timer_counts = HALF_MICRO_SEC_COUNTS(half_us);
+  OCR1A += timer_counts;
+
+  if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
+  if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
+}
+#endif
+
+
+#if defined(CPUXMEGA)
+ISR(RF_TIMER_COMPA_VECT) // ISR for Protocol Callback.
+{
+  if (! timer_counts) {
+    timer_counts = timer_callback(); // Function pointer e.g. skyartec_cb().
+
+  if(! timer_counts) {
+    PROTO_Cmds(PROTOCMD_RESET);
+    return;
   }
 
-#if F_CPU > 16000000UL
+  timer_counts = (timer_counts << 1); // Conversion for Xmega.
+
   if (timer_counts > 65535) {
-    OCR1A += 32000;
-    timer_counts -= 32000; // 16ms @ 16MHz counter clock.
-  } else
-#endif
-  {
-    OCR1A += timer_counts;
+//    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) { // Not needed as this is the highest priority interrupt on the XMEGA and Blocking ISR on both XMEGA and ATMEGA.
+    RF_TIMER_COMPA_REG += 32000; // =8ms ... 1 count is 0.25us.
+//    }
+    timer_counts -= 32000; // Subtract a little and come back later.
+  }
+  else {
+    RF_TIMER_COMPA_REG += timer_counts;
     timer_counts = 0;
   }
 
   if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
   if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
-
 }
-
+#endif
 
 
 void setupPulsesPPM(enum ppmtype proto)

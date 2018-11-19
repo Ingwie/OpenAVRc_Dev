@@ -282,7 +282,7 @@ static void MULTI_initialize()
 
   if (g_model.AUTOBINDMODE) PROTOCOL_SetBindState(500); // 5 Sec
 
-  PROTO_Start_Callback(25000U *2, MULTI_cb);
+  PROTO_Start_Callback( MULTI_cb);
 }
 
 const void *MULTI_Cmds(enum ProtoCmds cmd)

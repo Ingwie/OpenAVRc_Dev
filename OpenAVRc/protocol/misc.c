@@ -49,26 +49,43 @@ void inline PROTO_Change_Callback(uint16_t (*cb)())
 }
 
 
-void PROTO_Start_Callback(uint16_t half_us, uint16_t (*cb)())
+void PROTO_Start_Callback( uint16_t (*cb)())
 {
   if(! cb) return;
-  if(! half_us) return;
-  SCHEDULE_MIXER_END_IN_US(half_us / 2); // Schedule next Mixer calculations.
+  // Start protocol callback in 16 milli-seconds.
+  SCHEDULE_MIXER_END_IN_US(16000U); // Schedule next Mixer calculations.
   timer_callback = cb; // timer_callback = pointer to function.
 
+#if defined(CPUM2560)
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-	OCR1A = TCNT1 + half_us;
+	OCR1A = TCNT1 + (16000U *2); // 1 count is 0.5us.
   }
 
   TIFR1 |= 1<<OCF1A; // Reset Flag.
   TIMSK1 |= 1<<OCIE1A; // Enable Output Compare A interrupt.
+#endif
+#if defined(CPUXMEGA)
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+  RF_TIMER_COMPA_REG = RF_TC + (16000U *4); // 1 count is 0.25us.
+  }
+  timer_counts = 0; // Used for timing events > 16384us on xmega.
+
+  RF_TIMER_CLEAR_COMPA_FLAG; // Reset Flag.
+  RF_TIMER_RESUME_INTERRUPT; // Enable Output Compare A interrupt.
+#endif
 }
 
 
 void PROTO_Stop_Callback()
 {
+#if defined(CPUM2560)
   TIMSK1 &= ~(1<<OCIE1A); // Disable Output Compare A interrupt.
   TIFR1 |= 1<<OCF1A; // Reset Flag.
+#endif
+#if defined(CPUXMEGA)
+  RF_TIMER_PAUSE_INTERRUPT;
+  RF_TIMER_CLEAR_COMPA_FLAG; // Reset Flag.
+#endif
   timer_callback = NULL;
 }
 

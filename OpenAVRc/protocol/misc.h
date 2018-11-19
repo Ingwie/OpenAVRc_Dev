@@ -97,7 +97,7 @@
 #define bind_counter       pulses2MHz.pword[PULSES_WORD_OFFSET_VAR+1]
 
 
-void PROTO_Start_Callback(uint16_t us, uint16_t (*cb)());
+void PROTO_Start_Callback( uint16_t (*cb)());
 void PROTO_Stop_Callback();
 uint32_t CLOCK_getms();
 void CLOCK_delayms(uint32_t delay_ms);

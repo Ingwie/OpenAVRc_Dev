@@ -594,7 +594,7 @@ static void DEVO_initialize()
 //    if (Model.proto_opts[PROTOOPTS_TELEMETRY] == TELEM_ON) {
 //        PROTO_Start_Callback(2400, DEVO_telemetry_cb);
 //    } else {
-        PROTO_Start_Callback(25000U *2, DEVO_cb);
+        PROTO_Start_Callback( DEVO_cb);
 //    }
 }
 

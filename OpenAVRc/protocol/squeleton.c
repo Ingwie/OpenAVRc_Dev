@@ -84,9 +84,9 @@ static void Squeleton_initialize(uint8_t bind)
 {
   Squeleton_init();
   if (bind) {
-  PROTO_Start_Callback(25000U *2, Squeleton_bind_cb);
+  PROTO_Start_Callback( Squeleton_bind_cb);
   } else {
-  PROTO_Start_Callback(25000U *2, Squeleton_cb);
+  PROTO_Start_Callback( Squeleton_cb);
   }
 }
 

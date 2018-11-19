@@ -532,13 +532,13 @@ static void FRSKYX_initialize(uint8_t bind)
     {
       FRSKYX_initialize_data(1);
       CC2500_SetTxRxMode(TX_EN);
-      PROTO_Start_Callback(25000U *2, FRSKYX_bind_cb);
+      PROTO_Start_Callback( FRSKYX_bind_cb);
     }
   else
     {
       FRSKYX_initialize_data(0);
       rfState8 = FRSKYX_DATA1;
-      PROTO_Start_Callback(25000U *2, FRSKYX_cb);
+      PROTO_Start_Callback( FRSKYX_cb);
     }
 }
 

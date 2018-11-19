@@ -361,12 +361,12 @@ static void FRSKYD_initialize(uint8_t bind)
     {
       FRSKYD_init(1);
       CC2500_SetTxRxMode(TX_EN);
-      PROTO_Start_Callback(25000U *2, FRSKYD_bind_cb);
+      PROTO_Start_Callback( FRSKYD_bind_cb);
     }
   else
     {
       FRSKYD_init(0);
-      PROTO_Start_Callback(25000U *2, FRSKYD_data_cb);
+      PROTO_Start_Callback( FRSKYD_data_cb);
     }
 }
 

@@ -84,9 +84,9 @@ static void ESKY_initialize(uint8_t bind)
 {
   ESKY_init();
   if (bind) {
-  PROTO_Start_Callback(25000U *2, ESKY_bind_cb);
+  PROTO_Start_Callback( ESKY_bind_cb);
   } else {
-  PROTO_Start_Callback(25000U *2, ESKY_cb);
+  PROTO_Start_Callback( ESKY_cb);
   }
 }
 

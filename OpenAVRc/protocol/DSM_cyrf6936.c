@@ -805,7 +805,7 @@ static void DSM_initialize(uint8_t bind)
     binding = 0;
   }
   CYRF_SetTxRxMode(TX_EN);
-  PROTO_Start_Callback(25000U *2, dsm2_cb);
+  PROTO_Start_Callback( dsm2_cb);
 }
 
 const void *DSM_Cmds(enum ProtoCmds cmd)
