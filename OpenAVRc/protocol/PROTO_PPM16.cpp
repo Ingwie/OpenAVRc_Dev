@@ -153,7 +153,7 @@ static void PROTO_PPM16_initialize()
 
   RptrA = &pulses2MHz.pword[PULSES_WORD_SIZE/2];
   *RptrA = 0;
-  PROTO_Start_Callback(25000U *2, &PROTO_PPM16A_cb);
+  PROTO_Start_Callback( &PROTO_PPM16A_cb);
 
 
   RptrB = &pulses2MHz.pword[0];
@@ -161,7 +161,7 @@ static void PROTO_PPM16_initialize()
 
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     ocr1b_function_ptr = PROTO_PPM16B_cb1; // Setup function pointer used in ISR.
-    OCR1B = TCNT1 + (25000U *2);
+    OCR1B = TCNT1 + (16000U *2);
     TIFR1 |= 1<<OCF1B; // Reset Flag.
     TIMSK1 |= 1<<OCIE1B; // Enable Output Compare interrupt.
   }

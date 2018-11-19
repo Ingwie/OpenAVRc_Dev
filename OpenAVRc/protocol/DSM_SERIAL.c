@@ -153,7 +153,7 @@ static void DSM_SERIAL_initialize()
   Usart0Set8N1();
   Usart0EnableTx();
   Usart0TxBufferCount = 0;
-  PROTO_Start_Callback(25000U *2, DSM_SERIAL_cb);
+  PROTO_Start_Callback( DSM_SERIAL_cb);
 }
 
 

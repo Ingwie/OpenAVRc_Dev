@@ -208,9 +208,9 @@ static void SKYARTEC_initialize(uint8_t bind)
   CC2500_Reset();
   skyartec_init();
   if (bind) {
-  PROTO_Start_Callback(25000U *2, SKYARTEC_bind_cb);
+  PROTO_Start_Callback( SKYARTEC_bind_cb);
   } else {
-  PROTO_Start_Callback(25000U *2, SKYARTEC_cb);
+  PROTO_Start_Callback( SKYARTEC_cb);
   }
 }
 

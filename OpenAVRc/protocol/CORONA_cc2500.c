@@ -289,11 +289,11 @@ static void CORONA_initialize(uint8_t bind)
 
   if (bind)
     {
-      PROTO_Start_Callback(25000U *2, CORONA_bind_cb);
+      PROTO_Start_Callback( CORONA_bind_cb);
     }
   else
     {
-      PROTO_Start_Callback(25000U *2, CORONA_cb);
+      PROTO_Start_Callback( CORONA_cb);
     }
 }
 

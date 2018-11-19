@@ -114,7 +114,7 @@ static void PROTO_PPM_initialize()
 
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     ocr1b_function_ptr = PROTO_PPM_cb1; // Setup function pointer used in ISR.
-    OCR1B = TCNT1 + (25000U *2);
+    OCR1B = TCNT1 + (16000U *2);
     TIFR1 |= 1<<OCF1B; // Reset Flag.
     TIMSK1 |= 1<<OCIE1B; // Enable Output Compare interrupt.
   }

@@ -91,7 +91,7 @@ static void PROTO_PPMSIM_initialize()
 
   RptrA = &pulses2MHz.pword[PULSES_WORD_SIZE/2];
   *RptrA = 0;
-  PROTO_Start_Callback(25000U *2, &PROTO_PPMSIM_cb);
+  PROTO_Start_Callback( &PROTO_PPMSIM_cb);
 }
 
 

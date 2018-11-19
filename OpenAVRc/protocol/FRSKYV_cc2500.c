@@ -292,12 +292,12 @@ static void FRSKYV_initialise(uint8_t bind)
   if(bind)
     {
       //PROTOCOL_SetBindState(0xFFFFFFFF);
-      PROTO_Start_Callback(25000U *2, FRSKYV_bind_cb);
+      PROTO_Start_Callback( FRSKYV_bind_cb);
     }
   else
     {
       seed = 2UL;
-      PROTO_Start_Callback(25000U *2, FRSKYV_data_cb);
+      PROTO_Start_Callback( FRSKYV_data_cb);
     }
 }
 
