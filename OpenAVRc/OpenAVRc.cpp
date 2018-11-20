@@ -925,7 +925,7 @@ uint16_t anaIn(uint8_t chan)
 #else // M2560 "Standard"
   static const pm_char crossAna[] PROGMEM = {3,1,2,0,4,5,6,7};
 #endif
-  volatile uint16_t *p = &s_anaFilt[pgm_read_byte_near(crossAna+chan)];
+  uint16_t *p = &s_anaFilt[pgm_read_byte_near(crossAna+chan)];
   return *p;
 }
 
