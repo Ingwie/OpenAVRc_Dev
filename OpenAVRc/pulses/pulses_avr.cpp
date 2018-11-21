@@ -40,12 +40,6 @@ uint16_t nextMixerEndTime = 0;
 uint8_t s_current_protocol = 255;
 uint16_t dt;
 
-#if defined(CPUXMEGA)
-static volatile uint32_t timer_counts;
-#endif
-#if defined(CPUM2560)
-static volatile uint16_t timer_counts;
-#endif
 
 FORCEINLINE bool pulsesStarted()
 {

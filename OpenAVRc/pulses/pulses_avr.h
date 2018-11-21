@@ -31,8 +31,16 @@
 */
 
 
+
 #ifndef pulses_avr_h
 #define pulses_avr_h
+
+#if defined(CPUXMEGA)
+static volatile uint32_t timer_counts;
+#endif
+#if defined(CPUM2560)
+static volatile uint16_t timer_counts;
+#endif
 
 extern uint8_t s_current_protocol;
 uint16_t *RptrA; // For OCR1A
@@ -63,7 +71,7 @@ extern uint16_t dt;
 union p2mhz_t
 {
   uint16_t pword[PULSES_WORD_SIZE];
-  uint8_t  pbyte[PULSES_BYTE_SIZE];  // 144
+  uint8_t  pbyte[PULSES_BYTE_SIZE]; // 144
 } pulses2MHz;
 
 enum ppmtype{
