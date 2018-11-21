@@ -66,7 +66,7 @@ void PROTO_Start_Callback( uint16_t (*cb)())
 #endif
 #if defined(CPUXMEGA)
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-  RF_TIMER_COMPA_REG = RF_TC + (16000U *4); // 1 count is 0.25us.
+  RF_TIMER_COMPA_REG = RF_TC.CNT + (16000U *4); // 1 count is 0.25us.
   }
   timer_counts = 0; // Used for timing events > 16384us on xmega.
 
