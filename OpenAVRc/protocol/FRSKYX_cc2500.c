@@ -35,12 +35,15 @@
 
 #include "../OpenAVRc.h"
 
-#define LBTMODE (g_model.rfSubType == 0)
-#define X8MODE  0
+#define LBTMODE    (g_model.rfSubType == 0)
+#define XTELEMETRY g_model.rfOptionBool1
+#define X8MODE     g_model.rfOptionBool2
+
+const pm_char STR_X8MODE[] PROGMEM = INDENT "X8-9mS";
 
 const static RfOptionSettingsvarstruct RfOpt_FrskyX_Ser[] PROGMEM =
 {
-  /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+  /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED | BOOL2USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/1,
   /*rfOptionValue1Min*/-128, // FREQFINE MIN
   /*rfOptionValue1Max*/127,  // FREQFINE MAX
@@ -98,7 +101,7 @@ static void FRSKYX_init()
       uint8_t add = pgm_read_byte_far(pdata);
       uint8_t dat = LBTMODE ? pgm_read_byte_far(pdata+=2) : pgm_read_byte_far(++pdata);
       CC2500_WriteReg(add,dat);
-      ++pdata;
+      LBTMODE ? ++pdata : pdata+=2;
     }
 
   FRSKY_Init_Common_End();
@@ -228,7 +231,7 @@ static void frskyX_data_frame()
   	{
   		FS_flag = 0x10;
   		failsafe_chan = 0;
-  	} else if (FS_flag & 0x10 && failsafe_chan < (sub_protocol & 0x01 ? 8-1:16-1))
+  	} else if (FS_flag & 0x10 && failsafe_chan < (X8MODE ? 8-1:16-1))
   	{
   		FS_flag = 0x10 | ((FS_flag + 2) & 0x0F);	//10, 12, 14, 16, 18, 1A, 1C, 1E - failsafe packet
   		failsafe_chan ++;
@@ -290,7 +293,7 @@ static void frskyX_data_frame()
   else
     channel_offset^=0x08;
 
-  uint8_t end_packet = X8MODE ? 31 : 28;
+  uint8_t end_packet = LBTMODE ? 31 : 28;
 
   for (uint8_t i=22; i<end_packet; i++)
     packet[i]=0;
@@ -428,7 +431,11 @@ static uint16_t FRSKYX_send_data_packet()
   switch(rfState8)
     {
     case FRSKYX_DATA1:
-      if (!channel_offset)
+      if (X8MODE)
+        {
+          SCHEDULE_MIXER_END_IN_US(9000); // Schedule is possible on fast systems.
+        }
+      else if (!channel_offset)
         {
           SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
         }
@@ -461,7 +468,7 @@ static uint16_t FRSKYX_send_data_packet()
         {
           CC2500_ReadData(packet, len);
 #if defined(FRSKY)
-          if (g_model.rfOptionBool1) // telemetry on?
+          if (XTELEMETRY) // telemetry on?
             {
               frskyX_check_telemetry(packet, len);
             }
@@ -564,7 +571,7 @@ const void *FRSKYX_Cmds(enum ProtoCmds cmd)
                           STR_DUMMY,       //Option 2 (int)
                           STR_RFPOWER,     //Option 3 (uint 0 to 31)
                           STR_TELEMETRY,   //OptionBool 1
-                          STR_DUMMY,       //OptionBool 2
+                          STR_X8MODE,      //OptionBool 2
                           STR_DUMMY        //OptionBool 3
                          );
       return 0;
