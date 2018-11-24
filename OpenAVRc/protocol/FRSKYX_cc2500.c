@@ -36,8 +36,8 @@
 #include "../OpenAVRc.h"
 
 #define LBTMODE    (g_model.rfSubType == 0)
-#define XTELEMETRY g_model.rfOptionBool1
-#define X8MODE     g_model.rfOptionBool2
+#define XTELEMETRY (g_model.rfOptionBool1)
+#define X8MODE     (g_model.rfOptionBool2)
 
 const pm_char STR_X8MODE[] PROGMEM = INDENT "X8-9mS";
 
