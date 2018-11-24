@@ -33,9 +33,13 @@
 
 #include "../OpenAVRc.h"
 
+#define V4CH9MS (g_model.rfOptionBool1)
+
+const pm_char STR_V4CH9MS[] PROGMEM = INDENT "4Ch-9mS";
+
 const static RfOptionSettingsvarstruct RfOpt_FrskyV_Ser[] PROGMEM =
 {
-  /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+  /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/0,
   /*rfOptionValue1Min*/-128, // FREQFINE MIN
   /*rfOptionValue1Max*/127,  // FREQFINE MAX
@@ -197,12 +201,19 @@ static void FRSKYV_build_data_packet()
 
   // Appears to be a bitmap relating to the number of channels sent e.g.
   // 0x0F -> first 4 channels, 0x70 -> channels 5,6,7, 0xF0 -> channels 5,6,7,8
-  if(rfState8 == 0 || rfState8 == 2)
+  if(!(rfState8 & 1)) //if (rfState8 == 0 || rfState8 == 2)
     {
       packet[5] = 0x0F;
-      SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
+      if (V4CH9MS)
+        {
+          SCHEDULE_MIXER_END_IN_US(9000); // Schedule is possible on fast systems.
+        }
+      else
+        {
+          SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
+        }
     }
-  else if(rfState8 == 1 || rfState8 == 3)
+  else if (rfState8 & 1) //if (rfState8 == 1 || rfState8 == 3)
     {
       channel_offset = 4;
       packet[5] = 0xF0;
@@ -228,10 +239,10 @@ static void FRSKYV_build_data_packet()
 
   packet[14] = FRSKYV_crc8(dp_crc_init, packet, 14);
 
-  ++rfState8;
+  V4CH9MS ? rfState8+=2 : ++rfState8; // if we had only four channels we send them every 9ms.
   if(rfState8 > 4)
     {
-      rfState8 = 0; // Potentially if we had only four channels we could send them every 9ms. TODO ;-)
+      rfState8 = 0;
     }
 }
 
@@ -323,7 +334,7 @@ const void * FRSKYV_Cmds(enum ProtoCmds cmd)
                           STR_RFTUNEFINE,  //Option 1 (int)
                           STR_DUMMY,       //Option 2 (int)
                           STR_RFPOWER,     //Option 3 (uint 0 to 31)
-                          STR_DUMMY,       //OptionBool 1
+                          STR_V4CH9MS,       //OptionBool 1
                           STR_DUMMY,       //OptionBool 2
                           STR_DUMMY        //OptionBool 3
                          );
