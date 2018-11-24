@@ -40,15 +40,15 @@ void perMain()
 
   SIMU_PROCESSEVENTS;
   LEDON();
-  uint16_t t0 = getTmr16KHz();
+  uint16_t t0 = getTmr64uS();
   int16_t delta = (nextMixerEndTime - lastMixerDuration) - t0;
-  if (delta > 0 && delta < (int16_t)US_TO_16KHZ_TICK(MAX_MIXER_DELTA_US)) {
+  if (delta > 0 && delta < (int16_t)US_TO_64uS_TICK(MAX_MIXER_DELTA_US)) {
 
   LEDOFF();
     return;
   }
 
-  nextMixerEndTime = t0 + US_TO_16KHZ_TICK(MAX_MIXER_DELTA_US);
+  nextMixerEndTime = t0 + US_TO_64uS_TICK(MAX_MIXER_DELTA_US);
   // this is a very tricky implementation; lastMixerEndTime is just like a default value not to stop mixcalculations totally;
   // the real value for lastMixerEndTime is calculated inside protocol files
 
@@ -56,7 +56,7 @@ void perMain()
 
   SIMU_PROCESSEVENTS;
 
-  t0 = getTmr16KHz() - t0;
+  t0 = getTmr64uS() - t0;
   lastMixerDuration = t0;
   if (t0 > maxMixerDuration)
     maxMixerDuration = t0;
@@ -111,9 +111,9 @@ void perMain()
     AUDIO_MENUS();
   }
 
-  uint16_t tguibuid = getTmr16KHz(); // gui build duration
+  uint16_t tguibuid = getTmr64uS(); // gui build duration
   menuHandlers[menuLevel]((warn || popupMenuActive) ? 0 : evt);
-  tguibuid = getTmr16KHz() - tguibuid;
+  tguibuid = getTmr64uS() - tguibuid;
   if (tguibuid > g_guibuild_max) g_guibuild_max = tguibuid;
   if (tguibuid < g_guibuild_min) g_guibuild_min = tguibuid;
 
@@ -132,9 +132,9 @@ void perMain()
 
   drawStatusLine();
 
-  uint16_t tlcddraw = getTmr16KHz(); // lcd draw (fast) duration
+  uint16_t tlcddraw = getTmr64uS(); // lcd draw (fast) duration
   lcdRefreshFast();
-  tlcddraw = getTmr16KHz() - tlcddraw;
+  tlcddraw = getTmr64uS() - tlcddraw;
   if (tlcddraw > g_lcddraw_max) g_lcddraw_max = tlcddraw;
   if (tlcddraw < g_lcddraw_min) g_lcddraw_min = tlcddraw;
 
