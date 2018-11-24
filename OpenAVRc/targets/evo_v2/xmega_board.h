@@ -177,7 +177,7 @@ void read_trim_matrix(void);
 #define PAUSE_10MS_INTERRUPT   COUNTER_31250HZ.INTCTRLB &= ~TC1_CCAINTLVL_gm;
 #define RESUME_10MS_INTERRUPT  COUNTER_31250HZ.INTCTRLB |=  (0b01 << TC1_CCAINTLVL_gp); // Level 1 - Low Priority.
 #define COUNTER_31250HZ_CLEAR_CCAIF_FLAG   COUNTER_31250HZ.INTFLAGS = TC1_CCAIF_bm; // clear ccaif.
-#define getTmr16KHz()  getTmr31250Hz()
+#define getTmr64uS()  getTmr31250Hz()
 
 
 // SD Card driver

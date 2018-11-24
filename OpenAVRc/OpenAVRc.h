@@ -97,10 +97,10 @@
 #if defined(SHOWDURATION)
 static uint16_t DurationValue;
 #define SHOWDURATION1                                                        \
-  uint16_t t0 = getTmr16KHz();                                               \
+  uint16_t t0 = getTmr64uS();                                               \
 
 #define SHOWDURATION2                                                        \
-  t0 = getTmr16KHz() - t0;                                                   \
+  t0 = getTmr64uS() - t0;                                                   \
   if (t0 > DurationValue) DurationValue = t0;                                \
 
 #else
@@ -313,21 +313,21 @@ static uint16_t DurationValue;
 
 /**
 * \file   OpenAVRc.h
-* \def    ELAPSED_16KHZ_TICK_SINCE(Start16KHzTick)
-* \brief  Returns the amount of elapsed 16KHzTick since a starting point expressed in 16KHzTick
-* \param  Start16KHzTick: starting point expressed in 16KHzTick
-* \return The amount of elapsed 16KHzTicks since a starting point expressed in 16KHzTick
+* \def    ELAPSED_64uS_TICK_SINCE(Start64uSTick)
+* \brief  Returns the amount of elapsed 64uSTick since a starting point expressed in 64uSTick
+* \param  Start64uSTick: starting point expressed in 64uSTick
+* \return The amount of elapsed 64uSTick since a starting point expressed in 64uSTick
 */
-#define ELAPSED_16KHZ_TICK_SINCE(Start16KHzTick)  ((uint16_t)(getTmr16KHz() - (Start16KHzTick)))
+#define ELAPSED_64uS_TICK_SINCE(Start64uSTick)  ((uint16_t)(getTmr64uS() - (Start64uSTick)))
 
 /**
 * \file   OpenAVRc.h
-* \def    US_TO_16KHZ_TICK(Us)
-* \brief  Returns the amount of 16KHzTick corresponding to a duration expressed in us
+* \def    US_TO_64uS_TICK(Us)
+* \brief  Returns the amount of 64uSTick corresponding to a duration expressed in us
 * \param  Ms: a duration expressed in ms
-* \return The amount of 16KHzTick corresponding to a duration expressed in us
+* \return The amount of 64uSTick corresponding to a duration expressed in us
 */
-#define US_TO_16KHZ_TICK(Us) ((uint16_t)(((2UL * (Us)) + 123) / 125)) /* Tick is 62.5 us @ 16KHz (62.5=125/2) */
+#define US_TO_64uS_TICK(Us) ((Us)>>6) /* counter 2 is 16MHz/1024=156251 not real 16Khz tick = 64us */
 
 #define T1900_OFFSET 1900
 extern time_t g_rtcTime;
@@ -663,7 +663,7 @@ extern uint16_t lastMixerDuration;
   #define RESET_THR_TRACE() s_timeCum16ThrP = s_timeCumThr = 0
 #endif
 
-uint16_t getTmr16KHz();
+uint16_t getTmr64uS();
 
 uint16_t stackAvailable();
 //uint16_t freeRam();

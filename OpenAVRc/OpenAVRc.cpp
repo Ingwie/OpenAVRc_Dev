@@ -1221,26 +1221,25 @@ void checkBattery()
   }
 }
 
-volatile uint8_t g_tmr16KHz; //continuous timer 16ms (16MHz/1024/256) -- 8-bit counter overflow
+volatile uint8_t g_tmr64uS; //continuous timer 15625Hz (16MHz/1024/256) -- 8-bit counter overflow
 
-ISR(TIMER_16KHZ_VECT, ISR_NOBLOCK)
+ISR(TIMER_64US_VECT, ISR_NOBLOCK)
 {
-  ++g_tmr16KHz; // gruvin: Not 16KHz. Overflows occur at 61.035Hz (1/256th of 15.625KHz)
-  // to give *16.384ms* intervals. Kind of matters for accuracy elsewhere. ;)
-  // g_tmr16KHz is used to software-construct a 16-bit timer
-  // from TIMER-0 (8-bit). See getTmr16KHz, below.
+  ++g_tmr64uS;
+  // g_tmr64uS is used to software-construct a 16-bit timer
+  // from TIMER-0 (8-bit). See getTmr64uS, below.
 }
 
-uint16_t getTmr16KHz()
+uint16_t getTmr64uS()
 {
 #if defined(SIMU)
   uint16_t simu_tmr16 = get_tmr10ms() * 160;
   return simu_tmr16;
 #else
   while(1){
-    uint8_t hb  = g_tmr16KHz;
-    uint8_t lb  = COUNTER_16KHZ;
-    if(hb-g_tmr16KHz==0) return (hb<<8)|lb;
+    uint8_t hb  = g_tmr64uS;
+    uint8_t lb  = COUNTER_64uS;
+    if(hb-g_tmr64uS==0) return (hb<<8)|lb;
   }
 
 #endif

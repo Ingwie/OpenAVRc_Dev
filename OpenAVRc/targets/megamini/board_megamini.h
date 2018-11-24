@@ -66,8 +66,8 @@ void readKeysAndTrims();
 #define TRIMS_GPIO_PIN_RHR        PIN0_bm
 #define TRIMS_PRESSED()           (~GPIO_TRIMS)
 
-#define TIMER_16KHZ_VECT          TIMER2_OVF_vect
-#define COUNTER_16KHZ             TCNT2
+#define TIMER_64US_VECT          TIMER2_OVF_vect
+#define COUNTER_64uS             TCNT2
 #define TIMER_10MS_VECT           TIMER2_COMPA_vect
 #define TIMER_10MS_COMPVAL        OCR2A
 
