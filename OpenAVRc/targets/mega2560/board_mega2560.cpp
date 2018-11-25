@@ -82,12 +82,14 @@ FORCEINLINE void boardInit()
 
 #ifndef SIMU
 
-  /**** Set up timer/counter 0 ****/
-  // TCNT0  10ms = 16MHz/1024/156(.25) periodic timer (100ms interval)
+  /**** Set up timer/counter 3 ****/
+  // TCNT  10ms = 16MHz/1024/156(.25) periodic timer (10ms interval)
   //        cycles at 9.984ms but includes 1:4 duty cycle correction to /157 to average at 10.0ms
-  TCCR2B  = (0b111 << CS20); // Norm mode, clk/1024 (differs from ATmega64 chip)
-  OCR2A   = 156;
-  TIMSK2 |= (1<<OCIE2A) |  (1<<TOIE2); // Enable Output-Compare and Overflow interrupts
+  TCCR3A  = 0;
+  TCCR3C  = 0;
+  TCCR3B  = (0b101 << CS30); // Norm mode, clk/1024 (16 bits counter)
+  OCR3A   = 156;
+  TIMSK3  = (1<<OCIE3A); // Enable Output-Compare interrupts
 
 
 #if defined(AUDIO)

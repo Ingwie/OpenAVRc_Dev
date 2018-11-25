@@ -42,13 +42,13 @@ void perMain()
   LEDON();
   uint16_t t0 = getTmr64uS();
   int16_t delta = (nextMixerEndTime - lastMixerDuration) - t0;
-  if (delta > 0 && delta < (int16_t)US_TO_64uS_TICK(MAX_MIXER_DELTA_US)) {
+  if (delta > 0 && delta < US_TO_64US_TICK(MAX_MIXER_DELTA_US)) {
 
   LEDOFF();
-    return;
+  return;
   }
 
-  nextMixerEndTime = t0 + US_TO_64uS_TICK(MAX_MIXER_DELTA_US);
+  nextMixerEndTime = t0 + US_TO_64US_TICK(MAX_MIXER_DELTA_US);
   // this is a very tricky implementation; lastMixerEndTime is just like a default value not to stop mixcalculations totally;
   // the real value for lastMixerEndTime is calculated inside protocol files
 

@@ -322,12 +322,12 @@ static uint16_t DurationValue;
 
 /**
 * \file   OpenAVRc.h
-* \def    US_TO_64uS_TICK(Us)
+* \def    US_TO_64US_TICK(Us)
 * \brief  Returns the amount of 64uSTick corresponding to a duration expressed in us
 * \param  Ms: a duration expressed in ms
 * \return The amount of 64uSTick corresponding to a duration expressed in us
 */
-#define US_TO_64uS_TICK(Us) ((Us)>>6) /* counter 2 is 16MHz/1024=156251 not real 16Khz tick = 64us */
+#define US_TO_64US_TICK(Us) ((Us)>>6) /* counter is 16MHz/1024=156251 not real 16Khz tick = 64us */
 
 #define T1900_OFFSET 1900
 extern time_t g_rtcTime;
@@ -342,11 +342,26 @@ extern tmr10ms_t Bind_tmr10ms;
 
 inline uint16_t get_tmr10ms()
 {
-  uint16_t time  ;
+  uint16_t time;
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-  time = g_tmr10ms ;
+  time = g_tmr10ms;
   }
-  return time ;
+  return time;
+}
+
+inline uint16_t getTmr64uS()
+{
+#if defined(SIMU)
+  uint16_t simu_tmr16 = get_tmr10ms() * 160;
+  return simu_tmr16;
+#else
+  uint16_t ret;
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+  {
+    ret = COUNTER_64uS;
+  }
+  return ret;
+#endif
 }
 
 typedef int8_t rotenc_t;
