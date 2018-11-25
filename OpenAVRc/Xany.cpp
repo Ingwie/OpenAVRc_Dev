@@ -344,7 +344,7 @@ void Xany_init(void)
   /* Probe I2C bus to discover Angle Sensor chips */
   for(XanyIdx = 0; XanyIdx < X_ANY; XanyIdx++)
   {
-    I2c7bAddr = (A1335_I2C_7B_ADDR << 1);
+    I2c7bAddr = ((A1335_I2C_7B_ADDR + XanyIdx) << 1);
     if(!i2c_start(I2c7bAddr | I2C_WRITE))
     {
       /* OK: A1335 device is present quit gracefully by sending a stop() */
