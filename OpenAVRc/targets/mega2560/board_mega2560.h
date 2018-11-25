@@ -37,6 +37,8 @@
 #include "../../board_avr.h"
 
 #define CALCULATE_LAT_JIT()  dt = TCNT1 - OCR1A // Calculate latency and jitter.
+#define RF_TIMER_COMPA_REG   OCR1A
+#define RF_TIMER_COMPA_VECT  TIMER1_COMPA_vect
 
 //Mods
 #define ROTENC_DIV2 // rotenc resolution/2

@@ -84,7 +84,7 @@ void startPulses(enum ProtoCmds Command)
 
 
 #if defined(CPUM2560)
-ISR(TIMER1_COMPA_vect) // ISR for Protocol Callback, PPMSIM and PPM16 (Last 8 channels).
+ISR(RF_TIMER_COMPA_VECT) // ISR for Protocol Callback, PPMSIM and PPM16 (Last 8 channels).
 {
   timer_counts = timer_callback(); // Function pointer e.g. skyartec_cb().
 
@@ -93,7 +93,7 @@ ISR(TIMER1_COMPA_vect) // ISR for Protocol Callback, PPMSIM and PPM16 (Last 8 ch
       return;
     }
 
-  OCR1A += timer_counts;
+  RF_TIMER_COMPA_REG += timer_counts;
 
   if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
   if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
