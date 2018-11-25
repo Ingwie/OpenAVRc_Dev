@@ -184,6 +184,8 @@ typedef union{
 const uint8_t XANY_POT[] PROGMEM = {X_ANY_1_POT, X_ANY_2_POT, X_ANY_3_POT, X_ANY_4_POT};
 #define GET_XANY_POT(PotIdx)        (uint8_t)     pgm_read_byte_far(&XANY_POT[PotIdx])
 
+/* Allegro A1335 absolute angle sensor 7 bit I2C address */
+#define A1335_I2C_7B_ADDR         (0x0C) /* /!\ Even if the chip is powered under 5V, I2C SDA/SCL pull-ups SHALL be tied at 3.3V /!\ */
 
 /*    <------------------8 I/O Expenders------------------><----------------16 I/O Expenders--------------->    */
 enum {IO_EXP_PCF8574 = 0, IO_EXP_PCF8574A, IO_EXP_PCA9654E, IO_EXP_MCP23017, IO_EXP_PCF8575A, IO_EXP_PCA9671, IO_EXP_TYPE_NB};
@@ -191,6 +193,7 @@ enum {IO_EXP_PCF8574 = 0, IO_EXP_PCF8574A, IO_EXP_PCA9654E, IO_EXP_MCP23017, IO_
 /* PRIVATE FUNCTION PROTOYPES */
 static uint8_t getMsgType     (uint8_t XanyIdx);
 static uint8_t readIoExtender (uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRead);
+static uint8_t readAngleSensor(uint8_t XanyIdx, uint16_t *Angle);
 static void    updateXanyMsgChecksum(XanyMsg_union *XanyMsg);
 static uint8_t getBigEndianNibbleNbToTx(XanyMsg_union *XanyMsg);
 
@@ -236,7 +239,7 @@ typedef struct{
 }I2cIoExpSt_t;
 
 const I2cIoExpSt_t XanyI2cTypeAddr[] PROGMEM = {
-          /*  IoExtType   I2c7bAddr<<1 ReadIoExp   Idx in IoExpMap */
+          /*  IoExtType   I2c7bAddr<<1 ReadIoExp   Idx in I2cDevMap */
 /*Xany0*/ {IO_EXP_PCF8574,  (0x20<<1), readPcf8574 }, /* Idx =  0 */
           {IO_EXP_PCF8574,  (0x22<<1), readPcf8574 }, /* Idx =  1 */
           {IO_EXP_PCF8574A, (0x38<<1), readPcf8574A}, /* Idx =  2 */
@@ -296,7 +299,7 @@ typedef struct{
   TxNibbleSt_t    Nibble;
 }X_OneAnyWriteMsgSt_t;
 
-static uint32_t IoExpMap = 0L; /* 4 bytes for the map of the 4 X-Any instances */
+static uint32_t I2cDevMap = 0L; /* 4 bytes for the map of the 4 X-Any instances */
 
 static          XanyMsg_union        X_AnyReadMsg[NUM_X_ANY]; /* 4 bytes per X-Any for storing read Msg */
 static volatile X_OneAnyWriteMsgSt_t X_AnyWriteMsg[NUM_X_ANY];/* 7 bytes per X-Any for sending Msg in interrupt (-> Volatile) */
@@ -314,7 +317,7 @@ static volatile X_OneAnyWriteMsgSt_t X_AnyWriteMsg[NUM_X_ANY];/* 7 bytes per X-A
 void Xany_init(void)
 {
   /* I2C drive SHALL be initilized before calling Xany_init() */
-  uint8_t Idx, I2c7bAddr, Data;
+  uint8_t Idx, XanyIdx, I2c7bAddr, Data;
 
   /* Clear the whole structure for the n instances */
   memset((void*)&X_AnyWriteMsg, 0, sizeof(X_AnyWriteMsg));
@@ -323,7 +326,7 @@ void Xany_init(void)
   /* Probe I2C bus to discover Io Expender chips */
   for(Idx = 0; Idx < SUPPORTED_I2C_IO_EXP_NB; Idx++)
   {
-    I2c7bAddr = GET_I2C_IO_EXP_7B_ADDR(Idx);;
+    I2c7bAddr = GET_I2C_IO_EXP_7B_ADDR(Idx);
     if(!i2c_start(I2c7bAddr | I2C_WRITE))
     {
       /* OK: device is present quit gracefully by sending a stop() */
@@ -335,7 +338,18 @@ void Xany_init(void)
         i2c_writeReg(I2c7bAddr , 0x0C, &Data, 1);
         i2c_writeReg(I2c7bAddr , 0x0D, &Data, 1);
       }
-      IoExpMap |= (1L << Idx); /* Mark it as present */
+      I2cDevMap |= (1L << Idx); /* Mark it as present */
+    }
+  }
+  /* Probe I2C bus to discover Angle Sensor chips */
+  for(XanyIdx = 0; XanyIdx < X_ANY; XanyIdx++)
+  {
+    I2c7bAddr = (A1335_I2C_7B_ADDR << 1);
+    if(!i2c_start(I2c7bAddr | I2C_WRITE))
+    {
+      /* OK: A1335 device is present quit gracefully by sending a stop() */
+      i2c_stop();
+      I2cDevMap |= (1L << (SUPPORTED_I2C_IO_EXP_NB + XanyIdx)); /* Mark it as present */
     }
   }
   I2C_SPEED_888K();
@@ -446,11 +460,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
 {
   XanyMsg_union    Built, Read;
   uint8_t          MsgType, One8bitPort = 0, ValidMsg = 1;
-  uint16_t         Two8bitPorts = 0;
-
-/* Test */
-//One8bitPort = 0x91;
-//Two8bitPorts = 0xAA12;
+  uint16_t         Two8bitPorts = 0, Angle = 0;
 
   Built.Raw = 0; /* Clear temporary message */
   MsgType = getMsgType(XanyIdx);
@@ -515,7 +525,8 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
     Built.MsgAngle.NibbleNbToTx = XANY_MSG_ANGLE_NBL_NB;
     if(XanyOp & XANY_OP_BUILD_MSG)
     {
-      Built.MsgAngle.Angle = 0; /* TODO: read ADS1015 CAN Channel */
+      readAngleSensor(XanyIdx, &Angle);
+      Built.MsgAngle.Angle = Angle;
     }
     if(XanyOp & XANY_OP_READ_INFO)
     {
@@ -533,7 +544,8 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
     {
       readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
       Built.MsgAngle4Sw.Sw    = One8bitPort & 0x0F; /* Keep 4 bits */
-      Built.MsgAngle4Sw.Angle = 0; /* TODO: read ADS1015 CAN Channel */
+      readAngleSensor(XanyIdx, &Angle);
+      Built.MsgAngle4Sw.Angle = Angle;
     }
     if(XanyOp & XANY_OP_READ_INFO)
     {
@@ -551,7 +563,8 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
     {
       readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
       Built.MsgAngle8Sw.Sw    = One8bitPort;
-      Built.MsgAngle8Sw.Angle = 0; /* TODO: read ADS1015 CAN Channel */
+      readAngleSensor(XanyIdx, &Angle);
+      Built.MsgAngle8Sw.Angle = Angle;
     }
     if(XanyOp & XANY_OP_READ_INFO)
     {
@@ -567,7 +580,8 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
     Built.MsgAnglePot.NibbleNbToTx = XANY_MSG_ANGLE_POT_NBL_NB;
     if(XanyOp & XANY_OP_BUILD_MSG)
     {
-      Built.MsgAnglePot.Angle = 0;              /* TODO: read ADS1015 CAN Channel */
+      readAngleSensor(XanyIdx, &Angle);
+      Built.MsgAnglePot.Angle = Angle;
       Built.MsgAnglePot.Pot   = ((calibratedStick[GET_XANY_POT(XanyIdx)] + RESX - 1) / 8); /* 8 bits value */
     }
     if(XanyOp & XANY_OP_READ_INFO)
@@ -681,7 +695,7 @@ static uint8_t readIoExtender(uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRea
 
   for(uint8_t BitIdx = GET_FIRST_IDX(XanyIdx); BitIdx <= GET_LAST_IDX(XanyIdx); BitIdx++)
   {
-    if(IoExpMap & (1 << BitIdx))
+    if(I2cDevMap & (1 << BitIdx))
     {
       /* Chip is present in the I/O Expender map */
       I2c7bAddr = GET_I2C_IO_EXP_7B_ADDR(BitIdx);
@@ -716,6 +730,32 @@ static uint8_t readIoExtender(uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRea
   I2C_SPEED_888K();
 
  return(ByteRead);
+}
+
+/**
+* \file   Xany.cpp
+* \fn     uint8_t readAngleSensor(uint8_t XanyIdx, uint16_t *Angle)
+* \brief  Reads the I2C angle sensor associated to the specified X-Any instance
+* \param  XanyIdx:    Index of the X-Any
+* \param  Angle:      Pointer on the destination 16 bits buffer
+* \return 0: OK,   1: Error
+*/
+static uint8_t readAngleSensor(uint8_t XanyIdx, uint16_t *Angle)
+{
+  #define A1335_ANG_REG_ADDR  (0x20)
+  uint8_t AngleSensor7BitAddr, PresenceMask, Ret = 0;
+
+  PresenceMask = (1 << (SUPPORTED_I2C_IO_EXP_NB + XanyIdx));
+  if(I2cDevMap & PresenceMask)
+  {
+    /* Try to read angle only f chip is present */
+    AngleSensor7BitAddr = A1335_I2C_7B_ADDR + XanyIdx;
+    I2C_SPEED_400K();
+    Ret = i2c_readReg((AngleSensor7BitAddr << 1), A1335_ANG_REG_ADDR, (uint8_t *)Angle, 2);
+    I2C_SPEED_888K();
+    *Angle &= 0x0FFF; /* Keep only angle value */
+  }
+  return(Ret);
 }
 
 /**
