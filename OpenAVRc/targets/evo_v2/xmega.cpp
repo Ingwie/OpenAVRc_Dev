@@ -11,8 +11,10 @@
 
 bool read_keyb_matrix(void);
 void adcInit(void);
-void read_A8_A10(void);
-void read_A9_A11(void);
+void read_A8(void);
+void read_A9(void);
+void read_A10(void);
+void read_A11(void);
 
 
 inline void boardInit()
@@ -93,14 +95,18 @@ inline void boardInit()
   RESUME_10MS_INTERRUPT;
   COUNTER_31250HZ.CTRLA = 0b0111 << TC0_CLKSEL_gp; // ClkPER/1024 32MHz/1024.
 
-//Setup TCx0 for RF Module use.
+// Setup Event System to generate 2MHz pulses for compatibility with Mega2560.
+  EVSYS.CH3MUX = 0x80 + 0x04;  // ClkPER / 16.
+
+  //Setup TCx0 for RF Module use.
   RF_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
   RF_TC.CTRLC = 0;
   RF_TC.CTRLD = 0;
   RF_TC.CTRLE = 0;
   RF_TC.CNT = 0;
-  RF_TIMER_CLEAR_CCAIF_FLAG;
-  RF_TC.CTRLA = 0b0100 << TC0_CLKSEL_gp; // ClkPER/8 32MHz/8.
+  RF_TIMER_CLEAR_COMPA_FLAG;
+  //RF_TC.CTRLA = 0b0100 << TC0_CLKSEL_gp; // ClkPER/8 32MHz/8.
+  RF_TC.CTRLA = 0x08 + 3 ; // Event channel 3 (prescaler of 16)
 
 //Setup TCx0 for Trainer pulses.
   TRAINER_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
@@ -108,7 +114,8 @@ inline void boardInit()
   TRAINER_TC.CTRLD = 0;
   TRAINER_TC.CTRLE = 0;
   TRAINER_TC.CNT = 0;
-  TRAINER_TC.CTRLA = 0b0100 << TC0_CLKSEL_gp; // ClkPER/8 32MHz/8.
+  //TRAINER_TC.CTRLA = 0b0100 << TC0_CLKSEL_gp; // ClkPER/8 32MHz/8.
+  TRAINER_TC.CTRLA = 0x08 + 3 ; // Event channel 3 (prescaler of 16).
 
 #if defined(AUDIO)
 /*
@@ -278,7 +285,7 @@ void rf_usart_mspi_init()
   // Initialisation of USART in MSPI mode.
 
   // fBAUD = ClkPER / (2 * (BSEL + 1) )
-  RF_USART.BAUDCTRLA = 4; // 3.2MHz @ ClkPER = 32MHz
+  RF_USART.BAUDCTRLA = 3; // 4MHz @ ClkPER = 32MHz
   RF_USART.BAUDCTRLB = 0; // BSCALE=0
 
   // USART in Master SPI mode, MSB first, Clock rising = Sample. Clock falling = Setup.
@@ -420,9 +427,8 @@ keys[TRM_BASE + pgm_read_byte_far(crossTrim+6)].input( (PORTE.IN & I_E_TRIM_COL_
 void readKeysAndTrims()
 {
 // Encoder Buttons and switches.
-  getADC(); // See if this can be removed.
-  read_A8_A10();
-  read_A9_A11();
+//  getADC(); // See if this can be removed.
+
 // Keyboard ToDo
 // Multiplexed trim buttons.
   read_trim_matrix();
@@ -468,7 +474,7 @@ static const uint16_t AnalSwitchVal[16] PROGMEM = {
           // 8   4   2   1
 };
 
-void read_A9_A11(void)
+void read_A9(void)
 {
   uint16_t AD_value;
   uint16_t upper;
@@ -493,6 +499,14 @@ void read_A9_A11(void)
     break;
     }
   }
+}
+
+
+void read_A11(void)
+{
+  uint16_t AD_value;
+  uint16_t upper;
+  uint16_t lower;
 
   AD_value = s_anaFilt[ANAL_SWS_4];
 
@@ -516,7 +530,7 @@ void read_A9_A11(void)
 }
 
 
-void read_A8_A10(void)
+void read_A8(void)
 {
   uint16_t AD_value;
   uint16_t upper;
@@ -544,6 +558,14 @@ void read_A8_A10(void)
     break;
     }
   }
+}
+
+
+void read_A10(void)
+{
+  uint16_t AD_value;
+  uint16_t upper;
+  uint16_t lower;
 
   AD_value = s_anaFilt[ANAL_SWS_3];
 
@@ -600,6 +622,12 @@ TIMER_10MS_COMPVAL += (accuracyWarble++ & 0b01) ? 313 : 312;
 
   per10ms();
 
+ if((accuracyWarble & 0) == 0) read_A8();
+ if((accuracyWarble & 1) == 1) read_A9();
+ if((accuracyWarble & 2) == 2) read_A10();
+ if((accuracyWarble & 3) == 3) read_A11();
+
+
 #if defined(SIMU)
 ISR10msLoop_is_runing = false;
 #endif
@@ -608,7 +636,8 @@ ISR10msLoop_is_runing = false;
 
 uint16_t getTmr31250Hz()
 {
-  return COUNTER_31250HZ.CNT;
+  // Not sure this will work.
+  return COUNTER_31250HZ.CNT >> 1;
 }
 
 
