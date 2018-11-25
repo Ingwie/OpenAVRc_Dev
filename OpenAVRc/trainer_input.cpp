@@ -41,9 +41,9 @@ uint8_t ppmInputValidityTimer;
  * Timer 1 is free running as it serves other purposes.
  * 1 count is 0.5us
 */
-ISR(TIMER1_CAPT_vect) // G: High frequency noise can cause stack overflow with ISR_NOBLOCK
+ISR(TRAINER_TC_VECT) // G: High frequency noise can cause stack overflow with ISR_NOBLOCK
 {
-  uint16_t capture = ICR1;
+  uint16_t capture = TRAINER_TC_REG;
 
   static uint16_t lastCapt = 0;
   static uint8_t channelNumber = 0;
