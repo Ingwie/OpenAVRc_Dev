@@ -90,6 +90,7 @@ void rf_usart_mspi_init(void);
 // Trainer Pulses
 #define TRAINER_TC         TCF0
 #define TRAINER_TC_VECT    TCF0_CCC_vect
+#define TRAINER_TC_REG     TRAINER_TC.CCC
 
 #define OUT_B_SIM_CTL
 #define JACK_PPM_OUT()
@@ -103,7 +104,7 @@ void rf_usart_mspi_init(void);
 #define SLAVE_MODE()	(false)
 #define ENABLE_TRAINER_INTERRUPT()   (false) // Enable ICP Interrupt.
 #define DISABLE_TRAINER_INTERRUPT()  (false) // Disable ICP Interrupt.
-#define IS_WAIT_PUPIL_STATE()       ((g_model.rfProtocol == (PROTOCOL_PPM16-1)) || (g_model.rfProtocol == (PROTOCOL_PPMSIM-1)))
+#define IS_WAIT_PUPIL_STATE()        ((g_model.rfProtocol == (PROTOCOL_PPM16-1)) || (g_model.rfProtocol == (PROTOCOL_PPMSIM-1)))
 
 // Switch cross mapping
 #define SW_ID0 SW_Jup

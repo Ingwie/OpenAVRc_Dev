@@ -126,6 +126,8 @@ void readKeysAndTrims();
 #define WAIT_PUPIL()                ENABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_IN()
 #define PPM16_CONF()                DISABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_OUT()
 #define IS_WAIT_PUPIL_STATE()       ((g_model.rfProtocol == (PROTOCOL_PPM16-1)) || (g_model.rfProtocol == (PROTOCOL_PPMSIM-1)))
+#define TRAINER_TC_VECT             TIMER1_CAPT_vect
+#define TRAINER_TC_REG              ICR1
 
 // Rotary encoders driver
 #define INP_E_ROT_ENC_1_A         4
