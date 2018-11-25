@@ -59,13 +59,13 @@ void checkMixer()
   LEDON();
   uint16_t t0 = getTmr64uS();
   int16_t delta = (nextMixerEndTime - lastMixerDuration) - t0;
-  if ((delta > 0 && delta < (int16_t)US_TO_64uS_TICK(MAX_MIXER_DELTA_US)) || (!s_mixer_first_run_done))
+  if ((delta > 0 && delta < US_TO_64US_TICK(MAX_MIXER_DELTA_US)) || (!s_mixer_first_run_done))
     {
       LEDOFF();
       return;
     }
 
-  nextMixerEndTime = t0 + US_TO_64uS_TICK(MAX_MIXER_DELTA_US);
+  nextMixerEndTime = t0 + US_TO_64US_TICK(MAX_MIXER_DELTA_US);
   doMixerCalculations();
 
   t0 = getTmr64uS() - t0;

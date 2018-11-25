@@ -882,7 +882,7 @@ extern REG8 simu_EIMSK;
 #define EEPROMREADBLOCK simu_eepromReadBlock
 
 char *convertSimuPath(const char *path);
-extern ISR(TIMER2_COMPA_vect, ISR_NOBLOCK); //TIMER_10MS_VECT
+extern ISR(TIMER3_COMPA_vect, ISR_NOBLOCK); //TIMER_10MS_VECT
 extern int16_t simumain();
 extern  void SimuMainLoop();
 extern  void shutDownSimu();

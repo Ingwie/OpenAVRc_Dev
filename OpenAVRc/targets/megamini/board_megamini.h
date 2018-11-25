@@ -68,10 +68,9 @@ void readKeysAndTrims();
 #define TRIMS_GPIO_PIN_RHR        PIN0_bm
 #define TRIMS_PRESSED()           (~GPIO_TRIMS)
 
-#define TIMER_64US_VECT          TIMER2_OVF_vect
-#define COUNTER_64uS             TCNT2
-#define TIMER_10MS_VECT           TIMER2_COMPA_vect
-#define TIMER_10MS_COMPVAL        OCR2A
+#define COUNTER_64uS              TCNT3
+#define TIMER_10MS_VECT           TIMER3_COMPA_vect
+#define TIMER_10MS_COMPVAL        OCR3A
 
 // Backlight driver
 #if !defined(PWM_BACKLIGHT)
