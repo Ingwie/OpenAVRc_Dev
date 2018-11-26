@@ -1434,7 +1434,12 @@ void OpenAVRcInit(uint8_t mcusr)
   startPulses(PROTOCMD_INIT);
 
 #if !defined(SIMU)
-  wdt_enable(WDTO_500MS); // Enable watchdog
+// Enable watchdog.
+  #if defined(CPUXMEGA)
+  xmega_wdt_enable_512ms();
+  #else
+  wdt_enable(WDTO_500MS);
+  #endif
 #endif
 }
 
@@ -1451,11 +1456,18 @@ int16_t simumain()
   // we could put a bunch more MYWDT_RESET()s in. But I don't like that approach
   // during boot up.)
 #if !defined(SIMU)
+  #if defined(CPUM2560)
   uint8_t mcusr = MCUSR; // save the WDT (etc) flags
   MCUSR = 0; // must be zeroed before disabling the WDT
   MCUCR |= (1<<JTD);    // Disable JTAG port that can interfere with POT3
   MCUCR |= (1<<JTD);   // Must be done twice within four cycles
   wdt_disable();
+  #elif defined(CPUXMEGA)
+  // ToDo Watchdog is different on XMEGA CPU.
+  uint8_t mcusr = RST.STATUS;
+  RST.STATUS |= RST_WDRF_bm;
+  xmega_wdt_disable();
+  #endif
 #endif //SIMU
 
 #if !defined(SIMU)
