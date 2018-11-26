@@ -63,7 +63,7 @@ enum EnumKeys {
   NUM_KEYS,
   SW_BASE=NUM_KEYS,
 
-#if defined(REV_EVO_V1)
+#if defined (PCB_EVO)
 // This sequence should follow enum SwitchSources in myeeprom.h
   SW_Jup=SW_BASE,//ID0
   SW_Jmi,//ID1
