@@ -743,9 +743,10 @@ static uint8_t readIoExtender(uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRea
 static uint8_t readAngleSensor(uint8_t XanyIdx, uint16_t *Angle)
 {
   #define A1335_ANG_REG_ADDR  (0x20)
-  uint8_t AngleSensor7BitAddr, PresenceMask, Ret = 0;
+  uint32_t PresenceMask;
+  uint8_t  AngleSensor7BitAddr, Ret = 0;
 
-  PresenceMask = (1 << (SUPPORTED_I2C_IO_EXP_NB + XanyIdx));
+  PresenceMask = (1L << (SUPPORTED_I2C_IO_EXP_NB + XanyIdx));
   if(I2cDevMap & PresenceMask)
   {
     /* Try to read angle only f chip is present */
