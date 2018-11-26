@@ -727,6 +727,7 @@
 #define TR_RESET_TIMER3        "Azzera Timer3"
 #define TR_RESET_TELEMETRY     "Azzera Telemetria"
 #define TR_STATISTICS          "Statistiche"
+#define TR_SAVE_TIMERS         "Save Timers"
 #define TR_ABOUT_US            "Info su"
 #define TR_AND_SWITCH          "Inter. AND"
 #define TR_SF                  "CF"

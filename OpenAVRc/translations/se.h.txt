@@ -726,6 +726,7 @@
 #define TR_RESET_TIMER3        "Nollställ Timer3"
 #define TR_RESET_TELEMETRY     "Nollställ Telemetri"
 #define TR_STATISTICS          "Statistik"
+#define TR_SAVE_TIMERS         "Save Timers"
 #define TR_ABOUT_US            "Om Oss"
 #define TR_AND_SWITCH          "OCH Brytare"
 #define TR_SF                  "BF"

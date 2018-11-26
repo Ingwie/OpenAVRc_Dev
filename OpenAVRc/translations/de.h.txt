@@ -739,6 +739,7 @@
 #define TR_RESET_TIMER3	       "Reset Timer3"
 #define TR_RESET_TELEMETRY     "Reset Telemetrie"
 #define TR_STATISTICS          "Statistik und Gas"
+#define TR_SAVE_TIMERS         "Save Timers"
 #define TR_ABOUT_US            "Die Programmierer"
 #define TR_AND_SWITCH          "UND Schalt" //UND mit weiterem Schaltern
 #define TR_SF                  "SF" //Spezial Funktionen
