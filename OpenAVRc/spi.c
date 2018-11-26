@@ -37,6 +37,8 @@
 // AVR SPI functions
 //---------------------------
 
+#if defined(CPUM2560)
+
 void master_spi_disable()
 {
   SPCR &= ~(1<<SPE);
@@ -64,4 +66,39 @@ uint8_t master_spi_xfer(uint8_t value)
   return SPDR;
 }
 
-//----------------------
+#endif
+
+
+
+#if defined(CPUXMEGA)
+
+void master_spi_disable(void)
+{
+  SDCARD_SPI.CTRL &= ~SPI_ENABLE_bm;
+}
+
+
+void enable_spi_master_mode(void)
+{
+  // Enable SPI as Master, MSB first, SPI Mode 0.
+  SDCARD_SPI.CTRL = SPI_ENABLE_bm | SPI_MASTER_bm | (0b00<<SPI_MODE_gp);
+  SDCARD_SPI.CTRL &= ~SPI_DORD_bm;
+  // Note : Make sure Slave Select pin is output or input pullup.
+  SPI_250K();
+  // Set SPI_IF Flag for first time.
+  SDCARD_SPI.DATA =0;
+}
+
+
+uint8_t master_spi_xfer(uint8_t value)
+{
+  // Full Duplex (4 wire) SPI.
+  SDCARD_SPI.DATA = value;
+  // Wait for transfer to complete.
+#if !defined(SIMU)
+  while (! (SDCARD_SPI.STATUS & SPI_IF_bm));
+#endif
+  return SDCARD_SPI.DATA;
+}
+
+#endif
