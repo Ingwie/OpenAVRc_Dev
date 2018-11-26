@@ -733,6 +733,7 @@
 #define TR_RESET_TIMER3        "Stopky3"
 #define TR_RESET_TELEMETRY     "Telemetrii"
 #define TR_STATISTICS          "Statistika"
+#define TR_SAVE_TIMERS         "Save Timers"
 #define TR_ABOUT_US            "O n\200s"
 #define TR_AND_SWITCH          "AND Sp\204na\201"
 #define TR_SF                  "SF"
