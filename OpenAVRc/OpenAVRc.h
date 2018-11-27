@@ -340,29 +340,9 @@ extern volatile tmr10ms_t g_tmr10ms;
 
 extern tmr10ms_t Bind_tmr10ms;
 
-inline uint16_t get_tmr10ms()
-{
-  uint16_t time;
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-  time = g_tmr10ms;
-  }
-  return time;
-}
+inline uint16_t get_tmr10ms();
 
-inline uint16_t getTmr64uS()
-{
-#if defined(SIMU)
-  uint16_t simu_tmr16 = get_tmr10ms() * 160;
-  return simu_tmr16;
-#else
-  uint16_t ret;
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
-  {
-    ret = COUNTER_64uS;
-  }
-  return ret;
-#endif
-}
+inline uint16_t getTmr64uS();
 
 typedef int8_t rotenc_t;
 typedef int16_t getvalue_t;
