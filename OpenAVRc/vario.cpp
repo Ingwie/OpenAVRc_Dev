@@ -39,7 +39,7 @@
 void varioWakeup()
 {
   static tmr10ms_t s_varioTmr;
-  tmr10ms_t tmr10ms = get_tmr10ms();
+  tmr10ms_t tmr10ms = getTmr10ms();
 
   if (isFunctionActive(FUNCTION_VARIO)) {
 #if defined(AUDIO)

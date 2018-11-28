@@ -318,10 +318,10 @@ void Check_PWR_Switch(void)
 
   if( ! (PWR_STATUS_PORT & I_B_PWR_STATUS ) ) {
   // PWR Switch is on.
-  last10ms = get_tmr10ms();
+  last10ms = getTmr10ms();
   }
   // PWR Switch is off.
-  else if( get_tmr10ms() - last10ms > 200 ) {
+  else if( getTmr10ms() - last10ms > 200 ) {
     pwrCheck = 0; // 2 seconds.
   }
   else;

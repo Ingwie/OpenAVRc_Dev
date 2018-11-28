@@ -208,7 +208,7 @@ void writeLogs()
 
   if (logDelay)
     {
-      tmr10ms_t tmr10ms = get_tmr10ms();
+      tmr10ms_t tmr10ms = getTmr10ms();
       if (lastLogTime == 0 || (tmr10ms_t)(tmr10ms - lastLogTime) >= (tmr10ms_t)logDelay*100)
         {
           lastLogTime = tmr10ms;

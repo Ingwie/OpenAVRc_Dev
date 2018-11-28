@@ -140,6 +140,9 @@
 		<Unit filename="protocol/CORONA_cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="protocol/DDSM_cyrf6936.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="protocol/DEVO_cyrf6936.c">
 			<Option compilerVar="CC" />
 		</Unit>
