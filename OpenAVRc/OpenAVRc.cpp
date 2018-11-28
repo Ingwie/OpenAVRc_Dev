@@ -55,7 +55,7 @@ uint16_t g_lcddraw_min = -1;
   audioQueue  audio;
 #endif
 
-inline uint16_t get_tmr10ms()
+inline uint16_t getTmr10ms()
 {
   uint16_t time;
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
@@ -67,7 +67,7 @@ inline uint16_t get_tmr10ms()
 inline uint16_t getTmr64uS()
 {
 #if defined(SIMU)
-  uint16_t simu_tmr16 = get_tmr10ms() * 160;
+  uint16_t simu_tmr16 = getTmr10ms() * 160;
   return simu_tmr16;
 #else
   uint16_t ret;
@@ -190,7 +190,7 @@ const pm_uint8_t modn12x3[] PROGMEM = {
   3, 2, 1, 0
 };
 
-volatile tmr10ms_t g_tmr10ms;
+volatile tmr10ms_t g_tmr10ms = 0;
 
 tmr10ms_t Bind_tmr10ms = 0;
 
@@ -199,7 +199,6 @@ uint8_t g_ms100; // global to allow time set function to reset to zero
 
 void per10ms()
 {
-  ++g_tmr10ms;
 
 #if defined(GUI)
   if (lightOffCounter) --lightOffCounter;
@@ -384,7 +383,7 @@ int8_t getMovedSource()
     memcpy(sourcesStates, calibratedStick, sizeof(sourcesStates));
   }
 
-  lastMove10msTick = get_tmr10ms();
+  lastMove10msTick = getTmr10ms();
   return result;
 }
 #endif
@@ -688,8 +687,8 @@ void doSplash()
   if (SPLASH_NEEDED()) {
     displaySplash();
 
-    tmr10ms_t contrastStart10msTick = get_tmr10ms();
-    tmr10ms_t splashStart10msTick   = get_tmr10ms();
+    tmr10ms_t contrastStart10msTick = getTmr10ms();
+    tmr10ms_t splashStart10msTick   = getTmr10ms();
     uint8_t contrast = 10;
 
     lcdSetRefVolt(contrast);
@@ -726,7 +725,7 @@ void doSplash()
       }
 
       if (ELAPSED_10MS_TICK_SINCE(contrastStart10msTick) >= MS_TO_10MS_TICK(100)) {
-        contrastStart10msTick = get_tmr10ms();
+        contrastStart10msTick = getTmr10ms();
         if (contrast < g_eeGeneral.contrast) {
           contrast += 1;
           lcdSetRefVolt(contrast);
@@ -1019,7 +1018,7 @@ void doMixerCalculations()
 {
   static tmr10ms_t lastTMR = 0;
 
-  tmr10ms_t tmr10ms = get_tmr10ms();
+  tmr10ms_t tmr10ms = getTmr10ms();
   uint8_t tick10ms = (tmr10ms >= lastTMR ? tmr10ms - lastTMR : 1);
   // handle tick10ms overrun
   // correct overflow handling costs a lot of code; happens only each 11 min;
@@ -1244,14 +1243,20 @@ void checkBattery()
   }
 }
 
-ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
+ISR(TIMER_10MS_VECT)
 {
 #if defined(SIMU)
 ISR10msLoop_is_runing = true;
 #endif
 
-// Clocks every 9.984ms & 10.048ms
+  // Clocks every 9.984ms & 10.048ms
   static uint8_t accuracyWarble = 0;
+
+  TIMER_10MS_COMPVAL += (++accuracyWarble & 0x03) ? 156 : 157; // Clock correction
+
+  ++g_tmr10ms;
+
+  sei(); // ISR no block from here
 
 #if defined(AUDIO)
   AUDIO_HEARTBEAT();
@@ -1268,8 +1273,6 @@ ISR10msLoop_is_runing = true;
   SIMU_PROCESSEVENTS;
 
   per10ms();
-
-  TIMER_10MS_COMPVAL += (++accuracyWarble & 0x03) ? 156 : 157; // Clock correction
 
 #if defined(SIMU)
 ISR10msLoop_is_runing = false;
@@ -1499,6 +1502,8 @@ int16_t simumain()
 
   boardInit();
 
+  sei(); // Needed to catch first 10mS interrupt
+
 #if defined(GUI)
   lcdInit();
 #endif
@@ -1513,8 +1518,6 @@ int16_t simumain()
 #if defined(GUI)
   lcdSetRefVolt(25);
 #endif
-
-  sei(); // interrupts needed for telemetryPPMInit and eeReadAll.
 
 #ifdef MENU_ROTARY_SW
   init_rotary_sw();

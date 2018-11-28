@@ -170,14 +170,14 @@ uint8_t statusLineHeight = 0;
 
 void showStatusLine()
 {
-  statusLineTime = get_tmr10ms();
+  statusLineTime = getTmr10ms();
 }
 
 #define STATUS_LINE_DELAY (3 * 100) /* 3s */
 void drawStatusLine()
 {
   if (statusLineTime) {
-    if ((tmr10ms_t)(get_tmr10ms() - statusLineTime) <= (tmr10ms_t)STATUS_LINE_DELAY) {
+    if ((tmr10ms_t)(getTmr10ms() - statusLineTime) <= (tmr10ms_t)STATUS_LINE_DELAY) {
       if (statusLineHeight < FH) statusLineHeight++;
     } else if (statusLineHeight) {
       statusLineHeight--;

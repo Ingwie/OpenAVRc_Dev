@@ -281,10 +281,10 @@ swsrc_t getMovedSwitch()
     mask >>= 1;
   }
 
-  if ((tmr10ms_t)(get_tmr10ms() - s_move_last_time) > 10)
+  if ((tmr10ms_t)(getTmr10ms() - s_move_last_time) > 10)
     result = 0;
 
-  s_move_last_time = get_tmr10ms();
+  s_move_last_time = getTmr10ms();
   return result;
 }
 

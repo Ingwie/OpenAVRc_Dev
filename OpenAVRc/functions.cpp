@@ -298,7 +298,7 @@ void evalFunctions()
         case FUNC_PLAY_TRACK:
         case FUNC_PLAY_BOTH:
         case FUNC_PLAY_VALUE: {
-          tmr10ms_t tmr10ms = get_tmr10ms();
+          tmr10ms_t tmr10ms = getTmr10ms();
           uint8_t repeatParam = CFN_PLAY_REPEAT(cfn);
           if (!functionsContext.lastFunctionTime[i] || (CFN_FUNC(cfn)==FUNC_PLAY_BOTH && active!=(bool)(functionsContext.activeSwitches&switch_mask)) || (repeatParam && (signed)(tmr10ms-functionsContext.lastFunctionTime[i])>=1000*repeatParam)) {
             functionsContext.lastFunctionTime[i] = tmr10ms;
@@ -323,7 +323,7 @@ void evalFunctions()
         }
 #else
         case FUNC_PLAY_SOUND: {
-          tmr10ms_t tmr10ms = get_tmr10ms();
+          tmr10ms_t tmr10ms = getTmr10ms();
           uint8_t repeatParam = CFN_PLAY_REPEAT(cfn);
           if (!functionsContext.lastFunctionTime[i] || (repeatParam && (signed)(tmr10ms-functionsContext.lastFunctionTime[i])>=1000*repeatParam)) {
             functionsContext.lastFunctionTime[i] = tmr10ms;
@@ -341,7 +341,7 @@ void evalFunctions()
 
 #if defined(HAPTIC)
         case FUNC_HAPTIC: {
-          tmr10ms_t tmr10ms = get_tmr10ms();
+          tmr10ms_t tmr10ms = getTmr10ms();
           uint8_t repeatParam = CFN_PLAY_REPEAT(cfn);
           if (!functionsContext.lastFunctionTime[i] || (repeatParam && (signed)(tmr10ms-functionsContext.lastFunctionTime[i])>=1000*repeatParam)) {
             functionsContext.lastFunctionTime[i] = tmr10ms;

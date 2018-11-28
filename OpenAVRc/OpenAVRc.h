@@ -299,7 +299,7 @@ static uint16_t DurationValue;
 * \param  Start10msTick: starting point expressed in 10msTick
 * \return The amount of elapsed 10msTicks since the starting point expressed in 10msTick
 */
-#define ELAPSED_10MS_TICK_SINCE(Start10msTick)    ((tmr10ms_t)(get_tmr10ms() - (Start10msTick)))
+#define ELAPSED_10MS_TICK_SINCE(Start10msTick)    ((tmr10ms_t)(getTmr10ms() - (Start10msTick)))
 
 /**
 * \file   OpenAVRc.h
@@ -340,7 +340,7 @@ extern volatile tmr10ms_t g_tmr10ms;
 
 extern tmr10ms_t Bind_tmr10ms;
 
-inline uint16_t get_tmr10ms();
+inline uint16_t getTmr10ms();
 
 inline uint16_t getTmr64uS();
 
