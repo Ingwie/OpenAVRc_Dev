@@ -11,6 +11,7 @@
 
 #include "../../OpenAVRc.h"
 
+#define GETADC_COUNT 1  // Used in switches.cpp
 
 // USART General defines.
 #define USART_SET_BAUD_9K6(usartx)   _USART_SET_BAUD(usartx, 12, +4)
@@ -34,6 +35,7 @@
 
 #if defined (MULTIMODULE)
 #define PROTO_HAS_MULTISUPIIIK
+#endif
 // Using USARTD0 which is the Telemetry / Bootloader USART.
 // Should be on USARTE0 which is the USART used for MSPI of SPIMODULES.
 // All communication to RF module(s) will use the same pin ... e.g. USART MSPI, USART Asynch and PPM.
@@ -42,27 +44,23 @@
 #define TLM_USART_PORT      PORTD
 #define TLM_USART_RXC_VECT  USARTD0_RXC_vect
 #define TLM_USART_DRE_VECT  USARTD0_DRE_vect
-#endif
 
 
 // RF Module Timer counter.
-#define RF_TC              TCE0
-#define RF_PORT            PORTE
-#define RF_TIMER_CCA_VECT  TCE0_CCA_vect
-#define RF_TIMER_CCA_REG   RF_TC.CCA
+#define RF_TC                      TCE0
+#define RF_PORT                    PORTE
+#define RF_TIMER_COMPA_VECT        TCE0_CCA_vect
+#define RF_TIMER_COMPA_REG         RF_TC.CCA
 #define RF_TIMER_PAUSE_INTERRUPT   RF_TC.INTCTRLB &= ~TC0_CCAINTLVL_gm;
 #define RF_TIMER_RESUME_INTERRUPT  RF_TC.INTCTRLB |=  (0b11 << TC0_CCAINTLVL_gp); // Level 3 - High Priority.
-#define RF_TIMER_CLEAR_CCAIF_FLAG  RF_TC.INTFLAGS = TC1_CCAIF_bm; // clear ccaif.
+#define RF_TIMER_CLEAR_COMPA_FLAG  RF_TC.INTFLAGS = TC1_CCAIF_bm; // clear ccaif.
 
-#if   F_CPU == 16000000UL
-#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
-#elif F_CPU == 32000000UL
-#define HALF_MICRO_SEC_COUNTS(half_us) (half_us << 1)
-#else
-#define HALF_MICRO_SEC_COUNTS(half_us) (((F_CPU/800)*(half_us))/20000)
-#endif
 
-#define CALCULATE_LAT_JIT()  dt = (RF_TC.CNT - RF_TIMER_CCA_REG) >> 1 // Calculate latency and jitter.
+//#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
+//#define HALF_MICRO_SEC_COUNTS(half_us) (((F_CPU/800)*(half_us))/20000)
+
+
+#define CALCULATE_LAT_JIT()  dt = (RF_TC.CNT - RF_TIMER_COMPA_REG ) // Calculate latency and jitter.
 
 #if defined(SPIMODULES) // PORTE 0
 char rf_usart_mspi_xfer(char c);
@@ -155,8 +153,8 @@ extern void InitJQ6500UartTx();
 #define O_F_TRIM_ROW_A  PIN0_bm
 
 // Serial Telemetry on USART0
-#define INP_E_TELEM_RX	0
-#define OUT_E_TELEM_TX	1
+//#define INP_E_TELEM_RX	0
+//#define OUT_E_TELEM_TX	1
 
 // Trim Buttons
 void read_trim_matrix(void);
@@ -165,20 +163,20 @@ void read_trim_matrix(void);
 #if 0
 // Keys driver
 #define KEYS_PRESSED()  (~PINL)
-#define DBLKEYS_PRESSED_RGT_LFT(i) (false)
-#define DBLKEYS_PRESSED_UP_DWN(i)  (false)
-#define DBLKEYS_PRESSED_RGT_UP(i)  (false)
-#define DBLKEYS_PRESSED_LFT_DWN(i) (false)
+#define DBLKEYS_PRESSED_RGT_LFT(i)  (false)
+#define DBLKEYS_PRESSED_UP_DWN(i)   (false)
+#define DBLKEYS_PRESSED_RGT_UP(i)   (false)
+#define DBLKEYS_PRESSED_LFT_DWN(i)  (false)
 #endif
 
-#define COUNTER_31250HZ        TCC1
-#define TIMER_10MS_VECT        TCC1_CCA_vect
-#define TIMER_10MS             COUNTER_31250HZ
-#define TIMER_10MS_COMPVAL     COUNTER_31250HZ.CCA
-#define PAUSE_10MS_INTERRUPT   COUNTER_31250HZ.INTCTRLB &= ~TC1_CCAINTLVL_gm;
-#define RESUME_10MS_INTERRUPT  COUNTER_31250HZ.INTCTRLB |=  (0b01 << TC1_CCAINTLVL_gp); // Level 1 - Low Priority.
-#define COUNTER_31250HZ_CLEAR_CCAIF_FLAG   COUNTER_31250HZ.INTFLAGS = TC1_CCAIF_bm; // clear ccaif.
-#define getTmr64uS()  getTmr31250Hz()
+
+#define MS064_TC                   TCC1
+#define COUNTER_64uS               MS064_TC.CNT
+//#define TIMER_10MS_VECT            TCC1_CCA_vect
+#define TIMER_10MS_COMPVAL         MS064_TC.CCA
+#define PAUSE_10MS_INTERRUPT       MS064_TC.INTCTRLB &= ~TC1_CCAINTLVL_gm;
+#define RESUME_10MS_INTERRUPT      MS064_TC.INTCTRLB |=  (0b01 << TC1_CCAINTLVL_gp); // Level 1 - Low Priority.
+#define MS064_TC_CLEAR_CCAIF_FLAG  MS064_TC.INTFLAGS = TC1_CCAIF_bm; // clear ccaif.
 
 
 // SD Card driver
@@ -240,18 +238,23 @@ void read_trim_matrix(void);
 #define REB_DOWN()	switchState((EnumKeys)BTN_REb)
 #define ROTENC_DOWN() (REA_DOWN() || REB_DOWN())
 
-#define ENABLEROTENCAISR()  {}
-#define ENABLEROTENCBISR()  {}
-#define DISABLEROTENCAISR() {}
-#define DISABLEROTENCBISR() {}
+#define ENABLEROTENCAISR()   {}
+#define ENABLEROTENCBISR()   {}
+#define DISABLEROTENCAISR()  {}
+#define DISABLEROTENCBISR()  {}
 
 // TWI / I2C
 #define FRAM_RTC_TWI            TWIC
 #define FRAM_RTC_TWI_TWIM_VECT  TWIC_TWIM_vect
 
 // EEPROM driver
-#define EEPROM_EnableMapping()  NVM.CTRLB |= NVM_EEMAPEN_bm
-#define EEPROM_DisableMapping() NVM.CTRLB &= ~NVM_EEMAPEN_bm
+#define EEPROM_EnableMapping()   NVM.CTRLB |= NVM_EEMAPEN_bm
+#define EEPROM_DisableMapping()  NVM.CTRLB &= ~NVM_EEMAPEN_bm
+#define NVM_EXEC()              _PROTECTED_WRITE(NVM.CTRLA, 0b1);
+void EEPROM_WaitForNVM(void);
+void EEPROM_FlushBuffer(void);
+
+
 
 #if !defined(SIMU)
 #if defined(EXTERNALEEPROM)

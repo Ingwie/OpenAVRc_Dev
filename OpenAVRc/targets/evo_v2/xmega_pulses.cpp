@@ -130,44 +130,126 @@ ISR(TIMER1_COMPB_vect) // Timer 1 compare "B" vector. Used for PPM commutation a
 }
 #endif
 
-// This ISR should work for XMEGA and ATMEGA.
-ISR(RF_TIMER_CCA_VECT) // ISR for Protocol Callback, PPMSIM and PPM16 (Last 8 channels).
+
+
+
+ISR(RF_TIMER_COMPA_VECT) // ISR for Protocol Callback.
 {
-#if defined(CPUXMEGA)
-  if (! timer_counts)
-#endif
-  {
-    timer_counts = timer_callback(); // Function pointer e.g. skyartec_cb().
+  timer_counts = timer_callback(); // Function pointer e.g. skyartec_cb().
 
     if(! timer_counts) {
       PROTO_Cmds(PROTOCMD_RESET);
       return;
     }
-#if defined(CPUXMEGA)
-    timer_counts = HALF_MICRO_SEC_COUNTS(timer_counts); // Conversion for Xmega. // ToDo Might find a better way.
-#endif
+
+  RF_TIMER_COMPA_REG += timer_counts;
+
+  if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
+  if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
+}
+
+
+
+#if 0 // defined(CPUXMEGA)
+ISR(RF_TIMER_COMPA_VECT) // ISR for Protocol Callback.
+{
+  if (! timer_counts) {
+    timer_counts = timer_callback(); // Function pointer e.g. skyartec_cb().
+
+  if(! timer_counts) {
+    PROTO_Cmds(PROTOCMD_RESET);
+    return;
   }
 
-#if defined(CPUXMEGA)
+  timer_counts = (timer_counts << 1); // Conversion for Xmega.
+
   if (timer_counts > 65535) {
-//    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) { // Not really needed as this is the highest priority interrupt on the XMEGA and Blocking ISR on both XMEGA and ATMEGA.
-      RF_TIMER_CCA_REG += 32000;
+//    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) { // Not needed as this is the highest priority interrupt on the XMEGA and Blocking ISR on both XMEGA and ATMEGA.
+        RF_TIMER_COMPA_REG += 32000; // =8ms ... 1 count is 0.25us.
 //    }
-    timer_counts -= 32000; // 16ms @ 16MHz, 8ms @ 32MHz counter clock.
-  } else
-#endif
-
-  {
-//    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-      RF_TIMER_CCA_REG += timer_counts;
-//    }
-#if defined(CPUXMEGA)
+    timer_counts -= 32000; // Subtract a little and come back later.
+  }
+  else {
+    RF_TIMER_COMPA_REG += timer_counts;
     timer_counts = 0;
-#endif
-
   }
 
   if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
   if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
 }
+#endif
+
+
+const void * PROTO_PPM_Cmds(enum ProtoCmds cmd)
+{
+  switch(cmd) {
+    case PROTOCMD_INIT:
+      // PROTO_PPM_initialize();
+    return 0;
+    case PROTOCMD_RESET:
+      // PROTO_PPM_reset();
+    return (void *) 1L;
+  case PROTOCMD_GETOPTIONS:
+     sendOptionsSettingsPpm();
+     return 0;
+//  case PROTOCMD_CHECK_AUTOBIND: return 0;
+//  case PROTOCMD_BIND:  ppm_bb_initialize(); return 0;
+//  case PROTOCMD_NUMCHAN: return (void *) 16L;
+//  case PROTOCMD_DEFAULT_NUMCHAN: return (void *) 8L;
+//  case PROTOCMD_TELEMETRYSTATE: return (void *)(long) PROTO_TELEM_UNSUPPORTED;
+        default: break;
+  }
+  return 0;
+}
+
+
+const void * PROTO_PPM16_Cmds(enum ProtoCmds cmd)
+{
+  switch(cmd) {
+    case PROTOCMD_INIT:
+      // PROTO_PPM16_initialize();
+    return 0;
+    case PROTOCMD_RESET:
+      // PROTO_PPM16_reset();
+    return (void *) 1L;
+  case PROTOCMD_GETOPTIONS:
+     sendOptionsSettingsPpm();
+     return 0;
+//  case PROTOCMD_CHECK_AUTOBIND: return 0;
+//  case PROTOCMD_BIND:  ppm_bb_initialize(); return 0;
+//  case PROTOCMD_NUMCHAN: return (void *) 16L;
+//  case PROTOCMD_DEFAULT_NUMCHAN: return (void *) 8L;
+//  case PROTOCMD_TELEMETRYSTATE: return (void *)(long) PROTO_TELEM_UNSUPPORTED;
+        default: break;
+  }
+  return 0;
+}
+
+
+const void * PROTO_PPMSIM_Cmds(enum ProtoCmds cmd)
+{
+  switch(cmd) {
+    case PROTOCMD_INIT:
+      // PROTO_PPMSIM_initialize();
+    return 0;
+    case PROTOCMD_RESET:
+      // PROTO_PPMSIM_reset();
+      return (void *) 1L;
+  case PROTOCMD_GETOPTIONS:
+     sendOptionsSettingsPpm();
+     return 0;
+//  case PROTOCMD_CHECK_AUTOBIND: return 0;
+//  case PROTOCMD_BIND:  ppm_bb_initialize(); return 0;
+//  case PROTOCMD_NUMCHAN: return (void *) 16L;
+//  case PROTOCMD_DEFAULT_NUMCHAN: return (void *) 8L;
+
+//  case PROTOCMD_TELEMETRYSTATE: return (void *)(long) PROTO_TELEM_UNSUPPORTED;
+        default: break;
+  }
+  return 0;
+}
+
+
+
+
 

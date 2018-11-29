@@ -83,22 +83,24 @@ inline void boardInit()
   adcInit();
   getADC(); // Best to get some values before we start.
 
-//Setup TCC1
-//  COUNTER_31250HZ
-  COUNTER_31250HZ.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
-  COUNTER_31250HZ.CTRLC = 0;
-  COUNTER_31250HZ.CTRLD = 0;
-  COUNTER_31250HZ.CTRLE = 0;
-  COUNTER_31250HZ.CNT = 0;
-  COUNTER_31250HZ.CCA = 312; // 312 or 313.
-  COUNTER_31250HZ_CLEAR_CCAIF_FLAG;
+// Setup Event System to generate 64us pulses for compatibility with Mega2560.
+  EVSYS.CH2MUX = 0x80 + 11;  // ClkPER / (2^11) ... /2048.
+
+// Setup TCC1 for 64us / 10ms.
+  MS064_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
+  MS064_TC.CTRLC = 0;
+  MS064_TC.CTRLD = 0;
+  MS064_TC.CTRLE = 0;
+  MS064_TC.CNT = 0;
+  MS064_TC.CCA = 157; // 156 or 157.
+  MS064_TC_CLEAR_CCAIF_FLAG;
   RESUME_10MS_INTERRUPT;
-  COUNTER_31250HZ.CTRLA = 0b0111 << TC0_CLKSEL_gp; // ClkPER/1024 32MHz/1024.
+  MS064_TC.CTRLA = 8 + 2 ; // Event channel 2 (prescaler of 2048).
 
 // Setup Event System to generate 2MHz pulses for compatibility with Mega2560.
-  EVSYS.CH3MUX = 0x80 + 0x04;  // ClkPER / 16.
+  EVSYS.CH3MUX = 0x80 + 4;  // ClkPER / (2^4) ... /16.
 
-  //Setup TCx0 for RF Module use.
+// Setup TCx0 for RF Module use.
   RF_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
   RF_TC.CTRLC = 0;
   RF_TC.CTRLD = 0;
@@ -106,16 +108,16 @@ inline void boardInit()
   RF_TC.CNT = 0;
   RF_TIMER_CLEAR_COMPA_FLAG;
   //RF_TC.CTRLA = 0b0100 << TC0_CLKSEL_gp; // ClkPER/8 32MHz/8.
-  RF_TC.CTRLA = 0x08 + 3 ; // Event channel 3 (prescaler of 16)
+  RF_TC.CTRLA = 8 + 3; // Event channel 3 (prescaler of 16)
 
-//Setup TCx0 for Trainer pulses.
+// Setup TCx0 for Trainer pulses.
   TRAINER_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
   TRAINER_TC.CTRLC = 0;
   TRAINER_TC.CTRLD = 0;
   TRAINER_TC.CTRLE = 0;
   TRAINER_TC.CNT = 0;
   //TRAINER_TC.CTRLA = 0b0100 << TC0_CLKSEL_gp; // ClkPER/8 32MHz/8.
-  TRAINER_TC.CTRLA = 0x08 + 3 ; // Event channel 3 (prescaler of 16).
+  TRAINER_TC.CTRLA = 8 + 3; // Event channel 3 (prescaler of 16).
 
 #if defined(AUDIO)
 /*
@@ -239,8 +241,8 @@ inline void boardInit()
 void xmega_wdt_enable_512ms(void)
 {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    _PROTECTED_WRITE(WDT.CTRL, WDT_PER_2KCLK_gc | WDT_ENABLE_bm | WDT_CEN_bm);
-//    _PROTECTED_WRITE(WDT.CTRL, WDT_PER_2KCLK_gc | WDT_ENABLE_bm | WDT_CEN_bm);
+    _PROTECTED_WRITE(WDT.CTRL, WDT_PER_1KCLK_gc | WDT_ENABLE_bm | WDT_CEN_bm);
+//    _PROTECTED_WRITE(WDT.CTRL, WDT_PER_512CLK_gc | WDT_ENABLE_bm | WDT_CEN_bm);
      while (WDT.STATUS & WDT_SYNCBUSY_bm); // wait
      // We don't want a windowed watchdog.
     _PROTECTED_WRITE(WDT.WINCTRL, WDT_WCEN_bm);
@@ -251,7 +253,7 @@ void xmega_wdt_enable_512ms(void)
 void xmega_wdt_disable(void)
 {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    _PROTECTED_WRITE(WDT.CTRL, WDT_PER_512CLK_gc | WDT_CEN_bm);
+    _PROTECTED_WRITE(WDT.CTRL, WDT_PER_8KCLK_gc | WDT_CEN_bm);
 //    while (WDT.STATUS & WDT_SYNCBUSY_bm); // wait
   }
 }
@@ -328,7 +330,7 @@ void Check_PWR_Switch(void)
 }
 
 
-bool switches[NUM_SW - SW_BASE]; // Switches via R-2R ladder DAC.
+bool switches[NUM_SWS - SW_BASE]; // Switches via R-2R ladder DAC.
 
 
 uint8_t switchState(enum EnumKeys enuk)
@@ -337,7 +339,7 @@ uint8_t switchState(enum EnumKeys enuk)
   if(enuk < NUM_KEYS)
     return keys[enuk].state() ? 1 : 0; // Keys, trims and rotary encoder buttons.
 
-  else if(enuk < NUM_SW)
+  else if(enuk < NUM_SWS)
     return switches[enuk - SW_BASE]; // Switches.
 
   else
@@ -352,44 +354,35 @@ return trimDown((uint8_t) 0); // ToDo PATCH.
 //return 0;
 }
 
-enum {
-  TRIMS_LHD,
-  TRIMS_LHU,
-  TRIMS_LVD,
-  TRIMS_LVU,
-  TRIMS_RVD,
-  TRIMS_RVU,
-  TRIMS_RHD,
-  TRIMS_RHU
-};
 
-// Trim switches
+// Trim switches.
+// Expected sequence is defined in keys.h
 #if defined(TOGGLETRIM) //Toggle trim usage -> Left trim for right stick and right trim for left stick
-static const pm_uchar crossTrim[] PROGMEM = {
-  TRIMS_RHL, //TODO
-  TRIMS_RHR,
-  TRIMS_RVD,
-  TRIMS_RVU,
-  TRIMS_LVD,
-  TRIMS_LVU,
-  TRIMS_LHL,
-  TRIMS_LHR
+static const pm_uchar crossTrim[] PROGMEM = { // ToDo
+  TRM_LH_UP,
+  TRM_LV_DWN,
+  TRM_LH_DWN,
+  TRM_LV_UP,
+  TRM_RH_UP,
+  TRM_RV_DWN,
+  TRM_RH_DWN,
+  TRM_RV_UP
 };
 #else
 static const pm_uchar crossTrim[] PROGMEM = { // Done
-  TRIMS_RHU,
-  TRIMS_RVD,
-  TRIMS_RHD,
-  TRIMS_RVU,
-  TRIMS_LHU,
-  TRIMS_LVD,
-  TRIMS_LHD,
-  TRIMS_LVU
+  TRM_RH_UP,
+  TRM_RV_DWN,
+  TRM_RH_DWN,
+  TRM_RV_UP,
+  TRM_LH_UP,
+  TRM_LV_DWN,
+  TRM_LH_DWN,
+  TRM_LV_UP
 };
 #endif
 
 
-uint8_t trimDown(uint8_t idx) // Could return bool.
+uint8_t trimDown(uint8_t idx)
 {
 // Return value is only interpreted as bool.
 //  return keys[TRM_BASE + pgm_read_byte_near(crossTrim+idx)].state() ? 1 : 0;
@@ -405,19 +398,19 @@ void read_trim_matrix()
     keys[KEY_LEFT].input( (PORTE.IN & I_E_TRIM_COL_C)  ? 0 :1);
     keys[KEY_UP].input( (PORTE.IN & I_E_TRIM_COL_D)  ? 0 :1);
 
-//keys[TRM_BASE + pgm_read_byte_far(crossTrim+0)].input( (PORTE.IN & I_E_TRIM_COL_A)  ? 0 :1);
-//keys[TRM_BASE + pgm_read_byte_far(crossTrim+1)].input( (PORTE.IN & I_E_TRIM_COL_B)  ? 0 :1);
-//keys[TRM_BASE + pgm_read_byte_far(crossTrim+2)].input( (PORTE.IN & I_E_TRIM_COL_C)  ? 0 :1);
-//keys[TRM_BASE + pgm_read_byte_far(crossTrim+3)].input( (PORTE.IN & I_E_TRIM_COL_D)  ? 0 :1);
+//keys[pgm_read_byte_far(crossTrim+0)].input( (PORTE.IN & I_E_TRIM_COL_A)  ? 0 :1);
+//keys[pgm_read_byte_far(crossTrim+1)].input( (PORTE.IN & I_E_TRIM_COL_B)  ? 0 :1);
+//keys[pgm_read_byte_far(crossTrim+2)].input( (PORTE.IN & I_E_TRIM_COL_C)  ? 0 :1);
+//keys[pgm_read_byte_far(crossTrim+3)].input( (PORTE.IN & I_E_TRIM_COL_D)  ? 0 :1);
 
   } else {
     keys[KEY_MENU].input( (PORTE.IN & I_E_TRIM_COL_B)  ? 0 :1);
     keys[KEY_EXIT].input( (PORTE.IN & I_E_TRIM_COL_D)  ? 0 :1);
 
-keys[TRM_BASE + pgm_read_byte_far(crossTrim+4)].input( (PORTE.IN & I_E_TRIM_COL_A)  ? 0 :1);
-//keys[TRM_BASE + pgm_read_byte_far(crossTrim+5)].input( (PORTE.IN & I_E_TRIM_COL_B)  ? 0 :1);
-keys[TRM_BASE + pgm_read_byte_far(crossTrim+6)].input( (PORTE.IN & I_E_TRIM_COL_C)  ? 0 :1);
-//keys[TRM_BASE + pgm_read_byte_far(crossTrim+7)].input( (PORTE.IN & I_E_TRIM_COL_D)  ? 0 :1);
+keys[pgm_read_byte_far(crossTrim+4)].input( (PORTE.IN & I_E_TRIM_COL_A)  ? 0 :1);
+//keys[pgm_read_byte_far(crossTrim+5)].input( (PORTE.IN & I_E_TRIM_COL_B)  ? 0 :1);
+keys[pgm_read_byte_far(crossTrim+6)].input( (PORTE.IN & I_E_TRIM_COL_C)  ? 0 :1);
+//keys[pgm_read_byte_far(crossTrim+7)].input( (PORTE.IN & I_E_TRIM_COL_D)  ? 0 :1);
   }
 
   PORTF.OUTTGL = O_F_TRIM_ROW_A;
@@ -593,16 +586,21 @@ void read_A10(void)
 
 
 
-ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
+//ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
+ISR(TCC1_CCA_vect)
 {
+  static uint8_t accuracyWarble = 0;
+
 #if defined(SIMU)
 ISR10msLoop_is_runing = true;
 #endif
 
+//TIMER_10MS_COMPVAL += (accuracyWarble++ & 0b01) ? 313 : 312;
+// Clocks every 9.984ms & 10.048ms
+TIMER_10MS_COMPVAL += (++accuracyWarble & 0b11) ? 156 : 157; // Clock correction
+ ++g_tmr10ms;
 
-static uint8_t accuracyWarble = 0;
-
-TIMER_10MS_COMPVAL += (accuracyWarble++ & 0b01) ? 313 : 312;
+sei(); // Blocking ISR until here.
 
 #if defined(AUDIO)
   AUDIO_HEARTBEAT();
@@ -616,28 +614,19 @@ TIMER_10MS_COMPVAL += (accuracyWarble++ & 0b01) ? 313 : 312;
   HAPTIC_HEARTBEAT();
 #endif
 
-  Check_PWR_Switch();
-
   SIMU_PROCESSEVENTS;
 
   per10ms();
 
- if((accuracyWarble & 0) == 0) read_A8();
- if((accuracyWarble & 1) == 1) read_A9();
- if((accuracyWarble & 2) == 2) read_A10();
- if((accuracyWarble & 3) == 3) read_A11();
-
+ if((accuracyWarble & 0b11) == 0) read_A8();
+ if((accuracyWarble & 0b11) == 1) read_A9();
+ if((accuracyWarble & 0b11) == 2) read_A10();
+ if((accuracyWarble & 0b11) == 3) read_A11();
+ if((accuracyWarble & 0b111) == 4) Check_PWR_Switch();
 
 #if defined(SIMU)
 ISR10msLoop_is_runing = false;
 #endif
-}
-
-
-uint16_t getTmr31250Hz()
-{
-  // Not sure this will work.
-  return COUNTER_31250HZ.CNT >> 1;
 }
 
 
