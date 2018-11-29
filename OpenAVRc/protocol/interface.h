@@ -36,10 +36,16 @@
 
 #include "misc.h"
 
-
+#if defined(CPUM2560)
 #include "PROTO_PPM.cpp"
 #include "PROTO_PPM16.cpp"
 #include "PROTO_PPMSIM.cpp"
+#endif
+
+#if defined(CPUMXMEGA)
+// ToDo
+#endif
+
 
 #ifdef DSM2_SERIAL
 #include "DSM_SERIAL.c"
