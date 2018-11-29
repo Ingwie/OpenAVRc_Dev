@@ -850,5 +850,55 @@ void parseTelemMMsmartData(uint16_t SP_id, uint32_t SP_data, uint8_t SP_data8)
 
   }
 }
-
 #endif
+
+
+#if defined(FRSKY)
+void TelemetryValueWithMin::set(uint8_t value)
+{
+  if (!this->value) {
+    this->value = value;
+  } else {
+        this->value = (((this->value<<1) + value)/3);
+        if (this->value<value) { ++this->value; }
+  }
+  if (!min || value < min) {
+    min = value;
+  }
+}
+
+void TelemetryValueWithMinMax::set(uint8_t value, uint8_t unit)
+{
+  TelemetryValueWithMin::set(value);
+  if (unit != UNIT_VOLTS) {
+    this->value = value;
+  }
+  if (!max || value > max) {
+    max = value;
+  }
+}
+
+void LoadTelemBuffer(uint8_t *data)
+{
+  for (uint8_t i=0; i<NUM_TELEM_RX_BUFFER; ++i)
+  {
+    if (!(TelemetryRxBuffer[i][0] || TelemetryRxBuffer[i][1])) // Check buffer is free
+    {
+      memcpy(TelemetryRxBuffer[i], data, TELEM_RX_PACKET_SIZE);
+      return;
+    }
+  }
+}
+#endif
+
+uint16_t getChannelRatio(source_t channel)
+{
+  return (uint16_t)g_model.telemetry.channels[channel].ratio << g_model.telemetry.channels[channel].multiplier;
+}
+
+lcdint_t applyChannelRatio(source_t channel, lcdint_t val)
+{
+  return ((int32_t)val+g_model.telemetry.channels[channel].offset) * getChannelRatio(channel) * 2 / 51;
+}
+
+
