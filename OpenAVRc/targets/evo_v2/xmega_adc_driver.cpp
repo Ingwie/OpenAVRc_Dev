@@ -21,10 +21,10 @@ inline void ADC_atomic(uint8_t Analogs, int16_t sample);
 #if 0
 typedef enum ADC_CURRLIMIT_enum
 {
-    ADC_CURRLIMIT_NO_gc = (0x00<<5),  /* No current limit,     300ksps max sampling rate */
-    ADC_CURRLIMIT_LOW_gc = (0x01<<5),  /* Low current limit,    250ksps max sampling rate */
-    ADC_CURRLIMIT_MED_gc = (0x02<<5),  /* Medium current limit, 150ksps max sampling rate */
-    ADC_CURRLIMIT_HIGH_gc = (0x03<<5),  /* High current limit,   50ksps max sampling rate */
+  ADC_CURRLIMIT_NO_gc = (0x00<<5),  /* No current limit,     300ksps max sampling rate */
+  ADC_CURRLIMIT_LOW_gc = (0x01<<5),  /* Low current limit,    250ksps max sampling rate */
+  ADC_CURRLIMIT_MED_gc = (0x02<<5),  /* Medium current limit, 150ksps max sampling rate */
+  ADC_CURRLIMIT_HIGH_gc = (0x03<<5),  /* High current limit,   50ksps max sampling rate */
 } ADC_CURRLIMIT_t;
 #endif
 
@@ -35,7 +35,11 @@ void adcInit()
   PORTCFG.MPCMASK = 0x1f;
   PORTB.PIN0CTRL =  PORT_ISC_INPUT_DISABLE_gc;
 
-  ADCA.CALL = (uint16_t) (PRODSIGNATURES_ADCACAL1 << 8) | PRODSIGNATURES_ADCACAL0; // Read from signature row.
+
+// #define ADCA_CAL  _SFR_MEM16(0x020C)
+// ADCA.CAL = (uint16_t) (PRODSIGNATURES_ADCACAL1 << 8) | PRODSIGNATURES_ADCACAL0; // Read from signature row.
+  ADCA.CALL = PRODSIGNATURES_ADCACAL0;
+  ADCA.CALH = PRODSIGNATURES_ADCACAL1;
 
   ADCA.CTRLA = ADC_ENABLE_bm; // Enable ADC.
 
@@ -47,7 +51,7 @@ void adcInit()
 
   ADCA.REFCTRL = ADC_BANDGAP_bm;
 
-  ADCA_SAMPCTRL = 0x3F; // SAMPCTRL = 0x3F = 63  Sampling time = (63+1)*(ClkADC/2).
+  ADCA_SAMPCTRL = 4;//0x3F; // SAMPCTRL = 0x3F = 63  Sampling time = (63+1)*(ClkADC/2).
 
   ADCA.CH0.CTRL |= ADC_CH_START_bm; // Start Conversion to set flag for first time.
   while(! ADCA.INTFLAGS & ADC_CH_CHIF_bm);
@@ -82,7 +86,9 @@ void getADC()
 
         ADCA.REFCTRL = ADC_REFSEL_INTVCC_gc | ADC_BANDGAP_bm; //
 
-        ADCA.CH0.CTRL = ADC_CH_GAIN_4X_gc; //
+//        ADCA.CH0.CTRL = ADC_CH_GAIN_4X_gc; //
+        ADCA.CH0.CTRL = ADC_CH_GAIN_1X_gc; //
+
         ADCA.CH0.CTRL |= ADC_CH_INPUTMODE_DIFFWGAIN_gc; //
 
         ADCA.CH0.MUXCTRL = 0b000 << ADC_CH_MUXNEG_gp; // PIN4
@@ -108,7 +114,7 @@ void getADC()
         while(! ADCA.INTFLAGS & ADC_CH_CHIF_bm);
         OverSample += ADCA.CH0.RES;
 
-        ADC_atomic(adc_output, OverSample /4);
+        ADC_atomic(adc_output, OverSample);
 
         break;
 
