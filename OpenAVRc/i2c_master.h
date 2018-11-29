@@ -51,7 +51,8 @@
 #if defined(CPUXMEGA)
 #define I2C_SPEED_400K(port)  port.MASTER.BAUD = (uint8_t) 35; // 400KHz
 #define I2C_SPEED_500K(port)  port.MASTER.BAUD = (uint8_t) 27; // 500KHz
-#define I2C_SPEED_1M()(port)  port.MASTER.BAUD = (uint8_t) 11; // 1MHz
+#define I2C_SPEED_800K(port)  port.MASTER.BAUD = (uint8_t) 15; // 800KHz
+#define I2C_SPEED_1M(port)    port.MASTER.BAUD = (uint8_t) 11; // 1MHz
 #endif
 
 void i2c_init();

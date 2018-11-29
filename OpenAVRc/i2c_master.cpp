@@ -167,7 +167,7 @@ This function needs to be called only once to set up the correct SCL frequency
 for the bus.
 */
   FRAM_RTC_TWI.CTRL = 0;
-  I2C_SPEED_400K(FRAM_RTC_TWI);
+  I2C_SPEED_800K(FRAM_RTC_TWI);
   FRAM_RTC_TWI.MASTER.CTRLA = TWI_MASTER_ENABLE_bm;
 
   FRAM_RTC_TWI.MASTER.CTRLA |= (0b10 << TWI_MASTER_INTLVL_gp); // Level 2 - Medium Priority.
