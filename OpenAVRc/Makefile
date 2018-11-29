@@ -455,6 +455,7 @@ ifeq ($(PCB), EVO_V2)
   BUZZER = NO
   PWM_BACKLIGHT = YES
   EXTERNALEEPROM = YES
+  EXT = FRSKY
   HAPTIC = NO
   PERSONAMES = YES
   PWRMANAGE = NO
@@ -476,7 +477,7 @@ ifeq ($(PCB), EVO_V2)
   PULSESSRC = targets/evo_v2/xmega_pulses.cpp
   BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v2/menu_general_diaganas.cpp
-  EXTRABOARDSRC = targets/evo_v2/telemetry_driver.cpp targets/evo_v2/printf.c
+  EXTRABOARDSRC = targets/evo_v2/telemetry_driver.cpp
 
 
   ifeq ($(PWM_BACKLIGHT), YES)
