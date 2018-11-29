@@ -570,7 +570,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
     {
       XanyInfo->MsgNibbleLen = Read.MsgAngle8Sw.NibbleNbToTx;
       XanyInfo->SwNb         = 8;
-      XanyInfo->SwValue      = (uint16_t)Built.MsgAngle8Sw.Sw;
+      XanyInfo->SwValue      = Read.MsgAngle8Sw.Sw;
       XanyInfo->Angle        = Read.MsgAngle8Sw.Angle;
       XanyInfo->RotPotValue  = 0;
     }
