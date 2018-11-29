@@ -942,8 +942,8 @@ uint16_t s_anaFilt[NUMBER_ANALOG];
 
 uint16_t anaIn(uint8_t chan)
 {
-#if defined REV_EVO_V1
-  static const pm_char crossAna[] PROGMEM = {2,3,0,1,4,5}; // Hardwired Pots / connectors.
+#if defined(REV_EVO_V2)
+  static const pm_char crossAna[] PROGMEM = {3,2,0,1,4,5,6,7};
 #else // M2560 "Standard"
   static const pm_char crossAna[] PROGMEM = {3,1,2,0,4,5,6,7};
 #endif
@@ -1218,13 +1218,13 @@ void checkBattery()
 {
   uint32_t instant_vbat = anaIn(TX_VOLTAGE);
 
-#define BANDGAP 5000 // 5 Volts : We use AVCC.
-#if defined(REV_EVO_V1)
-  instant_vbat *= 40L * BANDGAP;
-  instant_vbat /= (4095L * 100L);
-  instant_vbat += 20L; // No Calibration Allowed.
-  // Schottky Diode drops 0.2V before a potential divider which reduces the input to the ADC by 1/4.
+#if defined(REV_EVO_V2)
+#define BANDGAP 1000L //
+  instant_vbat *= (BANDGAP * 10L); // 1/10 Divider Network.
+  instant_vbat /= (2047L * 10L); // 10mV
+  instant_vbat += 21L; // Calibration is fixed. Add 0.21V drop for schottky diode.
 #else
+#define BANDGAP 5000 // 5 Volts : We use AVCC.
   instant_vbat *= 2889L*(BANDGAP/100);
   instant_vbat /= 2047L*100L;
   instant_vbat += 38L;
