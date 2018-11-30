@@ -658,6 +658,8 @@ extern uint16_t lastMixerDuration;
   #define RESET_THR_TRACE() s_timeCum16ThrP = s_timeCumThr = 0
 #endif
 
+uint16_t getTmr64uS();
+
 uint16_t stackAvailable();
 //uint16_t freeRam();
 
