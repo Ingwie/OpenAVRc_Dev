@@ -268,9 +268,10 @@ swsrc_t getMovedSwitch()
   // 9 for Trainer switch if changed to true; Change to false is ignored
   swarnstate_t mask = 0x80;
   for (uint8_t i=NUM_PSWITCH; i>1; i--) {
-    bool prev = (switches_states & mask);
+    uint8_t prev;
+    prev = (switches_states & mask);
     // don't use getSwitch here to always get the proper value, even getSwitch manipulates
-    bool next = switchState((EnumKeys)(SW_BASE+i-1));
+    uint8_t next = switchState((EnumKeys)(SW_BASE+i-1));
     if (prev != next) {
       if (((i<NUM_PSWITCH) && (i>3)) || next==true)
         result = next ? i : -i;
@@ -306,20 +307,15 @@ void checkSwitches()
 
     uint8_t warn = false;
     for (uint8_t i=0; i<NUM_SWITCHES-1; i++) {
-      if (!(g_model.switchWarningEnable & (1<<i)))
-        {
-          if (i == 0)
-            {
-              if ((states & 0x03) != (switches_states & 0x03))
-                {
-                  warn = true;
-                }
-            }
-          else if ((states & (1<<(i+1))) != (switches_states & (1<<(i+1))))
-            {
-              warn = true;
-            }
+      if (!(g_model.switchWarningEnable & (1<<i))) {
+        if (i == 0) {
+          if ((states & 0x03) != (switches_states & 0x03)) {
+            warn = true;
+          }
+        } else if ((states & (1<<(i+1))) != (switches_states & (1<<(i+1)))) {
+          warn = true;
         }
+      }
     }
 
     if (!warn) {
