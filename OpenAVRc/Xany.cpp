@@ -590,7 +590,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
       XanyInfo->SwNb         = 0;
       XanyInfo->SwValue      = 0;
       XanyInfo->Angle        = Read.MsgAnglePot.Angle;
-      XanyInfo->RotPotValue  = 0;
+      XanyInfo->RotPotValue  = Read.MsgAnglePot.Pot;
     }
     break;
 
