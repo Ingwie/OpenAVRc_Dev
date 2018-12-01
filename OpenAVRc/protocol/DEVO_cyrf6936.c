@@ -166,7 +166,22 @@ static void DEVO_build_bind_pkt()
 static void DEVO_build_data_pkt()
 {
   static uint8_t ch_idx =0;
+#if defined(X_ANY)
 
+#if (X_ANY >= 1)
+  Xany_scheduleTx(0);
+#endif
+#if (X_ANY >= 2)
+  Xany_scheduleTx(1);
+#endif
+#if (X_ANY >= 3)
+  Xany_scheduleTx(2);
+#endif
+#if (X_ANY >= 4)
+  Xany_scheduleTx(3);
+#endif
+
+#endif
   packet[0] = (DEVO_num_channels << 4) | (0x0b + ch_idx);
     uint8_t sign = 0x0b;
     for (uint8_t i = 0; i < 4; i++) {

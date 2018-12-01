@@ -211,7 +211,7 @@ void boardOff();
 #endif
 
 //Mixer
-#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
+//#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
 
 //SUPIIIK FILE
 //#define MULTIMODULE

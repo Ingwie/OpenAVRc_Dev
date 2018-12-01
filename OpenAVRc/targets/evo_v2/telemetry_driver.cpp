@@ -33,9 +33,8 @@
 
 #include "OpenAVRc.h"
 
-uint8_t Usart0RxBuffer[USART0_RX_PACKET_SIZE];   // Receive buffer. 9 bytes (full packet), worst case 18 bytes with byte-stuffing (+1)
 
-uint8_t Usart0RxBufferCount = 0;
+uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][TELEM_RX_PACKET_SIZE];
 
 uint8_t * Usart0TxBuffer = pulses2MHz.pbyte; // [USART0_TX_PACKET_SIZE] bytes used
 
@@ -128,9 +127,11 @@ void Usart0Set8E2()
   USART_SET_MODE_8E2(TLM_USART);
 }
 
+
 #if defined(FRSKY) || defined(MULTI)
 ISR(TLM_USART_RXC_VECT)
 {
+#if 0
 // ToDo
 
   uint8_t stat;
@@ -151,6 +152,7 @@ ISR(TLM_USART_RXC_VECT)
 
   }
   UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
+#endif
 }
 #endif
 
@@ -167,40 +169,4 @@ ISR(TLM_USART_DRE_VECT)
   }
 }
 
-
-#if defined(FRSKY)
-void TelemetryValueWithMin::set(uint8_t value)
-{
-  if (!this->value) {
-    this->value = value;
-  } else {
-        this->value = (((this->value<<1) + value)/3);
-        if (this->value<value) { ++this->value; }
-  }
-  if (!min || value < min) {
-    min = value;
-  }
-}
-
-void TelemetryValueWithMinMax::set(uint8_t value, uint8_t unit)
-{
-  TelemetryValueWithMin::set(value);
-  if (unit != UNIT_VOLTS) {
-    this->value = value;
-  }
-  if (!max || value > max) {
-    max = value;
-  }
-}
-#endif
-
-uint16_t getChannelRatio(source_t channel)
-{
-  return (uint16_t)g_model.telemetry.channels[channel].ratio << g_model.telemetry.channels[channel].multiplier;
-}
-
-lcdint_t applyChannelRatio(source_t channel, lcdint_t val)
-{
-  return ((int32_t)val+g_model.telemetry.channels[channel].offset) * getChannelRatio(channel) * 2 / 51;
-}
 

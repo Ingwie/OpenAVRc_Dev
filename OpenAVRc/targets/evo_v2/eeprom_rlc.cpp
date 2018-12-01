@@ -33,11 +33,7 @@
 
 #include "OpenAVRc.h"
 
-#if defined(CPUXMEGA)
-#define NVM_EXEC()  _PROTECTED_WRITE(NVM.CTRLA, 0b1);
-void EEPROM_WaitForNVM(void);
-void EEPROM_FlushBuffer(void);
-#endif
+
 
 uint8_t   s_write_err = 0;    // error reasons
 RlcFile   theFile;  //used for any file operation
@@ -188,6 +184,11 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
     }
 }
 #endif
+
+
+
+
+
 
 static uint8_t EeFsRead(blkid_t blk, uint8_t ofs)
 {
@@ -394,7 +395,7 @@ bool eepromOpen()
     }
   if (eeFs.mySize != sizeof(eeFs))
     {
-      TRACE("bad eeFs.mySize (%d instead of %d)", (int)eeFs.mySize, (int)sizeof(eeFs));
+      TRACE("bad eeFs.mySize (%d instead of %d)", (int16_t)eeFs.mySize, (int16_t)sizeof(eeFs));
     }
 #endif
 
@@ -687,10 +688,10 @@ uint8_t eeBackupModel(uint8_t i_fileSrc)
   char *buf = reusableBuffer.modelsel.mainname;
 
   // we must close the logs as we reuse the same SD_file structure
-  checkLogActived();
+  closeLogIfActived();
 
   // check and create folder if needed
-  if (sdOpenCreateModelsDir())
+  if (sdOpenModelsDir())
     {
 
       eeLoadModelName(i_fileSrc, buf);
@@ -1016,7 +1017,7 @@ void eeLoadModel(uint8_t id)
 
 
 #if defined(SDCARD)
-      checkLogActived();
+      closeLogIfActived();
 #endif
 
       if (pulsesStarted())
@@ -1100,3 +1101,5 @@ void eeCheck(bool immediately)
       theFile.writeRlc(FILE_MODEL(g_eeGeneral.currModel), FILE_TYP_MODEL, (uint8_t*)&g_model, sizeof(g_model), immediately);
     }
 }
+
+
