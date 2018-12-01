@@ -128,7 +128,22 @@ static uint16_t DSM_SERIAL_cb()
   Usart0TxBuffer[--dsmTxBufferCount] = dsm_header;
 
   Usart0TxBuffer[--dsmTxBufferCount] = g_model.modelId; // DSM2 Header. Second byte for model match.
+#if defined(X_ANY)
 
+#if (X_ANY >= 1)
+  Xany_scheduleTx(0);
+#endif
+#if (X_ANY >= 2)
+  Xany_scheduleTx(1);
+#endif
+#if (X_ANY >= 3)
+  Xany_scheduleTx(2);
+#endif
+#if (X_ANY >= 4)
+  Xany_scheduleTx(3);
+#endif
+
+#endif
   for (uint8_t i = 0; i < DSM2_CHANS; i++) {
     uint16_t pulse = limit(0, ((channelOutputs[i]*13)>>5)+512,1023);
     Usart0TxBuffer[--dsmTxBufferCount] = (i<<2) | ((pulse>>8)&0x03); // Encoded channel + upper 2 bits pulse width.
