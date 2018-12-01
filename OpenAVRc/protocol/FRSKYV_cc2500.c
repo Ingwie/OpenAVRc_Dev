@@ -192,20 +192,7 @@ static void FRSKYV_build_bind_packet()
 static void FRSKYV_build_data_packet()
 {
 #if defined(X_ANY)
-
-#if (X_ANY >= 1)
-  Xany_scheduleTx(0);
-#endif
-#if (X_ANY >= 2)
-  Xany_scheduleTx(1);
-#endif
-#if (X_ANY >= 3)
-  Xany_scheduleTx(2);
-#endif
-#if (X_ANY >= 4)
-  Xany_scheduleTx(3);
-#endif
-
+  Xany_scheduleTx_AllInstance();
 #endif
   channel_offset = 0;
 

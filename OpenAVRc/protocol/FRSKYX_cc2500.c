@@ -224,21 +224,9 @@ static void frskyX_data_frame()
   uint16_t chan_1 ;
 
 #if defined(X_ANY)
-
-#if (X_ANY >= 1)
-  Xany_scheduleTx(0);
-#endif
-#if (X_ANY >= 2)
-  Xany_scheduleTx(1);
-#endif
-#if (X_ANY >= 3)
-  Xany_scheduleTx(2);
-#endif
-#if (X_ANY >= 4)
-  Xany_scheduleTx(3);
+  Xany_scheduleTx_AllInstance();
 #endif
 
-#endif
   /* data frames sent every 9ms; failsafe every 9 seconds
   #ifdef FAILSAFE_ENABLE
   	static uint16_t failsafe_count=0;
