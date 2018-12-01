@@ -137,6 +137,22 @@ static uint16_t corona_send_data_packet()
 
   if(!rfState16) // V1 or V2&identifier sended
     {
+#if defined(X_ANY)
+
+#if (X_ANY >= 1)
+      Xany_scheduleTx(0);
+#endif
+#if (X_ANY >= 2)
+      Xany_scheduleTx(1);
+#endif
+#if (X_ANY >= 3)
+      Xany_scheduleTx(2);
+#endif
+#if (X_ANY >= 4)
+      Xany_scheduleTx(3);
+#endif
+
+#endif
       // Build standard packet
       packet[0] = 0x10;		// 17 bytes to follow
 

@@ -236,7 +236,22 @@ static void build_bind_packet()
 static void build_data_packet(uint8_t upper)
 {
   const uint8_t *chmap;
+#if defined(X_ANY)
 
+#if (X_ANY >= 1)
+  Xany_scheduleTx(0);
+#endif
+#if (X_ANY >= 2)
+  Xany_scheduleTx(1);
+#endif
+#if (X_ANY >= 3)
+  Xany_scheduleTx(2);
+#endif
+#if (X_ANY >= 4)
+  Xany_scheduleTx(3);
+#endif
+
+#endif
   //if (binding && PROTOCOL_SticksMoved(0)) {
   //Don't turn off dialog until sticks are moved
   //  PROTOCOL_SetBindState(0);  //Turn off Bind dialog

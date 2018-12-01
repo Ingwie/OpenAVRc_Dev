@@ -243,6 +243,22 @@ static uint16_t MULTI_cb()
   uint32_t bits = 0;
   uint8_t bitsavailable = 0;
 
+#if defined(X_ANY)
+
+#if (X_ANY >= 1)
+  Xany_scheduleTx(0);
+#endif
+#if (X_ANY >= 2)
+  Xany_scheduleTx(1);
+#endif
+#if (X_ANY >= 3)
+  Xany_scheduleTx(2);
+#endif
+#if (X_ANY >= 4)
+  Xany_scheduleTx(3);
+#endif
+
+#endif
   // byte 4-25, channels 0..2047
   // Range for pulses (channelsOutputs) is [-1024:+1024] for [-100%;100%]
   // Multi uses [204;1843] as [-100%;100%]
