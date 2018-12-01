@@ -55,7 +55,7 @@ uint16_t g_lcddraw_min = -1;
   audioQueue  audio;
 #endif
 
-inline uint16_t getTmr10ms()
+FORCEINLINE uint16_t getTmr10ms()
 {
   uint16_t time;
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
@@ -64,7 +64,7 @@ inline uint16_t getTmr10ms()
   return time;
 }
 
-inline uint16_t getTmr64uS()
+FORCEINLINE uint16_t getTmr64uS()
 {
 #if defined(SIMU)
   uint16_t simu_tmr16 = getTmr10ms() * 160;
@@ -189,6 +189,32 @@ const pm_uint8_t modn12x3[] PROGMEM = {
   3, 1, 2, 0,
   3, 2, 1, 0
 };
+
+
+#if defined(X_ANY)
+/**
+* \file   OpenAVRc.cpp
+* \fn     void Xany_scheduleTx_AllInstance()
+* \brief  Call Xany_scheduleTx(X) to the X instances of X-Any
+* \param  void
+* \return void
+*/
+FORCEINLINE void Xany_scheduleTx_AllInstance()
+{
+#if (X_ANY >= 1)
+  Xany_scheduleTx(0);
+#endif
+#if (X_ANY >= 2)
+  Xany_scheduleTx(1);
+#endif
+#if (X_ANY >= 3)
+  Xany_scheduleTx(2);
+#endif
+#if (X_ANY >= 4)
+  Xany_scheduleTx(3);
+#endif
+}
+#endif
 
 volatile tmr10ms_t g_tmr10ms = 0;
 
@@ -1036,10 +1062,7 @@ void doMixerCalculations()
   Phase = !Phase;
 
 #if defined(SIMU) // Simulate ISR(TIMER1_COMPA_vect) X_any computation
-  Xany_scheduleTx(0);
-  Xany_scheduleTx(1);
-  Xany_scheduleTx(2);
-  Xany_scheduleTx(3);
+  Xany_scheduleTx_AllInstance();
 #endif
 
   if(Phase)

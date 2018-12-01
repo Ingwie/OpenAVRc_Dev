@@ -859,9 +859,8 @@ extern REG8 simu_EIMSK;
 #define loop_until_bit_is_set(sfr, bit) do {lcdInit();} while (bit_is_clear(sfr, bit))
 #define mcusr MCUSR
 #define ASSERT(x) assert(x)
-#ifndef FORCEINLINE
-  #define FORCEINLINE
-#endif
+#undef FORCEINLINE
+#define FORCEINLINE
 #if !defined(NOINLINE)
   #define NOINLINE
 #endif

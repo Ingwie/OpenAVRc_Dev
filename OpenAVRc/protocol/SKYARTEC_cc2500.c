@@ -128,20 +128,7 @@ static void add_pkt_suffix()
 static void Skyartec_send_data_packet()
 {
 #if defined(X_ANY)
-
-#if (X_ANY >= 1)
-  Xany_scheduleTx(0);
-#endif
-#if (X_ANY >= 2)
-  Xany_scheduleTx(1);
-#endif
-#if (X_ANY >= 3)
-  Xany_scheduleTx(2);
-#endif
-#if (X_ANY >= 4)
-  Xany_scheduleTx(3);
-#endif
-
+  Xany_scheduleTx_AllInstance();
 #endif
   //13 c5 01 0259 0168 0000 0259 030c 021a 0489 f3 7e 0a
 
