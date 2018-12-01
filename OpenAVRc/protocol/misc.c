@@ -58,7 +58,7 @@ void PROTO_Start_Callback( uint16_t (*cb)())
 
 #if defined(CPUM2560)
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-	OCR1A = TCNT1 + (16000U *2); // 1 count is 0.5us.
+    RF_TIMER_COMPA_REG = TCNT1 + (16000U *2); // 1 count is 0.5us.
   }
 
   TIFR1 |= 1<<OCF1A; // Reset Flag.
@@ -66,9 +66,8 @@ void PROTO_Start_Callback( uint16_t (*cb)())
 #endif
 #if defined(CPUXMEGA)
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-  RF_TIMER_COMPA_REG = RF_TC.CNT + (16000U *4); // 1 count is 0.25us.
+    RF_TIMER_COMPA_REG = RF_TC.CNT + (16000U *2);
   }
-  timer_counts = 0; // Used for timing events > 16384us on xmega.
 
   RF_TIMER_CLEAR_COMPA_FLAG; // Reset Flag.
   RF_TIMER_RESUME_INTERRUPT; // Enable Output Compare A interrupt.
