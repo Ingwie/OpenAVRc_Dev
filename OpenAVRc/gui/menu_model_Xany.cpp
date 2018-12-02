@@ -232,7 +232,7 @@ void menuModelXany(uint8_t event)
             {
               if (ValidMsg)
                 {
-                  lcdDrawNumberNAtt(16*FW, y, XanyInfo.RotPotValue, INVERS | UNSIGN | LEADING0, 3);
+                  lcdDrawNumberNAtt(16*FW, y, XanyInfo.PotValue, INVERS | UNSIGN | LEADING0, 3);
                 }
             }
           break;
