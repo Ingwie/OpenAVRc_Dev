@@ -43,7 +43,7 @@ typedef struct{
     uint8_t  SwNb;
     uint16_t SwValue;
     uint16_t Angle;
-    uint8_t  RotPotValue;
+    uint8_t  PotValue;
     uint16_t TxPeriodMs;
 }XanyInfoSt_t;
 
