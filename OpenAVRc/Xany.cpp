@@ -299,7 +299,7 @@ typedef struct{
   TxNibbleSt_t    Nibble;
 }X_OneAnyWriteMsgSt_t;
 
-static uint32_t I2cDevMap = 0L; /* 4 bytes for the map of the 4 X-Any instances */
+static uint32_t I2cDevMap = 0UL; /* 4 bytes for the map of the 4 X-Any instances */
 
 static          XanyMsg_union        X_AnyReadMsg[NUM_X_ANY]; /* 4 bytes per X-Any for storing read Msg */
 static volatile X_OneAnyWriteMsgSt_t X_AnyWriteMsg[NUM_X_ANY];/* 7 bytes per X-Any for sending Msg in interrupt (-> Volatile) */
@@ -338,7 +338,7 @@ void Xany_init(void)
         i2c_writeReg(I2c7bAddr , 0x0C, &Data, 1);
         i2c_writeReg(I2c7bAddr , 0x0D, &Data, 1);
       }
-      I2cDevMap |= (1L << Idx); /* Mark it as present */
+      I2cDevMap |= (1UL << Idx); /* Mark it as present */
     }
   }
   /* Probe I2C bus to discover Angle Sensor chips */
@@ -349,7 +349,7 @@ void Xany_init(void)
     {
       /* OK: A1335 device is present quit gracefully by sending a stop() */
       i2c_stop();
-      I2cDevMap |= (1L << (SUPPORTED_I2C_IO_EXP_NB + XanyIdx)); /* Mark it as present */
+      I2cDevMap |= (1UL << (SUPPORTED_I2C_IO_EXP_NB + XanyIdx)); /* Mark it as present */
     }
   }
   I2C_SPEED_888K();
@@ -483,7 +483,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
       XanyInfo->SwNb         = 4;
       XanyInfo->SwValue      = (uint16_t)Read.Msg4Sw.Sw;
       XanyInfo->Angle        = 0;
-      XanyInfo->RotPotValue  = 0;
+      XanyInfo->PotValue     = 0;
     }
     break;
 
@@ -500,7 +500,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
       XanyInfo->SwNb         = 8;
       XanyInfo->SwValue      = (uint16_t)Read.Msg8Sw.Sw;
       XanyInfo->Angle        = 0;
-      XanyInfo->RotPotValue  = 0;
+      XanyInfo->PotValue     = 0;
     }
     break;
 
@@ -517,7 +517,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
       XanyInfo->SwNb         = 16;
       XanyInfo->SwValue      = (uint16_t)Read.Msg16Sw.Sw;
       XanyInfo->Angle        = 0;
-      XanyInfo->RotPotValue  = 0;
+      XanyInfo->PotValue     = 0;
     }
     break;
 
@@ -534,7 +534,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
       XanyInfo->SwNb         = 0;
       XanyInfo->SwValue      = 0;
       XanyInfo->Angle        = Read.MsgAngle.Angle;
-      XanyInfo->RotPotValue  = 0;
+      XanyInfo->PotValue     = 0;
     }
     break;
 
@@ -553,7 +553,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
       XanyInfo->SwNb         = 4;
       XanyInfo->SwValue      = (uint16_t)Read.MsgAngle4Sw.Sw;
       XanyInfo->Angle        = Read.MsgAngle4Sw.Angle;
-      XanyInfo->RotPotValue  = 0;
+      XanyInfo->PotValue     = 0;
     }
     break;
 
@@ -572,7 +572,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
       XanyInfo->SwNb         = 8;
       XanyInfo->SwValue      = Read.MsgAngle8Sw.Sw;
       XanyInfo->Angle        = Read.MsgAngle8Sw.Angle;
-      XanyInfo->RotPotValue  = 0;
+      XanyInfo->PotValue     = 0;
     }
     break;
 
@@ -590,7 +590,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
       XanyInfo->SwNb         = 0;
       XanyInfo->SwValue      = 0;
       XanyInfo->Angle        = Read.MsgAnglePot.Angle;
-      XanyInfo->RotPotValue  = Read.MsgAnglePot.Pot;
+      XanyInfo->PotValue     = Read.MsgAnglePot.Pot;
     }
     break;
 
@@ -608,7 +608,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
       XanyInfo->SwNb         = 4;
       XanyInfo->SwValue      = Read.MsgPot4Sw.Sw;
       XanyInfo->Angle        = 0;
-      XanyInfo->RotPotValue  = Read.MsgPot4Sw.Pot;
+      XanyInfo->PotValue     = Read.MsgPot4Sw.Pot;
     }
     break;
 
@@ -626,7 +626,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
       XanyInfo->SwNb         = 8;
       XanyInfo->SwValue      = Read.MsgPot8Sw.Sw;
       XanyInfo->Angle        = 0;
-      XanyInfo->RotPotValue  = Read.MsgPot8Sw.Pot;
+      XanyInfo->PotValue     = Read.MsgPot8Sw.Pot;
     }
     break;
 
@@ -643,7 +643,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
       XanyInfo->SwNb         = 0;
       XanyInfo->SwValue      = 0;
       XanyInfo->Angle        = 0;
-      XanyInfo->RotPotValue  = 0;
+      XanyInfo->PotValue     = 0;
     }
     break;
   }
@@ -695,7 +695,7 @@ static uint8_t readIoExtender(uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRea
 
   for(uint8_t BitIdx = GET_FIRST_IDX(XanyIdx); BitIdx <= GET_LAST_IDX(XanyIdx); BitIdx++)
   {
-    if(I2cDevMap & (1 << BitIdx))
+    if(I2cDevMap & (1UL << BitIdx))
     {
       /* Chip is present in the I/O Expender map */
       I2c7bAddr = GET_I2C_IO_EXP_7B_ADDR(BitIdx);
@@ -746,7 +746,7 @@ static uint8_t readAngleSensor(uint8_t XanyIdx, uint16_t *Angle)
   uint32_t PresenceMask;
   uint8_t  AngleSensor7BitAddr, Ret = 0;
 
-  PresenceMask = (1L << (SUPPORTED_I2C_IO_EXP_NB + XanyIdx));
+  PresenceMask = (1UL << (SUPPORTED_I2C_IO_EXP_NB + XanyIdx));
   if(I2cDevMap & PresenceMask)
   {
     /* Try to read angle only f chip is present */

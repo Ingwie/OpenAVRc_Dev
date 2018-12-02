@@ -340,9 +340,9 @@ extern volatile tmr10ms_t g_tmr10ms;
 
 extern tmr10ms_t Bind_tmr10ms;
 
-inline uint16_t getTmr10ms();
+FORCEINLINE uint16_t getTmr10ms();
 
-inline uint16_t getTmr64uS();
+FORCEINLINE uint16_t getTmr64uS();
 
 typedef int8_t rotenc_t;
 typedef int16_t getvalue_t;
@@ -399,7 +399,6 @@ typedef struct {
 
 ///  Dimension of Arrays
 #define DIM(a) ((sizeof a) / (sizeof *a))
-
 
 #include "gui/gui.h"
 
@@ -1001,6 +1000,7 @@ enum AUDIO_SOUNDS {
 
 #if defined(X_ANY)
   #include "Xany.h"
+  FORCEINLINE void Xany_scheduleTx_AllInstance();
 #endif
 
 #if defined(MULTIMODULE)
