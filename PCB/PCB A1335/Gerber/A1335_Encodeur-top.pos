@@ -1,10 +1,10 @@
-### Module positions - created on 12/01/18 10:24:47 ###
+### Module positions - created on 12/05/18 11:43:53 ###
 ### Printed by Pcbnew version kicad 4.0.7
 ## Unit = mm, Angle = deg.
 ## Side : top
 # Ref     Val           Package                            PosX       PosY       Rot  Side
 C1        100nF         C_0805_HandSoldering             6.7310     4.3180    0.0000  top
-R1        10K           R_0805_HandSoldering             8.7630     6.0960    0.0000  top
-R2        10K           R_0805_HandSoldering             4.0640     6.0960  180.0000  top
+R1        10K           R_0805_HandSoldering             8.1280     6.0960    0.0000  top
+R2        10K           R_0805_HandSoldering             3.3020     6.0960  180.0000  top
 U2        A1335LLETR-T  TSSOP-14_4.4x5mm_Pitch0.65mm     5.4610     9.7790    0.0000  top
 ## End
