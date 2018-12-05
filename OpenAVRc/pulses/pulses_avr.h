@@ -35,12 +35,9 @@
 #ifndef pulses_avr_h
 #define pulses_avr_h
 
-#if defined(CPUXMEGA)
-static volatile uint32_t timer_counts;
-#endif
-#if defined(CPUM2560)
+
 static volatile uint16_t timer_counts;
-#endif
+
 
 extern uint8_t s_current_protocol;
 uint16_t *RptrA; // For OCR1A
