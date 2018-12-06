@@ -1,0 +1,21 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP ATTINY24-P
+D ATTINY24, PDIP14, 2k Flash, 128B SRAM, 128B EEPROM, dW
+K AVR 8bit Microcontroller tinyAVR
+F http://www.atmel.com/dyn/resources/prod_documents/doc8006.pdf
+$ENDCMP
+#
+$CMP ATTINY44-P
+D ATTINY44, PDIP14, 4k Flash, 256B SRAM, 256B EEPROM, dW
+K AVR 8bit Microcontroller tinyAVR
+F http://www.atmel.com/dyn/resources/prod_documents/doc8006.pdf
+$ENDCMP
+#
+$CMP ATTINY84-P
+D ATTINY84, PDIP14, 8k Flash, 512B SRAM, 512B EEPROM, dW
+K AVR 8bit Microcontroller tinyAVR
+F http://www.atmel.com/dyn/resources/prod_documents/doc8006.pdf
+$ENDCMP
+#
+#End Doc Library
