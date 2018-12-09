@@ -180,10 +180,15 @@ void processSportPacket(uint8_t *sport_packet)
   uint8_t  prim   = sport_packet[1];
   uint16_t appId  = *((uint16_t *)(sport_packet+2));
 
-  if (!IS_SPIMODULES_PROTOCOL(g_model.rfProtocol) && !checkSportPacket(sport_packet))
-    return;
-
-  frskyStreaming = FRSKY_TIMEOUT10ms; // reset counter only if valid frsky packets are being detected
+  if (!IS_SPIMODULES_PROTOCOL(g_model.rfProtocol))
+    {
+      if (!checkSportPacket(sport_packet)) // check only in serial mode, in SPI mode this test is already done
+        {
+          return;
+        }
+      frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST; // Reset counter only in serial mode
+      // frskyStreaming gets decremented every 10ms, FRSKY_TIMEOUT_FIRST value is detected to play connection prompt.
+    }
 
   if (prim != DATA_FRAME)
     return;
@@ -431,7 +436,8 @@ void frskyDProcessPacket(uint8_t *d_packet)
     telemetryData.analog[TELEM_ANA_A2].set(d_packet[2], g_model.telemetry.channels[TELEM_ANA_A2].type);
     telemetryData.rssi[0].set(d_packet[3]);
     telemetryData.rssi[1].set(d_packet[4] / 2);
-    frskyStreaming = FRSKY_TIMEOUT10ms; // reset counter only if valid frsky packets are being detected
+    frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST; // Reset counter only in serial mode
+    // frskyStreaming gets decremented every 10ms, FRSKY_TIMEOUT_FIRST value is detected to play connection prompt.
 
 #if defined(VARIO)
     uint8_t varioSource = g_model.telemetry.varioSource - VARIO_SOURCE_A1;
@@ -441,27 +447,6 @@ void frskyDProcessPacket(uint8_t *d_packet)
 #endif
     break;
   }
-    /*case BFSPPKT:
-    case RXSPPKT: {
-      uint16_t MMSmartPort_id; // = (d_packet[3] << 8) | d_packet[2];
-      uint32_t MMSmartPort_data;
-      MMSmartPort_id = d_packet[3];
-      MMSmartPort_id <<=8;
-      MMSmartPort_id |=d_packet[2];
-      MMSmartPort_data = d_packet[7];
-      MMSmartPort_data <<=8;
-      MMSmartPort_data |= d_packet[6];
-      MMSmartPort_data <<=8;
-      MMSmartPort_data |= d_packet[5];
-      MMSmartPort_data <<=8;
-      MMSmartPort_data |= d_packet[4];
-      parseTelemMMsmartData(MMSmartPort_id, MMSmartPort_data, d_packet[4]);
-
-      frskyStreaming = FRSKY_TIMEOUT10ms; // reset counter only if valid frsky packets are being detected
-      link_counter += 256 / FRSKY_D_AVERAGING;
-
-      break;
-    }*/
 
   case USRPKT: // User Data d_packet
     uint8_t numBytes = 3 + (d_packet[1] & 0x07); // sanitize in case of data corruption leading to buffer overflow
@@ -728,6 +713,16 @@ void telemetryInterrupt10ms()
     if (telemetryData.value.power > telemetryData.value.maxPower) {
       telemetryData.value.maxPower = telemetryData.value.power;
     }
+#if defined(VOICE)
+    if (frskyStreaming == FRSKY_TIMEOUT_FIRST)
+      {
+        PLAY_TELEMETRY_GET();
+      }
+    else if (frskyStreaming == 1)
+      {
+        PLAY_TELEMETRY_LOSS();
+      }
+#endif
   }
 
 #if defined(WS_HOW_HIGH)
@@ -786,9 +781,82 @@ void adjustRTChour()
     }
 }
 
+#if defined(FRSKY)
+void TelemetryValueWithMin::set(uint8_t value)
+{
+  if (!this->value) {
+    this->value = value;
+  } else {
+        this->value = (((this->value<<1) + value)/3);
+        if (this->value<value) { ++this->value; }
+  }
+  if (!min || value < min) {
+    min = value;
+  }
+}
+
+void TelemetryValueWithMinMax::set(uint8_t value, uint8_t unit)
+{
+  TelemetryValueWithMin::set(value);
+  if (unit != UNIT_VOLTS) {
+    this->value = value;
+  }
+  if (!max || value > max) {
+    max = value;
+  }
+}
+
+void LoadTelemBuffer(uint8_t *data)
+{
+  for (uint8_t i=0; i<NUM_TELEM_RX_BUFFER; ++i)
+  {
+    if (!(TelemetryRxBuffer[i][0] || TelemetryRxBuffer[i][1])) // Check buffer is free
+    {
+      memcpy(TelemetryRxBuffer[i], data, TELEM_RX_PACKET_SIZE);
+      return;
+    }
+  }
+}
+#endif
+
+uint16_t getChannelRatio(source_t channel)
+{
+  return (uint16_t)g_model.telemetry.channels[channel].ratio << g_model.telemetry.channels[channel].multiplier;
+}
+
+lcdint_t applyChannelRatio(source_t channel, lcdint_t val)
+{
+  return ((int32_t)val+g_model.telemetry.channels[channel].offset) * getChannelRatio(channel) * 2 / 51;
+}
+
 #if (0)
+    /*case BFSPPKT:
+    case RXSPPKT: {
+      uint16_t MMSmartPort_id; // = (d_packet[3] << 8) | d_packet[2];
+      uint32_t MMSmartPort_data;
+      MMSmartPort_id = d_packet[3];
+      MMSmartPort_id <<=8;
+      MMSmartPort_id |=d_packet[2];
+      MMSmartPort_data = d_packet[7];
+      MMSmartPort_data <<=8;
+      MMSmartPort_data |= d_packet[6];
+      MMSmartPort_data <<=8;
+      MMSmartPort_data |= d_packet[5];
+      MMSmartPort_data <<=8;
+      MMSmartPort_data |= d_packet[4];
+      parseTelemMMsmartData(MMSmartPort_id, MMSmartPort_data, d_packet[4]);
+
+      frskyStreaming = FRSKY_TIMEOUT10ms; // reset counter only if valid frsky packets are being detected
+      link_counter += 256 / FRSKY_D_AVERAGING;
+
+      break;
+    }*/
+
+
+
 void frskyRFProcessPacket(uint8_t *packet)
 {
+  // was in frskyDProcessPacket()
   // 20 bytes
   /*
   *  pkt 0 = length not counting appended status bytes
@@ -851,54 +919,3 @@ void parseTelemMMsmartData(uint16_t SP_id, uint32_t SP_data, uint8_t SP_data8)
   }
 }
 #endif
-
-
-#if defined(FRSKY)
-void TelemetryValueWithMin::set(uint8_t value)
-{
-  if (!this->value) {
-    this->value = value;
-  } else {
-        this->value = (((this->value<<1) + value)/3);
-        if (this->value<value) { ++this->value; }
-  }
-  if (!min || value < min) {
-    min = value;
-  }
-}
-
-void TelemetryValueWithMinMax::set(uint8_t value, uint8_t unit)
-{
-  TelemetryValueWithMin::set(value);
-  if (unit != UNIT_VOLTS) {
-    this->value = value;
-  }
-  if (!max || value > max) {
-    max = value;
-  }
-}
-
-void LoadTelemBuffer(uint8_t *data)
-{
-  for (uint8_t i=0; i<NUM_TELEM_RX_BUFFER; ++i)
-  {
-    if (!(TelemetryRxBuffer[i][0] || TelemetryRxBuffer[i][1])) // Check buffer is free
-    {
-      memcpy(TelemetryRxBuffer[i], data, TELEM_RX_PACKET_SIZE);
-      return;
-    }
-  }
-}
-#endif
-
-uint16_t getChannelRatio(source_t channel)
-{
-  return (uint16_t)g_model.telemetry.channels[channel].ratio << g_model.telemetry.channels[channel].multiplier;
-}
-
-lcdint_t applyChannelRatio(source_t channel, lcdint_t val)
-{
-  return ((int32_t)val+g_model.telemetry.channels[channel].offset) * getChannelRatio(channel) * 2 / 51;
-}
-
-

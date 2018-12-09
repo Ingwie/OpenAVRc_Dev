@@ -38,6 +38,7 @@
 #include "../OpenAVRc.h"
 
 #define FRSKY_TIMEOUT10ms         100 // 1 second
+#define FRSKY_TIMEOUT_FIRST       FRSKY_TIMEOUT10ms+1
 #define WSHH_TIMEOUT10ms          60  // 600ms
 
 // Enumerate FrSky packet codes
