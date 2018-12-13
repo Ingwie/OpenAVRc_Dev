@@ -1279,6 +1279,7 @@ getvalue_t div10_and_round(getvalue_t value);
 getvalue_t div100_and_round(getvalue_t value);
 
 #if defined(FRSKY)
+uint8_t checkIfModelIsOff();
 NOINLINE uint8_t getRssiAlarmValue();
 
 extern const pm_uint8_t bchunit_ar[];

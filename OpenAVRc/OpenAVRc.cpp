@@ -535,22 +535,6 @@ void incRotaryEncoder(uint8_t idx, int8_t inc)
 
 #endif
 
-#if   defined(FRSKY)
-ls_telemetry_value_t maxTelemValue(uint8_t channel)
-{
-  switch (channel) {
-  case TELEM_FUEL:
-  case TELEM_RSSI_TX:
-  case TELEM_RSSI_RX:
-    return 100;
-  case TELEM_HDG:
-    return 180;
-  default:
-    return 255;
-  }
-}
-#endif
-
 getvalue_t convert8bitsTelemValue(uint8_t channel, ls_telemetry_value_t value)
 {
   getvalue_t result;
@@ -611,6 +595,31 @@ getvalue_t convert8bitsTelemValue(uint8_t channel, ls_telemetry_value_t value)
 }
 
 #if defined(FRSKY)
+uint8_t checkIfModelIsOff()
+{
+  if (TELEMETRY_STREAMING())
+    {
+      ALERT(STR_MODEL, STR_MODELISON, AU_FRSKY_WARN2);
+      return true;
+    }
+  return false;
+}
+
+ls_telemetry_value_t maxTelemValue(uint8_t channel)
+{
+  switch (channel) {
+  case TELEM_FUEL:
+  case TELEM_RSSI_TX:
+  case TELEM_RSSI_RX:
+    return 100;
+  case TELEM_HDG:
+    return 180;
+  default:
+    return 255;
+  }
+}
+
+
 FORCEINLINE void convertUnit(getvalue_t & val, uint8_t & unit)
 {
   if (IS_IMPERIAL_ENABLE()) {
@@ -1586,6 +1595,9 @@ void SimuMainLoop() // Create loop function
     simu_shutDownSimu_is_runing = true;
 #endif
 
+#if defined(FRSKY)
+    checkIfModelIsOff(); // Check if telemetry signal is off
+#endif
     // Time to switch off
     lcdClear();
     displayPopup(STR_SHUTDOWN);

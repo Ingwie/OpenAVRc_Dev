@@ -272,6 +272,7 @@
 
 #if defined(FRSKY)
   #define TR_FSW_RESET_TELEM   TR("T\200lm", "T\200l\200mesure")
+  #define TR_MODELISON         INDENT "Le modele est allum\200"
 #else
   #define TR_FSW_RESET_TELEM
 #endif
