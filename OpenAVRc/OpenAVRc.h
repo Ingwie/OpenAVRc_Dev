@@ -919,7 +919,9 @@ extern void parseTelemFrskyByte(uint8_t data);
 #define PLAY_BACKGROUND           0x20
 #define PLAY_INCREMENT(x)         ((uint8_t)(((uint8_t)x) << 6))   /* -1, 0, 1, 2 */
 
-#define PLAY_MODEL_NAME_NUM_FILE 0xC8 //200 in buildaudiofile models name range 201 to 232
+#define AU_MODEL_NAME_NUM_FILE    0xC8 //200 in buildaudiofile models name range 201 to 255
+#define AU_TELEMETRY_GET          0x1E //510
+#define AU_TELEMETRY_LOSS         0x1F //511
 
 /* make sure the defines below always go in numeric order */
 enum AUDIO_SOUNDS {

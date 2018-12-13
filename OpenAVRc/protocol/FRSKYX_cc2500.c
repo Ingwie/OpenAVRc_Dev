@@ -366,9 +366,8 @@ Telemetry frames(RF) SPORT info 15 bytes
        && pkt[2] == temp_rfid_addr[2]
        && (Xcrc(&pkt[3], len-7) == (uint16_t)(pkt[len-4] << 8 | pkt[len-3])))
     {
-      if(frskyStreaming < FRSKY_TIMEOUT10ms -5)
-        frskyStreaming +=5;
-      // frskyStreaming gets decremented every 10ms, however we can only add to it every 4 *9ms, so we add 5.
+      frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
+      // frskyStreaming gets decremented every 10ms, FRSKY_TIMEOUT_FIRST value is detected to play connection prompt.
 
       if (pkt[4] & 0x80)     // distinguish RSSI from VOLT1
         {
@@ -379,9 +378,7 @@ Telemetry frames(RF) SPORT info 15 bytes
           telemetryData.analog[0].set(pkt[4] * 10,UNIT_VOLTS);      // In 1/100 of Volts
         } TODO use*/
 
-
       telemetryData.rssi[1].set(pkt[len-2] & 0x7f);
-
 
       if (((pkt[5] & 0x0f) == 0x08) || ((pkt[5] >> 4) == 0x08))     // restart
         {
