@@ -48,7 +48,8 @@ enum JQ6500_State {
 	TERMI,     //0xEF Termination
 };
 
-uint8_t JQstate = START;
+volatile uint8_t JQstate = START;
+
 uint8_t JQ6500_Data[6] = {0x7E, //Start
                           0x04, //Num bytes follow
                           0X03, //Select file

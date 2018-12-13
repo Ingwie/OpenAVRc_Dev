@@ -70,6 +70,10 @@ void beep(uint8_t val);
       #define AUDIO_TIMER_MINUTE(t)  playDuration(t)
       #define AUDIO_TIMER_30()       PUSH_SYSTEM_PROMPT(AU_TIMER_30)
       #define AUDIO_TIMER_20()       PUSH_SYSTEM_PROMPT(AU_TIMER_20)
+      #define PLAY_MODEL_NAME()      PUSH_CUSTOM_PROMPT(AU_MODEL_NAME_NUM_FILE,0); PUSH_CUSTOM_PROMPT(AU_MODEL_NAME_NUM_FILE + 1 + g_eeGeneral.currModel,0)
+      #define PLAY_TELEMETRY_GET()   PUSH_SYSTEM_PROMPT(AU_TELEMETRY_GET)
+      #define PLAY_TELEMETRY_LOSS()  PUSH_SYSTEM_PROMPT(AU_TELEMETRY_LOSS)
+
     #else
       #define AUDIO_TADA()
       #define AUDIO_BYE()
@@ -79,6 +83,10 @@ void beep(uint8_t val);
       #define AUDIO_TIMER_MINUTE(t)  beep(2)
       #define AUDIO_TIMER_30()       { beepAgain=2; beep(2); }
       #define AUDIO_TIMER_20()       { beepAgain=1; beep(2); }
+      #define PLAY_MODEL_NAME()
+      #define PLAY_TELEMETRY_GET()
+      #define PLAY_TELEMETRY_LOSS()
+
     #endif
 
     #define AUDIO_KEYPAD_UP()        beep(0)
@@ -135,7 +143,7 @@ void beep(uint8_t val);
   #define PLAY_SWITCH_MOVED(sw)
   #define PLAY_LOGICAL_SWITCH_OFF(sw)
   #define PLAY_LOGICAL_SWITCH_ON(sw)
-  #define PLAY_MODEL_NAME()
+
 #endif /* !AUDIO */
 
 #if defined(BUZZER)

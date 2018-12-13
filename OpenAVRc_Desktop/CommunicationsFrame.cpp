@@ -159,7 +159,7 @@ void CommunicationsFrame::OnButtonEnterClick(wxCommandEvent& event)//Saves new d
 
 void CommunicationsFrame::OnButtonDetectClick(wxCommandEvent& event)
 {
-    int answer = wxMessageBox(_("Dérancher la radio du PC"), _("Auto Detection"), wxOK  | wxCENTRE, this);
+    int answer = wxMessageBox(_("Débrancher la radio du PC"), _("Auto Detection"), wxOK  | wxCENTRE, this);
     if (answer == wxOK)
     {
         DetectSerial();

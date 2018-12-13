@@ -220,9 +220,8 @@ static void frskyD_check_telemetry(uint8_t len)
       && packet[1] == temp_rfid_addr[0]
       && packet[2] == temp_rfid_addr[1])
     {
-      if(frskyStreaming < FRSKY_TIMEOUT10ms -5)
-        frskyStreaming +=5;
-      // frskyStreaming gets decremented every 10ms, however we can only add to it every 4 *9ms, so we add 5.
+      frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
+      // frskyStreaming gets decremented every 10ms, FRSKY_TIMEOUT_FIRST value is detected to play connection prompt.
 
       telemetryData.rssi[0].set(packet[5] & 0x7f);
 
