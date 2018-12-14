@@ -272,7 +272,7 @@
 
 #if defined(FRSKY)
   #define TR_FSW_RESET_TELEM   TR("Télm", "Télémesure")
-  #define TR_MODELISON         INDENT "Le modele est allumé"
+  #define TR_MODELISON         INDENT "Le modèle est allumé"
 #else
   #define TR_FSW_RESET_TELEM
 #endif
