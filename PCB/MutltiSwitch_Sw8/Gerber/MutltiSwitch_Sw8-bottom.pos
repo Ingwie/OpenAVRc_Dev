@@ -1,0 +1,13 @@
+### Module positions - created on 12/16/18 16:06:23 ###
+### Printed by Pcbnew version kicad 4.0.7
+## Unit = mm, Angle = deg.
+## Side : bottom
+# Ref     Val       Package                PosX       PosY       Rot  Side
+C1        100nF     C_1206              12.0650    29.2100    0.0000  bottom
+C2        100nF     C_1206               3.8100    20.3200    0.0000  bottom
+C3        100nF     C_1206               3.8100    30.4800    0.0000  bottom
+D2        LL4148    D_SOD-123           15.7480     5.0800  180.0000  bottom
+R1        1K        R_1206               5.7150    16.5100   90.0000  bottom
+R2        330       R_1206              12.0650    21.5900    0.0000  bottom
+R3        100       R_1206               3.1750     7.8740   -0.0000  bottom
+## End
