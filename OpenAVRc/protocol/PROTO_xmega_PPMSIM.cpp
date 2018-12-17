@@ -13,7 +13,7 @@
 ISR(TCF0_OVF_vect)
 {
   /*
-   * PROTO_PPM uses TCF0 OC0B PF1.
+   * PROTO_PPMSIM uses TCF0 OC0B PF1.
    * 16 Bit Timer running @ 2MHz has a resolution of 0.5us.
    * This should give a PPM resolution of 2048.
   */
