@@ -781,7 +781,6 @@ void adjustRTChour()
     }
 }
 
-#if defined(FRSKY)
 void TelemetryValueWithMin::set(uint8_t value)
 {
   if (!this->value) {
@@ -817,7 +816,6 @@ void LoadTelemBuffer(uint8_t *data)
     }
   }
 }
-#endif
 
 uint16_t getChannelRatio(source_t channel)
 {
