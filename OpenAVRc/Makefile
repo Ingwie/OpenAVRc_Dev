@@ -21,7 +21,7 @@ PCB = MEGAMINI
 # Values: ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306, SH1106
 LCD = ST7565P
 
-# Enable FrSky Telemetry reception on UART0
+# Enable FrSky Telemetry reception on UART0 or SPI
 # Values = STD, FRSKY
 EXT = STD
 
@@ -439,7 +439,7 @@ endif
 
 ifeq ($(PCB), EVO_V2)
   # EVO V2 PCB with XMega256C3/D3
- 
+
   FLAVOUR = Evo
   ARCH = AVR
   LCDSIZE = 128
@@ -469,8 +469,8 @@ ifeq ($(PCB), EVO_V2)
   CC2500PAG = 20
   CYRF6936 = YES
   CYRF6936PAG = 20
- 
-  
+
+
   INCDIRS += targets/evo_v2 targets/stock $(RRSDDIR)
   BOARDSRC += main_avr.cpp targets/evo_v2/xmega.cpp targets/evo_v2/xmega_lcd_driver.cpp targets/evo_v2/xmega_adc_driver.cpp
   EEPROMSRC = eeprom_common.cpp targets/evo_v2/eeprom_rlc.cpp
@@ -483,7 +483,7 @@ ifeq ($(PCB), EVO_V2)
   ifeq ($(PWM_BACKLIGHT), YES)
     CPPDEFS += -DPWM_BACKLIGHT
   endif
-    
+
   ifeq ($(PWRMANAGE), YES)
     CPPDEFS += -DPWRMANAGE
   endif
@@ -495,7 +495,7 @@ ifeq ($(PCB), EVO_V2)
     CPPSRC += sdcard.cpp logs.cpp spi.c
     RTCLOCK = YES
   endif
- 
+
   ifeq ($(RTCLOCK), YES)
     CPPDEFS += -DRTCLOCK
     CPPSRC += rtc_driver.cpp i2c_master.cpp
@@ -505,7 +505,7 @@ ifeq ($(PCB), EVO_V2)
   ifeq ($(EXTERNALEEPROM), YES)
    CPPDEFS += -DEXTERNALEEPROM
   endif
- 
+
   ifeq ($(AUDIO), YES)
     CPPDEFS += -DAUDIO
     CPPSRC += audio_avr.cpp
@@ -532,14 +532,14 @@ ifeq ($(PCB), EVO_V2)
   ifeq ($(PERSONAMES), YES)
    CPPDEFS += -DPERSONAMES
   endif
-  
+
   ifeq ($(SPIMODULES), YES)
     CPPDEFS += -DSPIMODULES
 
 	ifeq ($(CC2500), YES)
  	  CPPDEFS += -DPROTO_HAS_CC2500
  	  CPPDEFS += -DCC2500PA_GAIN=$(CC2500PAG)
-	endif 
+	endif
 
 	ifeq ($(CYRF6936), YES)
    	  CPPDEFS += -DPROTO_HAS_CYRF6936
