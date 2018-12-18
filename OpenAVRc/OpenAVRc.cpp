@@ -1205,7 +1205,11 @@ void OpenAVRcStart() // Run only if it is not a WDT reboot
 #endif
 #if defined(SDCARD)
   if (!MountSD()) master_spi_disable(); // Mount SD, disable master SPI port on error
-  if sdMounted() sdCreateSystemDir();   // Create LOGS & MODELS dir if they don't exist
+  if sdMounted()
+  {
+    sdCreateSystemDir();   // Create LOGS & MODELS dir if they don't exist
+    sdFindFileStruct(ROOT_PATH); // Nedeed to initialize SD driver buffer (Lcd buffer reused ;-)
+  }
 #endif
   doSplash();
 #if defined(GUI)

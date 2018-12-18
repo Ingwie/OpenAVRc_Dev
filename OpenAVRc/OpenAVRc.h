@@ -1184,7 +1184,7 @@ union ReusableBuffer {
 
 #if defined(SDCARD)
     char menu_bss[POPUP_MENU_MAX_LINES][MENU_LINE_LENGTH];
-    char mainname[25]; // used in logs : modelnamex-2013-01-01.log
+    char mainname[25]; // used in logs : modelnamex-2013-01-01.log & Voice List read function
 #else
     char mainname[LEN_MODEL_NAME];
 #endif
