@@ -641,13 +641,13 @@ void lcdSetContrast()
 
 #define LCD_BYTE_FILTER(p, keep, add) *(p) = (*(p) & (keep)) | (add)
 
-#if defined(SDCARD)
+#if defined(SDCARDaa)
 
 void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 {
   uint8_t *p = &displayBuf[ y / 8 * LCD_W + x ];
 
-  uint_farptr_t q = pgm_get_far_address(zzfont_5x7);
+  uint_farptr_t q = pgm_get_far_address(font_5x7_in_sram);
   q += (c-0x20)*5;
   lcdNextPos = x-1;
   p--;
@@ -696,7 +696,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
     /* each letter consists of ten top bytes followed by
      * by ten bottom bytes (20 bytes per * char) */
 
-    q = pgm_get_far_address(zzfont_10x14);
+    q = pgm_get_far_address(font_10x14_in_sram);
     q += (uint16_t)c_remapped*20;
 
     for (int8_t i=0; i<=11; i++) {
@@ -732,7 +732,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 #if defined(BOLD_FONT)
 #if defined(BOLD_SPECIFIC_FONT)
     if (flags & BOLD) {
-      q = pgm_get_far_address(zzfont_5x7_B);
+      q = pgm_get_far_address(font_5x7_B_in_flash);
       q += (c_remapped)*5;
     }
 #else
@@ -802,7 +802,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 {
   uint8_t *p = &displayBuf[ y / 8 * LCD_W + x ];
 
-  const pm_uchar *q = &zzfont_5x7[(c-0x20)*5];
+  const pm_uchar *q = &font_5x7_in_sram[(c-0x20)*5];
 
   lcdNextPos = x-1;
   p--;
@@ -851,7 +851,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
     /* each letter consists of ten top bytes followed by
      * by ten bottom bytes (20 bytes per * char) */
 
-    q = &zzfont_10x14[((uint16_t)c_remapped)*20];
+    q = &font_10x14_in_sram[((uint16_t)c_remapped)*20];
 
     for (int8_t i=0; i<=11; i++) {
       uint8_t b1=0, b2=0;
@@ -886,7 +886,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 #if defined(BOLD_FONT)
 #if defined(BOLD_SPECIFIC_FONT)
     if (flags & BOLD) {
-      q = &zzfont_5x7_B[(c_remapped)*5];
+      q = &font_5x7_B_in_flash[(c_remapped)*5];
     }
 #else
     uint8_t bb = 0;
@@ -905,7 +905,16 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
           continue;
         }
       } else if (i <= 5) {
-        b = *q++;
+#if defined(BOLD_FONT)
+#if defined(BOLD_SPECIFIC_FONT)
+            if (flags & BOLD) // Only "Specific" bold font is stored in flash
+              {
+                b = pgm_read_byte_near(q++);
+              }
+            else
+#endif
+#endif
+      b = *q++;
       }
       if (b == 0xff) {
         if (flags & FIXEDWIDTH)
