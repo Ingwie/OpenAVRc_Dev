@@ -56,16 +56,15 @@
 void checkMixer()
 {
   // TODO duplicated code ...
-  LEDON();
   uint16_t t0 = getTmr64uS();
   int16_t delta = (nextMixerEndTime - lastMixerDuration) - t0;
   if ((delta > 0 && delta < US_TO_64US_TICK(MAX_MIXER_DELTA_US)) || (!s_mixer_first_run_done))
     {
-      LEDOFF();
       return;
     }
 
   nextMixerEndTime = t0 + US_TO_64US_TICK(MAX_MIXER_DELTA_US);
+
   doMixerCalculations();
 
   t0 = getTmr64uS() - t0;
@@ -229,12 +228,13 @@ uint8_t rcvr_spi ()
 
 #if !SD_RAW_SAVE_RAM
   /* static data buffer for acceleration */
-  static uint8_t raw_block[512];
-  /* offset where the data within raw_block lies on the card */
-  static offset_t raw_block_address;
+  //static uint8_t raw_block[512]; Renamed REUSED_FROM_LCD_BUFFER_RAWBLOCK below
+#define REUSED_FROM_LCD_BUFFER_RAWBLOCK displayBuf
+  /* offset where the data within REUSED_FROM_LCD_BUFFER_RAWBLOCK lies on the card */
+  static offset_t REUSED_FROM_LCD_BUFFER_RAWBLOCK_address;
   #if SD_RAW_WRITE_BUFFERING
-    /* flag to remember if raw_block was written to the card */
-    static uint8_t raw_block_written;
+    /* flag to remember if REUSED_FROM_LCD_BUFFER_RAWBLOCK was written to the card */
+    static uint8_t REUSED_FROM_LCD_BUFFER_RAWBLOCK_written;
   #endif
 #endif
 
@@ -379,11 +379,11 @@ uint8_t sd_raw_init()
   SPI_8M();
 #if !SD_RAW_SAVE_RAM
   /* the first block is likely to be accessed first, so precache it here */
-  raw_block_address = (offset_t) -1;
+  REUSED_FROM_LCD_BUFFER_RAWBLOCK_address = (offset_t) -1;
 #if SD_RAW_WRITE_BUFFERING
-  raw_block_written = 1;
+  REUSED_FROM_LCD_BUFFER_RAWBLOCK_written = 1;
 #endif
-  if(!sd_raw_read(0, raw_block, sizeof(raw_block)))
+  if(!sd_raw_read(0, REUSED_FROM_LCD_BUFFER_RAWBLOCK, 512))
     return 0;
 #endif
 
@@ -461,7 +461,7 @@ uint8_t sd_raw_read(offset_t offset, uint8_t* buffer, uintptr_t length)
 
 #if !SD_RAW_SAVE_RAM
       /* check if the requested data is cached */
-      if(block_address != raw_block_address)
+      if(block_address != REUSED_FROM_LCD_BUFFER_RAWBLOCK_address)
 #endif
         {
 #if SD_RAW_WRITE_BUFFERING
@@ -497,12 +497,12 @@ uint8_t sd_raw_read(offset_t offset, uint8_t* buffer, uintptr_t length)
             }
 #else
           /* read byte block */
-          uint8_t* cache = raw_block;
+          uint8_t* cache = REUSED_FROM_LCD_BUFFER_RAWBLOCK;
           for(uint16_t i = 0; i < 512; ++i)
             *cache++ = sd_raw_rec_byte();
-          raw_block_address = block_address;
+          REUSED_FROM_LCD_BUFFER_RAWBLOCK_address = block_address;
 
-          memcpy(buffer, raw_block + block_offset, read_length);
+          memcpy(buffer, REUSED_FROM_LCD_BUFFER_RAWBLOCK + block_offset, read_length);
           buffer += read_length;
 #endif
 
@@ -520,7 +520,7 @@ uint8_t sd_raw_read(offset_t offset, uint8_t* buffer, uintptr_t length)
       else
         {
           /* use cached data */
-          memcpy(buffer, raw_block + block_offset, read_length);
+          memcpy(buffer, REUSED_FROM_LCD_BUFFER_RAWBLOCK + block_offset, read_length);
           buffer += read_length;
         }
 #endif
@@ -688,7 +688,7 @@ uint8_t sd_raw_write(offset_t offset, const uint8_t* buffer, uintptr_t length)
       /* Merge the data to write with the content of the block.
        * Use the cached block if available.
        */
-      if(block_address != raw_block_address)
+      if(block_address != REUSED_FROM_LCD_BUFFER_RAWBLOCK_address)
         {
 #if SD_RAW_WRITE_BUFFERING
           if(!sd_raw_sync())
@@ -697,18 +697,18 @@ uint8_t sd_raw_write(offset_t offset, const uint8_t* buffer, uintptr_t length)
 
           if(block_offset || write_length < 512)
             {
-              if(!sd_raw_read(block_address, raw_block, sizeof(raw_block)))
+              if(!sd_raw_read(block_address, REUSED_FROM_LCD_BUFFER_RAWBLOCK, 512))
                 return 0;
             }
-          raw_block_address = block_address;
+          REUSED_FROM_LCD_BUFFER_RAWBLOCK_address = block_address;
         }
 
-      if(buffer != raw_block)
+      if(buffer != REUSED_FROM_LCD_BUFFER_RAWBLOCK)
         {
-          memcpy(raw_block + block_offset, buffer, write_length);
+          memcpy(REUSED_FROM_LCD_BUFFER_RAWBLOCK + block_offset, buffer, write_length);
 
 #if SD_RAW_WRITE_BUFFERING
-          raw_block_written = 0;
+          REUSED_FROM_LCD_BUFFER_RAWBLOCK_written = 0;
 
           if(length == write_length)
             return 1;
@@ -733,7 +733,7 @@ uint8_t sd_raw_write(offset_t offset, const uint8_t* buffer, uintptr_t length)
       sd_raw_send_byte(0xfe);
 
       /* write byte block */
-      uint8_t* cache = raw_block;
+      uint8_t* cache = REUSED_FROM_LCD_BUFFER_RAWBLOCK;
       for(uint16_t i = 0; i < 512; ++i)
         sd_raw_send_byte(*cache++);
 
@@ -753,7 +753,7 @@ uint8_t sd_raw_write(offset_t offset, const uint8_t* buffer, uintptr_t length)
       length -= write_length;
 
 #if SD_RAW_WRITE_BUFFERING
-      raw_block_written = 1;
+      REUSED_FROM_LCD_BUFFER_RAWBLOCK_written = 1;
 #endif
     }
 
@@ -828,11 +828,11 @@ uint8_t sd_raw_write_interval(offset_t offset, uint8_t* buffer, uintptr_t length
 uint8_t sd_raw_sync()
 {
 #if SD_RAW_WRITE_BUFFERING
-  if(raw_block_written)
+  if(REUSED_FROM_LCD_BUFFER_RAWBLOCK_written)
     return 1;
-  if(!sd_raw_write(raw_block_address, raw_block, sizeof(raw_block)))
+  if(!sd_raw_write(REUSED_FROM_LCD_BUFFER_RAWBLOCK_address, REUSED_FROM_LCD_BUFFER_RAWBLOCK, 512))
     return 0;
-  raw_block_written = 1;
+  REUSED_FROM_LCD_BUFFER_RAWBLOCK_written = 1;
 #endif
   return 1;
 }
