@@ -228,12 +228,12 @@ uint8_t rcvr_spi ()
 
 #if !SD_RAW_SAVE_RAM
   /* static data buffer for acceleration */
-  //static uint8_t raw_block[512]; Renamed REUSED_FROM_LCD_BUFFER_RAWBLOCK below
-#define REUSED_FROM_LCD_BUFFER_RAWBLOCK displayBuf
-  /* offset where the data within REUSED_FROM_LCD_BUFFER_RAWBLOCK lies on the card */
+  //static uint8_t raw_block[512]; Renamed REUSED_SD_RAWBLOCK_BUFFER below
+#define REUSED_SD_RAWBLOCK_BUFFER displayBuf
+  /* offset where the data within REUSED_SD_RAWBLOCK_BUFFER lies on the card */
   static offset_t raw_block_address;
   #if SD_RAW_WRITE_BUFFERING
-    /* flag to remember if REUSED_FROM_LCD_BUFFER_RAWBLOCK was written to the card */
+    /* flag to remember if REUSED_SD_RAWBLOCK_BUFFER was written to the card */
     static uint8_t raw_block_written;
   #endif
 #endif
@@ -383,7 +383,7 @@ uint8_t sd_raw_init()
 #if SD_RAW_WRITE_BUFFERING
   raw_block_written = 1;
 #endif
-  if(!sd_raw_read(0, REUSED_FROM_LCD_BUFFER_RAWBLOCK, REUSED_FROM_LCD_BUFFER_RAWBLOCK_SIZE))
+  if(!sd_raw_read(0, REUSED_SD_RAWBLOCK_BUFFER, REUSED_SD_RAWBLOCK_BUFFER_SIZE))
     return 0;
 #endif
 
@@ -497,12 +497,12 @@ uint8_t sd_raw_read(offset_t offset, uint8_t* buffer, uintptr_t length)
             }
 #else
           /* read byte block */
-          uint8_t* cache = REUSED_FROM_LCD_BUFFER_RAWBLOCK;
+          uint8_t* cache = REUSED_SD_RAWBLOCK_BUFFER;
           for(uint16_t i = 0; i < 512; ++i)
             *cache++ = sd_raw_rec_byte();
           raw_block_address = block_address;
 
-          memcpy(buffer, REUSED_FROM_LCD_BUFFER_RAWBLOCK + block_offset, read_length);
+          memcpy(buffer, REUSED_SD_RAWBLOCK_BUFFER + block_offset, read_length);
           buffer += read_length;
 #endif
 
@@ -520,7 +520,7 @@ uint8_t sd_raw_read(offset_t offset, uint8_t* buffer, uintptr_t length)
       else
         {
           /* use cached data */
-          memcpy(buffer, REUSED_FROM_LCD_BUFFER_RAWBLOCK + block_offset, read_length);
+          memcpy(buffer, REUSED_SD_RAWBLOCK_BUFFER + block_offset, read_length);
           buffer += read_length;
         }
 #endif
@@ -697,15 +697,15 @@ uint8_t sd_raw_write(offset_t offset, const uint8_t* buffer, uintptr_t length)
 
           if(block_offset || write_length < 512)
             {
-              if(!sd_raw_read(block_address, REUSED_FROM_LCD_BUFFER_RAWBLOCK, REUSED_FROM_LCD_BUFFER_RAWBLOCK_SIZE))
+              if(!sd_raw_read(block_address, REUSED_SD_RAWBLOCK_BUFFER, REUSED_SD_RAWBLOCK_BUFFER_SIZE))
                 return 0;
             }
           raw_block_address = block_address;
         }
 
-      if(buffer != REUSED_FROM_LCD_BUFFER_RAWBLOCK)
+      if(buffer != REUSED_SD_RAWBLOCK_BUFFER)
         {
-          memcpy(REUSED_FROM_LCD_BUFFER_RAWBLOCK + block_offset, buffer, write_length);
+          memcpy(REUSED_SD_RAWBLOCK_BUFFER + block_offset, buffer, write_length);
 
 #if SD_RAW_WRITE_BUFFERING
           raw_block_written = 0;
@@ -733,7 +733,7 @@ uint8_t sd_raw_write(offset_t offset, const uint8_t* buffer, uintptr_t length)
       sd_raw_send_byte(0xfe);
 
       /* write byte block */
-      uint8_t* cache = REUSED_FROM_LCD_BUFFER_RAWBLOCK;
+      uint8_t* cache = REUSED_SD_RAWBLOCK_BUFFER;
       for(uint16_t i = 0; i < 512; ++i)
         sd_raw_send_byte(*cache++);
 
@@ -830,7 +830,7 @@ uint8_t sd_raw_sync()
 #if SD_RAW_WRITE_BUFFERING
   if(raw_block_written)
     return 1;
-  if(!sd_raw_write(raw_block_address, REUSED_FROM_LCD_BUFFER_RAWBLOCK, REUSED_FROM_LCD_BUFFER_RAWBLOCK_SIZE))
+  if(!sd_raw_write(raw_block_address, REUSED_SD_RAWBLOCK_BUFFER, REUSED_SD_RAWBLOCK_BUFFER_SIZE))
     return 0;
   raw_block_written = 1;
 #endif
