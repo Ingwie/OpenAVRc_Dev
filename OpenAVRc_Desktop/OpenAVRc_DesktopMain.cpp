@@ -1032,38 +1032,46 @@ void OpenAVRc_DesktopFrame::OnButtonCarteSDClick(wxCommandEvent& event)
 
   wxFSVolume DriveSearch;
 
-  DriveList = DriveSearch.GetVolumes( wxFS_VOL_MOUNTED | wxFS_VOL_REMOVABLE );
+// Copy Voice files
 
-  wxSingleChoiceDialog DriveName(this,
-                                 _("La carte SD doit avoir été formatée pour\n un bon fonctionnement sur la radio"),
-                                 _("Selectionnez le lecteur"),
-                                 DriveList
-                                );
+  int answer = wxMessageBox(_("Voulez vous copier les fichiers sur la carte du JQ ? \n Insérez la avant de cliquer sur ""OUI"""), _("SD ""VOICE"""), wxYES | wxNO | wxCENTRE, this);
+  if (answer == wxYES)
+    {
 
-  if (DriveName.ShowModal() == wxID_OK) {
-    wxString Drive = DriveName.GetStringSelection();
-    wxString SourceDirectory;
-    wxString DestinationDirectory;
-    wxString FileName;
-    wxString Ext;
+      DriveList = DriveSearch.GetVolumes( wxFS_VOL_MOUNTED | wxFS_VOL_REMOVABLE );
 
-    SourceDirectory = "\\VOICEMP3\\";
-    DestinationDirectory = "\\VOICEMP3\\";
-    Ext = "mp3";
-    wxMkdir(Drive + DestinationDirectory);
+      wxSingleChoiceDialog DriveName(this,
+                                     _("La carte SD doit avoir été formatée pour\n un bon fonctionnement sur la radio"),
+                                     _("Selectionnez le lecteur"),
+                                     DriveList
+                                    );
 
-    wxBusyInfo wait(_("Copie en cours, attendez SVP......"));
+      if (DriveName.ShowModal() == wxID_OK)
+        {
+          wxString Drive = DriveName.GetStringSelection();
+          wxString SourceDirectory;
+          wxString DestinationDirectory;
+          wxString FileName;
+          wxString Ext;
 
-    for (int i = 0; i < 512 ; i++) {
-      FileName.Printf("%04d.",i);
-      wxCopyFile(AppPath + SourceDirectory + FileName + Ext, Drive + DestinationDirectory + FileName + Ext, false);
+          SourceDirectory = "\\VOICEMP3\\";
+          DestinationDirectory = "\\VOICEMP3\\";
+          Ext = "mp3";
+          wxMkdir(Drive + DestinationDirectory);
+
+          wxBusyInfo wait(_("Copie en cours, attendez SVP......"));
+
+          for (int i = 0; i < 512 ; i++)
+            {
+              FileName.Printf("%04d.",i);
+              wxCopyFile(AppPath + SourceDirectory + FileName + Ext, Drive + DestinationDirectory + FileName + Ext, false);
+            }
+        }
     }
-  }
-
 
 // Copy text prompt
 
-  int answer = wxMessageBox(_("Avez vous une carte SD de sauvegarde ? \n Insérez la avant de cliquer sur ""OUI"""), _("SD ""DATA"""), wxYES | wxNO | wxCENTRE, this);
+  answer = wxMessageBox(_("Avez vous une carte SD de sauvegarde ? \n Insérez la avant de cliquer sur ""OUI"""), _("SD ""DATA"""), wxYES | wxNO | wxCENTRE, this);
   if (answer == wxYES) {
     DriveList = DriveSearch.GetVolumes( wxFS_VOL_MOUNTED | wxFS_VOL_REMOVABLE );
 
