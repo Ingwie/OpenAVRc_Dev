@@ -277,7 +277,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
   else
     popupMenuOffset = lastpopupMenuOffset;
 
-  lcdClear();
+  SdBufferClear();
   return popupMenuNoItems;
 }
 
@@ -308,4 +308,9 @@ uint8_t setSdModelName(char *filename, uint8_t nummodel)
       len = PSIZE(TR_MODEL) + 2;
     }
     return len;
+}
+
+void SdBufferClear()
+{
+  memclear(displayBuf, REUSED_SD_RAWBLOCK_BUFFER_SIZE);
 }
