@@ -673,7 +673,7 @@ uint8_t eeBackupModel(uint8_t i_fileSrc)
     } else { ret = 0; }
 
   fat_close_file(SD_file);
-  lcdClear();
+  SdBufferClear();
   return ret;
 }
 

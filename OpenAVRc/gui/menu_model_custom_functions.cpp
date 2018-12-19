@@ -267,7 +267,7 @@ void menuModelCustomFunctions(uint8_t event)
           PROMPTMEM = 0; // Reset on error
           PROMPTTEXT[0] = '\0';
         }
-      lcdClear(); // Clear reused buffer
+      SdBufferClear(); // Clear reused buffer
     }
 #endif
 
