@@ -1,11 +1,11 @@
 EESchema-LIBRARY Version 2.3
 #encoding utf-8
 #
-# ATMEGA328-P-RESCUE-MutltiSwitch_Sw16-RESCUE-MutltiSwitch_Sw16-RESCUE-MutltiSwitch_Sw16
+# ATMEGA328-P-RESCUE-MutltiSwitch_Sw16-RESCUE-MutltiSwitch_Sw16-RESCUE-MutltiSwitch_Sw16-RESCUE-MutltiSwitch_Sw16
 #
-DEF ATMEGA328-P-RESCUE-MutltiSwitch_Sw16-RESCUE-MutltiSwitch_Sw16-RESCUE-MutltiSwitch_Sw16 IC 0 40 Y Y 1 F N
+DEF ATMEGA328-P-RESCUE-MutltiSwitch_Sw16-RESCUE-MutltiSwitch_Sw16-RESCUE-MutltiSwitch_Sw16-RESCUE-MutltiSwitch_Sw16 IC 0 40 Y Y 1 F N
 F0 "IC" -750 1250 40 H V L BNN
-F1 "ATMEGA328-P-RESCUE-MutltiSwitch_Sw16-RESCUE-MutltiSwitch_Sw16-RESCUE-MutltiSwitch_Sw16" 400 -1400 40 H V L BNN
+F1 "ATMEGA328-P-RESCUE-MutltiSwitch_Sw16-RESCUE-MutltiSwitch_Sw16-RESCUE-MutltiSwitch_Sw16-RESCUE-MutltiSwitch_Sw16" 400 -1400 40 H V L BNN
 F2 "DIL28" 50 -1250 30 H V C CIN
 F3 "" 0 0 60 H I C CNN
 $FPLIST

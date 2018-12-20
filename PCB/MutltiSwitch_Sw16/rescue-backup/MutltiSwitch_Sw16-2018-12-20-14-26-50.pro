@@ -1,4 +1,4 @@
-update=20/12/2018 14:27:29
+update=16/12/2018 15:25:13
 version=1
 last_client=kicad
 [pcbnew]
@@ -28,6 +28,39 @@ version=1
 [eeschema]
 version=1
 LibDir=
+[eeschema/libraries]
+LibName1=MutltiSwitch_Sw16-rescue
+LibName2=KiCad-rescue
+LibName3=power
+LibName4=device
+LibName5=transistors
+LibName6=conn
+LibName7=linear
+LibName8=regul
+LibName9=74xx
+LibName10=cmos4000
+LibName11=adc-dac
+LibName12=memory
+LibName13=xilinx
+LibName14=special
+LibName15=microcontrollers
+LibName16=dsp
+LibName17=microchip
+LibName18=analog_switches
+LibName19=motorola
+LibName20=texas
+LibName21=intel
+LibName22=audio
+LibName23=interface
+LibName24=digital-audio
+LibName25=philips
+LibName26=display
+LibName27=cypress
+LibName28=siliconi
+LibName29=opto
+LibName30=atmel
+LibName31=contrib
+LibName32=valves
 [schematic_editor]
 version=1
 PageLayoutDescrFile=
@@ -35,6 +68,6 @@ PlotDirectoryName=
 SubpartIdSeparator=0
 SubpartFirstId=65
 NetFmtName=Pcbnew
-SpiceAjustPassiveValues=0
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
 LabSize=60
-ERC_TestSimilarLabels=1
