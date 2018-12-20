@@ -6,7 +6,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "Décodeur MS8 X-Any"
-Date "2018-12-18"
+Date "2018-12-20"
 Rev "0.1"
 Comp "OpenAVRc"
 Comment1 ""
@@ -404,7 +404,7 @@ L device:R R3
 U 1 1 5C165E80
 P 2500 4550
 F 0 "R3" V 2580 4550 40  0000 C CNN
-F 1 "100" V 2507 4551 40  0000 C CNN
+F 1 "1K" V 2507 4551 40  0000 C CNN
 F 2 "R_1206" V 2430 4550 30  0001 C CNN
 F 3 "" H 2500 4550 30  0000 C CNN
 	1    2500 4550
@@ -949,4 +949,22 @@ Wire Wire Line
 Connection ~ 8700 3500
 Wire Wire Line
 	8700 3500 7850 3500
+Wire Notes Line
+	8950 2700 9050 2600
+Wire Notes Line
+	9050 2600 9600 2600
+Wire Notes Line
+	9600 2600 9700 2700
+Text Notes 9100 2550 0    60   ~ 0
+- Load +
+Wire Notes Line
+	8950 2500 9050 2400
+Wire Notes Line
+	9050 2400 10100 2400
+Wire Notes Line
+	10100 2400 10200 2500
+Text Notes 9050 2400 0    60   ~ 0
+Signal     +         -
+Text Notes 9450 2300 0    60   ~ 0
+Servo
 $EndSCHEMATC

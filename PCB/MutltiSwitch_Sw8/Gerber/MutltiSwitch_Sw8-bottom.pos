@@ -1,4 +1,4 @@
-### Module positions - created on 18/12/2018 17:10:05 ###
+### Module positions - created on 20/12/2018 14:20:47 ###
 ### Printed by Pcbnew version kicad (5.0.2)-1
 ## Unit = mm, Angle = deg.
 ## Side : bottom
@@ -9,7 +9,7 @@ C3        22pF      C_1206              -3.8100    30.4800    0.0000  bottom
 D2        LL4148    D_SOD-123          -15.7480     5.0800  180.0000  bottom
 R1        1K        R_1206              -5.7150    16.5100   90.0000  bottom
 R2        330       R_1206             -12.0650    21.5900    0.0000  bottom
-R3        100       R_1206              -3.1750     7.8740    0.0000  bottom
+R3        1K        R_1206              -3.1750     7.8740    0.0000  bottom
 R5        1M        R_1206              -5.7150    25.4000   90.0000  bottom
 R6        10K       R_1206             -23.4950    29.2100    0.0000  bottom
 R7        10K       R_1206             -23.4420    26.6700    0.0000  bottom

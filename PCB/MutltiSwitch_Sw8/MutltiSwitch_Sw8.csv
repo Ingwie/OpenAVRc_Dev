@@ -14,10 +14,9 @@
 13;"P2";"Pin_Header_Straight_1x03_Pitch2.54mm";1;"XANY_INPUT";;;
 14;"P3";"Pin_Header_Straight_1x03_Pitch2.54mm";1;"SERVO";;;
 15;"P4";"Pin_Header_Straight_1x03_Pitch2.54mm";1;"DIODE";;;
-16;"R1";"R_1206";1;"1K";;;
+16;"R1,R3";"R_1206";2;"1K";;;
 17;"D2,D3";"D_SOD-123";2;"LL4148";;;
 18;"P8";"Pin_Header_Straight_1x03_Pitch2.54mm";1;"SEL_ALIM";;;
-19;"R3";"R_1206";1;"100";;;
-20;"R4,R6,R7,R8,R9,R10,R11,R12,R13";"R_1206";9;"10K";;;
-21;"P9";"Pin_Header_Straight_2x03_Pitch2.54mm";1;"FTDI";;;
-22;"R5";"R_1206";1;"1M";;;
+19;"R4,R6,R7,R8,R9,R10,R11,R12,R13";"R_1206";9;"10K";;;
+20;"P9";"Pin_Header_Straight_2x03_Pitch2.54mm";1;"FTDI";;;
+21;"R5";"R_1206";1;"1M";;;
