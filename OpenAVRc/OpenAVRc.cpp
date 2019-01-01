@@ -137,7 +137,7 @@ void SetRfOptionSettings(uint_farptr_t RfOptSet,
 {
   uint8_t tmp = pgm_read_byte_far(RfOptSet);
   RfOptionSettings.rfProtoNeed = (tmp & 0x0F);                                      // rfProtoNeed:4
-  RfOptionSettings.rfSubTypeMax = (tmp >>4);                                        // rfSubTypeMax:4
+  RfOptionSettings.rfSubTypeMax = (tmp >> 4);                                        // rfSubTypeMax:4
   RfOptionSettings.rfSubTypeNames = rfSubTypeNames;
   RfOptionSettings.rfOptionValue1Min = pgm_read_byte_far(++RfOptSet);
   RfOptionSettings.rfOptionValue1Max = pgm_read_byte_far(++RfOptSet);
