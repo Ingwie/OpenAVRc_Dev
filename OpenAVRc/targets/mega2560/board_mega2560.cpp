@@ -38,45 +38,17 @@
 FORCEINLINE void boardInit()
 {
   // Set up I/O port data directions and initial states (unused pin setting : input, pull-up on)
-#if defined(VOICE_WTV20SD)
   DDRA = 0b11111111;  PORTA = 0b00000000; // LCD data
-  DDRB = 0b01100111;  PORTB = 0b10111111; // 7:WTV20SDBusy, 6:PPM_OUT, 5:PPMSIM_OUT, 4:Unused, SDCARD[3:MISO 2:MOSI 1:SCK 0:CS]
+  DDRB = 0b11100111;  PORTB = 0b10111111; // 7:MegaCore Led, 6:PPM_OUT, 5:PPMSIM_OUT, 4:N/A, SDCARD[3:MISO 2:MOSI 1:SCK 0:CS]
   DDRC = 0b11111100;  PORTC = 0b00000011; // 7-3:LCD, 2:BackLight, 1:ID2_SW, 0:ID1_SW
-  DDRD = 0b00000000;  PORTD = 0b11111111; // 7:AilDR_SW, 6:N/A, 5:N/A, 4:PPM_IN, 3:RENC2_B, 2:RENC2_A, 1:I2C_SDA, 0:I2C_SCL
-  DDRE = 0b00001010;  PORTE = 0b01110100; // 7:PPM_IN, 6:N/A, 5:RENC1_B, 4:RENC1_A, 3:WTV20SDData, 2:N/A, 1:TELEM_TX, 0:TELEM_RX
+  DDRD = 0b00001100;  PORTD = 0b11111111; // 7:AilDR_SW, 6:N/A, 5:N/A, 4:PPM_IN, 3:CS_NRF24L01, 2:CS_CYRF6936, 1:I2C_SDA, 0:I2C_SCL
+  DDRE = 0b00000010;  PORTE = 0b11111110; // 7:Rot_2A, 6:Rot_2B, 5:Rot_1B, 4:Rot_1A, 3:Rot_2_Push, 2:N/A, 1:TELEM_TX, 0:TELEM_RX
   DDRF = 0b00000000;  PORTF = 0b11111111; // 7-0:Trim switch inputs
-  DDRG = 0b00100000;  PORTG = 0b11011111; // 7:N/A, 6:N/A, 5:WTV20SDClock, 4:N/A, 3:N/A, 2:TCut_SW, 1:Gear_SW, 0: RudDr_SW
-  DDRH = 0b00011011;  PORTH = 0b11110100; // 7:N/A, 6:RF_Activated, 5:DSC_Activated, 4:Hold_Power, 3:Speaker, 2:N/A, 1:WTV20SDReset, 0:Haptic
-  DDRJ = 0b00000000;  PORTJ = 0b11111111; // 7:N/A, 6:N/A, 5:N/A, 4:N/A, 3:N/A, 2:N/A, 1:RENC2_push, 0:RENC1_push
+  DDRG = 0b00000000;  PORTG = 0b11111111; // 7:N/A, 6:N/A, 5:Rot_1_Push, 4:N/A, 3:N/A, 2:TCut_SW, 1:Gear_SW, 0: RudDr_SW
+  DDRH = 0b01111011;  PORTH = 0b10010011; // 7:N/A, 6:Sim_Control/RF_Power, 5:Haptic, 4:Hold_Power, 3:Speaker, 2:N/A, 1:CS_CC2500, 0:CS_A7105
+  DDRJ = 0b00000010;  PORTJ = 0b11111111; // 7:N/A, 6:N/A, 5:N/A, 4:N/A, 3:N/A, 2:N/A, 1:JQ6500Data , 0:JQ6500Busy
   DDRK = 0b00000000;  PORTK = 0b00000000; // Analogic input (no pull-ups)
   DDRL = 0b00000000;  PORTL = 0b11111111; // 7:TRN_SW 6:EleDR_SW, 5:ESC, 4:MENU 3:Keyb_Left, 2:Keyb_Right, 1:Keyb_Up, 0:Keyb_Down
-#endif
-#if defined(VOICE_JQ6500)
-  DDRA = 0b11111111;  PORTA = 0b00000000; // LCD data
-  DDRB = 0b01100111;  PORTB = 0b10111111; // 7:N/A, 6:PPM_OUT, 5:PPMSIM_OUT, 4:JQ6500Busy, SDCARD[3:MISO 2:MOSI 1:SCK 0:CS]
-  DDRC = 0b11111100;  PORTC = 0b00000011; // 7-3:LCD, 2:BackLight, 1:ID2_SW, 0:ID1_SW
-  DDRD = 0b00000000;  PORTD = 0b11111111; // 7:AilDR_SW, 6:N/A, 5:N/A, 4:PPM_IN, 3:RENC2_B, 2:RENC2_A, 1:I2C_SDA, 0:I2C_SCL
-  DDRE = 0b00000010;  PORTE = 0b01111100; // 7:PPM_IN, 6:N/A, 5:RENC1_B, 4:RENC1_A, 3:N/A, 2:N/A, 1:TELEM_TX, 0:TELEM_RX
-  DDRF = 0b00000000;  PORTF = 0b11111111; // 7-0:Trim switch inputs
-  DDRG = 0b00100000;  PORTG = 0b11111111; // 7:N/A, 6:N/A, 5:CS_CYRF6936, 4:N/A, 3:N/A, 2:TCut_SW, 1:Gear_SW, 0: RudDr_SW
-  DDRH = 0b00011011;  PORTH = 0b11110110; // 7:N/A, 6:RF_Activated, 5:DSC_Activated, 4:Hold_Power, 3:Speaker, 2:N/A, 1:CS_CC2500, 0:Haptic
-  DDRJ = 0b00000010;  PORTJ = 0b11111111; // 7:N/A, 6:N/A, 5:N/A, 4:N/A, 3:N/A, 2:N/A, 1:JQ6500Data (Was RENC2_push), 0:RENC1_push
-  DDRK = 0b00000000;  PORTK = 0b00000000; // Analogic input (no pull-ups)
-  DDRL = 0b00000000;  PORTL = 0b11111111; // 7:TRN_SW 6:EleDR_SW, 5:ESC, 4:MENU 3:Keyb_Left, 2:Keyb_Right, 1:Keyb_Up, 0:Keyb_Down
-#endif
-#if !defined(VOICE)
-  DDRA = 0b11111111;  PORTA = 0b00000000; // LCD data
-  DDRB = 0b01100111;  PORTB = 0b10111111; // 7:N/A, 6:PPM_OUT, 5:PPMSIM_OUT, 4:Unused, SDCARD[3:MISO 2:MOSI 1:SCK 0:CS]
-  DDRC = 0b11111100;  PORTC = 0b00000011; // 7-3:LCD, 2:BackLight, 1:ID2_SW, 0:ID1_SW
-  DDRD = 0b00000000;  PORTD = 0b11111111; // 7:AilDR_SW, 6:N/A, 5:N/A, 4:PPM_IN, 3:RENC2_B, 2:RENC2_A, 1:I2C_SDA, 0:I2C_SCL
-  DDRE = 0b00000010;  PORTE = 0b01111100; // 7:PPM_IN, 6:N/A, 5:RENC1_B, 4:RENC1_A, 3:N/A, 2:N/A, 1:TELEM_TX, 0:TELEM_RX
-  DDRF = 0b00000000;  PORTF = 0b11111111; // 7-0:Trim switch inputs
-  DDRG = 0b00000000;  PORTG = 0b11111111; // 7:N/A, 6:N/A, 5:N/A, 4:N/A, 3:N/A, 2:TCut_SW, 1:Gear_SW, 0: RudDr_SW
-  DDRH = 0b00011001;  PORTH = 0b11110100; // 7:N/A, 6:RF_Activated, 5:DSC_Activated, 4:Hold_Power, 3:Speaker, 2:N/A, 1:N/A, 0:Haptic
-  DDRJ = 0b00000000;  PORTJ = 0b11111111; // 7:N/A, 6:N/A, 5:N/A, 4:N/A, 3:N/A, 2:N/A, 1:RENC2_push, 0:RENC1_push
-  DDRK = 0b00000000;  PORTK = 0b00000000; // Analogic input (no pull-ups)
-  DDRL = 0b00000000;  PORTL = 0b11111111; // 7:TRN_SW 6:EleDR_SW, 5:ESC, 4:MENU 3:Keyb_Left, 2:Keyb_Right, 1:Keyb_Up, 0:Keyb_Down
-#endif
 
   adcInit();
 
@@ -95,6 +67,7 @@ FORCEINLINE void boardInit()
 #if defined(AUDIO)
   // TIMER4 (16bit) set to mode 9, prescaler 16MHz/64=250kHz.
   // Used for audio tone generation.
+ #define AUDIO_OCRxA OCR4A // used in audio_avr.cpp
   TCCR4B = (0b10<<WGM42) | (0b011 << CS40);
   TCCR4A = (0b01<<WGM40);
 #endif
@@ -115,18 +88,21 @@ FORCEINLINE void boardInit()
   TCCR1B |= (1<<ICNC1); // Input Capture Noise Canceler.
   TIMSK1 = 0;
 
+#if defined(PWM_BACKLIGHT)
+// Test PWM backlight on MEGACORELEDPIN.
+  /*
+   * Setup Timer Counter 0.
+   * Fast PWM mode. Mode 3.
+   */
 
-#if defined(VOICE_WTV20SD)
-  // WTV20SD set-up, with TIMER5
-  OCR5A = 0x1F4; //2ms
-  TCCR5B = (1 << WGM52) | (0b011 << CS50); // CTC OCR5A
-  TIMSK5 |= (1<<OCIE5A); // Start the interrupt so the unit reset can occur
+//  TCCR0A = (1 << COM0A0) | (0b11 << WGM00); // Try this for a normal ...
+  TCCR0A = (1 << COM0A1) | (0b11 << WGM00); // ... or this for an inverted PWM signal.
+  OCR0A = 127;
+  TIMSK0 = 0;
+  TCCR0B = 0b011 << CS00; // 16MHz / 64.
 #endif
+
 #if defined(VOICE_JQ6500)
-  // JQ6500 set-up, with TIMER5
-  /*JQ6500_Serial_on;      // Idle state (1)
-  OCR5A = 0x19; // 0x1A=104µs needed for the 9600Bps serial command
-  TCCR5B = (1 << WGM52) | (0b011 << CS50); // CTC OCR5A*/
 
   #define TLM_JQ6500 3 // use uart3 on mega board (TX = PJ1)
   InitJQ6500UartTx();
@@ -135,33 +111,45 @@ FORCEINLINE void boardInit()
 
   /* Rotary encoder interrupt set-up                 */
   EIMSK = 0; // disable ALL external interrupts.
-  // encoder 1
-  EICRB = (1<<ISC50) | (1<<ISC40); // 01 = interrupt on any edge
-  EIFR = (3<<INTF4); // clear the int. flag in case it got set when changing modes
-  // encoder 2
-  EICRA = (1<<ISC30) | (1<<ISC20);
-  EIFR = (3<<INTF2);
-  EIMSK = (3<<INT4) | (3<<INT2); // enable the two rot. enc. ext. int. pairs.
+  // encoder 1&2
+  EICRB = (1<<ISC71) | (1<<ISC61) | (1<<ISC51) | (1<<ISC41); // 10 = interrupt on falling edge
+  EIFR = (1<<INTF7) | (1<<INTF6) | (1<<INTF5) | (1<<INTF4); // clear the int. flag in case it got set when changing modes
+  ENABLEROTENCAISR();
+  ENABLEROTENCBISR();
 
 #if defined(RTCLOCK) || defined(LCD_SSD1306) || defined(LCD_SH1106) || defined(EXTERNALEEPROM)
   /* Hardware I2C init                               */
   i2c_init();
 #endif
 
-#endif // !SIMU
+#if defined(X_ANY)
+  Xany_init();
+#endif
 
 #if defined(SPIMODULES)
 
-  SDCARD_CS_N_INACTIVE();
   RF_CS_CC2500_INACTIVE();
   RF_CS_CYRF6936_INACTIVE();
+  RF_CS_NRF24L01_INACTIVE();
+  RF_CS_A7105_INACTIVE();
+  RF_CS_SX127X_INACTIVE();
 
-  g_eeGeneral.fixed_ID.ID_32 = 0x1a2b3c4d;
   protoMode = NORMAL_MODE;
 
 #endif // SPIMODULES
 
-  WAIT_PUPIL();
+#endif // !SIMU
+
+ WAIT_PUPIL();
+
+ LEDOFF();
+}
+
+void backlightFade(void)
+{
+// ToDo ... We can decrement the compare register until the target is reached.
+// At the moment we just have a backlight brightness of two levels.
+// OCR0A = OCR0A -1;
 }
 
 void boardOff()
@@ -303,44 +291,36 @@ void readKeysAndTrims()
   }
 }
 
-// Rotary encoders increment/decrement (0 = rotary 1, 1 = rotary 2)
-ISR(INT4_vect)     // Arduino2560 IO02 (portE pin4)
+void debounceRotEncA()
 {
-  uint8_t input = (PINE & 0x30);
-#if defined (ROTENC_DIV2)// Rotenc resolution/2
-  if (input == 0) incRotaryEncoder(0, -1);
-#else
-  if (input == 0 || input == 0x30) incRotaryEncoder(0, -1);
-#endif
+  DISABLEROTENCAISR();
+  rotEncADebounce = ROTENCDEBOUNCEVAL;
 }
 
-ISR(INT5_vect)     // Arduino2560 IO03 (portE pin5)
+void debounceRotEncB()
 {
-  uint8_t input = (PINE & 0x30);
-#if defined (ROTENC_DIV2)// Rotenc resolution/2
-  if (input == 0) incRotaryEncoder(0, +1);
-#else
-  if (input == 0 || input == 0x30) incRotaryEncoder(0, +1);
-#endif
+  DISABLEROTENCBISR();
+  rotEncBDebounce = ROTENCDEBOUNCEVAL;
 }
 
-ISR(INT2_vect)     // Arduino2560 IO19 (portD pin2)
+ISR(INT4_vect)     // Mega2560 INT4 (portE pin4)
 {
-  uint8_t input = (PIND & 0x0C);
-#if defined (ROTENC_DIV2)// Rotenc resolution/2
-  if (input == 0) incRotaryEncoder(1, -1);
-#else
-  if (input == 0 || input == 0x0C) incRotaryEncoder(1, -1);
-#endif
+  if (!(PINE & ROT_ENC_1_MASK)) {debounceRotEncA(); incRotaryEncoder(0, -1);}
 }
 
-ISR(INT3_vect)     // Arduino2560 IO18 (portD pin3)
+ISR(INT5_vect)     // Mega2560 INT5 (portE pin5)
 {
-  uint8_t input = (PIND & 0x0C);
-#if defined (ROTENC_DIV2)// Rotenc resolution/2
-  if (input == 0) incRotaryEncoder(1, +1);
-#else
-  if (input == 0 || input == 0x0C) incRotaryEncoder(1, +1);
-#endif
+  if (!(PINE & ROT_ENC_1_MASK)) {debounceRotEncA(); incRotaryEncoder(0, +1);}
 }
+
+ISR(INT7_vect)     // Mega2560 INT7 (portE pin7)
+{
+  if (!(PINE & ROT_ENC_2_MASK)) {debounceRotEncB(); incRotaryEncoder(1, -1);}
+}
+
+ISR(INT6_vect)     // Mega2560 INT6 (portE pin6)
+{
+  if (!(PINE & ROT_ENC_2_MASK)) {debounceRotEncB(); incRotaryEncoder(1, +1);}
+}
+
 

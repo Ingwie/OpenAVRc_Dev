@@ -15,11 +15,11 @@
 
 # PCB version
 # Values: MEGAMINI, MEGA2560
-PCB = MEGAMINI
+PCB = MEGA2560
 
 # LCD
 # Values: ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306, SH1106
-LCD = ST7565P
+LCD = ST7920
 
 # Enable FrSky Telemetry reception on UART0 or SPI
 # Values = STD, FRSKY
@@ -57,11 +57,11 @@ NAVIGATION = NO
 
 # Switches automatic selection
 # Values = YES, NO
-AUTOSWITCH = NO
+AUTOSWITCH = YES
 
 # Sources automatic selection
 # Values = YES, NO
-AUTOSOURCE = NO
+AUTOSOURCE = YES
 
 # Double keys support (+/- means invert, +/up means max, -/dwn means min, up/down means reset to default)
 # Values = YES, NO
@@ -69,11 +69,11 @@ DBLKEYS = NO
 
 # AUDIO Mods
 # Values = YES, NO
-AUDIO = NO
+AUDIO = YES
 
 # VOICE Mods
 # Values = YES, NO (WTV20SD,JQ6500,NO on MEGA2560 DIY)
-VOICE = NO
+VOICE = JQ6500
 
 # corrects different rounding for negative values. So instead of -99.9 you will see again -100.0
 # Values = YES, NO
@@ -131,7 +131,7 @@ VARIO = YES
 # RTCLOCK
 # Values = YES, NO
 # default = YES (means enabled when available)
-RTCLOCK = YES
+RTCLOCK = NO
 
 # DSM2 (Spektrum) protocol
 # Values = NO, SERIAL
@@ -195,7 +195,7 @@ GVARS = NO
 
 # Allow to change buttons names
 # Values = NO, YES with personames.h edited
-PERSONAMES = NO
+PERSONAMES = YES
 
 #Use external eeprom FM24W256
 EXTERNALEEPROM = NO
@@ -206,15 +206,15 @@ MENUS_LOCK = NO
 
 # Enable MULTI protocol
 # Values = NO, YES
-MULTIMODULE = NO
+MULTIMODULE = YES
 
 # Enable SPIMODULES protocols
 # Values = NO, YES
-SPIMODULES = NO
+SPIMODULES = YES
 
 # Enable CC2500 SPI protocols
 # Values = NO, YES
-CC2500 = NO
+CC2500 = YES
 
 # Set CC2500 PA gain in DB
 # Values = 20,22
@@ -230,7 +230,7 @@ CYRF6936PAG = 20
 
 # Enable NRF24l01 SPI protocols
 # Values = NO, YES
-NRF24L01 = NO
+NRF24L01 = YES
 
 # Set NRF24l01 PA gain in DB
 # Values = 20,22
@@ -238,7 +238,7 @@ NRF24L01PAG = 20
 
 # Enable A7105 SPI protocols
 # Values = NO, YES
-A7105 = NO
+A7105 = YES
 
 # Set A7105 PA gain in DB
 # Values = 20,22
@@ -1096,7 +1096,7 @@ end:
 # Display size of file.
 HEXSIZE = $(SIZE) --target=$(FORMAT) $(TARGET).hex
 #ELFSIZE = $(SIZE) -A $(TARGET).elf
-ELFSIZE = avr-sizeold --mcu=$(MCU) --format=avr $(TARGET).elf
+ELFSIZE = avr-size --mcu=$(MCU) --format=avr $(TARGET).elf
 #ELFSIZE = avr-size -d -t $(TARGET).elf
 AVRMEM = avr-mem.sh $(TARGET).elf $(MCU)
 
