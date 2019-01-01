@@ -41,8 +41,7 @@
 #define RF_TIMER_COMPA_VECT  TIMER1_COMPA_vect
 
 //Mods
-#define ROTENC_DIV2 // rotenc resolution/2
-#define FATFSTINY // Reduce SDdriver buffer size
+#define MEGACORELEDPIN            PIN7_bm
 
 // Keys
 void readKeysAndTrims();
@@ -74,16 +73,36 @@ void readKeysAndTrims();
 #define TIMER_10MS_COMPVAL        OCR3A
 
 // Backlight driver
-#define backlightEnable()         PORTC |= (1<<OUT_C_LIGHT)
-#define backlightDisable()        PORTC &= ~(1<<OUT_C_LIGHT)
-#define isBacklightEnable()       PORTC & (1<<OUT_C_LIGHT)
+#if !defined(PWM_BACKLIGHT)
+#define backlightEnable()         PORTC |= _BV(OUT_C_LIGHT)
+#define backlightDisable()        PORTC &= ~_BV(OUT_C_LIGHT)
+#define isBacklightEnable()       PORTC & _BV(OUT_C_LIGHT)
+#define BACKLIGHT_ON()            PORTC |= _BV(OUT_C_LIGHT)
+#define BACKLIGHT_OFF()           PORTC &= ~_BV(OUT_C_LIGHT)
+#define EnableCoreLed()           PORTB |= (MEGACORELEDPIN) // Blink on function
+#define DisableCoreLed()          PORTB &= ~(MEGACORELEDPIN) // Blink off function
+#define LEDON()                   EnableCoreLed()
+#define LEDOFF()                  DisableCoreLed()
+#else
+// OC0A on pin PB7 (D13) aka MEGACORELEDPIN
+#define BACKLIGHT_ON()            (OCR0A = ( (uint8_t) g_eeGeneral.blOnBright)  <<4)
+#define BACKLIGHT_OFF()           (OCR0A = ( (uint8_t) g_eeGeneral.blOffBright) <<4)
+#define LEDON()
+#define LEDOFF()
+#endif
 
 // SD driver
+#if defined(SDCARD)
+
 #define SDCARD_CS_N_ACTIVE()        PORTB &= ~PIN0_bm // MMC CS = L
+#define select_card()               SDCARD_CS_N_ACTIVE()
 #define SDCARD_CS_N_INACTIVE()      PORTB |= PIN0_bm // MMC CS = H
+#define unselect_card()             SDCARD_CS_N_INACTIVE()
 #define SDCARD_CS_N_IS_INACTIVE()   (PINB & PIN0_bm)
 #define SPI_250K() { SPSR = _BV(SPI2X); SPCR = _BV(SPE) | _BV(MSTR) | _BV(SPR1) | _BV(SPR0); }
 #define SPI_8M()   { SPSR = _BV(SPI2X); SPCR = _BV(SPE) | _BV(MSTR); }
+
+#endif
 
 // Switchs driver
 #define INP_C_ID2                 PIN1_bm
@@ -96,26 +115,20 @@ void readKeysAndTrims();
 #define INP_L_Trainer             PIN7_bm
 
 // Servitudes driver
-#define INP_B_WTV_BUSY            7    //WTV20SD, not used (reserved)
-#define I_O_B_UNUSED              4    //unused was Buzzer
-#define INP_D_I2C_SCL             1
-#define INP_D_I2C_SDA             0
-#define OUT_E_WTV_DATA            3    //WTV20SD
-#define INP_E_TELEM_RX            1
-#define OUT_E_TELEM_TX            0
-#define OUT_G_WTV_CLK             5    //WTV20SD
-//#define INP_H_RF_Activated        6
-#define INP_H_DSC_Activated       5    //not used, reserved for pwrCheck()
-#define INP_H_Hold_Power          PIN4_bm
-#define OUT_H_SpeakerBuzzer       3
 #define INP_D_PPM_IN              4    // ICP1
 #define OUT_B_PPM                 6    // Master_PPM_out OC1A
 #define OUT_B_PPM16_SIM           5    // OC1B
+#define I_O_B_UNUSED              4    //unused was Buzzer
+#define INP_D_I2C_SCL             1
+#define INP_D_I2C_SDA             0
+#define INP_E_TELEM_RX            1
+#define OUT_E_TELEM_TX            0
+#define INP_H_Hold_Power          PIN4_bm
+#define OUT_H_SpeakerBuzzer       3
 #define OUT_H_PPM16_SIM_CTL       6
-#define OUT_H_WTV_RESET           1    //WTV20SD
-//#define OUT_B_JQ_SERIAL           7    //JQ6500
-#define INP_B_JQ_BUSY             4    //JQ6500
-#define OUT_H_HAPTIC              0
+#define OUT_J_JQ_SERIAL           1    //JQ6500
+#define INP_J_JQ_BUSY             0    //JQ6500
+#define OUT_H_HAPTIC              5
 
 //Puppy Master Mode
 #define ACTIVE_PPM_OUT()            PORTH &= ~(1<<OUT_H_PPM16_SIM_CTL)
@@ -129,15 +142,21 @@ void readKeysAndTrims();
 #define TRAINER_TC_REG              ICR1
 
 // Rotary encoders driver
-#define INP_E_ROT_ENC_1_A         4
-#define INP_E_ROT_ENC_1_B         5
-#define INP_D_ROT_ENC_2_A         2
-#define INP_D_ROT_ENC_2_B         3
-#define INP_J_ROT_ENC_1_PUSH      0
-#define INP_J_ROT_ENC_2_PUSH      1
-#define REA_DOWN()                (~PINJ & (1<<INP_J_ROT_ENC_1_PUSH))
-#define REB_DOWN()                (~PINJ & (1<<INP_J_ROT_ENC_2_PUSH))
+#define INP_E_ROT_ENC_1_A         PIN4_bm
+#define INP_E_ROT_ENC_1_B         PIN5_bm
+#define ROT_ENC_1_MASK            (INP_E_ROT_ENC_1_A | INP_E_ROT_ENC_1_B)
+#define INP_E_ROT_ENC_2_A         PIN7_bm
+#define INP_E_ROT_ENC_2_B         PIN6_bm
+#define ROT_ENC_2_MASK            (INP_E_ROT_ENC_2_A | INP_E_ROT_ENC_2_B)
+#define INP_G_ROT_ENC_1_PUSH      PIN5_bm
+#define INP_E_ROT_ENC_2_PUSH      PIN3_bm
+#define REA_DOWN()                (~PING & INP_G_ROT_ENC_1_PUSH)
+#define REB_DOWN()                (~PINE & INP_E_ROT_ENC_2_PUSH)
 #define ROTENC_DOWN()             (REA_DOWN() || REB_DOWN())
+#define ENABLEROTENCAISR()        EIMSK |= _BV(INT5) | _BV(INT4) // enable the rot. enc.A ext. int.
+#define ENABLEROTENCBISR()        EIMSK |= _BV(INT7) | _BV(INT6) // enable the rot. enc.B ext. int.
+#define DISABLEROTENCAISR()       EIMSK &= (~(_BV(INT5) | _BV(INT4))) // disable the rot.A enc. ext. int.
+#define DISABLEROTENCBISR()       EIMSK &= (~(_BV(INT7) | _BV(INT6))) // disable the rot.B enc. ext. int.
 
 // LCD driver
 #define PORTA_LCD_DAT           PORTA
@@ -155,15 +174,18 @@ void readKeysAndTrims();
 
 // Power driver
 void boardOff();
-#if defined(PWRMANAGE)
-  #define UNEXPECTED_SHUTDOWN()   ((mcusr & (1 << WDRF)) || g_eeGeneral.unexpectedShutdown)
+#define PWRMANAGE
+#if defined(PWRMANAGE) && !defined(SIMU)
+  #define UNEXPECTED_SHUTDOWN()   ((mcusr & _BV(WDRF)) || g_eeGeneral.unexpectedShutdown)
 #else
-  #define UNEXPECTED_SHUTDOWN()   (mcusr & (1 << WDRF))
+  #define UNEXPECTED_SHUTDOWN()   (mcusr & _BV(WDRF))
 #endif
 
 // Haptic driver
-#define hapticOn()                PORTH |=  (1 << OUT_H_HAPTIC)
-#define hapticOff()               PORTH &= ~(1 << OUT_H_HAPTIC)
+#if defined(HAPTIC)
+    #define hapticOn()                PORTH |=  (1 << OUT_H_HAPTIC)
+    #define hapticOff()               PORTH &= ~(1 << OUT_H_HAPTIC)
+#endif
 
 // Buzzer driver
 #define buzzerOn()                PORTH |=  (1 << OUT_H_SpeakerBuzzer)
@@ -177,18 +199,8 @@ void boardOff();
 
 // Voice driver
 
-// WTV20SD
-#define WTV20SD_Clock_on              PORTG |=  (1<<OUT_G_WTV_CLK)
-#define WTV20SD_Clock_off             PORTG &= ~(1<<OUT_G_WTV_CLK)
-#define WTV20SD_Data_on               PORTE |=  (1<<OUT_E_WTV_DATA)
-#define WTV20SD_Data_off              PORTE &= ~(1<<OUT_E_WTV_DATA)
-#define WTV20SD_Reset_on              PORTH |=  (1<<OUT_H_WTV_RESET)
-#define WTV20SD_Reset_off             PORTH &= ~(1<<OUT_H_WTV_RESET)
-#define WTV20SD_BUSY                  (PINB & (1<<INP_B_WTV_BUSY))
-#define WTV20SD_CLK                   (PING & (1<<OUT_G_WTV_CLK))
-
 //JQ6500
-#define JQ6500_BUSY                   (PINB & (1<<INP_B_JQ_BUSY))
+#define JQ6500_BUSY                   (PINJ & _BV(INP_J_JQ_BUSY))
 #if defined(VOICE_JQ6500)
   extern void InitJQ6500UartTx();
 #endif
@@ -214,36 +226,29 @@ void boardOff();
 //#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
 
 //SUPIIIK FILE
-//#define MULTIMODULE
 #if defined (MULTIMODULE)
   #define PROTO_HAS_MULTISUPIIIK
 #endif
 //SUPIIIK FILE
 
 //Xmitter
-//#define SPIMODULES
 
 #if defined(SPIMODULES) && !defined(SDCARD) //Alow Spimodule if no sdcard on this board
 
-#define PROTO_HAS_CC2500 // This needs to be in the makefile based upon a build option e.g. SPI_XMITTER ?
-#define PROTO_HAS_CYRF6936
+    #define RF_SPI_xfer  master_spi_xfer
+    #define OUT_H_CC2500_CS_N       PIN1_bm
+    #define OUT_D_CYRF6936_CS_N     PIN2_bm
+    #define OUT_D_NRF24L01_CS_N     PIN3_bm
+    #define OUT_H_A7105_CS_N        PIN0_bm
 
-#define RF_SPI_xfer  master_spi_xfer//USART2_mspi_xfer
-#define OUT_H_CC2500_CS_N       PIN1_bm
-#define OUT_G_CYRF6936_CS_N     PIN5_bm
-
-#define RF_CS_CC2500_ACTIVE();                \
-  PORTH &= ~(OUT_H_CC2500_CS_N);              \
-
-#define RF_CS_CC2500_INACTIVE();              \
-  PORTH |= (OUT_H_CC2500_CS_N);               \
-
-#define RF_CS_CYRF6936_ACTIVE();              \
-  PORTG &= ~(OUT_G_CYRF6936_CS_N);            \
-
-#define RF_CS_CYRF6936_INACTIVE();            \
-  PORTG |= (OUT_G_CYRF6936_CS_N);             \
-
+    #define RF_CS_CC2500_ACTIVE() PORTH &= ~(OUT_H_CC2500_CS_N);
+    #define RF_CS_CC2500_INACTIVE() PORTH |= (OUT_H_CC2500_CS_N);
+    #define RF_CS_CYRF6936_ACTIVE() PORTD &= ~(OUT_D_CYRF6936_CS_N)
+    #define RF_CS_CYRF6936_INACTIVE() PORTD |= (OUT_D_CYRF6936_CS_N)
+    #define RF_CS_NRF24L01_ACTIVE(); PORTD &= ~(OUT_D_NRF24L01_CS_N);
+    #define RF_CS_NRF24L01_INACTIVE(); PORTD |= (OUT_D_NRF24L01_CS_N);
+    #define RF_CS_A7105_ACTIVE(); PORTH &= ~(OUT_H_A7105_CS_N);
+    #define RF_CS_A7105_INACTIVE(); PORTH |= (OUT_H_A7105_CS_N);
 
 #endif // SPIMODULES
 
