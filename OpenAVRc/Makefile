@@ -244,14 +244,6 @@ A7105 = YES
 # Values = 20,22
 A7105PAG = 20
 
-# Enable SX127X SPI protocols
-# Values = NO, YES
-SX127X = YES
-
-# Set SX127X PA gain in DB
-# Values = 20,22
-SX127XPAG = 20
-
 # Enable X-ANY feature
 # Values = NO, 1, 2, 3 ,4
 X_ANY = NO
@@ -419,11 +411,6 @@ ifeq ($(PCB), MEGAMINI)
   	ifeq ($(A7105), YES)
    		CPPDEFS += -DPROTO_HAS_A7105
  	  	CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
-  	endif
-
-  	ifeq ($(SX127X), YES)
-   		CPPDEFS += -DPROTO_HAS_SX127X
- 	  	CPPDEFS += -DSX127XPA_GAIN=$(SX127XPAG)
   	endif
   endif
 
