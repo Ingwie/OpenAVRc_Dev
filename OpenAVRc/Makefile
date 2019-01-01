@@ -131,7 +131,7 @@ VARIO = YES
 # RTCLOCK
 # Values = YES, NO
 # default = YES (means enabled when available)
-RTCLOCK = YES
+RTCLOCK = NO
 
 # DSM2 (Spektrum) protocol
 # Values = NO, SERIAL
