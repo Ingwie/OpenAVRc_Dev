@@ -259,8 +259,6 @@
 
 #if defined(FRSKY)
   #define TR_FSW_RESET_TELEM   TR("Telm", "Telemetrie")
-  #define TR_MODEL             "MODELU"
-  #define TR_MODELISON         INDENT "modelu is ON"
 #else
   #define TR_FSW_RESET_TELEM
 #endif

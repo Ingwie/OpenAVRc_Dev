@@ -42,9 +42,8 @@
 #include "PROTO_PPMSIM.cpp"
 #endif
 
-#if defined(CPUXMEGA)
-#include "PROTO_xmega_PPM.cpp"
-#include "PROTO_xmega_PPMSIM.cpp"
+#if defined(CPUMXMEGA)
+// ToDo
 #endif
 
 

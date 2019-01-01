@@ -197,6 +197,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
 
       while (fat_read_dir(SD_dir, &SD_dir_entry))
         {
+
           uint8_t len = strlen(SD_dir_entry.long_name);
           if (len < 5 || len > maxlen+4 ||
               strcasecmp(SD_dir_entry.long_name+len-4, extension) ||
@@ -277,7 +278,6 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
   else
     popupMenuOffset = lastpopupMenuOffset;
 
-  SdBufferClear();
   return popupMenuNoItems;
 }
 
@@ -308,9 +308,4 @@ uint8_t setSdModelName(char *filename, uint8_t nummodel)
       len = PSIZE(TR_MODEL) + 2;
     }
     return len;
-}
-
-void SdBufferClear()
-{
-  memclear(displayBuf, REUSED_SD_RAWBLOCK_BUFFER_SIZE);
 }

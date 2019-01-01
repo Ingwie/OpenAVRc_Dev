@@ -37,14 +37,10 @@
 
 void menuGeneralSdManagerInfo(uint8_t event)
 {
-  struct sd_raw_info disk_info;
-  if sdMounted()
-    {
-      sd_raw_get_info(&disk_info);
-      SdBufferClear();
-    }
-
   SIMPLE_SUBMENU(STR_SD_INFO_TITLE, 1);
+
+  struct sd_raw_info disk_info;
+  sd_raw_get_info(&disk_info);
 
   lcdDrawTextLeft(2*FH, STR_SD_TYPE);
   lcdDrawText(10*FW, 2*FH, STR_SD_CARD);
@@ -78,7 +74,7 @@ void onSdManagerMenu(const char *result)
     {
       if (sdDeleteFile(reusableBuffer.sdmanager.lines[index]))
         {
-          SdBufferClear();
+
           strncpy(statusLineMsg, reusableBuffer.sdmanager.lines[index], 13);
           strcpy_P(statusLineMsg+min((uint8_t)strlen(statusLineMsg), (uint8_t)13), STR_REMOVED);
           showStatusLine();
@@ -102,7 +98,6 @@ void menuGeneralSdManager(uint8_t _event)
     case EVT_ENTRY:
       sdChangeCurDir(ROOT_PATH);
       reusableBuffer.sdmanager.offset = 65535;
-      SdBufferClear();
       break;
 
       CASE_EVT_ROTARY_BREAK
@@ -119,7 +114,6 @@ void menuGeneralSdManager(uint8_t _event)
               menuVerticalPosition = 1;
               reusableBuffer.sdmanager.offset = 65535;
               killEvents(_event);
-              SdBufferClear();
               break;
             }
         }
@@ -234,7 +228,6 @@ void menuGeneralSdManager(uint8_t _event)
                 }
             }
         }
-        SdBufferClear();
     }
 
   reusableBuffer.sdmanager.offset = menuVerticalOffset;

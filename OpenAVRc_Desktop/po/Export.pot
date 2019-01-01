@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-19 22:43+0100\n"
+"POT-Creation-Date: 2018-07-29 18:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:492
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:500
 msgid " Encodeur à 0"
 msgstr ""
 
@@ -31,21 +31,21 @@ msgid ""
 "Cette opération nécessite un port COM."
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:446
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:449
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:454
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:457
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:460
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:463
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:466
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:480
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:483
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:486
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:489
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:495
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:498
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:501
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:504
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:462
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:465
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:468
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:471
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:474
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:488
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:491
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:494
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:497
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:503
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:506
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:509
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:512
 msgid "---"
 msgstr ""
 
@@ -53,2104 +53,2118 @@ msgstr ""
 msgid "..."
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:100
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:348
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:353
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:359
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:443
+msgid "0"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:98
 msgid "0000"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:101
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:99
 msgid "0001"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:102
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:100
 msgid "0002"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:103
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:101
 msgid "0003"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:104
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:102
 msgid "0004"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:105
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:103
 msgid "0005"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:106
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:104
 msgid "0006"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:107
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:105
 msgid "0007"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:108
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:106
 msgid "0008"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:109
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:107
 msgid "0009"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:110
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:108
 msgid "0010"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:111
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:109
 msgid "0011"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:112
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:110
 msgid "0012"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:113
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:111
 msgid "0013"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:114
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:112
 msgid "0014"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:115
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:113
 msgid "0015"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:116
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:114
 msgid "0016"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:117
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:115
 msgid "0017"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:118
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:116
 msgid "0018"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:119
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:117
 msgid "0019"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:120
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:118
 msgid "0020"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:121
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:119
 msgid "0021"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:122
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:120
 msgid "0022"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:123
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:121
 msgid "0023"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:124
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:122
 msgid "0024"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:125
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:123
 msgid "0025"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:126
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:124
 msgid "0026"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:127
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:125
 msgid "0027"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:128
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:126
 msgid "0028"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:129
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:127
 msgid "0029"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:130
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:128
 msgid "0030"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:131
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:129
 msgid "0031"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:132
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:130
 msgid "0032"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:133
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:131
 msgid "0033"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:134
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:132
 msgid "0034"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:135
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:133
 msgid "0035"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:136
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:134
 msgid "0036"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:137
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:135
 msgid "0037"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:138
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:136
 msgid "0038"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:139
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:137
 msgid "0039"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:140
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:138
 msgid "0040"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:141
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:139
 msgid "0041"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:142
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:140
 msgid "0042"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:143
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:141
 msgid "0043"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:144
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:142
 msgid "0044"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:145
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:143
 msgid "0045"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:146
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:144
 msgid "0046"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:147
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:145
 msgid "0047"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:148
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:146
 msgid "0048"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:149
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:147
 msgid "0049"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:150
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:148
 msgid "0050"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:151
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:149
 msgid "0051"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:152
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:150
 msgid "0052"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:153
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:151
 msgid "0053"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:154
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:152
 msgid "0054"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:155
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:153
 msgid "0055"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:156
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:154
 msgid "0056"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:157
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:155
 msgid "0057"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:158
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:156
 msgid "0058"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:159
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:157
 msgid "0059"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:160
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:158
 msgid "0060"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:161
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:159
 msgid "0061"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:162
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:160
 msgid "0062"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:163
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:161
 msgid "0063"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:164
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:162
 msgid "0064"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:165
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:163
 msgid "0065"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:166
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:164
 msgid "0066"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:167
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:165
 msgid "0067"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:168
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:166
 msgid "0068"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:169
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:167
 msgid "0069"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:170
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:168
 msgid "0070"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:171
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:169
 msgid "0071"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:172
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:170
 msgid "0072"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:173
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:171
 msgid "0073"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:174
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:172
 msgid "0074"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:175
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:173
 msgid "0075"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:176
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:174
 msgid "0076"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:177
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:175
 msgid "0077"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:178
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:176
 msgid "0078"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:179
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:177
 msgid "0079"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:180
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:178
 msgid "0080"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:181
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:179
 msgid "0081"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:182
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:180
 msgid "0082"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:183
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:181
 msgid "0083"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:184
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:182
 msgid "0084"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:185
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:183
 msgid "0085"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:186
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:184
 msgid "0086"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:187
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:185
 msgid "0087"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:188
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:186
 msgid "0088"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:189
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:187
 msgid "0089"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:190
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:188
 msgid "0090"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:191
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:189
 msgid "0091"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:192
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:190
 msgid "0092"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:193
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:191
 msgid "0093"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:194
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:192
 msgid "0094"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:195
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:193
 msgid "0095"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:196
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:194
 msgid "0096"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:197
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:195
 msgid "0097"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:198
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:196
 msgid "0098"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:199
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:197
 msgid "0099"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:200
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:198
 msgid "0100"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:201
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:199
 msgid "0101"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:202
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:200
 msgid "0102"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:203
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:201
 msgid "0103"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:204
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:202
 msgid "0104"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:205
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:203
 msgid "0105"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:206
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:204
 msgid "0106"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:207
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:205
 msgid "0107"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:208
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:206
 msgid "0108"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:209
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:207
 msgid "0109"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:210
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:208
 msgid "0110"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:211
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:209
 msgid "0111"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:212
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:210
 msgid "0112"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:213
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:211
 msgid "0113"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:214
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:212
 msgid "0114"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:215
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:213
 msgid "0115"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:216
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:214
 msgid "0116"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:217
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:215
 msgid "0117"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:218
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:216
 msgid "0118"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:219
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:217
 msgid "0119"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:220
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:218
 msgid "0120"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:221
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:219
 msgid "0121"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:222
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:220
 msgid "0122"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:223
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:221
 msgid "0123"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:224
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:222
 msgid "0124"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:225
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:223
 msgid "0125"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:226
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:224
 msgid "0126"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:227
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:225
 msgid "0127"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:228
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:226
 msgid "0128"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:229
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:227
 msgid "0129"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:230
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:228
 msgid "0130"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:231
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:229
 msgid "0131"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:232
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:230
 msgid "0132"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:233
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:231
 msgid "0133"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:234
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:232
 msgid "0134"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:235
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:233
 msgid "0135"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:236
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:234
 msgid "0136"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:237
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:235
 msgid "0137"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:238
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:236
 msgid "0138"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:239
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:237
 msgid "0139"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:240
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:238
 msgid "0140"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:241
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:239
 msgid "0141"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:242
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:240
 msgid "0142"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:243
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:241
 msgid "0143"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:244
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:242
 msgid "0144"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:245
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:243
 msgid "0145"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:246
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:244
 msgid "0146"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:247
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:245
 msgid "0147"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:248
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:246
 msgid "0148"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:249
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:247
 msgid "0149"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:250
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:248
 msgid "0150"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:251
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:249
 msgid "0151"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:252
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:250
 msgid "0152"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:253
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:251
 msgid "0153"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:254
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:252
 msgid "0154"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:255
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:253
 msgid "0155"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:256
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:254
 msgid "0156"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:257
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:255
 msgid "0157"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:258
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:256
 msgid "0158"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:259
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:257
 msgid "0159"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:260
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:258
 msgid "0160"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:261
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:259
 msgid "0161"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:262
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:260
 msgid "0162"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:263
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:261
 msgid "0163"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:264
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:262
 msgid "0164"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:265
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:263
 msgid "0165"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:266
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:264
 msgid "0166"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:267
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:265
 msgid "0167"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:268
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:266
 msgid "0168"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:269
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:267
 msgid "0169"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:270
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:268
 msgid "0170"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:271
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:269
 msgid "0171"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:272
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:270
 msgid "0172"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:273
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:271
 msgid "0173"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:274
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:272
 msgid "0174"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:275
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:273
 msgid "0175"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:276
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:274
 msgid "0176"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:277
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:275
 msgid "0177"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:278
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:276
 msgid "0178"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:279
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:277
 msgid "0179"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:280
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:278
 msgid "0180"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:281
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:279
 msgid "0181"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:282
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:280
 msgid "0182"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:283
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:281
 msgid "0183"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:284
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:282
 msgid "0184"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:285
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:283
 msgid "0185"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:286
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:284
 msgid "0186"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:287
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:285
 msgid "0187"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:288
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:286
 msgid "0188"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:289
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:287
 msgid "0189"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:290
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:288
 msgid "0190"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:291
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:289
 msgid "0191"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:292
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:290
 msgid "0192"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:293
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:291
 msgid "0193"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:294
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:292
 msgid "0194"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:295
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:293
 msgid "0195"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:296
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:294
 msgid "0196"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:297
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:295
 msgid "0197"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:298
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:296
 msgid "0198"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:299
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:297
 msgid "0199"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:300
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:298
 msgid "0200"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:301
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:299
 msgid "0201"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:302
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:300
 msgid "0202"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:303
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:301
 msgid "0203"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:304
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:302
 msgid "0204"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:305
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:303
 msgid "0205"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:306
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:304
 msgid "0206"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:307
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:305
 msgid "0207"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:308
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:306
 msgid "0208"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:309
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:307
 msgid "0209"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:310
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:308
 msgid "0210"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:311
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:309
 msgid "0211"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:312
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:310
 msgid "0212"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:313
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:311
 msgid "0213"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:314
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:312
 msgid "0214"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:315
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:313
 msgid "0215"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:316
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:314
 msgid "0216"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:317
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:315
 msgid "0217"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:318
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:316
 msgid "0218"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:319
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:317
 msgid "0219"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:320
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:318
 msgid "0220"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:321
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:319
 msgid "0221"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:322
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:320
 msgid "0222"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:323
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:321
 msgid "0223"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:324
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:322
 msgid "0224"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:325
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:323
 msgid "0225"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:326
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:324
 msgid "0226"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:327
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:325
 msgid "0227"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:328
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:326
 msgid "0228"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:329
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:327
 msgid "0229"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:330
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:328
 msgid "0230"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:331
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:329
 msgid "0231"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:332
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:330
 msgid "0232"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:333
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:331
 msgid "0233"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:334
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:332
 msgid "0234"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:335
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:333
 msgid "0235"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:336
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:334
 msgid "0236"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:337
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:335
 msgid "0237"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:338
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:336
 msgid "0238"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:339
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:337
 msgid "0239"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:340
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:338
 msgid "0240"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:341
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:339
 msgid "0241"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:342
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:340
 msgid "0242"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:343
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:341
 msgid "0243"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:344
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:342
 msgid "0244"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:345
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:343
 msgid "0245"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:346
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:344
 msgid "0246"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:347
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:345
 msgid "0247"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:348
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:346
 msgid "0248"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:349
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:347
 msgid "0249"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:350
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:348
 msgid "0250"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:351
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:349
 msgid "0251"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:352
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:350
 msgid "0252"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:353
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:351
 msgid "0253"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:354
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:352
 msgid "0254"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:355
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:353
 msgid "0255"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:356
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:354
 msgid "0256"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:357
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:355
 msgid "0257"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:358
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:356
 msgid "0258"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:359
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:357
 msgid "0259"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:360
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:358
 msgid "0260"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:361
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:359
 msgid "0261"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:362
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:360
 msgid "0262"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:363
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:361
 msgid "0263"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:364
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:362
 msgid "0264"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:365
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:363
 msgid "0265"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:366
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:364
 msgid "0266"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:367
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:365
 msgid "0267"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:368
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:366
 msgid "0268"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:369
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:367
 msgid "0269"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:370
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:368
 msgid "0270"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:371
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:369
 msgid "0271"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:372
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:370
 msgid "0272"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:373
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:371
 msgid "0273"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:374
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:372
 msgid "0274"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:375
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:373
 msgid "0275"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:376
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:374
 msgid "0276"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:377
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:375
 msgid "0277"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:378
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:376
 msgid "0278"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:379
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:377
 msgid "0279"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:380
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:378
 msgid "0280"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:381
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:379
 msgid "0281"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:382
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:380
 msgid "0282"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:383
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:381
 msgid "0283"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:384
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:382
 msgid "0284"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:385
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:383
 msgid "0285"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:386
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:384
 msgid "0286"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:387
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:385
 msgid "0287"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:388
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:386
 msgid "0288"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:389
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:387
 msgid "0289"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:390
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:388
 msgid "0290"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:391
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:389
 msgid "0291"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:392
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:390
 msgid "0292"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:393
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:391
 msgid "0293"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:394
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:392
 msgid "0294"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:395
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:393
 msgid "0295"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:396
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:394
 msgid "0296"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:397
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:395
 msgid "0297"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:398
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:396
 msgid "0298"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:399
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:397
 msgid "0299"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:400
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:398
 msgid "0300"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:401
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:399
 msgid "0301"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:402
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:400
 msgid "0302"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:403
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:401
 msgid "0303"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:404
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:402
 msgid "0304"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:405
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:403
 msgid "0305"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:406
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:404
 msgid "0306"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:407
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:405
 msgid "0307"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:408
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:406
 msgid "0308"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:409
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:407
 msgid "0309"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:410
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:408
 msgid "0310"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:411
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:409
 msgid "0311"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:412
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:410
 msgid "0312"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:413
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:411
 msgid "0313"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:414
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:412
 msgid "0314"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:415
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:413
 msgid "0315"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:416
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:414
 msgid "0316"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:417
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:415
 msgid "0317"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:418
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:416
 msgid "0318"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:419
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:417
 msgid "0319"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:420
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:418
 msgid "0320"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:421
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:419
 msgid "0321"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:422
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:420
 msgid "0322"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:423
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:421
 msgid "0323"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:424
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:422
 msgid "0324"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:425
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:423
 msgid "0325"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:426
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:424
 msgid "0326"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:427
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:425
 msgid "0327"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:428
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:426
 msgid "0328"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:429
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:427
 msgid "0329"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:430
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:428
 msgid "0330"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:431
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:429
 msgid "0331"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:432
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:430
 msgid "0332"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:433
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:431
 msgid "0333"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:434
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:432
 msgid "0334"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:435
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:433
 msgid "0335"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:436
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:434
 msgid "0336"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:437
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:435
 msgid "0337"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:438
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:436
 msgid "0338"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:439
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:437
 msgid "0339"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:440
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:438
 msgid "0340"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:441
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:439
 msgid "0341"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:442
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:440
 msgid "0342"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:443
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:441
 msgid "0343"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:444
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:442
 msgid "0344"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:445
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:443
 msgid "0345"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:446
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:444
 msgid "0346"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:447
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:445
 msgid "0347"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:448
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:446
 msgid "0348"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:449
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:447
 msgid "0349"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:450
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:448
 msgid "0350"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:451
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:449
 msgid "0351"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:452
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:450
 msgid "0352"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:453
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:451
 msgid "0353"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:454
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:452
 msgid "0354"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:455
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:453
 msgid "0355"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:456
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:454
 msgid "0356"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:457
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:455
 msgid "0357"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:458
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:456
 msgid "0358"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:459
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:457
 msgid "0359"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:460
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:458
 msgid "0360"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:461
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:459
 msgid "0361"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:462
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:460
 msgid "0362"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:463
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:461
 msgid "0363"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:464
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:462
 msgid "0364"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:465
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:463
 msgid "0365"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:466
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:464
 msgid "0366"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:467
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:465
 msgid "0367"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:468
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:466
 msgid "0368"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:469
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:467
 msgid "0369"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:470
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:468
 msgid "0370"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:471
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:469
 msgid "0371"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:472
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:470
 msgid "0372"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:473
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:471
 msgid "0373"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:474
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:472
 msgid "0374"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:475
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:473
 msgid "0375"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:476
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:474
 msgid "0376"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:477
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:475
 msgid "0377"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:478
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:476
 msgid "0378"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:479
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:477
 msgid "0379"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:480
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:478
 msgid "0380"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:481
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:479
 msgid "0381"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:482
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:480
 msgid "0382"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:483
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:481
 msgid "0383"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:484
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:482
 msgid "0384"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:485
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:483
 msgid "0385"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:486
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:484
 msgid "0386"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:487
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:485
 msgid "0387"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:488
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:486
 msgid "0388"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:489
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:487
 msgid "0389"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:490
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:488
 msgid "0390"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:491
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:489
 msgid "0391"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:492
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:490
 msgid "0392"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:493
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:491
 msgid "0393"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:494
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:492
 msgid "0394"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:495
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:493
 msgid "0395"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:496
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:494
 msgid "0396"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:497
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:495
 msgid "0397"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:498
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:496
 msgid "0398"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:499
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:497
 msgid "0399"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:500
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:498
 msgid "0400"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:501
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:499
 msgid "0401"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:502
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:500
 msgid "0402"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:503
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:501
 msgid "0403"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:504
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:502
 msgid "0404"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:505
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:503
 msgid "0405"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:506
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:504
 msgid "0406"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:507
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:505
 msgid "0407"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:508
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:506
 msgid "0408"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:509
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:507
 msgid "0409"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:510
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:508
 msgid "0410"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:511
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:509
 msgid "0411"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:512
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:510
 msgid "0412"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:513
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:511
 msgid "0413"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:514
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:512
 msgid "0414"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:515
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:513
 msgid "0415"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:516
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:514
 msgid "0416"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:517
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:515
 msgid "0417"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:518
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:516
 msgid "0418"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:519
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:517
 msgid "0419"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:520
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:518
 msgid "0420"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:521
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:519
 msgid "0421"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:522
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:520
 msgid "0422"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:523
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:521
 msgid "0423"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:524
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:522
 msgid "0424"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:525
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:523
 msgid "0425"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:526
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:524
 msgid "0426"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:527
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:525
 msgid "0427"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:528
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:526
 msgid "0428"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:529
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:527
 msgid "0429"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:530
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:528
 msgid "0430"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:531
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:529
 msgid "0431"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:532
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:530
 msgid "0432"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:533
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:531
 msgid "0433"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:534
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:532
 msgid "0434"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:535
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:533
 msgid "0435"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:536
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:534
 msgid "0436"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:537
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:535
 msgid "0437"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:538
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:536
 msgid "0438"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:539
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:537
 msgid "0439"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:540
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:538
 msgid "0440"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:541
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:539
 msgid "0441"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:542
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:540
 msgid "0442"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:543
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:541
 msgid "0443"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:544
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:542
 msgid "0444"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:545
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:543
 msgid "0445"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:546
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:544
 msgid "0446"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:547
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:545
 msgid "0447"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:548
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:546
 msgid "0448"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:549
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:547
 msgid "0449"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:550
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:548
 msgid "0450"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:551
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:549
 msgid "0451"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:552
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:550
 msgid "0452"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:553
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:551
 msgid "0453"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:554
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:552
 msgid "0454"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:555
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:553
 msgid "0455"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:556
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:554
 msgid "0456"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:557
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:555
 msgid "0457"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:558
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:556
 msgid "0458"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:559
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:557
 msgid "0459"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:560
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:558
 msgid "0460"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:561
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:559
 msgid "0461"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:562
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:560
 msgid "0462"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:563
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:561
 msgid "0463"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:564
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:562
 msgid "0464"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:565
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:563
 msgid "0465"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:566
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:564
 msgid "0466"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:567
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:565
 msgid "0467"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:568
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:566
 msgid "0468"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:569
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:567
 msgid "0469"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:570
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:568
 msgid "0470"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:571
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:569
 msgid "0471"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:572
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:570
 msgid "0472"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:573
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:571
 msgid "0473"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:574
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:572
 msgid "0474"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:575
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:573
 msgid "0475"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:576
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:574
 msgid "0476"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:577
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:575
 msgid "0477"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:578
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:576
 msgid "0478"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:579
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:577
 msgid "0479"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:580
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:578
 msgid "0480"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:581
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:579
 msgid "0481"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:582
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:580
 msgid "0482"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:583
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:581
 msgid "0483"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:584
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:582
 msgid "0484"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:585
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:583
 msgid "0485"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:586
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:584
 msgid "0486"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:587
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:585
 msgid "0487"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:588
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:586
 msgid "0488"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:589
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:587
 msgid "0489"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:590
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:588
 msgid "0490"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:591
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:589
 msgid "0491"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:592
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:590
 msgid "0492"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:593
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:591
 msgid "0493"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:594
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:592
 msgid "0494"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:595
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:593
 msgid "0495"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:596
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:594
 msgid "0496"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:597
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:595
 msgid "0497"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:598
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:596
 msgid "0498"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:599
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:597
 msgid "0499"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:600
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:598
 msgid "0500"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:601
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:599
 msgid "0501"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:602
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:600
 msgid "0502"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:603
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:601
 msgid "0503"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:604
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:602
 msgid "0504"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:605
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:603
 msgid "0505"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:606
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:604
 msgid "0506"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:607
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:605
 msgid "0507"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:608
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:606
 msgid "0508"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:609
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:607
 msgid "0509"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:610
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:608
 msgid "0510"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:611
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:609
 msgid "0511"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:303
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:516
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:524
 msgid "1"
 msgstr ""
 
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:349
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:354
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:360
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:444
+msgid "10"
+msgstr ""
+
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:304
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:517
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:525
 msgid "2"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:348
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:351
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:350
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:355
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:437
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:361
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:445
 msgid "20"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:349
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:352
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:351
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:356
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:438
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:362
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:446
 msgid "22"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:305
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:518
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:526
 msgid "3"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:442
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:450
 msgid "3POS"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:306
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:519
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:527
 msgid "4"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:917
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:923
 msgid ""
 ": Il y a au moins ce nom avec des caractères spéciaux non autorisés.\n"
 "Veuillez le changer.\n"
 "Caractères spéciaux autorisés : _-+:*=?"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:934
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:940
 msgid ": Il y a au moins ce nom répété , veuillez le changer."
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:924
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:930
 msgid ": Il y a au moins ce nom trop court, veuillez le compléter."
 msgstr ""
 
@@ -2158,27 +2172,27 @@ msgstr ""
 msgid "A propos\tF1"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:433
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:439
 msgid "A7105"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:406
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:412
 msgid "ACCURAT_THROTTLE_STATS"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:459
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:467
 msgid "AIL"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:385
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:391
 msgid "ARITHMETIC_OVERFLOW_CHECK"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:414
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:420
 msgid "AUTOSOURCE"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:411
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:417
 msgid "AUTOSWITCH"
 msgstr ""
 
@@ -2191,7 +2205,7 @@ msgstr ""
 msgid "Affichage graphique de l'état de la batterie"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:410
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:416
 msgid "Affiche une mini barre pour visualiser une sauvegarde en cours"
 msgstr ""
 
@@ -2199,15 +2213,15 @@ msgstr ""
 msgid "Aide"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:387
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:393
 msgid "Ajoute du code pour prèvoir débordement aritmethique"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:393
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:399
 msgid "Ajoute la fonction spéciale \"Remplacer CHx\""
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:99
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:97
 msgid "Annonces vocales"
 msgstr ""
 
@@ -2215,7 +2229,7 @@ msgstr ""
 msgid "Annuler"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:905
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:906
 msgid "Appelation de la nouvelle configuration"
 msgstr ""
 
@@ -2233,11 +2247,11 @@ msgstr ""
 msgid "Auto Detection"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:417
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:423
 msgid "Auto detection des manches lors de la programmatiion"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:413
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:419
 msgid "Auto detection des switchs lors de la programmatiion"
 msgstr ""
 
@@ -2249,11 +2263,11 @@ msgstr ""
 msgid "Autres options"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:358
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:364
 msgid "Autres paramètres"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1074
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1067
 msgid ""
 "Avez vous une carte SD de sauvegarde ? \n"
 " Insérez la avant de cliquer sur OUI"
@@ -2275,7 +2289,7 @@ msgstr ""
 msgid "Branchez votre radio"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:426
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:432
 msgid "CC2500"
 msgstr ""
 
@@ -2283,30 +2297,30 @@ msgstr ""
 msgid "CHOICE"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:382
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:388
 msgid "CORRECT_NEGATIVE_VALUES"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:428
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:434
 msgid "CYRF6936"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:270
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:255
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:270
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:270
 msgid "CZ"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:287
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:251
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:287
 msgid "Carte SD"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:399
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:405
 msgid "Change les trim de la main droite à la main gauche, et vice-versa"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:890
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:891
 msgid "Charger la configuration "
 msgstr ""
 
@@ -2326,7 +2340,7 @@ msgstr ""
 msgid "Choisir le fichier pour transferer le Firmware à la radio."
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1079
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1072
 msgid "Choisissez la carte SD de sauvegarde de la radio"
 msgstr ""
 
@@ -2339,7 +2353,7 @@ msgstr ""
 msgid "Choisissez votre moteur de synthèse vocale"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:510
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:518
 msgid "Choix des POTs"
 msgstr ""
 
@@ -2347,8 +2361,8 @@ msgstr ""
 msgid "Communication avec la radio "
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:338
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:199
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:338
 msgid "Compil-O-matic"
 msgstr ""
 
@@ -2357,9 +2371,9 @@ msgid "Compilateur"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:295
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:424
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:451
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:512
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:430
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:459
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:520
 msgid "Compiler"
 msgstr ""
 
@@ -2367,8 +2381,8 @@ msgstr ""
 msgid "Configuration"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1062
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1091
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1056
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1084
 msgid "Copie en cours, attendez SVP......"
 msgstr ""
 
@@ -2376,17 +2390,17 @@ msgstr ""
 msgid "Curves"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:271
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:256
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:271
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:271
 msgid "DE"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:371
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:377
 msgid "DSM2 SERIAL"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:920
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:921
 msgid "Defaut ne peut être effacé"
 msgstr ""
 
@@ -2398,33 +2412,33 @@ msgstr ""
 msgid "Documentation en ligne"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:90
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:88
 msgid "Double click pour éditer."
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:418
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:424
 msgid "Double keys"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:162
-msgid "Débrancher la radio du PC"
-msgstr ""
-
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:475
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:483
 msgid "Défaut"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:408
+#: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:162
+msgid "Dérancher la radio du PC"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:414
 msgid "EEPROM bar"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:456
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:464
 msgid "ELE"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:272
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:257
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:272
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:272
 msgid "EN"
 msgstr ""
 
@@ -2432,9 +2446,9 @@ msgstr ""
 msgid "ERC12864FSF"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:273
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:258
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:273
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:273
 msgid "ES"
 msgstr ""
 
@@ -2442,8 +2456,8 @@ msgstr ""
 msgid "EXTRA 3POS"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:257
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:320
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:257
 msgid "Ecran d'accueil"
 msgstr ""
 
@@ -2451,25 +2465,25 @@ msgstr ""
 msgid "Emplacement d'AVRDUDE"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:361
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:367
 msgid ""
 "Empèche la synthèse vocale de dire \"et\". Exemple : entre minutes \"et\" "
 "seconde"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:490
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:498
 msgid "EncodeurA"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:491
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:499
 msgid "EncodeurB"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:443
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:451
 msgid "Extra 3POS"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:400
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:406
 msgid "F-RAM"
 msgstr ""
 
@@ -2477,13 +2491,13 @@ msgstr ""
 msgid "FAI"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:274
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:259
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:274
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:274
 msgid "FR"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:376
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:382
 msgid "FRSKY"
 msgstr ""
 
@@ -2491,7 +2505,7 @@ msgstr ""
 msgid "Fichier"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:978
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:979
 msgid "Fichier image"
 msgstr ""
 
@@ -2511,11 +2525,11 @@ msgstr ""
 msgid "Fusibles et Bootloader"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:462
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:470
 msgid "GEA"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:378
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:384
 msgid "GPS"
 msgstr ""
 
@@ -2523,21 +2537,17 @@ msgstr ""
 msgid "Global vars"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:618
-msgid "Générer ce fichier"
-msgstr ""
-
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:615
-msgid "Générer tout"
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:613
+msgid "Générer Fichiers"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:245
 msgid "HELI"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:275
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:260
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:275
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:275
 msgid "HU"
 msgstr ""
 
@@ -2545,18 +2555,18 @@ msgstr ""
 msgid "Haptic"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:476
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:488
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:484
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:496
 msgid "ID0"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:500
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:505
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:508
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:513
 msgid "ID1"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:503
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:507
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:511
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:515
 msgid "ID2"
 msgstr ""
 
@@ -2564,9 +2574,9 @@ msgstr ""
 msgid "IMPERIAL"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:276
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:261
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:276
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:276
 msgid "IT"
 msgstr ""
 
@@ -2575,27 +2585,27 @@ msgid ""
 "Il est recommande de sauvegarder vos modeles avant, voulez vous continuer ?"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:469
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:477
 msgid "Inter1"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:470
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:478
 msgid "Inter2"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:471
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:479
 msgid "Inter3"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:472
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:480
 msgid "Inter4"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:473
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:481
 msgid "Inter5"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:474
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:482
 msgid "Inter6"
 msgstr ""
 
@@ -2611,7 +2621,7 @@ msgstr ""
 msgid "JQ6500 PCB (by Pyrall)"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:616
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:614
 msgid "Jouer"
 msgstr ""
 
@@ -2623,14 +2633,14 @@ msgstr ""
 msgid "LCD"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1044
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1039
 msgid ""
 "La carte SD doit avoir été formatée pour\n"
 " un bon fonctionnement sur la radio"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:283
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:268
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:283
 msgid "Langue"
 msgstr ""
 
@@ -2672,7 +2682,7 @@ msgstr ""
 msgid "METRIC"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:421
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:427
 msgid "MULTI"
 msgstr ""
 
@@ -2705,9 +2715,9 @@ msgstr ""
 msgid "Mégamini shield"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:277
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:262
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:277
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:277
 msgid "NL"
 msgstr ""
 
@@ -2715,15 +2725,15 @@ msgstr ""
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:285
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:302
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:333
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:515
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:523
 msgid "NO"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:359
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:365
 msgid "NOANDSECONDE"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:430
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:436
 msgid "NRF24l01"
 msgstr ""
 
@@ -2731,38 +2741,38 @@ msgstr ""
 msgid "Navigation"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:521
-msgid "Nb X-ANY"
-msgstr ""
-
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:98
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:96
 msgid "Nom"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:441
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:449
 msgid "Nom des interrupteurs"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:520
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:528
 msgid "Nombre d'instances"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1044
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1050
 msgid "Non compatible avec AUTOSOURCE. AUTOSOURCE décoché."
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1034
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1040
 msgid "Non compatible avec NAVIGATION = STICKS"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1087
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1097
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1107
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1093
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1103
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1113
 msgid "Non compatible avec TELEMETRY = STD."
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:291
 msgid "Nouvelle configuration"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:529
+msgid "Num X-ANY"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:253
@@ -2817,15 +2827,15 @@ msgstr ""
 msgid "Option variables globales"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:563
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:571
 msgid "Options avancées"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:391
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:397
 msgid "Override channel function"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:439
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:447
 msgid "PA Gain (DB)"
 msgstr ""
 
@@ -2837,40 +2847,40 @@ msgstr ""
 msgid "PERCENT_PREC1"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:467
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:475
 msgid "PERSONAMES"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:278
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:263
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:278
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:278
 msgid "PL"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:286
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:339
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:523
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:532
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:541
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:553
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:531
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:540
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:549
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:561
 msgid "POT1"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:287
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:340
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:524
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:533
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:542
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:554
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:532
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:541
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:550
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:562
 msgid "POT2"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:288
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:341
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:525
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:534
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:543
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:555
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:533
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:542
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:551
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:563
 msgid "POT3"
 msgstr ""
 
@@ -2878,7 +2888,7 @@ msgstr ""
 msgid "POTS"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:363
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:369
 msgid "PPM"
 msgstr ""
 
@@ -2890,13 +2900,13 @@ msgstr ""
 msgid "PPM Simm limits"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:279
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:264
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:279
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:279
 msgid "PT"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:388
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:394
 msgid "PWM_BACKLIGHT"
 msgstr ""
 
@@ -2912,7 +2922,7 @@ msgstr ""
 msgid "Paramètres de communication avec la radio"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:564
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:572
 msgid "Personnalisation"
 msgstr ""
 
@@ -2932,10 +2942,10 @@ msgstr ""
 msgid "Port"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:530
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:539
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:548
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:560
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:538
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:547
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:556
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:568
 msgid "Potentiomètre pour X-Any"
 msgstr ""
 
@@ -2975,19 +2985,19 @@ msgstr ""
 msgid "Protocole"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:423
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:429
 msgid "Protocole MULTI"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:366
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:372
 msgid "Protocole PPM 8 à 16 voies"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:370
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:376
 msgid "Protocole SPI RF "
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:373
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:379
 msgid "Protocoles DSM .."
 msgstr ""
 
@@ -2999,15 +3009,15 @@ msgstr ""
 msgid "Quitter l'application"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:494
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:502
 msgid "REa"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:497
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:505
 msgid "REb"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:445
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:453
 msgid "REn"
 msgstr ""
 
@@ -3015,11 +3025,11 @@ msgstr ""
 msgid "ROTENC"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:453
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:461
 msgid "RUD"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:420
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:426
 msgid "Raccourcis avec deux touches pour passer une valeur à min/max/0"
 msgstr ""
 
@@ -3031,7 +3041,7 @@ msgstr ""
 msgid "Référence de l'écran"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:562
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:570
 msgid "Réglages"
 msgstr ""
 
@@ -3039,17 +3049,13 @@ msgstr ""
 msgid "Répertoire de avrdude"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1074
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1067
 msgid "SD DATA"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1037
-msgid "SD VOICE"
-msgstr ""
-
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:280
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:265
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:280
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:280
 msgid "SE"
 msgstr ""
 
@@ -3057,7 +3063,7 @@ msgstr ""
 msgid "SH1106"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:403
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:409
 msgid "SHUTDOWN_CONFIRMATION"
 msgstr ""
 
@@ -3069,13 +3075,13 @@ msgstr ""
 msgid "SIMULATEUR STANDARD"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:281
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:266
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:281
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:281
 msgid "SK"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:367
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:373
 msgid "SPI Xmitters"
 msgstr ""
 
@@ -3100,35 +3106,35 @@ msgid "ST7920"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:322
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:375
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:381
 msgid "STD"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:526
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:535
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:544
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:556
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:534
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:543
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:552
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:564
 msgid "STICK1"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:527
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:536
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:545
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:557
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:535
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:544
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:553
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:565
 msgid "STICK2"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:528
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:537
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:546
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:558
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:536
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:545
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:554
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:566
 msgid "STICK3"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:529
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:538
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:547
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:559
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:537
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:546
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:555
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:567
 msgid "STICK4"
 msgstr ""
 
@@ -3136,14 +3142,14 @@ msgstr ""
 msgid "STICKS"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:614
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:612
 msgid "Sauvegarder et quitter"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:294
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:425
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:450
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:511
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:431
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:458
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:519
 msgid "Sauvegarder et sortir"
 msgstr ""
 
@@ -3155,12 +3161,12 @@ msgstr ""
 msgid "Selection du potentiomètre utilisé pour XD0"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1045
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1080
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1040
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1073
 msgid "Selectionnez le lecteur"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:923
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:924
 msgid "Supprimer "
 msgstr ""
 
@@ -3168,7 +3174,7 @@ msgstr ""
 msgid "Supprimer la configuration active"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:384
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:390
 msgid "Symétrise les valeurs affichées"
 msgstr ""
 
@@ -3186,11 +3192,11 @@ msgstr ""
 msgid "TEMPLATES"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:448
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:456
 msgid "THR"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:465
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:473
 msgid "TRN"
 msgstr ""
 
@@ -3202,7 +3208,7 @@ msgstr ""
 msgid "Test"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:397
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:403
 msgid "Toggle trims"
 msgstr ""
 
@@ -3211,11 +3217,11 @@ msgstr ""
 msgid "Type de radio"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:362
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:368
 msgid "Télemetrie"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:377
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:383
 msgid "Télémétrie installée"
 msgstr ""
 
@@ -3232,7 +3238,7 @@ msgstr ""
 msgid "Unités"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:402
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:408
 msgid "Utilisation d'une eeprom externe : FM24W256"
 msgstr ""
 
@@ -3244,7 +3250,7 @@ msgstr ""
 msgid "Valider"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:380
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:386
 msgid "Vario"
 msgstr ""
 
@@ -3252,64 +3258,58 @@ msgstr ""
 msgid "Voice"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:82
+#: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:80
 msgid "Voix"
-msgstr ""
-
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1037
-msgid ""
-"Voulez vous copier les fichiers sur la carte du JQ ? \n"
-" Insérez la avant de cliquer sur OUI"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:328
 msgid "Vrai police en gras"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:396
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:402
 msgid "WS HowHigh Altimeter"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:394
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:400
 msgid "WS_HOW_HIGH"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:565
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:573
 msgid "X-Any"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:549
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:557
 msgid "X-Any N°1 :"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:550
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:558
 msgid "X-Any N°2 :"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:551
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:559
 msgid "X-Any N°3 :"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:561
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:569
 msgid "X-Any N°4 :"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:513
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:521
 msgid "X-Any Options"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:477
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:479
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:485
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:487
 msgid "XD0"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:485
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:506
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:493
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:514
 msgid "XD1"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:482
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:508
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:490
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:516
 msgid "XD2"
 msgstr ""
 
