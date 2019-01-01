@@ -49,9 +49,13 @@ void master_spi_disable()
 void enable_spi_master_mode()
 {
 // Enable SPI as Master, MSB first.
+#if defined(SDCARD)
+SPI_250K(); // Fosc/64
+#else
 SPCR = (1<<SPE) | (1<<MSTR) | (0<<DORD);
 // Set clock rate Fosc/2
 SPSR |= (1<<SPI2X);
+#endif
 // Note : Make sure Slave Select pin is output or input pullup.
 }
 
