@@ -98,9 +98,6 @@ const void *Squeleton_Cmds(enum ProtoCmds cmd)
     return 0;
   case PROTOCMD_RESET:
     PROTO_Stop_Callback();
-    CC2500_Reset();
-    CC2500_SetTxRxMode(TXRX_OFF);
-    CC2500_Strobe(CC2500_SIDLE);
     return 0;
   case PROTOCMD_BIND:
     Squeleton_initialize(1);
