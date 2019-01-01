@@ -240,7 +240,6 @@ void boardOff();
     #define OUT_D_CYRF6936_CS_N     PIN2_bm
     #define OUT_D_NRF24L01_CS_N     PIN3_bm
     #define OUT_H_A7105_CS_N        PIN0_bm
-    #define OUT_B_SX127X_CS_N       PIN4_bm
 
     #define RF_CS_CC2500_ACTIVE() PORTH &= ~(OUT_H_CC2500_CS_N);
     #define RF_CS_CC2500_INACTIVE() PORTH |= (OUT_H_CC2500_CS_N);
@@ -250,8 +249,6 @@ void boardOff();
     #define RF_CS_NRF24L01_INACTIVE(); PORTD |= (OUT_D_NRF24L01_CS_N);
     #define RF_CS_A7105_ACTIVE(); PORTH &= ~(OUT_H_A7105_CS_N);
     #define RF_CS_A7105_INACTIVE(); PORTH |= (OUT_H_A7105_CS_N);
-    #define RF_CS_SX127X_ACTIVE(); PORTB &= ~(OUT_B_SX127X_CS_N);
-    #define RF_CS_SX127X_INACTIVE(); PORTB |= (OUT_B_SX127X_CS_N);
 
 #endif // SPIMODULES
 
