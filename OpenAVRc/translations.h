@@ -456,6 +456,7 @@ extern const pm_char STR_BATT_CALIB[];
 #if defined(FRSKY)
 extern const pm_char STR_VOLTAGE[];
 extern const pm_char STR_CURRENT[];
+extern const pm_char STR_MODELISON[];
 #endif
 
 #define LEN_CALIB_FIELDS PSIZE(TR_BATT_CALIB)

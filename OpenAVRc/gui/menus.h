@@ -76,6 +76,8 @@ extern MenuHandlerFunc menuHandlers[5];
 extern uint8_t menuVerticalPositions[4];
 extern uint8_t menuLevel;
 extern uint8_t menuEvent;
+extern uint8_t shared_u8;
+
 
 /// goto given Menu, but substitute current menu in menuStack
 extern void chainMenu(MenuHandlerFunc newMenu);

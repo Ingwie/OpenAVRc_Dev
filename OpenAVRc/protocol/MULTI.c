@@ -173,8 +173,13 @@ static uint16_t MULTI_cb()
 
     // Multi module in DSM mode wants the number of channels to be used as option value
     optionValue = MULTI_CHANS;
-
   }
+
+  if (g_model.MULTIRFPROTOCOL == MM_RF_PROTO_DEVO || g_model.MULTIRFPROTOCOL == MM_RF_PROTO_WK_2X01) {
+    if(g_model.AUTOBINDMODE) optionValue =0;
+    else optionValue =1;
+  }
+
 
   // 15  for Multimodule is FrskyX or D16 which we map as a subprotocol of 3 (FrSky)
   // all protos > frskyx are therefore also off by one

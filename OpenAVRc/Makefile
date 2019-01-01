@@ -21,7 +21,7 @@ PCB = MEGA2560
 # Values: ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306, SH1106
 LCD = ST7920
 
-# Enable FrSky Telemetry reception on UART0
+# Enable FrSky Telemetry reception on UART0 or SPI
 # Values = STD, FRSKY
 EXT = STD
 

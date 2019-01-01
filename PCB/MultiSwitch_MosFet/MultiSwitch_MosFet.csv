@@ -1,0 +1,9 @@
+"Id";"Référence";"Boitier";"Quantité";"Désignation";"Fournisseur et réf.";
+1;"Q2,Q14,Q8,Q5,Q11,Q17,Q20,Q23";"TO-220_Vertical";8;"IRL2203N";;;
+2;"Q1,Q7,Q13,Q4,Q10,Q16,Q19,Q22";"TO-92_Inline_Narrow_Oval";8;"P2N2222A";;;
+3;"Q3,Q9,Q15,Q6,Q12,Q18,Q21,Q24";"TO-92_Inline_Narrow_Oval";8;"BF244B";;;
+4;"J1,J2,J3,J4,J5,J6,J7,J8,J11";"bornier2";9;"Conn_01x02_Male";;;
+5;"D1,D2,D3,D4,D5,D6,D7,D8";"LED_D3.0mm";8;"LED";;;
+6;"J9,J10";"Pin_Header_Straight_1x08_Pitch2.54mm";2;"Conn_01x08_Male";;;
+7;"R1,R2,R3,R4,R5,R6,R7,R8,R9,R11,R12,R13,R14,R15,R16,R17,R18,R19,R20,R21,R22,R23,R24,R10";"R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical";24;"10K";;;
+8;"Fix1,Fix1,Fix1,Fix1";"MountingHole_3.2mm_M3";4;"MountingHole_3.2mm_M3";;;

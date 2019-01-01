@@ -1,0 +1,9 @@
+### Module positions - created on 23/12/2018 14:50:45 ###
+### Printed by Pcbnew version kicad (5.0.2)-1
+## Unit = mm, Angle = deg.
+## Side : top
+# Ref     Val       Package                PosX       PosY       Rot  Side
+D1        LED       LED_1206             5.3340    13.7150  270.0000  top
+D3        LL4148    D_SOD-123            3.3020     7.8740    0.0000  top
+R4        10K       R_1206              11.4300     4.9530  180.0000  top
+## End
