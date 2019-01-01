@@ -879,6 +879,8 @@ extern REG8 simu_EIMSK;
 #define ENABLEROTENCISR()
 #define FORCE_INDIRECT(ptr)
 #define EEPROMREADBLOCK simu_eepromReadBlock
+#define srandom(x) srand(x)
+#define random() rand()
 
 char *convertSimuPath(const char *path);
 extern ISR(TIMER3_COMPA_vect, ISR_NOBLOCK); //TIMER_10MS_VECT

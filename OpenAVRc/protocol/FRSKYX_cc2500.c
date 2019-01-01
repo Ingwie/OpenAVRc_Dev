@@ -39,8 +39,6 @@
 #define XTELEMETRY (g_model.rfOptionBool1)
 #define X8MODE     (g_model.rfOptionBool2)
 
-const pm_char STR_X8MODE[] PROGMEM = INDENT "X8-9mS";
-
 const static RfOptionSettingsvarstruct RfOpt_FrskyX_Ser[] PROGMEM =
 {
   /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED | BOOL2USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
@@ -53,6 +51,7 @@ const static RfOptionSettingsvarstruct RfOpt_FrskyX_Ser[] PROGMEM =
 };
 
 const pm_char STR_SUBTYPE_FRSKYX[] PROGMEM = "XLBT""XFCC";
+const pm_char STR_X8MODE[] PROGMEM = INDENT "X8-9mS";
 
 enum
 {
@@ -522,11 +521,6 @@ static void FRSKYX_initialize(uint8_t bind)
   CC2500_Reset();
 
   FRSKY_generate_channels();
-
-#if defined (SIMU)
-#define srandom(x) srand(x)
-#define random() rand()
-#endif
 
   while (!channel_skip)
     {
