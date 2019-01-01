@@ -56,13 +56,6 @@
 //#include "iface_a7105.h"
 #endif
 
-#ifdef PROTO_HAS_CYRF6936
-#include "iface_cyrf6936.h"
-#include "cyrf6936.c"
-#include "DEVO_cyrf6936.c"
-#include "DSM_cyrf6936.c"
-#endif
-
 #ifdef PROTO_HAS_CC2500
 #include "iface_cc2500.h"
 #include "cc2500.c"
@@ -72,6 +65,13 @@
 #include "FRSKYX_cc2500.c"
 #include "SKYARTEC_cc2500.c"
 #include "CORONA_cc2500.c"
+#endif
+
+#ifdef PROTO_HAS_CYRF6936
+#include "iface_cyrf6936.h"
+#include "cyrf6936.c"
+#include "DEVO_cyrf6936.c"
+#include "DSM_cyrf6936.c"
 #endif
 
 #ifdef PROTO_HAS_NRF24L01
