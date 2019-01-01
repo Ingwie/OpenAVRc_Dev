@@ -38,11 +38,11 @@
 
 
 //(*Headers(VoiceEditFrame)
+#include <wx/statbox.h>
+#include <wx/panel.h>
+#include <wx/grid.h>
 #include <wx/button.h>
 #include <wx/frame.h>
-#include <wx/grid.h>
-#include <wx/panel.h>
-#include <wx/statbox.h>
 //*)
 
 
@@ -55,12 +55,11 @@ public:
 
   //(*Declarations(VoiceEditFrame)
   wxButton* ButtonGenerer;
-  wxButton* ButtonGenererUnFichier;
-  wxButton* ButtonJouer;
-  wxButton* ButtonSauvegarder;
   wxGrid* VoiceGrid;
   wxPanel* Panel1;
   wxStaticBox* StaticBox1;
+  wxButton* ButtonSauvegarder;
+  wxButton* ButtonJouer;
   //*)
 
 protected:
@@ -71,7 +70,6 @@ protected:
   static const long ID_BUTTONSAUVEGARDER;
   static const long ID_BUTTONGENERER;
   static const long ID_BUTTONJOUER;
-  static const long ID_BUTTONGENERERUNFICHIER;
   static const long ID_PANEL1;
   //*)
 
@@ -83,11 +81,9 @@ private:
   void OnButtonGenererClick(wxCommandEvent& event);
   void OnVoiceGridCellSelect(wxGridEvent& event);
   void OnButtonJouerClick(wxCommandEvent& event);
-  void OnButtonGenererUnFichierClick(wxCommandEvent& event);
   //*)
-  DECLARE_EVENT_TABLE()
 
-  void UpdateListFile();
+  DECLARE_EVENT_TABLE()
 };
 
 #endif

@@ -21,7 +21,7 @@ PCB = MEGA2560
 # Values: ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306, SH1106
 LCD = ST7920
 
-# Enable FrSky Telemetry reception on UART0 or SPI
+# Enable FrSky Telemetry reception on UART0
 # Values = STD, FRSKY
 EXT = STD
 
@@ -131,7 +131,7 @@ VARIO = YES
 # RTCLOCK
 # Values = YES, NO
 # default = YES (means enabled when available)
-RTCLOCK = NO
+RTCLOCK = YES
 
 # DSM2 (Spektrum) protocol
 # Values = NO, SERIAL
@@ -243,6 +243,14 @@ A7105 = YES
 # Set A7105 PA gain in DB
 # Values = 20,22
 A7105PAG = 20
+
+# Enable SX127X SPI protocols
+# Values = NO, YES
+SX127X = YES
+
+# Set SX127X PA gain in DB
+# Values = 20,22
+SX127XPAG = 20
 
 # Enable X-ANY feature
 # Values = NO, 1, 2, 3 ,4
@@ -411,6 +419,11 @@ ifeq ($(PCB), MEGAMINI)
   	ifeq ($(A7105), YES)
    		CPPDEFS += -DPROTO_HAS_A7105
  	  	CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
+  	endif
+
+  	ifeq ($(SX127X), YES)
+   		CPPDEFS += -DPROTO_HAS_SX127X
+ 	  	CPPDEFS += -DSX127XPA_GAIN=$(SX127XPAG)
   	endif
   endif
 
@@ -612,11 +625,11 @@ ifeq ($(PCB), MEGA2560)
    CPPSRC += buzzer.cpp
   endif
 
-  ifeq ($(VOICE), WTV20SD)
-   CPPDEFS += -DVOICE
-   CPPDEFS += -DVOICE_WTV20SD
-   CPPSRC += targets/mega2560/voice_wtv20sd.cpp
+  ifeq ($(RTCLOCK), YES)
+    CPPDEFS += -DRTCLOCK
+    CPPSRC += rtc_driver.cpp
   endif
+
   ifeq ($(VOICE), JQ6500)
    CPPDEFS += -DVOICE
    CPPDEFS += -DVOICE_JQ6500
@@ -639,6 +652,60 @@ ifeq ($(PCB), MEGA2560)
   # Enable extra rotary encoders
   ROTARY_ENCODERS = 2
   CPPDEFS += -DROTARY_ENCODERS=${ROTARY_ENCODERS}
+
+  ifeq ($(MULTIMODULE), YES)
+   CPPDEFS += -DMULTIMODULE
+  endif
+
+  ifeq ($(SPIMODULES), YES)
+   CPPDEFS += -DSPIMODULES
+
+		ifeq ($(CC2500), YES)
+ 	  	CPPDEFS += -DPROTO_HAS_CC2500
+ 	  	CPPDEFS += -DCC2500PA_GAIN=$(CC2500PAG)
+		endif
+
+		ifeq ($(CYRF6936), YES)
+   		CPPDEFS += -DPROTO_HAS_CYRF6936
+ 	  	CPPDEFS += -DCYRF6936PA_GAIN=$(CYRF6936PAG)
+  	endif
+
+  	ifeq ($(NRF24L01), YES)
+   		CPPDEFS += -DPROTO_HAS_NRF24L01
+ 	  	CPPDEFS += -DNRF24L01PA_GAIN=$(NRF24L01PAG)
+  	endif
+
+  	ifeq ($(A7105), YES)
+   		CPPDEFS += -DPROTO_HAS_A7105
+ 	  	CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
+  	endif
+
+  	ifeq ($(SX127X), YES)
+   		CPPDEFS += -DPROTO_HAS_SX127X
+ 	  	CPPDEFS += -DSX127XPA_GAIN=$(SX127XPAG)
+  	endif
+  endif
+
+	ifneq ($(X_ANY), NO)
+	CPPSRC += Xany.cpp gui/menu_model_Xany.cpp
+		ifeq ($(X_ANY), 1)
+		CPPDEFS += -DX_ANY=1
+		endif
+		ifeq ($(X_ANY), 2)
+		CPPDEFS += -DX_ANY=2
+		endif
+		ifeq ($(X_ANY), 3)
+		CPPDEFS += -DX_ANY=3
+		endif
+		ifeq ($(X_ANY), 4)
+		CPPDEFS += -DX_ANY=4
+		endif
+		CPPDEFS += -DX_ANY_1_POT=$(X_ANY_1_POT)
+		CPPDEFS += -DX_ANY_2_POT=$(X_ANY_2_POT)
+		CPPDEFS += -DX_ANY_3_POT=$(X_ANY_3_POT)
+		CPPDEFS += -DX_ANY_4_POT=$(X_ANY_4_POT)
+	endif
+
 endif
 
 CC      = $(TRGT)gcc

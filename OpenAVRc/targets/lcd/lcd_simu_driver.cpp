@@ -107,17 +107,8 @@ static wxDir sddir(sdroot);
 static wxFile sdfile;
 static bool cont = 0;
 
-void simulateLcdBufferUsedBySd()
-{
-  for (uint16_t i=0; i<512 ; ++i)
-  {
-    displayBuf[i] = (rand() & 0xFF);
-  }
-}
-
 void sd_raw_get_info(struct sd_raw_info* tmp)
 {
-  simulateLcdBufferUsedBySd();
   tmp->manufacturing_year = 18;
   tmp->capacity = 1978 * 1024 * 1024;
 }
@@ -131,27 +122,23 @@ uint8_t sd_raw_init()
       sddir.Make(root);
     }
   sdroot = root;
-  simulateLcdBufferUsedBySd();
   return 1;
 }
 
 uint8_t sd_raw_sync()
 {
-  simulateLcdBufferUsedBySd();
   return 1;
 }
 
 struct fat_fs_struct* fat_open(struct partition_struct* partition)
 {
   struct fat_fs_struct* tmp = 0;
-  simulateLcdBufferUsedBySd();
   return tmp;
 }
 
 partition_struct* partition_open(uint8_t a,uint8_t b,uint8_t c,uint8_t d,uint8_t e)
 {
   partition_struct* tmp = 0;
-  simulateLcdBufferUsedBySd();
   return tmp;
 }
 
@@ -163,13 +150,11 @@ uint8_t fat_seek_file(struct fat_file_struct* fd, int32_t* offset, uint8_t whenc
     {
       ret = 1;
     }
-  simulateLcdBufferUsedBySd();
   return ret;
 }
 
 uint8_t fat_delete_file(struct fat_fs_struct* fs, struct fat_dir_entry_struct* dir_entry)
 {
-  simulateLcdBufferUsedBySd();
   return wxRemoveFile(sdroot + sdpath + wxString::FromUTF8(dir_entry->long_name));
 }
 
@@ -178,7 +163,6 @@ uint8_t fat_create_file(struct fat_dir_struct* parent, const char* file, struct 
   uint8_t ret = 0;
   wxString temp = sdroot + sdpath + "\\" + wxString::FromUTF8(file);
 
-  simulateLcdBufferUsedBySd();
   if (wxFile::Exists(temp))
     {
       ret = 2;
@@ -199,8 +183,6 @@ struct fat_file_struct* fat_open_file(struct fat_fs_struct* fs, const struct fat
   struct fat_file_struct* tmp = 0;
   wxString temp = sdroot + sdpath + "\\" + wxString::FromUTF8(dir_entry->long_name);
 
-  simulateLcdBufferUsedBySd();
-
   if (wxFile::Exists(temp))
     {
       if (sdfile.Open(temp, wxFile::read_write, wxS_DEFAULT))
@@ -214,8 +196,6 @@ struct fat_file_struct* fat_open_file(struct fat_fs_struct* fs, const struct fat
 intptr_t fat_write_file(struct fat_file_struct* fd, const uint8_t* buffer, uintptr_t buffer_len)
 {
   size_t ret = 0;
-
-  simulateLcdBufferUsedBySd();
 
   ret = sdfile.Write(buffer, buffer_len);
   if (sdfile.Flush())
@@ -232,15 +212,12 @@ intptr_t fat_read_file(struct fat_file_struct* fd, uint8_t* buffer, uintptr_t bu
 
 void fat_close_file(struct fat_file_struct* fd)
 {
-  simulateLcdBufferUsedBySd();
   sdfile.Close();
   SD_file = 0;
 }
 
 uint8_t fat_read_dir(struct fat_dir_struct* dd, struct fat_dir_entry_struct* dir_entry)
 {
-  simulateLcdBufferUsedBySd();
-
   if (!sddir.IsOpened())
     {
       return 0;
@@ -264,7 +241,6 @@ uint8_t fat_read_dir(struct fat_dir_struct* dd, struct fat_dir_entry_struct* dir
 
 uint8_t fat_get_dir_entry_of_path(struct fat_fs_struct* fs, const char* path, struct fat_dir_entry_struct* dir_entry)
 {
-  simulateLcdBufferUsedBySd();
   strncpy(dir_entry->long_name, path, 32);
   return 1;
 }
@@ -272,8 +248,6 @@ uint8_t fat_get_dir_entry_of_path(struct fat_fs_struct* fs, const char* path, st
 struct fat_dir_struct* fat_open_dir(struct fat_fs_struct* fs, const struct fat_dir_entry_struct* dir_entry)
 {
   struct fat_dir_struct* tmp = 0;
-
-  simulateLcdBufferUsedBySd();
 
   if (sddir.Open(sdroot + wxString::FromUTF8(dir_entry->long_name)))
     {
@@ -302,15 +276,12 @@ uint8_t fat_create_dir(struct fat_dir_struct* parent, const char* dir, struct fa
 
 uint8_t fat_reset_dir(struct fat_dir_struct* dd)
 {
-  simulateLcdBufferUsedBySd();
   cont = 0; // reset fat_read_dir function
   return 1;
 }
 
 void fat_close_dir(struct fat_dir_struct* dd)
 {
-  simulateLcdBufferUsedBySd();
-
   if (sddir.IsOpened())
     {
       sddir.Close();

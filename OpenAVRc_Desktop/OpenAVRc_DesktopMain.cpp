@@ -861,7 +861,7 @@ void OpenAVRc_DesktopFrame::OnATMEGA2560CompilerSelected(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnMenuItem9Selected(wxCommandEvent& event)
 {
-  wxLaunchDefaultBrowser(wxT("https://raw.githubusercontent.com/Ingwie/OpenAVRc_Dev/V3/documentation/Compilez%20votre%20FW%20OpenAVRc_V3.pdf"), 0);
+  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/documentation/Compilez%20votre%20FW%20OpenAVRc_V3.pdf"), 0);
 }
 
 void OpenAVRc_DesktopFrame::OnMenuJQ6500_PCBSelected(wxCommandEvent& event)
@@ -876,12 +876,12 @@ void OpenAVRc_DesktopFrame::OnMenuVOICE_AUDIO_PCBSelected(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnMenuItem16Selected(wxCommandEvent& event)
 {
-  wxLaunchDefaultBrowser(wxT("https://raw.githubusercontent.com/Ingwie/OpenAVRc_Dev/V3/documentation/Schema_MegaMini.pdf"), 0);
+  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/documentation/Schema_MegaMini.pdf"), 0);
 }
 
 void OpenAVRc_DesktopFrame::OnMenuItem14Selected(wxCommandEvent& event)
 {
-  wxLaunchDefaultBrowser(wxT("https://raw.githubusercontent.com/Ingwie/OpenAVRc_Dev/V3/documentation/Doc_Shield.pdf"), 0);
+  wxLaunchDefaultBrowser(wxT("https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/documentation/Doc_Shield.pdf"), 0);
 }
 
 void OpenAVRc_DesktopFrame::OnListBoxConfigDClick(wxCommandEvent& event)
@@ -1032,46 +1032,38 @@ void OpenAVRc_DesktopFrame::OnButtonCarteSDClick(wxCommandEvent& event)
 
   wxFSVolume DriveSearch;
 
-// Copy Voice files
+  DriveList = DriveSearch.GetVolumes( wxFS_VOL_MOUNTED | wxFS_VOL_REMOVABLE );
 
-  int answer = wxMessageBox(_("Voulez vous copier les fichiers sur la carte du JQ ? \n Insérez la avant de cliquer sur ""OUI"""), _("SD ""VOICE"""), wxYES | wxNO | wxCENTRE, this);
-  if (answer == wxYES)
-    {
+  wxSingleChoiceDialog DriveName(this,
+                                 _("La carte SD doit avoir été formatée pour\n un bon fonctionnement sur la radio"),
+                                 _("Selectionnez le lecteur"),
+                                 DriveList
+                                );
 
-      DriveList = DriveSearch.GetVolumes( wxFS_VOL_MOUNTED | wxFS_VOL_REMOVABLE );
+  if (DriveName.ShowModal() == wxID_OK) {
+    wxString Drive = DriveName.GetStringSelection();
+    wxString SourceDirectory;
+    wxString DestinationDirectory;
+    wxString FileName;
+    wxString Ext;
 
-      wxSingleChoiceDialog DriveName(this,
-                                     _("La carte SD doit avoir été formatée pour\n un bon fonctionnement sur la radio"),
-                                     _("Selectionnez le lecteur"),
-                                     DriveList
-                                    );
+    SourceDirectory = "\\VOICEMP3\\";
+    DestinationDirectory = "\\VOICEMP3\\";
+    Ext = "mp3";
+    wxMkdir(Drive + DestinationDirectory);
 
-      if (DriveName.ShowModal() == wxID_OK)
-        {
-          wxString Drive = DriveName.GetStringSelection();
-          wxString SourceDirectory;
-          wxString DestinationDirectory;
-          wxString FileName;
-          wxString Ext;
+    wxBusyInfo wait(_("Copie en cours, attendez SVP......"));
 
-          SourceDirectory = "\\VOICEMP3\\";
-          DestinationDirectory = "\\VOICEMP3\\";
-          Ext = "mp3";
-          wxMkdir(Drive + DestinationDirectory);
-
-          wxBusyInfo wait(_("Copie en cours, attendez SVP......"));
-
-          for (int i = 0; i < 512 ; i++)
-            {
-              FileName.Printf("%04d.",i);
-              wxCopyFile(AppPath + SourceDirectory + FileName + Ext, Drive + DestinationDirectory + FileName + Ext, false);
-            }
-        }
+    for (int i = 0; i < 512 ; i++) {
+      FileName.Printf("%04d.",i);
+      wxCopyFile(AppPath + SourceDirectory + FileName + Ext, Drive + DestinationDirectory + FileName + Ext, false);
     }
+  }
+
 
 // Copy text prompt
 
-  answer = wxMessageBox(_("Avez vous une carte SD de sauvegarde ? \n Insérez la avant de cliquer sur ""OUI"""), _("SD ""DATA"""), wxYES | wxNO | wxCENTRE, this);
+  int answer = wxMessageBox(_("Avez vous une carte SD de sauvegarde ? \n Insérez la avant de cliquer sur ""OUI"""), _("SD ""DATA"""), wxYES | wxNO | wxCENTRE, this);
   if (answer == wxYES) {
     DriveList = DriveSearch.GetVolumes( wxFS_VOL_MOUNTED | wxFS_VOL_REMOVABLE );
 

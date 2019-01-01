@@ -35,10 +35,9 @@
 
 #define VOICE_PROMPT_TEXT_LEN  25
 
-FORCEINLINE uint8_t loadVoiceTextLine(uint8_t Numline, char * PromptText)
+FORCEINLINE void loadVoiceTextLine(uint8_t Numline, char * PromptText)
 {
   closeLogIfActived();
-  uint8_t ret = false;
 
   if (sdChangeCurDir(VOICETXT_PATH))
     {
@@ -50,14 +49,12 @@ FORCEINLINE uint8_t loadVoiceTextLine(uint8_t Numline, char * PromptText)
             {
               if (fat_read_file(SD_file, (uint8_t*)PromptText, VOICE_PROMPT_TEXT_LEN) == VOICE_PROMPT_TEXT_LEN)
                 {
-                  PromptText[VOICE_PROMPT_TEXT_LEN] = '\0';
-                  ret = true;
+                  PromptText[VOICE_PROMPT_TEXT_LEN] = '\n';
                 }
             }
           fat_close_file(SD_file);
         }
     }
-  return ret;
 }
 
 
