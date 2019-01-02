@@ -621,7 +621,19 @@ void menuModelSetup(uint8_t event)
             if (attr) {
               CHECK_INCDEC_MODELVAR_ZERO(event, g_model.rfOptionValue3, RfOptionSettings.rfOptionValue3Max);
 #if defined(SIMU)
-              CC2500_ManagePower(); // Change value on gui
+              switch (protocol)
+              {
+              case PROTOCOL_FRSKYD:
+              case PROTOCOL_FRSKYV:
+              case PROTOCOL_FRSKYX:
+              case PROTOCOL_SKYARTEC:
+              case PROTOCOL_CORONA:
+                CC2500_ManagePower(); // Change value on gui
+
+              case PROTOCOL_DEVO:
+              case PROTOCOL_DSM:
+                CYRF_ManagePower();
+              }
 #endif
             }
           } else {

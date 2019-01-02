@@ -36,7 +36,7 @@
 #include "../OpenAVRc.h"
 #include "../spi.h"
 
-uint8_t cyrfmfg_id[6];
+//uint8_t cyrfmfg_id[6]; defined in misc.h
 
 
 void CYRF_WriteRegister(uint8_t address, uint8_t data)
@@ -76,15 +76,8 @@ uint8_t CYRF_ReadRegister(uint8_t address)
   return data;
 }
 
-
 uint8_t CYRF_Reset()
 {
-#ifdef CYRF_RST_HI
-  CYRF_RST_HI; // Hardware reset
-  _delay_us(100);
-  CYRF_RST_LO;
-  _delay_us(100);
-#endif
   CYRF_WriteRegister(CYRF_1D_MODE_OVERRIDE, 0x01); // Software reset
   _delay_us(500);
   CYRF_WriteRegister(CYRF_0C_XTAL_CTRL, 0xC0);     // Enable XOUT as GPIO
@@ -94,20 +87,14 @@ uint8_t CYRF_Reset()
   return (CYRF_ReadRegister(CYRF_10_FRAMING_CFG) == 0xA5);
 }
 
-
 void CYRF_GetMfgData(uint8_t data[])
 {
-#ifndef FORCE_CYRF_ID
   // Fuses power on.
   CYRF_WriteRegister(CYRF_25_MFG_ID, 0xFF);
   CYRF_ReadRegisterMulti(CYRF_25_MFG_ID, data, 6);
   // Fuses power off.
   CYRF_WriteRegister(CYRF_25_MFG_ID, 0x00);
-#else
-  memcpy(data,FORCE_CYRF_ID,6);
-#endif
 }
-
 
 // ToDo Check.
 void CYRF_SetTxRxMode(enum TXRX_State mode)
@@ -128,31 +115,16 @@ void CYRF_SetTxRxMode(enum TXRX_State mode)
   }
 }
 
-
 void CYRF_ConfigRFChannel(uint8_t ch)
 {
   CYRF_WriteRegister(CYRF_00_CHANNEL, ch);
 }
-
-
-void CYRF_SetPower(uint8_t power)
-{
-//#define NO_POWER_AMP
-#if defined(NO_POWER_AMP)
-  power =7;
-#endif
-// uint8_t val = CYRF_ReadRegister(CYRF_03_TX_CFG) & 0xF8; // Not seen via SPI trace on My Devo 7e.
-  uint8_t val = CYRF_ReadRegister(CYRF_03_TX_CFG);
-  CYRF_WriteRegister(CYRF_03_TX_CFG, (val & 0xF8) | (power & 0x07));
-}
-
 
 void CYRF_ConfigCRCSeed(uint16_t crc)
 {
   CYRF_WriteRegister(CYRF_15_CRC_SEED_LSB, crc & 0xff);
   CYRF_WriteRegister(CYRF_16_CRC_SEED_MSB, crc >> 8);
 }
-
 
 void CYRF_ConfigSOPCode(uint8_t *sopcodes)
 {
@@ -161,14 +133,12 @@ void CYRF_ConfigSOPCode(uint8_t *sopcodes)
   CYRF_WriteRegisterMulti(CYRF_22_SOP_CODE, sopcodes, 8);
 }
 
-
 void CYRF_ConfigDataCode(uint8_t *datacodes, uint8_t len)
 {
   // NOTE: This can also be implemented as:
   // for(uint32_t i = 0; i < len; i++) WriteRegister(CYRF_23_DATA_CODE, datacodes[i]);
   CYRF_WriteRegisterMulti(CYRF_23_DATA_CODE, datacodes, len);
 }
-
 
 void CYRF_WritePreamble(uint32_t preamble)
 {
@@ -180,34 +150,29 @@ void CYRF_WritePreamble(uint32_t preamble)
     RF_CS_CYRF6936_INACTIVE();
 }
 
-
 void CYRF_StartReceive()
 {
   CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x80);
 }
-
 
 void CYRF_ReadDataPacketLen(uint8_t dpbuffer[], uint8_t length)
 {
   CYRF_ReadRegisterMulti(CYRF_21_RX_BUFFER, dpbuffer, length);
 }
 
-
 void CYRF_WriteDataPacketLen(const uint8_t dpbuffer[], uint8_t len)
 {
   CYRF_WriteRegister(CYRF_01_TX_LENGTH, len);
   CYRF_WriteRegister(CYRF_02_TX_CTRL, 0x40); // Clear the transmit buffer.
   CYRF_WriteRegisterMulti(CYRF_20_TX_BUFFER, dpbuffer, len);
-  CYRF_WriteRegister(CYRF_02_TX_CTRL, 0x80); // Start transmission.
-  // CYRF_WriteRegister(CYRF_02_TX_CTRL, 0xBF); // Pascallanger
+  //CYRF_WriteRegister(CYRF_02_TX_CTRL, 0x80); // Start transmission.
+  CYRF_WriteRegister(CYRF_02_TX_CTRL, 0xBF); // Pascallanger
 }
-
 
 void CYRF_WriteDataPacket(const uint8_t dpbuffer[])
 {
   CYRF_WriteDataPacketLen(dpbuffer, 16);
 }
-
 
 uint8_t CYRF_ReadRSSI(uint8_t dodummyread)
 {
@@ -221,7 +186,6 @@ uint8_t CYRF_ReadRSSI(uint8_t dodummyread)
   }
   return (result & 0x1F); // Pascallanger is different but whole function is commented out.
 }
-
 
 // NOTE: This routine will reset the CRC Seed
 void CYRF_FindBestChannels(uint8_t *channels, uint8_t len, uint8_t minspace, uint8_t min, uint8_t max)
@@ -268,7 +232,6 @@ void CYRF_FindBestChannels(uint8_t *channels, uint8_t len, uint8_t minspace, uin
   CYRF_WriteRegister(CYRF_29_RX_ABORT, 0x20); // Clear abort RX - Pascallanger addition.
 }
 
-
 static void CYRF_PROGMEM_Config_DEVO_J6PRO_sopcodes(uint8_t sopidx)
 {
   static const uint8_t DEVO_J6PRO_sopcodes[][8] PROGMEM = {
@@ -307,5 +270,50 @@ static void CYRF_PROGMEM_Config_DEVO_J6PRO_sopcodes(uint8_t sopidx)
   CYRF_ConfigSOPCode(code);
 }
 
+
+void CYRF_SetPower(uint8_t Power)
+{
+  /*
+
+    P(dBm) = 10Xlog10( P(mW) / 1mW)
+    P(mW) = 1mWX10^(P(dBm)/ 10)
+
+                                   PA20DB  PA22DB
+	CYRF_POWER_0 = 0x00,	// -35dbm  0,032	 0,050
+	CYRF_POWER_1 = 0x01,	// -30dbm  0,100	 0,158
+	CYRF_POWER_2 = 0x02,	// -24dbm  0,398	 0,631
+	CYRF_POWER_3 = 0x03,	// -18dbm  1,585	 2,512
+	CYRF_POWER_4 = 0x04,	// -13dbm  5,012	 7,943
+	CYRF_POWER_5 = 0x05,	//  -5dbm  31,623	 50,119
+	CYRF_POWER_6 = 0x06,	//   0dbm  100,000 	158,489
+	CYRF_POWER_7 = 0x07		//  +4dbm  251,189 	398,107
+
+	*/
+
+#if (CYRF6936PA_GAIN == 20)
+  const static uint16_t zzCYRF6936_Powers[] PROGMEM = {3,10,39,158,501,3162,10000,25118};
+#endif
+#if (CYRF6936PA_GAIN == 22)
+  const static uint16_t zzCYRF6936_Powers[] PROGMEM = {5,16,63,251,794,5011,15849,25000}; // Saturation at power_7 ?
+#endif
+
+
+  uint_farptr_t powerdata = pgm_get_far_address(zzCYRF6936_Powers);
+  RFPowerOut = pgm_read_word_far(powerdata + (2*Power)); // Gui value
+  rf_power_mem = Power;
+
+	uint8_t val = CYRF_ReadRegister(CYRF_03_TX_CFG) & 0xF8;
+	CYRF_WriteRegister(CYRF_03_TX_CFG, val | (Power & 0x07));
+}
+
+void CYRF_ManagePower()
+{
+  if (rangeModeIsOn) rf_power = TXPOWER_1;
+  else rf_power = g_model.rfOptionValue3;
+  if (rf_power != rf_power_mem)
+  {
+    CYRF_SetPower(rf_power);
+  }
+}
 
 #endif // defined(PROTO_HAS_CYRF6936)

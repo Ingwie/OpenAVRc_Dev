@@ -87,11 +87,18 @@ enum {
     CYRF_39_ANALOG_CTRL    = 0x39,
 };
 
-enum CYRF_PWR {
-    CYRF_PWR_100MW,
-    CYRF_PWR_10MW,
-    CYRF_PWR_DEFAULT,
-};
+// CYRF power
+/*enum CYRF_POWER
+{
+	CYRF_POWER_0 = 0x00,	// -35dbm
+	CYRF_POWER_1 = 0x01,	// -30dbm
+	CYRF_POWER_2 = 0x02,	// -24dbm
+	CYRF_POWER_3 = 0x03,	// -18dbm
+	CYRF_POWER_4 = 0x04,	// -13dbm
+	CYRF_POWER_5 = 0x05,	//  -5dbm
+	CYRF_POWER_6 = 0x06,	//   0dbm
+	CYRF_POWER_7 = 0x07		//  +4dbm
+};*/
 
 /* SPI CYRF6936 */
 void CYRF_Initialize();
@@ -100,7 +107,8 @@ void CYRF_GetMfgData(uint8_t data[]);
 
 void CYRF_SetTxRxMode(enum TXRX_State);
 void CYRF_ConfigRFChannel(uint8_t ch);
-void CYRF_SetPower(uint8_t power);
+void CYRF_SetPower(uint8_t Power);
+void CYRF_ManagePower();
 void CYRF_ConfigCRCSeed(uint16_t crc);
 void CYRF_StartReceive();
 void CYRF_ConfigSOPCode(uint8_t *sopcodes);
