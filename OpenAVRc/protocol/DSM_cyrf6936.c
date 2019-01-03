@@ -329,6 +329,9 @@ static void DSM_update_channels()
 
 static void DSM_build_data_packet(uint8_t upper)
 {
+#if defined(X_ANY)
+  if (!upper) Xany_scheduleTx_AllInstance();
+#endif
   uint8_t bits = 11;
 
   if(prev_num_channel!=g_model.rfOptionValue1)
