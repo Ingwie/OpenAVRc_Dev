@@ -368,7 +368,7 @@
 						<object class="wxCheckBox" name="ID_CHECKBOXNOANDSECONDE" variable="CheckBoxNOANDSECONDE" member="yes">
 							<label>NOANDSECONDE</label>
 							<pos>336,184</pos>
-							<size>112,16</size>
+							<size>102,16</size>
 							<tooltip>Empèche la synthèse vocale de dire &quot;et&quot;. Exemple : entre minutes &quot;et&quot; seconde</tooltip>
 							<handler function="OnCheckBoxNOANDSECONDEClick1" entry="EVT_CHECKBOX" />
 						</object>
@@ -418,22 +418,22 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX26" variable="CheckBoxCORRECT_NEGATIVE_VALUES" member="yes">
 							<label>CORRECT__NEGATIVE__VALUES</label>
-							<pos>464,152</pos>
+							<pos>456,152</pos>
 							<tooltip>Symétrise les valeurs affichées</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX27" variable="CheckBoxARITHMETIC_OVERFLOW_CHECK" member="yes">
 							<label>ARITHMETIC__OVERFLOW__CHECK</label>
-							<pos>464,184</pos>
+							<pos>456,184</pos>
 							<tooltip>Ajoute du code pour prèvoir débordement aritmethique</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX30" variable="CheckBoxPWM_BACKLIGHT" member="yes">
 							<label>PWM__BACKLIGHT</label>
-							<pos>464,56</pos>
+							<pos>456,56</pos>
 							<enabled>0</enabled>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX31" variable="CheckBoxOVERRIDE_CHANNEL_FUNCTION" member="yes">
 							<label>Override channel function</label>
-							<pos>464,88</pos>
+							<pos>456,88</pos>
 							<tooltip>Ajoute la fonction spéciale &quot;Remplacer CHx&quot;</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX32" variable="CheckBoxWS_HOW_HIGH" member="yes">
@@ -444,7 +444,7 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX36" variable="CheckBoxTOGGLETRIM" member="yes">
 							<label>Toggle trims</label>
-							<pos>464,120</pos>
+							<pos>456,120</pos>
 							<tooltip>Change les trim de la main droite à la main gauche, et vice-versa</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX37" variable="CheckBoxFRAM" member="yes">
@@ -456,12 +456,12 @@
 						<object class="wxCheckBox" name="ID_CHECKBOX38" variable="CheckBoxSHUTDOWN_CONFIRMATION" member="yes">
 							<label>SHUTDOWN__CONFIRMATION</label>
 							<checked>1</checked>
-							<pos>464,248</pos>
+							<pos>456,248</pos>
 							<enabled>0</enabled>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX39" variable="CheckBoxACCURAT_THROTTLE_STATS" member="yes">
 							<label>ACCURAT__THROTTLE__STATS</label>
-							<pos>464,216</pos>
+							<pos>456,216</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX43" variable="CheckBoxEEPROM_PROGRESS_BAR" member="yes">
 							<label>EEPROM bar</label>

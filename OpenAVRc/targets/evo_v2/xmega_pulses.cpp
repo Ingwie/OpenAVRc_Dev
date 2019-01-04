@@ -180,6 +180,28 @@ ISR(RF_TIMER_COMPA_VECT) // ISR for Protocol Callback.
 #endif
 
 
+const void * PROTO_PPM_Cmds(enum ProtoCmds cmd)
+{
+  switch(cmd) {
+    case PROTOCMD_INIT:
+      // PROTO_PPM_initialize();
+    return 0;
+    case PROTOCMD_RESET:
+      // PROTO_PPM_reset();
+    return (void *) 1L;
+  case PROTOCMD_GETOPTIONS:
+     sendOptionsSettingsPpm();
+     return 0;
+//  case PROTOCMD_CHECK_AUTOBIND: return 0;
+//  case PROTOCMD_BIND:  ppm_bb_initialize(); return 0;
+//  case PROTOCMD_NUMCHAN: return (void *) 16L;
+//  case PROTOCMD_DEFAULT_NUMCHAN: return (void *) 8L;
+//  case PROTOCMD_TELEMETRYSTATE: return (void *)(long) PROTO_TELEM_UNSUPPORTED;
+        default: break;
+  }
+  return 0;
+}
+
 
 const void * PROTO_PPM16_Cmds(enum ProtoCmds cmd)
 {
@@ -202,6 +224,32 @@ const void * PROTO_PPM16_Cmds(enum ProtoCmds cmd)
   }
   return 0;
 }
+
+
+const void * PROTO_PPMSIM_Cmds(enum ProtoCmds cmd)
+{
+  switch(cmd) {
+    case PROTOCMD_INIT:
+      // PROTO_PPMSIM_initialize();
+    return 0;
+    case PROTOCMD_RESET:
+      // PROTO_PPMSIM_reset();
+      return (void *) 1L;
+  case PROTOCMD_GETOPTIONS:
+     sendOptionsSettingsPpm();
+     return 0;
+//  case PROTOCMD_CHECK_AUTOBIND: return 0;
+//  case PROTOCMD_BIND:  ppm_bb_initialize(); return 0;
+//  case PROTOCMD_NUMCHAN: return (void *) 16L;
+//  case PROTOCMD_DEFAULT_NUMCHAN: return (void *) 8L;
+
+//  case PROTOCMD_TELEMETRYSTATE: return (void *)(long) PROTO_TELEM_UNSUPPORTED;
+        default: break;
+  }
+  return 0;
+}
+
+
 
 
 

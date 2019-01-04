@@ -34,12 +34,26 @@
 #ifndef fonts_h
 #define fonts_h
 
-extern const uint8_t font_5x7_in_sram[];
-extern const uint8_t font_10x14_in_sram[];
+#if defined(SDCARD)
+
+extern const pm_uchar zzfont_5x7[];
+extern const pm_uchar zzfont_10x14[];
 
 #if defined(BOLD_FONT)
 #define BOLD_SPECIFIC_FONT
-extern const uint8_t font_5x7_B_in_flash[];
+extern const pm_uchar zzfont_5x7_B[];
+#endif
+
+#else //NO SDCARD
+
+extern const uint8_t zzfont_5x7[];
+extern const uint8_t zzfont_10x14[];
+
+#if defined(BOLD_FONT)
+#define BOLD_SPECIFIC_FONT
+extern const uint8_t zzfont_5x7_B[];
+#endif
+
 #endif
 
 #endif

@@ -59,9 +59,6 @@ uint8_t eeFindEmptyModel(uint8_t id, bool down)
 
 void selectModel(uint8_t sub)
 {
-#if defined(FRSKY)
-  if (checkIfModelIsOff()) return;
-#endif
   displayPopup(STR_LOADINGMODEL);
   saveTimers();
   eeCheck(true); // force writing of current model data before this is changed

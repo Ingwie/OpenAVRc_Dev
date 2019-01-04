@@ -64,8 +64,6 @@
 #define LOGS_EXT            ".csv"
 #define TEXT_EXT            ".txt"
 
-#define REUSED_SD_RAWBLOCK_BUFFER_SIZE 512 // 512 bytes of LCD buffer reused
-
 extern struct partition_struct* SD_partition;
 extern struct fat_fs_struct*    SD_filesystem;
 extern struct fat_dir_entry_struct SD_dir_entry;
@@ -90,7 +88,6 @@ uint8_t writeHeader();
 void closeLogs();
 void closeLogIfActived();
 void writeLogs();
-void SdBufferClear();
 
 #define OAVRC_FOURCC 0x16180339 // OAVRC ID
 

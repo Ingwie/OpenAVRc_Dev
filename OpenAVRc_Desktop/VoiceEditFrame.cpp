@@ -43,7 +43,6 @@ extern wxString AppPath;
 extern wxString voice_Langue;
 extern long Numvoice;
 wxString voicePrompt ="";
-int rowSelected = 0;
 wxString voiceText;
 wxString NumVoiceTxt;
 wxString file;
@@ -53,9 +52,9 @@ wxString line;
 #include <wx/artprov.h>
 #include <wx/bitmap.h>
 #include <wx/icon.h>
-#include <wx/image.h>
-#include <wx/intl.h>
 #include <wx/settings.h>
+#include <wx/intl.h>
+#include <wx/image.h>
 #include <wx/string.h>
 //*)
 
@@ -65,7 +64,6 @@ const long VoiceEditFrame::ID_GRID1 = wxNewId();
 const long VoiceEditFrame::ID_BUTTONSAUVEGARDER = wxNewId();
 const long VoiceEditFrame::ID_BUTTONGENERER = wxNewId();
 const long VoiceEditFrame::ID_BUTTONJOUER = wxNewId();
-const long VoiceEditFrame::ID_BUTTONGENERERUNFICHIER = wxNewId();
 const long VoiceEditFrame::ID_PANEL1 = wxNewId();
 //*)
 
@@ -82,9 +80,9 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   Create(parent, wxID_ANY, _("Voix"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
   SetClientSize(wxSize(471,521));
   {
-  	wxIcon FrameIcon;
-  	FrameIcon.CopyFromBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_HELP_BOOK")),wxART_FRAME_ICON));
-  	SetIcon(FrameIcon);
+    wxIcon FrameIcon;
+    FrameIcon.CopyFromBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_HELP_BOOK")),wxART_FRAME_ICON));
+    SetIcon(FrameIcon);
   }
   Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(160,208), wxSize(408,520), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
   StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Double click pour éditer."), wxPoint(16,8), wxSize(376,472), 0, _T("ID_STATICBOX1"));
@@ -612,16 +610,14 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   VoiceGrid->SetDefaultCellFont( VoiceGrid->GetFont() );
   VoiceGrid->SetDefaultCellTextColour( VoiceGrid->GetForegroundColour() );
   ButtonSauvegarder = new wxButton(Panel1, ID_BUTTONSAUVEGARDER, _("Sauvegarder et quitter"), wxPoint(264,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONSAUVEGARDER"));
-  ButtonGenerer = new wxButton(Panel1, ID_BUTTONGENERER, _("Générer tout"), wxPoint(168,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONGENERER"));
+  ButtonGenerer = new wxButton(Panel1, ID_BUTTONGENERER, _("Générer Fichiers"), wxPoint(152,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONGENERER"));
   ButtonJouer = new wxButton(Panel1, ID_BUTTONJOUER, _("Jouer"), wxPoint(400,64), wxSize(40,408), 0, wxDefaultValidator, _T("ID_BUTTONJOUER"));
   ButtonJouer->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
-  ButtonGenererUnFichier = new wxButton(Panel1, ID_BUTTONGENERERUNFICHIER, _("Générer ce fichier"), wxPoint(48,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONGENERERUNFICHIER"));
 
   Connect(ID_GRID1,wxEVT_GRID_SELECT_CELL,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellSelect);
   Connect(ID_BUTTONSAUVEGARDER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonSauvegarderClick);
   Connect(ID_BUTTONGENERER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonGenererClick);
   Connect(ID_BUTTONJOUER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonJouerClick);
-  Connect(ID_BUTTONGENERERUNFICHIER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonGenererUnFichierClick);
   //*)
 
     {
@@ -629,7 +625,6 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
         SetIcon(wxICON(oavrc_icon));
     }
 
-  voicePrompt = "";
   file = AppPath + "\\Voice_" + voice_Langue + ".csv";
   Load();
 }
@@ -679,23 +674,20 @@ void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
 {
   wxBusyInfo wait_("Génération en cours, attendez SVP......");
   wxString quote = "\"";
-  wxString tts_o = " -o ";
+  wxString tts_o_look = " -o look ";
   wxString label;
   if (wxSetWorkingDirectory(AppPath)) {
     for (int j = 0; j < 512; j++ ) {
       voicePrompt = VoiceGrid->GetCellValue(j,1);
       label = VoiceGrid->GetRowLabelValue(j);
-      wxString VoiceCommandLine = AppPath + "\\tools\\tts.exe -f 7 -v "+NumVoiceTxt+" " + quote + voicePrompt + quote + " " + tts_o + " " + label + ".wav";
+      wxString VoiceCommandLine = AppPath + "\\tools\\tts.exe -f 7 -v "+NumVoiceTxt+" " + quote + voicePrompt + quote + " " + tts_o_look;
       wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC );
+      rename ("look0.wav", label + ".wav");
     }
     wxString audioFiles = "_BuildAudioFiles.bat";
     wxExecute(audioFiles);
   }
-  UpdateListFile();
-}
 
-void VoiceEditFrame::UpdateListFile()
-{
   if (wxSetWorkingDirectory(AppPath)) {
     wxTextFile tfile(VOICETXT_FILE);
     if (!tfile.Exists()) tfile.Create(); //avoid crash if file doesn't exist
@@ -714,13 +706,13 @@ void VoiceEditFrame::UpdateListFile()
     if (!wxDirExists(AppPath + "\\SD")) wxMkdir(AppPath + "\\SD", wxS_DIR_DEFAULT);
     if (!wxDirExists(AppPath + "\\SD\\VOICE")) wxMkdir(AppPath + "\\SD\\VOICE", wxS_DIR_DEFAULT);
     wxCopyFile(AppPath + "\\" + VOICETXT_FILE, AppPath + "\\SD\\VOICE\\" + VOICETXT_FILE,true);
+    Close();
   }
 }
 
 void VoiceEditFrame::OnVoiceGridCellSelect(wxGridEvent& event)
 {
   voicePrompt = VoiceGrid->GetCellValue(event.GetRow(),1);
-  rowSelected = event.GetRow();
 }
 
 
@@ -729,24 +721,4 @@ void VoiceEditFrame::OnButtonJouerClick(wxCommandEvent& event)
   wxString quote = "\"";
   wxString VoiceCommandLine = AppPath + "\\tools\\tts.exe -f 7 -v "+NumVoiceTxt+" " + quote + voicePrompt + quote;
   wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE);
-}
-
-void VoiceEditFrame::OnButtonGenererUnFichierClick(wxCommandEvent& event)
-{
-  if (voicePrompt != "")
-    {
-      wxBusyInfo wait_("Génération en cours, attendez SVP......");
-      wxString quote = "\"";
-      wxString tts_o = " -o ";
-      wxString label;
-      if (wxSetWorkingDirectory(AppPath))
-        {
-          label = VoiceGrid->GetRowLabelValue(rowSelected);
-          wxString VoiceCommandLine = AppPath + "\\tools\\tts.exe -f 7 -v "+NumVoiceTxt+" " + quote + voicePrompt + quote + " " + tts_o + " " + label + ".wav";
-          wxExecute(VoiceCommandLine.c_str(), wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC );
-          wxString audioFiles = "_BuildAudioFiles.bat";
-          wxExecute(audioFiles);
-        }
-      UpdateListFile();
-    }
 }

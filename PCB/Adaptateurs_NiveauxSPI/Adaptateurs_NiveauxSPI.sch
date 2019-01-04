@@ -280,7 +280,7 @@ Wire Wire Line
 Wire Wire Line
 	9200 2000 9200 2100
 Wire Wire Line
-	8750 2100 9300 2100
+	9200 2100 9300 2100
 Wire Wire Line
 	9300 2600 9200 2600
 Wire Wire Line
@@ -1061,10 +1061,4 @@ Wire Wire Line
 	8500 5350 8750 5600
 Wire Wire Line
 	8750 5600 9300 5600
-Wire Wire Line
-	8750 2100 8650 2200
-Wire Wire Line
-	8650 2200 8400 2200
-Connection ~ 8400 2200
-Connection ~ 9200 2100
 $EndSCHEMATC

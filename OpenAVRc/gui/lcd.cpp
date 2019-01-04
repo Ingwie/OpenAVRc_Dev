@@ -485,7 +485,7 @@ void lcdPutsRotaryEncoderMode(coord_t x, coord_t y, uint8_t phase, uint8_t idx, 
 }
 #endif
 
-#if defined(FRSKY)
+#if   defined(FRSKY)
 void lcdPutsValueWithUnit(coord_t x, coord_t y, lcdint_t val, uint8_t unit, LcdFlags att)
 {
   convertUnit(val, unit);
@@ -641,11 +641,168 @@ void lcdSetContrast()
 
 #define LCD_BYTE_FILTER(p, keep, add) *(p) = (*(p) & (keep)) | (add)
 
+#if defined(SDCARD)
+
 void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 {
   uint8_t *p = &displayBuf[ y / 8 * LCD_W + x ];
 
-  const pm_uchar *q = &font_5x7_in_sram[(c-0x20)*5];
+  uint_farptr_t q = pgm_get_far_address(zzfont_5x7);
+  q += (c-0x20)*5;
+  lcdNextPos = x-1;
+  p--;
+
+  bool inv = false;
+  if (flags & BLINK) {
+    if (BLINK_ON_PHASE) {
+      if (flags & INVERS)
+        inv = true;
+      else {
+        return;
+      }
+    }
+  } else if (flags & INVERS) {
+    inv = true;
+  }
+
+  unsigned char c_remapped = 0;
+
+#if defined(BOLD_SPECIFIC_FONT)
+  if (flags & (DBLSIZE+BOLD)) {
+#else
+  if (flags & DBLSIZE) {
+#endif
+    // To save space only some DBLSIZE and BOLD chars are available
+    // c has to be remapped. All non existing chars mapped to 0 (space)
+
+    if (c>=',' && c<=':')
+      c_remapped = c - ',' + 1;
+    else if (c>='A' && c<='Z')
+      c_remapped = c - 'A' + 16;
+    else if (c>='a' && c<='z')
+      c_remapped = c - 'a' + 42;
+    else if (c=='_')
+      c_remapped = 4;
+#if defined(BOLD_SPECIFIC_FONT)
+    else if (c!=' ')
+      flags &= ~BOLD;
+#endif
+
+#if defined(BOLD_SPECIFIC_FONT)
+  }
+  if (flags & DBLSIZE) {
+#endif
+
+    /* each letter consists of ten top bytes followed by
+     * by ten bottom bytes (20 bytes per * char) */
+
+    q = pgm_get_far_address(zzfont_10x14);
+    q += (uint16_t)c_remapped*20;
+
+    for (int8_t i=0; i<=11; i++) {
+      uint8_t b1=0, b2=0;
+      if (!i) {
+        if (!x || !inv) {
+          lcdNextPos++;
+          p++;
+          continue;
+        }
+      } else if (i <= 10) {
+
+        b1 = pgm_read_byte_far(q++); /*top byte*/
+        b2 = pgm_read_byte_far(q++);
+
+      }
+      if ((b1 & b2) == 0xff) continue;
+      if (inv) {
+        b1 = ~b1;
+        b2 = ~b2;
+      }
+      if(p+LCD_W < DISPLAY_END) {
+        ASSERT_IN_DISPLAY(p);
+        ASSERT_IN_DISPLAY(p+LCD_W);
+        LCD_BYTE_FILTER(p, 0, b1);
+        LCD_BYTE_FILTER(p+LCD_W, 0, b2);
+        p++;
+        lcdNextPos++;
+      }
+    }
+  } else {
+    const uint8_t ym8 = (y & 0x07);
+#if defined(BOLD_FONT)
+#if defined(BOLD_SPECIFIC_FONT)
+    if (flags & BOLD) {
+      q = pgm_get_far_address(zzfont_5x7_B);
+      q += (c_remapped)*5;
+    }
+#else
+    uint8_t bb = 0;
+    if (inv) bb = 0xff;
+#endif
+#endif
+
+    uint8_t *lineEnd = &displayBuf[ y / 8 * LCD_W + LCD_W ];
+
+    for (int8_t i=0; i<=6; i++) {
+      uint8_t b = 0;
+      if (i==0) {
+        if (!x || !inv) {
+          lcdNextPos++;
+          p++;
+          continue;
+        }
+      } else if (i <= 5) {
+        b = pgm_read_byte_far(q++);
+      }
+      if (b == 0xff) {
+        if (flags & FIXEDWIDTH)
+          b = 0;
+        else
+          continue;
+      }
+      if (inv) b = ~b;
+      if ((flags & CONDENSED) && i==2) {
+        /*condense the letter by skipping column 3 */
+        continue;
+      }
+
+#if defined(BOLD_FONT) && !defined(BOLD_SPECIFIC_FONT)
+      if (flags & BOLD) {
+        uint8_t a;
+        if (inv)
+          a = b & bb;
+        else
+          a = b | bb;
+        bb = b;
+        b = a;
+      }
+#endif
+
+      if (p<DISPLAY_END && p<lineEnd) {
+        ASSERT_IN_DISPLAY(p);
+        uint8_t mask = ~(0xff << ym8);
+        LCD_BYTE_FILTER(p, mask, b << ym8);
+        if (ym8) {
+          uint8_t *r = p + LCD_W;
+          if (r<DISPLAY_END)
+            LCD_BYTE_FILTER(r, ~mask, b >> (8-ym8));
+        }
+
+        if (inv && (ym8 == 1)) *p |= 0x01;
+      }
+      p++;
+      lcdNextPos++;
+    }
+  }
+}
+
+#else // NOSDCARD lcdDrawCharAtt 20% faster
+
+void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
+{
+  uint8_t *p = &displayBuf[ y / 8 * LCD_W + x ];
+
+  const pm_uchar *q = &zzfont_5x7[(c-0x20)*5];
 
   lcdNextPos = x-1;
   p--;
@@ -694,7 +851,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
     /* each letter consists of ten top bytes followed by
      * by ten bottom bytes (20 bytes per * char) */
 
-    q = &font_10x14_in_sram[((uint16_t)c_remapped)*20];
+    q = &zzfont_10x14[((uint16_t)c_remapped)*20];
 
     for (int8_t i=0; i<=11; i++) {
       uint8_t b1=0, b2=0;
@@ -729,7 +886,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 #if defined(BOLD_FONT)
 #if defined(BOLD_SPECIFIC_FONT)
     if (flags & BOLD) {
-      q = &font_5x7_B_in_flash[(c_remapped)*5];
+      q = &zzfont_5x7_B[(c_remapped)*5];
     }
 #else
     uint8_t bb = 0;
@@ -748,16 +905,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
           continue;
         }
       } else if (i <= 5) {
-#if defined(BOLD_FONT)
-#if defined(BOLD_SPECIFIC_FONT)
-            if (flags & BOLD) // Only "Specific" bold font is stored in flash
-              {
-                b = pgm_read_byte_near(q++);
-              }
-            else
-#endif
-#endif
-      b = *q++;
+        b = *q++;
       }
       if (b == 0xff) {
         if (flags & FIXEDWIDTH)
@@ -800,6 +948,8 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
     }
   }
 }
+
+#endif
 
 void lcdMaskPoint(uint8_t *p, uint8_t mask, LcdFlags att)
 {

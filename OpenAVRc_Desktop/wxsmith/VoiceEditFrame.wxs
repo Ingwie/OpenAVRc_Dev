@@ -548,8 +548,8 @@
 				<handler function="OnButtonSauvegarderClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxButton" name="ID_BUTTONGENERER" variable="ButtonGenerer" member="yes">
-				<label>Générer tout</label>
-				<pos>168,488</pos>
+				<label>Générer Fichiers</label>
+				<pos>152,488</pos>
 				<handler function="OnButtonGenererClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxButton" name="ID_BUTTONJOUER" variable="ButtonJouer" member="yes">
@@ -558,11 +558,6 @@
 				<size>40,408</size>
 				<bg>wxSYS_COLOUR_MENU</bg>
 				<handler function="OnButtonJouerClick" entry="EVT_BUTTON" />
-			</object>
-			<object class="wxButton" name="ID_BUTTONGENERERUNFICHIER" variable="ButtonGenererUnFichier" member="yes">
-				<label>Générer ce fichier</label>
-				<pos>48,488</pos>
-				<handler function="OnButtonGenererUnFichierClick" entry="EVT_BUTTON" />
 			</object>
 		</object>
 	</object>

@@ -1184,7 +1184,7 @@ union ReusableBuffer {
 
 #if defined(SDCARD)
     char menu_bss[POPUP_MENU_MAX_LINES][MENU_LINE_LENGTH];
-    char mainname[25]; // used in logs : modelnamex-2013-01-01.log & Voice List read function
+    char mainname[25]; // used in logs : modelnamex-2013-01-01.log
 #else
     char mainname[LEN_MODEL_NAME];
 #endif
@@ -1279,7 +1279,6 @@ getvalue_t div10_and_round(getvalue_t value);
 getvalue_t div100_and_round(getvalue_t value);
 
 #if defined(FRSKY)
-uint8_t checkIfModelIsOff();
 NOINLINE uint8_t getRssiAlarmValue();
 
 extern const pm_uint8_t bchunit_ar[];
