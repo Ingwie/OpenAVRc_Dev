@@ -265,9 +265,11 @@ void onMainViewMenu(const char *result)
 
 void menuMainView(uint8_t event)
 {
-          if (warningResult) { // Power Off
-            pwrCheck = false;
-          }
+  if (warningResult)
+    {
+      // Power Off
+      pwrCheck = false;
+    }
 
   STICK_SCROLL_DISABLE();
 

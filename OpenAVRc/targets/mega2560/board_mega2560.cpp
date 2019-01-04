@@ -323,6 +323,3 @@ ISR(INT6_vect)     // Mega2560 INT6 (portE pin6)
 }
 
 
-
-  RF_CS_NRF24L01_INACTIVE();
-  RF_CS_A7105_INACTIVE();

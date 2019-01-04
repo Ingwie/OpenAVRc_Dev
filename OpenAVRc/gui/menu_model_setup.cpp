@@ -34,7 +34,8 @@
 #include "../OpenAVRc.h"
 #include "menu_model.h"
 
-#define PROTO_IS_SYNC (memproto == protocol)
+#define MEMPROTO      shared_u8
+#define PROTO_IS_SYNC (MEMPROTO == protocol)
 
 enum menuModelSetupItems {
   ITEM_MODEL_NAME,
@@ -88,7 +89,7 @@ void menuModelSetup(uint8_t event)
   1
 
   uint8_t protocol = g_model.rfProtocol;
-  uint8_t memproto = protocol;
+  MEMPROTO = protocol;
   MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 0, 1, 0, 0, 0, 0, 0, NUM_SWITCHES, NUM_STICKS+NUM_POTS+NUM_ROTARY_ENCODERS-1, FIELD_PROTOCOL_MAX,
              2,2,0,2,0,0,0,0
            });

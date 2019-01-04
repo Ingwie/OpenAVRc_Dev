@@ -47,6 +47,8 @@
 
 #if defined(SDCARD) && defined(VOICE)
 #include "view_text.cpp"
+#define PROMPTTEXT  reusableBuffer.modelsel.mainname
+#define PROMPTMEM   shared_u8
 #endif
 
 void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFunctionsContext * functionsContext)
@@ -140,7 +142,7 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
           lcdDrawNumberNAtt(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed, attr|LEFT);
         }
 #endif
-#if   defined(VOICE)
+#if defined(VOICE)
         else if (func == FUNC_PLAY_TRACK) {
 #if defined(GVARS)
           if (attr && event==EVT_KEY_LONG(KEY_ENTER)) {
@@ -159,11 +161,18 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
 #endif
 
 #if defined(SDCARD)
-          if (active) {
-            char *Promptext = reusableBuffer.modelsel.mainname;
-            loadVoiceTextLine(val_displayed,Promptext); // Show the prompt text file if exist
-            lcdDrawTextAtt(0,0, Promptext, BSS|INVERS|BLINK);
-          }
+            if (active)
+              {
+                lcdDrawTextAtt(0,0, PROMPTTEXT, BSS|INVERS|BLINK);
+                if ((uint8_t)val_displayed == PROMPTMEM)
+                  {
+                    PROMPTMEM = 0; // PROMPTTEXT is OK
+                  }
+                else
+                  {
+                    PROMPTMEM = (uint8_t)val_displayed;
+                  }
+              }
 #endif
 
         } else if (func == FUNC_PLAY_BOTH) {
@@ -250,6 +259,18 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
 
 void menuModelCustomFunctions(uint8_t event)
 {
-  MENU(STR_MENUCUSTOMFUNC, menuTabModel, e_CustomFunctions, NUM_CFN+1, {0, NAVIGATION_LINE_BY_LINE|4/*repeated*/});
+#if defined(VOICE) && defined(SDCARD)
+  if (PROMPTMEM)
+    {
+      if (!loadVoiceTextLine(PROMPTMEM,PROMPTTEXT)) // Load the prompt text file if exist
+        {
+          PROMPTMEM = 0; // Reset on error
+          PROMPTTEXT[0] = '\0';
+        }
+      SdBufferClear(); // Clear reused buffer
+    }
+#endif
+
+ MENU(STR_MENUCUSTOMFUNC, menuTabModel, e_CustomFunctions, NUM_CFN+1, {0, NAVIGATION_LINE_BY_LINE|4/*repeated*/});
   return menuCustomFunctions(event, g_model.customFn, &modelFunctionsContext);
 }
