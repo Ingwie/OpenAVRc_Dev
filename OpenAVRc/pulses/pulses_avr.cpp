@@ -77,6 +77,7 @@ void startPulses(enum ProtoCmds Command)
   PROTO_Cmds = *Protos[g_model.rfProtocol].Cmds;
   TRACE("  ->  INIT Proto - %s -", Protos[g_model.rfProtocol].ProtoName);
   SIMU_SLEEP(100);
+  rf_power_mem = 0; // Reset RF power mem
   PROTO_Cmds(PROTOCMD_GETOPTIONS);
   LimitRfOptionSettings();
   PROTO_Cmds(Command);

@@ -656,7 +656,7 @@ FORCEINLINE void convertUnit(getvalue_t & val, uint8_t & unit)
 
 #define INAC_STICKS_SHIFT   6
 #define INAC_SWITCHES_SHIFT 8
-bool inputsMoved()
+uint8_t inputsMoved()
 {
   uint8_t sum = 0;
   for (uint8_t i=0; i<NUM_STICKS; i++)

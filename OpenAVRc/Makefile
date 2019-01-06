@@ -943,7 +943,7 @@ ifeq ($(TEMPLATES), YES)
 endif
 
 ifeq ($(DSM2), SERIAL)
-  CPPDEFS += -DDSM2 -DDSM2_SERIAL
+  CPPDEFS += -DDSM2_SERIAL
 endif
 
 ifeq ($(3POS), POT1)
