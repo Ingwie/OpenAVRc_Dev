@@ -83,7 +83,7 @@ void menuModelSetup(uint8_t event)
 {
 #define CURSOR_ON_CELL         (true)
 #define MODEL_SETUP_MAX_LINES  (IS_PPM_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+2 : \
-  (IS_DSM_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_2+2 : \
+  (IS_DSM2_SERIAL_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_2+2 : \
   (IS_MULTIMODULE_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_5+2 :  \
   (IS_SPIMODULES_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_8+2 :   \
   1
@@ -354,7 +354,7 @@ void menuModelSetup(uint8_t event)
           }
         }
 #if defined(DSM2)
-        if (IS_DSM_PROTOCOL(protocol))
+        if (IS_DSM2_SERIAL_PROTOCOL(protocol))
         {
           lcdDrawTextLeft(y, STR_TYPE);
           lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+4*g_model.rfSubType, 4, menuHorizontalPosition == 0 ? attr : 0);
@@ -452,7 +452,7 @@ void menuModelSetup(uint8_t event)
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_2:
       if PROTO_IS_SYNC {
 #if defined(DSM2)
-      if (IS_DSM_PROTOCOL(protocol))
+      if (IS_DSM2_SERIAL_PROTOCOL(protocol))
         {
           horzpos_t l_posHorz = menuHorizontalPosition;
           lcdDrawTextLeft(y, STR_RXNUM);
