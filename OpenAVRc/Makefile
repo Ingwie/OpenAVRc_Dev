@@ -612,11 +612,11 @@ ifeq ($(PCB), MEGA2560)
    CPPSRC += buzzer.cpp
   endif
 
-  ifeq ($(VOICE), WTV20SD)
-   CPPDEFS += -DVOICE
-   CPPDEFS += -DVOICE_WTV20SD
-   CPPSRC += targets/mega2560/voice_wtv20sd.cpp
+  ifeq ($(RTCLOCK), YES)
+    CPPDEFS += -DRTCLOCK
+    CPPSRC += rtc_driver.cpp
   endif
+
   ifeq ($(VOICE), JQ6500)
    CPPDEFS += -DVOICE
    CPPDEFS += -DVOICE_JQ6500
@@ -639,6 +639,55 @@ ifeq ($(PCB), MEGA2560)
   # Enable extra rotary encoders
   ROTARY_ENCODERS = 2
   CPPDEFS += -DROTARY_ENCODERS=${ROTARY_ENCODERS}
+
+  ifeq ($(MULTIMODULE), YES)
+   CPPDEFS += -DMULTIMODULE
+  endif
+
+  ifeq ($(SPIMODULES), YES)
+   CPPDEFS += -DSPIMODULES
+
+		ifeq ($(CC2500), YES)
+ 	  	CPPDEFS += -DPROTO_HAS_CC2500
+ 	  	CPPDEFS += -DCC2500PA_GAIN=$(CC2500PAG)
+		endif
+
+		ifeq ($(CYRF6936), YES)
+   		CPPDEFS += -DPROTO_HAS_CYRF6936
+ 	  	CPPDEFS += -DCYRF6936PA_GAIN=$(CYRF6936PAG)
+  	endif
+
+  	ifeq ($(NRF24L01), YES)
+   		CPPDEFS += -DPROTO_HAS_NRF24L01
+ 	  	CPPDEFS += -DNRF24L01PA_GAIN=$(NRF24L01PAG)
+  	endif
+
+  	ifeq ($(A7105), YES)
+   		CPPDEFS += -DPROTO_HAS_A7105
+ 	  	CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
+  	endif
+  endif
+
+	ifneq ($(X_ANY), NO)
+	CPPSRC += Xany.cpp gui/menu_model_Xany.cpp
+		ifeq ($(X_ANY), 1)
+		CPPDEFS += -DX_ANY=1
+		endif
+		ifeq ($(X_ANY), 2)
+		CPPDEFS += -DX_ANY=2
+		endif
+		ifeq ($(X_ANY), 3)
+		CPPDEFS += -DX_ANY=3
+		endif
+		ifeq ($(X_ANY), 4)
+		CPPDEFS += -DX_ANY=4
+		endif
+		CPPDEFS += -DX_ANY_1_POT=$(X_ANY_1_POT)
+		CPPDEFS += -DX_ANY_2_POT=$(X_ANY_2_POT)
+		CPPDEFS += -DX_ANY_3_POT=$(X_ANY_3_POT)
+		CPPDEFS += -DX_ANY_4_POT=$(X_ANY_4_POT)
+	endif
+
 endif
 
 CC      = $(TRGT)gcc
