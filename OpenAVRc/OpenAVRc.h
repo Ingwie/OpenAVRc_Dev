@@ -1052,7 +1052,7 @@ enum ProtoCmds {
   PROTOCMD_INIT,
   PROTOCMD_BIND,
   PROTOCMD_RESET,
-  PROTOCMD_GETOPTIONS, // used in PPM
+  PROTOCMD_GETOPTIONS,
 };
 
 enum TXRX_State {
@@ -1060,14 +1060,6 @@ enum TXRX_State {
   TX_EN,
   RX_EN,
 };
-
-#define PROTODEF(proto, module, cmd, name, progmem_name) proto,
-enum Protocols {
-  PROTOCOL_NONE,
-#include "protocol/protocol.h"
-  PROTOCOL_COUNT,
-};
-#undef PROTODEF
 
 #define PROTO_NEED_SPI PIN3_bm // bitmask
 #define IS_PROTO_NEED_SPI if (RfOptionSettings.rfProtoNeed & PROTO_NEED_SPI)
@@ -1150,6 +1142,15 @@ typedef const void* (*CMDS)(enum ProtoCmds);
 
 #define PROTODEF(proto, module, cmd, name, progmem_name) extern const void * cmd(enum ProtoCmds);
 #include "protocol/protocol.h"
+#undef PROTODEF
+
+/* Enum protocols */
+#define PROTODEF(proto, module, cmd, name, progmem_name) proto,
+enum Protocols {
+  PROTOCOL_NONE=0,
+#include "protocol/protocol.h"
+  PROTOCOL_COUNT,
+};
 #undef PROTODEF
 
 /*Load proto, pm_char name and Cmds */
