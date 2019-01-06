@@ -97,7 +97,11 @@ void readKeysAndTrims();
 #define SDCARD_CS_N_INACTIVE()      PORTB |= PIN0_bm // MMC CS = H
 #define unselect_card()             SDCARD_CS_N_INACTIVE()
 #define SDCARD_CS_N_IS_INACTIVE()   (PINB & PIN0_bm)
+#if defined(SPIMODULES) && !defined(SDCARD) // SPIMODULES enabled
+#define SPI_250K() { SPCR = _BV(SPE) | _BV(MSTR); } // for code compatibility, actually SPI_4M
+#else // SPIMODULES
 #define SPI_250K() { SPSR = _BV(SPI2X); SPCR = _BV(SPE) | _BV(MSTR) | _BV(SPR1) | _BV(SPR0); }
+#endif // SPIMODULES
 #define SPI_8M()   { SPSR = _BV(SPI2X); SPCR = _BV(SPE) | _BV(MSTR); }
 
 // Switchs driver
