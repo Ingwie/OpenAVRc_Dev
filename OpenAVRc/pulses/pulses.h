@@ -36,18 +36,7 @@
 
 #define SCHEDULE_MIXER_END_IN_US(delay_us) nextMixerEndTime = getTmr64uS() + US_TO_64US_TICK(delay_us) - US_TO_64US_TICK(400) // 400 uS
 
-#if defined(DSM2)
-  #define DSM2_BIND_TIMEOUT      255         // 255*11ms
-  extern uint8_t dsm2BindTimer;
-#endif
-
 #define IS_PPM_PROTOCOL(protocol)          (protocol<PROTOCOL_PPMSIM)
-
-#if defined(DSM2)
-  #define IS_DSM_PROTOCOL(protocol)         (protocol==PROTOCOL_DSM_SERIAL-1)
-#else
-  #define IS_DSM_PROTOCOL(protocol)         (0)
-#endif
 
 #if defined(DSM2_SERIAL) // Todo check in needed in per10ms
   #define IS_DSM2_SERIAL_PROTOCOL(protocol)  (protocol==PROTOCOL_DSM_SERIAL-1)

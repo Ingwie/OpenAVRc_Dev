@@ -49,7 +49,7 @@ void master_spi_disable()
 void enable_spi_master_mode()
 {
 // Enable SPI as Master, MSB first.
-  SPI_250K(); // Fosc/64
+  SPI_START_SPEED();
 // Note : Make sure Slave Select pin is output or input pullup.
 }
 
@@ -84,7 +84,7 @@ void enable_spi_master_mode(void)
   SDCARD_SPI.CTRL = SPI_ENABLE_bm | SPI_MASTER_bm | (0b00<<SPI_MODE_gp);
   SDCARD_SPI.CTRL &= ~SPI_DORD_bm;
   // Note : Make sure Slave Select pin is output or input pullup.
-  SPI_250K();
+  SPI_START_SPEED();
   // Set SPI_IF Flag for first time.
   SDCARD_SPI.DATA =0;
 }

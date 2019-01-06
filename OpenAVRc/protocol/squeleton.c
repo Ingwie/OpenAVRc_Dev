@@ -34,7 +34,7 @@
 #include "../OpenAVRc.h"
 
 
-const static int8_t RfOpt_Squeleton_Ser[] PROGMEM = {
+const static RfOptionSettingsvarstruct RfOpt_Squeleton_Ser[] PROGMEM = {
 /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
 /*rfSubTypeMax*/0,
 /*rfOptionValue1Min*/-128,
