@@ -180,7 +180,7 @@ void lcdDrawTelemetryTopBar();
 
 void lcd_imgfar(coord_t x, coord_t y, uint_farptr_t img, uint8_t idx, LcdFlags att); // progmem "far"
 
-void lcdSetRefVolt(unsigned char val);
+void lcdSetRefVolt(uint8_t val);
 void lcdClear();
 void lcdSetContrast();
 void lcdInit();
