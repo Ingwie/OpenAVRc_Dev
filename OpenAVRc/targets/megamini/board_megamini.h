@@ -99,6 +99,7 @@ void readKeysAndTrims();
 #define SDCARD_CS_N_IS_INACTIVE()   (PINB & PIN0_bm)
 #define SPI_250K() { SPSR = _BV(SPI2X); SPCR = _BV(SPE) | _BV(MSTR) | _BV(SPR1) | _BV(SPR0); }
 #define SPI_8M()   { SPSR = _BV(SPI2X); SPCR = _BV(SPE) | _BV(MSTR); }
+#define SPI_START_SPEED()           SPI_250K()
 
 // Switchs driver
 #define INP_C_ID2                 PIN1_bm
