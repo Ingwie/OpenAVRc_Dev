@@ -192,6 +192,7 @@ void read_trim_matrix(void);
 #define SDCARD_CS_N_INACTIVE()  SDCARD_PORT.OUTSET = O_SDCARD_CS_N
 #define SPI_8M()                MSPI_16M(SDCARD_SPI)
 #define SPI_250K()              MSPI_250K(SDCARD_SPI)
+#define SPI_START_SPEED()       SPI_250K()
 #define LEDON()
 #define LEDOFF()
 
