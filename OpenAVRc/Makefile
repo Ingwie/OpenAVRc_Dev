@@ -264,6 +264,22 @@ X_ANY_3_POT = POT3
 # Values =   STICK1, STICK2, STICK3, STICK4, POT1, POT2, POT3
 X_ANY_4_POT = STICK2
 
+# Invert STICK1 analog value
+# Values = NO, YES
+INV_STICK1 = NO
+
+# Invert STICK2 analog value
+# Values = NO, YES
+INV_STICK2 = YES
+
+# Invert STICK3 analog value
+# Values = NO, YES
+INV_STICK3 = NO
+
+# Invert STICK4 analog value
+# Values = NO, YES
+INV_STICK4 = YES
+
 #------- END BUILD OPTIONS ---------------------------
 
 # Define programs and commands.
@@ -434,6 +450,22 @@ ifeq ($(PCB), MEGAMINI)
 		CPPDEFS += -DX_ANY_4_POT=$(X_ANY_4_POT)
 	endif
 
+	ifeq ($(INV_STICK1), YES)
+	CPPDEFS += -DINV_STICK1
+	endif
+
+	ifeq ($(INV_STICK2), YES)
+	CPPDEFS += -DINV_STICK2
+	endif
+
+	ifeq ($(INV_STICK3), YES)
+	CPPDEFS += -DINV_STICK3
+	endif
+
+	ifeq ($(INV_STICK4), YES)
+	CPPDEFS += -DINV_STICK4
+	endif
+
 endif
 
 
@@ -555,6 +587,22 @@ ifeq ($(PCB), EVO_V2)
    	  CPPDEFS += -DPROTO_HAS_A7105
  	  CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
   	endif
+
+	ifeq ($(INV_STICK1), YES)
+	CPPDEFS += -DINV_STICK1
+	endif
+
+	ifeq ($(INV_STICK2), YES)
+	CPPDEFS += -DINV_STICK2
+	endif
+
+	ifeq ($(INV_STICK3), YES)
+	CPPDEFS += -DINV_STICK3
+	endif
+
+	ifeq ($(INV_STICK4), YES)
+	CPPDEFS += -DINV_STICK4
+	endif
 
   endif
 
