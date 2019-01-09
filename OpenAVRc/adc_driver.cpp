@@ -46,6 +46,23 @@ void adcInit()
 
 void getADC() // 0.56 mS
 {
+#if defined(INV_STICK1) || defined(INV_STICK2) || defined(INV_STICK3) || defined(INV_STICK4)
+uint8_t invMask = 0
+#if defined(INV_STICK1)
++ _BV(0)
+#endif
+#if defined(INV_STICK2)
++ _BV(1)
+#endif
+#if defined(INV_STICK3)
++ _BV(2)
+#endif
+#if defined(INV_STICK4)
++ _BV(3)
+#endif
+;
+#endif
+
   for (uint8_t adc_input=0; adc_input<8; adc_input++) {
     uint16_t temp_ana;
     ADMUX = adc_input|ADC_VREF_TYPE;
@@ -55,6 +72,13 @@ void getADC() // 0.56 mS
     ADCSRA |= 1 << ADSC; // Start the second AD conversion
     while SIMU_UNLOCK_MACRO(bit_is_set(ADCSRA,ADSC)); // Wait for the AD conversion to complete
     temp_ana += ADC;
+#if defined(INV_STICK1) || defined(INV_STICK2) || defined(INV_STICK3) || defined(INV_STICK4)
+    if (invMask & 0x1)
+    {
+      temp_ana = 0x7FE -temp_ana;
+    }
+    invMask >>= 1;
+#endif
 #if !defined(SIMU)
     s_anaFilt[adc_input] = temp_ana;
 #endif
