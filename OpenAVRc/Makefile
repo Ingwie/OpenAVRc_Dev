@@ -270,7 +270,7 @@ INV_STICK1 = NO
 
 # Invert STICK2 analog value
 # Values = NO, YES
-INV_STICK2 = YES
+INV_STICK2 = NO
 
 # Invert STICK3 analog value
 # Values = NO, YES
@@ -278,7 +278,7 @@ INV_STICK3 = NO
 
 # Invert STICK4 analog value
 # Values = NO, YES
-INV_STICK4 = YES
+INV_STICK4 = NO
 
 #------- END BUILD OPTIONS ---------------------------
 
