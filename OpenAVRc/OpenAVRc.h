@@ -69,11 +69,11 @@
   #define FORCE_INDIRECT(ptr) __asm__ __volatile__ ("" : "=e" (ptr) : "0" (ptr))
   #define MKTIME mk_gmtime
   #define SPRINTF_P sprintf_P
+#define ADAPT_PROTOCOL_TO_SIMU()
+#define ADAPT_PROTOCOL_TO_TX()
 
 #else //SIMU define
 
-  #define SPRINTF_P sprintf
-  #define MKTIME mktime
   #include "targets/simu/simu_interface.h"
   #include "targets/megamini/board_megamini.h" //New reference board
   //#include "targets/mega2560/board_mega2560.h"
@@ -230,6 +230,36 @@ static uint16_t DurationValue;
 
 #define IS_FAI_FORBIDDEN(idx) (IS_FAI_ENABLED() && idx >= MIXSRC_FIRST_TELEM)
 
+// Build Protocol Mask used by simu to decrypt firmware used protocol
+#ifdef DSM2_SERIAL
+#define PROTOMASK0 _BV(0)
+#endif
+#ifdef PROTO_HAS_MULTISUPIIIK
+#define PROTOMASK1 _BV(1)
+#else
+#define PROTOMASK1 0
+#endif
+#ifdef PROTO_HAS_CC2500
+#define PROTOMASK2 _BV(2)
+#else
+#define PROTOMASK2 0
+#endif
+#ifdef PROTO_HAS_CYRF6936
+#define PROTOMASK3 _BV(3)
+#else
+#define PROTOMASK3 0
+#endif
+#ifdef PROTO_HAS_A7105
+#define PROTOMASK4 _BV(4)
+#else
+#define PROTOMASK4 0
+#endif
+#ifdef PROTO_HAS_NRF24L01
+#define PROTOMASK5 _BV(5)
+#else
+#define PROTOMASK5 0
+#endif
+#define PROTOMASK PROTOMASK0|PROTOMASK1|PROTOMASK2|PROTOMASK3|PROTOMASK4|PROTOMASK5
 
 // RESX range is used for internal calculation; The menu says -100.0 to 100.0; internally it is -1024 to 1024 to allow some optimizations
 #define RESX_SHIFT 10
@@ -397,7 +427,7 @@ typedef struct {
 } CustomFunctionsContext;
 
 
-///  Dimension of Arrays
+//  Dimension of Arrays
 #define DIM(a) ((sizeof a) / (sizeof *a))
 
 #include "gui/gui.h"
@@ -1147,7 +1177,6 @@ typedef const void* (*CMDS)(enum ProtoCmds);
 /* Enum protocols */
 #define PROTODEF(proto, module, cmd, name, progmem_name) proto,
 enum Protocols {
-  PROTOCOL_NONE=0,
 #include "protocol/protocol.h"
   PROTOCOL_COUNT,
 };
@@ -1165,7 +1194,6 @@ struct Proto_struct {
 #undef PROTODEF
 
 /* Load Protocols */
-#include "protocol/common.h"
 #include "protocol/interface.h"
 
 ///////////////// PROTOCOLS ///////////////////

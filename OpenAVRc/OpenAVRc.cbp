@@ -175,7 +175,6 @@
 		<Unit filename="protocol/cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="protocol/common.h" />
 		<Unit filename="protocol/cyrf6936.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -187,7 +186,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="protocol/misc.h" />
-		<Unit filename="protocol/mpx_serial.h" />
 		<Unit filename="protocol/nrf24l01.c">
 			<Option compilerVar="CC" />
 		</Unit>

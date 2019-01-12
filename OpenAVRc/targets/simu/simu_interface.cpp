@@ -1,33 +1,33 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
@@ -42,6 +42,111 @@ bool simu_off; //Off signal
 unsigned char simu_eeprom[EESIZE] = {0xFF};
 
 extern uint8_t * eeprom_buffer_data;
+
+// Protocol number convertion
+#define PPMSIZE    3
+#define DSM2SZISE  1
+#define MULTISIZE  1
+#define CCSIZE     5
+#define CYRFSIZE   2
+#define ASIZE      0
+#define NFRZISE    0
+
+void adaptTxProtocolNumToSimu()
+{
+  uint8_t temp = g_model.rfProtocol;
+
+  if (temp >= (PPMSIZE))
+    {
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK0)) // DSM2_SERIAL Not present
+        {
+          temp += DSM2SZISE;
+        }
+    }
+
+  if (temp >= (PPMSIZE+DSM2SZISE))
+    {
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK1)) // MULTI Not present
+        {
+          temp += MULTISIZE;
+        }
+    }
+
+  if (temp >= (PPMSIZE+DSM2SZISE+MULTISIZE))
+    {
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK2)) // CC2500 Not present
+        {
+          temp += CCSIZE;
+        }
+    }
+
+  if (temp >= (PPMSIZE+DSM2SZISE+MULTISIZE+CCSIZE))
+    {
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK3)) // CYRF6936 Not present
+        {
+          temp += CYRFSIZE;
+        }
+    }
+
+  if (temp >= (PPMSIZE+DSM2SZISE+MULTISIZE+CCSIZE+CYRFSIZE))
+    {
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK4)) // A7105 Not present
+        {
+          temp += ASIZE;
+        }
+    }
+
+  if (temp > (PROTOCOL_COUNT-1))
+    {
+      g_model.rfProtocol = PROTOCOL_PPM;
+    }
+  g_model.rfProtocol = temp;
+}
+
+void adaptSimuProtocolNumToTx()
+{
+  uint8_t temp = g_model.rfProtocol;
+
+  if (temp > (PPMSIZE))
+    {
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK0)) // DSM2_SERIAL Not present
+        {
+          temp -= DSM2SZISE;
+        }
+    }
+  if (temp > (PPMSIZE+DSM2SZISE))
+    {
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK1)) // MULTI Not present
+        {
+          temp -= MULTISIZE;
+        }
+    }
+  if (temp > (PPMSIZE+DSM2SZISE+MULTISIZE))
+    {
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK2)) // CC2500 Not present
+        {
+          temp -= CCSIZE;
+        }
+    }
+  if (temp > (PPMSIZE+DSM2SZISE+MULTISIZE+CCSIZE))
+    {
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK3)) // CYRF6936 Not present
+        {
+          temp -= CYRFSIZE;
+        }
+    }
+
+  if (temp > (PPMSIZE+DSM2SZISE+MULTISIZE+CCSIZE+CYRFSIZE))
+    {
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK4)) // A7105 Not present
+        {
+          temp -= ASIZE;
+        }
+    }
+
+  g_model.rfProtocol = temp;
+}
+
 
 //AVR REG
 
