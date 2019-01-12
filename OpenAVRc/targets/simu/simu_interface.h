@@ -38,6 +38,8 @@
 #include <inttypes.h>
 #include <assert.h>
 
+#include "../../spi.h"
+
 typedef const unsigned char pm_uchar;
 typedef const char pm_char;
 typedef const uint16_t pm_uint16_t;
@@ -48,6 +50,12 @@ typedef const int8_t pm_int8_t;
 
 #define REG8 uint8_t
 #define REG16 uint16_t
+
+// Convertions
+extern void adaptTxProtocolNumToSimu();
+extern void adaptSimuProtocolNumToTx();
+#define ADAPT_PROTOCOL_TO_SIMU adaptTxProtocolNumToSimu
+#define ADAPT_PROTOCOL_TO_TX   adaptSimuProtocolNumToTx
 
 //SD
 #define FAT_ATTRIB_DIR 0xFF
@@ -881,6 +889,8 @@ extern REG8 simu_EIMSK;
 #define EEPROMREADBLOCK simu_eepromReadBlock
 #define srandom(x) srand(x)
 #define random() rand()
+#define SPRINTF_P sprintf
+#define MKTIME mktime
 
 char *convertSimuPath(const char *path);
 extern ISR(TIMER3_COMPA_vect, ISR_NOBLOCK); //TIMER_10MS_VECT
