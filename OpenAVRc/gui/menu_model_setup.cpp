@@ -375,7 +375,7 @@ void menuModelSetup(uint8_t event)
 
             switch (menuHorizontalPosition) {
             case 0: {
-              CHECK_INCDEC_MODELVAR(event, protocol, LASTPROTOMENU1, PROTOCOL_COUNT-2);
+              CHECK_INCDEC_MODELVAR(event, protocol, LASTPROTOMENU1, PROTOCOL_COUNT-1);
               break;
             }
             case 1: {
