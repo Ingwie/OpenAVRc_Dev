@@ -52,9 +52,11 @@
 #include "DSM_SERIAL.c"
 #endif
 
-#ifdef PROTO_HAS_A7105
-//#include "iface_a7105.h"
+#ifdef PROTO_HAS_MULTISUPIIIK
+#include "MULTI.c"
 #endif
+
+#if defined(SPIMODULES)
 
 #ifdef PROTO_HAS_CC2500
 #include "iface_cc2500.h"
@@ -74,13 +76,15 @@
 #include "DSM_cyrf6936.c"
 #endif
 
+#ifdef PROTO_HAS_A7105
+//#include "iface_a7105.h"
+#endif
+
 #ifdef PROTO_HAS_NRF24L01
 #include "iface_nrf24l01.h"
 #include "nrf24l01.c"
 #endif
 
-#ifdef PROTO_HAS_MULTISUPIIIK
-#include "MULTI.c"
 #endif
 
 #endif // _INTERFACE_H_
