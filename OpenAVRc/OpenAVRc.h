@@ -233,6 +233,8 @@ static uint16_t DurationValue;
 // Build Protocol Mask used by simu to decrypt firmware used protocol
 #ifdef DSM2_SERIAL
 #define PROTOMASK0 _BV(0)
+#else
+#define PROTOMASK0 0
 #endif
 #ifdef PROTO_HAS_MULTISUPIIIK
 #define PROTOMASK1 _BV(1)
