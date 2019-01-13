@@ -172,6 +172,10 @@ bool NOANDSECONDE = 1;
 bool SHUTDOWN_CONFIRMATION = 0;
 bool FRAM = 0;
 bool PERSONAMES = 0;
+bool INV_STICK1 = 0;
+bool INV_STICK2 = 0;
+bool INV_STICK3 = 0;
+bool INV_STICK4 = 0;
 
 wxString switch1 = ("THR");
 wxString switch2 = ("RUD");
@@ -673,6 +677,10 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
   configFile->Read(wxT("SHUTDOWN_CONFIRMATION"),&SHUTDOWN_CONFIRMATION);
   configFile->Read(wxT("FRAM"),&FRAM);
   configFile->Read(wxT("PERSONAMES"),&PERSONAMES);
+  configFile->Read(wxT("INV_STICK1"),&INV_STICK1);
+  configFile->Read(wxT("INV_STICK2"),&INV_STICK2);
+  configFile->Read(wxT("INV_STICK3"),&INV_STICK3);
+  configFile->Read(wxT("INV_STICK4"),&INV_STICK4);
   configFile->Read(wxT("switch1"),&switch1);
   configFile->Read(wxT("switch2"),&switch2);
   configFile->Read(wxT("switch3"),&switch3);
@@ -801,6 +809,10 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
   configFile->Write(wxT("SHUTDOWN_CONFIRMATION"),SHUTDOWN_CONFIRMATION);
   configFile->Write(wxT("FRAM"),FRAM);
   configFile->Write(wxT("PERSONAMES"),PERSONAMES);
+  configFile->Write(wxT("INV_STICK1"),INV_STICK1);
+  configFile->Write(wxT("INV_STICK2"),INV_STICK2);
+  configFile->Write(wxT("INV_STICK3"),INV_STICK3);
+  configFile->Write(wxT("INV_STICK4"),INV_STICK4);
   configFile->Write(wxT("switch1"),switch1);
   configFile->Write(wxT("switch2"),switch2);
   configFile->Write(wxT("switch3"),switch3);
