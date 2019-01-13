@@ -51,6 +51,9 @@ bool doNotClose = 0;
 
 
 //(*IdInit(CompilerOptionsFrame)
+const long CompilerOptionsFrame::ID_STATICBOX13 = wxNewId();
+const long CompilerOptionsFrame::ID_CHECKBOX3 = wxNewId();
+const long CompilerOptionsFrame::ID_CHECKBOX8 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX6 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX4 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX17 = wxNewId();
@@ -93,6 +96,8 @@ const long CompilerOptionsFrame::ID_CHOICE13 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT12 = wxNewId();
 const long CompilerOptionsFrame::ID_CHOICE12 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT11 = wxNewId();
+const long CompilerOptionsFrame::ID_CHECKBOX4 = wxNewId();
+const long CompilerOptionsFrame::ID_CHECKBOX2 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL2 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX1 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX9 = wxNewId();
@@ -202,6 +207,11 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   Panel1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
   Notebook1 = new wxNotebook(Panel1, ID_NOTEBOOK1, wxPoint(0,0), wxSize(808,376), 0, _T("ID_NOTEBOOK1"));
   Panel2 = new wxPanel(Notebook1, ID_PANEL2, wxDefaultPosition, wxSize(802,302), wxTAB_TRAVERSAL, _T("ID_PANEL2"));
+  StaticBox13 = new wxStaticBox(Panel2, ID_STATICBOX13, _("Manches"), wxPoint(664,8), wxSize(128,136), 0, _T("ID_STATICBOX13"));
+  CheckBoxInvStickLH = new wxCheckBox(Panel2, ID_CHECKBOX3, _("Inversion Stick_LH"), wxPoint(672,48), wxSize(112,13), 0, wxDefaultValidator, _T("ID_CHECKBOX3"));
+  CheckBoxInvStickLH->SetValue(false);
+  CheckBoxInvStickRH = new wxCheckBox(Panel2, ID_CHECKBOX8, _("Inversion Stick_RH"), wxPoint(672,120), wxSize(112,13), 0, wxDefaultValidator, _T("ID_CHECKBOX8"));
+  CheckBoxInvStickRH->SetValue(false);
   StaticBox6 = new wxStaticBox(Panel2, ID_STATICBOX6, _("Autres options"), wxPoint(464,8), wxSize(192,328), 0, _T("ID_STATICBOX6"));
   StaticBox4 = new wxStaticBox(Panel2, ID_STATICBOX4, _("Matériel"), wxPoint(24,8), wxSize(200,328), 0, _T("ID_STATICBOX4"));
   CheckBoxPPM_LIMITS_SYMETRICAL = new wxCheckBox(Panel2, ID_CHECKBOX17, _("PPM Simm limits"), wxPoint(528,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX17"));
@@ -292,7 +302,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceNAVIGATION->SetToolTip(_("Peut remplacer les boutons de navigation"));
   StaticText7 = new wxStaticText(Panel2, ID_STATICTEXT7, _("Navigation"), wxPoint(248,256), wxDefaultSize, 0, _T("ID_STATICTEXT7"));
   ButtonEXIT = new wxButton(Panel2, ID_BUTTON3, _("Sauvegarder et sortir"), wxPoint(664,272), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON3"));
-  ButtonCOMPILE = new wxButton(Panel2, ID_BUTTON2, _("Compiler"), wxPoint(704,208), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON2"));
+  ButtonCOMPILE = new wxButton(Panel2, ID_BUTTON2, _("Compiler"), wxPoint(688,208), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON2"));
   ChoiceUNITS = new wxChoice(Panel2, ID_CHOICE9, wxPoint(528,32), wxSize(72,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE9"));
   ChoiceUNITS->SetSelection( ChoiceUNITS->Append(_("METRIC")) );
   ChoiceUNITS->Append(_("IMPERIAL"));
@@ -341,6 +351,10 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceTHREE_POS->Append(_("POT3"));
   ChoiceTHREE_POS->SetToolTip(_("Selection du potentiomètre utilisé pour XD0"));
   StaticText11 = new wxStaticText(Panel2, ID_STATICTEXT11, _("EXTRA 3POS"), wxPoint(32,296), wxDefaultSize, 0, _T("ID_STATICTEXT11"));
+  CheckBoxInvStickLV = new wxCheckBox(Panel2, ID_CHECKBOX4, _("Inversion Stick_LV"), wxPoint(672,96), wxSize(112,13), 0, wxDefaultValidator, _T("ID_CHECKBOX4"));
+  CheckBoxInvStickLV->SetValue(false);
+  CheckBoxInvStickRV = new wxCheckBox(Panel2, ID_CHECKBOX2, _("Inversion Stick_RV"), wxPoint(672,72), wxSize(112,13), 0, wxDefaultValidator, _T("ID_CHECKBOX2"));
+  CheckBoxInvStickRV->SetValue(false);
   Panel3 = new wxPanel(Notebook1, ID_PANEL3, wxDefaultPosition, wxSize(800,356), wxTAB_TRAVERSAL, _T("ID_PANEL3"));
   StaticBox1 = new wxStaticBox(Panel3, ID_STATICBOX1, _("Protocole"), wxPoint(8,24), wxSize(168,312), 0, _T("ID_STATICBOX1"));
   StaticBox9 = new wxStaticBox(Panel3, ID_STATICBOX9, _("Beta test"), wxPoint(24,160), wxSize(144,160), 0, _T("ID_STATICBOX9"));
@@ -651,6 +665,10 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxSHUTDOWN_CONFIRMATION->SetValue(SHUTDOWN_CONFIRMATION);
   CheckBoxFRAM->SetValue(FRAM);
   CheckBoxPERSONAMES->SetValue(PERSONAMES);
+  CheckBoxInvStickRH->SetValue(INV_STICK1);
+  CheckBoxInvStickLV->SetValue(INV_STICK2);
+  CheckBoxInvStickRV->SetValue(INV_STICK3);
+  CheckBoxInvStickLH->SetValue(INV_STICK4);
 
   //X-Any
   ChoiceNUMXANY->SetStringSelection(NUMXANY);
@@ -785,6 +803,10 @@ void CompilerOptionsFrame::BatFunction()
   if (NOANDSECONDE) CompiBat += (" NOANDSECONDE=YES");
   if (SHUTDOWN_CONFIRMATION) CompiBat += (" SHUTDOWN_CONFIRMATION=YES");
   if (FRAM) CompiBat += (" EXTERNALEEPROM=YES");
+  if (INV_STICK1) CompiBat += (" INV_STICK1");
+  if (INV_STICK2) CompiBat += (" INV_STICK2");
+  if (INV_STICK3) CompiBat += (" INV_STICK3");
+  if (INV_STICK4) CompiBat += (" INV_STICK4");
   if (PERSONAMES)
     {
       CompiBat += (" PERSONAMES=YES");
@@ -877,6 +899,10 @@ void CompilerOptionsFrame::CollectDatas()
   SHUTDOWN_CONFIRMATION = CheckBoxSHUTDOWN_CONFIRMATION->GetValue();
   FRAM = CheckBoxFRAM->GetValue();
   PERSONAMES = CheckBoxPERSONAMES->GetValue();
+  INV_STICK1 = CheckBoxInvStickRH->GetValue();
+  INV_STICK2 = CheckBoxInvStickLV->GetValue();
+  INV_STICK3 = CheckBoxInvStickRV->GetValue();
+  INV_STICK4 = CheckBoxInvStickLH->GetValue();
 
   //X-Any
   NUMXANY = ChoiceNUMXANY->GetString(ChoiceNUMXANY->GetSelection());
