@@ -847,10 +847,10 @@
 								<item>POT1</item>
 								<item>POT2</item>
 								<item>POT3</item>
-								<item>STICK1</item>
-								<item>STICK2</item>
-								<item>STICK3</item>
-								<item>STICK4</item>
+								<item>STICK_RH</item>
+								<item>STICK_LV</item>
+								<item>STICK_RV</item>
+								<item>STICK_LH</item>
 							</content>
 							<selection>0</selection>
 							<pos>176,136</pos>
@@ -862,10 +862,10 @@
 								<item>POT1</item>
 								<item>POT2</item>
 								<item>POT3</item>
-								<item>STICK1</item>
-								<item>STICK2</item>
-								<item>STICK3</item>
-								<item>STICK4</item>
+								<item>STICK_RH</item>
+								<item>STICK_LV</item>
+								<item>STICK_RV</item>
+								<item>STICK_LH</item>
 							</content>
 							<selection>0</selection>
 							<pos>176,176</pos>
@@ -877,10 +877,10 @@
 								<item>POT1</item>
 								<item>POT2</item>
 								<item>POT3</item>
-								<item>STICK1</item>
-								<item>STICK2</item>
-								<item>STICK3</item>
-								<item>STICK4</item>
+								<item>STICK_RH</item>
+								<item>STICK_LV</item>
+								<item>STICK_RV</item>
+								<item>STICK_LH</item>
 							</content>
 							<selection>0</selection>
 							<pos>176,216</pos>
@@ -904,10 +904,10 @@
 								<item>POT1</item>
 								<item>POT2</item>
 								<item>POT3</item>
-								<item>STICK1</item>
-								<item>STICK2</item>
-								<item>STICK3</item>
-								<item>STICK4</item>
+								<item>STICK_RH</item>
+								<item>STICK_LV</item>
+								<item>STICK_RV</item>
+								<item>STICK_LH</item>
 							</content>
 							<selection>0</selection>
 							<pos>176,256</pos>

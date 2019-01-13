@@ -718,10 +718,10 @@ extern void backlightOn();
 
 enum Analogs {
 #if defined(REV_EVO_V2)
-  STICK1,
-  STICK2,
-  STICK3,
-  STICK4,
+  STICK_RH,
+  STICK_LV,
+  STICK_RV,
+  STICK_LH,
   AVCC_REF_N, // AVCC/2 used as VINN for differential conversion with gain.
   POT1, // SLIDER1,
   POT2, // SLIDER2,
@@ -733,10 +733,10 @@ enum Analogs {
   ANAL_SWS_4,
   KEYBOARD,
 #else
-  STICK1,
-  STICK2,
-  STICK3,
-  STICK4,
+  STICK_RH,
+  STICK_LV,
+  STICK_RV,
+  STICK_LH,
   POT1,
   POT2,
   POT3,

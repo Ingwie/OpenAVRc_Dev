@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-13 22:39+0100\n"
+"POT-Creation-Date: 2019-01-14 00:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3124,36 +3124,36 @@ msgstr ""
 msgid "STD"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:540
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:549
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:558
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:570
-msgid "STICK1"
-msgstr ""
-
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:541
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:550
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:559
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:571
-msgid "STICK2"
-msgstr ""
-
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:542
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:551
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:560
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:572
-msgid "STICK3"
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:300
+msgid "STICKS"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:543
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:552
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:561
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:573
-msgid "STICK4"
+msgid "STICK_LH"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:300
-msgid "STICKS"
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:541
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:550
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:559
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:571
+msgid "STICK_LV"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:540
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:549
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:558
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:570
+msgid "STICK_RH"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:542
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:551
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:560
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:572
+msgid "STICK_RV"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:614
@@ -3192,8 +3192,8 @@ msgstr ""
 msgid "Symétrise les valeurs affichées"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:309
 #: A:\cb\OpenAVRc_Desktop\Voice_choice.cpp:59
+#: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:309
 msgid "Synthèse vocale"
 msgstr ""
 

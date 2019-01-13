@@ -118,10 +118,10 @@ extern bool FRAM;
 //DANGEROUS_MODULE_FUNCTIONS// does not compile.
 extern bool PERSONAMES;
 // Sticks
-extern bool INV_STICK1;
-extern bool INV_STICK2;
-extern bool INV_STICK3;
-extern bool INV_STICK4;
+extern bool INV_STICK_RH;
+extern bool INV_STICK_LV;
+extern bool INV_STICK_RV;
+extern bool INV_STICK_LH;
 
 extern wxString switch1;
 extern wxString switch2;

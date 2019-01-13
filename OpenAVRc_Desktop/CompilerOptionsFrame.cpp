@@ -537,28 +537,28 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceXANY1POT->SetSelection( ChoiceXANY1POT->Append(_("POT1")) );
   ChoiceXANY1POT->Append(_("POT2"));
   ChoiceXANY1POT->Append(_("POT3"));
-  ChoiceXANY1POT->Append(_("STICK1"));
-  ChoiceXANY1POT->Append(_("STICK2"));
-  ChoiceXANY1POT->Append(_("STICK3"));
-  ChoiceXANY1POT->Append(_("STICK4"));
+  ChoiceXANY1POT->Append(_("STICK_RH"));
+  ChoiceXANY1POT->Append(_("STICK_LV"));
+  ChoiceXANY1POT->Append(_("STICK_RV"));
+  ChoiceXANY1POT->Append(_("STICK_LH"));
   ChoiceXANY1POT->SetToolTip(_("Potentiomètre pour X-Any"));
   ChoiceXANY2POT = new wxChoice(Panel5, ID_CHOICEXANY2POT, wxPoint(176,176), wxSize(66,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICEXANY2POT"));
   ChoiceXANY2POT->SetSelection( ChoiceXANY2POT->Append(_("POT1")) );
   ChoiceXANY2POT->Append(_("POT2"));
   ChoiceXANY2POT->Append(_("POT3"));
-  ChoiceXANY2POT->Append(_("STICK1"));
-  ChoiceXANY2POT->Append(_("STICK2"));
-  ChoiceXANY2POT->Append(_("STICK3"));
-  ChoiceXANY2POT->Append(_("STICK4"));
+  ChoiceXANY2POT->Append(_("STICK_RH"));
+  ChoiceXANY2POT->Append(_("STICK_LV"));
+  ChoiceXANY2POT->Append(_("STICK_RV"));
+  ChoiceXANY2POT->Append(_("STICK_LH"));
   ChoiceXANY2POT->SetToolTip(_("Potentiomètre pour X-Any"));
   ChoiceXANY3POT = new wxChoice(Panel5, ID_CHOICEXANY3POT, wxPoint(176,216), wxSize(66,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICEXANY3POT"));
   ChoiceXANY3POT->SetSelection( ChoiceXANY3POT->Append(_("POT1")) );
   ChoiceXANY3POT->Append(_("POT2"));
   ChoiceXANY3POT->Append(_("POT3"));
-  ChoiceXANY3POT->Append(_("STICK1"));
-  ChoiceXANY3POT->Append(_("STICK2"));
-  ChoiceXANY3POT->Append(_("STICK3"));
-  ChoiceXANY3POT->Append(_("STICK4"));
+  ChoiceXANY3POT->Append(_("STICK_RH"));
+  ChoiceXANY3POT->Append(_("STICK_LV"));
+  ChoiceXANY3POT->Append(_("STICK_RV"));
+  ChoiceXANY3POT->Append(_("STICK_LH"));
   ChoiceXANY3POT->SetToolTip(_("Potentiomètre pour X-Any"));
   StaticText31 = new wxStaticText(Panel5, ID_STATICTEXT31, _("X-Any N°1 :"), wxPoint(96,144), wxDefaultSize, 0, _T("ID_STATICTEXT31"));
   StaticText32 = new wxStaticText(Panel5, ID_STATICTEXT32, _("X-Any N°2 :"), wxPoint(96,184), wxDefaultSize, 0, _T("ID_STATICTEXT32"));
@@ -567,10 +567,10 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceXANY4POT->SetSelection( ChoiceXANY4POT->Append(_("POT1")) );
   ChoiceXANY4POT->Append(_("POT2"));
   ChoiceXANY4POT->Append(_("POT3"));
-  ChoiceXANY4POT->Append(_("STICK1"));
-  ChoiceXANY4POT->Append(_("STICK2"));
-  ChoiceXANY4POT->Append(_("STICK3"));
-  ChoiceXANY4POT->Append(_("STICK4"));
+  ChoiceXANY4POT->Append(_("STICK_RH"));
+  ChoiceXANY4POT->Append(_("STICK_LV"));
+  ChoiceXANY4POT->Append(_("STICK_RV"));
+  ChoiceXANY4POT->Append(_("STICK_LH"));
   ChoiceXANY4POT->SetToolTip(_("Potentiomètre pour X-Any"));
   StaticText30 = new wxStaticText(Panel5, ID_STATICTEXT30, _("X-Any N°4 :"), wxPoint(96,264), wxDefaultSize, 0, _T("ID_STATICTEXT30"));
   Notebook1->AddPage(Panel2, _("Réglages"), false);
@@ -665,10 +665,10 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxSHUTDOWN_CONFIRMATION->SetValue(SHUTDOWN_CONFIRMATION);
   CheckBoxFRAM->SetValue(FRAM);
   CheckBoxPERSONAMES->SetValue(PERSONAMES);
-  CheckBoxInvStickRH->SetValue(INV_STICK1);
-  CheckBoxInvStickLV->SetValue(INV_STICK2);
-  CheckBoxInvStickRV->SetValue(INV_STICK3);
-  CheckBoxInvStickLH->SetValue(INV_STICK4);
+  CheckBoxInvStickRH->SetValue(INV_STICK_RH);
+  CheckBoxInvStickLV->SetValue(INV_STICK_LV);
+  CheckBoxInvStickRV->SetValue(INV_STICK_RV);
+  CheckBoxInvStickLH->SetValue(INV_STICK_LH);
 
   //X-Any
   ChoiceNUMXANY->SetStringSelection(NUMXANY);
@@ -803,10 +803,10 @@ void CompilerOptionsFrame::BatFunction()
   if (NOANDSECONDE) CompiBat += (" NOANDSECONDE=YES");
   if (SHUTDOWN_CONFIRMATION) CompiBat += (" SHUTDOWN_CONFIRMATION=YES");
   if (FRAM) CompiBat += (" EXTERNALEEPROM=YES");
-  if (INV_STICK1) CompiBat += (" INV_STICK1");
-  if (INV_STICK2) CompiBat += (" INV_STICK2");
-  if (INV_STICK3) CompiBat += (" INV_STICK3");
-  if (INV_STICK4) CompiBat += (" INV_STICK4");
+  if (INV_STICK_RH) CompiBat += (" INV_STICK_RH");
+  if (INV_STICK_LV) CompiBat += (" INV_STICK_LV");
+  if (INV_STICK_RV) CompiBat += (" INV_STICK_RV");
+  if (INV_STICK_LH) CompiBat += (" INV_STICK_LH");
   if (PERSONAMES)
     {
       CompiBat += (" PERSONAMES=YES");
@@ -899,10 +899,10 @@ void CompilerOptionsFrame::CollectDatas()
   SHUTDOWN_CONFIRMATION = CheckBoxSHUTDOWN_CONFIRMATION->GetValue();
   FRAM = CheckBoxFRAM->GetValue();
   PERSONAMES = CheckBoxPERSONAMES->GetValue();
-  INV_STICK1 = CheckBoxInvStickRH->GetValue();
-  INV_STICK2 = CheckBoxInvStickLV->GetValue();
-  INV_STICK3 = CheckBoxInvStickRV->GetValue();
-  INV_STICK4 = CheckBoxInvStickLH->GetValue();
+  INV_STICK_RH = CheckBoxInvStickRH->GetValue();
+  INV_STICK_LV = CheckBoxInvStickLV->GetValue();
+  INV_STICK_RV = CheckBoxInvStickRV->GetValue();
+  INV_STICK_LH = CheckBoxInvStickLH->GetValue();
 
   //X-Any
   NUMXANY = ChoiceNUMXANY->GetString(ChoiceNUMXANY->GetSelection());

@@ -46,18 +46,18 @@ void adcInit()
 
 void getADC() // 0.56 mS
 {
-#if defined(INV_STICK1) || defined(INV_STICK2) || defined(INV_STICK3) || defined(INV_STICK4)
+#if defined(INV_STICK_RH) || defined(INV_STICK_LV) || defined(INV_STICK_RV) || defined(INV_STICK_LH)
 uint8_t invMask = 0
-#if defined(INV_STICK1)
+#if defined(INV_STICK_RH)
 + _BV(0)
 #endif
-#if defined(INV_STICK2)
+#if defined(INV_STICK_LV)
 + _BV(1)
 #endif
-#if defined(INV_STICK3)
+#if defined(INV_STICK_RV)
 + _BV(2)
 #endif
-#if defined(INV_STICK4)
+#if defined(INV_STICK_LH)
 + _BV(3)
 #endif
 ;
@@ -72,7 +72,7 @@ uint8_t invMask = 0
     ADCSRA |= 1 << ADSC; // Start the second AD conversion
     while SIMU_UNLOCK_MACRO(bit_is_set(ADCSRA,ADSC)); // Wait for the AD conversion to complete
     temp_ana += ADC;
-#if defined(INV_STICK1) || defined(INV_STICK2) || defined(INV_STICK3) || defined(INV_STICK4)
+#if defined(INV_STICK_RH) || defined(INV_STICK_LV) || defined(INV_STICK_RV) || defined(INV_STICK_LH)
     if (invMask & 0x1)
     {
       temp_ana = 0x7FE -temp_ana;
