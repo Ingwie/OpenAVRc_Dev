@@ -803,10 +803,10 @@ void CompilerOptionsFrame::BatFunction()
   if (NOANDSECONDE) CompiBat += (" NOANDSECONDE=YES");
   if (SHUTDOWN_CONFIRMATION) CompiBat += (" SHUTDOWN_CONFIRMATION=YES");
   if (FRAM) CompiBat += (" EXTERNALEEPROM=YES");
-  if (INV_STICK_RH) CompiBat += (" INV_STICK_RH");
-  if (INV_STICK_LV) CompiBat += (" INV_STICK_LV");
-  if (INV_STICK_RV) CompiBat += (" INV_STICK_RV");
-  if (INV_STICK_LH) CompiBat += (" INV_STICK_LH");
+  if (INV_STICK_RH) CompiBat += (" INV_STICK_RH=YES");
+  if (INV_STICK_LV) CompiBat += (" INV_STICK_LV=YES");
+  if (INV_STICK_RV) CompiBat += (" INV_STICK_RV=YES");
+  if (INV_STICK_LH) CompiBat += (" INV_STICK_LH=YES");
   if (PERSONAMES)
     {
       CompiBat += (" PERSONAMES=YES");
