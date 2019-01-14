@@ -931,15 +931,15 @@ void OpenAVRc_SimulatorFrame::PaintSticks(bool spring, int x, int y, wxPanel* st
     {
       Lx_mem = x;
       Ly_mem = y;
-      s_anaFilt[3] = (uint16_t)xx;
-      s_anaFilt[1] = (uint16_t)yy;
+      s_anaFilt[3] = (uint16_t)xx; //LH
+      s_anaFilt[1] = (uint16_t)yy; //LV
     }
   if (stick == Rstick)
     {
       Rx_mem = x;
       Ry_mem = y;
-      s_anaFilt[0] = (uint16_t)xx;
-      s_anaFilt[2] = (uint16_t)yy;
+      s_anaFilt[0] = (uint16_t)xx; //RH
+      s_anaFilt[2] = (uint16_t)yy; //RV
     }
 }
 

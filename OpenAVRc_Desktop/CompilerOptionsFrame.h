@@ -117,6 +117,11 @@ extern bool SHUTDOWN_CONFIRMATION;
 extern bool FRAM;
 //DANGEROUS_MODULE_FUNCTIONS// does not compile.
 extern bool PERSONAMES;
+// Sticks
+extern bool INV_STICK_RH;
+extern bool INV_STICK_LV;
+extern bool INV_STICK_RV;
+extern bool INV_STICK_LH;
 
 extern wxString switch1;
 extern wxString switch2;
@@ -181,6 +186,10 @@ public:
     wxCheckBox* CheckBoxGVARS;
     wxCheckBox* CheckBoxHAPTIC;
     wxCheckBox* CheckBoxHELI;
+    wxCheckBox* CheckBoxInvStickLH;
+    wxCheckBox* CheckBoxInvStickLV;
+    wxCheckBox* CheckBoxInvStickRH;
+    wxCheckBox* CheckBoxInvStickRV;
     wxCheckBox* CheckBoxMULTI;
     wxCheckBox* CheckBoxNOANDSECONDE;
     wxCheckBox* CheckBoxNRF24l01;
@@ -244,6 +253,7 @@ public:
     wxStaticBox* StaticBox10;
     wxStaticBox* StaticBox11;
     wxStaticBox* StaticBox12;
+    wxStaticBox* StaticBox13;
     wxStaticBox* StaticBox1;
     wxStaticBox* StaticBox2;
     wxStaticBox* StaticBox3;
@@ -291,6 +301,9 @@ public:
 protected:
 
     //(*Identifiers(CompilerOptionsFrame)
+    static const long ID_STATICBOX13;
+    static const long ID_CHECKBOX3;
+    static const long ID_CHECKBOX8;
     static const long ID_STATICBOX6;
     static const long ID_STATICBOX4;
     static const long ID_CHECKBOX17;
@@ -333,6 +346,8 @@ protected:
     static const long ID_STATICTEXT12;
     static const long ID_CHOICE12;
     static const long ID_STATICTEXT11;
+    static const long ID_CHECKBOX4;
+    static const long ID_CHECKBOX2;
     static const long ID_PANEL2;
     static const long ID_STATICBOX1;
     static const long ID_STATICBOX9;

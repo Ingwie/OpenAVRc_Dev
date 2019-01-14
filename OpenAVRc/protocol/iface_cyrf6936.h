@@ -35,8 +35,6 @@
 #ifndef _IFACE_CYRF6936_H_
 #define _IFACE_CYRF6936_H_
 
-#include "common.h"
-
 enum {
     CYRF_00_CHANNEL        = 0x00,
     CYRF_01_TX_LENGTH      = 0x01,

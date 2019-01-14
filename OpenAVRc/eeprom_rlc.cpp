@@ -924,6 +924,9 @@ bool eeLoadGeneral()
       theFile.openRlc(FILE_GENERAL);
       if (theFile.readRlc((uint8_t*)&g_eeGeneral, sizeof(g_eeGeneral)) <= sizeof(EEGeneral))
         {
+#if !defined(SIMU)
+          g_eeGeneral.protocol_mask = PROTOMASK; // Load used protocols mask
+#endif
           return true;
         }
     }
@@ -966,6 +969,8 @@ void eeLoadModel(uint8_t id)
       uint16_t sz = theFile.readRlc((uint8_t*)&g_model, sizeof(g_model));
 
       bool newModel = false;
+
+      ADAPT_PROTOCOL_TO_SIMU(); // Simu only
 
       if (sz < 256)
         {
@@ -1035,7 +1040,9 @@ void eeCheck(bool immediately)
     {
       TRACE("eeprom write model");
       s_eeDirtyMsk = 0;
+      ADAPT_PROTOCOL_TO_TX(); // Simu function : Change proto number if needed
       theFile.writeRlc(FILE_MODEL(g_eeGeneral.currModel), FILE_TYP_MODEL, (uint8_t*)&g_model, sizeof(g_model), immediately);
+      ADAPT_PROTOCOL_TO_SIMU(); // Simu function
     }
 }
 

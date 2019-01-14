@@ -330,7 +330,8 @@ PACK(typedef struct {
   uint8_t   templateSetup;   // RETA order for receiver channels
   int8_t    PPM_Multiplier;
   int8_t    hapticLength;
-  uint8_t   reNavigation;
+  uint8_t   reNavigation:2;  // Num encoder max
+  uint8_t   protocol_mask:6; // Used by the simu to detect present protocols
   uint8_t   stickReverse;
   uint8_t   speakerPitch;
   uint8_t   vBatMin;

@@ -249,20 +249,36 @@ A7105PAG = 20
 X_ANY = NO
 
 # Pot available in X-any1
-# Values =   STICK1, STICK2, STICK3, STICK4, POT1, POT2, POT3
+# Values =   STICK_RH, STICK_LV, STICK_RV, STICK_LH, POT1, POT2, POT3
 X_ANY_1_POT = POT1
 
 # Pot available in X-any2
-# Values =   STICK1, STICK2, STICK3, STICK4, POT1, POT2, POT3
+# Values =   STICK_RH, STICK_LV, STICK_RV, STICK_LH, POT1, POT2, POT3
 X_ANY_2_POT = POT2
 
 # Pot available in X-any3
-# Values =   STICK1, STICK2, STICK3, STICK4, POT1, POT2, POT3
+# Values =   STICK_RH, STICK_LV, STICK_RV, STICK_LH, POT1, POT2, POT3
 X_ANY_3_POT = POT3
 
 # Pot available in X-any4
-# Values =   STICK1, STICK2, STICK3, STICK4, POT1, POT2, POT3
-X_ANY_4_POT = STICK2
+# Values =   STICK_RH, STICK_LV, STICK_RV, STICK_LH, POT1, POT2, POT3
+X_ANY_4_POT = STICK_LV
+
+# Invert STICK_RH analog value
+# Values = NO, YES
+INV_STICK_RH = NO
+
+# Invert STICK_LV analog value
+# Values = NO, YES
+INV_STICK_LV = NO
+
+# Invert STICK_RV analog value
+# Values = NO, YES
+INV_STICK_RV = NO
+
+# Invert STICK_LH analog value
+# Values = NO, YES
+INV_STICK_LH = NO
 
 #------- END BUILD OPTIONS ---------------------------
 
@@ -434,6 +450,22 @@ ifeq ($(PCB), MEGAMINI)
 		CPPDEFS += -DX_ANY_4_POT=$(X_ANY_4_POT)
 	endif
 
+	ifeq ($(INV_STICK_RH), YES)
+	CPPDEFS += -DINV_STICK_RH
+	endif
+
+	ifeq ($(INV_STICK_LV), YES)
+	CPPDEFS += -DINV_STICK_LV
+	endif
+
+	ifeq ($(INV_STICK_RV), YES)
+	CPPDEFS += -DINV_STICK_RV
+	endif
+
+	ifeq ($(INV_STICK_LH), YES)
+	CPPDEFS += -DINV_STICK_LH
+	endif
+
 endif
 
 
@@ -555,6 +587,22 @@ ifeq ($(PCB), EVO_V2)
    	  CPPDEFS += -DPROTO_HAS_A7105
  	  CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
   	endif
+
+	ifeq ($(INV_STICK_RH), YES)
+	CPPDEFS += -DINV_STICK_RH
+	endif
+
+	ifeq ($(INV_STICK_LV), YES)
+	CPPDEFS += -DINV_STICK_LV
+	endif
+
+	ifeq ($(INV_STICK_RV), YES)
+	CPPDEFS += -DINV_STICK_RV
+	endif
+
+	ifeq ($(INV_STICK_LH), YES)
+	CPPDEFS += -DINV_STICK_LH
+	endif
 
   endif
 
