@@ -63,13 +63,13 @@ void getADC()
   int16_t OverSample;
 
   if(! ADCA.INTFLAGS & ADC_CH_CHIF_bm) return;
-  for(uint8_t adc_output = STICK1; adc_output < NUMBER_ANALOG; adc_output++) {
+  for(uint8_t adc_output = STICK_RH; adc_output < NUMBER_ANALOG; adc_output++) {
 
     switch (adc_output) {
-      case STICK1:
-      case STICK2:
-      case STICK3:
-      case STICK4:
+      case STICK_RH:
+      case STICK_LV:
+      case STICK_RV:
+      case STICK_LH:
 
         // Differential measurement with gain. Gain = 4. VREF = 3.3V/1.6 = 2.0625V
         // VINN = AVCC_REF_N = 3.3V/2 connected to PINADC4.

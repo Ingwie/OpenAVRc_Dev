@@ -16,6 +16,21 @@
 				<object class="notebookpage">
 					<object class="wxPanel" name="ID_PANEL2" variable="Panel2" member="yes">
 						<size>802,302</size>
+						<object class="wxStaticBox" name="ID_STATICBOX13" variable="StaticBox13" member="yes">
+							<label>Manches</label>
+							<pos>664,8</pos>
+							<size>128,136</size>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX3" variable="CheckBoxInvStickLH" member="yes">
+							<label>Inversion Stick__LH</label>
+							<pos>672,48</pos>
+							<size>112,13</size>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX8" variable="CheckBoxInvStickRH" member="yes">
+							<label>Inversion Stick__RH</label>
+							<pos>672,120</pos>
+							<size>112,13</size>
+						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX6" variable="StaticBox6" member="yes">
 							<label>Autres options</label>
 							<pos>464,8</pos>
@@ -207,7 +222,7 @@
 						</object>
 						<object class="wxButton" name="ID_BUTTON2" variable="ButtonCOMPILE" member="yes">
 							<label>Compiler</label>
-							<pos>704,208</pos>
+							<pos>688,208</pos>
 							<handler function="OnButtonCOMPILEClick" entry="EVT_BUTTON" />
 						</object>
 						<object class="wxChoice" name="ID_CHOICE9" variable="ChoiceUNITS" member="yes">
@@ -314,6 +329,16 @@
 						<object class="wxStaticText" name="ID_STATICTEXT11" variable="StaticText11" member="yes">
 							<label>EXTRA 3POS</label>
 							<pos>32,296</pos>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX4" variable="CheckBoxInvStickLV" member="yes">
+							<label>Inversion Stick__LV</label>
+							<pos>672,96</pos>
+							<size>112,13</size>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX2" variable="CheckBoxInvStickRV" member="yes">
+							<label>Inversion Stick__RV</label>
+							<pos>672,72</pos>
+							<size>112,13</size>
 						</object>
 					</object>
 					<label>Réglages</label>
@@ -822,10 +847,10 @@
 								<item>POT1</item>
 								<item>POT2</item>
 								<item>POT3</item>
-								<item>STICK1</item>
-								<item>STICK2</item>
-								<item>STICK3</item>
-								<item>STICK4</item>
+								<item>STICK_RH</item>
+								<item>STICK_LV</item>
+								<item>STICK_RV</item>
+								<item>STICK_LH</item>
 							</content>
 							<selection>0</selection>
 							<pos>176,136</pos>
@@ -837,10 +862,10 @@
 								<item>POT1</item>
 								<item>POT2</item>
 								<item>POT3</item>
-								<item>STICK1</item>
-								<item>STICK2</item>
-								<item>STICK3</item>
-								<item>STICK4</item>
+								<item>STICK_RH</item>
+								<item>STICK_LV</item>
+								<item>STICK_RV</item>
+								<item>STICK_LH</item>
 							</content>
 							<selection>0</selection>
 							<pos>176,176</pos>
@@ -852,10 +877,10 @@
 								<item>POT1</item>
 								<item>POT2</item>
 								<item>POT3</item>
-								<item>STICK1</item>
-								<item>STICK2</item>
-								<item>STICK3</item>
-								<item>STICK4</item>
+								<item>STICK_RH</item>
+								<item>STICK_LV</item>
+								<item>STICK_RV</item>
+								<item>STICK_LH</item>
 							</content>
 							<selection>0</selection>
 							<pos>176,216</pos>
@@ -879,10 +904,10 @@
 								<item>POT1</item>
 								<item>POT2</item>
 								<item>POT3</item>
-								<item>STICK1</item>
-								<item>STICK2</item>
-								<item>STICK3</item>
-								<item>STICK4</item>
+								<item>STICK_RH</item>
+								<item>STICK_LV</item>
+								<item>STICK_RV</item>
+								<item>STICK_LH</item>
 							</content>
 							<selection>0</selection>
 							<pos>176,256</pos>

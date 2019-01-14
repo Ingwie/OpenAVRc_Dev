@@ -886,7 +886,7 @@ uint8_t checkTrim(uint8_t event)
     uint8_t idx = CONVERT_MODE((uint8_t)k/2);
     uint8_t phase;
     int16_t before;
-    bool thro;
+    uint8_t thro;
 
 
 #if defined(GVARS)
@@ -1038,7 +1038,7 @@ FORCEINLINE void evalTrims()
     int16_t trim = getTrimValue(phase, i);
     if (i==THR_STICK && g_model.thrTrim) {
       int16_t trimMin = g_model.extendedTrims ? TRIM_EXTENDED_MIN : TRIM_MIN;
-      trim = (((int32_t)(trim-trimMin)) * (RESX-anas[i])) >> (RESX_SHIFT+1);
+      trim = enableGaz? ((((int32_t)(trim-trimMin)) * (RESX-anas[i])) >> (RESX_SHIFT+1)) : 0; //GAZ SECURITY
     }
     if (trimsCheckTimer) {
       trim = 0;

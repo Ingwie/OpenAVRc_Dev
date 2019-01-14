@@ -208,9 +208,7 @@
 			<Add option="-DnoFONTSTD" />
 			<Add option="-DFAI_CHOICE" />
 			<Add option="-DSIMU" />
-			<Add option="-DDSM2" />
 			<Add option="-DRTCLOCK" />
-			<Add option="-DDSM2_SERIAL" />
 			<Add option="-DPCBMEGAMINI" />
 			<Add option="-DCPUM2560" />
 			<Add option="-DOFFSET_ON_INPUT=YES" />
@@ -253,8 +251,9 @@
 			<Add option="-DX_ANY_1_POT=POT1" />
 			<Add option="-DX_ANY_2_POT=POT2" />
 			<Add option="-DX_ANY_3_POT=POT3" />
-			<Add option="-DX_ANY_4_POT=STICK2" />
+			<Add option="-DX_ANY_4_POT=STICK_LV" />
 			<Add option="-DMULTIMODULE" />
+			<Add option="-DDSM2_SERIAL" />
 			<Add option="-DSPIMODULES" />
 			<Add option="-DPROTO_HAS_CC2500" />
 			<Add option="-DCC2500PA_GAIN=20" />
@@ -400,7 +399,6 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
-		<Unit filename="../OpenAVRc/protocol/common.h" />
 		<Unit filename="../OpenAVRc/protocol/cyrf6936.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
@@ -415,7 +413,6 @@
 			<Option link="0" />
 		</Unit>
 		<Unit filename="../OpenAVRc/protocol/misc.h" />
-		<Unit filename="../OpenAVRc/protocol/mpx_serial.h" />
 		<Unit filename="../OpenAVRc/protocol/protocol.h" />
 		<Unit filename="../OpenAVRc/pulses/pulses.h" />
 		<Unit filename="../OpenAVRc/pulses/pulses_avr.cpp" />
