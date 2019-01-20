@@ -344,6 +344,9 @@ void generalDefault()
   g_eeGeneral.lightAutoOff = 2;
   g_eeGeneral.inactivityTimer = 10;
   g_eeGeneral.chkSum = 0xFFFF;
+#if defined(SIMU)
+  g_eeGeneral.protocol_mask = 0b00111111; // All protocols used in simu with a new eeprom
+#endif
 }
 
 uint16_t evalChkSum()
@@ -400,7 +403,7 @@ int8_t getMovedSource()
     }
   }
 
-  bool recent = (ELAPSED_10MS_TICK_SINCE(lastMove10msTick) >= MS_TO_10MS_TICK(100));
+  uint8_t recent = (ELAPSED_10MS_TICK_SINCE(lastMove10msTick) >= MS_TO_10MS_TICK(100));
   if (recent) {
     result = 0;
   }
@@ -686,7 +689,7 @@ void checkBacklight()
         backlightOn();
     }
 
-    bool backlightOn = (g_eeGeneral.backlightMode == e_backlight_mode_on || lightOffCounter || isFunctionActive(FUNCTION_BACKLIGHT));
+    uint8_t backlightOn = (g_eeGeneral.backlightMode == e_backlight_mode_on || lightOffCounter || isFunctionActive(FUNCTION_BACKLIGHT));
     if (flashCounter) backlightOn = !backlightOn;
     if (backlightOn)
       BACKLIGHT_ON();
