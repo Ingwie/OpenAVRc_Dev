@@ -589,7 +589,7 @@ extern const pm_char STR_MODS_FORBIDDEN[];
 extern const pm_char STR_mW[];
 #endif
 
-#if defined(DSM2) || defined(SPIMODULES) || defined(MULTIMODULE)
+#if defined(DSM2_SERIAL) || defined(SPIMODULES) || defined(MULTIMODULE)
 extern const pm_char STR_MODULE_RANGE[];
 extern const pm_char STR_MODULE_BIND[];
 extern const pm_char STR_RXNUM[];

@@ -126,13 +126,13 @@
 
 #if defined(PXX)
   #define TR_PXX              "PXX\0  "
-#elif defined(DSM2)
+#elif defined(DSM2_SERIAL)
   #define TR_PXX             "[PXX]\0"
 #else
   #define TR_PXX
 #endif
 
-#if defined(DSM2)
+#if defined(DSM2_SERIAL)
   #define TR_DSM2              "LP45\0 ""DSM2\0 ""DSMX\0 "
 #else
   #define TR_DSM2

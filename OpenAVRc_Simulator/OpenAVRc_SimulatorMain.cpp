@@ -794,7 +794,7 @@ void OpenAVRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
   Aboutbox.SetVersion(_("V 3.0 Beta"));
   Aboutbox.SetLicence(_(" GPLv2 . Firmware basé sur NextStepRc 2.18 "));
   Aboutbox.SetDescription(_("Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "));
-  Aboutbox.SetCopyright(wxT("(C) 2016-2018 OpenAVRc Team"));
+  Aboutbox.SetCopyright(wxT("(C) 2016-2019 OpenAVRc Team"));
   Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
   Aboutbox.AddDeveloper(wxT("OpenAVRc Team :\n\n"));
   Aboutbox.AddDeveloper(wxT("Firmware : Bracame, RC-Navy, Sloped Soarer, Supiiik. \n"));
@@ -2117,6 +2117,8 @@ void OpenAVRc_SimulatorFrame::load_EEGeneral_EEPROM_VER()
   g_eeGeneral.hapticLength = tmp;
   eepromfile->Read(wxT("reNavigation"),&tmp,0);
   g_eeGeneral.reNavigation = tmp;
+  eepromfile->Read(wxT("protocol_mask"),&tmp,0);
+  g_eeGeneral.protocol_mask = tmp;
   eepromfile->Read(wxT("stickReverse"),&tmp,0);
   g_eeGeneral.stickReverse = tmp;
   eepromfile->Read(wxT("beepLength"),&tmp,0);
@@ -2528,6 +2530,7 @@ void OpenAVRc_SimulatorFrame::save_EEGeneral_EEPROM_VER(EEGeneral General)
   eepromfile->Write(wxT("PPM_Multiplier"),(int)General.PPM_Multiplier);
   eepromfile->Write(wxT("hapticLength"),(int)General.hapticLength);
   eepromfile->Write(wxT("reNavigation"),General.reNavigation);
+  eepromfile->Write(wxT("protocol_mask"),General.protocol_mask);
   eepromfile->Write(wxT("stickReverse"),General.stickReverse);
   eepromfile->Write(wxT("beepLength"),(int)General.beepLength);
   eepromfile->Write(wxT("hapticStrength"),(int)General.hapticStrength);

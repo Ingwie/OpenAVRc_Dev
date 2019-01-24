@@ -353,7 +353,7 @@ void menuModelSetup(uint8_t event)
             }
           }
         }
-#if defined(DSM2)
+#if defined(DSM2_SERIAL)
         if (IS_DSM2_SERIAL_PROTOCOL(protocol))
         {
           lcdDrawTextLeft(y, STR_TYPE);
@@ -451,7 +451,7 @@ void menuModelSetup(uint8_t event)
 
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_2:
       if PROTO_IS_SYNC {
-#if defined(DSM2)
+#if defined(DSM2_SERIAL)
       if (IS_DSM2_SERIAL_PROTOCOL(protocol))
         {
           horzpos_t l_posHorz = menuHorizontalPosition;
