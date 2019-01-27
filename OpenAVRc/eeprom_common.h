@@ -51,5 +51,3 @@ bool eeConvert();
 void eeErase(bool warn);
 uint8_t eeFindEmptyModel(uint8_t id, bool down);
 void selectModel(uint8_t sub);
-
-#define eeLoadModelHeaders()
