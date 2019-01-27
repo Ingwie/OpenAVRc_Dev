@@ -142,7 +142,6 @@ void readKeysAndTrims();
 #define DISABLE_TRAINER_INTERRUPT() TIMSK1 &= ~(1<<ICIE1); // Disable ICP Interrupt.
 #define WAIT_PUPIL()                ENABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_IN()
 #define PPM16_CONF()                DISABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_OUT()
-#define IS_WAIT_PUPIL_STATE()       ((g_model.rfProtocol == (PROTOCOL_PPM16)) || (g_model.rfProtocol == (PROTOCOL_PPMSIM)))
 #define TRAINER_TC_VECT             TIMER1_CAPT_vect
 #define TRAINER_TC_REG              ICR1
 
