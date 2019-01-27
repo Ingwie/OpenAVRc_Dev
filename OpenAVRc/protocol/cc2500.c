@@ -34,7 +34,6 @@
 
 #ifdef PROTO_HAS_CC2500
 #include "../OpenAVRc.h"
-#include "../spi.h"
 #if defined(SIMU)
 #include <math.h>
 #endif
