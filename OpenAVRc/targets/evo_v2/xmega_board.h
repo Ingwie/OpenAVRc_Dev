@@ -102,7 +102,6 @@ void rf_usart_mspi_init(void);
 #define SLAVE_MODE()	(false)
 #define ENABLE_TRAINER_INTERRUPT()   (false) // Enable ICP Interrupt.
 #define DISABLE_TRAINER_INTERRUPT()  (false) // Disable ICP Interrupt.
-#define IS_WAIT_PUPIL_STATE()       ((g_model.rfProtocol == (PROTOCOL_PPM16)) || (g_model.rfProtocol == (PROTOCOL_PPMSIM)))
 
 // Switch cross mapping
 #define SW_ID0 SW_Jup
