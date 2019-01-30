@@ -74,6 +74,7 @@
 #include "cyrf6936.c"
 #include "DEVO_cyrf6936.c"
 #include "DSM_cyrf6936.c"
+//#include "J6PRO_cyrf6936.c"
 #endif
 
 #ifdef PROTO_HAS_A7105
