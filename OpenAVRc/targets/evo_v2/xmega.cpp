@@ -48,8 +48,9 @@ inline void boardInit()
 //while(!(OSC.STATUS & OSC_RC32MRDY_bm)); // Wait for 32MHz oscillator to stabilise.
 
   OSC.PLLCTRL = (OSC_PLLSRC_XOSC_gc) | (8<<OSC_PLLFAC_gp); // Select PLL source, PLL*8 ..32MHz.
-  while(!(OSC.STATUS & OSC_PLLRDY_bm))
+
   OSC.CTRL |= OSC_PLLEN_bm;  // Enable PLL.
+  while(!(OSC.STATUS & OSC_PLLRDY_bm));
 
   _PROTECTED_WRITE(CLK.PSCTRL, 0); // No prescaling.
 
@@ -82,6 +83,10 @@ inline void boardInit()
 
   adcInit();
   getADC(); // Best to get some values before we start.
+  read_A8();
+  read_A9();
+  read_A10();
+  read_A11();
 
 // Setup Event System to generate 64us pulses for compatibility with Mega2560.
   EVSYS.CH2MUX = 0x80 + 11;  // ClkPER / (2^11) ... /2048.
@@ -101,22 +106,15 @@ inline void boardInit()
   EVSYS.CH3MUX = 0x80 + 4;  // ClkPER / (2^4) ... /16.
 
 // Setup TCx0 for RF Module use.
+  RF_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
+  RF_TC.CTRLFSET = TC_CMD_RESET_gc;
   RF_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
-  RF_TC.CTRLC = 0;
-  RF_TC.CTRLD = 0;
-  RF_TC.CTRLE = 0;
-  RF_TC.CNT = 0;
-  RF_TIMER_CLEAR_COMPA_FLAG;
-  //RF_TC.CTRLA = 0b0100 << TC0_CLKSEL_gp; // ClkPER/8 32MHz/8.
   RF_TC.CTRLA = 8 + 3; // Event channel 3 (prescaler of 16)
 
 // Setup TCx0 for Trainer pulses.
+  TRAINER_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
+  TRAINER_TC.CTRLFSET = TC_CMD_RESET_gc;
   TRAINER_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
-  TRAINER_TC.CTRLC = 0;
-  TRAINER_TC.CTRLD = 0;
-  TRAINER_TC.CTRLE = 0;
-  TRAINER_TC.CNT = 0;
-  //TRAINER_TC.CTRLA = 0b0100 << TC0_CLKSEL_gp; // ClkPER/8 32MHz/8.
   TRAINER_TC.CTRLA = 8 + 3; // Event channel 3 (prescaler of 16).
 
 #if defined(AUDIO)
@@ -241,8 +239,7 @@ inline void boardInit()
 void xmega_wdt_enable_512ms(void)
 {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    _PROTECTED_WRITE(WDT.CTRL, WDT_PER_1KCLK_gc | WDT_ENABLE_bm | WDT_CEN_bm);
-//    _PROTECTED_WRITE(WDT.CTRL, WDT_PER_512CLK_gc | WDT_ENABLE_bm | WDT_CEN_bm);
+    _PROTECTED_WRITE(WDT.CTRL, WDT_PER_512CLK_gc | WDT_ENABLE_bm | WDT_CEN_bm);
      while (WDT.STATUS & WDT_SYNCBUSY_bm); // wait
      // We don't want a windowed watchdog.
     _PROTECTED_WRITE(WDT.WINCTRL, WDT_WCEN_bm);
@@ -321,16 +318,18 @@ void Check_PWR_Switch(void)
   if( ! (PWR_STATUS_PORT & I_B_PWR_STATUS ) ) {
   // PWR Switch is on.
   last10ms = getTmr10ms();
+  pwrCheck = 1;
+  return;
   }
   // PWR Switch is off.
-  else if( getTmr10ms() - last10ms > 200 ) {
-    pwrCheck = 0; // 2 seconds.
+  if( getTmr10ms() - last10ms > 200 ) {
+    pwrCheck = 0; // > 2 seconds.
   }
-  else;
+  else pwrCheck = 1;
 }
 
 
-bool switches[NUM_SWS - SW_BASE]; // Switches via R-2R ladder DAC.
+uint8_t switches[NUM_SWS - SW_BASE] = {0}; // Switches via R-2R ladder DAC.
 
 
 uint8_t switchState(enum EnumKeys enuk)
@@ -419,8 +418,6 @@ keys[pgm_read_byte_far(crossTrim+6)].input( (PORTE.IN & I_E_TRIM_COL_C)  ? 0 :1)
 
 void readKeysAndTrims()
 {
-// Encoder Buttons and switches.
-//  getADC(); // See if this can be removed.
 
 // Keyboard ToDo
 // Multiplexed trim buttons.
