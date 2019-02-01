@@ -155,14 +155,14 @@ static void DEVO_add_pkt_suffix()
 {
   uint8_t bind_state;
 
-  if (USE_FIXED_ID)
+  if (USE_FIXED_ID) // Makes bind permanent. Need bind link etc to reset.
     {
       if (bind_counter > 0)
         bind_state = 0xC0;
       else
         bind_state = 0x80;
     }
-  else
+  else // Allows Rx to be rebound, but bind is non-volatile.
     bind_state = 0x00;
 
   packet[10] = bind_state | (DEVO_PKTS_PER_CHANNEL - packet_count - 1);
