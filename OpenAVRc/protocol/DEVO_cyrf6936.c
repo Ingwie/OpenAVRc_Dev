@@ -162,7 +162,7 @@ static void DEVO_add_pkt_suffix()
       else
         bind_state = 0x80;
     }
-  else // Allows Rx to be rebound, but bind is non-volatile.
+  else // Allows Rx to bind again, but current bind is non-volatile.
     bind_state = 0x00;
 
   packet[10] = bind_state | (DEVO_PKTS_PER_CHANNEL - packet_count - 1);
@@ -260,20 +260,20 @@ static void DEVO_BuildPacket()
   switch(rfState8)
     {
     case DEVO_BIND:
-      if((bind_counter) && (DEVO_AUTOBIND))
+      if(bind_counter)
         bind_counter--;
       DEVO_build_bind_pkt();
       rfState8 = DEVO_BIND_SENDCH;
       break;
     case DEVO_BIND_SENDCH:
-      if((bind_counter) && (DEVO_AUTOBIND))
+      if(bind_counter)
         bind_counter--;
       DEVO_build_data_pkt();
       DEVO_scramble_pkt();
       if (bind_counter == 0)
         {
           rfState8 = DEVO_BOUND;
-          ///BIND_DONE;
+          // BIND_DONE;
         }
       else
         rfState8 = DEVO_BIND;
@@ -291,12 +291,6 @@ static void DEVO_BuildPacket()
       DEVO_build_data_pkt();
       DEVO_scramble_pkt();
       rfState8++;
-      if (bind_counter)
-        {
-          bind_counter--;
-          ///if (bind_counter == 0)
-          ///BIND_DONE;
-        }
       if (rfState8 == DEVO_BOUND_1)
         {
           SCHEDULE_MIXER_END_IN_US(24000); // Schedule next Mixer calculations.
