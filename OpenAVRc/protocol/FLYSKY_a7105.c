@@ -259,6 +259,8 @@ static void FLYSKY_initialize(uint8_t bind)
   uint8_t chanoffset;
   uint8_t temp;
 
+  loadrfidaddr_rxnum(0);
+
   A7105_Init();
 
   // limit offset to 9 as higher values don't work with some RX (ie V912)
