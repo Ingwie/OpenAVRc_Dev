@@ -42,6 +42,7 @@
 
 #if !defined(SIMU)
   #include <avr/pgmspace.h>
+  #include <avr/cpufunc.h>
   #include "pgmtypes.h"
   #define ASSERT(x)
   #include "board_avr.h"
@@ -562,6 +563,7 @@ NOINLINE void per10ms();
 getvalue_t getValue(mixsrc_t i);
 
 uint8_t getSwitch(swsrc_t swtch);
+uint8_t getLogicalSwitch(uint8_t idx);
 
 void logicalSwitchesTimerTick();
 void logicalSwitchesReset();
