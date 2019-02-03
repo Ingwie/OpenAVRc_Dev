@@ -772,6 +772,10 @@ extern REG16 simu_ubrr0;
 extern REG8 simu_ubrrOl;
 extern REG8 simu_ubrrOh;
 extern REG8 simu_udr0;
+extern REG8 simu_ucsr2b;
+extern REG8 simu_ucsr2c;
+extern REG8 simu_rxen2;
+extern REG8 simu_txen2;
 
 #define UCSR0A  simu_ucsr0a
 #define RXC0    7
@@ -807,6 +811,10 @@ extern REG8 simu_udr0;
 #define UBRR0L  simu_ubrrOl
 #define UBRR0H  simu_ubrrOh
 #define UDR0    simu_udr0
+#define UCSR2B  simu_ucsr2b
+#define UCSR2C  simu_ucsr2c
+#define RXEN2   simu_rxen2
+#define TXEN2   simu_txen2
 
 //SPI
 extern REG8 simu_spcr;
@@ -855,7 +863,7 @@ extern REG8 simu_EIMSK;
 #define pgm_read_word_far(address_long) (*(uint16_t*)(address_long))
 #define PSTR(adr) adr
 #define _delay_us(a)
-#define _delay_ms(a)
+#define _delay_ms(a) SimuSleepMs(a)
 #define cli()
 #define sei()
 #define ATOMIC_BLOCK(x)
@@ -891,6 +899,7 @@ extern REG8 simu_EIMSK;
 #define random() rand()
 #define SPRINTF_P sprintf
 #define MKTIME mktime
+#define _NOP()
 
 char *convertSimuPath(const char *path);
 extern ISR(TIMER3_COMPA_vect, ISR_NOBLOCK); //TIMER_10MS_VECT
