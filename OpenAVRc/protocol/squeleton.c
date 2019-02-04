@@ -64,7 +64,7 @@ static void Squeleton_send_bind_packet()
 static uint16_t Squeleton_bind_cb()
 {
   SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
-  send_bind_packet();
+  Squeleton_send_bind_packet();
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return 18000U *2;

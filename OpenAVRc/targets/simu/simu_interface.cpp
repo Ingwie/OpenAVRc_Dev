@@ -264,7 +264,10 @@ REG16 simu_ubrr0;
 REG8 simu_ubrrOl;
 REG8 simu_ubrrOh;
 REG8 simu_udr0;
-
+REG8 simu_ucsr2b;
+REG8 simu_ucsr2c;
+REG8 simu_rxen2;
+REG8 simu_txen2;
 //SPI
 REG8 simu_spcr;
 REG8 simu_spsr;
