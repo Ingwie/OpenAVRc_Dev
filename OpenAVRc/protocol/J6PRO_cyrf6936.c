@@ -101,8 +101,7 @@ void J6PRO_build_data_packet()
     {
       for(uint8_t lower=0; lower<4; lower++)
         {
-          uint8_t chan_num = (upper << 2) | lower;
-          int16_t value = (channelOutputs[chan_num] + PPM_CH_CENTER(chan_num) - PPM_CENTER) /2;
+          int16_t value = (FULL_CHANNEL_OUTPUTS((upper << 2) | lower)) /2;
           value = limit( (int16_t)-511, value, (int16_t) +511 );
           value += 511;
           packet[(upper << 2) | (lower +1) ] = value & 0xff; // Lower 8 bits in packet[1] to [12].

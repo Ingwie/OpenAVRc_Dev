@@ -35,7 +35,7 @@
 #include "../OpenAVRc.h"
 
 
-const static RfOptionSettingsvarstruct RfOpt_DDEVO_Ser[] PROGMEM =
+const static RfOptionSettingsvarstruct RfOpt_DEVO_Ser[] PROGMEM =
 {
   /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED | BOOL2USED,  //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/0,
@@ -221,8 +221,7 @@ static void DEVO_build_data_pkt()
   uint8_t sign = 0x0b;
   for (uint8_t i = 0; i < 4; i++)
     {
-
-      int16_t value = channelOutputs[i + (4* channel_index)];
+      int16_t value = FULL_CHANNEL_OUTPUTS(i + (4* channel_index));
       value = value + (value >> 1) + (value >> 4); // Range +/- 1600.
 
       if(value < 0)
@@ -405,7 +404,7 @@ const void *DEVO_Cmds(enum ProtoCmds cmd)
       DEVOInit(1);
       return 0;
     case PROTOCMD_GETOPTIONS:
-      SetRfOptionSettings(pgm_get_far_address(RfOpt_DDEVO_Ser),
+      SetRfOptionSettings(pgm_get_far_address(RfOpt_DEVO_Ser),
                           STR_DUMMY,      //Sub proto
                           DEVO_STR_NUMCH,      //Option 1 (int)
                           STR_DUMMY,      //Option 2 (int)

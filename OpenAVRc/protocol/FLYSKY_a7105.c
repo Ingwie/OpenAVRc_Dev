@@ -191,8 +191,8 @@ static void FLYSKY_build_packet(uint8_t init)
 
   for (uint8_t i=0; i<8; ++i)
     {
-// Compute value +-1024 to range 1000<-1497->1994 -100%<-0->+00%
-      int16_t value = (channelOutputs[i] + PPM_CH_CENTER(i) - PPM_CENTER)/2; //Round to +-512 1024/497 = 2.06
+    // Compute value +-1024 to range 1000<-1497->1994 -100%<-0->+00%
+      int16_t value = (FULL_CHANNEL_OUTPUTS(i))/2; //Round to +-512 1024/497 = 2.06
       value = limit((int16_t)-497, value, (int16_t)+497);
       value +=  1497; // (offset).
       if((g_model.rfSubType == CX20) && (i==1)/*Elevator*/)

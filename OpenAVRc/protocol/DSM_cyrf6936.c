@@ -38,7 +38,7 @@
 
 #define DSM_BIND_CHANNEL 0x0d //13 This can be any odd channel
 
-#define NUM_WAIT_LOOPS (20)   //each loop is ~5us.  Do not wait more than 100us TODO measure
+#define DSM_NUM_WAIT_LOOPS (100 / 5)   //each loop is ~5us.  Do not wait more than 100us TODO measure
 
 
 const static RfOptionSettingsvarstruct RfOpt_DSM_Ser[] PROGMEM =
@@ -356,7 +356,7 @@ static void DSM_build_data_packet(uint8_t upper)
       uint16_t value = 0xffff;;
       if (idx != 0xff)
         {
-          int16_t pvalue = channelOutputs[i] + 2*PPM_CH_CENTER(i) - 2*PPM_CENTER;
+          int16_t pvalue = FULL_CHANNEL_OUTPUTS(i);
           pvalue -= (pvalue>>2); // x-x/4 -> Range -1024..+1024 @ 125%
           pvalue += 1024;
           value=limit<uint16_t>(1, pvalue, 2046);
@@ -592,7 +592,7 @@ static uint16_t DSM_cb()
 
       while (!(CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS) & 0x02))
         {
-          if (++waitcpt > NUM_WAIT_LOOPS)
+          if (++waitcpt > DSM_NUM_WAIT_LOOPS)
             break;
         }
 
