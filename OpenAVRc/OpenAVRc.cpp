@@ -602,6 +602,7 @@ uint8_t checkIfModelIsOff()
 {
   if (TELEMETRY_STREAMING())
     {
+      pwrCheck = true; //reset shutdown command
       ALERT(STR_MODEL, STR_MODELISON, AU_FRSKY_WARN2);
       return true;
     }
@@ -863,7 +864,6 @@ void alert(const pm_char * t, const pm_char *s MESSAGE_SOUND_ARG)
 
   while(1)
   {
-
     if (keyDown())
       return;  // wait for key release
 
@@ -1613,10 +1613,10 @@ void SimuMainLoop() // Create loop function
     OpenAVRcClose();
     _delay_ms(400);
     MYWDT_RESET();
-    lcdClear() ;
-    lcdRefresh() ;
-    boardOff(); // Only turn power off if necessary
+    lcdClear();
+    lcdRefresh();
     wdt_disable();
+    boardOff(); // Only turn power off if necessary
 #if !defined(SIMU)
     while(1); // never return from main() - there is no code to return back, if any delays occurs in physical power it does dead loop.
 #endif

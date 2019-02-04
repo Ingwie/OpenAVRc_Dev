@@ -98,6 +98,7 @@ void readKeysAndTrims();
 #define unselect_card()             SDCARD_CS_N_INACTIVE()
 #define SDCARD_CS_N_IS_INACTIVE()   (PINB & PIN0_bm)
 #define SPI_250K() { SPSR = _BV(SPI2X); SPCR = _BV(SPE) | _BV(MSTR) | _BV(SPR1) | _BV(SPR0); }
+#define SPI_4M()   { SPCR = _BV(SPE) | _BV(MSTR); }
 #define SPI_8M()   { SPSR = _BV(SPI2X); SPCR = _BV(SPE) | _BV(MSTR); }
 #define SPI_START_SPEED()           SPI_250K()
 
@@ -136,7 +137,6 @@ void readKeysAndTrims();
 #define DISABLE_TRAINER_INTERRUPT() TIMSK1 &= ~_BV(ICIE1); // Disable ICP Interrupt.
 #define WAIT_PUPIL()                ENABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_IN()
 #define PPM16_CONF()                DISABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_OUT()
-#define IS_WAIT_PUPIL_STATE()       ((g_model.rfProtocol == (PROTOCOL_PPM16-1)) || (g_model.rfProtocol == (PROTOCOL_PPMSIM-1)))
 #define TRAINER_TC_VECT             TIMER1_CAPT_vect
 #define TRAINER_TC_REG              ICR1
 
@@ -219,9 +219,6 @@ void boardOff();
   ISR(INT5_vect);
 #endif
 
-//Mixer
-//#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
-
 //SUPIIIK FILE
 #if defined (MULTIMODULE)
   #define PROTO_HAS_MULTISUPIIIK
@@ -233,20 +230,34 @@ void boardOff();
 #if defined(SPIMODULES)
 
   uint8_t USART2_mspi_xfer(uint8_t data);
-  #define RF_SPI_xfer  USART2_mspi_xfer
+  #define RF_SPI_xfer             USART2_mspi_xfer
   #define OUT_J_CC2500_CS_N       PIN3_bm
   #define OUT_J_CYRF6936_CS_N     PIN4_bm
   #define OUT_J_NRF24L01_CS_N     PIN5_bm
   #define OUT_J_A7105_CS_N        PIN6_bm
 
-  #define RF_CS_CC2500_ACTIVE() PORTJ &= ~(OUT_J_CC2500_CS_N)
-  #define RF_CS_CC2500_INACTIVE() PORTJ |= (OUT_J_CC2500_CS_N)
-  #define RF_CS_CYRF6936_ACTIVE() PORTJ &= ~(OUT_J_CYRF6936_CS_N)
+  #define RF_CS_CC2500_ACTIVE()     PORTJ &= ~(OUT_J_CC2500_CS_N)
+  #define RF_CS_CC2500_INACTIVE()   PORTJ |= (OUT_J_CC2500_CS_N)
+  #define RF_CS_CYRF6936_ACTIVE()   PORTJ &= ~(OUT_J_CYRF6936_CS_N)
   #define RF_CS_CYRF6936_INACTIVE() PORTJ |= (OUT_J_CYRF6936_CS_N)
-  #define RF_CS_NRF24L01_ACTIVE() PORTJ &= ~(OUT_J_NRF24L01_CS_N)
+  #define RF_CS_NRF24L01_ACTIVE()   PORTJ &= ~(OUT_J_NRF24L01_CS_N)
   #define RF_CS_NRF24L01_INACTIVE() PORTJ |= (OUT_J_NRF24L01_CS_N)
-  #define RF_CS_A7105_ACTIVE() PORTJ &= ~(OUT_J_A7105_CS_N)
-  #define RF_CS_A7105_INACTIVE() PORTJ |= (OUT_J_A7105_CS_N)
+  #define RF_CS_A7105_ACTIVE()      PORTJ &= ~(OUT_J_A7105_CS_N)
+  #define RF_CS_A7105_INACTIVE()    PORTJ |= (OUT_J_A7105_CS_N)
+
+// PORTH0 RXD2
+// PORTH1 TXD2
+// PORTH2 XCK2
+  #define OUT_H_RF_MOSI             PIN1_bm
+  #define OUT_H_RF_XCK              PIN2_bm
+	#define SET_RF_XCK_IS_OUTPUT()    DDRH |= (OUT_H_RF_XCK)
+  #define RF_XCK_ON()               PORTH |= (OUT_H_RF_XCK)
+  #define RF_XCK_OFF()              PORTH &= ~(OUT_H_RF_XCK)
+	#define SET_RF_MOSI_IS_INPUT()    DDRH &= ~ (OUT_H_RF_MOSI)
+	#define SET_RF_MOSI_IS_OUTPUT()   DDRH |= (OUT_H_RF_MOSI)
+	#define IS_RF_MOSI_ON             (PINH & (OUT_H_RF_MOSI))
+	#define SUSPEND_RF_SPI()          UCSR2C = 0x00;(UCSR2B &= 0) // Reset and Disable RX and TX Mspi mode
+	#define WAKEUP_RF_SPI()           UCSR2C = 0xC0;(UCSR2B = (1 << RXEN2) | (1 << TXEN2)) // Enable RX and TX Mspi mode
 
 #endif // SPIMODULES
 

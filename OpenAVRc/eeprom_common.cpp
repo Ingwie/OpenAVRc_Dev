@@ -72,11 +72,10 @@ void selectModel(uint8_t sub)
 
 void eeReadAll()
 {
-  if (!eepromOpen() || !eeLoadGeneral()) {
-    eeErase(true);
-  } else {
-    eeLoadModelHeaders();
-  }
+  if (!eepromOpen() || !eeLoadGeneral())
+    {
+      eeErase(true);
+    }
   stickMode = g_eeGeneral.stickMode;
   eeLoadModel(g_eeGeneral.currModel);
 }

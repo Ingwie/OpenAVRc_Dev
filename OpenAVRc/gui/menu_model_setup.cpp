@@ -634,6 +634,8 @@ void menuModelSetup(uint8_t event)
               case PROTOCOL_DEVO:
               case PROTOCOL_DSM:
                 CYRF_ManagePower();
+              case PROTOCOL_FLYSKY:
+                A7105_ManagePower();
               }
 #endif
             }
