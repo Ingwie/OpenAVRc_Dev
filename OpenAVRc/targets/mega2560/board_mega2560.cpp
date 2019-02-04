@@ -155,6 +155,18 @@ void backlightFade(void)
 // OCR0A = OCR0A -1;
 }
 
+uint8_t master_rf_spi_xfer(uint8_t data)
+{
+#if !defined(SIMU)
+  SPDR = data;
+  while (!(SPSR & (1<<SPIF)));
+  return SPDR;
+#else
+TRACE("MSPI Send to RF module : ", data);
+return 0;
+#endif
+}
+
 void boardOff()
 {
   PORTH &= ~ INP_H_Hold_Power;   // PortH-4 set to 0

@@ -98,7 +98,7 @@ void readKeysAndTrims();
 #define unselect_card()             SDCARD_CS_N_INACTIVE()
 #define SDCARD_CS_N_IS_INACTIVE()   (PINB & PIN0_bm)
 #define SPI_250K()                  { SPSR = _BV(SPI2X); SPCR = _BV(SPE) | _BV(MSTR) | _BV(SPR1) | _BV(SPR0); }
-#define SPI_4M()                    { SPCR = _BV(SPE) | _BV(MSTR); } // for code compatibility, actually SPI_4M
+#define SPI_4M()                    { SPCR = _BV(SPE) | _BV(MSTR); }
 #define SPI_8M()                    { SPSR = _BV(SPI2X); SPCR = _BV(SPE) | _BV(MSTR); }
 
 #if defined(SPIMODULES) && !defined(SDCARD) // SPIMODULES enabled
@@ -239,7 +239,8 @@ void boardOff();
 
 #if defined(SPIMODULES) && !defined(SDCARD) //Alow Spimodule if no sdcard on this board
 
-    #define RF_SPI_xfer  master_spi_xfer//USART2_mspi_xfer
+    uint8_t master_rf_spi_xfer(uint8_t data);
+    #define RF_SPI_xfer  master_rf_spi_xfer
     #define OUT_H_CC2500_CS_N       PIN1_bm
     #define OUT_D_CYRF6936_CS_N     PIN2_bm
     #define OUT_D_NRF24L01_CS_N     PIN3_bm
@@ -253,6 +254,17 @@ void boardOff();
     #define RF_CS_NRF24L01_INACTIVE(); PORTD |= (OUT_D_NRF24L01_CS_N);
     #define RF_CS_A7105_ACTIVE(); PORTH &= ~(OUT_H_A7105_CS_N);
     #define RF_CS_A7105_INACTIVE(); PORTH |= (OUT_H_A7105_CS_N);
+
+    #define OUT_B_RF_MOSI               PIN2_bm
+    #define OUT_B_RF_XCK                PIN1_bm
+	#define SET_RF_XCK_IS_OUTPUT()      DDRB |= (OUT_B_RF_XCK)
+    #define RF_XCK_ON()                 PORTB |= (OUT_B_RF_XCK)
+    #define RF_XCK_OFF()                PORTB &= ~(OUT_B_RF_XCK)
+	#define SET_RF_MOSI_IS_INPUT()      DDRB &= ~(OUT_B_RF_MOSI)
+	#define SET_RF_MOSI_IS_OUTPUT()     DDRB |= (OUT_B_RF_MOSI)
+	#define IS_RF_MOSI_ON               (PINB & (OUT_B_RF_MOSI))
+	#define SUSPEND_RF_SPI()            SPCR &= ~(1<<SPE)
+	#define WAKEUP_RF_SPI()             SPCR |= (1<<SPE)
 
 #endif // SPIMODULES
 
