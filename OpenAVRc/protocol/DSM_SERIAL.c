@@ -134,7 +134,7 @@ static uint16_t DSM_SERIAL_cb()
 #endif
 
   for (uint8_t i = 0; i < DSM2_CHANS; i++) {
-    uint16_t pulse = limit(0, ((channelOutputs[i]*13)>>5)+512,1023);
+    uint16_t pulse = limit(0, ((FULL_CHANNEL_OUTPUTS(i)*13)>>5)+512,1023);
     Usart0TxBuffer[--dsmTxBufferCount] = (i<<2) | ((pulse>>8)&0x03); // Encoded channel + upper 2 bits pulse width.
     Usart0TxBuffer[--dsmTxBufferCount] = pulse & 0xff; // Low byte
   }

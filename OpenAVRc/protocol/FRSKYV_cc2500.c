@@ -231,7 +231,7 @@ static void FRSKYV_build_data_packet()
       // 0x05DC -> 1000us 5ca
       // 0x0BB8 -> 2000us bca
 
-      int16_t value = channelOutputs[i + channel_offset] + 2*PPM_CH_CENTER(i) - 2*PPM_CENTER;
+      int16_t value = FULL_CHANNEL_OUTPUTS(i + channel_offset);
       value -= (value>>2); // x-x/4
       value = limit((int16_t)-(640 + (640>>1)), value, (int16_t)+(640 + (640>>1)));
       value += 0x08CA;
