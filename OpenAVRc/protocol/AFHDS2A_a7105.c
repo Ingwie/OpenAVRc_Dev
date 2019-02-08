@@ -259,7 +259,7 @@ static uint16_t AFHDS2A_cb()
         }
       packet_count++;
       rfState8 |= AFHDS2A_WAIT_WRITE;
-      return 1700;
+      return 1700*2;
     case AFHDS2A_BIND1|AFHDS2A_WAIT_WRITE:
     case AFHDS2A_BIND2|AFHDS2A_WAIT_WRITE:
     case AFHDS2A_BIND3|AFHDS2A_WAIT_WRITE:
