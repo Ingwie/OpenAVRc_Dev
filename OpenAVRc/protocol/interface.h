@@ -81,6 +81,7 @@
 #include "iface_a7105.h"
 #include "a7105.c"
 #include "FLYSKY_a7105.c"
+#include "AFHDS2A_a7105.c"
 #endif
 
 #ifdef PROTO_HAS_NRF24L01
