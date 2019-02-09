@@ -89,7 +89,7 @@ static void AFHDS2A_calc_channels()
 
       uint8_t next_ch = ((rnd >> (idx%32)) % 0xa8) + 1;
       // Keep the distance 2 between the channels - either odd or even
-      if (((next_ch ^ g_eeGeneral.fixed_ID.ID_32) & 0x01 )== 0)
+      if (((next_ch ^ temp_rfid_addr[0]) & 0x01 )== 0)
         continue;
       // Check that it's not duplicate and spread uniformly
       for (i = 0; i < idx; i++)
@@ -112,26 +112,6 @@ static void AFHDS2A_calc_channels()
           ||(next_ch >= 86 && next_ch <=128 && count_86_128 < 5)
           ||(next_ch >= 129 && count_129_168 < 5))
         channel_used[idx++] = next_ch;
-    }
-}
-
-static void AFHDS2A_init(uint8_t bind)
-{
-  A7105_Init();
-  AFHDS2A_calc_channels();
-  packet_count = 0;
-  channel_index = 0;
-  bind_idx = 0;
-  send_seq = AFHDS2A_PACKET_STICKS;
-  rfState16 = 0;
-
-  if(bind)
-    {
-      rfState8 = AFHDS2A_BIND1;
-    }
-  else
-    {
-      rfState8 = AFHDS2A_DATA;
     }
 }
 
@@ -370,7 +350,25 @@ static uint16_t AFHDS2A_cb()
 
 static void AFHDS2A_initialize(uint8_t bind)
 {
-  AFHDS2A_init(bind);
+  A7105_Init();
+  loadrfidaddr_rxnum(0);
+  AFHDS2A_calc_channels();
+  freq_fine_mem = 0;
+  packet_count = 0;
+  channel_index = 0;
+  bind_idx = 0;
+  send_seq = AFHDS2A_PACKET_STICKS;
+  rfState16 = 0;
+
+  if(bind)
+    {
+      rfState8 = AFHDS2A_BIND1;
+    }
+  else
+    {
+      rfState8 = AFHDS2A_DATA;
+    }
+
   PROTO_Start_Callback(AFHDS2A_cb);
 }
 
