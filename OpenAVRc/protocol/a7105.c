@@ -308,13 +308,13 @@ void A7105_Init(void)
 //	A7105_ReadReg(A7105_22_IF_CALIB_I);
 //	A7105_ReadReg(A7105_24_VCO_CURCAL);
 
-  /*if(g_model.rfProtocol!=PROTOCOL_HUBSAN)
+  //if(g_model.rfProtocol!=PROTOCOL_HUBSAN)
   {
   	//VCO Current Calibration
   	A7105_WriteReg(A7105_24_VCO_CURCAL,0x13);	//Recommended calibration from A7105 Datasheet
   	//VCO Bank Calibration
   	A7105_WriteReg(A7105_26_VCO_SBCAL_II,0x3b);	//Recommended calibration from A7105 Datasheet
-  }*/
+  }
 
   //VCO Bank Calibrate channel 0
   A7105_WriteReg(A7105_0F_CHANNEL, 0);
