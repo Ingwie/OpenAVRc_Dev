@@ -78,7 +78,7 @@ enum
 };
 
 static void DEVO_check_num_chan()
-{
+{ // GUI changes result in 4, 8 or 12 channels.
   if (prev_num_channel != g_model.rfOptionValue1)
     {
       switch (g_model.rfOptionValue1)
@@ -86,7 +86,6 @@ static void DEVO_check_num_chan()
         case 5:
         case 6:
         case 11:
-          //default:
           num_channel = 8;
           break;
         case 7:
@@ -352,10 +351,15 @@ void DEVOInit(uint8_t bind)
   channel_index = 0;
   send_seq = 0;
   packet_count = 0;
-  prev_num_channel = 8;
-  num_channel = 8;
-  // Check num channel
-  DEVO_check_num_chan();
+
+  if(g_model.rfOptionValue1 < 5)
+    num_channel = 4;
+  else if (g_model.rfOptionValue1 < 9)
+    num_channel = 8;
+  else num_channel = 12;
+
+  prev_num_channel = num_channel;
+
   // Load temp_rfid_addr + Model match
   loadrfidaddr_rxnum(0);
 
