@@ -61,10 +61,7 @@ void startPulses(enum ProtoCmds Command)
   // Reset CS pin
 #if defined(SPIMODULES)
   RFPowerOut = 0;
-  RF_CS_CC2500_INACTIVE();
-  RF_CS_CYRF6936_INACTIVE();
-  RF_CS_NRF24L01_INACTIVE();
-  RF_CS_A7105_INACTIVE();
+  RF_SPI_INIT();
 #endif
 
   if (pulsesStarted()) {

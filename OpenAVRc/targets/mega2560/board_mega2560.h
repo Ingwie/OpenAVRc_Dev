@@ -239,6 +239,8 @@ void boardOff();
 
 #if defined(SPIMODULES) && !defined(SDCARD) //Alow Spimodule if no sdcard on this board
 
+    void rf_spi_init();
+    #define RF_SPI_INIT             rf_spi_init
     #define RF_SPI_xfer  master_spi_xfer//USART2_mspi_xfer
     #define OUT_H_CC2500_CS_N       PIN1_bm
     #define OUT_D_CYRF6936_CS_N     PIN2_bm
