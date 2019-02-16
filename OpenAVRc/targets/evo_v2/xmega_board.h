@@ -66,6 +66,7 @@
 char rf_usart_mspi_xfer(char c);
 #define RF_SPI_xfer  rf_usart_mspi_xfer
 void rf_usart_mspi_init(void);
+#define RF_SPI_INIT rf_usart_mspi_init
 
 #define RF_USART   USARTE0
 #define RF_CS_PIN  PIN0_bm
