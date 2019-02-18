@@ -268,6 +268,7 @@ REG8 simu_ucsr2b;
 REG8 simu_ucsr2c;
 REG8 simu_rxen2;
 REG8 simu_txen2;
+REG8 simu_ubrr2;
 //SPI
 REG8 simu_spcr;
 REG8 simu_spsr;
