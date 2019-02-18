@@ -45,6 +45,7 @@
 #if defined(CPUXMEGA)
 #include "PROTO_xmega_PPM.cpp"
 #include "PROTO_xmega_PPMSIM.cpp"
+#include "PROTO_xmega_PPM16.cpp"
 #endif
 
 

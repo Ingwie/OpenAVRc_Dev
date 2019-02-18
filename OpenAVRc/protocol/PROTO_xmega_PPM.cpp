@@ -28,7 +28,10 @@ ISR(TCE0_OVF_vect)
     }
     // Schedule next Mixer calculations.
     SCHEDULE_MIXER_END_IN_US(22500 + ((g_model.PPMFRAMELENGTH * 1000) / 2));
-    setupPulsesPPM(PPM);
+    if(g_model.rfProtocol == PROTOCOL_PPM)
+      setupPulsesPPM(PPM);
+    else setupPulsesPPM(PPM16FIRST); // PPM16 uses same vector.
+
     heartbeat |= HEART_TIMER_PULSES;
     RF_TC.CCD = PULSES_SETUP_TIME_US *2;
     RF_TC.PER = (*RptrB++) + RF_TC.CCD;
@@ -45,7 +48,6 @@ ISR(TCE0_OVF_vect)
   dt = RF_TC.CNT; // Time since overflow.
   if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
   if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
-
 }
 
 
@@ -57,8 +59,8 @@ static void PROTO_PPM_reset()
 
   RF_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
   RF_TC.CTRLFSET = TC_CMD_RESET_gc;
-  RF_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
-  RF_TC.CTRLA = 8 + 3; // Event channel 3 (prescaler of 16)
+  RF_PORT.PIN3CTRL &= ~PORT_INVEN_bm;
+  setup_rf_tc(); // Restore tc settings.
 }
 
 static void PROTO_PPM_initialize()
@@ -85,7 +87,8 @@ static void PROTO_PPM_initialize()
 const void * PROTO_PPM_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
-    case PROTOCMD_INIT: PROTO_PPM_initialize();
+    case PROTOCMD_INIT:
+      PROTO_PPM_initialize();
     return 0;
     case PROTOCMD_RESET:
       PROTO_PPM_reset();
@@ -93,12 +96,7 @@ const void * PROTO_PPM_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_GETOPTIONS:
      sendOptionsSettingsPpm();
     return 0;
-//  case PROTOCMD_CHECK_AUTOBIND: return 0;
-//  case PROTOCMD_BIND:  ppm_bb_initialize(); return 0;
-//  case PROTOCMD_NUMCHAN: return (void *) 16L;
-//  case PROTOCMD_DEFAULT_NUMCHAN: return (void *) 8L;
-//  case PROTOCMD_TELEMETRYSTATE: return (void *)(long) PROTO_TELEM_UNSUPPORTED;
-        default: break;
+    default: break;
   }
   return 0;
 }
