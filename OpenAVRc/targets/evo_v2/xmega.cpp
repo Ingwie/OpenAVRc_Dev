@@ -105,17 +105,6 @@ inline void boardInit()
 // Setup Event System to generate 2MHz pulses for compatibility with Mega2560.
   EVSYS.CH3MUX = 0x80 + 4;  // ClkPER / (2^4) ... /16.
 
-// Setup TCx0 for RF Module use.
-  RF_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
-  RF_TC.CTRLFSET = TC_CMD_RESET_gc;
-  RF_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
-  RF_TC.CTRLA = 8 + 3; // Event channel 3 (prescaler of 16)
-
-// Setup TCx0 for Trainer pulses.
-  TRAINER_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
-  TRAINER_TC.CTRLFSET = TC_CMD_RESET_gc;
-  TRAINER_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
-  TRAINER_TC.CTRLA = 8 + 3; // Event channel 3 (prescaler of 16).
 
 #if defined(AUDIO)
 /*
@@ -205,20 +194,8 @@ inline void boardInit()
   InitJQ6500UartTx();
  #endif
 
-
-#if defined (MULTIMODULE)
-// 100K 8E2
-  MULTI_USART.CTRLA = 0; // Disable interrupts.
-  MULTI_USART.CTRLB = 0; // CLK2X = 0,
-  TLM_USART_PORT.OUTSET = USART_TXD_PIN; // Marking state.
-  TLM_USART_PORT.DIRSET = USART_TXD_PIN;
-  TLM_USART_PORT.DIRCLR = USART_RXD_PIN;
-#endif
-
-
 #if defined(SPIMODULES)
 // Setup USARTxn for MSPI.
-  rf_usart_mspi_init();
   protoMode = NORMAL_MODE;
 #endif
 
@@ -254,6 +231,38 @@ void xmega_wdt_disable(void)
 //    while (WDT.STATUS & WDT_SYNCBUSY_bm); // wait
   }
 }
+
+
+void setup_rf_tc()
+{
+// Setup TCx0 for RF Module use.
+  RF_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
+  RF_TC.CTRLFSET = TC_CMD_RESET_gc;
+  RF_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
+  RF_TC.CTRLA = 8 + 3; // Event channel 3 (prescaler of 16)
+}
+
+
+void setup_trainer_tc()
+{
+// Setup TCx0 for Trainer pulses.
+  TRAINER_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
+  TRAINER_TC.CTRLFSET = TC_CMD_RESET_gc;
+  TRAINER_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
+  TRAINER_TC.CTRLA = 8 + 3; // Event channel 3 (prescaler of 16).
+}
+
+
+#if defined(MULTIMODULE) || defined(DSM2_SERIAL)
+void rf_usart_serial_init()
+{
+  MULTI_USART.CTRLA = 0; // Disable interrupts.
+  MULTI_USART.CTRLB = 0; // CLK2X = 0,
+  TLM_USART_PORT.OUTSET = USART_TXD_PIN; // Marking state.
+  TLM_USART_PORT.DIRSET = USART_TXD_PIN;
+  TLM_USART_PORT.DIRCLR = USART_RXD_PIN;
+}
+#endif
 
 
 #if defined(SPIMODULES)

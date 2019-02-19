@@ -45,6 +45,7 @@ FORCEINLINE bool pulsesStarted()
   return (s_current_protocol != 255);
 }
 
+
 FORCEINLINE void sendStopPulses()
 {
   PROTO_Cmds(PROTOCMD_RESET);
@@ -52,7 +53,16 @@ FORCEINLINE void sendStopPulses()
   SIMU_SLEEP(100);
   PROTO_Stop_Callback();
   //s_current_protocol = 255;
+#if defined(SPIMODULES)
+  Usart0DisableTx();
+  Usart0DisableRx();
+#endif
+#if defined(DSM2_SERIAL) || defined(MULTIMODULE)
+  Usart0DisableTx();
+  Usart0DisableRx();
+#endif
 }
+
 
 void startPulses(enum ProtoCmds Command)
 {
@@ -60,10 +70,6 @@ void startPulses(enum ProtoCmds Command)
   // Reset CS pin
 #if defined(SPIMODULES)
   RFPowerOut = 0;
-  RF_CS_CC2500_INACTIVE();
-  RF_CS_CYRF6936_INACTIVE();
-  RF_CS_NRF24L01_INACTIVE();
-  RF_CS_A7105_INACTIVE();
 #endif
 
   if (pulsesStarted()) {
@@ -73,14 +79,31 @@ void startPulses(enum ProtoCmds Command)
   }
   if (g_model.rfProtocol > (PROTOCOL_COUNT-1)) g_model.rfProtocol = PROTOCOL_PPM;
   s_current_protocol = g_model.rfProtocol;
+
+  if(IS_PPM_PROTOCOL(g_model.rfProtocol));
+  else  if(IS_DSM2_SERIAL_PROTOCOL(g_model.rfProtocol)) {
+    rf_usart_serial_init();
+    setup_rf_tc();
+  }
+  else if(IS_MULTIMODULE_PROTOCOL(g_model.rfProtocol)) {
+    rf_usart_serial_init();
+    setup_rf_tc();
+  }
+  else if(IS_SPIMODULES_PROTOCOL(g_model.rfProtocol)) {
+    rf_usart_mspi_init();
+    setup_rf_tc();
+  }
+
   PROTO_Cmds = *Protos[g_model.rfProtocol].Cmds;
   TRACE("  ->  INIT Proto - %s -", Protos[g_model.rfProtocol].ProtoName);
   SIMU_SLEEP(100);
+  rf_power_mem = 0; // Reset RF power mem
   PROTO_Cmds(PROTOCMD_GETOPTIONS);
   LimitRfOptionSettings();
+
   PROTO_Cmds(Command);
-//  DEVO_Cmds(Command);
 }
+
 
 void setupPulsesPPM(enum ppmtype proto)
 {
@@ -131,8 +154,6 @@ ISR(TIMER1_COMPB_vect) // Timer 1 compare "B" vector. Used for PPM commutation a
 #endif
 
 
-
-
 ISR(RF_TIMER_COMPA_VECT) // ISR for Protocol Callback.
 {
   timer_counts = timer_callback(); // Function pointer e.g. skyartec_cb().
@@ -147,61 +168,5 @@ ISR(RF_TIMER_COMPA_VECT) // ISR for Protocol Callback.
   if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
   if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
 }
-
-
-
-#if 0 // defined(CPUXMEGA)
-ISR(RF_TIMER_COMPA_VECT) // ISR for Protocol Callback.
-{
-  if (! timer_counts) {
-    timer_counts = timer_callback(); // Function pointer e.g. skyartec_cb().
-
-  if(! timer_counts) {
-    PROTO_Cmds(PROTOCMD_RESET);
-    return;
-  }
-
-  timer_counts = (timer_counts << 1); // Conversion for Xmega.
-
-  if (timer_counts > 65535) {
-//    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) { // Not needed as this is the highest priority interrupt on the XMEGA and Blocking ISR on both XMEGA and ATMEGA.
-        RF_TIMER_COMPA_REG += 32000; // =8ms ... 1 count is 0.25us.
-//    }
-    timer_counts -= 32000; // Subtract a little and come back later.
-  }
-  else {
-    RF_TIMER_COMPA_REG += timer_counts;
-    timer_counts = 0;
-  }
-
-  if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
-  if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
-}
-#endif
-
-
-
-const void * PROTO_PPM16_Cmds(enum ProtoCmds cmd)
-{
-  switch(cmd) {
-    case PROTOCMD_INIT:
-      // PROTO_PPM16_initialize();
-    return 0;
-    case PROTOCMD_RESET:
-      // PROTO_PPM16_reset();
-    return (void *) 1L;
-  case PROTOCMD_GETOPTIONS:
-     sendOptionsSettingsPpm();
-     return 0;
-//  case PROTOCMD_CHECK_AUTOBIND: return 0;
-//  case PROTOCMD_BIND:  ppm_bb_initialize(); return 0;
-//  case PROTOCMD_NUMCHAN: return (void *) 16L;
-//  case PROTOCMD_DEFAULT_NUMCHAN: return (void *) 8L;
-//  case PROTOCMD_TELEMETRYSTATE: return (void *)(long) PROTO_TELEM_UNSUPPORTED;
-        default: break;
-  }
-  return 0;
-}
-
 
 
