@@ -94,7 +94,7 @@ const void * PROTO_PPMSIM_Cmds(enum ProtoCmds cmd)
     return 0;
     case PROTOCMD_RESET:
       PROTO_PPMSIM_reset();
-      return (void *) 1L;
+      return 0;
     case PROTOCMD_GETOPTIONS:
      sendOptionsSettingsPpm();
     return 0;
