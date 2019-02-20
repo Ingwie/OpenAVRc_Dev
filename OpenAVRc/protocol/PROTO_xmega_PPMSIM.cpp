@@ -18,7 +18,7 @@ ISR(TCF0_OVF_vect)
    * This should give a PPM resolution of 2048.
   */
   if(*RptrA == 0) { // End of timing events.
-    RptrA = &pulses2MHz.pword[0];
+    RptrA = &pulses2MHz.pword[PULSES_WORD_SIZE/2];
     // Set the PPM idle level.
     if (g_model.PULSEPOL) {
       TRAINER_PORT.PIN1CTRL |= PORT_INVEN_bm; // Maybe use MPC mask with bm.
@@ -65,7 +65,7 @@ static void PROTO_PPMSIM_reset()
 
 static void PROTO_PPMSIM_initialize()
 {
-//  PPM16_CONF();
+  PPM16_CONF();
 
 #if defined(FRSKY)
   telemetryPPMInit();
