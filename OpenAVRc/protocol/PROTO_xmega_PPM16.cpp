@@ -19,7 +19,6 @@ static void PROTO_PPM16_reset()
 
 static void PROTO_PPM16_initialize()
 {
-  // PPM16_CONF();
   PROTO_PPM_initialize();
   PROTO_PPMSIM_initialize();
 }
