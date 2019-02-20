@@ -91,18 +91,14 @@ void rf_usart_mspi_init(void);
 #define TRAINER_PORT       PORTF
 void setup_trainer_tc(void);
 
-#define OUT_B_SIM_CTL
-#define JACK_PPM_OUT()
-#define JACK_PPM_IN()
-
-#define OUT_B_PPM
-#define OUT_L_CPPM_OC5A
-#define OUT_L_CPPM_TRN
-#define INP_L_PPM_IN
-
-#define SLAVE_MODE()	(false)
+// Pupil Teacher Mode
+#define OUT_F_SIM_CTL     PIN3
+#define ACTIVE_PPM_OUT()  PORTF.OUTSET = OUT_F_SIM_CTL
+#define ACTIVE_PPM_IN()   PORTF.OUTCLR = OUT_F_SIM_CTL
 #define ENABLE_TRAINER_INTERRUPT()   (false) // Enable ICP Interrupt.
 #define DISABLE_TRAINER_INTERRUPT()  (false) // Disable ICP Interrupt.
+#define WAIT_PUPIL()                ENABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_IN()
+#define PPM16_CONF()                DISABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_OUT()
 
 
 // Switch cross mapping
