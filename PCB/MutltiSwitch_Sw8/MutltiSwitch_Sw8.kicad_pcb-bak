@@ -78,7 +78,7 @@
       (usegerberattributes false)
       (usegerberadvancedattributes false)
       (creategerberjobfile false)
-      (excludeedgelayer false)
+      (excludeedgelayer true)
       (linewidth 0.100000)
       (plotframeref false)
       (viasonmask false)
@@ -1753,7 +1753,7 @@
   (segment (start 143.764 106.426) (end 142.748 105.41) (width 0.31) (layer F.Cu) (net 30))
   (segment (start 145.669 106.426) (end 143.764 106.426) (width 0.31) (layer F.Cu) (net 30))
 
-  (zone (net 1) (net_name GND) (layer B.Cu) (tstamp 5C7C83D8) (hatch edge 0.508)
+  (zone (net 1) (net_name GND) (layer B.Cu) (tstamp 5C1F9C03) (hatch edge 0.508)
     (connect_pads (clearance 0.3))
     (min_thickness 0.25)
     (fill yes (arc_segments 16) (thermal_gap 0.3) (thermal_bridge_width 0.6))
