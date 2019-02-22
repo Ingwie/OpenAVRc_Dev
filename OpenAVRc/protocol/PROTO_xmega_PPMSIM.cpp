@@ -26,10 +26,13 @@ ISR(TCF0_OVF_vect)
     else {
       TRAINER_PORT.PIN1CTRL &= ~PORT_INVEN_bm;
     }
-    // Schedule next Mixer calculations.
-    SCHEDULE_MIXER_END_IN_US(22500 + ((g_model.PPMFRAMELENGTH * 1000) / 2));
+
     if(g_model.rfProtocol == PROTOCOL_PPMSIM)
+    {
+      // Schedule next Mixer calculations.
+      SCHEDULE_MIXER_END_IN_US(22500 + ((g_model.PPMFRAMELENGTH * 1000) / 2));
       setupPulsesPPM(PPMSIM);
+    }
     else  setupPulsesPPM(PPM16LAST); // PPM16 uses same vector.
 
     heartbeat |= HEART_TIMER_PULSES;
