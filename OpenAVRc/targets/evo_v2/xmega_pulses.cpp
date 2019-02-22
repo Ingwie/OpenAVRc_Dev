@@ -53,13 +53,15 @@ FORCEINLINE void sendStopPulses()
   SIMU_SLEEP(100);
   PROTO_Stop_Callback();
   //s_current_protocol = 255;
-#if defined(SPIMODULES)
+#if defined(DSM2_SERIAL) || defined(MULTIMODULE) || defined(SPIMODULES)
   Usart0DisableTx();
   Usart0DisableRx();
 #endif
-#if defined(DSM2_SERIAL) || defined(MULTIMODULE)
-  Usart0DisableTx();
-  Usart0DisableRx();
+#if defined(SPIMODULES)
+  RF_CS_CC2500_INACTIVE();
+  RF_CS_CYRF6936_INACTIVE();
+  RF_CS_NRF24L01_INACTIVE();
+  RF_CS_A7105_INACTIVE();
 #endif
 }
 
@@ -67,7 +69,7 @@ FORCEINLINE void sendStopPulses()
 void startPulses(enum ProtoCmds Command)
 {
   PROTO_Stop_Callback();
-  // Reset CS pin
+
 #if defined(SPIMODULES)
   RFPowerOut = 0;
 #endif
@@ -90,7 +92,7 @@ void startPulses(enum ProtoCmds Command)
     setup_rf_tc();
   }
   else if(IS_SPIMODULES_PROTOCOL(g_model.rfProtocol)) {
-    rf_usart_mspi_init();
+    RF_SPI_INIT();
     setup_rf_tc();
   }
 
