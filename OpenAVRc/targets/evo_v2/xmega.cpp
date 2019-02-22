@@ -211,6 +211,7 @@ inline void boardInit()
   PORTC.DIRSET = O_C_PWR_LED;
   PORTC.OUTSET = O_C_PWR_LED;
 
+  ACTIVE_PPM_IN();
   PORTF.DIRSET = OUT_F_SIM_CTL; // Trainer pulses.
 }
 
