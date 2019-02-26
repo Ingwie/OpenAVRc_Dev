@@ -346,6 +346,7 @@ const void *FLYSKY_Cmds(enum ProtoCmds cmd)
       FLYSKY_initialize(0);
       return 0;
     case PROTOCMD_RESET:
+      A7105_Reset();
       PROTO_Stop_Callback();
       return 0;
     case PROTOCMD_BIND:
