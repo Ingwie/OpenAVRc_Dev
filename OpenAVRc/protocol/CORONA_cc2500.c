@@ -52,7 +52,7 @@ const static RfOptionSettingsvarstruct RfOpt_corona_Ser[] PROGMEM =
   /*rfOptionValue3Max*/7,    // RF POWER
 };
 
-const pm_char STR_SUBTYPE_CORONA[] PROGMEM =     "DSSS"" FSS";
+const pm_char STR_SUBTYPE_CORONA[] PROGMEM = "DSSS"" FSS";
 
 const static uint8_t ZZ_coronaInitSequence[] PROGMEM =
 {

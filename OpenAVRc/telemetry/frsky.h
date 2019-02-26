@@ -214,7 +214,6 @@ enum AlarmLevel {
 #define TELEMETRY_GPS_SPEED_BP          telemetryData.value.gpsSpeed_bp
 #define TELEMETRY_GPS_SPEED_AP          telemetryData.value.gpsSpeed_ap
 
-#define TELEMETRY_BARO_ALT_PREPARE()
 #define TELEMETRY_BARO_ALT_FORMAT       "%d,"
 #define TELEMETRY_BARO_ALT_ARGS         telemetryData.value.baroAltitude_bp,
 #define TELEMETRY_GPS_ALT_FORMAT        "%d,"
