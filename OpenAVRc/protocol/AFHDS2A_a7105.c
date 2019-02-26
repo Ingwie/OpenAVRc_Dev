@@ -47,7 +47,7 @@ const static RfOptionSettingsvarstruct RfOpt_AFHDS2A_Ser[] PROGMEM =
 const pm_char STR_SUBTYPE_AFHDS2A_SPI[] PROGMEM = "IBPW""IBPP""SBPW""SBPP";
 
 #define AFHDS2A_RX_ID(num)     (g_model.points[NUM_POINTS-4+num]) // Dirty : Use curves points to store RX ID (4 bytes)
-#define AFHDS2A_NUM_WAIT_LOOPS (700 / 5) //each loop is ~5us.  Do not wait more than 700us
+#define AFHDS2A_NUM_WAIT_LOOPS (700 / 15) //each loop is ~15us.  Do not wait more than 700us
 #define AFHDS2A_TXPACKET_SIZE	  38
 #define AFHDS2A_RXPACKET_SIZE	  37
 #define AFHDS2A_NUMFREQ	   		  16
@@ -213,7 +213,7 @@ static uint16_t AFHDS2A_cb()
   uint8_t data_rx;
 
   A7105_AdjustLOBaseFreq();
-
+  //A7105_SetPower(6);
   switch(rfState8)
     {
     case AFHDS2A_BIND1:

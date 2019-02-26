@@ -37,19 +37,18 @@
 
 uint8_t SPI_READ_3WIRES()
 {
-  uint8_t result=0,mask;
-
   SUSPEND_RF_SPI();
   SET_RF_MOSI_IS_INPUT();
 
-  for(mask=0x80; mask>0; mask>>=1)
+  uint8_t result=0;
+
+  for(uint8_t mask=0x80; mask>0; mask>>=1)
     {
-      if(IS_RF_MOSI_ON)
+     RF_XCK_ON();
+     if(IS_RF_MOSI_ON)
         {
           result |= mask;
         }
-      RF_XCK_ON();
-      _NOP();
       RF_XCK_OFF();
     }
   SET_RF_MOSI_IS_OUTPUT();
