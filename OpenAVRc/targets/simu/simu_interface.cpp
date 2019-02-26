@@ -48,8 +48,8 @@ extern uint8_t * eeprom_buffer_data;
 #define DSM2SZISE  1
 #define MULTISIZE  1
 #define CCSIZE     5
-#define CYRFSIZE   2
-#define ASIZE      0
+#define CYRFSIZE   3
+#define ASIZE      2
 #define NFRZISE    0
 
 void adaptTxProtocolNumToSimu()
@@ -100,32 +100,21 @@ void adaptTxProtocolNumToSimu()
     {
       g_model.rfProtocol = PROTOCOL_PPM;
     }
-  g_model.rfProtocol = temp;
+    else
+    {
+      g_model.rfProtocol = temp;
+    }
 }
 
 void adaptSimuProtocolNumToTx()
 {
   uint8_t temp = g_model.rfProtocol;
 
-  if (temp > (PPMSIZE))
+  if (temp > (PPMSIZE+DSM2SZISE+MULTISIZE+CCSIZE+CYRFSIZE))
     {
-      if (!(g_eeGeneral.protocol_mask & PROTOMASK0)) // DSM2_SERIAL Not present
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK4)) // A7105 Not present
         {
-          temp -= DSM2SZISE;
-        }
-    }
-  if (temp > (PPMSIZE+DSM2SZISE))
-    {
-      if (!(g_eeGeneral.protocol_mask & PROTOMASK1)) // MULTI Not present
-        {
-          temp -= MULTISIZE;
-        }
-    }
-  if (temp > (PPMSIZE+DSM2SZISE+MULTISIZE))
-    {
-      if (!(g_eeGeneral.protocol_mask & PROTOMASK2)) // CC2500 Not present
-        {
-          temp -= CCSIZE;
+          temp -= ASIZE;
         }
     }
   if (temp > (PPMSIZE+DSM2SZISE+MULTISIZE+CCSIZE))
@@ -135,12 +124,25 @@ void adaptSimuProtocolNumToTx()
           temp -= CYRFSIZE;
         }
     }
-
-  if (temp > (PPMSIZE+DSM2SZISE+MULTISIZE+CCSIZE+CYRFSIZE))
+  if (temp > (PPMSIZE+DSM2SZISE+MULTISIZE))
     {
-      if (!(g_eeGeneral.protocol_mask & PROTOMASK4)) // A7105 Not present
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK2)) // CC2500 Not present
         {
-          temp -= ASIZE;
+          temp -= CCSIZE;
+        }
+    }
+  if (temp > (PPMSIZE+DSM2SZISE))
+    {
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK1)) // MULTI Not present
+        {
+          temp -= MULTISIZE;
+        }
+    }
+  if (temp > (PPMSIZE))
+    {
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK0)) // DSM2_SERIAL Not present
+        {
+          temp -= DSM2SZISE;
         }
     }
 
