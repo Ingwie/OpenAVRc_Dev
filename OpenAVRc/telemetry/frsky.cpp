@@ -189,6 +189,9 @@ void processSportPacket(uint8_t *sport_packet)
       frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST; // Reset counter only in serial mode
       // frskyStreaming gets decremented every 10ms, FRSKY_TIMEOUT_FIRST value is detected to play connection prompt.
     }
+#if defined(SIMU) // decrement frskyStreaming in simu for spi protocols
+  if (IS_SPIMODULES_PROTOCOL(g_model.rfProtocol)) frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST; // Reset counter only in serial mode
+#endif
 
   if (prim != DATA_FRAME)
     return;

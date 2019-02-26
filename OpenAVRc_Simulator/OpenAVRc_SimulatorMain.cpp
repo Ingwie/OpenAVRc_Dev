@@ -680,7 +680,7 @@ void OpenAVRc_SimulatorFrame::MainFirmwareTask()
     {
       if (Tele_Protocol == Tele_Proto_Frsky_Sport) // Telemetry simulation
         frskySportSimuloop();
-      if (Tele_Protocol == Tele_Proto_Frsky_D) // Telemetry simulation
+      if ((Tele_Protocol == Tele_Proto_Frsky_D) & !IS_USR_PROTO_SMART_PORT()) // Telemetry simulation
         frskyDSimuloop();
       StatusBar->SetStatusText(_T("MAIN ")+MaintTaskChronoval.ToString()+_T(" uS"),1);
       TimerMain.StartOnce(18);
