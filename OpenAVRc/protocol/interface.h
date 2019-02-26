@@ -45,6 +45,7 @@
 #if defined(CPUXMEGA)
 #include "PROTO_xmega_PPM.cpp"
 #include "PROTO_xmega_PPMSIM.cpp"
+#include "PROTO_xmega_PPM16.cpp"
 #endif
 
 
@@ -81,6 +82,7 @@
 #include "iface_a7105.h"
 #include "a7105.c"
 #include "FLYSKY_a7105.c"
+#include "AFHDS2A_a7105.c"
 #endif
 
 #ifdef PROTO_HAS_NRF24L01

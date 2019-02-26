@@ -318,8 +318,10 @@ static uint16_t DurationValue;
 
 #if defined(PPM_CENTER_ADJUSTABLE)
   #define PPM_CH_CENTER(ch) (PPM_CENTER+limitAddress(ch)->ppmCenter)
+  #define FULL_CHANNEL_OUTPUTS(ch) (channelOutputs[ch] + ((limitAddress(ch)->ppmCenter)>>2))
 #else
   #define PPM_CH_CENTER(ch) (PPM_CENTER)
+  #define FULL_CHANNEL_OUTPUTS(ch) channelOutputs[ch]
 #endif
 
 #define tmr10ms_t uint16_t

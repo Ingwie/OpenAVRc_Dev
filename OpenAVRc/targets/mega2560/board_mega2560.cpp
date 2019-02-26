@@ -129,16 +129,8 @@ FORCEINLINE void boardInit()
 #endif
 
 #if defined(SPIMODULES)
-
-  RF_CS_CC2500_INACTIVE();
-  RF_CS_CYRF6936_INACTIVE();
-  RF_CS_NRF24L01_INACTIVE();
-  RF_CS_A7105_INACTIVE();
-  // Init SPI port with 4Mhz speed
-  enable_spi_master_mode();
-  //g_eeGeneral.fixed_ID.ID_32 = 0x1a2b3c4d;
+  RF_SPI_INIT();
   protoMode = NORMAL_MODE;
-
 #endif // SPIMODULES
 
 #endif // !SIMU
@@ -146,6 +138,19 @@ FORCEINLINE void boardInit()
   WAIT_PUPIL();
 
  LEDOFF();
+}
+
+void rf_spi_init()
+{
+  // Reset CS pin
+  RF_CS_CC2500_INACTIVE();
+  RF_CS_CYRF6936_INACTIVE();
+  RF_CS_NRF24L01_INACTIVE();
+  RF_CS_A7105_INACTIVE();
+
+  // Init SPI port with 4Mhz speed
+  enable_spi_master_mode();
+  //g_eeGeneral.fixed_ID.ID_32 = 0x1a2b3c4d;
 }
 
 void backlightFade(void)

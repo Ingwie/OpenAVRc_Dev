@@ -288,7 +288,7 @@ void processSportPacket(uint8_t *sport_packet)
   else if (appId >= GPS_SPEED_FIRST_ID && appId <= GPS_SPEED_LAST_ID)
     {
       telemetryData.value.gpsSpeed_bp = SPORT_DATA_U32(sport_packet);
-      telemetryData.value.gpsSpeed_bp = (telemetryData.value.gpsSpeed_bp * 46) / 25 / 1000;
+      telemetryData.value.gpsSpeed_bp = (telemetryData.value.gpsSpeed_bp * 46) / 25 / 1000;///(float) 100 / 1.852 * 1000)
       if (telemetryData.value.gpsSpeed_bp > telemetryData.value.maxGpsSpeed)
         telemetryData.value.maxGpsSpeed = telemetryData.value.gpsSpeed_bp;
     }
@@ -328,18 +328,21 @@ void processSportPacket(uint8_t *sport_packet)
       telemetryData.value.gpsAltitude_bp = gpsAlt / 100;
       telemetryData.value.gpsAltitude_ap = gpsAlt % 100;
 
+    if (!telemetryData.value.gpsAltitudeOffset) {
+      telemetryData.value.gpsAltitudeOffset = -telemetryData.value.gpsAltitude_bp;
+    }
+    telemetryData.value.gpsAltitude_bp += telemetryData.value.gpsAltitudeOffset;
+    if (!telemetryData.value.baroAltitudeOffset) {
+      if (telemetryData.value.gpsAltitude_bp > telemetryData.value.maxAltitude)
+        telemetryData.value.maxAltitude = telemetryData.value.gpsAltitude_bp;
+      if (telemetryData.value.gpsAltitude_bp < telemetryData.value.minAltitude)
+        telemetryData.value.minAltitude = telemetryData.value.gpsAltitude_bp;
+    }
 
-      if (!telemetryData.value.gpsAltitudeOffset)
+    if (!telemetryData.value.gpsAltitudeOffset)
+      {
         telemetryData.value.gpsAltitudeOffset = -telemetryData.value.gpsAltitude_bp;
-
-      if (!telemetryData.value.baroAltitudeOffset)
-        {
-          int16_t altitude = TELEMETRY_RELATIVE_GPS_ALT_BP;
-          if (altitude > telemetryData.value.maxAltitude)
-            telemetryData.value.maxAltitude = altitude;
-          if (altitude < telemetryData.value.minAltitude)
-            telemetryData.value.minAltitude = altitude;
-        }
+      }
 
       if (telemetryData.value.gpsFix > 0)
         {

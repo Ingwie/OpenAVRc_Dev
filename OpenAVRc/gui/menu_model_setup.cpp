@@ -322,7 +322,7 @@ void menuModelSetup(uint8_t event)
           }
           break;
         case 1:
-          CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.PPMNCH, protocol!=(PROTOCOL_PPM16-1) ? 6 : 2); //limit 8 channels for PPMSim and PPM16
+          CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.PPMNCH, protocol!=PROTOCOL_PPM16 ? 6 : 2); //limit 8 channels for PPMSim and PPM16
           g_model.PPMFRAMELENGTH = (g_model.PPMNCH-2) * 8;
           break;
         }

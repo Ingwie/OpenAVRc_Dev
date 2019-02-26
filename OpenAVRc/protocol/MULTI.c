@@ -255,7 +255,7 @@ static uint16_t MULTI_cb()
   // Range for pulses (channelsOutputs) is [-1024:+1024] for [-100%;100%]
   // Multi uses [204;1843] as [-100%;100%]
   for (uint8_t i=0; i<MULTI_CHANS; i++) {
-    int16_t value = channelOutputs[i] + 2*PPM_CH_CENTER(i) - 2*PPM_CENTER;
+    int16_t value = FULL_CHANNEL_OUTPUTS(i);
 
     // Scale to 80%
     value =  value*8/10 + 1024;

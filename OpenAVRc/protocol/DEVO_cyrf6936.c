@@ -35,7 +35,7 @@
 #include "../OpenAVRc.h"
 
 
-const static RfOptionSettingsvarstruct RfOpt_DDEVO_Ser[] PROGMEM =
+const static RfOptionSettingsvarstruct RfOpt_DEVO_Ser[] PROGMEM =
 {
   /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED | BOOL2USED,  //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/0,
@@ -78,7 +78,7 @@ enum
 };
 
 static void DEVO_check_num_chan()
-{
+{ // GUI changes result in 4, 8 or 12 channels.
   if (prev_num_channel != g_model.rfOptionValue1)
     {
       switch (g_model.rfOptionValue1)
@@ -86,7 +86,6 @@ static void DEVO_check_num_chan()
         case 5:
         case 6:
         case 11:
-          //default:
           num_channel = 8;
           break;
         case 7:
@@ -221,8 +220,7 @@ static void DEVO_build_data_pkt()
   uint8_t sign = 0x0b;
   for (uint8_t i = 0; i < 4; i++)
     {
-
-      int16_t value = channelOutputs[i + (4* channel_index)];
+      int16_t value = FULL_CHANNEL_OUTPUTS(i + (4* channel_index));
       value = value + (value >> 1) + (value >> 4); // Range +/- 1600.
 
       if(value < 0)
@@ -353,10 +351,15 @@ void DEVOInit(uint8_t bind)
   channel_index = 0;
   send_seq = 0;
   packet_count = 0;
-  prev_num_channel = 8;
-  num_channel = 8;
-  // Check num channel
-  DEVO_check_num_chan();
+
+  if(g_model.rfOptionValue1 < 5)
+    num_channel = 4;
+  else if (g_model.rfOptionValue1 < 9)
+    num_channel = 8;
+  else num_channel = 12;
+
+  prev_num_channel = num_channel;
+
   // Load temp_rfid_addr + Model match
   loadrfidaddr_rxnum(0);
 
@@ -405,7 +408,7 @@ const void *DEVO_Cmds(enum ProtoCmds cmd)
       DEVOInit(1);
       return 0;
     case PROTOCMD_GETOPTIONS:
-      SetRfOptionSettings(pgm_get_far_address(RfOpt_DDEVO_Ser),
+      SetRfOptionSettings(pgm_get_far_address(RfOpt_DEVO_Ser),
                           STR_DUMMY,      //Sub proto
                           DEVO_STR_NUMCH,      //Option 1 (int)
                           STR_DUMMY,      //Option 2 (int)

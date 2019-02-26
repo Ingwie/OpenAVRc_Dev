@@ -209,7 +209,7 @@ static void frskyX_build_bind_packet()
 static uint16_t scaleForPXX(uint8_t chan)
 {
   // 0-2047, 0 = 817, 1024 = 1500, 2047 = 2182
-  int16_t value = ((channelOutputs[chan] + 2*PPM_CH_CENTER(chan) - 2*PPM_CENTER)* 3 / 4) + 1024;
+  int16_t value = ((FULL_CHANNEL_OUTPUTS(chan))* 3 / 4) + 1024;
   limit<uint16_t>(1, value, 2046);
   if (chan > 7)
     value|=2048;   // upper channels offset
