@@ -447,7 +447,7 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
       }
 
       //========== PHASE && SWITCH ==========
-      bool mixCondition = (md->flightModes != 0 || md->swtch);
+      uint8_t mixCondition = (md->flightModes != 0 || md->swtch);
       delayval_t mixEnabled = (!(md->flightModes & (1 << mixerCurrentFlightMode)) && getSwitch(md->swtch)) ? 1 : 0;
 #define MIXER_LINE_DISABLE()  (mixCondition = true, mixEnabled = 0)
       if (mixEnabled && md->srcRaw >= MIXSRC_FIRST_TRAINER && md->srcRaw <= MIXSRC_LAST_TRAINER && !IS_TRAINER_INPUT_VALID()) {
@@ -546,7 +546,7 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
       }
 
       //========== Active Mix ===============
-      bool apply_offset_and_curve = true;
+      uint8_t apply_offset_and_curve = true;
       if (!mixEnabled) {
         if ((md->delayDown || md->delayUp) && md->mltpx!=MLTPX_REP) {
           if (mixCondition) {
