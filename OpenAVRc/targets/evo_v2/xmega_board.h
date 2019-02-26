@@ -40,10 +40,10 @@
 // Should be on USARTE0 which is the USART used for MSPI of SPIMODULES.
 // All communication to RF module(s) will use the same pin ... e.g. USART MSPI, USART Asynch and PPM.
 #define TLM_USART           MULTI_USART
-#define MULTI_USART         USARTD0
-#define TLM_USART_PORT      PORTD
-#define TLM_USART_RXC_VECT  USARTD0_RXC_vect
-#define TLM_USART_DRE_VECT  USARTD0_DRE_vect
+#define MULTI_USART         USARTE0
+#define TLM_USART_PORT      PORTE
+#define TLM_USART_RXC_VECT  USARTE0_RXC_vect
+#define TLM_USART_DRE_VECT  USARTE0_DRE_vect
 
 
 // RF Module Timer counter.
@@ -51,13 +51,11 @@
 #define RF_PORT                    PORTE
 #define RF_TIMER_COMPA_VECT        TCE0_CCA_vect
 #define RF_TIMER_COMPA_REG         RF_TC.CCA
-#define RF_TIMER_PAUSE_INTERRUPT   RF_TC.INTCTRLB &= ~TC0_CCAINTLVL_gm;
+#define RF_TIMER_PAUSE_INTERRUPT   RF_TC.INTCTRLB = 0  //&= ~TC0_CCAINTLVL_gm;
 #define RF_TIMER_RESUME_INTERRUPT  RF_TC.INTCTRLB |=  (0b11 << TC0_CCAINTLVL_gp); // Level 3 - High Priority.
-#define RF_TIMER_CLEAR_COMPA_FLAG  RF_TC.INTFLAGS = TC1_CCAIF_bm; // clear ccaif.
-
-
-//#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
-//#define HALF_MICRO_SEC_COUNTS(half_us) (((F_CPU/800)*(half_us))/20000)
+#define RF_TIMER_CLEAR_COMPA_FLAG  RF_TC.INTFLAGS = TC0_CCAIF_bm; // clear ccaif.
+void setup_rf_tc(void);
+void rf_usart_serial_init(void);
 
 
 #define CALCULATE_LAT_JIT()  dt = (RF_TC.CNT - RF_TIMER_COMPA_REG ) // Calculate latency and jitter.
@@ -66,6 +64,7 @@
 char rf_usart_mspi_xfer(char c);
 #define RF_SPI_xfer  rf_usart_mspi_xfer
 void rf_usart_mspi_init(void);
+#define RF_SPI_INIT  rf_usart_mspi_init
 
 #define RF_USART   USARTE0
 #define RF_CS_PIN  PIN0_bm
@@ -89,19 +88,18 @@ void rf_usart_mspi_init(void);
 #define TRAINER_TC         TCF0
 #define TRAINER_TC_VECT    TCF0_CCC_vect
 #define TRAINER_TC_REG     TRAINER_TC.CCC
+#define TRAINER_PORT       PORTF
+void setup_trainer_tc(void);
 
-#define OUT_B_SIM_CTL
-#define JACK_PPM_OUT()
-#define JACK_PPM_IN()
-
-#define OUT_B_PPM
-#define OUT_L_CPPM_OC5A
-#define OUT_L_CPPM_TRN
-#define INP_L_PPM_IN
-
-#define SLAVE_MODE()	(false)
+// Pupil Teacher Mode
+#define OUT_F_SIM_CTL     PIN3
+#define ACTIVE_PPM_OUT()  PORTF.OUTSET = OUT_F_SIM_CTL
+#define ACTIVE_PPM_IN()   PORTF.OUTCLR = OUT_F_SIM_CTL
 #define ENABLE_TRAINER_INTERRUPT()   (false) // Enable ICP Interrupt.
 #define DISABLE_TRAINER_INTERRUPT()  (false) // Disable ICP Interrupt.
+#define WAIT_PUPIL()                ENABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_IN()
+#define PPM16_CONF()                DISABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_OUT()
+
 
 // Switch cross mapping
 #define SW_ID0 SW_Jup

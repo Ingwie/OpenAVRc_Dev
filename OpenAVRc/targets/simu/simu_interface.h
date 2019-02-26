@@ -776,6 +776,8 @@ extern REG8 simu_ucsr2b;
 extern REG8 simu_ucsr2c;
 extern REG8 simu_rxen2;
 extern REG8 simu_txen2;
+extern REG8 simu_ubrr2;
+
 
 #define UCSR0A  simu_ucsr0a
 #define RXC0    7
@@ -813,6 +815,7 @@ extern REG8 simu_txen2;
 #define UDR0    simu_udr0
 #define UCSR2B  simu_ucsr2b
 #define UCSR2C  simu_ucsr2c
+#define UBRR2   simu_ubrr2
 #define RXEN2   simu_rxen2
 #define TXEN2   simu_txen2
 

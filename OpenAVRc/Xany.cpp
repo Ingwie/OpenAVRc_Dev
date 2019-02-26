@@ -56,6 +56,8 @@ enum {NIBBLE_0=0, NIBBLE_1, NIBBLE_2, NIBBLE_3, NIBBLE_4, NIBBLE_5, NIBBLE_6, NI
 #define PULSE_WIDTH_US(NibbleIdx)         (PULSE_MIN_US + (NIBBLE_WIDTH_US / 2)+ ((NibbleIdx) * NIBBLE_WIDTH_US))
 #define EXCURSION_HALF_US(NibbleIdx)      ((PULSE_WIDTH_US(NibbleIdx) - NEUTRAL_WIDTH_US) * 2)
 
+#define GET_EXCURSION_HALF_US(NibbleIdx)  (int16_t)pgm_read_word_near(&ExcursionHalf_us[(NibbleIdx)])
+
 const int16_t ExcursionHalf_us[] PROGMEM = {EXCURSION_HALF_US(NIBBLE_0), EXCURSION_HALF_US(NIBBLE_1), EXCURSION_HALF_US(NIBBLE_2), EXCURSION_HALF_US(NIBBLE_3),
                                             EXCURSION_HALF_US(NIBBLE_4), EXCURSION_HALF_US(NIBBLE_5), EXCURSION_HALF_US(NIBBLE_6), EXCURSION_HALF_US(NIBBLE_7),
                                             EXCURSION_HALF_US(NIBBLE_8), EXCURSION_HALF_US(NIBBLE_9), EXCURSION_HALF_US(NIBBLE_A), EXCURSION_HALF_US(NIBBLE_B),
@@ -421,12 +423,7 @@ void Xany_scheduleTx(uint8_t XanyIdx)
       t->Nibble.PrevIdx = t->Nibble.CurIdx;
     }
     /* Send the Nibble or the Repeat or the Idle symbol */
-    uint_farptr_t ExcursionHalf_us_Far_Adress = pgm_get_far_address(ExcursionHalf_us); /* Get 32 bits adress */
-    ExcursionHalf_us_Far_Adress += (2 * t->Nibble.CurIdx); /* Compute offset */
-    int16_t valueTemp = (int16_t)pgm_read_word_far(ExcursionHalf_us_Far_Adress);
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    channelOutputs[g_model.Xany[XanyIdx].ChId] = valueTemp; /* overwrite in int-level */
-    }
+    channelOutputs[g_model.Xany[XanyIdx].ChId] = GET_EXCURSION_HALF_US(t->Nibble.CurIdx); /* overwrite (we already are in int-level). Use progmem "near" for speed */
     t->Nibble.SentCnt++;
     if(t->Nibble.SentCnt >= (g_model.Xany[XanyIdx].RepeatNb + 1))
     {

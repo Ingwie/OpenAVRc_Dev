@@ -141,7 +141,7 @@ static void FRSKYD_build_data_packet()
       // 0x08CA / 1.5 = 1500 (us). Probably because they use 12MHz clocks.
       // 0x05DC -> 1000us 5ca
       // 0x0BB8 -> 2000us bca
-      int16_t value = channelOutputs[i] + 2*PPM_CH_CENTER(i) - 2*PPM_CENTER;
+      int16_t value = FULL_CHANNEL_OUTPUTS(i);
       value -= (value>>2); // x-x/4
       value = limit((int16_t)-(640 + (640>>1)), value, (int16_t)+(640 + (640>>1)));
       value += 0x08CA;

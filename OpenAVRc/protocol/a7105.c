@@ -37,19 +37,18 @@
 
 uint8_t SPI_READ_3WIRES()
 {
-  uint8_t result=0,mask;
-
   SUSPEND_RF_SPI();
   SET_RF_MOSI_IS_INPUT();
 
-  for(mask=0x80; mask>0; mask>>=1)
+  uint8_t result=0;
+
+  for(uint8_t mask=0x80; mask>0; mask>>=1)
     {
-      if(IS_RF_MOSI_ON)
+     RF_XCK_ON();
+     if(IS_RF_MOSI_ON)
         {
           result |= mask;
         }
-      RF_XCK_ON();
-      _NOP();
       RF_XCK_OFF();
     }
   SET_RF_MOSI_IS_OUTPUT();
@@ -255,14 +254,13 @@ const uint8_t FLYSKY_A7105_regs[] PROGMEM =
   0x01, 0x0f
 };
 
-/*
+
 const uint8_t AFHDS2A_A7105_regs[] PROGMEM = {
 	0xFF, 0x42 | (1<<5), 0x00, 0x25, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x01, 0x3c, 0x05, 0x00, 0x50,	// 00 - 0f
 	0x9e, 0x4b, 0x00, 0x02, 0x16, 0x2b, 0x12, 0x4f, 0x62, 0x80, 0xFF, 0xFF, 0x2a, 0x32, 0xc3, 0x1f,				// 10 - 1f
 	0x1e, 0xFF, 0x00, 0xFF, 0x00, 0x00, 0x3b, 0x00, 0x17, 0x47, 0x80, 0x03, 0x01, 0x45, 0x18, 0x00,				// 20 - 2f
 	0x01, 0x0f // 30 - 31
 };
-*/
 
 #define ID_NORMAL 0x55201041
 #define ID_PLUS   0xAA201041
@@ -283,10 +281,10 @@ void A7105_Init(void)
       {
         A7105_Regs=pgm_get_far_address(FLYSKY_A7105_regs);
       }
-    /*else if(g_model.rfProtocol==PROTOCOL_AFHDS2A)
+    else if(g_model.rfProtocol==PROTOCOL_AFHDS2A)
     {
     		A7105_Regs=pgm_get_far_address(AFHDS2A_A7105_regs);
-    }*/
+    }
   }
 
   for (uint8_t i = 0; i < 0x32; i++)
@@ -309,13 +307,13 @@ void A7105_Init(void)
 //	A7105_ReadReg(A7105_22_IF_CALIB_I);
 //	A7105_ReadReg(A7105_24_VCO_CURCAL);
 
-  /*if(g_model.rfProtocol!=PROTOCOL_HUBSAN)
+  //if(g_model.rfProtocol!=PROTOCOL_HUBSAN)
   {
   	//VCO Current Calibration
   	A7105_WriteReg(A7105_24_VCO_CURCAL,0x13);	//Recommended calibration from A7105 Datasheet
   	//VCO Bank Calibration
   	A7105_WriteReg(A7105_26_VCO_SBCAL_II,0x3b);	//Recommended calibration from A7105 Datasheet
-  }*/
+  }
 
   //VCO Bank Calibrate channel 0
   A7105_WriteReg(A7105_0F_CHANNEL, 0);

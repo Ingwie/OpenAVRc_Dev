@@ -52,7 +52,7 @@ const static RfOptionSettingsvarstruct RfOpt_corona_Ser[] PROGMEM =
   /*rfOptionValue3Max*/7,    // RF POWER
 };
 
-const pm_char STR_SUBTYPE_CORONA[] PROGMEM =     "DSSS"" FSS";
+const pm_char STR_SUBTYPE_CORONA[] PROGMEM = "DSSS"" FSS";
 
 const static uint8_t ZZ_coronaInitSequence[] PROGMEM =
 {
@@ -133,7 +133,7 @@ static void corona_init()
 
 static uint16_t corona_send_data_packet()
 {
-  uint16_t packet_period = 1; // unused value
+  uint16_t packet_period = 0; // unused value
 
   if(!rfState16) // V1 or V2&identifier sended
     {
@@ -150,9 +150,8 @@ static uint16_t corona_send_data_packet()
         {
           // Channel values are packed
           // Compute value +-1280 to range 860<-1500->2140 -125%<-0->+125%
-          int16_t value = channelOutputs[i];
-          value /= 2; // +-1280 to +-640
-          value += PPM_CH_CENTER(i); // Center value
+          int16_t value = (FULL_CHANNEL_OUTPUTS(i))/2; // +-1280 to +-640
+          value += PPM_CENTER; // + 1500 offset
           value = limit((int16_t)-860, value, (int16_t)+2140);
 
           packet[i+1] = value;

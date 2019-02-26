@@ -41,9 +41,11 @@ uint8_t * Usart0TxBuffer = pulses2MHz.pbyte; // [USART0_TX_PACKET_SIZE] bytes us
 uint8_t Usart0TxBufferCount = 0;
 
 
+
 void Usart0EnableTx()
 {
   USART_ENABLE_TX(TLM_USART);
+  TLM_USART_PORT.DIRSET = USART_TXD_PIN;
 }
 
 void Usart0EnableRx()
@@ -52,12 +54,16 @@ void Usart0EnableRx()
   // Flush RX buffer. Should be flushed already if the receiver was disabled.
   while (TLM_USART.STATUS & USART_RXCIF_bm) (void) TLM_USART.DATA;
   TLM_USART.CTRLA |= USART_RXCINTLVL_MED_gc; // Medium priority.
+  TLM_USART_PORT.DIRCLR = USART_RXD_PIN;
 }
 
 
 void Usart0DisableTx()
 {
-  TLM_USART.CTRLB &= ~USART_TXEN_bm;
+  TLM_USART_PORT.OUTSET = USART_TXD_PIN; // Marking state ... not break condition.
+
+  TLM_USART.CTRLB &= ~USART_TXEN_bm; // Sets port pin to input.
+  TLM_USART_PORT.DIRSET = USART_TXD_PIN;
   TLM_USART.CTRLA &= ~USART_DREINTLVL_gm;
   TLM_USART.STATUS &= ~USART_DREIF_bm; // precautionary.
 }
@@ -131,28 +137,25 @@ void Usart0Set8E2()
 #if defined(FRSKY) || defined(MULTI)
 ISR(TLM_USART_RXC_VECT)
 {
-#if 0
 // ToDo
 
   uint8_t stat;
   uint8_t data;
 
-  UCSRB_N(TLM_USART0) &= ~(1 << RXCIE_N(TLM_USART0)); // disable Interrupt
+//  UCSRB_N(TLM_USART0) &= ~(1 << RXCIE_N(TLM_USART0)); // disable Interrupt
 
     stat = TLM_USART.STATUS;
     data = TLM_USART.DATA;
 
-    if (stat & (USART_FERR_bm | USART_BUFOVF | USART_PERR_bm) ) {
+    if (stat & (USART_FERR_bm | USART_BUFOVF_bm | USART_PERR_bm) ) {
         // discard buffer and start fresh on any comms error
-        Usart0RxBufferCount = 0;
+//        Usart0RxBufferCount = 0;
       }
     else {
-        parseTelemSportByte(data, 0);
+//        parseTelemSportByte(data, 0);
       }
 
-  }
-  UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
-#endif
+//  UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
 }
 #endif
 

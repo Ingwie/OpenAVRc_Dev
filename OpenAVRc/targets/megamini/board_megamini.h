@@ -230,6 +230,8 @@ void boardOff();
 #if defined(SPIMODULES)
 
   uint8_t USART2_mspi_xfer(uint8_t data);
+  void rf_usart_mspi_init();
+  #define RF_SPI_INIT             rf_usart_mspi_init
   #define RF_SPI_xfer             USART2_mspi_xfer
   #define OUT_J_CC2500_CS_N       PIN3_bm
   #define OUT_J_CYRF6936_CS_N     PIN4_bm

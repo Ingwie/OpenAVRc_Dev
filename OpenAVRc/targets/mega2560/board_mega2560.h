@@ -241,6 +241,10 @@ void boardOff();
 
     uint8_t master_rf_spi_xfer(uint8_t data);
     #define RF_SPI_xfer  master_rf_spi_xfer
+    void rf_spi_init();
+    #define RF_SPI_INIT             rf_spi_init
+
+
     #define OUT_H_CC2500_CS_N       PIN1_bm
     #define OUT_D_CYRF6936_CS_N     PIN2_bm
     #define OUT_D_NRF24L01_CS_N     PIN3_bm

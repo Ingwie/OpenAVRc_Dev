@@ -121,33 +121,15 @@ FORCEINLINE void boardInit()
   /* Hardware I2C init */
   i2c_init();
 #endif
-
+  lcdClear();
+  lcdRefresh();
 #if defined(X_ANY)
   Xany_init();
 #endif
 
 #if defined(SPIMODULES)
-// Setup (M)SPI Port.
-// USART2
-// PORTH0 RXD2
-// PORTH1 TXD2
-// PORTH2 XCK2
-
-// Setup USART in MSPI mode.
-// Initialisation of USART.
-  UBRR2 = 0; // Reset is part of initialisation sequence.
-  UCSR2C = 0xC0; // UMSEL21:0 = 3 DORD2=0 CPHA2=0 CPOL2=0  USART in Master SPI mode, MSB first, Clock phase=0 Polarity=0.
-  UCSR2B = (1 << RXEN2) | (1 << TXEN2); // Transmit and Receive.
-  UBRR2 = 1; // 4.0MHz clock ... 16MHz/(2*(UBRR+1))
-  //UBRR2 = 0; // 8.0MHz clock ... 16MHz/(2*(UBRR+1))
-
-  RF_CS_CC2500_INACTIVE();
-  RF_CS_CYRF6936_INACTIVE();
-  RF_CS_NRF24L01_INACTIVE();
-  RF_CS_A7105_INACTIVE();
-
-  protoMode = NORMAL_MODE;
-
+ RF_SPI_INIT();
+ protoMode = NORMAL_MODE;
 #endif // SPIMODULES
 
 #endif // !SIMU
@@ -155,6 +137,30 @@ FORCEINLINE void boardInit()
  WAIT_PUPIL();
 
  LEDOFF();
+}
+
+void rf_usart_mspi_init()
+{
+  // Reset CS pin
+  RF_CS_CC2500_INACTIVE();
+  RF_CS_CYRF6936_INACTIVE();
+  RF_CS_NRF24L01_INACTIVE();
+  RF_CS_A7105_INACTIVE();
+
+  // Setup (M)SPI Port.
+  // USART2
+  // PORTH0 RXD2
+  // PORTH1 TXD2
+  // PORTH2 XCK2
+
+  // Setup USART in MSPI mode.
+  // Initialisation of USART.
+  UBRR2 = 0; // Reset is part of initialisation sequence.
+  UCSR2C = 0xC0; // UMSEL21:0 = 3 DORD2=0 CPHA2=0 CPOL2=0  USART in Master SPI mode, MSB first, Clock phase=0 Polarity=0.
+  UCSR2B = (1 << RXEN2) | (1 << TXEN2); // Transmit and Receive.
+  UBRR2 = 1; // 4.0MHz clock ... 16MHz/(2*(UBRR+1))
+  //UBRR2 = 0; // 8.0MHz clock ... 16MHz/(2*(UBRR+1))
+
 }
 
 void backlightFade(void)
