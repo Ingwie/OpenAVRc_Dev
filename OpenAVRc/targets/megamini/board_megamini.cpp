@@ -141,6 +141,12 @@ FORCEINLINE void boardInit()
 
 void rf_usart_mspi_init()
 {
+  // Reset CS pin
+  RF_CS_CC2500_INACTIVE();
+  RF_CS_CYRF6936_INACTIVE();
+  RF_CS_NRF24L01_INACTIVE();
+  RF_CS_A7105_INACTIVE();
+
   // Setup (M)SPI Port.
   // USART2
   // PORTH0 RXD2
@@ -155,10 +161,6 @@ void rf_usart_mspi_init()
   UBRR2 = 1; // 4.0MHz clock ... 16MHz/(2*(UBRR+1))
   //UBRR2 = 0; // 8.0MHz clock ... 16MHz/(2*(UBRR+1))
 
-  RF_CS_CC2500_INACTIVE();
-  RF_CS_CYRF6936_INACTIVE();
-  RF_CS_NRF24L01_INACTIVE();
-  RF_CS_A7105_INACTIVE();
 }
 
 void backlightFade(void)
