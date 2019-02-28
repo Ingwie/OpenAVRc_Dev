@@ -145,7 +145,7 @@ NOINLINE void parseTelemFrskyByte(uint8_t data)
     }
 }
 
-bool checkSportPacket(uint8_t *packet)
+uint8_t checkSportPacket(uint8_t *packet)
 {
   uint16_t crc = 0;
   for (uint8_t i=1; i<TELEM_RX_PACKET_SIZE; i++) {

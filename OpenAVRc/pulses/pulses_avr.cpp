@@ -41,7 +41,7 @@ uint8_t s_current_protocol = 255;
 uint16_t dt;
 
 
-FORCEINLINE bool pulsesStarted()
+FORCEINLINE uint8_t pulsesStarted()
 {
   return (s_current_protocol != 255);
 }
