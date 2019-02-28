@@ -39,10 +39,11 @@ uint8_t SPI_READ_3WIRES()
 {
   SUSPEND_RF_SPI();
   SET_RF_MOSI_IS_INPUT();
+  RF_CS_A7105_ACTIVE();
 
   uint8_t result=0;
 
-  for(uint8_t mask=0x80; mask>0; mask>>=1)
+  for (uint8_t mask=0x80; (mask); mask>>=1)
     {
      RF_XCK_ON();
      if(IS_RF_MOSI_ON)
@@ -51,6 +52,8 @@ uint8_t SPI_READ_3WIRES()
         }
       RF_XCK_OFF();
     }
+
+  RF_CS_A7105_INACTIVE();
   SET_RF_MOSI_IS_OUTPUT();
   WAKEUP_RF_SPI();
   return result;
@@ -119,18 +122,18 @@ void A7105_ReadData(uint8_t len)
   A7105_Strobe(A7105_RST_RDPTR);
   RF_CS_A7105_ACTIVE();
   RF_SPI_xfer(0x40 | A7105_05_FIFO_DATA);	//bit 6 =1 for reading
+  RF_CS_A7105_INACTIVE();
   for (i=0; i<len; i++)
     packet[i]=SPI_READ_3WIRES();
-  RF_CS_A7105_INACTIVE();
 }
 
 uint8_t A7105_ReadReg(uint8_t address)
 {
   uint8_t result;
   RF_CS_A7105_ACTIVE();
-  RF_SPI_xfer(address |=0x40);				//bit 6 =1 for reading
-  result = SPI_READ_3WIRES();
+  RF_SPI_xfer(address |= 0x40);				//bit 6 =1 for reading
   RF_CS_A7105_INACTIVE();
+  result = SPI_READ_3WIRES();
   return(result);
 }
 
@@ -303,7 +306,9 @@ void A7105_Init(void)
 
   //IF Filter Bank Calibration
   A7105_WriteReg(A7105_02_CALC,1);
-  while(A7105_ReadReg(A7105_02_CALC));			// Wait for calibration to end
+  receive_seq = 0;
+  while(A7105_ReadReg(A7105_02_CALC))			// Wait for calibration to end (1mS MAX)
+  if(++receive_seq > 1000/15) break;
 //	A7105_ReadReg(A7105_22_IF_CALIB_I);
 //	A7105_ReadReg(A7105_24_VCO_CURCAL);
 
@@ -318,13 +323,17 @@ void A7105_Init(void)
   //VCO Bank Calibrate channel 0
   A7105_WriteReg(A7105_0F_CHANNEL, 0);
   A7105_WriteReg(A7105_02_CALC,2);
-  while(A7105_ReadReg(A7105_02_CALC));			// Wait for calibration to end
+  receive_seq = 0;
+  while(A7105_ReadReg(A7105_02_CALC))			// Wait for calibration to end (1mS MAX)
+  if(++receive_seq > 1000/15) break;
 //	A7105_ReadReg(A7105_25_VCO_SBCAL_I);
 
   //VCO Bank Calibrate channel A0
   A7105_WriteReg(A7105_0F_CHANNEL, 0xa0);
   A7105_WriteReg(A7105_02_CALC, 2);
-  while(A7105_ReadReg(A7105_02_CALC));			// Wait for calibration to end
+  receive_seq = 0;
+  while(A7105_ReadReg(A7105_02_CALC))			// Wait for calibration to end (1mS MAX)
+  if(++receive_seq > 1000/15) break;
 //	A7105_ReadReg(A7105_25_VCO_SBCAL_I);
 
   //Reset VCO Band calibration
