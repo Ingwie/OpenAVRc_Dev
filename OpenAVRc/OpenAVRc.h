@@ -1362,5 +1362,4 @@ extern void varioWakeup();
   #define IS_GPS_AVAILABLE()         (0)
 #endif
 
-
 #endif //file

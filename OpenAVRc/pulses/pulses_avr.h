@@ -83,7 +83,7 @@ void setupPulsesPPM(enum ppmtype proto);
 void DSM2_Init();
 void DSM2_Done();
 
-FORCEINLINE bool pulsesStarted();
+FORCEINLINE uint8_t pulsesStarted();
 FORCEINLINE void sendStopPulses();
 
 #endif
