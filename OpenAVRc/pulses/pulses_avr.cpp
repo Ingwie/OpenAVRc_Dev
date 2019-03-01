@@ -58,9 +58,10 @@ FORCEINLINE void sendStopPulses()
 void startPulses(enum ProtoCmds Command)
 {
   PROTO_Stop_Callback();
-  // Reset CS pin
+
 #if defined(SPIMODULES)
   RFPowerOut = 0;
+  rf_power_mem = 0; // Reset RF power mem
   RF_SPI_INIT();
 #endif
 
@@ -74,7 +75,6 @@ void startPulses(enum ProtoCmds Command)
   PROTO_Cmds = *Protos[g_model.rfProtocol].Cmds;
   TRACE("  ->  INIT Proto - %s -", Protos[g_model.rfProtocol].ProtoName);
   SIMU_SLEEP(100);
-  rf_power_mem = 0; // Reset RF power mem
   PROTO_Cmds(PROTOCMD_GETOPTIONS);
   LimitRfOptionSettings();
   PROTO_Cmds(Command);
