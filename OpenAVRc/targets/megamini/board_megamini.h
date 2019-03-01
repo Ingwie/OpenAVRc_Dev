@@ -252,13 +252,13 @@ void boardOff();
 // PORTH2 XCK2
   #define OUT_H_RF_MOSI             PIN1_bm
   #define OUT_H_RF_XCK              PIN2_bm
-	#define SET_RF_XCK_IS_OUTPUT()    DDRH |= (OUT_H_RF_XCK)
+	//#define SET_RF_XCK_IS_OUTPUT()    DDRH |= (OUT_H_RF_XCK)
   #define RF_XCK_ON()               PORTH |= (OUT_H_RF_XCK)
   #define RF_XCK_OFF()              PORTH &= ~(OUT_H_RF_XCK)
-	#define SET_RF_MOSI_IS_INPUT()    DDRH &= ~ (OUT_H_RF_MOSI)
+	#define SET_RF_MOSI_IS_INPUT()    DDRH &= ~(OUT_H_RF_MOSI)
 	#define SET_RF_MOSI_IS_OUTPUT()   DDRH |= (OUT_H_RF_MOSI)
 	#define IS_RF_MOSI_ON             (PINH & (OUT_H_RF_MOSI))
-	#define SUSPEND_RF_SPI()          UCSR2C = 0x00;(UCSR2B &= 0) // Reset and Disable RX and TX Mspi mode
+	#define SUSPEND_RF_SPI()          UCSR2C = 0x00;UCSR2B = 0x00 // Reset and Disable RX and TX Mspi mode
 	#define WAKEUP_RF_SPI()           UCSR2C = 0xC0;(UCSR2B = (1 << RXEN2) | (1 << TXEN2)) // Enable RX and TX Mspi mode
 
 #endif // SPIMODULES
