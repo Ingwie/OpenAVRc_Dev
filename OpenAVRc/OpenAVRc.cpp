@@ -1228,10 +1228,6 @@ void OpenAVRcClose()
 {
   AUDIO_BYE();
 
-#if defined(FRSKY)
-  // TODO needed? telemetryEnd();
-#endif
-
 #if defined(HAPTIC)
   hapticOff();
 #endif
