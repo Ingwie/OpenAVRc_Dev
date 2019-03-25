@@ -139,6 +139,7 @@ FORCEINLINE void boardInit()
  LEDOFF();
 }
 
+#if defined(SPIMODULES)
 void rf_usart_mspi_init()
 {
   // Reset CS pin
@@ -163,13 +164,6 @@ void rf_usart_mspi_init()
 
 }
 
-void backlightFade(void)
-{
-// ToDo ... We can decrement the compare register until the target is reached.
-// At the moment we just have a backlight brightness of two levels.
-// OCR0A = OCR0A -1;
-}
-
 uint8_t USART2_mspi_xfer(uint8_t data)
 {
 #if !defined(SIMU)
@@ -185,6 +179,14 @@ uint8_t USART2_mspi_xfer(uint8_t data)
 TRACE("MSPI Send to RF module : ", data);
 return 0;
 #endif
+}
+#endif
+
+void backlightFade(void)
+{
+// ToDo ... We can decrement the compare register until the target is reached.
+// At the moment we just have a backlight brightness of two levels.
+// OCR0A = OCR0A -1;
 }
 
 void boardOff()
