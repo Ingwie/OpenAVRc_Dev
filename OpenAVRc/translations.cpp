@@ -90,6 +90,11 @@ const pm_char STR_OPEN9X[] PROGMEM =
   ISTR(VTMRMODES)
   ISTR(DATETIME)
   ISTR(VPERSISTENT)
+#if defined(X_ANY)
+  ISTR(ANGLE_SENSOR_VALUES)
+  ISTR(PROP_VALUES)
+  ISTR(XANY_EXPO)
+#endif
   ;
 
 // The 0-terminated-strings
@@ -473,7 +478,7 @@ const pm_char STR_CHANNEL[] PROGMEM = INDENT TR_CHANNEL;
 const pm_char STR_NB_REPEAT[] PROGMEM = INDENT TR_NB_REPEAT;
 const pm_char STR_SWITCHES[] PROGMEM = INDENT TR_SWITCHES;
 const pm_char STR_ANGLE_SENSOR[] PROGMEM = INDENT TR_ANGLE_SENSOR;
-const pm_char STR_POTS[] PROGMEM = INDENT TR_POTS;
+const pm_char STR_PROP[] PROGMEM = INDENT TR_PROP;
 #endif
 
 // New Debug Menu

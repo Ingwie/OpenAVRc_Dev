@@ -143,10 +143,16 @@ extern const pm_char STR_OPEN9X[];
 #define OFS_VSRCRAW             (OFS_VSWITCHES + sizeof(TR_VSWITCHES))
 #define OFS_VTMRMODES           (OFS_VSRCRAW + sizeof(TR_VSRCRAW))
 #define OFS_DATETIME            (OFS_VTMRMODES + sizeof(TR_VTMRMODES))
-#define OFS_VPERSISTENT       (OFS_DATETIME + sizeof(TR_DATETIME))
-#define OFS_VLCD              (OFS_VPERSISTENT + sizeof(TR_VPERSISTENT))
-#define OFS_COUNTRYCODES      (OFS_VLCD)
-#define OFS_MAVLINK_BAUDS	(OFS_VTRAINERMODES)
+#define OFS_VPERSISTENT         (OFS_DATETIME + sizeof(TR_DATETIME))
+#if defined(X_ANY)
+#define OFS_ANGLE_SENSOR_VALUES (OFS_VPERSISTENT + sizeof(TR_VPERSISTENT))
+#define OFS_PROP_VALUES         (OFS_ANGLE_SENSOR_VALUES + sizeof(TR_ANGLE_SENSOR_VALUES))
+#define OFS_XANY_EXPO           (OFS_PROP_VALUES + sizeof(TR_PROP_VALUES))
+#else
+#define OFS_ANGLE_SENSOR_VALUES (OFS_VPERSISTENT)
+#define OFS_PROP_VALUES         (OFS_ANGLE_SENSOR_VALUES)
+#define OFS_XANY_EXPO           (OFS_PROP_VALUES)
+#endif
 
 #define STR_OFFON               (STR_OPEN9X + OFS_OFFON)
 #define STR_MMMINV              (STR_OPEN9X + OFS_MMMINV)
@@ -218,6 +224,11 @@ extern const pm_char STR_OPEN9X[];
 
 #define STR_DATETIME          (STR_OPEN9X + OFS_DATETIME)
 #define STR_VPERSISTENT       (STR_OPEN9X + OFS_VPERSISTENT)
+#if defined(X_ANY)
+#define STR_ANGLE_SENSOR_VALUES (STR_OPEN9X + OFS_ANGLE_SENSOR_VALUES)
+#define STR_PROP_VALUES         (STR_OPEN9X + OFS_PROP_VALUES)
+#define STR_XANY_EXPO           (STR_OPEN9X + OFS_XANY_EXPO)
+#endif
 
 // The 0-terminated-strings
 #define NO_INDENT(x) (x)+LEN_INDENT
@@ -610,6 +621,7 @@ extern const pm_char STR_CHANNEL[];
 extern const pm_char STR_NB_REPEAT[];
 extern const pm_char STR_SWITCHES[];
 extern const pm_char STR_ANGLE_SENSOR[];
+extern const pm_char STR_PROP[];
 #endif
 
 // New Debug Menu

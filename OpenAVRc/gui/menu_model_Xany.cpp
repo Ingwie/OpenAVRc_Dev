@@ -35,6 +35,9 @@
 #include "../Xany.h"
 #include "menu_model.h"
 
+// TODO RCNAVY : remove ;-)
+uint8_t testvalue,testvalue1,testvalue2;
+
 enum menuModelXanyItems
 {
   ITEM_MODEL_NAME_A,
@@ -43,7 +46,7 @@ enum menuModelXanyItems
   ITEM_MODEL_REPEATNB_A,
   ITEM_MODEL_SWITCHS_A,
   ITEM_MODEL_ABSAGLSENSOR_A,
-  ITEM_MODEL_POT_A,
+  ITEM_MODEL_PROP_A,
 #if (X_ANY >= 2)
   ITEM_MODEL_SEPARATOR,
   ITEM_MODEL_NAME_B,
@@ -52,7 +55,7 @@ enum menuModelXanyItems
   ITEM_MODEL_REPEATNB_B,
   ITEM_MODEL_SWITCHS_B,
   ITEM_MODEL_ABSAGLSENSOR_B,
-  ITEM_MODEL_POT_B,
+  ITEM_MODEL_PROP_B,
 #endif
 #if (X_ANY >= 3)
   ITEM_MODEL_SEPARATOR1,
@@ -62,7 +65,7 @@ enum menuModelXanyItems
   ITEM_MODEL_REPEATNB_C,
   ITEM_MODEL_SWITCHS_C,
   ITEM_MODEL_ABSAGLSENSOR_C,
-  ITEM_MODEL_POT_C,
+  ITEM_MODEL_PROP_C,
 #endif
 #if (X_ANY >= 4)
   ITEM_MODEL_SEPARATOR2,
@@ -72,7 +75,7 @@ enum menuModelXanyItems
   ITEM_MODEL_REPEATNB_D,
   ITEM_MODEL_SWITCHS_D,
   ITEM_MODEL_ABSAGLSENSOR_D,
-  ITEM_MODEL_POT_D,
+  ITEM_MODEL_PROP_D,
 #endif
 };
 
@@ -80,7 +83,7 @@ void menuModelXany(uint8_t event)
 {
 #define NUM_LINE_PER_XANY 8
 #define MODEL_XANY_MAX_LINES  NUM_X_ANY*NUM_LINE_PER_XANY
-#define XANYLINES LABEL(NUMBER),1,1,1,1,1,1
+#define XANYLINES LABEL(NUMBER),0,0,0,0,0,1
 #define XANY1LINES 0, XANYLINES
 #if (X_ANY >= 2)
 #define XANY2LINES , LABEL(NUMBER) , XANYLINES
@@ -97,12 +100,10 @@ void menuModelXany(uint8_t event)
 #else
 #define XANY4LINES
 #endif
-#define MODEL_XANY_2ND_COLUMN  (10*FW)
 
   MENU(STR_X_ANY, menuTabModel, e_Xany, MODEL_XANY_MAX_LINES, {XANY1LINES XANY2LINES XANY3LINES XANY4LINES});
 
   uint8_t      sub = menuVerticalPosition - 1, num_switchs;
-  int8_t       editMode = s_editMode;
   XanyInfoSt_t XanyInfo;
 
   coord_t y = MENU_HEADER_HEIGHT + 1;
@@ -112,8 +113,7 @@ void menuModelXany(uint8_t event)
       uint8_t k = i+menuVerticalOffset;
       uint8_t xanynumber = k / NUM_LINE_PER_XANY;
       uint8_t ValidMsg = Xany_operation(xanynumber, XANY_OP_READ_INFO, &XanyInfo);
-      LcdFlags blink = ((editMode>0) ? BLINK|INVERS : INVERS);
-      LcdFlags attr = (sub == k ? blink : 0);
+      uint8_t attr = (sub == k ? ((s_editMode>0) ? BLINK|INVERS : INVERS) : 0);
 
       switch(k)
         {
@@ -145,7 +145,7 @@ void menuModelXany(uint8_t event)
 #if (X_ANY >= 4)
         case ITEM_MODEL_ACTIVE_D :
 #endif
-          ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].Active, MODEL_XANY_2ND_COLUMN, y, STR_ACTIVED, attr, event);
+          ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].Active, 8*FW, y, STR_ACTIVED, attr, event);
           if (!ValidMsg)
             g_model.Xany[xanynumber].Active = 0;
           break;
@@ -211,30 +211,34 @@ void menuModelXany(uint8_t event)
 #if (X_ANY >= 4)
         case ITEM_MODEL_ABSAGLSENSOR_D :
 #endif
-          if ((ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.AbsAngleSensor, MODEL_XANY_2ND_COLUMN, y, STR_ANGLE_SENSOR, attr, event)))
-            {
-              if (ValidMsg)
-                lcdDrawNumberNAtt(16*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
-            }
-          break;
-
-        case ITEM_MODEL_POT_A :
-#if (X_ANY >= 2)
-        case ITEM_MODEL_POT_B :
-#endif
-#if (X_ANY >= 3)
-        case ITEM_MODEL_POT_C :
-#endif
-#if (X_ANY >= 4)
-        case ITEM_MODEL_POT_D :
-#endif
-          if ((ON_OFF_MENU_ITEM(g_model.Xany[xanynumber].PayloadCfg.Item.RotPot, MODEL_XANY_2ND_COLUMN, y, STR_POTS, attr, event)))
-            {
+          testvalue = selectMenuItem(5*FW, y, STR_ANGLE_SENSOR, STR_ANGLE_SENSOR_VALUES, testvalue, 0, 3, attr, event);
               if (ValidMsg)
                 {
-                  lcdDrawNumberNAtt(16*FW, y, XanyInfo.PotValue, INVERS | UNSIGN | LEADING0, 3);
+                  lcdDrawNumberNAtt(12*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
                 }
-            }
+          break;
+
+        case ITEM_MODEL_PROP_A :
+#if (X_ANY >= 2)
+        case ITEM_MODEL_PROP_B :
+#endif
+#if (X_ANY >= 3)
+        case ITEM_MODEL_PROP_C :
+#endif
+#if (X_ANY >= 4)
+        case ITEM_MODEL_PROP_D :
+#endif
+          testvalue1 = selectMenuItem(5*FW+2, y, STR_PROP, STR_PROP_VALUES, testvalue1, 0, 3, menuHorizontalPosition==0 ? attr : 0, s_editMode>0 ? event : 0);
+            if (ValidMsg)
+              {
+                lcdDrawNumberNAtt(12*FW, y, XanyInfo.PotValue, INVERS | UNSIGN | LEADING0, 3);
+              }
+          lcdDrawText(13*FW, y, STR_EXPO);
+          lcdDrawTextAtIndex(17*FW+FW/2, y, STR_XANY_EXPO, testvalue2, menuHorizontalPosition==1 ? attr : 0);
+          if (menuHorizontalPosition==1 && (s_editMode>0))
+          {
+            CHECK_INCDEC_MODELVAR_ZERO(event, testvalue2, 3);
+          }
           break;
 
 #if (X_ANY >= 2)

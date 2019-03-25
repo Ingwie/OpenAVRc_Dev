@@ -804,4 +804,11 @@
   #define TR_NB_REPEAT                    "Nb r\200p\200tition "
   #define TR_SWITCHES                     "Sw. "
   #define TR_ANGLE_SENSOR                 "0:360"
+  #define LEN_ANGLE_SENSOR_VALUES         "\003"
+  #define TR_ANGLE_SENSOR_VALUES          "---""I2C""STG""STD"
+  #define TR_PROP                         "Prop."
+  #define LEN_PROP_VALUES                 "\003"
+  #define TR_PROP_VALUES                  "---""Pot""STG""STD"
+  #define LEN_XANY_EXPO                   "\005"
+  #define TR_XANY_EXPO                    "0%\0  ""25%\0 ""37.5%""50%\0 "
 #endif
