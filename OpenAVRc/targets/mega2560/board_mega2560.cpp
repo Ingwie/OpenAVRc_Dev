@@ -140,6 +140,7 @@ FORCEINLINE void boardInit()
  LEDOFF();
 }
 
+#if defined(SPIMODULES)
 void rf_spi_init()
 {
   // Reset CS pin
@@ -153,13 +154,6 @@ void rf_spi_init()
   //g_eeGeneral.fixed_ID.ID_32 = 0x1a2b3c4d;
 }
 
-void backlightFade(void)
-{
-// ToDo ... We can decrement the compare register until the target is reached.
-// At the moment we just have a backlight brightness of two levels.
-// OCR0A = OCR0A -1;
-}
-
 uint8_t master_rf_spi_xfer(uint8_t data)
 {
 #if !defined(SIMU)
@@ -170,6 +164,14 @@ uint8_t master_rf_spi_xfer(uint8_t data)
 TRACE("MSPI Send to RF module : ", data);
 return 0;
 #endif
+}
+#endif
+
+void backlightFade(void)
+{
+// ToDo ... We can decrement the compare register until the target is reached.
+// At the moment we just have a backlight brightness of two levels.
+// OCR0A = OCR0A -1;
 }
 
 void boardOff()
