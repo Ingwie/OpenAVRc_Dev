@@ -288,10 +288,9 @@ void processSportPacket(uint8_t *sport_packet)
     {
       telemetryData.value.vfas = SPORT_DATA_U32(sport_packet)/10;   //TODO: remove /10 and display with PREC2 when using SPORT
     }
-  else if (appId >= GPS_SPEED_FIRST_ID && appId <= GPS_SPEED_LAST_ID)
+  else if IS_IN_RANGE(appId, GPS_SPEED_FIRST_ID, GPS_SPEED_LAST_ID)
     {
-      telemetryData.value.gpsSpeed_bp = SPORT_DATA_U32(sport_packet);
-      telemetryData.value.gpsSpeed_bp = (telemetryData.value.gpsSpeed_bp * 46) / 25 / 1000;///(float) 100 / 1.852 * 1000)
+      telemetryData.value.gpsSpeed_bp = (SPORT_DATA_U32(sport_packet) * 46) / 25 / 1000;
       if (telemetryData.value.gpsSpeed_bp > telemetryData.value.maxGpsSpeed)
         telemetryData.value.maxGpsSpeed = telemetryData.value.gpsSpeed_bp;
     }
