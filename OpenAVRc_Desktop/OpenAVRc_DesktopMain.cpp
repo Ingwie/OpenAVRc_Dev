@@ -459,6 +459,7 @@ void OpenAVRc_DesktopFrame::OnAbout(wxCommandEvent& event)
   Aboutbox.AddDeveloper(wxT("Beta tests : JPZ(Testeur68), Pyrall. \n\n"));
   Aboutbox.AddDeveloper(wxT("Forum contributors :\n\n"));
   Aboutbox.AddDeveloper(wxT("ElectoPete (English Voice file), Ievgen (Ukrainian translation). \n"));
+  Aboutbox.AddDeveloper(wxT("EyesOnly (English documentation translation). \n"));
 
   wxAboutBox(Aboutbox);
 }
