@@ -180,6 +180,7 @@ int16_t applyLimits(uint8_t channel, int32_t value)
 getvalue_t getValue(mixsrc_t i)
 {
   if (i==MIXSRC_NONE) return 0;
+
   else if IS_IN_RANGE(i, MIXSRC_FIRST_STICK, MIXSRC_LAST_POT) return calibratedStick[i-MIXSRC_Rud];
 
   else if (i<MIXSRC_LAST_ROTARY_ENCODER+1) return getRotaryEncoder(i-MIXSRC_REa);
