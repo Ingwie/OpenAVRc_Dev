@@ -39,7 +39,7 @@
 void adcInit()
 {
   ADMUX = ADC_VREF_TYPE;
-  ADCSRA = 0x85; // ADC enabled, pre-scaler division=32 (no interrupt, no auto-triggering)
+  ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS0); // ADC enabled, pre-scaler division=32 (no interrupt, no auto-triggering)
   ADCSRB = (1 << MUX5);
 }
 
