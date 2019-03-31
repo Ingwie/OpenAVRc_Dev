@@ -627,6 +627,7 @@ ls_telemetry_value_t maxTelemValue(uint8_t channel)
 FORCEINLINE void convertUnit(getvalue_t & val, uint8_t & unit)
 {
   if (IS_IMPERIAL_ENABLE()) {
+
     if (unit == UNIT_TEMPERATURE) {
       val += 18;
       val *= 115;
@@ -644,7 +645,9 @@ FORCEINLINE void convertUnit(getvalue_t & val, uint8_t & unit)
       unit = UNIT_SPEED;
       val = (val * 23) / 20;
     }
+
   } else {
+
     if (unit == UNIT_KTS) {
       // kts to km/h
       unit = UNIT_SPEED;
@@ -668,7 +671,7 @@ uint8_t inputsMoved()
   for (uint8_t i=0; i<NUM_SWITCHES; i++)
     sum += getValue(MIXSRC_FIRST_SWITCH+i) >> INAC_SWITCHES_SHIFT;
 
-  if (abs((int8_t)(sum-inactivity.sum)) > 1) {
+  if (abs((int8_t)(sum-inactivity.sum)) > 5) {
     inactivity.sum = sum;
     return true;
   } else {
