@@ -290,7 +290,8 @@ void processSportPacket(uint8_t *sport_packet)
     }
   else if IS_IN_RANGE(appId, GPS_SPEED_FIRST_ID, GPS_SPEED_LAST_ID)
     {
-      telemetryData.value.gpsSpeed_bp = (SPORT_DATA_U32(sport_packet) * 46) / 25 / 1000;
+      telemetryData.value.gpsSpeed_bp = (SPORT_DATA_U32(sport_packet)/1000);
+      //telemetryData.value.gpsSpeed_ap = (SPORT_DATA_U32(sport_packet)%1000)/10; // Todo check if usefull
       if (telemetryData.value.gpsSpeed_bp > telemetryData.value.maxGpsSpeed)
         telemetryData.value.maxGpsSpeed = telemetryData.value.gpsSpeed_bp;
     }
