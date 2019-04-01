@@ -206,14 +206,13 @@
 			<Add option="-DWXUSINGDLL" />
 			<Add option="-DwxUSE_UNICODE" />
 			<Add option="-DnoFONTSTD" />
+			<Add option="-DBOLD_FONT" />
 			<Add option="-DFAI_CHOICE" />
 			<Add option="-DSIMU" />
 			<Add option="-DRTCLOCK" />
 			<Add option="-DPCBMEGAMINI" />
 			<Add option="-DCPUM2560" />
 			<Add option="-DOFFSET_ON_INPUT=YES" />
-			<Add option="-DEEPROM_RLC" />
-			<Add option="-DEEPROM_VARIANT=0" />
 			<Add option="-DSDCARD" />
 			<Add option="-DAUDIO" />
 			<Add option="-DVOICE" />
@@ -225,7 +224,6 @@
 			<Add option="-DNOANDSECONDE" />
 			<Add option="-DSPLASH" />
 			<Add option="-DGRAPHICS" />
-			<Add option="-DBOLD_FONT" />
 			<Add option="-DBATTGRAPH" />
 			<Add option="-DTHRTRACE" />
 			<Add option="-DTIMERS=2" />
@@ -259,6 +257,8 @@
 			<Add option="-DCC2500PA_GAIN=20" />
 			<Add option="-DPROTO_HAS_CYRF6936" />
 			<Add option="-DCYRF6936PA_GAIN=20" />
+			<Add option="-DPROTO_HAS_A7105" />
+			<Add option="-DA7105PA_GAIN=20" />
 			<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/include" />
 		</Compiler>
 		<ResourceCompiler>
@@ -336,6 +336,11 @@
 		<Unit filename="../OpenAVRc/mixer.cpp" />
 		<Unit filename="../OpenAVRc/myeeprom.h" />
 		<Unit filename="../OpenAVRc/pgmtypes.h" />
+		<Unit filename="../OpenAVRc/protocol/AFHDS2A_a7105.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="../OpenAVRc/protocol/CORONA_cc2500.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
@@ -356,6 +361,11 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
+		<Unit filename="../OpenAVRc/protocol/FLYSKY_a7105.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="../OpenAVRc/protocol/FRSKYD_cc2500.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
@@ -372,6 +382,11 @@
 			<Option link="0" />
 		</Unit>
 		<Unit filename="../OpenAVRc/protocol/FRSKY_DEF_cc2500.h" />
+		<Unit filename="../OpenAVRc/protocol/J6PRO_cyrf6936.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="../OpenAVRc/protocol/MULTI.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
@@ -394,6 +409,11 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
+		<Unit filename="../OpenAVRc/protocol/a7105.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="../OpenAVRc/protocol/cc2500.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
@@ -404,6 +424,7 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
+		<Unit filename="../OpenAVRc/protocol/iface_a7105.h" />
 		<Unit filename="../OpenAVRc/protocol/iface_cc2500.h" />
 		<Unit filename="../OpenAVRc/protocol/iface_cyrf6936.h" />
 		<Unit filename="../OpenAVRc/protocol/interface.h" />
