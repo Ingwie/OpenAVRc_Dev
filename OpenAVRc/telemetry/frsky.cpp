@@ -290,8 +290,7 @@ void processSportPacket(uint8_t *sport_packet)
     }
   else if IS_IN_RANGE(appId, GPS_SPEED_FIRST_ID, GPS_SPEED_LAST_ID)
     {
-      telemetryData.value.gpsSpeed_bp = (SPORT_DATA_U32(sport_packet)/1000);
-      //telemetryData.value.gpsSpeed_ap = (SPORT_DATA_U32(sport_packet)%1000)/10; // Todo check if usefull
+      telemetryData.value.gpsSpeed_bp = (SPORT_DATA_U32(sport_packet)/100);
       if (telemetryData.value.gpsSpeed_bp > telemetryData.value.maxGpsSpeed)
         telemetryData.value.maxGpsSpeed = telemetryData.value.gpsSpeed_bp;
     }
@@ -611,11 +610,19 @@ void processHubPacket(uint8_t id, uint16_t value)
           }
               break;
 
+  case offsetof(TelemetrySerialData, gpsSpeed_ap):
+    // Compute Gps speed PREC1
+    telemetryData.value.gpsSpeed_bp += telemetryData.value.gpsSpeed_ap/10;
+    break;
+
   case offsetof(TelemetrySerialData, gpsSpeed_bp):
+    // Compute Gps speed PREC1
+    telemetryData.value.gpsSpeed_bp *= 10;
     // Speed => Max speed
     if (telemetryData.value.gpsSpeed_bp > telemetryData.value.maxGpsSpeed)
       telemetryData.value.maxGpsSpeed = telemetryData.value.gpsSpeed_bp;
     break;
+
 #endif
 
   case offsetof(TelemetrySerialData, volts):

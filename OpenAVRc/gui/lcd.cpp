@@ -558,6 +558,11 @@ void lcdPutsTelemetryChannelValue(coord_t x, coord_t y, uint8_t channel, lcdint_
     lcdPutsValueWithUnit(x, y, val, UNIT_AMPS, att|PREC1);
     break;
 
+  case TELEM_SPEED-1:
+  case TELEM_MAX_SPEED-1:
+    lcdPutsValueWithUnit(x, y, val, UNIT_KTS, att|PREC1);
+    break;
+
   case TELEM_CONSUMPTION-1:
     lcdPutsValueWithUnit(x, y, val, UNIT_MAH, att);
     break;
