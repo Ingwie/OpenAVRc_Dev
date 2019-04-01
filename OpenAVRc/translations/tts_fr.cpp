@@ -85,6 +85,20 @@ I18N_PLAY_FUNCTION(fr, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
     number = -number;
   }
 
+  if (unit) {
+    unit--;
+    convertUnit(number, unit);
+    if (IS_IMPERIAL_ENABLE()) {
+      if (unit == UNIT_DIST) {
+        unit = UNIT_FEET;
+      }
+      if (unit == UNIT_SPEED) {
+    	unit = UNIT_KTS;
+      }
+    }
+    unit++;
+  }
+
   int8_t mode = MODE(att);
   if (mode > 0) {
     // we assume that we are PREC1
@@ -121,17 +135,6 @@ I18N_PLAY_FUNCTION(fr, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
   }
 
   if (unit) {
-    unit--;
-    convertUnit(number, unit);
-    if (IS_IMPERIAL_ENABLE()) {
-      if (unit == UNIT_DIST) {
-        unit = UNIT_FEET;
-      }
-      if (unit == UNIT_SPEED) {
-        unit = UNIT_KTS;
-      }
-    }
-    unit++;
     PUSH_NUMBER_PROMPT(FR_PROMPT_UNITS_BASE+unit);
   }
 }
