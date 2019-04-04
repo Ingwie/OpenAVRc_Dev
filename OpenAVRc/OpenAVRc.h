@@ -274,7 +274,6 @@ static uint16_t DurationValue;
 #include "myeeprom.h"
 #include "gui/gui.h"
 
-
 #define NUM_SWITCHES     7
 #define IS_3POS(sw)      ((sw) == 0)
 #define IS_MOMENTARY(sw) (sw == SWSRC_TRN)
@@ -435,12 +434,9 @@ typedef struct {
 //  Dimension of Arrays
 #define DIM(a) ((sizeof a) / (sizeof *a))
 
-#include "gui/gui.h"
-
 #if defined(TEMPLATES)
   #include "templates.h"
 #endif
-
 
 extern const pm_uint8_t bchout_ar[];
 extern const pm_uint8_t modn12x3[];
@@ -1009,6 +1005,10 @@ enum AUDIO_SOUNDS {
 
   AU_NONE=0xff
 };
+
+// First message
+const pm_char STR_OPENAVRCISLOADING[] PROGMEM = "OpenAVRc is loading ...";
+#define  LOADINGMESSAGE() lcdDrawTextAtt(1*FW, 3*FH, STR_OPENAVRCISLOADING, BOLD)
 
 #if defined(AUDIO)
   #include "audio_avr.h"

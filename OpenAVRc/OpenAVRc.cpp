@@ -1543,10 +1543,6 @@ int16_t simumain()
   sei(); // Needed to catch first 10mS interrupt
 
 #if defined(GUI)
-  lcdInit();
-#endif
-
-#if defined(GUI)
   menuHandlers[0] = menuMainView;
 #if MENUS_LOCK != 2 /*no menus*/
   menuHandlers[1] = menuModelSelect;
