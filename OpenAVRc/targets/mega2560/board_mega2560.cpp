@@ -52,6 +52,13 @@ FORCEINLINE void boardInit()
 
   adcInit();
 
+#if defined(GUI)
+  lcdInit();
+  lcdClear();
+  LOADINGMESSAGE();
+  lcdRefresh();
+#endif
+
 #ifndef SIMU
 
   /**** Set up timer/counter 3 ****/

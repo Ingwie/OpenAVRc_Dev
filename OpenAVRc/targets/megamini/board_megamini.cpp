@@ -52,11 +52,17 @@ FORCEINLINE void boardInit()
 
   adcInit();
 
-#ifndef SIMU
+#if defined(GUI)
+  lcdInit();
+  lcdClear();
+  LOADINGMESSAGE();
+  lcdRefresh();
+#endif
 
+#ifndef SIMU
   /**** Set up timer/counter 3 ****/
   // TCNT  10ms = 16MHz/1024/156(.25) periodic timer (10ms interval)
-  //        cycles at 9.984ms but includes 1:4 duty cycle correction to /157 to average at 10.0ms
+  // cycles at 9.984ms but includes 1:4 duty cycle correction to /157 to average at 10.0ms
   TCCR3A  = 0;
   TCCR3C  = 0;
   TCCR3B  = (0b101 << CS30); // Norm mode, clk/1024 (16 bits counter)
@@ -103,10 +109,8 @@ FORCEINLINE void boardInit()
 
 
 #if defined(VOICE_JQ6500)
-
   #define TLM_JQ6500 3 // use uart3 on mega board (TX = PJ1)
   InitJQ6500UartTx();
-
 #endif
 
   /* Rotary encoder interrupt set-up                 */
@@ -121,8 +125,7 @@ FORCEINLINE void boardInit()
   /* Hardware I2C init */
   i2c_init();
 #endif
-  lcdClear();
-  lcdRefresh();
+
 #if defined(X_ANY)
   Xany_init();
 #endif
