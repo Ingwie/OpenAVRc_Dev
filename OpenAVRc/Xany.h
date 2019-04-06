@@ -43,7 +43,12 @@ typedef struct{
     uint8_t  SwNb;
     uint16_t SwValue;
     uint16_t Angle;
-    uint8_t  PotValue;
+    uint8_t  PropValue;
+    uint8_t
+             Active    :1,  /* If set to 0: allows to used the channel as usual (without messages) */
+             ChId      :1,  /* Channel used to transport the message (0 to 15) */
+             RepeatNb  :2,  /* 0 repeat to 3 repeats */
+             Reserved1 :1;
     uint16_t TxPeriodMs;
 }XanyInfoSt_t;
 
@@ -51,5 +56,9 @@ void     Xany_init(void);
 uint8_t  Xany_readInputsAndLoadMsg(uint8_t XanyIdx);
 void     Xany_scheduleTx(uint8_t XanyIdx);
 uint8_t  Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo);
+uint8_t  Xany_getAngleSrcIdx(uint8_t XanyIdx);
+void     Xany_updateAngleSrcIdx(uint8_t XanyIdx, uint8_t PropSrcIdx);
+uint8_t  Xany_getPropSrcIdx(uint8_t XanyIdx);
+void     Xany_updatePropSrcIdx(uint8_t XanyIdx, uint8_t PropSrcIdx);
 
 #endif // X_ANY_H
