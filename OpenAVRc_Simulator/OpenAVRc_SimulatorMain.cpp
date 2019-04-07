@@ -1669,12 +1669,10 @@ void OpenAVRc_SimulatorFrame::load_ModelData_EEPROM_VER()
           temp_model.Xany[i].Reserved1 = tmp;
           eepromfile->Read(wxT("Xany"+num+"PayloadCfg.Raw"),&tmp,0);
           temp_model.Xany[i].PayloadCfg.Raw = tmp;
-          eepromfile->Read(wxT("Xany"+num+"Rfu0"),&tmp,0);
-          temp_model.Xany[i].Rfu[0] = tmp;
-          eepromfile->Read(wxT("Xany"+num+"Rfu1"),&tmp,0);
-          temp_model.Xany[i].Rfu[1] = tmp;
-          eepromfile->Read(wxT("Xany"+num+"Rfu2"),&tmp,0);
-          temp_model.Xany[i].Rfu[2] = tmp;
+          eepromfile->Read(wxT("Xany"+num+"Param.Raw"),&tmp,0);
+          temp_model.Xany[i].Param.Raw = tmp;
+          eepromfile->Read(wxT("Xany"+num+"Rfu"),&tmp,0);
+          temp_model.Xany[i].Rfu = tmp;
         }
 
       theFile.writeRlc(FILE_MODEL(m), FILE_TYP_MODEL, (uint8_t*)&temp_model, sizeof(temp_model), 1);
@@ -2020,10 +2018,8 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
           temp_model.Xany[i].RepeatNb = 0;
           temp_model.Xany[i].Reserved1 = 0;
           temp_model.Xany[i].PayloadCfg.Raw = 0;
-          temp_model.Xany[i].Rfu[0] = 0;
-          temp_model.Xany[i].Rfu[1] = 0;
-          temp_model.Xany[i].Rfu[2] = 0;
-
+          temp_model.Xany[i].Param.Raw = 0;
+          temp_model.Xany[i].Rfu = 0;
         }
 
       theFile.writeRlc(FILE_MODEL(m), FILE_TYP_MODEL, (uint8_t*)&temp_model, sizeof(temp_model), 1);
@@ -2475,9 +2471,8 @@ void OpenAVRc_SimulatorFrame::save_ModelData_EEPROM_VER()
           eepromfile->Write(wxT("Xany"+num+"RepeatNb"),(int)temp_model.Xany[i].RepeatNb);
           eepromfile->Write(wxT("Xany"+num+"Reserved1"),(int)temp_model.Xany[i].Reserved1);
           eepromfile->Write(wxT("Xany"+num+"PayloadCfg.Raw"),(int)temp_model.Xany[i].PayloadCfg.Raw);
-          eepromfile->Write(wxT("Xany"+num+"Rfu0"),(int)temp_model.Xany[i].Rfu[0]);
-          eepromfile->Write(wxT("Xany"+num+"Rfu1"),(int)temp_model.Xany[i].Rfu[1]);
-          eepromfile->Write(wxT("Xany"+num+"Rfu2"),(int)temp_model.Xany[i].Rfu[2]);
+          eepromfile->Write(wxT("Xany"+num+"Param.Raw"),(int)temp_model.Xany[i].Param.Raw);
+          eepromfile->Write(wxT("Xany"+num+"Rfu"),(int)temp_model.Xany[i].Rfu);
         }
     }
   }
