@@ -592,8 +592,8 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
         break;
 
         case XANY_MSG_L_CS_GIS:
-        ExcSin = (calibratedStick[ELE_STICK] / 2);
-        ExcCos = (calibratedStick[RUD_STICK] / 2);
+        ExcSin = (calibratedStick[CONVERT_MODE(ELE_STICK)] / 2);
+        ExcCos = (calibratedStick[CONVERT_MODE(RUD_STICK)] / 2);
         Radius = throttle(ExcSin / 2, ExcCos / 2, 0);
         if(Radius >= DEAD_ANGLE_RADIUS)
         {
@@ -607,8 +607,8 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
         break;
 
         case XANY_MSG_R_CS_GIS:
-        ExcSin = (calibratedStick[THR_STICK] / 2);
-        ExcCos = (calibratedStick[AIL_STICK] / 2);
+        ExcSin = (calibratedStick[CONVERT_MODE(THR_STICK)] / 2);
+        ExcCos = (calibratedStick[CONVERT_MODE(AIL_STICK)] / 2);
         Radius = throttle(ExcSin / 2, ExcCos / 2, 0);
         if(Radius >= DEAD_ANGLE_RADIUS)
         {
