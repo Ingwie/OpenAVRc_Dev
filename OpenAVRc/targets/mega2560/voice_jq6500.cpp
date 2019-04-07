@@ -33,11 +33,12 @@
 
 // JQ6500 mp3 module driver
 // 6 X 10 (bits) X 104µs = 6.24 mS to send a playfile command
+// If anyone know how to change JQ6500 USART speed -> Tell me please ;-)
 
 #include "../../OpenAVRc.h"
 
 
-#define QUEUE_LENGTH (24*2)  //bytes
+#define QUEUE_LENGTH (32*2)  //bytes
 
 enum JQ6500_State {
 	START = 0, //0x7E Start
@@ -46,9 +47,8 @@ enum JQ6500_State {
 	FILEH,     //0x00 Dummy file
 	FILEL,     //0x00 Dummy file
 	TERMI,     //0xEF Termination
+	WAIT1LOOP, //Wait one loop state
 };
-
-volatile uint8_t JQstate = START;
 
 uint8_t JQ6500_Data[6] = {0x7E, //Start
                           0x04, //Num bytes follow
@@ -57,28 +57,17 @@ uint8_t JQ6500_Data[6] = {0x7E, //Start
                           0x00, //Dummy LSB file
                           0xEF}; //Termination
 
-uint8_t JQ6500_playlist[QUEUE_LENGTH] = {0};
+volatile uint8_t JQstate = START;
+uint8_t JQ6500_playlist[QUEUE_LENGTH];
 uint8_t JQ6500_InputIndex = 0;
 uint8_t JQ6500_PlayIndex = 0;
-
-void pushPrompt(uint16_t prompt)
-{
-	// if mute active => no voice
-	if (g_eeGeneral.beepMode == e_mode_quiet) return;
-	++prompt;  // With SDformatter, first FAT address = 1 : MP3 files in a directory
-	/* Load playlist and activate interrupt */
-	JQ6500_playlist[JQ6500_InputIndex++] = (uint8_t)(prompt >> 8);    // MSB first
-	JQ6500_playlist[JQ6500_InputIndex++] = (uint8_t)(prompt);  // LSB after
-	if (JQ6500_InputIndex == QUEUE_LENGTH) JQ6500_InputIndex = 0;
-
-}
 
 void InitJQ6500UartTx()
 {
 #if !defined(SIMU)
 
 #undef BAUD
-#define BAUD 9600
+#define BAUD 9600 // JQ6500 default speed ("can be ajusted says the doc. How ?)
 #include <util/setbaud.h>
 
   UBRRH_N(TLM_JQ6500) = UBRRH_VALUE;
@@ -94,17 +83,31 @@ void InitJQ6500UartTx()
 #endif
 }
 
+void pushPrompt(uint16_t prompt)
+{
+	// if mute active => no voice
+	if (g_eeGeneral.beepMode == e_mode_quiet) return;
+	++prompt;  // With SDformatter, first FAT address = 1 : MP3 files in a directory
+	/* Load playlist buffer */
+	JQ6500_playlist[JQ6500_InputIndex++] = (uint8_t)(prompt >> 8); // MSB first
+	JQ6500_playlist[JQ6500_InputIndex++] = (uint8_t)(prompt);      // LSB after
+	if (JQ6500_InputIndex == QUEUE_LENGTH) JQ6500_InputIndex = 0;
+
+}
+
 void JQ6500Check()
 {
 #if !defined(SIMU)
-  if ((JQ6500_PlayIndex == JQ6500_InputIndex) || (JQstate != START) || (JQ6500_BUSY) ) return;
+  if (JQ6500_PlayIndex == JQ6500_InputIndex) return; // Nothing to play, return ...
 
-  JQstate = START;
+  if (JQ6500_BUSY) {JQstate = WAIT1LOOP; return;}    // Wait first 10mS after JQ "is buzy"
+
+  if (JQstate == WAIT1LOOP) {--JQstate; return;}     // Wait another 10mS before sending new prompt
 
   JQ6500_Data[3] = JQ6500_playlist[JQ6500_PlayIndex++];
   JQ6500_Data[4] = JQ6500_playlist[JQ6500_PlayIndex++];
   if (JQ6500_PlayIndex == QUEUE_LENGTH) JQ6500_PlayIndex = 0;
-
+  JQstate = START;
   UDR_N(TLM_JQ6500) = JQ6500_Data[JQstate]; // Send Datas
   UCSRB_N(TLM_JQ6500) |= (1 << UDRIE_N(TLM_JQ6500)); // enable UDRE(TLM_JQ6500) interrupt
 #endif
@@ -117,7 +120,6 @@ ISR(USART_UDRE_vect_N(TLM_JQ6500))
     UDR_N(TLM_JQ6500) = JQ6500_Data[++JQstate];
   } else {
     UCSRB_N(TLM_JQ6500) &= ~(1 << UDRIE_N(TLM_JQ6500)); // disable UDRE(TLM_JQ6500) interrupt
-    JQstate = START;
   }
 #endif
 }
