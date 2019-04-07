@@ -688,8 +688,8 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
 
         case XANY_MSG_L_CS_GIS_THR:
         case XANY_MSG_L_CS_GIS_POT:
-        ExcSin = (calibratedStick[ELE_STICK] / 2);
-        ExcCos = (calibratedStick[RUD_STICK] / 2);
+        ExcSin = (calibratedStick[CONVERT_MODE(ELE_STICK)] / 2);
+        ExcCos = (calibratedStick[CONVERT_MODE(RUD_STICK)] / 2);
         /* Here, ExcSin and ExcCos are between -512 and +511 (-> better angle accuracy) */
         Radius = throttle(ExcSin / 2, ExcCos / 2, 0); /* throttle() expects arguments between -255 to 255 */
         if(Radius >= DEAD_ANGLE_RADIUS)
@@ -716,8 +716,8 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
 
         case XANY_MSG_R_CS_GIS_THR:
         case XANY_MSG_R_CS_GIS_POT:
-        ExcSin = (calibratedStick[THR_STICK] / 2);
-        ExcCos = (calibratedStick[AIL_STICK] / 2);
+        ExcSin = (calibratedStick[CONVERT_MODE(THR_STICK)] / 2);
+        ExcCos = (calibratedStick[CONVERT_MODE(AIL_STICK)] / 2);
         /* Here, ExcSin and ExcCos are between -512 and +511 (-> better angle accuracy) */
         Radius = throttle(ExcSin / 2, ExcCos / 2, 0); /* throttle() expects arguments between -255 to 255 */
         if(Radius >= DEAD_ANGLE_RADIUS)
