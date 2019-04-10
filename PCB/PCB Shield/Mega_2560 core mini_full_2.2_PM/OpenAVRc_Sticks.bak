@@ -1,5 +1,5 @@
 EESchema Schematic File Version 4
-LIBS:Mega_2560 core mini_full_2.1-cache
+LIBS:Mega_2560 core mini_full_2.2-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
@@ -23,7 +23,7 @@ Stick_LVcon
 Text Label 1500 5800 1    60   ~ 0
 Stick_LHcon
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C9
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C9
 U 1 1 59C5C005
 P 1850 5200
 F 0 "C9" H 1875 5300 50  0000 L CNN
@@ -34,7 +34,7 @@ F 3 "" H 1850 5200 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C11
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C11
 U 1 1 59C5C00C
 P 1850 4900
 F 0 "C11" H 1875 5000 50  0000 L CNN
@@ -45,7 +45,7 @@ F 3 "" H 1850 4900 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C16
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C16
 U 1 1 59C5C013
 P 2900 5200
 F 0 "C16" H 2925 5300 50  0000 L CNN
@@ -56,7 +56,7 @@ F 3 "" H 2900 5200 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C17
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C17
 U 1 1 59C5C01A
 P 2900 4900
 F 0 "C17" H 2925 5000 50  0000 L CNN
@@ -67,7 +67,7 @@ F 3 "" H 2900 4900 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR04
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR04
 U 1 1 59C5C021
 P 1600 4650
 F 0 "#PWR04" H 1600 4400 50  0001 C CNN
@@ -78,7 +78,7 @@ F 3 "" H 1600 4650 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR05
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR05
 U 1 1 59C5C027
 P 2650 4650
 F 0 "#PWR05" H 2650 4400 50  0001 C CNN
@@ -89,7 +89,7 @@ F 3 "" H 2650 4650 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:MCP6004-Mega_2560-core-mini_full_2.1 U6
+L Mega_2560-core-mini_full_2.2-rescue:MCP6004-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue U6
 U 2 1 59C5C02D
 P 6100 4500
 F 0 "U6" H 6100 4700 50  0000 L CNN
@@ -100,7 +100,7 @@ F 3 "" H 6150 4700 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:MCP6004-Mega_2560-core-mini_full_2.1 U6
+L Mega_2560-core-mini_full_2.2-rescue:MCP6004-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue U6
 U 4 1 59C5C034
 P 9500 4550
 F 0 "U6" H 9500 4750 50  0000 L CNN
@@ -111,7 +111,7 @@ F 3 "" H 9550 4750 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:MCP6004-Mega_2560-core-mini_full_2.1 U6
+L Mega_2560-core-mini_full_2.2-rescue:MCP6004-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue U6
 U 3 1 59C5C03B
 P 7800 4500
 F 0 "U6" H 7800 4700 50  0000 L CNN
@@ -122,7 +122,7 @@ F 3 "" H 7850 4700 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:MCP6004-Mega_2560-core-mini_full_2.1 U6
+L Mega_2560-core-mini_full_2.2-rescue:MCP6004-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue U6
 U 1 1 59C5C042
 P 4400 4500
 F 0 "U6" H 4400 4700 50  0000 L CNN
@@ -155,7 +155,7 @@ F 3 "" H 4000 4200 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R26
+L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R26
 U 1 1 59C5C055
 P 4950 5350
 F 0 "R26" V 5030 5350 50  0000 C CNN
@@ -166,7 +166,7 @@ F 3 "" H 4950 5350 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R28
+L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R28
 U 1 1 59C5C05C
 P 5150 5350
 F 0 "R28" V 5230 5350 50  0000 C CNN
@@ -177,7 +177,7 @@ F 3 "" H 5150 5350 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR08
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR08
 U 1 1 59C5C063
 P 5350 5800
 F 0 "#PWR08" H 5350 5550 50  0001 C CNN
@@ -188,7 +188,7 @@ F 3 "" H 5350 5800 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR09
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR09
 U 1 1 59C5C069
 P 4700 4600
 F 0 "#PWR09" H 4700 4350 50  0001 C CNN
@@ -210,7 +210,7 @@ F 3 "" H 5800 4600 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR011
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR011
 U 1 1 59C5C075
 P 6400 4600
 F 0 "#PWR011" H 6400 4350 50  0001 C CNN
@@ -232,7 +232,7 @@ F 3 "" H 7500 4600 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR013
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR013
 U 1 1 59C5C081
 P 8100 4600
 F 0 "#PWR013" H 8100 4350 50  0001 C CNN
@@ -245,7 +245,7 @@ $EndComp
 Text Label 4950 6100 1    60   ~ 0
 Stick_RHcon
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C43
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C43
 U 1 1 59C5C089
 P 5400 4600
 F 0 "C43" H 5425 4700 50  0000 L CNN
@@ -256,7 +256,7 @@ F 3 "" H 5400 4600 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C44
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C44
 U 1 1 59C5C090
 P 7100 4600
 F 0 "C44" H 7125 4700 50  0000 L CNN
@@ -267,7 +267,7 @@ F 3 "" H 7100 4600 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue RV2
+L Mega_2560-core-mini_full_2.2-rescue:POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue RV2
 U 1 1 59C5C097
 P 5350 5550
 F 0 "RV2" V 5250 5550 50  0000 C CNN
@@ -289,7 +289,7 @@ F 3 "" H 5350 5400 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R29
+L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R29
 U 1 1 59C5C0A4
 P 6650 5350
 F 0 "R29" V 6730 5350 50  0000 C CNN
@@ -300,7 +300,7 @@ F 3 "" H 6650 5350 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R31
+L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R31
 U 1 1 59C5C0AB
 P 6850 5350
 F 0 "R31" V 6930 5350 50  0000 C CNN
@@ -311,7 +311,7 @@ F 3 "" H 6850 5350 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR015
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR015
 U 1 1 59C5C0B2
 P 7050 5800
 F 0 "#PWR015" H 7050 5550 50  0001 C CNN
@@ -322,7 +322,7 @@ F 3 "" H 7050 5800 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue RV3
+L Mega_2560-core-mini_full_2.2-rescue:POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue RV3
 U 1 1 59C5C0B8
 P 7050 5550
 F 0 "RV3" V 6950 5550 50  0000 C CNN
@@ -344,7 +344,7 @@ F 3 "" H 7050 5400 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C45
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C45
 U 1 1 59C5C0C5
 P 8800 4650
 F 0 "C45" H 8825 4750 50  0000 L CNN
@@ -355,7 +355,7 @@ F 3 "" H 8800 4650 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R32
+L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R32
 U 1 1 59C5C0CC
 P 8350 5350
 F 0 "R32" V 8430 5350 50  0000 C CNN
@@ -366,7 +366,7 @@ F 3 "" H 8350 5350 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R34
+L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R34
 U 1 1 59C5C0D3
 P 8550 5350
 F 0 "R34" V 8630 5350 50  0000 C CNN
@@ -377,7 +377,7 @@ F 3 "" H 8550 5350 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR017
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR017
 U 1 1 59C5C0DA
 P 8750 5800
 F 0 "#PWR017" H 8750 5550 50  0001 C CNN
@@ -388,7 +388,7 @@ F 3 "" H 8750 5800 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue RV4
+L Mega_2560-core-mini_full_2.2-rescue:POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue RV4
 U 1 1 59C5C0E0
 P 8750 5550
 F 0 "RV4" V 8650 5550 50  0000 C CNN
@@ -410,7 +410,7 @@ F 3 "" H 8750 5400 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR019
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR019
 U 1 1 59C5C0ED
 P 9800 4650
 F 0 "#PWR019" H 9800 4400 50  0001 C CNN
@@ -421,7 +421,7 @@ F 3 "" H 9800 4650 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C46
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C46
 U 1 1 59C5C0F3
 P 10500 4700
 F 0 "C46" H 10525 4800 50  0000 L CNN
@@ -432,7 +432,7 @@ F 3 "" H 10500 4700 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R35
+L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R35
 U 1 1 59C5C0FA
 P 10050 5400
 F 0 "R35" V 10130 5400 50  0000 C CNN
@@ -443,7 +443,7 @@ F 3 "" H 10050 5400 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R37
+L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R37
 U 1 1 59C5C101
 P 10250 5400
 F 0 "R37" V 10330 5400 50  0000 C CNN
@@ -454,7 +454,7 @@ F 3 "" H 10250 5400 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR020
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR020
 U 1 1 59C5C108
 P 10450 5850
 F 0 "#PWR020" H 10450 5600 50  0001 C CNN
@@ -465,7 +465,7 @@ F 3 "" H 10450 5850 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue RV5
+L Mega_2560-core-mini_full_2.2-rescue:POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue RV5
 U 1 1 59C5C10E
 P 10450 5600
 F 0 "RV5" V 10350 5600 50  0000 C CNN
@@ -493,7 +493,7 @@ Stick_LVcon
 Text Label 10050 6150 1    60   ~ 0
 Stick_LHcon
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R24
+L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R24
 U 1 1 59C5C121
 P 3550 5550
 F 0 "R24" V 3630 5550 50  0000 C CNN
@@ -504,7 +504,7 @@ F 3 "" H 3550 5550 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C42
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C42
 U 1 1 59C5C128
 P 3750 5250
 F 0 "C42" H 3775 5350 50  0000 L CNN
@@ -515,7 +515,7 @@ F 3 "" H 3750 5250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R25
+L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R25
 U 1 1 59C5C12F
 P 4000 5250
 F 0 "R25" V 4080 5250 50  0000 C CNN
@@ -526,7 +526,7 @@ F 3 "" H 4000 5250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR022
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR022
 U 1 1 59C5C136
 P 4000 5800
 F 0 "#PWR022" H 4000 5550 50  0001 C CNN
@@ -541,7 +541,7 @@ Stick control
 Text Notes 5900 3350 0    60   Italic 0
 Option Amplification des manches (Fonctionne sans)
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:TEST_2P-Mega_2560-core-mini_full_2.1 W1
+L Mega_2560-core-mini_full_2.2-rescue:TEST_2P-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue W1
 U 1 1 59C5C13E
 P 4900 4600
 F 0 "W1" H 4900 4660 50  0000 C CNN
@@ -552,7 +552,7 @@ F 3 "" H 4900 4600 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:TEST_2P-Mega_2560-core-mini_full_2.1 W2
+L Mega_2560-core-mini_full_2.2-rescue:TEST_2P-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue W2
 U 1 1 59C5C145
 P 6600 4600
 F 0 "W2" H 6600 4660 50  0000 C CNN
@@ -563,7 +563,7 @@ F 3 "" H 6600 4600 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:TEST_2P-Mega_2560-core-mini_full_2.1 W3
+L Mega_2560-core-mini_full_2.2-rescue:TEST_2P-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue W3
 U 1 1 59C5C14C
 P 8300 4600
 F 0 "W3" H 8300 4660 50  0000 C CNN
@@ -574,7 +574,7 @@ F 3 "" H 8300 4600 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:TEST_2P-Mega_2560-core-mini_full_2.1 W4
+L Mega_2560-core-mini_full_2.2-rescue:TEST_2P-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue W4
 U 1 1 59C5C153
 P 10000 4650
 F 0 "W4" H 10000 4710 50  0000 C CNN
@@ -585,7 +585,7 @@ F 3 "" H 10000 4650 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R27
+L Mega_2560-core-mini_full_2.2-rescue:POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R27
 U 1 1 59C5C15A
 P 5150 4350
 F 0 "R27" V 5050 4350 50  0000 C CNN
@@ -596,7 +596,7 @@ F 3 "" H 5150 4350 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R11
+L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R11
 U 1 1 59C5C161
 P 5150 4800
 F 0 "R11" V 5230 4800 50  0000 C CNN
@@ -607,7 +607,7 @@ F 3 "" H 5150 4800 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R30
+L Mega_2560-core-mini_full_2.2-rescue:POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R30
 U 1 1 59C5C168
 P 6850 4350
 F 0 "R30" V 6750 4350 50  0000 C CNN
@@ -618,7 +618,7 @@ F 3 "" H 6850 4350 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R12
+L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R12
 U 1 1 59C5C16F
 P 6850 4800
 F 0 "R12" V 6930 4800 50  0000 C CNN
@@ -629,7 +629,7 @@ F 3 "" H 6850 4800 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R33
+L Mega_2560-core-mini_full_2.2-rescue:POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R33
 U 1 1 59C5C176
 P 8550 4350
 F 0 "R33" V 8450 4350 50  0000 C CNN
@@ -640,7 +640,7 @@ F 3 "" H 8550 4350 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R36
+L Mega_2560-core-mini_full_2.2-rescue:POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R36
 U 1 1 59C5C17D
 P 10250 4400
 F 0 "R36" V 10150 4400 50  0000 C CNN
@@ -651,7 +651,7 @@ F 3 "" H 10250 4400 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R13
+L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R13
 U 1 1 59C5C184
 P 8550 4800
 F 0 "R13" V 8630 4800 50  0000 C CNN
@@ -662,7 +662,7 @@ F 3 "" H 8550 4800 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue R14
+L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R14
 U 1 1 59C5C18B
 P 10250 4900
 F 0 "R14" V 10330 4900 50  0000 C CNN
@@ -673,7 +673,7 @@ F 3 "" H 10250 4900 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C4
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C4
 U 1 1 59C5C192
 P 3700 4450
 F 0 "C4" H 3725 4550 50  0000 L CNN
@@ -684,7 +684,7 @@ F 3 "" H 3700 4450 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR023
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR023
 U 1 1 59C5C199
 P 3700 4700
 F 0 "#PWR023" H 3700 4450 50  0001 C CNN
@@ -695,7 +695,7 @@ F 3 "" H 3700 4700 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:CONN_01X03-Mega_2560-core-mini_full_2.1 P28
+L Mega_2560-core-mini_full_2.2-rescue:CONN_01X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P28
 U 1 1 59C5C19F
 P 2950 5550
 F 0 "P28" H 2950 5750 50  0000 C CNN
@@ -719,7 +719,7 @@ $EndComp
 Text Label 1200 6050 1    60   ~ 0
 Power_manches
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:CONN_01X06-Mega_2560-core-mini_full_2.1 P13
+L Mega_2560-core-mini_full_2.2-rescue:CONN_01X06-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P13
 U 1 1 59C5C1AE
 P 2500 4350
 F 0 "P13" H 2500 4700 50  0000 C CNN
@@ -730,7 +730,7 @@ F 3 "" H 2500 4350 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:CONN_01X06-Mega_2560-core-mini_full_2.1 P12
+L Mega_2560-core-mini_full_2.2-rescue:CONN_01X06-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P12
 U 1 1 59C5C1B5
 P 1450 4350
 F 0 "P12" H 1450 4700 50  0000 C CNN
@@ -741,7 +741,7 @@ F 3 "" H 1450 4350 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR025
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR025
 U 1 1 59C5C1BC
 P 3100 4900
 F 0 "#PWR025" H 3100 4650 50  0001 C CNN
@@ -752,7 +752,7 @@ F 3 "" H 3100 4900 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR026
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR026
 U 1 1 59C5C1C2
 P 3100 5200
 F 0 "#PWR026" H 3100 4950 50  0001 C CNN
@@ -763,7 +763,7 @@ F 3 "" H 3100 5200 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR027
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR027
 U 1 1 59C5C1C8
 P 2050 4900
 F 0 "#PWR027" H 2050 4650 50  0001 C CNN
@@ -774,7 +774,7 @@ F 3 "" H 2050 4900 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR028
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR028
 U 1 1 59C5C1CE
 P 2050 5200
 F 0 "#PWR028" H 2050 4950 50  0001 C CNN
@@ -1076,7 +1076,7 @@ Wire Wire Line
 Wire Wire Line
 	1300 4650 1200 4650
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C12
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C12
 U 1 1 59C60A12
 P 2800 2250
 F 0 "C12" H 2825 2350 50  0000 L CNN
@@ -1087,7 +1087,7 @@ F 3 "" H 2800 2250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C13
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C13
 U 1 1 59C60A19
 P 2150 2250
 F 0 "C13" H 2175 2350 50  0000 L CNN
@@ -1098,7 +1098,7 @@ F 3 "" H 2150 2250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C14
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C14
 U 1 1 59C60A20
 P 1550 2250
 F 0 "C14" H 1575 2350 50  0000 L CNN
@@ -1109,7 +1109,7 @@ F 3 "" H 1550 2250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR029
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR029
 U 1 1 59C60A27
 P 2800 2450
 F 0 "#PWR029" H 2800 2200 50  0001 C CNN
@@ -1120,7 +1120,7 @@ F 3 "" H 2800 2450 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR030
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR030
 U 1 1 59C60A2D
 P 2150 2450
 F 0 "#PWR030" H 2150 2200 50  0001 C CNN
@@ -1131,7 +1131,7 @@ F 3 "" H 2150 2450 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR031
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR031
 U 1 1 59C60A33
 P 1550 2450
 F 0 "#PWR031" H 1550 2200 50  0001 C CNN
@@ -1142,7 +1142,7 @@ F 3 "" H 1550 2450 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:CONN_01X03-Mega_2560-core-mini_full_2.1 P32
+L Mega_2560-core-mini_full_2.2-rescue:CONN_01X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P32
 U 1 1 59C60A39
 P 1450 1250
 F 0 "P32" H 1450 1450 50  0000 C CNN
@@ -1153,7 +1153,7 @@ F 3 "" H 1450 1250 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:CONN_01X03-Mega_2560-core-mini_full_2.1 P31
+L Mega_2560-core-mini_full_2.2-rescue:CONN_01X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P31
 U 1 1 59C60A40
 P 2050 1250
 F 0 "P31" H 2050 1450 50  0000 C CNN
@@ -1164,7 +1164,7 @@ F 3 "" H 2050 1250 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:CONN_01X03-Mega_2560-core-mini_full_2.1 P4
+L Mega_2560-core-mini_full_2.2-rescue:CONN_01X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P4
 U 1 1 59C60A47
 P 2700 1250
 F 0 "P4" H 2700 1450 50  0000 C CNN
@@ -1186,7 +1186,7 @@ F 3 "" H 2600 1550 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR033
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR033
 U 1 1 59C60A54
 P 2800 1550
 F 0 "#PWR033" H 2800 1300 50  0001 C CNN
@@ -1208,7 +1208,7 @@ F 3 "" H 1950 1550 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR035
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR035
 U 1 1 59C60A60
 P 2150 1550
 F 0 "#PWR035" H 2150 1300 50  0001 C CNN
@@ -1230,7 +1230,7 @@ F 3 "" H 1350 1550 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR037
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR037
 U 1 1 59C60A6C
 P 1550 1550
 F 0 "#PWR037" H 1550 1300 50  0001 C CNN
@@ -1280,7 +1280,7 @@ Wire Wire Line
 	1550 1850 1450 1850
 Connection ~ 1450 1850
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR038
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR038
 U 1 1 59C62A28
 P 4350 1650
 F 0 "#PWR038" H 4350 1400 50  0001 C CNN
@@ -1291,7 +1291,7 @@ F 3 "" H 4350 1650 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR039
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR039
 U 1 1 59C62A2E
 P 6000 1650
 F 0 "#PWR039" H 6000 1400 50  0001 C CNN
@@ -1302,7 +1302,7 @@ F 3 "" H 6000 1650 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:CONN_01X10-Mega_2560-core-mini_full_2.1-rescue P14
+L Mega_2560-core-mini_full_2.2-rescue:CONN_01X10-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue P14
 U 1 1 59C62A34
 P 5550 1250
 F 0 "P14" H 5550 1800 50  0000 C CNN
@@ -1313,7 +1313,7 @@ F 3 "" H 5550 1250 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:CONN_01X10-Mega_2560-core-mini_full_2.1-rescue P11
+L Mega_2560-core-mini_full_2.2-rescue:CONN_01X10-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue P11
 U 1 1 59C62A3B
 P 3900 1250
 F 0 "P11" H 3900 1800 50  0000 C CNN
@@ -1370,7 +1370,7 @@ Wire Wire Line
 	5900 1550 6000 1550
 Connection ~ 6000 1550
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C29
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C29
 U 1 1 59C63F4F
 P 7250 1800
 F 0 "C29" H 7275 1900 50  0000 L CNN
@@ -1381,7 +1381,7 @@ F 3 "" H 7250 1800 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C27
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C27
 U 1 1 59C63F56
 P 7150 1900
 F 0 "C27" H 7175 2000 50  0000 L CNN
@@ -1392,7 +1392,7 @@ F 3 "" H 7150 1900 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C26
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C26
 U 1 1 59C63F5D
 P 7050 2000
 F 0 "C26" H 7075 2100 50  0000 L CNN
@@ -1403,7 +1403,7 @@ F 3 "" H 7050 2000 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C34
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C34
 U 1 1 59C63F64
 P 8500 1800
 F 0 "C34" H 8525 1900 50  0000 L CNN
@@ -1414,7 +1414,7 @@ F 3 "" H 8500 1800 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C33
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C33
 U 1 1 59C63F6B
 P 8400 1900
 F 0 "C33" H 8425 2000 50  0000 L CNN
@@ -1425,7 +1425,7 @@ F 3 "" H 8400 1900 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR040
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR040
 U 1 1 59C63F79
 P 8650 2150
 F 0 "#PWR040" H 8650 1900 50  0001 C CNN
@@ -1436,7 +1436,7 @@ F 3 "" H 8650 2150 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:CONN_01X04-Mega_2560-core-mini_full_2.1 P23
+L Mega_2560-core-mini_full_2.2-rescue:CONN_01X04-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P23
 U 1 1 59C63F7F
 P 7050 1250
 F 0 "P23" H 7050 1500 50  0000 C CNN
@@ -1447,7 +1447,7 @@ F 3 "" H 7050 1250 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:CONN_01X04-Mega_2560-core-mini_full_2.1 P24
+L Mega_2560-core-mini_full_2.2-rescue:CONN_01X04-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P24
 U 1 1 59C63F86
 P 8300 1250
 F 0 "P24" H 8300 1500 50  0000 C CNN
@@ -1458,7 +1458,7 @@ F 3 "" H 8300 1250 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:CONN_01X08-Mega_2560-core-mini_full_2.1 P25
+L Mega_2560-core-mini_full_2.2-rescue:CONN_01X08-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P25
 U 1 1 59C63FBD
 P 9650 1250
 F 0 "P25" H 9650 1700 50  0000 C CNN
@@ -1469,7 +1469,7 @@ F 3 "" H 9650 1250 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR041
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR041
 U 1 1 59C63FC4
 P 7400 2150
 F 0 "#PWR041" H 7400 1900 50  0001 C CNN
@@ -1480,7 +1480,7 @@ F 3 "" H 7400 2150 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue #PWR042
+L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR042
 U 1 1 59C63FCE
 P 9300 1750
 F 0 "#PWR042" H 9300 1500 50  0001 C CNN
@@ -1633,7 +1633,7 @@ $EndComp
 Wire Wire Line
 	3050 5850 3050 5750
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:CONN_01X02-Mega_2560-core-mini_full_2.1 P33
+L Mega_2560-core-mini_full_2.2-rescue:CONN_01X02-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P33
 U 1 1 5A71A89A
 P 10450 1250
 AR Path="/5A71A89A" Ref="P33"  Part="1" 
@@ -1664,7 +1664,7 @@ Wire Wire Line
 	10500 1550 10500 1450
 Connection ~ 10400 1550
 $Comp
-L Mega_2560-core-mini_full_2.1-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue C32
+L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C32
 U 1 1 5A72E2A9
 P 8300 2000
 F 0 "C32" H 8325 2100 50  0000 L CNN
