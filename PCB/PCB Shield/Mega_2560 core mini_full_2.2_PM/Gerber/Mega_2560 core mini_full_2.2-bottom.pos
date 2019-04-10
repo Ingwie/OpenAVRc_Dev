@@ -1,4 +1,4 @@
-### Module positions - created on 22/02/2019 10:35:30 ###
+### Module positions - created on 05/04/2019 16:18:06 ###
 ### Printed by Pcbnew version kicad (5.0.2)-1
 ## Unit = mm, Angle = deg.
 ## Side : bottom
@@ -49,7 +49,7 @@ R35       47K            R_1206             -17.1450    16.5100   90.0000  botto
 R37       120K           R_1206             -23.4950    12.7000    0.0000  bottom
 R41       33K            R_1206             -83.9470    51.1810   90.0000  bottom
 R43       10K            R_1206             -81.5340    51.1810  270.0000  bottom
-U2        74LVC1G3157GV  SOT-457            -77.7240    29.7180  180.0000  bottom
-U3        74LVC1G3157GV  SOT-457            -77.7240    25.9080  180.0000  bottom
+U2        74LVC1G3157GV  SOT-457            -77.7240    25.9080  180.0000  bottom
+U3        74LVC1G3157GV  SOT-457            -77.7240    29.7180  180.0000  bottom
 U5        LD1117S33TR    SOT-223            -75.5650    52.7050  180.0000  bottom
 ## End
