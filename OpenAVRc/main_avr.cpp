@@ -71,8 +71,13 @@ void perMain()
 
 
 #if defined(SDCARD)
+#if defined(FRSKY)
    // ReusableBuffer is the log's buffer, just use it in mainview or telemetryview
    if (menuHandlers[menuLevel] == menuMainView || menuHandlers[menuLevel] == menuTelemetryFrsky)
+#else
+   // ReusableBuffer is the log's buffer, just use it in mainview
+   if (menuHandlers[menuLevel] == menuMainView)
+#endif
     {
       writeLogs();
     }
