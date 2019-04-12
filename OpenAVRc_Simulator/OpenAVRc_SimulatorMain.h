@@ -262,6 +262,7 @@ private:
   void OntelemetrySelected(wxCommandEvent& event);
   void OnLstickLeftUp(wxMouseEvent& event);
   void OnRstickLeftUp(wxMouseEvent& event);
+  void OnPanelMainKeyDown(wxKeyEvent& event);
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)

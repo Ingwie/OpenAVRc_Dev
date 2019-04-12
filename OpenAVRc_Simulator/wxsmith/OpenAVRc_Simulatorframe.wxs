@@ -13,6 +13,7 @@
 			<pos>424,216</pos>
 			<size>777,400</size>
 			<style>wxRAISED_BORDER</style>
+			<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
 			<object class="wxPanel" name="ID_PANELH" variable="PanelH" member="yes">
 				<pos>0,0</pos>
 				<size>784,64</size>
@@ -22,6 +23,7 @@
 				<pos>0,64</pos>
 				<size>784,248</size>
 				<style>wxDOUBLE_BORDER</style>
+				<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
 				<object class="wxSlider" name="ID_POT1" variable="Pot1" member="yes">
 					<value>1024</value>
 					<max>2048</max>
@@ -167,6 +169,7 @@
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER</style>
 					<handler function="OnRstickPaint" entry="EVT_PAINT" />
+					<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
 					<handler function="OnRstickMouseMove" entry="EVT_LEFT_DOWN" />
 					<handler function="OnRstickLeftUp" entry="EVT_LEFT_UP" />
 					<handler function="OnRstickMouseMove" entry="EVT_MOTION" />
@@ -178,6 +181,7 @@
 					<bg>#78D21E</bg>
 					<style>wxNO_BORDER</style>
 					<handler function="OnwxsimulcdPaint" entry="EVT_PAINT" />
+					<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
 					<handler function="OnSimulcdLeftDClick" entry="EVT_LEFT_DCLICK" />
 				</object>
 				<object class="wxPanel" name="ID_BPTHR" variable="BpThr" member="yes">
@@ -253,6 +257,7 @@
 					<bg>#000000</bg>
 					<style>wxDOUBLE_BORDER</style>
 					<handler function="OnLstickPaint" entry="EVT_PAINT" />
+					<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
 					<handler function="OnLstickMouseMove" entry="EVT_LEFT_DOWN" />
 					<handler function="OnLstickLeftUp" entry="EVT_LEFT_UP" />
 					<handler function="OnLstickMouseMove" entry="EVT_MOTION" />
@@ -299,6 +304,7 @@
 				<pos>0,305</pos>
 				<size>784,64</size>
 				<style>wxDOUBLE_BORDER</style>
+				<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
 				<object class="wxToggleButton" name="ID_ONTGLBUTTON" variable="OnTglButton" member="yes">
 					<label>ON</label>
 					<pos>8,8</pos>
