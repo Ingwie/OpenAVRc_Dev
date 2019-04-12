@@ -130,7 +130,7 @@
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL8" variable="GPSSpeed" member="yes">
 				<value>0</value>
-				<max>1000</max>
+				<max>3000</max>
 				<pos>480,64</pos>
 				<size>56,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
