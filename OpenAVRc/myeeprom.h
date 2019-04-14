@@ -1068,52 +1068,19 @@ PACK(typedef struct {
 
 #define NUM_MAX_X_ANY   4
 
-#define X_ANY_SW_BIT_NB                    2
-#define X_ANY_ROT_POT_BIT_NB               1
-#define X_ANY_ANGLE_BIT_NB                 1
-#define X_ANY_LEFT_CROSS_STICK_GIS_BIT_NB  1
-#define X_ANY_LEFT_CROSS_STICK_THR_BIT_NB  1
-#define X_ANY_RIGHT_CROSS_STICK_GIS_BIT_NB 1
-#define X_ANY_RIGHT_CROSS_STICK_THR_BIT_NB 1
-#define X_ANY_FREE_CFG_BIT_NB              24
-
-
-#if ((X_ANY_SW_BIT_NB + X_ANY_ROT_POT_BIT_NB + X_ANY_ANGLE_BIT_NB + X_ANY_LEFT_CROSS_STICK_GIS_BIT_NB + X_ANY_LEFT_CROSS_STICK_THR_BIT_NB + X_ANY_RIGHT_CROSS_STICK_GIS_BIT_NB + X_ANY_RIGHT_CROSS_STICK_THR_BIT_NB + X_ANY_FREE_CFG_BIT_NB) > 32)
-#error Members cannot fit in XanyPayloadCfgSt_t!
-#endif
-
-#define X_ANY_CFG_MSK             ((1UL << (X_ANY_SW_BIT_NB + X_ANY_ROT_POT_BIT_NB + X_ANY_ANGLE_BIT_NB + X_ANY_LEFT_CROSS_STICK_GIS_BIT_NB + X_ANY_LEFT_CROSS_STICK_THR_BIT_NB + X_ANY_RIGHT_CROSS_STICK_GIS_BIT_NB + X_ANY_RIGHT_CROSS_STICK_THR_BIT_NB)) - 1)
-#define X_ANY_CFG(Sw, Agl, Pot, LGis, LThr, RGis, RThr)\
-(\
-    ((RThr) << (X_ANY_SW_BIT_NB + X_ANY_ROT_POT_BIT_NB + X_ANY_ANGLE_BIT_NB + X_ANY_LEFT_CROSS_STICK_GIS_BIT_NB + X_ANY_LEFT_CROSS_STICK_THR_BIT_NB + X_ANY_RIGHT_CROSS_STICK_GIS_BIT_NB)) |\
-    ((RGis) << (X_ANY_SW_BIT_NB + X_ANY_ROT_POT_BIT_NB + X_ANY_ANGLE_BIT_NB + X_ANY_LEFT_CROSS_STICK_GIS_BIT_NB + X_ANY_LEFT_CROSS_STICK_THR_BIT_NB)) |\
-    ((LThr) << (X_ANY_SW_BIT_NB + X_ANY_ROT_POT_BIT_NB + X_ANY_ANGLE_BIT_NB + X_ANY_LEFT_CROSS_STICK_GIS_BIT_NB)) |\
-    ((LGis) << (X_ANY_SW_BIT_NB + X_ANY_ROT_POT_BIT_NB + X_ANY_ANGLE_BIT_NB)) |\
-    ((Agl)  << (X_ANY_SW_BIT_NB + X_ANY_ROT_POT_BIT_NB)) |\
-    ((Pot)  << (X_ANY_SW_BIT_NB)) |\
-    (Sw)\
-)
+#define X_ANY_CFG_ANGLE_SRC_BIT_NB       4
+#define X_ANY_CFG_PROP_SRC_BIT_NB        4
+#define X_ANY_CFG_SW_SRC_BIT_NB          4
+#define X_ANY_CFG_FREE_CFG_BIT_NB        20
 
 typedef struct{
   uint32_t
-    Switches          :X_ANY_SW_BIT_NB,        /* 0: 0 x SW, 1: 4 x SW, 2: 8 x SW, 3: 16 x SW  Nb of SW = 0 if XanyCfg.Switches = 0 else Nb of SW = 2 ^ (XanyCfg.Switches + 1) */
-    RotPot            :X_ANY_ROT_POT_BIT_NB,   /* Potentiometer (8 bit encoded) */
-    AbsAngleSensor    :X_ANY_ANGLE_BIT_NB, /* 0/1 */
-    CrossStickLeftGis :X_ANY_LEFT_CROSS_STICK_GIS_BIT_NB,
-    CrossStickLeftThr :X_ANY_LEFT_CROSS_STICK_THR_BIT_NB,
-    CrossStickRightGis:X_ANY_RIGHT_CROSS_STICK_GIS_BIT_NB,
-    CrossStickRightThr:X_ANY_RIGHT_CROSS_STICK_THR_BIT_NB,
-    FreeCfgBits       :X_ANY_FREE_CFG_BIT_NB; /* Reserved for future extensions */
+    AngleSrcIdx       :X_ANY_CFG_ANGLE_SRC_BIT_NB,
+    PropSrcIdx        :X_ANY_CFG_PROP_SRC_BIT_NB,
+    SwitchSrcIdx      :X_ANY_CFG_SW_SRC_BIT_NB,
+    FreeCfgBits       :X_ANY_CFG_FREE_CFG_BIT_NB; /* Reserved for future extensions */
 }XanyPayloadCfgSt_t;
 
-typedef union{
-  uint32_t             Raw;
-  XanyPayloadCfgSt_t   Item;
-}XanyPayloadUnionSt_t;
-
-enum {X_ANY_PROP_SRC_NONE  = 0, X_ANY_PROP_SRC_POT, X_ANY_PROP_SRC_LEFT_CROSS_STICK, X_ANY_PROP_SRC_RIGHT_CROSS_STICK};
-
-enum {X_ANY_ANGLE_SRC_NONE = 0, X_ANY_ANGLE_SRC_ABS_SENSOR, X_ANY_ANGLE_SRC_LEFT_CROSS_STICK, X_ANY_ANGLE_SRC_RIGHT_CROSS_STICK};
 
 /* Parameters = f(PayloadCfg) */
 #define X_ANY_EXPO_BIT_NB   2
@@ -1137,7 +1104,7 @@ typedef struct{
                        ChId      :4,  /* Channel used to transport the message (0 to 15) */
                        RepeatNb  :2,  /* 0 repeat to 3 repeats */
                        Reserved1 :1;
-  XanyPayloadUnionSt_t PayloadCfg;
+  XanyPayloadCfgSt_t   PayloadCfg;
   XanyParamUnionSt_t   Param;
   uint8_t              Rfu;        /* Reserved for Future Use */
 }XanyEepSt_t;
