@@ -100,7 +100,7 @@ void menuModelXany(uint8_t event)
 
   MENU(STR_X_ANY, menuTabModel, e_Xany, MODEL_XANY_MAX_LINES, {XANY1LINES XANY2LINES XANY3LINES XANY4LINES});
 
-  uint8_t      AngleSrcIdx = 0, PropSrcIdx = 0, ExpoPerCentIdx = 0;
+  uint8_t      AngleSrcIdx = 0, PropSrcIdx = 0, SwitchSrcIdx = 0, ExpoPerCentIdx = 0;
   uint8_t      sub = menuVerticalPosition - 1, num_switchs;
   XanyInfoSt_t XanyInfo;
 
@@ -127,10 +127,10 @@ void menuModelXany(uint8_t event)
 #endif
           lcdDrawStringWithIndex(0, y, STR_NUMBER, xanynumber + 1, ValidMsg?attr:attr|BLINK);
           if (ValidMsg)
-            {
-              lcdDrawNumberNAtt(19*FW, y, XanyInfo.TxPeriodMs, 0);
-              lcdDrawText(19*FW, y, STR_MS);
-            }
+          {
+            lcdDrawNumberNAtt(19*FW, y, XanyInfo.TxPeriodMs, 0);
+            lcdDrawText(19*FW, y, STR_MS);
+          }
           break;
 
         case ITEM_MODEL_ACTIVE_A :
@@ -188,10 +188,12 @@ void menuModelXany(uint8_t event)
 #if (X_ANY >= 4)
         case ITEM_MODEL_SWITCHS_D :
 #endif
-          num_switchs = (g_model.Xany[xanynumber].PayloadCfg.Item.Switches < 3) ? g_model.Xany[xanynumber].PayloadCfg.Item.Switches*4 : 16;
+          if(g_model.Xany[xanynumber].PayloadCfg.SwitchSrcIdx >= X_ANY_SW_SRC_NB) g_model.Xany[xanynumber].PayloadCfg.SwitchSrcIdx = 0;
+          SwitchSrcIdx = g_model.Xany[xanynumber].PayloadCfg.SwitchSrcIdx;
+          num_switchs = (SwitchSrcIdx < 3) ? SwitchSrcIdx*4 : 16;
           lcdDrawStringWithIndex(0, y, STR_SWITCHES, num_switchs, attr);
           if (attr)
-            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.Xany[xanynumber].PayloadCfg.Item.Switches, 3);
+            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.Xany[xanynumber].PayloadCfg.SwitchSrcIdx, X_ANY_SW_SRC_NB - 1);
           /* If ValidMsg == 0, this means the combination is not supported */
           if (ValidMsg)
           {
@@ -209,12 +211,13 @@ void menuModelXany(uint8_t event)
 #if (X_ANY >= 4)
         case ITEM_MODEL_ABS_ANGLE_SRC_D :
 #endif
-          AngleSrcIdx = Xany_getAngleSrcIdx(xanynumber);
-          AngleSrcIdx = selectMenuItem(5*FW, y, STR_ANGLE_SENSOR, STR_ANGLE_SENSOR_VALUES, AngleSrcIdx, 0, 3, attr, event);
-          Xany_updateAngleSrcIdx(xanynumber, AngleSrcIdx);
-          if (ValidMsg)
+          if(g_model.Xany[xanynumber].PayloadCfg.AngleSrcIdx >= X_ANY_ANGLE_SRC_NB) g_model.Xany[xanynumber].PayloadCfg.AngleSrcIdx = 0;
+          AngleSrcIdx = g_model.Xany[xanynumber].PayloadCfg.AngleSrcIdx;
+          AngleSrcIdx = selectMenuItem(5*FW, y, STR_ANGLE_SENSOR, STR_ANGLE_SENSOR_VALUES, AngleSrcIdx, 0, X_ANY_ANGLE_SRC_NB - 1, attr, event);
+          g_model.Xany[xanynumber].PayloadCfg.AngleSrcIdx = AngleSrcIdx;
+          if(ValidMsg && AngleSrcIdx)
           {
-            lcdDrawNumberNAtt(12*FW, y, XanyInfo.Angle, INVERS | UNSIGN | LEADING0, 4);
+            lcdDrawNumberNAtt(12*FW, y, XanyInfo.AngleValue, INVERS | UNSIGN | LEADING0, 4);
           }
           break;
 
@@ -228,20 +231,20 @@ void menuModelXany(uint8_t event)
 #if (X_ANY >= 4)
         case ITEM_MODEL_PROP_SRC_D :
 #endif
-          PropSrcIdx = Xany_getPropSrcIdx(xanynumber);
-          PropSrcIdx = selectMenuItem(5*FW+2, y, STR_PROP, STR_PROP_VALUES, PropSrcIdx, 0, 3, menuHorizontalPosition==0 ? attr : 0, s_editMode>0 ? event : 0);
-          Xany_updatePropSrcIdx(xanynumber, PropSrcIdx);
-          if (ValidMsg)
+          PropSrcIdx = g_model.Xany[xanynumber].PayloadCfg.PropSrcIdx;
+          PropSrcIdx = selectMenuItem(5*FW+2, y, STR_PROP, STR_PROP_VALUES, PropSrcIdx, 0, X_ANY_PROP_SRC_NB - 1, menuHorizontalPosition==0 ? attr : 0, s_editMode>0 ? event : 0);
+          g_model.Xany[xanynumber].PayloadCfg.PropSrcIdx = PropSrcIdx;
+          if(ValidMsg && PropSrcIdx)
           {
             lcdDrawNumberNAtt(12*FW, y, XanyInfo.PropValue, INVERS | UNSIGN | LEADING0, 3);
-          }
-          lcdDrawText(13*FW, y, STR_EXPO);
-          ExpoPerCentIdx = g_model.Xany[xanynumber].Param.Expo.PerCentIdx;
-          lcdDrawTextAtIndex(17*FW+FW/2, y, STR_XANY_EXPO, ExpoPerCentIdx, menuHorizontalPosition==1 ? attr : 0);
-          if (menuHorizontalPosition==1 && (s_editMode>0))
-          {
-            CHECK_INCDEC_MODELVAR_ZERO(event, ExpoPerCentIdx, 3);
-            g_model.Xany[xanynumber].Param.Expo.PerCentIdx = ExpoPerCentIdx;
+            lcdDrawText(13*FW, y, STR_EXPO);
+            ExpoPerCentIdx = g_model.Xany[xanynumber].Param.Expo.PerCentIdx;
+            lcdDrawTextAtIndex(17*FW+FW/2, y, STR_XANY_EXPO, ExpoPerCentIdx, menuHorizontalPosition==1 ? attr : 0);
+            if (menuHorizontalPosition==1 && (s_editMode>0))
+            {
+              CHECK_INCDEC_MODELVAR_ZERO(event, ExpoPerCentIdx, X_ANY_EXPO_PER_CENT_NB - 1);
+              g_model.Xany[xanynumber].Param.Expo.PerCentIdx = ExpoPerCentIdx;
+            }
           }
           break;
 

@@ -93,82 +93,6 @@ const uint8_t Atan45Tbl[] PROGMEM =  {
         231, 232, 234, 236, 237, 239, 240, 242, 244, 245, 247, 248, 250, 252, 253, 255
         };
 
-/* Different supported Payload formats */
-typedef struct{
-  uint32_t
-                  NibbleNbToTx:4,
-                  NotUsed     :16,
-                  Checksum    :8,
-                  Sw          :4;
-}Msg4SwSt_t; /* Size = 4 bytes */
-
-typedef struct{
-  uint32_t
-                  NibbleNbToTx:4,
-                  NotUsed     :12,
-                  Checksum    :8,
-                  Sw          :8;
-}Msg8SwSt_t; /* Size = 4 bytes */
-
-typedef struct{
-  uint32_t
-                  NibbleNbToTx:4,
-                  NotUsed     :4,
-                  Checksum    :8,
-                  Sw          :16;
-}Msg16SwSt_t; /* Size = 4 bytes */
-
-typedef struct{
-  uint32_t
-                  NibbleNbToTx:4,
-                  NotUsed     :8,
-                  Checksum    :8,
-                  Angle       :12;
-}MsgAngleSt_t; /* Size = 4 bytes */
-
-typedef struct{
-  uint32_t
-                  NibbleNbToTx:4,
-                  NotUsed     :4,
-                  Checksum    :8,
-                  Sw          :4,
-                  Angle       :12;
-}MsgAngle4SwSt_t; /* Size = 4 bytes */
-
-typedef struct{
-  uint32_t
-                  NibbleNbToTx:4,
-                  Checksum    :8,
-                  Sw          :8,
-                  Angle       :12;
-}MsgAngle8SwSt_t; /* Size = 4 bytes */
-
-typedef struct{
-  uint32_t
-                  NibbleNbToTx:4,
-                  Checksum    :8,
-                  Prop        :8,
-                  Angle       :12;
-}MsgAnglePropSt_t; /* Size = 4 bytes */
-
-typedef struct{
-  uint32_t
-                  NibbleNbToTx:4,
-                  NotUsed     :8,
-                  Checksum    :8,
-                  Sw          :4,
-                  Pot         :8;
-}MsgPot4SwSt_t; /* Size = 4 bytes */
-
-typedef struct{
-  uint32_t
-                  NibbleNbToTx:4,
-                  NotUsed     :4,
-                  Checksum    :8,
-                  Sw          :8,
-                  Pot         :8;
-}MsgPot8SwSt_t; /* Size = 4 bytes */
-
 typedef struct{
   uint32_t
                   NibbleNbToTx      :4,
@@ -176,57 +100,17 @@ typedef struct{
 }MsgCommonSt_t; /* Size = 4 bytes */
 
 typedef union{
-  Msg4SwSt_t       Msg4Sw;
-  Msg8SwSt_t       Msg8Sw;
-  Msg16SwSt_t      Msg16Sw;
-  MsgAngleSt_t     MsgAngle;
-  MsgAngle4SwSt_t  MsgAngle4Sw;
-  MsgAngle8SwSt_t  MsgAngle8Sw;
-  MsgAnglePropSt_t MsgAngleProp;
-  MsgPot4SwSt_t    MsgPot4Sw;
-  MsgPot8SwSt_t    MsgPot8Sw;
   MsgCommonSt_t    Common;
   uint32_t         Raw;
 }XanyMsg_union;  /* Size = 4 bytes */
 
-/* Declaration of supported combinations (See X_ANY_CFG() macro in myeeprom.h) */
-/*                                             Sw,Agl,Pot,Lgis,Lthr,RGis,RThr  */
-#define XANY_MSG_4SW                  X_ANY_CFG(1,  0,  0,  0,  0,  0,  0)
-#define XANY_MSG_8SW                  X_ANY_CFG(2,  0,  0,  0,  0,  0,  0)
-#define XANY_MSG_16SW                 X_ANY_CFG(3,  0,  0,  0,  0,  0,  0)
-#define XANY_MSG_ANGLE                X_ANY_CFG(0,  1,  0,  0,  0,  0,  0)
-#define XANY_MSG_ANGLE_4SW            X_ANY_CFG(1,  1,  0,  0,  0,  0,  0)
-#define XANY_MSG_ANGLE_8SW            X_ANY_CFG(2,  1,  0,  0,  0,  0,  0)
-#define XANY_MSG_ANGLE_PROP           X_ANY_CFG(0,  1,  1,  0,  0,  0,  0)
-#define XANY_MSG_POT_4SW              X_ANY_CFG(1,  0,  1,  0,  0,  0,  0)
-#define XANY_MSG_POT_8SW              X_ANY_CFG(2,  0,  1,  0,  0,  0,  0)
-
-#define XANY_MSG_L_CS_GIS             X_ANY_CFG(0,  0,  0,  1,  0,  0,  0)
-#define XANY_MSG_L_CS_GIS_THR         X_ANY_CFG(0,  0,  0,  1,  1,  0,  0)
-#define XANY_MSG_L_CS_GIS_POT         X_ANY_CFG(0,  0,  1,  1,  0,  0,  0)
-
-#define XANY_MSG_R_CS_GIS             X_ANY_CFG(0,  0,  0,  0,  0,  1,  0)
-#define XANY_MSG_R_CS_GIS_THR         X_ANY_CFG(0,  0,  0,  0,  0,  1,  1)
-#define XANY_MSG_R_CS_GIS_POT         X_ANY_CFG(0,  0,  1,  0,  0,  1,  0)
-
-/* Message length (in nibbles) including the checksum for each supported combination */
-#define XANY_MSG_4SW_NBL_NB           (1 + 2)
-#define XANY_MSG_8SW_NBL_NB           (2 + 2)
-#define XANY_MSG_16SW_NBL_NB          (4 + 2)
-#define XANY_MSG_ANGLE_NBL_NB         (3 + 2)
-#define XANY_MSG_ANGLE_4SW_NBL_NB     (3 + 1 + 2)
-#define XANY_MSG_ANGLE_8SW_NBL_NB     (3 + 2 + 2)
-#define XANY_MSG_ANGLE_PROP_NBL_NB    (3 + 2 + 2)
-#define XANY_MSG_POT_4SW_NBL_NB       (2 + 1 + 2)
-#define XANY_MSG_POT_8SW_NBL_NB       (2 + 2 + 2)
-
-#define XANY_MSG_L_CS_GIS_NBL_NB      (3 + 2)
-#define XANY_MSG_L_CS_GIS_THR_NBL_NB  (3 + 2 + 2)
-#define XANY_MSG_L_CS_GIS_POT_NBL_NB  (3 + 2 + 2)
-
-#define XANY_MSG_R_CS_GIS_NBL_NB      (3 + 2)
-#define XANY_MSG_R_CS_GIS_THR_NBL_NB  (3 + 2 + 2)
-#define XANY_MSG_R_CS_GIS_POT_NBL_NB  (3 + 2 + 2)
+typedef struct{
+  uint16_t
+        AngleBitNb:4,
+        PropBitNb :4,
+        SwBitNb   :5,
+        NblNb     :3;
+}PayloadMapSt_t;
 
 /* Array of Pots choosen */
 #define CONV_XANY_POTS(x)             (x<4)? 3-x : x
@@ -240,9 +124,15 @@ const uint8_t XANY_POT[] PROGMEM = {CONV_XANY_POTS(X_ANY_1_POT), CONV_XANY_POTS(
 enum {IO_EXP_PCF8574 = 0, IO_EXP_PCF8574A, IO_EXP_PCA9654E, IO_EXP_MCP23017, IO_EXP_PCF8575A, IO_EXP_PCA9671, IO_EXP_TYPE_NB};
 
 /* PRIVATE FUNCTION PROTOYPES */
-static uint8_t  getMsgType     (uint8_t XanyIdx);
+static void     cfg2PayloadStIdx(XanyPayloadCfgSt_t *PayloadCfg, PayloadMapSt_t *PayloadMap);
+static void     setPayloadAngle(XanyMsg_union *XanyPl, uint16_t Angle, PayloadMapSt_t *PayloadMap);
+static void     setPayloadProp(XanyMsg_union *XanyPl, uint8_t Prop, PayloadMapSt_t *PayloadMap);
+static void     setPayloadSw(XanyMsg_union *XanyPl, uint16_t Sw, PayloadMapSt_t *PayloadMap);
+static uint16_t getPayloadAngle(XanyMsg_union *XanyPl, PayloadMapSt_t *PayloadMap);
+static uint8_t  getPayloadProp(XanyMsg_union *XanyPl, PayloadMapSt_t *PayloadMap);
+static uint16_t getPayloadSw(XanyMsg_union *XanyPl, PayloadMapSt_t *PayloadMap);
 static uint8_t  readIoExtender (uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRead);
-static uint8_t  readAngleSensor(uint8_t XanyIdx, uint16_t *Angle);
+static uint8_t  readI2cAngleSensor(uint8_t XanyIdx, uint16_t *Angle);
 static uint16_t sinCosToGis(int16_t Sinus, int16_t Cosinus);
 static uint8_t  throttle(int16_t ExcSinus, int16_t ExcCosinus, uint8_t ExpoLevel);
 static uint8_t  tinySqrt(uint16_t Square); /* Max exec time: 4 to 60us */
@@ -319,7 +209,7 @@ const I2cIoExpSt_t XanyI2cTypeAddr[] PROGMEM = {
           {IO_EXP_PCF8575A, (0x3F<<1), readPcf8575A}, /* Idx = 22 */
           {IO_EXP_PCA9671,  (0x2B<<1), readPca9671 }, /* Idx = 23 */
                             };
-#define POINTS_FOR_45_DEG             (uint32_t)sizeof(Atan45Tbl) /* 32 bits to avoid trunction with macro */
+#define POINTS_FOR_45_DEG             (uint32_t)sizeof(Atan45Tbl) /* 32 bits to avoid truncation with macro */
 #define UNIT_PER_DEG(Deg)             (((Deg) * POINTS_FOR_45_DEG) / 45)
 #define ATAN_45_BY_IDX(Idx)           (((Idx) < POINTS_FOR_45_DEG)? (pgm_read_byte_near(&Atan45Tbl[(Idx)])): POINTS_FOR_45_DEG)
 
@@ -510,441 +400,282 @@ void Xany_scheduleTx(uint8_t XanyIdx)
 */
 uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
 {
-  XanyMsg_union    Built, Read;
-  uint8_t          MsgType, One8bitPort = 0, Prop = 0, ExpoPerCentIdx = 0, Radius, ValidMsg = 1;
-  uint16_t         Two8bitPorts = 0, Angle = 0;
-  int16_t          ExcSin, ExcCos;
+  XanyPayloadCfgSt_t PayloadCfg;
+  PayloadMapSt_t     PayloadMap;
+  XanyMsg_union      Built, Read;
+  uint8_t            One8bitPort = 0, Prop = 0, ExpoPerCentIdx = 0, Radius, ValidMsg;
+  uint16_t           Two8bitPorts = 0, Angle = 0, Sw = 0;
+  int16_t            ExcSin, ExcCos;
 
-  Built.Raw = 0; /* Clear temporary message */
-  MsgType = getMsgType(XanyIdx);
-  if(XanyOp & XANY_OP_READ_INFO)
-  {
-    Read.Raw = htonl(X_AnyReadMsg[XanyIdx].Raw);
-  }
-  else
-  {
-    ExpoPerCentIdx = g_model.Xany[XanyIdx].Param.Expo.PerCentIdx;
-    ExpoPerCentIdx = (ExpoPerCentIdx < X_ANY_EXPO_PER_CENT_NB)? ExpoPerCentIdx: 0;
-  }
-  switch(MsgType)
-  {
-    case XANY_MSG_4SW:
-    Built.Msg4Sw.NibbleNbToTx = XANY_MSG_4SW_NBL_NB;
-    if(XanyOp & XANY_OP_BUILD_MSG)
-    {
-      readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
-      Built.Msg4Sw.Sw = One8bitPort & 0x0F; /* Keep 4 bits */
-    }
-    if(XanyOp & XANY_OP_READ_INFO)
-    {
-      XanyInfo->MsgNibbleLen = Read.Msg4Sw.NibbleNbToTx;
-      XanyInfo->SwNb         = 4;
-      XanyInfo->SwValue      = (uint16_t)Read.Msg4Sw.Sw;
-      XanyInfo->Angle        = 0;
-      XanyInfo->PropValue    = 0;
-    }
-    break;
-
-    case XANY_MSG_8SW:
-    Built.Msg8Sw.NibbleNbToTx = XANY_MSG_8SW_NBL_NB;
-    if(XanyOp & XANY_OP_BUILD_MSG)
-    {
-      readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
-      Built.Msg8Sw.Sw = One8bitPort;
-    }
-    if(XanyOp & XANY_OP_READ_INFO)
-    {
-      XanyInfo->MsgNibbleLen = Read.Msg8Sw.NibbleNbToTx;
-      XanyInfo->SwNb         = 8;
-      XanyInfo->SwValue      = (uint16_t)Read.Msg8Sw.Sw;
-      XanyInfo->Angle        = 0;
-      XanyInfo->PropValue    = 0;
-    }
-    break;
-
-    case XANY_MSG_16SW:
-    Built.Msg16Sw.NibbleNbToTx = XANY_MSG_16SW_NBL_NB;
-    if(XanyOp & XANY_OP_BUILD_MSG)
-    {
-      readIoExtender(XanyIdx, (uint8_t *)&Two8bitPorts, 2);
-      Built.Msg16Sw.Sw = Two8bitPorts;
-    }
-    if(XanyOp & XANY_OP_READ_INFO)
-    {
-      XanyInfo->MsgNibbleLen = Read.Msg16Sw.NibbleNbToTx;
-      XanyInfo->SwNb         = 16;
-      XanyInfo->SwValue      = (uint16_t)Read.Msg16Sw.Sw;
-      XanyInfo->Angle        = 0;
-      XanyInfo->PropValue    = 0;
-    }
-    break;
-
-    case XANY_MSG_ANGLE:
-    case XANY_MSG_L_CS_GIS:
-    case XANY_MSG_R_CS_GIS:
-    Built.MsgAngle.NibbleNbToTx = XANY_MSG_ANGLE_NBL_NB;
-    if(XanyOp & XANY_OP_BUILD_MSG)
-    {
-      switch(MsgType)
-      {
-        case XANY_MSG_ANGLE:
-        readAngleSensor(XanyIdx, &Angle);
-        break;
-
-        case XANY_MSG_L_CS_GIS:
-        ExcSin = (calibratedStick[CONVERT_MODE(ELE_STICK)] / 2);
-        ExcCos = (calibratedStick[CONVERT_MODE(RUD_STICK)] / 2);
-        Radius = throttle(ExcSin / 2, ExcCos / 2, 0);
-        if(Radius >= DEAD_ANGLE_RADIUS)
-        {
-          Angle  = sinCosToGis(ExcSin, ExcCos);
-        }
-        else
-        {
-          Read.Raw = htonl(X_AnyReadMsg[XanyIdx].Raw);
-          Angle    = Read.MsgAngle.Angle; /* Keep current angle */
-        }
-        break;
-
-        case XANY_MSG_R_CS_GIS:
-        ExcSin = (calibratedStick[CONVERT_MODE(THR_STICK)] / 2);
-        ExcCos = (calibratedStick[CONVERT_MODE(AIL_STICK)] / 2);
-        Radius = throttle(ExcSin / 2, ExcCos / 2, 0);
-        if(Radius >= DEAD_ANGLE_RADIUS)
-        {
-          Angle  = sinCosToGis(ExcSin, ExcCos);
-        }
-        else
-        {
-          Read.Raw = htonl(X_AnyReadMsg[XanyIdx].Raw);
-          Angle    = Read.MsgAngle.Angle; /* Keep current angle */
-        }
-        break;
-      }
-      Built.MsgAngle.Angle = Angle;
-    }
-    if(XanyOp & XANY_OP_READ_INFO)
-    {
-      XanyInfo->MsgNibbleLen = Read.MsgAngle.NibbleNbToTx;
-      XanyInfo->SwNb         = 0;
-      XanyInfo->SwValue      = 0;
-      XanyInfo->Angle        = Read.MsgAngle.Angle;
-      XanyInfo->PropValue    = 0;
-    }
-    break;
-
-    case XANY_MSG_ANGLE_4SW:
-    Built.MsgAngle4Sw.NibbleNbToTx = XANY_MSG_ANGLE_4SW_NBL_NB;
-    if(XanyOp & XANY_OP_BUILD_MSG)
-    {
-      readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
-      Built.MsgAngle4Sw.Sw    = One8bitPort & 0x0F; /* Keep 4 bits */
-      readAngleSensor(XanyIdx, &Angle);
-      Built.MsgAngle4Sw.Angle = Angle;
-    }
-    if(XanyOp & XANY_OP_READ_INFO)
-    {
-      XanyInfo->MsgNibbleLen = Read.MsgAngle4Sw.NibbleNbToTx;
-      XanyInfo->SwNb         = 4;
-      XanyInfo->SwValue      = (uint16_t)Read.MsgAngle4Sw.Sw;
-      XanyInfo->Angle        = Read.MsgAngle4Sw.Angle;
-      XanyInfo->PropValue    = 0;
-    }
-    break;
-
-    case XANY_MSG_ANGLE_8SW:
-    Built.MsgAngle8Sw.NibbleNbToTx = XANY_MSG_ANGLE_8SW_NBL_NB;
-    if(XanyOp & XANY_OP_BUILD_MSG)
-    {
-      readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
-      Built.MsgAngle8Sw.Sw    = One8bitPort;
-      readAngleSensor(XanyIdx, &Angle);
-      Built.MsgAngle8Sw.Angle = Angle;
-    }
-    if(XanyOp & XANY_OP_READ_INFO)
-    {
-      XanyInfo->MsgNibbleLen = Read.MsgAngle8Sw.NibbleNbToTx;
-      XanyInfo->SwNb         = 8;
-      XanyInfo->SwValue      = Read.MsgAngle8Sw.Sw;
-      XanyInfo->Angle        = Read.MsgAngle8Sw.Angle;
-      XanyInfo->PropValue    = 0;
-    }
-    break;
-
-    case XANY_MSG_ANGLE_PROP:
-    case XANY_MSG_L_CS_GIS_THR:
-    case XANY_MSG_L_CS_GIS_POT:
-    case XANY_MSG_R_CS_GIS_THR:
-    case XANY_MSG_R_CS_GIS_POT:
-    Built.MsgAngleProp.NibbleNbToTx = XANY_MSG_ANGLE_PROP_NBL_NB;
-    if(XanyOp & XANY_OP_BUILD_MSG)
-    {
-      switch(MsgType)
-      {
-        case XANY_MSG_ANGLE_PROP:
-        readAngleSensor(XanyIdx, &Angle);
-        Prop = ((calibratedStick[GET_XANY_POT(XanyIdx)] + RESX - 1) / 8);
-        break;
-
-        case XANY_MSG_L_CS_GIS_THR:
-        case XANY_MSG_L_CS_GIS_POT:
-        ExcSin = (calibratedStick[CONVERT_MODE(ELE_STICK)] / 2);
-        ExcCos = (calibratedStick[CONVERT_MODE(RUD_STICK)] / 2);
-        /* Here, ExcSin and ExcCos are between -512 and +511 (-> better angle accuracy) */
-        Radius = throttle(ExcSin / 2, ExcCos / 2, 0); /* throttle() expects arguments between -255 to 255 */
-        if(Radius >= DEAD_ANGLE_RADIUS)
-        {
-          Angle  = sinCosToGis(ExcSin, ExcCos);
-        }
-        else
-        {
-          Read.Raw = htonl(X_AnyReadMsg[XanyIdx].Raw);
-          Angle    = Read.MsgAngle.Angle; /* Keep current angle */
-        }
-        if(MsgType == XANY_MSG_L_CS_GIS_THR)
-        {
-          if(Radius >= DEAD_THROTTLE_RADIUS)
-          {
-            Prop = map32(Radius, DEAD_THROTTLE_RADIUS, 255, 0, 255);
-          }
-        }
-        else
-        {
-          Prop = ((calibratedStick[GET_XANY_POT(XanyIdx)] + RESX - 1) / 8);
-        }
-        break;
-
-        case XANY_MSG_R_CS_GIS_THR:
-        case XANY_MSG_R_CS_GIS_POT:
-        ExcSin = (calibratedStick[CONVERT_MODE(THR_STICK)] / 2);
-        ExcCos = (calibratedStick[CONVERT_MODE(AIL_STICK)] / 2);
-        /* Here, ExcSin and ExcCos are between -512 and +511 (-> better angle accuracy) */
-        Radius = throttle(ExcSin / 2, ExcCos / 2, 0); /* throttle() expects arguments between -255 to 255 */
-        if(Radius >= DEAD_ANGLE_RADIUS)
-        {
-          Angle  = sinCosToGis(ExcSin, ExcCos);
-        }
-        else
-        {
-          Read.Raw = htonl(X_AnyReadMsg[XanyIdx].Raw);
-          Angle    = Read.MsgAngle.Angle; /* Keep current angle */
-        }
-        if(MsgType == XANY_MSG_R_CS_GIS_THR)
-        {
-          if(Radius >= DEAD_THROTTLE_RADIUS)
-          {
-            Prop = map32(Radius, DEAD_THROTTLE_RADIUS, 255, 0, 255);
-          }
-        }
-        else
-        {
-          Prop = ((calibratedStick[GET_XANY_POT(XanyIdx)] + RESX - 1) / 8);
-        }
-        break;
-      }
-      Built.MsgAngleProp.Angle = Angle;
-      Built.MsgAngleProp.Prop  = tinyExpo(Prop, ExpoPerCentIdx); /* 8 bits expo value at global level */
-    }
-    if(XanyOp & XANY_OP_READ_INFO)
-    {
-      XanyInfo->MsgNibbleLen = Read.MsgAngleProp.NibbleNbToTx;
-      XanyInfo->SwNb         = 0;
-      XanyInfo->SwValue      = 0;
-      XanyInfo->Angle        = Read.MsgAngleProp.Angle;
-      XanyInfo->PropValue    = Read.MsgAngleProp.Prop;
-    }
-    break;
-
-    case XANY_MSG_POT_4SW:
-    Built.MsgPot4Sw.NibbleNbToTx = XANY_MSG_POT_4SW_NBL_NB;
-    if(XanyOp & XANY_OP_BUILD_MSG)
-    {
-      readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
-      Built.MsgPot4Sw.Sw    = One8bitPort & 0x0F; /* Keep 4 bits */
-      Built.MsgPot4Sw.Pot   = tinyExpo(((calibratedStick[GET_XANY_POT(XanyIdx)] + RESX - 1) / 8), ExpoPerCentIdx); /* 8 bits value */
-    }
-    if(XanyOp & XANY_OP_READ_INFO)
-    {
-      XanyInfo->MsgNibbleLen = Read.MsgPot4Sw.NibbleNbToTx;
-      XanyInfo->SwNb         = 4;
-      XanyInfo->SwValue      = Read.MsgPot4Sw.Sw;
-      XanyInfo->Angle        = 0;
-      XanyInfo->PropValue    = Read.MsgPot4Sw.Pot;
-    }
-    break;
-
-    case XANY_MSG_POT_8SW:
-    Built.MsgPot8Sw.NibbleNbToTx = XANY_MSG_POT_8SW_NBL_NB;
-    if (XanyOp & XANY_OP_BUILD_MSG)
-    {
-      readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
-      Built.MsgPot8Sw.Sw    = One8bitPort;
-      Built.MsgPot8Sw.Pot   = tinyExpo(((calibratedStick[GET_XANY_POT(XanyIdx)] + RESX - 1) / 8), ExpoPerCentIdx); /* 8 bits value */
-    }
-    if(XanyOp & XANY_OP_READ_INFO)
-    {
-      XanyInfo->MsgNibbleLen = Read.MsgPot8Sw.NibbleNbToTx;
-      XanyInfo->SwNb         = 8;
-      XanyInfo->SwValue      = Read.MsgPot8Sw.Sw;
-      XanyInfo->Angle        = 0;
-      XanyInfo->PropValue    = Read.MsgPot8Sw.Pot;
-    }
-    break;
-
-    default: /* We arrive here if the composed X-Any message from the LCD menu is not supported */
-    ValidMsg = 0; /* Invalid or not yet supported message */
-    if(XanyOp & XANY_OP_BUILD_MSG)
-    {
-      Built.Common.PayloadAndChecksum = 0; /* Detroy the checksum to be sure the message won't be interpreted at receiver side (1st stage) */
-      Built.Common.NibbleNbToTx       = 0; /* Prevent transmission (2nd stage) */
-    }
-    if(XanyOp & XANY_OP_READ_INFO)
-    {
-      XanyInfo->MsgNibbleLen = 0;
-      XanyInfo->SwNb         = 0;
-      XanyInfo->SwValue      = 0;
-      XanyInfo->Angle        = 0;
-      XanyInfo->PropValue    = 0;
-    }
-    break;
-  }
-  /* Can be common */
+  PayloadCfg = g_model.Xany[XanyIdx].PayloadCfg;
+  cfg2PayloadStIdx(&PayloadCfg, &PayloadMap); /* Convert PayloadCfg to PayloadMap */
+  ValidMsg = !!PayloadMap.NblNb;
   if(XanyOp & XANY_OP_BUILD_MSG)
   {
+    Built.Raw = 0; /* Clear temporary message */
+    Built.Common.NibbleNbToTx = PayloadMap.NblNb + 2; /* + 2 for Checksum */
+
+    if(PayloadMap.AngleBitNb)
+    {
+      switch(PayloadCfg.AngleSrcIdx)
+      {
+        case X_ANY_ANGLE_SRC_I2C_SENSOR:
+        readI2cAngleSensor(XanyIdx, &Angle);
+        break;
+
+        case X_ANY_ANGLE_SRC_LEFT_CROSS_STICK:
+        ExcSin = (calibratedStick[CONVERT_MODE(ELE_STICK)] / 2);
+        ExcCos = (calibratedStick[CONVERT_MODE(RUD_STICK)] / 2);
+        Radius = throttle(ExcSin / 2, ExcCos / 2, 0);
+        if(Radius >= DEAD_ANGLE_RADIUS)
+        {
+          Angle    = sinCosToGis(ExcSin, ExcCos);
+        }
+        else
+        {
+          Read.Raw = htonl(X_AnyReadMsg[XanyIdx].Raw);
+          Angle    = getPayloadAngle(&Read, &PayloadMap); /* Keep current angle */
+        }
+        break;
+
+        case X_ANY_ANGLE_SRC_RIGHT_CROSS_STICK:
+        ExcSin = (calibratedStick[CONVERT_MODE(THR_STICK)] / 2);
+        ExcCos = (calibratedStick[CONVERT_MODE(AIL_STICK)] / 2);
+        Radius = throttle(ExcSin / 2, ExcCos / 2, 0);
+        if(Radius >= DEAD_ANGLE_RADIUS)
+        {
+          Angle  = sinCosToGis(ExcSin, ExcCos);
+        }
+        else
+        {
+          Read.Raw = htonl(X_AnyReadMsg[XanyIdx].Raw);
+          Angle    = getPayloadAngle(&Read, &PayloadMap); /* Keep current angle */
+        }
+        break;
+
+        default:
+        break;
+      }
+      setPayloadAngle(&Built, Angle, &PayloadMap);
+    }
+
+    if(PayloadMap.PropBitNb)
+    {
+      if(g_model.Xany[XanyIdx].PayloadCfg.PropSrcIdx < X_ANY_PROP_SRC_LEFT_CROSS_STICK)
+      {
+        Prop = ((calibratedStick[g_model.Xany[XanyIdx].PayloadCfg.PropSrcIdx - 1] + RESX - 1) / 8);
+      }
+      else
+      {
+        if(g_model.Xany[XanyIdx].PayloadCfg.PropSrcIdx == X_ANY_PROP_SRC_LEFT_CROSS_STICK)
+        {
+          ExcSin = (calibratedStick[CONVERT_MODE(ELE_STICK)] / 2);
+          ExcCos = (calibratedStick[CONVERT_MODE(RUD_STICK)] / 2);
+          /* Here, ExcSin and ExcCos are between -512 and +511 (-> better angle accuracy) */
+          Radius = throttle(ExcSin / 2, ExcCos / 2, 0); /* throttle() expects arguments between -255 to 255 */
+          if(Radius >= DEAD_THROTTLE_RADIUS)
+          {
+            Prop = map32(Radius, DEAD_THROTTLE_RADIUS, 255, 0, 255);
+          }
+        }
+        else
+        {
+          ExcSin = (calibratedStick[CONVERT_MODE(THR_STICK)] / 2);
+          ExcCos = (calibratedStick[CONVERT_MODE(AIL_STICK)] / 2);
+          /* Here, ExcSin and ExcCos are between -512 and +511 (-> better angle accuracy) */
+          Radius = throttle(ExcSin / 2, ExcCos / 2, 0); /* throttle() expects arguments between -255 to 255 */
+          if(Radius >= DEAD_THROTTLE_RADIUS)
+          {
+            Prop = map32(Radius, DEAD_THROTTLE_RADIUS, 255, 0, 255);
+          }
+        }
+      }
+      ExpoPerCentIdx = g_model.Xany[XanyIdx].Param.Expo.PerCentIdx;
+      Prop = tinyExpo(Prop, ExpoPerCentIdx);
+      setPayloadProp(&Built, Prop, &PayloadMap);
+    }
+
+    if(PayloadMap.SwBitNb)
+    {
+      switch(PayloadCfg.SwitchSrcIdx)
+      {
+        case X_ANY_SW_SRC_I2C_SW4:
+        readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
+        Sw = (uint16_t)(One8bitPort & 0x0F); /* Keep 4 bits */
+        break;
+
+        case X_ANY_SW_SRC_I2C_SW8:
+        readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
+        Sw = (uint16_t)One8bitPort;
+        break;
+
+        case X_ANY_SW_SRC_I2C_SW16:
+        readIoExtender(XanyIdx, (uint8_t *)&Two8bitPorts, 2);
+        Sw = Two8bitPorts;
+        break;
+
+        default:
+        break;
+      }
+      setPayloadSw(&Built, Sw, &PayloadMap);
+    }
     /* Update Checksum */
     updateXanyMsgChecksum((XanyMsg_union *)&Built); /* /!\ Now, Built XanyMsg is in Big endian /!\ */
     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     X_AnyReadMsg[XanyIdx].Raw = Built.Raw; /* Load the temporary built message in X_AnyReadMsg */
     }
   }
-  if(XanyOp & XANY_OP_READ_INFO)
+  else
   {
+    /* XANY_OP_READ_INFO */
+    Read.Raw = htonl(X_AnyReadMsg[XanyIdx].Raw);
+    XanyInfo->MsgNibbleLen = PayloadMap.NblNb + 2; /* + 2 for Checksum */
+    XanyInfo->SwNb         = PayloadMap.SwBitNb;
+    XanyInfo->AngleValue   = getPayloadAngle(&Read, &PayloadMap);
+    XanyInfo->PropValue    = getPayloadProp(&Read, &PayloadMap);
+    XanyInfo->SwValue      = getPayloadSw(&Read, &PayloadMap);
     XanyInfo->TxPeriodMs = ((g_model.Xany[XanyIdx].RepeatNb + 1) * (XanyInfo->MsgNibbleLen + 1) * 225) / 10; /* + 1 for IDLE symbol */
   }
   return(ValidMsg);
 }
 
-/**
-* \file   Xany.cpp
-* \fn     uint8_t Xany_getAngleSrcIdx(uint8_t XanyIdx)
-* \brief  Returns the angle source of the specified Xany instance in non volatile memory
-* \param  XanyIdx: Index of the X-Any instance
-* \return The index of the angle source
-*/
-uint8_t Xany_getAngleSrcIdx(uint8_t XanyIdx)
-{
-  if(g_model.Xany[XanyIdx].PayloadCfg.Item.AbsAngleSensor)     return(X_ANY_ANGLE_SRC_ABS_SENSOR);
-  if(g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickLeftGis)  return(X_ANY_ANGLE_SRC_LEFT_CROSS_STICK);
-  if(g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickRightGis) return(X_ANY_ANGLE_SRC_RIGHT_CROSS_STICK);
-  return(X_ANY_ANGLE_SRC_NONE);
-}
-
-/**
-* \file   Xany.cpp
-* \fn     void Xany_updateAngleSrcIdx(uint8_t XanyIdx, uint8_t AngleSrcIdx)
-* \brief  Returns update the proportional source of the specified Xany instance in non volatile memory
-* \param  XanyIdx:     Index of the X-Any instance
-* \param  AngleSrcIdx: Index of the angle source
-* \return Void
-*/
-void Xany_updateAngleSrcIdx(uint8_t XanyIdx, uint8_t AngleSrcIdx)
-{
-  switch(AngleSrcIdx)
-  {
-
-    case X_ANY_ANGLE_SRC_ABS_SENSOR:
-    g_model.Xany[XanyIdx].PayloadCfg.Item.AbsAngleSensor     = 1;
-    g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickLeftGis  = 0;
-    g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickRightGis = 0;
-    break;
-
-    case X_ANY_ANGLE_SRC_LEFT_CROSS_STICK:
-    g_model.Xany[XanyIdx].PayloadCfg.Item.AbsAngleSensor     = 0;
-    g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickLeftGis  = 1;
-    g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickRightGis = 0;
-    break;
-
-    case X_ANY_ANGLE_SRC_RIGHT_CROSS_STICK:
-    g_model.Xany[XanyIdx].PayloadCfg.Item.AbsAngleSensor     = 0;
-    g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickLeftGis  = 0;
-    g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickRightGis = 1;
-    break;
-
-    case X_ANY_ANGLE_SRC_NONE:
-    default:
-    g_model.Xany[XanyIdx].PayloadCfg.Item.AbsAngleSensor     = 0;
-    g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickLeftGis  = 0;
-    g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickRightGis = 0;
-    break;
-  }
-}
-
-/**
-* \file   Xany.cpp
-* \fn     uint8_t Xany_getPropSrcIdx(uint8_t XanyIdx)
-* \brief  Returns the proportional source of the specified Xany instance in non volatile memory
-* \param  XanyIdx: Index of the X-Any instance
-* \return The index of the proportionals source
-*/
-uint8_t Xany_getPropSrcIdx(uint8_t XanyIdx)
-{
-  if(g_model.Xany[XanyIdx].PayloadCfg.Item.RotPot)             return(X_ANY_PROP_SRC_POT);
-  if(g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickLeftThr)  return(X_ANY_PROP_SRC_LEFT_CROSS_STICK);
-  if(g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickRightThr) return(X_ANY_PROP_SRC_RIGHT_CROSS_STICK);
-  return(X_ANY_PROP_SRC_NONE);
-}
-
-/**
-* \file   Xany.cpp
-* \fn     void Xany_updatePropSrcIdx(uint8_t XanyIdx, uint8_t PropSrcIdx)
-* \brief  Returns update the proportional source of the specified Xany instance in non volatile memory
-* \param  XanyIdx:    Index of the X-Any
-* \param  PropSrcIdx: Index of the proportional source
-* \return Void
-*/
-void Xany_updatePropSrcIdx(uint8_t XanyIdx, uint8_t PropSrcIdx)
-{
-  switch(PropSrcIdx)
-  {
-
-    case X_ANY_PROP_SRC_POT:
-    g_model.Xany[XanyIdx].PayloadCfg.Item.RotPot             = 1;
-    g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickLeftThr  = 0;
-    g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickRightThr = 0;
-    break;
-
-    case X_ANY_PROP_SRC_LEFT_CROSS_STICK:
-    g_model.Xany[XanyIdx].PayloadCfg.Item.RotPot             = 0;
-    g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickLeftThr  = 1;
-    g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickRightThr = 0;
-    break;
-
-    case X_ANY_PROP_SRC_RIGHT_CROSS_STICK:
-    g_model.Xany[XanyIdx].PayloadCfg.Item.RotPot             = 0;
-    g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickLeftThr  = 0;
-    g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickRightThr = 1;
-    break;
-
-    case X_ANY_PROP_SRC_NONE:
-    default:
-    g_model.Xany[XanyIdx].PayloadCfg.Item.RotPot             = 0;
-    g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickLeftThr  = 0;
-    g_model.Xany[XanyIdx].PayloadCfg.Item.CrossStickRightThr = 0;
-    break;
-  }
-}
-
 /* PRIVATE FUNCTIONS */
 /**
 * \file   Xany.cpp
-* \fn     uint8_t getMsgType(uint8_t XanyIdx)
+* \fn     void cfg2PayloadStIdx(XanyPayloadCfgSt_t *PayloadCfg, PayloadMapSt_t *PayloadMap)
 * \brief  Returns the type of X-Any message
 * \param  XanyIdx: Index of the X-Any
 * \return The type of X-Any message among XANY_MSG_4SW - XANY_MSG_POT_8SW
 */
-static uint8_t getMsgType(uint8_t XanyIdx)
+static void cfg2PayloadStIdx(XanyPayloadCfgSt_t *PayloadCfg, PayloadMapSt_t *PayloadMap)
 {
-  return(g_model.Xany[XanyIdx].PayloadCfg.Raw & X_ANY_CFG_MSK);
+  uint8_t TotalBitNb;
+
+  if(PayloadCfg->AngleSrcIdx)
+  {
+    PayloadMap->AngleBitNb = 12; /* Always 12 bits */
+  }
+  if(PayloadCfg->PropSrcIdx)
+  {
+    PayloadMap->PropBitNb = 8; /* Always 8 bits */
+  }
+  PayloadMap->SwBitNb = (PayloadCfg->SwitchSrcIdx < X_ANY_SW_SRC_I2C_SW16)? (PayloadCfg->SwitchSrcIdx << 2): 16;
+  TotalBitNb = PayloadMap->AngleBitNb + PayloadMap->PropBitNb + PayloadMap->SwBitNb;
+  if(TotalBitNb <= 20)
+  {
+    PayloadMap->NblNb = TotalBitNb >> 2; /* Div by 4 to obtain Nibble Nb */
+  }
+  else PayloadMap->NblNb = 0; /* Too long! */
+}
+
+/**
+* \file   Xany.cpp
+* \fn     void setPayloadAngle(XanyMsg_union *XanyPl, uint16_t Angle, PayloadMapSt_t *PayloadMap)
+* \brief  Sets the Angle value in the payload structure
+* \param  XanyPl:     Pointer on the payload structure
+* \param  Angle:      The angle value to load
+* \param  PayloadMap: Pointer on the payload map
+* \return Void
+*/
+static void setPayloadAngle(XanyMsg_union *XanyPl, uint16_t Angle, PayloadMapSt_t *PayloadMap)
+{
+  uint8_t BitShitfNb;
+
+  BitShitfNb   = (4 + 8 + PayloadMap->SwBitNb + PayloadMap->PropBitNb);
+  XanyPl->Raw &= (~(X_ANY_PL_ANGLE_MSK << BitShitfNb));
+  Angle       &= X_ANY_PL_ANGLE_MSK;
+  XanyPl->Raw |= ((uint32_t)Angle << BitShitfNb);
+}
+
+/**
+* \file   Xany.cpp
+* \fn     void setPayloadProp(XanyMsg_union *XanyPl, uint8_t Prop, PayloadMapSt_t *PayloadMap)
+* \brief  Sets the Prop value in the payload structure
+* \param  XanyPl:     Pointer on the payload structure
+* \param  Prop:       The Prop value to load
+* \param  PayloadMap: Pointer on the payload map
+* \return Void
+*/
+static void setPayloadProp(XanyMsg_union *XanyPl, uint8_t Prop, PayloadMapSt_t *PayloadMap)
+{
+  uint8_t BitShitfNb;
+
+  BitShitfNb   = (4 + 8 + PayloadMap->SwBitNb);
+  XanyPl->Raw &= (~(X_ANY_PL_PROP_MSK << BitShitfNb));
+  XanyPl->Raw |= ((uint32_t)Prop << BitShitfNb);
+}
+
+/**
+* \file   Xany.cpp
+* \fn     void setPayloadSw(XanyMsg_union *XanyPl, uint16_t Sw, PayloadMapSt_t *PayloadMap)
+* \brief  Sets the Switch value in the payload structure
+* \param  XanyPl:     Pointer on the payload structure
+* \param  Sw:         The Switch value to load
+* \param  PayloadMap: Pointer on the payload map
+* \return Void
+*/
+static void setPayloadSw(XanyMsg_union *XanyPl, uint16_t Sw, PayloadMapSt_t *PayloadMap)
+{
+  uint32_t XanyPlSwMsk;
+  uint8_t  BitShitfNb;
+
+  XanyPlSwMsk  = (1UL << PayloadMap->SwBitNb) - 1;
+  BitShitfNb   = (4 + 8);
+  XanyPl->Raw &= (~(XanyPlSwMsk << BitShitfNb));
+  Sw          &= XanyPlSwMsk;
+  XanyPl->Raw |= ((uint32_t)Sw << BitShitfNb);
+}
+
+/**
+* \file   Xany.cpp
+* \fn     uint16_t getPayloadAngle(XanyMsg_union *XanyPl, PayloadMapSt_t *PayloadMap)
+* \brief  Gets the Angle value from the payload structure
+* \param  XanyPl:     Pointer on the payload structure
+* \param  PayloadMap: Pointer on the payload map
+* \return The Angle value
+*/
+static uint16_t getPayloadAngle(XanyMsg_union *XanyPl, PayloadMapSt_t *PayloadMap)
+{
+  uint8_t BitShitfNb;
+
+  BitShitfNb = (4 + 8 + PayloadMap->SwBitNb + PayloadMap->PropBitNb);
+  return((XanyPl->Raw >> BitShitfNb) & X_ANY_PL_ANGLE_MSK);
+}
+
+/**
+* \file   Xany.cpp
+* \fn     uint8_t getPayloadProp(XanyMsg_union *XanyPl, PayloadMapSt_t *PayloadMap)
+* \brief  Gets the Prop value from the payload structure
+* \param  XanyPl:     Pointer on the payload structure
+* \param  PayloadMap: Pointer on the payload map
+* \return The Prop value
+*/
+static uint8_t getPayloadProp(XanyMsg_union *XanyPl, PayloadMapSt_t *PayloadMap)
+{
+  uint8_t BitShitfNb;
+
+  BitShitfNb = (4 + 8 + PayloadMap->SwBitNb);
+
+  return((XanyPl->Raw >> BitShitfNb) & X_ANY_PL_PROP_MSK);
+}
+
+/**
+* \file   Xany.cpp
+* \fn     uint16_t getPayloadSw(XanyMsg_union *XanyPl, PayloadMapSt_t *PayloadMap)
+* \brief  Gets the Switch value from the payload structure
+* \param  XanyPl:     Pointer on the payload structure
+* \param  PayloadMap: Pointer on the payload map
+* \return The Swicth value
+*/
+static uint16_t getPayloadSw(XanyMsg_union *XanyPl, PayloadMapSt_t *PayloadMap)
+{
+  uint16_t XanyPlSwMsk;
+  uint8_t  BitShitfNb;
+
+  BitShitfNb = (4 + 8);
+  XanyPlSwMsk = (1 << PayloadMap->SwBitNb) - 1;
+
+  return((XanyPl->Raw >> BitShitfNb) & XanyPlSwMsk);
 }
 
 /**
@@ -1005,13 +736,13 @@ static uint8_t readIoExtender(uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRea
 
 /**
 * \file   Xany.cpp
-* \fn     uint8_t readAngleSensor(uint8_t XanyIdx, uint16_t *Angle)
+* \fn     uint8_t readI2cAngleSensor(uint8_t XanyIdx, uint16_t *Angle)
 * \brief  Reads the I2C angle sensor associated to the specified X-Any instance
 * \param  XanyIdx:    Index of the X-Any
 * \param  Angle:      Pointer on the destination 16 bits buffer
 * \return 0: OK,   1: Error
 */
-static uint8_t readAngleSensor(uint8_t XanyIdx, uint16_t *Angle)
+static uint8_t readI2cAngleSensor(uint8_t XanyIdx, uint16_t *Angle)
 {
   #define A1335_ANG_REG_ADDR  (0x20)
   uint32_t PresenceMask;

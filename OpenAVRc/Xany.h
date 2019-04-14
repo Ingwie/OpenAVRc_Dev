@@ -35,20 +35,25 @@
 #include "OpenAVRc.h"
 
 /* Possible operation for Xany_operation() */
-#define XANY_OP_BUILD_MSG    (1 << 0)
-#define XANY_OP_READ_INFO    (1 << 1)
+#define XANY_OP_BUILD_MSG      (1 << 0)
+#define XANY_OP_READ_INFO      (1 << 1)
+
+#define X_ANY_PL_ANGLE_BIT_NB  12
+#define X_ANY_PL_PROP_BIT_NB   8
+
+#define X_ANY_PL_ANGLE_MSK     ((1UL << X_ANY_PL_ANGLE_BIT_NB) - 1)
+#define X_ANY_PL_PROP_MSK      ((1UL << X_ANY_PL_PROP_BIT_NB) - 1)
+
+enum {X_ANY_ANGLE_SRC_NONE = 0, X_ANY_ANGLE_SRC_I2C_SENSOR, X_ANY_ANGLE_SRC_LEFT_CROSS_STICK, X_ANY_ANGLE_SRC_RIGHT_CROSS_STICK, X_ANY_ANGLE_SRC_NB};
+enum {X_ANY_PROP_SRC_NONE  = 0, X_ANY_PROP_SRC_LEFT_CROSS_STICK_H, X_ANY_PROP_SRC_LEFT_CROSS_STICK_V, X_ANY_PROP_SRC_RIGHT_CROSS_STICK_V, X_ANY_PROP_SRC_RIGHT_CROSS_STICK_H, X_ANY_PROP_SRC_P1, X_ANY_PROP_SRC_P2, X_ANY_PROP_SRC_P3, X_ANY_PROP_SRC_LEFT_CROSS_STICK, X_ANY_PROP_SRC_RIGHT_CROSS_STICK, X_ANY_PROP_SRC_NB};
+enum {X_ANY_SW_SRC_NONE    = 0, X_ANY_SW_SRC_I2C_SW4, X_ANY_SW_SRC_I2C_SW8, X_ANY_SW_SRC_I2C_SW16, X_ANY_SW_SRC_NB};
 
 typedef struct{
     uint8_t  MsgNibbleLen;
     uint8_t  SwNb;
     uint16_t SwValue;
-    uint16_t Angle;
+    uint16_t AngleValue;
     uint8_t  PropValue;
-    uint8_t
-             Active    :1,  /* If set to 0: allows to used the channel as usual (without messages) */
-             ChId      :1,  /* Channel used to transport the message (0 to 15) */
-             RepeatNb  :2,  /* 0 repeat to 3 repeats */
-             Reserved1 :1;
     uint16_t TxPeriodMs;
 }XanyInfoSt_t;
 
@@ -56,9 +61,5 @@ void     Xany_init(void);
 uint8_t  Xany_readInputsAndLoadMsg(uint8_t XanyIdx);
 void     Xany_scheduleTx(uint8_t XanyIdx);
 uint8_t  Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo);
-uint8_t  Xany_getAngleSrcIdx(uint8_t XanyIdx);
-void     Xany_updateAngleSrcIdx(uint8_t XanyIdx, uint8_t PropSrcIdx);
-uint8_t  Xany_getPropSrcIdx(uint8_t XanyIdx);
-void     Xany_updatePropSrcIdx(uint8_t XanyIdx, uint8_t PropSrcIdx);
 
 #endif // X_ANY_H
