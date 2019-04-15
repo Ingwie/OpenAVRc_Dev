@@ -18,7 +18,7 @@
 PCB = MEGAMINI
 
 # LCD
-# Values: ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306, SH1106
+# Values: ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306, SH1106, NT7538SPI
 LCD = ST7565P
 
 # Enable FrSky Telemetry reception on UART0 or SPI
@@ -248,22 +248,6 @@ A7105PAG = 20
 # Values = NO, 1, 2, 3 ,4
 X_ANY = NO
 
-# Pot available in X-any1
-# Values =   STICK_RH, STICK_LV, STICK_RV, STICK_LH, POT1, POT2, POT3
-X_ANY_1_POT = POT1
-
-# Pot available in X-any2
-# Values =   STICK_RH, STICK_LV, STICK_RV, STICK_LH, POT1, POT2, POT3
-X_ANY_2_POT = POT2
-
-# Pot available in X-any3
-# Values =   STICK_RH, STICK_LV, STICK_RV, STICK_LH, POT1, POT2, POT3
-X_ANY_3_POT = POT3
-
-# Pot available in X-any4
-# Values =   STICK_RH, STICK_LV, STICK_RV, STICK_LH, POT1, POT2, POT3
-X_ANY_4_POT = STICK_LV
-
 # Invert STICK_RH analog value
 # Values = NO, YES
 INV_STICK_RH = NO
@@ -444,10 +428,6 @@ ifeq ($(PCB), MEGAMINI)
 		ifeq ($(X_ANY), 4)
 		CPPDEFS += -DX_ANY=4
 		endif
-		CPPDEFS += -DX_ANY_1_POT=$(X_ANY_1_POT)
-		CPPDEFS += -DX_ANY_2_POT=$(X_ANY_2_POT)
-		CPPDEFS += -DX_ANY_3_POT=$(X_ANY_3_POT)
-		CPPDEFS += -DX_ANY_4_POT=$(X_ANY_4_POT)
 	endif
 
 	ifeq ($(INV_STICK_RH), YES)
@@ -730,10 +710,6 @@ ifeq ($(PCB), MEGA2560)
 		ifeq ($(X_ANY), 4)
 		CPPDEFS += -DX_ANY=4
 		endif
-		CPPDEFS += -DX_ANY_1_POT=$(X_ANY_1_POT)
-		CPPDEFS += -DX_ANY_2_POT=$(X_ANY_2_POT)
-		CPPDEFS += -DX_ANY_3_POT=$(X_ANY_3_POT)
-		CPPDEFS += -DX_ANY_4_POT=$(X_ANY_4_POT)
 	endif
 
 endif
@@ -840,6 +816,8 @@ else ifeq ($(LCD), SSD1306)
   CPPDEFS += -DLCD_SSD1306
 else ifeq ($(LCD), SH1106)
   CPPDEFS += -DLCD_SH1106
+else ifeq ($(LCD), NT7538SPI)
+  CPPDEFS += -DLCD_NT7538SPI
 endif
 
 ifeq ($(AUTOSWITCH), YES)

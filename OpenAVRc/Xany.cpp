@@ -114,8 +114,6 @@ typedef struct{
 
 /* Array of Pots choosen */
 #define CONV_XANY_POTS(x)             (x<4)? 3-x : x
-const uint8_t XANY_POT[] PROGMEM = {CONV_XANY_POTS(X_ANY_1_POT), CONV_XANY_POTS(X_ANY_2_POT), CONV_XANY_POTS(X_ANY_3_POT), CONV_XANY_POTS(X_ANY_4_POT)};
-#define GET_XANY_POT(PotIdx)          (uint8_t)     pgm_read_byte_near(&XANY_POT[PotIdx])
 
 /* Allegro A1335 absolute angle sensor 7 bit I2C address */
 #define A1335_I2C_7B_ADDR             (0x0C) /* /!\ Even if the chip is powered under 5V, I2C SDA/SCL pull-ups SHALL be tied at 3.3V /!\ */
