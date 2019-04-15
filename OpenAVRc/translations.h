@@ -72,8 +72,6 @@
 #define PSIZE(x) ( sizeof(x) - 1 )
 #define EOFS(x)  ( OFS_##x + sizeof(TR_##x) )
 
-#define TR(x, y) x
-
 // The non-0-terminated-strings
 
 extern const pm_char STR_OPEN9X[];
