@@ -802,10 +802,10 @@
 				</object>
 				<object class="notebookpage">
 					<object class="wxPanel" name="ID_PANEL5" variable="Panel5" member="yes">
-						<object class="wxStaticBox" name="ID_STATICBOX12" variable="StaticBox12" member="yes">
-							<label>Choix des POTs</label>
-							<pos>56,104</pos>
-							<size>224,200</size>
+						<object class="wxStaticBox" name="ID_STATICBOX11" variable="StaticBox11" member="yes">
+							<label>X-Any Options</label>
+							<pos>16,16</pos>
+							<size>280,304</size>
 						</object>
 						<object class="wxButton" name="ID_BUTTON8" variable="Button1" member="yes">
 							<label>Sauvegarder et sortir</label>
@@ -818,11 +818,6 @@
 							<pos>472,200</pos>
 							<size>136,23</size>
 							<handler function="OnButtonCOMPILEClick" entry="EVT_BUTTON" />
-						</object>
-						<object class="wxStaticBox" name="ID_STATICBOX11" variable="StaticBox11" member="yes">
-							<label>X-Any Options</label>
-							<pos>16,16</pos>
-							<size>280,304</size>
 						</object>
 						<object class="wxChoice" name="ID_CHOICENUMXANY" variable="ChoiceNUMXANY" member="yes">
 							<content>
@@ -841,82 +836,6 @@
 						<object class="wxStaticText" name="ID_STATICTEXT29" variable="StaticText29" member="yes">
 							<label>Nb X-ANY</label>
 							<pos>56,56</pos>
-						</object>
-						<object class="wxChoice" name="ID_CHOICEXANY1POT" variable="ChoiceXANY1POT" member="yes">
-							<content>
-								<item>POT1</item>
-								<item>POT2</item>
-								<item>POT3</item>
-								<item>STICK_RH</item>
-								<item>STICK_LV</item>
-								<item>STICK_RV</item>
-								<item>STICK_LH</item>
-							</content>
-							<selection>0</selection>
-							<pos>176,136</pos>
-							<size>66,21</size>
-							<tooltip>Potentiomètre pour X-Any</tooltip>
-						</object>
-						<object class="wxChoice" name="ID_CHOICEXANY2POT" variable="ChoiceXANY2POT" member="yes">
-							<content>
-								<item>POT1</item>
-								<item>POT2</item>
-								<item>POT3</item>
-								<item>STICK_RH</item>
-								<item>STICK_LV</item>
-								<item>STICK_RV</item>
-								<item>STICK_LH</item>
-							</content>
-							<selection>0</selection>
-							<pos>176,176</pos>
-							<size>66,21</size>
-							<tooltip>Potentiomètre pour X-Any</tooltip>
-						</object>
-						<object class="wxChoice" name="ID_CHOICEXANY3POT" variable="ChoiceXANY3POT" member="yes">
-							<content>
-								<item>POT1</item>
-								<item>POT2</item>
-								<item>POT3</item>
-								<item>STICK_RH</item>
-								<item>STICK_LV</item>
-								<item>STICK_RV</item>
-								<item>STICK_LH</item>
-							</content>
-							<selection>0</selection>
-							<pos>176,216</pos>
-							<size>66,21</size>
-							<tooltip>Potentiomètre pour X-Any</tooltip>
-						</object>
-						<object class="wxStaticText" name="ID_STATICTEXT31" variable="StaticText31" member="yes">
-							<label>X-Any N°1 :</label>
-							<pos>96,144</pos>
-						</object>
-						<object class="wxStaticText" name="ID_STATICTEXT32" variable="StaticText32" member="yes">
-							<label>X-Any N°2 :</label>
-							<pos>96,184</pos>
-						</object>
-						<object class="wxStaticText" name="ID_STATICTEXT33" variable="StaticText33" member="yes">
-							<label>X-Any N°3 :</label>
-							<pos>96,224</pos>
-						</object>
-						<object class="wxChoice" name="ID_CHOICEXANY4POT" variable="ChoiceXANY4POT" member="yes">
-							<content>
-								<item>POT1</item>
-								<item>POT2</item>
-								<item>POT3</item>
-								<item>STICK_RH</item>
-								<item>STICK_LV</item>
-								<item>STICK_RV</item>
-								<item>STICK_LH</item>
-							</content>
-							<selection>0</selection>
-							<pos>176,256</pos>
-							<size>66,21</size>
-							<tooltip>Potentiomètre pour X-Any</tooltip>
-						</object>
-						<object class="wxStaticText" name="ID_STATICTEXT30" variable="StaticText30" member="yes">
-							<label>X-Any N°4 :</label>
-							<pos>96,264</pos>
 						</object>
 					</object>
 					<label>X-Any</label>
