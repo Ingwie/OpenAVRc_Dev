@@ -1671,8 +1671,14 @@ void OpenAVRc_SimulatorFrame::load_ModelData_EEPROM_VER()
           temp_model.Xany[i].RepeatNb = tmp;
           eepromfile->Read(wxT("Xany"+num+"Reserved1"),&tmp,0);
           temp_model.Xany[i].Reserved1 = tmp;
-          eepromfile->Read(wxT("Xany"+num+"PayloadCfg.Raw"),&tmp,0);
-          temp_model.Xany[i].PayloadCfg.Raw = tmp;
+          eepromfile->Read(wxT("Xany"+num+"PayloadCfg.AngleSrcIdx"),&tmp,0);
+          temp_model.Xany[i].PayloadCfg.AngleSrcIdx = tmp;
+          eepromfile->Read(wxT("Xany"+num+"PayloadCfg.PropSrcIdx"),&tmp,0);
+          temp_model.Xany[i].PayloadCfg.PropSrcIdx = tmp;
+          eepromfile->Read(wxT("Xany"+num+"PayloadCfg.SwitchSrcIdx"),&tmp,0);
+          temp_model.Xany[i].PayloadCfg.SwitchSrcIdx = tmp;
+          eepromfile->Read(wxT("Xany"+num+"PayloadCfg.FreeCfgBits"),&tmp,0);
+          temp_model.Xany[i].PayloadCfg.FreeCfgBits = tmp;
           eepromfile->Read(wxT("Xany"+num+"Param.Raw"),&tmp,0);
           temp_model.Xany[i].Param.Raw = tmp;
           eepromfile->Read(wxT("Xany"+num+"Rfu"),&tmp,0);
@@ -2021,7 +2027,10 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
           temp_model.Xany[i].ChId = 0;
           temp_model.Xany[i].RepeatNb = 0;
           temp_model.Xany[i].Reserved1 = 0;
-          temp_model.Xany[i].PayloadCfg.Raw = 0;
+          temp_model.Xany[i].PayloadCfg.AngleSrcIdx = 0;
+          temp_model.Xany[i].PayloadCfg.PropSrcIdx = 0;
+          temp_model.Xany[i].PayloadCfg.SwitchSrcIdx = 0;
+          temp_model.Xany[i].PayloadCfg.FreeCfgBits = 0;
           temp_model.Xany[i].Param.Raw = 0;
           temp_model.Xany[i].Rfu = 0;
         }
@@ -2474,7 +2483,10 @@ void OpenAVRc_SimulatorFrame::save_ModelData_EEPROM_VER()
           eepromfile->Write(wxT("Xany"+num+"ChId"),(int)temp_model.Xany[i].ChId);
           eepromfile->Write(wxT("Xany"+num+"RepeatNb"),(int)temp_model.Xany[i].RepeatNb);
           eepromfile->Write(wxT("Xany"+num+"Reserved1"),(int)temp_model.Xany[i].Reserved1);
-          eepromfile->Write(wxT("Xany"+num+"PayloadCfg.Raw"),(int)temp_model.Xany[i].PayloadCfg.Raw);
+          eepromfile->Write(wxT("Xany"+num+"PayloadCfg.AngleSrcIdx"),(int)temp_model.Xany[i].PayloadCfg.AngleSrcIdx);
+          eepromfile->Write(wxT("Xany"+num+"PayloadCfg.PropSrcIdx"),(int)temp_model.Xany[i].PayloadCfg.PropSrcIdx);
+          eepromfile->Write(wxT("Xany"+num+"PayloadCfg.SwitchSrcIdx"),(int)temp_model.Xany[i].PayloadCfg.SwitchSrcIdx);
+          eepromfile->Write(wxT("Xany"+num+"PayloadCfg.FreeCfgBits"),(int)temp_model.Xany[i].PayloadCfg.FreeCfgBits);
           eepromfile->Write(wxT("Xany"+num+"Param.Raw"),(int)temp_model.Xany[i].Param.Raw);
           eepromfile->Write(wxT("Xany"+num+"Rfu"),(int)temp_model.Xany[i].Rfu);
         }
