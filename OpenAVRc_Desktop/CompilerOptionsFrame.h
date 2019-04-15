@@ -141,10 +141,7 @@ extern wxString switchXD2;
 
 //X ANY
 extern wxString NUMXANY;
-extern wxString XANY1POT;
-extern wxString XANY2POT;
-extern wxString XANY3POT;
-extern wxString XANY4POT;
+
 
 class CompilerOptionsFrame: public wxFrame
 {
