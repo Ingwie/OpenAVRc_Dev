@@ -194,11 +194,6 @@ wxString switchXD1 = ("XD1");
 wxString switchXD2 = ("XD2");
 
 wxString NUMXANY = ("NO");
-wxString XANY1POT = ("POT1");
-wxString XANY2POT = ("POT1");
-wxString XANY3POT = ("POT1");
-wxString XANY4POT = ("POT1");
-
 
 //(*IdInit(OpenAVRc_DesktopFrame)
 const long OpenAVRc_DesktopFrame::ID_STATICBOXSPLASH = wxNewId();
@@ -700,10 +695,6 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
 
   //XANY
   configFile->Read(wxT("NUMXANY"),&NUMXANY);
-  configFile->Read(wxT("XANY1POT"),&XANY1POT);
-  configFile->Read(wxT("XANY2POT"),&XANY2POT);
-  configFile->Read(wxT("XANY3POT"),&XANY3POT);
-  configFile->Read(wxT("XANY4POT"),&XANY4POT);
 
   // [SPLASH]
   configFile->SetPath("/"+Profil+"/");
@@ -832,10 +823,6 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
 
   //XANY
   configFile->Write(wxT("NUMXANY"),NUMXANY);
-  configFile->Write(wxT("XANY1POT"),XANY1POT);
-  configFile->Write(wxT("XANY2POT"),XANY2POT);
-  configFile->Write(wxT("XANY3POT"),XANY3POT);
-  configFile->Write(wxT("XANY4POT"),XANY4POT);
 
   // [SPLASH]
   configFile->SetPath("/"+Profil+"/");
