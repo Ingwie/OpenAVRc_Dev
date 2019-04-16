@@ -246,6 +246,10 @@ void menuModelXany(uint8_t event)
               g_model.Xany[xanynumber].Param.Expo.PerCentIdx = ExpoPerCentIdx;
             }
           }
+          else
+          {
+              if (menuHorizontalPosition==1) {menuHorizontalPosition = 0;} // Stay in PropSrcIdx field if not valid
+          }
           break;
 
 #if (X_ANY >= 2)
