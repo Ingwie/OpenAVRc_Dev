@@ -112,9 +112,6 @@ typedef struct{
         NblNb     :3;
 }PayloadMapSt_t;
 
-/* Array of Pots choosen */
-#define CONV_XANY_POTS(x)             (x<4)? 3-x : x
-
 /* Allegro A1335 absolute angle sensor 7 bit I2C address */
 #define A1335_I2C_7B_ADDR             (0x0C) /* /!\ Even if the chip is powered under 5V, I2C SDA/SCL pull-ups SHALL be tied at 3.3V /!\ */
 
@@ -461,7 +458,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
     {
       if(g_model.Xany[XanyIdx].PayloadCfg.PropSrcIdx < X_ANY_PROP_SRC_LEFT_CROSS_STICK)
       {
-        Prop = ((calibratedStick[g_model.Xany[XanyIdx].PayloadCfg.PropSrcIdx - 1] + RESX - 1) / 8);
+        Prop = ((calibratedStick[CONVERT_MODE(g_model.Xany[XanyIdx].PayloadCfg.PropSrcIdx - 1)] + RESX - 1) / 8);
       }
       else
       {
