@@ -504,6 +504,15 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
     {
       switch(PayloadCfg.SwitchSrcIdx)
       {
+        case X_ANY_SW_SRC_L1_L4:
+        Sw  = (getLogicalSwitch(4) << 3) | (getLogicalSwitch(3) << 2) | (getLogicalSwitch(2) << 1) | (getLogicalSwitch(1) << 0);
+        break;
+
+        case X_ANY_SW_SRC_L1_L8:
+        Sw  = (getLogicalSwitch(8) << 7) | (getLogicalSwitch(7) << 6) | (getLogicalSwitch(6) << 5) | (getLogicalSwitch(5) << 4);
+        Sw |= (getLogicalSwitch(4) << 3) | (getLogicalSwitch(3) << 2) | (getLogicalSwitch(2) << 1) | (getLogicalSwitch(1) << 0);
+        break;
+
         case X_ANY_SW_SRC_I2C_SW4:
         readIoExtender(XanyIdx, (uint8_t *)&One8bitPort, 1);
         Sw = (uint16_t)(One8bitPort & 0x0F); /* Keep 4 bits */
@@ -555,9 +564,10 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
 */
 static void cfg2PayloadMap(XanyPayloadCfgSt_t *PayloadCfg, PayloadMapSt_t *PayloadMap)
 {
+  uint8_t SwIdx2Nbl[] = {0, 1, 2, 1, 2, 4};
   PayloadMap->AngleNblNb = PayloadCfg->AngleSrcIdx? 3: 0; /* Always 12 bits */
   PayloadMap->PropNblNb = PayloadCfg->PropSrcIdx? 2: 0;   /* Always 8 bits */
-  PayloadMap->SwNblNb = (PayloadCfg->SwitchSrcIdx < X_ANY_SW_SRC_I2C_SW16)? (PayloadCfg->SwitchSrcIdx): 4;
+  PayloadMap->SwNblNb = (PayloadCfg->SwitchSrcIdx < X_ANY_SW_SRC_NB)? SwIdx2Nbl[PayloadCfg->SwitchSrcIdx]: 0;
   PayloadMap->NblNb = PayloadMap->AngleNblNb + PayloadMap->PropNblNb + PayloadMap->SwNblNb;
   if(PayloadMap->NblNb > XANY_PAYLOAD_MAX_SIZE_NIBBLES)
   {

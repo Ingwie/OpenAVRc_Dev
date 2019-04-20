@@ -101,7 +101,7 @@ void menuModelXany(uint8_t event)
   MENU(STR_X_ANY, menuTabModel, e_Xany, MODEL_XANY_MAX_LINES, {XANY1LINES XANY2LINES XANY3LINES XANY4LINES});
 
   uint8_t      AngleSrcIdx = 0, PropSrcIdx = 0, SwitchSrcIdx = 0, ExpoPerCentIdx = 0;
-  uint8_t      sub = menuVerticalPosition - 1, num_switchs;
+  uint8_t      sub = menuVerticalPosition - 1;
   XanyInfoSt_t XanyInfo;
 
   coord_t y = MENU_HEADER_HEIGHT + 1;
@@ -190,12 +190,9 @@ void menuModelXany(uint8_t event)
 #endif
           if(g_model.Xany[xanynumber].PayloadCfg.SwitchSrcIdx >= X_ANY_SW_SRC_NB) g_model.Xany[xanynumber].PayloadCfg.SwitchSrcIdx = 0;
           SwitchSrcIdx = g_model.Xany[xanynumber].PayloadCfg.SwitchSrcIdx;
-          num_switchs = (SwitchSrcIdx < 3) ? SwitchSrcIdx*4 : 16;
-          lcdDrawStringWithIndex(0, y, STR_SWITCHES, num_switchs, attr);
-          if (attr)
-            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.Xany[xanynumber].PayloadCfg.SwitchSrcIdx, X_ANY_SW_SRC_NB - 1);
-          /* If ValidMsg == 0, this means the combination is not supported */
-          if (ValidMsg)
+          SwitchSrcIdx = selectMenuItem(FW/2, y, STR_SWITCHES, STR_SWITCHES_VALUES, SwitchSrcIdx, 0, X_ANY_SW_SRC_NB - 1, attr, event);
+          g_model.Xany[xanynumber].PayloadCfg.SwitchSrcIdx = SwitchSrcIdx;
+          if (ValidMsg && SwitchSrcIdx)
           {
             lcd_outbin(XanyInfo.SwNb,14*FW-3*XanyInfo.SwNb,y,XanyInfo.SwValue, INVERS);
           }
