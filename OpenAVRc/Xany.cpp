@@ -93,23 +93,38 @@ const uint8_t Atan45Tbl[] PROGMEM =  {
         231, 232, 234, 236, 237, 239, 240, 242, 244, 245, 247, 248, 250, 252, 253, 255
         };
 
+#define XANY_PAYLOAD_MAX_SIZE_BITS     (12 + 8 + 16) /* Max X-Any payload in bits: Angle + Pot + 16 Sw */
+#define XANY_PAYLOAD_MAX_SIZE_NIBBLES  ((XANY_PAYLOAD_MAX_SIZE_BITS + 3) / 4)
+#define XANY_PAYLOAD_MAX_SIZE_BYTES    (XANY_PAYLOAD_MAX_SIZE_NIBBLES * 2)
+
+/*
+ Xany Message format:
+ ===================
+ 1) Xany Fields are nibble-aligned (4 bits) to optimize transmission time :-)
+ 2) Fields are always filled in the following order:            [Angle][Prop][Sw]
+ 3) The Xany message is build dynamically. If a field is not present the other one(s) is/are left justified
+    Example#1: If Angle is not present,          the message is [Prop][Sw]
+    Example#2: If Prop  is not present,          the message is [Angle][Sw]
+    Example#3: If Angle & Prop  are not present, the message is [Sw]
+ 4) The 8 bit checksum is added just after the last Nibble. Ex: [Prop][Sw][Chks]
+*/
+
 typedef struct{
-  uint32_t
-                  NibbleNbToTx      :4,
-                  PayloadAndChecksum:28;
+  uint8_t NibbleNbToTx;
+  uint8_t PayloadAndChecksum[XANY_PAYLOAD_MAX_SIZE_BYTES + 1]; /* + 1 for Checksum */
 }MsgCommonSt_t; /* Size = 4 bytes */
 
 typedef union{
   MsgCommonSt_t    Common;
-  uint32_t         Raw;
+  uint8_t          Raw[1 + XANY_PAYLOAD_MAX_SIZE_BYTES + 1]; /* + 1 for NibbleNbToTx and + 1 for Checksum */
 }XanyMsg_union;  /* Size = 4 bytes */
 
 typedef struct{
   uint16_t
-        AngleBitNb:4,
-        PropBitNb :4,
-        SwBitNb   :5,
-        NblNb     :3;
+        AngleNblNb:4, /* 3 max (12 Bits Max) */
+        PropNblNb :4, /* 2 max (8  Bits Max) */
+        SwNblNb   :4, /* 4 max (16 Bits Max) */
+        NblNb     :4; /* Max nibble nb is currently 9 */
 }PayloadMapSt_t;
 
 /* Allegro A1335 absolute angle sensor 7 bit I2C address */
@@ -119,7 +134,7 @@ typedef struct{
 enum {IO_EXP_PCF8574 = 0, IO_EXP_PCF8574A, IO_EXP_PCA9654E, IO_EXP_MCP23017, IO_EXP_PCF8575A, IO_EXP_PCA9671, IO_EXP_TYPE_NB};
 
 /* PRIVATE FUNCTION PROTOYPES */
-static void     cfg2PayloadStIdx(XanyPayloadCfgSt_t *PayloadCfg, PayloadMapSt_t *PayloadMap);
+static void     cfg2PayloadMap(XanyPayloadCfgSt_t *PayloadCfg, PayloadMapSt_t *PayloadMap);
 static void     setPayloadAngle(XanyMsg_union *XanyPl, uint16_t Angle, PayloadMapSt_t *PayloadMap);
 static void     setPayloadProp(XanyMsg_union *XanyPl, uint8_t Prop, PayloadMapSt_t *PayloadMap);
 static void     setPayloadSw(XanyMsg_union *XanyPl, uint16_t Sw, PayloadMapSt_t *PayloadMap);
@@ -133,7 +148,6 @@ static uint8_t  throttle(int16_t ExcSinus, int16_t ExcCosinus, uint8_t ExpoLevel
 static uint8_t  tinySqrt(uint16_t Square); /* Max exec time: 4 to 60us */
 static uint8_t  tinyExpo(uint8_t InValue, uint8_t ExpoPerCentIdx);
 static void     updateXanyMsgChecksum(XanyMsg_union *XanyMsg);
-static uint8_t  getBigEndianNibbleNbToTx(XanyMsg_union *XanyMsg);
 static int32_t  map32(int32_t x, int32_t in_min, int32_t in_max, int32_t out_min, int32_t out_max);
 
 /* The read functions for all the supported I/O expenders */
@@ -223,8 +237,6 @@ const XanyIdxRangeSt_t XanyIdxRange[] PROGMEM = {{0, 6}, {7, 13}, {14, 18}, {19,
 #define GET_I2C_IO_EXP_TYPE(Idx)      (uint8_t)     (pgm_read_byte_far(pgm_get_far_address(XanyI2cTypeAddr) + Idx*4))
 #define GET_I2C_IO_EXP_7B_ADDR(Idx)   (uint8_t)     (pgm_read_byte_far(pgm_get_far_address(XanyI2cTypeAddr) + Idx*4 + 1))
 #define GET_I2C_IO_EXP_READ(Idx)      (ReadIoExpPtr)(pgm_read_word_far(pgm_get_far_address(XanyI2cTypeAddr) + Idx*4 + 2))
-
-#define htonl(x)                      __builtin_bswap32((uint32_t) (x))
 
 typedef struct {
   uint16_t
@@ -335,22 +347,20 @@ uint8_t Xany_readInputsAndLoadMsg(uint8_t XanyIdx)
 void Xany_scheduleTx(uint8_t XanyIdx)
 {
   X_OneAnyWriteMsgSt_t *t;
-  char                 *CharPtr, TxChar;
+  char                  TxChar;
   uint8_t               NibbleNbToTx;
 
   if(g_model.Xany[XanyIdx].Active)
   {
     t = (X_OneAnyWriteMsgSt_t *)&X_AnyWriteMsg[XanyIdx]; /* XanyIdx SHALL be < NUM_X_ANY */
-    /* Here, take care that X_AnyWriteMsg is in big endian, then t->Msg.Common.NibbleNbToTx CANNOT be used! */
-    NibbleNbToTx = getBigEndianNibbleNbToTx((XanyMsg_union *)&t->Msg);
+    NibbleNbToTx = t->Msg.Common.NibbleNbToTx;
     if(!t->Nibble.TxInProgress)
     {
       t->Nibble.TxInProgress = 1;
       /* Get next char to send */
       if(t->NibbleIdx < NibbleNbToTx)
       {
-        CharPtr = (char *)t;
-        TxChar = CharPtr[t->NibbleIdx / 2];
+        TxChar = t->Msg.Common.PayloadAndChecksum[t->NibbleIdx / 2];
         if(!(t->NibbleIdx & 1)) t->Nibble.CurIdx = ((TxChar & 0xF0) >> 4); /* MSN first */
         else                    t->Nibble.CurIdx =   TxChar & 0x0F;        /* LSN */
       }
@@ -375,7 +385,7 @@ void Xany_scheduleTx(uint8_t XanyIdx)
       else
       {
         /* The full message is sent: load the pending X_AnyReadMsg[XanyIdx] message in X_AnyWriteMsg[XanyIdx] message */
-        t->Msg.Raw   = X_AnyReadMsg[XanyIdx].Raw;
+        memcpy((void*)t->Msg.Raw, (void*)X_AnyReadMsg[XanyIdx].Raw, 1 + XANY_PAYLOAD_MAX_SIZE_BYTES + 1); /* + 1 for NibbleNbToTx and + 1 for Checksum */
         t->NibbleIdx = 0;
       }
       t->Nibble.SentCnt = 0;
@@ -403,14 +413,14 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
   int16_t            ExcSin, ExcCos;
 
   PayloadCfg = g_model.Xany[XanyIdx].PayloadCfg;
-  cfg2PayloadStIdx(&PayloadCfg, &PayloadMap); /* Convert PayloadCfg to PayloadMap */
+  cfg2PayloadMap(&PayloadCfg, &PayloadMap); /* Convert PayloadCfg to Payload Map */
   ValidMsg = !!PayloadMap.NblNb;
   if(XanyOp & XANY_OP_BUILD_MSG)
   {
-    Built.Raw = 0; /* Clear temporary message */
+    memset((void*)Built.Common.PayloadAndChecksum, 0, XANY_PAYLOAD_MAX_SIZE_BYTES + 1); /* + 1 for Checksum */
     Built.Common.NibbleNbToTx = PayloadMap.NblNb + 2; /* + 2 for Checksum */
 
-    if(PayloadMap.AngleBitNb)
+    if(PayloadMap.AngleNblNb)
     {
       switch(PayloadCfg.AngleSrcIdx)
       {
@@ -424,12 +434,12 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
         Radius = throttle(ExcSin / 2, ExcCos / 2, 0);
         if(Radius >= DEAD_ANGLE_RADIUS)
         {
-          Angle    = sinCosToGis(ExcSin, ExcCos);
+          Angle = sinCosToGis(ExcSin, ExcCos);
         }
         else
         {
-          Read.Raw = htonl(X_AnyReadMsg[XanyIdx].Raw);
-          Angle    = getPayloadAngle(&Read, &PayloadMap); /* Keep current angle */
+          memcpy((void*)Read.Raw, (void*)X_AnyReadMsg[XanyIdx].Raw, XANY_PAYLOAD_MAX_SIZE_BYTES + 1); /* + 1 for Checksum */
+          Angle = getPayloadAngle(&Read, &PayloadMap); /* Keep current angle */
         }
         break;
 
@@ -439,12 +449,12 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
         Radius = throttle(ExcSin / 2, ExcCos / 2, 0);
         if(Radius >= DEAD_ANGLE_RADIUS)
         {
-          Angle  = sinCosToGis(ExcSin, ExcCos);
+          Angle = sinCosToGis(ExcSin, ExcCos);
         }
         else
         {
-          Read.Raw = htonl(X_AnyReadMsg[XanyIdx].Raw);
-          Angle    = getPayloadAngle(&Read, &PayloadMap); /* Keep current angle */
+          memcpy((void*)Read.Common.PayloadAndChecksum, (void*)X_AnyReadMsg[XanyIdx].Common.PayloadAndChecksum, XANY_PAYLOAD_MAX_SIZE_BYTES + 1); /* + 1 for Checksum */
+          Angle = getPayloadAngle(&Read, &PayloadMap); /* Keep current angle */
         }
         break;
 
@@ -454,7 +464,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
       setPayloadAngle(&Built, Angle, &PayloadMap);
     }
 
-    if(PayloadMap.PropBitNb)
+    if(PayloadMap.PropNblNb)
     {
       if(g_model.Xany[XanyIdx].PayloadCfg.PropSrcIdx < X_ANY_PROP_SRC_LEFT_CROSS_STICK)
       {
@@ -490,7 +500,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
       setPayloadProp(&Built, Prop, &PayloadMap);
     }
 
-    if(PayloadMap.SwBitNb)
+    if(PayloadMap.SwNblNb)
     {
       switch(PayloadCfg.SwitchSrcIdx)
       {
@@ -515,17 +525,18 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
       setPayloadSw(&Built, Sw, &PayloadMap);
     }
     /* Update Checksum */
-    updateXanyMsgChecksum((XanyMsg_union *)&Built); /* /!\ Now, Built XanyMsg is in Big endian /!\ */
+    updateXanyMsgChecksum((XanyMsg_union *)&Built);
     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    X_AnyReadMsg[XanyIdx].Raw = Built.Raw; /* Load the temporary built message in X_AnyReadMsg */
+    /* Load the temporary built message in X_AnyReadMsg */
+    memcpy((void*)X_AnyReadMsg[XanyIdx].Raw, (void*)Built.Raw, 1 + XANY_PAYLOAD_MAX_SIZE_BYTES + 1); /* + 1 for NblToTx and +1 for Checksum */
     }
   }
   else
   {
     /* XANY_OP_READ_INFO */
-    Read.Raw = htonl(X_AnyReadMsg[XanyIdx].Raw);
+    memcpy((void*)Read.Common.PayloadAndChecksum, (void*)X_AnyReadMsg[XanyIdx].Common.PayloadAndChecksum, XANY_PAYLOAD_MAX_SIZE_BYTES + 1);
     XanyInfo->MsgNibbleLen = PayloadMap.NblNb + 2; /* + 2 for Checksum */
-    XanyInfo->SwNb         = PayloadMap.SwBitNb;
+    XanyInfo->SwNb         = PayloadMap.SwNblNb << 2;
     XanyInfo->AngleValue   = getPayloadAngle(&Read, &PayloadMap);
     XanyInfo->PropValue    = getPayloadProp(&Read, &PayloadMap);
     XanyInfo->SwValue      = getPayloadSw(&Read, &PayloadMap);
@@ -537,30 +548,21 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
 /* PRIVATE FUNCTIONS */
 /**
 * \file   Xany.cpp
-* \fn     void cfg2PayloadStIdx(XanyPayloadCfgSt_t *PayloadCfg, PayloadMapSt_t *PayloadMap)
-* \brief  Returns the type of X-Any message
+* \fn     void cfg2PayloadMap(XanyPayloadCfgSt_t *PayloadCfg, PayloadMapSt_t *PayloadMap)
+* \brief  Returns the PayloadMap structure filled from the PayloadCfg structure content
 * \param  XanyIdx: Index of the X-Any
-* \return The type of X-Any message among XANY_MSG_4SW - XANY_MSG_POT_8SW
+* \return Void
 */
-static void cfg2PayloadStIdx(XanyPayloadCfgSt_t *PayloadCfg, PayloadMapSt_t *PayloadMap)
+static void cfg2PayloadMap(XanyPayloadCfgSt_t *PayloadCfg, PayloadMapSt_t *PayloadMap)
 {
-  uint8_t TotalBitNb;
-
-  if(PayloadCfg->AngleSrcIdx)
+  PayloadMap->AngleNblNb = PayloadCfg->AngleSrcIdx? 3: 0; /* Always 12 bits */
+  PayloadMap->PropNblNb = PayloadCfg->PropSrcIdx? 2: 0;   /* Always 8 bits */
+  PayloadMap->SwNblNb = (PayloadCfg->SwitchSrcIdx < X_ANY_SW_SRC_I2C_SW16)? (PayloadCfg->SwitchSrcIdx): 4;
+  PayloadMap->NblNb = PayloadMap->AngleNblNb + PayloadMap->PropNblNb + PayloadMap->SwNblNb;
+  if(PayloadMap->NblNb > XANY_PAYLOAD_MAX_SIZE_NIBBLES)
   {
-    PayloadMap->AngleBitNb = 12; /* Always 12 bits */
+    PayloadMap->NblNb = 0; /* Too long! */
   }
-  if(PayloadCfg->PropSrcIdx)
-  {
-    PayloadMap->PropBitNb = 8; /* Always 8 bits */
-  }
-  PayloadMap->SwBitNb = (PayloadCfg->SwitchSrcIdx < X_ANY_SW_SRC_I2C_SW16)? (PayloadCfg->SwitchSrcIdx << 2): 16;
-  TotalBitNb = PayloadMap->AngleBitNb + PayloadMap->PropBitNb + PayloadMap->SwBitNb;
-  if(TotalBitNb <= 20)
-  {
-    PayloadMap->NblNb = TotalBitNb >> 2; /* Div by 4 to obtain Nibble Nb */
-  }
-  else PayloadMap->NblNb = 0; /* Too long! */
 }
 
 /**
@@ -574,12 +576,9 @@ static void cfg2PayloadStIdx(XanyPayloadCfgSt_t *PayloadCfg, PayloadMapSt_t *Pay
 */
 static void setPayloadAngle(XanyMsg_union *XanyPl, uint16_t Angle, PayloadMapSt_t *PayloadMap)
 {
-  uint8_t BitShitfNb;
-
-  BitShitfNb   = (4 + 8 + PayloadMap->SwBitNb + PayloadMap->PropBitNb);
-  XanyPl->Raw &= (~(X_ANY_PL_ANGLE_MSK << BitShitfNb));
-  Angle       &= X_ANY_PL_ANGLE_MSK;
-  XanyPl->Raw |= ((uint32_t)Angle << BitShitfNb);
+  PayloadMap = PayloadMap; /* To avoid a compilation warning */
+  XanyPl->Common.PayloadAndChecksum[0] = (Angle & 0x0FF0) >> 4;
+  XanyPl->Common.PayloadAndChecksum[1] = (Angle & 0x000F) << 4;
 }
 
 /**
@@ -593,11 +592,17 @@ static void setPayloadAngle(XanyMsg_union *XanyPl, uint16_t Angle, PayloadMapSt_
 */
 static void setPayloadProp(XanyMsg_union *XanyPl, uint8_t Prop, PayloadMapSt_t *PayloadMap)
 {
-  uint8_t BitShitfNb;
-
-  BitShitfNb   = (4 + 8 + PayloadMap->SwBitNb);
-  XanyPl->Raw &= (~(X_ANY_PL_PROP_MSK << BitShitfNb));
-  XanyPl->Raw |= ((uint32_t)Prop << BitShitfNb);
+  if(!PayloadMap->AngleNblNb)
+  {
+    /* Prop is the first field */
+    XanyPl->Common.PayloadAndChecksum[0] = Prop;
+  }
+  else
+  {
+    /* Prop is after the Angle field */
+    XanyPl->Common.PayloadAndChecksum[1] |= (Prop & 0xF0) >> 4;
+    XanyPl->Common.PayloadAndChecksum[2]  = (Prop & 0x0F) << 4;
+  }
 }
 
 /**
@@ -611,14 +616,48 @@ static void setPayloadProp(XanyMsg_union *XanyPl, uint8_t Prop, PayloadMapSt_t *
 */
 static void setPayloadSw(XanyMsg_union *XanyPl, uint16_t Sw, PayloadMapSt_t *PayloadMap)
 {
-  uint32_t XanyPlSwMsk;
-  uint8_t  BitShitfNb;
-
-  XanyPlSwMsk  = (1UL << PayloadMap->SwBitNb) - 1;
-  BitShitfNb   = (4 + 8);
-  XanyPl->Raw &= (~(XanyPlSwMsk << BitShitfNb));
-  Sw          &= XanyPlSwMsk;
-  XanyPl->Raw |= ((uint32_t)Sw << BitShitfNb);
+  if(PayloadMap->SwNblNb < 4)
+  {
+    /* Sw.4 and Sw.8 */
+    if(PayloadMap->AngleNblNb)
+    {
+      if(PayloadMap->SwNblNb == 1)
+      {
+        XanyPl->Common.PayloadAndChecksum[1 + !!PayloadMap->PropNblNb] |= Sw & 0x0F;
+      }
+      else
+      {
+        XanyPl->Common.PayloadAndChecksum[1 + !!PayloadMap->PropNblNb] |= (Sw & 0xF0) >> 4;
+        XanyPl->Common.PayloadAndChecksum[2 + !!PayloadMap->PropNblNb] |= (Sw & 0x0F) << 4;
+      }
+    }
+    else
+    {
+      if(PayloadMap->SwNblNb == 1)
+      {
+        XanyPl->Common.PayloadAndChecksum[0 + !!PayloadMap->PropNblNb] |= (Sw & 0x000F) << 4;
+      }
+      else
+      {
+        XanyPl->Common.PayloadAndChecksum[0 + !!PayloadMap->PropNblNb] |= (Sw & 0x00FF);
+      }
+    }
+  }
+  else
+  {
+    /* Sw.16 */
+    if(PayloadMap->AngleNblNb)
+    {
+      XanyPl->Common.PayloadAndChecksum[1 + !!PayloadMap->PropNblNb] |= (Sw & 0xF000) >> 12;
+      XanyPl->Common.PayloadAndChecksum[2 + !!PayloadMap->PropNblNb] |= (Sw & 0x0FF0) >> 4;
+      XanyPl->Common.PayloadAndChecksum[3 + !!PayloadMap->PropNblNb] |= (Sw & 0x000F) << 4;
+    }
+    else
+    {
+      XanyPl->Common.PayloadAndChecksum[0 + !!PayloadMap->PropNblNb] = (Sw & 0xFF00) >> 8;
+      XanyPl->Common.PayloadAndChecksum[1 + !!PayloadMap->PropNblNb] = (Sw & 0x00FF);
+    }
+  }
 }
 
 /**
@@ -631,10 +670,8 @@ static void setPayloadSw(XanyMsg_union *XanyPl, uint16_t Sw, PayloadMapSt_t *Pay
 */
 static uint16_t getPayloadAngle(XanyMsg_union *XanyPl, PayloadMapSt_t *PayloadMap)
 {
-  uint8_t BitShitfNb;
-
-  BitShitfNb = (4 + 8 + PayloadMap->SwBitNb + PayloadMap->PropBitNb);
-  return((XanyPl->Raw >> BitShitfNb) & X_ANY_PL_ANGLE_MSK);
+  PayloadMap = PayloadMap; /* To avoid a compilation warning */
+  return((((XanyPl->Common.PayloadAndChecksum[0] << 8) | (XanyPl->Common.PayloadAndChecksum[1] & 0xF0)) >> 4));
 }
 
 /**
@@ -647,11 +684,21 @@ static uint16_t getPayloadAngle(XanyMsg_union *XanyPl, PayloadMapSt_t *PayloadMa
 */
 static uint8_t getPayloadProp(XanyMsg_union *XanyPl, PayloadMapSt_t *PayloadMap)
 {
-  uint8_t BitShitfNb;
+  uint8_t Prop;
 
-  BitShitfNb = (4 + 8 + PayloadMap->SwBitNb);
+  if(!PayloadMap->AngleNblNb)
+  {
+    /* Prop is the first field */
+    Prop = XanyPl->Common.PayloadAndChecksum[0];
+  }
+  else
+  {
+    /* Prop is after the Angle field */
+    Prop  = (XanyPl->Common.PayloadAndChecksum[1] & 0x0F) << 4;
+    Prop |= (XanyPl->Common.PayloadAndChecksum[2] & 0xF0) >> 4;
+  }
 
-  return((XanyPl->Raw >> BitShitfNb) & X_ANY_PL_PROP_MSK);
+  return(Prop);
 }
 
 /**
@@ -660,17 +707,55 @@ static uint8_t getPayloadProp(XanyMsg_union *XanyPl, PayloadMapSt_t *PayloadMap)
 * \brief  Gets the Switch value from the payload structure
 * \param  XanyPl:     Pointer on the payload structure
 * \param  PayloadMap: Pointer on the payload map
-* \return The Swicth value
+* \return The Switch value
 */
 static uint16_t getPayloadSw(XanyMsg_union *XanyPl, PayloadMapSt_t *PayloadMap)
 {
-  uint16_t XanyPlSwMsk;
-  uint8_t  BitShitfNb;
+  uint16_t Sw = 0;
 
-  BitShitfNb = (4 + 8);
-  XanyPlSwMsk = (1 << PayloadMap->SwBitNb) - 1;
-
-  return((XanyPl->Raw >> BitShitfNb) & XanyPlSwMsk);
+  if(PayloadMap->SwNblNb < 4)
+  {
+    /* Sw.4 and Sw.8 */
+    if(PayloadMap->AngleNblNb)
+    {
+      if(PayloadMap->SwNblNb == 1)
+      {
+        Sw |= XanyPl->Common.PayloadAndChecksum[1 + !!PayloadMap->PropNblNb] & 0x0F;
+      }
+      else
+      {
+        Sw |= (XanyPl->Common.PayloadAndChecksum[1 + !!PayloadMap->PropNblNb] & 0x0F) << 4;
+        Sw |= (XanyPl->Common.PayloadAndChecksum[2 + !!PayloadMap->PropNblNb] & 0xF0) >> 4;
+      }
+    }
+    else
+    {
+      if(PayloadMap->SwNblNb == 1)
+      {
+        Sw |= (XanyPl->Common.PayloadAndChecksum[0 + !!PayloadMap->PropNblNb] & 0xF0) >> 4;
+      }
+      else
+      {
+        Sw |= XanyPl->Common.PayloadAndChecksum[0 + !!PayloadMap->PropNblNb];
+      }
+    }
+  }
+  else
+  {
+    /* Sw.16 */
+    if(PayloadMap->AngleNblNb)
+    {
+      Sw |= (XanyPl->Common.PayloadAndChecksum[1 + !!PayloadMap->PropNblNb] & 0x0F) << 12;
+      Sw |= (XanyPl->Common.PayloadAndChecksum[2 + !!PayloadMap->PropNblNb] << 4);
+      Sw |= (XanyPl->Common.PayloadAndChecksum[3 + !!PayloadMap->PropNblNb] & 0xF0) >> 4;
+    }
+    else
+    {
+      Sw |= XanyPl->Common.PayloadAndChecksum[0 + !!PayloadMap->PropNblNb] << 8;
+      Sw |= XanyPl->Common.PayloadAndChecksum[1 + !!PayloadMap->PropNblNb];
+    }
+  }
+  return(Sw);
 }
 
 /**
@@ -998,8 +1083,7 @@ static void updateXanyMsgChecksum(XanyMsg_union *XanyMsg)
 
   /* Checksum of passed XanyMsg structure SHALL be 0 */
   PayloadNibbleNb = XanyMsg -> Common.NibbleNbToTx - 2;
-  BytePtr = (uint8_t *)XanyMsg;
-  XanyMsg->Raw = htonl(XanyMsg->Raw); /* Now: Big endian to have Nibbles from most to least significant order */
+  BytePtr = XanyMsg->Common.PayloadAndChecksum;
   for(uint8_t ByteIdx = 0; ByteIdx < (PayloadNibbleNb + 1) / 2; ByteIdx++)
   {
     Checksum ^= BytePtr[ByteIdx];
@@ -1008,7 +1092,7 @@ static void updateXanyMsgChecksum(XanyMsg_union *XanyMsg)
   if(PayloadNibbleNb & 1)
   {
     /* Odd number of nibble -> Checksum between 2 contiguous bytes */
-    BytePtr    = (uint8_t *)XanyMsg + (PayloadNibbleNb / 2);
+    BytePtr   = XanyMsg->Common.PayloadAndChecksum + (PayloadNibbleNb / 2);
     *BytePtr = *BytePtr | ((Checksum & 0xF0) >> 4); /* Most  Significant Nibble of Checksum */
     BytePtr++;
     *BytePtr |= ((Checksum & 0x0F) << 4); /* Least Significant Nibble of Checksum */
@@ -1016,23 +1100,9 @@ static void updateXanyMsgChecksum(XanyMsg_union *XanyMsg)
   else
   {
     /* Even number of nibble -> Checksum in a single byte */
-    BytePtr    = (uint8_t *)XanyMsg + (PayloadNibbleNb / 2);
-    *BytePtr   = Checksum;
+    BytePtr   = XanyMsg->Common.PayloadAndChecksum + (PayloadNibbleNb / 2);
+    *BytePtr  = Checksum;
   }
-}
-
-/**
-* \file   Xany.cpp
-* \fn     uint8_t getBigEndianNibbleNbToTx(XanyMsg_union *XanyMsg)
-* \brief  Get the number of nibbles to transmit from a big endian X-Any message
-* \param  XanyMsg:    pointer in an X-Any union
-* \return The number of nibbles to transmit (including the checksum)
-*/
-static uint8_t getBigEndianNibbleNbToTx(XanyMsg_union *XanyMsg)
-{
-  uint8_t *BytePtr;
-  BytePtr = (uint8_t *)XanyMsg;
-  return(BytePtr[3] & 0x0F);
 }
 
 /**
