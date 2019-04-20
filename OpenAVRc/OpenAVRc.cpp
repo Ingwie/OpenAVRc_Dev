@@ -1436,7 +1436,7 @@ void stackPaint()
 uint16_t stackAvailable()
 {
 #if defined(SIMU)
-  return 1800;
+  return 800;
 #else
   unsigned char *p ;
 
