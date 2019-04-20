@@ -95,7 +95,7 @@ const uint8_t Atan45Tbl[] PROGMEM =  {
 
 #define XANY_PAYLOAD_MAX_SIZE_BITS     (12 + 8 + 16) /* Max X-Any payload in bits: Angle + Pot + 16 Sw */
 #define XANY_PAYLOAD_MAX_SIZE_NIBBLES  ((XANY_PAYLOAD_MAX_SIZE_BITS + 3) / 4)
-#define XANY_PAYLOAD_MAX_SIZE_BYTES    (XANY_PAYLOAD_MAX_SIZE_NIBBLES * 2)
+#define XANY_PAYLOAD_MAX_SIZE_BYTES    ((XANY_PAYLOAD_MAX_SIZE_NIBBLES + 1) / 2)
 
 /*
  Xany Message format:
