@@ -798,7 +798,6 @@
   #define TR_NUMBER                       "Number"
   #define TR_CHANNEL                      "Channel "
   #define TR_NB_REPEAT                    "Nb repeat "
-  #define TR_SWITCHES                     ""
   #define LEN_SWITCHES_VALUES             "\005"
   #define TR_SWITCHES_VALUES              "Sw.--""L1-L4""L1-L8""Sw.4 ""Sw.8 ""Sw.16"
   #define TR_ANGLE_SENSOR                 "0:360"
