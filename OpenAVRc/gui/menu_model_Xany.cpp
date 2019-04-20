@@ -190,7 +190,8 @@ void menuModelXany(uint8_t event)
 #endif
           if(g_model.Xany[xanynumber].PayloadCfg.SwitchSrcIdx >= X_ANY_SW_SRC_NB) g_model.Xany[xanynumber].PayloadCfg.SwitchSrcIdx = 0;
           SwitchSrcIdx = g_model.Xany[xanynumber].PayloadCfg.SwitchSrcIdx;
-          SwitchSrcIdx = selectMenuItem(FW/2, y, STR_SWITCHES, STR_SWITCHES_VALUES, SwitchSrcIdx, 0, X_ANY_SW_SRC_NB - 1, attr, event);
+          lcdDrawTextAtIndex(FW/2, y, STR_SWITCHES_VALUES, SwitchSrcIdx, attr);
+          if (attr) SwitchSrcIdx = checkIncDecModelZero(event, SwitchSrcIdx, X_ANY_SW_SRC_NB - 1);
           g_model.Xany[xanynumber].PayloadCfg.SwitchSrcIdx = SwitchSrcIdx;
           if (ValidMsg && SwitchSrcIdx)
           {
