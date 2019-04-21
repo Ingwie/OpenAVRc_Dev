@@ -505,12 +505,12 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
       switch(PayloadCfg.SwitchSrcIdx)
       {
         case X_ANY_SW_SRC_L1_L4:
-        Sw  = (getLogicalSwitch(4) << 3) | (getLogicalSwitch(3) << 2) | (getLogicalSwitch(2) << 1) | (getLogicalSwitch(1) << 0);
+        Sw  = (getLogicalSwitch(3) << 3) | (getLogicalSwitch(2) << 2) | (getLogicalSwitch(1) << 1) | (getLogicalSwitch(0) << 0);
         break;
 
         case X_ANY_SW_SRC_L1_L8:
-        Sw  = (getLogicalSwitch(8) << 7) | (getLogicalSwitch(7) << 6) | (getLogicalSwitch(6) << 5) | (getLogicalSwitch(5) << 4);
-        Sw |= (getLogicalSwitch(4) << 3) | (getLogicalSwitch(3) << 2) | (getLogicalSwitch(2) << 1) | (getLogicalSwitch(1) << 0);
+        Sw  = (getLogicalSwitch(7) << 7) | (getLogicalSwitch(6) << 6) | (getLogicalSwitch(5) << 5) | (getLogicalSwitch(4) << 4);
+        Sw |= (getLogicalSwitch(3) << 3) | (getLogicalSwitch(2) << 2) | (getLogicalSwitch(1) << 1) | (getLogicalSwitch(0) << 0);
         break;
 
         case X_ANY_SW_SRC_I2C_SW4:
