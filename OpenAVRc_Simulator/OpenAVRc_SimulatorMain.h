@@ -118,7 +118,7 @@ protected:
     SimuMainLoop(); /**< Main firmware task */
     MaintTaskChronoval = ChronoMain->TimeInMicro();
     ChronoMain->Pause();
-    while (TestDestroy()) {};  /**< Auto closed ? */
+    while (TestDestroy()) {Delete();}  /**< Auto closed ? */
     return 0;
   }
 };
@@ -140,7 +140,30 @@ protected:
     TIMER_10MS_VECT(); /**< Isr10ms firmware task */
     Isr10msTaskChronoval = Chrono10ms->TimeInMicro();
     Chrono10ms->Pause();
-    while (TestDestroy()) {};  /**< Auto closed ? */
+    while (TestDestroy()) {Delete();}  /**< Auto closed ? */
+    return 0;
+  }
+};
+
+class BeepThread: public wxThread
+{
+public:
+  BeepThread(uint32_t ifreq, uint32_t itime) : wxThread(wxTHREAD_DETACHED)
+  {
+    if(wxTHREAD_NO_ERROR == Create())
+    {
+      freq = ifreq;
+      time = itime;
+      Run();
+    }
+  }
+protected:
+  uint32_t freq;
+  uint32_t time;
+  virtual void* Entry()
+  {
+    Beep(freq, time); // Hz, mS
+    while (TestDestroy()) {Delete();}  /**< Auto closed ? */
     return 0;
   }
 };
@@ -348,6 +371,7 @@ private:
 
   MainFirmwareThread* MainFWThread;
   Isr10msFirmwareThread* Isr10msFWThread;
+  BeepThread* BeepFWThread;
 
   Spin* SpinA;
   Spin* SpinB;

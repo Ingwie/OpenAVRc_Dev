@@ -893,8 +893,8 @@ extern REG8 simu_EIMSK;
 #define _BV(x) (1<<(x))
 #define speakerOff()
 #define speakerOn()
-#define SIMUBEEP1() PlayBeep(toneFreq*15, toneTimeLeft*50); toneTimeLeft/=2;if (!toneTimeLeft) ++toneTimeLeft
-#define SIMUBEEP2() PlayBeep(tone2Freq*15, tone2TimeLeft*50); tone2TimeLeft/=2; if (!tone2TimeLeft) ++tone2TimeLeft;
+#define SIMUBEEP1() PlayBeep(toneFreq*20, toneTimeLeft*40); toneTimeLeft/=3;if (!toneTimeLeft) ++toneTimeLeft
+#define SIMUBEEP2() PlayBeep(tone2Freq*20, tone2TimeLeft*40); tone2TimeLeft/=3; if (!tone2TimeLeft) ++tone2TimeLeft;
 #define ENABLEROTENCISR()
 #define FORCE_INDIRECT(ptr)
 #define EEPROMREADBLOCK simu_eepromReadBlock
