@@ -728,8 +728,7 @@ void OpenAVRc_SimulatorFrame::Isr10msTaskFirmware()
 
   if ((BeepFreq != 0) || (BeepTime != 0)) // A beep to play ?
     {
-      wxString datas = wxString::Format(wxT("%i %i"),BeepFreq,BeepTime);
-      wxProcess::Open(AppPath + "\\tools\\Beep.exe " + datas, wxEXEC_HIDE_CONSOLE  | wxEXEC_ASYNC);
+      BeepFWThread = new BeepThread(BeepFreq, BeepTime);
       BeepFreq = 0;
       BeepTime = 0;
     }
