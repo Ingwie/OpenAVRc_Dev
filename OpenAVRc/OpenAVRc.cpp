@@ -1601,6 +1601,7 @@ void SimuMainLoop() // Create loop function
     checkIfModelIsOff(); // Check if telemetry signal is off
 #endif
     // Time to switch off
+    sendStopPulses();  // Stop
     lcdClear();
     displayPopup(STR_SHUTDOWN);
     _delay_ms(400);
