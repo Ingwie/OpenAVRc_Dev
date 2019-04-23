@@ -337,6 +337,7 @@ private:
   static const long ID_CHECKBOXMULTIMOD;
   static const long ID_CHECKBOXDSMSER;
   static const long ID_STATICTEXT1;
+  static const long ID_STATICTEXTEEPATH;
   static const long ID_PANELL;
   static const long ID_PANELPRINCIPAL;
   static const long IdMenuOpenEE;
@@ -461,6 +462,7 @@ private:
   wxSlider* Pot3;
   wxSpinButton* SpinRea;
   wxSpinButton* SpinReb;
+  wxStaticText* StaticTextEepromPath;
   wxStaticText* StaticTextProtocols;
   wxStatusBar* StatusBar;
   wxTextCtrl* TextCtrlgetkbinput;
