@@ -319,6 +319,63 @@
 					<style>wxSIMPLE_BORDER</style>
 					<handler function="OnButtonStartDesktopClick" entry="EVT_BUTTON" />
 				</object>
+				<object class="wxCheckBox" name="ID_CHECKBOXA7105" variable="CheckBoxA7105" member="yes">
+					<label>A7105</label>
+					<checked>1</checked>
+					<pos>704,24</pos>
+					<size>70,13</size>
+					<enabled>0</enabled>
+					<bg>#C0C0C0</bg>
+					<handler function="OnCheckBoxProtocolsClick" entry="EVT_CHECKBOX" />
+				</object>
+				<object class="wxCheckBox" name="ID_CHECKBOXNRF24L01" variable="CheckBoxNRF24L01" member="yes">
+					<label>NRF24L01</label>
+					<checked>1</checked>
+					<pos>704,40</pos>
+					<enabled>0</enabled>
+					<bg>#C0C0C0</bg>
+					<handler function="OnCheckBoxProtocolsClick" entry="EVT_CHECKBOX" />
+				</object>
+				<object class="wxCheckBox" name="ID_CHECKBOXCC2500" variable="CheckBoxCC2500" member="yes">
+					<label>CC2500</label>
+					<checked>1</checked>
+					<pos>632,24</pos>
+					<size>70,13</size>
+					<enabled>0</enabled>
+					<bg>#C0C0C0</bg>
+					<handler function="OnCheckBoxProtocolsClick" entry="EVT_CHECKBOX" />
+				</object>
+				<object class="wxCheckBox" name="ID_CHECKBOXCYRF6936" variable="CheckBoxCYRF6936" member="yes">
+					<label>CYRF6936</label>
+					<checked>1</checked>
+					<pos>632,40</pos>
+					<enabled>0</enabled>
+					<bg>#C0C0C0</bg>
+					<handler function="OnCheckBoxProtocolsClick" entry="EVT_CHECKBOX" />
+				</object>
+				<object class="wxCheckBox" name="ID_CHECKBOXMULTIMOD" variable="CheckBoxMULTIMOD" member="yes">
+					<label>MULTIMOD</label>
+					<checked>1</checked>
+					<pos>552,40</pos>
+					<size>78,13</size>
+					<enabled>0</enabled>
+					<bg>#C0C0C0</bg>
+					<handler function="OnCheckBoxProtocolsClick" entry="EVT_CHECKBOX" />
+				</object>
+				<object class="wxCheckBox" name="ID_CHECKBOXDSMSER" variable="CheckBoxDSMSER" member="yes">
+					<label>DSM SER.</label>
+					<checked>1</checked>
+					<pos>552,24</pos>
+					<size>78,13</size>
+					<enabled>0</enabled>
+					<bg>#C0C0C0</bg>
+					<handler function="OnCheckBoxProtocolsClick" entry="EVT_CHECKBOX" />
+				</object>
+				<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticTextProtocols" member="yes">
+					<label>Protocoles Activés</label>
+					<pos>624,8</pos>
+					<bg>#C0C0C0</bg>
+				</object>
 			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar1" member="no">
