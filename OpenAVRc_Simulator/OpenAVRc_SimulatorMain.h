@@ -36,11 +36,13 @@
 
 //(*Headers(OpenAVRc_SimulatorFrame)
 #include <wx/button.h>
+#include <wx/checkbox.h>
 #include <wx/frame.h>
 #include <wx/menu.h>
 #include <wx/panel.h>
 #include <wx/slider.h>
 #include <wx/spinbutt.h>
+#include <wx/stattext.h>
 #include <wx/statusbr.h>
 #include <wx/textctrl.h>
 #include <wx/tglbtn.h>
@@ -190,6 +192,7 @@ private:
   void OnAbout(wxCommandEvent& event);
   void OnwxsimulcdPaint(wxPaintEvent& event);
   void StartFirmwareCode();
+  void CheckActiveProtocols();
   void CheckInputs();
   void LoadEeprom();
   void OnMenuLoadEeprom(wxCommandEvent& event);
@@ -286,6 +289,7 @@ private:
   void OnLstickLeftUp(wxMouseEvent& event);
   void OnRstickLeftUp(wxMouseEvent& event);
   void OnPanelMainKeyDown(wxKeyEvent& event);
+  void OnCheckBoxProtocolsClick(wxCommandEvent& event);
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)
@@ -326,6 +330,13 @@ private:
   static const long ID_PANELMAIN;
   static const long ID_ONTGLBUTTON;
   static const long ID_BUTTONSTARTDESKTOP;
+  static const long ID_CHECKBOXA7105;
+  static const long ID_CHECKBOXNRF24L01;
+  static const long ID_CHECKBOXCC2500;
+  static const long ID_CHECKBOXCYRF6936;
+  static const long ID_CHECKBOXMULTIMOD;
+  static const long ID_CHECKBOXDSMSER;
+  static const long ID_STATICTEXT1;
   static const long ID_PANELL;
   static const long ID_PANELPRINCIPAL;
   static const long IdMenuOpenEE;
@@ -389,6 +400,12 @@ private:
 
   //(*Declarations(OpenAVRc_SimulatorFrame)
   wxButton* ButtonStartDesktop;
+  wxCheckBox* CheckBoxA7105;
+  wxCheckBox* CheckBoxCC2500;
+  wxCheckBox* CheckBoxCYRF6936;
+  wxCheckBox* CheckBoxDSMSER;
+  wxCheckBox* CheckBoxMULTIMOD;
+  wxCheckBox* CheckBoxNRF24L01;
   wxMenu* MenuColours;
   wxMenu* MenuFile;
   wxMenu* MenuFrame;
@@ -444,6 +461,7 @@ private:
   wxSlider* Pot3;
   wxSpinButton* SpinRea;
   wxSpinButton* SpinReb;
+  wxStaticText* StaticTextProtocols;
   wxStatusBar* StatusBar;
   wxTextCtrl* TextCtrlgetkbinput;
   wxTimer Timer10ms;
