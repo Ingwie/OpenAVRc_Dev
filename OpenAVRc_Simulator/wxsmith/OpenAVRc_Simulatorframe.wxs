@@ -376,6 +376,12 @@
 					<pos>624,8</pos>
 					<bg>#C0C0C0</bg>
 				</object>
+				<object class="wxStaticText" name="ID_STATICTEXTEEPATH" variable="StaticTextEepromPath" member="yes">
+					<label></label>
+					<pos>184,10</pos>
+					<size>2,13</size>
+					<bg>#C0C0C0</bg>
+				</object>
 			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar1" member="no">

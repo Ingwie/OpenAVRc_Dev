@@ -220,6 +220,7 @@ const long OpenAVRc_SimulatorFrame::ID_CHECKBOXCYRF6936 = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_CHECKBOXMULTIMOD = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_CHECKBOXDSMSER = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_STATICTEXT1 = wxNewId();
+const long OpenAVRc_SimulatorFrame::ID_STATICTEXTEEPATH = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_PANELL = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_PANELPRINCIPAL = wxNewId();
 const long OpenAVRc_SimulatorFrame::IdMenuOpenEE = wxNewId();
@@ -385,6 +386,8 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   CheckBoxDSMSER->SetBackgroundColour(wxColour(192,192,192));
   StaticTextProtocols = new wxStaticText(PanelL, ID_STATICTEXT1, _("Protocoles Activés"), wxPoint(624,8), wxDefaultSize, 0, _T("ID_STATICTEXT1"));
   StaticTextProtocols->SetBackgroundColour(wxColour(192,192,192));
+  StaticTextEepromPath = new wxStaticText(PanelL, ID_STATICTEXTEEPATH, wxEmptyString, wxPoint(184,10), wxSize(2,13), 0, _T("ID_STATICTEXTEEPATH"));
+  StaticTextEepromPath->SetBackgroundColour(wxColour(192,192,192));
   MenuBar1 = new wxMenuBar();
   MenuFile = new wxMenu();
   MenuLoadee = new wxMenuItem(MenuFile, IdMenuOpenEE, _("Charger Eeprom"), _("Charger fichier BIN"), wxITEM_NORMAL);
@@ -904,6 +907,9 @@ void OpenAVRc_SimulatorFrame::LoadEeprom()
 void OpenAVRc_SimulatorFrame::LoadEepromFile(wxString path)
 {
   wxFile bin_file(path);
+  StaticTextEepromPath->SetLabel(path);
+  StaticTextEepromPath->Update();
+
   if(bin_file.IsOpened()) {
     for (int i=0; i<EESIZE; ++i) simu_eeprom[i] = 0x00;
     bin_file.Read(&simu_eeprom[0], EESIZE);
@@ -1045,7 +1051,9 @@ void OpenAVRc_SimulatorFrame::OnMenuSaveeeSelected(wxCommandEvent& event)
     return;     // the user changed idea...
   wxFile bin_file;
   bin_file.Create(saveFileDialog.GetPath(), true);
-
+  CurrentEEPath = saveFileDialog.GetPath();
+  StaticTextEepromPath->SetLabel(CurrentEEPath);
+  StaticTextEepromPath->Update();
   eeDirty(EE_GENERAL); //Save Radio eeprom immediatly
   eeCheck(true);
   eeDirty(EE_MODEL);
