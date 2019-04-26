@@ -197,6 +197,9 @@ void displayAfterFlightScreen()
     displayGpsCoord(line, telemetryData.value.gpsLongitudeEW, telemetryData.value.gpsLongitude_bp, telemetryData.value.gpsLongitude_ap);
     displayGpsTime();
     line+=1*FH+1;
+    lcdDrawTextAtIndex(0, line, STR_VTELEMCHNS, TELEM_GPSALT, 0);
+    lcdPutsTelemetryChannelValue(TELEM_2ND_COLUMN, line, TELEM_GPSALT-1, telemetryData.value.gpsAltitude_bp, LEFT);
+    line+=1*FH+1;
   }
   // Rssi
   lcdDrawTextLeft(line, STR_MINRSSI);
@@ -288,12 +291,6 @@ bool displayNumbersTelemetryScreen(telemetryScreenData & screen)
             lcdDrawNumberNAtt(16*FW, STATUS_BAR_Y, telemetryData.value.accelZ, LEFT|PREC2);
             break;
           }
-#if defined(GPS)
-          else if (field == TELEM_GPS_TIME) {
-            displayGpsTime();
-            break;
-          }
-#endif
         } else {
           displayRssiLine();
           return fields_count;
