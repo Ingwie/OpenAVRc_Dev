@@ -76,6 +76,10 @@ enum menuModelXanyItems
 #endif
 };
 
+const pm_uchar zz_XanyCh[] PROGMEM = {
+#include "../bitmaps/XanyCh.lbm"
+};
+
 void menuModelXany(uint8_t event)
 {
 #define NUM_LINE_PER_XANY 8
@@ -99,7 +103,8 @@ void menuModelXany(uint8_t event)
 #endif
 
   MENU(STR_X_ANY, menuTabModel, e_Xany, MODEL_XANY_MAX_LINES, {XANY1LINES XANY2LINES XANY3LINES XANY4LINES});
-
+  uint8_t      AngleSrcIdx2SubImgIdx[] = {0, 1, 6, 7};
+  uint8_t      PropSrcIdx2SubImgIdx[]  = {0, 2, 3, 4, 5, 0, 0, 0, 6, 7};
   uint8_t      AngleSrcIdx = 0, PropSrcIdx = 0, SwitchSrcIdx = 0, ExpoPerCentIdx = 0;
   uint8_t      sub = menuVerticalPosition - 1;
   XanyInfoSt_t XanyInfo;
@@ -211,7 +216,10 @@ void menuModelXany(uint8_t event)
 #endif
           if(g_model.Xany[xanynumber].PayloadCfg.AngleSrcIdx >= X_ANY_ANGLE_SRC_NB) g_model.Xany[xanynumber].PayloadCfg.AngleSrcIdx = 0;
           AngleSrcIdx = g_model.Xany[xanynumber].PayloadCfg.AngleSrcIdx;
-          AngleSrcIdx = selectMenuItem(5*FW, y, STR_ANGLE_SENSOR, STR_ANGLE_SENSOR_VALUES, AngleSrcIdx, 0, X_ANY_ANGLE_SRC_NB - 1, attr, event);
+//          AngleSrcIdx = selectMenuItem(5*FW, y, STR_ANGLE_SENSOR, STR_ANGLE_SENSOR_VALUES, AngleSrcIdx, 0, X_ANY_ANGLE_SRC_NB - 1, attr, event);
+lcdDrawText(0, y, STR_ANGLE_SENSOR);
+//lcd_imgfar(4*FW+FW/2, y, (pgm_get_far_address(zz_XanyCh)), AngleSrcIdx, attr);
+AngleSrcIdx = selectMenuSubImg(4*FW+FW/3, y, AngleSrcIdx, 0, X_ANY_ANGLE_SRC_NB - 1, pgm_get_far_address(zz_XanyCh), AngleSrcIdx2SubImgIdx[AngleSrcIdx], attr, event);
           g_model.Xany[xanynumber].PayloadCfg.AngleSrcIdx = AngleSrcIdx;
           if(ValidMsg && AngleSrcIdx)
           {
@@ -230,7 +238,18 @@ void menuModelXany(uint8_t event)
         case ITEM_MODEL_PROP_SRC_D :
 #endif
           PropSrcIdx = g_model.Xany[xanynumber].PayloadCfg.PropSrcIdx;
-          PropSrcIdx = selectMenuItem(5*FW+2, y, STR_PROP, STR_PROP_VALUES, PropSrcIdx, 0, X_ANY_PROP_SRC_NB - 1, menuHorizontalPosition==0 ? attr : 0, s_editMode>0 ? event : 0);
+          if((PropSrcIdx >= X_ANY_PROP_SRC_P1) && (PropSrcIdx <= X_ANY_PROP_SRC_P3))
+          {
+            /* Use strings for P1 to P3 */
+            PropSrcIdx  = selectMenuItem(5*FW+FW/3, y, STR_PROP, STR_PROP_VALUES, PropSrcIdx - X_ANY_PROP_SRC_P1 + 1, 0, X_ANY_PROP_SRC_P3 - X_ANY_PROP_SRC_P1 + 2, menuHorizontalPosition==0 ? attr : 0, s_editMode>0 ? event : 0);
+            PropSrcIdx += X_ANY_PROP_SRC_P1 - 1;
+          }
+          else
+          {
+            /* Use bitmaps for all other possibilities */
+            lcdDrawText(0, y, STR_PROP);
+            PropSrcIdx = selectMenuSubImg(5*FW, y, PropSrcIdx, 0, X_ANY_PROP_SRC_NB - 1, pgm_get_far_address(zz_XanyCh), PropSrcIdx2SubImgIdx[PropSrcIdx], menuHorizontalPosition==0 ? attr : 0, s_editMode>0 ? event : 0);
+          }
           g_model.Xany[xanynumber].PayloadCfg.PropSrcIdx = PropSrcIdx;
           if(ValidMsg && PropSrcIdx)
           {

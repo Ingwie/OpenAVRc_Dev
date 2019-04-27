@@ -1151,6 +1151,9 @@ bitmaps: $(BITMAPS)
 bitmaps/sticks.lbm: bitmaps/sticks.xbm
 	$(IMG2LBM) $^ $@ $(LCDSIZE) 1bit 4
 
+bitmaps/XanyCh.lbm: bitmaps/XanyCh.xbm
+	$(IMG2LBM) $^ $@ $(LCDSIZE) 1bit 8
+
 bitmaps/%.lbm: bitmaps/%.png
 	$(IMG2LBM) $^ $@ $(LCDSIZE) 1bit
 
