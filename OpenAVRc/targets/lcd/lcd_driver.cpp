@@ -45,6 +45,8 @@
 #include "targets/lcd/lcd_ssd1306_driver.cpp"
 #elif defined(LCD_SH1106)
 #include "targets/lcd/lcd_sh1106_driver.cpp"
+#elif defined(LCD_NT7538SPI)
+#include "targets/lcd/lcd_NT7538_SPI_driver.cpp"
 #else
 #include "targets/lcd/lcd_default_driver.cpp"
 #endif
