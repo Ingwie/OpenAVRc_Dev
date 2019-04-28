@@ -137,7 +137,6 @@ void deleteExpoMix(uint8_t expo, uint8_t idx)
 int8_t s_currCh;
 void insertExpoMix(uint8_t expo, uint8_t idx)
 {
-
   if (expo) {
     ExpoData *expo = expoAddress(idx);
     memmove(expo+1, expo, (MAX_EXPOS-(idx+1))*sizeof(ExpoData));
