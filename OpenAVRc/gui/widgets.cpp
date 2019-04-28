@@ -93,7 +93,7 @@ select_menu_value_t selectMenuItem(coord_t x, coord_t y, const pm_char *label, c
 
 select_menu_value_t selectMenuSubImg(coord_t x, coord_t y, select_menu_value_t value, select_menu_value_t min, select_menu_value_t max, uint_farptr_t img, uint8_t subImgIdx, LcdFlags attr, uint8_t event)
 {
-  lcd_imgfar(x, y, img, subImgIdx, (attr & s_editMode>0)? BLINK : attr);
+  lcd_imgfar(x, y, img, subImgIdx, (attr & (s_editMode>0))? BLINK : attr);
   if (attr) value = checkIncDec(event, value, min, max, (menuVerticalPositions[0] == 0) ? EE_MODEL : EE_GENERAL);
   return value;
 }

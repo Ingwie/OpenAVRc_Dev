@@ -216,11 +216,10 @@ void menuModelXany(uint8_t event)
 #endif
           if(g_model.Xany[xanynumber].PayloadCfg.AngleSrcIdx >= X_ANY_ANGLE_SRC_NB) g_model.Xany[xanynumber].PayloadCfg.AngleSrcIdx = 0;
           AngleSrcIdx = g_model.Xany[xanynumber].PayloadCfg.AngleSrcIdx;
-          //AngleSrcIdx = selectMenuItem(5*FW, y, STR_ANGLE_SENSOR, STR_ANGLE_SENSOR_VALUES, AngleSrcIdx, 0, X_ANY_ANGLE_SRC_NB - 1, attr, event);
           lcdDrawText(0, y, STR_ANGLE_SENSOR);
-          //lcd_imgfar(4*FW+FW/2, y, (pgm_get_far_address(zz_XanyCh)), AngleSrcIdx, attr);
           AngleSrcIdx = selectMenuSubImg(4*FW+FW/3, y, AngleSrcIdx, 0, X_ANY_ANGLE_SRC_NB - 1, pgm_get_far_address(zz_XanyCh), AngleSrcIdx2SubImgIdx[AngleSrcIdx], attr, event);
           g_model.Xany[xanynumber].PayloadCfg.AngleSrcIdx = AngleSrcIdx;
+
           if(ValidMsg && AngleSrcIdx)
           {
             lcdDrawNumberNAtt(12*FW, y, XanyInfo.AngleValue, INVERS | UNSIGN | LEADING0, 4);
@@ -241,8 +240,8 @@ void menuModelXany(uint8_t event)
           if IS_IN_RANGE(PropSrcIdx, X_ANY_PROP_SRC_P1, X_ANY_PROP_SRC_P3)
           {
             /* Use strings for P1 to P3 */
-            PropSrcIdx  = selectMenuItem(5*FW+FW/3, y, STR_PROP, STR_PROP_VALUES, PropSrcIdx - X_ANY_PROP_SRC_P1, 0, X_ANY_PROP_SRC_P3 - X_ANY_PROP_SRC_P1 + 2, menuHorizontalPosition==0 ? attr : 0, s_editMode>0 ? event : 0);
-            PropSrcIdx += X_ANY_PROP_SRC_P1;
+            PropSrcIdx  = selectMenuItem(5*FW+FW/3, y, STR_PROP, STR_VSRCRAW, PropSrcIdx - X_ANY_PROP_SRC_P1 + NUM_STICKS + 1, 0, X_ANY_PROP_SRC_P3 - X_ANY_PROP_SRC_P1 + NUM_STICKS + 2, menuHorizontalPosition==0 ? attr : 0, s_editMode>0 ? event : 0);
+            PropSrcIdx += X_ANY_PROP_SRC_P1 -NUM_STICKS - 1;
           }
           else
           {

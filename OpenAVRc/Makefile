@@ -323,7 +323,7 @@ ifeq ($(PCB), MEGAMINI)
   BOARDSRC += main_avr.cpp i2c_master.cpp spi.c targets/megamini/board_megamini.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
-  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
+  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/XanyCh.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
   EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp telemetry_driver.cpp
 
@@ -487,7 +487,7 @@ ifeq ($(PCB), EVO_V2)
   BOARDSRC += main_avr.cpp targets/evo_v2/xmega.cpp targets/evo_v2/xmega_lcd_driver.cpp targets/evo_v2/xmega_adc_driver.cpp
   EEPROMSRC = eeprom_common.cpp targets/evo_v2/eeprom_rlc.cpp
   PULSESSRC = targets/evo_v2/xmega_pulses.cpp
-  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
+  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/XanyCh.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v2/menu_general_diaganas.cpp
   EXTRABOARDSRC = targets/evo_v2/telemetry_driver.cpp
 
@@ -611,7 +611,7 @@ ifeq ($(PCB), MEGA2560)
   BOARDSRC = main_avr.cpp i2c_master.cpp spi.c targets/mega2560/board_mega2560.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
-  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm
+  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/XanyCh.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
 
   EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp telemetry_driver.cpp

@@ -793,11 +793,7 @@
   #define LEN_SWITCHES_VALUES             "\005"
   #define TR_SWITCHES_VALUES              "Sw.--""L1-L4""L1-L8""Sw.4 ""Sw.8 ""Sw.16"
   #define TR_ANGLE_SENSOR                 "0:360"
-  #define LEN_ANGLE_SENSOR_VALUES         "\003"
-  #define TR_ANGLE_SENSOR_VALUES          "---""I2C""+\177+""+\176+"
   #define TR_PROP                         "Prop."
-  #define LEN_PROP_VALUES                 "\003"
-  #define TR_PROP_VALUES                  "---""H\177+""V\177+""+\176V""+\176H""P1 ""P2 ""P3 ""+\177+""+\176+"
   #define LEN_XANY_EXPO                   "\005"
   #define TR_XANY_EXPO                    "0%\0  ""25%\0 ""37.5%""50%\0 "
 #endif
