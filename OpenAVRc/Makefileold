@@ -449,7 +449,7 @@ ifeq ($(PCB), $(filter $(PCB), STD 9X 9XR))
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
   CPPSRC += debug.cpp
-  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/about.lbm
+  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/about.lbm bitmaps/XanyCh.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
 
   ifeq ($(PCB), 9XR)
@@ -714,7 +714,7 @@ ifeq ($(PCB), MEGA2560)
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
   CPPSRC += debug.cpp
-  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/about.lbm
+  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/about.lbm bitmaps/XanyCh.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
 
   EXTRABOARDSRC = targets/common_avr/adc_driver.cpp targets/stock/lcd_driver.cpp targets/common_avr/telemetry_driver.cpp
@@ -1333,7 +1333,10 @@ bitmaps: $(BITMAPS)
 bitmaps/sticks.lbm: bitmaps/sticks.xbm
 	$(IMG2LBM) $^ $@ $(LCDSIZE) 1bit 4
 
-bitmaps/%.lbm: bitmaps/%.png
+bitmaps/XanyCh.lbm: bitmaps/XanyCh.xbm
+	$(IMG2LBM) $^ $@ $(LCDSIZE) 1bit 8
+
+	bitmaps/%.lbm: bitmaps/%.png
 	$(IMG2LBM) $^ $@ $(LCDSIZE) 1bit
 
 ifeq ($(OS),Windows_NT)
