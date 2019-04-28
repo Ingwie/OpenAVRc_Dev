@@ -809,7 +809,7 @@
   #define TR_ANGLE_SENSOR_VALUES          "---""I2C""+\177+""+\176+"
   #define TR_PROP                         "Prop."
   #define LEN_PROP_VALUES                 "\002"
-  #define TR_PROP_VALUES                  "  ""P1""P2""P3""  "
+  #define TR_PROP_VALUES                  "P1""P2""P3"
   #define LEN_XANY_EXPO                   "\005"
   #define TR_XANY_EXPO                    "0%\0  ""25%\0 ""37.5%""50%\0 "
 #endif

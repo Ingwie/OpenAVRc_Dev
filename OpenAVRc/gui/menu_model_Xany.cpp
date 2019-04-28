@@ -238,11 +238,11 @@ void menuModelXany(uint8_t event)
         case ITEM_MODEL_PROP_SRC_D :
 #endif
           PropSrcIdx = g_model.Xany[xanynumber].PayloadCfg.PropSrcIdx;
-          if((PropSrcIdx >= X_ANY_PROP_SRC_P1) && (PropSrcIdx <= X_ANY_PROP_SRC_P3))
+          if IS_IN_RANGE(PropSrcIdx, X_ANY_PROP_SRC_P1, X_ANY_PROP_SRC_P3)
           {
             /* Use strings for P1 to P3 */
-            PropSrcIdx  = selectMenuItem(5*FW+FW/3, y, STR_PROP, STR_PROP_VALUES, PropSrcIdx - X_ANY_PROP_SRC_P1 + 1, 0, X_ANY_PROP_SRC_P3 - X_ANY_PROP_SRC_P1 + 2, menuHorizontalPosition==0 ? attr : 0, s_editMode>0 ? event : 0);
-            PropSrcIdx += X_ANY_PROP_SRC_P1 - 1;
+            PropSrcIdx  = selectMenuItem(5*FW+FW/3, y, STR_PROP, STR_PROP_VALUES, PropSrcIdx - X_ANY_PROP_SRC_P1, 0, X_ANY_PROP_SRC_P3 - X_ANY_PROP_SRC_P1 + 2, menuHorizontalPosition==0 ? attr : 0, s_editMode>0 ? event : 0);
+            PropSrcIdx += X_ANY_PROP_SRC_P1;
           }
           else
           {
