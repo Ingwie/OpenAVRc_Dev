@@ -64,6 +64,9 @@ extern uint8_t Usart0TxBufferCount;
 void LoadTelemBuffer(uint8_t *data);
 
 #define RAW_FRSKY_MINMAX(v)       v.value
+
+#define NUMCELLS 6
+
 class TelemetryValueWithMin
 {
 public:
@@ -89,7 +92,7 @@ PACK(struct TelemetrySerialData {
   uint16_t volts;                 // 0x06   1/500V increments (0..4.2V)
   uint32_t distFromEarthAxis;     //        2 spares reused
   int16_t  gpsAltitude_ap;        // 0x01+8 after punct
-  uint8_t  cellVolts[12];         //        6 spares reused
+  uint8_t  cellVolts[NUMCELLS];   //
   int16_t  baroAltitude_bp;       // 0x10   0..9,999 meters
   uint16_t gpsSpeed_bp;           // 0x11   before punct
   uint16_t gpsLongitude_bp;       // 0x12   before punct
@@ -119,7 +122,6 @@ PACK(struct TelemetrySerialData {
   uint8_t  cellsCount:4;          //        4bits out of 16bits spare reused
   uint8_t  minCellVolts;          //        8bits out of 16bits spare reused
   uint16_t current;               // 0x28   Current
-  int16_t  spare[5];
   int32_t  varioAltitude_cm;
   int16_t  varioSpeed;            // 0x30  Vertical speed in cm/s
 
@@ -136,7 +138,7 @@ PACK(struct TelemetrySerialData {
   uint16_t vfas;                  // 0x39  Added to FrSky protocol for home made sensors with a better precision
   uint16_t volts_bp;              // 0x3A
   uint16_t volts_ap;              // 0x3B
-  // end of FrSky Hub data
+  // end of FrSky Hub data + OXS
 
   /* next fields must keep this order! */
   int16_t  minAltitude;
