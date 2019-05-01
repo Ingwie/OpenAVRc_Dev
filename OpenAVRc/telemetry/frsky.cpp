@@ -535,14 +535,14 @@ void parseTelemHubByte(uint8_t byte)
 void processHubPacket(uint8_t id, uint16_t value)
 {
 #if defined(GPS)
-  if (id == offsetof(TelemetrySerialData, gpsLatitude_bp))
+  if (id == GPS_LAT_BP_ID)
     {
       if (value)
         telemetryData.value.gpsFix = 1;
       else if (telemetryData.value.gpsFix > 0 && telemetryData.value.gpsLatitude_bp > 1)
         telemetryData.value.gpsFix = 0;
     }
-  else if (id == offsetof(TelemetrySerialData, gpsLongitude_bp))
+  else if (id == GPS_LONG_BP_ID)
     {
       if (value)
         telemetryData.value.gpsFix = 1;
@@ -550,9 +550,9 @@ void processHubPacket(uint8_t id, uint16_t value)
         telemetryData.value.gpsFix = 0;
     }
 
-  if  (id == offsetof(TelemetrySerialData, gpsAltitude_bp) ||
-       (IS_IN_RANGE(id, offsetof(TelemetrySerialData, gpsAltitude_ap), offsetof(TelemetrySerialData, gpsLatitudeNS)) &&
-        (id != offsetof(TelemetrySerialData, baroAltitude_bp)) && (id != offsetof(TelemetrySerialData, baroAltitude_ap))))
+  if  (id == GPS_ALT_BP_ID ||
+       (IS_IN_RANGE(id, GPS_ALT_AP_ID, GPS_LAT_NS_ID) &&
+        (id != BARO_ALT_BP_ID) && (id != BARO_ALT_AP_ID)))
     {
       // If we don't have a fix, we may discard the value
       if (telemetryData.value.gpsFix <= 0)
@@ -566,11 +566,11 @@ void processHubPacket(uint8_t id, uint16_t value)
     {
 #if defined(GPS)
     case GPS_ALT_BP_ID:
-      telemetryData.value.gpsAltitude_bp = value;
+      telemetryData.value.gpsAltitude_bp = (int16_t)value;
       break;
 #endif
     case TEMP1_ID:
-      telemetryData.value.temperature1 = value;
+      telemetryData.value.temperature1 = (int16_t)value;
       if (telemetryData.value.temperature1 > telemetryData.value.maxTemperature1)
         telemetryData.value.maxTemperature1 = telemetryData.value.temperature1;
       break;
@@ -586,7 +586,7 @@ void processHubPacket(uint8_t id, uint16_t value)
       break;
 
     case TEMP2_ID:
-      telemetryData.value.temperature2 = value;
+      telemetryData.value.temperature2 = (int16_t)value;
       if (telemetryData.value.temperature2 > telemetryData.value.maxTemperature2)
         telemetryData.value.maxTemperature2 = telemetryData.value.temperature2;
       break;
@@ -597,7 +597,7 @@ void processHubPacket(uint8_t id, uint16_t value)
       break;
 #if defined(GPS)
     case GPS_ALT_AP_ID:
-      telemetryData.value.gpsAltitude_ap = value;
+      telemetryData.value.gpsAltitude_ap = (int16_t)value;
       if (!telemetryData.value.gpsAltitudeOffset)
         {
           telemetryData.value.gpsAltitudeOffset = -telemetryData.value.gpsAltitude_bp;
@@ -624,7 +624,7 @@ void processHubPacket(uint8_t id, uint16_t value)
     case BARO_ALT_BP_ID:
       if (!telemetryData.value.baroAltitudeOffset)
         telemetryData.value.baroAltitudeOffset = -telemetryData.value.baroAltitude_bp;
-      telemetryData.value.baroAltitude_bp = value;
+      telemetryData.value.baroAltitude_bp = (int16_t)value;
       // First received barometer altitude => Altitude offset
       telemetryData.value.baroAltitude_bp += telemetryData.value.baroAltitudeOffset;
       checkMinMaxAltitude();
@@ -703,15 +703,15 @@ void processHubPacket(uint8_t id, uint16_t value)
       break;
 #endif
     case ACCEL_X_ID:
-      telemetryData.value.accelX = value/10;
+      telemetryData.value.accelX = (int16_t)value/10;
       break;
 
     case ACCEL_Y_ID:
-      telemetryData.value.accelY = value/10;
+      telemetryData.value.accelY = (int16_t)value/10;
       break;
 
     case ACCEL_Z_ID:
-      telemetryData.value.accelZ = value/10;
+      telemetryData.value.accelZ = (int16_t)value/10;
       break;
 
     case CURRENT_ID:
@@ -725,7 +725,7 @@ void processHubPacket(uint8_t id, uint16_t value)
       break;
 
     case VARIO_ID:
-      telemetryData.value.varioSpeed = value;
+      telemetryData.value.varioSpeed = (int16_t)value;
       break;
 
     case OXS_MAH_ID:
