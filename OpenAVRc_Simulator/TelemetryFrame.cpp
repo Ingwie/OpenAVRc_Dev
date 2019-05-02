@@ -84,12 +84,6 @@ extern float Tele_Cell3;
 extern float Tele_Cell4;
 extern float Tele_Cell5;
 extern float Tele_Cell6;
-extern float Tele_Cell7;
-extern float Tele_Cell8;
-extern float Tele_Cell9;
-extern float Tele_Cell10;
-extern float Tele_Cell11;
-extern float Tele_Cell12;
 
 
 extern bool Ini_Changed;
@@ -159,12 +153,6 @@ const long TelemetryFrame::ID_STATICTEXT19 = wxNewId();
 const long TelemetryFrame::ID_STATICTEXT20 = wxNewId();
 const long TelemetryFrame::ID_STATICTEXT21 = wxNewId();
 const long TelemetryFrame::ID_SLIDER9 = wxNewId();
-const long TelemetryFrame::ID_SLIDER17 = wxNewId();
-const long TelemetryFrame::ID_SLIDER16 = wxNewId();
-const long TelemetryFrame::ID_SLIDER15 = wxNewId();
-const long TelemetryFrame::ID_SLIDER14 = wxNewId();
-const long TelemetryFrame::ID_SLIDER13 = wxNewId();
-const long TelemetryFrame::ID_SLIDER12 = wxNewId();
 const long TelemetryFrame::ID_SLIDER11 = wxNewId();
 const long TelemetryFrame::ID_SLIDER10 = wxNewId();
 const long TelemetryFrame::ID_SLIDER6 = wxNewId();
@@ -201,7 +189,7 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(472,72), wxSize(1152,232), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
   StaticBox10 = new wxStaticBox(Panel1, ID_STATICBOX10, _("Analog"), wxPoint(8,168), wxSize(256,64), 0, _T("ID_STATICBOX10"));
   StaticBox14 = new wxStaticBox(Panel1, ID_STATICBOX14, _("Réglages"), wxPoint(728,104), wxSize(416,128), wxWANTS_CHARS, _T("ID_STATICBOX14"));
-  StaticBox13 = new wxStaticBox(Panel1, ID_STATICBOX13, _("Batterie"), wxPoint(416,104), wxSize(304,128), 0, _T("ID_STATICBOX13"));
+  StaticBox13 = new wxStaticBox(Panel1, ID_STATICBOX13, _("Batterie"), wxPoint(560,104), wxSize(168,128), 0, _T("ID_STATICBOX13"));
   StaticBox11 = new wxStaticBox(Panel1, ID_STATICBOX11, _("Variateur"), wxPoint(136,104), wxSize(128,64), 0, _T("ID_STATICBOX11"));
   StaticBox9 = new wxStaticBox(Panel1, ID_STATICBOX9, _("RSSI"), wxPoint(8,104), wxSize(120,64), 0, _T("ID_STATICBOX9"));
   StaticText23 = new wxStaticText(Panel1, ID_STATICTEXT23, _("X10"), wxPoint(185,128), wxDefaultSize, 0, _T("ID_STATICTEXT23"));
@@ -270,41 +258,35 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   Analog4->SetValue(_T("0"));
   StaticText16 = new wxStaticText(Panel1, ID_STATICTEXT16, _("A3"), wxPoint(144,184), wxDefaultSize, 0, _T("ID_STATICTEXT16"));
   StaticText17 = new wxStaticText(Panel1, ID_STATICTEXT17, _("A4"), wxPoint(200,184), wxDefaultSize, 0, _T("ID_STATICTEXT17"));
-  StaticBox12 = new wxStaticBox(Panel1, ID_STATICBOX12, _("Autres"), wxPoint(264,104), wxSize(152,128), 0, _T("ID_STATICBOX12"));
+  StaticBox12 = new wxStaticBox(Panel1, ID_STATICBOX12, _("Autres"), wxPoint(264,104), wxSize(296,128), 0, _T("ID_STATICBOX12"));
   RPM = new wxSpinCtrl(Panel1, ID_SPINCTRL16, _T("0"), wxPoint(280,136), wxSize(64,21), 0, 0, 10000, 0, _T("ID_SPINCTRL16"));
   RPM->SetValue(_T("0"));
   FUEL = new wxSpinCtrl(Panel1, ID_SPINCTRL17, _T("0"), wxPoint(352,136), wxSize(48,21), 0, 0, 1000, 0, _T("ID_SPINCTRL17"));
   FUEL->SetValue(_T("0"));
-  Temp1 = new wxSpinCtrl(Panel1, ID_SPINCTRL18, _T("0"), wxPoint(280,178), wxSize(56,21), 0, 0, 1000, 0, _T("ID_SPINCTRL18"));
+  Temp1 = new wxSpinCtrl(Panel1, ID_SPINCTRL18, _T("0"), wxPoint(280,192), wxSize(56,21), 0, 0, 1000, 0, _T("ID_SPINCTRL18"));
   Temp1->SetValue(_T("0"));
-  Temp2 = new wxSpinCtrl(Panel1, ID_SPINCTRL19, _T("0"), wxPoint(344,178), wxSize(56,21), 0, 0, 1000, 0, _T("ID_SPINCTRL19"));
+  Temp2 = new wxSpinCtrl(Panel1, ID_SPINCTRL19, _T("0"), wxPoint(344,192), wxSize(56,21), 0, 0, 1000, 0, _T("ID_SPINCTRL19"));
   Temp2->SetValue(_T("0"));
   StaticText18 = new wxStaticText(Panel1, ID_STATICTEXT18, _("RPM"), wxPoint(296,120), wxDefaultSize, 0, _T("ID_STATICTEXT18"));
   StaticText19 = new wxStaticText(Panel1, ID_STATICTEXT19, _("FUEL"), wxPoint(360,120), wxDefaultSize, 0, _T("ID_STATICTEXT19"));
-  StaticText20 = new wxStaticText(Panel1, ID_STATICTEXT20, _("Temp1"), wxPoint(280,160), wxDefaultSize, 0, _T("ID_STATICTEXT20"));
-  StaticText21 = new wxStaticText(Panel1, ID_STATICTEXT21, _("Temp2"), wxPoint(344,160), wxDefaultSize, 0, _T("ID_STATICTEXT21"));
-  Cell1 = new wxSlider(Panel1, ID_SLIDER9, 0, 0, 500, wxPoint(432,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER9"));
-  Cell12 = new wxSlider(Panel1, ID_SLIDER17, 0, 0, 500, wxPoint(696,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER17"));
-  Cell11 = new wxSlider(Panel1, ID_SLIDER16, 0, 0, 500, wxPoint(672,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER16"));
-  Cell10 = new wxSlider(Panel1, ID_SLIDER15, 0, 0, 500, wxPoint(648,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER15"));
-  Cell9 = new wxSlider(Panel1, ID_SLIDER14, 0, 0, 500, wxPoint(624,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER14"));
-  Cell8 = new wxSlider(Panel1, ID_SLIDER13, 0, 0, 500, wxPoint(600,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER13"));
-  Cell7 = new wxSlider(Panel1, ID_SLIDER12, 0, 0, 500, wxPoint(576,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER12"));
-  Cell6 = new wxSlider(Panel1, ID_SLIDER11, 0, 0, 500, wxPoint(552,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER11"));
-  Cell5 = new wxSlider(Panel1, ID_SLIDER10, 0, 0, 500, wxPoint(528,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER10"));
-  Cell4 = new wxSlider(Panel1, ID_SLIDER6, 0, 0, 500, wxPoint(504,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER6"));
-  Cell2 = new wxSlider(Panel1, ID_SLIDER8, 0, 0, 500, wxPoint(456,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER8"));
-  Cell3 = new wxSlider(Panel1, ID_SLIDER7, 0, 0, 500, wxPoint(480,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER7"));
+  StaticText20 = new wxStaticText(Panel1, ID_STATICTEXT20, _("Temp1"), wxPoint(280,176), wxDefaultSize, 0, _T("ID_STATICTEXT20"));
+  StaticText21 = new wxStaticText(Panel1, ID_STATICTEXT21, _("Temp2"), wxPoint(344,176), wxDefaultSize, 0, _T("ID_STATICTEXT21"));
+  Cell1 = new wxSlider(Panel1, ID_SLIDER9, 0, 0, 500, wxPoint(576,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER9"));
+  Cell6 = new wxSlider(Panel1, ID_SLIDER11, 0, 0, 500, wxPoint(696,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER11"));
+  Cell5 = new wxSlider(Panel1, ID_SLIDER10, 0, 0, 500, wxPoint(672,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER10"));
+  Cell4 = new wxSlider(Panel1, ID_SLIDER6, 0, 0, 500, wxPoint(648,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER6"));
+  Cell2 = new wxSlider(Panel1, ID_SLIDER8, 0, 0, 500, wxPoint(600,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER8"));
+  Cell3 = new wxSlider(Panel1, ID_SLIDER7, 0, 0, 500, wxPoint(624,118), wxSize(20,112), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_SLIDER7"));
   StaticText27 = new wxStaticText(Panel1, ID_STATICTEXT27, _("X10"), wxPoint(249,128), wxDefaultSize, 0, _T("ID_STATICTEXT27"));
   wxFont StaticText27Font(5,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
   StaticText27->SetFont(StaticText27Font);
-  StaticText32 = new wxStaticText(Panel1, ID_STATICTEXT32, _("X10"), wxPoint(320,168), wxSize(13,39), 0, _T("ID_STATICTEXT32"));
+  StaticText32 = new wxStaticText(Panel1, ID_STATICTEXT32, _("X10"), wxPoint(320,184), wxSize(13,39), 0, _T("ID_STATICTEXT32"));
   wxFont StaticText32Font(5,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
   StaticText32->SetFont(StaticText32Font);
-  StaticText35 = new wxStaticText(Panel1, ID_STATICTEXT35, _("X10"), wxPoint(384,168), wxDefaultSize, 0, _T("ID_STATICTEXT35"));
+  StaticText35 = new wxStaticText(Panel1, ID_STATICTEXT35, _("X10"), wxPoint(384,184), wxDefaultSize, 0, _T("ID_STATICTEXT35"));
   wxFont StaticText35Font(5,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
   StaticText35->SetFont(StaticText35Font);
-  StaticText33 = new wxStaticText(Panel1, ID_STATICTEXT33, _("AIR X10"), wxPoint(316,216), wxDefaultSize, 0, _T("ID_STATICTEXT33"));
+  StaticText33 = new wxStaticText(Panel1, ID_STATICTEXT33, _("AIR X10"), wxPoint(456,144), wxDefaultSize, 0, _T("ID_STATICTEXT33"));
   wxFont StaticText33Font(5,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
   StaticText33->SetFont(StaticText33Font);
   StaticText31 = new wxStaticText(Panel1, ID_STATICTEXT31, _("X10"), wxPoint(384,128), wxDefaultSize, 0, _T("ID_STATICTEXT31"));
@@ -319,8 +301,8 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   StaticText22 = new wxStaticText(Panel1, ID_STATICTEXT22, _("X10"), wxPoint(432,56), wxDefaultSize, 0, _T("ID_STATICTEXT22"));
   wxFont StaticText22Font(5,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
   StaticText22->SetFont(StaticText22Font);
-  AirSpeed = new wxSpinCtrl(Panel1, ID_SPINCTRL20, wxEmptyString, wxPoint(344,204), wxSize(56,21), 0, 0, 3000, 0, _T("ID_SPINCTRL20"));
-  StaticText34 = new wxStaticText(Panel1, ID_STATICTEXT34, _("Vitesse"), wxPoint(280,208), wxDefaultSize, 0, _T("ID_STATICTEXT34"));
+  AirSpeed = new wxSpinCtrl(Panel1, ID_SPINCTRL20, wxEmptyString, wxPoint(488,128), wxSize(56,21), 0, 0, 3000, 0, _T("ID_SPINCTRL20"));
+  StaticText34 = new wxStaticText(Panel1, ID_STATICTEXT34, _("Vitesse"), wxPoint(424,128), wxDefaultSize, 0, _T("ID_STATICTEXT34"));
   StaticText36 = new wxStaticText(Panel1, ID_STATICTEXT36, _("Sortie vers :"), wxPoint(1072,184), wxDefaultSize, 0, _T("ID_STATICTEXT36"));
   ComboBoxCom = new wxComboBox(Panel1, ID_COMBOBOXCOM, wxEmptyString, wxPoint(1064,200), wxSize(72,23), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOXCOM"));
   StaticText37 = new wxStaticText(Panel1, ID_STATICTEXT37, _("Protocoles"), wxPoint(744,128), wxDefaultSize, 0, _T("ID_STATICTEXT37"));
@@ -354,12 +336,6 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   Connect(ID_SPINCTRL18,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
   Connect(ID_SPINCTRL19,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&TelemetryFrame::OnTeleChange);
   Connect(ID_SLIDER9,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
-  Connect(ID_SLIDER17,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
-  Connect(ID_SLIDER16,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
-  Connect(ID_SLIDER15,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
-  Connect(ID_SLIDER14,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
-  Connect(ID_SLIDER13,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
-  Connect(ID_SLIDER12,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
   Connect(ID_SLIDER11,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
   Connect(ID_SLIDER10,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
   Connect(ID_SLIDER6,wxEVT_SCROLL_CHANGED,(wxObjectEventFunction)&TelemetryFrame::OnTeleScrollChanged);
@@ -429,13 +405,6 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   Cell4->SetValue(Tele_Cell4*100);
   Cell5->SetValue(Tele_Cell5*100);
   Cell6->SetValue(Tele_Cell6*100);
-  Cell7->SetValue(Tele_Cell7*100);
-  Cell8->SetValue(Tele_Cell8*100);
-  Cell9->SetValue(Tele_Cell9*100);
-  Cell10->SetValue(Tele_Cell10*100);
-  Cell11->SetValue(Tele_Cell11*100);
-  Cell12->SetValue(Tele_Cell12*100);
-
 }
 
 TelemetryFrame::~TelemetryFrame()
@@ -502,16 +471,11 @@ void TelemetryFrame::WriteDatas()
   Tele_Cell4 = (float)Cell4->GetValue()/100;
   Tele_Cell5 = (float)Cell5->GetValue()/100;
   Tele_Cell6 = (float)Cell6->GetValue()/100;
-  Tele_Cell7 = (float)Cell7->GetValue()/100;
-  Tele_Cell8 = (float)Cell8->GetValue()/100;
-  Tele_Cell9 = (float)Cell9->GetValue()/100;
-  Tele_Cell10 = (float)Cell10->GetValue()/100;
-  Tele_Cell11 = (float)Cell11->GetValue()/100;
-  Tele_Cell12 = (float)Cell12->GetValue()/100;
 
   Ini_Changed = true;
 
 }
+
 void TelemetryFrame::OnTeleChange(wxSpinEvent& event)
 {
   WriteDatas();

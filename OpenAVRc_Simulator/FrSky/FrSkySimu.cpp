@@ -75,7 +75,7 @@ void frskySportSimuloop()
   fcs.setData(Tele_BattCurrent,   // Current consumption in amps
               Tele_BattVolt);  // Battery voltage in volts
 
-  // Set LiPo voltage sensor (FLVSS) data (we use two sensors to simulate 8S battery
+  // Set LiPo voltage sensor (FLVSS) data (we use one sensor to simulate 6S battery
   // (set Voltage source to Cells in menu to use this data for battery voltage)
   flvss1.setData(Tele_Cell1, Tele_Cell2, Tele_Cell3, Tele_Cell4, Tele_Cell5, Tele_Cell6);  // Cell voltages in volts (cells 1-6)
   //flvss2.setData(Tele_Cell7, Tele_Cell8, Tele_Cell9, Tele_Cell10, Tele_Cell11, Tele_Cell12);                          // Cell voltages in volts (cells 7-8)
@@ -122,8 +122,7 @@ void frskyDSimuloop()
 
   // Set LiPo voltage sensor (FLVS) data (we use two sensors to simulate 8S battery
   // (set Voltage source to Cells in menu to use this data for battery voltage)
-  telemetryD.setFlvsData(Tele_Cell1, Tele_Cell2, Tele_Cell3, Tele_Cell4, Tele_Cell5, Tele_Cell6
-                         ,Tele_Cell7, Tele_Cell8, Tele_Cell9, Tele_Cell10, Tele_Cell11, Tele_Cell12);  // Cell voltages in volts
+  telemetryD.setFlvsData(Tele_Cell1, Tele_Cell2, Tele_Cell3, Tele_Cell4, Tele_Cell5, Tele_Cell6);  // Cell voltages in volts
 
   // Set variometer sensor (FVAS) data
   telemetryD.setFvasData(Tele_VarioAlt,   // Altitude in m (can be nevative)
