@@ -91,12 +91,6 @@ extern float Tele_Cell3;
 extern float Tele_Cell4;
 extern float Tele_Cell5;
 extern float Tele_Cell6;
-extern float Tele_Cell7;
-extern float Tele_Cell8;
-extern float Tele_Cell9;
-extern float Tele_Cell10;
-extern float Tele_Cell11;
-extern float Tele_Cell12;
 
 
 void frskySportSimuSetup();

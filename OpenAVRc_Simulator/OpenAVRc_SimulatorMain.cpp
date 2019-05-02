@@ -161,12 +161,6 @@ float Tele_Cell3;
 float Tele_Cell4;
 float Tele_Cell5;
 float Tele_Cell6;
-float Tele_Cell7;
-float Tele_Cell8;
-float Tele_Cell9;
-float Tele_Cell10;
-float Tele_Cell11;
-float Tele_Cell12;
 
 bool SimuComIsValid;
 bool showeditmodeldialog = 0;
@@ -1175,12 +1169,6 @@ void OpenAVRc_SimulatorFrame::LoadConfig()
   configFile->Read(wxT("Tele_Cell4"),&Tele_Cell4);
   configFile->Read(wxT("Tele_Cell5"),&Tele_Cell5);
   configFile->Read(wxT("Tele_Cell6"),&Tele_Cell6);
-  configFile->Read(wxT("Tele_Cell7"),&Tele_Cell7);
-  configFile->Read(wxT("Tele_Cell8"),&Tele_Cell8);
-  configFile->Read(wxT("Tele_Cell9"),&Tele_Cell9);
-  configFile->Read(wxT("Tele_Cell10"),&Tele_Cell10);
-  configFile->Read(wxT("Tele_Cell11"),&Tele_Cell11);
-  configFile->Read(wxT("Tele_Cell12"),&Tele_Cell12);
 
   configFile->Read(wxT("EEfile"),&CurrentEEPath);
 }
@@ -1239,12 +1227,6 @@ void OpenAVRc_SimulatorFrame::SaveConfig()
   configFile->Write(wxT("Tele_Cell4"),Tele_Cell4);
   configFile->Write(wxT("Tele_Cell5"),Tele_Cell5);
   configFile->Write(wxT("Tele_Cell6"),Tele_Cell6);
-  configFile->Write(wxT("Tele_Cell7"),Tele_Cell7);
-  configFile->Write(wxT("Tele_Cell8"),Tele_Cell8);
-  configFile->Write(wxT("Tele_Cell9"),Tele_Cell9);
-  configFile->Write(wxT("Tele_Cell10"),Tele_Cell10);
-  configFile->Write(wxT("Tele_Cell11"),Tele_Cell11);
-  configFile->Write(wxT("Tele_Cell12"),Tele_Cell12);
 
   configFile->Write(wxT("EEfile"),CurrentEEPath);
 
