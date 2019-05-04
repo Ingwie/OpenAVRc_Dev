@@ -210,16 +210,15 @@ enum AlarmLevel {
 #define TELEMETRY_BARO_ALT_UNIT         "m"
 #endif
 
-#define TELEMETRY_RELATIVE_BARO_ALT_BP  telemetryData.value.baroAltitude_bp
-#define TELEMETRY_RELATIVE_BARO_ALT_AP  telemetryData.value.baroAltitude_ap
-#define TELEMETRY_RELATIVE_GPS_ALT_BP   telemetryData.value.gpsAltitude_bp
+#define TELEMETRY_RELATIVE_BARO_ALT_BP  telemetryData.value.baroAltitude
+#define TELEMETRY_RELATIVE_GPS_ALT_BP   (telemetryData.value.gpsAltitude  + telemetryData.value.gpsAltitudeOffset)
 #define TELEMETRY_GPS_SPEED_BP          telemetryData.value.gpsSpeed_bp
 #define TELEMETRY_GPS_SPEED_AP          telemetryData.value.gpsSpeed_ap
 
 #define TELEMETRY_BARO_ALT_FORMAT       "%d,"
-#define TELEMETRY_BARO_ALT_ARGS         telemetryData.value.baroAltitude_bp,
+#define TELEMETRY_BARO_ALT_ARGS         telemetryData.value.baroAltitude,
 #define TELEMETRY_GPS_ALT_FORMAT        "%d,"
-#define TELEMETRY_GPS_ALT_ARGS          telemetryData.value.gpsAltitude_bp,
+#define TELEMETRY_GPS_ALT_ARGS          telemetryData.value.gpsAltitude,
 #define TELEMETRY_SPEED_UNIT            (IS_IMPERIAL_ENABLE() ? SPEED_UNIT_IMP : SPEED_UNIT_METR)
 #define TELEMETRY_GPS_SPEED_FORMAT      "%d,"
 #define TELEMETRY_GPS_SPEED_ARGS        telemetryData.value.gpsSpeed_bp,
@@ -273,7 +272,6 @@ void frskyDProcessPacket(uint8_t *packet);
 // FrSky S.PORT Protocol
 void processSportPacket(uint8_t *packet);
 
-void checkMinMaxAltitude();
 void telemetryResetValue();
 void telemetryReset();
 void telemetryPPMInit();

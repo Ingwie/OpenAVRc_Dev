@@ -162,20 +162,79 @@ uint8_t checkSportPacket(uint8_t *packet)
   return (crc == 0x00ff);
 }
 
-void setBaroAltitude(int32_t baroAltitude) //S.port function
+void setMinMaxAltitude()
+{
+  if (telemetryData.value.baroAltitude > telemetryData.value.maxAltitude)
+    telemetryData.value.maxAltitude = telemetryData.value.baroAltitude;
+  if (telemetryData.value.baroAltitude < telemetryData.value.minAltitude)
+    telemetryData.value.minAltitude = telemetryData.value.baroAltitude;
+}
+
+void manageBaroAltitude()
 {
   // First received barometer altitude => Altitude offset
   if (!telemetryData.value.baroAltitudeOffset)
-    telemetryData.value.baroAltitudeOffset = -baroAltitude;
+    telemetryData.value.baroAltitudeOffset = -telemetryData.value.baroAltitude;
+  telemetryData.value.baroAltitude += telemetryData.value.baroAltitudeOffset;
+  setMinMaxAltitude();
+}
 
-  baroAltitude += telemetryData.value.baroAltitudeOffset;
-  telemetryData.value.baroAltitude_bp = baroAltitude/100;
+void manageGpsAltitude()
+{
+  if (!telemetryData.value.gpsAltitudeOffset)
+    {
+      telemetryData.value.gpsAltitudeOffset = -telemetryData.value.gpsAltitude;
+    }
 
-  telemetryData.value.baroAltitude_ap = (uint16_t)baroAltitude-telemetryData.value.baroAltitude_bp;
-  if (baroAltitude > telemetryData.value.maxAltitude)
-    telemetryData.value.maxAltitude = telemetryData.value.baroAltitude_bp;
-  if (baroAltitude < telemetryData.value.minAltitude)
-    telemetryData.value.minAltitude = telemetryData.value.baroAltitude_bp;
+  if (!telemetryData.value.baroAltitudeOffset)
+  // Use GPS value for min-max if no baro is detected
+    {
+      int16_t gpsRelativeAlt = telemetryData.value.gpsAltitude + telemetryData.value.gpsAltitudeOffset;
+      telemetryData.value.baroAltitude = gpsRelativeAlt; // Use GPS alt for ALT
+      if (gpsRelativeAlt > telemetryData.value.maxAltitude)
+        telemetryData.value.maxAltitude = gpsRelativeAlt;
+      else if (gpsRelativeAlt < telemetryData.value.minAltitude)
+        telemetryData.value.minAltitude = gpsRelativeAlt;
+    }
+  if (!telemetryData.value.pilotLatitude && !telemetryData.value.pilotLongitude)
+    {
+      // First received GPS position => Pilot GPS position
+      getGpsPilotPosition();
+    }
+  else if (telemetryData.value.gpsDistNeeded || menuHandlers[menuLevel] == menuTelemetryFrsky)
+    {
+      getGpsDistance();
+    }
+}
+
+void checkMaxTemperature1()
+{
+  if (telemetryData.value.temperature1 > telemetryData.value.maxTemperature1)
+    telemetryData.value.maxTemperature1 = telemetryData.value.temperature1;
+}
+
+void checkMaxTemperature2()
+{
+  if (telemetryData.value.temperature2 > telemetryData.value.maxTemperature2)
+    telemetryData.value.maxTemperature2 = telemetryData.value.temperature2;
+}
+
+void checkMaxRpm()
+{
+  if (telemetryData.value.rpm > telemetryData.value.maxRpm)
+    telemetryData.value.maxRpm = telemetryData.value.rpm;
+}
+
+void checkMaxGpsSpeed()
+{
+  if (telemetryData.value.gpsSpeed_bp > telemetryData.value.maxGpsSpeed)
+    telemetryData.value.maxGpsSpeed = telemetryData.value.gpsSpeed_bp;
+}
+
+void checkMaxCurrent()
+{
+  if (telemetryData.value.current > telemetryData.value.maxCurrent)
+    telemetryData.value.maxCurrent = telemetryData.value.current;
 }
 
 void processSportPacket(uint8_t *sport_packet)
@@ -233,8 +292,8 @@ void processSportPacket(uint8_t *sport_packet)
     }
   else if (appId == BETA_BARO_ALT_ID)
     {
-      int32_t baroAltitude = SPORT_DATA_S32(sport_packet);
-      setBaroAltitude(10 * (baroAltitude >> 8));
+      telemetryData.value.baroAltitude = ((SPORT_DATA_S32(sport_packet) >> 8)/10);
+      manageBaroAltitude();
     }
   else if (appId == BETA_VARIO_ID)
     {
@@ -244,20 +303,17 @@ void processSportPacket(uint8_t *sport_packet)
   else if IS_IN_RANGE(appId, T1_FIRST_ID, T1_LAST_ID)
     {
       telemetryData.value.temperature1 = SPORT_DATA_S32(sport_packet);
-      if (telemetryData.value.temperature1 > telemetryData.value.maxTemperature1)
-        telemetryData.value.maxTemperature1 = telemetryData.value.temperature1;
+      checkMaxTemperature1();
     }
   else if IS_IN_RANGE(appId, T2_FIRST_ID, T2_LAST_ID)
     {
       telemetryData.value.temperature2 = SPORT_DATA_S32(sport_packet);
-      if (telemetryData.value.temperature2 > telemetryData.value.maxTemperature2)
-        telemetryData.value.maxTemperature2 = telemetryData.value.temperature2;
+      checkMaxTemperature2();
     }
   else if IS_IN_RANGE(appId, RPM_FIRST_ID, RPM_LAST_ID)
     {
       telemetryData.value.rpm = SPORT_DATA_U32(sport_packet) / (g_model.telemetry.blades+2);
-      if (telemetryData.value.rpm > telemetryData.value.maxRpm)
-        telemetryData.value.maxRpm = telemetryData.value.rpm;
+      checkMaxRpm();
     }
   else if IS_IN_RANGE(appId, FUEL_FIRST_ID, FUEL_LAST_ID)
     {
@@ -265,7 +321,8 @@ void processSportPacket(uint8_t *sport_packet)
     }
   else if IS_IN_RANGE(appId, ALT_FIRST_ID, ALT_LAST_ID)
     {
-      setBaroAltitude(SPORT_DATA_S32(sport_packet));
+      telemetryData.value.baroAltitude = SPORT_DATA_S32(sport_packet)/100;
+      manageBaroAltitude();
     }
   else if IS_IN_RANGE(appId, VARIO_FIRST_ID, VARIO_LAST_ID)
     {
@@ -286,8 +343,7 @@ void processSportPacket(uint8_t *sport_packet)
   else if IS_IN_RANGE(appId, CURR_FIRST_ID, CURR_LAST_ID)
     {
       telemetryData.value.current = SPORT_DATA_U32(sport_packet);
-      if (telemetryData.value.current > telemetryData.value.maxCurrent)
-        telemetryData.value.maxCurrent = telemetryData.value.current;
+      checkMaxCurrent();
     }
   else if IS_IN_RANGE(appId, VFAS_FIRST_ID, VFAS_LAST_ID)
     {
@@ -296,8 +352,7 @@ void processSportPacket(uint8_t *sport_packet)
   else if IS_IN_RANGE(appId, GPS_SPEED_FIRST_ID, GPS_SPEED_LAST_ID)
     {
       telemetryData.value.gpsSpeed_bp = (SPORT_DATA_U32(sport_packet)/100);
-      if (telemetryData.value.gpsSpeed_bp > telemetryData.value.maxGpsSpeed)
-        telemetryData.value.maxGpsSpeed = telemetryData.value.gpsSpeed_bp;
+      checkMaxGpsSpeed();
     }
   else if IS_IN_RANGE(appId, GPS_TIME_DATE_FIRST_ID, GPS_TIME_DATE_LAST_ID)
     {
@@ -331,40 +386,8 @@ void processSportPacket(uint8_t *sport_packet)
     }
   else if IS_IN_RANGE(appId, GPS_ALT_FIRST_ID, GPS_ALT_LAST_ID)
     {
-      uint32_t gpsAlt = SPORT_DATA_S32(sport_packet);
-      telemetryData.value.gpsAltitude_bp = gpsAlt / 100;
-      telemetryData.value.gpsAltitude_ap = gpsAlt % 100;
-
-      if (!telemetryData.value.gpsAltitudeOffset)
-        {
-          telemetryData.value.gpsAltitudeOffset = -telemetryData.value.gpsAltitude_bp;
-        }
-      telemetryData.value.gpsAltitude_bp += telemetryData.value.gpsAltitudeOffset;
-      if (!telemetryData.value.baroAltitudeOffset)
-        {
-          if (telemetryData.value.gpsAltitude_bp > telemetryData.value.maxAltitude)
-            telemetryData.value.maxAltitude = telemetryData.value.gpsAltitude_bp;
-          if (telemetryData.value.gpsAltitude_bp < telemetryData.value.minAltitude)
-            telemetryData.value.minAltitude = telemetryData.value.gpsAltitude_bp;
-        }
-
-      if (!telemetryData.value.gpsAltitudeOffset)
-        {
-          telemetryData.value.gpsAltitudeOffset = -telemetryData.value.gpsAltitude_bp;
-        }
-
-      if (telemetryData.value.gpsFix > 0)
-        {
-          if (!telemetryData.value.pilotLatitude && !telemetryData.value.pilotLongitude)
-            {
-              // First received GPS position => Pilot GPS position
-              getGpsPilotPosition();
-            }
-          else if (telemetryData.value.gpsDistNeeded || menuHandlers[menuLevel] == menuTelemetryFrsky)
-            {
-              getGpsDistance();
-            }
-        }
+      telemetryData.value.gpsAltitude = SPORT_DATA_S32(sport_packet)/100;
+      manageGpsAltitude();
     }
   else if IS_IN_RANGE(appId, GPS_LONG_LATI_FIRST_ID, GPS_LONG_LATI_LAST_ID)
     {
@@ -566,19 +589,18 @@ void processHubPacket(uint8_t id, uint16_t value)
     {
 #if defined(GPS)
     case GPS_ALT_BP_ID:
-      telemetryData.value.gpsAltitude_bp = (int16_t)value;
+      telemetryData.value.gpsAltitude = (int16_t)value;
+      manageGpsAltitude();
       break;
 #endif
     case TEMP1_ID:
       telemetryData.value.temperature1 = (int16_t)value;
-      if (telemetryData.value.temperature1 > telemetryData.value.maxTemperature1)
-        telemetryData.value.maxTemperature1 = telemetryData.value.temperature1;
+      checkMaxTemperature1();
       break;
 
     case RPM_ID:
       telemetryData.value.rpm = value * (uint8_t)60/(g_model.telemetry.blades+2);
-      if (telemetryData.value.rpm > telemetryData.value.maxRpm)
-        telemetryData.value.maxRpm = telemetryData.value.rpm;
+      checkMaxRpm();
       break;
 
     case FUEL_ID:
@@ -587,54 +609,23 @@ void processHubPacket(uint8_t id, uint16_t value)
 
     case TEMP2_ID:
       telemetryData.value.temperature2 = (int16_t)value;
-      if (telemetryData.value.temperature2 > telemetryData.value.maxTemperature2)
-        telemetryData.value.maxTemperature2 = telemetryData.value.temperature2;
+      checkMaxTemperature2();
       break;
 
     case VOLTS_ID:
       telemetryData.value.volts = value;
       frskyUpdateCells();
       break;
-#if defined(GPS)
-    case GPS_ALT_AP_ID:
-      telemetryData.value.gpsAltitude_ap = (int16_t)value;
-      if (!telemetryData.value.gpsAltitudeOffset)
-        {
-          telemetryData.value.gpsAltitudeOffset = -telemetryData.value.gpsAltitude_bp;
-        }
-      telemetryData.value.gpsAltitude_bp += telemetryData.value.gpsAltitudeOffset;
-      if (!telemetryData.value.baroAltitudeOffset)
-        {
-          if (telemetryData.value.gpsAltitude_bp > telemetryData.value.maxAltitude)
-            telemetryData.value.maxAltitude = telemetryData.value.gpsAltitude_bp;
-          if (telemetryData.value.gpsAltitude_bp < telemetryData.value.minAltitude)
-            telemetryData.value.minAltitude = telemetryData.value.gpsAltitude_bp;
-        }
-      if (!telemetryData.value.pilotLatitude && !telemetryData.value.pilotLongitude)
-        {
-          // First received GPS position => Pilot GPS position
-          getGpsPilotPosition();
-        }
-      else if (telemetryData.value.gpsDistNeeded || menuHandlers[menuLevel] == menuTelemetryFrsky)
-        {
-          getGpsDistance();
-        }
-      break;
-#endif
+
     case BARO_ALT_BP_ID:
-      if (!telemetryData.value.baroAltitudeOffset)
-        telemetryData.value.baroAltitudeOffset = -telemetryData.value.baroAltitude_bp;
-      telemetryData.value.baroAltitude_bp = (int16_t)value;
-      // First received barometer altitude => Altitude offset
-      telemetryData.value.baroAltitude_bp += telemetryData.value.baroAltitudeOffset;
-      checkMinMaxAltitude();
+      telemetryData.value.baroAltitude = (int16_t)value;
+      manageBaroAltitude();
       break;
 #if defined(GPS)
     case GPS_SPEED_BP_ID:
       telemetryData.value.gpsSpeed_bp = value*10 + telemetryData.value.gpsSpeed_ap;
       // Speed => Max speed
-      if (telemetryData.value.gpsSpeed_bp > telemetryData.value.maxGpsSpeed)
-        telemetryData.value.maxGpsSpeed = telemetryData.value.gpsSpeed_bp;
+      checkMaxGpsSpeed();
       break;
 
     case GPS_LONG_BP_ID:
@@ -690,9 +681,6 @@ void processHubPacket(uint8_t id, uint16_t value)
       telemetryData.value.gpsCourse_ap = value;
       break;
 #endif
-    case BARO_ALT_AP_ID:
-      telemetryData.value.baroAltitude_ap = value;
-      break;
 #if defined(GPS)
     case GPS_LONG_EW_ID:
       telemetryData.value.gpsLongitudeEW = value;
@@ -720,8 +708,7 @@ void processHubPacket(uint8_t id, uint16_t value)
         telemetryData.value.current += g_model.telemetry.fasOffset;
       else
         telemetryData.value.current = 0;
-      if (telemetryData.value.current > telemetryData.value.maxCurrent)
-        telemetryData.value.maxCurrent = telemetryData.value.current;
+      checkMaxCurrent();
       break;
 
     case VARIO_ID:
@@ -765,15 +752,15 @@ void parseTelemWSHowHighByte(uint8_t byte)
 {
   if (frskyUsrStreaming < (WSHH_TIMEOUT10ms - 10))
     {
-      ((uint8_t*)&telemetryData.value)[offsetof(TelemetrySerialData, baroAltitude_bp)] = byte;
-      checkMinMaxAltitude();
+      telemetryData.value.baroAltitude = byte;
+      setMinMaxAltitude();
     }
   else
     {
       // At least 100mS passed since last data received
-      ((uint8_t*)&telemetryData.value)[offsetof(TelemetrySerialData, baroAltitude_bp)+1] = byte;
+      telemetryData.value.baroAltitude += byte<<8;
     }
-  // baroAltitude_bp unit here is feet!
+  // baroAltitude unit here is feet!
   frskyUsrStreaming = WSHH_TIMEOUT10ms; // reset counter
 }
 #endif
@@ -895,14 +882,6 @@ void frskyUpdateCells()
             telemetryData.value.minCell = telemetryData.value.minCellVolts;
         }
     }
-}
-
-void checkMinMaxAltitude()
-{
-  if (TELEMETRY_RELATIVE_BARO_ALT_BP > telemetryData.value.maxAltitude)
-    telemetryData.value.maxAltitude = TELEMETRY_RELATIVE_BARO_ALT_BP;
-  if (TELEMETRY_RELATIVE_BARO_ALT_BP < telemetryData.value.minAltitude)
-    telemetryData.value.minAltitude = TELEMETRY_RELATIVE_BARO_ALT_BP;
 }
 
 void adjustRTChour()
