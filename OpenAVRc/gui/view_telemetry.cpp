@@ -198,7 +198,10 @@ void displayAfterFlightScreen()
     displayGpsTime();
     line+=1*FH+1;
     lcdDrawTextAtIndex(0, line, STR_VTELEMCHNS, TELEM_GPSALT, 0);
-    lcdPutsTelemetryChannelValue(TELEM_2ND_COLUMN, line, TELEM_GPSALT-1, telemetryData.value.gpsAltitude_bp, LEFT);
+    lcdPutsTelemetryChannelValue(TELEM_2ND_COLUMN, line, TELEM_GPSALT-1, telemetryData.value.gpsAltitude, LEFT);
+    line+=1*FH+1;
+    lcdDrawTextAtIndex(0, line, STR_VTELEMCHNS, TELEM_DIST, 0);
+    lcdPutsTelemetryChannelValue(TELEM_2ND_COLUMN, line, TELEM_DIST-1, telemetryData.value.gpsDistance, LEFT);
     line+=1*FH+1;
   }
   // Rssi
