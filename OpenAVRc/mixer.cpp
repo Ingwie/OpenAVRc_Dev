@@ -226,7 +226,7 @@ getvalue_t getValue(mixsrc_t i)
   else if (i==MIXSRC_FIRST_TELEM-1+TELEM_T2) return telemetryData.value.temperature2;
   else if (i==MIXSRC_FIRST_TELEM-1+TELEM_SPEED) return TELEMETRY_GPS_SPEED_BP;
   else if (i==MIXSRC_FIRST_TELEM-1+TELEM_DIST) return telemetryData.value.gpsDistance;
-  else if (i==MIXSRC_FIRST_TELEM-1+TELEM_GPSALT) return TELEMETRY_RELATIVE_GPS_ALT_BP;
+  else if (i==MIXSRC_FIRST_TELEM-1+TELEM_GPSALT) return telemetryData.value.gpsAltitude;
   else if (i==MIXSRC_FIRST_TELEM-1+TELEM_CELL) return (int16_t)TELEMETRY_MIN_CELL_VOLTAGE;
   else if (i==MIXSRC_FIRST_TELEM-1+TELEM_CELLS_SUM) return (int16_t)telemetryData.value.cellsSum;
   else if (i==MIXSRC_FIRST_TELEM-1+TELEM_VFAS) return (int16_t)telemetryData.value.vfas;
