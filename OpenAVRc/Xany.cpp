@@ -198,7 +198,11 @@ const I2cIoExpSt_t XanyI2cTypeAddr[] PROGMEM = {
           {IO_EXP_PCF8574A, (0x38<<1), readPcf8574A}, /* Idx =  2 */
           {IO_EXP_PCF8574A, (0x3A<<1), readPcf8574A}, /* Idx =  3 */
           {IO_EXP_MCP23017, (0x24<<1), readMcp23017}, /* Idx =  4 */
+#if defined(LCD_SH1106) || defined(LCD_SSD1306)
+          {IO_EXP_PCF8575A, (0x00<<1), readPcf8575A}, /* Idx =  5 */ /* SH1106 or SSD1306 present -> disable I2C extender */
+#else
           {IO_EXP_PCF8575A, (0x3C<<1), readPcf8575A}, /* Idx =  5 */
+#endif
           {IO_EXP_PCA9671,  (0x28<<1), readPca9671 }, /* Idx =  6 */
 /*Xany1*/ {IO_EXP_PCF8574,  (0x21<<1), readPcf8574 }, /* Idx =  7 */
           {IO_EXP_PCF8574,  (0x23<<1), readPcf8574 }, /* Idx =  8 */
@@ -235,7 +239,7 @@ const XanyIdxRangeSt_t XanyIdxRange[] PROGMEM = {{0, 6}, {7, 13}, {14, 18}, {19,
 #define GET_LAST_IDX(XanyIdx)         (uint8_t)     (pgm_read_byte_far(pgm_get_far_address(XanyIdxRange) + XanyIdx*2 + 1))
 
 #define GET_I2C_IO_EXP_TYPE(Idx)      (uint8_t)     (pgm_read_byte_far(pgm_get_far_address(XanyI2cTypeAddr) + Idx*4))
-#define GET_I2C_IO_EXP_7B_ADDR(Idx)   (uint8_t)     (pgm_read_byte_far(pgm_get_far_address(XanyI2cTypeAddr) + Idx*4 + 1))
+#define GET_I2C_IO_EXP_8B_ADDR(Idx)   (uint8_t)     (pgm_read_byte_far(pgm_get_far_address(XanyI2cTypeAddr) + Idx*4 + 1))
 #define GET_I2C_IO_EXP_READ(Idx)      (ReadIoExpPtr)(pgm_read_word_far(pgm_get_far_address(XanyI2cTypeAddr) + Idx*4 + 2))
 
 typedef struct {
@@ -271,7 +275,7 @@ static volatile X_OneAnyWriteMsgSt_t X_AnyWriteMsg[NUM_X_ANY];/* 7 bytes per X-A
 void Xany_init(void)
 {
   /* I2C drive SHALL be initilized before calling Xany_init() */
-  uint8_t Idx, XanyIdx, I2c7bAddr, Data;
+  uint8_t Idx, XanyIdx, I2c8bAddr, Data;
 
   /* Clear the whole structure for the n instances */
   memset((void*)&X_AnyWriteMsg, 0, sizeof(X_AnyWriteMsg));
@@ -280,26 +284,29 @@ void Xany_init(void)
   /* Probe I2C bus to discover Io Expender chips */
   for(Idx = 0; Idx < SUPPORTED_I2C_IO_EXP_NB; Idx++)
   {
-    I2c7bAddr = GET_I2C_IO_EXP_7B_ADDR(Idx);
-    if(!i2c_start(I2c7bAddr | I2C_WRITE))
+    I2c8bAddr = GET_I2C_IO_EXP_8B_ADDR(Idx);
+    if(I2c8bAddr) /* 0 means an I2C screen is present with the same I2C address -> ignore I2C extender */
     {
-      /* OK: device is present quit gracefully by sending a stop() */
-      i2c_stop();
-      if(GET_I2C_IO_EXP_TYPE(Idx) == IO_EXP_MCP23017)
+      if(!i2c_start(I2c8bAddr | I2C_WRITE))
       {
-        /* Enable internal Pull-up */
-        Data = 0xFF;
-        i2c_writeReg(I2c7bAddr , 0x0C, &Data, 1);
-        i2c_writeReg(I2c7bAddr , 0x0D, &Data, 1);
+        /* OK: device is present quit gracefully by sending a stop() */
+        i2c_stop();
+        if(GET_I2C_IO_EXP_TYPE(Idx) == IO_EXP_MCP23017)
+        {
+          /* Enable internal Pull-up */
+          Data = 0xFF;
+          i2c_writeReg(I2c8bAddr , 0x0C, &Data, 1);
+          i2c_writeReg(I2c8bAddr , 0x0D, &Data, 1);
+        }
+        I2cDevMap |= (1UL << Idx); /* Mark it as present */
       }
-      I2cDevMap |= (1UL << Idx); /* Mark it as present */
     }
   }
   /* Probe I2C bus to discover Angle Sensor chips */
   for(XanyIdx = 0; XanyIdx < X_ANY; XanyIdx++)
   {
-    I2c7bAddr = ((A1335_I2C_7B_ADDR + XanyIdx) << 1);
-    if(!i2c_start(I2c7bAddr | I2C_WRITE))
+    I2c8bAddr = ((A1335_I2C_7B_ADDR + XanyIdx) << 1);
+    if(!i2c_start(I2c8bAddr | I2C_WRITE))
     {
       /* OK: A1335 device is present quit gracefully by sending a stop() */
       i2c_stop();
@@ -780,7 +787,7 @@ static uint16_t getPayloadSw(XanyMsg_union *XanyPl, PayloadMapSt_t *PayloadMap)
 static uint8_t readIoExtender(uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRead)
 {
   ReadIoExpPtr ReadIoExp;
-  uint8_t      I2c7bAddr, ExpType, One8bitPort = 0, ByteRead = 0;
+  uint8_t      I2c8bAddr, ExpType, One8bitPort = 0, ByteRead = 0;
   uint16_t     Two8bitPorts = 0;
   uint8_t     *BytePtr  = (uint8_t  *)RxBuf;
   uint16_t    *WordPtr  = (uint16_t *)RxBuf;
@@ -790,7 +797,7 @@ static uint8_t readIoExtender(uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRea
     if(I2cDevMap & (1UL << BitIdx))
     {
       /* Chip is present in the I/O Expender map */
-      I2c7bAddr = GET_I2C_IO_EXP_7B_ADDR(BitIdx);
+      I2c8bAddr = GET_I2C_IO_EXP_8B_ADDR(BitIdx);
       ExpType   = GET_I2C_IO_EXP_TYPE(BitIdx);
       ReadIoExp = GET_I2C_IO_EXP_READ(BitIdx);
       if((ExpType == IO_EXP_PCF8574) || (ExpType == IO_EXP_PCF8574A) || (ExpType == IO_EXP_PCF8575A))
@@ -804,7 +811,7 @@ static uint8_t readIoExtender(uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRea
       if(ExpType < IO_EXP_MCP23017)
       {
         /* Read one 8 bit port */
-        if(!ReadIoExp(I2c7bAddr , (uint8_t*)&One8bitPort)) One8bitPort ^= 0xFF; /* Apply polarity: close contact = 1 */
+        if(!ReadIoExp(I2c8bAddr , (uint8_t*)&One8bitPort)) One8bitPort ^= 0xFF; /* Apply polarity: close contact = 1 */
         if(BitIdx & 1) BytePtr[1] = One8bitPort; /* Odd  */
         else           BytePtr[0] = One8bitPort; /* Even */
         ByteRead++;
@@ -812,7 +819,7 @@ static uint8_t readIoExtender(uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRea
       else
       {
         /* Read two 8 bit ports */
-        if(!ReadIoExp(I2c7bAddr, (uint8_t*)&Two8bitPorts)) Two8bitPorts ^= 0xFFFF; /* Apply polarity: close contact = 1 */
+        if(!ReadIoExp(I2c8bAddr, (uint8_t*)&Two8bitPorts)) Two8bitPorts ^= 0xFFFF; /* Apply polarity: close contact = 1 */
         *WordPtr = Two8bitPorts;
         ByteRead += 2;
       }
