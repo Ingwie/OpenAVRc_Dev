@@ -195,7 +195,7 @@ void menuModelTelemetry(uint8_t event)
       lcdDrawTextAtIndex(TELEM_COL2, y, STR_VTELPROTO, g_model.telemetry.usrProto, attr);
       if (attr) {
           CHECK_INCDEC_MODELVAR_ZERO(event, g_model.telemetry.usrProto, USR_PROTO_LAST);
-          if (!IS_MULTIMODULE_PROTOCOL(g_model.rfProtocol)) { // No reset in Multi mode
+          if ((checkIncDec_Ret) && (!IS_MULTIMODULE_PROTOCOL(g_model.rfProtocol))) { // No reset in Multi mode
               telemetryReset();
           }
       }
