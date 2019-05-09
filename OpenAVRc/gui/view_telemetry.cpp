@@ -79,7 +79,7 @@ void displayGpsTime()
 
 void displayGpsCoord(uint8_t y, char direction, int16_t bp, int16_t ap)
 {
-  if (telemetryData.value.gpsFix >= 0) {
+  IF_GPS_IS_FIXED {
     if (!direction) direction = '-';
     lcdDrawNumberNAtt(TELEM_2ND_COLUMN, y, bp / 100, LEFT); // ddd before '.'
     lcdDrawChar(lcdLastPos, y, '@');
