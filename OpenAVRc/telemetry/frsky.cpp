@@ -52,21 +52,11 @@ void telemetryPPMInit()
   Usart0EnableRx(); // enable FrSky-Telemetry reception
 }
 
-void telemetryReset()
-{
-  telemetryResetValue();
-}
-
 void telemetryResetValue()
 {
   memclear(&telemetryData, sizeof(telemetryData));
-
   frskyStreaming = 0; // reset counter only if valid frsky packets are being detected
-
-  telemetryData.value.gpsLatitude_bp = 2;
-  telemetryData.value.gpsLongitude_bp = 2;
   telemetryData.value.gpsFix = -1;
-
 }
 
 NOINLINE void parseTelemFrskyByte(uint8_t data)
