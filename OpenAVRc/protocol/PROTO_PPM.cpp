@@ -92,9 +92,6 @@ uint16_t half_us = PROTO_PPM_cb2();
 
 static void PROTO_PPM_reset()
 {
-#if defined(FRSKY)
-  telemetryReset();
-#endif
   // Make pin idle state before disconnecting switching output.
   if(g_model.PULSEPOL) PORTB &= ~PIN6_bm;
   else PORTB |= PIN6_bm;

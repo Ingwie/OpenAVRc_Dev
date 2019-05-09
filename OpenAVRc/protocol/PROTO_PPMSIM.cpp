@@ -75,9 +75,12 @@ static uint16_t PROTO_PPMSIM_cb()
 
 static void PROTO_PPMSIM_reset()
 {
-#if defined(FRSKY)
-  telemetryReset();
-#endif
+  if(g_model.PULSEPOL) PORTB &= ~PIN5_bm;
+  else PORTB |= PIN5_bm;
+  TCCR1A &= ~(0b11<<COM1A0);
+  PROTO_Stop_Callback();
+  TIMSK1 &= ~(1<<OCIE1A); // Disable Output Compare A interrupt.
+  TIFR1 |= 1<<OCF1A; // Reset Flag.
 }
 
 
