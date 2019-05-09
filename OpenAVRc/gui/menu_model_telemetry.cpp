@@ -196,7 +196,7 @@ void menuModelTelemetry(uint8_t event)
       if (attr) {
           CHECK_INCDEC_MODELVAR_ZERO(event, g_model.telemetry.usrProto, USR_PROTO_LAST);
           if ((checkIncDec_Ret) && (!IS_MULTIMODULE_PROTOCOL(g_model.rfProtocol))) { // No reset in Multi mode
-              telemetryReset();
+              telemetryResetValue();
           }
       }
       break;

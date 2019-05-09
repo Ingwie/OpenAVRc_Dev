@@ -273,7 +273,6 @@ void frskyDProcessPacket(uint8_t *packet);
 void processSportPacket(uint8_t *packet);
 
 void telemetryResetValue();
-void telemetryReset();
 void telemetryPPMInit();
 
 void telemetryInterrupt10ms();

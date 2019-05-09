@@ -63,6 +63,9 @@ void startPulses(enum ProtoCmds Command)
   rf_power_mem = 0; // Reset RF power mem
   RF_SPI_INIT();
 #endif
+#if defined(FRSKY)
+  telemetryResetValue();
+#endif
 
   if (pulsesStarted()) {
     PROTO_Cmds(PROTOCMD_RESET);
