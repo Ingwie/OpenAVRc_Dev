@@ -64,7 +64,7 @@ extern uint8_t Usart0TxBufferCount;
 void LoadTelemBuffer(uint8_t *data);
 
 #define RAW_FRSKY_MINMAX(v)       v.value
-
+#define IF_GPS_IS_FIXED           if (telemetryData.value.gpsFix)
 #define NUMCELLS 6
 
 class TelemetryValueWithMin
@@ -99,10 +99,10 @@ PACK(struct TelemetrySerialData {
   uint16_t gpsCourse_bp;
   uint8_t  day;
   uint8_t  month;
-  uint16_t year;
+  uint8_t  year;
   uint8_t  hour;
   uint8_t  min;
-  uint16_t sec;
+  uint8_t  sec;
   uint16_t gpsSpeed_ap;
   uint16_t gpsLongitude_ap;
   uint16_t gpsLatitude_ap;
@@ -115,7 +115,8 @@ PACK(struct TelemetrySerialData {
   int16_t  accelY;
   int16_t  accelZ;
   uint8_t  gpsDistNeeded:1;
-  int8_t   gpsFix:2;
+  int8_t   gpsFix:1;          // 0=not fixed, 1=fixed
+  int8_t   Freeyte:1;         // todo
   uint8_t  openXsensor:1;
   uint8_t  cellsCount:4;
   uint8_t  minCellVolts;

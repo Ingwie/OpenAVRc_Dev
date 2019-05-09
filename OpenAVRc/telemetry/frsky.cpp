@@ -56,7 +56,7 @@ void telemetryResetValue()
 {
   memclear(&telemetryData, sizeof(telemetryData));
   frskyStreaming = 0; // reset counter only if valid frsky packets are being detected
-  telemetryData.value.gpsFix = -1;
+  telemetryData.value.gpsFix = 0;
 }
 
 NOINLINE void parseTelemFrskyByte(uint8_t data)
@@ -167,6 +167,18 @@ void manageBaroAltitude()
     telemetryData.value.baroAltitudeOffset = -telemetryData.value.baroAltitude;
   telemetryData.value.baroAltitude += telemetryData.value.baroAltitudeOffset;
   setMinMaxAltitude();
+}
+
+void manageGpsFix()
+{
+  if (telemetryData.value.gpsLongitudeEW && telemetryData.value.gpsLatitudeNS)
+    {
+      telemetryData.value.gpsFix = 1;
+    }
+  else
+    {
+      telemetryData.value.gpsFix = 0;
+    }
 }
 
 void manageGpsAltitude()
@@ -339,9 +351,10 @@ void processSportPacket(uint8_t *sport_packet)
     {
       telemetryData.value.vfas = SPORT_DATA_U32(sport_packet)/10;   //TODO: remove /10 and display with PREC2 when using SPORT
     }
+#if defined(GPS)
   else if IS_IN_RANGE(appId, GPS_SPEED_FIRST_ID, GPS_SPEED_LAST_ID)
     {
-      telemetryData.value.gpsSpeed_bp = (SPORT_DATA_U32(sport_packet)/100);
+      IF_GPS_IS_FIXED telemetryData.value.gpsSpeed_bp = SPORT_DATA_U32(sport_packet)/100;
       checkMaxGpsSpeed();
     }
   else if IS_IN_RANGE(appId, GPS_TIME_DATE_FIRST_ID, GPS_TIME_DATE_LAST_ID)
@@ -349,15 +362,15 @@ void processSportPacket(uint8_t *sport_packet)
       uint32_t gps_time_date = SPORT_DATA_U32(sport_packet);
       if (gps_time_date & 0x000000ff)
         {
-          telemetryData.value.year = (uint16_t) ((gps_time_date & 0xff000000) >> 24);
-          telemetryData.value.month = (uint8_t) ((gps_time_date & 0x00ff0000) >> 16);
-          telemetryData.value.day = (uint8_t) ((gps_time_date & 0x0000ff00) >> 8);
+          telemetryData.value.year = (uint8_t) (gps_time_date >> 24);
+          telemetryData.value.month = (uint8_t) (gps_time_date >> 16);
+          telemetryData.value.day = (uint8_t) (gps_time_date >> 8);
         }
       else
         {
-          telemetryData.value.hour = (uint8_t) ((gps_time_date & 0xff000000) >> 24);
-          telemetryData.value.min = (uint8_t) ((gps_time_date & 0x00ff0000) >> 16);
-          telemetryData.value.sec = (uint16_t) ((gps_time_date & 0x0000ff00) >> 8);
+          telemetryData.value.hour = (uint8_t) (gps_time_date >> 24);
+          telemetryData.value.min = (uint8_t) (gps_time_date >> 16);
+          telemetryData.value.sec = (uint8_t) (gps_time_date >> 8);
           telemetryData.value.hour = ((uint8_t) (telemetryData.value.hour + g_eeGeneral.timezone + 24)) % 24;
 
 #if defined(RTCLOCK)
@@ -371,12 +384,14 @@ void processSportPacket(uint8_t *sport_packet)
   else if IS_IN_RANGE(appId, GPS_COURS_FIRST_ID, GPS_COURS_LAST_ID)
     {
       uint32_t course = SPORT_DATA_U32(sport_packet);
+      IF_GPS_IS_FIXED {
       telemetryData.value.gpsCourse_bp = course / 100;
       telemetryData.value.gpsCourse_ap = course % 100;
+      }
     }
   else if IS_IN_RANGE(appId, GPS_ALT_FIRST_ID, GPS_ALT_LAST_ID)
     {
-      telemetryData.value.gpsAltitude = SPORT_DATA_S32(sport_packet)/100;
+      IF_GPS_IS_FIXED telemetryData.value.gpsAltitude = SPORT_DATA_S32(sport_packet)/100;
       manageGpsAltitude();
     }
   else if IS_IN_RANGE(appId, GPS_LONG_LATI_FIRST_ID, GPS_LONG_LATI_LAST_ID)
@@ -408,16 +423,9 @@ void processSportPacket(uint8_t *sport_packet)
           telemetryData.value.gpsLongitudeEW = 'W';
           break;
         }
-      if (telemetryData.value.gpsLongitudeEW && telemetryData.value.gpsLatitudeNS)
-        {
-          telemetryData.value.gpsFix = 1;
-        }
-      else if (telemetryData.value.gpsFix > 0)
-        {
-          telemetryData.value.gpsFix = 0;
-        }
+        manageGpsFix();
     }
-
+#endif
   else if IS_IN_RANGE(appId, CELLS_FIRST_ID, CELLS_LAST_ID)
     {
       uint32_t cells = SPORT_DATA_U32(sport_packet);
@@ -548,38 +556,14 @@ void parseTelemHubByte(uint8_t byte)
 void processHubPacket(uint8_t id, uint16_t value)
 {
 #if defined(GPS)
-  if (id == GPS_LAT_BP_ID)
-    {
-      if (value)
-        telemetryData.value.gpsFix = 1;
-      else if (telemetryData.value.gpsFix > 0 && telemetryData.value.gpsLatitude_bp > 1)
-        telemetryData.value.gpsFix = 0;
-    }
-  else if (id == GPS_LONG_BP_ID)
-    {
-      if (value)
-        telemetryData.value.gpsFix = 1;
-      else if (telemetryData.value.gpsFix > 0 && telemetryData.value.gpsLongitude_bp > 1)
-        telemetryData.value.gpsFix = 0;
-    }
-
-  if  (id == GPS_ALT_BP_ID ||
-       (IS_IN_RANGE(id, GPS_ALT_AP_ID, GPS_LAT_NS_ID) &&
-        (id != BARO_ALT_BP_ID) && (id != BARO_ALT_AP_ID)))
-    {
-      // If we don't have a fix, we may discard the value
-      if (telemetryData.value.gpsFix <= 0)
-        {
-          return;
-        }
-    }
-#endif  // #if defined(GPS)
+  manageGpsFix();
+#endif
 
   switch (id)
     {
 #if defined(GPS)
     case GPS_ALT_BP_ID:
-      telemetryData.value.gpsAltitude = (int16_t)value;
+      IF_GPS_IS_FIXED telemetryData.value.gpsAltitude = (int16_t)value;
       manageGpsAltitude();
       break;
 #endif
@@ -613,7 +597,7 @@ void processHubPacket(uint8_t id, uint16_t value)
       break;
 #if defined(GPS)
     case GPS_SPEED_BP_ID:
-      telemetryData.value.gpsSpeed_bp = value*10 + telemetryData.value.gpsSpeed_ap;
+      IF_GPS_IS_FIXED telemetryData.value.gpsSpeed_bp = value*10 + telemetryData.value.gpsSpeed_ap;
       // Speed => Max speed
       checkMaxGpsSpeed();
       break;
@@ -627,7 +611,7 @@ void processHubPacket(uint8_t id, uint16_t value)
       break;
 
     case GPS_COURS_BP_ID:
-      telemetryData.value.gpsCourse_bp = value;
+      IF_GPS_IS_FIXED telemetryData.value.gpsCourse_bp = value;
       break;
 
     case GPS_DAY_MONTH_ID:
@@ -656,7 +640,7 @@ void processHubPacket(uint8_t id, uint16_t value)
       break;
 
     case GPS_SPEED_AP_ID:
-      telemetryData.value.gpsSpeed_ap = value/10;
+      IF_GPS_IS_FIXED telemetryData.value.gpsSpeed_ap = value/10;
       break;
 
     case GPS_LONG_AP_ID:
@@ -668,7 +652,7 @@ void processHubPacket(uint8_t id, uint16_t value)
       break;
 
     case GPS_COURS_AP_ID:
-      telemetryData.value.gpsCourse_ap = value;
+      IF_GPS_IS_FIXED telemetryData.value.gpsCourse_ap = value;
       break;
 #endif
 #if defined(GPS)
