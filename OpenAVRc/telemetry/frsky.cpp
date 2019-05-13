@@ -56,7 +56,6 @@ void telemetryResetValue()
 {
   memclear(&telemetryData, sizeof(telemetryData));
   frskyStreaming = 0; // reset counter only if valid frsky packets are being detected
-  telemetryData.value.gpsFix = 0;
 }
 
 NOINLINE void parseTelemFrskyByte(uint8_t data)
@@ -169,20 +168,30 @@ void manageBaroAltitude()
   setMinMaxAltitude();
 }
 
+#if defined(GPS)
 void manageGpsFix()
 {
   if (telemetryData.value.gpsLongitudeEW && telemetryData.value.gpsLatitudeNS)
     {
-      telemetryData.value.gpsFix = 1;
+      if (telemetryData.value.gpsGetFirstData)
+        {
+          telemetryData.value.gpsFix = 1;
+          telemetryData.value.gpsGetFirstData = 0;
+        }
+      else
+        telemetryData.value.gpsGetFirstData = 1;
     }
   else
     {
       telemetryData.value.gpsFix = 0;
+      telemetryData.value.gpsGetFirstData = 0;
     }
 }
 
 void manageGpsAltitude()
 {
+  IF_GPS_IS_NOT_FIXED manageGpsFix();
+
   if (!telemetryData.value.gpsAltitudeOffset)
     {
       telemetryData.value.gpsAltitudeOffset = -telemetryData.value.gpsAltitude;
@@ -198,7 +207,8 @@ void manageGpsAltitude()
       else if (gpsRelativeAlt < telemetryData.value.minAltitude)
         telemetryData.value.minAltitude = gpsRelativeAlt;
     }
-  if (!telemetryData.value.pilotLatitude && !telemetryData.value.pilotLongitude)
+
+  if (telemetryData.value.gpsFix && !telemetryData.value.pilotLatitude && !telemetryData.value.pilotLongitude)
     {
       // First received GPS position => Pilot GPS position
       getGpsPilotPosition();
@@ -208,6 +218,7 @@ void manageGpsAltitude()
       getGpsDistance();
     }
 }
+#endif
 
 void checkMaxTemperature1()
 {
@@ -423,7 +434,6 @@ void processSportPacket(uint8_t *sport_packet)
           telemetryData.value.gpsLongitudeEW = 'W';
           break;
         }
-        manageGpsFix();
     }
 #endif
   else if IS_IN_RANGE(appId, CELLS_FIRST_ID, CELLS_LAST_ID)
@@ -555,10 +565,6 @@ void parseTelemHubByte(uint8_t byte)
 
 void processHubPacket(uint8_t id, uint16_t value)
 {
-#if defined(GPS)
-  manageGpsFix();
-#endif
-
   switch (id)
     {
 #if defined(GPS)
@@ -763,6 +769,7 @@ void telemetryInterrupt10ms()
     voltage += telemetryData.value.cellVolts[i];
   voltage /= (10 / TELEMETRY_CELL_VOLTAGE_MUTLIPLIER);
   telemetryData.value.cellsSum = voltage;
+
   if (telemetryData.value.cellsSum < telemetryData.value.minCells)
     {
       telemetryData.value.minCells = telemetryData.value.cellsSum;
