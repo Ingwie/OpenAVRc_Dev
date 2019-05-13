@@ -181,6 +181,8 @@ void getGpsPilotPosition()
 
 void getGpsDistance()
 {
+  IF_GPS_IS_FIXED
+  {
   uint32_t lat, lng;
 
   extractLatitudeLongitude(&lat, &lng);
@@ -201,5 +203,6 @@ void getGpsDistance()
   telemetryData.value.gpsDistance = isqrt32(result);
   if (telemetryData.value.gpsDistance > telemetryData.value.maxGpsDistance)
     telemetryData.value.maxGpsDistance = telemetryData.value.gpsDistance;
+  }
 }
 #endif
