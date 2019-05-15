@@ -221,7 +221,7 @@ enum AlarmLevel {
 #define TELEMETRY_GPS_ALT_ARGS          telemetryData.value.gpsAltitude,
 #define TELEMETRY_SPEED_UNIT            (IS_IMPERIAL_ENABLE() ? SPEED_UNIT_IMP : SPEED_UNIT_METR)
 #define TELEMETRY_GPS_SPEED_FORMAT      "%d,"
-#define TELEMETRY_GPS_SPEED_ARGS        telemetryData.value.gpsSpeed_bp,
+#define TELEMETRY_GPS_SPEED_ARGS        telemetryData.value.gpsSpeed_bp/10,
 #define TELEMETRY_CELLS_ARGS            telemetryData.value.cellsSum / 10, telemetryData.value.cellsSum % 10, telemetryData.value.cellVolts[0]*2/100, telemetryData.value.cellVolts[0]*2%100, telemetryData.value.cellVolts[1]*2/100, telemetryData.value.cellVolts[1]*2%100, telemetryData.value.cellVolts[2]*2/100, telemetryData.value.cellVolts[2]*2%100, telemetryData.value.cellVolts[3]*2/100, telemetryData.value.cellVolts[3]*2%100, telemetryData.value.cellVolts[4]*2/100, telemetryData.value.cellVolts[4]*2%100, telemetryData.value.cellVolts[5]*2/100, telemetryData.value.cellVolts[5]*2%100,
 #define TELEMETRY_CELLS_FORMAT          "%d.%d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,"
 #define TELEMETRY_CELLS_LABEL           "Cell volts,Cell 1,Cell 2,Cell 3,Cell 4,Cell 5,Cell 6,"
