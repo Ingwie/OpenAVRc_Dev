@@ -115,7 +115,7 @@ PACK(struct TelemetrySerialData {
   int16_t  accelX;
   int16_t  accelY;
   int16_t  accelZ;
-  uint8_t  gpsDistNeeded:1;
+  uint8_t  notUsed:1;         // to use
   uint8_t  gpsFix:1;          // 0=not fixed, 1=fixed
   uint8_t  gpsGetFirstData:1; // Used to wait another GPS data frame before setting gpsFix to 1;
   uint8_t  openXsensor:1;
