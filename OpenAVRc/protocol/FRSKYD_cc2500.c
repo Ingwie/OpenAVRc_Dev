@@ -215,60 +215,56 @@ static void frskyD_check_telemetry(uint8_t len)
   */
 
   // only process packets with the required id and packet length and valid crc
-  if ((packet[len-1] & 0x80)
-      && packet[0] == len - 3
-      && packet[1] == temp_rfid_addr[0]
-      && packet[2] == temp_rfid_addr[1])
+  if (!(packet[len-1] & 0x80)
+      || packet[0] != len - 3
+      || packet[1] != temp_rfid_addr[0]
+      || packet[2] != temp_rfid_addr[1]) return;
+
+  frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
+  // frskyStreaming gets decremented every 10ms, FRSKY_TIMEOUT_FIRST value is detected to play connection prompt.
+
+  telemetryData.rssi[0].set(packet[5] & 0x7f);
+
+  telemetryData.rssi[1].set(packet[len-2] & 0x7f);
+
+  //Get voltage A1 (52mv/count)
+  telemetryData.analog[TELEM_ANA_A1].set(packet[3], g_model.telemetry.channels[TELEM_ANA_A1].type);
+
+  //Get voltage A2 (~13.2mv/count) (Docs say 1/4 of A1)
+  telemetryData.analog[TELEM_ANA_A2].set(packet[4], g_model.telemetry.channels[TELEM_ANA_A2].type);
+
+  if(packet[6] && packet[6]<11)
     {
-      frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
-      // frskyStreaming gets decremented every 10ms, FRSKY_TIMEOUT_FIRST value is detected to play connection prompt.
-
-      telemetryData.rssi[0].set(packet[5] & 0x7f);
-
-      telemetryData.rssi[1].set(packet[len-2] & 0x7f);
-
-      //Get voltage A1 (52mv/count)
-      telemetryData.analog[TELEM_ANA_A1].set(packet[3], g_model.telemetry.channels[TELEM_ANA_A1].type);
-
-      //Get voltage A2 (~13.2mv/count) (Docs say 1/4 of A1)
-      telemetryData.analog[TELEM_ANA_A2].set(packet[4], g_model.telemetry.channels[TELEM_ANA_A2].type);
-
-      if(packet[6]>0 && packet[6]<=10)
+      if ((packet[7] & 0x1F) == (receive_seq & 0x1F)) // Is it the expected frame ?
         {
-          if ((packet[7] & 0x1F) == (receive_seq & 0x1F)) // Is it the expected frame ?
+          uint8_t topBit = 0 ;
+          if ((receive_seq & 0x80) && (receive_seq & 0x1F) != telem_save_seq)
             {
-              uint8_t topBit = 0 ;
-              if (receive_seq & 0x80)
-                {
-                  if ((receive_seq & 0x1F) != telem_save_seq)
-                    {
-                      topBit = 0x80 ;
-                    }
-                }
-              receive_seq = ((receive_seq+1)%32) | topBit ;	// Request next telemetry frame
+              topBit = 0x80 ;
+            }
+          receive_seq = ((receive_seq+1)%32) | topBit ;	// Request next telemetry frame
 
-              uint8_t numbyte = 0;
-              if(packet[6]>HUB_MAX_BYTES)
-                {
-                  numbyte = packet[6] - HUB_MAX_BYTES;      // size of the second frame
-                  frskyD_send_HUB_telemetry(8, HUB_MAX_BYTES);
-                }
-              else
-                {
-                  frskyD_send_HUB_telemetry(8, packet[6]);  // only 1 frame
-                }
-
-              if (numbyte)                                  // the the second frame
-                {
-                  frskyD_send_HUB_telemetry(8+HUB_MAX_BYTES, numbyte);
-                }
+          uint8_t numbyte = 0;
+          if(packet[6]>HUB_MAX_BYTES)
+            {
+              numbyte = packet[6] - HUB_MAX_BYTES;      // size of the second frame
+              frskyD_send_HUB_telemetry(8, HUB_MAX_BYTES);
             }
           else
             {
-              // incorrect sequence
-              telem_save_seq = packet[7] & 0x1F;
-              receive_seq |= 0x80;
+              frskyD_send_HUB_telemetry(8, packet[6]);  // only 1 frame
             }
+
+          if (numbyte)                                  // the the second frame
+            {
+              frskyD_send_HUB_telemetry(8+HUB_MAX_BYTES, numbyte);
+            }
+        }
+      else
+        {
+          // incorrect sequence
+          telem_save_seq = packet[7] & 0x1F;
+          receive_seq |= 0x80;
         }
     }
 }
@@ -322,8 +318,8 @@ static uint16_t FRSKYD_data_cb()
           // Process previous telemetry packet
           uint8_t len;
           len = CC2500_ReadReg(CC2500_3B_RXBYTES | CC2500_READ_BURST);
-          if(len > 0x14)
-            break; // 20 bytes
+          if((!len) || len > 0x14)
+            break; // 20 bytes max
           CC2500_ReadData(packet, len);
 #if defined(FRSKY)
           if (g_model.rfOptionBool1) // telemetry on?
