@@ -92,18 +92,17 @@ void mixSetWeight(MixData* md, int8_t weight)
   // MD_SETWEIGHT(md,weight);  doesn't matter here in code cost compiler optimizes this anyway
 }
 
-#define clearInputs()
-#define defaultInputs()
 #define TMPL_INPUT(x) (MIXSRC_Rud+x-1)
 
 void clearMixes()
 {
-  memset(g_model.mixData, 0, sizeof(g_model.mixData)); // clear all mixes
+  memclear(g_model.mixData, sizeof(g_model.mixData)); // clear all mixes
 }
 
-void clearCurves()
+void clearCurvesAndPoints()
 {
-  memclear(g_model.curves, sizeof(g_model.curves) + sizeof(g_model.points)); // clear all curves
+  memclear(g_model.curves, sizeof(g_model.curves));  // clear all curves
+  memclear(g_model.points, sizeof(g_model.points));  // clear all points
 }
 
 void setCurve(uint8_t c, const pm_int8_t ar[])
@@ -152,7 +151,6 @@ void applyTemplate(uint8_t idx)
   switch (idx) {
   // Simple 4-Ch
   case TMPL_SIMPLE_4CH:
-    defaultInputs();
     setDest(ICC(STK_RUD), TMPL_INPUT(STK_RUD));
     setDest(ICC(STK_ELE), TMPL_INPUT(STK_ELE));
     setDest(ICC(STK_THR), TMPL_INPUT(STK_THR));
@@ -178,7 +176,6 @@ void applyTemplate(uint8_t idx)
 
   // V-Tail
   case TMPL_V_TAIL:
-    defaultInputs();
     setDest(ICC(STK_RUD), TMPL_INPUT(STK_RUD), true);
     md=setDest(ICC(STK_RUD), TMPL_INPUT(STK_ELE));
     mixSetWeight(md, -100);
@@ -188,7 +185,6 @@ void applyTemplate(uint8_t idx)
 
   // Elevon\\Delta
   case TMPL_ELEVON_DELTA:
-    defaultInputs();
     setDest(ICC(STK_ELE), MIXSRC_Ele, true);
     setDest(ICC(STK_ELE), MIXSRC_Ail);
     setDest(ICC(STK_AIL), MIXSRC_Ele, true);
@@ -218,7 +214,7 @@ void applyTemplate(uint8_t idx)
 
   // Heli Setup
   case TMPL_HELI_SETUP:
-    clearCurves();
+    clearCurvesAndPoints();
 
     //Set up Mixes
     // 3 cyclic channels

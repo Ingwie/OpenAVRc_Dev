@@ -82,7 +82,7 @@ enum Templates {
 };
 
 void clearMixes();
-void clearCurves();
+void clearCurvesAndPoints();
 void applyTemplate(uint8_t idx);
 
 #endif //TEMPLATES_H
