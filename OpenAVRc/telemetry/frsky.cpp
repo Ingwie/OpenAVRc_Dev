@@ -213,7 +213,7 @@ void manageGpsAltitude()
       // First received GPS position => Pilot GPS position
       getGpsPilotPosition();
     }
-  else if (telemetryData.value.gpsDistNeeded || menuHandlers[menuLevel] == menuTelemetryFrsky)
+  else if (menuHandlers[menuLevel] == menuTelemetryFrsky)
     {
       getGpsDistance();
     }
