@@ -643,7 +643,7 @@ FORCEINLINE void convertUnit(getvalue_t & val, uint8_t & unit)
     if (unit == UNIT_KTS) {
       // kts to mph
       unit = UNIT_SPEED;
-      val = (val * 23) / 20;
+      val = (uint32_t)(val * 23) / 20;
     }
 
   } else {
@@ -651,7 +651,7 @@ FORCEINLINE void convertUnit(getvalue_t & val, uint8_t & unit)
     if (unit == UNIT_KTS) {
       // kts to km/h
       unit = UNIT_SPEED;
-      val = (val * 50) / 27;
+      val = (uint32_t)(val * 50) / 27;
     }
   }
 
