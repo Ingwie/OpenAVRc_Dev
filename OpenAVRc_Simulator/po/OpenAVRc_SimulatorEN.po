@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 14:21+0200\n"
-"PO-Revision-Date: 2017-10-04 10:20+0200\n"
+"PO-Revision-Date: 2019-06-01 10:48+0200\n"
 "Last-Translator: Christophe <>\n"
 "Language-Team: \n"
 "Language: en\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:52
 msgid "                     Max         Min       Alarm"
@@ -235,12 +235,12 @@ msgstr "Import Eeprom"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:673
 msgid "Impossible : Simulateur en fonctionnement"
-msgstr ""
+msgstr "Impossible: Simulator is running"
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:680
 #, c-format
 msgid "Impossible d'ouvrir le fichier '%s'."
-msgstr ""
+msgstr "Unable to open file '%s'."
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:880
 msgid "L'eeprom va être formatée, étes vous sur ?"
