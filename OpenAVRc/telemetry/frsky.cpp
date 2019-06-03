@@ -171,7 +171,7 @@ void manageBaroAltitude()
 #if defined(GPS)
 void manageGpsFix()
 {
-  if (telemetryData.value.gpsLongitudeEW && telemetryData.value.gpsLatitudeNS)
+  if (telemetryData.value.gpsLongitudeEW || telemetryData.value.gpsLatitudeNS)
     {
       if (telemetryData.value.gpsGetFirstData)
         {
