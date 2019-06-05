@@ -70,8 +70,8 @@
   #define FORCE_INDIRECT(ptr) __asm__ __volatile__ ("" : "=e" (ptr) : "0" (ptr))
   #define MKTIME mk_gmtime
   #define SPRINTF_P sprintf_P
-#define ADAPT_PROTOCOL_TO_SIMU()
-#define ADAPT_PROTOCOL_TO_TX()
+  #define ADAPT_PROTOCOL_TO_SIMU()
+  #define ADAPT_PROTOCOL_TO_TX()
 
 #else //SIMU define
 
