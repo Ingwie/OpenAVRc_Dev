@@ -244,8 +244,13 @@ void checkMaxGpsSpeed()
     telemetryData.value.maxGpsSpeed = telemetryData.value.gpsSpeed_bp;
 }
 
-void checkMaxCurrent()
+void checkOffsetAndMaxCurrent()
 {
+  if ((int16_t)telemetryData.value.current > 0 && ((int16_t)telemetryData.value.current + g_model.telemetry.fasOffset) > 0)
+    telemetryData.value.current += g_model.telemetry.fasOffset;
+  else
+    telemetryData.value.current = 0;
+
   if (telemetryData.value.current > telemetryData.value.maxCurrent)
     telemetryData.value.maxCurrent = telemetryData.value.current;
 }
@@ -273,29 +278,32 @@ void processSportPacket(uint8_t *sport_packet)
   if (prim != DATA_FRAME)
     return;
 
-  if (appId == RSSI_ID)
+  if ((appId & 0xF000) == 0xF000)
     {
-      telemetryData.rssi[0].set(SPORT_DATA_U8(sport_packet));
-    }
-  if (appId == SWR_ID)
-    {
-      telemetryData.rssi[1].set(SPORT_DATA_U8(sport_packet));
-    }
-  else if (appId == ADC1_ID || appId == ADC2_ID)
-    {
-      // A1/A2 of DxR receivers
-      telemetryData.analog[appId-ADC1_ID].set(SPORT_DATA_U8(sport_packet),g_model.telemetry.channels[appId-ADC1_ID].type);
-#if defined(VARIO)
-      uint8_t varioSource = g_model.telemetry.varioSource - VARIO_SOURCE_A1;
-      if (varioSource == appId-ADC1_ID)
+      if (appId == X_RSSI_ID)
         {
-          telemetryData.value.varioSpeed = applyChannelRatio(varioSource, telemetryData.analog[varioSource].value);
+          telemetryData.rssi[0].set(SPORT_DATA_U8(sport_packet));
         }
+      else if (appId == X_SWR_ID)
+        {
+          telemetryData.rssi[1].set(SPORT_DATA_U8(sport_packet));
+        }
+      else if (appId == X_ADC1_ID || appId == X_ADC2_ID)
+        {
+          // A1/A2 of DxR receivers
+          telemetryData.analog[appId-X_ADC1_ID].set(SPORT_DATA_U8(sport_packet),g_model.telemetry.channels[appId-X_ADC1_ID].type);
+#if defined(VARIO)
+          uint8_t varioSource = g_model.telemetry.varioSource - VARIO_SOURCE_A1;
+          if (varioSource == appId-X_ADC1_ID)
+            {
+              telemetryData.value.varioSpeed = applyChannelRatio(varioSource, telemetryData.analog[varioSource].value);
+            }
 #endif
-    }
-  else if (appId == BATT_ID)
-    {
-      telemetryData.analog[0].set(SPORT_DATA_U8(sport_packet),UNIT_VOLTS);
+        }
+      else if (appId == X_BATT_ID)
+        {
+          telemetryData.analog[0].set(SPORT_DATA_U8(sport_packet),UNIT_VOLTS);
+        }
     }
   else if ((appId >> 8) == 0)
     {
@@ -303,7 +311,7 @@ void processSportPacket(uint8_t *sport_packet)
       uint16_t value = HUB_DATA_U16(sport_packet);
       processHubPacket((uint8_t)appId, value);
     }
-  else if (appId == BETA_BARO_ALT_ID)
+  /*else if (appId == BETA_BARO_ALT_ID) KEEP this ?
     {
       telemetryData.value.baroAltitude = ((SPORT_DATA_S32(sport_packet) >> 8)/10);
       manageBaroAltitude();
@@ -312,63 +320,59 @@ void processSportPacket(uint8_t *sport_packet)
     {
       int32_t varioSpeed = SPORT_DATA_S32(sport_packet);
       telemetryData.value.varioSpeed = 10 * (varioSpeed >> 8);
-    }
-  else if IS_IN_RANGE(appId, T1_FIRST_ID, T1_LAST_ID)
+    }*/
+
+  if (appId & 0xF000)
+    return;  // Discard other "0xX000" value (todo use some other)
+
+  uint8_t smallId = (uint8_t)(appId >> 4); // Forget last 4 bits -> We accept just one sensor by type
+
+  switch (smallId)
     {
+    case X_T1_ID :
       telemetryData.value.temperature1 = SPORT_DATA_S32(sport_packet);
       checkMaxTemperature1();
-    }
-  else if IS_IN_RANGE(appId, T2_FIRST_ID, T2_LAST_ID)
-    {
+      break;
+    case X_T2_ID :
       telemetryData.value.temperature2 = SPORT_DATA_S32(sport_packet);
       checkMaxTemperature2();
-    }
-  else if IS_IN_RANGE(appId, RPM_FIRST_ID, RPM_LAST_ID)
-    {
+      break;
+    case X_RPM_ID :
       telemetryData.value.rpm = SPORT_DATA_U32(sport_packet) / (g_model.telemetry.blades+2);
       checkMaxRpm();
-    }
-  else if IS_IN_RANGE(appId, FUEL_FIRST_ID, FUEL_LAST_ID)
-    {
+      break;
+    case X_FUEL_ID :
       telemetryData.value.fuelLevel = SPORT_DATA_U32(sport_packet);
-    }
-  else if IS_IN_RANGE(appId, ALT_FIRST_ID, ALT_LAST_ID)
-    {
+      break;
+    case X_ALT_ID :
       telemetryData.value.baroAltitude = SPORT_DATA_S32(sport_packet)/100;
       manageBaroAltitude();
-    }
-  else if IS_IN_RANGE(appId, VARIO_FIRST_ID, VARIO_LAST_ID)
-    {
+      break;
+    case X_VARIO_ID :
       telemetryData.value.varioSpeed = SPORT_DATA_S32(sport_packet);
-    }
-  else if IS_IN_RANGE(appId, ACCX_FIRST_ID, ACCX_LAST_ID)
-    {
-      telemetryData.value.accelX = SPORT_DATA_S32(sport_packet);
-    }
-  else if IS_IN_RANGE(appId, ACCY_FIRST_ID, ACCY_LAST_ID)
-    {
-      telemetryData.value.accelY = SPORT_DATA_S32(sport_packet);
-    }
-  else if IS_IN_RANGE(appId, ACCZ_FIRST_ID, ACCZ_LAST_ID)
-    {
-      telemetryData.value.accelZ = SPORT_DATA_S32(sport_packet);
-    }
-  else if IS_IN_RANGE(appId, CURR_FIRST_ID, CURR_LAST_ID)
-    {
+      break;
+    case X_ACCX_ID :
+      telemetryData.value.accelX = SPORT_DATA_S32(sport_packet)/10;
+      break;
+    case X_ACCY_ID :
+      telemetryData.value.accelY = SPORT_DATA_S32(sport_packet)/10;
+      break;
+    case X_ACCZ_ID :
+      telemetryData.value.accelZ = SPORT_DATA_S32(sport_packet)/10;
+      break;
+    case X_CURR_ID :
       telemetryData.value.current = SPORT_DATA_U32(sport_packet);
-      checkMaxCurrent();
-    }
-  else if IS_IN_RANGE(appId, VFAS_FIRST_ID, VFAS_LAST_ID)
-    {
+      checkOffsetAndMaxCurrent();
+      break;
+    case X_VFAS_ID :
       telemetryData.value.vfas = SPORT_DATA_U32(sport_packet)/10;   //TODO: remove /10 and display with PREC2 when using SPORT
-    }
+      break;
 #if defined(GPS)
-  else if IS_IN_RANGE(appId, GPS_SPEED_FIRST_ID, GPS_SPEED_LAST_ID)
-    {
+    case X_GPS_SPEED_ID :
       IF_GPS_IS_FIXED telemetryData.value.gpsSpeed_bp = SPORT_DATA_U32(sport_packet)/100;
       checkMaxGpsSpeed();
-    }
-  else if IS_IN_RANGE(appId, GPS_TIME_DATE_FIRST_ID, GPS_TIME_DATE_LAST_ID)
+      break;
+    case X_GPS_TIME_DATE_ID :
     {
       uint32_t gps_time_date = SPORT_DATA_U32(sport_packet);
       if (gps_time_date & 0x000000ff)
@@ -392,20 +396,22 @@ void processSportPacket(uint8_t *sport_packet)
 #endif
         }
     }
-  else if IS_IN_RANGE(appId, GPS_COURS_FIRST_ID, GPS_COURS_LAST_ID)
+    break;
+    case X_GPS_COURS_ID :
     {
       uint32_t course = SPORT_DATA_U32(sport_packet);
-      IF_GPS_IS_FIXED {
-      telemetryData.value.gpsCourse_bp = course / 100;
-      telemetryData.value.gpsCourse_ap = course % 100;
+      IF_GPS_IS_FIXED
+      {
+        telemetryData.value.gpsCourse_bp = course / 100;
+        telemetryData.value.gpsCourse_ap = course % 100;
       }
     }
-  else if IS_IN_RANGE(appId, GPS_ALT_FIRST_ID, GPS_ALT_LAST_ID)
-    {
+    break;
+    case X_GPS_ALT_ID :
       IF_GPS_IS_FIXED telemetryData.value.gpsAltitude = SPORT_DATA_S32(sport_packet)/100;
       manageGpsAltitude();
-    }
-  else if IS_IN_RANGE(appId, GPS_LONG_LATI_FIRST_ID, GPS_LONG_LATI_LAST_ID)
+      break;
+    case X_GPS_LONG_LATI_ID :
     {
       uint32_t gps_long_lati_data = SPORT_DATA_U32(sport_packet);
       uint32_t gps_long_lati_b1w, gps_long_lati_a1w;
@@ -435,8 +441,9 @@ void processSportPacket(uint8_t *sport_packet)
           break;
         }
     }
+    break;
 #endif
-  else if IS_IN_RANGE(appId, CELLS_FIRST_ID, CELLS_LAST_ID)
+    case X_CELLS_ID :
     {
       uint32_t cells = SPORT_DATA_U32(sport_packet);
       uint8_t battnumber = cells & 0xF;
@@ -467,6 +474,7 @@ void processSportPacket(uint8_t *sport_packet)
           telemetryData.value.minCellIdx = minCellNum;
           telemetryData.value.minCellVolts = minCell;
         }
+    }
     }
 }
 
@@ -684,11 +692,7 @@ void processHubPacket(uint8_t id, uint16_t value)
 
     case CURRENT_ID:
       telemetryData.value.current = value;
-      if ((int16_t)telemetryData.value.current > 0 && ((int16_t)telemetryData.value.current + g_model.telemetry.fasOffset) > 0)
-        telemetryData.value.current += g_model.telemetry.fasOffset;
-      else
-        telemetryData.value.current = 0;
-      checkMaxCurrent();
+      checkOffsetAndMaxCurrent();
       break;
 
     case VARIO_ID:
@@ -935,94 +939,3 @@ lcdint_t applyChannelRatio(source_t channel, lcdint_t val)
   return ((int32_t)val+g_model.telemetry.channels[channel].offset) * getChannelRatio(channel) * 2 / 51;
 }
 
-#if (0)
-/*case BFSPPKT:
-case RXSPPKT: {
-  uint16_t MMSmartPort_id; // = (d_packet[3] << 8) | d_packet[2];
-  uint32_t MMSmartPort_data;
-  MMSmartPort_id = d_packet[3];
-  MMSmartPort_id <<=8;
-  MMSmartPort_id |=d_packet[2];
-  MMSmartPort_data = d_packet[7];
-  MMSmartPort_data <<=8;
-  MMSmartPort_data |= d_packet[6];
-  MMSmartPort_data <<=8;
-  MMSmartPort_data |= d_packet[5];
-  MMSmartPort_data <<=8;
-  MMSmartPort_data |= d_packet[4];
-  parseTelemMMsmartData(MMSmartPort_id, MMSmartPort_data, d_packet[4]);
-
-  frskyStreaming = FRSKY_TIMEOUT10ms; // reset counter only if valid frsky packets are being detected
-  link_counter += 256 / FRSKY_D_AVERAGING;
-
-  break;
-}*/
-
-
-
-void frskyRFProcessPacket(uint8_t *packet)
-{
-  // was in frskyDProcessPacket()
-  // 20 bytes
-  /*
-  *  pkt 0 = length not counting appended status bytes
-  *  pkt 1,2 = fixed_id
-  *  pkt 3 = A1 : 52mV per count; 4.5V = 0x56
-  *  pkt 4 = A2 : 13.4mV per count; 3.0V = 0xE3 on D6FR
-  *  pkt 5 = RSSI
-  *  pkt 6 = number of stream bytes
-  *  pkt 7 = sequence number increments mod 32 when packet containing stream data acknowledged
-  *  pkt 8-(8+(pkt[6]-1)) = stream data
-  *  pkt len-2 = Downlink RSSI
-  *  pkt len-1 = crc status (bit7 set indicates good), link quality indicator (bits6-0)
-  */
-
-  // A1, A2, RSSI values.
-
-  telemetryData.analog[TELEM_ANA_A1].set(packet[3], g_model.telemetry.channels[TELEM_ANA_A1].type);
-  telemetryData.analog[TELEM_ANA_A2].set(packet[4], g_model.telemetry.channels[TELEM_ANA_A2].type);
-  telemetryData.rssi[0].set(packet[5]); // RSSI Tx -> Rx.
-
-  telemetryData.rssi[1].set(packet[ packet[0]+1 ]); // RSSI Rx -> Tx.
-}
-
-
-void parseTelemMMsmartData(uint16_t SP_id, uint32_t SP_data, uint8_t SP_data8)
-{
-  switch (SP_id)
-    {
-    case CURR_FIRST_ID:
-      telemetryData.value.current = SP_data;
-      if (telemetryData.value.current > telemetryData.value.maxCurrent)
-        telemetryData.value.maxCurrent = telemetryData.value.current;
-      break;
-    case VFAS_FIRST_ID:
-      telemetryData.value.vfas = SP_data / 10;
-      if (telemetryData.value.vfas < telemetryData.value.minVfas || telemetryData.value.minVfas == 0)
-        telemetryData.value.minVfas = telemetryData.value.vfas;
-      break;
-    case FUEL_FIRST_ID:
-      telemetryData.value.currentConsumption = SP_data;
-      telemetryData.value.fuelLevel = SP_data8;
-      break;
-    case RSSI_ID:
-      telemetryData.rssi[0].value = SP_data8;
-      if (telemetryData.rssi[0].value < telemetryData.rssi[0].min || telemetryData.rssi[0].min == 0)
-        telemetryData.rssi[0].min = telemetryData.rssi[0].value;
-      telemetryData.rssi[1].value = SP_data8;
-      if (telemetryData.rssi[1].value < telemetryData.rssi[1].min || telemetryData.rssi[1].min == 0)
-        telemetryData.rssi[1].min = telemetryData.rssi[1].value;
-      break;
-    case ADC2_ID:
-
-      break;
-    case BATT_ID:
-
-      break;
-    case A4_FIRST_ID:
-      telemetryData.value.minCellVolts = SP_data / 10;
-      break;
-
-    }
-}
-#endif

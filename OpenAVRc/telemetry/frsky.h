@@ -59,6 +59,39 @@
 #define DATA_FRAME                0x10
 
 // FrSky old DATA IDs + OXS (1 byte)
+
+/*  FrSky Hub Info
+DataID Meaning       Unit   Range   Note
+0x01   GPS altitude  m              Before”.”
+0x02   Temperature1  °C     -30-250
+0x03   RPM           BPS    0-60000
+0x04   Fuel Level    %      0, 25, 50, 75, 100
+0x05   Temperature2  °C     -30-250
+0x06   Cell Volt     1/500v 0-4.2v, top 4 bits are cell #
+0x09   GPS altitude  m              After “.”
+0x10   Altitude      m      0-9999  Before “.”
+0x11   GPS speed     Knots          Before “.”
+0x12   Longitude     dddmm.mmmm     Before “.”
+0x13   Latitude      ddmm.mmmm      Before “.”
+0x14   Course        degree 0-360   Before “.”
+0x15   Date/Month
+0x16   Year
+0x17   Hour /Minute
+0x18   Second
+0x19   GPS speed     Knots          After “.”
+0x1A   Longitude     dddmm.mmmm     After “.”
+0x1B   Latitude      ddmm.mmmm      After “.”
+0x1C   Course        degree 0-360   After “.”
+0x21   Altitude      m              After "."
+0x22   Long - E/W
+0x23   Lat. N/S
+0x24   Acc-x         1/256g -8g ~ +8g
+0x25   Acc-y         1/256g -8g ~ +8g
+0x26   Acc-z         1/256g -8g ~ +8g
+0x28   Current       1A   0-100A
+0x3A   Voltage(amp sensor) 0.5v 0-48V Before “.”
+0x3B   Voltage(amp sensor)            After “.”
+*/
 #define GPS_ALT_BP_ID             0x01<<1
 #define TEMP1_ID                  0x02<<1
 #define RPM_ID                    0x03<<1
@@ -100,65 +133,40 @@
 #define VFAS_D_HIPREC_OFFSET      2000
 
 
-// FrSky new DATA IDs (2 bytes)
-#define ALT_FIRST_ID              0x0100
-#define ALT_LAST_ID               0x010f
-#define VARIO_FIRST_ID            0x0110
-#define VARIO_LAST_ID             0x011f
-#define CURR_FIRST_ID             0x0200
-#define CURR_LAST_ID              0x020f
-#define VFAS_FIRST_ID             0x0210
-#define VFAS_LAST_ID              0x021f
-#define CELLS_FIRST_ID            0x0300
-#define CELLS_LAST_ID             0x030f
-#define T1_FIRST_ID               0x0400
-#define T1_LAST_ID                0x040f
-#define T2_FIRST_ID               0x0410
-#define T2_LAST_ID                0x041f
-#define RPM_FIRST_ID              0x0500
-#define RPM_LAST_ID               0x050f
-#define FUEL_FIRST_ID             0x0600
-#define FUEL_LAST_ID              0x060f
-#define ACCX_FIRST_ID             0x0700
-#define ACCX_LAST_ID              0x070f
-#define ACCY_FIRST_ID             0x0710
-#define ACCY_LAST_ID              0x071f
-#define ACCZ_FIRST_ID             0x0720
-#define ACCZ_LAST_ID              0x072f
-#define GPS_LONG_LATI_FIRST_ID    0x0800
-#define GPS_LONG_LATI_LAST_ID     0x080f
-#define GPS_ALT_FIRST_ID          0x0820
-#define GPS_ALT_LAST_ID           0x082f
-#define GPS_SPEED_FIRST_ID        0x0830
-#define GPS_SPEED_LAST_ID         0x083f
-#define GPS_COURS_FIRST_ID        0x0840
-#define GPS_COURS_LAST_ID         0x084f
-#define GPS_TIME_DATE_FIRST_ID    0x0850
-#define GPS_TIME_DATE_LAST_ID     0x085f
-#define A3_FIRST_ID               0x0900
-#define A3_LAST_ID                0x090f
-#define A4_FIRST_ID               0x0910
-#define A4_LAST_ID                0x091f
-#define AIR_SPEED_FIRST_ID        0x0a00
-#define AIR_SPEED_LAST_ID         0x0a0f
-#define POWERBOX_BATT1_FIRST_ID   0x0b00
-#define POWERBOX_BATT1_LAST_ID    0x0b0f
-#define POWERBOX_BATT2_FIRST_ID   0x0b10
-#define POWERBOX_BATT2_LAST_ID    0x0b1f
-#define POWERBOX_STATE_FIRST_ID   0x0b20
-#define POWERBOX_STATE_LAST_ID    0x0b2f
-#define POWERBOX_CNSP_FIRST_ID    0x0b30
-#define POWERBOX_CNSP_LAST_ID     0x0b3f
-#define RSSI_ID                   0xf101
-#define ADC1_ID                   0xf102
-#define ADC2_ID                   0xf103
-#define SP2UART_A_ID              0xfd00
-#define SP2UART_B_ID              0xfd01
-#define BATT_ID                   0xf104
-#define SWR_ID                    0xf105
-#define XJT_VERSION_ID            0xf106
-#define FUEL_QTY_FIRST_ID         0x0a10
-#define FUEL_QTY_LAST_ID          0x0a1f
+// FrSky new DATA IDs (was 2 bytes) -> Keep just one "middle" byte
+#define X_ALT_ID                  0x10
+#define X_VARIO_ID                0x11
+#define X_CURR_ID                 0x20
+#define X_VFAS_ID                 0x21
+#define X_CELLS_ID                0x30
+#define X_T1_ID                   0x40
+#define X_T2_ID                   0x41
+#define X_RPM_ID                  0x50
+#define X_FUEL_ID                 0x60
+#define X_ACCX_ID                 0x70
+#define X_ACCY_ID                 0x71
+#define X_ACCZ_ID                 0x72
+#define X_GPS_LONG_LATI_ID        0x80
+#define X_GPS_ALT_ID              0x82
+#define X_GPS_SPEED_ID            0x83
+#define X_GPS_COURS_ID            0x84
+#define X_GPS_TIME_DATE_ID        0x85
+#define X_A3_ID                   0x90
+#define X_A4_ID                   0x91
+#define X_AIR_SPEED_ID            0xA0
+#define X_FUEL_QTY_ID             0xA1
+#define X_POWERBOX_BATT1_ID       0xB0
+#define X_POWERBOX_BATT2_ID       0xB1
+#define X_POWERBOX_STATE_ID       0xB2
+#define X_POWERBOX_CNSP_ID        0xB3
+#define X_RSSI_ID                 0xF101
+#define X_ADC1_ID                 0xF102
+#define X_ADC2_ID                 0xF103
+#define X_SP2UART_A_ID            0xFD00
+#define X_SP2UART_B_ID            0xFD01
+#define X_BATT_ID                 0xF104
+#define X_SWR_ID                  0xF105
+#define X_XJT_VERSION_ID          0xF106
 
 // Default sensor data IDs (Physical IDs + CRC)
 #define DATA_ID_VARIO             0x00 // 0
