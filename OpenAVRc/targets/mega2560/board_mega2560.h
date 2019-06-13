@@ -102,7 +102,8 @@ void readKeysAndTrims();
 #define SPI_8M()                    { SPSR = _BV(SPI2X); SPCR = _BV(SPE) | _BV(MSTR); }
 
 #if defined(SPIMODULES) && !defined(SDCARD) // SPIMODULES enabled
-#define SPI_START_SPEED()           SPI_4M() // Cyrf max speed
+//#define SPI_START_SPEED()           SPI_4M() // Cyrf max speed
+#define SPI_START_SPEED()           SPI_8M() // Cyrf max speed is 4Mhz but it work @ 8mhz -> Keep 8 to test
 #else // SPIMODULES
 #define SPI_START_SPEED()           SPI_250K() // SDcard wakeup speed
 #endif // SPIMODULES
