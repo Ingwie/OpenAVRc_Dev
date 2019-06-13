@@ -373,7 +373,6 @@
 							<selection>0</selection>
 							<pos>112,288</pos>
 							<size>40,8</size>
-							<enabled>0</enabled>
 						</object>
 						<object class="wxChoice" name="ID_CHOICENRF24l01PAG" variable="ChoiceNRF24l01PAG" member="yes">
 							<content>
@@ -383,7 +382,6 @@
 							<selection>0</selection>
 							<pos>112,264</pos>
 							<size>40,8</size>
-							<enabled>0</enabled>
 						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX3" variable="StaticBox3" member="yes">
 							<label>Autres paramètres</label>
@@ -538,13 +536,11 @@
 						<object class="wxCheckBox" name="ID_CHECKBOX25" variable="CheckBoxNRF24l01" member="yes">
 							<label>NRF24l01</label>
 							<pos>36,272</pos>
-							<enabled>0</enabled>
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX29" variable="CheckBoxA7105" member="yes">
 							<label>A7105</label>
 							<pos>36,296</pos>
-							<enabled>0</enabled>
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxChoice" name="ID_CHOICECYRF6936PAG" variable="ChoiceCYRF6936PAG" member="yes">

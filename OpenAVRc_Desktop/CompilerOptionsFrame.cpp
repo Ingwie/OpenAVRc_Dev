@@ -355,11 +355,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceA7105PAG = new wxChoice(Panel3, ID_CHOICEA7105PAG, wxPoint(112,288), wxSize(40,8), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICEA7105PAG"));
   ChoiceA7105PAG->SetSelection( ChoiceA7105PAG->Append(_("20")) );
   ChoiceA7105PAG->Append(_("22"));
-  ChoiceA7105PAG->Disable();
   ChoiceNRF24l01PAG = new wxChoice(Panel3, ID_CHOICENRF24l01PAG, wxPoint(112,264), wxSize(40,8), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICENRF24l01PAG"));
   ChoiceNRF24l01PAG->SetSelection( ChoiceNRF24l01PAG->Append(_("20")) );
   ChoiceNRF24l01PAG->Append(_("22"));
-  ChoiceNRF24l01PAG->Disable();
   StaticBox3 = new wxStaticBox(Panel3, ID_STATICBOX3, _("Autres paramètres"), wxPoint(328,16), wxSize(464,264), 0, _T("ID_STATICBOX3"));
   CheckBoxNOANDSECONDE = new wxCheckBox(Panel3, ID_CHECKBOXNOANDSECONDE, _("NOANDSECONDE"), wxPoint(336,184), wxSize(112,16), 0, wxDefaultValidator, _T("ID_CHECKBOXNOANDSECONDE"));
   CheckBoxNOANDSECONDE->SetValue(false);
@@ -434,10 +432,8 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxCYRF6936->SetValue(false);
   CheckBoxNRF24l01 = new wxCheckBox(Panel3, ID_CHECKBOX25, _("NRF24l01"), wxPoint(36,272), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX25"));
   CheckBoxNRF24l01->SetValue(false);
-  CheckBoxNRF24l01->Disable();
   CheckBoxA7105 = new wxCheckBox(Panel3, ID_CHECKBOX29, _("A7105"), wxPoint(36,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX29"));
   CheckBoxA7105->SetValue(false);
-  CheckBoxA7105->Disable();
   ChoiceCYRF6936PAG = new wxChoice(Panel3, ID_CHOICECYRF6936PAG, wxPoint(112,240), wxSize(40,8), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICECYRF6936PAG"));
   ChoiceCYRF6936PAG->SetSelection( ChoiceCYRF6936PAG->Append(_("20")) );
   ChoiceCYRF6936PAG->Append(_("22"));
