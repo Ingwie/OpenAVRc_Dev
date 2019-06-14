@@ -930,14 +930,6 @@ enum ThrottleSources {
   THROTTLE_SOURCE_CH1,
 };
 
-enum TelemetryType {
-  PROTOCOL_TELEMETRY_FIRST,
-  PROTOCOL_FRSKY_SPORT = PROTOCOL_TELEMETRY_FIRST,
-  PROTOCOL_FRSKY_D,
-  PROTOCOL_FRSKY_D_SECONDARY,
-  PROTOCOL_PULSES_CROSSFIRE
-};
-
 enum DisplayTrims {
   DISPLAY_TRIMS_NEVER,
   DISPLAY_TRIMS_CHANGE,
@@ -946,7 +938,7 @@ enum DisplayTrims {
 
 #if defined(MULTIMODULE)
 
-#define MULTI_RF_PROTO_LAST 37  // Corona at this time
+#define MULTI_RF_PROTO_LAST 100  // Use a large value
 
 enum MultiModuleRFProtocols {
   MM_RF_PROTO_CUSTOM = -1,
