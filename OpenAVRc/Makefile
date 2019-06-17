@@ -1,5 +1,3 @@
-# !!!! BETA Makefile !!!!
-# !!!! Use at own risk !!!!
 #----------------------------------------------------------------------------
 # On command line:
 #
@@ -1009,10 +1007,8 @@ LDFLAGS += $(MATH_LIB)
 
 # Define Messages
 # English
-MSG_BEGIN = -------- begin --------
-MSG_END = --------  end  --------
-MSG_SIZE_BEFORE = Size before:
-MSG_SIZE_AFTER = Size after:
+MSG_BEGIN = -------- Process OpenAVRc compilation --------
+MSG_END = --------  OpenAVRc compilation done  --------
 MSG_FLASH = Creating OpenAVRc Firmware:
 MSG_EEPROM = Creating load file for EEPROM:
 MSG_EXTENDED_LISTING = Creating Extended Listing:
@@ -1037,7 +1033,7 @@ MIN_VER = ${shell sh -c "grep \"MIN_VERS\" OpenAVRc.h | cut -d\  -f3"}
 all: begin gccversion build end
 
 # Change the build target to build a HEX file or a library.
-  build: stamp_header tra lbm allsrc.cpp allasm.S elf remallsrc hex sizeafter
+  build: stamp_header tra lbm allsrc.cpp allasm.S elf remallsrc hex sizeoffirmware
 
 tra: translations/en.h translations/cz.h translations/de.h translations/es.h translations/fi.h translations/fr.h translations/it.h translations/nl.h translations/pl.h translations/pt.h translations/se.h
 lbm: fonts bitmaps
@@ -1173,10 +1169,7 @@ end:
 
 # Display size of file.
 HEXSIZE = $(SIZE) --target=$(FORMAT) $(TARGET).hex
-#ELFSIZE = $(SIZE) -A $(TARGET).elf
-ELFSIZE = avr-sizeold --mcu=$(MCU) --format=avr $(TARGET).elf
-#ELFSIZE = avr-size -d -t $(TARGET).elf
-AVRMEM = avr-mem.sh $(TARGET).elf $(MCU)
+ELFSIZE = $(OBJDUMP) -Pmem-usage $(TARGET).elf
 
 
 # Display compiler version information.
@@ -1233,13 +1226,12 @@ remallsrc:
 	$(REMOVE) allasm.S
 	$(REMOVE) allasm.o
 
-sizebefore:
-	@if test -f $(TARGET).elf; then echo; echo $(MSG_SIZE_BEFORE); $(ELFSIZE); \
-	$(AVRMEM) 2>/dev/null; echo; fi
 
-sizeafter:
-	@if test -f $(TARGET).elf; then echo; echo ----------------; $(ELFSIZE); \
-	$(AVRMEM) 2>/dev/null; echo; fi
+sizeoffirmware:
+	@if test -f $(TARGET).elf; then echo; \
+	echo ----------------; $(HEXSIZE); \
+	echo ----------------; $(ELFSIZE); \
+	echo; fi
 
 
 # Link: create ELF output file from object files.
