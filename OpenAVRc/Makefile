@@ -167,8 +167,8 @@ OFFSET_ON_INPUT = YES
 # Values = YES, NO
 EEPROM_PROGRESS_BAR = NO
 
-# Activates the DEBUG Mode (all boards)
-# Values = YES, NO
+# Debug with TinyDbg
+# Values = NO, YES
 DEBUG = NO
 
 # Timers Count
@@ -281,6 +281,8 @@ VERSION = $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_REVISION)$(OpenAVRc_VERSIO
 THIRDPARTY = thirdparty
 RRSDDIR = $(THIRDPARTY)/rrsd
 
+DEBUGDIR = debug
+
 SRC =
 CPPSRC =
 INCDIRS = . translations
@@ -323,11 +325,30 @@ ifeq ($(PCB), MEGAMINI)
   PULSESSRC = pulses/pulses_avr.cpp
   BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/XanyCh.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
-  EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp telemetry_driver.cpp
+  EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp
 
   ASRC =
 
-  ifeq ($(PWRMANAGE), YES)
+  ifeq ($(DEBUG), YES)
+    CPPDEFS += -DTINY_DBG
+    CPPSRC += Print.cpp HwSerial.cpp $(DEBUGDIR)/TinyDbg.cpp
+  endif
+
+  needtelemetry_driver = FALSE
+  ifeq ($(MULTIMODULE), YES)
+   needtelemetry_driver = TRUE
+  endif
+  ifeq ($(DSM2), YES)
+   needtelemetry_driver = TRUE
+  endif
+  ifeq ($(EXT), FRSKY)
+   needtelemetry_driver = TRUE
+  endif
+  ifeq (needtelemetry_driver, YES)
+  EXTRABOARDSRC += telemetry_driver.cpp
+  endif
+
+ ifeq ($(PWRMANAGE), YES)
     CPPDEFS += -DPWRMANAGE
   endif
 
@@ -612,7 +633,26 @@ ifeq ($(PCB), MEGA2560)
   BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/XanyCh.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
 
-  EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp telemetry_driver.cpp
+  EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp
+
+  ifeq ($(DEBUG), YES)
+    CPPDEFS += -DTINY_DBG
+    CPPSRC += Print.cpp HwSerial.cpp $(DEBUGDIR)/TinyDbg.cpp
+  endif
+
+  needtelemetry_driver = FALSE
+  ifeq ($(MULTIMODULE), YES)
+   needtelemetry_driver = TRUE
+  endif
+  ifeq ($(DSM2), YES)
+   needtelemetry_driver = TRUE
+  endif
+  ifeq ($(EXT), FRSKY)
+   needtelemetry_driver = TRUE
+  endif
+  ifeq (needtelemetry_driver, YES)
+  EXTRABOARDSRC += telemetry_driver.cpp
+  endif
 
   ifeq ($(PWRMANAGE), YES)
     CPPDEFS += -DPWRMANAGE

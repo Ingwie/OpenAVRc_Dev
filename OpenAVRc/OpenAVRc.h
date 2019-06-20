@@ -54,6 +54,10 @@
   #include <util/atomic.h>
   #include <avr/wdt.h>
 
+  #if defined(TINY_DBG)
+    #include "debug/TinyDbg.h"
+  #endif
+
   #define FORCEINLINE inline __attribute__ ((always_inline))
   #define NOINLINE __attribute__ ((noinline))
   #define TRACE(...)

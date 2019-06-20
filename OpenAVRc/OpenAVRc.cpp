@@ -1460,8 +1460,12 @@ uint16_t stackAvailable()
 
 void OpenAVRcInit(uint8_t mcusr)
 {
-
   eeReadAll();
+#if defined(TINY_DBG)
+  Serial0.init(115200);
+  Serial0.print(F("\nWelcome to OpenAVRc V3.0 !\n"));
+  TinyDbg_init(&Serial0);
+#endif
 
 #if MENUS_LOCK == 1
   getMovedSwitch();
@@ -1569,6 +1573,9 @@ void SimuMainLoop() // Create loop function
 {
   simu_mainloop_is_runing = true;
 #endif //SIMU
+#if defined(TINY_DBG)
+  TinyDbg_event();
+#endif
     if (!pwrCheck)
 #if !defined(SIMU)
       break;
