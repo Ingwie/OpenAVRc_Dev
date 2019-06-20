@@ -37,7 +37,7 @@
 
 void menuGeneralSdManagerInfo(uint8_t event)
 {
-  struct sd_raw_info disk_info;
+  struct sd_raw_info disk_info = {0};
   if sdMounted()
     {
       sd_raw_get_info(&disk_info);
