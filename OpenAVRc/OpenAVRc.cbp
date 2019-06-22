@@ -67,9 +67,14 @@
 			<Add option="-mmcu=atmega2560" />
 			<Add option="-Wl,-Map=$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).map,--cref" />
 		</Linker>
+		<Unit filename="HwSerial.cpp" />
+		<Unit filename="HwSerial.h" />
 		<Unit filename="Makefile" />
 		<Unit filename="OpenAVRc.cpp" />
 		<Unit filename="OpenAVRc.h" />
+		<Unit filename="Print.cpp" />
+		<Unit filename="Print.h" />
+		<Unit filename="Stream.h" />
 		<Unit filename="Xany.cpp" />
 		<Unit filename="Xany.h" />
 		<Unit filename="adc_driver.cpp" />
@@ -79,6 +84,8 @@
 		<Unit filename="buzzer.cpp" />
 		<Unit filename="buzzer.h" />
 		<Unit filename="curves.cpp" />
+		<Unit filename="debug/TinyDbg.cpp" />
+		<Unit filename="debug/TinyDbg.h" />
 		<Unit filename="eeprom_common.cpp" />
 		<Unit filename="eeprom_common.h" />
 		<Unit filename="eeprom_rlc.cpp" />
