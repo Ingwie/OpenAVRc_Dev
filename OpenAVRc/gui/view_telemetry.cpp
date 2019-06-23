@@ -81,21 +81,21 @@ void displayGpsCoord(uint8_t y, char direction, int16_t bp, int16_t ap)
 {
   IF_GPS_IS_FIXED {
     if (!direction) direction = '-';
-    lcdDrawNumberNAtt(TELEM_2ND_COLUMN, y, bp / 100, LEFT); // ddd before '.'
+    div_t qrbp = div(bp, 100);
+    lcdDrawNumberNAtt(TELEM_2ND_COLUMN, y, qrbp.quot, LEFT); // ddd before '.'
     lcdDrawChar(lcdLastPos, y, '@');
-    uint8_t mn = bp % 100; // TODO div_t
     if (g_eeGeneral.gpsFormat == 0) {
       lcdDrawChar(lcdLastPos+FWNUM, y, direction);
-      lcdDrawNumberNAtt(lcdLastPos+FW+FW+1, y, mn, LEFT|LEADING0, 2); // mm before '.'
+      lcdDrawNumberNAtt(lcdLastPos+FW+FW+1, y, qrbp.rem, LEFT|LEADING0, 2); // mm before '.'
       lcdDrawSolidVerticalLine(lcdLastPos, y, 2);
-      uint16_t ss = ap * 6;
-      lcdDrawNumberNAtt(lcdLastPos+3, y, ss / 1000, LEFT|LEADING0, 2); // ''
+      div_t qrap = div(bp*6, 1000);
+      lcdDrawNumberNAtt(lcdLastPos+3, y, qrap.quot, LEFT|LEADING0, 2); // ''
       lcdDrawPoint(lcdLastPos, y+FH-2, 0); // small decimal point
-      lcdDrawNumberNAtt(lcdLastPos+2, y, ss % 1000, LEFT|LEADING0, 3); // ''
+      lcdDrawNumberNAtt(lcdLastPos+2, y, qrap.rem, LEFT|LEADING0, 3); // ''
       lcdDrawSolidVerticalLine(lcdLastPos, y, 2);
       lcdDrawSolidVerticalLine(lcdLastPos+2, y, 2);
     } else {
-      lcdDrawNumberNAtt(lcdLastPos+FW, y, mn, LEFT|LEADING0, 2); // mm before '.'
+      lcdDrawNumberNAtt(lcdLastPos+FW, y, qrbp.rem, LEFT|LEADING0, 2); // mm before '.'
       lcdDrawPoint(lcdLastPos, y+FH-2, 0); // small decimal point
       lcdDrawNumberNAtt(lcdLastPos+2, y, ap, LEFT|UNSIGN|LEADING0, 4); // after '.'
       lcdDrawChar(lcdLastPos+1, y, direction);
