@@ -75,6 +75,7 @@
 #include <Arduino.h>
 #define GET_TICK()         millis()
 #define MS_TO_TICK(ms)     (ms)
+#define WDT_RESET()        do{}while(0)
 #else
 /* OpenAVRc specific */
 #include <Stream.h>
@@ -90,6 +91,7 @@
 #define delay(d)           _delay_ms(d)
 #define GET_TICK()         (uint32_t)getTmr10ms()
 #define MS_TO_TICK(ms)     MS_TO_10MS_TICK(ms)
+#define WDT_RESET()        MYWDT_RESET(x)
 #endif
 
 #if defined(ARDUINO_ARCH_AVR)
