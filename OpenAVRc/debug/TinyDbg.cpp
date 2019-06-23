@@ -134,25 +134,26 @@ const char BREAKPOINTS_CLEARED[] PROGMEM = "BP Cleared";
 const char WATCH_VARS_CLEARED[]  PROGMEM = "";
 
 #else
-const char helpText1[] PROGMEM = "\ndr [address (l len)] -> ";
-const char helpText2[] PROGMEM = "displays ram contents\n";
-const char helpText3[] PROGMEM =   "bp [breakpoint ID]   -> ";
-const char helpText4[] PROGMEM =   "activates BP(s) with ID\n";
+const char helpText1[] PROGMEM = "\ndm [addr (l len)]    -> ";
+const char helpText2[] PROGMEM =   "display mem content (m=r->";
+const char helpText3[] PROGMEM =   "RAM,m=e->eEPROM,m=f->fLASH)\n";
+const char helpText4[] PROGMEM =   "bp [breakpoint ID]   -> ";
+const char helpText5[] PROGMEM =   "activate BP(s) with ID\n";
 
-const char helpText5[] PROGMEM =   "db [breakpoint ID]   -> ";
-const char helpText6[] PROGMEM =   "deactivate BP(s) with ID\n";
+const char helpText6[] PROGMEM =   "db [breakpoint ID]   -> ";
+const char helpText7[] PROGMEM =   "deactivate BP(s) with ID\n";
 
-const char helpText7[] PROGMEM =   "cb                   -> ";
-const char helpText8[] PROGMEM =   "clear BP(s)\n";
+const char helpText8[] PROGMEM =   "cb                   -> ";
+const char helpText9[] PROGMEM =   "clear all BP(s)\n";
 
-const char helpText9[] PROGMEM =   "ru                   -> ";
-const char helpText10[] PROGMEM =  "run program execution\n";
+const char helpText10[] PROGMEM =  "ru                   -> ";
+const char helpText11[] PROGMEM =  "run program execution\n";
 
-const char helpText11[] PROGMEM =  "ha                   -> ";
-const char helpText12[] PROGMEM =  "halt program execution\n";
+const char helpText12[] PROGMEM =  "ha                   -> ";
+const char helpText13[] PROGMEM =  "halt program execution\n";
 
-const char helpText13[] PROGMEM =  "dv [(repeat in ms)]  -> ";
-const char helpText14[] PROGMEM =  "display variables\n";
+const char helpText14[] PROGMEM =  "dv [(p period in ms)]-> ";
+const char helpText15[] PROGMEM =  "display variables\n";
 
 const char helloText1[] PROGMEM =  "-- Tiny Debugger V" VER_REV_STR(TINY_DBG_VERSION,TINY_DBG_REVISION)"";
 const char helloText2[] PROGMEM =  " started.  h for help. --\n";
@@ -249,6 +250,8 @@ void TinyDbg_event(void)
 #endif
   char RxChar;
 
+  WDT_RESET();
+
   if(!Tdbg.stream) return;
   while(Tdbg.stream->available())
   {
@@ -321,7 +324,7 @@ void TinyDbg_isAtBreakpoint(char *FunctName, uint8_t BpId, uint16_t Line)
     while(Tdbg.BreakPointAtId)
     {
       TinyDbg_event();
-      delay(100);
+      delay(10);
     }
   }
 }
@@ -412,7 +415,7 @@ static void dbgInterpretAndExecute(char *Cmd)
     while(Tdbg.BreakPointAtId)
     {
       TinyDbg_event();
-      delay(100);
+      delay(10);
     }
     Error = FALSE;
     return;
@@ -422,7 +425,6 @@ static void dbgInterpretAndExecute(char *Cmd)
   /////// run ///////////
   if(strstr_P(Cmd, PSTR("ru")))
   {
-    TIMSK1 &= ~(1 << TOIE1);   // disable timer overflow interrupt
     Tdbg.Stopped = 0;
     Tdbg.BreakPointAtId = 0;
     displayStatus();
@@ -447,6 +449,7 @@ static void dbgInterpretAndExecute(char *Cmd)
     TinyDbg_Printf(helpText9); TinyDbg_Printf(helpText10);
     TinyDbg_Printf(helpText11);TinyDbg_Printf(helpText12);
     TinyDbg_Printf(helpText13);TinyDbg_Printf(helpText14);
+    TinyDbg_Printf(helpText15);
     Error = FALSE;
   }
 #endif
@@ -475,7 +478,6 @@ static void watchRaw(uint8_t MemLocIdx)
     Len = atoi(ptrlen + 1);
   }
 
-//  Tdbg.stream->println();
   TinyDbg_Printf(NL);
   Start = strtol(&Command[2], NULL, 16);
   TinyDbg_dumpMem(MemLocIdx, Start, Len);
@@ -492,7 +494,6 @@ static void displayStatus(uint8_t FromBreak /*= 0*/)
     if(Tdbg.BreakPointAtId == 100) TinyDbg_Printf(PSTR("\nStopped by user halt cmd "));
     else
     {
-//      if(FromBreak) Tdbg.stream->println();
       if(FromBreak) TinyDbg_Printf(NL);
       TinyDbg_Printf(PSTR("Stopped at BP"));
       TinyDbg_Printf(PSTR("%d in %s line %u"), (uint16_t)Tdbg.BreakPointAtId, Tdbg.FunctName, Tdbg.Line);
@@ -526,7 +527,7 @@ static void displayStatus(uint8_t FromBreak /*= 0*/)
 static void displayWatchVariable(char *tmpbuf)
 {
   uint8_t  DispLen, Byte;
-  uint16_t Word;
+  uint16_t Word, Len;
   uint32_t Dword;
   float    Float;
 
@@ -622,7 +623,10 @@ static void displayWatchVariable(char *tmpbuf)
         continue;
 
         case TDBG_VAR_STRING:
-        TinyDbg_Printf(PSTR("'%s' (Len = %u)"), (char*)Address, strlen((char*)Address));
+        Len = strlen((char*)Address);
+        Tdbg.stream->print(F("'"));
+        Tdbg.stream->write((char*)Address, Len); /* String may be longer than buffer size -> use write(buf, len) */
+        TinyDbg_Printf(PSTR("' (Len = %u)"), Len);
         continue;
 
         case TDBG_VAR_RAW:
