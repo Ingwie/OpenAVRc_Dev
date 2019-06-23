@@ -59,6 +59,7 @@
 
 #ifdef TDBG_ACTIVE
 
+#define BACK_SPACE               0x08
 #define TDBG_CMD_LEN             16
 #define TDBG_BUFF_SIZE           40
 
@@ -189,6 +190,13 @@ TdbgSt_t        Tdbg;
 static uint32_t DisplayPeriodStartTick = 0L;
 #endif
 
+/**
+ * \fn void TinyDbg_init(Stream *TdbgStream)
+ * \brief Tiny Debugger initialization.
+ *
+ * \param  TdbgStream: pointer on a stream (eg: Serial).
+ * \return Void.
+ */
 void TinyDbg_init(Stream *TdbgStream)
 {
   memset((void*)&Tdbg, 0, sizeof(Tdbg));
@@ -203,6 +211,13 @@ void TinyDbg_init(Stream *TdbgStream)
   }
 }
 
+/**
+ * \fn void TinyDbg_attachToStream(Stream *TdbgStream)
+ * \brief Attach or re-attach the Tiny Debugger to a stream.
+ *
+ * \param  TdbgStream: pointer on a stream (eg: Serial).
+ * \return Void.
+ */
 void TinyDbg_attachToStream(Stream *TdbgStream)
 {
   Tdbg.stream = TdbgStream;
@@ -232,6 +247,13 @@ uint16_t TinyDbg_Printf(const char *fmt, ...)
   return(Len);
 }
 
+/**
+ * \fn uint8_t TinyDbg_armBreakpoint(uint8_t ID)
+ * \brief Arm a breakpoint
+ *
+ * \param  ID: the breakpoint ID.
+ * \return 0: Error, 1: Breakpoint armed
+ */
 uint8_t TinyDbg_armBreakpoint(uint8_t ID)
 {
   uint8_t Ret = 0;
@@ -243,6 +265,13 @@ uint8_t TinyDbg_armBreakpoint(uint8_t ID)
   return(Ret);
 }
 
+/**
+ * \fn void TinyDbg_event(void)
+ * \brief Catch command from debug stream (eg: from Serial) and display periodically the variables (if armed)
+ *
+ * \param  Void
+ * \return Void
+ */
 void TinyDbg_event(void)
 {
 #ifdef TDBG_PERIODIC_DISPLAY
@@ -259,19 +288,20 @@ void TinyDbg_event(void)
 
     if(index < TDBG_CMD_LEN)
     {
-        Command[index++] = RxChar;
+      if((RxChar == BACK_SPACE) && index) index--;
+      else                                Command[index++] = RxChar;
+      if (RxChar == '\n' || RxChar == '\r')
+      {
+        Command[index] = 0; /* Replace CR or LF by end of string */
+        index = 0;
+//        Tdbg.stream->print(Command);TinyDbg_Printf(NL); /* Local echo for Arduino Serial terminal */
+        dbgInterpretAndExecute(Command);
+      }
     }
     else
     {
       /* Too long! */
       index = 0;
-    }
-    if (RxChar == '\n' || RxChar == '\r')
-    {
-      Command[index] = 0; /* Replace CR or LF by end of string */
-      index = 0;
-//      Tdbg.stream->print(Command);TinyDbg_Printf(NL); /* Local echo for Arduino Serial terminal */
-      dbgInterpretAndExecute(Command);
     }
   }
 #ifdef TDBG_PERIODIC_DISPLAY
@@ -290,6 +320,16 @@ void TinyDbg_event(void)
 
 }
 
+/**
+ * \fn void TinyDbg_addWatch(char* FuncNameStr, void* var, char* VarNameStr, uint8_t Type)
+ * \brief Add a variable watch
+ *
+ * \param  FuncNameStr: Name of the function where the variable is located
+ * \param  var:         Pointer on the variable to watch
+ * \param  VarNameStr:  Name of the variable to watch
+ * \param  Type:        Type of the variable to watch
+ * \return Void
+ */
 void TinyDbg_addWatch(char* FuncNameStr, void* var, char* VarNameStr, uint8_t Type)
 {
   for(uint8_t i = 0; i < TDBG_MAX_WATCHES; i++)
@@ -311,6 +351,15 @@ void TinyDbg_addWatch(char* FuncNameStr, void* var, char* VarNameStr, uint8_t Ty
   }
 }
 
+/**
+ * \fn void TinyDbg_isAtBreakpoint(char *FunctName, uint8_t BpId, uint16_t Line)
+ * \brief Software breakpoint
+ *
+ * \param  FuncName: Name of the function where the software breakpoint is located
+ * \param  BpId:     ID of the software breakpoint
+ * \param  Line:     Line in the source code where the software breakpoint is located
+ * \return Void
+ */
 void TinyDbg_isAtBreakpoint(char *FunctName, uint8_t BpId, uint16_t Line)
 {
   if(bitRead(Tdbg.ArmedBreakPointMap, BpId - 1))
@@ -329,6 +378,13 @@ void TinyDbg_isAtBreakpoint(char *FunctName, uint8_t BpId, uint16_t Line)
   }
 }
 
+/**
+ * \fn void dbgInterpretAndExecute(char *Cmd)
+ * \brief CLI interpretor
+ *
+ * \param  Cmd: Pointer on a buffer containing the command to interpret and execute
+ * \return Void
+ */
 static void dbgInterpretAndExecute(char *Cmd)
 {
   char    tmpbuf[TDBG_BUFF_SIZE];
@@ -409,6 +465,9 @@ static void dbgInterpretAndExecute(char *Cmd)
   {
     Tdbg.Stopped = 1;
     Tdbg.BreakPointAtId = 100;
+#ifdef TDBG_PERIODIC_DISPLAY
+    DisplayPeriodMsDiv128 = 0; // disable periodic display if armed
+#endif
     TinyDbg_Printf(STOPPED);
     displayWatchVariable(tmpbuf);
     TinyDbg_Printf(TDBG_PROMPT);
@@ -462,11 +521,25 @@ static void dbgInterpretAndExecute(char *Cmd)
   TinyDbg_Printf(TDBG_PROMPT);
 }
 
+/**
+ * \fn void displaySpace(uint8_t SpaceNb)
+ * \brief Display space(s)
+ *
+ * \param  SpaceNb: Number of space to display
+ * \return Void
+ */
 static void displaySpace(uint8_t SpaceNb)
 {
   while(SpaceNb--) Tdbg.stream->print(' ');
 }
 
+/**
+ * \fn void watchRaw(uint8_t MemLocIdx)
+ * \brief Memory dump function (works for RAM, EEPROM and FLASH).
+ *
+ * \param  MemLocIdx: Memory location index (see RAM_LOC, EEPROM_LOC, FLASH_LOC).
+ * \return Void.
+ */
 static void watchRaw(uint8_t MemLocIdx)
 {
   uint32_t Start = 0;
@@ -483,6 +556,13 @@ static void watchRaw(uint8_t MemLocIdx)
   TinyDbg_dumpMem(MemLocIdx, Start, Len);
 }
 
+/**
+ * \fn void displayStatus(uint8_t FromBreak)
+ * \brief Display the current status of the Tiny Debugger.
+ *
+ * \param  FromBreak: 0: do not come from breakpoint, 1: comes from breakpoint.
+ * \return Void.
+ */
 static void displayStatus(uint8_t FromBreak /*= 0*/)
 {
   char     tmpbuf[TDBG_BUFF_SIZE];
@@ -517,13 +597,21 @@ static void displayStatus(uint8_t FromBreak /*= 0*/)
   }
   if(DisabledBreakPointNb >= TDBG_MAX_BREAKPOINTS) TinyDbg_Printf(BP_NONE);
   Tdbg.stream->print(F("]"));
+#ifdef TDBG_PERIODIC_DISPLAY
   if(FromBreak)
   {
-    strcpy_P(tmpbuf, PSTR("dvp0"));
-    dbgInterpretAndExecute(tmpbuf);
+    DisplayPeriodMsDiv128 = 0; // disable periodic display if armed
   }
+#endif
 }
 
+/**
+ * \fn void displayWatchVariable(char *tmpbuf)
+ * \brief Display the variable(s)
+ *
+ * \param  tmpbuf: Pointer on a temporary buffer
+ * \return Void.
+ */
 static void displayWatchVariable(char *tmpbuf)
 {
   uint8_t  DispLen, Byte;
@@ -637,6 +725,15 @@ static void displayWatchVariable(char *tmpbuf)
   }
 }
 
+/**
+ * \fn void PrintByteBin(Stream *stream, uint8_t Byte, uint8_t RemainingNibble)
+ * \brief Display a byte in binary.
+ *
+ * \param  stream: Pointer on a stream (eg: Serial)
+ * \param  Byte:   The byte
+ * \param  RemainingNibble: 0: no remaining nibble, 1: remaining nibble
+ * \return Void.
+ */
 static void PrintByteBin(Stream *stream, uint8_t Byte, uint8_t RemainingNibble/* = 0*/)
 {
   for(uint8_t Idx = 0; Idx < 8; Idx++)
@@ -650,6 +747,16 @@ static void PrintByteBin(Stream *stream, uint8_t Byte, uint8_t RemainingNibble/*
   }
 }
 
+/**
+ * \fn void PrintBin(Stream *stream, uint8_t *Buf, uint8_t BufSize, uint8_t RemainingNibble)
+ * \brief Display a buffer in binary.
+ *
+ * \param  stream:  Pointer on a stream (eg: Serial)
+ * \param  Buf:     Pointer on the buffer
+ * \param  BufSize: Size of the buffer
+ * \param  RemainingNibble: 0: no remaining nibble, 1: remaining nibble
+ * \return Void.
+ */
 static void PrintBin(Stream *stream, uint8_t *Buf, uint8_t BufSize, uint8_t RemainingNibble/* = 0*/)
 {
   uint8_t ByteIdx;
@@ -665,6 +772,15 @@ static void PrintBin(Stream *stream, uint8_t *Buf, uint8_t BufSize, uint8_t Rema
   }
 }
 
+/**
+ * \fn char *GetLbl(const char * const *LblTbl, uint8_t LblIdx, char *Lbl, uint8_t LblMaxLen)
+ * \brief Get a label from a PROGMEM table.
+ *
+ * \param  LblTbl:    Pointer on the PROGMEM label table
+ * \param  Lbl:       Pointer on a destination buffer
+ * \param  LblMaxLen: Maximum size of the destination buffer
+ * \return Pointer on the Lbl.
+ */
 static char *GetLbl(const char * const *LblTbl, uint8_t LblIdx, char *Lbl, uint8_t LblMaxLen)
 {
 
@@ -680,9 +796,9 @@ static char *GetLbl(const char * const *LblTbl, uint8_t LblIdx, char *Lbl, uint8
  * \fn void TinyDbg_dumpMem(uint8_t MemLocIdx, uint32_t Start, uint32_t Len)
  * \brief Memory dump function (works for RAM, EEPROM and FLASH).
  *
- * \param MemLocIdx: Memory location index (see RAM_LOC, EEPROM_LOC, FLASH_LOC).
- * \param Start:Start address in the selected memory.
- * \param Len: Length to dump.
+ * \param  MemLocIdx: Memory location index (see RAM_LOC, EEPROM_LOC, FLASH_LOC).
+ * \param  Start:Start address in the selected memory.
+ * \param  Len: Length to dump.
  * \return Void.
  */
 void TinyDbg_dumpMem(uint8_t MemLocIdx, uint32_t Start, uint32_t Len)
@@ -764,6 +880,13 @@ void TinyDbg_dumpMem(uint8_t MemLocIdx, uint32_t Start, uint32_t Len)
   }
 }
 
+/**
+ * \fn char *ltrim(char *str)
+ * \brief Remove space(s), tabulation(s) at the left of a string (trim)
+ *
+ * \param  str: Pointer on the string to trim
+ * \return Pointer on the trimed string.
+ */
 static char *ltrim(char *str)
 {
   int len = strlen(str);
