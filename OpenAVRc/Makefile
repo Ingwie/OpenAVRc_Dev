@@ -336,15 +336,15 @@ ifeq ($(PCB), MEGAMINI)
 
   needtelemetry_driver = FALSE
   ifeq ($(MULTIMODULE), YES)
-   needtelemetry_driver = TRUE
+   needtelemetry_driver = YES
   endif
   ifeq ($(DSM2), YES)
-   needtelemetry_driver = TRUE
+   needtelemetry_driver = YES
   endif
   ifeq ($(EXT), FRSKY)
-   needtelemetry_driver = TRUE
+   needtelemetry_driver = YES
   endif
-  ifeq (needtelemetry_driver, YES)
+  ifeq ($(needtelemetry_driver), YES)
   EXTRABOARDSRC += telemetry_driver.cpp
   endif
 
@@ -642,15 +642,15 @@ ifeq ($(PCB), MEGA2560)
 
   needtelemetry_driver = FALSE
   ifeq ($(MULTIMODULE), YES)
-   needtelemetry_driver = TRUE
+   needtelemetry_driver = YES
   endif
   ifeq ($(DSM2), YES)
-   needtelemetry_driver = TRUE
+   needtelemetry_driver = YES
   endif
   ifeq ($(EXT), FRSKY)
-   needtelemetry_driver = TRUE
+   needtelemetry_driver = YES
   endif
-  ifeq (needtelemetry_driver, YES)
+  ifeq ($(needtelemetry_driver), YES)
   EXTRABOARDSRC += telemetry_driver.cpp
   endif
 
