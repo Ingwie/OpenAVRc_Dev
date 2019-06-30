@@ -1,4 +1,4 @@
-### Module positions - created on 05/04/2019 16:18:06 ###
+### Module positions - created on 30/06/2019 14:53:17 ###
 ### Printed by Pcbnew version kicad (5.0.2)-1
 ## Unit = mm, Angle = deg.
 ## Side : bottom
@@ -28,7 +28,7 @@ D2        LL4148         D_SOD-123          -70.3580    13.7160  270.0000  botto
 D3        LL4148         D_SOD-123          -67.8180    13.7160   90.0000  bottom
 D6        MBR0520        D_SOD-123          -61.9760    55.1180  180.0000  bottom
 R2        5,1K           R_1206             -79.6290    42.0370   90.0000  bottom
-R5        4K7            R_1206             -73.0250    17.9070   90.0000  bottom
+R5        4K7            R_1206             -73.0250    17.8540  270.0000  bottom
 R10       100            R_1206             -16.1290    54.2290    0.0000  bottom
 R11       68K            R_1206             -18.4150    46.9900    0.0000  bottom
 R12       68K            R_1206             -18.4150    35.5600    0.0000  bottom
