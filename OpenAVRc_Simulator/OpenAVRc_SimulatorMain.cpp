@@ -39,6 +39,7 @@
 #include "ModelNameDialog.h"
 #include "TelemetryFrame.h"
 #include "ModelNameDialog.h"
+#include "LogsFrame.h"
 
 #include <wx/msgdlg.h>
 #include <wx/dcclient.h>
@@ -103,6 +104,7 @@ OutBarsFrame *BarFr;
 GvarsFrame *GvFr;
 RadioDataFrame *RaFr;
 TelemetryFrame *TeleFr;
+LogsFrame *LogFr;
 
 
 int comwaitcounter;
@@ -169,6 +171,9 @@ int R_mid;
 int L_mid;
 bool Lspringactive = false;
 bool Rspringactive = false;
+
+wxString googleearthPath = "";
+
 //(*IdInit(OpenAVRc_SimulatorFrame)
 const long OpenAVRc_SimulatorFrame::ID_PANELH = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_POT1 = wxNewId();
@@ -234,6 +239,7 @@ const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTOUTPUT = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTGVARS = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMRADIODATA = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMTELEMETRY = wxNewId();
+const long OpenAVRc_SimulatorFrame::ID_MENUITEMLOGS = wxNewId();
 const long OpenAVRc_SimulatorFrame::idMenuAbout = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_STATUSBAR = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_TIMER10MS = wxNewId();
@@ -435,6 +441,8 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   MenuFrame->Append(RadioData);
   telemetry = new wxMenuItem(MenuFrame, ID_MENUITEMTELEMETRY, _("Télémétrie"), wxEmptyString, wxITEM_NORMAL);
   MenuFrame->Append(telemetry);
+  Logs = new wxMenuItem(MenuFrame, ID_MENUITEMLOGS, _("Logs"), wxEmptyString, wxITEM_NORMAL);
+  MenuFrame->Append(Logs);
   MenuBar1->Append(MenuFrame, _("&Fenêtres"));
   MenuHelp = new wxMenu();
   MenuAbout = new wxMenuItem(MenuHelp, idMenuAbout, _("A propos ...\tF1"), _("C\'est quoi donc \?"), wxITEM_NORMAL);
@@ -536,6 +544,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_MENUITEMOUTPUTGVARS,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOutputGvarsSelected);
   Connect(ID_MENUITEMRADIODATA,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnRadioDataSelected);
   Connect(ID_MENUITEMTELEMETRY,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OntelemetrySelected);
+  Connect(ID_MENUITEMLOGS,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnLogsSelected);
   Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnAbout);
   Connect(ID_TIMER10MS,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimer10msTrigger);
   Connect(ID_TIMERMAIN,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimerMainTrigger);
@@ -1170,6 +1179,8 @@ void OpenAVRc_SimulatorFrame::LoadConfig()
   configFile->Read(wxT("Tele_Cell5"),&Tele_Cell5);
   configFile->Read(wxT("Tele_Cell6"),&Tele_Cell6);
 
+  configFile->Read(wxT("googleearthPath"),&googleearthPath);
+
   configFile->Read(wxT("EEfile"),&CurrentEEPath);
 }
 
@@ -1227,6 +1238,8 @@ void OpenAVRc_SimulatorFrame::SaveConfig()
   configFile->Write(wxT("Tele_Cell4"),Tele_Cell4);
   configFile->Write(wxT("Tele_Cell5"),Tele_Cell5);
   configFile->Write(wxT("Tele_Cell6"),Tele_Cell6);
+
+  configFile->Write(wxT("googleearthPath"),googleearthPath);
 
   configFile->Write(wxT("EEfile"),CurrentEEPath);
 
@@ -3237,6 +3250,19 @@ void OpenAVRc_SimulatorFrame::EnableTelemetryMenu()
   MenuFrame->Enable(ID_MENUITEMTELEMETRY, true);
 }
 
+void OpenAVRc_SimulatorFrame::OnLogsSelected(wxCommandEvent& event)
+{
+  event.Skip();
+  LogFr = new  LogsFrame(this);
+  LogFr->Show(TRUE);
+  MenuFrame->Enable(ID_MENUITEMLOGS, false);
+}
+
+void OpenAVRc_SimulatorFrame::EnableLogsMenu()
+{
+  MenuFrame->Enable(ID_MENUITEMLOGS, true);
+}
+
 /////////////////////////////////////////////////////
 //               UTILS
 /////////////////////////////////////////////////////
@@ -3421,3 +3447,4 @@ void OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick(wxCommandEvent& event)
   ChronoMain->Resume();
   Chrono10ms->Resume();
 }
+

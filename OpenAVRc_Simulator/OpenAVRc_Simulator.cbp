@@ -24,6 +24,7 @@
 					<Add option="-DIMPERIAL_UNITSaaa" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 					<Add directory="include" />
+					<Add directory="$(PROJECT_DIR)" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -50,6 +51,7 @@
 					<Add option="-DTTS_FR" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 					<Add directory="include" />
+					<Add directory="$(PROJECT_DIR)" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -520,6 +522,8 @@
 		<Unit filename="FrSky/FrSkySportTelemetry.h" />
 		<Unit filename="GvarsFrame.cpp" />
 		<Unit filename="GvarsFrame.h" />
+		<Unit filename="LogsFrame.cpp" />
+		<Unit filename="LogsFrame.h" />
 		<Unit filename="MixerFrame.cpp" />
 		<Unit filename="MixerFrame.h" />
 		<Unit filename="ModelNameDialog.cpp" />
@@ -536,12 +540,15 @@
 		<Unit filename="Spin.h" />
 		<Unit filename="TelemetryFrame.cpp" />
 		<Unit filename="TelemetryFrame.h" />
+		<Unit filename="mathplot.cpp" />
+		<Unit filename="mathplot.h" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
 		<Unit filename="serial/tserial.cpp" />
 		<Unit filename="serial/tserial.h" />
 		<Unit filename="wxsmith/GvarsFrame.wxs" />
+		<Unit filename="wxsmith/LogsFrame.wxs" />
 		<Unit filename="wxsmith/MixerFrame.wxs" />
 		<Unit filename="wxsmith/ModelNameDialog.wxs" />
 		<Unit filename="wxsmith/OpenAVRc_Simulatorframe.wxs" />
@@ -563,6 +570,7 @@
 					<wxFrame wxs="wxsmith/RadioDataFrame.wxs" src="RadioDataFrame.cpp" hdr="RadioDataFrame.h" fwddecl="0" i18n="1" name="RadioDataFrame" language="CPP" />
 					<wxDialog wxs="wxsmith/ModelNameDialog.wxs" src="ModelNameDialog.cpp" hdr="ModelNameDialog.h" fwddecl="0" i18n="1" name="ModelNameDialog" language="CPP" />
 					<wxFrame wxs="wxsmith/TelemetryFrame.wxs" src="TelemetryFrame.cpp" hdr="TelemetryFrame.h" fwddecl="0" i18n="1" name="TelemetryFrame" language="CPP" />
+					<wxFrame wxs="wxsmith/LogsFrame.wxs" src="LogsFrame.cpp" hdr="LogsFrame.h" fwddecl="0" i18n="1" name="LogsFrame" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>
