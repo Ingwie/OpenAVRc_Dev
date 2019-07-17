@@ -479,6 +479,10 @@
 					<label>Télémétrie</label>
 					<handler function="OntelemetrySelected" entry="EVT_MENU" />
 				</object>
+				<object class="wxMenuItem" name="ID_MENUITEMLOGS" variable="Logs" member="yes">
+					<label>Logs</label>
+					<handler function="OnLogsSelected" entry="EVT_MENU" />
+				</object>
 			</object>
 			<object class="wxMenu" variable="MenuHelp" member="no">
 				<label>&amp;Aide</label>

@@ -184,6 +184,7 @@ public:
   void EnableOutputGvarsMenu();
   void EnableRadioDataMenu();
   void EnableTelemetryMenu();
+  void EnableLogsMenu();
 
 
 private:
@@ -290,6 +291,7 @@ private:
   void OnRstickLeftUp(wxMouseEvent& event);
   void OnPanelMainKeyDown(wxKeyEvent& event);
   void OnCheckBoxProtocolsClick(wxCommandEvent& event);
+  void OnLogsSelected(wxCommandEvent& event);
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)
@@ -357,6 +359,7 @@ private:
   static const long ID_MENUITEMOUTPUTGVARS;
   static const long ID_MENUITEMRADIODATA;
   static const long ID_MENUITEMTELEMETRY;
+  static const long ID_MENUITEMLOGS;
   static const long idMenuAbout;
   static const long ID_STATUSBAR;
   static const long ID_TIMER10MS;
@@ -411,6 +414,7 @@ private:
   wxMenu* MenuFile;
   wxMenu* MenuFrame;
   wxMenu* MenuOption;
+  wxMenuItem* Logs;
   wxMenuItem* MenuButOff;
   wxMenuItem* MenuButOn;
   wxMenuItem* MenuExportEeprom;

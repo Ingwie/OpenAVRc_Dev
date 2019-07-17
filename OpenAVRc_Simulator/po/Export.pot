@@ -1,0 +1,967 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-17 23:42+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:83
+msgid "                     Max         Min       Alarm"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1261
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1298
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1318
+msgid "    OpenAVRc Simulateur"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:84
+msgid " 1008            1024           1008"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:846
+msgid " GPLv2 . Firmware basé sur NextStepRc 2.18 "
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1441
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1794
+msgid ""
+" n'hexiste plus\n"
+" Modifiez votre modèle"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:451
+msgid "&Aide"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:446
+msgid "&Fenêtres"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:410
+msgid "&Fichier"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:432
+msgid "&Option"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\ModelNameDialog.cpp:68
+msgid "10 Chars Max"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:448
+msgid "A propos ...\tF1"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:247
+msgid "A1"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:248
+msgid "A2"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:259
+msgid "A3"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:260
+msgid "A4"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:363
+msgid "A7105"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:334
+msgid "AIL"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:289
+msgid "AIR X10"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:225
+msgid "Accéléromètres"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:213
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:235
+msgid "Altitude"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:190
+msgid "Analog"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:3402
+msgid "Appliquer à tous les modèles de "
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1318
+msgid "Aucune eeprom detectée en mémoire"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:261
+msgid "Autres"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:356
+msgid "BP REA"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:359
+msgid "BP REB"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:192
+msgid "Batterie"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:117
+msgid "Batterie\t"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:419
+msgid "Boutons (off)"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:422
+msgid "Boutons (on)"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:448
+msgid "C'est quoi donc ?"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:371
+msgid "CC2500"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:375
+msgid "CYRF6936"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:76
+msgid "Calibration"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\Spin.cpp:64 A:\cb\OpenAVRc_Simulator\Spin.cpp:74
+#: A:\cb\OpenAVRc_Simulator\Spin.cpp:85
+msgid "Ceci est une sortie"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1191
+msgid "Center"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1191
+msgid "Center plot view to this position"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:124
+msgid "Ch1"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:133
+msgid "Ch10"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:134
+msgid "Ch11"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:135
+msgid "Ch12"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:136
+msgid "Ch13"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:137
+msgid "Ch14"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:138
+msgid "Ch15"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:139
+msgid "Ch16"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:125
+msgid "Ch2"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:126
+msgid "Ch3"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:127
+msgid "Ch4"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:128
+msgid "Ch5"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:129
+msgid "Ch6"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:130
+msgid "Ch7"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:131
+msgid "Ch8"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:132
+msgid "Ch9"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:36
+msgid "Champs"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:393
+msgid "Charger Eeprom"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:393
+msgid "Charger fichier BIN"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:639
+msgid "Charger un fichier eeprom ?"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:139
+msgid "Contraste:\t"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:3415
+msgid "Conversion en cours, attendez SVP......"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:3402
+msgid "Convertir eeprom ?"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:431
+msgid "Couleurs"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:254
+msgid "Courant"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:383
+msgid "DSM SER."
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:222
+msgid "Date - Heure"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:205
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:206
+msgid "Degrés"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:362
+msgid "Desktop"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:42
+msgid "Données"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:219
+msgid "Déplacement °"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:633
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:639
+msgid "EEPROM VIDE"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:328
+msgid "ELE"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:292
+msgid "EXIT"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:270
+msgid "Emplacement de Google earth"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1335
+msgid "Exportation en cours, attendez SVP......"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:399
+msgid "Exporte l'eeprom en format texte"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:399
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1329
+msgid "Exporter Eeprom"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:271
+msgid "FUEL"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1192
+msgid "Fit"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:309
+msgid "Frsky \"D\""
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:310
+msgid "Frsky S.Port"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:337
+msgid "GEA"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:198
+msgid "GPS"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:436
+msgid "Graphique Sorties"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:143
+msgid "Haptic:\tAlarmes"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:144
+msgid "Haptic:\tNo keys"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:142
+msgid "Haptic:\tSilence"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:145
+msgid "Haptic:\tTout"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:340
+msgid "ID1"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:343
+msgid "ID2"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1288
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1293
+msgid "Importation en cours, attendez SVP......"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:403
+msgid "Importe une eeprom en format texte"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:403
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1270
+msgid "Importer Eeprom"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:895
+msgid "Impossible : Simulateur en fonctionnement"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:902
+#, c-format
+msgid "Impossible d'ouvrir le fichier '%s'."
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:41
+msgid "KML"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1261
+msgid "L'eeprom va être formatée, étes vous sur ?"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1441
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1794
+msgid "La fonction "
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:199
+msgid "Latitude"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:413
+msgid "Lcd (fond)"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:416
+msgid "Lcd (pixel)"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1195
+msgid "Lock aspect"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1195
+msgid "Lock horizontal and vertical zoom aspect."
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:33
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:444
+msgid "Logs"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:204
+msgid "Longitude"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:287
+msgid "MENU"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:379
+msgid "MULTIMOD"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:425
+msgid "Manches (fond)"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:428
+msgid "Manches (stick)"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:207
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:208
+msgid "Minutes - Secondes"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\MixerFrame.cpp:81
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:434
+msgid "Mixeur"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:128
+msgid "Mode:\t"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:115
+msgid "Modele:\t"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:367
+msgid "NRF24L01"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1041
+#, c-format
+msgid "Ne peut écrire le fichier '%s'."
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\ModelNameDialog.cpp:67
+msgid "Nom du modèle"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:361
+msgid "ON"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:844
+msgid "OpenAVRc Simulateur"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:71
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:898
+msgid "Ouvrir Fichier BIN"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:440
+msgid "Paramètres Radio"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:308
+msgid "Protocoles"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:387
+msgid "Protocoles Activés"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:407
+msgid "Quitter\tAlt-F4"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:407
+msgid "Quitter le simulateur"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:39
+msgid "RAZ"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:270
+msgid "RPM"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:194
+msgid "RSSI"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:325
+msgid "RUD"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:242
+msgid "RX"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:71
+msgid "Radio Data"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:349
+msgid "Rea"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:352
+msgid "Reb"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:633
+msgid "Recharger le fichier eeprom "
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:191
+msgid "Réglages"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:396
+msgid "Sauvegarde du fichier BIN"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1036
+msgid "Sauver Capture écran"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:396
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1052
+msgid "Sauver Eeprom"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1192
+msgid "Set plot view to show all items"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1196
+msgid "Show help about the mouse commands."
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1196
+msgid "Show mouse commands..."
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:272
+msgid "Simulateur V3"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:847
+msgid "Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:306
+msgid "Sortie vers :"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1667
+msgid ""
+"Supported Mouse commands:\n"
+"         - Left button down + Mark area: Rectangular zoom\n"
+"         - Right button down + Move: Pan (Move)\n"
+"         - Wheel: Vertical scroll\n"
+"         - Wheel + SHIFT: Horizontal scroll\n"
+"         - Wheel + CTRL: Zoom in/out"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:322
+msgid "THR"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:331
+msgid "TRN"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:241
+msgid "TX"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:272
+msgid "Temp1"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:273
+msgid "Temp2"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:253
+msgid "Tension"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\MixerFrame.cpp:87
+#: A:\cb\OpenAVRc_Simulator\MixerFrame.cpp:90
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:108
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:109
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:110
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:111
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:112
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:113
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:114
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:115
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:116
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:117
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:118
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:119
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:120
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:121
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:122
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:123
+msgid "Texte"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:187
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:442
+msgid "Télémétrie"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:845
+msgid "V 3.0 Beta"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:79
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:438
+msgid "Variables globales"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:193
+msgid "Variateur"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:232
+msgid "Variomètre"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1298
+msgid "Version d'eeprom non prise en charge"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\RadioDataFrame.cpp:114
+msgid "Version:\t"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:305
+msgid "Vitesse"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:216
+msgid "Vitesse (m/s)"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:236
+msgid "Vitesse Verticale"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:229
+msgid "X"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:195
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:280
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:283
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:286
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:292
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:295
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:301
+msgid "X10"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:298
+msgid "X100"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:230
+msgid "Y"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:231
+msgid "Z"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1193
+msgid "Zoom in"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1193
+msgid "Zoom in plot view."
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1194
+msgid "Zoom out"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1194
+msgid "Zoom out plot view."
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1629
+#, c-format
+msgid "Zoom: (%f,%f)-(%f,%f)"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2949
+#, c-format
+msgid "[mpBitmapLayer::Plot] offset: x=%i y=%i  bmpWidth=%ix%i"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2948
+#, c-format
+msgid "[mpBitmapLayer::Plot] screenPixel: x=%f y=%f  d_width=%ix%i"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2878
+msgid "[mpBitmapLayer] Assigned bitmap is not Ok()!"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2764
+msgid "[mpCovarianceEllipse] Error: cov is not positive definite"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2751
+msgid "[mpCovarianceEllipse] Error: cov(0,0) must be non-negative"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2752
+msgid "[mpCovarianceEllipse] Error: cov(1,1) must be non-negative"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2750
+msgid "[mpCovarianceEllipse] Error: quantiles must be non-negative"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2611
+msgid ""
+"[mpMovableObject::ShapeUpdated] Error, m_shape_xs and m_shape_ys have "
+"different lengths!"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2848
+msgid ""
+"[mpPolygon] Error: points_xs and points_ys must have the same number of "
+"elements"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1316
+#, c-format
+msgid "[mpWindow::OnMouseMove] Ax:%i Ay:%i m_posX:%f m_posY:%f"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1766
+#, c-format
+msgid "[mpWindow::OnPaint] vis.area:%ix%i px=%i py=%i"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1469
+#, c-format
+msgid ""
+"mpWindow::DoZoomInXCalc() prior X coord: (%f), new X coord: (%f) SHOULD BE "
+"EQUAL!!"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1485
+#, c-format
+msgid ""
+"mpWindow::DoZoomInYCalc() prior Y coord: (%f), new Y coord: (%f) SHOULD BE "
+"EQUAL!!"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1501
+#, c-format
+msgid ""
+"mpWindow::DoZoomOutXCalc() prior X coord: (%f), new X coord: (%f) SHOULD BE "
+"EQUAL!!"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1517
+#, c-format
+msgid ""
+"mpWindow::DoZoomOutYCalc() prior Y coord: (%f), new Y coord: (%f) SHOULD BE "
+"EQUAL!!"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1446
+#, c-format
+msgid ""
+"mpWindow::Fit() m_desiredXmin=%f m_desiredXmax=%f  m_desiredYmin=%f "
+"m_desiredYmax=%f"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1447
+#, c-format
+msgid ""
+"mpWindow::Fit() m_scaleX = %f , m_scrX = %d,m_scrY=%d, Ax=%f, Ay=%f, m_posX=%"
+"f, m_posY=%f"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1429
+#, c-format
+msgid "mpWindow::Fit()(lock) m_scaleX=%f,m_scaleY=%f"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2256
+#, c-format
+msgid "mpWindow::IsInsideInfoLayer() examinining layer = %p"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2261
+#, c-format
+msgid "mpWindow::IsInsideInfoLayer() layer = %p"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1359
+#, c-format
+msgid "mpWindow::OnMouseLeftDown() X = %d , Y = %d"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1365
+#, c-format
+msgid "mpWindow::OnMouseLeftDown() started moving layer %lx"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1704
+#, c-format
+msgid "mpWindow::OnSize() m_scrX = %d, m_scrY = %d"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1551
+#, c-format
+msgid ""
+"mpWindow::ZoomIn() prior coords: (%f,%f), new coords: (%f,%f) SHOULD BE "
+"EQUAL!!"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1585
+#, c-format
+msgid ""
+"mpWindow::ZoomOut() prior coords: (%f,%f), new coords: (%f,%f) SHOULD BE "
+"EQUAL!!"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:108
+msgid "npha0"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:110
+msgid "npha1"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:112
+msgid "npha2"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:114
+msgid "npha3"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:116
+msgid "npha4"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:118
+msgid "npha5"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:120
+msgid "valvg1"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:102
+msgid "valvg10"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:98
+msgid "valvg11"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:100
+msgid "valvg12"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:122
+msgid "valvg2"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:124
+msgid "valvg3"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:126
+msgid "valvg4"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:128
+msgid "valvg5"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:94
+msgid "valvg6"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:106
+msgid "valvg7"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:96
+msgid "valvg8"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:104
+msgid "valvg9"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2423
+msgid "wxMathPlot error: X and Y vector are not of the same length!"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1672
+msgid "wxMathPlot help"
+msgstr ""
+
+#: A:\cb\OpenAVRc_Simulator\OutBarsFrame.cpp:104
+msgid "État des sorties."
+msgstr ""
