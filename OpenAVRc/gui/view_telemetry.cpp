@@ -88,7 +88,7 @@ void displayGpsCoord(uint8_t y, char direction, int16_t bp, int16_t ap)
       lcdDrawChar(lcdLastPos+FWNUM, y, direction);
       lcdDrawNumberNAtt(lcdLastPos+FW+FW+1, y, qrbp.rem, LEFT|LEADING0, 2); // mm before '.'
       lcdDrawSolidVerticalLine(lcdLastPos, y, 2);
-      div_t qrap = div(bp*6, 1000);
+      div_t qrap = div(ap*6, 1000);
       lcdDrawNumberNAtt(lcdLastPos+3, y, qrap.quot, LEFT|LEADING0, 2); // ''
       lcdDrawPoint(lcdLastPos, y+FH-2, 0); // small decimal point
       lcdDrawNumberNAtt(lcdLastPos+2, y, qrap.rem, LEFT|LEADING0, 3); // ''
