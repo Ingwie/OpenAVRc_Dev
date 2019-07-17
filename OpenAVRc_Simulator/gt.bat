@@ -1,6 +1,6 @@
 md po
 
-Path "C:\Program Files (x86)\GnuWin32\bin"
+Path "C:\OpenAVRc_Builder\G_TXT"
 
 for /r %%a in ("*.cpp") do echo %%a >> filelist
 for /r %%a in ("*.h") do echo %%a >> filelist
