@@ -3253,9 +3253,9 @@ void OpenAVRc_SimulatorFrame::EnableTelemetryMenu()
 void OpenAVRc_SimulatorFrame::OnLogsSelected(wxCommandEvent& event)
 {
   event.Skip();
+  MenuFrame->Enable(ID_MENUITEMLOGS, false);
   LogFr = new  LogsFrame(this);
   LogFr->Show(TRUE);
-  MenuFrame->Enable(ID_MENUITEMLOGS, false);
 }
 
 void OpenAVRc_SimulatorFrame::EnableLogsMenu()

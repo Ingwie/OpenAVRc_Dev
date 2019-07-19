@@ -99,6 +99,7 @@ private:
   void CheckLogValue(wxString name, size_t line, size_t col, wxString data);
   bool computeUsefullField(wxString name, wxString data, double* pvalue);
   void PopulateMathPlot();
+  void CloseFrame();
 
   DECLARE_EVENT_TABLE()
 };
