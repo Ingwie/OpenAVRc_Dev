@@ -39,6 +39,7 @@
 				<object class="wxButton" name="ID_BUTTONKML" variable="KMLButton" member="yes">
 					<label>KML</label>
 					<pos>928,10</pos>
+					<enabled>0</enabled>
 					<handler function="OnKMLButtonClick" entry="EVT_BUTTON" />
 				</object>
 			</object>

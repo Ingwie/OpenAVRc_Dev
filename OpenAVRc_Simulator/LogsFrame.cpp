@@ -71,6 +71,7 @@ LogsFrame::LogsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
   ResetButton = new wxButton(Panel2, ID_BUTTONRESET, _("RAZ"), wxPoint(16,10), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONRESET"));
   LogName = new wxStaticText(Panel2, ID_STATICTEXT1, wxEmptyString, wxPoint(120,15), wxSize(30,13), 0, _T("ID_STATICTEXT1"));
   KMLButton = new wxButton(Panel2, ID_BUTTONKML, _("KML"), wxPoint(928,10), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONKML"));
+  KMLButton->Disable();
   StaticBox2 = new wxStaticBox(Panel1, ID_STATICBOX2, _("Données"), wxPoint(144,64), wxSize(1024,440), wxDOUBLE_BORDER, _T("ID_STATICBOX2"));
   MathPlot = new mpWindow(Panel1, ID_MATHPLOT1, wxPoint(152,80), wxSize(1008,416), wxRAISED_BORDER|wxTAB_TRAVERSAL);
   MathPlot->UpdateAll();
@@ -219,6 +220,10 @@ void LogsFrame::CheckLogValue(wxString name, size_t line, size_t col, wxString d
     }
   if ((name.IsSameAs("Long")) || (name.IsSameAs("Lat")))
     {
+      if (value && (!KMLButton->IsEnabled()))
+      {
+        KMLButton->Enable();
+      }
       value = convertGPSCoord(value);
 
       if (data.EndsWith("W"))
