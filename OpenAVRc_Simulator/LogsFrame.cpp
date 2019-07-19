@@ -33,11 +33,13 @@
 #include "LogsFrame.h"
 #include <wx/tokenzr.h>
 #include <wx/filedlg.h>
+#include <wx/numformatter.h>
 
 extern wxString googleearthPath;
 extern bool Ini_Changed;
 
 //(*InternalHeaders(LogsFrame)
+#include <wx/font.h>
 #include <wx/intl.h>
 #include <wx/string.h>
 //*)
@@ -69,7 +71,11 @@ LogsFrame::LogsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
   FieldListBox = new wxListBox(Panel1, ID_FIELDLISTBOX, wxPoint(16,32), wxSize(112,464), 0, 0, wxLB_MULTIPLE, wxDefaultValidator, _T("ID_FIELDLISTBOX"));
   Panel2 = new wxPanel(Panel1, ID_PANEL2, wxPoint(144,8), wxSize(1032,48), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL2"));
   ResetButton = new wxButton(Panel2, ID_BUTTONRESET, _("RAZ"), wxPoint(16,10), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONRESET"));
-  LogName = new wxStaticText(Panel2, ID_STATICTEXT1, wxEmptyString, wxPoint(120,15), wxSize(30,13), 0, _T("ID_STATICTEXT1"));
+  LogName = new wxStaticText(Panel2, ID_STATICTEXT1, wxEmptyString, wxPoint(360,10), wxSize(30,25), 0, _T("ID_STATICTEXT1"));
+  LogName->SetFocus();
+  LogName->SetForegroundColour(wxColour(0,0,255));
+  wxFont LogNameFont(16,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_BOLD,false,_T("Arial Narrow"),wxFONTENCODING_DEFAULT);
+  LogName->SetFont(LogNameFont);
   KMLButton = new wxButton(Panel2, ID_BUTTONKML, _("KML"), wxPoint(928,10), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONKML"));
   KMLButton->Disable();
   StaticBox2 = new wxStaticBox(Panel1, ID_STATICBOX2, _("Données"), wxPoint(144,64), wxSize(1024,440), wxDOUBLE_BORDER, _T("ID_STATICBOX2"));
@@ -104,12 +110,13 @@ LogsFrame::LogsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
   wxFileDialog openFileDialog(this, _("Ouvrir Fichier BIN"), AppPath+ "\\SD\\LOGS\\", "","Fichiers CSV (*.csv)|*.csv", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
   if (openFileDialog.ShowModal() == wxID_CANCEL)
     {
-      return;
+      CloseFrame();
     }
 
   wxTextFile tfile(openFileDialog.GetPath());
   if (tfile.Exists())   //avoid crash if file is not found
     {
+      wxBusyCursor busy;
       tfile.Open(openFileDialog.GetPath());
       size_t numLine = tfile.GetLineCount();
       wxString line = tfile.GetLine(0);
@@ -183,6 +190,11 @@ LogsFrame::~LogsFrame()
 
 void LogsFrame::OnClose(wxCloseEvent& event)
 {
+  CloseFrame();
+}
+
+void LogsFrame::CloseFrame()
+{
   OpenAVRc_SimulatorFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_SimulatorFrame);
   if(parent)
     parent->EnableLogsMenu();
@@ -210,7 +222,7 @@ void LogsFrame::CheckLogValue(wxString name, size_t line, size_t col, wxString d
     {
       FirstTime = data;
     }
-  data.Replace(".",",");
+  data.Replace(".",wxNumberFormatter::GetDecimalSeparator());
   double value;
   data.ToDouble(&value);
 
@@ -323,9 +335,7 @@ void LogsFrame::OnKMLButtonClick(wxCommandEvent& event)
     {
       return; // Not GPS datas
     }
-  //vectory[longFieldNum].operator[];
-  //vectory[latFieldNum].operator[];
-  //vectory[altFieldNum].operator[];
+
   wxString dataLong, dataLat, dataAlt;
   // Write the file
   wxString file = AppPath + "\\OpenAVRc.kml";
@@ -339,10 +349,10 @@ void LogsFrame::OnKMLButtonClick(wxCommandEvent& event)
   tfile.AddLine("<Document><name>" + LogName->GetLabel() + "</name><description>" + LogName->GetLabel() + "</description>");
   tfile.AddLine("<LookAt>");
   dataLong = wxString::Format("%lf", vectory[longFieldNum][0]);
-  dataLong.Replace(",",".");
+  dataLong.Replace(wxNumberFormatter::GetDecimalSeparator(),".");
   tfile.AddLine("<longitude> " + dataLong + "</longitude>");
   dataLat = wxString::Format("%lf", vectory[latFieldNum][0]);
-  dataLat.Replace(",",".");
+  dataLat.Replace(wxNumberFormatter::GetDecimalSeparator(),".");
   tfile.AddLine("<latitude> " + dataLat + "</latitude>");
   tfile.AddLine("<altitude>0</altitude>");
   tfile.AddLine("<altitudeMode>relativeToGround</altitudeMode>");
@@ -353,27 +363,27 @@ void LogsFrame::OnKMLButtonClick(wxCommandEvent& event)
   tfile.AddLine("<Placemark>");
   tfile.AddLine("<Point><coordinates> " + dataLong + "," + dataLat + "</coordinates></Point>");
   tfile.AddLine("</Placemark>");
-  tfile.AddLine("<Placemark><Style><LineStyle><width>2</width><color>ff4dfcf5</color></LineStyle></Style>");
+  tfile.AddLine("<Placemark><Style><LineStyle><width>2</width><color>ff0fff0f</color></LineStyle></Style>");
   tfile.AddLine("<LineString><altitudeMode>absolute</altitudeMode><coordinates>");
   for (int i = 0; i < numRecord; i++ )
     {
       dataLong = wxString::Format("%lf", vectory[longFieldNum][i]);
       dataLat = wxString::Format("%lf", vectory[latFieldNum][i]);
       dataAlt = wxString::Format("%lf", vectory[altFieldNum][i]);
-      dataLong.Replace(",",".");
-      dataLat.Replace(",",".");
-      dataAlt.Replace(",",".");
+      dataLong.Replace(wxNumberFormatter::GetDecimalSeparator(),".");
+      dataLat.Replace(wxNumberFormatter::GetDecimalSeparator(),".");
+      dataAlt.Replace(wxNumberFormatter::GetDecimalSeparator(),".");
       tfile.AddLine(dataLong + "," + dataLat + "," + dataAlt);
     }
   tfile.AddLine("</coordinates></LineString></Placemark>");
-  tfile.AddLine("<Placemark><Style><LineStyle><width>2</width><color>ffffffff</color></LineStyle></Style>");
+  tfile.AddLine("<Placemark><Style><LineStyle><width>2</width><color>fbfbfbfb</color></LineStyle></Style>");
   tfile.AddLine("<LineString><altitudeMode>clamptoGround</altitudeMode><coordinates>");
   for (int i = 0; i < numRecord; i++ )
     {
       dataLong = wxString::Format("%lf", vectory[longFieldNum][i]);
       dataLat = wxString::Format("%lf", vectory[latFieldNum][i]);
-      dataLong.Replace(",",".");
-      dataLat.Replace(",",".");
+      dataLong.Replace(wxNumberFormatter::GetDecimalSeparator(),".");
+      dataLat.Replace(wxNumberFormatter::GetDecimalSeparator(),".");
       tfile.AddLine(dataLong + "," + dataLat);
     }
   tfile.AddLine("</coordinates></LineString></Placemark></Document></kml>");

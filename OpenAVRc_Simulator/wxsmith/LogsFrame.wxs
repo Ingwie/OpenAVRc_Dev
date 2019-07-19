@@ -33,8 +33,18 @@
 				</object>
 				<object class="wxStaticText" name="ID_STATICTEXT1" variable="LogName" member="yes">
 					<label></label>
-					<pos>120,15</pos>
-					<size>30,13</size>
+					<pos>360,10</pos>
+					<size>30,25</size>
+					<focused>1</focused>
+					<fg>#0000FF</fg>
+					<font>
+						<size>16</size>
+						<style>normal</style>
+						<weight>bold</weight>
+						<underlined>0</underlined>
+						<family>swiss</family>
+						<face>Arial Narrow</face>
+					</font>
 				</object>
 				<object class="wxButton" name="ID_BUTTONKML" variable="KMLButton" member="yes">
 					<label>KML</label>
