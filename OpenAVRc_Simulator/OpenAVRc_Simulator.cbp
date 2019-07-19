@@ -23,8 +23,6 @@
 					<Add option="-DEXTERNALEEPROM" />
 					<Add option="-DIMPERIAL_UNITSaaa" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
-					<Add directory="include" />
-					<Add directory="$(PROJECT_DIR)" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -50,8 +48,6 @@
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
-					<Add directory="include" />
-					<Add directory="$(PROJECT_DIR)" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -77,7 +73,6 @@
 					<Add option="-DTRANSLATIONS_ES" />
 					<Add option="-DTTS_ES" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
-					<Add directory="include" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -103,7 +98,6 @@
 					<Add option="-DTRANSLATIONS_EN" />
 					<Add option="-DTTS_EN" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
-					<Add directory="include" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -130,7 +124,6 @@
 					<Add option="-DTTS_FR" />
 					<Add option="-DEXTERNALEEPROM" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
-					<Add directory="include" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -157,7 +150,6 @@
 					<Add option="-DTTS_ES" />
 					<Add option="-DEXTERNALEEPROM" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
-					<Add directory="include" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -184,7 +176,6 @@
 					<Add option="-DTTS_EN" />
 					<Add option="-DEXTERNALEEPROM" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
-					<Add directory="include" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -262,6 +253,7 @@
 			<Add option="-DPROTO_HAS_A7105" />
 			<Add option="-DA7105PA_GAIN=20" />
 			<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/include" />
+			<Add directory="$(PROJECT_DIR)" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/include" />
