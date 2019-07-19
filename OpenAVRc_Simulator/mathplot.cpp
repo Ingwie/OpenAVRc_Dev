@@ -623,13 +623,13 @@ void mpFXY::Plot(wxDC & dc, mpWindow & w)
 							}
 							if (c1 < minYpx) {
 								x1 = (int)(((float)(minYpx - c0))/((float)(c1 - c0))*(x1-x0)) + x0;
-								c1 = minYpx;
+								//c1 = minYpx; // OpenAVRc mod
 							}
 							if (c1 > maxYpx) {
 								x1 = (int)(((float)(maxYpx - c0))/((float)(c1 - c0))*(x1-x0)) + x0;
 								//wxLogDebug(wxT("old x0 = %d, old x1 = %d, new x1 = %d, c0 = %d, c1 = %d, maxYpx = %d"), x0, x1, newX1, c0, c1, maxYpx);
 								//x1 = newX1;
-								c1 = maxYpx;
+								//c1 = maxYpx; // OpenAVRc mod
 							}
 						}
 						if (x1 != x0) {
