@@ -45,7 +45,7 @@
 
 #include "OpenAVRc_SimulatorMain.h"
 
-#define NUM_FIELD 50
+#define NUM_FIELD 60
 
 class LogsFrame: public wxFrame
 {
