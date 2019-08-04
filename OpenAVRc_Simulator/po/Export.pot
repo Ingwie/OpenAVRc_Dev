@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-17 23:42+0200\n"
+"POT-Creation-Date: 2019-08-05 01:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,9 +20,9 @@ msgstr ""
 msgid "                     Max         Min       Alarm"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1261
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1298
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1318
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1280
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1317
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1337
 msgid "    OpenAVRc Simulateur"
 msgstr ""
 
@@ -30,12 +30,12 @@ msgstr ""
 msgid " 1008            1024           1008"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:846
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:865
 msgid " GPLv2 . Firmware basé sur NextStepRc 2.18 "
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1441
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1794
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1460
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1813
 msgid ""
 " n'hexiste plus\n"
 " Modifiez votre modèle"
@@ -106,11 +106,11 @@ msgstr ""
 msgid "Analog"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:3402
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:3421
 msgid "Appliquer à tous les modèles de "
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1318
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1337
 msgid "Aucune eeprom detectée en mémoire"
 msgstr ""
 
@@ -163,11 +163,11 @@ msgstr ""
 msgid "Ceci est une sortie"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1191
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1225
 msgid "Center"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1191
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1225
 msgid "Center plot view to this position"
 msgstr ""
 
@@ -235,7 +235,7 @@ msgstr ""
 msgid "Ch9"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:36
+#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:70
 msgid "Champs"
 msgstr ""
 
@@ -255,11 +255,11 @@ msgstr ""
 msgid "Contraste:\t"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:3415
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:3434
 msgid "Conversion en cours, attendez SVP......"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:3402
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:3421
 msgid "Convertir eeprom ?"
 msgstr ""
 
@@ -288,7 +288,7 @@ msgstr ""
 msgid "Desktop"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:42
+#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:81
 msgid "Données"
 msgstr ""
 
@@ -309,11 +309,11 @@ msgstr ""
 msgid "EXIT"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:270
+#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:319
 msgid "Emplacement de Google earth"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1335
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1354
 msgid "Exportation en cours, attendez SVP......"
 msgstr ""
 
@@ -322,7 +322,7 @@ msgid "Exporte l'eeprom en format texte"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:399
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1329
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1348
 msgid "Exporter Eeprom"
 msgstr ""
 
@@ -330,7 +330,7 @@ msgstr ""
 msgid "FUEL"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1192
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1226
 msgid "Fit"
 msgstr ""
 
@@ -378,8 +378,8 @@ msgstr ""
 msgid "ID2"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1288
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1293
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1307
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1312
 msgid "Importation en cours, attendez SVP......"
 msgstr ""
 
@@ -388,29 +388,29 @@ msgid "Importe une eeprom en format texte"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:403
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1270
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1289
 msgid "Importer Eeprom"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:895
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:914
 msgid "Impossible : Simulateur en fonctionnement"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:902
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:921
 #, c-format
 msgid "Impossible d'ouvrir le fichier '%s'."
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:41
+#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:79
 msgid "KML"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1261
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1280
 msgid "L'eeprom va être formatée, étes vous sur ?"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1441
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1794
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1460
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1813
 msgid "La fonction "
 msgstr ""
 
@@ -426,15 +426,15 @@ msgstr ""
 msgid "Lcd (pixel)"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1195
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1229
 msgid "Lock aspect"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1195
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1229
 msgid "Lock horizontal and vertical zoom aspect."
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:33
+#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:67
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:444
 msgid "Logs"
 msgstr ""
@@ -481,7 +481,7 @@ msgstr ""
 msgid "NRF24L01"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1041
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1060
 #, c-format
 msgid "Ne peut écrire le fichier '%s'."
 msgstr ""
@@ -494,12 +494,12 @@ msgstr ""
 msgid "ON"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:844
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:863
 msgid "OpenAVRc Simulateur"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:71
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:898
+#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:110
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:917
 msgid "Ouvrir Fichier BIN"
 msgstr ""
 
@@ -523,7 +523,7 @@ msgstr ""
 msgid "Quitter le simulateur"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:39
+#: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:73
 msgid "RAZ"
 msgstr ""
 
@@ -567,24 +567,24 @@ msgstr ""
 msgid "Sauvegarde du fichier BIN"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1036
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1055
 msgid "Sauver Capture écran"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:396
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1052
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1071
 msgid "Sauver Eeprom"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1192
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1226
 msgid "Set plot view to show all items"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1196
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1230
 msgid "Show help about the mouse commands."
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1196
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1230
 msgid "Show mouse commands..."
 msgstr ""
 
@@ -592,7 +592,7 @@ msgstr ""
 msgid "Simulateur V3"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:847
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:866
 msgid "Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "
 msgstr ""
 
@@ -600,7 +600,7 @@ msgstr ""
 msgid "Sortie vers :"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1667
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1701
 msgid ""
 "Supported Mouse commands:\n"
 "         - Left button down + Mark area: Rectangular zoom\n"
@@ -660,7 +660,7 @@ msgstr ""
 msgid "Télémétrie"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:845
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:864
 msgid "V 3.0 Beta"
 msgstr ""
 
@@ -677,7 +677,7 @@ msgstr ""
 msgid "Variomètre"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1298
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1317
 msgid "Version d'eeprom non prise en charge"
 msgstr ""
 
@@ -723,159 +723,159 @@ msgstr ""
 msgid "Z"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1193
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1227
 msgid "Zoom in"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1193
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1227
 msgid "Zoom in plot view."
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1194
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1228
 msgid "Zoom out"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1194
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1228
 msgid "Zoom out plot view."
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1629
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1663
 #, c-format
 msgid "Zoom: (%f,%f)-(%f,%f)"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2949
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2983
 #, c-format
 msgid "[mpBitmapLayer::Plot] offset: x=%i y=%i  bmpWidth=%ix%i"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2948
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2982
 #, c-format
 msgid "[mpBitmapLayer::Plot] screenPixel: x=%f y=%f  d_width=%ix%i"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2878
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2912
 msgid "[mpBitmapLayer] Assigned bitmap is not Ok()!"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2764
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2798
 msgid "[mpCovarianceEllipse] Error: cov is not positive definite"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2751
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2785
 msgid "[mpCovarianceEllipse] Error: cov(0,0) must be non-negative"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2752
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2786
 msgid "[mpCovarianceEllipse] Error: cov(1,1) must be non-negative"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2750
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2784
 msgid "[mpCovarianceEllipse] Error: quantiles must be non-negative"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2611
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2645
 msgid ""
 "[mpMovableObject::ShapeUpdated] Error, m_shape_xs and m_shape_ys have "
 "different lengths!"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2848
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2882
 msgid ""
 "[mpPolygon] Error: points_xs and points_ys must have the same number of "
 "elements"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1316
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1350
 #, c-format
 msgid "[mpWindow::OnMouseMove] Ax:%i Ay:%i m_posX:%f m_posY:%f"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1766
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1800
 #, c-format
 msgid "[mpWindow::OnPaint] vis.area:%ix%i px=%i py=%i"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1469
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1503
 #, c-format
 msgid ""
 "mpWindow::DoZoomInXCalc() prior X coord: (%f), new X coord: (%f) SHOULD BE "
 "EQUAL!!"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1485
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1519
 #, c-format
 msgid ""
 "mpWindow::DoZoomInYCalc() prior Y coord: (%f), new Y coord: (%f) SHOULD BE "
 "EQUAL!!"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1501
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1535
 #, c-format
 msgid ""
 "mpWindow::DoZoomOutXCalc() prior X coord: (%f), new X coord: (%f) SHOULD BE "
 "EQUAL!!"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1517
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1551
 #, c-format
 msgid ""
 "mpWindow::DoZoomOutYCalc() prior Y coord: (%f), new Y coord: (%f) SHOULD BE "
 "EQUAL!!"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1446
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1480
 #, c-format
 msgid ""
 "mpWindow::Fit() m_desiredXmin=%f m_desiredXmax=%f  m_desiredYmin=%f "
 "m_desiredYmax=%f"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1447
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1481
 #, c-format
 msgid ""
 "mpWindow::Fit() m_scaleX = %f , m_scrX = %d,m_scrY=%d, Ax=%f, Ay=%f, m_posX=%"
 "f, m_posY=%f"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1429
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1463
 #, c-format
 msgid "mpWindow::Fit()(lock) m_scaleX=%f,m_scaleY=%f"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2256
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2290
 #, c-format
 msgid "mpWindow::IsInsideInfoLayer() examinining layer = %p"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2261
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2295
 #, c-format
 msgid "mpWindow::IsInsideInfoLayer() layer = %p"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1359
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1393
 #, c-format
 msgid "mpWindow::OnMouseLeftDown() X = %d , Y = %d"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1365
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1399
 #, c-format
 msgid "mpWindow::OnMouseLeftDown() started moving layer %lx"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1704
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1738
 #, c-format
 msgid "mpWindow::OnSize() m_scrX = %d, m_scrY = %d"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1551
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1585
 #, c-format
 msgid ""
 "mpWindow::ZoomIn() prior coords: (%f,%f), new coords: (%f,%f) SHOULD BE "
 "EQUAL!!"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1585
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1619
 #, c-format
 msgid ""
 "mpWindow::ZoomOut() prior coords: (%f,%f), new coords: (%f,%f) SHOULD BE "
@@ -954,11 +954,11 @@ msgstr ""
 msgid "valvg9"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2423
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:2457
 msgid "wxMathPlot error: X and Y vector are not of the same length!"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1672
+#: A:\cb\OpenAVRc_Simulator\mathplot.cpp:1706
 msgid "wxMathPlot help"
 msgstr ""
 

@@ -798,10 +798,24 @@ void OpenAVRc_SimulatorFrame::EditModelName()
   showeditmodeldialog = 1;
 }
 
+#if defined (LCDROT180)
+uint8_t invertByte(uint8_t a)
+{
+	a = ((a & 0xaa) >>  1) | ((a & 0x55) <<  1);
+	a = ((a & 0xcc) >>  2) | ((a & 0x33) <<  2);
+	a = ((a & 0xf0) >>  4) | ((a & 0x0f) <<  4);
+	return a;
+}
+#endif
+
 void OpenAVRc_SimulatorFrame::DrawWxSimuLcd()
 {
   uint8_t *p;
+#if defined (LCDROT180)
+  p = displayBuf + DISPLAY_BUFER_SIZE-1;
+#else
   p = displayBuf;
+#endif
   wxColor Col_Lcd_Back_dyn = Col_Lcd_Back;
   if (!(isBacklightEnable())) {
     Col_Lcd_Back_dyn = Col_Lcd_Back_dyn.ChangeLightness(80);
@@ -817,7 +831,12 @@ void OpenAVRc_SimulatorFrame::DrawWxSimuLcd()
   for (uint8_t y=0; y < (LCD_H / 8); y++) {
     for (uint8_t x=0; x < LCD_W; x++) {
       uint8_t bit = *p;
+#if defined (LCDROT180)
+      bit = invertByte(bit);
+      p--;
+#else
       p++;
+#endif
       for (uint8_t i=0; i < 8; i++) {
         if (bit & 0x01) SimuLcd_MemoryDC->DrawRectangle(2+ x*SimuLcdScale,2+ (y*8*SimuLcdScale) +(i*SimuLcdScale),SimuLcdScale,SimuLcdScale);
         bit >>= 1;

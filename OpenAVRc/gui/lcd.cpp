@@ -648,12 +648,12 @@ void lcdSetContrast()
 
 void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 {
-  uint8_t *p = &displayBuf[ y / 8 * LCD_W + x ];
+  uint8_t *p = DISPLAY_START_ADDRESS;
 
   const pm_uchar *q = &font_5x7_in_sram[(c-0x20)*5];
 
   lcdNextPos = x-1;
-  p--;
+  PREV_P;
 
   bool inv = false;
   if (flags & BLINK) {
@@ -706,7 +706,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
       if (!i) {
         if (!x || !inv) {
           lcdNextPos++;
-          p++;
+          NEXT_P;
           continue;
         }
       } else if (i <= 10) {
@@ -720,12 +720,20 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
         b1 = ~b1;
         b2 = ~b2;
       }
+#if !defined (LCDROT180)
       if(p+LCD_W < DISPLAY_END) {
         ASSERT_IN_DISPLAY(p);
         ASSERT_IN_DISPLAY(p+LCD_W);
         LCD_BYTE_FILTER(p, 0, b1);
         LCD_BYTE_FILTER(p+LCD_W, 0, b2);
-        p++;
+#else
+      if(p-LCD_W >= displayBuf) {
+        ASSERT_IN_DISPLAY(p);
+        ASSERT_IN_DISPLAY(p-LCD_W);
+        LCD_BYTE_FILTER(p, 0, b1);
+        LCD_BYTE_FILTER(p-LCD_W, 0, b2);
+#endif
+        NEXT_P;
         lcdNextPos++;
       }
     }
@@ -742,14 +750,18 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 #endif
 #endif
 
+#if !defined (LCDROT180)
     uint8_t *lineEnd = &displayBuf[ y / 8 * LCD_W + LCD_W ];
+#else
+    uint8_t *lineEnd = &displayBuf[ DISPLAY_BUFER_SIZE-1 - (y / 8 * LCD_W + LCD_W) ];
+#endif
 
-    for (int8_t i=0; i<=6; i++) {
+    for (int8_t i=0; i<7; i++) {
       uint8_t b = 0;
       if (i==0) {
         if (!x || !inv) {
           lcdNextPos++;
-          p++;
+          NEXT_P;
           continue;
         }
       } else if (i <= 5) {
@@ -788,6 +800,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
       }
 #endif
 
+#if !defined (LCDROT180)
       if (p<DISPLAY_END && p<lineEnd) {
         ASSERT_IN_DISPLAY(p);
         uint8_t mask = ~(0xff << ym8);
@@ -800,7 +813,21 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
 
         if (inv && (ym8 == 1)) *p |= 0x01;
       }
-      p++;
+#else
+      if (p>=displayBuf && p>lineEnd) {
+        ASSERT_IN_DISPLAY(p);
+        uint8_t mask = ~(0xff >> ym8);
+        LCD_BYTE_FILTER(p, mask, b >> ym8);
+        if (ym8) {
+          uint8_t *r = p - LCD_W;
+          if (r>=displayBuf)
+            LCD_BYTE_FILTER(r, ~mask, b << (8-ym8));
+        }
+
+        if (inv && (ym8 == 1)) *p |= 0x80;
+      }
+#endif
+      NEXT_P;
       lcdNextPos++;
     }
   }
@@ -820,9 +847,14 @@ void lcdMaskPoint(uint8_t *p, uint8_t mask, LcdFlags att)
 
 void lcdDrawPoint(coord_t x, coord_t y, LcdFlags att)
 {
-  uint8_t *p = &displayBuf[ y / 8 * LCD_W + x ];
+  uint8_t *p = DISPLAY_START_ADDRESS;
+#if !defined (LCDROT180)
   if (p<DISPLAY_END)
     lcdMaskPoint(p, _BV(y%8), att);
+#else
+  if (p>=displayBuf)
+    lcdMaskPoint(p, _BVI(y%8), att);
+#endif
 }
 
 void lcdDrawSolidHorizontalLineStip(coord_t x, coord_t y, coord_t w, uint8_t pat, LcdFlags att)
@@ -832,8 +864,12 @@ void lcdDrawSolidHorizontalLineStip(coord_t x, coord_t y, coord_t w, uint8_t pat
     w = LCD_W - x;
   }
 
-  uint8_t *p  = &displayBuf[ y / 8 * LCD_W + x ];
+  uint8_t *p  = DISPLAY_START_ADDRESS;
+#if !defined (LCDROT180)
   uint8_t msk = _BV(y%8);
+#else
+  uint8_t msk = _BVI(y%8);
+#endif
   while (w--) {
     if(pat&1) {
       lcdMaskPoint(p, msk, att);
@@ -841,7 +877,7 @@ void lcdDrawSolidHorizontalLineStip(coord_t x, coord_t y, coord_t w, uint8_t pat
     } else {
       pat = pat >> 1;
     }
-    p++;
+    NEXT_P;
   }
 }
 
@@ -865,8 +901,10 @@ void lcdDrawSolidVerticalLineStip(coord_t x, scoord_t y, scoord_t h, uint8_t pat
   if (pat==DOTTED && !(y%2))
     pat = ~pat;
 
-  uint8_t *p  = &displayBuf[ y / 8 * LCD_W + x ];
-  y = (y & 0x07);
+  uint8_t *p  = DISPLAY_START_ADDRESS;
+
+  y &= 0x07;
+#if !defined (LCDROT180)
   if (y) {
     ASSERT_IN_DISPLAY(p);
     uint8_t msk = ~(_BV(y)-1);
@@ -886,14 +924,42 @@ void lcdDrawSolidVerticalLineStip(coord_t x, scoord_t y, scoord_t h, uint8_t pat
     ASSERT_IN_DISPLAY(p);
     lcdMaskPoint(p, (_BV(h)-1) & pat, att);
   }
+#else
+if (y) {
+    ASSERT_IN_DISPLAY(p);
+    uint8_t msk = (_BVI(y-1)-1);
+    h -= 8-y;
+    if (h < 0)
+      msk -= (_BVI(7+h)-1);
+    lcdMaskPoint(p, msk & pat, att);
+    p -= LCD_W;
+  }
+  while (h>=8) {
+    ASSERT_IN_DISPLAY(p);
+    lcdMaskPoint(p, pat, att);
+    p -= LCD_W;
+    h -= 8;
+  }
+  if (h>0) {
+    ASSERT_IN_DISPLAY(p);
+    lcdMaskPoint(p, ~(_BVI(h-1)-1) & pat, att);
+  }
+#endif
 }
 
 void lcdInvertLine(int8_t y)
 {
+#if !defined (LCDROT180)
   uint8_t *p  = &displayBuf[y * LCD_W];
   for (coord_t x=0; x<LCD_W; x++) {
     ASSERT_IN_DISPLAY(p);
     *p++ ^= 0xff;
+#else
+  uint8_t *p  = &displayBuf[DISPLAY_BUFER_SIZE-1 - (y * LCD_W)];
+  for (coord_t x=0; x<LCD_W; x++) {
+    ASSERT_IN_DISPLAY(p);
+    *p-- ^= 0xff;
+#endif
   }
 }
 
@@ -905,12 +971,22 @@ void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags 
   bool    inv  = (att & INVERS) ? true : (att & BLINK ? BLINK_ON_PHASE : false);
   q += idx*w*hb;
   for (uint8_t yb = 0; yb < hb; yb++) {
-    uint8_t *p = &displayBuf[ (y / 8 + yb) * LCD_W + x ];
+
+#if !defined (LCDROT180)
+  uint8_t *p =  &displayBuf[ (y / 8 + yb) * LCD_W + x ];
+#else
+  uint8_t *p = &displayBuf[ DISPLAY_BUFER_SIZE-1 - ((y / 8 + yb) * LCD_W + x)];
+#endif
+
     for (coord_t i=0; i<w; i++) {
       uint8_t b = pgm_read_byte_far(q);
       q++;
       ASSERT_IN_DISPLAY(p);
+#if !defined (LCDROT180)
       *p++ = inv ? ~b : b;
+#else
+      *p-- = inv ? ~b : b;
+#endif
     }
   }
 }

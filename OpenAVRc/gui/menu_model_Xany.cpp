@@ -77,7 +77,11 @@ enum menuModelXanyItems
 };
 
 const pm_uchar zz_XanyCh[] PROGMEM = {
+#if defined (LCDROT180)
+#include "../bitmaps/XanyCh.lbmi"
+#else
 #include "../bitmaps/XanyCh.lbm"
+#endif
 };
 
 void menuModelXany(uint8_t event)
