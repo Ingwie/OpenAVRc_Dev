@@ -98,14 +98,27 @@
 #define display_t            uint8_t
 #define DISPLAY_BUF_SIZE     (LCD_W*((LCD_H+7)/8))
 
+/* LCD_INV */
+#define _BVI(x) (128>>(x))
+
 extern display_t displayBuf[DISPLAY_BUF_SIZE];
 
 extern coord_t lcdLastPos;
 extern coord_t lcdNextPos;
 
-#define DISPLAY_BUFER_SIZE     (sizeof(display_t)*DISPLAY_BUF_SIZE)
-#define DISPLAY_END            (displayBuf + DISPLAY_BUF_SIZE)
-#define ASSERT_IN_DISPLAY(p)   ASSERT((p) >= displayBuf && (p) < DISPLAY_END)
+#define DISPLAY_BUFER_SIZE      (sizeof(display_t)*DISPLAY_BUF_SIZE)
+#define DISPLAY_END             (displayBuf + DISPLAY_BUF_SIZE)
+#define ASSERT_IN_DISPLAY(p)    ASSERT((p) >= displayBuf && (p) < DISPLAY_END)
+#if !defined (LCDROT180)
+  #define DISPLAY_START_ADDRESS &displayBuf[ y / 8 * LCD_W + x ]
+  #define NEXT_P                p++
+  #define PREV_P                p--
+#else
+  #define DISPLAY_START_ADDRESS &displayBuf[ DISPLAY_BUFER_SIZE-1 - (y / 8 * LCD_W + x)]
+  #define NEXT_P                p--
+  #define PREV_P                p++
+#endif
+
 
 void lcdDrawChar(coord_t x, coord_t y, const unsigned char c);
 void lcdDrawCharAtt(coord_t x, coord_t y, const unsigned char c, LcdFlags mode);

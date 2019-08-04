@@ -19,6 +19,10 @@ PCB = MEGAMINI
 # Values: ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306, SH1106, NT7538SPI
 LCD = ST7565P
 
+# LCD 180Deg rotation
+# Values: = YES, NO
+LCDROT180 = NO
+
 # Enable FrSky Telemetry reception on UART0 or SPI
 # Values = STD, FRSKY
 EXT = STD
@@ -300,9 +304,9 @@ endif
 GUIMODELSRC = gui/menu_model.cpp gui/menu_model_select.cpp gui/menu_model_setup.cpp gui/menu_model_inputs_mixes.cpp gui/menu_model_limits.cpp gui/menu_model_logical_switches.cpp gui/menu_model_custom_functions.cpp
 GUIGENERALSRC = gui/menu_general.cpp gui/menu_general_setup.cpp gui/menu_general_trainer.cpp gui/menu_general_version.cpp gui/menu_general_calib.cpp
 
-BITMAPS = bitmaps/sticks.lbm
+BITMAPS = bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/sticks.lbm bitmaps/XanyCh.lbm bitmaps/openevo.lbm
 
-#FONTS = $(patsubst %.png,%.lbm,$(wildcard fonts/std/*.png))
+FONTS = $(patsubst %.png,%.lbm,$(wildcard fonts/*/*.png))
 
 ifeq ($(PCB), MEGAMINI)
   # Antho & Pierro's Shield
@@ -323,7 +327,6 @@ ifeq ($(PCB), MEGAMINI)
   BOARDSRC += main_avr.cpp i2c_master.cpp spi.c targets/megamini/board_megamini.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
-  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/XanyCh.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
   EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp
 
@@ -506,7 +509,6 @@ ifeq ($(PCB), EVO_V2)
   BOARDSRC += main_avr.cpp targets/evo_v2/xmega.cpp targets/evo_v2/xmega_lcd_driver.cpp targets/evo_v2/xmega_adc_driver.cpp
   EEPROMSRC = eeprom_common.cpp targets/evo_v2/eeprom_rlc.cpp
   PULSESSRC = targets/evo_v2/xmega_pulses.cpp
-  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/XanyCh.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v2/menu_general_diaganas.cpp
   EXTRABOARDSRC = targets/evo_v2/telemetry_driver.cpp
 
@@ -630,7 +632,6 @@ ifeq ($(PCB), MEGA2560)
   BOARDSRC = main_avr.cpp i2c_master.cpp spi.c targets/mega2560/board_mega2560.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
-  BITMAPS += bitmaps/splash.lbm bitmaps/asterisk.lbm bitmaps/XanyCh.lbm
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
 
   EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp
@@ -820,6 +821,10 @@ endif
 
 ifeq ($(OFFSET_ON_INPUT), YES)
   CPPDEFS += -DOFFSET_ON_INPUT
+endif
+
+ifeq ($(LCDROT180), YES)
+  CPPDEFS += -DLCDROT180
 endif
 
 # If POTS are used for fields modification
@@ -1042,7 +1047,7 @@ MATH_LIB = -lm
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
 #    --cref:    add cross reference to  map file
-LDFLAGS = -Wl,-Map=$(TARGET).map,--cref,-Map,OpenAVRc.map
+LDFLAGS = -Wl,-Map=$(TARGET).map,--cref
 LDFLAGS += $(MATH_LIB)
 
 # Define Messages
@@ -1157,37 +1162,20 @@ translations/se.h: translations/se.h.txt
 	@echo "Create Swedish language specific header files"
 	$(TRANSLATE) translations/se.h.txt translations/se.h se
 
-FONTNAME = Roboto
-
 .PHONY: fonts
 fonts: $(FONTS)
 
 fonts/%.lbm: fonts/%.png
 	$(IMG2LBM) $^ $@ $(LCDSIZE)
 
-fonts/font_tinsize.lbm:
-	$(FONT2PNG) $(FONTNAME) 5 fonts/font_tinsize.png
-	$(IMG2LBM) fonts/font_tinsize.png $@ $(LCDSIZE) 4bits
-
-fonts/font_stdsize.lbm:
-	$(FONT2PNG) $(FONTNAME) 8 fonts/font_stdsize.png
-	$(IMG2LBM) fonts/font_stdsize.png $@ $(LCDSIZE) 4bits
-
-fonts/font_midsize.lbm:
-	$(FONT2PNG) $(FONTNAME) 10 fonts/font_midsize.png
-	$(IMG2LBM) fonts/font_midsize.png $@ $(LCDSIZE) 4bits
-
-fonts/font_dblsize.lbm:
-	$(FONT2PNG) $(FONTNAME) 14 fonts/font_dblsize.png
-	$(IMG2LBM) fonts/font_dblsize.png $@ $(LCDSIZE) 4bits
 
 .PHONY: bitmaps
 bitmaps: $(BITMAPS)
 
-bitmaps/sticks.lbm: bitmaps/sticks.xbm
+bitmaps/sticks.lbm: bitmaps/sticks.png
 	$(IMG2LBM) $^ $@ $(LCDSIZE) 1bit 4
 
-bitmaps/XanyCh.lbm: bitmaps/XanyCh.xbm
+bitmaps/XanyCh.lbm: bitmaps/XanyCh.png
 	$(IMG2LBM) $^ $@ $(LCDSIZE) 1bit 8
 
 bitmaps/%.lbm: bitmaps/%.png
@@ -1290,6 +1278,7 @@ endif
 
 # Target: clean project.
 clean: begin clean_list end
+#clean: begin clean_list clean_list_all end
 
 CLEAN_SRC=$(filter %.c,$(SRC))
 clean_list :
@@ -1313,10 +1302,22 @@ clean_list :
 	$(REMOVE) allasm.S
 	$(REMOVE) allasm.o
 	$(REMOVE) stamp-OpenAVRc.h
-#	$(REMOVE) *.lbm
-#	$(REMOVE) bitmaps/*.lbm
-#	$(REMOVE) bitmaps/*/*.lbm
-#	$(REMOVE) fonts/*.lbm
-#	$(REMOVE) fonts/*/*.lbm
-#	$(REMOVE) translations/*.h
+
+clean_list_all :
+	$(REMOVE) *.lbm
+	$(REMOVE) bitmaps/*.lbm
+	$(REMOVE) bitmaps/*/*.lbm
+	$(REMOVE) fonts/*.lbm
+	$(REMOVE) fonts/*/*.lbm
+	$(REMOVE) *.lbmi
+	$(REMOVE) bitmaps/*.lbmi
+	$(REMOVE) bitmaps/*/*.lbmi
+	$(REMOVE) fonts/*.lbmi
+	$(REMOVE) fonts/*/*.lbmi
+	$(REMOVE) translations/*.h
+
+
+
+
+
 

@@ -119,6 +119,7 @@ wxString keepopen = ("cmd /k ");
 //Define defaults
 wxString PCB = _("non défini");
 wxString LCD = _("non défini");
+bool LCDROT180 = 0;
 wxString VOICE = ("NO");
 wxString EXT = ("STD");
 bool AUDIO = 0;
@@ -620,6 +621,7 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
   configFile->SetPath("COMPILATION_CHOICES/");
   configFile->Read(wxT("PCB"),&PCB);
   configFile->Read(wxT("LCD"),&LCD);
+  configFile->Read(wxT("LCDROT180"),&LCDROT180);
   configFile->Read(wxT("VOICE"),&VOICE);
   configFile->Read(wxT("EXT"),&EXT);
   configFile->Read(wxT("AUDIO"),&AUDIO);
@@ -748,6 +750,7 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
   configFile->SetPath("COMPILATION_CHOICES/");
   configFile->Write(wxT("PCB"),PCB);
   configFile->Write(wxT("LCD"),LCD);
+  configFile->Write(wxT("LCDROT180"),LCDROT180);
   configFile->Write(wxT("VOICE"),VOICE);
   configFile->Write(wxT("EXT"),EXT);
   configFile->Write(wxT("AUDIO"),AUDIO);

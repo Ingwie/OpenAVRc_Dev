@@ -57,6 +57,7 @@ extern wxString CompileBatFile;
 
 extern wxString PCB;//mandatory
 extern wxString LCD;//mandatory
+extern bool LCDROT180;//defaults to NO
 extern wxString VOICE;//defaults to NO
 extern wxString EXT;//defaults to STD (no telemetry)
 extern bool AUDIO;//defaults to NO
@@ -187,6 +188,7 @@ public:
     wxCheckBox* CheckBoxInvStickLV;
     wxCheckBox* CheckBoxInvStickRH;
     wxCheckBox* CheckBoxInvStickRV;
+    wxCheckBox* CheckBoxLCDROT180;
     wxCheckBox* CheckBoxMULTI;
     wxCheckBox* CheckBoxNOANDSECONDE;
     wxCheckBox* CheckBoxNRF24l01;
@@ -336,6 +338,7 @@ protected:
     static const long ID_STATICTEXT11;
     static const long ID_CHECKBOX4;
     static const long ID_CHECKBOX2;
+    static const long ID_CHECKBOX9;
     static const long ID_PANEL2;
     static const long ID_STATICBOX1;
     static const long ID_STATICBOX9;

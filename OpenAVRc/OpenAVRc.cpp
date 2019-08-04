@@ -738,7 +738,7 @@ void doSplash()
     getADC(); // init ADC array
     checkBattery();
 
-    inputsMoved();
+    inputsMoved(); // Init struct inactivity with this function
 
     do{
 

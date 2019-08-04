@@ -67,7 +67,11 @@ const MenuFuncP_PROGMEM menuTabGeneral[] PROGMEM = {
 };
 
 const pm_uchar zz_sticks[] PROGMEM = {
+#if defined (LCDROT180)
+#include "../bitmaps/sticks.lbmi"
+#else
 #include "../bitmaps/sticks.lbm"
+#endif
 };
 
 

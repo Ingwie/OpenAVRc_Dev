@@ -36,7 +36,11 @@
 #if defined(SPLASH)
 
 const pm_uchar zz_splashdata[] PROGMEM = {
+#if defined (LCDROT180)
+#include "../bitmaps/splash.lbmi"
+#else
 #include "../bitmaps/splash.lbm"
+#endif
 };
 
 void displaySplash()

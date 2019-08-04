@@ -43,7 +43,11 @@ uint8_t         warningType;
 bool            warningResult = false;
 
 const pm_uchar zz_asterisk_lbm[] PROGMEM = {
+#if defined (LCDROT180)
+#include "../bitmaps/asterisk.lbmi"
+#else
 #include "../bitmaps/asterisk.lbm"
+#endif
 };
 
 #if defined(NAVIGATION_MENUS)

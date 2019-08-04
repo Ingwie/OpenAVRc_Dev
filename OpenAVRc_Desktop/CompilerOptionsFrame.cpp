@@ -98,6 +98,7 @@ const long CompilerOptionsFrame::ID_CHOICE12 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT11 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX4 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX2 = wxNewId();
+const long CompilerOptionsFrame::ID_CHECKBOX9 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL2 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX1 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX9 = wxNewId();
@@ -232,15 +233,15 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceLCD->SetToolTip(_("Référence de l\'écran"));
   StaticText2 = new wxStaticText(Panel2, ID_STATICTEXT2, _("Processeur"), wxPoint(32,40), wxSize(64,13), 0, _T("ID_STATICTEXT2"));
   StaticText1 = new wxStaticText(Panel2, ID_STATICTEXT1, _("LCD"), wxPoint(64,80), wxDefaultSize, 0, _T("ID_STATICTEXT1"));
-  ChoiceVOICE = new wxChoice(Panel2, ID_CHOICE3, wxPoint(112,120), wxSize(96,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE3"));
+  ChoiceVOICE = new wxChoice(Panel2, ID_CHOICE3, wxPoint(112,136), wxSize(96,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE3"));
   ChoiceVOICE->SetSelection( ChoiceVOICE->Append(_("NO")) );
   ChoiceVOICE->Append(_("JQ6500"));
   ChoiceVOICE->SetToolTip(_("Option annonces vocales"));
-  StaticText3 = new wxStaticText(Panel2, ID_STATICTEXT3, _("Voice"), wxPoint(56,128), wxDefaultSize, 0, _T("ID_STATICTEXT3"));
-  CheckBoxAUDIO = new wxCheckBox(Panel2, ID_CHECKBOX7, _("Audio"), wxPoint(112,160), wxSize(48,16), 0, wxDefaultValidator, _T("ID_CHECKBOX7"));
+  StaticText3 = new wxStaticText(Panel2, ID_STATICTEXT3, _("Voice"), wxPoint(56,136), wxDefaultSize, 0, _T("ID_STATICTEXT3"));
+  CheckBoxAUDIO = new wxCheckBox(Panel2, ID_CHECKBOX7, _("Audio"), wxPoint(112,176), wxSize(48,16), 0, wxDefaultValidator, _T("ID_CHECKBOX7"));
   CheckBoxAUDIO->SetValue(false);
   CheckBoxAUDIO->SetToolTip(_("Option audio"));
-  CheckBoxHAPTIC = new wxCheckBox(Panel2, ID_CHECKBOX14, _("Haptic"), wxPoint(112,192), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX14"));
+  CheckBoxHAPTIC = new wxCheckBox(Panel2, ID_CHECKBOX14, _("Haptic"), wxPoint(112,208), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX14"));
   CheckBoxHAPTIC->SetValue(false);
   CheckBoxHAPTIC->SetToolTip(_("Option Vibreur"));
   CheckBoxHELI = new wxCheckBox(Panel2, ID_CHECKBOX1, _("HELI"), wxPoint(528,152), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
@@ -249,7 +250,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxTEMPLATES = new wxCheckBox(Panel2, ID_CHECKBOX15, _("TEMPLATES"), wxPoint(528,176), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX15"));
   CheckBoxTEMPLATES->SetValue(false);
   CheckBoxTEMPLATES->SetToolTip(_("Option modèles pré programmés"));
-  CheckBoxSD_CARD = new wxCheckBox(Panel2, ID_CHECKBOX12, _("Carte SD"), wxPoint(112,224), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX12"));
+  CheckBoxSD_CARD = new wxCheckBox(Panel2, ID_CHECKBOX12, _("Carte SD"), wxPoint(112,240), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX12"));
   CheckBoxSD_CARD->SetValue(false);
   CheckBoxSD_CARD->SetToolTip(_("Option carte SD (Sauvegarde - Fichiers log)"));
   ChoiceTRANSLATIONS = new wxChoice(Panel2, ID_CHOICE7, wxPoint(336,32), wxSize(72,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE7"));
@@ -346,6 +347,8 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxInvStickLV->SetValue(false);
   CheckBoxInvStickRV = new wxCheckBox(Panel2, ID_CHECKBOX2, _("Inversion Stick_RV"), wxPoint(672,72), wxSize(112,13), 0, wxDefaultValidator, _T("ID_CHECKBOX2"));
   CheckBoxInvStickRV->SetValue(false);
+  CheckBoxLCDROT180 = new wxCheckBox(Panel2, ID_CHECKBOX9, _("Rotation Lcd 180°"), wxPoint(112,108), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX9"));
+  CheckBoxLCDROT180->SetValue(false);
   Panel3 = new wxPanel(Notebook1, ID_PANEL3, wxDefaultPosition, wxSize(800,356), wxTAB_TRAVERSAL, _T("ID_PANEL3"));
   StaticBox1 = new wxStaticBox(Panel3, ID_STATICBOX1, _("Protocole"), wxPoint(8,24), wxSize(168,312), 0, _T("ID_STATICBOX1"));
   StaticBox9 = new wxStaticBox(Panel3, ID_STATICBOX9, _("Beta test"), wxPoint(24,160), wxSize(144,160), 0, _T("ID_STATICBOX9"));
@@ -558,6 +561,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
 
   ChoicePCB->SetStringSelection(PCB);
   ChoiceLCD->SetStringSelection(LCD);
+  CheckBoxLCDROT180->SetValue(LCDROT180);
   ChoiceVOICE->SetStringSelection(VOICE);
   ChoiceEXT->SetStringSelection(EXT);
   CheckBoxAUDIO->SetValue(AUDIO);
@@ -673,6 +677,7 @@ void CompilerOptionsFrame::BatFunction()
   wxString CompiBat = "make";
   CompiBat += (" PCB=" + PCB);
   CompiBat += (" LCD=" + LCD);
+  if (LCDROT180) CompiBat += (" LCDROT180=YES");// default should be NO
   CompiBat += (" VOICE=" + VOICE);
   CompiBat += (" EXT=" + EXT);
   if (AUDIO) CompiBat += (" AUDIO=YES");// default should be NO
@@ -774,6 +779,7 @@ void CompilerOptionsFrame::CollectDatas()
   doNotClose = 0;
   PCB  = ChoicePCB->GetString(ChoicePCB->GetSelection());
   LCD  = ChoiceLCD->GetString(ChoiceLCD->GetSelection());
+  LCDROT180 = CheckBoxLCDROT180->GetValue();
   VOICE  = ChoiceVOICE->GetString(ChoiceVOICE->GetSelection());
   EXT  = ChoiceEXT->GetString(ChoiceEXT->GetSelection());
   AUDIO = CheckBoxAUDIO->GetValue();

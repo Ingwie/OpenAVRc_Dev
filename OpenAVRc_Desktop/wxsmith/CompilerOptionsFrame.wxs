@@ -110,24 +110,24 @@
 								<item>JQ6500</item>
 							</content>
 							<selection>0</selection>
-							<pos>112,120</pos>
+							<pos>112,136</pos>
 							<size>96,21</size>
 							<tooltip>Option annonces vocales</tooltip>
 							<handler function="OnChoiceVOICESelect" entry="EVT_CHOICE" />
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
 							<label>Voice</label>
-							<pos>56,128</pos>
+							<pos>56,136</pos>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX7" variable="CheckBoxAUDIO" member="yes">
 							<label>Audio</label>
-							<pos>112,160</pos>
+							<pos>112,176</pos>
 							<size>48,16</size>
 							<tooltip>Option audio</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX14" variable="CheckBoxHAPTIC" member="yes">
 							<label>Haptic</label>
-							<pos>112,192</pos>
+							<pos>112,208</pos>
 							<tooltip>Option Vibreur</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBoxHELI" member="yes">
@@ -142,7 +142,7 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX12" variable="CheckBoxSD_CARD" member="yes">
 							<label>Carte SD</label>
-							<pos>112,224</pos>
+							<pos>112,240</pos>
 							<tooltip>Option carte SD (Sauvegarde - Fichiers log)</tooltip>
 							<handler function="OnCheckBoxSD_CARDClick" entry="EVT_CHECKBOX" />
 						</object>
@@ -339,6 +339,10 @@
 							<label>Inversion Stick__RV</label>
 							<pos>672,72</pos>
 							<size>112,13</size>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX9" variable="CheckBoxLCDROT180" member="yes">
+							<label>Rotation Lcd 180°</label>
+							<pos>112,108</pos>
 						</object>
 					</object>
 					<label>Réglages</label>
