@@ -900,6 +900,14 @@ void CompilerOptionsFrame::OnButtonEXITClick(wxCommandEvent& event)
   if (!doNotClose) Close();
 }
 
+uint8_t invertByte(uint8_t a)
+{
+	a = ((a & 0xaa) >>  1) | ((a & 0x55) <<  1);
+	a = ((a & 0xcc) >>  2) | ((a & 0x33) <<  2);
+	a = ((a & 0xf0) >>  4) | ((a & 0x0f) <<  4);
+	return a;
+}
+
 void CompilerOptionsFrame::WriteSplashFile()
 {
   wxString data;
@@ -921,7 +929,14 @@ void CompilerOptionsFrame::WriteSplashFile()
       line = "";
       for (uint16_t j=0; j<(LCD_W); ++j)
         {
-          data.Printf("0x%02x",LbmSplash[2+(i*LCD_W)+j]);
+          if (LCDROT180) // Inverted LCD Splash
+          {
+            data.Printf("0x%02x",invertByte(LbmSplash[2+(i*LCD_W)+j]));
+          }
+          else
+          {
+            data.Printf("0x%02x",LbmSplash[2+(i*LCD_W)+j]);
+          }
           line += data.ToUTF8();
           line += ",";
         }
