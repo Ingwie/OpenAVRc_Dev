@@ -234,7 +234,7 @@ enum AlarmLevel {
 #define TELEMETRY_CELLS_FORMAT          "%d.%d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,"
 #define TELEMETRY_CELLS_LABEL           "Cell volts,Cell 1,Cell 2,Cell 3,Cell 4,Cell 5,Cell 6,"
 #define TELEMETRY_CURRENT_FORMAT        "%d.%02d,"
-#define TELEMETRY_CURRENT_ARGS          telemetryData.value.current / 100, telemetryData.value.current % 100,
+#define TELEMETRY_CURRENT_ARGS          telemetryData.value.current / 10, telemetryData.value.current % 10,
 #define TELEMETRY_VFAS_FORMAT           "%d.%d,"
 #define TELEMETRY_VFAS_ARGS             telemetryData.value.vfas / 10, telemetryData.value.vfas % 10,
 #define TELEMETRY_VSPEED_FORMAT         "%c%d.%02d,"
