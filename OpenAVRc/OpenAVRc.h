@@ -182,6 +182,12 @@ static uint16_t DurationValue;
   #define logDelay 0
 #endif
 
+#if defined(BLUETOOTH)
+  #define CASE_BLUETOOTH(x) x,
+#else
+  #define CASE_BLUETOOTH(x)
+#endif
+
 #if defined(HELI)
   #define CASE_HELI(x) x,
 #else
