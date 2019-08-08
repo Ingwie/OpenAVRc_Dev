@@ -39,6 +39,10 @@ FAI = NO
 # Values = YES, NO
 SDCARD = NO
 
+# Use Bluetooth
+# Values = YES, NO
+BLUETOOTH = NO
+
 # Enable heli menu
 # Values = YES, NO
 HELI = NO
@@ -998,6 +1002,11 @@ ifeq ($(FAI), YES)
 endif
 ifeq ($(FAI), CHOICE)
   CPPDEFS += -DFAI_CHOICE
+endif
+
+ifeq ($(BLUETOOTH), YES)
+  CPPDEFS += -DBLUETOOTH
+  GUIMODELSRC += gui/menu_general_bluetooth.cpp
 endif
 
 ifeq ($(HELI), YES)
