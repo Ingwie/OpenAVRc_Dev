@@ -90,7 +90,7 @@
 #define bitRead(var, bit)  (!!((var) & (1 << (bit))))
 #define interrupts()       sei()
 #define delay(d)           _delay_ms(d)
-#define GET_TICK()         (uint32_t)getTmr10ms()
+#define GET_TICK()         (uint32_t)GET_10MS_TICK()
 #define MS_TO_TICK(ms)     MS_TO_10MS_TICK(ms)
 #define WDT_RESET()        MYWDT_RESET(x)
 #endif
