@@ -52,5 +52,30 @@
 */
 #define EVERY_PERIOD(Var, PowerOf2)                         EVERY_PERIOD_WITH_OFFSET((Var), (PowerOf2), 0)
 
-#endif // MISCLIB_H
+/**
+* \file  misclib.h
+* \fn    Macro: DECL_STR2(StrName, Str)
+* \brief Declare a string in flash memory
+* \param StrName:  Name of the string in memory
+* \param Str:      The string
+*/
+#define DECL_FLASH_STR2(StrName, Str)                        const char StrName [] PROGMEM =  Str
 
+/**
+* \file  misclib.h
+* \fn    Macro: DECL_FLASH_TBL(TblName, TblType)
+* \brief Declare a table of specified type in flash memory
+* \param TblName:  Name of the table
+* \param TblType:  Type of item in the table (uint8_t, char*, struct, etc)
+*/
+#define DECL_FLASH_TBL(TblName, TblType)                     const TblType TblName [] PROGMEM
+
+/**
+* \file  misclib.h
+* \fn    Macro: TBL_ITEM_NB(Tbl)
+* \brief returns the number of item of a table
+* \param Tbl:  Name of the table
+*/
+#define TBL_ITEM_NB(Tbl)                                     (sizeof(Tbl) / sizeof(Tbl[0]))
+
+#endif // MISCLIB_H
