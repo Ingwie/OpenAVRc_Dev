@@ -61,7 +61,9 @@
 
 #define BACK_SPACE               0x08
 #define TDBG_CMD_LEN             16
-#define TDBG_BUFF_SIZE           40
+#define TDBG_BUFF_SIZE           60
+
+#define TDBG_USER_HALT_BP_ID     100
 
 #define TDBG_FIRST_VAL_COL_POS   60
 #define TDBG_SECOND_VAL_COL_POS  (TDBG_FIRST_VAL_COL_POS  + 12)
@@ -102,15 +104,15 @@ STR(FLASH);
 
 STR_TBL(Mem_Type) = {Str_RAM, Str_EEPROM, Str_FLASH};
 
-static void    dbgInterpretAndExecute(char *Command);
+enum {ST_FROM_ANY_OTHER = 0, ST_FROM_BREAK, ST_FROM_DB};
+
 static void    displayWatchVariable(char *tmpbuf);
 static void    displayStatus(uint8_t FromBreak = 0);
 static void    displaySpace(uint8_t SpaceNb);
-static void    watchRaw(uint8_t MemLocIdx);
-static void    PrintByteBin(Stream *stream, uint8_t Byte, uint8_t RemainingNibble = 0);
-static void    PrintBin(Stream *stream, uint8_t *Buf, uint8_t BufSize, uint8_t RemainingNibble = 0);
-static char   *GetLbl(const char * const *LblTbl, uint8_t LblIdx, char *Lbl, uint8_t LblMaxLen);
-static char   *ltrim(char *str);
+static void    watchRaw(char *Cmd, uint8_t MemLocIdx);
+static void    printByteBin(Stream *stream, uint8_t Byte, uint8_t RemainingNibble = 0);
+static void    printBin(Stream *stream, uint8_t *Buf, uint8_t BufSize, uint8_t RemainingNibble = 0);
+static char   *getLbl(const char * const *LblTbl, uint8_t LblIdx, char *Lbl, uint8_t LblMaxLen);
 
 static char     Command[TDBG_CMD_LEN];
 static uint8_t  index = 0;
@@ -121,43 +123,43 @@ static uint8_t  DisplayPeriodMsDiv128 = 0;
 
 const char TDBG_PROMPT[] PROGMEM = "\nTDBG> ";
 
-const char NL[] PROGMEM = "\r\n";
+const char NL[]          PROGMEM = "\r\n";
 const char CMD_NOT_RECOGNIZED[] PROGMEM = "?";
 
-const char RUNNING[] PROGMEM = "Running...";
-const char STOPPED[] PROGMEM = "Stopped.";
+const char RUNNING[]     PROGMEM = "Running...";
+const char STOPPED[]     PROGMEM = "Stopped.";
 
-#define STILL_STOPPED           STOPPED
-const char BP_NONE[]       PROGMEM = "0";
+#define STILL_STOPPED    STOPPED
+const char BP_NONE[]     PROGMEM = "0";
 
 const char ACTIVE_BREAKPOINTS[]  PROGMEM = "[Act bps: ";
 const char BREAKPOINTS_CLEARED[] PROGMEM = "BP Cleared";
 const char WATCH_VARS_CLEARED[]  PROGMEM = "";
 
 #else
-const char helpText1[] PROGMEM = "\ndm [addr (l len)]    -> ";
-const char helpText2[] PROGMEM =   "display mem content (m=r->";
-const char helpText3[] PROGMEM =   "RAM,m=e->eEPROM,m=f->fLASH)\n";
-const char helpText4[] PROGMEM =   "bp [breakpoint ID]   -> ";
-const char helpText5[] PROGMEM =   "activate BP(s) with ID\n";
+const char helpText1[]   PROGMEM = "\ndm [addr (l len)]    -> ";
+const char helpText2[]   PROGMEM =   "display mem content (m=r->";
+const char helpText3[]   PROGMEM =   "RAM,m=e->eEPROM,m=f->fLASH)\n";
+const char helpText4[]   PROGMEM =   "bp [breakpoint ID]   -> ";
+const char helpText5[]   PROGMEM =   "activate BP(s) with ID\n";
 
-const char helpText6[] PROGMEM =   "db [breakpoint ID]   -> ";
-const char helpText7[] PROGMEM =   "deactivate BP(s) with ID\n";
+const char helpText6[]   PROGMEM =   "db [breakpoint ID]   -> ";
+const char helpText7[]   PROGMEM =   "deactivate BP(s) with ID\n";
 
-const char helpText8[] PROGMEM =   "cb                   -> ";
-const char helpText9[] PROGMEM =   "clear all BP(s)\n";
+const char helpText8[]   PROGMEM =   "cb                   -> ";
+const char helpText9[]   PROGMEM =   "clear all BP(s)\n";
 
-const char helpText10[] PROGMEM =  "ru                   -> ";
-const char helpText11[] PROGMEM =  "run program execution\n";
+const char helpText10[]  PROGMEM =  "ru                   -> ";
+const char helpText11[]  PROGMEM =  "run program execution\n";
 
-const char helpText12[] PROGMEM =  "ha                   -> ";
-const char helpText13[] PROGMEM =  "halt program execution\n";
+const char helpText12[]  PROGMEM =  "ha                   -> ";
+const char helpText13[]  PROGMEM =  "halt program execution\n";
 
-const char helpText14[] PROGMEM =  "dv [(p period in ms)]-> ";
-const char helpText15[] PROGMEM =  "display variables\n";
+const char helpText14[]  PROGMEM =  "dv [(p period in ms)]-> ";
+const char helpText15[]  PROGMEM =  "display variables\n";
 
-const char helloText1[] PROGMEM =  "-- Tiny Debugger V" VER_REV_STR(TINY_DBG_VERSION,TINY_DBG_REVISION)"";
-const char helloText2[] PROGMEM =  " started.  h for help. --\n";
+const char helloText1[]  PROGMEM =  "-- Tiny Debugger V" VER_REV_STR(TINY_DBG_VERSION,TINY_DBG_REVISION)"";
+const char helloText2[]  PROGMEM =  " started.  h for help. --\n";
 const char TDBG_PROMPT[] PROGMEM = "\nTDB> ";
 
 const char NL[] PROGMEM = "\n";
@@ -175,6 +177,7 @@ const char WATCH_VARS_CLEARED[]  PROGMEM = "All Watch Variables Cleared: ";
 #endif
 typedef struct{
   Stream         *stream;
+  const char     *FlashPrePrompt;
   char           *FunctName;
   uint16_t        ArmedBreakPointMap;
   TdbWatchVarSt_t Vars[TDBG_MAX_WATCHES];
@@ -191,21 +194,26 @@ static uint32_t DisplayPeriodStartTick = 0L;
 #endif
 
 /**
- * \fn void TinyDbg_init(Stream *TdbgStream)
+ * \fn void TinyDbg_init(Stream *TdbgStream, const char *FlashPrePrompt)
  * \brief Tiny Debugger initialization.
  *
- * \param  TdbgStream: pointer on a stream (eg: Serial).
+ * \param  TdbgStream:     pointer on a stream (eg: Serial).
+ * \param  FlashPrePrompt: pointer on a Prompt string (if TinyDbg is used in an existing CLI).
  * \return Void.
  */
-void TinyDbg_init(Stream *TdbgStream)
+void TinyDbg_init(Stream *TdbgStream, const char *FlashPrePrompt/*=NULL*/)
 {
   memset((void*)&Tdbg, 0, sizeof(Tdbg));
+  Tdbg.stream         = TdbgStream;
+  Tdbg.FlashPrePrompt = FlashPrePrompt;
   if(TdbgStream)
   {
-    Tdbg.stream = TdbgStream;
 #ifndef TDBG_WITH_MIN_FEATURES
-    TinyDbg_Printf(helloText1);
-    TinyDbg_Printf(helloText2);
+    if(!Tdbg.FlashPrePrompt)
+    {
+      TinyDbg_Printf(helloText1);
+      TinyDbg_Printf(helloText2);
+    }
 #endif
     TinyDbg_Printf(TDBG_PROMPT);
   }
@@ -282,26 +290,35 @@ void TinyDbg_event(void)
   WDT_RESET();
 
   if(!Tdbg.stream) return;
-  while(Tdbg.stream->available())
+  if(Tdbg.Stopped || !Tdbg.FlashPrePrompt) // Catch characters forever if TinyDbg in standalone
   {
-    RxChar = (char)Tdbg.stream->read();
+    while(Tdbg.stream->available())
+    {
+      RxChar = (char)Tdbg.stream->read();
 
-    if(index < TDBG_CMD_LEN)
-    {
-      if((RxChar == BACK_SPACE) && index) index--;
-      else                                Command[index++] = RxChar;
-      if (RxChar == '\n' || RxChar == '\r')
+      if(index < TDBG_CMD_LEN)
       {
-        Command[index] = 0; /* Replace CR or LF by end of string */
-        index = 0;
-//        Tdbg.stream->print(Command);TinyDbg_Printf(NL); /* Local echo for Arduino Serial terminal */
-        dbgInterpretAndExecute(Command);
+        if((RxChar == BACK_SPACE) && index) index--;
+        else
+        {
+          if (RxChar == '\n' || RxChar == '\r')
+          {
+            Command[index] = 0; /* Replace CR or LF with end of string */
+            index = 0;
+  #ifdef TDBG_BASIC_ARDUINO_SERIAL_CONSOLE_SUPPORT
+            Tdbg.stream->println(Command); /* Local echo for Arduino Serial terminal */
+  #endif
+            if(Tdbg.FlashPrePrompt && Tdbg.Stopped) TinyDbg_Printf(Tdbg.FlashPrePrompt);
+            TinyDbg_interpretAndExecute(Command);
+          }
+          else Command[index++] = RxChar; /* Store the character */
+        }
       }
-    }
-    else
-    {
-      /* Too long! */
-      index = 0;
+      else
+      {
+        /* Too long! */
+        index = 0;
+      }
     }
   }
 #ifdef TDBG_PERIODIC_DISPLAY
@@ -313,7 +330,7 @@ void TinyDbg_event(void)
       AutoCommand[0] = 'd';
       AutoCommand[1] = 'v';
       AutoCommand[2] =  0 ;
-      dbgInterpretAndExecute(AutoCommand);
+      TinyDbg_interpretAndExecute(AutoCommand);
     }
   }
 #endif
@@ -369,7 +386,7 @@ void TinyDbg_isAtBreakpoint(char *FunctName, uint8_t BpId, uint16_t Line)
     Tdbg.BreakPointAtId = BpId;
     Tdbg.Stopped        = 1;
     interrupts();             // enable all interrupts
-    displayStatus(1);
+    displayStatus(ST_FROM_BREAK);
     while(Tdbg.BreakPointAtId)
     {
       TinyDbg_event();
@@ -379,35 +396,36 @@ void TinyDbg_isAtBreakpoint(char *FunctName, uint8_t BpId, uint16_t Line)
 }
 
 /**
- * \fn void dbgInterpretAndExecute(char *Cmd)
+ * \fn void TinyDbg_interpretAndExecute(char *Cmd, const char *FlashPrePrompt)
  * \brief CLI interpretor
  *
  * \param  Cmd: Pointer on a buffer containing the command to interpret and execute
  * \return Void
  */
-static void dbgInterpretAndExecute(char *Cmd)
+void TinyDbg_interpretAndExecute(char *Cmd)
 {
   char    tmpbuf[TDBG_BUFF_SIZE];
   char    Error = TRUE;
   uint8_t BpIdx;
 
+  if(Tdbg.FlashPrePrompt) TinyDbg_Printf(TDBG_PROMPT + 1);
 #ifndef TDBG_WITH_MIN_FEATURES
   /////// Display ram memory ///////////
   if(strstr_P(Cmd, PSTR("dr")))
   {
-    watchRaw(RAM_LOC);
+    watchRaw(Cmd, RAM_LOC);
     Error = FALSE;
   }
   /////// Display eeprom memory ///////////
   if(strstr_P(Cmd, PSTR("de")))
   {
-    watchRaw(EEPROM_LOC);
+    watchRaw(Cmd, EEPROM_LOC);
     Error = FALSE;
   }
   /////// Display flash memory ///////////
   if(strstr_P(Cmd, PSTR("df")))
   {
-    watchRaw(FLASH_LOC);
+    watchRaw(Cmd, FLASH_LOC);
     Error = FALSE;
   }
 #endif
@@ -422,6 +440,11 @@ static void dbgInterpretAndExecute(char *Cmd)
     }
     displayStatus();
     Error = FALSE;
+    if(Tdbg.Stopped)
+    {
+      if(!Tdbg.FlashPrePrompt) TinyDbg_Printf(TDBG_PROMPT);      
+      return;
+    }
   }
   /////// dearm breakpoint ///////////
   if(strstr_P(Cmd, PSTR("db")))
@@ -431,9 +454,12 @@ static void dbgInterpretAndExecute(char *Cmd)
     {
       bitClear(Tdbg.ArmedBreakPointMap, BpIdx);
       TinyDbg_Printf(PSTR("BP %u disarmed: Still "), BpIdx + 1);
+      displayStatus(ST_FROM_DB);
     }
-    displayStatus();
+    else displayStatus();
     Error = FALSE;
+    if(!Tdbg.FlashPrePrompt) TinyDbg_Printf(TDBG_PROMPT);
+    return;
   }
 
   /////// clear armed breakpoints ///////////
@@ -456,6 +482,15 @@ static void dbgInterpretAndExecute(char *Cmd)
     }
 #endif
     displayWatchVariable(tmpbuf);
+    if(Tdbg.FlashPrePrompt)
+    {
+      if(Tdbg.Stopped)
+      {
+        TinyDbg_Printf(NL);
+        TinyDbg_Printf(Tdbg.FlashPrePrompt);
+        return;
+      }
+    }
     Error = FALSE;
   }
 
@@ -463,14 +498,16 @@ static void dbgInterpretAndExecute(char *Cmd)
   /////// halt ///////////
   if(strstr_P(Cmd, PSTR("ha")))
   {
-    Tdbg.Stopped = 1;
-    Tdbg.BreakPointAtId = 100;
+    if(!Tdbg.Stopped)
+    {
+      Tdbg.Stopped = 1;
+      Tdbg.BreakPointAtId = TDBG_USER_HALT_BP_ID;
 #ifdef TDBG_PERIODIC_DISPLAY
-    DisplayPeriodMsDiv128 = 0; // disable periodic display if armed
+      DisplayPeriodMsDiv128 = 0; // disable periodic display if armed
 #endif
-    TinyDbg_Printf(STOPPED);
-    displayWatchVariable(tmpbuf);
-    TinyDbg_Printf(TDBG_PROMPT);
+    }
+    displayStatus();
+    if(!Tdbg.FlashPrePrompt) TinyDbg_Printf(TDBG_PROMPT);
     while(Tdbg.BreakPointAtId)
     {
       TinyDbg_event();
@@ -495,6 +532,10 @@ static void dbgInterpretAndExecute(char *Cmd)
   {
     displayStatus();
     Error = FALSE;
+    if(Tdbg.Stopped)
+    {
+      if(Tdbg.FlashPrePrompt) return;
+    }
   }
 
 #ifndef TDBG_WITH_MIN_FEATURES
@@ -517,8 +558,12 @@ static void dbgInterpretAndExecute(char *Cmd)
   {
     TinyDbg_Printf(CMD_NOT_RECOGNIZED);
   }
-
-  TinyDbg_Printf(TDBG_PROMPT);
+  
+  if(!Tdbg.FlashPrePrompt) TinyDbg_Printf(TDBG_PROMPT);
+  else
+  {
+    TinyDbg_Printf(NL);
+  }
 }
 
 /**
@@ -540,30 +585,31 @@ static void displaySpace(uint8_t SpaceNb)
  * \param  MemLocIdx: Memory location index (see RAM_LOC, EEPROM_LOC, FLASH_LOC).
  * \return Void.
  */
-static void watchRaw(uint8_t MemLocIdx)
+static void watchRaw(char *Cmd, uint8_t MemLocIdx)
 {
   uint32_t Start = 0;
   uint32_t Len =   16 * 2UL;
 
-  char *ptrlen = strstr_P(Command, PSTR("l"));
+  char *ptrlen = strstr_P(Cmd, PSTR("l"));
   if(ptrlen)
   {
     Len = atoi(ptrlen + 1);
   }
 
   TinyDbg_Printf(NL);
-  Start = strtol(&Command[2], NULL, 16);
+  Start = strtol(&Cmd[2], NULL, 16);
+
   TinyDbg_dumpMem(MemLocIdx, Start, Len);
 }
 
 /**
- * \fn void displayStatus(uint8_t FromBreak)
+ * \fn void displayStatus(uint8_t From)
  * \brief Display the current status of the Tiny Debugger.
  *
- * \param  FromBreak: 0: do not come from breakpoint, 1: comes from breakpoint.
+ * \param  From: 0: do not come from breakpoint, 1: comes from breakpoint, 2: comes from db command.
  * \return Void.
  */
-static void displayStatus(uint8_t FromBreak /*= 0*/)
+static void displayStatus(uint8_t From /*= 0*/)
 {
   char     tmpbuf[TDBG_BUFF_SIZE];
   uint8_t  Idx, DisabledBreakPointNb = 0;
@@ -571,10 +617,14 @@ static void displayStatus(uint8_t FromBreak /*= 0*/)
 
   if(Tdbg.Stopped)
   {
-    if(Tdbg.BreakPointAtId == 100) TinyDbg_Printf(PSTR("\nStopped by user halt cmd "));
+  //  if(Tdbg.FlashPrePrompt && (From != ST_FROM_DB)) TinyDbg_Printf(TDBG_PROMPT + 1);    
+    if(Tdbg.BreakPointAtId == TDBG_USER_HALT_BP_ID)
+    {
+      TinyDbg_Printf(PSTR("Stopped by user halt cmd "));
+    }
     else
     {
-      if(FromBreak) TinyDbg_Printf(NL);
+      if(Tdbg.FlashPrePrompt && From == ST_FROM_BREAK) TinyDbg_Printf(TDBG_PROMPT + 1);
       TinyDbg_Printf(PSTR("Stopped at BP"));
       TinyDbg_Printf(PSTR("%d in %s line %u"), (uint16_t)Tdbg.BreakPointAtId, Tdbg.FunctName, Tdbg.Line);
     }
@@ -589,7 +639,7 @@ static void displayStatus(uint8_t FromBreak /*= 0*/)
   {
     if(bitRead(Tdbg.ArmedBreakPointMap, Idx))
     {
-      Tdbg.stream->print(itoa(Idx + 1, tmpbuf, 10));
+      Tdbg.stream->print(Idx + 1);
       BpMsk = 0xFFFF << (Idx + 1);
       if(Tdbg.ArmedBreakPointMap & BpMsk) Tdbg.stream->print(F(", "));
     }
@@ -597,12 +647,23 @@ static void displayStatus(uint8_t FromBreak /*= 0*/)
   }
   if(DisabledBreakPointNb >= TDBG_MAX_BREAKPOINTS) TinyDbg_Printf(BP_NONE);
   Tdbg.stream->print(F("]"));
-#ifdef TDBG_PERIODIC_DISPLAY
-  if(FromBreak)
+  
+  if((From == ST_FROM_BREAK) || (From == ST_FROM_DB) || Tdbg.Stopped)
   {
+#ifdef TDBG_PERIODIC_DISPLAY
     DisplayPeriodMsDiv128 = 0; // disable periodic display if armed
-  }
 #endif
+    if(From == ST_FROM_BREAK)
+    {
+      displayWatchVariable(tmpbuf);
+      if(!Tdbg.FlashPrePrompt) TinyDbg_Printf(TDBG_PROMPT);
+    }
+    if(Tdbg.FlashPrePrompt)
+    {
+      TinyDbg_Printf(NL);
+      if(Tdbg.Stopped) TinyDbg_Printf(Tdbg.FlashPrePrompt);
+    }
+  }
 }
 
 /**
@@ -629,7 +690,7 @@ static void displayWatchVariable(char *tmpbuf)
       else                              Address = Tdbg.Vars[i].Address;
       DispLen += TinyDbg_Printf(PSTR("\nV%02u:(@0x%04x)"), i + 1, (uint16_t)Address);
       DispLen += TinyDbg_Printf(PSTR("%s()."), Tdbg.Vars[i].FunctName);
-      DispLen += TinyDbg_Printf(PSTR("(%s)"),  GetLbl(Var_Type, Tdbg.Vars[i].Type, tmpbuf, 10));
+      DispLen += TinyDbg_Printf(PSTR("(%s)"),  getLbl(Var_Type, Tdbg.Vars[i].Type, tmpbuf, 10));
       DispLen += TinyDbg_Printf(PSTR("%s: "),  Tdbg.Vars[i].Name);
       if(DispLen < TDBG_FIRST_VAL_COL_POS) displaySpace(TDBG_FIRST_VAL_COL_POS - DispLen);
       switch(Tdbg.Vars[i].Type)
@@ -643,7 +704,7 @@ static void displayWatchVariable(char *tmpbuf)
         DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), Byte < 127? Byte: '.');
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
         Tdbg.stream->print(F("0b"));
-        PrintByteBin(Tdbg.stream, (uint8_t)Byte);
+        printByteBin(Tdbg.stream, (uint8_t)Byte);
         continue;
 
         case TDBG_VAR_UINT8:
@@ -656,7 +717,7 @@ static void displayWatchVariable(char *tmpbuf)
         DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), Byte < 127? Byte: '.');
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
         Tdbg.stream->print(F("0b"));
-        PrintByteBin(Tdbg.stream, Byte);
+        printByteBin(Tdbg.stream, Byte);
         continue;
 
         case TDBG_VAR_INT16:
@@ -667,7 +728,7 @@ static void displayWatchVariable(char *tmpbuf)
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
         Word = htons(Word);
         Tdbg.stream->print(F("0b"));
-        PrintBin(Tdbg.stream, (uint8_t*)&Word, 2);
+        printBin(Tdbg.stream, (uint8_t*)&Word, 2);
         continue;
 
         case TDBG_VAR_UINT16:
@@ -678,7 +739,7 @@ static void displayWatchVariable(char *tmpbuf)
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
         Word = htons(Word);
         Tdbg.stream->print(F("0b"));
-        PrintBin(Tdbg.stream, (uint8_t*)&Word, 2);
+        printBin(Tdbg.stream, (uint8_t*)&Word, 2);
         continue;
 
         case TDBG_VAR_INT32:
@@ -689,7 +750,7 @@ static void displayWatchVariable(char *tmpbuf)
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
         Dword = htonl(Dword);
         Tdbg.stream->print(F("0b"));
-        PrintBin(Tdbg.stream, (uint8_t*)&Dword, 4);
+        printBin(Tdbg.stream, (uint8_t*)&Dword, 4);
         continue;
 
         case TDBG_VAR_UINT32:
@@ -700,14 +761,14 @@ static void displayWatchVariable(char *tmpbuf)
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
         Dword = htonl(Dword);
         Tdbg.stream->print(F("0b"));
-        PrintBin(Tdbg.stream, (uint8_t*)&Dword, 4);
+        printBin(Tdbg.stream, (uint8_t*)&Dword, 4);
         continue;
 
         case TDBG_VAR_FLOAT:
         Float= *(float*)Address;
-        if((Float > -1.0) && (Float < 1.0)) dtostrf(Float, 12, 10, tmpbuf);
-        else                  dtostrf(Float, 12, 8, tmpbuf);
-        DispLen = TDBG_FIRST_VAL_COL_POS + Tdbg.stream->print(ltrim(tmpbuf));
+        if((Float > -1.0) && (Float < 1.0)) dtostrf(Float, -12, 10, tmpbuf); /* - to be left justified */
+        else                                dtostrf(Float, -12,  8, tmpbuf); /* - to be left justified */
+        DispLen = TDBG_FIRST_VAL_COL_POS + Tdbg.stream->print(tmpbuf);
         continue;
 
         case TDBG_VAR_STRING:
@@ -719,14 +780,14 @@ static void displayWatchVariable(char *tmpbuf)
 
         case TDBG_VAR_RAW:
         sprintf_P(Command, PSTR("dr 0x%x"), (uint16_t)Address);
-        watchRaw(RAM_LOC);
+        watchRaw(Command, RAM_LOC);
       }
     }
   }
 }
 
 /**
- * \fn void PrintByteBin(Stream *stream, uint8_t Byte, uint8_t RemainingNibble)
+ * \fn void printByteBin(Stream *stream, uint8_t Byte, uint8_t RemainingNibble)
  * \brief Display a byte in binary.
  *
  * \param  stream: Pointer on a stream (eg: Serial)
@@ -734,7 +795,7 @@ static void displayWatchVariable(char *tmpbuf)
  * \param  RemainingNibble: 0: no remaining nibble, 1: remaining nibble
  * \return Void.
  */
-static void PrintByteBin(Stream *stream, uint8_t Byte, uint8_t RemainingNibble/* = 0*/)
+static void printByteBin(Stream *stream, uint8_t Byte, uint8_t RemainingNibble/* = 0*/)
 {
   for(uint8_t Idx = 0; Idx < 8; Idx++)
   {
@@ -748,7 +809,7 @@ static void PrintByteBin(Stream *stream, uint8_t Byte, uint8_t RemainingNibble/*
 }
 
 /**
- * \fn void PrintBin(Stream *stream, uint8_t *Buf, uint8_t BufSize, uint8_t RemainingNibble)
+ * \fn void printBin(Stream *stream, uint8_t *Buf, uint8_t BufSize, uint8_t RemainingNibble)
  * \brief Display a buffer in binary.
  *
  * \param  stream:  Pointer on a stream (eg: Serial)
@@ -757,23 +818,23 @@ static void PrintByteBin(Stream *stream, uint8_t Byte, uint8_t RemainingNibble/*
  * \param  RemainingNibble: 0: no remaining nibble, 1: remaining nibble
  * \return Void.
  */
-static void PrintBin(Stream *stream, uint8_t *Buf, uint8_t BufSize, uint8_t RemainingNibble/* = 0*/)
+static void printBin(Stream *stream, uint8_t *Buf, uint8_t BufSize, uint8_t RemainingNibble/* = 0*/)
 {
   uint8_t ByteIdx;
   for(ByteIdx =0; ByteIdx < BufSize; ByteIdx++)
   {
     if(ByteIdx) stream->print(F("."));
-    PrintByteBin(stream, Buf[ByteIdx]);
+    printByteBin(stream, Buf[ByteIdx]);
   }
   if(RemainingNibble)
   {
     stream->print(F("."));
-    PrintByteBin(stream, Buf[ByteIdx], RemainingNibble);
+    printByteBin(stream, Buf[ByteIdx], RemainingNibble);
   }
 }
 
 /**
- * \fn char *GetLbl(const char * const *LblTbl, uint8_t LblIdx, char *Lbl, uint8_t LblMaxLen)
+ * \fn char *getLbl(const char * const *LblTbl, uint8_t LblIdx, char *Lbl, uint8_t LblMaxLen)
  * \brief Get a label from a PROGMEM table.
  *
  * \param  LblTbl:    Pointer on the PROGMEM label table
@@ -781,7 +842,7 @@ static void PrintBin(Stream *stream, uint8_t *Buf, uint8_t BufSize, uint8_t Rema
  * \param  LblMaxLen: Maximum size of the destination buffer
  * \return Pointer on the Lbl.
  */
-static char *GetLbl(const char * const *LblTbl, uint8_t LblIdx, char *Lbl, uint8_t LblMaxLen)
+static char *getLbl(const char * const *LblTbl, uint8_t LblIdx, char *Lbl, uint8_t LblMaxLen)
 {
 
   Lbl[0] = 0; /* Empty String */
@@ -832,7 +893,7 @@ void TinyDbg_dumpMem(uint8_t MemLocIdx, uint32_t Start, uint32_t Len)
     {
       BytePtr = (char *)Start;
     }
-    TinyDbg_Printf(PSTR("%s dump (from 0x%5.5lX "), GetLbl(Mem_Type, MemLocIdx, TypeStr, 10), Start);
+    TinyDbg_Printf(PSTR("%s dump (from 0x%5.5lX "), getLbl(Mem_Type, MemLocIdx, TypeStr, 10), Start);
     TinyDbg_Printf(PSTR("to 0x%5.5lX: Len=%u):\n"), Start + Len - 1, Len);
     TinyDbg_Printf(PSTR("ADDR     0  1  2  3  4  5  6 "));
     TinyDbg_Printf(PSTR(  " 7  8  9  A  B  C  D  E  F"));
@@ -878,28 +939,6 @@ void TinyDbg_dumpMem(uint8_t MemLocIdx, uint32_t Start, uint32_t Len)
     }
     TinyDbg_Printf(NL);
   }
-}
-
-/**
- * \fn char *ltrim(char *str)
- * \brief Remove space(s), tabulation(s) at the left of a string (trim)
- *
- * \param  str: Pointer on the string to trim
- * \return Pointer on the trimed string.
- */
-static char *ltrim(char *str)
-{
-  int len = strlen(str);
-  char *cur = str;
-
-  while (*cur && isspace(*cur))
-  {
-    ++cur;
-    --len;
-  }
-  if (str != cur) memmove(str, cur, len + 1);
-
-  return str;
 }
 
 #endif //TDBG_ACTIVE
