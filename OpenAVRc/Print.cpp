@@ -109,11 +109,6 @@ size_t Print::print(unsigned long n, int base)
   if (base == 0) return write(n);
   else return printNumber(n, base);
 }
-#if 0
-size_t Print::print(double n, int digits)
-{
-  return printFloat(n, digits);
-}
 
 size_t Print::println(const __FlashStringHelper *ifsh)
 {
@@ -121,7 +116,66 @@ size_t Print::println(const __FlashStringHelper *ifsh)
   n += println();
   return n;
 }
-#endif
+
+size_t Print::println(void)
+{
+  return write("\r\n");
+}
+
+size_t Print::println(const char c[])
+{
+  size_t n = print(c);
+  n += println();
+  return n;
+}
+
+size_t Print::println(char c)
+{
+  size_t n = print(c);
+  n += println();
+  return n;
+}
+
+size_t Print::println(unsigned char b, int base)
+{
+  size_t n = print(b, base);
+  n += println();
+  return n;
+}
+
+size_t Print::println(int num, int base)
+{
+  size_t n = print(num, base);
+  n += println();
+  return n;
+}
+
+size_t Print::println(unsigned int num, int base)
+{
+  size_t n = print(num, base);
+  n += println();
+  return n;
+}
+
+size_t Print::println(long num, int base)
+{
+  size_t n = print(num, base);
+  n += println();
+  return n;
+}
+
+size_t Print::println(unsigned long num, int base)
+{
+  size_t n = print(num, base);
+  n += println();
+  return n;
+}
+
+size_t Print::println(void)
+{
+  return print(F("\r\n"));
+}
+
 // Private Methods /////////////////////////////////////////////////////////////
 
 size_t Print::printNumber(unsigned long n, uint8_t base)
@@ -188,4 +242,6 @@ size_t Print::printFloat(double number, uint8_t digits)
 
   return n;
 }
+
+
 #endif
