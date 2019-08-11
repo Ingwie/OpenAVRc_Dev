@@ -54,7 +54,7 @@
 #define TINY_DBG_H_
 
 #define TINY_DBG_VERSION      0
-#define TINY_DBG_REVISION     3
+#define TINY_DBG_REVISION     4
 
 /* vvv Start of User Debugger configuration vvv */
 
@@ -63,6 +63,7 @@
 #define TDBG_MAX_BREAKPOINTS  8 //Define here the max number of breakpoint(s) you need (Max is 16)
 #define TDBG_MAX_WATCHES      8 //Define here the max number of watch(es) you need (Max is limited by memory)
 //#define TDBG_WITH_MIN_FEATURES  //Comment this line to have full debug capabilities
+#define TDBG_BASIC_ARDUINO_SERIAL_CONSOLE_SUPPORT // Uncomment this to have local echo in arduino serial console
 
 /* ^^^ End of User Debugger configuration ^^^ */
 
@@ -128,8 +129,9 @@ typedef struct {
 }TdbWatchVarSt_t;
 
 #ifdef TDBG_ACTIVE
-void     TinyDbg_init(Stream *TdbgStream);
+void     TinyDbg_init(Stream *TdbgStream, const char *FlashPrePrompt = NULL);
 void     TinyDbg_attachToStream(Stream *TdbgStream);
+void     TinyDbg_interpretAndExecute(char *Cmd);
 void     TinyDbg_event(void);
 
 void     TinyDbg_addWatch(char*  FuncNameStr, void*  var, char*  VarNameStr, uint8_t Type);
