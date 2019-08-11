@@ -337,6 +337,13 @@ static uint16_t DurationValue;
 
 
 /**
+* \file  OpenAVRc.h
+* \fn    Macro: GET_10MS_TICK()
+* \brief Return the current 10 ms tick counter
+*/
+#define GET_10MS_TICK()                           getTmr10ms()
+
+/**
 * \file   OpenAVRc.h
 * \def    ELAPSED_10MS_TICK_SINCE(Start10msTick)
 * \brief  Returns the amount of elapsed 10msTick since a starting point expressed in 10msTick
@@ -372,6 +379,34 @@ static uint16_t DurationValue;
 * \return The amount of 64uSTick corresponding to a duration expressed in us
 */
 #define US_TO_64US_TICK(Us) ((Us)>>6) /* counter is 16MHz/1024=156251 not real 16Khz tick = 64us */
+
+/**
+* \file  misclib.h
+* \fn    Macro: YIELD_TO_TASK_FOR_MS(TaskList, StartDurationMsVar, DurationMs)
+* \brief Yield CPU to the specified task(s) for the specified time (in ms)
+* \param TaskList: list of task(s) (separated with ';')
+* \param StartDurationMsVar: uint32_t Variable used to stored ms
+* \param DurationMs: Yield duration (in ms)
+*/
+#define YIELD_TO_TASK_FOR_MS(TaskList, StartDurationMsVar, DurationMs) \
+                                                    StartDurationMsVar = GET_10MS_TICK();\
+                                                    do{\
+                                                      do{\
+                                                        TaskList;\
+                                                      }while((GET_10MS_TICK() - StartDurationMsVar) < MS_TO_10MS_TICK(DurationMs));\
+                                                    }while(0)
+
+/**
+* \file  misclib.h
+* \fn    Macro: YIELD_TO_TASK(TaskList)
+* \brief yield CPU to the specified task(s) (one shot)
+* \param TaskList: list of task(s) (separated with ';')
+*/
+#define YIELD_TO_TASK(TaskList) \
+                                                    do{\
+                                                      TaskList;\
+                                                    }while(0)
+
 
 #define T1900_OFFSET 1900
 extern time_t g_rtcTime;
