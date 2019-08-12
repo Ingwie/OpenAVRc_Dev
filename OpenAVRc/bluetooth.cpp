@@ -32,6 +32,8 @@
 
 #include "bluetooth.h"
 
+#define BT_MASTER     1 // TO DO
+
 extern void checkMixer(void);
 
 #define BT_SEND_AT_SEQ(AtCmdInit)     btSendAtSeq((const AtCmdSt_t*)&AtCmdInit, TBL_ITEM_NB(AtCmdInit))
@@ -67,6 +69,30 @@ typedef struct{
 #define BT_SCANN_TIMEOUT_MS        20000
 #define BT_READ_RNAME_TIMEOUT_MS   10000
 
+enum {OFF = 0, ON};
+
+static char      *getAtCmd(const AtCmdSt_t *AtCmdTbl, uint8_t Idx, char *Buf);
+static AtCmdAddon getAtCmdAddon(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
+static char      *getAtTermPattern(const AtCmdSt_t *AtCmdTbl, uint8_t Idx, char *Buf);
+static uint8_t    getAtTermPatternNb(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
+static uint16_t   getAtTimeoutMs(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
+
+static void    AtCmdMode(uint8_t On);
+static void    uartSet(char* Addon);
+static void    classSet(char* Addon);
+static void    genGet(char* Addon);
+static void    roleSet(char* Addon);
+static void    nameSet(char* Addon);
+static void    inqGet(char* Addon);
+static void    inqSet(char* Addon);
+static void    rnameGet(char* Addon);
+
+static uint8_t getSerialMsg(char *TermPattern = "\r", uint8_t TermPatternNb = 1, uint16_t TimeoutMs = 0);
+#define ASYNC_GET_SERIAL_MSG()          getSerialMsg()
+#define SYNC_GET_SERIAL_MSG(TimeoutMs)  getSerialMsg(TimeoutMs)
+
+static void    btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb);
+
 DECL_FLASH_TBL(AtCmdBtInit, AtCmdSt_t) = {
                           /* Cmd      CmdAddon TermPattern  TermPatternNb  TimeoutMs */
                           {NULL,      NULL,    Str_CRLF,         1,     BT_READ_TIMEOUT_MS},
@@ -98,31 +124,6 @@ DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
                           {Str_RNAME_,rnameGet,Str_CRLF_OK_CRLF, 1,     BT_READ_RNAME_TIMEOUT_MS},
                           };
 
-enum {OFF = 0, ON};
-
-static char      *getAtCmd(const AtCmdSt_t *AtCmdTbl, uint8_t Idx, char *Buf);
-static AtCmdAddon getAtCmdAddon(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
-static char      *getAtTermPattern(const AtCmdSt_t *AtCmdTbl, uint8_t Idx, char *Buf);
-static uint8_t    getAtTermPatternNb(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
-static uint16_t   getAtTimeoutMs(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
-
-static void    AtCmdMode(uint8_t On);
-static void    uartSet(char* Addon);
-static void    classSet(char* Addon);
-static void    genGet(char* Addon);
-static void    roleSet(char* Addon);
-static void    nameSet(char* Addon);
-static void    inqGet(char* Addon);
-static void    inqSet(char* Addon);
-static void    rnameGet(char* Addon);
-
-static uint8_t getSerialMsg(char *TermPattern = "\r", uint8_t TermPatternNb = 1, uint16_t TimeoutMs = 0);
-#define ASYNC_GET_SERIAL_MSG()          getSerialMsg()
-#define SYNC_GET_SERIAL_MSG(TimeoutMs)  getSerialMsg(TimeoutMs)
-
-static void    btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb);
-
-
 void bluetooth_init(HwSerial *hwSerial)
 {
   uint32_t RateTbl[] = {115200, 57600, 38400, 19200, 9600};
@@ -132,7 +133,7 @@ void bluetooth_init(HwSerial *hwSerial)
   AtCmdMode(ON);
   for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
   {
-    hwSerial->begin(RateTbl[Idx]);
+    hwSerial->init(RateTbl[Idx]);
     while(hwSerial->available()) hwSerial->read(); // Flush Rx
     hwSerial->print(F("AT\r\n"));
     if(getSerialMsg("K\r\n", 1, 100))
@@ -146,7 +147,7 @@ void bluetooth_init(HwSerial *hwSerial)
         hwSerial->print(UartAtCmd);
         if(getSerialMsg("\r\n", 1, 100))
         {
-          hwSerial->begin(RateTbl[0]);
+          hwSerial->init(RateTbl[0]);
           // BT Reboot is needed
           // TO DO
         }
@@ -308,7 +309,7 @@ static void btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb)
     {
 //Serial.print(uCli.CmdLine.Msg);Serial.println(F("'"));
     }
-    else Serial.println(F("No reponse!'"));
+//else Serial.println(F("No reponse!'"));
   }
   AtCmdMode(OFF);
 }
