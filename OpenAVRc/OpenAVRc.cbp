@@ -81,6 +81,8 @@
 		<Unit filename="adc_driver.cpp" />
 		<Unit filename="audio_avr.cpp" />
 		<Unit filename="audio_avr.h" />
+		<Unit filename="bluetooth.cpp" />
+		<Unit filename="bluetooth.h" />
 		<Unit filename="board_avr.h" />
 		<Unit filename="buzzer.cpp" />
 		<Unit filename="buzzer.h" />
@@ -186,9 +188,13 @@
 		<Unit filename="protocol/MULTI.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="protocol/PPM.h" />
 		<Unit filename="protocol/PROTO_PPM.cpp" />
 		<Unit filename="protocol/PROTO_PPM16.cpp" />
 		<Unit filename="protocol/PROTO_PPMSIM.cpp" />
+		<Unit filename="protocol/PROTO_xmega_PPM.cpp" />
+		<Unit filename="protocol/PROTO_xmega_PPM16.cpp" />
+		<Unit filename="protocol/PROTO_xmega_PPMSIM.cpp" />
 		<Unit filename="protocol/SKYARTEC_cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -232,6 +238,7 @@
 		<Unit filename="strhelpers.cpp" />
 		<Unit filename="switches.cpp" />
 		<Unit filename="targets/evo_v2/eeprom_rlc.cpp" />
+		<Unit filename="targets/evo_v2/lcd_ssd1309_driver.cpp" />
 		<Unit filename="targets/evo_v2/menu_general_diaganas.cpp" />
 		<Unit filename="targets/evo_v2/telemetry_driver.cpp" />
 		<Unit filename="targets/evo_v2/voice_jq6500.cpp" />
@@ -245,6 +252,7 @@
 		<Unit filename="targets/lcd/lcd_driver.cpp" />
 		<Unit filename="targets/lcd/lcd_ks108_driver.cpp" />
 		<Unit filename="targets/lcd/lcd_sh1106_driver.cpp" />
+		<Unit filename="targets/lcd/lcd_simu_driver.cpp" />
 		<Unit filename="targets/lcd/lcd_simu_driver.h" />
 		<Unit filename="targets/lcd/lcd_ssd1306_driver.cpp" />
 		<Unit filename="targets/lcd/lcd_st7920_driver.cpp" />
@@ -256,6 +264,8 @@
 		<Unit filename="targets/mega2560/voice_wtv20sd.cpp" />
 		<Unit filename="targets/megamini/board_megamini.cpp" />
 		<Unit filename="targets/megamini/board_megamini.h" />
+		<Unit filename="targets/simu/simu_interface.cpp" />
+		<Unit filename="targets/simu/simu_interface.h" />
 		<Unit filename="telemetry/frsky.cpp" />
 		<Unit filename="telemetry/frsky.h" />
 		<Unit filename="telemetry_driver.cpp" />
@@ -271,6 +281,9 @@
 		</Unit>
 		<Unit filename="thirdparty/rrsd/fat.h" />
 		<Unit filename="thirdparty/rrsd/fat_config.h" />
+		<Unit filename="thirdparty/rrsd/mainrrsd.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="thirdparty/rrsd/partition.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -322,6 +335,8 @@
 		<Unit filename="translations/tts_pt.cpp" />
 		<Unit filename="translations/tts_se.cpp" />
 		<Unit filename="translations/tts_sk.cpp" />
+		<Unit filename="uCli.cpp" />
+		<Unit filename="uCli.h" />
 		<Unit filename="vario.cpp" />
 		<Extensions>
 			<code_completion />

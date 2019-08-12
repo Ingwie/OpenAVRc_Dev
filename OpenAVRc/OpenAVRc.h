@@ -1257,7 +1257,7 @@ extern void OpenAVRcInit(uint8_t mcusr);
 // Re-useable byte array to save having multiple buffers
 #define SD_SCREEN_FILE_LENGTH (26)
 union ReusableBuffer {
-  // 231 bytes
+  // 240 bytes
   struct {
     char listnames[LCD_LINES-1][LEN_MODEL_NAME];
     uint16_t eepromfree;
@@ -1268,7 +1268,10 @@ union ReusableBuffer {
 #else
     char mainname[LEN_MODEL_NAME];
 #endif
-
+#if defined(BLUETOOTH)
+    char BTName[LEN_BT_NAME];
+    char BTMac[6];
+#endif
   } modelsel;
 
   // 43 bytes

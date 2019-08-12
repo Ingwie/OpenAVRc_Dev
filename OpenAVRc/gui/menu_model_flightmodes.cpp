@@ -110,7 +110,7 @@ void menuModelPhaseOne(uint8_t event)
 #endif
     switch(i) {
     case ITEM_MODEL_PHASE_NAME:
-      editSingleName(MIXES_2ND_COLUMN, y, STR_NAME, fm->name, sizeof(fm->name), event, attr);
+      editSingleName(MIXES_2ND_COLUMN, y, STR_NAME, fm->name, sizeof(fm->name), event, attr, EE_MODEL, RANGE_NONE);
       break;
     case ITEM_MODEL_PHASE_SWITCH:
       fm->swtch = switchMenuItem(MIXES_2ND_COLUMN, y, fm->swtch, attr, event);
@@ -169,7 +169,7 @@ void menuModelPhaseOne(uint8_t event)
 
       lcdDrawStringWithIndex(INDENT_WIDTH, y, STR_GV, idx+1);
 
-      editName(4*FW+2, y, g_model.gvars[idx].name, LEN_GVAR_NAME, event, posHorz==0 ? attr : 0);
+      editName(4*FW+2, y, g_model.gvars[idx].name, LEN_GVAR_NAME, event, posHorz==0 ? attr : 0, EE_MODEL, RANGE_NONE);
 
       int16_t v = fm->gvars[idx];
       if (v > GVAR_MAX) {
