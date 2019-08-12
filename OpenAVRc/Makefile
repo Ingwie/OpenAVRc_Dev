@@ -1007,6 +1007,7 @@ endif
 ifeq ($(BLUETOOTH), YES)
   CPPDEFS += -DBLUETOOTH
   GUIMODELSRC += gui/menu_general_bluetooth.cpp
+#Print.cpp HwSerial.cpp ucli.cpp bluetooth.cpp
 endif
 
 ifeq ($(HELI), YES)

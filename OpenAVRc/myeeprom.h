@@ -98,11 +98,12 @@
 #define BS         16
 #endif
 
-#define BLUETOOTH_FIELDS \
-uint8_t BTParams;        \
-char BTName[6];          \
-char BTSlaveName[6];     \
-uint8_t BTSlaveMac[6];   \
+#define LEN_BT_NAME 8
+#define BLUETOOTH_FIELDS          \
+uint8_t BTParams;                 \
+char    BTPin[4];                 \
+char    BTPairName[LEN_BT_NAME];  \
+char    BTMac[6];                 /* To do : Check what we keep it in eeprom */
 
 #define MAX_TIMERS           2
 #define NUM_CYC              3
