@@ -113,6 +113,8 @@ extern void menuStatisticsDebug(uint8_t event);
 
 extern void displaySlider(coord_t x, coord_t y, uint8_t value, uint8_t max, uint8_t attr);
 
+extern uint8_t editNameCursorPos;
+
 #if defined(NAVIGATION_POT1)
 extern int16_t p1valdiff;
 #else
@@ -134,6 +136,7 @@ extern int8_t checkIncDec_Ret;  // global helper vars
 extern int8_t s_editMode;       // global editmode
 
 // checkIncDec flags
+#define EE_NO           0x00
 #define EE_GENERAL      0x01
 #define EE_MODEL        0x02
 #define NO_INCDEC_MARKS 0x04
@@ -271,8 +274,6 @@ int16_t gvarMenuItem(coord_t x, coord_t y, int16_t value, int16_t min, int16_t m
 #define displayGVar(x, y, v, min, max) lcdDrawNumberNAtt(x, y, v)
 #endif
 
-void editName(coord_t x, coord_t y, char *name, uint8_t size, uint8_t event, uint8_t active);
-
 #define WARNING_TYPE_ASTERISK  0
 #define WARNING_TYPE_CONFIRM   1
 #define WARNING_TYPE_INPUT     2
@@ -369,5 +370,13 @@ void repeatLastCursorMove(uint8_t event);
 
 typedef int16_t (*FnFuncP) (int16_t x);
 void DrawFunction(FnFuncP fn, uint8_t offset=0);
+
+//Range type
+#define RANGE_NONE   0
+#define RANGE_UPPER  1
+#define RANGE_NUMBER 2
+
+void editSingleName(coord_t x, coord_t y, const pm_char *label, char *name, uint8_t size, uint8_t event, uint8_t active, uint8_t msk, uint8_t range);
+void editName(coord_t x, coord_t y, char *name, uint8_t size, uint8_t event, uint8_t active, uint8_t msk, uint8_t range);
 
 #endif // _MENUS_H_

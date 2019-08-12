@@ -22,7 +22,8 @@
 					<Add option="-DTTS_FR" />
 					<Add option="-DEXTERNALEEPROM" />
 					<Add option="-DIMPERIAL_UNITSaaa" />
-					<Add option="-DINV_LCD" />
+					<Add option="-DLCDROT180aaa" />
+					<Add option="-DBLUETOOTH" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 				</Compiler>
 				<ResourceCompiler>
@@ -285,6 +286,7 @@
 		<Unit filename="../OpenAVRc/gui/lcd.h" />
 		<Unit filename="../OpenAVRc/gui/menu_general.cpp" />
 		<Unit filename="../OpenAVRc/gui/menu_general.h" />
+		<Unit filename="../OpenAVRc/gui/menu_general_bluetooth.cpp" />
 		<Unit filename="../OpenAVRc/gui/menu_general_calib.cpp" />
 		<Unit filename="../OpenAVRc/gui/menu_general_diaganas.cpp" />
 		<Unit filename="../OpenAVRc/gui/menu_general_diagkeys.cpp" />

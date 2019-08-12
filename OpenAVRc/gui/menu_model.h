@@ -77,8 +77,6 @@ extern uint8_t s_copyMode;
 extern int8_t s_copySrcRow;
 extern int8_t s_copyTgtOfs;
 
-extern uint8_t editNameCursorPos;
-
 
 enum EnumTabModel {
   e_ModelSelect,
@@ -111,8 +109,6 @@ const MenuFuncP_PROGMEM menuTabModel[] PROGMEM = {
   CASE_FRSKY(menuModelTelemetry)
   CASE_TEMPLATES(menuModelTemplates)
 };
-
-extern void editSingleName(coord_t x, coord_t y, const pm_char *label, char *name, uint8_t size, uint8_t event, uint8_t active);
 
 
 #endif
