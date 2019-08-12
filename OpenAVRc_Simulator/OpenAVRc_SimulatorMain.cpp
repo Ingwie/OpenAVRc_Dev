@@ -2212,15 +2212,12 @@ void OpenAVRc_SimulatorFrame::load_EEGeneral_EEPROM_VER()
   eepromfile->Read(wxT("BTParams"),&tmp,0);
   g_eeGeneral.BTParams = tmp;
 
-  eepromfile->Read(wxT("BTName"),&strtmp,"");
-  ConvWxstrToCharFw(strtmp,g_eeGeneral.BTName, 6);
-  eepromfile->Read(wxT("BTSlaveName"),&strtmp,"");
-  ConvWxstrToCharFw(strtmp,g_eeGeneral.BTSlaveName, 6);
-  for (int i=0; i<6; ++i) {
-    wxString num = wxString::Format(wxT("%i"),i);
-    eepromfile->Read(wxT("BTSlaveMac"+num),&tmp,0);
-    g_eeGeneral.BTSlaveMac[i] = tmp;
-  }
+  eepromfile->Read(wxT("BTpin"),&strtmp,"");
+  ConvWxstrToCharFw(strtmp,g_eeGeneral.BTPin, 4);
+  eepromfile->Read(wxT("BTPairName"),&strtmp,"");
+  ConvWxstrToCharFw(strtmp,g_eeGeneral.BTPairName, LEN_BT_NAME);
+  eepromfile->Read(wxT("BTSlaveMac"),&strtmp,"");
+  ConvWxstrToCharFw(strtmp,g_eeGeneral.BTMac, 6);
 
   for (int i=0; i<4; ++i) { //fixed_ID[4]
     wxString num = wxString::Format(wxT("%i"),i);
@@ -2615,12 +2612,9 @@ void OpenAVRc_SimulatorFrame::save_EEGeneral_EEPROM_VER(EEGeneral General)
   eepromfile->Write(wxT("vBatMax"),(int)General.vBatMax);
 
   eepromfile->Write(wxT("BTParams"),(int)General.BTParams);
-  eepromfile->Write(wxT("BTName"),ConvCharFwToWxstr(General.BTName, 6));
-  eepromfile->Write(wxT("BTSlaveName"),ConvCharFwToWxstr(General.BTSlaveName, 6));
-  for (int i=0; i<6; ++i) {
-    wxString num = wxString::Format(wxT("%i"),i);
-    eepromfile->Write(wxT("BTSlaveMac"+num),(int)General.BTSlaveMac[i]);
-  }
+  eepromfile->Write(wxT("BTpin"),ConvCharFwToWxstr(General.BTPin, 4));
+  eepromfile->Write(wxT("BTPairName"),ConvCharFwToWxstr(General.BTPairName, LEN_BT_NAME));
+  eepromfile->Write(wxT("BTSlaveMac"),ConvCharFwToWxstr(General.BTMac, 6));
 
   for (int i=0; i<4; ++i) { // fixed_ID[4]
     wxString num = wxString::Format(wxT("%i"),i);
