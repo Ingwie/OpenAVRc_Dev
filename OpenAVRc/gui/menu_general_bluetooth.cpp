@@ -126,7 +126,7 @@ void menuGeneralBluetooth(uint8_t event)
 
         case ITEM_BT_RESCANN :
           lcdDrawTextAtt(7*FW,y,STR_RESCANN,attr);
-          if (event==EVT_KEY_BREAK(KEY_ENTER)&&0)// adebuguer
+          if (attr && (event==EVT_KEY_BREAK(KEY_ENTER)))
             {
               POPUP_CONFIRMATION(STR_RESCANN);
               s_editMode = 0;
