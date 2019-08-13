@@ -59,15 +59,15 @@ Note: This HwSerial driver/module by RC-Navy is mainly based on the arduino Hard
 /************************************************/
 /* vvv Start of User HwSerial configuration vvv */
 /************************************************/
-#define HW_SERIAL0_TX_SUPPORT        ISR_NORMAL  // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial0
-#define HW_SERIAL0_RX_SUPPORT        ISR_NORMAL  // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial0
+#define HW_SERIAL0_TX_SUPPORT        ISR_NONE    // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial0
+#define HW_SERIAL0_RX_SUPPORT        ISR_NONE    // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial0
 #define HW_SERIAL0_ENABLE_TX_SUPPORT NO          // Choose here between NO and YES for Serial0 Enable/Disable Tx support
 #define HW_SERIAL0_ENABLE_RX_SUPPORT NO          // Choose here between NO and YES for Serial0 Enable/Disable Rx support
 #define HW_SERIAL0_TX_FIFO_SIZE      16          // Define here the fifo size (SHALL be a power of 2)
 #define HW_SERIAL0_RX_FIFO_SIZE      2           // Define here the fifo size (SHALL be a power of 2)
 
-#define HW_SERIAL1_TX_SUPPORT        ISR_NONE    // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial1
-#define HW_SERIAL1_RX_SUPPORT        ISR_NONE    // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial1
+#define HW_SERIAL1_TX_SUPPORT        ISR_NORMAL  // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial1
+#define HW_SERIAL1_RX_SUPPORT        ISR_NORMAL  // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial1
 #define HW_SERIAL1_ENABLE_TX_SUPPORT NO          // Choose here between NO and YES for Serial1 Enable/Disable Tx support
 #define HW_SERIAL1_ENABLE_RX_SUPPORT NO          // Choose here between NO and YES for Serial1 Enable/Disable Rx support
 #define HW_SERIAL1_TX_FIFO_SIZE      2           // Define here the fifo size (SHALL be a power of 2)
