@@ -87,7 +87,8 @@ static void    inqGet(char* Addon);
 static void    inqSet(char* Addon);
 static void    rnameGet(char* Addon);
 
-static uint8_t getSerialMsg(char *TermPattern = "\r", uint8_t TermPatternNb = 1, uint16_t TimeoutMs = 0);
+static uint8_t getSerialMsg(char *TermPattern = (char *)"\r", uint8_t TermPatternNb = 1, uint16_t TimeoutMs = 0);
+
 #define ASYNC_GET_SERIAL_MSG()          getSerialMsg()
 #define SYNC_GET_SERIAL_MSG(TimeoutMs)  getSerialMsg(TimeoutMs)
 
