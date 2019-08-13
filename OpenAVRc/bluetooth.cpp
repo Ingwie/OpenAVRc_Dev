@@ -136,7 +136,7 @@ void bluetooth_init(HwSerial *hwSerial)
     hwSerial->init(RateTbl[Idx]);
     while(hwSerial->available()) hwSerial->read(); // Flush Rx
     hwSerial->print(F("AT\r\n"));
-    if(getSerialMsg("K\r\n", 1, 100))
+    if(getSerialMsg((char *)"K\r\n", 1, 100))
     {
       /* OK Uart serial rate found */
 //Serial.print(F("BT rate found: "));Serial.println(RateTbl[Idx]);
@@ -145,7 +145,7 @@ void bluetooth_init(HwSerial *hwSerial)
         sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0\r\n"), RateTbl[0]);
 //Serial.print(F("Set BT rate to: "));Serial.println(UartAtCmd);
         hwSerial->print(UartAtCmd);
-        if(getSerialMsg("\r\n", 1, 100))
+        if(getSerialMsg((char *)"\r\n", 1, 100))
         {
           hwSerial->init(RateTbl[0]);
           // BT Reboot is needed
@@ -272,7 +272,7 @@ static uint8_t getSerialMsg(char *TermPattern, uint8_t TermPatternNb, uint16_t T
         }
       }
     }
-  }while((GET_10MS_TICK() - StartMs < MS_TO_10MS_TICK(TimeoutMs) && !RxLen);
+  }while((GET_10MS_TICK() - StartMs) < MS_TO_10MS_TICK(TimeoutMs) && !RxLen);
 
   return(RxLen);
 }
@@ -339,12 +339,12 @@ static void roleSet(char* Addon)
 
 static void inqGet(char* Addon)
 {
-  strcpy_p(Addon, PSTR("M?");
+  strcpy_P(Addon, PSTR("M?"));
 }
 
 static void inqSet(char* Addon)
 {
-  strcpy_P(Addon, PSTR("M=0,4,4"); // 4 devices max, during 4 x 1.28 sec
+  strcpy_P(Addon, PSTR("M=0,4,4")); // 4 devices max, during 4 x 1.28 sec
 }
 
 static void nameSet(char* Addon)
@@ -362,4 +362,5 @@ uint8_t setAtCmdAndWaitForResp(char *AtCmd, uint16_t TimeoutMs)
 {
   uCli.stream->print(AtCmd);
   uCli.stream->print(F("\r\n"));
+  return(0);
 }
