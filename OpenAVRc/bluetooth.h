@@ -34,6 +34,7 @@
 #define BLUETOOTH_H
 
 #include "misclib.h"
+#include "HwSerial.h"
 
 void bluetooth_init(HwSerial *hwSerial);
 
