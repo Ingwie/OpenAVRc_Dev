@@ -442,7 +442,7 @@ void TinyDbg_interpretAndExecute(char *Cmd)
     Error = FALSE;
     if(Tdbg.Stopped)
     {
-      if(!Tdbg.FlashPrePrompt) TinyDbg_Printf(TDBG_PROMPT);      
+      if(!Tdbg.FlashPrePrompt) TinyDbg_Printf(TDBG_PROMPT);
       return;
     }
   }
@@ -558,7 +558,7 @@ void TinyDbg_interpretAndExecute(char *Cmd)
   {
     TinyDbg_Printf(CMD_NOT_RECOGNIZED);
   }
-  
+
   if(!Tdbg.FlashPrePrompt) TinyDbg_Printf(TDBG_PROMPT);
   else
   {
@@ -617,7 +617,7 @@ static void displayStatus(uint8_t From /*= 0*/)
 
   if(Tdbg.Stopped)
   {
-  //  if(Tdbg.FlashPrePrompt && (From != ST_FROM_DB)) TinyDbg_Printf(TDBG_PROMPT + 1);    
+  //  if(Tdbg.FlashPrePrompt && (From != ST_FROM_DB)) TinyDbg_Printf(TDBG_PROMPT + 1);
     if(Tdbg.BreakPointAtId == TDBG_USER_HALT_BP_ID)
     {
       TinyDbg_Printf(PSTR("Stopped by user halt cmd "));
@@ -647,7 +647,7 @@ static void displayStatus(uint8_t From /*= 0*/)
   }
   if(DisabledBreakPointNb >= TDBG_MAX_BREAKPOINTS) TinyDbg_Printf(BP_NONE);
   Tdbg.stream->print(F("]"));
-  
+
   if((From == ST_FROM_BREAK) || (From == ST_FROM_DB) || Tdbg.Stopped)
   {
 #ifdef TDBG_PERIODIC_DISPLAY
