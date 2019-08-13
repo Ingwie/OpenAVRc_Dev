@@ -423,6 +423,8 @@ FORCEINLINE uint16_t getTmr10ms();
 
 FORCEINLINE uint16_t getTmr64uS();
 
+void checkMixer();
+
 typedef int8_t rotenc_t;
 typedef int16_t getvalue_t;
 typedef uint8_t mixsrc_t;
