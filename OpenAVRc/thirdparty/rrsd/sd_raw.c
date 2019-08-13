@@ -53,25 +53,6 @@
 #define spi_tx(value)  master_spi_xfer(value)
 #define spi_rx()  master_spi_xfer(0xFF) //-> SD bug without 0xFF.
 
-void checkMixer()
-{
-  // TODO duplicated code ...
-  uint16_t t0 = getTmr64uS();
-  int16_t delta = (nextMixerEndTime - lastMixerDuration) - t0;
-  if ((delta > 0 && delta < US_TO_64US_TICK(MAX_MIXER_DELTA_US)) || (!s_mixer_first_run_done))
-    {
-      return;
-    }
-
-  nextMixerEndTime = t0 + US_TO_64US_TICK(MAX_MIXER_DELTA_US);
-
-  doMixerCalculations();
-
-  t0 = getTmr64uS() - t0;
-  lastMixerDuration = t0;
-  if (t0 > maxMixerDuration)
-    maxMixerDuration = t0;
-}
 
 /* Transmit a byte to MMC via SPI */
 

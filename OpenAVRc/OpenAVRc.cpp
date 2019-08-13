@@ -78,6 +78,26 @@ FORCEINLINE uint16_t getTmr64uS()
 #endif
 }
 
+void checkMixer()
+{
+  // TODO duplicated code ...
+  uint16_t t0 = getTmr64uS();
+  int16_t delta = (nextMixerEndTime - lastMixerDuration) - t0;
+  if ((delta > 0 && delta < US_TO_64US_TICK(MAX_MIXER_DELTA_US)) || (!s_mixer_first_run_done))
+    {
+      return;
+    }
+
+  nextMixerEndTime = t0 + US_TO_64US_TICK(MAX_MIXER_DELTA_US);
+
+  doMixerCalculations();
+
+  t0 = getTmr64uS() - t0;
+  lastMixerDuration = t0;
+  if (t0 > maxMixerDuration)
+    maxMixerDuration = t0;
+}
+
 uint8_t heartbeat;
 uint8_t stickMode;
 
