@@ -117,11 +117,6 @@ size_t Print::println(const __FlashStringHelper *ifsh)
   return n;
 }
 
-size_t Print::println(void)
-{
-  return write("\r\n");
-}
-
 size_t Print::println(const char c[])
 {
   size_t n = print(c);
