@@ -474,7 +474,7 @@ static int8_t getSerialMsg(char *TermPattern, uint8_t TermPatternNb, uint16_t Ti
         }
       }
     }
-  }while(((GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(TimeoutMs)) && !RxLen);
+  }while(((GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(TimeoutMs)) && (RxLen < 0));
 
   return(RxLen);
 }
