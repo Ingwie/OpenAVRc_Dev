@@ -42,6 +42,6 @@ int8_t bluetooth_getName(char *RespBuf, uint16_t TimeoutMs);
 int8_t bluetooth_setName(char *BtName,  uint16_t TimeoutMs);
 int8_t bluetooth_getPswd(char *RespBuf, uint16_t Timeoutms);
 int8_t bluetooth_setPswd(char *BtPswd,  uint16_t TimeoutMs);
-int8_t bluetooth_getRemoteName(char *RemoteMacBin, char *RespBuf, uint16_t Timeout);
+int8_t bluetooth_getRemoteName(char *RemoteMacBin, char *RespBuf, uint16_t TimeoutMs);
 
 #endif // BLUETOOTH_H
