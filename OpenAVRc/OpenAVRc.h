@@ -361,6 +361,14 @@ static uint16_t DurationValue;
 */
 #define MS_TO_10MS_TICK(Ms)                       ((tmr10ms_t)(((Ms) + 9) / 10))
 
+/**
+* \file   OpenAVRc.h
+* \def    _10MS_TICKTO_MS(_10MsTick)
+* \brief  Returns the amount of ms corresponsding to a duration expressed in 10msTick
+* \param  Ms: a duration expressed in ms
+* \return The amount of ms corresponding to a duration expressed in 10msTick
+*/
+#define _10MS_TICK_TO_MS(_10MsTick)               ((_10MsTick) * 10)
 
 /**
 * \file   OpenAVRc.h
