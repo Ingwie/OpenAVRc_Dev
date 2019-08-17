@@ -95,4 +95,7 @@
 */
 #define HEX_DIGIT_TO_BIN_NBL(HexDigit)    ((HexDigit) < 'A') ? (HexDigit - '0'): ((HexDigit) - 'A' + 10)
 
+#define htons(x)                 __builtin_bswap16((uint16_t) (x))
+#define htonl(x)                 __builtin_bswap32((uint32_t) (x))
+
 #endif // MISCLIB_H
