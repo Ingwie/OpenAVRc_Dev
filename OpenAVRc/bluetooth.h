@@ -37,11 +37,17 @@
 #include "HwSerial.h"
 #include "OpenAVRc.h"
 
+/* Code returned by bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeout) */
+enum {BT_UNKNOWN = - 1, BT_INITIALIZED = 0, BT_READY, BT_PAIRABLE, BT_PAIRED, BT_INQUIRING, BT_CONNECTING, BT_CONNECTED, BT_DISCONNECTED};
+
 void   bluetooth_init(HwSerial *hwSerial);
-int8_t bluetooth_getName(char *RespBuf, uint16_t TimeoutMs);
+void   bluetooth_power(uint8_t On);
+void   bluetooth_reboot(void);
+int8_t bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeout);
+int8_t bluetooth_getName(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs);
 int8_t bluetooth_setName(char *BtName,  uint16_t TimeoutMs);
-int8_t bluetooth_getPswd(char *RespBuf, uint16_t Timeoutms);
+int8_t bluetooth_getPswd(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeoutms);
 int8_t bluetooth_setPswd(char *BtPswd,  uint16_t TimeoutMs);
-int8_t bluetooth_getRemoteName(char *RemoteMacBin, char *RespBuf, uint16_t TimeoutMs);
+int8_t bluetooth_getRemoteName(char *RemoteMacBin, char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs);
 
 #endif // BLUETOOTH_H
