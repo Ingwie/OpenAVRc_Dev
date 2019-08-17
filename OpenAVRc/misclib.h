@@ -78,4 +78,21 @@
 */
 #define TBL_ITEM_NB(Tbl)                                     (sizeof(Tbl) / sizeof(Tbl[0]))
 
+
+/**
+* \file  misclib.h
+* \fn    Macro: BIN_NBL_TO_HEX_DIGIT(BinNbl)
+* \brief returns the ASCII Hexa digit corresponding to a nibble value (eg: BIN_NBL_TO_HEX_DIGIT(15) -> 'F'
+* \param BinNbl:  The Nibble value (0 to 15)
+*/
+#define BIN_NBL_TO_HEX_DIGIT(BinNbl)      ((BinNbl) < 10) ? ((BinNbl) + '0'): ((BinNbl) - 10 + 'A')
+
+/**
+* \file  misclib.hs
+* \fn    Macro: HEX_DIGIT_TO_BIN_NBL(HexDigit)
+* \brief returns the nibble value corresponding to an ASCII Hexa digit (eg: HEX_DIGIT_TO_BIN_NBL('F') -> 15
+* \param HexDigit:  The ASCII Hexa digit ('0' to '9' and 'A' to 'F') (Uppercase)
+*/
+#define HEX_DIGIT_TO_BIN_NBL(HexDigit)    ((HexDigit) < 'A') ? (HexDigit - '0'): ((HexDigit) - 'A' + 10)
+
 #endif // MISCLIB_H
