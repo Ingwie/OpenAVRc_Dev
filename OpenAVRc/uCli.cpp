@@ -68,7 +68,7 @@ UCLI_DEF(rmdir, directory);
 UCLI_DEF(rm,    file);
 UCLI_DEF(mv,    srcfile dstfile);
 UCLI_DEF(bt,    on|off|master|slave|state|pin|name);
-UCLI_DEF(tf,    ch1-ch8Chks); //Trainer Frame
+UCLI_DEF(tf,    ch1-ch8:Chks); //Trainer Frame
 UCLI_DEF(ram,    );
 UCLI_DEF(reboot, );
 
@@ -356,11 +356,44 @@ static int8_t uCli_Cmd_bt(const char ** argv, uint8_t argc)
 
 static int8_t uCli_Cmd_tf(const char ** argv, uint8_t argc)
 {
-  argv = argv;
-  argc = argc;
-  uCli.stream->println(F("tf"));
+  uint8_t Len, Idx, ComputedCheckSum = 0, CheckSumOk;
+  int16_t Excursion;
+  int16_t Ret = 1;
 
-  return(0);
+  //tf command format:  sCh1sCh2sCh3sCh4sCh5sCh6sCh7sCh8:CS
+  //                 tf sHHHsHHHsHHHsHHHsHHHsHHHsHHHsHHH:CS<CR>   (CS=Checksum) -> Ex: tf -100+200-300+400-500+600-700+800:00
+  if(argc == 2) // TO DO: Check the transmitter is in trainer mode (PROTO = BT and Trainer mode, not Trainee)
+  {
+    Len = strlen(argv[1]);
+    if(Len == ((NUM_TRAINER * 4) + 1 + 2))
+    {
+      CheckSumOk = ((argv[1][((NUM_TRAINER * 4) + 1 + 0)]) == '0') && (argv[1][((NUM_TRAINER * 4) + 1 + 1)] == '0'); // Check if checksum shall be ignored
+      if(!CheckSumOk)
+      {
+        /* Checksum shall be checked */
+        for(Idx = 0; Idx < ((NUM_TRAINER * 4) + 1); Idx++)
+        {
+          ComputedCheckSum ^= argv[1][Idx];
+        }
+        if(!ComputedCheckSum) ComputedCheckSum = 0xFF; // Particular case of 00 value (= ignore)
+        CheckSumOk = (((BIN_NBL_TO_HEX_DIGIT(((ComputedCheckSum & 0xF0) >> 4)) == argv[1][((NUM_TRAINER * 4) + 1 + 0)])) && ((BIN_NBL_TO_HEX_DIGIT(ComputedCheckSum & 0x0F)) == argv[0][((NUM_TRAINER * 4) + 1 + 1)]));
+      }
+      if(CheckSumOk)
+      {
+        for(Idx = 0; Idx < NUM_TRAINER; Idx++)
+        {
+          Excursion = (int16_t)strtol(&argv[1][(Idx * 4)], NULL, 16);
+          ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+          {
+            ppmInput[Idx] = Excursion;
+          }
+        }
+        uCli.stream->println(F("tf"));
+        Ret = 0;
+      }
+    }
+  }
+  return(Ret);
 }
 
 static int8_t uCli_Cmd_ram(const char ** argv, uint8_t argc)
