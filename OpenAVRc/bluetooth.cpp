@@ -34,37 +34,62 @@
 
 #define BT_MASTER     1 // Replace this by eeprom BT bit
 
-#define BT_SEND_AT_SEQ(AtCmdInit)     btSendAtSeq((const AtCmdSt_t*)&AtCmdInit, TBL_ITEM_NB(AtCmdInit))
 
-#define PRIO_TASK_LIST()              checkMixer()
+#define PRIO_TASK_LIST()           checkMixer()
+
+#define BT_SEND_AT_SEQ(AtCmdInit)  btSendAtSeq((const AtCmdSt_t*)&AtCmdInit, TBL_ITEM_NB(AtCmdInit))
+
+#define BT_POWER_ON_MS             200
+#define BT_GET_TIMEOUT_MS          60
+#define BT_SET_TIMEOUT_MS          100
+#define BT_SCANN_TIMEOUT_MS        20000
+#define BT_READ_RNAME_TIMEOUT_MS   10000
 
 enum {BT_GET = 0, BT_SET};
 enum {OFF = 0, ON};
 
-DECL_FLASH_STR2(Str_CRLF,"\r\n");
-DECL_FLASH_STR2(Str_OK_CRLF,"OK\r\n");
-DECL_FLASH_STR2(Str_CRLF_OK_CRLF,"\r\nOK\r\n");
+DECL_FLASH_STR2(Str_CRLF,         "\r\n");
+DECL_FLASH_STR2(Str_OK_CRLF,      "OK\r\n");
+DECL_FLASH_STR2(Str_CRLF_OK_CRLF, "\r\nOK\r\n");
 
-DECL_FLASH_STR2(Str_AT,    "");      // Simple AT command
-DECL_FLASH_STR2(Str_STATE, "STATE"); // BT Status
-DECL_FLASH_STR2(Str_PSWD,  "PSWD");  // BT Password (PIN)
-DECL_FLASH_STR2(Str_UART,  "UART");  // Uart
-DECL_FLASH_STR2(Str_CLASS, "CLASS"); // Device Class
-DECL_FLASH_STR2(Str_RMAAD, "RMAAD"); // Clears paired list
-DECL_FLASH_STR2(Str_ROLE,  "ROLE");  // Role: 0=Slave, 1=Master
-DECL_FLASH_STR2(Str_NAME,  "NAME");  // BT module name
-DECL_FLASH_STR2(Str_RNAME, "RNAME"); // Remote BT module name
-DECL_FLASH_STR2(Str_CMODE, "CMODE"); // Inquire - Connection mode
-DECL_FLASH_STR2(Str_INIT,  "INIT");  // Initialize the SPP profile lib
-DECL_FLASH_STR2(Str_INQM,  "INQM");  // Inquire Mode
-DECL_FLASH_STR2(Str_INQ,   "INQ");   // Inquire Bluetooth device
-DECL_FLASH_STR2(Str_RESET, "RESET"); // Reset
+DECL_FLASH_STR2(Str_AT,           "");      // Simple AT command to check local connectivity
+DECL_FLASH_STR2(Str_STATE,        "STATE"); // BT Status
+DECL_FLASH_STR2(Str_PSWD,         "PSWD");  // BT Password (PIN)
+DECL_FLASH_STR2(Str_UART,         "UART");  // Uart
+DECL_FLASH_STR2(Str_CLASS,        "CLASS"); // Device Class
+DECL_FLASH_STR2(Str_RMAAD,        "RMAAD"); // Clears paired list
+DECL_FLASH_STR2(Str_ROLE,         "ROLE");  // Role: 0=Slave, 1=Master
+DECL_FLASH_STR2(Str_NAME,         "NAME");  // BT module name
+DECL_FLASH_STR2(Str_RNAME,        "RNAME"); // Remote BT module name
+DECL_FLASH_STR2(Str_CMODE,        "CMODE"); // Inquire - Connection mode
+DECL_FLASH_STR2(Str_INIT,         "INIT");  // Initialize the SPP profile lib
+DECL_FLASH_STR2(Str_INQM,         "INQM");  // Inquire Mode
+DECL_FLASH_STR2(Str_INQ,          "INQ");   // Inquire Bluetooth device
+DECL_FLASH_STR2(Str_RESET,        "RESET"); // Reset
 
 enum {AT_AT = 0, AT_STATE, AT_PSWD, AT_UART, AT_CLASS, AT_RMAAD, AT_ROLE, AT_NAME, AT_RNAME, AT_CMODE, AT_INIT, AT_INQM, AT_INQ, AT_CMD_MAX_NB};
 
 DECL_FLASH_TBL(AtCmdTbl, char * const)  = {Str_AT, Str_STATE, Str_PSWD, Str_UART, Str_CLASS, Str_RMAAD, Str_ROLE, Str_NAME, Str_RNAME, Str_CMODE, Str_INIT, Str_INQM, Str_INQ, Str_RESET};
 
+/* ALL THE STATUS SRINGS THE BT MODULE CAN ANSWER */
+DECL_FLASH_STR2(Str_INITIALIZED,  "INITIALIZED");
+DECL_FLASH_STR2(Str_READY,        "READY");
+DECL_FLASH_STR2(Str_PAIRABLE,     "PAIRABLE");
+DECL_FLASH_STR2(Str_PAIRED,       "PAIRED");
+DECL_FLASH_STR2(Str_INQUIRING,    "INQUIRING");
+DECL_FLASH_STR2(Str_CONNECTING,   "CONNECTING");
+DECL_FLASH_STR2(Str_CONNECTED,    "CONNECTED");
+DECL_FLASH_STR2(Str_DISCONNECTED, "DISCONNECTED");
+
+DECL_FLASH_TBL(BtStateTbl, char * const) = {Str_INITIALIZED, Str_READY, Str_PAIRABLE, Str_PAIRED, Str_INQUIRING, Str_CONNECTING, Str_CONNECTED, Str_DISCONNECTED};
+
 typedef void (*AtCmdAddon) (char* Addon);
+
+typedef struct{
+  uint16_t NAP; // 2 Bytes
+  uint8_t  UAP; // 1 Bytes
+  uint32_t LAP; // 3 Bytes (here, the last byte is not used)
+}MacSt_t;
 
 typedef struct{
   uint8_t     CmdIdx;
@@ -83,10 +108,11 @@ static char   *getAtCmd(uint8_t Idx, char *Buf);
 static uint8_t getAtMatchLen(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
 static uint8_t getAtSkipLen(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
 static uint8_t getAtBtOp(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
-static int8_t  setAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCmdArg, char *Resp, uint8_t MatchLen, uint8_t SkipLen, char *TermPattern, uint16_t TimeoutMs);
-static int8_t  getSerialMsg(char *TermPattern, uint8_t TermPatternNb, uint16_t TimeoutMs);
+static int8_t  sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCmdArg, char *RespBuf, uint8_t RespBufMxLen, uint8_t MatchLen, uint8_t SkipLen, char *TermPattern, uint16_t TimeoutMs);
+static int8_t  getSerialMsg(char *RespBuf, uint8_t RespBufMaxLen, char *TermPattern, uint8_t TermPatternNb, uint16_t TimeoutMs);
 static void    btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb);
 static char   *buidMacStr(char *MacBin, char *MacStr);
+static uint8_t buidMacBin(char *MacStr, uint8_t *MacBin);
 
 static void    uartSet(char* Addon);
 static void    classSet(char* Addon);
@@ -94,10 +120,8 @@ static void    roleSet(char* Addon);
 static void    nameSet(char* Addon);
 static void    inqmSet(char* Addon);
 
-#define BT_GET_TIMEOUT_MS          60
-#define BT_SET_TIMEOUT_MS          100
-#define BT_SCANN_TIMEOUT_MS        20000
-#define BT_READ_RNAME_TIMEOUT_MS   10000
+static int8_t  getBtStateIdx(const char *BtState);
+
 
 const AtCmdSt_t AtCmdBtInit[] PROGMEM = {
                           /* CmdIdx,  BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
@@ -132,7 +156,7 @@ const AtCmdSt_t AtCmdMasterInit[] PROGMEM = {
 
 /* PUBLIC FUNTIONS */
 /**
- * \file  bluetooth.h
+ * \file  bluetooth.cpp
  * \fn void bluetooth_init(HwSerial *hwSerial)
  * \brief Bluetooth initilization
  *
@@ -144,25 +168,30 @@ void bluetooth_init(HwSerial *hwSerial)
   uint32_t RateTbl[] = {115200, 57600, 38400, 19200, 9600};
   uint8_t  Idx;
   char     UartAtCmd[30];
+  char     RespBuf[10];
 
+  bluetooth_power(ON);
+  _delay_ms(BT_POWER_ON_MS); // Here, we are in initilization phase -> do NOT call YIELD_TO_TASK_FOR_MS()
   AtCmdMode(ON);
   for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
   {
     hwSerial->init(RateTbl[Idx]);
     while(hwSerial->available()) hwSerial->read(); // Flush Rx
     hwSerial->print(F("AT\r\n"));
-    if(getSerialMsg((char *)"K\r\n", 1, 100))
+    if(getSerialMsg(RespBuf, 10, (char *)"K\r\n", 1, 100))
     {
       /* OK Uart serial rate found */
       if(Idx)
       {
         sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0\r\n"), RateTbl[0]);
         hwSerial->print(UartAtCmd);
-        if(getSerialMsg((char *)"\r\n", 1, 100))
+        if(getSerialMsg(RespBuf, 10, (char *)"\r\n", 1, 100))
         {
           hwSerial->init(RateTbl[0]);
           // BT Reboot is needed
-          // TO DO
+          bluetooth_power(OFF);
+          _delay_ms(BT_POWER_ON_MS); // Here, we are in initilization phase -> do NOT call YIELD_TO_TASK_FOR_MS()
+          bluetooth_power(ON);
         }
       }
       break;
@@ -182,17 +211,69 @@ void bluetooth_init(HwSerial *hwSerial)
 }
 
 /**
+ * \file  bluetooth.cpp
+ * \fn void bluetooth_power(uint8_t On)
+ * \brief Switch ON or OFF the BT module
+ *
+ * \param  On: 0 -> Switch OFF the BT module, 1 -> Switch ON the BT module
+ * \return Void.
+ */
+void bluetooth_power(uint8_t On)
+{
+  /// TO DO: drive the BT_OnOff pin
+}
+
+/**
+ * \file  bluetooth.cpp
+ * \fn void bluetooth_reboot(void)
+ * \brief Reboot the BT module (Needed to take some paramaters into account)
+ *
+ * \param  Void
+ * \return Void.
+ */
+void bluetooth_reboot(void)
+{
+  uint32_t StartDurationMs;
+
+  bluetooth_power(OFF);
+  YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_POWER_ON_MS);
+  bluetooth_power(ON);
+}
+
+/**
+ * \file  bluetooth.h
+ * \fn int8_t bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeout)
+ * \brief Returns the BT module state
+ *
+ * \param  RespBuf:       pointer on response buffer
+ * \param  RespBufMaxLen: maximum length of the response buffer
+ * \param  TimeoutMs: Timeout in ms.
+ * \return < 0: error, >= 0: the status code defined in bluetooth.h (raw text response in RespBuf)
+ */
+int8_t bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeout)
+{
+  int8_t Ret;
+  Ret = sendAtCmdAndWaitForResp(AT_STATE, BT_GET, NULL, RespBuf, RespBufMaxLen, 5, 6, (char *)"\r\nOK\r\n", Timeout);
+  if(Ret > 0)
+  {
+    Ret = getBtStateIdx(RespBuf);
+  }
+  return(Ret);
+}
+
+/**
  * \file  bluetooth.h
  * \fn int8_t bluetooth_getName(char *RespBuf, uint16_t TimeoutMs)
  * \brief Returns the local bluetooth name
  *
- * \param  RespBuf:   pointer on response buffer (shall be long enough!).
+ * \param  RespBuf:       pointer on response buffer
+ * \param  RespBufMaxLen: maximum length of the response buffer
  * \param  TimeoutMs: Timeout in ms.
  * \return < 0: error, > 1, length of the response present in RespBuf.
  */
-int8_t bluetooth_getName(char *RespBuf, uint16_t TimeoutMs)
+int8_t bluetooth_getName(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs)
 {
-  return(setAtCmdAndWaitForResp(AT_NAME, BT_GET, NULL, RespBuf, 4, 5, (char *)"OK\r\n", TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_NAME, BT_GET, NULL, RespBuf, RespBufMaxLen, 4, 5, (char *)"OK\r\n", TimeoutMs));
 }
 
 /**
@@ -206,9 +287,9 @@ int8_t bluetooth_getName(char *RespBuf, uint16_t TimeoutMs)
  */
 int8_t bluetooth_setName(char *BtName, uint16_t TimeoutMs)
 {
-  char RespBuf[20];
+  char RespBuf[10];
 
-  return(setAtCmdAndWaitForResp(AT_NAME, BT_SET, BtName, RespBuf, 4, 5, (char *)"OK\r\n", TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_NAME, BT_SET, BtName, RespBuf, 10, 4, 5, (char *)"OK\r\n", TimeoutMs));
 }
 
 /**
@@ -216,13 +297,14 @@ int8_t bluetooth_setName(char *BtName, uint16_t TimeoutMs)
  * \fn int8_t bluetooth_getPswd(char *RespBuf, uint16_t TimeoutMs)
  * \brief Returns the local bluetooth Password (PIN)
  *
- * \param  RespBuf:   pointer on response buffer (shall be long enough!).
+ * \param  RespBuf:       pointer on response buffer
+ * \param  RespBufMaxLen: maximum length of the response buffer
  * \param  TimeoutMs: Timeout in ms.
  * \return < 0: error, > 1, length of the response present in RespBuf.
  */
-int8_t bluetooth_getPswd(char *RespBuf, uint16_t TimeoutMs)
+int8_t bluetooth_getPswd(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs)
 {
-  return(setAtCmdAndWaitForResp(AT_PSWD, BT_GET, NULL, RespBuf, 4, 5, (char *)"OK\r\n", TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_PSWD, BT_GET, NULL, RespBuf, RespBufMaxLen, 4, 5, (char *)"OK\r\n", TimeoutMs));
 }
 
 /**
@@ -236,35 +318,85 @@ int8_t bluetooth_getPswd(char *RespBuf, uint16_t TimeoutMs)
  */
 int8_t bluetooth_setPswd(char *BtPswd, uint16_t TimeoutMs)
 {
-  char RespBuf[20];
+  char RespBuf[10];
 
-  return(setAtCmdAndWaitForResp(AT_PSWD, BT_SET, BtPswd, RespBuf, 4, 5, (char *)"OK\r\n", TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_PSWD, BT_SET, BtPswd, RespBuf, 10, 4, 5, (char *)"OK\r\n", TimeoutMs));
 }
 
 /**
  * \file  bluetooth.h
  * \fn int8_t bluetooth_getRemoteName(char *RemoteMacBin, char *RespBuf, uint16_t TimeoutMs)
  * \brief Returns the remote Name
+ *
  * \param  RemoteMacBin: pointer on the remote MAC (5 bytes)
- * \param  RespBuf:      pointer on response buffer (shall be long enough!).
+ * \param  RespBuf:       pointer on response buffer
+ * \param  RespBufMaxLen: maximum length of the response buffer
  * \param  TimeoutMs:    Timeout in ms.
  * \return < 0: error, > 1, length of the response present in RespBuf.
  */
-int8_t bluetooth_getRemoteName(char *RemoteMacBin, char *RespBuf, uint16_t TimeoutMs)
+int8_t bluetooth_getRemoteName(char *RemoteMacBin, char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs)
 {
   char MacStr[14];
   // Fromat: 25,56,D8CA0F
-  return(setAtCmdAndWaitForResp(AT_RNAME, BT_GET, buidMacStr(RemoteMacBin, MacStr), RespBuf, 4, 5, (char *)"\r\nOK\r\n", TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_RNAME, BT_GET, buidMacStr(RemoteMacBin, MacStr), RespBuf, RespBufMaxLen, 4, 5, (char *)"\r\nOK\r\n", TimeoutMs));
 }
 
-
 /* PRIVATE FUNCTIONS */
+static uint8_t buidMacBin(char *MacStr, uint8_t *MacBin)
+{
+  MacSt_t  BT_MAC;
+  char    *Field;
+  uint8_t  Len, FieldIdx, FieldLen;
+  uint32_t Nap, Uap, Lap;
+  uint8_t  Ret = 0;
+//+INQ:1A:7D:DA7110,1C010C,7FFF -> Should be +INQ:001A:7D:DA7110,1C010C,7FFF
+//                                                ^-- Here, the 2 leading zeros are not displayedin AT+INQ!
+  if(*MacStr)
+  {
+    Len      = strlen(MacStr);
+    Field    = MacStr;
+    FieldIdx = 0;
+    /* Build full MAC since leading 0 of fields may be absent! */
+    for(uint8_t Idx = 0; Idx < Len; Idx++)
+    {
+      if((MacStr[Idx] == ':') || (MacStr[Idx] == ','))
+      {
+        // Field found
+        MacStr[Idx] = 0; // End of String
+        FieldLen= strlen(Field);
+        if(FieldIdx == 0)
+        {
+          Nap = strtol(Field, NULL, 16);
+          BT_MAC.NAP = htons(Nap);
+        }else if(FieldIdx == 1)
+        {
+          Uap = strtol(Field, NULL, 16);
+          BT_MAC.UAP = Uap & 0xFF;
+        }else if(FieldIdx == 2)
+        {
+          Lap = strtol(Field, NULL, 16) << 8;
+          BT_MAC.LAP = htonl(Lap);
+        }
+        Field += (FieldLen + 1);
+        FieldIdx++;
+      }
+    }
+    if(FieldIdx == 3)
+    {
+      memcpy((void *)MacBin, (void *)&BT_MAC, 6);
+      Ret = 1;
+    }
+  }
+
+  return(Ret);
+}
+
 static char *buidMacStr(char *MacBin, char *MacStr)
 {
   char    NibbleDigit;
   uint8_t Byte, Idx, Nibble, RemIdx = 0;
 
-  for(Idx = 0; Idx < 5; Idx++)
+  for(Idx = 0; Idx < 6; Idx++)
   {
     Byte = MacBin[Idx];
     Nibble = ((Byte & 0xF0) >> 4);
@@ -273,14 +405,14 @@ static char *buidMacStr(char *MacBin, char *MacStr)
     Nibble = (Byte & 0x0F);
     NibbleDigit = (Nibble < 10)? '0' + Nibble: 'A' + (Nibble - 10);
     MacStr[RemIdx++] = NibbleDigit;
-    if((RemIdx == 2) || (RemIdx == 5)) MacStr[RemIdx++] = ',';
+    if((RemIdx == 4) || (RemIdx == 7)) MacStr[RemIdx++] = ',';
   }
   MacStr[RemIdx] = 0; // En of String
 
   return(MacStr);
 }
 
-static int8_t setAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCmdArg, char *Resp, uint8_t MatchLen, uint8_t SkipLen, char *TermPattern, uint16_t TimeoutMs)
+static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCmdArg, char *RespBuf, uint8_t RespBufMaxLen, uint8_t MatchLen, uint8_t SkipLen, char *TermPattern, uint16_t TimeoutMs)
 {
   char     AtCmd[20];
   uint8_t  RxChar, RxIdx = 0;
@@ -289,7 +421,7 @@ static int8_t setAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCmd
 
   while(uCli.stream->available()) uCli.stream->read();
 
-  Resp[0] = 0; /* End of String */
+  RespBuf[0] = 0; /* End of String */
   uCli.stream->print(F("AT"));
   if(AtCmdIdx != AT_AT)
   {
@@ -354,7 +486,7 @@ static int8_t setAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCmd
   {
     /* OK, skipped char received */
     Timeout10msTick = MS_TO_10MS_TICK(TimeoutMs) - (GET_10MS_TICK() - Start10MsTick);
-    Ret = getSerialMsg(TermPattern, 1, _10MS_TICK_TO_MS(Timeout10msTick));
+    Ret = getSerialMsg(RespBuf, RespBufMaxLen, TermPattern, 1, _10MS_TICK_TO_MS(Timeout10msTick));
   }
   return(Ret);
 }
@@ -412,10 +544,10 @@ static uint16_t getAtTimeoutMs(const AtCmdSt_t *AtCmdTbl, uint8_t Idx)
   return((uint16_t)pgm_read_word(&AtCmdTbl[Idx].TimeoutMs));
 }
 
-static int8_t getSerialMsg(char *TermPattern, uint8_t TermPatternNb, uint16_t TimeoutMs)
+static int8_t getSerialMsg(char *RespBuf, uint8_t RespBufMaxLen, char *TermPattern, uint8_t TermPatternNb, uint16_t TimeoutMs)
 {
   uint32_t Start10MsTick = GET_10MS_TICK();
-  uint8_t  RxChar, TermPatternLen;
+  uint8_t  RxChar, RxIdx = 0, TermPatternLen;
   int8_t   Pidx = -1, RxLen = -1;
 
   TermPatternLen = strlen(TermPattern);
@@ -425,52 +557,42 @@ static int8_t getSerialMsg(char *TermPattern, uint8_t TermPatternNb, uint16_t Ti
     if(uCli.stream->available() >  0)
     {
       RxChar = uCli.stream->read();
-      if(RxChar == BACK_SPACE)
+      if(Pidx < 0)
       {
-        if(uCli.CmdLine.Idx) uCli.CmdLine.Idx--;
+        /* No match caugth yet */
+        if(RxChar == TermPattern[Pidx + 1])
+        {
+          Pidx++;
+          goto AddChar;
+        }
       }
       else
       {
-        if(Pidx < 0)
+        /* Match in progress */
+        if(RxChar == TermPattern[Pidx + 1])
         {
-          /* No match caugth yet */
-          if(RxChar == TermPattern[Pidx + 1])
-          {
-            Pidx++;
-            goto AddChar;
-          }
+          Pidx++;
         }
-        else
+        else Pidx = -1; /* Match broken */
+      }
+      AddChar:
+      if(RxIdx < (RespBufMaxLen - 1))
+      {
+        RespBuf[RxIdx++] = RxChar;
+      }
+      else
+      {
+        Pidx = -1; //msg too long!
+      }
+      if(Pidx >= (TermPatternLen - 1))
+      {
+        /* Full pattern found -> replace it by End of String */
+        TermPatternNb--;
+        if(!TermPatternNb)
         {
-          /* Match in progress */
-          if(RxChar == TermPattern[Pidx + 1])
-          {
-            Pidx++;
-          }
-          else Pidx = -1; /* Match broken */
-        }
-        AddChar:
-        if(uCli.CmdLine.Idx < CMD_LINE_MAX_SIZE)
-        {
-          uCli.CmdLine.Msg[uCli.CmdLine.Idx++] = RxChar;
-        }
-        else
-        {
-          uCli.CmdLine.Idx = 0; //msg too long!
-          Pidx = -1;
-        }
-        if(Pidx >= (TermPatternLen - 1))
-        {
-          /* Full pattern found -> replace it by End of String */
-          TermPatternNb--;
-          if(!TermPatternNb)
-          {
-            uCli.CmdLine.Idx -= TermPatternLen;
-            uCli.CmdLine.Msg[uCli.CmdLine.Idx] = 0;
-            RxLen = uCli.CmdLine.Idx;
-            uCli.CmdLine.Idx = 0;
-            Pidx = -1;
-          }
+          RxIdx -= TermPatternLen;
+          RespBuf[RxIdx] = 0; // End of String
+          RxLen = RxIdx;
         }
       }
     }
@@ -484,7 +606,8 @@ static void btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb)
   uint8_t    Idx, AtCmdIdx, BtOp, MatchLen, SkipLen;
   uint16_t   TimeoutMs;
   AtCmdAddon CmdAddon;
-  char       Buf[30];
+  char       Arg[30];
+  char       RespBuf[30];
   char      *AtCmdArg;
   char       TermPattern[10];
 
@@ -497,14 +620,14 @@ static void btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb)
     CmdAddon  = getAtCmdAddon(AtCmdTbl,  Idx);
     if(CmdAddon)
     {
-      CmdAddon(Buf);
-      AtCmdArg = Buf;
+      CmdAddon(Arg);
+      AtCmdArg = Arg;
     }
     getAtTermPattern(AtCmdTbl, Idx, TermPattern);
     MatchLen  = getAtMatchLen(AtCmdTbl, Idx);
     SkipLen   = getAtSkipLen(AtCmdTbl, Idx);
     TimeoutMs = getAtTimeoutMs(AtCmdTbl, Idx);
-    if(setAtCmdAndWaitForResp(AtCmdIdx, BtOp, AtCmdArg, uCli.CmdLine.Msg, MatchLen, SkipLen, TermPattern, TimeoutMs) >= 0)
+    if(sendAtCmdAndWaitForResp(AtCmdIdx, BtOp, AtCmdArg, RespBuf, 30, MatchLen, SkipLen, TermPattern, TimeoutMs) >= 0)
     {
 //      Serial.print(F("<-'")); Serial.print(uCli.CmdLine.Msg);Serial.println(F("'"));
     }
@@ -534,11 +657,24 @@ static void roleSet(char* Addon)
 
 static void inqmSet(char* Addon)
 {
-  strcpy(Addon, "0,4,4");
+  strcpy_P(Addon, PSTR("0,4,4"));
 }
 
 static void nameSet(char* Addon)
 {
-  strcpy(Addon, "RC-NAVY_"); // To replace with eeprom string value
-  strcat(Addon, (BT_MASTER == 1)? "M": "S");
+  strcpy(Addon, "RC-NAVY"); // To be replaced with eeprom string value
+  strcat_P(Addon, (BT_MASTER == 1)? PSTR("_M"): PSTR("_S"));
+}
+
+static int8_t getBtStateIdx(const char *BtState)
+{
+  for(uint8_t Idx = 0; Idx < TBL_ITEM_NB(BtStateTbl); Idx++)
+  {
+    if(!strcmp_P(BtState, (char*)pgm_read_word(&BtStateTbl[Idx])))
+    {
+      return(Idx);
+    }
+  }
+
+  return(-1);
 }
