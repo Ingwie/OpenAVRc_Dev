@@ -40,14 +40,29 @@
 /* Code returned by bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeout) */
 enum {BT_UNKNOWN = - 1, BT_INITIALIZED = 0, BT_READY, BT_PAIRABLE, BT_PAIRED, BT_INQUIRING, BT_CONNECTING, BT_CONNECTED, BT_DISCONNECTED};
 
+#define REMOTE_BT_DEV_MAX_NB       3
+#define BT_MAC_BIN_LEN             6
+#define BT_NAME_STR_LEN            10
+
+typedef struct{
+  uint8_t MAC[BT_MAC_BIN_LEN];
+  char    Name[BT_NAME_STR_LEN + 1]; // Max Name length is 10 characters (+ 1 for End of String)
+}BtRemoteSt_t;
+
+typedef struct{
+  BtRemoteSt_t Remote[REMOTE_BT_DEV_MAX_NB];
+}BtScannSt_t;
+
 void   bluetooth_init(HwSerial *hwSerial);
 void   bluetooth_power(uint8_t On);
 void   bluetooth_reboot(void);
-int8_t bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeout);
+int8_t bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs);
 int8_t bluetooth_getName(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs);
 int8_t bluetooth_setName(char *BtName,  uint16_t TimeoutMs);
-int8_t bluetooth_getPswd(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeoutms);
+int8_t bluetooth_getPswd(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs);
 int8_t bluetooth_setPswd(char *BtPswd,  uint16_t TimeoutMs);
-int8_t bluetooth_getRemoteName(char *RemoteMacBin, char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs);
+int8_t bluetooth_getRemoteName(uint8_t *RemoteMacBin, char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs);
+int8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs);
+int8_t bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs);
 
 #endif // BLUETOOTH_H
