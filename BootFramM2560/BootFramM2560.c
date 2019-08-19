@@ -86,7 +86,7 @@ LICENSE:
 //************************************************************************
 
 // OpenAVRc Defines EEprom used type
-#define STOCK_EE
+//#define STOCK_EE
 #define ADDRESS_EXTERN_EEPROM  (0x50 << 1) //0x50 with all strap closed on ZS042 module, EEPROM FM24W256, see datasheet
 
 
@@ -400,10 +400,19 @@ int main(void)
   uint8_t ch;
   ch = MCUSR;
 
-  // check if WDT generated the reset, if so, go straight to app
+  uint8_t * pt = (uint8_t*)RAMEND;
+  uint8_t test = *pt--;
+  test ^= *pt;
+
+// check if only WDT generated the reset, if so, go straight to app
   if (ch & _BV(WDRF))
   {
-      app_start();
+    if (test == 0xFF) // Special value
+    {
+            MCUSR = 0;
+      // TODO
+    }
+    else  app_start();
   }
 
   __asm__ __volatile__ ("cli");
