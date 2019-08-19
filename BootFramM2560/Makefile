@@ -319,7 +319,7 @@ gccversion :
 
 # Display size of file.
 size: ${TARGET}.elf
-	@avr-sizeold -C --mcu=${MCU} ${TARGET}.elf
+	@avr-size ${TARGET}.elf
 
 
 # Program the device.

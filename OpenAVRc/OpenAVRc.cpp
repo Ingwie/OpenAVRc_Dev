@@ -1466,7 +1466,6 @@ uint16_t stackAvailable()
 #endif
 }
 
-
 /*uint16_t freeRam()
 {
 #if defined(SIMU)
@@ -1477,6 +1476,22 @@ uint16_t stackAvailable()
   return (uint16_t) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
 #endif
 }*/
+
+void ResetToBootloaderWithFlag()
+{
+  /* Build the flag at the top of SRAM (Not erased in WDT reboot) */
+  uint8_t * p = (uint8_t*)RAMEND;
+  *p-- = 0x0F;
+  *p   = 0xF0;
+#if !defined(SIMU)
+  #if defined(CPUXMEGA)
+  //??();
+  #else
+  wdt_enable(WDTO_15MS); // set 15mS watchdog
+  #endif
+#endif
+  for (;;) ; // Reset in 15mS ...
+}
 
 void OpenAVRcInit(uint8_t mcusr)
 {
@@ -1546,6 +1561,7 @@ int16_t simumain()
 #if !defined(SIMU)
   #if defined(CPUM2560)
   uint8_t mcusr = MCUSR; // save the WDT (etc) flags
+
   MCUSR = 0; // must be zeroed before disabling the WDT
   MCUCR |= (1<<JTD);    // Disable JTAG port that can interfere with POT3
   MCUCR |= (1<<JTD);   // Must be done twice within four cycles
