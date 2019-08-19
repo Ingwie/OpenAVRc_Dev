@@ -1479,7 +1479,8 @@ uint16_t stackAvailable()
 
 void ResetToBootloaderWithFlag()
 {
-  /* Build the flag at the top of SRAM (Not erased in WDT reboot) */
+#if !defined(SIMU)
+/* Build the flag at the top of SRAM (Not erased in WDT reboot) */
   uint8_t * p = (uint8_t*)RAMEND;
   *p-- = 0x0F;
   *p   = 0xF0;
@@ -1491,6 +1492,7 @@ void ResetToBootloaderWithFlag()
   #endif
 #endif
   for (;;) ; // Reset in 15mS ...
+#endif // SIMU
 }
 
 void OpenAVRcInit(uint8_t mcusr)
