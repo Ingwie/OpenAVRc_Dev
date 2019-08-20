@@ -6,7 +6,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 7
 Title "Shield Mega2560 core Full"
-Date "2019-06-30"
+Date "2019-08-20"
 Rev "2.2"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -385,22 +385,11 @@ F 3 "" H 9150 2400 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.2-rescue:CONN_01X04-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P10
-U 1 1 59C5BE9A
-P 8050 4400
-F 0 "P10" H 8050 4650 50  0000 C CNN
-F 1 "RX1TX1" V 8150 4400 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm" H 8050 4400 50  0001 C CNN
-F 3 "" H 8050 4400 50  0000 C CNN
-	1    8050 4400
-	0    -1   -1   0   
-$EndComp
-$Comp
 L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C10
 U 1 1 59C5BEA1
 P 8500 4950
-F 0 "C10" H 8350 5050 50  0000 L CNN
-F 1 "100nF" H 8250 4850 50  0000 L CNN
+F 0 "C10" H 8500 5050 50  0000 L CNN
+F 1 "100nF" H 8500 4850 50  0000 L CNN
 F 2 "Capacitors_SMD:C_1206" H 8538 4800 50  0001 C CNN
 F 3 "" H 8500 4950 50  0000 C CNN
 	1    8500 4950
@@ -432,8 +421,8 @@ Text Label 8000 5500 1    60   ~ 0
 BT_Rxd1
 Text Label 7900 5500 1    60   ~ 0
 BT_Txd1
-Text Notes 7650 4200 0    60   ~ 0
-Bluetooth HM-10
+Text Notes 7550 4200 0    60   ~ 0
+Bluetooth HC-05/HM-10
 Text GLabel 1450 2350 0    60   Input ~ 0
 Tele_RX
 Text GLabel 1450 2450 0    60   Input ~ 0
@@ -603,7 +592,7 @@ L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega
 U 1 1 59EF4793
 P 7650 4650
 F 0 "R5" V 7550 4650 50  0000 C CNN
-F 1 "4K7" V 7650 4650 50  0000 C CNN
+F 1 "2K7" V 7650 4650 50  0000 C CNN
 F 2 "Resistors_SMD:R_1206" V 7580 4650 50  0001 C CNN
 F 3 "" H 7650 4650 50  0000 C CNN
 	1    7650 4650
@@ -614,7 +603,7 @@ L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega
 U 1 1 59EF4881
 P 7900 4850
 F 0 "R6" V 8000 4850 50  0000 C CNN
-F 1 "4K7" V 7900 4850 50  0000 C CNN
+F 1 "1K" V 7900 4850 50  0000 C CNN
 F 2 "Resistors_SMD:R_1206" V 7830 4850 50  0001 C CNN
 F 3 "" H 7900 4850 50  0000 C CNN
 	1    7900 4850
@@ -1012,22 +1001,16 @@ Text GLabel 1450 4050 0    60   Input ~ 0
 Dummy_2
 Wire Wire Line
 	1850 4050 1450 4050
-Text GLabel 2700 5650 3    60   Input ~ 0
-Dummy_3
 Wire Wire Line
 	2700 5650 2700 5200
 Text GLabel 4900 6650 2    60   Input ~ 0
 Dummy_2
 Text GLabel 4900 6750 2    60   Input ~ 0
 Dummy_1
-Text GLabel 4900 6550 2    60   Input ~ 0
-Dummy_3
 Wire Wire Line
 	4900 6750 4550 6750
 Wire Wire Line
 	4900 6650 4550 6650
-Wire Wire Line
-	4900 6550 4550 6550
 Text Notes 4500 6350 0    60   ~ 0
 Pin out libre
 Wire Notes Line
@@ -15564,4 +15547,23 @@ Wire Wire Line
 	7900 4650 7900 4600
 Wire Wire Line
 	7900 5000 7900 5500
+Text GLabel 2700 5650 3    60   Output ~ 0
+BT_KEY_CMD
+$Comp
+L Connector_Generic:Conn_01x05 P10
+U 1 1 5D5D2191
+P 8100 4400
+F 0 "P10" H 8150 4700 50  0000 R CNN
+F 1 "RX1TX1" V 8200 4550 50  0000 R CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x05_Pitch2.54mm" H 8100 4400 50  0001 C CNN
+F 3 "~" H 8100 4400 50  0001 C CNN
+	1    8100 4400
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	8300 4600 8300 5500
+Wire Wire Line
+	8300 5500 10000 5500
+Text GLabel 10000 5500 2    60   Input ~ 0
+BT_KEY_CMD
 $EndSCHEMATC
