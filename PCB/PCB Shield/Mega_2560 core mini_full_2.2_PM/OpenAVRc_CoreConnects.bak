@@ -6,7 +6,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 7
 Title "Shield Mega2560 core Full"
-Date "2019-08-20"
+Date "2019-08-21"
 Rev "2.2"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -631,7 +631,7 @@ F 3 "" H 10450 2350 50  0000 C CNN
 	1    10450 2350
 	1    0    0    -1  
 $EndComp
-Text GLabel 2400 3450 2    60   Output ~ 0
+Text GLabel 2700 5650 3    60   Output ~ 0
 BT_OnOff
 Text GLabel 10000 5300 2    60   Input ~ 0
 BT_OnOff
@@ -15547,7 +15547,7 @@ Wire Wire Line
 	7900 4650 7900 4600
 Wire Wire Line
 	7900 5000 7900 5500
-Text GLabel 2700 5650 3    60   Output ~ 0
+Text GLabel 2400 3450 2    60   Output ~ 0
 BT_KEY_CMD
 $Comp
 L Connector_Generic:Conn_01x05 P10
@@ -15555,7 +15555,7 @@ U 1 1 5D5D2191
 P 8100 4400
 F 0 "P10" H 8150 4700 50  0000 R CNN
 F 1 "RX1TX1" V 8200 4550 50  0000 R CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x05_Pitch2.54mm" H 8100 4400 50  0001 C CNN
+F 2 "Pin_Header_Straight_1x05_Pitch2.54mm" H 8100 4400 50  0001 C CNN
 F 3 "~" H 8100 4400 50  0001 C CNN
 	1    8100 4400
 	0    -1   -1   0   
