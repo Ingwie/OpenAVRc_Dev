@@ -1,4 +1,4 @@
-### Module positions - created on 30/06/2019 14:53:17 ###
+### Module positions - created on 21/08/2019 10:24:58 ###
 ### Printed by Pcbnew version kicad (5.0.2)-1
 ## Unit = mm, Angle = deg.
 ## Side : top
@@ -26,7 +26,7 @@ Q3        MMBT2222ALT1   SOT-23_MMBT2222     68.4530    51.5620    0.0000  top
 R1        5,1K           R_1206              63.1190    54.1020    0.0000  top
 R3        18K            R_1206              36.1950    20.3200  180.0000  top
 R4        1K             R_1206              46.2280    27.4320  180.0000  top
-R6        4K7            R_1206              73.0250    17.9070   90.0000  top
+R6        1K             R_1206              73.0250    17.9070   90.0000  top
 R7        220            R_1206              80.2640    26.0350  180.0000  top
 R8        200            R_1206              57.1500    18.4150   90.0000  top
 R9        10K            R_1206              57.1500    11.5570   90.0000  top
