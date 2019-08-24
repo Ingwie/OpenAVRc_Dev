@@ -80,10 +80,10 @@ void menuGeneralBluetooth(uint8_t event)
     warningResult = false;
     // Call RE SCANN BT here
   }
-  g_eeGeneral.BTPairName[0] = 'T'; // To remove
-  g_eeGeneral.BTPairName[1] = 'E';
-  g_eeGeneral.BTPairName[2] = 'S';
-  g_eeGeneral.BTPairName[3] = 'T';
+  g_eeGeneral.BT.Peer.Name[0] = 'T'; // To remove
+  g_eeGeneral.BT.Peer.Name[1] = 'E';
+  g_eeGeneral.BT.Peer.Name[2] = 'S';
+  g_eeGeneral.BT.Peer.Name[3] = 'T';
 
   uint8_t addExt = 0; // used to add _M or _S
   coord_t y = MENU_HEADER_HEIGHT + 1;
@@ -111,12 +111,12 @@ void menuGeneralBluetooth(uint8_t event)
           break;
 
         case ITEM_BT_PIN :
-          editSingleName(BT_2ND_COLUMN, y, STR_BT_PIN, g_eeGeneral.BTPin, 4, event, attr, EE_GENERAL, RANGE_NUMBER);
+          editSingleName(BT_2ND_COLUMN, y, STR_BT_PIN, g_eeGeneral.BT.Pin, 4, event, attr, EE_GENERAL, RANGE_NUMBER);
           break;
 
         case ITEM_BT_PEER :
           lcdDrawTextLeft(y, STR_BT_PAIR);
-          lcdDrawSizedTextAtt(BT_2ND_COLUMN, y, g_eeGeneral.BTPairName, sizeof(g_eeGeneral.BTPairName), BSS|attr);
+          lcdDrawSizedTextAtt(BT_2ND_COLUMN, y, g_eeGeneral.BT.Peer.Name, sizeof(g_eeGeneral.BT.Peer.Name), BSS|attr);
           addExt = 2;
           break;
 

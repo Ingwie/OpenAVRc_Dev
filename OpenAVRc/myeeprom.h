@@ -98,12 +98,32 @@
 #define BS         16
 #endif
 
-#define LEN_BT_NAME 8
+
+
+/*#define LEN_BT_NAME 8
 #define BLUETOOTH_FIELDS          \
 uint8_t BTParams;                 \
 char    BTPin[4];                 \
 char    BTPairName[LEN_BT_NAME];  \
-char    BTMac[6];                 /* To do : Check what we keep it in eeprom */
+char    BTMac[6];  */               /* To do : Check what we keep it in eeprom */
+
+/* BluetoothEepSt_t structure length SHALL be (1 + 4 + 8 + 6) = 19 bytes to keep compatibility */
+#define LEN_BT_NAME 8
+typedef struct{
+  uint8_t Mac[6];
+  char    Name[LEN_BT_NAME];
+} BT_PeerSt_t;
+
+typedef struct{
+  uint8_t
+                Power     :1,  /* 0: OFF,   1: ON */
+                Type      :1,  /* 0: HC-05  1: HM-10 */
+                Master    :1,  /* 0: Slave, 1: Master */
+                AutoCnx   :1,  /* 0: No Cnx 1: Auto Cnx */
+                Reserved  :4;
+  char          Pin[4]; // Pin doesn't need to be stored in eeprom since it is stored in the BT module itself -> peer name can be increased by using these bytes
+  BT_PeerSt_t   Peer;
+} BluetoothEepSt_t;
 
 #define MAX_TIMERS           2
 #define NUM_CYC              3
@@ -345,7 +365,8 @@ PACK(typedef struct {
   int8_t    speakerVolume;
   uint8_t   blOffBright:4;   // used if defined PWM_BACKLIGHT
   uint8_t   blOnBright:4;    // used if defined PWM_BACKLIGHT
-  BLUETOOTH_FIELDS
+//  BLUETOOTH_FIELDS
+  BluetoothEepSt_t BT;
 // 32 bits or 4*8 bits fixed ID
   fixed_ID_Union fixed_ID;
 }) EEGeneral;
