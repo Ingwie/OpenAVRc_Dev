@@ -112,7 +112,7 @@ static uint8_t getAtMatchLen(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
 static uint8_t getAtSkipLen(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
 static uint8_t getAtBtOp(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
 static int8_t  sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCmdArg, char *RespBuf, uint8_t RespBufMxLen, uint8_t MatchLen, uint8_t SkipLen, char *TermPattern, uint16_t TimeoutMs);
-static int8_t  getSerialMsg(char *RespBuf, uint8_t RespBufMaxLen, char *TermPattern, uint8_t TermPatternNb, uint16_t TimeoutMs);
+static int8_t  waitForResp(char *RespBuf, uint8_t RespBufMaxLen, char *TermPattern, uint8_t TermPatternNb, uint16_t TimeoutMs);
 static void    btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb);
 static char   *buildMacStr(uint8_t *MacBin, char *MacStr);
 static uint8_t buildMacBin(char *MacStr, uint8_t *MacBin);
@@ -126,7 +126,7 @@ static void    inqmSet(char* Addon);
 static int8_t  getBtStateIdx(const char *BtState);
 
 
-const AtCmdSt_t AtCmdBtInit[] PROGMEM = {
+DECL_FLASH_TBL(AtCmdBtInit, AtCmdSt_t) = {
                           /* CmdIdx,  BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
                           {AT_AT,    BT_CMD, NULL,     Str_CRLF,          0,    0,     BT_GET_TIMEOUT_MS},
                           {AT_UART,  BT_SET, uartSet,  Str_CRLF,          0,    0,     BT_SET_TIMEOUT_MS},
@@ -134,7 +134,7 @@ const AtCmdSt_t AtCmdBtInit[] PROGMEM = {
                           {AT_INQM,  BT_SET, inqmSet,  Str_CRLF,          0,    0,     BT_SET_TIMEOUT_MS},
                           };
 
-const AtCmdSt_t AtCmdSlaveInit[] PROGMEM = {
+DECL_FLASH_TBL(AtCmdSlaveInit, AtCmdSt_t) = {
                           /* CmdIdx,  BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
                           {AT_AT,    BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_GET_TIMEOUT_MS},
                           {AT_ROLE,  BT_SET, roleSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
@@ -143,7 +143,7 @@ const AtCmdSt_t AtCmdSlaveInit[] PROGMEM = {
                           {AT_NAME,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           };
 
-const AtCmdSt_t AtCmdMasterInit[] PROGMEM = {
+DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
                           /* CmdIdx,  BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
                           {AT_AT,    BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_GET_TIMEOUT_MS},
                           {AT_RMAAD, BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
@@ -181,14 +181,14 @@ void bluetooth_init(HwSerial *hwSerial)
     hwSerial->init(RateTbl[Idx]);
     while(hwSerial->available()) hwSerial->read(); // Flush Rx
     hwSerial->print(F("AT\r\n"));
-    if(getSerialMsg(RespBuf, sizeof(RespBuf), (char *)"K\r\n", 1, 100))
+    if(waitForResp(RespBuf, sizeof(RespBuf), (char *)"K\r\n", 1, 100))
     {
       /* OK Uart serial rate found */
       if(Idx)
       {
         sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0\r\n"), RateTbl[0]);
         hwSerial->print(UartAtCmd);
-        if(getSerialMsg(RespBuf, sizeof(RespBuf), (char *)"\r\n", 1, 100))
+        if(waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", 1, 100))
         {
           hwSerial->init(RateTbl[0]);
           // BT Reboot is needed
@@ -358,7 +358,7 @@ int8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
   do
   {
     RespBuf[0] = 0;
-    if(getSerialMsg(RespBuf, sizeof(RespBuf), (char *)"\r\n", 1, TimeoutMs))
+    if(waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", 1, TimeoutMs))
     {
       if(!memcmp_P(RespBuf, PSTR("+INQ:"), 5))
       {
@@ -581,7 +581,7 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   {
     /* OK, skipped char received */
     Timeout10msTick = MS_TO_10MS_TICK(TimeoutMs) - (GET_10MS_TICK() - Start10MsTick);
-    Ret = getSerialMsg(RespBuf, RespBufMaxLen, TermPattern, 1, _10MS_TICK_TO_MS(Timeout10msTick));
+    Ret = waitForResp(RespBuf, RespBufMaxLen, TermPattern, 1, _10MS_TICK_TO_MS(Timeout10msTick));
   }
   return(Ret);
 }
@@ -639,7 +639,7 @@ static uint16_t getAtTimeoutMs(const AtCmdSt_t *AtCmdTbl, uint8_t Idx)
   return((uint16_t)pgm_read_word(&AtCmdTbl[Idx].TimeoutMs));
 }
 
-static int8_t getSerialMsg(char *RespBuf, uint8_t RespBufMaxLen, char *TermPattern, uint8_t TermPatternNb, uint16_t TimeoutMs)
+static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, char *TermPattern, uint8_t TermPatternNb, uint16_t TimeoutMs)
 {
   uint32_t Start10MsTick = GET_10MS_TICK();
   uint8_t  RxChar, RxIdx = 0, TermPatternLen;
