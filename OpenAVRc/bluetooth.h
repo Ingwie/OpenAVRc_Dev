@@ -37,6 +37,8 @@
 #include "HwSerial.h"
 #include "OpenAVRc.h"
 
+enum {BT_REBOOT_DATA_MODE = 0, BT_REBOOT_AT_MODE};
+
 /* Code returned by bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeout) */
 enum {BT_UNKNOWN = - 1, BT_INITIALIZED = 0, BT_READY, BT_PAIRABLE, BT_PAIRED, BT_INQUIRING, BT_CONNECTING, BT_CONNECTED, BT_DISCONNECTED};
 
@@ -55,7 +57,7 @@ typedef struct{
 
 void   bluetooth_init(HwSerial *hwSerial);
 void   bluetooth_power(uint8_t On);
-void   bluetooth_reboot(void);
+void   bluetooth_AtCmdMode(uint8_t On, uint8_t Yield = 1);
 int8_t bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs);
 int8_t bluetooth_getName(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs);
 int8_t bluetooth_setName(char *BtName,  uint16_t TimeoutMs);

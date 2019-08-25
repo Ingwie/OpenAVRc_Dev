@@ -39,7 +39,9 @@
 
 #define BT_SEND_AT_SEQ(AtCmdInit)  btSendAtSeq((const AtCmdSt_t*)&AtCmdInit, TBL_ITEM_NB(AtCmdInit))
 
-#define BT_POWER_ON_MS             200
+#define BT_POWER_ON_OFF_MS         50
+#define BT_WAKE_UP_MS              600
+#define BT_AT_WAKE_UP_MS           50
 #define BT_GET_TIMEOUT_MS          60
 #define BT_SET_TIMEOUT_MS          100
 #define BT_SCANN_TIMEOUT_MS        20000
@@ -105,7 +107,7 @@ typedef struct{
 }AtCmdSt_t;
 
 /* PRIVATE FUNCTION PROTOTYPES */
-static void    AtCmdMode(uint8_t On);
+static void    reboot(uint8_t Yield = 1);
 static uint8_t getAtCmdIdx(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
 static char   *getAtCmd(uint8_t Idx, char *Buf);
 static uint8_t getAtMatchLen(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
@@ -153,8 +155,6 @@ DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
                           {AT_NAME,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           {AT_INQM,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           {AT_INIT,  BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
-//                          {AT_INQ,   BT_GET, NULL,    Str_CRLF,           3,          20000},
-//                          {AT_RNAME, BT_GET, NULL,    Str_CRLF_OK_CRLF,   1,          10000},
                           };
 
 /* PUBLIC FUNTIONS */
@@ -173,9 +173,9 @@ void bluetooth_init(HwSerial *hwSerial)
   char     UartAtCmd[30];
   char     RespBuf[10];
 
-  bluetooth_power(ON);
-  _delay_ms(BT_POWER_ON_MS); // Here, we are in initilization phase -> do NOT call YIELD_TO_TASK_FOR_MS()
-  AtCmdMode(ON);
+  reboot(0); // Do NOT yield prio tasks here, since the are not initialized yet
+
+  bluetooth_AtCmdMode(ON, 0);
   for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
   {
     hwSerial->init(RateTbl[Idx]);
@@ -190,12 +190,12 @@ void bluetooth_init(HwSerial *hwSerial)
         hwSerial->print(UartAtCmd);
         if(waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", 1, 100))
         {
-          hwSerial->init(RateTbl[0]);
-          // BT Reboot is needed
-          bluetooth_power(OFF);
-          _delay_ms(BT_POWER_ON_MS); // Here, we are in initilization phase -> do NOT call YIELD_TO_TASK_FOR_MS()
-          bluetooth_power(ON);
+          /* Should be OK */
         }
+        /* Switch Serial to Rate = 115200 */
+        hwSerial->init(RateTbl[0]);
+        /* BT Reboot is needed */
+        reboot(0); // Do NOT yield prio tasks here, since the are not initialized yet
       }
       break;
     }
@@ -204,13 +204,16 @@ void bluetooth_init(HwSerial *hwSerial)
 //      Serial.print(F("No BT resp at: "));Serial.println(RateTbl[Idx]);
     }
   }
-  BT_SEND_AT_SEQ(AtCmdBtInit);
-#if (BT_MASTER == 1)
-  BT_SEND_AT_SEQ(AtCmdMasterInit);
-#else
-  BT_SEND_AT_SEQ(AtCmdSlaveInit);
-#endif
-  AtCmdMode(OFF);
+  bluetooth_AtCmdMode(OFF);
+  BT_SEND_AT_SEQ(AtCmdBtInit); // Common to Master and Slave
+  if(g_eeGeneral.BT.Master)
+  {
+    BT_SEND_AT_SEQ(AtCmdMasterInit);
+  }
+  else
+  {
+    BT_SEND_AT_SEQ(AtCmdSlaveInit);
+  }
 }
 
 /**
@@ -223,24 +226,22 @@ void bluetooth_init(HwSerial *hwSerial)
  */
 void bluetooth_power(uint8_t On)
 {
-  /// TO DO: drive the BT_OnOff pin
+  // TO DO: drive the BT_OnOff pin
 }
 
-/**
- * \file  bluetooth.cpp
- * \fn void bluetooth_reboot(void)
- * \brief Reboot the BT module (Needed to take some paramaters into account)
- *
- * \param  Void
- * \return Void.
- */
-void bluetooth_reboot(void)
+void bluetooth_AtCmdMode(uint8_t On, uint8_t Yield /* = 1*/)
 {
   uint32_t StartDurationMs;
 
-  bluetooth_power(OFF);
-  YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_POWER_ON_MS);
-  bluetooth_power(ON);
+//  digitalWrite(BT_KEY_EN_PIN, On);
+  if(On)
+  {
+    if(Yield)
+    {
+      YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_AT_WAKE_UP_MS);
+    }
+    else _delay_ms(BT_AT_WAKE_UP_MS);
+  }
 }
 
 /**
@@ -340,7 +341,7 @@ int8_t bluetooth_setPswd(char *BtPswd, uint16_t TimeoutMs)
 int8_t bluetooth_getRemoteName(uint8_t *RemoteMacBin, char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs)
 {
   char MacStr[14];
-  // Fromat: 25,56,D8CA0F
+  // Format: 25,56,D8CA0F
   return(sendAtCmdAndWaitForResp(AT_RNAME, BT_GET, buildMacStr(RemoteMacBin, MacStr), RespBuf, RespBufMaxLen, 5, 6, (char *)"\r\nOK\r\n", TimeoutMs));
 }
 
@@ -388,30 +389,26 @@ int8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
       }
     }
   }while(((GET_10MS_TICK() - StartMs) < MS_TO_10MS_TICK(TimeoutMs)) && (MacFound < REMOTE_BT_DEV_MAX_NB));
-//  bluetooth_stopScann(1000);
-// TO DO: Check if reboot needed to quit inquiring mode
+  /* Reboot needed to quit INQ mode */
+  reboot();
+  bluetooth_AtCmdMode(ON); // Switch to AT Mode
   if(MacFound)
   {
-//Serial.print("MacFound=");Serial.println(MacFound);
-//delay(2000);
-    /* Reboot to quit INQ mode? */
     /* Now, get Remote Name(s) */
-    TimeoutMs = 10000;
     for(uint8_t Idx = 0; Idx < MacFound; Idx++)
     {
-      for(uint8_t Try = 0; Try < 2; Try++)
+      for(uint8_t Try = 0; Try < 2; Try++) // Try twice to get more chance to catch it!
       {
-//Serial.print("TimeoutMs=");Serial.println(TimeoutMs);
-        if(bluetooth_getRemoteName(Scann->Remote[Idx].MAC, RespBuf, sizeof(RespBuf), TimeoutMs) > 4)
+        if(bluetooth_getRemoteName(Scann->Remote[Idx].MAC, RespBuf, sizeof(RespBuf), BT_READ_RNAME_TIMEOUT_MS) > 4)
         {
           strncpy(Scann->Remote[Idx].Name, RespBuf, BT_NAME_STR_LEN);
           Scann->Remote[Idx].Name[BT_NAME_STR_LEN - 1] = 0;
-          break;
+          break; // Exit ASAP
         }
       }
     }
   }
-//  bluetooth_disconnect(100);
+  bluetooth_AtCmdMode(OFF);
 
   return(Ret);
 }
@@ -436,6 +433,39 @@ int8_t bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs)
 }
 
 /* PRIVATE FUNCTIONS */
+
+/**
+ * \file  bluetooth.cpp
+ * \fn    void reboot(uint8_t Yield = 1)
+ * \brief Reboot the BT module (Needed to take some paramaters into account)
+ *
+ * \param  Yield: 0 -> blocking delay, 1 -> Yield to prio task list (default value)
+ * \return Void.
+ */
+static void reboot(uint8_t Yield /* = 1 */)
+{
+  uint32_t StartDurationMs;
+
+  bluetooth_power(OFF);
+  if(Yield)
+  {
+    YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_POWER_ON_OFF_MS);
+  }
+  else _delay_ms(BT_POWER_ON_OFF_MS);
+  bluetooth_AtCmdMode(BT_REBOOT_DATA_MODE); // Set KEY pin to 0
+  if(Yield)
+  {
+    YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_POWER_ON_OFF_MS);
+  }
+  else _delay_ms(BT_POWER_ON_OFF_MS);
+  bluetooth_power(ON);
+  if(Yield)
+  {
+    YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_WAKE_UP_MS);
+  }
+  else _delay_ms(BT_WAKE_UP_MS);
+}
+
 static uint8_t buildMacBin(char *MacStr, uint8_t *MacBin)
 {
   MacSt_t  BT_MAC;
@@ -444,7 +474,7 @@ static uint8_t buildMacBin(char *MacStr, uint8_t *MacBin)
   uint32_t Nap, Uap, Lap;
   uint8_t  Ret = 0;
 //+INQ:1A:7D:DA7110,1C010C,7FFF -> Should be +INQ:001A:7D:DA7110,1C010C,7FFF
-//                                                ^-- Here, the 2 leading zeros are not displayedin AT+INQ!
+//                                                ^-- Here, the 2 leading zeros are not displayed in AT+INQ!
   if(*MacStr)
   {
     Len      = strlen(MacStr);
@@ -586,17 +616,6 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   return(Ret);
 }
 
-static void AtCmdMode(uint8_t On)
-{
-  uint32_t StartDurationMs;
-
-//  digitalWrite(BT_KEY_EN, On);
-  if(On)
-  {
-    YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, 60);
-  }
-}
-
 static uint8_t   getAtCmdIdx(const AtCmdSt_t *AtCmdTbl, uint8_t Idx)
 {
   return((uint8_t)pgm_read_byte(&AtCmdTbl[Idx].CmdIdx));
@@ -706,7 +725,7 @@ static void btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb)
   char      *AtCmdArg;
   char       TermPattern[10];
 
-  AtCmdMode(ON);
+  bluetooth_AtCmdMode(ON);
   for(Idx = 0; Idx < TblItemNb; Idx++)
   {
     AtCmdArg  = NULL;
@@ -731,7 +750,7 @@ static void btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb)
 //      Serial.println(F("No reponse!'"));
     }
   }
-  AtCmdMode(OFF);
+  bluetooth_AtCmdMode(OFF);
 }
 
 static void uartSet(char* Addon)
@@ -746,7 +765,7 @@ static void classSet(char* Addon)
 
 static void roleSet(char* Addon)
 {
-  Addon[0] = '0' + BT_MASTER; // To replace with eeprom bit value
+  Addon[0] = '0' + g_eeGeneral.BT.Master;
   Addon[1] =  0;
 }
 
@@ -757,8 +776,25 @@ static void inqmSet(char* Addon)
 
 static void nameSet(char* Addon)
 {
-  strcpy(Addon, "RC-NAVY"); // To be replaced with eeprom string value
-  strcat_P(Addon, (BT_MASTER == 1)? PSTR("_M"): PSTR("_S"));
+  char Name[BT_NAME_STR_LEN + 1];
+  int8_t NameLen;
+
+  NameLen = bluetooth_getName(Name, sizeof(Name), 100);
+  if(NameLen > 3)
+  {
+    /* Check if suffix _M or _S is present */
+    if((Name[NameLen - 2] == '_') && ((Name[NameLen - 1] == 'M') || (Name[NameLen - 1] == 'S')))
+    {
+      /* Skip suffix */
+      Name[NameLen - 2] = 0;
+    }
+  }
+  else
+  {
+    /* Name absent or too short */
+    strcpy_P(Addon, PSTR("HC-05")); // Better than nothing!
+  }
+  strcat_P(Addon, (g_eeGeneral.BT.Master)? PSTR("_M"): PSTR("_S"));
 }
 
 static int8_t getBtStateIdx(const char *BtState)
