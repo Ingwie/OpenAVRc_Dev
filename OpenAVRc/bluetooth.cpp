@@ -32,8 +32,6 @@
 
 #include "bluetooth.h"
 
-#define BT_MASTER     1 // Replace this by eeprom BT bit
-
 
 #define PRIO_TASK_LIST()           checkMixer()
 
@@ -47,6 +45,7 @@
 #define BT_SCANN_TIMEOUT_MS        20000
 #define BT_READ_RNAME_TIMEOUT_MS   10000
 
+enum {BT_REBOOT_DATA_MODE = 0, BT_REBOOT_AT_MODE};
 enum {BT_GET = 0, BT_SET, BT_CMD};
 enum {OFF = 0, ON};
 
@@ -54,23 +53,23 @@ DECL_FLASH_STR2(Str_CRLF,        "\r\n");
 DECL_FLASH_STR2(Str_OK_CRLF,     "OK\r\n");
 DECL_FLASH_STR2(Str_CRLF_OK_CRLF,"\r\nOK\r\n");
 
-DECL_FLASH_STR2(Str_AT,    "");      // Simple AT command
-DECL_FLASH_STR2(Str_STATE, "STATE"); // BT Status
-DECL_FLASH_STR2(Str_PSWD,  "PSWD");  // BT Password (PIN)
-DECL_FLASH_STR2(Str_UART,  "UART");  // Uart
-DECL_FLASH_STR2(Str_CLASS, "CLASS"); // Device Class
-DECL_FLASH_STR2(Str_RMAAD, "RMAAD"); // Clears paired list
-DECL_FLASH_STR2(Str_ROLE,  "ROLE");  // Role: 0=Slave, 1=Master
-DECL_FLASH_STR2(Str_NAME,  "NAME");  // BT module name
-DECL_FLASH_STR2(Str_RNAME, "RNAME"); // Remote BT module name
-DECL_FLASH_STR2(Str_CMODE, "CMODE"); // Inquire - Connection mode
-DECL_FLASH_STR2(Str_INIT,  "INIT");  // Initialize the SPP profile lib
-DECL_FLASH_STR2(Str_DISC,  "DISC");  // Disconnection
-DECL_FLASH_STR2(Str_INQM,  "INQM");  // Inquire Mode
-DECL_FLASH_STR2(Str_INQ,   "INQ");   // Inquire Bluetooth device
-DECL_FLASH_STR2(Str_INQC,  "INQC");  // Cancel Inquire Bluetooth device
-DECL_FLASH_STR2(Str_LINK,  "LINK");  // Link to a specific remote
-DECL_FLASH_STR2(Str_RESET, "RESET"); // Reset
+DECL_FLASH_STR2(Str_AT,          "");      // Simple AT command
+DECL_FLASH_STR2(Str_STATE,       "STATE"); // BT Status
+DECL_FLASH_STR2(Str_PSWD,        "PSWD");  // BT Password (PIN)
+DECL_FLASH_STR2(Str_UART,        "UART");  // Uart
+DECL_FLASH_STR2(Str_CLASS,       "CLASS"); // Device Class
+DECL_FLASH_STR2(Str_RMAAD,       "RMAAD"); // Clears paired list
+DECL_FLASH_STR2(Str_ROLE,        "ROLE");  // Role: 0=Slave, 1=Master
+DECL_FLASH_STR2(Str_NAME,        "NAME");  // BT module name
+DECL_FLASH_STR2(Str_RNAME,       "RNAME"); // Remote BT module name
+DECL_FLASH_STR2(Str_CMODE,       "CMODE"); // Inquire - Connection mode
+DECL_FLASH_STR2(Str_INIT,        "INIT");  // Initialize the SPP profile lib
+DECL_FLASH_STR2(Str_DISC,        "DISC");  // Disconnection
+DECL_FLASH_STR2(Str_INQM,        "INQM");  // Inquire Mode
+DECL_FLASH_STR2(Str_INQ,         "INQ");   // Inquire Bluetooth device
+DECL_FLASH_STR2(Str_INQC,        "INQC");  // Cancel Inquire Bluetooth device
+DECL_FLASH_STR2(Str_LINK,        "LINK");  // Link to a specific remote
+DECL_FLASH_STR2(Str_RESET,       "RESET"); // Reset
 
 enum {AT_AT = 0, AT_STATE, AT_PSWD, AT_UART, AT_CLASS, AT_RMAAD, AT_ROLE, AT_NAME, AT_RNAME, AT_CMODE, AT_INIT, AT_DISC, AT_INQM, AT_INQ, AT_INQC, AT_LINK, AT_RESET, AT_CMD_MAX_NB};
 
@@ -173,7 +172,7 @@ void bluetooth_init(HwSerial *hwSerial)
   char     UartAtCmd[30];
   char     RespBuf[10];
 
-  reboot(0); // Do NOT yield prio tasks here, since the are not initialized yet
+  reboot(0); // Do NOT yield prio tasks here, since they are not initialized yet
 
   bluetooth_AtCmdMode(ON, 0);
   for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
@@ -195,13 +194,12 @@ void bluetooth_init(HwSerial *hwSerial)
         /* Switch Serial to Rate = 115200 */
         hwSerial->init(RateTbl[0]);
         /* BT Reboot is needed */
-        reboot(0); // Do NOT yield prio tasks here, since the are not initialized yet
+        reboot(0); // Do NOT yield prio tasks here, since they are not initialized yet
       }
       break;
     }
     else
     {
-//      Serial.print(F("No BT resp at: "));Serial.println(RateTbl[Idx]);
     }
   }
   bluetooth_AtCmdMode(OFF);
@@ -233,7 +231,7 @@ void bluetooth_AtCmdMode(uint8_t On, uint8_t Yield /* = 1*/)
 {
   uint32_t StartDurationMs;
 
-//  digitalWrite(BT_KEY_EN_PIN, On);
+  // TO DO: drive the BT_Key pin
   if(On)
   {
     if(Yield)
@@ -341,7 +339,7 @@ int8_t bluetooth_setPswd(char *BtPswd, uint16_t TimeoutMs)
 int8_t bluetooth_getRemoteName(uint8_t *RemoteMacBin, char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs)
 {
   char MacStr[14];
-  // Format: 25,56,D8CA0F
+  // Format: [00]25,56,D8CA0F
   return(sendAtCmdAndWaitForResp(AT_RNAME, BT_GET, buildMacStr(RemoteMacBin, MacStr), RespBuf, RespBufMaxLen, 5, 6, (char *)"\r\nOK\r\n", TimeoutMs));
 }
 
@@ -359,7 +357,7 @@ int8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
   do
   {
     RespBuf[0] = 0;
-    if(waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", 1, TimeoutMs))
+    if(waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", 1, TimeoutMs)) // Multi-line reception
     {
       if(!memcmp_P(RespBuf, PSTR("+INQ:"), 5))
       {
@@ -371,7 +369,6 @@ int8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
           {
             if(!memcmp(Scann->Remote[Idx].MAC, MacBin, BT_MAC_BIN_LEN))
             {
-//              Serial.println(F("Already registered!"));
               AlreadyRegistered = 1;
               break;
             }
@@ -385,7 +382,6 @@ int8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
             if(MacFound >= REMOTE_BT_DEV_MAX_NB) break;
           }
         }
-//        else Serial.println (F("Error MacStr!"));
       }
     }
   }while(((GET_10MS_TICK() - StartMs) < MS_TO_10MS_TICK(TimeoutMs)) && (MacFound < REMOTE_BT_DEV_MAX_NB));
@@ -437,7 +433,7 @@ int8_t bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs)
 /**
  * \file  bluetooth.cpp
  * \fn    void reboot(uint8_t Yield = 1)
- * \brief Reboot the BT module (Needed to take some paramaters into account)
+ * \brief Reboot the BT module (Needed to take some parameters into account)
  *
  * \param  Yield: 0 -> blocking delay, 1 -> Yield to prio task list (default value)
  * \return Void.
@@ -474,7 +470,7 @@ static uint8_t buildMacBin(char *MacStr, uint8_t *MacBin)
   uint32_t Nap, Uap, Lap;
   uint8_t  Ret = 0;
 //+INQ:1A:7D:DA7110,1C010C,7FFF -> Should be +INQ:001A:7D:DA7110,1C010C,7FFF
-//                                                ^-- Here, the 2 leading zeros are not displayed in AT+INQ!
+//                                                ^-- Here, the 2 leading zeros are not displayed in AT+INQ response!
   if(*MacStr)
   {
     Len      = strlen(MacStr);
@@ -743,11 +739,9 @@ static void btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb)
     TimeoutMs = getAtTimeoutMs(AtCmdTbl, Idx);
     if(sendAtCmdAndWaitForResp(AtCmdIdx, BtOp, AtCmdArg, RespBuf, sizeof(RespBuf), MatchLen, SkipLen, TermPattern, TimeoutMs) >= 0)
     {
-//      Serial.print(F("<-'")); Serial.print(uCli.CmdLine.Msg);Serial.println(F("'"));
     }
     else
     {
-//      Serial.println(F("No reponse!'"));
     }
   }
   bluetooth_AtCmdMode(OFF);
@@ -776,7 +770,7 @@ static void inqmSet(char* Addon)
 
 static void nameSet(char* Addon)
 {
-  char Name[BT_NAME_STR_LEN + 1];
+  char   Name[BT_NAME_STR_LEN + 1];
   int8_t NameLen;
 
   NameLen = bluetooth_getName(Name, sizeof(Name), 100);
@@ -788,6 +782,7 @@ static void nameSet(char* Addon)
       /* Skip suffix */
       Name[NameLen - 2] = 0;
     }
+    strcpy(Addon, Name);
   }
   else
   {
