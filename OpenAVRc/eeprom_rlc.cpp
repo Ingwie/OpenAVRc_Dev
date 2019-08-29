@@ -968,7 +968,7 @@ void eeLoadModel(uint8_t id)
       theFile.openRlc(FILE_MODEL(id));
       uint16_t sz = theFile.readRlc((uint8_t*)&g_model, sizeof(g_model));
 
-      bool newModel = false;
+      uint8_t newModel = false;
 
       ADAPT_PROTOCOL_TO_SIMU(); // Simu only
 

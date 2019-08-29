@@ -40,8 +40,7 @@ int16_t  trims[NUM_STICKS] = {0};
 int32_t  chans[NUM_CHNOUT] = {0};
 BeepANACenter bpanaCenter = 0;
 
-int32_t act   [MAX_MIXERS] = {0};
-SwOn    swOn  [MAX_MIXERS];   // TODO better name later...
+MixVal   mixVal[MAX_MIXERS];
 
 uint8_t mixWarning;
 
@@ -62,7 +61,7 @@ void applyExpos(int16_t *anas, uint8_t mode APPLY_EXPOS_EXTRA_PARAMS)
 
   for (uint8_t i=0; i<MAX_EXPOS; i++) {
 #if defined(BOLD_FONT)
-    if (mode==e_perout_mode_normal) swOn[i].activeExpo = false;
+    if (mode==e_perout_mode_normal) mixVal[i].activeExpo = false;
 #endif
     ExpoData * ed = expoAddress(i);
     if (!EXPO_VALID(ed)) break; // end of list
@@ -74,7 +73,7 @@ void applyExpos(int16_t *anas, uint8_t mode APPLY_EXPOS_EXTRA_PARAMS)
       int16_t v = anas2[ed->chn];
       if (EXPO_MODE_ENABLE(ed, v)) {
 #if defined(BOLD_FONT)
-        if (mode==e_perout_mode_normal) swOn[i].activeExpo = true;
+        if (mode==e_perout_mode_normal) mixVal[i].activeExpo = true;
 #endif
         cur_chn = ed->chn;
 
@@ -431,7 +430,7 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
     for (uint8_t i=0; i<MAX_MIXERS; i++) {
 
 #if defined(BOLD_FONT)
-      if (mode==e_perout_mode_normal && pass==0) swOn[i].activeMix = false;
+      if (mode==e_perout_mode_normal && pass==0) mixVal[i].activeMix = false;
 #endif
 
       MixData *md = mixAddress(i);
@@ -442,10 +441,6 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
 
       if (!(dirtyChannels & ((bitfield_channels_t)1 << md->destCh))) continue;
 
-      // if this is the first calculation for the destination channel, initialize it with 0 (otherwise would be random)
-      if (i == 0 || md->destCh != (md-1)->destCh) {
-        chans[md->destCh] = 0;
-      }
 
       //========== PHASE && SWITCH ==========
       uint8_t mixCondition = (md->flightModes != 0 || md->swtch);
@@ -500,20 +495,24 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
 
 
       //========== DELAYS ===================
-      if (mode <= e_perout_mode_inactive_flight_mode && (md->delayDown || md->delayUp)) { // there are delay values
-        if (!s_mixer_first_run_done || !swOn[i].delay) {
-          swOn[i].hold = v;     // store actual value of v as reference for next run
-          swOn[i].delay = (v > swOn[i].hold ? md->delayUp : md->delayDown) * (100/DELAY_STEP); // init delay
-        } else if ((swOn[i].delay > 0) && ((v > swOn[i].hold +10) || (v < swOn[i].hold -10))) { // compare v to value stored at previous run
-          swOn[i].delay = max<int16_t>(0, (int16_t)swOn[i].delay - tick10ms);   // decrement delay
-          v = swOn[i].hold;     // keep v to stored value until end of delay
-        }
-      }
+        if (mode == e_perout_mode_normal && (md->delayDown || md->delayUp)) // there are delay values
+          {
+            if (!s_mixer_first_run_done || !mixVal[i].delay)
+              {
+                mixVal[i].hold = v;     // store actual value of v as reference for next run
+                mixVal[i].delay = (v > mixVal[i].hold ? md->delayUp : md->delayDown) * (100/DELAY_STEP); // init delay
+              }
+            else if ((mixVal[i].delay > 0) && ((v > mixVal[i].hold +10) || (v < mixVal[i].hold -10)))     // compare v to value stored at previous run
+              {
+                mixVal[i].delay = max<int16_t>(0, (int16_t)mixVal[i].delay - tick10ms); // decrement delay
+                v = mixVal[i].hold;     // keep v to stored value until end of delay
+              }
+          }
 
       //========== SLOW DOWN ================
       // lower weight causes slower movement
       if (mode <= e_perout_mode_inactive_flight_mode && (md->speedUp || md->speedDown)) { // there are slow-down values
-        int32_t tact = act[i];
+        int32_t tact = mixVal[i].act;
         int16_t diff = v - (tact>>8);  // we recale to a mult 256 higher value for calculation
         if (diff) {
           // open.20.fsguruh: speed is defined in % movement per second; In menu we specify the full movement (-100% to 100%) = 200% in total
@@ -526,20 +525,27 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
             // rate equals a full range for one second; if less time is passed rate is accordingly smaller
             // if one second passed, rate would be 2048(full motion)*256(recalculated weight)*100(100 ticks needed for one second)
             int32_t currentValue = (int32_t)v<<8;
-            if (diff > 0) {
-              if (md->speedUp) {
-                // if a speed upwards is defined recalculate the new value according configured speed; the higher the speed the smaller the add value is
-                int32_t newValue = tact+rate/((int16_t)(100/SLOW_STEP)*md->speedUp);
-                if (newValue<currentValue) currentValue = newValue; // Endposition; prevent toggling around the destination
-              }
-            } else { // if is <0 because ==0 is not possible
-              if (md->speedDown) {
-                // see explanation in speedUp
-                int32_t newValue = tact-rate/((int16_t)(100/SLOW_STEP)*md->speedDown);
-                if (newValue>currentValue) currentValue = newValue; // Endposition; prevent toggling around the destination
-              }
-            }
-            act[i] = tact = currentValue;
+              if (s_mixer_first_run_done)
+                {
+                  if ((diff > 0) && md->speedUp)
+                    {
+                      // if a speed upwards is defined recalculate the new value according configured speed; the higher the speed the smaller the add value is
+                      int32_t newValue = tact+rate/((int16_t)(100/SLOW_STEP)*md->speedUp);
+                      if (newValue<currentValue)
+                        currentValue = newValue; // Endposition; prevent toggling around the destination
+                    }
+                  else   // if is <0 because ==0 is not possible
+                    {
+                      if (md->speedDown)
+                        {
+                          // see explanation in speedUp
+                          int32_t newValue = tact-rate/((int16_t)(100/SLOW_STEP)*md->speedDown);
+                          if (newValue>currentValue)
+                            currentValue = newValue; // Endposition; prevent toggling around the destination
+                        }
+                    }
+                }
+              mixVal[i].act = tact = currentValue;
             // open.20.fsguruh: this implementation would save about 50 bytes code
           } // endif tick10ms ; in case no time passed assign the old value, not the current value from source
           v = tact>>8;
@@ -558,10 +564,10 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
           continue;
         }
       }
-      if (mode==e_perout_mode_normal && (!mixCondition || mixEnabled || swOn[i].delay)) {
+      if (mode==e_perout_mode_normal && (!mixCondition || mixEnabled || mixVal[i].delay)) {
         if (md->mixWarn) lv_mixWarning |= 1 << (md->mixWarn - 1);
 #if defined(BOLD_FONT)
-        swOn[i].activeMix = true;
+        mixVal[i].activeMix = true;
 #endif
       }
 
@@ -575,8 +581,7 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
 
       //========== TRIMS ====================
       int16_t trim = 0;
-      if (apply_offset_and_curve) {
-        if (!(mode & e_perout_mode_notrims)) {
+      if (apply_offset_and_curve &&!(mode & e_perout_mode_notrims)) {
           int8_t mix_trim = md->carryTrim;
           if (mix_trim < TRIM_ON)
             mix_trim = -mix_trim - 1;
@@ -586,16 +591,15 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
             mix_trim = -1;
           if (mix_trim >= 0) {
             trim = trims[mix_trim];
-            if (md->curveMode != MODE_DIFFERENTIAL) {
-                v += trim;
-            }
-          }
         }
       }
 
       //========== CURVES ==================
-      if (apply_offset_and_curve && md->curveParam && md->curveMode == MODE_CURVE) {
-        v = applyCurve(v, md->curveParam);
+      if (apply_offset_and_curve && md->curveMode != MODE_DIFFERENTIAL) {
+        v += trim;
+        if (md->curveMode == MODE_CURVE && md->curveParam) {
+          v = applyCurve(v, md->curveParam);
+        }
       }
 
       //========== WEIGHT ===================
@@ -650,7 +654,7 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
 #if defined(BOLD_FONT)
         if (mode==e_perout_mode_normal) {
           for (uint8_t m=i-1; m<MAX_MIXERS && mixAddress(m)->destCh==md->destCh; m--)
-            swOn[m].activeMix = false;
+            mixVal[m].activeMix = false;
         }
 #endif
         break;
