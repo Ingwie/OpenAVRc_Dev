@@ -928,24 +928,24 @@ void moveTrimsToOffsets();
 #define delayval_t         int8_t
 
 PACK(typedef struct {
-  int16_t hold;
-  uint16_t delay:10;
+  int32_t act:24;
+  uint16_t delay:10;     // 10bits used 0 to DELAY_MAX*(100/DELAY_STEP)
   uint8_t activeMix:1;
   uint8_t activeExpo:1;
-}) SwOn;
+  int16_t hold:12;       // 12bits used -RESX to RESX
+}) MixVal;
 
-extern SwOn     swOn  [MAX_MIXERS];
-extern int32_t  act   [MAX_MIXERS];
+extern MixVal mixVal[MAX_MIXERS];
 
 #ifdef BOLD_FONT
 inline uint8_t isExpoActive(uint8_t expo)
 {
-  return swOn[expo].activeExpo;
+  return mixVal[expo].activeExpo;
 }
 
 inline uint8_t isMixActive(uint8_t mix)
 {
-  return swOn[mix].activeMix;
+  return mixVal[mix].activeMix;
 }
 #else
 #define isExpoActive(x) false

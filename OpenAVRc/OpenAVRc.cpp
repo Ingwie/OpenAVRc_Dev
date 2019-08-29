@@ -120,7 +120,7 @@ void setGazSource()
 {
   uint8_t idx = g_model.thrTraceSrc + MIXSRC_Thr;
   if (idx > MIXSRC_Thr)
-    idx += 1;
+    ++idx;
   if (idx >= MIXSRC_FIRST_POT+NUM_POTS)
     idx += MIXSRC_CH1 - MIXSRC_FIRST_POT - NUM_POTS;
   gazSource = idx;
@@ -1222,6 +1222,7 @@ void doMixerCalculations()
       }
     }
   }
+  s_mixer_first_run_done = true;
 }
 
 void OpenAVRcStart() // Run only if it is not a WDT reboot
@@ -1534,7 +1535,6 @@ void OpenAVRcInit(uint8_t mcusr)
   backlightOn();
 
   doMixerCalculations();
-  s_mixer_first_run_done = true;
 
   startPulses(PROTOCMD_INIT);
 
