@@ -76,81 +76,75 @@
   * \brief Structure defining an XMODEM CHECKSUM packet
   *
 \code
-typedef struct _XMODEM_BUF_
-{
+typedef struct{
    char    cSOH;          // ** SOH byte goes here             **
    uint8_t aSEQ, aNotSEQ; // ** 1st byte = seq#, 2nd is ~seq#  **
    char    aDataBuf[128]; // ** the actual data itself!        **
    uint8_t bCheckSum;     // ** checksum gets 1 byte           **
-} PACKED XMODEM_BUF;
+} PACKED XModemBufSt_t;
 
 \endcode
   *
 **/
-typedef struct _XMODEM_BUF_
-{
+typedef struct{
    char    cSOH;          ///< SOH byte goes here
    uint8_t aSEQ, aNotSEQ; ///< 1st byte = seq#, 2nd is ~seq#
    char    aDataBuf[128]; ///< the actual data itself!
    uint8_t bCheckSum;     ///< checksum gets 1 byte
-} PACKED XMODEM_BUF;
+} PACKED XModemBufSt_t;
 
 /** \ingroup xmodem_internal
   * \brief Structure defining an XMODEM CRC packet
   *
 \code
-typedef struct _XMODEMC_BUF_
-{
+typedef struct{
    char     cSOH;          // ** SOH byte goes here             **
    uint8_t  aSEQ, aNotSEQ; // ** 1st byte = seq#, 2nd is ~seq#  **
    char     aDataBuf[128]; // ** the actual data itself!        **
    uint16_t wCRC;          // ** CRC gets 2 bytes, high endian  **
-} PACKED XMODEMC_BUF;
+} PACKED XModemCBufSt_t;
 
 \endcode
   *
 **/
-typedef struct _XMODEMC_BUF_
-{
+typedef struct{
    char     cSOH;          ///< SOH byte goes here
    uint8_t  aSEQ, aNotSEQ; ///< 1st byte = seq#, 2nd is ~seq#
    char     aDataBuf[128]; ///< the actual data itself!
    uint16_t wCRC;          ///< CRC gets 2 bytes, high endian
-} PACKED XMODEMC_BUF;
+} PACKED XModemCBufSt_t;
 
 /** \ingroup xmodem_internal
   * \brief Structure that identifies the XMODEM communication state
   *
 \code
-typedef struct _XMODEM_
-{
+typedef struct{
   SERIAL_TYPE ser;     // identifies the serial connection, data type is OS-dependent
   FILE_TYPE file;      // identifies the file handle, data type is OS-dependent
 
   union
   {
-    XMODEM_BUF xbuf;   // XMODEM CHECKSUM buffer
-    XMODEMC_BUF xcbuf; // XMODEM CRC buffer
-  } buf;               // union of both buffers, total length 133 bytes
+    XModemBufSt_t  xbuf;  // XMODEM CHECKSUM buffer
+    XmodemCBufSt_t xcbuf; // XMODEM CRC buffer
+  } buf;                  // union of both buffers, total length 133 bytes
 
   uint8_t bCRC;  // non-zero for CRC, zero for checksum
 
-} XMODEM;
+} XModemSt_t;
 
 \endcode
   *
 **/
-typedef struct _XMODEM_
-{
+typedef struct{
   SERIAL_TYPE ser;     ///< identifies the serial connection, data type is OS-dependent
   FILE_DESC   fd;      ///< identifies the file handle, data type is OS-dependent
   union
   {
-    XMODEM_BUF xbuf;   ///< XMODEM CHECKSUM buffer
-    XMODEMC_BUF xcbuf; ///< XMODEM CRC buffer
-  } buf;               ///< union of both buffers, total length 133 bytes
-  uint8_t bCRC;        ///< non-zero for CRC, zero for checksum
-} XMODEM;
+    XModemBufSt_t  xbuf;  ///< XMODEM CHECKSUM buffer
+    XModemCBufSt_t xcbuf; ///< XMODEM CRC buffer
+  } buf;                  ///< union of both buffers, total length 133 bytes
+  uint8_t bCRC;           ///< non-zero for CRC, zero for checksum
+}XModemSt_t;
 
 //char iBinaryTransfer = 0, iDisableRXOVER = 0;
 
@@ -251,26 +245,26 @@ uint16_t CalcCRC(const char *lpBuf, int16_t cbBuf)
 //End Function
 
 /** \ingroup xmodem_internal
-  * \brief Generate a sequence number pair, place into XMODEM_BUF
+  * \brief Generate a sequence number pair, place into XModemBufSt_t
   *
-  * \param pBuf A pointer to an XMODEM_BUF structure
+  * \param pBuf A pointer to an XModemBufSt_t structure
   * \param bSeq An uint8_t, typically cast from an unsigned long 'block number'
   *
-  * This function generates the sequence pair for the XMODEM packet.  The 'block number'
+  * This function generates the sequence pair for the XMODEM packet. The 'block number'
   * is initially assigned a value of '1', and increases by 1 for each successful packet.
   * That value is 'truncated' to a single byte and assigned as a sequence number for the
   * packet itself.
 **/
-void GenerateSEQ(XMODEM_BUF *pBuf, uint8_t bSeq)
+void GenerateSEQ(XModemBufSt_t *pBuf, uint8_t bSeq)
 {
   pBuf->aSEQ = bSeq;
   pBuf->aNotSEQ = ~bSeq;
 }
 
 /** \ingroup xmodem_internal
-  * \brief Generate a sequence number pair, place into XMODEMC_BUF (the CRC version)
+  * \brief Generate a sequence number pair, place into XModemCBufSt_t (the CRC version)
   *
-  * \param pBuf A pointer to an XMODEM_BUF structure
+  * \param pBuf A pointer to an XModemCBufSt_t structure
   * \param bSeq An uint8_t, typically cast from an unsigned long 'block number'
   *
   * This function generates the sequence pair for the XMODEM packet.  The 'block number'
@@ -278,7 +272,7 @@ void GenerateSEQ(XMODEM_BUF *pBuf, uint8_t bSeq)
   * That value is 'truncated' to a single byte and assigned as a sequence number for the
   * packet itself.
 **/
-void GenerateSEQC(XMODEMC_BUF *pBuf, uint8_t bSeq)
+void GenerateSEQC(XModemCBufSt_t *pBuf, uint8_t bSeq)
 {
   pBuf->aSEQ = bSeq;
   pBuf->aNotSEQ = (255 - bSeq);//~bSeq; these should be the same but for now I do this...
@@ -420,12 +414,12 @@ void XModemFlushInput(SERIAL_TYPE ser)
 /** \ingroup xmodem_internal
   * \brief Terminate the XMODEM connection
   *
-  * \param pX A pointer to the 'XMODEM' object identifying the transfer
+  * \param pX A pointer to the 'XModemSt_t' object identifying the transfer
   *
   * Call this function prior to ending the XMODEM transfer.  Currently the only
   * thing it does is flush the input.
 **/
-void XmodemTerminate(XMODEM *pX)
+void XmodemTerminate(XModemSt_t *pX)
 {
   XModemFlushInput(pX->ser);
   // TODO:  close files?
@@ -434,13 +428,13 @@ void XmodemTerminate(XMODEM *pX)
 /** \ingroup xmodem_internal
   * \brief Validate the sequence number of a received XMODEM block
   *
-  * \param pX A pointer to an 'XMODEM_BUF'
+  * \param pX A pointer to an 'XModemBufSt_t'
   * \param bSeq The expected sequence number (block & 255)
   * \return A zero value on success, non-zero otherwise
   *
   * Call this function to validate a packet's sequence number against the block number
 **/
-uint8_t ValidateSEQ(XMODEM_BUF *pX, uint8_t bSeq)
+uint8_t ValidateSEQ(XModemBufSt_t *pX, uint8_t bSeq)
 {
   return pX->aSEQ != 255 - pX->aNotSEQ || // ~(pX->aNotSEQ) ||
          pX->aSEQ != bSeq; // returns TRUE if not valid
@@ -449,13 +443,13 @@ uint8_t ValidateSEQ(XMODEM_BUF *pX, uint8_t bSeq)
 /** \ingroup xmodem_internal
   * \brief Validate the sequence number of a received XMODEM block (CRC version)
   *
-  * \param pX A pointer to an 'XMODEMC_BUF'
+  * \param pX A pointer to an 'XModemCBufSt_t'
   * \param bSeq The expected sequence number (block & 255)
   * \return A zero value on success, non-zero otherwise
   *
   * Call this function to validate a packet's sequence number against the block number
 **/
-uint8_t ValidateSEQC(XMODEMC_BUF *pX, uint8_t bSeq)
+uint8_t ValidateSEQC(XModemCBufSt_t *pX, uint8_t bSeq)
 {
   return pX->aSEQ != 255 - pX->aNotSEQ || // ~(pX->aNotSEQ) ||
          pX->aSEQ != bSeq; // returns TRUE if not valid
@@ -464,7 +458,7 @@ uint8_t ValidateSEQC(XMODEMC_BUF *pX, uint8_t bSeq)
 /** \ingroup xmodem_internal
   * \brief Generic function to receive a file via XMODEM (CRC or Checksum)
   *
-  * \param pX A pointer to an 'XMODEM_BUF' with valid bCRC, ser, and file members
+  * \param pX A pointer to an 'XModemBufSt_t' with valid bCRC, ser, and file members
   * \return A zero value on success, negative on error, positive on cancel
   *
   * The calling function will need to poll for an SOH from the server using 'C' and 'NAK'
@@ -476,7 +470,7 @@ uint8_t ValidateSEQC(XMODEMC_BUF *pX, uint8_t bSeq)
   * This function will return zero on success, a negative value on error, and a positive
   * value if the transfer was canceled by the server.
 **/
-int8_t ReceiveXmodem(XMODEM *pX)
+int8_t ReceiveXmodem(XModemSt_t *pX)
 {
   uint8_t ecount, ec2;
   int32_t etotal, filesize, block;
@@ -596,7 +590,7 @@ int8_t ReceiveXmodem(XMODEM *pX)
 /** \ingroup xmodem_internal
   * \brief Generic function to send a file via XMODEM (CRC or Checksum)
   *
-  * \param pX A pointer to an 'XMODEM_BUF' with valid ser, and file members, and the polled
+  * \param pX A pointer to an 'XModemBufSt_t' with valid ser, and file members, and the polled
   * 'NAK' value assigned to the cSOH member (first byte) within the 'buf' union.
   * \return A zero value on success, negative on error, positive on cancel
   *
@@ -609,7 +603,7 @@ int8_t ReceiveXmodem(XMODEM *pX)
   * This function will return zero on success, a negative value on error, and a positive
   * value if the transfer was canceled by the receiver.
 **/
-int8_t SendXmodem(XMODEM *pX)
+int8_t SendXmodem(XModemSt_t *pX)
 {
   uint8_t ecount, ec2;
   uint8_t i1;
@@ -763,7 +757,7 @@ int8_t SendXmodem(XMODEM *pX)
 /** \ingroup xmodem_internal
   * \brief Calling function for ReceiveXmodem
   *
-  * \param pX A pointer to an 'XMODEM_BUF' with valid ser, and file members
+  * \param pX A pointer to an 'XModemBufSt_t' with valid ser, and file members
   * \return A zero value on success, negative on error, positive on cancel
   *
   * This is a generic 'calling function' for ReceiveXmodem that checks for
@@ -772,7 +766,7 @@ int8_t SendXmodem(XMODEM *pX)
   * This function will return zero on success, a negative value on error, and a positive
   * value if the transfer was canceled by the receiver.
 **/
-int8_t XReceiveSub(XMODEM *pX)
+int8_t XReceiveSub(XModemSt_t *pX)
 {
   uint8_t i1;
 
@@ -827,7 +821,7 @@ int8_t XReceiveSub(XMODEM *pX)
 /** \ingroup xmodem_internal
   * \brief Calling function for SendXmodem
   *
-  * \param pX A pointer to an 'XMODEM_BUF' with valid ser, and file members
+  * \param pX A pointer to an 'XModemSt_t' with valid ser, and file members
   * \return A zero value on success, negative on error, positive on cancel
   *
   * This is a generic 'calling function' for SendXmodem that checks for polls by the
@@ -836,7 +830,7 @@ int8_t XReceiveSub(XMODEM *pX)
   * This function will return zero on success, a negative value on error, and a positive
   * value if the transfer was canceled by the receiver.
 **/
-int8_t XSendSub(XMODEM *pX)
+int8_t XSendSub(XModemSt_t *pX)
 {
   uint32_t ulStart;
 
@@ -863,15 +857,14 @@ int8_t XSendSub(XMODEM *pX)
   return -3; // fail
 }
 
-//typedef struct _XMODEM_
-//{
+//typedef struct{
 //  SERIAL_TYPE ser;
 //  FILE_DESC fd;
 //
 //  union
 //  {
-//    XMODEM_BUF xbuf;
-//    XMODEMC_BUF xcbuf;
+//    XModemBufSt_t  xbuf;
+//    XmodemCBufSt_t xcbuf;
 //  } buf; // 133 bytes
 //
 //  uint8_t bCRC; // non-zero for CRC, zero for checksum
@@ -881,7 +874,7 @@ int8_t XSendSub(XMODEM *pX)
 int8_t XReceive(Stream *pSer, const char *szFilename)
 {
   int8_t iRval;
-  XMODEM xx;
+  XModemSt_t xx;
 
   memset(&xx, 0, sizeof(xx));
   xx.ser = pSer;
@@ -907,7 +900,7 @@ int8_t XReceive(Stream *pSer, const char *szFilename)
 int8_t XSend(Stream *pSer, const char *szFilename)
 {
   int8_t iRval;
-  XMODEM xx;
+  XModemSt_t xx;
 
   memset(&xx, 0, sizeof(xx));
   xx.ser = pSer;
