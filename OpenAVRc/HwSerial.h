@@ -59,33 +59,59 @@ Note: This HwSerial driver/module by RC-Navy is mainly based on the arduino Hard
 /************************************************/
 /* vvv Start of User HwSerial configuration vvv */
 /************************************************/
+#if defined(TINY_DBG_UART_USB)
+#define HW_SERIAL0_TX_SUPPORT        ISR_NORMAL  // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial0
+#define HW_SERIAL0_RX_SUPPORT        ISR_NORMAL  // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial0
+#define HW_SERIAL0_ENABLE_TX_SUPPORT NO          // Choose here between NO and YES for Serial0 Enable/Disable Tx support
+#define HW_SERIAL0_ENABLE_RX_SUPPORT NO          // Choose here between NO and YES for Serial0 Enable/Disable Rx support
+#define HW_SERIAL0_TX_FIFO_SIZE      16          // Define here the fifo size (SHALL be a power of 2)
+#define HW_SERIAL0_RX_FIFO_SIZE      8           // Define here the fifo size (SHALL be a power of 2)
+#else
 #define HW_SERIAL0_TX_SUPPORT        ISR_NONE    // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial0
 #define HW_SERIAL0_RX_SUPPORT        ISR_NONE    // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial0
 #define HW_SERIAL0_ENABLE_TX_SUPPORT NO          // Choose here between NO and YES for Serial0 Enable/Disable Tx support
 #define HW_SERIAL0_ENABLE_RX_SUPPORT NO          // Choose here between NO and YES for Serial0 Enable/Disable Rx support
-#define HW_SERIAL0_TX_FIFO_SIZE      16          // Define here the fifo size (SHALL be a power of 2)
-#define HW_SERIAL0_RX_FIFO_SIZE      2           // Define here the fifo size (SHALL be a power of 2)
+#define HW_SERIAL0_TX_FIFO_SIZE      0          // Define here the fifo size (SHALL be a power of 2)
+#define HW_SERIAL0_RX_FIFO_SIZE      0           // Define here the fifo size (SHALL be a power of 2)
+#endif
 
+#if defined(U_CLI) || defined(TINY_DBG_UART_BT)
+#if defined(XMODEM)
+#define S1_TX_FF_SZ                  32
+#define S1_RX_FF_SZ                  128
+#else
+#define S1_TX_FF_SZ                  16
+#define S1_RX_FF_SZ                  8
+#endif
 #define HW_SERIAL1_TX_SUPPORT        ISR_NORMAL  // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial1
 #define HW_SERIAL1_RX_SUPPORT        ISR_NORMAL  // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial1
 #define HW_SERIAL1_ENABLE_TX_SUPPORT NO          // Choose here between NO and YES for Serial1 Enable/Disable Tx support
 #define HW_SERIAL1_ENABLE_RX_SUPPORT NO          // Choose here between NO and YES for Serial1 Enable/Disable Rx support
-#define HW_SERIAL1_TX_FIFO_SIZE      2           // Define here the fifo size (SHALL be a power of 2)
-#define HW_SERIAL1_RX_FIFO_SIZE      2           // Define here the fifo size (SHALL be a power of 2)
+#define HW_SERIAL1_TX_FIFO_SIZE      S1_TX_FF_SZ // Define here the fifo size (SHALL be a power of 2)
+#define HW_SERIAL1_RX_FIFO_SIZE      S1_RX_FF_SZ // Define here the fifo size (SHALL be a power of 2)
+#else
+#warning UART_BT NOT USED!!!
+#define HW_SERIAL1_TX_SUPPORT        ISR_NONE    // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial1
+#define HW_SERIAL1_RX_SUPPORT        ISR_NONE    // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial1
+#define HW_SERIAL1_ENABLE_TX_SUPPORT NO          // Choose here between NO and YES for Serial1 Enable/Disable Tx support
+#define HW_SERIAL1_ENABLE_RX_SUPPORT NO          // Choose here between NO and YES for Serial1 Enable/Disable Rx support
+#define HW_SERIAL1_TX_FIFO_SIZE      0           // Define here the fifo size (SHALL be a power of 2)
+#define HW_SERIAL1_RX_FIFO_SIZE      0           // Define here the fifo size (SHALL be a power of 2)
+#endif
 
 #define HW_SERIAL2_TX_SUPPORT        ISR_NONE    // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial2
 #define HW_SERIAL2_RX_SUPPORT        ISR_NONE    // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial2
 #define HW_SERIAL2_ENABLE_TX_SUPPORT NO          // Choose here between NO and YES for Serial2 Enable/Disable Tx support
 #define HW_SERIAL2_ENABLE_RX_SUPPORT NO          // Choose here between NO and YES for Serial2 Enable/Disable Rx support
-#define HW_SERIAL2_TX_FIFO_SIZE      2           // Define here the fifo size (SHALL be a power of 2)
-#define HW_SERIAL2_RX_FIFO_SIZE      2           // Define here the fifo size (SHALL be a power of 2)
+#define HW_SERIAL2_TX_FIFO_SIZE      0           // Define here the fifo size (SHALL be a power of 2)
+#define HW_SERIAL2_RX_FIFO_SIZE      0           // Define here the fifo size (SHALL be a power of 2)
 
 #define HW_SERIAL3_TX_SUPPORT        ISR_NONE    // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial3
 #define HW_SERIAL3_RX_SUPPORT        ISR_NONE    // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial3
 #define HW_SERIAL3_ENABLE_TX_SUPPORT NO          // Choose here between NO and YES for Serial3 Enable/Disable Tx support
 #define HW_SERIAL3_ENABLE_RX_SUPPORT NO          // Choose here between NO and YES for Serial3 Enable/Disable Rx support
-#define HW_SERIAL3_TX_FIFO_SIZE      2           // Define here the fifo size (SHALL be a power of 2)
-#define HW_SERIAL3_RX_FIFO_SIZE      2           // Define here the fifo size (SHALL be a power of 2)
+#define HW_SERIAL3_TX_FIFO_SIZE      0           // Define here the fifo size (SHALL be a power of 2)
+#define HW_SERIAL3_RX_FIFO_SIZE      0           // Define here the fifo size (SHALL be a power of 2)
 /**********************************************/
 /* ^^^ End of User HwSerial configuration ^^^ */
 /**********************************************/

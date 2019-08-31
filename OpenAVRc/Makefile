@@ -43,6 +43,10 @@ SDCARD = NO
 # Values = YES, NO
 BLUETOOTH = NO
 
+# Use xmodem
+# Values = YES, NO
+XMODEM = NO
+
 # Enable heli menu
 # Values = YES, NO
 HELI = NO
@@ -176,7 +180,7 @@ OFFSET_ON_INPUT = YES
 EEPROM_PROGRESS_BAR = NO
 
 # Debug with TinyDbg
-# Values = NO, YES
+# Values = NO, UART_USB, UART_BT
 DEBUG = NO
 
 # Timers Count
@@ -270,6 +274,10 @@ INV_STICK_RV = NO
 # Values = NO, YES
 INV_STICK_LH = NO
 
+# Common resources
+need_HwSerial = NO
+need_uCli = NO
+
 #------- END BUILD OPTIONS ---------------------------
 
 # Define programs and commands.
@@ -290,6 +298,8 @@ THIRDPARTY = thirdparty
 RRSDDIR = $(THIRDPARTY)/rrsd
 
 DEBUGDIR = debug
+
+XMODEMDIR = xmodem
 
 SRC =
 CPPSRC =
@@ -336,10 +346,16 @@ ifeq ($(PCB), MEGAMINI)
 
   ASRC =
 
-  ifeq ($(DEBUG), YES)
-    CPPDEFS += -DTINY_DBG
-    CPPSRC += Print.cpp HwSerial.cpp $(DEBUGDIR)/TinyDbg.cpp
-  endif
+	ifneq ($(DEBUG), NO)
+		need_HwSerial=YES
+    CPPSRC += $(DEBUGDIR)/TinyDbg.cpp
+		ifeq ($(DEBUG), UART_USB)
+		CPPDEFS += -DTINY_DBG_UART_USB
+		endif
+		ifeq ($(DEBUG), UART_BT)
+		CPPDEFS += -DTINY_DBG_UART_BT
+		endif
+	endif
 
   needtelemetry_driver = FALSE
   ifeq ($(MULTIMODULE), YES)
@@ -641,8 +657,9 @@ ifeq ($(PCB), MEGA2560)
   EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp
 
   ifeq ($(DEBUG), YES)
+    need_HwSerial=YES
     CPPDEFS += -DTINY_DBG
-    CPPSRC += Print.cpp HwSerial.cpp $(DEBUGDIR)/TinyDbg.cpp
+    CPPSRC += $(DEBUGDIR)/TinyDbg.cpp
   endif
 
   needtelemetry_driver = FALSE
@@ -1006,7 +1023,26 @@ endif
 
 ifeq ($(BLUETOOTH), YES)
   CPPDEFS += -DBLUETOOTH
-  GUIMODELSRC += gui/menu_general_bluetooth.cpp HwSerial.cpp Print.cpp uCli.cpp bluetooth.cpp
+  CPPDEFS += -DU_CLI
+  need_HwSerial=YES
+  need_uCli = YES
+  GUIMODELSRC += gui/menu_general_bluetooth.cpp bluetooth.cpp
+endif
+
+ifeq ($(XMODEM), YES)
+  CPPDEFS += -DXMODEM
+  CPPDEFS += -DU_CLI
+  need_HwSerial=YES
+  need_uCli = YES
+  GUIMODELSRC += $(XMODEMDIR)/xmodem.cpp
+endif
+
+ifeq ($(need_HwSerial), YES)
+	CPPSRC += HwSerial.cpp
+endif
+
+ifeq ($(need_uCli), YES)
+	CPPSRC += uCli.cpp Print.cpp
 endif
 
 ifeq ($(HELI), YES)

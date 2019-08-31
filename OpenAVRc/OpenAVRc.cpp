@@ -35,6 +35,10 @@
 #include "timers.h"
 #include "misclib.h"
 
+#if defined(U_CLI) && defined(TINY_DBG_UART_BT)
+extern const char UCLI_PROMPT [] PROGMEM;
+#endif
+
 EEGeneral  g_eeGeneral;
 ModelData  g_model;
 
@@ -1499,10 +1503,24 @@ void ResetToBootloaderWithFlag()
 void OpenAVRcInit(uint8_t mcusr)
 {
   eeReadAll();
-#if defined(TINY_DBG)
+
+#if defined(TINY_DBG_UART_USB)
   Serial0.init(115200);
-  Serial0.print(F("\nWelcome to OpenAVRc V3.0 !\n"));
   TinyDbg_init(&Serial0);
+#endif
+#if defined(U_CLI) || defined(TINY_DBG_UART_BT)
+  Serial1.init(115200);
+  Serial1.print(F("\nWelcome to OpenAVRc V3.0 !\n"));
+#endif
+#if defined(U_CLI)
+  uCli_init(&Serial1);
+#if defined(TINY_DBG_UART_BT)
+  TinyDbg_init(&Serial1, UCLI_PROMPT); // PrePrompt!
+#endif
+#else
+#if defined(TINY_DBG_UART_BT)
+  TinyDbg_init(&Serial1);
+#endif
 #endif
 
 #if MENUS_LOCK == 1
@@ -1611,9 +1629,15 @@ void SimuMainLoop() // Create loop function
 {
   simu_mainloop_is_runing = true;
 #endif //SIMU
-#if defined(TINY_DBG)
+
+#if defined(U_CLI)
+  uCli_process();
+#endif
+
+#if defined(TINY_DBG_UART_USB) || (defined(TINY_DBG_UART_BT) && !defined(U_CLI))
   TinyDbg_event();
 #endif
+
     if (!pwrCheck)
 #if !defined(SIMU)
       break;
