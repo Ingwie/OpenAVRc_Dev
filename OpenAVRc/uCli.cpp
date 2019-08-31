@@ -117,7 +117,7 @@ void uCli_process(void)
         uCliPrompt();
         if(execCmdLine(uCli.CmdLine.Msg) == -1)
         {
-#ifdef DEBUG
+#if defined(TINY_DBG_UART_BT)
           TinyDbg_interpretAndExecute(uCli.CmdLine.Msg);
 #else
           uCli.stream->println(F("err: unknown cmd"));
@@ -266,20 +266,24 @@ static int8_t uCli_Cmd_cp(const char ** argv, uint8_t argc)
     FileMedia.Src = FILE_MEDIA_SD;
     FileName = (const char*)&argv[1][2]; // Just skip SD prefix (shall points on '/')
   }
+#if defined(XMODEM)
   else if(!strcmp_P(argv[1], xmdm_MEDIA))
   {
     FileMedia.Src = FILE_MEDIA_XMODEM;
   }
+#endif
   /* Check for destination file */
   if(!memcmp_P(argv[2], SD_MEDIA, 3))
   {
     FileMedia.Dst = FILE_MEDIA_SD;
     FileName = (const char*)&argv[2][2]; // Just skip SD prefix (shall points on '/')
   }
+#if defined(XMODEM)
   else if(!strcmp_P(argv[2], xmdm_MEDIA))
   {
     FileMedia.Dst = FILE_MEDIA_XMODEM;
   }
+#endif
   if(!FileMedia.Src || !FileMedia.Dst || ((FileMedia.Src == FILE_MEDIA_XMODEM) && (FileMedia.Src == FileMedia.Dst)) || !FileName || !*FileName) return(-1);
   /* Command is correct */
   if(FileMedia.Src == FileMedia.Dst)
@@ -287,6 +291,7 @@ static int8_t uCli_Cmd_cp(const char ** argv, uint8_t argc)
     /* SD to SD copy */
     uCli.stream->println(F("SD to SD copy"));
   }
+#if defined(XMODEM)
   else
   {
     /* X-Modem is Src or Dst */
@@ -301,7 +306,7 @@ static int8_t uCli_Cmd_cp(const char ** argv, uint8_t argc)
       uCli.stream->println(XSend(uCli.stream, FileName)); // display return value in the console
     }
   }
-
+#endif
   return(0);
 }
 

@@ -34,10 +34,12 @@
 
 #include "Stream.h"
 #include "misclib.h"
-#ifdef DEBUG
+#if defined(TINY_DBG_UART_USB) || defined(TINY_DBG_UART_BT)
 #include "debug/TinyDbg.h"
 #endif
+#if defined(XMODEM)
 #include "xmodem/xmodem.h"
+#endif
 
 #define BACK_SPACE         0x08
 #define CMD_LINE_MAX_SIZE  100  // Will be optimized later

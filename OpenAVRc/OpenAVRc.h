@@ -54,8 +54,14 @@
   #include <util/atomic.h>
   #include <avr/wdt.h>
 
-  #if defined(TINY_DBG)
+  #if defined(TINY_DBG_UART_USB) || defined(TINY_DBG_UART_BT)
     #include "debug/TinyDbg.h"
+  #endif
+  #if defined(U_CLI)
+    #include "uCli.h"
+  #endif
+  #if defined(TINY_DBG_UART_USB) || defined(TINY_DBG_UART_BT) || defined(U_CLI)
+    #include "HwSerial.h"
   #endif
 
   #define FORCEINLINE inline __attribute__ ((always_inline))

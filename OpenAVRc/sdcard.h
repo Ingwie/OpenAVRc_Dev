@@ -34,7 +34,7 @@
 #ifndef _SDCARD_H_
 #define _SDCARD_H_
 
-#include "translations.h"
+//#include "translations.h"
 
 #if !defined(SIMU)
   #include "fat.h"
@@ -99,6 +99,8 @@ extern bool listSdFiles(const char *path, const char *extension, const uint8_t m
 const char *fileCopy(const char *filename, const char *srcDir, const char *destDir);
 
 uint8_t setSdModelName(char *filename, uint8_t nummodel);
+
+uint8_t sdOpenDir(const char* path);
 
 #endif
 
