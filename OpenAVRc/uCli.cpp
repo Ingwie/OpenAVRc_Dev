@@ -55,8 +55,8 @@ typedef struct{
 
 DECL_FLASH_STR2(UCLI_PROMPT, "uCLI>");
 DECL_FLASH_STR2(SD_MEDIA,    "SD/");
-DECL_FLASH_STR2(xmdm_MEDIA,  "xmdm");
-DECL_FLASH_STR2(eep_MEDIA,   "eep");
+DECL_FLASH_STR2(xmdm_MEDIA,  "xmdm"); // XMODEM
+DECL_FLASH_STR2(eep_MEDIA,   "eep");  // eep/fram -> rename it NVM for Non-Volatile Memory?
 
 #define UCLI_DEF(Cmd,CmdHelp)              const char uCli_##Cmd        [] PROGMEM = #Cmd;\
                                            const char uCli_##Cmd##_Help [] PROGMEM = #CmdHelp;\
@@ -264,7 +264,7 @@ static int8_t uCli_Cmd_cp(const char ** argv, uint8_t argc)
   if(!memcmp_P(argv[1], SD_MEDIA, 3))
   {
     FileMedia.Src = FILE_MEDIA_SD;
-    FileName = (const char*)&argv[1][3];
+    FileName = (const char*)&argv[1][2]; // Just skip SD prefix (shall points on '/')
   }
   else if(!strcmp_P(argv[1], xmdm_MEDIA))
   {
@@ -274,7 +274,7 @@ static int8_t uCli_Cmd_cp(const char ** argv, uint8_t argc)
   if(!memcmp_P(argv[2], SD_MEDIA, 3))
   {
     FileMedia.Dst = FILE_MEDIA_SD;
-    FileName = (const char*)&argv[2][3];
+    FileName = (const char*)&argv[2][2]; // Just skip SD prefix (shall points on '/')
   }
   else if(!strcmp_P(argv[2], xmdm_MEDIA))
   {
@@ -290,24 +290,15 @@ static int8_t uCli_Cmd_cp(const char ** argv, uint8_t argc)
   else
   {
     /* X-Modem is Src or Dst */
-//    xmodem_setCallBack(fileOperationCompletion); // Will be called after xmodem transfer
     if(FileMedia.Src == FILE_MEDIA_XMODEM)
     {
-      /* OpenAVRc X-Modem in Receive mode (Destination is SD)*/
-//      xmodem_startReceive(FileName);
-//uCli.Context = CONTEXT_XMODEM;
-//uCli.stream->println(XReceive(&SD, uCli.stream, FileName));
-//uCli.Context = CONTEXT_UCLI;
-//uCli.stream->print(F("xmodem_startReceive("));uCli.stream->print(FileName);uCli.stream->println(F(")"));
+      /* OpenAVRc X-Modem in Receive mode (Source is outside, Destination is SD)*/
+      uCli.stream->println(XReceive(uCli.stream, FileName)); // display return value in the console
     }
     else
     {
-      /* OpenAVRc X-Modem in Send mode (Source is SD) */
-//      xmodem_startSend(FileName);
-//uCli.Context = CONTEXT_XMODEM;
-//uCli.stream->println(XSend(&SD, uCli.stream, FileName));
-//uCli.Context = CONTEXT_UCLI;
-//uCli.stream->print(F("xmodem_startSend("));uCli.stream->print(FileName);uCli.stream->println(F(")"));
+      /* OpenAVRc X-Modem in Send mode (Source is SD, Destination is outside) */
+      uCli.stream->println(XSend(uCli.stream, FileName)); // display return value in the console
     }
   }
 
@@ -328,7 +319,11 @@ static int8_t uCli_Cmd_rm(const char ** argv, uint8_t argc)
   argv = argv;
   argc = argc;
   uCli.stream->println(F("rm"));
-
+  if(!memcmp_P(argv[2], SD_MEDIA, 3))
+  {
+    /* SD/FullFileName */
+    sdDeleteFile((const char*)&argv[1][2]); // Skip SD prefix -> keep only /FullFileName
+  }
   return(0);
 }
 
@@ -410,7 +405,7 @@ static int8_t uCli_Cmd_reboot(const char ** argv, uint8_t argc)
   argv = argv;
   argc = argc;
   uCli.stream->println(F("reboot"));
-
+  // TO DO Do a reboot to allow a firmware upgrade through the bootloader
   return(0);
 }
 
