@@ -37,6 +37,7 @@
 #ifdef DEBUG
 #include "debug/TinyDbg.h"
 #endif
+#include "xmodem/xmodem.h"
 
 #define BACK_SPACE         0x08
 #define CMD_LINE_MAX_SIZE  100  // Will be optimized later
