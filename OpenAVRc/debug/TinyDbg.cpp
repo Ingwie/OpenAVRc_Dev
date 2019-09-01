@@ -701,7 +701,7 @@ static void displayWatchVariable(char *tmpbuf)
         if(DispLen < TDBG_SECOND_VAL_COL_POS) displaySpace(TDBG_SECOND_VAL_COL_POS - DispLen);
         DispLen = TDBG_SECOND_VAL_COL_POS + TinyDbg_Printf(PSTR("0x%02x"), (uint16_t)((*(int8_t*)Address)& 0x00FF));
         if(DispLen < TDBG_THIRD_VAL_COL_POS) displaySpace(TDBG_THIRD_VAL_COL_POS - DispLen);
-        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), Byte < 127? Byte: '.');
+        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), Byte >= ' '? Byte: '.');
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
         Tdbg.stream->print(F("0b"));
         printByteBin(Tdbg.stream, (uint8_t)Byte);
@@ -714,7 +714,7 @@ static void displayWatchVariable(char *tmpbuf)
         if(DispLen < TDBG_SECOND_VAL_COL_POS) displaySpace(TDBG_SECOND_VAL_COL_POS - DispLen);
         DispLen = TDBG_SECOND_VAL_COL_POS + TinyDbg_Printf(PSTR("0x%02x"), (uint16_t)((*(int8_t*)Address)& 0x00FF));
         if(DispLen < TDBG_THIRD_VAL_COL_POS) displaySpace(TDBG_THIRD_VAL_COL_POS - DispLen);
-        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), Byte < 127? Byte: '.');
+        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), Byte >= ' '? Byte: '.');
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
         Tdbg.stream->print(F("0b"));
         printByteBin(Tdbg.stream, Byte);
