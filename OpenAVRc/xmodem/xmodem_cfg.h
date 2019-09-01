@@ -32,7 +32,7 @@
  * \brief  Split a full file path into a directory name (DirName) and a file name (BaseName)
  *
  * \param  FullFileName: pointer to the full file path string (eg: /MY_DIR/MY_FILE.TXT)
- * \param  DirName:  pointer to the DirName string (eg: /MY_DIR/, or NULL if root)
+ * \param  DirName:  pointer to the DirName string (eg: /MY_DIR, or NULL if root)
  * \param  BaseName: pointer to the BaseName string (eg: MY_FILE.TXT)
  * \return 0: Error, 1: OK.
  */
