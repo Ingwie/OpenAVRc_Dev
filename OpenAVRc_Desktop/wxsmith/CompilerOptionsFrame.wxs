@@ -350,6 +350,11 @@
 				<object class="notebookpage">
 					<object class="wxPanel" name="ID_PANEL3" variable="Panel3" member="yes">
 						<size>800,356</size>
+						<object class="wxStaticBox" name="ID_STATICBOX3" variable="StaticBox3" member="yes">
+							<label>Autres paramètres</label>
+							<pos>328,16</pos>
+							<size>464,264</size>
+						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
 							<label>Protocole</label>
 							<pos>8,24</pos>
@@ -358,7 +363,7 @@
 						<object class="wxStaticBox" name="ID_STATICBOX9" variable="StaticBox9" member="yes">
 							<label>Beta test</label>
 							<pos>24,160</pos>
-							<size>144,160</size>
+							<size>144,176</size>
 						</object>
 						<object class="wxChoice" name="ID_CHOICECC2500PAG" variable="ChoiceCC2500PAG" member="yes">
 							<content>
@@ -366,8 +371,8 @@
 								<item>22</item>
 							</content>
 							<selection>0</selection>
-							<pos>112,214</pos>
-							<size>40,8</size>
+							<pos>112,215</pos>
+							<size>45,8</size>
 						</object>
 						<object class="wxChoice" name="ID_CHOICEA7105PAG" variable="ChoiceA7105PAG" member="yes">
 							<content>
@@ -375,8 +380,8 @@
 								<item>22</item>
 							</content>
 							<selection>0</selection>
-							<pos>112,288</pos>
-							<size>40,8</size>
+							<pos>112,305</pos>
+							<size>45,8</size>
 						</object>
 						<object class="wxChoice" name="ID_CHOICENRF24l01PAG" variable="ChoiceNRF24l01PAG" member="yes">
 							<content>
@@ -384,13 +389,8 @@
 								<item>22</item>
 							</content>
 							<selection>0</selection>
-							<pos>112,264</pos>
-							<size>40,8</size>
-						</object>
-						<object class="wxStaticBox" name="ID_STATICBOX3" variable="StaticBox3" member="yes">
-							<label>Autres paramètres</label>
-							<pos>328,16</pos>
-							<size>464,264</size>
+							<pos>112,275</pos>
+							<size>45,8</size>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOXNOANDSECONDE" variable="CheckBoxNOANDSECONDE" member="yes">
 							<label>NOANDSECONDE</label>
@@ -402,7 +402,7 @@
 						<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBox2" member="yes">
 							<label>Télemetrie</label>
 							<pos>184,16</pos>
-							<size>136,312</size>
+							<size>136,320</size>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX10" variable="CheckBoxPPM" member="yes">
 							<label>PPM</label>
@@ -529,22 +529,22 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX23" variable="CheckBoxCC2500" member="yes">
 							<label>CC2500</label>
-							<pos>36,222</pos>
+							<pos>36,220</pos>
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX24" variable="CheckBoxCYRF6936" member="yes">
 							<label>CYRF6936</label>
-							<pos>36,248</pos>
+							<pos>36,250</pos>
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX25" variable="CheckBoxNRF24l01" member="yes">
 							<label>NRF24l01</label>
-							<pos>36,272</pos>
+							<pos>36,280</pos>
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX29" variable="CheckBoxA7105" member="yes">
 							<label>A7105</label>
-							<pos>36,296</pos>
+							<pos>36,310</pos>
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxChoice" name="ID_CHOICECYRF6936PAG" variable="ChoiceCYRF6936PAG" member="yes">
@@ -553,12 +553,22 @@
 								<item>22</item>
 							</content>
 							<selection>0</selection>
-							<pos>112,240</pos>
-							<size>40,8</size>
+							<pos>112,245</pos>
+							<size>45,8</size>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT28" variable="StaticText28" member="yes">
 							<label>PA Gain (DB)</label>
 							<pos>98,192</pos>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX33" variable="CheckBoxBLUETOOTH" member="yes">
+							<label>BLUETOOTH</label>
+							<pos>336,248</pos>
+							<tooltip>Ajout de fonctions sans fils</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX34" variable="CheckBoxXMODEM" member="yes">
+							<label>XMODEM</label>
+							<pos>670,56</pos>
+							<tooltip>Transfert de données</tooltip>
 						</object>
 					</object>
 					<label>Options avancées</label>

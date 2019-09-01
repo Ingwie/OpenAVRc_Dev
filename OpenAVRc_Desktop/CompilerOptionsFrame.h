@@ -116,6 +116,9 @@ extern bool TOGGLETRIM;
 extern bool NOANDSECONDE;// Hardwired
 extern bool SHUTDOWN_CONFIRMATION;
 extern bool FRAM;
+extern bool BLUETOOTH;
+extern bool XMODEM;
+
 //DANGEROUS_MODULE_FUNCTIONS// does not compile.
 extern bool PERSONAMES;
 // Sticks
@@ -170,6 +173,7 @@ public:
     wxCheckBox* CheckBoxAUTOSOURCE;
     wxCheckBox* CheckBoxAUTOSWITCH;
     wxCheckBox* CheckBoxBATTGRAPH;
+    wxCheckBox* CheckBoxBLUETOOTH;
     wxCheckBox* CheckBoxBOLD;
     wxCheckBox* CheckBoxCC2500;
     wxCheckBox* CheckBoxCORRECT_NEGATIVE_VALUES;
@@ -206,6 +210,7 @@ public:
     wxCheckBox* CheckBoxTOGGLETRIM;
     wxCheckBox* CheckBoxVARIO;
     wxCheckBox* CheckBoxWS_HOW_HIGH;
+    wxCheckBox* CheckBoxXMODEM;
     wxChoice* ChoiceA7105PAG;
     wxChoice* ChoiceCC2500PAG;
     wxChoice* ChoiceCYRF6936PAG;
@@ -340,12 +345,12 @@ protected:
     static const long ID_CHECKBOX2;
     static const long ID_CHECKBOX9;
     static const long ID_PANEL2;
+    static const long ID_STATICBOX3;
     static const long ID_STATICBOX1;
     static const long ID_STATICBOX9;
     static const long ID_CHOICECC2500PAG;
     static const long ID_CHOICEA7105PAG;
     static const long ID_CHOICENRF24l01PAG;
-    static const long ID_STATICBOX3;
     static const long ID_CHECKBOXNOANDSECONDE;
     static const long ID_STATICBOX2;
     static const long ID_CHECKBOX10;
@@ -376,6 +381,8 @@ protected:
     static const long ID_CHECKBOX29;
     static const long ID_CHOICECYRF6936PAG;
     static const long ID_STATICTEXT28;
+    static const long ID_CHECKBOX33;
+    static const long ID_CHECKBOX34;
     static const long ID_PANEL3;
     static const long ID_STATICBOX7;
     static const long ID_STATICBOX10;
