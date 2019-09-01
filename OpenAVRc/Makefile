@@ -277,6 +277,7 @@ INV_STICK_LH = NO
 # Common resources
 need_HwSerial = NO
 need_uCli = NO
+need_Print = NO
 
 #------- END BUILD OPTIONS ---------------------------
 
@@ -1042,11 +1043,16 @@ endif
 
 ifeq ($(need_HwSerial), YES)
 	CPPSRC += HwSerial.cpp
+	need_Print = YES
 endif
 
 ifeq ($(need_uCli), YES)
 	CPPDEFS += -DU_CLI
-	CPPSRC += uCli.cpp Print.cpp
+	CPPSRC += uCli.cpp
+endif
+
+ifeq ($(need_Print), YES)
+	CPPSRC += Print.cpp
 endif
 
 ifeq ($(HELI), YES)
