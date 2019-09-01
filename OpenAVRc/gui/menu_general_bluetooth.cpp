@@ -51,26 +51,13 @@ enum menuGeneralBTItems
 #define STR_BT_SLAVE_EXT   PSTR("_S")
 #define STR_BT_MASTER_EXT  PSTR("_M")
 #define STR_BT_ROLE        PSTR("Role")
-#define STR_BT_PIN        PSTR("Pin")
-#define STR_BT_M_S         PSTR("\006""Master""Slave\0")
+#define STR_BT_PIN         PSTR("Pin")
+#define STR_BT_M_S         PSTR("\006""Slave\0""Master")
 #define STR_BT_PAIR        PSTR("Pair")
 #define STR_AUTOCON        PSTR("Auto-con.")
 #define STR_RESCANN        PSTR("Re-Scan")
 
 
-/*     TEMP VALUES       */
-uint8_t Master_Slave = 0;// 0 = Master
-uint8_t Autocon = 0;// 0 = ON
-#define STR_BT_NAME PSTR("RC-NAVY")
-
-/*   Eeprom value
-#define LEN_BT_NAME 8
-#define BLUETOOTH_FIELDS          \
-uint8_t BTParams;                 \
-char    BTPin[4];                 \
-char    BTPairName[LEN_BT_NAME];  \
-char    BTMac[6];
-*/
 
 void menuGeneralBluetooth(uint8_t event)
 {
@@ -80,10 +67,6 @@ void menuGeneralBluetooth(uint8_t event)
     warningResult = false;
     // Call RE SCANN BT here
   }
-  g_eeGeneral.BT.Peer.Name[0] = 'T'; // To remove
-  g_eeGeneral.BT.Peer.Name[1] = 'E';
-  g_eeGeneral.BT.Peer.Name[2] = 'S';
-  g_eeGeneral.BT.Peer.Name[3] = 'T';
 
   uint8_t addExt = 0; // used to add _M or _S
   coord_t y = MENU_HEADER_HEIGHT + 1;
@@ -105,9 +88,9 @@ void menuGeneralBluetooth(uint8_t event)
 
         case ITEM_BT_ROLE :
           lcdDrawTextLeft(y, STR_BT_ROLE);
-          lcdDrawTextAtIndex(BT_2ND_COLUMN, y, STR_BT_M_S, Master_Slave, attr);
+          lcdDrawTextAtIndex(BT_2ND_COLUMN, y, STR_BT_M_S, g_eeGeneral.BT.Master, attr);
           if (attr)
-            Master_Slave = checkIncDecGen(event, Master_Slave, 0, 1);
+            CHECK_INCDEC_GENVAR(event, g_eeGeneral.BT.Master, 0, 1);
           break;
 
         case ITEM_BT_PIN :
@@ -121,7 +104,7 @@ void menuGeneralBluetooth(uint8_t event)
           break;
 
         case ITEM_BT_AUTOCONNECT :
-          Autocon = onoffMenuItem(Autocon, BT_2ND_COLUMN, y, STR_AUTOCON, attr, event);
+          g_eeGeneral.BT.AutoCnx = onoffMenuItem(g_eeGeneral.BT.AutoCnx, BT_2ND_COLUMN, y, STR_AUTOCON, attr, event);
           break;
 
         case ITEM_BT_RESCANN :
@@ -136,7 +119,7 @@ void menuGeneralBluetooth(uint8_t event)
 
       if (addExt)
       {
-        lcdDrawTextAtt(lcdLastPos,y,((Master_Slave ^ (addExt & 0x1))? STR_BT_MASTER_EXT : STR_BT_SLAVE_EXT),attr);
+        lcdDrawTextAtt(lcdLastPos,y,((g_eeGeneral.BT.Master ^ (addExt & 0x1))? STR_BT_SLAVE_EXT : STR_BT_MASTER_EXT),attr);
         addExt = 0;
       }
       y += FH;
