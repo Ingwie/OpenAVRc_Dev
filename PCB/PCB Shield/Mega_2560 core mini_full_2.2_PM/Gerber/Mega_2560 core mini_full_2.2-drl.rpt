@@ -1,5 +1,5 @@
-Drill report for C:/tmp/_OpenAVRc/MegaCore 2560 Shield.v2.2/Mega_2560 core mini_full_2.2/Mega_2560 core mini_full_2.2.kicad_pcb
-Created on 21/08/2019 10:25:34
+Drill report for C:\tmp\_OpenAVRc\MegaCore 2560 Shield.v2.2\Mega_2560 core mini_full_2.2\Mega_2560 core mini_full_2.2.kicad_pcb
+Created on 02/09/2019 10:51:09
 
 Copper Layer Stackup:
     =============================================================
@@ -10,14 +10,14 @@ Copper Layer Stackup:
 Drill file 'Mega_2560 core mini_full_2.2-PTH.drl' contains
     plated through holes:
     =============================================================
-    T1  0,30mm  0,012"  (126 holes)
+    T1  0,30mm  0,012"  (127 holes)
     T2  0,60mm  0,024"  (22 holes)
     T3  0,80mm  0,031"  (36 holes)
     T4  0,81mm  0,032"  (12 holes)
     T5  1,00mm  0,039"  (278 holes)
     T6  1,14mm  0,045"  (5 holes)
 
-    Total plated holes count 479
+    Total plated holes count 480
 
 
 Drill file 'Mega_2560 core mini_full_2.2-NPTH.drl' contains

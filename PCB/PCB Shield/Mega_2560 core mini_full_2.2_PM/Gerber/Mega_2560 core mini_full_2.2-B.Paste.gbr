@@ -1,12 +1,12 @@
 G04 #@! TF.GenerationSoftware,KiCad,Pcbnew,(5.0.2)-1*
-G04 #@! TF.CreationDate,2019-08-21T10:27:41+02:00*
+G04 #@! TF.CreationDate,2019-09-02T11:04:32+02:00*
 G04 #@! TF.ProjectId,Mega_2560 core mini_full_2.2,4d656761-5f32-4353-9630-20636f726520,2.2*
 G04 #@! TF.SameCoordinates,Original*
 G04 #@! TF.FileFunction,Paste,Bot*
 G04 #@! TF.FilePolarity,Positive*
 %FSLAX46Y46*%
 G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
-G04 Created by KiCad (PCBNEW (5.0.2)-1) date 21/08/2019 10:27:41*
+G04 Created by KiCad (PCBNEW (5.0.2)-1) date 02/09/2019 11:04:32*
 %MOMM*%
 %LPD*%
 G01*
@@ -383,8 +383,8 @@ X165282520Y-58113051D01*
 X164353948Y-58113051D01*
 D11*
 G04 #@! TO.C,C2*
-X209543520Y-113822480D03*
-X212543520Y-113822480D03*
+X207868520Y-113822480D03*
+X210868520Y-113822480D03*
 G04 #@! TD*
 D12*
 G04 #@! TO.C,D3*
