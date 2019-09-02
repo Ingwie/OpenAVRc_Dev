@@ -327,7 +327,9 @@ static int8_t uCli_Cmd_rm(const char ** argv, uint8_t argc)
   if(!memcmp_P(argv[2], SD_MEDIA, 3))
   {
     /* SD/FullFileName */
+#if defined(SDCARD)
     sdDeleteFile((const char*)&argv[1][2]); // Skip SD prefix -> keep only /FullFileName
+#endif
   }
   return(0);
 }
