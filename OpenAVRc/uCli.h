@@ -34,6 +34,9 @@
 
 #include "Stream.h"
 #include "misclib.h"
+#if defined(SDCARD)
+#include "sdcard.h"
+#endif
 #if defined(TINY_DBG_UART_USB) || defined(TINY_DBG_UART_BT)
 #include "debug/TinyDbg.h"
 #endif
