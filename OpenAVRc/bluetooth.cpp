@@ -224,14 +224,14 @@ void bluetooth_init(HwSerial *hwSerial)
  */
 void bluetooth_power(uint8_t On)
 {
-  // TO DO: drive the BT_OnOff pin
+  On? BT_POWER_ON() : BT_POWER_OFF();
 }
 
 void bluetooth_AtCmdMode(uint8_t On, uint8_t Yield /* = 1*/)
 {
   uint32_t StartDurationMs;
 
-  // TO DO: drive the BT_Key pin
+  On? BT_KEY_ON() : BT_KEY_OFF();
   if(On)
   {
     if(Yield)
