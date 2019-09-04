@@ -117,8 +117,8 @@ void readKeysAndTrims();
 #define OUT_G_BT_ONOFF            4    // BT_On_Off
 #define BT_KEY_ON()               (PORTB |=  OUT_B_BT_KEY)
 #define BT_KEY_OFF()              (PORTB &= ~OUT_B_BT_KEY)
-#define BT_POWER_ON()             (PORTG |=  OUT_G_BT_ONOFF)
-#define BT_POWER_OFF()            (PORTG &= ~OUT_G_BT_ONOFF)
+#define BT_POWER_ON()             (PORTG &= ~OUT_G_BT_ONOFF)
+#define BT_POWER_OFF()            (PORTG |=  OUT_G_BT_ONOFF)
 
 // Servitudes driver
 #define INP_D_PPM_IN              4    // ICP1
