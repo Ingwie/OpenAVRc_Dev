@@ -118,14 +118,6 @@ void readKeysAndTrims();
 #define INP_L_ElevDR              PIN6_bm
 #define INP_L_Trainer             PIN7_bm
 
-// Bluetooth pin
-#define OUT_B_BT_KEY              4    // BT_Key_Cmd
-#define OUT_G_BT_ONOFF            4    // BT_On_Off
-#define BT_KEY_ON()               (PORTB |=  OUT_B_BT_KEY)
-#define BT_KEY_OFF()              (PORTB &= ~OUT_B_BT_KEY)
-#define BT_POWER_ON()             (PORTG &= ~OUT_G_BT_ONOFF)
-#define BT_POWER_OFF()            (PORTG |=  OUT_G_BT_ONOFF)
-
 // Servitudes driver
 #define INP_D_PPM_IN              4    // ICP1
 #define OUT_B_PPM                 6    // Master_PPM_out OC1A
