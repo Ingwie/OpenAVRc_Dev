@@ -487,7 +487,7 @@ static uint8_t buildMacBin(char *MacStr, uint8_t *MacBin)
         if(FieldIdx == 0)
         {
           Nap = strtol(Field, NULL, 16);
-          BT_MAC.NAP = htons(Nap);
+          BT_MAC.NAP = HTONS(Nap);
         }else if(FieldIdx == 1)
         {
           Uap = strtol(Field, NULL, 16);
@@ -495,7 +495,7 @@ static uint8_t buildMacBin(char *MacStr, uint8_t *MacBin)
         }else if(FieldIdx == 2)
         {
           Lap = strtol(Field, NULL, 16) << 8;
-          BT_MAC.LAP = htonl(Lap);
+          BT_MAC.LAP = HTONL(Lap);
         }
         if(FieldIdx >= 2) break; // OK finished
         FieldIdx++;

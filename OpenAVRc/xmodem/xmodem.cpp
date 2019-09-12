@@ -53,7 +53,11 @@
 #ifdef ARDUINO
 #include "xmodem.h"
 #else
+#ifdef SIMU
+#include "xmodem.h"
+#else
 #include "xmodem/xmodem.h"
+#endif
 #endif
 
 // internal structure definitions

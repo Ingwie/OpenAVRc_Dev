@@ -106,9 +106,11 @@
   * internal support functions
 */
 
+#ifdef ARDUINO
 #include <stdlib.h>
 #include <Stream.h>
 #include <avr/pgmspace.h>
+#endif
 
 // serial type and file type and file operations for Arduino and OpenAVRc
 
@@ -132,6 +134,7 @@
 #define YIELD_TO_PRIO_TASK()             /* Optional: Put here the call to non-blocking tasks */
 #else
 #include "xmodem_cfg.h" /* For a non-arduino environment (such as OpenAVRc), please fill all the macros defined in this header file */
+#include "../Stream.h"
 #endif
 
 // common definitions

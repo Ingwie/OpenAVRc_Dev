@@ -232,23 +232,23 @@ void writeLogs()
                 lastRtcTime = g_rtcTime;
                 utm = localtime(&g_rtcTime);
               }
-            pos = SPRINTF_P(text, STR_RTC_MASK, utm->tm_year+T1900_OFFSET, utm->tm_mon+1, utm->tm_mday, utm->tm_hour, utm->tm_min, utm->tm_sec);
+            pos = sprintf_P(text, STR_RTC_MASK, utm->tm_year+T1900_OFFSET, utm->tm_mon+1, utm->tm_mday, utm->tm_hour, utm->tm_min, utm->tm_sec);
           }
 #else
-          pos = SPRINTF_P(text, STR_D_MASK, tmr10ms);
+          pos = sprintf_P(text, STR_D_MASK, tmr10ms);
 #endif
 
 #if defined(FRSKY)
-          pos += SPRINTF_P(&text[pos], STR_FRSKY_RSSI_MASK, frskyStreaming, RAW_FRSKY_MINMAX(telemetryData.rssi[0]), RAW_FRSKY_MINMAX(telemetryData.rssi[1]));
+          pos += sprintf_P(&text[pos], STR_FRSKY_RSSI_MASK, frskyStreaming, RAW_FRSKY_MINMAX(telemetryData.rssi[0]), RAW_FRSKY_MINMAX(telemetryData.rssi[1]));
           for (uint8_t i=0; i<MAX_FRSKY_A_CHANNELS; i++)
             {
               int16_t converted_value = applyChannelRatio(i, RAW_FRSKY_MINMAX(telemetryData.analog[i]));
-              pos += SPRINTF_P(&text[pos], STR_FRSKY_ANA_MASK, converted_value/100, converted_value%100);
+              pos += sprintf_P(&text[pos], STR_FRSKY_ANA_MASK, converted_value/100, converted_value%100);
             }
 
           if (IS_USR_PROTO_FRSKY_HUB() || IS_USR_PROTO_SMART_PORT())
             {
-              pos += SPRINTF_P(&text[pos], STR_FRSKY_TELE_MASK,
+              pos += sprintf_P(&text[pos], STR_FRSKY_TELE_MASK,
                              telemetryData.value.year+2000,
                              telemetryData.value.month,
                              telemetryData.value.day,
@@ -284,17 +284,17 @@ void writeLogs()
 #if defined(WS_HOW_HIGH)
           if (IS_USR_PROTO_WS_HOW_HIGH())
             {
-              pos += SPRINTF_P(&text[pos], STR_D_MASK, TELEMETRY_RELATIVE_BARO_ALT_BP);
+              pos += sprintf_P(&text[pos], STR_D_MASK, TELEMETRY_RELATIVE_BARO_ALT_BP);
             }
 #endif
 #endif
 
           for (uint8_t i=0; i<NUM_STICKS+NUM_POTS; i++)
             {
-              pos += SPRINTF_P(&text[pos], STR_D_MASK, calibratedStick[i]);
+              pos += sprintf_P(&text[pos], STR_D_MASK, calibratedStick[i]);
             }
 
-          pos += SPRINTF_P(&text[pos], STR_SWITCHS_MASK,
+          pos += sprintf_P(&text[pos], STR_SWITCHS_MASK,
                          get2PosState(THR),
                          get2PosState(RUD),
                          get2PosState(ELE),

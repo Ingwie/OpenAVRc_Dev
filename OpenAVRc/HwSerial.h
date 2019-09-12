@@ -39,7 +39,6 @@ Note: This HwSerial driver/module by RC-Navy is mainly based on the arduino Hard
 #define HW_SERIAL_H
 
 #include <inttypes.h>
-
 #include "Stream.h"
 
 /* Do NOT touch below */
@@ -228,8 +227,8 @@ class HwSerial : public Stream
     #endif
   public:
     HwSerial(uint8_t HwSerialIdx, uint8_t UseTx, uint8_t UseRx);
-    void            init(unsigned long baud) { init(baud, SERIAL_8N1); }
     void            init(unsigned long, uint8_t);
+    void            init(unsigned long baud) { init(baud, SERIAL_8N1); }
     virtual uint8_t available(void); // mandatory in any case to be "Stream compliant"
     virtual uint8_t read(void);      // mandatory in any case to be "Stream compliant"
     #ifdef HW_SERIAL_ENABLE_RX_SUPPORT

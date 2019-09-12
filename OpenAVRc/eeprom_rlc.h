@@ -117,7 +117,7 @@ extern uint8_t  s_sync_write;
 #define ENABLE_SYNC_WRITE(val) s_sync_write = val;
 #define IS_SYNC_WRITE_ENABLE() (s_sync_write)
 
-///deliver current errno, this is reset in open
+// deliver current errno, this is reset in open
 inline uint8_t write_errno()
 {
   return s_write_err;

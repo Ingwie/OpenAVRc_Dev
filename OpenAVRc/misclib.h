@@ -33,6 +33,11 @@
 #ifndef MISCLIB_H
 #define MISCLIB_H
 
+#ifdef SIMU
+#include "targets/simu/simu_interface.h" // for PROGMEM
+#endif
+
+
 /**
 * \file  misclib.h
 * \fn    Macro: EVERY_PERIOD_WITH_OFFSET(Var, PowerOf2, Offset)
@@ -95,7 +100,7 @@
 */
 #define HEX_DIGIT_TO_BIN_NBL(HexDigit)    ((HexDigit) < 'A') ? (HexDigit - '0'): ((HexDigit) - 'A' + 10)
 
-#define htons(x)                 __builtin_bswap16((uint16_t) (x))
-#define htonl(x)                 __builtin_bswap32((uint32_t) (x))
+#define HTONS(x)                 __builtin_bswap16((uint16_t) (x))
+#define HTONL(x)                 __builtin_bswap32((uint32_t) (x))
 
 #endif // MISCLIB_H
