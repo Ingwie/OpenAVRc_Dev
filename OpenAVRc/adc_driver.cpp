@@ -67,10 +67,10 @@ uint8_t invMask = 0
     uint16_t temp_ana;
     ADMUX = adc_input|ADC_VREF_TYPE;
     ADCSRA |= 1 << ADSC; // Start the AD conversion
-    while SIMU_UNLOCK_MACRO(bit_is_set(ADCSRA,ADSC)); // Wait for the AD conversion to complete
+    while SIMU_UNLOCK_MACRO_FALSE(bit_is_set(ADCSRA,ADSC)); // Wait for the AD conversion to complete
     temp_ana = ADC;
     ADCSRA |= 1 << ADSC; // Start the second AD conversion
-    while SIMU_UNLOCK_MACRO(bit_is_set(ADCSRA,ADSC)); // Wait for the AD conversion to complete
+    while SIMU_UNLOCK_MACRO_FALSE(bit_is_set(ADCSRA,ADSC)); // Wait for the AD conversion to complete
     temp_ana += ADC;
 #if defined(INV_STICK_RH) || defined(INV_STICK_LV) || defined(INV_STICK_RV) || defined(INV_STICK_LH)
     if (invMask & 0x1)

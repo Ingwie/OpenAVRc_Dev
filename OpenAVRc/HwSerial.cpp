@@ -367,7 +367,7 @@ size_t HwSerial::write(uint8_t c)
       // register empty flag ourselves. If it is set, pretend an
       // interrupt has happened and call the handler to free up
       // space for us.
-      if(bit_is_set(*ucsra, UDRE0))
+      if SIMU_UNLOCK_MACRO_TRUE((bit_is_set(*ucsra, UDRE0)))
 	      _tx_udr_empty_irq();
     } else {
       // nop, the interrupt handler will free up space for us

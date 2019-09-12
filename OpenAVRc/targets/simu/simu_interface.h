@@ -914,7 +914,8 @@ extern REG8 simu_SREG_I;
 #define SIMU_PROCESSEVENTS SimuSleepMs(0)  //This function tell the simu app to process events
 #define MYWDT_RESET(x) x; SimuSleepMs(1)
 #define SIMU_SLEEP(x) SimuSleepMs(x)
-#define SIMU_UNLOCK_MACRO(x) (false)
+#define SIMU_UNLOCK_MACRO_FALSE(x) (false)
+#define SIMU_UNLOCK_MACRO_TRUE(x) (true)
 #define wdt_disable() simu_off = true; simu_mainloop_is_runing = true; return
 #define _BV(x) (1<<(x))
 #define speakerOff()
