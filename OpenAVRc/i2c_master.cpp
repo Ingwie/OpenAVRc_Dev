@@ -131,7 +131,7 @@ void i2c_stop()
 {
   // transmit STOP condition
   TWCR = (1<<TWINT) | (1<<TWSTO) | (1<<TWEN);
-  while SIMU_UNLOCK_MACRO(TWCR & (1<<TWSTO));
+  while SIMU_UNLOCK_MACRO_FALSE(TWCR & (1<<TWSTO));
 }
 
 FORCEINLINE void i2c_writeAndActiveISR(uint8_t data)
@@ -154,7 +154,7 @@ ISR(TWI_vect)
   } else {
   // transmit STOP condition this reset TWI interrupts
   TWCR = (1<<TWINT) | (1<<TWSTO) | (1<<TWEN);
-  //while SIMU_UNLOCK_MACRO(TWCR & (1<<TWSTO)); // don't wait completion
+  //while SIMU_UNLOCK_MACRO_FALSE(TWCR & (1<<TWSTO)); // don't wait completion
   }
 }
 #endif
