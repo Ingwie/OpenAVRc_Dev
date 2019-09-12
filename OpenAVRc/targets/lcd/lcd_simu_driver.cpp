@@ -194,7 +194,7 @@ uint8_t fat_create_file(struct fat_dir_struct* parent, const char* file, struct 
   return ret;
 }
 
-struct fat_file_struct* fat_open_file(struct fat_fs_struct* fs, const struct fat_dir_entry_struct* dir_entry)
+struct fat_file_struct* fat_open_file(struct fat_fs_struct* fs, struct fat_dir_entry_struct* dir_entry)
 {
   struct fat_file_struct* tmp = 0;
   wxString temp = sdroot + sdpath + "\\" + wxString::FromUTF8(dir_entry->long_name);
@@ -205,6 +205,7 @@ struct fat_file_struct* fat_open_file(struct fat_fs_struct* fs, const struct fat
     {
       if (sdfile.Open(temp, wxFile::read_write, wxS_DEFAULT))
         {
+          dir_entry->file_size = sdfile.Length();
           return (struct fat_file_struct*)1;
         }
     }

@@ -33,9 +33,16 @@
 #ifndef Print_h
 #define Print_h
 
+#ifdef ARDUINO
 #include <inttypes.h>
 #include <stdio.h> // for size_t
 #include <avr/pgmspace.h>
+#else
+#include <inttypes.h>
+#include <string.h>
+#include <stdio.h>
+//#include "OpenAVRc.h"
+#endif
 
 #define BASE_DEC 10
 #define BASE_HEX  16

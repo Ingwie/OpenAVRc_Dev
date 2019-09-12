@@ -30,12 +30,14 @@
  **************************************************************************
 */
 
+#ifdef ARDUINO
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-
 #include "Print.h"
+#endif
+#include "OpenAVRc.h"
 
 // Public Methods //////////////////////////////////////////////////////////////
 

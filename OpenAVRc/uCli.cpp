@@ -31,6 +31,10 @@
 */
 #include "uCli.h"
 
+#ifdef SIMU
+#include "OpenAVRc.h"
+#endif
+
 enum {FILE_MEDIA_UNKNOWN = 0, FILE_MEDIA_SD, FILE_MEDIA_XMODEM, FILE_MEDIA_EEPROM};
 enum {CONTEXT_UCLI = 0, CONTEXT_XMODEM, CONTEXT_BT};
 

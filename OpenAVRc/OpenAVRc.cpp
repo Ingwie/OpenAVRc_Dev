@@ -33,7 +33,6 @@
 
 #include "OpenAVRc.h"
 #include "timers.h"
-#include "misclib.h"
 
 #if defined(U_CLI) && defined(TINY_DBG_UART_BT)
 extern const char UCLI_PROMPT [] PROGMEM;

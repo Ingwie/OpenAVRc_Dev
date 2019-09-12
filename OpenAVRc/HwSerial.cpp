@@ -35,11 +35,15 @@ Note: This HwSerial driver/module by RC-Navy is mainly based on the arduino Hard
       This lightweight version allows dimensionning independently (statically) all the Tx/Rx buffers.
 */
 
+#ifdef ARDUINO
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <inttypes.h>
 #include <util/atomic.h>
+#else
+#include "OpenAVRc.h"
+#endif
 
 #include "HwSerial.h"
 

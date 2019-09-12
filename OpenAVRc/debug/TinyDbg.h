@@ -79,11 +79,8 @@
 #define WDT_RESET()        do{}while(0)
 #else
 /* OpenAVRc specific */
-#include <Stream.h>
-#include <avr/interrupt.h>
-#include <avr/eeprom.h>
-#include <util/delay.h>
-#include "OpenAVRc.h"
+#include "../OpenAVRc.h"
+#include "../Stream.h"
 
 #define bitSet(var, bit)   (var) |=  (1 << (bit))
 #define bitClear(var, bit) (var) &= ~(1 << (bit))

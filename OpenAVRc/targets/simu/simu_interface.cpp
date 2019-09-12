@@ -263,8 +263,8 @@ REG8 simu_ucsr0b;
 REG8 simu_ucsr0c;
 REG8 simu_ucsr0a;
 REG16 simu_ubrr0;
-REG8 simu_ubrrOl;
-REG8 simu_ubrrOh;
+REG8 simu_ubrr0l;
+REG8 simu_ubrr0h;
 REG8 simu_udr0;
 REG8 simu_ucsr2b;
 REG8 simu_ucsr2c;
@@ -278,6 +278,8 @@ REG8 simu_spdr;
 
 //OTHER
 REG8 simu_EIMSK;
+REG8 simu_SREG;
+REG8 simu_SREG_I;
 
 //STACK
 unsigned char * simu_stackadd;

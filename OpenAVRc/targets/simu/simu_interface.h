@@ -89,6 +89,7 @@ struct fat_dir_entry_struct
 {
   char long_name[32];
   uint8_t attributes;
+  uint32_t file_size;
 };
 
 struct fat_file_struct
@@ -108,13 +109,12 @@ extern uint8_t sd_raw_init();
 extern uint8_t sd_raw_sync();
 extern partition_struct* partition_open(uint8_t a,uint8_t b,uint8_t c,uint8_t d,uint8_t e);
 extern uint8_t fat_create_file(struct fat_dir_struct* parent, const char* file, struct fat_dir_entry_struct* dir_entry);
-extern struct fat_file_struct* fat_open_file(struct fat_fs_struct* fs, const struct fat_dir_entry_struct* dir_entry);
+extern struct fat_file_struct* fat_open_file(struct fat_fs_struct* fs, struct fat_dir_entry_struct* dir_entry);
 extern intptr_t fat_write_file(struct fat_file_struct* fd, const uint8_t* buffer, uintptr_t buffer_len);
 extern void fat_close_file(struct fat_file_struct* fd);
 extern intptr_t fat_read_file(struct fat_file_struct* fd, uint8_t* buffer, uintptr_t buffer_len);
 extern uint8_t fat_read_dir(struct fat_dir_struct* dd, struct fat_dir_entry_struct* dir_entry);
 extern uint8_t fat_seek_file(struct fat_file_struct* fd, int32_t* offset, uint8_t whence);
-extern struct fat_file_struct* fat_open_file(struct fat_fs_struct* fs, const struct fat_dir_entry_struct* dir_entry);
 extern uint8_t fat_get_dir_entry_of_path(struct fat_fs_struct* fs, const char* path, struct fat_dir_entry_struct* dir_entry);
 extern struct fat_dir_struct* fat_open_dir(struct fat_fs_struct* fs, const struct fat_dir_entry_struct* dir_entry);
 extern struct fat_fs_struct* fat_open(struct partition_struct* partition);
@@ -769,8 +769,8 @@ extern REG8 simu_ucsr0b;
 extern REG8 simu_ucsr0c;
 extern REG8 simu_ucsr0a;
 extern REG16 simu_ubrr0;
-extern REG8 simu_ubrrOl;
-extern REG8 simu_ubrrOh;
+extern REG8 simu_ubrr0l;
+extern REG8 simu_ubrr0h;
 extern REG8 simu_udr0;
 extern REG8 simu_ucsr2b;
 extern REG8 simu_ucsr2c;
@@ -780,6 +780,8 @@ extern REG8 simu_ubrr2;
 
 
 #define UCSR0A  simu_ucsr0a
+#define UCSR1A  simu_ucsr0a
+#define UCSR3A  simu_ucsr0a
 #define RXC0    7
 #define TXC0    6
 #define UDRE0   5
@@ -790,6 +792,8 @@ extern REG8 simu_ubrr2;
 #define MPCM0   0
 
 #define UCSR0B  simu_ucsr0b
+#define UCSR1B  simu_ucsr0b
+#define UCSR3B  simu_ucsr0b
 #define RXCIE0  7
 #define TXCIE0  6
 #define UDRIE0  5
@@ -800,6 +804,8 @@ extern REG8 simu_ubrr2;
 #define TXB80   0
 
 #define UCSR0C  simu_ucsr0c
+#define UCSR1C  simu_ucsr0c
+#define UCSR3C  simu_ucsr0c
 #define UMSEL01 7
 #define UMSEL00 6
 #define UPM01   5
@@ -810,10 +816,20 @@ extern REG8 simu_ubrr2;
 #define UCPOL0  0
 
 #define UBRR0   simu_ubrr0
-#define UBRR0L  simu_ubrrOl
-#define UBRR0H  simu_ubrrOh
+#define UBRR0L  simu_ubrr0l
+#define UBRR0H  simu_ubrr0h
 #define UDR0    simu_udr0
+#define UBRR1L  simu_ubrr0l
+#define UBRR1H  simu_ubrr0h
+#define UDR1    simu_udr0
+#define UBRR2L  simu_ubrr0l
+#define UBRR2H  simu_ubrr0h
+#define UDR2    simu_udr0
+#define UBRR3L  simu_ubrr0l
+#define UBRR3H  simu_ubrr0h
+#define UDR3    simu_udr0
 #define UCSR2B  simu_ucsr2b
+#define UCSR2A  simu_ucsr2b
 #define UCSR2C  simu_ucsr2c
 #define UBRR2   simu_ubrr2
 #define RXEN2   simu_rxen2
@@ -850,7 +866,11 @@ extern REG8 simu_bssebd;
 #define ISR(x, ...)  void x()
 extern void TIMER1_COMPA_vect();
 extern REG8 simu_EIMSK;
+extern REG8 simu_SREG;
+extern REG8 simu_SREG_I;
 #define  EIMSK simu_EIMSK
+#define  SREG simu_SREG
+#define  SREG_I simu_SREG_I
 #define  INT4  4
 #define  INT5  5
 #define  INT6  6
@@ -859,12 +879,15 @@ extern REG8 simu_EIMSK;
 //AVR
 #define PROGMEM
 #define pgm_read_byte_near(address_short) (*(uint8_t*)(address_short))
+#define pgm_read_byte(x) pgm_read_byte_near(x)
 #define pgm_read_word_near(address_short) *address_short
+#define pgm_read_word(x) pgm_read_word_near(x)
 #define uint_farptr_t uint8_t*
 #define pgm_get_far_address(x) (uint8_t*)x
 #define pgm_read_byte_far(address_long) (*(uint8_t*)(address_long))
-#define pgm_read_word_far(address_long) (*(uint16_t*)(address_long))
+#define pgm_read_word_far(address_long) *address_long
 #define PSTR(adr) adr
+#define PGM_P const char *
 #define _delay_us(a)
 #define _delay_ms(a) SimuSleepMs(a)
 #define cli()
@@ -874,7 +897,10 @@ extern REG8 simu_EIMSK;
 #define strcpy_P strcpy
 #define strcat_P strcat
 #define memcpy_P memcpy
+#define strcmp_P strcmp
+#define memcmp_P memcmp
 #define bit_is_clear(sfr, bit) (!(REG8(sfr) & (1 << (bit))))
+#define bit_is_set(sfr, bit) (REG8(sfr) & (1 << (bit)))
 #define loop_until_bit_is_set(sfr, bit) do {lcdInit();} while (bit_is_clear(sfr, bit))
 #define mcusr MCUSR
 #define ASSERT(x) assert(x)
@@ -900,7 +926,7 @@ extern REG8 simu_EIMSK;
 #define EEPROMREADBLOCK simu_eepromReadBlock
 #define srandom(x) srand(x)
 #define random() rand()
-#define SPRINTF_P sprintf
+#define sprintf_P sprintf
 #define MKTIME mktime
 #define _NOP()
 

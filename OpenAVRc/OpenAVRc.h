@@ -38,6 +38,7 @@
 #include <string.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <time.h>
 
 #if !defined(SIMU)
@@ -54,16 +55,6 @@
   #include <util/atomic.h>
   #include <avr/wdt.h>
 
-  #if defined(TINY_DBG_UART_USB) || defined(TINY_DBG_UART_BT)
-    #include "debug/TinyDbg.h"
-  #endif
-  #if defined(U_CLI)
-    #include "uCli.h"
-  #endif
-  #if defined(TINY_DBG_UART_USB) || defined(TINY_DBG_UART_BT) || defined(U_CLI)
-    #include "HwSerial.h"
-  #endif
-
   #define FORCEINLINE inline __attribute__ ((always_inline))
   #define NOINLINE __attribute__ ((noinline))
   #define TRACE(...)
@@ -79,15 +70,29 @@
 // Fiddle to force compiler to use a pointer
   #define FORCE_INDIRECT(ptr) __asm__ __volatile__ ("" : "=e" (ptr) : "0" (ptr))
   #define MKTIME mk_gmtime
-  #define SPRINTF_P sprintf_P
   #define ADAPT_PROTOCOL_TO_SIMU()
   #define ADAPT_PROTOCOL_TO_TX()
+
+  #if defined(TINY_DBG_UART_USB) || defined(TINY_DBG_UART_BT)
+    #include "debug/TinyDbg.h"
+  #endif
+  #if defined(U_CLI)
+    #include "uCli.h"
+  #endif
+  #if defined(TINY_DBG_UART_USB) || defined(TINY_DBG_UART_BT) || defined(U_CLI)
+    #include "HwSerial.h"
+  #endif
 
 #else //SIMU define
 
   #include "targets/simu/simu_interface.h"
   #include "targets/megamini/board_megamini.h" //New reference board
   //#include "targets/mega2560/board_mega2560.h"
+
+  #if defined(U_CLI) || defined(XMODEM)
+    #include "HwSerial.h"
+    #include "uCli.h"
+  #endif
 
 #endif
 
