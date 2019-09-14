@@ -6,7 +6,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 7 7
 Title "Shield Mega2560 core Full"
-Date "2019-09-02"
+Date "2019-09-14"
 Rev "2.2"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -299,8 +299,8 @@ F 3 "" H 2950 3200 50  0000 C CNN
 	1    2950 3200
 	1    0    0    -1  
 $EndComp
-Text Notes 1950 4950 0    60   Italic 0
-Option module DCDC 3A
+Text Notes 1950 5000 0    60   Italic 0
+Option module DCDC 3A\n       MP1584EN
 $Comp
 L power1:+BATT #PWR0119
 U 1 1 59C53200
@@ -10297,4 +10297,6 @@ C6 00 9F 1C C5 63 8C 39 25 BD 13 0D E5 74 8F F1 89 31 D4 0A D2 45 4F 6A 22 8F 88
 AE 42 60 82 
 EndData
 $EndBitmap
+Text Notes 1950 5450 0    60   ~ 0
+Options:\n1 - MP1584EN (+5V) (câbler U5 si besoin +3,3v) (U4 non câblé)\n2 - PM5033 (+5v et +3,3) (MP1584EN et U5 non câblés)
 $EndSCHEMATC
