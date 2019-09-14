@@ -6,7 +6,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 7
 Title "Shield Mega2560 core Full"
-Date "2019-09-02"
+Date "2019-09-14"
 Rev "2.2"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -421,7 +421,7 @@ Text Label 8000 5500 1    60   ~ 0
 BT_Rxd1
 Text Label 7900 5500 1    60   ~ 0
 BT_Txd1
-Text Notes 7550 4200 0    60   ~ 0
+Text Notes 7550 4100 0    60   ~ 0
 Bluetooth HC-05/HM-10
 Text GLabel 1450 2350 0    60   Input ~ 0
 Tele_RX
@@ -15553,8 +15553,8 @@ $Comp
 L Connector_Generic:Conn_01x05 P10
 U 1 1 5D5D2191
 P 8100 4400
-F 0 "P10" H 8150 4700 50  0000 R CNN
-F 1 "RX1TX1" V 8200 4550 50  0000 R CNN
+F 0 "P10" V 8200 4050 50  0000 R CNN
+F 1 "RX1TX1" V 8100 4100 50  0000 R CNN
 F 2 "Pin_Header_Straight_1x05_Pitch2.54mm" H 8100 4400 50  0001 C CNN
 F 3 "~" H 8100 4400 50  0001 C CNN
 	1    8100 4400
@@ -15570,7 +15570,7 @@ U 1 1 5D6D787B
 P 9350 5500
 F 0 "R38" V 9450 5500 50  0000 C CNN
 F 1 "1K" V 9350 5500 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 9280 5500 50  0001 C CNN
+F 2 "R_1206" V 9280 5500 50  0001 C CNN
 F 3 "" H 9350 5500 50  0000 C CNN
 	1    9350 5500
 	0    -1   -1   0   
@@ -15581,7 +15581,7 @@ U 1 1 5D6D7967
 P 9050 5700
 F 0 "R23" V 8950 5700 50  0000 C CNN
 F 1 "2K7" V 9050 5700 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 8980 5700 50  0001 C CNN
+F 2 "R_1206" V 8980 5700 50  0001 C CNN
 F 3 "" H 9050 5700 50  0000 C CNN
 	1    9050 5700
 	-1   0    0    1   
@@ -15608,4 +15608,14 @@ F 3 "" H 9050 5900 50  0000 C CNN
 $EndComp
 Wire Wire Line
 	9050 5900 9050 5850
+Text Notes 7900 4350 1    60   ~ 0
+Rx
+Text Notes 8000 4350 1    60   ~ 0
+Tx
+Text Notes 8100 4350 1    60   ~ 0
+Gnd
+Text Notes 8200 4350 1    60   ~ 0
++5v
+Text Notes 8300 4350 1    60   ~ 0
+Key
 $EndSCHEMATC
