@@ -37,7 +37,7 @@
 #include <wx/msgdlg.h>
 
 wxString mixStr = "";
-extern wxString modeStr = "";
+wxString modeStr = "";
 
 
 #define data g_model.mixData
