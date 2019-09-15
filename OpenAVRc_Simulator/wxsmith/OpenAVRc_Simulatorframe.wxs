@@ -483,6 +483,10 @@
 					<label>Logs</label>
 					<handler function="OnLogsSelected" entry="EVT_MENU" />
 				</object>
+				<object class="wxMenuItem" name="ID_MENUITEMUCLI" variable="uCli" member="yes">
+					<label>uCLI</label>
+					<handler function="OnuCliSelected" entry="EVT_MENU" />
+				</object>
 			</object>
 			<object class="wxMenu" variable="MenuHelp" member="no">
 				<label>&amp;Aide</label>

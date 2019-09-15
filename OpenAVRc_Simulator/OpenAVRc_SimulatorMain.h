@@ -185,7 +185,8 @@ public:
   void EnableRadioDataMenu();
   void EnableTelemetryMenu();
   void EnableLogsMenu();
-
+  void EnableuCliMenu();
+  void SendHwSByteTouCliFrame(uint8_t c);
 
 private:
   //(*Handlers(OpenAVRc_SimulatorFrame)
@@ -292,6 +293,7 @@ private:
   void OnPanelMainKeyDown(wxKeyEvent& event);
   void OnCheckBoxProtocolsClick(wxCommandEvent& event);
   void OnLogsSelected(wxCommandEvent& event);
+  void OnuCliSelected(wxCommandEvent& event);
   //*)
 
   //(*Identifiers(OpenAVRc_SimulatorFrame)
@@ -360,6 +362,7 @@ private:
   static const long ID_MENUITEMRADIODATA;
   static const long ID_MENUITEMTELEMETRY;
   static const long ID_MENUITEMLOGS;
+  static const long ID_MENUITEMUCLI;
   static const long idMenuAbout;
   static const long ID_STATUSBAR;
   static const long ID_TIMER10MS;
@@ -430,6 +433,7 @@ private:
   wxMenuItem* OutputMixeur;
   wxMenuItem* RadioData;
   wxMenuItem* telemetry;
+  wxMenuItem* uCli;
   wxPanel* BPb;
   wxPanel* BPd;
   wxPanel* BPexit;

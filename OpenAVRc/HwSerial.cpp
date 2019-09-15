@@ -45,6 +45,12 @@ Note: This HwSerial driver/module by RC-Navy is mainly based on the arduino Hard
 #include "OpenAVRc.h"
 #endif
 
+#ifdef SIMU
+  #define SIMUSENDHWSBYTE(x) SendHwSByte(x)
+#else
+  #define SIMUSENDHWSBYTE(x)
+#endif
+
 #include "HwSerial.h"
 
 // this next line disables the entire HwSerial.cpp,
@@ -381,7 +387,7 @@ size_t HwSerial::write(uint8_t c)
     _tx_buffer_head = i;
     sbi(*ucsrb, UDRIE0);
   }
-
+  SIMUSENDHWSBYTE(c); // Send char to simu
   return 1;
 }
 #endif // HW_SERIAL_TX_NORMAL_ISR

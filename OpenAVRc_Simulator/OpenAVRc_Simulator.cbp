@@ -558,6 +558,8 @@
 		</Unit>
 		<Unit filename="serial/tserial.cpp" />
 		<Unit filename="serial/tserial.h" />
+		<Unit filename="uCliFrame.cpp" />
+		<Unit filename="uCliFrame.h" />
 		<Unit filename="wxsmith/GvarsFrame.wxs" />
 		<Unit filename="wxsmith/LogsFrame.wxs" />
 		<Unit filename="wxsmith/MixerFrame.wxs" />
@@ -566,6 +568,7 @@
 		<Unit filename="wxsmith/OutBarsFrame.wxs" />
 		<Unit filename="wxsmith/RadioDataFrame.wxs" />
 		<Unit filename="wxsmith/TelemetryFrame.wxs" />
+		<Unit filename="wxsmith/uCliFrame.wxs" />
 		<Extensions>
 			<code_completion />
 			<envvars set="default" />
@@ -582,6 +585,7 @@
 					<wxDialog wxs="wxsmith/ModelNameDialog.wxs" src="ModelNameDialog.cpp" hdr="ModelNameDialog.h" fwddecl="0" i18n="1" name="ModelNameDialog" language="CPP" />
 					<wxFrame wxs="wxsmith/TelemetryFrame.wxs" src="TelemetryFrame.cpp" hdr="TelemetryFrame.h" fwddecl="0" i18n="1" name="TelemetryFrame" language="CPP" />
 					<wxFrame wxs="wxsmith/LogsFrame.wxs" src="LogsFrame.cpp" hdr="LogsFrame.h" fwddecl="0" i18n="1" name="LogsFrame" language="CPP" />
+					<wxFrame wxs="wxsmith/uCliFrame.wxs" src="uCliFrame.cpp" hdr="uCliFrame.h" fwddecl="0" i18n="1" name="uCliFrame" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

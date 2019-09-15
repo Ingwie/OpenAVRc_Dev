@@ -67,6 +67,8 @@ extern void adaptSimuProtocolNumToTx();
 #define fat_close(x);
 #define partition_close(x);
 
+// Hwserial
+extern void SendHwSByte(uint8_t c);
 
 struct sd_raw_info
 {
@@ -772,6 +774,7 @@ extern REG16 simu_ubrr0;
 extern REG8 simu_ubrr0l;
 extern REG8 simu_ubrr0h;
 extern REG8 simu_udr0;
+extern REG8 simu_udr1;
 extern REG8 simu_ucsr2b;
 extern REG8 simu_ucsr2c;
 extern REG8 simu_rxen2;
@@ -821,7 +824,7 @@ extern REG8 simu_ubrr2;
 #define UDR0    simu_udr0
 #define UBRR1L  simu_ubrr0l
 #define UBRR1H  simu_ubrr0h
-#define UDR1    simu_udr0
+#define UDR1    simu_udr1
 #define UBRR2L  simu_ubrr0l
 #define UBRR2H  simu_ubrr0h
 #define UDR2    simu_udr0
