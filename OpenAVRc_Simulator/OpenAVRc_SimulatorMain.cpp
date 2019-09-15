@@ -40,6 +40,7 @@
 #include "TelemetryFrame.h"
 #include "ModelNameDialog.h"
 #include "LogsFrame.h"
+#include "uCliFrame.h"
 
 #include <wx/msgdlg.h>
 #include <wx/dcclient.h>
@@ -105,6 +106,7 @@ GvarsFrame *GvFr;
 RadioDataFrame *RaFr;
 TelemetryFrame *TeleFr;
 LogsFrame *LogFr;
+uCliFrame *uCliFr;
 
 
 int comwaitcounter;
@@ -240,6 +242,7 @@ const long OpenAVRc_SimulatorFrame::ID_MENUITEMOUTPUTGVARS = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMRADIODATA = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMTELEMETRY = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_MENUITEMLOGS = wxNewId();
+const long OpenAVRc_SimulatorFrame::ID_MENUITEMUCLI = wxNewId();
 const long OpenAVRc_SimulatorFrame::idMenuAbout = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_STATUSBAR = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_TIMER10MS = wxNewId();
@@ -443,6 +446,8 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   MenuFrame->Append(telemetry);
   Logs = new wxMenuItem(MenuFrame, ID_MENUITEMLOGS, _("Logs"), wxEmptyString, wxITEM_NORMAL);
   MenuFrame->Append(Logs);
+  uCli = new wxMenuItem(MenuFrame, ID_MENUITEMUCLI, _("uCLI"), wxEmptyString, wxITEM_NORMAL);
+  MenuFrame->Append(uCli);
   MenuBar1->Append(MenuFrame, _("&Fenêtres"));
   MenuHelp = new wxMenu();
   MenuAbout = new wxMenuItem(MenuHelp, idMenuAbout, _("A propos ...\tF1"), _("C\'est quoi donc \?"), wxITEM_NORMAL);
@@ -545,6 +550,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_MENUITEMRADIODATA,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnRadioDataSelected);
   Connect(ID_MENUITEMTELEMETRY,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OntelemetrySelected);
   Connect(ID_MENUITEMLOGS,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnLogsSelected);
+  Connect(ID_MENUITEMUCLI,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnuCliSelected);
   Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnAbout);
   Connect(ID_TIMER10MS,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimer10msTrigger);
   Connect(ID_TIMERMAIN,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimerMainTrigger);
@@ -3269,6 +3275,25 @@ void OpenAVRc_SimulatorFrame::OnLogsSelected(wxCommandEvent& event)
   MenuFrame->Enable(ID_MENUITEMLOGS, false);
   LogFr = new  LogsFrame(this);
   LogFr->Show(TRUE);
+}
+
+void OpenAVRc_SimulatorFrame::OnuCliSelected(wxCommandEvent& event)
+{
+  event.Skip();
+  MenuFrame->Enable(ID_MENUITEMUCLI, false);
+  uCliFr = new  uCliFrame(this);
+  uCliFr->Show(TRUE);
+}
+
+void OpenAVRc_SimulatorFrame::EnableuCliMenu()
+{
+  MenuFrame->Enable(ID_MENUITEMUCLI, true);
+}
+
+void OpenAVRc_SimulatorFrame::SendHwSByteTouCliFrame(uint8_t c)
+{
+  if(uCliFr)
+    uCliFr->HwSerialByte(c);
 }
 
 void OpenAVRc_SimulatorFrame::EnableLogsMenu()

@@ -149,7 +149,6 @@ void adaptSimuProtocolNumToTx()
   g_model.rfProtocol = temp;
 }
 
-
 //AVR REG
 
 //PORT & PIN
@@ -266,6 +265,7 @@ REG16 simu_ubrr0;
 REG8 simu_ubrr0l;
 REG8 simu_ubrr0h;
 REG8 simu_udr0;
+REG8 simu_udr1;
 REG8 simu_ucsr2b;
 REG8 simu_ucsr2c;
 REG8 simu_rxen2;
