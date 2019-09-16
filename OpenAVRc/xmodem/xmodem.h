@@ -133,7 +133,6 @@
 #define MS_TO_TICK(ms)                     (ms)
 #define YIELD_TO_PRIO_TASK()             /* Optional: Put here the call to non-blocking tasks */
 #else
-#include "xmodem_cfg.h" /* For a non-arduino environment (such as OpenAVRc), please fill all the macros defined in this header file */
 #include "../Stream.h"
 #endif
 

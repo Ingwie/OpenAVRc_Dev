@@ -341,7 +341,7 @@
 		<Unit filename="vario.cpp" />
 		<Unit filename="xmodem/xmodem.cpp" />
 		<Unit filename="xmodem/xmodem.h" />
-		<Unit filename="xmodem/xmodem_cfg.h" />
+		<Unit filename="xmodem/xmodem_cfg.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars set="python" />
