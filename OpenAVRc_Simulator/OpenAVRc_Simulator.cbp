@@ -502,7 +502,10 @@
 		<Unit filename="../OpenAVRc/vario.cpp" />
 		<Unit filename="../OpenAVRc/xmodem/xmodem.cpp" />
 		<Unit filename="../OpenAVRc/xmodem/xmodem.h" />
-		<Unit filename="../OpenAVRc/xmodem/xmodem_cfg.h" />
+		<Unit filename="../OpenAVRc/xmodem/xmodem_cfg.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="FrSky/FrSkyDTelemetry.cpp" />
 		<Unit filename="FrSky/FrSkyDTelemetry.h" />
 		<Unit filename="FrSky/FrSkySimu.cpp" />

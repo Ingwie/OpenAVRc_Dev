@@ -227,8 +227,8 @@ class HwSerial : public Stream
     #endif
   public:
     HwSerial(uint8_t HwSerialIdx, uint8_t UseTx, uint8_t UseRx);
-    void            init(unsigned long, uint8_t);
     void            init(unsigned long baud) { init(baud, SERIAL_8N1); }
+    void            init(unsigned long, uint8_t);
     virtual uint8_t available(void); // mandatory in any case to be "Stream compliant"
     virtual uint8_t read(void);      // mandatory in any case to be "Stream compliant"
     #ifdef HW_SERIAL_ENABLE_RX_SUPPORT

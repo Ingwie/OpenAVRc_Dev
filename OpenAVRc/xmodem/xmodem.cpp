@@ -55,8 +55,10 @@
 #else
 #ifdef SIMU
 #include "xmodem.h"
+#include "xmodem_cfg.cpp" /* For a non-arduino environment (such as OpenAVRc), please fill all the macros defined in this file */
 #else
 #include "xmodem/xmodem.h"
+#include "xmodem/xmodem_cfg.cpp" /* For a non-arduino environment (such as OpenAVRc), please fill all the macros defined in this file */
 #endif
 #endif
 
