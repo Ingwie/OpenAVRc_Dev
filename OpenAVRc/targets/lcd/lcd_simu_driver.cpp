@@ -113,6 +113,12 @@ static wxDir sddir(sdroot);
 static wxFile sdfile;
 static bool cont = 0;
 
+wxString switchRootChar(wxString val)
+{
+  val.Replace("/","\\");
+  return val;
+}
+
 void simulateLcdBufferUsedBySd()
 {
   for (uint16_t i=0; i<512 ; ++i)
@@ -176,13 +182,13 @@ uint8_t fat_seek_file(struct fat_file_struct* fd, int32_t* offset, uint8_t whenc
 uint8_t fat_delete_file(struct fat_fs_struct* fs, struct fat_dir_entry_struct* dir_entry)
 {
   simulateLcdBufferUsedBySd();
-  return wxRemoveFile(sdroot + sdpath + wxString::FromUTF8(dir_entry->long_name));
+  return wxRemoveFile(sdroot + sdpath + switchRootChar(wxString::FromUTF8(dir_entry->long_name)));
 }
 
 uint8_t fat_create_file(struct fat_dir_struct* parent, const char* file, struct fat_dir_entry_struct* dir_entry)
 {
   uint8_t ret = 0;
-  wxString temp = sdroot + sdpath + "\\" + wxString::FromUTF8(file);
+  wxString temp = sdroot + sdpath + "\\" + switchRootChar(wxString::FromUTF8(file));
 
   simulateLcdBufferUsedBySd();
   if (wxFile::Exists(temp))
@@ -203,7 +209,7 @@ uint8_t fat_create_file(struct fat_dir_struct* parent, const char* file, struct 
 struct fat_file_struct* fat_open_file(struct fat_fs_struct* fs, struct fat_dir_entry_struct* dir_entry)
 {
   struct fat_file_struct* tmp = 0;
-  wxString temp = sdroot + sdpath + "\\" + wxString::FromUTF8(dir_entry->long_name);
+  wxString temp = sdroot + sdpath + "\\" + switchRootChar(wxString::FromUTF8(dir_entry->long_name));
 
   simulateLcdBufferUsedBySd();
 
@@ -282,9 +288,9 @@ struct fat_dir_struct* fat_open_dir(struct fat_fs_struct* fs, const struct fat_d
 
   simulateLcdBufferUsedBySd();
 
-  if (sddir.Open(sdroot + wxString::FromUTF8(dir_entry->long_name)))
+  if (sddir.Open(sdroot + switchRootChar(wxString::FromUTF8(dir_entry->long_name))))
     {
-      sdpath = wxString::FromUTF8(dir_entry->long_name);
+      sdpath = switchRootChar(wxString::FromUTF8(dir_entry->long_name));
       if (sdpath.length() != 1)
         sdpath.Append("\\"); // Not root
       return (struct fat_dir_struct*)1;
@@ -296,11 +302,11 @@ uint8_t fat_create_dir(struct fat_dir_struct* parent, const char* dir, struct fa
 {
   uint8_t ret = 0;
 
-  if (sddir.Exists(sdroot + wxString::FromUTF8(dir)))
+  if (sddir.Exists(sdroot + switchRootChar(wxString::FromUTF8(dir))))
     {
       ret = 1;
     }
-  else if (sddir.Make(sdroot + wxString::FromUTF8(dir), wxS_DIR_DEFAULT))
+  else if (sddir.Make(sdroot + switchRootChar(wxString::FromUTF8(dir)), wxS_DIR_DEFAULT))
     {
       ret = 1;
     }
