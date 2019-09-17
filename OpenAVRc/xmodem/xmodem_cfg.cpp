@@ -52,7 +52,7 @@
 #define GET_TICK()                         (uint32_t)GET_10MS_TICK()
 #define MS_TO_TICK(ms)                     MS_TO_10MS_TICK(ms)
 
-#define YIELD_TO_PRIO_TASK()               YIELD_TO_TASK(checkMixer());
+#define YIELD_TO_PRIO_TASK()               YIELD_TO_TASK(checkMixer(); MYWDT_RESET())
 
 /* File management is not so obvious in OpenAVRc, so create here some functions to open files */
 /**
