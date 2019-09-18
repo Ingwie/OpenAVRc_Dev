@@ -625,7 +625,6 @@ int8_t SendXmodem(XModemSt_t *pX)
   filesize = FILE_SIZE(pX->fd);
   do
   {
-    MYWDT_RESET();
     // ** depending on type of transfer, place the packet
     // ** into pX->buf with all fields appropriately filled.
     if(filepos >= filesize) // end of transfer

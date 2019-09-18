@@ -196,6 +196,7 @@ static uint16_t DurationValue;
 
 #if defined(BLUETOOTH)
   #define CASE_BLUETOOTH(x) x,
+  #include "bluetooth.h"
 #else
   #define CASE_BLUETOOTH(x)
 #endif
@@ -413,7 +414,7 @@ static uint16_t DurationValue;
                                                     do{\
                                                       do{\
                                                         TaskList;\
-                                                      }while((GET_10MS_TICK() - StartDurationMsVar) < MS_TO_10MS_TICK(DurationMs));\
+                                                      }while(SIMU_UNLOCK_MACRO_FALSE((GET_10MS_TICK() - StartDurationMsVar) < MS_TO_10MS_TICK(DurationMs)));\
                                                     }while(0)
 
 /**
@@ -425,6 +426,7 @@ static uint16_t DurationValue;
 #define YIELD_TO_TASK(TaskList) \
                                                     do{\
                                                       TaskList;\
+                                                      MYWDT_RESET();\
                                                     }while(0)
 
 
