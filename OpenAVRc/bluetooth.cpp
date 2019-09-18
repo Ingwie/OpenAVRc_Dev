@@ -106,7 +106,7 @@ typedef struct{
 }AtCmdSt_t;
 
 /* PRIVATE FUNCTION PROTOTYPES */
-static void    reboot(uint8_t Yield = 1);
+static void    rebootBT(uint8_t Yield = 1);
 static uint8_t getAtCmdIdx(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
 static char   *getAtCmd(uint8_t Idx, char *Buf);
 static uint8_t getAtMatchLen(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
@@ -172,7 +172,7 @@ void bluetooth_init(HwSerial *hwSerial)
   char     UartAtCmd[30];
   char     RespBuf[10];
 
-  reboot(0); // Do NOT yield prio tasks here, since they are not initialized yet
+  rebootBT(0); // Do NOT yield prio tasks here, since they are not initialized yet
 
   bluetooth_AtCmdMode(ON, 0);
   for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
@@ -194,7 +194,7 @@ void bluetooth_init(HwSerial *hwSerial)
         /* Switch Serial to Rate = 115200 */
         hwSerial->init(RateTbl[0]);
         /* BT Reboot is needed */
-        reboot(0); // Do NOT yield prio tasks here, since they are not initialized yet
+        rebootBT(0); // Do NOT yield prio tasks here, since they are not initialized yet
       }
       break;
     }
@@ -386,7 +386,7 @@ int8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
     }
   }while(((GET_10MS_TICK() - StartMs) < MS_TO_10MS_TICK(TimeoutMs)) && (MacFound < REMOTE_BT_DEV_MAX_NB));
   /* Reboot needed to quit INQ mode */
-  reboot();
+  rebootBT();
   bluetooth_AtCmdMode(ON); // Switch to AT Mode
   if(MacFound)
   {
@@ -432,13 +432,13 @@ int8_t bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs)
 
 /**
  * \file  bluetooth.cpp
- * \fn    void reboot(uint8_t Yield = 1)
+ * \fn    void rebootBT(uint8_t Yield = 1)
  * \brief Reboot the BT module (Needed to take some parameters into account)
  *
  * \param  Yield: 0 -> blocking delay, 1 -> Yield to prio task list (default value)
  * \return Void.
  */
-static void reboot(uint8_t Yield /* = 1 */)
+static void rebootBT(uint8_t Yield /* = 1 */)
 {
   uint32_t StartDurationMs;
 

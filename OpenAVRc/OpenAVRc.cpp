@@ -1241,6 +1241,9 @@ void OpenAVRcStart() // Run only if it is not a WDT reboot
     sdFindFileStruct(ROOT_PATH); // Nedeed to initialize SD driver buffer (Lcd buffer reused ;-)
   }
 #endif
+#if defined(BLUETOOTH)
+  bluetooth_init(&Serial1);
+#endif
   doSplash();
 #if defined(GUI)
   checkAlarm();
@@ -1508,8 +1511,7 @@ void OpenAVRcInit(uint8_t mcusr)
   TinyDbg_init(&Serial0);
 #endif
 #if defined(U_CLI) || defined(TINY_DBG_UART_BT)
-  Serial1.init(115200);
-  Serial1.print(F("\nWelcome to OpenAVRc V3.0 !\n"));
+  Serial1.init(9600);
 #endif
 #if defined(U_CLI)
   uCli_init(&Serial1);
@@ -1535,11 +1537,18 @@ void OpenAVRcInit(uint8_t mcusr)
 
   if (g_eeGeneral.backlightMode != e_backlight_mode_off) backlightOn(); // on Tx start turn the light on
 
-  if (UNEXPECTED_SHUTDOWN()) {
-    unexpectedShutdown = true;
-  } else {
-    OpenAVRcStart();
-  }
+  if (UNEXPECTED_SHUTDOWN())
+    {
+      unexpectedShutdown = true;
+    }
+  else
+    {
+    OpenAVRcStart(); // All functions called in OpenAVRcStart() are not used if a WDT reset occur.
+    }
+
+#if defined(U_CLI)
+  Serial1.print(F("\nWelcome to OpenAVRc V3.0 !\n"));
+#endif
 
   if (!g_eeGeneral.unexpectedShutdown) {
     g_eeGeneral.unexpectedShutdown = 1;
