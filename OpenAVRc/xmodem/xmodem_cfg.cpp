@@ -105,11 +105,11 @@ static uint8_t sdFileExists(char *FullFileName)
 {
   uint8_t Ret = 0;
 
-  if(uint8_t ofs = getDirAndBaseName(FullFileName))
+  if(uint8_t ofsToBaseName = getDirAndBaseName(FullFileName))
   {
     if(sdChangeCurDir(!FullFileName ? ROOT_PATH: FullFileName))
     {
-      Ret = sdFindFileStruct(FullFileName + ofs);
+      Ret = sdFindFileStruct(FullFileName + ofsToBaseName);
     }
   }
 
@@ -128,11 +128,11 @@ static fat_file_struct *sdFileOpenForRead(char *FullFileName)
 {
   fat_file_struct *fd = NULL;
 
-  if(uint8_t ofs = getDirAndBaseName(FullFileName))
+  if(uint8_t ofsToBaseName = getDirAndBaseName(FullFileName))
   {
     if(sdChangeCurDir(!FullFileName ? ROOT_PATH: FullFileName))
     {
-      if(sdFindFileStruct(FullFileName + ofs))
+      if(sdFindFileStruct(FullFileName + ofsToBaseName))
       {
         fd = fat_open_file(SD_filesystem, &SD_dir_entry);
       }
@@ -154,11 +154,11 @@ static fat_file_struct *sdFileOpenForWrite(char *FullFileName)
 {
   fat_file_struct *fd = NULL;
 
-  if(uint8_t ofs = getDirAndBaseName(FullFileName))
+  if(uint8_t ofsToBaseName = getDirAndBaseName(FullFileName))
   {
     if(sdOpenDir(!FullFileName ? ROOT_PATH: FullFileName))
     {
-      if(fat_create_file(SD_dir, (FullFileName + ofs), &SD_dir_entry))
+      if(fat_create_file(SD_dir, (FullFileName + ofsToBaseName), &SD_dir_entry))
       {
         fd = fat_open_file(SD_filesystem, &SD_dir_entry);
       }
