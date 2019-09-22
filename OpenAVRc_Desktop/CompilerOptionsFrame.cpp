@@ -552,6 +552,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   Connect(ID_CHECKBOX24,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxPERSONAMESClick);
   Connect(ID_CHECKBOX25,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxPERSONAMESClick);
   Connect(ID_CHECKBOX29,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxPERSONAMESClick);
+  Connect(ID_CHECKBOX34,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxXMODEMClick);
   Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonEXITClick);
   Connect(ID_BUTTON6,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonCOMPILEClick);
   Connect(ID_CHECKBOX22,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxPERSONAMESClick);
@@ -1101,6 +1102,20 @@ void CompilerOptionsFrame::OnCheckBoxPERSONAMESClick(wxCommandEvent& event)
 void CompilerOptionsFrame::OnCheckBoxSD_CARDClick(wxCommandEvent& event)
 {
   CollectDatas();
+  if (XMODEM)
+    {
+      CheckBoxXMODEM->SetValue(0);
+    }
+}
+
+void CompilerOptionsFrame::OnCheckBoxXMODEMClick(wxCommandEvent& event)
+{
+  CollectDatas();
+  if (XMODEM && (!SD_CARD))
+    {
+      wxMessageBox(_("Necessite SD_CARD"));
+      CheckBoxXMODEM->SetValue(0);
+    }
 }
 
 void CompilerOptionsFrame::OnButtonDefautClick1(wxCommandEvent& event)
