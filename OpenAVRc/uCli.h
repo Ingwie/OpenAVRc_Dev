@@ -34,7 +34,6 @@
 #define UCLI_H
 
 #include "Stream.h"
-#include "misclib.h"
 #if defined(SDCARD)
 #include "sdcard.h"
 #endif

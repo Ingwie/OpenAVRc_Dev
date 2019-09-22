@@ -33,7 +33,6 @@
 #ifndef BLUETOOTH_H
 #define BLUETOOTH_H
 
-#include "misclib.h"
 #include "HwSerial.h"
 #include "uCli.h"
 #include "OpenAVRc.h"
