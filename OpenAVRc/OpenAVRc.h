@@ -346,8 +346,9 @@ static uint16_t DurationValue;
   #define FULL_CHANNEL_OUTPUTS(ch) channelOutputs[ch]
 #endif
 
-#define tmr10ms_t uint16_t
+#include "misclib.h"
 
+#define tmr10ms_t uint16_t
 
 /**
 * \file  OpenAVRc.h
