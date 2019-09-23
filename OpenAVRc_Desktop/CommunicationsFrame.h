@@ -100,7 +100,7 @@ private:
     void OnButtonEnterClick(wxCommandEvent& event);
     void OnButtonDetectClick(wxCommandEvent& event);
     void GetPortList(wxArrayString *port_list);
-    void DetectSerial();
+    wxString DetectSerial();
     void OnTESTClick1(wxCommandEvent& event);
     //*)
 
