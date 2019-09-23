@@ -166,15 +166,16 @@ void CommunicationsFrame::OnButtonDetectClick(wxCommandEvent& event)
         answer = wxMessageBox(_("Branchez votre radio"), _("Auto Detection"), wxOK  | wxCENTRE, this);
         if (answer == wxOK)
         {
-            DetectSerial();
-            ComboBox2->SetSelection(0);
+            wxString found = DetectSerial();
+            ComboBox2->SetSelection(ComboBox2->FindString(found));
             wxMessageBox(_("Terminé !"), _("Auto Detection"), wxOK  | wxCENTRE, this);
         }
     }
 }
 
-void CommunicationsFrame::DetectSerial()
+wxString CommunicationsFrame::DetectSerial()
 {
+    wxString lateststr;
     TCHAR Devices [5000];
     for(int i=0; i<255; i++) // checking ports from COM0 to COM255
     {
@@ -184,9 +185,11 @@ void CommunicationsFrame::DetectSerial()
         long test = QueryDosDevice(ComName.c_str(), Devices, 5000); //Win32(64) API only
         if (test!=0) //QueryDosDevice returns zero if it didn't find an object
         {
+            if (ComboBox2->FindString(ComName) == (-1)) lateststr=ComName;
             ComboBox2->Insert(ComName,0); // add to the ComboBox
         }
     }
+    return lateststr;
 }
 
 void CommunicationsFrame::OnTESTClick1(wxCommandEvent& event)
