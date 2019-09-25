@@ -708,7 +708,7 @@ static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, char *TermPatter
     }
   }while(((GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(TimeoutMs)) && (RxLen < 0));
 
-  return(RxLen);
+  return(RxLen==-1)? 0 : RxLen;
 }
 
 static void btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb)
