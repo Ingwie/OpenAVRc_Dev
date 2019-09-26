@@ -81,10 +81,12 @@ void uCliFrame::OnClose(wxCloseEvent& event)
 
 void uCliFrame::HwSerialByte(uint8_t c)
 {
-  TextCtrl->WriteText((char)c);
-  int pos = TextCtrl->GetNumberOfLines();
-  LastPrompt = TextCtrl->GetLineText(pos-1);
-
+  if (c != '\r')
+    {
+      TextCtrl->WriteText((char)c);
+      int pos = TextCtrl->GetNumberOfLines();
+      LastPrompt = TextCtrl->GetLineText(pos-1);
+    }
 }
 
 void uCliFrame::OnTextCtrlTextEnter(wxCommandEvent& event)
