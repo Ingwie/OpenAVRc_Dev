@@ -147,13 +147,14 @@ DECL_FLASH_TBL(AtCmdSlaveInit, AtCmdSt_t) = {
 DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
                           /* CmdIdx,  BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
                           {AT_AT,    BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_GET_TIMEOUT_MS},
-                          {AT_RMAAD, BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
+                          //{AT_RMAAD, BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_ROLE,  BT_SET, roleSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_ROLE,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           {AT_NAME,  BT_SET, nameSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_NAME,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           {AT_INQM,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           {AT_INIT,  BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
+                          {AT_RESET, BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           };
 
 /* PUBLIC FUNTIONS */
@@ -180,14 +181,14 @@ void bluetooth_init(HwSerial *hwSerial)
     hwSerial->init(RateTbl[Idx]);
     while(hwSerial->available()) hwSerial->read(); // Flush Rx
     hwSerial->print(F("AT\r\n"));
-    if(waitForResp(RespBuf, sizeof(RespBuf), (char *)"K\r\n", 1, 100))
+    if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"K\r\n", 1, 100)) > -1)
     {
       /* OK Uart serial rate found */
       if(Idx)
       {
         sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0\r\n"), RateTbl[0]);
         hwSerial->print(UartAtCmd);
-        if(waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", 1, 100))
+        if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", 1, 100)) > -1)
         {
           /* Should be OK */
         }
@@ -357,7 +358,7 @@ int8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
   do
   {
     RespBuf[0] = 0;
-    if(waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", 1, TimeoutMs)) // Multi-line reception
+    if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", 1, TimeoutMs)) > -1) // Multi-line reception
     {
       if(!memcmp_P(RespBuf, PSTR("+INQ:"), 5))
       {
@@ -528,7 +529,7 @@ static char *buildMacStr(uint8_t *MacBin, char *MacStr)
     MacStr[RemIdx++] = NibbleDigit;
     if((RemIdx == 4) || (RemIdx == 7)) MacStr[RemIdx++] = ',';
   }
-  MacStr[RemIdx] = 0; // En of String
+  MacStr[RemIdx] = 0; // End of String
 
   return(MacStr);
 }
@@ -538,7 +539,7 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   char     AtCmd[20];
   uint8_t  RxChar, RxIdx = 0;
   uint32_t Start10MsTick, Timeout10msTick;
-  uint8_t  Ret = -1;
+  int8_t  Ret = -1;
 
   while(uCli.stream->available()) uCli.stream->read();
 
@@ -708,7 +709,7 @@ static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, char *TermPatter
     }
   }while(((GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(TimeoutMs)) && (RxLen < 0));
 
-  return(RxLen==-1)? 0 : RxLen;
+  return RxLen;
 }
 
 static void btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb)
