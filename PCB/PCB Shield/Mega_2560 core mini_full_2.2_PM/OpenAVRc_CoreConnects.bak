@@ -6,7 +6,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 7
 Title "Shield Mega2560 core Full"
-Date "2019-09-14"
+Date "2019-09-29"
 Rev "2.2"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -417,10 +417,6 @@ F 3 "" H 8500 5200 50  0000 C CNN
 	1    8500 5200
 	1    0    0    -1  
 $EndComp
-Text Label 8000 5500 1    60   ~ 0
-BT_Rxd1
-Text Label 7900 5500 1    60   ~ 0
-BT_Txd1
 Text Notes 7550 4100 0    60   ~ 0
 Bluetooth HC-05/HM-10
 Text GLabel 1450 2350 0    60   Input ~ 0
@@ -666,7 +662,7 @@ Wire Wire Line
 Wire Wire Line
 	8750 1650 8750 1700
 Wire Wire Line
-	8000 4600 8000 5500
+	8000 4600 8000 5400
 Wire Wire Line
 	8500 5100 8500 5200
 Wire Wire Line
@@ -15546,7 +15542,7 @@ Connection ~ 7900 4650
 Wire Wire Line
 	7900 4650 7900 4600
 Wire Wire Line
-	7900 5000 7900 5500
+	7900 5000 7900 5200
 Text GLabel 2400 3450 2    60   Output ~ 0
 BT_KEY_CMD
 $Comp
@@ -15618,4 +15614,12 @@ Text Notes 8200 4350 1    60   ~ 0
 +5v
 Text Notes 8300 4350 1    60   ~ 0
 Key
+Text GLabel 7450 5200 0    60   Input ~ 0
+BT_Txd1
+Text GLabel 7450 5400 0    60   Output ~ 0
+BT_Rxd1
+Wire Wire Line
+	7450 5200 7900 5200
+Wire Wire Line
+	7450 5400 8000 5400
 $EndSCHEMATC
