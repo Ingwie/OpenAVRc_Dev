@@ -173,46 +173,54 @@ void bluetooth_init(HwSerial *hwSerial)
   char     UartAtCmd[30];
   char     RespBuf[10];
 
-  rebootBT(0); // Do NOT yield prio tasks here, since they are not initialized yet
-
-  bluetooth_AtCmdMode(ON, 0);
-  for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
-  {
-    hwSerial->init(RateTbl[Idx]);
-    while(hwSerial->available()) hwSerial->read(); // Flush Rx
-    hwSerial->print(F("AT\r\n"));
-    if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"K\r\n", 1, 100)) > -1)
+  if (!g_eeGeneral.BT.Power)
     {
-      /* OK Uart serial rate found */
-      if(Idx)
-      {
-        sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0\r\n"), RateTbl[0]);
-        hwSerial->print(UartAtCmd);
-        if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", 1, 100)) > -1)
-        {
-          /* Should be OK */
-        }
-        /* Switch Serial to Rate = 115200 */
-        hwSerial->init(RateTbl[0]);
-        /* BT Reboot is needed */
-        rebootBT(0); // Do NOT yield prio tasks here, since they are not initialized yet
-      }
-      break;
+      bluetooth_power(OFF);
     }
-    else
-    {
-    }
-  }
-  bluetooth_AtCmdMode(OFF);
-  BT_SEND_AT_SEQ(AtCmdBtInit); // Common to Master and Slave
-  if(g_eeGeneral.BT.Master)
-  {
-    BT_SEND_AT_SEQ(AtCmdMasterInit);
-  }
   else
-  {
-    BT_SEND_AT_SEQ(AtCmdSlaveInit);
-  }
+    {
+      rebootBT(0); // Do NOT yield prio tasks here, since they are not initialized yet
+
+      bluetooth_AtCmdMode(ON, 0);
+      for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
+        {
+          hwSerial->init(RateTbl[Idx]);
+          while(hwSerial->available())
+            hwSerial->read(); // Flush Rx
+          hwSerial->print(F("AT\r\n"));
+          if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"K\r\n", 1, 100)) > -1)
+            {
+              /* OK Uart serial rate found */
+              if(Idx)
+                {
+                  sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0\r\n"), RateTbl[0]);
+                  hwSerial->print(UartAtCmd);
+                  if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", 1, 100)) > -1)
+                    {
+                      /* Should be OK */
+                    }
+                  /* Switch Serial to Rate = 115200 */
+                  hwSerial->init(RateTbl[0]);
+                  /* BT Reboot is needed */
+                  rebootBT(0); // Do NOT yield prio tasks here, since they are not initialized yet
+                }
+              break;
+            }
+          else
+            {
+            }
+        }
+      bluetooth_AtCmdMode(OFF);
+      BT_SEND_AT_SEQ(AtCmdBtInit); // Common to Master and Slave
+      if(g_eeGeneral.BT.Master)
+        {
+          BT_SEND_AT_SEQ(AtCmdMasterInit);
+        }
+      else
+        {
+          BT_SEND_AT_SEQ(AtCmdSlaveInit);
+        }
+    }
 }
 
 /**
@@ -232,15 +240,16 @@ void bluetooth_AtCmdMode(uint8_t On, uint8_t Yield /* = 1*/)
 {
   uint32_t StartDurationMs;
 
-  On? BT_KEY_ON() : BT_KEY_OFF();
   if(On)
   {
+    BT_KEY_ON();
     if(Yield)
     {
       YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_AT_WAKE_UP_MS);
     }
     else _delay_ms(BT_AT_WAKE_UP_MS);
   }
+  else BT_KEY_OFF();
 }
 
 /**
@@ -788,7 +797,7 @@ static void nameSet(char* Addon)
   else
   {
     /* Name absent or too short */
-    strcpy_P(Addon, PSTR("HC-05")); // Better than nothing!
+    strcpy_P(Addon, PSTR("HC-05-OAVRC")); // Better than nothing!
   }
   strcat_P(Addon, (g_eeGeneral.BT.Master)? PSTR("_M"): PSTR("_S"));
 }
