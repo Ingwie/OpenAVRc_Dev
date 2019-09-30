@@ -56,7 +56,6 @@ char idx2char(int8_t idx)
   return ' ';
 }
 
-#if defined(SIMU)
 int8_t char2idx(char c)
 {
   if (c == '_') return 37;
@@ -72,7 +71,7 @@ int8_t char2idx(char c)
   return 0;
 }
 
-void str2zchar(char *dest, const char *src, uint8_t size)
+void str2zchar(char *dest, const char *src, uint8_t size) // ASCII to FW
 {
   memset(dest, 0, size);
   for (uint8_t c=0; c<size && src[c]; c++) {
@@ -80,17 +79,16 @@ void str2zchar(char *dest, const char *src, uint8_t size)
   }
 }
 
-uint8_t zchar2str(char *dest, const char *src, uint8_t size)
+uint8_t zchar2str(char *dest, const char *src, uint8_t size) // FW to ASCII
 {
   for (uint8_t c=0; c<size; c++) {
     dest[c] = idx2char(src[c]);
   }
   do {
     dest[size--] = '\0';
-  } while (size >= 0 && dest[size] == ' ');
+  } while ((size) && dest[size] == ' ');
   return size+1;
 }
-#endif
 
 
 #if defined(SDCARD)

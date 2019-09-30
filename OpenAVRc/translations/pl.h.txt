@@ -784,7 +784,7 @@
 #define TR_EEBACKUP            "\012[ENTER Długo] Backup EEPROMu"
 #define TR_FACTORYRESET        "\012[MENU Long]: Ustaw.Fabrycz"
 
-#if defined(X_ANY)
+#if defined(X_ANY) || defined(BLUETOOTH)
   #define TR_X_ANY                        "X ANY"
   #define TR_ACTIVED                      "Active"
   #define TR_NUMBER                       "Number"

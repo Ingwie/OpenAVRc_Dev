@@ -36,6 +36,7 @@
 
 enum menuGeneralBTItems
 {
+  ITEM_BT_ONOFF,
   ITEM_BT_NAME,
   ITEM_BT_ROLE,
   ITEM_BT_PIN,
@@ -56,17 +57,18 @@ enum menuGeneralBTItems
 #define STR_BT_PAIR        PSTR("Pair")
 #define STR_AUTOCON        PSTR("Auto-con.")
 #define STR_RESCANN        PSTR("Re-Scan")
-
+const pm_char STR_BTACTIVE[] PROGMEM = TR_ACTIVED;
 
 
 void menuGeneralBluetooth(uint8_t event)
 {
   MENU(STR_BLUETOOTH, menuTabGeneral, e_Bluetooth, ITEM_BT_END+1, {BT_Tab});
 
-  if (warningResult) {
-    warningResult = false;
-    // Call RE SCANN BT here
-  }
+  if (warningResult)
+    {
+      warningResult = false;
+      // Call RE SCANN BT here
+    }
 
   uint8_t addExt = 0; // used to add _M or _S
   coord_t y = MENU_HEADER_HEIGHT + 1;
@@ -79,10 +81,17 @@ void menuGeneralBluetooth(uint8_t event)
 
       switch(k)
         {
+        case ITEM_BT_ONOFF :
+          ON_OFF_MENU_ITEM(g_eeGeneral.BT.Power, BT_2ND_COLUMN, y, STR_BTACTIVE, attr, event);
+          if ((checkIncDec_Ret) && (!s_editMode) && (g_eeGeneral.BT.Power))
+          {
+            zchar2str(reusableBuffer.modelsel.BTName_str, reusableBuffer.modelsel.BTName_zchar, LEN_BT_NAME);
+            bluetooth_setName(reusableBuffer.modelsel.BTName_str, 100);
+            bluetooth_init(&Serial1);
+          }
+          break;
         case ITEM_BT_NAME :
-          editSingleName(BT_2ND_COLUMN, y, STR_NAME, reusableBuffer.modelsel.BTName, LEN_BT_NAME, event, attr, EE_NO, RANGE_UPPER);
-          //lcdDrawTextLeft(y, STR_NAME);
-          //lcdDrawTextAtt(BT_2ND_COLUMN,y,STR_BT_NAME,attr);
+          editSingleName(BT_2ND_COLUMN, y, STR_NAME, reusableBuffer.modelsel.BTName_zchar, LEN_BT_NAME, event, attr, EE_NO, RANGE_UPPER);
           addExt = 1;
           break;
 
@@ -118,10 +127,10 @@ void menuGeneralBluetooth(uint8_t event)
         }
 
       if (addExt)
-      {
-        lcdDrawTextAtt(lcdLastPos,y,((g_eeGeneral.BT.Master ^ (addExt & 0x1))? STR_BT_SLAVE_EXT : STR_BT_MASTER_EXT),attr);
-        addExt = 0;
-      }
+        {
+          lcdDrawTextAtt(lcdLastPos,y,((g_eeGeneral.BT.Master ^ (addExt & 0x1))? STR_BT_SLAVE_EXT : STR_BT_MASTER_EXT),attr);
+          addExt = 0;
+        }
       y += FH;
     }
 }

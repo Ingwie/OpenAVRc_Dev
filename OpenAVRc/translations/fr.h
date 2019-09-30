@@ -796,7 +796,7 @@
 #define TR_EEBACKUP            "\004[ENTER Long]: Sauvegarder l'EEPROM"
 #define TR_FACTORYRESET        "\016[MENU Long]: RAZ d'usine"
 
-#if defined(X_ANY)
+#if defined(X_ANY) || defined(BLUETOOTH)
   #define TR_X_ANY                        "X ANY"
   #define TR_ACTIVED                      "Actif"
   #define TR_NUMBER                       "Num\200ro"

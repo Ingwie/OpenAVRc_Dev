@@ -150,6 +150,7 @@ void editName(coord_t x, coord_t y, char *name, uint8_t size, uint8_t event, uin
       lcdDrawCharAtt(x+editNameCursorPos*FW, y, idx2char(v), INVERS|FIXEDWIDTH);
     } else {
       cur = 0;
+      checkIncDec_Ret = 0;
     }
     editNameCursorPos = cur;
   }

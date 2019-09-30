@@ -941,8 +941,5 @@ extern  void SimuMainLoop();
 extern  void shutDownSimu();
 extern  void simu_EditModelName();
 extern  void EE_READY_vect();
-extern int8_t char2idx(char c);
-extern void str2zchar(char *dest, const char *src, uint8_t size);
-extern uint8_t zchar2str(char *dest, const char *src, uint8_t size);
 
 #endif
