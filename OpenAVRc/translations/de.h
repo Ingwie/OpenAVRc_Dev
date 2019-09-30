@@ -794,7 +794,7 @@
 #define TR_EEBACKUP            "\002[ENTER Long] Backup EEPROM->SD-Karte"
 #define TR_FACTORYRESET        "\004[MENU Long] ALLES komplett l\203schen"
 
-#if defined(X_ANY)
+#if defined(X_ANY) || defined(BLUETOOTH)
   #define TR_X_ANY                        "X ANY"
   #define TR_ACTIVED                      "Active"
   #define TR_NUMBER                       "Number"

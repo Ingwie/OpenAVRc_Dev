@@ -786,7 +786,7 @@
 #define TR_EEBACKUP            "\004[ENTER Long] to backup the EEPROM"
 #define TR_FACTORYRESET        "\012[MENU Long]: Factory reset"
 
-#if defined(X_ANY)
+#if defined(X_ANY) || defined(BLUETOOTH)
   #define TR_X_ANY                        "X ANY"
   #define TR_ACTIVED                      "Active"
   #define TR_NUMBER                       "Number"

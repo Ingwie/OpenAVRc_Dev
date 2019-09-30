@@ -793,7 +793,7 @@
 #define TR_EEBACKUP            "\012[ENTER Lang] voor een EEPROM backup"
 #define TR_FACTORYRESET        "\012[MENU Lang]: Factory reset"
 
-#if defined(X_ANY)
+#if defined(X_ANY) || defined(BLUETOOTH)
   #define TR_X_ANY                        "X ANY"
   #define TR_ACTIVED                      "Active"
   #define TR_NUMBER                       "Number"

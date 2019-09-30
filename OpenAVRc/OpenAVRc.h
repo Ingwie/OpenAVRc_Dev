@@ -580,6 +580,8 @@ extern struct t_inactivity inactivity;
 
 char hex2zchar(uint8_t hex);
 char idx2char(int8_t idx);
+void str2zchar(char *dest, const char *src, uint8_t size); // ASCII to FW
+uint8_t zchar2str(char *dest, const char *src, uint8_t size); // FW to ASCII
 
 #include "keys.h"
 
@@ -1294,7 +1296,8 @@ union ReusableBuffer {
     char mainname[LEN_MODEL_NAME];
 #endif
 #if defined(BLUETOOTH)
-    char BTName[LEN_BT_NAME];
+    char BTName_zchar[LEN_BT_NAME+1]; // FW format
+    char BTName_str[LEN_BT_NAME+1];   // ASCII format
     char BTMac[6];
 #endif
   } modelsel;

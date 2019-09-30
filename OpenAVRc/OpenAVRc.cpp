@@ -1511,7 +1511,7 @@ void OpenAVRcInit(uint8_t mcusr)
   TinyDbg_init(&Serial0);
 #endif
 #if defined(U_CLI) || defined(TINY_DBG_UART_BT)
-  Serial1.init(9600);
+  Serial1.init(115200);
 #endif
 #if defined(U_CLI)
   uCli_init(&Serial1);

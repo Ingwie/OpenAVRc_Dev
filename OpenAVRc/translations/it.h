@@ -783,7 +783,7 @@
 #define TR_EEBACKUP            "\004[ENTER Lungo] per copiare la EEPROM"
 #define TR_FACTORYRESET        "\012[MENU Lungo]: Inizializza dati"
 
-#if defined(X_ANY)
+#if defined(X_ANY) || defined(BLUETOOTH)
   #define TR_X_ANY                        "X ANY"
   #define TR_ACTIVED                      "Active"
   #define TR_NUMBER                       "Number"
