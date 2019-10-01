@@ -1298,6 +1298,8 @@ union ReusableBuffer {
 #if defined(BLUETOOTH)
     char BTName_zchar[LEN_BT_NAME+1]; // FW format
     char BTName_str[LEN_BT_NAME+1];   // ASCII format
+    char Pin_zchar[5];                // FW format
+    char Pin_str[5];                  // ASCII format
     char BTMac[6];
 #endif
   } modelsel;

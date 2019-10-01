@@ -49,6 +49,9 @@ enum {BT_REBOOT_DATA_MODE = 0, BT_REBOOT_AT_MODE};
 enum {BT_GET = 0, BT_SET, BT_CMD};
 enum {OFF = 0, ON};
 
+DECL_FLASH_STR2(Str_BT_Slave,"_S");
+DECL_FLASH_STR2(Str_BT_Master,"_M");
+
 DECL_FLASH_STR2(Str_CRLF,        "\r\n");
 DECL_FLASH_STR2(Str_OK_CRLF,     "OK\r\n");
 DECL_FLASH_STR2(Str_CRLF_OK_CRLF,"\r\nOK\r\n");
@@ -778,6 +781,11 @@ static void inqmSet(char* Addon)
   strcpy_P(Addon, PSTR("0,4,4"));
 }
 
+void bluetooth_addSuffix(char* Addon)
+{
+  strcat_P(Addon, (g_eeGeneral.BT.Master)? Str_BT_Master: Str_BT_Slave);
+}
+
 static void nameSet(char* Addon)
 {
   char   Name[BT_NAME_STR_LEN + 1];
@@ -799,7 +807,7 @@ static void nameSet(char* Addon)
     /* Name absent or too short */
     strcpy_P(Addon, PSTR("HC-05-OAVRC")); // Better than nothing!
   }
-  strcat_P(Addon, (g_eeGeneral.BT.Master)? PSTR("_M"): PSTR("_S"));
+  bluetooth_addSuffix(Addon);
 }
 
 static int8_t getBtStateIdx(const char *BtState)
