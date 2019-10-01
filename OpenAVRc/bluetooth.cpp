@@ -31,6 +31,7 @@
 */
 
 #include "bluetooth.h"
+#include "OpenAVRc.h"
 
 
 #define PRIO_TASK_LIST()           checkMixer()
@@ -182,9 +183,9 @@ void bluetooth_init(HwSerial *hwSerial)
     }
   else
     {
-      rebootBT(0); // Do NOT yield prio tasks here, since they are not initialized yet
+      rebootBT();
 
-      bluetooth_AtCmdMode(ON, 0);
+      bluetooth_AtCmdMode(ON);
       for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
         {
           hwSerial->init(RateTbl[Idx]);
@@ -205,7 +206,7 @@ void bluetooth_init(HwSerial *hwSerial)
                   /* Switch Serial to Rate = 115200 */
                   hwSerial->init(RateTbl[0]);
                   /* BT Reboot is needed */
-                  rebootBT(0); // Do NOT yield prio tasks here, since they are not initialized yet
+                  rebootBT();
                 }
               break;
             }
@@ -239,7 +240,7 @@ void bluetooth_power(uint8_t On)
   On? BT_POWER_ON() : BT_POWER_OFF();
 }
 
-void bluetooth_AtCmdMode(uint8_t On, uint8_t Yield /* = 1*/)
+void bluetooth_AtCmdMode(uint8_t On, uint8_t Yield /* = 1*/) // TODO use all the time yield
 {
   uint32_t StartDurationMs;
 
@@ -451,7 +452,7 @@ int8_t bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs)
  * \param  Yield: 0 -> blocking delay, 1 -> Yield to prio task list (default value)
  * \return Void.
  */
-static void rebootBT(uint8_t Yield /* = 1 */)
+static void rebootBT(uint8_t Yield /* = 1 */) // TODO use all the time yield
 {
   uint32_t StartDurationMs;
 

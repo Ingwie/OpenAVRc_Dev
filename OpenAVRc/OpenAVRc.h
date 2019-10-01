@@ -415,6 +415,7 @@ static uint16_t DurationValue;
                                                     do{\
                                                       do{\
                                                         TaskList;\
+                                                        MYWDT_RESET();\
                                                       }while(SIMU_UNLOCK_MACRO_FALSE((GET_10MS_TICK() - StartDurationMsVar) < MS_TO_10MS_TICK(DurationMs)));\
                                                     }while(0)
 
@@ -1300,7 +1301,7 @@ union ReusableBuffer {
     char BTName_str[LEN_BT_NAME+1];   // ASCII format
     char Pin_zchar[5];                // FW format
     char Pin_str[5];                  // ASCII format
-    char BTMac[6];
+    BtScannSt_t Scann;
 #endif
   } modelsel;
 
