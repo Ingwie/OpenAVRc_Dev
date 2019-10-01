@@ -65,6 +65,7 @@ void menuGeneralBluetooth(uint8_t event)
   if (warningResult)
     {
       warningResult = false;
+      bluetooth_scann(&reusableBuffer.modelsel.Scann, 20000);
       // Call RE SCANN BT here
     }
 
@@ -81,14 +82,14 @@ void menuGeneralBluetooth(uint8_t event)
         {
         case ITEM_BT_ONOFF :
           ON_OFF_MENU_ITEM(g_eeGeneral.BT.Power, BT_2ND_COLUMN, y, STR_BTACTIVE, attr, event);
-          if ((checkIncDec_Ret) && (!s_editMode) && (g_eeGeneral.BT.Power))
+          if ((checkIncDec_Ret) && (!s_editMode))
           {
+            bluetooth_init(&Serial1);
             zchar2str(reusableBuffer.modelsel.BTName_str, reusableBuffer.modelsel.BTName_zchar, LEN_BT_NAME);
             bluetooth_addSuffix(reusableBuffer.modelsel.BTName_str);
-            bluetooth_setName(reusableBuffer.modelsel.BTName_str, 100);
-            zchar2str(reusableBuffer.modelsel.Pin_str, reusableBuffer.modelsel.Pin_zchar, 5);
-            bluetooth_setPswd(reusableBuffer.modelsel.Pin_str, 100);
-            bluetooth_init(&Serial1);
+            bluetooth_setName(reusableBuffer.modelsel.BTName_str, 50);
+            zchar2str(reusableBuffer.modelsel.Pin_str, reusableBuffer.modelsel.Pin_zchar, 4);
+            bluetooth_setPswd(reusableBuffer.modelsel.Pin_str, 50);
           }
           break;
         case ITEM_BT_NAME :

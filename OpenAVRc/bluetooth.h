@@ -35,10 +35,10 @@
 
 #include "HwSerial.h"
 #include "uCli.h"
-#include "OpenAVRc.h"
+#include "misclib.h"
 
-extern const pm_char Str_BT_Slave[];
-extern const pm_char Str_BT_Master[];
+extern const char Str_BT_Slave[];
+extern const char Str_BT_Master[];
 
 /* Code returned by bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeout) */
 enum {BT_UNKNOWN = - 1, BT_INITIALIZED = 0, BT_READY, BT_PAIRABLE, BT_PAIRED, BT_INQUIRING, BT_CONNECTING, BT_CONNECTED, BT_DISCONNECTED};
