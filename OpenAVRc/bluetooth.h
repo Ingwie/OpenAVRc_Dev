@@ -37,6 +37,8 @@
 #include "uCli.h"
 #include "OpenAVRc.h"
 
+extern const pm_char Str_BT_Slave[];
+extern const pm_char Str_BT_Master[];
 
 /* Code returned by bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeout) */
 enum {BT_UNKNOWN = - 1, BT_INITIALIZED = 0, BT_READY, BT_PAIRABLE, BT_PAIRED, BT_INQUIRING, BT_CONNECTING, BT_CONNECTED, BT_DISCONNECTED};
@@ -65,5 +67,6 @@ int8_t bluetooth_setPswd(char *BtPswd,  uint16_t TimeoutMs);
 int8_t bluetooth_getRemoteName(uint8_t *RemoteMacBin, char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs);
 int8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs);
 int8_t bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs);
+void bluetooth_addSuffix(char* Addon);
 
 #endif // BLUETOOTH_H

@@ -49,8 +49,6 @@ enum menuGeneralBTItems
 #define BT_2ND_COLUMN 10*FW
 
 #define STR_BLUETOOTH      PSTR("Bluetooth")
-#define STR_BT_SLAVE_EXT   PSTR("_S")
-#define STR_BT_MASTER_EXT  PSTR("_M")
 #define STR_BT_ROLE        PSTR("Role")
 #define STR_BT_PIN         PSTR("Pin")
 #define STR_BT_M_S         PSTR("\006""Slave\0""Master")
@@ -86,7 +84,10 @@ void menuGeneralBluetooth(uint8_t event)
           if ((checkIncDec_Ret) && (!s_editMode) && (g_eeGeneral.BT.Power))
           {
             zchar2str(reusableBuffer.modelsel.BTName_str, reusableBuffer.modelsel.BTName_zchar, LEN_BT_NAME);
+            bluetooth_addSuffix(reusableBuffer.modelsel.BTName_str);
             bluetooth_setName(reusableBuffer.modelsel.BTName_str, 100);
+            zchar2str(reusableBuffer.modelsel.Pin_str, reusableBuffer.modelsel.Pin_zchar, 5);
+            bluetooth_setPswd(reusableBuffer.modelsel.Pin_str, 100);
             bluetooth_init(&Serial1);
           }
           break;
@@ -103,7 +104,7 @@ void menuGeneralBluetooth(uint8_t event)
           break;
 
         case ITEM_BT_PIN :
-          editSingleName(BT_2ND_COLUMN, y, STR_BT_PIN, g_eeGeneral.BT.Pin, 4, event, attr, EE_GENERAL, RANGE_NUMBER);
+          editSingleName(BT_2ND_COLUMN, y, STR_BT_PIN, reusableBuffer.modelsel.Pin_zchar, 4, event, attr, EE_GENERAL, RANGE_NUMBER);
           break;
 
         case ITEM_BT_PEER :
@@ -128,7 +129,7 @@ void menuGeneralBluetooth(uint8_t event)
 
       if (addExt)
         {
-          lcdDrawTextAtt(lcdLastPos,y,((g_eeGeneral.BT.Master ^ (addExt & 0x1))? STR_BT_SLAVE_EXT : STR_BT_MASTER_EXT),attr);
+          lcdDrawTextAtt(lcdLastPos,y,((g_eeGeneral.BT.Master ^ (addExt & 0x1))? Str_BT_Slave : Str_BT_Master),attr);
           addExt = 0;
         }
       y += FH;
