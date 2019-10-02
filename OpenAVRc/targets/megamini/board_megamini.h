@@ -122,7 +122,7 @@ void readKeysAndTrims();
 #define BT_POWER_ON()             (PORTG |=  OUT_G_BT_ONOFF)
 #define BT_POWER_OFF()            (PORTG &= ~OUT_G_BT_ONOFF)
 #else
-#define BT_PO WER_ON()             (PORTG &= ~OUT_G_BT_ONOFF)
+#define BT_POWER_ON()             (PORTG &= ~OUT_G_BT_ONOFF)
 #define BT_POWER_OFF()            (PORTG |=  OUT_G_BT_ONOFF)
 #endif
 // Servitudes driver
