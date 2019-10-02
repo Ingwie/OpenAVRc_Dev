@@ -65,7 +65,7 @@ void menuGeneralBluetooth(uint8_t event)
   if (warningResult)
     {
       warningResult = false;
-      bluetooth_scann(&reusableBuffer.modelsel.Scann, 20000);
+      bluetooth_scann(&reusableBuffer.bluetooth.Scann, 20000);
       // Call RE SCANN BT here
     }
 
@@ -85,15 +85,15 @@ void menuGeneralBluetooth(uint8_t event)
           if ((checkIncDec_Ret) && (!s_editMode))
           {
             bluetooth_init(&Serial1);
-            zchar2str(reusableBuffer.modelsel.BTName_str, reusableBuffer.modelsel.BTName_zchar, LEN_BT_NAME);
-            bluetooth_addSuffix(reusableBuffer.modelsel.BTName_str);
-            bluetooth_setName(reusableBuffer.modelsel.BTName_str, 50);
-            zchar2str(reusableBuffer.modelsel.Pin_str, reusableBuffer.modelsel.Pin_zchar, 4);
-            bluetooth_setPswd(reusableBuffer.modelsel.Pin_str, 50);
+            zchar2str(reusableBuffer.bluetooth.BTName_str, reusableBuffer.bluetooth.BTName_zchar, LEN_BT_NAME);
+            bluetooth_addSuffix(reusableBuffer.bluetooth.BTName_str);
+            bluetooth_setName(reusableBuffer.bluetooth.BTName_str, 50);
+            zchar2str(reusableBuffer.bluetooth.Pin_str, reusableBuffer.bluetooth.Pin_zchar, 4);
+            bluetooth_setPswd(reusableBuffer.bluetooth.Pin_str, 50);
           }
           break;
         case ITEM_BT_NAME :
-          editSingleName(BT_2ND_COLUMN, y, STR_NAME, reusableBuffer.modelsel.BTName_zchar, LEN_BT_NAME, event, attr, EE_NO, RANGE_UPPER);
+          editSingleName(BT_2ND_COLUMN, y, STR_NAME, reusableBuffer.bluetooth.BTName_zchar, LEN_BT_NAME, event, attr, EE_NO, RANGE_UPPER);
           addExt = 1;
           break;
 
@@ -105,7 +105,7 @@ void menuGeneralBluetooth(uint8_t event)
           break;
 
         case ITEM_BT_PIN :
-          editSingleName(BT_2ND_COLUMN, y, STR_BT_PIN, reusableBuffer.modelsel.Pin_zchar, 4, event, attr, EE_GENERAL, RANGE_NUMBER);
+          editSingleName(BT_2ND_COLUMN, y, STR_BT_PIN, reusableBuffer.bluetooth.Pin_zchar, 4, event, attr, EE_GENERAL, RANGE_NUMBER);
           break;
 
         case ITEM_BT_PEER :

@@ -1296,14 +1296,17 @@ union ReusableBuffer {
 #else
     char mainname[LEN_MODEL_NAME];
 #endif
+  } modelsel;
+
 #if defined(BLUETOOTH)
+  struct {
     char BTName_zchar[LEN_BT_NAME+1]; // FW format
     char BTName_str[LEN_BT_NAME+1];   // ASCII format
     char Pin_zchar[5];                // FW format
     char Pin_str[5];                  // ASCII format
     BtScannSt_t Scann;
+  } bluetooth;
 #endif
-  } modelsel;
 
   // 43 bytes
   struct {
