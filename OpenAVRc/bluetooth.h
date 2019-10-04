@@ -37,8 +37,18 @@
 #include "uCli.h"
 #include "misclib.h"
 
+#define BT_POWER_ON_OFF_MS         50
+#define BT_WAKE_UP_MS              600
+#define BT_AT_WAKE_UP_MS           50
+#define BT_GET_TIMEOUT_MS          60
+#define BT_SET_TIMEOUT_MS          100
+#define BT_SCANN_TIMEOUT_MS        20000
+#define BT_READ_RNAME_TIMEOUT_MS   10000
+
 extern const char Str_BT_Slave[];
 extern const char Str_BT_Master[];
+
+enum {OFF = 0, ON};
 
 /* Code returned by bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeout) */
 enum {BT_UNKNOWN = - 1, BT_INITIALIZED = 0, BT_READY, BT_PAIRABLE, BT_PAIRED, BT_INQUIRING, BT_CONNECTING, BT_CONNECTED, BT_DISCONNECTED};
@@ -67,6 +77,6 @@ int8_t bluetooth_setPswd(char *BtPswd,  uint16_t TimeoutMs);
 int8_t bluetooth_getRemoteName(uint8_t *RemoteMacBin, char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs);
 int8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs);
 int8_t bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs);
-void bluetooth_addSuffix(char* Addon);
+void   bluetooth_addSuffix(char* Addon);
 
 #endif // BLUETOOTH_H
