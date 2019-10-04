@@ -49,6 +49,12 @@ void popMenu()
 
 void chainMenu(MenuHandlerFunc newMenu)
 {
+#if defined(BLUETOOTH)
+  if (newMenu == menuGeneralBluetooth)
+  {
+    (memclear(&reusableBuffer, sizeof(reusableBuffer)));
+  }
+#endif
   menuHandlers[menuLevel] = newMenu;
   menuEvent = EVT_ENTRY;
 }
