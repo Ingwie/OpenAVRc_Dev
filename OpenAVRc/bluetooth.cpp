@@ -38,17 +38,8 @@
 
 #define BT_SEND_AT_SEQ(AtCmdInit)  btSendAtSeq((const AtCmdSt_t*)&AtCmdInit, TBL_ITEM_NB(AtCmdInit))
 
-#define BT_POWER_ON_OFF_MS         50
-#define BT_WAKE_UP_MS              600
-#define BT_AT_WAKE_UP_MS           50
-#define BT_GET_TIMEOUT_MS          60
-#define BT_SET_TIMEOUT_MS          100
-#define BT_SCANN_TIMEOUT_MS        20000
-#define BT_READ_RNAME_TIMEOUT_MS   10000
-
 enum {BT_REBOOT_DATA_MODE = 0, BT_REBOOT_AT_MODE};
 enum {BT_GET = 0, BT_SET, BT_CMD};
-enum {OFF = 0, ON};
 
 DECL_FLASH_STR2(Str_BT_Slave,"_S");
 DECL_FLASH_STR2(Str_BT_Master,"_M");
@@ -144,7 +135,7 @@ DECL_FLASH_TBL(AtCmdSlaveInit, AtCmdSt_t) = {
                           {AT_AT,    BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_GET_TIMEOUT_MS},
                           {AT_ROLE,  BT_SET, roleSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_ROLE,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
-                          {AT_NAME,  BT_SET, nameSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
+                          //{AT_NAME,  BT_SET, nameSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_NAME,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           };
 
@@ -154,11 +145,11 @@ DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
                           //{AT_RMAAD, BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_ROLE,  BT_SET, roleSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_ROLE,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
-                          {AT_NAME,  BT_SET, nameSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
+                          //{AT_NAME,  BT_SET, nameSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_NAME,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           {AT_INQM,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           {AT_INIT,  BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
-                          {AT_RESET, BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
+                          //{AT_RESET, BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           };
 
 /* PUBLIC FUNTIONS */
