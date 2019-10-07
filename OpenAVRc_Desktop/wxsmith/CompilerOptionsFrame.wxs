@@ -569,6 +569,7 @@
 							<label>XMODEM</label>
 							<pos>670,56</pos>
 							<tooltip>Transfert de données</tooltip>
+							<handler function="OnCheckBoxXMODEMClick" entry="EVT_CHECKBOX" />
 						</object>
 					</object>
 					<label>Options avancées</label>
