@@ -548,6 +548,7 @@ private:
     void OnComboBoxEncodeurASelected(wxCommandEvent& event);
     void OnComboBoxEncodeurBSelected(wxCommandEvent& event);
     void OnCheckBoxSD_CARDClick(wxCommandEvent& event);
+    void OnCheckBoxXMODEMClick(wxCommandEvent& event);
     //*)
 
     DECLARE_EVENT_TABLE()
