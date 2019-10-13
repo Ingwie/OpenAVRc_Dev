@@ -311,7 +311,18 @@ int8_t bluetooth_setName(char *BtName, uint16_t TimeoutMs)
  */
 int8_t bluetooth_getPswd(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs)
 {
-  return(sendAtCmdAndWaitForResp(AT_PSWD, BT_GET, NULL, RespBuf, RespBufMaxLen, 4, 5, (char *)"OK\r\n", TimeoutMs));
+  int8_t Ret;
+
+  Ret = sendAtCmdAndWaitForResp(AT_PSWD, BT_GET, NULL, RespBuf, RespBufMaxLen, 0, 5, (char *)"OK\r\n", TimeoutMs);
+  if(Ret > 0)
+  {
+    if(RespBuf[Ret - 1] == '"')
+    {
+      RespBuf[Ret - 1] = 0; // Replace last double quote by end of string
+      Ret--;
+    }
+  }
+  return(Ret);
 }
 
 /**
@@ -326,8 +337,11 @@ int8_t bluetooth_getPswd(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutM
 int8_t bluetooth_setPswd(char *BtPswd, uint16_t TimeoutMs)
 {
   char RespBuf[10];
+  char CmdBtPswd[20];
 
-  return(sendAtCmdAndWaitForResp(AT_PSWD, BT_SET, BtPswd, RespBuf, sizeof(RespBuf), 4, 5, (char *)"OK\r\n", TimeoutMs));
+  snprintf(CmdBtPswd, 20, "\"%s\"", BtPswd); // Add double quotes
+
+  return(sendAtCmdAndWaitForResp(AT_PSWD, BT_SET, CmdBtPswd, RespBuf, sizeof(RespBuf), 0, 0, (char *)"OK\r\n", TimeoutMs));
 }
 
 /**
