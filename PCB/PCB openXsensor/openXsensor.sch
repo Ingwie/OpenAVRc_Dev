@@ -6,7 +6,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "2019-10-07"
+Date "2019-10-12"
 Rev ""
 Comp ""
 Comment1 ""
@@ -122,8 +122,6 @@ Wire Wire Line
 Wire Wire Line
 	5450 2600 5450 3500
 Wire Wire Line
-	5200 2400 5550 2400
-Wire Wire Line
 	5200 3000 5550 3000
 Wire Wire Line
 	5550 3100 5200 3100
@@ -180,7 +178,7 @@ L Connector_Generic:Conn_01x04 P5
 U 1 1 5D73CF47
 P 2850 800
 F 0 "P5" H 2850 1000 50  0000 C CNN
-F 1 "GPS" H 3000 750 50  0000 C CNN
+F 1 "GPS" H 3100 750 50  0000 C CNN
 F 2 "Pin_Header_Straight_1x04_Pitch2.54mm" H 2850 800 50  0001 C CNN
 F 3 "~" H 2850 800 50  0001 C CNN
 	1    2850 800 
@@ -255,22 +253,18 @@ $EndComp
 Wire Wire Line
 	4900 3100 4600 3100
 Wire Wire Line
-	4600 3100 4600 800 
+	4600 3100 4600 900 
 Wire Wire Line
-	4600 800  3050 800 
-Wire Wire Line
-	4500 2300 5550 2300
-Wire Wire Line
-	3050 1000 3150 1000
+	3050 700  3150 700 
 $Comp
 L power:GND #PWR0101
 U 1 1 5D744512
-P 3150 1000
-F 0 "#PWR0101" H 3150 750 50  0001 C CNN
-F 1 "GND" V 3150 800 50  0000 C CNN
-F 2 "" H 3150 1000 50  0000 C CNN
-F 3 "" H 3150 1000 50  0000 C CNN
-	1    3150 1000
+P 3150 700
+F 0 "#PWR0101" H 3150 450 50  0001 C CNN
+F 1 "GND" V 3150 500 50  0000 C CNN
+F 2 "" H 3150 700 50  0000 C CNN
+F 3 "" H 3150 700 50  0000 C CNN
+	1    3150 700 
 	0    -1   -1   0   
 $EndComp
 $Comp
@@ -287,12 +281,12 @@ $EndComp
 $Comp
 L power:VCC #PWR0104
 U 1 1 5D746203
-P 3150 900
-F 0 "#PWR0104" H 3150 750 50  0001 C CNN
-F 1 "VCC" V 3150 1100 50  0000 C CNN
-F 2 "" H 3150 900 50  0000 C CNN
-F 3 "" H 3150 900 50  0000 C CNN
-	1    3150 900 
+P 3150 1000
+F 0 "#PWR0104" H 3150 850 50  0001 C CNN
+F 1 "VCC" V 3150 1200 50  0000 C CNN
+F 2 "" H 3150 1000 50  0000 C CNN
+F 3 "" H 3150 1000 50  0000 C CNN
+	1    3150 1000
 	0    1    1    0   
 $EndComp
 Wire Wire Line
@@ -509,9 +503,7 @@ Wire Wire Line
 Wire Wire Line
 	3050 2800 3150 2800
 Wire Wire Line
-	3150 900  3050 900 
-Wire Wire Line
-	4500 700  3050 700 
+	3150 1000 3050 1000
 $Comp
 L Connector_Generic:Conn_01x04 P18
 U 1 1 5D879E98
@@ -889,8 +881,6 @@ F 3 "~" H 3700 6950 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	4400 1500 4400 2900
-Wire Wire Line
-	4500 700  4500 2300
 $Comp
 L Device:R R14
 U 1 1 5D9D8E44
@@ -966,4 +956,20 @@ Wire Wire Line
 Connection ~ 3100 5300
 Wire Wire Line
 	3100 5300 3050 5300
+Text Notes 2250 5800 0    50   ~ 0
+Adresse=0x48
+Text Notes 2700 950  0    50   ~ 0
+Rx
+Text Notes 2700 850  0    50   ~ 0
+Tx
+Wire Wire Line
+	5550 2300 5200 2300
+Wire Wire Line
+	4500 2400 5550 2400
+Wire Wire Line
+	4500 800  3050 800 
+Wire Wire Line
+	4500 800  4500 2400
+Wire Wire Line
+	3050 900  4600 900 
 $EndSCHEMATC
