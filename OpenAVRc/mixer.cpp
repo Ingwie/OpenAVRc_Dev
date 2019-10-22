@@ -719,8 +719,6 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
   mixWarning = lv_mixWarning;
 }
 
-int32_t sum_chans512[NUM_CHNOUT] = {0};
-
 #define MAX_ACT 0xffff
 uint8_t lastFlightMode = 255; // TODO reinit everything here when the model changes, no???
 
@@ -729,6 +727,7 @@ void evalMixes(uint8_t tick10ms)
   static uint16_t fp_act[MAX_FLIGHT_MODES] = {0};
   static uint16_t delta = 0;
   static uint8_t flightModesFade = 0;
+  int32_t sum_chans512[NUM_CHNOUT];
 
   LS_RECURSIVE_EVALUATION_RESET();
 
