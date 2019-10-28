@@ -94,7 +94,7 @@ void SdBufferClear();
 
 #define OAVRC_FOURCC 0x16180339 // OAVRC ID
 
-extern bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, const char *selection, uint8_t flags);
+extern uint8_t listSdFiles(const char *path, const char *extension, const uint8_t maxlen, const char *selection, uint8_t flags);
 
 const char *fileCopy(const char *filename, const char *srcDir, const char *destDir);
 

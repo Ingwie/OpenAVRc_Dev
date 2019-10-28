@@ -140,7 +140,7 @@ uint8_t sdDeleteFile(const char* name)
   return (sdFindFileStruct(name) && fat_delete_file(SD_filesystem, &SD_dir_entry));
 }
 
-bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, const char *selection, uint8_t flags=0)
+uint8_t listSdFiles(const char *path, const char *extension, const uint8_t maxlen, const char *selection, uint8_t flags=0)
 {
 
   static uint16_t lastpopupMenuOffset = 0;
@@ -190,7 +190,7 @@ bool listSdFiles(const char *path, const char *extension, const uint8_t maxlen, 
             {
               char *line = reusableBuffer.modelsel.menu_bss[0];
               memset(line, 0, MENU_LINE_LENGTH);
-              strcpy(line, "---");
+              strcpy_P(line, PSTR("---"));
               popupMenuItems[0] = line;
             }
         }
