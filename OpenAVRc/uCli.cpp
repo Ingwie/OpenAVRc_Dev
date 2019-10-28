@@ -242,9 +242,33 @@ static int8_t uCli_Cmd_help(const char ** argv, uint8_t argc)
 
 static int8_t uCli_Cmd_ls(const char ** argv, uint8_t argc)
 {
-  argv = argv;
-  argc = argc;
-  uCli.stream->println(F("ls"));
+    // we must close the logs as we reuse the same SDfile structure
+  closeLogIfActived();
+  uCli.stream->println(F("ls:"));
+  if (argc > 1)
+    {
+      if (sdChangeCurDir(argv[1]))
+        {
+          while(fat_read_dir(SD_dir, &SD_dir_entry))
+            {
+              if (SD_dir_entry.long_name[0] != '.') // Ignore "." && ".."
+                {
+                  if (SD_dir_entry.attributes & FAT_ATTRIB_DIR)
+                    {
+                      // this is a DIR
+                      uCli.stream->print('[');
+                      uCli.stream->print(SD_dir_entry.long_name);
+                      uCli.stream->println(']');
+                    }
+                  else
+                    {
+                      // this is a file
+                      uCli.stream->println(SD_dir_entry.long_name);
+                    }
+                }
+            }
+        }
+    }
 
   return(0);
 }
