@@ -70,26 +70,7 @@ uCliFrame::~uCliFrame()
 	//*)
 }
 
-
-void uCliFrame::OnClose(wxCloseEvent& event)
-{
-  OpenAVRc_SimulatorFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_SimulatorFrame);
-  if(parent)
-    parent->EnableuCliMenu();
-  Destroy();
-}
-
-void uCliFrame::HwSerialByte(uint8_t c)
-{
-  if (c != '\r')
-    {
-      TextCtrl->WriteText((char)c);
-      int pos = TextCtrl->GetNumberOfLines();
-      LastPrompt = TextCtrl->GetLineText(pos-1);
-    }
-}
-
-void uCliFrame::OnTextCtrlTextEnter(wxCommandEvent& event)
+void uCliFrame::SendToHwSerial()
 {
   int pos = TextCtrl->GetNumberOfLines();
   wxString txt = TextCtrl->GetLineText(pos-1);
@@ -103,8 +84,92 @@ void uCliFrame::OnTextCtrlTextEnter(wxCommandEvent& event)
     Serial1._rx_complete_irq();
   }
 
+  simu_udr1 = '\r';
+  Serial1._rx_complete_irq();
   simu_udr1 = '\n';
   Serial1._rx_complete_irq();
 
   TextCtrl->AppendText("\n");
+}
+
+void uCliFrame::OnClose(wxCloseEvent& event)
+{
+  OpenAVRc_SimulatorFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_SimulatorFrame);
+  if(parent)
+    parent->EnableuCliMenu();
+  Destroy();
+}
+
+void uCliFrame::HwSerialByte(uint8_t c)
+{
+#define SEND()\
+    SendToHwSerial();\
+    TextCtrl->WriteText("OK");\
+    SendToHwSerial()\
+
+  wxColor color;
+  if (simu_portb & OUT_B_BT_KEY)
+    {
+      color = *wxBLUE;  // Bluetooth dialog
+    }
+  else
+    {
+      color = *wxBLACK;
+    }
+  TextCtrl->SetForegroundColour(color);
+
+  if (c != '\r')
+    {
+      TextCtrl->WriteText((char)c);
+      LastPrompt = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-1);
+    }
+  if ((c == '\n') && (simu_portb & OUT_B_BT_KEY) && (simu_portg & OUT_G_BT_ONOFF)) // Virtuel BT module ON and AT mode actived
+    {
+      wxString cmd = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
+
+      if ((cmd == "AT") || (cmd == "AT+UART=115200,0,0") || (cmd == "AT+CLASS=0") || (cmd == "AT+INQM=0,4,4"))
+        {
+          TextCtrl->WriteText("OK");
+          SendToHwSerial();
+        }
+      else if (cmd == "AT+NAME?")
+        {
+          TextCtrl->WriteText("+NAME:TOtoTAta");
+          SEND();
+        }
+      else if (cmd == "AT+PSWD?")
+        {
+          TextCtrl->WriteText("+PIN:\"1234\"");
+          SEND();
+        }
+      else if (cmd == "AT+RNAME?0000,00,000000")
+        {
+          TextCtrl->WriteText("+RNAME:RC-NAVY");
+          SEND();
+        }
+      else if (cmd == "AT+RNAME?1111,11,111111")
+        {
+          TextCtrl->WriteText("+RNAME:INGWIE");
+          SEND();
+        }
+      else if (cmd == "AT+RNAME?2222,22,222222")
+        {
+          TextCtrl->WriteText("+RNAME:PIERROTM");
+          SEND();
+        }
+      else if (cmd == "AT+INQ")
+        {
+          TextCtrl->WriteText("+INQ:0000,00,000000");
+          SendToHwSerial();
+          TextCtrl->WriteText("+INQ:1111,11,111111");
+          SendToHwSerial();
+          TextCtrl->WriteText("+INQ:2222,22,222222");
+          SEND();
+        }
+    }
+}
+
+void uCliFrame::OnTextCtrlTextEnter(wxCommandEvent& event)
+{
+  SendToHwSerial();
 }

@@ -51,6 +51,7 @@ class uCliFrame: public wxFrame
 		virtual ~uCliFrame();
 
 		void HwSerialByte(uint8_t c);
+		void SendToHwSerial();
 		wxString LastPrompt;
 
 		//(*Declarations(uCliFrame)
