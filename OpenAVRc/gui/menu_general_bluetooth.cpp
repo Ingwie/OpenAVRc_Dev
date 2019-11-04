@@ -56,8 +56,7 @@ enum menuGeneralBTItems
 #define STR_AUTOCON        PSTR("Auto-con.")
 #define STR_RESCANN        PSTR("Re-Scan")
 
-#define IF_NO_ERROR(x) if ((x) |1)
-//> (-1))
+#define IF_NO_ERROR(x) if ((x) > (-1))
 
 const pm_char STR_BTACTIVE[] PROGMEM = TR_ACTIVED;
 
