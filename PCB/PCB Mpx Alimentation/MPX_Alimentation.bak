@@ -173,7 +173,9 @@ Wire Wire Line
 	6650 3600 6650 4400
 Connection ~ 6450 4250
 Wire Wire Line
-	3550 2750 3550 4400
+	3550 2750 3550 4250
+Wire Wire Line
+	3550 4250 3550 4400
 Connection ~ 3550 4250
 Wire Wire Line
 	6200 1500 6200 2000
@@ -183,7 +185,9 @@ Wire Wire Line
 	6200 4250 6200 3150
 Connection ~ 6200 4250
 Wire Wire Line
-	6750 3300 6750 4400
+	6750 3300 6750 3600
+Wire Wire Line
+	6750 3600 6750 4400
 Wire Wire Line
 	3750 4400 3750 3900
 Wire Wire Line
@@ -226,14 +230,18 @@ Connection ~ 4750 1900
 Wire Wire Line
 	4850 3050 4850 3150
 Wire Wire Line
-	4850 3150 5350 3150
+	4850 3150 5100 3150
+Wire Wire Line
+	5100 3150 5350 3150
 Wire Wire Line
 	5350 3150 5350 3050
 Wire Wire Line
 	5100 3900 5100 3150
 Connection ~ 5100 3150
 Wire Wire Line
-	4050 1900 5250 1900
+	4050 1900 4750 1900
+Wire Wire Line
+	4750 1900 5250 1900
 $Comp
 L CONN_1 A1
 U 1 1 5A2E919F
@@ -279,9 +287,17 @@ VCC_2
 Wire Wire Line
 	3100 2650 3100 1500
 Wire Wire Line
-	3100 1500 5600 1500
+	3100 1500 4950 1500
 Wire Wire Line
-	6100 1500 8300 1500
+	4950 1500 5450 1500
+Wire Wire Line
+	5450 1500 5600 1500
+Wire Wire Line
+	6100 1500 6200 1500
+Wire Wire Line
+	6200 1500 6550 1500
+Wire Wire Line
+	6550 1500 8300 1500
 Wire Wire Line
 	3000 2550 3000 1900
 Wire Wire Line
@@ -293,7 +309,11 @@ VP_Em_Eleve
 Wire Wire Line
 	3550 2750 2200 2750
 Wire Wire Line
-	3550 4250 8200 4250
+	3550 4250 6200 4250
+Wire Wire Line
+	6200 4250 6450 4250
+Wire Wire Line
+	6450 4250 8200 4250
 Text Label 2300 2750 0    60   ~ 0
 0V
 Wire Wire Line
