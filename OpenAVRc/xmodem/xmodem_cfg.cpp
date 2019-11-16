@@ -35,7 +35,6 @@
 
 /* OpenAVRc environment */
 #include "../OpenAVRc.h"
-#include "../sdcard.h"
 
 #define FILE_DESC                          struct fat_file_struct*
 #define FILE_EXISTS(FullFileName)          sdFileExists((char *)FullFileName)
