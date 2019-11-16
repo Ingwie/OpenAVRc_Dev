@@ -44,17 +44,13 @@
   #include "sd_raw_config.h"
 #endif
 
-#if defined(SIMU)
-#define ROOT_PATH           "\\"
-#define MODELS_PATH         "MODELS"      // no trailing slash = important
-#define LOGS_PATH           "LOGS"
-#define VOICETXT_PATH       "VOICE"
-#define sdMounted()         (1)
-#else
 #define ROOT_PATH           "/"
 #define MODELS_PATH         "MODELS"      // no trailing slash = important
 #define LOGS_PATH           "LOGS"
 #define VOICETXT_PATH       "VOICE"
+#if defined(SIMU)
+#define sdMounted()         (1)
+#else
 #define sdMounted()         (SD_filesystem)
 #endif
 
