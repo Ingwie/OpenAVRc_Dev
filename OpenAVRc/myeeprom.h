@@ -98,15 +98,6 @@
 #define BS         16
 #endif
 
-
-
-/*#define LEN_BT_NAME 8
-#define BLUETOOTH_FIELDS          \
-uint8_t BTParams;                 \
-char    BTPin[4];                 \
-char    BTPairName[LEN_BT_NAME];  \
-char    BTMac[6];  */               /* To do : Check what we keep it in eeprom */
-
 /* BluetoothEepSt_t structure length SHALL be (1 + 4 + 8 + 6) = 19 bytes to keep compatibility */
 #define LEN_BT_NAME 8
 typedef struct{
