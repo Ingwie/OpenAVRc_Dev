@@ -56,7 +56,7 @@ enum menuGeneralBTItems
 #define STR_AUTOCON        PSTR("Auto-con.")
 #define STR_RESCANN        PSTR("Re-Scan")
 
-#define IF_NO_ERROR(x) if ((x) > (-1))
+#define IF_NO_ERROR(x) if ((x) >= (0))
 
 const pm_char STR_BTACTIVE[] PROGMEM = TR_ACTIVED;
 
@@ -87,12 +87,12 @@ void loadDataFromModule()
 
 void writeDataToModule()
 {
-  bluetooth_MS_init();
+//  bluetooth_MS_init();
   zchar2str(reusableBuffer.bluetooth.name_str, reusableBuffer.bluetooth.name_zchar, strlen(reusableBuffer.bluetooth.name_zchar));
   bluetooth_AtCmdMode(ON);
   //bluetooth_addSuffix(reusableBuffer.bluetooth.name_str);
   //bluetooth_setName(reusableBuffer.bluetooth.name_str, BT_SET_TIMEOUT_MS);
-  bluetooth_nameSet(reusableBuffer.bluetooth.name_zchar);
+//  bluetooth_nameSet(reusableBuffer.bluetooth.name_zchar);
   zchar2str(reusableBuffer.bluetooth.pin_str, reusableBuffer.bluetooth.pin_zchar, 4);
   bluetooth_setPswd(reusableBuffer.bluetooth.pin_str, BT_SET_TIMEOUT_MS);
   bluetooth_AtCmdMode(OFF);
@@ -126,7 +126,7 @@ void menuGeneralBluetooth(uint8_t event)
   if (warningResult)
     {
       warningResult = false;
-      IF_NO_ERROR(bluetooth_scann(&reusableBuffer.bluetooth.scann, 2 /*BT_SCANN_TIMEOUT_MS*/))
+      if(bluetooth_scann(&reusableBuffer.bluetooth.scann, BT_SCANN_TIMEOUT_MS) > 0)
         {
           /*strcpy(reusableBuffer.bluetooth.scann.Remote[0].Name,"TOTO");
           strcpy(reusableBuffer.bluetooth.scann.Remote[1].Name,"TATA");

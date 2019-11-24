@@ -41,8 +41,8 @@
 enum {BT_REBOOT_DATA_MODE = 0, BT_REBOOT_AT_MODE};
 enum {BT_GET = 0, BT_SET, BT_CMD};
 
-DECL_FLASH_STR2(Str_BT_Slave,"_S");
-DECL_FLASH_STR2(Str_BT_Master,"_M");
+DECL_FLASH_STR2(Str_BT_Slave,    "_S");
+DECL_FLASH_STR2(Str_BT_Master,   "_M");
 
 DECL_FLASH_STR2(Str_CRLF,        "\r\n");
 DECL_FLASH_STR2(Str_OK_CRLF,     "OK\r\n");
@@ -71,14 +71,14 @@ enum {AT_AT = 0, AT_STATE, AT_PSWD, AT_UART, AT_CLASS, AT_RMAAD, AT_ROLE, AT_NAM
 DECL_FLASH_TBL(AtCmdTbl, char * const) = {Str_AT, Str_STATE, Str_PSWD, Str_UART, Str_CLASS, Str_RMAAD, Str_ROLE, Str_NAME, Str_RNAME, Str_CMODE, Str_INIT, Str_DISC, Str_INQM, Str_INQ, Str_INQC, Str_LINK, Str_RESET};
 
 /* ALL THE STATUS SRINGS THE BT MODULE CAN ANSWER */
-DECL_FLASH_STR2(Str_INITIALIZED,  "INITIALIZED");
-DECL_FLASH_STR2(Str_READY,        "READY");
-DECL_FLASH_STR2(Str_PAIRABLE,     "PAIRABLE");
-DECL_FLASH_STR2(Str_PAIRED,       "PAIRED");
-DECL_FLASH_STR2(Str_INQUIRING,    "INQUIRING");
-DECL_FLASH_STR2(Str_CONNECTING,   "CONNECTING");
-DECL_FLASH_STR2(Str_CONNECTED,    "CONNECTED");
-DECL_FLASH_STR2(Str_DISCONNECTED, "DISCONNECTED");
+DECL_FLASH_STR2(Str_INITIALIZED, "INITIALIZED");
+DECL_FLASH_STR2(Str_READY,       "READY");
+DECL_FLASH_STR2(Str_PAIRABLE,    "PAIRABLE");
+DECL_FLASH_STR2(Str_PAIRED,      "PAIRED");
+DECL_FLASH_STR2(Str_INQUIRING,   "INQUIRING");
+DECL_FLASH_STR2(Str_CONNECTING,  "CONNECTING");
+DECL_FLASH_STR2(Str_CONNECTED,   "CONNECTED");
+DECL_FLASH_STR2(Str_DISCONNECTED,"DISCONNECTED");
 
 DECL_FLASH_TBL(BtStateTbl, char * const) = {Str_INITIALIZED, Str_READY, Str_PAIRABLE, Str_PAIRED, Str_INQUIRING, Str_CONNECTING, Str_CONNECTED, Str_DISCONNECTED};
 
@@ -108,7 +108,7 @@ static uint8_t getAtMatchLen(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
 static uint8_t getAtSkipLen(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
 static uint8_t getAtBtOp(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
 static int8_t  sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCmdArg, char *RespBuf, uint8_t RespBufMxLen, uint8_t MatchLen, uint8_t SkipLen, char *TermPattern, uint16_t TimeoutMs);
-static int8_t  waitForResp(char *RespBuf, uint8_t RespBufMaxLen, char *TermPattern, uint8_t TermPatternNb, uint16_t TimeoutMs);
+static int8_t  waitForResp(char *RespBuf, uint8_t RespBufMaxLen, char *TermPattern, uint16_t TimeoutMs);
 static void    btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb);
 static char   *buildMacStr(uint8_t *MacBin, char *MacStr);
 static uint8_t buildMacBin(char *MacStr, uint8_t *MacBin);
@@ -183,14 +183,14 @@ void bluetooth_init(HwSerial *hwSerial)
           while(hwSerial->available())
             hwSerial->read(); // Flush Rx
           hwSerial->print(F("AT\r\n"));
-          if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"K\r\n", 1, 100)) > -1)
+          if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"K\r\n", 100)) >= 0)
             {
               /* OK Uart serial rate found */
               if(Idx)
                 {
                   sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0\r\n"), RateTbl[0]);
                   hwSerial->print(UartAtCmd);
-                  if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", 1, 100)) > -1)
+                  if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", 100)) >= 0)
                     {
                       /* Should be OK */
                     }
@@ -313,7 +313,7 @@ int8_t bluetooth_getPswd(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutM
 {
   int8_t Ret;
 
-  Ret = sendAtCmdAndWaitForResp(AT_PSWD, BT_GET, NULL, RespBuf, RespBufMaxLen, 0, 5, (char *)"OK\r\n", TimeoutMs);
+  Ret = sendAtCmdAndWaitForResp(AT_PSWD, BT_GET, NULL, RespBuf, RespBufMaxLen, 3, 5, (char *)"\r\nOK\r\n", TimeoutMs);
   if(Ret > 0)
   {
     if(RespBuf[Ret - 1] == '"')
@@ -362,21 +362,30 @@ int8_t bluetooth_getRemoteName(uint8_t *RemoteMacBin, char *RespBuf, uint8_t Res
   return(sendAtCmdAndWaitForResp(AT_RNAME, BT_GET, buildMacStr(RemoteMacBin, MacStr), RespBuf, RespBufMaxLen, 5, 6, (char *)"\r\nOK\r\n", TimeoutMs));
 }
 
-int8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
+/**
+ * \file  bluetooth.cpp
+ * \fn uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
+ * \brief Scann the Remote BT
+ *
+ * \param  Scann:        Pointer on a BtScannSt_t structure
+ * \param  TimeoutMs:    Timeout in ms.
+ * \return The number of Remote BT found (0 to REMOTE_BT_DEV_MAX_NB)
+ */
+uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
 {
   uint32_t StartMs = GET_10MS_TICK();
   char     Buf[1]; // 1 Byte minimum!
   char     RespBuf[40];
   uint8_t  MacBin[BT_MAC_BIN_LEN];
   uint8_t  MacFound =0, AlreadyRegistered;
-  int8_t   Ret = -1;
+  uint8_t  Ret = 0;
 
   memset(Scann, 0, sizeof(BtScannSt_t));
   sendAtCmdAndWaitForResp(AT_INQ, BT_CMD, NULL, Buf, sizeof(Buf), 0, 0, (char *)"OK\r\n", 0); // Just send the command without any reception
   do
   {
     RespBuf[0] = 0;
-    if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", 1, TimeoutMs)) > -1) // Multi-line reception
+    if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", TimeoutMs)) >= 0) // Multi-line reception
     {
       if(!memcmp_P(RespBuf, PSTR("+INQ:"), 5))
       {
@@ -397,7 +406,6 @@ int8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
             /* Register it! */
             memcpy(Scann->Remote[MacFound].MAC, MacBin, BT_MAC_BIN_LEN);
             MacFound++;
-            Ret = MacFound;
             if(MacFound >= REMOTE_BT_DEV_MAX_NB) break;
           }
         }
@@ -418,6 +426,7 @@ int8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
         {
           strncpy(Scann->Remote[Idx].Name, RespBuf, BT_NAME_STR_LEN);
           Scann->Remote[Idx].Name[BT_NAME_STR_LEN - 1] = 0;
+          Ret++; // Mac AND Remote Name found
           break; // Exit ASAP
         }
       }
@@ -559,7 +568,7 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   uint32_t Start10MsTick, Timeout10msTick;
   int8_t  Ret = -1;
 
-  while(uCli.stream->available()) uCli.stream->read();
+  while(uCli.stream->available()) uCli.stream->read(); // Flush Rx
 
   RespBuf[0] = 0; /* End of String */
   uCli.stream->print(F("AT"));
@@ -578,6 +587,7 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   /* Now, check expected header is received */
   if((AtCmdIdx != AT_AT) && (BtOp == BT_GET))
   {
+    if(AtCmdIdx == AT_PSWD) strcpy_P(AtCmd, PSTR("PIN")); // Crappy PSWD command: the answer starts with PIN!
     /* The response shall start with '+' */
     while((GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(TimeoutMs))
     {
@@ -585,11 +595,7 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
       if(uCli.stream->available())
       {
         RxChar = uCli.stream->read();
-        if(RxChar != '+') return(Ret);
-        else
-        {
-          break;
-        }
+        if(RxChar == '+') break;
       }
     }
   }
@@ -626,7 +632,7 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   {
     /* OK, skipped char received */
     Timeout10msTick = MS_TO_10MS_TICK(TimeoutMs) - (GET_10MS_TICK() - Start10MsTick);
-    Ret = waitForResp(RespBuf, RespBufMaxLen, TermPattern, 1, _10MS_TICK_TO_MS(Timeout10msTick));
+    Ret = waitForResp(RespBuf, RespBufMaxLen, TermPattern, _10MS_TICK_TO_MS(Timeout10msTick));
   }
   return(Ret);
 }
@@ -673,11 +679,11 @@ static uint16_t getAtTimeoutMs(const AtCmdSt_t *AtCmdTbl, uint8_t Idx)
   return((uint16_t)pgm_read_word(&AtCmdTbl[Idx].TimeoutMs));
 }
 
-static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, char *TermPattern, uint8_t TermPatternNb, uint16_t TimeoutMs)
+static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, char *TermPattern, uint16_t TimeoutMs)
 {
   uint32_t Start10MsTick = GET_10MS_TICK();
-  uint8_t  RxChar, RxIdx = 0, TermPatternLen;
-  int8_t   Pidx = -1, RxLen = -1;
+  uint8_t  RxChar, RxIdx = 0, TPidx = 0, TermPatternLen;
+  int8_t   RxLen = -1;
 
   TermPatternLen = strlen(TermPattern);
   do
@@ -686,43 +692,43 @@ static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, char *TermPatter
     if(uCli.stream->available() >  0)
     {
       RxChar = uCli.stream->read();
-      if(Pidx < 0)
+      if(!TPidx)
       {
         /* No match caugth yet */
-        if(RxChar == TermPattern[Pidx + 1])
+        if(RxChar == TermPattern[TPidx])
         {
-          Pidx++;
-          goto AddChar;
+          TPidx++;
+        }
+        else
+        {
+          if(RxIdx < RespBufMaxLen)
+          {
+            RespBuf[RxIdx++] = RxChar;
+          }
         }
       }
       else
       {
         /* Match in progress */
-        if(RxChar == TermPattern[Pidx + 1])
+        if(RxChar == TermPattern[TPidx])
         {
-          Pidx++;
+          TPidx++;
         }
-        else Pidx = -1; /* Match broken */
+        else
+        {
+          TPidx = 0; /* Match broken */
+          if(RxIdx < RespBufMaxLen)
+          {
+            RespBuf[RxIdx++] = RxChar;
+          }
+        }
       }
-      AddChar:
-      if(RxIdx < (RespBufMaxLen - 1))
-      {
-        RespBuf[RxIdx++] = RxChar;
-      }
-      else
-      {
-        Pidx = -1; //msg too long!
-      }
-      if(Pidx >= (TermPatternLen - 1))
+
+      if(TPidx >= TermPatternLen)
       {
         /* Full pattern found -> replace it by End of String */
-        TermPatternNb--;
-        if(!TermPatternNb)
-        {
-          RxIdx -= TermPatternLen;
-          RespBuf[RxIdx] = 0; // End of String
-          RxLen = RxIdx;
-        }
+        RespBuf[RxIdx] = 0;
+        RxLen = RxIdx;
       }
     }
   }while(((GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(TimeoutMs)) && (RxLen < 0));
