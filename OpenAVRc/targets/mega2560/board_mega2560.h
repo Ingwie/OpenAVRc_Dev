@@ -68,7 +68,8 @@ void readKeysAndTrims();
 #define TRIMS_GPIO_PIN_RHR        PIN0_bm
 #define TRIMS_PRESSED()           (~GPIO_TRIMS)
 
-#define COUNTER_64uS              TCNT3
+#define COUNTER_64uSH             TCNT3H
+#define COUNTER_64uSL             TCNT3L
 #define TIMER_10MS_VECT           TIMER3_COMPA_vect
 #define TIMER_10MS_COMPVAL        OCR3A
 
