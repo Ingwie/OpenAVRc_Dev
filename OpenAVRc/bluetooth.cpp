@@ -64,11 +64,12 @@ DECL_FLASH_STR2(Str_INQM,        "INQM");  // Inquire Mode
 DECL_FLASH_STR2(Str_INQ,         "INQ");   // Inquire Bluetooth device
 DECL_FLASH_STR2(Str_INQC,        "INQC");  // Cancel Inquire Bluetooth device
 DECL_FLASH_STR2(Str_LINK,        "LINK");  // Link to a specific remote
+DECL_FLASH_STR2(Str_IPSCAN,      "IPSCAN");  // Link to a specific remote
 DECL_FLASH_STR2(Str_RESET,       "RESET"); // Reset
 
-enum {AT_AT = 0, AT_STATE, AT_PSWD, AT_UART, AT_CLASS, AT_RMAAD, AT_ROLE, AT_NAME, AT_RNAME, AT_CMODE, AT_INIT, AT_DISC, AT_INQM, AT_INQ, AT_INQC, AT_LINK, AT_RESET, AT_CMD_MAX_NB};
+enum {AT_AT = 0, AT_STATE, AT_PSWD, AT_UART, AT_CLASS, AT_RMAAD, AT_ROLE, AT_NAME, AT_RNAME, AT_CMODE, AT_INIT, AT_DISC, AT_INQM, AT_INQ, AT_INQC, AT_LINK, AT_IPSCAN, AT_RESET, AT_CMD_MAX_NB};
 
-DECL_FLASH_TBL(AtCmdTbl, char * const) = {Str_AT, Str_STATE, Str_PSWD, Str_UART, Str_CLASS, Str_RMAAD, Str_ROLE, Str_NAME, Str_RNAME, Str_CMODE, Str_INIT, Str_DISC, Str_INQM, Str_INQ, Str_INQC, Str_LINK, Str_RESET};
+DECL_FLASH_TBL(AtCmdTbl, char * const) = {Str_AT, Str_STATE, Str_PSWD, Str_UART, Str_CLASS, Str_RMAAD, Str_ROLE, Str_NAME, Str_RNAME, Str_CMODE, Str_INIT, Str_DISC, Str_INQM, Str_INQ, Str_INQC, Str_LINK, Str_IPSCAN, Str_RESET};
 
 /* ALL THE STATUS SRINGS THE BT MODULE CAN ANSWER */
 DECL_FLASH_STR2(Str_INITIALIZED, "INITIALIZED");
@@ -84,11 +85,11 @@ DECL_FLASH_TBL(BtStateTbl, char * const) = {Str_INITIALIZED, Str_READY, Str_PAIR
 
 typedef void (*AtCmdAddon) (char* Addon);
 
-typedef struct{
-  uint16_t NAP; // 2 Bytes
-  uint8_t  UAP; // 1 Bytes
-  uint32_t LAP; // 3 Bytes (here, the last byte is not used)
-}MacSt_t;
+PACK(typedef struct{
+  uint16_t NAP;    // 2 Bytes
+  uint32_t UAP:8;  // 1 Bytes
+  uint32_t LAP:24; // 3 Bytes (here, the last byte is not used)
+})MacSt_t;
 
 typedef struct{
   uint8_t     CmdIdx;
@@ -118,6 +119,7 @@ static void    classSet(char* Addon);
 static void    roleSet(char* Addon);
 static void    nameSet(char* Addon);
 static void    inqmSet(char* Addon);
+static void    ipscanSet(char* Addon);
 
 static int8_t  getBtStateIdx(const char *BtState);
 
@@ -128,6 +130,7 @@ DECL_FLASH_TBL(AtCmdBtInit, AtCmdSt_t) = {
                           {AT_UART,  BT_SET, uartSet,  Str_CRLF,          0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_CLASS, BT_SET, classSet, Str_CRLF,          0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_INQM,  BT_SET, inqmSet,  Str_CRLF,          0,    0,     BT_SET_TIMEOUT_MS},
+                          {AT_IPSCAN,BT_SET, ipscanSet,Str_CRLF,          0,    0,     BT_SET_TIMEOUT_MS},
                           };
 
 DECL_FLASH_TBL(AtCmdSlaveInit, AtCmdSt_t) = {
@@ -182,6 +185,7 @@ void bluetooth_init(HwSerial *hwSerial)
           hwSerial->init(RateTbl[Idx]);
           while(hwSerial->available())
             hwSerial->read(); // Flush Rx
+          hwSerial->print(Str_CRLF); // New line after "uCli>"
           hwSerial->print(F("AT\r\n"));
           if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"K\r\n", 100)) >= 0)
             {
@@ -380,6 +384,7 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
   uint8_t  MacFound =0, AlreadyRegistered;
   uint8_t  Ret = 0;
 
+  bluetooth_AtCmdMode(ON);
   memset(Scann, 0, sizeof(BtScannSt_t));
   sendAtCmdAndWaitForResp(AT_INQ, BT_CMD, NULL, Buf, sizeof(Buf), 0, 0, (char *)"OK\r\n", 0); // Just send the command without any reception
   do
@@ -791,6 +796,11 @@ static void roleSet(char* Addon)
 static void inqmSet(char* Addon)
 {
   strcpy_P(Addon, PSTR("0,4,4"));
+}
+
+static void ipscanSet(char* Addon)
+{
+  strcpy_P(Addon, PSTR("1024,1,1024,1"));
 }
 
 void bluetooth_addSuffix(char* Addon)
