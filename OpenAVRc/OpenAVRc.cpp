@@ -73,11 +73,13 @@ FORCEINLINE uint16_t getTmr64uS()
   uint16_t simu_tmr16 = getTmr10ms() * 160;
   return simu_tmr16;
 #else
-  uint16_t ret;
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    ret = COUNTER_64uS;
-  }
-  return ret;
+  while(1)
+    {
+      uint8_t hb  = COUNTER_64uSH;
+      uint8_t lb  = COUNTER_64uSL;
+      if(hb == COUNTER_64uSH) // Not changed (rool back)
+        return (hb<<8)|lb;
+    }
 #endif
 }
 
