@@ -122,6 +122,7 @@ static void    inqmSet(char* Addon);
 static void    ipscanSet(char* Addon);
 
 static int8_t  getBtStateIdx(const char *BtState);
+static int8_t  clearPairedList(uint16_t TimeoutMs);
 
 
 DECL_FLASH_TBL(AtCmdBtInit, AtCmdSt_t) = {
@@ -385,6 +386,7 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
   uint8_t  Ret = 0;
 
   bluetooth_AtCmdMode(ON);
+  clearPairedList(BT_SET_TIMEOUT_MS);
   memset(Scann, 0, sizeof(BtScannSt_t));
   sendAtCmdAndWaitForResp(AT_INQ, BT_CMD, NULL, Buf, sizeof(Buf), 0, 0, (char *)"OK\r\n", 0); // Just send the command without any reception
   do
@@ -430,7 +432,7 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
         if(bluetooth_getRemoteName(Scann->Remote[Idx].MAC, RespBuf, sizeof(RespBuf), BT_READ_RNAME_TIMEOUT_MS) > 4)
         {
           strncpy(Scann->Remote[Idx].Name, RespBuf, BT_NAME_STR_LEN);
-          Scann->Remote[Idx].Name[BT_NAME_STR_LEN - 1] = 0;
+          Scann->Remote[Idx].Name[BT_NAME_STR_LEN] = 0;
           Ret++; // Mac AND Remote Name found
           break; // Exit ASAP
         }
@@ -844,3 +846,10 @@ static int8_t getBtStateIdx(const char *BtState)
 
   return(-1);
 }
+
+static int8_t clearPairedList(uint16_t TimeoutMs)
+{
+  char RespBuf[20];
+  return(sendAtCmdAndWaitForResp(AT_RMAAD, BT_CMD, NULL, RespBuf, sizeof(RespBuf), 0, 0, (char *)"\r\n", TimeoutMs));
+}
+
