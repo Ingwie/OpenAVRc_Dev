@@ -99,7 +99,7 @@
 #endif
 
 /* BluetoothEepSt_t structure length SHALL be (1 + 4 + 8 + 6) = 19 bytes to keep compatibility */
-#define LEN_BT_NAME 8
+#define LEN_BT_NAME 10
 typedef struct{
   uint8_t Mac[6];
   char    Name[LEN_BT_NAME];
@@ -112,8 +112,8 @@ typedef struct{
                 Master    :1,  /* 0: Slave, 1: Master */
                 AutoCnx   :1,  /* 0: No Cnx 1: Auto Cnx */
                 Reserved  :4;
-  char          Pin[4]; // Pin doesn't need to be stored in eeprom since it is stored in the BT module itself -> peer name can be increased by using these bytes
   BT_PeerSt_t   Peer;
+  char          Res[2]; // Pin doesn't need to be stored in eeprom since it is stored in the BT module itself -> peer name can be increased by using these bytes
 } BluetoothEepSt_t;
 
 #define MAX_TIMERS           2
