@@ -80,7 +80,7 @@ Note: This HwSerial driver/module by RC-Navy is mainly based on the arduino Hard
 #define S1_RX_FF_SZ                  128
 #else
 #define S1_TX_FF_SZ                  16
-#define S1_RX_FF_SZ                  8
+#define S1_RX_FF_SZ                  32//8
 #endif
 #define HW_SERIAL1_TX_SUPPORT        ISR_NORMAL  // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial1
 #define HW_SERIAL1_RX_SUPPORT        ISR_NORMAL  // Choose here between ISR_NONE, ISR_NORMAL and ISR_CUSTOM for Serial1
