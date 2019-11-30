@@ -135,17 +135,14 @@ void menuGeneralBluetooth(uint8_t event)
   if (warningResult)
     {
       warningResult = false;
-      IF_NO_ERROR(bluetooth_scann(&reusableBuffer.bluetooth.scann, BT_SCANN_TIMEOUT_MS))
-      {
-        /*strcpy(reusableBuffer.bluetooth.scann.Remote[0].Name,"TOTO");
-        strcpy(reusableBuffer.bluetooth.scann.Remote[1].Name,"TATA");
-        strcpy(reusableBuffer.bluetooth.scann.Remote[2].Name,"TITI");*/
-        for (uint8_t i=0; i < REMOTE_BT_DEV_MAX_NB; ++i)
-          {
-            POPUP_MENU_ADD_ITEM(reusableBuffer.bluetooth.scann.Remote[i].Name);
-          }
-        popupMenuHandler = onPairSelected; // Selection is done in popup -> Call onPairSelected
-      }
+      bluetooth_scann(&reusableBuffer.bluetooth.scann, BT_SCANN_TIMEOUT_MS);
+
+      for (uint8_t i=0; i < REMOTE_BT_DEV_MAX_NB; ++i)
+        {
+          POPUP_MENU_ITEMS_FROM_BSS();
+          POPUP_MENU_ADD_ITEM(reusableBuffer.bluetooth.scann.Remote[i].Name);
+        }
+      popupMenuHandler = onPairSelected; // Selection is done in popup -> Call onPairSelected
     }
 
   uint8_t addExt = 0; // used to add _M or _S
