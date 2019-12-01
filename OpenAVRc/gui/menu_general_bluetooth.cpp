@@ -75,7 +75,7 @@ void loadDataFromModule()
         {
           str2zchar(reusableBuffer.bluetooth.pin_zchar, reusableBuffer.bluetooth.pin_str, 4);
 
-          //IF_NO_ERROR(bluetooth_getRemoteName(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.peer_name_str, sizeof(reusableBuffer.bluetooth.peer_name_str), BT_GET_TIMEOUT_MS))
+          IF_NO_ERROR(bluetooth_getRemoteName(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.peer_name_str, sizeof(reusableBuffer.bluetooth.peer_name_str), BT_GET_TIMEOUT_MS))
           {
             memcpy(g_eeGeneral.BT.Peer.Name, reusableBuffer.bluetooth.peer_name_str, LEN_BT_NAME);
             //str2zchar(g_eeGeneral.BT.Peer.Name, reusableBuffer.bluetooth.peer_name_str, LEN_BT_NAME);
@@ -164,19 +164,11 @@ void menuGeneralBluetooth(uint8_t event)
         {
         case ITEM_BT_ONOFF :
           ON_OFF_MENU_ITEM(g_eeGeneral.BT.Power, BT_2ND_COLUMN, y, STR_BTACTIVE, attr, event);
-          if ((checkIncDec_Ret) && reusableBuffer.bluetooth.firstMenuRun)
-            {
-              writeDataToModule();
-            }
           break;
 
         case ITEM_BT_NAME :
           editSingleName(BT_2ND_COLUMN, y, STR_NAME, reusableBuffer.bluetooth.name_zchar, LEN_BT_NAME+2, event, attr, EE_NO, RANGE_UPPER);
           addExt = 1;
-          if ((checkIncDec_Ret) && (!s_editMode) && reusableBuffer.bluetooth.firstMenuRun)
-            {
-              writeDataToModule();
-            }
           break;
 
         case ITEM_BT_ROLE :
@@ -201,7 +193,7 @@ void menuGeneralBluetooth(uint8_t event)
           break;
 
         case ITEM_BT_RESCANN :
-          lcdDrawTextAtt(7*FW,y,STR_RESCANN,attr);
+          lcdDrawTextAtt(7*FW,y,STR_RESCANN,attr | g_eeGeneral.BT.Master? 0 : BLINK);
           if (attr && (event==EVT_KEY_BREAK(KEY_ENTER)) && g_eeGeneral.BT.Master)
             {
               POPUP_CONFIRMATION(STR_RESCANN);
@@ -209,6 +201,11 @@ void menuGeneralBluetooth(uint8_t event)
             }
           break;
         }
+
+        if ((checkIncDec_Ret) && (!s_editMode) && reusableBuffer.bluetooth.firstMenuRun)
+          {
+            writeDataToModule();
+          }
 
       if (addExt)
         {
