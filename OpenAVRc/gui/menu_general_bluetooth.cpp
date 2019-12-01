@@ -48,7 +48,7 @@ enum menuGeneralBTItems
 #define BT_Tab 0
 #define BT_2ND_COLUMN 10*FW
 
-#define STR_BLUETOOTH      PSTR("Bluetooth")
+#define STR_BLUETOOTH      PSTR("BLUETOOTH")
 #define STR_BT_ROLE        PSTR("Role")
 #define STR_BT_PIN         PSTR("Pin")
 #define STR_BT_M_S         PSTR("\006""Slave\0""Master")
@@ -105,6 +105,10 @@ void writeDataToModule()
       //bluetooth_nameSet(reusableBuffer.bluetooth.name_zchar);
       zchar2str(reusableBuffer.bluetooth.pin_str, reusableBuffer.bluetooth.pin_zchar, 4);
       bluetooth_setPswd(reusableBuffer.bluetooth.pin_str, BT_SET_TIMEOUT_MS);
+      if(g_eeGeneral.BT.Master && g_eeGeneral.BT.AutoCnx)
+      {
+        bluetooth_linkToRemote(g_eeGeneral.BT.Peer.Mac, BT_SET_TIMEOUT_MS);
+      }
       bluetooth_AtCmdMode(OFF);
       loadDataFromModule();
     }
@@ -115,10 +119,12 @@ void onPairSelected(const char *result)
   // result is the new pair name!!
   strcpy(g_eeGeneral.BT.Peer.Name, result); // Todo check if usefull
   memcpy(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.scann.Remote[shared_u8].MAC, BT_MAC_BIN_LEN);
+  bluetooth_AtCmdMode(ON);
   IF_NO_ERROR(bluetooth_linkToRemote(g_eeGeneral.BT.Peer.Mac, BT_SET_TIMEOUT_MS))
   {
     eeDirty(EE_GENERAL);
   }
+  bluetooth_AtCmdMode(OFF);
 }
 
 void menuGeneralBluetooth(uint8_t event)
@@ -137,9 +143,9 @@ void menuGeneralBluetooth(uint8_t event)
       warningResult = false;
       bluetooth_scann(&reusableBuffer.bluetooth.scann, BT_SCANN_TIMEOUT_MS);
 
+      POPUP_MENU_ITEMS_FROM_BSS();
       for (uint8_t i=0; i < REMOTE_BT_DEV_MAX_NB; ++i)
         {
-          POPUP_MENU_ITEMS_FROM_BSS();
           POPUP_MENU_ADD_ITEM(reusableBuffer.bluetooth.scann.Remote[i].Name);
         }
       popupMenuHandler = onPairSelected; // Selection is done in popup -> Call onPairSelected
@@ -196,7 +202,7 @@ void menuGeneralBluetooth(uint8_t event)
 
         case ITEM_BT_RESCANN :
           lcdDrawTextAtt(7*FW,y,STR_RESCANN,attr);
-          if (attr && (event==EVT_KEY_BREAK(KEY_ENTER)))
+          if (attr && (event==EVT_KEY_BREAK(KEY_ENTER)) && g_eeGeneral.BT.Master)
             {
               POPUP_CONFIRMATION(STR_RESCANN);
               s_editMode = 0;
