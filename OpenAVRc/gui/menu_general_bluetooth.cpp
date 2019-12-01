@@ -193,7 +193,7 @@ void menuGeneralBluetooth(uint8_t event)
           break;
 
         case ITEM_BT_RESCANN :
-          lcdDrawTextAtt(7*FW,y,STR_RESCANN,attr | g_eeGeneral.BT.Master? 0 : BLINK);
+          lcdDrawTextAtt(7*FW,y,STR_RESCANN, g_eeGeneral.BT.Master? attr : BLINK);
           if (attr && (event==EVT_KEY_BREAK(KEY_ENTER)) && g_eeGeneral.BT.Master)
             {
               POPUP_CONFIRMATION(STR_RESCANN);
