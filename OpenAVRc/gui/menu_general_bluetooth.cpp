@@ -75,9 +75,9 @@ void loadDataFromModule()
         {
           str2zchar(reusableBuffer.bluetooth.pin_zchar, reusableBuffer.bluetooth.pin_str, 4);
 
-          IF_NO_ERROR(bluetooth_getRemoteName(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.peer_name_str, sizeof(reusableBuffer.bluetooth.peer_name_str), BT_GET_TIMEOUT_MS))
+          //IF_NO_ERROR(bluetooth_getRemoteName(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.peer_name_str, sizeof(reusableBuffer.bluetooth.peer_name_str), BT_GET_TIMEOUT_MS))
           {
-            memcpy(g_eeGeneral.BT.Peer.Name, reusableBuffer.bluetooth.peer_name_str, LEN_BT_NAME);
+            //memcpy(g_eeGeneral.BT.Peer.Name, reusableBuffer.bluetooth.peer_name_str, LEN_BT_NAME);
             //str2zchar(g_eeGeneral.BT.Peer.Name, reusableBuffer.bluetooth.peer_name_str, LEN_BT_NAME);
 
           }
@@ -117,12 +117,13 @@ void writeDataToModule()
 void onPairSelected(const char *result)
 {
   // result is the new pair name!!
-  strcpy(g_eeGeneral.BT.Peer.Name, result); // Todo check if usefull
+  strcpy(reusableBuffer.bluetooth.peer_name_str, result); // Todo check if usefull
   memcpy(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.scann.Remote[shared_u8].MAC, BT_MAC_BIN_LEN);
   bluetooth_AtCmdMode(ON);
   IF_NO_ERROR(bluetooth_linkToRemote(g_eeGeneral.BT.Peer.Mac, BT_SET_TIMEOUT_MS))
   {
     eeDirty(EE_GENERAL);
+    // TODO show "linked :)"
   }
   bluetooth_AtCmdMode(OFF);
 }
@@ -184,7 +185,7 @@ void menuGeneralBluetooth(uint8_t event)
 
         case ITEM_BT_PEER :
           lcdDrawTextLeft(y, STR_BT_PAIR);
-          lcdDrawSizedTextAtt(BT_2ND_COLUMN, y, g_eeGeneral.BT.Peer.Name, sizeof(g_eeGeneral.BT.Peer.Name), BSS|attr);
+          lcdDrawSizedTextAtt(BT_2ND_COLUMN, y, reusableBuffer.bluetooth.peer_name_str, sizeof(reusableBuffer.bluetooth.peer_name_str), BSS|attr);
           addExt = 2;
           break;
 
