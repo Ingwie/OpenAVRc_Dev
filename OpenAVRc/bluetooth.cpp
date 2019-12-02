@@ -138,7 +138,7 @@ DECL_FLASH_TBL(AtCmdSlaveInit, AtCmdSt_t) = {
                           /* CmdIdx,  BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
                           {AT_AT,    BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_GET_TIMEOUT_MS},
                           {AT_ROLE,  BT_SET, roleSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
-                          {AT_ROLE,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
+                          //{AT_ROLE,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           //{AT_NAME,  BT_SET, nameSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_NAME,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           };
@@ -148,12 +148,12 @@ DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
                           {AT_AT,    BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_GET_TIMEOUT_MS},
                           //{AT_RMAAD, BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_ROLE,  BT_SET, roleSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
-                          {AT_ROLE,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
+                          //{AT_ROLE,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           //{AT_NAME,  BT_SET, nameSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
-                          {AT_NAME,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
-                          {AT_INQM,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
-                          {AT_INIT,  BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
-                          //{AT_RESET, BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
+                          //{AT_NAME,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
+                          //{AT_INQM,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
+                          //{AT_INIT,  BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
+                          //{AT_RESET, BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS}, // Ingwie :return error 17 on my BT
                           };
 
 /* PUBLIC FUNTIONS */
@@ -184,9 +184,7 @@ void bluetooth_init(HwSerial *hwSerial)
       for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
         {
           hwSerial->init(RateTbl[Idx]);
-          while(hwSerial->available())
-            hwSerial->read(); // Flush Rx
-          hwSerial->print(Str_CRLF); // New line after "uCli>"
+          while(hwSerial->available()) hwSerial->read(); // Flush Rx
           hwSerial->print(F("AT\r\n"));
           if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"K\r\n", 100)) >= 0)
             {
@@ -696,7 +694,7 @@ static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, char *TermPatter
   do
   {
     YIELD_TO_TASK(PRIO_TASK_LIST());
-    if(uCli.stream->available() >  0)
+    if(uCli.stream->available() > 0)
     {
       RxChar = uCli.stream->read();
       if(!TPidx)
@@ -739,6 +737,8 @@ static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, char *TermPatter
       }
     }
   }while(((GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(TimeoutMs)) && (RxLen < 0));
+
+  while(uCli.stream->available()) uCli.stream->read(); // Flush Rx
 
   return RxLen;
 }

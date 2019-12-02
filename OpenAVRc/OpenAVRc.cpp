@@ -1642,7 +1642,7 @@ void SimuMainLoop() // Create loop function
 
 #if defined(U_CLI)
 #if defined(BLUETOOTH)
-  if (!BT_IS_IN_AT_MODE) // Do not process uCli when BT is in AT mode
+if (menuHandlers[menuLevel] != menuGeneralBluetooth) // Do not process uCli when BT is in AT mode (In BT menu)
 #endif
   {
     uCli_process();
