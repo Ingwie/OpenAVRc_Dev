@@ -414,8 +414,8 @@ static uint16_t DurationValue;
                                                     StartDurationMsVar = GET_10MS_TICK();\
                                                     do{\
                                                       do{\
-                                                        TaskList;\
                                                         MYWDT_RESET();\
+                                                        TaskList;\
                                                       }while(SIMU_UNLOCK_MACRO_FALSE((GET_10MS_TICK() - StartDurationMsVar) < MS_TO_10MS_TICK(DurationMs)));\
                                                     }while(0)
 
@@ -427,8 +427,8 @@ static uint16_t DurationValue;
 */
 #define YIELD_TO_TASK(TaskList) \
                                                     do{\
-                                                      TaskList;\
                                                       MYWDT_RESET();\
+                                                      TaskList;\
                                                     }while(0)
 
 
@@ -1300,11 +1300,11 @@ union ReusableBuffer {
 
 #if defined(BLUETOOTH)
   struct {
-    char peer_name_str[LEN_BT_NAME+1]; // FW format
-    char name_zchar[LEN_BT_NAME+1]; // FW format
-    char name_str[LEN_BT_NAME+1];   // ASCII format
-    char pin_zchar[5];              // FW format
-    char pin_str[5];                // ASCII format
+    char peer_name_str[LEN_BT_NAME+2]; // ASCII format
+    char name_zchar[LEN_BT_NAME+2];    // FW format
+    char name_str[LEN_BT_NAME+2];      // ASCII format
+    char pin_zchar[5];                 // FW format
+    char pin_str[5];                   // ASCII format
     BtScannSt_t scann;
     uint8_t firstMenuRun;
   } bluetooth;
