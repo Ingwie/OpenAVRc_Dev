@@ -124,6 +124,8 @@ static void    ipscanSet(char* Addon);
 static int8_t  getBtStateIdx(const char *BtState);
 static int8_t  clearPairedList(uint16_t TimeoutMs);
 
+static void    flushBtRx();
+
 
 DECL_FLASH_TBL(AtCmdBtInit, AtCmdSt_t) = {
                           /* CmdIdx,  BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
@@ -184,7 +186,7 @@ void bluetooth_init(HwSerial *hwSerial)
       for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
         {
           hwSerial->init(RateTbl[Idx]);
-          while(hwSerial->available()) hwSerial->read(); // Flush Rx
+          flushBtRx();
           hwSerial->print(F("AT\r\n"));
           if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"K\r\n", 100)) >= 0)
             {
@@ -193,7 +195,7 @@ void bluetooth_init(HwSerial *hwSerial)
                 {
                   sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0\r\n"), RateTbl[0]);
                   hwSerial->print(UartAtCmd);
-                  if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", 100)) >= 0)
+                  if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"K\r\n", 100)) >= 0)
                     {
                       /* Should be OK */
                     }
@@ -248,6 +250,8 @@ void bluetooth_AtCmdMode(uint8_t On, uint8_t Yield /* = 1*/) // TODO use all the
     else _delay_ms(BT_AT_WAKE_UP_MS);
   }
   else BT_KEY_OFF();
+
+  flushBtRx();
 }
 
 /**
@@ -283,7 +287,7 @@ int8_t bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeout
  */
 int8_t bluetooth_getName(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs)
 {
-  return(sendAtCmdAndWaitForResp(AT_NAME, BT_GET, NULL, RespBuf, RespBufMaxLen, 4, 5, (char *)"OK\r\n", TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_NAME, BT_GET, NULL, RespBuf, RespBufMaxLen, 4, 5, (char *)"\r\nOK\r\n", TimeoutMs));
 }
 
 /**
@@ -344,7 +348,7 @@ int8_t bluetooth_setPswd(char *BtPswd, uint16_t TimeoutMs)
 
   snprintf(CmdBtPswd, 20, "\"%s\"", BtPswd); // Add double quotes
 
-  return(sendAtCmdAndWaitForResp(AT_PSWD, BT_SET, CmdBtPswd, RespBuf, sizeof(RespBuf), 0, 0, (char *)"OK\r\n", TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_PSWD, BT_SET, CmdBtPswd, RespBuf, sizeof(RespBuf), 0, 0, (char *)"OK/r/n", TimeoutMs));
 }
 
 /**
@@ -362,7 +366,8 @@ int8_t bluetooth_getRemoteName(uint8_t *RemoteMacBin, char *RespBuf, uint8_t Res
 {
   char MacStr[14];
   // Format: [00]25,56,D8CA0F
-  return(sendAtCmdAndWaitForResp(AT_RNAME, BT_GET, buildMacStr(RemoteMacBin, MacStr), RespBuf, RespBufMaxLen, 5, 6, (char *)"\r\nOK\r\n", TimeoutMs));
+  buildMacStr(RemoteMacBin, MacStr);
+  return(sendAtCmdAndWaitForResp(AT_RNAME, BT_GET, MacStr, RespBuf, RespBufMaxLen, 5, 6, (char *)"\r\nOK\r\n", TimeoutMs));
 }
 
 /**
@@ -386,7 +391,7 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
   bluetooth_AtCmdMode(ON);
   clearPairedList(BT_SET_TIMEOUT_MS);
   memset(Scann, 0, sizeof(BtScannSt_t));
-  sendAtCmdAndWaitForResp(AT_INQ, BT_CMD, NULL, Buf, sizeof(Buf), 0, 0, (char *)"OK\r\n", 0); // Just send the command without any reception
+  sendAtCmdAndWaitForResp(AT_INQ, BT_CMD, NULL, Buf, sizeof(Buf), 0, 0, (char *)"OK/r/n", 0); // Just send the command without any reception
   do
   {
     RespBuf[0] = 0;
@@ -462,6 +467,19 @@ int8_t bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs)
 }
 
 /* PRIVATE FUNCTIONS */
+
+/**
+ * \file  bluetooth.cpp
+ * \fn    void flushBtRx()
+ * \brief Flush BT serial Rx
+ *
+ * \param  None
+ * \return Void.
+ */
+void flushBtRx()
+{
+  while(uCli.stream->available()) uCli.stream->read(); // Flush Rx
+}
 
 /**
  * \file  bluetooth.cpp
@@ -573,7 +591,7 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   uint32_t Start10MsTick, Timeout10msTick;
   int8_t  Ret = -1;
 
-  while(uCli.stream->available()) uCli.stream->read(); // Flush Rx
+  flushBtRx();
 
   RespBuf[0] = 0; /* End of String */
   uCli.stream->print(F("AT"));
@@ -694,7 +712,7 @@ static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, char *TermPatter
   do
   {
     YIELD_TO_TASK(PRIO_TASK_LIST());
-    if(uCli.stream->available() > 0)
+    if(uCli.stream->available())
     {
       RxChar = uCli.stream->read();
       if(!TPidx)
@@ -737,8 +755,6 @@ static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, char *TermPatter
       }
     }
   }while(((GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(TimeoutMs)) && (RxLen < 0));
-
-  while(uCli.stream->available()) uCli.stream->read(); // Flush Rx
 
   return RxLen;
 }
@@ -850,6 +866,6 @@ static int8_t getBtStateIdx(const char *BtState)
 static int8_t clearPairedList(uint16_t TimeoutMs)
 {
   char RespBuf[20];
-  return(sendAtCmdAndWaitForResp(AT_RMAAD, BT_CMD, NULL, RespBuf, sizeof(RespBuf), 0, 0, (char *)"\r\n", TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_RMAAD, BT_CMD, NULL, RespBuf, sizeof(RespBuf), 0, 0, (char *)"OK", TimeoutMs));
 }
 
