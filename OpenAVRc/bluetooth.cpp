@@ -366,8 +366,7 @@ int8_t bluetooth_getRemoteName(uint8_t *RemoteMacBin, char *RespBuf, uint8_t Res
 {
   char MacStr[14];
   // Format: [00]25,56,D8CA0F
-  buildMacStr(RemoteMacBin, MacStr);
-  return(sendAtCmdAndWaitForResp(AT_RNAME, BT_GET, MacStr, RespBuf, RespBufMaxLen, 5, 6, (char *)"\r\nOK\r\n", TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_RNAME, BT_GET, buildMacStr(RemoteMacBin, MacStr), RespBuf, RespBufMaxLen, 5, 6, (char *)"\r\nOK\r\n", TimeoutMs));
 }
 
 /**
@@ -391,7 +390,7 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
   bluetooth_AtCmdMode(ON);
   clearPairedList(BT_SET_TIMEOUT_MS);
   memset(Scann, 0, sizeof(BtScannSt_t));
-  sendAtCmdAndWaitForResp(AT_INQ, BT_CMD, NULL, Buf, sizeof(Buf), 0, 0, (char *)"OK/r/n", 0); // Just send the command without any reception
+  sendAtCmdAndWaitForResp(AT_INQ, BT_CMD, NULL, Buf, sizeof(Buf), 0, 0, (char *)"", 0); // Just send the command without any reception
   do
   {
     RespBuf[0] = 0;
@@ -432,7 +431,7 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
     {
       for(uint8_t Try = 0; Try < 2; Try++) // Try twice to get more chance to catch it!
       {
-        if(bluetooth_getRemoteName(Scann->Remote[Idx].MAC, RespBuf, sizeof(RespBuf), BT_READ_RNAME_TIMEOUT_MS) > 4)
+        if(bluetooth_getRemoteName(Scann->Remote[Idx].MAC, RespBuf, sizeof(RespBuf), BT_READ_RNAME_TIMEOUT_MS) > 0)
         {
           strncpy(Scann->Remote[Idx].Name, RespBuf, BT_NAME_STR_LEN);
           Scann->Remote[Idx].Name[BT_NAME_STR_LEN] = 0;

@@ -1300,13 +1300,14 @@ union ReusableBuffer {
 
 #if defined(BLUETOOTH)
   struct {
-    char peer_name_str[LEN_BT_NAME+2]; // ASCII format
-    char name_zchar[LEN_BT_NAME+2];    // FW format
-    char name_str[LEN_BT_NAME+2];      // ASCII format
-    char pin_zchar[5];                 // FW format
-    char pin_str[5];                   // ASCII format
-    BtScannSt_t scann;
     uint8_t firstMenuRun;
+    char name_zchar[LEN_BT_NAME];      // FW format
+    char name_str[LEN_BT_NAME+1];      // ASCII format
+    char pin_zchar[4];                 // FW format
+    char pin_str[5];                   // ASCII format
+    //char peer_name_zchar[LEN_BT_NAME]; // FW format
+    char peer_name_str[LEN_BT_NAME+1]; // ASCII format
+    BtScannSt_t scann;
   } bluetooth;
 #endif
 
