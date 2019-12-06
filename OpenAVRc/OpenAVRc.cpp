@@ -70,7 +70,7 @@ FORCEINLINE uint16_t getTmr10ms()
 FORCEINLINE uint16_t getTmr64uS()
 {
 #if defined(SIMU)
-  uint16_t simu_tmr16 = getTmr10ms() * 160;
+  uint16_t simu_tmr16 = (clock_t)((clock()*16) & 0XFFFF); // 16 * Milliseconds
   return simu_tmr16;
 #else
   while(1)
