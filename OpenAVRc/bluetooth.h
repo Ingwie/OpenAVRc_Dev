@@ -37,7 +37,7 @@
 #include "uCli.h"
 #include "misclib.h"
 
-#define BT_POWER_ON_OFF_MS         50
+#define BT_POWER_ON_OFF_MS         500 // Real reset occur with this (big) value
 #define BT_WAKE_UP_MS              600
 #define BT_AT_WAKE_UP_MS           50
 #define BT_GET_TIMEOUT_MS          60
