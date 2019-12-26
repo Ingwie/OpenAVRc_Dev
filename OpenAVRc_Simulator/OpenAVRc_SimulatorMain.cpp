@@ -176,6 +176,10 @@ bool Rspringactive = false;
 
 wxString googleearthPath = "";
 
+wxString BtSimuName = "";
+wxString BtSimuPin = "";
+
+
 //(*IdInit(OpenAVRc_SimulatorFrame)
 const long OpenAVRc_SimulatorFrame::ID_PANELH = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_POT1 = wxNewId();
@@ -625,6 +629,9 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   SimuComIsValid = false;
   frskySportSimuSetup();
 
+  //Ucli frame
+  uCliFr = new  uCliFrame(this);
+  uCliFr->Show(FALSE);
 }
 
 //// FW Functions ///////////////////////////////////////////////////
@@ -3281,12 +3288,12 @@ void OpenAVRc_SimulatorFrame::OnuCliSelected(wxCommandEvent& event)
 {
   event.Skip();
   MenuFrame->Enable(ID_MENUITEMUCLI, false);
-  uCliFr = new  uCliFrame(this);
   uCliFr->Show(TRUE);
 }
 
 void OpenAVRc_SimulatorFrame::EnableuCliMenu()
 {
+  uCliFr->Show(FALSE);
   MenuFrame->Enable(ID_MENUITEMUCLI, true);
 }
 
