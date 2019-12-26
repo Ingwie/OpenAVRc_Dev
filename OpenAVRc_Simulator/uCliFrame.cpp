@@ -32,6 +32,10 @@
 
 #include "uCliFrame.h"
 
+extern wxString BtSimuName = "";
+extern wxString BtSimuPin = "";
+
+
 //(*InternalHeaders(uCliFrame)
 #include <wx/intl.h>
 #include <wx/string.h>
@@ -97,7 +101,7 @@ void uCliFrame::OnClose(wxCloseEvent& event)
   OpenAVRc_SimulatorFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_SimulatorFrame);
   if(parent)
     parent->EnableuCliMenu();
-  Destroy();
+  /*Destroy();*/
 }
 
 void uCliFrame::HwSerialByte(uint8_t c)
@@ -108,6 +112,8 @@ void uCliFrame::HwSerialByte(uint8_t c)
     SendToHwSerial()\
 
   wxColor color;
+  wxString inputValue = "";
+
   if (simu_portb & OUT_B_BT_KEY)
     {
       color = *wxBLUE;  // Bluetooth dialog
@@ -123,48 +129,66 @@ void uCliFrame::HwSerialByte(uint8_t c)
       TextCtrl->WriteText((char)c);
       LastPrompt = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-1);
     }
-  if ((c == '\n') && (simu_portb & OUT_B_BT_KEY) && (simu_portg & OUT_G_BT_ONOFF)) // Virtuel BT module ON and AT mode actived
+  if ((c == '\n') && (simu_portb & OUT_B_BT_KEY) && (simu_portg & OUT_G_BT_ONOFF)) // Virtual BT module ON and AT mode actived
     {
       wxString cmd = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
 
-      if ((cmd == "AT") || (cmd == "AT+UART=115200,0,0") || (cmd == "AT+CLASS=0") || (cmd == "AT+INQM=0,4,4"))
+      if ((cmd == "AT") || (cmd == "AT+UART=115200,0,0") || (cmd == "AT+CLASS=0") || (cmd == "AT+INQM=0,4,4")
+          || (cmd == "AT+IPSCAN=1024,1,1024,1") || (cmd == "AT+ROLE=1") || (cmd == "AT+ROLE=0"))
         {
           TextCtrl->WriteText("OK");
           SendToHwSerial();
         }
       else if (cmd == "AT+NAME?")
         {
-          TextCtrl->WriteText("+NAME:TOtoTAta");
+          TextCtrl->WriteText("+NAME:" + BtSimuName);
           SEND();
         }
       else if (cmd == "AT+PSWD?")
         {
-          TextCtrl->WriteText("+PIN:\"1234\"");
+          TextCtrl->WriteText("+PIN:\"" + BtSimuPin + "\"");
           SEND();
         }
-      else if (cmd == "AT+RNAME?0000,00,000000")
+      else if (cmd == "AT+RNAME?1234,56,789ABC")
         {
-          TextCtrl->WriteText("+RNAME:RC-NAVY");
-          SEND();
+          //TextCtrl->WriteText("+RNAME:RC-NAVY");
+          //SEND();
         }
-      else if (cmd == "AT+RNAME?1111,11,111111")
+      else if (cmd == "AT+RNAME?EFCB,AA,123456")
         {
           TextCtrl->WriteText("+RNAME:INGWIE");
           SEND();
         }
-      else if (cmd == "AT+RNAME?2222,22,222222")
+      else if (cmd == "AT+RNAME?01AB,22,000777")
         {
           TextCtrl->WriteText("+RNAME:PIERROTM");
           SEND();
         }
       else if (cmd == "AT+INQ")
         {
-          TextCtrl->WriteText("+INQ:0000,00,000000");
+          TextCtrl->WriteText("+INQ:1234:56:789ABC,1C010C,7FFF");
           SendToHwSerial();
-          TextCtrl->WriteText("+INQ:1111,11,111111");
+          TextCtrl->WriteText("+INQ:EFCB,AA,123456,1C010C,7FFF");
           SendToHwSerial();
-          TextCtrl->WriteText("+INQ:2222,22,222222");
+          TextCtrl->WriteText("+INQ:1AB,22,00777,1C010C,7FFF");
           SEND();
+        }
+      else if ((cmd == "AT+LINK=1234,56,789ABC") || (cmd == "AT+LINK=EFCB,AA,123456") || (cmd == "AT+LINK=01AB,22,000777"))
+        {
+          TextCtrl->WriteText("OK");
+          SendToHwSerial();
+        }
+      else if (cmd.StartsWith(("AT+NAME="), &inputValue))
+        {
+          BtSimuName = inputValue;
+          TextCtrl->WriteText("OK");
+          SendToHwSerial();
+        }
+      else if (cmd.StartsWith(("AT+PSWD=\""), &inputValue))
+        {
+          BtSimuPin = inputValue.Left(4);
+          TextCtrl->WriteText("OK");
+          SendToHwSerial();
         }
     }
 }
