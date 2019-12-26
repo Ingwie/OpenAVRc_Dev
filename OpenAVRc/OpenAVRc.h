@@ -1301,6 +1301,7 @@ union ReusableBuffer {
 #if defined(BLUETOOTH)
   struct {
     uint8_t firstMenuRun;
+    uint8_t eeWriteFlag;
     char name_zchar[LEN_BT_NAME];      // FW format
     char name_str[LEN_BT_NAME+1];      // ASCII format
     char pin_zchar[4];                 // FW format
