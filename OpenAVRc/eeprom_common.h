@@ -31,11 +31,7 @@
 */
 
 
-#if defined(SIMU)
 #define WRITE_DELAY_10MS 200
-#else
-#define WRITE_DELAY_10MS 200
-#endif
 
 #define TIME_TO_WRITE() (s_eeDirtyMsk && (tmr10ms_t)(getTmr10ms() - s_eeDirtyTime10ms) >= (tmr10ms_t)WRITE_DELAY_10MS)
 
