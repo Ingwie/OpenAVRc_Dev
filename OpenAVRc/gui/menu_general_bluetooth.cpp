@@ -95,8 +95,6 @@ void loadDataFromModule()
 
 void writeDataToModule(uint8_t choice)
 {
-  checkIncDec_Ret = 0;
-
   if ((choice == ITEM_BT_ONOFF) || (g_eeGeneral.BT.Power)) // skip setting if power is off
     {
       switch(choice)
@@ -176,7 +174,7 @@ void menuGeneralBluetooth(uint8_t event)
   coord_t y = MENU_HEADER_HEIGHT + 1;
   uint8_t sub = menuVerticalPosition - 1;
   uint8_t slen;
-  s_eeDirtyMsk = 0; // resert, we use it to detect a change
+  s_eeDirtyMsk = 0; // reset, we use it to detect a change
 
   for (uint8_t i=0; i<LCD_LINES-1; ++i)
     {
@@ -235,17 +233,18 @@ void menuGeneralBluetooth(uint8_t event)
 
       if (s_eeDirtyMsk)
         {
-          reusableBuffer.bluetooth.eeWriteFlag = choice +1; // store what change is done
+          reusableBuffer.bluetooth.eeWriteFlag = choice+1; // store what change is done
           s_eeDirtyMsk = 0; // reset
         }
       if ((reusableBuffer.bluetooth.eeWriteFlag) && (!s_editMode) && reusableBuffer.bluetooth.firstMenuRun)
         {
-          writeDataToModule(reusableBuffer.bluetooth.eeWriteFlag-1);
-          reusableBuffer.bluetooth.eeWriteFlag = 0;
-          if ((reusableBuffer.bluetooth.eeWriteFlag != ITEM_BT_ONOFF)||(reusableBuffer.bluetooth.eeWriteFlag != ITEM_BT_ROLE)||(reusableBuffer.bluetooth.eeWriteFlag != ITEM_BT_AUTOCONNECT))
+          --reusableBuffer.bluetooth.eeWriteFlag;
+          writeDataToModule(reusableBuffer.bluetooth.eeWriteFlag);
+          if ((reusableBuffer.bluetooth.eeWriteFlag == ITEM_BT_ONOFF)||(reusableBuffer.bluetooth.eeWriteFlag == ITEM_BT_ROLE)||(reusableBuffer.bluetooth.eeWriteFlag == ITEM_BT_AUTOCONNECT))
             {
               s_eeDirtyMsk = EE_GENERAL; // write to eeprom
             }
+          reusableBuffer.bluetooth.eeWriteFlag = 0;
         }
 
       if (addExt)
