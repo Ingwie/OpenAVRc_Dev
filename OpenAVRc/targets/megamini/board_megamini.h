@@ -118,7 +118,7 @@ void readKeysAndTrims();
 #define OUT_G_BT_ONOFF            PIN4_bm    // BT_On_Off
 #define BT_KEY_ON()               (PORTB |=  OUT_B_BT_KEY)
 #define BT_KEY_OFF()              (PORTB &= ~OUT_B_BT_KEY)
-#define BT_IS_IN_AT_MODE          (PORTB & OUT_B_BT_KEY)
+//#define BT_IS_IN_AT_MODE          (PORTB & OUT_B_BT_KEY)
 //#define DIRECTBTWIRES             test
 #ifdef DIRECTBTWIRES
 #define BT_POWER_ON()             (PORTG |=  OUT_G_BT_ONOFF)
