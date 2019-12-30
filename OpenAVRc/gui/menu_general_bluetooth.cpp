@@ -64,6 +64,7 @@ void loadDataFromModule()
 {
   if (g_eeGeneral.BT.Power)
     {
+      reusableBuffer.bluetooth.firstMenuRun = 0;
       bluetooth_AtCmdMode(ON);
 
       IF_NO_ERROR(bluetooth_getName(reusableBuffer.bluetooth.name_str, sizeof(reusableBuffer.bluetooth.name_str), BT_GET_TIMEOUT_MS))
@@ -77,19 +78,15 @@ void loadDataFromModule()
           //IF_NO_ERROR(bluetooth_getRemoteName(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.peer_name_str, sizeof(reusableBuffer.bluetooth.peer_name_str), BT_READ_RNAME_TIMEOUT_MS))
           {
             //success
+            reusableBuffer.bluetooth.firstMenuRun = 1;
           }
           //else
           {
-            // none
+            // none, retry ....
           }
         }
       }
       bluetooth_AtCmdMode(OFF);
-      reusableBuffer.bluetooth.firstMenuRun = 1;
-    }
-  else
-    {
-      reusableBuffer.bluetooth.firstMenuRun = 0;
     }
 }
 
@@ -174,6 +171,7 @@ void menuGeneralBluetooth(uint8_t event)
   coord_t y = MENU_HEADER_HEIGHT + 1;
   uint8_t sub = menuVerticalPosition - 1;
   uint8_t slen;
+  uint8_t eeDirtyMskMem = s_eeDirtyMsk;
   s_eeDirtyMsk = 0; // reset, we use it to detect a change
 
   for (uint8_t i=0; i<LCD_LINES-1; ++i)
@@ -242,7 +240,7 @@ void menuGeneralBluetooth(uint8_t event)
           writeDataToModule(reusableBuffer.bluetooth.eeWriteFlag);
           if ((reusableBuffer.bluetooth.eeWriteFlag == ITEM_BT_ONOFF)||(reusableBuffer.bluetooth.eeWriteFlag == ITEM_BT_ROLE)||(reusableBuffer.bluetooth.eeWriteFlag == ITEM_BT_AUTOCONNECT))
             {
-              s_eeDirtyMsk = EE_GENERAL; // write to eeprom
+              eeDirtyMskMem = EE_GENERAL; // write to eeprom
             }
           reusableBuffer.bluetooth.eeWriteFlag = 0;
         }
@@ -254,4 +252,5 @@ void menuGeneralBluetooth(uint8_t event)
         }
       y += FH;
     }
+  s_eeDirtyMsk = eeDirtyMskMem; // restore mask
 }
