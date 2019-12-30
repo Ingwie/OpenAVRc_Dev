@@ -16,7 +16,6 @@
 					<Add option="-Winline" />
 					<Add option="-m32" />
 					<Add option="-g" />
-					<Add option="-mno-ms-bitfields" />
 					<Add option="-DDEBUG=YES" />
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
@@ -42,10 +41,8 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-O2" />
 					<Add option="-w" />
 					<Add option="-m32" />
-					<Add option="-mno-ms-bitfields" />
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -67,10 +64,8 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-O2" />
 					<Add option="-w" />
 					<Add option="-m32" />
-					<Add option="-mno-ms-bitfields" />
 					<Add option="-DTRANSLATIONS_ES" />
 					<Add option="-DTTS_ES" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -92,10 +87,8 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-O2" />
 					<Add option="-w" />
 					<Add option="-m32" />
-					<Add option="-mno-ms-bitfields" />
 					<Add option="-DTRANSLATIONS_EN" />
 					<Add option="-DTTS_EN" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -117,10 +110,8 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-O2" />
 					<Add option="-w" />
 					<Add option="-m32" />
-					<Add option="-mno-ms-bitfields" />
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
 					<Add option="-DEXTERNALEEPROM" />
@@ -143,10 +134,8 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-O2" />
 					<Add option="-w" />
 					<Add option="-m32" />
-					<Add option="-mno-ms-bitfields" />
 					<Add option="-DTRANSLATIONS_ES" />
 					<Add option="-DTTS_ES" />
 					<Add option="-DEXTERNALEEPROM" />
@@ -169,10 +158,8 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-O2" />
 					<Add option="-w" />
 					<Add option="-m32" />
-					<Add option="-mno-ms-bitfields" />
 					<Add option="-DTRANSLATIONS_EN" />
 					<Add option="-DTTS_EN" />
 					<Add option="-DEXTERNALEEPROM" />
@@ -195,6 +182,7 @@
 			<Add option="-Wno-deprecated-declarations" />
 			<Add option="-Wno-packed-bitfield-compat" />
 			<Add option="-Wno-trigraphs" />
+			<Add option="-mno-ms-bitfields" />
 			<Add option="-D__GNUWIN32__" />
 			<Add option="-D__WXMSW__" />
 			<Add option="-DWXUSINGDLL" />
@@ -265,10 +253,7 @@
 		<Linker>
 			<Add option="-mthreads" />
 		</Linker>
-		<Unit filename="../OpenAVRc/HwSerial.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
+		<Unit filename="../OpenAVRc/HwSerial.cpp" />
 		<Unit filename="../OpenAVRc/HwSerial.h" />
 		<Unit filename="../OpenAVRc/OpenAVRc.cpp" />
 		<Unit filename="../OpenAVRc/OpenAVRc.h" />

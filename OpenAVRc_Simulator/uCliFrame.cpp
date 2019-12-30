@@ -35,7 +35,6 @@
 extern wxString BtSimuName;
 extern wxString BtSimuPin;
 
-
 //(*InternalHeaders(uCliFrame)
 #include <wx/intl.h>
 #include <wx/string.h>
