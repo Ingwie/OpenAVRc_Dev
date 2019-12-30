@@ -238,7 +238,7 @@ void bluetooth_power(uint8_t On)
 
 void bluetooth_AtCmdMode(uint8_t On, uint8_t Yield /* = 1*/) // TODO use all the time yield
 {
-  uint32_t StartDurationMs;
+  uint16_t StartDurationMs;
 
   if(On)
   {
@@ -380,7 +380,7 @@ int8_t bluetooth_getRemoteName(uint8_t *RemoteMacBin, char *RespBuf, uint8_t Res
  */
 uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
 {
-  uint32_t StartMs = GET_10MS_TICK();
+  uint16_t StartMs = GET_10MS_TICK();
   char     Buf[1]; // 1 Byte minimum!
   char     RespBuf[40];
   uint8_t  MacBin[BT_MAC_BIN_LEN];
@@ -490,7 +490,7 @@ void flushBtRx()
  */
 static void rebootBT(uint8_t Yield /* = 1 */) // TODO use all the time yield
 {
-  uint32_t StartDurationMs;
+  uint16_t StartDurationMs;
 
   bluetooth_power(OFF);
   if(Yield)
@@ -587,7 +587,7 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
 {
   char     AtCmd[20];
   uint8_t  RxChar, RxIdx = 0;
-  uint32_t Start10MsTick, Timeout10msTick;
+  uint16_t Start10MsTick, Timeout10msTick;
   int8_t  Ret = -1;
 
   flushBtRx();
@@ -703,7 +703,7 @@ static uint16_t getAtTimeoutMs(const AtCmdSt_t *AtCmdTbl, uint8_t Idx)
 
 static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, char *TermPattern, uint16_t TimeoutMs)
 {
-  uint32_t Start10MsTick = GET_10MS_TICK();
+  uint16_t Start10MsTick = GET_10MS_TICK();
   uint8_t  RxChar, RxIdx = 0, TPidx = 0, TermPatternLen;
   int8_t   RxLen = -1;
 
