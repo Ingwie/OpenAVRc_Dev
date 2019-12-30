@@ -3297,7 +3297,7 @@ void OpenAVRc_SimulatorFrame::EnableuCliMenu()
   MenuFrame->Enable(ID_MENUITEMUCLI, true);
 }
 
-void OpenAVRc_SimulatorFrame::SendHwSByteTouCliFrame(uint8_t c)
+void OpenAVRc_SimulatorFrame::SendHwSByteToCliFrame(uint8_t c)
 {
   if(uCliFr)
     uCliFr->HwSerialByte(c);

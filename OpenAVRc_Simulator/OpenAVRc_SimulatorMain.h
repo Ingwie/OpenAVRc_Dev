@@ -186,7 +186,7 @@ public:
   void EnableTelemetryMenu();
   void EnableLogsMenu();
   void EnableuCliMenu();
-  void SendHwSByteTouCliFrame(uint8_t c);
+  void SendHwSByteToCliFrame(uint8_t c);
 
 private:
   //(*Handlers(OpenAVRc_SimulatorFrame)
