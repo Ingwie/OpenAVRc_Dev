@@ -91,7 +91,7 @@
   //#include "targets/mega2560/board_mega2560.h"
 
   #if defined(U_CLI) || defined(XMODEM)
-    #include "HwSerial.cpp"
+    #include "HwSerial.h"
     #include "uCli.h"
   #endif
 

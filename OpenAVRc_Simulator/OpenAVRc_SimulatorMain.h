@@ -77,6 +77,9 @@ Tele_Proto_Frsky_Sport,
 //SD
 wxString simu_dir;
 
+//uCli
+extern HwSerial Serial1;
+
 //Beep
 extern uint32_t BeepFreq;
 extern uint32_t BeepTime;
