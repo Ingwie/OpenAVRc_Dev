@@ -32,8 +32,8 @@
 
 #include "uCliFrame.h"
 
-extern wxString BtSimuName = "";
-extern wxString BtSimuPin = "";
+extern wxString BtSimuName;
+extern wxString BtSimuPin;
 
 
 //(*InternalHeaders(uCliFrame)
@@ -129,7 +129,7 @@ void uCliFrame::HwSerialByte(uint8_t c)
       TextCtrl->WriteText((char)c);
       LastPrompt = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-1);
     }
-  if ((c == '\n') && (simu_portb & OUT_B_BT_KEY) && (simu_portg & OUT_G_BT_ONOFF)) // Virtual BT module ON and AT mode actived
+  if ((c == '\n') && (simu_portb & OUT_B_BT_KEY) && !(simu_portg & OUT_G_BT_ONOFF)) // Virtual BT module ON and AT mode actived
     {
       wxString cmd = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
 
