@@ -39,7 +39,7 @@
 //*)
 
 #include "OpenAVRc_SimulatorMain.h"
-extern HwSerial Serial1;
+//extern HwSerial Serial1;
 
 #define wxDEFAULT_DIALOG_STYLE  (wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX)
 
