@@ -47,7 +47,7 @@ wxFileName Myfile;
 // Hwserial
 void SendHwSByte(uint8_t c)
 {
-  wxGetApp().SimuFrame->SendHwSByteTouCliFrame(c);
+  wxGetApp().SimuFrame->SendHwSByteToCliFrame(c);
 }
 
 void simuTrace(const char * format, ...)
