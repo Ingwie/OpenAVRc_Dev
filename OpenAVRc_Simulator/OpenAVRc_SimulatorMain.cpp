@@ -176,8 +176,8 @@ bool Rspringactive = false;
 
 wxString googleearthPath = "";
 
-wxString BtSimuName = "";
-wxString BtSimuPin = "";
+wxString BtSimuName;
+wxString BtSimuPin;
 
 
 //(*IdInit(OpenAVRc_SimulatorFrame)
@@ -1213,6 +1213,9 @@ void OpenAVRc_SimulatorFrame::LoadConfig()
 
   configFile->Read(wxT("googleearthPath"),&googleearthPath);
 
+  configFile->Read(wxT("BtSimuName"),&BtSimuName);
+  configFile->Read(wxT("BtSimuPin"),&BtSimuPin);
+
   configFile->Read(wxT("EEfile"),&CurrentEEPath);
 }
 
@@ -1272,6 +1275,9 @@ void OpenAVRc_SimulatorFrame::SaveConfig()
   configFile->Write(wxT("Tele_Cell6"),Tele_Cell6);
 
   configFile->Write(wxT("googleearthPath"),googleearthPath);
+
+  configFile->Write(wxT("BtSimuName"),BtSimuName);
+  configFile->Write(wxT("BtSimuPin"),BtSimuPin);
 
   configFile->Write(wxT("EEfile"),CurrentEEPath);
 

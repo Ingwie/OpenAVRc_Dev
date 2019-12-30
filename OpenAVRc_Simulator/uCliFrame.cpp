@@ -35,6 +35,8 @@
 extern wxString BtSimuName;
 extern wxString BtSimuPin;
 
+extern bool Ini_Changed;
+
 //(*InternalHeaders(uCliFrame)
 #include <wx/intl.h>
 #include <wx/string.h>
@@ -150,8 +152,8 @@ void uCliFrame::HwSerialByte(uint8_t c)
         }
       else if (cmd == "AT+RNAME?1234,56,789ABC")
         {
-          //TextCtrl->WriteText("+RNAME:RC-NAVY");
-          //SEND();
+          TextCtrl->WriteText("+RNAME:RC-NAVY");
+          SEND();
         }
       else if (cmd == "AT+RNAME?EFCB,AA,123456")
         {
@@ -182,12 +184,14 @@ void uCliFrame::HwSerialByte(uint8_t c)
           BtSimuName = inputValue;
           TextCtrl->WriteText("OK");
           SendToHwSerial();
+          Ini_Changed = true;
         }
       else if (cmd.StartsWith(("AT+PSWD=\""), &inputValue))
         {
           BtSimuPin = inputValue.Left(4);
           TextCtrl->WriteText("OK");
           SendToHwSerial();
+          Ini_Changed = true;
         }
     }
 }
