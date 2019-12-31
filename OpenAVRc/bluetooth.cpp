@@ -143,7 +143,7 @@ DECL_FLASH_TBL(AtCmdSlaveInit, AtCmdSt_t) = {
                           {AT_ROLE,  BT_SET, roleSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           //{AT_ROLE,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           //{AT_NAME,  BT_SET, nameSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
-                          {AT_NAME,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
+                          //{AT_NAME,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           };
 
 DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
@@ -156,8 +156,8 @@ DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
                           //{AT_NAME,  BT_SET, nameSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           //{AT_NAME,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           //{AT_INQM,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
-                          //{AT_INIT,  BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
-                          //{AT_RESET, BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS}, // Ingwie :return error 17 on my BT
+                          {AT_INIT,  BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
+                          {AT_RESET, BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS}, // Ingwie :return error 17 on my BT
                           };
 
 /* PUBLIC FUNTIONS */
@@ -460,11 +460,9 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
 int8_t bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs)
 {
   char RespBuf[20];
-  char MacStr[20];
+  char MacStr[15];
 
-  buildMacStr(RemoteMacBin, MacStr);
-
-  return(sendAtCmdAndWaitForResp(AT_LINK, BT_SET, MacStr, RespBuf, sizeof(RespBuf), 4, 5, (char *)"OK\r\n", TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_LINK, BT_SET, buildMacStr(RemoteMacBin, MacStr), RespBuf, sizeof(RespBuf), 4, 5, (char *)"OK\r\n", TimeoutMs));
 }
 
 /* PRIVATE FUNCTIONS */
@@ -587,6 +585,9 @@ static char *buildMacStr(uint8_t *MacBin, char *MacStr)
 
 static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCmdArg, char *RespBuf, uint8_t RespBufMaxLen, uint8_t MatchLen, uint8_t SkipLen, char *TermPattern, uint16_t TimeoutMs)
 {
+#if defined (SIMU)
+  TimeoutMs = TimeoutMs<<1; // increase timout on Simu
+#endif
   char     AtCmd[20];
   uint8_t  RxChar, RxIdx = 0;
   uint16_t Start10MsTick, Timeout10msTick;
