@@ -117,6 +117,7 @@ static uint8_t buildMacBin(char *MacStr, uint8_t *MacBin);
 static void    uartSet(char* Addon);
 static void    classSet(char* Addon);
 static void    roleSet(char* Addon);
+static void    cmodeSet(char* Addon);
 static void    nameSet(char* Addon);
 static void    inqmSet(char* Addon);
 static void    ipscanSet(char* Addon);
@@ -150,6 +151,7 @@ DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
                           {AT_AT,    BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_GET_TIMEOUT_MS},
                           //{AT_RMAAD, BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_ROLE,  BT_SET, roleSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
+                          {AT_CMODE, BT_SET,cmodeSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           //{AT_ROLE,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           //{AT_NAME,  BT_SET, nameSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           //{AT_NAME,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
@@ -364,7 +366,7 @@ int8_t bluetooth_setPswd(char *BtPswd, uint16_t TimeoutMs)
  */
 int8_t bluetooth_getRemoteName(uint8_t *RemoteMacBin, char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs)
 {
-  char MacStr[14];
+  char MacStr[15];
   // Format: [00]25,56,D8CA0F
   return(sendAtCmdAndWaitForResp(AT_RNAME, BT_GET, buildMacStr(RemoteMacBin, MacStr), RespBuf, RespBufMaxLen, 5, 6, (char *)"\r\nOK\r\n", TimeoutMs));
 }
@@ -807,6 +809,12 @@ static void classSet(char* Addon)
 static void roleSet(char* Addon)
 {
   Addon[0] = '0' + g_eeGeneral.BT.Master;
+  Addon[1] =  0;
+}
+
+static void cmodeSet(char* Addon)
+{
+  Addon[0] = '0';
   Addon[1] =  0;
 }
 
