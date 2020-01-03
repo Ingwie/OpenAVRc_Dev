@@ -441,7 +441,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
         Radius = throttle(ExcSin / 2, ExcCos / 2, 0);
         if(Radius >= DEAD_ANGLE_RADIUS)
         {
-          Angle = sinCosToGis(ExcSin, ExcCos);
+          Angle = sinCosToGis(ExcSin, ExcCos) << 1; /* Angle from stick is 11 bit resolution -> 12 bits */
         }
         else
         {
@@ -456,7 +456,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
         Radius = throttle(ExcSin / 2, ExcCos / 2, 0);
         if(Radius >= DEAD_ANGLE_RADIUS)
         {
-          Angle = sinCosToGis(ExcSin, ExcCos);
+          Angle = sinCosToGis(ExcSin, ExcCos) << 1; /* Angle from stick is 11 bit resolution -> 12 bits */
         }
         else
         {
@@ -688,7 +688,7 @@ static void setPayloadSw(XanyMsg_union *XanyPl, uint16_t Sw, PayloadMapSt_t *Pay
 static uint16_t getPayloadAngle(XanyMsg_union *XanyPl, PayloadMapSt_t *PayloadMap)
 {
   PayloadMap = PayloadMap; /* To avoid a compilation warning */
-  return((((XanyPl->Common.PayloadAndChecksum[0] << 8) | (XanyPl->Common.PayloadAndChecksum[1] & 0xF0)) >> 4));
+  return((((XanyPl->Common.PayloadAndChecksum[0] << 8) | (XanyPl->Common.PayloadAndChecksum[1] & 0xF0)) >> 4)) & 0x0FFF;
 }
 
 /**
@@ -836,7 +836,7 @@ static uint8_t readIoExtender(uint8_t XanyIdx, uint8_t *RxBuf, uint8_t ByteToRea
 * \fn     uint8_t readI2cAngleSensor(uint8_t XanyIdx, uint16_t *Angle)
 * \brief  Reads the I2C angle sensor associated to the specified X-Any instance
 * \param  XanyIdx:    Index of the X-Any
-* \param  Angle:      Pointer on the destination 16 bits buffer
+* \param  Angle:      Pointer on the destination 16 bits buffer (12 bit value)
 * \return 0: OK,   1: Error
 */
 static uint8_t readI2cAngleSensor(uint8_t XanyIdx, uint16_t *Angle)
@@ -853,7 +853,8 @@ static uint8_t readI2cAngleSensor(uint8_t XanyIdx, uint16_t *Angle)
     I2C_SPEED_400K();
     Ret = i2c_readReg((AngleSensor7BitAddr << 1), A1335_ANG_REG_ADDR, (uint8_t *)Angle, 2);
     I2C_SPEED_888K();
-    *Angle &= 0x0FFF; /* Keep only angle value */
+    *Angle = HTONS(*Angle); /* Set to correct endian */
+    *Angle &= 0x0FFF; /* Keep only 12 bit angle value */
   }
   return(Ret);
 }
