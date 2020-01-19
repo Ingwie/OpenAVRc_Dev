@@ -182,6 +182,7 @@ void bluetooth_init(HwSerial *hwSerial)
     }
   else
     {
+      hwSerial->print(F("\r\n")); // After uCli
       rebootBT();
 
       bluetooth_AtCmdMode(ON);
@@ -190,14 +191,14 @@ void bluetooth_init(HwSerial *hwSerial)
           hwSerial->init(RateTbl[Idx]);
           flushBtRx();
           hwSerial->print(F("AT\r\n"));
-          if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"K\r\n", 100)) >= 0)
+          if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"OK\r\n", 100)) >= 0)
             {
               /* OK Uart serial rate found */
               if(Idx)
                 {
                   sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0\r\n"), RateTbl[0]);
                   hwSerial->print(UartAtCmd);
-                  if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"K\r\n", 100)) >= 0)
+                  if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"OK\r\n", 100)) >= 0)
                     {
                       /* Should be OK */
                     }
@@ -585,9 +586,6 @@ static char *buildMacStr(uint8_t *MacBin, char *MacStr)
 
 static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCmdArg, char *RespBuf, uint8_t RespBufMaxLen, uint8_t MatchLen, uint8_t SkipLen, char *TermPattern, uint16_t TimeoutMs)
 {
-#if defined (SIMU)
-  TimeoutMs = TimeoutMs<<1; // increase timout on Simu
-#endif
   char     AtCmd[20];
   uint8_t  RxChar, RxIdx = 0;
   uint16_t Start10MsTick, Timeout10msTick;
