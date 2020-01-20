@@ -416,7 +416,7 @@ static uint16_t DurationValue;
                                                       do{\
                                                         MYWDT_RESET();\
                                                         TaskList;\
-                                                      }while(SIMU_UNLOCK_MACRO_FALSE((GET_10MS_TICK() - StartDurationMsVar) < MS_TO_10MS_TICK(DurationMs)));\
+                                                      }while((GET_10MS_TICK() - StartDurationMsVar) < MS_TO_10MS_TICK(DurationMs));\
                                                     }while(0)
 
 /**
