@@ -37,13 +37,13 @@
 #include "uCli.h"
 #include "misclib.h"
 
-#define BT_POWER_ON_OFF_MS         500 // Real reset occur with this (big) value
+#define BT_POWER_ON_OFF_MS         50
 #define BT_WAKE_UP_MS              600
-#define BT_AT_WAKE_UP_MS           50
-#define BT_GET_TIMEOUT_MS          60
-#define BT_SET_TIMEOUT_MS          100
-#define BT_SCANN_TIMEOUT_MS        15000
-#define BT_READ_RNAME_TIMEOUT_MS   10000
+#define BT_AT_WAKE_UP_MS           100
+#define BT_GET_TIMEOUT_MS          80
+#define BT_SET_TIMEOUT_MS          120
+#define BT_SCANN_TIMEOUT_MS        8000
+#define BT_READ_RNAME_TIMEOUT_MS   5000
 
 extern const char Str_BT_Slave[];
 extern const char Str_BT_Master[];
@@ -78,5 +78,6 @@ int8_t  bluetooth_getRemoteName(uint8_t *RemoteMacBin, char *RespBuf, uint8_t Re
 uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs);
 int8_t  bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs);
 void    bluetooth_addSuffix(char* Addon);
+void    rebootBT(uint8_t Yield = 1);
 
 #endif // BLUETOOTH_H

@@ -102,7 +102,7 @@ typedef struct{
 }AtCmdSt_t;
 
 /* PRIVATE FUNCTION PROTOTYPES */
-static void    rebootBT(uint8_t Yield = 1);
+//static void    rebootBT(uint8_t Yield = 1);
 static uint8_t getAtCmdIdx(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
 static char   *getAtCmd(uint8_t Idx, char *Buf);
 static uint8_t getAtMatchLen(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
@@ -213,7 +213,6 @@ void bluetooth_init(HwSerial *hwSerial)
             {
             }
         }
-      bluetooth_AtCmdMode(OFF);
       BT_SEND_AT_SEQ(AtCmdBtInit); // Common to Master and Slave
       if(g_eeGeneral.BT.Master)
         {
@@ -223,6 +222,7 @@ void bluetooth_init(HwSerial *hwSerial)
         {
           BT_SEND_AT_SEQ(AtCmdSlaveInit);
         }
+      bluetooth_AtCmdMode(OFF);
     }
 }
 
@@ -444,7 +444,7 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
       }
     }
   }
-  bluetooth_AtCmdMode(OFF);
+  //bluetooth_AtCmdMode(OFF);
 
   return(Ret);
 }
@@ -489,7 +489,7 @@ void flushBtRx()
  * \param  Yield: 0 -> blocking delay, 1 -> Yield to prio task list (default value)
  * \return Void.
  */
-static void rebootBT(uint8_t Yield /* = 1 */) // TODO use all the time yield
+void rebootBT(uint8_t Yield /* = 1 */) // TODO use all the time yield
 {
   uint16_t StartDurationMs;
 
@@ -769,7 +769,6 @@ static void btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb)
   char      *AtCmdArg;
   char       TermPattern[10];
 
-  bluetooth_AtCmdMode(ON);
   for(Idx = 0; Idx < TblItemNb; Idx++)
   {
     AtCmdArg  = NULL;
@@ -792,7 +791,6 @@ static void btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb)
     {
     }
   }
-  bluetooth_AtCmdMode(OFF);
 }
 
 static void uartSet(char* Addon)
