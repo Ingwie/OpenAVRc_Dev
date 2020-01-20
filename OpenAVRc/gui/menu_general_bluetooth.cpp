@@ -65,6 +65,7 @@ void loadDataFromModule()
   if (g_eeGeneral.BT.Power)
     {
       reusableBuffer.bluetooth.firstMenuRun = 0;
+      rebootBT();
       bluetooth_AtCmdMode(ON);
 
       IF_NO_ERROR(bluetooth_getName(reusableBuffer.bluetooth.name_str, sizeof(reusableBuffer.bluetooth.name_str), BT_GET_TIMEOUT_MS))
@@ -75,7 +76,7 @@ void loadDataFromModule()
         {
           str2zchar(reusableBuffer.bluetooth.pin_zchar, reusableBuffer.bluetooth.pin_str, sizeof(reusableBuffer.bluetooth.pin_zchar));
 
-          (bluetooth_getRemoteName(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.peer_name_str, sizeof(reusableBuffer.bluetooth.peer_name_str), BT_READ_RNAME_TIMEOUT_MS));
+          IF_NO_ERROR(bluetooth_getRemoteName(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.peer_name_str, sizeof(reusableBuffer.bluetooth.peer_name_str), BT_READ_RNAME_TIMEOUT_MS/5));
           {
             //success
             reusableBuffer.bluetooth.firstMenuRun = 1;
@@ -134,11 +135,14 @@ void onPairSelected(const char *result)
   strcpy(reusableBuffer.bluetooth.peer_name_str, result);
   //str2zchar(reusableBuffer.bluetooth.name_zchar, reusableBuffer.bluetooth.peer_name_str, sizeof(reusableBuffer.bluetooth.peer_name_str));
   memcpy(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.scann.Remote[shared_u8].MAC, BT_MAC_BIN_LEN);
-  bluetooth_AtCmdMode(ON);
+  //bluetooth_AtCmdMode(ON);
   IF_NO_ERROR(bluetooth_linkToRemote(g_eeGeneral.BT.Peer.Mac, BT_SET_TIMEOUT_MS))
   {
     eeDirty(EE_GENERAL);
     // TODO show "linked :)"
+    displayPopup(PSTR("conecte"));
+    MYWDT_RESET();
+    _delay_ms(400);
   }
   bluetooth_AtCmdMode(OFF);
 }
