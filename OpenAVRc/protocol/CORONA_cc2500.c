@@ -133,7 +133,7 @@ static void corona_init()
 
 static uint16_t corona_send_data_packet()
 {
-  uint16_t packet_period = 0; // unused value
+  uint16_t packet_period = 0;
 
   if(!rfState16) // V1 or V2&identifier sended
     {
@@ -229,7 +229,7 @@ static uint16_t corona_send_bind_packet()
       // V1
       if(bind_counter++&1)
         {
-          SCHEDULE_MIXER_END_IN_US(14000); // Schedule next Mixer calculations.
+          SCHEDULE_MIXER_END_IN_US(3500); // Schedule next Mixer calculations.
           // Send TX ID
           packet[0]=0x04;		// 5 bytes to follow
           for(uint8_t i=0; i<CORONA_ADDRESS_LENGTH; i++)
