@@ -118,9 +118,9 @@ static void    uartSet(char* Addon);
 static void    classSet(char* Addon);
 static void    roleSet(char* Addon);
 static void    cmodeSet(char* Addon);
-static void    nameSet(char* Addon);
 static void    inqmSet(char* Addon);
 static void    ipscanSet(char* Addon);
+//static void    nameSet(char* Addon);
 
 static int8_t  getBtStateIdx(const char *BtState);
 static int8_t  clearPairedList(uint16_t TimeoutMs);
@@ -436,7 +436,12 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
       {
         if(bluetooth_getRemoteName(Scann->Remote[Idx].MAC, RespBuf, sizeof(RespBuf), BT_READ_RNAME_TIMEOUT_MS) > 0)
         {
+#if !defined(SIMU)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstringop-truncation"
           strncpy(Scann->Remote[Idx].Name, RespBuf, BT_NAME_STR_LEN);
+#pragma GCC diagnostic pop
+#endif
           Scann->Remote[Idx].Name[BT_NAME_STR_LEN] = 0;
           Ret++; // Mac AND Remote Name found
           break; // Exit ASAP
@@ -830,7 +835,7 @@ void bluetooth_addSuffix(char* Addon)
   strcat_P(Addon, (g_eeGeneral.BT.Master)? Str_BT_Master: Str_BT_Slave);
 }
 
-static void nameSet(char* Addon)
+/*static void nameSet(char* Addon)
 {
   char   Name[BT_NAME_STR_LEN + 1];
   int8_t NameLen;
@@ -838,21 +843,21 @@ static void nameSet(char* Addon)
   NameLen = bluetooth_getName(Name, sizeof(Name), 100);
   if(NameLen > 3)
   {
-    /* Check if suffix _M or _S is present */
+    // Check if suffix _M or _S is present
     if((Name[NameLen - 2] == '_') && ((Name[NameLen - 1] == 'M') || (Name[NameLen - 1] == 'S')))
     {
-      /* Skip suffix */
+      // Skip suffix
       Name[NameLen - 2] = 0;
     }
     strcpy(Addon, Name);
   }
   else
   {
-    /* Name absent or too short */
+    // Name absent or too short
     strcpy_P(Addon, PSTR("HC-05-OAVRC")); // Better than nothing!
   }
   bluetooth_addSuffix(Addon);
-}
+}*/
 
 static int8_t getBtStateIdx(const char *BtState)
 {
