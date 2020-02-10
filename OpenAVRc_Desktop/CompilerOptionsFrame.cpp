@@ -927,7 +927,7 @@ void CompilerOptionsFrame::WriteSplashFile()
 {
   wxString data;
   wxString line;
-  wxTextFile Splashfile( AppPath + "\\sources\\bitmaps\\splash.lbm");
+  wxTextFile Splashfile( LCDROT180? AppPath + "\\sources\\bitmaps\\splash.lbmi": AppPath + "\\sources\\bitmaps\\splash.lbm");
   Splashfile.Open();
   Splashfile.Clear();
   line = "";
