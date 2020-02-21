@@ -75,6 +75,11 @@ void saveTimers()
 
 void evalTimers(int16_t throttle, uint8_t tick10ms)
 {
+  if (!enableGaz)
+  {
+    throttle = 0;
+  }
+
   for (uint8_t i=0; i<TIMERS; i++) {
     int8_t timerMode = g_model.timers[i].mode;
     tmrstart_t timerStart = g_model.timers[i].start;
