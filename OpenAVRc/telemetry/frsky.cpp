@@ -131,7 +131,6 @@ NOINLINE void parseTelemFrskyByte(uint8_t data)
 
   if (IS_USR_PROTO_SMART_PORT() && BufferCount >= (IS_SPIMODULES_PROTOCOL(g_model.rfProtocol)? TELEM_RX_PACKET_SIZE - 1:TELEM_RX_PACKET_SIZE))
     {
-      //processSportPacket(Buffer);
       LoadTelemBuffer(Buffer);
       dataState = STATE_DATA_IDLE;
     }
