@@ -40,9 +40,10 @@
 extern int16_t ppmInput[NUM_TRAINER];
 
 // Timer gets decremented in per10ms()
-#define PPM_IN_VALID_TIMEOUT 100 // 1s
-extern uint8_t ppmInputValidityTimer;
+#define PUPPY_VALID_TIMEOUT 50 // 0.5s
+#define PUPPY_VALID_TIMEOUT_FIRST (PUPPY_VALID_TIMEOUT+1)
+extern uint8_t puppySignalValidityTimer;
 
-#define IS_TRAINER_INPUT_VALID() (ppmInputValidityTimer != 0)
+#define IS_TRAINER_INPUT_VALID() (puppySignalValidityTimer != 0)
 
 #endif

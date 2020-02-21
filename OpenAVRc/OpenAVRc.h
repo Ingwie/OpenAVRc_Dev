@@ -1025,6 +1025,8 @@ extern void parseTelemFrskyByte(uint8_t data);
 #define PLAY_INCREMENT(x)         ((uint8_t)(((uint8_t)x) << 6))   /* -1, 0, 1, 2 */
 
 #define AU_MODEL_NAME_NUM_FILE    0xC8 //200 in buildaudiofile models name range 201 to 255
+#define AU_PUPPY_GET              0x1A //506
+#define AU_PUPPY_LOSS             0x1B //507
 #define AU_TELEMETRY_GET          0x1E //510
 #define AU_TELEMETRY_LOSS         0x1F //511
 
