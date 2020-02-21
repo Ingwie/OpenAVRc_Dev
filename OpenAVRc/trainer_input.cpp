@@ -34,7 +34,7 @@
 #include "trainer_input.h"
 
 int16_t ppmInput[NUM_TRAINER];
-uint8_t ppmInputValidityTimer;
+uint8_t puppySignalValidityTimer;
 
 /*
  * Trainer PPM input capture ISR.
@@ -53,7 +53,7 @@ ISR(TRAINER_TC_VECT) // G: High frequency noise can cause stack overflow with IS
 
   if(channelNumber && val > 800 && val < 2200 && channelNumber <= NUM_TRAINER)
   { // Accepted range is 800 to 2200 us  1500us+/-700.
-    ppmInputValidityTimer = PPM_IN_VALID_TIMEOUT;
+    puppySignalValidityTimer = puppySignalValidityTimer? PUPPY_VALID_TIMEOUT : PUPPY_VALID_TIMEOUT_FIRST;
     ppmInput[channelNumber++ -1] =
       (int16_t)(val - 1500)*(g_eeGeneral.PPM_Multiplier+10)/10;
   }

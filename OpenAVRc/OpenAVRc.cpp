@@ -258,7 +258,18 @@ void per10ms()
 #endif
 
   if (trimsCheckTimer) --trimsCheckTimer;
-  if (ppmInputValidityTimer) --ppmInputValidityTimer;
+
+  if (puppySignalValidityTimer) --puppySignalValidityTimer;
+#if defined(VOICE)
+      if (puppySignalValidityTimer == PUPPY_VALID_TIMEOUT_FIRST)
+        {
+          PLAY_PUPPY_GET();
+        }
+      else if (puppySignalValidityTimer == 1)
+        {
+          PLAY_PUPPY_LOSS();
+        }
+#endif
 
 
 #if defined(RTCLOCK)
