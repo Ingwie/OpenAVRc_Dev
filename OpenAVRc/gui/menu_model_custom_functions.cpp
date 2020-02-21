@@ -166,7 +166,7 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
                 lcdDrawTextAtt(0,0, PROMPTTEXT, BSS|INVERS|BLINK);
                 if ((uint8_t)val_displayed == PROMPTMEM)
                   {
-                    PROMPTMEM = 0; // PROMPTTEXT is OK
+                    PROMPTMEM = 0xFF; // PROMPTTEXT is OK
                   }
                 else
                   {
@@ -260,11 +260,10 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
 void menuModelCustomFunctions(uint8_t event)
 {
 #if defined(VOICE) && defined(SDCARD)
-  if (PROMPTMEM)
+  if (PROMPTMEM != 0xFF)
     {
       if (!loadVoiceTextLine(PROMPTMEM,PROMPTTEXT)) // Load the prompt text file if exist
         {
-          PROMPTMEM = 0; // Reset on error
           PROMPTTEXT[0] = '\0';
         }
       SdBufferClear(); // Clear reused buffer
