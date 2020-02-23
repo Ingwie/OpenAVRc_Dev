@@ -6,7 +6,7 @@
 *.o
 *.res
 *.bak
-**.kicad_pcb-bak
+*.kicad_pcb-bak
 Thumbs.db
 OpenAVRc_Simulator\obj\
 OpenAVRc_Desktop\obj\
