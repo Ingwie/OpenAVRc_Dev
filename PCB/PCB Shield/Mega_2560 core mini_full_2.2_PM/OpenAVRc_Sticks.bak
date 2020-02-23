@@ -1458,17 +1458,6 @@ F 3 "" H 8300 1250 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.2-rescue:CONN_01X08-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P25
-U 1 1 59C63FBD
-P 10400 1250
-F 0 "P25" H 10400 1700 50  0000 C CNN
-F 1 "Keys" V 10500 1250 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_2x04_Pitch2.54mm" H 10400 1250 50  0001 C CNN
-F 3 "" H 10400 1250 50  0000 C CNN
-	1    10400 1250
-	0    -1   -1   0   
-$EndComp
-$Comp
 L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR041
 U 1 1 59C63FC4
 P 7400 2150
@@ -8692,4 +8681,15 @@ FF 97 92 FF 05 2F E9 E3 94 BF 02 FD 81 E4 FF 07 0A BD 7F 84 9E 1B 1C EA 00 00 00
 AE 42 60 82 
 EndData
 $EndBitmap
+$Comp
+L Connector_Generic:Conn_01x08 P25
+U 1 1 5DC841D1
+P 10350 1250
+F 0 "P25" H 10350 1650 50  0000 C CNN
+F 1 "Keys" V 10476 1196 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_2x04_Pitch2.54mm" H 10350 1250 50  0001 C CNN
+F 3 "~" H 10350 1250 50  0001 C CNN
+	1    10350 1250
+	0    -1   -1   0   
+$EndComp
 $EndSCHEMATC

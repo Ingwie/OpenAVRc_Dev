@@ -1,0 +1,414 @@
+89631641104364
+Mylib_v2.2
+CP_Elec_6.3x5.3
+SMT capacitor, aluminium electrolytic, 6.3x5.3
+
+0
+2
+2
+Mylib_v2.2
+C_1206
+Capacitor SMD 1206, reflow soldering, AVX (see smccp.pdf)
+capacitor 1206
+0
+2
+2
+Mylib_v2.2
+Con_RS232_TTL
+Through hole straight pin header, 1x04, 2.54mm pitch, single row
+Through hole pin header THT 1x04 2.54mm single row
+0
+12
+8
+Mylib_v2.2
+Connectors-2560-core
+
+
+0
+100
+91
+Mylib_v2.2
+DIP-12_W10.16mm_Socket_LongPads
+22-lead dip package, row spacing 10.16 mm (400 mils), Socket, LongPads
+DIL DIP PDIP 2.54mm 10.16mm 400mil Socket LongPads
+0
+12
+12
+Mylib_v2.2
+DIP-22_W10.16mm_Socket_LongPads
+22-lead dip package, row spacing 10.16 mm (400 mils), Socket, LongPads
+DIL DIP PDIP 2.54mm 10.16mm 400mil Socket LongPads
+0
+12
+12
+Mylib_v2.2
+D_SCD80
+SCD80 (SC-80) Infineon diode package
+SCD80 SC-80
+0
+2
+2
+Mylib_v2.2
+D_SCD80_HandSoldering
+SCD80 (SC-80) Infineon diode package
+SCD80 SC-80
+0
+2
+2
+Mylib_v2.2
+D_SOD-123
+SOD-123
+SOD-123
+0
+2
+2
+Mylib_v2.2
+D_SOD-323
+SOD-323
+SOD-323
+0
+2
+2
+Mylib_v2.2
+D_SOD-323_HandSoldering
+SOD-323
+SOD-323
+0
+2
+2
+Mylib_v2.2
+Level_Convertissor_W10.16mm
+22-lead dip package, row spacing 10.16 mm (400 mils), Socket, LongPads
+DIL DIP PDIP 2.54mm 10.16mm 400mil Socket LongPads
+0
+12
+12
+Mylib_v2.2
+MiniDCDC3A
+
+
+0
+8
+8
+Mylib_v2.2
+MountingHole_3.2mm_M3
+Mounting Hole 3.2mm, no annular, M3
+mounting hole 3.2mm no annular m3
+0
+0
+0
+Mylib_v2.2
+Pin_Header_Straight_1x02_Pitch2.54mm
+Through hole straight pin header, 1x02, 2.54mm pitch, single row
+Through hole pin header THT 1x02 2.54mm single row
+0
+2
+2
+Mylib_v2.2
+Pin_Header_Straight_1x03_Pitch2.54mm
+Through hole straight pin header, 1x03, 2.54mm pitch, single row
+Through hole pin header THT 1x03 2.54mm single row
+0
+3
+3
+Mylib_v2.2
+Pin_Header_Straight_1x04_Pitch2.54mm
+Through hole straight pin header, 1x04, 2.54mm pitch, single row
+Through hole pin header THT 1x04 2.54mm single row
+0
+4
+4
+Mylib_v2.2
+Pin_Header_Straight_1x05_Pitch2.54mm
+Through hole straight pin header, 1x05, 2.54mm pitch, single row
+Through hole pin header THT 1x05 2.54mm single row
+0
+5
+5
+Mylib_v2.2
+Pin_Header_Straight_1x06_Pitch2.54mm
+Through hole straight pin header, 1x06, 2.54mm pitch, single row
+Through hole pin header THT 1x06 2.54mm single row
+0
+6
+6
+Mylib_v2.2
+Pin_Header_Straight_1x07_Pitch2.54mm
+Through hole straight pin header, 1x05, 2.54mm pitch, single row
+Through hole pin header THT 1x05 2.54mm single row
+0
+7
+7
+Mylib_v2.2
+Pin_Header_Straight_1x09_Pitch2.54mm
+Through hole straight pin header, 1x09, 2.54mm pitch, single row
+Through hole pin header THT 1x09 2.54mm single row
+0
+9
+9
+Mylib_v2.2
+Pin_Header_Straight_2x03_Pitch2.54mm
+Through hole straight pin header, 2x03, 2.54mm pitch, double rows
+Through hole pin header THT 2x03 2.54mm double row
+0
+6
+6
+Mylib_v2.2
+Pin_Header_Straight_2x04_Pitch2.54mm
+Through hole straight pin header, 2x04, 2.54mm pitch, double rows
+Through hole pin header THT 2x04 2.54mm double row
+0
+8
+8
+Mylib_v2.2
+Pin_Header_Straight_2x05_Pitch2.54mm
+Through hole straight pin header, 2x05, 2.54mm pitch, double rows
+Through hole pin header THT 2x05 2.54mm double row
+0
+10
+10
+Mylib_v2.2
+Pin_Header_Straight_2x06_Pitch2.54mm
+Through hole straight pin header, 2x05, 2.54mm pitch, double rows
+Through hole pin header THT 2x05 2.54mm double row
+0
+12
+12
+Mylib_v2.2
+Pin_Header_Straight_2x10_Pitch2.54mm
+Through hole straight pin header, 2x10, 2.54mm pitch, double rows
+Through hole pin header THT 2x10 2.54mm double row
+0
+20
+20
+Mylib_v2.2
+Pin_Header_Straight_3x03_Pitch2.54mm
+Through hole straight pin header, 2x04, 2.54mm pitch, double rows
+Through hole pin header THT 2x04 2.54mm double row
+0
+9
+9
+Mylib_v2.2
+Pm5033_sil5
+Through hole straight pin header, 1x05, 2.54mm pitch, single row
+Through hole pin header THT 1x05 2.54mm single row
+0
+5
+5
+Mylib_v2.2
+Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp
+3296, 3/8, Square, Trimpot, Trimming, Potentiometer, Bourns
+3296, 3/8, Square, Trimpot, Trimming, Potentiometer, Bourns
+0
+3
+3
+Mylib_v2.2
+Potentiometer_Trimmer_Bourns_3266W
+Spindle Trimmer Potentiometer, Bourns 3266W, https://www.bourns.com/pdfs/3266.pdf
+Spindle Trimmer Potentiometer   Bourns 3266W
+0
+3
+3
+Mylib_v2.2
+Potentiometer_Trimmer_Bourns_3296W
+Spindle Trimmer Potentiometer, Bourns 3296W, https://www.bourns.com/pdfs/3296.pdf
+Spindle Trimmer Potentiometer   Bourns 3296W
+0
+3
+3
+Mylib_v2.2
+Potentiometer_Triwood_RM-065
+Potentiometer, Trimmer, RM-065
+Potentiometer, Trimmer, RM-065
+0
+3
+3
+Mylib_v2.2
+RS232_TEST
+
+
+0
+0
+0
+Mylib_v2.2
+R_1206
+Resistor SMD 1206, reflow soldering, Vishay (see dcrcw.pdf)
+resistor 1206
+0
+2
+2
+Mylib_v2.2
+SO-16-DS3231
+
+
+0
+16
+16
+Mylib_v2.2
+SO-16-L
+
+
+0
+16
+16
+Mylib_v2.2
+SO-16-N
+Module CMS SOJ 16 pins large
+CMS SOJ
+0
+16
+16
+Mylib_v2.2
+SO-16-W
+Module CMS SOJ 16 pins tres large
+CMS SOJ
+0
+16
+16
+Mylib_v2.2
+SOIC-8-FRAM_DI
+Module Narrow CMS SOJ 8 double implantation
+CMS SOJ
+0
+8
+8
+Mylib_v2.2
+SOIC-8-N
+Module Narrow CMS SOJ 8 pins large
+CMS SOJ
+0
+8
+8
+Mylib_v2.2
+SOIC-Micro8
+Module Narrow CMS SOJ 8 pins large
+CMS SOJ
+0
+8
+3
+Mylib_v2.2
+SOP4
+
+
+0
+4
+4
+Mylib_v2.2
+SOP14
+
+
+0
+14
+14
+Mylib_v2.2
+SOP14_MCP60004
+
+
+0
+14
+14
+Mylib_v2.2
+SOT-23
+
+
+0
+3
+3
+Mylib_v2.2
+SOT-23-5
+
+
+0
+5
+5
+Mylib_v2.2
+SOT-23-6
+
+
+0
+6
+6
+Mylib_v2.2
+SOT-23_MMBT2222
+SOT-23, Standard
+SOT-23
+0
+3
+3
+Mylib_v2.2
+SOT-23_MOS_P
+
+
+0
+3
+3
+Mylib_v2.2
+SOT-223
+module CMS SOT223 4 pins
+CMS SOT
+0
+4
+4
+Mylib_v2.2
+SOT-363_SC-70-6
+SOT-363, SC-70-6
+
+0
+6
+6
+Mylib_v2.2
+SOT-363_SC-70-6_Handsoldering
+SOT-363, SC-70-6, Handsoldering
+
+0
+6
+6
+Mylib_v2.2
+SOT-457
+SOT-363, SC-70-6, Handsoldering
+
+0
+6
+6
+Mylib_v2.2
+TESTPT
+
+
+0
+2
+2
+Mylib_v2.2
+TO-92_Inline_Wide
+TO-92 leads in-line, wide, drill 0.8mm (see NXP sot054_po.pdf)
+to-92 sc-43 sc-43a sot54 PA33 transistor
+0
+3
+3
+Mylib_v2.2
+TO-220
+Non Isolated JEDEC TO-220 Package
+Power Integration YN Package
+0
+3
+3
+Mylib_v2.2
+connector_mini-JQ6500-28P
+
+
+0
+12
+8
+Mylib_v2.2
+test
+
+
+0
+0
+0
+Mylib_v2.2
+trimpot_5x5_vertical
+
+
+0
+3
+3

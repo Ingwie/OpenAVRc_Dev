@@ -239,17 +239,6 @@ $EndComp
 Text Notes 3950 3350 0    60   ~ 0
 Power\nSwitch
 $Comp
-L Mega_2560-core-mini_full_2.2-rescue:CONN_01X08-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P30
-U 1 1 59C531C1
-P 2150 4150
-F 0 "P30" H 2150 4600 50  0000 C CNN
-F 1 "MiniDCDC3A" V 2250 4150 50  0000 C CNN
-F 2 "v2.1:MiniDCDC3A" H 2150 4150 50  0001 C CNN
-F 3 "" H 2150 4150 50  0000 C CNN
-	1    2150 4150
-	-1   0    0    1   
-$EndComp
-$Comp
 L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR0116
 U 1 1 59C531C8
 P 2400 4550
@@ -10299,4 +10288,15 @@ EndData
 $EndBitmap
 Text Notes 1950 5450 0    60   ~ 0
 Options:\n1 - MP1584EN (+5V) (câbler U5 si besoin +3,3v) (U4 non câblé)\n2 - PM5033 (+5v et +3,3) (MP1584EN et U5 non câblés)
+$Comp
+L Connector_Generic:Conn_01x08 P30
+U 1 1 5DC8790F
+P 2150 4200
+F 0 "P30" H 2150 4600 50  0000 C CNN
+F 1 "MiniDCDC3A" V 2250 4200 50  0000 C CNN
+F 2 "v2.1:MiniDCDC3A" H 2150 4200 50  0001 C CNN
+F 3 "~" H 2150 4200 50  0001 C CNN
+	1    2150 4200
+	-1   0    0    1   
+$EndComp
 $EndSCHEMATC

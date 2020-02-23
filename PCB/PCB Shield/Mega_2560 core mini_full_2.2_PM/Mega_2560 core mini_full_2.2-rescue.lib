@@ -1,11 +1,59 @@
 EESchema-LIBRARY Version 2.4
 #encoding utf-8
 #
-# 2560-core-RESCUE-Mega_2560_core_mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue
+# +3,3V-power1
 #
-DEF 2560-core-RESCUE-Mega_2560_core_mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue P 0 1 Y N 1 F N
+DEF +3,3V-power1 #PWR 0 0 Y Y 1 F P
+F0 "#PWR" 0 -40 30 H I C CNN
+F1 "+3,3V-power1" 0 110 30 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+C 0 60 20 0 1 0 N
+P 3 0 1 0 0 0 0 40 0 40 N
+X +3.3V 1 0 0 0 U 30 30 0 0 W N
+ENDDRAW
+ENDDEF
+#
+# +BATT-power1
+#
+DEF +BATT-power1 #PWR 0 0 Y Y 1 F P
+F0 "#PWR" 0 -50 20 H I C CNN
+F1 "+BATT-power1" 0 100 30 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+C 0 60 20 0 1 0 N
+P 3 0 1 0 0 0 0 40 0 40 N
+X +BATT 1 0 0 0 U 20 20 0 0 W N
+ENDDRAW
+ENDDEF
+#
+# 24C512-memory
+#
+DEF 24C512-memory U 0 30 Y Y 1 F N
+F0 "U" 150 350 60 H V C CNN
+F1 "24C512-memory" 200 -350 60 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+S -400 -300 400 300 1 1 0 N
+X GND 4 0 -500 200 U 60 60 0 0 W
+X VCC 8 0 500 200 D 60 60 0 0 W
+X A0 1 -700 200 300 R 60 60 1 1 I
+X A1 2 -700 100 300 R 60 60 1 1 I
+X A2 3 -700 0 300 R 60 60 1 1 I
+X SDA 5 700 -200 300 L 60 60 1 1 B
+X SCL 6 700 -100 300 L 60 60 1 1 I
+X WP 7 700 100 300 L 60 60 1 1 I
+ENDDRAW
+ENDDEF
+#
+# 2560-core-RESCUE-Mega_2560_core_mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
+#
+DEF 2560-core-RESCUE-Mega_2560_core_mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P 0 1 Y N 1 F N
 F0 "P" 2050 1250 50 H V C CNN
-F1 "2560-core-RESCUE-Mega_2560_core_mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue" 2050 200 50 V V C CNN
+F1 "2560-core-RESCUE-Mega_2560_core_mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 2050 200 50 V V C CNN
 F2 "" 2050 -750 50 H V C CNN
 F3 "" 2050 -750 50 H V C CNN
 $FPLIST
@@ -221,11 +269,31 @@ X P44 VREF 4200 -650 150 L 50 50 1 1 W
 ENDDRAW
 ENDDEF
 #
-# C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue
+# BATTERY-device
 #
-DEF C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C 0 10 N Y 1 F N
+DEF BATTERY-device BT 0 0 Y Y 1 F N
+F0 "BT" 0 200 50 H V C CNN
+F1 "BATTERY-device" 0 -190 50 H V C CNN
+F2 "" 0 0 60 H V C CNN
+F3 "" 0 0 60 H V C CNN
+DRAW
+C 0 0 150 0 1 6 N
+P 2 0 1 0 -100 0 -150 0 N
+P 2 0 1 6 -100 90 -100 -89 N
+P 2 0 1 6 -31 50 -31 -50 N
+P 2 0 1 6 39 90 39 -89 N
+P 2 0 1 0 100 0 150 0 N
+P 2 0 1 6 100 50 100 -50 N
+X + 1 -300 0 150 R 50 50 1 1 P
+X - 2 300 0 150 L 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
+#
+DEF C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue C 0 10 N Y 1 F N
 F0 "C" 25 100 50 H V L CNN
-F1 "C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue" 25 -100 50 H V L CNN
+F1 "C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 25 -100 50 H V L CNN
 F2 "" 38 -150 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 $FPLIST
@@ -243,11 +311,11 @@ X ~ 2 0 -150 110 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# CONN_01X02-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue
+# CONN_01X02-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF CONN_01X02-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P 0 40 Y N 1 F N
+DEF CONN_01X02-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P 0 40 Y N 1 F N
 F0 "P" 0 150 50 H V C CNN
-F1 "CONN_01X02-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue" 100 0 50 V V C CNN
+F1 "CONN_01X02-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 100 0 50 V V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 $FPLIST
@@ -265,11 +333,11 @@ X P2 2 -200 -50 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# CONN_01X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue
+# CONN_01X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF CONN_01X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P 0 40 Y N 1 F N
+DEF CONN_01X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P 0 40 Y N 1 F N
 F0 "P" 0 200 50 H V C CNN
-F1 "CONN_01X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue" 100 0 50 V V C CNN
+F1 "CONN_01X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 100 0 50 V V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 $FPLIST
@@ -289,11 +357,11 @@ X P3 3 -200 -100 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# CONN_01X04-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue
+# CONN_01X04-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF CONN_01X04-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P 0 40 Y N 1 F N
+DEF CONN_01X04-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P 0 40 Y N 1 F N
 F0 "P" 0 250 50 H V C CNN
-F1 "CONN_01X04-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue" 100 0 50 V V C CNN
+F1 "CONN_01X04-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 100 0 50 V V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 $FPLIST
@@ -315,11 +383,11 @@ X P4 4 -200 -150 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# CONN_01X05-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue
+# CONN_01X05-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF CONN_01X05-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P 0 40 Y N 1 F N
+DEF CONN_01X05-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P 0 40 Y N 1 F N
 F0 "P" 0 300 50 H V C CNN
-F1 "CONN_01X05-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue" 100 0 50 V V C CNN
+F1 "CONN_01X05-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 100 0 50 V V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 $FPLIST
@@ -343,11 +411,11 @@ X P5 5 -200 -200 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# CONN_01X06-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue
+# CONN_01X06-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF CONN_01X06-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P 0 40 Y N 1 F N
+DEF CONN_01X06-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P 0 40 Y N 1 F N
 F0 "P" 0 350 50 H V C CNN
-F1 "CONN_01X06-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue" 100 0 50 V V C CNN
+F1 "CONN_01X06-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 100 0 50 V V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 $FPLIST
@@ -373,11 +441,11 @@ X P6 6 -200 -250 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# CONN_01X08-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue
+# CONN_01X08-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF CONN_01X08-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P 0 40 Y N 1 F N
+DEF CONN_01X08-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P 0 40 Y N 1 F N
 F0 "P" 0 450 50 H V C CNN
-F1 "CONN_01X08-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue" 100 0 50 V V C CNN
+F1 "CONN_01X08-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 100 0 50 V V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 $FPLIST
@@ -387,31 +455,32 @@ $FPLIST
  Socket_Strip_Angled_1X08
 $ENDFPLIST
 DRAW
-S -50 -400 50 400 0 1 0 N
-S -50 -345 10 -355 0 1 0 N
-S -50 -245 10 -255 0 1 0 N
-S -50 -145 10 -155 0 1 0 N
-S -50 -45 10 -55 0 1 0 N
+S -50 0 50 400 0 1 0 N
 S -50 55 10 45 0 1 0 N
 S -50 155 10 145 0 1 0 N
 S -50 255 10 245 0 1 0 N
 S -50 355 10 345 0 1 0 N
+S 400 0 300 400 0 1 0 N
+S 400 55 340 45 0 1 0 N
+S 400 155 340 145 0 1 0 N
+S 400 255 340 245 0 1 0 N
+S 400 355 340 345 0 1 0 N
 X P1 1 -200 350 150 R 50 50 1 1 P
 X P2 2 -200 250 150 R 50 50 1 1 P
 X P3 3 -200 150 150 R 50 50 1 1 P
 X P4 4 -200 50 150 R 50 50 1 1 P
-X P5 5 -200 -50 150 R 50 50 1 1 P
-X P6 6 -200 -150 150 R 50 50 1 1 P
-X P7 7 -200 -250 150 R 50 50 1 1 P
-X P8 8 -200 -350 150 R 50 50 1 1 P
+X P5 5 550 50 150 L 50 50 1 1 P
+X P6 6 550 150 150 L 50 50 1 1 P
+X P7 7 550 250 150 L 50 50 1 1 P
+X P8 8 550 350 150 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# CONN_01X10-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue
+# CONN_01X10-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF CONN_01X10-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue P 0 40 Y N 1 F N
+DEF CONN_01X10-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P 0 40 Y N 1 F N
 F0 "P" 0 550 50 H V C CNN
-F1 "CONN_01X10-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue" 100 0 50 V V C CNN
+F1 "CONN_01X10-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 100 0 50 V V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 $FPLIST
@@ -447,11 +516,11 @@ X P9 9 -200 -350 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# CONN_01X20-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue
+# CONN_01X20-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF CONN_01X20-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P 0 40 Y N 1 F N
+DEF CONN_01X20-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P 0 40 Y N 1 F N
 F0 "P" 0 1050 50 H V C CNN
-F1 "CONN_01X20-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue" 100 0 50 V V C CNN
+F1 "CONN_01X20-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 100 0 50 V V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 $FPLIST
@@ -505,11 +574,11 @@ X P9 9 -200 150 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# CONN_02X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue
+# CONN_02X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF CONN_02X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue P 0 1 Y N 1 F N
+DEF CONN_02X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P 0 1 Y N 1 F N
 F0 "P" 0 200 50 H V C CNN
-F1 "CONN_02X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue" 0 -200 50 H V C CNN
+F1 "CONN_02X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 0 -200 50 H V C CNN
 F2 "" 0 -1200 50 H V C CNN
 F3 "" 0 -1200 50 H V C CNN
 $FPLIST
@@ -535,11 +604,11 @@ X P6 6 250 -100 150 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# CONN_JQ6500_28P_mini-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue
+# CONN_JQ6500_28P_mini-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF CONN_JQ6500_28P_mini-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue P 0 40 Y N 1 F N
+DEF CONN_JQ6500_28P_mini-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P 0 40 Y N 1 F N
 F0 "P" 0 750 50 H V C CNN
-F1 "CONN_JQ6500_28P_mini-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue" 100 0 50 V V C CNN
+F1 "CONN_JQ6500_28P_mini-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 100 0 50 V V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 $FPLIST
@@ -576,11 +645,11 @@ X P28 VCC 800 -650 150 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# CP1-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue
+# CP1-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF CP1-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue C 0 10 N N 1 F N
+DEF CP1-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue C 0 10 N N 1 F N
 F0 "C" 25 100 50 H V L CNN
-F1 "CP1-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue" 25 -100 50 H V L CNN
+F1 "CP1-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 25 -100 50 H V L CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 $FPLIST
@@ -602,11 +671,67 @@ X ~ 2 0 -150 130 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# DIODE-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue
+# Conn_01x05-Connector_Generic
 #
-DEF DIODE-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue D 0 40 N N 1 F N
+DEF Conn_01x05-Connector_Generic J 0 40 Y N 1 F N
+F0 "J" 0 300 50 H V C CNN
+F1 "Conn_01x05-Connector_Generic" 0 -300 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ Connector*:*_1x??_*
+$ENDFPLIST
+DRAW
+S -50 -195 0 -205 1 1 6 N
+S -50 -95 0 -105 1 1 6 N
+S -50 5 0 -5 1 1 6 N
+S -50 105 0 95 1 1 6 N
+S -50 205 0 195 1 1 6 N
+S -50 250 50 -250 1 1 10 f
+X Pin_1 1 -200 200 150 R 50 50 1 1 P
+X Pin_2 2 -200 100 150 R 50 50 1 1 P
+X Pin_3 3 -200 0 150 R 50 50 1 1 P
+X Pin_4 4 -200 -100 150 R 50 50 1 1 P
+X Pin_5 5 -200 -200 150 R 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# Conn_01x08-Connector_Generic
+#
+DEF Conn_01x08-Connector_Generic J 0 40 Y N 1 F N
+F0 "J" 0 400 50 H V C CNN
+F1 "Conn_01x08-Connector_Generic" 0 -500 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ Connector*:*_1x??_*
+$ENDFPLIST
+DRAW
+S -50 -395 0 -405 1 1 6 N
+S -50 -295 0 -305 1 1 6 N
+S -50 -195 0 -205 1 1 6 N
+S -50 -95 0 -105 1 1 6 N
+S -50 5 0 -5 1 1 6 N
+S -50 105 0 95 1 1 6 N
+S -50 205 0 195 1 1 6 N
+S -50 305 0 295 1 1 6 N
+S -50 350 50 -450 1 1 10 f
+X Pin_1 1 -200 300 150 R 50 50 1 1 P
+X Pin_2 2 -200 200 150 R 50 50 1 1 P
+X Pin_3 3 -200 100 150 R 50 50 1 1 P
+X Pin_4 4 -200 0 150 R 50 50 1 1 P
+X Pin_5 5 -200 -100 150 R 50 50 1 1 P
+X Pin_6 6 -200 -200 150 R 50 50 1 1 P
+X Pin_7 7 -200 -300 150 R 50 50 1 1 P
+X Pin_8 8 -200 -400 150 R 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# DIODE-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
+#
+DEF DIODE-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue D 0 40 N N 1 F N
 F0 "D" 0 100 40 H V C CNN
-F1 "DIODE-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue" 0 -100 40 H V C CNN
+F1 "DIODE-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 0 -100 40 H V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
 $FPLIST
@@ -621,11 +746,11 @@ X A 2 -200 0 150 R 40 40 1 1 P
 ENDDRAW
 ENDDEF
 #
-# DS3231-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue
+# DS3231-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF DS3231-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue U 0 40 Y Y 1 F N
+DEF DS3231-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue U 0 40 Y Y 1 F N
 F0 "U" 0 500 60 H V C CNN
-F1 "DS3231-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue" 0 -500 60 H V C CNN
+F1 "DS3231-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 0 -500 60 H V C CNN
 F2 "" -50 -50 60 H I C CNN
 F3 "" -50 -50 60 H I C CNN
 DRAW
@@ -649,11 +774,11 @@ X NC5 9 500 -300 200 L 50 50 1 1 I
 ENDDRAW
 ENDDEF
 #
-# GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue
+# GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue #PWR 0 0 Y Y 1 F P
+DEF GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 -250 50 H I C CNN
-F1 "GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue" 0 -150 50 H V C CNN
+F1 "GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 0 -150 50 H V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 DRAW
@@ -662,11 +787,11 @@ X GND 1 0 0 0 D 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# LD1117S33TR-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue
+# LD1117S33TR-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF LD1117S33TR-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue U 0 30 Y Y 1 F N
+DEF LD1117S33TR-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue U 0 30 Y Y 1 F N
 F0 "U" 0 250 50 H V C CNN
-F1 "LD1117S33TR-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue" 0 200 50 H V C CNN
+F1 "LD1117S33TR-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 0 200 50 H V C CNN
 F2 "SOT-223" 0 100 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 $FPLIST
@@ -681,11 +806,11 @@ X VO 4 400 -50 150 L 50 50 1 1 w
 ENDDRAW
 ENDDEF
 #
-# MBR0520-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue
+# MBR0520-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF MBR0520-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue D 0 40 N N 1 F N
+DEF MBR0520-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue D 0 40 N N 1 F N
 F0 "D" 0 100 50 H V C CNN
-F1 "MBR0520-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue" 0 -100 50 H V C CNN
+F1 "MBR0520-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 0 -100 50 H V C CNN
 F2 "Diodes_SMD:SOD-123" 0 -175 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -700,11 +825,11 @@ X A 2 150 0 100 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# MCP6004-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue
+# MCP6004-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF MCP6004-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue U 0 20 Y Y 4 F N
+DEF MCP6004-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue U 0 20 Y Y 4 F N
 F0 "U" 0 200 50 H V L CNN
-F1 "MCP6004-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue" 0 -200 50 H V L CNN
+F1 "MCP6004-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 0 -200 50 H V L CNN
 F2 "" -50 100 50 H V C CNN
 F3 "" 50 200 50 H V C CNN
 $FPLIST
@@ -733,11 +858,73 @@ X ~ 14 300 0 100 L 50 50 4 1 O
 ENDDRAW
 ENDDEF
 #
-# PM5033-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue
+# MOSFET_P-device
 #
-DEF PM5033-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue U 0 0 Y Y 1 F N
+DEF MOSFET_P-device Q 0 40 Y N 1 F N
+F0 "Q" 0 190 60 H V R CNN
+F1 "MOSFET_P-device" 0 -180 60 H V R CNN
+F2 "" 0 0 60 H V C CNN
+F3 "" 0 0 60 H V C CNN
+DRAW
+P 2 0 1 8 -50 -100 -50 100 N
+P 2 0 1 10 0 -150 0 150 N
+P 2 0 1 8 30 0 0 0 N
+P 2 0 1 0 100 -100 0 -100 N
+P 2 0 1 0 100 100 0 100 N
+P 3 0 1 0 80 0 100 0 100 -100 N
+P 5 0 1 8 30 40 30 -30 80 0 30 40 30 40 N
+X D D 100 200 100 D 40 40 1 1 P
+X G G -200 0 150 R 40 40 1 1 I
+X S S 100 -200 100 U 40 40 1 1 P
+ENDDRAW
+ENDDEF
+#
+# MOS_P-device
+#
+DEF MOS_P-device Q 0 40 Y N 1 F N
+F0 "Q" 0 190 60 H V R CNN
+F1 "MOS_P-device" 0 -180 60 H V R CNN
+F2 "" 0 0 60 H V C CNN
+F3 "" 0 0 60 H V C CNN
+DRAW
+P 2 0 1 8 -50 -100 -50 100 N
+P 2 0 1 10 0 -150 0 150 N
+P 2 0 1 8 30 0 0 0 N
+P 2 0 1 0 100 -100 0 -100 N
+P 2 0 1 0 100 100 0 100 N
+P 3 0 1 0 80 0 100 0 100 -100 N
+P 5 0 1 8 30 40 30 -30 80 0 30 40 30 40 N
+X D D 100 200 100 D 40 40 1 1 P
+X G G -200 0 150 R 40 40 1 1 I
+X S S 100 -200 100 U 40 40 1 1 P
+ENDDRAW
+ENDDEF
+#
+# NPN-device
+#
+DEF NPN-device Q 0 0 Y Y 1 F N
+F0 "Q" 0 -150 50 H V R CNN
+F1 "NPN-device" 0 150 50 H V R CNN
+F2 "" 0 0 60 H V C CNN
+F3 "" 0 0 60 H V C CNN
+DRAW
+C 50 0 111 0 1 10 N
+P 2 0 1 0 0 0 100 100 N
+P 3 0 1 10 0 75 0 -75 0 -75 N
+P 3 0 1 0 50 -50 0 0 0 0 N
+P 3 0 1 0 90 -90 100 -100 100 -100 N
+P 5 0 1 0 90 -90 70 -30 30 -70 90 -90 90 -90 F
+X E 1 100 -200 100 U 40 40 1 1 P
+X B 2 -200 0 200 R 40 40 1 1 I
+X C 3 100 200 100 D 40 40 1 1 P
+ENDDRAW
+ENDDEF
+#
+# PM5033-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
+#
+DEF PM5033-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue U 0 0 Y Y 1 F N
 F0 "U" 200 -300 60 H V C CNN
-F1 "PM5033-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue" 0 300 60 H V C CNN
+F1 "PM5033-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 0 300 60 H V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
 $FPLIST
@@ -753,11 +940,11 @@ X 3V3 5 500 -150 200 L 50 50 1 1 B
 ENDDRAW
 ENDDEF
 #
-# POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue
+# POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue RV 0 40 N N 1 F N
+DEF POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue RV 0 40 N N 1 F N
 F0 "RV" -175 0 50 V V C CNN
-F1 "POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue" -100 0 50 V V C CNN
+F1 "POT-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" -100 0 50 V V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 DRAW
@@ -770,11 +957,24 @@ X 3 3 0 -150 50 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue
+# PWR_FLAG-power1
 #
-DEF R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue R 0 0 N Y 1 F N
+DEF PWR_FLAG-power1 #FLG 0 0 N N 1 F P
+F0 "#FLG" 0 95 30 H I C CNN
+F1 "PWR_FLAG-power1" 0 180 30 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+P 6 0 1 0 0 0 0 50 -75 100 0 150 75 100 0 50 N
+X pwr 1 0 0 0 U 20 20 0 0 w
+ENDDRAW
+ENDDEF
+#
+# R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
+#
+DEF R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue R 0 0 N Y 1 F N
 F0 "R" 80 0 50 V V C CNN
-F1 "R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue" 0 0 50 V V C CNN
+F1 "R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 0 0 50 V V C CNN
 F2 "" -70 0 50 V V C CNN
 F3 "" 0 0 50 H V C CNN
 $FPLIST
@@ -788,11 +988,11 @@ X ~ 2 0 -150 50 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# TEST_2P-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue
+# TEST_2P-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue
 #
-DEF TEST_2P-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue W 0 30 N N 1 F N
+DEF TEST_2P-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue W 0 30 N N 1 F N
 F0 "W" 0 60 50 H V C CNN
-F1 "TEST_2P-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue" 0 -70 50 H V C CNN
+F1 "TEST_2P-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue" 0 -70 50 H V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 DRAW
@@ -800,6 +1000,20 @@ C -70 0 30 0 1 0 N
 C 70 0 30 0 1 0 N
 X 1 1 -200 0 100 R 50 50 0 1 P
 X 2 2 200 0 100 L 50 50 0 1 P
+ENDDRAW
+ENDDEF
+#
+# VCC-power1
+#
+DEF VCC-power1 #PWR 0 0 Y Y 1 F P
+F0 "#PWR" 0 100 30 H I C CNN
+F1 "VCC-power1" 0 100 30 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+C 0 50 20 0 1 0 N
+P 3 0 1 0 0 0 0 30 0 30 N
+X VCC 1 0 0 0 U 20 20 0 0 W N
 ENDDRAW
 ENDDEF
 #
