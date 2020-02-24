@@ -112,10 +112,10 @@ void CLOCK_delayms(uint32_t delay_ms)
 void PROTOCOL_SetBindState(tmr10ms_t t10ms)
 {
   if(t10ms) {
-    protoMode = BIND_MODE;
+    systemBolls.protoMode = BIND_MODE;
     Bind_tmr10ms = t10ms;
   }
-  else protoMode = NORMAL_MODE;
+  else systemBolls.protoMode = NORMAL_MODE;
 }
 
 #if defined(SPIMODULES)
