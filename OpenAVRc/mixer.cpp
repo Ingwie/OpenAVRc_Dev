@@ -34,8 +34,8 @@
 #include "OpenAVRc.h"
 #include "timers.h"
 
-int16_t  rawAnas[NUM_INPUTS] = {0};
-int16_t  anas [NUM_INPUTS] = {0};
+int16_t  rawAnas[NUM_STICKS] = {0};
+int16_t  anas [NUM_STICKS] = {0};
 int16_t  trims[NUM_STICKS] = {0};
 int32_t  chans[NUM_CHNOUT] = {0};
 BeepANACenter bpanaCenter = 0;
@@ -54,7 +54,7 @@ int16_t cyc_anas[3] = {0};
 
 void applyExpos(int16_t *anas, uint8_t mode APPLY_EXPOS_EXTRA_PARAMS)
 {
-  int16_t anas2[NUM_INPUTS]; // values before expo, to ensure same expo base when multiple expo lines are used
+  int16_t anas2[NUM_STICKS]; // values before expo, to ensure same expo base when multiple expo lines are used
   memcpy(anas2, anas, sizeof(anas2));
 
   int8_t cur_chn = -1;
