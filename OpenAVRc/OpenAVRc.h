@@ -723,14 +723,27 @@ extern uint16_t s_timeCum16ThrP;
 
 extern uint8_t trimsCheckTimer;
 
-
 void flightReset();
 
 void setGazSource();
-extern uint8_t gazSource;
-extern bool enableGaz;
-extern bool pwrCheck;
-extern bool unexpectedShutdown;
+
+PACK(typedef struct {
+  uint8_t gazSource:7; // 3-68
+  uint8_t enableGaz:1;
+}) gazSecurity_t;
+
+extern gazSecurity_t gazSecurity;
+
+PACK(typedef struct {
+  uint8_t pwrCheck:1;
+  uint8_t unexpectedShutdown:1;
+  uint8_t rangeModeIsOn:1;
+  uint8_t protoMode:1;
+  uint8_t s_mixer_first_run_done:1;
+  uint8_t unused:3;
+}) systemBolls_t;
+
+extern systemBolls_t systemBolls;
 
 extern uint16_t maxMixerDuration;
 
@@ -927,8 +940,6 @@ extern int16_t rawAnas[NUM_INPUTS];
 extern int16_t  anas[NUM_INPUTS];
 extern int16_t  trims[NUM_STICKS];
 extern BeepANACenter bpanaCenter;
-
-extern bool s_mixer_first_run_done;
 
 extern int8_t s_currCh;
 uint8_t getExpoMixCount(uint8_t expo);
@@ -1131,11 +1142,8 @@ const mm_protocol_definition *getMultiProtocolDefinition (uint8_t protocol);
 
 ///////////////// PROTOCOLS ///////////////////
 
-extern bool rangeModeIsOn;
-extern uint8_t protoMode;
-
 enum PROTO_MODE {
-  NORMAL_MODE,
+  NORMAL_MODE = 0,
   BIND_MODE,
 };
 

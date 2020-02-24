@@ -137,7 +137,7 @@ FORCEINLINE void boardInit()
 
 #if defined(SPIMODULES)
   RF_SPI_INIT();
-  protoMode = NORMAL_MODE;
+  systemBolls.protoMode = NORMAL_MODE;
 #endif // SPIMODULES
 
 #endif // !SIMU

@@ -136,7 +136,7 @@ void readKeysAndTrims();
 #define INP_E_TELEM_RX            1
 #define OUT_E_TELEM_TX            0
 //#define INP_H_RF_Activated        6
-//#define INP_H_DSC_Activated       5    //not used, reserved for pwrCheck()
+//#define INP_H_DSC_Activated       5    //not used, reserved for systemBolls.pwrCheck()
 #define INP_H_Hold_Power          PIN4_bm
 #define OUT_H_SpeakerBuzzer       3
 #define OUT_H_PPM16_SIM_CTL       6
