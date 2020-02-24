@@ -478,18 +478,18 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
       }
 
         //========== GAZ SECURITY ============
-        if (md->srcRaw == gazSource)
+        if (md->srcRaw == gazSecurity.gazSource)
         {
           if (getSwitch(g_model.thrSwitch ? g_model.thrSwitch+3 : SWSRC_NONE))
           {
             if (v <= (-RESX+10))
-              enableGaz = true;
+              gazSecurity.enableGaz = true;
           }
           else
           {
-            enableGaz = false;
+            gazSecurity.enableGaz = false;
           }
-          if (!enableGaz)
+          if (!gazSecurity.enableGaz)
             v = - RESX; // Gaz to min.
         }
 
@@ -497,7 +497,7 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
       //========== DELAYS ===================
         if (mode == e_perout_mode_normal && (md->delayDown || md->delayUp)) // there are delay values
           {
-            if (!s_mixer_first_run_done || !mixVal[i].delay)
+            if (!systemBolls.s_mixer_first_run_done || !mixVal[i].delay)
               {
                 mixVal[i].hold = v;     // store actual value of v as reference for next run
                 mixVal[i].delay = (v > mixVal[i].hold ? md->delayUp : md->delayDown) * (100/DELAY_STEP); // init delay
@@ -519,13 +519,13 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
           // the unit of the stored value is the value from md->speedUp or md->speedDown divide SLOW_STEP seconds; e.g. value 4 means 4/SLOW_STEP = 2 seconds for CPU64
           // because we get a tick each 10msec, we need 100 ticks for one second
           // the value in md->speedXXX gives the time it should take to do a full movement from -100 to 100 therefore 200%. This equals 2048 in recalculated internal range
-          if (tick10ms || !s_mixer_first_run_done) {
+          if (tick10ms || !systemBolls.s_mixer_first_run_done) {
             // only if already time is passed add or substract a value according the speed configured
             int32_t rate = (int32_t)tick10ms<<(8+11);  // = 256*2048*tick10ms
             // rate equals a full range for one second; if less time is passed rate is accordingly smaller
             // if one second passed, rate would be 2048(full motion)*256(recalculated weight)*100(100 ticks needed for one second)
             int32_t currentValue = (int32_t)v<<8;
-              if (s_mixer_first_run_done)
+              if (systemBolls.s_mixer_first_run_done)
                 {
                   if ((diff > 0) && md->speedUp)
                     {

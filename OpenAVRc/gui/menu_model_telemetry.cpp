@@ -268,7 +268,7 @@ void menuModelTelemetry(uint8_t event)
     case ITEM_TELEMETRY_SCREEN_LABEL2: {
       uint8_t screenIndex = (k < ITEM_TELEMETRY_SCREEN_LABEL2 ? 1 : 2);
       lcdDrawStringWithIndex(0*FW, y, STR_SCREEN, screenIndex);
-      bool screenType = g_model.telemetry.screensType & screenIndex;
+      uint8_t screenType = g_model.telemetry.screensType & screenIndex;
       if (screenType != (bool)selectMenuItem(TELEM_SCRTYPE_COL, y, PSTR(""), STR_VTELEMSCREENTYPE, screenType, 0, 1, attr, event))
         g_model.telemetry.screensType ^= screenIndex;
       break;

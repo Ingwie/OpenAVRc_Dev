@@ -75,7 +75,7 @@ void saveTimers()
 
 void evalTimers(int16_t throttle, uint8_t tick10ms)
 {
-  if (!enableGaz)
+  if (!gazSecurity.enableGaz)
   {
     throttle = 0;
   }

@@ -53,7 +53,7 @@ public:
     }
   }
 
-  bool pop(uint8_t & byte)
+  uint8_t pop(uint8_t & byte)
   {
     if (isEmpty()) {
       return false;
@@ -64,12 +64,12 @@ public:
     }
   }
 
-  bool isEmpty()
+  uint8_t isEmpty()
   {
     return (ridx == widx);
   }
 
-  bool isFull()
+  uint8_t isFull()
   {
     uint32_t next = (widx+1) & (N-1);
     return (next == ridx);
