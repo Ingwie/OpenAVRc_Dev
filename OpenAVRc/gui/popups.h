@@ -38,9 +38,8 @@
 
 const pm_char * warningText = NULL;
 const pm_char * warningInfoText;
-uint8_t         warningInfoLength;
-uint8_t         warningType;
-bool            warningResult = false;
+
+warning_t warning;
 
 const pm_uchar zz_asterisk_lbm[] PROGMEM = {
 #if defined (LCDROT180)

@@ -265,10 +265,10 @@ void onMainViewMenu(const char *result)
 
 void menuMainView(uint8_t event)
 {
-  if (warningResult)
+  if (warning.warningResult)
     {
       // Power Off
-      pwrCheck = false;
+      systemBolls.pwrCheck = false;
     }
 
   STICK_SCROLL_DISABLE();
@@ -389,7 +389,7 @@ void menuMainView(uint8_t event)
 
     // Model Name
 #if defined(DSM2_SERIAL) || defined(MULTIMODULE) || defined(SPIMODULES)
-    if ((protoMode == BIND_MODE) && !BLINK_ON_PHASE)
+    if ((systemBolls.protoMode == BIND_MODE) && !BLINK_ON_PHASE)
     {
       lcdDrawTextAtt(MODELNAME_X, MODELNAME_Y, STR_BIND, BLINK|DBLSIZE);
     } else {
@@ -527,7 +527,7 @@ void menuMainView(uint8_t event)
   }
 
   // And ! in case of unexpected shutdown
-  if (unexpectedShutdown) {
+  if (systemBolls.unexpectedShutdown) {
     lcdDrawCharAtt(REBOOT_X, 0, '!', INVERS);
   }
 

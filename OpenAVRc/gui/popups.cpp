@@ -81,20 +81,20 @@ void message(const pm_char *title, const pm_char *t, const char *last MESSAGE_SO
 
 void displayWarning(uint8_t event)
 {
-  warningResult = false;
+  warning.warningResult = false;
   displayBox();
   if (warningInfoText) {
-    lcdDrawSizedTextAtt(WARNING_LINE_X, WARNING_LINE_Y+FH, warningInfoText, warningInfoLength, WARNING_INFO_FLAGS);
+    lcdDrawSizedTextAtt(WARNING_LINE_X, WARNING_LINE_Y+FH, warningInfoText, warning.warningInfoLength, WARNING_INFO_FLAGS);
   }
-  lcdDrawText(WARNING_LINE_X, WARNING_LINE_Y+2*FH, warningType == WARNING_TYPE_ASTERISK ? STR_EXIT : STR_POPUPS);
+  lcdDrawText(WARNING_LINE_X, WARNING_LINE_Y+2*FH, warning.warningType == WARNING_TYPE_ASTERISK ? STR_EXIT : STR_POPUPS);
   switch (event) {
 #if defined(ROTARY_ENCODER_NAVIGATION)
   case EVT_ROTARY_BREAK:
 #endif
   case EVT_KEY_BREAK(KEY_ENTER):
-    if (warningType == WARNING_TYPE_ASTERISK)
+    if (warning.warningType == WARNING_TYPE_ASTERISK)
       break;
-    warningResult = true;
+    warning.warningResult = true;
     // no break
 #if defined(ROTARY_ENCODER_NAVIGATION)
   case EVT_ROTARY_LONG:
@@ -102,7 +102,7 @@ void displayWarning(uint8_t event)
 #endif
   case EVT_KEY_BREAK(KEY_EXIT):
     warningText = NULL;
-    warningType = WARNING_TYPE_ASTERISK;
+    warning.warningType = WARNING_TYPE_ASTERISK;
     break;
   }
 }
