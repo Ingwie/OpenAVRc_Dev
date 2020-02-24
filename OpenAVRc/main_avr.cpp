@@ -104,7 +104,7 @@ void perMain()
 
 #if defined(GUI)
   const char *warn = warningText;
-  bool popupMenuActive = (popupMenuNoItems > 0);
+  uint8_t popupMenuActive = (popupMenuNoItems > 0);
 
   lcdClear();
 
