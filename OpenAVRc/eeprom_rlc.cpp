@@ -320,7 +320,7 @@ void eepromFormat()
   ENABLE_SYNC_WRITE(false);
 }
 
-bool eepromOpen()
+uint8_t eepromOpen()
 {
   EEPROMREADBLOCK((uint8_t *)&eeFs, 0, sizeof(eeFs));
 
@@ -344,7 +344,7 @@ bool eepromOpen()
   return true;
 }
 
-bool EFile::exists(uint8_t i_fileId)
+uint8_t EFile::exists(uint8_t i_fileId)
 {
   return eeFs.files[i_fileId].startBlk;
 }
@@ -582,7 +582,7 @@ void RlcFile::create(uint8_t i_fileId, uint8_t typ, uint8_t sync_write)
 /*
  * Copy file src to dst
  */
-bool RlcFile::copy(uint8_t i_fileDst, uint8_t i_fileSrc)
+uint8_t RlcFile::copy(uint8_t i_fileDst, uint8_t i_fileSrc)
 {
   EFile theFile2;
   theFile2.openRd(i_fileSrc);
@@ -780,14 +780,14 @@ void RlcFile::nextRlcWriteStep()
       return;
     }
 
-  bool run0 = (m_rlc_buf[0] == 0);
+  uint8_t run0 = (m_rlc_buf[0] == 0);
 
   if (m_rlc_len==0)
     goto close;
 
   for (i=1; 1; i++)   // !! laeuft ein byte zu weit !!
     {
-      bool cur0 = m_rlc_buf[i] == 0;
+      uint8_t cur0 = m_rlc_buf[i] == 0;
       if (cur0 != run0 || cnt==0x3f || (cnt0 && cnt==0x0f) || i==m_rlc_len)
         {
           if (run0)
@@ -916,7 +916,7 @@ void RlcFile::DisplayProgressBar(uint8_t x)
 
 // For conversions ...
 
-bool eeLoadGeneral()
+uint8_t eeLoadGeneral()
 {
   theFile.openRlc(FILE_GENERAL);
   if (theFile.readRlc((uint8_t*)&g_eeGeneral, 1) == 1 && g_eeGeneral.version == EEPROM_VER)
@@ -945,7 +945,7 @@ void eeLoadModelName(uint8_t id, char *name)
     }
 }
 
-bool eeModelExists(uint8_t id)
+uint8_t eeModelExists(uint8_t id)
 {
   return EFile::exists(FILE_MODEL(id));
 }
@@ -1004,7 +1004,7 @@ void eeLoadModel(uint8_t id)
     }
 }
 
-void eeErase(bool warn)
+void eeErase(uint8_t warn)
 {
   generalDefault();
 
@@ -1020,7 +1020,7 @@ void eeErase(bool warn)
   theFile.writeRlc(FILE_MODEL(0), FILE_TYP_MODEL, (uint8_t*)&g_model, sizeof(g_model), true);
 }
 
-void eeCheck(bool immediately)
+void eeCheck(uint8_t immediately)
 {
   if (immediately)
     {

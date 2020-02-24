@@ -53,7 +53,7 @@ void lcdDrawChar(coord_t x, coord_t y, const unsigned char c)
 void lcdDrawSizedTextAtt(coord_t x, coord_t y, const pm_char * s, uint8_t len, LcdFlags flags)
 {
   const coord_t orig_x = x;
-  bool setx = false;
+  uint8_t setx = false;
   while (len--) {
     unsigned char c;
     switch (flags & (BSS+ZCHAR)) {
@@ -146,13 +146,13 @@ void lcdDrawNumberNAtt(coord_t x, coord_t y, lcdint_t val, LcdFlags flags, uint8
   uint8_t fw = FWNUM;
   int8_t mode = MODE(flags);
   flags &= ~LEADING0;
-  bool dblsize = flags & DBLSIZE;
+  uint8_t dblsize = flags & DBLSIZE;
 #define xxlsize 0
 #define midsize 0
 #define smlsize 0
 #define tinsize 0
 
-  bool neg = false;
+  uint8_t neg = false;
   if (flags & UNSIGN) {
     flags -= UNSIGN;
   } else if (val < 0) {
@@ -655,7 +655,7 @@ void lcdDrawCharAtt(coord_t x, uint8_t y, const unsigned char c, LcdFlags flags)
   lcdNextPos = x-1;
   PREV_P;
 
-  bool inv = false;
+  uint8_t inv = false;
   if (flags & BLINK) {
     if (BLINK_ON_PHASE) {
       if (flags & INVERS)
@@ -968,7 +968,7 @@ void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags 
   uint_farptr_t q = img;
   uint8_t w    = pgm_read_byte_far(q++);
   uint8_t hb   = (pgm_read_byte_far(q++)+7)/8;
-  bool    inv  = (att & INVERS) ? true : (att & BLINK ? BLINK_ON_PHASE : false);
+  uint8_t    inv  = (att & INVERS) ? true : (att & BLINK ? BLINK_ON_PHASE : false);
   q += idx*w*hb;
   for (uint8_t yb = 0; yb < hb; yb++) {
 

@@ -194,7 +194,7 @@ void menuModelSetup(uint8_t event)
       lcdDrawTextLeft(y, STR_TTRACE);
       if (attr) CHECK_INCDEC_MODELVAR_ZERO(event, g_model.thrTraceSrc, NUM_POTS+NUM_CHNOUT);
       setGazSource();
-      putsMixerSource(MODEL_SETUP_2ND_COLUMN, y, gazSource, attr);
+      putsMixerSource(MODEL_SETUP_2ND_COLUMN, y, gazSecurity.gazSource, attr);
       break;
     }
 
@@ -470,7 +470,7 @@ void menuModelSetup(uint8_t event)
             if (l_posHorz == 1) {
               PROTOCOL_SetBindState(1000); // 10 Sec
             } else if (l_posHorz == 2) {
-              rangeModeIsOn = true;
+              systemBolls.rangeModeIsOn = true;
             }
           }
         }
@@ -494,7 +494,7 @@ void menuModelSetup(uint8_t event)
             if (l_posHorz == 1)
               PROTOCOL_SetBindState(500); // 5 Sec
             else if (l_posHorz == 2) {
-              rangeModeIsOn = true;
+              systemBolls.rangeModeIsOn = true;
             }
           }
         }
@@ -516,20 +516,20 @@ void menuModelSetup(uint8_t event)
 
           if (attr && l_posHorz>0 && s_editMode>0) {
             if (l_posHorz == 1) {
-              if (protoMode != BIND_MODE)
+              if (systemBolls.protoMode != BIND_MODE)
                 {
-                  protoMode = BIND_MODE;
+                  systemBolls.protoMode = BIND_MODE;
                   startPulses(PROTOCMD_BIND);
                 }
             }
             else if (l_posHorz == 2)
               {
-                rangeModeIsOn = true;
+                systemBolls.rangeModeIsOn = true;
               }
           }
-          if (attr && l_posHorz == 1 && protoMode == BIND_MODE && s_editMode<1)
+          if (attr && l_posHorz == 1 && systemBolls.protoMode == BIND_MODE && s_editMode<1)
             {
-              protoMode = NORMAL_MODE;
+              systemBolls.protoMode = NORMAL_MODE;
               startPulses(PROTOCMD_INIT);
             }
         }
@@ -693,9 +693,9 @@ void menuModelSetup(uint8_t event)
 
   if (!PROTO_IS_SYNC) {
     flightReset();
-    rangeModeIsOn = false;
+    systemBolls.rangeModeIsOn = false;
     g_model.rfProtocol = protocol;
-    protoMode = NORMAL_MODE;
+    systemBolls.protoMode = NORMAL_MODE;
     startPulses(PROTOCMD_INIT);
   }
 }

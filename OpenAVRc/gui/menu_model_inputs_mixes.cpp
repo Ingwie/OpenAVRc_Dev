@@ -110,7 +110,7 @@ uint8_t getExpoMixCount(uint8_t expo)
   return count;
 }
 
-bool reachExpoMixCountLimit(uint8_t expo)
+uint8_t reachExpoMixCountLimit(uint8_t expo)
 {
   // check mixers count limit
   if (getExpoMixCount(expo) >= (expo ? MAX_EXPOS : MAX_MIXERS)) {
@@ -179,7 +179,7 @@ void memswap(void *a, void *b, uint8_t size)
   }
 }
 
-bool swapExpoMix(uint8_t expo, uint8_t &idx, uint8_t up)
+uint8_t swapExpoMix(uint8_t expo, uint8_t &idx, uint8_t up)
 {
   void *x, *y;
   uint8_t size;
@@ -598,7 +598,7 @@ static uint8_t s_copySrcCh;
 #if defined(NAVIGATION_MENUS)
 void onExpoMixMenu(const char *result)
 {
-  bool expo = (menuHandlers[menuLevel] == menuModelExposAll);
+  uint8_t expo = (menuHandlers[menuLevel] == menuModelExposAll);
   uint8_t chn = (expo ? expoAddress(s_currIdx)->chn+1 : mixAddress(s_currIdx)->destCh+1);
 
   if (result == STR_EDIT) {
