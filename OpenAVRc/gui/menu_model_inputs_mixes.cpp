@@ -69,7 +69,7 @@ FlightModesType editFlightModes(coord_t x, coord_t y, uint8_t event, FlightModes
 int16_t expoFn(int16_t x)
 {
   ExpoData *ed = expoAddress(s_currIdx);
-  int16_t anas[NUM_INPUTS] = {0};
+  int16_t anas[NUM_STICKS] = {0};
   anas[ed->chn] = x;
   applyExpos(anas, e_perout_mode_inactive_flight_mode);
   return anas[ed->chn];
@@ -196,7 +196,7 @@ uint8_t swapExpoMix(uint8_t expo, uint8_t &idx, uint8_t up)
     }
 
     if (tgt_idx == MAX_EXPOS) {
-      if (((ExpoData *)x)->chn == NUM_INPUTS-1)
+      if (((ExpoData *)x)->chn == NUM_STICKS-1)
         return false;
       ((ExpoData *)x)->chn++;
       return true;
@@ -208,7 +208,7 @@ uint8_t swapExpoMix(uint8_t expo, uint8_t &idx, uint8_t up)
         if (((ExpoData *)x)->chn>0) ((ExpoData *)x)->chn--;
         else return false;
       } else {
-        if (((ExpoData *)x)->chn<NUM_INPUTS-1) ((ExpoData *)x)->chn++;
+        if (((ExpoData *)x)->chn<NUM_STICKS-1) ((ExpoData *)x)->chn++;
         else return false;
       }
       return true;
@@ -815,7 +815,7 @@ void menuModelExpoMix(uint8_t expo, uint8_t event)
   uint8_t cur = 1;
   uint8_t i = 0;
 
-  for (uint8_t ch=1; ch<=(expo ? NUM_INPUTS : NUM_CHNOUT); ch++) {
+  for (uint8_t ch=1; ch<=(expo ? NUM_STICKS : NUM_CHNOUT); ch++) {
     void *pointer = NULL;
     MixData * &md = (MixData * &)pointer;
     ExpoData * &ed = (ExpoData * &)pointer;

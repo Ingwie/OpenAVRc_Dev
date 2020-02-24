@@ -105,15 +105,11 @@ void checkMixer()
 }
 
 uint8_t heartbeat;
-uint8_t stickMode;
+uint8_t stickMode; //:2
 
 #if ROTARY_ENCODERS > 0
-  uint8_t rotEncADebounce;
+ rotEncDebounce_t rotEncDebounce;
 #endif
-#if ROTARY_ENCODERS > 1
-  uint8_t rotEncBDebounce;
-#endif
-
 
 #if defined(OVERRIDE_CHANNEL_FUNCTION)
   safetych_t safetyCh[NUM_CHNOUT];
@@ -319,13 +315,13 @@ void per10ms()
 #endif
 
 #if ROTARY_ENCODERS > 0
-  if (rotEncADebounce) {
-    if (!(rotEncADebounce >>= 1)) ENABLEROTENCAISR(); // Re enable rotencA isr (deboucing)
+  if (rotEncDebounce.A) {
+    if (!(rotEncDebounce.A >>= 1)) ENABLEROTENCAISR(); // Re enable rotencA isr (deboucing)
   }
 #endif
 #if ROTARY_ENCODERS > 1
-  if (rotEncBDebounce) {
-    if (!(rotEncBDebounce >>= 1)) ENABLEROTENCBISR(); // Re enable rotencB isr (deboucing)
+  if (rotEncDebounce.B) {
+    if (!(rotEncDebounce.B >>= 1)) ENABLEROTENCBISR(); // Re enable rotencB isr (deboucing)
   }
 #endif
 
@@ -358,7 +354,6 @@ LimitData *limitAddress(uint8_t idx)
 {
   return &g_model.limitData[idx];
 }
-
 
 void generalDefault()
 {
@@ -527,45 +522,43 @@ void incRotaryEncoder(uint8_t idx, int8_t inc)
   GVAR_VALUE(idx, phase) = value;         \
   eeDirty(EE_MODEL);                      \
 
-
-
-  uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx)
-  {
-    for (uint8_t i=0; i<MAX_FLIGHT_MODES; i++) {
-      if (phase == 0) return 0;
-      int16_t val = GVAR_VALUE(idx, phase); // TODO phase at the end everywhere to be consistent!
-      if (val <= GVAR_MAX) return phase;
-      uint8_t result = val-GVAR_MAX-1;
-      if (result >= phase) ++result;
-      phase = result;
-    }
-    return 0;
+uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx)
+{
+  for (uint8_t i=0; i<MAX_FLIGHT_MODES; i++) {
+    if (phase == 0) return 0;
+    int16_t val = GVAR_VALUE(idx, phase); // TODO phase at the end everywhere to be consistent!
+    if (val <= GVAR_MAX) return phase;
+    uint8_t result = val-GVAR_MAX-1;
+    if (result >= phase) ++result;
+    phase = result;
   }
+  return 0;
+}
 
-  int16_t getGVarValue(int16_t x, int16_t min, int16_t max, int8_t phase)
-  {
-    if (GV_IS_GV_VALUE(x, min, max)) {
-      int8_t idx = GV_INDEX_CALCULATION(x, max);
-      int8_t mul = 1;
+int16_t getGVarValue(int16_t x, int16_t min, int16_t max, int8_t phase)
+{
+  if (GV_IS_GV_VALUE(x, min, max)) {
+    int8_t idx = GV_INDEX_CALCULATION(x, max);
+    int8_t mul = 1;
 
-      if (idx < 0) {
-        idx = -1-idx;
-        mul = -1;
-      }
-
-      x = GVAR_VALUE(idx, getGVarFlightPhase(phase, idx)) * mul;
+    if (idx < 0) {
+      idx = -1-idx;
+      mul = -1;
     }
-    return limit(min, x, max);
-  }
 
-  void setGVarValue(uint8_t idx, int16_t value, int8_t phase)
-  {
-    value = limit((int16_t)-GVAR_LIMIT,value,(int16_t)GVAR_LIMIT); //Limit Gvar value
-    phase = getGVarFlightPhase(phase, idx);
-    if (GVAR_VALUE(idx, phase) != value) {
-      SET_GVAR_VALUE(idx, phase, value);
-    }
+    x = GVAR_VALUE(idx, getGVarFlightPhase(phase, idx)) * mul;
   }
+  return limit(min, x, max);
+}
+
+void setGVarValue(uint8_t idx, int16_t value, int8_t phase)
+{
+  value = limit((int16_t)-GVAR_LIMIT,value,(int16_t)GVAR_LIMIT); //Limit Gvar value
+  phase = getGVarFlightPhase(phase, idx);
+  if (GVAR_VALUE(idx, phase) != value) {
+    SET_GVAR_VALUE(idx, phase, value);
+  }
+}
 
 #endif
 
@@ -714,7 +707,6 @@ void checkBacklight()
 {
   static uint8_t tmr10ms ;
 
-
   uint8_t x = g_blinkTmr10ms;
   if (tmr10ms != x) {
     tmr10ms = x;
@@ -730,7 +722,6 @@ void checkBacklight()
       BACKLIGHT_ON();
     else
       BACKLIGHT_OFF();
-
   }
 }
 

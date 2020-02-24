@@ -336,13 +336,13 @@ void readKeysAndTrims()
 void debounceRotEncA()
 {
   DISABLEROTENCAISR();
-  rotEncADebounce = ROTENCDEBOUNCEVAL;
+  rotEncDebounce.A = ROTENCDEBOUNCEVAL;
 }
 
 void debounceRotEncB()
 {
   DISABLEROTENCBISR();
-  rotEncBDebounce = ROTENCDEBOUNCEVAL;
+  rotEncDebounce.B = ROTENCDEBOUNCEVAL;
 }
 
 ISR(INT4_vect)     // Mega2560 INT4 (portE pin4)

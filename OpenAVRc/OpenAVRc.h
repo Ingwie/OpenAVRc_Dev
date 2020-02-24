@@ -328,10 +328,11 @@ static uint16_t DurationValue;
 #if ROTARY_ENCODERS > 0
   #define IF_ROTARY_ENCODERS(x) x,
   #define ROTENCDEBOUNCEVAL _BV(2)
-  extern uint8_t rotEncADebounce;
-  #if ROTARY_ENCODERS > 1
-    extern uint8_t rotEncBDebounce;
-  #endif
+  typedef struct {
+    uint8_t A:4;
+    uint8_t B:4;
+  } rotEncDebounce_t;
+  extern rotEncDebounce_t rotEncDebounce;
 #else
   #define IF_ROTARY_ENCODERS(x)
 #endif
@@ -894,8 +895,6 @@ extern int32_t            chans[NUM_CHNOUT];
 extern int16_t            ex_chans[NUM_CHNOUT]; // Outputs (before LIMITS) of the last perMain
 extern int16_t            channelOutputs[NUM_CHNOUT];
 
-#define NUM_INPUTS      (NUM_STICKS)
-
 int16_t intpol(int16_t x, uint8_t idx);
 int16_t expo(int16_t x, int16_t k);
 
@@ -905,12 +904,10 @@ int16_t expo(int16_t x, int16_t k);
   #define applyCurve(x, idx) (x)
 #endif
 
-
 #define applyCustomCurve(x, idx) intpol(x, idx)
 
 #define APPLY_EXPOS_EXTRA_PARAMS_INC
 #define APPLY_EXPOS_EXTRA_PARAMS
-
 
 void applyExpos(int16_t *anas, uint8_t mode APPLY_EXPOS_EXTRA_PARAMS_INC);
 int16_t applyLimits(uint8_t channel, int32_t value);
@@ -935,9 +932,9 @@ LogicalSwitchData *lswAddress(uint8_t idx);
 
 // static variables used in evalFlightModeMixes - moved here so they don't interfere with the stack
 // It's also easier to initialize them here.
-extern int16_t rawAnas[NUM_INPUTS];
+extern int16_t rawAnas[NUM_STICKS];
 
-extern int16_t  anas[NUM_INPUTS];
+extern int16_t  anas[NUM_STICKS];
 extern int16_t  trims[NUM_STICKS];
 extern BeepANACenter bpanaCenter;
 
@@ -1243,7 +1240,6 @@ const RfOptionSettingsvarstruct RfOpt_PPM_Ser[] PROGMEM = {
 void sendOptionsSettingsPpm();
 //PPM
 
-extern struct Module RFModule;
 extern struct RfOptionSettingsstruct RfOptionSettings;
 extern uint8_t * packet; //protocol global packet
 extern void startPulses(enum ProtoCmds Command);
@@ -1351,7 +1347,7 @@ extern union ReusableBuffer reusableBuffer;
 
 void checkFlashOnBeep();
 
-#if   defined(FRSKY)
+#if defined(FRSKY)
   void convertUnit(getvalue_t & val, uint8_t & unit);
 #else
   #define convertUnit(...)
