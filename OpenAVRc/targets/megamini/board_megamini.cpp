@@ -46,7 +46,7 @@ FORCEINLINE void boardInit()
   DDRF = 0b00000000;  PORTF = 0b11111111; // 7-0:Trim switch inputs
   DDRG = 0b00010000;  PORTG = 0b11101111; // 7:N/A, 6:N/A, 5:Rot_1_Push, 4:BT_On_Off, 3:N/A, 2:TCut_SW, 1:Gear_SW, 0: RudDr_SW
   DDRH = 0b01111110;  PORTH = 0b10010000; // 7:N/A, 6:Sim_Control/RF_Power, 5:Haptic, 4:Hold_Power, 3:Speaker, 2:SPI_Xmitter_SCK, 1:SPI_Xmitter_MOSI, 0:SPI_Xmitter_MISO
-  DDRJ = 0b01111010;  PORTJ = 0b11111111; // 7:N/A, 6:CS_A7105, 5:CS_NRF24L01, 4:CS_CYRF6936, 3:CS_CC2500, 2:N/A, 1:JQ6500Data , 0:JQ6500Busy
+  DDRJ = 0b01111010;  PORTJ = 0b11111111; // 7:BT_STATUS, 6:CS_A7105, 5:CS_NRF24L01, 4:CS_CYRF6936, 3:CS_CC2500, 2:N/A, 1:JQ6500Data , 0:JQ6500Busy
   DDRK = 0b00000000;  PORTK = 0b00000000; // Analogic input (no pull-ups)
   DDRL = 0b00000000;  PORTL = 0b11111111; // 7:TRN_SW 6:EleDR_SW, 5:ESC, 4:MENU 3:Keyb_Left, 2:Keyb_Right, 1:Keyb_Up, 0:Keyb_Down
 
