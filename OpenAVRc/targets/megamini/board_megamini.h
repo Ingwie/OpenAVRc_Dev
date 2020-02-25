@@ -116,10 +116,15 @@ void readKeysAndTrims();
 // Bluetooth pin
 #define OUT_B_BT_KEY              PIN4_bm    // BT_Key_Cmd
 #define OUT_G_BT_ONOFF            PIN4_bm    // BT_On_Off
+#define IN_J_BT_STATUS            PIN7_bm    // BT_Status (connected or not)
 #define BT_KEY_ON()               (PORTB |=  OUT_B_BT_KEY)
 #define BT_KEY_OFF()              (PORTB &= ~OUT_B_BT_KEY)
-//#define BT_IS_IN_AT_MODE          (PORTB & OUT_B_BT_KEY)
-//#define DIRECTBTWIRES             test
+#define BT_IS_IN_AT_MODE          (PORTB & OUT_B_BT_KEY)
+#define BT_IS_CONNECTED           (PORTJ & IN_J_BT_STATUS)
+#define DIRECTBTWIRES             test
+#if defined(SIMU)
+#undef DIRECTBTWIRES
+#endif
 #ifdef DIRECTBTWIRES
 #define BT_POWER_ON()             (PORTG |=  OUT_G_BT_ONOFF)
 #define BT_POWER_OFF()            (PORTG &= ~OUT_G_BT_ONOFF)
