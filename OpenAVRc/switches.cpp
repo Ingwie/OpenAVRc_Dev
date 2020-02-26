@@ -204,7 +204,7 @@ uint8_t getSwitch(swsrc_t swtch)
   uint8_t cs_idx = abs(swtch);
 
   if (cs_idx == SWSRC_ONE) {
-    result = !s_mixer_first_run_done;
+    result = !systemBolls.s_mixer_first_run_done;
   } else if (cs_idx == SWSRC_ON) {
     result = true;
   } else if (cs_idx <= SWSRC_LAST_SWITCH) {
@@ -349,7 +349,7 @@ void checkSwitches()
       return;
     }
 
-    if (!pwrCheck) {
+    if (!systemBolls.pwrCheck) {
       return;
     }
 

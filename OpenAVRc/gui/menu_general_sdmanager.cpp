@@ -57,12 +57,12 @@ void menuGeneralSdManagerInfo(uint8_t event)
   lcdDrawNumberNAtt(10*FW, 4*FH, disk_info.manufacturing_year + 2000, LEFT);
 }
 
-inline bool isFilenameGreater(bool isfile, const char * fn, const char * line)
+inline uint8_t isFilenameGreater(uint8_t isfile, const char * fn, const char * line)
 {
   return (isfile && !line[SD_SCREEN_FILE_LENGTH+1]) || (isfile==(bool)line[SD_SCREEN_FILE_LENGTH+1] && strcasecmp(fn, line) > 0);
 }
 
-inline bool isFilenameLower(bool isfile, const char * fn, const char * line)
+inline uint8_t isFilenameLower(uint8_t isfile, const char * fn, const char * line)
 {
   return (!isfile && line[SD_SCREEN_FILE_LENGTH+1]) || (isfile==(bool)line[SD_SCREEN_FILE_LENGTH+1] && strcasecmp(fn, line) < 0);
 }
@@ -181,7 +181,7 @@ void menuGeneralSdManager(uint8_t _event)
 
           reusableBuffer.sdmanager.count++;
 
-          bool isfile = !(SD_dir_entry.attributes & FAT_ATTRIB_DIR);
+          uint8_t isfile = !(SD_dir_entry.attributes & FAT_ATTRIB_DIR);
 
           if (menuVerticalOffset == 0)
             {

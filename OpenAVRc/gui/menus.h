@@ -282,9 +282,14 @@ int16_t gvarMenuItem(coord_t x, coord_t y, int16_t value, int16_t min, int16_t m
 
 extern const pm_char * warningText;
 extern const pm_char * warningInfoText;
-extern uint8_t         warningInfoLength;
-extern bool            warningResult;
-extern uint8_t         warningType;
+
+PACK(typedef struct {
+  uint8_t warningInfoLength:5;
+  uint8_t warningType:2;
+  uint8_t warningResult:1;
+}) warning_t;
+
+extern warning_t warning;
 
 #define MENU_X   10
 #define MENU_Y   16
@@ -308,9 +313,9 @@ void displayWarning(uint8_t event);
 #else
 #define DISPLAY_WARNING              displayWarning
 #define POPUP_WARNING(s)             warningText = s
-#define POPUP_CONFIRMATION(s)        (warningText = s, warningType = WARNING_TYPE_CONFIRM)
+#define POPUP_CONFIRMATION(s)        (warningText = s, warning.warningType = WARNING_TYPE_CONFIRM)
 #define WARNING_INFO_FLAGS           ZCHAR
-#define SET_WARNING_INFO(info, len, flags) (warningInfoText = info, warningInfoLength = len)
+#define SET_WARNING_INFO(info, len, flags) (warningInfoText = info, warning.warningInfoLength = len)
 #endif
 
 #if defined(SDCARD) || defined(ROTARY_ENCODER_NAVIGATION)

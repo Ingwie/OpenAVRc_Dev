@@ -657,7 +657,7 @@ void OpenAVRc_SimulatorFrame::OnOnTglButtonToggle(wxCommandEvent& event)
   }
   else
   {
-    pwrCheck = false; // Shut down firmware command (Pin simulation)
+    systemBolls.pwrCheck = false; // Shut down firmware command (Pin simulation)
   }
 }
 
@@ -1146,7 +1146,7 @@ void OpenAVRc_SimulatorFrame::OnQuit(wxCommandEvent& event)
 {
   event.Skip();
   if (OnTglButton->GetValue() && (!simu_off)) {
-    pwrCheck = false; // Shut down firmware
+    systemBolls.pwrCheck = false; // Shut down firmware
   } else CloseApp();
 }
 
@@ -1154,7 +1154,7 @@ void OpenAVRc_SimulatorFrame::OnClose(wxCloseEvent& event)
 {
   event.Veto();
   if (OnTglButton->GetValue() && (!simu_off)) {
-    pwrCheck = false; // Shut down firmware
+    systemBolls.pwrCheck = false; // Shut down firmware
   } else CloseApp();
 }
 

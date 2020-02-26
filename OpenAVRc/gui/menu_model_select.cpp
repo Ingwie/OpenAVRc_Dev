@@ -87,8 +87,8 @@ void onModelSelectMenu(const char *result)
 
 void menuModelSelect(uint8_t event)
 {
-  if (warningResult) {
-    warningResult = false;
+  if (warning.warningResult) {
+    warning.warningResult = false;
     eeDeleteModel(menuVerticalPosition); // delete file
     s_copyMode = 0;
     event = EVT_ENTRY_UP;

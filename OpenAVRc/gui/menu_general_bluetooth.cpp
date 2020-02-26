@@ -158,9 +158,9 @@ void menuGeneralBluetooth(uint8_t event)
 
   shared_u8 = s_menu_item; // shared_u8 store the popup scan selected line
 
-  if (warningResult)
+  if (warning.warningResult)
     {
-      warningResult = false;
+      warning.warningResult = false;
       bluetooth_scann(&reusableBuffer.bluetooth.scann, BT_SCANN_TIMEOUT_MS);
 
       POPUP_MENU_ITEMS_FROM_BSS();

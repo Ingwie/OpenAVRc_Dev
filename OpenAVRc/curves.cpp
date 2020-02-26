@@ -60,7 +60,7 @@ int16_t intpol(int16_t x, uint8_t idx) // -100, -75, -50, -25, 0 ,25 ,50, 75, 10
   CurveInfo crv = curveInfo(idx);
   int8_t *points = crv.crv;
   uint8_t count = crv.points;
-  bool custom = crv.custom;
+  uint8_t custom = crv.custom;
   int16_t erg = 0;
 
   x += RESXu;
@@ -166,7 +166,7 @@ int16_t applyCurve(int16_t x, int8_t idx)
 uint16_t expou(uint16_t x, uint16_t k)
 {
 #if defined(EXTENDED_EXPO)
-  bool extended;
+  uint8_t extended;
   if (k>80) {
     extended=true;
   } else {
@@ -201,7 +201,7 @@ int16_t expo(int16_t x, int16_t k)
 {
   if (k == 0) return x;
   int16_t y;
-  bool neg = (x < 0);
+  uint8_t neg = (x < 0);
 
   if (neg) x = -x;
   if (k<0) {

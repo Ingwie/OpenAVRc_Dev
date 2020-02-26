@@ -439,7 +439,9 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
 #if !defined(SIMU)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wstringop-truncation"
+#endif
           strncpy(Scann->Remote[Idx].Name, RespBuf, BT_NAME_STR_LEN);
+#if !defined(SIMU)
 #pragma GCC diagnostic pop
 #endif
           Scann->Remote[Idx].Name[BT_NAME_STR_LEN] = 0;

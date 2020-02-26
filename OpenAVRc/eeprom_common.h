@@ -39,11 +39,11 @@ extern uint8_t   s_eeDirtyMsk;
 extern tmr10ms_t s_eeDirtyTime10ms;
 
 void eeDirty(uint8_t msk);
-void eeCheck(bool immediately);
+void eeCheck(uint8_t immediately);
 void eeReadAll();
-bool eeModelExists(uint8_t id);
+uint8_t eeModelExists(uint8_t id);
 void eeLoadModel(uint8_t id);
-bool eeConvert();
-void eeErase(bool warn);
-uint8_t eeFindEmptyModel(uint8_t id, bool down);
+uint8_t eeConvert();
+void eeErase(uint8_t warn);
+uint8_t eeFindEmptyModel(uint8_t id, uint8_t down);
 void selectModel(uint8_t sub);

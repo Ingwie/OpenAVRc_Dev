@@ -201,7 +201,7 @@ void evalFunctions()
     if (swtch) {
       MASK_CFN_TYPE switch_mask = ((MASK_CFN_TYPE)1 << i);
 
-      bool active = getSwitch(swtch);
+      uint8_t active = getSwitch(swtch);
 
       if (HAS_ENABLE_PARAM(CFN_FUNC(cfn))) {
         active &= (bool)CFN_ACTIVE(cfn);
