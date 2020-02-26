@@ -5,7 +5,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 7
 Title "Shield Mega2560 core Full"
-Date "2020-02-22"
+Date "2020-02-26"
 Rev "2.2"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -386,12 +386,12 @@ $EndComp
 $Comp
 L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue #PWR0145
 U 1 1 59C5BEA8
-P 8100 5150
-F 0 "#PWR0145" H 8100 4900 50  0001 C CNN
-F 1 "GND" H 8100 5000 50  0000 C CNN
-F 2 "" H 8100 5150 50  0000 C CNN
-F 3 "" H 8100 5150 50  0000 C CNN
-	1    8100 5150
+P 8100 4700
+F 0 "#PWR0145" H 8100 4450 50  0001 C CNN
+F 1 "GND" H 8100 4550 50  0000 C CNN
+F 2 "" H 8100 4700 50  0000 C CNN
+F 3 "" H 8100 4700 50  0000 C CNN
+	1    8100 4700
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -650,11 +650,9 @@ Wire Wire Line
 Wire Wire Line
 	8750 1650 8750 1700
 Wire Wire Line
-	8000 4600 8000 5700
-Wire Wire Line
 	8500 5400 8500 5500
 Wire Wire Line
-	8100 4600 8100 5150
+	8100 4600 8100 4700
 Wire Wire Line
 	9000 2250 9000 2400
 Wire Wire Line
@@ -15622,8 +15620,6 @@ BT_STATUS_READ
 Text GLabel 10000 4650 2    60   Output ~ 0
 BT_STATUS_READ
 Wire Wire Line
-	10000 4650 8400 4650
-Wire Wire Line
 	8400 4650 8400 4600
 $Comp
 L Mega_2560-core-mini_full_2.2-rescue:CONN_01X06-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P10
@@ -15644,4 +15640,34 @@ Wire Wire Line
 Connection ~ 6750 1800
 Wire Wire Line
 	6750 1800 6750 2100
+$Comp
+L Device:R R44
+U 1 1 5E57F2B9
+P 8000 5150
+F 0 "R44" V 8100 5100 50  0000 L CNN
+F 1 "18K" V 8000 5100 50  0000 L CNN
+F 2 "Mylib_v2.2:R_1206" V 7930 5150 50  0001 C CNN
+F 3 "~" H 8000 5150 50  0001 C CNN
+	1    8000 5150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8000 5700 8000 5300
+Wire Wire Line
+	8000 5000 8000 4600
+$Comp
+L Device:R R45
+U 1 1 5E5A5DA3
+P 9250 4650
+F 0 "R45" V 9150 4650 50  0000 C CNN
+F 1 "18K" V 9250 4650 50  0000 C CNN
+F 2 "Mylib_v2.2:R_1206" V 9180 4650 50  0001 C CNN
+F 3 "~" H 9250 4650 50  0001 C CNN
+	1    9250 4650
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	10000 4650 9400 4650
+Wire Wire Line
+	9100 4650 8400 4650
 $EndSCHEMATC
