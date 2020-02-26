@@ -69,7 +69,7 @@ FlightModesType editFlightModes(coord_t x, coord_t y, uint8_t event, FlightModes
 int16_t expoFn(int16_t x)
 {
   ExpoData *ed = expoAddress(s_currIdx);
-  int16_t anas[NUM_INPUTS] = {0};
+  int16_t anas[NUM_STICKS] = {0};
   anas[ed->chn] = x;
   applyExpos(anas, e_perout_mode_inactive_flight_mode);
   return anas[ed->chn];
@@ -110,7 +110,7 @@ uint8_t getExpoMixCount(uint8_t expo)
   return count;
 }
 
-bool reachExpoMixCountLimit(uint8_t expo)
+uint8_t reachExpoMixCountLimit(uint8_t expo)
 {
   // check mixers count limit
   if (getExpoMixCount(expo) >= (expo ? MAX_EXPOS : MAX_MIXERS)) {
@@ -179,7 +179,7 @@ void memswap(void *a, void *b, uint8_t size)
   }
 }
 
-bool swapExpoMix(uint8_t expo, uint8_t &idx, uint8_t up)
+uint8_t swapExpoMix(uint8_t expo, uint8_t &idx, uint8_t up)
 {
   void *x, *y;
   uint8_t size;
@@ -196,7 +196,7 @@ bool swapExpoMix(uint8_t expo, uint8_t &idx, uint8_t up)
     }
 
     if (tgt_idx == MAX_EXPOS) {
-      if (((ExpoData *)x)->chn == NUM_INPUTS-1)
+      if (((ExpoData *)x)->chn == NUM_STICKS-1)
         return false;
       ((ExpoData *)x)->chn++;
       return true;
@@ -208,7 +208,7 @@ bool swapExpoMix(uint8_t expo, uint8_t &idx, uint8_t up)
         if (((ExpoData *)x)->chn>0) ((ExpoData *)x)->chn--;
         else return false;
       } else {
-        if (((ExpoData *)x)->chn<NUM_INPUTS-1) ((ExpoData *)x)->chn++;
+        if (((ExpoData *)x)->chn<NUM_STICKS-1) ((ExpoData *)x)->chn++;
         else return false;
       }
       return true;
@@ -598,7 +598,7 @@ static uint8_t s_copySrcCh;
 #if defined(NAVIGATION_MENUS)
 void onExpoMixMenu(const char *result)
 {
-  bool expo = (menuHandlers[menuLevel] == menuModelExposAll);
+  uint8_t expo = (menuHandlers[menuLevel] == menuModelExposAll);
   uint8_t chn = (expo ? expoAddress(s_currIdx)->chn+1 : mixAddress(s_currIdx)->destCh+1);
 
   if (result == STR_EDIT) {
@@ -815,7 +815,7 @@ void menuModelExpoMix(uint8_t expo, uint8_t event)
   uint8_t cur = 1;
   uint8_t i = 0;
 
-  for (uint8_t ch=1; ch<=(expo ? NUM_INPUTS : NUM_CHNOUT); ch++) {
+  for (uint8_t ch=1; ch<=(expo ? NUM_STICKS : NUM_CHNOUT); ch++) {
     void *pointer = NULL;
     MixData * &md = (MixData * &)pointer;
     ExpoData * &ed = (ExpoData * &)pointer;

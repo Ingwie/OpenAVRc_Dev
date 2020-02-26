@@ -41,8 +41,9 @@ extern const char UCLI_PROMPT [] PROGMEM;
 EEGeneral  g_eeGeneral;
 ModelData  g_model;
 
-bool pwrCheck = true;
-bool unexpectedShutdown = false;
+gazSecurity_t gazSecurity;
+systemBolls_t systemBolls;
+
 
 /* AVR: mixer duration in 1/16ms */
 uint16_t maxMixerDuration;
@@ -88,7 +89,7 @@ void checkMixer()
   // TODO duplicated code ...
   uint16_t t0 = getTmr64uS();
   int16_t delta = (nextMixerEndTime - lastMixerDuration) - t0;
-  if ((delta > 0 && delta < US_TO_64US_TICK(MAX_MIXER_DELTA_US)) || (!s_mixer_first_run_done))
+  if ((delta > 0 && delta < US_TO_64US_TICK(MAX_MIXER_DELTA_US)) || (!systemBolls.s_mixer_first_run_done))
     {
       return;
     }
@@ -104,22 +105,15 @@ void checkMixer()
 }
 
 uint8_t heartbeat;
-uint8_t stickMode;
+uint8_t stickMode; //:2
 
 #if ROTARY_ENCODERS > 0
-  uint8_t rotEncADebounce;
+ rotEncDebounce_t rotEncDebounce;
 #endif
-#if ROTARY_ENCODERS > 1
-  uint8_t rotEncBDebounce;
-#endif
-
 
 #if defined(OVERRIDE_CHANNEL_FUNCTION)
   safetych_t safetyCh[NUM_CHNOUT];
 #endif
-
-uint8_t gazSource;
-bool enableGaz = false;
 
 void setGazSource()
 {
@@ -128,11 +122,8 @@ void setGazSource()
     ++idx;
   if (idx >= MIXSRC_FIRST_POT+NUM_POTS)
     idx += MIXSRC_CH1 - MIXSRC_FIRST_POT - NUM_POTS;
-  gazSource = idx;
+  gazSecurity.gazSource = idx;
 }
-
-bool rangeModeIsOn = false; // manage low power TX
-uint8_t protoMode = NORMAL_MODE;
 
 void sendOptionsSettingsPpm()
 {
@@ -146,7 +137,7 @@ void sendOptionsSettingsPpm()
                       STR_DUMMY);
   if (s_current_protocol==PROTOCOL_PPM16) g_model.PPMNCH = limit<uint8_t>(0,g_model.PPMNCH,2);
   g_model.PPMFRAMELENGTH = (g_model.PPMNCH-2) * 8;
-  protoMode = NORMAL_MODE;
+  systemBolls.protoMode = NORMAL_MODE;
 }
 
 struct RfOptionSettingsstruct RfOptionSettings; // used in menumodelsetup
@@ -324,20 +315,20 @@ void per10ms()
 #endif
 
 #if ROTARY_ENCODERS > 0
-  if (rotEncADebounce) {
-    if (!(rotEncADebounce >>= 1)) ENABLEROTENCAISR(); // Re enable rotencA isr (deboucing)
+  if (rotEncDebounce.A) {
+    if (!(rotEncDebounce.A >>= 1)) ENABLEROTENCAISR(); // Re enable rotencA isr (deboucing)
   }
 #endif
 #if ROTARY_ENCODERS > 1
-  if (rotEncBDebounce) {
-    if (!(rotEncBDebounce >>= 1)) ENABLEROTENCBISR(); // Re enable rotencB isr (deboucing)
+  if (rotEncDebounce.B) {
+    if (!(rotEncDebounce.B >>= 1)) ENABLEROTENCBISR(); // Re enable rotencB isr (deboucing)
   }
 #endif
 
   if (Bind_tmr10ms)
   {
     if (!--Bind_tmr10ms)
-      protoMode = NORMAL_MODE;
+      systemBolls.protoMode = NORMAL_MODE;
   }
 
   heartbeat |= HEART_TIMER_10MS;
@@ -363,7 +354,6 @@ LimitData *limitAddress(uint8_t idx)
 {
   return &g_model.limitData[idx];
 }
-
 
 void generalDefault()
 {
@@ -532,45 +522,43 @@ void incRotaryEncoder(uint8_t idx, int8_t inc)
   GVAR_VALUE(idx, phase) = value;         \
   eeDirty(EE_MODEL);                      \
 
-
-
-  uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx)
-  {
-    for (uint8_t i=0; i<MAX_FLIGHT_MODES; i++) {
-      if (phase == 0) return 0;
-      int16_t val = GVAR_VALUE(idx, phase); // TODO phase at the end everywhere to be consistent!
-      if (val <= GVAR_MAX) return phase;
-      uint8_t result = val-GVAR_MAX-1;
-      if (result >= phase) ++result;
-      phase = result;
-    }
-    return 0;
+uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx)
+{
+  for (uint8_t i=0; i<MAX_FLIGHT_MODES; i++) {
+    if (phase == 0) return 0;
+    int16_t val = GVAR_VALUE(idx, phase); // TODO phase at the end everywhere to be consistent!
+    if (val <= GVAR_MAX) return phase;
+    uint8_t result = val-GVAR_MAX-1;
+    if (result >= phase) ++result;
+    phase = result;
   }
+  return 0;
+}
 
-  int16_t getGVarValue(int16_t x, int16_t min, int16_t max, int8_t phase)
-  {
-    if (GV_IS_GV_VALUE(x, min, max)) {
-      int8_t idx = GV_INDEX_CALCULATION(x, max);
-      int8_t mul = 1;
+int16_t getGVarValue(int16_t x, int16_t min, int16_t max, int8_t phase)
+{
+  if (GV_IS_GV_VALUE(x, min, max)) {
+    int8_t idx = GV_INDEX_CALCULATION(x, max);
+    int8_t mul = 1;
 
-      if (idx < 0) {
-        idx = -1-idx;
-        mul = -1;
-      }
-
-      x = GVAR_VALUE(idx, getGVarFlightPhase(phase, idx)) * mul;
+    if (idx < 0) {
+      idx = -1-idx;
+      mul = -1;
     }
-    return limit(min, x, max);
-  }
 
-  void setGVarValue(uint8_t idx, int16_t value, int8_t phase)
-  {
-    value = limit((int16_t)-GVAR_LIMIT,value,(int16_t)GVAR_LIMIT); //Limit Gvar value
-    phase = getGVarFlightPhase(phase, idx);
-    if (GVAR_VALUE(idx, phase) != value) {
-      SET_GVAR_VALUE(idx, phase, value);
-    }
+    x = GVAR_VALUE(idx, getGVarFlightPhase(phase, idx)) * mul;
   }
+  return limit(min, x, max);
+}
+
+void setGVarValue(uint8_t idx, int16_t value, int8_t phase)
+{
+  value = limit((int16_t)-GVAR_LIMIT,value,(int16_t)GVAR_LIMIT); //Limit Gvar value
+  phase = getGVarFlightPhase(phase, idx);
+  if (GVAR_VALUE(idx, phase) != value) {
+    SET_GVAR_VALUE(idx, phase, value);
+  }
+}
 
 #endif
 
@@ -638,7 +626,7 @@ uint8_t checkIfModelIsOff()
 {
   if (TELEMETRY_STREAMING())
     {
-      pwrCheck = true; //reset shutdown command
+      systemBolls.pwrCheck = true; //reset shutdown command
       ALERT(STR_MODEL, STR_MODELISON, AU_FRSKY_WARN2);
       return true;
     }
@@ -719,7 +707,6 @@ void checkBacklight()
 {
   static uint8_t tmr10ms ;
 
-
   uint8_t x = g_blinkTmr10ms;
   if (tmr10ms != x) {
     tmr10ms = x;
@@ -735,7 +722,6 @@ void checkBacklight()
       BACKLIGHT_ON();
     else
       BACKLIGHT_OFF();
-
   }
 }
 
@@ -798,7 +784,7 @@ void doSplash()
       }
 #endif
 
-      if (!pwrCheck) {
+      if (!systemBolls.pwrCheck) {
         return;
       }
 
@@ -872,7 +858,7 @@ void checkTHR()
 
     v = calibratedStick[thrchn];
 
-    if (!pwrCheck) {
+    if (!systemBolls.pwrCheck) {
       break;
     }
 
@@ -908,7 +894,7 @@ void alert(const pm_char * t, const pm_char *s MESSAGE_SOUND_ARG)
 
     checkBacklight();
 
-    if (!pwrCheck)
+    if (!systemBolls.pwrCheck)
     {
       boardOff(); // turn power off now
     }
@@ -1058,7 +1044,7 @@ void flightReset()
   telemetryResetValue();
 #endif
 
-  s_mixer_first_run_done = false;
+  systemBolls.s_mixer_first_run_done = false;
 
   RESET_THR_TRACE();
 }
@@ -1080,7 +1066,7 @@ FORCEINLINE void evalTrims()
     int16_t trim = getTrimValue(phase, i);
     if (i==THR_STICK && g_model.thrTrim) {
       int16_t trimMin = g_model.extendedTrims ? TRIM_EXTENDED_MIN : TRIM_MIN;
-      trim = enableGaz? ((((int32_t)(trim-trimMin)) * (RESX-anas[i])) >> (RESX_SHIFT+1)) : 0; //GAZ SECURITY
+      trim = gazSecurity.enableGaz? ((((int32_t)(trim-trimMin)) * (RESX-anas[i])) >> (RESX_SHIFT+1)) : 0; //GAZ SECURITY
     }
     if (trimsCheckTimer) {
       trim = 0;
@@ -1088,8 +1074,6 @@ FORCEINLINE void evalTrims()
     trims[i] = trim*2;
   }
 }
-
-bool s_mixer_first_run_done = false;
 
 void doMixerCalculations()
 {
@@ -1193,9 +1177,9 @@ void doMixerCalculations()
         ++sessionTimer;
         checkBattery();
 
-      if ((rangeModeIsOn) && !(menuHandlers[menuLevel] == menuModelSetup))
+      if ((systemBolls.rangeModeIsOn) && !(menuHandlers[menuLevel] == menuModelSetup))
       {
-         rangeModeIsOn = false; // Reset range mode if not in menuModelSetup
+         systemBolls.rangeModeIsOn = false; // Reset range mode if not in menuModelSetup
       }
 
         struct t_inactivity *ptrInactivity = &inactivity;
@@ -1238,7 +1222,7 @@ void doMixerCalculations()
       }
     }
   }
-  s_mixer_first_run_done = true;
+  systemBolls.s_mixer_first_run_done = true;
 }
 
 void OpenAVRcStart() // Run only if it is not a WDT reboot
@@ -1552,7 +1536,7 @@ void OpenAVRcInit(uint8_t mcusr)
 
   if (UNEXPECTED_SHUTDOWN())
     {
-      unexpectedShutdown = true;
+      systemBolls.unexpectedShutdown = true;
     }
   else
     {
@@ -1595,6 +1579,14 @@ int16_t simumain()
 {
   simu_off = false;
 #endif
+
+  // Init bitfields
+  systemBolls.pwrCheck = true;
+  systemBolls.unexpectedShutdown = false;
+  systemBolls.rangeModeIsOn = false; // manage low power TX
+  systemBolls.protoMode = NORMAL_MODE;
+  systemBolls.s_mixer_first_run_done = false;
+
   // G: The WDT remains active after a WDT reset -- at maximum clock speed. So it's
   // important to disable it before commencing with system initialisation (or
   // we could put a bunch more MYWDT_RESET()s in. But I don't like that approach
@@ -1664,7 +1656,7 @@ if (menuHandlers[menuLevel] != menuGeneralBluetooth) // Do not process uCli when
   TinyDbg_event();
 #endif
 
-    if (!pwrCheck)
+    if (!systemBolls.pwrCheck)
 #if !defined(SIMU)
       break;
 #else

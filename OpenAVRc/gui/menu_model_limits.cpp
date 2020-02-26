@@ -35,7 +35,7 @@
 #include "menu_model.h"
 
 
-bool isThrottleOutput(uint8_t ch)
+uint8_t isThrottleOutput(uint8_t ch)
 {
   for (uint8_t i=0; i<MAX_MIXERS; i++) {
     MixData *mix = mixAddress(i);
@@ -114,8 +114,8 @@ void menuModelLimits(uint8_t event)
 
   MENU(STR_MENULIMITS, menuTabModel, e_Limits, 1+NUM_CHNOUT+1, {0, ITEM_LIMITS_MAXROW, ITEM_LIMITS_MAXROW, ITEM_LIMITS_MAXROW, ITEM_LIMITS_MAXROW, ITEM_LIMITS_MAXROW, ITEM_LIMITS_MAXROW, ITEM_LIMITS_MAXROW, ITEM_LIMITS_MAXROW, ITEM_LIMITS_MAXROW, ITEM_LIMITS_MAXROW, ITEM_LIMITS_MAXROW, ITEM_LIMITS_MAXROW, ITEM_LIMITS_MAXROW, ITEM_LIMITS_MAXROW, ITEM_LIMITS_MAXROW, ITEM_LIMITS_MAXROW, 0});
 
-  if (warningResult) {
-    warningResult = false;
+  if (warning.warningResult) {
+    warning.warningResult = false;
     LimitData *ld = limitAddress(sub);
     ld->revert = !ld->revert;
     eeDirty(EE_MODEL);

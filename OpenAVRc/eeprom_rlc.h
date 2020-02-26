@@ -91,7 +91,7 @@ public:
   static void swap(uint8_t i_fileId1, uint8_t i_fileId2);
 
   ///return true if the file with given fileid exists
-  static bool exists(uint8_t i_fileId);
+  static uint8_t exists(uint8_t i_fileId);
 
   ///open file for reading, no close necessary
   void openRd(uint8_t i_fileId);
@@ -155,9 +155,9 @@ public:
   void create(uint8_t i_fileId, uint8_t typ, uint8_t sync_write);
 
   /// copy contents of i_fileSrc to i_fileDst
-  bool copy(uint8_t i_fileDst, uint8_t i_fileSrc);
+  uint8_t copy(uint8_t i_fileDst, uint8_t i_fileSrc);
 
-  inline bool isWriting()
+  inline uint8_t isWriting()
   {
     return m_write_step != 0;
   }
@@ -185,7 +185,7 @@ inline void eeFlush()
   theFile.flush();
 }
 
-inline bool eepromIsWriting()
+inline uint8_t eepromIsWriting()
 {
   return theFile.isWriting();
 }
@@ -212,9 +212,9 @@ const pm_char * eeRestoreModel(uint8_t i_fileDst, char *model_name);
 
 // For conversions
 
-bool eepromOpen();
+uint8_t eepromOpen();
 void eeLoadModelName(uint8_t id, char *name);
-bool eeLoadGeneral();
+uint8_t eeLoadGeneral();
 
 // For EEPROM backup/restore
 

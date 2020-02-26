@@ -198,7 +198,7 @@ void CC2500_SetPower(uint8_t CCPower)
 
 void CC2500_ManagePower()
 {
-  if (rangeModeIsOn) rf_power = TXPOWER_1;
+  if (systemBolls.rangeModeIsOn) rf_power = TXPOWER_1;
   else rf_power = g_model.rfOptionValue3;
   if (rf_power != rf_power_mem)
   {

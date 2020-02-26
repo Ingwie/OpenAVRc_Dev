@@ -51,7 +51,7 @@ point_t getPoint(uint8_t i)
   point_t result = {0, 0};
   CurveInfo crv = curveInfo(s_curveChan);
   int8_t *points = crv.crv;
-  bool custom = crv.custom;
+  uint8_t custom = crv.custom;
   uint8_t count = crv.points;
   if (i < count) {
     result.x = X0-1-WCHART+i*WCHART/(count/2);
@@ -75,7 +75,7 @@ void DrawCurve(uint8_t offset=0)
   } while(1);
 }
 
-bool moveCurve(uint8_t index, int8_t shift, int8_t custom=0)
+uint8_t moveCurve(uint8_t index, int8_t shift, int8_t custom=0)
 {
   if (g_model.curves[MAX_CURVES-1] + shift > NUM_POINTS-5*MAX_CURVES) {
     AUDIO_WARNING2();

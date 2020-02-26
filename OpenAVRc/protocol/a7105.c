@@ -239,7 +239,7 @@ static void A7105_SetPower(uint8_t Apower)
 
 void A7105_ManagePower()
 {
-  if (rangeModeIsOn)
+  if (systemBolls.rangeModeIsOn)
     rf_power = TXPOWER_1;
   else
     rf_power = g_model.rfOptionValue3;

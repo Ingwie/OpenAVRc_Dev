@@ -51,7 +51,7 @@ public:
   void play(uint8_t tFreq, uint8_t tLen, uint8_t tPause, uint8_t tFlags=0);
   void pause(uint8_t tLen);
 
-  inline bool busy()
+  inline uint8_t busy()
   {
     return (toneTimeLeft > 0);
   }
@@ -73,7 +73,7 @@ public:
   // it is essentially the life of the class.
   void heartbeat();
 
-  inline bool empty()
+  inline uint8_t empty()
   {
     return (t_queueRidx == t_queueWidx);
   }

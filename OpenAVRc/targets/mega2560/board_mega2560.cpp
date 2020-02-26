@@ -137,7 +137,7 @@ FORCEINLINE void boardInit()
 
 #if defined(SPIMODULES)
   RF_SPI_INIT();
-  protoMode = NORMAL_MODE;
+  systemBolls.protoMode = NORMAL_MODE;
 #endif // SPIMODULES
 
 #endif // !SIMU
@@ -325,13 +325,13 @@ void readKeysAndTrims()
 void debounceRotEncA()
 {
   DISABLEROTENCAISR();
-  rotEncADebounce = ROTENCDEBOUNCEVAL;
+  rotEncDebounce.A = ROTENCDEBOUNCEVAL;
 }
 
 void debounceRotEncB()
 {
   DISABLEROTENCBISR();
-  rotEncBDebounce = ROTENCDEBOUNCEVAL;
+  rotEncDebounce.B = ROTENCDEBOUNCEVAL;
 }
 
 ISR(INT4_vect)     // Mega2560 INT4 (portE pin4)

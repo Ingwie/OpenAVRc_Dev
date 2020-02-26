@@ -46,7 +46,7 @@ void eeDirty(uint8_t msk)
   s_eeDirtyTime10ms = getTmr10ms() ;
 }
 
-uint8_t eeFindEmptyModel(uint8_t id, bool down)
+uint8_t eeFindEmptyModel(uint8_t id, uint8_t down)
 {
   uint8_t i = id;
   for (;;) {

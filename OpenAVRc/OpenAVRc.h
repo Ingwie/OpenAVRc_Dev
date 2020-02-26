@@ -328,10 +328,11 @@ static uint16_t DurationValue;
 #if ROTARY_ENCODERS > 0
   #define IF_ROTARY_ENCODERS(x) x,
   #define ROTENCDEBOUNCEVAL _BV(2)
-  extern uint8_t rotEncADebounce;
-  #if ROTARY_ENCODERS > 1
-    extern uint8_t rotEncBDebounce;
-  #endif
+  typedef struct {
+    uint8_t A:4;
+    uint8_t B:4;
+  } rotEncDebounce_t;
+  extern rotEncDebounce_t rotEncDebounce;
 #else
   #define IF_ROTARY_ENCODERS(x)
 #endif
@@ -723,14 +724,27 @@ extern uint16_t s_timeCum16ThrP;
 
 extern uint8_t trimsCheckTimer;
 
-
 void flightReset();
 
 void setGazSource();
-extern uint8_t gazSource;
-extern bool enableGaz;
-extern bool pwrCheck;
-extern bool unexpectedShutdown;
+
+PACK(typedef struct {
+  uint8_t gazSource:7; // 3-68
+  uint8_t enableGaz:1;
+}) gazSecurity_t;
+
+extern gazSecurity_t gazSecurity;
+
+PACK(typedef struct {
+  uint8_t pwrCheck:1;
+  uint8_t unexpectedShutdown:1;
+  uint8_t rangeModeIsOn:1;
+  uint8_t protoMode:1;
+  uint8_t s_mixer_first_run_done:1;
+  uint8_t unused:3;
+}) systemBolls_t;
+
+extern systemBolls_t systemBolls;
 
 extern uint16_t maxMixerDuration;
 
@@ -881,8 +895,6 @@ extern int32_t            chans[NUM_CHNOUT];
 extern int16_t            ex_chans[NUM_CHNOUT]; // Outputs (before LIMITS) of the last perMain
 extern int16_t            channelOutputs[NUM_CHNOUT];
 
-#define NUM_INPUTS      (NUM_STICKS)
-
 int16_t intpol(int16_t x, uint8_t idx);
 int16_t expo(int16_t x, int16_t k);
 
@@ -892,12 +904,10 @@ int16_t expo(int16_t x, int16_t k);
   #define applyCurve(x, idx) (x)
 #endif
 
-
 #define applyCustomCurve(x, idx) intpol(x, idx)
 
 #define APPLY_EXPOS_EXTRA_PARAMS_INC
 #define APPLY_EXPOS_EXTRA_PARAMS
-
 
 void applyExpos(int16_t *anas, uint8_t mode APPLY_EXPOS_EXTRA_PARAMS_INC);
 int16_t applyLimits(uint8_t channel, int32_t value);
@@ -922,13 +932,11 @@ LogicalSwitchData *lswAddress(uint8_t idx);
 
 // static variables used in evalFlightModeMixes - moved here so they don't interfere with the stack
 // It's also easier to initialize them here.
-extern int16_t rawAnas[NUM_INPUTS];
+extern int16_t rawAnas[NUM_STICKS];
 
-extern int16_t  anas[NUM_INPUTS];
+extern int16_t  anas[NUM_STICKS];
 extern int16_t  trims[NUM_STICKS];
 extern BeepANACenter bpanaCenter;
-
-extern bool s_mixer_first_run_done;
 
 extern int8_t s_currCh;
 uint8_t getExpoMixCount(uint8_t expo);
@@ -1131,11 +1139,8 @@ const mm_protocol_definition *getMultiProtocolDefinition (uint8_t protocol);
 
 ///////////////// PROTOCOLS ///////////////////
 
-extern bool rangeModeIsOn;
-extern uint8_t protoMode;
-
 enum PROTO_MODE {
-  NORMAL_MODE,
+  NORMAL_MODE = 0,
   BIND_MODE,
 };
 
@@ -1235,7 +1240,6 @@ const RfOptionSettingsvarstruct RfOpt_PPM_Ser[] PROGMEM = {
 void sendOptionsSettingsPpm();
 //PPM
 
-extern struct Module RFModule;
 extern struct RfOptionSettingsstruct RfOptionSettings;
 extern uint8_t * packet; //protocol global packet
 extern void startPulses(enum ProtoCmds Command);
@@ -1343,7 +1347,7 @@ extern union ReusableBuffer reusableBuffer;
 
 void checkFlashOnBeep();
 
-#if   defined(FRSKY)
+#if defined(FRSKY)
   void convertUnit(getvalue_t & val, uint8_t & unit);
 #else
   #define convertUnit(...)
