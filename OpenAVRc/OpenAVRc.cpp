@@ -250,7 +250,6 @@ void per10ms()
 
   if (trimsCheckTimer) --trimsCheckTimer;
 
-  if (puppySignalValidityTimer) --puppySignalValidityTimer;
 #if defined(VOICE)
       if (puppySignalValidityTimer == PUPPY_VALID_TIMEOUT_FIRST)
         {
@@ -261,6 +260,7 @@ void per10ms()
           PLAY_PUPPY_LOSS();
         }
 #endif
+  if (puppySignalValidityTimer) --puppySignalValidityTimer;
 
 
 #if defined(RTCLOCK)
