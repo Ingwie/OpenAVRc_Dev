@@ -89,15 +89,6 @@
 #define LEN_VPERSISTENT        "\020"
 #define TR_VPERSISTENT         "UIT\0            ""Vliegtijd\0      ""Handmatige Reset"
 
-#define LEN_COUNTRYCODES       "\002"
-#define TR_COUNTRYCODES        "US""JP""EU"
-
-#define LEN_TARANIS_PROTOCOLS  "\004"
-#define TR_TARANIS_PROTOCOLS   "UIT\0""PPM\0""XJT\0""DSM2""CRSF"
-
-#define LEN_XJT_PROTOCOLS      "\004"
-#define TR_XJT_PROTOCOLS       "OFF\0""D16\0""D8\0 ""LR12"
-
 #define LEN_DSM_PROTOCOLS      "\004"
 #define TR_DSM_PROTOCOLS       "LP45""DSM2""DSMX"
 
