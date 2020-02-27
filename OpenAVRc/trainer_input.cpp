@@ -53,13 +53,13 @@ ISR(TRAINER_TC_VECT) // G: High frequency noise can cause stack overflow with IS
 
   if(channelNumber && val > 800 && val < 2200 && channelNumber <= NUM_TRAINER)
   { // Accepted range is 800 to 2200 us  1500us+/-700.
-    puppySignalValidityTimer = puppySignalValidityTimer? PUPPY_VALID_TIMEOUT : PUPPY_VALID_TIMEOUT_FIRST;
     ppmInput[channelNumber++ -1] =
       (int16_t)(val - 1500)*(g_eeGeneral.PPM_Multiplier+10)/10;
   }
   else if(val > 4000 && val < 19000)
   { // Frame sync pulse >4 <19 ms.
     channelNumber = 1; // Indicates start of new frame.
+    puppySignalValidityTimer = puppySignalValidityTimer? PUPPY_VALID_TIMEOUT : PUPPY_VALID_TIMEOUT_FIRST;
   }
   else channelNumber = 0; /* Glitches (<800us) or long channel pulses (2200 to 4000us) or
   pulses > 19000us reset the process */
