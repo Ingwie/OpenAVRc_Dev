@@ -34,7 +34,7 @@
 #include "trainer_input.h"
 
 int16_t ppmInput[NUM_TRAINER];
-uint8_t puppySignalValidityTimer;
+uint8_t puppySignalValidityTimer = 0;
 
 /*
  * Trainer PPM input capture ISR.
@@ -58,8 +58,11 @@ ISR(TRAINER_TC_VECT) // G: High frequency noise can cause stack overflow with IS
   }
   else if(val > 4000 && val < 19000)
   { // Frame sync pulse >4 <19 ms.
+    if (channelNumber > NUM_TRAINER) // all the frame capture OK ?
+    {
+      puppySignalValidityTimer = puppySignalValidityTimer? PUPPY_VALID_TIMEOUT : PUPPY_VALID_TIMEOUT_FIRST;
+    }
     channelNumber = 1; // Indicates start of new frame.
-    puppySignalValidityTimer = puppySignalValidityTimer? PUPPY_VALID_TIMEOUT : PUPPY_VALID_TIMEOUT_FIRST;
   }
   else channelNumber = 0; /* Glitches (<800us) or long channel pulses (2200 to 4000us) or
   pulses > 19000us reset the process */
