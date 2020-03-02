@@ -78,7 +78,6 @@ PPM16LAST,
 PPM16FIRST,
 };
 
-void setupPulses();
 void setupPulsesPPM(enum ppmtype proto);
 void DSM2_Init();
 void DSM2_Done();
