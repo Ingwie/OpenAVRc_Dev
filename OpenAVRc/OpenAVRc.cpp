@@ -1503,10 +1503,6 @@ void OpenAVRcInit(uint8_t mcusr)
 {
   eeReadAll();
 
-#if defined(TINY_DBG_UART_USB)
-  Serial0.init(115200);
-  TinyDbg_init(&Serial0);
-#endif
 #if defined(U_CLI) || defined(TINY_DBG_UART_BT)
   Serial1.init(115200);
 #endif
@@ -1652,7 +1648,7 @@ if (menuHandlers[menuLevel] != menuGeneralBluetooth) // Do not process uCli when
   }
 #endif
 
-#if defined(TINY_DBG_UART_USB) || (defined(TINY_DBG_UART_BT) && !defined(U_CLI))
+#if (defined(TINY_DBG_UART_BT) && !defined(U_CLI))
   TinyDbg_event();
 #endif
 

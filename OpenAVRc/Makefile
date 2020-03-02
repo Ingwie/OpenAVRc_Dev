@@ -180,7 +180,7 @@ OFFSET_ON_INPUT = YES
 EEPROM_PROGRESS_BAR = NO
 
 # Debug with TinyDbg
-# Values = NO, UART_USB, UART_BT
+# Values = NO, UART_BT
 DEBUG = NO
 
 # Timers Count
@@ -350,9 +350,6 @@ ifeq ($(PCB), MEGAMINI)
 	ifneq ($(DEBUG), NO)
 		need_HwSerial=YES
 		CPPSRC += $(DEBUGDIR)/TinyDbg.cpp
-		ifeq ($(DEBUG), UART_USB)
-		CPPDEFS += -DTINY_DBG_UART_USB
-		endif
 		ifeq ($(DEBUG), UART_BT)
 		CPPDEFS += -DTINY_DBG_UART_BT
 		endif
@@ -660,9 +657,6 @@ ifeq ($(PCB), MEGA2560)
 	ifneq ($(DEBUG), NO)
 		need_HwSerial=YES
 		CPPSRC += $(DEBUGDIR)/TinyDbg.cpp
-		ifeq ($(DEBUG), UART_USB)
-		CPPDEFS += -DTINY_DBG_UART_USB
-		endif
 		ifeq ($(DEBUG), UART_BT)
 		CPPDEFS += -DTINY_DBG_UART_BT
 		endif
