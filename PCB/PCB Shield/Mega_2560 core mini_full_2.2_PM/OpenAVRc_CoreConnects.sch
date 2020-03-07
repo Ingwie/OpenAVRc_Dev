@@ -5,7 +5,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 7
 Title "Shield Mega2560 core Full"
-Date "2020-02-26"
+Date "2020-03-07"
 Rev "2.2"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -15670,4 +15670,14 @@ Wire Wire Line
 	10000 4650 9400 4650
 Wire Wire Line
 	9100 4650 8400 4650
+Text Label 8500 5000 0    50   ~ 0
+VCC_BT
+Text Label 8000 4850 1    50   ~ 0
+TX_BT
+Text Label 7900 4850 1    50   ~ 0
+RX_BT
+Text Label 8600 4650 0    50   ~ 0
+Status_BT
+Text Label 8500 5800 0    50   ~ 0
+KEY_BT
 $EndSCHEMATC
