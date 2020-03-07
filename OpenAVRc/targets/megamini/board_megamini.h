@@ -121,7 +121,7 @@ void readKeysAndTrims();
 #define BT_KEY_OFF()              (PORTB &= ~OUT_B_BT_KEY)
 #define BT_IS_IN_AT_MODE          (PORTB & OUT_B_BT_KEY)
 #define BT_IS_CONNECTED           (PORTJ & IN_J_BT_STATUS)
-#define DIRECTBTWIRES             test
+//#define DIRECTBTWIRES             test
 #if defined(SIMU)
 #undef DIRECTBTWIRES
 #endif
