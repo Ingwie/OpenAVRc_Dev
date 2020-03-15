@@ -1,0 +1,12 @@
+### Module positions - created on 15/03/2020 09:49:32 ###
+### Printed by Pcbnew version kicad (5.1.5)-3
+## Unit = mm, Angle = deg.
+## Side : top
+# Ref     Val             Package                        PosX       PosY       Rot  Side
+C1        CP              CP_EIA-6032-28_Kemet-C      -0.0775    -5.0800  180.0000  top
+C2        C               C_0805_2012Metric            0.0000    -1.9050  180.0000  top
+D1        RED             LED_0805_2012Metric         -6.6525     3.1750    0.0000  top
+R1        680             R_0805_2012Metric           -6.6525     0.6350    0.0000  top
+SW1       SW_Push         Panasonic_EVQPUJ_EVQPUA      8.0400     0.7200  270.0000  top
+U1        ATtiny85_16MHZ  SOIJ-8_5.3x5.3mm_P1.27mm     0.0000     2.5400    0.0000  top
+## End

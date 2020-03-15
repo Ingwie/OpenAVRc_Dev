@@ -1,0 +1,13 @@
+"Id";"Référence";"Boîtier";"Quantité";"Désignation";"Fournisseur et réf";
+1;"J3";"PadSensor_2.2mm";1;"IN";;;
+2;"J4";"PadSensor_2.2mm";1;"VCC";;;
+3;"J5";"PadSensor_2.2mm";1;"GND";;;
+4;"C1";"CP_EIA-6032-28_Kemet-C";1;"CP";;;
+5;"C2";"C_0805_2012Metric";1;"C";;;
+6;"D1";"LED_0805_2012Metric";1;"RED";;;
+7;"J1";"PinHeader_1x04_P2.54mm_Vertical";1;"I2C";;;
+8;"R1";"R_0805_2012Metric";1;"680";;;
+9;"U1";"SOIJ-8_5.3x5.3mm_P1.27mm";1;"ATtiny85_16MHZ";;;
+10;"J2";"PinHeader_1x01_P2.54mm_Vertical";1;"SPI_RST";;;
+11;"SW1";"Panasonic_EVQPUJ_EVQPUA";1;"SW_Push";;;
+12;"J6";"PinHeader_1x01_P2.54mm_Vertical";1;"SPI_MISO";;;
