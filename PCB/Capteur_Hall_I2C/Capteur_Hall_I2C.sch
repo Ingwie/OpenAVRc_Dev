@@ -5,7 +5,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "Board for Hall Sensor"
-Date "2020-03-15"
+Date "2020-03-16"
 Rev "0.1"
 Comp "OpenAVRc"
 Comment1 ""
@@ -6146,7 +6146,7 @@ U 1 1 5E6CBE4E
 P 6000 3550
 F 0 "U1" H 6200 2950 50  0000 R CNN
 F 1 "ATtiny85_16MHZ" H 6650 4100 50  0000 R CNN
-F 2 "Package_SO:SOIJ-8_5.3x5.3mm_P1.27mm" H 6000 3550 50  0001 C CIN
+F 2 "Package_DIP:DIP-8_W7.62mm" H 6000 3550 50  0001 C CIN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf" H 6000 3550 50  0001 C CNN
 	1    6000 3550
 	1    0    0    -1  
@@ -6292,70 +6292,10 @@ Text Label 7200 3250 0    50   ~ 0
 SDA(MOSI)
 Text Label 7200 3450 0    50   ~ 0
 SCL(SCK)
-$Comp
-L Connector_Generic:Conn_01x04 J1
-U 1 1 5E6E33C5
-P 9350 3300
-F 0 "J1" H 9430 3292 50  0000 L CNN
-F 1 "I2C" H 9430 3201 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 9350 3300 50  0001 C CNN
-F 3 "~" H 9350 3300 50  0001 C CNN
-	1    9350 3300
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	9150 3500 9050 3500
-Wire Wire Line
-	9050 3500 9050 3650
-$Comp
-L power:GND #PWR0109
-U 1 1 5E6E5294
-P 9050 3650
-F 0 "#PWR0109" H 9050 3400 50  0001 C CNN
-F 1 "GND" H 9055 3477 50  0000 C CNN
-F 2 "" H 9050 3650 50  0001 C CNN
-F 3 "" H 9050 3650 50  0001 C CNN
-	1    9050 3650
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:+5V #PWR0110
-U 1 1 5E6E566C
-P 9050 3000
-F 0 "#PWR0110" H 9050 2850 50  0001 C CNN
-F 1 "+5V" H 9065 3173 50  0000 C CNN
-F 2 "" H 9050 3000 50  0001 C CNN
-F 3 "" H 9050 3000 50  0001 C CNN
-	1    9050 3000
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	9150 3200 9050 3200
-Wire Wire Line
-	9050 3200 9050 3000
 Wire Wire Line
 	6600 3650 6750 3650
 Wire Wire Line
 	6750 3650 6750 3900
-$Comp
-L Connector_Generic:Conn_01x01 J2
-U 1 1 5E6E77D5
-P 9350 4150
-F 0 "J2" H 9430 4192 50  0000 L CNN
-F 1 "SPI_RST" H 9430 4101 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" H 9350 4150 50  0001 C CNN
-F 3 "~" H 9350 4150 50  0001 C CNN
-	1    9350 4150
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6600 3750 7800 3750
-Wire Wire Line
-	7800 3750 7800 4150
-Wire Wire Line
-	7800 4150 9150 4150
-Text Label 7350 3750 0    50   ~ 0
-(RESET)
 Text Label 7350 3600 0    50   ~ 0
 (MISO)
 Wire Wire Line
@@ -6364,8 +6304,6 @@ Wire Wire Line
 	6950 3550 6950 4000
 Wire Wire Line
 	7050 3350 7050 3600
-Wire Wire Line
-	7050 3600 7950 3600
 Wire Wire Line
 	6600 3350 7050 3350
 Wire Wire Line
@@ -6468,41 +6406,37 @@ Wire Notes Line
 Text Notes 9750 4950 0    50   ~ 0
 HALL SENSOR\nP3022-V1-CW360
 Wire Wire Line
-	8200 3250 8200 3400
+	6600 3250 7750 3250
 Wire Wire Line
-	8200 3400 9150 3400
+	6600 3450 7750 3450
 Wire Wire Line
-	6600 3250 8200 3250
-Wire Wire Line
-	9150 3300 8100 3300
-Wire Wire Line
-	8100 3300 8100 3450
-Wire Wire Line
-	6600 3450 8100 3450
-Wire Wire Line
-	7950 3600 7950 3900
-Wire Wire Line
-	7950 3900 9150 3900
-Connection ~ 7950 3600
-Wire Wire Line
-	7950 3600 8100 3600
+	7050 3600 8100 3600
 $Comp
-L Connector_Generic:Conn_01x01 J6
-U 1 1 5E6E0922
-P 9350 3900
-F 0 "J6" H 9430 3942 50  0000 L CNN
-F 1 "SPI_MISO" H 9430 3851 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" H 9350 3900 50  0001 C CNN
-F 3 "~" H 9350 3900 50  0001 C CNN
-	1    9350 3900
+L Connector_Generic:Conn_01x01 J1
+U 1 1 5E70256C
+P 9350 4100
+F 0 "J1" H 9430 4142 50  0000 L CNN
+F 1 "GND" H 9430 4051 50  0000 L CNN
+F 2 "Sensor_Empreintes:MountingHole_3x2" H 9350 4100 50  0001 C CNN
+F 3 "~" H 9350 4100 50  0001 C CNN
+	1    9350 4100
 	1    0    0    -1  
 $EndComp
-Wire Notes Line
-	9800 4250 9850 4250
-Wire Notes Line
-	9850 4250 9850 3150
-Wire Notes Line
-	9850 3150 9800 3150
-Text Notes 9900 3700 0    50   ~ 0
-SPI_PROGRAMMATION
+$Comp
+L power:GND #PWR0109
+U 1 1 5E702576
+P 9000 4100
+F 0 "#PWR0109" H 9000 3850 50  0001 C CNN
+F 1 "GND" H 9005 3927 50  0000 C CNN
+F 2 "" H 9000 4100 50  0001 C CNN
+F 3 "" H 9000 4100 50  0001 C CNN
+	1    9000 4100
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	9000 4100 9150 4100
+Wire Wire Line
+	6600 3750 7750 3750
+Text Label 7350 3750 0    50   ~ 0
+(RESET)
 $EndSCHEMATC
