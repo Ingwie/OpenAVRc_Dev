@@ -3,11 +3,9 @@
 2;"J4";"PadSensor_2.2mm";1;"VCC";;;
 3;"J5";"PadSensor_2.2mm";1;"GND";;;
 4;"C1";"CP_EIA-6032-28_Kemet-C";1;"CP";;;
-5;"C2";"C_0805_2012Metric";1;"C";;;
-6;"D1";"LED_0805_2012Metric";1;"RED";;;
-7;"J1";"PinHeader_1x04_P2.54mm_Vertical";1;"I2C";;;
-8;"R1";"R_0805_2012Metric";1;"680";;;
-9;"U1";"SOIJ-8_5.3x5.3mm_P1.27mm";1;"ATtiny85_16MHZ";;;
-10;"J2";"PinHeader_1x01_P2.54mm_Vertical";1;"SPI_RST";;;
-11;"SW1";"Panasonic_EVQPUJ_EVQPUA";1;"SW_Push";;;
-12;"J6";"PinHeader_1x01_P2.54mm_Vertical";1;"SPI_MISO";;;
+5;"SW1";"Panasonic_EVQPUJ_EVQPUA";1;"SW_Push";;;
+6;"U1";"DIP-8_W7.62mm";1;"ATtiny85_16MHZ";;;
+7;"J1";"MountingHole_3x2";1;"GND";;;
+8;"C2";"C_1206_3216Metric_Pad1.42x1.75mm_HandSolder";1;"100nF";;;
+9;"D1";"LED_1206_3216Metric_Pad1.42x1.75mm_HandSolder";1;"RED";;;
+10;"R1";"R_1206_3216Metric_Pad1.42x1.75mm_HandSolder";1;"680";;;
