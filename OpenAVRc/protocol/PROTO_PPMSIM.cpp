@@ -56,6 +56,9 @@ static uint16_t PROTO_PPMSIM_cb()
     // Schedule next Mixer calculations.
     SCHEDULE_MIXER_END_IN_US(22500 + (g_model.PPMFRAMELENGTH * 1000) / 2);
     setupPulsesPPM(PPMSIM);
+#if defined(BLUETOOTH)
+    uCli_Send_Channels();
+#endif
     heartbeat |= HEART_TIMER_PULSES;
     CALCULATE_LAT_JIT(); // Show how long to setup pulses and ISR jitter.
     return PULSES_SETUP_TIME_US *2;
