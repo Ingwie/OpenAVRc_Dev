@@ -1540,7 +1540,7 @@ void OpenAVRcInit(uint8_t mcusr)
     }
 
 #if defined(U_CLI)
-  Serial1.print(F("\nWelcome to OpenAVRc V3.0 !\n"));
+  Serial1.println(F("\nWelcome to OpenAVRc V3.0 !"));
 #endif
 
   if (!g_eeGeneral.unexpectedShutdown) {
