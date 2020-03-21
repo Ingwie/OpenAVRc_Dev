@@ -37,7 +37,7 @@
 #if defined(SDCARD)
 #include "sdcard.h"
 #endif
-#if defined(TINY_DBG_UART_USB) || defined(TINY_DBG_UART_BT)
+#if defined(TINY_DBG_UART_BT)
 #include "debug/TinyDbg.h"
 #endif
 #if defined(XMODEM)
@@ -62,5 +62,6 @@ extern uCliSt_t uCli; // uCli structure will be used by bluetooth as well (share
 
 void uCli_init(Stream *stream);
 void uCli_process(void);
+void uCli_Send_Channels(); // Send NUM_TRAINER Channels
 
 #endif // UCLI_H

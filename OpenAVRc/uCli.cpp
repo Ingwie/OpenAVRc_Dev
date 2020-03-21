@@ -36,7 +36,7 @@
 #endif
 
 enum {FILE_MEDIA_UNKNOWN = 0, FILE_MEDIA_SD, FILE_MEDIA_XMODEM, FILE_MEDIA_EEPROM};
-enum {CONTEXT_UCLI = 0, CONTEXT_XMODEM, CONTEXT_BT};
+enum {CONTEXT_UCLI = 0, CONTEXT_XMODEM, CONTEXT_BT, CONTEXT_PUPPY};
 
 typedef struct{
   uint8_t
@@ -420,6 +420,7 @@ static int8_t uCli_Cmd_tf(const char ** argv, uint8_t argc)
         }
         uCli.stream->println(F("tf"));
         Ret = 0;
+        puppySignalValidityTimer = puppySignalValidityTimer? PUPPY_VALID_TIMEOUT : PUPPY_VALID_TIMEOUT_FIRST;
       }
     }
   }
@@ -444,3 +445,27 @@ static int8_t uCli_Cmd_reboot(const char ** argv, uint8_t argc)
   return(0);
 }
 
+void uCli_Send_Channels()
+{
+  char txt[4];
+  uint16_t ComputedCheckSum = 0;
+
+  uCli.stream->print(F("tf "));
+
+  for(uint8_t Idx = 0; Idx < NUM_TRAINER; Idx++)
+    {
+      uCli.stream->print('s');
+      itoa((channelOutputs[Idx] & 0xFFF), txt, 16);
+      uCli.stream->print(txt);
+
+      ComputedCheckSum ^= 's';
+      for(uint8_t j = 0; j < 3; ++j)
+        {
+          ComputedCheckSum ^= txt[j];
+        }
+    }
+
+  uCli.stream->print(':');
+  itoa(ComputedCheckSum, txt, 16);
+  uCli.stream->println(txt);
+}
