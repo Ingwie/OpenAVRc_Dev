@@ -109,7 +109,7 @@ void uCli_process(void)
 
   if(uCli.Context == CONTEXT_UCLI)
   {
-    if(uCli.stream->available() >  0)
+    if(uCli.stream->available())
     {
       RxChar = uCli.stream->read();
       switch(RxChar)
@@ -125,6 +125,7 @@ void uCli_process(void)
           TinyDbg_interpretAndExecute(uCli.CmdLine.Msg);
 #else
           uCli.stream->println(F("err: unknown cmd"));
+          Serial1.flushRx();
 #endif
         }
         uCliPrompt();
@@ -148,9 +149,10 @@ void uCli_process(void)
 
 static void uCliPrompt(void)
 {
-  char Buf[10];
-  strcpy_P(Buf, (char *)&UCLI_PROMPT);
-  uCli.stream->print(Buf);
+  //char Buf[10];
+  //strcpy_P(Buf, (char *)&UCLI_PROMPT);
+  uCli.stream->print(UCLI_PROMPT);
+  //uCli.stream->flush();
 }
 
 static int8_t execCmdLine(char *CmdLine)
@@ -204,7 +206,7 @@ static int8_t getCliCmdIdx(const char *Cmd)
 
 static int8_t uCli_Cmd_help(const char ** argv, uint8_t argc)
 {
-  char   Buf[50];
+  //char   Buf[50];
   int8_t CmdIdx;
   int8_t Ret = 0;
   argv = argv;
@@ -215,10 +217,10 @@ static int8_t uCli_Cmd_help(const char ** argv, uint8_t argc)
     uCli.stream->println(F("help: this help"));
     for(uint8_t Idx = 1; Idx < TBL_ITEM_NB(uCliCmd); Idx++)
     {
-      strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[Idx].Name));
-      uCli.stream->print(Buf);uCli.stream->print(F(" "));
-      strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[Idx].Help));
-      uCli.stream->print(Buf);uCli.stream->println();
+      //strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[Idx].Name));
+      uCli.stream->print(uCliCmd[Idx].Name);uCli.stream->print(F(" "));
+      //strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[Idx].Help));
+      uCli.stream->print(uCliCmd[Idx].Help);uCli.stream->println();
     }
   }
   else if(argc == 2)
@@ -226,10 +228,10 @@ static int8_t uCli_Cmd_help(const char ** argv, uint8_t argc)
     CmdIdx = getCliCmdIdx(argv[1]);
     if(CmdIdx >= 0)
     {
-      strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[CmdIdx].Name));
-      uCli.stream->print(Buf);uCli.stream->print(F(" "));
-      strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[CmdIdx].Help));
-      uCli.stream->print(Buf);uCli.stream->println();
+      //strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[CmdIdx].Name));
+      uCli.stream->print(uCliCmd[CmdIdx].Name);uCli.stream->print(F(" "));
+      //strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[CmdIdx].Help));
+      uCli.stream->print(uCliCmd[CmdIdx].Help);uCli.stream->println();
     }
   }
   else
@@ -242,7 +244,7 @@ static int8_t uCli_Cmd_help(const char ** argv, uint8_t argc)
 
 static int8_t uCli_Cmd_ls(const char ** argv, uint8_t argc)
 {
-    // we must close the logs as we reuse the same SDfile structure
+  // we must close the logs as we reuse the same SDfile structure
   closeLogIfActived();
   uCli.stream->println(F("ls:"));
   if (argc > 1)
