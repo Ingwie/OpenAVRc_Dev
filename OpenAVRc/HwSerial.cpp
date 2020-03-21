@@ -38,7 +38,7 @@ Note: This HwSerial driver/module by RC-Navy is mainly based on the arduino Hard
 #include "OpenAVRc.h"
 
 #ifdef SIMU
-  #define SIMUSENDHWSBYTE(x) SendHwSByte(x)
+  #define SIMUSENDHWSBYTE(x) SendHwSByte(x); return 1
 #else
   #define SIMUSENDHWSBYTE(x)
 #endif
@@ -97,21 +97,11 @@ void HwSerial::_rx_complete_irq(void)
 
 void HwSerial::_tx_udr_empty_irq(void)
 {
-  // If interrupts are enabled, there must be more data in the output
-  // buffer. Send the next byte
-  UDR_N(TLM_USART1) = tx_buffer[_tx_buffer_tail];
-
+  if (_tx_buffer_head != _tx_buffer_tail) {
+  // there is data in the buffer. Send the next byte
   ++_tx_buffer_tail %= HW_SERIAL1_TX_FIFO_SIZE;
-  // clear the TXC bit -- "can be cleared by writing a one to its bit
-  // location". This makes sure flush() won't return until the bytes
-  // actually got written. Other r/w bits are preserved, and zeroes
-  // written to the rest.
-#ifdef MPCM0
-  UCSRA_N(TLM_USART1) &= ((1 << U2X0) | (1 << MPCM0) | (1 << TXC0));
-#else
-  UCSRA_N(TLM_USART1) &= ((1 << U2X0) | (1 << TXC0));
-#endif
-  if (_tx_buffer_head == _tx_buffer_tail) {
+  UDR_N(TLM_USART1) = tx_buffer[_tx_buffer_tail];
+  } else {
     // Buffer empty, so disable interrupts
     cbi(UCSRB_N(TLM_USART1), UDRIE0);
   }
@@ -133,7 +123,7 @@ void HwSerial::init(unsigned long baud, uint8_t config)
 {
   // Try u2x mode first
   uint16_t baud_setting = (F_CPU / 4 / baud - 1) / 2;
-  UCSRA_N(TLM_USART1) = 1 << U2X0;
+  UCSRA_N(TLM_USART1) = (1 << U2X0);
 
   // hardcoded exception for 57600 for compatibility with the bootloader
   // shipped with the Duemilanove and previous boards and the firmware
@@ -164,55 +154,24 @@ void HwSerial::init(unsigned long baud, uint8_t config)
 
 size_t HwSerial::write(uint8_t c)
 {
-  // If the buffer and the data register is empty, just write the byte
-  // to the data register and be done. This shortcut helps
-  // significantly improve the effective datarate at high (>
-  // 500kbit/s) bitrates, where interrupt overhead becomes a slowdown.
-  if (_tx_buffer_head == _tx_buffer_tail && bit_is_set(UCSRA_N(TLM_USART1), UDRE0)) {
-    // If TXC is cleared before writing UDR and the previous byte
-    // completes before writing to UDR, TXC will be set but a byte
-    // is still being transmitted causing flush() to return too soon.
-    // So writing UDR must happen first.
-    // Writing UDR and clearing TC must be done atomically, otherwise
-    // interrupts might delay the TXC clear so the byte written to UDR
-    // is transmitted (setting TXC) before clearing TXC. Then TXC will
-    // be cleared when no bytes are left, causing flush() to hang
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-      UDR_N(TLM_USART1) = c;
-#ifdef MPCM0
-      UCSRA_N(TLM_USART1) = ((UCSRA_N(TLM_USART1)) & ((1 << U2X0) | (1 << MPCM0))) | (1 << TXC0);
-#else
-      UCSRA_N(TLM_USART1) = ((UCSRA_N(TLM_USART1)) & ((1 << U2X0) | (1 << TXC0)));
-#endif
+  SIMUSENDHWSBYTE(c); // Send char to simu
+
+  uint8_t newpos = (_tx_buffer_head +1) % HW_SERIAL1_TX_FIFO_SIZE;
+
+  if (_tx_buffer_tail != newpos) // if buffer is not full
+  {
+    tx_buffer[newpos] = c;
+    _tx_buffer_head = newpos;
+
+    if bit_is_clear(UCSRB_N(TLM_USART1),UDRIE0) // if the driver is not running
+    {
+      ++_tx_buffer_tail %= HW_SERIAL1_TX_FIFO_SIZE;
+      UDR_N(TLM_USART1) = tx_buffer[_tx_buffer_tail];
+      sbi(UCSRB_N(TLM_USART1), UDRIE0);
     }
     return 1;
   }
-  tx_buffer_index_t i = (_tx_buffer_head + 1) % HW_SERIAL1_TX_FIFO_SIZE;
-
-  // If the output buffer is full, there's nothing for it other than to
-  // wait for the interrupt handler to empty it a bit
-  while (i == _tx_buffer_tail) {
-    if (bit_is_clear(SREG, SREG_I)) {
-      // Interrupts are disabled, so we'll have to poll the data
-      // register empty flag ourselves. If it is set, pretend an
-      // interrupt has happened and call the handler to free up
-      // space for us.
-      if SIMU_UNLOCK_MACRO_TRUE((bit_is_set(UCSRA_N(TLM_USART1), UDRE0)))
-	      _tx_udr_empty_irq();
-    } else {
-      // nop, the interrupt handler will free up space for us
-    }
-  }
-  tx_buffer[_tx_buffer_head] = c;
-  // make atomic to prevent execution of ISR between setting the
-  // head pointer and setting the interrupt flag resulting in buffer
-  // retransmission
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    _tx_buffer_head = i;
-    sbi(UCSRB_N(TLM_USART1), UDRIE0);
-  }
-  SIMUSENDHWSBYTE(c); // Send char to simu
-  return 1;
+  return 0;
 }
 
 void HwSerial::enableTx(uint8_t On)
@@ -236,6 +195,11 @@ void HwSerial::resumeTx(void)
 uint8_t HwSerial::available(void)
 {
   return ((uint8_t)(HW_SERIAL1_RX_FIFO_SIZE + _rx_buffer_head - _rx_buffer_tail)) % HW_SERIAL1_RX_FIFO_SIZE;
+}
+
+void HwSerial::flushRx(void)
+{
+  _rx_buffer_tail = _rx_buffer_head;
 }
 
 uint8_t HwSerial::read(void)

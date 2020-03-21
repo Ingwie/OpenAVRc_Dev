@@ -43,7 +43,7 @@ Note: This HwSerial driver/module by RC-Navy is mainly based on the arduino Hard
 
 #if defined(U_CLI) || defined(TINY_DBG_UART_BT)
 #if defined(XMODEM)
-#define S1_TX_FF_SZ                  32
+#define S1_TX_FF_SZ                  40
 #define S1_RX_FF_SZ                  128
 #else
 #define S1_TX_FF_SZ                  16
@@ -101,6 +101,7 @@ class HwSerial : public Stream
     inline void    _rx_complete_irq(void);
     void            enableTx(uint8_t On);
     void            resumeTx(void);
+    void            flushRx(void);
     virtual size_t  write(uint8_t);
     inline  size_t  write(unsigned long n) { return write((uint8_t)n); }
     inline  size_t  write(long n)          { return write((uint8_t)n); }
