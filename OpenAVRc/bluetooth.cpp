@@ -108,8 +108,8 @@ static char   *getAtCmd(uint8_t Idx, char *Buf);
 static uint8_t getAtMatchLen(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
 static uint8_t getAtSkipLen(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
 static uint8_t getAtBtOp(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
-static int8_t  sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCmdArg, char *RespBuf, uint8_t RespBufMxLen, uint8_t MatchLen, uint8_t SkipLen, char *TermPattern, uint16_t TimeoutMs);
-static int8_t  waitForResp(char *RespBuf, uint8_t RespBufMaxLen, char *TermPattern, uint16_t TimeoutMs);
+static int8_t  sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCmdArg, char *RespBuf, uint8_t RespBufMxLen, uint8_t MatchLen, uint8_t SkipLen, const char *TermPattern_P, uint16_t TimeoutMs);
+static int8_t  waitForResp(char *RespBuf, uint8_t RespBufMaxLen, const char *TermPattern_P, uint16_t TimeoutMs);
 static void    btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb);
 static char   *buildMacStr(uint8_t *MacBin, char *MacStr);
 static uint8_t buildMacBin(char *MacStr, uint8_t *MacBin);
@@ -182,7 +182,7 @@ void bluetooth_init(HwSerial *hwSerial)
     }
   else
     {
-      hwSerial->print(F("\r\n")); // After uCli
+      hwSerial->println(); // After uCli
       rebootBT();
 
       bluetooth_AtCmdMode(ON);
@@ -190,15 +190,15 @@ void bluetooth_init(HwSerial *hwSerial)
         {
           hwSerial->init(RateTbl[Idx]);
           flushBtRx();
-          hwSerial->print(F("AT\r\n"));
-          if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"OK\r\n", 100)) >= 0)
+          hwSerial->println(F("AT"));
+          if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, 100)) >= 0)
             {
               /* OK Uart serial rate found */
               if(Idx)
                 {
-                  sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0\r\n"), RateTbl[0]);
-                  hwSerial->print(UartAtCmd);
-                  if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"OK\r\n", 100)) >= 0)
+                  sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0"), RateTbl[0]);
+                  hwSerial->println(UartAtCmd);
+                  if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, 100)) >= 0)
                     {
                       /* Should be OK */
                     }
@@ -270,7 +270,7 @@ void bluetooth_AtCmdMode(uint8_t On, uint8_t Yield /* = 1*/) // TODO use all the
 int8_t bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs)
 {
   int8_t Ret;
-  Ret = sendAtCmdAndWaitForResp(AT_STATE, BT_GET, NULL, RespBuf, RespBufMaxLen, 5, 6, (char *)"\r\nOK\r\n", TimeoutMs);
+  Ret = sendAtCmdAndWaitForResp(AT_STATE, BT_GET, NULL, RespBuf, RespBufMaxLen, 5, 6, Str_CRLF_OK_CRLF, TimeoutMs);
   if(Ret > 0)
   {
     Ret = getBtStateIdx(RespBuf);
@@ -290,7 +290,7 @@ int8_t bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeout
  */
 int8_t bluetooth_getName(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs)
 {
-  return(sendAtCmdAndWaitForResp(AT_NAME, BT_GET, NULL, RespBuf, RespBufMaxLen, 4, 5, (char *)"\r\nOK\r\n", TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_NAME, BT_GET, NULL, RespBuf, RespBufMaxLen, 4, 5, Str_CRLF_OK_CRLF, TimeoutMs));
 }
 
 /**
@@ -306,7 +306,7 @@ int8_t bluetooth_setName(char *BtName, uint16_t TimeoutMs)
 {
   char RespBuf[10];
 
-  return(sendAtCmdAndWaitForResp(AT_NAME, BT_SET, BtName, RespBuf, sizeof(RespBuf), 4, 5, (char *)"OK\r\n", TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_NAME, BT_SET, BtName, RespBuf, sizeof(RespBuf), 4, 5, Str_OK_CRLF, TimeoutMs));
 }
 
 /**
@@ -323,7 +323,7 @@ int8_t bluetooth_getPswd(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutM
 {
   int8_t Ret;
 
-  Ret = sendAtCmdAndWaitForResp(AT_PSWD, BT_GET, NULL, RespBuf, RespBufMaxLen, 3, 5, (char *)"\r\nOK\r\n", TimeoutMs);
+  Ret = sendAtCmdAndWaitForResp(AT_PSWD, BT_GET, NULL, RespBuf, RespBufMaxLen, 3, 5, Str_CRLF_OK_CRLF, TimeoutMs);
   if(Ret > 0)
   {
     if(RespBuf[Ret - 1] == '"')
@@ -351,7 +351,7 @@ int8_t bluetooth_setPswd(char *BtPswd, uint16_t TimeoutMs)
 
   snprintf(CmdBtPswd, 20, "\"%s\"", BtPswd); // Add double quotes
 
-  return(sendAtCmdAndWaitForResp(AT_PSWD, BT_SET, CmdBtPswd, RespBuf, sizeof(RespBuf), 0, 0, (char *)"OK/r/n", TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_PSWD, BT_SET, CmdBtPswd, RespBuf, sizeof(RespBuf), 0, 0, Str_OK_CRLF, TimeoutMs));
 }
 
 /**
@@ -369,7 +369,7 @@ int8_t bluetooth_getRemoteName(uint8_t *RemoteMacBin, char *RespBuf, uint8_t Res
 {
   char MacStr[15];
   // Format: [00]25,56,D8CA0F
-  return(sendAtCmdAndWaitForResp(AT_RNAME, BT_GET, buildMacStr(RemoteMacBin, MacStr), RespBuf, RespBufMaxLen, 5, 6, (char *)"\r\nOK\r\n", TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_RNAME, BT_GET, buildMacStr(RemoteMacBin, MacStr), RespBuf, RespBufMaxLen, 5, 6, Str_CRLF_OK_CRLF, TimeoutMs));
 }
 
 /**
@@ -393,11 +393,11 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
   bluetooth_AtCmdMode(ON);
   clearPairedList(BT_SET_TIMEOUT_MS);
   memset(Scann, 0, sizeof(BtScannSt_t));
-  sendAtCmdAndWaitForResp(AT_INQ, BT_CMD, NULL, Buf, sizeof(Buf), 0, 0, (char *)"", 0); // Just send the command without any reception
+  sendAtCmdAndWaitForResp(AT_INQ, BT_CMD, NULL, Buf, sizeof(Buf), 0, 0, Str_AT, 0); // Just send the command without any reception
   do
   {
     RespBuf[0] = 0;
-    if((waitForResp(RespBuf, sizeof(RespBuf), (char *)"\r\n", TimeoutMs)) >= 0) // Multi-line reception
+    if((waitForResp(RespBuf, sizeof(RespBuf), Str_CRLF, TimeoutMs)) >= 0) // Multi-line reception
     {
       if(!memcmp_P(RespBuf, PSTR("+INQ:"), 5))
       {
@@ -470,7 +470,7 @@ int8_t bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs)
   char RespBuf[20];
   char MacStr[15];
 
-  return(sendAtCmdAndWaitForResp(AT_LINK, BT_SET, buildMacStr(RemoteMacBin, MacStr), RespBuf, sizeof(RespBuf), 4, 5, (char *)"OK\r\n", TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_LINK, BT_SET, buildMacStr(RemoteMacBin, MacStr), RespBuf, sizeof(RespBuf), 4, 5, Str_OK_CRLF, TimeoutMs));
 }
 
 /* PRIVATE FUNCTIONS */
@@ -591,7 +591,7 @@ static char *buildMacStr(uint8_t *MacBin, char *MacStr)
   return(MacStr);
 }
 
-static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCmdArg, char *RespBuf, uint8_t RespBufMaxLen, uint8_t MatchLen, uint8_t SkipLen, char *TermPattern, uint16_t TimeoutMs)
+static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCmdArg, char *RespBuf, uint8_t RespBufMaxLen, uint8_t MatchLen, uint8_t SkipLen, const char *TermPattern_P, uint16_t TimeoutMs)
 {
   char     AtCmd[20];
   uint8_t  RxChar, RxIdx = 0;
@@ -612,7 +612,7 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   {
     uCli.stream->print(AtCmdArg);
   }
-  uCli.stream->print(F("\r\n"));
+  uCli.stream->println();
   Start10MsTick = GET_10MS_TICK();
   /* Now, check expected header is received */
   if((AtCmdIdx != AT_AT) && (BtOp == BT_GET))
@@ -662,7 +662,7 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   {
     /* OK, skipped char received */
     Timeout10msTick = MS_TO_10MS_TICK(TimeoutMs) - (GET_10MS_TICK() - Start10MsTick);
-    Ret = waitForResp(RespBuf, RespBufMaxLen, TermPattern, _10MS_TICK_TO_MS(Timeout10msTick));
+    Ret = waitForResp(RespBuf, RespBufMaxLen, TermPattern_P, _10MS_TICK_TO_MS(Timeout10msTick));
   }
   return(Ret);
 }
@@ -698,22 +698,19 @@ static AtCmdAddon getAtCmdAddon(const AtCmdSt_t *AtCmdTbl, uint8_t Idx)
   return((AtCmdAddon)pgm_read_word(&AtCmdTbl[Idx].CmdAddon));
 }
 
-static char   *getAtTermPattern(const AtCmdSt_t *AtCmdTbl, uint8_t Idx, char *Buf)
-{
-  strcpy_P(Buf, (char*)pgm_read_word(&AtCmdTbl[Idx].TermPattern));
-  return(Buf);
-}
-
 static uint16_t getAtTimeoutMs(const AtCmdSt_t *AtCmdTbl, uint8_t Idx)
 {
   return((uint16_t)pgm_read_word(&AtCmdTbl[Idx].TimeoutMs));
 }
 
-static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, char *TermPattern, uint16_t TimeoutMs)
+static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, const char *TermPattern_P, uint16_t TimeoutMs)
 {
   uint16_t Start10MsTick = GET_10MS_TICK();
   uint8_t  RxChar, RxIdx = 0, TPidx = 0, TermPatternLen;
   int8_t   RxLen = -1;
+  char     TermPattern[10];
+
+  strcpy_P(TermPattern, TermPattern_P);
 
   TermPatternLen = strlen(TermPattern);
   do
@@ -774,7 +771,6 @@ static void btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb)
   char       Arg[30];
   char       RespBuf[30];
   char      *AtCmdArg;
-  char       TermPattern[10];
 
   for(Idx = 0; Idx < TblItemNb; Idx++)
   {
@@ -787,11 +783,10 @@ static void btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb)
       CmdAddon(Arg);
       AtCmdArg = Arg;
     }
-    getAtTermPattern(AtCmdTbl, Idx, TermPattern);
     MatchLen  = getAtMatchLen(AtCmdTbl, Idx);
     SkipLen   = getAtSkipLen(AtCmdTbl, Idx);
     TimeoutMs = getAtTimeoutMs(AtCmdTbl, Idx);
-    if(sendAtCmdAndWaitForResp(AtCmdIdx, BtOp, AtCmdArg, RespBuf, sizeof(RespBuf), MatchLen, SkipLen, TermPattern, TimeoutMs) >= 0)
+    if(sendAtCmdAndWaitForResp(AtCmdIdx, BtOp, AtCmdArg, RespBuf, sizeof(RespBuf), MatchLen, SkipLen, (char*)pgm_read_word(&AtCmdTbl[Idx].TermPattern), TimeoutMs) >= 0)
     {
     }
     else
@@ -877,6 +872,5 @@ static int8_t getBtStateIdx(const char *BtState)
 static int8_t clearPairedList(uint16_t TimeoutMs)
 {
   char RespBuf[20];
-  return(sendAtCmdAndWaitForResp(AT_RMAAD, BT_CMD, NULL, RespBuf, sizeof(RespBuf), 0, 0, (char *)"OK", TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_RMAAD, BT_CMD, NULL, RespBuf, sizeof(RespBuf), 0, 0, Str_OK_CRLF, TimeoutMs));
 }
-
