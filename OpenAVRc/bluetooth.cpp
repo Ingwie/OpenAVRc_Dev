@@ -125,8 +125,6 @@ static void    ipscanSet(char* Addon);
 static int8_t  getBtStateIdx(const char *BtState);
 static int8_t  clearPairedList(uint16_t TimeoutMs);
 
-static void    flushBtRx();
-
 
 DECL_FLASH_TBL(AtCmdBtInit, AtCmdSt_t) = {
                           /* CmdIdx,  BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
@@ -189,7 +187,7 @@ void bluetooth_init(HwSerial *hwSerial)
       for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
         {
           hwSerial->init(RateTbl[Idx]);
-          flushBtRx();
+          uCliFlushRx();
           hwSerial->println(F("AT"));
           if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, 100)) >= 0)
             {
@@ -245,6 +243,8 @@ void bluetooth_AtCmdMode(uint8_t On, uint8_t Yield /* = 1*/) // TODO use all the
 
   if(On)
   {
+    uCliFlushRx();
+    uCli.Context = CONTEXT_BT;
     BT_KEY_ON();
     if(Yield)
     {
@@ -252,9 +252,12 @@ void bluetooth_AtCmdMode(uint8_t On, uint8_t Yield /* = 1*/) // TODO use all the
     }
     else _delay_ms(BT_AT_WAKE_UP_MS);
   }
-  else BT_KEY_OFF();
-
-  flushBtRx();
+  else
+  {
+    uCli.Context = (g_model.rfProtocol == PROTOCOL_PPMSIM)? CONTEXT_PUPPY : CONTEXT_UCLI;
+    uCliFlushRx();
+    BT_KEY_OFF();
+  }
 }
 
 /**
@@ -477,19 +480,6 @@ int8_t bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs)
 
 /**
  * \file  bluetooth.cpp
- * \fn    void flushBtRx()
- * \brief Flush BT serial Rx
- *
- * \param  None
- * \return Void.
- */
-void flushBtRx()
-{
-  while(uCli.stream->available()) uCli.stream->read(); // Flush Rx
-}
-
-/**
- * \file  bluetooth.cpp
  * \fn    void rebootBT(uint8_t Yield = 1)
  * \brief Reboot the BT module (Needed to take some parameters into account)
  *
@@ -598,7 +588,7 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   uint16_t Start10MsTick, Timeout10msTick;
   int8_t  Ret = -1;
 
-  flushBtRx();
+  uCliFlushRx();
 
   RespBuf[0] = 0; /* End of String */
   uCli.stream->print(F("AT"));

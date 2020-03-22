@@ -64,7 +64,7 @@ ISR(USART##UartIdx##_RX_vect)\
 }
 
 
-  HwSerial Serial1(1);
+  HwSerial Serial1;
   DECLARE_SERIAL_TX_ISR(1)
   DECLARE_SERIAL_RX_ISR(1)
 
@@ -75,7 +75,7 @@ ISR(USART##UartIdx##_RX_vect)\
 // Actual interrupt handlers //////////////////////////////////////////////////////////////
 void HwSerial::_rx_complete_irq(void)
 {
-  if (bit_is_clear(UCSRA_N(TLM_USART1), UPE0)) {
+  if (bit_is_clear(UCSRA_N(TLM_USART1), UPE_N(TLM_USART1))) {
     // No Parity error, read byte and store it in the buffer if there is
     // room
     uint8_t c = UDR_N(TLM_USART1);
@@ -103,13 +103,13 @@ void HwSerial::_tx_udr_empty_irq(void)
   UDR_N(TLM_USART1) = tx_buffer[_tx_buffer_tail];
   } else {
     // Buffer empty, so disable interrupts
-    cbi(UCSRB_N(TLM_USART1), UDRIE0);
+    cbi(UCSRB_N(TLM_USART1), UDRIE_N(TLM_USART1));
   }
 }
 
 // Constructor //////////////////////////////////////////////////////////////
 
-HwSerial::HwSerial(uint8_t HwSerialIdx)
+HwSerial::HwSerial()
 {
   _tx_buffer_head = 0;
   _tx_buffer_tail = 0;
@@ -123,7 +123,7 @@ void HwSerial::init(unsigned long baud, uint8_t config)
 {
   // Try u2x mode first
   uint16_t baud_setting = (F_CPU / 4 / baud - 1) / 2;
-  UCSRA_N(TLM_USART1) = (1 << U2X0);
+  UCSRA_N(TLM_USART1) = (1 << U2X_N(TLM_USART1));
 
   // hardcoded exception for 57600 for compatibility with the bootloader
   // shipped with the Duemilanove and previous boards and the firmware
@@ -146,28 +146,40 @@ void HwSerial::init(unsigned long baud, uint8_t config)
 #endif
   UCSRC_N(TLM_USART0) = config;
 
-  sbi(UCSRB_N(TLM_USART1), RXEN0);
-  sbi(UCSRB_N(TLM_USART1), TXEN0);
-  sbi(UCSRB_N(TLM_USART1), RXCIE0);
-  cbi(UCSRB_N(TLM_USART1), UDRIE0);
+  sbi(UCSRB_N(TLM_USART1), RXEN_N(TLM_USART1));
+  sbi(UCSRB_N(TLM_USART1), TXEN_N(TLM_USART1));
+  sbi(UCSRB_N(TLM_USART1), RXCIE_N(TLM_USART1));
+  cbi(UCSRB_N(TLM_USART1), UDRIE_N(TLM_USART1));
 }
 
 size_t HwSerial::write(uint8_t c)
 {
   SIMUSENDHWSBYTE(c); // Send char to simu
 
+  uint8_t rxIsrIsNotActive = bit_is_clear(UCSRB_N(TLM_USART1),UDRIE_N(TLM_USART1));
+
+  if ((_tx_buffer_head == _tx_buffer_tail) && rxIsrIsNotActive) // if buffer is empty and isr is off
+  {
+    UDR_N(TLM_USART1) = c; // just send data ...
+    sbi(UCSRB_N(TLM_USART1), UDRIE_N(TLM_USART1)); // enable isr and return
+    return 1;
+  }
+
   uint8_t newpos = (_tx_buffer_head +1) % HW_SERIAL1_TX_FIFO_SIZE;
 
   if (_tx_buffer_tail != newpos) // if buffer is not full
   {
-    tx_buffer[newpos] = c;
-    _tx_buffer_head = newpos;
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+    {
+      tx_buffer[newpos] = c; // load the buffer
+      _tx_buffer_head = newpos;
+    }
 
-    if bit_is_clear(UCSRB_N(TLM_USART1),UDRIE0) // if the driver is not running
+    if (rxIsrIsNotActive) // if the driver is not running
     {
       ++_tx_buffer_tail %= HW_SERIAL1_TX_FIFO_SIZE;
       UDR_N(TLM_USART1) = tx_buffer[_tx_buffer_tail];
-      sbi(UCSRB_N(TLM_USART1), UDRIE0);
+      sbi(UCSRB_N(TLM_USART1), UDRIE_N(TLM_USART1));
     }
     return 1;
   }
@@ -178,28 +190,23 @@ void HwSerial::enableTx(uint8_t On)
 {
   if(On)
   {
-    sbi(UCSRB_N(TLM_USART1), TXEN0);
+    sbi(UCSRB_N(TLM_USART1), TXEN_N(TLM_USART1));
   }
   else
   {
-    cbi(UCSRB_N(TLM_USART1), UDRIE0);// disable Data Register Empty Interrupt
-    cbi(UCSRB_N(TLM_USART1), TXEN0);
+    cbi(UCSRB_N(TLM_USART1), UDRIE_N(TLM_USART1));// disable Data Register Empty Interrupt
+    cbi(UCSRB_N(TLM_USART1), TXEN_N(TLM_USART1));
   }
 }
 
 void HwSerial::resumeTx(void)
 {
-  sbi(UCSRB_N(TLM_USART1), UDRIE0); // enable Data Register Empty Interrupt
+  sbi(UCSRB_N(TLM_USART1), UDRIE_N(TLM_USART1)); // enable Data Register Empty Interrupt
 }
 
 uint8_t HwSerial::available(void)
 {
   return ((uint8_t)(HW_SERIAL1_RX_FIFO_SIZE + _rx_buffer_head - _rx_buffer_tail)) % HW_SERIAL1_RX_FIFO_SIZE;
-}
-
-void HwSerial::flushRx(void)
-{
-  _rx_buffer_tail = _rx_buffer_head;
 }
 
 uint8_t HwSerial::read(void)
@@ -218,13 +225,13 @@ void HwSerial::enableRx(uint8_t On)
 {
   if(On)
   {
-    sbi(UCSRB_N(TLM_USART1), RXEN0); // enable RX
-    sbi(UCSRB_N(TLM_USART1), RXCIE0);// enable Interrupt
-    while (UCSRA_N(TLM_USART1) & (1 << RXCIE0)) UDR_N(TLM_USART1); // Flush RX buffer.
+    sbi(UCSRB_N(TLM_USART1), RXEN_N(TLM_USART1)); // enable RX
+    sbi(UCSRB_N(TLM_USART1), RXCIE_N(TLM_USART1));// enable Interrupt
+    while (UCSRA_N(TLM_USART1) & (1 << RXCIE_N(TLM_USART1))) UDR_N(TLM_USART1); // Flush RX buffer.
   }
   else
   {
-    cbi(UCSRB_N(TLM_USART1), RXCIE0);// disable Data Register Empty Interrupt
-    cbi(UCSRB_N(TLM_USART1), RXEN0);
+    cbi(UCSRB_N(TLM_USART1), RXCIE_N(TLM_USART1));// disable Data Register Empty Interrupt
+    cbi(UCSRB_N(TLM_USART1), RXEN_N(TLM_USART1));
   }
 }

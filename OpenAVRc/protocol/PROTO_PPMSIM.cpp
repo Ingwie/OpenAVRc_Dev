@@ -56,9 +56,6 @@ static uint16_t PROTO_PPMSIM_cb()
     // Schedule next Mixer calculations.
     SCHEDULE_MIXER_END_IN_US(22500 + (g_model.PPMFRAMELENGTH * 1000) / 2);
     setupPulsesPPM(PPMSIM);
-#if defined(BLUETOOTH)
-    uCli_Send_Channels();
-#endif
     heartbeat |= HEART_TIMER_PULSES;
     CALCULATE_LAT_JIT(); // Show how long to setup pulses and ISR jitter.
     return PULSES_SETUP_TIME_US *2;
@@ -84,6 +81,9 @@ static void PROTO_PPMSIM_reset()
   PROTO_Stop_Callback();
   TIMSK1 &= ~(1<<OCIE1A); // Disable Output Compare A interrupt.
   TIFR1 |= 1<<OCF1A; // Reset Flag.
+#if defined(BLUETOOTH)
+  uCli.Context = CONTEXT_UCLI;
+#endif
 }
 
 
@@ -93,6 +93,9 @@ static void PROTO_PPMSIM_initialize()
 
 #if defined(FRSKY)
   telemetryPPMInit();
+#endif
+#if defined(BLUETOOTH)
+  uCli.Context = CONTEXT_PUPPY;
 #endif
 
   RptrA = &pulses2MHz.pword[PULSES_WORD_SIZE/2];
