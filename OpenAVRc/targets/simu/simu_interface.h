@@ -793,6 +793,14 @@ extern REG8 simu_ubrr2;
 #define UPE0    2
 #define U2X0    1
 #define MPCM0   0
+#define RXC1    7
+#define TXC1    6
+#define UDRE1   5
+#define FE1     4
+#define DOR1    3
+#define UPE1    2
+#define U2X1    1
+#define MPCM1   0
 
 #define UCSR0B  simu_ucsr0b
 #define UCSR1B  simu_ucsr0b
@@ -805,6 +813,14 @@ extern REG8 simu_ubrr2;
 #define UCSZ02  2
 #define RXB80   1
 #define TXB80   0
+#define RXCIE1  7
+#define TXCIE1  6
+#define UDRIE1  5
+#define RXEN1   4
+#define TXEN1   3
+#define UCSZ12  2
+#define RXB81   1
+#define TXB81   0
 
 #define UCSR0C  simu_ucsr0c
 #define UCSR1C  simu_ucsr0c

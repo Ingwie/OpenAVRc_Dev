@@ -53,6 +53,13 @@ void perMain()
   // the real value for lastMixerEndTime is calculated inside protocol files
 
   doMixerCalculations();
+#if defined(BLUETOOTH)
+  if (uCli.Context == CONTEXT_PUPPY)
+  {
+    uCli_Send_Channels();
+  }
+#endif
+
 
   SIMU_PROCESSEVENTS;
 

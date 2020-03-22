@@ -92,7 +92,7 @@ class HwSerial : public Stream
     volatile rx_buffer_index_t _rx_buffer_tail;
     uint8_t  rx_buffer[HW_SERIAL1_RX_FIFO_SIZE];
   public:
-    HwSerial(uint8_t HwSerialIdx);
+    HwSerial();
     void            init(unsigned long baud) { init(baud, SERIAL_8N1); }
     void            init(unsigned long, uint8_t);
     virtual uint8_t available(void); // mandatory in any case to be "Stream compliant"
@@ -101,12 +101,11 @@ class HwSerial : public Stream
     inline void    _rx_complete_irq(void);
     void            enableTx(uint8_t On);
     void            resumeTx(void);
-    void            flushRx(void);
     virtual size_t  write(uint8_t);
-    inline  size_t  write(unsigned long n) { return write((uint8_t)n); }
+    /*inline  size_t  write(unsigned long n) { return write((uint8_t)n); }
     inline  size_t  write(long n)          { return write((uint8_t)n); }
     inline  size_t  write(unsigned int n)  { return write((uint8_t)n); }
-    inline  size_t  write(int n)           { return write((uint8_t)n); }
+    inline  size_t  write(int n)           { return write((uint8_t)n); }*/
     using Print::write; // pull in write(str) and write(buf, size) from Print
     // Interrupt handlers - Not intended to be called externally
     void           _tx_udr_empty_irq(void);
@@ -114,7 +113,5 @@ class HwSerial : public Stream
 
 
   extern HwSerial Serial1;
-  extern void Serial1_customTxIsr();
-  extern void Serial1_customRxIsr();
 
 #endif

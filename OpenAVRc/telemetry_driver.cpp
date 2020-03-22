@@ -207,7 +207,7 @@ ISR(USART_RX_vect_N(TLM_USART0))
 // USART0 Transmit Data Register Emtpy ISR (UDR was loaded in Shift Register)
 ISR(USART_UDRE_vect_N(TLM_USART0))
 {
-  if (Usart0TxBufferCount > 0) {
+  if (Usart0TxBufferCount) {
     UDR_N(TLM_USART0) = Usart0TxBuffer[--Usart0TxBufferCount];
   }
   else {
