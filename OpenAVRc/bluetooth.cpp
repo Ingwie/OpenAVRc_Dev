@@ -204,6 +204,7 @@ void bluetooth_init(HwSerial *hwSerial)
                   hwSerial->init(RateTbl[0]);
                   /* BT Reboot is needed */
                   rebootBT();
+                  bluetooth_AtCmdMode(ON);
                 }
               break;
             }
