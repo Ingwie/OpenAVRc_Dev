@@ -183,7 +183,6 @@ void bluetooth_init(HwSerial *hwSerial)
       hwSerial->println(); // After uCli
       rebootBT();
 
-      bluetooth_AtCmdMode(ON);
       for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
         {
           hwSerial->init(RateTbl[Idx]);
@@ -204,7 +203,6 @@ void bluetooth_init(HwSerial *hwSerial)
                   hwSerial->init(RateTbl[0]);
                   /* BT Reboot is needed */
                   rebootBT();
-                  bluetooth_AtCmdMode(ON);
                 }
               break;
             }
@@ -430,7 +428,7 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
   }while(((GET_10MS_TICK() - StartMs) < MS_TO_10MS_TICK(TimeoutMs)) && (MacFound < REMOTE_BT_DEV_MAX_NB));
   /* Reboot needed to quit INQ mode */
   rebootBT();
-  bluetooth_AtCmdMode(ON); // Switch to AT Mode
+
   if(MacFound)
   {
     /* Now, get Remote Name(s) */
@@ -491,13 +489,15 @@ void rebootBT(uint8_t Yield /* = 1 */) // TODO use all the time yield
 {
   uint16_t StartDurationMs;
 
+  bluetooth_AtCmdMode(BT_REBOOT_DATA_MODE); // Set KEY pin to 0
+  _delay_ms(BT_POWER_ON_OFF_MS);
   bluetooth_power(OFF);
   if(Yield)
   {
     YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_POWER_ON_OFF_MS);
   }
   else _delay_ms(BT_POWER_ON_OFF_MS);
-  bluetooth_AtCmdMode(BT_REBOOT_DATA_MODE); // Set KEY pin to 0
+
   if(Yield)
   {
     YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_POWER_ON_OFF_MS);
@@ -509,6 +509,7 @@ void rebootBT(uint8_t Yield /* = 1 */) // TODO use all the time yield
     YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_WAKE_UP_MS);
   }
   else _delay_ms(BT_WAKE_UP_MS);
+  bluetooth_AtCmdMode(ON); // Switch to AT Mode
 }
 
 static uint8_t buildMacBin(char *MacStr, uint8_t *MacBin)
