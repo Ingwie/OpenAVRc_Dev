@@ -253,8 +253,8 @@ void bluetooth_AtCmdMode(uint8_t On, uint8_t Yield /* = 1*/) // TODO use all the
   }
   else
   {
-    uCli.Context = (g_model.rfProtocol == PROTOCOL_PPMSIM)? CONTEXT_PUPPY : CONTEXT_UCLI;
     uCliFlushRx();
+    uCli.Context = (g_model.rfProtocol == PROTOCOL_PPMSIM)? CONTEXT_PUPPY : CONTEXT_UCLI;
     BT_KEY_OFF();
   }
 }
@@ -469,10 +469,10 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
  */
 int8_t bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs)
 {
-  char RespBuf[20];
+  char RespBuf[10];
   char MacStr[15];
 
-  return(sendAtCmdAndWaitForResp(AT_LINK, BT_SET, buildMacStr(RemoteMacBin, MacStr), RespBuf, sizeof(RespBuf), 4, 5, Str_OK_CRLF, TimeoutMs));
+  return(sendAtCmdAndWaitForResp(AT_LINK, BT_SET, buildMacStr(RemoteMacBin, MacStr), RespBuf, sizeof(RespBuf), 0, 0, Str_OK_CRLF, TimeoutMs));
 }
 
 /* PRIVATE FUNCTIONS */
