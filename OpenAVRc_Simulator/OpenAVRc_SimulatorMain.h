@@ -64,10 +64,10 @@
 //Telemetry
 #include "FrSky/FrskySimu.h"
 #include "serial/tserial.h"
-Tserial *comPort;
-extern bool SimuComIsValid;
-void ConnectCom(wxString name);
-void SendByteCom(uint8_t data);
+Tserial *TeleComPort;
+extern bool SimuTeleComIsValid;
+void ConnectTelemCom(wxString name);
+void SendByteTeleCom(uint8_t data);
 
 enum TeleProtocols {
 Tele_Proto_Frsky_D,

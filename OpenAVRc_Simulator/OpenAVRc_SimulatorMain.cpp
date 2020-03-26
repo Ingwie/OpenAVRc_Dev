@@ -109,7 +109,7 @@ LogsFrame *LogFr;
 uCliFrame *uCliFr;
 
 
-int comwaitcounter;
+int telecomwaitcounter;
 // Voice
 bool Mp3RepExist = false;
 extern volatile uint8_t JQ6500_InputIndex;
@@ -166,7 +166,7 @@ float Tele_Cell4;
 float Tele_Cell5;
 float Tele_Cell6;
 
-bool SimuComIsValid;
+bool SimuTeleComIsValid;
 bool showeditmodeldialog = 0;
 
 int R_mid;
@@ -625,8 +625,8 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   if(wxFileExists(Filename)) Mp3RepExist = true;
 
   //Telemetry
-  comPort = new Tserial();
-  SimuComIsValid = false;
+  TeleComPort = new Tserial();
+  SimuTeleComIsValid = false;
   frskySportSimuSetup();
 
   //Ucli frame
@@ -1134,7 +1134,7 @@ void OpenAVRc_SimulatorFrame::CloseApp()
   delete SpinK;
   delete SpinL;
 
-  if (comPort != NULL) delete comPort;
+  if (TeleComPort != NULL) delete TeleComPort;
 
   if (SimuLcd_MemoryDC != NULL) delete SimuLcd_MemoryDC;
   if (SimuLcd_ClientDC != NULL)	delete SimuLcd_ClientDC;
@@ -3342,28 +3342,28 @@ wxString int2wxString(int integer)
 }
 /////////////////////////////////////////////////////////
 
-void ConnectCom(wxString name)
+void ConnectTelemCom(wxString name)
 {
   int error;
   char comMame[20];
-  strncpy(comMame, (const char*)name.mb_str(wxConvUTF8), 20);
-  assert(comPort);
-  //comPort->disconnect();
+  strncpy(comMame, (const char*)name.mb_str(wxConvUTF8), name.Len());
+  assert(TeleComPort);
+  //TeleComPort->disconnect();
   switch (Tele_Protocol)
   {
   case Tele_Proto_Frsky_D :
-    error = comPort->connect(comMame, 9600, spNONE);
+    error = TeleComPort->connect(comMame, 9600, spNONE);
     break;
   case Tele_Proto_Frsky_Sport :
-    error = comPort->connect(comMame, 57600, spNONE);
+    error = TeleComPort->connect(comMame, 57600, spNONE);
     break;
   default :
-    SimuComIsValid = false;
+    SimuTeleComIsValid = false;
     break;
   }
   if (error == 0) {
-      SimuComIsValid = true;
-      comwaitcounter = GetTickCount();
+      SimuTeleComIsValid = true;
+      telecomwaitcounter = GetTickCount();
   }
   else {
     wxString intString = wxString::Format(wxT("%i"), error);
@@ -3371,11 +3371,11 @@ void ConnectCom(wxString name)
     }
 }
 
-void SendByteCom(uint8_t data)
+void SendByteTeleCom(uint8_t data)
 {
-  if ((SimuComIsValid) && ((comwaitcounter + 1000) < GetTickCount()))
+  if ((SimuTeleComIsValid) && ((telecomwaitcounter + 1000) < GetTickCount()))
   {
-    comPort->sendChar(data);
+    TeleComPort->sendChar(data);
   }
 }
 
