@@ -99,38 +99,6 @@ ISR(RF_TIMER_COMPA_VECT) // ISR for Protocol Callback, PPMSIM and PPM16 (Last 8 
   if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
 }
 
-
-
-#if 0
-ISR(RF_TIMER_COMPA_VECT) // ISR for Protocol Callback.
-{
-  if (! timer_counts) {
-    timer_counts = timer_callback(); // Function pointer e.g. skyartec_cb().
-
-  if(! timer_counts) {
-    PROTO_Cmds(PROTOCMD_RESET);
-    return;
-  }
-
-  timer_counts = (timer_counts << 1); // Conversion for Xmega.
-
-  if (timer_counts > 65535) {
-//    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) { // Not needed as this is the highest priority interrupt on the XMEGA and Blocking ISR on both XMEGA and ATMEGA.
-    RF_TIMER_COMPA_REG += 32000; // =8ms ... 1 count is 0.25us.
-//    }
-    timer_counts -= 32000; // Subtract a little and come back later.
-  }
-  else {
-    RF_TIMER_COMPA_REG += timer_counts;
-    timer_counts = 0;
-  }
-
-  if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
-  if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
-}
-#endif
-
-
 void setupPulsesPPM(enum ppmtype proto)
 {
   // Total frame length is a fixed 22.5msec (more than 9 channels is non-standard and requires this to be extended.)
