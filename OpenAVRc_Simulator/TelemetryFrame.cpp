@@ -38,7 +38,7 @@
 #include <wx/string.h>
 //*)
 
-extern int comwaitcounter;
+extern int telecomwaitcounter;
 // Telemetry datas
 extern int Tele_Protocol;
 
@@ -520,5 +520,5 @@ void TelemetryFrame::OnComboBoxComDropdown(wxCommandEvent& event)
 
 void TelemetryFrame::OnComboBoxComSelected(wxCommandEvent& event)
 {
-  ConnectCom(ComboBoxCom->GetValue());
+  ConnectTelemCom(ComboBoxCom->GetValue());
 }

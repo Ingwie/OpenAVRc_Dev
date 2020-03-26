@@ -37,6 +37,12 @@ extern wxString BtSimuPin;
 
 extern bool Ini_Changed;
 
+//BT
+Tserial *BTComPort;
+bool SimuBTComIsValid;
+void ConnectBTCom(wxString name);
+void SendByteBTCom(uint8_t data);
+
 //(*InternalHeaders(uCliFrame)
 #include <wx/intl.h>
 #include <wx/string.h>
@@ -44,6 +50,7 @@ extern bool Ini_Changed;
 
 //(*IdInit(uCliFrame)
 const long uCliFrame::ID_TEXTCTRL = wxNewId();
+const long uCliFrame::ID_TIMERBTRX = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(uCliFrame,wxFrame)
@@ -58,8 +65,11 @@ uCliFrame::uCliFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
 	SetClientSize(wxDefaultSize);
 	Move(wxDefaultPosition);
 	TextCtrl = new wxTextCtrl(this, ID_TEXTCTRL, wxEmptyString, wxPoint(224,320), wxDefaultSize, wxTE_PROCESS_ENTER|wxTE_MULTILINE|wxDOUBLE_BORDER, wxDefaultValidator, _T("ID_TEXTCTRL"));
+	TimerBTRX.SetOwner(this, ID_TIMERBTRX);
+	TimerBTRX.Start(20, false);
 
 	Connect(ID_TEXTCTRL,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&uCliFrame::OnTextCtrlTextEnter);
+	Connect(ID_TIMERBTRX,wxEVT_TIMER,(wxObjectEventFunction)&uCliFrame::OnTimerBTRXTrigger);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&uCliFrame::OnClose);
 	//*)
   {
@@ -67,12 +77,19 @@ uCliFrame::uCliFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
     SetIcon(wxICON(oavrc_icon));
   }
   LastPrompt = "";
+
+  //BT
+  BTComPort = new Tserial();
+  char BTComNum[5] = {'C','O','M','7',0};
+  assert(BTComPort);
+  SimuBTComIsValid = (BTComPort->connect(BTComNum, 115200, spNONE) == 0);
 }
 
 uCliFrame::~uCliFrame()
 {
 	//(*Destroy(uCliFrame)
 	//*)
+  if (BTComPort != NULL) delete BTComPort;
 }
 
 void uCliFrame::SendToHwSerial()
@@ -110,7 +127,7 @@ void uCliFrame::HwSerialByte(uint8_t c)
 #define SEND()\
     SendToHwSerial();\
     TextCtrl->WriteText("OK");\
-    SendToHwSerial()\
+    SendToHwSerial()
 
   wxColor color;
   wxString inputValue = "";
@@ -130,7 +147,30 @@ void uCliFrame::HwSerialByte(uint8_t c)
       TextCtrl->WriteText((char)c);
       LastPrompt = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-1);
     }
-  if ((c == '\n') && (simu_portb & OUT_B_BT_KEY) && !(simu_portg & OUT_G_BT_ONOFF)) // Virtual BT module ON and AT mode actived
+ /*if (c == '\n') for self test
+  {
+   wxString cmd = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
+   if (cmd == "tf s7D8s5E6s5D6s5C8s5EBs5D1s61Ds5DC:07")
+    {
+     TextCtrl->WriteText("tf s7D8s5E6s5D6s5C8s5EBs5D1s61Ds5DC:07");
+     SendToHwSerial();
+    }
+  }*/
+ if ((c == '\n') && (SimuBTComIsValid) && (!(simu_portb & OUT_B_BT_KEY)))
+  {
+   wxString cmda = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
+   int16_t l = cmda.length();
+   if (l != 0)
+    {
+     char cstring[40];
+     strncpy(cstring, (const char*)cmda.mb_str(wxConvUTF8), l);
+     char CRLF[2] = {'\r','\n'};
+     BTComPort->sendArray(cstring, l);
+     BTComPort->sendArray(CRLF, 2);
+    }
+  }
+
+ if ((c == '\n') && (simu_portb & OUT_B_BT_KEY) && !(simu_portg & OUT_G_BT_ONOFF)) // Virtual BT module ON and AT mode actived
     {
       wxString cmd = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
 
@@ -200,4 +240,27 @@ void uCliFrame::HwSerialByte(uint8_t c)
 void uCliFrame::OnTextCtrlTextEnter(wxCommandEvent& event)
 {
   SendToHwSerial();
+}
+
+void uCliFrame::OnTimerBTRXTrigger(wxTimerEvent& event)
+{
+ if (SimuBTComIsValid)
+  {
+   int Num = BTComPort->getNbrOfBytes();
+   if (Num)
+    {
+     char buffer[Num+1];
+     BTComPort->getArray(buffer, Num);
+     for (int i=0; i <= Num; i++)
+      {
+       simu_udr1 = buffer[i];
+       Serial1._rx_complete_irq();
+       //HwSerialByte(buffer[i]);
+      }
+    }
+  }
+ else
+  {
+   TimerBTRX.Stop();
+  }
 }

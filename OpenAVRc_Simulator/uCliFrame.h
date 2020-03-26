@@ -36,6 +36,7 @@
 //(*Headers(uCliFrame)
 #include <wx/frame.h>
 #include <wx/textctrl.h>
+#include <wx/timer.h>
 //*)
 
 #include "OpenAVRc_SimulatorMain.h"
@@ -55,12 +56,14 @@ class uCliFrame: public wxFrame
 
 		//(*Declarations(uCliFrame)
 		wxTextCtrl* TextCtrl;
+		wxTimer TimerBTRX;
 		//*)
 
 	protected:
 
 		//(*Identifiers(uCliFrame)
 		static const long ID_TEXTCTRL;
+		static const long ID_TIMERBTRX;
 		//*)
 
 	private:
@@ -68,6 +71,7 @@ class uCliFrame: public wxFrame
 		//(*Handlers(uCliFrame)
 		void OnClose(wxCloseEvent& event);
 		void OnTextCtrlTextEnter(wxCommandEvent& event);
+		void OnTimerBTRXTrigger(wxTimerEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
