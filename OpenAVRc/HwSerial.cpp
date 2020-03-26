@@ -158,12 +158,12 @@ size_t HwSerial::write(uint8_t c)
 
   uint8_t rxIsrIsNotActive = bit_is_clear(UCSRB_N(TLM_USART1),UDRIE_N(TLM_USART1));
 
-  if ((_tx_buffer_head == _tx_buffer_tail) && rxIsrIsNotActive) // if buffer is empty and isr is off
+  /*if ((_tx_buffer_head == _tx_buffer_tail) && rxIsrIsNotActive) // if buffer is empty and isr is off
   {
     UDR_N(TLM_USART1) = c; // just send data ...
     sbi(UCSRB_N(TLM_USART1), UDRIE_N(TLM_USART1)); // enable isr and return
     return 1;
-  }
+  }*/
 
   uint8_t newpos = (_tx_buffer_head +1) % HW_SERIAL1_TX_FIFO_SIZE;
 
