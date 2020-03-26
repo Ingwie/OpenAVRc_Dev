@@ -388,49 +388,6 @@ static int8_t uCli_Cmd_bt(const char ** argv, uint8_t argc)
   return(0);
 }
 
-static int8_t uCli_Cmd_tf(const char ** argv, uint8_t argc)
-{
-  uint8_t Len, Idx, ComputedCheckSum = 0, CheckSumOk;
-  int16_t Excursion;
-  int16_t Ret = 1;
-
-  //tf command format:  sCh1sCh2sCh3sCh4sCh5sCh6sCh7sCh8:CS
-  //                 tf sHHHsHHHsHHHsHHHsHHHsHHHsHHHsHHH:CS<CR>   (CS=Checksum) -> Ex: tf -100+200-300+400-500+600-700+800:00
-  if(argc == 2) // TO DO: Check the transmitter is in trainer mode (PROTO = BT and Trainer mode, not Trainee)
-  {
-    Len = strlen(argv[1]);
-    if(Len == ((NUM_TRAINER * 4) + 1 + 2))
-    {
-      CheckSumOk = ((argv[1][((NUM_TRAINER * 4) + 1 + 0)]) == '0') && (argv[1][((NUM_TRAINER * 4) + 1 + 1)] == '0'); // Check if checksum shall be ignored
-      if(!CheckSumOk)
-      {
-        /* Checksum shall be checked */
-        for(Idx = 0; Idx < ((NUM_TRAINER * 4) + 1); Idx++)
-        {
-          ComputedCheckSum ^= argv[1][Idx];
-        }
-        if(!ComputedCheckSum) ComputedCheckSum = 0xFF; // Particular case of 00 value (= ignore)
-        CheckSumOk = (((BIN_NBL_TO_HEX_DIGIT(((ComputedCheckSum & 0xF0) >> 4)) == argv[1][((NUM_TRAINER * 4) + 1 + 0)])) && ((BIN_NBL_TO_HEX_DIGIT(ComputedCheckSum & 0x0F)) == argv[0][((NUM_TRAINER * 4) + 1 + 1)]));
-      }
-      if(CheckSumOk)
-      {
-        for(Idx = 0; Idx < NUM_TRAINER; Idx++)
-        {
-          Excursion = (int16_t)strtol(&argv[1][(Idx * 4)], NULL, 16);
-          ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
-          {
-            ppmInput[Idx] = Excursion;
-          }
-        }
-        uCli.stream->println(F("tf"));
-        Ret = 0;
-        puppySignalValidityTimer = puppySignalValidityTimer? PUPPY_VALID_TIMEOUT : PUPPY_VALID_TIMEOUT_FIRST;
-      }
-    }
-  }
-  return(Ret);
-}
-
 static int8_t uCli_Cmd_ram(const char ** argv, uint8_t argc)
 {
   argv = argv;
@@ -442,34 +399,73 @@ static int8_t uCli_Cmd_ram(const char ** argv, uint8_t argc)
 
 static int8_t uCli_Cmd_reboot(const char ** argv, uint8_t argc)
 {
-  argv = argv;
-  argc = argc;
-  uCli.stream->println(F("reboot"));
-  // TO DO Do a reboot to allow a firmware upgrade through the bootloader
-  return(0);
+ argv = argv;
+ argc = argc;
+ uCli.stream->println(F("reboot"));
+ // TO DO Do a reboot to allow a firmware upgrade through the bootloader
+ return(0);
+}
+
+static int8_t uCli_Cmd_tf(const char ** argv, uint8_t argc)
+{
+ uint8_t Len, Idx, ComputedCheckSum = 0, CheckSumOk;
+ int16_t Ret = 1;
+
+//tf command format:  sCh1sCh2sCh3sCh4sCh5sCh6sCh7sCh8:CS
+//                 tf sHHHsHHHsHHHsHHHsHHHsHHHsHHHsHHH:CS<CR>   (CS=Checksum) -> Ex: tf -100+200-300+400-500+600-700+800:00
+ if(argc == 2) // TO DO: Check the transmitter is in trainer mode (PROTO = BT and Trainer mode, not Trainee)
+  {
+   Len = strlen(argv[1]);
+   if(Len == ((NUM_TRAINER * 4) + 1 + 2))
+    {
+     /* Checksum shall be checked */
+     for(Idx = 0; Idx < (NUM_TRAINER * 4); Idx++)
+      {
+       ComputedCheckSum ^= argv[1][Idx];
+      }
+
+     CheckSumOk = (((BIN_NBL_TO_HEX_DIGIT(((ComputedCheckSum & 0xF0) >> 4)) == argv[1][((NUM_TRAINER * 4) + 1 + 0)])) && ((BIN_NBL_TO_HEX_DIGIT(ComputedCheckSum & 0x0F)) == argv[1][((NUM_TRAINER * 4) + 1 + 1)]));
+
+     if(CheckSumOk)
+      {
+       for(Idx = 0; Idx < NUM_TRAINER; Idx++)
+        {
+         ppmInput[Idx] = (int16_t)(strtol(&argv[1][(Idx * 4)+1], NULL, 16) - 1500)*(g_eeGeneral.PPM_Multiplier+10)/10;;
+        }
+       uCli.stream->println(F("tf"));
+       Ret = 0;
+       puppySignalValidityTimer = puppySignalValidityTimer? PUPPY_VALID_TIMEOUT : PUPPY_VALID_TIMEOUT_FIRST;
+      }
+    }
+  }
+ return(Ret);
 }
 
 void uCli_Send_Channels()
 {
-  char txt[4];
-  uint16_t ComputedCheckSum = 0;
+ char txt;
+ uint8_t ComputedCheckSum = 0;
 
-  uCli.stream->print(F("tf "));
+ uCli.stream->print(F("tf "));
 
-  for(uint8_t Idx = 0; Idx < NUM_TRAINER; Idx++)
+ for(uint8_t Idx = 0; Idx < NUM_TRAINER; Idx++)
+  {
+   uCli.stream->print('s');
+   int16_t value = (FULL_CHANNEL_OUTPUTS(Idx))/2; // +-1280 to +-640
+   value += PPM_CENTER; // + 1500 offset
+   ComputedCheckSum ^= 's';
+   value <<= 4;
+   for(uint8_t j = 12; j ; j-=4)
     {
-      uCli.stream->print('s');
-      itoa((channelOutputs[Idx] & 0xFFF), txt, 16);
-      uCli.stream->print(txt);
-
-      ComputedCheckSum ^= 's';
-      for(uint8_t j = 0; j < 3; ++j)
-        {
-          ComputedCheckSum ^= txt[j];
-        }
+     txt = BIN_NBL_TO_HEX_DIGIT((value>>j) & 0x0F);
+     ComputedCheckSum ^= txt;
+     uCli.stream->print(txt);
     }
+  }
 
-  uCli.stream->print(':');
-  itoa(ComputedCheckSum, txt, 16);
-  uCli.stream->println(txt);
+ uCli.stream->print(':');
+ txt = BIN_NBL_TO_HEX_DIGIT(ComputedCheckSum>>4 & 0x0F);
+ uCli.stream->print(txt);
+ txt = BIN_NBL_TO_HEX_DIGIT(ComputedCheckSum & 0x0F);
+ uCli.stream->println(txt);
 }
