@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-30 01:29+0100\n"
+"POT-Creation-Date: 2020-03-27 19:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,9 +20,9 @@ msgstr ""
 msgid "                     Max         Min       Alarm"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1293
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1330
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1350
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1301
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1338
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1358
 msgid "    OpenAVRc Simulateur"
 msgstr ""
 
@@ -30,30 +30,30 @@ msgstr ""
 msgid " 1008            1024           1008"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:878
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:880
 msgid " GPLv2 . Firmware basé sur NextStepRc 2.18 "
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1473
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1826
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1481
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1834
 msgid ""
 " n'hexiste plus\n"
 " Modifiez votre modèle"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:460
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:462
 msgid "&Aide"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:455
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:457
 msgid "&Fenêtres"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:417
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:419
 msgid "&Fichier"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:439
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:441
 msgid "&Option"
 msgstr ""
 
@@ -61,7 +61,7 @@ msgstr ""
 msgid "10 Chars Max"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:457
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:459
 msgid "A propos ...\tF1"
 msgstr ""
 
@@ -81,11 +81,11 @@ msgstr ""
 msgid "A4"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:370
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:372
 msgid "A7105"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:341
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:343
 msgid "AIL"
 msgstr ""
 
@@ -106,11 +106,11 @@ msgstr ""
 msgid "Analog"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:3447
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:3455
 msgid "Appliquer à tous les modèles de "
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1350
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1358
 msgid "Aucune eeprom detectée en mémoire"
 msgstr ""
 
@@ -118,11 +118,11 @@ msgstr ""
 msgid "Autres"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:363
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:365
 msgid "BP REA"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:366
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:368
 msgid "BP REB"
 msgstr ""
 
@@ -134,23 +134,23 @@ msgstr ""
 msgid "Batterie\t"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:426
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:428
 msgid "Boutons (off)"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:429
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:431
 msgid "Boutons (on)"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:457
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:459
 msgid "C'est quoi donc ?"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:378
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:380
 msgid "CC2500"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:382
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:384
 msgid "CYRF6936"
 msgstr ""
 
@@ -239,15 +239,15 @@ msgstr ""
 msgid "Champs"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:400
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:402
 msgid "Charger Eeprom"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:400
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:402
 msgid "Charger fichier BIN"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:652
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:654
 msgid "Charger un fichier eeprom ?"
 msgstr ""
 
@@ -255,15 +255,15 @@ msgstr ""
 msgid "Contraste:\t"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:3460
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:3468
 msgid "Conversion en cours, attendez SVP......"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:3447
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:3455
 msgid "Convertir eeprom ?"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:438
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:440
 msgid "Couleurs"
 msgstr ""
 
@@ -271,7 +271,7 @@ msgstr ""
 msgid "Courant"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:390
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:392
 msgid "DSM SER."
 msgstr ""
 
@@ -284,7 +284,7 @@ msgstr ""
 msgid "Degrés"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:369
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:371
 msgid "Desktop"
 msgstr ""
 
@@ -296,16 +296,16 @@ msgstr ""
 msgid "Déplacement °"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:646
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:652
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:648
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:654
 msgid "EEPROM VIDE"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:335
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:337
 msgid "ELE"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:299
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:301
 msgid "EXIT"
 msgstr ""
 
@@ -313,16 +313,16 @@ msgstr ""
 msgid "Emplacement de Google earth"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1367
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1375
 msgid "Exportation en cours, attendez SVP......"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:406
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:408
 msgid "Exporte l'eeprom en format texte"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:406
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1361
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:408
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1369
 msgid "Exporter Eeprom"
 msgstr ""
 
@@ -342,7 +342,7 @@ msgstr ""
 msgid "Frsky S.Port"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:344
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:346
 msgid "GEA"
 msgstr ""
 
@@ -350,7 +350,7 @@ msgstr ""
 msgid "GPS"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:443
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:445
 msgid "Graphique Sorties"
 msgstr ""
 
@@ -370,33 +370,33 @@ msgstr ""
 msgid "Haptic:\tTout"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:347
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:349
 msgid "ID1"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:350
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:352
 msgid "ID2"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1320
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1325
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1328
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1333
 msgid "Importation en cours, attendez SVP......"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:410
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:412
 msgid "Importe une eeprom en format texte"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:410
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1302
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:412
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1310
 msgid "Importer Eeprom"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:927
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:929
 msgid "Impossible : Simulateur en fonctionnement"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:934
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:936
 #, c-format
 msgid "Impossible d'ouvrir le fichier '%s'."
 msgstr ""
@@ -405,12 +405,12 @@ msgstr ""
 msgid "KML"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1293
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1301
 msgid "L'eeprom va être formatée, étes vous sur ?"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1473
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1826
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1481
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1834
 msgid "La fonction "
 msgstr ""
 
@@ -418,11 +418,11 @@ msgstr ""
 msgid "Latitude"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:420
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:422
 msgid "Lcd (fond)"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:423
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:425
 msgid "Lcd (pixel)"
 msgstr ""
 
@@ -435,7 +435,7 @@ msgid "Lock horizontal and vertical zoom aspect."
 msgstr ""
 
 #: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:67
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:451
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:453
 msgid "Logs"
 msgstr ""
 
@@ -443,19 +443,19 @@ msgstr ""
 msgid "Longitude"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:294
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:296
 msgid "MENU"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:386
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:388
 msgid "MULTIMOD"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:432
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:434
 msgid "Manches (fond)"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:435
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:437
 msgid "Manches (stick)"
 msgstr ""
 
@@ -465,7 +465,7 @@ msgid "Minutes - Secondes"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Simulator\MixerFrame.cpp:81
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:441
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:443
 msgid "Mixeur"
 msgstr ""
 
@@ -477,11 +477,11 @@ msgstr ""
 msgid "Modele:\t"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:374
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:376
 msgid "NRF24L01"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1073
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1075
 #, c-format
 msgid "Ne peut écrire le fichier '%s'."
 msgstr ""
@@ -490,20 +490,20 @@ msgstr ""
 msgid "Nom du modèle"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:368
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:370
 msgid "ON"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:876
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:878
 msgid "OpenAVRc Simulateur"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Simulator\LogsFrame.cpp:110
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:930
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:932
 msgid "Ouvrir Fichier BIN"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:447
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:449
 msgid "Paramètres Radio"
 msgstr ""
 
@@ -511,15 +511,15 @@ msgstr ""
 msgid "Protocoles"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:394
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:396
 msgid "Protocoles Activés"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:414
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:416
 msgid "Quitter\tAlt-F4"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:414
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:416
 msgid "Quitter le simulateur"
 msgstr ""
 
@@ -535,7 +535,7 @@ msgstr ""
 msgid "RSSI"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:332
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:334
 msgid "RUD"
 msgstr ""
 
@@ -547,15 +547,15 @@ msgstr ""
 msgid "Radio Data"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:356
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:358
 msgid "Rea"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:359
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:361
 msgid "Reb"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:646
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:648
 msgid "Recharger le fichier eeprom "
 msgstr ""
 
@@ -563,16 +563,16 @@ msgstr ""
 msgid "Réglages"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:403
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:405
 msgid "Sauvegarde du fichier BIN"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1068
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1070
 msgid "Sauver Capture écran"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:403
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1084
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:405
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1086
 msgid "Sauver Eeprom"
 msgstr ""
 
@@ -588,11 +588,11 @@ msgstr ""
 msgid "Show mouse commands..."
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:279
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:281
 msgid "Simulateur V3"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:879
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:881
 msgid "Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "
 msgstr ""
 
@@ -610,11 +610,11 @@ msgid ""
 "         - Wheel + CTRL: Zoom in/out"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:329
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:331
 msgid "THR"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:338
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:340
 msgid "TRN"
 msgstr ""
 
@@ -655,17 +655,17 @@ msgstr ""
 msgid "Texte"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:449
 #: A:\cb\OpenAVRc_Simulator\TelemetryFrame.cpp:187
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:451
 msgid "Télémétrie"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:877
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:879
 msgid "V 3.0 Beta"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Simulator\GvarsFrame.cpp:79
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:445
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:447
 msgid "Variables globales"
 msgstr ""
 
@@ -677,7 +677,7 @@ msgstr ""
 msgid "Variomètre"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1330
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:1338
 msgid "Version d'eeprom non prise en charge"
 msgstr ""
 
@@ -906,11 +906,11 @@ msgstr ""
 msgid "npha5"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:453
+#: A:\cb\OpenAVRc_Simulator\OpenAVRc_SimulatorMain.cpp:455
 msgid "uCLI"
 msgstr ""
 
-#: A:\cb\OpenAVRc_Simulator\uCliFrame.cpp:56
+#: A:\cb\OpenAVRc_Simulator\uCliFrame.cpp:64
 msgid "uCli"
 msgstr ""
 
