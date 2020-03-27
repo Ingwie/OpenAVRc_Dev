@@ -70,6 +70,8 @@
 #include "woodH.xpm"
 #include "PanelB.xpm"
 
+#define TIMER_10_MS_TIME 10
+#define TIMER_MAIN_TIME  15
 
 //helper functions
 enum wxbuildinfoformat {
@@ -692,10 +694,10 @@ void OpenAVRc_SimulatorFrame::StartFirmwareCode()
 
   s_anaFilt[7] = 1024; // 7.62 V Battery (7.22V adc + 0.4 V Schottky Diode)
 
-  Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
+  Timer10ms.StartOnce(TIMER_10_MS_TIME); //Simulate 10mS Interrupt vector
   simumain();
   CheckActiveProtocols();
-  TimerMain.StartOnce(18); // Simulate ?mS cycle for mainloop function
+  TimerMain.StartOnce(TIMER_MAIN_TIME); // Simulate ?mS cycle for mainloop function
   MenuFile->Enable(IDMENUEXPORTEEPROM, true);
   MenuFile->Enable(IDMENUIMPORTEEPROM, true);
 }
@@ -1334,15 +1336,15 @@ void OpenAVRc_SimulatorFrame::ImportEeprom()
     load_ModelData_EEPROM_VER();
   } else {
     wxMessageBox( _("Version d'eeprom non prise en charge"), _("    OpenAVRc Simulateur"));
-    Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
-    TimerMain.StartOnce(18); // Simulate ?mS cycle for mainloop function
+    Timer10ms.StartOnce(TIMER_10_MS_TIME); //Simulate 10mS Interrupt vector
+    TimerMain.StartOnce(TIMER_MAIN_TIME); // Simulate ?mS cycle for mainloop function
     ChronoMain->Resume();
     Chrono10ms->Resume();
     return;
   }
 
-  Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
-  TimerMain.StartOnce(18); // Simulate ?mS cycle for mainloop function
+  Timer10ms.StartOnce(TIMER_10_MS_TIME); //Simulate 10mS Interrupt vector
+  TimerMain.StartOnce(TIMER_MAIN_TIME); // Simulate ?mS cycle for mainloop function
 
   delete eepromfile;
 
@@ -1381,8 +1383,8 @@ void OpenAVRc_SimulatorFrame::ExportEeprom()
   eepromfile->Flush();
   delete eepromfile;
 
-  Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
-  TimerMain.StartOnce(18); // Simulate ?mS cycle for mainloop function
+  Timer10ms.StartOnce(TIMER_10_MS_TIME); //Simulate 10mS Interrupt vector
+  TimerMain.StartOnce(TIMER_MAIN_TIME); // Simulate ?mS cycle for mainloop function
   ChronoMain->Resume();
   Chrono10ms->Resume();
 }
@@ -3493,8 +3495,8 @@ void OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick(wxCommandEvent& event)
   theFile.openRlc(FILE_MODEL(g_eeGeneral.currModel));
   theFile.readRlc((uint8_t*)&g_model, sizeof(g_model)); // Reload current
   ADAPT_PROTOCOL_TO_SIMU();
-  Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
-  TimerMain.StartOnce(18); // Simulate ?mS cycle for mainloop function
+  Timer10ms.StartOnce(TIMER_10_MS_TIME); //Simulate 10mS Interrupt vector
+  TimerMain.StartOnce(TIMER_MAIN_TIME); // Simulate ?mS cycle for mainloop function
   ChronoMain->Resume();
   Chrono10ms->Resume();
 }
