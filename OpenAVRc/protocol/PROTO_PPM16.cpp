@@ -88,8 +88,6 @@ static uint16_t PROTO_PPM16B_cb2()
     TCCR1C = 1<<FOC1B; // Strobe FOC1.
     TCCR1A = (TCCR1A | (1<<COM1B0)) & ~(1<<COM1B1); // Toggle OC1x on next match.
 
-    // Schedule next Mixer calculations.
-//    SCHEDULE_MIXER_END(45*8+g_model.PPMFRAMELENGTH*8);
     setupPulsesPPM(PPM16FIRST);
     heartbeat |= HEART_TIMER_PULSES;
     dt = TCNT1 - OCR1B; // Show how long to setup pulses and ISR jitter.
