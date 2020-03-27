@@ -109,46 +109,58 @@ void uCliFlushRx()
 
 void uCli_process(void)
 {
-  char RxChar;
+ char RxChar;
+ int8_t isNotUcliPrompt;
 
-  if(uCli.Context == CONTEXT_UCLI)
+ if(uCli.Context == CONTEXT_UCLI)
   {
-    if(uCli.stream->available())
+   if(uCli.stream->available())
     {
-      RxChar = uCli.stream->read();
-      switch(RxChar)
+     RxChar = uCli.stream->read();
+     switch(RxChar)
       {
-        case 0x0D:
-        case 0x0A:
-        uCli.CmdLine.Msg[uCli.CmdLine.Idx] = 0;
-        uCli.CmdLine.Idx = 0;
-        uCliPrompt();
-        if(execCmdLine(uCli.CmdLine.Msg) == -1)
+      case 0x0D:
+      case 0x0A:
+       isNotUcliPrompt = strncmp_P(uCli.CmdLine.Msg, UCLI_PROMPT, 5);
+       if (isNotUcliPrompt) // Do nothing if receive "uCLI>........."
         {
+         uCli.CmdLine.Msg[uCli.CmdLine.Idx] = 0;
+         uCli.CmdLine.Idx = 0;
+         uCliPrompt();
+         if(execCmdLine(uCli.CmdLine.Msg) == -1)
+          {
 #if defined(TINY_DBG_UART_BT)
-          TinyDbg_interpretAndExecute(uCli.CmdLine.Msg);
+           TinyDbg_interpretAndExecute(uCli.CmdLine.Msg);
 #else
-          uCli.stream->println(F("err: unknown cmd"));
+           uCli.stream->println(F("err: unknown cmd"));
 #endif
+          }
+         //uCliPrompt();
         }
-        uCliPrompt();
-        break;
-
-        case BACK_SPACE:
-        if(uCli.CmdLine.Idx) uCli.CmdLine.Idx--;
-        break;
-
-        default:
-        if(uCli.CmdLine.Idx < CMD_LINE_MAX_SIZE)
+       else
         {
-          uCli.CmdLine.Msg[uCli.CmdLine.Idx++] = RxChar;
+         memclear(uCli.CmdLine.Msg, DIM(uCli.CmdLine.Msg)); // reset all
+         uCliFlushRx();
         }
-        else uCli.CmdLine.Idx = 0; //msg too long!
-        break;
+       break;
+
+      case BACK_SPACE:
+       if(uCli.CmdLine.Idx)
+        uCli.CmdLine.Idx--;
+       break;
+
+      default:
+       if(uCli.CmdLine.Idx < CMD_LINE_MAX_SIZE)
+        {
+         uCli.CmdLine.Msg[uCli.CmdLine.Idx++] = RxChar;
+        }
+       else
+        uCli.CmdLine.Idx = 0; //msg too long!
+       break;
       }
     }
   }
-  // if (uCli.Context == CONTEXT_PUPPY) used in main_avr.cpp
+ // if (uCli.Context == CONTEXT_PUPPY) used in main_avr.cpp
 }
 
 static void uCliPrompt(void)
@@ -246,35 +258,35 @@ static int8_t uCli_Cmd_help(const char ** argv, uint8_t argc)
 
 static int8_t uCli_Cmd_ls(const char ** argv, uint8_t argc)
 {
-  // we must close the logs as we reuse the same SDfile structure
-  closeLogIfActived();
-  uCli.stream->println(F("ls:"));
-  if (argc > 1)
+ // we must close the logs as we reuse the same SDfile structure
+ closeLogIfActived();
+ uCli.stream->println(F("ls:"));
+ if (argc > 1)
+  {
+   if (sdChangeCurDir(argv[1]))
     {
-      if (sdChangeCurDir(argv[1]))
+     while(fat_read_dir(SD_dir, &SD_dir_entry))
+      {
+       if (SD_dir_entry.long_name[0] != '.') // Ignore "." && ".."
         {
-          while(fat_read_dir(SD_dir, &SD_dir_entry))
-            {
-              if (SD_dir_entry.long_name[0] != '.') // Ignore "." && ".."
-                {
-                  if (SD_dir_entry.attributes & FAT_ATTRIB_DIR)
-                    {
-                      // this is a DIR
-                      uCli.stream->print('[');
-                      uCli.stream->print(SD_dir_entry.long_name);
-                      uCli.stream->println(']');
-                    }
-                  else
-                    {
-                      // this is a file
-                      uCli.stream->println(SD_dir_entry.long_name);
-                    }
-                }
-            }
+         if (SD_dir_entry.attributes & FAT_ATTRIB_DIR)
+          {
+           // this is a DIR
+           uCli.stream->print('[');
+           uCli.stream->print(SD_dir_entry.long_name);
+           uCli.stream->println(']');
+          }
+         else
+          {
+           // this is a file
+           uCli.stream->println(SD_dir_entry.long_name);
+          }
         }
+      }
     }
+  }
 
-  return(0);
+ return(0);
 }
 
 /*
@@ -409,11 +421,10 @@ static int8_t uCli_Cmd_reboot(const char ** argv, uint8_t argc)
 static int8_t uCli_Cmd_tf(const char ** argv, uint8_t argc)
 {
  uint8_t Len, Idx, ComputedCheckSum = 0, CheckSumOk;
- int16_t Ret = 1;
 
 //tf command format:  sCh1sCh2sCh3sCh4sCh5sCh6sCh7sCh8:CS
 //                 tf sHHHsHHHsHHHsHHHsHHHsHHHsHHHsHHH:CS<CR>   (CS=Checksum) -> Ex: tf -100+200-300+400-500+600-700+800:00
- if(argc == 2) // TO DO: Check the transmitter is in trainer mode (PROTO = BT and Trainer mode, not Trainee)
+ if(argc == 2)
   {
    Len = strlen(argv[1]);
    if(Len == ((NUM_TRAINER * 4) + 1 + 2))
@@ -432,13 +443,12 @@ static int8_t uCli_Cmd_tf(const char ** argv, uint8_t argc)
         {
          ppmInput[Idx] = (int16_t)(strtol(&argv[1][(Idx * 4)+1], NULL, 16) - 1500)*(g_eeGeneral.PPM_Multiplier+10)/10;;
         }
-       uCli.stream->println(F("tf"));
-       Ret = 0;
+       //uCli.stream->println(F("tf"));
        puppySignalValidityTimer = puppySignalValidityTimer? PUPPY_VALID_TIMEOUT : PUPPY_VALID_TIMEOUT_FIRST;
       }
     }
   }
- return(Ret);
+ return 1;
 }
 
 void uCli_Send_Channels()
