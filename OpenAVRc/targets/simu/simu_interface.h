@@ -917,6 +917,7 @@ extern REG8 simu_SREG_I;
 #define strcat_P strcat
 #define memcpy_P memcpy
 #define strcmp_P strcmp
+#define strncmp_P strncmp
 #define memcmp_P memcmp
 #define bit_is_clear(sfr, bit) (!(REG8(sfr) & (1 << (bit))))
 #define bit_is_set(sfr, bit) (REG8(sfr) & (1 << (bit)))
