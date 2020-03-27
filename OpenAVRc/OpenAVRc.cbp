@@ -190,7 +190,6 @@
 		<Unit filename="protocol/MULTI.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="protocol/PPM.h" />
 		<Unit filename="protocol/PROTO_PPM.cpp" />
 		<Unit filename="protocol/PROTO_PPM16.cpp" />
 		<Unit filename="protocol/PROTO_PPMSIM.cpp" />
