@@ -37,7 +37,7 @@
 
 const pm_char STR_V4CH9MS[] PROGMEM = INDENT "4Ch-9mS";
 
-const static RfOptionSettingsvarstruct RfOpt_FrskyV_Ser[] PROGMEM =
+const static RfOptionSettingsvar_t RfOpt_FrskyV_Ser[] PROGMEM =
 {
   /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/0,

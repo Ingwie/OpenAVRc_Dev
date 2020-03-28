@@ -33,7 +33,7 @@
 
 #include "../OpenAVRc.h"
 
-const static RfOptionSettingsvarstruct RfOpt_AFHDS2A_Ser[] PROGMEM =
+const static RfOptionSettingsvar_t RfOpt_AFHDS2A_Ser[] PROGMEM =
 {
   /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/3,

@@ -86,7 +86,7 @@ enum SubProtoDsm {
   Sub_DSMX
 };
 
-const static RfOptionSettingsvarstruct RfOpt_Dsm_Ser[] PROGMEM = {
+const static RfOptionSettingsvar_t RfOpt_Dsm_Ser[] PROGMEM = {
   /*rfProtoNeed*/0,
   /*rfSubTypeMax*/2,
   /*rfOptionValue1Min*/0,
