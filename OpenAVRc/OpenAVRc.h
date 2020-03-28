@@ -110,7 +110,6 @@
 #endif // defined LCD
 
 //#define SHOWDURATION 1  //Show a duration
-
 #if defined(SHOWDURATION)
 static uint16_t DurationValue;
 #define SHOWDURATION1                                                        \
@@ -739,8 +738,9 @@ PACK(typedef struct {
   uint8_t pwrCheck:1;
   uint8_t unexpectedShutdown:1;
   uint8_t rangeModeIsOn:1;
-  uint8_t protoMode:1;
+  uint8_t protoMode:1; // Normal, Bind
   uint8_t s_mixer_first_run_done:1;
+  uint8_t puppyPpmSignalOk:1;
   uint8_t unused:3;
 }) systemBolls_t;
 
@@ -761,13 +761,8 @@ extern uint16_t lastMixerDuration;
 #if defined(THRTRACE)
   #define MAXTRACE (LCD_W - 8)
   extern uint8_t  s_traceBuf[MAXTRACE];
-  #if LCD_W >= 255
-    extern int16_t  s_traceWr;
-    extern int16_t  s_traceCnt;
-  #else
-    extern uint8_t  s_traceWr;
-    extern int16_t  s_traceCnt;
-  #endif
+  extern uint8_t  s_traceWr;
+  extern int16_t  s_traceCnt;
   extern uint8_t  s_cnt_10s;
   extern uint16_t s_cnt_samples_thr_10s;
   extern uint16_t s_sum_samples_thr_10s;
@@ -1184,7 +1179,7 @@ enum TXRX_State {
 #define BOOL2USED PIN1_bm
 #define BOOL3USED PIN2_bm
 
-struct RfOptionSettingsvarstruct {
+struct RfOptionSettingsvar_t {
   uint8_t         rfProtoNeed:4;     // See usage in "PROTO_NEED_XX" Def
   uint8_t         rfSubTypeMax:4;       //16 max
   int8_t          rfOptionValue1Min;
@@ -1194,7 +1189,7 @@ struct RfOptionSettingsvarstruct {
   int8_t          rfOptionValue3Max/*:5*/;  //32 max -16 is min
 };
 
-struct RfOptionSettingsstruct {
+struct RfOptionSettings_t {
   uint8_t         rfProtoNeed:4;     // See usage in "PROTO_NEED_XX" Def
   uint8_t         rfSubTypeMax:4;       //16 max
   const pm_char*  rfSubTypeNames;
@@ -1227,7 +1222,7 @@ void LimitRfOptionSettings();
 
 //PPM Defaut
 
-const RfOptionSettingsvarstruct RfOpt_PPM_Ser[] PROGMEM = {
+const RfOptionSettingsvar_t RfOpt_PPM_Ser[] PROGMEM = {
   /*rfProtoNeed*/BOOL1USED,
   /*rfSubTypeMax*/6,
   /*rfOptionValue1Min*/-20,
@@ -1240,7 +1235,7 @@ const RfOptionSettingsvarstruct RfOpt_PPM_Ser[] PROGMEM = {
 void sendOptionsSettingsPpm();
 //PPM
 
-extern struct RfOptionSettingsstruct RfOptionSettings;
+extern struct RfOptionSettings_t RfOptionSettings;
 extern uint8_t * packet; //protocol global packet
 extern void startPulses(enum ProtoCmds Command);
 

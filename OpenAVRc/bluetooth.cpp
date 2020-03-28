@@ -169,58 +169,59 @@ DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
  */
 void bluetooth_init(HwSerial *hwSerial)
 {
-  uint32_t RateTbl[] = {115200, 57600, 38400, 19200, 9600};
-  uint8_t  Idx;
-  char     UartAtCmd[30];
-  char     RespBuf[10];
+ uint32_t RateTbl[] = {115200, 57600, 38400, 19200, 9600};
+ uint8_t  Idx;
+ char     UartAtCmd[30];
+ char     RespBuf[10];
 
-  if (!g_eeGeneral.BT.Power)
-    {
-      bluetooth_power(OFF);
-    }
-  else
-    {
-      hwSerial->println(); // After uCli
-      rebootBT();
+ if (!g_eeGeneral.BT.Power)
+  {
+   bluetooth_power(OFF);
+  }
+ else
+  {
+   hwSerial->println(); // After uCli
+   BT_Wait_Screen();
+   rebootBT();
 
-      for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
+   for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
+    {
+     hwSerial->init(RateTbl[Idx]);
+     uCliFlushRx();
+     hwSerial->println(F("AT"));
+     if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, 100)) >= 0)
+      {
+       /* OK Uart serial rate found */
+       if(Idx)
         {
-          hwSerial->init(RateTbl[Idx]);
-          uCliFlushRx();
-          hwSerial->println(F("AT"));
-          if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, 100)) >= 0)
-            {
-              /* OK Uart serial rate found */
-              if(Idx)
-                {
-                  sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0"), RateTbl[0]);
-                  hwSerial->println(UartAtCmd);
-                  if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, 100)) >= 0)
-                    {
-                      /* Should be OK */
-                    }
-                  /* Switch Serial to Rate = 115200 */
-                  hwSerial->init(RateTbl[0]);
-                  /* BT Reboot is needed */
-                  rebootBT();
-                }
-              break;
-            }
-          else
-            {
-            }
+         sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0"), RateTbl[0]);
+         hwSerial->println(UartAtCmd);
+         if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, 100)) >= 0)
+          {
+           /* Should be OK */
+          }
+         /* Switch Serial to Rate = 115200 */
+         hwSerial->init(RateTbl[0]);
+         /* BT Reboot is needed */
+         rebootBT();
         }
-      BT_SEND_AT_SEQ(AtCmdBtInit); // Common to Master and Slave
-      if(g_eeGeneral.BT.Master)
-        {
-          BT_SEND_AT_SEQ(AtCmdMasterInit);
-        }
-      else
-        {
-          BT_SEND_AT_SEQ(AtCmdSlaveInit);
-        }
-      bluetooth_AtCmdMode(OFF);
+       break;
+      }
+     else
+      {
+      }
     }
+   BT_SEND_AT_SEQ(AtCmdBtInit); // Common to Master and Slave
+   if(g_eeGeneral.BT.Master)
+    {
+     BT_SEND_AT_SEQ(AtCmdMasterInit);
+    }
+   else
+    {
+     BT_SEND_AT_SEQ(AtCmdSlaveInit);
+    }
+   bluetooth_AtCmdMode(OFF);
+  }
 }
 
 /**
@@ -865,4 +866,20 @@ static int8_t clearPairedList(uint16_t TimeoutMs)
 {
   char RespBuf[20];
   return(sendAtCmdAndWaitForResp(AT_RMAAD, BT_CMD, NULL, RespBuf, sizeof(RespBuf), 0, 0, Str_OK_CRLF, TimeoutMs));
+}
+
+const pm_uchar zz_bt[] PROGMEM =
+{
+#if defined (LCDROT180)
+#include "bitmaps/bt.lbmi"
+#else
+#include "bitmaps/bt.lbm"
+#endif
+};
+
+void BT_Wait_Screen()
+{
+ lcdClear();
+ lcd_imgfar(10*FW, 3*FH, (pgm_get_far_address(zz_bt)), 0, 0);
+ lcdRefresh();
 }

@@ -444,7 +444,16 @@ static int8_t uCli_Cmd_tf(const char ** argv, uint8_t argc)
          ppmInput[Idx] = (int16_t)(strtol(&argv[1][(Idx * 4)+1], NULL, 16) - 1500)*(g_eeGeneral.PPM_Multiplier+10)/10;;
         }
        //uCli.stream->println(F("tf"));
-       puppySignalValidityTimer = puppySignalValidityTimer? PUPPY_VALID_TIMEOUT : PUPPY_VALID_TIMEOUT_FIRST;
+       if (!puppySignalValidityTimer)
+        {
+         puppySignalValidityTimer = PUPPY_VALID_TIMEOUT_FIRST;
+         systemBolls.puppyPpmSignalOk = 0; // Signal is from BT (not PPM)
+        }
+       else
+        {
+         puppySignalValidityTimer = PUPPY_VALID_TIMEOUT;
+        }
+
       }
     }
   }
