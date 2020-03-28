@@ -41,7 +41,7 @@
 #define DSM_NUM_WAIT_LOOPS (100 / 5)   //each loop is ~5us.  Do not wait more than 100us TODO measure
 
 
-const static RfOptionSettingsvarstruct RfOpt_DSM_Ser[] PROGMEM =
+const static RfOptionSettingsvar_t RfOpt_DSM_Ser[] PROGMEM =
 {
   /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/4,

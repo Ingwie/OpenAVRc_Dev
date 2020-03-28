@@ -39,7 +39,7 @@
 #define XTELEMETRY (g_model.rfOptionBool1)
 #define X8MODE     (g_model.rfOptionBool2)
 
-const static RfOptionSettingsvarstruct RfOpt_FrskyX_Ser[] PROGMEM =
+const static RfOptionSettingsvar_t RfOpt_FrskyX_Ser[] PROGMEM =
 {
   /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED | BOOL2USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/1,

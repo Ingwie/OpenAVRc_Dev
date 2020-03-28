@@ -41,7 +41,7 @@
 #define COR_V1                  1
 #define proto_is_V1             channel_skip
 
-const static RfOptionSettingsvarstruct RfOpt_corona_Ser[] PROGMEM =
+const static RfOptionSettingsvar_t RfOpt_corona_Ser[] PROGMEM =
 {
   /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/1,

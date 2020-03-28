@@ -36,7 +36,7 @@
 #define TX_ADDR temp_rfid_addr[2]
 #define TX_CHANNEL temp_rfid_addr[3]
 
-const static RfOptionSettingsvarstruct RfOpt_Skyartec_Ser[] PROGMEM = {
+const static RfOptionSettingsvar_t RfOpt_Skyartec_Ser[] PROGMEM = {
   /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/0,
   /*rfOptionValue1Min*/-128, // FREQFINE MIN

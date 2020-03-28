@@ -36,7 +36,7 @@
 
 #define FLYSKY_BIND_COUNT 2500
 
-const static RfOptionSettingsvarstruct RfOpt_FLYSKY_Ser[] PROGMEM =
+const static RfOptionSettingsvar_t RfOpt_FLYSKY_Ser[] PROGMEM =
 {
   /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/4,
