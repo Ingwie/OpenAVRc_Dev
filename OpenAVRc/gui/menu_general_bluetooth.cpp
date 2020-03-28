@@ -60,22 +60,6 @@ enum menuGeneralBTItems
 
 const pm_char STR_BTACTIVE[] PROGMEM = TR_ACTIVED;
 
-const pm_uchar zz_bt[] PROGMEM =
-{
-#if defined (LCDROT180)
-#include "../bitmaps/bt.lbmi"
-#else
-#include "../bitmaps/bt.lbm"
-#endif
-};
-
-void BT_Wait_Screen()
-{
- lcdClear();
- lcd_imgfar(10*FW, 3*FH, (pgm_get_far_address(zz_bt)), 0, 0);
- lcdRefresh();
-}
-
 void loadDataFromModule()
 {
  if (g_eeGeneral.BT.Power)
@@ -83,7 +67,6 @@ void loadDataFromModule()
    reusableBuffer.bluetooth.firstMenuRun = 0;
    BT_Wait_Screen();
    rebootBT();
-   bluetooth_AtCmdMode(ON);
 
    IF_NO_ERROR(bluetooth_getName(reusableBuffer.bluetooth.name_str, sizeof(reusableBuffer.bluetooth.name_str), BT_GET_TIMEOUT_MS))
    {

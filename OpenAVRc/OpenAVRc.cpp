@@ -140,7 +140,7 @@ void sendOptionsSettingsPpm()
   systemBolls.protoMode = NORMAL_MODE;
 }
 
-struct RfOptionSettingsstruct RfOptionSettings; // used in menumodelsetup
+struct RfOptionSettings_t RfOptionSettings; // used in menumodelsetup
 
 void SetRfOptionSettings(uint_farptr_t RfOptSet,
                          const pm_char* rfSubTypeNames,
@@ -257,6 +257,7 @@ void per10ms()
         }
       else if (puppySignalValidityTimer == 1)
         {
+          systemBolls.puppyPpmSignalOk = 0;
           PLAY_PUPPY_LOSS();
         }
 #endif

@@ -66,6 +66,8 @@ typedef struct{
   BtRemoteSt_t Remote[REMOTE_BT_DEV_MAX_NB];
 }BtScannSt_t;
 
+extern const pm_uchar zz_bt[]; // BT glyph
+
 void    bluetooth_init(HwSerial *hwSerial);
 void    bluetooth_power(uint8_t On);
 void    bluetooth_AtCmdMode(uint8_t On, uint8_t Yield = 1);
@@ -79,5 +81,6 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs);
 int8_t  bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs);
 void    bluetooth_addSuffix(char* Addon);
 void    rebootBT(uint8_t Yield = 1);
+void    BT_Wait_Screen();
 
 #endif // BLUETOOTH_H

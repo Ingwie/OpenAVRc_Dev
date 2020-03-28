@@ -37,6 +37,15 @@
 
 #define TRAINER_CALIB_POS 8
 
+const pm_uchar zz_ppm[] PROGMEM =
+{
+#if defined (LCDROT180)
+#include "../bitmaps/ppm.lbmi"
+#else
+#include "../bitmaps/ppm.lbm"
+#endif
+};
+
 void menuGeneralTrainer(uint8_t event)
 {
   uint8_t slave = IS_WAIT_PUPIL_STATE();
@@ -107,5 +116,20 @@ void menuGeneralTrainer(uint8_t event)
         AUDIO_WARNING1();
       }
     }
-  }
+  if IS_TRAINER_INPUT_VALID()
+   {
+     if (systemBolls.puppyPpmSignalOk)
+     {
+      lcd_imgfar(19*FW, 3*FH, (pgm_get_far_address(zz_ppm)), 0, BLINK); // This is a PPM valid signal
+     }
+#if defined(BLUETOOTH)
+#include "../bluetooth.h"
+     else
+     {
+      lcd_imgfar(19*FW, 3*FH, (pgm_get_far_address(zz_bt)), 0, BLINK); // This is a BT valid signal
+     }
+#endif
+    lcdDrawRect(112, 22, 13, 17, SOLID, ROUND);
+   }
+ }
 }
