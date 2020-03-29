@@ -70,14 +70,15 @@
 			<Add option="-mmcu=atmega2560" />
 			<Add option="-Wl,-Map=$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).map,--cref" />
 		</Linker>
-		<Unit filename="HwSerial.cpp" />
-		<Unit filename="HwSerial.h" />
 		<Unit filename="Makefile" />
 		<Unit filename="OpenAVRc.cpp" />
 		<Unit filename="OpenAVRc.h" />
 		<Unit filename="Print.cpp" />
 		<Unit filename="Print.h" />
-		<Unit filename="Stream.h" />
+		<Unit filename="Serial0.cpp" />
+		<Unit filename="Serial0.h" />
+		<Unit filename="Serial1.cpp" />
+		<Unit filename="Serial1.h" />
 		<Unit filename="Xany.cpp" />
 		<Unit filename="Xany.h" />
 		<Unit filename="adc_driver.cpp" />
@@ -269,8 +270,6 @@
 		<Unit filename="targets/simu/simu_interface.h" />
 		<Unit filename="telemetry/frsky.cpp" />
 		<Unit filename="telemetry/frsky.h" />
-		<Unit filename="telemetry_driver.cpp" />
-		<Unit filename="telemetry_driver.h" />
 		<Unit filename="templates.cpp" />
 		<Unit filename="templates.h" />
 		<Unit filename="thirdparty/rrsd/byteordering.c">

@@ -161,13 +161,13 @@ DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
 /* PUBLIC FUNTIONS */
 /**
  * \file  bluetooth.cpp
- * \fn void bluetooth_init(HwSerial *hwSerial)
+ * \fn void bluetooth_init(HwSerial *Serial1)
  * \brief Bluetooth initilization
  *
- * \param  hwSerial: pointer on a HwSerial (eg: &Serial1).
+ * \param  Void (Use Serial1).
  * \return Void.
  */
-void bluetooth_init(HwSerial *hwSerial)
+void bluetooth_init()
 {
  uint32_t RateTbl[] = {115200, 57600, 38400, 19200, 9600};
  uint8_t  Idx;
@@ -180,28 +180,28 @@ void bluetooth_init(HwSerial *hwSerial)
   }
  else
   {
-   hwSerial->println(); // After uCli
+   Serial1.println(); // After uCli
    BT_Wait_Screen();
    rebootBT();
 
    for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
     {
-     hwSerial->init(RateTbl[Idx]);
+     Serial1.init(RateTbl[Idx]);
      uCliFlushRx();
-     hwSerial->println(F("AT"));
+     Serial1.println(F("AT"));
      if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, 100)) >= 0)
       {
        /* OK Uart serial rate found */
        if(Idx)
         {
          sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0"), RateTbl[0]);
-         hwSerial->println(UartAtCmd);
+         Serial1.println(UartAtCmd);
          if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, 100)) >= 0)
           {
            /* Should be OK */
           }
          /* Switch Serial to Rate = 115200 */
-         hwSerial->init(RateTbl[0]);
+         Serial1.init(RateTbl[0]);
          /* BT Reboot is needed */
          rebootBT();
         }
@@ -594,18 +594,18 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   uCliFlushRx();
 
   RespBuf[0] = 0; /* End of String */
-  uCli.stream->print(F("AT"));
+  Serial1.print(F("AT"));
   if(AtCmdIdx != AT_AT)
   {
-    uCli.stream->print(F("+"));
-    uCli.stream->print(getAtCmd(AtCmdIdx, AtCmd));
-    if(BtOp != BT_CMD) uCli.stream->print((BtOp == BT_GET)? F("?"): F("="));
+    Serial1.print(F("+"));
+    Serial1.print(getAtCmd(AtCmdIdx, AtCmd));
+    if(BtOp != BT_CMD) Serial1.print((BtOp == BT_GET)? F("?"): F("="));
   }
   if(AtCmdArg)
   {
-    uCli.stream->print(AtCmdArg);
+    Serial1.print(AtCmdArg);
   }
-  uCli.stream->println();
+  Serial1.println();
   Start10MsTick = GET_10MS_TICK();
   /* Now, check expected header is received */
   if((AtCmdIdx != AT_AT) && (BtOp == BT_GET))
@@ -615,9 +615,9 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
     while((GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(TimeoutMs))
     {
       YIELD_TO_TASK(PRIO_TASK_LIST());
-      if(uCli.stream->available())
+      if(Serial1.available())
       {
-        RxChar = uCli.stream->read();
+        RxChar = Serial1.read();
         if(RxChar == '+') break;
       }
     }
@@ -627,9 +627,9 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
     while((RxIdx < MatchLen) && ((GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(TimeoutMs)))
     {
       YIELD_TO_TASK(PRIO_TASK_LIST());
-      if(uCli.stream->available())
+      if(Serial1.available())
       {
-        RxChar = uCli.stream->read();
+        RxChar = Serial1.read();
         if(RxChar == AtCmd[RxIdx])
         {
           RxIdx++;
@@ -644,9 +644,9 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
     while((RxIdx < SkipLen) && (GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(TimeoutMs))
     {
       YIELD_TO_TASK(PRIO_TASK_LIST());
-      if(uCli.stream->available())
+      if(Serial1.available())
       {
-        RxChar = uCli.stream->read();
+        RxChar = Serial1.read();
         RxIdx++;
       }
     }
@@ -709,9 +709,9 @@ static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, const char *Term
   do
   {
     YIELD_TO_TASK(PRIO_TASK_LIST());
-    if(uCli.stream->available())
+    if(Serial1.available())
     {
-      RxChar = uCli.stream->read();
+      RxChar = Serial1.read();
       if(!TPidx)
       {
         /* No match caugth yet */
@@ -866,6 +866,35 @@ static int8_t clearPairedList(uint16_t TimeoutMs)
 {
   char RespBuf[20];
   return(sendAtCmdAndWaitForResp(AT_RMAAD, BT_CMD, NULL, RespBuf, sizeof(RespBuf), 0, 0, Str_OK_CRLF, TimeoutMs));
+}
+
+void BT_Send_Channels()
+{
+ char txt;
+ uint8_t ComputedCheckSum = 0;
+
+ Serial1.print(F("tf "));
+
+ for(uint8_t Idx = 0; Idx < NUM_TRAINER; Idx++)
+  {
+   Serial1.print('s');
+   int16_t value = (FULL_CHANNEL_OUTPUTS(Idx))/2; // +-1280 to +-640
+   value += PPM_CENTER; // + 1500 offset
+   ComputedCheckSum ^= 's';
+   value <<= 4;
+   for(uint8_t j = 12; j ; j-=4)
+    {
+     txt = BIN_NBL_TO_HEX_DIGIT((value>>j) & 0x0F);
+     ComputedCheckSum ^= txt;
+     Serial1.print(txt);
+    }
+  }
+
+ Serial1.print(':');
+ txt = BIN_NBL_TO_HEX_DIGIT(ComputedCheckSum>>4 & 0x0F);
+ Serial1.print(txt);
+ txt = BIN_NBL_TO_HEX_DIGIT(ComputedCheckSum & 0x0F);
+ Serial1.println(txt);
 }
 
 const pm_uchar zz_bt[] PROGMEM =

@@ -30,11 +30,8 @@
  **************************************************************************
 */
 
-
 #ifndef _SDCARD_H_
 #define _SDCARD_H_
-
-//#include "translations.h"
 
 #if !defined(SIMU)
   #include "fat.h"
@@ -42,6 +39,8 @@
   #include "partition.h"
   #include "sd_raw.h"
   #include "sd_raw_config.h"
+#else
+  #include "inttypes.h"
 #endif
 
 #define ROOT_PATH           "/"

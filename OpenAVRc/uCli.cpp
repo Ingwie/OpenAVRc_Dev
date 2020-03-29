@@ -94,9 +94,8 @@ static void   uCliPrompt(void);
 static int8_t getCliCmdIdx(const char *Cmd);
 static int8_t execCmdLine(char * CmdLine);
 
-void uCli_init(Stream *stream)
+void uCli_init()
 {
-  uCli.stream = stream;
   memset(&uCli.CmdLine, 0, sizeof(uCli.CmdLine));
   uCli.Context = CONTEXT_UCLI;
   uCliPrompt();
@@ -104,7 +103,7 @@ void uCli_init(Stream *stream)
 
 void uCliFlushRx()
 {
-  while(uCli.stream->available()) uCli.stream->read(); // Flush Rx
+  while(Serial1.available()) Serial1.read(); // Flush Rx
 }
 
 void uCli_process(void)
@@ -114,9 +113,9 @@ void uCli_process(void)
 
  if(uCli.Context == CONTEXT_UCLI)
   {
-   if(uCli.stream->available())
+   if(Serial1.available())
     {
-     RxChar = uCli.stream->read();
+     RxChar = Serial1.read();
      switch(RxChar)
       {
       case 0x0D:
@@ -132,7 +131,7 @@ void uCli_process(void)
 #if defined(TINY_DBG_UART_BT)
            TinyDbg_interpretAndExecute(uCli.CmdLine.Msg);
 #else
-           uCli.stream->println(F("err: unknown cmd"));
+           Serial1.println(F("err: unknown cmd"));
 #endif
           }
          //uCliPrompt();
@@ -167,7 +166,7 @@ static void uCliPrompt(void)
 {
   char Buf[6];
   strcpy_P(Buf, UCLI_PROMPT);
-  uCli.stream->print(Buf);
+  Serial1.print(Buf);
   uCliFlushRx(); // clear RX buffer
 }
 
@@ -228,13 +227,13 @@ static int8_t uCli_Cmd_help(const char ** argv, uint8_t argc)
 
   if(argc == 1)
   {
-    uCli.stream->println(F("help: this help"));
+    Serial1.println(F("help: this help"));
     for(uint8_t Idx = 1; Idx < TBL_ITEM_NB(uCliCmd); Idx++)
     {
       strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[Idx].Name));
-      uCli.stream->print(Buf);uCli.stream->print(F(" "));
+      Serial1.print(Buf);Serial1.print(F(" "));
       strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[Idx].Help));
-      uCli.stream->println(Buf);_delay_us(500);
+      Serial1.println(Buf);_delay_us(500);
     }
   }
   else if(argc == 2)
@@ -243,9 +242,9 @@ static int8_t uCli_Cmd_help(const char ** argv, uint8_t argc)
     if(CmdIdx >= 0)
     {
       strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[CmdIdx].Name));
-      uCli.stream->print(Buf);uCli.stream->print(F(" "));
+      Serial1.print(Buf);Serial1.print(F(" "));
       strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[CmdIdx].Help));
-      uCli.stream->println(Buf);
+      Serial1.println(Buf);
     }
   }
   else
@@ -260,7 +259,7 @@ static int8_t uCli_Cmd_ls(const char ** argv, uint8_t argc)
 {
  // we must close the logs as we reuse the same SDfile structure
  closeLogIfActived();
- uCli.stream->println(F("ls:"));
+ Serial1.println(F("ls:"));
  if (argc > 1)
   {
    if (sdChangeCurDir(argv[1]))
@@ -272,14 +271,14 @@ static int8_t uCli_Cmd_ls(const char ** argv, uint8_t argc)
          if (SD_dir_entry.attributes & FAT_ATTRIB_DIR)
           {
            // this is a DIR
-           uCli.stream->print('[');
-           uCli.stream->print(SD_dir_entry.long_name);
-           uCli.stream->println(']');
+           Serial1.print('[');
+           Serial1.print(SD_dir_entry.long_name);
+           Serial1.println(']');
           }
          else
           {
            // this is a file
-           uCli.stream->println(SD_dir_entry.long_name);
+           Serial1.println(SD_dir_entry.long_name);
           }
         }
       }
@@ -333,7 +332,7 @@ static int8_t uCli_Cmd_cp(const char ** argv, uint8_t argc)
   if(FileMedia.Src == FileMedia.Dst)
   {
     /* SD to SD copy */
-    uCli.stream->println(F("SD to SD copy"));
+    Serial1.println(F("SD to SD copy"));
   }
 #if defined(XMODEM)
   else
@@ -342,12 +341,12 @@ static int8_t uCli_Cmd_cp(const char ** argv, uint8_t argc)
     if(FileMedia.Src == FILE_MEDIA_XMODEM)
     {
       /* OpenAVRc X-Modem in Receive mode (Source is outside, Destination is SD)*/
-      uCli.stream->println(XReceive(uCli.stream, FileName)); // display return value in the console
+      Serial1.println(XReceive(&Serial1, FileName)); // display return value in the console
     }
     else
     {
       /* OpenAVRc X-Modem in Send mode (Source is SD, Destination is outside) */
-      uCli.stream->println(XSend(uCli.stream, FileName)); // display return value in the console
+      Serial1.println(XSend(&Serial1, FileName)); // display return value in the console
     }
   }
 #endif
@@ -358,7 +357,7 @@ static int8_t uCli_Cmd_rmdir(const char ** argv, uint8_t argc)
 {
   argv = argv;
   argc = argc;
-  uCli.stream->println(F("rmdir"));
+  Serial1.println(F("rmdir"));
 
   return(0);
 }
@@ -367,7 +366,7 @@ static int8_t uCli_Cmd_rm(const char ** argv, uint8_t argc)
 {
   argv = argv;
   argc = argc;
-  uCli.stream->println(F("rm"));
+  Serial1.println(F("rm"));
   if(!memcmp_P(argv[2], SD_MEDIA, 3))
   {
     /* SD/FullFileName */
@@ -386,7 +385,7 @@ static int8_t uCli_Cmd_mv(const char ** argv, uint8_t argc)
   {
     /* Remove Src file */
   }
-  uCli.stream->println(F("mv"));
+  Serial1.println(F("mv"));
 
   return(0);
 }
@@ -395,7 +394,7 @@ static int8_t uCli_Cmd_bt(const char ** argv, uint8_t argc)
 {
   argv = argv;
   argc = argc;
-  uCli.stream->println(F("bt"));
+  Serial1.println(F("bt"));
 
   return(0);
 }
@@ -404,7 +403,7 @@ static int8_t uCli_Cmd_ram(const char ** argv, uint8_t argc)
 {
   argv = argv;
   argc = argc;
-  uCli.stream->print(F("ram: "));uCli.stream->print(stackAvailable());uCli.stream->println(F(" bytes"));
+  Serial1.print(F("ram: "));Serial1.print(stackAvailable());Serial1.println(F(" bytes"));
 
   return(0);
 }
@@ -413,7 +412,7 @@ static int8_t uCli_Cmd_reboot(const char ** argv, uint8_t argc)
 {
  argv = argv;
  argc = argc;
- uCli.stream->println(F("reboot"));
+ Serial1.println(F("reboot"));
  // TO DO Do a reboot to allow a firmware upgrade through the bootloader
  return(0);
 }
@@ -443,7 +442,7 @@ static int8_t uCli_Cmd_tf(const char ** argv, uint8_t argc)
         {
          ppmInput[Idx] = (int16_t)(strtol(&argv[1][(Idx * 4)+1], NULL, 16) - 1500)*(g_eeGeneral.PPM_Multiplier+10)/10;;
         }
-       //uCli.stream->println(F("tf"));
+       //Serial1.println(F("tf"));
        if (!puppySignalValidityTimer)
         {
          puppySignalValidityTimer = PUPPY_VALID_TIMEOUT_FIRST;
@@ -458,33 +457,4 @@ static int8_t uCli_Cmd_tf(const char ** argv, uint8_t argc)
     }
   }
  return 1;
-}
-
-void uCli_Send_Channels()
-{
- char txt;
- uint8_t ComputedCheckSum = 0;
-
- uCli.stream->print(F("tf "));
-
- for(uint8_t Idx = 0; Idx < NUM_TRAINER; Idx++)
-  {
-   uCli.stream->print('s');
-   int16_t value = (FULL_CHANNEL_OUTPUTS(Idx))/2; // +-1280 to +-640
-   value += PPM_CENTER; // + 1500 offset
-   ComputedCheckSum ^= 's';
-   value <<= 4;
-   for(uint8_t j = 12; j ; j-=4)
-    {
-     txt = BIN_NBL_TO_HEX_DIGIT((value>>j) & 0x0F);
-     ComputedCheckSum ^= txt;
-     uCli.stream->print(txt);
-    }
-  }
-
- uCli.stream->print(':');
- txt = BIN_NBL_TO_HEX_DIGIT(ComputedCheckSum>>4 & 0x0F);
- uCli.stream->print(txt);
- txt = BIN_NBL_TO_HEX_DIGIT(ComputedCheckSum & 0x0F);
- uCli.stream->println(txt);
 }
