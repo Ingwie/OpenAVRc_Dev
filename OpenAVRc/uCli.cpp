@@ -233,7 +233,7 @@ static int8_t uCli_Cmd_help(const char ** argv, uint8_t argc)
       strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[Idx].Name));
       Serial1.print(Buf);Serial1.print(F(" "));
       strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[Idx].Help));
-      Serial1.println(Buf);_delay_us(500);
+      Serial1.println(Buf);_delay_ms(1);
     }
   }
   else if(argc == 2)
