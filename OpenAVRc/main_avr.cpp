@@ -56,7 +56,7 @@ void perMain()
 #if defined(BLUETOOTH)
   if (uCli.Context == CONTEXT_PUPPY)
   {
-    uCli_Send_Channels();
+    BT_Send_Channels();
   }
 #endif
 
