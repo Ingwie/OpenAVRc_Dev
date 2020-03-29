@@ -49,6 +49,7 @@ enum menuGeneralBTItems
 #define BT_2ND_COLUMN 9*FW
 
 #define STR_BLUETOOTH      PSTR("BLUETOOTH")
+#define STR_NOBLUETOOTH    PSTR("BLUETOOTH MUET")
 #define STR_BT_ROLE        PSTR("Role")
 #define STR_BT_PIN         PSTR("Pin")
 #define STR_BT_M_S         PSTR("\006""Slave\0""Master")
@@ -164,6 +165,7 @@ void menuGeneralBluetooth(uint8_t event)
        continue;
       }
     }
+   if (!reusableBuffer.bluetooth.firstMenuRun) POPUP_WARNING(STR_NOBLUETOOTH);
    reusableBuffer.bluetooth.firstMenuRun = 1;
   }
 
