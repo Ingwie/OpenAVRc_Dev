@@ -106,12 +106,6 @@
   * internal support functions
 */
 
-#ifdef ARDUINO
-#include <stdlib.h>
-#include <Stream.h>
-#include <avr/pgmspace.h>
-#endif
-
 // serial type and file type and file operations for Arduino and OpenAVRc
 
 #define SERIAL_TYPE                        Stream *
@@ -133,7 +127,7 @@
 #define MS_TO_TICK(ms)                     (ms)
 #define YIELD_TO_PRIO_TASK()             /* Optional: Put here the call to non-blocking tasks */
 #else
-#include "../Stream.h"
+#include "../Serial1.h"
 #endif
 
 // common definitions

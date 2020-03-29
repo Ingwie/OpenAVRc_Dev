@@ -81,7 +81,7 @@
     #include "uCli.h"
   #endif
   #if defined(TINY_DBG_UART_BT) || defined(U_CLI)
-    #include "HwSerial.h"
+    #include "Serial1.h"
   #endif
 
 #else //SIMU define
@@ -91,7 +91,7 @@
   //#include "targets/mega2560/board_mega2560.h"
 
   #if defined(U_CLI) || defined(XMODEM)
-    #include "HwSerial.h"
+    #include "Serial1.h"
     #include "uCli.h"
   #endif
 
@@ -466,7 +466,7 @@ typedef int8_t swsrc_t;
 #endif
 
 #if defined(CPUM2560)
-#include "telemetry_driver.h"
+#include "Serial0.h"
 #include "pulses/pulses_avr.h"
 #include "pulses/pulses.h"
 #include "eeprom_common.h"
@@ -474,7 +474,7 @@ typedef int8_t swsrc_t;
 #endif
 #if defined(CPUXMEGA)
 #include "targets/evo_v2/xmega_board.h"
-#include "telemetry_driver.h"
+#include "Serial0.h"
 #include "pulses/pulses_avr.h"
 #include "pulses/pulses.h"
 #include "eeprom_common.h"

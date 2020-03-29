@@ -1240,7 +1240,7 @@ void OpenAVRcStart() // Run only if it is not a WDT reboot
   }
 #endif
 #if defined(BLUETOOTH)
-  bluetooth_init(&Serial1);
+  bluetooth_init();
 #endif
   doSplash();
 #if defined(GUI)
@@ -1508,7 +1508,7 @@ void OpenAVRcInit(uint8_t mcusr)
   Serial1.init(115200);
 #endif
 #if defined(U_CLI)
-  uCli_init(&Serial1);
+  uCli_init();
 #if defined(TINY_DBG_UART_BT)
   TinyDbg_init(&Serial1, UCLI_PROMPT); // PrePrompt!
 #endif

@@ -275,7 +275,7 @@ INV_STICK_RV = NO
 INV_STICK_LH = NO
 
 # Common resources
-need_HwSerial = NO
+need_Serial1 = NO
 need_uCli = NO
 need_Print = NO
 
@@ -348,25 +348,25 @@ ifeq ($(PCB), MEGAMINI)
   ASRC =
 
 	ifneq ($(DEBUG), NO)
-		need_HwSerial=YES
+		need_Serial1=YES
 		CPPSRC += $(DEBUGDIR)/TinyDbg.cpp
 		ifeq ($(DEBUG), UART_BT)
 		CPPDEFS += -DTINY_DBG_UART_BT
 		endif
 	endif
 
-  needtelemetry_driver = FALSE
+  needSerial0 = FALSE
   ifeq ($(MULTIMODULE), YES)
-   needtelemetry_driver = YES
+   needSerial0 = YES
   endif
   ifeq ($(DSM2), YES)
-   needtelemetry_driver = YES
+   needSerial0 = YES
   endif
   ifeq ($(EXT), FRSKY)
-   needtelemetry_driver = YES
+   needSerial0 = YES
   endif
-  ifeq ($(needtelemetry_driver), YES)
-  EXTRABOARDSRC += telemetry_driver.cpp
+  ifeq ($(needSerial0), YES)
+  EXTRABOARDSRC += Serial0.cpp
   endif
 
  ifeq ($(PWRMANAGE), YES)
@@ -528,7 +528,7 @@ ifeq ($(PCB), EVO_V2)
   EEPROMSRC = eeprom_common.cpp targets/evo_v2/eeprom_rlc.cpp
   PULSESSRC = targets/evo_v2/xmega_pulses.cpp
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v2/menu_general_diaganas.cpp
-  EXTRABOARDSRC = targets/evo_v2/telemetry_driver.cpp
+  EXTRABOARDSRC = targets/evo_v2/Serial0.cpp
 
 
   ifeq ($(PWM_BACKLIGHT), YES)
@@ -655,25 +655,25 @@ ifeq ($(PCB), MEGA2560)
   EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp
 
 	ifneq ($(DEBUG), NO)
-		need_HwSerial=YES
+		need_Serial1=YES
 		CPPSRC += $(DEBUGDIR)/TinyDbg.cpp
 		ifeq ($(DEBUG), UART_BT)
 		CPPDEFS += -DTINY_DBG_UART_BT
 		endif
 	endif
 
-  needtelemetry_driver = FALSE
+  needSerial0 = FALSE
   ifeq ($(MULTIMODULE), YES)
-   needtelemetry_driver = YES
+   needSerial0 = YES
   endif
   ifeq ($(DSM2), YES)
-   needtelemetry_driver = YES
+   needSerial0 = YES
   endif
   ifeq ($(EXT), FRSKY)
-   needtelemetry_driver = YES
+   needSerial0 = YES
   endif
-  ifeq ($(needtelemetry_driver), YES)
-  EXTRABOARDSRC += telemetry_driver.cpp
+  ifeq ($(needSerial0), YES)
+  EXTRABOARDSRC += Serial0.cpp
   endif
 
   ifeq ($(PWRMANAGE), YES)
@@ -1023,20 +1023,20 @@ endif
 
 ifeq ($(BLUETOOTH), YES)
   CPPDEFS += -DBLUETOOTH
-  need_HwSerial=YES
+  need_Serial1=YES
   need_uCli = YES
   GUIMODELSRC += gui/menu_general_bluetooth.cpp bluetooth.cpp
 endif
 
 ifeq ($(XMODEM), YES)
   CPPDEFS += -DXMODEM
-  need_HwSerial=YES
+  need_Serial1=YES
   need_uCli = YES
   GUIMODELSRC += $(XMODEMDIR)/xmodem.cpp
 endif
 
-ifeq ($(need_HwSerial), YES)
-	CPPSRC += HwSerial.cpp
+ifeq ($(need_Serial1), YES)
+	CPPSRC += Serial1.cpp
 	need_Print = YES
 endif
 

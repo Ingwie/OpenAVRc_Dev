@@ -33,7 +33,6 @@
 #ifndef UCLI_H
 #define UCLI_H
 
-#include "Stream.h"
 #if defined(SDCARD)
 #include "sdcard.h"
 #endif
@@ -56,15 +55,13 @@ typedef struct{
 
 typedef struct{
   uint8_t Context; // Will see if really needed, later...
-  Stream *stream;
   CmdLineSt_t CmdLine;
 }uCliSt_t;
 
 extern uCliSt_t uCli; // uCli structure will be used by bluetooth as well (share buffer)
 
-void uCli_init(Stream *stream);
+void uCli_init();
 void uCli_process(void);
-void uCli_Send_Channels(); // Send NUM_TRAINER Channels
 void uCliFlushRx();
 
 #endif // UCLI_H

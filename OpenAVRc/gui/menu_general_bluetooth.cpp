@@ -99,7 +99,7 @@ void writeDataToModule(uint8_t choice)
     {
     case ITEM_BT_ONOFF :
     case ITEM_BT_ROLE :
-     bluetooth_init(&Serial1); // init or power off
+     bluetooth_init(); // init or power off
      break;
 
     case ITEM_BT_NAME :

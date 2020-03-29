@@ -33,7 +33,7 @@
 #ifndef BLUETOOTH_H
 #define BLUETOOTH_H
 
-#include "HwSerial.h"
+#include "Serial1.h"
 #include "uCli.h"
 #include "misclib.h"
 
@@ -68,7 +68,7 @@ typedef struct{
 
 extern const pm_uchar zz_bt[]; // BT glyph
 
-void    bluetooth_init(HwSerial *hwSerial);
+void    bluetooth_init();
 void    bluetooth_power(uint8_t On);
 void    bluetooth_AtCmdMode(uint8_t On, uint8_t Yield = 1);
 int8_t  bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs);
@@ -82,5 +82,6 @@ int8_t  bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs);
 void    bluetooth_addSuffix(char* Addon);
 void    rebootBT(uint8_t Yield = 1);
 void    BT_Wait_Screen();
+void    BT_Send_Channels(); // Send NUM_TRAINER Channels
 
 #endif // BLUETOOTH_H
