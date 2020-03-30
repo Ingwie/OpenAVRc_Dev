@@ -28,8 +28,9 @@
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 			<label>Programmateur</label>
-			<pos>64,80</pos>
-			<size>96,16</size>
+			<pos>32,80</pos>
+			<size>136,16</size>
+			<style>wxALIGN_RIGHT</style>
 		</object>
 		<object class="wxButton" name="ID_BUTTONENTER" variable="ButtonEnter" member="yes">
 			<label>Valider</label>
@@ -38,7 +39,9 @@
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
 			<label>Port</label>
-			<pos>112,128</pos>
+			<pos>32,128</pos>
+			<size>136,16</size>
+			<style>wxALIGN_RIGHT</style>
 		</object>
 		<object class="wxComboBox" name="ID_COMBOBOX3" variable="ComboBox3" member="yes">
 			<content>
@@ -49,11 +52,15 @@
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
 			<label>Type de radio</label>
-			<pos>72,176</pos>
+			<pos>32,176</pos>
+			<size>136,16</size>
+			<style>wxALIGN_RIGHT</style>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
 			<label>Répertoire de avrdude</label>
 			<pos>32,224</pos>
+			<size>134,16</size>
+			<style>wxALIGN_RIGHT</style>
 		</object>
 		<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="TextCtrl1" member="yes">
 			<pos>176,216</pos>

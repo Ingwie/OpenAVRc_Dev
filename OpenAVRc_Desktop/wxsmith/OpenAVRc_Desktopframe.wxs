@@ -89,9 +89,10 @@
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 				<label>Langue</label>
-				<pos>456,40</pos>
-				<size>48,13</size>
+				<pos>448,40</pos>
+				<size>56,13</size>
 				<tooltip>Choisissez la langue des mensages vocales</tooltip>
+				<style>wxALIGN_RIGHT</style>
 			</object>
 			<object class="wxButton" name="ID_BUTTON2" variable="ButtonEditeur" member="yes">
 				<label>Éditeur</label>

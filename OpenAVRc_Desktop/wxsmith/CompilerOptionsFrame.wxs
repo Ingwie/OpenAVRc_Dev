@@ -2,62 +2,66 @@
 <wxsmith>
 	<object class="wxFrame" name="CompilerOptionsFrame">
 		<title>Compil-O-matic</title>
-		<size>807,377</size>
+		<size>789,365</size>
 		<id_arg>0</id_arg>
 		<style>wxCAPTION|wxDEFAULT_DIALOG_STYLE</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>0,0</pos>
-			<size>752,327</size>
+			<size>819,368</size>
 			<bg>wxSYS_COLOUR_BTNFACE</bg>
 			<object class="wxNotebook" name="ID_NOTEBOOK1" variable="Notebook1" member="yes">
 				<pos>0,0</pos>
-				<size>808,376</size>
+				<size>792,368</size>
 				<object class="notebookpage">
 					<object class="wxPanel" name="ID_PANEL2" variable="Panel2" member="yes">
-						<size>802,302</size>
+						<size>784,345</size>
 						<object class="wxStaticBox" name="ID_STATICBOX13" variable="StaticBox13" member="yes">
 							<label>Manches</label>
-							<pos>664,8</pos>
-							<size>128,136</size>
+							<pos>648,8</pos>
+							<size>128,128</size>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX3" variable="CheckBoxInvStickLH" member="yes">
 							<label>Inversion Stick__LH</label>
-							<pos>672,48</pos>
-							<size>112,13</size>
+							<pos>656,32</pos>
+							<size>112,16</size>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX8" variable="CheckBoxInvStickRH" member="yes">
 							<label>Inversion Stick__RH</label>
-							<pos>672,120</pos>
-							<size>112,13</size>
+							<pos>656,104</pos>
+							<size>112,16</size>
 						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX6" variable="StaticBox6" member="yes">
 							<label>Autres options</label>
-							<pos>464,8</pos>
+							<pos>448,8</pos>
 							<size>192,328</size>
 						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX4" variable="StaticBox4" member="yes">
 							<label>Matériel</label>
-							<pos>24,8</pos>
+							<pos>8,8</pos>
 							<size>200,328</size>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX17" variable="CheckBoxPPM_LIMITS_SYMETRICAL" member="yes">
 							<label>PPM Simm limits</label>
-							<pos>528,296</pos>
+							<pos>512,296</pos>
+							<size>120,16</size>
 							<tooltip>Option ajuster le gain fonction du subtrim</tooltip>
 						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX5" variable="StaticBox5" member="yes">
 							<label>Interface</label>
-							<pos>232,8</pos>
+							<pos>216,8</pos>
 							<size>224,328</size>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText4" member="yes">
 							<label>Unités</label>
-							<pos>264,304</pos>
+							<pos>224,304</pos>
+							<size>87,16</size>
+							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX16" variable="CheckBoxPPM_CENTER_ADJUSTABLE" member="yes">
 							<label>PPM Center adjust</label>
-							<pos>528,272</pos>
+							<pos>512,272</pos>
+							<size>120,16</size>
 							<tooltip>Option réglage des neutres indépendant</tooltip>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE4" variable="ChoicePPM_UNIT " member="yes">
@@ -67,7 +71,7 @@
 								<item>US</item>
 							</content>
 							<selection>0</selection>
-							<pos>336,296</pos>
+							<pos>320,296</pos>
 							<size>112,21</size>
 							<tooltip>Affichage des valeurs des voies en % ou uS</tooltip>
 						</object>
@@ -76,7 +80,7 @@
 								<item>MEGAMINI</item>
 							</content>
 							<selection>0</selection>
-							<pos>112,32</pos>
+							<pos>96,32</pos>
 							<size>96,21</size>
 							<tooltip>Type de radio</tooltip>
 						</object>
@@ -91,18 +95,21 @@
 								<item>SH1106</item>
 							</content>
 							<selection>4</selection>
-							<pos>112,72</pos>
+							<pos>96,72</pos>
 							<size>96,21</size>
 							<tooltip>Référence de l&apos;écran</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
 							<label>Processeur</label>
-							<pos>32,40</pos>
-							<size>64,13</size>
+							<pos>16,40</pos>
+							<size>72,16</size>
+							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 							<label>LCD</label>
-							<pos>64,80</pos>
+							<pos>16,80</pos>
+							<size>72,16</size>
+							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE3" variable="ChoiceVOICE" member="yes">
 							<content>
@@ -110,39 +117,45 @@
 								<item>JQ6500</item>
 							</content>
 							<selection>0</selection>
-							<pos>112,136</pos>
+							<pos>96,144</pos>
 							<size>96,21</size>
 							<tooltip>Option annonces vocales</tooltip>
 							<handler function="OnChoiceVOICESelect" entry="EVT_CHOICE" />
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
 							<label>Voice</label>
-							<pos>56,136</pos>
+							<pos>16,144</pos>
+							<size>72,16</size>
+							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX7" variable="CheckBoxAUDIO" member="yes">
 							<label>Audio</label>
-							<pos>112,176</pos>
-							<size>48,16</size>
+							<pos>96,184</pos>
+							<size>104,16</size>
 							<tooltip>Option audio</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX14" variable="CheckBoxHAPTIC" member="yes">
 							<label>Haptic</label>
-							<pos>112,208</pos>
+							<pos>96,224</pos>
+							<size>104,16</size>
 							<tooltip>Option Vibreur</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBoxHELI" member="yes">
 							<label>HELI</label>
-							<pos>528,152</pos>
+							<pos>512,152</pos>
+							<size>120,16</size>
 							<tooltip>Option hélicoptère</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX15" variable="CheckBoxTEMPLATES" member="yes">
 							<label>TEMPLATES</label>
-							<pos>528,176</pos>
+							<pos>512,176</pos>
+							<size>120,16</size>
 							<tooltip>Option modèles pré programmés</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX12" variable="CheckBoxSD_CARD" member="yes">
 							<label>Carte SD</label>
-							<pos>112,240</pos>
+							<pos>96,264</pos>
+							<size>104,16</size>
 							<tooltip>Option carte SD (Sauvegarde - Fichiers log)</tooltip>
 							<handler function="OnCheckBoxSD_CARDClick" entry="EVT_CHECKBOX" />
 						</object>
@@ -162,13 +175,15 @@
 								<item>SK</item>
 							</content>
 							<selection>4</selection>
-							<pos>336,32</pos>
-							<size>72,21</size>
+							<pos>320,32</pos>
+							<size>40,21</size>
 							<tooltip>Langue affichée</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText6" member="yes">
 							<label>Langue</label>
-							<pos>264,40</pos>
+							<pos>224,40</pos>
+							<size>88,16</size>
+							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE5" variable="ChoiceTTS" member="yes">
 							<content>
@@ -186,14 +201,15 @@
 								<item>SK</item>
 							</content>
 							<selection>4</selection>
-							<pos>336,72</pos>
-							<size>72,21</size>
+							<pos>320,72</pos>
+							<size>40,21</size>
 							<tooltip>Langue de la synthése vocale</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
 							<label>Langue voice</label>
-							<pos>240,80</pos>
-							<size>80,13</size>
+							<pos>224,80</pos>
+							<size>88,16</size>
+							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE8" variable="ChoiceNAVIGATION" member="yes">
 							<content>
@@ -206,23 +222,27 @@
 								<item>ROTENC</item>
 							</content>
 							<selection>0</selection>
-							<pos>336,248</pos>
-							<size>80,21</size>
+							<pos>320,248</pos>
+							<size>112,21</size>
 							<tooltip>Peut remplacer les boutons de navigation</tooltip>
 							<handler function="OnChoiceNAVIGATIONSelect" entry="EVT_CHOICE" />
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT7" variable="StaticText7" member="yes">
 							<label>Navigation</label>
-							<pos>248,256</pos>
+							<pos>224,256</pos>
+							<size>88,16</size>
+							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxButton" name="ID_BUTTON3" variable="ButtonEXIT" member="yes">
 							<label>Sauvegarder et sortir</label>
-							<pos>664,272</pos>
+							<pos>648,240</pos>
+							<size>128,23</size>
 							<handler function="OnButtonEXITClick" entry="EVT_BUTTON" />
 						</object>
 						<object class="wxButton" name="ID_BUTTON2" variable="ButtonCOMPILE" member="yes">
 							<label>Compiler</label>
-							<pos>688,208</pos>
+							<pos>648,200</pos>
+							<size>128,23</size>
 							<handler function="OnButtonCOMPILEClick" entry="EVT_BUTTON" />
 						</object>
 						<object class="wxChoice" name="ID_CHOICE9" variable="ChoiceUNITS" member="yes">
@@ -231,13 +251,15 @@
 								<item>IMPERIAL</item>
 							</content>
 							<selection>0</selection>
-							<pos>528,32</pos>
-							<size>72,21</size>
+							<pos>512,32</pos>
+							<size>80,21</size>
 							<tooltip>Unitées</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText8" member="yes">
 							<label>Unités</label>
-							<pos>480,40</pos>
+							<pos>456,40</pos>
+							<size>47,16</size>
+							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE10" variable="ChoiceDEFAULT_MODE" member="yes">
 							<content>
@@ -248,32 +270,38 @@
 								<item>4</item>
 							</content>
 							<selection>0</selection>
-							<pos>528,72</pos>
-							<size>72,21</size>
+							<pos>512,72</pos>
+							<size>40,21</size>
 							<tooltip>Mode de la radio</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT9" variable="StaticText9" member="yes">
 							<label>Mode</label>
-							<pos>480,80</pos>
+							<pos>456,80</pos>
+							<size>48,16</size>
+							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX18" variable="CheckBoxFLIGHT_MODES" member="yes">
 							<label>Flight modes</label>
-							<pos>528,200</pos>
+							<pos>512,200</pos>
+							<size>120,16</size>
 							<tooltip>Option phases de vol</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX19" variable="CheckBoxCURVES" member="yes">
 							<label>Curves</label>
-							<pos>528,248</pos>
+							<pos>512,248</pos>
+							<size>120,16</size>
 							<tooltip>Option courbes</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX20" variable="CheckBoxGVARS" member="yes">
 							<label>Global vars</label>
-							<pos>528,224</pos>
+							<pos>512,224</pos>
+							<size>120,16</size>
 							<tooltip>Option variables globales</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX21" variable="CheckBoxSPLASH" member="yes">
 							<label>Écran d&apos;accueil</label>
-							<pos>336,216</pos>
+							<pos>320,216</pos>
+							<size>112,16</size>
 							<tooltip>Ecran d&apos;accueil</tooltip>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE11" variable="ChoiceFONT" member="yes">
@@ -282,22 +310,26 @@
 								<item>SQT5</item>
 							</content>
 							<selection>0</selection>
-							<pos>336,176</pos>
-							<size>80,21</size>
+							<pos>320,176</pos>
+							<size>56,21</size>
 							<tooltip>Police de caractére</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT10" variable="StaticText10" member="yes">
 							<label>Font</label>
-							<pos>272,184</pos>
+							<pos>224,184</pos>
+							<size>88,16</size>
+							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX40" variable="CheckBoxBOLD" member="yes">
 							<label>Bold</label>
-							<pos>336,112</pos>
+							<pos>320,112</pos>
+							<size>112,16</size>
 							<tooltip>Vrai police en gras</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX41" variable="CheckBoxBATTGRAPH" member="yes">
 							<label>Batt graph</label>
-							<pos>336,144</pos>
+							<pos>320,144</pos>
+							<size>112,16</size>
 							<tooltip>Affichage graphique de l&apos;état de la batterie</tooltip>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE13" variable="ChoiceFAI" member="yes">
@@ -307,13 +339,15 @@
 								<item>CHOICE</item>
 							</content>
 							<selection>0</selection>
-							<pos>528,112</pos>
-							<size>72,21</size>
+							<pos>512,112</pos>
+							<size>64,21</size>
 							<tooltip>Pour les compétitions</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT12" variable="StaticText12" member="yes">
 							<label>FAI</label>
-							<pos>488,120</pos>
+							<pos>456,120</pos>
+							<size>48,16</size>
+							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE12" variable="ChoiceTHREE_POS" member="yes">
 							<content>
@@ -322,27 +356,30 @@
 								<item>POT3</item>
 							</content>
 							<selection>1</selection>
-							<pos>112,288</pos>
+							<pos>96,296</pos>
 							<size>96,21</size>
 							<tooltip>Selection du potentiomètre utilisé pour XD0</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT11" variable="StaticText11" member="yes">
 							<label>EXTRA 3POS</label>
-							<pos>32,296</pos>
+							<pos>16,304</pos>
+							<size>72,16</size>
+							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX4" variable="CheckBoxInvStickLV" member="yes">
 							<label>Inversion Stick__LV</label>
-							<pos>672,96</pos>
-							<size>112,13</size>
+							<pos>656,80</pos>
+							<size>112,16</size>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX2" variable="CheckBoxInvStickRV" member="yes">
 							<label>Inversion Stick__RV</label>
-							<pos>672,72</pos>
-							<size>112,13</size>
+							<pos>656,56</pos>
+							<size>112,16</size>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX9" variable="CheckBoxLCDROT180" member="yes">
 							<label>Rotation Lcd 180°</label>
-							<pos>112,108</pos>
+							<pos>96,112</pos>
+							<size>104,16</size>
 						</object>
 					</object>
 					<label>Réglages</label>
