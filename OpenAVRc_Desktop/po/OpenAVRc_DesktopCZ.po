@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-06-02 17:39+0200\n"
-"PO-Revision-Date: 2020-03-29 01:17+0100\n"
+"PO-Revision-Date: 2020-03-30 02:15+0200\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,12 +19,12 @@ msgstr ""
 "Language: cs_CZ\n"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:497
-msgid " Encodeur à 0"
-msgstr " Encoder na 0"
+msgid " Encodeur ŕ 0"
+msgstr "Enkodér na 0"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:444
 msgid " GPLv2 . Firmware basé sur NextStepRc 2.18 "
-msgstr " GPLv2 . Firmware založený na NextStepRc 2.18 "
+msgstr "GPLv2 . Firmware založený na NextStepRc 2.18"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:472
 msgid ""
@@ -32,7 +32,7 @@ msgid ""
 "\n"
 "Cette opération nécessite un port COM."
 msgstr ""
-" Operace byla zrušena\n"
+"Operace byla zrušena\n"
 "\n"
 "Tato operace vyžaduje COM port."
 
@@ -2137,7 +2137,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:447
 msgid "3POS"
-msgstr ""
+msgstr "3 polohový"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:307
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:523
@@ -2146,9 +2146,9 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:869
 msgid ""
-": Il y a au moins ce nom avec des caractères spéciaux non autorisés.\n"
+": Il y a au moins ce nom avec des caractčres spéciaux non autorisés.\n"
 "Veuillez le changer.\n"
-"Caractères spéciaux autorisés : _-+:*=?"
+"Caractčres spéciaux autorisés : _-+:*=?"
 msgstr ""
 ": Existuje jedno jméno s nepovolenými speciálními znaky.\n"
 "Prosím opravte to.\n"
@@ -2193,11 +2193,11 @@ msgstr ""
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:220
 #, c-format
 msgid "Affichage des valeurs des voies en % ou uS"
-msgstr "Affichage des valeurs des voies en % ou uS"
+msgstr "Možnost zobrazení hodnot kanálu v % nebo μs"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:332
 msgid "Affichage graphique de l'état de la batterie"
-msgstr "Grafické zobrazení stavu baterie"
+msgstr "Možnost grafického zobrazení stavu baterie"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:415
 msgid "Affiche une mini barre pour visualiser une sauvegarde en cours"
@@ -2208,7 +2208,7 @@ msgid "Aide"
 msgstr "Nápověda"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:392
-msgid "Ajoute du code pour prèvoir débordement aritmethique"
+msgid "Ajoute du code pour prčvoir débordement aritmethique"
 msgstr "Přidá kód, aby se zabránilo aritmetickému přetečení"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:398
@@ -2225,7 +2225,7 @@ msgstr "Zrušit"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:905
 msgid "Appelation de la nouvelle configuration"
-msgstr "Nový název konfigurace"
+msgstr "Nový název profilu rádia"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:264
 msgid "Attention : Tous ce qui n'est pas blanc sera converti en noir"
@@ -2258,7 +2258,7 @@ msgid "Autres options"
 msgstr "Ostatní možnosti"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:363
-msgid "Autres paramètres"
+msgid "Autres paramčtres"
 msgstr "Ostatní nastavení"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1074
@@ -2279,11 +2279,11 @@ msgstr "Beta test"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:327
 msgid "Bold"
-msgstr "Tučně"
+msgstr "Tučné písmo"
 
 #: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:166
 msgid "Branchez votre radio"
-msgstr "Připojte své rádio"
+msgstr "Připojte rádio k PC"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:431
 msgid "CC2500"
@@ -2313,28 +2313,28 @@ msgid "Carte SD"
 msgstr "SD karta"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:404
-msgid "Change les trim de la main droite à la main gauche, et vice-versa"
+msgid "Change les trim de la main droite ŕ la main gauche, et vice-versa"
 msgstr "Zaměnit pravé trimy na levé a obráceně"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:890
 msgid "Charger la configuration "
-msgstr "Načíst aktivní konfiguraci "
+msgstr "Načíst aktivní profil rádia "
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:508
-msgid "Choisir le fichier (.bin) pour transferer les modêles à la radio."
-msgstr "Vybrat soubor (.bin) pro přenos modelů do rádia."
+msgid "Choisir le fichier (.bin) pour transferer les modęles ŕ la radio."
+msgstr "Vybrat soubor (.bin) pro export nastavení a modelů do rádia"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:495
 msgid "Choisir le fichier pour importer le Firmware des la radio."
-msgstr "Vybrat soubor pro import firmwaru z rádia."
+msgstr "Vybrat soubor (.hex) pro import firmwaru z rádia"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:482
-msgid "Choisir le fichier pour importer les modèles des la radio."
-msgstr "Vybrat soubor pro import modelů z rádia."
+msgid "Choisir le fichier pour importer les modčles des la radio."
+msgstr "Vybrat soubor (.bin) pro import nastavení a modelů z rádia"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:521
-msgid "Choisir le fichier pour transferer le Firmware à la radio."
-msgstr "Vybrat soubor pro přenos firmwaru do rádia."
+msgid "Choisir le fichier pour transferer le Firmware ŕ la radio."
+msgstr "Vybrat soubor (.hex) pro export firmwaru do rádia"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1079
 msgid "Choisissez la carte SD de sauvegarde de la radio"
@@ -2346,12 +2346,12 @@ msgid "Choisissez la langue des mensages vocales"
 msgstr "Vybrat jazyk hlasu"
 
 #: A:\cb\OpenAVRc_Desktop\Voice_choice.cpp:63
-msgid "Choisissez votre moteur de synthèse vocale"
+msgid "Choisissez votre moteur de synthčse vocale"
 msgstr "Vybrat hlas syntézy převodu textu na řeč"
 
 #: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:85
 msgid "Communication avec la radio "
-msgstr "Komunikace s rádiem "
+msgstr "Komunikace s rádiem"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:337
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:195
@@ -2371,7 +2371,7 @@ msgstr "Kompilovat"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:257
 msgid "Configuration"
-msgstr "Konfigurace"
+msgstr "Profily rádia"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1062
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1091
@@ -2393,8 +2393,8 @@ msgid "DSM2 SERIAL"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:920
-msgid "Defaut ne peut être effacé"
-msgstr "Výchozí nelze odstranit"
+msgid "Defaut ne peut ętre effacé"
+msgstr "Výchozí nelze odstranit !"
 
 #: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:107
 msgid "Detection"
@@ -2402,7 +2402,7 @@ msgstr "Detekce"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:357
 msgid "Documentation en ligne"
-msgstr "Online dokumentace"
+msgstr "Dokumentace online"
 
 #: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:90
 msgid "Double click pour éditer."
@@ -2446,7 +2446,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:344
 msgid "EXTRA 3POS"
-msgstr ""
+msgstr "Extra 3 polohový"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:256
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:321
@@ -2455,25 +2455,25 @@ msgstr "Úvodní obrazovka"
 
 #: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:139
 msgid "Emplacement d'AVRDUDE"
-msgstr "Umístění AVRDUDE"
+msgstr "Umístění Avrdude"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:366
 msgid ""
-"Empèche la synthèse vocale de dire \"et\". Exemple : entre minutes \"et\" "
+"Empčche la synthčse vocale de dire \"et\". Exemple : entre minutes \"et\" "
 "seconde"
 msgstr "Vyhýbat se zbytečným „a“. Například : mezi minutami \"a\" sekundami"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:495
 msgid "EncodeurA"
-msgstr "EncoderA"
+msgstr "Enkodér A"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:496
 msgid "EncodeurB"
-msgstr "EncoderB"
+msgstr "Enkodér B"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:448
 msgid "Extra 3POS"
-msgstr ""
+msgstr "Extra 3 polohový"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:405
 msgid "F-RAM"
@@ -2531,7 +2531,7 @@ msgstr "Globální vars"
 
 #: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:618
 msgid "Générer ce fichier"
-msgstr "Vytvořte tento soubor"
+msgstr "Vytvořit tento soubor"
 
 #: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:615
 msgid "Générer tout"
@@ -2549,7 +2549,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:243
 msgid "Haptic"
-msgstr "Hmatový"
+msgstr "Vibrace"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:481
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:493
@@ -2583,27 +2583,27 @@ msgstr "Doporučuji nejdříve uložit modely, chcete pokračovat ?"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:474
 msgid "Inter1"
-msgstr "Přepínač1"
+msgstr "Spínač 1"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:475
 msgid "Inter2"
-msgstr "Přepínač2"
+msgstr "Spínač 2"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:476
 msgid "Inter3"
-msgstr "Přepínač3"
+msgstr "Spínač 3"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:477
 msgid "Inter4"
-msgstr "Přepínač4"
+msgstr "Spínač 4"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:478
 msgid "Inter5"
-msgstr "Přepínač5"
+msgstr "Spínač 5"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:479
 msgid "Inter6"
-msgstr "Přepínač6"
+msgstr "Spínač 6"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:211
 msgid "Interface"
@@ -2660,11 +2660,11 @@ msgstr "Jazyk"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:268
 msgid "Langue affichée"
-msgstr "Zobrazený jazyk"
+msgstr "Zobrazený jazyk firmwaru"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:283
 msgid "Langue de la synthése vocale"
-msgstr "Jazyk syntézy"
+msgstr "Jazyk hlasové syntézy"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:284
 msgid "Langue voice"
@@ -2672,23 +2672,23 @@ msgstr "Jazyk hlasu"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:313
 msgid "Lire le firmware de la radio"
-msgstr "Přečíst si firmware z rádia"
+msgstr "Číst firmware z rádia"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:310
-msgid "Lire les réglages et les modèles de la radio (eeprom)"
-msgstr "Přečíst si nastavení a modely z rádia (eeprom)"
+msgid "Lire les réglages et les modčles de la radio (eeprom)"
+msgstr "Číst nastavení a modely z rádia (eeprom)"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:335
 msgid "Lire/Écrire"
-msgstr "Číst/Zapsat"
+msgstr "Čtení/Zápis"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:445
 msgid ""
 "Logiciel pour la personnalisation, la compilation, le flashage, la "
 "sauvegarde de votre radio OpenAVRc     "
 msgstr ""
-"Software pro přizpůsobení, kompilaci, blikání, zálohu vašeho OpenAVRc "
-"rádia     "
+"Software pro přizpůsobení, kompilaci, flashování a zálohu vašeho OpenAVRc "
+"rádia"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:222
 msgid "MEGAMINI"
@@ -2713,10 +2713,10 @@ msgstr "Hardware"
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:563
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:586
 msgid "Mauvais type de radio selectionné"
-msgstr "Nesprávný výběr rádia"
+msgstr "Nesprávný výběr rádia !"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:417
-msgid "Merci de vérifier les paramètres"
+msgid "Merci de vérifier les paramčtres"
 msgstr "Zkontrolujte prosím nastavení"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:309
@@ -2771,7 +2771,7 @@ msgstr "Název"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:446
 msgid "Nom des interrupteurs"
-msgstr "Název přepínače"
+msgstr "Názvy spínačů"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:524
 msgid "Nombre d'instances"
@@ -2783,7 +2783,7 @@ msgstr "Není kompatibilní s AUTOSOURCE. AUTOSOURCE zakázáno."
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:986
 msgid "Non compatible avec NAVIGATION = STICKS"
-msgstr "Není kompatibilní s NAVIGATION = STICKS"
+msgstr "Není kompatibilní s NAVIGATION = STICKS."
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1039
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1049
@@ -2793,7 +2793,7 @@ msgstr "Není kompatibilní s TELEMETRY = STD."
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:290
 msgid "Nouvelle configuration"
-msgstr "Nová konfigurace"
+msgstr "Nový profil rádia"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:252
 msgid "OpenAVRc Desktop V3"
@@ -2801,11 +2801,11 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:343
 msgid "OpenAVRc Manual (JPZ)"
-msgstr "OpenAVRc manuál (JPZ)"
+msgstr "Manuál OpenAVRc (JPZ)"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:245
 msgid "Option Vibreur"
-msgstr "Možnost vibrátoru"
+msgstr "Možnost vibrací"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:210
 msgid "Option ajuster le gain fonction du subtrim"
@@ -2821,19 +2821,19 @@ msgstr "Možnost zvuku"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:254
 msgid "Option carte SD (Sauvegarde - Fichiers log)"
-msgstr "Možnost SD karty (Záloha - Záznam do souborů)"
+msgstr "Možnost SD karty (záloha - záznam do souborů)"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:315
 msgid "Option courbes"
 msgstr "Možnost křivek"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:248
-msgid "Option hélicoptère"
+msgid "Option hélicoptčre"
 msgstr "Možnost vrtulníku"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:251
-msgid "Option modèles pré programmés"
-msgstr "Možnost předprogramované modely"
+msgid "Option modčles pré programmés"
+msgstr "Možnost předprogramovaných modelů"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:312
 msgid "Option phases de vol"
@@ -2923,12 +2923,12 @@ msgid "Par défaut"
 msgstr "Výchozí"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:307
-msgid "Paramètres"
+msgid "Paramčtres"
 msgstr "Nastavení"
 
 #: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:88
-msgid "Paramètres de communication avec la radio"
-msgstr "Nastavení rádiové komunikace"
+msgid "Paramčtres de communication avec la radio"
+msgstr "Nastavení programu pro komunikaci s rádiem"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:528
 msgid "Personnalisation"
@@ -2936,15 +2936,15 @@ msgstr "Přizpůsobení"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:263
 msgid "Personnaliser"
-msgstr "Přizpůsobit"
+msgstr "Změnit"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:293
 msgid "Peut remplacer les boutons de navigation"
-msgstr "Může nahradit navigační tlačítka"
+msgstr "Možnost nahradit navigační tlačítka"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:325
 msgid "Police de caractére"
-msgstr "Charakter písma"
+msgstr "Možnost formátu písma"
 
 #: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:98
 msgid "Port"
@@ -2991,12 +2991,12 @@ msgid "Protocole MULTI"
 msgstr "MULTI protokol"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:371
-msgid "Protocole PPM 8 à 16 voies"
+msgid "Protocole PPM 8 ŕ 16 voies"
 msgstr "PPM protokol 8 až 16 kanálů"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:375
 msgid "Protocole SPI RF "
-msgstr "SPI RF protokol "
+msgstr "SPI RF protokol"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:378
 msgid "Protocoles DSM .."
@@ -3004,11 +3004,11 @@ msgstr "DSM protokoly .."
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:296
 msgid "Quitter\tAlt-F4"
-msgstr "Konec\tAlt-F4"
+msgstr "Ukončit\tAlt+F4"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:296
 msgid "Quitter l'application"
-msgstr "Ukončete aplikaci"
+msgstr "Ukončit aplikaci"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:499
 msgid "REa"
@@ -3031,16 +3031,16 @@ msgid "RUD"
 msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:425
-msgid "Raccourcis avec deux touches pour passer une valeur à min/max/0"
+msgid "Raccourcis avec deux touches pour passer une valeur ŕ min/max/0"
 msgstr "Klávesové zkratky se dvěma klávesami pro zadání hodnoty min/max/0"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:266
 msgid "Restaurer l'écran par défaut"
-msgstr "Obnovit výchozí obrazovku"
+msgstr "Obnovit výchozí úvodní obrazovku"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:232
 msgid "Référence de l'écran"
-msgstr "Odkaz na obrazovku"
+msgstr "Typ LCD displeje"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:526
 msgid "Réglages"
@@ -3048,7 +3048,7 @@ msgstr "Nastavení"
 
 #: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:103
 msgid "Répertoire de avrdude"
-msgstr "Adresář avrdude"
+msgstr "Adresář Avrdude"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1074
 msgid "SD DATA"
@@ -3135,21 +3135,21 @@ msgid "Sauvegarder réglage"
 msgstr "Uložit nastavení"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:343
-msgid "Selection du potentiomètre utilisé pour XD0"
-msgstr "Výběr potenciometru použitého pro XD0"
+msgid "Selection du potentiomčtre utilisé pour XD0"
+msgstr "Možnost potenciometru použitého pro XD0"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1045
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1080
 msgid "Selectionnez le lecteur"
-msgstr "Vyberte jednotku"
+msgstr "Vybrat jednotku"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:923
 msgid "Supprimer "
-msgstr "Odstranit "
+msgstr "Odstranit profil "
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:293
 msgid "Supprimer la configuration active"
-msgstr "Odstranit aktivní konfiguraci"
+msgstr "Odstranit aktivní profil rádia"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:389
 msgid "Symétrise les valeurs affichées"
@@ -3157,13 +3157,13 @@ msgstr "Zobrazené hodnoty jsou symetrické"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:304
 #: A:\cb\OpenAVRc_Desktop\Voice_choice.cpp:59
-msgid "Synthèse vocale"
+msgid "Synthčse vocale"
 msgstr "Hlasová syntéza"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:538
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:553
-msgid "Sûr? Vous voulez continuer?"
-msgstr "Jistě ? Chcete pokračovat ?"
+msgid "Sűr? Vous voulez continuer?"
+msgstr "Opravdu ? Chcete pokračovat ?"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:249
 msgid "TEMPLATES"
@@ -3204,16 +3204,16 @@ msgstr "Telemetrie nainstalována"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:219
 msgid "US"
-msgstr ""
+msgstr "μs"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:300
 msgid "Unitées"
-msgstr "Jednotky"
+msgstr "Možnost metrických nebo imperiálních jednotek"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:212
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:301
 msgid "Unités"
-msgstr "Jednotka"
+msgstr "Jednotky"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:407
 msgid "Utilisation d'une eeprom externe : FM24W256"
@@ -3225,7 +3225,7 @@ msgstr "HLAS/AUDIO PCB a RTC (podle Pyrall)"
 
 #: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:97
 msgid "Valider"
-msgstr "Ověřit"
+msgstr "Potvrdit"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:385
 msgid "Vario"
@@ -3249,7 +3249,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:329
 msgid "Vrai police en gras"
-msgstr "Opravdu tučné písmo"
+msgstr "Možnost opravdu tučného písma"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:401
 msgid "WS HowHigh Altimeter"
@@ -3332,23 +3332,23 @@ msgstr "Úvodní obrazovka"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:328
 msgid "Écrire le bootloader"
-msgstr "Nahrát zavaděč"
+msgstr "Zapsat zavaděč"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:331
 msgid "Écrire le bootloader F-RAM"
-msgstr "Nahrát zavaděč F-RAM"
+msgstr "Zapsat zavaděč F-RAM"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:320
 msgid "Écrire le firmware dans la radio"
-msgstr "Nahrát firmware do rádia"
+msgstr "Zapsat firmware do rádia"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:325
 msgid "Écrire les fusibles"
-msgstr "Nahrát pojistky"
+msgstr "Zapsat pojistky"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:317
-msgid "Écrire les réglages et les modèles dans la radio (eeprom)"
-msgstr "Nahrát nastavení a modely do rádia (eeprom)"
+msgid "Écrire les réglages et les modčles dans la radio (eeprom)"
+msgstr "Zapsat nastavení a modely do rádia (eeprom)"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:287
 msgid "Écriture dans la carte SD"
