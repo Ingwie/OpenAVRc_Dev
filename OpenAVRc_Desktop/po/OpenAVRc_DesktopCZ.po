@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-06-02 17:39+0200\n"
-"PO-Revision-Date: 2020-03-30 02:15+0200\n"
+"PO-Revision-Date: 2020-03-30 16:15+0200\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2193,7 +2193,9 @@ msgstr ""
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:220
 #, c-format
 msgid "Affichage des valeurs des voies en % ou uS"
-msgstr "Možnost zobrazení hodnot kanálu v % nebo μs"
+msgstr ""
+"Možnost zobrazení hodnot kanálu v % nebo μs. Poznámka : V % 0-100 můžete "
+"určit desetinnou číslici 0 nebo 1"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:332
 msgid "Affichage graphique de l'état de la batterie"
@@ -2291,7 +2293,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:336
 msgid "CHOICE"
-msgstr ""
+msgstr "VOLBA"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:387
 msgid "CORRECT_NEGATIVE_VALUES"
@@ -2507,7 +2509,7 @@ msgstr "Soubory hlasu"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:310
 msgid "Flight modes"
-msgstr "Režimy letu"
+msgstr "Letové režimy"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:326
 msgid "Font"
@@ -2527,7 +2529,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:316
 msgid "Global vars"
-msgstr "Globální vars"
+msgstr "Globální proměnné"
 
 #: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:618
 msgid "Générer ce fichier"
@@ -2539,7 +2541,7 @@ msgstr "Generovat vše"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:246
 msgid "HELI"
-msgstr ""
+msgstr "Helikoptéra"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:274
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:261
@@ -2568,7 +2570,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:299
 msgid "IMPERIAL"
-msgstr ""
+msgstr "Imperiální"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:275
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:262
@@ -2696,7 +2698,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:298
 msgid "METRIC"
-msgstr ""
+msgstr "Metrické"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:426
 msgid "MULTI"
@@ -2721,11 +2723,11 @@ msgstr "Zkontrolujte prosím nastavení"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:309
 msgid "Mode"
-msgstr "Režim"
+msgstr "Mód"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:308
 msgid "Mode de la radio"
-msgstr "Režim rádia"
+msgstr "Mód rádia. Například : 1 (SVPK) plyn na pravé ruce"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:347
 msgid "Mégamini schema"
@@ -2809,7 +2811,7 @@ msgstr "Možnost vibrací"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:210
 msgid "Option ajuster le gain fonction du subtrim"
-msgstr "Možnost upravit zisk v závislosti na subtrimu"
+msgstr "Přidá nastavení pro úpravu tahu serva symetricky. Doporučeno"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:238
 msgid "Option annonces vocales"
@@ -2825,27 +2827,39 @@ msgstr "Možnost SD karty (záloha - záznam do souborů)"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:315
 msgid "Option courbes"
-msgstr "Možnost křivek"
+msgstr "Možnost aktivovat nastavení křivek"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:248
 msgid "Option hélicoptčre"
-msgstr "Možnost vrtulníku"
+msgstr ""
+"Zahrnuje další obrazovku s funkcemi a mixéry pro snadnější nastavení "
+"helikoptéry"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:251
 msgid "Option modčles pré programmés"
-msgstr "Možnost předprogramovaných modelů"
+msgstr ""
+"Zahrnuje obrazovku s předprogramovanými standardními šablonami nastavení "
+"modelů, které lze použít při vytváření nového modelu. Velmi praktické ! V "
+"pozici 07 najdete také servo tester, velmi užitečné"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:312
 msgid "Option phases de vol"
-msgstr "Možnost fáze letu"
+msgstr ""
+"Možnost šesti letových režimů, které odpovídají šesti různým pamětím "
+"modelu. Důrazně doporučujeme v kombinaci s proměnnými GV"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:215
 msgid "Option réglage des neutres indépendant"
-msgstr "Nezávislá možnost nastavení neutrálu"
+msgstr ""
+"Přidejte nastavení umožňující neutrál serva bez ovlivnění jejich tahů. "
+"Doporučeno"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:318
 msgid "Option variables globales"
-msgstr "Globální variabilní možnosti"
+msgstr ""
+"Přidá globální proměnné VG1 do VG12, lze použít jako náhradu za nastavení "
+"jednotlivých číselných parametrů, například % z dvojitého pohybu atd. "
+"Časem se stává nepostradatelným ve spojení s letovými režimy"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:527
 msgid "Options avancées"
@@ -2861,11 +2875,11 @@ msgstr "PA zisk (dB)"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:218
 msgid "PERCENT_PREC0"
-msgstr ""
+msgstr "CH % desetina 0"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:217
 msgid "PERCENT_PREC1"
-msgstr ""
+msgstr "CH % desetina 1"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:472
 msgid "PERSONAMES"
@@ -2880,21 +2894,21 @@ msgstr ""
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:287
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:340
 msgid "POT1"
-msgstr ""
+msgstr "POT 1"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:288
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:341
 msgid "POT2"
-msgstr ""
+msgstr "POT 2"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:289
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:342
 msgid "POT3"
-msgstr ""
+msgstr "POT 3"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:290
 msgid "POTS"
-msgstr ""
+msgstr "POTY"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:368
 msgid "PPM"
@@ -2902,11 +2916,11 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:213
 msgid "PPM Center adjust"
-msgstr "Nastavení středu PPM"
+msgstr "PPM neutrál"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:208
 msgid "PPM Simm limits"
-msgstr "Simm limity PPM"
+msgstr "PPM symetricky"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:278
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:265
@@ -2956,7 +2970,9 @@ msgstr "Změnit zprávy"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:337
 msgid "Pour les compétitions"
-msgstr "Pro soutěže"
+msgstr ""
+"Možnost speciálního režimu pro soutěže. Funkce Varia je vypnuta, zapnuta "
+"nebo možnost volby"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:233
 msgid "Processeur"
@@ -3024,7 +3040,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:292
 msgid "ROTENC"
-msgstr ""
+msgstr "ROT.ENKODÉR"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:458
 msgid "RUD"
@@ -3117,7 +3133,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:291
 msgid "STICKS"
-msgstr ""
+msgstr "KNIPLY"
 
 #: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:614
 msgid "Sauvegarder et quitter"
@@ -3167,7 +3183,7 @@ msgstr "Opravdu ? Chcete pokračovat ?"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:249
 msgid "TEMPLATES"
-msgstr ""
+msgstr "Šablony"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:453
 msgid "THR"
@@ -3204,11 +3220,11 @@ msgstr "Telemetrie nainstalována"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:219
 msgid "US"
-msgstr "μs"
+msgstr "CH μs"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:300
 msgid "Unitées"
-msgstr "Možnost metrických nebo imperiálních jednotek"
+msgstr "Možnost metrických nebo imperiálních(anglických) jednotek"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:212
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:301
@@ -3249,7 +3265,10 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:329
 msgid "Vrai police en gras"
-msgstr "Možnost opravdu tučného písma"
+msgstr ""
+"Možnost tučného písma při nastavení mixérů, spínačů a dalších aktivních "
+"prvků, které pomáhají porozumět a umožňují lépe vizualizovat stavy "
+"proměnných"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:401
 msgid "WS HowHigh Altimeter"
