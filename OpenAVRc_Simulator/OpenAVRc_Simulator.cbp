@@ -103,6 +103,29 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
+			<Target title="CZ Release">
+				<Option output="bin/Release/OpenAVRc_SimulatorCZ" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-m32" />
+					<Add option="-DTRANSLATIONS_CZ" />
+					<Add option="-DTTS_CZ" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="libwxmsw31u.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
 			<Target title="FR Release FRAM">
 				<Option output="bin/Release/OpenAVRc_SimulatorFR_FRAM" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
@@ -162,6 +185,30 @@
 					<Add option="-m32" />
 					<Add option="-DTRANSLATIONS_EN" />
 					<Add option="-DTTS_EN" />
+					<Add option="-DEXTERNALEEPROM" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="libwxmsw31u.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="CZ Release FRAM">
+				<Option output="bin/Release/OpenAVRc_SimulatorCZ_FRAM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-m32" />
+					<Add option="-DTRANSLATIONS_CZ" />
+					<Add option="-DTTS_CZ" />
 					<Add option="-DEXTERNALEEPROM" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 				</Compiler>
@@ -253,12 +300,13 @@
 		<Linker>
 			<Add option="-mthreads" />
 		</Linker>
-		<Unit filename="../OpenAVRc/HwSerial.cpp" />
-		<Unit filename="../OpenAVRc/HwSerial.h" />
 		<Unit filename="../OpenAVRc/OpenAVRc.cpp" />
 		<Unit filename="../OpenAVRc/OpenAVRc.h" />
 		<Unit filename="../OpenAVRc/Print.cpp" />
 		<Unit filename="../OpenAVRc/Print.h" />
+		<Unit filename="../OpenAVRc/Serial0.cpp" />
+		<Unit filename="../OpenAVRc/Serial0.h" />
+		<Unit filename="../OpenAVRc/Serial1.cpp" />
 		<Unit filename="../OpenAVRc/Stream.h" />
 		<Unit filename="../OpenAVRc/Xany.cpp" />
 		<Unit filename="../OpenAVRc/Xany.h" />
@@ -463,8 +511,6 @@
 		<Unit filename="../OpenAVRc/targets/simu/simu_interface.h" />
 		<Unit filename="../OpenAVRc/telemetry/frsky.cpp" />
 		<Unit filename="../OpenAVRc/telemetry/frsky.h" />
-		<Unit filename="../OpenAVRc/telemetry_driver.cpp" />
-		<Unit filename="../OpenAVRc/telemetry_driver.h" />
 		<Unit filename="../OpenAVRc/templates.cpp" />
 		<Unit filename="../OpenAVRc/templates.h" />
 		<Unit filename="../OpenAVRc/timers.cpp" />
