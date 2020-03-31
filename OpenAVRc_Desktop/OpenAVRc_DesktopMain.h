@@ -79,7 +79,6 @@ private:
     void OnEcrirelebootloaderSelected(wxCommandEvent& event);
     void OnWriteModelToRadioSelected(wxCommandEvent& event);
     void OnWriteFirmwareToRadioSelected(wxCommandEvent& event);
-    void OnSimulateurClick2(wxCommandEvent& event);
     void OnATMEGA2560CompilerSelected(wxCommandEvent& event);
     void LoadConfig(wxString temp);
     void SaveConfig();
