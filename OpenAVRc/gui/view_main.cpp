@@ -244,11 +244,6 @@ void onMainViewMenu(const char *result)
     //saveTimers();
     OpenAVRcClose();
   }
-#if TIMERS > 2
-  else if (result == STR_RESET_TIMER3) {
-    timerReset(2);
-  }
-#endif
 #if defined(FRSKY)
   else if (result == STR_RESET_TELEMETRY) {
     telemetryResetValue();
