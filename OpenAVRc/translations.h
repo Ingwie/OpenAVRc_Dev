@@ -75,16 +75,12 @@
 // The non-0-terminated-strings
 
 extern const pm_char STR_OPEN9X[];
-
 #define OFS_OFFON              0
 #define OFS_MMMINV             (OFS_OFFON + sizeof(TR_OFFON))
 #define OFS_NCHANNELS          (OFS_MMMINV + sizeof(TR_MMMINV))
-#if defined(GRAPHICS)
 #define OFS_VBEEPMODE          (OFS_NCHANNELS + sizeof(TR_NCHANNELS))
-#else
-#define OFS_VBEEPLEN           (OFS_NCHANNELS + sizeof(TR_NCHANNELS))
-#define OFS_VBEEPMODE          (OFS_VBEEPLEN + sizeof(TR_VBEEPLEN))
-#endif
+
+
 #if defined(ROTARY_ENCODERS)
 #define OFS_VRENAVIG           (OFS_VBEEPMODE + sizeof(TR_VBEEPMODE))
 #define OFS_VRENCODERS         (OFS_VRENAVIG + sizeof(TR_VRENAVIG))
@@ -92,19 +88,18 @@ extern const pm_char STR_OPEN9X[];
 #elif defined(ROTARY_ENCODER_NAVIGATION)
 #define OFS_VRENCODERS         (OFS_VBEEPMODE + sizeof(TR_VBEEPMODE))
 #define OFS_TRNMODE            (OFS_VRENCODERS + sizeof(TR_VRENCODERS))
-#else
-#define OFS_TRNMODE            (OFS_VBEEPMODE + sizeof(TR_VBEEPMODE))
 #endif
+
+
 #define OFS_TRNCHN             (OFS_TRNMODE + sizeof(TR_TRNMODE))
 #define OFS_VTRIMINC         (OFS_TRNCHN + sizeof(TR_TRNCHN))
 #define OFS_RETA123          (OFS_VTRIMINC + sizeof(TR_VTRIMINC))
 #if defined(MULTIMODULE)
   #define OFS_MULTIPROTOCOLS   (OFS_RETA123 + sizeof(TR_RETA123))
-  #define OFS_POSNEG           (OFS_MULTIPROTOCOLS + sizeof(TR_MULTIPROTOCOLS))
+  #define OFS_VBLMODE           (OFS_MULTIPROTOCOLS + sizeof(TR_MULTIPROTOCOLS))
 #else
-  #define OFS_POSNEG           (OFS_RETA123 + sizeof(TR_RETA123))
+  #define OFS_VBLMODE           (OFS_RETA123 + sizeof(TR_RETA123))
 #endif
-#define OFS_VBLMODE          (OFS_POSNEG + sizeof(TR_POSNEG))
 #define OFS_VCURVEFUNC         (OFS_VBLMODE + sizeof(TR_VBLMODE))
 #define OFS_VMLTPX             (OFS_VCURVEFUNC + sizeof(TR_VCURVEFUNC))
 #define OFS_VMLTPX2            (OFS_VMLTPX + sizeof(TR_VMLTPX))
@@ -116,9 +111,7 @@ extern const pm_char STR_OPEN9X[];
 #define OFS_VTELEMCHNS         (OFS_FUNCSOUNDS + sizeof(TR_FUNCSOUNDS))
 #if defined(FRSKY)
 #define OFS_VTELEMUNIT      (OFS_VTELEMCHNS + sizeof(TR_VTELEMCHNS))
-#define OFS_VALARM          (OFS_VTELEMUNIT + sizeof(TR_VTELEMUNIT))
-#define OFS_VALARMFN          (OFS_VALARM + sizeof(TR_VALARM))
-#define OFS_VTELPROTO         (OFS_VALARMFN + sizeof(TR_VALARMFN))
+#define OFS_VTELPROTO          (OFS_VTELEMUNIT + sizeof(TR_VTELEMUNIT))
 #define OFS_GPSFORMAT         (OFS_VTELPROTO + sizeof(TR_VTELPROTO))
 #define OFS_AMPSRC            (OFS_GPSFORMAT + sizeof(TR_GPSFORMAT))
 #define OFS_VARIOSRC          (OFS_AMPSRC + sizeof(TR_AMPSRC))
@@ -140,22 +133,18 @@ extern const pm_char STR_OPEN9X[];
 #define OFS_VSWITCHES           (OFS_VKEYS + sizeof(TR_VKEYS))
 #define OFS_VSRCRAW             (OFS_VSWITCHES + sizeof(TR_VSWITCHES))
 #define OFS_VTMRMODES           (OFS_VSRCRAW + sizeof(TR_VSRCRAW))
-#define OFS_DATETIME            (OFS_VTMRMODES + sizeof(TR_VTMRMODES))
-#define OFS_VPERSISTENT         (OFS_DATETIME + sizeof(TR_DATETIME))
+#define OFS_VPERSISTENT         (OFS_VTMRMODES + sizeof(TR_VTMRMODES))
 #if defined(X_ANY)
 #define OFS_SWITCHES_VALUES     (OFS_VPERSISTENT + sizeof(TR_VPERSISTENT))
 #define OFS_XANY_EXPO           (OFS_SWITCHES_VALUES + sizeof(TR_SWITCHES_VALUES))
 #else
 #define OFS_SWITCHES_VALUES     (OFS_VPERSISTENT)
-#define OFS_XANY_EXPO           (OFS_SWITCHES_VALUES)
+#define OFS_XANY_EXPO           (OFS_VPERSISTENT)
 #endif
 
 #define STR_OFFON               (STR_OPEN9X + OFS_OFFON)
 #define STR_MMMINV              (STR_OPEN9X + OFS_MMMINV)
 #define STR_NCHANNELS           (STR_OPEN9X + OFS_NCHANNELS)
-#if !defined(GRAPHICS)
-#define STR_VBEEPLEN            (STR_OPEN9X + OFS_VBEEPLEN)
-#endif
 #define STR_VBEEPMODE           (STR_OPEN9X + OFS_VBEEPMODE)
 #define STR_TRNMODE             (STR_OPEN9X + OFS_TRNMODE)
 #define STR_TRNCHN              (STR_OPEN9X + OFS_TRNCHN)
@@ -169,7 +158,6 @@ extern const pm_char STR_OPEN9X[];
 #if defined(MULTIMODULE)
   #define STR_MULTIPROTOCOLS    (STR_OPEN9X + OFS_MULTIPROTOCOLS)
 #endif
-#define STR_POSNEG              (STR_OPEN9X + OFS_POSNEG)
 #define STR_VBLMODE             (STR_OPEN9X + OFS_VBLMODE)
 #define STR_VCURVEFUNC          (STR_OPEN9X + OFS_VCURVEFUNC)
 #define STR_VSIDE               STR_VCURVEFUNC
@@ -186,9 +174,7 @@ extern const pm_char STR_OPEN9X[];
 
 
 #if defined(FRSKY)
-#define STR_VTELEMUNIT      (STR_OPEN9X + OFS_VTELEMUNIT)
-#define STR_VALARM              (STR_OPEN9X + OFS_VALARM)
-#define STR_VALARMFN            (STR_OPEN9X + OFS_VALARMFN)
+#define STR_VTELEMUNIT          (STR_OPEN9X + OFS_VTELEMUNIT)
 #define STR_VTELPROTO           (STR_OPEN9X + OFS_VTELPROTO)
 #define STR_GPSFORMAT           (STR_OPEN9X + OFS_GPSFORMAT)
 #define STR_AMPSRC              (STR_OPEN9X + OFS_AMPSRC)
@@ -218,7 +204,7 @@ extern const pm_char STR_OPEN9X[];
 #define STR_VRENCODERS        (STR_OPEN9X + OFS_VRENCODERS)
 #endif
 
-#define STR_DATETIME          (STR_OPEN9X + OFS_DATETIME)
+//#define STR_DATETIME          (STR_OPEN9X + OFS_DATETIME)
 #define STR_VPERSISTENT       (STR_OPEN9X + OFS_VPERSISTENT)
 
 #if defined(X_ANY)
@@ -245,17 +231,14 @@ extern const pm_char STR_COPYINGMODEL[];
 extern const pm_char STR_MOVINGMODEL[];
 extern const pm_char STR_LOADINGMODEL[];
 extern const pm_char STR_NAME[];
-extern const pm_char STR_BITMAP[];
 extern const pm_char STR_TIMER[];
 extern const pm_char STR_ELIMITS[];
 extern const pm_char STR_ETRIMS[];
 extern const pm_char STR_TRIMINC[];
-extern const pm_char STR_DISPLAY_TRIMS[];
 extern const pm_char STR_TTRACE[];
 extern const pm_char STR_TSWITCH[];
 extern const pm_char STR_TTRIM[];
 extern const pm_char STR_BEEPCTR[];
-extern const pm_char STR_USE_GLOBAL_FUNCS[];
 extern const pm_char STR_PROTO[];
 extern const pm_char STR_PPMFRAME[];
 extern const pm_char STR_MS[];
@@ -267,8 +250,6 @@ extern const pm_char STR_DEFAULT[];
 extern const pm_char STR_CHECKTRIMS[];
 extern const pm_char STR_SWASHTYPE[];
 extern const pm_char STR_COLLECTIVE[];
-extern const pm_char STR_AILERON[];
-extern const pm_char STR_ELEVATOR[];
 extern const pm_char STR_SWASHRING[];
 extern const pm_char STR_ELEDIRECTION[];
 extern const pm_char STR_AILDIRECTION[];
@@ -307,8 +288,6 @@ extern const pm_char STR_CV[];
 extern const pm_char STR_GV[];
 extern const pm_char STR_ACHANNEL[];
 extern const pm_char STR_RANGE[];
-extern const pm_char STR_CENTER[];
-extern const pm_char STR_BAR[];
 extern const pm_char STR_ALARM[];
 extern const pm_char STR_USRDATA[];
 extern const pm_char STR_BLADES[];
@@ -319,7 +298,6 @@ extern const pm_char STR_BEEP_LENGTH[];
 #define STR_BEEP_LENGTH STR_LENGTH
 extern const pm_char STR_SPKRPITCH[];
 extern const pm_char STR_HAPTIC_LABEL[];
-extern const pm_char STR_HAPTICSTRENGTH[];
 extern const pm_char STR_CONTRAST[];
 extern const pm_char STR_ALARMS_LABEL[];
 #if defined(BATTGRAPH)
@@ -330,8 +308,6 @@ extern const pm_char STR_INACTIVITYALARM[];
 extern const pm_char STR_MEMORYWARNING[];
 extern const pm_char STR_ALARMWARNING[];
 extern const pm_char STR_RENAVIG[];
-//extern const pm_char STR_THROTTLEREVERSE[];
-extern const pm_char STR_TIMER_NAME[];
 extern const pm_char STR_MINUTEBEEP[];
 extern const pm_char STR_BEEPCOUNTDOWN[];
 extern const pm_char STR_PERSISTENT[];
@@ -349,20 +325,15 @@ extern const pm_char STR_ADJUST_RTC[];
 extern const pm_char STR_GPS[];
 extern const pm_char STR_GPSCOORD[];
 extern const pm_char STR_VARIO[];
-extern const pm_char STR_PITCH_AT_ZERO[];
-extern const pm_char STR_PITCH_AT_MAX[];
-extern const pm_char STR_REPEAT_AT_ZERO[];
 extern const pm_char STR_RXCHANNELORD[];
 extern const pm_char STR_STICKS[];
 extern const pm_char STR_POTS[];
-extern const pm_char STR_SWITCHES_DELAY[];
 extern const pm_char STR_SLAVE[];
 extern const pm_char STR_MODESRC[];
 extern const pm_char STR_MULTIPLIER[];
 #define LEN_MULTIPLIER PSIZE(TR_MULTIPLIER)
 extern const pm_char STR_CAL[];
 extern const pm_char STR_VTRIM[];
-extern const pm_char STR_BG[];
 extern const pm_char STR_MENUTOSTART[];
 extern const pm_char STR_SETMIDPOINT[];
 extern const pm_char STR_MOVESTICKSPOTS[];
@@ -390,10 +361,7 @@ extern const pm_char STR_EEPROMFORMATTING[];
 extern const pm_char STR_EEPROMOVERFLOW[];
 extern const pm_char STR_TRIMS2OFFSETS[];
 extern const pm_char STR_MENURADIOSETUP[];
-extern const pm_char STR_MENUDATEANDTIME[];
-//extern const pm_char STR_FREERAMINB[];
 extern const pm_char STR_MENUTRAINER[];
-extern const pm_char STR_MENUGLOBALFUNCS[];
 extern const pm_char STR_MENUVERSION[];
 extern const pm_char STR_MENUDIAG[];
 extern const pm_char STR_MENUANA[];
@@ -407,7 +375,6 @@ extern const pm_char STR_MENUINPUTS[];
 extern const pm_char STR_MENULIMITS[];
 extern const pm_char STR_MENUCURVES[];
 extern const pm_char STR_MENUCURVE[];
-extern const pm_char STR_MENULOGICALSWITCH[];
 extern const pm_char STR_MENULOGICALSWITCHES[];
 extern const pm_char STR_MENUCUSTOMFUNC[];
 extern const pm_char STR_MENUCUSTOMSCRIPTS[];
@@ -416,12 +383,7 @@ extern const pm_char STR_MENUTELEMETRY[];
 extern const pm_char STR_MENUTEMPLATES[];
 extern const pm_char STR_MENUSTAT[];
 extern const pm_char STR_MENUDEBUG[];
-extern const pm_char STR_MENUGLOBALVARS[];
 extern const pm_char STR_INVERT_THR[];
-extern const pm_char STR_AND_SWITCH[];
-extern const pm_char STR_SF[];
-extern const pm_char STR_GF[];
-
 extern const pm_char STR_FAS_OFFSET[];
 
 #if defined(SPIMODULES)
@@ -437,7 +399,6 @@ extern const pm_char STR_MULTI_CUSTOM[];
 extern const pm_char STR_SUBTYPE[];
 extern const pm_char STR_MULTI_VIDFREQ[];
 extern const pm_char STR_RFTUNEFINE[];
-//extern const pm_char STR_RFTUNECOARSE[];
 extern const pm_char STR_TELEMETRY[];
 extern const pm_char STR_MULTI_RFPOWER[];
 extern const pm_char STR_MULTI_SERVOFREQ[];
@@ -485,7 +446,6 @@ extern const pm_char STR_DELETE[];
 extern const pm_char STR_RESET_FLIGHT[];
 extern const pm_char STR_RESET_TIMER1[];
 extern const pm_char STR_RESET_TIMER2[];
-extern const pm_char STR_RESET_TIMER3[];
 extern const pm_char STR_RESET_TELEMETRY[];
 extern const pm_char STR_STATISTICS[];
 extern const pm_char STR_SAVE_TIMERS[];
@@ -498,7 +458,6 @@ extern const pm_char STR_BACKUP_MODEL[];
 extern const pm_char STR_RESTORE_MODEL[];
 extern const pm_char STR_SDCARD_ERROR[];
 extern const pm_char STR_NO_SDCARD[];
-extern const pm_char STR_SDCARD_FULL[];
 extern const pm_char STR_INCOMPATIBLE[];
 extern const pm_char STR_LOGS_PATH[];
 extern const pm_char STR_LOGS_EXT[];
@@ -509,34 +468,16 @@ extern const pm_char STR_MODELS_EXT[];
 
 extern const pm_char STR_WARNING[];
 extern const pm_char STR_EEPROMWARN[];
-extern const pm_char STR_EEPROM_CONVERTING[];
 extern const pm_char STR_THROTTLEWARN[];
 extern const pm_char STR_ALARMSWARN[];
 extern const pm_char STR_SWITCHWARN[];
-extern const pm_char STR_FAILSAFEWARN[];
-extern const pm_char STR_NO_FAILSAFE[];
-extern const pm_char STR_KEYSTUCK[];
 
 extern const pm_char STR_SPEAKER_VOLUME[];
-extern const pm_char STR_LCD[];
 extern const pm_char STR_FUNC[];
-extern const pm_char STR_V1[];
-extern const pm_char STR_V2[];
-extern const pm_char STR_DURATION[];
 extern const pm_char STR_DELAY[];
 extern const pm_char STR_SD_CARD[];
-extern const pm_char STR_SDHC_CARD[];
-extern const pm_char STR_NO_SOUNDS_ON_SD[];
 extern const pm_char STR_NO_MODELS_ON_SD[];
-extern const pm_char STR_NO_BITMAPS_ON_SD[];
-extern const pm_char STR_NO_SCRIPTS_ON_SD[];
-extern const pm_char STR_SCRIPT_SYNTAX_ERROR[];
-extern const pm_char STR_SCRIPT_PANIC[];
-extern const pm_char STR_SCRIPT_KILLED[];
-extern const pm_char STR_SCRIPT_ERROR[];
 extern const pm_char STR_PLAY_FILE[];
-extern const pm_char STR_ASSIGN_BITMAP[];
-extern const pm_char STR_EXECUTE_FILE[];
 extern const pm_char STR_DELETE_FILE[];
 extern const pm_char STR_COPY_FILE[];
 extern const pm_char STR_RENAME_FILE[];
@@ -544,10 +485,8 @@ extern const pm_char STR_REMOVED[];
 extern const pm_char STR_SD_INFO[];
 extern const pm_char STR_NA[];
 extern const pm_char STR_TIME[];
-extern const pm_char STR_BAUDRATE[];
 extern const pm_char STR_SD_INFO_TITLE[];
 extern const pm_char STR_SD_TYPE[];
-extern const pm_char STR_SD_SPEED[];
 extern const pm_char STR_YEAR[];
 extern const pm_char STR_SD_SIZE[];
 extern const pm_char STR_TYPE[];
@@ -557,16 +496,6 @@ extern const pm_char STR_GLOBAL_VAR[];
 extern const pm_char STR_OWN[];
 extern const pm_char STR_ROTARY_ENCODER[];
 extern const pm_char STR_DATE[];
-extern const pm_char STR_CHANNELS_MONITOR[];
-extern const pm_char STR_MIXERS_MONITOR[];
-extern const pm_char STR_PATH_TOO_LONG[];
-extern const pm_char STR_VIEW_TEXT[];
-extern const pm_char STR_FLASH_BOOTLOADER[];
-extern const pm_char STR_FLASH_EXTERNAL_DEVICE[];
-extern const pm_char STR_FLASH_INTERNAL_MODULE[];
-extern const pm_char STR_WRITING[];
-extern const pm_char STR_CONFIRM_FORMAT[];
-extern const pm_char STR_EEBACKUP[];
 extern const pm_char STR_DUMMY[];
 extern const pm_char STR_POWEROFF[];
 extern const pm_char STR_RFID[];
