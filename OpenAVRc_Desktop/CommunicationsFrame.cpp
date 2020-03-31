@@ -83,29 +83,29 @@ CommunicationsFrame::CommunicationsFrame(wxWindow* parent,wxWindowID id,const wx
 {
     //(*Initialize(CommunicationsFrame)
     Create(parent, wxID_ANY, _("Communication avec la radio "), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
-    SetClientSize(wxSize(473,335));
+    SetClientSize(wxSize(480,335));
     SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
-    StaticBox1 = new wxStaticBox(this, ID_STATICBOX1, _("Paramètres de communication avec la radio"), wxPoint(24,24), wxSize(424,248), 0, _T("ID_STATICBOX1"));
-    ComboBox1 = new wxComboBox(this, ID_COMBOBOX1, wxEmptyString, wxPoint(176,72), wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX1"));
+    StaticBox1 = new wxStaticBox(this, ID_STATICBOX1, _("Paramètres de communication avec la radio"), wxPoint(24,24), wxSize(432,248), 0, _T("ID_STATICBOX1"));
+    ComboBox1 = new wxComboBox(this, ID_COMBOBOX1, wxEmptyString, wxPoint(176,72), wxSize(74,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX1"));
     ComboBox1->Append(_("stk500v2"));
     ComboBox1->Append(_("stk500"));
     ComboBox1->Append(_("avrisp"));
     ComboBox1->Append(_("usbasp"));
-    ComboBox2 = new wxComboBox(this, ID_COMBOBOX2, wxEmptyString, wxPoint(176,120), wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX2"));
+    ComboBox2 = new wxComboBox(this, ID_COMBOBOX2, wxEmptyString, wxPoint(176,120), wxSize(47,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX2"));
     ComboBox2->Append(_("usb"));
     StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("Programmateur"), wxPoint(32,80), wxSize(136,16), wxALIGN_RIGHT, _T("ID_STATICTEXT1"));
-    ButtonEnter = new wxButton(this, ID_BUTTONENTER, _("Valider"), wxPoint(376,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONENTER"));
+    ButtonEnter = new wxButton(this, ID_BUTTONENTER, _("Valider"), wxPoint(376,296), wxSize(80,24), 0, wxDefaultValidator, _T("ID_BUTTONENTER"));
     StaticText2 = new wxStaticText(this, ID_STATICTEXT2, _("Port"), wxPoint(32,128), wxSize(136,16), wxALIGN_RIGHT, _T("ID_STATICTEXT2"));
-    ComboBox3 = new wxComboBox(this, ID_COMBOBOX3, wxEmptyString, wxPoint(176,168), wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX3"));
+    ComboBox3 = new wxComboBox(this, ID_COMBOBOX3, wxEmptyString, wxPoint(176,168), wxSize(84,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX3"));
     ComboBox3->Append(_("m2560"));
     ComboBox3->Append(_("m2560fram"));
     StaticText3 = new wxStaticText(this, ID_STATICTEXT3, _("Type de radio"), wxPoint(32,176), wxSize(136,16), wxALIGN_RIGHT, _T("ID_STATICTEXT3"));
     StaticText5 = new wxStaticText(this, ID_STATICTEXT5, _("Répertoire de avrdude"), wxPoint(32,224), wxSize(134,16), wxALIGN_RIGHT, _T("ID_STATICTEXT5"));
-    TextCtrl1 = new wxTextCtrl(this, ID_TEXTCTRL1, wxEmptyString, wxPoint(176,216), wxSize(212,21), 0, wxDefaultValidator, _T("ID_TEXTCTRL1"));
-    ButtonEsc = new wxButton(this, ID_BUTTONESC, _("Annuler"), wxPoint(264,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONESC"));
-    ButtonSearchavrdudepath = new wxButton(this, ID_BUTTONSEARCHAVRDUDEPATH, _("..."), wxPoint(400,216), wxSize(40,23), 0, wxDefaultValidator, _T("ID_BUTTONSEARCHAVRDUDEPATH"));
-    ButtonDetect = new wxButton(this, ID_BUTTONDETECT, _("Detection"), wxPoint(304,120), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONDETECT"));
-    Button1 = new wxButton(this, ID_BUTTON1, _("Test"), wxPoint(152,296), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
+    TextCtrl1 = new wxTextCtrl(this, ID_TEXTCTRL1, wxEmptyString, wxPoint(176,216), wxSize(212,24), 0, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+    ButtonEsc = new wxButton(this, ID_BUTTONESC, _("Annuler"), wxPoint(264,296), wxSize(80,24), 0, wxDefaultValidator, _T("ID_BUTTONESC"));
+    ButtonSearchavrdudepath = new wxButton(this, ID_BUTTONSEARCHAVRDUDEPATH, _("..."), wxPoint(400,216), wxSize(40,24), 0, wxDefaultValidator, _T("ID_BUTTONSEARCHAVRDUDEPATH"));
+    ButtonDetect = new wxButton(this, ID_BUTTONDETECT, _("Detection"), wxPoint(304,120), wxSize(80,24), 0, wxDefaultValidator, _T("ID_BUTTONDETECT"));
+    Button1 = new wxButton(this, ID_BUTTON1, _("Test"), wxPoint(152,296), wxSize(80,24), 0, wxDefaultValidator, _T("ID_BUTTON1"));
 
     Connect(ID_BUTTONENTER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CommunicationsFrame::OnButtonEnterClick);
     Connect(ID_BUTTONESC,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CommunicationsFrame::OnButtonEscClick);
