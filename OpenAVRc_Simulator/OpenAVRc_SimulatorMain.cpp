@@ -1478,7 +1478,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_EEPROM_VER()
       eepromfile->Read(wxT("extendedTrims"),&tmp,0);
       temp_model.extendedTrims = tmp;
       eepromfile->Read(wxT("throttleReversed"),&tmp,0);
-      if (tmp) wxMessageBox(_("La fonction ") + TR_THROTTLEREVERSE + _(" n'hexiste plus\n Modifiez votre modèle"), strtmp, wxICON_WARNING | wxOK, this);
+      if (tmp) wxMessageBox(_("La fonction Inv. gaz n'hexiste plus\n Modifiez votre modèle"), strtmp, wxICON_WARNING | wxOK, this);
       eepromfile->Read(wxT("rfOptionValue1"),&tmp,0);
       temp_model.rfOptionValue1 = tmp;
       eepromfile->Read(wxT("rfOptionValue2"),&tmp,0);
@@ -1831,7 +1831,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
       eepromfile->Read(wxT("extendedTrims"),&tmp,0);
       temp_model.extendedTrims = tmp;
       eepromfile->Read(wxT("throttleReversed"),&tmp,0);
-      if (tmp) wxMessageBox(_("La fonction ") + TR_THROTTLEREVERSE + _(" n'hexiste plus\n Modifiez votre modèle"), strtmp, wxICON_WARNING | wxOK, this);
+      if (tmp) wxMessageBox(_("La fonction Inv. gaz n'hexiste plus\n Modifiez votre modèle"), strtmp, wxICON_WARNING | wxOK, this);
       eepromfile->Read(wxT("ppmDelay"),&tmp,0);
       temp_model.rfOptionValue2 = tmp;
       eepromfile->Read(wxT("beepANACenter"),&tmp,0);
