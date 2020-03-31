@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-06-02 17:39+0200\n"
-"PO-Revision-Date: 2020-03-30 16:15+0200\n"
+"PO-Revision-Date: 2020-03-31 21:17+0200\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2184,11 +2184,11 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:419
 msgid "AUTOSOURCE"
-msgstr ""
+msgstr "Auto knipl"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:416
 msgid "AUTOSWITCH"
-msgstr ""
+msgstr "Auto spínač"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:220
 #, c-format
@@ -2203,7 +2203,10 @@ msgstr "Možnost grafického zobrazení stavu baterie"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:415
 msgid "Affiche une mini barre pour visualiser une sauvegarde en cours"
-msgstr "Ukazatel zobrazení průběhu zálohování"
+msgstr ""
+"Ukazatel zobrazení průběhu zálohování eeprom. V pravém horním rohu "
+"displeje se zobrazí malý ukazatel průběhu uložení parametrů do paměti. "
+"Důrazně doporučujeme !"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:361
 msgid "Aide"
@@ -2261,7 +2264,7 @@ msgstr "Ostatní možnosti"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:363
 msgid "Autres paramčtres"
-msgstr "Ostatní nastavení"
+msgstr "Ostatní možnosti"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1074
 msgid ""
@@ -2392,7 +2395,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:376
 msgid "DSM2 SERIAL"
-msgstr ""
+msgstr "DSM2 serial"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:920
 msgid "Defaut ne peut ętre effacé"
@@ -2412,7 +2415,7 @@ msgstr "Dvojitým kliknutím upravte."
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:423
 msgid "Double keys"
-msgstr "Dvojité klíče"
+msgstr "Dvojité klávesy"
 
 #: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:162
 msgid "Débrancher la radio du PC"
@@ -2424,7 +2427,7 @@ msgstr "Výchozí"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:413
 msgid "EEPROM bar"
-msgstr ""
+msgstr "Eeprom bar"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:461
 msgid "ELE"
@@ -2448,7 +2451,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:344
 msgid "EXTRA 3POS"
-msgstr "Extra 3 polohový"
+msgstr "Extra 3póly"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:256
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:321
@@ -2463,7 +2466,9 @@ msgstr "Umístění Avrdude"
 msgid ""
 "Empčche la synthčse vocale de dire \"et\". Exemple : entre minutes \"et\" "
 "seconde"
-msgstr "Vyhýbat se zbytečným „a“. Například : mezi minutami \"a\" sekundami"
+msgstr ""
+"Vyhýbá se zbytečným „a“. Např. mezi minutami \"a\" sekundami při ohlášení "
+"času. Není to nutné s kartou JQ6500"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:495
 msgid "EncodeurA"
@@ -2475,11 +2480,11 @@ msgstr "Enkodér B"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:448
 msgid "Extra 3POS"
-msgstr "Extra 3 polohový"
+msgstr "Extra 3póly"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:405
 msgid "F-RAM"
-msgstr ""
+msgstr "F-Ram"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:338
 msgid "FAI"
@@ -2702,7 +2707,7 @@ msgstr "Metrické"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:426
 msgid "MULTI"
-msgstr ""
+msgstr "MULTI serial"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:201
 msgid "Manches"
@@ -2753,7 +2758,7 @@ msgstr "NE"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:364
 msgid "NOANDSECONDE"
-msgstr ""
+msgstr "Žádné \"a\""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:435
 msgid "NRF24l01"
@@ -2781,17 +2786,17 @@ msgstr "Počet případů"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:996
 msgid "Non compatible avec AUTOSOURCE. AUTOSOURCE décoché."
-msgstr "Není kompatibilní s AUTOSOURCE. AUTOSOURCE zakázáno."
+msgstr "Není kompatibilní s funkcí \"Auto knipl\", funkce je zakázána"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:986
 msgid "Non compatible avec NAVIGATION = STICKS"
-msgstr "Není kompatibilní s NAVIGATION = STICKS."
+msgstr "Není kompatibilní s funkcí Navigace = Kniply"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1039
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1049
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1059
 msgid "Non compatible avec TELEMETRY = STD."
-msgstr "Není kompatibilní s TELEMETRY = STD."
+msgstr "Není kompatibilní s funkcí \"Telemetrie = STD\""
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:290
 msgid "Nouvelle configuration"
@@ -2811,7 +2816,7 @@ msgstr "Možnost vibrací"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:210
 msgid "Option ajuster le gain fonction du subtrim"
-msgstr "Přidá nastavení pro úpravu tahu serva symetricky. Doporučeno"
+msgstr "Přidá nastavení pro úpravu tahu serva symetricky. Doporučeno !"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:238
 msgid "Option annonces vocales"
@@ -2846,13 +2851,13 @@ msgstr ""
 msgid "Option phases de vol"
 msgstr ""
 "Možnost šesti letových režimů, které odpovídají šesti různým pamětím "
-"modelu. Důrazně doporučujeme v kombinaci s proměnnými GV"
+"modelu. Důrazně doporučuji v kombinaci s proměnnými GV"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:215
 msgid "Option réglage des neutres indépendant"
 msgstr ""
 "Přidejte nastavení umožňující neutrál serva bez ovlivnění jejich tahů. "
-"Doporučeno"
+"Doporučeno !"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:318
 msgid "Option variables globales"
@@ -2930,7 +2935,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:393
 msgid "PWM_BACKLIGHT"
-msgstr ""
+msgstr "PWM podsvícení LCD"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:265
 msgid "Par défaut"
@@ -3004,7 +3009,9 @@ msgstr "Protokol"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:428
 msgid "Protocole MULTI"
-msgstr "MULTI protokol"
+msgstr ""
+"Možnost multiprotocolu v sériové komunikaci. Více na : https://github.com/"
+"pascallanger/DIY-Multiprotocol-TX-Module"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:371
 msgid "Protocole PPM 8 ŕ 16 voies"
@@ -3016,7 +3023,7 @@ msgstr "SPI RF protokol"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:378
 msgid "Protocoles DSM .."
-msgstr "DSM protokoly .."
+msgstr "DSM2 serial pro Spektrum RX"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:296
 msgid "Quitter\tAlt-F4"
@@ -3048,7 +3055,9 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:425
 msgid "Raccourcis avec deux touches pour passer une valeur ŕ min/max/0"
-msgstr "Klávesové zkratky se dvěma klávesami pro zadání hodnoty min/max/0"
+msgstr ""
+"Urychluje zadávání číselných hodnot (například +100 nebo -100) pomocí "
+"kombinace dvou kláves"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:266
 msgid "Restaurer l'écran par défaut"
@@ -3152,7 +3161,7 @@ msgstr "Uložit nastavení"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:343
 msgid "Selection du potentiomčtre utilisé pour XD0"
-msgstr "Možnost potenciometru použitého pro XD0"
+msgstr "Možnost potenciometru použitého pro spínač \"Extra 3póly - XD0\""
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1045
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1080
@@ -3216,7 +3225,11 @@ msgstr "Telemetrie"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:382
 msgid "Télémétrie installée"
-msgstr "Telemetrie nainstalována"
+msgstr ""
+"Možnost telemetrie FRSKY byla testována a ověřena pomocí FrSky FSH01 hubu, "
+"přijímače DIY, F802 D8, FrSky X, FrSky S-port. Pro telemetrii FRSKY v PPM "
+"vyžaduje převodník RS/TTL nebo hardwarové modifikace. STD = bez "
+"telemetrie. Tento režim zakáže všechny možnosti pod touto nabídkou"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:219
 msgid "US"
@@ -3233,7 +3246,10 @@ msgstr "Jednotky"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:407
 msgid "Utilisation d'une eeprom externe : FM24W256"
-msgstr "Použití externího eepromu : FM24W256"
+msgstr ""
+"Možnost použití externího eepromu FM24W256. Arduino eeprom je nahrazena "
+"pamětí F-Ram o velikosti 32 kB. Nezapomeňte v kompilátoru vybrat rádio "
+"m2560Fram"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:352
 msgid "VOICE/AUDIO PCB et RTC (by Pyrall)"
@@ -3261,22 +3277,21 @@ msgid ""
 " Insérez la avant de cliquer sur OUI"
 msgstr ""
 "Chcete zkopírovat soubory na kartu JQ ?\n"
-"Vložte ji před kliknutím na ANO"
+"Vložte ji před kliknutím na \"ANO\""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:329
 msgid "Vrai police en gras"
 msgstr ""
 "Možnost tučného písma při nastavení mixérů, spínačů a dalších aktivních "
-"prvků, které pomáhají porozumět a umožňují lépe vizualizovat stavy "
-"proměnných"
+"prvků, které pomáhají lépe vizualizovat stavy proměnných"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:401
 msgid "WS HowHigh Altimeter"
-msgstr "WS Jak vysoký výškoměr"
+msgstr "Možnost pokud používáte přesný výškový záznamník"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:399
 msgid "WS_HOW_HIGH"
-msgstr ""
+msgstr "Přesný výškový záznamník"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:529
 msgid "X-Any"
@@ -3355,7 +3370,7 @@ msgstr "Zapsat zavaděč"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:331
 msgid "Écrire le bootloader F-RAM"
-msgstr "Zapsat zavaděč F-RAM"
+msgstr "Zapsat zavaděč F-Ram"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:320
 msgid "Écrire le firmware dans la radio"
@@ -3376,3 +3391,11 @@ msgstr "Zápis na SD kartu"
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:284
 msgid "Éditeur"
 msgstr "Editor"
+
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:446
+msgid "BLUETOOTH"
+msgstr "Bluetooth"
+
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:448
+msgid "Ajout de fonctions sans fils"
+msgstr "Možnost bezdrátových funkcí"
