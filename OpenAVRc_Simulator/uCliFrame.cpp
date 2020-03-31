@@ -147,15 +147,15 @@ void uCliFrame::HwSerialByte(uint8_t c)
       TextCtrl->WriteText((char)c);
       LastPrompt = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-1);
     }
- /*if (c == '\n') for self test
+ if (c == '\n') //for self test
   {
    wxString cmd = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
-   if (cmd == "tf s7D8s5E6s5D6s5C8s5EBs5D1s61Ds5DC:07")
+   if (cmd == "tf s3DCs5E4s5E6s5C5s5EBs5D1s61Ds5DC:76")
     {
-     TextCtrl->WriteText("tf s7D8s5E6s5D6s5C8s5EBs5D1s61Ds5DC:07");
+     TextCtrl->WriteText("tf s3DCs5E4s5E6s5C5s5EBs5D1s61Ds5DC:76");
      SendToHwSerial();
     }
-  }*/
+  }
  if ((c == '\n') && (SimuBTComIsValid) && (!(simu_portb & OUT_B_BT_KEY)))
   {
    wxString cmda = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
@@ -244,11 +244,13 @@ void uCliFrame::OnTextCtrlTextEnter(wxCommandEvent& event)
 
 void uCliFrame::OnTimerBTRXTrigger(wxTimerEvent& event)
 {
+#define BFSZ 100
  if (SimuBTComIsValid)
   {
    int Num = BTComPort->getNbrOfBytes();
    if (Num)
     {
+     //(Num > BFSZ)? Num = BFSZ : Num = Num;
      char buffer[Num+1];
      BTComPort->getArray(buffer, Num);
      for (int i=0; i <= Num; i++)

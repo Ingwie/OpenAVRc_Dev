@@ -50,6 +50,7 @@ enum menuGeneralBTItems
 
 #define STR_BLUETOOTH      PSTR("BLUETOOTH")
 #define STR_NOBLUETOOTH    PSTR("BLUETOOTH MUET")
+#define STR_CONNECTED      PSTR("CONECTE")
 #define STR_BT_ROLE        PSTR("Role")
 #define STR_BT_PIN         PSTR("Pin")
 #define STR_BT_M_S         PSTR("\006""Slave\0""Master")
@@ -134,7 +135,6 @@ void onPairSelected(const char *result)
 {
  // result is the new pair name!!
  strcpy(reusableBuffer.bluetooth.peer_name_str, result);
- //str2zchar(reusableBuffer.bluetooth.name_zchar, reusableBuffer.bluetooth.peer_name_str, sizeof(reusableBuffer.bluetooth.peer_name_str));
  memcpy(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.scann.Remote[shared_u8].MAC, BT_MAC_BIN_LEN);
  bluetooth_AtCmdMode(ON);
  IF_NO_ERROR(bluetooth_linkToRemote(g_eeGeneral.BT.Peer.Mac, BT_SET_TIMEOUT_MS))
@@ -142,7 +142,7 @@ void onPairSelected(const char *result)
   eeDirty(EE_GENERAL);
   if (SIMU_UNLOCK_MACRO_TRUE(BT_IS_CONNECTED))
    {
-    displayPopup(PSTR("CONECTE"));
+    displayPopup(STR_CONNECTED);
     MYWDT_RESET();
     _delay_ms(500);
    }
