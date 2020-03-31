@@ -493,14 +493,12 @@ void menuMainView(uint8_t event)
         lcdPutsSwitches(x, y, sw, getSwitch(i) ? INVERS : 0);
       }
     } else {
-#if defined(ROTARY_ENCODERS)
       for (uint8_t i=0; i<NUM_ROTARY_ENCODERS; i++) {
         int16_t val = getRotaryEncoder(i);
         int8_t len = limit((int16_t)0, (int16_t)(((val+1024) * BAR_HEIGHT) / 2048), (int16_t)BAR_HEIGHT);
 #define V_BAR_W 5
         V_BAR(LCD_W/2-3+V_BAR_W*i, LCD_H-8, len);
       }
-#endif // ROTARY_ENCODERS
 
       // Logical Switches
       for (uint8_t i=0; i<15; i++) //Can't draw all NUM_LOGICAL_SWITCH

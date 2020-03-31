@@ -214,16 +214,12 @@ uint8_t getSwitch(swsrc_t swtch)
     idx = (CONVERT_MODE(idx/2) << 1) + (idx & 1);
     result = trimDown(idx);
   }
-#if ROTARY_ENCODERS > 0
   else if (cs_idx == SWSRC_REA) {
     result = REA_DOWN();
   }
-#endif
-#if ROTARY_ENCODERS > 1
   else if (cs_idx == SWSRC_REB) {
     result = REB_DOWN();
   }
-#endif
   else if (cs_idx == SWSRC_REN) {
     result = !(REA_DOWN() || REB_DOWN());
   }

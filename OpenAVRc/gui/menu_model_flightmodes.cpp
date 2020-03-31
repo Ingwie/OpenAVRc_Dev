@@ -131,7 +131,6 @@ void menuModelPhaseOne(uint8_t event)
       }
       break;
 
-#if ROTARY_ENCODERS > 0
     case ITEM_MODEL_PHASE_ROTARY_ENCODERS:
       lcdDrawTextLeft(y, STR_ROTARY_ENCODER);
       for (uint8_t t=0; t<NUM_ROTARY_ENCODERS; t++) {
@@ -147,7 +146,6 @@ void menuModelPhaseOne(uint8_t event)
         }
       }
       break;
-#endif
 
     case ITEM_MODEL_PHASE_FADE_IN:
       fm->fadeIn = EDIT_DELAY(0, y, event, attr, STR_FADEIN, fm->fadeIn);
@@ -201,23 +199,10 @@ void menuModelPhaseOne(uint8_t event)
   }
 }
 
-#if defined(ROTARY_ENCODERS)
-#if ROTARY_ENCODERS > 2
-#define NAME_OFS (-4-12)
-#define SWITCH_OFS (-FW/2-2-13)
-#define TRIMS_OFS  (-FW/2-4-15)
-#define ROTARY_ENC_OFS (0)
-#else
 #define NAME_OFS (-4)
 #define SWITCH_OFS (-FW/2-2)
 #define TRIMS_OFS  (-FW/2-4)
 #define ROTARY_ENC_OFS (2)
-#endif
-#else
-#define NAME_OFS 0
-#define SWITCH_OFS (FW/2)
-#define TRIMS_OFS  (FW/2)
-#endif
 
 void menuModelFlightModesAll(uint8_t event)
 {

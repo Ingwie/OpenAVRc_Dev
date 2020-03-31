@@ -129,11 +129,9 @@ void pauseEvents(uint8_t event)
 
 void killEvents(uint8_t event)
 {
-#if defined(ROTARY_ENCODER_NAVIGATION)
   if (event == EVT_ROTARY_LONG) {
     killEvents(BTN_REa + NAVIGATION_RE_IDX());
   } else
-#endif
   {
     event = EVT_KEY_MASK(event);
     if (event < NUM_KEYS) keys[event].killEvents();

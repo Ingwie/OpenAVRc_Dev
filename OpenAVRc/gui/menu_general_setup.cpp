@@ -318,14 +318,12 @@ void menuGeneralSetup(uint8_t event)
       if(attr) g_eeGeneral.inactivityTimer = checkIncDec(event, g_eeGeneral.inactivityTimer, 0, 250, EE_GENERAL); //0..250minutes
       break;
 
-#if ROTARY_ENCODERS > 0
     case ITEM_SETUP_RE_NAVIGATION:
       g_eeGeneral.reNavigation = selectMenuItem(RADIO_SETUP_2ND_COLUMN, y, STR_RENAVIG, STR_VRENAVIG, g_eeGeneral.reNavigation, 0, NUM_ROTARY_ENCODERS, attr, event);
       if (attr && checkIncDec_Ret) {
         g_rotenc[NAVIGATION_RE_IDX()] = 0;
       }
       break;
-#endif
 
     case ITEM_SETUP_BACKLIGHT_LABEL:
       lcdDrawTextLeft(y, STR_BACKLIGHT_LABEL);
@@ -427,9 +425,7 @@ void menuGeneralSetup(uint8_t event)
         startPulses(PROTOCMD_INIT);
         clearKeyEvents();
       }
-#if defined(ROTARY_ENCODER_NAVIGATION)
       MOVE_CURSOR_FROM_HERE();
-#endif
       break;
     }
   }

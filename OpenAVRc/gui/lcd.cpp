@@ -470,7 +470,6 @@ void lcdPutsTrimMode(coord_t x, coord_t y, uint8_t phase, uint8_t idx, LcdFlags 
   }
 }
 
-#if ROTARY_ENCODERS > 0
 void lcdPutsRotaryEncoderMode(coord_t x, coord_t y, uint8_t phase, uint8_t idx, LcdFlags att)
 {
   int16_t v = flightModeAddress(phase)->rotaryEncoders[idx];
@@ -483,7 +482,6 @@ void lcdPutsRotaryEncoderMode(coord_t x, coord_t y, uint8_t phase, uint8_t idx, 
     lcdDrawCharAtt(x, y, 'a'+idx, att);
   }
 }
-#endif
 
 #if defined(FRSKY)
 void lcdPutsValueWithUnit(coord_t x, coord_t y, lcdint_t val, uint8_t unit, LcdFlags att)

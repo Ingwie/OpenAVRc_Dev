@@ -140,7 +140,6 @@ void menuModelSelect(uint8_t event)
     }
     break;
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
   case EVT_ROTARY_LONG:
     killEvents(event);
     if (s_editMode < 0) {
@@ -151,8 +150,6 @@ void menuModelSelect(uint8_t event)
       s_copyMode = 0;
       s_editMode = EDIT_MODE_INIT;
     }
-    // no break
-#endif
 
   case EVT_KEY_BREAK(KEY_EXIT):
     if (s_copyMode) {
@@ -165,14 +162,11 @@ void menuModelSelect(uint8_t event)
     }
     break;
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
   case EVT_ROTARY_BREAK:
     if (s_editMode == -1) {
       s_editMode = 0;
       break;
     }
-    // no break;
-#endif
 
   case EVT_KEY_LONG(KEY_ENTER):
   case EVT_KEY_BREAK(KEY_ENTER):
@@ -247,25 +241,18 @@ void menuModelSelect(uint8_t event)
     }
     break;
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
   case EVT_ROTARY_LEFT:
   case EVT_ROTARY_RIGHT:
-#endif
   case EVT_KEY_FIRST(KEY_LEFT):
   case EVT_KEY_FIRST(KEY_RIGHT):
-#if defined(ROTARY_ENCODER_NAVIGATION)
     if ((!IS_ROTARY_RIGHT(event) && !IS_ROTARY_LEFT(event)) || s_editMode < 0) {
-#endif
       if (sub == g_eeGeneral.currModel) {
         chainMenu((IS_ROTARY_RIGHT(event) || event == EVT_KEY_FIRST(KEY_RIGHT)) ? menuModelSetup : menuTabModel[DIM(menuTabModel)-1]);
       } else {
         AUDIO_WARNING2();
       }
       break;
-#if defined(ROTARY_ENCODER_NAVIGATION)
     }
-    // no break
-#endif
 
   case EVT_KEY_FIRST(KEY_MOVE_UP):
   case EVT_KEY_REPT(KEY_MOVE_UP):
@@ -298,11 +285,7 @@ void menuModelSelect(uint8_t event)
   if (event) reusableBuffer.modelsel.eepromfree = EeFsGetFree();
   lcdDrawNumberNAtt(17*FW, 0, reusableBuffer.modelsel.eepromfree, 0);
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
   displayScreenIndex(e_ModelSelect, DIM(menuTabModel), (sub == g_eeGeneral.currModel) ? ((IS_RE_NAVIGATION_ENABLE() && s_editMode < 0) ? INVERS|BLINK : INVERS) : 0);
-#else
-  displayScreenIndex(e_ModelSelect, DIM(menuTabModel), (sub == g_eeGeneral.currModel) ? INVERS : 0);
-#endif
 
   TITLE(STR_MENUMODELSEL);
 

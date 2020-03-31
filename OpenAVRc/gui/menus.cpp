@@ -105,7 +105,6 @@ void editName(coord_t x, coord_t y, char *name, uint8_t size, uint8_t event, uin
       }
 
       switch (event) {
-#if defined(ROTARY_ENCODER_NAVIGATION)
       case EVT_ROTARY_BREAK:
         if (s_editMode == EDIT_MODIFY_FIELD) {
           s_editMode = EDIT_MODIFY_STRING;
@@ -115,7 +114,6 @@ void editName(coord_t x, coord_t y, char *name, uint8_t size, uint8_t event, uin
         else
           s_editMode = 0;
         break;
-#endif
 
       case EVT_KEY_BREAK(KEY_LEFT):
         if (cur>0) cur--;
@@ -124,7 +122,6 @@ void editName(coord_t x, coord_t y, char *name, uint8_t size, uint8_t event, uin
         if (cur<size-1) cur++;
         break;
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
       case EVT_ROTARY_LONG:
         if (v==0) {
           s_editMode = 0;
@@ -132,7 +129,6 @@ void editName(coord_t x, coord_t y, char *name, uint8_t size, uint8_t event, uin
           break;
         }
         // no break
-#endif
 
       case EVT_KEY_LONG(KEY_LEFT):
       case EVT_KEY_LONG(KEY_RIGHT):

@@ -144,9 +144,7 @@ void putsFlightMode(coord_t x, coord_t y, int8_t idx, LcdFlags att=0);
 void lcdDrawCurveName(coord_t x, coord_t y, int8_t idx, LcdFlags att=0);
 void lcdPutsTimerMode(coord_t x, coord_t y, int8_t mode, LcdFlags att=0);
 void lcdPutsTrimMode(coord_t x, coord_t y, uint8_t phase, uint8_t idx, LcdFlags att);
-#if defined(ROTARY_ENCODERS)
 void lcdPutsRotaryEncoderMode(coord_t x, coord_t y, uint8_t phase, uint8_t idx, LcdFlags att);
-#endif
 
 #define putsChn(x, y, idx, att) putsMixerSource(x, y, MIXSRC_CH1+idx-1, att)
 void lcdPutsChnLetter(coord_t x, coord_t y, uint8_t idx, LcdFlags attr);

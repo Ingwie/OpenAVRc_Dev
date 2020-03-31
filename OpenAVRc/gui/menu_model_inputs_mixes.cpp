@@ -431,7 +431,6 @@ void menuModelMixOne(uint8_t event)
   MixData *md2 = mixAddress(s_currIdx) ;
   putsChn(lcdLastPos+1*FW, 0, md2->destCh+1,0);
 
-#if defined(ROTARY_ENCODERS)
 #if defined(CURVES)
   if ((menuVerticalPosition == MIX_FIELD_TRIM && md2->srcRaw > NUM_STICKS) || (menuVerticalPosition == MIX_FIELD_CURVE && md2->curveMode == MODE_CURVE))
 #else
@@ -440,9 +439,6 @@ void menuModelMixOne(uint8_t event)
     SUBMENU_NOTITLE(MIX_FIELD_COUNT, {0, 0, 0, 0, CASE_CURVES(0) CASE_FLIGHT_MODES((MAX_FLIGHT_MODES-1) | NAVIGATION_LINE_BY_LINE) 0, 0 /*, ...*/})
     else
       SUBMENU_NOTITLE(MIX_FIELD_COUNT, {0, 0, 0, 1, CASE_CURVES(1) CASE_FLIGHT_MODES((MAX_FLIGHT_MODES-1) | NAVIGATION_LINE_BY_LINE) 0, 0 /*, ...*/});
-#else
-  SUBMENU_NOTITLE(MIX_FIELD_COUNT, {0, 0, 0, 1, CASE_CURVES(1) CASE_FLIGHT_MODES((MAX_FLIGHT_MODES-1) | NAVIGATION_LINE_BY_LINE) 0, 0 /*, ...*/});
-#endif
 
 #if MENU_COLUMNS > 1
   lcdDrawSolidVerticalLine(MENU_COLUMN2_X-4, FH+1, LCD_H-FH-1);
@@ -676,12 +672,10 @@ void menuModelExpoMix(uint8_t expo, uint8_t event)
       event = 0;
     }
     // no break
-#if defined(ROTARY_ENCODER_NAVIGATION)
   case EVT_ROTARY_LONG:
     if (s_copyMode) {
       killEvents(event);
     }
-#endif
   case EVT_KEY_BREAK(KEY_EXIT):
     if (s_copyMode) {
       if (s_copyTgtOfs) {
@@ -772,10 +766,8 @@ void menuModelExpoMix(uint8_t expo, uint8_t event)
       return;
     }
     break;
-#if defined(ROTARY_ENCODER_NAVIGATION)
   case EVT_ROTARY_LEFT:
   case EVT_ROTARY_RIGHT:
-#endif
   case EVT_KEY_FIRST(KEY_MOVE_UP):
   case EVT_KEY_REPT(KEY_MOVE_UP):
   case EVT_KEY_FIRST(KEY_MOVE_DOWN):

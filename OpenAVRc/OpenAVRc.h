@@ -124,6 +124,8 @@ static uint16_t DurationValue;
 #define SHOWDURATION2
 #endif
 
+#define ROTARY_ENCODERS 2
+
 #define CASE_PERSISTENT_TIMERS(x) x,
 
 #if defined(RTCLOCK)
@@ -236,10 +238,6 @@ static uint16_t DurationValue;
   #define CASE_X_ANY(x)
 #endif
 
-#if ROTARY_ENCODERS > 0
-  #define ROTARY_ENCODER_NAVIGATION
-#endif
-
 #if defined(FAI)
   #define IS_FAI_ENABLED() true
   #define IF_FAI_CHOICE(x)
@@ -324,17 +322,13 @@ static uint16_t DurationValue;
 #define GET_LOWRES_POT_POSITION(i)  (getValue(MIXSRC_FIRST_POT+(i)) >> 4)
 #define SAVE_POT_POSITION(i)        g_model.potsWarnPosition[i] = GET_LOWRES_POT_POSITION(i)
 
-#if ROTARY_ENCODERS > 0
-  #define IF_ROTARY_ENCODERS(x) x,
-  #define ROTENCDEBOUNCEVAL _BV(2)
+#define IF_ROTARY_ENCODERS(x) x,
+#define ROTENCDEBOUNCEVAL _BV(2)
   typedef struct {
     uint8_t A:4;
     uint8_t B:4;
   } rotEncDebounce_t;
   extern rotEncDebounce_t rotEncDebounce;
-#else
-  #define IF_ROTARY_ENCODERS(x)
-#endif
 
 #define PPM_CENTER 1500
 
@@ -547,13 +541,8 @@ enum BaseCurves {
   #define SPLASH_TIMEOUT_MS           (4000)  // 4 seconds
 #endif
 
-#if defined(ROTARY_ENCODERS)
-  #define NAVIGATION_RE_IDX()         (g_eeGeneral.reNavigation - 1)
-  #define IS_RE_NAVIGATION_ENABLE()   g_eeGeneral.reNavigation
-#elif defined(ROTARY_ENCODER_NAVIGATION)
-  #define IS_RE_NAVIGATION_ENABLE()   true
-  #define NAVIGATION_RE_IDX()         0
-#endif
+#define NAVIGATION_RE_IDX()         (g_eeGeneral.reNavigation - 1)
+#define IS_RE_NAVIGATION_ENABLE()   g_eeGeneral.reNavigation
 
 #define HEART_TIMER_10MS              1
 #define HEART_TIMER_PULSES            2 // when multiple modules this is the first one
@@ -669,10 +658,8 @@ int16_t getTrimValue(uint8_t phase, uint8_t idx);
 
 void setTrimValue(uint8_t phase, uint8_t idx, int16_t trim);
 
-#if defined(ROTARY_ENCODERS)
-  int16_t getRotaryEncoder(uint8_t idx);
-  void incRotaryEncoder(uint8_t idx, int8_t inc);
-#endif
+int16_t getRotaryEncoder(uint8_t idx);
+void incRotaryEncoder(uint8_t idx, int8_t inc);
 
 #define ROTARY_ENCODER_GRANULARITY (1)
 
@@ -1008,12 +995,8 @@ extern CustomFunctionsContext modelFunctionsContext;
 void evalFunctions();
 #define customFunctionsReset() modelFunctionsContext.reset()
 
-#if defined(ROTARY_ENCODERS)
   // Global rotary encoder registers
-  extern volatile rotenc_t g_rotenc[ROTARY_ENCODERS];
-#elif defined(ROTARY_ENCODER_NAVIGATION)
-  extern volatile rotenc_t g_rotenc[1];
-#endif
+extern volatile rotenc_t g_rotenc[ROTARY_ENCODERS];
 void ResetToBootloaderWithFlag();
 extern void parseTelemFrskyByte(uint8_t data);
 #if defined (FRSKY)

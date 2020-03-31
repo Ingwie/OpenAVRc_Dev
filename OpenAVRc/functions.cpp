@@ -179,7 +179,7 @@ void evalFunctions()
 
 #define PLAY_INDEX   (i+1)
 
-#if defined(ROTARY_ENCODERS) && defined(GVARS)
+#if defined(GVARS)
   static rotenc_t rePreviousValues[ROTARY_ENCODERS];
 #endif
 
@@ -256,14 +256,10 @@ void evalFunctions()
             telemetryResetValue();
             break;
 #endif
-#if ROTARY_ENCODERS > 0
           case FUNC_RESET_ROTENC1:
-#if ROTARY_ENCODERS > 1
           case FUNC_RESET_ROTENC2:
-#endif
             g_rotenc[CFN_PARAM(cfn)-FUNC_RESET_ROTENC1] = 0;
             break;
-#endif
           }
           break;
 
@@ -280,14 +276,12 @@ void evalFunctions()
           } else if (CFN_PARAM(cfn) >= MIXSRC_TrimRud && CFN_PARAM(cfn) <= MIXSRC_TrimAil) {
             trimGvar[CFN_PARAM(cfn)-MIXSRC_TrimRud] = CFN_GVAR_INDEX(cfn);
           }
-#if defined(ROTARY_ENCODERS)
           else if (CFN_PARAM(cfn) >= MIXSRC_REa && CFN_PARAM(cfn) < MIXSRC_TrimRud) {
             int8_t scroll = rePreviousValues[CFN_PARAM(cfn)-MIXSRC_REa] - (g_rotenc[CFN_PARAM(cfn)-MIXSRC_REa] / ROTARY_ENCODER_GRANULARITY);
             if (scroll) {
               SET_GVAR(CFN_GVAR_INDEX(cfn), GVAR_VALUE(CFN_GVAR_INDEX(cfn), getGVarFlightPhase(mixerCurrentFlightMode, CFN_GVAR_INDEX(cfn))) + scroll, mixerCurrentFlightMode);
             }
           }
-#endif
           else {
             SET_GVAR(CFN_GVAR_INDEX(cfn), calcRESXto100(getValue(CFN_PARAM(cfn))), mixerCurrentFlightMode);
           }
@@ -378,7 +372,7 @@ void evalFunctions()
   functionsContext.activeSwitches   = newActiveSwitches;
   functionsContext.activeFunctions  = newActiveFunctions;
 
-#if defined(ROTARY_ENCODERS) && defined(GVARS)
+#if defined(GVARS)
   for (uint8_t i=0; i<ROTARY_ENCODERS; i++) {
     rePreviousValues[i] = (g_rotenc[i] / ROTARY_ENCODER_GRANULARITY);
   }

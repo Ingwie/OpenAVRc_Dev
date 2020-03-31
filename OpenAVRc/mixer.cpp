@@ -267,11 +267,7 @@ void evalInputs(uint8_t mode)
     // normalization [0..2048] -> [-1024..1024]
     uint8_t ch = (i < NUM_STICKS ? CONVERT_MODE(i) : i);
 
-#if defined(ROTARY_ENCODERS)
     int16_t v = ((i < NUM_STICKS+NUM_POTS) ? anaIn(i) : getRotaryEncoder(i-(NUM_STICKS+NUM_POTS)));
-#else
-    int16_t v = anaIn(i);
-#endif
 
     if (i < NUM_STICKS+NUM_POTS) {
       if (IS_POT_MULTIPOS(i)) {
