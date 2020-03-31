@@ -88,18 +88,14 @@ void displayWarning(uint8_t event)
   }
   lcdDrawText(WARNING_LINE_X, WARNING_LINE_Y+2*FH, warning.warningType == WARNING_TYPE_ASTERISK ? STR_EXIT : STR_POPUPS);
   switch (event) {
-#if defined(ROTARY_ENCODER_NAVIGATION)
   case EVT_ROTARY_BREAK:
-#endif
   case EVT_KEY_BREAK(KEY_ENTER):
     if (warning.warningType == WARNING_TYPE_ASTERISK)
       break;
     warning.warningResult = true;
     // no break
-#if defined(ROTARY_ENCODER_NAVIGATION)
   case EVT_ROTARY_LONG:
     killEvents(event);
-#endif
   case EVT_KEY_BREAK(KEY_EXIT):
     warningText = NULL;
     warning.warningType = WARNING_TYPE_ASTERISK;
@@ -130,9 +126,7 @@ const char * displayPopupMenu(uint8_t event)
   }
 
   switch(event) {
-#if defined(ROTARY_ENCODER_NAVIGATION)
-    CASE_EVT_ROTARY_LEFT
-#endif
+       CASE_EVT_ROTARY_LEFT
   case EVT_KEY_FIRST(KEY_MOVE_UP):
   case EVT_KEY_REPT(KEY_MOVE_UP):
     if (s_menu_item > 0) {
@@ -155,9 +149,7 @@ const char * displayPopupMenu(uint8_t event)
     }
     break;
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
-    CASE_EVT_ROTARY_RIGHT
-#endif
+       CASE_EVT_ROTARY_RIGHT
   case EVT_KEY_FIRST(KEY_MOVE_DOWN):
   case EVT_KEY_REPT(KEY_MOVE_DOWN):
     if (s_menu_item < display_count - 1 && popupMenuOffset + s_menu_item + 1 < popupMenuNoItems) {
@@ -183,10 +175,8 @@ const char * displayPopupMenu(uint8_t event)
   case EVT_KEY_BREAK(KEY_ENTER):
     result = popupMenuItems[s_menu_item];
     // no break
-#if defined(ROTARY_ENCODER_NAVIGATION)
     CASE_EVT_ROTARY_LONG
     killEvents(event);
-#endif
   case EVT_KEY_BREAK(KEY_EXIT):
     popupMenuNoItems = 0;
     s_menu_item = 0;

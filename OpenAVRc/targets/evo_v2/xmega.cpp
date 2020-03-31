@@ -122,7 +122,6 @@ inline void boardInit()
   PORTD.DIRSET = O_D_AUDIO;
 #endif
 
-#if defined(ROTARY_ENCODERS)
 // Rotary encoder interrupt setup for Evo digi-adjusters.
 // TODO Disable ALL external interrupts ?
 
@@ -148,7 +147,6 @@ inline void boardInit()
 //  PORTF.INT0MASK = I_F_ROT_ENC_RH_CLK;
 //  PORTF.INT1MASK = I_F_ROT_ENC_RH_DIR;
 
-#endif
 
 #if defined(SDCARD)
   // Remap SPIC MOSI and SCK pins.

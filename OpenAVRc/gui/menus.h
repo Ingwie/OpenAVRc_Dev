@@ -318,7 +318,6 @@ void displayWarning(uint8_t event);
 #define SET_WARNING_INFO(info, len, flags) (warningInfoText = info, warning.warningInfoLength = len)
 #endif
 
-#if defined(SDCARD) || defined(ROTARY_ENCODER_NAVIGATION)
 #define NAVIGATION_MENUS
 #define POPUP_MENU_ADD_ITEM(s) popupMenuItems[popupMenuNoItems++] = s
 #define POPUP_MENU_MAX_LINES               6
@@ -337,9 +336,6 @@ extern uint8_t popupMenuFlags;
 extern uint8_t popupMenuOffset;
 const char * displayPopupMenu(uint8_t event);
 extern void (*popupMenuHandler)(const char *result);
-#else
-#define popupMenuNoItems 0
-#endif
 
 #if defined(SDCARD)
 #define STATUS_LINE_LENGTH           32
@@ -362,15 +358,9 @@ void drawStatusLine();
 #define IS_ROTARY_MOVE_RIGHT           IS_ROTARY_RIGHT
 #define IS_ROTARY_MOVE_LEFT            IS_ROTARY_LEFT
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
 void repeatLastCursorMove(uint8_t event);
 #define REPEAT_LAST_CURSOR_MOVE()    { if (EVT_KEY_MASK(event) >= 0x0e) putEvent(event); else repeatLastCursorMove(event); }
 #define MOVE_CURSOR_FROM_HERE()      if (menuHorizontalPosition > 0) REPEAT_LAST_CURSOR_MOVE()
-#else
-void repeatLastCursorMove(uint8_t event);
-#define REPEAT_LAST_CURSOR_MOVE()    repeatLastCursorMove(event)
-#define MOVE_CURSOR_FROM_HERE()      REPEAT_LAST_CURSOR_MOVE()
-#endif
 
 #define POS_VERT_INIT                  0
 #define POS_HORZ_INIT(posVert)         0

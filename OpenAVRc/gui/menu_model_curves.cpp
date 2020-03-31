@@ -226,9 +226,7 @@ void menuModelCurvesAll(uint8_t event)
   int8_t  sub = menuVerticalPosition - 1;
 
   switch (event) {
-#if defined(ROTARY_ENCODER_NAVIGATION)
   case EVT_ROTARY_BREAK:
-#endif
   case EVT_KEY_FIRST(KEY_RIGHT):
   case EVT_KEY_FIRST(KEY_ENTER):
     if (CURVE_SELECTED() && !READ_ONLY()) {

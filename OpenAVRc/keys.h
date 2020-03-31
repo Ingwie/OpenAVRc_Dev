@@ -53,12 +53,8 @@ enum EnumKeys {
   TRM_RH_DWN,
   TRM_RH_UP,
 
-#if ROTARY_ENCODERS > 0 || defined(ROTARY_ENCODER_NAVIGATION)
   BTN_REa,
-#endif
-#if ROTARY_ENCODERS > 0
   BTN_REb,
-#endif
 
   NUM_KEYS,
   SW_BASE=NUM_KEYS,
@@ -123,7 +119,6 @@ enum EnumKeys {
 #define EVT_ROTARY_LEFT    0xdf
 #define EVT_ROTARY_RIGHT   0xde
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
 #define IS_ROTARY_LEFT(evt)   (evt == EVT_ROTARY_LEFT)
 #define IS_ROTARY_RIGHT(evt)  (evt == EVT_ROTARY_RIGHT)
 #define IS_ROTARY_UP(evt)     IS_ROTARY_LEFT(evt)
@@ -135,19 +130,6 @@ enum EnumKeys {
 #define CASE_EVT_ROTARY_LONG  case EVT_ROTARY_LONG:
 #define CASE_EVT_ROTARY_LEFT  case EVT_ROTARY_LEFT:
 #define CASE_EVT_ROTARY_RIGHT case EVT_ROTARY_RIGHT:
-#else
-#define IS_ROTARY_LEFT(evt)   (0)
-#define IS_ROTARY_RIGHT(evt)  (0)
-#define IS_ROTARY_UP(evt)     (0)
-#define IS_ROTARY_DOWN(evt)   (0)
-#define IS_ROTARY_BREAK(evt)  (0)
-#define IS_ROTARY_LONG(evt)   (0)
-#define IS_ROTARY_EVENT(evt)  (0)
-#define CASE_EVT_ROTARY_BREAK
-#define CASE_EVT_ROTARY_LONG
-#define CASE_EVT_ROTARY_LEFT
-#define CASE_EVT_ROTARY_RIGHT
-#endif
 
 class Key
 {

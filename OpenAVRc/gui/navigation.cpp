@@ -223,7 +223,6 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
       }
 
       switch(event) {
-#if defined(ROTARY_ENCODER_NAVIGATION)
       case EVT_ROTARY_BREAK:
         if (s_editMode < 0 && maxrow > 0) {
           s_editMode = 0;
@@ -234,13 +233,10 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
         }
         event = 0;
         break;
-#endif
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
       case EVT_ROTARY_LEFT:
         if (s_editMode >= 0)
           break;
-#endif
       case EVT_KEY_FIRST(KEY_LEFT):
         if (curr > 0)
           cc = curr - 1;
@@ -248,11 +244,9 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
           cc = menuTabSize-1;
         break;
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
       case EVT_ROTARY_RIGHT:
         if (s_editMode >= 0)
           break;
-#endif
       case EVT_KEY_FIRST(KEY_RIGHT):
         if (curr < (menuTabSize-1))
           cc = curr + 1;
@@ -265,10 +259,8 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
         chainMenu((MenuHandlerFunc)pgm_read_word_near(&menuTab[cc]));
       }
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
       if (IS_RE_NAVIGATION_ENABLE() && s_editMode < 0)
         attr = INVERS|BLINK;
-#endif
     }
 
     calibrationState = 0;
@@ -294,18 +286,11 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
     l_posVert = POS_VERT_INIT;
     l_posHorz = POS_HORZ_INIT(l_posVert);
     SET_SCROLLBAR_X(LCD_W-1);
-#if defined(ROTARY_ENCODER_NAVIGATION)
     if (menuTab) {
       s_editMode = EDIT_MODE_INIT;
       break;
     }
-    // no break
-#else
-    s_editMode = EDIT_MODE_INIT;
-    break;
-#endif
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
   case EVT_ENTRY_UP:
     s_editMode = 0;
     SET_SCROLLBAR_X(LCD_W-1);
@@ -313,7 +298,6 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
 
   case EVT_ROTARY_BREAK:
     if (s_editMode > 1) break;
-#endif
 
   case EVT_KEY_FIRST(KEY_ENTER):
     if (!menuTab || l_posVert>0) {
@@ -323,7 +307,6 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
     }
     break;
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
   case EVT_ROTARY_LONG:
     if (s_editMode > 1) break;
     killEvents(event);
@@ -333,18 +316,15 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
       break;
     }
     // no break
-#endif
   case EVT_KEY_LONG(KEY_EXIT):
     s_editMode = 0; // TODO needed? we call ENTRY_UP after which does the same
     popMenu();
     break;
 
   case EVT_KEY_BREAK(KEY_EXIT):
-#if defined(ROTARY_ENCODER_NAVIGATION)
     if (s_editMode == 0)
       s_editMode = EDIT_MODE_INIT;
     else
-#endif
       if (s_editMode>0) {
         s_editMode = 0;
         break;
@@ -366,7 +346,6 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
   case EVT_KEY_FIRST(KEY_RIGHT)://inc
     if (!horTab || s_editMode>0) break;
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
     CASE_EVT_ROTARY_MOVE_RIGHT
     if (s_editMode != 0) break;
     if (l_posHorz < maxcol) {
@@ -377,10 +356,8 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
       if (!IS_ROTARY_MOVE_RIGHT(event))
         break;
     }
-#else
     INC(l_posHorz, 0, maxcol);
     break;
-#endif
 
   case EVT_KEY_REPT(KEY_DOWN):  //inc
     if (!IS_ROTARY_RIGHT(event) && l_posVert==maxrow) break;
@@ -392,9 +369,7 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
       INC(l_posVert, POS_VERT_INIT, maxrow);
     } while (CURSOR_NOT_ALLOWED_IN_ROW(l_posVert));
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
     s_editMode = 0; // if we go down, we must be in this mode
-#endif
 
     l_posHorz = min(l_posHorz, MAXCOL(l_posVert));
     break;
@@ -406,7 +381,6 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
   case EVT_KEY_FIRST(KEY_LEFT)://dec
     if (!horTab || s_editMode>0) break;
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
     CASE_EVT_ROTARY_MOVE_LEFT
     if (s_editMode != 0) break;
     if (l_posHorz > 0) {
@@ -418,10 +392,6 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
       l_posHorz = maxcol;
       break;
     }
-#else
-    DEC(l_posHorz, 0, maxcol);
-    break;
-#endif
 
   case EVT_KEY_REPT(KEY_UP):  //dec
     if (!IS_ROTARY_LEFT(event) && l_posVert==0) break;
@@ -433,9 +403,7 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
       DEC(l_posVert, POS_VERT_INIT, maxrow);
     } while (CURSOR_NOT_ALLOWED_IN_ROW(l_posVert));
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
     s_editMode = 0; // if we go up, we must be in this mode
-#endif
 
     l_posHorz = min((uint8_t)l_posHorz, MAXCOL(l_posVert));
     break;

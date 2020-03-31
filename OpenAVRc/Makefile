@@ -422,10 +422,6 @@ ifeq ($(PCB), MEGAMINI)
    CPPDEFS += -DPERSONAMES
   endif
 
-  # Enable extra rotary encoders
-  ROTARY_ENCODERS = 2
-  CPPDEFS += -DROTARY_ENCODERS=${ROTARY_ENCODERS}
-
   ifeq ($(MULTIMODULE), YES)
    CPPDEFS += -DMULTIMODULE
   endif
@@ -625,9 +621,6 @@ ifeq ($(PCB), EVO_V2)
 
   endif
 
-  # Enable extra rotary encoders
-  ROTARY_ENCODERS = 2
-  CPPDEFS += -DROTARY_ENCODERS=${ROTARY_ENCODERS}
 endif
 
 
@@ -723,10 +716,6 @@ ifeq ($(PCB), MEGA2560)
   ifeq ($(PERSONAMES), YES)
    CPPDEFS += -DPERSONAMES
   endif
-
-  # Enable extra rotary encoders
-  ROTARY_ENCODERS = 2
-  CPPDEFS += -DROTARY_ENCODERS=${ROTARY_ENCODERS}
 
   ifeq ($(MULTIMODULE), YES)
    CPPDEFS += -DMULTIMODULE

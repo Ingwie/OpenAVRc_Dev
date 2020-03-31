@@ -80,16 +80,9 @@ extern const pm_char STR_OPEN9X[];
 #define OFS_NCHANNELS          (OFS_MMMINV + sizeof(TR_MMMINV))
 #define OFS_VBEEPMODE          (OFS_NCHANNELS + sizeof(TR_NCHANNELS))
 
-
-#if defined(ROTARY_ENCODERS)
 #define OFS_VRENAVIG           (OFS_VBEEPMODE + sizeof(TR_VBEEPMODE))
 #define OFS_VRENCODERS         (OFS_VRENAVIG + sizeof(TR_VRENAVIG))
 #define OFS_TRNMODE            (OFS_VRENCODERS + sizeof(TR_VRENCODERS))
-#elif defined(ROTARY_ENCODER_NAVIGATION)
-#define OFS_VRENCODERS         (OFS_VBEEPMODE + sizeof(TR_VBEEPMODE))
-#define OFS_TRNMODE            (OFS_VRENCODERS + sizeof(TR_VRENCODERS))
-#endif
-
 
 #define OFS_TRNCHN             (OFS_TRNMODE + sizeof(TR_TRNMODE))
 #define OFS_VTRIMINC         (OFS_TRNCHN + sizeof(TR_TRNCHN))
@@ -196,21 +189,13 @@ extern const pm_char STR_OPEN9X[];
 #define STR_VSRCRAW             (STR_OPEN9X + OFS_VSRCRAW)
 #define STR_VTMRMODES           (STR_OPEN9X + OFS_VTMRMODES)
 
-#if defined(ROTARY_ENCODERS)
 #define STR_VRENAVIG          (STR_OPEN9X + OFS_VRENAVIG)
-#endif
-
-#if defined(ROTARY_ENCODER_NAVIGATION)
 #define STR_VRENCODERS        (STR_OPEN9X + OFS_VRENCODERS)
-#endif
 
 //#define STR_DATETIME          (STR_OPEN9X + OFS_DATETIME)
 #define STR_VPERSISTENT       (STR_OPEN9X + OFS_VPERSISTENT)
-
-#if defined(X_ANY)
-  #define STR_SWITCHES_VALUES (STR_OPEN9X + OFS_SWITCHES_VALUES)
-  #define STR_XANY_EXPO       (STR_OPEN9X + OFS_XANY_EXPO)
-#endif
+#define STR_SWITCHES_VALUES (STR_OPEN9X + OFS_SWITCHES_VALUES)
+#define STR_XANY_EXPO       (STR_OPEN9X + OFS_XANY_EXPO)
 
 // The 0-terminated-strings
 #define NO_INDENT(x) (x)+LEN_INDENT

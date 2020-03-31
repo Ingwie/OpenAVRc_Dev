@@ -69,7 +69,6 @@ void menuGeneralDiagKeys(uint8_t event)
     }
   }
 
-#if defined(ROTARY_ENCODERS) || defined(ROTARY_ENCODER_NAVIGATION)
   for(uint8_t i=0; i<DIM(g_rotenc); i++) {
     coord_t y = MENU_HEADER_HEIGHT /* ??? + 1 ??? */ + i*FH;
     lcdDrawTextAtIndex(14*FW, y, STR_VRENCODERS, i, 0);
@@ -77,6 +76,5 @@ void menuGeneralDiagKeys(uint8_t event)
     rex /= 8;
     lcdDrawNumberNAtt(18*FW, y, rex, LEFT|(switchState((EnumKeys)(BTN_REa+i)) ? INVERS : 0));
   }
-#endif
 
 }

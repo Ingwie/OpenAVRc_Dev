@@ -107,9 +107,7 @@ void checkMixer()
 uint8_t heartbeat;
 uint8_t stickMode; //:2
 
-#if ROTARY_ENCODERS > 0
  rotEncDebounce_t rotEncDebounce;
-#endif
 
 #if defined(OVERRIDE_CHANNEL_FUNCTION)
   safetych_t safetyCh[NUM_CHNOUT];
@@ -274,7 +272,6 @@ void per10ms()
 
   readKeysAndTrims();
 
-#if defined(ROTARY_ENCODER_NAVIGATION)
   if (IS_RE_NAVIGATION_ENABLE()) {
     static rotenc_t rePreviousValue;
     rotenc_t reNewValue = (g_rotenc[NAVIGATION_RE_IDX()] / ROTARY_ENCODER_GRANULARITY);
@@ -292,7 +289,6 @@ void per10ms()
       }
     }
   }
-#endif
 
 #if defined(FRSKY)
   if (!IS_DSM2_SERIAL_PROTOCOL(s_current_protocol))
@@ -315,16 +311,12 @@ void per10ms()
   if (mixWarning & 4) if(EVERY_PERIOD_WITH_OFFSET(g_tmr10ms, 256,128) || EVERY_PERIOD_WITH_OFFSET(g_tmr10ms, 256,136) || EVERY_PERIOD_WITH_OFFSET(g_tmr10ms, 256, 144)) AUDIO_MIX_WARNING(3);
 #endif
 
-#if ROTARY_ENCODERS > 0
   if (rotEncDebounce.A) {
     if (!(rotEncDebounce.A >>= 1)) ENABLEROTENCAISR(); // Re enable rotencA isr (deboucing)
   }
-#endif
-#if ROTARY_ENCODERS > 1
   if (rotEncDebounce.B) {
     if (!(rotEncDebounce.B >>= 1)) ENABLEROTENCBISR(); // Re enable rotencB isr (deboucing)
   }
-#endif
 
   if (Bind_tmr10ms)
   {
@@ -488,7 +480,6 @@ uint8_t getTrimFlightPhase(uint8_t phase, uint8_t idx)
   return 0;
 }
 
-#if defined(ROTARY_ENCODERS)
 uint8_t getRotaryEncoderFlightPhase(uint8_t idx)
 {
   uint8_t phase = mixerCurrentFlightMode;
@@ -515,7 +506,6 @@ void incRotaryEncoder(uint8_t idx, int8_t inc)
   *value = limit((int16_t)-ROTARY_ENCODER_MAX, (int16_t)(*value + (inc * 8)), (int16_t)+ROTARY_ENCODER_MAX);
   eeDirty(EE_MODEL);
 }
-#endif
 
 #if defined(GVARS)
 
@@ -1434,11 +1424,7 @@ void moveTrimsToOffsets() // copy state of 3 primary to subtrim
   AUDIO_WARNING2();
 }
 
-#if defined(ROTARY_ENCODERS)
 volatile rotenc_t g_rotenc[ROTARY_ENCODERS] = {0};
-#elif defined(ROTARY_ENCODER_NAVIGATION)
-volatile rotenc_t g_rotenc[1] = {0};
-#endif
 
 #if !defined(SIMU)
 #define STACKPTR     _SFR_IO16(0x3D)
