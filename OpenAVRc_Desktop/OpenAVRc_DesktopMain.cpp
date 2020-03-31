@@ -267,8 +267,8 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   ButtonPerso->SetToolTip(_("Attention : Tous ce qui n\'est pas blanc sera converti en noir"));
   ButtonSplashDefault = new wxButton(Panel1, ID_BUTTONSPLASHDEFAULT, _("Par défaut"), wxPoint(320,32), wxSize(80,24), 0, wxDefaultValidator, _T("ID_BUTTONSPLASHDEFAULT"));
   ButtonSplashDefault->SetToolTip(_("Restaurer l\'écran par défaut"));
-  StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Fichiers Voix"), wxPoint(440,8), wxSize(136,136), 0, _T("ID_STATICBOX1"));
-  ChoiceLangue = new wxChoice(Panel1, ID_CHOICE1, wxPoint(512,32), wxSize(40,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
+  StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Fichiers Voix"), wxPoint(440,8), wxSize(136,144), 0, _T("ID_STATICBOX1"));
+  ChoiceLangue = new wxChoice(Panel1, ID_CHOICE1, wxPoint(520,32), wxSize(40,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
   ChoiceLangue->SetSelection( ChoiceLangue->Append(_("CZ")) );
   ChoiceLangue->Append(_("DE"));
   ChoiceLangue->Append(_("EN"));
@@ -282,11 +282,11 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   ChoiceLangue->Append(_("SE"));
   ChoiceLangue->Append(_("SK"));
   ChoiceLangue->SetToolTip(_("Choisissez la langue des mensages vocales"));
-  StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("Langue"), wxPoint(448,40), wxSize(56,16), wxALIGN_RIGHT, _T("ID_STATICTEXT1"));
+  StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("Langue"), wxPoint(448,40), wxSize(64,16), wxALIGN_RIGHT, _T("ID_STATICTEXT1"));
   StaticText1->SetToolTip(_("Choisissez la langue des mensages vocales"));
-  ButtonEditeur = new wxButton(Panel1, ID_BUTTON2, _("Éditeur"), wxPoint(472,72), wxSize(80,24), 0, wxDefaultValidator, _T("ID_BUTTON2"));
+  ButtonEditeur = new wxButton(Panel1, ID_BUTTON2, _("Éditeur"), wxPoint(480,72), wxSize(80,24), 0, wxDefaultValidator, _T("ID_BUTTON2"));
   ButtonEditeur->SetToolTip(_("Pour changer les messages"));
-  ButtonCarteSD = new wxButton(Panel1, ID_BUTTON4, _("Carte SD"), wxPoint(472,104), wxSize(80,24), 0, wxDefaultValidator, _T("ID_BUTTON4"));
+  ButtonCarteSD = new wxButton(Panel1, ID_BUTTON4, _("Carte SD"), wxPoint(480,112), wxSize(80,24), 0, wxDefaultValidator, _T("ID_BUTTON4"));
   ButtonCarteSD->SetHelpText(_("Écriture dans la carte SD"));
   MenuBar_main = new wxMenuBar();
   Menu1 = new wxMenu();

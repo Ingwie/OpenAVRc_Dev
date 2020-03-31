@@ -38,11 +38,11 @@
 
 
 //(*Headers(Voice_choice)
-#include <wx/stattext.h>
-#include <wx/panel.h>
 #include <wx/button.h>
-#include <wx/frame.h>
 #include <wx/combobox.h>
+#include <wx/frame.h>
+#include <wx/panel.h>
+#include <wx/stattext.h>
 //*)
 
 class Voice_choice: public wxFrame
@@ -54,9 +54,9 @@ class Voice_choice: public wxFrame
 
 		//(*Declarations(Voice_choice)
 		wxButton* Buttonsavevoice;
+		wxComboBox* ComboBoxvoice;
 		wxPanel* Panel1;
 		wxStaticText* StaticText1;
-		wxComboBox* ComboBoxvoice;
 		//*)
 
 	protected:
