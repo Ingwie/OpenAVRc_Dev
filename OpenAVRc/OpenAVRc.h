@@ -1014,7 +1014,7 @@ void evalFunctions();
 #elif defined(ROTARY_ENCODER_NAVIGATION)
   extern volatile rotenc_t g_rotenc[1];
 #endif
-
+void ResetToBootloaderWithFlag();
 extern void parseTelemFrskyByte(uint8_t data);
 #if defined (FRSKY)
   // FrSky Telemetry
