@@ -70,7 +70,7 @@ UCLI_DEF(cp,    srcfile dstfile);
 UCLI_DEF(rmdir, directory);
 UCLI_DEF(rm,    file);
 UCLI_DEF(mv,    srcfile dstfile);
-UCLI_DEF(bt,    on|off|master|slave|state|pin|name);
+//UCLI_DEF(bt,    on|off|master|slave|state|pin|name);
 UCLI_DEF(tf,    ch1-ch8:Chks); //Trainer Frame
 UCLI_DEF(ram,    );
 UCLI_DEF(reboot, );
@@ -84,7 +84,7 @@ UCLI_CMD_TBL(uCliCmd) = { UCLI_CMD(help),
                           UCLI_CMD(rmdir),
                           UCLI_CMD(rm),
                           UCLI_CMD(mv),
-                          UCLI_CMD(bt),
+//                          UCLI_CMD(bt),
                           UCLI_CMD(tf),//tfsHHHsHHH...sHHHsHHH<Chks> (2 + 4 x 16 + 2) -> L = 36 bytes (3ms@115200)
                           UCLI_CMD(ram),
                           UCLI_CMD(reboot),
@@ -390,14 +390,14 @@ static int8_t uCli_Cmd_mv(const char ** argv, uint8_t argc)
   return(0);
 }
 
-static int8_t uCli_Cmd_bt(const char ** argv, uint8_t argc)
+/*static int8_t uCli_Cmd_bt(const char ** argv, uint8_t argc)
 {
   argv = argv;
   argc = argc;
   Serial1.println(F("bt"));
 
   return(0);
-}
+}*/
 
 static int8_t uCli_Cmd_ram(const char ** argv, uint8_t argc)
 {
@@ -413,6 +413,8 @@ static int8_t uCli_Cmd_reboot(const char ** argv, uint8_t argc)
  argv = argv;
  argc = argc;
  Serial1.println(F("reboot"));
+ _delay_ms(300);
+ ResetToBootloaderWithFlag();
  // TO DO Do a reboot to allow a firmware upgrade through the bootloader
  return(0);
 }
