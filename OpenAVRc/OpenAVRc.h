@@ -109,7 +109,7 @@
   #define SHOWDURATIONLCD2
 #endif // defined LCD
 
-#define SHOWDURATION 1  //Show a duration
+//#define SHOWDURATION 1  //Show a duration
 #if defined(SHOWDURATION)
 static uint16_t DurationValue;
 #define SHOWDURATION1                                                        \
