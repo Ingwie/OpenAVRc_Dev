@@ -43,8 +43,8 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX17" variable="CheckBoxPPM_LIMITS_SYMETRICAL" member="yes">
 							<label>PPM Simm limits</label>
-							<pos>512,296</pos>
-							<size>120,24</size>
+							<pos>456,296</pos>
+							<size>176,24</size>
 							<tooltip>Option ajuster le gain fonction du subtrim</tooltip>
 						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX5" variable="StaticBox5" member="yes">
@@ -60,8 +60,8 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX16" variable="CheckBoxPPM_CENTER_ADJUSTABLE" member="yes">
 							<label>PPM Center adjust</label>
-							<pos>512,272</pos>
-							<size>120,24</size>
+							<pos>456,272</pos>
+							<size>176,24</size>
 							<tooltip>Option réglage des neutres indépendant</tooltip>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE4" variable="ChoicePPM_UNIT " member="yes">
@@ -142,14 +142,14 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBoxHELI" member="yes">
 							<label>HELI</label>
-							<pos>512,152</pos>
-							<size>120,24</size>
+							<pos>456,152</pos>
+							<size>176,24</size>
 							<tooltip>Option hélicoptère</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX15" variable="CheckBoxTEMPLATES" member="yes">
 							<label>TEMPLATES</label>
-							<pos>512,176</pos>
-							<size>120,24</size>
+							<pos>456,176</pos>
+							<size>176,24</size>
 							<tooltip>Option modèles pré programmés</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX12" variable="CheckBoxSD_CARD" member="yes">
@@ -282,20 +282,20 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX18" variable="CheckBoxFLIGHT_MODES" member="yes">
 							<label>Flight modes</label>
-							<pos>512,200</pos>
-							<size>120,24</size>
+							<pos>456,200</pos>
+							<size>176,24</size>
 							<tooltip>Option phases de vol</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX19" variable="CheckBoxCURVES" member="yes">
 							<label>Curves</label>
-							<pos>512,248</pos>
-							<size>120,24</size>
+							<pos>456,248</pos>
+							<size>176,24</size>
 							<tooltip>Option courbes</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX20" variable="CheckBoxGVARS" member="yes">
 							<label>Global vars</label>
-							<pos>512,224</pos>
-							<size>120,24</size>
+							<pos>456,224</pos>
+							<size>176,24</size>
 							<tooltip>Option variables globales</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX21" variable="CheckBoxSPLASH" member="yes">
@@ -389,8 +389,8 @@
 						<size>800,364</size>
 						<object class="wxStaticBox" name="ID_STATICBOX3" variable="StaticBox3" member="yes">
 							<label>Autres paramètres</label>
-							<pos>296,8</pos>
-							<size>480,256</size>
+							<pos>304,8</pos>
+							<size>472,256</size>
 						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
 							<label>Protocole</label>
@@ -431,15 +431,15 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOXNOANDSECONDE" variable="CheckBoxNOANDSECONDE" member="yes">
 							<label>NOANDSECONDE</label>
-							<pos>304,160</pos>
-							<size>112,24</size>
+							<pos>312,160</pos>
+							<size>144,24</size>
 							<tooltip>Empèche la synthèse vocale de dire &quot;et&quot;. Exemple : entre minutes &quot;et&quot; seconde</tooltip>
 							<handler function="OnCheckBoxNOANDSECONDEClick1" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBox2" member="yes">
 							<label>Télemetrie</label>
 							<pos>168,8</pos>
-							<size>120,328</size>
+							<size>128,328</size>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX10" variable="CheckBoxPPM" member="yes">
 							<label>PPM</label>
@@ -487,83 +487,83 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX26" variable="CheckBoxCORRECT_NEGATIVE_VALUES" member="yes">
 							<label>CORRECT__NEGATIVE__VALUES</label>
-							<pos>416,128</pos>
-							<size>184,24</size>
+							<pos>456,128</pos>
+							<size>200,24</size>
 							<tooltip>Symétrise les valeurs affichées</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX27" variable="CheckBoxARITHMETIC_OVERFLOW_CHECK" member="yes">
 							<label>ARITHMETIC__OVERFLOW__CHECK</label>
-							<pos>416,160</pos>
-							<size>184,24</size>
+							<pos>456,160</pos>
+							<size>200,24</size>
 							<tooltip>Ajoute du code pour prèvoir débordement aritmethique</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX30" variable="CheckBoxPWM_BACKLIGHT" member="yes">
 							<label>PWM__BACKLIGHT</label>
-							<pos>416,32</pos>
-							<size>184,24</size>
+							<pos>456,32</pos>
+							<size>200,24</size>
 							<enabled>0</enabled>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX31" variable="CheckBoxOVERRIDE_CHANNEL_FUNCTION" member="yes">
 							<label>Override channel function</label>
-							<pos>416,64</pos>
-							<size>184,24</size>
+							<pos>456,64</pos>
+							<size>200,24</size>
 							<tooltip>Ajoute la fonction spéciale &quot;Remplacer CHx&quot;</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX32" variable="CheckBoxWS_HOW_HIGH" member="yes">
 							<label>WS__HOW__HIGH</label>
 							<pos>184,64</pos>
-							<size>96,24</size>
+							<size>104,24</size>
 							<tooltip>WS HowHigh Altimeter</tooltip>
 							<handler function="OnCheckBoxWS_HOW_HIGHClick2" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX36" variable="CheckBoxTOGGLETRIM" member="yes">
 							<label>Toggle trims</label>
-							<pos>416,96</pos>
-							<size>184,24</size>
+							<pos>456,96</pos>
+							<size>200,24</size>
 							<tooltip>Change les trim de la main droite à la main gauche, et vice-versa</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX37" variable="CheckBoxFRAM" member="yes">
 							<label>F-RAM</label>
-							<pos>304,192</pos>
-							<size>112,24</size>
+							<pos>312,192</pos>
+							<size>144,24</size>
 							<tooltip>Utilisation d&apos;une eeprom externe : FM24W256</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX38" variable="CheckBoxSHUTDOWN_CONFIRMATION" member="yes">
 							<label>SHUTDOWN__CONFIRMATION</label>
 							<checked>1</checked>
-							<pos>416,224</pos>
-							<size>184,24</size>
+							<pos>456,224</pos>
+							<size>200,24</size>
 							<enabled>0</enabled>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX39" variable="CheckBoxACCURAT_THROTTLE_STATS" member="yes">
 							<label>ACCURAT__THROTTLE__STATS</label>
-							<pos>416,192</pos>
-							<size>184,24</size>
+							<pos>456,192</pos>
+							<size>200,24</size>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX43" variable="CheckBoxEEPROM_PROGRESS_BAR" member="yes">
 							<label>EEPROM bar</label>
-							<pos>304,96</pos>
-							<size>112,24</size>
+							<pos>312,96</pos>
+							<size>144,24</size>
 							<tooltip>Affiche une mini barre pour visualiser une sauvegarde en cours</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX44" variable="CheckBoxAUTOSWITCH" member="yes">
 							<label>AUTOSWITCH</label>
-							<pos>304,64</pos>
-							<size>112,24</size>
+							<pos>312,64</pos>
+							<size>144,24</size>
 							<tooltip>Auto detection des switchs lors de la programmatiion</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX45" variable="CheckBoxAUTOSOURCE" member="yes">
 							<label>AUTOSOURCE</label>
-							<pos>304,32</pos>
-							<size>112,24</size>
+							<pos>312,32</pos>
+							<size>144,24</size>
 							<focused>1</focused>
 							<tooltip>Auto detection des manches lors de la programmatiion</tooltip>
 							<handler function="OnCheckBoxAUTOSOURCEClick1" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX47" variable="CheckBoxDBLKEYS" member="yes">
 							<label>Double keys</label>
-							<pos>304,128</pos>
-							<size>112,24</size>
+							<pos>312,128</pos>
+							<size>144,24</size>
 							<tooltip>Raccourcis avec deux touches pour passer une valeur à min/max/0</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX28" variable="CheckBoxMULTI" member="yes">
@@ -625,14 +625,14 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX33" variable="CheckBoxBLUETOOTH" member="yes">
 							<label>BLUETOOTH</label>
-							<pos>304,224</pos>
-							<size>112,24</size>
+							<pos>312,224</pos>
+							<size>144,24</size>
 							<tooltip>Ajout de fonctions sans fils</tooltip>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX34" variable="CheckBoxXMODEM" member="yes">
 							<label>XMODEM</label>
-							<pos>600,32</pos>
-							<size>168,24</size>
+							<pos>656,32</pos>
+							<size>112,24</size>
 							<tooltip>Transfert de données</tooltip>
 							<handler function="OnCheckBoxXMODEMClick" entry="EVT_CHECKBOX" />
 						</object>
