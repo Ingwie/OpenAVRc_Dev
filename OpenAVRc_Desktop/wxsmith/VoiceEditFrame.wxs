@@ -544,13 +544,13 @@
 			</object>
 			<object class="wxButton" name="ID_BUTTONSAUVEGARDER" variable="ButtonSauvegarder" member="yes">
 				<label>Sauvegarder et quitter</label>
-				<pos>264,488</pos>
-				<size>128,24</size>
+				<pos>256,488</pos>
+				<size>136,24</size>
 				<handler function="OnButtonSauvegarderClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxButton" name="ID_BUTTONGENERER" variable="ButtonGenerer" member="yes">
 				<label>Générer tout</label>
-				<pos>160,488</pos>
+				<pos>152,488</pos>
 				<size>89,24</size>
 				<handler function="OnButtonGenererClick" entry="EVT_BUTTON" />
 			</object>
@@ -563,7 +563,7 @@
 			</object>
 			<object class="wxButton" name="ID_BUTTONGENERERUNFICHIER" variable="ButtonGenererUnFichier" member="yes">
 				<label>Générer ce fichier</label>
-				<pos>16,488</pos>
+				<pos>8,488</pos>
 				<size>128,24</size>
 				<handler function="OnButtonGenererUnFichierClick" entry="EVT_BUTTON" />
 			</object>
