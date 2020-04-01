@@ -271,7 +271,7 @@
 							</content>
 							<selection>0</selection>
 							<pos>512,72</pos>
-							<size>40,24</size>
+							<size>80,24</size>
 							<tooltip>Mode de la radio</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT9" variable="StaticText9" member="yes">
@@ -311,7 +311,7 @@
 							</content>
 							<selection>0</selection>
 							<pos>320,216</pos>
-							<size>56,24</size>
+							<size>112,24</size>
 							<tooltip>Police de caractére</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT10" variable="StaticText10" member="yes">
@@ -340,7 +340,7 @@
 							</content>
 							<selection>0</selection>
 							<pos>512,112</pos>
-							<size>64,24</size>
+							<size>80,24</size>
 							<tooltip>Pour les compétitions</tooltip>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT12" variable="StaticText12" member="yes">
