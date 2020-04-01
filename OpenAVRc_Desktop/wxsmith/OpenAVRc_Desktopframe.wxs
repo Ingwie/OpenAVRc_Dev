@@ -64,7 +64,7 @@
 			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
 				<label>Fichiers Voix</label>
 				<pos>440,8</pos>
-				<size>136,136</size>
+				<size>136,144</size>
 			</object>
 			<object class="wxChoice" name="ID_CHOICE1" variable="ChoiceLangue" member="yes">
 				<content>
@@ -82,7 +82,7 @@
 					<item>SK</item>
 				</content>
 				<selection>0</selection>
-				<pos>512,32</pos>
+				<pos>520,32</pos>
 				<size>40,24</size>
 				<tooltip>Choisissez la langue des mensages vocales</tooltip>
 				<handler function="OnChoiceLangueSelect" entry="EVT_CHOICE" />
@@ -90,20 +90,20 @@
 			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 				<label>Langue</label>
 				<pos>448,40</pos>
-				<size>56,16</size>
+				<size>64,16</size>
 				<tooltip>Choisissez la langue des mensages vocales</tooltip>
 				<style>wxALIGN_RIGHT</style>
 			</object>
 			<object class="wxButton" name="ID_BUTTON2" variable="ButtonEditeur" member="yes">
 				<label>Éditeur</label>
-				<pos>472,72</pos>
+				<pos>480,72</pos>
 				<size>80,24</size>
 				<tooltip>Pour changer les messages</tooltip>
 				<handler function="OnEDITEURClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxButton" name="ID_BUTTON4" variable="ButtonCarteSD" member="yes">
 				<label>Carte SD</label>
-				<pos>472,104</pos>
+				<pos>480,112</pos>
 				<size>80,24</size>
 				<help>Écriture dans la carte SD</help>
 				<handler function="OnButtonCarteSDClick" entry="EVT_BUTTON" />
