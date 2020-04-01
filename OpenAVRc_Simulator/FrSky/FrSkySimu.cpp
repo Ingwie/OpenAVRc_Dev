@@ -51,7 +51,7 @@ void SendSerialDataToUART(uint8_t data)
 {
   //wxString dat = wxString::Format(wxT("%X"),data);
   //wxLogDebug(dat);
-  SendByteCom(data);
+  SendByteTeleCom(data);
   parseTelemFrskyByte(data);
 }
 
