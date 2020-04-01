@@ -3,16 +3,16 @@
 	<object class="wxFrame" name="VoiceEditFrame">
 		<title>Voix</title>
 		<icon stock_id="wxART_HELP_BOOK" />
-		<size>471,521</size>
+		<size>473,521</size>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE</style>
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>160,208</pos>
-			<size>408,520</size>
+			<size>496,521</size>
 			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
 				<label>Double click pour éditer.</label>
-				<pos>16,8</pos>
-				<size>376,472</size>
+				<pos>8,8</pos>
+				<size>384,472</size>
 			</object>
 			<object class="wxGrid" name="ID_GRID1" variable="VoiceGrid" member="yes">
 				<cols>2</cols>
@@ -538,30 +538,33 @@
 					<item>0510</item>
 					<item>0511</item>
 				</rowlabels>
-				<pos>24,48</pos>
+				<pos>24,40</pos>
 				<size>360,424</size>
 				<handler function="OnVoiceGridCellSelect" entry="EVT_CMD_GRID_SELECT_CELL" />
 			</object>
 			<object class="wxButton" name="ID_BUTTONSAUVEGARDER" variable="ButtonSauvegarder" member="yes">
 				<label>Sauvegarder et quitter</label>
-				<pos>264,488</pos>
+				<pos>256,488</pos>
+				<size>136,24</size>
 				<handler function="OnButtonSauvegarderClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxButton" name="ID_BUTTONGENERER" variable="ButtonGenerer" member="yes">
 				<label>Générer tout</label>
-				<pos>168,488</pos>
+				<pos>152,488</pos>
+				<size>89,24</size>
 				<handler function="OnButtonGenererClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxButton" name="ID_BUTTONJOUER" variable="ButtonJouer" member="yes">
 				<label>Jouer</label>
 				<pos>400,64</pos>
-				<size>40,408</size>
+				<size>64,408</size>
 				<bg>wxSYS_COLOUR_MENU</bg>
 				<handler function="OnButtonJouerClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxButton" name="ID_BUTTONGENERERUNFICHIER" variable="ButtonGenererUnFichier" member="yes">
 				<label>Générer ce fichier</label>
-				<pos>48,488</pos>
+				<pos>8,488</pos>
+				<size>128,24</size>
 				<handler function="OnButtonGenererUnFichierClick" entry="EVT_BUTTON" />
 			</object>
 		</object>

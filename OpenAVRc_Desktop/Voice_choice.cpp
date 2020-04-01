@@ -59,9 +59,9 @@ Voice_choice::Voice_choice(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	Create(parent, wxID_ANY, _("Synthèse vocale"), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxCLOSE_BOX, _T("wxID_ANY"));
 	SetClientSize(wxSize(399,150));
 	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(72,56), wxSize(399,160), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-	Buttonsavevoice = new wxButton(Panel1, ID_BUTTONSAVEVOICE, _("Sauvegarder réglage"), wxPoint(248,112), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONSAVEVOICE"));
-	StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("Choisissez votre moteur de synthèse vocale"), wxPoint(88,24), wxSize(224,16), 0, _T("ID_STATICTEXT1"));
-	ComboBoxvoice = new wxComboBox(Panel1, ID_COMBOBOXVOICE, wxEmptyString, wxPoint(32,56), wxSize(336,21), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOXVOICE"));
+	Buttonsavevoice = new wxButton(Panel1, ID_BUTTONSAVEVOICE, _("Sauvegarder réglage"), wxPoint(208,104), wxSize(160,24), 0, wxDefaultValidator, _T("ID_BUTTONSAVEVOICE"));
+	StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("Choisissez votre moteur de synthèse vocale"), wxPoint(32,24), wxSize(360,16), 0, _T("ID_STATICTEXT1"));
+	ComboBoxvoice = new wxComboBox(Panel1, ID_COMBOBOXVOICE, wxEmptyString, wxPoint(32,56), wxSize(336,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOXVOICE"));
 
 	Connect(ID_BUTTONSAVEVOICE,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&Voice_choice::OnButtonsavevoiceClick);
 	//*)

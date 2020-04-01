@@ -10,17 +10,18 @@
 			<size>399,160</size>
 			<object class="wxButton" name="ID_BUTTONSAVEVOICE" variable="Buttonsavevoice" member="yes">
 				<label>Sauvegarder réglage</label>
-				<pos>248,112</pos>
+				<pos>208,104</pos>
+				<size>160,24</size>
 				<handler function="OnButtonsavevoiceClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 				<label>Choisissez votre moteur de synthèse vocale</label>
-				<pos>88,24</pos>
-				<size>224,16</size>
+				<pos>32,24</pos>
+				<size>360,16</size>
 			</object>
 			<object class="wxComboBox" name="ID_COMBOBOXVOICE" variable="ComboBoxvoice" member="yes">
 				<pos>32,56</pos>
-				<size>336,21</size>
+				<size>336,24</size>
 			</object>
 		</object>
 	</object>

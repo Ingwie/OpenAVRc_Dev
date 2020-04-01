@@ -80,15 +80,15 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 {
   //(*Initialize(VoiceEditFrame)
   Create(parent, wxID_ANY, _("Voix"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
-  SetClientSize(wxSize(471,521));
+  SetClientSize(wxSize(473,521));
   {
   	wxIcon FrameIcon;
   	FrameIcon.CopyFromBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_HELP_BOOK")),wxART_FRAME_ICON));
   	SetIcon(FrameIcon);
   }
-  Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(160,208), wxSize(408,520), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-  StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Double click pour éditer."), wxPoint(16,8), wxSize(376,472), 0, _T("ID_STATICBOX1"));
-  VoiceGrid = new wxGrid(Panel1, ID_GRID1, wxPoint(24,48), wxSize(360,424), 0, _T("ID_GRID1"));
+  Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(160,208), wxSize(496,521), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+  StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Double click pour éditer."), wxPoint(8,8), wxSize(384,472), 0, _T("ID_STATICBOX1"));
+  VoiceGrid = new wxGrid(Panel1, ID_GRID1, wxPoint(24,40), wxSize(360,424), 0, _T("ID_GRID1"));
   VoiceGrid->CreateGrid(512,2);
   VoiceGrid->EnableEditing(true);
   VoiceGrid->EnableGridLines(true);
@@ -611,11 +611,11 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   VoiceGrid->SetRowLabelValue(511, _("0511"));
   VoiceGrid->SetDefaultCellFont( VoiceGrid->GetFont() );
   VoiceGrid->SetDefaultCellTextColour( VoiceGrid->GetForegroundColour() );
-  ButtonSauvegarder = new wxButton(Panel1, ID_BUTTONSAUVEGARDER, _("Sauvegarder et quitter"), wxPoint(264,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONSAUVEGARDER"));
-  ButtonGenerer = new wxButton(Panel1, ID_BUTTONGENERER, _("Générer tout"), wxPoint(168,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONGENERER"));
-  ButtonJouer = new wxButton(Panel1, ID_BUTTONJOUER, _("Jouer"), wxPoint(400,64), wxSize(40,408), 0, wxDefaultValidator, _T("ID_BUTTONJOUER"));
+  ButtonSauvegarder = new wxButton(Panel1, ID_BUTTONSAUVEGARDER, _("Sauvegarder et quitter"), wxPoint(256,488), wxSize(136,24), 0, wxDefaultValidator, _T("ID_BUTTONSAUVEGARDER"));
+  ButtonGenerer = new wxButton(Panel1, ID_BUTTONGENERER, _("Générer tout"), wxPoint(152,488), wxSize(89,24), 0, wxDefaultValidator, _T("ID_BUTTONGENERER"));
+  ButtonJouer = new wxButton(Panel1, ID_BUTTONJOUER, _("Jouer"), wxPoint(400,64), wxSize(64,408), 0, wxDefaultValidator, _T("ID_BUTTONJOUER"));
   ButtonJouer->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
-  ButtonGenererUnFichier = new wxButton(Panel1, ID_BUTTONGENERERUNFICHIER, _("Générer ce fichier"), wxPoint(48,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONGENERERUNFICHIER"));
+  ButtonGenererUnFichier = new wxButton(Panel1, ID_BUTTONGENERERUNFICHIER, _("Générer ce fichier"), wxPoint(8,488), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTONGENERERUNFICHIER"));
 
   Connect(ID_GRID1,wxEVT_GRID_SELECT_CELL,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellSelect);
   Connect(ID_BUTTONSAUVEGARDER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonSauvegarderClick);
