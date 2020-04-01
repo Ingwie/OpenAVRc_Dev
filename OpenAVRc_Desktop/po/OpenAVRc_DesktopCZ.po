@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-06-02 17:39+0200\n"
-"PO-Revision-Date: 2020-03-31 21:17+0200\n"
+"PO-Revision-Date: 2020-04-01 02:14+0200\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgstr "Enkodér na 0"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:444
 msgid " GPLv2 . Firmware basé sur NextStepRc 2.18 "
-msgstr "GPLv2 . Firmware založený na NextStepRc 2.18"
+msgstr "GPLv2 Firmware založený na NextStepRc 2.18"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:472
 msgid ""
@@ -34,7 +34,7 @@ msgid ""
 msgstr ""
 "Operace byla zrušena\n"
 "\n"
-"Tato operace vyžaduje COM port."
+"Tato operace vyžaduje COM port"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:451
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:454
@@ -2137,7 +2137,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:447
 msgid "3POS"
-msgstr "3 polohový"
+msgstr "3 pólový"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:307
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:523
@@ -2156,11 +2156,11 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:886
 msgid ": Il y a au moins ce nom répété , veuillez le changer."
-msgstr ": Opakuje se jedno jméno, změňte jej."
+msgstr ": Opakuje se jedno jméno, změňte jej"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:876
 msgid ": Il y a au moins ce nom trop court, veuillez le compléter."
-msgstr ": Jedno jméno je příliš krátké, vyplňte jej."
+msgstr ": Jedno jméno je příliš krátké, vyplňte jej"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:358
 msgid "A propos\tF1"
@@ -2172,7 +2172,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:411
 msgid "ACCURAT_THROTTLE_STATS"
-msgstr ""
+msgstr "Přesné statistiky plynu"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:464
 msgid "AIL"
@@ -2180,7 +2180,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:390
 msgid "ARITHMETIC_OVERFLOW_CHECK"
-msgstr ""
+msgstr "Aritmetická kontrola překročení"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:419
 msgid "AUTOSOURCE"
@@ -2214,7 +2214,7 @@ msgstr "Nápověda"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:392
 msgid "Ajoute du code pour prčvoir débordement aritmethique"
-msgstr "Přidá kód, aby se zabránilo aritmetickému přetečení"
+msgstr "Zabrání aritmetickému překročení"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:398
 msgid "Ajoute la fonction spéciale \"Remplacer CHx\""
@@ -2300,7 +2300,7 @@ msgstr "VOLBA"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:387
 msgid "CORRECT_NEGATIVE_VALUES"
-msgstr ""
+msgstr "Přesné negativní hodnoty"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:433
 msgid "CYRF6936"
@@ -2411,7 +2411,7 @@ msgstr "Dokumentace online"
 
 #: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:90
 msgid "Double click pour éditer."
-msgstr "Dvojitým kliknutím upravte."
+msgstr "Dvojitým kliknutím upravte"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:423
 msgid "Double keys"
@@ -2790,7 +2790,7 @@ msgstr "Není kompatibilní s funkcí \"Auto knipl\", funkce je zakázána"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:986
 msgid "Non compatible avec NAVIGATION = STICKS"
-msgstr "Není kompatibilní s funkcí Navigace = Kniply"
+msgstr "Není kompatibilní s funkcí \"Navigace = Kniply\""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1039
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:1049
@@ -2872,7 +2872,7 @@ msgstr "Pokročilé možnosti"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:396
 msgid "Override channel function"
-msgstr "Přepsat funkci kanálu"
+msgstr "Nahradit funkci kanálu"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:444
 msgid "PA Gain (DB)"
@@ -2888,7 +2888,7 @@ msgstr "CH % desetina 1"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:472
 msgid "PERSONAMES"
-msgstr ""
+msgstr "Vlastní názvy spínačů"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:277
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:264
@@ -3095,7 +3095,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:408
 msgid "SHUTDOWN_CONFIRMATION"
-msgstr ""
+msgstr "Obrazovka potvrzení vypnutí"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:259
 msgid "SIMULATEUR F-RAM"
@@ -3178,7 +3178,7 @@ msgstr "Odstranit aktivní profil rádia"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:389
 msgid "Symétrise les valeurs affichées"
-msgstr "Zobrazené hodnoty jsou symetrické"
+msgstr "Vyvážení zobrazených hodnot"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:304
 #: A:\cb\OpenAVRc_Desktop\Voice_choice.cpp:59
@@ -3188,7 +3188,7 @@ msgstr "Hlasová syntéza"
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:538
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:553
 msgid "Sűr? Vous voulez continuer?"
-msgstr "Opravdu ? Chcete pokračovat ?"
+msgstr "Opravdu chcete pokračovat ?"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:249
 msgid "TEMPLATES"
@@ -3212,7 +3212,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:402
 msgid "Toggle trims"
-msgstr "Přepnout trimy"
+msgstr "Zaměnit trimy"
 
 #: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:102
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:223
@@ -3399,3 +3399,15 @@ msgstr "Bluetooth"
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:448
 msgid "Ajout de fonctions sans fils"
 msgstr "Možnost bezdrátových funkcí"
+
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:451
+msgid "Transfert de données"
+msgstr "Přenos dat Xmodemu"
+
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:449
+msgid "XMODEM"
+msgstr "Xmodem"
+
+#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:352
+msgid "Rotation Lcd 180°"
+msgstr "Otočit lcd o 180°"
