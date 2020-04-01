@@ -611,11 +611,11 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   VoiceGrid->SetRowLabelValue(511, _("0511"));
   VoiceGrid->SetDefaultCellFont( VoiceGrid->GetFont() );
   VoiceGrid->SetDefaultCellTextColour( VoiceGrid->GetForegroundColour() );
-  ButtonSauvegarder = new wxButton(Panel1, ID_BUTTONSAUVEGARDER, _("Sauvegarder et quitter"), wxPoint(264,488), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTONSAUVEGARDER"));
-  ButtonGenerer = new wxButton(Panel1, ID_BUTTONGENERER, _("Générer tout"), wxPoint(160,488), wxSize(89,24), 0, wxDefaultValidator, _T("ID_BUTTONGENERER"));
+  ButtonSauvegarder = new wxButton(Panel1, ID_BUTTONSAUVEGARDER, _("Sauvegarder et quitter"), wxPoint(256,488), wxSize(136,24), 0, wxDefaultValidator, _T("ID_BUTTONSAUVEGARDER"));
+  ButtonGenerer = new wxButton(Panel1, ID_BUTTONGENERER, _("Générer tout"), wxPoint(152,488), wxSize(89,24), 0, wxDefaultValidator, _T("ID_BUTTONGENERER"));
   ButtonJouer = new wxButton(Panel1, ID_BUTTONJOUER, _("Jouer"), wxPoint(400,64), wxSize(64,408), 0, wxDefaultValidator, _T("ID_BUTTONJOUER"));
   ButtonJouer->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
-  ButtonGenererUnFichier = new wxButton(Panel1, ID_BUTTONGENERERUNFICHIER, _("Générer ce fichier"), wxPoint(16,488), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTONGENERERUNFICHIER"));
+  ButtonGenererUnFichier = new wxButton(Panel1, ID_BUTTONGENERERUNFICHIER, _("Générer ce fichier"), wxPoint(8,488), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTONGENERERUNFICHIER"));
 
   Connect(ID_GRID1,wxEVT_GRID_SELECT_CELL,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellSelect);
   Connect(ID_BUTTONSAUVEGARDER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonSauvegarderClick);
