@@ -18,20 +18,20 @@
 				<item>avrisp</item>
 				<item>usbasp</item>
 			</content>
-			<pos>176,72</pos>
-			<size>74,24</size>
+			<pos>160,72</pos>
+			<size>96,24</size>
 		</object>
 		<object class="wxComboBox" name="ID_COMBOBOX2" variable="ComboBox2" member="yes">
 			<content>
 				<item>usb</item>
 			</content>
-			<pos>176,120</pos>
-			<size>47,24</size>
+			<pos>160,120</pos>
+			<size>96,24</size>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 			<label>Programmateur</label>
 			<pos>32,80</pos>
-			<size>136,16</size>
+			<size>120,16</size>
 			<style>wxALIGN_RIGHT</style>
 		</object>
 		<object class="wxButton" name="ID_BUTTONENTER" variable="ButtonEnter" member="yes">
@@ -43,7 +43,7 @@
 		<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
 			<label>Port</label>
 			<pos>32,128</pos>
-			<size>136,16</size>
+			<size>120,16</size>
 			<style>wxALIGN_RIGHT</style>
 		</object>
 		<object class="wxComboBox" name="ID_COMBOBOX3" variable="ComboBox3" member="yes">
@@ -51,24 +51,24 @@
 				<item>m2560</item>
 				<item>m2560fram</item>
 			</content>
-			<pos>176,168</pos>
-			<size>84,24</size>
+			<pos>160,168</pos>
+			<size>96,24</size>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
 			<label>Type de radio</label>
 			<pos>32,176</pos>
-			<size>136,16</size>
+			<size>120,16</size>
 			<style>wxALIGN_RIGHT</style>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
 			<label>Répertoire de avrdude</label>
 			<pos>32,224</pos>
-			<size>134,16</size>
+			<size>120,16</size>
 			<style>wxALIGN_RIGHT</style>
 		</object>
 		<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="TextCtrl1" member="yes">
-			<pos>176,216</pos>
-			<size>212,24</size>
+			<pos>160,216</pos>
+			<size>228,24</size>
 		</object>
 		<object class="wxButton" name="ID_BUTTONESC" variable="ButtonEsc" member="yes">
 			<label>Annuler</label>
