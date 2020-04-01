@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-06-02 17:39+0200\n"
-"PO-Revision-Date: 2020-04-01 02:14+0200\n"
+"PO-Revision-Date: 2020-04-01 13:18+0200\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2272,7 +2272,7 @@ msgid ""
 " Insérez la avant de cliquer sur OUI"
 msgstr ""
 "Máte záložní SD kartu ?\n"
-"Vložte ji před kliknutím na ANO"
+"Vložte ji před kliknutím na \"ANO\""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:330
 msgid "Batt graph"
@@ -3077,11 +3077,11 @@ msgstr "Adresář Avrdude"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1074
 msgid "SD DATA"
-msgstr ""
+msgstr "SD karta"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1037
 msgid "SD VOICE"
-msgstr ""
+msgstr "Soubory hlasu SD karty"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:279
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:266
@@ -3253,7 +3253,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:352
 msgid "VOICE/AUDIO PCB et RTC (by Pyrall)"
-msgstr "HLAS/AUDIO PCB a RTC (podle Pyrall)"
+msgstr "Hlas/audio PCB a RTC (podle Pyrall)"
 
 #: A:\cb\OpenAVRc_Desktop\CommunicationsFrame.cpp:97
 msgid "Valider"
@@ -3269,7 +3269,7 @@ msgstr "Hlas"
 
 #: A:\cb\OpenAVRc_Desktop\VoiceEditFrame.cpp:82
 msgid "Voix"
-msgstr "Hlas"
+msgstr "Editor souborů hlasu"
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:1037
 msgid ""
