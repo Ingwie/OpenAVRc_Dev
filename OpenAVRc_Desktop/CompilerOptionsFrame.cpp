@@ -302,7 +302,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceUNITS->Append(_("IMPERIAL"));
   ChoiceUNITS->SetToolTip(_("Unitées"));
   StaticText8 = new wxStaticText(Panel2, ID_STATICTEXT8, _("Unités"), wxPoint(456,40), wxSize(47,16), wxALIGN_RIGHT, _T("ID_STATICTEXT8"));
-  ChoiceDEFAULT_MODE = new wxChoice(Panel2, ID_CHOICE10, wxPoint(512,72), wxSize(40,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE10"));
+  ChoiceDEFAULT_MODE = new wxChoice(Panel2, ID_CHOICE10, wxPoint(512,72), wxSize(80,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE10"));
   ChoiceDEFAULT_MODE->SetSelection( ChoiceDEFAULT_MODE->Append(_("NO")) );
   ChoiceDEFAULT_MODE->Append(_("1"));
   ChoiceDEFAULT_MODE->Append(_("2"));
@@ -322,7 +322,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxSPLASH = new wxCheckBox(Panel2, ID_CHECKBOX21, _("Écran d\'accueil"), wxPoint(320,176), wxSize(112,24), 0, wxDefaultValidator, _T("ID_CHECKBOX21"));
   CheckBoxSPLASH->SetValue(false);
   CheckBoxSPLASH->SetToolTip(_("Ecran d\'accueil"));
-  ChoiceFONT = new wxChoice(Panel2, ID_CHOICE11, wxPoint(320,216), wxSize(56,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE11"));
+  ChoiceFONT = new wxChoice(Panel2, ID_CHOICE11, wxPoint(320,216), wxSize(112,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE11"));
   ChoiceFONT->SetSelection( ChoiceFONT->Append(_("STD")) );
   ChoiceFONT->Append(_("SQT5"));
   ChoiceFONT->SetToolTip(_("Police de caractére"));
@@ -333,7 +333,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxBATTGRAPH = new wxCheckBox(Panel2, ID_CHECKBOX41, _("Batt graph"), wxPoint(320,144), wxSize(112,24), 0, wxDefaultValidator, _T("ID_CHECKBOX41"));
   CheckBoxBATTGRAPH->SetValue(false);
   CheckBoxBATTGRAPH->SetToolTip(_("Affichage graphique de l\'état de la batterie"));
-  ChoiceFAI = new wxChoice(Panel2, ID_CHOICE13, wxPoint(512,112), wxSize(64,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE13"));
+  ChoiceFAI = new wxChoice(Panel2, ID_CHOICE13, wxPoint(512,112), wxSize(80,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE13"));
   ChoiceFAI->SetSelection( ChoiceFAI->Append(_("NO")) );
   ChoiceFAI->Append(_("YES"));
   ChoiceFAI->Append(_("CHOICE"));
