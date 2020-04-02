@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-06-02 17:39+0200\n"
-"PO-Revision-Date: 2020-04-01 13:18+0200\n"
+"PO-Revision-Date: 2020-04-02 14:58+0200\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2575,7 +2575,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:299
 msgid "IMPERIAL"
-msgstr "Imperiální"
+msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\OpenAVRc_DesktopMain.cpp:275
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:262
@@ -2703,7 +2703,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:298
 msgid "METRIC"
-msgstr "Metrické"
+msgstr "METRIKA"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:426
 msgid "MULTI"
@@ -2754,7 +2754,7 @@ msgstr ""
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:334
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:519
 msgid "NO"
-msgstr "NE"
+msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:364
 msgid "NOANDSECONDE"
@@ -2880,11 +2880,11 @@ msgstr "PA zisk (dB)"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:218
 msgid "PERCENT_PREC0"
-msgstr "CH % desetina 0"
+msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:217
 msgid "PERCENT_PREC1"
-msgstr "CH % desetina 1"
+msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:472
 msgid "PERSONAMES"
@@ -2899,17 +2899,17 @@ msgstr ""
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:287
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:340
 msgid "POT1"
-msgstr "POT 1"
+msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:288
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:341
 msgid "POT2"
-msgstr "POT 2"
+msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:289
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:342
 msgid "POT3"
-msgstr "POT 3"
+msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:290
 msgid "POTS"
@@ -3047,7 +3047,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:292
 msgid "ROTENC"
-msgstr "ROT.ENKODÉR"
+msgstr "ROTENKODER"
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:458
 msgid "RUD"
@@ -3233,7 +3233,7 @@ msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:219
 msgid "US"
-msgstr "CH μs"
+msgstr ""
 
 #: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:300
 msgid "Unitées"
@@ -3408,6 +3408,6 @@ msgstr "Přenos dat Xmodemu"
 msgid "XMODEM"
 msgstr "Xmodem"
 
-#: A:\cb\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:352
+#: C:\OpenAVRc_Dev-3\OpenAVRc_Desktop\CompilerOptionsFrame.cpp:352
 msgid "Rotation Lcd 180°"
 msgstr "Otočit lcd o 180°"
