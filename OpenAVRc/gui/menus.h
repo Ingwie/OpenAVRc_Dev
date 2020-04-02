@@ -302,23 +302,11 @@ void displayBox();
 void displayPopup(const pm_char * pstr);
 void displayWarning(uint8_t event);
 
-
-#if !defined(GUI)
-#define DISPLAY_WARNING(...)
-#define POPUP_WARNING(...)
-#define POPUP_CONFIRMATION(...)
-#define POPUP_INPUT(...)
-#define WARNING_INFO_FLAGS           0
-#define SET_WARNING_INFO(...)
-#else
-#define DISPLAY_WARNING              displayWarning
 #define POPUP_WARNING(s)             warningText = s
 #define POPUP_CONFIRMATION(s)        (warningText = s, warning.warningType = WARNING_TYPE_CONFIRM)
 #define WARNING_INFO_FLAGS           ZCHAR
 #define SET_WARNING_INFO(info, len, flags) (warningInfoText = info, warning.warningInfoLength = len)
-#endif
 
-#define NAVIGATION_MENUS
 #define POPUP_MENU_ADD_ITEM(s) popupMenuItems[popupMenuNoItems++] = s
 #define POPUP_MENU_MAX_LINES               6
 #define MENU_MAX_DISPLAY_LINES       POPUP_MENU_MAX_LINES

@@ -231,7 +231,6 @@ void displayBattVoltage()
 #define EVT_KEY_CONTEXT_MENU EVT_KEY_BREAK(KEY_MENU)
 #define EVT_KEY_SHUTDOWN     EVT_KEY_LONG(KEY_EXIT)
 
-#if defined(NAVIGATION_MENUS)
 void onMainViewMenu(const char *result)
 {
   if (result == STR_RESET_TIMER1) {
@@ -256,7 +255,6 @@ void onMainViewMenu(const char *result)
     chainMenu(menuStatisticsView);
   }
 }
-#endif
 
 void menuMainView(uint8_t event)
 {
@@ -297,7 +295,6 @@ void menuMainView(uint8_t event)
     }
     break;
 
-#if defined(NAVIGATION_MENUS)
   case EVT_KEY_CONTEXT_MENU:
     killEvents(event);
 
@@ -312,7 +309,6 @@ void menuMainView(uint8_t event)
     POPUP_MENU_ADD_ITEM(STR_SAVE_TIMERS);
     popupMenuHandler = onMainViewMenu;
     break;
-#endif
 
 #if MENUS_LOCK != 2 /*no menus*/
   case EVT_KEY_LONG(KEY_MENU):// go to last menu
@@ -368,12 +364,6 @@ void menuMainView(uint8_t event)
           killEvents(event);
     break;
 
-#if !defined(NAVIGATION_MENUS)
-  /*case EVT_KEY_LONG(KEY_EXIT):
-    flightReset();
-    AUDIO_KEYPAD_UP();
-    break;*/
-#endif
 
   }
 

@@ -52,12 +52,10 @@ FORCEINLINE void boardInit()
 
   adcInit();
 
-#if defined(GUI)
   lcdInit();
   lcdClear();
   DISPLAY_LOADING_MESSAGE();
   lcdRefresh();
-#endif
 
 #ifndef SIMU
 

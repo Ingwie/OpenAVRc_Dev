@@ -248,8 +248,6 @@
 			<Add option="-DVOICE" />
 			<Add option="-DVOICE_JQ6500" />
 			<Add option="-DHAPTIC" />
-			<Add option="-DROTARY_ENCODERS=2" />
-			<Add option="-DGUI" />
 			<Add option="-DDEFAULT_MODE=2" />
 			<Add option="-DNOANDSECONDE" />
 			<Add option="-DSPLASH" />
