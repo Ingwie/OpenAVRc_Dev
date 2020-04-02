@@ -170,7 +170,7 @@ inline void boardInit()
 #if defined(GUI)
   lcdInit();
   lcdClear();
-  LOADINGMESSAGE();
+  DISPLAY_LOADING_MESSAGE();
   lcdRefresh();
 #endif
 

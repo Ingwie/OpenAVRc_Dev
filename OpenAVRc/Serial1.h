@@ -40,6 +40,9 @@ Note: This HwSerial driver/module by RC-Navy is mainly based on the arduino Hard
 #define HW_SERIAL_H
 
 #include "Stream.h"
+#if defined(SIMU)
+ #include "targets/simu/simu_interface.h"
+#endif
 
 #if defined(U_CLI) || defined(TINY_DBG_UART_BT)
 #if defined(XMODEM)
@@ -98,7 +101,7 @@ class HwSerial : public Stream
     virtual uint8_t available(void); // mandatory in any case to be "Stream compliant"
     virtual uint8_t read(void);      // mandatory in any case to be "Stream compliant"
     void            enableRx(uint8_t On);
-    inline void    _rx_complete_irq(void);
+FORCEINLINE void    _rx_complete_irq(void);
     void            enableTx(uint8_t On);
     void            resumeTx(void);
     virtual size_t  write(uint8_t);

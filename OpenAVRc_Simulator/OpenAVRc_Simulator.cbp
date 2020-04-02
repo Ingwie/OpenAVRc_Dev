@@ -224,6 +224,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=gnu++11" />
 			<Add option="-pipe" />
 			<Add option="-mthreads" />
 			<Add option="-Wno-deprecated-declarations" />
@@ -307,6 +308,7 @@
 		<Unit filename="../OpenAVRc/Serial0.cpp" />
 		<Unit filename="../OpenAVRc/Serial0.h" />
 		<Unit filename="../OpenAVRc/Serial1.cpp" />
+		<Unit filename="../OpenAVRc/Serial1.h" />
 		<Unit filename="../OpenAVRc/Stream.h" />
 		<Unit filename="../OpenAVRc/Xany.cpp" />
 		<Unit filename="../OpenAVRc/Xany.h" />
@@ -607,9 +609,7 @@
 		<Unit filename="wxsmith/TelemetryFrame.wxs" />
 		<Unit filename="wxsmith/uCliFrame.wxs" />
 		<Extensions>
-			<code_completion />
 			<envvars set="default" />
-			<debugger />
 			<lib_finder disable_auto="1" />
 			<wxsmith version="1">
 				<gui name="wxWidgets" src="OpenAVRc_SimulatorApp.cpp" main="OpenAVRc_SimulatorFrame" init_handlers="necessary" language="CPP" />
