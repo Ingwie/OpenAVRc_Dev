@@ -1069,7 +1069,7 @@ enum AUDIO_SOUNDS {
 
 // First message
 const pm_char STR_OPENAVRCISLOADING[] PROGMEM = "OpenAVRc is loading ...";
-#define  LOADINGMESSAGE() lcdDrawTextAtt(1*FW, 3*FH, STR_OPENAVRCISLOADING, BOLD)
+#define  DISPLAY_LOADING_MESSAGE() lcdDrawTextAtt(1*FW, 3*FH, STR_OPENAVRCISLOADING, BOLD)
 
 #if defined(AUDIO)
   #include "audio_avr.h"

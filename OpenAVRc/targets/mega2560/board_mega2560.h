@@ -103,11 +103,10 @@ void readKeysAndTrims();
 #define SPI_8M()                    { SPSR = _BV(SPI2X); SPCR = _BV(SPE) | _BV(MSTR); }
 
 #if defined(SPIMODULES) && !defined(SDCARD) // SPIMODULES enabled
-//#define SPI_START_SPEED()           SPI_4M() // Cyrf max speed
-#define SPI_START_SPEED()           SPI_8M() // Cyrf max speed is 4Mhz but it work @ 8mhz -> Keep 8 to test
-#else // SPIMODULES
+#define SPI_START_SPEED()           SPI_8M() // Cyrf max speed is 4MHz but tested OK at 8 Mhz
+#else
 #define SPI_START_SPEED()           SPI_250K() // SDcard wakeup speed
-#endif // SPIMODULES
+#endif
 
 // Switchs driver
 #define INP_C_ID2                 PIN1_bm
@@ -123,6 +122,7 @@ void readKeysAndTrims();
 #define INP_D_PPM_IN              4    // ICP1
 #define OUT_B_PPM                 6    // Master_PPM_out OC1A
 #define OUT_B_PPM16_SIM           5    // OC1B
+#define I_O_B_UNUSED              4    // unused was Buzzer
 #define INP_D_I2C_SCL             1
 #define INP_D_I2C_SDA             0
 #define INP_E_TELEM_RX            1
@@ -201,7 +201,6 @@ void boardOff();
 #endif
 
 // Voice driver
-
 //JQ6500
 #define JQ6500_BUSY                   (PINJ & _BV(INP_J_JQ_BUSY))
 #if defined(VOICE_JQ6500)
@@ -224,9 +223,6 @@ void boardOff();
   extern ISR(INT4_vect);
   extern ISR(INT5_vect);
 #endif
-
-//Mixer
-//#define HALF_MICRO_SEC_COUNTS(half_us) (half_us)
 
 //SUPIIIK FILE
 //#define MULTIMODULE
