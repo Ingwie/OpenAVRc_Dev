@@ -5,7 +5,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 7
 Title "Shield Mega2560 core Full"
-Date "2020-03-07"
+Date "2020-04-02"
 Rev "2.2"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -356,7 +356,7 @@ U 1 1 59C5BE8C
 P 10200 2700
 F 0 "RV6" V 10100 2700 50  0000 C CNN
 F 1 "1K" V 10200 2700 50  0000 C CNN
-F 2 "v2.1:trimpot_5x5_vertical" H 10200 2700 50  0001 C CNN
+F 2 "Mylib_v2.2:Potentiometer_Trimmer_Bourns_3296W" H 10200 2700 50  0001 C CNN
 F 3 "" H 10200 2700 50  0000 C CNN
 	1    10200 2700
 	1    0    0    -1  
@@ -367,10 +367,10 @@ U 1 1 59C5BE93
 P 9150 2400
 F 0 "RV1" V 9050 2400 50  0000 C CNN
 F 1 "10K" V 9150 2400 50  0000 C CNN
-F 2 "v2.1:trimpot_5x5_vertical" H 9150 2400 50  0001 C CNN
+F 2 "Mylib_v2.2:Potentiometer_Trimmer_Bourns_3296W" H 9150 2400 50  0001 C CNN
 F 3 "" H 9150 2400 50  0000 C CNN
 	1    9150 2400
-	-1   0    0    1   
+	-1   0    0    -1  
 $EndComp
 $Comp
 L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue C10
@@ -533,7 +533,7 @@ U 1 1 59E0D037
 P 9600 5200
 F 0 "R39" V 9500 5200 50  0000 C CNN
 F 1 "47K" V 9600 5200 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 9530 5200 50  0001 C CNN
+F 2 "Mylib_v2.2:R_1206" V 9530 5200 50  0001 C CNN
 F 3 "" H 9600 5200 50  0000 C CNN
 	1    9600 5200
 	1    0    0    -1  
@@ -544,7 +544,7 @@ U 1 1 59E0D99E
 P 9100 5100
 F 0 "Q1" V 9000 5300 60  0000 R CNN
 F 1 "IRLML5203" V 9300 5350 60  0000 R CNN
-F 2 "v2.1:SOT-23_MOS_P" H 9100 5100 60  0001 C CNN
+F 2 "Mylib_v2.2:SOT-23_MOS_P" H 9100 5100 60  0001 C CNN
 F 3 "" H 9100 5100 60  0000 C CNN
 	1    9100 5100
 	0    -1   -1   0   
@@ -566,7 +566,7 @@ U 1 1 59E0E920
 P 9350 5600
 F 0 "R23" V 9250 5600 50  0000 C CNN
 F 1 "100" V 9350 5600 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 9280 5600 50  0001 C CNN
+F 2 "Mylib_v2.2:R_1206" V 9280 5600 50  0001 C CNN
 F 3 "" H 9350 5600 50  0000 C CNN
 	1    9350 5600
 	0    1    1    0   
@@ -577,7 +577,7 @@ U 1 1 59EF4793
 P 7650 4950
 F 0 "R5" V 7550 4950 50  0000 C CNN
 F 1 "2K7" V 7650 4950 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 7580 4950 50  0001 C CNN
+F 2 "Mylib_v2.2:R_1206" V 7580 4950 50  0001 C CNN
 F 3 "" H 7650 4950 50  0000 C CNN
 	1    7650 4950
 	0    1    1    0   
@@ -585,12 +585,12 @@ $EndComp
 $Comp
 L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue R6
 U 1 1 59EF4881
-P 7900 5150
-F 0 "R6" V 8000 5150 50  0000 C CNN
-F 1 "1,5K" V 7900 5150 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 7830 5150 50  0001 C CNN
-F 3 "" H 7900 5150 50  0000 C CNN
-	1    7900 5150
+P 7900 5400
+F 0 "R6" V 8000 5400 50  0000 C CNN
+F 1 "1,5K" V 7900 5400 50  0000 C CNN
+F 2 "Mylib_v2.2:R_1206" V 7830 5400 50  0001 C CNN
+F 3 "" H 7900 5400 50  0000 C CNN
+	1    7900 5400
 	-1   0    0    1   
 $EndComp
 $Comp
@@ -610,7 +610,7 @@ U 1 1 5A718CF7
 P 10450 2350
 F 0 "R40" V 10350 2350 50  0000 C CNN
 F 1 "100" V 10450 2350 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206" V 10380 2350 50  0001 C CNN
+F 2 "Mylib_v2.2:R_1206" V 10380 2350 50  0001 C CNN
 F 3 "" H 10450 2350 50  0000 C CNN
 	1    10450 2350
 	1    0    0    -1  
@@ -956,7 +956,7 @@ Wire Wire Line
 Wire Wire Line
 	3050 4650 3050 4600
 Wire Wire Line
-	7900 5000 7900 4950
+	7900 5250 7900 4950
 Wire Wire Line
 	7800 4950 7900 4950
 Wire Wire Line
@@ -1007,7 +1007,7 @@ AR Path="/5A758C27" Ref="P?"  Part="1"
 AR Path="/59C5D60D/5A758C27" Ref="P1"  Part="1" 
 F 0 "P1" H 2100 4650 50  0000 C CNN
 F 1 "2560-core" V 2100 3600 50  0000 C CNN
-F 2 "v2.1:Connectors-2560-core" H 3100 4800 50  0000 C CNN
+F 2 "Mylib_v2.2:Connectors-2560-core" H 3100 4800 50  0000 C CNN
 F 3 "" H 2100 2650 50  0000 C CNN
 	1    50   3400
 	1    0    0    -1  
@@ -15518,7 +15518,7 @@ Connection ~ 7900 4950
 Wire Wire Line
 	7900 4950 7900 4600
 Wire Wire Line
-	7900 5300 7900 5500
+	7900 5550 7900 5600
 Text GLabel 2400 3450 2    60   Output ~ 0
 BT_KEY_CMD
 Wire Wire Line
@@ -15579,14 +15579,14 @@ Text Notes 8200 4350 1    60   ~ 0
 +5v
 Text Notes 8300 4350 1    60   ~ 0
 Key
-Text GLabel 7450 5500 0    60   Input ~ 0
+Text GLabel 7450 5600 0    60   Input ~ 0
 BT_Txd1
-Text GLabel 7450 5700 0    60   Output ~ 0
+Text GLabel 7450 5800 0    60   Output ~ 0
 BT_Rxd1
 Wire Wire Line
-	7450 5500 7900 5500
+	7450 5600 7900 5600
 Wire Wire Line
-	7450 5700 8000 5700
+	7450 5800 7700 5800
 Wire Wire Line
 	6750 1600 6750 1800
 Wire Wire Line
@@ -15640,21 +15640,8 @@ Wire Wire Line
 Connection ~ 6750 1800
 Wire Wire Line
 	6750 1800 6750 2100
-$Comp
-L Device:R R44
-U 1 1 5E57F2B9
-P 8000 5150
-F 0 "R44" V 8100 5100 50  0000 L CNN
-F 1 "18K" V 8000 5100 50  0000 L CNN
-F 2 "Mylib_v2.2:R_1206" V 7930 5150 50  0001 C CNN
-F 3 "~" H 8000 5150 50  0001 C CNN
-	1    8000 5150
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
-	8000 5700 8000 5300
-Wire Wire Line
-	8000 5000 8000 4600
+	8000 5800 8000 5550
 $Comp
 L Device:R R45
 U 1 1 5E5A5DA3
@@ -15680,4 +15667,46 @@ Text Label 8600 4650 0    50   ~ 0
 Status_BT
 Text Label 8500 5800 0    50   ~ 0
 KEY_BT
+$Comp
+L Mega_2560-core-mini_full_2.2-rescue:R-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue R46
+U 1 1 5E8849A7
+P 7700 6000
+F 0 "R46" V 7600 6000 50  0000 C CNN
+F 1 "27K" V 7700 6000 50  0000 C CNN
+F 2 "Mylib_v2.2:R_1206" V 7630 6000 50  0001 C CNN
+F 3 "" H 7700 6000 50  0000 C CNN
+	1    7700 6000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7700 6150 7700 6250
+$Comp
+L Mega_2560-core-mini_full_2.2-rescue:VCC-power1 #PWR0152
+U 1 1 5E890C40
+P 7700 6250
+F 0 "#PWR0152" H 7700 6100 50  0001 C CNN
+F 1 "VCC" H 7700 6400 50  0000 C CNN
+F 2 "" H 7700 6250 50  0000 C CNN
+F 3 "" H 7700 6250 50  0000 C CNN
+	1    7700 6250
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	8000 4600 8000 5250
+$Comp
+L Device:R R44
+U 1 1 5E57F2B9
+P 8000 5400
+F 0 "R44" V 8100 5350 50  0000 L CNN
+F 1 "18K" V 8000 5350 50  0000 L CNN
+F 2 "Mylib_v2.2:R_1206" V 7930 5400 50  0001 C CNN
+F 3 "~" H 8000 5400 50  0001 C CNN
+	1    8000 5400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7700 5850 7700 5800
+Connection ~ 7700 5800
+Wire Wire Line
+	7700 5800 8000 5800
 $EndSCHEMATC
