@@ -414,7 +414,6 @@ extern const pm_char STR_MODELISON[];
 
 #define LEN_CALIB_FIELDS PSIZE(TR_BATT_CALIB)
 
-#if defined(NAVIGATION_MENUS)
 extern const pm_char STR_SELECT_MODEL[];
 extern const pm_char STR_CREATE_MODEL[];
 extern const pm_char STR_COPY_MODEL[];
@@ -434,7 +433,6 @@ extern const pm_char STR_RESET_TIMER2[];
 extern const pm_char STR_RESET_TELEMETRY[];
 extern const pm_char STR_STATISTICS[];
 extern const pm_char STR_SAVE_TIMERS[];
-#endif
 
 extern const pm_char STR_RESET_BTN[];
 

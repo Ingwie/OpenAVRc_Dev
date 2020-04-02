@@ -986,12 +986,10 @@ void eeLoadModel(uint8_t id)
 
       if (pulsesStarted())
         {
-#if defined(GUI)
           if (!newModel)
             {
               checkAll();
             }
-#endif
           startPulses(PROTOCMD_INIT);
         }
 

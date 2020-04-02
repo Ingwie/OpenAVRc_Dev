@@ -27,10 +27,6 @@ LCDROT180 = NO
 # Values = STD, FRSKY
 EXT = STD
 
-# GUI enabled
-# Values = YES, NO
-GUI = YES
-
 # FAI mode
 # Values = YES, NO, CHOICE
 FAI = NO
@@ -99,10 +95,9 @@ PWM_BACKLIGHT = NO
 
 # SPLASH on START
 # Values = YES, NO, FIXED
-SPLASH = $(GUI)
+SPLASH = YES
 
-# GRAPHICS (sliders / checkboxes / bold / batt graph)
-GRAPHICS = YES
+# GRAPHICS ( bold / batt graph)
 BOLD = YES
 BATTGRAPH = NO
 
@@ -789,16 +784,11 @@ TARGET = OpenAVRc
   STD_TTS_SRC = translations/tts_$(shell sh -c "echo $(TTS) | tr '[:upper:]' '[:lower:]'").cpp
   TTS_SRC = $(shell sh -c "if test -f $(STD_TTS_SRC); then echo $(STD_TTS_SRC); else echo translations/tts_en.cpp; fi")
 
-ifeq ($(GUI), YES)
-  GUISRC = gui/navigation.cpp gui/popups.cpp gui/widgets.cpp gui/menus.cpp $(GUIMODELSRC) $(GUIGENERALSRC) gui/view_main.cpp gui/view_statistics.cpp
-  CPPDEFS += -DGUI
-endif
+GUISRC = gui/navigation.cpp gui/popups.cpp gui/widgets.cpp gui/menus.cpp $(GUIMODELSRC) $(GUIGENERALSRC) gui/view_main.cpp gui/view_statistics.cpp
 
 CPPSRC += OpenAVRc.cpp functions.cpp strhelpers.cpp $(PULSESSRC) switches.cpp curves.cpp mixer.cpp stamp.cpp $(GUISRC) $(EEPROMSRC) timers.cpp trainer_input.cpp
 
-ifeq ($(GUI), YES)
-  GUISRC += gui/lcd.cpp gui/splash.cpp gui/fonts.cpp
-endif
+GUISRC += gui/lcd.cpp gui/splash.cpp gui/fonts.cpp
 
 GUISRC += keys.cpp maths.cpp translations.cpp $(TTS_SRC)
 
@@ -891,10 +881,6 @@ endif
 
 ifeq ($(SPLASH), FIXED)
   CPPDEFS += -DSPLASH -DFSPLASH
-endif
-
-ifeq ($(GRAPHICS), YES)
-  CPPDEFS += -DGRAPHICS
 endif
 
 ifeq ($(BOLD), YES)

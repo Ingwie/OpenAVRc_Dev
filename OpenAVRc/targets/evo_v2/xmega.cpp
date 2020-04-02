@@ -167,12 +167,10 @@ inline void boardInit()
   i2c_init();
 #endif
 
-#if defined(GUI)
   lcdInit();
   lcdClear();
   DISPLAY_LOADING_MESSAGE();
   lcdRefresh();
-#endif
 
 #if defined(PWM_BACKLIGHT)
 // PIN C2.

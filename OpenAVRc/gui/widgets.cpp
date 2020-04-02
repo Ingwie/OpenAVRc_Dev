@@ -47,17 +47,12 @@ void drawStick(coord_t centrex, int16_t xval, int16_t yval)
 
 void menu_lcd_onoff(coord_t x, coord_t y, uint8_t value, LcdFlags attr)
 {
-#if defined(GRAPHICS)
   if (value)
     lcdDrawChar(x+1, y, '#');
   if (attr)
     lcdDrawFilledRect(x, y, 7, 7);
   else
     lcd_square(x, y, 7);
-#else
-  /* ON / OFF version */
-  lcdDrawTextAtIndex(x, y, STR_OFFON, value, attr ? INVERS:0) ;
-#endif
 }
 
 void displayScreenIndex(uint8_t index, uint8_t count, uint8_t attr)
@@ -100,12 +95,8 @@ select_menu_value_t selectMenuSubImg(coord_t x, coord_t y, select_menu_value_t v
 
 uint8_t onoffMenuItem(uint8_t value, coord_t x, coord_t y, const pm_char *label, LcdFlags attr, uint8_t event )
 {
-#if defined(GRAPHICS)
   menu_lcd_onoff(x, y, value, attr);
   return selectMenuItem(x, y, label, NULL, value, 0, 1, attr, event);
-#else
-  return selectMenuItem(x, y, label, STR_OFFON, value, 0, 1, attr, event);
-#endif
 }
 
 int8_t switchMenuItem(coord_t x, coord_t y, int8_t value, LcdFlags attr, uint8_t event)
