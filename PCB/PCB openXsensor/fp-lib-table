@@ -1,3 +1,0 @@
-(fp_lib_table
-  (lib (name Empreintes)(type KiCad)(uri ${KIPRJMOD}/Empreintes)(options "")(descr ""))
-)

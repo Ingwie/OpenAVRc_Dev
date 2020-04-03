@@ -1,9 +1,0 @@
-EESchema-DOCLIB  Version 2.0
-#
-$CMP TLP290_
-D SOP4, AC/DC Optocoupler, Vce 80V, CTR 50-100%
-K NPN AC DC Optocoupler
-F http://www.semicon.toshiba.co.jp/docs/datasheet/en/Opto/TLP290_en_datasheet_120426.pdf
-$ENDCMP
-#
-#End Doc Library

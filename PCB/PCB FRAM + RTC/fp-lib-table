@@ -1,3 +1,0 @@
-(fp_lib_table
-  (lib (name modules)(type KiCad)(uri "$(KIPRJMOD)/share/modules.pretty")(options "")(descr ""))
-)
