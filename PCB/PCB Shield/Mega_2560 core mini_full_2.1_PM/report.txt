@@ -1,0 +1,364 @@
+Info: Reading netlist file "C:\tmp\_OpenAVRc\MegaCore 2560 Shield.v2.1\Mega_2560 core mini_full_2.1_PM\Mega_2560 core mini_full_2.1.net".
+
+Info: Using references to match components and footprints.
+
+* Warning: component 'U2': board footprint 'MegaCore_Shield:SOP4', netlist footprint 'anthoperso:SOP4'
+
+* Warning: component 'P20': board footprint 'MegaCore_Shield:Con_RS232_TTL', netlist footprint 'anthoperso:Con_RS232_TTL'
+
+* Warning: component 'R38': board footprint 'anthoperso:R_1206', netlist footprint 'Resistors_SMD:R_1206'
+
+* Warning: component 'R21': board footprint 'anthoperso:R_1206', netlist footprint 'Resistors_SMD:R_1206'
+
+* Warning: component 'R20': board footprint 'anthoperso:R_1206', netlist footprint 'Resistors_SMD:R_1206'
+
+* Warning: component 'R15': board footprint 'anthoperso:R_1206', netlist footprint 'Resistors_SMD:R_1206'
+
+* Warning: component 'P12': board footprint 'MegaCore_Shield:Pin_Header_Straight_2x03_Pitch2.54mm', netlist footprint 'Pin_Headers:Pin_Header_Straight_2x03_Pitch2.54mm'
+
+* Warning: component 'P13': board footprint 'MegaCore_Shield:Pin_Header_Straight_2x03_Pitch2.54mm', netlist footprint 'Pin_Headers:Pin_Header_Straight_1x06_Pitch2.54mm'
+
+* Warning: component 'U1': board footprint 'MegaCore_Shield:SOT-457', netlist footprint 'SOT-457'
+
+* Warning: component 'U7': board footprint 'MegaCore_Shield:SOIC-8-FRAM_DI', netlist footprint 'SOIC-8-FRAM_DI'
+
+* Warning: component 'U8': board footprint 'MegaCore_Shield:SO-16-DS3231', netlist footprint 'SO-16-DS3231'
+
+* Warning: component 'P7': board footprint 'MegaCore_Shield:Pin_Header_Straight_2x05_Pitch2.54mm', netlist footprint 'Pin_Header_Straight_2x05_Pitch2.54mm'
+
+* Warning: component 'U4': board footprint 'MegaCore_Shield:Pm5033_sil5', netlist footprint 'PM5033_SIL5'
+
+* Warning: component 'P30': board footprint 'MegaCore_Shield:MiniDCDC3A', netlist footprint 'MiniDCDC3A'
+
+Error: No footprint defined for component 'Q1'.
+
+Info: Checking netlist component footprint "BT1:/59C560A1/59C5678A:Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm".
+
+Info: Checking netlist component footprint "C1:/59C560A1/59C57856:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C2:/59C560A1/59C57888:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C3:/59C5D60D/59C5BE6F:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C4:/59C5A6CD/59C5C192:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C5:/59C59DB3/59C5A55A:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C6:/59C6AC14/59C6C67F:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C7:/59C5272D/59C531A5:Capacitors_SMD:CP_Elec_6.3x5.3".
+
+Info: Checking netlist component footprint "C8:/59C5272D/59C531B2:Capacitors_SMD:CP_Elec_6.3x5.3".
+
+Info: Checking netlist component footprint "C9:/59C5A6CD/59C5C005:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C10:/59C5D60D/59C5DE3E:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C11:/59C5A6CD/59C5C00C:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C12:/59C5A6CD/59C60A12:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C13:/59C5A6CD/59C60A19:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C14:/59C5A6CD/59C60A20:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C15:/59C5D60D/59C5DE73:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C16:/59C5A6CD/59C5C013:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C17:/59C5A6CD/59C5C01A:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C18:/59C5D60D/59C5DE5F:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C19:/59C5D60D/59C5DE6C:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C20:/59C59DB3/59C5A5D1:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C21:/59C59DB3/59C5A5D8:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C22:/59C560A1/59C56721:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C23:/59C560A1/59C56751:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C24:/59C5D60D/59C5BEA1:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C26:/59C5A6CD/59C63F5D:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C27:/59C5A6CD/59C63F56:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C28:/59C5272D/59C5318F:Capacitors_SMD:CP_Elec_6.3x5.3".
+
+Info: Checking netlist component footprint "C29:/59C5A6CD/59C63F4F:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C31:/59C5272D/59C53131:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C32:/59C5A6CD/59C63F72:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C33:/59C5A6CD/59C63F6B:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C34:/59C5A6CD/59C63F64:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C38:/59C5272D/59C53155:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C42:/59C5A6CD/59C5C128:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C43:/59C5A6CD/59C5C089:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C44:/59C5A6CD/59C5C090:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C45:/59C5A6CD/59C5C0C5:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "C46:/59C5A6CD/59C5C0F3:Capacitors_SMD:C_1206".
+
+Info: Checking netlist component footprint "D1:/59C59DB3/59C5A5A7:Diodes_SMD:D_SOD-123".
+
+Info: Checking netlist component footprint "D6:/59C5272D/59C5319C:Diodes_SMD:D_SOD-123".
+
+Info: Checking netlist component footprint "P1:/59C5D60D/59C5DE8E:anthoperso:Connectors-2560-core".
+
+Changing component "P1:/59C5D60D/59C5DE8E" pin "D6" net name from "" to "Net-(P1-PadD6)".
+
+Changing component "P1:/59C5D60D/59C5DE8E" pin "NC" net name from "" to "Net-(P1-PadNC)".
+
+Changing component "P1:/59C5D60D/59C5DE8E" pin "G4" net name from "" to "Net-(P1-PadG4)".
+
+Changing component "P1:/59C5D60D/59C5DE8E" pin "D5" net name from "" to "Net-(P1-PadD5)".
+
+Changing component "P1:/59C5D60D/59C5DE8E" pin "H7" net name from "" to "Net-(P1-PadH7)".
+
+Changing component "P1:/59C5D60D/59C5DE8E" pin "B4" net name from "" to "Net-(P1-PadB4)".
+
+Changing component "P1:/59C5D60D/59C5DE8E" pin "G3" net name from "" to "Net-(P1-PadG3)".
+
+Changing component "P1:/59C5D60D/59C5DE8E" pin "B7" net name from "" to "Net-(P1-PadB7)".
+
+Changing component "P1:/59C5D60D/59C5DE8E" pin "J2" net name from "" to "Net-(P1-PadJ2)".
+
+Changing component "P1:/59C5D60D/59C5DE8E" pin "J7" net name from "" to "Net-(P1-PadJ7)".
+
+Info: Checking netlist component footprint "P2:/59C560A1/59C57881:Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P3:/59C560A1/59C5787A:Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P4:/59C5A6CD/59C60A47:Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P5:/59C59DB3/59C5A561:Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P6:/59C5D60D/59C5BE44:Pin_Headers:Pin_Header_Straight_1x06_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P7:/59C6AC14/59C6C69D:Pin_Header_Straight_2x05_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P8:/59C59DB3/59C5A5BC:Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P9:/59C5D60D/59C5DDB5:Pin_Headers:Pin_Header_Straight_2x03_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P10:/59C5D60D/59C5BE9A:Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P11:/59C5A6CD/59C62A3B:Pin_Headers:Pin_Header_Straight_2x05_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P12:/59C5A6CD/59C5C1B5:Pin_Headers:Pin_Header_Straight_2x03_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P13:/59C5A6CD/59C5C1AE:Pin_Headers:Pin_Header_Straight_1x06_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P14:/59C5A6CD/59C62A34:Pin_Headers:Pin_Header_Straight_2x05_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P15:/59C560A1/59C5785D:Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P16:/59C5D60D/59C5BE76:anthoperso:Pin_Header_Straight_2x10_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P17:/59C5272D/59C531D8:Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P18:/59C6AC14/59C6B45D:Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P19:/59C6AC14/59C6B42F:Pin_Headers:Pin_Header_Straight_2x04_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P20:/59C6AC14/59C6B471:anthoperso:Con_RS232_TTL".
+
+Info: Checking netlist component footprint "P21:/59C5272D/59C53169:Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P22:/59C59DB3/59C5A5A0:anthoperso:connector_mini-JQ6500-28P".
+
+Info: Checking netlist component footprint "P23:/59C5A6CD/59C63F7F:Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P24:/59C5A6CD/59C63F86:Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P25:/59C5A6CD/59C63FBD:Pin_Headers:Pin_Header_Straight_2x04_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P26:/59C5272D/59C53145:Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P27:/59C59DB3/59C5A5B5:Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P28:/59C5A6CD/59C5C19F:Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P29:/59C5272D/5A087968:Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P30:/59C5272D/59C531C1:MiniDCDC3A".
+
+Info: Checking netlist component footprint "P31:/59C5A6CD/59C60A40:Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm".
+
+Info: Checking netlist component footprint "P32:/59C5A6CD/59C60A39:Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm".
+
+Info: Checking netlist component footprint "Q1:/59C5D60D/59E0D99E:".
+
+Info: Checking netlist component footprint "R1:/59C59DB3/59C5A56F:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R2:/59C59DB3/59C5A576:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R3:/59C59DB3/59C5A580:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R4:/59C59DB3/59C5A587:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R5:/59C5D60D/59EF4793:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R6:/59C5D60D/59EF4881:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R7:/59C6AC14/59C6B41B:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R8:/59C6AC14/59C6B44D:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R9:/59C59DB3/59C5A5AE:anthoperso:R_1206".
+
+Info: Checking netlist component footprint "R11:/59C5A6CD/59C5C161:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R12:/59C5A6CD/59C5C16F:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R13:/59C5A6CD/59C5C184:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R14:/59C5A6CD/59C5C18B:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R15:/59C560A1/59C5676A:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R16:/59C5272D/59C53138:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R17:/59C5272D/59C53182:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R20:/59C560A1/59C56771:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R21:/59C560A1/59D4D3D2:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R24:/59C5A6CD/59C5C121:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R25:/59C5A6CD/59C5C12F:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R26:/59C5A6CD/59C5C055:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R27:/59C5A6CD/59C5C15A:Potentiometers:Potentiometer_Trimmer_Bourns_3296W".
+
+Info: Checking netlist component footprint "R28:/59C5A6CD/59C5C05C:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R29:/59C5A6CD/59C5C0A4:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R30:/59C5A6CD/59C5C168:Potentiometers:Potentiometer_Trimmer_Bourns_3296W".
+
+Info: Checking netlist component footprint "R31:/59C5A6CD/59C5C0AB:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R32:/59C5A6CD/59C5C0CC:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R33:/59C5A6CD/59C5C176:Potentiometers:Potentiometer_Trimmer_Bourns_3296W".
+
+Info: Checking netlist component footprint "R34:/59C5A6CD/59C5C0D3:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R35:/59C5A6CD/59C5C0FA:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R36:/59C5A6CD/59C5C17D:Potentiometers:Potentiometer_Trimmer_Bourns_3296W".
+
+Info: Checking netlist component footprint "R37:/59C5A6CD/59C5C101:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R38:/59C560A1/59D4D3D8:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R39:/59C5D60D/59E0D037:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R40:/59C5D60D/59E0E920:Resistors_SMD:R_1206".
+
+Changing component "R40:/59C5D60D/59E0E920" pin "1" net name from "" to "/OpenAVRc_CoreConnects/BT_OnOff".
+
+Info: Checking netlist component footprint "R41:/59C5272D/5A086C25:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R42:/59C5272D/5A087144:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "R43:/59C5272D/5A086B2F:Resistors_SMD:R_1206".
+
+Info: Checking netlist component footprint "RV1:/59C5D60D/59C5BE93:Potentiometers:Potentiometer_Trimmer_Bourns_3296W".
+
+Info: Checking netlist component footprint "RV2:/59C5A6CD/59C5C097:Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp".
+
+Info: Checking netlist component footprint "RV3:/59C5A6CD/59C5C0B8:Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp".
+
+Info: Checking netlist component footprint "RV4:/59C5A6CD/59C5C0E0:Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp".
+
+Info: Checking netlist component footprint "RV5:/59C5A6CD/59C5C10E:Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp".
+
+Info: Checking netlist component footprint "RV6:/59C5D60D/59C5BE8C:Potentiometers:Potentiometer_Trimmer_Bourns_3296W".
+
+Changing component "RV6:/59C5D60D/59C5BE8C" pin "1" net name from "" to "Net-(RV6-Pad1)".
+
+Info: Checking netlist component footprint "U1:/59C6AC14/59C6B490:SOT-457".
+
+Info: Checking netlist component footprint "U2:/59C6AC14/59C6B484:anthoperso:SOP4".
+
+Info: Checking netlist component footprint "U3:/59C6AC14/59C6B46A:anthoperso:SOP4".
+
+Info: Checking netlist component footprint "U4:/59C5272D/59E1D515:PM5033_SIL5".
+
+Info: Checking netlist component footprint "U5:/59C5272D/59C53173:TO_SOT_Packages_SMD:SOT-223".
+
+Info: Checking netlist component footprint "U6:/59C5A6CD/59C5C02D:Librairie master:SOP14".
+
+Info: Checking netlist component footprint "U7:/59C560A1/59C5670E:SOIC-8-FRAM_DI".
+
+Info: Checking netlist component footprint "U8:/59C560A1/59C56738:SO-16-DS3231".
+
+Changing component "U8:/59C560A1/59C56738" pin "4" net name from "" to "Net-(U8-Pad4)".
+
+Info: Checking netlist component footprint "W1:/59C5A6CD/59C5C13E:anthoperso:TESTPT".
+
+Info: Checking netlist component footprint "W2:/59C5A6CD/59C5C145:anthoperso:TESTPT".
+
+Info: Checking netlist component footprint "W3:/59C5A6CD/59C5C14C:anthoperso:TESTPT".
+
+Info: Checking netlist component footprint "W4:/59C5A6CD/59C5C153:anthoperso:TESTPT".
+
+Removing unused component "R18:/59C5A6CD/59C63F94".
+
+Removing unused component "R19:/59C5A6CD/59C63F8D".
+
+Removing unused component "R23:/59C5A6CD/59C63F9B".
+
+Removing unused component "R22:/59C5A6CD/59C63FA2".
+
+Removing unused component "D2:/59C6AC14/59C6B455".
+
+Removing unused component "R10:/59C59DB3/59C5A5C4".
+
+Removing unused component "Fix1:".
+
+Removing unused component "Fix3:".
+
+Removing unused component "Fix2:".
+
+Remove single pad net "/OpenAVRc_CoreConnects/BT_OnOff" on "R40" pad '1'
+
+Remove single pad net "Net-(P1-PadB4)" on "P1" pad 'B4'
+
+Remove single pad net "Net-(P1-PadB7)" on "P1" pad 'B7'
+
+Remove single pad net "Net-(P1-PadD5)" on "P1" pad 'D5'
+
+Remove single pad net "Net-(P1-PadD6)" on "P1" pad 'D6'
+
+Remove single pad net "Net-(P1-PadG3)" on "P1" pad 'G3'
+
+Remove single pad net "Net-(P1-PadG4)" on "P1" pad 'G4'
+
+Remove single pad net "Net-(P1-PadH7)" on "P1" pad 'H7'
+
+Remove single pad net "Net-(P1-PadJ2)" on "P1" pad 'J2'
+
+Remove single pad net "Net-(P1-PadJ7)" on "P1" pad 'J7'
+
+Remove single pad net "Net-(P1-PadNC)" on "P1" pad 'NC'
+
+Remove single pad net "Net-(RV6-Pad1)" on "RV6" pad '1'
+
+Remove single pad net "Net-(U8-Pad4)" on "U8" pad '4'
+

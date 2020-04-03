@@ -1,0 +1,107 @@
+Cmp-Mod V01 Created by PcbNew   date = 05/12/2018 11:44:06
+
+BeginCmp
+TimeStamp = 5C023869
+Path = /5BFBC6FC
+Reference = C1;
+ValeurCmp = 100nF;
+IdModule  = C_0805_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C0541E2
+Path = /5BFFB55C
+Reference = P1;
+ValeurCmp = CONN_01X04;
+IdModule  = SMD_1x04_Pitch2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C054205
+Path = /5BFFB734
+Reference = U2;
+ValeurCmp = A1335LLETR-T;
+IdModule  = TSSOP-14_4.4x5mm_Pitch0.65mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5BFFBA18
+Path = /5BFBBD47
+Reference = Q1;
+ValeurCmp = BSS138;
+IdModule  = SOT-23_MOS_P;
+EndCmp
+
+BeginCmp
+TimeStamp = 5BFFBA28
+Path = /5BFBBEA4
+Reference = Q2;
+ValeurCmp = BSS138;
+IdModule  = SOT-23_MOS_P;
+EndCmp
+
+BeginCmp
+TimeStamp = 5BFFBA7C
+Path = /5BFBBC16
+Reference = U1;
+ValeurCmp = 662K;
+IdModule  = SOT-23;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C0234C1
+Path = /5C0234C6
+Reference = W1;
+ValeurCmp = 0;
+IdModule  = TESTPT;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C0234C7
+Path = /5C02380C
+Reference = W2;
+ValeurCmp = 0;
+IdModule  = TESTPT;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C0234CD
+Path = /5C0238AE
+Reference = W3;
+ValeurCmp = 0;
+IdModule  = TESTPT;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C0234D3
+Path = /5C0238E2
+Reference = W4;
+ValeurCmp = 0;
+IdModule  = TESTPT;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C023879
+Path = /5BFBCEF6
+Reference = C2;
+ValeurCmp = 100nF;
+IdModule  = C_0805_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C023889
+Path = /5BFBBF6E
+Reference = R1;
+ValeurCmp = 10K;
+IdModule  = R_0805_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C023899
+Path = /5BFBC027
+Reference = R2;
+ValeurCmp = 10K;
+IdModule  = R_0805_HandSoldering;
+EndCmp
+
+EndListe

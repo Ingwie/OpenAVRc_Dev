@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxFrame" name="OpenAVRc_SimulatorFrame">
+		<title>Simulateur V3</title>
+		<centered>1</centered>
+		<pos>25,25</pos>
+		<size>787,415</size>
+		<maxsize>-1,-1</maxsize>
+		<id_arg>0</id_arg>
+		<style>wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER</style>
+		<handler function="OnClose" entry="EVT_CLOSE" />
+		<object class="wxPanel" name="ID_PANELPRINCIPAL" variable="PanelPrincipal" member="yes">
+			<pos>424,216</pos>
+			<size>777,400</size>
+			<style>wxRAISED_BORDER</style>
+			<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
+			<object class="wxPanel" name="ID_PANELH" variable="PanelH" member="yes">
+				<pos>0,0</pos>
+				<size>784,64</size>
+				<style>wxDOUBLE_BORDER</style>
+			</object>
+			<object class="wxPanel" name="ID_PANELMAIN" variable="PanelMain" member="yes">
+				<pos>0,64</pos>
+				<size>784,248</size>
+				<style>wxDOUBLE_BORDER</style>
+				<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
+				<object class="wxSlider" name="ID_POT1" variable="Pot1" member="yes">
+					<value>1024</value>
+					<max>2048</max>
+					<pos>352,160</pos>
+					<size>14,78</size>
+					<bg>#804000</bg>
+					<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				</object>
+				<object class="wxSlider" name="ID_POT2" variable="Pot2" member="yes">
+					<value>1024</value>
+					<max>2048</max>
+					<pos>380,160</pos>
+					<size>14,78</size>
+					<bg>#804000</bg>
+					<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				</object>
+				<object class="wxSlider" name="ID_POT3" variable="Pot3" member="yes">
+					<value>1024</value>
+					<max>2048</max>
+					<pos>408,160</pos>
+					<size>14,78</size>
+					<bg>#804000</bg>
+					<style>wxSL_VERTICAL|wxSL_INVERSE</style>
+				</object>
+				<object class="wxPanel" name="ID_BPMENU" variable="BPmenu" member="yes">
+					<pos>440,170</pos>
+					<size>50,20</size>
+					<bg>#000000</bg>
+					<tooltip>MENU</tooltip>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBPmenuLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBPmenuLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_BPH" variable="BPh" member="yes">
+					<pos>288,160</pos>
+					<size>25,25</size>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBPhLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBPhLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_BPEXIT" variable="BPexit" member="yes">
+					<pos>440,200</pos>
+					<size>50,20</size>
+					<bg>#000000</bg>
+					<tooltip>EXIT</tooltip>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBPexitLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBPexitLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_LLTRIM" variable="LlTrim" member="yes">
+					<pos>102,200</pos>
+					<size>25,12</size>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnLlTrimLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnLlTrimLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_LUTRIM" variable="LuTrim" member="yes">
+					<pos>224,72</pos>
+					<size>12,25</size>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnLuTrimLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnLuTrimLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_LDTRIM" variable="LdTrim" member="yes">
+					<pos>224,128</pos>
+					<size>12,25</size>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnLdTrimLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnLdTrimLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_RDTRIM" variable="RdTrim" member="yes">
+					<pos>536,128</pos>
+					<size>12,25</size>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnRdTrimLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnRdTrimLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_RUTRIM" variable="RuTrim" member="yes">
+					<pos>536,72</pos>
+					<size>12,25</size>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnRuTrimLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnRuTrimLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_RLTRIM" variable="RlTrim" member="yes">
+					<pos>592,200</pos>
+					<size>25,12</size>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnRlTrimLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnRlTrimLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_RRTRIM" variable="RrTrim" member="yes">
+					<pos>644,200</pos>
+					<size>25,12</size>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnRrTrimLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnRrTrimLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_LRTRIM" variable="LrTrim" member="yes">
+					<pos>152,200</pos>
+					<size>25,12</size>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnLrTrimLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnLrTrimLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_BPG" variable="BPg" member="yes">
+					<pos>264,184</pos>
+					<size>25,25</size>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBPgLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBPgLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_BPB" variable="BPb" member="yes">
+					<pos>288,208</pos>
+					<size>25,25</size>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBPbLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBPbLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_BPD" variable="BPd" member="yes">
+					<pos>312,184</pos>
+					<size>25,25</size>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBPdLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBPdLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_RSTICK" variable="Rstick" member="yes">
+					<pos>552,32</pos>
+					<size>158,158</size>
+					<fg>#FF0000</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnRstickPaint" entry="EVT_PAINT" />
+					<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
+					<handler function="OnRstickMouseMove" entry="EVT_LEFT_DOWN" />
+					<handler function="OnRstickLeftUp" entry="EVT_LEFT_UP" />
+					<handler function="OnRstickMouseMove" entry="EVT_MOTION" />
+					<handler function="OnRstickLeftUp" entry="EVT_LEAVE_WINDOW" />
+				</object>
+				<object class="wxPanel" name="ID_SIMULCD" variable="Simulcd" member="yes">
+					<pos>256,20</pos>
+					<size>260,132</size>
+					<bg>#78D21E</bg>
+					<style>wxNO_BORDER</style>
+					<handler function="OnwxsimulcdPaint" entry="EVT_PAINT" />
+					<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
+					<handler function="OnSimulcdLeftDClick" entry="EVT_LEFT_DCLICK" />
+				</object>
+				<object class="wxPanel" name="ID_BPTHR" variable="BpThr" member="yes">
+					<pos>25,48</pos>
+					<size>25,25</size>
+					<bg>#000000</bg>
+					<tooltip>THR</tooltip>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBpThrLeftDown" entry="EVT_LEFT_DOWN" />
+				</object>
+				<object class="wxPanel" name="ID_BPRUD" variable="BpRud" member="yes">
+					<pos>25,88</pos>
+					<size>25,25</size>
+					<bg>#000000</bg>
+					<tooltip>RUD</tooltip>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBpRudLeftDown" entry="EVT_LEFT_DOWN" />
+				</object>
+				<object class="wxPanel" name="ID_BPELE" variable="BpEle" member="yes">
+					<pos>25,128</pos>
+					<size>25,25</size>
+					<bg>#000000</bg>
+					<tooltip>ELE</tooltip>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBpEleLeftDown" entry="EVT_LEFT_DOWN" />
+				</object>
+				<object class="wxPanel" name="ID_BPTRN" variable="BpTrn" member="yes">
+					<pos>16,208</pos>
+					<size>25,25</size>
+					<bg>#000000</bg>
+					<tooltip>TRN</tooltip>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBpTrnLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBpTrnLeftUp" entry="EVT_LEFT_UP" />
+					<handler function="OnBpTrnRightDown" entry="EVT_RIGHT_DOWN" />
+				</object>
+				<object class="wxPanel" name="ID_BPAIL" variable="BpAil" member="yes">
+					<pos>720,48</pos>
+					<size>25,25</size>
+					<bg>#000000</bg>
+					<tooltip>AIL</tooltip>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBpAilLeftDown" entry="EVT_LEFT_DOWN" />
+				</object>
+				<object class="wxPanel" name="ID_BPGEA" variable="BpGea" member="yes">
+					<pos>720,88</pos>
+					<size>25,25</size>
+					<bg>#000000</bg>
+					<tooltip>GEA</tooltip>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBpGeaLeftDown" entry="EVT_LEFT_DOWN" />
+				</object>
+				<object class="wxPanel" name="ID_PBID1" variable="BpId1" member="yes">
+					<pos>720,128</pos>
+					<size>25,20</size>
+					<bg>#000000</bg>
+					<tooltip>ID1</tooltip>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBpId1LeftDown" entry="EVT_LEFT_DOWN" />
+				</object>
+				<object class="wxPanel" name="ID_BOID2" variable="BpId2" member="yes">
+					<pos>720,148</pos>
+					<size>25,20</size>
+					<bg>#000000</bg>
+					<tooltip>ID2</tooltip>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBpId2LeftDown" entry="EVT_LEFT_DOWN" />
+				</object>
+				<object class="wxPanel" name="ID_LSTICK" variable="Lstick" member="yes">
+					<pos>60,32</pos>
+					<size>158,158</size>
+					<fg>#FF0000</fg>
+					<bg>#000000</bg>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnLstickPaint" entry="EVT_PAINT" />
+					<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
+					<handler function="OnLstickMouseMove" entry="EVT_LEFT_DOWN" />
+					<handler function="OnLstickLeftUp" entry="EVT_LEFT_UP" />
+					<handler function="OnLstickMouseMove" entry="EVT_MOTION" />
+					<handler function="OnLstickLeftUp" entry="EVT_LEAVE_WINDOW" />
+				</object>
+				<object class="wxSpinButton" name="ID_SPINREA" variable="SpinRea" member="yes">
+					<min>-100</min>
+					<max>100</max>
+					<pos>14,14</pos>
+					<tooltip>Rea</tooltip>
+					<style>wxSP_HORIZONTAL|wxSP_WRAP|wxSTATIC_BORDER</style>
+				</object>
+				<object class="wxSpinButton" name="ID_SPINREB" variable="SpinReb" member="yes">
+					<min>-100</min>
+					<max>100</max>
+					<pos>732,14</pos>
+					<tooltip>Reb</tooltip>
+					<style>wxSP_HORIZONTAL|wxSP_WRAP|wxSTATIC_BORDER</style>
+				</object>
+				<object class="wxTextCtrl" name="ID_TEXTCTRLDUMMY" variable="TextCtrlgetkbinput" member="yes">
+					<pos>64,216</pos>
+					<size>0,0</size>
+				</object>
+				<object class="wxPanel" name="ID_BPREA" variable="BpRea" member="yes">
+					<pos>14,2</pos>
+					<size>35,12</size>
+					<bg>#000000</bg>
+					<tooltip>BP REA</tooltip>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBpReaLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBpReaLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+				<object class="wxPanel" name="ID_BPREB" variable="BpReb" member="yes">
+					<pos>732,2</pos>
+					<size>35,12</size>
+					<bg>#000000</bg>
+					<tooltip>BP REB</tooltip>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnBpRebLeftDown" entry="EVT_LEFT_DOWN" />
+					<handler function="OnBpRebLeftUp" entry="EVT_LEFT_UP" />
+				</object>
+			</object>
+			<object class="wxPanel" name="ID_PANELL" variable="PanelL" member="yes">
+				<pos>0,305</pos>
+				<size>784,64</size>
+				<style>wxDOUBLE_BORDER</style>
+				<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
+				<object class="wxToggleButton" name="ID_ONTGLBUTTON" variable="OnTglButton" member="yes">
+					<label>ON</label>
+					<pos>8,8</pos>
+					<size>62,22</size>
+					<style>wxDOUBLE_BORDER</style>
+					<handler function="OnOnTglButtonToggle" entry="EVT_TOGGLEBUTTON" />
+				</object>
+				<object class="wxButton" name="ID_BUTTONSTARTDESKTOP" variable="ButtonStartDesktop" member="yes">
+					<label>Desktop</label>
+					<pos>8,32</pos>
+					<size>62,22</size>
+					<style>wxSIMPLE_BORDER</style>
+					<handler function="OnButtonStartDesktopClick" entry="EVT_BUTTON" />
+				</object>
+				<object class="wxCheckBox" name="ID_CHECKBOXA7105" variable="CheckBoxA7105" member="yes">
+					<label>A7105</label>
+					<checked>1</checked>
+					<pos>704,24</pos>
+					<size>70,13</size>
+					<enabled>0</enabled>
+					<bg>#C0C0C0</bg>
+					<handler function="OnCheckBoxProtocolsClick" entry="EVT_CHECKBOX" />
+				</object>
+				<object class="wxCheckBox" name="ID_CHECKBOXNRF24L01" variable="CheckBoxNRF24L01" member="yes">
+					<label>NRF24L01</label>
+					<checked>1</checked>
+					<pos>704,40</pos>
+					<enabled>0</enabled>
+					<bg>#C0C0C0</bg>
+					<handler function="OnCheckBoxProtocolsClick" entry="EVT_CHECKBOX" />
+				</object>
+				<object class="wxCheckBox" name="ID_CHECKBOXCC2500" variable="CheckBoxCC2500" member="yes">
+					<label>CC2500</label>
+					<checked>1</checked>
+					<pos>632,24</pos>
+					<size>70,13</size>
+					<enabled>0</enabled>
+					<bg>#C0C0C0</bg>
+					<handler function="OnCheckBoxProtocolsClick" entry="EVT_CHECKBOX" />
+				</object>
+				<object class="wxCheckBox" name="ID_CHECKBOXCYRF6936" variable="CheckBoxCYRF6936" member="yes">
+					<label>CYRF6936</label>
+					<checked>1</checked>
+					<pos>632,40</pos>
+					<enabled>0</enabled>
+					<bg>#C0C0C0</bg>
+					<handler function="OnCheckBoxProtocolsClick" entry="EVT_CHECKBOX" />
+				</object>
+				<object class="wxCheckBox" name="ID_CHECKBOXMULTIMOD" variable="CheckBoxMULTIMOD" member="yes">
+					<label>MULTIMOD</label>
+					<checked>1</checked>
+					<pos>552,40</pos>
+					<size>78,13</size>
+					<enabled>0</enabled>
+					<bg>#C0C0C0</bg>
+					<handler function="OnCheckBoxProtocolsClick" entry="EVT_CHECKBOX" />
+				</object>
+				<object class="wxCheckBox" name="ID_CHECKBOXDSMSER" variable="CheckBoxDSMSER" member="yes">
+					<label>DSM SER.</label>
+					<checked>1</checked>
+					<pos>552,24</pos>
+					<size>78,13</size>
+					<enabled>0</enabled>
+					<bg>#C0C0C0</bg>
+					<handler function="OnCheckBoxProtocolsClick" entry="EVT_CHECKBOX" />
+				</object>
+				<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticTextProtocols" member="yes">
+					<label>Protocoles Activés</label>
+					<pos>624,8</pos>
+					<bg>#C0C0C0</bg>
+				</object>
+				<object class="wxStaticText" name="ID_STATICTEXTEEPATH" variable="StaticTextEepromPath" member="yes">
+					<label></label>
+					<pos>184,10</pos>
+					<size>2,13</size>
+					<bg>#C0C0C0</bg>
+				</object>
+			</object>
+		</object>
+		<object class="wxMenuBar" variable="MenuBar1" member="no">
+			<object class="wxMenu" variable="MenuFile" member="yes">
+				<label>&amp;Fichier</label>
+				<object class="wxMenuItem" name="IdMenuOpenEE" variable="MenuLoadee" member="yes">
+					<label>Charger Eeprom</label>
+					<help>Charger fichier BIN</help>
+					<bitmap stock_id="wxART_GO_FORWARD" stock_client="wxART_MENU" />
+					<handler function="OnMenuLoadEeprom" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="IdMenuSaveEE" variable="MenuSaveee" member="yes">
+					<label>Sauver Eeprom</label>
+					<help>Sauvegarde du fichier BIN</help>
+					<bitmap stock_id="wxART_GO_BACK" stock_client="wxART_MENU" />
+					<handler function="OnMenuSaveeeSelected" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="IDMENUEXPORTEEPROM" variable="MenuExportEeprom" member="yes">
+					<label>Exporter Eeprom</label>
+					<help>Exporte l&apos;eeprom en format texte</help>
+					<enabled>0</enabled>
+					<bitmap stock_id="wxART_GO_DOWN" stock_client="wxART_MENU" />
+					<handler function="OnMenuExportEepromSelected" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="IDMENUIMPORTEEPROM" variable="MenuImportEeprom" member="yes">
+					<label>Importer Eeprom</label>
+					<help>Importe une eeprom en format texte</help>
+					<enabled>0</enabled>
+					<bitmap stock_id="wxART_GO_UP" stock_client="wxART_MENU" />
+					<handler function="OnMenuImportEepromSelected" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="idMenuQuit" variable="MenuItem1" member="no">
+					<label>Quitter</label>
+					<accel>Alt-F4</accel>
+					<help>Quitter le simulateur</help>
+					<bitmap stock_id="wxART_QUIT" stock_client="wxART_MENU" />
+					<handler function="OnQuit" entry="EVT_MENU" />
+				</object>
+			</object>
+			<object class="wxMenu" variable="MenuOption" member="yes">
+				<label>&amp;Option</label>
+				<object class="wxMenu" name="ID_COLOURS" variable="MenuColours" member="yes">
+					<label>Couleurs</label>
+					<object class="wxMenuItem" name="ID_LCDB" variable="MenuLcdBack" member="yes">
+						<label>Lcd (fond)</label>
+						<bitmap stock_id="wxART_TICK_MARK" stock_client="wxART_MENU" />
+						<handler function="OnMenuLcdBackSelected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenuItem" name="ID_LCDF" variable="MenuLcdPixel" member="yes">
+						<label>Lcd (pixel)</label>
+						<bitmap stock_id="wxART_TICK_MARK" stock_client="wxART_MENU" />
+						<handler function="OnMenuLcdPixelSelected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenuItem" name="ID_BUTOFF" variable="MenuButOff" member="yes">
+						<label>Boutons (off)</label>
+						<bitmap stock_id="wxART_TICK_MARK" stock_client="wxART_MENU" />
+						<handler function="OnMenuButOffSelected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenuItem" name="ID_BUTON" variable="MenuButOn" member="yes">
+						<label>Boutons (on)</label>
+						<bitmap stock_id="wxART_TICK_MARK" stock_client="wxART_MENU" />
+						<handler function="OnMenuButOnSelected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenuItem" name="ID_STICKB" variable="MenuStickBack" member="yes">
+						<label>Manches (fond)</label>
+						<bitmap stock_id="wxART_TICK_MARK" stock_client="wxART_MENU" />
+						<handler function="OnMenuStickBackSelected" entry="EVT_MENU" />
+					</object>
+					<object class="wxMenuItem" name="ID_STICKF" variable="MenuStickStick" member="yes">
+						<label>Manches (stick)</label>
+						<bitmap stock_id="wxART_TICK_MARK" stock_client="wxART_MENU" />
+						<handler function="OnMenuStickStickSelected" entry="EVT_MENU" />
+					</object>
+				</object>
+			</object>
+			<object class="wxMenu" variable="MenuFrame" member="yes">
+				<label>&amp;Fenêtres</label>
+				<object class="wxMenuItem" name="ID_MENUITEMOUTPUTMIXER" variable="OutputMixeur" member="yes">
+					<label>Mixeur</label>
+					<handler function="OnMixeurSelected" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="ID_MENUITEMOUTPUTOUTPUT" variable="OutputBars" member="yes">
+					<label>Graphique Sorties</label>
+					<handler function="OnOutputBarsSelected" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="ID_MENUITEMOUTPUTGVARS" variable="OutputGvars" member="yes">
+					<label>Variables globales</label>
+					<handler function="OnOutputGvarsSelected" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="ID_MENUITEMRADIODATA" variable="RadioData" member="yes">
+					<label>Paramètres Radio</label>
+					<handler function="OnRadioDataSelected" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="ID_MENUITEMTELEMETRY" variable="telemetry" member="yes">
+					<label>Télémétrie</label>
+					<handler function="OntelemetrySelected" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="ID_MENUITEMLOGS" variable="Logs" member="yes">
+					<label>Logs</label>
+					<handler function="OnLogsSelected" entry="EVT_MENU" />
+				</object>
+				<object class="wxMenuItem" name="ID_MENUITEMUCLI" variable="uCli" member="yes">
+					<label>uCLI</label>
+					<handler function="OnuCliSelected" entry="EVT_MENU" />
+				</object>
+			</object>
+			<object class="wxMenu" variable="MenuHelp" member="no">
+				<label>&amp;Aide</label>
+				<object class="wxMenuItem" name="idMenuAbout" variable="MenuAbout" member="no">
+					<label>A propos ...</label>
+					<accel>F1</accel>
+					<help>C&apos;est quoi donc ?</help>
+					<bitmap stock_id="wxART_INFORMATION" stock_client="wxART_MENU" />
+					<handler function="OnAbout" entry="EVT_MENU" />
+				</object>
+			</object>
+		</object>
+		<object class="wxStatusBar" name="ID_STATUSBAR" variable="StatusBar" member="yes">
+			<fields>3</fields>
+			<widths>-30,-10,-10</widths>
+			<styles>wxSB_NORMAL,wxSB_RAISED,wxSB_RAISED</styles>
+		</object>
+		<object class="wxTimer" name="ID_TIMER10MS" variable="Timer10ms" member="yes">
+			<oneshot>1</oneshot>
+			<handler function="OnTimer10msTrigger" entry="EVT_TIMER" />
+		</object>
+		<object class="wxTimer" name="ID_TIMERMAIN" variable="TimerMain" member="yes">
+			<oneshot>1</oneshot>
+			<handler function="OnTimerMainTrigger" entry="EVT_TIMER" />
+		</object>
+	</object>
+</wxsmith>

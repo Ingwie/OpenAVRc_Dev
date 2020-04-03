@@ -1,0 +1,99 @@
+Cmp-Mod V01 Created by PcbNew   date = 05/01/2019 17:23:00
+
+BeginCmp
+TimeStamp = 5C477DC8
+Path = /5C309F7F
+Reference = Y1;
+ValeurCmp = 16Mhz;
+IdModule  = Mylib_Xany2Msx:HC-39;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C30A67A
+Path = /5C30915B
+Reference = U1;
+ValeurCmp = ATtiny85;
+IdModule  = DIP-8_W7.62mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C30BF44
+Path = /5C309E1A
+Reference = J1;
+ValeurCmp = Xany_Input;
+IdModule  = Pin_Header_Straight_1x03_Pitch2.54mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C30BF59
+Path = /5C30E301
+Reference = J2;
+ValeurCmp = S;
+IdModule  = Pin_Header_Straight_1x03_Pitch2.54mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C30BF6E
+Path = /5C30E697
+Reference = J3;
+ValeurCmp = VRx;
+IdModule  = Pin_Header_Straight_1x03_Pitch2.54mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C30BF83
+Path = /5C30E787
+Reference = J4;
+ValeurCmp = GND;
+IdModule  = Pin_Header_Straight_1x03_Pitch2.54mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C30BF98
+Path = /5C3124D5
+Reference = J5;
+ValeurCmp = 5v/6v;
+IdModule  = Pin_Header_Straight_1x03_Pitch2.54mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C317C16
+Path = /5C30A0DB
+Reference = C1;
+ValeurCmp = 22pF;
+IdModule  = Capacitors_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C3178CE
+Path = /5C30A176
+Reference = C2;
+ValeurCmp = 22pF;
+IdModule  = Capacitors_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C3178E1
+Path = /5C3102C6
+Reference = D1;
+ValeurCmp = 1N4148;
+IdModule  = Diodes_THT:D_A-405_P2.54mm_Vertical_KathodeUp;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C3178EF
+Path = /5C30F91A
+Reference = R1;
+ValeurCmp = 1K;
+IdModule  = Resistors_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical;
+EndCmp
+
+BeginCmp
+TimeStamp = 5C317CE1
+Path = /5C314F06
+Reference = C3;
+ValeurCmp = 100nF;
+IdModule  = Capacitors_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm;
+EndCmp
+
+EndListe

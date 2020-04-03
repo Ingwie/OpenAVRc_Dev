@@ -1,0 +1,956 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxFrame" name="CompilerOptionsFrame">
+		<title>Compil-O-matic</title>
+		<size>790,367</size>
+		<id_arg>0</id_arg>
+		<style>wxCAPTION|wxDEFAULT_DIALOG_STYLE</style>
+		<handler function="OnClose" entry="EVT_CLOSE" />
+		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
+			<pos>0,0</pos>
+			<size>830,368</size>
+			<bg>wxSYS_COLOUR_BTNFACE</bg>
+			<object class="wxNotebook" name="ID_NOTEBOOK1" variable="Notebook1" member="yes">
+				<pos>0,0</pos>
+				<size>792,368</size>
+				<object class="notebookpage">
+					<object class="wxPanel" name="ID_PANEL2" variable="Panel2" member="yes">
+						<size>788,342</size>
+						<object class="wxStaticBox" name="ID_STATICBOX13" variable="StaticBox13" member="yes">
+							<label>Manches</label>
+							<pos>648,8</pos>
+							<size>128,128</size>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX3" variable="CheckBoxInvStickLH" member="yes">
+							<label>Inversion Stick__LH</label>
+							<pos>656,32</pos>
+							<size>112,24</size>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX8" variable="CheckBoxInvStickRH" member="yes">
+							<label>Inversion Stick__RH</label>
+							<pos>656,104</pos>
+							<size>112,24</size>
+						</object>
+						<object class="wxStaticBox" name="ID_STATICBOX6" variable="StaticBox6" member="yes">
+							<label>Autres options</label>
+							<pos>448,8</pos>
+							<size>192,328</size>
+						</object>
+						<object class="wxStaticBox" name="ID_STATICBOX4" variable="StaticBox4" member="yes">
+							<label>Matériel</label>
+							<pos>8,8</pos>
+							<size>200,328</size>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX17" variable="CheckBoxPPM_LIMITS_SYMETRICAL" member="yes">
+							<label>PPM Simm limits</label>
+							<pos>456,296</pos>
+							<size>176,24</size>
+							<tooltip>Option ajuster le gain fonction du subtrim</tooltip>
+						</object>
+						<object class="wxStaticBox" name="ID_STATICBOX5" variable="StaticBox5" member="yes">
+							<label>Interface</label>
+							<pos>216,8</pos>
+							<size>224,328</size>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText4" member="yes">
+							<label>Unités</label>
+							<pos>224,304</pos>
+							<size>87,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX16" variable="CheckBoxPPM_CENTER_ADJUSTABLE" member="yes">
+							<label>PPM Center adjust</label>
+							<pos>456,272</pos>
+							<size>176,24</size>
+							<tooltip>Option réglage des neutres indépendant</tooltip>
+						</object>
+						<object class="wxChoice" name="ID_CHOICE4" variable="ChoicePPM_UNIT " member="yes">
+							<content>
+								<item>PERCENT_PREC1</item>
+								<item>PERCENT_PREC0</item>
+								<item>US</item>
+							</content>
+							<selection>0</selection>
+							<pos>320,296</pos>
+							<size>112,24</size>
+							<tooltip>Affichage des valeurs des voies en % ou uS</tooltip>
+						</object>
+						<object class="wxChoice" name="ID_CHOICE6" variable="ChoicePCB" member="yes">
+							<content>
+								<item>MEGAMINI</item>
+							</content>
+							<selection>0</selection>
+							<pos>96,32</pos>
+							<size>96,24</size>
+							<tooltip>Type de radio</tooltip>
+						</object>
+						<object class="wxChoice" name="ID_CHOICE1" variable="ChoiceLCD" member="yes">
+							<content>
+								<item>ST7565P</item>
+								<item>ST7565R </item>
+								<item>ERC12864FSF</item>
+								<item>ST7920</item>
+								<item>KS108</item>
+								<item>SSD1306</item>
+								<item>SH1106</item>
+							</content>
+							<selection>4</selection>
+							<pos>96,72</pos>
+							<size>96,24</size>
+							<tooltip>Référence de l&apos;écran</tooltip>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
+							<label>Processeur</label>
+							<pos>16,40</pos>
+							<size>72,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
+							<label>LCD</label>
+							<pos>16,80</pos>
+							<size>72,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxChoice" name="ID_CHOICE3" variable="ChoiceVOICE" member="yes">
+							<content>
+								<item>NO</item>
+								<item>JQ6500</item>
+							</content>
+							<selection>0</selection>
+							<pos>96,144</pos>
+							<size>96,24</size>
+							<tooltip>Option annonces vocales</tooltip>
+							<handler function="OnChoiceVOICESelect" entry="EVT_CHOICE" />
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
+							<label>Voice</label>
+							<pos>16,144</pos>
+							<size>72,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX7" variable="CheckBoxAUDIO" member="yes">
+							<label>Audio</label>
+							<pos>96,176</pos>
+							<size>104,24</size>
+							<tooltip>Option audio</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX14" variable="CheckBoxHAPTIC" member="yes">
+							<label>Haptic</label>
+							<pos>96,216</pos>
+							<size>104,24</size>
+							<tooltip>Option Vibreur</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBoxHELI" member="yes">
+							<label>HELI</label>
+							<pos>456,152</pos>
+							<size>176,24</size>
+							<tooltip>Option hélicoptère</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX15" variable="CheckBoxTEMPLATES" member="yes">
+							<label>TEMPLATES</label>
+							<pos>456,176</pos>
+							<size>176,24</size>
+							<tooltip>Option modèles pré programmés</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX12" variable="CheckBoxSD_CARD" member="yes">
+							<label>Carte SD</label>
+							<pos>96,256</pos>
+							<size>104,24</size>
+							<tooltip>Option carte SD (Sauvegarde - Fichiers log)</tooltip>
+							<handler function="OnCheckBoxSD_CARDClick" entry="EVT_CHECKBOX" />
+						</object>
+						<object class="wxChoice" name="ID_CHOICE7" variable="ChoiceTRANSLATIONS" member="yes">
+							<content>
+								<item>CZ</item>
+								<item>DE</item>
+								<item>EN</item>
+								<item>ES</item>
+								<item>FR</item>
+								<item>HU</item>
+								<item>IT</item>
+								<item>NL</item>
+								<item>PL</item>
+								<item>PT</item>
+								<item>SE</item>
+								<item>SK</item>
+							</content>
+							<selection>4</selection>
+							<pos>320,32</pos>
+							<size>40,24</size>
+							<tooltip>Langue affichée</tooltip>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText6" member="yes">
+							<label>Langue</label>
+							<pos>224,40</pos>
+							<size>88,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxChoice" name="ID_CHOICE5" variable="ChoiceTTS" member="yes">
+							<content>
+								<item>CZ</item>
+								<item>DE</item>
+								<item>EN</item>
+								<item>ES</item>
+								<item>FR</item>
+								<item>HU</item>
+								<item>IT</item>
+								<item>NL</item>
+								<item>PL</item>
+								<item>PT</item>
+								<item>SE</item>
+								<item>SK</item>
+							</content>
+							<selection>4</selection>
+							<pos>320,72</pos>
+							<size>40,24</size>
+							<tooltip>Langue de la synthése vocale</tooltip>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
+							<label>Langue voice</label>
+							<pos>224,80</pos>
+							<size>88,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxChoice" name="ID_CHOICE8" variable="ChoiceNAVIGATION" member="yes">
+							<content>
+								<item>NO</item>
+								<item>POT1</item>
+								<item>POT2</item>
+								<item>POT3</item>
+								<item>POTS</item>
+								<item>STICKS</item>
+								<item>ROTENC</item>
+							</content>
+							<selection>0</selection>
+							<pos>320,256</pos>
+							<size>112,24</size>
+							<tooltip>Peut remplacer les boutons de navigation</tooltip>
+							<handler function="OnChoiceNAVIGATIONSelect" entry="EVT_CHOICE" />
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT7" variable="StaticText7" member="yes">
+							<label>Navigation</label>
+							<pos>224,264</pos>
+							<size>88,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxButton" name="ID_BUTTON3" variable="ButtonEXIT" member="yes">
+							<label>Sauvegarder et sortir</label>
+							<pos>648,296</pos>
+							<size>128,24</size>
+							<handler function="OnButtonEXITClick" entry="EVT_BUTTON" />
+						</object>
+						<object class="wxButton" name="ID_BUTTON2" variable="ButtonCOMPILE" member="yes">
+							<label>Compiler</label>
+							<pos>648,256</pos>
+							<size>128,24</size>
+							<handler function="OnButtonCOMPILEClick" entry="EVT_BUTTON" />
+						</object>
+						<object class="wxChoice" name="ID_CHOICE9" variable="ChoiceUNITS" member="yes">
+							<content>
+								<item>METRIC</item>
+								<item>IMPERIAL</item>
+							</content>
+							<selection>0</selection>
+							<pos>512,32</pos>
+							<size>80,24</size>
+							<tooltip>Unitées</tooltip>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText8" member="yes">
+							<label>Unités</label>
+							<pos>456,40</pos>
+							<size>47,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxChoice" name="ID_CHOICE10" variable="ChoiceDEFAULT_MODE" member="yes">
+							<content>
+								<item>NO</item>
+								<item>1</item>
+								<item>2</item>
+								<item>3</item>
+								<item>4</item>
+							</content>
+							<selection>0</selection>
+							<pos>512,72</pos>
+							<size>80,24</size>
+							<tooltip>Mode de la radio</tooltip>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT9" variable="StaticText9" member="yes">
+							<label>Mode</label>
+							<pos>456,80</pos>
+							<size>48,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX18" variable="CheckBoxFLIGHT_MODES" member="yes">
+							<label>Flight modes</label>
+							<pos>456,200</pos>
+							<size>176,24</size>
+							<tooltip>Option phases de vol</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX19" variable="CheckBoxCURVES" member="yes">
+							<label>Curves</label>
+							<pos>456,248</pos>
+							<size>176,24</size>
+							<tooltip>Option courbes</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX20" variable="CheckBoxGVARS" member="yes">
+							<label>Global vars</label>
+							<pos>456,224</pos>
+							<size>176,24</size>
+							<tooltip>Option variables globales</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX21" variable="CheckBoxSPLASH" member="yes">
+							<label>Écran d&apos;accueil</label>
+							<pos>320,176</pos>
+							<size>112,24</size>
+							<tooltip>Ecran d&apos;accueil</tooltip>
+						</object>
+						<object class="wxChoice" name="ID_CHOICE11" variable="ChoiceFONT" member="yes">
+							<content>
+								<item>STD</item>
+								<item>SQT5</item>
+							</content>
+							<selection>0</selection>
+							<pos>320,216</pos>
+							<size>112,24</size>
+							<tooltip>Police de caractére</tooltip>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT10" variable="StaticText10" member="yes">
+							<label>Font</label>
+							<pos>224,224</pos>
+							<size>88,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX40" variable="CheckBoxBOLD" member="yes">
+							<label>Bold</label>
+							<pos>320,112</pos>
+							<size>112,24</size>
+							<tooltip>Vrai police en gras</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX41" variable="CheckBoxBATTGRAPH" member="yes">
+							<label>Batt graph</label>
+							<pos>320,144</pos>
+							<size>112,24</size>
+							<tooltip>Affichage graphique de l&apos;état de la batterie</tooltip>
+						</object>
+						<object class="wxChoice" name="ID_CHOICE13" variable="ChoiceFAI" member="yes">
+							<content>
+								<item>NO</item>
+								<item>YES</item>
+								<item>CHOICE</item>
+							</content>
+							<selection>0</selection>
+							<pos>512,112</pos>
+							<size>80,24</size>
+							<tooltip>Pour les compétitions</tooltip>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT12" variable="StaticText12" member="yes">
+							<label>FAI</label>
+							<pos>456,120</pos>
+							<size>48,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxChoice" name="ID_CHOICE12" variable="ChoiceTHREE_POS" member="yes">
+							<content>
+								<item>POT1</item>
+								<item>POT2</item>
+								<item>POT3</item>
+							</content>
+							<selection>1</selection>
+							<pos>96,296</pos>
+							<size>96,24</size>
+							<tooltip>Selection du potentiomètre utilisé pour XD0</tooltip>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT11" variable="StaticText11" member="yes">
+							<label>EXTRA 3POS</label>
+							<pos>16,304</pos>
+							<size>72,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX4" variable="CheckBoxInvStickLV" member="yes">
+							<label>Inversion Stick__LV</label>
+							<pos>656,80</pos>
+							<size>112,24</size>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX2" variable="CheckBoxInvStickRV" member="yes">
+							<label>Inversion Stick__RV</label>
+							<pos>656,56</pos>
+							<size>112,24</size>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX9" variable="CheckBoxLCDROT180" member="yes">
+							<label>Rotation Lcd 180°</label>
+							<pos>96,104</pos>
+							<size>104,24</size>
+						</object>
+					</object>
+					<label>Réglages</label>
+				</object>
+				<object class="notebookpage">
+					<object class="wxPanel" name="ID_PANEL3" variable="Panel3" member="yes">
+						<size>800,364</size>
+						<object class="wxStaticBox" name="ID_STATICBOX3" variable="StaticBox3" member="yes">
+							<label>Autres paramètres</label>
+							<pos>304,8</pos>
+							<size>472,256</size>
+						</object>
+						<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
+							<label>Protocole</label>
+							<pos>8,8</pos>
+							<size>152,328</size>
+						</object>
+						<object class="wxStaticBox" name="ID_STATICBOX9" variable="StaticBox9" member="yes">
+							<label>Beta test</label>
+							<pos>16,144</pos>
+							<size>136,184</size>
+						</object>
+						<object class="wxChoice" name="ID_CHOICECC2500PAG" variable="ChoiceCC2500PAG" member="yes">
+							<content>
+								<item>20</item>
+								<item>22</item>
+							</content>
+							<selection>0</selection>
+							<pos>96,200</pos>
+							<size>45,24</size>
+						</object>
+						<object class="wxChoice" name="ID_CHOICEA7105PAG" variable="ChoiceA7105PAG" member="yes">
+							<content>
+								<item>20</item>
+								<item>22</item>
+							</content>
+							<selection>0</selection>
+							<pos>96,296</pos>
+							<size>45,24</size>
+						</object>
+						<object class="wxChoice" name="ID_CHOICENRF24l01PAG" variable="ChoiceNRF24l01PAG" member="yes">
+							<content>
+								<item>20</item>
+								<item>22</item>
+							</content>
+							<selection>0</selection>
+							<pos>96,264</pos>
+							<size>45,24</size>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOXNOANDSECONDE" variable="CheckBoxNOANDSECONDE" member="yes">
+							<label>NOANDSECONDE</label>
+							<pos>312,160</pos>
+							<size>144,24</size>
+							<tooltip>Empèche la synthèse vocale de dire &quot;et&quot;. Exemple : entre minutes &quot;et&quot; seconde</tooltip>
+							<handler function="OnCheckBoxNOANDSECONDEClick1" entry="EVT_CHECKBOX" />
+						</object>
+						<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBox2" member="yes">
+							<label>Télemetrie</label>
+							<pos>168,8</pos>
+							<size>128,328</size>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX10" variable="CheckBoxPPM" member="yes">
+							<label>PPM</label>
+							<checked>1</checked>
+							<pos>48,32</pos>
+							<size>104,24</size>
+							<enabled>0</enabled>
+							<tooltip>Protocole PPM 8 à 16 voies</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX11" variable="CheckBoxSPIRF" member="yes">
+							<label>SPI Xmitters</label>
+							<pos>48,160</pos>
+							<size>96,24</size>
+							<enabled>0</enabled>
+							<tooltip>Protocole SPI RF </tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX13" variable="CheckBoxDSM2SERIAL" member="yes">
+							<label>DSM2 SERIAL</label>
+							<pos>48,64</pos>
+							<size>104,24</size>
+							<tooltip>Protocoles DSM ..</tooltip>
+						</object>
+						<object class="wxChoice" name="ID_CHOICE2" variable="ChoiceEXT" member="yes">
+							<content>
+								<item>STD</item>
+								<item>FRSKY</item>
+							</content>
+							<selection>0</selection>
+							<pos>184,32</pos>
+							<size>96,24</size>
+							<tooltip>Télémétrie installée</tooltip>
+							<handler function="OnChoiceEXTSelect2" entry="EVT_CHOICE" />
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX5" variable="CheckBoxGPS" member="yes">
+							<label>GPS</label>
+							<pos>184,96</pos>
+							<size>96,24</size>
+							<handler function="OnCheckBoxGPSClick1" entry="EVT_CHECKBOX" />
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX6" variable="CheckBoxVARIO" member="yes">
+							<label>Vario</label>
+							<pos>184,128</pos>
+							<size>96,24</size>
+							<handler function="OnCheckBoxVARIOClick2" entry="EVT_CHECKBOX" />
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX26" variable="CheckBoxCORRECT_NEGATIVE_VALUES" member="yes">
+							<label>CORRECT__NEGATIVE__VALUES</label>
+							<pos>456,128</pos>
+							<size>200,24</size>
+							<tooltip>Symétrise les valeurs affichées</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX27" variable="CheckBoxARITHMETIC_OVERFLOW_CHECK" member="yes">
+							<label>ARITHMETIC__OVERFLOW__CHECK</label>
+							<pos>456,160</pos>
+							<size>200,24</size>
+							<tooltip>Ajoute du code pour prèvoir débordement aritmethique</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX30" variable="CheckBoxPWM_BACKLIGHT" member="yes">
+							<label>PWM__BACKLIGHT</label>
+							<pos>456,32</pos>
+							<size>200,24</size>
+							<enabled>0</enabled>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX31" variable="CheckBoxOVERRIDE_CHANNEL_FUNCTION" member="yes">
+							<label>Override channel function</label>
+							<pos>456,64</pos>
+							<size>200,24</size>
+							<tooltip>Ajoute la fonction spéciale &quot;Remplacer CHx&quot;</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX32" variable="CheckBoxWS_HOW_HIGH" member="yes">
+							<label>WS__HOW__HIGH</label>
+							<pos>184,64</pos>
+							<size>104,24</size>
+							<tooltip>WS HowHigh Altimeter</tooltip>
+							<handler function="OnCheckBoxWS_HOW_HIGHClick2" entry="EVT_CHECKBOX" />
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX36" variable="CheckBoxTOGGLETRIM" member="yes">
+							<label>Toggle trims</label>
+							<pos>456,96</pos>
+							<size>200,24</size>
+							<tooltip>Change les trim de la main droite à la main gauche, et vice-versa</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX37" variable="CheckBoxFRAM" member="yes">
+							<label>F-RAM</label>
+							<pos>312,192</pos>
+							<size>144,24</size>
+							<tooltip>Utilisation d&apos;une eeprom externe : FM24W256</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX38" variable="CheckBoxSHUTDOWN_CONFIRMATION" member="yes">
+							<label>SHUTDOWN__CONFIRMATION</label>
+							<checked>1</checked>
+							<pos>456,224</pos>
+							<size>200,24</size>
+							<enabled>0</enabled>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX39" variable="CheckBoxACCURAT_THROTTLE_STATS" member="yes">
+							<label>ACCURAT__THROTTLE__STATS</label>
+							<pos>456,192</pos>
+							<size>200,24</size>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX43" variable="CheckBoxEEPROM_PROGRESS_BAR" member="yes">
+							<label>EEPROM bar</label>
+							<pos>312,96</pos>
+							<size>144,24</size>
+							<tooltip>Affiche une mini barre pour visualiser une sauvegarde en cours</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX44" variable="CheckBoxAUTOSWITCH" member="yes">
+							<label>AUTOSWITCH</label>
+							<pos>312,64</pos>
+							<size>144,24</size>
+							<tooltip>Auto detection des switchs lors de la programmatiion</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX45" variable="CheckBoxAUTOSOURCE" member="yes">
+							<label>AUTOSOURCE</label>
+							<pos>312,32</pos>
+							<size>144,24</size>
+							<focused>1</focused>
+							<tooltip>Auto detection des manches lors de la programmatiion</tooltip>
+							<handler function="OnCheckBoxAUTOSOURCEClick1" entry="EVT_CHECKBOX" />
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX47" variable="CheckBoxDBLKEYS" member="yes">
+							<label>Double keys</label>
+							<pos>312,128</pos>
+							<size>144,24</size>
+							<tooltip>Raccourcis avec deux touches pour passer une valeur à min/max/0</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX28" variable="CheckBoxMULTI" member="yes">
+							<label>MULTI</label>
+							<pos>48,96</pos>
+							<size>104,24</size>
+							<tooltip>Protocole MULTI</tooltip>
+						</object>
+						<object class="wxButton" name="ID_BUTTON1" variable="Compilerpage2" member="yes">
+							<label>Compiler</label>
+							<pos>504,296</pos>
+							<size>128,24</size>
+							<handler function="OnButtonCOMPILEClick" entry="EVT_BUTTON" />
+						</object>
+						<object class="wxButton" name="ID_BUTTON4" variable="Sortirpage2" member="yes">
+							<label>Sauvegarder et sortir</label>
+							<pos>648,296</pos>
+							<size>128,24</size>
+							<handler function="OnButtonEXITClick" entry="EVT_BUTTON" />
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX23" variable="CheckBoxCC2500" member="yes">
+							<label>CC2500</label>
+							<pos>24,200</pos>
+							<size>72,24</size>
+							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX24" variable="CheckBoxCYRF6936" member="yes">
+							<label>CYRF6936</label>
+							<pos>24,232</pos>
+							<size>72,24</size>
+							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX25" variable="CheckBoxNRF24l01" member="yes">
+							<label>NRF24l01</label>
+							<pos>24,264</pos>
+							<size>72,24</size>
+							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX29" variable="CheckBoxA7105" member="yes">
+							<label>A7105</label>
+							<pos>24,296</pos>
+							<size>72,24</size>
+							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
+						</object>
+						<object class="wxChoice" name="ID_CHOICECYRF6936PAG" variable="ChoiceCYRF6936PAG" member="yes">
+							<content>
+								<item>20</item>
+								<item>22</item>
+							</content>
+							<selection>0</selection>
+							<pos>96,232</pos>
+							<size>45,24</size>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT28" variable="StaticText28" member="yes">
+							<label>PA Gain (DB)</label>
+							<pos>24,184</pos>
+							<size>118,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX33" variable="CheckBoxBLUETOOTH" member="yes">
+							<label>BLUETOOTH</label>
+							<pos>312,224</pos>
+							<size>144,24</size>
+							<tooltip>Ajout de fonctions sans fils</tooltip>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX34" variable="CheckBoxXMODEM" member="yes">
+							<label>XMODEM</label>
+							<pos>656,32</pos>
+							<size>112,24</size>
+							<tooltip>Transfert de données</tooltip>
+							<handler function="OnCheckBoxXMODEMClick" entry="EVT_CHECKBOX" />
+						</object>
+					</object>
+					<label>Options avancées</label>
+				</object>
+				<object class="notebookpage">
+					<object class="wxPanel" name="ID_PANEL4" variable="Panel4" member="yes">
+						<object class="wxStaticBox" name="ID_STATICBOX7" variable="StaticBox7" member="yes">
+							<label>Nom des interrupteurs</label>
+							<pos>8,8</pos>
+							<size>616,328</size>
+						</object>
+						<object class="wxStaticBox" name="ID_STATICBOX10" variable="StaticBox10" member="yes">
+							<label>3POS</label>
+							<pos>160,24</pos>
+							<size>96,112</size>
+						</object>
+						<object class="wxStaticBox" name="ID_STATICBOX8" variable="StaticBox8" member="yes">
+							<label>Extra 3POS</label>
+							<pos>264,24</pos>
+							<size>96,112</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX12" variable="ComboBoxEncodeurNo" member="yes">
+							<content>
+								<item>REn</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>232,216</pos>
+							<size>48,24</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX1" variable="ComboBoxswitch1" member="yes">
+							<content>
+								<item>THR</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>64,40</pos>
+							<size>48,24</size>
+						</object>
+						<object class="wxButton" name="ID_BUTTON5" variable="Sortirpage3" member="yes">
+							<label>Sauvegarder et sortir</label>
+							<pos>640,296</pos>
+							<size>128,24</size>
+							<handler function="OnButtonEXITClick" entry="EVT_BUTTON" />
+						</object>
+						<object class="wxButton" name="ID_BUTTON6" variable="Compilerpage3" member="yes">
+							<label>Compiler</label>
+							<pos>640,256</pos>
+							<size>128,24</size>
+							<handler function="OnButtonCOMPILEClick" entry="EVT_BUTTON" />
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX2" variable="ComboBoxswitch2" member="yes">
+							<content>
+								<item>RUD</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>64,72</pos>
+							<size>48,24</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX3" variable="ComboBoxswitch3" member="yes">
+							<content>
+								<item>ELE</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>64,104</pos>
+							<size>48,24</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX4" variable="ComboBoxswitch4" member="yes">
+							<content>
+								<item>AIL</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>64,136</pos>
+							<size>48,24</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX5" variable="ComboBoxswitch5" member="yes">
+							<content>
+								<item>GEA</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>64,168</pos>
+							<size>48,21</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX6" variable="ComboBoxswitch6" member="yes">
+							<content>
+								<item>TRN</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>64,200</pos>
+							<size>48,24</size>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX22" variable="CheckBoxPERSONAMES" member="yes">
+							<label>PERSONAMES</label>
+							<pos>384,184</pos>
+							<size>232,24</size>
+							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT13" variable="StaticText13" member="yes">
+							<label>Inter1</label>
+							<pos>16,48</pos>
+							<size>40,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT14" variable="StaticText14" member="yes">
+							<label>Inter2</label>
+							<pos>16,80</pos>
+							<size>40,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT15" variable="StaticText15" member="yes">
+							<label>Inter3</label>
+							<pos>16,112</pos>
+							<size>40,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT16" variable="StaticText16" member="yes">
+							<label>Inter4</label>
+							<pos>16,144</pos>
+							<size>40,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT17" variable="StaticText17" member="yes">
+							<label>Inter5</label>
+							<pos>16,176</pos>
+							<size>40,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT18" variable="StaticText18" member="yes">
+							<label>Inter6</label>
+							<pos>16,208</pos>
+							<size>40,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxButton" name="ID_BUTTON7" variable="ButtonDefaut" member="yes">
+							<label>Défaut</label>
+							<pos>384,248</pos>
+							<size>104,24</size>
+							<handler function="OnButtonDefautClick1" entry="EVT_BUTTON" />
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT25" variable="StaticText25" member="yes">
+							<label>ID0</label>
+							<pos>168,48</pos>
+							<size>24,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT19" variable="StaticText19" member="yes">
+							<label>XD0</label>
+							<pos>272,48</pos>
+							<size>24,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX14" variable="ComboBoxXD0" member="yes">
+							<content>
+								<item>XD0</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>304,40</pos>
+							<size>48,24</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX15" variable="ComboBoxXD2" member="yes">
+							<content>
+								<item>XD2</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>304,104</pos>
+							<size>48,24</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX13" variable="ComboBoxXD1" member="yes">
+							<content>
+								<item>XD1</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>304,72</pos>
+							<size>48,24</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX7" variable="ComboBoxID0" member="yes">
+							<content>
+								<item>ID0</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>200,40</pos>
+							<size>48,24</size>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT20" variable="StaticText20" member="yes">
+							<label>EncodeurA</label>
+							<pos>152,160</pos>
+							<size>72,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT24" variable="StaticText24" member="yes">
+							<label>EncodeurB</label>
+							<pos>152,192</pos>
+							<size>72,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT21" variable="StaticText21" member="yes">
+							<label> Encodeur à 0</label>
+							<pos>152,224</pos>
+							<size>72,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX8" variable="ComboBoxEncodeurA" member="yes">
+							<content>
+								<item>REa</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>232,152</pos>
+							<size>48,24</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX9" variable="ComboBoxEncodeurB" member="yes">
+							<content>
+								<item>REb</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>232,184</pos>
+							<size>48,21</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX10" variable="ComboBoxID1" member="yes">
+							<content>
+								<item>ID1</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>200,72</pos>
+							<size>48,24</size>
+						</object>
+						<object class="wxComboBox" name="ID_COMBOBOX11" variable="ComboBoxID2" member="yes">
+							<content>
+								<item>ID2</item>
+								<item>---</item>
+							</content>
+							<selection>0</selection>
+							<pos>200,104</pos>
+							<size>48,21</size>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT26" variable="StaticText26" member="yes">
+							<label>ID1</label>
+							<pos>168,80</pos>
+							<size>24,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT22" variable="StaticText22" member="yes">
+							<label>XD1</label>
+							<pos>272,80</pos>
+							<size>24,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT27" variable="StaticText27" member="yes">
+							<label>ID2</label>
+							<pos>168,112</pos>
+							<size>24,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT23" variable="StaticText23" member="yes">
+							<label>XD2</label>
+							<pos>272,112</pos>
+							<size>24,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+					</object>
+					<label>Personnalisation</label>
+				</object>
+				<object class="notebookpage">
+					<object class="wxPanel" name="ID_PANEL5" variable="Panel5" member="yes">
+						<object class="wxStaticBox" name="ID_STATICBOX11" variable="StaticBox11" member="yes">
+							<label>X-Any Options</label>
+							<pos>8,8</pos>
+							<size>280,328</size>
+						</object>
+						<object class="wxButton" name="ID_BUTTON8" variable="Button1" member="yes">
+							<label>Sauvegarder et sortir</label>
+							<pos>640,296</pos>
+							<size>128,24</size>
+							<handler function="OnButtonEXITClick" entry="EVT_BUTTON" />
+						</object>
+						<object class="wxButton" name="ID_BUTTON9" variable="Button2" member="yes">
+							<label>Compiler</label>
+							<pos>640,256</pos>
+							<size>128,24</size>
+							<handler function="OnButtonCOMPILEClick" entry="EVT_BUTTON" />
+						</object>
+						<object class="wxChoice" name="ID_CHOICENUMXANY" variable="ChoiceNUMXANY" member="yes">
+							<content>
+								<item>NO</item>
+								<item>1</item>
+								<item>2</item>
+								<item>3</item>
+								<item>4</item>
+							</content>
+							<selection>0</selection>
+							<pos>168,80</pos>
+							<size>48,24</size>
+							<tooltip>Nombre d&apos;instances</tooltip>
+							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHOICE" />
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT29" variable="StaticText29" member="yes">
+							<label>Nb X-ANY</label>
+							<pos>112,88</pos>
+							<size>48,16</size>
+							<style>wxALIGN_RIGHT</style>
+						</object>
+					</object>
+					<label>X-Any</label>
+				</object>
+			</object>
+		</object>
+	</object>
+</wxsmith>

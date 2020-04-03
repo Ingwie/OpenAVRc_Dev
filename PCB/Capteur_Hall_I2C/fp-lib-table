@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name Sensor_Empreintes)(type KiCad)(uri ${KIPRJMOD}/Sensor_Empreintes.pretty)(options "")(descr ""))
+)

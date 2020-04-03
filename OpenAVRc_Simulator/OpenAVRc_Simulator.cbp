@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="OpenAVRc_Simulator" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/OpenAVRc_Simulator" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-Winline" />
+					<Add option="-m32" />
+					<Add option="-g" />
+					<Add option="-DDEBUG=YES" />
+					<Add option="-DTRANSLATIONS_FR" />
+					<Add option="-DTTS_FR" />
+					<Add option="-DEXTERNALEEPROM" />
+					<Add option="-DIMPERIAL_UNITSaaa" />
+					<Add option="-DLCDROT180aaa" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="libwxmsw31ud.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="FR Release">
+				<Option output="bin/Release/OpenAVRc_SimulatorFR" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-m32" />
+					<Add option="-DTRANSLATIONS_FR" />
+					<Add option="-DTTS_FR" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="libwxmsw31u.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="ES Release">
+				<Option output="bin/Release/OpenAVRc_SimulatorES" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-m32" />
+					<Add option="-DTRANSLATIONS_ES" />
+					<Add option="-DTTS_ES" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="libwxmsw31u.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="EN Release">
+				<Option output="bin/Release/OpenAVRc_SimulatorEN" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-m32" />
+					<Add option="-DTRANSLATIONS_EN" />
+					<Add option="-DTTS_EN" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="libwxmsw31u.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="CZ Release">
+				<Option output="bin/Release/OpenAVRc_SimulatorCZ" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-m32" />
+					<Add option="-DTRANSLATIONS_CZ" />
+					<Add option="-DTTS_CZ" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="libwxmsw31u.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="FR Release FRAM">
+				<Option output="bin/Release/OpenAVRc_SimulatorFR_FRAM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-m32" />
+					<Add option="-DTRANSLATIONS_FR" />
+					<Add option="-DTTS_FR" />
+					<Add option="-DEXTERNALEEPROM" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="libwxmsw31u.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="ES Release FRAM">
+				<Option output="bin/Release/OpenAVRc_SimulatorES_FRAM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-m32" />
+					<Add option="-DTRANSLATIONS_ES" />
+					<Add option="-DTTS_ES" />
+					<Add option="-DEXTERNALEEPROM" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="libwxmsw31u.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="EN Release FRAM">
+				<Option output="bin/Release/OpenAVRc_SimulatorEN_FRAM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-m32" />
+					<Add option="-DTRANSLATIONS_EN" />
+					<Add option="-DTTS_EN" />
+					<Add option="-DEXTERNALEEPROM" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="libwxmsw31u.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="CZ Release FRAM">
+				<Option output="bin/Release/OpenAVRc_SimulatorCZ_FRAM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-m32" />
+					<Add option="-DTRANSLATIONS_CZ" />
+					<Add option="-DTTS_CZ" />
+					<Add option="-DEXTERNALEEPROM" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="libwxmsw31u.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=gnu++11" />
+			<Add option="-pipe" />
+			<Add option="-mthreads" />
+			<Add option="-Wno-deprecated-declarations" />
+			<Add option="-Wno-packed-bitfield-compat" />
+			<Add option="-Wno-trigraphs" />
+			<Add option="-mno-ms-bitfields" />
+			<Add option="-D__GNUWIN32__" />
+			<Add option="-D__WXMSW__" />
+			<Add option="-DWXUSINGDLL" />
+			<Add option="-DwxUSE_UNICODE" />
+			<Add option="-DnoFONTSTD" />
+			<Add option="-DBOLD_FONT" />
+			<Add option="-DFAI_CHOICE" />
+			<Add option="-DSIMU" />
+			<Add option="-DRTCLOCK" />
+			<Add option="-DPCBMEGAMINI" />
+			<Add option="-DCPUM2560" />
+			<Add option="-DOFFSET_ON_INPUT=YES" />
+			<Add option="-DSDCARD" />
+			<Add option="-DAUDIO" />
+			<Add option="-DVOICE" />
+			<Add option="-DVOICE_JQ6500" />
+			<Add option="-DHAPTIC" />
+			<Add option="-DDEFAULT_MODE=2" />
+			<Add option="-DNOANDSECONDE" />
+			<Add option="-DSPLASH" />
+			<Add option="-DGRAPHICS" />
+			<Add option="-DBATTGRAPH" />
+			<Add option="-DTHRTRACE" />
+			<Add option="-DTIMERS=2" />
+			<Add option="-DFLIGHT_MODES" />
+			<Add option="-DCURVES" />
+			<Add option="-DGVARS" />
+			<Add option="-DCORRECT_NEGATIVE_SHIFTS" />
+			<Add option="-DFRSKY" />
+			<Add option="-DWS_HOW_HIGH" />
+			<Add option="-DGPS" />
+			<Add option="-DVARIO" />
+			<Add option="-DEEPROM_PROGRESS_BAR" />
+			<Add option="-DPPM_CENTER_ADJUSTABLE" />
+			<Add option="-DPPM_LIMITS_SYMETRICAL" />
+			<Add option="-DOVERRIDE_CHANNEL_FUNCTION" />
+			<Add option="-DPPM_UNIT_PERCENT_PREC1" />
+			<Add option="-DHELI" />
+			<Add option="-DTEMPLATES" />
+			<Add option="-DAUTOSWITCH" />
+			<Add option="-DAUTOSOURCE" />
+			<Add option="-DEXTRA_3POS=2" />
+			<Add option="-DX_ANY=4" />
+			<Add option="-DX_ANY_1_POT=POT1" />
+			<Add option="-DX_ANY_2_POT=POT2" />
+			<Add option="-DX_ANY_3_POT=POT3" />
+			<Add option="-DX_ANY_4_POT=STICK_LV" />
+			<Add option="-DMULTIMODULE" />
+			<Add option="-DDSM2_SERIAL" />
+			<Add option="-DSPIMODULES" />
+			<Add option="-DPROTO_HAS_CC2500" />
+			<Add option="-DCC2500PA_GAIN=20" />
+			<Add option="-DPROTO_HAS_CYRF6936" />
+			<Add option="-DCYRF6936PA_GAIN=20" />
+			<Add option="-DPROTO_HAS_A7105" />
+			<Add option="-DA7105PA_GAIN=20" />
+			<Add option="-DU_CLI" />
+			<Add option="-DXMODEM" />
+			<Add option="-DBLUETOOTH" />
+			<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/include" />
+			<Add directory="$(PROJECT_DIR)" />
+		</Compiler>
+		<ResourceCompiler>
+			<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/include" />
+		</ResourceCompiler>
+		<Linker>
+			<Add option="-mthreads" />
+		</Linker>
+		<Unit filename="../OpenAVRc/OpenAVRc.cpp" />
+		<Unit filename="../OpenAVRc/OpenAVRc.h" />
+		<Unit filename="../OpenAVRc/Print.cpp" />
+		<Unit filename="../OpenAVRc/Print.h" />
+		<Unit filename="../OpenAVRc/Serial0.cpp" />
+		<Unit filename="../OpenAVRc/Serial0.h" />
+		<Unit filename="../OpenAVRc/Serial1.cpp" />
+		<Unit filename="../OpenAVRc/Serial1.h" />
+		<Unit filename="../OpenAVRc/Stream.h" />
+		<Unit filename="../OpenAVRc/Xany.cpp" />
+		<Unit filename="../OpenAVRc/Xany.h" />
+		<Unit filename="../OpenAVRc/adc_driver.cpp" />
+		<Unit filename="../OpenAVRc/audio_avr.cpp" />
+		<Unit filename="../OpenAVRc/audio_avr.h" />
+		<Unit filename="../OpenAVRc/bluetooth.cpp" />
+		<Unit filename="../OpenAVRc/bluetooth.h" />
+		<Unit filename="../OpenAVRc/buzzer.cpp" />
+		<Unit filename="../OpenAVRc/buzzer.h" />
+		<Unit filename="../OpenAVRc/curves.cpp" />
+		<Unit filename="../OpenAVRc/debug/TinyDbg.h" />
+		<Unit filename="../OpenAVRc/eeprom_common.cpp" />
+		<Unit filename="../OpenAVRc/eeprom_common.h" />
+		<Unit filename="../OpenAVRc/eeprom_rlc.cpp" />
+		<Unit filename="../OpenAVRc/eeprom_rlc.h" />
+		<Unit filename="../OpenAVRc/fifo.h" />
+		<Unit filename="../OpenAVRc/fonts.h" />
+		<Unit filename="../OpenAVRc/functions.cpp" />
+		<Unit filename="../OpenAVRc/gui/fonts.cpp" />
+		<Unit filename="../OpenAVRc/gui/gui.h" />
+		<Unit filename="../OpenAVRc/gui/lcd.cpp" />
+		<Unit filename="../OpenAVRc/gui/lcd.h" />
+		<Unit filename="../OpenAVRc/gui/menu_general.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_general.h" />
+		<Unit filename="../OpenAVRc/gui/menu_general_bluetooth.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_general_calib.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_general_diaganas.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_general_diagkeys.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_general_sdmanager.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_general_setup.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_general_trainer.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_general_version.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_model.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_model.h" />
+		<Unit filename="../OpenAVRc/gui/menu_model_Xany.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_model_curves.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_model_custom_functions.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_model_flightmodes.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_model_heli.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_model_inputs_mixes.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_model_limits.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_model_logical_switches.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_model_select.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_model_setup.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_model_telemetry.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_model_templates.cpp" />
+		<Unit filename="../OpenAVRc/gui/menus.cpp" />
+		<Unit filename="../OpenAVRc/gui/menus.h" />
+		<Unit filename="../OpenAVRc/gui/navigation.cpp" />
+		<Unit filename="../OpenAVRc/gui/navigation.h" />
+		<Unit filename="../OpenAVRc/gui/popups.cpp" />
+		<Unit filename="../OpenAVRc/gui/popups.h" />
+		<Unit filename="../OpenAVRc/gui/splash.cpp" />
+		<Unit filename="../OpenAVRc/gui/view_main.cpp" />
+		<Unit filename="../OpenAVRc/gui/view_statistics.cpp" />
+		<Unit filename="../OpenAVRc/gui/view_telemetry.cpp" />
+		<Unit filename="../OpenAVRc/gui/view_text.cpp" />
+		<Unit filename="../OpenAVRc/gui/widgets.cpp" />
+		<Unit filename="../OpenAVRc/gui/widgets.h" />
+		<Unit filename="../OpenAVRc/haptic.cpp" />
+		<Unit filename="../OpenAVRc/haptic.h" />
+		<Unit filename="../OpenAVRc/i2c_master.cpp" />
+		<Unit filename="../OpenAVRc/i2c_master.h" />
+		<Unit filename="../OpenAVRc/keys.cpp" />
+		<Unit filename="../OpenAVRc/keys.h" />
+		<Unit filename="../OpenAVRc/logs.cpp" />
+		<Unit filename="../OpenAVRc/main_avr.cpp" />
+		<Unit filename="../OpenAVRc/maths.cpp" />
+		<Unit filename="../OpenAVRc/misclib.h" />
+		<Unit filename="../OpenAVRc/mixer.cpp" />
+		<Unit filename="../OpenAVRc/myeeprom.h" />
+		<Unit filename="../OpenAVRc/pgmtypes.h" />
+		<Unit filename="../OpenAVRc/protocol/AFHDS2A_a7105.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/CORONA_cc2500.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/DEVO_cyrf6936.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/DSM_SERIAL.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/DSM_cyrf6936.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/FLYSKY_a7105.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/FRSKYD_cc2500.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/FRSKYV_cc2500.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/FRSKYX_cc2500.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/FRSKY_DEF_cc2500.h" />
+		<Unit filename="../OpenAVRc/protocol/J6PRO_cyrf6936.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/MULTI.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/PROTO_PPM.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/PROTO_PPM16.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/PROTO_PPMSIM.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/SKYARTEC_cc2500.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/a7105.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/cc2500.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/cyrf6936.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/iface_a7105.h" />
+		<Unit filename="../OpenAVRc/protocol/iface_cc2500.h" />
+		<Unit filename="../OpenAVRc/protocol/iface_cyrf6936.h" />
+		<Unit filename="../OpenAVRc/protocol/interface.h" />
+		<Unit filename="../OpenAVRc/protocol/misc.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/misc.h" />
+		<Unit filename="../OpenAVRc/protocol/protocol.h" />
+		<Unit filename="../OpenAVRc/pulses/pulses.h" />
+		<Unit filename="../OpenAVRc/pulses/pulses_avr.cpp" />
+		<Unit filename="../OpenAVRc/pulses/pulses_avr.h" />
+		<Unit filename="../OpenAVRc/rtc_driver.cpp" />
+		<Unit filename="../OpenAVRc/sdcard.cpp" />
+		<Unit filename="../OpenAVRc/sdcard.h" />
+		<Unit filename="../OpenAVRc/spi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../OpenAVRc/spi.h" />
+		<Unit filename="../OpenAVRc/stamp-OpenAVRc.h" />
+		<Unit filename="../OpenAVRc/stamp.cpp" />
+		<Unit filename="../OpenAVRc/strhelpers.cpp" />
+		<Unit filename="../OpenAVRc/switches.cpp" />
+		<Unit filename="../OpenAVRc/targets/lcd/lcd_simu_driver.cpp" />
+		<Unit filename="../OpenAVRc/targets/lcd/lcd_simu_driver.h" />
+		<Unit filename="../OpenAVRc/targets/mega2560/board_mega2560.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/targets/mega2560/voice.h" />
+		<Unit filename="../OpenAVRc/targets/mega2560/voice_jq6500.cpp" />
+		<Unit filename="../OpenAVRc/targets/mega2560/voice_wtv20sd.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/targets/megamini/board_megamini.cpp" />
+		<Unit filename="../OpenAVRc/targets/megamini/board_megamini.h" />
+		<Unit filename="../OpenAVRc/targets/simu/simu_interface.cpp" />
+		<Unit filename="../OpenAVRc/targets/simu/simu_interface.h" />
+		<Unit filename="../OpenAVRc/telemetry/frsky.cpp" />
+		<Unit filename="../OpenAVRc/telemetry/frsky.h" />
+		<Unit filename="../OpenAVRc/templates.cpp" />
+		<Unit filename="../OpenAVRc/templates.h" />
+		<Unit filename="../OpenAVRc/timers.cpp" />
+		<Unit filename="../OpenAVRc/timers.h" />
+		<Unit filename="../OpenAVRc/trainer_input.cpp" />
+		<Unit filename="../OpenAVRc/trainer_input.h" />
+		<Unit filename="../OpenAVRc/translations.cpp" />
+		<Unit filename="../OpenAVRc/translations.h" />
+		<Unit filename="../OpenAVRc/translations/cz.h" />
+		<Unit filename="../OpenAVRc/translations/de.h" />
+		<Unit filename="../OpenAVRc/translations/en.h" />
+		<Unit filename="../OpenAVRc/translations/es.h" />
+		<Unit filename="../OpenAVRc/translations/fi.h" />
+		<Unit filename="../OpenAVRc/translations/fr.h" />
+		<Unit filename="../OpenAVRc/translations/it.h" />
+		<Unit filename="../OpenAVRc/translations/nl.h" />
+		<Unit filename="../OpenAVRc/translations/pl.h" />
+		<Unit filename="../OpenAVRc/translations/pt.h" />
+		<Unit filename="../OpenAVRc/translations/se.h" />
+		<Unit filename="../OpenAVRc/translations/tts_fr.cpp" />
+		<Unit filename="../OpenAVRc/uCli.cpp" />
+		<Unit filename="../OpenAVRc/uCli.h" />
+		<Unit filename="../OpenAVRc/vario.cpp" />
+		<Unit filename="../OpenAVRc/xmodem/xmodem.cpp" />
+		<Unit filename="../OpenAVRc/xmodem/xmodem.h" />
+		<Unit filename="../OpenAVRc/xmodem/xmodem_cfg.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="FrSky/FrSkyDTelemetry.cpp" />
+		<Unit filename="FrSky/FrSkyDTelemetry.h" />
+		<Unit filename="FrSky/FrSkySimu.cpp" />
+		<Unit filename="FrSky/FrSkySimu.h" />
+		<Unit filename="FrSky/FrSkySportPolling.cpp" />
+		<Unit filename="FrSky/FrSkySportPolling.h" />
+		<Unit filename="FrSky/FrSkySportSensor.cpp" />
+		<Unit filename="FrSky/FrSkySportSensor.h" />
+		<Unit filename="FrSky/FrSkySportSensorAss.cpp" />
+		<Unit filename="FrSky/FrSkySportSensorAss.h" />
+		<Unit filename="FrSky/FrSkySportSensorFcs.cpp" />
+		<Unit filename="FrSky/FrSkySportSensorFcs.h" />
+		<Unit filename="FrSky/FrSkySportSensorFlvss.cpp" />
+		<Unit filename="FrSky/FrSkySportSensorFlvss.h" />
+		<Unit filename="FrSky/FrSkySportSensorGps.cpp" />
+		<Unit filename="FrSky/FrSkySportSensorGps.h" />
+		<Unit filename="FrSky/FrSkySportSensorRpm.cpp" />
+		<Unit filename="FrSky/FrSkySportSensorRpm.h" />
+		<Unit filename="FrSky/FrSkySportSensorSp2uart.cpp" />
+		<Unit filename="FrSky/FrSkySportSensorSp2uart.h" />
+		<Unit filename="FrSky/FrSkySportSensorVario.cpp" />
+		<Unit filename="FrSky/FrSkySportSensorVario.h" />
+		<Unit filename="FrSky/FrSkySportSensorXjt.cpp" />
+		<Unit filename="FrSky/FrSkySportSensorXjt.h" />
+		<Unit filename="FrSky/FrSkySportSingleWireSerial.cpp" />
+		<Unit filename="FrSky/FrSkySportSingleWireSerial.h" />
+		<Unit filename="FrSky/FrSkySportTelemetry.cpp" />
+		<Unit filename="FrSky/FrSkySportTelemetry.h" />
+		<Unit filename="GvarsFrame.cpp" />
+		<Unit filename="GvarsFrame.h" />
+		<Unit filename="LogsFrame.cpp" />
+		<Unit filename="LogsFrame.h" />
+		<Unit filename="MixerFrame.cpp" />
+		<Unit filename="MixerFrame.h" />
+		<Unit filename="ModelNameDialog.cpp" />
+		<Unit filename="ModelNameDialog.h" />
+		<Unit filename="OpenAVRc_SimulatorApp.cpp" />
+		<Unit filename="OpenAVRc_SimulatorApp.h" />
+		<Unit filename="OpenAVRc_SimulatorMain.cpp" />
+		<Unit filename="OpenAVRc_SimulatorMain.h" />
+		<Unit filename="OutBarsFrame.cpp" />
+		<Unit filename="OutBarsFrame.h" />
+		<Unit filename="RadioDataFrame.cpp" />
+		<Unit filename="RadioDataFrame.h" />
+		<Unit filename="Spin.cpp" />
+		<Unit filename="Spin.h" />
+		<Unit filename="TelemetryFrame.cpp" />
+		<Unit filename="TelemetryFrame.h" />
+		<Unit filename="mathplot.cpp" />
+		<Unit filename="mathplot.h" />
+		<Unit filename="resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="serial/tserial.cpp" />
+		<Unit filename="serial/tserial.h" />
+		<Unit filename="uCliFrame.cpp" />
+		<Unit filename="uCliFrame.h" />
+		<Unit filename="wxsmith/GvarsFrame.wxs" />
+		<Unit filename="wxsmith/LogsFrame.wxs" />
+		<Unit filename="wxsmith/MixerFrame.wxs" />
+		<Unit filename="wxsmith/ModelNameDialog.wxs" />
+		<Unit filename="wxsmith/OpenAVRc_Simulatorframe.wxs" />
+		<Unit filename="wxsmith/OutBarsFrame.wxs" />
+		<Unit filename="wxsmith/RadioDataFrame.wxs" />
+		<Unit filename="wxsmith/TelemetryFrame.wxs" />
+		<Unit filename="wxsmith/uCliFrame.wxs" />
+		<Extensions>
+			<envvars set="default" />
+			<lib_finder disable_auto="1" />
+			<wxsmith version="1">
+				<gui name="wxWidgets" src="OpenAVRc_SimulatorApp.cpp" main="OpenAVRc_SimulatorFrame" init_handlers="necessary" language="CPP" />
+				<resources>
+					<wxFrame wxs="wxsmith/OpenAVRc_Simulatorframe.wxs" src="OpenAVRc_SimulatorMain.cpp" hdr="OpenAVRc_SimulatorMain.h" fwddecl="0" i18n="1" name="OpenAVRc_SimulatorFrame" language="CPP" />
+					<wxFrame wxs="wxsmith/MixerFrame.wxs" src="MixerFrame.cpp" hdr="MixerFrame.h" fwddecl="0" i18n="1" name="MixerFrame" language="CPP" />
+					<wxFrame wxs="wxsmith/OutBarsFrame.wxs" src="OutBarsFrame.cpp" hdr="OutBarsFrame.h" fwddecl="0" i18n="1" name="OutBarsFrame" language="CPP" />
+					<wxFrame wxs="wxsmith/GvarsFrame.wxs" src="GvarsFrame.cpp" hdr="GvarsFrame.h" fwddecl="0" i18n="1" name="GvarsFrame" language="CPP" />
+					<wxFrame wxs="wxsmith/RadioDataFrame.wxs" src="RadioDataFrame.cpp" hdr="RadioDataFrame.h" fwddecl="0" i18n="1" name="RadioDataFrame" language="CPP" />
+					<wxDialog wxs="wxsmith/ModelNameDialog.wxs" src="ModelNameDialog.cpp" hdr="ModelNameDialog.h" fwddecl="0" i18n="1" name="ModelNameDialog" language="CPP" />
+					<wxFrame wxs="wxsmith/TelemetryFrame.wxs" src="TelemetryFrame.cpp" hdr="TelemetryFrame.h" fwddecl="0" i18n="1" name="TelemetryFrame" language="CPP" />
+					<wxFrame wxs="wxsmith/LogsFrame.wxs" src="LogsFrame.cpp" hdr="LogsFrame.h" fwddecl="0" i18n="1" name="LogsFrame" language="CPP" />
+					<wxFrame wxs="wxsmith/uCliFrame.wxs" src="uCliFrame.cpp" hdr="uCliFrame.h" fwddecl="0" i18n="1" name="uCliFrame" language="CPP" />
+				</resources>
+			</wxsmith>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

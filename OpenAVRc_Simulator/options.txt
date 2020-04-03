@@ -1,0 +1,77 @@
+ /*
+ **************************************************************************
+ *                                                                        *
+ *                 ____                ___ _   _____                      *
+ *                / __ \___  ___ ___  / _ | | / / _ \____                 *
+ *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+ *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+ *                   /_/                                                  *
+ *                                                                        *
+ *              This file is part of the OpenAVRc project.                *
+ *                                                                        *
+ *                         Based on code(s) named :                       *
+ *             OpenTx - https://github.com/opentx/opentx                  *
+ *             Deviation - https://www.deviationtx.com/                   *
+ *                                                                        *
+ *                Only AVR code here for visibility ;-)                   *
+ *                                                                        *
+ *   OpenAVRc is free software: you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by *
+ *   the Free Software Foundation, either version 2 of the License, or    *
+ *   (at your option) any later version.                                  *
+ *                                                                        *
+ *   OpenAVRc is distributed in the hope that it will be useful,          *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+ *   GNU General Public License for more details.                         *
+ *                                                                        *
+ *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+ *                                                                        *
+ **************************************************************************
+*/
+
+
+SIMU
+PCBMEGA2560
+CPUM2560
+OFFSET_ON_INPUT=YES
+EEPROM_RLC
+EEPROM_VARIANT=0
+SDCARD
+RTCLOCK
+AUDIO
+VOICE
+VOICE_JQ6500
+HAPTIC
+ROTARY_ENCODERS=2
+GUI
+TRANSLATIONS_FR
+TTS_FR
+DEFAULT_MODE=2
+NOANDSECONDE
+NAVIGATION_STICKS
+AUTOSWITCH
+AUTOSOURCE
+DBLKEYS
+SPLASH
+GRAPHICS
+BOLD_FONT
+BATTGRAPH
+THRTRACE
+TIMERS=2
+FLIGHT_MODES
+CURVES
+GVARS
+CORRECT_NEGATIVE_SHIFTS
+FRSKY
+FRSKY_HUB
+WS_HOW_HIGH
+GAUGES
+VARIO
+EEPROM_PROGRESS_BAR
+PPM_CENTER_ADJUSTABLE
+PPM_LIMITS_SYMETRICAL
+OVERRIDE_CHANNEL_FUNCTION
+PPM_UNIT_PERCENT_PREC1
+HELI
+TEMPLATES

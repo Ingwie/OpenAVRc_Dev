@@ -1,0 +1,2455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>C:/tmp/_OpenAVRc/MegaCore 2560 Shield/Mega_2560 core mini_full_2.0_PM/Mega_2560 core mini_full_2.0.sch</source>
+    <date>05/11/2017 09:47:07</date>
+    <tool>Eeschema 4.0.7</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>Shield Mega2560 core Full</title>
+        <company/>
+        <rev>2.00</rev>
+        <date>2017-11-05</date>
+        <source>Mega_2560 core mini_full_2.0.sch</source>
+        <comment number="1" value="Reproduction et commercialisation interdite"/>
+        <comment number="2" value="By Antho.breizh / pierrotm777"/>
+        <comment number="3" value=""/>
+        <comment number="4" value="Shield pour RC OpenAVRc"/>
+      </title_block>
+    </sheet>
+    <sheet number="2" name="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/">
+      <title_block>
+        <title>Shield Mega2560 core Full</title>
+        <company/>
+        <rev>2.00</rev>
+        <date>2017-11-05</date>
+        <source>OpenAVRc_Sticks.sch</source>
+        <comment number="1" value="Reproduction et commercialisation interdite"/>
+        <comment number="2" value="By Antho.breizh / pierrotm777"/>
+        <comment number="3" value=""/>
+        <comment number="4" value="Shield pour RC OpenAVRc"/>
+      </title_block>
+    </sheet>
+    <sheet number="3" name="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/">
+      <title_block>
+        <title>Shield Mega2560 core Full</title>
+        <company/>
+        <rev>2.00</rev>
+        <date>2017-11-05</date>
+        <source>OpenAVRc_CoreConnects.sch</source>
+        <comment number="1" value="Reproduction et commercialisation interdite"/>
+        <comment number="2" value="By Antho.breizh / pierrotm777"/>
+        <comment number="3" value=""/>
+        <comment number="4" value="Shield pour RC OpenAVRc"/>
+      </title_block>
+    </sheet>
+    <sheet number="4" name="/OpenAVRc_HF_Telemetry/" tstamps="/59C6AC14/">
+      <title_block>
+        <title>Shield Mega2560 core Full</title>
+        <company/>
+        <rev>2.00</rev>
+        <date>2017-11-05</date>
+        <source>OpenAVRc_HF_Telemetry.sch</source>
+        <comment number="1" value="Reproduction et commercialisation interdite"/>
+        <comment number="2" value="By Antho.breizh / pierrotm777"/>
+        <comment number="3" value=""/>
+        <comment number="4" value="Shield pour RC OpenAVRc"/>
+      </title_block>
+    </sheet>
+    <sheet number="5" name="/OpenAVRc_I2C/" tstamps="/59C560A1/">
+      <title_block>
+        <title>Shield Mega2560 core Full</title>
+        <company/>
+        <rev>2.00</rev>
+        <date>2017-11-05</date>
+        <source>OpenAVRc_I2C.sch</source>
+        <comment number="1" value="Reproduction et commercialisation interdite"/>
+        <comment number="2" value="By Antho.breizh / pierrotm777"/>
+        <comment number="3" value=""/>
+        <comment number="4" value="Shield pour RC OpenAVRc"/>
+      </title_block>
+    </sheet>
+    <sheet number="6" name="/OpenAVRc_Audio_Haptic/" tstamps="/59C59DB3/">
+      <title_block>
+        <title>Shield Mega2560 core Full</title>
+        <company/>
+        <rev>2.00</rev>
+        <date>2017-11-05</date>
+        <source>OpenAVRc_Audio_Haptic.sch</source>
+        <comment number="1" value="Reproduction et commercialisation interdite"/>
+        <comment number="2" value="By Antho.breizh / pierrotm777"/>
+        <comment number="3" value=""/>
+        <comment number="4" value="Shield pour RC OpenAVRc"/>
+      </title_block>
+    </sheet>
+    <sheet number="7" name="/OpenAVRc_Power/" tstamps="/59C5272D/">
+      <title_block>
+        <title>Shield Mega2560 core Full</title>
+        <company/>
+        <rev>2.00</rev>
+        <date>2017-11-05</date>
+        <source>OpenAVRc_Power.sch</source>
+        <comment number="1" value="Reproduction et commercialisation interdite"/>
+        <comment number="2" value="By Antho.breizh / pierrotm777"/>
+        <comment number="3" value=""/>
+        <comment number="4" value="Shield pour RC OpenAVRc"/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="C9">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C005</tstamp>
+    </comp>
+    <comp ref="C11">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C00C</tstamp>
+    </comp>
+    <comp ref="C16">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C013</tstamp>
+    </comp>
+    <comp ref="C17">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C01A</tstamp>
+    </comp>
+    <comp ref="U6">
+      <value>MCP604-I/SL</value>
+      <footprint>Librairie master:SOP14</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="MCP6004"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C02D</tstamp>
+    </comp>
+    <comp ref="R26">
+      <value>47K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C055</tstamp>
+    </comp>
+    <comp ref="R28">
+      <value>120K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C05C</tstamp>
+    </comp>
+    <comp ref="C43">
+      <value>22nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C089</tstamp>
+    </comp>
+    <comp ref="C44">
+      <value>22nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C090</tstamp>
+    </comp>
+    <comp ref="RV2">
+      <value>100K</value>
+      <footprint>Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="POT-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C097</tstamp>
+    </comp>
+    <comp ref="R29">
+      <value>47K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C0A4</tstamp>
+    </comp>
+    <comp ref="R31">
+      <value>120K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C0AB</tstamp>
+    </comp>
+    <comp ref="RV3">
+      <value>100K</value>
+      <footprint>Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="POT-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C0B8</tstamp>
+    </comp>
+    <comp ref="C45">
+      <value>22nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C0C5</tstamp>
+    </comp>
+    <comp ref="R32">
+      <value>47K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C0CC</tstamp>
+    </comp>
+    <comp ref="R34">
+      <value>120K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C0D3</tstamp>
+    </comp>
+    <comp ref="RV4">
+      <value>100K</value>
+      <footprint>Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="POT-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C0E0</tstamp>
+    </comp>
+    <comp ref="C46">
+      <value>22nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C0F3</tstamp>
+    </comp>
+    <comp ref="R35">
+      <value>47K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C0FA</tstamp>
+    </comp>
+    <comp ref="R37">
+      <value>120K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C101</tstamp>
+    </comp>
+    <comp ref="RV5">
+      <value>100K</value>
+      <footprint>Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="POT-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C10E</tstamp>
+    </comp>
+    <comp ref="R24">
+      <value>82K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C121</tstamp>
+    </comp>
+    <comp ref="C42">
+      <value>6.8nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C128</tstamp>
+    </comp>
+    <comp ref="R25">
+      <value>39K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C12F</tstamp>
+    </comp>
+    <comp ref="W1">
+      <value>TEST_2P</value>
+      <footprint>anthoperso:TESTPT</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="TEST_2P"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C13E</tstamp>
+    </comp>
+    <comp ref="W2">
+      <value>TEST_2P</value>
+      <footprint>anthoperso:TESTPT</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="TEST_2P"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C145</tstamp>
+    </comp>
+    <comp ref="W3">
+      <value>TEST_2P</value>
+      <footprint>anthoperso:TESTPT</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="TEST_2P"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C14C</tstamp>
+    </comp>
+    <comp ref="W4">
+      <value>TEST_2P</value>
+      <footprint>anthoperso:TESTPT</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="TEST_2P"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C153</tstamp>
+    </comp>
+    <comp ref="R27">
+      <value>100K</value>
+      <footprint>Potentiometers:Potentiometer_Trimmer_Bourns_3296W</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="POT-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C15A</tstamp>
+    </comp>
+    <comp ref="R11">
+      <value>120K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C161</tstamp>
+    </comp>
+    <comp ref="R30">
+      <value>100K</value>
+      <footprint>Potentiometers:Potentiometer_Trimmer_Bourns_3296W</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="POT-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C168</tstamp>
+    </comp>
+    <comp ref="R12">
+      <value>120K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C16F</tstamp>
+    </comp>
+    <comp ref="R33">
+      <value>100K</value>
+      <footprint>Potentiometers:Potentiometer_Trimmer_Bourns_3296W</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="POT-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C176</tstamp>
+    </comp>
+    <comp ref="R36">
+      <value>100K</value>
+      <footprint>Potentiometers:Potentiometer_Trimmer_Bourns_3296W</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="POT-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C17D</tstamp>
+    </comp>
+    <comp ref="R13">
+      <value>120K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C184</tstamp>
+    </comp>
+    <comp ref="R14">
+      <value>120K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C18B</tstamp>
+    </comp>
+    <comp ref="C4">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C192</tstamp>
+    </comp>
+    <comp ref="P28">
+      <value>5v/3,3v manches</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X03"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C19F</tstamp>
+    </comp>
+    <comp ref="P13">
+      <value>Stick_right</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x06_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X06"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C1AE</tstamp>
+    </comp>
+    <comp ref="P12">
+      <value>Stick_left</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_2x03_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X06"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C5C1B5</tstamp>
+    </comp>
+    <comp ref="C12">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C60A12</tstamp>
+    </comp>
+    <comp ref="C13">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C60A19</tstamp>
+    </comp>
+    <comp ref="C14">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C60A20</tstamp>
+    </comp>
+    <comp ref="P32">
+      <value>Pot1</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X03"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C60A39</tstamp>
+    </comp>
+    <comp ref="P31">
+      <value>Pot2</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X03"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C60A40</tstamp>
+    </comp>
+    <comp ref="P4">
+      <value>Pot3</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X03"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C60A47</tstamp>
+    </comp>
+    <comp ref="P14">
+      <value>Switch</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_2x05_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X10"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C62A34</tstamp>
+    </comp>
+    <comp ref="P11">
+      <value>Trim</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_2x05_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X10"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C62A3B</tstamp>
+    </comp>
+    <comp ref="C29">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C63F4F</tstamp>
+    </comp>
+    <comp ref="C27">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C63F56</tstamp>
+    </comp>
+    <comp ref="C26">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C63F5D</tstamp>
+    </comp>
+    <comp ref="C34">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C63F64</tstamp>
+    </comp>
+    <comp ref="C33">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C63F6B</tstamp>
+    </comp>
+    <comp ref="C32">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C63F72</tstamp>
+    </comp>
+    <comp ref="P23">
+      <value>Rot_1</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X04"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C63F7F</tstamp>
+    </comp>
+    <comp ref="P24">
+      <value>Rot_2</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X04"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C63F86</tstamp>
+    </comp>
+    <comp ref="R19">
+      <value>5.1K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C63F8D</tstamp>
+    </comp>
+    <comp ref="R18">
+      <value>5.1K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C63F94</tstamp>
+    </comp>
+    <comp ref="R23">
+      <value>5.1K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C63F9B</tstamp>
+    </comp>
+    <comp ref="R22">
+      <value>5.1K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C63FA2</tstamp>
+    </comp>
+    <comp ref="P25">
+      <value>Keys</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_2x04_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X08"/>
+      <sheetpath names="/OpenAVRc_Sticks/" tstamps="/59C5A6CD/"/>
+      <tstamp>59C63FBD</tstamp>
+    </comp>
+    <comp ref="P9">
+      <value>SPI</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_2x03_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_02X03"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59C5DDB5</tstamp>
+    </comp>
+    <comp ref="C10">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59C5DE3E</tstamp>
+    </comp>
+    <comp ref="C18">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59C5DE5F</tstamp>
+    </comp>
+    <comp ref="C19">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59C5DE6C</tstamp>
+    </comp>
+    <comp ref="C15">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59C5DE73</tstamp>
+    </comp>
+    <comp ref="P1">
+      <value>2560-core</value>
+      <footprint>anthoperso:Connectors-2560-core</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="2560-core"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59C5DE8E</tstamp>
+    </comp>
+    <comp ref="P6">
+      <value>Micro_sd</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x06_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X06"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59C5BE44</tstamp>
+    </comp>
+    <comp ref="C3">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59C5BE6F</tstamp>
+    </comp>
+    <comp ref="P16">
+      <value>LCD</value>
+      <footprint>anthoperso:Pin_Header_Straight_2x10_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X20"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59C5BE76</tstamp>
+    </comp>
+    <comp ref="RV6">
+      <value>22K</value>
+      <footprint>Potentiometers:Potentiometer_Trimmer_Bourns_3296W</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="POT-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59C5BE8C</tstamp>
+    </comp>
+    <comp ref="RV1">
+      <value>220K</value>
+      <footprint>Potentiometers:Potentiometer_Trimmer_Bourns_3296W</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="POT-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59C5BE93</tstamp>
+    </comp>
+    <comp ref="P10">
+      <value>RX1TX1</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X04"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59C5BE9A</tstamp>
+    </comp>
+    <comp ref="C24">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59C5BEA1</tstamp>
+    </comp>
+    <comp ref="R39">
+      <value>47K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59E0D037</tstamp>
+    </comp>
+    <comp ref="Q1">
+      <value>BSS84</value>
+      <libsource lib="device" part="MOSFET_P"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59E0D99E</tstamp>
+    </comp>
+    <comp ref="R40">
+      <value>100</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59E0E920</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>4K7</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59EF4793</tstamp>
+    </comp>
+    <comp ref="R6">
+      <value>4K7</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_CoreConnects/" tstamps="/59C5D60D/"/>
+      <tstamp>59EF4881</tstamp>
+    </comp>
+    <comp ref="R7">
+      <value>470</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_HF_Telemetry/" tstamps="/59C6AC14/"/>
+      <tstamp>59C6B41B</tstamp>
+    </comp>
+    <comp ref="P19">
+      <value>Module_TX</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_2x04_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X08"/>
+      <sheetpath names="/OpenAVRc_HF_Telemetry/" tstamps="/59C6AC14/"/>
+      <tstamp>59C6B42F</tstamp>
+    </comp>
+    <comp ref="R8">
+      <value>200</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_HF_Telemetry/" tstamps="/59C6AC14/"/>
+      <tstamp>59C6B44D</tstamp>
+    </comp>
+    <comp ref="D2">
+      <value>MBR0520</value>
+      <footprint>Diodes_SMD:D_SOD-123</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="MBR0520"/>
+      <sheetpath names="/OpenAVRc_HF_Telemetry/" tstamps="/59C6AC14/"/>
+      <tstamp>59C6B455</tstamp>
+    </comp>
+    <comp ref="P18">
+      <value>Ecolage</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X02"/>
+      <sheetpath names="/OpenAVRc_HF_Telemetry/" tstamps="/59C6AC14/"/>
+      <tstamp>59C6B45D</tstamp>
+    </comp>
+    <comp ref="U3">
+      <value>TLP290</value>
+      <footprint>anthoperso:SOP4</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="TLP290-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_HF_Telemetry/" tstamps="/59C6AC14/"/>
+      <tstamp>59C6B46A</tstamp>
+    </comp>
+    <comp ref="P20">
+      <value>TTL/RS232</value>
+      <footprint>anthoperso:Con_RS232_TTL</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X08"/>
+      <sheetpath names="/OpenAVRc_HF_Telemetry/" tstamps="/59C6AC14/"/>
+      <tstamp>59C6B471</tstamp>
+    </comp>
+    <comp ref="U2">
+      <value>TLP290</value>
+      <footprint>anthoperso:SOP4</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="TLP290-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_HF_Telemetry/" tstamps="/59C6AC14/"/>
+      <tstamp>59C6B484</tstamp>
+    </comp>
+    <comp ref="U1">
+      <value>74LVC1G3157GV</value>
+      <footprint>SOT-457</footprint>
+      <libsource lib="OPEN_EVO" part="74LVC1G3157"/>
+      <sheetpath names="/OpenAVRc_HF_Telemetry/" tstamps="/59C6AC14/"/>
+      <tstamp>59C6B490</tstamp>
+    </comp>
+    <comp ref="C6">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_HF_Telemetry/" tstamps="/59C6AC14/"/>
+      <tstamp>59C6C67F</tstamp>
+    </comp>
+    <comp ref="P7">
+      <value>SPIX</value>
+      <footprint>Pin_Header_Straight_2x05_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X10"/>
+      <sheetpath names="/OpenAVRc_HF_Telemetry/" tstamps="/59C6AC14/"/>
+      <tstamp>59C6C69D</tstamp>
+    </comp>
+    <comp ref="U7">
+      <value>FM24W256</value>
+      <footprint>SOIC-8-FRAM_DI</footprint>
+      <libsource lib="memory" part="24C512"/>
+      <sheetpath names="/OpenAVRc_I2C/" tstamps="/59C560A1/"/>
+      <tstamp>59C5670E</tstamp>
+    </comp>
+    <comp ref="C22">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_I2C/" tstamps="/59C560A1/"/>
+      <tstamp>59C56721</tstamp>
+    </comp>
+    <comp ref="U8">
+      <value>DS3231SN</value>
+      <footprint>SO-16-DS3231</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="DS3231"/>
+      <sheetpath names="/OpenAVRc_I2C/" tstamps="/59C560A1/"/>
+      <tstamp>59C56738</tstamp>
+    </comp>
+    <comp ref="C23">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_I2C/" tstamps="/59C560A1/"/>
+      <tstamp>59C56751</tstamp>
+    </comp>
+    <comp ref="R15">
+      <value>10K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_I2C/" tstamps="/59C560A1/"/>
+      <tstamp>59C5676A</tstamp>
+    </comp>
+    <comp ref="R20">
+      <value>10K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_I2C/" tstamps="/59C560A1/"/>
+      <tstamp>59C56771</tstamp>
+    </comp>
+    <comp ref="BT1">
+      <value>CR2032</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm</footprint>
+      <libsource lib="device" part="BATTERY"/>
+      <sheetpath names="/OpenAVRc_I2C/" tstamps="/59C560A1/"/>
+      <tstamp>59C5678A</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_I2C/" tstamps="/59C560A1/"/>
+      <tstamp>59C57856</tstamp>
+    </comp>
+    <comp ref="P15">
+      <value>LCD_I2C</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X04"/>
+      <sheetpath names="/OpenAVRc_I2C/" tstamps="/59C560A1/"/>
+      <tstamp>59C5785D</tstamp>
+    </comp>
+    <comp ref="P3">
+      <value>Option</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X04"/>
+      <sheetpath names="/OpenAVRc_I2C/" tstamps="/59C560A1/"/>
+      <tstamp>59C5787A</tstamp>
+    </comp>
+    <comp ref="P2">
+      <value>Clock</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X04"/>
+      <sheetpath names="/OpenAVRc_I2C/" tstamps="/59C560A1/"/>
+      <tstamp>59C57881</tstamp>
+    </comp>
+    <comp ref="C2">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_I2C/" tstamps="/59C560A1/"/>
+      <tstamp>59C57888</tstamp>
+    </comp>
+    <comp ref="R21">
+      <value>4,7K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_I2C/" tstamps="/59C560A1/"/>
+      <tstamp>59D4D3D2</tstamp>
+    </comp>
+    <comp ref="R38">
+      <value>4,7K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_I2C/" tstamps="/59C560A1/"/>
+      <tstamp>59D4D3D8</tstamp>
+    </comp>
+    <comp ref="C5">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Audio_Haptic/" tstamps="/59C59DB3/"/>
+      <tstamp>59C5A55A</tstamp>
+    </comp>
+    <comp ref="P5">
+      <value>Vibreur</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X02"/>
+      <sheetpath names="/OpenAVRc_Audio_Haptic/" tstamps="/59C59DB3/"/>
+      <tstamp>59C5A561</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>22K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Audio_Haptic/" tstamps="/59C59DB3/"/>
+      <tstamp>59C5A56F</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>1K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Audio_Haptic/" tstamps="/59C59DB3/"/>
+      <tstamp>59C5A576</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>18K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Audio_Haptic/" tstamps="/59C59DB3/"/>
+      <tstamp>59C5A580</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>1K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Audio_Haptic/" tstamps="/59C59DB3/"/>
+      <tstamp>59C5A587</tstamp>
+    </comp>
+    <comp ref="P22">
+      <value>JQ6500_28P</value>
+      <footprint>anthoperso:connector_mini-JQ6500-28P</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_JQ6500_28P_mini-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Audio_Haptic/" tstamps="/59C59DB3/"/>
+      <tstamp>59C5A5A0</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>MBR0520</value>
+      <footprint>Diodes_SMD:D_SOD-123</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="MBR0520"/>
+      <sheetpath names="/OpenAVRc_Audio_Haptic/" tstamps="/59C59DB3/"/>
+      <tstamp>59C5A5A7</tstamp>
+    </comp>
+    <comp ref="R9">
+      <value>220</value>
+      <footprint>anthoperso:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Audio_Haptic/" tstamps="/59C59DB3/"/>
+      <tstamp>59C5A5AE</tstamp>
+    </comp>
+    <comp ref="P27">
+      <value>HP</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X02"/>
+      <sheetpath names="/OpenAVRc_Audio_Haptic/" tstamps="/59C59DB3/"/>
+      <tstamp>59C5A5B5</tstamp>
+    </comp>
+    <comp ref="P8">
+      <value>Audio</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X04"/>
+      <sheetpath names="/OpenAVRc_Audio_Haptic/" tstamps="/59C59DB3/"/>
+      <tstamp>59C5A5BC</tstamp>
+    </comp>
+    <comp ref="R10">
+      <value>22K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Audio_Haptic/" tstamps="/59C59DB3/"/>
+      <tstamp>59C5A5C4</tstamp>
+    </comp>
+    <comp ref="C20">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Audio_Haptic/" tstamps="/59C59DB3/"/>
+      <tstamp>59C5A5D1</tstamp>
+    </comp>
+    <comp ref="C21">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Audio_Haptic/" tstamps="/59C59DB3/"/>
+      <tstamp>59C5A5D8</tstamp>
+    </comp>
+    <comp ref="C31">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Power/" tstamps="/59C5272D/"/>
+      <tstamp>59C53131</tstamp>
+    </comp>
+    <comp ref="R16">
+      <value>2.7K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Power/" tstamps="/59C5272D/"/>
+      <tstamp>59C53138</tstamp>
+    </comp>
+    <comp ref="P26">
+      <value>LCD_Alim</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X03"/>
+      <sheetpath names="/OpenAVRc_Power/" tstamps="/59C5272D/"/>
+      <tstamp>59C53145</tstamp>
+    </comp>
+    <comp ref="C38">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Power/" tstamps="/59C5272D/"/>
+      <tstamp>59C53155</tstamp>
+    </comp>
+    <comp ref="P21">
+      <value>Sw_power</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X02"/>
+      <sheetpath names="/OpenAVRc_Power/" tstamps="/59C5272D/"/>
+      <tstamp>59C53169</tstamp>
+    </comp>
+    <comp ref="U5">
+      <value>LD1117S33TR</value>
+      <footprint>TO_SOT_Packages_SMD:SOT-223</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="LD1117S33TR"/>
+      <sheetpath names="/OpenAVRc_Power/" tstamps="/59C5272D/"/>
+      <tstamp>59C53173</tstamp>
+    </comp>
+    <comp ref="R17">
+      <value>5.1K</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Power/" tstamps="/59C5272D/"/>
+      <tstamp>59C53182</tstamp>
+    </comp>
+    <comp ref="C28">
+      <value>100µF</value>
+      <footprint>Capacitors_SMD:CP_Elec_6.3x5.3</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CP1-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Power/" tstamps="/59C5272D/"/>
+      <tstamp>59C5318F</tstamp>
+    </comp>
+    <comp ref="D6">
+      <value>MBR0520</value>
+      <footprint>Diodes_SMD:D_SOD-123</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="MBR0520"/>
+      <sheetpath names="/OpenAVRc_Power/" tstamps="/59C5272D/"/>
+      <tstamp>59C5319C</tstamp>
+    </comp>
+    <comp ref="C7">
+      <value>100µF</value>
+      <footprint>Capacitors_SMD:CP_Elec_6.3x5.3</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CP1-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Power/" tstamps="/59C5272D/"/>
+      <tstamp>59C531A5</tstamp>
+    </comp>
+    <comp ref="C8">
+      <value>47µF</value>
+      <footprint>Capacitors_SMD:CP_Elec_6.3x5.3</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CP1-RESCUE-Mega_2560_core_mini_full_2.0"/>
+      <sheetpath names="/OpenAVRc_Power/" tstamps="/59C5272D/"/>
+      <tstamp>59C531B2</tstamp>
+    </comp>
+    <comp ref="P30">
+      <value>MiniDCDC3A</value>
+      <footprint>MiniDCDC3A</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X08"/>
+      <sheetpath names="/OpenAVRc_Power/" tstamps="/59C5272D/"/>
+      <tstamp>59C531C1</tstamp>
+    </comp>
+    <comp ref="P17">
+      <value>BATT</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X02"/>
+      <sheetpath names="/OpenAVRc_Power/" tstamps="/59C5272D/"/>
+      <tstamp>59C531D8</tstamp>
+    </comp>
+    <comp ref="D3">
+      <value>LL4148</value>
+      <footprint>D_SCD80_HandSoldering</footprint>
+      <libsource lib="device" part="DIODE"/>
+      <sheetpath names="/OpenAVRc_Power/" tstamps="/59C5272D/"/>
+      <tstamp>59C531E6</tstamp>
+    </comp>
+    <comp ref="D4">
+      <value>LL4148</value>
+      <footprint>D_SCD80_HandSoldering</footprint>
+      <libsource lib="device" part="DIODE"/>
+      <sheetpath names="/OpenAVRc_Power/" tstamps="/59C5272D/"/>
+      <tstamp>59C531ED</tstamp>
+    </comp>
+    <comp ref="U4">
+      <value>PM5033</value>
+      <footprint>PM5033_SIL5</footprint>
+      <libsource lib="Mega_2560 core mini_full_2.0-cache" part="PM5033"/>
+      <sheetpath names="/OpenAVRc_Power/" tstamps="/59C5272D/"/>
+      <tstamp>59E1D515</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="memory" part="24C16">
+      <aliases>
+        <alias>24C512</alias>
+      </aliases>
+      <description>I2C Serial EEPROM</description>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">24C16</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A0" type="input"/>
+        <pin num="2" name="A1" type="input"/>
+        <pin num="3" name="A2" type="input"/>
+        <pin num="4" name="GND" type="power_in"/>
+        <pin num="5" name="SDA" type="BiDi"/>
+        <pin num="6" name="SCL" type="input"/>
+        <pin num="7" name="WP" type="input"/>
+        <pin num="8" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="2560-core">
+      <footprints>
+        <fp>Pin_Header_Straight_2X20</fp>
+        <fp>Pin_Header_Angled_2X20</fp>
+        <fp>Socket_Strip_Straight_2X20</fp>
+        <fp>Socket_Strip_Angled_2X20</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">2560-core</field>
+      </fields>
+      <pins>
+        <pin num="A0" name="P74" type="passive"/>
+        <pin num="A1" name="P71" type="passive"/>
+        <pin num="A2" name="P72" type="passive"/>
+        <pin num="A3" name="P69" type="passive"/>
+        <pin num="A4" name="P70" type="passive"/>
+        <pin num="A5" name="P67" type="passive"/>
+        <pin num="A6" name="P68" type="passive"/>
+        <pin num="A7" name="P65" type="passive"/>
+        <pin num="AC0" name="P43" type="passive"/>
+        <pin num="AC1" name="P46" type="passive"/>
+        <pin num="AC2" name="P45" type="passive"/>
+        <pin num="AC3" name="P48" type="passive"/>
+        <pin num="AC4" name="P47" type="passive"/>
+        <pin num="AC5" name="P50" type="passive"/>
+        <pin num="AC6" name="P49" type="passive"/>
+        <pin num="AC7" name="P52" type="passive"/>
+        <pin num="AC8" name="P51" type="passive"/>
+        <pin num="AC9" name="P54" type="passive"/>
+        <pin num="AC10" name="P53" type="passive"/>
+        <pin num="AC11" name="P56" type="passive"/>
+        <pin num="AC12" name="P55" type="passive"/>
+        <pin num="AC13" name="P58" type="passive"/>
+        <pin num="AC14" name="P57" type="passive"/>
+        <pin num="AC15" name="P60" type="passive"/>
+        <pin num="B0" name="P24" type="passive"/>
+        <pin num="B1" name="P77" type="passive"/>
+        <pin num="B2" name="P78" type="passive"/>
+        <pin num="B3" name="P79" type="passive"/>
+        <pin num="B4" name="P25" type="passive"/>
+        <pin num="B5" name="P26" type="passive"/>
+        <pin num="B6" name="P27" type="passive"/>
+        <pin num="B7" name="P28" type="passive"/>
+        <pin num="C0" name="P90" type="passive"/>
+        <pin num="C1" name="P89" type="passive"/>
+        <pin num="C2" name="P88" type="passive"/>
+        <pin num="C3" name="P87" type="passive"/>
+        <pin num="C4" name="P86" type="passive"/>
+        <pin num="C5" name="P85" type="passive"/>
+        <pin num="C6" name="P84" type="passive"/>
+        <pin num="C7" name="P83" type="passive"/>
+        <pin num="D0" name="P18" type="passive"/>
+        <pin num="D1" name="P17" type="passive"/>
+        <pin num="D2" name="P16" type="passive"/>
+        <pin num="D3" name="P15" type="passive"/>
+        <pin num="D4" name="P96" type="passive"/>
+        <pin num="D5" name="P95" type="passive"/>
+        <pin num="D6" name="P94" type="passive"/>
+        <pin num="D7" name="P93" type="passive"/>
+        <pin num="E0" name="P4" type="passive"/>
+        <pin num="E1" name="P5" type="passive"/>
+        <pin num="E3" name="P6" type="passive"/>
+        <pin num="E4" name="P7" type="passive"/>
+        <pin num="E5" name="P8" type="passive"/>
+        <pin num="E6" name="P9" type="passive"/>
+        <pin num="E7" name="P10" type="passive"/>
+        <pin num="G0" name="P92" type="passive"/>
+        <pin num="G1" name="P91" type="passive"/>
+        <pin num="G2" name="P66" type="passive"/>
+        <pin num="G3" name="P38" type="passive"/>
+        <pin num="G4" name="P97" type="passive"/>
+        <pin num="G5" name="P3" type="passive"/>
+        <pin num="GND" name="P100" type="passive"/>
+        <pin num="H0" name="P14" type="passive"/>
+        <pin num="H1" name="P13" type="passive"/>
+        <pin num="H2" name="P19" type="passive"/>
+        <pin num="H3" name="P20" type="passive"/>
+        <pin num="H4" name="P21" type="passive"/>
+        <pin num="H5" name="P22" type="passive"/>
+        <pin num="H6" name="P23" type="passive"/>
+        <pin num="H7" name="P37" type="passive"/>
+        <pin num="J0" name="P12" type="passive"/>
+        <pin num="J1" name="P11" type="passive"/>
+        <pin num="J2" name="P59" type="passive"/>
+        <pin num="J3" name="P62" type="passive"/>
+        <pin num="J4" name="P61" type="passive"/>
+        <pin num="J5" name="P64" type="passive"/>
+        <pin num="J6" name="P63" type="passive"/>
+        <pin num="J7" name="P73" type="passive"/>
+        <pin num="L0" name="P29" type="passive"/>
+        <pin num="L1" name="P30" type="passive"/>
+        <pin num="L2" name="P31" type="passive"/>
+        <pin num="L3" name="P32" type="passive"/>
+        <pin num="L4" name="P33" type="passive"/>
+        <pin num="L5" name="P34" type="passive"/>
+        <pin num="L6" name="P35" type="passive"/>
+        <pin num="L7" name="P36" type="passive"/>
+        <pin num="NC" name="P98" type="passive"/>
+        <pin num="RST" name="P75" type="passive"/>
+        <pin num="VCC" name="P82" type="passive"/>
+        <pin num="VREF" name="P44" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="OPEN_EVO" part="74LVC1G3157">
+      <footprints>
+        <fp>SOT-23-6</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">74LVC1G3157</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Y1" type="BiDi"/>
+        <pin num="2" name="GND" type="power_in"/>
+        <pin num="3" name="Y0" type="BiDi"/>
+        <pin num="4" name="Z" type="BiDi"/>
+        <pin num="5" name="VCC" type="power_in"/>
+        <pin num="6" name="S" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="BAT48ZFILM">
+      <aliases>
+        <alias>MBR0520LT</alias>
+        <alias>MBR0520</alias>
+        <alias>MBR0530</alias>
+        <alias>MBR0540</alias>
+        <alias>MBR0550</alias>
+        <alias>MBR0560</alias>
+        <alias>MBR0570</alias>
+        <alias>MBR0580</alias>
+        <alias>BAT42W-V</alias>
+        <alias>BAT43W-V</alias>
+      </aliases>
+      <footprints>
+        <fp>D*SOD?123*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">BAT48ZFILM</field>
+        <field name="Footprint">Diodes_SMD:SOD-123</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="BATTERY">
+      <fields>
+        <field name="Reference">BT</field>
+        <field name="Value">BATTERY</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+" type="passive"/>
+        <pin num="2" name="-" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="C-RESCUE-Mega_2560_core_mini_full_2.0">
+      <footprints>
+        <fp>C?</fp>
+        <fp>C_????_*</fp>
+        <fp>C_????</fp>
+        <fp>SMD*_c</fp>
+        <fp>Capacitor*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C-RESCUE-Mega_2560_core_mini_full_2.0</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X02">
+      <footprints>
+        <fp>Pin_Header_Straight_1X02</fp>
+        <fp>Pin_Header_Angled_1X02</fp>
+        <fp>Socket_Strip_Straight_1X02</fp>
+        <fp>Socket_Strip_Angled_1X02</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_01X02</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X03">
+      <footprints>
+        <fp>Pin_Header_Straight_1X03</fp>
+        <fp>Pin_Header_Angled_1X03</fp>
+        <fp>Socket_Strip_Straight_1X03</fp>
+        <fp>Socket_Strip_Angled_1X03</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_01X03</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X04">
+      <footprints>
+        <fp>Pin_Header_Straight_1X04</fp>
+        <fp>Pin_Header_Angled_1X04</fp>
+        <fp>Socket_Strip_Straight_1X04</fp>
+        <fp>Socket_Strip_Angled_1X04</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_01X04</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X06">
+      <footprints>
+        <fp>Pin_Header_Straight_1X06</fp>
+        <fp>Pin_Header_Angled_1X06</fp>
+        <fp>Socket_Strip_Straight_1X06</fp>
+        <fp>Socket_Strip_Angled_1X06</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_01X06</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+        <pin num="5" name="P5" type="passive"/>
+        <pin num="6" name="P6" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X08">
+      <footprints>
+        <fp>Pin_Header_Straight_1X08</fp>
+        <fp>Pin_Header_Angled_1X08</fp>
+        <fp>Socket_Strip_Straight_1X08</fp>
+        <fp>Socket_Strip_Angled_1X08</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_01X08</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+        <pin num="5" name="P5" type="passive"/>
+        <pin num="6" name="P6" type="passive"/>
+        <pin num="7" name="P7" type="passive"/>
+        <pin num="8" name="P8" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X10">
+      <footprints>
+        <fp>Pin_Header_Straight_1X10</fp>
+        <fp>Pin_Header_Angled_1X10</fp>
+        <fp>Socket_Strip_Straight_1X10</fp>
+        <fp>Socket_Strip_Angled_1X10</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_01X10</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+        <pin num="5" name="P5" type="passive"/>
+        <pin num="6" name="P6" type="passive"/>
+        <pin num="7" name="P7" type="passive"/>
+        <pin num="8" name="P8" type="passive"/>
+        <pin num="9" name="P9" type="passive"/>
+        <pin num="10" name="P10" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="CONN_01X20">
+      <footprints>
+        <fp>Pin_Header_Straight_1X20</fp>
+        <fp>Pin_Header_Angled_1X20</fp>
+        <fp>Socket_Strip_Straight_1X20</fp>
+        <fp>Socket_Strip_Angled_1X20</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_01X20</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+        <pin num="5" name="P5" type="passive"/>
+        <pin num="6" name="P6" type="passive"/>
+        <pin num="7" name="P7" type="passive"/>
+        <pin num="8" name="P8" type="passive"/>
+        <pin num="9" name="P9" type="passive"/>
+        <pin num="10" name="P10" type="passive"/>
+        <pin num="11" name="P11" type="passive"/>
+        <pin num="12" name="P12" type="passive"/>
+        <pin num="13" name="P13" type="passive"/>
+        <pin num="14" name="P14" type="passive"/>
+        <pin num="15" name="P15" type="passive"/>
+        <pin num="16" name="P16" type="passive"/>
+        <pin num="17" name="P17" type="passive"/>
+        <pin num="18" name="P18" type="passive"/>
+        <pin num="19" name="P19" type="passive"/>
+        <pin num="20" name="P20" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="CONN_02X03">
+      <footprints>
+        <fp>Pin_Header_Straight_2X03</fp>
+        <fp>Pin_Header_Angled_2X03</fp>
+        <fp>Socket_Strip_Straight_2X03</fp>
+        <fp>Socket_Strip_Angled_2X03</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_02X03</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+        <pin num="5" name="P5" type="passive"/>
+        <pin num="6" name="P6" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="CONN_JQ6500_28P_mini-RESCUE-Mega_2560_core_mini_full_2.0">
+      <footprints>
+        <fp>Pin_Header_Straight_1X14</fp>
+        <fp>Pin_Header_Angled_1X14</fp>
+        <fp>Socket_Strip_Straight_1X14</fp>
+        <fp>Socket_Strip_Angled_1X14</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_JQ6500_28P_mini-RESCUE-Mega_2560_core_mini_full_2.0</field>
+      </fields>
+      <pins>
+        <pin num="BUSY" name="P20" type="passive"/>
+        <pin num="DACL" name="P16" type="passive"/>
+        <pin num="GND" name="P12" type="passive"/>
+        <pin num="RX" name="P18" type="passive"/>
+        <pin num="SPK+" name="P1" type="passive"/>
+        <pin num="SPK-" name="P2" type="output"/>
+        <pin num="VCC" name="P14" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="CP1-RESCUE-Mega_2560_core_mini_full_2.0">
+      <footprints>
+        <fp>SMD*_Pol</fp>
+        <fp>C_Axial*</fp>
+        <fp>C_Radial*</fp>
+        <fp>c_elec*</fp>
+        <fp>C*elec</fp>
+        <fp>TantalC*</fp>
+        <fp>CP*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">CP1-RESCUE-Mega_2560_core_mini_full_2.0</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="DIODE">
+      <description>Diode simple</description>
+      <footprints>
+        <fp>D?</fp>
+        <fp>S*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">DIODE</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A" type="passive"/>
+        <pin num="2" name="K" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="DS3231">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">DS3231</field>
+      </fields>
+      <pins>
+        <pin num="1" name="32KHZ" type="input"/>
+        <pin num="2" name="VCC" type="input"/>
+        <pin num="3" name="INT/SQW" type="input"/>
+        <pin num="4" name="RST" type="input"/>
+        <pin num="5" name="NC1" type="input"/>
+        <pin num="6" name="NC2" type="input"/>
+        <pin num="7" name="NC3" type="input"/>
+        <pin num="8" name="NC4" type="input"/>
+        <pin num="9" name="NC5" type="input"/>
+        <pin num="10" name="NC6" type="input"/>
+        <pin num="11" name="NC7" type="input"/>
+        <pin num="12" name="NC8" type="input"/>
+        <pin num="13" name="GND" type="input"/>
+        <pin num="14" name="VBAT" type="input"/>
+        <pin num="15" name="SDA" type="input"/>
+        <pin num="16" name="SCL" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="LD1117S33TR">
+      <aliases>
+        <alias>LD1117S33CTR</alias>
+        <alias>LD1117S12TR</alias>
+        <alias>LD1117S12CTR</alias>
+        <alias>LD1117S18TR</alias>
+        <alias>LD1117S18CTR</alias>
+        <alias>LD1117S25TR</alias>
+        <alias>LD1117S25CTR</alias>
+        <alias>LD1117S50TR</alias>
+        <alias>LD1117S50CTR</alias>
+      </aliases>
+      <footprints>
+        <fp>SOT223</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">LD1117S33TR</field>
+        <field name="Footprint">SOT-223</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="power_in"/>
+        <pin num="2" name="VO1" type="power_out"/>
+        <pin num="3" name="VI" type="power_in"/>
+        <pin num="4" name="VO2" type="power_out"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="LM2902N">
+      <aliases>
+        <alias>LM324</alias>
+        <alias>TLC274</alias>
+        <alias>TL074</alias>
+        <alias>LM324N</alias>
+        <alias>LM324AN</alias>
+        <alias>MCP6004</alias>
+      </aliases>
+      <footprints>
+        <fp>SOIC*</fp>
+        <fp>DIP*</fp>
+        <fp>TSSOP*</fp>
+        <fp>SSOP*</fp>
+        <fp>MSOP*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">LM2902N</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="output"/>
+        <pin num="2" name="-" type="input"/>
+        <pin num="3" name="+" type="input"/>
+        <pin num="4" name="V+" type="power_in"/>
+        <pin num="5" name="+" type="input"/>
+        <pin num="6" name="-" type="input"/>
+        <pin num="7" name="~" type="output"/>
+        <pin num="8" name="~" type="output"/>
+        <pin num="9" name="-" type="input"/>
+        <pin num="10" name="+" type="input"/>
+        <pin num="11" name="V-" type="power_in"/>
+        <pin num="12" name="+" type="input"/>
+        <pin num="13" name="-" type="input"/>
+        <pin num="14" name="~" type="output"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="MOS_P">
+      <aliases>
+        <alias>MOSFET_P</alias>
+      </aliases>
+      <docs>transistors/mos/*.*</docs>
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">MOS_P</field>
+      </fields>
+      <pins>
+        <pin num="D" name="D" type="passive"/>
+        <pin num="G" name="G" type="input"/>
+        <pin num="S" name="S" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="PM5033">
+      <footprints>
+        <fp>SOT-23-6</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">PM5033</field>
+      </fields>
+      <pins>
+        <pin num="1" name="EN" type="power_in"/>
+        <pin num="2" name="VIN" type="BiDi"/>
+        <pin num="3" name="GND" type="power_in"/>
+        <pin num="4" name="5V" type="input"/>
+        <pin num="5" name="3V3" type="BiDi"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="POT-RESCUE-Mega_2560_core_mini_full_2.0">
+      <fields>
+        <field name="Reference">RV</field>
+        <field name="Value">POT-RESCUE-Mega_2560_core_mini_full_2.0</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="R-RESCUE-Mega_2560_core_mini_full_2.0">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R-RESCUE-Mega_2560_core_mini_full_2.0</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="TEST_2P">
+      <fields>
+        <field name="Reference">W</field>
+        <field name="Value">TEST_2P</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mega_2560 core mini_full_2.0-cache" part="TLP290-RESCUE-Mega_2560_core_mini_full_2.0">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">TLP290-RESCUE-Mega_2560_core_mini_full_2.0</field>
+        <field name="Footprint">SOP-4</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+        <pin num="3" name="~" type="passive"/>
+        <pin num="4" name="~" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="device">
+      <uri>C:\Program Files\KiCad\share\library\device.lib</uri>
+    </library>
+    <library logical="memory">
+      <uri>C:\Program Files\KiCad\share\library\memory.lib</uri>
+    </library>
+    <library logical="OPEN_EVO">
+      <uri>Librairie\Librairie perso.pretty\OPEN_EVO.lib</uri>
+    </library>
+    <library logical="Mega_2560 core mini_full_2.0-cache">
+      <uri>C:\tmp\_OpenAVRc\MegaCore 2560 Shield\Mega_2560 core mini_full_2.0_PM\Mega_2560 core mini_full_2.0-cache.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="GND">
+      <node ref="C29" pin="2"/>
+      <node ref="P24" pin="4"/>
+      <node ref="P23" pin="4"/>
+      <node ref="C32" pin="2"/>
+      <node ref="C33" pin="2"/>
+      <node ref="C34" pin="2"/>
+      <node ref="C26" pin="2"/>
+      <node ref="C27" pin="2"/>
+      <node ref="P11" pin="9"/>
+      <node ref="RV4" pin="1"/>
+      <node ref="RV5" pin="1"/>
+      <node ref="P11" pin="10"/>
+      <node ref="P25" pin="2"/>
+      <node ref="P25" pin="1"/>
+      <node ref="P14" pin="10"/>
+      <node ref="P14" pin="9"/>
+      <node ref="C4" pin="2"/>
+      <node ref="D1" pin="2"/>
+      <node ref="P8" pin="4"/>
+      <node ref="C21" pin="2"/>
+      <node ref="C20" pin="2"/>
+      <node ref="R10" pin="2"/>
+      <node ref="BT1" pin="2"/>
+      <node ref="P22" pin="GND"/>
+      <node ref="P22" pin="GND"/>
+      <node ref="P22" pin="GND"/>
+      <node ref="P5" pin="2"/>
+      <node ref="C5" pin="1"/>
+      <node ref="C9" pin="2"/>
+      <node ref="C11" pin="2"/>
+      <node ref="C17" pin="2"/>
+      <node ref="C16" pin="2"/>
+      <node ref="RV2" pin="1"/>
+      <node ref="U6" pin="11"/>
+      <node ref="R25" pin="2"/>
+      <node ref="C42" pin="2"/>
+      <node ref="RV3" pin="1"/>
+      <node ref="P16" pin="1"/>
+      <node ref="C3" pin="1"/>
+      <node ref="P16" pin="2"/>
+      <node ref="U3" pin="2"/>
+      <node ref="C24" pin="2"/>
+      <node ref="U2" pin="2"/>
+      <node ref="P10" pin="3"/>
+      <node ref="P20" pin="4"/>
+      <node ref="P20" pin="8"/>
+      <node ref="C18" pin="1"/>
+      <node ref="C10" pin="2"/>
+      <node ref="P1" pin="GND"/>
+      <node ref="P1" pin="GND"/>
+      <node ref="P6" pin="6"/>
+      <node ref="P1" pin="GND"/>
+      <node ref="P1" pin="GND"/>
+      <node ref="P1" pin="GND"/>
+      <node ref="P1" pin="GND"/>
+      <node ref="C15" pin="1"/>
+      <node ref="C19" pin="1"/>
+      <node ref="P4" pin="3"/>
+      <node ref="P31" pin="3"/>
+      <node ref="P32" pin="3"/>
+      <node ref="C14" pin="2"/>
+      <node ref="P12" pin="6"/>
+      <node ref="C13" pin="2"/>
+      <node ref="P12" pin="5"/>
+      <node ref="P13" pin="6"/>
+      <node ref="P13" pin="5"/>
+      <node ref="P7" pin="9"/>
+      <node ref="RV1" pin="1"/>
+      <node ref="P18" pin="2"/>
+      <node ref="P16" pin="19"/>
+      <node ref="P19" pin="5"/>
+      <node ref="U1" pin="2"/>
+      <node ref="C12" pin="2"/>
+      <node ref="R5" pin="2"/>
+      <node ref="C6" pin="2"/>
+      <node ref="P9" pin="6"/>
+      <node ref="U8" pin="13"/>
+      <node ref="U5" pin="1"/>
+      <node ref="C28" pin="2"/>
+      <node ref="U8" pin="12"/>
+      <node ref="U8" pin="11"/>
+      <node ref="U8" pin="10"/>
+      <node ref="U8" pin="9"/>
+      <node ref="U8" pin="8"/>
+      <node ref="U8" pin="7"/>
+      <node ref="U8" pin="6"/>
+      <node ref="U8" pin="5"/>
+      <node ref="C22" pin="2"/>
+      <node ref="C31" pin="2"/>
+      <node ref="U7" pin="7"/>
+      <node ref="P3" pin="1"/>
+      <node ref="P2" pin="1"/>
+      <node ref="U7" pin="3"/>
+      <node ref="U7" pin="2"/>
+      <node ref="U7" pin="1"/>
+      <node ref="C23" pin="2"/>
+      <node ref="C8" pin="2"/>
+      <node ref="P17" pin="1"/>
+      <node ref="U7" pin="4"/>
+      <node ref="D4" pin="1"/>
+      <node ref="C7" pin="2"/>
+      <node ref="C2" pin="1"/>
+      <node ref="C38" pin="2"/>
+      <node ref="R16" pin="2"/>
+      <node ref="P30" pin="8"/>
+      <node ref="P30" pin="7"/>
+      <node ref="P30" pin="2"/>
+      <node ref="P30" pin="1"/>
+      <node ref="U4" pin="3"/>
+      <node ref="P15" pin="1"/>
+      <node ref="C1" pin="1"/>
+    </net>
+    <net code="2" name="+BATT">
+      <node ref="D6" pin="2"/>
+      <node ref="R17" pin="2"/>
+      <node ref="P21" pin="2"/>
+      <node ref="P19" pin="1"/>
+      <node ref="R7" pin="1"/>
+    </net>
+    <net code="3" name="VCC">
+      <node ref="R38" pin="2"/>
+      <node ref="R39" pin="1"/>
+      <node ref="Q1" pin="S"/>
+      <node ref="P32" pin="1"/>
+      <node ref="P4" pin="1"/>
+      <node ref="R19" pin="1"/>
+      <node ref="C19" pin="2"/>
+      <node ref="R18" pin="1"/>
+      <node ref="P31" pin="1"/>
+      <node ref="C15" pin="2"/>
+      <node ref="C31" pin="1"/>
+      <node ref="C18" pin="2"/>
+      <node ref="R21" pin="2"/>
+      <node ref="D3" pin="2"/>
+      <node ref="P2" pin="2"/>
+      <node ref="P9" pin="2"/>
+      <node ref="P15" pin="2"/>
+      <node ref="P7" pin="10"/>
+      <node ref="C1" pin="2"/>
+      <node ref="U5" pin="3"/>
+      <node ref="P3" pin="2"/>
+      <node ref="U4" pin="4"/>
+      <node ref="R22" pin="1"/>
+      <node ref="P19" pin="6"/>
+      <node ref="C3" pin="2"/>
+      <node ref="P26" pin="1"/>
+      <node ref="C6" pin="1"/>
+      <node ref="U1" pin="5"/>
+      <node ref="P20" pin="3"/>
+      <node ref="P20" pin="7"/>
+      <node ref="R23" pin="1"/>
+      <node ref="P30" pin="6"/>
+      <node ref="P30" pin="5"/>
+      <node ref="P8" pin="3"/>
+      <node ref="C20" pin="1"/>
+      <node ref="C21" pin="1"/>
+      <node ref="C4" pin="1"/>
+      <node ref="P28" pin="1"/>
+      <node ref="U8" pin="2"/>
+      <node ref="RV2" pin="3"/>
+      <node ref="P6" pin="5"/>
+      <node ref="P1" pin="VCC"/>
+      <node ref="C2" pin="2"/>
+      <node ref="P1" pin="VCC"/>
+      <node ref="U6" pin="4"/>
+      <node ref="C23" pin="1"/>
+      <node ref="C22" pin="1"/>
+      <node ref="U7" pin="8"/>
+      <node ref="P1" pin="VCC"/>
+      <node ref="P1" pin="VCC"/>
+      <node ref="R20" pin="2"/>
+      <node ref="R15" pin="2"/>
+      <node ref="RV5" pin="3"/>
+      <node ref="C5" pin="2"/>
+      <node ref="RV4" pin="3"/>
+      <node ref="R24" pin="1"/>
+      <node ref="C7" pin="1"/>
+      <node ref="P22" pin="VCC"/>
+      <node ref="RV3" pin="3"/>
+    </net>
+    <net code="4" name="/OpenAVRc_Power/LIPO+">
+      <node ref="P21" pin="1"/>
+      <node ref="P17" pin="2"/>
+    </net>
+    <net code="8" name="LCD_VCC">
+      <node ref="P26" pin="2"/>
+      <node ref="P16" pin="3"/>
+    </net>
+    <net code="9" name="U_batt">
+      <node ref="R17" pin="1"/>
+      <node ref="D3" pin="1"/>
+      <node ref="P1" pin="AC15"/>
+      <node ref="R16" pin="1"/>
+      <node ref="D4" pin="2"/>
+    </net>
+    <net code="10" name="Net-(U4-Pad1)">
+      <node ref="U4" pin="1"/>
+    </net>
+    <net code="11" name="+3.3V">
+      <node ref="U5" pin="4"/>
+      <node ref="U5" pin="2"/>
+      <node ref="U4" pin="5"/>
+      <node ref="P28" pin="3"/>
+      <node ref="P7" pin="7"/>
+      <node ref="P26" pin="3"/>
+      <node ref="C38" pin="1"/>
+      <node ref="C8" pin="1"/>
+    </net>
+    <net code="12" name="/OpenAVRc_Power/DCDC_IN+">
+      <node ref="P30" pin="4"/>
+      <node ref="U4" pin="2"/>
+      <node ref="P30" pin="3"/>
+      <node ref="C28" pin="1"/>
+      <node ref="D6" pin="1"/>
+    </net>
+    <net code="13" name="Scl">
+      <node ref="P3" pin="4"/>
+      <node ref="P15" pin="4"/>
+      <node ref="P2" pin="4"/>
+      <node ref="U7" pin="6"/>
+      <node ref="P1" pin="D0"/>
+      <node ref="R38" pin="1"/>
+      <node ref="U8" pin="16"/>
+    </net>
+    <net code="14" name="Net-(BT1-Pad1)">
+      <node ref="U8" pin="14"/>
+      <node ref="BT1" pin="1"/>
+    </net>
+    <net code="15" name="Net-(R15-Pad1)">
+      <node ref="R15" pin="1"/>
+      <node ref="U8" pin="3"/>
+    </net>
+    <net code="16" name="Net-(R20-Pad1)">
+      <node ref="R20" pin="1"/>
+      <node ref="U8" pin="1"/>
+    </net>
+    <net code="17" name="Sda">
+      <node ref="P15" pin="3"/>
+      <node ref="U8" pin="15"/>
+      <node ref="R21" pin="1"/>
+      <node ref="P3" pin="3"/>
+      <node ref="U7" pin="5"/>
+      <node ref="P2" pin="3"/>
+      <node ref="P1" pin="D1"/>
+    </net>
+    <net code="18" name="Net-(U8-Pad4)">
+      <node ref="U8" pin="4"/>
+    </net>
+    <net code="19" name="Net-(P22-PadRX)">
+      <node ref="P22" pin="RX"/>
+      <node ref="R4" pin="2"/>
+    </net>
+    <net code="20" name="Net-(P22-PadSPK+)">
+      <node ref="P27" pin="2"/>
+      <node ref="P22" pin="SPK+"/>
+    </net>
+    <net code="21" name="Net-(P22-PadSPK-)">
+      <node ref="P22" pin="SPK-"/>
+      <node ref="P27" pin="1"/>
+    </net>
+    <net code="22" name="Net-(D1-Pad1)">
+      <node ref="P5" pin="1"/>
+      <node ref="R9" pin="1"/>
+      <node ref="D1" pin="1"/>
+    </net>
+    <net code="23" name="Net-(P22-PadBUSY)">
+      <node ref="P22" pin="BUSY"/>
+      <node ref="R3" pin="2"/>
+    </net>
+    <net code="24" name="Audio_Buzzer_out">
+      <node ref="P1" pin="H3"/>
+      <node ref="R1" pin="2"/>
+    </net>
+    <net code="25" name="Net-(P8-Pad2)">
+      <node ref="R2" pin="1"/>
+      <node ref="P8" pin="2"/>
+    </net>
+    <net code="26" name="/OpenAVRc_Audio_Haptic/JQ_Left_Out">
+      <node ref="R2" pin="2"/>
+      <node ref="P22" pin="DACL"/>
+      <node ref="R10" pin="1"/>
+    </net>
+    <net code="27" name="Vibreur">
+      <node ref="P1" pin="H5"/>
+      <node ref="R9" pin="2"/>
+    </net>
+    <net code="28" name="JQ6500Busy">
+      <node ref="R3" pin="1"/>
+      <node ref="P1" pin="J0"/>
+    </net>
+    <net code="29" name="JQ6500Data">
+      <node ref="P1" pin="J1"/>
+      <node ref="R4" pin="1"/>
+    </net>
+    <net code="30" name="Net-(P8-Pad1)">
+      <node ref="P8" pin="1"/>
+      <node ref="R1" pin="1"/>
+    </net>
+    <net code="31" name="Net-(C43-Pad2)">
+      <node ref="U6" pin="2"/>
+      <node ref="R28" pin="1"/>
+      <node ref="R26" pin="1"/>
+      <node ref="C43" pin="2"/>
+      <node ref="R11" pin="2"/>
+    </net>
+    <net code="32" name="Net-(R28-Pad2)">
+      <node ref="RV2" pin="2"/>
+      <node ref="R28" pin="2"/>
+    </net>
+    <net code="33" name="Net-(C44-Pad2)">
+      <node ref="C44" pin="2"/>
+      <node ref="U6" pin="6"/>
+      <node ref="R12" pin="2"/>
+      <node ref="R29" pin="1"/>
+      <node ref="R31" pin="1"/>
+    </net>
+    <net code="34" name="Stick_RH">
+      <node ref="P1" pin="AC8"/>
+      <node ref="R27" pin="3"/>
+      <node ref="U6" pin="1"/>
+      <node ref="W1" pin="1"/>
+      <node ref="C43" pin="1"/>
+      <node ref="R27" pin="2"/>
+    </net>
+    <net code="35" name="Net-(R11-Pad1)">
+      <node ref="R11" pin="1"/>
+      <node ref="R27" pin="1"/>
+    </net>
+    <net code="36" name="Net-(R14-Pad1)">
+      <node ref="R14" pin="1"/>
+      <node ref="R36" pin="1"/>
+    </net>
+    <net code="37" name="Net-(R13-Pad1)">
+      <node ref="R13" pin="1"/>
+      <node ref="R33" pin="1"/>
+    </net>
+    <net code="38" name="Net-(R12-Pad1)">
+      <node ref="R12" pin="1"/>
+      <node ref="R30" pin="1"/>
+    </net>
+    <net code="39" name="Net-(R34-Pad2)">
+      <node ref="R34" pin="2"/>
+      <node ref="RV4" pin="2"/>
+    </net>
+    <net code="40" name="Net-(C45-Pad2)">
+      <node ref="R13" pin="2"/>
+      <node ref="U6" pin="9"/>
+      <node ref="C45" pin="2"/>
+      <node ref="R32" pin="1"/>
+      <node ref="R34" pin="1"/>
+    </net>
+    <net code="41" name="Net-(R37-Pad2)">
+      <node ref="R37" pin="2"/>
+      <node ref="RV5" pin="2"/>
+    </net>
+    <net code="42" name="Net-(C42-Pad1)">
+      <node ref="U6" pin="10"/>
+      <node ref="U6" pin="12"/>
+      <node ref="U6" pin="5"/>
+      <node ref="U6" pin="3"/>
+      <node ref="R25" pin="1"/>
+      <node ref="C42" pin="1"/>
+      <node ref="R24" pin="2"/>
+    </net>
+    <net code="43" name="Net-(R31-Pad2)">
+      <node ref="R31" pin="2"/>
+      <node ref="RV3" pin="2"/>
+    </net>
+    <net code="44" name="Net-(C46-Pad2)">
+      <node ref="C46" pin="2"/>
+      <node ref="R35" pin="1"/>
+      <node ref="R37" pin="1"/>
+      <node ref="R14" pin="2"/>
+      <node ref="U6" pin="13"/>
+    </net>
+    <net code="45" name="Sw_turn">
+      <node ref="P14" pin="8"/>
+      <node ref="P1" pin="L7"/>
+    </net>
+    <net code="46" name="Sw_eleDR">
+      <node ref="P14" pin="7"/>
+      <node ref="P1" pin="L6"/>
+    </net>
+    <net code="47" name="Sw_thcut">
+      <node ref="P1" pin="G2"/>
+      <node ref="P14" pin="6"/>
+    </net>
+    <net code="48" name="Sw_ailDR">
+      <node ref="P14" pin="5"/>
+      <node ref="P1" pin="D7"/>
+    </net>
+    <net code="49" name="Sw_gear">
+      <node ref="P14" pin="4"/>
+      <node ref="P1" pin="G1"/>
+    </net>
+    <net code="50" name="Sw_rudDR">
+      <node ref="P14" pin="3"/>
+      <node ref="P1" pin="G0"/>
+    </net>
+    <net code="51" name="Sw_id2">
+      <node ref="P1" pin="C1"/>
+      <node ref="P14" pin="2"/>
+    </net>
+    <net code="52" name="Sw_id1">
+      <node ref="P1" pin="C0"/>
+      <node ref="P14" pin="1"/>
+    </net>
+    <net code="53" name="Trim_RV-&gt;">
+      <node ref="P11" pin="8"/>
+      <node ref="P1" pin="AC2"/>
+    </net>
+    <net code="54" name="Trim_LV-&gt;">
+      <node ref="P1" pin="AC4"/>
+      <node ref="P11" pin="7"/>
+    </net>
+    <net code="55" name="Trim_RH&lt;-">
+      <node ref="P1" pin="AC1"/>
+      <node ref="P11" pin="6"/>
+    </net>
+    <net code="56" name="Trim_RH-&gt;">
+      <node ref="P11" pin="5"/>
+      <node ref="P1" pin="AC0"/>
+    </net>
+    <net code="57" name="Trim_LV&lt;-">
+      <node ref="P11" pin="4"/>
+      <node ref="P1" pin="AC5"/>
+    </net>
+    <net code="58" name="Trim_RV&lt;-">
+      <node ref="P11" pin="3"/>
+      <node ref="P1" pin="AC3"/>
+    </net>
+    <net code="59" name="Trim_LH&lt;-">
+      <node ref="P1" pin="AC7"/>
+      <node ref="P11" pin="2"/>
+    </net>
+    <net code="60" name="Trim_LH-&gt;">
+      <node ref="P1" pin="AC6"/>
+      <node ref="P11" pin="1"/>
+    </net>
+    <net code="61" name="Rot_2A">
+      <node ref="P1" pin="E7"/>
+      <node ref="P24" pin="3"/>
+      <node ref="C34" pin="1"/>
+    </net>
+    <net code="62" name="Rot_1push">
+      <node ref="C26" pin="1"/>
+      <node ref="R19" pin="2"/>
+      <node ref="P1" pin="G5"/>
+      <node ref="P23" pin="1"/>
+    </net>
+    <net code="63" name="Rot_1B">
+      <node ref="C27" pin="1"/>
+      <node ref="P1" pin="E5"/>
+      <node ref="R18" pin="2"/>
+      <node ref="P23" pin="2"/>
+    </net>
+    <net code="64" name="Pot_2">
+      <node ref="P1" pin="AC13"/>
+      <node ref="P31" pin="2"/>
+      <node ref="C13" pin="1"/>
+    </net>
+    <net code="65" name="Pot_3">
+      <node ref="C12" pin="1"/>
+      <node ref="P4" pin="2"/>
+      <node ref="P1" pin="AC14"/>
+    </net>
+    <net code="66" name="Pot_1">
+      <node ref="P32" pin="2"/>
+      <node ref="P1" pin="AC12"/>
+      <node ref="C14" pin="1"/>
+    </net>
+    <net code="67" name="Key_ESC">
+      <node ref="P25" pin="7"/>
+      <node ref="P1" pin="L5"/>
+    </net>
+    <net code="68" name="Key_MENU">
+      <node ref="P1" pin="L4"/>
+      <node ref="P25" pin="8"/>
+    </net>
+    <net code="69" name="Key_RIGHT">
+      <node ref="P25" pin="6"/>
+      <node ref="P1" pin="L2"/>
+    </net>
+    <net code="70" name="Key_LEFT">
+      <node ref="P25" pin="5"/>
+      <node ref="P1" pin="L3"/>
+    </net>
+    <net code="71" name="Key_DOWN">
+      <node ref="P25" pin="4"/>
+      <node ref="P1" pin="L0"/>
+    </net>
+    <net code="72" name="Key_UP">
+      <node ref="P1" pin="L1"/>
+      <node ref="P25" pin="3"/>
+    </net>
+    <net code="73" name="Rot_1A">
+      <node ref="P1" pin="E4"/>
+      <node ref="P23" pin="3"/>
+      <node ref="C29" pin="1"/>
+    </net>
+    <net code="74" name="Rot_2B">
+      <node ref="C33" pin="1"/>
+      <node ref="R22" pin="2"/>
+      <node ref="P1" pin="E6"/>
+      <node ref="P24" pin="2"/>
+    </net>
+    <net code="75" name="Rot_2push">
+      <node ref="P24" pin="1"/>
+      <node ref="C32" pin="1"/>
+      <node ref="R23" pin="2"/>
+      <node ref="P1" pin="E3"/>
+    </net>
+    <net code="76" name="/OpenAVRc_Sticks/Power_manches">
+      <node ref="P13" pin="1"/>
+      <node ref="P28" pin="2"/>
+      <node ref="P13" pin="2"/>
+      <node ref="P12" pin="1"/>
+      <node ref="P12" pin="2"/>
+    </net>
+    <net code="77" name="/OpenAVRc_Sticks/Stick_LVcon">
+      <node ref="R32" pin="2"/>
+      <node ref="C9" pin="1"/>
+      <node ref="W3" pin="2"/>
+      <node ref="P12" pin="3"/>
+    </net>
+    <net code="78" name="/OpenAVRc_Sticks/Stick_LHcon">
+      <node ref="C11" pin="1"/>
+      <node ref="W4" pin="2"/>
+      <node ref="P12" pin="4"/>
+      <node ref="R35" pin="2"/>
+    </net>
+    <net code="79" name="/OpenAVRc_Sticks/Stick_RVcon">
+      <node ref="W2" pin="2"/>
+      <node ref="R29" pin="2"/>
+      <node ref="C17" pin="1"/>
+      <node ref="P13" pin="4"/>
+    </net>
+    <net code="80" name="/OpenAVRc_Sticks/Stick_RHcon">
+      <node ref="W1" pin="2"/>
+      <node ref="P13" pin="3"/>
+      <node ref="C16" pin="1"/>
+      <node ref="R26" pin="2"/>
+    </net>
+    <net code="81" name="Stick_LH">
+      <node ref="P1" pin="AC11"/>
+      <node ref="C46" pin="1"/>
+      <node ref="R36" pin="3"/>
+      <node ref="R36" pin="2"/>
+      <node ref="W4" pin="1"/>
+      <node ref="U6" pin="14"/>
+    </net>
+    <net code="82" name="Stick_LV">
+      <node ref="U6" pin="8"/>
+      <node ref="P1" pin="AC9"/>
+      <node ref="W3" pin="1"/>
+      <node ref="R33" pin="3"/>
+      <node ref="R33" pin="2"/>
+      <node ref="C45" pin="1"/>
+    </net>
+    <net code="83" name="Stick_RV">
+      <node ref="P1" pin="AC10"/>
+      <node ref="R30" pin="2"/>
+      <node ref="R30" pin="3"/>
+      <node ref="W2" pin="1"/>
+      <node ref="U6" pin="7"/>
+      <node ref="C44" pin="1"/>
+    </net>
+    <net code="84" name="BT_Txd1">
+      <node ref="R6" pin="1"/>
+      <node ref="R5" pin="1"/>
+      <node ref="P1" pin="D3"/>
+    </net>
+    <net code="85" name="Net-(P10-Pad1)">
+      <node ref="P10" pin="1"/>
+      <node ref="R6" pin="2"/>
+    </net>
+    <net code="86" name="/OpenAVRc_CoreConnects/Miso">
+      <node ref="P1" pin="B3"/>
+      <node ref="P9" pin="1"/>
+      <node ref="P6" pin="4"/>
+    </net>
+    <net code="87" name="Net-(RV6-Pad1)">
+      <node ref="RV6" pin="1"/>
+    </net>
+    <net code="88" name="Net-(P16-Pad18)">
+      <node ref="P16" pin="18"/>
+      <node ref="RV6" pin="2"/>
+    </net>
+    <net code="89" name="BT_Rxd1">
+      <node ref="P10" pin="2"/>
+      <node ref="P1" pin="D2"/>
+    </net>
+    <net code="90" name="/OpenAVRc_CoreConnects/Lcd_e">
+      <node ref="P16" pin="14"/>
+      <node ref="P1" pin="C7"/>
+    </net>
+    <net code="91" name="/OpenAVRc_CoreConnects/Lcd_r/w">
+      <node ref="P1" pin="C6"/>
+      <node ref="P16" pin="15"/>
+    </net>
+    <net code="92" name="/OpenAVRc_CoreConnects/Lcd_A0">
+      <node ref="P1" pin="C5"/>
+      <node ref="P16" pin="16"/>
+    </net>
+    <net code="93" name="/OpenAVRc_CoreConnects/Lcd_db7">
+      <node ref="P1" pin="A7"/>
+      <node ref="P16" pin="13"/>
+    </net>
+    <net code="94" name="/OpenAVRc_CoreConnects/Lcd_vo">
+      <node ref="P16" pin="4"/>
+      <node ref="RV1" pin="2"/>
+    </net>
+    <net code="95" name="/OpenAVRc_CoreConnects/Lcd_db6">
+      <node ref="P1" pin="A6"/>
+      <node ref="P16" pin="12"/>
+    </net>
+    <net code="96" name="/OpenAVRc_CoreConnects/Lcd_db5">
+      <node ref="P16" pin="11"/>
+      <node ref="P1" pin="A5"/>
+    </net>
+    <net code="97" name="/OpenAVRc_CoreConnects/Lcd_cs">
+      <node ref="P1" pin="C3"/>
+      <node ref="P16" pin="20"/>
+    </net>
+    <net code="98" name="/OpenAVRc_CoreConnects/Lcd_db4">
+      <node ref="P1" pin="A4"/>
+      <node ref="P16" pin="10"/>
+    </net>
+    <net code="99" name="/OpenAVRc_CoreConnects/Lcd_db3">
+      <node ref="P1" pin="A3"/>
+      <node ref="P16" pin="9"/>
+    </net>
+    <net code="100" name="/OpenAVRc_CoreConnects/Lcd_db2">
+      <node ref="P16" pin="8"/>
+      <node ref="P1" pin="A2"/>
+    </net>
+    <net code="101" name="/OpenAVRc_CoreConnects/Lcd_db1">
+      <node ref="P16" pin="7"/>
+      <node ref="P1" pin="A1"/>
+    </net>
+    <net code="102" name="/OpenAVRc_CoreConnects/Lcd_db0">
+      <node ref="P1" pin="A0"/>
+      <node ref="P16" pin="6"/>
+    </net>
+    <net code="103" name="Net-(P16-Pad5)">
+      <node ref="P16" pin="5"/>
+      <node ref="RV1" pin="3"/>
+    </net>
+    <net code="104" name="/OpenAVRc_CoreConnects/Lcd_bla">
+      <node ref="P1" pin="C2"/>
+      <node ref="RV6" pin="3"/>
+    </net>
+    <net code="105" name="/OpenAVRc_CoreConnects/Lcd_rst">
+      <node ref="P1" pin="C4"/>
+      <node ref="P16" pin="17"/>
+    </net>
+    <net code="106" name="Xmitter_MISO">
+      <node ref="P1" pin="H0"/>
+      <node ref="P7" pin="5"/>
+    </net>
+    <net code="107" name="Tele_RX">
+      <node ref="U3" pin="3"/>
+      <node ref="P1" pin="E0"/>
+    </net>
+    <net code="108" name="Net-(P1-PadJ2)">
+      <node ref="P1" pin="J2"/>
+    </net>
+    <net code="109" name="Xmitter_SCK">
+      <node ref="P1" pin="H2"/>
+      <node ref="P7" pin="6"/>
+    </net>
+    <net code="110" name="/OpenAVRc_CoreConnects/Mosi">
+      <node ref="P6" pin="3"/>
+      <node ref="P9" pin="4"/>
+      <node ref="P1" pin="B2"/>
+    </net>
+    <net code="111" name="Xmitter_MOSI">
+      <node ref="P1" pin="H1"/>
+      <node ref="P7" pin="8"/>
+    </net>
+    <net code="112" name="Tele_TX">
+      <node ref="U2" pin="4"/>
+      <node ref="P1" pin="E1"/>
+    </net>
+    <net code="113" name="/OpenAVRc_CoreConnects/Sck">
+      <node ref="P6" pin="2"/>
+      <node ref="P1" pin="B1"/>
+      <node ref="P9" pin="3"/>
+    </net>
+    <net code="114" name="Net-(P1-PadG4)">
+      <node ref="P1" pin="G4"/>
+    </net>
+    <net code="115" name="Net-(P1-PadNC)">
+      <node ref="P1" pin="NC"/>
+    </net>
+    <net code="116" name="/OpenAVRc_CoreConnects/VREF">
+      <node ref="C10" pin="1"/>
+      <node ref="P1" pin="VREF"/>
+    </net>
+    <net code="117" name="Net-(P1-PadD5)">
+      <node ref="P1" pin="D5"/>
+    </net>
+    <net code="118" name="Net-(P1-PadD6)">
+      <node ref="P1" pin="D6"/>
+    </net>
+    <net code="119" name="Net-(P1-PadH7)">
+      <node ref="P1" pin="H7"/>
+    </net>
+    <net code="120" name="Net-(P1-PadG3)">
+      <node ref="P1" pin="G3"/>
+    </net>
+    <net code="121" name="/OpenAVRc_CoreConnects/Microsd_CS">
+      <node ref="P1" pin="B0"/>
+      <node ref="P6" pin="1"/>
+    </net>
+    <net code="122" name="Net-(P1-PadJ7)">
+      <node ref="P1" pin="J7"/>
+    </net>
+    <net code="123" name="/OpenAVRc_CoreConnects/Isp_rst">
+      <node ref="P1" pin="RST"/>
+      <node ref="P9" pin="5"/>
+    </net>
+    <net code="124" name="PPM_in">
+      <node ref="P1" pin="D4"/>
+      <node ref="U1" pin="1"/>
+    </net>
+    <net code="125" name="PPM16_SIMout">
+      <node ref="U1" pin="3"/>
+      <node ref="D2" pin="2"/>
+      <node ref="P1" pin="B5"/>
+    </net>
+    <net code="126" name="CS_CYRF6936">
+      <node ref="P1" pin="J4"/>
+      <node ref="P7" pin="3"/>
+    </net>
+    <net code="127" name="Hold_Power">
+      <node ref="P1" pin="H4"/>
+    </net>
+    <net code="128" name="Net-(P1-PadB4)">
+      <node ref="P1" pin="B4"/>
+    </net>
+    <net code="129" name="CS_CC2500">
+      <node ref="P1" pin="J3"/>
+      <node ref="P7" pin="1"/>
+    </net>
+    <net code="130" name="Net-(P1-PadB7)">
+      <node ref="P1" pin="B7"/>
+    </net>
+    <net code="131" name="CS_A7105">
+      <node ref="P1" pin="J6"/>
+      <node ref="P7" pin="4"/>
+    </net>
+    <net code="132" name="Sim_Control">
+      <node ref="U1" pin="6"/>
+      <node ref="P1" pin="H6"/>
+    </net>
+    <net code="133" name="Master_PPMout">
+      <node ref="D2" pin="1"/>
+      <node ref="P1" pin="B6"/>
+      <node ref="P19" pin="4"/>
+    </net>
+    <net code="134" name="CS_NRF24L01">
+      <node ref="P7" pin="2"/>
+      <node ref="P1" pin="J5"/>
+    </net>
+    <net code="135" name="Net-(Q1-PadG)">
+      <node ref="Q1" pin="G"/>
+      <node ref="R40" pin="2"/>
+      <node ref="R39" pin="2"/>
+    </net>
+    <net code="136" name="Net-(C24-Pad1)">
+      <node ref="P10" pin="4"/>
+      <node ref="C24" pin="1"/>
+      <node ref="Q1" pin="D"/>
+    </net>
+    <net code="137" name="/OpenAVRc_CoreConnects/BT_OnOff">
+      <node ref="R40" pin="1"/>
+    </net>
+    <net code="138" name="Net-(R7-Pad2)">
+      <node ref="R7" pin="2"/>
+      <node ref="U2" pin="1"/>
+      <node ref="U3" pin="1"/>
+    </net>
+    <net code="139" name="Net-(P20-Pad6)">
+      <node ref="P20" pin="6"/>
+      <node ref="U2" pin="3"/>
+    </net>
+    <net code="140" name="Net-(P20-Pad5)">
+      <node ref="P20" pin="5"/>
+      <node ref="U3" pin="4"/>
+    </net>
+    <net code="141" name="Net-(P18-Pad1)">
+      <node ref="R8" pin="1"/>
+      <node ref="P18" pin="1"/>
+    </net>
+    <net code="142" name="Net-(P19-Pad2)">
+      <node ref="P19" pin="2"/>
+      <node ref="P19" pin="3"/>
+    </net>
+    <net code="143" name="/OpenAVRc_HF_Telemetry/TX_module">
+      <node ref="P20" pin="2"/>
+      <node ref="P19" pin="7"/>
+    </net>
+    <net code="145" name="Net-(R8-Pad2)">
+      <node ref="U1" pin="4"/>
+      <node ref="R8" pin="2"/>
+    </net>
+    <net code="147" name="/OpenAVRc_HF_Telemetry/RX_module">
+      <node ref="P20" pin="1"/>
+      <node ref="P19" pin="8"/>
+    </net>
+  </nets>
+</export>

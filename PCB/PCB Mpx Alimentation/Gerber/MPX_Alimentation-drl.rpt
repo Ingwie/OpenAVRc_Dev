@@ -1,0 +1,29 @@
+Drill report for C:\tmp\_OpenAVRc\MPX Alimentation\MPX_Alimentation.kicad_pcb
+Created on 09/11/2019 14:16:35
+
+Copper Layer Stackup:
+    =============================================================
+    L1 :  F.Cu                      front
+    L2 :  B.Cu                      back
+
+
+Drill file 'MPX_Alimentation-PTH.drl' contains
+    plated through holes:
+    =============================================================
+    T1  0,60mm  0,024"  (3 holes)
+    T2  0,80mm  0,031"  (2 holes)
+    T3  0,90mm  0,035"  (2 holes)
+    T4  1,00mm  0,039"  (12 holes)
+    T5  1,10mm  0,043"  (6 holes)
+    T6  1,30mm  0,051"  (2 holes)
+    T7  1,35mm  0,053"  (17 holes)
+
+    Total plated holes count 44
+
+
+Drill file 'MPX_Alimentation-NPTH.drl' contains
+    unplated through holes:
+    =============================================================
+    T1  2,20mm  0,087"  (3 holes)
+
+    Total unplated holes count 3

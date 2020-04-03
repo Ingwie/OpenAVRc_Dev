@@ -1,0 +1,13 @@
+"Id";"Référence";"Boitier";"Quantité";"Désignation";"Fournisseur et réf.";
+1;"C6,C4";"C_Rect_L7.0mm_W2.0mm_P5.00mm";2;"100nF";;;
+2;"P1,P2";"Pin_Header_Straight_1x02_Pitch2.54mm";2;"CONN_01X02";;;
+3;"R4";"R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical";1;"10";;;
+4;"R5,R3";"R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical";2;"1,2K";;;
+5;"R2,R1";"R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical";2;"1,5K";;;
+6;"R6,R7";"R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical";2;"22K";;;
+7;"RV1,RV2";"Potentiometer_Trimmer_Bourns_3296W";2;"10K";;;
+8;"U1";"DIP-8_W7.62mm_LongPads";1;"LM386";;;
+9;"C1,C2,C3";"CP_Radial_D6.3mm_P2.50mm";3;"10µF";;;
+10;"C5,C7,C8";"CP_Radial_Tantal_D6.0mm_P2.50mm";3;"10µF";;;
+11;"SP1";"Pin_Header_Straight_1x02_Pitch2.54mm";1;"SPEAKER";;;
+12;"J1";"Pin_Header_Straight_1x03_Pitch2.54mm";1;"JACK_2P";;;

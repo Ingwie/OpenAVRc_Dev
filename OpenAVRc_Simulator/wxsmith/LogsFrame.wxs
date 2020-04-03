@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxFrame" name="LogsFrame">
+		<title>Logs</title>
+		<size>1180,512</size>
+		<id_arg>0</id_arg>
+		<style>wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER</style>
+		<handler function="OnClose" entry="EVT_CLOSE" />
+		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
+			<pos>224,112</pos>
+			<size>1024,512</size>
+			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
+				<label>Champs</label>
+				<pos>8,8</pos>
+				<size>128,496</size>
+				<style>wxDOUBLE_BORDER</style>
+			</object>
+			<object class="wxListBox" name="ID_FIELDLISTBOX" variable="FieldListBox" member="yes">
+				<default>-1</default>
+				<pos>16,32</pos>
+				<size>112,464</size>
+				<style>wxLB_MULTIPLE</style>
+				<handler function="OnFieldListBoxSelect" entry="EVT_LISTBOX" />
+			</object>
+			<object class="wxPanel" name="ID_PANEL2" variable="Panel2" member="yes">
+				<pos>144,8</pos>
+				<size>1032,48</size>
+				<style>wxDOUBLE_BORDER|wxTAB_TRAVERSAL</style>
+				<object class="wxButton" name="ID_BUTTONRESET" variable="ResetButton" member="yes">
+					<label>RAZ</label>
+					<pos>16,10</pos>
+					<handler function="OnResetButtonClick" entry="EVT_BUTTON" />
+				</object>
+				<object class="wxStaticText" name="ID_STATICTEXT1" variable="LogName" member="yes">
+					<label></label>
+					<pos>360,10</pos>
+					<size>30,25</size>
+					<focused>1</focused>
+					<fg>#0000FF</fg>
+					<font>
+						<size>16</size>
+						<style>normal</style>
+						<weight>bold</weight>
+						<underlined>0</underlined>
+						<family>swiss</family>
+						<face>Arial Narrow</face>
+					</font>
+				</object>
+				<object class="wxButton" name="ID_BUTTONKML" variable="KMLButton" member="yes">
+					<label>KML</label>
+					<pos>928,10</pos>
+					<enabled>0</enabled>
+					<handler function="OnKMLButtonClick" entry="EVT_BUTTON" />
+				</object>
+			</object>
+			<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBox2" member="yes">
+				<label>Données</label>
+				<pos>144,64</pos>
+				<size>1024,440</size>
+				<style>wxDOUBLE_BORDER</style>
+			</object>
+			<object class="mpWindow" name="ID_MATHPLOT1" variable="MathPlot" member="yes">
+				<pos>152,80</pos>
+				<size>1008,416</size>
+			</object>
+		</object>
+	</object>
+</wxsmith>

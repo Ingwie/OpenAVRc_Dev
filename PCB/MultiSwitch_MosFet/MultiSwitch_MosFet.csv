@@ -1,0 +1,18 @@
+"Id";"Référence";"Boitier";"Quantité";"Désignation";"Fournisseur et réf.";
+1;"Fix1,Fix1,Fix1,Fix1";"MountingHole_3.2mm_M3";4;"MountingHole_3.2mm_M3";;;
+2;"Q2,Q14,Q8,Q5,Q11,Q17,Q20,Q23";"TO-220_Vertical";8;"IRL2203N";;;
+3;"Q1,Q7,Q13,Q4,Q10,Q16,Q19,Q22";"TO-92_Inline_Narrow_Oval";8;"P2N2222A";;;
+4;"Q3,Q9,Q15,Q6,Q12,Q18,Q21,Q24";"TO-92_Inline_Narrow_Oval";8;"BF244B";;;
+5;"J1";"bornier2";1;"VExt1";;;
+6;"J2";"bornier2";1;"VExt2";;;
+7;"J3";"bornier2";1;"VExt3";;;
+8;"J4";"bornier2";1;"VExt4";;;
+9;"J5";"bornier2";1;"VExt5";;;
+10;"J6";"bornier2";1;"VExt6";;;
+11;"J7";"bornier2";1;"VExt7";;;
+12;"J8";"bornier2";1;"VExt8";;;
+13;"J11";"bornier2";1;"VExt_GND";;;
+14;"D1,D2,D3,D4,D5,D6,D7,D8";"LED_D3.0mm";8;"LED";;;
+15;"J9";"Pin_Header_Straight_1x08_Pitch2.54mm";1;"Signals/Ms8";;;
+16;"J10";"Pin_Header_Straight_1x08_Pitch2.54mm";1;"VRx/Ms8";;;
+17;"R1,R2,R3,R4,R5,R6,R7,R8,R9,R11,R12,R13,R14,R15,R16,R17,R18,R19,R20,R21,R22,R23,R24,R10";"R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical";24;"10K";;;

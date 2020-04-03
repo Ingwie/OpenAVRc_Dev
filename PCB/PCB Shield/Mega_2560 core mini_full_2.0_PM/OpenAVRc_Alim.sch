@@ -1,0 +1,537 @@
+EESchema Schematic File Version 2
+LIBS:Mega_2560 core mini_full_2.0-rescue
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:OPEN_EVO
+LIBS:Mega_2560 core mini_full_2.0-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 2 2
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C?
+U 1 1 59C53131
+P 6850 3200
+F 0 "C?" H 6875 3300 50  0000 L CNN
+F 1 "100nF" H 6600 3100 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 6888 3050 50  0001 C CNN
+F 3 "" H 6850 3200 50  0000 C CNN
+	1    6850 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R?
+U 1 1 59C53138
+P 5250 4150
+F 0 "R?" V 5330 4150 50  0000 C CNN
+F 1 "2.7K" V 5250 4150 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 5180 4150 50  0001 C CNN
+F 3 "" H 5250 4150 50  0000 C CNN
+	1    5250 4150
+	-1   0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR?
+U 1 1 59C5313F
+P 7550 4550
+F 0 "#PWR?" H 7550 4300 50  0001 C CNN
+F 1 "GND" H 7550 4350 50  0000 C CNN
+F 2 "" H 7550 4550 50  0000 C CNN
+F 3 "" H 7550 4550 50  0000 C CNN
+	1    7550 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X03 P?
+U 1 1 59C53145
+P 7750 3250
+F 0 "P?" H 7750 3450 50  0000 C CNN
+F 1 "LCD_Alim" H 7750 3050 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm" H 7750 3250 50  0001 C CNN
+F 3 "" H 7750 3250 50  0000 C CNN
+	1    7750 3250
+	-1   0    0    -1  
+$EndComp
+Text Label 8350 3250 2    60   ~ 0
+LCD_VCC
+Text Notes 8350 3800 0    60   ~ 0
++3.3V\n
+Text Notes 7950 2900 0    60   ~ 0
++5V
+$Comp
+L VCC #PWR?
+U 1 1 59C5314F
+P 8200 3000
+F 0 "#PWR?" H 8200 2850 50  0001 C CNN
+F 1 "VCC" V 8200 3200 50  0000 C CNN
+F 2 "" H 8200 3000 50  0000 C CNN
+F 3 "" H 8200 3000 50  0000 C CNN
+	1    8200 3000
+	0    1    1    0   
+$EndComp
+$Comp
+L C-RESCUE-Mega_2560_core_mini_full_2.0 C?
+U 1 1 59C53155
+P 8050 4300
+F 0 "C?" H 8075 4400 50  0000 L CNN
+F 1 "100nF" H 8075 4200 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 8088 4150 50  0001 C CNN
+F 3 "" H 8050 4300 50  0000 C CNN
+	1    8050 4300
+	1    0    0    -1  
+$EndComp
+Text Notes 3150 2350 0    60   ~ 0
+Power Management
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR?
+U 1 1 59C5315D
+P 6400 3550
+F 0 "#PWR?" H 6400 3300 50  0001 C CNN
+F 1 "GND" H 6400 3400 50  0000 C CNN
+F 2 "" H 6400 3550 50  0000 C CNN
+F 3 "" H 6400 3550 50  0000 C CNN
+	1    6400 3550
+	-1   0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR?
+U 1 1 59C53163
+P 5250 4350
+F 0 "#PWR?" H 5250 4100 50  0001 C CNN
+F 1 "GND" H 5250 4200 50  0000 C CNN
+F 2 "" H 5250 4350 50  0000 C CNN
+F 3 "" H 5250 4350 50  0000 C CNN
+	1    5250 4350
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X02 P?
+U 1 1 59C53169
+P 4800 2800
+F 0 "P?" H 4800 2950 50  0000 C CNN
+F 1 "Sw_power" V 4500 2800 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm" H 4800 2800 50  0001 C CNN
+F 3 "" H 4800 2800 50  0000 C CNN
+	1    4800 2800
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 7750 3250
+NoConn ~ 7750 3150
+NoConn ~ 7750 3350
+$Comp
+L LD1117S33TR U?
+U 1 1 59C53173
+P 7550 4050
+F 0 "U?" H 7350 3800 50  0000 C CNN
+F 1 "LD1117S33TR" H 7550 4250 50  0000 C CNN
+F 2 "TO_SOT_Packages_SMD:SOT-223" H 7550 4150 50  0001 C CNN
+F 3 "" H 7550 4050 50  0000 C CNN
+	1    7550 4050
+	1    0    0    -1  
+$EndComp
+Text Notes 7050 4950 0    60   Italic 0
+Option si utilisation du 3.3V dans le montage
+$Comp
+L L4941 U?
+U 1 1 59C5317B
+P 6400 3050
+F 0 "U?" H 6250 2800 50  0000 C CNN
+F 1 "L4941" H 6250 3250 50  0000 L CNN
+F 2 "Power_Integrations:TO-220" H 6550 3350 50  0001 C CIN
+F 3 "" H 6400 3050 50  0000 C CNN
+	1    6400 3050
+	1    0    0    -1  
+$EndComp
+$Comp
+L R-RESCUE-Mega_2560_core_mini_full_2.0 R?
+U 1 1 59C53182
+P 5250 3600
+F 0 "R?" V 5330 3600 50  0000 C CNN
+F 1 "5.1K" V 5250 3600 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206" V 5180 3600 50  0001 C CNN
+F 3 "" H 5250 3600 50  0000 C CNN
+	1    5250 3600
+	1    0    0    1   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR?
+U 1 1 59C53189
+P 6850 3400
+F 0 "#PWR?" H 6850 3150 50  0001 C CNN
+F 1 "GND" H 6850 3250 50  0000 C CNN
+F 2 "" H 6850 3400 50  0000 C CNN
+F 3 "" H 6850 3400 50  0000 C CNN
+	1    6850 3400
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CP1-RESCUE-Mega_2560_core_mini_full_2.0 C?
+U 1 1 59C5318F
+P 5900 3200
+F 0 "C?" H 5925 3300 50  0000 L CNN
+F 1 "100µF" H 5925 3100 50  0000 L CNN
+F 2 "Capacitors_SMD:CP_Elec_6.3x5.3" H 5900 3200 50  0001 C CNN
+F 3 "" H 5900 3200 50  0000 C CNN
+	1    5900 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR?
+U 1 1 59C53196
+P 5900 3400
+F 0 "#PWR?" H 5900 3150 50  0001 C CNN
+F 1 "GND" H 5900 3250 50  0000 C CNN
+F 2 "" H 5900 3400 50  0000 C CNN
+F 3 "" H 5900 3400 50  0000 C CNN
+	1    5900 3400
+	-1   0    0    -1  
+$EndComp
+$Comp
+L MBR0520 D?
+U 1 1 59C5319C
+P 5600 3000
+F 0 "D?" H 5600 3100 50  0000 C CNN
+F 1 "MBR0520" H 5600 2900 50  0000 C CNN
+F 2 "Diodes_SMD:D_SOD-123" H 5600 2825 50  0001 C CNN
+F 3 "" H 5600 3000 50  0001 C CNN
+	1    5600 3000
+	-1   0    0    1   
+$EndComp
+NoConn ~ 4850 3000
+NoConn ~ 4750 3000
+$Comp
+L CP1-RESCUE-Mega_2560_core_mini_full_2.0 C?
+U 1 1 59C531A5
+P 7250 3200
+F 0 "C?" H 7275 3300 50  0000 L CNN
+F 1 "100µF" H 7275 3100 50  0000 L CNN
+F 2 "Capacitors_SMD:CP_Elec_6.3x5.3" H 7250 3200 50  0001 C CNN
+F 3 "" H 7250 3200 50  0000 C CNN
+	1    7250 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR?
+U 1 1 59C531AC
+P 7250 3450
+F 0 "#PWR?" H 7250 3200 50  0001 C CNN
+F 1 "GND" H 7250 3300 50  0000 C CNN
+F 2 "" H 7250 3450 50  0000 C CNN
+F 3 "" H 7250 3450 50  0000 C CNN
+	1    7250 3450
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CP1-RESCUE-Mega_2560_core_mini_full_2.0 C?
+U 1 1 59C531B2
+P 8450 4300
+F 0 "C?" H 8475 4400 50  0000 L CNN
+F 1 "47µF" H 8475 4200 50  0000 L CNN
+F 2 "Capacitors_SMD:CP_Elec_6.3x5.3" H 8450 4300 50  0001 C CNN
+F 3 "" H 8450 4300 50  0000 C CNN
+	1    8450 4300
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR?
+U 1 1 59C531B9
+P 8450 4550
+F 0 "#PWR?" H 8450 4300 50  0001 C CNN
+F 1 "GND" H 8450 4350 50  0000 C CNN
+F 2 "" H 8450 4550 50  0000 C CNN
+F 3 "" H 8450 4550 50  0000 C CNN
+	1    8450 4550
+	1    0    0    -1  
+$EndComp
+Text Notes 4450 2700 0    60   ~ 0
+Power Switch
+Text Label 8150 4000 0    60   ~ 0
+P3_3V
+$Comp
+L CONN_01X08 P?
+U 1 1 59C531C1
+P 3350 4150
+F 0 "P?" H 3350 4600 50  0000 C CNN
+F 1 "MiniDCDC3A" V 3450 4150 50  0000 C CNN
+F 2 "MiniDCDC3A" H 3350 4150 50  0001 C CNN
+F 3 "" H 3350 4150 50  0000 C CNN
+	1    3350 4150
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR?
+U 1 1 59C531C8
+P 3600 4550
+F 0 "#PWR?" H 3600 4300 50  0001 C CNN
+F 1 "GND" H 3600 4400 50  0000 C CNN
+F 2 "" H 3600 4550 50  0000 C CNN
+F 3 "" H 3600 4550 50  0000 C CNN
+	1    3600 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR?
+U 1 1 59C531CE
+P 3800 3900
+F 0 "#PWR?" H 3800 3750 50  0001 C CNN
+F 1 "VCC" H 3800 4000 50  0000 C CNN
+F 2 "" H 3800 3900 50  0000 C CNN
+F 3 "" H 3800 3900 50  0000 C CNN
+	1    3800 3900
+	1    0    0    -1  
+$EndComp
+Text Label 4150 3000 0    60   ~ 0
+LIPO+
+Text Notes 3750 4500 0    60   ~ 0
+DCDC_IN-
+Text Label 5900 2950 1    60   ~ 0
+DCDC_IN+
+Text Label 3750 4300 0    60   ~ 0
+DCDC_IN+
+$Comp
+L CONN_01X02 P?
+U 1 1 59C531D8
+P 3800 3050
+F 0 "P?" H 3800 3200 50  0000 C CNN
+F 1 "BATT" V 3900 3050 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm" H 3800 3050 50  0001 C CNN
+F 3 "" H 3800 3050 50  0000 C CNN
+	1    3800 3050
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR?
+U 1 1 59C531DF
+P 4100 3200
+F 0 "#PWR?" H 4100 2950 50  0001 C CNN
+F 1 "GND" H 4100 3050 50  0000 C CNN
+F 2 "" H 4100 3200 50  0000 C CNN
+F 3 "" H 4100 3200 50  0000 C CNN
+	1    4100 3200
+	1    0    0    -1  
+$EndComp
+Text Notes 3150 4950 0    60   Italic 0
+Option module DCDC 3A
+$Comp
+L DIODE D?
+U 1 1 59C531E6
+P 5600 3650
+F 0 "D?" H 5600 3750 40  0000 C CNN
+F 1 "LL4148" H 5600 3550 40  0000 C CNN
+F 2 "D_SCD80_HandSoldering" H 5600 3650 60  0001 C CNN
+F 3 "" H 5600 3650 60  0000 C CNN
+	1    5600 3650
+	0    -1   -1   0   
+$EndComp
+$Comp
+L DIODE D?
+U 1 1 59C531ED
+P 5600 4200
+F 0 "D?" H 5600 4300 40  0000 C CNN
+F 1 "LL4148" H 5600 4100 40  0000 C CNN
+F 2 "D_SCD80_HandSoldering" H 5600 4200 60  0001 C CNN
+F 3 "" H 5600 4200 60  0000 C CNN
+	1    5600 4200
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND-RESCUE-Mega_2560_core_mini_full_2.0 #PWR?
+U 1 1 59C531F4
+P 5600 4450
+F 0 "#PWR?" H 5600 4200 50  0001 C CNN
+F 1 "GND" H 5600 4300 50  0000 C CNN
+F 2 "" H 5600 4450 50  0000 C CNN
+F 3 "" H 5600 4450 50  0000 C CNN
+	1    5600 4450
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR?
+U 1 1 59C531FA
+P 5600 3400
+F 0 "#PWR?" H 5600 3250 50  0001 C CNN
+F 1 "VCC" H 5600 3550 50  0000 C CNN
+F 2 "" H 5600 3400 50  0000 C CNN
+F 3 "" H 5600 3400 50  0000 C CNN
+	1    5600 3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L +BATT #PWR?
+U 1 1 59C53200
+P 5250 2800
+F 0 "#PWR?" H 5250 2650 50  0001 C CNN
+F 1 "+BATT" H 5250 2940 50  0000 C CNN
+F 2 "" H 5250 2800 50  0000 C CNN
+F 3 "" H 5250 2800 50  0000 C CNN
+	1    5250 2800
+	1    0    0    -1  
+$EndComp
+Text Label 4800 3900 0    60   ~ 0
+U_batt
+Wire Wire Line
+	7050 4000 7150 4000
+Connection ~ 7550 4450
+Wire Wire Line
+	7550 4450 8050 4450
+Wire Notes Line
+	8750 3800 7200 3800
+Wire Wire Line
+	6800 3000 8200 3000
+Wire Notes Line
+	8750 4800 8750 3800
+Wire Notes Line
+	7200 4800 8750 4800
+Wire Notes Line
+	7200 3800 7200 4800
+Wire Notes Line
+	9350 5050 9350 4950
+Wire Notes Line
+	9350 5000 9350 2200
+Connection ~ 7950 3000
+Wire Wire Line
+	7950 3150 7950 3000
+Wire Wire Line
+	7950 3250 8350 3250
+Wire Wire Line
+	7550 4300 7550 4550
+Wire Wire Line
+	6400 3300 6400 3550
+Wire Wire Line
+	7050 4000 7050 3000
+Connection ~ 7050 3000
+Wire Wire Line
+	5900 2550 5900 3050
+Connection ~ 5900 3000
+Wire Wire Line
+	5900 3400 5900 3350
+Wire Wire Line
+	6850 3350 6850 3400
+Wire Wire Line
+	6850 3050 6850 3000
+Connection ~ 6850 3000
+Wire Wire Line
+	7250 3050 7250 3000
+Connection ~ 7250 3000
+Wire Wire Line
+	7250 3450 7250 3350
+Wire Wire Line
+	8450 4000 8450 4150
+Wire Wire Line
+	7950 4000 8450 4000
+Wire Wire Line
+	8450 4550 8450 4450
+Wire Wire Line
+	3550 4300 4200 4300
+Wire Wire Line
+	3550 4200 3700 4200
+Wire Wire Line
+	3600 4400 3550 4400
+Wire Wire Line
+	3600 3800 3600 4550
+Wire Wire Line
+	3550 3900 3600 3900
+Connection ~ 3600 3900
+Wire Wire Line
+	3600 4500 3550 4500
+Connection ~ 3600 4400
+Connection ~ 3600 4500
+Wire Wire Line
+	3800 4100 3550 4100
+Wire Wire Line
+	3800 3900 3800 4100
+Wire Wire Line
+	3800 4000 3550 4000
+Connection ~ 3800 4000
+Wire Wire Line
+	4000 3100 4100 3100
+Wire Wire Line
+	4100 3100 4100 3200
+Wire Wire Line
+	3700 4200 3700 4300
+Connection ~ 3700 4300
+Wire Wire Line
+	4000 3000 4750 3000
+Wire Wire Line
+	3550 3800 3600 3800
+Wire Notes Line
+	3150 3700 4300 3700
+Wire Notes Line
+	4300 3700 4300 4800
+Wire Notes Line
+	4300 4800 3150 4800
+Wire Notes Line
+	3150 4800 3150 3700
+Wire Wire Line
+	8050 3350 8050 4150
+Connection ~ 8050 4000
+Wire Wire Line
+	7950 4100 8050 4100
+Connection ~ 8050 4100
+Wire Wire Line
+	7950 3350 8050 3350
+Wire Wire Line
+	5600 3850 5600 4000
+Wire Wire Line
+	5600 3400 5600 3450
+Wire Wire Line
+	4800 3900 5600 3900
+Connection ~ 5600 3900
+Wire Wire Line
+	5600 4450 5600 4400
+Wire Notes Line
+	3000 5050 3000 2200
+Wire Notes Line
+	3000 5050 9350 5050
+Wire Notes Line
+	3000 2200 9350 2200
+Wire Wire Line
+	5250 3750 5250 4000
+Connection ~ 5250 3900
+Wire Wire Line
+	5250 4350 5250 4300
+Wire Wire Line
+	5250 2800 5250 3450
+Connection ~ 5250 3000
+Wire Wire Line
+	5750 3000 6000 3000
+Wire Wire Line
+	4850 3000 5450 3000
+$EndSCHEMATC

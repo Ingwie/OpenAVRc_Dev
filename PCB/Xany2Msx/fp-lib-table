@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name Mylib_Xany2Msx)(type KiCad)(uri C:/tmp/_OpenAVRc/Xany2Msx)(options "")(descr ""))
+)

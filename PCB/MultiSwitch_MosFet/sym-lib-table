@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name MultiSwitch_MosFet-rescue)(type Legacy)(uri ${KIPRJMOD}/MultiSwitch_MosFet-rescue.lib)(options "")(descr ""))
+)
