@@ -1,36 +1,5 @@
 EESchema Schematic File Version 4
-LIBS:power
-LIBS:device
-LIBS:transistors
-LIBS:conn
-LIBS:linear
-LIBS:regul
-LIBS:74xx
-LIBS:cmos4000
-LIBS:adc-dac
-LIBS:memory
-LIBS:xilinx
-LIBS:special
-LIBS:microcontrollers
-LIBS:dsp
-LIBS:microchip
-LIBS:analog_switches
-LIBS:motorola
-LIBS:texas
-LIBS:intel
-LIBS:audio
-LIBS:interface
-LIBS:digital-audio
-LIBS:philips
-LIBS:display
-LIBS:cypress
-LIBS:siliconi
-LIBS:opto
-LIBS:atmel
-LIBS:contrib
-LIBS:valves
-LIBS:MultiSwitch_MosFet-cache
-EELAYER 26 0
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -1385,7 +1354,7 @@ F 3 "" H 4650 6850 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power:+VRx #PWR0103
+L MultiSwitch_MosFet-rescue:+VRx-power #PWR0103
 U 1 1 5C31BEFF
 P 6150 6850
 F 0 "#PWR0103" H 6150 6700 50  0001 C CNN

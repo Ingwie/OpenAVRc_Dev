@@ -1,4 +1,4 @@
-update=09/11/2019 15:10:43
+update=03/04/2020 19:23:05
 version=1
 last_client=kicad
 [pcbnew]
@@ -25,41 +25,6 @@ version=1
 NetIExt=net
 [general]
 version=1
-[eeschema]
-version=1
-LibDir=
-[eeschema/libraries]
-LibName1=KiCad-rescue
-LibName2=power
-LibName3=device
-LibName4=transistors
-LibName5=conn
-LibName6=linear
-LibName7=regul
-LibName8=74xx
-LibName9=cmos4000
-LibName10=adc-dac
-LibName11=memory
-LibName12=xilinx
-LibName13=special
-LibName14=microcontrollers
-LibName15=dsp
-LibName16=microchip
-LibName17=analog_switches
-LibName18=motorola
-LibName19=texas
-LibName20=intel
-LibName21=audio
-LibName22=interface
-LibName23=digital-audio
-LibName24=philips
-LibName25=display
-LibName26=cypress
-LibName27=siliconi
-LibName28=opto
-LibName29=atmel
-LibName30=contrib
-LibName31=valves
 [schematic_editor]
 version=1
 PageLayoutDescrFile=
@@ -70,3 +35,6 @@ NetFmtName=Pcbnew
 SpiceAjustPassiveValues=0
 LabSize=197
 ERC_TestSimilarLabels=1
+[eeschema]
+version=1
+LibDir=
