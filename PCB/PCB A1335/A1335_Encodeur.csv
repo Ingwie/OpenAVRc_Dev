@@ -1,8 +1,0 @@
-"Id";"Référence";"Boitier";"Quantité";"Désignation";"Fournisseur et réf.";
-1;"C1,C2";"C_0805_HandSoldering";2;"100nF";;;
-2;"P1";"SMD_1x04_Pitch2mm";1;"CONN_01X04";;;
-3;"U2";"TSSOP-14_4.4x5mm_Pitch0.65mm";1;"A1335LLETR-T";;;
-4;"Q1,Q2";"SOT-23_MOS_P";2;"BSS138";;;
-5;"U1";"SOT-23";1;"662K";;;
-6;"W1,W2,W3,W4";"TESTPT";4;"0";;;
-7;"R1,R2";"R_0805_HandSoldering";2;"10K";;;
