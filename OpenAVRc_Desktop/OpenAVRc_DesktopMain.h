@@ -64,7 +64,10 @@ public:
 
     OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id = -1);
     virtual ~OpenAVRc_DesktopFrame();
-
+    void EnableProgrammerSelectedMenu();
+    void EnableChoiceVoiceMenu();
+    void EnableCompilOMaticSelectedMenu();
+    void EnableBluetoothSelectedMenu();
 private:
 
     //(*Handlers(OpenAVRc_DesktopFrame)
@@ -72,24 +75,19 @@ private:
     void OnAbout(wxCommandEvent& event);
     void OnavrdudeSelected(wxCommandEvent& event);
     void OnProgrammerSelected(wxCommandEvent& event);
-    bool CheckIfSerialAvailable();
     void OnreadmodelsSelected(wxCommandEvent& event);
     void OnreadfirmwareSelected(wxCommandEvent& event);
     void OnEcrirelesFuseesSelected(wxCommandEvent& event);
     void OnEcrirelebootloaderSelected(wxCommandEvent& event);
     void OnWriteModelToRadioSelected(wxCommandEvent& event);
     void OnWriteFirmwareToRadioSelected(wxCommandEvent& event);
-    void OnATMEGA2560CompilerSelected(wxCommandEvent& event);
-    void LoadConfig(wxString temp);
-    void SaveConfig();
-    void RestoreDefaultSplash();
+    void OnCompilOMaticSelected(wxCommandEvent& event);
     void OnClose(wxCloseEvent& event);
     void OnListBoxConfigDClick(wxCommandEvent& event);
     void OnMenuNewconfigSelected(wxCommandEvent& event);
     void OnMenuDeleteActiveConfigSelected(wxCommandEvent& event);
     void OnMenuJQ6500_PCBSelected(wxCommandEvent& event);
     void OnMenuVOICE_AUDIO_PCBSelected(wxCommandEvent& event);
-    void DrawLbmSplash();
     void OnPanelSplashPaint(wxPaintEvent& event);
     void OnButtonSplashDefaultClick(wxCommandEvent& event);
     void OnButtonPersoClick(wxCommandEvent& event);
@@ -104,7 +102,13 @@ private:
     void OnButtonSimuSTDClick(wxCommandEvent& event);
     void OnMenuItem16Selected(wxCommandEvent& event);
     void OnMenuItem14Selected(wxCommandEvent& event);
+    void OnMenuBluetoothSelected(wxCommandEvent& event);
     //*)
+    bool CheckIfSerialAvailable();
+    void LoadConfig(wxString temp);
+    void DrawLbmSplash();
+    void SaveConfig();
+    void RestoreDefaultSplash();
 
     //(*Identifiers(OpenAVRc_DesktopFrame)
     static const long ID_STATICBOXSPLASH;
@@ -124,7 +128,7 @@ private:
     static const long ID_MENUITEMNEWCONFIG;
     static const long ID_MENUDELETEACTIVECONFIG;
     static const long idMenuQuit;
-    static const long ID_MENUITEM1;
+    static const long ID_MENUITEMCOMMUNICATION;
     static const long ID_MENUVOICECHOICE;
     static const long ID_MENUITEM3;
     static const long ID_MENUITEM5;
@@ -134,6 +138,7 @@ private:
     static const long ID_MENUITEM10;
     static const long ID_MENUITEM13;
     static const long ID_MENUITEM7;
+    static const long ID_MENUBLUETOOTH;
     static const long ID_MENUCOMPILOMATIC;
     static const long ID_MENUITEM11;
     static const long ID_MENUITEM14;
@@ -161,8 +166,9 @@ private:
     wxMenu* MenuHtmlDoc;
     wxMenu* MenuItem8;
     wxMenuBar* MenuBar_main;
-    wxMenuItem* ATMEGA2560Compiler;
+    wxMenuItem* CompilOMatic;
     wxMenuItem* Menu5;
+    wxMenuItem* MenuBluetooth;
     wxMenuItem* MenuChoiceVoice;
     wxMenuItem* MenuDeleteActiveConfig;
     wxMenuItem* MenuItem10;
