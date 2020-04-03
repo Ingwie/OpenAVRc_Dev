@@ -48,16 +48,6 @@ enum menuGeneralBTItems
 #define BT_Tab 0
 #define BT_2ND_COLUMN 9*FW
 
-#define STR_BLUETOOTH      PSTR("BLUETOOTH")
-#define STR_NOBLUETOOTH    PSTR("BLUETOOTH MUET")
-#define STR_CONNECTED      PSTR("CONECTE")
-#define STR_BT_ROLE        PSTR("Role")
-#define STR_BT_PIN         PSTR("Pin")
-#define STR_BT_M_S         PSTR("\006""Slave\0""Master")
-#define STR_BT_PAIR        PSTR("Pair")
-#define STR_AUTOCON        PSTR("Auto-con.")
-#define STR_RESCANN        PSTR("Re-Scan")
-
 #define IF_NO_ERROR(x) if (x >= 0)
 
 const pm_char STR_BTACTIVE[] PROGMEM = TR_ACTIVED;

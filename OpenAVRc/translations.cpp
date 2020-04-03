@@ -414,3 +414,15 @@ const pm_char STR_FREESRAM[] PROGMEM = "Free Sram\037\170b";
 #if defined(RTCLOCK)
 const pm_char STR_TXTEMP[] PROGMEM = TR_TXTEMP;
 #endif
+
+#if defined(BLUETOOTH)
+const pm_char STR_BLUETOOTH[] PROGMEM = TR_BLUETOOTH;
+const pm_char STR_NOBLUETOOTH[] PROGMEM = TR_NOBLUETOOTH;
+const pm_char STR_CONNECTED[] PROGMEM = TR_CONNECTED;
+const pm_char STR_BT_ROLE[] PROGMEM = TR_BT_ROLE;
+const pm_char STR_BT_PIN[] PROGMEM = TR_BT_PIN;
+const pm_char STR_BT_M_S[] PROGMEM = TR_BT_M_S;
+const pm_char STR_BT_PAIR[] PROGMEM = TR_BT_PAIR;
+const pm_char STR_AUTOCON[] PROGMEM = TR_AUTOCON;
+const pm_char STR_RESCANN[] PROGMEM = TR_RESCANN;
+#endif
