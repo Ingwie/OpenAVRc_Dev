@@ -5,7 +5,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 2 7
 Title "Shield Mega2560 core Full"
-Date "2020-03-07"
+Date "2020-04-03"
 Rev "2.2"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -1435,28 +1435,6 @@ F 3 "" H 8650 2150 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mega_2560-core-mini_full_2.2-rescue:CONN_01X04-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P23
-U 1 1 59C63F7F
-P 7050 1250
-F 0 "P23" H 7050 1500 50  0000 C CNN
-F 1 "Rot_1" V 7150 1250 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm" H 7050 1250 50  0001 C CNN
-F 3 "" H 7050 1250 50  0000 C CNN
-	1    7050 1250
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Mega_2560-core-mini_full_2.2-rescue:CONN_01X04-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P24
-U 1 1 59C63F86
-P 8300 1250
-F 0 "P24" H 8300 1500 50  0000 C CNN
-F 1 "Rot_2" V 8400 1250 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm" H 8300 1250 50  0001 C CNN
-F 3 "" H 8300 1250 50  0000 C CNN
-	1    8300 1250
-	0    -1   -1   0   
-$EndComp
-$Comp
 L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue #PWR041
 U 1 1 59C63FC4
 P 7400 2150
@@ -1479,10 +1457,6 @@ F 3 "" H 10050 1750 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8650 1450 8650 1800
-Wire Wire Line
-	7400 1450 7400 1800
-Wire Wire Line
 	7000 1450 7000 1900
 Wire Wire Line
 	7100 1450 7100 1800
@@ -1490,9 +1464,6 @@ Wire Wire Line
 	8650 2000 8450 2000
 Wire Wire Line
 	8650 1900 8550 1900
-Wire Wire Line
-	8450 1450 8650 1450
-Connection ~ 8650 1800
 Connection ~ 8350 1800
 Connection ~ 8650 2000
 Connection ~ 8650 1900
@@ -1507,7 +1478,6 @@ Wire Wire Line
 	8250 1450 8250 1900
 Wire Wire Line
 	8350 1450 8350 1800
-Connection ~ 7400 1800
 Wire Wire Line
 	6900 1450 6900 2000
 Wire Wire Line
@@ -1516,8 +1486,6 @@ Connection ~ 6900 2000
 Connection ~ 7000 1900
 Connection ~ 7100 1800
 Connection ~ 8250 1900
-Wire Wire Line
-	7400 1450 7200 1450
 Wire Wire Line
 	10150 1450 10150 1650
 Wire Wire Line
@@ -1620,37 +1588,6 @@ F 3 "" H 3050 5850 60  0001 C CNN
 $EndComp
 Wire Wire Line
 	3050 5850 3050 5750
-$Comp
-L Mega_2560-core-mini_full_2.2-rescue:CONN_01X02-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P33
-U 1 1 5A71A89A
-P 9200 1250
-AR Path="/5A71A89A" Ref="P33"  Part="1" 
-AR Path="/59C5A6CD/5A71A89A" Ref="P33"  Part="1" 
-F 0 "P33" H 9200 1400 50  0000 C CNN
-F 1 "5V_CODERS" V 9300 1100 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm" H 9200 1250 50  0001 C CNN
-F 3 "" H 9200 1250 50  0000 C CNN
-	1    9200 1250
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Mega_2560-core-mini_full_2.2-rescue:VCC-power1 #PWR044
-U 1 1 5A71ACEB
-P 9150 1700
-F 0 "#PWR044" H 9150 1550 50  0001 C CNN
-F 1 "VCC" H 9150 1850 50  0000 C CNN
-F 2 "" H 9150 1700 50  0000 C CNN
-F 3 "" H 9150 1700 50  0000 C CNN
-	1    9150 1700
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	9150 1700 9150 1550
-Wire Wire Line
-	9150 1550 9250 1550
-Wire Wire Line
-	9250 1550 9250 1450
-Connection ~ 9150 1550
 $Comp
 L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue C32
 U 1 1 5A72E2A9
@@ -1784,8 +1721,6 @@ Wire Wire Line
 	8250 1900 8250 2400
 Wire Wire Line
 	10050 1650 10050 1750
-Wire Wire Line
-	9150 1550 9150 1450
 Wire Wire Line
 	3750 5000 3550 5000
 Wire Wire Line
@@ -8691,4 +8626,70 @@ F 3 "~" H 10350 1250 50  0001 C CNN
 	1    10350 1250
 	0    -1   -1   0   
 $EndComp
+$Comp
+L Connector_Generic:Conn_01x05 P23
+U 1 1 5E89125F
+P 7100 1250
+F 0 "P23" H 7200 1550 50  0000 R CNN
+F 1 "Rot_1" V 7200 1350 50  0000 R CNN
+F 2 "Mylib_v2.2:Pin_Header_Straight_1x05_Pitch2.54mm" H 7100 1250 50  0001 C CNN
+F 3 "~" H 7100 1250 50  0001 C CNN
+	1    7100 1250
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	7400 1800 7400 1650
+Wire Wire Line
+	7400 1650 7200 1650
+Wire Wire Line
+	7200 1650 7200 1450
+Connection ~ 7400 1800
+$Comp
+L Mega_2560-core-mini_full_2.2-rescue:VCC-power1 #PWR0153
+U 1 1 5E8A94C4
+P 7350 1550
+F 0 "#PWR0153" H 7350 1400 50  0001 C CNN
+F 1 "VCC" H 7350 1700 50  0000 C CNN
+F 2 "" H 7350 1550 50  0000 C CNN
+F 3 "" H 7350 1550 50  0000 C CNN
+	1    7350 1550
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7350 1550 7300 1550
+Wire Wire Line
+	7300 1550 7300 1450
+$Comp
+L Connector_Generic:Conn_01x05 P24
+U 1 1 5E8C03AC
+P 8350 1250
+F 0 "P24" H 8450 1550 50  0000 R CNN
+F 1 "Rot_2" V 8450 1350 50  0000 R CNN
+F 2 "Mylib_v2.2:Pin_Header_Straight_1x05_Pitch2.54mm" H 8350 1250 50  0001 C CNN
+F 3 "~" H 8350 1250 50  0001 C CNN
+	1    8350 1250
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	8650 1800 8650 1650
+Wire Wire Line
+	8650 1650 8450 1650
+Wire Wire Line
+	8450 1650 8450 1450
+Connection ~ 8650 1800
+$Comp
+L Mega_2560-core-mini_full_2.2-rescue:VCC-power1 #PWR0154
+U 1 1 5E8D7108
+P 8600 1550
+F 0 "#PWR0154" H 8600 1400 50  0001 C CNN
+F 1 "VCC" H 8600 1700 50  0000 C CNN
+F 2 "" H 8600 1550 50  0000 C CNN
+F 3 "" H 8600 1550 50  0000 C CNN
+	1    8600 1550
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8600 1550 8550 1550
+Wire Wire Line
+	8550 1550 8550 1450
 $EndSCHEMATC
