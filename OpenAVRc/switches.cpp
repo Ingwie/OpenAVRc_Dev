@@ -283,7 +283,6 @@ swsrc_t getMovedSwitch()
   return result;
 }
 
-#if defined(GUI)
 void checkSwitches()
 {
   swarnstate_t last_bad_switches = 0xff;
@@ -354,7 +353,6 @@ void checkSwitches()
     MYWDT_RESET();
   }
   }
-#endif // GUI
 
   void logicalSwitchesTimerTick()
   {

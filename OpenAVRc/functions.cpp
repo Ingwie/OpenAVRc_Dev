@@ -229,13 +229,11 @@ void evalFunctions()
         case FUNC_INSTANT_TRIM:
           newActiveFunctions |= (1 << FUNCTION_INSTANT_TRIM);
           if (!isFunctionActive(FUNCTION_INSTANT_TRIM)) {
-#if defined(GUI)
             if (menuHandlers[0] == menuMainView
 #if defined(FRSKY)
                 || menuHandlers[0] == menuTelemetryFrsky
 #endif
                )
-#endif
             {
               instantTrim();
             }

@@ -306,7 +306,6 @@ const pm_char STR_CURRENT[] PROGMEM = TR_CURRENT;
 #endif
 
 
-#if defined(NAVIGATION_MENUS)
 const pm_char STR_SELECT_MODEL[] PROGMEM = TR_SELECT_MODEL;
 const pm_char STR_CREATE_MODEL[] PROGMEM = TR_CREATE_MODEL;
 const pm_char STR_COPY_MODEL[] PROGMEM = TR_COPY_MODEL;
@@ -326,7 +325,6 @@ const pm_char STR_RESET_TIMER2[] PROGMEM = TR_RESET_TIMER2;
 const pm_char STR_RESET_TELEMETRY[] PROGMEM = TR_RESET_TELEMETRY;
 const pm_char STR_STATISTICS[] PROGMEM = TR_STATISTICS;
 const pm_char STR_SAVE_TIMERS[] PROGMEM = TR_SAVE_TIMERS;
-#endif
 
 const pm_char STR_RESET_BTN[] PROGMEM = TR_RESET_BTN;
 
@@ -415,4 +413,16 @@ const pm_char STR_FREESRAM[] PROGMEM = "Free Sram\037\170b";
 
 #if defined(RTCLOCK)
 const pm_char STR_TXTEMP[] PROGMEM = TR_TXTEMP;
+#endif
+
+#if defined(BLUETOOTH)
+const pm_char STR_BLUETOOTH[] PROGMEM = TR_BLUETOOTH;
+const pm_char STR_NOBLUETOOTH[] PROGMEM = TR_NOBLUETOOTH;
+const pm_char STR_CONNECTED[] PROGMEM = TR_CONNECTED;
+const pm_char STR_BT_ROLE[] PROGMEM = TR_BT_ROLE;
+const pm_char STR_BT_PIN[] PROGMEM = TR_BT_PIN;
+const pm_char STR_BT_M_S[] PROGMEM = TR_BT_M_S;
+const pm_char STR_BT_PAIR[] PROGMEM = TR_BT_PAIR;
+const pm_char STR_AUTOCON[] PROGMEM = TR_AUTOCON;
+const pm_char STR_RESCANN[] PROGMEM = TR_RESCANN;
 #endif
