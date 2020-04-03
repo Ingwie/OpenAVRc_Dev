@@ -104,7 +104,6 @@ void displayWarning(uint8_t event)
 }
 
 
-#if defined(NAVIGATION_MENUS)
 void (*popupMenuHandler)(const char *result);
 
 const char * displayPopupMenu(uint8_t event)
@@ -187,4 +186,3 @@ const char * displayPopupMenu(uint8_t event)
 
   return result;
 }
-#endif

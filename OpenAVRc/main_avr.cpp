@@ -109,7 +109,6 @@ void perMain()
     backlightOn(); // on keypress turn the light on
   checkBacklight();
 
-#if defined(GUI)
   const char *warn = warningText;
   uint8_t popupMenuActive = (popupMenuNoItems > 0);
 
@@ -130,9 +129,8 @@ void perMain()
   if (tguibuid < g_guibuild_min) g_guibuild_min = tguibuid;
 
   if (warn)
-    DISPLAY_WARNING(evt);
+    displayWarning(evt);
 
-#if defined(NAVIGATION_MENUS)
   if (popupMenuActive) {
     const char * result = displayPopupMenu(evt);
     if (result) {
@@ -140,7 +138,6 @@ void perMain()
       putEvent(EVT_MENU_UP);
     }
   }
-#endif
 
   drawStatusLine();
 
@@ -150,7 +147,6 @@ void perMain()
   if (tlcddraw > g_lcddraw_max) g_lcddraw_max = tlcddraw;
   if (tlcddraw < g_lcddraw_min) g_lcddraw_min = tlcddraw;
 
-#endif // if defined(GUI)
 
 }
 

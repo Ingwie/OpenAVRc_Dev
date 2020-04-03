@@ -414,7 +414,6 @@ extern const pm_char STR_MODELISON[];
 
 #define LEN_CALIB_FIELDS PSIZE(TR_BATT_CALIB)
 
-#if defined(NAVIGATION_MENUS)
 extern const pm_char STR_SELECT_MODEL[];
 extern const pm_char STR_CREATE_MODEL[];
 extern const pm_char STR_COPY_MODEL[];
@@ -434,7 +433,6 @@ extern const pm_char STR_RESET_TIMER2[];
 extern const pm_char STR_RESET_TELEMETRY[];
 extern const pm_char STR_STATISTICS[];
 extern const pm_char STR_SAVE_TIMERS[];
-#endif
 
 extern const pm_char STR_RESET_BTN[];
 
@@ -543,5 +541,16 @@ extern const pm_char STR_FREESRAM[];
 extern const pm_char STR_TXTEMP[];
 #endif
 
+#if defined(BLUETOOTH)
+extern const pm_char STR_BLUETOOTH[];
+extern const pm_char STR_NOBLUETOOTH[];
+extern const pm_char STR_CONNECTED[];
+extern const pm_char STR_BT_ROLE[];
+extern const pm_char STR_BT_PIN[];
+extern const pm_char STR_BT_M_S[];
+extern const pm_char STR_BT_PAIR[];
+extern const pm_char STR_AUTOCON[];
+extern const pm_char STR_RESCANN[];
+#endif
 
 #endif

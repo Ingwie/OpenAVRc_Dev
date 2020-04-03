@@ -240,11 +240,9 @@ uint8_t g_ms100; // global to allow time set function to reset to zero
 void per10ms()
 {
 
-#if defined(GUI)
   if (lightOffCounter) --lightOffCounter;
   if (flashCounter) --flashCounter;
   if (noHighlightCounter) --noHighlightCounter;
-#endif
 
   if (trimsCheckTimer) --trimsCheckTimer;
 
@@ -796,7 +794,6 @@ void doSplash()
 #define doSplash()
 #endif
 
-#if defined(GUI)
 void checkAll()
 {
   checkLowEEPROM();
@@ -805,7 +802,6 @@ void checkAll()
   PLAY_MODEL_NAME();
   clearKeyEvents();
 }
-#endif // GUI
 
 
 void checkLowEEPROM()
@@ -1233,13 +1229,11 @@ void OpenAVRcStart() // Run only if it is not a WDT reboot
   bluetooth_init();
 #endif
   doSplash();
-#if defined(GUI)
   checkAlarm();
   checkAll();
   if (g_eeGeneral.chkSum != evalChkSum()) {
     chainMenu(menuFirstCalib);
   }
-#endif
 }
 
 void OpenAVRcClose()
@@ -1535,9 +1529,7 @@ void OpenAVRcInit(uint8_t mcusr)
     eeDirty(EE_GENERAL);
   }
 
-#if defined(GUI)
   lcdSetContrast();
-#endif
   backlightOn();
 
   doMixerCalculations();
@@ -1598,16 +1590,12 @@ int16_t simumain()
 
   sei(); // Needed to catch first 10mS interrupt
 
-#if defined(GUI)
   menuHandlers[0] = menuMainView;
 #if MENUS_LOCK != 2 /*no menus*/
   menuHandlers[1] = menuModelSelect;
 #endif
-#endif
 
-#if defined(GUI)
   lcdSetRefVolt(25);
-#endif
 
 #ifdef MENU_ROTARY_SW
   init_rotary_sw();
