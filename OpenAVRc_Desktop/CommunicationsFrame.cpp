@@ -112,6 +112,7 @@ CommunicationsFrame::CommunicationsFrame(wxWindow* parent,wxWindowID id,const wx
     Connect(ID_BUTTONSEARCHAVRDUDEPATH,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CommunicationsFrame::OnButtonSearchavrdudepathClick);
     Connect(ID_BUTTONDETECT,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CommunicationsFrame::OnButtonDetectClick);
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CommunicationsFrame::OnTESTClick1);
+    Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&CommunicationsFrame::OnClose);
     //*)
 
     {
@@ -200,4 +201,12 @@ void CommunicationsFrame::OnTESTClick1(wxCommandEvent& event)
     avrdudepath = TextCtrl1->GetValue();
     wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_P+dude_port;
     wxExecute(dude_send);
+}
+
+void CommunicationsFrame::OnClose(wxCloseEvent& event)
+{
+  OpenAVRc_DesktopFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_DesktopFrame);
+  if(parent)
+    parent->EnableProgrammerSelectedMenu();
+  Destroy();
 }

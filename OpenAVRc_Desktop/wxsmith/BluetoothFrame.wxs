@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxFrame" name="BluetoothFrame">
+		<size>568,327</size>
+		<id_arg>0</id_arg>
+		<style>wxDEFAULT_DIALOG_STYLE</style>
+		<handler function="OnClose" entry="EVT_CLOSE" />
+		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
+			<pos>392,176</pos>
+		</object>
+	</object>
+</wxsmith>

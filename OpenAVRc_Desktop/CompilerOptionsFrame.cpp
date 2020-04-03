@@ -675,6 +675,9 @@ CompilerOptionsFrame::~CompilerOptionsFrame()
 
 void CompilerOptionsFrame::OnClose(wxCloseEvent& event)
 {
+  OpenAVRc_DesktopFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_DesktopFrame);
+  if(parent)
+    parent->EnableCompilOMaticSelectedMenu();
   Destroy();
 }
 

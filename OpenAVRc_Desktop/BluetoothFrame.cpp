@@ -30,82 +30,53 @@
  **************************************************************************
 */
 
+#include <wx/msgdlg.h>
 
-#include "Voice_choice.h"
+#include "BluetoothFrame.h"
+#include "OpenAVRc_DesktopMain.h"
 
-//(*InternalHeaders(Voice_choice)
+//(*InternalHeaders(BluetoothFrame)
 #include <wx/intl.h>
 #include <wx/string.h>
 //*)
 
-extern wxString AppPath;
-extern long Numvoice;
-
-//(*IdInit(Voice_choice)
-const long Voice_choice::ID_BUTTONSAVEVOICE = wxNewId();
-const long Voice_choice::ID_STATICTEXT1 = wxNewId();
-const long Voice_choice::ID_COMBOBOXVOICE = wxNewId();
-const long Voice_choice::ID_PANEL1 = wxNewId();
+//(*IdInit(BluetoothFrame)
+const long BluetoothFrame::ID_PANEL1 = wxNewId();
 //*)
 
-BEGIN_EVENT_TABLE(Voice_choice,wxFrame)
-	//(*EventTable(Voice_choice)
+BEGIN_EVENT_TABLE(BluetoothFrame,wxFrame)
+	//(*EventTable(BluetoothFrame)
 	//*)
 END_EVENT_TABLE()
 
-Voice_choice::Voice_choice(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
+BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
-	//(*Initialize(Voice_choice)
-	Create(parent, wxID_ANY, _("Synthèse vocale"), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxCLOSE_BOX, _T("wxID_ANY"));
-	SetClientSize(wxSize(399,150));
-	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(72,56), wxSize(399,160), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-	Buttonsavevoice = new wxButton(Panel1, ID_BUTTONSAVEVOICE, _("Sauvegarder réglage"), wxPoint(208,104), wxSize(160,24), 0, wxDefaultValidator, _T("ID_BUTTONSAVEVOICE"));
-	StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("Choisissez votre moteur de synthèse vocale"), wxPoint(32,24), wxSize(360,16), 0, _T("ID_STATICTEXT1"));
-	ComboBoxvoice = new wxComboBox(Panel1, ID_COMBOBOXVOICE, wxEmptyString, wxPoint(32,56), wxSize(336,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOXVOICE"));
+	//(*Initialize(BluetoothFrame)
+	Create(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
+	SetClientSize(wxSize(568,327));
+	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(392,176), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 
-	Connect(ID_BUTTONSAVEVOICE,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&Voice_choice::OnButtonsavevoiceClick);
+	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&BluetoothFrame::OnClose);
 	//*)
 
-    {
-        wxIcon FrameIcon;
-        SetIcon(wxICON(oavrc_icon));
-    }
+ {
+  wxIcon FrameIcon;
+  SetIcon(wxICON(oavrc_icon));
+ }
 
-	Load();
 }
 
-Voice_choice::~Voice_choice()
+BluetoothFrame::~BluetoothFrame()
 {
-	//(*Destroy(Voice_choice)
+	//(*Destroy(BluetoothFrame)
 	//*)
 }
 
-void Voice_choice::Load()
-{
-      wxTextFile tfile(AppPath + "\\voices.txt");
-    if (tfile.Exists()) //avoid crash if file is not found
-    {
-        tfile.Open(AppPath + "\\voices.txt");
-        for (uint32_t j = 0; j < tfile.GetLineCount(); j++ )
-        {
-          ComboBoxvoice->Append(tfile.GetLine(j));
-        }
-        tfile.Close();
-    }
-    ComboBoxvoice->SetSelection(Numvoice);
-    Show();
-}
 
-void Voice_choice::OnButtonsavevoiceClick(wxCommandEvent& event)
-{
-  Numvoice = ComboBoxvoice->GetSelection();
-  Close();
-}
-
-void Voice_choice::OnClose(wxCloseEvent& event)
+void BluetoothFrame::OnClose(wxCloseEvent& event)
 {
   OpenAVRc_DesktopFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_DesktopFrame);
   if(parent)
-    parent->EnableChoiceVoiceMenu();
+    parent->EnableBluetoothSelectedMenu();
   Destroy();
 }
