@@ -67,8 +67,7 @@ Voice_choice::Voice_choice(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	//*)
 
     {
-        wxIcon FrameIcon;
-        SetIcon(wxICON(oavrc_icon));
+      SetIcon(wxICON(oavrc_icon));
     }
 
 	Load();

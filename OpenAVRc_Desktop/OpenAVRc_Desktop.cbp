@@ -21,7 +21,7 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswud" />
 				</ResourceCompiler>
 				<Linker>
-					<Add library="libwxmsw31u.a" />
+					<Add library="libwxmsw31ud.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
@@ -81,6 +81,8 @@
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="serial/tserial.cpp" />
+		<Unit filename="serial/tserial.h" />
 		<Unit filename="wxsmith/BluetoothFrame.wxs" />
 		<Unit filename="wxsmith/CommunicationsFrame.wxs" />
 		<Unit filename="wxsmith/CompilerOptionsFrame.wxs" />

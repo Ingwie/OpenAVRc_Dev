@@ -116,7 +116,6 @@ CommunicationsFrame::CommunicationsFrame(wxWindow* parent,wxWindowID id,const wx
     //*)
 
     {
-        wxIcon FrameIcon;
         SetIcon(wxICON(oavrc_icon));
     }
 
