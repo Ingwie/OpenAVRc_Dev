@@ -564,7 +564,6 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   //*)
 
   {
-    wxIcon FrameIcon;
     SetIcon(wxICON(oavrc_icon));
   }
 

@@ -1,12 +1,47 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxFrame" name="BluetoothFrame">
-		<size>568,327</size>
+		<title>Bluetooth</title>
+		<size>645,409</size>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>392,176</pos>
+			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBoxCom" member="yes">
+				<label>Communication</label>
+				<pos>8,8</pos>
+				<size>392,88</size>
+			</object>
+			<object class="wxComboBox" name="ID_COMBOBOX1" variable="ComboBoxCom" member="yes">
+				<pos>64,32</pos>
+				<size>72,23</size>
+				<handler function="OnComboBoxComSelected" entry="EVT_COMBOBOX" />
+				<handler function="OnComboBoxComDropdown" entry="EVT_COMBOBOX_DROPDOWN" />
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
+				<label>Port :</label>
+				<pos>8,32</pos>
+				<size>48,16</size>
+				<style>wxALIGN_RIGHT</style>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
+				<label>Mémoire libre :</label>
+				<pos>160,32</pos>
+				<size>96,16</size>
+				<style>wxALIGN_RIGHT</style>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticTextFreeMem" member="yes">
+				<label>------</label>
+				<pos>264,32</pos>
+				<size>80,16</size>
+				<style>wxALIGN_LEFT</style>
+			</object>
+		</object>
+		<object class="wxTimer" name="ID_TIMERRX" variable="TimerRX" member="yes">
+			<interval>100</interval>
+			<oneshot>1</oneshot>
+			<handler function="OnTimerRXTrigger" entry="EVT_TIMER" />
 		</object>
 	</object>
 </wxsmith>

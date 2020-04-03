@@ -33,9 +33,15 @@
 #ifndef BLUETOOTHFRAME_H
 #define BLUETOOTHFRAME_H
 
+#include "serial/tserial.h"
+
 //(*Headers(BluetoothFrame)
+#include <wx/combobox.h>
 #include <wx/frame.h>
 #include <wx/panel.h>
+#include <wx/statbox.h>
+#include <wx/stattext.h>
+#include <wx/timer.h>
 //*)
 
 class BluetoothFrame: public wxFrame
@@ -46,19 +52,43 @@ class BluetoothFrame: public wxFrame
 		virtual ~BluetoothFrame();
 
 		//(*Declarations(BluetoothFrame)
+		wxComboBox* ComboBoxCom;
 		wxPanel* Panel1;
+		wxStaticBox* StaticBoxCom;
+		wxStaticText* StaticText1;
+		wxStaticText* StaticText2;
+		wxStaticText* StaticTextFreeMem;
+		wxTimer TimerRX;
 		//*)
 
 	protected:
 
 		//(*Identifiers(BluetoothFrame)
+		static const long ID_STATICBOX1;
+		static const long ID_COMBOBOX1;
+		static const long ID_STATICTEXT1;
+		static const long ID_STATICTEXT2;
+		static const long ID_STATICTEXT3;
 		static const long ID_PANEL1;
+		static const long ID_TIMERRX;
 		//*)
 
+    Tserial *BTComPort;
+    bool comIsValid;
+    bool BTstate;
+    void DetectSerial();
+    wxString BTcommand;
+    wxString BTanwser;
+    wxString uCLI;
+    void ConnectBTCom(wxString name);
+    void sendCommand();
 	private:
 
 		//(*Handlers(BluetoothFrame)
 		void OnClose(wxCloseEvent& event);
+		void OnComboBoxComSelected(wxCommandEvent& event);
+		void OnComboBoxComDropdown(wxCommandEvent& event);
+		void OnTimerRXTrigger(wxTimerEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
