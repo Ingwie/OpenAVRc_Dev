@@ -90,7 +90,6 @@ LogsFrame::LogsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
   //*)
 
   {
-    wxIcon FrameIcon;
     SetIcon(wxICON(oavrc_icon));
   }
 
