@@ -1,8 +1,8 @@
-This is only my test branche "firmware ATmega2560", application"Desktop"
-and "Simulator" OpenAVRc of this great DIY transmitter project.
+This is only my test branche OpenAVRc "firmware ATmega2560", application "Desktop" and "Simulator"
+of this great DIY transmitter project.
 More on the forum RCGroups.com https://1url.cz/azwe4
 
-=========
+                  =========================================
                  ____                ___ _   _____                      
                 / __ \___  ___ ___  / _ | | / / _ \____                 
                / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 
