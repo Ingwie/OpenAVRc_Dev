@@ -147,7 +147,7 @@ void uCliFrame::HwSerialByte(uint8_t c)
       TextCtrl->WriteText((char)c);
       LastPrompt = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-1);
     }
- if (c == '\n') //for self test
+ /*if (c == '\n') //for self test
   {
    wxString cmd = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
    if (cmd == "tf s3DCs5E4s5E6s5C5s5EBs5D1s61Ds5DC:76")
@@ -155,7 +155,7 @@ void uCliFrame::HwSerialByte(uint8_t c)
      TextCtrl->WriteText("tf s3DCs5E4s5E6s5C5s5EBs5D1s61Ds5DC:76");
      SendToHwSerial();
     }
-  }
+  }*/
  if ((c == '\n') && (SimuBTComIsValid) && (!(simu_portb & OUT_B_BT_KEY)))
   {
    wxString cmda = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
