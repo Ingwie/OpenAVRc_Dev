@@ -425,6 +425,8 @@ static uint16_t DurationValue;
                                                       TaskList;\
                                                     }while(0)
 
+#define PRIO_TASK_LIST()           checkMixer()
+
 
 #define T1900_OFFSET 1900
 extern time_t g_rtcTime;
