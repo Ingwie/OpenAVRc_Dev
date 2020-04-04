@@ -32,10 +32,10 @@
 /* Formatting octal codes available in TR_ strings:
 *  \037\x           -sets LCD x-coord (x value in octal)
 *  \036             -newline
-*  \035             -horizontal tab (ARM only)
 *  \001 to \034     -extended spacing (value * FW/2)
 *  \0               -ends current string
 */
+
 /* NON ZERO TERMINATED STRINGS */
 #define LEN_OFFON              "\003"
 #define TR_OFFON               "OFF""ON\0"
@@ -394,7 +394,7 @@
 #define TR_GPSCOORD            "Coordonn\200es"
 #define TR_VARIO               "Vario"
 #define TR_POWEROFF            "\006ETEINDRE ?"
-#define TR_SHUTDOWN            "ARRET EN COURS"
+#define TR_SHUTDOWN            "\3ARRET EN COURS"
 #define TR_SAVEMODEL           "Sauvegarde ..."
 #define TR_BATT_CALIB          "Calib. Batterie"
 #define TR_VOLTAGE             INDENT "Tension"
@@ -478,4 +478,15 @@
  #define TR_PROP                         "Prop."
  #define LEN_XANY_EXPO                   "\005"
  #define TR_XANY_EXPO                    "0%\0  ""25%\0 ""37.5%""50%\0 "
+#endif
+#if defined(BLUETOOTH)
+ #define TR_BLUETOOTH                     "BLUETOOTH"
+ #define TR_NOBLUETOOTH                   "BLUETOOTH MUET"
+ #define TR_CONNECTED                     "\036\6CONECTE"
+ #define TR_BT_ROLE                       "Role"
+ #define TR_BT_PIN                        "Pin"
+ #define TR_BT_M_S                        "\006""Slave\0""Master"
+ #define TR_BT_PAIR                       "Pair"
+ #define TR_AUTOCON                       "Auto-con."
+ #define TR_RESCANN                       "Re-Scan"
 #endif
