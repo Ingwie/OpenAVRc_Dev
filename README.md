@@ -2,19 +2,20 @@ This is only my test branche OpenAVRc "firmware ATmega2560", application "Deskto
 of this great DIY transmitter project.
 More on the forum RCGroups.com https://1url.cz/azwe4
 
-                  =========================================
+              =========================================
+
                  ____                ___ _   _____                      
                 / __ \___  ___ ___  / _ | | / / _ \____                 
                / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 
                \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  
                    /_/                                                  
-              
+
               =========================================
 ----------
                      Based on code(s) named :                       
              OpenTx - https://github.com/opentx/opentx                  
              Deviation - https://www.deviationtx.com/                   
-                                                                        
+
                 Only AVR code here for visibility ;-)                   
 ----------
    OpenAVRc is free software: you can redistribute it and/or modify    
@@ -27,7 +28,7 @@ More on the forum RCGroups.com https://1url.cz/azwe4
    but WITHOUT ANY WARRANTY; without even the implied warranty of       
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        
    GNU General Public License for more details.                         
-                                                                        
+
 >        License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          
 
 ----------
