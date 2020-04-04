@@ -50,15 +50,6 @@ const long BluetoothFrame::ID_PANEL1 = wxNewId();
 const long BluetoothFrame::ID_TIMERRX = wxNewId();
 //*)
 
-enum {WAIT_BT_DATA=true, CAN_SEND_COMMAND=false};
-
-#define SEND_COMMAND(x) \
-BTcommand = (x);        \
-sendCommand();
-
-#define WAIT_BT_ANWSER  \
-do {wxYieldIfNeeded();} while (BTcommand != "")
-
 BEGIN_EVENT_TABLE(BluetoothFrame,wxFrame)
 	//(*EventTable(BluetoothFrame)
 	//*)
@@ -76,7 +67,7 @@ BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, _("Mémoire libre :"), wxPoint(160,32), wxSize(96,16), wxALIGN_RIGHT, _T("ID_STATICTEXT2"));
 	StaticTextFreeMem = new wxStaticText(Panel1, ID_STATICTEXT3, _("------"), wxPoint(264,32), wxSize(80,16), wxALIGN_LEFT, _T("ID_STATICTEXT3"));
 	TimerRX.SetOwner(this, ID_TIMERRX);
-	TimerRX.Start(100, true);
+	TimerRX.Start(200, true);
 
 	Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_SELECTED,(wxObjectEventFunction)&BluetoothFrame::OnComboBoxComSelected);
 	Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_DROPDOWN,(wxObjectEventFunction)&BluetoothFrame::OnComboBoxComDropdown);
@@ -91,7 +82,6 @@ BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
  BTComPort = new Tserial();
  comIsValid = false;
  uCLI = "uCLI>";
- BTstate = CAN_SEND_COMMAND;
 }
 
 BluetoothFrame::~BluetoothFrame()
@@ -107,28 +97,6 @@ void BluetoothFrame::OnClose(wxCloseEvent& event)
   if(parent)
     parent->EnableBluetoothSelectedMenu();
   Destroy();
-}
-
-void BluetoothFrame::ConnectBTCom(wxString name)
-{
-  int error;
-  char comMame[10];
-  strncpy(comMame, (const char*)name.mb_str(wxConvUTF8), 10);
-  assert(BTComPort);
-  wxBusyCursor wait;
-  error = BTComPort->connect(comMame, 115200, spNONE);
-  if (error == 0) {
-      comIsValid = true;
-      SEND_COMMAND("ram");
-      WAIT_BT_ANWSER;
-      StaticTextFreeMem->SetLabel(BTanwser);
-      StaticTextFreeMem->Update();
-
-  }
-  else {
-    wxString intString = wxString::Format(wxT("%i"), error);
-    wxMessageBox("Erreur N°"+ intString + " port COM");
-    }
 }
 
 void BluetoothFrame::DetectSerial()
@@ -147,6 +115,28 @@ void BluetoothFrame::DetectSerial()
   }
 }
 
+void BluetoothFrame::ConnectBTCom(wxString name)
+{
+  int error;
+  char comMame[10];
+  strncpy(comMame, (const char*)name.mb_str(wxConvUTF8), 10);
+  assert(BTComPort);
+  wxBusyCursor wait;
+  error = BTComPort->connect(comMame, 115200, spNONE);
+  if (error == 0) {
+      comIsValid = true;
+      wxString ram;
+      sendCmdAndWaitForResp("ram", &ram);
+      ram.BeforeFirst('\r'); // remove all after \r (\n)
+      StaticTextFreeMem->SetLabel(ram);
+      StaticTextFreeMem->Update();
+  }
+  else {
+    wxString intString = wxString::Format(wxT("%i"), error);
+    wxMessageBox("Erreur N°"+ intString + " port COM");
+    }
+}
+
 void BluetoothFrame::OnComboBoxComDropdown(wxCommandEvent& event)
 {
   BTComPort->disconnect();
@@ -159,36 +149,43 @@ void BluetoothFrame::OnComboBoxComSelected(wxCommandEvent& event)
   ConnectBTCom(ComboBoxCom->GetValue());
 }
 
-void BluetoothFrame::sendCommand()
-{
- int16_t l = BTcommand.length();
- if (l != 0)
-  {
-   char cstring[40];
-   strncpy(cstring, (const char*)BTcommand.mb_str(wxConvUTF8), l);
-   char CRLF[2] = {'\r','\n'};
-   BTComPort->sendArray(cstring, l);
-   BTComPort->sendArray(CRLF, 2);
-   TimerRX.StartOnce();
-   BTstate = WAIT_BT_DATA;
-  }
-}
-
 void BluetoothFrame::OnTimerRXTrigger(wxTimerEvent& event)
 {
-  if (comIsValid)
+  timout = false;
+}
+
+void BluetoothFrame::sendCmdAndWaitForResp(wxString BTcommand, wxString* BTanwser)
+{
+ if (comIsValid)
   {
-   int Num = BTComPort->getNbrOfBytes();
-   if (Num)
+   int16_t l = BTcommand.length();
+   if (l != 0)
     {
-     char buffer[Num+1];
-     BTComPort->getArray(buffer, Num);
-     if (BTstate != WAIT_BT_DATA) return; // unwanted data
-     BTanwser = wxString::FromUTF8(buffer);
-     if(!BTanwser.StartsWith(uCLI)) return;
-     BTanwser = BTanwser.Mid(uCLI.length()+BTcommand.length()+1);
-     BTanwser = BTanwser.BeforeFirst('\r');
-     BTcommand = "";
+     char cstring[40];
+     strncpy(cstring, (const char*)BTcommand.mb_str(wxConvUTF8), l);
+     char CRLF[2] = {'\r','\n'};
+     BTComPort->sendArray(cstring, l); // Send BTcommand
+     BTComPort->sendArray(CRLF, 2); // Send EOL+CR
+     timout = true;
+     TimerRX.StartOnce();
+     wxBusyCursor wait;
+     do
+      {
+       wxYieldIfNeeded();
+      }
+     while (timout);
+
+      int Num = BTComPort->getNbrOfBytes();
+     if (Num)
+      {
+       char buffer[Num+1];
+       BTComPort->getArray(buffer, Num);
+       *BTanwser = wxString::FromUTF8(buffer);
+       if(!(BTanwser->StartsWith(uCLI))) return;
+       *BTanwser = BTanwser->Mid(uCLI.length()+BTcommand.length()+1); // remove uCLI> + command echo
+       //*BTanwser = BTanwser->BeforeFirst('\r'); // remove all after \r (\n)
+      }
     }
   }
 }
+

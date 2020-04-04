@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
+					<Add option="-m32" />
 					<Add option="-g" />
 					<Add option="-D__WXDEBUG__" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswud" />
@@ -21,6 +22,7 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswud" />
 				</ResourceCompiler>
 				<Linker>
+					<Add option="-m32" />
 					<Add library="libwxmsw31ud.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>

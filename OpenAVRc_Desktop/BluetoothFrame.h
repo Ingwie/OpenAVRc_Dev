@@ -75,13 +75,11 @@ class BluetoothFrame: public wxFrame
 
     Tserial *BTComPort;
     bool comIsValid;
-    bool BTstate;
+    volatile bool timout;
     void DetectSerial();
-    wxString BTcommand;
-    wxString BTanwser;
     wxString uCLI;
     void ConnectBTCom(wxString name);
-    void sendCommand();
+    void sendCmdAndWaitForResp(wxString BTcommand, wxString* BTanwser);
 	private:
 
 		//(*Handlers(BluetoothFrame)
