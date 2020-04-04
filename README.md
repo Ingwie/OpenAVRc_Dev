@@ -1,6 +1,6 @@
 This is only my test branche OpenAVRc "firmware ATmega2560", application "Desktop" and "Simulator"
 of this great DIY transmitter project.
-More on the forum RCGroups.com https://1url.cz/azwe4
+More on the forum [RCGroups.com](https://www.rcgroups.com/forums/showthread.php?2968263-OpenAVRc-Solution-(M2560)-(OPENTX)-(NEXTSTPRCV2-18-)/page10000)
 
               =========================================
 
