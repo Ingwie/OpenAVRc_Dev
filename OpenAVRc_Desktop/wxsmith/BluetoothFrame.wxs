@@ -39,7 +39,7 @@
 			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMERRX" variable="TimerRX" member="yes">
-			<interval>100</interval>
+			<interval>200</interval>
 			<oneshot>1</oneshot>
 			<handler function="OnTimerRXTrigger" entry="EVT_TIMER" />
 		</object>
