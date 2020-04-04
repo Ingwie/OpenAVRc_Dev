@@ -72,7 +72,6 @@ ModelNameDialog::ModelNameDialog(wxWindow* parent,wxWindowID id,const wxPoint& p
 	//*)
 
   {
-    wxIcon FrameIcon;
     SetIcon(wxICON(oavrc_icon));
   }
 }
