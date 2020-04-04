@@ -40,8 +40,6 @@ extern bool Ini_Changed;
 //BT
 Tserial *BTComPort;
 bool SimuBTComIsValid;
-void ConnectBTCom(wxString name);
-void SendByteBTCom(uint8_t data);
 
 //(*InternalHeaders(uCliFrame)
 #include <wx/intl.h>
@@ -73,7 +71,6 @@ uCliFrame::uCliFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&uCliFrame::OnClose);
 	//*)
   {
-    wxIcon FrameIcon;
     SetIcon(wxICON(oavrc_icon));
   }
   LastPrompt = "";
@@ -105,13 +102,12 @@ void uCliFrame::SendToHwSerial()
     simu_udr1 = cstring[i];
     Serial1._rx_complete_irq();
   }
-
   simu_udr1 = '\r';
   Serial1._rx_complete_irq();
   simu_udr1 = '\n';
   Serial1._rx_complete_irq();
-
   TextCtrl->AppendText("\n");
+  wxYieldIfNeeded();
 }
 
 void uCliFrame::OnClose(wxCloseEvent& event)
@@ -188,7 +184,8 @@ void uCliFrame::HwSerialByte(uint8_t c)
         }
       else if (cmd == "AT+PSWD?")
         {
-          TextCtrl->WriteText("+PIN:\"" + BtSimuPin + "\"");
+          if (clock() & 0x02) TextCtrl->WriteText("+PIN:\"" + BtSimuPin + "\""); // V3 HC05
+          else TextCtrl->WriteText("+PSWD:" + BtSimuPin ); // V4 HC
           SEND();
         }
       else if (cmd == "AT+RNAME?1234,56,789ABC")
@@ -257,6 +254,7 @@ void uCliFrame::OnTimerBTRXTrigger(wxTimerEvent& event)
       {
        simu_udr1 = buffer[i];
        Serial1._rx_complete_irq();
+       wxYieldIfNeeded();
        //HwSerialByte(buffer[i]);
       }
     }
