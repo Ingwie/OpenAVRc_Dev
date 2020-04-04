@@ -324,7 +324,7 @@ int8_t bluetooth_getPswd(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutM
 {
   int8_t Ret;
 
-  Ret = sendAtCmdAndWaitForResp(AT_PSWD, BT_GET, NULL, RespBuf, RespBufMaxLen, 3, 5, Str_CRLF_OK_CRLF, TimeoutMs);
+  Ret = sendAtCmdAndWaitForResp(AT_PSWD, BT_GET, NULL, RespBuf, RespBufMaxLen, 1, 5, Str_CRLF_OK_CRLF, TimeoutMs); // Check only if the answer starts with P (PIN" or PSWD expected !)
   if(Ret > 0)
   {
     if(RespBuf[Ret - 1] == '"')
@@ -608,7 +608,6 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   /* Now, check expected header is received */
   if((AtCmdIdx != AT_AT) && (BtOp == BT_GET))
   {
-    if(AtCmdIdx == AT_PSWD) strcpy_P(AtCmd, PSTR("PIN")); // Crappy PSWD command: the answer starts with PIN!
     /* The response shall start with '+' */
     while((GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(TimeoutMs))
     {
