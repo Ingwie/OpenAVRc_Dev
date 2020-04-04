@@ -48,16 +48,6 @@ enum menuGeneralBTItems
 #define BT_Tab 0
 #define BT_2ND_COLUMN 9*FW
 
-#define STR_BLUETOOTH      PSTR("BLUETOOTH")
-#define STR_NOBLUETOOTH    PSTR("BLUETOOTH MUET")
-#define STR_CONNECTED      PSTR("CONECTE")
-#define STR_BT_ROLE        PSTR("Role")
-#define STR_BT_PIN         PSTR("Pin")
-#define STR_BT_M_S         PSTR("\006""Slave\0""Master")
-#define STR_BT_PAIR        PSTR("Pair")
-#define STR_AUTOCON        PSTR("Auto-con.")
-#define STR_RESCANN        PSTR("Re-Scan")
-
 #define IF_NO_ERROR(x) if (x >= 0)
 
 const pm_char STR_BTACTIVE[] PROGMEM = TR_ACTIVED;
@@ -133,6 +123,7 @@ void writeDataToModule(uint8_t choice)
 
 void onPairSelected(const char *result)
 {
+ uint8_t connected;
  // result is the new pair name!!
  strcpy(reusableBuffer.bluetooth.peer_name_str, result);
  memcpy(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.scann.Remote[shared_u8].MAC, BT_MAC_BIN_LEN);
@@ -140,7 +131,16 @@ void onPairSelected(const char *result)
  IF_NO_ERROR(bluetooth_linkToRemote(g_eeGeneral.BT.Peer.Mac, BT_SET_TIMEOUT_MS))
  {
   eeDirty(EE_GENERAL);
-  if (SIMU_UNLOCK_MACRO_TRUE(BT_IS_CONNECTED))
+  uint16_t Start10MsTick = GET_10MS_TICK();
+  do // now check the STATE PIN
+   {
+    connected = SIMU_UNLOCK_MACRO_TRUE(BT_IS_CONNECTED);
+    YIELD_TO_TASK(PRIO_TASK_LIST());
+    SIMU_SLEEP(500);
+   }
+  while(((GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(500)) || (!connected));
+
+  if (connected)
    {
     displayPopup(STR_CONNECTED);
     MYWDT_RESET();
