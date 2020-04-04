@@ -72,6 +72,7 @@ class Voice_choice: public wxFrame
 
 		//(*Handlers(Voice_choice)
 		void OnButtonsavevoiceClick(wxCommandEvent& event);
+		void OnClose(wxCloseEvent& event);
 		//*)
 		void Load();
 

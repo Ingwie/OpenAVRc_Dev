@@ -6,6 +6,7 @@
 		<bg>wxSYS_COLOUR_BTNFACE</bg>
 		<id_arg>0</id_arg>
 		<style>wxCAPTION|wxDEFAULT_DIALOG_STYLE</style>
+		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
 			<label>Paramètres de communication avec la radio</label>
 			<pos>24,24</pos>

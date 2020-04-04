@@ -67,8 +67,7 @@ Voice_choice::Voice_choice(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	//*)
 
     {
-        wxIcon FrameIcon;
-        SetIcon(wxICON(oavrc_icon));
+      SetIcon(wxICON(oavrc_icon));
     }
 
 	Load();
@@ -100,4 +99,12 @@ void Voice_choice::OnButtonsavevoiceClick(wxCommandEvent& event)
 {
   Numvoice = ComboBoxvoice->GetSelection();
   Close();
+}
+
+void Voice_choice::OnClose(wxCloseEvent& event)
+{
+  OpenAVRc_DesktopFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_DesktopFrame);
+  if(parent)
+    parent->EnableChoiceVoiceMenu();
+  Destroy();
 }

@@ -36,6 +36,7 @@
 #include "CompilerOptionsFrame.h"
 #include "Voice_choice.h"
 #include "VoiceEditFrame.h"
+#include "BluetoothFrame.h"
 #include <wx/msgdlg.h>
 #include <wx/filedlg.h>
 #include <wx/textdlg.h>
@@ -216,7 +217,7 @@ const long OpenAVRc_DesktopFrame::ID_PANEL1 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEMNEWCONFIG = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUDELETEACTIVECONFIG = wxNewId();
 const long OpenAVRc_DesktopFrame::idMenuQuit = wxNewId();
-const long OpenAVRc_DesktopFrame::ID_MENUITEM1 = wxNewId();
+const long OpenAVRc_DesktopFrame::ID_MENUITEMCOMMUNICATION = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUVOICECHOICE = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM3 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM5 = wxNewId();
@@ -226,6 +227,7 @@ const long OpenAVRc_DesktopFrame::ID_MENUITEM9 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM10 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM13 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM7 = wxNewId();
+const long OpenAVRc_DesktopFrame::ID_MENUBLUETOOTH = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUCOMPILOMATIC = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM11 = wxNewId();
 const long OpenAVRc_DesktopFrame::ID_MENUITEM14 = wxNewId();
@@ -260,8 +262,8 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   StaticBoxConfig = new wxStaticBox(Panel1, ID_STATICBOXCONFIG, _("Configuration"), wxPoint(16,8), wxSize(136,192), 0, _T("ID_STATICBOXCONFIG"));
   ButtonSimuSTD = new wxButton(Panel1, ID_BUTTONSIMUSTD, _("SIMULATEUR STANDARD"), wxPoint(24,204), wxSize(248,31), 0, wxDefaultValidator, _T("ID_BUTTONSIMUSTD"));
   ButtonSimuFram = new wxButton(Panel1, ID_BUTTONSIMUFRAM, _("SIMULATEUR F-RAM"), wxPoint(320,204), wxSize(248,31), 0, wxDefaultValidator, _T("ID_BUTTONSIMUFRAM"));
-  ListBoxConfig = new wxListBox(Panel1, ID_LISTBOXCONFIG, wxPoint(24,32), wxSize(120,160), 0, 0, wxLB_SINGLE|wxDOUBLE_BORDER|wxVSCROLL, wxDefaultValidator, _T("ID_LISTBOXCONFIG"));
-  PanelSplash = new wxPanel(Panel1, ID_SPLASH, wxPoint(169,64), wxSize(256,128), wxNO_BORDER, _T("ID_SPLASH"));
+  ListBoxConfig = new wxListBox(Panel1, ID_LISTBOXCONFIG, wxPoint(24,32), wxSize(120,160), 0, 0, wxLB_SINGLE|wxBORDER_DOUBLE|wxVSCROLL, wxDefaultValidator, _T("ID_LISTBOXCONFIG"));
+  PanelSplash = new wxPanel(Panel1, ID_SPLASH, wxPoint(169,64), wxSize(256,128), wxBORDER_NONE, _T("ID_SPLASH"));
   PanelSplash->SetBackgroundColour(wxColour(255,255,255));
   ButtonPerso = new wxButton(Panel1, ID_BUTTONPERSO, _("Personnaliser"), wxPoint(192,32), wxSize(80,24), 0, wxDefaultValidator, _T("ID_BUTTONPERSO"));
   ButtonPerso->SetToolTip(_("Attention : Tous ce qui n\'est pas blanc sera converti en noir"));
@@ -301,7 +303,7 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   Menu1->Append(MenuItem1);
   MenuBar_main->Append(Menu1, _("Fichier"));
   Menu3 = new wxMenu();
-  MenuItem3 = new wxMenuItem(Menu3, ID_MENUITEM1, _("Programmateur"), wxEmptyString, wxITEM_NORMAL);
+  MenuItem3 = new wxMenuItem(Menu3, ID_MENUITEMCOMMUNICATION, _("Programmateur"), wxEmptyString, wxITEM_NORMAL);
   MenuItem3->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_EXECUTABLE_FILE")),wxART_OTHER));
   Menu3->Append(MenuItem3);
   MenuChoiceVoice = new wxMenuItem(Menu3, ID_MENUVOICECHOICE, _("Synthèse vocale"), wxEmptyString, wxITEM_NORMAL);
@@ -335,11 +337,15 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   MenuItem13->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_GO_BACK")),wxART_MENU));
   MenuItem8->Append(MenuItem13);
   Menu4->Append(ID_MENUITEM7, _("Fusibles et Bootloader"), MenuItem8, wxEmptyString);
+  Menu4->AppendSeparator();
+  MenuBluetooth = new wxMenuItem(Menu4, ID_MENUBLUETOOTH, _("Bluetooth"), wxEmptyString, wxITEM_NORMAL);
+  MenuBluetooth->SetBitmap(wxBitmap(wxImage(_T("A:\\cb\\OpenAVRc_Desktop\\Bluetooth.xpm"))));
+  Menu4->Append(MenuBluetooth);
   MenuBar_main->Append(Menu4, _("Lire/Écrire"));
   Menu7 = new wxMenu();
-  ATMEGA2560Compiler = new wxMenuItem(Menu7, ID_MENUCOMPILOMATIC, _("Compil-O-matic"), wxEmptyString, wxITEM_NORMAL);
-  ATMEGA2560Compiler->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_EXECUTABLE_FILE")),wxART_MENU));
-  Menu7->Append(ATMEGA2560Compiler);
+  CompilOMatic = new wxMenuItem(Menu7, ID_MENUCOMPILOMATIC, _("Compil-O-matic"), wxEmptyString, wxITEM_NORMAL);
+  CompilOMatic->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_EXECUTABLE_FILE")),wxART_MENU));
+  Menu7->Append(CompilOMatic);
   MenuBar_main->Append(Menu7, _("Compilateur"));
   Menu2 = new wxMenu();
   MenuHtmlDoc = new wxMenu();
@@ -383,7 +389,7 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_MENUITEMNEWCONFIG,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuNewconfigSelected);
   Connect(ID_MENUDELETEACTIVECONFIG,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuDeleteActiveConfigSelected);
   Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnQuit);
-  Connect(ID_MENUITEM1,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnProgrammerSelected);
+  Connect(ID_MENUITEMCOMMUNICATION,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnProgrammerSelected);
   Connect(ID_MENUVOICECHOICE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuChoiceVoiceSelected);
   Connect(ID_MENUITEM3,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnreadmodelsSelected);
   Connect(ID_MENUITEM5,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnreadfirmwareSelected);
@@ -392,7 +398,8 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_MENUITEM9,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnEcrirelesFuseesSelected);
   Connect(ID_MENUITEM10,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnEcrirelebootloaderSelected);
   Connect(ID_MENUITEM13,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnEcrirelebootloaderF_RAMSelected);
-  Connect(ID_MENUCOMPILOMATIC,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnATMEGA2560CompilerSelected);
+  Connect(ID_MENUBLUETOOTH,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuBluetoothSelected);
+  Connect(ID_MENUCOMPILOMATIC,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnCompilOMaticSelected);
   Connect(ID_MENUITEM11,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuItem9Selected);
   Connect(ID_MENUITEM14,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuItem14Selected);
   Connect(ID_MENUITEM16,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnMenuItem16Selected);
@@ -403,7 +410,6 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   //*)
 
   {
-    wxIcon FrameIcon;
     SetIcon(wxICON(oavrc_icon));
   }
   //App Path
@@ -466,6 +472,12 @@ void OpenAVRc_DesktopFrame::OnProgrammerSelected(wxCommandEvent& event)
 {
   CommunicationsFrame * DudeFrame = new CommunicationsFrame(this);
   DudeFrame->Show(TRUE);//opens CommunicationsFrame
+  MenuBar_main->Enable(ID_MENUITEMCOMMUNICATION, false);
+}
+
+void OpenAVRc_DesktopFrame::EnableProgrammerSelectedMenu()
+{
+  MenuBar_main->Enable(ID_MENUITEMCOMMUNICATION, true);
 }
 
 bool OpenAVRc_DesktopFrame::CheckIfSerialAvailable()
@@ -862,10 +874,16 @@ void OpenAVRc_DesktopFrame::OnClose(wxCloseEvent& event)
   Destroy();
 }
 
-void OpenAVRc_DesktopFrame::OnATMEGA2560CompilerSelected(wxCommandEvent& event)
+void OpenAVRc_DesktopFrame::OnCompilOMaticSelected(wxCommandEvent& event)
 {
-  CompilerOptionsFrame* atmegaFrame = new CompilerOptionsFrame(this);
-  atmegaFrame->Show(TRUE);//opens CommunicationsFrame
+  CompilerOptionsFrame* CompilOMatic = new CompilerOptionsFrame(this);
+  CompilOMatic->Show(TRUE);//opens CommunicationsFrame
+  MenuBar_main->Enable(ID_MENUCOMPILOMATIC, false);
+}
+
+void OpenAVRc_DesktopFrame::EnableCompilOMaticSelectedMenu()
+{
+  MenuBar_main->Enable(ID_MENUCOMPILOMATIC, true);
 }
 
 void OpenAVRc_DesktopFrame::OnMenuItem9Selected(wxCommandEvent& event)
@@ -1118,6 +1136,12 @@ void OpenAVRc_DesktopFrame::OnMenuChoiceVoiceSelected(wxCommandEvent& event)
   Sleep(500);
   Voice_choice* voiceChoiceFrame = new Voice_choice(this);
   voiceChoiceFrame->Show(TRUE);
+  MenuBar_main->Enable(ID_MENUVOICECHOICE, false);
+}
+
+void OpenAVRc_DesktopFrame::EnableChoiceVoiceMenu()
+{
+  MenuBar_main->Enable(ID_MENUVOICECHOICE, true);
 }
 
 void OpenAVRc_DesktopFrame::OnButtonSimuFramClick(wxCommandEvent& event)
@@ -1130,4 +1154,16 @@ void OpenAVRc_DesktopFrame::OnButtonSimuSTDClick(wxCommandEvent& event)
 {
   wxString simu("OpenAVRc_Simulator.exe");
   wxExecute(simu);
+}
+
+void OpenAVRc_DesktopFrame::OnMenuBluetoothSelected(wxCommandEvent& event)
+{
+  BluetoothFrame* BTFrame = new BluetoothFrame(this);
+  BTFrame->Show(TRUE);
+  MenuBar_main->Enable(ID_MENUBLUETOOTH, false);
+}
+
+void OpenAVRc_DesktopFrame::EnableBluetoothSelectedMenu()
+{
+  MenuBar_main->Enable(ID_MENUBLUETOOTH, true);
 }

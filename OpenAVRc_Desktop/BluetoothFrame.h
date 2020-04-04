@@ -30,82 +30,68 @@
  **************************************************************************
 */
 
+#ifndef BLUETOOTHFRAME_H
+#define BLUETOOTHFRAME_H
 
-#ifndef DEFAULTFRAME_H
-#define DEFAULTFRAME_H
-#include <wx/string.h>
+#include "serial/tserial.h"
 
-
-
-//(*Headers(CommunicationsFrame)
-#include <wx/button.h>
+//(*Headers(BluetoothFrame)
 #include <wx/combobox.h>
 #include <wx/frame.h>
+#include <wx/panel.h>
 #include <wx/statbox.h>
 #include <wx/stattext.h>
-#include <wx/textctrl.h>
+#include <wx/timer.h>
 //*)
 
-
-class CommunicationsFrame: public wxFrame
+class BluetoothFrame: public wxFrame
 {
-public:
+	public:
 
-    CommunicationsFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
-    virtual ~CommunicationsFrame();
+		BluetoothFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
+		virtual ~BluetoothFrame();
 
-    //(*Declarations(CommunicationsFrame)
-    wxButton* Button1;
-    wxButton* ButtonDetect;
-    wxButton* ButtonEnter;
-    wxButton* ButtonEsc;
-    wxButton* ButtonSearchavrdudepath;
-    wxComboBox* ComboBox1;
-    wxComboBox* ComboBox2;
-    wxComboBox* ComboBox3;
-    wxStaticBox* StaticBox1;
-    wxStaticText* StaticText1;
-    wxStaticText* StaticText2;
-    wxStaticText* StaticText3;
-    wxStaticText* StaticText5;
-    wxTextCtrl* TextCtrl1;
-    //*)
+		//(*Declarations(BluetoothFrame)
+		wxComboBox* ComboBoxCom;
+		wxPanel* Panel1;
+		wxStaticBox* StaticBoxCom;
+		wxStaticText* StaticText1;
+		wxStaticText* StaticText2;
+		wxStaticText* StaticTextFreeMem;
+		wxTimer TimerRX;
+		//*)
 
-protected:
+	protected:
 
-    //(*Identifiers(CommunicationsFrame)
-    static const long ID_STATICBOX1;
-    static const long ID_COMBOBOX1;
-    static const long ID_COMBOBOX2;
-    static const long ID_STATICTEXT1;
-    static const long ID_BUTTONENTER;
-    static const long ID_STATICTEXT2;
-    static const long ID_COMBOBOX3;
-    static const long ID_STATICTEXT3;
-    static const long ID_STATICTEXT5;
-    static const long ID_TEXTCTRL1;
-    static const long ID_BUTTONESC;
-    static const long ID_BUTTONSEARCHAVRDUDEPATH;
-    static const long ID_BUTTONDETECT;
-    static const long ID_BUTTON1;
-    //*)
-    wxWindow * Parent;
+		//(*Identifiers(BluetoothFrame)
+		static const long ID_STATICBOX1;
+		static const long ID_COMBOBOX1;
+		static const long ID_STATICTEXT1;
+		static const long ID_STATICTEXT2;
+		static const long ID_STATICTEXT3;
+		static const long ID_PANEL1;
+		static const long ID_TIMERRX;
+		//*)
 
-private:
+    Tserial *BTComPort;
+    bool comIsValid;
+    bool BTstate;
+    void DetectSerial();
+    wxString BTcommand;
+    wxString BTanwser;
+    wxString uCLI;
+    void ConnectBTCom(wxString name);
+    void sendCommand();
+	private:
 
-    //(*Handlers(CommunicationsFrame)
-    void OnButton1Click(wxCommandEvent& event);
-    void OnButtonSearchavrdudepathClick(wxCommandEvent& event);
-    void OnButtonEscClick(wxCommandEvent& event);
-    void OnButtonEnterClick(wxCommandEvent& event);
-    void OnButtonDetectClick(wxCommandEvent& event);
-    void GetPortList(wxArrayString *port_list);
-    wxString DetectSerial();
-    void OnTESTClick1(wxCommandEvent& event);
-    void OnClose(wxCloseEvent& event);
-    //*)
+		//(*Handlers(BluetoothFrame)
+		void OnClose(wxCloseEvent& event);
+		void OnComboBoxComSelected(wxCommandEvent& event);
+		void OnComboBoxComDropdown(wxCommandEvent& event);
+		void OnTimerRXTrigger(wxTimerEvent& event);
+		//*)
 
-    DECLARE_EVENT_TABLE()
+		DECLARE_EVENT_TABLE()
 };
 
 #endif

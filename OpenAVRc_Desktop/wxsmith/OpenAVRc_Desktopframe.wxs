@@ -36,7 +36,7 @@
 				<default>-1</default>
 				<pos>24,32</pos>
 				<size>120,160</size>
-				<style>wxLB_SINGLE|wxDOUBLE_BORDER|wxVSCROLL</style>
+				<style>wxLB_SINGLE|wxBORDER_DOUBLE|wxVSCROLL</style>
 				<handler function="OnListBoxConfigDClick" entry="EVT_LISTBOX" />
 				<handler function="OnListBoxConfigDClick" entry="EVT_LISTBOX_DCLICK" />
 			</object>
@@ -44,7 +44,7 @@
 				<pos>169,64</pos>
 				<size>256,128</size>
 				<bg>#FFFFFF</bg>
-				<style>wxNO_BORDER</style>
+				<style>wxBORDER_NONE</style>
 				<handler function="OnPanelSplashPaint" entry="EVT_PAINT" />
 			</object>
 			<object class="wxButton" name="ID_BUTTONPERSO" variable="ButtonPerso" member="yes">
@@ -132,7 +132,7 @@
 			</object>
 			<object class="wxMenu" variable="Menu3" member="yes">
 				<label>Paramètres</label>
-				<object class="wxMenuItem" name="ID_MENUITEM1" variable="MenuItem3" member="yes">
+				<object class="wxMenuItem" name="ID_MENUITEMCOMMUNICATION" variable="MenuItem3" member="yes">
 					<label>Programmateur</label>
 					<bitmap stock_id="wxART_EXECUTABLE_FILE" />
 					<handler function="OnProgrammerSelected" entry="EVT_MENU" />
@@ -186,13 +186,19 @@
 						<handler function="OnEcrirelebootloaderF_RAMSelected" entry="EVT_MENU" />
 					</object>
 				</object>
+				<object class="separator" />
+				<object class="wxMenuItem" name="ID_MENUBLUETOOTH" variable="MenuBluetooth" member="yes">
+					<label>Bluetooth</label>
+					<bitmap>A:\cb\OpenAVRc_Desktop\Bluetooth.xpm</bitmap>
+					<handler function="OnMenuBluetoothSelected" entry="EVT_MENU" />
+				</object>
 			</object>
 			<object class="wxMenu" variable="Menu7" member="yes">
 				<label>Compilateur</label>
-				<object class="wxMenuItem" name="ID_MENUCOMPILOMATIC" variable="ATMEGA2560Compiler" member="yes">
+				<object class="wxMenuItem" name="ID_MENUCOMPILOMATIC" variable="CompilOMatic" member="yes">
 					<label>Compil-O-matic</label>
 					<bitmap stock_id="wxART_EXECUTABLE_FILE" stock_client="wxART_MENU" />
-					<handler function="OnATMEGA2560CompilerSelected" entry="EVT_MENU" />
+					<handler function="OnCompilOMaticSelected" entry="EVT_MENU" />
 				</object>
 			</object>
 			<object class="wxMenu" variable="Menu2" member="no">
