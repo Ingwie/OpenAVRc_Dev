@@ -541,5 +541,16 @@ extern const pm_char STR_FREESRAM[];
 extern const pm_char STR_TXTEMP[];
 #endif
 
+#if defined(BLUETOOTH)
+extern const pm_char STR_BLUETOOTH[];
+extern const pm_char STR_NOBLUETOOTH[];
+extern const pm_char STR_CONNECTED[];
+extern const pm_char STR_BT_ROLE[];
+extern const pm_char STR_BT_PIN[];
+extern const pm_char STR_BT_M_S[];
+extern const pm_char STR_BT_PAIR[];
+extern const pm_char STR_AUTOCON[];
+extern const pm_char STR_RESCANN[];
+#endif
 
 #endif
