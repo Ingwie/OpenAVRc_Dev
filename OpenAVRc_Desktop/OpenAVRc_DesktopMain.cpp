@@ -339,7 +339,7 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   Menu4->Append(ID_MENUITEM7, _("Fusibles et Bootloader"), MenuItem8, wxEmptyString);
   Menu4->AppendSeparator();
   MenuBluetooth = new wxMenuItem(Menu4, ID_MENUBLUETOOTH, _("Bluetooth"), wxEmptyString, wxITEM_NORMAL);
-  MenuBluetooth->SetBitmap(wxBitmap(wxImage(_T("A:\\cb\\OpenAVRc_Desktop\\Bluetooth.xpm"))));
+  MenuBluetooth->SetBitmap(wxBitmap(wxImage(_T("Bluetooth.xpm"))));
   Menu4->Append(MenuBluetooth);
   MenuBar_main->Append(Menu4, _("Lire/Écrire"));
   Menu7 = new wxMenu();
