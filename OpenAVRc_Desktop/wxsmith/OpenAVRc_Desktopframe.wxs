@@ -189,7 +189,7 @@
 				<object class="separator" />
 				<object class="wxMenuItem" name="ID_MENUBLUETOOTH" variable="MenuBluetooth" member="yes">
 					<label>Bluetooth</label>
-					<bitmap>A:\cb\OpenAVRc_Desktop\Bluetooth.xpm</bitmap>
+					<bitmap>Bluetooth.xpm</bitmap>
 					<handler function="OnMenuBluetoothSelected" entry="EVT_MENU" />
 				</object>
 			</object>
