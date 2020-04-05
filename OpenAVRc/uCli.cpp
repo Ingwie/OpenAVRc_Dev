@@ -73,6 +73,7 @@ UCLI_DEF(mv,    srcfile dstfile);
 //UCLI_DEF(bt,    on|off|master|slave|state|pin|name);
 UCLI_DEF(tf,    ch1-ch8:Chks); //Trainer Frame
 UCLI_DEF(ram,    );
+UCLI_DEF(ver,    );
 UCLI_DEF(reboot, );
 
 #define UCLI_CMD(Cmd)                      {uCli_##Cmd, uCli_##Cmd##_Help, uCli_Cmd_##Cmd}
@@ -87,6 +88,7 @@ UCLI_CMD_TBL(uCliCmd) = { UCLI_CMD(help),
 //                          UCLI_CMD(bt),
                           UCLI_CMD(tf),//tfsHHHsHHH...sHHHsHHH<Chks> (2 + 4 x 16 + 2) -> L = 36 bytes (3ms@115200)
                           UCLI_CMD(ram),
+                          UCLI_CMD(ver),
                           UCLI_CMD(reboot),
                         };
 
@@ -404,6 +406,17 @@ static int8_t uCli_Cmd_ram(const char ** argv, uint8_t argc)
   argv = argv;
   argc = argc;
   Serial1.print(F("ram: "));Serial1.print(stackAvailable());Serial1.println(F(" bytes"));
+
+  return(0);
+}
+
+static int8_t uCli_Cmd_ver(const char ** argv, uint8_t argc)
+{
+  argv = argv;
+  argc = argc;
+  char buffer[HW_SERIAL1_TX_FIFO_SIZE]; // do not overload the buffer
+  strncpy_P(buffer, vers_stamp, 35);
+  Serial1.print(F("ver: "));Serial1.println(buffer);
 
   return(0);
 }
