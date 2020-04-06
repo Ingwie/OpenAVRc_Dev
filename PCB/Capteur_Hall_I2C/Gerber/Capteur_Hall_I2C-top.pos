@@ -1,0 +1,11 @@
+### Module positions - created on 03/04/2020 18:25:23 ###
+### Printed by Pcbnew version kicad (5.1.5)-3
+## Unit = mm, Angle = deg.
+## Side : top
+# Ref     Val       Package                                             PosX       PosY       Rot  Side
+C1        CP        CP_EIA-6032-28_Kemet-C                           -0.0775    -4.4450    0.0000  top
+C2        100nF     C_1206_3216Metric_Pad1.42x1.75mm_HandSolder       0.0000    -1.2700    0.0000  top
+D1        RED       LED_1206_3216Metric_Pad1.42x1.75mm_HandSolder     6.3500     0.4175  270.0000  top
+R1        680       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder       6.3500     5.4975   90.0000  top
+SW1       SW_Push   Panasonic_EVQPUJ_EVQPUA                          -7.2000     1.8200   90.0000  top
+## End
