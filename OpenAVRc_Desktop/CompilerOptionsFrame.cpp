@@ -195,7 +195,7 @@ END_EVENT_TABLE()
 CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
   //(*Initialize(CompilerOptionsFrame)
-  Create(parent, wxID_ANY, _("Compil-O-matic"), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
+  Create(parent, wxID_ANY, ("Compil-O-matic"), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
   SetClientSize(wxSize(790,367));
   Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(0,0), wxSize(830,368), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
   Panel1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
@@ -217,27 +217,15 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxPPM_CENTER_ADJUSTABLE->SetValue(false);
   CheckBoxPPM_CENTER_ADJUSTABLE->SetToolTip(_("Option réglage des neutres indépendant"));
   ChoicePPM_UNIT  = new wxChoice(Panel2, ID_CHOICE4, wxPoint(320,296), wxSize(112,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE4"));
-  ChoicePPM_UNIT ->SetSelection( ChoicePPM_UNIT ->Append(_("PERCENT_PREC1")) );
-  ChoicePPM_UNIT ->Append(_("PERCENT_PREC0"));
-  ChoicePPM_UNIT ->Append(_("US"));
   ChoicePPM_UNIT ->SetToolTip(_("Affichage des valeurs des voies en % ou uS"));
   ChoicePCB = new wxChoice(Panel2, ID_CHOICE6, wxPoint(96,32), wxSize(96,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE6"));
-  ChoicePCB->SetSelection( ChoicePCB->Append(_("MEGAMINI")) );
+  ChoicePCB->SetSelection( ChoicePCB->Append(wxEmptyString) );
   ChoicePCB->SetToolTip(_("Type de radio"));
   ChoiceLCD = new wxChoice(Panel2, ID_CHOICE1, wxPoint(96,72), wxSize(96,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
-  ChoiceLCD->Append(_("ST7565P"));
-  ChoiceLCD->Append(_("ST7565R "));
-  ChoiceLCD->Append(_("ERC12864FSF"));
-  ChoiceLCD->Append(_("ST7920"));
-  ChoiceLCD->SetSelection( ChoiceLCD->Append(_("KS108")) );
-  ChoiceLCD->Append(_("SSD1306"));
-  ChoiceLCD->Append(_("SH1106"));
   ChoiceLCD->SetToolTip(_("Référence de l\'écran"));
   StaticText2 = new wxStaticText(Panel2, ID_STATICTEXT2, _("Processeur"), wxPoint(16,40), wxSize(72,16), wxALIGN_RIGHT, _T("ID_STATICTEXT2"));
   StaticText1 = new wxStaticText(Panel2, ID_STATICTEXT1, _("LCD"), wxPoint(16,80), wxSize(72,16), wxALIGN_RIGHT, _T("ID_STATICTEXT1"));
   ChoiceVOICE = new wxChoice(Panel2, ID_CHOICE3, wxPoint(96,144), wxSize(96,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE3"));
-  ChoiceVOICE->SetSelection( ChoiceVOICE->Append(_("NO")) );
-  ChoiceVOICE->Append(_("JQ6500"));
   ChoiceVOICE->SetToolTip(_("Option annonces vocales"));
   StaticText3 = new wxStaticText(Panel2, ID_STATICTEXT3, _("Voice"), wxPoint(16,144), wxSize(72,16), wxALIGN_RIGHT, _T("ID_STATICTEXT3"));
   CheckBoxAUDIO = new wxCheckBox(Panel2, ID_CHECKBOX7, _("Audio"), wxPoint(96,176), wxSize(104,24), 0, wxDefaultValidator, _T("ID_CHECKBOX7"));
@@ -256,58 +244,20 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxSD_CARD->SetValue(false);
   CheckBoxSD_CARD->SetToolTip(_("Option carte SD (Sauvegarde - Fichiers log)"));
   ChoiceTRANSLATIONS = new wxChoice(Panel2, ID_CHOICE7, wxPoint(320,32), wxSize(40,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE7"));
-  ChoiceTRANSLATIONS->Append(_("CZ"));
-  ChoiceTRANSLATIONS->Append(_("DE"));
-  ChoiceTRANSLATIONS->Append(_("EN"));
-  ChoiceTRANSLATIONS->Append(_("ES"));
-  ChoiceTRANSLATIONS->SetSelection( ChoiceTRANSLATIONS->Append(_("FR")) );
-  ChoiceTRANSLATIONS->Append(_("HU"));
-  ChoiceTRANSLATIONS->Append(_("IT"));
-  ChoiceTRANSLATIONS->Append(_("NL"));
-  ChoiceTRANSLATIONS->Append(_("PL"));
-  ChoiceTRANSLATIONS->Append(_("PT"));
-  ChoiceTRANSLATIONS->Append(_("SE"));
-  ChoiceTRANSLATIONS->Append(_("SK"));
   ChoiceTRANSLATIONS->SetToolTip(_("Langue affichée"));
   StaticText6 = new wxStaticText(Panel2, ID_STATICTEXT6, _("Langue"), wxPoint(224,40), wxSize(88,16), wxALIGN_RIGHT, _T("ID_STATICTEXT6"));
   ChoiceTTS = new wxChoice(Panel2, ID_CHOICE5, wxPoint(320,72), wxSize(40,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE5"));
-  ChoiceTTS->Append(_("CZ"));
-  ChoiceTTS->Append(_("DE"));
-  ChoiceTTS->Append(_("EN"));
-  ChoiceTTS->Append(_("ES"));
-  ChoiceTTS->SetSelection( ChoiceTTS->Append(_("FR")) );
-  ChoiceTTS->Append(_("HU"));
-  ChoiceTTS->Append(_("IT"));
-  ChoiceTTS->Append(_("NL"));
-  ChoiceTTS->Append(_("PL"));
-  ChoiceTTS->Append(_("PT"));
-  ChoiceTTS->Append(_("SE"));
-  ChoiceTTS->Append(_("SK"));
   ChoiceTTS->SetToolTip(_("Langue de la synthése vocale"));
   StaticText5 = new wxStaticText(Panel2, ID_STATICTEXT5, _("Langue voice"), wxPoint(224,80), wxSize(88,16), wxALIGN_RIGHT, _T("ID_STATICTEXT5"));
   ChoiceNAVIGATION = new wxChoice(Panel2, ID_CHOICE8, wxPoint(320,256), wxSize(112,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE8"));
-  ChoiceNAVIGATION->SetSelection( ChoiceNAVIGATION->Append(_("NO")) );
-  ChoiceNAVIGATION->Append(_("POT1"));
-  ChoiceNAVIGATION->Append(_("POT2"));
-  ChoiceNAVIGATION->Append(_("POT3"));
-  ChoiceNAVIGATION->Append(_("POTS"));
-  ChoiceNAVIGATION->Append(_("STICKS"));
-  ChoiceNAVIGATION->Append(_("ROTENC"));
   ChoiceNAVIGATION->SetToolTip(_("Peut remplacer les boutons de navigation"));
   StaticText7 = new wxStaticText(Panel2, ID_STATICTEXT7, _("Navigation"), wxPoint(224,264), wxSize(88,16), wxALIGN_RIGHT, _T("ID_STATICTEXT7"));
   ButtonEXIT = new wxButton(Panel2, ID_BUTTON3, _("Sauvegarder et sortir"), wxPoint(648,296), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTON3"));
   ButtonCOMPILE = new wxButton(Panel2, ID_BUTTON2, _("Compiler"), wxPoint(648,256), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTON2"));
   ChoiceUNITS = new wxChoice(Panel2, ID_CHOICE9, wxPoint(512,32), wxSize(80,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE9"));
-  ChoiceUNITS->SetSelection( ChoiceUNITS->Append(_("METRIC")) );
-  ChoiceUNITS->Append(_("IMPERIAL"));
   ChoiceUNITS->SetToolTip(_("Unitées"));
   StaticText8 = new wxStaticText(Panel2, ID_STATICTEXT8, _("Unités"), wxPoint(456,40), wxSize(47,16), wxALIGN_RIGHT, _T("ID_STATICTEXT8"));
   ChoiceDEFAULT_MODE = new wxChoice(Panel2, ID_CHOICE10, wxPoint(512,72), wxSize(80,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE10"));
-  ChoiceDEFAULT_MODE->SetSelection( ChoiceDEFAULT_MODE->Append(_("NO")) );
-  ChoiceDEFAULT_MODE->Append(_("1"));
-  ChoiceDEFAULT_MODE->Append(_("2"));
-  ChoiceDEFAULT_MODE->Append(_("3"));
-  ChoiceDEFAULT_MODE->Append(_("4"));
   ChoiceDEFAULT_MODE->SetToolTip(_("Mode de la radio"));
   StaticText9 = new wxStaticText(Panel2, ID_STATICTEXT9, _("Mode"), wxPoint(456,80), wxSize(48,16), wxALIGN_RIGHT, _T("ID_STATICTEXT9"));
   CheckBoxFLIGHT_MODES = new wxCheckBox(Panel2, ID_CHECKBOX18, _("Flight modes"), wxPoint(456,200), wxSize(176,24), 0, wxDefaultValidator, _T("ID_CHECKBOX18"));
@@ -323,8 +273,6 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxSPLASH->SetValue(false);
   CheckBoxSPLASH->SetToolTip(_("Ecran d\'accueil"));
   ChoiceFONT = new wxChoice(Panel2, ID_CHOICE11, wxPoint(320,216), wxSize(112,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE11"));
-  ChoiceFONT->SetSelection( ChoiceFONT->Append(_("STD")) );
-  ChoiceFONT->Append(_("SQT5"));
   ChoiceFONT->SetToolTip(_("Police de caractére"));
   StaticText10 = new wxStaticText(Panel2, ID_STATICTEXT10, _("Font"), wxPoint(224,224), wxSize(88,16), wxALIGN_RIGHT, _T("ID_STATICTEXT10"));
   CheckBoxBOLD = new wxCheckBox(Panel2, ID_CHECKBOX40, _("Bold"), wxPoint(320,112), wxSize(112,24), 0, wxDefaultValidator, _T("ID_CHECKBOX40"));
@@ -334,15 +282,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxBATTGRAPH->SetValue(false);
   CheckBoxBATTGRAPH->SetToolTip(_("Affichage graphique de l\'état de la batterie"));
   ChoiceFAI = new wxChoice(Panel2, ID_CHOICE13, wxPoint(512,112), wxSize(80,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE13"));
-  ChoiceFAI->SetSelection( ChoiceFAI->Append(_("NO")) );
-  ChoiceFAI->Append(_("YES"));
-  ChoiceFAI->Append(_("CHOICE"));
   ChoiceFAI->SetToolTip(_("Pour les compétitions"));
   StaticText12 = new wxStaticText(Panel2, ID_STATICTEXT12, _("FAI"), wxPoint(456,120), wxSize(48,16), wxALIGN_RIGHT, _T("ID_STATICTEXT12"));
   ChoiceTHREE_POS = new wxChoice(Panel2, ID_CHOICE12, wxPoint(96,296), wxSize(96,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE12"));
-  ChoiceTHREE_POS->Append(_("POT1"));
-  ChoiceTHREE_POS->SetSelection( ChoiceTHREE_POS->Append(_("POT2")) );
-  ChoiceTHREE_POS->Append(_("POT3"));
   ChoiceTHREE_POS->SetToolTip(_("Selection du potentiomètre utilisé pour XD0"));
   StaticText11 = new wxStaticText(Panel2, ID_STATICTEXT11, _("EXTRA 3POS"), wxPoint(16,304), wxSize(72,16), wxALIGN_RIGHT, _T("ID_STATICTEXT11"));
   CheckBoxInvStickLV = new wxCheckBox(Panel2, ID_CHECKBOX4, _("Inversion Stick_LV"), wxPoint(656,80), wxSize(112,24), 0, wxDefaultValidator, _T("ID_CHECKBOX4"));
@@ -356,14 +298,8 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   StaticBox1 = new wxStaticBox(Panel3, ID_STATICBOX1, _("Protocole"), wxPoint(8,8), wxSize(152,328), 0, _T("ID_STATICBOX1"));
   StaticBox9 = new wxStaticBox(Panel3, ID_STATICBOX9, _("Beta test"), wxPoint(16,144), wxSize(136,184), 0, _T("ID_STATICBOX9"));
   ChoiceCC2500PAG = new wxChoice(Panel3, ID_CHOICECC2500PAG, wxPoint(96,200), wxSize(45,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICECC2500PAG"));
-  ChoiceCC2500PAG->SetSelection( ChoiceCC2500PAG->Append(_("20")) );
-  ChoiceCC2500PAG->Append(_("22"));
   ChoiceA7105PAG = new wxChoice(Panel3, ID_CHOICEA7105PAG, wxPoint(96,296), wxSize(45,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICEA7105PAG"));
-  ChoiceA7105PAG->SetSelection( ChoiceA7105PAG->Append(_("20")) );
-  ChoiceA7105PAG->Append(_("22"));
   ChoiceNRF24l01PAG = new wxChoice(Panel3, ID_CHOICENRF24l01PAG, wxPoint(96,264), wxSize(45,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICENRF24l01PAG"));
-  ChoiceNRF24l01PAG->SetSelection( ChoiceNRF24l01PAG->Append(_("20")) );
-  ChoiceNRF24l01PAG->Append(_("22"));
   CheckBoxNOANDSECONDE = new wxCheckBox(Panel3, ID_CHECKBOXNOANDSECONDE, _("NOANDSECONDE"), wxPoint(312,160), wxSize(144,24), 0, wxDefaultValidator, _T("ID_CHECKBOXNOANDSECONDE"));
   CheckBoxNOANDSECONDE->SetValue(false);
   CheckBoxNOANDSECONDE->SetToolTip(_("Empèche la synthèse vocale de dire \"et\". Exemple : entre minutes \"et\" seconde"));
@@ -380,8 +316,6 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxDSM2SERIAL->SetValue(false);
   CheckBoxDSM2SERIAL->SetToolTip(_("Protocoles DSM .."));
   ChoiceEXT = new wxChoice(Panel3, ID_CHOICE2, wxPoint(184,32), wxSize(96,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE2"));
-  ChoiceEXT->SetSelection( ChoiceEXT->Append(_("STD")) );
-  ChoiceEXT->Append(_("FRSKY"));
   ChoiceEXT->SetToolTip(_("Télémétrie installée"));
   CheckBoxGPS = new wxCheckBox(Panel3, ID_CHECKBOX5, _("GPS"), wxPoint(184,96), wxSize(96,24), 0, wxDefaultValidator, _T("ID_CHECKBOX5"));
   CheckBoxGPS->SetValue(false);
@@ -440,8 +374,6 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxA7105 = new wxCheckBox(Panel3, ID_CHECKBOX29, _("A7105"), wxPoint(24,296), wxSize(72,24), 0, wxDefaultValidator, _T("ID_CHECKBOX29"));
   CheckBoxA7105->SetValue(false);
   ChoiceCYRF6936PAG = new wxChoice(Panel3, ID_CHOICECYRF6936PAG, wxPoint(96,232), wxSize(45,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICECYRF6936PAG"));
-  ChoiceCYRF6936PAG->SetSelection( ChoiceCYRF6936PAG->Append(_("20")) );
-  ChoiceCYRF6936PAG->Append(_("22"));
   StaticText28 = new wxStaticText(Panel3, ID_STATICTEXT28, _("PA Gain (DB)"), wxPoint(24,184), wxSize(118,16), wxALIGN_RIGHT, _T("ID_STATICTEXT28"));
   CheckBoxBLUETOOTH = new wxCheckBox(Panel3, ID_CHECKBOX33, _("BLUETOOTH"), wxPoint(312,224), wxSize(144,24), 0, wxDefaultValidator, _T("ID_CHECKBOX33"));
   CheckBoxBLUETOOTH->SetValue(false);
@@ -523,11 +455,6 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   Button1 = new wxButton(Panel5, ID_BUTTON8, _("Sauvegarder et sortir"), wxPoint(640,296), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTON8"));
   Button2 = new wxButton(Panel5, ID_BUTTON9, _("Compiler"), wxPoint(640,256), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTON9"));
   ChoiceNUMXANY = new wxChoice(Panel5, ID_CHOICENUMXANY, wxPoint(168,80), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICENUMXANY"));
-  ChoiceNUMXANY->SetSelection( ChoiceNUMXANY->Append(_("NO")) );
-  ChoiceNUMXANY->Append(_("1"));
-  ChoiceNUMXANY->Append(_("2"));
-  ChoiceNUMXANY->Append(_("3"));
-  ChoiceNUMXANY->Append(_("4"));
   ChoiceNUMXANY->SetToolTip(_("Nombre d\'instances"));
   StaticText29 = new wxStaticText(Panel5, ID_STATICTEXT29, _("Nb X-ANY"), wxPoint(112,88), wxSize(48,16), wxALIGN_RIGHT, _T("ID_STATICTEXT29"));
   Notebook1->AddPage(Panel2, _("Réglages"), false);
@@ -566,6 +493,101 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   {
     SetIcon(wxICON(oavrc_icon));
   }
+
+  ///////////////////////// avoid compilation option translation ///////////////////
+  ChoicePPM_UNIT ->SetSelection( ChoicePPM_UNIT ->Append("PERCENT_PREC1") );
+  ChoicePPM_UNIT ->Append("PERCENT_PREC0");
+  ChoicePPM_UNIT ->Append("US");
+
+  ChoicePCB->SetSelection( ChoicePCB->Append("MEGAMINI") );
+
+  ChoiceLCD->SetSelection( ChoiceLCD->Append("KS108") );
+  ChoiceLCD->Append("ST7565P");
+  ChoiceLCD->Append("ST7565R ");
+  ChoiceLCD->Append("ERC12864FSF");
+  ChoiceLCD->Append("ST7920");
+  ChoiceLCD->Append("SSD1306");
+  ChoiceLCD->Append("SH1106");
+
+  ChoiceVOICE->SetSelection( ChoiceVOICE->Append("NO") );
+  ChoiceVOICE->Append("JQ6500");
+
+  ChoiceTRANSLATIONS->SetSelection( ChoiceTRANSLATIONS->Append("FR") );
+  ChoiceTRANSLATIONS->Append("CZ");
+  ChoiceTRANSLATIONS->Append("DE");
+  ChoiceTRANSLATIONS->Append("EN");
+  ChoiceTRANSLATIONS->Append("ES");
+  ChoiceTRANSLATIONS->Append("HU");
+  ChoiceTRANSLATIONS->Append("IT");
+  ChoiceTRANSLATIONS->Append("NL");
+  ChoiceTRANSLATIONS->Append("PL");
+  ChoiceTRANSLATIONS->Append("PT");
+  ChoiceTRANSLATIONS->Append("SE");
+  ChoiceTRANSLATIONS->Append("SK");
+
+  ChoiceTTS->SetSelection( ChoiceTTS->Append("FR") );
+  ChoiceTTS->Append("CZ");
+  ChoiceTTS->Append("DE");
+  ChoiceTTS->Append("EN");
+  ChoiceTTS->Append("ES");
+  ChoiceTTS->Append("HU");
+  ChoiceTTS->Append("IT");
+  ChoiceTTS->Append("NL");
+  ChoiceTTS->Append("PL");
+  ChoiceTTS->Append("PT");
+  ChoiceTTS->Append("SE");
+  ChoiceTTS->Append("SK");
+
+  ChoiceNAVIGATION->SetSelection( ChoiceNAVIGATION->Append("NO") );
+  ChoiceNAVIGATION->Append("POT1");
+  ChoiceNAVIGATION->Append("POT2");
+  ChoiceNAVIGATION->Append("POT3");
+  ChoiceNAVIGATION->Append("POTS");
+  ChoiceNAVIGATION->Append("STICKS");
+  ChoiceNAVIGATION->Append("ROTENC");
+
+  ChoiceUNITS->SetSelection( ChoiceUNITS->Append("METRIC") );
+  ChoiceUNITS->Append("IMPERIAL");
+
+  ChoiceDEFAULT_MODE->SetSelection( ChoiceDEFAULT_MODE->Append("NO") );
+  ChoiceDEFAULT_MODE->Append("1");
+  ChoiceDEFAULT_MODE->Append("2");
+  ChoiceDEFAULT_MODE->Append("3");
+  ChoiceDEFAULT_MODE->Append("4");
+
+  ChoiceFONT->SetSelection( ChoiceFONT->Append("STD") );
+  ChoiceFONT->Append("SQT5");
+
+  ChoiceFAI->SetSelection( ChoiceFAI->Append("NO") );
+  ChoiceFAI->Append("YES");
+  ChoiceFAI->Append("CHOICE");
+
+  ChoiceTHREE_POS->Append("POT1");
+  ChoiceTHREE_POS->SetSelection( ChoiceTHREE_POS->Append("POT2") );
+  ChoiceTHREE_POS->Append("POT3");
+
+  ChoiceEXT->SetSelection( ChoiceEXT->Append("STD") );
+  ChoiceEXT->Append("FRSKY");
+
+  ChoiceCC2500PAG->SetSelection( ChoiceCC2500PAG->Append("20") );
+  ChoiceCC2500PAG->Append("22");
+
+  ChoiceA7105PAG->SetSelection( ChoiceA7105PAG->Append("20") );
+  ChoiceA7105PAG->Append("22");
+
+  ChoiceNRF24l01PAG->SetSelection( ChoiceNRF24l01PAG->Append("20") );
+  ChoiceNRF24l01PAG->Append("22");
+
+  ChoiceCYRF6936PAG->SetSelection( ChoiceCYRF6936PAG->Append("20") );
+  ChoiceCYRF6936PAG->Append("22");
+
+  ChoiceNUMXANY->SetSelection( ChoiceNUMXANY->Append("NO") );
+  ChoiceNUMXANY->Append("1");
+  ChoiceNUMXANY->Append("2");
+  ChoiceNUMXANY->Append("3");
+  ChoiceNUMXANY->Append("4");
+
+  ///////////////////////// End of avoid compilation option translation ///////////////////
 
   ChoicePCB->SetStringSelection(PCB);
   ChoiceLCD->SetStringSelection(LCD);
