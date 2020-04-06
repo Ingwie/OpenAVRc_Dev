@@ -36,6 +36,9 @@
 #include "OpenAVRc_DesktopMain.h"
 
 //(*InternalHeaders(BluetoothFrame)
+#include <wx/artprov.h>
+#include <wx/bitmap.h>
+#include <wx/image.h>
 #include <wx/intl.h>
 #include <wx/string.h>
 //*)
@@ -46,6 +49,8 @@ const long BluetoothFrame::ID_COMBOBOX1 = wxNewId();
 const long BluetoothFrame::ID_STATICTEXT1 = wxNewId();
 const long BluetoothFrame::ID_STATICTEXT2 = wxNewId();
 const long BluetoothFrame::ID_STATICTEXT3 = wxNewId();
+const long BluetoothFrame::ID_STATICTEXT4 = wxNewId();
+const long BluetoothFrame::ID_REBOOTBUTTON = wxNewId();
 const long BluetoothFrame::ID_PANEL1 = wxNewId();
 const long BluetoothFrame::ID_TIMERRX = wxNewId();
 //*)
@@ -66,11 +71,15 @@ BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("Port :"), wxPoint(8,32), wxSize(48,16), wxALIGN_RIGHT, _T("ID_STATICTEXT1"));
 	StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, _("Mémoire libre :"), wxPoint(160,32), wxSize(96,16), wxALIGN_RIGHT, _T("ID_STATICTEXT2"));
 	StaticTextFreeMem = new wxStaticText(Panel1, ID_STATICTEXT3, _("------"), wxPoint(264,32), wxSize(80,16), wxALIGN_LEFT, _T("ID_STATICTEXT3"));
+	StaticTextVersion = new wxStaticText(Panel1, ID_STATICTEXT4, wxEmptyString, wxPoint(24,64), wxSize(360,16), 0, _T("ID_STATICTEXT4"));
+	BitmapButtonReboot = new wxBitmapButton(Panel1, ID_REBOOTBUTTON, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_WARNING")),wxART_BUTTON), wxPoint(344,24), wxSize(40,23), wxBU_AUTODRAW, wxDefaultValidator, _T("ID_REBOOTBUTTON"));
+	BitmapButtonReboot->SetToolTip(_("Reboot"));
 	TimerRX.SetOwner(this, ID_TIMERRX);
 	TimerRX.Start(200, true);
 
 	Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_SELECTED,(wxObjectEventFunction)&BluetoothFrame::OnComboBoxComSelected);
 	Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_DROPDOWN,(wxObjectEventFunction)&BluetoothFrame::OnComboBoxComDropdown);
+	Connect(ID_REBOOTBUTTON,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&BluetoothFrame::OnBitmapButtonRebootClick);
 	Connect(ID_TIMERRX,wxEVT_TIMER,(wxObjectEventFunction)&BluetoothFrame::OnTimerRXTrigger);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&BluetoothFrame::OnClose);
 	//*)
@@ -125,11 +134,10 @@ void BluetoothFrame::ConnectBTCom(wxString name)
   error = BTComPort->connect(comMame, 115200, spNONE);
   if (error == 0) {
       comIsValid = true;
-      wxString ram;
-      sendCmdAndWaitForResp("ram", &ram);
-      ram.BeforeFirst('\r'); // remove all after \r (\n)
-      StaticTextFreeMem->SetLabel(ram);
+      StaticTextFreeMem->SetLabel(getRam());
       StaticTextFreeMem->Update();
+      StaticTextVersion->SetLabel(getVer());
+      StaticTextVersion->Update();
   }
   else {
     wxString intString = wxString::Format(wxT("%i"), error);
@@ -141,7 +149,11 @@ void BluetoothFrame::OnComboBoxComDropdown(wxCommandEvent& event)
 {
   BTComPort->disconnect();
   ComboBoxCom->Clear();
-  DetectSerial();
+  StaticTextFreeMem->SetLabel("------");
+ StaticTextFreeMem->Update();
+ StaticTextVersion->SetLabel("");
+ StaticTextVersion->Update();
+ DetectSerial();
 }
 
 void BluetoothFrame::OnComboBoxComSelected(wxCommandEvent& event)
@@ -183,9 +195,30 @@ void BluetoothFrame::sendCmdAndWaitForResp(wxString BTcommand, wxString* BTanwse
        *BTanwser = wxString::FromUTF8(buffer);
        if(!(BTanwser->StartsWith(uCLI))) return;
        *BTanwser = BTanwser->Mid(uCLI.length()+BTcommand.length()+1); // remove uCLI> + command echo
-       //*BTanwser = BTanwser->BeforeFirst('\r'); // remove all after \r (\n)
       }
     }
   }
 }
 
+void BluetoothFrame::OnBitmapButtonRebootClick(wxCommandEvent& event)
+{
+ char Reboot[] = {'r','e','b','o','o','t','\r','\n'};
+ BTComPort->sendArray(Reboot, sizeof(Reboot)); // Send BTcommand
+ OnComboBoxComDropdown(event);
+}
+
+wxString BluetoothFrame::getRam()
+{
+ wxString ram;
+ sendCmdAndWaitForResp("ram", &ram);
+ ram.BeforeFirst('\r'); // remove all after \r (\n)
+ return ram;
+}
+
+wxString BluetoothFrame::getVer()
+{
+ wxString ver;
+ sendCmdAndWaitForResp("ver", &ver);
+ ver.BeforeFirst('\r'); // remove all after \r (\n)
+ return ver;
+}

@@ -37,6 +37,18 @@
 				<size>80,16</size>
 				<style>wxALIGN_LEFT</style>
 			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticTextVersion" member="yes">
+				<label></label>
+				<pos>24,64</pos>
+				<size>360,16</size>
+			</object>
+			<object class="wxBitmapButton" name="ID_REBOOTBUTTON" variable="BitmapButtonReboot" member="yes">
+				<bitmap stock_id="wxART_WARNING" stock_client="wxART_BUTTON" />
+				<pos>344,24</pos>
+				<size>40,23</size>
+				<tooltip>Reboot</tooltip>
+				<handler function="OnBitmapButtonRebootClick" entry="EVT_BUTTON" />
+			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMERRX" variable="TimerRX" member="yes">
 			<interval>200</interval>

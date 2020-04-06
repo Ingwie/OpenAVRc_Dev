@@ -36,6 +36,7 @@
 #include "serial/tserial.h"
 
 //(*Headers(BluetoothFrame)
+#include <wx/bmpbuttn.h>
 #include <wx/combobox.h>
 #include <wx/frame.h>
 #include <wx/panel.h>
@@ -52,12 +53,14 @@ class BluetoothFrame: public wxFrame
 		virtual ~BluetoothFrame();
 
 		//(*Declarations(BluetoothFrame)
+		wxBitmapButton* BitmapButtonReboot;
 		wxComboBox* ComboBoxCom;
 		wxPanel* Panel1;
 		wxStaticBox* StaticBoxCom;
 		wxStaticText* StaticText1;
 		wxStaticText* StaticText2;
 		wxStaticText* StaticTextFreeMem;
+		wxStaticText* StaticTextVersion;
 		wxTimer TimerRX;
 		//*)
 
@@ -69,6 +72,8 @@ class BluetoothFrame: public wxFrame
 		static const long ID_STATICTEXT1;
 		static const long ID_STATICTEXT2;
 		static const long ID_STATICTEXT3;
+		static const long ID_STATICTEXT4;
+		static const long ID_REBOOTBUTTON;
 		static const long ID_PANEL1;
 		static const long ID_TIMERRX;
 		//*)
@@ -80,6 +85,9 @@ class BluetoothFrame: public wxFrame
     wxString uCLI;
     void ConnectBTCom(wxString name);
     void sendCmdAndWaitForResp(wxString BTcommand, wxString* BTanwser);
+
+    wxString getRam();
+    wxString getVer();
 	private:
 
 		//(*Handlers(BluetoothFrame)
@@ -87,6 +95,7 @@ class BluetoothFrame: public wxFrame
 		void OnComboBoxComSelected(wxCommandEvent& event);
 		void OnComboBoxComDropdown(wxCommandEvent& event);
 		void OnTimerRXTrigger(wxTimerEvent& event);
+		void OnBitmapButtonRebootClick(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
