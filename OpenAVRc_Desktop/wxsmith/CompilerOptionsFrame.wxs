@@ -65,11 +65,6 @@
 							<tooltip>Option réglage des neutres indépendant</tooltip>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE4" variable="ChoicePPM_UNIT " member="yes">
-							<content>
-								<item>PERCENT_PREC1</item>
-								<item>PERCENT_PREC0</item>
-								<item>US</item>
-							</content>
 							<selection>0</selection>
 							<pos>320,296</pos>
 							<size>112,24</size>
@@ -77,7 +72,7 @@
 						</object>
 						<object class="wxChoice" name="ID_CHOICE6" variable="ChoicePCB" member="yes">
 							<content>
-								<item>MEGAMINI</item>
+								<item></item>
 							</content>
 							<selection>0</selection>
 							<pos>96,32</pos>
@@ -85,15 +80,6 @@
 							<tooltip>Type de radio</tooltip>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE1" variable="ChoiceLCD" member="yes">
-							<content>
-								<item>ST7565P</item>
-								<item>ST7565R </item>
-								<item>ERC12864FSF</item>
-								<item>ST7920</item>
-								<item>KS108</item>
-								<item>SSD1306</item>
-								<item>SH1106</item>
-							</content>
 							<selection>4</selection>
 							<pos>96,72</pos>
 							<size>96,24</size>
@@ -112,10 +98,6 @@
 							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE3" variable="ChoiceVOICE" member="yes">
-							<content>
-								<item>NO</item>
-								<item>JQ6500</item>
-							</content>
 							<selection>0</selection>
 							<pos>96,144</pos>
 							<size>96,24</size>
@@ -160,20 +142,6 @@
 							<handler function="OnCheckBoxSD_CARDClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxChoice" name="ID_CHOICE7" variable="ChoiceTRANSLATIONS" member="yes">
-							<content>
-								<item>CZ</item>
-								<item>DE</item>
-								<item>EN</item>
-								<item>ES</item>
-								<item>FR</item>
-								<item>HU</item>
-								<item>IT</item>
-								<item>NL</item>
-								<item>PL</item>
-								<item>PT</item>
-								<item>SE</item>
-								<item>SK</item>
-							</content>
 							<selection>4</selection>
 							<pos>320,32</pos>
 							<size>40,24</size>
@@ -186,20 +154,6 @@
 							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE5" variable="ChoiceTTS" member="yes">
-							<content>
-								<item>CZ</item>
-								<item>DE</item>
-								<item>EN</item>
-								<item>ES</item>
-								<item>FR</item>
-								<item>HU</item>
-								<item>IT</item>
-								<item>NL</item>
-								<item>PL</item>
-								<item>PT</item>
-								<item>SE</item>
-								<item>SK</item>
-							</content>
 							<selection>4</selection>
 							<pos>320,72</pos>
 							<size>40,24</size>
@@ -212,15 +166,6 @@
 							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE8" variable="ChoiceNAVIGATION" member="yes">
-							<content>
-								<item>NO</item>
-								<item>POT1</item>
-								<item>POT2</item>
-								<item>POT3</item>
-								<item>POTS</item>
-								<item>STICKS</item>
-								<item>ROTENC</item>
-							</content>
 							<selection>0</selection>
 							<pos>320,256</pos>
 							<size>112,24</size>
@@ -246,10 +191,6 @@
 							<handler function="OnButtonCOMPILEClick" entry="EVT_BUTTON" />
 						</object>
 						<object class="wxChoice" name="ID_CHOICE9" variable="ChoiceUNITS" member="yes">
-							<content>
-								<item>METRIC</item>
-								<item>IMPERIAL</item>
-							</content>
 							<selection>0</selection>
 							<pos>512,32</pos>
 							<size>80,24</size>
@@ -262,13 +203,6 @@
 							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE10" variable="ChoiceDEFAULT_MODE" member="yes">
-							<content>
-								<item>NO</item>
-								<item>1</item>
-								<item>2</item>
-								<item>3</item>
-								<item>4</item>
-							</content>
 							<selection>0</selection>
 							<pos>512,72</pos>
 							<size>80,24</size>
@@ -305,10 +239,6 @@
 							<tooltip>Ecran d&apos;accueil</tooltip>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE11" variable="ChoiceFONT" member="yes">
-							<content>
-								<item>STD</item>
-								<item>SQT5</item>
-							</content>
 							<selection>0</selection>
 							<pos>320,216</pos>
 							<size>112,24</size>
@@ -333,11 +263,6 @@
 							<tooltip>Affichage graphique de l&apos;état de la batterie</tooltip>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE13" variable="ChoiceFAI" member="yes">
-							<content>
-								<item>NO</item>
-								<item>YES</item>
-								<item>CHOICE</item>
-							</content>
 							<selection>0</selection>
 							<pos>512,112</pos>
 							<size>80,24</size>
@@ -350,11 +275,6 @@
 							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE12" variable="ChoiceTHREE_POS" member="yes">
-							<content>
-								<item>POT1</item>
-								<item>POT2</item>
-								<item>POT3</item>
-							</content>
 							<selection>1</selection>
 							<pos>96,296</pos>
 							<size>96,24</size>
@@ -403,28 +323,16 @@
 							<size>136,184</size>
 						</object>
 						<object class="wxChoice" name="ID_CHOICECC2500PAG" variable="ChoiceCC2500PAG" member="yes">
-							<content>
-								<item>20</item>
-								<item>22</item>
-							</content>
 							<selection>0</selection>
 							<pos>96,200</pos>
 							<size>45,24</size>
 						</object>
 						<object class="wxChoice" name="ID_CHOICEA7105PAG" variable="ChoiceA7105PAG" member="yes">
-							<content>
-								<item>20</item>
-								<item>22</item>
-							</content>
 							<selection>0</selection>
 							<pos>96,296</pos>
 							<size>45,24</size>
 						</object>
 						<object class="wxChoice" name="ID_CHOICENRF24l01PAG" variable="ChoiceNRF24l01PAG" member="yes">
-							<content>
-								<item>20</item>
-								<item>22</item>
-							</content>
 							<selection>0</selection>
 							<pos>96,264</pos>
 							<size>45,24</size>
@@ -463,10 +371,6 @@
 							<tooltip>Protocoles DSM ..</tooltip>
 						</object>
 						<object class="wxChoice" name="ID_CHOICE2" variable="ChoiceEXT" member="yes">
-							<content>
-								<item>STD</item>
-								<item>FRSKY</item>
-							</content>
 							<selection>0</selection>
 							<pos>184,32</pos>
 							<size>96,24</size>
@@ -609,10 +513,6 @@
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxChoice" name="ID_CHOICECYRF6936PAG" variable="ChoiceCYRF6936PAG" member="yes">
-							<content>
-								<item>20</item>
-								<item>22</item>
-							</content>
 							<selection>0</selection>
 							<pos>96,232</pos>
 							<size>45,24</size>
@@ -928,13 +828,6 @@
 							<handler function="OnButtonCOMPILEClick" entry="EVT_BUTTON" />
 						</object>
 						<object class="wxChoice" name="ID_CHOICENUMXANY" variable="ChoiceNUMXANY" member="yes">
-							<content>
-								<item>NO</item>
-								<item>1</item>
-								<item>2</item>
-								<item>3</item>
-								<item>4</item>
-							</content>
 							<selection>0</selection>
 							<pos>168,80</pos>
 							<size>48,24</size>

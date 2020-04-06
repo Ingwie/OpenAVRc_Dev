@@ -21,8 +21,8 @@
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 				<label>Port :</label>
-				<pos>8,32</pos>
-				<size>48,16</size>
+				<pos>16,32</pos>
+				<size>40,16</size>
 				<style>wxALIGN_RIGHT</style>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
@@ -48,6 +48,30 @@
 				<size>40,23</size>
 				<tooltip>Reboot</tooltip>
 				<handler function="OnBitmapButtonRebootClick" entry="EVT_BUTTON" />
+			</object>
+			<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBoxLocal1" member="yes">
+				<label>Local</label>
+				<pos>8,104</pos>
+				<size>200,296</size>
+			</object>
+			<object class="wxStaticBox" name="ID_STATICBOXSD" variable="StaticBoxSD" member="yes">
+				<label>Carte SD</label>
+				<pos>216,104</pos>
+				<size>200,296</size>
+			</object>
+			<object class="wxTreeCtrl" name="ID_TREECTRLSD" variable="TC_SD" member="yes">
+				<image_list>&lt;none&gt;</image_list>
+				<tree_items>
+					<élément>TC_SD</élément>
+					<élément>&lt;none&gt;</élément>
+				</tree_items>
+				<items_text>
+					<item2>TC_SD</item2>
+					<item2>&lt;none&gt;</item2>
+				</items_text>
+				<expand_all>1</expand_all>
+				<pos>224,128</pos>
+				<size>184,264</size>
 			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMERRX" variable="TimerRX" member="yes">
