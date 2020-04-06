@@ -43,6 +43,7 @@
 #include <wx/statbox.h>
 #include <wx/stattext.h>
 #include <wx/timer.h>
+#include <wx/treectrl.h>
 //*)
 
 class BluetoothFrame: public wxFrame
@@ -57,11 +58,14 @@ class BluetoothFrame: public wxFrame
 		wxComboBox* ComboBoxCom;
 		wxPanel* Panel1;
 		wxStaticBox* StaticBoxCom;
+		wxStaticBox* StaticBoxLocal1;
+		wxStaticBox* StaticBoxSD;
 		wxStaticText* StaticText1;
 		wxStaticText* StaticText2;
 		wxStaticText* StaticTextFreeMem;
 		wxStaticText* StaticTextVersion;
 		wxTimer TimerRX;
+		wxTreeCtrl* TctrlSd;
 		//*)
 
 	protected:
@@ -74,6 +78,9 @@ class BluetoothFrame: public wxFrame
 		static const long ID_STATICTEXT3;
 		static const long ID_STATICTEXT4;
 		static const long ID_REBOOTBUTTON;
+		static const long ID_STATICBOX2;
+		static const long ID_STATICBOXSD;
+		static const long ID_TREECTRLSD;
 		static const long ID_PANEL1;
 		static const long ID_TIMERRX;
 		//*)
@@ -88,6 +95,8 @@ class BluetoothFrame: public wxFrame
 
     wxString getRam();
     wxString getVer();
+    void Populate_SD();
+
 	private:
 
 		//(*Handlers(BluetoothFrame)

@@ -59,17 +59,16 @@
 				<pos>216,104</pos>
 				<size>200,296</size>
 			</object>
-			<object class="wxTreeCtrl" name="ID_TREECTRLSD" variable="TC_SD" member="yes">
+			<object class="wxTreeCtrl" name="ID_TREECTRLSD" variable="TctrlSd" member="yes">
 				<image_list>&lt;none&gt;</image_list>
 				<tree_items>
-					<élément>TC_SD</élément>
+					<élément>TctrlSd</élément>
 					<élément>&lt;none&gt;</élément>
 				</tree_items>
 				<items_text>
-					<item2>TC_SD</item2>
+					<item2>TctrlSd</item2>
 					<item2>&lt;none&gt;</item2>
 				</items_text>
-				<expand_all>1</expand_all>
 				<pos>224,128</pos>
 				<size>184,264</size>
 			</object>
