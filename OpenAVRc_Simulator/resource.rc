@@ -1,3 +1,0 @@
-oavrc_icon ICON "OpenAVRc.ico"
-
-#include "wx/msw/wx.rc"

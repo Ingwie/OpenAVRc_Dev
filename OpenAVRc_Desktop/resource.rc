@@ -1,5 +1,0 @@
-oavrc_icon ICON "OpenAVRc.ico"
-zfirmware_icon ICON "firmware.ico"
-zeeprom_icon ICON "eeprom.ico"
-
-#include "wx/msw/wx.rc"
