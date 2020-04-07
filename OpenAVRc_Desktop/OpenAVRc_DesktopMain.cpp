@@ -494,7 +494,7 @@ void OpenAVRc_DesktopFrame::OnreadmodelsSelected(wxCommandEvent& event)//READ MO
 {
   if (CheckIfSerialAvailable())
   {
-    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer les modèles des la radio."), AppPath + "\\eeprom\\", "",  "Fichiers BIN (*.bin)|*.bin|Tous (*.*)|*.*", wxFD_SAVE);
+    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer les modèles des la radio."), AppPath + "\\eeprom\\", "", _("Fichiers BIN (*.bin)|*.bin|Tous (*.*)|*.*"), wxFD_SAVE);
     if (saveDialog.ShowModal() == wxID_CANCEL)
       return;
     wxString dude_tmpfile = (saveDialog.GetPath());
@@ -507,7 +507,7 @@ void OpenAVRc_DesktopFrame::OnreadfirmwareSelected(wxCommandEvent& event)//read 
 {
   if (CheckIfSerialAvailable())
   {
-    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer le Firmware des la radio."), AppPath + "\\firmware\\", "","Fichiers HEX (*.hex)|*.hex", wxFD_SAVE);
+    wxFileDialog saveDialog(this, _("Choisir le fichier pour importer le Firmware des la radio."), AppPath + "\\firmware\\", "", _("Fichiers HEX (*.hex)|*.hex"), wxFD_SAVE);
     if (saveDialog.ShowModal() == wxID_CANCEL)
       return;
     wxString dude_tmpfile = (saveDialog.GetPath());
@@ -520,7 +520,7 @@ void OpenAVRc_DesktopFrame::OnWriteModelToRadioSelected(wxCommandEvent& event)
 {
   if (CheckIfSerialAvailable())
   {
-    wxFileDialog openFileDialog(this, _("Choisir le fichier (.bin) pour transferer les modêles à la radio."), AppPath + "\\eeprom\\", "","Fichiers BIN (*.bin)|*.bin", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+    wxFileDialog openFileDialog(this, _("Choisir le fichier (.bin) pour transferer les modêles à la radio."), AppPath + "\\eeprom\\", "", _("Fichiers BIN (*.bin)|*.bin"), wxFD_OPEN|wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL)
       return;
     wxString dude_tmpfile = (openFileDialog.GetPath());
@@ -533,7 +533,7 @@ void OpenAVRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& event
 {
   if (CheckIfSerialAvailable())
   {
-    wxFileDialog openFileDialog(this, _("Choisir le fichier pour transferer le Firmware à la radio."), AppPath + "\\firmware\\", "","Fichiers HEX (*.hex)|*.hex", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+    wxFileDialog openFileDialog(this, _("Choisir le fichier pour transferer le Firmware à la radio."), AppPath + "\\firmware\\", "", _("Fichiers HEX (*.hex)|*.hex"), wxFD_OPEN|wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL)
       return;
     wxMessageDialog *bkup = new wxMessageDialog(NULL,_("Il est recommande de sauvegarder vos modeles avant, voulez vous continuer ?"), wxT("Firmware"),wxOK | wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT);
@@ -1002,7 +1002,7 @@ void OpenAVRc_DesktopFrame::OnButtonSplashDefaultClick(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnButtonPersoClick(wxCommandEvent& event)
 {
-  wxFileDialog openFileDialog(this, _("Fichier image"), "", "","Fichier image (*.*)|*.*", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+  wxFileDialog openFileDialog(this, _("Fichier image"), "", "", _("Fichier image (*.*)|*.*"), wxFD_OPEN|wxFD_FILE_MUST_EXIST);
   if (openFileDialog.ShowModal() == wxID_CANCEL)
     return;
 
