@@ -726,3 +726,15 @@ msgstr "Restartujte"
 
 msgid "Local"
 msgstr "Místní"
+
+msgid "Fichiers BIN (*.bin)|*.bin|Tous (*.*)|*.*"
+msgstr "Soubory BIN (*.bin)|*.bin|Všechny (*.*)|*.*"
+
+msgid "Fichiers HEX (*.hex)|*.hex"
+msgstr "Soubory HEX (*.hex)|*.hex"
+
+msgid "Fichiers BIN (*.bin)|*.bin"
+msgstr "Soubory BIN (*.bin)|*.bin"
+
+msgid "Fichier image (*.*)|*.*"
+msgstr "Soubor obrázku (*.*)|*.*"
