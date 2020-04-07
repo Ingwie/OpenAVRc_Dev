@@ -1,0 +1,740 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Translated and edited by George StanekTM CZ Desktop V3.0 2020
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-06-02 17:39+0200\n"
+"PO-Revision-Date: 2020-04-07 19:27+0200\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+"X-Generator: Poedit 2.3\n"
+"Last-Translator: George StanekTM <jiristanek1977@gmail.com>\n"
+"Language: cs_CZ\n"
+
+msgid " Encodeur ŕ 0"
+msgstr "Enkodér na 0"
+
+msgid " GPLv2 . Firmware basé sur NextStepRc 2.18 "
+msgstr "GPLv2 Firmware založený na NextStepRc 2.18"
+
+msgid ""
+" Opération annulée \n"
+"\n"
+"Cette opération nécessite un port COM."
+msgstr ""
+"Operace byla zrušena\n"
+"\n"
+"Tato operace vyžaduje COM port"
+
+msgid "3POS"
+msgstr "3 pólový"
+
+msgid ""
+": Il y a au moins ce nom avec des caractčres spéciaux non autorisés.\n"
+"Veuillez le changer.\n"
+"Caractčres spéciaux autorisés : _-+:*=?"
+msgstr ""
+"Existuje jedno jméno s nepovolenými speciálními znaky !\n"
+"Prosím opravte to.\n"
+"Povolené speciální znaky : _- +: * =?"
+
+msgid ": Il y a au moins ce nom répété , veuillez le changer."
+msgstr "Opakuje se jedno jméno ! Změňte jej"
+
+msgid ": Il y a au moins ce nom trop court, veuillez le compléter."
+msgstr "Jedno jméno je příliš krátké ! Vyplňte jej"
+
+msgid "A propos\tF1"
+msgstr "O programu\tF1"
+
+msgid "ACCURAT_THROTTLE_STATS"
+msgstr "Přesné statistiky plynu"
+
+msgid "ARITHMETIC_OVERFLOW_CHECK"
+msgstr "Aritmetická kontrola překročení"
+
+msgid "AUTOSOURCE"
+msgstr "Auto knipl"
+
+msgid "AUTOSWITCH"
+msgstr "Auto spínač"
+
+msgid "Affichage des valeurs des voies en % ou uS"
+msgstr ""
+"Možnost zobrazení hodnot kanálu v % nebo μs. Poznámka : V % 0-100 můžete "
+"určit desetinnou číslici 0 nebo 1"
+
+msgid "Affichage graphique de l'état de la batterie"
+msgstr "Možnost grafického zobrazení stavu baterie"
+
+msgid "Affiche une mini barre pour visualiser une sauvegarde en cours"
+msgstr ""
+"Ukazatel zobrazení průběhu zálohování eeprom. V pravém horním rohu "
+"displeje se zobrazí malý ukazatel průběhu uložení parametrů do paměti. "
+"Důrazně doporučujeme !"
+
+msgid "Aide"
+msgstr "Nápověda"
+
+msgid "Ajoute du code pour prčvoir débordement aritmethique"
+msgstr "Zabrání aritmetickému překročení"
+
+msgid "Ajoute la fonction spéciale \"Remplacer CHx\""
+msgstr "Přidá speciální funkci \"Nahradit CHx\""
+
+msgid "Annonces vocales"
+msgstr "Hlasové zprávy"
+
+msgid "Annuler"
+msgstr "Zrušit"
+
+msgid "Appelation de la nouvelle configuration"
+msgstr "Nový název profilu rádia"
+
+msgid "Attention : Tous ce qui n'est pas blanc sera converti en noir"
+msgstr "Upozornění : Všechny pixely, které nejsou bílé, zčernají"
+
+msgid "Audio"
+msgstr "Zvuk"
+
+msgid "Auto Detection"
+msgstr "Automatická detekce"
+
+msgid "Auto detection des manches lors de la programmatiion"
+msgstr "Automatická detekce polohy kniplů během programování"
+
+msgid "Auto detection des switchs lors de la programmatiion"
+msgstr "Automatická detekce spínačů během programování"
+
+msgid "Autres links"
+msgstr "Ostatní odkazy"
+
+msgid "Autres options"
+msgstr "Ostatní možnosti"
+
+msgid "Autres paramčtres"
+msgstr "Ostatní možnosti"
+
+msgid ""
+"Avez vous une carte SD de sauvegarde ? \n"
+" Insérez la avant de cliquer sur OUI"
+msgstr ""
+"Máte záložní SD kartu ?\n"
+"Vložte ji před kliknutím na \"ANO\""
+
+msgid "Batt graph"
+msgstr "Bateriový graf"
+
+msgid "Bold"
+msgstr "Tučné písmo"
+
+msgid "Branchez votre radio"
+msgstr "Připojte rádio k PC"
+
+msgid "CORRECT_NEGATIVE_VALUES"
+msgstr "Přesné negativní hodnoty"
+
+msgid "Carte SD"
+msgstr "SD karta"
+
+msgid "Change les trim de la main droite ŕ la main gauche, et vice-versa"
+msgstr "Zaměnit pravé trimy na levé a obráceně"
+
+msgid "Charger la configuration "
+msgstr "Načíst aktivní profil rádia "
+
+msgid "Choisir le fichier (.bin) pour transferer les modęles ŕ la radio."
+msgstr "Vybrat soubor (.bin) pro export nastavení a modelů do rádia"
+
+msgid "Choisir le fichier pour importer le Firmware des la radio."
+msgstr "Vybrat soubor (.hex) pro import firmwaru z rádia"
+
+msgid "Choisir le fichier pour importer les modčles des la radio."
+msgstr "Vybrat soubor (.bin) pro import nastavení a modelů z rádia"
+
+msgid "Choisir le fichier pour transferer le Firmware ŕ la radio."
+msgstr "Vybrat soubor (.hex) pro export firmwaru do rádia"
+
+msgid "Choisissez la carte SD de sauvegarde de la radio"
+msgstr "Vybrat záložní SD kartu rádia"
+
+msgid "Choisissez la langue des mensages vocales"
+msgstr "Vybrat jazyk hlasu"
+
+msgid "Choisissez votre moteur de synthčse vocale"
+msgstr "Vybrat hlas syntézy převodu textu na řeč"
+
+msgid "Communication avec la radio "
+msgstr "Komunikace s rádiem"
+
+msgid "Compilateur"
+msgstr "Kompilátor"
+
+msgid "Compiler"
+msgstr "Kompilovat"
+
+msgid "Configuration"
+msgstr "Profily rádia"
+
+msgid "Copie en cours, attendez SVP......"
+msgstr "Probíhá kopírování, počkejte prosím ......"
+
+msgid "Curves"
+msgstr "Křivky"
+
+msgid "DSM2 SERIAL"
+msgstr "DSM2 serial"
+
+msgid "Defaut ne peut ętre effacé"
+msgstr "Výchozí nelze odstranit !"
+
+msgid "Detection"
+msgstr "Detekce"
+
+msgid "Documentation en ligne"
+msgstr "Dokumentace online"
+
+msgid "Double click pour éditer."
+msgstr "Dvojitým kliknutím upravte"
+
+msgid "Double keys"
+msgstr "Dvojité klávesy"
+
+msgid "Débrancher la radio du PC"
+msgstr "Odpojte rádio od PC"
+
+msgid "Défaut"
+msgstr "Výchozí"
+
+msgid "EEPROM bar"
+msgstr "Eeprom bar"
+
+msgid "EXTRA 3POS"
+msgstr "Extra 3póly"
+
+msgid "Ecran d'accueil"
+msgstr "Úvodní obrazovka"
+
+msgid "Emplacement d'AVRDUDE"
+msgstr "Umístění Avrdude"
+
+msgid ""
+"Empčche la synthčse vocale de dire \"et\". Exemple : entre minutes \"et\" "
+"seconde"
+msgstr ""
+"Vyhýbá se zbytečným „a“. Např. mezi minutami \"a\" sekundami při ohlášení "
+"času. Není to nutné s kartou JQ6500"
+
+msgid "EncodeurA"
+msgstr "Enkodér A"
+
+msgid "EncodeurB"
+msgstr "Enkodér B"
+
+msgid "Extra 3POS"
+msgstr "Extra 3póly"
+
+msgid "F-RAM"
+msgstr "F-Ram"
+
+msgid "Fichier"
+msgstr "Soubor"
+
+msgid "Fichier image"
+msgstr "Soubor obrázku"
+
+msgid "Fichiers Voix"
+msgstr "Soubory hlasu"
+
+msgid "Flight modes"
+msgstr "Letové režimy"
+
+msgid "Font"
+msgstr "Písmo"
+
+msgid "Fusibles et Bootloader"
+msgstr "Pojistky a zavaděč"
+
+msgid "Global vars"
+msgstr "Globální proměnné"
+
+msgid "Générer ce fichier"
+msgstr "Vytvořit tento soubor"
+
+msgid "Générer tout"
+msgstr "Generovat vše"
+
+msgid "HELI"
+msgstr "Helikoptéra"
+
+msgid "Haptic"
+msgstr "Vibrace"
+
+msgid ""
+"Il est recommande de sauvegarder vos modeles avant, voulez vous continuer ?"
+msgstr "Doporučuji nejdříve uložit modely, chcete pokračovat ?"
+
+msgid "Inter1"
+msgstr "Spínač 1"
+
+msgid "Inter2"
+msgstr "Spínač 2"
+
+msgid "Inter3"
+msgstr "Spínač 3"
+
+msgid "Inter4"
+msgstr "Spínač 4"
+
+msgid "Inter5"
+msgstr "Spínač 5"
+
+msgid "Inter6"
+msgstr "Spínač 6"
+
+msgid "Interface"
+msgstr "Rozhraní"
+
+msgid "Inversion Stick_LH"
+msgstr "Inverze kniplu LH"
+
+msgid "Inversion Stick_LV"
+msgstr "Inverze kniplu LV"
+
+msgid "Inversion Stick_RH"
+msgstr "Inverze kniplu RH"
+
+msgid "Inversion Stick_RV"
+msgstr "Inverze kniplu RV"
+
+msgid "JQ6500 PCB (by Pyrall)"
+msgstr "JQ6500 PCB (podle Pyrall)"
+
+msgid "Jouer"
+msgstr "Přehrát"
+
+msgid ""
+"La carte SD doit avoir été formatée pour\n"
+" un bon fonctionnement sur la radio"
+msgstr ""
+"SD karta musí být naformátována\n"
+"pro kvalitní provoz rádia"
+
+msgid "Langue"
+msgstr "Jazyk"
+
+msgid "Langue affichée"
+msgstr "Zobrazený jazyk firmwaru"
+
+msgid "Langue de la synthése vocale"
+msgstr "Jazyk hlasové syntézy"
+
+msgid "Langue voice"
+msgstr "Jazyk hlasu"
+
+msgid "Lire le firmware de la radio"
+msgstr "Číst firmware z rádia"
+
+msgid "Lire les réglages et les modčles de la radio (eeprom)"
+msgstr "Číst nastavení a modely z rádia (eeprom)"
+
+msgid "Lire/Écrire"
+msgstr "Čtení/Zápis"
+
+msgid ""
+"Logiciel pour la personnalisation, la compilation, le flashage, la "
+"sauvegarde de votre radio OpenAVRc     "
+msgstr ""
+"Software pro přizpůsobení, kompilaci, flashování a zálohu vašeho OpenAVRc "
+"rádia"
+
+msgid "MULTI"
+msgstr "MULTI serial"
+
+msgid "Manches"
+msgstr "Kniply"
+
+msgid "Matériel"
+msgstr "Hardware"
+
+msgid "Mauvais type de radio selectionné"
+msgstr "Nesprávný výběr rádia !"
+
+msgid "Merci de vérifier les paramčtres"
+msgstr "Zkontrolujte prosím nastavení"
+
+msgid "Mode"
+msgstr "Mód"
+
+msgid "Mode de la radio"
+msgstr "Mód rádia. Například : 1 (SVPK) plyn na pravé ruce"
+
+msgid "Mégamini schema"
+msgstr "Schéma Megamini"
+
+msgid "Mégamini shield"
+msgstr "Štít Megamini"
+
+msgid "NOANDSECONDE"
+msgstr "Žádné \"a\""
+
+msgid "Navigation"
+msgstr "Navigace"
+
+msgid "Nom"
+msgstr "Název"
+
+msgid "Nom des interrupteurs"
+msgstr "Názvy spínačů"
+
+msgid "Nombre d'instances"
+msgstr "Počet případů"
+
+msgid "Non compatible avec AUTOSOURCE. AUTOSOURCE décoché."
+msgstr "Není kompatibilní s funkcí \"Auto knipl\", funkce je zakázána"
+
+msgid "Non compatible avec NAVIGATION = STICKS"
+msgstr "Není kompatibilní s funkcí \"Navigace = Kniply\""
+
+msgid "Non compatible avec TELEMETRY = STD."
+msgstr "Není kompatibilní s funkcí \"Telemetrie = STD\""
+
+msgid "Nouvelle configuration"
+msgstr "Nový profil rádia"
+
+msgid "OpenAVRc Manual (JPZ)"
+msgstr "Manuál OpenAVRc (JPZ)"
+
+msgid "Option Vibreur"
+msgstr "Možnost vibrací"
+
+msgid "Option ajuster le gain fonction du subtrim"
+msgstr "Přidá nastavení pro úpravu tahu serva symetricky. Doporučeno !"
+
+msgid "Option annonces vocales"
+msgstr "Možnost hlasových oznámení"
+
+msgid "Option audio"
+msgstr "Možnost zvuku"
+
+msgid "Option carte SD (Sauvegarde - Fichiers log)"
+msgstr "Možnost SD karty (záloha - záznam do souborů)"
+
+msgid "Option courbes"
+msgstr "Možnost aktivovat nastavení křivek"
+
+msgid "Option hélicoptčre"
+msgstr ""
+"Zahrnuje další obrazovku s funkcemi a mixéry pro snadnější nastavení "
+"helikoptéry"
+
+msgid "Option modčles pré programmés"
+msgstr ""
+"Zahrnuje obrazovku s předprogramovanými standardními šablonami nastavení "
+"modelů, které lze použít při vytváření nového modelu. Velmi praktické ! V "
+"pozici 07 najdete také servo tester, velmi užitečné"
+
+msgid "Option phases de vol"
+msgstr ""
+"Možnost šesti letových režimů, které odpovídají šesti různým pamětím "
+"modelu. Důrazně doporučuji v kombinaci s proměnnými GV"
+
+msgid "Option réglage des neutres indépendant"
+msgstr ""
+"Přidejte nastavení umožňující neutrál serva bez ovlivnění jejich tahů. "
+"Doporučeno !"
+
+msgid "Option variables globales"
+msgstr ""
+"Přidá globální proměnné VG1 do VG12, lze použít jako náhradu za nastavení "
+"jednotlivých číselných parametrů, například % z dvojitého pohybu atd. "
+"Časem se stává nepostradatelným ve spojení s letovými režimy"
+
+msgid "Options avancées"
+msgstr "Pokročilé možnosti"
+
+msgid "Override channel function"
+msgstr "Nahradit funkci kanálu"
+
+msgid "PA Gain (DB)"
+msgstr "PA zisk (dB)"
+
+msgid "PERSONAMES"
+msgstr "Vlastní názvy spínačů"
+
+msgid "PPM Center adjust"
+msgstr "PPM neutrál"
+
+msgid "PPM Simm limits"
+msgstr "PPM symetricky"
+
+msgid "PWM_BACKLIGHT"
+msgstr "PWM podsvícení LCD"
+
+msgid "Par défaut"
+msgstr "Výchozí"
+
+msgid "Paramčtres"
+msgstr "Nastavení"
+
+msgid "Paramčtres de communication avec la radio"
+msgstr "Nastavení programu pro komunikaci s rádiem"
+
+msgid "Personnalisation"
+msgstr "Přizpůsobení"
+
+msgid "Personnaliser"
+msgstr "Změnit"
+
+msgid "Peut remplacer les boutons de navigation"
+msgstr "Možnost nahradit navigační tlačítka"
+
+msgid "Police de caractére"
+msgstr "Možnost formátu písma"
+
+msgid "Pour changer les messages"
+msgstr "Změnit zprávy"
+
+msgid "Pour les compétitions"
+msgstr ""
+"Možnost speciálního režimu pro soutěže. Funkce Varia je vypnuta, zapnuta "
+"nebo možnost volby"
+
+msgid "Processeur"
+msgstr "Procesor"
+
+msgid "Programmateur"
+msgstr "Programátor"
+
+msgid "Programmation des fusibles"
+msgstr "Programování pojistek"
+
+msgid "Programmation du Bootloader"
+msgstr "Programování zavaděče"
+
+msgid "Programmeur :"
+msgstr "Programátor :"
+
+msgid "Protocole"
+msgstr "Protokol"
+
+msgid "Protocole MULTI"
+msgstr ""
+"Možnost multiprotocolu v sériové komunikaci. Více na : https://github.com/"
+"pascallanger/DIY-Multiprotocol-TX-Module"
+
+msgid "Protocole PPM 8 ŕ 16 voies"
+msgstr "PPM protokol 8 až 16 kanálů"
+
+msgid "Protocole SPI RF "
+msgstr "SPI RF protokol"
+
+msgid "Protocoles DSM .."
+msgstr "DSM2 serial pro Spektrum RX"
+
+msgid "Quitter\tAlt-F4"
+msgstr "Ukončit\tAlt+F4"
+
+msgid "Quitter l'application"
+msgstr "Ukončit aplikaci"
+
+msgid "Raccourcis avec deux touches pour passer une valeur ŕ min/max/0"
+msgstr ""
+"Urychluje zadávání číselných hodnot (například +100 nebo -100) pomocí "
+"kombinace dvou kláves"
+
+msgid "Restaurer l'écran par défaut"
+msgstr "Obnovit výchozí úvodní obrazovku"
+
+msgid "Référence de l'écran"
+msgstr "Typ LCD displeje"
+
+msgid "Réglages"
+msgstr "Nastavení"
+
+msgid "Répertoire de avrdude"
+msgstr "Adresář Avrdude"
+
+msgid "SD DATA"
+msgstr "SD karta"
+
+msgid "SD VOICE"
+msgstr "Soubory hlasu SD karty"
+
+msgid "SHUTDOWN_CONFIRMATION"
+msgstr "Obrazovka potvrzení vypnutí"
+
+msgid "SIMULATEUR F-RAM"
+msgstr "F-RAM SIMULÁTOR"
+
+msgid "SIMULATEUR STANDARD"
+msgstr "STANDARDNÍ SIMULÁTOR"
+
+msgid "Sauvegarder et quitter"
+msgstr "Uložit a ukončit"
+
+msgid "Sauvegarder et sortir"
+msgstr "Uložit a ukončit"
+
+msgid "Sauvegarder réglage"
+msgstr "Uložit nastavení"
+
+msgid "Selection du potentiomčtre utilisé pour XD0"
+msgstr "Možnost potenciometru použitého pro spínač \"Extra 3póly - XD0\""
+
+msgid "Selectionnez le lecteur"
+msgstr "Vybrat jednotku"
+
+msgid "Supprimer "
+msgstr "Odstranit profil "
+
+msgid "Supprimer la configuration active"
+msgstr "Odstranit aktivní profil rádia"
+
+msgid "Symétrise les valeurs affichées"
+msgstr "Vyvážení zobrazených hodnot"
+
+msgid "Synthčse vocale"
+msgstr "Hlasová syntéza"
+
+msgid "Sűr? Vous voulez continuer?"
+msgstr "Opravdu chcete pokračovat ?"
+
+msgid "TEMPLATES"
+msgstr "Šablony"
+
+msgid "Terminé !"
+msgstr "Dokončeno !"
+
+msgid "Toggle trims"
+msgstr "Zaměnit trimy"
+
+msgid "Type de radio"
+msgstr "Typ rádia"
+
+msgid "Télemetrie"
+msgstr "Telemetrie"
+
+msgid "Télémétrie installée"
+msgstr ""
+"Možnost telemetrie FRSKY byla testována a ověřena pomocí FrSky FSH01 hubu, "
+"přijímače DIY, F802 D8, FrSky X, FrSky S-port. Pro telemetrii FRSKY v PPM "
+"vyžaduje převodník RS/TTL nebo hardwarové modifikace. STD = bez "
+"telemetrie. Tento režim zakáže všechny možnosti pod touto nabídkou"
+
+msgid "Unitées"
+msgstr "Možnost metrických nebo imperiálních(anglických) jednotek"
+
+msgid "Unités"
+msgstr "Jednotky"
+
+msgid "Utilisation d'une eeprom externe : FM24W256"
+msgstr ""
+"Možnost použití externího eepromu FM24W256. Arduino eeprom je nahrazena "
+"pamětí F-Ram o velikosti 32 kB. Nezapomeňte v kompilátoru vybrat rádio "
+"m2560Fram"
+
+msgid "VOICE/AUDIO PCB et RTC (by Pyrall)"
+msgstr "Hlas/audio PCB a RTC (podle Pyrall)"
+
+msgid "Valider"
+msgstr "Potvrdit"
+
+msgid "Voice"
+msgstr "Hlas"
+
+msgid "Voix"
+msgstr "Editor souborů hlasu"
+
+msgid ""
+"Voulez vous copier les fichiers sur la carte du JQ ? \n"
+" Insérez la avant de cliquer sur OUI"
+msgstr ""
+"Chcete zkopírovat soubory na kartu JQ ?\n"
+"Vložte ji před kliknutím na \"ANO\""
+
+msgid "Vrai police en gras"
+msgstr ""
+"Možnost tučného písma při nastavení mixérů, spínačů a dalších aktivních "
+"prvků, které pomáhají lépe vizualizovat stavy proměnných"
+
+msgid "WS HowHigh Altimeter"
+msgstr "Možnost pokud používáte vysoce přesné vario"
+
+msgid "WS_HOW_HIGH"
+msgstr "Vys. přesné vario"
+
+msgid "X-Any Options"
+msgstr "Možnosti X-Any"
+
+msgid "non défini"
+msgstr "není definovaný"
+
+msgid "Écran d'accueil"
+msgstr "Úvodní obrazovka"
+
+msgid "Écrire le bootloader"
+msgstr "Zapsat zavaděč"
+
+msgid "Écrire le bootloader F-RAM"
+msgstr "Zapsat zavaděč F-Ram"
+
+msgid "Écrire le firmware dans la radio"
+msgstr "Zapsat firmware do rádia"
+
+msgid "Écrire les fusibles"
+msgstr "Zapsat pojistky"
+
+msgid "Écrire les réglages et les modčles dans la radio (eeprom)"
+msgstr "Zapsat nastavení a modely do rádia (eeprom)"
+
+msgid "Écriture dans la carte SD"
+msgstr "Zápis na SD kartu"
+
+msgid "Éditeur"
+msgstr "Editor"
+
+msgid "BLUETOOTH"
+msgstr "Bluetooth"
+
+msgid "Ajout de fonctions sans fils"
+msgstr "Možnost bezdrátových funkcí"
+
+msgid "Transfert de données"
+msgstr "Přenos dat Xmodemu"
+
+msgid "XMODEM"
+msgstr "Xmodem"
+
+msgid "Rotation Lcd 180°"
+msgstr "Otočit lcd o 180°"
+
+msgid "Communication"
+msgstr "Komunikace"
+
+msgid "Mémoire libre :"
+msgstr "Volná paměť :"
+
+msgid "Reboot"
+msgstr "Restartujte"
+
+msgid "Local"
+msgstr "Místní"
+
+msgid "Fichiers BIN (*.bin)|*.bin|Tous (*.*)|*.*"
+msgstr "Soubory BIN (*.bin)|*.bin|Všechny (*.*)|*.*"
+
+msgid "Fichiers HEX (*.hex)|*.hex"
+msgstr "Soubory HEX (*.hex)|*.hex"
+
+msgid "Fichiers BIN (*.bin)|*.bin"
+msgstr "Soubory BIN (*.bin)|*.bin"
+
+msgid "Fichier image (*.*)|*.*"
+msgstr "Soubor obrázku (*.*)|*.*"
