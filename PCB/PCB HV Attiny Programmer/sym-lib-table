@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name HV_Attiny_Programmer-cache)(type Legacy)(uri ${KIPRJMOD}/HV_Attiny_Programmer-cache.lib)(options "")(descr ""))
+  (lib (name HV_Attiny_Programmer-rescue)(type Legacy)(uri ${KIPRJMOD}/HV_Attiny_Programmer-rescue.lib)(options "")(descr ""))
+)

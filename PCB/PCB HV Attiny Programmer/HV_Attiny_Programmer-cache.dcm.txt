@@ -1,0 +1,8 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP MAX662
+D 50mA Dual Mode 12V/Programmable Micropower Voltage Regulator, DIP-8/SO-8
+K Linear LDO Regulator 50mA 12V fixed
+$ENDCMP
+#
+#End Doc Library
