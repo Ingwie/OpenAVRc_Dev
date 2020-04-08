@@ -914,6 +914,7 @@ extern REG8 simu_SREG_I;
 #define ATOMIC_BLOCK(x)
 #define NONATOMIC_BLOCK(x)
 #define strcpy_P strcpy
+#define strncpy_P strncpy
 #define strcat_P strcat
 #define memcpy_P memcpy
 #define strcmp_P strcmp

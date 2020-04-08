@@ -261,7 +261,7 @@ static int8_t uCli_Cmd_ls(const char ** argv, uint8_t argc)
 {
  // we must close the logs as we reuse the same SDfile structure
  closeLogIfActived();
- Serial1.println(F("ls:"));
+ Serial1.println(F("ls: "));
  if (argc > 1)
   {
    if (sdChangeCurDir(argv[1]))
@@ -282,6 +282,8 @@ static int8_t uCli_Cmd_ls(const char ** argv, uint8_t argc)
            // this is a file
            Serial1.println(SD_dir_entry.long_name);
           }
+          _delay_ms(10); // do not overflow the buffer, time to send long filename
+          MYWDT_RESET(); // this can take time .....
         }
       }
     }
@@ -405,7 +407,7 @@ static int8_t uCli_Cmd_ram(const char ** argv, uint8_t argc)
 {
   argv = argv;
   argc = argc;
-  Serial1.print(F("ram: "));Serial1.print(stackAvailable());Serial1.println(F(" bytes"));
+  Serial1.println(F("ram: "));Serial1.print(stackAvailable());Serial1.println(F(" bytes"));
 
   return(0);
 }
@@ -416,7 +418,7 @@ static int8_t uCli_Cmd_ver(const char ** argv, uint8_t argc)
   argc = argc;
   char buffer[HW_SERIAL1_TX_FIFO_SIZE]; // do not overload the buffer
   strncpy_P(buffer, vers_stamp, 35);
-  Serial1.print(F("ver: "));Serial1.println(buffer);
+  Serial1.println(F("ver: "));Serial1.println(buffer);
 
   return(0);
 }
