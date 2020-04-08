@@ -885,7 +885,7 @@ void OpenAVRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
   Aboutbox.AddDeveloper(wxT("Applications : Bracame, Mentero. \n"));
   Aboutbox.AddDeveloper(wxT("PCB Shield : Anthobreizh, Pierrotm777 , Pyrall. \n"));
   Aboutbox.AddDeveloper(wxT("Documentation : JPZ(Testeur68), Pierrotm777 , Pyrall. \n"));
-  Aboutbox.AddDeveloper(wxT("Translations : Mentero. \n"));
+  Aboutbox.AddDeveloper(wxT("Translations : Mentero.  Stanektm \n"));
   Aboutbox.AddDeveloper(wxT("Beta tests : JPZ(Testeur68), Pyrall. \n\n"));
   Aboutbox.AddDeveloper(wxT("Forum contributors :\n\n"));
   Aboutbox.AddDeveloper(wxT("ElectoPete (English Voice file), Ievgen (Ukrainian translation). \n"));
