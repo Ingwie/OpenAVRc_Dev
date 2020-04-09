@@ -136,7 +136,7 @@
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX5" variable="StaticBox5" member="yes">
-				<label>Déplacement °</label>
+				<label>Cap</label>
 				<pos>552,32</pos>
 				<size>80,64</size>
 			</object>

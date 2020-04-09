@@ -216,7 +216,7 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   StaticBox4 = new wxStaticBox(Panel1, ID_STATICBOX4, _("Vitesse (m/s)"), wxPoint(472,32), wxSize(72,64), 0, _T("ID_STATICBOX4"));
   GPSSpeed = new wxSpinCtrl(Panel1, ID_SPINCTRL8, _T("0"), wxPoint(480,64), wxSize(56,21), 0, 0, 3000, 0, _T("ID_SPINCTRL8"));
   GPSSpeed->SetValue(_T("0"));
-  StaticBox5 = new wxStaticBox(Panel1, ID_STATICBOX5, _("Déplacement °"), wxPoint(552,32), wxSize(80,64), 0, _T("ID_STATICBOX5"));
+  StaticBox5 = new wxStaticBox(Panel1, ID_STATICBOX5, _("Cap"), wxPoint(552,32), wxSize(80,64), 0, _T("ID_STATICBOX5"));
   GPSCourse = new wxSpinCtrl(Panel1, ID_SPINCTRL9, _T("0"), wxPoint(560,64), wxSize(72,21), 0, 0, 36000, 0, _T("ID_SPINCTRL9"));
   GPSCourse->SetValue(_T("0"));
   StaticBox6 = new wxStaticBox(Panel1, ID_STATICBOX6, _("Date - Heure"), wxPoint(640,24), wxSize(96,72), 0, _T("ID_STATICBOX6"));
