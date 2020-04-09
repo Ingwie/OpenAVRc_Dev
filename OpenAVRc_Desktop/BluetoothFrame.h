@@ -91,11 +91,12 @@ class BluetoothFrame: public wxFrame
     void DetectSerial();
     wxString uCLI;
     void ConnectBTCom(wxString name);
-    void sendCmdAndWaitForResp(wxString BTcommand, wxString* BTanwser);
+    wxString sendCmdAndWaitForResp(wxString BTcommand, wxString* BTanwser);
 
     wxString getRam();
     wxString getVer();
     void Populate_SD();
+    void Populate_Dir(wxTreeItemId * dir);
 
 	private:
 
