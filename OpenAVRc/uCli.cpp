@@ -416,7 +416,7 @@ static int8_t uCli_Cmd_ver(const char ** argv, uint8_t argc)
 {
   argv = argv;
   argc = argc;
-  char buffer[HW_SERIAL1_TX_FIFO_SIZE]; // do not overload the buffer
+  char buffer[HW_SERIAL1_TX_FIFO_SIZE-1] = {0}; // do not overload the buffer
   strncpy_P(buffer, vers_stamp, 35);
   Serial1.println(F("ver: "));Serial1.println(buffer);
 
