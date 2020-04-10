@@ -38,6 +38,7 @@
 //(*Headers(BluetoothFrame)
 #include <wx/bmpbuttn.h>
 #include <wx/combobox.h>
+#include <wx/dirctrl.h>
 #include <wx/frame.h>
 #include <wx/panel.h>
 #include <wx/statbox.h>
@@ -56,6 +57,7 @@ class BluetoothFrame: public wxFrame
 		//(*Declarations(BluetoothFrame)
 		wxBitmapButton* BitmapButtonReboot;
 		wxComboBox* ComboBoxCom;
+		wxGenericDirCtrl* DirCtrl;
 		wxPanel* Panel1;
 		wxStaticBox* StaticBoxCom;
 		wxStaticBox* StaticBoxLocal1;
@@ -81,6 +83,7 @@ class BluetoothFrame: public wxFrame
 		static const long ID_STATICBOX2;
 		static const long ID_STATICBOXSD;
 		static const long ID_TREECTRLSD;
+		static const long ID_GENERICDIRCTRL1;
 		static const long ID_PANEL1;
 		static const long ID_TIMERRX;
 		//*)
