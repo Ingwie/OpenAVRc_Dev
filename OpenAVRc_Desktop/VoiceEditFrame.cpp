@@ -676,7 +676,7 @@ void VoiceEditFrame::OnButtonSauvegarderClick(wxCommandEvent& event)
 
 void VoiceEditFrame::OnButtonGenererClick(wxCommandEvent& event)
 {
-  wxBusyInfo wait_("Génération en cours, attendez SVP......");
+  wxBusyInfo wait( _("Génération en cours, attendez SVP......"));
   wxString quote = "\"";
   wxString tts_o = " -o ";
   wxString label;
@@ -734,7 +734,7 @@ void VoiceEditFrame::OnButtonGenererUnFichierClick(wxCommandEvent& event)
 {
   if (voicePrompt != "")
     {
-      wxBusyInfo wait_("Génération en cours, attendez SVP......");
+      wxBusyInfo wait( _("Génération en cours, attendez SVP......"));
       wxString quote = "\"";
       wxString tts_o = " -o ";
       wxString label;
