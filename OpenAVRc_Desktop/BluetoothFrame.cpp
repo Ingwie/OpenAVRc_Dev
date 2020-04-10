@@ -42,6 +42,7 @@
 #define ISDIR(x)       \
  ((x.StartsWith("[")) && (x.EndsWith("]"))) // x is a wxString
 
+ extern wxString AppPath;
 //(*InternalHeaders(BluetoothFrame)
 #include <wx/artprov.h>
 #include <wx/bitmap.h>
@@ -61,6 +62,7 @@ const long BluetoothFrame::ID_REBOOTBUTTON = wxNewId();
 const long BluetoothFrame::ID_STATICBOX2 = wxNewId();
 const long BluetoothFrame::ID_STATICBOXSD = wxNewId();
 const long BluetoothFrame::ID_TREECTRLSD = wxNewId();
+const long BluetoothFrame::ID_GENERICDIRCTRL1 = wxNewId();
 const long BluetoothFrame::ID_PANEL1 = wxNewId();
 const long BluetoothFrame::ID_TIMERRX = wxNewId();
 //*)
@@ -87,6 +89,7 @@ BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
  StaticBoxLocal1 = new wxStaticBox(Panel1, ID_STATICBOX2, _("Local"), wxPoint(8,104), wxSize(312,296), 0, _T("ID_STATICBOX2"));
  StaticBoxSD = new wxStaticBox(Panel1, ID_STATICBOXSD, _("Carte SD"), wxPoint(320,104), wxSize(312,296), 0, _T("ID_STATICBOXSD"));
  TctrlSd = new wxTreeCtrl(Panel1, ID_TREECTRLSD, wxPoint(336,128), wxSize(288,264), wxTR_DEFAULT_STYLE, wxDefaultValidator, _T("ID_TREECTRLSD"));
+ DirCtrl = new wxGenericDirCtrl(Panel1, ID_GENERICDIRCTRL1, wxEmptyString, wxPoint(16,128), wxSize(296,264), 0, wxEmptyString, 0, _T("ID_GENERICDIRCTRL1"));
  TimerRX.SetOwner(this, ID_TIMERRX);
  TimerRX.Start(50, true);
 
@@ -101,6 +104,7 @@ BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   SetIcon(wxICON(oavrc_icon));
  }
 
+ DirCtrl->SetPath(AppPath + "\\SD\\");
  BTComPort = new Tserial();
  comIsValid = false;
  uCLI = "uCLI>";
