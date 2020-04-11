@@ -1,0 +1,512 @@
+Gear up;Gear  up
+Gear down;Gear down
+Flaps up;Flaps up
+Flaps down;Flaps down
+Landing;Landing
+Launch;Launch
+Student;Stu-dent
+Teacher;Teacher
+Engine off;Engine off
+Engine on;Engine on
+Flaps to position 1;Flaps to  position 1
+Flaps to to position 2;Flaps to position 2
+Thermal mode;Thermal mode
+Search mode;Search mode
+Crow mode;Crow- mode
+Speed mode ;Speed- mode
+Snap mode;Snap- mode
+free 17;free17
+free 18;free 18
+free 19;free 19
+Flight phase 0;Flight phase 0
+Flight phase 1;Flight phase 1
+Flight phase 2;Flight phase 2
+Flight phase 3;Flight phase 3
+Flight phase 4;Flight phase 4
+Flight phase 5;Flight phase 5
+Flight phase;Flight phase
+Begin;Begin
+End;End
+free 29;free 29
+Acro mode;Acro- mode
+Reflex mode;Reflex- mode
+Barometer on;Bar-o-meter on
+Barometer off;Bar-o-meter off
+Compass on;Compass- on
+Compass off;Compass- off
+Headfree on;Headfree on
+Headfree off;Headfree off
+GPS hold;G P S hold
+GPS hold off;G P S hold off
+Return home;Return home
+Return home disabled;Return home disabled
+free 42;free 42
+free 43;free 43
+free 44;free 44
+free 45;free 45
+free 46;free 46
+free 47;free 47
+free 48;free 48
+free 49;free 49
+free 50;free 50
+free 51;free 51
+free 52;free 52
+free 53;free 53
+free 54;free 54
+free 55;free 55
+free 56;free 56
+free 57;free 57
+free 58;free 58
+free 59;free 59
+free 60;free 60
+free 61;free 61
+free 62;free 62
+free 63;free 63
+free 64;free 64
+free 65;free 65
+free 66;free 66
+free 67;free 67
+free 68;free 68
+free 69;free 69
+free 70;free 70
+free 71;free 71
+free 72;free 72
+free 73;free 73
+free 74;free 74
+free 75;free 75
+free 76;free 76
+free 77;free 77
+free 78;free 78
+free 79;free 79
+free 80;free 80
+free 81;free 81
+free 82;free 82
+free 83;free 83
+free 84;free 84
+free 85;free 85
+free 86;free 86
+free 87;free 87
+free 88;free 88
+free 89;free 89
+free 90;free 90
+free 91;free 91
+free 92;free 92
+free 93;free 93
+free 94;free 94
+free 95;free 95
+free 96;free 96
+free 97;free 97
+free 98;free 98
+free 99;free 99
+free 100;free 100
+free 101;free 101
+free 102;free 102
+free 103;free 103
+free 104;free 104
+free 105;free 105
+free 106;free 106
+free 107;free 107
+free 108;free 108
+free 109;free 109
+free 110;free 110
+free 111;free 111
+free 112;free 112
+free 113;free 113
+free 114;free 114
+free 115;free 115
+free 116;free 116
+free 117;free 117
+free 118;free 118
+free 119;free 119
+free 120;free 120
+free 121;free 121
+free 122;free 122
+free 123;free 123
+free 124;free 124
+free 125;free 125
+free 126;free 126
+free 127;free 127
+free 128;free 128
+free 129;free 129
+free 130;free 130
+free 131;free 131
+free 132;free 132
+free 133;free 133
+free 134;free 134
+free 135;free 135
+free 136;free 136
+free 137;free 137
+free 138;free 138
+free 139;free 139
+free 140;free 140
+free 141;free 141
+free 142;free 142
+free 143;free 143
+free 144;free 144
+free 145;free 145
+free 146;free 146
+free 147;free 147
+free 148;free 148
+free 149;free 149
+free 150;free 150
+free 151;free 151
+free 152;free 152
+free 153;free 153
+free 154;free 154
+free 155;free 155
+free 156;free 156
+free 157;free 157
+free 158;free 158
+free 159;free 159
+free 160;free 160
+free 161;free 161
+free 162;free 162
+free 163;free 163
+free 164;free 164
+free 165;free 165
+free 166;free 166
+free 167;free 167
+free 168;free 168
+free 169;free 169
+free 170;free 170
+free 171;free 171
+free 172;free 172
+free 173;free 173
+free 174;free 174
+free 175;free 175
+free 176;free 176
+free 177;free 177
+free 178;free 178
+free 179;free 179
+free 180;free 180
+free 181;free 181
+free 182;free 182
+free 183;free 183
+free 184;free 184
+free 185;free 185
+free 186;free 186
+free 187;free 187
+free 188;free 188
+free 189;free 189
+free 190;free 190
+free 191;free 191
+free 192;free 192
+free 193;free 193
+free 194;free 194
+free 195;free 195
+free 196;free 196
+free 197;free 197
+free 198;free 198
+free 199;free 199
+Chosen model;Chosen model
+Model 1;Model 1
+Model 2;Model 2
+Model 3;Model 3
+Model 4;Model 4
+Model 5;Model 5
+Model 6;Model 6
+Model 7;Model 7
+Model 8;Model 8
+Model 9;Model 9
+Model 10;Model 10
+Model 11;Model 11
+Model 12;Model 12
+Model 13;Model 13
+Model 14;Model 14
+Model 15;Model 15
+Model 16;Model 16
+Model 17;Model 17
+Model 18;Model 18
+Model 19;Model 19
+Model 20;Model 20
+Model 21;Model 21
+Model 22;Model 22
+Model 23;Model 23
+Model 24;Model 24
+Model 25;Model 25
+Model 26;Model 26
+Model 27;Model 27
+Model 28;Model 28
+Model 29;Model 29
+Model 30;Model 30
+Model 31;Model 31
+Model 32;Model 32
+Model 33;Model 33
+Model 34;Model 34
+Model 35;Model 35
+Model 36;Model 36
+Model 37;Model 37
+Model 38;Model 38
+Model 39;Model 39
+Model 40;Model 40
+Model 41;Model 41
+Model 42;Model 42
+Model 43;Model 43
+Model 44;Model 44
+Model 45;Model 45
+Model 46;Model 46
+Model 47;Model 47
+Model 48;Model 48
+Model 49;Model 49
+Model 50;Model 50
+Model 51;Model 51
+Model 52;Model 52
+Model 53;Model 53
+Model 54;Model 54
+Model 55;Model 55
+0;0
+1;1
+2;2
+3;3
+4;4
+5;5
+6;6
+7;7
+8;8
+9;9
+10;10
+11;11
+12;12
+13;13
+14;14
+15;15
+16;16
+17;17
+18;18
+19;19
+20;20
+21;21
+22;22
+23;23
+24;24
+25;25
+26;26
+27;27
+28;28
+29;29
+30;30
+31;31
+32;32
+33;33
+34;34
+35;35
+36;36
+37;37
+38;38
+39;39
+40;40
+41;41
+42;42
+43;43
+44;44
+45;45
+46;46
+47;47
+48;48
+49;49
+50;50
+51;51
+52;52
+53;53
+54;54
+55;55
+56;56
+57;57
+58;58
+59;59
+60;60
+61;61
+62;62
+63;63
+64;64
+65;65
+66;66
+67;67
+68;68
+69;69
+70;70
+71;71
+72;72
+73;73
+74;74
+75;75
+76;76
+77;77
+78;78
+79;79
+80;80
+81;81
+82;82
+83;83
+84;84
+85;85
+86;86
+87;87
+88;88
+89;89
+90;90
+91;91
+92;92
+93;93
+94;94
+95;95
+96;96
+97;97
+98;98
+99;99
+100;100
+200;200
+300;300
+400;400
+500;500
+600;600
+700;700
+800;800
+900;900
+Thousand;Thousand
+One;one
+Eleven;eleven
+Twenty one;twenty one
+Thirty one;thirty one
+Forty one;forty one
+Fifty one;fifty one
+Sixty one;sixty one
+Seventy one;seventy one
+Eighty one;eighty one
+dot;dot
+and;and
+minus;minus
+mid night;mid night
+noon;noon
+free 380;free 380
+volt;volt
+amps;amps
+meters per second;meters per second
+free 384;free 384
+kmh;kilometers per hour
+Meters;meters
+Degees;degrees
+Percent;percent
+mA;milli- amps
+mAh;milliamp hours
+Watt;watts
+dB;db
+foot;foot
+knots;knots
+hour;hour
+minutes;minutes
+onds;seconds
+R P M;R P M
+g;g
+free 400;free 400
+free 401;free 401
+free 402;free 402
+free 403;free 403
+free 404;free 404
+free 405;free 405
+free 406;free 406
+free 407;free 407
+free 408;free 408
+free 409;free 409
+free 410;free 410
+free 411;free 411
+free 412;free 412
+free 413;free 413
+free 414;free 414
+free 415;free 415
+free 416;free 416
+free 417;free 417
+free 418;free 418
+free 419;free 419
+free 420;free 420
+free 421;free 421
+free 422;free 422
+free 423;free 423
+free 424;free 424
+free 425;free 425
+free 426;free 426
+free 427;free 427
+free 428;free 428
+free 429;free 429
+free 430;free 430
+free 431;free 431
+free 432;free 432
+free 433;free 433
+free 434;free 434
+free 435;free 435
+.0;point 0
+.1;point 1
+.2;point 2
+.3;point 3
+.4;point 4
+.5;point 5
+.6;point 6
+.7;point 7
+.8;point 8
+.9;point- 9
+free 446;free 446
+free 447;free 447
+free 448;free 448
+free 449;free 449
+free 450;free 450
+free 451;free 451
+free 452;free 452
+free 453;free 453
+free 454;free 454
+free 455;free 455
+free 456;free 456
+free 457;free 457
+free 458;free 458
+free 459;free 459
+free 460;free 460
+free 461;free 461
+free 462;free 462
+free 463;free 463
+free 464;free 464
+free 465;free 465
+free 466;free 466
+free 467;free 467
+free 468;free 468
+free 469;free 469
+free 470;free 470
+free 471;free 471
+free 472;free 472
+free 473;free 473
+free 474;free 474
+free 475;free 475
+free 476;free 476
+free 477;free 477
+free 478;free 478
+free 479;free 479
+Welcome;Welcome to Open -AV Rc
+Throttle warning;Throttle warning
+Switch warning;Switch warning
+EEPROM corrupt;EEPROM corrupt
+Bad  EEPROM;Bad EEPROM
+Battery low;Battery low
+Radio inactive;Radio inactive
+Error;Error
+free 488;free 488
+Memory low;Memory low
+free 490;free 490
+free 491;free 491
+free 492;free 492
+free 493;free 493
+free 494;free 494
+free 495;free 495
+free 496;free 496
+free 497;free 497
+free 498;free 498
+free 499;free 499
+free 500;free 500
+free 501;free 501
+20 seconds;20 seconds
+30 seconds;30 seconds
+free 504;free 504
+free 505;free 505
+free 506;free 506
+free 507;free 507
+model is on;model is on
+free 509;free 509
+telemetry active;telemetry active
+telemetry loss;telemetry loss
