@@ -1,0 +1,512 @@
+podvozek vytažen;podvozek vytažen
+podvozek zatažen;podvozek zatažen
+klapky nahoru;klapky nahoru
+klapky dolu;klapky dolu
+přistání;přistání
+spuštění;spuštění
+žák;žák
+učitel;učitel
+motor vypnutý;motor vypnutý
+motor zapnutý;motor zapnutý
+poloha klapek 1;poloha klapek 1
+poloha klapek 2;poloha klapek 2
+termický režim;termický režim
+režim hledání;režim hledání
+jemný režim;jemný režim
+režim rychlosti;režim rychlosti
+režim snímku;režim snímku
+volný 17;volný 17
+volný 18;volný 18
+volný 19;volný 19
+fáze letu 0;fáze letu 0
+fáze letu 1;fáze letu 1
+fáze letu 2;fáze letu 2
+fáze letu 3;fáze letu 3
+fáze letu 4;fáze letu 4
+fáze letu 5;fáze letu 5
+fáze letu;fáze letu
+začít;začít
+konec;konec
+volný 29;volný 29
+akrobatický režim;akrobatický režim
+reflexní režim;reflexní režim
+tlakoměr zapnutý;tlakoměr zapnutý
+tlakoměr vypnutý;tlakoměr vypnutý
+kompas zapnutý;kompas zapnutý
+kompas vypnutý;kompas vypnutý
+bezhlavý režim zapnutý;bezhlavý režim zapnutý
+bezhlavý režim vypnutý;bezhlavý režim vypnutý
+gps zapnutá;gps zapnutá
+gps vypnutá;gps vypnutá
+návrat domů;návrat domů
+návrat domů vypnutý;návrat domů vypnutý
+volný 42;volný 42
+volný 43;volný 43
+volný 44;volný 44
+volný 45;volný 45
+volný 46;volný 46
+volný 47;volný 47
+volný 48;volný 48
+volný 49;volný 49
+volný 50;volný 50
+volný 51;volný 51
+volný 52;volný 52
+volný 53;volný 53
+volný 54;volný 54
+volný 55;volný 55
+volný 56;volný 56
+volný 57;volný 57
+volný 58;volný 58
+volný 59;volný 59
+volný 60;volný 60
+volný 61;volný 61
+volný 62;volný 62
+volný 63;volný 63
+volný 64;volný 64
+volný 65;volný 65
+volný 66;volný 66
+volný 67;volný 67
+volný 68;volný 68
+volný 69;volný 69
+volný 70;volný 70
+volný 71;volný 71
+volný 72;volný 72
+volný 73;volný 73
+volný 74;volný 74
+volný 75;volný 75
+volný 76;volný 76
+volný 77;volný 77
+volný 78;volný 78
+volný 79;volný 79
+volný 80;volný 80
+volný 81;volný 81
+volný 82;volný 82
+volný 83;volný 83
+volný 84;volný 84
+volný 85;volný 85
+volný 86;volný 86
+volný 87;volný 87
+volný 88;volný 88
+volný 89;volný 89
+volný 90;volný 90
+volný 91;volný 91
+volný 92;volný 92
+volný 93;volný 93
+volný 94;volný 94
+volný 95;volný 95
+volný 96;volný 96
+volný 97;volný 97
+volný 98;volný 98
+volný 99;volný 99
+volný 100;volný 100
+volný 101;volný 101
+volný 102;volný 102
+volný 103;volný 103
+volný 104;volný 104
+volný 105;volný 105
+volný 106;volný 106
+volný 107;volný 107
+volný 108;volný 108
+volný 109;volný 109
+volný 110;volný 110
+volný 111;volný 111
+volný 112;volný 112
+volný 113;volný 113
+volný 114;volný 114
+volný 115;volný 115
+volný 116;volný 116
+volný 117;volný 117
+volný 118;volný 118
+volný 119;volný 119
+volný 120;volný 120
+volný 121;volný 121
+volný 122;volný 122
+volný 123;volný 123
+volný 124;volný 124
+volný 125;volný 125
+volný 126;volný 126
+volný 127;volný 127
+volný 128;volný 128
+volný 129;volný 129
+volný 130;volný 130
+volný 131;volný 131
+volný 132;volný 132
+volný 133;volný 133
+volný 134;volný 134
+volný 135;volný 135
+volný 136;volný 136
+volný 137;volný 137
+volný 138;volný 138
+volný 139;volný 139
+volný 140;volný 140
+volný 141;volný 141
+volný 142;volný 142
+volný 143;volný 143
+volný 144;volný 144
+volný 145;volný 145
+volný 146;volný 146
+volný 147;volný 147
+volný 148;volný 148
+volný 149;volný 149
+volný 150;volný 150
+volný 151;volný 151
+volný 152;volný 152
+volný 153;volný 153
+volný 154;volný 154
+volný 155;volný 155
+volný 156;volný 156
+volný 157;volný 157
+volný 158;volný 158
+volný 159;volný 159
+volný 160;volný 160
+volný 161;volný 161
+volný 162;volný 162
+volný 163;volný 163
+volný 164;volný 164
+volný 165;volný 165
+volný 166;volný 166
+volný 167;volný 167
+volný 168;volný 168
+volný 169;volný 169
+volný 170;volný 170
+volný 171;volný 171
+volný 172;volný 172
+volný 173;volný 173
+volný 174;volný 174
+volný 175;volný 175
+volný 176;volný 176
+volný 177;volný 177
+volný 178;volný 178
+volný 179;volný 179
+volný 180;volný 180
+volný 181;volný 181
+volný 182;volný 182
+volný 183;volný 183
+volný 184;volný 184
+volný 185;volný 185
+volný 186;volný 186
+volný 187;volný 187
+volný 188;volný 188
+volný 189;volný 189
+volný 190;volný 190
+volný 191;volný 191
+volný 192;volný 192
+volný 193;volný 193
+volný 194;volný 194
+volný 195;volný 195
+volný 196;volný 196
+volný 197;volný 197
+volný 198;volný 198
+volný 199;volný 199
+zvolený model;zvolený model
+model 1;model 1
+model 2;model 2
+model 3;model 3
+model 4;model 4
+model 5;model 5
+model 6;model 6
+model 7;model 7
+model 8;model 8
+model 9;model 9
+model 10;model 10
+model 11;model 11
+model 12;model 12
+model 13;model 13
+model 14;model 14
+model 15;model 15
+model 16;model 16
+model 17;model 17
+model 18;model 18
+model 19;model 19
+model 20;model 20
+model 21;model 21
+model 22;model 22
+model 23;model 23
+model 24;model 24
+model 25;model 25
+model 26;model 26
+model 27;model 27
+model 28;model 28
+model 29;model 29
+model 30;model 30
+model 31;model 31
+model 32;model 32
+model 33;model 33
+model 34;model 34
+model 35;model 35
+model 36;model 36
+model 37;model 37
+model 38;model 38
+model 39;model 39
+model 40;model 40
+model 41;model 41
+model 42;model 42
+model 43;model 43
+model 44;model 44
+model 45;model 45
+model 46;model 46
+model 47;model 47
+model 48;model 48
+model 49;model 49
+model 50;model 50
+model 51;model 51
+model 52;model 52
+model 53;model 53
+model 54;model 54
+model 55;model 55
+0;0
+1;1
+2;2
+3;3
+4;4
+5;5
+6;6
+7;7
+8;8
+9;9
+10;10
+11;11
+12;12
+13;13
+14;14
+15;15
+16;16
+17;17
+18;18
+19;19
+20;20
+21;21
+22;22
+23;23
+24;24
+25;25
+26;26
+27;27
+28;28
+29;29
+30;30
+31;31
+32;32
+33;33
+34;34
+35;35
+36;36
+37;37
+38;38
+39;39
+40;40
+41;41
+42;42
+43;43
+44;44
+45;45
+46;46
+47;47
+48;48
+49;49
+50;50
+51;51
+52;52
+53;53
+54;54
+55;55
+56;56
+57;57
+58;58
+59;59
+60;60
+61;61
+62;62
+63;63
+64;64
+65;65
+66;66
+67;67
+68;68
+69;69
+70;70
+71;71
+72;72
+73;73
+74;74
+75;75
+76;76
+77;77
+78;78
+79;79
+80;80
+81;81
+82;82
+83;83
+84;84
+85;85
+86;86
+87;87
+88;88
+89;89
+90;90
+91;91
+92;92
+93;93
+94;94
+95;95
+96;96
+97;97
+98;98
+99;99
+100;100
+200;200
+300;300
+400;400
+500;500
+600;600
+700;700
+800;800
+900;900
+1000;1000
+1;1
+11;11
+21;21
+31;31
+41;41
+51;51
+61;61
+71;71
+81;81
+celých;celých
+a;a
+mínus;mínus
+půlnoc;půlnoc
+poledne;poledne
+volný 380;volný 380
+voltů;voltů
+ampér;ampér
+metrů za sekundu;metrů za sekundu
+volný 384;volný 384
+kilometrů za hodinu;kilometrů za hodinu
+metrů;metrů
+stupňů;stupňů
+%;%
+mA;miliampér
+mAh;miliampér hodin
+watů;watů
+decibelů;decibelů
+stop;stop
+uzlů;uzlů
+hodin;hodin
+minut;minut
+sekund;sekund
+otáček za minutu;otáček za minutu
+gé;gé
+volný 400;volný 400
+volný 401;volný 401
+volný 402;volný 402
+volný 403;volný 403
+volný 404;volný 404
+volný 405;volný 405
+volný 406;volný 406
+volný 407;volný 407
+volný 408;volný 408
+volný 409;volný 409
+volný 410;volný 410
+volný 411;volný 411
+volný 412;volný 412
+volný 413;volný 413
+volný 414;volný 414
+volný 415;volný 415
+volný 416;volný 416
+volný 417;volný 417
+volný 418;volný 418
+volný 419;volný 419
+volný 420;volný 420
+volný 421;volný 421
+volný 422;volný 422
+volný 423;volný 423
+volný 424;volný 424
+volný 425;volný 425
+volný 426;volný 426
+volný 427;volný 427
+volný 428;volný 428
+volný 429;volný 429
+volný 430;volný 430
+volný 431;volný 431
+volný 432;volný 432
+volný 433;volný 433
+volný 434;volný 434
+volný 435;volný 435
+celých 0;celých 0
+celých 1;celých 1
+celých 2;celých 2
+celých 3;celých 3
+celých 4;celých 4
+celých 5;celých 5
+celých 6;celých 6
+celých 7;celých 7
+celých 8;celých 8
+celých 9;celých 9
+volný 446;volný 446
+volný 447;volný 447
+volný 448;volný 448
+volný 449;volný 449
+volný 450;volný 450
+volný 451;volný 451
+volný 452;volný 452
+volný 453;volný 453
+volný 454;volný 454
+volný 455;volný 455
+volný 456;volný 456
+volný 457;volný 457
+volný 458;volný 458
+volný 459;volný 459
+volný 460;volný 460
+volný 461;volný 461
+volný 462;volný 462
+volný 463;volný 463
+volný 464;volný 464
+volný 465;volný 465
+volný 466;volný 466
+volný 467;volný 467
+volný 468;volný 468
+volný 469;volný 469
+volný 470;volný 470
+volný 471;volný 471
+volný 472;volný 472
+volný 473;volný 473
+volný 474;volný 474
+volný 475;volný 475
+volný 476;volný 476
+volný 477;volný 477
+volný 478;volný 478
+volný 479;volný 479
+vítejte v openavrc;vítejte v open á vé r c
+stáhni plyn na nulu;stáhni plyn na nulu
+spínače nejsou výchozí;spínače nejsou výchozí
+poškozená eeprom;poškozená eeprom
+špatná eeprom;špatná eeprom
+slabá baterie;slabá baterie
+rádio neaktivní;rádio neaktivní
+chyba;chyba
+volný 488;volný 488
+nedostatek paměti;nedostatek paměti
+volný 490;volný 490
+volný 491;volný 491
+volný 492;volný 492
+volný 493;volný 493
+volný 494;volný 494
+volný 495;volný 495
+volný 496;volný 496
+volný 497;volný 497
+volný 498;volný 498
+volný 499;volný 499
+volný 500;volný 500
+volný 501;volný 501
+20 sekund;20 sekund
+30 sekund;30 sekund
+volný 504;volný 504
+volný 505;volný 505
+volný 506;volný 506
+volný 507;volný 507
+model je zapnutý;model je zapnutý
+volný 509;volný 509
+telemetrie aktivní;telemetrie aktivní
+ztráta telemetrie;ztráta telemetrie
