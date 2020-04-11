@@ -1,0 +1,512 @@
+Tren arriba;tren arriba
+Tren abajo;tren abajo
+Flaps arriba;flaps arriba
+Flaps abajo;flaps abajo
+Aterrizaje;aterrizaje
+Despegue;despégue
+Alumno;Alumno
+Profesor;con permiso !
+Motor cortado;motor cortado
+Motor arrancado;motor arrancado !
+flaps en 1;flaps en 1
+flaps en 2;flaps en 2
+modo térmico;modo térmico
+modo busqueda;modo busqueda
+modo crou;modo crou
+modo velocidad;modo velocidad
+modo snapflap;modo snapflap
+libre 17;libre 17
+libre 18;libre 18
+libre 19;libre 19
+fase de vuelo 0;fase de vuelo 0
+fase de vuelo 1;fase de vuelo 1
+fase de vuelo 2;fase de vuelo 2
+fase de vuelo 3;fase de vuelo 3
+fase de vuelo 4;fase de vuelo 4
+fase de vuelo 5;fase de vuelo 5
+fase de vuelo;fase de vuelo
+principio;principio
+fin;fin
+libre 29;libre 29
+modo acro;modo acro
+modo estable;modo estable
+baro activado;barómetro activado
+baro désactivado;barómetro desactivado
+compas activado;compás activado
+compas désactivado;compás désactivado
+headfree activado;jed fri activado
+headfree desactivado;jed fri desactivado
+GPS hold;GPS jold
+Fin GPS hold;Fin de GPS jold
+Vuelta a casa;vuelta a casa
+Vuelta a casa anulada;vuelta a casa anulada
+libre 42;libre 42
+libre 43;libre 43
+libre 44;libre 44
+libre 45;libre 45
+libre 46;libre 46
+libre 47;libre 47
+libre 48;libre 48
+libre 49;libre 49
+libre 50;libre 50
+libre 51;libre 51
+libre 52;libre 52
+libre 53;libre 53
+libre 54;libre 54
+libre 55;libre 55
+libre 56;libre 56
+libre 57;libre 57
+libre 58;libre 58
+libre 59;libre 59
+libre 60;libre 60
+libre 61;libre 61
+libre 62;libre 62
+libre 63;libre 63
+libre 64;libre 64
+libre 65;libre 65
+libre 66;libre 66
+libre 67;libre 67
+libre 68;libre 68
+libre 69;libre 69
+libre 70;libre 70
+libre 71;libre 71
+libre 72;libre 72
+libre 73;libre 73
+libre 74;libre 74
+libre 75;libre 75
+libre 76;libre 76
+libre 77;libre 77
+libre 78;libre 78
+libre 79;libre 79
+libre 80;libre 80
+libre 81;libre 81
+libre 82;libre 82
+libre 83;libre 83
+libre 84;libre 84
+libre 85;libre 85
+libre 86;libre 86
+libre 87;libre 87
+libre 88;libre 88
+libre 89;libre 89
+libre 90;libre 90
+libre 91;libre 91
+libre 92;libre 92
+libre 93;libre 93
+libre 94;libre 94
+libre 95;libre 95
+libre 96;libre 96
+libre 97;libre 97
+libre 98;libre 98
+libre 99;libre 99
+autobombo flores !;pilotas como dios!
+estrategia;el piloto de al lado es un manta !
+libre 102;libre 102
+libre 103;libre 103
+libre 104;libre 104
+libre 105;libre 105
+libre 106;libre 106
+libre 107;libre 107
+libre 108;libre 108
+libre 109;libre 109
+libre 110;libre 110
+libre 111;libre 111
+libre 112;libre 112
+libre 113;libre 113
+libre 114;libre 114
+libre 115;libre 115
+libre 116;libre 116
+libre 117;libre 117
+libre 118;libre 118
+libre 119;libre 119
+libre 120;libre 120
+libre 121;libre 121
+libre 122;libre 122
+libre 123;libre 123
+libre 124;libre 124
+libre 125;libre 125
+libre 126;libre 126
+libre 127;libre 127
+libre 128;libre 128
+libre 129;libre 129
+libre 130;libre 130
+libre 131;libre 131
+libre 132;libre 132
+libre 133;libre 133
+libre 134;libre 134
+libre 135;libre 135
+libre 136;libre 136
+libre 137;libre 137
+libre 138;libre 138
+libre 139;libre 139
+libre 140;libre 140
+libre 141;libre 141
+libre 142;libre 142
+libre 143;libre 143
+libre 144;libre 144
+libre 145;libre 145
+libre 146;libre 146
+libre 147;libre 147
+libre 148;libre 148
+libre 149;libre 149
+libre 150;libre 150
+libre 151;libre 151
+libre 152;libre 152
+libre 153;libre 153
+libre 154;libre 154
+libre 155;libre 155
+libre 156;libre 156
+libre 157;libre 157
+libre 158;libre 158
+libre 159;libre 159
+libre 160;libre 160
+libre 161;libre 161
+libre 162;libre 162
+libre 163;libre 163
+libre 164;libre 164
+libre 165;libre 165
+libre 166;libre 166
+libre 167;libre 167
+libre 168;libre 168
+libre 169;libre 169
+libre 170;libre 170
+libre 171;libre 171
+libre 172;libre 172
+libre 173;libre 173
+libre 174;libre 174
+libre 175;libre 175
+libre 176;libre 176
+libre 177;libre 177
+libre 178;libre 178
+libre 179;libre 179
+libre 180;libre 180
+libre 181;libre 181
+libre 182;libre 182
+libre 183;libre 183
+libre 184;libre 184
+libre 185;libre 185
+libre 186;libre 186
+libre 187;libre 187
+libre 188;libre 188
+libre 189;libre 189
+libre 190;libre 190
+libre 191;libre 191
+libre 192;libre 192
+libre 193;libre 193
+libre 194;libre 194
+libre 195;libre 195
+libre 196;libre 196
+libre 197;libre 197
+libre 198;libre 198
+libre 199;libre 199
+Modelo;Modelo
+Modelo 1;Modelo 1
+Modelo 2;Modelo 2
+Modelo 3;Modelo 3
+Modelo 4;Modelo 4
+Modelo 5;Modelo 5
+Modelo 6;Modelo 6
+Modelo 7;Modelo 7
+Modelo 8;Modelo 8
+Modelo 9;Modelo 9
+Modelo 10;Modelo 10
+Modelo 11;Modelo 11
+Modelo 12;Modelo 12
+Modelo 13;Modelo 13
+Modelo 14;Modelo 14
+Modelo 15;Modelo 15
+Modelo 16;Modelo 16
+Modelo 17;Modelo 17
+Modelo 18;Modelo 18
+Modelo 19;Modelo 19
+Modelo 20;Modelo 20
+Modelo 21;Modelo 21
+Modelo 22;Modelo 22
+Modelo 23;Modelo 23
+Modelo 24;Modelo 24
+Modelo 25;Modelo 25
+Modelo 26;Modelo 26
+Modelo 27;Modelo 27
+Modelo 28;Modelo 28
+Modelo 29;Modelo 29
+Modelo 30;Modelo 30
+Modelo 31;Modelo 31
+Modelo 32;Modelo 32
+Modelo 33;Modelo 33
+Modelo 34;Modelo 34
+Modelo 35;Modelo 35
+Modelo 36;Modelo 36
+Modelo 37;Modelo 37
+Modelo 38;Modelo 38
+Modelo 39;Modelo 39
+Modelo 40;Modelo 40
+Modelo 41;Modelo 41
+Modelo 42;Modelo 42
+Modelo 43;Modelo 43
+Modelo 44;Modelo 44
+Modelo 45;Modelo 45
+Modelo 46;Modelo 46
+Modelo 47;Modelo 47
+Modelo 48;Modelo 48
+Modelo 49;Modelo 49
+Modelo 50;Modelo 50
+Modelo 51;Modelo 51
+Modelo 52;Modelo 52
+Modelo 53;Modelo 53
+Modelo 54;Modelo 54
+Modelo 55;Modelo 55
+0;0
+uno;1
+2;2
+3;3
+4;4
+5;5
+6;6
+7;7
+8;8
+9;9
+10;10
+11;11
+12;12
+13;13
+14;14
+15;15
+16;16
+17;17
+18;18
+19;19
+20;20
+21;21
+22;22
+23;23
+24;24
+25;25
+26;26
+27;27
+28;28
+29;29
+30;30
+31;31
+32;32
+33;33
+34;34
+35;35
+36;36
+37;37
+38;38
+39;39
+40;40
+41;41
+42;42
+43;43
+44;44
+45;45
+46;46
+47;47
+48;48
+49;49
+50;50
+51;51
+52;52
+53;53
+54;54
+55;55
+56;56
+57;57
+58;58
+59;59
+60;60
+61;61
+62;62
+63;63
+64;64
+65;65
+66;66
+67;67
+68;68
+69;69
+70;70
+71;71
+72;72
+73;73
+74;74
+75;75
+76;76
+77;77
+78;78
+79;79
+80;80
+81;81
+82;82
+83;83
+84;84
+85;85
+86;86
+87;87
+88;88
+89;89
+90;90
+91;91
+92;92
+93;93
+94;94
+95;95
+96;96
+97;97
+98;98
+99;99
+100;100
+200;200
+300;300
+400;400
+500;500
+600;600
+700;700
+800;800
+900;900
+1000;milla
+une;una
+once;onze
+21;veintiuna
+31;trenta y una
+41;cuarenta y una 
+51;cincuenta y una
+61;sesenta y una
+62;sesenta y dos
+81;ochenta y uno
+.decimal;coma
+&;y
+-;menos
+medianoche;medianoche
+mediodía;mediodía
+libre 380;libre 380
+V;voltios
+A;amperios
+ms;metros por segundo
+libre;libre 384
+kmh;kilometros por hora
+m;metros
+deg;grados
+%;%
+mA;milliamperios
+mAH;milliamperios hora
+W;vatio
+dB;decibelio
+;pié
+;nudos
+h;hora
+min;minuto
+sec;segundo
+RPM;vueltas
+G;g
+libre;libre 400
+libre;libre 401
+timer;libre 402
+libre;libre 403
+libre;libre 404
+libre;libre 405
+libre;libre 406
+libre;libre 407
+libre;libre 408
+libre;libre 409
+libre;libre 410
+libre;libre 411
+libre;libre 412
+libre;libre 413
+libre;libre 414
+libre;libre 415
+libre;libre 416
+libre;libre 417
+libre;libre 418
+libre;libre 419
+libre;libre 420
+libre;libre 421
+libre;libre 422
+libre;libre 423
+libre;libre 424
+libre;libre 425
+libre;libre 426
+libre;libre 427
+libre;libre 428
+libre;libre 429
+libre;libre 430
+libre;libre 431
+libre;libre 432
+libre;libre 433
+libre;libre 434
+libre;libre 435
+.0;coma 0
+.1;coma 1
+.2;coma 2
+.3;coma 3
+.4;coma 4
+.5;coma 5
+.6;coma 6
+.7;coma 7
+.8;coma 8
+.9;coma 9
+libre;libre 446
+libre;libre 447
+libre;libre 448
+libre;libre 449
+libre;libre 450
+libre;libre 451
+libre;libre 452
+libre;libre 453
+libre;libre 454
+libre;libre 455
+libre;libre 456
+libre;libre 457
+libre;libre 458
+libre;libre 459
+libre;libre 460
+libre;libre 461
+libre;libre 462
+libre;libre 463
+libre;libre 464
+libre;libre 465
+libre;libre 466
+libre;libre 467
+libre;libre 468
+libre;libre 469
+libre;libre 470
+libre;libre 471
+libre;libre 472
+libre;libre 473
+libre;libre 474
+libre;libre 475
+libre;libre 476
+libre;libre 477
+libre;libre 478
+libre;libre 479
+Bienvenida !;Bienvenido a Open A V R c!
+Alerta de gas;Baja el motor !
+Alerta interruptores;revisa los interruptores
+Eeprom corrompida;éeprom corrompida !
+eeprom formateandose;formateado de eeprom
+Batería baja !;Atención, bateria baja !
+Radio inactiva !;Soy la radio, estoy encendida !
+Error;error !
+libre;libre 488
+Nivel de memoria baja;poca memoria disponible
+libre;libre 490
+libre;libre 491
+libre;libre 492
+libre;libre 493
+libre;libre 494
+libre;libre 495
+libre;libre 496
+libre;libre 497
+libre;libre 498
+libre;libre 499
+libre;libre 500
+libre;libre 501
+20 segundos;20 segundos
+30 segundos;30 segundos
+libre;libre 504
+libre;libre 505
+libre;libre 506
+libre;libre 507
+libre;libre 508
+el modelo esta activo;el modelo esta activo
+telemetria activa;telemetria activa
+p�rdida de telemetr�a;p�rdida de telemetr�a
