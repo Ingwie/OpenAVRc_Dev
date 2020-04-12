@@ -530,6 +530,7 @@
 		<Unit filename="../OpenAVRc/translations/pl.h" />
 		<Unit filename="../OpenAVRc/translations/pt.h" />
 		<Unit filename="../OpenAVRc/translations/se.h" />
+		<Unit filename="../OpenAVRc/translations/sk.h" />
 		<Unit filename="../OpenAVRc/translations/tts_fr.cpp" />
 		<Unit filename="../OpenAVRc/uCli.cpp" />
 		<Unit filename="../OpenAVRc/uCli.h" />

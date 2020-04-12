@@ -143,7 +143,7 @@ RTCLOCK = YES
 DSM2 = NO
 
 # TRANSLATIONS
-# Values = cz, de, en, fi, fr, it, se, es, pl, pt, nl
+# Values = cz, de, en, fi, fr, it, se, es, pl, pt, nl, sk
 TRANSLATIONS = EN
 
 # TTS
@@ -1104,7 +1104,7 @@ all: begin gccversion build end
 # Change the build target to build a HEX file or a library.
   build: stamp_header tra lbm allsrc.cpp allasm.S elf remallsrc hex sizeoffirmware
 
-tra: translations/en.h translations/cz.h translations/de.h translations/es.h translations/fi.h translations/fr.h translations/it.h translations/nl.h translations/pl.h translations/pt.h translations/se.h
+tra: translations/en.h translations/cz.h translations/sk.h translations/de.h translations/es.h translations/fi.h translations/fr.h translations/it.h translations/nl.h translations/pl.h translations/pt.h translations/se.h
 lbm: fonts bitmaps
 
 elf: $(TARGET).elf
@@ -1140,6 +1140,11 @@ translations/cz.h: translations/cz.h.txt
 	@echo
 	@echo "Create Czech language specific header files"
 	$(TRANSLATE) translations/cz.h.txt translations/cz.h cz
+
+translations/sk.h: translations/sk.h.txt
+	@echo
+	@echo "Create Slovak language specific header files"
+	$(TRANSLATE) translations/sk.h.txt translations/sk.h sk
 
 translations/de.h: translations/de.h.txt
 	@echo

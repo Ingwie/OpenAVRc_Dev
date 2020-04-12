@@ -319,6 +319,8 @@
 		<Unit filename="translations/pt.h.txt" />
 		<Unit filename="translations/se.h" />
 		<Unit filename="translations/se.h.txt" />
+		<Unit filename="translations/sk.h" />
+		<Unit filename="translations/sk.h.txt" />
 		<Unit filename="translations/tts_cz.cpp" />
 		<Unit filename="translations/tts_de.cpp" />
 		<Unit filename="translations/tts_en.cpp" />
