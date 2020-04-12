@@ -42,6 +42,8 @@ const uint8_t font_5x7_in_sram[] = {
 #include "../fonts/std/font_de_05x07.lbmi"
 #elif defined(TRANSLATIONS_CZ)
 #include "../fonts/std/font_cz_05x07.lbmi"
+#elif defined(TRANSLATIONS_SK)
+#include "../fonts/std/font_sk_05x07.lbmi"
 #elif defined(TRANSLATIONS_ES)
 #include "../fonts/std/font_es_05x07.lbmi"
 #elif defined(TRANSLATIONS_FI)
@@ -63,6 +65,8 @@ const uint8_t font_5x7_in_sram[] = {
 #include "../fonts/std/font_de_05x07.lbm"
 #elif defined(TRANSLATIONS_CZ)
 #include "../fonts/std/font_cz_05x07.lbm"
+#elif defined(TRANSLATIONS_SK)
+#include "../fonts/std/font_sk_05x07.lbm"
 #elif defined(TRANSLATIONS_ES)
 #include "../fonts/std/font_es_05x07.lbm"
 #elif defined(TRANSLATIONS_FI)
@@ -108,6 +112,8 @@ const uint8_t font_5x7_in_sram[] = {
 #include "../fonts/sqt5/font_de_05x07.lbmi"
 #elif defined(TRANSLATIONS_CZ)
 #include "../fonts/sqt5/font_cz_05x07.lbmi"
+#elif defined(TRANSLATIONS_SK)
+#include "../fonts/sqt5/font_sk_05x07.lbmi"
 #elif defined(TRANSLATIONS_ES)
 #include "../fonts/sqt5/font_es_05x07.lbmi"
 #elif defined(TRANSLATIONS_FI)
@@ -129,6 +135,8 @@ const uint8_t font_5x7_in_sram[] = {
 #include "../fonts/sqt5/font_de_05x07.lbm"
 #elif defined(TRANSLATIONS_CZ)
 #include "../fonts/sqt5/font_cz_05x07.lbm"
+#elif defined(TRANSLATIONS_SK)
+#include "../fonts/sqt5/font_sk_05x07.lbm"
 #elif defined(TRANSLATIONS_ES)
 #include "../fonts/sqt5/font_es_05x07.lbm"
 #elif defined(TRANSLATIONS_FI)
