@@ -10915,4 +10915,6 @@ F 3 "~" H 3250 1300 50  0001 C CNN
 	1    3250 1300
 	0    -1   -1   0   
 $EndComp
+Text Notes 1400 5300 0    50   ~ 0
+En cas d'absence du module\nTTL/RS232 connecter les pins:\n5 à 2 et 6 à 1.
 $EndSCHEMATC
