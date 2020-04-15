@@ -46,7 +46,7 @@
 #define BACK_SPACE         0x08
 #define CMD_LINE_MAX_SIZE  50  // Will be optimized later
 
-enum {CONTEXT_UCLI = 0, CONTEXT_XMODEM, CONTEXT_BT, CONTEXT_PUPPY};
+enum {CONTEXT_UCLI = 0, CONTEXT_XMODEM, CONTEXT_PUPPY};
 
 typedef struct{
   char    Msg[CMD_LINE_MAX_SIZE + 1];
