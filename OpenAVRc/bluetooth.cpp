@@ -140,7 +140,7 @@ DECL_FLASH_TBL(AtCmdSlaveInit, AtCmdSt_t) = {
                           //{AT_ROLE,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           //{AT_NAME,  BT_SET, nameSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           //{AT_NAME,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
-                          {AT_INIT,  BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS}, // Ingwie :return error 17 on my BT
+                          //{AT_INIT,  BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS}, // Ingwie :return error 17 on my BT
                           };
 
 DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
@@ -219,7 +219,7 @@ void bluetooth_init()
     {
      BT_SEND_AT_SEQ(AtCmdSlaveInit);
     }
-   bluetooth_AtCmdMode(OFF);
+    bluetooth_AtCmdMode(OFF);
   }
 }
 
@@ -243,7 +243,6 @@ void bluetooth_AtCmdMode(uint8_t On, uint8_t Yield /* = 1*/) // TODO use all the
   if(On)
   {
     uCliFlushRx();
-    uCli.Context = CONTEXT_BT;
     BT_KEY_ON();
     if(Yield)
     {
@@ -254,7 +253,6 @@ void bluetooth_AtCmdMode(uint8_t On, uint8_t Yield /* = 1*/) // TODO use all the
   else
   {
     uCliFlushRx();
-    uCli.Context = (g_model.rfProtocol == PROTOCOL_PPMSIM)? CONTEXT_PUPPY : CONTEXT_UCLI;
     BT_KEY_OFF();
   }
 }
@@ -392,10 +390,10 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
   uint8_t  MacFound =0, AlreadyRegistered;
   uint8_t  Ret = 0;
 
-  bluetooth_AtCmdMode(ON);
+  rebootBT();
   clearPairedList(BT_SET_TIMEOUT_MS);
   memset(Scann, 0, sizeof(BtScannSt_t));
-  sendAtCmdAndWaitForResp(AT_INQ, BT_CMD, NULL, Buf, sizeof(Buf), 0, 0, Str_AT, 0); // Just send the command without any reception
+  sendAtCmdAndWaitForResp(AT_INQ, BT_CMD, NULL, Buf, sizeof(Buf), 0, 0, (char *)"", 0); // Just send the command without any reception
   do
   {
     RespBuf[0] = 0;
@@ -426,8 +424,9 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
       }
     }
   }while(((GET_10MS_TICK() - StartMs) < MS_TO_10MS_TICK(TimeoutMs)) && (MacFound < REMOTE_BT_DEV_MAX_NB));
-  /* Reboot needed to quit INQ mode */
-  rebootBT();
+
+  // Stop INQ ( +INQ :xxxxxxxx are send by other BT modules and continue if we don't ask to stop
+  sendAtCmdAndWaitForResp(AT_INQC, BT_CMD, NULL, Buf, sizeof(Buf), 0, 0, Str_OK_CRLF, BT_SET_TIMEOUT_MS); // Ingwie : wait timout HC never return OK on my tests
 
   if(MacFound)
   {
@@ -453,8 +452,6 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
       }
     }
   }
-  bluetooth_AtCmdMode(OFF);
-
   return(Ret);
 }
 
@@ -509,7 +506,8 @@ void rebootBT(uint8_t Yield /* = 1 */) // TODO use all the time yield
     YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_WAKE_UP_MS);
   }
   else _delay_ms(BT_WAKE_UP_MS);
-  bluetooth_AtCmdMode(ON); // Switch to AT Mode
+   // Switch to AT Mode
+   bluetooth_AtCmdMode(ON);
 }
 
 static uint8_t buildMacBin(char *MacStr, uint8_t *MacBin)
@@ -591,7 +589,8 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   int8_t  Ret = -1;
 
   uCliFlushRx();
-
+  bluetooth_AtCmdMode(ON);
+  _delay_ms(BT_AT_WAKE_UP_MS);
   RespBuf[0] = 0; /* End of String */
   Serial1.print(F("AT"));
   if(AtCmdIdx != AT_AT)
@@ -655,6 +654,7 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
     Timeout10msTick = MS_TO_10MS_TICK(TimeoutMs) - (GET_10MS_TICK() - Start10MsTick);
     Ret = waitForResp(RespBuf, RespBufMaxLen, TermPattern_P, _10MS_TICK_TO_MS(Timeout10msTick));
   }
+  bluetooth_AtCmdMode(OFF);
   return(Ret);
 }
 
@@ -804,13 +804,13 @@ static void roleSet(char* Addon)
 
 static void cmodeSet(char* Addon)
 {
-  Addon[0] = '0';
+  Addon[0] = '1';
   Addon[1] =  0;
 }
 
 static void inqmSet(char* Addon)
 {
-  strcpy_P(Addon, PSTR("0,4,4"));
+  strcpy_P(Addon, PSTR("0,3,4")); // 4*1.28 = 5.12 seconds
 }
 
 static void ipscanSet(char* Addon)
