@@ -79,7 +79,7 @@ void loadDataFromModule()
      reusableBuffer.bluetooth.firstMenuRun = 1; // consider OK remote name is not "strategic"
     }
    }
-   bluetooth_AtCmdMode(OFF);
+
   }
 }
 
@@ -96,24 +96,24 @@ void writeDataToModule(uint8_t choice)
 
     case ITEM_BT_NAME :
      zchar2str(reusableBuffer.bluetooth.name_str, reusableBuffer.bluetooth.name_zchar, strlen(reusableBuffer.bluetooth.name_zchar));
-     bluetooth_AtCmdMode(ON);
+
      bluetooth_setName(reusableBuffer.bluetooth.name_str, BT_SET_TIMEOUT_MS);
-     bluetooth_AtCmdMode(OFF);
+
      break;
 
     case ITEM_BT_PIN :
      zchar2str(reusableBuffer.bluetooth.pin_str, reusableBuffer.bluetooth.pin_zchar, 4);
-     bluetooth_AtCmdMode(ON);
+
      bluetooth_setPswd(reusableBuffer.bluetooth.pin_str, BT_SET_TIMEOUT_MS);
-     bluetooth_AtCmdMode(OFF);
+
      break;
 
     case ITEM_BT_AUTOCONNECT :
      if(g_eeGeneral.BT.Master && g_eeGeneral.BT.AutoCnx)
       {
-       bluetooth_AtCmdMode(ON);
+
        bluetooth_linkToRemote(g_eeGeneral.BT.Peer.Mac, BT_SET_TIMEOUT_MS);
-       bluetooth_AtCmdMode(OFF);
+
       }
      break;
     }
@@ -127,9 +127,10 @@ void onPairSelected(const char *result)
  // result is the new pair name!!
  strcpy(reusableBuffer.bluetooth.peer_name_str, result);
  memcpy(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.scann.Remote[shared_u8].MAC, BT_MAC_BIN_LEN);
- bluetooth_AtCmdMode(ON);
+
  IF_NO_ERROR(bluetooth_linkToRemote(g_eeGeneral.BT.Peer.Mac, BT_SET_TIMEOUT_MS))
  {
+
   eeDirty(EE_GENERAL);
   uint16_t Start10MsTick = GET_10MS_TICK();
   do // now check the STATE PIN
@@ -147,7 +148,7 @@ void onPairSelected(const char *result)
     _delay_ms(500);
    }
  }
- bluetooth_AtCmdMode(OFF);
+
 }
 
 void menuGeneralBluetooth(uint8_t event)
@@ -177,7 +178,10 @@ void menuGeneralBluetooth(uint8_t event)
   {
    warning.warningResult = false;
    BT_Wait_Screen();
+
    bluetooth_scann(&reusableBuffer.bluetooth.scann, BT_SCANN_TIMEOUT_MS);
+
+
 
    POPUP_MENU_ITEMS_FROM_BSS();
    for (uint8_t i=0; i < REMOTE_BT_DEV_MAX_NB; ++i)

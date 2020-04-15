@@ -42,8 +42,8 @@
 #define BT_AT_WAKE_UP_MS           100
 #define BT_GET_TIMEOUT_MS          80
 #define BT_SET_TIMEOUT_MS          120
-#define BT_SCANN_TIMEOUT_MS        8000
-#define BT_READ_RNAME_TIMEOUT_MS   1500
+#define BT_SCANN_TIMEOUT_MS        6000
+#define BT_READ_RNAME_TIMEOUT_MS   3000
 
 extern const char Str_BT_Slave[];
 extern const char Str_BT_Master[];
