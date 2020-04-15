@@ -1615,9 +1615,13 @@ void SimuMainLoop() // Create loop function
 #endif //SIMU
 
 #if defined(U_CLI)
-    uCli_process();
+#if defined(BLUETOOTH)
+if (menuHandlers[menuLevel] != menuGeneralBluetooth) // Do not process uCli when BT is in AT mode (In BT menu)
 #endif
-
+  {
+    uCli_process();
+  }
+#endif
 #if (defined(TINY_DBG_UART_BT) && !defined(U_CLI))
   TinyDbg_event();
 #endif
