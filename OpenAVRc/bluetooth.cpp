@@ -181,7 +181,7 @@ void bluetooth_init()
   {
    Serial1.println(); // After uCli
    BT_Wait_Screen();
-   rebootBT();
+   rebootBT(); // EN is ON
 
    for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
     {
@@ -219,8 +219,8 @@ void bluetooth_init()
     {
      BT_SEND_AT_SEQ(AtCmdSlaveInit);
     }
-    bluetooth_AtCmdMode(OFF);
   }
+  bluetooth_AtCmdMode(OFF);
 }
 
 /**
@@ -390,7 +390,7 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
   uint8_t  MacFound =0, AlreadyRegistered;
   uint8_t  Ret = 0;
 
-  rebootBT();
+  rebootBT(); // EN is ON
   clearPairedList(BT_SET_TIMEOUT_MS);
   memset(Scann, 0, sizeof(BtScannSt_t));
   sendAtCmdAndWaitForResp(AT_INQ, BT_CMD, NULL, Buf, sizeof(Buf), 0, 0, (char *)"", 0); // Just send the command without any reception
@@ -426,7 +426,8 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
   }while(((GET_10MS_TICK() - StartMs) < MS_TO_10MS_TICK(TimeoutMs)) && (MacFound < REMOTE_BT_DEV_MAX_NB));
 
   // Stop INQ ( +INQ :xxxxxxxx are send by other BT modules and continue if we don't ask to stop
-  sendAtCmdAndWaitForResp(AT_INQC, BT_CMD, NULL, Buf, sizeof(Buf), 0, 0, Str_OK_CRLF, BT_SET_TIMEOUT_MS); // Ingwie : wait timout HC never return OK on my tests
+  sendAtCmdAndWaitForResp(AT_DISC, BT_CMD, NULL, Buf, sizeof(Buf), 0, 0, Str_OK_CRLF, BT_SET_TIMEOUT_MS); // Ingwie : wait timout HC never return OK on my tests and pairs continue to send +INQXXXXXXXXXX
+  rebootBT(); // EN is ON
 
   if(MacFound)
   {
@@ -487,7 +488,6 @@ void rebootBT(uint8_t Yield /* = 1 */) // TODO use all the time yield
   uint16_t StartDurationMs;
 
   bluetooth_AtCmdMode(BT_REBOOT_DATA_MODE); // Set KEY pin to 0
-  _delay_ms(BT_POWER_ON_OFF_MS);
   bluetooth_power(OFF);
   if(Yield)
   {
@@ -589,8 +589,6 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   int8_t  Ret = -1;
 
   uCliFlushRx();
-  bluetooth_AtCmdMode(ON);
-  _delay_ms(BT_AT_WAKE_UP_MS);
   RespBuf[0] = 0; /* End of String */
   Serial1.print(F("AT"));
   if(AtCmdIdx != AT_AT)
@@ -654,7 +652,6 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
     Timeout10msTick = MS_TO_10MS_TICK(TimeoutMs) - (GET_10MS_TICK() - Start10MsTick);
     Ret = waitForResp(RespBuf, RespBufMaxLen, TermPattern_P, _10MS_TICK_TO_MS(Timeout10msTick));
   }
-  bluetooth_AtCmdMode(OFF);
   return(Ret);
 }
 
