@@ -58,7 +58,7 @@ void loadDataFromModule()
   {
    reusableBuffer.bluetooth.firstMenuRun = 0;
    BT_Wait_Screen();
-   rebootBT();
+   rebootBT();// EN is ON
 
    IF_NO_ERROR(bluetooth_getName(reusableBuffer.bluetooth.name_str, sizeof(reusableBuffer.bluetooth.name_str), BT_GET_TIMEOUT_MS))
    {
@@ -79,7 +79,7 @@ void loadDataFromModule()
      reusableBuffer.bluetooth.firstMenuRun = 1; // consider OK remote name is not "strategic"
     }
    }
-
+  bluetooth_AtCmdMode(OFF);
   }
 }
 
@@ -87,6 +87,7 @@ void writeDataToModule(uint8_t choice)
 {
  if ((choice == ITEM_BT_ONOFF) || (g_eeGeneral.BT.Power)) // skip setting if power is off
   {
+   bluetooth_AtCmdMode(ON);
    switch(choice)
     {
     case ITEM_BT_ONOFF :
@@ -125,6 +126,7 @@ void onPairSelected(const char *result)
 {
  uint8_t connected;
  // result is the new pair name!!
+ //bluetooth_AtCmdMode(ON); allready setted in warning.warningResult
  strcpy(reusableBuffer.bluetooth.peer_name_str, result);
  memcpy(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.scann.Remote[shared_u8].MAC, BT_MAC_BIN_LEN);
 
@@ -176,20 +178,19 @@ void menuGeneralBluetooth(uint8_t event)
 
  if (warning.warningResult)
   {
+   bluetooth_AtCmdMode(ON);
    warning.warningResult = false;
    BT_Wait_Screen();
-
    bluetooth_scann(&reusableBuffer.bluetooth.scann, BT_SCANN_TIMEOUT_MS);
-
-
-
    POPUP_MENU_ITEMS_FROM_BSS();
+
    for (uint8_t i=0; i < REMOTE_BT_DEV_MAX_NB; ++i)
     {
      POPUP_MENU_ADD_ITEM(reusableBuffer.bluetooth.scann.Remote[i].Name);
     }
    popupMenuHandler = onPairSelected; // Selection is done in popup -> Call onPairSelected
   }
+  bluetooth_AtCmdMode(OFF);
 
  uint8_t addExt = 0; // used to add _M or _S
  coord_t y = MENU_HEADER_HEIGHT + 1;
