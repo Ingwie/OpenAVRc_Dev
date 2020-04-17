@@ -91,6 +91,9 @@ CommunicationsFrame::CommunicationsFrame(wxWindow* parent,wxWindowID id,const wx
     ComboBox1->Append(_("stk500"));
     ComboBox1->Append(_("avrisp"));
     ComboBox1->Append(_("usbasp"));
+    ComboBox1->Append(_("avr109"));
+    ComboBox1->Append(_("avrispmkii"));
+
     ComboBox2 = new wxComboBox(this, ID_COMBOBOX2, wxEmptyString, wxPoint(160,120), wxSize(96,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX2"));
     ComboBox2->Append(_("usb"));
     StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("Programmateur"), wxPoint(32,80), wxSize(120,16), wxALIGN_RIGHT, _T("ID_STATICTEXT1"));
