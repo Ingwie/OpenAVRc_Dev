@@ -417,6 +417,8 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
           {
             /* Register it! */
             memcpy(Scann->Remote[MacFound].MAC, MacBin, BT_MAC_BIN_LEN);
+            lcdDrawSizedTextAtt(0, MacFound*FH, RespBuf, 10, BSS);
+            lcdRefresh();
             MacFound++;
             if(MacFound >= REMOTE_BT_DEV_MAX_NB) break;
           }
@@ -447,6 +449,8 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
 #pragma GCC diagnostic pop
 #endif
           Scann->Remote[Idx].Name[BT_NAME_STR_LEN] = 0;
+          lcdDrawSizedTextAtt(0,5*FH + Ret*FH, RespBuf, 10, BSS);
+          lcdRefresh();
           Ret++; // Mac AND Remote Name found
           break; // Exit ASAP
         }
