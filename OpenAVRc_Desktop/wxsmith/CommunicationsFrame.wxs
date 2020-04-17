@@ -18,6 +18,8 @@
 				<item>stk500</item>
 				<item>avrisp</item>
 				<item>usbasp</item>
+				<item>avr109</item>
+				<item>avrispmkii</item>
 			</content>
 			<pos>160,72</pos>
 			<size>96,24</size>
