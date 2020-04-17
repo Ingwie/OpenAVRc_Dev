@@ -556,8 +556,8 @@ void OpenAVRc_DesktopFrame::OnEcrirelesFuseesSelected(wxCommandEvent& event)// W
   susto->SetEventHandler(susto);
   if (susto->ShowModal()!= wxID_OK)
     return;
-  wxString FUSES(" -c usbasp -P usb -F -e -u -Ulfuse:w:0xFF:m -Uhfuse:w:0xD8:m -Uefuse:w:0xFD:m -v");
-  wxString dude_send = (keepopen+avrdudepath+dude_p+dude_type+FUSES);
+  wxString FUSES(" -F -e -u -Ulfuse:w:0xFF:m -Uhfuse:w:0xD8:m -Uefuse:w:0xFD:m -v");
+  wxString dude_send = (keepopen+avrdudepath +dude_c+dude_programmer +dude_p+dude_type +dude_P+dude_port +FUSES);
   wxExecute(dude_send);
 }
 
@@ -570,8 +570,8 @@ void OpenAVRc_DesktopFrame::OnEcrirelebootloaderSelected(wxCommandEvent& event) 
     susto->SetEventHandler(susto);
     if (susto->ShowModal()!= wxID_OK)
       return;
-    wxString BOOTLOADER(" -c usbasp -P usb -U lock:w:0x3F:m -V -U flash:w:OpenAVRcBootLoaderM2560.hex -U lock:w:0x0F:m");
-    wxString dude_send = (keepopen+avrdudepath+dude_p+dude_type+BOOTLOADER);
+    wxString BOOTLOADER(" -U lock:w:0x3F:m -U flash:w:OpenAVRcBootLoaderM2560.hex:i -V -U lock:w:0x0F:m");
+    wxString dude_send = (keepopen+avrdudepath +dude_c+dude_programmer +dude_p+dude_type +dude_P+dude_port +BOOTLOADER);
     //wxMessageBox(dude_send);
     wxExecute(dude_send);
   } else {
@@ -593,8 +593,8 @@ void OpenAVRc_DesktopFrame::OnEcrirelebootloaderF_RAMSelected(wxCommandEvent& ev
     susto->SetEventHandler(susto);
     if (susto->ShowModal()!= wxID_OK)
       return;
-    wxString BOOTLOADER(" -c usbasp -P usb -U lock:w:0x3F:m -V -U flash:w:OpenAVRcBootLoaderM2560_FRAM.hex -U lock:w:0x0F:m");
-    wxString dude_send = (keepopen+avrdudepath+dude_p+dude_type+BOOTLOADER);
+    wxString BOOTLOADER(" -U lock:w:0x3F:m -U flash:w:OpenAVRcBootLoaderM2560_FRAM.hex:i -V -U lock:w:0x0F:m");
+    wxString dude_send = (keepopen+avrdudepath +dude_c+dude_programmer +dude_p+dude_type +dude_P+dude_port +BOOTLOADER);
     //wxMessageBox(dude_send);
     wxExecute(dude_send);
   } else {
