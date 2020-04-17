@@ -49,6 +49,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-std=gnu++11" />
 			<Add option="-m32" />
 			<Add option="-pipe" />
 			<Add option="-mthreads" />
