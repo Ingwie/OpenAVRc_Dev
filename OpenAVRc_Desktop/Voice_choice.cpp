@@ -64,6 +64,7 @@ Voice_choice::Voice_choice(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	ComboBoxvoice = new wxComboBox(Panel1, ID_COMBOBOXVOICE, wxEmptyString, wxPoint(32,56), wxSize(336,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOXVOICE"));
 
 	Connect(ID_BUTTONSAVEVOICE,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&Voice_choice::OnButtonsavevoiceClick);
+	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&Voice_choice::OnClose);
 	//*)
 
     {

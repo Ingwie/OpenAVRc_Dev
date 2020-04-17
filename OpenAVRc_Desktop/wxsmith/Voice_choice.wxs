@@ -5,6 +5,7 @@
 		<size>399,150</size>
 		<id_arg>0</id_arg>
 		<style>wxCAPTION|wxCLOSE_BOX</style>
+		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>72,56</pos>
 			<size>399,160</size>
