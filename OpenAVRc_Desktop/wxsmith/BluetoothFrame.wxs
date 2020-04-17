@@ -72,6 +72,12 @@
 				<pos>224,128</pos>
 				<size>184,264</size>
 			</object>
+			<object class="wxGenericDirCtrl" name="ID_GENERICDIRCTRL1" variable="DirCtrl" member="yes">
+				<defaultfolder></defaultfolder>
+				<filter></filter>
+				<pos>16,120</pos>
+				<size>184,272</size>
+			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMERRX" variable="TimerRX" member="yes">
 			<interval>200</interval>

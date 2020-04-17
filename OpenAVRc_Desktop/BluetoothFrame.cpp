@@ -86,12 +86,12 @@ BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
  StaticTextVersion = new wxStaticText(Panel1, ID_STATICTEXT4, wxEmptyString, wxPoint(24,64), wxSize(360,16), 0, _T("ID_STATICTEXT4"));
  BitmapButtonReboot = new wxBitmapButton(Panel1, ID_REBOOTBUTTON, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_WARNING")),wxART_BUTTON), wxPoint(344,24), wxSize(40,23), wxBU_AUTODRAW, wxDefaultValidator, _T("ID_REBOOTBUTTON"));
  BitmapButtonReboot->SetToolTip(_("Reboot"));
- StaticBoxLocal1 = new wxStaticBox(Panel1, ID_STATICBOX2, _("Local"), wxPoint(8,104), wxSize(312,296), 0, _T("ID_STATICBOX2"));
- StaticBoxSD = new wxStaticBox(Panel1, ID_STATICBOXSD, _("Carte SD"), wxPoint(320,104), wxSize(312,296), 0, _T("ID_STATICBOXSD"));
- TctrlSd = new wxTreeCtrl(Panel1, ID_TREECTRLSD, wxPoint(336,128), wxSize(288,264), wxTR_DEFAULT_STYLE, wxDefaultValidator, _T("ID_TREECTRLSD"));
- DirCtrl = new wxGenericDirCtrl(Panel1, ID_GENERICDIRCTRL1, wxEmptyString, wxPoint(16,128), wxSize(296,264), 0, wxEmptyString, 0, _T("ID_GENERICDIRCTRL1"));
+ StaticBoxLocal1 = new wxStaticBox(Panel1, ID_STATICBOX2, _("Local"), wxPoint(8,104), wxSize(200,296), 0, _T("ID_STATICBOX2"));
+ StaticBoxSD = new wxStaticBox(Panel1, ID_STATICBOXSD, _("Carte SD"), wxPoint(216,104), wxSize(200,296), 0, _T("ID_STATICBOXSD"));
+ TctrlSd = new wxTreeCtrl(Panel1, ID_TREECTRLSD, wxPoint(224,128), wxSize(184,264), wxTR_DEFAULT_STYLE, wxDefaultValidator, _T("ID_TREECTRLSD"));
+ DirCtrl = new wxGenericDirCtrl(Panel1, ID_GENERICDIRCTRL1, wxEmptyString, wxPoint(16,120), wxSize(184,272), 0, wxEmptyString, 0, _T("ID_GENERICDIRCTRL1"));
  TimerRX.SetOwner(this, ID_TIMERRX);
- TimerRX.Start(50, true);
+ TimerRX.Start(200, true);
 
  Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_SELECTED,(wxObjectEventFunction)&BluetoothFrame::OnComboBoxComSelected);
  Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_DROPDOWN,(wxObjectEventFunction)&BluetoothFrame::OnComboBoxComDropdown);
