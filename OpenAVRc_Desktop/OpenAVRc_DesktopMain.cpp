@@ -453,7 +453,7 @@ void OpenAVRc_DesktopFrame::OnAbout(wxCommandEvent& event)
   Aboutbox.SetVersion("V 3.0 Beta");
   Aboutbox.SetLicence(_(" GPLv2 . Firmware basé sur NextStepRc 2.18 "));
   Aboutbox.SetDescription(_("Logiciel pour la personnalisation, la compilation, le flashage, la sauvegarde de votre radio OpenAVRc     "));
-  Aboutbox.SetCopyright(wxT("(C) 2016-2019 OpenAVRc Team"));
+  Aboutbox.SetCopyright(wxT("(C) 2016-2020 OpenAVRc Team"));
   Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
   Aboutbox.AddDeveloper(wxT("OpenAVRc Team :\n\n"));
   Aboutbox.AddDeveloper(wxT("Firmware : Bracame, RC-Navy, Sloped Soarer, Supiiik. \n"));
@@ -465,6 +465,7 @@ void OpenAVRc_DesktopFrame::OnAbout(wxCommandEvent& event)
   Aboutbox.AddDeveloper(wxT("Forum contributors :\n\n"));
   Aboutbox.AddDeveloper(wxT("ElectoPete (English Voice file), Ievgen (Ukrainian translation). \n"));
   Aboutbox.AddDeveloper(wxT("TomTheBuilder (English documentation translation). \n"));
+  Aboutbox.AddDeveloper(wxT("IvanH (Slovak firmware translation). \n"));
 
   wxAboutBox(Aboutbox);
 }
