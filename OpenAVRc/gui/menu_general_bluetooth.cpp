@@ -125,14 +125,13 @@ void writeDataToModule(uint8_t choice)
 void onPairSelected(const char *result)
 {
  uint8_t connected;
- // result is the new pair name!!
- //bluetooth_AtCmdMode(ON); allready setted in warning.warningResult
+// result is the new pair name!!
+//bluetooth_AtCmdMode(ON); allready setted in warning.warningResult
  strcpy(reusableBuffer.bluetooth.peer_name_str, result);
  memcpy(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.scann.Remote[shared_u8].MAC, BT_MAC_BIN_LEN);
 
  IF_NO_ERROR(bluetooth_linkToRemote(g_eeGeneral.BT.Peer.Mac, BT_SET_TIMEOUT_MS))
  {
-
   eeDirty(EE_GENERAL);
   uint16_t Start10MsTick = GET_10MS_TICK();
   do // now check the STATE PIN
@@ -150,7 +149,6 @@ void onPairSelected(const char *result)
     _delay_ms(500);
    }
  }
-
 }
 
 void menuGeneralBluetooth(uint8_t event)

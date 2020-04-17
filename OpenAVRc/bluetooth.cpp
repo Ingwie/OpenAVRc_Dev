@@ -62,12 +62,15 @@ DECL_FLASH_STR2(Str_INQM,        "INQM");  // Inquire Mode
 DECL_FLASH_STR2(Str_INQ,         "INQ");   // Inquire Bluetooth device
 DECL_FLASH_STR2(Str_INQC,        "INQC");  // Cancel Inquire Bluetooth device
 DECL_FLASH_STR2(Str_LINK,        "LINK");  // Link to a specific remote
-DECL_FLASH_STR2(Str_IPSCAN,      "IPSCAN");  // Link to a specific remote
+DECL_FLASH_STR2(Str_IPSCAN,      "IPSCAN");// Change scan seting
+DECL_FLASH_STR2(Str_IAC,         "IAC");   // Set inquire access
 DECL_FLASH_STR2(Str_RESET,       "RESET"); // Reset
 
-enum {AT_AT = 0, AT_STATE, AT_PSWD, AT_UART, AT_CLASS, AT_RMAAD, AT_ROLE, AT_NAME, AT_RNAME, AT_CMODE, AT_INIT, AT_DISC, AT_INQM, AT_INQ, AT_INQC, AT_LINK, AT_IPSCAN, AT_RESET, AT_CMD_MAX_NB};
+enum {AT_AT = 0, AT_STATE, AT_PSWD, AT_UART, AT_CLASS, AT_RMAAD, AT_ROLE, AT_NAME, AT_RNAME, AT_CMODE,
+     AT_INIT, AT_DISC, AT_INQM, AT_INQ, AT_INQC, AT_LINK, AT_IPSCAN, AT_IAC, AT_RESET, AT_CMD_MAX_NB};
 
-DECL_FLASH_TBL(AtCmdTbl, char * const) = {Str_AT, Str_STATE, Str_PSWD, Str_UART, Str_CLASS, Str_RMAAD, Str_ROLE, Str_NAME, Str_RNAME, Str_CMODE, Str_INIT, Str_DISC, Str_INQM, Str_INQ, Str_INQC, Str_LINK, Str_IPSCAN, Str_RESET};
+DECL_FLASH_TBL(AtCmdTbl, char * const) = {Str_AT, Str_STATE, Str_PSWD, Str_UART, Str_CLASS, Str_RMAAD, Str_ROLE, Str_NAME,
+Str_RNAME, Str_CMODE, Str_INIT, Str_DISC, Str_INQM, Str_INQ, Str_INQC, Str_LINK, Str_IPSCAN, Str_IAC, Str_RESET};
 
 /* ALL THE STATUS SRINGS THE BT MODULE CAN ANSWER */
 DECL_FLASH_STR2(Str_INITIALIZED, "INITIALIZED");
@@ -118,6 +121,7 @@ static void    roleSet(char* Addon);
 static void    cmodeSet(char* Addon);
 static void    inqmSet(char* Addon);
 static void    ipscanSet(char* Addon);
+static void    iacSet(char* Addon);
 //static void    nameSet(char* Addon);
 
 static int8_t  getBtStateIdx(const char *BtState);
@@ -130,6 +134,7 @@ DECL_FLASH_TBL(AtCmdBtInit, AtCmdSt_t) = {
                           {AT_UART,  BT_SET, uartSet,  Str_CRLF,          0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_CLASS, BT_SET, classSet, Str_CRLF,          0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_INQM,  BT_SET, inqmSet,  Str_CRLF,          0,    0,     BT_SET_TIMEOUT_MS},
+                          {AT_IAC,   BT_SET,  iacSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_IPSCAN,BT_SET, ipscanSet,Str_CRLF,          0,    0,     BT_SET_TIMEOUT_MS},
                           };
 
@@ -805,7 +810,7 @@ static void roleSet(char* Addon)
 
 static void cmodeSet(char* Addon)
 {
-  Addon[0] = '1';
+  Addon[0] = '0'; // CMODE 0 -> Link only with binded pair
   Addon[1] =  0;
 }
 
@@ -817,6 +822,11 @@ static void inqmSet(char* Addon)
 static void ipscanSet(char* Addon)
 {
   strcpy_P(Addon, PSTR("1024,1,1024,1"));
+}
+
+static void iacSet(char* Addon)
+{
+  strcpy_P(Addon, PSTR("0x9E8B33"));
 }
 
 void bluetooth_addSuffix(char* Addon)
