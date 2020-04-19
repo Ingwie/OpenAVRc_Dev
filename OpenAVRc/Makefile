@@ -311,6 +311,14 @@ ifneq ($(3POS), $(filter $(3POS), POT1 POT2 POT3))
   $(error Sorry, the 3POS $(3POS) is not supported yet in OpenAVRc)
 endif
 
+# XMODEM
+ifeq ($(XMODEM), YES)
+	ifneq ($(SDCARD), YES)
+ 	 $(error Sorry, XMODEM need a SDCARD in OpenAVRc)
+	endif
+endif
+
+
 GUIMODELSRC = gui/menu_model.cpp gui/menu_model_select.cpp gui/menu_model_setup.cpp gui/menu_model_inputs_mixes.cpp gui/menu_model_limits.cpp gui/menu_model_logical_switches.cpp gui/menu_model_custom_functions.cpp
 GUIGENERALSRC = gui/menu_general.cpp gui/menu_general_setup.cpp gui/menu_general_trainer.cpp gui/menu_general_version.cpp gui/menu_general_calib.cpp
 

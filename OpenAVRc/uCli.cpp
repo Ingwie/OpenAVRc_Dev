@@ -57,19 +57,23 @@ typedef struct{
 #define UCLI_CMD_MAX_ARG_NB_MAX            4
 
 DECL_FLASH_STR2(UCLI_PROMPT, "uCLI>");
+#if defined(SDCARD)
 DECL_FLASH_STR2(SD_MEDIA,    "SD/");
 DECL_FLASH_STR2(xmdm_MEDIA,  "xmdm"); // XMODEM
+#endif
 DECL_FLASH_STR2(eep_MEDIA,   "eep");  // eep/fram -> rename it NVM for Non-Volatile Memory?
 
 #define UCLI_DEF(Cmd,CmdHelp)              const char uCli_##Cmd        [] PROGMEM = #Cmd;\
                                            const char uCli_##Cmd##_Help [] PROGMEM = #CmdHelp;\
                                            static int8_t uCli_Cmd_##Cmd(const char ** argv, uint8_t argc)
 UCLI_DEF(help,  [cmd]);
+#if defined(SDCARD)
 UCLI_DEF(ls,    [directory]);
 UCLI_DEF(cp,    srcfile dstfile);
 UCLI_DEF(rmdir, directory);
 UCLI_DEF(rm,    file);
 UCLI_DEF(mv,    srcfile dstfile);
+#endif
 //UCLI_DEF(bt,    on|off|master|slave|state|pin|name);
 UCLI_DEF(tf,    ch1-ch8:Chks); //Trainer Frame
 UCLI_DEF(ram,    );
@@ -80,11 +84,11 @@ UCLI_DEF(reboot, );
 #define UCLI_CMD_TBL(uCliCmdTbl)           DECL_FLASH_TBL(uCliCmdTbl, uCliCmdSt_t)
 
 UCLI_CMD_TBL(uCliCmd) = { UCLI_CMD(help),
-                          UCLI_CMD(ls),
-                          UCLI_CMD(cp),
-                          UCLI_CMD(rmdir),
-                          UCLI_CMD(rm),
-                          UCLI_CMD(mv),
+              CASE_SDCARD(UCLI_CMD(ls))
+              CASE_SDCARD(UCLI_CMD(cp))
+              CASE_SDCARD(UCLI_CMD(rmdir))
+              CASE_SDCARD(UCLI_CMD(rm))
+              CASE_SDCARD(UCLI_CMD(mv))
 //                          UCLI_CMD(bt),
                           UCLI_CMD(tf),//tfsHHHsHHH...sHHHsHHH<Chks> (2 + 4 x 16 + 2) -> L = 36 bytes (3ms@115200)
                           UCLI_CMD(ram),
@@ -257,6 +261,7 @@ static int8_t uCli_Cmd_help(const char ** argv, uint8_t argc)
   return(Ret);
 }
 
+#if defined(SDCARD)
 static int8_t uCli_Cmd_ls(const char ** argv, uint8_t argc)
 {
  // we must close the logs as we reuse the same SDfile structure
@@ -374,9 +379,7 @@ static int8_t uCli_Cmd_rm(const char ** argv, uint8_t argc)
   if(!memcmp_P(argv[2], SD_MEDIA, 3))
   {
     /* SD/FullFileName */
-#if defined(SDCARD)
     sdDeleteFile((const char*)&argv[1][2]); // Skip SD prefix -> keep only /FullFileName
-#endif
   }
   return(0);
 }
@@ -393,6 +396,7 @@ static int8_t uCli_Cmd_mv(const char ** argv, uint8_t argc)
 
   return(0);
 }
+#endif
 
 /*static int8_t uCli_Cmd_bt(const char ** argv, uint8_t argc)
 {
