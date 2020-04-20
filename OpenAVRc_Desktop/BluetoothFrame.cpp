@@ -96,6 +96,7 @@ BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
  Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_SELECTED,(wxObjectEventFunction)&BluetoothFrame::OnComboBoxComSelected);
  Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_DROPDOWN,(wxObjectEventFunction)&BluetoothFrame::OnComboBoxComDropdown);
  Connect(ID_REBOOTBUTTON,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&BluetoothFrame::OnBitmapButtonRebootClick);
+ Connect(ID_TREECTRLSD,wxEVT_COMMAND_TREE_BEGIN_DRAG,(wxObjectEventFunction)&BluetoothFrame::OnTctrlSdBeginDrag);
  Connect(ID_TIMERRX,wxEVT_TIMER,(wxObjectEventFunction)&BluetoothFrame::OnTimerRXTrigger);
  Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&BluetoothFrame::OnClose);
  //*)
@@ -108,6 +109,7 @@ BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
  BTComPort = new Tserial();
  comIsValid = false;
  uCLI = "uCLI>";
+
 }
 
 BluetoothFrame::~BluetoothFrame()
@@ -297,4 +299,33 @@ void BluetoothFrame::Populate_SD()
  TctrlSd->Expand(rootId);
 }
 
+wxString BluetoothFrame::GetFullPathTctrlItem(wxTreeItemId item)
+{
+ wxTreeItemId root = TctrlSd->GetRootItem();
+ wxString path = TctrlSd->GetItemText(item);
+ wxTreeItemId tmp = item;
+ wxString tmpPath;
+ do
+  {
+   tmp = TctrlSd->GetItemParent(tmp);
+   tmpPath = TctrlSd->GetItemText(tmp);
+   if ISDIR(tmpPath)
+    {
+     tmpPath.Replace("[","/");
+     tmpPath.Replace("]","/");
+    }
 
+   path = tmpPath + path;
+  }
+ while (TctrlSd->GetItemParent(tmp) != root);
+
+ return path;
+}
+
+void BluetoothFrame::OnTctrlSdBeginDrag(wxTreeEvent& event)
+{
+
+  wxTextDataObject dragData(GetFullPathTctrlItem(event.GetItem()));
+  dragSource.SetData(dragData);
+  dragResult = dragSource.DoDragDrop( true );
+}

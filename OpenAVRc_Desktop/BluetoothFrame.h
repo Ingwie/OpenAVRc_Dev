@@ -33,6 +33,9 @@
 #ifndef BLUETOOTHFRAME_H
 #define BLUETOOTHFRAME_H
 
+#include <wx/dataobj.h>
+#include <wx/dnd.h>
+
 #include "serial/tserial.h"
 
 //(*Headers(BluetoothFrame)
@@ -95,11 +98,18 @@ class BluetoothFrame: public wxFrame
     wxString uCLI;
     void ConnectBTCom(wxString name);
     wxString sendCmdAndWaitForResp(wxString BTcommand, wxString* BTanwser);
+     // D & D
+    wxDropSource dragSource;
+    wxDragResult dragResult;
+
+
 
     wxString getRam();
     wxString getVer();
     void Populate_SD();
     void Populate_Dir(wxTreeItemId * dir);
+    wxString GetFullPathTctrlItem(wxTreeItemId item);
+
 
 	private:
 
@@ -109,6 +119,7 @@ class BluetoothFrame: public wxFrame
 		void OnComboBoxComDropdown(wxCommandEvent& event);
 		void OnTimerRXTrigger(wxTimerEvent& event);
 		void OnBitmapButtonRebootClick(wxCommandEvent& event);
+		void OnTctrlSdBeginDrag(wxTreeEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
