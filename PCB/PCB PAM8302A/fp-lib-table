@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name malib_pam8302)(type KiCad)(uri C:/tmp/_OpenAVRc/PAM8302A)(options "")(descr ""))
+)

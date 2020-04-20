@@ -1,0 +1,281 @@
+EESchema Schematic File Version 4
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:special
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:PAM8302-cache
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L pam8302:PAM8302A U1
+U 1 1 5DCD8E8B
+P 6550 3950
+F 0 "U1" H 6850 3900 50  0000 C CNN
+F 1 "PAM8302A" H 6825 4624 50  0000 C CNN
+F 2 "pam8302a" H 6550 4450 50  0001 C CNN
+F 3 "" H 6550 4450 50  0001 C CNN
+	1    6550 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x04 J1
+U 1 1 5DCD91E5
+P 3550 3200
+F 0 "J1" H 3630 3192 50  0000 L CNN
+F 1 "Audio_In" H 3630 3101 50  0000 L CNN
+F 2 "Pin_Header_Straight_1x04_Pitch2.54mm_mod" H 3550 3200 50  0001 C CNN
+F 3 "~" H 3550 3200 50  0001 C CNN
+	1    3550 3200
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Device:R_POT RV2
+U 1 1 5DCD93E5
+P 4700 3800
+F 0 "RV2" H 4630 3846 50  0000 R CNN
+F 1 "10K" H 4630 3755 50  0000 R CNN
+F 2 "Potentiometer_Trimmer_Vishay_T7YA_Horizontal" H 4700 3800 50  0001 C CNN
+F 3 "~" H 4700 3800 50  0001 C CNN
+	1    4700 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_POT RV1
+U 1 1 5DCD949C
+P 4700 3150
+F 0 "RV1" H 4630 3196 50  0000 R CNN
+F 1 "10K" H 4630 3105 50  0000 R CNN
+F 2 "Potentiometer_Trimmer_Vishay_T7YA_Horizontal" H 4700 3150 50  0001 C CNN
+F 3 "~" H 4700 3150 50  0001 C CNN
+	1    4700 3150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:CP C1
+U 1 1 5DCD958C
+P 5150 3150
+F 0 "C1" V 5200 3200 50  0000 L CNN
+F 1 "10uF" V 5200 2900 50  0000 L CNN
+F 2 "CP_Radial_D4.0mm_P2.00mm" H 5188 3000 50  0001 C CNN
+F 3 "~" H 5150 3150 50  0001 C CNN
+	1    5150 3150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:+5V #PWR0102
+U 1 1 5DCD9898
+P 3850 3000
+F 0 "#PWR0102" H 3850 2850 50  0001 C CNN
+F 1 "+5V" H 3865 3173 50  0000 C CNN
+F 2 "" H 3850 3000 50  0001 C CNN
+F 3 "" H 3850 3000 50  0001 C CNN
+	1    3850 3000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6350 3850 6250 3850
+Wire Wire Line
+	6250 3850 6250 4000
+$Comp
+L power:GND #PWR0103
+U 1 1 5DCEAFFA
+P 6250 4000
+F 0 "#PWR0103" H 6250 3750 50  0001 C CNN
+F 1 "GND" H 6255 3827 50  0000 C CNN
+F 2 "" H 6250 4000 50  0001 C CNN
+F 3 "" H 6250 4000 50  0001 C CNN
+	1    6250 4000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4700 2950 4700 3000
+Wire Wire Line
+	4700 3600 4700 3650
+$Comp
+L power:GND #PWR0104
+U 1 1 5DCEBA7D
+P 4700 3350
+F 0 "#PWR0104" H 4700 3100 50  0001 C CNN
+F 1 "GND" H 4700 3200 50  0000 C CNN
+F 2 "" H 4700 3350 50  0001 C CNN
+F 3 "" H 4700 3350 50  0001 C CNN
+	1    4700 3350
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0105
+U 1 1 5DCEBB9D
+P 4700 4000
+F 0 "#PWR0105" H 4700 3750 50  0001 C CNN
+F 1 "GND" H 4700 3850 50  0000 C CNN
+F 2 "" H 4700 4000 50  0001 C CNN
+F 3 "" H 4700 4000 50  0001 C CNN
+	1    4700 4000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4700 4000 4700 3950
+Wire Wire Line
+	4700 3350 4700 3300
+Wire Wire Line
+	4850 3150 5000 3150
+Wire Wire Line
+	4850 3800 5000 3800
+$Comp
+L Device:CP C2
+U 1 1 5DCEC1EA
+P 5150 3800
+F 0 "C2" V 5200 3850 50  0000 L CNN
+F 1 "10uF" V 5200 3550 50  0000 L CNN
+F 2 "CP_Radial_D4.0mm_P2.00mm" H 5188 3650 50  0001 C CNN
+F 3 "~" H 5150 3800 50  0001 C CNN
+	1    5150 3800
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	3850 3000 3850 3300
+Wire Wire Line
+	3850 3300 3750 3300
+Wire Wire Line
+	3750 3100 3950 3100
+Wire Wire Line
+	3950 3100 4100 2950
+Wire Wire Line
+	3750 3200 3950 3200
+Wire Wire Line
+	3950 3200 4100 3350
+Wire Wire Line
+	4100 3350 4100 3600
+$Comp
+L power:GND #PWR0106
+U 1 1 5DCECF51
+P 3850 3550
+F 0 "#PWR0106" H 3850 3300 50  0001 C CNN
+F 1 "GND" H 3850 3400 50  0000 C CNN
+F 2 "" H 3850 3550 50  0001 C CNN
+F 3 "" H 3850 3550 50  0001 C CNN
+	1    3850 3550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3750 3400 3850 3400
+Wire Wire Line
+	3850 3400 3850 3550
+$Comp
+L Device:R R1
+U 1 1 5DCED8C9
+P 5550 3150
+F 0 "R1" V 5650 3100 50  0000 L CNN
+F 1 "1,5K" V 5550 3050 50  0000 L CNN
+F 2 "Resistors_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical" V 5480 3150 50  0001 C CNN
+F 3 "~" H 5550 3150 50  0001 C CNN
+	1    5550 3150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R R2
+U 1 1 5DCEDA10
+P 5550 3800
+F 0 "R2" V 5650 3750 50  0000 L CNN
+F 1 "1,5K" V 5550 3700 50  0000 L CNN
+F 2 "Resistors_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical" V 5480 3800 50  0001 C CNN
+F 3 "~" H 5550 3800 50  0001 C CNN
+	1    5550 3800
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	6350 3550 6250 3550
+Wire Wire Line
+	6250 3550 6250 3850
+Connection ~ 6250 3850
+Wire Wire Line
+	5700 3800 5800 3800
+Wire Wire Line
+	5800 3800 5800 3450
+Wire Wire Line
+	5800 3150 5700 3150
+Wire Wire Line
+	5400 3150 5300 3150
+Wire Wire Line
+	6350 3450 5800 3450
+Connection ~ 5800 3450
+Wire Wire Line
+	5800 3450 5800 3150
+$Comp
+L power:+5V #PWR0107
+U 1 1 5DCEFEA6
+P 6100 3300
+F 0 "#PWR0107" H 6100 3150 50  0001 C CNN
+F 1 "+5V" H 6115 3473 50  0000 C CNN
+F 2 "" H 6100 3300 50  0001 C CNN
+F 3 "" H 6100 3300 50  0001 C CNN
+	1    6100 3300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6350 3750 6100 3750
+Wire Wire Line
+	6100 3750 6100 3300
+Wire Wire Line
+	4100 2950 4700 2950
+Wire Wire Line
+	4100 3600 4700 3600
+Wire Wire Line
+	5300 3800 5400 3800
+Wire Notes Line
+	6350 3650 6000 3650
+Wire Notes Line
+	6000 3850 6250 3850
+Text Notes 5500 4400 0    50   ~ 0
+Souder connecteur entre SD et Gnd\n(Mute)
+Wire Notes Line
+	6000 3650 6000 4250
+Wire Notes Line
+	7300 3550 7450 3550
+Wire Notes Line
+	7450 3550 7450 3750
+Wire Notes Line
+	7450 3750 7300 3750
+Text Notes 7250 3950 0    50   ~ 0
+Souder connecteur sur sortie HP\n
+Wire Notes Line
+	7650 3850 7450 3750
+$EndSCHEMATC
