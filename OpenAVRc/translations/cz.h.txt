@@ -34,6 +34,26 @@
 *  \036             -nový řádek
 *  \001 to \034     -rozšířené mezery (hodnota * FW/2)
 *  \0               -ukončí aktuální řetězec
+*  \200 - á
+*  \201 - č
+*  \202 - é
+*  \203 - ě
+*  \204 - í
+*  \205 - ó
+*  \206 - ř
+*  \207 - š
+*  \210 - ú 
+*  \211 - ů
+*  \212 - ý
+*  \213 - Á
+*  \214 - Í
+*  \215 - Ř
+*  \216 - Ý
+*  \217 - ž
+*  \220 - É
+*  \221 - ť
+*    ~  - šipka doprava ->
+*    @  - stupně °
 */
 
 /* NON ZERO TERMINATED STRINGS */
@@ -259,7 +279,7 @@
 #define TR_TTRACE              "StopaPlynu"
 #define TR_TSWITCH             "SpínačPlyn"
 #define TR_TTRIM               "TrimVolnob."
-#define TR_BEEPCTR             "Středy ť"
+#define TR_BEEPCTR             "Píp. středu"
 #define TR_PROTO               INDENT "Protokol"
 #define TR_PPMFRAME            "PPM rámec"
 #define TR_MS                  "ms"

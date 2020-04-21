@@ -34,6 +34,26 @@
 *  \036             -nov˝ ¯·dek
 *  \001 to \034     -rozöÌ¯enÈ mezery (hodnota * FW/2)
 *  \0               -ukonËÌ aktu·lnÌ ¯etÏzec
+*  \200 - ·
+*  \201 - Ë
+*  \202 - È
+*  \203 - Ï
+*  \204 - Ì
+*  \205 - Û
+*  \206 - ¯
+*  \207 - ö
+*  \210 - ˙ 
+*  \211 - ˘
+*  \212 - ˝
+*  \213 - ¡
+*  \214 - Õ
+*  \215 - ÿ
+*  \216 - ›
+*  \217 - û
+*  \220 - …
+*  \221 - ù
+*    ~  - öipka doprava ->
+*    @  - stupnÏ ∞
 */
 
 /* NON ZERO TERMINATED STRINGS */
@@ -259,7 +279,7 @@
 #define TR_TTRACE              "StopaPlynu"
 #define TR_TSWITCH             "Sp\204na\201Plyn"
 #define TR_TTRIM               "TrimVolnob."
-#define TR_BEEPCTR             "St\206edy ù"
+#define TR_BEEPCTR             "P\204p. st\206edu"
 #define TR_PROTO               INDENT "Protokol"
 #define TR_PPMFRAME            "PPM r\200mec"
 #define TR_MS                  "ms"
