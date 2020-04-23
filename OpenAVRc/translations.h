@@ -51,7 +51,7 @@
 #define LEN_SPECIAL_CHARS 6
 #elif defined(TRANSLATIONS_CZ)
 #include "translations/cz.h"
-#define LEN_SPECIAL_CHARS 18
+#define LEN_SPECIAL_CHARS 24
 #elif defined(TRANSLATIONS_SK)
 #include "translations/sk.h"
 #define LEN_SPECIAL_CHARS 21
