@@ -37,12 +37,11 @@
 #include "OpenAVRc.h"
 #include "timers.h"
 
-uint8_t   s_eeDirtyMsk;
 tmr10ms_t s_eeDirtyTime10ms;
 
 void eeDirty(uint8_t msk)
 {
-  s_eeDirtyMsk |= msk;
+  eepromVars.s_eeDirtyMsk |= msk;
   s_eeDirtyTime10ms = getTmr10ms() ;
 }
 

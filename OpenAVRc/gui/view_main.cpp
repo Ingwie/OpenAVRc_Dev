@@ -505,7 +505,7 @@ void menuMainView(uint8_t event)
   }
 
   // And ! in case of unexpected shutdown
-  if (systemBolls.unexpectedShutdown) {
+  if (eepromVars.unexpectedShutdown) {
     lcdDrawCharAtt(REBOOT_X, 0, '!', INVERS);
   }
 

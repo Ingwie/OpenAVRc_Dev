@@ -194,8 +194,8 @@ void menuGeneralBluetooth(uint8_t event)
  coord_t y = MENU_HEADER_HEIGHT + 1;
  uint8_t sub = menuVerticalPosition - 1;
  uint8_t slen;
- uint8_t eeDirtyMskMem = s_eeDirtyMsk;
- s_eeDirtyMsk = 0; // reset, we use it to detect a change
+ uint8_t eeDirtyMskMem = eepromVars.s_eeDirtyMsk;
+ eepromVars.s_eeDirtyMsk = 0; // reset, we use it to detect a change
 
  for (uint8_t i=0; i<LCD_LINES-1; ++i)
   {
@@ -252,10 +252,10 @@ void menuGeneralBluetooth(uint8_t event)
      break;
     }
 
-   if (s_eeDirtyMsk)
+   if (eepromVars.s_eeDirtyMsk)
     {
      reusableBuffer.bluetooth.eeWriteFlag = choice+1; // store what change is done
-     s_eeDirtyMsk = 0; // reset
+     eepromVars.s_eeDirtyMsk = 0; // reset
     }
    if ((reusableBuffer.bluetooth.eeWriteFlag) && (!s_editMode) && reusableBuffer.bluetooth.firstMenuRun)
     {
@@ -275,5 +275,5 @@ void menuGeneralBluetooth(uint8_t event)
     }
    y += FH;
   }
- s_eeDirtyMsk = eeDirtyMskMem; // restore mask
+ eepromVars.s_eeDirtyMsk = eeDirtyMskMem; // restore mask
 }
