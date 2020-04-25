@@ -37,7 +37,6 @@
 #include "OpenAVRc.h"
 #include "timers.h"
 
-
 PACK(struct DirEnt { // File header
   blkid_t  startBlk;
   uint16_t size:12;
@@ -111,17 +110,12 @@ public:
 
 #define ERR_NONE 0
 #define ERR_FULL 1
-extern uint8_t  s_write_err;    // error reasons
 
-extern uint8_t  s_sync_write;
-#define ENABLE_SYNC_WRITE(val) s_sync_write = val;
-#define IS_SYNC_WRITE_ENABLE() (s_sync_write)
+#define ENABLE_SYNC_WRITE(val) eepromVars.s_sync_write = val;
+#define IS_SYNC_WRITE_ENABLE() (eepromVars.s_sync_write)
 
 // deliver current errno, this is reset in open
-inline uint8_t write_errno()
-{
-  return s_write_err;
-}
+inline uint8_t write_errno();
 
 class RlcFile: public EFile
 {

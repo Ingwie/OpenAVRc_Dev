@@ -43,6 +43,7 @@ ModelData  g_model;
 
 gazSecurity_t gazSecurity;
 systemBolls_t systemBolls;
+eepromVars_t  eepromVars;
 
 
 /* AVR: mixer duration in 1/16ms */
@@ -1246,7 +1247,7 @@ void OpenAVRcClose()
 
   saveTimers();
 
-  if (s_eeDirtyMsk & EE_MODEL) {
+  if (eepromVars.s_eeDirtyMsk & EE_MODEL) {
     displayPopup(STR_SAVEMODEL);
   }
 
@@ -1513,7 +1514,7 @@ void OpenAVRcInit(uint8_t mcusr)
 
   if (UNEXPECTED_SHUTDOWN())
     {
-      systemBolls.unexpectedShutdown = true;
+      eepromVars.unexpectedShutdown = true;
     }
   else
     {
@@ -1557,10 +1558,13 @@ int16_t simumain()
 
   // Init bitfields
   systemBolls.pwrCheck = true;
-  systemBolls.unexpectedShutdown = false;
   systemBolls.rangeModeIsOn = false; // manage low power TX
   systemBolls.protoMode = NORMAL_MODE;
   systemBolls.s_mixer_first_run_done = false;
+  eepromVars.unexpectedShutdown = false;
+  eepromVars.s_sync_write = false;
+  eepromVars.s_write_err = 0;    // error reasons
+
 
   // G: The WDT remains active after a WDT reset -- at maximum clock speed. So it's
   // important to disable it before commencing with system initialisation (or

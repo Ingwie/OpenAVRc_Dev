@@ -721,7 +721,6 @@ extern gazSecurity_t gazSecurity;
 
 PACK(typedef struct {
   uint8_t pwrCheck:1;
-  uint8_t unexpectedShutdown:1;
   uint8_t rangeModeIsOn:1;
   uint8_t protoMode:1; // Normal, Bind
   uint8_t s_mixer_first_run_done:1;
@@ -730,6 +729,16 @@ PACK(typedef struct {
 }) systemBolls_t;
 
 extern systemBolls_t systemBolls;
+
+PACK(typedef struct {
+  uint8_t unexpectedShutdown:1;
+  uint8_t s_write_err:1;  // eprom error reasons (ERR_NONE, ERR_FULL)
+  uint8_t s_sync_write:1; // true, false
+  uint8_t s_eeDirtyMsk:2; // (EE_NO, EE_GENERAL, EE_MODEL)
+  uint8_t unused:3;
+}) eepromVars_t;
+
+extern eepromVars_t eepromVars;
 
 extern uint16_t maxMixerDuration;
 

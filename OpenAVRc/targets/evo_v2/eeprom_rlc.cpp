@@ -35,7 +35,7 @@
 
 
 
-uint8_t   s_write_err = 0;    // error reasons
+uint8_t   eepromVars.s_write_err = 0;    // error reasons
 RlcFile   theFile;  //used for any file operation
 EeFs      eeFs;
 
@@ -43,7 +43,7 @@ EeFs      eeFs;
   blkid_t   freeBlocks = 0;
 #endif
 
-uint8_t  s_sync_write = false;
+uint8_t  eepromVars.s_sync_write = false;
 
 uint8_t * eeprom_buffer_data;
 volatile uint8_t eeprom_buffer_size = 0;
@@ -87,7 +87,7 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
   eeprom_buffer_size = size+1;
   EECR |= (1<<EERIE);
 
-  if (s_sync_write)
+  if (eepromVars.s_sync_write)
     {
       while (eeprom_buffer_size)
         MYWDT_RESET(EE_READY_vect()); //Simulate ISR in Simu mode, else reset watchdog
@@ -177,7 +177,7 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
   i2c_write((uint8_t)(i_pointer_eeprom >> 8)); //MSB write address
   i2c_write((uint8_t)i_pointer_eeprom); //LSB write address
   i2c_writeAndActiveISR(*eeprom_buffer_data);    // write value to EEPROM
-  if (s_sync_write)
+  if (eepromVars.s_sync_write)
     {
       while (eeprom_buffer_size)
         MYWDT_RESET(); // Wait completion and reset watchdog
@@ -449,7 +449,7 @@ void EFile::openRd(uint8_t i_fileId)
   m_pos      = 0;
   m_currBlk  = eeFs.files[m_fileId].startBlk;
   m_ofs      = 0;
-  s_write_err = ERR_NONE;       // error reasons */
+  eepromVars.s_write_err = ERR_NONE;       // error reasons */
 }
 
 void RlcFile::openRlc(uint8_t i_fileId)
@@ -541,7 +541,7 @@ void RlcFile::write(uint8_t *buf, uint8_t i_len)
     {
       nextWriteStep();
     }
-  while (IS_SYNC_WRITE_ENABLE() && m_write_len && !s_write_err);
+  while (IS_SYNC_WRITE_ENABLE() && m_write_len && !eepromVars.s_write_err);
 }
 
 void RlcFile::nextWriteStep()
@@ -572,7 +572,7 @@ void RlcFile::nextWriteStep()
     {
       if (!m_currBlk)
         {
-          s_write_err = ERR_FULL;
+          eepromVars.s_write_err = ERR_FULL;
           break;
         }
       if (m_ofs >= (BS-sizeof(blkid_t)))
@@ -583,7 +583,7 @@ void RlcFile::nextWriteStep()
             {
               if (!eeFs.freeList)
                 {
-                  s_write_err = ERR_FULL;
+                  eepromVars.s_write_err = ERR_FULL;
                   break;
                 }
               m_write_step += WRITE_NEXT_LINK_1;
@@ -620,7 +620,7 @@ void RlcFile::nextWriteStep()
       return;
     }
 
-  if (s_write_err == ERR_FULL)
+  if (eepromVars.s_write_err == ERR_FULL)
     {
       POPUP_WARNING(STR_EEPROMOVERFLOW);
       m_write_step = 0;
@@ -677,7 +677,7 @@ bool RlcFile::copy(uint8_t i_fileDst, uint8_t i_fileSrc)
 
   ASSERT(!m_write_step);
 
-  // s_sync_write is set to false in swap();
+  // eepromVars.s_sync_write is set to false in swap();
   return true;
 }
 
@@ -802,7 +802,7 @@ const pm_char * eeRestoreModel(uint8_t i_fileDst, char *model_name)
     EeFsFree(fri);  //chain in
 
   eeFs.files[FILE_TMP].size = theFile.m_pos;
-  EFile::swap(theFile.m_fileId, FILE_TMP); // s_sync_write is set to false in swap();
+  EFile::swap(theFile.m_fileId, FILE_TMP); // eepromVars.s_sync_write is set to false in swap();
 
   return NULL;
 }
@@ -824,7 +824,7 @@ void RlcFile::writeRlc(uint8_t i_fileId, uint8_t typ, uint8_t *buf, uint16_t i_l
     {
       nextRlcWriteStep();
     }
-  while (IS_SYNC_WRITE_ENABLE() && m_write_step && !s_write_err);
+  while (IS_SYNC_WRITE_ENABLE() && m_write_step && !eepromVars.s_write_err);
 }
 
 void RlcFile::nextRlcWriteStep()
@@ -956,10 +956,10 @@ void RlcFile::flush()
 
   ENABLE_SYNC_WRITE(true);
 
-  while (m_write_len && !s_write_err)
+  while (m_write_len && !eepromVars.s_write_err)
     nextWriteStep();
 
-  while (isWriting() && !s_write_err)
+  while (isWriting() && !eepromVars.s_write_err)
     nextRlcWriteStep();
 
   ENABLE_SYNC_WRITE(false);
@@ -968,9 +968,9 @@ void RlcFile::flush()
 #if defined (EEPROM_PROGRESS_BAR)
 void RlcFile::DisplayProgressBar(uint8_t x)
 {
-  if (s_eeDirtyMsk || isWriting() || eeprom_buffer_size)
+  if (eepromVars.s_eeDirtyMsk || isWriting() || eeprom_buffer_size)
     {
-      uint8_t len = s_eeDirtyMsk ? 1 : limit<uint8_t>(1, (7 - (m_rlc_len/m_ratio)), 7);
+      uint8_t len = eepromVars.s_eeDirtyMsk ? 1 : limit<uint8_t>(1, (7 - (m_rlc_len/m_ratio)), 7);
       lcdDrawFilledRect(x+1, 0, 5, FH, SOLID, ERASE);
       lcdDrawFilledRect(x+2, 7-len, 3, len);
     }
@@ -1076,26 +1076,26 @@ void eeErase(bool warn)
   theFile.writeRlc(FILE_MODEL(0), FILE_TYP_MODEL, (uint8_t*)&g_model, sizeof(g_model), true);
 }
 
-void eeCheck(bool immediately)
+void eeCheck(uint8_t immediately)
 {
   if (immediately)
     {
       eeFlush();
     }
 
-  if (s_eeDirtyMsk & EE_GENERAL)
+  if (eepromVars.s_eeDirtyMsk & EE_GENERAL)
     {
       TRACE("eeprom write general");
-      s_eeDirtyMsk -= EE_GENERAL;
+      eepromVars.s_eeDirtyMsk -= EE_GENERAL;
       theFile.writeRlc(FILE_GENERAL, FILE_TYP_GENERAL, (uint8_t*)&g_eeGeneral, sizeof(EEGeneral), immediately);
       if (!immediately)
         return;
     }
 
-  if (s_eeDirtyMsk & EE_MODEL)
+  if (eepromVars.s_eeDirtyMsk & EE_MODEL)
     {
       TRACE("eeprom write model");
-      s_eeDirtyMsk = 0;
+      eepromVars.s_eeDirtyMsk = 0;
       theFile.writeRlc(FILE_MODEL(g_eeGeneral.currModel), FILE_TYP_MODEL, (uint8_t*)&g_model, sizeof(g_model), immediately);
     }
 }

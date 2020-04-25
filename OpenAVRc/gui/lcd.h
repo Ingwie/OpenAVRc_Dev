@@ -109,6 +109,7 @@ extern coord_t lcdNextPos;
 #define DISPLAY_BUFER_SIZE      (sizeof(display_t)*DISPLAY_BUF_SIZE)
 #define DISPLAY_END             (displayBuf + DISPLAY_BUF_SIZE)
 #define ASSERT_IN_DISPLAY(p)    ASSERT((p) >= displayBuf && (p) < DISPLAY_END)
+
 #if !defined (LCDROT180)
   #define DISPLAY_START_ADDRESS &displayBuf[ y / 8 * LCD_W + x ]
   #define NEXT_P                p++
