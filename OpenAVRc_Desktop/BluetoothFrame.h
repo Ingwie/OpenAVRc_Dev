@@ -56,6 +56,7 @@ class BluetoothFrame: public wxFrame
 
 		BluetoothFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~BluetoothFrame();
+    wxString GetFullPathTctrlItem(wxTreeItemId item);
 
 		//(*Declarations(BluetoothFrame)
 		wxBitmapButton* BitmapButtonReboot;
@@ -108,7 +109,6 @@ class BluetoothFrame: public wxFrame
     wxString getVer();
     void Populate_SD();
     void Populate_Dir(wxTreeItemId * dir);
-    wxString GetFullPathTctrlItem(wxTreeItemId item);
 
 
 	private:
@@ -122,7 +122,29 @@ class BluetoothFrame: public wxFrame
 		void OnTctrlSdBeginDrag(wxTreeEvent& event);
 		//*)
 
+		void OnDirCtrlBeginDrag(wxTreeEvent& event);
+
 		DECLARE_EVENT_TABLE()
+};
+
+class DnD_TctrlSd_Txt : public wxTextDropTarget
+{
+public:
+    DnD_TctrlSd_Txt(BluetoothFrame * BluetoothFrame_P) {BluetoothFrame = BluetoothFrame_P;}
+    virtual bool OnDropText(wxCoord x, wxCoord y, const wxString& text) wxOVERRIDE;
+
+private:
+   BluetoothFrame * BluetoothFrame;
+};
+
+class DnD_DirCtrl_Txt : public wxTextDropTarget
+{
+public:
+    DnD_DirCtrl_Txt(BluetoothFrame * BluetoothFrame_P) {BluetoothFrame = BluetoothFrame_P;}
+    virtual bool OnDropText(wxCoord x, wxCoord y, const wxString& text) wxOVERRIDE;
+
+private:
+   BluetoothFrame * BluetoothFrame;
 };
 
 #endif

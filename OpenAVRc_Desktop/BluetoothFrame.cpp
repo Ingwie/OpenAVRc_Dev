@@ -105,11 +105,19 @@ BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   SetIcon(wxICON(oavrc_icon));
  }
 
+ DirCtrl->Connect(wxID_ANY, wxEVT_TREE_BEGIN_DRAG, wxTreeEventHandler(BluetoothFrame::OnDirCtrlBeginDrag), NULL, this);
  DirCtrl->SetPath(AppPath + "\\SD\\");
  BTComPort = new Tserial();
  comIsValid = false;
  uCLI = "uCLI>";
 
+ DnD_TctrlSd_Txt * txtTctrlSdDropTarget = new DnD_TctrlSd_Txt(this);
+ txtTctrlSdDropTarget->SetDataObject(new wxTextDataObject());
+ TctrlSd->SetDropTarget(txtTctrlSdDropTarget); //Enable droping objects on SD
+
+ DnD_DirCtrl_Txt * txtDirCtrlDropTarget = new DnD_DirCtrl_Txt(this);
+ txtDirCtrlDropTarget->SetDataObject(new wxTextDataObject());
+ DirCtrl->SetDropTarget(txtDirCtrlDropTarget); //Enable droping objects on HDD
 }
 
 BluetoothFrame::~BluetoothFrame()
@@ -193,6 +201,9 @@ wxString BluetoothFrame::sendCmdAndWaitForResp(wxString BTcommand, wxString* BTa
 {
  if (comIsValid)
   {
+   char trash[128];
+   BTComPort->getArray(trash ,(BTComPort->getNbrOfBytes() > 128 ? 128 : BTComPort->getNbrOfBytes())); // flush buffer
+
    int16_t l = BTcommand.length();
    if (l != 0)
     {
@@ -204,7 +215,7 @@ wxString BluetoothFrame::sendCmdAndWaitForResp(wxString BTcommand, wxString* BTa
      wxBusyCursor wait;
      int Num = BTComPort->getNbrOfBytes();
 
-     for( int i=0; i<6; ++i)
+     for( int i=0; i<10; ++i)
       {
        START_TIMOUT();
        do
@@ -303,6 +314,11 @@ wxString BluetoothFrame::GetFullPathTctrlItem(wxTreeItemId item)
 {
  wxTreeItemId root = TctrlSd->GetRootItem();
  wxString path = TctrlSd->GetItemText(item);
+ if ISDIR(path)
+  {
+   path.Replace("[","");
+   path.Replace("]","/");
+  }
  wxTreeItemId tmp = item;
  wxString tmpPath;
  do
@@ -311,21 +327,66 @@ wxString BluetoothFrame::GetFullPathTctrlItem(wxTreeItemId item)
    tmpPath = TctrlSd->GetItemText(tmp);
    if ISDIR(tmpPath)
     {
-     tmpPath.Replace("[","/");
+     tmpPath.Replace("[","");
      tmpPath.Replace("]","/");
     }
 
    path = tmpPath + path;
   }
- while (TctrlSd->GetItemParent(tmp) != root);
+ while (tmp != root);
 
  return path;
 }
 
-void BluetoothFrame::OnTctrlSdBeginDrag(wxTreeEvent& event)
+void BluetoothFrame::OnTctrlSdBeginDrag(wxTreeEvent& event) // SD drag
 {
+ wxTreeItemId item = event.GetItem();
+ if (item.IsOk())
+  {
+   wxTextDataObject dragData(GetFullPathTctrlItem(item));
+   dragSource.SetData(dragData);
+   dragResult = dragSource.DoDragDrop(true);
+  }
+}
 
-  wxTextDataObject dragData(GetFullPathTctrlItem(event.GetItem()));
-  dragSource.SetData(dragData);
-  dragResult = dragSource.DoDragDrop( true );
+bool DnD_TctrlSd_Txt::OnDropText(wxCoord x, wxCoord y, const wxString& text) // SD Drop
+{
+ wxPoint point(x,y);
+ int flag = wxTREE_HITTEST_ABOVE | wxTREE_HITTEST_ONITEMLABEL;
+ wxTreeItemId dest = BluetoothFrame->TctrlSd->HitTest(point, flag);
+ if (dest.IsOk())
+  {
+   BluetoothFrame->TctrlSd->AppendItem(dest, text);
+   return true;
+  }
+ return false;
+}
+
+void BluetoothFrame::OnDirCtrlBeginDrag(wxTreeEvent& event) // HDD Drag
+{
+ wxTreeItemId item = event.GetItem();
+ if (item.IsOk())
+  {
+   DirCtrl->GetTreeCtrl()->SetFocusedItem(item);
+   wxString path = DirCtrl->GetFilePath();
+   if (path != "")  // Drag only files
+    {
+     wxTextDataObject dragData(path);
+     dragSource.SetData(dragData);
+     dragResult = dragSource.DoDragDrop(true);
+    }
+  }
+}
+
+bool DnD_DirCtrl_Txt::OnDropText(wxCoord x, wxCoord y, const wxString& text) // HDD Drop
+{
+ wxPoint point(x,y);
+ int flag = wxTREE_HITTEST_ABOVE | wxTREE_HITTEST_ONITEMLABEL;
+ wxTreeItemId dest = BluetoothFrame->DirCtrl->GetTreeCtrl()->HitTest(point, flag);
+ if (dest.IsOk())
+  {
+   BluetoothFrame->DirCtrl->GetTreeCtrl()->AppendItem(dest, text);
+   return true;
+  }
+ return false;
 }
