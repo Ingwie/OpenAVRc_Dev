@@ -57,6 +57,8 @@ class BluetoothFrame: public wxFrame
 		BluetoothFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~BluetoothFrame();
     wxString GetFullPathTctrlItem(wxTreeItemId item);
+    void SdToSdCpy(wxString dest, wxString file);
+    void HddToSdCpy(wxString dest, wxString file);
 
 		//(*Declarations(BluetoothFrame)
 		wxBitmapButton* BitmapButtonReboot;
@@ -109,6 +111,7 @@ class BluetoothFrame: public wxFrame
     wxString getVer();
     void Populate_SD();
     void Populate_Dir(wxTreeItemId * dir);
+
 
 
 	private:
