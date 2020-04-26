@@ -35,12 +35,17 @@
 #include "BluetoothFrame.h"
 #include "OpenAVRc_DesktopMain.h"
 
+#define SD_ROOT ("/")
+
 #define START_TIMOUT() \
  timout = true;        \
- TimerRX.StartOnce(50);
+ TimerRX.StartOnce(100);
 
-#define ISDIR(x)       \
+#define IS_SD_DIR(x)       \
  ((x.StartsWith("[")) && (x.EndsWith("]"))) // x is a wxString
+
+#define IS_SD_ROOT(x)       \
+ (x == SD_ROOT) // x is a wxString
 
  extern wxString AppPath;
 //(*InternalHeaders(BluetoothFrame)
@@ -273,7 +278,7 @@ wxString BluetoothFrame::getVer()
 void BluetoothFrame::Populate_Dir(wxTreeItemId * dir)
 {
  wxString sourceName = TctrlSd->GetItemText(*dir);
- if ISDIR(sourceName)
+ if IS_SD_DIR(sourceName)
   {
    sourceName.Replace("[","/");
    sourceName.Replace("]","/");
@@ -293,14 +298,14 @@ void BluetoothFrame::Populate_Dir(wxTreeItemId * dir)
 
 void BluetoothFrame::Populate_SD()
 {
- wxTreeItemId rootId = TctrlSd->AddRoot("/");
+ wxTreeItemId rootId = TctrlSd->AddRoot(SD_ROOT);
  Populate_Dir(&rootId);
  wxTreeItemIdValue cookie;
  wxTreeItemId child = TctrlSd->GetFirstChild(rootId, cookie);
 
  while (child.IsOk())
   {
-   if ISDIR(TctrlSd->GetItemText(child))
+   if IS_SD_DIR(TctrlSd->GetItemText(child))
     {
      Populate_Dir(&child);
     }
@@ -314,7 +319,7 @@ wxString BluetoothFrame::GetFullPathTctrlItem(wxTreeItemId item)
 {
  wxTreeItemId root = TctrlSd->GetRootItem();
  wxString path = TctrlSd->GetItemText(item);
- if ISDIR(path)
+ if IS_SD_DIR(path)
   {
    path.Replace("[","");
    path.Replace("]","/");
@@ -325,12 +330,11 @@ wxString BluetoothFrame::GetFullPathTctrlItem(wxTreeItemId item)
   {
    tmp = TctrlSd->GetItemParent(tmp);
    tmpPath = TctrlSd->GetItemText(tmp);
-   if ISDIR(tmpPath)
+   if IS_SD_DIR(tmpPath)
     {
      tmpPath.Replace("[","");
      tmpPath.Replace("]","/");
     }
-
    path = tmpPath + path;
   }
  while (tmp != root);
@@ -349,19 +353,6 @@ void BluetoothFrame::OnTctrlSdBeginDrag(wxTreeEvent& event) // SD drag
   }
 }
 
-bool DnD_TctrlSd_Txt::OnDropText(wxCoord x, wxCoord y, const wxString& text) // SD Drop
-{
- wxPoint point(x,y);
- int flag = wxTREE_HITTEST_ABOVE | wxTREE_HITTEST_ONITEMLABEL;
- wxTreeItemId dest = BluetoothFrame->TctrlSd->HitTest(point, flag);
- if (dest.IsOk())
-  {
-   BluetoothFrame->TctrlSd->AppendItem(dest, text);
-   return true;
-  }
- return false;
-}
-
 void BluetoothFrame::OnDirCtrlBeginDrag(wxTreeEvent& event) // HDD Drag
 {
  wxTreeItemId item = event.GetItem();
@@ -378,6 +369,55 @@ void BluetoothFrame::OnDirCtrlBeginDrag(wxTreeEvent& event) // HDD Drag
   }
 }
 
+void BluetoothFrame::SdToSdCpy(wxString dest, wxString file)
+{
+ if IS_SD_DIR(dest)
+  {
+   dest.Replace("[","/");
+   dest.Replace("]","/");
+  }
+  wxString uCliCommand = "cp SD" + file + " SD" + dest + file.AfterLast('/');
+  wxMessageBox(uCliCommand);
+  wxString BTanwser = "";
+  sendCmdAndWaitForResp(uCliCommand, &BTanwser);
+
+}
+
+void BluetoothFrame::HddToSdCpy(wxString dest, wxString file)
+{
+
+}
+
+bool DnD_TctrlSd_Txt::OnDropText(wxCoord x, wxCoord y, const wxString& text) // SD Drop
+{
+ wxPoint point(x,y);
+ int flag = wxTREE_HITTEST_ABOVE | wxTREE_HITTEST_ONITEMLABEL;
+ wxTreeItemId dest = BluetoothFrame->TctrlSd->HitTest(point, flag);
+ if (dest.IsOk())
+  {
+   wxString destName = BluetoothFrame->TctrlSd->GetItemText(dest);
+   if (!(IS_SD_DIR(destName) || IS_SD_ROOT(destName)))
+    {
+     dest = BluetoothFrame->TctrlSd->GetItemParent(dest);
+    }
+   if (dest.IsOk())
+    {
+     wxString destName = BluetoothFrame->TctrlSd->GetItemText(dest);
+     if (text.StartsWith(SD_ROOT)) // Sender is SD
+      {
+       BluetoothFrame->SdToSdCpy(destName, text);
+      }
+     else
+      {
+       BluetoothFrame->HddToSdCpy(destName, text);
+      }
+    }
+   //BluetoothFrame->TctrlSd->AppendItem(dest, text);
+   return true;
+  }
+ return false;
+}
+
 bool DnD_DirCtrl_Txt::OnDropText(wxCoord x, wxCoord y, const wxString& text) // HDD Drop
 {
  wxPoint point(x,y);
@@ -385,7 +425,7 @@ bool DnD_DirCtrl_Txt::OnDropText(wxCoord x, wxCoord y, const wxString& text) // 
  wxTreeItemId dest = BluetoothFrame->DirCtrl->GetTreeCtrl()->HitTest(point, flag);
  if (dest.IsOk())
   {
-   BluetoothFrame->DirCtrl->GetTreeCtrl()->AppendItem(dest, text);
+   //BluetoothFrame->DirCtrl->GetTreeCtrl()->AppendItem(dest, text);
    return true;
   }
  return false;
