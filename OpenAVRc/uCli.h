@@ -40,7 +40,7 @@
 #include "debug/TinyDbg.h"
 #endif
 #if defined(XMODEM)
-#include "xmodem/xmodem.h"
+#include "thirdparty/xmodem/xmodem.h"
 #endif
 
 #define BACK_SPACE         0x08
