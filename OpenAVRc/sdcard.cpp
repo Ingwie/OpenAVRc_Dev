@@ -40,277 +40,321 @@ struct fat_file_struct* SD_file;
 
 uint8_t MountSD()
 {
-  uint8_t ret = 0;
-  /* setup sd card slot */
-  if (sd_raw_init())
+ uint8_t ret = 0;
+ /* setup sd card slot */
+ if (sd_raw_init())
+  {
+   /* open first partition */
+   SD_partition = partition_open(sd_raw_read,
+                                 sd_raw_read_interval,
+                                 sd_raw_write,
+                                 sd_raw_write_interval,
+                                 0);
+
+   if (SD_partition)
     {
-      /* open first partition */
-      SD_partition = partition_open(sd_raw_read,
-                                    sd_raw_read_interval,
-                                    sd_raw_write,
-                                    sd_raw_write_interval,
-                                    0);
+     /* open file system */
+     SD_filesystem = fat_open(SD_partition);
 
-      if (SD_partition)
+     if (SD_filesystem)
+      {
+       /* open root directory */
+       sdChangeCurDir(ROOT_PATH);
+
+       if (SD_dir)
         {
-          /* open file system */
-          SD_filesystem = fat_open(SD_partition);
-
-          if (SD_filesystem)
-            {
-              /* open root directory */
-              fat_get_dir_entry_of_path(SD_filesystem, ROOT_PATH, &SD_dir_entry);
-              SD_dir = fat_open_dir(SD_filesystem, &SD_dir_entry);
-
-              if (SD_dir)
-                {
-                  ret = 1;
-                }
-            }
+         ret = 1;
         }
+      }
     }
-  return ret;
+  }
+ return ret;
 }
 
 void UmountSD()
 {
-  while (!sd_raw_sync()) {};
-  /* close file */
-  fat_close_file(SD_file);
-  /* close directory */
-  fat_close_dir(SD_dir);
-  /* close file system */
-  fat_close(SD_filesystem);
-  /* close partition */
-  partition_close(SD_partition);
+ while (!sd_raw_sync()) {};
+ /* close file */
+ fat_close_file(SD_file);
+ /* close directory */
+ fat_close_dir(SD_dir);
+ /* close file system */
+ fat_close(SD_filesystem);
+ /* close partition */
+ partition_close(SD_partition);
 }
 
 uint8_t sdChangeCurDir(const char* path)
 {
-  fat_close_dir(SD_dir);
-  if ((path[0] == '.') && (path[1] == '.') && (path[2] == '\0') )
-    {
-      fat_get_dir_entry_of_path(SD_filesystem, ROOT_PATH, &SD_dir_entry);
-    }
-  else
-    {
-      fat_get_dir_entry_of_path(SD_filesystem, path, &SD_dir_entry);
-    }
-  SD_dir = fat_open_dir(SD_filesystem, &SD_dir_entry);
-  uint8_t ret = (!SD_dir)? 0:1;
-  return ret;
+ fat_close_dir(SD_dir);
+ if ((path[0] == '.') && (path[1] == '.') && (path[2] == '\0') )
+  {
+   fat_get_dir_entry_of_path(SD_filesystem, ROOT_PATH, &SD_dir_entry);
+  }
+ else
+  {
+   fat_get_dir_entry_of_path(SD_filesystem, path, &SD_dir_entry);
+  }
+ SD_dir = fat_open_dir(SD_filesystem, &SD_dir_entry);
+ uint8_t ret = (!SD_dir)? 0:1;
+ return ret;
 }
 
 void sdCreateSystemDir()
 {
-  fat_create_dir(SD_dir, MODELS_PATH, &SD_dir_entry);
-  fat_create_dir(SD_dir, LOGS_PATH, &SD_dir_entry);
+ fat_create_dir(SD_dir, MODELS_PATH, &SD_dir_entry);
+ fat_create_dir(SD_dir, LOGS_PATH, &SD_dir_entry);
 }
 
 uint8_t sdOpenDir(const char* path)
 {
-  return sdChangeCurDir(path);
+ return sdChangeCurDir(path);
 }
 
 uint8_t sdOpenModelsDir()
 {
-  return sdOpenDir(ROOT_PATH MODELS_PATH);
+ return sdOpenDir(ROOT_PATH MODELS_PATH);
 }
 
 uint8_t sdOpenLogsDir()
 {
-  return sdOpenDir(ROOT_PATH LOGS_PATH);
+ return sdOpenDir(ROOT_PATH LOGS_PATH);
 }
 
 uint8_t sdFindFileStruct(const char* name)
 {
-  while(fat_read_dir(SD_dir, &SD_dir_entry))
+ while(fat_read_dir(SD_dir, &SD_dir_entry))
+  {
+   if(strcmp(SD_dir_entry.long_name, name) == 0)
     {
-      if(strcmp(SD_dir_entry.long_name, name) == 0)
-        {
-          if (fat_reset_dir(SD_dir))
-            return 1;
-        }
+     if (fat_reset_dir(SD_dir))
+      return 1;
     }
-  return 0;
+  }
+ return 0;
 }
 
 uint8_t sdDeleteFile(const char* name)
 {
-  return (sdFindFileStruct(name) && fat_delete_file(SD_filesystem, &SD_dir_entry));
+ return (sdFindFileStruct(name) && fat_delete_file(SD_filesystem, &SD_dir_entry));
 }
 
 uint8_t listSdFiles(const char *path, const char *extension, const uint8_t maxlen, const char *selection, uint8_t flags=0)
 {
 
-  static uint16_t lastpopupMenuOffset = 0;
+ static uint16_t lastpopupMenuOffset = 0;
 
-  // we must close the logs as we reuse the same SDfile structure
-  closeLogIfActived();
+// we must close the logs as we reuse the same SDfile structure
+ closeLogIfActived();
 
-  if (popupMenuOffset == 0)
+ if (popupMenuOffset == 0)
+  {
+   lastpopupMenuOffset = 0;
+   memset(reusableBuffer.modelsel.menu_bss, 0, sizeof(reusableBuffer.modelsel.menu_bss));
+  }
+ else if (popupMenuOffset == popupMenuNoItems - MENU_MAX_DISPLAY_LINES)
+  {
+   lastpopupMenuOffset = 0xffff;
+   memset(reusableBuffer.modelsel.menu_bss, 0, sizeof(reusableBuffer.modelsel.menu_bss));
+  }
+ else if (popupMenuOffset == lastpopupMenuOffset)
+  {
+   // should not happen, only there because of Murphy's law
+   return true;
+  }
+ else if (popupMenuOffset > lastpopupMenuOffset)
+  {
+   memmove(reusableBuffer.modelsel.menu_bss[0], reusableBuffer.modelsel.menu_bss[1], (MENU_MAX_DISPLAY_LINES-1)*MENU_LINE_LENGTH);
+   memset(reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1], 0xff, MENU_LINE_LENGTH);
+  }
+ else
+  {
+   memmove(reusableBuffer.modelsel.menu_bss[1], reusableBuffer.modelsel.menu_bss[0], (MENU_MAX_DISPLAY_LINES-1)*MENU_LINE_LENGTH);
+   memset(reusableBuffer.modelsel.menu_bss[0], 0, MENU_LINE_LENGTH);
+  }
+
+ popupMenuNoItems = 0;
+ POPUP_MENU_ITEMS_FROM_BSS();
+
+ if (sdChangeCurDir(path)) // Open  directory
+  {
+   if (flags)
     {
-      lastpopupMenuOffset = 0;
-      memset(reusableBuffer.modelsel.menu_bss, 0, sizeof(reusableBuffer.modelsel.menu_bss));
-    }
-  else if (popupMenuOffset == popupMenuNoItems - MENU_MAX_DISPLAY_LINES)
-    {
-      lastpopupMenuOffset = 0xffff;
-      memset(reusableBuffer.modelsel.menu_bss, 0, sizeof(reusableBuffer.modelsel.menu_bss));
-    }
-  else if (popupMenuOffset == lastpopupMenuOffset)
-    {
-      // should not happen, only there because of Murphy's law
-      return true;
-    }
-  else if (popupMenuOffset > lastpopupMenuOffset)
-    {
-      memmove(reusableBuffer.modelsel.menu_bss[0], reusableBuffer.modelsel.menu_bss[1], (MENU_MAX_DISPLAY_LINES-1)*MENU_LINE_LENGTH);
-      memset(reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1], 0xff, MENU_LINE_LENGTH);
-    }
-  else
-    {
-      memmove(reusableBuffer.modelsel.menu_bss[1], reusableBuffer.modelsel.menu_bss[0], (MENU_MAX_DISPLAY_LINES-1)*MENU_LINE_LENGTH);
-      memset(reusableBuffer.modelsel.menu_bss[0], 0, MENU_LINE_LENGTH);
+     ++popupMenuNoItems;
+     if (selection)
+      {
+       lastpopupMenuOffset++;
+      }
+     else if (popupMenuOffset==0 || popupMenuOffset < lastpopupMenuOffset)
+      {
+       char *line = reusableBuffer.modelsel.menu_bss[0];
+       memset(line, 0, MENU_LINE_LENGTH);
+       strcpy_P(line, PSTR("---"));
+       popupMenuItems[0] = line;
+      }
     }
 
-  popupMenuNoItems = 0;
-  POPUP_MENU_ITEMS_FROM_BSS();
-
-  if (sdChangeCurDir(path)) // Open  directory
+   while (fat_read_dir(SD_dir, &SD_dir_entry))
     {
-      if (flags)
+     uint8_t len = strlen(SD_dir_entry.long_name);
+     if (len < 5 || len > maxlen+4 ||
+         strcasecmp(SD_dir_entry.long_name+len-4, extension) ||
+         (SD_dir_entry.attributes & FAT_ATTRIB_DIR))
+      continue;
+
+     ++popupMenuNoItems;
+
+     SD_dir_entry.long_name[len-4] = '\0';
+
+     if (popupMenuOffset == 0)
+      {
+       if (selection && strncasecmp(SD_dir_entry.long_name, selection, maxlen) < 0)
         {
-          ++popupMenuNoItems;
-          if (selection)
+         lastpopupMenuOffset++;
+        }
+       else
+        {
+         for (uint8_t i=0; i<MENU_MAX_DISPLAY_LINES; i++)
+          {
+           char *line = reusableBuffer.modelsel.menu_bss[i];
+           if (line[0] == '\0' || strcasecmp(SD_dir_entry.long_name, line) < 0)
             {
-              lastpopupMenuOffset++;
+             if (i < MENU_MAX_DISPLAY_LINES-1)
+              memmove(reusableBuffer.modelsel.menu_bss[i+1], line, sizeof(reusableBuffer.modelsel.menu_bss[i]) * (MENU_MAX_DISPLAY_LINES-1-i));
+             memset(line, 0, MENU_LINE_LENGTH);
+             strcpy(line, SD_dir_entry.long_name);
+             break;
             }
-          else if (popupMenuOffset==0 || popupMenuOffset < lastpopupMenuOffset)
-            {
-              char *line = reusableBuffer.modelsel.menu_bss[0];
-              memset(line, 0, MENU_LINE_LENGTH);
-              strcpy_P(line, PSTR("---"));
-              popupMenuItems[0] = line;
-            }
+          }
+        }
+       for (uint8_t i=0; i<min(popupMenuNoItems, (uint8_t)MENU_MAX_DISPLAY_LINES); ++i)
+        {
+         popupMenuItems[i] = reusableBuffer.modelsel.menu_bss[i];
         }
 
-      while (fat_read_dir(SD_dir, &SD_dir_entry))
+      }
+     else if (lastpopupMenuOffset == 0xffff)
+      {
+       for (int8_t i=(MENU_MAX_DISPLAY_LINES-1); i>=0; --i)
         {
-          uint8_t len = strlen(SD_dir_entry.long_name);
-          if (len < 5 || len > maxlen+4 ||
-              strcasecmp(SD_dir_entry.long_name+len-4, extension) ||
-              (SD_dir_entry.attributes & FAT_ATTRIB_DIR))
-            continue;
-
-          ++popupMenuNoItems;
-
-          SD_dir_entry.long_name[len-4] = '\0';
-
-          if (popupMenuOffset == 0)
-            {
-              if (selection && strncasecmp(SD_dir_entry.long_name, selection, maxlen) < 0)
-                {
-                  lastpopupMenuOffset++;
-                }
-              else
-                {
-                  for (uint8_t i=0; i<MENU_MAX_DISPLAY_LINES; i++)
-                    {
-                      char *line = reusableBuffer.modelsel.menu_bss[i];
-                      if (line[0] == '\0' || strcasecmp(SD_dir_entry.long_name, line) < 0)
-                        {
-                          if (i < MENU_MAX_DISPLAY_LINES-1)
-                            memmove(reusableBuffer.modelsel.menu_bss[i+1], line, sizeof(reusableBuffer.modelsel.menu_bss[i]) * (MENU_MAX_DISPLAY_LINES-1-i));
-                          memset(line, 0, MENU_LINE_LENGTH);
-                          strcpy(line, SD_dir_entry.long_name);
-                          break;
-                        }
-                    }
-                }
-              for (uint8_t i=0; i<min(popupMenuNoItems, (uint8_t)MENU_MAX_DISPLAY_LINES); ++i)
-                {
-                  popupMenuItems[i] = reusableBuffer.modelsel.menu_bss[i];
-                }
-
-            }
-          else if (lastpopupMenuOffset == 0xffff)
-            {
-              for (int8_t i=(MENU_MAX_DISPLAY_LINES-1); i>=0; --i)
-                {
-                  char *line = reusableBuffer.modelsel.menu_bss[i];
-                  if (line[0] == '\0' || strcasecmp(SD_dir_entry.long_name, line) > 0)
-                    {
-                      if (i > 0)
-                        memmove(reusableBuffer.modelsel.menu_bss[0], reusableBuffer.modelsel.menu_bss[1], sizeof(reusableBuffer.modelsel.menu_bss[i]) * i);
-                      memset(line, 0, MENU_LINE_LENGTH);
-                      strcpy(line, SD_dir_entry.long_name);
-                      break;
-                    }
-                }
-              for (uint8_t i=0; i<min(popupMenuNoItems, (uint8_t)MENU_MAX_DISPLAY_LINES); ++i)
-                {
-                  popupMenuItems[i] = reusableBuffer.modelsel.menu_bss[i];
-                }
-            }
-          else if (popupMenuOffset > lastpopupMenuOffset)
-            {
-              if (strcasecmp(SD_dir_entry.long_name, reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-2]) > 0 && strcasecmp(SD_dir_entry.long_name, reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1]) < 0)
-                {
-                  memset(reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1], 0, MENU_LINE_LENGTH);
-                  strcpy(reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1], SD_dir_entry.long_name);
-                }
-            }
-          else
-            {
-              if (strcasecmp(SD_dir_entry.long_name, reusableBuffer.modelsel.menu_bss[1]) < 0 && strcasecmp(SD_dir_entry.long_name, reusableBuffer.modelsel.menu_bss[0]) > 0)
-                {
-                  memset(reusableBuffer.modelsel.menu_bss[0], 0, MENU_LINE_LENGTH);
-                  strcpy(reusableBuffer.modelsel.menu_bss[0], SD_dir_entry.long_name);
-                }
-            }
+         char *line = reusableBuffer.modelsel.menu_bss[i];
+         if (line[0] == '\0' || strcasecmp(SD_dir_entry.long_name, line) > 0)
+          {
+           if (i > 0)
+            memmove(reusableBuffer.modelsel.menu_bss[0], reusableBuffer.modelsel.menu_bss[1], sizeof(reusableBuffer.modelsel.menu_bss[i]) * i);
+           memset(line, 0, MENU_LINE_LENGTH);
+           strcpy(line, SD_dir_entry.long_name);
+           break;
+          }
         }
+       for (uint8_t i=0; i<min(popupMenuNoItems, (uint8_t)MENU_MAX_DISPLAY_LINES); ++i)
+        {
+         popupMenuItems[i] = reusableBuffer.modelsel.menu_bss[i];
+        }
+      }
+     else if (popupMenuOffset > lastpopupMenuOffset)
+      {
+       if (strcasecmp(SD_dir_entry.long_name, reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-2]) > 0 && strcasecmp(SD_dir_entry.long_name, reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1]) < 0)
+        {
+         memset(reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1], 0, MENU_LINE_LENGTH);
+         strcpy(reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1], SD_dir_entry.long_name);
+        }
+      }
+     else
+      {
+       if (strcasecmp(SD_dir_entry.long_name, reusableBuffer.modelsel.menu_bss[1]) < 0 && strcasecmp(SD_dir_entry.long_name, reusableBuffer.modelsel.menu_bss[0]) > 0)
+        {
+         memset(reusableBuffer.modelsel.menu_bss[0], 0, MENU_LINE_LENGTH);
+         strcpy(reusableBuffer.modelsel.menu_bss[0], SD_dir_entry.long_name);
+        }
+      }
     }
+  }
 
-  if (popupMenuOffset > 0)
-    lastpopupMenuOffset = popupMenuOffset;
-  else
-    popupMenuOffset = lastpopupMenuOffset;
+ if (popupMenuOffset > 0)
+  lastpopupMenuOffset = popupMenuOffset;
+ else
+  popupMenuOffset = lastpopupMenuOffset;
 
-  SdBufferClear();
-  return popupMenuNoItems;
+ SdBufferClear();
+ return popupMenuNoItems;
 }
 
 uint8_t setSdModelName(char *filename, uint8_t nummodel)
 {
-  int8_t i = sizeof(g_model.name)-1;
-  uint8_t len = 0;
-  while (i>-1)
+ int8_t i = sizeof(g_model.name)-1;
+ uint8_t len = 0;
+ while (i>-1)
+  {
+   if (!len && filename[i])
+    len = i+1;
+   if (len)
     {
-      if (!len && filename[i])
-        len = i+1;
-      if (len)
-        {
-          if (filename[i])
-            filename[i] = idx2char(filename[i]);
-          else
-            filename[i] = '_';
-        }
-      --i;
+     if (filename[i])
+      filename[i] = idx2char(filename[i]);
+     else
+      filename[i] = '_';
     }
+   --i;
+  }
 
-  if (len == 0)
+ if (len == 0)
+  {
+   uint8_t num = nummodel + 1;
+   strcpy_P(filename, STR_MODEL);
+   filename[PSIZE(TR_MODEL)] = (char)((num / 10) + '0');
+   filename[PSIZE(TR_MODEL) + 1] = (char)((num % 10) + '0');
+   len = PSIZE(TR_MODEL) + 2;
+  }
+ return len;
+}
+
+uint8_t SdMoveFile(const char* from, const char* dest)
+{
+ uint8_t fromTop = strlen(from)-1;
+ uint8_t destTop = strlen(dest)-1;
+ char *  fromFile = (char *)from;
+ char *  destFile = (char *)dest;
+
+ for (int8_t i = fromTop; i>=0; --i)
+  {
+   if (from[i] == '/')
     {
-      uint8_t num = nummodel + 1;
-      strcpy_P(filename, STR_MODEL);
-      filename[PSIZE(TR_MODEL)] = (char)((num / 10) + '0');
-      filename[PSIZE(TR_MODEL) + 1] = (char)((num % 10) + '0');
-      len = PSIZE(TR_MODEL) + 2;
+     fromFile[i] = 0;
+     fromFile += ++i;
+     break;
     }
-    return len;
+  }
+ for (int8_t i = destTop; i>=0; --i)
+  {
+   if (dest[i] == '/')
+    {
+     destFile[i] = 0;
+     destFile += ++i;
+     break;
+    }
+  }
+
+ if (sdChangeCurDir(strlen(dest)? dest : ROOT_PATH))
+  {
+   struct fat_dir_struct new_SD_dir;
+   memcpy(&new_SD_dir, SD_dir, sizeof(fat_dir_struct)); // new_SD_dir store the destination
+
+   if (sdChangeCurDir(strlen(from)? from : ROOT_PATH))
+    {
+     if (sdFindFileStruct(fromFile))
+      {
+       if (fat_move_file(SD_filesystem, &SD_dir_entry, &new_SD_dir, destFile))
+        {
+         return true;
+        }
+      }
+    }
+  }
+ return false;
 }
 
 void SdBufferClear()
 {
-  memclear(displayBuf, REUSED_SD_RAWBLOCK_BUFFER_SIZE);
+ memclear(displayBuf, REUSED_SD_RAWBLOCK_BUFFER_SIZE);
 }
