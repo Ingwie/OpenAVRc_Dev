@@ -316,6 +316,14 @@ uint8_t SdMoveFile(const char* from, const char* dest)
  char *  fromFile = (char *)from;
  char *  destFile = (char *)dest;
 
+ if (fromTop == destTop)
+ {
+   if (!strcmp(from, dest))
+   {
+     return false; // Full path are identic ! Exit
+   }
+ }
+
  for (int8_t i = fromTop; i>=0; --i)
   {
    if (from[i] == '/')
