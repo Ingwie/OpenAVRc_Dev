@@ -160,7 +160,10 @@ void uCli_process(void)
          uCli.CmdLine.Msg[uCli.CmdLine.Idx++] = RxChar;
         }
        else
-        uCli.CmdLine.Idx = 0; //msg too long!
+        {
+         uCli.CmdLine.Idx = 0; //msg too long!
+         TRACE("uCLI recept a too long message !!");
+        }
        break;
       }
     }
@@ -338,10 +341,15 @@ static int8_t uCli_Cmd_cp(const char ** argv, uint8_t argc)
 #endif
   if(!FileMedia.Src || !FileMedia.Dst || ((FileMedia.Src == FILE_MEDIA_XMODEM) && (FileMedia.Src == FileMedia.Dst)) || !FileName || !*FileName) return(-1);
   /* Command is correct */
+  // we must close the logs as we reuse the same SDfile structure
+  closeLogIfActived();
   if(FileMedia.Src == FileMedia.Dst)
   {
     /* SD to SD copy */
-    Serial1.println(F("SD to SD copy"));
+    if (SdMoveFile(&argv[1][2], &argv[2][2]))
+    {
+      Serial1.println(F("SD to SD move"));
+    }
   }
 #if defined(XMODEM)
   else
