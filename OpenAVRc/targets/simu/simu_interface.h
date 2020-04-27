@@ -124,6 +124,7 @@ extern uint8_t fat_create_dir(struct fat_dir_struct* parent, const char* dir, st
 extern uint8_t fat_reset_dir(struct fat_dir_struct* dd);
 extern uint8_t fat_delete_file(struct fat_fs_struct* fs, struct fat_dir_entry_struct* dir_entry);
 extern void fat_close_dir(struct fat_dir_struct* dd);
+extern uint8_t fat_move_file(struct fat_fs_struct* fs, struct fat_dir_entry_struct* dir_entry, struct fat_dir_struct* parent_new, const char* file_new);
 
 //Function
 extern unsigned char simu_eeprom[];
