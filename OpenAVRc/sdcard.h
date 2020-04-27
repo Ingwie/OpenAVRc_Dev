@@ -77,7 +77,9 @@ uint8_t sdOpenLogsDir();
 
 uint8_t sdFindFileStruct(const char* name);
 uint8_t sdDeleteFile(const char* name);
-
+uint8_t SdMoveFile(const char* from, const char* dest);
+#define SdRenameFile(from, dest)              \
+SdMoveFile(const char* from, const char* dest)
 
 extern uint8_t logDelay;
 uint8_t openLogs();
@@ -91,7 +93,7 @@ void SdBufferClear();
 
 extern uint8_t listSdFiles(const char *path, const char *extension, const uint8_t maxlen, const char *selection, uint8_t flags);
 
-const char *fileCopy(const char *filename, const char *srcDir, const char *destDir);
+//const char *fileCopy(const char *filename, const char *srcDir, const char *destDir); // Not implemented
 
 uint8_t setSdModelName(char *filename, uint8_t nummodel);
 
