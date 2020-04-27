@@ -279,18 +279,18 @@ uint8_t fat_get_dir_entry_of_path(struct fat_fs_struct* fs, const char* path, st
 
 struct fat_dir_struct* fat_open_dir(struct fat_fs_struct* fs, const struct fat_dir_entry_struct* dir_entry)
 {
-  struct fat_dir_struct* tmp = 0;
-
   simulateLcdBufferUsedBySd();
+  struct fat_dir_struct SD_dir;
+  struct fat_dir_struct * P_SD_dir = &SD_dir;;
 
   if (sddir.Open(sdroot + switchRootChar(wxString::FromUTF8(dir_entry->long_name))))
     {
       sdpath = switchRootChar(wxString::FromUTF8(dir_entry->long_name));
       if (sdpath.length() != 1)
         sdpath.Append("\\"); // Not root
-      return (struct fat_dir_struct*)1;
+        strncpy(SD_dir.dir_entry.long_name, dir_entry->long_name, 32);
     }
-  return tmp;
+  return P_SD_dir;
 }
 
 uint8_t fat_create_dir(struct fat_dir_struct* parent, const char* dir, struct fat_dir_entry_struct* dir_entry)
@@ -323,6 +323,35 @@ void fat_close_dir(struct fat_dir_struct* dd)
     {
       sddir.Close();
     }
+}
+
+uint8_t fat_move_file(struct fat_fs_struct* fs, struct fat_dir_entry_struct* dir_entry, struct fat_dir_struct* parent_new, const char* file_new)
+{
+ simulateLcdBufferUsedBySd();
+ wxString fromFile = wxString::FromUTF8(dir_entry->long_name);
+ wxString fromDir = sdpath;
+ fromDir.Replace("\\", "");
+ wxString destFile = wxString::FromUTF8(file_new);
+ wxString destDir = wxString::FromUTF8(parent_new->dir_entry.long_name);
+
+ if (sddir.Exists(sdroot + fromDir))
+  {
+   if (sddir.Exists(sdroot + switchRootChar(wxString::FromUTF8(destDir))))
+    {
+     wxString temp = sdroot + fromDir + "\\" + switchRootChar(wxString::FromUTF8(fromFile));
+     if (wxFile::Exists(temp))
+      {
+       if (wxCopyFile(sdroot+fromDir+"\\"+switchRootChar(wxString::FromUTF8(fromFile)), sdroot+destDir+"\\"+switchRootChar(wxString::FromUTF8(destFile)), 0))
+        {
+         if (wxRemoveFile(sdroot+fromDir+"\\"+switchRootChar(wxString::FromUTF8(fromFile))))
+         {
+          return 1;
+         }
+       }
+     }
+   }
+ }
+ return 0;
 }
 //////////////////////////////////
 
