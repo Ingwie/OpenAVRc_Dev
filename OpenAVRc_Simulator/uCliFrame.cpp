@@ -60,9 +60,9 @@ uCliFrame::uCliFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
 {
 	//(*Initialize(uCliFrame)
 	Create(parent, id, _("uCli"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("id"));
-	SetClientSize(wxDefaultSize);
+	SetClientSize(wxSize(533,354));
 	Move(wxDefaultPosition);
-	TextCtrl = new wxTextCtrl(this, ID_TEXTCTRL, wxEmptyString, wxPoint(224,320), wxDefaultSize, wxTE_PROCESS_ENTER|wxTE_MULTILINE|wxDOUBLE_BORDER, wxDefaultValidator, _T("ID_TEXTCTRL"));
+	TextCtrl = new wxTextCtrl(this, ID_TEXTCTRL, wxEmptyString, wxPoint(224,320), wxDefaultSize, wxTE_PROCESS_ENTER|wxTE_MULTILINE|wxBORDER_DOUBLE, wxDefaultValidator, _T("ID_TEXTCTRL"));
 	TimerBTRX.SetOwner(this, ID_TIMERBTRX);
 	TimerBTRX.Start(20, false);
 
@@ -77,9 +77,9 @@ uCliFrame::uCliFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
 
   //BT
   BTComPort = new Tserial();
-  char BTComNum[5] = {'C','O','M','7',0};
+  char BTComNum[5] = {'C','O','M','6',0};
   assert(BTComPort);
-  SimuBTComIsValid = (BTComPort->connect(BTComNum, 115200, spNONE) == 0);
+  //SimuBTComIsValid = (BTComPort->connect(BTComNum, 115200, spNONE) == 0);
 }
 
 uCliFrame::~uCliFrame()
@@ -166,13 +166,13 @@ void uCliFrame::HwSerialByte(uint8_t c)
     }
   }
 
- if ((c == '\n') && (simu_portb & OUT_B_BT_KEY) && !(simu_portg & OUT_G_BT_ONOFF)) // Virtual BT module ON and AT mode actived
+ if ((c == '\n') && (BT_IS_IN_AT_MODE) && !(simu_portg & OUT_G_BT_ONOFF)) // Virtual BT module ON and AT mode actived
     {
       wxString cmd = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
 
-      if ((cmd == "AT") || (cmd == "AT+UART=115200,0,0") || (cmd == "AT+CLASS=0") || (cmd == "AT+INQM=0,4,4")
+      if ((cmd == "AT") || (cmd == "AT+UART=115200,0,0") || (cmd == "AT+CLASS=0") || (cmd == "AT+INQM=0,3,4")
           || (cmd == "AT+IPSCAN=1024,1,1024,1") || (cmd == "AT+ROLE=1") || (cmd == "AT+ROLE=0") || (cmd == "AT+CMODE=0")
-          || (cmd == "AT+RMAAD") || (cmd == "AT+INIT") || (cmd == "AT+RESET"))
+          || (cmd == "AT+RMAAD") || (cmd == "AT+INIT") || (cmd == "AT+RESET") || (cmd == "AT+INQC"))
         {
           TextCtrl->WriteText("OK");
           SendToHwSerial();
