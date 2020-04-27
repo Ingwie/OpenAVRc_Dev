@@ -291,6 +291,9 @@
 		</Unit>
 		<Unit filename="thirdparty/rrsd/sd_raw.h" />
 		<Unit filename="thirdparty/rrsd/sd_raw_config.h" />
+		<Unit filename="thirdparty/xmodem/xmodem.cpp" />
+		<Unit filename="thirdparty/xmodem/xmodem.h" />
+		<Unit filename="thirdparty/xmodem/xmodem_cfg.cpp" />
 		<Unit filename="timers.cpp" />
 		<Unit filename="timers.h" />
 		<Unit filename="trainer_input.cpp" />
@@ -336,9 +339,6 @@
 		<Unit filename="uCli.cpp" />
 		<Unit filename="uCli.h" />
 		<Unit filename="vario.cpp" />
-		<Unit filename="xmodem/xmodem.cpp" />
-		<Unit filename="xmodem/xmodem.h" />
-		<Unit filename="xmodem/xmodem_cfg.cpp" />
 		<Extensions>
 			<envvars set="python" />
 			<lib_finder disable_auto="1" />

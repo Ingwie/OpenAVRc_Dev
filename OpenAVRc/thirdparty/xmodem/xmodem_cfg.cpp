@@ -34,7 +34,7 @@
 /* otherwise, the content of this file doesn't care and this file can be absent */
 
 /* OpenAVRc environment */
-#include "../OpenAVRc.h"
+#include "../../OpenAVRc.h"
 
 #define FILE_DESC                          struct fat_file_struct*
 #define FILE_EXISTS(FullFileName)          sdFileExists((char *)FullFileName)

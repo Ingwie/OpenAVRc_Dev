@@ -57,8 +57,8 @@
 #include "xmodem.h"
 #include "xmodem_cfg.cpp" /* For a non-arduino environment (such as OpenAVRc), please fill all the macros defined in this file */
 #else
-#include "xmodem/xmodem.h"
-#include "xmodem/xmodem_cfg.cpp" /* For a non-arduino environment (such as OpenAVRc), please fill all the macros defined in this file */
+#include "thirdparty/xmodem/xmodem.h"
+#include "thirdparty/xmodem/xmodem_cfg.cpp" /* For a non-arduino environment (such as OpenAVRc), please fill all the macros defined in this file */
 #endif
 #endif
 
