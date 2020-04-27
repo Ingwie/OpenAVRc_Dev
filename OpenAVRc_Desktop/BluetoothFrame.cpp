@@ -377,10 +377,12 @@ void BluetoothFrame::SdToSdCpy(wxString dest, wxString file)
    dest.Replace("]","/");
   }
   wxString uCliCommand = "cp SD" + file + " SD" + dest + file.AfterLast('/');
-  wxMessageBox(uCliCommand);
+  //wxMessageBox(uCliCommand);
   wxString BTanwser = "";
   sendCmdAndWaitForResp(uCliCommand, &BTanwser);
-
+  //wxMessageBox(BTanwser);
+  TctrlSd->DeleteAllItems();
+  Populate_SD();
 }
 
 void BluetoothFrame::HddToSdCpy(wxString dest, wxString file)
