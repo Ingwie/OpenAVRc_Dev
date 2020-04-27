@@ -2,13 +2,14 @@
 <wxsmith>
 	<object class="wxFrame" name="uCliFrame">
 		<title>uCli</title>
+		<size>533,354</size>
 		<pos_arg>1</pos_arg>
 		<size_arg>1</size_arg>
 		<style>wxDEFAULT_DIALOG_STYLE</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxTextCtrl" name="ID_TEXTCTRL" variable="TextCtrl" member="yes">
 			<pos>224,320</pos>
-			<style>wxTE_PROCESS_ENTER|wxTE_MULTILINE|wxDOUBLE_BORDER</style>
+			<style>wxTE_PROCESS_ENTER|wxTE_MULTILINE|wxBORDER_DOUBLE</style>
 			<handler function="OnTextCtrlTextEnter" entry="EVT_TEXT_ENTER" />
 		</object>
 		<object class="wxTimer" name="ID_TIMERBTRX" variable="TimerBTRX" member="yes">

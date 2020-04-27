@@ -513,6 +513,9 @@
 		<Unit filename="../OpenAVRc/telemetry/frsky.h" />
 		<Unit filename="../OpenAVRc/templates.cpp" />
 		<Unit filename="../OpenAVRc/templates.h" />
+		<Unit filename="../OpenAVRc/thirdparty/xmodem/xmodem.cpp" />
+		<Unit filename="../OpenAVRc/thirdparty/xmodem/xmodem.h" />
+		<Unit filename="../OpenAVRc/thirdparty/xmodem/xmodem_cfg.cpp" />
 		<Unit filename="../OpenAVRc/timers.cpp" />
 		<Unit filename="../OpenAVRc/timers.h" />
 		<Unit filename="../OpenAVRc/trainer_input.cpp" />
@@ -535,12 +538,6 @@
 		<Unit filename="../OpenAVRc/uCli.cpp" />
 		<Unit filename="../OpenAVRc/uCli.h" />
 		<Unit filename="../OpenAVRc/vario.cpp" />
-		<Unit filename="../OpenAVRc/xmodem/xmodem.cpp" />
-		<Unit filename="../OpenAVRc/xmodem/xmodem.h" />
-		<Unit filename="../OpenAVRc/xmodem/xmodem_cfg.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
 		<Unit filename="FrSky/FrSkyDTelemetry.cpp" />
 		<Unit filename="FrSky/FrSkyDTelemetry.h" />
 		<Unit filename="FrSky/FrSkySimu.cpp" />
