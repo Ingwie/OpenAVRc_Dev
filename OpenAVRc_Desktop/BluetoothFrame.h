@@ -35,6 +35,8 @@
 
 #include <wx/dataobj.h>
 #include <wx/dnd.h>
+#include <wx/file.h>
+
 
 #include "serial/tserial.h"
 
@@ -54,6 +56,7 @@ class BluetoothFrame: public wxFrame
 {
 	public:
 
+    Tserial *BTComPort;
 		BluetoothFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~BluetoothFrame();
     wxString GetFullPathTctrlItem(wxTreeItemId item);
@@ -94,7 +97,6 @@ class BluetoothFrame: public wxFrame
 		static const long ID_TIMERRX;
 		//*)
 
-    Tserial *BTComPort;
     bool comIsValid;
     volatile bool timout;
     void DetectSerial();
@@ -149,5 +151,46 @@ public:
 private:
    BluetoothFrame * BluetoothFrame;
 };
+
+//////////// XMODEM /////////////
+  int write_file(wxFile* fd, const uint8_t* buffer, int buffer_len);
+  int seek_file(wxFile* fd, int32_t* offset, uint8_t whence = 0);
+  int read_file(wxFile* fd, uint8_t* buffer, uintptr_t buffer_len);
+  int FileExists(char * FullFileName);
+  int delete_file(char * FullFileName);
+  wxFile *FileOpenForWrite(char *FullFileName);
+  wxFile *FileOpenForRead(char *FullFileName);
+
+
+// common definitions
+
+#define SILENCE_TIMEOUT_MS                 3000UL /* 3 seconds */
+#define CNX_TIMEOUT_MS                     30000UL
+#define CNX_TRY_COUNT_MAX                  (CNX_TIMEOUT_MS / SILENCE_TIMEOUT_MS)
+#define FLUSH_TIME_MS                      1000UL
+#define TOTAL_ERROR_COUNT                  32
+#define ACK_ERROR_COUNT                    8
+
+// Specific
+#define SERIAL_TYPE                        Tserial *
+#define FILE_DESC                          wxFile *
+#define FILE_EXISTS(FullFileName)          FileExists((char *)FullFileName)
+#define FILE_OPEN_FOR_READ(FullFileName)   FileOpenForRead((char *)FullFileName)
+#define FILE_OPEN_FOR_WRITE(FullFileName)  FileOpenForWrite((char *)FullFileName)
+#define FILE_SEEK(fd, Pos)                 seek_file(fd, (int32_t *)&Pos)
+#define FILE_READ_CHUNK(fd,  Buf, Size)    read_file(fd, (uint8_t *)Buf, Size)
+#define FILE_WRITE_CHUNK(fd, Buf, Size)    write_file(fd, (const uint8_t *)Buf, Size)
+#define FILE_SIZE(fd)                      fd->Length()
+#define FILE_CLOSE(fd)                     fd->Close()
+#define FILE_DELETE(FullFileName)          delete_file(( char *)FullFileName)
+
+#define DELAY_MS(ms)                       wxMilliSleep(ms)
+#define GET_TICK()                         (uint32_t)clock()
+#define MS_TO_TICK(ms)                     (((ms) + 9) / 10)
+
+#define YIELD_TO_PRIO_TASK()               wxYieldIfNeeded()
+
+  extern int8_t XReceive(SERIAL_TYPE pSer, const char *szFilename);
+  extern int8_t XSend(SERIAL_TYPE pSer, const char *szFilename);
 
 #endif

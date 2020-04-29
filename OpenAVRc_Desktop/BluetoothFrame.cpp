@@ -47,7 +47,7 @@
 #define IS_SD_ROOT(x)       \
  (x == SD_ROOT) // x is a wxString
 
- extern wxString AppPath;
+extern wxString AppPath;
 //(*InternalHeaders(BluetoothFrame)
 #include <wx/artprov.h>
 #include <wx/bitmap.h>
@@ -73,13 +73,13 @@ const long BluetoothFrame::ID_TIMERRX = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(BluetoothFrame,wxFrame)
- //(*EventTable(BluetoothFrame)
- //*)
+//(*EventTable(BluetoothFrame)
+//*)
 END_EVENT_TABLE()
 
 BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
- //(*Initialize(BluetoothFrame)
+//(*Initialize(BluetoothFrame)
  Create(parent, wxID_ANY, _("Bluetooth"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
  SetClientSize(wxSize(645,409));
  Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(392,176), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
@@ -104,7 +104,7 @@ BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
  Connect(ID_TREECTRLSD,wxEVT_COMMAND_TREE_BEGIN_DRAG,(wxObjectEventFunction)&BluetoothFrame::OnTctrlSdBeginDrag);
  Connect(ID_TIMERRX,wxEVT_TIMER,(wxObjectEventFunction)&BluetoothFrame::OnTimerRXTrigger);
  Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&BluetoothFrame::OnClose);
- //*)
+//*)
 
  {
   SetIcon(wxICON(oavrc_icon));
@@ -127,8 +127,8 @@ BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 
 BluetoothFrame::~BluetoothFrame()
 {
- //(*Destroy(BluetoothFrame)
- //*)
+//(*Destroy(BluetoothFrame)
+//*)
 }
 
 void BluetoothFrame::OnClose(wxCloseEvent& event)
@@ -207,7 +207,7 @@ wxString BluetoothFrame::sendCmdAndWaitForResp(wxString BTcommand, wxString* BTa
  if (comIsValid)
   {
    char trash[128];
-   BTComPort->getArray(trash ,(BTComPort->getNbrOfBytes() > 128 ? 128 : BTComPort->getNbrOfBytes())); // flush buffer
+   BTComPort->getArray(trash,(BTComPort->getNbrOfBytes() > 128 ? 128 : BTComPort->getNbrOfBytes()));  // flush buffer
 
    int16_t l = BTcommand.length();
    if (l != 0)
@@ -376,18 +376,31 @@ void BluetoothFrame::SdToSdCpy(wxString dest, wxString file)
    dest.Replace("[","/");
    dest.Replace("]","/");
   }
-  wxString uCliCommand = "cp SD" + file + " SD" + dest + file.AfterLast('/');
-  //wxMessageBox(uCliCommand);
-  wxString BTanwser = "";
-  sendCmdAndWaitForResp(uCliCommand, &BTanwser);
-  //wxMessageBox(BTanwser);
-  TctrlSd->DeleteAllItems();
-  Populate_SD();
+ wxString uCliCommand = "cp SD" + file + " SD" + dest + file.AfterLast('/');
+ //wxMessageBox(uCliCommand);
+ wxString BTanwser = "";
+ sendCmdAndWaitForResp(uCliCommand, &BTanwser);
+ //wxMessageBox(BTanwser);
+ TctrlSd->DeleteAllItems();
+ Populate_SD();
 }
 
 void BluetoothFrame::HddToSdCpy(wxString dest, wxString file)
 {
-
+ if IS_SD_DIR(dest)
+  {
+   dest.Replace("[","/");
+   dest.Replace("]","/");
+  }
+ wxString uCliCommand = "cp xmdm SD" + dest + file.AfterLast('\\');
+ wxMessageBox(uCliCommand);
+ wxString BTanwser = "";
+ sendCmdAndWaitForResp(uCliCommand, &BTanwser);
+ Sleep(100);
+ int ret = XSend(BTComPort, file.c_str());
+ wxMessageBox(wxString::Format(wxT("%i"),ret));
+ TctrlSd->DeleteAllItems();
+ Populate_SD();
 }
 
 bool DnD_TctrlSd_Txt::OnDropText(wxCoord x, wxCoord y, const wxString& text) // SD Drop
@@ -431,4 +444,68 @@ bool DnD_DirCtrl_Txt::OnDropText(wxCoord x, wxCoord y, const wxString& text) // 
    return true;
   }
  return false;
+}
+
+
+/////// XMODEM FILES OPERATIONS   /////////
+write_file(wxFile* fd, const uint8_t* buffer, int buffer_len)
+{
+ int ret = 0;
+
+ ret = fd->Write(buffer, buffer_len);
+ if (fd->Flush())
+  {
+   return ret;
+  }
+ return 0;
+}
+
+int seek_file(wxFile* fd, int32_t* offset, uint8_t whence)
+{
+ int ret = 0;
+
+ if (fd->Seek(*offset,(wxSeekMode)whence) != wxInvalidOffset)
+  {
+   ret = 1;
+  }
+ return ret;
+}
+
+int read_file(wxFile* fd, uint8_t* buffer, uintptr_t buffer_len)
+{
+ return (int)fd->Read(buffer,buffer_len);
+}
+
+int FileExists(char * FullFileName)
+{
+ return wxFile::Exists(wxString::FromUTF8(FullFileName));
+}
+
+int delete_file(char * FullFileName)
+{
+ return wxRemoveFile(wxString::FromUTF8(FullFileName));
+}
+
+wxFile * FileOpenForWrite(char *FullFileName)
+{
+ wxFile *fd = NULL;
+ fd = new(wxFile);
+ if (fd->Create(wxString::FromUTF8(FullFileName), 0, wxS_DEFAULT))
+ {
+   return fd;
+ }
+ return NULL;
+}
+
+wxFile * FileOpenForRead(char *FullFileName)
+{
+ wxFile *fd = NULL;
+ fd = new(wxFile);
+ wxString path = (wxString::FromUTF8(FullFileName));
+ if (wxFile::Exists(path))
+  {
+   (fd->Open(path, wxFile::read_write, wxS_DEFAULT));
+   return fd;
+  }
+ return NULL;
 }
