@@ -67,6 +67,13 @@ public:
     int           getArray         (char *buffer, int len);
     int           getNbrOfBytes    (void);
     void          disconnect       (void);
+
+
+    //////////// ADDS FOR XMODEM SUPPORT //////////////// Ingwie
+    int available();
+    char read();
+    int write(char c);
+    int write(const uint8_t * buffer, int);
 };
 /* -------------------------------------------------------------------- */
 

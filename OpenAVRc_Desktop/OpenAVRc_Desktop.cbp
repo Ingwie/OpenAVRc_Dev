@@ -58,6 +58,7 @@
 			<Add option="-D__WXMSW__" />
 			<Add option="-DWXUSINGDLL" />
 			<Add option="-DwxUSE_UNICODE" />
+			<Add option="-DDESKTOP" />
 			<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/include" />
 		</Compiler>
 		<ResourceCompiler>
@@ -67,6 +68,7 @@
 			<Add option="-m32" />
 			<Add option="-mthreads" />
 		</Linker>
+		<Unit filename="../OpenAVRc/thirdparty/xmodem/xmodem.cpp" />
 		<Unit filename="BluetoothFrame.cpp" />
 		<Unit filename="BluetoothFrame.h" />
 		<Unit filename="CommunicationsFrame.cpp" />
