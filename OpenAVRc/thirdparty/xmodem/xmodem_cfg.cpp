@@ -110,6 +110,8 @@ static uint8_t sdFileExists(char *FullFileName)
     {
       Ret = sdFindFileStruct(FullFileName + ofsToBaseName);
     }
+    // Ingwie : Restore FullFileName for other function
+    FullFileName[ofsToBaseName-1] = '/'; //restore '/'
   }
 
   return(Ret);
@@ -136,6 +138,8 @@ static fat_file_struct *sdFileOpenForRead(char *FullFileName)
         fd = fat_open_file(SD_filesystem, &SD_dir_entry);
       }
     }
+    // Ingwie : Restore FullFileName for other function
+    FullFileName[ofsToBaseName-1] = '/'; //restore '/'
   }
 
   return(fd);
@@ -162,6 +166,8 @@ static fat_file_struct *sdFileOpenForWrite(char *FullFileName)
         fd = fat_open_file(SD_filesystem, &SD_dir_entry);
       }
     }
+    // Ingwie : Restore FullFileName for other function
+    FullFileName[ofsToBaseName-1] = '/'; //restore '/'
   }
 
   return(fd);
