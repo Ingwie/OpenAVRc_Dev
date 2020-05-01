@@ -9,7 +9,7 @@
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxTextCtrl" name="ID_TEXTCTRL" variable="TextCtrl" member="yes">
 			<pos>224,320</pos>
-			<style>wxTE_PROCESS_ENTER|wxTE_MULTILINE|wxBORDER_DOUBLE</style>
+			<style>wxTE_PROCESS_ENTER|wxTE_MULTILINE|wxBORDER_DOUBLE|wxHSCROLL</style>
 			<handler function="OnTextCtrlTextEnter" entry="EVT_TEXT_ENTER" />
 		</object>
 		<object class="wxTimer" name="ID_TIMERBTRX" variable="TimerBTRX" member="yes">
