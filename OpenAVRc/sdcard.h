@@ -88,6 +88,7 @@ void closeLogs();
 void closeLogIfActived();
 void writeLogs();
 void SdBufferClear();
+uint8_t getDirAndBaseName(char *FullFileName);
 
 #define OAVRC_FOURCC 0x16180339 // OAVRC ID
 

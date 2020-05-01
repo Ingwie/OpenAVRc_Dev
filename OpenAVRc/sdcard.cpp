@@ -311,37 +311,12 @@ uint8_t setSdModelName(char *filename, uint8_t nummodel)
 
 uint8_t SdMoveFile(const char* from, const char* dest)
 {
- uint8_t fromTop = strlen(from)-1;
- uint8_t destTop = strlen(dest)-1;
- char *  fromFile = (char *)from;
- char *  destFile = (char *)dest;
-
- if (fromTop == destTop)
- {
-   if (!strcmp(from, dest))
-   {
-     return false; // Full path are identic ! Exit
-   }
- }
-
- for (int8_t i = fromTop; i>=0; --i)
+ if (!strcmp(from, dest))
   {
-   if (from[i] == '/')
-    {
-     fromFile[i] = 0;
-     fromFile += ++i;
-     break;
-    }
+   return false; // Full path are identic ! Exit error
   }
- for (int8_t i = destTop; i>=0; --i)
-  {
-   if (dest[i] == '/')
-    {
-     destFile[i] = 0;
-     destFile += ++i;
-     break;
-    }
-  }
+  uint8_t ofsfrom = getDirAndBaseName((char *)from);
+  uint8_t ofsdest = getDirAndBaseName((char *)dest);
 
  if (sdChangeCurDir(strlen(dest)? dest : ROOT_PATH))
   {
@@ -350,9 +325,9 @@ uint8_t SdMoveFile(const char* from, const char* dest)
 
    if (sdChangeCurDir(strlen(from)? from : ROOT_PATH))
     {
-     if (sdFindFileStruct(fromFile))
+     if (sdFindFileStruct(from+ofsfrom))
       {
-       if (fat_move_file(SD_filesystem, &SD_dir_entry, &new_SD_dir, destFile))
+       if (fat_move_file(SD_filesystem, &SD_dir_entry, &new_SD_dir, dest+ofsdest))
         {
          return true;
         }
@@ -365,4 +340,34 @@ uint8_t SdMoveFile(const char* from, const char* dest)
 void SdBufferClear()
 {
  memclear(displayBuf, REUSED_SD_RAWBLOCK_BUFFER_SIZE);
+}
+
+/**
+ * \file   sdcard.cpp
+ * \fn     static uint8_t getDirAndBaseName(char *FullFileName)
+ * \brief  Split a full file path into a directory name (DirName) and a file name (BaseName)
+ *
+ * \param  FullFileName: pointer to the full file path string (eg: /MY_DIR/MY_FILE.TXT)
+ * \return Offset to the BaseName string (eg: MY_FILE.TXT), FullFileName become a pointer to the DirName string (eg: /MY_DIR, or NULL if root)
+ */
+uint8_t getDirAndBaseName(char *FullFileName)
+{
+ uint8_t Ret = 0;
+
+ uint8_t offset = strlen(FullFileName);
+ uint8_t ofs = offset;
+ char *BaseName = NULL; // Initialize BaseName to NULL
+ do
+  {
+   if(FullFileName[--ofs] == '/')
+    {
+     FullFileName[ofs] = 0; // Replace '/' with End of String
+     BaseName = FullFileName + offset;
+     if(BaseName[0]) Ret = offset; // OK, BaseName is at least one letter
+     else            FullFileName[offset] = '/'; //restore '/'
+     break;
+    }
+  }
+ while (--offset);
+ return(Ret);
 }
