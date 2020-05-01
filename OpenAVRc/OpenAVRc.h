@@ -324,10 +324,10 @@ static uint16_t DurationValue;
 
 #define IF_ROTARY_ENCODERS(x) x,
 #define ROTENCDEBOUNCEVAL _BV(2)
-  typedef struct {
+  PACK (typedef struct {
     uint8_t A:4;
     uint8_t B:4;
-  } rotEncDebounce_t;
+  }) rotEncDebounce_t;
   extern rotEncDebounce_t rotEncDebounce;
 
 #define PPM_CENTER 1500
