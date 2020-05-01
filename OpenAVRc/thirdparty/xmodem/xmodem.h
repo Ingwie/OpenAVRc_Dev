@@ -130,16 +130,6 @@
 #include "../../Serial1.h"
 #endif
 
-// common definitions
-
-#define SILENCE_TIMEOUT_MS                 3000UL /* 3 seconds */
-#define CNX_TIMEOUT_MS                     30000UL
-#define CNX_TRY_COUNT_MAX                  (CNX_TIMEOUT_MS / SILENCE_TIMEOUT_MS)
-#define FLUSH_TIME_MS                      1000UL
-#define TOTAL_ERROR_COUNT                  32
-#define ACK_ERROR_COUNT                    8
-
-// Arduino build uses C++ so I must define functions properly
 
 /** \ingroup xmodem_api
   * \brief Receive a file using XMODEM protocol (ARDUINO version and other environment if defined in xmodem_cfg.h)
