@@ -35,6 +35,7 @@
 
 /* OpenAVRc environment */
 #include "../../OpenAVRc.h"
+#include "../../sdcard.h"
 
 #define FILE_DESC                          struct fat_file_struct*
 #define FILE_EXISTS(FullFileName)          sdFileExists((char *)FullFileName)
@@ -48,49 +49,10 @@
 #define FILE_DELETE(FullFileName)          sdDeleteFile((const char *)FullFileName)
 
 #define DELAY_MS(ms)                       _delay_ms(ms)
-#define GET_TICK()                         (uint32_t)GET_10MS_TICK()
-#define MS_TO_TICK(ms)                     MS_TO_10MS_TICK(ms)
+#define GET_TICK()                         GET_10MS_TICK()
 
 #define YIELD_TO_PRIO_TASK()               YIELD_TO_TASK(checkMixer(); MYWDT_RESET())
 
-/* File management is not so obvious in OpenAVRc, so create here some functions to open files */
-/**
- * \file   xmodem_cfg.cpp
- * \fn     static uint8_t getDirAndBaseName(char *FullFileName)
- * \brief  Split a full file path into a directory name (DirName) and a file name (BaseName)
- *
- * \param  FullFileName: pointer to the full file path string (eg: /MY_DIR/MY_FILE.TXT)
- * \return Offset to the BaseName string (eg: MY_FILE.TXT), FullFileName become a pointer to the DirName string (eg: /MY_DIR, or NULL if root)
- */
-static uint8_t getDirAndBaseName(char *FullFileName)
-{
-  uint8_t FullFileNameLen;
-  uint8_t Ret = 0;
-
-  if(FullFileName) //  Check for NULL pointer
-  {
-    if(FullFileName[0] == '/') // First char SHALL be '/'
-    {
-      FullFileNameLen = strlen(FullFileName);
-      char *BaseName = NULL; // Initialize BaseName to NULL
-      for(uint8_t Idx = FullFileNameLen - 1; Idx; Idx--)
-      {
-        if(FullFileName[Idx] == '/')
-        {
-          if(Idx)
-          {
-            FullFileName[Idx] = 0; // Replace '/' with End of String
-          }
-          BaseName = FullFileName + Idx + 1;
-          if(BaseName[0]) Ret = Idx+1; // OK, BaseName is at least one letter
-          else            FullFileName[Idx] = '/'; //restore '/'
-          break;
-        }
-      }
-    }
-  }
-  return(Ret);
-}
 
 /**
  * \file   xmodem_cfg.cpp
@@ -106,7 +68,7 @@ static uint8_t sdFileExists(char *FullFileName)
 
   if(uint8_t ofsToBaseName = getDirAndBaseName(FullFileName))
   {
-    if(sdChangeCurDir(!FullFileName ? ROOT_PATH: FullFileName))
+    if(sdChangeCurDir(strlen(FullFileName)? FullFileName : ROOT_PATH))
     {
       Ret = sdFindFileStruct(FullFileName + ofsToBaseName);
     }
@@ -131,7 +93,7 @@ static fat_file_struct *sdFileOpenForRead(char *FullFileName)
 
   if(uint8_t ofsToBaseName = getDirAndBaseName(FullFileName))
   {
-    if(sdChangeCurDir(!FullFileName ? ROOT_PATH: FullFileName))
+    if(sdChangeCurDir(strlen(FullFileName)? FullFileName : ROOT_PATH))
     {
       if(sdFindFileStruct(FullFileName + ofsToBaseName))
       {
@@ -159,7 +121,7 @@ static fat_file_struct *sdFileOpenForWrite(char *FullFileName)
 
   if(uint8_t ofsToBaseName = getDirAndBaseName(FullFileName))
   {
-    if(sdOpenDir(!FullFileName ? ROOT_PATH: FullFileName))
+    if(sdOpenDir(strlen(FullFileName)? FullFileName : ROOT_PATH))
     {
       if(fat_create_file(SD_dir, (FullFileName + ofsToBaseName), &SD_dir_entry))
       {
