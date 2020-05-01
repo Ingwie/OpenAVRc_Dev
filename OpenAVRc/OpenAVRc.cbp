@@ -75,6 +75,7 @@
 		<Unit filename="Serial0.h" />
 		<Unit filename="Serial1.cpp" />
 		<Unit filename="Serial1.h" />
+		<Unit filename="Stream.h" />
 		<Unit filename="Xany.cpp" />
 		<Unit filename="Xany.h" />
 		<Unit filename="adc_driver.cpp" />
