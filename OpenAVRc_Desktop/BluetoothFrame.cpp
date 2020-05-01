@@ -68,6 +68,7 @@ const long BluetoothFrame::ID_STATICBOX2 = wxNewId();
 const long BluetoothFrame::ID_STATICBOXSD = wxNewId();
 const long BluetoothFrame::ID_TREECTRLSD = wxNewId();
 const long BluetoothFrame::ID_GENERICDIRCTRL1 = wxNewId();
+const long BluetoothFrame::ID_BITMAPBUTTONREFRESH = wxNewId();
 const long BluetoothFrame::ID_PANEL1 = wxNewId();
 const long BluetoothFrame::ID_TIMERRX = wxNewId();
 //*)
@@ -83,18 +84,20 @@ BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 Create(parent, wxID_ANY, _("Bluetooth"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
 SetClientSize(wxSize(645,409));
 Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(392,176), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-StaticBoxCom = new wxStaticBox(Panel1, ID_STATICBOX1, _("Communication"), wxPoint(8,8), wxSize(392,88), 0, _T("ID_STATICBOX1"));
+StaticBoxCom = new wxStaticBox(Panel1, ID_STATICBOX1, _("Communication"), wxPoint(8,8), wxSize(624,88), 0, _T("ID_STATICBOX1"));
 ComboBoxCom = new wxComboBox(Panel1, ID_COMBOBOX1, wxEmptyString, wxPoint(64,32), wxSize(72,23), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX1"));
 StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("Port :"), wxPoint(16,32), wxSize(40,16), wxALIGN_RIGHT, _T("ID_STATICTEXT1"));
 StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, _("Mémoire libre :"), wxPoint(160,32), wxSize(96,16), wxALIGN_RIGHT, _T("ID_STATICTEXT2"));
 StaticTextFreeMem = new wxStaticText(Panel1, ID_STATICTEXT3, _("------"), wxPoint(264,32), wxSize(80,16), wxALIGN_LEFT, _T("ID_STATICTEXT3"));
 StaticTextVersion = new wxStaticText(Panel1, ID_STATICTEXT4, wxEmptyString, wxPoint(24,64), wxSize(360,16), 0, _T("ID_STATICTEXT4"));
-BitmapButtonReboot = new wxBitmapButton(Panel1, ID_REBOOTBUTTON, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_WARNING")),wxART_BUTTON), wxPoint(344,24), wxSize(40,23), wxBU_AUTODRAW, wxDefaultValidator, _T("ID_REBOOTBUTTON"));
-BitmapButtonReboot->SetToolTip(_("Reboot"));
+BitmapButtonReboot = new wxBitmapButton(Panel1, ID_REBOOTBUTTON, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_WARNING")),wxART_BUTTON), wxPoint(568,24), wxSize(48,24), wxBU_AUTODRAW, wxDefaultValidator, _T("ID_REBOOTBUTTON"));
+BitmapButtonReboot->SetToolTip(_("Redémarrer"));
 StaticBoxLocal1 = new wxStaticBox(Panel1, ID_STATICBOX2, _("Local"), wxPoint(8,104), wxSize(200,296), 0, _T("ID_STATICBOX2"));
 StaticBoxSD = new wxStaticBox(Panel1, ID_STATICBOXSD, _("Carte SD"), wxPoint(216,104), wxSize(200,296), 0, _T("ID_STATICBOXSD"));
 TctrlSd = new wxTreeCtrl(Panel1, ID_TREECTRLSD, wxPoint(224,128), wxSize(184,264), wxTR_DEFAULT_STYLE, wxDefaultValidator, _T("ID_TREECTRLSD"));
 DirCtrl = new wxGenericDirCtrl(Panel1, ID_GENERICDIRCTRL1, wxEmptyString, wxPoint(16,120), wxSize(184,272), 0, wxEmptyString, 0, _T("ID_GENERICDIRCTRL1"));
+BitmapButtonRefresh = new wxBitmapButton(Panel1, ID_BITMAPBUTTONREFRESH, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_REDO")),wxART_BUTTON), wxPoint(568,56), wxSize(48,24), wxBU_AUTODRAW, wxDefaultValidator, _T("ID_BITMAPBUTTONREFRESH"));
+BitmapButtonRefresh->SetToolTip(_("Rafraichir"));
 TimerRX.SetOwner(this, ID_TIMERRX);
 TimerRX.Start(200, true);
 
@@ -102,6 +105,7 @@ Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_SELECTED,(wxObjectEventFunction)&Blu
 Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_DROPDOWN,(wxObjectEventFunction)&BluetoothFrame::OnComboBoxComDropdown);
 Connect(ID_REBOOTBUTTON,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&BluetoothFrame::OnBitmapButtonRebootClick);
 Connect(ID_TREECTRLSD,wxEVT_COMMAND_TREE_BEGIN_DRAG,(wxObjectEventFunction)&BluetoothFrame::OnTctrlSdBeginDrag);
+Connect(ID_BITMAPBUTTONREFRESH,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&BluetoothFrame::OnBitmapButtonRefreshClick);
 Connect(ID_TIMERRX,wxEVT_TIMER,(wxObjectEventFunction)&BluetoothFrame::OnTimerRXTrigger);
 Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&BluetoothFrame::OnClose);
 //*)
@@ -167,10 +171,8 @@ void BluetoothFrame::ConnectBTCom(wxString name)
  if (error == 0)
   {
    comIsValid = true;
-   StaticTextFreeMem->SetLabel(getRam());
-   StaticTextFreeMem->Update();
-   StaticTextVersion->SetLabel(getVer());
-   StaticTextVersion->Update();
+   getAndShowRam();
+   getAndShowVer();
    Populate_SD();
   }
  else
@@ -256,15 +258,26 @@ void BluetoothFrame::OnBitmapButtonRebootClick(wxCommandEvent& event)
  OnComboBoxComDropdown(event);
 }
 
-wxString BluetoothFrame::getRam()
+void BluetoothFrame::OnBitmapButtonRefreshClick(wxCommandEvent& event)
+{
+ if (comIsValid)
+  {
+   getAndShowRam();
+   Populate_SD();
+  }
+}
+
+wxString BluetoothFrame::getAndShowRam()
 {
  wxString ram;
  sendCmdAndWaitForResp("ram", &ram);
  ram.BeforeFirst('\r'); // remove all after \r (\n)
+ StaticTextFreeMem->SetLabel(ram);
+ StaticTextFreeMem->Update();
  return ram;
 }
 
-wxString BluetoothFrame::getVer()
+wxString BluetoothFrame::getAndShowVer()
 {
  wxString ver;
  sendCmdAndWaitForResp("ver", &ver);
@@ -272,6 +285,8 @@ wxString BluetoothFrame::getVer()
  ver.Replace("\036"," ");
  ver.Replace("\037"," ");
  ver.Replace("\033"," ");
+ StaticTextVersion->SetLabel(ver);
+ StaticTextVersion->Update();
  return ver;
 }
 
@@ -298,6 +313,7 @@ void BluetoothFrame::Populate_Dir(wxTreeItemId * dir)
 
 void BluetoothFrame::Populate_SD()
 {
+ TctrlSd->DeleteAllItems(); // first reset all
  wxTreeItemId rootId = TctrlSd->AddRoot(SD_ROOT);
  Populate_Dir(&rootId);
  wxTreeItemIdValue cookie;
@@ -383,8 +399,7 @@ void BluetoothFrame::SdToSdCpy(wxString dest, wxString file)
  //wxMessageBox(uCliCommand);
  wxString BTanwser = "";
  sendCmdAndWaitForResp(uCliCommand, &BTanwser);
- //wxMessageBox(BTanwser);
- TctrlSd->DeleteAllItems();
+ wxMessageBox(BTanwser);
  Populate_SD();
 }
 
@@ -396,13 +411,12 @@ void BluetoothFrame::HddToSdCpy(wxString dest, wxString file)
    dest.Replace("]","/");
   }
  wxString uCliCommand = "cp xmdm SD" + dest + file.AfterLast('\\');
- wxMessageBox(uCliCommand);
+ //wxMessageBox(uCliCommand);
  wxString BTanwser = "";
  sendCmdAndWaitForResp(uCliCommand, &BTanwser);
  Sleep(100);
  int ret = XSend(BTComPort, file.c_str());
  wxMessageBox(wxString::Format(wxT("%i"),ret));
- TctrlSd->DeleteAllItems();
  Populate_SD();
 }
 
@@ -414,15 +428,21 @@ void BluetoothFrame::SDToHddCpy(wxString dest, wxString file)
    file.Replace("]","/");
   }
  wxString uCliCommand = "cp SD" + file + " xmdm";
- wxMessageBox(uCliCommand);
+ //wxMessageBox(uCliCommand);
  wxString BTanwser = "";
  sendCmdAndWaitForResp(uCliCommand, &BTanwser);
  Sleep(100);
- dest = dest.BeforeLast('\\');
- dest += "\\" + file.AfterLast('/');
+ if (!wxDirExists(dest)) // this is a file
+ {
+  dest = dest.BeforeLast('\\'); // remove the file name to keep the dir.
+ }
+ if (wxFileExists(dest)) // If this this not a file, this is a drive .
+ {
+  dest += "\\";
+ }
+ dest += file.AfterLast('/');
  int ret = XReceive(BTComPort, dest.c_str());
  wxMessageBox(wxString::Format(wxT("%i"),ret));
- TctrlSd->DeleteAllItems();
  Populate_SD();
 }
 

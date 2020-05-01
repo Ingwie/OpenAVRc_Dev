@@ -66,6 +66,7 @@ class BluetoothFrame: public wxFrame
 
 		//(*Declarations(BluetoothFrame)
 		wxBitmapButton* BitmapButtonReboot;
+		wxBitmapButton* BitmapButtonRefresh;
 		wxComboBox* ComboBoxCom;
 		wxGenericDirCtrl* DirCtrl;
 		wxPanel* Panel1;
@@ -94,6 +95,7 @@ class BluetoothFrame: public wxFrame
 		static const long ID_STATICBOXSD;
 		static const long ID_TREECTRLSD;
 		static const long ID_GENERICDIRCTRL1;
+		static const long ID_BITMAPBUTTONREFRESH;
 		static const long ID_PANEL1;
 		static const long ID_TIMERRX;
 		//*)
@@ -110,8 +112,8 @@ class BluetoothFrame: public wxFrame
 
 
 
-    wxString getRam();
-    wxString getVer();
+    wxString getAndShowRam();
+    wxString getAndShowVer();
     void Populate_SD();
     void Populate_Dir(wxTreeItemId * dir);
 
@@ -126,6 +128,7 @@ class BluetoothFrame: public wxFrame
 		void OnTimerRXTrigger(wxTimerEvent& event);
 		void OnBitmapButtonRebootClick(wxCommandEvent& event);
 		void OnTctrlSdBeginDrag(wxTreeEvent& event);
+		void OnBitmapButtonRefreshClick(wxCommandEvent& event);
 		//*)
 
 		void OnDirCtrlBeginDrag(wxTreeEvent& event);
@@ -177,8 +180,7 @@ private:
 #define FILE_DELETE(FullFileName)          delete_file(( char *)FullFileName)
 
 #define DELAY_MS(ms)                       wxMilliSleep(ms)
-#define GET_TICK()                         (uint32_t)clock()
-#define MS_TO_TICK(ms)                     (ms)
+#define GET_TICK()                         (uint16_t)(clock()/10)
 
 #define YIELD_TO_PRIO_TASK()               wxYieldIfNeeded()
 
