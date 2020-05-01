@@ -11,7 +11,7 @@
 			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBoxCom" member="yes">
 				<label>Communication</label>
 				<pos>8,8</pos>
-				<size>392,88</size>
+				<size>624,88</size>
 			</object>
 			<object class="wxComboBox" name="ID_COMBOBOX1" variable="ComboBoxCom" member="yes">
 				<pos>64,32</pos>
@@ -44,9 +44,9 @@
 			</object>
 			<object class="wxBitmapButton" name="ID_REBOOTBUTTON" variable="BitmapButtonReboot" member="yes">
 				<bitmap stock_id="wxART_WARNING" stock_client="wxART_BUTTON" />
-				<pos>344,24</pos>
-				<size>40,23</size>
-				<tooltip>Reboot</tooltip>
+				<pos>568,24</pos>
+				<size>48,24</size>
+				<tooltip>Redémarrer</tooltip>
 				<handler function="OnBitmapButtonRebootClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBoxLocal1" member="yes">
@@ -78,6 +78,13 @@
 				<filter></filter>
 				<pos>16,120</pos>
 				<size>184,272</size>
+			</object>
+			<object class="wxBitmapButton" name="ID_BITMAPBUTTONREFRESH" variable="BitmapButtonRefresh" member="yes">
+				<bitmap stock_id="wxART_REDO" stock_client="wxART_BUTTON" />
+				<pos>568,56</pos>
+				<size>48,24</size>
+				<tooltip>Rafraichir</tooltip>
+				<handler function="OnBitmapButtonRefreshClick" entry="EVT_BUTTON" />
 			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMERRX" variable="TimerRX" member="yes">
