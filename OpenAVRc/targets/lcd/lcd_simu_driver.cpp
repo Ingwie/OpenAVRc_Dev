@@ -213,7 +213,7 @@ struct fat_file_struct* fat_open_file(struct fat_fs_struct* fs, struct fat_dir_e
       if (sdfile.Open(temp, wxFile::read_write, wxS_DEFAULT))
         {
           dir_entry->file_size = sdfile.Length();
-          return (struct fat_file_struct*)1;
+          return (struct fat_file_struct*)&sdfile;
         }
     }
   return tmp;
