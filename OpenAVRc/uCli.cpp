@@ -155,7 +155,7 @@ void uCli_process(void)
        break;
 
       default:
-       if(uCli.CmdLine.Idx < CMD_LINE_MAX_SIZE)
+       if(uCli.CmdLine.Idx < UCLI_CMD_LINE_MAX_SIZE)
         {
          uCli.CmdLine.Msg[uCli.CmdLine.Idx++] = RxChar;
         }
@@ -269,6 +269,7 @@ static int8_t uCli_Cmd_ls(const char ** argv, uint8_t argc)
 {
  // we must close the logs as we reuse the same SDfile structure
  closeLogIfActived();
+ uCli_Desktop_Screen();
  Serial1.println(F("ls: "));
  if (argc > 1)
   {
@@ -342,6 +343,7 @@ static int8_t uCli_Cmd_cp(const char ** argv, uint8_t argc)
   if(!FileMedia.Src || !FileMedia.Dst || ((FileMedia.Src == FILE_MEDIA_XMODEM) && (FileMedia.Src == FileMedia.Dst)) || !FileName || !*FileName) return(-1);
   /* Command is correct */
   // we must close the logs as we reuse the same SDfile structure
+  uCli_Desktop_Screen();
   closeLogIfActived();
   if(FileMedia.Src == FileMedia.Dst)
   {
@@ -486,4 +488,20 @@ static int8_t uCli_Cmd_tf(const char ** argv, uint8_t argc)
     }
   }
  return 1;
+}
+
+const pm_uchar zz_desktop[] PROGMEM =
+{
+#if defined (LCDROT180)
+#include "bitmaps/desktop.lbmi"
+#else
+#include "bitmaps/desktop.lbm"
+#endif
+};
+
+void uCli_Desktop_Screen()
+{
+ lcdClear();
+ lcd_imgfar(32, 0, (pgm_get_far_address(zz_desktop)), 0, 0);
+ lcdRefresh();
 }
