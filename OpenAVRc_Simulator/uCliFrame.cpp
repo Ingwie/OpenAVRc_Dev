@@ -62,7 +62,7 @@ uCliFrame::uCliFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
 	Create(parent, id, _("uCli"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("id"));
 	SetClientSize(wxSize(533,354));
 	Move(wxDefaultPosition);
-	TextCtrl = new wxTextCtrl(this, ID_TEXTCTRL, wxEmptyString, wxPoint(224,320), wxDefaultSize, wxTE_PROCESS_ENTER|wxTE_MULTILINE|wxBORDER_DOUBLE, wxDefaultValidator, _T("ID_TEXTCTRL"));
+	TextCtrl = new wxTextCtrl(this, ID_TEXTCTRL, wxEmptyString, wxPoint(224,320), wxDefaultSize, wxTE_PROCESS_ENTER|wxTE_MULTILINE|wxBORDER_DOUBLE|wxHSCROLL, wxDefaultValidator, _T("ID_TEXTCTRL"));
 	TimerBTRX.SetOwner(this, ID_TIMERBTRX);
 	TimerBTRX.Start(20, false);
 
@@ -172,7 +172,7 @@ void uCliFrame::HwSerialByte(uint8_t c)
 
       if ((cmd == "AT") || (cmd == "AT+UART=115200,0,0") || (cmd == "AT+CLASS=0") || (cmd == "AT+INQM=0,3,4")
           || (cmd == "AT+IPSCAN=1024,1,1024,1") || (cmd == "AT+ROLE=1") || (cmd == "AT+ROLE=0") || (cmd == "AT+CMODE=0")
-          || (cmd == "AT+RMAAD") || (cmd == "AT+INIT") || (cmd == "AT+RESET") || (cmd == "AT+INQC"))
+          || (cmd == "AT+RMAAD") || (cmd == "AT+INIT") || (cmd == "AT+RESET") || (cmd == "AT+INQC") || (cmd == "AT+IAC=0x9E8B33"))
         {
           TextCtrl->WriteText("OK");
           SendToHwSerial();
