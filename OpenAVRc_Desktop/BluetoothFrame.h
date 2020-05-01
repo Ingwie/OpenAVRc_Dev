@@ -62,6 +62,7 @@ class BluetoothFrame: public wxFrame
     wxString GetFullPathTctrlItem(wxTreeItemId item);
     void SdToSdCpy(wxString dest, wxString file);
     void HddToSdCpy(wxString dest, wxString file);
+    void SDToHddCpy(wxString dest, wxString file);
 
 		//(*Declarations(BluetoothFrame)
 		wxBitmapButton* BitmapButtonReboot;
@@ -162,16 +163,7 @@ private:
   wxFile *FileOpenForRead(char *FullFileName);
 
 
-// common definitions
-
-#define SILENCE_TIMEOUT_MS                 3000UL /* 3 seconds */
-#define CNX_TIMEOUT_MS                     30000UL
-#define CNX_TRY_COUNT_MAX                  (CNX_TIMEOUT_MS / SILENCE_TIMEOUT_MS)
-#define FLUSH_TIME_MS                      1000UL
-#define TOTAL_ERROR_COUNT                  32
-#define ACK_ERROR_COUNT                    8
-
-// Specific
+// Specific definitions
 #define SERIAL_TYPE                        Tserial *
 #define FILE_DESC                          wxFile *
 #define FILE_EXISTS(FullFileName)          FileExists((char *)FullFileName)
@@ -186,7 +178,7 @@ private:
 
 #define DELAY_MS(ms)                       wxMilliSleep(ms)
 #define GET_TICK()                         (uint32_t)clock()
-#define MS_TO_TICK(ms)                     (((ms) + 9) / 10)
+#define MS_TO_TICK(ms)                     (ms)
 
 #define YIELD_TO_PRIO_TASK()               wxYieldIfNeeded()
 
