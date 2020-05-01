@@ -44,12 +44,12 @@
 #endif
 
 #define BACK_SPACE         0x08
-#define CMD_LINE_MAX_SIZE  100  // Will be optimized later
+#define UCLI_CMD_LINE_MAX_SIZE  128  // Xmodem packet size
 
 enum {CONTEXT_UCLI = 0, CONTEXT_XMODEM, CONTEXT_PUPPY};
 
 typedef struct{
-  char    Msg[CMD_LINE_MAX_SIZE + 1];
+  char    Msg[UCLI_CMD_LINE_MAX_SIZE + 1];
   uint8_t Idx;
 }CmdLineSt_t;
 
@@ -63,5 +63,6 @@ extern uCliSt_t uCli; // uCli structure will be used by bluetooth as well (share
 void uCli_init();
 void uCli_process(void);
 void uCliFlushRx();
+void uCli_Desktop_Screen();
 
 #endif // UCLI_H
