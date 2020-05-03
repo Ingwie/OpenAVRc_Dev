@@ -11,7 +11,7 @@
 
   (page A4)
   (title_block
-    (date 2020-04-03)
+    (date 2020-05-03)
     (rev 0.1)
   )
 
@@ -39,7 +39,7 @@
   )
 
   (setup
-    (last_trace_width 1)
+    (last_trace_width 0.31)
     (user_trace_width 0.31)
     (user_trace_width 0.5)
     (user_trace_width 1)
@@ -232,7 +232,7 @@
     (solder_paste_margin -0.5)
     (clearance 0.5)
     (zone_connect 0)
-    (fp_text reference Fix1 (at 5.08 -1.27) (layer F.SilkS)
+    (fp_text reference Fix1 (at 0.127 0.127) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value MountingHole_3.2mm_M3 (at -1.27 -5.08) (layer F.Fab) hide
@@ -252,7 +252,7 @@
     (solder_paste_margin -0.5)
     (clearance 0.5)
     (zone_connect 0)
-    (fp_text reference Fix1 (at 5.08 0) (layer F.SilkS)
+    (fp_text reference Fix1 (at 0.127 0) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value MountingHole_3.2mm_M3 (at -2.54 5.08) (layer F.Fab) hide
@@ -272,7 +272,7 @@
     (solder_paste_margin -0.5)
     (clearance 0.5)
     (zone_connect 0)
-    (fp_text reference Fix1 (at -5.08 -1.27) (layer F.SilkS)
+    (fp_text reference Fix1 (at 0 0.127) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value MountingHole_3.2mm_M3 (at 2.54 -5.08) (layer F.Fab) hide
@@ -322,9 +322,9 @@
       (net 17 "Net-(J1-Pad1)"))
     (pad 1 thru_hole rect (at 0 0) (size 1.8 1.8) (drill 1) (layers *.Cu *.Mask)
       (net 2 "Net-(Q1-Pad1)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-220_Vertical.wrl
-      (offset (xyz 2.539999961853027 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-220-3_Vertical.wrl"
+      (at (xyz 0 0 0))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -367,9 +367,9 @@
       (net 38 "Net-(J5-Pad2)"))
     (pad 3 thru_hole oval (at 5.08 0 180) (size 1.8 1.8) (drill 1) (layers *.Cu *.Mask)
       (net 1 GND))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-220_Vertical.wrl
-      (offset (xyz 2.539999961853027 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-220-3_Vertical.wrl"
+      (at (xyz 0 0 0))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -404,10 +404,10 @@
       (net 1 GND))
     (pad 1 thru_hole rect (at 0 0 180) (size 0.9 1.5) (drill 0.6) (layers *.Cu *.Mask)
       (net 2 "Net-(Q1-Pad1)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-92_Inline_Narrow_Oval.wrl
-      (offset (xyz 1.269999980926514 0 0))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-92_Inline.wrl"
+      (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 -90))
+      (rotate (xyz 0 0 0))
     )
   )
 
@@ -449,9 +449,9 @@
       (net 21 "Net-(J3-Pad1)"))
     (pad 3 thru_hole oval (at 5.08 0) (size 1.8 1.8) (drill 1) (layers *.Cu *.Mask)
       (net 1 GND))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-220_Vertical.wrl
-      (offset (xyz 2.539999961853027 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-220-3_Vertical.wrl"
+      (at (xyz 0 0 0))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -486,10 +486,10 @@
       (net 17 "Net-(J1-Pad1)"))
     (pad 1 thru_hole rect (at 0 0) (size 0.9 1.5) (drill 0.6) (layers *.Cu *.Mask)
       (net 9 "Net-(D1-Pad1)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-92_Inline_Narrow_Oval.wrl
-      (offset (xyz 1.269999980926514 0 0))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-92_Inline.wrl"
+      (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 -90))
+      (rotate (xyz 0 0 0))
     )
   )
 
@@ -523,10 +523,10 @@
       (net 1 GND))
     (pad 1 thru_hole rect (at 0 0 180) (size 0.9 1.5) (drill 0.6) (layers *.Cu *.Mask)
       (net 3 "Net-(Q7-Pad1)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-92_Inline_Narrow_Oval.wrl
-      (offset (xyz 1.269999980926514 0 0))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-92_Inline.wrl"
+      (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 -90))
+      (rotate (xyz 0 0 0))
     )
   )
 
@@ -560,10 +560,10 @@
       (net 21 "Net-(J3-Pad1)"))
     (pad 1 thru_hole rect (at 0 0) (size 0.9 1.5) (drill 0.6) (layers *.Cu *.Mask)
       (net 11 "Net-(D3-Pad1)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-92_Inline_Narrow_Oval.wrl
-      (offset (xyz 1.269999980926514 0 0))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-92_Inline.wrl"
+      (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 -90))
+      (rotate (xyz 0 0 0))
     )
   )
 
@@ -597,10 +597,10 @@
       (net 1 GND))
     (pad 1 thru_hole rect (at 0 0) (size 0.9 1.5) (drill 0.6) (layers *.Cu *.Mask)
       (net 5 "Net-(Q13-Pad1)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-92_Inline_Narrow_Oval.wrl
-      (offset (xyz 1.269999980926514 0 0))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-92_Inline.wrl"
+      (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 -90))
+      (rotate (xyz 0 0 0))
     )
   )
 
@@ -634,10 +634,10 @@
       (net 38 "Net-(J5-Pad2)"))
     (pad 2 thru_hole oval (at 1.27 0 180) (size 0.9 1.5) (drill 0.6) (layers *.Cu *.Mask)
       (net 38 "Net-(J5-Pad2)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-92_Inline_Narrow_Oval.wrl
-      (offset (xyz 1.269999980926514 0 0))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-92_Inline.wrl"
+      (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 -90))
+      (rotate (xyz 0 0 0))
     )
   )
 
@@ -671,10 +671,10 @@
       (net 1 GND))
     (pad 2 thru_hole oval (at 1.27 0 180) (size 0.9 1.5) (drill 0.6) (layers *.Cu *.Mask)
       (net 19 "Net-(Q4-Pad2)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-92_Inline_Narrow_Oval.wrl
-      (offset (xyz 1.269999980926514 0 0))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-92_Inline.wrl"
+      (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 -90))
+      (rotate (xyz 0 0 0))
     )
   )
 
@@ -716,9 +716,9 @@
       (net 20 "Net-(J2-Pad1)"))
     (pad 1 thru_hole rect (at 0 0) (size 1.8 1.8) (drill 1) (layers *.Cu *.Mask)
       (net 18 "Net-(Q4-Pad1)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-220_Vertical.wrl
-      (offset (xyz 2.539999961853027 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-220-3_Vertical.wrl"
+      (at (xyz 0 0 0))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -753,10 +753,10 @@
       (net 20 "Net-(J2-Pad1)"))
     (pad 1 thru_hole rect (at 0 0) (size 0.9 1.5) (drill 0.6) (layers *.Cu *.Mask)
       (net 10 "Net-(D2-Pad1)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-92_Inline_Narrow_Oval.wrl
-      (offset (xyz 1.269999980926514 0 0))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-92_Inline.wrl"
+      (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 -90))
+      (rotate (xyz 0 0 0))
     )
   )
 
@@ -790,10 +790,10 @@
       (net 1 GND))
     (pad 2 thru_hole oval (at 1.27 0 180) (size 0.9 1.5) (drill 0.6) (layers *.Cu *.Mask)
       (net 22 "Net-(Q10-Pad2)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-92_Inline_Narrow_Oval.wrl
-      (offset (xyz 1.269999980926514 0 0))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-92_Inline.wrl"
+      (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 -90))
+      (rotate (xyz 0 0 0))
     )
   )
 
@@ -835,9 +835,9 @@
       (net 23 "Net-(J4-Pad1)"))
     (pad 1 thru_hole rect (at 0 0) (size 1.8 1.8) (drill 1) (layers *.Cu *.Mask)
       (net 4 "Net-(Q10-Pad1)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-220_Vertical.wrl
-      (offset (xyz 2.539999961853027 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-220-3_Vertical.wrl"
+      (at (xyz 0 0 0))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -872,10 +872,10 @@
       (net 23 "Net-(J4-Pad1)"))
     (pad 1 thru_hole rect (at 0 0) (size 0.9 1.5) (drill 0.6) (layers *.Cu *.Mask)
       (net 12 "Net-(D4-Pad1)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-92_Inline_Narrow_Oval.wrl
-      (offset (xyz 1.269999980926514 0 0))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-92_Inline.wrl"
+      (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 -90))
+      (rotate (xyz 0 0 0))
     )
   )
 
@@ -909,10 +909,10 @@
       (net 1 GND))
     (pad 1 thru_hole rect (at 0 0) (size 0.9 1.5) (drill 0.6) (layers *.Cu *.Mask)
       (net 25 "Net-(Q16-Pad1)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-92_Inline_Narrow_Oval.wrl
-      (offset (xyz 1.269999980926514 0 0))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-92_Inline.wrl"
+      (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 -90))
+      (rotate (xyz 0 0 0))
     )
   )
 
@@ -954,9 +954,9 @@
       (net 39 "Net-(J6-Pad2)"))
     (pad 3 thru_hole oval (at 5.08 0 180) (size 1.8 1.8) (drill 1) (layers *.Cu *.Mask)
       (net 1 GND))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-220_Vertical.wrl
-      (offset (xyz 2.539999961853027 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-220-3_Vertical.wrl"
+      (at (xyz 0 0 0))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -991,10 +991,10 @@
       (net 39 "Net-(J6-Pad2)"))
     (pad 2 thru_hole oval (at 1.27 0 180) (size 0.9 1.5) (drill 0.6) (layers *.Cu *.Mask)
       (net 39 "Net-(J6-Pad2)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-92_Inline_Narrow_Oval.wrl
-      (offset (xyz 1.269999980926514 0 0))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-92_Inline.wrl"
+      (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 -90))
+      (rotate (xyz 0 0 0))
     )
   )
 
@@ -1028,10 +1028,10 @@
       (net 1 GND))
     (pad 1 thru_hole rect (at 0 0) (size 0.9 1.5) (drill 0.6) (layers *.Cu *.Mask)
       (net 27 "Net-(Q19-Pad1)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-92_Inline_Narrow_Oval.wrl
-      (offset (xyz 1.269999980926514 0 0))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-92_Inline.wrl"
+      (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 -90))
+      (rotate (xyz 0 0 0))
     )
   )
 
@@ -1073,9 +1073,9 @@
       (net 40 "Net-(J7-Pad2)"))
     (pad 3 thru_hole oval (at 5.08 0 180) (size 1.8 1.8) (drill 1) (layers *.Cu *.Mask)
       (net 1 GND))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-220_Vertical.wrl
-      (offset (xyz 2.539999961853027 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-220-3_Vertical.wrl"
+      (at (xyz 0 0 0))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -1110,10 +1110,10 @@
       (net 40 "Net-(J7-Pad2)"))
     (pad 2 thru_hole oval (at 1.27 0 180) (size 0.9 1.5) (drill 0.6) (layers *.Cu *.Mask)
       (net 40 "Net-(J7-Pad2)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-92_Inline_Narrow_Oval.wrl
-      (offset (xyz 1.269999980926514 0 0))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-92_Inline.wrl"
+      (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 -90))
+      (rotate (xyz 0 0 0))
     )
   )
 
@@ -1147,10 +1147,10 @@
       (net 1 GND))
     (pad 1 thru_hole rect (at 0 0) (size 0.9 1.5) (drill 0.6) (layers *.Cu *.Mask)
       (net 29 "Net-(Q22-Pad1)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-92_Inline_Narrow_Oval.wrl
-      (offset (xyz 1.269999980926514 0 0))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-92_Inline.wrl"
+      (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 -90))
+      (rotate (xyz 0 0 0))
     )
   )
 
@@ -1192,9 +1192,9 @@
       (net 41 "Net-(J8-Pad2)"))
     (pad 3 thru_hole oval (at 5.08 0 180) (size 1.8 1.8) (drill 1) (layers *.Cu *.Mask)
       (net 1 GND))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-220_Vertical.wrl
-      (offset (xyz 2.539999961853027 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-220-3_Vertical.wrl"
+      (at (xyz 0 0 0))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -1229,10 +1229,10 @@
       (net 41 "Net-(J8-Pad2)"))
     (pad 2 thru_hole oval (at 1.27 0 180) (size 0.9 1.5) (drill 0.6) (layers *.Cu *.Mask)
       (net 41 "Net-(J8-Pad2)"))
-    (model ${KISYS3DMOD}/TO_SOT_Packages_THT.3dshapes/TO-92_Inline_Narrow_Oval.wrl
-      (offset (xyz 1.269999980926514 0 0))
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Package_TO_SOT_THT.3dshapes/TO-92_Inline.wrl"
+      (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 -90))
+      (rotate (xyz 0 0 0))
     )
   )
 
@@ -1265,10 +1265,10 @@
       (net 17 "Net-(J1-Pad1)"))
     (pad 2 thru_hole circle (at 5.08 0 90) (size 3 3) (drill 1.52) (layers *.Cu *.Mask)
       (net 42 "Net-(D1-Pad2)"))
-    (model Connectors.3dshapes/bornier2.wrl
-      (offset (xyz 2.5 0 0))
-      (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 0))
+    (model C:/tmp/_OpenAVRc/MultiSwitch_MosFet/1988105.wrl
+      (offset (xyz 7.62 -3.5 0))
+      (scale (xyz 0.3 0.3 0.26))
+      (rotate (xyz -90 0 -90))
     )
   )
 
@@ -1301,10 +1301,10 @@
       (net 43 "Net-(D2-Pad2)"))
     (pad 1 thru_hole rect (at 0 0 90) (size 3 3) (drill 1.52) (layers *.Cu *.Mask)
       (net 20 "Net-(J2-Pad1)"))
-    (model Connectors.3dshapes/bornier2.wrl
-      (offset (xyz 2.5 0 0))
-      (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 0))
+    (model C:/tmp/_OpenAVRc/MultiSwitch_MosFet/1988105.wrl
+      (offset (xyz 7.62 -3.5 0))
+      (scale (xyz 0.3 0.3 0.26))
+      (rotate (xyz -90 0 -90))
     )
   )
 
@@ -1337,10 +1337,10 @@
       (net 44 "Net-(D3-Pad2)"))
     (pad 1 thru_hole rect (at 0 0 90) (size 3 3) (drill 1.52) (layers *.Cu *.Mask)
       (net 21 "Net-(J3-Pad1)"))
-    (model Connectors.3dshapes/bornier2.wrl
-      (offset (xyz 2.5 0 0))
-      (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 0))
+    (model C:/tmp/_OpenAVRc/MultiSwitch_MosFet/1988105.wrl
+      (offset (xyz 7.62 -3.5 0))
+      (scale (xyz 0.3 0.3 0.26))
+      (rotate (xyz -90 0 -90))
     )
   )
 
@@ -1373,10 +1373,10 @@
       (net 45 "Net-(D4-Pad2)"))
     (pad 1 thru_hole rect (at 0 0 90) (size 3 3) (drill 1.52) (layers *.Cu *.Mask)
       (net 23 "Net-(J4-Pad1)"))
-    (model Connectors.3dshapes/bornier2.wrl
-      (offset (xyz 2.5 0 0))
-      (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 0))
+    (model C:/tmp/_OpenAVRc/MultiSwitch_MosFet/1988105.wrl
+      (offset (xyz 7.62 -3.5 0))
+      (scale (xyz 0.3 0.3 0.26))
+      (rotate (xyz -90 0 -90))
     )
   )
 
@@ -1409,10 +1409,10 @@
       (net 38 "Net-(J5-Pad2)"))
     (pad 1 thru_hole rect (at 0 0 270) (size 3 3) (drill 1.52) (layers *.Cu *.Mask)
       (net 46 "Net-(D5-Pad2)"))
-    (model Connectors.3dshapes/bornier2.wrl
-      (offset (xyz 2.5 0 0))
-      (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 0))
+    (model C:/tmp/_OpenAVRc/MultiSwitch_MosFet/1988105.wrl
+      (offset (xyz 7.62 -3.5 0))
+      (scale (xyz 0.3 0.3 0.26))
+      (rotate (xyz -90 0 -90))
     )
   )
 
@@ -1445,10 +1445,10 @@
       (net 47 "Net-(D6-Pad2)"))
     (pad 2 thru_hole circle (at 5.08 0 270) (size 3 3) (drill 1.52) (layers *.Cu *.Mask)
       (net 39 "Net-(J6-Pad2)"))
-    (model Connectors.3dshapes/bornier2.wrl
-      (offset (xyz 2.5 0 0))
-      (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 0))
+    (model C:/tmp/_OpenAVRc/MultiSwitch_MosFet/1988105.wrl
+      (offset (xyz 7.62 -3.5 0))
+      (scale (xyz 0.3 0.3 0.26))
+      (rotate (xyz -90 0 -90))
     )
   )
 
@@ -1481,10 +1481,10 @@
       (net 48 "Net-(D7-Pad2)"))
     (pad 2 thru_hole circle (at 5.08 0 270) (size 3 3) (drill 1.52) (layers *.Cu *.Mask)
       (net 40 "Net-(J7-Pad2)"))
-    (model Connectors.3dshapes/bornier2.wrl
-      (offset (xyz 2.5 0 0))
-      (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 0))
+    (model C:/tmp/_OpenAVRc/MultiSwitch_MosFet/1988105.wrl
+      (offset (xyz 7.62 -3.5 0))
+      (scale (xyz 0.3 0.3 0.26))
+      (rotate (xyz -90 0 -90))
     )
   )
 
@@ -1517,10 +1517,10 @@
       (net 49 "Net-(D8-Pad2)"))
     (pad 2 thru_hole circle (at 5.08 0 270) (size 3 3) (drill 1.52) (layers *.Cu *.Mask)
       (net 41 "Net-(J8-Pad2)"))
-    (model Connectors.3dshapes/bornier2.wrl
-      (offset (xyz 2.5 0 0))
-      (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 0))
+    (model C:/tmp/_OpenAVRc/MultiSwitch_MosFet/1988105.wrl
+      (offset (xyz 7.62 -3.5 0))
+      (scale (xyz 0.3 0.3 0.26))
+      (rotate (xyz -90 0 -90))
     )
   )
 
@@ -1553,10 +1553,10 @@
       (net 1 GND))
     (pad 2 thru_hole circle (at 5.08 0 180) (size 3 3) (drill 1.52) (layers *.Cu *.Mask)
       (net 1 GND))
-    (model Connectors.3dshapes/bornier2.wrl
-      (offset (xyz 2.5 0 0))
-      (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 0))
+    (model C:/tmp/_OpenAVRc/MultiSwitch_MosFet/1988105.wrl
+      (offset (xyz 7.62 -3.5 0))
+      (scale (xyz 0.3 0.3 0.26))
+      (rotate (xyz -90 0 -90))
     )
   )
 
@@ -1885,7 +1885,7 @@
       (net 36 "Net-(J9-Pad7)"))
     (pad 8 thru_hole oval (at 0 17.78 90) (size 1.8 1.5) (drill 0.8) (layers *.Cu *.Mask)
       (net 37 "Net-(J9-Pad8)"))
-    (model Pin_Headers.3dshapes/Pin_Header_Straight_1x09_Pitch2.54mm.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x08_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
@@ -1937,7 +1937,7 @@
       (net 50 +VRx))
     (pad 1 thru_hole rect (at 0 0 90) (size 1.8 1.5) (drill 0.8) (layers *.Cu *.Mask)
       (net 50 +VRx))
-    (model Pin_Headers.3dshapes/Pin_Header_Straight_1x09_Pitch2.54mm.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x08_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
@@ -1967,9 +1967,9 @@
       (net 42 "Net-(D1-Pad2)"))
     (pad 1 thru_hole circle (at 0 0 90) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 30 "Net-(J9-Pad1)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -1997,9 +1997,9 @@
       (net 6 "Net-(Q1-Pad2)"))
     (pad 2 thru_hole oval (at 2.54 0 270) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 30 "Net-(J9-Pad1)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2027,9 +2027,9 @@
       (net 42 "Net-(D1-Pad2)"))
     (pad 1 thru_hole circle (at 0 0 90) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 2 "Net-(Q1-Pad1)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2057,9 +2057,9 @@
       (net 31 "Net-(J9-Pad2)"))
     (pad 2 thru_hole oval (at 2.54 0 90) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 43 "Net-(D2-Pad2)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2087,9 +2087,9 @@
       (net 19 "Net-(Q4-Pad2)"))
     (pad 2 thru_hole oval (at 2.54 0 270) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 31 "Net-(J9-Pad2)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2117,9 +2117,9 @@
       (net 43 "Net-(D2-Pad2)"))
     (pad 1 thru_hole circle (at 0 0 90) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 18 "Net-(Q4-Pad1)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2147,9 +2147,9 @@
       (net 32 "Net-(J9-Pad3)"))
     (pad 2 thru_hole oval (at 2.54 0 90) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 44 "Net-(D3-Pad2)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2177,9 +2177,9 @@
       (net 7 "Net-(Q7-Pad2)"))
     (pad 2 thru_hole oval (at 2.54 0 270) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 32 "Net-(J9-Pad3)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2207,9 +2207,9 @@
       (net 44 "Net-(D3-Pad2)"))
     (pad 1 thru_hole circle (at 0 0 90) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 3 "Net-(Q7-Pad1)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2237,9 +2237,9 @@
       (net 33 "Net-(J9-Pad4)"))
     (pad 1 thru_hole circle (at 0 0 270) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 22 "Net-(Q10-Pad2)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2267,9 +2267,9 @@
       (net 4 "Net-(Q10-Pad1)"))
     (pad 2 thru_hole oval (at 2.54 0 90) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 45 "Net-(D4-Pad2)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2297,9 +2297,9 @@
       (net 46 "Net-(D5-Pad2)"))
     (pad 1 thru_hole circle (at 0 0 90) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 34 "Net-(J9-Pad5)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2327,9 +2327,9 @@
       (net 8 "Net-(Q13-Pad2)"))
     (pad 2 thru_hole oval (at 2.54 0 270) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 34 "Net-(J9-Pad5)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2357,9 +2357,9 @@
       (net 46 "Net-(D5-Pad2)"))
     (pad 1 thru_hole circle (at 0 0 90) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 5 "Net-(Q13-Pad1)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2387,9 +2387,9 @@
       (net 47 "Net-(D6-Pad2)"))
     (pad 1 thru_hole circle (at 0 0 90) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 35 "Net-(J9-Pad6)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2417,9 +2417,9 @@
       (net 24 "Net-(Q16-Pad2)"))
     (pad 2 thru_hole oval (at 2.54 0 270) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 35 "Net-(J9-Pad6)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2447,9 +2447,9 @@
       (net 47 "Net-(D6-Pad2)"))
     (pad 1 thru_hole circle (at 0 0 90) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 25 "Net-(Q16-Pad1)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2477,9 +2477,9 @@
       (net 36 "Net-(J9-Pad7)"))
     (pad 2 thru_hole oval (at 2.54 0 90) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 48 "Net-(D7-Pad2)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2507,9 +2507,9 @@
       (net 36 "Net-(J9-Pad7)"))
     (pad 1 thru_hole circle (at 0 0 270) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 26 "Net-(Q19-Pad2)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2537,9 +2537,9 @@
       (net 48 "Net-(D7-Pad2)"))
     (pad 1 thru_hole circle (at 0 0 90) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 27 "Net-(Q19-Pad1)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2567,9 +2567,9 @@
       (net 37 "Net-(J9-Pad8)"))
     (pad 2 thru_hole oval (at 2.54 0 90) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 49 "Net-(D8-Pad2)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2597,9 +2597,9 @@
       (net 28 "Net-(Q22-Pad2)"))
     (pad 2 thru_hole oval (at 2.54 0 270) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 37 "Net-(J9-Pad8)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2627,9 +2627,9 @@
       (net 29 "Net-(Q22-Pad1)"))
     (pad 2 thru_hole oval (at 2.54 0 90) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 49 "Net-(D8-Pad2)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2657,9 +2657,9 @@
       (net 33 "Net-(J9-Pad4)"))
     (pad 2 thru_hole oval (at 2.54 0 90) (size 1.4 1.4) (drill 0.7) (layers *.Cu *.Mask)
       (net 45 "Net-(D4-Pad2)"))
-    (model Resistors_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl
+    (model "C:/Program Files/KiCad/share/kicad/modules/packages3d/Resistor_THT.3dshapes/R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl"
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
   )
@@ -2672,7 +2672,7 @@
     (solder_paste_margin -0.5)
     (clearance 0.5)
     (zone_connect 0)
-    (fp_text reference Fix1 (at -5.08 0) (layer F.SilkS)
+    (fp_text reference Fix1 (at 0.127 0.127) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value MountingHole_3.2mm_M3 (at -12.573 -8.001) (layer F.Fab) hide
