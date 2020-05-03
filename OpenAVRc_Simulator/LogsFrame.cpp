@@ -106,7 +106,7 @@ LogsFrame::LogsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
                       };
   size_t color_num = 0;
 
-  wxFileDialog openFileDialog(this, _("Ouvrir Fichier BIN"), AppPath+ "\\SD\\LOGS\\", "","Fichiers CSV (*.csv)|*.csv", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+  wxFileDialog openFileDialog(this, _("Ouvrir Fichier CSV"), AppPath+ "\\SD\\LOGS\\", "", _("Fichiers CSV (*.csv)|*.csv"), wxFD_OPEN|wxFD_FILE_MUST_EXIST);
   if (openFileDialog.ShowModal() == wxID_CANCEL)
     {
       CloseFrame();
