@@ -880,17 +880,20 @@ void OpenAVRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
   Aboutbox.SetDescription(_("Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "));
   Aboutbox.SetCopyright(wxT("(C) 2016-2020 OpenAVRc Team"));
   Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
-  Aboutbox.AddDeveloper(wxT("OpenAVRc Team :\n\n"));
-  Aboutbox.AddDeveloper(wxT("Firmware : Bracame, RC-Navy, Sloped Soarer, Supiiik. \n"));
-  Aboutbox.AddDeveloper(wxT("Applications : Bracame, Mentero. \n"));
-  Aboutbox.AddDeveloper(wxT("PCB Shield : Anthobreizh, Pierrotm777 , Pyrall. \n"));
-  Aboutbox.AddDeveloper(wxT("Documentation : JPZ(Testeur68), Pierrotm777 , Pyrall. \n"));
-  Aboutbox.AddDeveloper(wxT("Translations : Mentero.  Stanektm \n"));
-  Aboutbox.AddDeveloper(wxT("Beta tests : JPZ(Testeur68), Pyrall. \n\n"));
-  Aboutbox.AddDeveloper(wxT("Forum contributors :\n\n"));
-  Aboutbox.AddDeveloper(wxT("ElectoPete (English Voice file), Ievgen (Ukrainian translation). \n"));
-  Aboutbox.AddDeveloper(wxT("TomTheBuilder (English documentation translation). \n"));
-  Aboutbox.AddDeveloper(wxT("IvanH (Slovak firmware translation). \n"));
+  Aboutbox.AddDeveloper(wxT(
+    "OpenAVRc Team :\n\n"
+    "Firmware : Bracame, RC-Navy, Sloped Soarer, Supiiik.\n"
+    "Applications : Bracame, Mentero.\n"
+    "PCB Shield : Anthobreizh, Pierrotm777, Pyrall.\n"
+    "Documentation : JPZ(Testeur68), Pierrotm777, Pyrall.\n"
+    "Translations : Mentero, StanekTM.\n"
+    "Beta tests : JPZ(Testeur68), Pyrall.\n\n"
+    "Forum contributors :\n\n"
+    "ElectoPete (English Voice file).\n"
+    "Ievgen (Ukrainian translation).\n"
+    "TomTheBuilder (English documentation translation).\n"
+    "IvanH (Slovak firmware translation)."
+  ));
 
   wxAboutBox(Aboutbox);
 }
