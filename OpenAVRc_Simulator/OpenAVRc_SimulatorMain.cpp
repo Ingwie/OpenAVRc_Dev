@@ -1067,7 +1067,7 @@ void OpenAVRc_SimulatorFrame::OnRstickLeftUp(wxMouseEvent& event)
 void OpenAVRc_SimulatorFrame::OnSimulcdLeftDClick(wxMouseEvent& event)
 {
   event.Skip();
-  wxFileDialog saveFileDialog(this, _("Sauver Capture écran"), "", "", "Fichier BMP (*.bmp)|*.bmp", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+  wxFileDialog saveFileDialog(this, _("Sauver Capture écran"), "", "", _("Fichier BMP (*.bmp)|*.bmp"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
   if (saveFileDialog.ShowModal() == wxID_CANCEL)
     return;     // the user changed idea...
   wxFileOutputStream output_stream(saveFileDialog.GetPath());
@@ -1083,7 +1083,7 @@ void OpenAVRc_SimulatorFrame::OnSimulcdLeftDClick(wxMouseEvent& event)
 void OpenAVRc_SimulatorFrame::OnMenuSaveeeSelected(wxCommandEvent& event)
 {
   event.Skip();
-  wxFileDialog saveFileDialog(this, _("Sauver Eeprom"), "", "", "Fichier BIN (*.bin)|*.bin", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+  wxFileDialog saveFileDialog(this, _("Sauver Eeprom"), "", "", _("Fichier BIN (*.bin)|*.bin"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
   if (saveFileDialog.ShowModal() == wxID_CANCEL)
     return;     // the user changed idea...
   wxFile bin_file;
