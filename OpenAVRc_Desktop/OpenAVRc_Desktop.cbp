@@ -15,6 +15,12 @@
 				<Compiler>
 					<Add option="-m32" />
 					<Add option="-g" />
+					<Add option="-pipe" />
+					<Add option="-mthreads" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-Wno-packed-bitfield-compat" />
+					<Add option="-Wno-trigraphs" />
+					<Add option="-mno-ms-bitfields" />
 					<Add option="-D__WXDEBUG__" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswud" />
 				</Compiler>

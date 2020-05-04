@@ -44,7 +44,7 @@
 #endif
 
 #define BACK_SPACE         0x08
-#define UCLI_CMD_LINE_MAX_SIZE  128  // Xmodem packet size
+#define UCLI_CMD_LINE_MAX_SIZE  100
 
 enum {CONTEXT_UCLI = 0, CONTEXT_XMODEM, CONTEXT_PUPPY};
 

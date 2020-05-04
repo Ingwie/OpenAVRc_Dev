@@ -167,20 +167,17 @@ size_t HwSerial::write(uint8_t c)
 
   uint8_t newpos = (_tx_buffer_head +1) % HW_SERIAL1_TX_FIFO_SIZE;
 
-  if (_tx_buffer_tail != newpos) // if buffer is not full
-  {
-    tx_buffer[newpos] = c; // load the buffer
-    _tx_buffer_head = newpos;
+  while (_tx_buffer_tail == newpos) {_delay_us(10);} // Wait if buffer is full (I realy don't love that !)
+ tx_buffer[newpos] = c; // load the buffer
+ _tx_buffer_head = newpos;
 
-    if (rxIsrIsNotActive) // if the driver is not running
-    {
-      ++_tx_buffer_tail %= HW_SERIAL1_TX_FIFO_SIZE;
-      UDR_N(TLM_USART1) = tx_buffer[_tx_buffer_tail];
-      sbi(UCSRB_N(TLM_USART1), UDRIE_N(TLM_USART1));
-    }
-    return 1;
+ if (rxIsrIsNotActive) // if the driver is not running
+  {
+   ++_tx_buffer_tail %= HW_SERIAL1_TX_FIFO_SIZE;
+   UDR_N(TLM_USART1) = tx_buffer[_tx_buffer_tail];
+   sbi(UCSRB_N(TLM_USART1), UDRIE_N(TLM_USART1));
   }
-  return 0;
+ return 1;
 }
 
 void HwSerial::enableTx(uint8_t On)

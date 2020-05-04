@@ -45,6 +45,7 @@
 #include <wx/combobox.h>
 #include <wx/dirctrl.h>
 #include <wx/frame.h>
+#include <wx/gauge.h>
 #include <wx/panel.h>
 #include <wx/statbox.h>
 #include <wx/stattext.h>
@@ -68,6 +69,7 @@ class BluetoothFrame: public wxFrame
 		wxBitmapButton* BitmapButtonReboot;
 		wxBitmapButton* BitmapButtonRefresh;
 		wxComboBox* ComboBoxCom;
+		wxGauge* Gauge;
 		wxGenericDirCtrl* DirCtrl;
 		wxPanel* Panel1;
 		wxStaticBox* StaticBoxCom;
@@ -96,6 +98,7 @@ class BluetoothFrame: public wxFrame
 		static const long ID_TREECTRLSD;
 		static const long ID_GENERICDIRCTRL1;
 		static const long ID_BITMAPBUTTONREFRESH;
+		static const long ID_GAUGE;
 		static const long ID_PANEL1;
 		static const long ID_TIMERRX;
 		//*)
@@ -182,9 +185,10 @@ private:
 #define DELAY_MS(ms)                       wxMilliSleep(ms)
 #define GET_TICK()                         (uint16_t)(clock()/10)
 
-#define YIELD_TO_PRIO_TASK()               wxYieldIfNeeded()
+#define YIELD_TO_PRIO_TASK()               Sleep(1);wxYieldIfNeeded()
 
   extern int8_t XReceive(SERIAL_TYPE pSer, const char *szFilename);
   extern int8_t XSend(SERIAL_TYPE pSer, const char *szFilename);
+  extern void Set_BluetoothFrame_Gauge_Pointer(wxGauge* g);
 
 #endif

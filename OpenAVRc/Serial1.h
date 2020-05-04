@@ -47,7 +47,7 @@ Note: This HwSerial driver/module by RC-Navy is mainly based on the arduino Hard
 #if defined(U_CLI) || defined(TINY_DBG_UART_BT)
 #if defined(XMODEM)
 #define S1_TX_FF_SZ                  40
-#define S1_RX_FF_SZ                  128
+#define S1_RX_FF_SZ                  132//xmodem packet size
 #else
 #define S1_TX_FF_SZ                  16
 #define S1_RX_FF_SZ                  128//nedeed by BT +INQ
