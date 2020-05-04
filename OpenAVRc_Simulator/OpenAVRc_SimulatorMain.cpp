@@ -1307,7 +1307,7 @@ void OpenAVRc_SimulatorFrame::OnMenuImportEepromSelected(wxCommandEvent& event)
 
 void OpenAVRc_SimulatorFrame::ImportEeprom()
 {
-  wxFileDialog loaFileDialog(this, _("Importer Eeprom"), "", "", "Fichier TXT (*.txt)|*.txt", wxFD_OPEN |wxFD_FILE_MUST_EXIST);
+  wxFileDialog loaFileDialog(this, _("Importer Eeprom"), "", "", _("Fichier TXT (*.txt)|*.txt"), wxFD_OPEN |wxFD_FILE_MUST_EXIST);
   if (loaFileDialog.ShowModal() == wxID_CANCEL)
     return;     // the user changed idea...
 
@@ -1366,7 +1366,7 @@ void OpenAVRc_SimulatorFrame::ExportEeprom()
   Timer10ms.Stop();
   ResetSimuLcd();
 
-  wxFileDialog saveFileDialog(this, _("Exporter Eeprom"), "", "", "Fichier TXT (*.txt)|*.txt", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+  wxFileDialog saveFileDialog(this, _("Exporter Eeprom"), "", "", _("Fichier TXT (*.txt)|*.txt"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
   if (saveFileDialog.ShowModal() == wxID_CANCEL)
     return;     // the user changed idea...
 
