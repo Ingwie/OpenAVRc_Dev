@@ -461,7 +461,7 @@ void OpenAVRc_DesktopFrame::OnAbout(wxCommandEvent& event)
     "Applications : Bracame, Mentero.\n"
     "PCB Shield : Anthobreizh, Pierrotm777, Pyrall.\n"
     "Documentation : JPZ(Testeur68), Pierrotm777, Pyrall.\n"
-    "Translations : Mentero, stanekTM.\n"
+    "Translations : Mentero, StanekTM.\n"
     "Beta tests : JPZ(Testeur68), Pyrall.\n\n"
     "Forum contributors :\n\n"
     "ElectoPete (English Voice file).\n"
