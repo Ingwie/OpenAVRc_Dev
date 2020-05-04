@@ -70,10 +70,10 @@ public:
 
 
     //////////// ADDS FOR XMODEM SUPPORT //////////////// Ingwie
-    int available();
+    uint8_t available();
     char read();
-    int write(char c);
-    int write(const uint8_t * buffer, int);
+    uint16_t write(char c);
+    uint16_t write(const uint8_t * buffer, uint16_t len);
 };
 /* -------------------------------------------------------------------- */
 

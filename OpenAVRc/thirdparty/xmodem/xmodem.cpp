@@ -68,19 +68,21 @@
   #include "uCli.h"
  #endif
 #else
+ #include "../../../OpenAVRc_Desktop/OpenAVRc_DesktopApp.h"
  #include "../../../OpenAVRc_Desktop/OpenAVRc_DesktopMain.h"
  #include "../../../OpenAVRc_Desktop/BluetoothFrame.h"
  #include "../../uCli.h" // for UCLI_CMD_LINE_MAX_SIZE def
+ wxGauge* GaugeCpy;
 #endif
 
-
 // common definitions (Placed here for FW, SIMU and Desktop)
-#define XMODEM_PACKET_SIZE UCLI_CMD_LINE_MAX_SIZE
+#define XMODEM_PACKET_SIZE 128
+#define XMODEM_FULL_PACKET_SIZE (XMODEM_PACKET_SIZE+5)
 
-#define SILENCE_TIMEOUT_MS                 50UL /* 0.5 seconds */
-#define CNX_TIMEOUT_MS                     500UL
+#define SILENCE_TIMEOUT_MS                 300UL /* 1 second */
+#define CNX_TIMEOUT_MS                     3000UL
 #define CNX_TRY_COUNT_MAX                  (CNX_TIMEOUT_MS / SILENCE_TIMEOUT_MS)
-#define FLUSH_TIME_MS                      10UL /* 10 mS */
+#define FLUSH_TIME_MS                      10UL /* 100 mS */
 #define TOTAL_ERROR_COUNT                  5
 #define ACK_ERROR_COUNT                    3
 
@@ -116,11 +118,7 @@ typedef struct
 {
  char     cSOH;          ///< SOH byte goes here
  uint8_t  aSEQ, aNotSEQ; ///< 1st byte = seq#, 2nd is ~seq#
-#ifndef DESKTOP
- char*    aDataBuf = uCli.CmdLine.Msg; ///< the actual data itself! Re-use uCli buffer to save ~100 bytes
-#else
  char     aDataBuf[XMODEM_PACKET_SIZE]; ///< the actual data itself!
-#endif
  uint16_t wCRC;          ///< CRC gets 2 bytes, high endian
 }  XModemCBufSt_t;
 
@@ -163,7 +161,7 @@ static uint16_t my_htons(uint16_t sVal)
   uint16_t sVal;
  } a, b;
 
- // tweeked for size and speed.  enjoy.
+// tweeked for size and speed.  enjoy.
 
  b.sVal = sVal;
 
@@ -183,14 +181,14 @@ static uint16_t my_htons(uint16_t sVal)
   * This method uses the 'long way' which is SMALLER CODE for microcontrollers, but eats up a bit more CPU.
   * Otherwise, you'd have to pre-build the 256 byte table and use "the table lookup" method.
 **/
-uint16_t CalcCRC(const char *lpBuf, int16_t cbBuf)
+uint16_t CalcCRC(const char *lpBuf, uint16_t cbBuf)
 {
  uint16_t wCRC;
- int16_t  i1, i2, iAX;
+ uint16_t  i1, i2, iAX;
  char     cAL;
 
- // ** this function returns 2-byte string containing
- // ** the CRC calculation result, as high endian
+// ** this function returns 2-byte string containing
+// ** the CRC calculation result, as high endian
  wCRC = 0;
  for(i1 = 0; i1 < cbBuf; i1++)
   {
@@ -378,7 +376,7 @@ void XModemFlushInput(SERIAL_TYPE ser)
 void XmodemTerminate(XModemSt_t *pX)
 {
  XModemFlushInput(pX->ser);
- // TODO:  close files? YES
+// TODO:  close files? YES
 }
 
 /** \ingroup xmodem_internal
@@ -421,27 +419,37 @@ int8_t ReceiveXmodem(XModemSt_t *pX)
  filesize = 0;
  block = 1;
 
- // ** already got the first 'SOH' character on entry to this function **
+#ifdef DESKTOP
+ GaugeCpy->Pulse();
+#endif // DESKTOP
+// ** already got the first 'SOH' character on entry to this function **
 
  pX->buf.cSOH = (char)1; // assumed already got this, put into buffer
  do
   {
-   // did not receive properly
-   // TODO:  deal with repeated packet, sequence number for previous packet
-   XModemFlushInput(pX->ser);  // necessary to avoid problems
-   cY = _NAK_; // send NAK (to get the checksum version)
-   ecount ++; // for this packet
-   etotal ++;
+   if((( GetXmodemBlock(pX->ser, ((char *)&(pX->buf)+ 1) , (XMODEM_FULL_PACKET_SIZE - 1)))
+      != XMODEM_FULL_PACKET_SIZE - 1) || ( ValidateSEQC(&(pX->buf), block & 255)) ||
+      ( CalcCRC(pX->buf.aDataBuf, XMODEM_PACKET_SIZE) != pX->buf.wCRC))
 
-   if(FILE_WRITE_CHUNK(pX->fd, &(pX->buf.aDataBuf), XMODEM_PACKET_SIZE) != XMODEM_PACKET_SIZE)
     {
-     return -2; // write error on output file
+     // did not receive properly
+     // TODO:  deal with repeated packet, sequence number for previous packet
+     XModemFlushInput(pX->ser);  // necessary to avoid problems
+     cY = _NAK_; // TODO do I need this?
+     ecount ++; // for this packet
+     etotal ++;
     }
-   cY = _ACK_; // send ACK
-   block ++;
-   filesize += XMODEM_PACKET_SIZE; // TODO:  need method to avoid extra crap at end of file
-   ecount = 0; // zero out error count for next packet
-
+   else
+    {
+     if(FILE_WRITE_CHUNK(pX->fd, &(pX->buf.aDataBuf), XMODEM_PACKET_SIZE) != XMODEM_PACKET_SIZE)
+      {
+       return -2; // write error on output file
+      }
+     cY = _ACK_; // send ACK
+     block ++;
+     filesize += XMODEM_PACKET_SIZE; // TODO:  need method to avoid extra crap at end of file
+     ecount = 0; // zero out error count for next packet
+    }
    ec2 = 0;   //  ** error count #2 **
    while(ecount < TOTAL_ERROR_COUNT && ec2 < ACK_ERROR_COUNT) // ** loop to get SOH or EOT character **
     {
@@ -488,6 +496,10 @@ int8_t ReceiveXmodem(XModemSt_t *pX)
   }
  while(ecount < TOTAL_ERROR_COUNT);
  XmodemTerminate(pX);
+#ifdef DESKTOP
+ GaugeCpy->SetRange(100);
+ GaugeCpy->SetValue(100);
+#endif // DESKTOP
 
  return 1; // terminated
 }
@@ -519,11 +531,16 @@ int8_t SendXmodem(XModemSt_t *pX)
  filesize = 0;
  filepos = 0;
  block = 1;
-
- // ** already got first 'NAK' character on entry as pX->buf.cSOH  **
+// ** already got first 'NAK' character on entry as pX->buf.cSOH  **
  filesize = FILE_SIZE(pX->fd);
+#ifdef DESKTOP
+ GaugeCpy->SetRange(filesize);
+#endif // DESKTOP
  do
   {
+#ifdef DESKTOP
+   GaugeCpy->SetValue(filepos);
+#endif // DESKTOP
    // ** depending on type of transfer, place the packet
    // ** into pX->buf with all fields appropriately filled.
    if(filepos >= filesize) // end of transfer
@@ -547,9 +564,8 @@ int8_t SendXmodem(XModemSt_t *pX)
      XmodemTerminate(pX);
      return i1 >= CNX_TRY_COUNT_MAX ? 1 : 0; // return 1 if receiver choked on the 'EOT' marker, else 0 for 'success'
     }
-//  TODO:  progress indicator [can be LCD for arduino, blinky lights, ???  and of course stderr for everyone else]
-   if(pX->buf.cSOH != 'C' // XMODEM CRC
-      && pX->buf.cSOH != (char)_NAK_) // NAK
+
+   if(pX->buf.cSOH != (char)_NAK_) // NAK
     {
      // increase error count, bail if it's too much
      ec2++;
@@ -574,16 +590,15 @@ int8_t SendXmodem(XModemSt_t *pX)
        // TODO:  read error - send a ctrl+x ?
       }
     }
-   if/*(pX->buf.cSOH == 'C' ||  // XMODEM CRC 'NAK' (first time only, typically)
-       (*/(pX->buf.cSOH == _ACK_ || pX->buf.cSOH == _NAK_)/* && pX->bCRC)) */// identifies ACK/NACK with XMODEM CRC
+   if (pX->buf.cSOH == _ACK_ || pX->buf.cSOH == _NAK_) /// identifies ACK/NACK with XMODEM CRC
     {
      // calculate the CRC, assign to the packet, and then send it
      pX->buf.cSOH = 1; // must send SOH as 1st char
      pX->buf.wCRC = CalcCRC(pX->buf.aDataBuf, XMODEM_PACKET_SIZE);
      GenerateSEQC(&(pX->buf), block);
      // send it
-     i1 = WriteXmodemBlock(pX->ser, &(pX->buf), sizeof(pX->buf));
-     if(i1 != sizeof(pX->buf)) // write error
+     i1 = WriteXmodemBlock(pX->ser, &(pX->buf), XMODEM_FULL_PACKET_SIZE);
+     if(i1 != XMODEM_FULL_PACKET_SIZE) // write error
       {
        // TODO:  handle write error (send ctrl+X ?)
       }
@@ -598,8 +613,7 @@ int8_t SendXmodem(XModemSt_t *pX)
          XmodemTerminate(pX);
          return 1; // terminated
         }
-       else if(pX->buf.cSOH == _NAK_ || // ** NACK
-               pX->buf.cSOH == 'C') // ** CRC NACK
+       else if(pX->buf.cSOH == _NAK_) // ** CRC NACK
         {
          break;  // exit inner loop and re-send packet
         }
@@ -628,15 +642,9 @@ int8_t SendXmodem(XModemSt_t *pX)
     }
   }
  while(ecount < TOTAL_ERROR_COUNT * 2);   // twice error count allowed for sending
-// TODO: progress indicator
-//   If filesize& <> 0 And filepos& <= filesize& Then
-//      Form2!Label1.FloodPercent = 100 * filepos& / filesize&
-//   Else
-//      Form2!Label1.FloodPercent = 100
-//   End If
 
- // ** at this point it is important to indicate the errors
- // ** and flush all buffers, and terminate process!
+// ** at this point it is important to indicate the errors
+// ** and flush all buffers, and terminate process!
  XmodemTerminate(pX);
 
  return -2; // exit on error
@@ -650,8 +658,8 @@ int8_t SendXmodem(XModemSt_t *pX)
   * \return A zero value on success, negative on error, positive on cancel
   *
   * This is a generic 'calling function' for ReceiveXmodem that checks for
-  * a response to 'C' and 'NAK' characters, and sets up the XMODEM transfer
-  * for either CRC or CHECKSUM mode.
+  * a response to 'NAK' character, and sets up the XMODEM transfer
+  * for CRC mode.
   * This function will return zero on success, a negative value on error, and a positive
   * value if the transfer was canceled by the receiver.
 **/
@@ -670,7 +678,7 @@ int8_t XReceiveSub(XModemSt_t *pX)
       }
      else if(pX->buf.cSOH == _EOT_) // an EOT [blank file?  allow this?]
       {
-       return 0; // for now, do this
+       return 1; // canceled
       }
      else if(pX->buf.cSOH == _CAN_) // cancel
       {
@@ -700,14 +708,13 @@ int8_t XSendSub(XModemSt_t *pX)
 {
  uint16_t ulStart;
 
- // waiting up to 10 seconds for transfer to start. This is part of the spec?
+// waiting up to 10 seconds for transfer to start. This is part of the spec?
  ulStart = GET_TICK();
  do
   {
    if(GetXmodemBlock(pX->ser, &(pX->buf.cSOH), 1) == 1)
     {
-     if(pX->buf.cSOH == 'C' || // XMODEM CRC
-        pX->buf.cSOH == _NAK_) // NAK - XMODEM CHECKSUM
+     if(pX->buf.cSOH == _NAK_) // NAK - XMODEM CHECKSUM
       {
        return SendXmodem(pX);
       }
@@ -766,3 +773,10 @@ int8_t XSend(SERIAL_TYPE pSer, const char *szFilename)
  FILE_CLOSE(xx.fd);
  return iRval;
 }
+
+#ifdef DESKTOP
+void Set_BluetoothFrame_Gauge_Pointer(wxGauge* g)
+{
+ GaugeCpy = g;
+}
+#endif

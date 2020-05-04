@@ -246,9 +246,9 @@ int Tserial::getNbrOfBytes    (void)
 }
 
     //////////// ADDS FOR XMODEM SUPPORT //////////////// Ingwie
-int Tserial::available()
+uint8_t Tserial::available()
 {
-    return getNbrOfBytes();
+    return (uint8_t)getNbrOfBytes();
 }
 
 char Tserial::read()
@@ -256,17 +256,17 @@ char Tserial::read()
     return getChar();
 }
 
-int Tserial::write(char c)
+uint16_t Tserial::write(char c)
 {
     sendChar(c);
     return 1;
 }
 
-int Tserial::write(const uint8_t * buffer, int len)
+uint16_t Tserial::write(const uint8_t * buffer, uint16_t len)
 {
     unsigned long result;
 
     if (serial_handle!=INVALID_HANDLE_VALUE)
-        WriteFile(serial_handle, buffer, len, &result, NULL);
-    return (int)result;
+        WriteFile(serial_handle, (const char *)buffer, (int)len, &result, NULL);
+    return (uint16_t)result;
 }

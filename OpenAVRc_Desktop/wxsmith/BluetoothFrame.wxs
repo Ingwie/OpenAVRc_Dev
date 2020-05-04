@@ -34,7 +34,7 @@
 			<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticTextFreeMem" member="yes">
 				<label>------</label>
 				<pos>264,32</pos>
-				<size>80,16</size>
+				<size>56,16</size>
 				<style>wxALIGN_LEFT</style>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticTextVersion" member="yes">
@@ -52,12 +52,12 @@
 			<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBoxLocal1" member="yes">
 				<label>Local</label>
 				<pos>8,104</pos>
-				<size>200,296</size>
+				<size>216,296</size>
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOXSD" variable="StaticBoxSD" member="yes">
 				<label>Carte SD</label>
-				<pos>216,104</pos>
-				<size>200,296</size>
+				<pos>232,104</pos>
+				<size>216,296</size>
 			</object>
 			<object class="wxTreeCtrl" name="ID_TREECTRLSD" variable="TctrlSd" member="yes">
 				<image_list>&lt;none&gt;</image_list>
@@ -69,15 +69,15 @@
 					<item2>TctrlSd</item2>
 					<item2>&lt;none&gt;</item2>
 				</items_text>
-				<pos>224,128</pos>
-				<size>184,264</size>
+				<pos>240,120</pos>
+				<size>200,272</size>
 				<handler function="OnTctrlSdBeginDrag" entry="EVT_TREE_BEGIN_DRAG" />
 			</object>
 			<object class="wxGenericDirCtrl" name="ID_GENERICDIRCTRL1" variable="DirCtrl" member="yes">
 				<defaultfolder></defaultfolder>
 				<filter></filter>
 				<pos>16,120</pos>
-				<size>184,272</size>
+				<size>200,272</size>
 			</object>
 			<object class="wxBitmapButton" name="ID_BITMAPBUTTONREFRESH" variable="BitmapButtonRefresh" member="yes">
 				<bitmap stock_id="wxART_REDO" stock_client="wxART_BUTTON" />
@@ -85,6 +85,10 @@
 				<size>48,24</size>
 				<tooltip>Rafraichir</tooltip>
 				<handler function="OnBitmapButtonRefreshClick" entry="EVT_BUTTON" />
+			</object>
+			<object class="wxGauge" name="ID_GAUGE" variable="Gauge" member="yes">
+				<pos>328,24</pos>
+				<size>224,16</size>
 			</object>
 		</object>
 		<object class="wxTimer" name="ID_TIMERRX" variable="TimerRX" member="yes">
