@@ -34,10 +34,6 @@
 #include "../OpenAVRc.h"
 #include "menu_model.h"
 
-
-#define MODELSIZE_POS_X  170
-#define MODELSEL_W       LCD_W
-
 void onModelSelectMenu(const char *result)
 {
   int8_t sub = menuVerticalPosition;
@@ -291,7 +287,7 @@ void menuModelSelect(uint8_t event)
       if (k == sub) {
         if (s_copyMode == COPY_MODE) {
           k = s_copySrcRow;
-          lcdDrawChar(MODELSEL_W-FW, y, '+');
+          lcdDrawChar(LCD_W-FW, y, '+');
         } else {
           k = sub + s_copyTgtOfs;
         }
@@ -313,8 +309,8 @@ void menuModelSelect(uint8_t event)
     }
 
     if (s_copyMode && (vertpos_t)sub==i+menuVerticalOffset) {
-      lcdDrawFilledRect(9, y, MODELSEL_W-1-9, 7);
-      lcdDrawRect(8, y-1, MODELSEL_W-1-7, 9, s_copyMode == COPY_MODE ? SOLID : DOTTED);
+      lcdDrawFilledRect(9, y, LCD_W-1-9, 7);
+      lcdDrawRect(8, y-1, LCD_W-1-7, 9, s_copyMode == COPY_MODE ? SOLID : DOTTED);
     }
   }
 }
