@@ -72,18 +72,14 @@
  #include "../../../OpenAVRc_Desktop/BluetoothFrame.h"
  #include "../../uCli.h" // for UCLI_CMD_LINE_MAX_SIZE def
  wxGauge* GaugeCpy;
- #ifndef PACK
-  #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
- #endif
 #endif
 
 // common definitions (Placed here for FW, SIMU and Desktop)
-#define XMODEM_PACKET_SIZE 128
 
-#define SILENCE_TIMEOUT_MS                 300UL /* 1 second */
+#define SILENCE_TIMEOUT_MS                 300UL /* 3 second */
 #define CNX_TIMEOUT_MS                     3000UL
 #define CNX_TRY_COUNT_MAX                  (CNX_TIMEOUT_MS / SILENCE_TIMEOUT_MS)
-#define FLUSH_TIME_MS                      10UL /* 100 mS */
+#define FLUSH_TIME_MS                      5UL /* 500 mS */
 #define TOTAL_ERROR_COUNT                  5
 #define ACK_ERROR_COUNT                    3
 
@@ -100,48 +96,6 @@
   *
   * S.F.T. XMODEM library
 **/
-
-/** \ingroup xmodem_internal
-  * \brief Structure defining an XMODEM CRC packet
-  *
-\code
-typedef struct{
-   char     cSOH;          // ** SOH byte goes here             **
-   uint8_t  aSEQ, aNotSEQ; // ** 1st byte = seq#, 2nd is ~seq#  **
-   char     aDataBuf[XMODEM_PACKET_SIZE]; // ** the actual data itself!        **
-   uint16_t wCRC;          // ** CRC gets 2 bytes, high endian  **
-} PACKED XModemCBufSt_t;
-
-\endcode
-  *
-**/
-PACK(typedef struct{
- char     cSOH;          ///< SOH byte goes here
- uint8_t  aSEQ;          ///< 1st byte = seq#
- uint8_t  aNotSEQ;       ///< 2nd is ~seq#
- char     aDataBuf[XMODEM_PACKET_SIZE]; ///< the actual data itself!
- uint16_t wCRC;          ///< CRC gets 2 bytes, high endian
-}) XModemCBufSt_t;
-
-/** \ingroup xmodem_internal
-  * \brief Structure that identifies the XMODEM communication state
-  *
-\code
-typedef struct{
-  SERIAL_TYPE ser;     // identifies the serial connection, data type is OS-dependent
-  FILE_TYPE file;      // identifies the file handle, data type is OS-dependent
-  XmodemCBufSt_t cbuf; // XMODEM CRC buffer
-} XModemSt_t;
-
-\endcode
-  *
-**/
-typedef struct
-{
- SERIAL_TYPE ser;     ///< identifies the serial connection, data type is OS-dependent
- FILE_DESC   fd;      ///< identifies the file handle, data type is OS-dependent
- XModemCBufSt_t buf; ///< XMODEM CRC buffer
-} XModemSt_t;
 
 //char iBinaryTransfer = 0, iDisableRXOVER = 0;
 
@@ -734,22 +688,22 @@ int8_t XSendSub(XModemSt_t *pX)
 int8_t XReceive(SERIAL_TYPE pSer, const char *szFilename)
 {
  int8_t iRval;
- XModemSt_t xx;
+ //XModemSt_t xx;
 
- xx.ser = pSer;
- xx.fd = NULL;
+ ReBuff.xx.ser = pSer;
+ ReBuff.xx.fd = NULL;
  if(FILE_EXISTS(szFilename))
   {
    //FILE_DELETE(szFilename);
    return -8; // Don't overwrite
   }
- xx.fd = FILE_OPEN_FOR_WRITE(szFilename);
- if(!xx.fd)
+ ReBuff.xx.fd = FILE_OPEN_FOR_WRITE(szFilename);
+ if(!ReBuff.xx.fd)
   {
    return -9; // can't create file
   }
- iRval = XReceiveSub(&xx);
- FILE_CLOSE(xx.fd);
+ iRval = XReceiveSub(&ReBuff.xx);
+ FILE_CLOSE(ReBuff.xx.fd);
  if(iRval)
   {
    WriteXmodemChar(pSer, _CAN_); // cancel (make sure)
@@ -761,17 +715,17 @@ int8_t XReceive(SERIAL_TYPE pSer, const char *szFilename)
 int8_t XSend(SERIAL_TYPE pSer, const char *szFilename)
 {
  int8_t iRval;
- XModemSt_t xx;
+ //XModemSt_t xx;
 
- xx.ser = pSer;
- xx.fd = NULL;
- xx.fd = FILE_OPEN_FOR_READ(szFilename);
- if(!xx.fd)
+ ReBuff.xx.ser = pSer;
+ ReBuff.xx.fd = NULL;
+ ReBuff.xx.fd = FILE_OPEN_FOR_READ(szFilename);
+ if(!ReBuff.xx.fd)
   {
    return -9; // can't open file
   }
- iRval = XSendSub(&xx);
- FILE_CLOSE(xx.fd);
+ iRval = XSendSub(&ReBuff.xx);
+ FILE_CLOSE(ReBuff.xx.fd);
  return iRval;
 }
 

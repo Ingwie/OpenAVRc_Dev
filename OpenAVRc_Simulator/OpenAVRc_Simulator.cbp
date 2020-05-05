@@ -524,7 +524,6 @@
 		<Unit filename="../OpenAVRc/templates.h" />
 		<Unit filename="../OpenAVRc/thirdparty/xmodem/xmodem.cpp" />
 		<Unit filename="../OpenAVRc/thirdparty/xmodem/xmodem.h" />
-		<Unit filename="../OpenAVRc/thirdparty/xmodem/xmodem_cfg.cpp" />
 		<Unit filename="../OpenAVRc/timers.cpp" />
 		<Unit filename="../OpenAVRc/timers.h" />
 		<Unit filename="../OpenAVRc/trainer_input.cpp" />

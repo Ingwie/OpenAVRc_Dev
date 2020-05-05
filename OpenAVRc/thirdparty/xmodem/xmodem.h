@@ -105,13 +105,11 @@
 /** \defgroup xmodem_internal XModem Internal
   * internal support functions
 */
-
-// serial type and file type and file operations for Arduino and OpenAVRc
-
-#define SERIAL_TYPE                        Stream *
-
-#include "../../Serial1.h"
-#include "../../sdcard.h"
+#ifndef DESKTOP
+ #include "../../myeeprom.h"
+ #include "../../Serial1.h"
+ #include "../../sdcard.h"
+#endif
 
 #define FILE_DESC                          struct fat_file_struct*
 #define FILE_EXISTS(FullFileName)          sdFileExists((char *)FullFileName)
@@ -128,6 +126,51 @@
 #define GET_TICK()                         GET_10MS_TICK()
 
 #define YIELD_TO_PRIO_TASK()               YIELD_TO_TASK(checkMixer(); MYWDT_RESET())
+#define SERIAL_TYPE                        Stream *
+#define XMODEM_PACKET_SIZE 128
+
+
+/** \ingroup xmodem_internal
+  * \brief Structure defining an XMODEM CRC packet
+  *
+\code
+typedef struct{
+   char     cSOH;          // ** SOH byte goes here             **
+   uint8_t  aSEQ, aNotSEQ; // ** 1st byte = seq#, 2nd is ~seq#  **
+   char     aDataBuf[XMODEM_PACKET_SIZE]; // ** the actual data itself!        **
+   uint16_t wCRC;          // ** CRC gets 2 bytes, high endian  **
+} PACKED XModemCBufSt_t;
+
+\endcode
+  *
+**/
+PACK(typedef struct{
+ char     cSOH;          ///< SOH byte goes here
+ uint8_t  aSEQ;          ///< 1st byte = seq#
+ uint8_t  aNotSEQ;       ///< 2nd is ~seq#
+ char     aDataBuf[XMODEM_PACKET_SIZE]; ///< the actual data itself!
+ uint16_t wCRC;          ///< CRC gets 2 bytes, high endian
+}) XModemCBufSt_t;
+
+/** \ingroup xmodem_internal
+  * \brief Structure that identifies the XMODEM communication state
+  *
+\code
+typedef struct{
+  SERIAL_TYPE ser;     // identifies the serial connection, data type is OS-dependent
+  FILE_TYPE file;      // identifies the file handle, data type is OS-dependent
+  XmodemCBufSt_t cbuf; // XMODEM CRC buffer
+} XModemSt_t;
+
+\endcode
+  *
+**/
+typedef struct
+{
+ SERIAL_TYPE ser;     ///< identifies the serial connection, data type is OS-dependent
+ FILE_DESC   fd;      ///< identifies the file handle, data type is OS-dependent
+ XModemCBufSt_t buf; ///< XMODEM CRC buffer
+} XModemSt_t;
 
 
 /** \ingroup xmodem_api
