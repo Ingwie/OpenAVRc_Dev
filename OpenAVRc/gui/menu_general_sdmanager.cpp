@@ -76,15 +76,15 @@ void onSdManagerMenu(const char *result)
     }
   else if (result == STR_DELETE_FILE)
     {
-      if (sdDeleteFile(reusableBuffer.sdmanager.lines[index]))
+      if (sdDeleteFile(ReBuff.sdmanager.lines[index]))
         {
           SdBufferClear();
-          strncpy(statusLineMsg, reusableBuffer.sdmanager.lines[index], 13);
+          strncpy(statusLineMsg, ReBuff.sdmanager.lines[index], 13);
           strcpy_P(statusLineMsg+min((uint8_t)strlen(statusLineMsg), (uint8_t)13), STR_REMOVED);
           showStatusLine();
-          if ((uint16_t)menuVerticalPosition == reusableBuffer.sdmanager.count)
+          if ((uint16_t)menuVerticalPosition == ReBuff.sdmanager.count)
             menuVerticalPosition--;
-          reusableBuffer.sdmanager.offset = menuVerticalOffset-1;
+          ReBuff.sdmanager.offset = menuVerticalOffset-1;
         }
     }
 }
@@ -92,7 +92,7 @@ void onSdManagerMenu(const char *result)
 void menuGeneralSdManager(uint8_t _event)
 {
   uint8_t event = ((READ_ONLY() && EVT_KEY_MASK(_event) == KEY_ENTER) ? 0 : _event);
-  SIMPLE_MENU(STR_SD_CARD, menuTabGeneral, e_Sd, 1+reusableBuffer.sdmanager.count);
+  SIMPLE_MENU(STR_SD_CARD, menuTabGeneral, e_Sd, 1+ReBuff.sdmanager.count);
 
   if (s_editMode > 0)
     s_editMode = 0;
@@ -101,7 +101,7 @@ void menuGeneralSdManager(uint8_t _event)
     {
     case EVT_ENTRY:
       sdChangeCurDir(ROOT_PATH);
-      reusableBuffer.sdmanager.offset = 65535;
+      ReBuff.sdmanager.offset = 65535;
       SdBufferClear();
       break;
 
@@ -112,12 +112,12 @@ void menuGeneralSdManager(uint8_t _event)
       if (menuVerticalPosition > 0)
         {
           vertpos_t index = menuVerticalPosition-1-menuVerticalOffset;
-          if (!reusableBuffer.sdmanager.lines[index][SD_SCREEN_FILE_LENGTH+1])
+          if (!ReBuff.sdmanager.lines[index][SD_SCREEN_FILE_LENGTH+1])
             {
-              sdChangeCurDir(reusableBuffer.sdmanager.lines[index]);
+              sdChangeCurDir(ReBuff.sdmanager.lines[index]);
               menuVerticalOffset = 0;
               menuVerticalPosition = 1;
-              reusableBuffer.sdmanager.offset = 65535;
+              ReBuff.sdmanager.offset = 65535;
               killEvents(_event);
               SdBufferClear();
               break;
@@ -144,31 +144,31 @@ void menuGeneralSdManager(uint8_t _event)
       break;
     }
 
-  if (reusableBuffer.sdmanager.offset != menuVerticalOffset)
+  if (ReBuff.sdmanager.offset != menuVerticalOffset)
     {
       if (menuVerticalOffset == 0)
         {
-          reusableBuffer.sdmanager.offset = 0;
-          memset(reusableBuffer.sdmanager.lines, 0, sizeof(reusableBuffer.sdmanager.lines));
+          ReBuff.sdmanager.offset = 0;
+          memset(ReBuff.sdmanager.lines, 0, sizeof(ReBuff.sdmanager.lines));
         }
-      else if (menuVerticalOffset == reusableBuffer.sdmanager.count-7)
+      else if (menuVerticalOffset == ReBuff.sdmanager.count-7)
         {
-          reusableBuffer.sdmanager.offset = menuVerticalOffset;
-          memset(reusableBuffer.sdmanager.lines, 0, sizeof(reusableBuffer.sdmanager.lines));
+          ReBuff.sdmanager.offset = menuVerticalOffset;
+          memset(ReBuff.sdmanager.lines, 0, sizeof(ReBuff.sdmanager.lines));
         }
-      else if (menuVerticalOffset > reusableBuffer.sdmanager.offset)
+      else if (menuVerticalOffset > ReBuff.sdmanager.offset)
         {
-          memmove(reusableBuffer.sdmanager.lines[0], reusableBuffer.sdmanager.lines[1], 6*sizeof(reusableBuffer.sdmanager.lines[0]));
-          memset(reusableBuffer.sdmanager.lines[6], 0xff, SD_SCREEN_FILE_LENGTH);
-          reusableBuffer.sdmanager.lines[6][SD_SCREEN_FILE_LENGTH+1] = 1;
+          memmove(ReBuff.sdmanager.lines[0], ReBuff.sdmanager.lines[1], 6*sizeof(ReBuff.sdmanager.lines[0]));
+          memset(ReBuff.sdmanager.lines[6], 0xff, SD_SCREEN_FILE_LENGTH);
+          ReBuff.sdmanager.lines[6][SD_SCREEN_FILE_LENGTH+1] = 1;
         }
       else
         {
-          memmove(reusableBuffer.sdmanager.lines[1], reusableBuffer.sdmanager.lines[0], 6*sizeof(reusableBuffer.sdmanager.lines[0]));
-          memset(reusableBuffer.sdmanager.lines[0], 0, sizeof(reusableBuffer.sdmanager.lines[0]));
+          memmove(ReBuff.sdmanager.lines[1], ReBuff.sdmanager.lines[0], 6*sizeof(ReBuff.sdmanager.lines[0]));
+          memset(ReBuff.sdmanager.lines[0], 0, sizeof(ReBuff.sdmanager.lines[0]));
         }
 
-      reusableBuffer.sdmanager.count = 0;
+      ReBuff.sdmanager.count = 0;
 
       while(fat_read_dir(SD_dir, &SD_dir_entry))
         {
@@ -179,7 +179,7 @@ void menuGeneralSdManager(uint8_t _event)
           if (strlen(SD_dir_entry.long_name) > SD_SCREEN_FILE_LENGTH)
             continue;
 
-          reusableBuffer.sdmanager.count++;
+          ReBuff.sdmanager.count++;
 
           uint8_t isfile = !(SD_dir_entry.attributes & FAT_ATTRIB_DIR);
 
@@ -187,71 +187,71 @@ void menuGeneralSdManager(uint8_t _event)
             {
               for (uint8_t i=0; i<LCD_LINES-1; i++)
                 {
-                  char *line = reusableBuffer.sdmanager.lines[i];
+                  char *line = ReBuff.sdmanager.lines[i];
                   if (line[0] == '\0' || isFilenameLower(isfile, SD_dir_entry.long_name, line))
                     {
                       if (i < 6)
-                        memmove(reusableBuffer.sdmanager.lines[i+1], line, sizeof(reusableBuffer.sdmanager.lines[i]) * (6-i));
-                      memset(line, 0, sizeof(reusableBuffer.sdmanager.lines[i]));
+                        memmove(ReBuff.sdmanager.lines[i+1], line, sizeof(ReBuff.sdmanager.lines[i]) * (6-i));
+                      memset(line, 0, sizeof(ReBuff.sdmanager.lines[i]));
                       strcpy(line, SD_dir_entry.long_name);
                       line[SD_SCREEN_FILE_LENGTH+1] = isfile;
                       break;
                     }
                 }
             }
-          else if (reusableBuffer.sdmanager.offset == menuVerticalOffset)
+          else if (ReBuff.sdmanager.offset == menuVerticalOffset)
             {
               for (int8_t i=6; i>=0; i--)
                 {
-                  char *line = reusableBuffer.sdmanager.lines[i];
+                  char *line = ReBuff.sdmanager.lines[i];
                   if (line[0] == '\0' || isFilenameGreater(isfile, SD_dir_entry.long_name, line))
                     {
                       if (i > 0)
-                        memmove(reusableBuffer.sdmanager.lines[0], reusableBuffer.sdmanager.lines[1], sizeof(reusableBuffer.sdmanager.lines[0]) * i);
-                      memset(line, 0, sizeof(reusableBuffer.sdmanager.lines[i]));
+                        memmove(ReBuff.sdmanager.lines[0], ReBuff.sdmanager.lines[1], sizeof(ReBuff.sdmanager.lines[0]) * i);
+                      memset(line, 0, sizeof(ReBuff.sdmanager.lines[i]));
                       strcpy(line, SD_dir_entry.long_name);
                       line[SD_SCREEN_FILE_LENGTH+1] = isfile;
                       break;
                     }
                 }
             }
-          else if (menuVerticalOffset > reusableBuffer.sdmanager.offset)
+          else if (menuVerticalOffset > ReBuff.sdmanager.offset)
             {
-              if (isFilenameGreater(isfile, SD_dir_entry.long_name, reusableBuffer.sdmanager.lines[5]) && isFilenameLower(isfile, SD_dir_entry.long_name, reusableBuffer.sdmanager.lines[6]))
+              if (isFilenameGreater(isfile, SD_dir_entry.long_name, ReBuff.sdmanager.lines[5]) && isFilenameLower(isfile, SD_dir_entry.long_name, ReBuff.sdmanager.lines[6]))
                 {
-                  memset(reusableBuffer.sdmanager.lines[6], 0, sizeof(reusableBuffer.sdmanager.lines[0]));
-                  strcpy(reusableBuffer.sdmanager.lines[6], SD_dir_entry.long_name);
-                  reusableBuffer.sdmanager.lines[6][SD_SCREEN_FILE_LENGTH+1] = isfile;
+                  memset(ReBuff.sdmanager.lines[6], 0, sizeof(ReBuff.sdmanager.lines[0]));
+                  strcpy(ReBuff.sdmanager.lines[6], SD_dir_entry.long_name);
+                  ReBuff.sdmanager.lines[6][SD_SCREEN_FILE_LENGTH+1] = isfile;
                 }
             }
           else
             {
-              if (isFilenameLower(isfile, SD_dir_entry.long_name, reusableBuffer.sdmanager.lines[1]) && isFilenameGreater(isfile, SD_dir_entry.long_name, reusableBuffer.sdmanager.lines[0]))
+              if (isFilenameLower(isfile, SD_dir_entry.long_name, ReBuff.sdmanager.lines[1]) && isFilenameGreater(isfile, SD_dir_entry.long_name, ReBuff.sdmanager.lines[0]))
                 {
-                  memset(reusableBuffer.sdmanager.lines[0], 0, sizeof(reusableBuffer.sdmanager.lines[0]));
-                  strcpy(reusableBuffer.sdmanager.lines[0], SD_dir_entry.long_name);
-                  reusableBuffer.sdmanager.lines[0][SD_SCREEN_FILE_LENGTH+1] = isfile;
+                  memset(ReBuff.sdmanager.lines[0], 0, sizeof(ReBuff.sdmanager.lines[0]));
+                  strcpy(ReBuff.sdmanager.lines[0], SD_dir_entry.long_name);
+                  ReBuff.sdmanager.lines[0][SD_SCREEN_FILE_LENGTH+1] = isfile;
                 }
             }
         }
         SdBufferClear();
     }
 
-  reusableBuffer.sdmanager.offset = menuVerticalOffset;
+  ReBuff.sdmanager.offset = menuVerticalOffset;
 
   for (uint8_t i=0; i<LCD_LINES-1; i++)
     {
       coord_t y = MENU_HEADER_HEIGHT + 1 + i*FH;
       lcdNextPos = 0;
       uint8_t attr = (menuVerticalPosition-1-menuVerticalOffset == i ? BSS|INVERS : BSS);
-      if (reusableBuffer.sdmanager.lines[i][0])
+      if (ReBuff.sdmanager.lines[i][0])
         {
-          if (!reusableBuffer.sdmanager.lines[i][SD_SCREEN_FILE_LENGTH+1])
+          if (!ReBuff.sdmanager.lines[i][SD_SCREEN_FILE_LENGTH+1])
             {
               lcdDrawCharAtt(0, y, '[', attr);
             }
-          lcdDrawTextAtt(lcdNextPos, y, reusableBuffer.sdmanager.lines[i], attr);
-          if (!reusableBuffer.sdmanager.lines[i][SD_SCREEN_FILE_LENGTH+1])
+          lcdDrawTextAtt(lcdNextPos, y, ReBuff.sdmanager.lines[i], attr);
+          if (!ReBuff.sdmanager.lines[i][SD_SCREEN_FILE_LENGTH+1])
             {
               lcdDrawCharAtt(lcdNextPos, y, ']', attr);
             }

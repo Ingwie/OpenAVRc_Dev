@@ -178,7 +178,7 @@ void LimitRfOptionSettings()
   g_model.rfOptionValue3 = limit( (int8_t) -16, (int8_t) g_model.rfOptionValue3, (int8_t) RfOptionSettings.rfOptionValue3Max);
 }
 
-union ReusableBuffer reusableBuffer;
+union ReusableBuffer ReBuff;
 
 const pm_uint8_t bchout_ar[] PROGMEM = {
   0x1B, 0x1E, 0x27, 0x2D, 0x36, 0x39,

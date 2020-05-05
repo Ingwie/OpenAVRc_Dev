@@ -150,12 +150,12 @@ uint8_t listSdFiles(const char *path, const char *extension, const uint8_t maxle
  if (popupMenuOffset == 0)
   {
    lastpopupMenuOffset = 0;
-   memset(reusableBuffer.modelsel.menu_bss, 0, sizeof(reusableBuffer.modelsel.menu_bss));
+   memset(ReBuff.modelsel.menu_bss, 0, sizeof(ReBuff.modelsel.menu_bss));
   }
  else if (popupMenuOffset == popupMenuNoItems - MENU_MAX_DISPLAY_LINES)
   {
    lastpopupMenuOffset = 0xffff;
-   memset(reusableBuffer.modelsel.menu_bss, 0, sizeof(reusableBuffer.modelsel.menu_bss));
+   memset(ReBuff.modelsel.menu_bss, 0, sizeof(ReBuff.modelsel.menu_bss));
   }
  else if (popupMenuOffset == lastpopupMenuOffset)
   {
@@ -164,13 +164,13 @@ uint8_t listSdFiles(const char *path, const char *extension, const uint8_t maxle
   }
  else if (popupMenuOffset > lastpopupMenuOffset)
   {
-   memmove(reusableBuffer.modelsel.menu_bss[0], reusableBuffer.modelsel.menu_bss[1], (MENU_MAX_DISPLAY_LINES-1)*MENU_LINE_LENGTH);
-   memset(reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1], 0xff, MENU_LINE_LENGTH);
+   memmove(ReBuff.modelsel.menu_bss[0], ReBuff.modelsel.menu_bss[1], (MENU_MAX_DISPLAY_LINES-1)*MENU_LINE_LENGTH);
+   memset(ReBuff.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1], 0xff, MENU_LINE_LENGTH);
   }
  else
   {
-   memmove(reusableBuffer.modelsel.menu_bss[1], reusableBuffer.modelsel.menu_bss[0], (MENU_MAX_DISPLAY_LINES-1)*MENU_LINE_LENGTH);
-   memset(reusableBuffer.modelsel.menu_bss[0], 0, MENU_LINE_LENGTH);
+   memmove(ReBuff.modelsel.menu_bss[1], ReBuff.modelsel.menu_bss[0], (MENU_MAX_DISPLAY_LINES-1)*MENU_LINE_LENGTH);
+   memset(ReBuff.modelsel.menu_bss[0], 0, MENU_LINE_LENGTH);
   }
 
  popupMenuNoItems = 0;
@@ -187,7 +187,7 @@ uint8_t listSdFiles(const char *path, const char *extension, const uint8_t maxle
       }
      else if (popupMenuOffset==0 || popupMenuOffset < lastpopupMenuOffset)
       {
-       char *line = reusableBuffer.modelsel.menu_bss[0];
+       char *line = ReBuff.modelsel.menu_bss[0];
        memset(line, 0, MENU_LINE_LENGTH);
        strcpy_P(line, PSTR("---"));
        popupMenuItems[0] = line;
@@ -216,11 +216,11 @@ uint8_t listSdFiles(const char *path, const char *extension, const uint8_t maxle
         {
          for (uint8_t i=0; i<MENU_MAX_DISPLAY_LINES; i++)
           {
-           char *line = reusableBuffer.modelsel.menu_bss[i];
+           char *line = ReBuff.modelsel.menu_bss[i];
            if (line[0] == '\0' || strcasecmp(SD_dir_entry.long_name, line) < 0)
             {
              if (i < MENU_MAX_DISPLAY_LINES-1)
-              memmove(reusableBuffer.modelsel.menu_bss[i+1], line, sizeof(reusableBuffer.modelsel.menu_bss[i]) * (MENU_MAX_DISPLAY_LINES-1-i));
+              memmove(ReBuff.modelsel.menu_bss[i+1], line, sizeof(ReBuff.modelsel.menu_bss[i]) * (MENU_MAX_DISPLAY_LINES-1-i));
              memset(line, 0, MENU_LINE_LENGTH);
              strcpy(line, SD_dir_entry.long_name);
              break;
@@ -229,7 +229,7 @@ uint8_t listSdFiles(const char *path, const char *extension, const uint8_t maxle
         }
        for (uint8_t i=0; i<min(popupMenuNoItems, (uint8_t)MENU_MAX_DISPLAY_LINES); ++i)
         {
-         popupMenuItems[i] = reusableBuffer.modelsel.menu_bss[i];
+         popupMenuItems[i] = ReBuff.modelsel.menu_bss[i];
         }
 
       }
@@ -237,11 +237,11 @@ uint8_t listSdFiles(const char *path, const char *extension, const uint8_t maxle
       {
        for (int8_t i=(MENU_MAX_DISPLAY_LINES-1); i>=0; --i)
         {
-         char *line = reusableBuffer.modelsel.menu_bss[i];
+         char *line = ReBuff.modelsel.menu_bss[i];
          if (line[0] == '\0' || strcasecmp(SD_dir_entry.long_name, line) > 0)
           {
            if (i > 0)
-            memmove(reusableBuffer.modelsel.menu_bss[0], reusableBuffer.modelsel.menu_bss[1], sizeof(reusableBuffer.modelsel.menu_bss[i]) * i);
+            memmove(ReBuff.modelsel.menu_bss[0], ReBuff.modelsel.menu_bss[1], sizeof(ReBuff.modelsel.menu_bss[i]) * i);
            memset(line, 0, MENU_LINE_LENGTH);
            strcpy(line, SD_dir_entry.long_name);
            break;
@@ -249,23 +249,23 @@ uint8_t listSdFiles(const char *path, const char *extension, const uint8_t maxle
         }
        for (uint8_t i=0; i<min(popupMenuNoItems, (uint8_t)MENU_MAX_DISPLAY_LINES); ++i)
         {
-         popupMenuItems[i] = reusableBuffer.modelsel.menu_bss[i];
+         popupMenuItems[i] = ReBuff.modelsel.menu_bss[i];
         }
       }
      else if (popupMenuOffset > lastpopupMenuOffset)
       {
-       if (strcasecmp(SD_dir_entry.long_name, reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-2]) > 0 && strcasecmp(SD_dir_entry.long_name, reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1]) < 0)
+       if (strcasecmp(SD_dir_entry.long_name, ReBuff.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-2]) > 0 && strcasecmp(SD_dir_entry.long_name, ReBuff.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1]) < 0)
         {
-         memset(reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1], 0, MENU_LINE_LENGTH);
-         strcpy(reusableBuffer.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1], SD_dir_entry.long_name);
+         memset(ReBuff.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1], 0, MENU_LINE_LENGTH);
+         strcpy(ReBuff.modelsel.menu_bss[MENU_MAX_DISPLAY_LINES-1], SD_dir_entry.long_name);
         }
       }
      else
       {
-       if (strcasecmp(SD_dir_entry.long_name, reusableBuffer.modelsel.menu_bss[1]) < 0 && strcasecmp(SD_dir_entry.long_name, reusableBuffer.modelsel.menu_bss[0]) > 0)
+       if (strcasecmp(SD_dir_entry.long_name, ReBuff.modelsel.menu_bss[1]) < 0 && strcasecmp(SD_dir_entry.long_name, ReBuff.modelsel.menu_bss[0]) > 0)
         {
-         memset(reusableBuffer.modelsel.menu_bss[0], 0, MENU_LINE_LENGTH);
-         strcpy(reusableBuffer.modelsel.menu_bss[0], SD_dir_entry.long_name);
+         memset(ReBuff.modelsel.menu_bss[0], 0, MENU_LINE_LENGTH);
+         strcpy(ReBuff.modelsel.menu_bss[0], SD_dir_entry.long_name);
         }
       }
     }
@@ -371,3 +371,88 @@ uint8_t getDirAndBaseName(char *FullFileName)
  while (--offset);
  return(Ret);
 }
+
+#if defined(XMODEM)
+
+/**
+ * \file   xmodem_cfg.cpp
+ * \fn     uint8_t sdFileExists(char *FullFileName)
+ * \brief  Return if a file exists
+ *
+ * \param  FullFileName: pointer to the full file path string (eg: /MY_DIR/MY_FILE.TXT)
+ * \return 0: Doesn't exist, 1: exists.
+ */
+uint8_t sdFileExists(char *FullFileName)
+{
+  uint8_t Ret = 0;
+
+  if(uint8_t ofsToBaseName = getDirAndBaseName(FullFileName))
+  {
+    if(sdChangeCurDir(strlen(FullFileName)? FullFileName : ROOT_PATH))
+    {
+      Ret = sdFindFileStruct(FullFileName + ofsToBaseName);
+    }
+    // Ingwie : Restore FullFileName for other function
+    FullFileName[ofsToBaseName-1] = '/'; //restore '/'
+  }
+
+  return(Ret);
+}
+
+/**
+ * \file   xmodem_cfg.cpp
+ * \fn     fat_file_struct *sdFileOpen(char *FullFileName)
+ * \brief  Open a file (for read or write) and return a file descriptor of the file passed as argument
+ *
+ * \param  FullFileName: pointer to the full file path string (eg: /MY_DIR/MY_FILE.TXT)
+ * \return NULL: Error, non NULL: pointer on the file descriptor.
+ */
+fat_file_struct *sdFileOpenForRead(char *FullFileName)
+{
+  fat_file_struct *fd = NULL;
+
+  if(uint8_t ofsToBaseName = getDirAndBaseName(FullFileName))
+  {
+    if(sdChangeCurDir(strlen(FullFileName)? FullFileName : ROOT_PATH))
+    {
+      if(sdFindFileStruct(FullFileName + ofsToBaseName))
+      {
+        fd = fat_open_file(SD_filesystem, &SD_dir_entry);
+      }
+    }
+    // Ingwie : Restore FullFileName for other function
+    FullFileName[ofsToBaseName-1] = '/'; //restore '/'
+  }
+
+  return(fd);
+}
+
+/**
+ * \file   xmodem_cfg.cpp
+ * \fn     fat_file_struct *sdFileOpen(char *FullFileName)
+ * \brief  Open a file (for read or write) and return a file descriptor of the file passed as argument
+ *
+ * \param  FullFileName: pointer to the full file path string (eg: /MY_DIR/MY_FILE.TXT)
+ * \return NULL: Error, non NULL: pointer on the file descriptor.
+ */
+fat_file_struct *sdFileOpenForWrite(char *FullFileName)
+{
+  fat_file_struct *fd = NULL;
+
+  if(uint8_t ofsToBaseName = getDirAndBaseName(FullFileName))
+  {
+    if(sdOpenDir(strlen(FullFileName)? FullFileName : ROOT_PATH))
+    {
+      if(fat_create_file(SD_dir, (FullFileName + ofsToBaseName), &SD_dir_entry))
+      {
+        fd = fat_open_file(SD_filesystem, &SD_dir_entry);
+      }
+    }
+    // Ingwie : Restore FullFileName for other function
+    FullFileName[ofsToBaseName-1] = '/'; //restore '/'
+  }
+
+  return(fd);
+}
+
+#endif

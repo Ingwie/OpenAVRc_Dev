@@ -52,7 +52,7 @@ void chainMenu(MenuHandlerFunc newMenu)
 #if defined(BLUETOOTH)
   if (newMenu == menuGeneralBluetooth)
   {
-    (memclear(&reusableBuffer, sizeof(reusableBuffer)));
+    (memclear(&ReBuff, sizeof(ReBuff)));
   }
 #endif
   menuHandlers[menuLevel] = newMenu;

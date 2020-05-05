@@ -1297,10 +1297,13 @@ union ReusableBuffer {
     char name_str[LEN_BT_NAME+1];      // ASCII format
     char pin_zchar[4];                 // FW format
     char pin_str[5];                   // ASCII format
-    //char peer_name_zchar[LEN_BT_NAME]; // FW format
     char peer_name_str[LEN_BT_NAME+1]; // ASCII format
     BtScannSt_t scann;
   } bluetooth;
+#endif
+
+#if defined(XMODEM)
+
 #endif
 
   // 43 bytes
@@ -1328,7 +1331,7 @@ union ReusableBuffer {
 #endif
 };
 
-extern union ReusableBuffer reusableBuffer;
+extern union ReusableBuffer ReBuff;
 
 void checkFlashOnBeep();
 

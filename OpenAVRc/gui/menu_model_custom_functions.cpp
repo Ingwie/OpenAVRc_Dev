@@ -43,7 +43,7 @@
 
 #if defined(SDCARD) && defined(VOICE)
 #include "view_text.cpp"
-#define PROMPTTEXT  reusableBuffer.modelsel.mainname
+#define PROMPTTEXT  ReBuff.modelsel.mainname
 #define PROMPTMEM   shared_u8
 #endif
 

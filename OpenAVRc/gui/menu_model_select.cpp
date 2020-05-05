@@ -63,7 +63,7 @@ void onModelSelectMenu(const char *result)
 #endif
   else if (result == STR_DELETE_MODEL) {
     POPUP_CONFIRMATION(STR_DELETEMODEL);
-    char * name = reusableBuffer.modelsel.mainname;
+    char * name = ReBuff.modelsel.mainname;
     eeLoadModelName(sub, name);
     SET_WARNING_INFO(name, sizeof(g_model.name), ZCHAR);
   }
@@ -125,7 +125,7 @@ void menuModelSelect(uint8_t event)
     killEvents(event);
     if (s_copyMode && s_copyTgtOfs == 0 && g_eeGeneral.currModel != sub && eeModelExists(sub)) {
       POPUP_CONFIRMATION(STR_DELETEMODEL);
-      char * name = reusableBuffer.modelsel.mainname;
+      char * name = ReBuff.modelsel.mainname;
       eeLoadModelName(sub, name);
       SET_WARNING_INFO(name, sizeof(g_model.name), ZCHAR);
     } else {
@@ -270,8 +270,8 @@ void menuModelSelect(uint8_t event)
   }
 
   lcdDrawText(9*FW-(LEN_FREE-4)*FW, 0, STR_FREE);
-  if (event) reusableBuffer.modelsel.eepromfree = EeFsGetFree();
-  lcdDrawNumberNAtt(17*FW, 0, reusableBuffer.modelsel.eepromfree, 0);
+  if (event) ReBuff.modelsel.eepromfree = EeFsGetFree();
+  lcdDrawNumberNAtt(17*FW, 0, ReBuff.modelsel.eepromfree, 0);
 
   displayScreenIndex(e_ModelSelect, DIM(menuTabModel), (sub == g_eeGeneral.currModel) ? ((IS_RE_NAVIGATION_ENABLE() && s_editMode < 0) ? INVERS|BLINK : INVERS) : 0);
 
@@ -300,7 +300,7 @@ void menuModelSelect(uint8_t event)
     k %= MAX_MODELS;
 
     if (eeModelExists(k)) {
-      char * name = reusableBuffer.modelsel.listnames[i];
+      char * name = ReBuff.modelsel.listnames[i];
       if (event) eeLoadModelName(k, name);
       putsModelName(4*FW, y, name, k, 0);
       lcdDrawNumberNAtt(20*FW, y, eeModelSize(k), 0);
