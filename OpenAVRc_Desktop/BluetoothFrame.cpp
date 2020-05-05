@@ -269,6 +269,7 @@ void BluetoothFrame::OnBitmapButtonRefreshClick(wxCommandEvent& event)
 {
  if (comIsValid)
   {
+   wxBusyCursor wait;
    Gauge->SetRange(100);
    Gauge->SetValue(0);
    getAndShowRam();
@@ -326,6 +327,7 @@ void BluetoothFrame::Populate_SD()
 {
  TctrlSd->DeleteAllItems(); // first reset all
  wxTreeItemId rootId = TctrlSd->AddRoot(SD_ROOT);
+ wxBusyCursor wait;
  Populate_Dir(&rootId);
  Gauge->SetValue(50);
  wxTreeItemIdValue cookie;
@@ -408,6 +410,7 @@ void BluetoothFrame::OnDirCtrlBeginDrag(wxTreeEvent& event) // HDD Drag
 
 void BluetoothFrame::SdToSdCpy(wxString dest, wxString file)
 {
+ wxBusyCursor wait;
  if IS_SD_DIR(dest)
   {
    dest.Replace("[","/");
@@ -420,39 +423,45 @@ void BluetoothFrame::SdToSdCpy(wxString dest, wxString file)
  //wxMessageBox(BTanwser);
  Gauge->SetValue(0);
  Gauge->SetRange(100);
+ Sleep(100);
  Populate_SD();
 }
 
 void BluetoothFrame::HddToSdCpy(wxString dest, wxString file)
 {
+ wxBusyCursor wait;
  if IS_SD_DIR(dest)
   {
    dest.Replace("[","/");
    dest.Replace("]","/");
   }
- wxString uCliCommand = "cp xmdm SD" + dest + file.AfterLast('\\');
- wxMessageBox(uCliCommand);
+ wxString file2 = file.AfterLast('\\');
+ file2.Replace(" ","_");
+ wxString uCliCommand = "cp xmdm SD" + dest + file2;
+ //wxMessageBox(uCliCommand);
  wxString BTanwser = "";
  wxString retVal = sendCmdAndWaitForResp(uCliCommand, &BTanwser);
  Sleep(100);
  Set_BluetoothFrame_Gauge_Pointer(Gauge);
  int ret = XSend(BTComPort, file.c_str());
- if (retVal == "8") wxMessageBox(_("Le fichier existe déjà"));
+ if (retVal == "-8") wxMessageBox(_("Le fichier existe déjà"));
  if (ret) wxMessageBox(wxString::Format(wxT("%i"),ret));
  Gauge->SetValue(0);
  Gauge->SetRange(100);
+ Sleep(100);
  Populate_SD();
 }
 
 void BluetoothFrame::SDToHddCpy(wxString dest, wxString file)
 {
+ wxBusyCursor wait;
  if IS_SD_DIR(file)
   {
    file.Replace("[","/");
    file.Replace("]","/");
   }
  wxString uCliCommand = "cp SD" + file + " xmdm";
-//wxMessageBox(uCliCommand);
+ //wxMessageBox(uCliCommand);
  wxString BTanwser = "";
  wxString retVal = sendCmdAndWaitForResp(uCliCommand, &BTanwser);
  Sleep(100);
@@ -476,7 +485,7 @@ void BluetoothFrame::SDToHddCpy(wxString dest, wxString file)
  if (ret) wxMessageBox(wxString::Format(wxT("%i"),ret));
  Gauge->SetValue(0);
  Gauge->SetRange(100);
- Populate_SD();
+ DirCtrl->ReCreateTree();
 }
 
 bool DnD_TctrlSd_Txt::OnDropText(wxCoord x, wxCoord y, const wxString& text) // SD Drop
@@ -529,6 +538,8 @@ bool DnD_DirCtrl_Txt::OnDropText(wxCoord x, wxCoord y, const wxString& text) // 
 
 
    ///////// XMODEM FILES OPERATIONS   /////////
+
+ReusableBuffer ReBuff;
 
 write_file(wxFile* fd, const uint8_t* buffer, int buffer_len)
 {
