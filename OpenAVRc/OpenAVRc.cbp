@@ -9,12 +9,12 @@
 		<Option pch_mode="2" />
 		<Option compiler="avr-gcc" />
 		<MakeCommands>
-			<Build command="$make -f $makefile $Luc" />
+			<Build command="$make -f $makefile $bracame" />
 			<CompileFile command="$make -f $makefile $file" />
 			<Clean command="$make -f $makefile clean" />
 			<DistClean command="$make -f $makefile distclean$target" />
-			<AskRebuildNeeded command="$make -q -f $makefile $Luc" />
-			<SilentBuild command="$make -f $makefile $Luc &gt; $(CMD_NULL)" />
+			<AskRebuildNeeded command="$make -q -f $makefile $bracame" />
+			<SilentBuild command="$make -f $makefile $bracame &gt; $(CMD_NULL)" />
 		</MakeCommands>
 		<Build>
 			<Target title="Release">
