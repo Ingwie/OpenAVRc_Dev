@@ -7,8 +7,9 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/OpenAVRc_Simulator" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
+				<Option output="../OpenAVRc_Simulator" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../obj/OpenAVRc_Simulator/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -35,8 +36,9 @@
 				</Linker>
 			</Target>
 			<Target title="FR Release">
-				<Option output="bin/Release/OpenAVRc_SimulatorFR" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option output="../OpenAVRc_SimulatorFR" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -58,8 +60,9 @@
 				</Linker>
 			</Target>
 			<Target title="ES Release">
-				<Option output="bin/Release/OpenAVRc_SimulatorES" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option output="../OpenAVRc_SimulatorES" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -81,8 +84,9 @@
 				</Linker>
 			</Target>
 			<Target title="EN Release">
-				<Option output="bin/Release/OpenAVRc_SimulatorEN" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option output="../OpenAVRc_SimulatorEN" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -104,8 +108,9 @@
 				</Linker>
 			</Target>
 			<Target title="CZ Release">
-				<Option output="bin/Release/OpenAVRc_SimulatorCZ" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option output="../OpenAVRc_SimulatorCZ" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -127,8 +132,9 @@
 				</Linker>
 			</Target>
 			<Target title="FR Release FRAM">
-				<Option output="bin/Release/OpenAVRc_SimulatorFR_FRAM" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option output="../OpenAVRc_SimulatorFR_FRAM" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -151,8 +157,9 @@
 				</Linker>
 			</Target>
 			<Target title="ES Release FRAM">
-				<Option output="bin/Release/OpenAVRc_SimulatorES_FRAM" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option output="../OpenAVRc_SimulatorES_FRAM" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -175,8 +182,9 @@
 				</Linker>
 			</Target>
 			<Target title="EN Release FRAM">
-				<Option output="bin/Release/OpenAVRc_SimulatorEN_FRAM" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option output="../OpenAVRc_SimulatorEN_FRAM" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -199,8 +207,9 @@
 				</Linker>
 			</Target>
 			<Target title="CZ Release FRAM">
-				<Option output="bin/Release/OpenAVRc_SimulatorCZ_FRAM" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option output="../OpenAVRc_SimulatorCZ_FRAM" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
