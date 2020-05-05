@@ -73,11 +73,13 @@
  #include "../../../OpenAVRc_Desktop/BluetoothFrame.h"
  #include "../../uCli.h" // for UCLI_CMD_LINE_MAX_SIZE def
  wxGauge* GaugeCpy;
+ #ifndef PACK
+  #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
+ #endif
 #endif
 
 // common definitions (Placed here for FW, SIMU and Desktop)
 #define XMODEM_PACKET_SIZE 128
-#define XMODEM_FULL_PACKET_SIZE (XMODEM_PACKET_SIZE+5)
 
 #define SILENCE_TIMEOUT_MS                 300UL /* 1 second */
 #define CNX_TIMEOUT_MS                     3000UL
@@ -114,13 +116,13 @@ typedef struct{
 \endcode
   *
 **/
-typedef struct
-{
+PACK(typedef struct{
  char     cSOH;          ///< SOH byte goes here
- uint8_t  aSEQ, aNotSEQ; ///< 1st byte = seq#, 2nd is ~seq#
+ uint8_t  aSEQ;          ///< 1st byte = seq#
+ uint8_t  aNotSEQ;       ///< 2nd is ~seq#
  char     aDataBuf[XMODEM_PACKET_SIZE]; ///< the actual data itself!
  uint16_t wCRC;          ///< CRC gets 2 bytes, high endian
-}  XModemCBufSt_t;
+}) XModemCBufSt_t;
 
 /** \ingroup xmodem_internal
   * \brief Structure that identifies the XMODEM communication state
@@ -427,8 +429,8 @@ int8_t ReceiveXmodem(XModemSt_t *pX)
  pX->buf.cSOH = (char)1; // assumed already got this, put into buffer
  do
   {
-   if((( GetXmodemBlock(pX->ser, ((char *)&(pX->buf)+ 1) , (XMODEM_FULL_PACKET_SIZE - 1)))
-      != XMODEM_FULL_PACKET_SIZE - 1) || ( ValidateSEQC(&(pX->buf), block & 255)) ||
+   if((( GetXmodemBlock(pX->ser, ((char *)&(pX->buf)+ 1) , (sizeof(pX->buf) - 1)))
+      != sizeof(pX->buf) - 1) || ( ValidateSEQC(&(pX->buf), block & 255)) ||
       ( CalcCRC(pX->buf.aDataBuf, XMODEM_PACKET_SIZE) != pX->buf.wCRC))
 
     {
@@ -597,8 +599,8 @@ int8_t SendXmodem(XModemSt_t *pX)
      pX->buf.wCRC = CalcCRC(pX->buf.aDataBuf, XMODEM_PACKET_SIZE);
      GenerateSEQC(&(pX->buf), block);
      // send it
-     i1 = WriteXmodemBlock(pX->ser, &(pX->buf), XMODEM_FULL_PACKET_SIZE);
-     if(i1 != XMODEM_FULL_PACKET_SIZE) // write error
+     i1 = WriteXmodemBlock(pX->ser, &(pX->buf), sizeof(pX->buf));
+     if(i1 != sizeof(pX->buf)) // write error
       {
        // TODO:  handle write error (send ctrl+X ?)
       }

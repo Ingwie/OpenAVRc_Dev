@@ -15,12 +15,6 @@
 				<Compiler>
 					<Add option="-m32" />
 					<Add option="-g" />
-					<Add option="-pipe" />
-					<Add option="-mthreads" />
-					<Add option="-Wno-deprecated-declarations" />
-					<Add option="-Wno-packed-bitfield-compat" />
-					<Add option="-Wno-trigraphs" />
-					<Add option="-mno-ms-bitfields" />
 					<Add option="-D__WXDEBUG__" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswud" />
 				</Compiler>
@@ -38,7 +32,6 @@
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option projectCompilerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -60,6 +53,9 @@
 			<Add option="-pipe" />
 			<Add option="-mthreads" />
 			<Add option="-Wno-deprecated-declarations" />
+			<Add option="-Wno-packed-bitfield-compat" />
+			<Add option="-Wno-trigraphs" />
+			<Add option="-mno-ms-bitfields" />
 			<Add option="-D__GNUWIN32__" />
 			<Add option="-D__WXMSW__" />
 			<Add option="-DWXUSINGDLL" />
