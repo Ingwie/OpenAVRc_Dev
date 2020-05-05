@@ -1275,8 +1275,8 @@ extern void OpenAVRcInit(uint8_t mcusr);
 
 // Re-useable byte array to save having multiple buffers
 #define SD_SCREEN_FILE_LENGTH (26)
-union ReusableBuffer {
-  // 240 bytes
+union ReusableBuffer { // 240 bytes (LogBuffer)
+
   struct {
     char listnames[LCD_LINES-1][LEN_MODEL_NAME];
     uint16_t eepromfree;
@@ -1287,7 +1287,7 @@ union ReusableBuffer {
 #else
     char mainname[LEN_MODEL_NAME];
 #endif
-  } modelsel;
+  } modelsel; // 164 bytes
 
 #if defined(BLUETOOTH)
   struct {
@@ -1299,20 +1299,22 @@ union ReusableBuffer {
     char pin_str[5];                   // ASCII format
     char peer_name_str[LEN_BT_NAME+1]; // ASCII format
     BtScannSt_t scann;
-  } bluetooth;
+  } bluetooth; // 94 bytes
 #endif
 
+#if defined(U_CLI)
+  //uCliSt_t uCli; // 103 bytes need to work with bluetooth -> TODO
 #if defined(XMODEM)
-
+  XModemSt_t xx; // 144 bytes
+#endif
 #endif
 
-  // 43 bytes
   struct {
     int16_t midVals[NUM_STICKS+NUM_POTS];
     int16_t loVals[NUM_STICKS+NUM_POTS];
     int16_t hiVals[NUM_STICKS+NUM_POTS];
     uint8_t state;
-  } calib;
+  } calib; // 44 bytes
 
 #if defined(SDCARD)
   struct {
@@ -1321,12 +1323,11 @@ union ReusableBuffer {
     uint16_t offset;
     uint16_t count;
     char originalName[SD_SCREEN_FILE_LENGTH+1];
-  } sdmanager;
+  } sdmanager; // 232 bytes
 
-  // 256 bytes
   struct {
     char data[240]; // Sd log buffer
-  } logsbuffer;
+  } logsbuffer; // 240 bytes
 
 #endif
 };

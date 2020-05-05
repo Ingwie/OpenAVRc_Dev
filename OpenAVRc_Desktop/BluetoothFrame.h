@@ -168,6 +168,9 @@ private:
   wxFile *FileOpenForWrite(char *FullFileName);
   wxFile *FileOpenForRead(char *FullFileName);
 
+ #ifndef PACK
+  #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
+ #endif
 
 // Specific definitions
 #define SERIAL_TYPE                        Tserial *
@@ -186,7 +189,28 @@ private:
 #define GET_TICK()                         (uint16_t)(clock()/10)
 
 #define YIELD_TO_PRIO_TASK()               Sleep(1);wxYieldIfNeeded()
+#define XMODEM_PACKET_SIZE 128
 
+PACK(typedef struct{
+ char     cSOH;          ///< SOH byte goes here
+ uint8_t  aSEQ;          ///< 1st byte = seq#
+ uint8_t  aNotSEQ;       ///< 2nd is ~seq#
+ char     aDataBuf[XMODEM_PACKET_SIZE]; ///< the actual data itself!
+ uint16_t wCRC;          ///< CRC gets 2 bytes, high endian
+}) XModemCBufSt_t;
+
+typedef struct
+{
+ SERIAL_TYPE ser;     ///< identifies the serial connection, data type is OS-dependent
+ FILE_DESC   fd;      ///< identifies the file handle, data type is OS-dependent
+ XModemCBufSt_t buf; ///< XMODEM CRC buffer
+} XModemSt_t;
+
+union ReusableBuffer {
+  XModemSt_t xx;
+  int toto; // ;-)
+};
+  extern ReusableBuffer ReBuff;
   extern int8_t XReceive(SERIAL_TYPE pSer, const char *szFilename);
   extern int8_t XSend(SERIAL_TYPE pSer, const char *szFilename);
   extern void Set_BluetoothFrame_Gauge_Pointer(wxGauge* g);

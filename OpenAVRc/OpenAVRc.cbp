@@ -294,7 +294,6 @@
 		<Unit filename="thirdparty/rrsd/sd_raw_config.h" />
 		<Unit filename="thirdparty/xmodem/xmodem.cpp" />
 		<Unit filename="thirdparty/xmodem/xmodem.h" />
-		<Unit filename="thirdparty/xmodem/xmodem_cfg.cpp" />
 		<Unit filename="timers.cpp" />
 		<Unit filename="timers.h" />
 		<Unit filename="trainer_input.cpp" />
