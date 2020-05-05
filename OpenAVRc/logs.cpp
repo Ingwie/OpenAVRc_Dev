@@ -43,7 +43,7 @@ tmr10ms_t lastLogTime = 0;
 
 uint8_t openLogs()
 {
-  char *filename = reusableBuffer.modelsel.mainname; // modelnamex-2013-01-01.log
+  char *filename = ReBuff.modelsel.mainname; // modelnamex-2013-01-01.log
   uint8_t ret = 0;
 
   if (!sdMounted())
@@ -100,7 +100,7 @@ void closeLogs()
   SD_file = 0;
   lastLogTime = 0;
   logDelay = 0;
-  memclear(&reusableBuffer, sizeof(reusableBuffer));
+  memclear(&ReBuff, sizeof(ReBuff));
 }
 
 void closeLogIfActived()
@@ -139,7 +139,7 @@ const pm_char STR_LOGS_COMMANDS[] PROGMEM = TR_LOGS_COMMANDS;
 
 uint8_t writeHeader()
 {
-  char *text = reusableBuffer.logsbuffer.data;
+  char *text = ReBuff.logsbuffer.data;
 
   strcpy_P(text,STR_LOGS_TIME);
 
@@ -203,7 +203,7 @@ const pm_char STR_SWITCHS_MASK[] PROGMEM = TR_SWITCHS_MASK;
 
 void writeLogs()
 {
-  char *text = reusableBuffer.logsbuffer.data;
+  char *text = ReBuff.logsbuffer.data;
   uint8_t pos = 0;
 
   if (logDelay)

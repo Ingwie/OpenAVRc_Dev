@@ -56,27 +56,27 @@ void loadDataFromModule()
 {
  if (g_eeGeneral.BT.Power)
   {
-   reusableBuffer.bluetooth.firstMenuRun = 0;
+   ReBuff.bluetooth.firstMenuRun = 0;
    BT_Wait_Screen();
    rebootBT();// EN is ON
 
-   IF_NO_ERROR(bluetooth_getName(reusableBuffer.bluetooth.name_str, sizeof(reusableBuffer.bluetooth.name_str), BT_GET_TIMEOUT_MS))
+   IF_NO_ERROR(bluetooth_getName(ReBuff.bluetooth.name_str, sizeof(ReBuff.bluetooth.name_str), BT_GET_TIMEOUT_MS))
    {
-    str2zchar(reusableBuffer.bluetooth.name_zchar, reusableBuffer.bluetooth.name_str, sizeof(reusableBuffer.bluetooth.name_zchar));
+    str2zchar(ReBuff.bluetooth.name_zchar, ReBuff.bluetooth.name_str, sizeof(ReBuff.bluetooth.name_zchar));
 
-    IF_NO_ERROR(bluetooth_getPswd(reusableBuffer.bluetooth.pin_str, sizeof(reusableBuffer.bluetooth.pin_str), BT_GET_TIMEOUT_MS))
+    IF_NO_ERROR(bluetooth_getPswd(ReBuff.bluetooth.pin_str, sizeof(ReBuff.bluetooth.pin_str), BT_GET_TIMEOUT_MS))
     {
-     str2zchar(reusableBuffer.bluetooth.pin_zchar, reusableBuffer.bluetooth.pin_str, sizeof(reusableBuffer.bluetooth.pin_zchar));
+     str2zchar(ReBuff.bluetooth.pin_zchar, ReBuff.bluetooth.pin_str, sizeof(ReBuff.bluetooth.pin_zchar));
 
      for (uint8_t i=0; i < 5 ; ++i)
       {
-       IF_NO_ERROR(bluetooth_getRemoteName(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.peer_name_str, sizeof(reusableBuffer.bluetooth.peer_name_str), BT_READ_RNAME_TIMEOUT_MS));
+       IF_NO_ERROR(bluetooth_getRemoteName(g_eeGeneral.BT.Peer.Mac, ReBuff.bluetooth.peer_name_str, sizeof(ReBuff.bluetooth.peer_name_str), BT_READ_RNAME_TIMEOUT_MS));
        {
         //success
         break;
        }
       }
-     reusableBuffer.bluetooth.firstMenuRun = 1; // consider OK remote name is not "strategic"
+     ReBuff.bluetooth.firstMenuRun = 1; // consider OK remote name is not "strategic"
     }
    }
   bluetooth_AtCmdMode(OFF);
@@ -96,16 +96,16 @@ void writeDataToModule(uint8_t choice)
      break;
 
     case ITEM_BT_NAME :
-     zchar2str(reusableBuffer.bluetooth.name_str, reusableBuffer.bluetooth.name_zchar, strlen(reusableBuffer.bluetooth.name_zchar));
+     zchar2str(ReBuff.bluetooth.name_str, ReBuff.bluetooth.name_zchar, strlen(ReBuff.bluetooth.name_zchar));
 
-     bluetooth_setName(reusableBuffer.bluetooth.name_str, BT_SET_TIMEOUT_MS);
+     bluetooth_setName(ReBuff.bluetooth.name_str, BT_SET_TIMEOUT_MS);
 
      break;
 
     case ITEM_BT_PIN :
-     zchar2str(reusableBuffer.bluetooth.pin_str, reusableBuffer.bluetooth.pin_zchar, 4);
+     zchar2str(ReBuff.bluetooth.pin_str, ReBuff.bluetooth.pin_zchar, 4);
 
-     bluetooth_setPswd(reusableBuffer.bluetooth.pin_str, BT_SET_TIMEOUT_MS);
+     bluetooth_setPswd(ReBuff.bluetooth.pin_str, BT_SET_TIMEOUT_MS);
 
      break;
 
@@ -127,8 +127,8 @@ void onPairSelected(const char *result)
  uint8_t connected;
 // result is the new pair name!!
 //bluetooth_AtCmdMode(ON); allready setted in warning.warningResult
- strcpy(reusableBuffer.bluetooth.peer_name_str, result);
- memcpy(g_eeGeneral.BT.Peer.Mac, reusableBuffer.bluetooth.scann.Remote[shared_u8].MAC, BT_MAC_BIN_LEN);
+ strcpy(ReBuff.bluetooth.peer_name_str, result);
+ memcpy(g_eeGeneral.BT.Peer.Mac, ReBuff.bluetooth.scann.Remote[shared_u8].MAC, BT_MAC_BIN_LEN);
 
  IF_NO_ERROR(bluetooth_linkToRemote(g_eeGeneral.BT.Peer.Mac, BT_SET_TIMEOUT_MS))
  {
@@ -157,7 +157,7 @@ void menuGeneralBluetooth(uint8_t event)
   {
    for(uint8_t i = 0; i < 3 ; ++i)
     {
-     if (!reusableBuffer.bluetooth.firstMenuRun)
+     if (!ReBuff.bluetooth.firstMenuRun)
       {
        loadDataFromModule();
       }
@@ -166,8 +166,8 @@ void menuGeneralBluetooth(uint8_t event)
        continue;
       }
     }
-   if (!reusableBuffer.bluetooth.firstMenuRun) POPUP_WARNING(STR_NOBLUETOOTH);
-   reusableBuffer.bluetooth.firstMenuRun = 1;
+   if (!ReBuff.bluetooth.firstMenuRun) POPUP_WARNING(STR_NOBLUETOOTH);
+   ReBuff.bluetooth.firstMenuRun = 1;
   }
 
  MENU(STR_BLUETOOTH, menuTabGeneral, e_Bluetooth, ITEM_BT_END+1, {BT_Tab});
@@ -179,12 +179,12 @@ void menuGeneralBluetooth(uint8_t event)
    bluetooth_AtCmdMode(ON);
    warning.warningResult = false;
    BT_Wait_Screen();
-   bluetooth_scann(&reusableBuffer.bluetooth.scann, BT_SCANN_TIMEOUT_MS);
+   bluetooth_scann(&ReBuff.bluetooth.scann, BT_SCANN_TIMEOUT_MS);
    POPUP_MENU_ITEMS_FROM_BSS();
 
    for (uint8_t i=0; i < REMOTE_BT_DEV_MAX_NB; ++i)
     {
-     POPUP_MENU_ADD_ITEM(reusableBuffer.bluetooth.scann.Remote[i].Name);
+     POPUP_MENU_ADD_ITEM(ReBuff.bluetooth.scann.Remote[i].Name);
     }
    popupMenuHandler = onPairSelected; // Selection is done in popup -> Call onPairSelected
   }
@@ -209,7 +209,7 @@ void menuGeneralBluetooth(uint8_t event)
      break;
 
     case ITEM_BT_NAME :
-     editSingleName(BT_2ND_COLUMN, y, STR_NAME, reusableBuffer.bluetooth.name_zchar, (attr && s_editMode)? LEN_BT_NAME : strlen(reusableBuffer.bluetooth.name_zchar), event, attr, EE_GENERAL, RANGE_UPPER);
+     editSingleName(BT_2ND_COLUMN, y, STR_NAME, ReBuff.bluetooth.name_zchar, (attr && s_editMode)? LEN_BT_NAME : strlen(ReBuff.bluetooth.name_zchar), event, attr, EE_GENERAL, RANGE_UPPER);
      addExt = 1;
      break;
 
@@ -221,15 +221,15 @@ void menuGeneralBluetooth(uint8_t event)
      break;
 
     case ITEM_BT_PIN :
-     editSingleName(BT_2ND_COLUMN, y, STR_BT_PIN, reusableBuffer.bluetooth.pin_zchar, 4, event, attr, EE_GENERAL, RANGE_NUMBER);
+     editSingleName(BT_2ND_COLUMN, y, STR_BT_PIN, ReBuff.bluetooth.pin_zchar, 4, event, attr, EE_GENERAL, RANGE_NUMBER);
      break;
 
     case ITEM_BT_PEER :
      lcdDrawTextLeft(y, STR_BT_PAIR);
-     slen = strlen(reusableBuffer.bluetooth.peer_name_str);
+     slen = strlen(ReBuff.bluetooth.peer_name_str);
      if (slen)
       {
-       lcdDrawSizedTextAtt(BT_2ND_COLUMN, y, reusableBuffer.bluetooth.peer_name_str, slen, BSS|attr);
+       lcdDrawSizedTextAtt(BT_2ND_COLUMN, y, ReBuff.bluetooth.peer_name_str, slen, BSS|attr);
       }
      else
       {
@@ -254,18 +254,18 @@ void menuGeneralBluetooth(uint8_t event)
 
    if (eepromVars.s_eeDirtyMsk)
     {
-     reusableBuffer.bluetooth.eeWriteFlag = choice+1; // store what change is done
+     ReBuff.bluetooth.eeWriteFlag = choice+1; // store what change is done
      eepromVars.s_eeDirtyMsk = 0; // reset
     }
-   if ((reusableBuffer.bluetooth.eeWriteFlag) && (!s_editMode) && reusableBuffer.bluetooth.firstMenuRun)
+   if ((ReBuff.bluetooth.eeWriteFlag) && (!s_editMode) && ReBuff.bluetooth.firstMenuRun)
     {
-     --reusableBuffer.bluetooth.eeWriteFlag;
-     writeDataToModule(reusableBuffer.bluetooth.eeWriteFlag);
-     if ((reusableBuffer.bluetooth.eeWriteFlag == ITEM_BT_ONOFF)||(reusableBuffer.bluetooth.eeWriteFlag == ITEM_BT_ROLE)||(reusableBuffer.bluetooth.eeWriteFlag == ITEM_BT_AUTOCONNECT))
+     --ReBuff.bluetooth.eeWriteFlag;
+     writeDataToModule(ReBuff.bluetooth.eeWriteFlag);
+     if ((ReBuff.bluetooth.eeWriteFlag == ITEM_BT_ONOFF)||(ReBuff.bluetooth.eeWriteFlag == ITEM_BT_ROLE)||(ReBuff.bluetooth.eeWriteFlag == ITEM_BT_AUTOCONNECT))
       {
        eeDirtyMskMem = EE_GENERAL; // write to eeprom
       }
-     reusableBuffer.bluetooth.eeWriteFlag = 0;
+     ReBuff.bluetooth.eeWriteFlag = 0;
     }
 
    if (addExt)

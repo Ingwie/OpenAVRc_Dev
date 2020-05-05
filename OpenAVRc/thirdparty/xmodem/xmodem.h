@@ -110,25 +110,24 @@
 
 #define SERIAL_TYPE                        Stream *
 
-#ifdef ARDUINO
-#include <SD.h>
-#define FILE_DESC                          File
-#define FILE_EXISTS(FullFileName)          SD.exists((char *)FullFileName)
-#define FILE_OPEN_FOR_READ(FullFileName)   SD.open((char *)FullFileName, FILE_READ)
-#define FILE_OPEN_FOR_WRITE(FullFileName)  SD.open((char *)FullFileName, FILE_WRITE)
-#define FILE_SEEK(fd, Pos)                 fd.seek(Pos)
-#define FILE_READ_CHUNK(fd, Buf, Size)     fd.read((char *)Buf, Size)
-#define FILE_WRITE_CHUNK(fd, Buf, Size)    fd.write((const uint8_t *)Buf, Size)
-#define FILE_SIZE(fd)                      fd.size()
-#define FILE_CLOSE(fd)                     fd.close()
-#define FILE_DELETE(FullFileName)          SD.remove((char *)FullFileName)
-#define DELAY_MS(ms)                       delay(ms)
-#define GET_TICK()                         millis()
-#define MS_TO_TICK(ms)                     (ms)
-#define YIELD_TO_PRIO_TASK()             /* Optional: Put here the call to non-blocking tasks */
-#else
 #include "../../Serial1.h"
-#endif
+#include "../../sdcard.h"
+
+#define FILE_DESC                          struct fat_file_struct*
+#define FILE_EXISTS(FullFileName)          sdFileExists((char *)FullFileName)
+#define FILE_OPEN_FOR_READ(FullFileName)   sdFileOpenForRead((char *)FullFileName)
+#define FILE_OPEN_FOR_WRITE(FullFileName)  sdFileOpenForWrite((char *)FullFileName)
+#define FILE_SEEK(fd, Pos)                 fat_seek_file(fd, (int32_t *)&Pos, FAT_SEEK_SET)
+#define FILE_READ_CHUNK(fd,  Buf, Size)    fat_read_file(fd, (uint8_t *)Buf, Size)
+#define FILE_WRITE_CHUNK(fd, Buf, Size)    fat_write_file(fd, (const uint8_t *)Buf, Size)
+#define FILE_SIZE(fd)                      fd->dir_entry.file_size /* /!\ TBC /!\ */
+#define FILE_CLOSE(fd)                     fat_close_file(fd);
+#define FILE_DELETE(FullFileName)          sdDeleteFile((const char *)FullFileName)
+
+#define DELAY_MS(ms)                       _delay_ms(ms)
+#define GET_TICK()                         GET_10MS_TICK()
+
+#define YIELD_TO_PRIO_TASK()               YIELD_TO_TASK(checkMixer(); MYWDT_RESET())
 
 
 /** \ingroup xmodem_api

@@ -61,10 +61,9 @@
 #ifndef DESKTOP
  #ifdef SIMU
   #include "xmodem.h"
-  #include "xmodem_cfg.cpp" /* For a non-arduino environment (such as OpenAVRc), please fill all the macros defined in this file */
+  #include "../../OpenAVRc.h"
  #else
   #include "thirdparty/xmodem/xmodem.h"
-  #include "thirdparty/xmodem/xmodem_cfg.cpp" /* For a non-arduino environment (such as OpenAVRc), please fill all the macros defined in this file */
   #include "uCli.h"
  #endif
 #else

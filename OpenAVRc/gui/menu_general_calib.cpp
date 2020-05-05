@@ -41,28 +41,28 @@ void menuCommonCalib(uint8_t event)
 {
   for (uint8_t i=0; i<NUM_STICKS+NUM_POTS; i++) { // get low and high vals for sticks and trims
     int16_t vt = anaIn(i);
-    reusableBuffer.calib.loVals[i] = min(vt, reusableBuffer.calib.loVals[i]);
-    reusableBuffer.calib.hiVals[i] = max(vt, reusableBuffer.calib.hiVals[i]);
+    ReBuff.calib.loVals[i] = min(vt, ReBuff.calib.loVals[i]);
+    ReBuff.calib.hiVals[i] = max(vt, ReBuff.calib.hiVals[i]);
     if (i >= POT1 && i <= POT_LAST) {
       if (IS_POT_WITHOUT_DETENT(i)) {
-        reusableBuffer.calib.midVals[i] = (reusableBuffer.calib.hiVals[i] + reusableBuffer.calib.loVals[i]) / 2;
+        ReBuff.calib.midVals[i] = (ReBuff.calib.hiVals[i] + ReBuff.calib.loVals[i]) / 2;
       }
     }
   }
 
-  calibrationState = reusableBuffer.calib.state; // make sure we don't scroll while calibrating
+  calibrationState = ReBuff.calib.state; // make sure we don't scroll while calibrating
 
   switch (event) {
   case EVT_ENTRY:
-    reusableBuffer.calib.state = 0;
+    ReBuff.calib.state = 0;
     break;
 
   case EVT_KEY_BREAK(KEY_ENTER):
-    reusableBuffer.calib.state++;
+    ReBuff.calib.state++;
     break;
   }
 
-  switch (reusableBuffer.calib.state) {
+  switch (ReBuff.calib.state) {
   case 0:
     // START CALIBRATION
     if (!READ_ONLY()) {
@@ -76,9 +76,9 @@ void menuCommonCalib(uint8_t event)
     lcdDrawTextLeft(MENU_HEADER_HEIGHT+2*FH, STR_MENUWHENDONE);
 
     for (uint8_t i=0; i<NUM_STICKS+NUM_POTS; i++) {
-      reusableBuffer.calib.loVals[i] = 15000;
-      reusableBuffer.calib.hiVals[i] = -15000;
-      reusableBuffer.calib.midVals[i] = anaIn(i);
+      ReBuff.calib.loVals[i] = 15000;
+      ReBuff.calib.hiVals[i] = -15000;
+      ReBuff.calib.midVals[i] = anaIn(i);
     }
     break;
 
@@ -89,11 +89,11 @@ void menuCommonCalib(uint8_t event)
     lcdDrawTextLeft(MENU_HEADER_HEIGHT+2*FH, STR_MENUWHENDONE);
 
     for (uint8_t i=0; i<NUM_STICKS+NUM_POTS; i++) {
-      if (abs(reusableBuffer.calib.loVals[i]-reusableBuffer.calib.hiVals[i]) > 50) {
-        g_eeGeneral.calib[i].mid = reusableBuffer.calib.midVals[i];
-        int16_t v = reusableBuffer.calib.midVals[i] - reusableBuffer.calib.loVals[i];
+      if (abs(ReBuff.calib.loVals[i]-ReBuff.calib.hiVals[i]) > 50) {
+        g_eeGeneral.calib[i].mid = ReBuff.calib.midVals[i];
+        int16_t v = ReBuff.calib.midVals[i] - ReBuff.calib.loVals[i];
         g_eeGeneral.calib[i].spanNeg = v - v/STICK_TOLERANCE;
-        v = reusableBuffer.calib.hiVals[i] - reusableBuffer.calib.midVals[i];
+        v = ReBuff.calib.hiVals[i] - ReBuff.calib.midVals[i];
         g_eeGeneral.calib[i].spanPos = v - v/STICK_TOLERANCE;
       }
     }
@@ -102,11 +102,11 @@ void menuCommonCalib(uint8_t event)
   case 3:
     g_eeGeneral.chkSum = evalChkSum();
     eeDirty(EE_GENERAL);
-    reusableBuffer.calib.state = 4;
+    ReBuff.calib.state = 4;
     break;
 
   default:
-    reusableBuffer.calib.state = 0;
+    ReBuff.calib.state = 0;
     break;
   }
 
@@ -127,7 +127,7 @@ void menuGeneralCalib(uint8_t event)
 
 void menuFirstCalib(uint8_t event)
 {
-  if (event == EVT_KEY_BREAK(KEY_EXIT) || reusableBuffer.calib.state == 4) {
+  if (event == EVT_KEY_BREAK(KEY_EXIT) || ReBuff.calib.state == 4) {
     calibrationState = 0;
     chainMenu(menuMainView);
   } else {

@@ -618,7 +618,7 @@ uint8_t RlcFile::copy(uint8_t i_fileDst, uint8_t i_fileSrc)
 uint8_t eeBackupModel(uint8_t i_fileSrc)
 {
   uint8_t ret = 1;
-  char *buf = reusableBuffer.modelsel.mainname;
+  char *buf = ReBuff.modelsel.mainname;
 
   // we must close the logs as we reuse the same SD_file structure
   closeLogIfActived();
@@ -676,7 +676,7 @@ uint8_t eeBackupModel(uint8_t i_fileSrc)
 
 const pm_char * eeRestoreModel(uint8_t i_fileDst, char *model_name)
 {
-  char *buf = reusableBuffer.modelsel.mainname;
+  char *buf = ReBuff.modelsel.mainname;
 
   strcpy(buf, model_name);
   strcpy_P(&buf[strlen(buf)], STR_MODELS_EXT);
