@@ -1,0 +1,738 @@
+# OpenAVRc Desktop V3.0 2020 beta
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-03-27 19:15+0100\n"
+"PO-Revision-Date: 2020-05-06 00:09+0200\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+"Last-Translator: George StanekTM\n"
+"Language: cs_CZ\n"
+
+msgid "                     Max         Min       Alarm"
+msgstr ""
+
+msgid "    OpenAVRc Simulateur"
+msgstr "    Importovat eeprom"
+
+msgid " 1008            1024           1008"
+msgstr ""
+
+msgid " GPLv2 . Firmware basé sur NextStepRc 2.18 "
+msgstr "GPLv2 firmware založený na NextStepRc 2.18"
+
+msgid ""
+" n'hexiste plus\n"
+" Modifiez votre modèle"
+msgstr ""
+" n'hexistuje více\n"
+"Upravit model"
+
+msgid "&Aide"
+msgstr "Nápověda"
+
+msgid "&Fenętres"
+msgstr "Okna"
+
+msgid "&Fichier"
+msgstr "Soubor"
+
+msgid "&Option"
+msgstr "Nastavení"
+
+msgid "10 Chars Max"
+msgstr "10 max. nádrže"
+
+msgid "A propos ...\tF1"
+msgstr "O programu\tF1"
+
+msgid "A1"
+msgstr ""
+
+msgid "A2"
+msgstr ""
+
+msgid "A3"
+msgstr ""
+
+msgid "A4"
+msgstr ""
+
+msgid "A7105"
+msgstr ""
+
+msgid "AIL"
+msgstr ""
+
+msgid "AIR X10"
+msgstr "VZDUCH X10"
+
+msgid "Accéléromčtres"
+msgstr "Akcelerometry"
+
+msgid "Altitude"
+msgstr "Nadmořská výška"
+
+msgid "Analog"
+msgstr "Analogy"
+
+msgid "Appliquer ŕ tous les modčles de "
+msgstr "Použít na všechny modely "
+
+msgid "Aucune eeprom detectée en mémoire"
+msgstr "V paměti nebyl detekován žádný eeprom"
+
+msgid "Autres"
+msgstr "Ostatní"
+
+msgid "BP REA"
+msgstr "BP REa"
+
+msgid "BP REB"
+msgstr "BP REb"
+
+msgid "Batterie"
+msgstr "Baterie"
+
+msgid "Batterie\t"
+msgstr "Baterie :\t"
+
+msgid "Boutons (off)"
+msgstr "Tlačítka (vypnout)"
+
+msgid "Boutons (on)"
+msgstr "Tlačítka (zapnout)"
+
+msgid "C'est quoi donc ?"
+msgstr "Co tedy je ?"
+
+msgid "CC2500"
+msgstr ""
+
+msgid "CYRF6936"
+msgstr ""
+
+msgid "Calibration"
+msgstr "Kalibrace"
+
+msgid "Ceci est une sortie"
+msgstr "Toto je výstup"
+
+msgid "Center"
+msgstr "Střed"
+
+msgid "Center plot view to this position"
+msgstr "Středový pohled na tuto polohu"
+
+msgid "Ch1"
+msgstr ""
+
+msgid "Ch10"
+msgstr ""
+
+msgid "Ch11"
+msgstr ""
+
+msgid "Ch12"
+msgstr ""
+
+msgid "Ch13"
+msgstr ""
+
+msgid "Ch14"
+msgstr ""
+
+msgid "Ch15"
+msgstr ""
+
+msgid "Ch16"
+msgstr ""
+
+msgid "Ch2"
+msgstr ""
+
+msgid "Ch3"
+msgstr ""
+
+msgid "Ch4"
+msgstr ""
+
+msgid "Ch5"
+msgstr ""
+
+msgid "Ch6"
+msgstr ""
+
+msgid "Ch7"
+msgstr ""
+
+msgid "Ch8"
+msgstr ""
+
+msgid "Ch9"
+msgstr ""
+
+msgid "Champs"
+msgstr "Pole"
+
+msgid "Charger Eeprom"
+msgstr "Načíst eeprom"
+
+msgid "Charger fichier BIN"
+msgstr "Načíst soubor (.bin) nastavení a modelů"
+
+msgid "Charger un fichier eeprom ?"
+msgstr "Načíst soubor eeprom ?"
+
+msgid "Contraste:\t"
+msgstr "Kontrast :\t"
+
+msgid "Conversion en cours, attendez SVP......"
+msgstr "Probíhá převod, počkejte prosím ......"
+
+msgid "Convertir eeprom ?"
+msgstr "Převést eeprom ?"
+
+msgid "Couleurs"
+msgstr "Barvy"
+
+msgid "Courant"
+msgstr "Proud"
+
+msgid "DSM SER."
+msgstr "DSM serial"
+
+msgid "Date - Heure"
+msgstr "Datum - Čas"
+
+msgid "Degrés"
+msgstr "Stupně"
+
+msgid "Desktop"
+msgstr ""
+
+msgid "Données"
+msgstr "Data"
+
+msgid "Déplacement °"
+msgstr "Poloha °"
+
+msgid "EEPROM VIDE"
+msgstr "Prázdný eeprom"
+
+msgid "ELE"
+msgstr ""
+
+msgid "EXIT"
+msgstr ""
+
+msgid "Emplacement de Google earth"
+msgstr "Poloha Google Earth"
+
+msgid "Exportation en cours, attendez SVP......"
+msgstr "Probíhá export, čekejte prosím ......"
+
+msgid "Exporte l'eeprom en format texte"
+msgstr "Exportovat eeprom v textovém formátu (.txt)"
+
+msgid "Exporter Eeprom"
+msgstr "Exportovat eeprom"
+
+msgid "FUEL"
+msgstr "PALIVO"
+
+msgid "Fit"
+msgstr "Přizpůsobit"
+
+msgid "Frsky \"D\""
+msgstr ""
+
+msgid "Frsky S.Port"
+msgstr ""
+
+msgid "GEA"
+msgstr ""
+
+msgid "GPS"
+msgstr ""
+
+msgid "Graphique Sorties"
+msgstr "Kanálové výstupy"
+
+msgid "Haptic:\tAlarmes"
+msgstr "Vibrace :\tAlarmy"
+
+msgid "Haptic:\tNo keys"
+msgstr "Vibrace :  Žádné klávesy"
+
+msgid "Haptic:\tSilence"
+msgstr "Vibrace :\tTicho"
+
+msgid "Haptic:\tTout"
+msgstr "Vibrace :\tVšechny"
+
+msgid "ID1"
+msgstr ""
+
+msgid "ID2"
+msgstr ""
+
+msgid "Importation en cours, attendez SVP......"
+msgstr "Probíhá import, počkejte prosím ......"
+
+msgid "Importe une eeprom en format texte"
+msgstr "Importovat eeprom v textovém formátu (.txt)"
+
+msgid "Importer Eeprom"
+msgstr "Importovat eeprom"
+
+msgid "Fichier TXT (*.txt)|*.txt"
+msgstr "Soubor TXT (*.txt)|*.txt"
+
+msgid "Impossible : Simulateur en fonctionnement"
+msgstr "Nemožné : Simulátor je spuštěn !"
+
+msgid "Impossible d'ouvrir le fichier '%s'."
+msgstr "Nelze otevřít soubor '%s'."
+
+msgid "KML"
+msgstr ""
+
+msgid "L'eeprom va ętre formatée, étes vous sur ?"
+msgstr "Eeprom bude formátován, chcete pokračovat ?"
+
+msgid "La fonction "
+msgstr "Funkce "
+
+msgid "Latitude"
+msgstr "Zeměpisná šířka"
+
+msgid "Lcd (fond)"
+msgstr "Pozadí LCD"
+
+msgid "Lcd (pixel)"
+msgstr "Pixely LCD"
+
+msgid "Lock aspect"
+msgstr "Zamknout zoom"
+
+msgid "Lock horizontal and vertical zoom aspect."
+msgstr "Zamkněte horizontální a vertikální zoom"
+
+msgid "Logs"
+msgstr "Protokoly"
+
+msgid "Longitude"
+msgstr "Zeměpisná délka"
+
+msgid "MENU"
+msgstr ""
+
+msgid "MULTIMOD"
+msgstr "MULTI mod"
+
+msgid "Manches (fond)"
+msgstr "Pozadí pák/kniplů"
+
+msgid "Manches (stick)"
+msgstr "Páky/kniply"
+
+msgid "Minutes - Secondes"
+msgstr "Minuty - Sekundy"
+
+msgid "Mixeur"
+msgstr "Mixér"
+
+msgid "Mode:\t"
+msgstr "Režim :\t"
+
+msgid "Modele:\t"
+msgstr "Model :\t"
+
+msgid "NRF24L01"
+msgstr ""
+
+msgid "Ne peut écrire le fichier '%s'."
+msgstr "Nelze zapsat soubor '%s'"
+
+msgid "Nom du modèle"
+msgstr "Název modelu"
+
+msgid "ON"
+msgstr "Zap/Vyp"
+
+msgid "OpenAVRc Simulateur"
+msgstr "OpenAVRc Simulator"
+
+msgid "Ouvrir Fichier BIN"
+msgstr "Vybrat soubor (.bin) nastavení a modelů"
+
+msgid "Fichiers BIN (*.bin)|*.bin"
+msgstr "Soubory BIN (*.bin)|*.bin"
+
+msgid "Ouvrir Fichier CSV"
+msgstr "Vybrat soubor (.csv)"
+
+msgid "Fichiers CSV (*.csv)|*.csv"
+msgstr "Soubory CSV (*.csv)|*.csv"
+
+msgid "Paramčtres Radio"
+msgstr "Nastavení rádia"
+
+msgid "Protocoles"
+msgstr "Protokoly"
+
+msgid "Protocoles Activés"
+msgstr "Aktivní protokoly"
+
+msgid "Quitter\tAlt-F4"
+msgstr "Ukončit\tAlt+F4"
+
+msgid "Quitter le simulateur"
+msgstr "Ukončit simulátor"
+
+msgid "RAZ"
+msgstr ""
+
+msgid "RPM"
+msgstr ""
+
+msgid "RSSI"
+msgstr ""
+
+msgid "RUD"
+msgstr ""
+
+msgid "RX"
+msgstr ""
+
+msgid "Radio Data"
+msgstr "Nastavení rádia"
+
+msgid "Rea"
+msgstr "REa"
+
+msgid "Reb"
+msgstr "REb"
+
+msgid "Recharger le fichier eeprom "
+msgstr "Znovu načíst soubor eeprom"
+
+msgid "Réglages"
+msgstr "Nastavení"
+
+msgid "Sauvegarde du fichier BIN"
+msgstr "Uložit nastavení a modely do souboru (.bin)"
+
+msgid "Sauver Capture écran"
+msgstr "Uložit snímek obrazovky do souboru (.bmp)"
+
+msgid "Fichier BMP (*.bmp)|*.bmp"
+msgstr "Soubor BMP (*.bmp)|*.bmp"
+
+msgid "Sauver Eeprom"
+msgstr "Uložit eeprom"
+
+msgid "Fichier BIN (*.bin)|*.bin"
+msgstr "Soubor BIN (*.bin)|*.bin"
+
+msgid "Set plot view to show all items"
+msgstr "Nastavit zobrazení grafu pro zobrazení všech položek"
+
+msgid "Show help about the mouse commands."
+msgstr "Zobrazit nápovědu k příkazům myši"
+
+msgid "Show mouse commands..."
+msgstr "Zobrazit příkazy myši ..."
+
+msgid "Simulateur V3"
+msgstr "OpenAVRc Simulator V3"
+
+msgid "Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "
+msgstr "OpenAVRc softwarový simulátor všech možností na kartě Mega 2560     "
+
+msgid "Sortie vers :"
+msgstr "Výstup do :"
+
+msgid ""
+"Supported Mouse commands:\n"
+"         - Left button down + Mark area: Rectangular zoom\n"
+"         - Right button down + Move: Pan (Move)\n"
+"         - Wheel: Vertical scroll\n"
+"         - Wheel + SHIFT: Horizontal scroll\n"
+"         - Wheel + CTRL: Zoom in/out"
+msgstr ""
+"Podporované příkazy myši :\n"
+"         - Levé tlačítko dolů + označit oblast : obdélníkové přiblížení\n"
+"         - Pravé tlačítko dolů + posun : Pan okno (posun)\n"
+"         - Kolečko : vertikální posun\n"
+"         - Kolečko + SHIFT : horizontální posun\n"
+"         - Kolečko + CTRL : přiblížení vstup/výstup"
+
+msgid "THR"
+msgstr ""
+
+msgid "TRN"
+msgstr ""
+
+msgid "TX"
+msgstr ""
+
+msgid "Temp1"
+msgstr ""
+
+msgid "Temp2"
+msgstr ""
+
+msgid "Tension"
+msgstr "Napětí"
+
+msgid "Texte"
+msgstr "Text"
+
+msgid "Télémétrie"
+msgstr "Telemetrie"
+
+msgid "V 3.0 Beta"
+msgstr ""
+
+msgid "Variables globales"
+msgstr "Globální proměnné"
+
+msgid "Variateur"
+msgstr "Snímač"
+
+msgid "Variomčtre"
+msgstr "Variometr"
+
+msgid "Version d'eeprom non prise en charge"
+msgstr "Nepodporovaná verze eeprom"
+
+msgid "Version:\t"
+msgstr "Verze :\t"
+
+msgid "Vitesse"
+msgstr "Rychlost"
+
+msgid "Vitesse (m/s)"
+msgstr "Rychlost (m/s)"
+
+msgid "Vitesse Verticale"
+msgstr "Vertikální rychlost"
+
+msgid "X"
+msgstr ""
+
+msgid "X10"
+msgstr ""
+
+msgid "X100"
+msgstr ""
+
+msgid "Y"
+msgstr ""
+
+msgid "Z"
+msgstr ""
+
+msgid "Zoom in"
+msgstr "Přiblížit"
+
+msgid "Zoom in plot view."
+msgstr "Přiblížit zobrazení pohledu"
+
+msgid "Zoom out"
+msgstr "Oddálit"
+
+msgid "Zoom out plot view."
+msgstr "Oddálit zobrazení pohledu"
+
+msgid "Zoom: (%f,%f)-(%f,%f)"
+msgstr "Zvětšení : (%f,%f)-(%f,%f)"
+
+msgid "[mpBitmapLayer::Plot] offset: x=%i y=%i  bmpWidth=%ix%i"
+msgstr ""
+
+msgid "[mpBitmapLayer::Plot] screenPixel: x=%f y=%f  d_width=%ix%i"
+msgstr ""
+
+msgid "[mpBitmapLayer] Assigned bitmap is not Ok()!"
+msgstr "[mpBitmapLayer] Přiřazená bitmapa není v pořádku() !"
+
+msgid "[mpCovarianceEllipse] Error: cov is not positive definite"
+msgstr "[mpCovarianceEllipse] Chyba : cov není definitivní"
+
+msgid "[mpCovarianceEllipse] Error: cov(0,0) must be non-negative"
+msgstr "[mpCovarianceEllipse] Chyba : cov (0,0) musí být nezáporné"
+
+msgid "[mpCovarianceEllipse] Error: cov(1,1) must be non-negative"
+msgstr "[mpCovarianceEllipse] Chyba : cov (1,1) musí být nezáporné"
+
+msgid "[mpCovarianceEllipse] Error: quantiles must be non-negative"
+msgstr "[mpCovarianceEllipse] Chyba : kvantily musí být nezáporné"
+
+msgid ""
+"[mpMovableObject::ShapeUpdated] Error, m_shape_xs and m_shape_ys have "
+"different lengths!"
+msgstr ""
+"[mpMovableObject::ShapeUpdated] Chyba : m_shape_xs a m_shape_ys mají různé "
+"délky !"
+
+msgid ""
+"[mpPolygon] Error: points_xs and points_ys must have the same number of "
+"elements"
+msgstr "[mpPolygon] Chyba : points_xs a points_ys musí mít stejný počet prvků"
+
+msgid "[mpWindow::OnMouseMove] Ax:%i Ay:%i m_posX:%f m_posY:%f"
+msgstr ""
+
+msgid "[mpWindow::OnPaint] vis.area:%ix%i px=%i py=%i"
+msgstr ""
+
+msgid ""
+"mpWindow::DoZoomInXCalc() prior X coord: (%f), new X coord: (%f) SHOULD BE "
+"EQUAL!!"
+msgstr ""
+"mpWindow::DoZoomInXCalc() předchozí X coord : (%f), nový X coord : (%f) "
+"Měli by být rovni !!"
+
+msgid ""
+"mpWindow::DoZoomInYCalc() prior Y coord: (%f), new Y coord: (%f) SHOULD BE "
+"EQUAL!!"
+msgstr ""
+"mpWindow::DoZoomInYCalc() předchozí Y coord : (%f), nový Y coord : (%f) "
+"Měli by být rovni !!"
+
+msgid ""
+"mpWindow::DoZoomOutXCalc() prior X coord: (%f), new X coord: (%f) SHOULD BE "
+"EQUAL!!"
+msgstr ""
+"mpWindow::DoZoomOutXCalc() prior X coord: (%f), nový X coord : (%f) SHOULD "
+"BE EQUAL!!"
+
+msgid ""
+"mpWindow::DoZoomOutYCalc() prior Y coord: (%f), new Y coord: (%f) SHOULD BE "
+"EQUAL!!"
+msgstr ""
+"mpWindow::DoZoomOutYCalc() předchozí Y coord : (%f),nový X coord : (%f) "
+"Měli by být rovni !!"
+
+msgid ""
+"mpWindow::Fit() m_desiredXmin=%f m_desiredXmax=%f  m_desiredYmin=%f "
+"m_desiredYmax=%f"
+msgstr ""
+
+msgid ""
+"mpWindow::Fit() m_scaleX = %f , m_scrX = %d,m_scrY=%d, Ax=%f, Ay=%f, m_posX="
+"%f, m_posY=%f"
+msgstr ""
+
+msgid "mpWindow::Fit()(lock) m_scaleX=%f,m_scaleY=%f"
+msgstr ""
+
+msgid "mpWindow::IsInsideInfoLayer() examinining layer = %p"
+msgstr "mpWindow::IsInsideInfoLayer() zkoumá vrstvu = %p"
+
+msgid "mpWindow::IsInsideInfoLayer() layer = %p"
+msgstr "mpWindow::IsInsideInfoLayer() vrstva = %p"
+
+msgid "mpWindow::OnMouseLeftDown() X = %d , Y = %d"
+msgstr ""
+
+msgid "mpWindow::OnMouseLeftDown() started moving layer %lx"
+msgstr "mpWindow::OnMouseLeftDown() začala se pohybovat vrstva %lx"
+
+msgid "mpWindow::OnSize() m_scrX = %d, m_scrY = %d"
+msgstr ""
+
+msgid ""
+"mpWindow::ZoomIn() prior coords: (%f,%f), new coords: (%f,%f) SHOULD BE "
+"EQUAL!!"
+msgstr ""
+"mpWindow::ZoomIn() předchozí akordy : (%f,%f), nové coords : (%f,%f) Měli "
+"by být rovni !!"
+
+msgid ""
+"mpWindow::ZoomOut() prior coords: (%f,%f), new coords: (%f,%f) SHOULD BE "
+"EQUAL!!"
+msgstr ""
+"mpWindow::ZoomOut() předchozí coords : (%f,%f), nové coords : (%f,%f) Měli "
+"by být rovni !!"
+
+msgid "npha0"
+msgstr ""
+
+msgid "npha1"
+msgstr ""
+
+msgid "npha2"
+msgstr ""
+
+msgid "npha3"
+msgstr ""
+
+msgid "npha4"
+msgstr ""
+
+msgid "npha5"
+msgstr ""
+
+msgid "uCLI"
+msgstr ""
+
+msgid "uCli"
+msgstr ""
+
+msgid "valvg1"
+msgstr ""
+
+msgid "valvg10"
+msgstr ""
+
+msgid "valvg11"
+msgstr ""
+
+msgid "valvg12"
+msgstr ""
+
+msgid "valvg2"
+msgstr ""
+
+msgid "valvg3"
+msgstr ""
+
+msgid "valvg4"
+msgstr ""
+
+msgid "valvg5"
+msgstr ""
+
+msgid "valvg6"
+msgstr ""
+
+msgid "valvg7"
+msgstr ""
+
+msgid "valvg8"
+msgstr ""
+
+msgid "valvg9"
+msgstr ""
+
+msgid "wxMathPlot error: X and Y vector are not of the same length!"
+msgstr "wxMathPlot chyba : X a Y vektor nejsou stejné délky !"
+
+msgid "wxMathPlot help"
+msgstr "wxMathPlot pomoc"
+
+msgid "État des sorties."
+msgstr "Kanálové výstupy"
+
+msgid "Cap"
+msgstr "Kapacita"
