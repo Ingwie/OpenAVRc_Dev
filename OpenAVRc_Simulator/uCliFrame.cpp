@@ -171,7 +171,7 @@ void uCliFrame::HwSerialByte(uint8_t c)
       wxString cmd = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
 
       if ((cmd == "AT") || (cmd == "AT+UART=115200,0,0") || (cmd == "AT+CLASS=0") || (cmd == "AT+INQM=0,3,4")
-          || (cmd == "AT+IPSCAN=1024,1,1024,1") || (cmd == "AT+ROLE=1") || (cmd == "AT+ROLE=0") || (cmd == "AT+CMODE=0")
+          || (cmd == "AT+IPSCAN=1024,1,1024,1") || (cmd == "AT+ROLE=1") || (cmd == "AT+ROLE=0") || (cmd == "AT+CMODE=0") || (cmd == "AT+DISC")
           || (cmd == "AT+RMAAD") || (cmd == "AT+INIT") || (cmd == "AT+RESET") || (cmd == "AT+INQC") || (cmd == "AT+IAC=0x9E8B33"))
         {
           TextCtrl->WriteText("OK");
