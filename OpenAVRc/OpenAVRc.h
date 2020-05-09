@@ -1303,7 +1303,7 @@ union ReusableBuffer { // 240 bytes (LogBuffer)
 #endif
 
 #if defined(U_CLI)
-  //uCliSt_t uCli; // 103 bytes need to work with bluetooth -> TODO
+  char uCliCmdLine[UCLI_CMD_LINE_MAX_SIZE + 1]; // 101 bytes need to work with bluetooth
 #if defined(XMODEM)
   XModemSt_t xx; // 144 bytes
 #endif

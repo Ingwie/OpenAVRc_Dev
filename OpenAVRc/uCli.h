@@ -48,15 +48,14 @@
 
 enum {CONTEXT_UCLI = 0, CONTEXT_XMODEM, CONTEXT_PUPPY};
 
-typedef struct{
+/*typedef struct{
   char    Msg[UCLI_CMD_LINE_MAX_SIZE + 1];
-  uint8_t Idx;
-}CmdLineSt_t;
+}CmdLineSt_t;*/
 
-typedef struct{
-  uint8_t Context; // Will see if really needed, later...
-  CmdLineSt_t CmdLine;
-}uCliSt_t;
+PACK(typedef struct{
+  uint8_t Context:2; // Will see if really needed, later...
+  uint8_t Idx:6;
+})uCliSt_t;
 
 extern uCliSt_t uCli; // uCli structure will be used by bluetooth as well (share buffer)
 

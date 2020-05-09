@@ -102,7 +102,7 @@ static int8_t execCmdLine(char * CmdLine);
 
 void uCli_init()
 {
-  memset(&uCli.CmdLine, 0, sizeof(uCli.CmdLine));
+  memset(&ReBuff.uCliCmdLine, 0, sizeof(ReBuff.uCliCmdLine));
   uCli.Context = CONTEXT_UCLI;
   uCliPrompt();
 }
@@ -126,16 +126,16 @@ void uCli_process(void)
       {
       case 0x0D:
       case 0x0A:
-       isNotUcliPrompt = strncmp_P(uCli.CmdLine.Msg, UCLI_PROMPT, 5);
+       isNotUcliPrompt = strncmp_P(ReBuff.uCliCmdLine, UCLI_PROMPT, 5);
        if (isNotUcliPrompt) // Do nothing if receive "uCLI>........."
         {
-         uCli.CmdLine.Msg[uCli.CmdLine.Idx] = 0;
-         uCli.CmdLine.Idx = 0;
+         ReBuff.uCliCmdLine[uCli.Idx] = 0;
+         uCli.Idx = 0;
          uCliPrompt();
-         if(execCmdLine(uCli.CmdLine.Msg) == -1)
+         if(execCmdLine(ReBuff.uCliCmdLine) == -1)
           {
 #if defined(TINY_DBG_UART_BT)
-           TinyDbg_interpretAndExecute(uCli.CmdLine.Msg);
+           TinyDbg_interpretAndExecute(ReBuff.uCliCmdLine);
 #else
            Serial1.println(F("err: unknown cmd"));
 #endif
@@ -144,24 +144,24 @@ void uCli_process(void)
         }
        else
         {
-         memclear(uCli.CmdLine.Msg, DIM(uCli.CmdLine.Msg)); // reset all
+         memclear(ReBuff.uCliCmdLine, DIM(ReBuff.uCliCmdLine)); // reset all
          uCliFlushRx();
         }
        break;
 
       case BACK_SPACE:
-       if(uCli.CmdLine.Idx)
-        uCli.CmdLine.Idx--;
+       if(uCli.Idx)
+        uCli.Idx--;
        break;
 
       default:
-       if(uCli.CmdLine.Idx < UCLI_CMD_LINE_MAX_SIZE)
+       if(uCli.Idx < UCLI_CMD_LINE_MAX_SIZE)
         {
-         uCli.CmdLine.Msg[uCli.CmdLine.Idx++] = RxChar;
+         ReBuff.uCliCmdLine[uCli.Idx++] = RxChar;
         }
        else
         {
-         uCli.CmdLine.Idx = 0; //msg too long!
+         uCli.Idx = 0; //msg too long!
          TRACE("uCLI recept a too long message !!");
         }
        break;
