@@ -119,8 +119,7 @@ class BluetoothFrame: public wxFrame
     wxString getAndShowVer();
     void Populate_SD();
     void Populate_Dir(wxTreeItemId * dir);
-
-
+    void OnSdPopupChoice(wxCommandEvent& event);
 
 	private:
 
@@ -132,6 +131,7 @@ class BluetoothFrame: public wxFrame
 		void OnBitmapButtonRebootClick(wxCommandEvent& event);
 		void OnTctrlSdBeginDrag(wxTreeEvent& event);
 		void OnBitmapButtonRefreshClick(wxCommandEvent& event);
+		void OnTctrlSdItemRightClick(wxTreeEvent& event);
 		//*)
 
 		void OnDirCtrlBeginDrag(wxTreeEvent& event);
