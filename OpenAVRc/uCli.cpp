@@ -383,15 +383,19 @@ static int8_t uCli_Cmd_rmdir(const char ** argv, uint8_t argc)
 
 static int8_t uCli_Cmd_rm(const char ** argv, uint8_t argc)
 {
-  argv = argv;
-  argc = argc;
-  Serial1.println(F("rm"));
-  if(!memcmp_P(argv[2], SD_MEDIA, 3))
+ Serial1.println(F("rm"));
+ if(!memcmp_P(argv[1], SD_MEDIA, 3))
   {
-    /* SD/FullFileName */
-    sdDeleteFile((const char*)&argv[1][2]); // Skip SD prefix -> keep only /FullFileName
+   /* SD/FullFileName */
+   if(uint8_t ofsToBaseName = getDirAndBaseName((char*)&argv[1][2]))
+    {
+     if (sdChangeCurDir(strlen(&argv[1][2])? &argv[1][2] : ROOT_PATH))
+      {
+       sdDeleteFile((const char*)&argv[1][2]+ofsToBaseName); // Skip SD prefix -> keep only /FullFileName
+      }
+    }
   }
-  return(0);
+ return(0);
 }
 
 static int8_t uCli_Cmd_mv(const char ** argv, uint8_t argc)
