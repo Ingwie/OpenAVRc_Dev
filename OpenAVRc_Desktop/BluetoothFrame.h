@@ -120,6 +120,7 @@ class BluetoothFrame: public wxFrame
     void Populate_SD();
     void Populate_Dir(wxTreeItemId * dir);
     void OnSdPopupChoice(wxCommandEvent& event);
+    void SdDeleteFile(wxString file);
 
 	private:
 
