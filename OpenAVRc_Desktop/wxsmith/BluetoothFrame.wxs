@@ -72,6 +72,7 @@
 				<pos>240,120</pos>
 				<size>200,272</size>
 				<handler function="OnTctrlSdBeginDrag" entry="EVT_TREE_BEGIN_DRAG" />
+				<handler function="OnTctrlSdItemRightClick" entry="EVT_TREE_ITEM_RIGHT_CLICK" />
 			</object>
 			<object class="wxGenericDirCtrl" name="ID_GENERICDIRCTRL1" variable="DirCtrl" member="yes">
 				<defaultfolder></defaultfolder>

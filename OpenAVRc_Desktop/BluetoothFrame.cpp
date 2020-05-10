@@ -128,7 +128,7 @@ BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
  BTComPort = new Tserial();
  comIsValid = false;
  uCLI = "uCLI>";
- wxTreeItemId rootId = TctrlSd->AddRoot(SD_ROOT);
+ wxTreeItemId tesdebugtoremove = TctrlSd->AddRoot(SD_ROOT);
 
  DnD_TctrlSd_Txt * txtTctrlSdDropTarget = new DnD_TctrlSd_Txt(this);
  txtTctrlSdDropTarget->SetDataObject(new wxTextDataObject());
@@ -357,30 +357,37 @@ wxString BluetoothFrame::GetFullPathTctrlItem(wxTreeItemId item)
 {
  wxString path = "";
  wxTreeItemId root = TctrlSd->GetRootItem();
- if (item.IsOk())
+ if (item != root)
   {
-   path = TctrlSd->GetItemText(item);
-   if IS_SD_DIR(path)
+   if (item.IsOk())
     {
-     path.Replace("[","");
-     path.Replace("]","/");
-    }
-   wxTreeItemId tmp = item;
-   wxString tmpPath;
-   do
-    {
-     tmp = TctrlSd->GetItemParent(tmp);
-     tmpPath = TctrlSd->GetItemText(tmp);
-     if IS_SD_DIR(tmpPath)
+     path = TctrlSd->GetItemText(item);
+     if IS_SD_DIR(path)
       {
-       tmpPath.Replace("[","");
-       tmpPath.Replace("]","/");
+       path.Replace("[","");
+       path.Replace("]","/");
       }
-     path = tmpPath + path;
+     wxTreeItemId tmp = item;
+     wxString tmpPath;
+     do
+      {
+       tmp = TctrlSd->GetItemParent(tmp);
+       if (tmp.IsOk())
+        {
+         tmpPath = TctrlSd->GetItemText(tmp);
+        }
+       if IS_SD_DIR(tmpPath)
+        {
+         tmpPath.Replace("[","");
+         tmpPath.Replace("]","/");
+        }
+       path = tmpPath + path;
+      }
+     while (tmp != root);
     }
-   while (tmp != root);
+   return path;
   }
- return path;
+ return SD_ROOT;
 }
 
 void BluetoothFrame::OnTctrlSdBeginDrag(wxTreeEvent& event) // SD drag
@@ -558,6 +565,7 @@ void BluetoothFrame::OnTctrlSdItemRightClick(wxTreeEvent& event)
  wxTreeItemId item = event.GetItem();
  if (item.IsOk())
   {
+   TctrlSd->SelectItem(item);
    wxString destName = TctrlSd->GetItemText(item);
    wxMenu pop;
    pop.Append(POPUP_ID_DELETE, _("Supprimer"));
@@ -569,16 +577,37 @@ void BluetoothFrame::OnTctrlSdItemRightClick(wxTreeEvent& event)
   }
 }
 
+void BluetoothFrame::SdDeleteFile(wxString file)
+{
+ if ((file != SD_ROOT) && (file != ""))
+  {
+   wxString BTanwser = "";
+   //wxMessageBox(file);
+   wxString retVal = sendCmdAndWaitForResp("rm SD" + file, &BTanwser);
+   //wxMessageBox(BTanwser);
+   //wxMessageBox(retVal);
+   Sleep(100);
+   Populate_SD();
+  }
+}
+
 void BluetoothFrame::OnSdPopupChoice(wxCommandEvent& event)
 {
- switch (event.GetId())
+ wxTreeItemId item = TctrlSd->GetSelection();
+ if (item.IsOk())
   {
-  case POPUP_ID_DELETE:
-   wxMessageBox("del");
-   break;
-  case POPUP_ID_CREATE_REPERTORY:
-   wxMessageBox("md");
-   break;
+   wxString itemText = GetFullPathTctrlItem(item);
+   switch (event.GetId())
+    {
+    case POPUP_ID_DELETE:
+    {
+     SdDeleteFile(itemText);
+    }
+    break;
+    case POPUP_ID_CREATE_REPERTORY:
+     wxMessageBox("md");
+     break;
+    }
   }
 }
 
