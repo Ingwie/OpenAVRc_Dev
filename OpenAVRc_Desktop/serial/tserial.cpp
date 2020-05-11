@@ -28,6 +28,8 @@
 -- ------------------------------------------------------------------------ */
 
 
+// Driver modified by Ingwie for OpenAVRc (c) to handle COM ports upper to 9 E.G: COM124, COM10
+// use "new" definission "\\\\.\\COMXXX"
 
 
 /* ---------------------------------------------------------------------- */
@@ -46,10 +48,10 @@
 /* -------------------------------------------------------------------- */
 Tserial::Tserial()
 {
-    parityMode       = spNONE;
-    port[0]          = 0;
-    rate             = 0;
-    serial_handle    = INVALID_HANDLE_VALUE;
+ parityMode       = spNONE;
+ port[0]          = 0;
+ rate             = 0;
+ serial_handle    = INVALID_HANDLE_VALUE;
 }
 
 /* -------------------------------------------------------------------- */
@@ -57,127 +59,130 @@ Tserial::Tserial()
 /* -------------------------------------------------------------------- */
 Tserial::~Tserial()
 {
-    if (serial_handle!=INVALID_HANDLE_VALUE)
-        CloseHandle(serial_handle);
-    serial_handle = INVALID_HANDLE_VALUE;
+ if (serial_handle!=INVALID_HANDLE_VALUE)
+  CloseHandle(serial_handle);
+ serial_handle = INVALID_HANDLE_VALUE;
 }
 /* -------------------------------------------------------------------- */
 /* --------------------------    disconnect   ------------------------- */
 /* -------------------------------------------------------------------- */
 void Tserial::disconnect(void)
 {
-    if (serial_handle!=INVALID_HANDLE_VALUE)
-        CloseHandle(serial_handle);
-    serial_handle = INVALID_HANDLE_VALUE;
+ if (serial_handle!=INVALID_HANDLE_VALUE)
+  CloseHandle(serial_handle);
+ serial_handle = INVALID_HANDLE_VALUE;
 }
 /* -------------------------------------------------------------------- */
 /* --------------------------    connect      ------------------------- */
 /* -------------------------------------------------------------------- */
 int  Tserial::connect          (char *port_arg, int rate_arg, serial_parity parity_arg)
 {
-    int erreur;
-    DCB  dcb;
-    COMMTIMEOUTS cto = { 0, 0, 0, 0, 0 }; /* always block */
-//	  cto.ReadIntervalTimeout = MAXDWORD; /*  immediate timeout */
+ int erreur;
+ DCB  dcb;
+ COMMTIMEOUTS cto = { 0, 0, 0, 0, 0 }; /* always block */
+ //cto.ReadIntervalTimeout = MAXDWORD; /*  immediate timeout */
 
 
-    /* --------------------------------------------- */
-    if (serial_handle!=INVALID_HANDLE_VALUE)
-        CloseHandle(serial_handle);
-    serial_handle = INVALID_HANDLE_VALUE;
+ /* --------------------------------------------- */
+ if (serial_handle!=INVALID_HANDLE_VALUE)
+  CloseHandle(serial_handle);
+  //serial_handle = INVALID_HANDLE_VALUE;
 
-    erreur = 0;
+ erreur = 0;
 
-    if (port_arg!=0)
+ if (port_arg!=0)
+  {
+   strncpy(port, (char*)"\\\\.\\", 4);
+   strncpy(&port[4], port_arg, 8);
+   rate      = rate_arg;
+   parityMode= parity_arg;
+   memset(&dcb,0,sizeof(dcb));
+
+   /* -------------------------------------------------------------------- */
+   // set DCB to configure the serial port
+   dcb.DCBlength       = sizeof(dcb);
+
+   /* ---------- Serial Port Config ------- */
+   dcb.BaudRate        = rate;
+
+   switch(parityMode)
     {
-        strncpy(port, port_arg, 10);
-        rate      = rate_arg;
-        parityMode= parity_arg;
-        memset(&dcb,0,sizeof(dcb));
-
-        /* -------------------------------------------------------------------- */
-        // set DCB to configure the serial port
-        dcb.DCBlength       = sizeof(dcb);
-
-        /* ---------- Serial Port Config ------- */
-        dcb.BaudRate        = rate;
-
-        switch(parityMode)
-        {
-            case spNONE:
-                            dcb.Parity      = NOPARITY;
-                            dcb.fParity     = 0;
-                            break;
-            case spEVEN:
-                            dcb.Parity      = EVENPARITY;
-                            dcb.fParity     = 1;
-                            break;
-            case spODD:
-                            dcb.Parity      = ODDPARITY;
-                            dcb.fParity     = 1;
-                            break;
-        }
-
-
-        dcb.StopBits        = ONESTOPBIT;
-        dcb.ByteSize        = 8;
-
-        dcb.fOutxCtsFlow    = 0;
-        dcb.fOutxDsrFlow    = 0;
-        dcb.fDtrControl     = DTR_CONTROL_HANDSHAKE;
-        dcb.fDsrSensitivity = 0;
-        dcb.fRtsControl     = RTS_CONTROL_DISABLE;
-        dcb.fOutX           = 0;
-        dcb.fInX            = 0;
-
-        /* ----------------- misc parameters ----- */
-        dcb.fErrorChar      = 0;
-        dcb.fBinary         = 1;
-        dcb.fNull           = 0;
-        dcb.fAbortOnError   = 0;
-        dcb.wReserved       = 0;
-        dcb.XonLim          = 2;
-        dcb.XoffLim         = 4;
-        dcb.XonChar         = 0x13;
-        dcb.XoffChar        = 0x19;
-        dcb.EvtChar         = 0;
-
-        /* -------------------------------------------------------------------- */
-        serial_handle    = CreateFile(port, GENERIC_READ | GENERIC_WRITE,
-                               0, NULL,
-							    OPEN_EXISTING,
-								0, // was null
-								NULL);
-                   // opening serial port
-
-
-        if (serial_handle    != INVALID_HANDLE_VALUE)
-        {
-            if(!SetCommMask(serial_handle, 0))
-                erreur = 1;
-
-            // set timeouts
-            if(!SetCommTimeouts(serial_handle,&cto))
-                erreur = 2;
-
-            // set DCB
-            if(!SetCommState(serial_handle,&dcb))
-                erreur = 4;
-        }
-        else
-            erreur = 8;
+    case spNONE:
+     dcb.Parity      = NOPARITY;
+     dcb.fParity     = 0;
+     break;
+    case spEVEN:
+     dcb.Parity      = EVENPARITY;
+     dcb.fParity     = 1;
+     break;
+    case spODD:
+     dcb.Parity      = ODDPARITY;
+     dcb.fParity     = 1;
+     break;
     }
-    else
-        erreur = 16;
 
 
-    /* --------------------------------------------- */
-    if (erreur!=0)
+   dcb.StopBits        = ONESTOPBIT;
+   dcb.ByteSize        = 8;
+
+   dcb.fOutxCtsFlow    = 0;
+   dcb.fOutxDsrFlow    = 0;
+   dcb.fDtrControl     = DTR_CONTROL_HANDSHAKE;
+   dcb.fDsrSensitivity = 0;
+   dcb.fRtsControl     = RTS_CONTROL_DISABLE;
+   dcb.fOutX           = 0;
+   dcb.fInX            = 0;
+
+   /* ----------------- misc parameters ----- */
+   dcb.fErrorChar      = 0;
+   dcb.fBinary         = 1;
+   dcb.fNull           = 0;
+   dcb.fAbortOnError   = 0;
+   dcb.wReserved       = 0;
+   dcb.XonLim          = 2;
+   dcb.XoffLim         = 4;
+   dcb.XonChar         = 0x13;
+   dcb.XoffChar        = 0x19;
+   dcb.EvtChar         = 0;
+
+   /* -------------------------------------------------------------------- */
+   serial_handle    = CreateFileA(port, GENERIC_READ | GENERIC_WRITE,
+                                  0,             // No Sharing
+                                  NULL,          // No Security
+                                  OPEN_EXISTING, // Open existing port only
+                                  0,             // Non Overlapped I/O
+                                  NULL           // Null for Comm Devices
+                                  );
+   // opening serial port
+
+
+   if (serial_handle != INVALID_HANDLE_VALUE)
     {
-        CloseHandle(serial_handle);
-        serial_handle = INVALID_HANDLE_VALUE;
+     if(!SetCommMask(serial_handle, 0))
+      erreur = 1;
+
+     // set timeouts
+     if(!SetCommTimeouts(serial_handle,&cto))
+      erreur = 2;
+
+     // set DCB
+     if(!SetCommState(serial_handle,&dcb))
+      erreur = 4;
     }
-    return(erreur);
+   else
+    erreur = 8;
+  }
+ else
+  erreur = 16;
+
+
+ /* --------------------------------------------- */
+ if (erreur!=0)
+  {
+   CloseHandle(serial_handle);
+   serial_handle = INVALID_HANDLE_VALUE;
+  }
+ return(erreur);
 }
 
 
@@ -186,7 +191,7 @@ int  Tserial::connect          (char *port_arg, int rate_arg, serial_parity pari
 /* -------------------------------------------------------------------- */
 void Tserial::sendChar(char data)
 {
-    sendArray(&data, 1);
+ sendArray(&data, 1);
 }
 
 /* -------------------------------------------------------------------- */
@@ -194,10 +199,10 @@ void Tserial::sendChar(char data)
 /* -------------------------------------------------------------------- */
 void Tserial::sendArray(char *buffer, int len)
 {
-    unsigned long result;
+ unsigned long result;
 
-    if (serial_handle!=INVALID_HANDLE_VALUE)
-        WriteFile(serial_handle, buffer, len, &result, NULL);
+ if (serial_handle!=INVALID_HANDLE_VALUE)
+  WriteFile(serial_handle, buffer, len, &result, NULL);
 }
 
 /* -------------------------------------------------------------------- */
@@ -205,9 +210,9 @@ void Tserial::sendArray(char *buffer, int len)
 /* -------------------------------------------------------------------- */
 char Tserial::getChar(void)
 {
-    char c;
-    getArray(&c, 1);
-    return(c);
+ char c;
+ getArray(&c, 1);
+ return(c);
 }
 
 /* -------------------------------------------------------------------- */
@@ -215,58 +220,58 @@ char Tserial::getChar(void)
 /* -------------------------------------------------------------------- */
 int  Tserial::getArray         (char *buffer, int len)
 {
-    unsigned long read_nbr;
+ unsigned long read_nbr;
 
-    read_nbr = 0;
-    if (serial_handle!=INVALID_HANDLE_VALUE)
-    {
-        ReadFile(serial_handle, buffer, len, &read_nbr, NULL);
-    }
-    return((int) read_nbr);
+ read_nbr = 0;
+ if (serial_handle!=INVALID_HANDLE_VALUE)
+  {
+   ReadFile(serial_handle, buffer, len, &read_nbr, NULL);
+  }
+ return((int) read_nbr);
 }
 /* -------------------------------------------------------------------- */
 /* --------------------------    getNbrOfBytes ------------------------ */
 /* -------------------------------------------------------------------- */
 int Tserial::getNbrOfBytes    (void)
 {
-    struct _COMSTAT status;
-    int             n;
-    unsigned long   etat;
+ struct _COMSTAT status;
+ int             n;
+ unsigned long   etat;
 
-    n = 0;
+ n = 0;
 
-    if (serial_handle!=INVALID_HANDLE_VALUE)
-    {
-        ClearCommError(serial_handle, &etat, &status);
-        n = status.cbInQue;
-    }
+ if (serial_handle!=INVALID_HANDLE_VALUE)
+  {
+   ClearCommError(serial_handle, &etat, &status);
+   n = status.cbInQue;
+  }
 
 
-    return(n);
+ return(n);
 }
 
-    //////////// ADDS FOR XMODEM SUPPORT //////////////// Ingwie
+//////////// ADDS FOR XMODEM SUPPORT //////////////// Ingwie
 uint8_t Tserial::available()
 {
-    return (uint8_t)getNbrOfBytes();
+ return (uint8_t)getNbrOfBytes();
 }
 
 char Tserial::read()
 {
-    return getChar();
+ return getChar();
 }
 
 uint16_t Tserial::write(char c)
 {
-    sendChar(c);
-    return 1;
+ sendChar(c);
+ return 1;
 }
 
 uint16_t Tserial::write(const uint8_t * buffer, uint16_t len)
 {
-    unsigned long result;
+ unsigned long result;
 
-    if (serial_handle!=INVALID_HANDLE_VALUE)
-        WriteFile(serial_handle, (const char *)buffer, (int)len, &result, NULL);
-    return (uint16_t)result;
+ if (serial_handle!=INVALID_HANDLE_VALUE)
+  WriteFile(serial_handle, (const char *)buffer, (int)len, &result, NULL);
+ return (uint16_t)result;
 }
