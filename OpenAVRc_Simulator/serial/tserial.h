@@ -28,6 +28,8 @@
 -- ------------------------------------------------------------------------ */
 
 
+// Driver modified by Ingwie for OpenAVRc (c) to handle COM ports upper to 9 E.G: COM124, COM10
+// use "new" definission "\\\\.\\COMXXX"
 
 
 /* ---------------------------------------------------------------------- */
@@ -38,7 +40,7 @@
 #include <windows.h>
 
 
-enum serial_parity  { spNONE,    spODD, spEVEN };
+enum serial_parity {spNONE, spODD, spEVEN};
 
 
 /* -------------------------------------------------------------------- */
@@ -46,27 +48,34 @@ enum serial_parity  { spNONE,    spODD, spEVEN };
 /* -------------------------------------------------------------------- */
 class Tserial
 {
-    // -------------------------------------------------------- //
+ // -------------------------------------------------------- //
 protected:
-    char              port[10];                      // port name "com1",...
-    int               rate;                          // baudrate
-    serial_parity     parityMode;
-    HANDLE            serial_handle;                 // ...
+ char              port[12];                      // port name "com1",...
+ int               rate;                          // baudrate
+ serial_parity     parityMode;
+ HANDLE            serial_handle;                 // ...
 
-    // ++++++++++++++++++++++++++++++++++++++++++++++
-    // .................. EXTERNAL VIEW .............
-    // ++++++++++++++++++++++++++++++++++++++++++++++
+ // ++++++++++++++++++++++++++++++++++++++++++++++
+ // .................. EXTERNAL VIEW .............
+ // ++++++++++++++++++++++++++++++++++++++++++++++
 public:
-                  Tserial();
-                 ~Tserial();
-    int           connect          (char *port_arg, int rate_arg,
-                                    serial_parity parity_arg);
-    void          sendChar         (char c);
-    void          sendArray        (char *buffer, int len);
-    char          getChar          (void);
-    int           getArray         (char *buffer, int len);
-    int           getNbrOfBytes    (void);
-    void          disconnect       (void);
+ Tserial();
+ ~Tserial();
+ int           connect          (char *port_arg, int rate_arg,
+                                 serial_parity parity_arg);
+ void          sendChar         (char c);
+ void          sendArray        (char *buffer, int len);
+ char          getChar          (void);
+ int           getArray         (char *buffer, int len);
+ int           getNbrOfBytes    (void);
+ void          disconnect       (void);
+
+
+ //////////// ADDS FOR XMODEM SUPPORT //////////////// Ingwie
+ uint8_t available();
+ char read();
+ uint16_t write(char c);
+ uint16_t write(const uint8_t * buffer, uint16_t len);
 };
 /* -------------------------------------------------------------------- */
 

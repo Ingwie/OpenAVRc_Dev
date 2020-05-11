@@ -3350,7 +3350,7 @@ wxString int2wxString(int integer)
 void ConnectTelemCom(wxString name)
 {
   int error;
-  char comMame[20];
+  char comMame[10] = {0};
   strncpy(comMame, (const char*)name.mb_str(wxConvUTF8), name.Len());
   assert(TeleComPort);
   //TeleComPort->disconnect();
