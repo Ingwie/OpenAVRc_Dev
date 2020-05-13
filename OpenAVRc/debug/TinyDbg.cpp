@@ -697,11 +697,11 @@ static void displayWatchVariable(char *tmpbuf)
       {
         case TDBG_VAR_INT8:
         Byte = *(uint8_t*)Address;
-        DispLen = TDBG_FIRST_VAL_COL_POS + TinyDbg_Printf(PSTR("%d "), (int16_t)Byte);
+        DispLen = TDBG_FIRST_VAL_COL_POS + TinyDbg_Printf(PSTR("%d "), (int16_t)((int8_t)Byte));
         if(DispLen < TDBG_SECOND_VAL_COL_POS) displaySpace(TDBG_SECOND_VAL_COL_POS - DispLen);
         DispLen = TDBG_SECOND_VAL_COL_POS + TinyDbg_Printf(PSTR("0x%02x"), (uint16_t)((*(int8_t*)Address)& 0x00FF));
         if(DispLen < TDBG_THIRD_VAL_COL_POS) displaySpace(TDBG_THIRD_VAL_COL_POS - DispLen);
-        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), Byte >= ' '? Byte: '.');
+        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), (int8_t)Byte >= ' '? Byte: '.');
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
         Tdbg.stream->print(F("0b"));
         printByteBin(Tdbg.stream, (uint8_t)Byte);
