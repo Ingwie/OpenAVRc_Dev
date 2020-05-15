@@ -40,7 +40,7 @@
 
 #define START_TIMOUT() \
  timout = true;        \
- TimerRX.StartOnce(100);
+ TimerRX.StartOnce(350);
 
 #define IS_SD_DIR(x)       \
  ((x.StartsWith("[")) && (x.EndsWith("]"))) // x is a wxString
@@ -440,7 +440,7 @@ void BluetoothFrame::SdToSdCpy(wxString dest, wxString file)
 //wxMessageBox(BTanwser);
    Gauge->SetValue(0);
    Gauge->SetRange(100);
-   Sleep(100);
+   Sleep(200);
    Populate_SD();
   }
 }
@@ -461,14 +461,14 @@ void BluetoothFrame::HddToSdCpy(wxString dest, wxString file)
 //wxMessageBox(uCliCommand);
    wxString BTanwser = "";
    wxString retVal = sendCmdAndWaitForResp(uCliCommand, &BTanwser);
-   Sleep(100);
+   Sleep(200);
    Set_BluetoothFrame_Gauge_Pointer(Gauge);
    int ret = XSend(BTComPort, file.c_str());
    if (retVal == "-8") wxMessageBox(_("Le fichier existe déjà"));
    if (ret) wxMessageBox(wxString::Format(wxT("%i"),ret));
    Gauge->SetValue(0);
    Gauge->SetRange(100);
-   Sleep(100);
+   Sleep(200);
    Populate_SD();
   }
 }
@@ -487,7 +487,7 @@ void BluetoothFrame::SDToHddCpy(wxString dest, wxString file)
 //wxMessageBox(uCliCommand);
    wxString BTanwser = "";
    wxString retVal = sendCmdAndWaitForResp(uCliCommand, &BTanwser);
-   Sleep(100);
+   Sleep(200);
    if (wxDirExists(dest)) // this is a dir ?
     {
      dest += "\\";
@@ -586,7 +586,7 @@ void BluetoothFrame::SdDeleteFile(wxString file)
    wxString retVal = sendCmdAndWaitForResp("rm SD" + file, &BTanwser);
    //wxMessageBox(BTanwser);
    //wxMessageBox(retVal);
-   Sleep(100);
+   Sleep(200);
    Populate_SD();
   }
 }
