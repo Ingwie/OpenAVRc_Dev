@@ -37,11 +37,11 @@
 #include "uCli.h"
 #include "misclib.h"
 
-#define BT_POWER_ON_OFF_MS         50
-#define BT_WAKE_UP_MS              600
-#define BT_AT_WAKE_UP_MS           100
-#define BT_GET_TIMEOUT_MS          80
-#define BT_SET_TIMEOUT_MS          120
+#define BT_POWER_ON_OFF_MS         400
+#define BT_WAKE_UP_MS              800
+#define BT_AT_WAKE_UP_MS           200
+#define BT_GET_TIMEOUT_MS          500
+#define BT_SET_TIMEOUT_MS          800
 #define BT_SCANN_TIMEOUT_MS        10000
 #define BT_READ_RNAME_TIMEOUT_MS   8000
 
