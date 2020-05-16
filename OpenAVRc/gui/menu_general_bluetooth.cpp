@@ -58,7 +58,7 @@ void loadDataFromModule()
   {
    ReBuff.bluetooth.firstMenuRun = 0;
    BT_Wait_Screen();
-   rebootBT();// EN is ON
+   bluetooth_AtCmdMode(ON);
 
    IF_NO_ERROR(bluetooth_getName(ReBuff.bluetooth.name_str, sizeof(ReBuff.bluetooth.name_str), BT_GET_TIMEOUT_MS))
    {
@@ -72,7 +72,7 @@ void loadDataFromModule()
       {
        IF_NO_ERROR(bluetooth_getRemoteName(g_eeGeneral.BT.Peer.Mac, ReBuff.bluetooth.peer_name_str, sizeof(ReBuff.bluetooth.peer_name_str), BT_READ_RNAME_TIMEOUT_MS));
        {
-        //success
+        //success -> Remote is present !
         break;
        }
       }

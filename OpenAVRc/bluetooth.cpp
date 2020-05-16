@@ -173,7 +173,6 @@ DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
  */
 void bluetooth_init()
 {
-#define FINAL_RATE 0
  uint32_t RateTbl[] = {115200, 57600, 38400, 19200, 9600};
  uint8_t  Idx;
  char     UartAtCmd[30];
@@ -194,12 +193,12 @@ void bluetooth_init()
      Serial1.init(RateTbl[Idx]);
      uCliFlushRx();
      Serial1.println(F("AT"));
-     if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, BT_SET_TIMEOUT_MS*4)) >= 0)
+     if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, BT_SET_TIMEOUT_MS*4)) >= 0) // V3 HC05 need 2 second to anwser to the first AT !!
       {
        /* OK Uart serial rate found */
        if(Idx)
         {
-         sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0"), RateTbl[FINAL_RATE]);
+         sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0"), RateTbl[0]);
          Serial1.println(UartAtCmd);
          if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, BT_SET_TIMEOUT_MS*4)) >= 0)
           {
@@ -215,7 +214,7 @@ void bluetooth_init()
       }
     }
    /* Switch Serial to Rate = 115200 */
-   Serial1.init(RateTbl[FINAL_RATE]);
+   Serial1.init(RateTbl[0]);
    BT_SEND_AT_SEQ(AtCmdBtInit); // Common to Master and Slave
    if(g_eeGeneral.BT.Master)
     {
