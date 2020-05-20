@@ -12,98 +12,98 @@
 			<style>0</style>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="output1" member="yes">
 				<value>Texte</value>
-				<pos>208,10</pos>
-				<size>56,16</size>
+				<pos>216,10</pos>
+				<size>48,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL2" variable="output2" member="yes">
 				<value>Texte</value>
-				<pos>208,26</pos>
-				<size>56,16</size>
+				<pos>216,26</pos>
+				<size>48,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL3" variable="output3" member="yes">
 				<value>Texte</value>
-				<pos>208,42</pos>
-				<size>56,16</size>
+				<pos>216,42</pos>
+				<size>48,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL4" variable="output4" member="yes">
 				<value>Texte</value>
-				<pos>208,58</pos>
-				<size>56,16</size>
+				<pos>216,58</pos>
+				<size>48,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL5" variable="output5" member="yes">
 				<value>Texte</value>
-				<pos>208,74</pos>
-				<size>56,16</size>
+				<pos>216,74</pos>
+				<size>48,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL6" variable="output6" member="yes">
 				<value>Texte</value>
-				<pos>208,90</pos>
-				<size>56,16</size>
+				<pos>216,90</pos>
+				<size>48,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL7" variable="output7" member="yes">
 				<value>Texte</value>
-				<pos>208,106</pos>
-				<size>56,16</size>
+				<pos>216,106</pos>
+				<size>48,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL8" variable="output8" member="yes">
 				<value>Texte</value>
-				<pos>208,122</pos>
-				<size>56,16</size>
+				<pos>216,122</pos>
+				<size>48,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL9" variable="output9" member="yes">
 				<value>Texte</value>
-				<pos>208,138</pos>
-				<size>56,16</size>
+				<pos>216,138</pos>
+				<size>48,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL10" variable="output10" member="yes">
 				<value>Texte</value>
-				<pos>208,154</pos>
-				<size>56,16</size>
+				<pos>216,154</pos>
+				<size>48,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL11" variable="output11" member="yes">
 				<value>Texte</value>
-				<pos>208,170</pos>
-				<size>56,16</size>
+				<pos>216,170</pos>
+				<size>48,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL12" variable="output12" member="yes">
 				<value>Texte</value>
-				<pos>208,186</pos>
-				<size>56,16</size>
+				<pos>216,186</pos>
+				<size>48,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL13" variable="output13" member="yes">
 				<value>Texte</value>
-				<pos>208,202</pos>
-				<size>56,16</size>
+				<pos>216,202</pos>
+				<size>48,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL14" variable="output14" member="yes">
 				<value>Texte</value>
-				<pos>208,218</pos>
-				<size>56,16</size>
+				<pos>216,218</pos>
+				<size>48,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL15" variable="output15" member="yes">
 				<value>Texte</value>
-				<pos>208,234</pos>
-				<size>56,16</size>
+				<pos>216,234</pos>
+				<size>48,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL16" variable="output16" member="yes">
 				<value>Texte</value>
-				<pos>208,250</pos>
-				<size>56,16</size>
+				<pos>216,250</pos>
+				<size>48,16</size>
 				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
