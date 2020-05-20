@@ -3,178 +3,188 @@
 	<object class="wxFrame" name="OutBarsFrame">
 		<title>État des sorties.</title>
 		<pos>40,40</pos>
-		<size>270,296</size>
+		<size>274,288</size>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANELOUTPUTSLIDEERS" variable="PanelOutputSliders" member="yes">
-			<size>263,312</size>
+			<size>272,296</size>
 			<style>0</style>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="output1" member="yes">
 				<value>Texte</value>
-				<pos>216,10</pos>
+				<pos>208,10</pos>
 				<size>56,16</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL2" variable="output2" member="yes">
 				<value>Texte</value>
-				<pos>216,26</pos>
+				<pos>208,26</pos>
 				<size>56,16</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL3" variable="output3" member="yes">
 				<value>Texte</value>
-				<pos>216,42</pos>
+				<pos>208,42</pos>
 				<size>56,16</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL4" variable="output4" member="yes">
 				<value>Texte</value>
-				<pos>216,58</pos>
+				<pos>208,58</pos>
 				<size>56,16</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL5" variable="output5" member="yes">
 				<value>Texte</value>
-				<pos>216,74</pos>
+				<pos>208,74</pos>
 				<size>56,16</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL6" variable="output6" member="yes">
 				<value>Texte</value>
-				<pos>216,90</pos>
+				<pos>208,90</pos>
 				<size>56,16</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL7" variable="output7" member="yes">
 				<value>Texte</value>
-				<pos>216,106</pos>
+				<pos>208,106</pos>
 				<size>56,16</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL8" variable="output8" member="yes">
 				<value>Texte</value>
-				<pos>216,122</pos>
+				<pos>208,122</pos>
 				<size>56,16</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL9" variable="output9" member="yes">
 				<value>Texte</value>
-				<pos>216,138</pos>
+				<pos>208,138</pos>
 				<size>56,16</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL10" variable="output10" member="yes">
 				<value>Texte</value>
-				<pos>216,154</pos>
+				<pos>208,154</pos>
 				<size>56,16</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL11" variable="output11" member="yes">
 				<value>Texte</value>
-				<pos>216,170</pos>
+				<pos>208,170</pos>
 				<size>56,16</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL12" variable="output12" member="yes">
 				<value>Texte</value>
-				<pos>216,186</pos>
+				<pos>208,186</pos>
 				<size>56,16</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL13" variable="output13" member="yes">
 				<value>Texte</value>
-				<pos>216,202</pos>
+				<pos>208,202</pos>
 				<size>56,16</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL14" variable="output14" member="yes">
 				<value>Texte</value>
-				<pos>216,218</pos>
+				<pos>208,218</pos>
 				<size>56,16</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL15" variable="output15" member="yes">
 				<value>Texte</value>
-				<pos>216,234</pos>
+				<pos>208,234</pos>
 				<size>56,16</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL16" variable="output16" member="yes">
 				<value>Texte</value>
-				<pos>216,250</pos>
+				<pos>208,250</pos>
 				<size>56,16</size>
-				<style>wxTE_READONLY|wxTE_RICH|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+				<style>wxTE_READONLY|wxTE_RICH|wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 				<label>Ch1</label>
-				<pos>14,13</pos>
-				<size>32,16</size>
+				<pos>8,13</pos>
+				<size>40,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
 				<label>Ch2</label>
-				<pos>14,29</pos>
-				<size>32,16</size>
+				<pos>8,29</pos>
+				<size>40,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
 				<label>Ch3</label>
-				<pos>14,45</pos>
-				<size>32,16</size>
+				<pos>8,45</pos>
+				<size>40,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText4" member="yes">
 				<label>Ch4</label>
-				<pos>14,61</pos>
-				<size>32,16</size>
+				<pos>8,61</pos>
+				<size>40,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
 				<label>Ch5</label>
-				<pos>14,77</pos>
-				<size>32,16</size>
+				<pos>8,77</pos>
+				<size>40,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText6" member="yes">
 				<label>Ch6</label>
-				<pos>14,93</pos>
-				<size>32,16</size>
+				<pos>8,93</pos>
+				<size>40,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT7" variable="StaticText7" member="yes">
 				<label>Ch7</label>
-				<pos>14,109</pos>
+				<pos>8,109</pos>
+				<size>40,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText8" member="yes">
 				<label>Ch8</label>
-				<pos>14,125</pos>
+				<pos>8,125</pos>
+				<size>40,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT9" variable="StaticText9" member="yes">
 				<label>Ch9</label>
-				<pos>14,141</pos>
+				<pos>8,141</pos>
+				<size>40,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT10" variable="StaticText10" member="yes">
 				<label>Ch10</label>
-				<pos>14,157</pos>
+				<pos>8,157</pos>
+				<size>40,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT11" variable="StaticText11" member="yes">
 				<label>Ch11</label>
-				<pos>14,173</pos>
+				<pos>8,173</pos>
+				<size>40,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT12" variable="StaticText12" member="yes">
 				<label>Ch12</label>
-				<pos>14,189</pos>
+				<pos>8,189</pos>
+				<size>40,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT13" variable="StaticText13" member="yes">
 				<label>Ch13</label>
-				<pos>14,205</pos>
+				<pos>8,205</pos>
+				<size>40,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT14" variable="StaticText14" member="yes">
 				<label>Ch14</label>
-				<pos>14,221</pos>
+				<pos>8,221</pos>
+				<size>40,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT15" variable="StaticText15" member="yes">
 				<label>Ch15</label>
-				<pos>14,237</pos>
+				<pos>8,237</pos>
+				<size>40,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT16" variable="StaticText16" member="yes">
 				<label>Ch16</label>
-				<pos>14,253</pos>
+				<pos>8,253</pos>
+				<size>40,16</size>
 			</object>
 			<object class="wxSlider" name="ID_SLIDER1" variable="Slider1" member="yes">
 				<min>-115</min>
