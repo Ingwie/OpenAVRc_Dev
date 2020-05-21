@@ -2,7 +2,7 @@
 <wxsmith>
 	<object class="wxFrame" name="TelemetryFrame">
 		<title>Télémétrie</title>
-		<size>1152,239</size>
+		<size>1208,240</size>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
@@ -12,23 +12,23 @@
 			<object class="wxStaticBox" name="ID_STATICBOX10" variable="StaticBox10" member="yes">
 				<label>Analog</label>
 				<pos>8,168</pos>
-				<size>256,64</size>
+				<size>280,64</size>
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX14" variable="StaticBox14" member="yes">
 				<label>Réglages</label>
-				<pos>728,104</pos>
-				<size>416,128</size>
+				<pos>808,104</pos>
+				<size>392,128</size>
 				<style>wxWANTS_CHARS</style>
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX13" variable="StaticBox13" member="yes">
 				<label>Batterie</label>
 				<pos>560,104</pos>
-				<size>168,128</size>
+				<size>240,128</size>
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX11" variable="StaticBox11" member="yes">
 				<label>Variateur</label>
 				<pos>136,104</pos>
-				<size>128,64</size>
+				<size>152,64</size>
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX9" variable="StaticBox9" member="yes">
 				<label>RSSI</label>
@@ -37,7 +37,8 @@
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT23" variable="StaticText23" member="yes">
 				<label>X10</label>
-				<pos>185,128</pos>
+				<pos>192,128</pos>
+				<size>16,8</size>
 				<font>
 					<size>5</size>
 					<style>normal</style>
@@ -46,22 +47,23 @@
 					<family>swiss</family>
 					<face>Arial</face>
 				</font>
+				<style>wxALIGN_RIGHT</style>
 			</object>
 			<object class="wxStaticBox" name="ID_GPSBOX" variable="gpsbox" member="yes">
 				<label>GPS</label>
 				<pos>8,8</pos>
-				<size>744,96</size>
+				<size>800,96</size>
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBox2" member="yes">
 				<label>Latitude</label>
 				<pos>16,24</pos>
-				<size>168,72</size>
+				<size>176,72</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL5" variable="GPSLatMinute" member="yes">
 				<value>0</value>
 				<max>99999</max>
 				<pos>80,64</pos>
-				<size>80,21</size>
+				<size>106,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL6" variable="GPSLatDegres" member="yes">
@@ -69,23 +71,23 @@
 				<min>-90</min>
 				<max>90</max>
 				<pos>24,64</pos>
-				<size>48,21</size>
+				<size>50,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
 				<label>Longitude</label>
-				<pos>192,24</pos>
+				<pos>200,24</pos>
 				<size>176,72</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText4" member="yes">
 				<label>Degrés</label>
 				<pos>24,40</pos>
-				<size>37,13</size>
+				<size>48,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 				<label>Degrés</label>
 				<pos>208,40</pos>
-				<size>37,13</size>
+				<size>48,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
 				<label>Minutes - Secondes</label>
@@ -94,321 +96,336 @@
 			<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
 				<label>Minutes - Secondes</label>
 				<pos>264,40</pos>
+				<size>104,16</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL1" variable="GPSLongDEgres" member="yes">
 				<value>0</value>
 				<min>-180</min>
 				<max>180</max>
 				<pos>208,64</pos>
-				<size>48,21</size>
+				<size>50,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL2" variable="GPSLongMinute" member="yes">
 				<value>0</value>
 				<max>99999</max>
 				<pos>264,64</pos>
-				<size>80,21</size>
+				<size>106,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX3" variable="StaticBox3" member="yes">
 				<label>Altitude</label>
-				<pos>376,32</pos>
-				<size>88,64</size>
+				<pos>384,32</pos>
+				<size>112,64</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL7" variable="GPSAltitude" member="yes">
 				<value>0</value>
 				<min>-1000</min>
 				<max>10000</max>
-				<pos>384,64</pos>
-				<size>72,21</size>
+				<pos>392,64</pos>
+				<size>98,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX4" variable="StaticBox4" member="yes">
 				<label>Vitesse (m/s)</label>
-				<pos>472,32</pos>
-				<size>72,64</size>
+				<pos>504,32</pos>
+				<size>96,64</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL8" variable="GPSSpeed" member="yes">
 				<value>0</value>
 				<max>3000</max>
-				<pos>480,64</pos>
-				<size>56,21</size>
+				<pos>512,64</pos>
+				<size>82,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX5" variable="StaticBox5" member="yes">
 				<label>Cap</label>
-				<pos>552,32</pos>
-				<size>80,64</size>
+				<pos>608,32</pos>
+				<size>88,64</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL9" variable="GPSCourse" member="yes">
 				<value>0</value>
 				<max>36000</max>
-				<pos>560,64</pos>
-				<size>72,21</size>
+				<pos>616,64</pos>
+				<size>74,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX6" variable="StaticBox6" member="yes">
 				<label>Date - Heure</label>
-				<pos>640,24</pos>
+				<pos>704,24</pos>
 				<size>96,72</size>
 			</object>
 			<object class="wxDatePickerCtrl" name="ID_DATEPICKERCTRL1" variable="GPSDate" member="yes">
-				<pos>648,48</pos>
+				<pos>712,40</pos>
 				<size>80,21</size>
 				<handler function="OnGPSDateTimeChanged" entry="EVT_DATE_CHANGED" />
 			</object>
 			<object class="wxTimePickerCtrl" name="ID_TIMEPICKERCTRL1" variable="GPSTime" member="yes">
-				<pos>648,72</pos>
+				<pos>712,64</pos>
 				<size>80,21</size>
 				<handler function="OnGPSDateTimeChanged" entry="EVT_DATE_CHANGED" />
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX7" variable="StaticBox7" member="yes">
 				<label>Accéléromètres</label>
-				<pos>760,8</pos>
-				<size>184,96</size>
+				<pos>816,8</pos>
+				<size>176,96</size>
 			</object>
 			<object class="wxSlider" name="ID_SLIDER1" variable="AcclX" member="yes">
 				<min>-300</min>
 				<max>300</max>
-				<pos>792,32</pos>
+				<pos>840,32</pos>
 				<size>144,20</size>
 				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER2" variable="AcclY" member="yes">
 				<min>-300</min>
 				<max>300</max>
-				<pos>792,56</pos>
+				<pos>840,56</pos>
 				<size>144,20</size>
 				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER3" variable="AcclZ" member="yes">
 				<min>-300</min>
 				<max>300</max>
-				<pos>792,80</pos>
+				<pos>840,80</pos>
 				<size>144,20</size>
 				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
 				<label>X</label>
-				<pos>776,32</pos>
+				<pos>824,32</pos>
+				<size>16,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText6" member="yes">
 				<label>Y</label>
-				<pos>776,56</pos>
+				<pos>824,56</pos>
 				<size>16,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT7" variable="StaticText7" member="yes">
 				<label>Z</label>
-				<pos>776,80</pos>
-				<size>16,13</size>
+				<pos>824,80</pos>
+				<size>16,16</size>
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX8" variable="StaticBox8" member="yes">
 				<label>Variomètre</label>
-				<pos>952,8</pos>
-				<size>192,96</size>
+				<pos>1000,8</pos>
+				<size>200,96</size>
 			</object>
 			<object class="wxSlider" name="ID_SLIDER5" variable="VarioAlt" member="yes">
 				<min>-50</min>
 				<max>2000</max>
-				<pos>960,40</pos>
-				<size>176,20</size>
+				<pos>1008,40</pos>
+				<size>184,20</size>
 				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER4" variable="VarioHSpeed" member="yes">
 				<min>-200</min>
 				<max>200</max>
-				<pos>960,80</pos>
-				<size>176,20</size>
+				<pos>1008,80</pos>
+				<size>184,20</size>
 				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText8" member="yes">
 				<label>Altitude</label>
-				<pos>976,24</pos>
+				<pos>1016,24</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT9" variable="StaticText9" member="yes">
 				<label>Vitesse Verticale</label>
-				<pos>976,64</pos>
+				<pos>1016,64</pos>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL4" variable="RSSITx" member="yes">
 				<value>0</value>
 				<pos>16,136</pos>
-				<size>48,21</size>
+				<size>50,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL3" variable="RSSIRx" member="yes">
 				<value>0</value>
 				<pos>72,136</pos>
-				<size>48,21</size>
+				<size>50,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT11" variable="StaticText11" member="yes">
 				<label>TX</label>
-				<pos>24,120</pos>
+				<pos>16,120</pos>
+				<size>48,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT10" variable="StaticText10" member="yes">
 				<label>RX</label>
-				<pos>80,120</pos>
+				<pos>72,120</pos>
+				<size>48,16</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL11" variable="Analog1" member="yes">
 				<value>0</value>
 				<max>255</max>
 				<pos>16,200</pos>
-				<size>48,21</size>
+				<size>50,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL10" variable="Analog2" member="yes">
 				<value>0</value>
 				<max>255</max>
-				<pos>72,200</pos>
-				<size>48,21</size>
+				<pos>88,200</pos>
+				<size>50,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT13" variable="StaticText13" member="yes">
 				<label>A1</label>
-				<pos>24,184</pos>
+				<pos>16,184</pos>
+				<size>48,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT12" variable="StaticText12" member="yes">
 				<label>A2</label>
-				<pos>80,184</pos>
+				<pos>88,184</pos>
+				<size>48,16</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL13" variable="BattVolts" member="yes">
 				<value>0</value>
 				<max>900</max>
 				<pos>144,136</pos>
-				<size>48,21</size>
+				<size>66,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL12" variable="BattAmp" member="yes">
 				<value>0</value>
 				<max>2000</max>
-				<pos>200,136</pos>
-				<size>56,21</size>
+				<pos>216,136</pos>
+				<size>66,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT14" variable="StaticText14" member="yes">
 				<label>Tension</label>
 				<pos>144,120</pos>
+				<size>48,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT15" variable="StaticText15" member="yes">
 				<label>Courant</label>
-				<pos>208,120</pos>
+				<pos>216,120</pos>
+				<size>48,16</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL14" variable="Analog3" member="yes">
 				<value>0</value>
 				<max>255</max>
-				<pos>136,200</pos>
-				<size>48,21</size>
+				<pos>160,200</pos>
+				<size>50,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL15" variable="Analog4" member="yes">
 				<value>0</value>
 				<max>255</max>
-				<pos>192,200</pos>
-				<size>48,21</size>
+				<pos>232,200</pos>
+				<size>50,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT16" variable="StaticText16" member="yes">
 				<label>A3</label>
-				<pos>144,184</pos>
+				<pos>160,184</pos>
+				<size>48,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT17" variable="StaticText17" member="yes">
 				<label>A4</label>
-				<pos>200,184</pos>
+				<pos>232,184</pos>
+				<size>48,16</size>
 			</object>
 			<object class="wxStaticBox" name="ID_STATICBOX12" variable="StaticBox12" member="yes">
 				<label>Autres</label>
-				<pos>264,104</pos>
-				<size>296,128</size>
+				<pos>296,104</pos>
+				<size>256,128</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL16" variable="RPM" member="yes">
 				<value>0</value>
 				<max>10000</max>
-				<pos>280,136</pos>
-				<size>64,21</size>
+				<pos>304,136</pos>
+				<size>66,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL17" variable="FUEL" member="yes">
 				<value>0</value>
 				<max>1000</max>
-				<pos>352,136</pos>
-				<size>48,21</size>
+				<pos>376,136</pos>
+				<size>66,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL18" variable="Temp1" member="yes">
 				<value>0</value>
 				<max>1000</max>
-				<pos>280,192</pos>
-				<size>56,21</size>
+				<pos>304,200</pos>
+				<size>66,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL19" variable="Temp2" member="yes">
 				<value>0</value>
 				<max>1000</max>
-				<pos>344,192</pos>
-				<size>56,21</size>
+				<pos>376,200</pos>
+				<size>66,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT18" variable="StaticText18" member="yes">
 				<label>RPM</label>
-				<pos>296,120</pos>
+				<pos>304,120</pos>
+				<size>64,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT19" variable="StaticText19" member="yes">
 				<label>FUEL</label>
-				<pos>360,120</pos>
+				<pos>376,120</pos>
+				<size>48,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT20" variable="StaticText20" member="yes">
 				<label>Temp1</label>
-				<pos>280,176</pos>
+				<pos>304,184</pos>
+				<size>48,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT21" variable="StaticText21" member="yes">
 				<label>Temp2</label>
-				<pos>344,176</pos>
+				<pos>376,184</pos>
+				<size>48,16</size>
 			</object>
 			<object class="wxSlider" name="ID_SLIDER9" variable="Cell1" member="yes">
 				<max>500</max>
-				<pos>576,118</pos>
-				<size>20,112</size>
+				<pos>568,120</pos>
+				<size>20,104</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
 				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER11" variable="Cell6" member="yes">
 				<max>500</max>
-				<pos>696,118</pos>
-				<size>20,112</size>
+				<pos>768,120</pos>
+				<size>20,104</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
 				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER10" variable="Cell5" member="yes">
 				<max>500</max>
-				<pos>672,118</pos>
-				<size>20,112</size>
+				<pos>728,120</pos>
+				<size>20,104</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
 				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER6" variable="Cell4" member="yes">
 				<max>500</max>
-				<pos>648,118</pos>
-				<size>20,112</size>
+				<pos>688,120</pos>
+				<size>20,104</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
 				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER8" variable="Cell2" member="yes">
 				<max>500</max>
-				<pos>600,118</pos>
-				<size>20,112</size>
+				<pos>608,120</pos>
+				<size>20,104</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
 				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxSlider" name="ID_SLIDER7" variable="Cell3" member="yes">
 				<max>500</max>
-				<pos>624,118</pos>
-				<size>20,112</size>
+				<pos>648,120</pos>
+				<size>20,104</size>
 				<style>wxSL_VERTICAL|wxSL_INVERSE</style>
 				<handler function="OnTeleScrollChanged" entry="EVT_COMMAND_SCROLL_CHANGED" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT27" variable="StaticText27" member="yes">
 				<label>X10</label>
-				<pos>249,128</pos>
+				<pos>264,128</pos>
+				<size>16,8</size>
 				<font>
 					<size>5</size>
 					<style>normal</style>
@@ -417,11 +434,12 @@
 					<family>swiss</family>
 					<face>Arial</face>
 				</font>
+				<style>wxALIGN_RIGHT</style>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT32" variable="StaticText32" member="yes">
 				<label>X10</label>
-				<pos>320,184</pos>
-				<size>13,39</size>
+				<pos>352,192</pos>
+				<size>16,8</size>
 				<font>
 					<size>5</size>
 					<style>normal</style>
@@ -430,10 +448,12 @@
 					<family>swiss</family>
 					<face>Arial</face>
 				</font>
+				<style>wxALIGN_RIGHT</style>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT35" variable="StaticText35" member="yes">
 				<label>X10</label>
-				<pos>384,184</pos>
+				<pos>424,192</pos>
+				<size>16,8</size>
 				<font>
 					<size>5</size>
 					<style>normal</style>
@@ -442,10 +462,12 @@
 					<family>swiss</family>
 					<face>Arial</face>
 				</font>
+				<style>wxALIGN_RIGHT</style>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT33" variable="StaticText33" member="yes">
 				<label>AIR X10</label>
-				<pos>456,144</pos>
+				<pos>488,128</pos>
+				<size>56,8</size>
 				<font>
 					<size>5</size>
 					<style>normal</style>
@@ -454,10 +476,12 @@
 					<family>swiss</family>
 					<face>Arial</face>
 				</font>
+				<style>wxALIGN_RIGHT</style>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT31" variable="StaticText31" member="yes">
 				<label>X10</label>
-				<pos>384,128</pos>
+				<pos>424,128</pos>
+				<size>16,8</size>
 				<font>
 					<size>5</size>
 					<style>normal</style>
@@ -466,10 +490,12 @@
 					<family>swiss</family>
 					<face>Arial</face>
 				</font>
+				<style>wxALIGN_RIGHT</style>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT26" variable="StaticText26" member="yes">
 				<label>X10</label>
-				<pos>520,56</pos>
+				<pos>512,56</pos>
+				<size>80,8</size>
 				<font>
 					<size>5</size>
 					<style>normal</style>
@@ -478,10 +504,12 @@
 					<family>swiss</family>
 					<face>Arial</face>
 				</font>
+				<style>wxALIGN_RIGHT</style>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT24" variable="StaticText24" member="yes">
 				<label>X100</label>
-				<pos>600,56</pos>
+				<pos>616,56</pos>
+				<size>72,8</size>
 				<font>
 					<size>5</size>
 					<style>normal</style>
@@ -490,10 +518,12 @@
 					<family>swiss</family>
 					<face>Arial</face>
 				</font>
+				<style>wxALIGN_RIGHT</style>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT22" variable="StaticText22" member="yes">
 				<label>X10</label>
-				<pos>432,56</pos>
+				<pos>392,56</pos>
+				<size>96,8</size>
 				<font>
 					<size>5</size>
 					<style>normal</style>
@@ -502,40 +532,43 @@
 					<family>swiss</family>
 					<face>Arial</face>
 				</font>
+				<style>wxALIGN_RIGHT</style>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL20" variable="AirSpeed" member="yes">
 				<value></value>
 				<max>3000</max>
-				<pos>488,128</pos>
-				<size>56,21</size>
+				<pos>448,136</pos>
+				<size>98,21</size>
 				<handler function="OnTeleChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT34" variable="StaticText34" member="yes">
 				<label>Vitesse</label>
-				<pos>424,128</pos>
+				<pos>448,120</pos>
+				<size>48,16</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT36" variable="StaticText36" member="yes">
 				<label>Sortie vers :</label>
-				<pos>1072,184</pos>
+				<pos>1120,184</pos>
+				<size>72,16</size>
 			</object>
 			<object class="wxComboBox" name="ID_COMBOBOXCOM" variable="ComboBoxCom" member="yes">
-				<pos>1064,200</pos>
-				<size>72,23</size>
+				<pos>1120,200</pos>
+				<size>72,24</size>
 				<handler function="OnComboBoxComSelected" entry="EVT_COMBOBOX" />
 				<handler function="OnComboBoxComDropdown" entry="EVT_COMBOBOX_DROPDOWN" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT37" variable="StaticText37" member="yes">
 				<label>Protocoles</label>
-				<pos>744,128</pos>
+				<pos>816,128</pos>
 			</object>
 			<object class="wxRadioButton" name="ID_RADIOBUTTON2" variable="RBFrskyd" member="yes">
 				<label>Frsky &quot;D&quot;</label>
-				<pos>816,136</pos>
+				<pos>880,128</pos>
 				<handler function="OnRBProtoSelect" entry="EVT_RADIOBUTTON" />
 			</object>
 			<object class="wxRadioButton" name="ID_RADIOBUTTON1" variable="RBFrskysport" member="yes">
 				<label>Frsky S.Port</label>
-				<pos>816,160</pos>
+				<pos>880,152</pos>
 				<handler function="OnRBProtoSelect" entry="EVT_RADIOBUTTON" />
 			</object>
 		</object>
