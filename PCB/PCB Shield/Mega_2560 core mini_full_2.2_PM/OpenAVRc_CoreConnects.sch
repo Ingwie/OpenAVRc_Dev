@@ -5,7 +5,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 7
 Title "Shield Mega2560 core Full"
-Date "2020-04-03"
+Date "2020-04-21"
 Rev "2.2"
 Comp "© Team OpenAVRc"
 Comment1 "Reproduction et commercialisation interdite"
@@ -236,43 +236,43 @@ $EndComp
 $Comp
 L Mega_2560-core-mini_full_2.2-rescue:CONN_01X06-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P15
 U 1 1 59C5BE44
-P 6600 1400
-F 0 "P15" H 6600 1750 50  0000 C CNN
-F 1 "Micro_sd" V 6700 1400 50  0000 C CNN
-F 2 "Mylib_v2.2:Pin_Header_Straight_1x06_Pitch2.54mm" H 6600 1400 50  0001 C CNN
-F 3 "" H 6600 1400 50  0000 C CNN
-	1    6600 1400
+P 6900 1400
+F 0 "P15" H 6900 1750 50  0000 C CNN
+F 1 "Micro_sd" V 7000 1400 50  0000 C CNN
+F 2 "Mylib_v2.2:Pin_Header_Straight_1x06_Pitch2.54mm" H 6900 1400 50  0001 C CNN
+F 3 "" H 6900 1400 50  0000 C CNN
+	1    6900 1400
 	0    -1   -1   0   
 $EndComp
 $Comp
 L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue #PWR0141
 U 1 1 59C5BE4B
-P 7050 2100
-F 0 "#PWR0141" H 7050 1850 50  0001 C CNN
-F 1 "GND" H 7050 1950 50  0000 C CNN
-F 2 "" H 7050 2100 50  0000 C CNN
-F 3 "" H 7050 2100 50  0000 C CNN
-	1    7050 2100
+P 7350 2100
+F 0 "#PWR0141" H 7350 1850 50  0001 C CNN
+F 1 "GND" H 7350 1950 50  0000 C CNN
+F 2 "" H 7350 2100 50  0000 C CNN
+F 3 "" H 7350 2100 50  0000 C CNN
+	1    7350 2100
 	1    0    0    -1  
 $EndComp
 $Comp
 L Mega_2560-core-mini_full_2.2-rescue:VCC-power1 #PWR0142
 U 1 1 59C5BE51
-P 6750 2100
-F 0 "#PWR0142" H 6750 1950 50  0001 C CNN
-F 1 "VCC" H 6750 2250 50  0000 C CNN
-F 2 "" H 6750 2100 50  0000 C CNN
-F 3 "" H 6750 2100 50  0000 C CNN
-	1    6750 2100
+P 7050 2100
+F 0 "#PWR0142" H 7050 1950 50  0001 C CNN
+F 1 "VCC" H 7050 2250 50  0000 C CNN
+F 2 "" H 7050 2100 50  0000 C CNN
+F 3 "" H 7050 2100 50  0000 C CNN
+	1    7050 2100
 	-1   0    0    1   
 $EndComp
-Text Label 6350 2050 1    60   ~ 0
-Microsd_CS
-Text Label 6450 2050 1    60   ~ 0
-Sck
-Text Label 6550 2050 1    60   ~ 0
-Mosi
 Text Label 6650 2050 1    60   ~ 0
+Microsd_CS
+Text Label 6750 2050 1    60   ~ 0
+Sck
+Text Label 6850 2050 1    60   ~ 0
+Mosi
+Text Label 6950 2050 1    60   ~ 0
 Miso
 $Comp
 L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue #PWR0143
@@ -316,12 +316,12 @@ Lcd_blk
 $Comp
 L Mega_2560-core-mini_full_2.2-rescue:C-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue C3
 U 1 1 59C5BE6F
-P 6900 1800
-F 0 "C3" H 6925 1900 50  0000 L CNN
-F 1 "100nF" H 6925 1700 50  0000 L CNN
-F 2 "Capacitors_SMD:C_1206" H 6938 1650 50  0001 C CNN
-F 3 "" H 6900 1800 50  0000 C CNN
-	1    6900 1800
+P 7200 1800
+F 0 "C3" H 7225 1900 50  0000 L CNN
+F 1 "100nF" H 7225 1700 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206" H 7238 1650 50  0001 C CNN
+F 3 "" H 7200 1800 50  0000 C CNN
+	1    7200 1800
 	0    1    1    0   
 $EndComp
 $Comp
@@ -623,17 +623,6 @@ Text GLabel 3500 2450 0    60   Input ~ 0
 lsp_rst
 Text GLabel 2550 1550 0    60   Input ~ 0
 lsp_rst
-$Comp
-L Mega_2560-core-mini_full_2.2-rescue:CONN_01X03-Mega_2560-core-mini_full_2.1-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue P9
-U 1 1 5A9E6547
-P 4350 6650
-F 0 "P9" H 4350 6850 50  0000 C CNN
-F 1 "DUMMY" V 4450 6650 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm" H 4350 6650 50  0001 C CNN
-F 3 "" H 4350 6650 50  0000 C CNN
-	1    4350 6650
-	-1   0    0    1   
-$EndComp
 Wire Wire Line
 	2400 2950 2350 2950
 Wire Wire Line
@@ -688,15 +677,15 @@ Wire Wire Line
 Wire Wire Line
 	9250 1650 9250 2050
 Wire Wire Line
+	6950 1600 6950 2050
+Wire Wire Line
+	6850 1600 6850 2050
+Wire Wire Line
+	6750 1600 6750 2050
+Wire Wire Line
 	6650 1600 6650 2050
 Wire Wire Line
-	6550 1600 6550 2050
-Wire Wire Line
-	6450 1600 6450 2050
-Wire Wire Line
-	6350 1600 6350 2050
-Wire Wire Line
-	6850 1600 7050 1600
+	7150 1600 7350 1600
 Wire Wire Line
 	10650 1650 10650 2050
 Wire Wire Line
@@ -8677,7 +8666,7 @@ B0 E1 AE FF 07 95 29 AC C7 85 8F 83 46 00 00 00 00 49 45 4E 44 AE 42 60 82
 EndData
 $EndBitmap
 $Bitmap
-Pos 6500 3000
+Pos 5850 1150
 Scale 1.000000
 Data
 89 50 4E 47 0D 0A 1A 0A 00 00 00 0D 49 48 44 52 00 00 01 90 00 00 01 7E 08 02 00 00 00 23 93 DB 
@@ -15588,20 +15577,9 @@ Wire Wire Line
 Wire Wire Line
 	7450 5800 7700 5800
 Wire Wire Line
-	6750 1600 6750 1800
-Wire Wire Line
 	7050 1600 7050 1800
-$Comp
-L OPEN_EVO:GND #PWR0150
-U 1 1 5E535EC5
-P 9650 3100
-F 0 "#PWR0150" H 9650 2850 50  0001 C CNN
-F 1 "GND" H 9654 2925 50  0000 C CNN
-F 2 "" H 9650 3100 60  0000 C CNN
-F 3 "" H 9650 3100 60  0000 C CNN
-	1    9650 3100
-	1    0    0    -1  
-$EndComp
+Wire Wire Line
+	7350 1600 7350 1800
 $Comp
 L Mega_2560-core-mini_full_2.2-rescue:GND-RESCUE-Mega_2560_core_mini_full_2.0-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.1-rescue-Mega_2560-core-mini_full_2.2-rescue #PWR0151
 U 1 1 59C5BE86
@@ -15634,12 +15612,12 @@ F 3 "" H 8150 4400 50  0000 C CNN
 $EndComp
 Wire Wire Line
 	3650 2550 3750 2550
+Connection ~ 7350 1800
+Wire Wire Line
+	7350 1800 7350 2100
 Connection ~ 7050 1800
 Wire Wire Line
 	7050 1800 7050 2100
-Connection ~ 6750 1800
-Wire Wire Line
-	6750 1800 6750 2100
 Wire Wire Line
 	8000 5800 8000 5550
 $Comp
@@ -15709,4 +15687,15 @@ Wire Wire Line
 Connection ~ 7700 5800
 Wire Wire Line
 	7700 5800 8000 5800
+$Comp
+L test:CONN_01X02 P9
+U 1 1 5EC7006D
+P 4350 6700
+F 0 "P9" H 4350 6850 50  0000 C CNN
+F 1 "DUMMY" V 4450 6700 50  0000 C CNN
+F 2 "Mylib_v2.2:Pin_Header_Straight_1x02_Pitch2.54mm" H 4267 6517 50  0001 C CNN
+F 3 "" H 4350 6700 50  0000 C CNN
+	1    4350 6700
+	-1   0    0    1   
+$EndComp
 $EndSCHEMATC
