@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name MultiSwitch_Sw16_ProMicro_Lib)(type KiCad)(uri C:/tmp/_OpenAVRc/MultiSwitch_Sw16_ProMicro)(options "")(descr ""))
+  (lib (name MultiSwitch_Sw16_ProMicro)(type KiCad)(uri ${KIPRJMOD}/MultiSwitch_Sw16_ProMicro.pretty)(options "")(descr ""))
+)

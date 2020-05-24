@@ -1,0 +1,22 @@
+### Module positions - created on 24/05/2020 17:45:16 ###
+### Printed by Pcbnew version kicad (5.1.5)-3
+## Unit = mm, Angle = deg.
+## Side : bottom
+# Ref     Val       Package                                           PosX       PosY       Rot  Side
+R5        10K       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder   -15.2400    44.4865   90.0000  bottom
+R6        10K       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder   -17.7800    44.4865   90.0000  bottom
+R7        10K       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder   -20.3200    44.4865   90.0000  bottom
+R8        10K       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder   -22.8600    44.4865   90.0000  bottom
+R9        10K       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder   -25.4000    44.4865   90.0000  bottom
+R10       10K       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder   -27.9400    44.4865   90.0000  bottom
+R11       10K       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder   -30.4800    44.4500   90.0000  bottom
+R12       10K       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder   -33.0200    44.4500   90.0000  bottom
+R13       10K       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder   -33.0200    16.4735  270.0000  bottom
+R14       10K       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder   -30.4800    16.4735  270.0000  bottom
+R15       10K       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder   -27.9400    16.5100  270.0000  bottom
+R16       10K       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder   -25.4000    16.5465  270.0000  bottom
+R17       10K       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder   -22.8600    16.5100  270.0000  bottom
+R18       10K       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder   -20.3200    16.5100  270.0000  bottom
+R19       10K       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder   -17.7800    16.4735  270.0000  bottom
+R20       10K       R_1206_3216Metric_Pad1.42x1.75mm_HandSolder   -15.2400    16.5100  270.0000  bottom
+## End
