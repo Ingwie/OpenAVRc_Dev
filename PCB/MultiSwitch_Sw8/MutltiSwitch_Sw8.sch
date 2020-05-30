@@ -1,6 +1,5 @@
 EESchema Schematic File Version 4
-LIBS:MutltiSwitch_Sw8-cache
-EELAYER 26 0
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -26,7 +25,7 @@ F 3 "" H 7200 3200 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power1:GND #PWR016
+L MutltiSwitch_Sw8-rescue:GND-power1 #PWR016
 U 1 1 5C0267E8
 P 6450 3700
 F 0 "#PWR016" H 6450 3700 30  0001 C CNN
@@ -37,7 +36,7 @@ F 3 "" H 6450 3700 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power1:+5V #PWR012
+L MutltiSwitch_Sw8-rescue:+5V-power1 #PWR012
 U 1 1 5C026D7E
 P 3950 2600
 F 0 "#PWR012" H 3950 2690 20  0001 C CNN
@@ -48,7 +47,7 @@ F 3 "" H 3950 2600 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power1:GND #PWR010
+L MutltiSwitch_Sw8-rescue:GND-power1 #PWR010
 U 1 1 5C02717C
 P 3800 3200
 F 0 "#PWR010" H 3800 3200 30  0001 C CNN
@@ -70,7 +69,7 @@ F 3 "" H 3550 3650 60  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L device:C C3
+L MutltiSwitch_Sw8-rescue:C-device C3
 U 1 1 5C07B48B
 P 3900 4100
 F 0 "C3" H 3900 4200 40  0000 L CNN
@@ -81,7 +80,7 @@ F 3 "" H 3900 4100 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:C C2
+L MutltiSwitch_Sw8-rescue:C-device C2
 U 1 1 5C07B507
 P 3150 4100
 F 0 "C2" H 3150 4200 40  0000 L CNN
@@ -92,7 +91,7 @@ F 3 "" H 3150 4100 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power1:GND #PWR06
+L MutltiSwitch_Sw8-rescue:GND-power1 #PWR06
 U 1 1 5C07B687
 P 3150 4350
 F 0 "#PWR06" H 3150 4350 30  0001 C CNN
@@ -103,7 +102,7 @@ F 3 "" H 3150 4350 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power1:GND #PWR011
+L MutltiSwitch_Sw8-rescue:GND-power1 #PWR011
 U 1 1 5C07B6AD
 P 3900 4350
 F 0 "#PWR011" H 3900 4350 30  0001 C CNN
@@ -114,7 +113,7 @@ F 3 "" H 3900 4350 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:C C1
+L MutltiSwitch_Sw8-rescue:C-device C1
 U 1 1 5C07B782
 P 3550 2700
 F 0 "C1" H 3550 2800 40  0000 L CNN
@@ -136,7 +135,7 @@ F 3 "" H 2200 5250 50  0000 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L power1:GND #PWR04
+L MutltiSwitch_Sw8-rescue:GND-power1 #PWR04
 U 1 1 5C07E30B
 P 2500 5500
 F 0 "#PWR04" H 2500 5500 30  0001 C CNN
@@ -147,18 +146,18 @@ F 3 "" H 2500 5500 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:R R2
+L MutltiSwitch_Sw8-rescue:R-device R2
 U 1 1 5C0934C1
 P 6500 4300
 F 0 "R2" V 6580 4300 40  0000 C CNN
-F 1 "330" V 6507 4301 40  0000 C CNN
+F 1 "2,7K" V 6507 4301 40  0000 C CNN
 F 2 "R_1206" V 6430 4300 30  0001 C CNN
 F 3 "" H 6500 4300 30  0000 C CNN
 	1    6500 4300
 	0    -1   -1   0   
 $EndComp
 $Comp
-L device:LED D1
+L MutltiSwitch_Sw8-rescue:LED-device D1
 U 1 1 5C0935CD
 P 7150 4300
 F 0 "D1" H 7150 4400 50  0000 C CNN
@@ -169,7 +168,7 @@ F 3 "" H 7150 4300 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power1:GND #PWR07
+L MutltiSwitch_Sw8-rescue:GND-power1 #PWR07
 U 1 1 5C07B865
 P 3250 2700
 F 0 "#PWR07" H 3250 2700 30  0001 C CNN
@@ -235,7 +234,7 @@ F 3 "" H 3150 5250 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L device:R R1
+L MutltiSwitch_Sw8-rescue:R-device R1
 U 1 1 5C1524FE
 P 3450 4550
 F 0 "R1" V 3530 4550 40  0000 C CNN
@@ -246,7 +245,7 @@ F 3 "" H 3450 4550 30  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L power1:GND #PWR015
+L MutltiSwitch_Sw8-rescue:GND-power1 #PWR015
 U 1 1 5C153036
 P 6750 5150
 F 0 "#PWR015" H 6750 5150 30  0001 C CNN
@@ -268,18 +267,7 @@ F 3 "" H 9600 4500 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:DIODE D2
-U 1 1 5C151F63
-P 3600 5250
-F 0 "D2" H 3450 5200 40  0000 C CNN
-F 1 "LL4148" H 3600 5350 40  0000 C CNN
-F 2 "D_SOD-123" H 3600 5250 60  0001 C CNN
-F 3 "" H 3600 5250 60  0000 C CNN
-	1    3600 5250
-	0    1    1    0   
-$EndComp
-$Comp
-L power1:+5V #PWR09
+L MutltiSwitch_Sw8-rescue:+5V-power1 #PWR09
 U 1 1 5C152128
 P 3650 5500
 F 0 "#PWR09" H 3650 5590 20  0001 C CNN
@@ -290,7 +278,7 @@ F 3 "" H 3650 5500 60  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power1:GND #PWR018
+L MutltiSwitch_Sw8-rescue:GND-power1 #PWR018
 U 1 1 5C1537CB
 P 9100 4450
 F 0 "#PWR018" H 9100 4450 30  0001 C CNN
@@ -367,7 +355,7 @@ F 3 "" H 9250 3900 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L power1:+12C #PWR020
+L MutltiSwitch_Sw8-rescue:+12C-power1 #PWR020
 U 1 1 5C165D78
 P 9250 4100
 F 0 "#PWR020" H 9250 4070 30  0001 C CNN
@@ -389,18 +377,7 @@ F 3 "" H 1250 4900 50  0000 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L device:DIODE D3
-U 1 1 5C165B25
-P 1850 4750
-F 0 "D3" H 1700 4700 40  0000 C CNN
-F 1 "LL4148" H 1850 4850 40  0000 C CNN
-F 2 "D_SOD-123" H 1850 4750 60  0001 C CNN
-F 3 "" H 1850 4750 60  0000 C CNN
-	1    1850 4750
-	1    0    0    -1  
-$EndComp
-$Comp
-L device:R R3
+L MutltiSwitch_Sw8-rescue:R-device R3
 U 1 1 5C165E80
 P 2500 4550
 F 0 "R3" V 2580 4550 40  0000 C CNN
@@ -411,7 +388,7 @@ F 3 "" H 2500 4550 30  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L device:R R4
+L MutltiSwitch_Sw8-rescue:R-device R4
 U 1 1 5C16652B
 P 2850 4250
 F 0 "R4" V 2750 4250 40  0000 C CNN
@@ -422,7 +399,7 @@ F 3 "" H 2850 4250 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power1:+5V #PWR05
+L MutltiSwitch_Sw8-rescue:+5V-power1 #PWR05
 U 1 1 5C166715
 P 2850 3900
 F 0 "#PWR05" H 2850 3990 20  0001 C CNN
@@ -433,7 +410,7 @@ F 3 "" H 2850 3900 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power1:GND #PWR02
+L MutltiSwitch_Sw8-rescue:GND-power1 #PWR02
 U 1 1 5C166A1E
 P 1600 5150
 F 0 "#PWR02" H 1600 5150 30  0001 C CNN
@@ -444,7 +421,7 @@ F 3 "" H 1600 5150 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L power1:+5V #PWR01
+L MutltiSwitch_Sw8-rescue:+5V-power1 #PWR01
 U 1 1 5C166A81
 P 1600 4950
 F 0 "#PWR01" H 1600 5040 20  0001 C CNN
@@ -466,7 +443,7 @@ F 3 "" H 10150 3250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power1:GND #PWR021
+L MutltiSwitch_Sw8-rescue:GND-power1 #PWR021
 U 1 1 5C167621
 P 9900 3600
 F 0 "#PWR021" H 9900 3600 30  0001 C CNN
@@ -477,7 +454,7 @@ F 3 "" H 9900 3600 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power1:GND #PWR017
+L MutltiSwitch_Sw8-rescue:GND-power1 #PWR017
 U 1 1 5C168FC7
 P 7500 4300
 F 0 "#PWR017" H 7500 4300 30  0001 C CNN
@@ -567,8 +544,6 @@ Wire Wire Line
 	3350 5350 3450 5350
 Wire Wire Line
 	3450 5500 3600 5500
-Wire Wire Line
-	3600 5500 3600 5450
 Connection ~ 3600 5500
 Wire Wire Line
 	3600 4900 3600 5000
@@ -621,8 +596,6 @@ Wire Wire Line
 Connection ~ 8800 4050
 Connection ~ 9350 4000
 Wire Wire Line
-	1650 4750 1550 4750
-Wire Wire Line
 	2150 4850 1450 4850
 Wire Wire Line
 	2750 4550 2850 4550
@@ -672,17 +645,13 @@ Connection ~ 9350 4100
 Wire Wire Line
 	2150 4850 2150 4750
 Wire Wire Line
-	2150 4750 2050 4750
-Wire Wire Line
-	2250 4550 1550 4550
-Wire Wire Line
 	1550 4550 1550 4750
 Connection ~ 1550 4750
 Connection ~ 3450 5350
 Wire Wire Line
 	3450 5250 3450 5350
 $Comp
-L device:R R5
+L MutltiSwitch_Sw8-rescue:R-device R5
 U 1 1 5C166CC1
 P 3550 3400
 F 0 "R5" V 3630 3400 40  0000 C CNN
@@ -698,7 +667,7 @@ Wire Wire Line
 	3300 3400 3150 3400
 Connection ~ 3150 3650
 $Comp
-L device:R R6
+L MutltiSwitch_Sw8-rescue:R-device R6
 U 1 1 5C18A04C
 P 8000 2450
 F 0 "R6" V 7950 2650 40  0000 C CNN
@@ -709,7 +678,7 @@ F 3 "" H 8000 2450 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:R R7
+L MutltiSwitch_Sw8-rescue:R-device R7
 U 1 1 5C18A1E1
 P 8100 2450
 F 0 "R7" V 8050 2650 40  0000 C CNN
@@ -720,7 +689,7 @@ F 3 "" H 8100 2450 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:R R8
+L MutltiSwitch_Sw8-rescue:R-device R8
 U 1 1 5C18A243
 P 8200 2450
 F 0 "R8" V 8150 2650 40  0000 C CNN
@@ -731,7 +700,7 @@ F 3 "" H 8200 2450 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:R R9
+L MutltiSwitch_Sw8-rescue:R-device R9
 U 1 1 5C18A2A4
 P 8300 2450
 F 0 "R9" V 8250 2650 40  0000 C CNN
@@ -742,7 +711,7 @@ F 3 "" H 8300 2450 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:R R10
+L MutltiSwitch_Sw8-rescue:R-device R10
 U 1 1 5C18A36C
 P 8400 2450
 F 0 "R10" V 8350 2650 40  0000 C CNN
@@ -753,7 +722,7 @@ F 3 "" H 8400 2450 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:R R11
+L MutltiSwitch_Sw8-rescue:R-device R11
 U 1 1 5C18A372
 P 8500 2450
 F 0 "R11" V 8450 2650 40  0000 C CNN
@@ -764,7 +733,7 @@ F 3 "" H 8500 2450 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:R R12
+L MutltiSwitch_Sw8-rescue:R-device R12
 U 1 1 5C18A378
 P 8600 2450
 F 0 "R12" V 8550 2650 40  0000 C CNN
@@ -775,7 +744,7 @@ F 3 "" H 8600 2450 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:R R13
+L MutltiSwitch_Sw8-rescue:R-device R13
 U 1 1 5C18A37E
 P 8700 2450
 F 0 "R13" V 8650 2650 40  0000 C CNN
@@ -827,7 +796,7 @@ Wire Wire Line
 	8700 2700 8700 3500
 Connection ~ 8000 2150
 $Comp
-L power1:+5V #PWR013
+L MutltiSwitch_Sw8-rescue:+5V-power1 #PWR013
 U 1 1 5C18AFD5
 P 8000 2050
 F 0 "#PWR013" H 8000 2140 20  0001 C CNN
@@ -849,8 +818,6 @@ Wire Wire Line
 	6200 4300 6250 4300
 Wire Wire Line
 	3600 5500 3650 5500
-Wire Wire Line
-	3600 5000 3600 5050
 Wire Wire Line
 	9350 3500 9350 4000
 Wire Wire Line
@@ -968,11 +935,11 @@ Signal     +         -
 Text Notes 9450 2300 0    60   ~ 0
 Servo
 $Comp
-L device:CAPAPOL C4
+L MutltiSwitch_Sw8-rescue:CAPAPOL-device C4
 U 1 1 5C6EF8CB
 P 3600 5800
 F 0 "C4" H 3709 5838 40  0000 L CNN
-F 1 "200uF" H 3709 5762 40  0000 L CNN
+F 1 "220uF" H 3709 5762 40  0000 L CNN
 F 2 "CP_Tantalum_Case-D_EIA-7343-31_Hand" H 3709 5724 30  0001 L CNN
 F 3 "" H 3600 5800 300 0000 C CNN
 	1    3600 5800
@@ -983,7 +950,7 @@ Wire Wire Line
 Wire Wire Line
 	3600 6000 3600 6050
 $Comp
-L power1:GND #PWR0101
+L MutltiSwitch_Sw8-rescue:GND-power1 #PWR0101
 U 1 1 5C6FCD2E
 P 3600 6050
 F 0 "#PWR0101" H 3600 6050 30  0001 C CNN
@@ -993,4 +960,36 @@ F 3 "" H 3600 6050 60  0001 C CNN
 	1    3600 6050
 	1    0    0    -1  
 $EndComp
+$Comp
+L Device:D D2
+U 1 1 5ED39059
+P 3600 5250
+F 0 "D2" V 3646 5171 50  0000 R CNN
+F 1 "LL4148" V 3555 5171 50  0000 R CNN
+F 2 "Diode_SMD:D_SOD-123" H 3600 5250 50  0001 C CNN
+F 3 "~" H 3600 5250 50  0001 C CNN
+	1    3600 5250
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	3600 5000 3600 5100
+Wire Wire Line
+	3600 5400 3600 5500
+$Comp
+L Device:D D3
+U 1 1 5ED4956B
+P 1850 4750
+F 0 "D3" H 2000 4800 50  0000 C CNN
+F 1 "LL4148" H 1850 4650 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-123" H 1850 4750 50  0001 C CNN
+F 3 "~" H 1850 4750 50  0001 C CNN
+	1    1850 4750
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	1550 4550 2250 4550
+Wire Wire Line
+	2000 4750 2150 4750
+Wire Wire Line
+	1550 4750 1700 4750
 $EndSCHEMATC
