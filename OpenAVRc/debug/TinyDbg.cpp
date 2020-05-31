@@ -179,7 +179,13 @@ typedef struct{
   Stream         *stream;
   const char     *FlashPrePrompt;
   char           *FunctName;
+#if (TDBG_MAX_BREAKPOINTS <= 8)
+  uint8_t         DeclaredBreakPointMap;
+  uint8_t         ArmedBreakPointMap;
+#else
+  uint16_t        DeclaredBreakPointMap;
   uint16_t        ArmedBreakPointMap;
+#endif
   TdbWatchVarSt_t Vars[TDBG_MAX_WATCHES];
   uint16_t        Line;
   uint8_t
@@ -267,8 +273,11 @@ uint8_t TinyDbg_armBreakpoint(uint8_t ID)
   uint8_t Ret = 0;
   if(ID && (ID <= TDBG_MAX_BREAKPOINTS))
   {
-    bitSet(Tdbg.ArmedBreakPointMap, ID - 1);
-    Ret = 1;
+    if(bitRead(Tdbg.DeclaredBreakPointMap, ID - 1))
+    {
+      bitSet(Tdbg.ArmedBreakPointMap, ID - 1);
+      Ret = 1;
+    }
   }
   return(Ret);
 }
@@ -379,6 +388,7 @@ void TinyDbg_addWatch(char* FuncNameStr, void* var, char* VarNameStr, uint8_t Ty
  */
 void TinyDbg_isAtBreakpoint(char *FunctName, uint8_t BpId, uint16_t Line)
 {
+  bitSet(Tdbg.DeclaredBreakPointMap, BpId - 1);
   if(bitRead(Tdbg.ArmedBreakPointMap, BpId - 1))
   {
     Tdbg.FunctName      = FunctName;
@@ -438,6 +448,7 @@ void TinyDbg_interpretAndExecute(char *Cmd)
     {
       TinyDbg_Printf(PSTR("BP %u armed: "), BpIdx + 1);
     }
+    else TinyDbg_Printf(PSTR("No BP %u! "), BpIdx + 1);
     displayStatus();
     Error = FALSE;
     if(Tdbg.Stopped)
@@ -701,7 +712,7 @@ static void displayWatchVariable(char *tmpbuf)
         if(DispLen < TDBG_SECOND_VAL_COL_POS) displaySpace(TDBG_SECOND_VAL_COL_POS - DispLen);
         DispLen = TDBG_SECOND_VAL_COL_POS + TinyDbg_Printf(PSTR("0x%02x"), (uint16_t)((*(int8_t*)Address)& 0x00FF));
         if(DispLen < TDBG_THIRD_VAL_COL_POS) displaySpace(TDBG_THIRD_VAL_COL_POS - DispLen);
-        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), (int8_t)Byte >= ' '? Byte: '.');
+        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), (((int8_t)Byte >= ' ') && ((int8_t)Byte < 127))? Byte: '.');
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
         Tdbg.stream->print(F("0b"));
         printByteBin(Tdbg.stream, (uint8_t)Byte);
@@ -714,7 +725,7 @@ static void displayWatchVariable(char *tmpbuf)
         if(DispLen < TDBG_SECOND_VAL_COL_POS) displaySpace(TDBG_SECOND_VAL_COL_POS - DispLen);
         DispLen = TDBG_SECOND_VAL_COL_POS + TinyDbg_Printf(PSTR("0x%02x"), (uint16_t)((*(int8_t*)Address)& 0x00FF));
         if(DispLen < TDBG_THIRD_VAL_COL_POS) displaySpace(TDBG_THIRD_VAL_COL_POS - DispLen);
-        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), Byte >= ' '? Byte: '.');
+        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), ((Byte >= ' ') && (Byte < 127))? Byte: '.');
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
         Tdbg.stream->print(F("0b"));
         printByteBin(Tdbg.stream, Byte);
