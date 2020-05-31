@@ -31,8 +31,8 @@
 */
 
 /*
-  "TinyDbg (Tiny DeBuGger)" by RC-Navy, a Tiny Debugger for arduino with breakpoints support
-  and variable inspection, based on "debugger" project of Stephen Payne
+  "TinyDbg (Tiny DeBuGger)" by RC-Navy, a Tiny Debugger for arduino with breakpoints support,
+  variable inspection and variable modification based on "debugger" project of Stephen Payne
   Copyright (c) 2019, RC-Navy
 
   This library is free software; you can redistribute it and/or
@@ -54,7 +54,7 @@
 #define TINY_DBG_H_
 
 #define TINY_DBG_VERSION      0
-#define TINY_DBG_REVISION     4
+#define TINY_DBG_REVISION     5
 
 /* vvv Start of User Debugger configuration vvv */
 
@@ -63,6 +63,7 @@
 #define TDBG_MAX_BREAKPOINTS  8 //Define here the max number of breakpoint(s) you need (Max is 16)
 #define TDBG_MAX_WATCHES      8 //Define here the max number of watch(es) you need (Max is limited by memory)
 //#define TDBG_WITH_MIN_FEATURES  //Comment this line to have full debug capabilities
+#define TDBG_VAR_MODIFIY_SUPPORT //Comment this line to deactivate variable modification support
 #define TDBG_BASIC_ARDUINO_SERIAL_CONSOLE_SUPPORT // Uncomment this to have local echo in arduino serial console
 
 /* ^^^ End of User Debugger configuration ^^^ */
