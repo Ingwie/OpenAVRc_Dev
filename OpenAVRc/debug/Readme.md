@@ -5,7 +5,7 @@ TinyDbg library: a tiny serial DEBUGGER
 
 The serial port can be chosen at initialization or later using **TinyDbg_attachToStream()** method.
 
-It supports breakpoints and variable/ram/eeprom/flash inspection (Watch).
+It supports breakpoints and variable/ram/eeprom/flash inspection (Watch) and variable modification.
 
 When the sketch is stopped due to a breakpoint, **TinyDbg** displays the breakpoint's ID and in which function the breakpoint is located.
 
@@ -84,6 +84,11 @@ Commands:
 * **de Addr [lLen]**: Display EEPROM content starting at Addr address (eg: de0l32)
 * **df Addr [lLen]**: Display FLASH content starting at Addr address (eg: df200l512)
 * **st**:    Displays the TinyDbg status
+* **Vxx=value**:     Set the new value of a variable (xx=Variable ID, Value=the new value)
+
+**Important note:**
+
+When setting a new value for a variable of type "string", take care to the maximum supported string length: **TinyDbg** cannot verify if there is enought room to store the new string! Buffer overflow can happen!
 
 Contact
 -------
