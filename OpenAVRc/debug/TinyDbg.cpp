@@ -60,7 +60,11 @@
 #ifdef TDBG_ACTIVE
 
 #define BACK_SPACE               0x08
-#define TDBG_CMD_LEN             16
+#ifdef TDBG_VAR_MODIFIY_SUPPORT
+#define TDBG_CMD_LEN             (4 + 20 + 1) //To allow string modification (string max len = 20)
+#else
+#define TDBG_CMD_LEN             (16)
+#endif
 #define TDBG_BUFF_SIZE           60
 
 #define TDBG_USER_HALT_BP_ID     100
@@ -106,13 +110,16 @@ STR_TBL(Mem_Type) = {Str_RAM, Str_EEPROM, Str_FLASH};
 
 enum {ST_FROM_ANY_OTHER = 0, ST_FROM_BREAK, ST_FROM_DB};
 
-static void    displayWatchVariable(char *tmpbuf);
+static void    displayWatchVariable(char *tmpbuf, int8_t WatchIdx = -1);
 static void    displayStatus(uint8_t FromBreak = 0);
 static void    displaySpace(uint8_t SpaceNb);
 static void    watchRaw(char *Cmd, uint8_t MemLocIdx);
 static void    printByteBin(Stream *stream, uint8_t Byte, uint8_t RemainingNibble = 0);
 static void    printBin(Stream *stream, uint8_t *Buf, uint8_t BufSize, uint8_t RemainingNibble = 0);
 static char   *getLbl(const char * const *LblTbl, uint8_t LblIdx, char *Lbl, uint8_t LblMaxLen);
+#ifdef TDBG_VAR_MODIFIY_SUPPORT
+static int8_t  modifyWatchVariable(char *tmpbuf);
+#endif
 
 static char     Command[TDBG_CMD_LEN];
 static uint8_t  index = 0;
@@ -327,6 +334,7 @@ void TinyDbg_event(void)
       {
         /* Too long! */
         index = 0;
+        Command[index] = 0; /* Empty string */
       }
     }
   }
@@ -417,6 +425,7 @@ void TinyDbg_interpretAndExecute(char *Cmd)
   char    tmpbuf[TDBG_BUFF_SIZE];
   char    Error = TRUE;
   uint8_t BpIdx;
+  int8_t  VarIdx;
 
   if(Tdbg.FlashPrePrompt) TinyDbg_Printf(TDBG_PROMPT + 1);
 #ifndef TDBG_WITH_MIN_FEATURES
@@ -438,6 +447,18 @@ void TinyDbg_interpretAndExecute(char *Cmd)
     watchRaw(Cmd, FLASH_LOC);
     Error = FALSE;
   }
+#ifdef TDBG_VAR_MODIFIY_SUPPORT
+  if(strstr_P(Cmd, PSTR("V")))
+  {
+    VarIdx = modifyWatchVariable(Cmd);
+    if(VarIdx >= 0)
+    {
+      Cmd[0] = 0; /* To avoid re-interpretation */
+      displayWatchVariable(tmpbuf, VarIdx);
+      Error = FALSE;
+    }
+  }
+#endif
 #endif
 
   /////// arm breakpoint ///////////
@@ -684,91 +705,100 @@ static void displayStatus(uint8_t From /*= 0*/)
  * \param  tmpbuf: Pointer on a temporary buffer
  * \return Void.
  */
-static void displayWatchVariable(char *tmpbuf)
+static void displayWatchVariable(char *tmpbuf, int8_t WatchIdx /*= -1*/)
 {
-  uint8_t  DispLen, Byte;
+  uint8_t  StartIdx, EndIdx, DispLen, Byte;
   uint16_t Word, Len;
   uint32_t Dword;
   float    Float;
-
-  for(int i = 0; i < TDBG_MAX_WATCHES; i++)
+  
+  if(WatchIdx < 0)
+  {
+    /* Display all the declared variables */
+    StartIdx = 0;
+    EndIdx   = TDBG_MAX_WATCHES;
+  }
+  else
+  {
+    /* Display only the specified variable */
+    StartIdx = (uint8_t)WatchIdx;
+    EndIdx   = StartIdx + 1;
+  }
+  for(uint8_t i = StartIdx; i < EndIdx; i++)
   {
     DispLen = 0;
-    if(Tdbg.Vars[i].Address)
+    if(Tdbg.Vars[i].Name)
     {
       void *Address;
       if(Tdbg.Vars[i].Type == TDBG_VAR_RAW)  Address = (void*)(*(uint16_t*)(uint16_t)(Tdbg.Vars[i].Address));
       else                              Address = Tdbg.Vars[i].Address;
-      DispLen += TinyDbg_Printf(PSTR("\nV%02u:(@0x%04x)"), i + 1, (uint16_t)Address);
+      DispLen += TinyDbg_Printf(PSTR("\nV%02u:(@0x%04X)"), i + 1, (uint16_t)Address);
       DispLen += TinyDbg_Printf(PSTR("%s()."), Tdbg.Vars[i].FunctName);
       DispLen += TinyDbg_Printf(PSTR("(%s)"),  getLbl(Var_Type, Tdbg.Vars[i].Type, tmpbuf, 10));
       DispLen += TinyDbg_Printf(PSTR("%s: "),  Tdbg.Vars[i].Name);
       if(DispLen < TDBG_FIRST_VAL_COL_POS) displaySpace(TDBG_FIRST_VAL_COL_POS - DispLen);
       switch(Tdbg.Vars[i].Type)
       {
-        case TDBG_VAR_INT8:
-        Byte = *(uint8_t*)Address;
-        DispLen = TDBG_FIRST_VAL_COL_POS + TinyDbg_Printf(PSTR("%d "), (int16_t)((int8_t)Byte));
-        if(DispLen < TDBG_SECOND_VAL_COL_POS) displaySpace(TDBG_SECOND_VAL_COL_POS - DispLen);
-        DispLen = TDBG_SECOND_VAL_COL_POS + TinyDbg_Printf(PSTR("0x%02x"), (uint16_t)((*(int8_t*)Address)& 0x00FF));
-        if(DispLen < TDBG_THIRD_VAL_COL_POS) displaySpace(TDBG_THIRD_VAL_COL_POS - DispLen);
-        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), (((int8_t)Byte >= ' ') && ((int8_t)Byte < 127))? Byte: '.');
-        if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
-        Tdbg.stream->print(F("0b"));
-        printByteBin(Tdbg.stream, (uint8_t)Byte);
-        continue;
-
-        case TDBG_VAR_UINT8:
+        case TDBG_VAR_INT8:  /* No break: normal */
+        case TDBG_VAR_UINT8: /* No break: normal */
         case TDBG_VAR_CHAR:
         Byte = *(uint8_t*)Address;
-        DispLen = TDBG_FIRST_VAL_COL_POS + TinyDbg_Printf(PSTR("%u "), (uint16_t)Byte);
+        if(Tdbg.Vars[i].Type == TDBG_VAR_INT8)
+        {
+          DispLen = TDBG_FIRST_VAL_COL_POS + TinyDbg_Printf(PSTR("%d "), (int16_t)((int8_t)Byte));
+        }
+        else
+        {
+          DispLen = TDBG_FIRST_VAL_COL_POS + TinyDbg_Printf(PSTR("%u "), (uint16_t)Byte);
+        }
         if(DispLen < TDBG_SECOND_VAL_COL_POS) displaySpace(TDBG_SECOND_VAL_COL_POS - DispLen);
-        DispLen = TDBG_SECOND_VAL_COL_POS + TinyDbg_Printf(PSTR("0x%02x"), (uint16_t)((*(int8_t*)Address)& 0x00FF));
+        DispLen = TDBG_SECOND_VAL_COL_POS + TinyDbg_Printf(PSTR("0x%02X"), ((uint16_t)(Byte) & 0x00FF));
         if(DispLen < TDBG_THIRD_VAL_COL_POS) displaySpace(TDBG_THIRD_VAL_COL_POS - DispLen);
-        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), ((Byte >= ' ') && (Byte < 127))? Byte: '.');
+        if(Tdbg.Vars[i].Type == TDBG_VAR_INT8)
+        {
+          DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), (((int8_t)Byte >= ' ') && ((int8_t)Byte < 127))? Byte: '.');
+        }
+        else
+        {
+          DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), ((Byte >= ' ') && (Byte < 127))? Byte: '.');
+        }
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
         Tdbg.stream->print(F("0b"));
         printByteBin(Tdbg.stream, Byte);
         continue;
 
         case TDBG_VAR_INT16:
-        Word = *(uint16_t*)Address;
-        DispLen = TDBG_FIRST_VAL_COL_POS + TinyDbg_Printf(PSTR("%d "), (int16_t)Word);
-        if(DispLen < TDBG_SECOND_VAL_COL_POS) displaySpace(TDBG_SECOND_VAL_COL_POS - DispLen);
-        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("0x%04x"), Word);
-        if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
-        Word = htons(Word);
-        Tdbg.stream->print(F("0b"));
-        printBin(Tdbg.stream, (uint8_t*)&Word, 2);
-        continue;
-
         case TDBG_VAR_UINT16:
         Word = *(uint16_t*)Address;
-        DispLen = TDBG_FIRST_VAL_COL_POS + TinyDbg_Printf(PSTR("%u "), Word);
+        if(Tdbg.Vars[i].Type == TDBG_VAR_INT16)
+        {
+          DispLen = TDBG_FIRST_VAL_COL_POS + TinyDbg_Printf(PSTR("%d "), (int16_t)Word);
+        }
+        else
+        {
+          DispLen = TDBG_FIRST_VAL_COL_POS + TinyDbg_Printf(PSTR("%u "), Word);
+        }
         if(DispLen < TDBG_SECOND_VAL_COL_POS) displaySpace(TDBG_SECOND_VAL_COL_POS - DispLen);
-        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("0x%04x"), Word);
+        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("0x%04X"), Word);
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
         Word = htons(Word);
         Tdbg.stream->print(F("0b"));
         printBin(Tdbg.stream, (uint8_t*)&Word, 2);
         continue;
 
-        case TDBG_VAR_INT32:
-        Dword = *(uint32_t*)Address;
-        DispLen = TDBG_FIRST_VAL_COL_POS + TinyDbg_Printf(PSTR("%ld "), (int32_t)Dword);
-        if(DispLen < TDBG_SECOND_VAL_COL_POS) displaySpace(TDBG_SECOND_VAL_COL_POS - DispLen);
-        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("0x%08lx"), Dword);
-        if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
-        Dword = htonl(Dword);
-        Tdbg.stream->print(F("0b"));
-        printBin(Tdbg.stream, (uint8_t*)&Dword, 4);
-        continue;
-
+        case TDBG_VAR_INT32: /* No break: normal */
         case TDBG_VAR_UINT32:
         Dword = *(uint32_t*)Address;
-        DispLen = TDBG_FIRST_VAL_COL_POS + TinyDbg_Printf(PSTR("%lu "), Dword);
+        if(Tdbg.Vars[i].Type == TDBG_VAR_INT32)
+        {
+          DispLen = TDBG_FIRST_VAL_COL_POS + TinyDbg_Printf(PSTR("%ld "), (int32_t)Dword);
+        }
+        else
+        {
+          DispLen = TDBG_FIRST_VAL_COL_POS + TinyDbg_Printf(PSTR("%lu "), Dword);
+        }
         if(DispLen < TDBG_SECOND_VAL_COL_POS) displaySpace(TDBG_SECOND_VAL_COL_POS - DispLen);
-        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("0x%08lx"), Dword);
+        DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("0x%08lX"), Dword);
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
         Dword = htonl(Dword);
         Tdbg.stream->print(F("0b"));
@@ -790,13 +820,81 @@ static void displayWatchVariable(char *tmpbuf)
         continue;
 
         case TDBG_VAR_RAW:
-        sprintf_P(Command, PSTR("dr 0x%x"), (uint16_t)Address);
+        sprintf_P(Command, PSTR("dr 0x%X"), (uint16_t)Address);
         watchRaw(Command, RAM_LOC);
       }
     }
   }
 }
-
+#ifdef TDBG_VAR_MODIFIY_SUPPORT
+static int8_t modifyWatchVariable(char *Cmd)
+{
+  uint8_t  VarId;
+  char    *Arg;
+  int32_t  Val;
+  void    *Address;
+  uint8_t  Ovf = 0;
+  int8_t   VarIdx = -1;
+  
+  if((Cmd[0] == 'V') && (Cmd[3] == '='))
+  {
+    VarId = (10 * (Cmd[1] - '0')) + (Cmd[2] - '0');
+    if((VarId <= TDBG_MAX_WATCHES) && (Tdbg.Vars[VarId - 1].Name))
+    {
+      Arg = Cmd + 4;
+      Address = Tdbg.Vars[VarId - 1].Address;
+      Val = atol(Arg);
+      switch(Tdbg.Vars[VarId - 1].Type)
+      {
+        case TDBG_VAR_CHAR:
+        *(char*)Address = Arg[0];
+        break;
+        
+        case TDBG_VAR_UINT8:
+        Ovf = (Val < 0) || (Val > 255);
+        if(!Ovf) *(uint8_t*)Address = (uint8_t)(Val & 0xFF);
+        break;
+        
+        case TDBG_VAR_INT8:
+        Ovf = (Val < -128) || (Val > 127);
+        if(!Ovf) *(int8_t*)Address = (int8_t)(Val & 0xFF);
+        break;
+        
+        case TDBG_VAR_UINT16:
+        Ovf = (Val < 0) || (Val > 65535);
+        if(!Ovf) *(uint16_t*)Address = (uint16_t)(Val & 0xFFFF);
+        break;
+        
+        case TDBG_VAR_INT16:
+        Ovf = (Val < -32768) || (Val > 32767);
+        if(!Ovf) *(int16_t*)Address = (int16_t)(Val & 0xFFFF);
+        break;
+        
+        case TDBG_VAR_UINT32:
+        Ovf = (Arg[0] == '-');
+        if(!Ovf) *(uint32_t*)Address = (uint32_t)Val; /* TO DO Manage overflow for big positive values! */
+        break;
+        
+        case TDBG_VAR_INT32:
+        *(int32_t*)Address = (int32_t)Val; /* TO DO Manage overflow for big negative and positive values! */
+        break;
+        
+        case TDBG_VAR_FLOAT:
+        *(float*)Address = atof(Arg);
+        break;
+        
+        case TDBG_VAR_STRING:
+        strcpy((char*)Address, Arg);
+        break;
+        
+      }
+      VarIdx = Ovf? -1: VarId - 1;
+    }
+  }
+  else VarIdx = -1;
+  return(VarIdx);
+}
+#endif
 /**
  * \fn void printByteBin(Stream *stream, uint8_t Byte, uint8_t RemainingNibble)
  * \brief Display a byte in binary.
