@@ -416,7 +416,7 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
   PayloadMapSt_t     PayloadMap;
   XanyMsg_union      Built, Read;
   uint8_t            One8bitPort = 0, Prop = 0, ExpoPerCentIdx = 0, Radius, ValidMsg;
-  uint16_t           Two8bitPorts = 0, Angle = 0, Sw = 0;
+  uint16_t           Two8bitPorts = 0, Angle = 0, Sw = 0, ChFramePeriodMs_x10;
   int16_t            ExcSin, ExcCos;
 
   PayloadCfg = g_model.Xany[XanyIdx].PayloadCfg;
@@ -556,7 +556,15 @@ uint8_t Xany_operation(uint8_t XanyIdx, uint8_t XanyOp, XanyInfoSt_t *XanyInfo)
     XanyInfo->AngleValue   = getPayloadAngle(&Read, &PayloadMap);
     XanyInfo->PropValue    = getPayloadProp(&Read, &PayloadMap);
     XanyInfo->SwValue      = getPayloadSw(&Read, &PayloadMap);
-    XanyInfo->TxPeriodMs = ((g_model.Xany[XanyIdx].RepeatNb + 1) * (XanyInfo->MsgNibbleLen + 1) * 225) / 10; /* + 1 for IDLE symbol */
+    if(IS_PPM_PROTOCOL(g_model.rfProtocol))
+    {
+      ChFramePeriodMs_x10 = 225 + (g_model.PPMFRAMELENGTH * 5); // The true CPPM period
+    }
+    else
+    {
+      ChFramePeriodMs_x10 = 90; // For now, assume it is 9 ms for all other protocols then PPM (not true) -> TO DO: Fix this
+    }
+    XanyInfo->TxPeriodMs = ((g_model.Xany[XanyIdx].RepeatNb + 1) * (XanyInfo->MsgNibbleLen + 1) * ChFramePeriodMs_x10) / 10; /* + 1 for IDLE symbol */
   }
   return(ValidMsg);
 }
