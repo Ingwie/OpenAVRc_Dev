@@ -58,17 +58,14 @@ ISR(TRAINER_TC_VECT) // G: High frequency noise can cause stack overflow with IS
   }
   else if(val > 4000 && val < 19000)
   { // Frame sync pulse >4 <19 ms.
-    if (channelNumber > NUM_TRAINER) // all the frame capture OK ?
+    if (!puppySignalValidityTimer)
     {
-      if (!puppySignalValidityTimer)
-      {
-        puppySignalValidityTimer = PUPPY_VALID_TIMEOUT_FIRST;
-        systemBolls.puppyPpmSignalOk = 1; // Signal is from PPM (not BT)
-      }
-      else
-      {
-        puppySignalValidityTimer = PUPPY_VALID_TIMEOUT;
-      }
+      puppySignalValidityTimer = PUPPY_VALID_TIMEOUT_FIRST;
+      systemBolls.puppyPpmSignalOk = 1; // Signal is from PPM (not BT)
+    }
+    else
+    {
+      puppySignalValidityTimer = PUPPY_VALID_TIMEOUT;
     }
     channelNumber = 1; // Indicates start of new frame.
   }
