@@ -5,7 +5,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "2019-10-19"
+Date "2020-06-19"
 Rev ""
 Comp ""
 Comment1 ""
@@ -199,7 +199,7 @@ L Connector_Generic:Conn_01x05 P11
 U 1 1 5D73D1A7
 P 2550 2900
 F 0 "P11" H 2450 3200 50  0000 L CNN
-F 1 "GY-86" H 2650 2900 50  0000 L CNN
+F 1 "VARIO" H 2450 2600 50  0000 L CNN
 F 2 "Empreintes:Pin_Header_Straight_1x05_Pitch2.54mm" H 2550 2900 50  0001 C CNN
 F 3 "~" H 2550 2900 50  0001 C CNN
 	1    2550 2900
@@ -415,8 +415,8 @@ $Comp
 L Connector_Generic:Conn_01x05 P16
 U 1 1 5D771791
 P 2550 3650
-F 0 "P16" H 2450 3950 50  0000 L CNN
-F 1 "4S" H 2650 3650 50  0000 L CNN
+F 0 "P16" H 2450 3350 50  0000 L CNN
+F 1 "4S" H 2700 3500 50  0000 L CNN
 F 2 "Empreintes:Pin_Header_Straight_1x05_Pitch2.54mm" H 2550 3650 50  0001 C CNN
 F 3 "~" H 2550 3650 50  0001 C CNN
 	1    2550 3650
@@ -20142,4 +20142,10 @@ Wire Wire Line
 	3300 5200 3300 5550
 Wire Wire Line
 	2750 5950 3700 5950
+Text Notes 2150 2950 0    50   ~ 0
+GY-86\nGY-63\nBMPXXX
+Text Notes 2200 3700 0    50   ~ 0
+ACCUS
+Text Notes 2150 3050 0    50   ~ 0
+(0x77)
 $EndSCHEMATC

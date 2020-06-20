@@ -1,0 +1,19 @@
+### Module positions - created on 20/06/2020 17:53:10 ###
+### Printed by Pcbnew version kicad (5.1.5)-3
+## Unit = mm, Angle = deg.
+## Side : top
+# Ref     Val       Package                                                PosX       PosY       Rot  Side
+C6        10uF      CP_EIA-3216-18_Kemet-A_Pad1.58x1.35mm_HandSolder    25.8675    30.4800  180.0000  top
+C8        100nF     C_1206                                              27.3050    13.5650   90.0000  top
+C9        100nF     C_1206                                              28.1700     2.5400    0.0000  top
+C10       100nF     C_1206                                              15.0100     8.8900  180.0000  top
+C11       100nF     C_1206                                              15.0100    11.4300  180.0000  top
+R3        10K       R_1206                                              10.7950    19.4840  270.0000  top
+R4        12K       R_1206                                              13.3350    19.4840  270.0000  top
+R5        10K       R_1206                                              15.8750    19.4840  270.0000  top
+R7        8,2K      R_1206                                              10.7950    23.9290  270.0000  top
+R8        22K       R_1206                                              13.3350    23.9290  270.0000  top
+R9        27K       R_1206                                              15.8750    23.9290  270.0000  top
+R10       220       R_1206                                               8.2550    16.6900  270.0000  top
+R11       0         R_1206                                               9.1970    10.1600    0.0000  top
+## End
