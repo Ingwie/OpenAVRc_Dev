@@ -493,14 +493,18 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
       //========== DELAYS ===================
         if (mode == e_perout_mode_normal && (md->delayDown || md->delayUp)) // there are delay values
           {
-            if (!systemBolls.s_mixer_first_run_done || !mixVal[i].delay)
+            int16_t d_diff = v - mixVal[i].hold;
+            if (!mixVal[i].delay && d_diff) // There is no delay running and value change
               {
-                mixVal[i].hold = v;     // store actual value of v as reference for next run
-                mixVal[i].delay = (v > mixVal[i].hold ? md->delayUp : md->delayDown) * (100/DELAY_STEP); // init delay
+                if (systemBolls.s_mixer_first_run_done)
+                {
+                  mixVal[i].delay = (d_diff > 0 ? md->delayUp : md->delayDown) * (100/DELAY_STEP); // init delay
+                }
+              mixVal[i].hold = v;     // store actual value of v as reference for next run
               }
-            else if ((mixVal[i].delay > 0) && ((v > mixVal[i].hold +10) || (v < mixVal[i].hold -10)))     // compare v to value stored at previous run
+              else
               {
-                mixVal[i].delay = max<int16_t>(0, (int16_t)mixVal[i].delay - tick10ms); // decrement delay
+               if (abs(d_diff) > 10) mixVal[i].delay = max<int16_t>(0, (int16_t)mixVal[i].delay - tick10ms); // decrement delay if diff is more than 10
                 v = mixVal[i].hold;     // keep v to stored value until end of delay
               }
           }
