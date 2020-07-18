@@ -145,6 +145,7 @@ FORCEINLINE void boardInit()
  LEDOFF();
 }
 
+#if defined(SPIMODULES)
 void rf_spi_init()
 {
   // Reset CS pin
@@ -156,6 +157,7 @@ void rf_spi_init()
   // Init SPI port with 8Mhz speed
   enable_spi_master_mode();
 }
+#endif
 
 void backlightFade(void)
 {
