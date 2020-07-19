@@ -794,15 +794,17 @@ extern void backlightOn();
 
 enum Analogs {
 #if defined(REV_EVO_V2)
+  AREFA, // External reference voltage and negative differential input (Conversions with no gain).
+  STICK_RV,
   STICK_RH,
   STICK_LV,
-  STICK_RV,
   STICK_LH,
-  AVCC_REF_N, // AVCC/2 used as VINN for differential conversion with gain.
-  POT1, // SLIDER1,
-  POT2, // SLIDER2,
+  GAIN_REF_N, // Negative differential input (Conversions with gain).
+  POT1, // SLIDER R.
+  POT2, // SLIDER L.
   POT_LAST = POT2,
   TX_VOLTAGE,
+
   ANAL_SWS_1,
   ANAL_SWS_2,
   ANAL_SWS_3,
