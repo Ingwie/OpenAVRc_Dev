@@ -35,7 +35,7 @@
 
 
 
-uint8_t   eepromVars.s_write_err = 0;    // error reasons
+uint8_t   s_write_err = 0;    // error reasons
 RlcFile   theFile;  //used for any file operation
 EeFs      eeFs;
 
@@ -43,7 +43,7 @@ EeFs      eeFs;
   blkid_t   freeBlocks = 0;
 #endif
 
-uint8_t  eepromVars.s_sync_write = false;
+uint8_t  s_sync_write = false;
 
 uint8_t * eeprom_buffer_data;
 volatile uint8_t eeprom_buffer_size = 0;
@@ -87,7 +87,7 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
   eeprom_buffer_size = size+1;
   EECR |= (1<<EERIE);
 
-  if (eepromVars.s_sync_write)
+  if (s_sync_write)
     {
       while (eeprom_buffer_size)
         MYWDT_RESET(EE_READY_vect()); //Simulate ISR in Simu mode, else reset watchdog
@@ -177,15 +177,13 @@ void eepromWriteBlock(uint8_t * i_pointer_ram, uint16_t i_pointer_eeprom, size_t
   i2c_write((uint8_t)(i_pointer_eeprom >> 8)); //MSB write address
   i2c_write((uint8_t)i_pointer_eeprom); //LSB write address
   i2c_writeAndActiveISR(*eeprom_buffer_data);    // write value to EEPROM
-  if (eepromVars.s_sync_write)
+  if (s_sync_write)
     {
       while (eeprom_buffer_size)
         MYWDT_RESET(); // Wait completion and reset watchdog
     }
 }
 #endif
-
-
 
 
 
@@ -384,7 +382,7 @@ void eepromFormat()
   ENABLE_SYNC_WRITE(false);
 }
 
-bool eepromOpen()
+uint8_t eepromOpen()
 {
   EEPROMREADBLOCK((uint8_t *)&eeFs, 0, sizeof(eeFs));
 
@@ -408,7 +406,7 @@ bool eepromOpen()
   return true;
 }
 
-bool EFile::exists(uint8_t i_fileId)
+uint8_t EFile::exists(uint8_t i_fileId)
 {
   return eeFs.files[i_fileId].startBlk;
 }
@@ -646,7 +644,7 @@ void RlcFile::create(uint8_t i_fileId, uint8_t typ, uint8_t sync_write)
 /*
  * Copy file src to dst
  */
-bool RlcFile::copy(uint8_t i_fileDst, uint8_t i_fileSrc)
+uint8_t RlcFile::copy(uint8_t i_fileDst, uint8_t i_fileSrc)
 {
   EFile theFile2;
   theFile2.openRd(i_fileSrc);
@@ -685,7 +683,7 @@ bool RlcFile::copy(uint8_t i_fileDst, uint8_t i_fileSrc)
 uint8_t eeBackupModel(uint8_t i_fileSrc)
 {
   uint8_t ret = 1;
-  char *buf = reusableBuffer.modelsel.mainname;
+  char *buf = ReBuff.modelsel.mainname;
 
   // we must close the logs as we reuse the same SD_file structure
   closeLogIfActived();
@@ -737,12 +735,13 @@ uint8_t eeBackupModel(uint8_t i_fileSrc)
     } else { ret = 0; }
 
   fat_close_file(SD_file);
+  SdBufferClear();
   return ret;
 }
 
 const pm_char * eeRestoreModel(uint8_t i_fileDst, char *model_name)
 {
-  char *buf = reusableBuffer.modelsel.mainname;
+  char *buf = ReBuff.modelsel.mainname;
 
   strcpy(buf, model_name);
   strcpy_P(&buf[strlen(buf)], STR_MODELS_EXT);
@@ -843,14 +842,14 @@ void RlcFile::nextRlcWriteStep()
       return;
     }
 
-  bool run0 = (m_rlc_buf[0] == 0);
+  uint8_t run0 = (m_rlc_buf[0] == 0);
 
   if (m_rlc_len==0)
     goto close;
 
   for (i=1; 1; i++)   // !! laeuft ein byte zu weit !!
     {
-      bool cur0 = m_rlc_buf[i] == 0;
+      uint8_t cur0 = m_rlc_buf[i] == 0;
       if (cur0 != run0 || cnt==0x3f || (cnt0 && cnt==0x0f) || i==m_rlc_len)
         {
           if (run0)
@@ -979,7 +978,7 @@ void RlcFile::DisplayProgressBar(uint8_t x)
 
 // For conversions ...
 
-bool eeLoadGeneral()
+uint8_t eeLoadGeneral()
 {
   theFile.openRlc(FILE_GENERAL);
   if (theFile.readRlc((uint8_t*)&g_eeGeneral, 1) == 1 && g_eeGeneral.version == EEPROM_VER)
@@ -987,6 +986,9 @@ bool eeLoadGeneral()
       theFile.openRlc(FILE_GENERAL);
       if (theFile.readRlc((uint8_t*)&g_eeGeneral, sizeof(g_eeGeneral)) <= sizeof(EEGeneral))
         {
+#if !defined(SIMU)
+          g_eeGeneral.protocol_mask = PROTOMASK; // Load used protocols mask
+#endif
           return true;
         }
     }
@@ -1005,7 +1007,7 @@ void eeLoadModelName(uint8_t id, char *name)
     }
 }
 
-bool eeModelExists(uint8_t id)
+uint8_t eeModelExists(uint8_t id)
 {
   return EFile::exists(FILE_MODEL(id));
 }
@@ -1028,7 +1030,9 @@ void eeLoadModel(uint8_t id)
       theFile.openRlc(FILE_MODEL(id));
       uint16_t sz = theFile.readRlc((uint8_t*)&g_model, sizeof(g_model));
 
-      bool newModel = false;
+      uint8_t newModel = false;
+
+      ADAPT_PROTOCOL_TO_SIMU(); // Simu only
 
       if (sz < 256)
         {
@@ -1060,7 +1064,7 @@ void eeLoadModel(uint8_t id)
     }
 }
 
-void eeErase(bool warn)
+void eeErase(uint8_t warn)
 {
   generalDefault();
 
@@ -1096,8 +1100,16 @@ void eeCheck(uint8_t immediately)
     {
       TRACE("eeprom write model");
       eepromVars.s_eeDirtyMsk = 0;
+      ADAPT_PROTOCOL_TO_TX(); // Simu function : Change proto number if needed
       theFile.writeRlc(FILE_MODEL(g_eeGeneral.currModel), FILE_TYP_MODEL, (uint8_t*)&g_model, sizeof(g_model), immediately);
+      ADAPT_PROTOCOL_TO_SIMU(); // Simu function
     }
+}
+
+// deliver current errno, this is reset in open
+inline uint8_t write_errno()
+{
+  return eepromVars.s_write_err;
 }
 
 
