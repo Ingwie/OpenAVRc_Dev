@@ -62,10 +62,12 @@ public:
   {
     if (toneFreq) {
       toneCounter += toneFreq;
+#if defined(BUZZER)
       if ((toneCounter & 0x80) == 0x80)
         buzzerOn();
       else
         buzzerOff();
+#endif
     }
   }
 
