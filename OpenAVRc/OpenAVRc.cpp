@@ -1322,6 +1322,13 @@ ISR10msLoop_is_runing = true;
 
   per10ms();
 
+#if defined(REV_EVO_V2)
+  if((accuracyWarble & 0b11) == 0) read_sws_1();
+  if((accuracyWarble & 0b11) == 1) read_sws_2();
+  if((accuracyWarble & 0b11) == 2) read_sws_3();
+  if((accuracyWarble & 0b11) == 3) read_sws_4();
+#endif
+
 #if defined(SIMU)
 ISR10msLoop_is_runing = false;
 #endif
