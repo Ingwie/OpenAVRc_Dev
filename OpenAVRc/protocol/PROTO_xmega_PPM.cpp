@@ -13,7 +13,7 @@
 ISR(TCE0_OVF_vect)
 {
   /*
-   * PROTO_PPM uses TCE0 OC0D PE3.
+   * PROTO_PPM uses TCE0 Output Compare 0D PE3.
    * 16 Bit Timer running @ 2MHz has a resolution of 0.5us.
    * This should give a PPM resolution of 2048.
   */
@@ -21,10 +21,10 @@ ISR(TCE0_OVF_vect)
     RptrB = &pulses2MHz.pword[0];
     // Set the PPM idle level.
     if (g_model.PULSEPOL) {
-      RF_PORT.PIN3CTRL |= PORT_INVEN_bm; // Maybe use MPC mask with bm for USART_TXD_PIN.
+      RF_OUT_PIN_CTRL_REG |= PORT_INVEN_bm; // Maybe use MPC mask with bm for USART_TXD_PIN.
     }
     else {
-      RF_PORT.PIN3CTRL &= ~PORT_INVEN_bm;
+      RF_OUT_PIN_CTRL_REG &= ~PORT_INVEN_bm;
     }
     // Schedule next Mixer calculations.
     SCHEDULE_MIXER_END_IN_US(22500 + ((g_model.PPMFRAMELENGTH * 1000) / 2));
@@ -53,13 +53,9 @@ ISR(TCE0_OVF_vect)
 
 static void PROTO_PPM_reset()
 {
-#if defined(FRSKY)
-  telemetryReset();
-#endif
-
   RF_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
   RF_TC.CTRLFSET = TC_CMD_RESET_gc;
-  RF_PORT.PIN3CTRL &= ~PORT_INVEN_bm;
+  RF_OUT_PIN_CTRL_REG &= ~PORT_INVEN_bm;
   setup_rf_tc(); // Restore tc settings.
 }
 
@@ -79,8 +75,8 @@ static void PROTO_PPM_initialize()
   RF_TC.CCD = 0xFFFF; // Prevent compare.
   RF_TC.CTRLC &= ~TC0_CMPD_bm; // Clear CMPD level in OFF state.
   RF_TC.CTRLB = TC0_CCDEN_bm | (0b011 << TC0_WGMODE_gp); // Mode = SINGLESLOPE, Enable CCD.
-  RF_PORT.DIRSET = USART_TXD_PIN;
-  RF_TC.CTRLA = 8 + 3; // Event channel 3 (prescaler of 16)
+  RF_PORT.DIRSET = 1<< RF_OUT_PIN;
+  RF_TC.CTRLA = 8 + 1; // Event channel 1 (prescaler of 16)
 }
 
 
