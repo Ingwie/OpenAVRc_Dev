@@ -11,13 +11,14 @@
  * Written for Xmega SPI and Bit-Bang.
  * Adapted from USART MSPI code.
  * As this is a uni-directional driver, choose Bit-Bang to reclaim
- * the unused MISO pin. USART MSPI would be better and can do DMA
+ * the unused MISO pin.
+ * USART MSPI would be better and can do DMA
  * too unlike the SPI port.
- * No Reset signal as this that is derived from RTC chip.
+ * No Reset signal as that is derived from RTC chip.
  *****************************************************************
  */
 
-#define BITBANGSPI
+//#define BITBANGSPI
 
 #if !defined (BITBANGSPI)
 #include "spi.h"
@@ -50,8 +51,8 @@
 #define SSD1309_CMD_SETSTARTLINE( line )             (0x40 | (line))
 
 #define LCD_PORT       PORTD
-#define O_LCD_MOSI     PIN5_bm
-#define O_LCD_SCK_P    PIN7_bm
+#define O_LCD_MOSI     PIN7_bm
+#define O_LCD_SCK_P    PIN5_bm
 
 #define LCD_CLK_HI     LCD_PORT.OUTSET = O_LCD_SCK_P
 #define LCD_CLK_LO     LCD_PORT.OUTCLR = O_LCD_SCK_P
@@ -100,7 +101,8 @@ void lcd_spi_tx(uint8_t c) {
 }
 #endif
 
-void lcdSendCtl(uint8_t c) {
+void lcdSendCtl(uint8_t c)
+{
   LCD_A0_LO;
   LCD_CS_N_ACTIVE;
   lcd_spi_tx(c);
@@ -118,15 +120,14 @@ void lcdInit() {
   // Setup pin states and MSPI mode.
   // LCD Reset pin is now controlled by RTC reset signal.
   // Remap SPIC MOSI and SCK pins.
-#if 0
+
 #if !defined(PORTD_REMAP)
 #define PORTD_REMAP  _SFR_MEM8(0x066E)
 #endif
 #if !defined(PORT_SPI_bm)
 #define PORT_SPI_bm  0x20  /* SPI bit mask. */
 #endif
-  LCD_PORT.REMAP |= PORT_SPI_bm; // Swap MOSI and SCK.
-#endif
+  PORTD_REMAP |= PORT_SPI_bm; // Swap MOSI and SCK.
 
   LCD_PORT.DIRSET = O_LCD_CS_N | O_LCD_A0 | O_LCD_SCK_P | O_LCD_MOSI;
   LCD_CS_N_INACTIVE;
