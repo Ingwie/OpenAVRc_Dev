@@ -226,7 +226,36 @@ void getADC()
 inline void ADC_atomic(uint8_t Analogs, int16_t sample)
 {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    s_anaFilt[Analogs] = (signed) sample + 0x800;
+
+    if (Analogs == STICK_RH)
+#if defined(INV_STICK_RH)
+      s_anaFilt[STICK_RH] = (signed) -sample + 0x800;
+#else
+      s_anaFilt[STICK_RH] = (signed) sample + 0x800;
+#endif
+
+    else if (Analogs == STICK_LV)
+#if defined(INV_STICK_LV)
+      s_anaFilt[STICK_LV] = (signed) -sample + 0x800;
+#else
+      s_anaFilt[STICK_LV] = (signed) sample + 0x800;
+#endif
+
+    else if (Analogs == STICK_RV)
+#if defined(INV_STICK_RV)
+      s_anaFilt[STICK_RV] = (signed) -sample + 0x800;
+#else
+      s_anaFilt[STICK_RV] = (signed) sample + 0x800;
+#endif
+
+    else if (Analogs == STICK_LH)
+#if defined(INV_STICK_LH)
+      s_anaFilt[STICK_LH] = (signed) -sample + 0x800;
+#else
+      s_anaFilt[STICK_LH] = (signed) sample + 0x800;
+#endif
+    else
+      s_anaFilt[Analogs] = (signed) sample + 0x800;
   }
 }
 
