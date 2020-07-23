@@ -28,35 +28,46 @@
 
 #define USART_ENABLE_TX(usartx)  usartx.CTRLB |= USART_TXEN_bm;
 #define USART_ENABLE_RX(usartx)  usartx.CTRLB |= USART_RXEN_bm;
+#define USART_DISABLE_TX(usartx)  usartx.CTRLB &= ~USART_TXEN_bm;
+#define USART_DISABLE_RX(usartx)  usartx.CTRLB &= ~USART_RXEN_bm;
 
-#define USART_XCK_PIN  PIN1_bm
-#define USART_RXD_PIN  PIN2_bm
-#define USART_TXD_PIN  PIN3_bm
+#define USART_XCK_PIN_bm    PIN1_bm
+#define USART_RXD_PIN_bm    PIN2_bm
+#define USART_TXD_PIN_bm    PIN3_bm
 
 #if defined (MULTIMODULE)
 #define PROTO_HAS_MULTISUPIIIK
 #endif
-// Using USARTD0 which is the Telemetry / Bootloader USART.
-// Should be on USARTE0 which is the USART used for MSPI of SPIMODULES.
+
 // All communication to RF module(s) will use the same pin ... e.g. USART MSPI, USART Asynch and PPM.
-#define TLM_USART           MULTI_USART
-#define MULTI_USART         USARTE0
-#define TLM_USART_PORT      PORTE
-#define TLM_USART_RXC_VECT  USARTE0_RXC_vect
-#define TLM_USART_DRE_VECT  USARTE0_DRE_vect
+#define TLM_USART             MULTI_USART
+#define MULTI_USART           USARTE0
+#define TLM_USART_PORT        PORTE
+#define TLM_USART_RXC_VECT    USARTE0_RXC_vect
+#define TLM_USART_DRE_VECT    USARTE0_DRE_vect
 
 
-// RF Module Timer counter.
+// token pasting
+#define token_paste2_int(x, y) x ## y
+#define token_paste2(x, y) token_paste2_int(x, y)
+#define token_paste3_int(x, y, z) x ## y ## z
+#define token_paste3(x, y, z) token_paste3_int(x, y, z)
+
+
+// RF Module Timer.
 #define RF_TC                      TCE0
 #define RF_PORT                    PORTE
 #define RF_TIMER_COMPA_VECT        TCE0_CCA_vect
 #define RF_TIMER_COMPA_REG         RF_TC.CCA
-#define RF_TIMER_PAUSE_INTERRUPT   RF_TC.INTCTRLB = 0  //&= ~TC0_CCAINTLVL_gm;
 #define RF_TIMER_RESUME_INTERRUPT  RF_TC.INTCTRLB |=  (0b11 << TC0_CCAINTLVL_gp); // Level 3 - High Priority.
+#define RF_TIMER_PAUSE_INTERRUPT   RF_TC.INTCTRLB &= ~(0b11 << TC0_CCAINTLVL_gp);
 #define RF_TIMER_CLEAR_COMPA_FLAG  RF_TC.INTFLAGS = TC0_CCAIF_bm; // clear ccaif.
+#define RF_OUT_PIN                 3
+#define RF_OUT_PIN_CTRL_REG        token_paste3(RF_PORT.PIN, RF_OUT_PIN, CTRL) // e.g. "PORTx.PINnCTRL"
+
+
 void setup_rf_tc(void);
 void rf_usart_serial_init(void);
-
 
 #define CALCULATE_LAT_JIT()  dt = (RF_TC.CNT - RF_TIMER_COMPA_REG ) // Calculate latency and jitter.
 
@@ -66,17 +77,17 @@ char rf_usart_mspi_xfer(char c);
 void rf_usart_mspi_init(void);
 #define RF_SPI_INIT  rf_usart_mspi_init
 
-#define RF_USART   USARTE0
-#define RF_CS_PIN  PIN0_bm
+#define RF_USART                  USARTE0
+#define RF_CS_PIN_bm              PIN0_bm
 
-#define RF_CS_CC2500_ACTIVE()     PORTE.OUTCLR = RF_CS_PIN
-#define RF_CS_CC2500_INACTIVE()   PORTE.OUTSET = RF_CS_PIN
-#define RF_CS_CYRF6936_ACTIVE()   PORTE.OUTCLR = RF_CS_PIN
-#define RF_CS_CYRF6936_INACTIVE() PORTE.OUTSET = RF_CS_PIN
-#define RF_CS_NRF24L01_ACTIVE()   PORTE.OUTCLR = RF_CS_PIN
-#define RF_CS_NRF24L01_INACTIVE() PORTE.OUTSET = RF_CS_PIN
-#define RF_CS_A7105_ACTIVE()      PORTE.OUTCLR = RF_CS_PIN
-#define RF_CS_A7105_INACTIVE()    PORTE.OUTSET = RF_CS_PIN
+#define RF_CS_CC2500_ACTIVE()     PORTE.OUTCLR = RF_CS_PIN_bm
+#define RF_CS_CC2500_INACTIVE()   PORTE.OUTSET = RF_CS_PIN_bm
+#define RF_CS_CYRF6936_ACTIVE()   PORTE.OUTCLR = RF_CS_PIN_bm
+#define RF_CS_CYRF6936_INACTIVE() PORTE.OUTSET = RF_CS_PIN_bm
+#define RF_CS_NRF24L01_ACTIVE()   PORTE.OUTCLR = RF_CS_PIN_bm
+#define RF_CS_NRF24L01_INACTIVE() PORTE.OUTSET = RF_CS_PIN_bm
+#define RF_CS_A7105_ACTIVE()      PORTE.OUTCLR = RF_CS_PIN_bm
+#define RF_CS_A7105_INACTIVE()    PORTE.OUTSET = RF_CS_PIN_bm
 
 #define WAIT_RF_BUFFER_EMPTY()    while(! (RF_USART.STATUS & USART_DREIF_bm) )
 #define WAIT_RF_TX_FIN()          while(! (RF_USART.STATUS & USART_TXCIF_bm) )
@@ -84,24 +95,31 @@ void rf_usart_mspi_init(void);
 #endif // SPIMODULES
 
 
-// Trainer Pulses
-#define TRAINER_TC         TCF0
-#define TRAINER_TC_VECT    TCF0_CCC_vect
-#define TRAINER_TC_REG     TRAINER_TC.CCC
-#define TRAINER_PORT       PORTF
+// Trainer Pulses.
+// Xmega uses the same pin for PPM input and output.
+#define PULSES_IN_TC         TCF0
+#define TRAINER_TC_REG       PULSES_IN_TC.CCA
+#define PULSES_IN_TC_VECT    TCF0_CCA_vect
+#define TRAINER_TC_VECT      PULSES_IN_TC_VECT
+#define TRN_PULSES_IN_PIN    3
+#define TRN_PULSES_IN_PORT   PORTF
+#define TRN_PULSES_IN_PIN_CTRL_REG   token_paste3(TRN_PULSES_IN_PORT.PIN, TRN_PULSES_IN_PIN, CTRL) // e.g. "PORTF.PIN1CTRL"
+
+#define PULSES_OUT_TC        TCF0
+#define TRN_PULSES_OUT_PIN   3
+#define TRAINER_PORT         PORTF
+#define TRN_PULSES_OUT_PIN_CTRL_REG  token_paste3(TRAINER_PORT.PIN, TRN_PULSES_OUT_PIN, CTRL)
 void setup_trainer_tc(void);
 
-// Pupil Teacher Mode
-#define OUT_F_SIM_CTL     PIN3
-#define ACTIVE_PPM_OUT()  PORTF.OUTSET = OUT_F_SIM_CTL
-#define ACTIVE_PPM_IN()   PORTF.OUTCLR = OUT_F_SIM_CTL
-#define ENABLE_TRAINER_INTERRUPT()   (false) // Enable ICP Interrupt.
-#define DISABLE_TRAINER_INTERRUPT()  (false) // Disable ICP Interrupt.
-#define WAIT_PUPIL()                ENABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_IN()
-#define PPM16_CONF()                DISABLE_TRAINER_INTERRUPT(); ACTIVE_PPM_OUT()
+
+// Teacher / Pupil Mode.
+#define ENABLE_TRAINER_INTERRUPT()   PULSES_IN_TC.INTCTRLB |=  (0b10 << TC0_CCAINTLVL_gp); // Level 2 - Medium Priority.
+#define DISABLE_TRAINER_INTERRUPT()  PULSES_IN_TC.INTCTRLB &= ~(0b11 << TC0_CCAINTLVL_gp);
+#define WAIT_PUPIL()                 ENABLE_TRAINER_INTERRUPT()
+#define PPM16_CONF()                 DISABLE_TRAINER_INTERRUPT()
 
 
-// Switch cross mapping
+// Switch cross mapping.
 #define SW_ID0 SW_Jup
 #define SW_ID1 SW_Jmi
 #define SW_ID2 SW_Jdn
@@ -115,83 +133,67 @@ void setup_trainer_tc(void);
 #define SW_TRN SW_M
 
 
-// MPX / Trainer DIN
+// MPX
 #define MPX_USART       USARTE0
 #define MPX_PORT        PORTE
-#define IO_E_MPX_RF_EN  PIN1_bm
 
-// Buzzer driver
-//#if defined(BUZZER)
-#define buzzerOn()
-#define buzzerOff()
-//#endif
 
-// Audio - Piezo Sounder driver
+// Audio - Piezo Sounder driver.
 #define AUDIO_TC             TCD0
 #define AUDIO_COMPARE_REG    AUDIO_TC.CCABUF
 #define speakerOn()   AUDIO_TC.CTRLB |= TC0_CCAEN_bm
 #define speakerOff()  AUDIO_TC.CTRLB &= ~TC0_CCAEN_bm
-#define O_D_AUDIO            PIN0_bm
+#define OD_AUDIO_bm          PIN0_bm
 
-#if defined(VOICE_JQ6500)
+
+//#if defined(VOICE_JQ6500)
 #define VOICE_USART       USARTC0
 #define VOICE_USART_PORT  PORTC
-#define VOICE_BUSY_PIN    PIN7_bm
-#define JQ6500_BUSY       (0) //(PORTB.IN & VOICE_BUSY_PIN)
+#define VOICE_BUSY_PIN    4
+#define VOICE_BUSY_PIN_CTRL_REG   token_paste3(PORTF.PIN, VOICE_BUSY_PIN, CTRL) // e.g. "PORTF.PIN4CTRL"
+#define JQ6500_BUSY       (PORTF.IN & (1<<VOICE_BUSY_PIN))
 #define VOICE_DRE_VECT    USARTC0_DRE_vect
 extern void InitJQ6500UartTx();
-#endif
+//#endif
 
 // Trims Button  Matrix.
-#define I_E_TRIM_COL_A  PIN4_bm
-#define I_E_TRIM_COL_B  PIN5_bm
-#define I_E_TRIM_COL_C  PIN6_bm
-#define I_E_TRIM_COL_D  PIN7_bm
-#define O_F_TRIM_ROW_A  PIN0_bm
+#define IE_TRIM_COL_A_bm    PIN4_bm
+#define IE_TRIM_COL_B_bm    PIN5_bm
+#define IE_TRIM_COL_C_bm    PIN6_bm
+#define IE_TRIM_COL_D_bm    PIN7_bm
+#define OF_TRIM_ROW_A_bm    PIN2_bm
 
-// Serial Telemetry on USART0
-//#define INP_E_TELEM_RX	0
-//#define OUT_E_TELEM_TX	1
 
-// Trim Buttons
+// Trim Buttons.
 void read_trim_matrix(void);
 #define TRIMS_PRESSED() false
 
-#if 0
-// Keys driver
-#define KEYS_PRESSED()  (~PINL)
-#define DBLKEYS_PRESSED_RGT_LFT(i)  (false)
-#define DBLKEYS_PRESSED_UP_DWN(i)   (false)
-#define DBLKEYS_PRESSED_RGT_UP(i)   (false)
-#define DBLKEYS_PRESSED_LFT_DWN(i)  (false)
-#endif
-
-
+// 10mS / 64us Counter.
 #define MS064_TC                   TCC1
-#define COUNTER_64uS               MS064_TC.CNT
-//#define TIMER_10MS_VECT            TCC1_CCA_vect
+#define COUNTER_64uSH              MS064_TC.CNTH
+#define COUNTER_64uSL              MS064_TC.CNTL
+#define TIMER_10MS_VECT            TCC1_CCA_vect
 #define TIMER_10MS_COMPVAL         MS064_TC.CCA
-#define PAUSE_10MS_INTERRUPT       MS064_TC.INTCTRLB &= ~TC1_CCAINTLVL_gm;
+#define PAUSE_10MS_INTERRUPT       MS064_TC.INTCTRLB &= (0b11 << TC1_CCAINTLVL_gp);
 #define RESUME_10MS_INTERRUPT      MS064_TC.INTCTRLB |=  (0b01 << TC1_CCAINTLVL_gp); // Level 1 - Low Priority.
 #define MS064_TC_CLEAR_CCAIF_FLAG  MS064_TC.INTFLAGS = TC1_CCAIF_bm; // clear ccaif.
 
-
-// SD Card driver
+// SD Card driver.
 #define sdDone()
 #define SD_IS_HC()              (0)
 #define SD_GET_SPEED()          (0)
 #define SDCARD_SPI              SPIC
 #define SDCARD_PORT             PORTC
-#define O_SDCARD_CS_N           PIN4_bm
-#define select_card()           SDCARD_PORT.OUTCLR = O_SDCARD_CS_N
-#define SDCARD_CS_N_ACTIVE()    SDCARD_PORT.OUTCLR = O_SDCARD_CS_N
-#define unselect_card()         SDCARD_PORT.OUTSET = O_SDCARD_CS_N
-#define SDCARD_CS_N_INACTIVE()  SDCARD_PORT.OUTSET = O_SDCARD_CS_N
+#define O_SDCARD_CSN_bm         PIN4_bm
+#define select_card()           SDCARD_PORT.OUTCLR = O_SDCARD_CSN_bm
+#define SDCARD_CS_N_ACTIVE()    SDCARD_PORT.OUTCLR = O_SDCARD_CSN_bm
+#define unselect_card()         SDCARD_PORT.OUTSET = O_SDCARD_CSN_bm
+#define SDCARD_CS_N_INACTIVE()  SDCARD_PORT.OUTSET = O_SDCARD_CSN_bm
 #define SPI_8M()                MSPI_16M(SDCARD_SPI)
 #define SPI_250K()              MSPI_250K(SDCARD_SPI)
 #define SPI_START_SPEED()       SPI_250K()
-#define LEDON()
-#define LEDOFF()
+#define LEDON()    {}
+#define LEDOFF()   {}
 
 // SPI general.
 #define MSPI_250K(spix)  { spix.CTRL &= ~(SPI_CLK2X_bm); spix.CTRL |= 0b11 << SPI_PRESCALER_gp; }
@@ -201,20 +203,20 @@ void read_trim_matrix(void);
 #define MSPI_8M(spix)    { spix.CTRL &= ~(SPI_CLK2X_bm); spix.CTRL &= ~(0b11 << SPI_PRESCALER_gp); }
 #define MSPI_16M(spix)   { spix.CTRL |=  (SPI_CLK2X_bm); spix.CTRL &= ~(0b11 << SPI_PRESCALER_gp); }
 
-// Power driver
-#define PWR_HOLD_PORT      PORTB
-#define O_B_PWR_HOLD       PIN5_bm
-#define PWR_STATUS_PORT    PORTB.IN
-#define I_B_PWR_STATUS     PIN6_bm
-#define PWR_LED_PORT       PORTC
-#define O_C_PWR_LED        PIN2_bm
+// Power driver.
+#define PWR_HOLD_PORT        PORTB
+#define OB_PWR_HOLD_bm       PIN7_bm
+//#define PWR_STATUS_PORT      PORTB
+//#define IB_PWR_STATUS_bm     PIN7_bm
+#define PWR_LED_PORT         PORTC
+#define OC_PWR_LED_bm        PIN2_bm
 
 // Power LED / Backlight driver.
-#define BACKLIGHT_PORT     PORTC
-#define O_C_BACKLIGHT      PIN2_bm
+#define BACKLIGHT_PORT        PORTC
+#define OC_BACKLIGHT_bm       PIN2_bm
 #if !defined(PWM_BACKLIGHT)
-#define BACKLIGHT_ON()  (BACKLIGHT_PORT.OUTSET = O_C_BACKLIGHT)
-#define BACKLIGHT_OFF() (BACKLIGHT_PORT.OUTCLR = O_C_BACKLIGHT)
+#define BACKLIGHT_ON()  (BACKLIGHT_PORT.OUTSET = OC_BACKLIGHT_bm)
+#define BACKLIGHT_OFF() (BACKLIGHT_PORT.OUTCLR = OC_BACKLIGHT_bm)
 #else
 #define BACKLIGHT_ON()  (TCC2.LCMPC = ( (uint8_t) g_eeGeneral.blOnBright)  <<4)
 #define BACKLIGHT_OFF() (TCC2.LCMPC = ( (uint8_t) g_eeGeneral.blOffBright) <<4)
@@ -226,33 +228,34 @@ void read_trim_matrix(void);
 #define UNEXPECTED_SHUTDOWN()    (mcusr & (RST_WDRF_bm))
 #endif
 
-// Rotary encoder driver.
-#define I_F_ROT_ENC_LH_CLK       PIN4_bm
-#define I_F_ROT_ENC_LH_DIR       PIN5_bm
-#define I_F_ROT_ENC_RH_CLK       PIN6_bm
-#define I_F_ROT_ENC_RH_DIR       PIN7_bm
+// Rotary encoder pins.
+#define ROT_ENC_PORT               PORTF
+#define IF_ROT_ENC_LH_CLK_bm       PIN0_bm
+#define ROT_ENC_LH_CLK_CTRL_REG    PORTF.PIN0CTRL
+#define IF_ROT_ENC_LH_DIR_bm       PIN1_bm
+#define IF_ROT_ENC_RH_CLK_bm       PIN6_bm
+#define ROT_ENC_RH_CLK_CTRL_REG    PORTF.PIN6CTRL
+#define IF_ROT_ENC_RH_DIR_bm       PIN7_bm
 
 #define REA_DOWN()	switchState((EnumKeys)BTN_REa)
 #define REB_DOWN()	switchState((EnumKeys)BTN_REb)
 #define ROTENC_DOWN() (REA_DOWN() || REB_DOWN())
 
-#define ENABLEROTENCAISR()   {}
-#define ENABLEROTENCBISR()   {}
-#define DISABLEROTENCAISR()  {}
-#define DISABLEROTENCBISR()  {}
+#define ENABLEROTENCAISR()     {}
+#define ENABLEROTENCBISR()     {}
+#define DISABLEROTENCAISR()    {}
+#define DISABLEROTENCBISR()    {}
 
-// TWI / I2C
-#define FRAM_RTC_TWI            TWIC
-#define FRAM_RTC_TWI_TWIM_VECT  TWIC_TWIM_vect
+// TWI / I2C.
+#define FRAM_RTC_TWI              TWIC
+#define FRAM_RTC_TWI_TWIM_VECT    TWIC_TWIM_vect
 
-// EEPROM driver
-#define EEPROM_EnableMapping()   NVM.CTRLB |= NVM_EEMAPEN_bm
-#define EEPROM_DisableMapping()  NVM.CTRLB &= ~NVM_EEMAPEN_bm
-#define NVM_EXEC()              _PROTECTED_WRITE(NVM.CTRLA, 0b1);
+// EEPROM driver.
+#define EEPROM_EnableMapping()     NVM.CTRLB |= NVM_EEMAPEN_bm
+#define EEPROM_DisableMapping()    NVM.CTRLB &= ~NVM_EEMAPEN_bm
+#define NVM_EXEC()                 _PROTECTED_WRITE(NVM.CTRLA, 0b1);
 void EEPROM_WaitForNVM(void);
 void EEPROM_FlushBuffer(void);
-
-
 
 #if !defined(SIMU)
 #if defined(EXTERNALEEPROM)
