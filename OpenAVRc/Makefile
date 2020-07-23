@@ -521,10 +521,11 @@ ifeq ($(PCB), EVO_V2)
   CYRF6936 = YES
   CYRF6936PAG = 20
   INV_STICK_RV = YES
+  INV_STICK_LH = YES
 
   INCDIRS += targets/evo_v2 targets/stock $(RRSDDIR)
   BOARDSRC += main_avr.cpp targets/evo_v2/xmega.cpp targets/evo_v2/lcd_ssd1309_driver.cpp targets/evo_v2/xmega_adc_driver.cpp
-  EEPROMSRC = eeprom_common.cpp targets/evo_v2/eeprom_rlc.cpp
+  EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = targets/evo_v2/xmega_pulses.cpp
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v2/menu_general_diaganas.cpp
   EXTRABOARDSRC = targets/evo_v2/Serial0.cpp
