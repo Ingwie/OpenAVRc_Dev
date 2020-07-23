@@ -504,7 +504,7 @@ ifeq ($(PCB), EVO_V2)
 
   AUDIO = YES
   BUZZER = NO
-  PWM_BACKLIGHT = YES
+  PWM_BACKLIGHT = NO
   EXTERNALEEPROM = YES
   EXT = FRSKY
   HAPTIC = NO
@@ -515,15 +515,15 @@ ifeq ($(PCB), EVO_V2)
   SPLASH = YES
   THR_TRACE = YES
   VOICE = NO
-  SPIMODULES = YES
+  SPIMODULES = NO
   CC2500 = YES
   CC2500PAG = 20
   CYRF6936 = YES
   CYRF6936PAG = 20
-
+  INV_STICK_RV = YES
 
   INCDIRS += targets/evo_v2 targets/stock $(RRSDDIR)
-  BOARDSRC += main_avr.cpp targets/evo_v2/xmega.cpp targets/evo_v2/xmega_lcd_driver.cpp targets/evo_v2/xmega_adc_driver.cpp
+  BOARDSRC += main_avr.cpp targets/evo_v2/xmega.cpp targets/evo_v2/lcd_ssd1309_driver.cpp targets/evo_v2/xmega_adc_driver.cpp
   EEPROMSRC = eeprom_common.cpp targets/evo_v2/eeprom_rlc.cpp
   PULSESSRC = targets/evo_v2/xmega_pulses.cpp
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v2/menu_general_diaganas.cpp
@@ -580,48 +580,47 @@ ifeq ($(PCB), EVO_V2)
   endif
 
   ifeq ($(PERSONAMES), YES)
-   CPPDEFS += -DPERSONAMES
+    CPPDEFS += -DPERSONAMES
   endif
 
   ifeq ($(SPIMODULES), YES)
     CPPDEFS += -DSPIMODULES
 
-	ifeq ($(CC2500), YES)
- 	  CPPDEFS += -DPROTO_HAS_CC2500
- 	  CPPDEFS += -DCC2500PA_GAIN=$(CC2500PAG)
-	endif
+    ifeq ($(CC2500), YES)
+      CPPDEFS += -DPROTO_HAS_CC2500
+      CPPDEFS += -DCC2500PA_GAIN=$(CC2500PAG)
+	 endif
 
-	ifeq ($(CYRF6936), YES)
-   	  CPPDEFS += -DPROTO_HAS_CYRF6936
- 	  CPPDEFS += -DCYRF6936PA_GAIN=$(CYRF6936PAG)
+    ifeq ($(CYRF6936), YES)
+      CPPDEFS += -DPROTO_HAS_CYRF6936
+      CPPDEFS += -DCYRF6936PA_GAIN=$(CYRF6936PAG)
     endif
 
-  	ifeq ($(NRF24L01), YES)
-   	  CPPDEFS += -DPROTO_HAS_NRF24L01
- 	  CPPDEFS += -DNRF24L01PA_GAIN=$(NRF24L01PAG)
-  	endif
+    ifeq ($(NRF24L01), YES)
+      CPPDEFS += -DPROTO_HAS_NRF24L01
+      CPPDEFS += -DNRF24L01PA_GAIN=$(NRF24L01PAG)
+    endif
 
-  	ifeq ($(A7105), YES)
-   	  CPPDEFS += -DPROTO_HAS_A7105
- 	  CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
-  	endif
+    ifeq ($(A7105), YES)
+      CPPDEFS += -DPROTO_HAS_A7105
+      CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
+    endif
+  endif
+  
+  ifeq ($(INV_STICK_RH), YES)
+    CPPDEFS += -DINV_STICK_RH
+  endif
 
-	ifeq ($(INV_STICK_RH), YES)
-	CPPDEFS += -DINV_STICK_RH
-	endif
+  ifeq ($(INV_STICK_LV), YES)
+    CPPDEFS += -DINV_STICK_LV
+  endif
 
-	ifeq ($(INV_STICK_LV), YES)
-	CPPDEFS += -DINV_STICK_LV
-	endif
+  ifeq ($(INV_STICK_RV), YES)
+    CPPDEFS += -DINV_STICK_RV
+  endif
 
-	ifeq ($(INV_STICK_RV), YES)
-	CPPDEFS += -DINV_STICK_RV
-	endif
-
-	ifeq ($(INV_STICK_LH), YES)
-	CPPDEFS += -DINV_STICK_LH
-	endif
-
+  ifeq ($(INV_STICK_LH), YES)
+    CPPDEFS += -DINV_STICK_LH
   endif
 
 endif
