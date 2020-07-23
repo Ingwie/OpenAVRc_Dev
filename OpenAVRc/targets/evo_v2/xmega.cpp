@@ -9,28 +9,23 @@
 #include "../../i2c_master.h"
 
 
-bool read_keyb_matrix(void);
 void adcInit(void);
-void read_A8(void);
-void read_A9(void);
-void read_A10(void);
-void read_A11(void);
+void read_sws_1(void);
+void read_sws_2(void);
+void read_sws_3(void);
+void read_sws_4(void);
+void read_keyboard(void);
 
 
 inline void boardInit()
 {
 // Setup Clock System.
 // Using 4MHz External Crystal.
-#define RTCOUT  PIN6_bm
-#define CLKOUT  PIN7_bm
+
 #define OSC_XOSCPWR_bm  0x10  /* 16 MHz Crystal Oscillator High Power mode bit mask. */
 #define OSC_XOSCPWR_bp  4  /* 16 MHz Crystal Oscillator High Power mode bit position. */
 
-  // Output RTC clock on PC6, Output ClkPER on PC7.
-  // PORTCFG.CLKEVOUT = RTCOUT | (0b00<<2) | PORTCFG_CLKOUT_PC7_gc;
-  // PORTC.DIRSET = RTCOUT | CLKOUT;
-
-  OSC.XOSCCTRL = OSC_FRQRANGE_2TO9_gc; //Select XOSC 2-9MHz.
+  OSC.XOSCCTRL = OSC_FRQRANGE_2TO9_gc; // Select XOSC 2-9MHz.
   //OSC.XOSCCTRL = OSC_XOSCSEL_32KHz_gc; // Select 32768Hz TOSC.
   OSC.XOSCCTRL |= OSC_XOSCSEL_XTAL_16KCLK_gc; // XTAL Startup time.
   OSC.XOSCCTRL |= (0<<OSC_X32KLPM_bp) | (0<<OSC_XOSCPWR_bp); // High drive on TOSC, Low drive on XOSC.
@@ -54,12 +49,28 @@ inline void boardInit()
 
   _PROTECTED_WRITE(CLK.PSCTRL, 0); // No prescaling.
 
-  _PROTECTED_WRITE(CLK.CTRL, CLK_SCLKSEL_PLL_gc); // Select PLL source.
+  _PROTECTED_WRITE(CLK.CTRL, CLK_SCLKSEL_PLL_gc); // Select PLL as source.
 
   OSC.CTRL &= ~OSC_RC2MEN_bm; // Disable 2MHz oscillator which was enabled after reset.
 
   // Lock the clock configuration.
   _PROTECTED_WRITE(CLK.LOCK, (CLK.LOCK |= CLK_LOCK_bm));
+
+#if 0
+  OSC.CTRL |= OSC_RC32MEN_bm; // Enable the internal 32MHz oscillator.
+  while(!(OSC.STATUS & OSC_RC32MRDY_bm)); // Wait for 32MHz oscillator to stabilise.
+
+  _PROTECTED_WRITE(CLK.CTRL, CLK_SCLKSEL_RC32M_gc); // Select RC32MHz as source.
+#endif
+
+//#define CLOCK_OUT
+#if defined (CLOCK_OUT)
+  // Output ClkPER on PC7.
+  PORTCFG.CLKEVOUT = PORTCFG_CLKOUT_PC7_gc;
+  PORTC.DIRSET = PIN7_bm;
+  while (1);
+#endif
+
 
   EEPROM_EnableMapping();
 
@@ -67,29 +78,36 @@ inline void boardInit()
   // *** SAFER to use DIRSET DIRCLR OUTSET OUTCLR ***
 
   //  Trims Button  Matrix.
-  PORTE.DIRCLR = I_E_TRIM_COL_A | I_E_TRIM_COL_B | I_E_TRIM_COL_C | I_E_TRIM_COL_D;
+  PORTE.DIRCLR = IE_TRIM_COL_A_bm | IE_TRIM_COL_B_bm | IE_TRIM_COL_C_bm | IE_TRIM_COL_D_bm;
   PORTE.PIN4CTRL = PORT_OPC_PULLUP_gc; // I_E_TRIM_COL_A
   PORTE.PIN5CTRL = PORT_OPC_PULLUP_gc; // I_E_TRIM_COL_B
   PORTE.PIN6CTRL = PORT_OPC_PULLUP_gc; // I_E_TRIM_COL_C
   PORTE.PIN7CTRL = PORT_OPC_PULLUP_gc; // I_E_TRIM_COL_D
 
-  PORTF.DIRSET = O_F_TRIM_ROW_A;
-  PORTF.OUTCLR = O_F_TRIM_ROW_A;
+  PORTF.DIRSET = OF_TRIM_ROW_A_bm;
+  PORTF.OUTCLR = OF_TRIM_ROW_A_bm;
 
   // NOTE : In WIREDAND with optional PULLUP.
   // OUT DIR
   //  0   0   output driven low.
   //  1   0   low output disconnected (optionally pulled up).
 
+
   adcInit();
   getADC(); // Best to get some values before we start.
-  read_A8();
-  read_A9();
-  read_A10();
-  read_A11();
+
+  lcdInit();
+  lcdClear();
+  DISPLAY_LOADING_MESSAGE();
+  lcdRefresh();
+
+  read_sws_1();
+  read_sws_2();
+  read_sws_3();
+  read_sws_4();
 
 // Setup Event System to generate 64us pulses for compatibility with Mega2560.
-  EVSYS.CH2MUX = 0x80 + 11;  // ClkPER / (2^11) ... /2048.
+  EVSYS.CH0MUX = 0x80 + 11;  // ClkPER / (2^11) ... /2048.
 
 // Setup TCC1 for 64us / 10ms.
   MS064_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
@@ -100,11 +118,10 @@ inline void boardInit()
   MS064_TC.CCA = 157; // 156 or 157.
   MS064_TC_CLEAR_CCAIF_FLAG;
   RESUME_10MS_INTERRUPT;
-  MS064_TC.CTRLA = 8 + 2 ; // Event channel 2 (prescaler of 2048).
+  MS064_TC.CTRLA = 8 + 0 ; // Event channel 0 (prescaler of 2048).
 
 // Setup Event System to generate 2MHz pulses for compatibility with Mega2560.
-  EVSYS.CH3MUX = 0x80 + 4;  // ClkPER / (2^4) ... /16.
-
+  EVSYS.CH1MUX = 0x80 + 4;  // ClkPER / (2^4) ... /16.
 
 #if defined(AUDIO)
 /*
@@ -119,34 +136,26 @@ inline void boardInit()
   AUDIO_TC.CNT = 0;
   AUDIO_TC.CCA = 1;
   AUDIO_TC.CTRLA = 0b0101 << TC0_CLKSEL_gp; // ClkPER/1 32MHz/1.
-  PORTD.DIRSET = O_D_AUDIO;
+  PORTD.DIRSET = OD_AUDIO_bm;
 #endif
 
+//#if defined(ROTARY_ENCODERS)
 // Rotary encoder interrupt setup for Evo digi-adjusters.
-// TODO Disable ALL external interrupts ?
 
   // Setup pins.
-  PORTF.PIN4CTRL = PORT_OPC_PULLUP_gc;
-  PORTF.PIN5CTRL = PORT_OPC_PULLUP_gc;
-  PORTF.PIN6CTRL = PORT_OPC_PULLUP_gc;
-  PORTF.PIN7CTRL = PORT_OPC_PULLUP_gc;
-  // Encoder REa RH
-  PORTF.PIN4CTRL |= PORT_ISC_FALLING_gc;
-  PORTF.PIN5CTRL |= PORT_ISC_BOTHEDGES_gc;
-  // Encoder REb LH
-  PORTF.PIN6CTRL |= PORT_ISC_FALLING_gc;
-  PORTF.PIN7CTRL |= PORT_ISC_BOTHEDGES_gc;
+  // Encoder REa LH
+  ROT_ENC_LH_CLK_CTRL_REG |= PORT_ISC_FALLING_gc;
+  // Encoder REb RH
+  ROT_ENC_RH_CLK_CTRL_REG |= PORT_ISC_FALLING_gc;
 
-  PORTF.INTFLAGS = 0x3; // Clear flags.
+  ROT_ENC_PORT.INTFLAGS = PORT_INT1IF_bm | PORT_INT0IF_bm; // Clear flags.
 
   // Low priority.
-  PORTF.INTCTRL = PORT_INT1LVL_LO_gc | PORT_INT0LVL_LO_gc;
+  ROT_ENC_PORT.INTCTRL = PORT_INT1LVL_LO_gc | PORT_INT0LVL_LO_gc;
 
-  PORTF.INT0MASK = I_F_ROT_ENC_LH_CLK;
-  PORTF.INT1MASK = I_F_ROT_ENC_LH_DIR;
-//  PORTF.INT0MASK = I_F_ROT_ENC_RH_CLK;
-//  PORTF.INT1MASK = I_F_ROT_ENC_RH_DIR;
-
+  ROT_ENC_PORT.INT0MASK = IF_ROT_ENC_LH_CLK_bm;
+  ROT_ENC_PORT.INT1MASK = IF_ROT_ENC_RH_CLK_bm;
+//#endif
 
 #if defined(SDCARD)
   // Remap SPIC MOSI and SCK pins.
@@ -158,19 +167,14 @@ inline void boardInit()
   #endif
 
   SDCARD_PORT.REMAP |= PORT_SPI_bm; // Swap MOSI and SCK.
-  SDCARD_PORT.OUTSET = O_SDCARD_CS_N;
-  SDCARD_PORT.DIRSET = O_SDCARD_CS_N | PIN5_bm | PIN7_bm; // CS SCK MOSI as output.
+  SDCARD_PORT.OUTSET = O_SDCARD_CSN_bm;
+  SDCARD_PORT.DIRSET = O_SDCARD_CSN_bm | PIN5_bm | PIN7_bm; // CS SCK MOSI as output.
 #endif
 
 #if defined(RTCLOCK) || defined(EXTERNALEEPROM)
   // Init TWI Hardware.
   i2c_init();
 #endif
-
-  lcdInit();
-  lcdClear();
-  DISPLAY_LOADING_MESSAGE();
-  lcdRefresh();
 
 #if defined(PWM_BACKLIGHT)
 // PIN C2.
@@ -184,39 +188,39 @@ inline void boardInit()
   TCC2.CTRLB = PIN2_bm;
   TCC2.LPER = 255;
   TCC2.LCMPC = 127;
-  TCC2.CTRLA = TC2_CLKSEL_DIV1_gc; // << TC0_CLKSEL_gp; // ClkPER/64 32MHz/64.
+  TCC2.CTRLA = TC2_CLKSEL_DIV1_gc; // ClkPER/64 32MHz/64.
 #endif
 
 #if defined(VOICE_JQ6500)
-  PORTB.DIRCLR = VOICE_BUSY_PIN;
-  PORTB.PIN7CTRL = PORT_OPC_PULLUP_gc; // Pullup on Busy pin.
+  PORTD.DIRCLR = 1 << VOICE_BUSY_PIN;
+  VOICE_BUSY_PIN_CTRL_REG = PORT_OPC_PULLUP_gc; // Pullup on Busy pin.
 
-  VOICE_USART_PORT.OUTSET = USART_TXD_PIN; // Marking state.
-  VOICE_USART_PORT.DIRSET = USART_TXD_PIN;
+  VOICE_USART_PORT.OUTSET = USART_TXD_PIN_bm; // Marking state.
+  VOICE_USART_PORT.DIRSET = USART_TXD_PIN_bm;
 
   InitJQ6500UartTx();
  #endif
 
 #if defined(SPIMODULES)
 // Setup USARTxn for MSPI.
-  protoMode = NORMAL_MODE;
+//  protoMode = NORMAL_MODE;
 #endif
 
-  PMIC.CTRL |= PMIC_LOLVLEN_bm;  // Enable Low Priority Interrupts.
-  PMIC.CTRL |= PMIC_MEDLVLEN_bm; // Enable Medium Priority Interrupts.
+  PMIC.CTRL |= PMIC_LOLVLEN_bm;  // Enable Low Priority Interrupts. e.g Rotary encoders, 10ms Counter.
+  PMIC.CTRL |= PMIC_MEDLVLEN_bm; // Enable Medium Priority Interrupts. e.g.
   PMIC.CTRL |= PMIC_HILVLEN_bm;  // Enable High Priority Interrupts. e.g. RF Pulses.
 
 
-  PWR_HOLD_PORT.DIRSET = O_B_PWR_HOLD; // Output.
-  PWR_HOLD_PORT.OUTSET = O_B_PWR_HOLD; // Hold power on.
-  PWR_HOLD_PORT.PIN6CTRL = PORT_OPC_PULLUP_gc; // I_B_PWR_STATUS //TODO check
+  PWR_HOLD_PORT.DIRSET = OB_PWR_HOLD_bm; // Output.
+  PWR_HOLD_PORT.OUTSET = OB_PWR_HOLD_bm; // Hold power on.
+//  PWR_STATUS_PORT.PIN7CTRL = PORT_OPC_PULLUP_gc; // I_B_PWR_STATUS.
 
-  PORTC.DIRSET = O_C_PWR_LED;
-  PORTC.OUTSET = O_C_PWR_LED;
+  PORTC.DIRSET = OC_PWR_LED_bm;
+  PORTC.OUTSET = OC_PWR_LED_bm;
 
-  ACTIVE_PPM_IN();
-  PORTF.DIRSET = OUT_F_SIM_CTL; // Trainer pulses.
+  setup_trainer_tc();
 }
+
 
 
 void xmega_wdt_enable_512ms(void)
@@ -229,6 +233,7 @@ void xmega_wdt_enable_512ms(void)
     while (WDT.STATUS & WDT_SYNCBUSY_bm); // wait
   }
 }
+
 
 void xmega_wdt_disable(void)
 {
@@ -245,17 +250,28 @@ void setup_rf_tc()
   RF_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
   RF_TC.CTRLFSET = TC_CMD_RESET_gc;
   RF_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
-  RF_TC.CTRLA = 8 + 3; // Event channel 3 (prescaler of 16)
+  RF_TC.CTRLA = 8 + 1; // Event channel 1 (prescaler of 16)
 }
 
 
 void setup_trainer_tc()
 {
-// Setup TCx0 for Trainer pulses.
-  TRAINER_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
-  TRAINER_TC.CTRLFSET = TC_CMD_RESET_gc;
-  TRAINER_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
-  TRAINER_TC.CTRLA = 8 + 3; // Event channel 3 (prescaler of 16).
+// Setup TCx0 for Trainer in pulses.
+  PULSES_IN_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
+  PULSES_IN_TC.CTRLFSET = TC_CMD_RESET_gc;
+
+// Setup pin for input capture.
+  TRN_PULSES_IN_PIN_CTRL_REG = PORT_ISC_FALLING_gc | PORT_OPC_WIREDANDPULL_gc;
+  TRAINER_PORT.DIRCLR = 1 << TRN_PULSES_IN_PIN; // Input.
+
+  EVSYS.CH2MUX = 0x70 | 0x08 | TRN_PULSES_IN_PIN; // Port F pin event select. Maps onto CCA.
+  EVSYS.CH2CTRL = EVSYS_DIGFILT_8SAMPLES_gc; // 8 samples;
+
+  PULSES_IN_TC.CTRLD = TC_EVACT_CAPT_gc | TC_EVSEL_CH2_gc;
+
+  WAIT_PUPIL();
+  PULSES_IN_TC.CTRLB = TC0_CCAEN_bm | 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
+  PULSES_IN_TC.CTRLA = 8 + 1; // Event channel 1 (prescaler of 16).
 }
 
 
@@ -293,8 +309,8 @@ void rf_usart_mspi_init()
   RF_CS_NRF24L01_INACTIVE();
   RF_CS_A7105_INACTIVE();
 
-  RF_PORT.DIRSET = USART_TXD_PIN | RF_CS_PIN | USART_XCK_PIN;
-  RF_PORT.DIRCLR = USART_RXD_PIN;
+  RF_PORT.DIRSET = USART_TXD_PIN_bm | RF_CS_PIN_bm | USART_XCK_PIN_bm;
+  RF_PORT.DIRCLR = USART_RXD_PIN_bm;
 
   // Initialisation of USART in MSPI mode.
 
@@ -322,27 +338,27 @@ void backlightFade(void)
 
 void boardOff(void)
 {
-  PWR_HOLD_PORT.OUTCLR = O_B_PWR_HOLD;
+  PWR_HOLD_PORT.OUTCLR = OB_PWR_HOLD_bm;
 }
 
-
+#if 0
 void Check_PWR_Switch(void)
 {
   static tmr10ms_t last10ms;
 
-  if( ! (PWR_STATUS_PORT & I_B_PWR_STATUS ) ) {
+  if( ! (PWR_STATUS_PORT.IN & IB_PWR_STATUS_bm ) ) {
   // PWR Switch is on.
   last10ms = getTmr10ms();
-  pwrCheck = 1;
+  pwrCheck = true;
   return;
   }
   // PWR Switch is off.
   if( getTmr10ms() - last10ms > 200 ) {
-    pwrCheck = 0; // > 2 seconds.
+    pwrCheck = false; // > 2 seconds.
   }
-  else pwrCheck = 1;
+  else pwrCheck = true;
 }
-
+#endif
 
 uint8_t switches[NUM_SWS - SW_BASE] = {0}; // Switches via R-2R ladder DAC.
 
@@ -406,42 +422,115 @@ uint8_t trimDown(uint8_t idx)
 
 void read_trim_matrix()
 {
-  if(PORTF.OUT & O_F_TRIM_ROW_A) {
-    keys[KEY_RIGHT].input( (PORTE.IN & I_E_TRIM_COL_A)  ? 0 :1);
-    keys[KEY_DOWN].input( (PORTE.IN & I_E_TRIM_COL_B)  ? 0 :1);
-    keys[KEY_LEFT].input( (PORTE.IN & I_E_TRIM_COL_C)  ? 0 :1);
-    keys[KEY_UP].input( (PORTE.IN & I_E_TRIM_COL_D)  ? 0 :1);
+  if(PORTF.OUT & OF_TRIM_ROW_A_bm) {
+//    keys[KEY_RIGHT].input( (PORTE.IN & I_E_TRIM_COL_A)  ? 0 :1);
+//    keys[KEY_DOWN].input( (PORTE.IN & I_E_TRIM_COL_B)  ? 0 :1);
+//    keys[KEY_LEFT].input( (PORTE.IN & I_E_TRIM_COL_C)  ? 0 :1);
+//    keys[KEY_UP].input( (PORTE.IN & I_E_TRIM_COL_D)  ? 0 :1);
 
-//keys[pgm_read_byte_far(crossTrim+0)].input( (PORTE.IN & I_E_TRIM_COL_A)  ? 0 :1);
-//keys[pgm_read_byte_far(crossTrim+1)].input( (PORTE.IN & I_E_TRIM_COL_B)  ? 0 :1);
-//keys[pgm_read_byte_far(crossTrim+2)].input( (PORTE.IN & I_E_TRIM_COL_C)  ? 0 :1);
-//keys[pgm_read_byte_far(crossTrim+3)].input( (PORTE.IN & I_E_TRIM_COL_D)  ? 0 :1);
+    keys[pgm_read_byte_far(crossTrim+0)].input( (PORTE.IN & IE_TRIM_COL_A_bm)  ? 0 :1);
+    keys[pgm_read_byte_far(crossTrim+1)].input( (PORTE.IN & IE_TRIM_COL_B_bm)  ? 0 :1);
+    keys[pgm_read_byte_far(crossTrim+2)].input( (PORTE.IN & IE_TRIM_COL_C_bm)  ? 0 :1);
+    keys[pgm_read_byte_far(crossTrim+3)].input( (PORTE.IN & IE_TRIM_COL_D_bm)  ? 0 :1);
 
   } else {
-    keys[KEY_MENU].input( (PORTE.IN & I_E_TRIM_COL_B)  ? 0 :1);
-    keys[KEY_EXIT].input( (PORTE.IN & I_E_TRIM_COL_D)  ? 0 :1);
+    keys[pgm_read_byte_far(crossTrim+4)].input( (PORTE.IN & IE_TRIM_COL_A_bm)  ? 0 :1);
+    keys[pgm_read_byte_far(crossTrim+5)].input( (PORTE.IN & IE_TRIM_COL_B_bm)  ? 0 :1);
+    keys[pgm_read_byte_far(crossTrim+6)].input( (PORTE.IN & IE_TRIM_COL_C_bm)  ? 0 :1);
+    keys[pgm_read_byte_far(crossTrim+7)].input( (PORTE.IN & IE_TRIM_COL_D_bm)  ? 0 :1);
+//    keys[KEY_EXIT].input( (PORTE.IN & I_E_TRIM_COL_C)  ? 0 :1);
+//    keys[KEY_MENU].input( (PORTE.IN & I_E_TRIM_COL_D)  ? 0 :1);
 
-keys[pgm_read_byte_far(crossTrim+4)].input( (PORTE.IN & I_E_TRIM_COL_A)  ? 0 :1);
-//keys[pgm_read_byte_far(crossTrim+5)].input( (PORTE.IN & I_E_TRIM_COL_B)  ? 0 :1);
-keys[pgm_read_byte_far(crossTrim+6)].input( (PORTE.IN & I_E_TRIM_COL_C)  ? 0 :1);
-//keys[pgm_read_byte_far(crossTrim+7)].input( (PORTE.IN & I_E_TRIM_COL_D)  ? 0 :1);
   }
 
-  PORTF.OUTTGL = O_F_TRIM_ROW_A;
+  PORTF.OUTTGL = OF_TRIM_ROW_A_bm;
 }
 
 
 void readKeysAndTrims()
 {
-
-// Keyboard ToDo
-// Multiplexed trim buttons.
+  // Keyboard.
+  read_keyboard();
+  // Multiplexed trim buttons.
   read_trim_matrix();
 }
 
+enum MpxButtons {
+  BTN_NONE,
+  BTN_DIGI,
+  BTN_REVCLR,
+  BTN_ENTER,
+  BTN_UP,
+  BTN_DOWN,
+  BTN_MEMORY,
+  BTN_TIMER,
+  BTN_SERVO,
+  BTN_MIXER,
+  BTN_CONTROL,
+  BTN_SETUP
+};
+
+
+#define BTN_TOL 0x27
+
+static const uint16_t AnalKeyboardVal[16] PROGMEM = {
+  // AD reading, Multiplex Key Name.
+  // Quiescent reading = 0x7ff.
+  // Min delta is 157 so BTN_TOL = 0x27
+
+  0x7ff, // No Key pressed
+
+  0x38e, // Digi
+
+  0x4cc, // Rev/Clr --> exit
+  0x5d1, // Enter --> menu
+  0x6aa, // Up --> up
+  0x762, // Down --> down
+  0x89d, // Memory --> right
+  0x954, // Timer --> left
+
+  0xa2d, // Servo
+  0xb32, // Mixer
+  0xc71, // Control
+  0xdff, // Setup
+};
+
+
+void read_keyboard()
+{
+  uint16_t AD_value;
+  uint16_t upper;
+  uint16_t lower;
+
+  AD_value = s_anaFilt[KEYBOARD];
+
+  if((unsigned)AD_value + BTN_TOL < AD_value)
+    upper = 0x47FF;
+  else upper = AD_value + BTN_TOL;
+
+  if((unsigned)AD_value - BTN_TOL > AD_value)
+    lower = 0x3800;
+  else lower = AD_value - BTN_TOL;
+
+  for(uint8_t x=0; x<12; x++) {
+    if( pgm_read_word_far(&AnalKeyboardVal[x]) < upper && pgm_read_word_far(&AnalKeyboardVal[x]) > lower ) {
+
+      keys[KEY_EXIT].input(  (x==BTN_REVCLR)  ? 1 :0);
+      keys[KEY_MENU].input(  (x==BTN_ENTER)  ? 1 :0);
+      keys[KEY_UP].input(    (x==BTN_UP)  ? 1 :0);
+      keys[KEY_DOWN].input(  (x==BTN_DOWN)  ? 1 :0);
+      keys[KEY_RIGHT].input( (x==BTN_MEMORY)  ? 1 :0);
+      keys[KEY_LEFT].input(  (x==BTN_TIMER)  ? 1 :0);
+      break;
+    }
+  }
+}
+
+
+#define ANA_TOL 0x28
 
 /*
-The Evo has two switch modules which convert the various switch states into an analogue voltages.
+The Evo has two switch modules which convert the various switch states into analogue voltages.
 Each module has 2 * Push button switches, 2 * Two position switches and 2 * Three position switches.
 Rather than reverse engineer the circuits, the four analogue voltages were fed into the ADC and a state table
 was created. The switch circuits appear to be R-2R DAC's.
@@ -454,88 +543,33 @@ Switches M N P LHencoder feed A11
 Switches L O feed A10
 */
 
-#define ANA_TOL 40
+
 
 static const uint16_t AnalSwitchVal[16] PROGMEM = {
   // AD reading, switch state bitmap.
   //        ENC 2  Position  3   pos
   //        R/L K/P H/M I/N  O/J L/G
-  0x398c, // 1   1   1   0
-  0x3a1e, // 1   1   1   1
-  0x3b03, // 1   1   0   0
-  0x3b93, // 1   1   0   1
-  0x3c9c, // 1   0   1   0
-  0x3d32, // 1   0   1   1   DN  DN
-  0x3e19, // 1   0   0   0   DN  UP
-  0x3eb3, // 1   0   0   1   DN  MI
-  0x3fd7, // 0   1   1   0
-  0x406e, // 0   1   1   1   UP  DN
-  0x4154, // 0   1   0   0   UP  UP
-  0x41ef, // 0   1   0   1   UP  MI
-  0x4303, // 0   0   1   0
-  0x439e, // 0   0   1   1   MI  DN
-  0x448b, // 0   0   0   0   MI  UP
-  0x4527, // 0   0   0   1   MI  MI
-          // 8   4   2   1
+  0x000, // 1   1   1   0
+  0x0b2, // 1   1   1   1
+  0x1ca, // 1   1   0   0
+  0x286, // 1   1   0   1
+  0x3ce, // 1   0   1   0
+  0x48f, // 1   0   1   1   DN  DN
+  0x5b0, // 1   0   0   0   DN  UP
+  0x670, // 1   0   0   1   DN  MI
+  0x7d4, // 0   1   1   0
+  0x898, // 0   1   1   1   UP  DN
+  0x9ba, // 0   1   0   0   UP  UP
+  0xa7b, // 0   1   0   1   UP  MI
+  0xbca, // 0   0   1   0
+  0xc95, // 0   0   1   1   MI  DN
+  0xdbe, // 0   0   0   0   MI  UP
+  0xe82, // 0   0   0   1   MI  MI
+         // 8   4   2   1
 };
 
-void read_A9(void)
-{
-  uint16_t AD_value;
-  uint16_t upper;
-  uint16_t lower;
 
-  AD_value = s_anaFilt[ANAL_SWS_2];
-
-  if((unsigned)AD_value + ANA_TOL < AD_value)
-    upper = 0x47FF;
-  else upper = AD_value + ANA_TOL;
-
-  if((unsigned)AD_value - ANA_TOL > AD_value)
-    lower = 0x3800;
-  else lower = AD_value - ANA_TOL;
-
-  for(uint8_t x=0; x<16; x++) {
-    if( pgm_read_word_far(&AnalSwitchVal[x]) < upper && pgm_read_word_far(&AnalSwitchVal[x]) > lower ) {
-      switches[SW_H - SW_BASE] = ( (x & 2) ? 0 : 1); // H
-      switches[SW_I - SW_BASE] = ( (x & 1) ? 1 : 0); // I
-      switches[SW_K - SW_BASE] = ( (x & 4) ? 1 : 0); // K
-      keys[BTN_REb].input( (x & 8) ? 0 : 1); // EncRight
-    break;
-    }
-  }
-}
-
-
-void read_A11(void)
-{
-  uint16_t AD_value;
-  uint16_t upper;
-  uint16_t lower;
-
-  AD_value = s_anaFilt[ANAL_SWS_4];
-
-  if((unsigned)AD_value + ANA_TOL < AD_value)
-    upper = 0x47FF;
-  else upper = AD_value + ANA_TOL;
-
-  if((unsigned)AD_value - ANA_TOL > AD_value)
-    lower = 0x3800;
-  else lower = AD_value - ANA_TOL;
-
-  for(uint8_t x=0; x<16; x++) {
-    if( pgm_read_word_far(&AnalSwitchVal[x]) < upper && pgm_read_word_far(&AnalSwitchVal[x]) > lower ) {
-      switches[SW_M - SW_BASE] = ( (x & 2) ? 0 : 1); // M
-      switches[SW_N - SW_BASE] = ( (x & 1) ? 1 : 0); // N
-      switches[SW_P - SW_BASE] = ( (x & 4) ? 1 : 0); // P
-      keys[BTN_REa].input( (x & 8) ? 0 : 1); // EncLeft
-    break;
-    }
-  }
-}
-
-
-void read_A8(void)
+void read_sws_1(void)
 {
   uint16_t AD_value;
   uint16_t upper;
@@ -566,7 +600,35 @@ void read_A8(void)
 }
 
 
-void read_A10(void)
+void read_sws_2(void)
+{
+  uint16_t AD_value;
+  uint16_t upper;
+  uint16_t lower;
+
+  AD_value = s_anaFilt[ANAL_SWS_2];
+
+  if((unsigned)AD_value + ANA_TOL < AD_value)
+    upper = 0x47FF;
+  else upper = AD_value + ANA_TOL;
+
+  if((unsigned)AD_value - ANA_TOL > AD_value)
+    lower = 0x3800;
+  else lower = AD_value - ANA_TOL;
+
+  for(uint8_t x=0; x<16; x++) {
+    if( pgm_read_word_far(&AnalSwitchVal[x]) < upper && pgm_read_word_far(&AnalSwitchVal[x]) > lower ) {
+      switches[SW_H - SW_BASE] = ( (x & 2) ? 0 : 1); // H
+      switches[SW_I - SW_BASE] = ( (x & 1) ? 1 : 0); // I
+      switches[SW_K - SW_BASE] = ( (x & 4) ? 1 : 0); // K
+      keys[BTN_REb].input( (x & 8) ? 0 : 1); // EncRight
+    break;
+    }
+  }
+}
+
+
+void read_sws_3(void)
 {
   uint16_t AD_value;
   uint16_t upper;
@@ -597,7 +659,35 @@ void read_A10(void)
 }
 
 
+void read_sws_4(void)
+{
+  uint16_t AD_value;
+  uint16_t upper;
+  uint16_t lower;
 
+  AD_value = s_anaFilt[ANAL_SWS_4];
+
+  if((unsigned)AD_value + ANA_TOL < AD_value)
+    upper = 0x47FF;
+  else upper = AD_value + ANA_TOL;
+
+  if((unsigned)AD_value - ANA_TOL > AD_value)
+    lower = 0x3800;
+  else lower = AD_value - ANA_TOL;
+
+  for(uint8_t x=0; x<16; x++) {
+    if( pgm_read_word_far(&AnalSwitchVal[x]) < upper && pgm_read_word_far(&AnalSwitchVal[x]) > lower ) {
+      switches[SW_M - SW_BASE] = ( (x & 2) ? 0 : 1); // M
+      switches[SW_N - SW_BASE] = ( (x & 1) ? 1 : 0); // N
+      switches[SW_P - SW_BASE] = ( (x & 4) ? 1 : 0); // P
+      keys[BTN_REa].input( (x & 8) ? 0 : 1); // EncLeft
+    break;
+    }
+  }
+}
+
+
+#if 0
 //ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
 ISR(TCC1_CCA_vect)
 {
@@ -607,7 +697,6 @@ ISR(TCC1_CCA_vect)
 ISR10msLoop_is_runing = true;
 #endif
 
-//TIMER_10MS_COMPVAL += (accuracyWarble++ & 0b01) ? 313 : 312;
 // Clocks every 9.984ms & 10.048ms
 TIMER_10MS_COMPVAL += (++accuracyWarble & 0b11) ? 156 : 157; // Clock correction
  ++g_tmr10ms;
@@ -630,90 +719,73 @@ sei(); // Blocking ISR until here.
 
   per10ms();
 
- if((accuracyWarble & 0b11) == 0) read_A8();
- if((accuracyWarble & 0b11) == 1) read_A9();
- if((accuracyWarble & 0b11) == 2) read_A10();
- if((accuracyWarble & 0b11) == 3) read_A11();
- if((accuracyWarble & 0b111) == 4) Check_PWR_Switch();
+ if((accuracyWarble & 0b11) == 0) read_sws_1();
+ if((accuracyWarble & 0b11) == 1) read_sws_2();
+ if((accuracyWarble & 0b11) == 2) read_sws_3();
+ if((accuracyWarble & 0b11) == 3) read_sws_4();
+ //if((accuracyWarble & 0b111) == 4) Check_PWR_Switch();
 
 #if defined(SIMU)
 ISR10msLoop_is_runing = false;
 #endif
 }
-
+#endif
 
 bool check_slave_mode(void)
 {
-#if 0
-  /*
-   * This quirky function reads the mpx_rf_en signal which goes
-   * to the mpx module and the trainer DIN.
-   * If it ever reads a low, it stores the low in the port register.
-   * All further reads are low because the pin is then configured as an output.
-  */
-  if(MPX_PORT.IN & IO_E_MPX_RF_EN) {
-    return 0;
-  }
-  else {
-    MPX_PORT.OUT &= ~IO_E_MPX_RF_EN; // Pin is low.
-    MPX_PORT.DIR |= IO_E_MPX_RF_EN; // Pin is output.
-  }
-#endif
-    return 1;
+  return 1;
 }
 
 
 /*
 The Rotary Encoder (Digi-adjuster) ISR's.
-There is hardware filtering of the signals,
-however the ISR's debounce the encoder signals by working alternately.
-e.g.
-INT4 & 5 work as a pair for Encoder B.
-INT6 & 7 work as a pair for Encoder A.
-
-EICRB  = (0b10 << ISC60) | (0b10 << ISC40); // 10 = interrupt on -ve edge.
-EICRB  = (0b11 << ISC60) | (0b11 << ISC40); // 11 = interrupt on +ve edge.
+Rotary Encoder type is Alps 321V.
+There is hardware filtering of the signals.
 */
-#if 0
-ISR(PORTE_INT0_vect) // REb (LH)
+
+ISR(PORTF_INT0_vect) // REa (LH).
 {
-  if(PORTE.PIN4CTRL & PORT_ISC_RISING_gc) { // If +ve edge triggered change to -ve.
-    PORTE.PIN4CTRL = PORT_OPC_PULLUP_gc | PORT_ISC_FALLING_gc;
-    if(PORTE.IN & I_E_ROT_ENC_LH_DIR) incRotaryEncoder(1, -1);
-    else incRotaryEncoder(1, +1);
+  static uint8_t rea_neg_state =0;
+  static uint8_t rea_pos_state =0;
+
+  if(PORT_ISC_FALLING_gc == (ROT_ENC_LH_CLK_CTRL_REG & PORT_ISC_FALLING_gc)) {
+    rea_neg_state = ROT_ENC_PORT.IN & IF_ROT_ENC_LH_DIR_bm;
+
+    ROT_ENC_LH_CLK_CTRL_REG = PORT_ISC_RISING_gc;
   }
-  else PORTE.PIN4CTRL = PORT_OPC_PULLUP_gc | PORT_ISC_RISING_gc;
-  // Disables itself and enables the other.
-  PORTE.INTCTRL = PORT_INT1LVL_LO_gc | PORT_INT0LVL_OFF_gc;
-  PORTE.INTFLAGS = 0x3; // Clear flags.
-}
+  else if(PORT_ISC_RISING_gc == (ROT_ENC_LH_CLK_CTRL_REG & PORT_ISC_RISING_gc)) {
+    rea_pos_state = ROT_ENC_PORT.IN & IF_ROT_ENC_LH_DIR_bm;
 
-ISR(PORTE_INT1_vect) // REb (LH) Level change ISR.
-{
-  // Disables itself and enables the other.
-  PORTE.INTCTRL = PORT_INT1LVL_OFF_gc | PORT_INT0LVL_LO_gc;
-  PORTE.INTFLAGS = 0x3; // Clear flags.
-}
-#endif
+    if(rea_neg_state != rea_pos_state) {
+      if(rea_pos_state) incRotaryEncoder(0, -1);
+      else incRotaryEncoder(0, +1);
+    }
 
-ISR(PORTF_INT0_vect) // REa (RH)
-{
-  if(PORTF.PIN6CTRL & PORT_ISC_RISING_gc) {
-    PORTF.PIN6CTRL = PORT_OPC_PULLUP_gc | PORT_ISC_FALLING_gc;
-    if(PORTF.IN & I_F_ROT_ENC_RH_DIR) incRotaryEncoder(0, -1);
-    else incRotaryEncoder(0, +1);
+    ROT_ENC_LH_CLK_CTRL_REG = PORT_ISC_FALLING_gc;
   }
-  else PORTF.PIN6CTRL = PORT_OPC_PULLUP_gc | PORT_ISC_RISING_gc;
-  // Disables itself and enables the other.
-  PORTF.INTCTRL = PORT_INT1LVL_LO_gc | PORT_INT0LVL_OFF_gc;
-  PORTF.INTFLAGS = 0x3; // Clear flags.
 }
 
-ISR(PORTF_INT1_vect) // REa (RH) Level change ISR.
+
+ISR(PORTF_INT1_vect) // REb (RH).
 {
-  // Disables itself and enables the other.
-  PORTF.INTCTRL = PORT_INT1LVL_OFF_gc | PORT_INT0LVL_LO_gc;
-  PORTF.INTFLAGS = 0x3; // Clear flags.
+  static uint8_t reb_neg_state =0;
+  static uint8_t reb_pos_state =0;
+
+  if(PORT_ISC_FALLING_gc == (ROT_ENC_RH_CLK_CTRL_REG & PORT_ISC_FALLING_gc)) {
+    reb_neg_state = ROT_ENC_PORT.IN & IF_ROT_ENC_RH_DIR_bm;
+
+    ROT_ENC_RH_CLK_CTRL_REG = PORT_ISC_RISING_gc;
+  }
+  else if(PORT_ISC_RISING_gc == (ROT_ENC_RH_CLK_CTRL_REG & PORT_ISC_RISING_gc)) {
+    reb_pos_state = ROT_ENC_PORT.IN & IF_ROT_ENC_RH_DIR_bm;
+
+    if(reb_neg_state != reb_pos_state) {
+      if(reb_pos_state) incRotaryEncoder(1, -1);
+      else incRotaryEncoder(1, +1);
+    }
+
+    ROT_ENC_RH_CLK_CTRL_REG = PORT_ISC_FALLING_gc;
+  }
 }
 
 
