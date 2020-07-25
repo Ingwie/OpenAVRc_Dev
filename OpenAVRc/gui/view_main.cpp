@@ -73,20 +73,9 @@ void doMainScreenGraphics()
 {
   int16_t calibStickVert = calibratedStick[CONVERT_MODE(1)];
 
-#if defined(REV_EVO_V1)
-  drawStick(LBOX_CENTERX, calibratedStick[CONVERT_MODE(0)], -calibStickVert);
-#else
   drawStick(LBOX_CENTERX, calibratedStick[CONVERT_MODE(0)], calibStickVert);
-#endif
-
   calibStickVert = calibratedStick[CONVERT_MODE(2)];
-
-#if defined(REV_EVO_V1)
-  drawStick(RBOX_CENTERX, -calibratedStick[CONVERT_MODE(3)], calibStickVert);
-#else
   drawStick(RBOX_CENTERX, calibratedStick[CONVERT_MODE(3)], calibStickVert);
-#endif
-
   drawPotsBars();
 }
 
@@ -100,12 +89,6 @@ void displayTrims(uint8_t phase)
     xm = x[stickIndex];
     uint8_t att = ROUND;
     int16_t val = getTrimValue(phase, i);
-
-#if defined(REV_EVO_V1)
-    if (i==1 || i==3) {
-      val = -val;
-    }
-#endif
 
     int16_t dir = val;
     bool exttrim = false;
