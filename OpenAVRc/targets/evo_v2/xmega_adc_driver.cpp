@@ -83,7 +83,7 @@ void getADC()
   int16_t Sample;
   uint8_t adc_output = NUMBER_ANALOG;
 
-  #define NUMBERSAMPLES 7
+  #define NUMBERSAMPLES 8
 
   while(adc_output) {
 
@@ -173,10 +173,10 @@ void getADC()
 
       case TX_VOLTAGE:
 
-        // Differential measurement. VREF = 1.00V derived from internal Bandgap.
-        // VINN = Pad GND
+        // Differential measurement. VREF = 1.65V from AREF pin.
+        // VINN = Pad GND.
 
-        ADCA.REFCTRL = ADC_REFSEL_INT1V_gc | ADC_BANDGAP_bm;
+        ADCA.REFCTRL = ADC_REFSEL_AREFA_gc | ADC_BANDGAP_bm;
 
         ADCA.CH0.CTRL = ADC_CH_INPUTMODE_DIFF_gc; //
 
@@ -186,6 +186,12 @@ void getADC()
         ADCA.CH0.INTFLAGS |= ADC_CH_CHIF_bm; // Clear flag.
         ADCA.CH0.CTRL |= ADC_CH_START_bm; // Start Conversion.
         while(! ADCA.CH0.INTFLAGS & ADC_CH_CHIF_bm);
+        // Discard reading.
+
+        ADCA.CH0.INTFLAGS |= ADC_CH_CHIF_bm; // Clear flag.
+        ADCA.CH0.CTRL |= ADC_CH_START_bm; // Start Conversion.
+        while(! ADCA.CH0.INTFLAGS & ADC_CH_CHIF_bm);
+
         ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
           s_anaFilt[TX_VOLTAGE] = (signed) ADCA.CH0.RES;
         }
