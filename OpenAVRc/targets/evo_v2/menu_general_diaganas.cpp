@@ -52,7 +52,7 @@ void menuGeneralDiagAna(uint8_t event)
     uint8_t x = x_coord[i%2];
     lcdDrawNumberNAtt(x, y, i, LEADING0|LEFT, 2);
     lcdDrawChar(x+2*FW-2, y, ':');
-    uint8_t attr = (s_anaFilt[i] > 0x4FFD || s_anaFilt[i] < 0x3802) ? INVERS : 0;
+    uint8_t attr = (s_anaFilt[i] > 0xFFE || s_anaFilt[i] < 0x001) ? INVERS : 0;
     lcd_outhex(4, x+3*FW-1, y, s_anaFilt[i], attr);
   }
 }
