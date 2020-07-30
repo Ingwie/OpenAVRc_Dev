@@ -467,13 +467,14 @@ enum MpxButtons {
   BTN_SERVO,
   BTN_MIXER,
   BTN_CONTROL,
-  BTN_SETUP
+  BTN_SETUP,
+  NUM_BTNS,
 };
 
 
 #define BTN_TOL 0x27
 
-static const uint16_t AnalKeyboardVal[16] PROGMEM = {
+static const uint16_t AnalKeyboardVal[NUM_BTNS] PROGMEM = {
   // AD reading, Multiplex Key Name.
   // Quiescent reading = 0x7ff.
   // Min delta is 157 so BTN_TOL = 0x27
@@ -481,14 +482,12 @@ static const uint16_t AnalKeyboardVal[16] PROGMEM = {
   0x7ff, // No Key pressed
 
   0x38e, // Digi
-
   0x4cc, // Rev/Clr --> exit
   0x5d1, // Enter --> menu
   0x6aa, // Up --> up
   0x762, // Down --> down
   0x89d, // Memory --> right
   0x954, // Timer --> left
-
   0xa2d, // Servo
   0xb32, // Mixer
   0xc71, // Control
@@ -498,23 +497,15 @@ static const uint16_t AnalKeyboardVal[16] PROGMEM = {
 
 void read_keyboard()
 {
-  uint16_t AD_value;
-  uint16_t upper;
-  uint16_t lower;
+  uint16_t AD_value = s_anaFilt[KEYBOARD];
 
-  AD_value = s_anaFilt[KEYBOARD];
+  for(uint8_t x=BTN_NONE; x<NUM_BTNS; x++) {
 
-  if((unsigned)AD_value + BTN_TOL < AD_value)
-    upper = 0x47FF;
-  else upper = AD_value + BTN_TOL;
+    uint16_t  upper = pgm_read_word_far(&AnalKeyboardVal[x]) + BTN_TOL;
+    uint16_t  lower = upper - (BTN_TOL << 1);
+    if(lower > upper) lower = 0;
 
-  if((unsigned)AD_value - BTN_TOL > AD_value)
-    lower = 0x3800;
-  else lower = AD_value - BTN_TOL;
-
-  for(uint8_t x=0; x<12; x++) {
-    if( pgm_read_word_far(&AnalKeyboardVal[x]) < upper && pgm_read_word_far(&AnalKeyboardVal[x]) > lower ) {
-
+    if(AD_value > lower && AD_value < upper){
       keys[KEY_EXIT].input(  (x==BTN_REVCLR)  ? 1 :0);
       keys[KEY_MENU].input(  (x==BTN_ENTER)  ? 1 :0);
       keys[KEY_UP].input(    (x==BTN_UP)  ? 1 :0);
@@ -577,16 +568,13 @@ void read_sws_1(void)
 
   AD_value = s_anaFilt[ANAL_SWS_1];
 
-  if((unsigned)AD_value + ANA_TOL < AD_value)
-    upper = 0x47FF;
-  else upper = AD_value + ANA_TOL;
-
-  if((unsigned)AD_value - ANA_TOL > AD_value)
-    lower = 0x3800;
-  else lower = AD_value - ANA_TOL;
-
   for(uint8_t x=5; x<16; x++) {
-    if( pgm_read_word_far(&AnalSwitchVal[x]) < upper && pgm_read_word_far(&AnalSwitchVal[x]) > lower ) {
+
+    upper = pgm_read_word_far(&AnalSwitchVal[x]);
+    lower = upper - (ANA_TOL <<1);
+    if (lower > upper) lower = 0;
+
+    if(AD_value > lower && AD_value < upper) {
       switches[SW_Jdn - SW_BASE] = ( (x==5 || x==6 || x==7) ? 1 : 0); // J Down
       switches[SW_Jup - SW_BASE] = ( (x==9 || x==10 || x==11) ? 1 : 0); // J Up
       switches[SW_Jmi - SW_BASE] = ( (x==13 || x==14 || x==15) ? 1 : 0); // J Middle
@@ -608,16 +596,13 @@ void read_sws_2(void)
 
   AD_value = s_anaFilt[ANAL_SWS_2];
 
-  if((unsigned)AD_value + ANA_TOL < AD_value)
-    upper = 0x47FF;
-  else upper = AD_value + ANA_TOL;
-
-  if((unsigned)AD_value - ANA_TOL > AD_value)
-    lower = 0x3800;
-  else lower = AD_value - ANA_TOL;
-
   for(uint8_t x=0; x<16; x++) {
-    if( pgm_read_word_far(&AnalSwitchVal[x]) < upper && pgm_read_word_far(&AnalSwitchVal[x]) > lower ) {
+
+    upper = pgm_read_word_far(&AnalSwitchVal[x]);
+    lower = upper - (ANA_TOL <<1);
+    if (lower > upper) lower = 0;
+
+    if(AD_value > lower && AD_value < upper) {
       switches[SW_H - SW_BASE] = ( (x & 2) ? 0 : 1); // H
       switches[SW_I - SW_BASE] = ( (x & 1) ? 1 : 0); // I
       switches[SW_K - SW_BASE] = ( (x & 4) ? 1 : 0); // K
@@ -636,16 +621,13 @@ void read_sws_3(void)
 
   AD_value = s_anaFilt[ANAL_SWS_3];
 
-  if((unsigned)AD_value + ANA_TOL < AD_value)
-    upper = 0x04FF;
-  else upper = AD_value + ANA_TOL;
+  for(uint8_t x=5; x<16; x++) {
 
-  if((unsigned)AD_value - ANA_TOL > AD_value)
-    lower = 0X3800;
-  else lower = AD_value - ANA_TOL;
+    upper = pgm_read_word_far(&AnalSwitchVal[x]);
+    lower = upper - (ANA_TOL <<1);
+    if (lower > upper) lower = 0;
 
-  for(uint8_t x=0; x<16; x++) {
-    if( pgm_read_word_far(&AnalSwitchVal[x]) < upper && pgm_read_word_far(&AnalSwitchVal[x]) > lower ) {
+    if(AD_value > lower && AD_value < upper) {
       switches[SW_Odn - SW_BASE] = ( (x==5 || x==6 || x==7) ? 1 : 0); // O Down
       switches[SW_Oup - SW_BASE] = ( (x==9 || x==10 || x==11) ? 1 : 0); // O Up
       switches[SW_Omi - SW_BASE] = ( (x==13 || x==14 || x==15) ? 1 : 0); // O Middle
@@ -667,16 +649,13 @@ void read_sws_4(void)
 
   AD_value = s_anaFilt[ANAL_SWS_4];
 
-  if((unsigned)AD_value + ANA_TOL < AD_value)
-    upper = 0x47FF;
-  else upper = AD_value + ANA_TOL;
-
-  if((unsigned)AD_value - ANA_TOL > AD_value)
-    lower = 0x3800;
-  else lower = AD_value - ANA_TOL;
-
   for(uint8_t x=0; x<16; x++) {
-    if( pgm_read_word_far(&AnalSwitchVal[x]) < upper && pgm_read_word_far(&AnalSwitchVal[x]) > lower ) {
+
+    upper = pgm_read_word_far(&AnalSwitchVal[x]);
+    lower = upper - (ANA_TOL <<1);
+    if (lower > upper) lower = 0;
+
+    if(AD_value > lower && AD_value < upper) {
       switches[SW_M - SW_BASE] = ( (x & 2) ? 0 : 1); // M
       switches[SW_N - SW_BASE] = ( (x & 1) ? 1 : 0); // N
       switches[SW_P - SW_BASE] = ( (x & 4) ? 1 : 0); // P
