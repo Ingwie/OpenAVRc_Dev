@@ -40,11 +40,16 @@
 #endif
 
 // All communication to RF module(s) will use the same pin ... e.g. USART MSPI, USART Asynch and PPM.
-#define TLM_USART             MULTI_USART
-#define MULTI_USART           USARTE0
-#define TLM_USART_PORT        PORTE
-#define TLM_USART_RXC_VECT    USARTE0_RXC_vect
-#define TLM_USART_DRE_VECT    USARTE0_DRE_vect
+#define MULTI_USART             USARTE0
+#define MULTI_USART_PORT        PORTE
+#define MULTI_USART_RXC_VECT    USARTE0_RXC_vect
+#define MULTI_USART_DRE_VECT    USARTE0_DRE_vect
+
+// Telemetry USART.
+#define TLM_USART               USARTD0
+#define TLM_USART_PORT          PORTD
+#define TLM_USART_RXC_VECT      USARTD0_RXC_vect
+#define TLM_USART_DRE_VECT      USARTD0_DRE_vect
 
 
 // token pasting
