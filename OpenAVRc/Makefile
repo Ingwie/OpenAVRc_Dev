@@ -516,6 +516,7 @@ ifeq ($(PCB), EVO_V2)
   THR_TRACE = YES
   VOICE = NO
   SPIMODULES = NO
+  MULTIMODULE = YES
   CC2500 = YES
   CC2500PAG = 20
   CYRF6936 = YES
@@ -524,12 +525,25 @@ ifeq ($(PCB), EVO_V2)
   INV_STICK_LH = YES
 
   INCDIRS += targets/evo_v2 targets/stock $(RRSDDIR)
-  BOARDSRC += main_avr.cpp targets/evo_v2/xmega.cpp targets/evo_v2/lcd_ssd1309_driver.cpp targets/evo_v2/xmega_adc_driver.cpp
+  BOARDSRC += main_avr.cpp targets/evo_v2/xmega.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = targets/evo_v2/xmega_pulses.cpp
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v2/menu_general_diaganas.cpp
-  EXTRABOARDSRC = targets/evo_v2/Serial0.cpp
+  EXTRABOARDSRC = targets/evo_v2/lcd_ssd1309_driver.cpp targets/evo_v2/xmega_adc_driver.cpp
 
+  needSerial0 = FALSE
+  ifeq ($(MULTIMODULE), YES)
+   needSerial0 = YES
+  endif
+  ifeq ($(DSM2), YES)
+   needSerial0 = YES
+  endif
+  ifeq ($(EXT), FRSKY)
+   needSerial0 = YES
+  endif
+  ifeq ($(needSerial0), YES)
+  EXTRABOARDSRC += targets/evo_v2/Serial0.cpp
+  endif
 
   ifeq ($(PWM_BACKLIGHT), YES)
     CPPDEFS += -DPWM_BACKLIGHT
@@ -582,6 +596,10 @@ ifeq ($(PCB), EVO_V2)
 
   ifeq ($(PERSONAMES), YES)
     CPPDEFS += -DPERSONAMES
+  endif
+
+  ifeq ($(MULTIMODULE), YES)
+    CPPDEFS += -DMULTIMODULE
   endif
 
   ifeq ($(SPIMODULES), YES)
