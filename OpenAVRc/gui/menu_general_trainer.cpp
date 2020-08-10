@@ -101,12 +101,16 @@ void menuGeneralTrainer(uint8_t event)
     if (attr) s_editMode = 0;
     lcdDrawTextAtt(0*FW, MENU_HEADER_HEIGHT+1+6*FH, STR_CAL, attr);
     for (uint8_t i=0; i<4; i++) {
+
       uint8_t x = (i*TRAINER_CALIB_POS+16)*FW/2;
+
 #if defined (PPM_UNIT_PERCENT_PREC1)
-      lcdDrawNumberNAtt(x, MENU_HEADER_HEIGHT+1+6*FH, (ppmInput[i]-g_eeGeneral.trainer.calib[i])*2, PREC1);
+      lcdDrawNumberNAtt(x, MENU_HEADER_HEIGHT+1+6*FH, ((ppmInput[i]-g_eeGeneral.trainer.calib[i])*41)/21, PREC1);
+      // 41/21 is an integer approximation given ppmInput could be +-700us and we use an int16_t.
 #else
-      lcdDrawNumberNAtt(x, MENU_HEADER_HEIGHT+1+6*FH, (ppmInput[i]-g_eeGeneral.trainer.calib[i])/5, 0);
+      lcdDrawNumberNAtt(x, MENU_HEADER_HEIGHT+1+6*FH, ((ppmInput[i]-g_eeGeneral.trainer.calib[i])*41)/210, 0);
 #endif
+
     }
 
     if (attr) {
