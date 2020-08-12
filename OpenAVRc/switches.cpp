@@ -287,6 +287,13 @@ void checkSwitches()
 
   while (1) {
 
+#ifdef GETADC_COUNT
+    for (uint8_t i=0; i<GETADC_COUNT; i++) {
+      getADC();
+    }
+#undef GETADC_COUNT
+#endif
+
     getMovedSwitch();
 
     uint8_t warn = false;
