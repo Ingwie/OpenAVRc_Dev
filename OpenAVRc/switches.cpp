@@ -35,9 +35,7 @@
 
 #define CS_LAST_VALUE_INIT -32768
 
-
 int16_t lsLastValue[NUM_LOGICAL_SWITCH];
-#define LS_LAST_VALUE(fm, idx) lsLastValue[idx]
 
 volatile GETSWITCH_RECURSIVE_TYPE s_last_switch_used = 0;
 volatile GETSWITCH_RECURSIVE_TYPE s_last_switch_value = 0;
@@ -57,7 +55,7 @@ uint8_t getLogicalSwitch(uint8_t idx)
   if (ls->func == LS_FUNC_NONE || (s && !getSwitch(s))) {
     if (ls->func != LS_FUNC_STICKY) {
       // AND switch must not affect STICKY and EDGE processing
-      LS_LAST_VALUE(mixerCurrentFlightMode, idx) = CS_LAST_VALUE_INIT;
+      lsLastValue[idx] = CS_LAST_VALUE_INIT;
     }
     result = false;
   } else if ((s=lswFamily(ls->func)) == LS_FAMILY_BOOL) {
@@ -76,9 +74,9 @@ uint8_t getLogicalSwitch(uint8_t idx)
       break;
     }
   } else if (s == LS_FAMILY_TIMER) {
-    result = (LS_LAST_VALUE(mixerCurrentFlightMode, idx) <= 0);
+    result = (lsLastValue[idx] <= 0);
   } else if (s == LS_FAMILY_STICKY) {
-    result = (LS_LAST_VALUE(mixerCurrentFlightMode, idx) & (1<<0));
+    result = (lsLastValue[idx] & (1<<0));
   } else {
     getvalue_t x = getValue(ls->v1);
     getvalue_t y;
@@ -159,10 +157,10 @@ uint8_t getLogicalSwitch(uint8_t idx)
         result = (abs(x)<y);
         break;
       default: {
-        if (LS_LAST_VALUE(mixerCurrentFlightMode, idx) == CS_LAST_VALUE_INIT) {
-          LS_LAST_VALUE(mixerCurrentFlightMode, idx) = x;
+        if (lsLastValue[idx] == CS_LAST_VALUE_INIT) {
+          lsLastValue[idx] = x;
         }
-        int16_t diff = x - LS_LAST_VALUE(mixerCurrentFlightMode, idx);
+        int16_t diff = x - lsLastValue[idx];
         uint8_t update = false;
         if (ls->func == LS_FUNC_DIFFEGREATER) {
           if (y >= 0) {
@@ -178,7 +176,7 @@ uint8_t getLogicalSwitch(uint8_t idx)
           result = (abs(diff) >= y);
         }
         if (result || update) {
-          LS_LAST_VALUE(mixerCurrentFlightMode, idx) = x;
+          lsLastValue[idx] = x;
         }
         break;
       }
@@ -189,7 +187,6 @@ uint8_t getLogicalSwitch(uint8_t idx)
 #if defined(FRSKY)
 DurationAndDelayProcessing:
 #endif
-
 
   return result;
 }
@@ -234,7 +231,7 @@ uint8_t getSwitch(swsrc_t swtch)
   }
   else {
     cs_idx -= SWSRC_FIRST_LOGICAL_SWITCH;
-    GETSWITCH_RECURSIVE_TYPE mask = ((GETSWITCH_RECURSIVE_TYPE)1 << cs_idx);
+    GETSWITCH_RECURSIVE_TYPE mask = ((GETSWITCH_RECURSIVE_TYPE) 1 << cs_idx);
     if (s_last_switch_used & mask) {
       result = (s_last_switch_value & mask);
     } else {
@@ -289,13 +286,6 @@ void checkSwitches()
   swarnstate_t states = g_model.switchWarningState;
 
   while (1) {
-
-#ifdef GETADC_COUNT
-    for (uint8_t i=0; i<GETADC_COUNT; i++) {
-      getADC();
-    }
-#undef GETADC_COUNT
-#endif
 
     getMovedSwitch();
 
@@ -359,7 +349,7 @@ void checkSwitches()
     for (uint8_t i=0; i<NUM_LOGICAL_SWITCH; i++) {
       LogicalSwitchData * ls = lswAddress(i);
       if (ls->func == LS_FUNC_TIMER) {
-        int16_t *lastValue = &LS_LAST_VALUE(fm, i);
+        int16_t *lastValue = &lsLastValue[i];
         if (*lastValue == 0 || *lastValue == CS_LAST_VALUE_INIT) {
           *lastValue = -lswTimerValue(ls->v1);
         } else if (*lastValue < 0) {
@@ -369,7 +359,7 @@ void checkSwitches()
           *lastValue -= 1;
         }
       } else if (ls->func == LS_FUNC_STICKY) {
-        ls_sticky_struct & lastValue = (ls_sticky_struct &)LS_LAST_VALUE(fm, i);
+        ls_sticky_struct & lastValue = (ls_sticky_struct &)lsLastValue[i];
         uint8_t before = lastValue.last & 0x01;
         if (lastValue.state) {
           uint8_t now = getSwitch(ls->v2);
@@ -421,7 +411,7 @@ void checkSwitches()
     s_last_switch_value = 0;
 
     for (uint8_t i=0; i<NUM_LOGICAL_SWITCH; i++) {
-      LS_LAST_VALUE(fm, i) = CS_LAST_VALUE_INIT;
+      lsLastValue[i] = CS_LAST_VALUE_INIT;
     }
   }
 
