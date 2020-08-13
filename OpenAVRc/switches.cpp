@@ -37,8 +37,8 @@
 
 int16_t lsLastValue[NUM_LOGICAL_SWITCH];
 
-volatile GETSWITCH_RECURSIVE_TYPE s_last_switch_used = 0;
-volatile GETSWITCH_RECURSIVE_TYPE s_last_switch_value = 0;
+GETSWITCH_RECURSIVE_TYPE s_last_switch_used = 0;
+GETSWITCH_RECURSIVE_TYPE s_last_switch_value = 0;
 
 PACK(typedef struct {
   uint8_t state;
@@ -231,9 +231,9 @@ uint8_t getSwitch(swsrc_t swtch)
   }
   else {
     cs_idx -= SWSRC_FIRST_LOGICAL_SWITCH;
-    GETSWITCH_RECURSIVE_TYPE mask = ((GETSWITCH_RECURSIVE_TYPE) 1 << cs_idx);
+    GETSWITCH_RECURSIVE_TYPE mask = ((GETSWITCH_RECURSIVE_TYPE) (1 << cs_idx));
     if (s_last_switch_used & mask) {
-      result = (s_last_switch_value & mask);
+      result = (s_last_switch_value & mask)? 1:0;
     } else {
       s_last_switch_used |= mask;
       result = getLogicalSwitch(cs_idx);
