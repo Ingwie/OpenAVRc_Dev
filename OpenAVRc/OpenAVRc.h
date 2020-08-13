@@ -626,8 +626,8 @@ uint8_t getLogicalSwitch(uint8_t idx);
 void logicalSwitchesTimerTick();
 void logicalSwitchesReset();
 
-extern volatile GETSWITCH_RECURSIVE_TYPE s_last_switch_used;
-extern volatile GETSWITCH_RECURSIVE_TYPE s_last_switch_value;
+extern GETSWITCH_RECURSIVE_TYPE s_last_switch_used;
+extern GETSWITCH_RECURSIVE_TYPE s_last_switch_value;
 #define LS_RECURSIVE_EVALUATION_RESET() s_last_switch_used = 0
 
 extern swarnstate_t switches_states;
