@@ -791,6 +791,9 @@ void checkAll();
 void getADC();
 
 extern void backlightOn();
+extern void backlightFade();
+void checkBacklight();
+
 
 enum Analogs {
 #if defined(REV_EVO_V2)
@@ -825,8 +828,6 @@ enum Analogs {
 };
 
 extern uint16_t s_anaFilt[NUMBER_ANALOG];
-
-void checkBacklight();
 
 #undef min // Avoid double declaration in wingw
 #undef max
@@ -1164,13 +1165,14 @@ enum TXRX_State {
   RX_EN,
 };
 
-#define PROTO_NEED_SPI PIN3_bm // bitmask
+#define PROTO_NEED_SPI 0x08 // bitmask
 #define IS_PROTO_NEED_SPI if (RfOptionSettings.rfProtoNeed & PROTO_NEED_SPI)
 
-#define BOOL1USED PIN0_bm
-#define BOOL2USED PIN1_bm
-#define BOOL3USED PIN2_bm
+#define BOOL1USED 0x01
+#define BOOL2USED 0x02
+#define BOOL3USED 0x04
 
+PACK(
 struct RfOptionSettingsvar_t {
   uint8_t         rfProtoNeed:4;     // See usage in "PROTO_NEED_XX" Def
   uint8_t         rfSubTypeMax:4;       //16 max
@@ -1179,8 +1181,9 @@ struct RfOptionSettingsvar_t {
   int8_t          rfOptionValue2Min;
   int8_t          rfOptionValue2Max;
   int8_t          rfOptionValue3Max/*:5*/;  //32 max -16 is min
-};
+});
 
+PACK(
 struct RfOptionSettings_t {
   uint8_t         rfProtoNeed:4;     // See usage in "PROTO_NEED_XX" Def
   uint8_t         rfSubTypeMax:4;       //16 max
@@ -1199,7 +1202,7 @@ struct RfOptionSettings_t {
   const pm_char*  rfOptionBool2Name;
   uint8_t         rfOptionBool3Used:1;
   const pm_char*  rfOptionBool3Name;
-};
+});
 
 void SetRfOptionSettings(uint_farptr_t RfOptSet,
                          const pm_char* rfSubTypeNames,
