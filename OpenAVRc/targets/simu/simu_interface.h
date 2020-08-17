@@ -624,6 +624,7 @@ extern REG8 simu_mcusr;
 #define PORF    0
 
 //TIMER
+extern REG16 simu_ocr0a;
 extern REG16 simu_ocr1a;
 extern REG16 simu_ocr1b;
 extern REG16 simu_ocr1c;
@@ -663,6 +664,7 @@ extern REG16 simu_ocr5a;
 extern REG8 simu_ocr5al;
 extern REG8 simu_ocr5ah;
 
+#define OCR0A   simu_ocr0a
 #define OCR1A   simu_ocr1a
 #define OCR1B   simu_ocr1b
 #define OCR1C   simu_ocr1c
