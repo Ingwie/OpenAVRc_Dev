@@ -831,9 +831,11 @@ void OpenAVRc_SimulatorFrame::DrawWxSimuLcd()
   p = displayBuf;
 #endif
   wxColor Col_Lcd_Back_dyn = Col_Lcd_Back;
+#if !defined(PWM_BACKLIGHT)
   if (!(isBacklightEnable())) {
     Col_Lcd_Back_dyn = Col_Lcd_Back_dyn.ChangeLightness(80);
   }
+#endif
   wxBrush brush_back(Col_Lcd_Back_dyn, wxBRUSHSTYLE_SOLID );
   SimuLcd_MemoryDC->SetBrush(brush_back);
   SimuLcd_MemoryDC->DrawRectangle(0,0,4+LCD_W*SimuLcdScale,4+LCD_H*SimuLcdScale);

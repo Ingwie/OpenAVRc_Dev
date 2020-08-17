@@ -64,6 +64,10 @@
 #define LEN_RETA123            "\001"
 #define TR_RETA123           "RETA123ab"
 
+#if defined(PWM_BACKLIGHT)
+#define TR_BLONBRIGHTNESS      INDENT"ON Brightn."
+#define TR_BLOFFBRIGHTNESS     INDENT"OFF Brightn."
+#endif
 #if defined(DSM2_SERIAL)
  #define TR_DSM2              "LP45\0 ""DSM2\0 ""DSMX\0 "
 #else

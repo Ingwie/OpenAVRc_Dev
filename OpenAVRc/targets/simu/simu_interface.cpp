@@ -218,6 +218,7 @@ REG8 simu_tw_mt_data_ack;
 REG8 simu_mcusr;
 
 //TIMER
+REG16 simu_ocr0a;
 REG16 simu_ocr1a;
 REG16 simu_ocr1b;
 REG16 simu_ocr1c;
