@@ -56,7 +56,7 @@ const static RfOptionSettingsvar_t RfOpt_Multi_Ser[] PROGMEM = {
 
 const pm_char STR_SUBTYPE_FLYSKY[] PROGMEM =     "\004""Std\0""V9x9""V6x6""V912""CX20";
 
-const pm_char STR_SUBTYPE_AFHDS2A[] PROGMEM =    "\010""PWM,IBUS""PPM,IBUS""PWM,SBUS""PPM,SBUS";
+const pm_char STR_SUBTYPE_AFHDS2A[] PROGMEM =    "\010""PWM,IBUS""PPM,IBUS""PWM,SBUS""PPM,SBUS""PWM,IB16""PPM,IB16";
 
 const pm_char STR_SUBTYPE_FRSKY[] PROGMEM =      "\007""D16\0   ""D8\0    ""D16 8ch""V8\0    ""LBT(EU)""LBT 8ch";
 
@@ -114,7 +114,7 @@ const mm_protocol_definition multi_protocols[] = {
   { MM_RF_PROTO_SFHSS,      NO_SUBTYPE,           0,  STR_RFTUNEFINE    },
   { MM_RF_PROTO_HONTAI,     STR_SUBTYPE_HONTAI,   2,  0             },
   { MM_RF_PROTO_OLRS,       NO_SUBTYPE,           0,  STR_MULTI_RFPOWER   },
-  { MM_RF_PROTO_FS_AFHDS2A, STR_SUBTYPE_AFHDS2A,  3,  STR_MULTI_SERVOFREQ },
+  { MM_RF_PROTO_FS_AFHDS2A, STR_SUBTYPE_AFHDS2A,  5,  STR_MULTI_SERVOFREQ },
   { MM_RF_PROTO_Q2X2,       STR_SUBTYPE_Q2X2,     2,  0             },
   { MM_RF_PROTO_WK_2X01,    STR_SUBTYPE_WK2x01,   5,  0             },
   { MM_RF_PROTO_Q303,       STR_SUBTYPE_Q303,     3,  0             },
