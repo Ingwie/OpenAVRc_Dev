@@ -213,6 +213,10 @@ MENUS_LOCK = NO
 # Values = NO, YES
 MULTIMODULE = NO
 
+# Enable SX1276 in MULTI protocol
+# Values = NO, YES
+SX1276 = NO
+
 # Enable SPIMODULES protocols
 # Values = NO, YES
 SPIMODULES = NO
@@ -429,6 +433,10 @@ ifeq ($(PCB), MEGAMINI)
    CPPDEFS += -DMULTIMODULE
   endif
 
+  ifeq ($(SX1276), YES)
+   CPPDEFS += -DSX1276
+  endif
+
   ifeq ($(SPIMODULES), YES)
    CPPDEFS += -DSPIMODULES
 
@@ -625,7 +633,7 @@ ifeq ($(PCB), EVO_V2)
       CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
     endif
   endif
-  
+
   ifeq ($(INV_STICK_RH), YES)
     CPPDEFS += -DINV_STICK_RH
   endif
@@ -740,6 +748,10 @@ ifeq ($(PCB), MEGA2560)
 
   ifeq ($(MULTIMODULE), YES)
    CPPDEFS += -DMULTIMODULE
+  endif
+
+	ifeq ($(SX1276), YES)
+   CPPDEFS += -DSX1276
   endif
 
   ifeq ($(SPIMODULES), YES)
