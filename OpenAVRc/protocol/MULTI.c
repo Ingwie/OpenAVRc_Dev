@@ -54,11 +54,17 @@ const static RfOptionSettingsvar_t RfOpt_Multi_Ser[] PROGMEM = {
   /*rfOptionValue3Max*/0,
 };
 
+//#define MultiSX1276
+
 const pm_char STR_SUBTYPE_FLYSKY[] PROGMEM =     "\004""Std\0""V9x9""V6x6""V912""CX20";
 
 const pm_char STR_SUBTYPE_AFHDS2A[] PROGMEM =    "\010""PWM,IBUS""PPM,IBUS""PWM,SBUS""PPM,SBUS""PWM,IB16""PPM,IB16";
 
+#if defined(MultiSX1276)
+const pm_char STR_SUBTYPE_FRSKY[] PROGMEM =      "\007""D16\0   ""D8\0    ""D16 8ch""V8\0    ""LBT(EU)""LBT 8ch""915  16""868  16""915 8ch""868 8ch";
+#else
 const pm_char STR_SUBTYPE_FRSKY[] PROGMEM =      "\007""D16\0   ""D8\0    ""D16 8ch""V8\0    ""LBT(EU)""LBT 8ch";
+#endif
 
 const pm_char STR_SUBTYPE_HISKY[] PROGMEM =      "\005""HiSky""HK310";
 
@@ -94,10 +100,15 @@ const pm_char STR_SUBTYPE_BAYANG[] PROGMEM =     "\006""Bayang""H8S3D";
 
 const pm_char STR_SUBTYPE_FY326[] PROGMEM =      "\005""FY326""FY319";
 
+
 const mm_protocol_definition multi_protocols[] = {
   { MM_RF_PROTO_FLYSKY,     STR_SUBTYPE_FLYSKY,   4,  0             },
   { MM_RF_PROTO_HUBSAN,     NO_SUBTYPE,           0,  STR_MULTI_VIDFREQ   },
+#if defined(MultiSX1276)
+  { MM_RF_PROTO_FRSKY,      STR_SUBTYPE_FRSKY,    9,  STR_RFTUNEFINE    },
+#else
   { MM_RF_PROTO_FRSKY,      STR_SUBTYPE_FRSKY,    5,  STR_RFTUNEFINE    },
+#endif
   { MM_RF_PROTO_HISKY,      STR_SUBTYPE_HISKY,    1,  0             },
   { MM_RF_PROTO_V2X2,       STR_SUBTYPE_V2X2,     1,  0             },
   { MM_RF_PROTO_DSM2,       STR_SUBTYPE_DSM,      3,  0             },
@@ -199,6 +210,24 @@ static uint16_t MULTI_cb()
       //V8
       type = 25;
       subtype = 0;
+#if defined(MultiSX1276)
+    } else if (subtype == MM_RF_FRSKY_SUBTYPE_FLEX915_16CH) {
+      //915 16ch
+      type = 63;// normal type will be 65
+      subtype = 0;
+     } else if (subtype == MM_RF_FRSKY_SUBTYPE_FLEX868_16CH) {
+      //868 16ch
+      type = 63;// normal type will be 65
+      subtype = 1;
+    } else if (subtype == MM_RF_FRSKY_SUBTYPE_FLEX915_8CH) {
+      //915 8ch
+      type = 63;// normal type will be 65
+      subtype = 2;
+     } else if (subtype == MM_RF_FRSKY_SUBTYPE_FLEX868_8CH) {
+      //868 8ch
+      type = 63;// normal type will be 65
+      subtype = 3;
+#endif
     } else {
       type = 15;
       if (subtype == MM_RF_FRSKY_SUBTYPE_D16_8CH) // D16 8ch
