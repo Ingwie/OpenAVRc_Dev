@@ -213,9 +213,9 @@ MENUS_LOCK = NO
 # Values = NO, YES
 MULTIMODULE = NO
 
-# Enable SX1276 in MULTI protocol
+# Enable MultiSX1276 in MULTI protocol
 # Values = NO, YES
-SX1276 = NO
+MultiSX1276 = NO
 
 # Enable SPIMODULES protocols
 # Values = NO, YES
@@ -433,8 +433,8 @@ ifeq ($(PCB), MEGAMINI)
    CPPDEFS += -DMULTIMODULE
   endif
 
-  ifeq ($(SX1276), YES)
-   CPPDEFS += -DSX1276
+  ifeq ($(MultiSX1276), YES)
+   CPPDEFS += -DMultiSX1276
   endif
 
   ifeq ($(SPIMODULES), YES)
@@ -750,8 +750,8 @@ ifeq ($(PCB), MEGA2560)
    CPPDEFS += -DMULTIMODULE
   endif
 
-	ifeq ($(SX1276), YES)
-   CPPDEFS += -DSX1276
+	ifeq ($(MultiSX1276), YES)
+   CPPDEFS += -DMultiSX1276
   endif
 
   ifeq ($(SPIMODULES), YES)
