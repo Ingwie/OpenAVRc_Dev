@@ -116,13 +116,11 @@ FORCEINLINE void boardInit()
 
   /* Rotary encoder interrupt set-up                 */
   EIMSK = 0; // disable ALL external interrupts.
-  // encoder 1
-  EICRB = (1<<ISC50) | (1<<ISC40); // 01 = interrupt on any edge
-  EIFR = (3<<INTF4); // clear the int. flag in case it got set when changing modes
-  // encoder 2
-  EICRA = (1<<ISC30) | (1<<ISC20);
-  EIFR = (3<<INTF2);
-  EIMSK = (3<<INT4) | (3<<INT2); // enable the two rot. enc. ext. int. pairs.
+  // encoder 1&2
+  EICRB = (1<<ISC71) | (1<<ISC61) | (1<<ISC51) | (1<<ISC41); // 10 = interrupt on falling edge
+  EIFR = (1<<INTF7) | (1<<INTF6) | (1<<INTF5) | (1<<INTF4); // clear the int. flag in case it got set when changing modes
+  ENABLEROTENCAISR();
+  ENABLEROTENCBISR();
 
 #if defined(RTCLOCK) || defined(LCD_SSD1306) || defined(LCD_SH1106) || defined(EXTERNALEEPROM) || defined(X_ANY)
   /* Hardware I2C init */
