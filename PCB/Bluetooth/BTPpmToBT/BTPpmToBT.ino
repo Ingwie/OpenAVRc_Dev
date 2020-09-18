@@ -73,12 +73,6 @@ void setup() {
   BT.begin(115200);  while (!BT);// wait for serial port to connect.
 
   TinyCppmReader.attach(PPM_INPUT_PIN); // Attach TinyPpmReader to PPM_INPUT_PIN pin
-  
-  for(uint8_t Idx = 0; Idx < NUM_TRAINER; Idx++)
-  {
-    FULL_CHANNEL_OUTPUTS(Idx) = map(1500,1000,2000,-1280,1280);
-  }
-
 }
 
 void loop() {
