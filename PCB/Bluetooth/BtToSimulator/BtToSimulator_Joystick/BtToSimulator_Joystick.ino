@@ -148,7 +148,7 @@ void loop() {
       TinyCppmGen.setChWidth_us(7, n7); 
       TinyCppmGen.setChWidth_us(8, n8);
     }//PPM
-    else if (mode == 2)//JOYSTICK
+    else if (mode == 0)//JOYSTICK
     {   
       n4 = map(n4,1000,2000,-511,511);Joystick.setXAxis(n4);//Aileron
       n2 = map(n2,1000,2000,-511,511);Joystick.setYAxis(n2);//Elevator
