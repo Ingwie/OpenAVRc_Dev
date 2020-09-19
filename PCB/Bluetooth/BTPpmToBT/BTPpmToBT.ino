@@ -76,10 +76,11 @@ void setup() {
 }
 
 void loop() {
-  if (TinyCppmReader.isSynchro())
+  if (TinyCppmReader::detectedChannelNb()>0)
   {
     for(uint8_t Idx = 0; Idx < NUM_TRAINER; Idx++)
     {
+      //Serial.print(F("Ch"));Serial.print(Idx+1);Serial.print(F(": "));Serial.println(TinyCppmReader.width_us(Idx+1));
       FULL_CHANNEL_OUTPUTS(Idx) = map(TinyCppmReader.width_us(Idx+1),1000,2000,-1280,1280);
     }
   }
