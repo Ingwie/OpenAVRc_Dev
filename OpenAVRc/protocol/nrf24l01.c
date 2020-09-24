@@ -473,7 +473,7 @@ uint8_t NRF24L01_SetPower(uint8_t power)
 #if (NRF24L01PA_GAIN == 20)
   const static uint16_t NRF24L01_Powers[] PROGMEM = {158,630,2511,10000};
 #endif
-#if (NRF24L01_GAIN == 22)
+#if (NRF24L01PA_GAIN == 22)
   const static uint16_t NRF24L01_Powers[] PROGMEM = {251,1000,3981,15848};
 #endif
 
