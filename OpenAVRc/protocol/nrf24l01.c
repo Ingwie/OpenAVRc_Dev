@@ -35,9 +35,6 @@
 #ifdef PROTO_HAS_NRF24L01
 #include "../OpenAVRc.h"
 #include "../spi.h"
-#if defined(SIMU)
-  //#include <math.h>
-#endif
 
 // XN297 emulation layer
 enum {
@@ -86,18 +83,6 @@ const uint16_t PROGMEM xn297_crc_xorout_scrambled_enhanced[] = {
     0x7A1F, 0xDEA2, 0x9642, 0xBF4B, 0x032F, 0x01D2,
     0xDC86, 0x92A5, 0x183A, 0xB760, 0xA953 };
 
-// unscrambled enhanced mode crc xorout table
-// unused so far
-#ifdef XN297DUMP_NRF24L01_INO
-const uint16_t xn297_crc_xorout_enhanced[] = {
-    0x0000, 0x8BE6, 0xD8EC, 0xB87A, 0x42DC, 0xAA89,
-    0x83AF, 0x10E4, 0xE83E, 0x5C29, 0xAC76, 0x1C69,
-    0xA4B2, 0x5961, 0xB4D3, 0x2A50, 0xCB27, 0x5128,
-    0x7CDB, 0x7A14, 0xD5D2, 0x57D7, 0xE31D, 0xCE42,
-    0x648D, 0xBF2D, 0x653B, 0x190C, 0x9117, 0x9A97,
-    0xABFC, 0xE68E, 0x0DE7, 0x28A2, 0x1965 };
-#endif
-
 static uint8_t bit_reverse(uint8_t b_in)
 {
     uint8_t b_out = 0;
@@ -110,6 +95,7 @@ static uint8_t bit_reverse(uint8_t b_in)
 }
 
 static const uint16_t polynomial = 0x1021;
+
 static uint16_t crc16_update(uint16_t crc, uint8_t a, uint8_t bits)
 {
 	crc ^= a << 8;
@@ -288,7 +274,7 @@ bool XN297_ReadPayload(uint8_t* msg, uint8_t len)
 { //!!! Don't forget if using CRC to do a +2 on any of the used NRF24L01_11_RX_PW_Px !!!
 	uint8_t buf[32];
 	if (xn297_crc)
-		NRF24L01_ReadPayload(buf, len+2);	// Read payload + CRC 
+		NRF24L01_ReadPayload(buf, len+2);	// Read payload + CRC
 	else
 		NRF24L01_ReadPayload(buf, len);
 	// Decode payload
@@ -339,7 +325,7 @@ uint8_t XN297_ReadEnhancedPayload(uint8_t* msg, uint8_t len)
 	{
 		msg[i] = bit_reverse((buffer[i+1] << 2) | (buffer[i+2] >> 6));
 		if(xn297_scramble_enabled)
-			msg[i] ^= bit_reverse((xn297_scramble[xn297_addr_len+i+1] << 2) | 
+			msg[i] ^= bit_reverse((xn297_scramble[xn297_addr_len+i+1] << 2) |
 									(xn297_scramble[xn297_addr_len+i+2] >> 6));
 	}
 	return pcf_size;
@@ -473,7 +459,7 @@ uint8_t NRF24L01_SetPower(uint8_t power)
 #if (NRF24L01PA_GAIN == 20)
   const static uint16_t NRF24L01_Powers[] PROGMEM = {158,630,2511,10000};
 #endif
-#if (NRF24L01_GAIN == 22)
+#if (NRF24L01PA_GAIN == 22)
   const static uint16_t NRF24L01_Powers[] PROGMEM = {251,1000,3981,15848};
 #endif
 
