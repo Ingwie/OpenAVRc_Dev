@@ -331,13 +331,6 @@ uint8_t XN297_ReadEnhancedPayload(uint8_t* msg, uint8_t len)
 	return pcf_size;
 }
 
-uint8_t rf_setup;
-
-void NRF24L01_Initialize()
-{
-  rf_setup = 0x0f;
-}
-
 uint8_t NRF24L01_WriteReg(uint8_t reg, uint8_t data)
 {
   RF_CS_NRF24L01_ACTIVE();
@@ -438,12 +431,20 @@ uint8_t NRF24L01_Activate(uint8_t code)
 
 uint8_t NRF24L01_SetBitrate(uint8_t bitrate)
 {
-
   uint8_t temp = NRF24L01_ReadReg(NRF24L01_06_RF_SETUP);
   temp = (temp & 0xF7) | ((bitrate & 0x01) << 3);
   return NRF24L01_WriteReg(NRF24L01_06_RF_SETUP, temp);
 }
 
+void NRF24L01_ManagePower()
+{
+  if (systemBolls.rangeModeIsOn) rf_power = TXPOWER_2;
+  else rf_power = g_model.rfOptionValue3;
+  if (rf_power != rf_power_mem)
+  {
+    NRF24L01_SetPower(rf_power);
+  }
+}
 
 
 uint8_t NRF24L01_SetPower(uint8_t power)
@@ -491,7 +492,6 @@ uint8_t NRF24L01_SetPower(uint8_t power)
 
   uint_farptr_t powerdata = pgm_get_far_address(NRF24L01_Powers);
   RFPowerOut = pgm_read_word_far(powerdata + (2*nrf_power)); // Gui value
-  rf_power_mem = nrf_power;
 
   uint8_t temp = NRF24L01_ReadReg(NRF24L01_06_RF_SETUP);
   temp = (temp & 0xF9) | ((nrf_power & 0x03) << 1);

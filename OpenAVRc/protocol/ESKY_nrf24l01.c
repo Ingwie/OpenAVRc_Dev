@@ -143,8 +143,6 @@ static void ESKY_set_data_address()
 
 static void ESKY_init(uint8_t bind)
 {
-	NRF24L01_Initialize();
-
 	// 2-bytes CRC, radio off
 	NRF24L01_WriteReg(NRF24L01_00_CONFIG, _BV(NRF24L01_00_EN_CRC) | _BV(NRF24L01_00_CRCO));
 	NRF24L01_WriteReg(NRF24L01_01_EN_AA, 0x00);            // No Auto Acknowledgement
