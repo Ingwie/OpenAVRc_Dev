@@ -67,7 +67,7 @@
   #if defined(PROTO_HAS_CYRF6936)
   //uint8_t * cyrfmfg_id = &pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-30]; // -30 to -25 cyrfmfg_id[6] used in DSM, DEVO
   #endif
-  #if defined(PROTO_HAS_CC2500) || defined(PROTO_HAS_CYRF6936)
+  #if defined(PROTO_HAS_CC2500) || defined(PROTO_HAS_CYRF6936) || defined(PROTO_HAS_NRF24L01)
     uint8_t * telem_save_data = &pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-40]; // used in [9] FrskyX & [10] DSM telemetry
   #endif
   #if defined(PROTO_HAS_CC2500)
