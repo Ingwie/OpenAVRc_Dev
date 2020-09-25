@@ -58,13 +58,13 @@ const static RfOptionSettingsvar_t RfOpt_BAYANG_Ser[] PROGMEM =
 
 enum BAYANG_FLAGS
 {
- // flags going to packet[2]
+// flags going to packet[2]
  BAYANG_FLAG_RTH		  	= 0x01,
  BAYANG_FLAG_HEADLESS	  = 0x02,
  BAYANG_FLAG_FLIP	    	= 0x08,
  BAYANG_FLAG_VIDEO	  	= 0x10,
  BAYANG_FLAG_PICTURE		= 0x20,
- // flags going to packet[3]
+// flags going to packet[3]
  BAYANG_FLAG_INVERTED	  = 0x80,			// inverted flight on Floureon H101
  BAYANG_FLAG_TAKE_OFF  	= 0x20,			// take off / landing on X16 AH
  BAYANG_FLAG_EMG_STOP 	= 0x04|0x08,	// 0x08 for VISUO XS809H-W-HD-G
@@ -86,31 +86,12 @@ enum BAYANG
 };
 
 #define bayang_sub_protocol g_model.rfSubType
-#define bayang_rfpower g_model.rfOptionValue3
 #define bayang_autobind g_model.rfOptionBool2
 #define bayang_telemetry g_model.rfOptionBool1
-
-uint8_t  bayang_rx_tx_addr[5];
-
-uint8_t  bayang_hopping_frequency[50]; // TODO : A lot of SRAM lost !!
-uint8_t  bayang_rf_ch_num;
-uint8_t  bayang_hopping_frequency_no=0;
-
-uint8_t  bayang_packet_count;
-uint16_t bayang_bind_packet_counter;
-
-uint8_t  bayang_prev_power;
-uint16_t bayang_state;
-uint8_t  bayang_telemetry_counter=0;
-
-uint8_t bayang_telemetry_link=0;
-uint8_t bayang_telemetry_lost;
-
-bool bayang_binding=false;
+#define bayang_rfid_addr telem_save_data // shared
 
 static void BAYANG_init()
 {
- NRF24L01_Initialize();
  NRF24L01_SetTxRxMode(TX_EN);
 
  XN297_SetTXAddr((uint8_t *)"\x00\x00\x00\x00\x00", BAYANG_ADDRESS_LENGTH);
@@ -122,9 +103,9 @@ static void BAYANG_init()
  NRF24L01_WriteReg(NRF24L01_02_EN_RXADDR, 0x01);  	// Enable data pipe 0 only
  NRF24L01_WriteReg(NRF24L01_11_RX_PW_P0, BAYANG_PACKET_SIZE);
  NRF24L01_SetBitrate(NRF24L01_BR_1M);             	// 1Mbps
- NRF24L01_WriteReg(NRF24L01_04_SETUP_RETR, 0x00);	// No retransmits
- NRF24L01_SetPower(bayang_rfpower);
- NRF24L01_Activate(0x73);							            // Activate feature register
+ NRF24L01_WriteReg(NRF24L01_04_SETUP_RETR, 0x00); 	// No retransmits
+ NRF24L01_ManagePower();
+ NRF24L01_Activate(0x73);							              // Activate feature register
  NRF24L01_WriteReg(NRF24L01_1C_DYNPD, 0x00);		  	// Disable dynamic payload length on all pipes
  NRF24L01_WriteReg(NRF24L01_1D_FEATURE, 0x01);
  NRF24L01_Activate(0x73);
@@ -133,10 +114,10 @@ static void BAYANG_init()
   {
   case X16_AH:
   case IRDRONE:
-   bayang_rf_ch_num = BAYANG_RF_BIND_CHANNEL_X16_AH;
+   num_channel = BAYANG_RF_BIND_CHANNEL_X16_AH;
    break;
   default:
-   bayang_rf_ch_num = BAYANG_RF_BIND_CHANNEL;
+   num_channel = BAYANG_RF_BIND_CHANNEL;
    break;
   }
 }
@@ -145,7 +126,7 @@ uint16_t convert_channel_10b(uint8_t num)
 {
  int16_t val=FULL_CHANNEL_OUTPUTS(num)+1024;
  val = limit <int16_t>(0, val, 2048);
- return (val>>1);
+ return (val >> 1);
 }
 
 static void BAYANG_send_packet(uint8_t bind)
@@ -159,12 +140,12 @@ static void BAYANG_send_packet(uint8_t bind)
     }
    else
     {
-     packet[0]= 0xA4;
+     packet[0] = 0xA4;
     }
-   for(i=0; i<5; i++)
-    packet[i+1]=bayang_rx_tx_addr[i];
-   for(i=0; i<4; i++)
-    packet[i+6]=bayang_hopping_frequency[i];
+   for(i = 0 ; i < 5; i++)
+    packet[i+1] = bayang_rfid_addr[i];
+   for(i = 0; i < 4; i++)
+    packet[i+6] = channel_used[i];
    switch (bayang_sub_protocol)
     {
     case X16_AH:
@@ -180,8 +161,8 @@ static void BAYANG_send_packet(uint8_t bind)
      packet[11] = 0x99;
      break;
     default:
-     packet[10] = bayang_rx_tx_addr[0];	// txid[0]
-     packet[11] = bayang_rx_tx_addr[1];	// txid[1]
+     packet[10] = bayang_rfid_addr[0];	// txid[0]
+     packet[11] = bayang_rfid_addr[1];	// txid[1]
      break;
     }
   }
@@ -246,7 +227,7 @@ static void BAYANG_send_packet(uint8_t bind)
  switch (bayang_sub_protocol)
   {
   case H8S3D:
-   packet[12] = bayang_rx_tx_addr[2];	// txid[2]
+   packet[12] = bayang_rfid_addr[2];	// txid[2]
    packet[13] = 0x34;
    break;
   case X16_AH:
@@ -262,18 +243,18 @@ static void BAYANG_send_packet(uint8_t bind)
    packet[13] = 0xED;
    break;
   default:
-   packet[12] = bayang_rx_tx_addr[2];	// txid[2]
+   packet[12] = bayang_rfid_addr[2];	// txid[2]
    packet[13] = 0x0A;
    break;
   }
  packet[14] = 0;
- for (uint8_t i=0; i < BAYANG_PACKET_SIZE-1; i++)
+ for (uint8_t i = 0; i < BAYANG_PACKET_SIZE-1; i++)
   packet[14] += packet[i];
 
- NRF24L01_WriteReg(NRF24L01_05_RF_CH, bind ? bayang_rf_ch_num:bayang_hopping_frequency[bayang_hopping_frequency_no++]);
- bayang_hopping_frequency_no%=BAYANG_RF_NUM_CHANNELS;
+ NRF24L01_WriteReg(NRF24L01_05_RF_CH, bind ? num_channel:channel_used[channel_index++]);
+ channel_index %= BAYANG_RF_NUM_CHANNELS;
 
- // clear packet status bits and TX FIFO
+// clear packet status bits and TX FIFO
  NRF24L01_WriteReg(NRF24L01_07_STATUS, 0x70);
  NRF24L01_FlushTx();
 
@@ -282,8 +263,8 @@ static void BAYANG_send_packet(uint8_t bind)
  NRF24L01_SetTxRxMode(TXRX_OFF);
  NRF24L01_SetTxRxMode(TX_EN);
 
- // Power on, TX mode, 2byte CRC
- // Why CRC0? xn297 does not interpret it - either 16-bit CRC or nothing
+// Power on, TX mode, 2byte CRC
+// Why CRC0? xn297 does not interpret it - either 16-bit CRC or nothing
  XN297_Configure(_BV(NRF24L01_00_EN_CRC) | _BV(NRF24L01_00_CRCO) | _BV(NRF24L01_00_PWR_UP));
 
  if (bayang_telemetry)
@@ -293,11 +274,7 @@ static void BAYANG_send_packet(uint8_t bind)
    NRF24L01_WriteReg(NRF24L01_00_CONFIG, 0x03);
   }
 
- if (bayang_prev_power!=bayang_rfpower)
-  {
-   NRF24L01_SetPower(bayang_rfpower);
-   bayang_prev_power = bayang_rfpower;
-  }
+ NRF24L01_ManagePower();
 }
 
 static void BAYANG_check_rx(void)
@@ -310,7 +287,7 @@ static void BAYANG_check_rx(void)
 
    NRF24L01_FlushRx();
    uint8_t check = packet[0];
-   for (uint8_t i=1; i < BAYANG_PACKET_SIZE-1; i++)
+   for (uint8_t i = 1; i < BAYANG_PACKET_SIZE-1; i++)
     check += packet[i];
    // decode data , check sum is ok as well, since there is no crc
    if (packet[0] == 0x85 && packet[14] == check)
@@ -321,55 +298,60 @@ static void BAYANG_check_rx(void)
      telemetryData.analog[TELEM_ANA_A2].set((packet[5]<<7) + (packet[6]>>2), g_model.telemetry.channels[TELEM_ANA_A2].type);
      telemetryData.rssi[0].set(packet[7]);
 
-     bayang_telemetry_counter++;
-     if(bayang_telemetry_lost==0)
-      bayang_telemetry_link=1;
+     receive_seq++;
     }
   }
+}
+
+static void BAYANG_initialize_channels()
+{
+ channel_used[0] = 0;
+ channel_used[1] = (temp_rfid_addr[0]&0x1F)+0x10;
+ channel_used[2] = channel_used[1]+0x20;
+ channel_used[3] = channel_used[2]+0x20;
+ channel_index = 0;
 }
 
 static uint16_t BAYANG_callback()
 {
 
  SCHEDULE_MIXER_END_IN_US(BAYANG_PACKET_PERIOD);
- if (!bayang_binding) //if(IS_BIND_DONE)
+ if (!bind_counter) //if(IS_BIND_DONE)
   {
-   if(bayang_packet_count==0)
+   if(!packet_count)
     BAYANG_send_packet(0);
-   bayang_packet_count++;
+   packet_count++;
    if (bayang_telemetry)
     {
-     bayang_state++;
-     if (bayang_state > 500)
+     rfState16++;
+     if (rfState16 > 500)
       {
-       telemetryData.rssi[1].set(bayang_telemetry_counter);
-       bayang_state=0;
-       bayang_telemetry_counter = 0;
-       bayang_telemetry_lost=0;
+       telemetryData.rssi[1].set(receive_seq);
+       rfState16 = 0;
+       receive_seq = 0;
       }
-     if (bayang_packet_count > 1)
+     if (packet_count > 1)
       BAYANG_check_rx();
 
-     bayang_packet_count %= 5;
+     packet_count %= 5;
     }
    else
-    bayang_packet_count%=2;
+    packet_count %= 2;
   }
  else
   {
-   if (bayang_bind_packet_counter == 0)
+   if (!bind_counter)
     {
-     XN297_SetTXAddr(bayang_rx_tx_addr, BAYANG_ADDRESS_LENGTH);
-     XN297_SetRXAddr(bayang_rx_tx_addr, BAYANG_ADDRESS_LENGTH);
-     bayang_binding=false;//BIND_DONE;
+     XN297_SetTXAddr(bayang_rfid_addr, BAYANG_ADDRESS_LENGTH);
+     XN297_SetRXAddr(bayang_rfid_addr, BAYANG_ADDRESS_LENGTH);
     }
    else
     {
-     if(bayang_packet_count==0)
+     if(!packet_count)
       BAYANG_send_packet(1);
-     bayang_packet_count++;
-     bayang_packet_count%=4;
-     bayang_bind_packet_counter--;
+     packet_count++;
+     packet_count %= 4;
+     bind_counter--;
     }
   }
  heartbeat |= HEART_TIMER_PULSES;
@@ -380,12 +362,20 @@ static uint16_t BAYANG_callback()
 static void BAYANG_initialize(uint8_t bind)
 {
  loadrfidaddr_rxnum(0);
- memcpy(bayang_rx_tx_addr,temp_rfid_addr, BAYANG_ADDRESS_LENGTH);
+ bayang_rfid_addr[0] = temp_rfid_addr[0];
+ bayang_rfid_addr[1] = temp_rfid_addr[1];
+ bayang_rfid_addr[2] = temp_rfid_addr[2];
+ bayang_rfid_addr[3] = temp_rfid_addr[3];
+ bayang_rfid_addr[4] = temp_rfid_addr[0];
+
+ channel_index = 0;
+ receive_seq = 0;
+
+ BAYANG_initialize_channels();
  BAYANG_init();
- if (bind|| bayang_autobind)
+ if (bind || bayang_autobind)
   {
-   bayang_binding=true;
-   bayang_bind_packet_counter=BAYANG_BIND_COUNT*4;
+   bind_counter = BAYANG_BIND_COUNT * 4;
   }
  PROTO_Start_Callback(BAYANG_callback);
 }
@@ -421,3 +411,4 @@ const void *BAYANG_Cmds(enum ProtoCmds cmd)
   }
  return 0;
 }
+

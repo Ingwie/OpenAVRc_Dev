@@ -124,8 +124,6 @@ enum
   NRF24L01_BR_RSVD
 };
 
-
-void NRF24L01_Initialize();
 uint8_t NRF24L01_WriteReg(uint8_t reg, uint8_t data);
 uint8_t NRF24L01_WriteRegisterMulti(uint8_t reg, uint8_t *data, uint8_t length);
 uint8_t NRF24L01_WritePayload(uint8_t *data, uint8_t len);
@@ -141,7 +139,7 @@ uint8_t NRF24L01_Activate(uint8_t code);
 // Bitrate 0 - 1Mbps, 1 - 2Mbps
 uint8_t NRF24L01_SetBitrate(uint8_t bitrate);
 
-uint8_t NRF24L01_SetPower(enum TxPower);
+uint8_t NRF24L01_SetPower(uint8_t TxPower);
 void NRF24L01_SetTxRxMode(enum TXRX_State);
 int16_t NRF24L01_Reset();
 
