@@ -53,7 +53,6 @@ const static RfOptionSettingsvar_t RfOpt_DSM_Ser[] PROGMEM =
 };
 
 const pm_char STR_SUBTYPE_DSMSPI[] PROGMEM = "2_22""2_11""X_22""X_11""AUTO";
-const pm_char STR_NUMCH[] PROGMEM = INDENT"N Ch";
 
 enum DSM
 {
