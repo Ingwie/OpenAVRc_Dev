@@ -742,8 +742,8 @@ void CompilerOptionsFrame::BatFunction()
         }
       if (NRF24l01)
         {
-          CompiBat += (" NRF24l01=YES");// default should be NO
-          CompiBat += (" NRF24l01PAG=" + NRF24l01PAG);
+          CompiBat += (" NRF24L01=YES");// default should be NO
+          CompiBat += (" NRF24L01PAG=" + NRF24l01PAG);
         }
       if (A7105)
         {
