@@ -464,37 +464,13 @@ uint8_t NRF24L01_SetPower(uint8_t power)
   const static uint16_t NRF24L01_Powers[] PROGMEM = {251,1000,3981,15848};
 #endif
 
-  uint8_t nrf_power = 0;
-
-  switch(power)
-    {
-    case 0:
-    case 1:
-      nrf_power = 0;
-      break; //
-    case 2:
-    case 3:
-      nrf_power = 1;
-      break; //
-    case 4:
-    case 5:
-      nrf_power = 2;
-      break; //
-    case 6:
-    case 7:
-      nrf_power = 3;
-      break; //
-    default:
-      nrf_power = 0;
-      break;
-    };
   // Power is in range 0..3 for nRF24L01
 
   uint_farptr_t powerdata = pgm_get_far_address(NRF24L01_Powers);
-  RFPowerOut = pgm_read_word_far(powerdata + (2*nrf_power)); // Gui value
+  RFPowerOut = pgm_read_word_far(powerdata + (2*power)); // Gui value
 
   uint8_t temp = NRF24L01_ReadReg(NRF24L01_06_RF_SETUP);
-  temp = (temp & 0xF9) | ((nrf_power & 0x03) << 1);
+  temp = (temp & 0xF9) | ((power & 0x03) << 1);
   return NRF24L01_WriteReg(NRF24L01_06_RF_SETUP, temp);
 }
 

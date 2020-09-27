@@ -33,8 +33,6 @@
 
 #include "../OpenAVRc.h"
 
-#include "iface_nrf24l01.h"
-
 const pm_char STR_SUBTYPE_BAYANG_SPI[] PROGMEM = "BAYA""H8S3""X16A""IRDR""DHD4";
 
 const static RfOptionSettingsvar_t RfOpt_BAYANG_Ser[] PROGMEM =
@@ -45,7 +43,7 @@ const static RfOptionSettingsvar_t RfOpt_BAYANG_Ser[] PROGMEM =
  /*rfOptionValue1Max*/0,
  /*rfOptionValue2Min*/0,
  /*rfOptionValue2Max*/0,
- /*rfOptionValue3Max*/7,    // RF POWER
+ /*rfOptionValue3Max*/3,    // RF POWER
 };
 
 #define BAYANG_BIND_COUNT		1000
