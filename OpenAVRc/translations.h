@@ -377,6 +377,8 @@ extern const pm_char STR_FAS_OFFSET[];
 #if defined(SPIMODULES)
 extern const pm_char STR_SPIM[];
 extern const pm_char STR_RFPOWER[];
+extern const pm_char STR_NUMCH[];
+extern const pm_char STR_UBIND[];
 #endif
 
 #if defined(MULTIMODULE)
