@@ -46,9 +46,8 @@
 #define LOWPOWERMODE    rfOptionBool3
 //SPI Def
 #define RFPOWER         rfOptionValue3
-
-
 #define RXNUM           g_model.modelId
+
 
 #define RF_ID_ADDR_OFFSET_VAR   4
 #define RX_TX_ADDR_OFFSET       (PULSES_BYTE_SIZE - RF_ID_ADDR_OFFSET_VAR)
