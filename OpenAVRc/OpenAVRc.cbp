@@ -156,6 +156,9 @@
 		<Unit filename="protocol/BAYANG_NRF24L01.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="protocol/CABELL_nrf24l01.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="protocol/CORONA_cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>

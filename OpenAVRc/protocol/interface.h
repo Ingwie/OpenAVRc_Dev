@@ -89,6 +89,7 @@
 #include "iface_nrf24l01.h"
 #include "nrf24l01.c"
 #include "BAYANG_nrf24l01.c"
+#include "CABELL_nrf24l01.c"
 #endif
 
 #endif
