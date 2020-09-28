@@ -338,18 +338,16 @@ static uint16_t BAYANG_callback()
   }
  else
   {
-   if (!bind_counter)
+    if(!packet_count)
+     BAYANG_send_packet(1);
+    packet_count++;
+    packet_count %= 4;
+    bind_counter--;
+    
+    if (!bind_counter)
     {
      XN297_SetTXAddr(bayang_rfid_addr, BAYANG_ADDRESS_LENGTH);
      XN297_SetRXAddr(bayang_rfid_addr, BAYANG_ADDRESS_LENGTH);
-    }
-   else
-    {
-     if(!packet_count)
-      BAYANG_send_packet(1);
-     packet_count++;
-     packet_count %= 4;
-     bind_counter--;
     }
   }
  heartbeat |= HEART_TIMER_PULSES;
