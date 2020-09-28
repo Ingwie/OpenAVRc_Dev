@@ -153,7 +153,7 @@
 		<Unit filename="protocol/AFHDS2A_a7105.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="protocol/BAYANG_NRF24L01.c">
+		<Unit filename="protocol/BAYANG_nrf24l01.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="protocol/CABELL_nrf24l01.c">
