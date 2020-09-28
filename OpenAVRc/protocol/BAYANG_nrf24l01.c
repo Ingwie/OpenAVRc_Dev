@@ -303,7 +303,10 @@ static void BAYANG_check_rx(void)
 
 static void BAYANG_initialize_channels()
 {
- channel_used[0] = 0;
+ if(bayang_sub_protocol==DHD_D4)
+  channel_used[0]=(temp_rfid_addr[2]&0x07)|0x01;
+ else
+  channel_used[0]=0;
  channel_used[1] = (temp_rfid_addr[0]&0x1F)+0x10;
  channel_used[2] = channel_used[1]+0x20;
  channel_used[3] = channel_used[2]+0x20;
