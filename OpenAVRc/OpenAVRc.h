@@ -1234,7 +1234,7 @@ extern struct RfOptionSettings_t RfOptionSettings;
 extern uint8_t * packet; //protocol global packet
 extern void startPulses(enum ProtoCmds Command);
 
-uint16_t (*timer_callback)(void);
+extern uint16_t (*timer_callback)(void);
 const void * (*PROTO_Cmds)(enum ProtoCmds);
 
 typedef const void* (*CMDS)(enum ProtoCmds);
