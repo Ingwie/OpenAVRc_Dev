@@ -140,6 +140,7 @@ void sendOptionsSettingsPpm()
 }
 
 struct RfOptionSettings_t RfOptionSettings; // used in menumodelsetup
+uint16_t (*timer_callback)(void);           // Protocol link
 
 void SetRfOptionSettings(uint_farptr_t RfOptSet,
                          const pm_char* rfSubTypeNames,
@@ -1085,7 +1086,11 @@ void doMixerCalculations()
   Phase = !Phase;
 
 #if defined(SIMU) // Simulate ISR(TIMER1_COMPA_vect) X_any computation
+#if defined (DEBUG)
+  //if (timer_callback) TIMER1_COMPA_vect(); // Allow to run protocol code in debug mode if uncommented
+#else
   Xany_scheduleTx_AllInstance();
+#endif
 #endif
 
   if(Phase)
