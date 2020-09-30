@@ -31,12 +31,12 @@
  */
 
 // Deviation & Multiprotocol inspired. Thanks a lot !
-
 #include "../OpenAVRc.h"
+
 
 const static RfOptionSettingsvar_t RfOpt_J6PRO_Ser[] PROGMEM =
 {
-  /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+  /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/0,
   /*rfOptionValue1Min*/0,
   /*rfOptionValue1Max*/0,
@@ -46,10 +46,14 @@ const static RfOptionSettingsvar_t RfOpt_J6PRO_Ser[] PROGMEM =
 };
 
 #define J6PRO_NUM_WAIT_LOOPS (100 / 5) //each loop is ~5us.  Do not wait more than 100us
+#define J6PRO_AUTOBIND (g_model.rfOptionBool1)
+
 
 const uint8_t zzJ6PRO_data_code[] PROGMEM =
- {0x02, 0xf9, 0x93, 0x97, 0x02, 0xfa, 0x5c, 0xe3,
-  0x01, 0x2b, 0xf1, 0xdb, 0x01, 0x32, 0xbe, 0x6f};
+  {
+  0x02, 0xf9, 0x93, 0x97, 0x02, 0xfa, 0x5c, 0xe3,
+  0x01, 0x2b, 0xf1, 0xdb, 0x01, 0x32, 0xbe, 0x6f
+  };
 
 enum J6PRO_State
 {
@@ -63,6 +67,7 @@ enum J6PRO_State
   J6PRO_BIND_05_4,
   J6PRO_BIND_05_5,
   J6PRO_BIND_05_6,
+//  J6PRO_BIND_05_7, // JF-M Transmitter sends 7 packets.
   J6PRO_CHANSEL,
   J6PRO_CHAN_1,
   J6PRO_CHAN_2,
@@ -74,13 +79,13 @@ void J6PRO_build_bind_packet()
 {
   packet[0] = 0x01;  //Packet type
   packet[1] = 0x01;  //FIXME: What is this ? Model number maybe ?
-  packet[2] = 0x56;  //FIXME: What is this ?
+  packet[2] = 0x56;  //FIXME: What is this ? Session Id ?
   packet[3] = temp_rfid_addr[0];
   packet[4] = temp_rfid_addr[1];
   packet[5] = temp_rfid_addr[2];
   packet[6] = temp_rfid_addr[3];
-  packet[7] = (temp_rfid_addr[2]^ (RXNUM*4));
-  packet[8] = (temp_rfid_addr[1]^ (RXNUM*4));
+  packet[7] = RXNUM;
+  packet[8] = 0xfe;
 }
 
 void J6PRO_build_data_packet()
@@ -98,16 +103,16 @@ void J6PRO_build_data_packet()
   // conversion range 0 - 511.5 - 1023
 
   for(uint8_t upper=0; upper<3; upper++)
+  {
+    for(uint8_t lower=0; lower<4; lower++)
     {
-      for(uint8_t lower=0; lower<4; lower++)
-        {
-          int16_t value = (FULL_CHANNEL_OUTPUTS((upper << 2) | lower)) /2;
-          value = limit( (int16_t)-511, value, (int16_t) +511 );
-          value += 511;
-          packet[(upper << 2) | (lower +1) ] = value & 0xff; // Lower 8 bits in packet[1] to [12].
-          packet[13 + upper] |= (value >> 8) << (lower * 2); // Upper 2 bits in packet[13] to [15].
-        }
+      int16_t value = (FULL_CHANNEL_OUTPUTS((upper << 2) | lower)) /2;
+      value = limit( (int16_t)-511, value, (int16_t) +511 );
+      value += 511;
+      packet[(upper << 2) | (lower +1) ] = value & 0xff; // Lower 8 bits in packet[1] to [12].
+      packet[13 + upper] |= (value >> 8) << (lower * 2); // Upper 2 bits in packet[13] to [15].
     }
+  }
 }
 
 const uint8_t zz_J6PROInitSequence[] PROGMEM =
@@ -118,8 +123,9 @@ const uint8_t zz_J6PROInitSequence[] PROGMEM =
   CYRF_35_AUTOCAL_OFFSET, 0x14,  // AUTO_CAL_OFFSET = 14h, typical configuration
   CYRF_1C_TX_OFFSET_MSB, 0x05,   // STRIM MSB = 0x05, typical configuration
   CYRF_1B_TX_OFFSET_LSB, 0x55,   // STRIM LSB = 0x55, typical configuration
-  CYRF_06_RX_CFG, 0x4a,          // LNA + FAST TURN EN + RXOW EN, enable low noise amplifier, fast turning, overwrite enable
-  CYRF_03_TX_CFG, 0x28 | TXPOWER_1, // Data Code Length = 64 chip codes + Data Mode = 8DR Mode + max-power(+4 dBm)
+  CYRF_0F_XACT_CFG, 0x24,        // No Transaction mode, Force Idle State, ACK TO (don't care).
+  CYRF_03_TX_CFG, 0x28,          // Data Code Length = 64 chip codes + Data Mode = 8DR Mode.
+  CYRF_06_RX_CFG, 0x4a,          // LNA + FAST TURN EN + RXOW EN, enable low noise amplifier, fast turning, overwrite enable.
   CYRF_12_DATA64_THOLD, 0x0e,    // TH64 = 0Eh, set pn correlation threshold
   CYRF_10_FRAMING_CFG, 0xee,     // SOP EN + SOP LEN = 64 chips + LEN EN + SOP TH = 0Eh
   CYRF_1F_TX_OVERRIDE, 0x00,     // Reset TX overrides
@@ -134,17 +140,22 @@ void J6PRO_cyrf_init()
   uint8_t dat;
 
   for (uint8_t i = 0; i < (DIM(zz_J6PROInitSequence) / 2); i++)
-    {
-      add = pgm_read_byte_far(pdata++);
-      dat = pgm_read_byte_far(pdata++);
-      CYRF_WriteRegister(add, dat);
-    }
+  {
+    add = pgm_read_byte_far(pdata++);
+    dat = pgm_read_byte_far(pdata++);
+    CYRF_WriteRegister(add, dat);
+  }
 }
 
 void J6PRO_cyrf_bindinit()
 {
   /* Use when binding */
-  //CYRF_SetPower(0x07); //Use max power (+4 dBm) for binding in case there is no telem module
+  /* As binding does not use "Listen Before Talk", Use 10mW maximum power output. */
+#if (CYRF6936PA_GAIN >= 20 )
+  CYRF_SetPower(TXPOWER_4);
+#else
+  CYRF_SetPower(TXPOWER_7); // No PA.
+#endif
   CYRF_PROGMEM_Config_DEVO_J6PRO_sopcodes(19); // Bind SOP code.
   CYRF_ConfigCRCSeed(0x0000);
   J6PRO_build_bind_packet();
@@ -153,9 +164,12 @@ void J6PRO_cyrf_bindinit()
 void J6PRO_cyrf_datainit()
 {
   /* Use when already bound */
-  uint8_t sopidx = (0xff & (temp_rfid_addr[0] + temp_rfid_addr[1] + temp_rfid_addr[2] + temp_rfid_addr[3]- (temp_rfid_addr[1]^ (RXNUM*4)))) % 19;
-  uint16_t crc =(0xff & (temp_rfid_addr[1] - (temp_rfid_addr[2]^ (RXNUM*4)) + (temp_rfid_addr[1]^ (RXNUM*4)))) |
-                ((0xff & (temp_rfid_addr[2] + temp_rfid_addr[3] - (temp_rfid_addr[2]^ (RXNUM*4)) + (temp_rfid_addr[1]^ (RXNUM*4)))) << 8);
+  uint8_t sopidx =
+      (0xff & (temp_rfid_addr[0] + temp_rfid_addr[1] + temp_rfid_addr[2] + temp_rfid_addr[3] - 0xfe)) % 19;
+  uint16_t crc =
+      (0xff & (temp_rfid_addr[1] - RXNUM + 0xfe)) |
+      ((0xff & (temp_rfid_addr[2] + temp_rfid_addr[3] - RXNUM + 0xfe)) << 8);
+
   CYRF_PROGMEM_Config_DEVO_J6PRO_sopcodes(sopidx);
   CYRF_ConfigCRCSeed(crc);
 }
@@ -173,61 +187,71 @@ uint16_t J6PRO_cb()
   heartbeat |= HEART_TIMER_PULSES;
 
   switch (rfState8)
-    {
+  {
     case J6PRO_BIND:
-      J6PRO_cyrf_bindinit();
-      rfState8 = J6PRO_BIND_01;
+    J6PRO_cyrf_bindinit();
+    rfState8 = J6PRO_BIND_01;
     /* FALLTHROUGH */
     //no break because we want to send the 1st bind packet now
     case J6PRO_BIND_01:
-      CYRF_ConfigRFChannel(0x52);
-      CYRF_SetTxRxMode(TX_EN);
-      CYRF_WriteDataPacketLen(packet, 0x09);
-      rfState8 = J6PRO_BIND_03_START;
-      return 3000*2;//3msec
+    CYRF_ConfigRFChannel(0x52);
+    CYRF_SetTxRxMode(TX_EN);
+    CYRF_WriteDataPacketLen(packet, 0x09); // 2ms for packet to egress.
+    rfState8 = J6PRO_BIND_03_START;
+    return 3000*2; // 3msec
     case J6PRO_BIND_03_START:
     {
-      uint8_t i = 0;
-      while (! (CYRF_ReadRegister(0x04) & 0x06))
-        if(++i > J6PRO_NUM_WAIT_LOOPS)
+      uint8_t i = J6PRO_NUM_WAIT_LOOPS;
+
+      while(i--)
+      {
+        if((CYRF_ReadRegister(CYRF_02_TX_CTRL) & 0x80) == 0x00)
+        {
+          (void) CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS); // For debugging.
           break;
+        }
+      }
     }
     CYRF_ConfigRFChannel(0x53);
     CYRF_SetTxRxMode(RX_EN);
-    CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x80); //Prepare to receive
+    CYRF_WriteRegister(CYRF_07_RX_IRQ_STATUS, 0x80); // Clear RXOW IRQ if set.
+    (void) CYRF_ReadRegister(CYRF_07_RX_IRQ_STATUS);
+    CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x82); // Prepare to receive
     rfState8 = J6PRO_BIND_03_CHECK;
-    return 30000U*2;//30msec
+    return 30000U*2; // 30msec
+
     case J6PRO_BIND_03_CHECK:
     {
-      uint8_t rx = CYRF_ReadRegister(CYRF_07_RX_IRQ_STATUS);
-      if((rx & 0x1a) == 0x1a)
+      uint8_t rx = CYRF_ReadRegister(CYRF_05_RX_CTRL);
+      if((rx & 0x80) == 0x00)
+      {
+        rx = CYRF_ReadRegister(CYRF_0A_RX_LENGTH);
+        if(rx == 0x0f)
         {
-          rx = CYRF_ReadRegister(CYRF_0A_RX_LENGTH);
+          rx = CYRF_ReadRegister(CYRF_09_RX_COUNT);
           if(rx == 0x0f)
+          {
+            //Expected and actual length are both 15
+            CYRF_ReadDataPacketLen(packet, rx);
+            if (packet[0] == 0x03 &&
+                packet[3] == temp_rfid_addr[0] &&
+                packet[4] == temp_rfid_addr[1] &&
+                packet[5] == temp_rfid_addr[2] &&
+                packet[6] == temp_rfid_addr[3] &&
+                packet[7] == RXNUM &&
+                packet[8] == 0xfe)
             {
-              rx = CYRF_ReadRegister(CYRF_09_RX_COUNT);
-              if(rx == 0x0f)
-                {
-                  //Expected and actual length are both 15
-                  CYRF_ReadDataPacketLen(packet, rx);
-                  if (packet[0] == 0x03 &&
-                      packet[3] == temp_rfid_addr[0] &&
-                      packet[4] == temp_rfid_addr[1] &&
-                      packet[5] == temp_rfid_addr[2] &&
-                      packet[6] == temp_rfid_addr[3] &&
-                      packet[7] == (temp_rfid_addr[2]^ (RXNUM*4)) &&
-                      packet[8] == (temp_rfid_addr[1]^ (RXNUM*4)))
-                    {
-                      //Send back Ack
-                      packet[0] = 0x05;
-                      CYRF_ConfigRFChannel(0x54);
-                      CYRF_SetTxRxMode(TX_EN);
-                      rfState8 = J6PRO_BIND_05_1;
-                      return 2000*2;//2msec
-                    }
-                }
+              /* Bind done */
+              packet[0] = 0x05;
+              (void) CYRF_ReadRegister(CYRF_07_RX_IRQ_STATUS); // For debugging.
+              CYRF_ConfigRFChannel(0x54);
+              CYRF_SetTxRxMode(TX_EN);
+              rfState8 = J6PRO_BIND_05_1;
+              return 2000*2; // 2msec
             }
+          }
         }
+      }
       rfState8 = J6PRO_BIND_01;
       return 500*2;
     }
@@ -237,19 +261,21 @@ uint16_t J6PRO_cb()
     case J6PRO_BIND_05_4:
     case J6PRO_BIND_05_5:
     case J6PRO_BIND_05_6:
-      CYRF_WriteDataPacketLen(packet, 0x0f);
-      ++rfState8;
-      return 4600*2; //4.6msec
+//    case J6PRO_BIND_05_7: // JF-M Transmitter sends 7 packets.
+    CYRF_WriteDataPacketLen(packet, 0x0f);
+    (void) CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS); // For debugging.
+    ++rfState8;
+    return 30000U*2; // was 4.6msec
     case J6PRO_CHANSEL:
-      PROTOCOL_SetBindState(0);
-      J6PRO_cyrf_datainit();
-      ++rfState8;
+    PROTOCOL_SetBindState(0);
+    J6PRO_cyrf_datainit();
+    rfState8 = J6PRO_CHAN_1;
     /* FALLTHROUGH */
     case J6PRO_CHAN_1:
-      //Keep transmit power updated
-      CYRF_ManagePower();// Keep transmit power in sync
-      J6PRO_build_data_packet();
-      SCHEDULE_MIXER_END_IN_US(24550); // Schedule next Mixer calculations.
+    //Keep transmit power updated
+    CYRF_ManagePower();// Keep transmit power in sync
+    J6PRO_build_data_packet();
+    SCHEDULE_MIXER_END_IN_US(24550); // Schedule next Mixer calculations.
     /* FALLTHROUGH */
     //return 3400;
     case J6PRO_CHAN_2:
@@ -257,27 +283,29 @@ uint16_t J6PRO_cb()
     case J6PRO_CHAN_3:
     //return 3750
     case J6PRO_CHAN_4:
-      CYRF_ConfigRFChannel(channel_used[rfState8 - J6PRO_CHAN_1]);
-      CYRF_SetTxRxMode(TX_EN);
-      CYRF_WriteDataPacket(packet);
-      if (rfState8 == J6PRO_CHAN_4)
-        {
-          rfState8 = J6PRO_CHAN_1;
-          CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-          return 13900*2;
-        }
+    CYRF_ConfigRFChannel(channel_used[rfState8 - J6PRO_CHAN_1]);
+    CYRF_SetTxRxMode(TX_EN);
+    CYRF_WriteDataPacket(packet); // Longer data packet takes 2.7ms to egress.
+    if (rfState8 == J6PRO_CHAN_4)
+    {
+      rfState8 = J6PRO_CHAN_1;
       CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-      ++rfState8;
-      return 3550*2;
+      return 13900*2;
     }
+    ++rfState8;
+    CALCULATE_LAT_JIT(); // Calculate latency and jitter.
+    return 4550*2; // was 3.55ms
+  }
   return 0;
 }
 
 void J6PRO_Init(uint8_t bind)
 {
   CYRF_Reset();
-  // Load temp_rfid_addr + Model match
-  loadrfidaddr_rxnum(0);
+
+  // Load temp_rfid_addr.
+  loadrfidaddr();
+
   J6PRO_cyrf_init();
   uint_farptr_t dataadr = pgm_get_far_address(zzJ6PRO_data_code);
   uint8_t codedata[16];
@@ -286,48 +314,67 @@ void J6PRO_Init(uint8_t bind)
       codedata[i] = pgm_read_byte_far(dataadr++);
     }
   CYRF_ConfigDataCode(codedata, 16);
-  CYRF_WritePreamble(0x333302);  // Default preamble.
+  CYRF_WritePreamble(0x333302); // JF-M transmitter configures this as 0x023333 !.
   J6PRO_set_radio_channels();
 
-  if (bind)
-    {
-      rfState8= J6PRO_BIND;
-      PROTOCOL_SetBindState(1200); // 12 Sec
-    }
+  // uint8_t cyrfmfg_id[6];
+  // CYRF_GetMfgData(cyrfmfg_id);
+
+  /*
+  Apparently cyrf mfg id is supposed to be ...
+  1st byte : 4bits version + 2 bits vendor ID + high 2 bits of Year
+  2nd byte: low 2bits of Year + 6 bits of manufacture Work Week
+  3rd byte : high 8bits of lot#
+  4th byte : low 5bits of lot# + high 3 of Wafer#
+  5th byte : low 2bits of Wafer# + high 6 bits of X coordinate on Wafer
+  6th byte : LSB of X coordinate on wafer + high 7 bits of Y coordinate on wafer.
+  */
+
+  // uint8_t cyrfmfg_id[6] = {0x49, 0xec, 0xa9, 0xc4, 0xc1, 0xff};
+  // uint8_t cyrfmfg_id[6] = {0xd1, 0x22, 0x82, 0x5f, 0xcd, 0xff};
+  // uint8_t cyrfmfg_id[6] = {0x62, 0x72, 0x26, 0xd1, 0xd8, 0xfe};
+
+  if (bind || J6PRO_AUTOBIND)
+  {
+    rfState8 = J6PRO_BIND;
+    PROTOCOL_SetBindState(1200); // 12 Sec
+  }
   else
-    {
-      rfState8 = J6PRO_CHANSEL;
-    }
+  {
+    rfState8 = J6PRO_CHANSEL;
+  }
   PROTO_Start_Callback(J6PRO_cb);
 }
+
 
 const void *J6PRO_Cmds(enum ProtoCmds cmd)
 {
   switch (cmd)
-    {
-    case PROTOCMD_INIT:
-      J6PRO_Init(0);
-      return 0;
-    case PROTOCMD_RESET:
-      CYRF_Reset();
-      PROTO_Stop_Callback();
-      return 0;
-    case PROTOCMD_BIND:
-      J6PRO_Init(1);
-      return 0;
-    case PROTOCMD_GETOPTIONS:
-      SetRfOptionSettings(pgm_get_far_address(RfOpt_J6PRO_Ser),
-                          STR_DUMMY,      //Sub proto
-                          STR_DUMMY,     //Option 1 (int)
-                          STR_DUMMY,      //Option 2 (int)
-                          STR_RFPOWER,    //Option 3 (uint 0 to 31)
-                          STR_DUMMY,      //OptionBool 1
-                          STR_DUMMY,      //OptionBool 2
-                          STR_DUMMY       //OptionBool 3
-                         );
-      return 0;
-    default:
-      break;
-    }
+  {
+  case PROTOCMD_INIT:
+    J6PRO_Init(0);
+    return 0;
+  case PROTOCMD_RESET:
+    CYRF_Reset();
+    PROTO_Stop_Callback();
+    return 0;
+  case PROTOCMD_BIND:
+    J6PRO_Init(1);
+    return 0;
+  case PROTOCMD_GETOPTIONS:
+    SetRfOptionSettings(pgm_get_far_address(RfOpt_J6PRO_Ser),
+                        STR_DUMMY,      //Sub proto
+                        STR_DUMMY,      //Option 1 (int)
+                        STR_DUMMY,      //Option 2 (int)
+                        STR_RFPOWER,    //Option 3 (uint 0 to 31)
+                        STR_AUTOBIND,   //OptionBool 1
+                        STR_DUMMY,      //OptionBool 2
+                        STR_DUMMY       //OptionBool 3
+                       );
+    return 0;
+
+  default:
+    break;
+  }
   return 0;
 }
