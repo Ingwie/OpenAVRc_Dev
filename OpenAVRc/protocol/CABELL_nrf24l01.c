@@ -75,7 +75,7 @@ const pm_char STR_SUBTYPE_CABELL[] PROGMEM = " PPM""SPPM""SBUS";
 enum
 {
  normal                 = 0,
- CabellBbind            = 1, // not used here ?
+ CabellBbind            = 1, // not used here
  setFailSafe            = 2,
  normalWithTelemetry    = 3,
  telemetryResponse      = 4,
@@ -269,7 +269,7 @@ static void CABELL_get_telemetry()
  NRF24L01_FlushRx();
 }
 
-static uint8_t CABELL_send_packet(uint8_t bindMode)
+static uint16_t CABELL_send_packet(uint8_t bindMode)
 {
  uint8_t option = cabell_num_ch_raw | (16 * cabell_sub_protocol);
  if (!bindMode && cabell_telemetry)		// check for incoming packet and switch radio back to TX mode if we were listening for telemetry
@@ -309,7 +309,6 @@ static uint8_t CABELL_send_packet(uint8_t bindMode)
    //remove channel reduction if in bind mode
    TxPacket.option = (bindMode) ? (option & (~CABELL_OPTION_MASK_CHANNEL_REDUCTION)) : option;
   }
-
 
  TxPacket.reserved = 0;
 
@@ -380,7 +379,7 @@ static uint8_t CABELL_send_packet(uint8_t bindMode)
  uint8_t* p = reinterpret_cast<uint8_t*>(&TxPacket.RxMode);
  *p &= 0x7F;                  // Make sure 8th bit is clear
  *p |= (packet_count++)<<7;   // This causes the 8th bit of the first byte to toggle with each xmit so consecutive payloads are not identical.
- // This is a work around for a reported bug in clone NRF24L01 chips that mis-took this case for a re-transmit of the same packet.
+// This is a work around for a reported bug in clone NRF24L01 chips that mis-took this case for a re-transmit of the same packet.
 
  NRF24L01_ManagePower();
  NRF24L01_WritePayload((uint8_t*)&TxPacket, packetSize);
@@ -400,7 +399,7 @@ static uint8_t CABELL_send_packet(uint8_t bindMode)
     }
    while (--delay);
    // increase packet period by 100 us for each channel over 6
-   packet_period = CABELL_PACKET_PERIOD + limit<int16_t>(0,(CABELL_NUM_CHANNELS - channelReduction - 6 ), 1000);
+   packet_period = CABELL_PACKET_PERIOD + (100 * limit<int16_t>(0,(CABELL_NUM_CHANNELS - channelReduction - 6 ), 10));
 
    NRF24L01_WriteReg(NRF24L01_00_CONFIG, 0x0F);  // RX mode with 16 bit CRC
   }
@@ -420,11 +419,15 @@ static uint16_t CABELL_bind_cb()
 
 static uint16_t CABELL_cb()
 {
- SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations.
- uint16_t packet_period = CABELL_send_packet(0);
+ if (++rfState8 >= 4)
+  {
+   rfState8 = 0;
+   SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations.
+  }
+ uint16_t protocol_period = CABELL_send_packet(0);
  heartbeat |= HEART_TIMER_PULSES;
  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
- return packet_period *2;
+ return protocol_period *2; // From 3mS to 4mS
 }
 
 static void CABELL_initialize(uint8_t bind)
@@ -432,8 +435,9 @@ static void CABELL_initialize(uint8_t bind)
  loadrfidaddr();
  channel_index = 0;
  receive_seq = 0;
-
+ rfState8 = 0;
  CABELL_init(bind);
+
  if (bind)
   {
    PROTO_Start_Callback( CABELL_bind_cb);
