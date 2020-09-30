@@ -746,13 +746,22 @@ void menuModelSetup(uint8_t event)
               case PROTOCOL_SKYARTEC:
               case PROTOCOL_CORONA:
                CC2500_ManagePower(); // Change value on gui
+               break;
 
               case PROTOCOL_DEVO:
               case PROTOCOL_DSM:
+              case PROTOCOL_J6PRO:
                CYRF_ManagePower();
+               break;
+
               case PROTOCOL_FLYSKY:
               case PROTOCOL_AFHDS2A:
                A7105_ManagePower();
+               break;
+
+              case PROTOCOL_BAYANG:
+              case PROTOCOL_CABELL:
+               NRF24L01_ManagePower();
               }
 #endif
             }
