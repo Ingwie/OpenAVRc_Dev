@@ -13,7 +13,7 @@
 
 # PCB version
 # Values: MEGAMINI, MEGA2560
-PCB = MEGAMINI
+PCB = MEGA2560
 
 # LCD
 # Values: ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306, SH1106, NT7538SPI
@@ -25,7 +25,7 @@ LCDROT180 = NO
 
 # Enable FrSky Telemetry reception on UART0 or SPI
 # Values = STD, FRSKY
-EXT = STD
+EXT = FRSKY
 
 # FAI mode
 # Values = YES, NO, CHOICE
@@ -63,11 +63,11 @@ NAVIGATION = NO
 
 # Switches automatic selection
 # Values = YES, NO
-AUTOSWITCH = NO
+AUTOSWITCH = YES
 
 # Sources automatic selection
 # Values = YES, NO
-AUTOSOURCE = NO
+AUTOSOURCE = YES
 
 # Double keys support (+/- means invert, +/up means max, -/dwn means min, up/down means reset to default)
 # Values = YES, NO
@@ -127,7 +127,7 @@ WS_HOW_HIGH = YES
 
 # GPS
 # Values = YES, NO
-GPS = YES
+GPS = NO
 
 # Vario
 # Values = YES, NO
@@ -136,7 +136,7 @@ VARIO = YES
 # RTCLOCK
 # Values = YES, NO
 # default = YES (means enabled when available)
-RTCLOCK = YES
+RTCLOCK = NO
 
 # DSM2 (Spektrum) protocol
 # Values = NO, SERIAL
@@ -156,7 +156,7 @@ UNITS = METRIC
 
 # Default Tx Mode
 # Values = NO / 1 / 2 / 3 / 4
-DEFAULT_MODE = NO
+DEFAULT_MODE = 2
 
 # Toggle trim usage
 # -> Left trim for right stick and right trim for left stick
@@ -200,7 +200,7 @@ GVARS = NO
 
 # Allow to change buttons names
 # Values = NO, YES with personames.h edited
-PERSONAMES = NO
+PERSONAMES = YES
 
 #Use external eeprom FM24W256
 EXTERNALEEPROM = NO
@@ -211,7 +211,7 @@ MENUS_LOCK = NO
 
 # Enable MULTI protocol
 # Values = NO, YES
-MULTIMODULE = NO
+MULTIMODULE = YES
 
 # Enable MultiSX1276 in MULTI protocol
 # Values = NO, YES
@@ -219,11 +219,11 @@ MultiSX1276 = NO
 
 # Enable SPIMODULES protocols
 # Values = NO, YES
-SPIMODULES = NO
+SPIMODULES = YES
 
 # Enable CC2500 SPI protocols
 # Values = NO, YES
-CC2500 = NO
+CC2500 = YES
 
 # Set CC2500 PA gain in DB
 # Values = 20,22
@@ -239,11 +239,11 @@ CYRF6936PAG = 20
 
 # Enable NRF24l01 SPI protocols
 # Values = NO, YES
-NRF24L01 = NO
+NRF24L01 = YES
 
 # Set NRF24l01 PA gain in DB
 # Values = 20,22
-NRF24L01PAG = 20
+NRF24L01PAG = 22
 
 # Enable A7105 SPI protocols
 # Values = NO, YES
