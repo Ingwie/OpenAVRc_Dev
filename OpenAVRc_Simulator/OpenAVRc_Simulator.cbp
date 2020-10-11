@@ -23,6 +23,7 @@
 					<Add option="-DEXTERNALEEPROM" />
 					<Add option="-DIMPERIAL_UNITSaaa" />
 					<Add option="-DLCDROT180aaa" />
+					<Add option="-DPWM_BACKLIGHTaaa" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 				</Compiler>
 				<ResourceCompiler>
@@ -294,6 +295,8 @@
 			<Add option="-DCC2500PA_GAIN=20" />
 			<Add option="-DPROTO_HAS_CYRF6936" />
 			<Add option="-DCYRF6936PA_GAIN=20" />
+			<Add option="-DPROTO_HAS_NRF24L01" />
+			<Add option="-DNRF24L01PA_GAIN=20" />
 			<Add option="-DPROTO_HAS_A7105" />
 			<Add option="-DA7105PA_GAIN=20" />
 			<Add option="-DU_CLI" />
@@ -394,6 +397,16 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
+		<Unit filename="../OpenAVRc/protocol/BAYANG_NRF24L01.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/CABELL_nrf24l01.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="../OpenAVRc/protocol/CORONA_cc2500.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
@@ -480,6 +493,7 @@
 		<Unit filename="../OpenAVRc/protocol/iface_a7105.h" />
 		<Unit filename="../OpenAVRc/protocol/iface_cc2500.h" />
 		<Unit filename="../OpenAVRc/protocol/iface_cyrf6936.h" />
+		<Unit filename="../OpenAVRc/protocol/iface_nrf24l01.h" />
 		<Unit filename="../OpenAVRc/protocol/interface.h" />
 		<Unit filename="../OpenAVRc/protocol/misc.c">
 			<Option compilerVar="CC" />
@@ -487,6 +501,11 @@
 			<Option link="0" />
 		</Unit>
 		<Unit filename="../OpenAVRc/protocol/misc.h" />
+		<Unit filename="../OpenAVRc/protocol/nrf24l01.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="../OpenAVRc/protocol/protocol.h" />
 		<Unit filename="../OpenAVRc/pulses/pulses.h" />
 		<Unit filename="../OpenAVRc/pulses/pulses_avr.cpp" />
