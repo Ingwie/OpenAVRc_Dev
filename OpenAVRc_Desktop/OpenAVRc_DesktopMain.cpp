@@ -457,7 +457,7 @@ void OpenAVRc_DesktopFrame::OnAbout(wxCommandEvent& event)
   Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
   Aboutbox.AddDeveloper(wxT(
     "OpenAVRc Team :\n\n"
-    "Firmware : Bracame, RC-Navy, Sloped Soarer, Supiiik.\n"
+    "Firmware : Bracame, Payalneg, RC-Navy, Sloped Soarer, Supiiik.\n"
     "Applications : Bracame, Mentero.\n"
     "PCB Shield : Anthobreizh, Pierrotm777, Pyrall.\n"
     "Documentation : JPZ(Testeur68), Pierrotm777, Pyrall.\n"

@@ -341,13 +341,13 @@ static uint16_t BAYANG_callback()
   }
  else
   {
-    if(!packet_count)
-     BAYANG_send_packet(1);
-    packet_count++;
-    packet_count %= 4;
-    bind_counter--;
+   if(!packet_count)
+    BAYANG_send_packet(1);
+   packet_count++;
+   packet_count %= 4;
+   bind_counter--;
 
-    if (!bind_counter)
+   if (!bind_counter)
     {
      XN297_SetTXAddr(bayang_rfid_addr, BAYANG_ADDRESS_LENGTH);
      XN297_SetRXAddr(bayang_rfid_addr, BAYANG_ADDRESS_LENGTH);
@@ -375,7 +375,7 @@ static void BAYANG_initialize(uint8_t bind)
  if (bind || bayang_autobind)
   {
    bind_counter = BAYANG_BIND_COUNT * 4;
-      if (bayang_autobind)
+   if (bayang_autobind)
     {
      PROTOCOL_SetBindState(1000); // 5 Sec
     }

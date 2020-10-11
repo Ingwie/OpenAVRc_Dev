@@ -56,8 +56,8 @@ const pm_char DEVO_STR_STATICID[] PROGMEM = INDENT"Static ID";
 
 #define DEVO_AUTOBIND (g_model.rfOptionBool1)
 #define USE_FIXED_ID  (g_model.rfOptionBool2) // For Ladybird Quad.
-//uint8_t num_channel; // defined in my misc.h uncomment to try Rich ;-)
-static uint8_t *channel_used_ptr; // Todo share
+
+static uint8_t *hopping_channel_ptr; // ToDo ... share between protocols.
 
 
 enum
@@ -116,24 +116,24 @@ static void DEVO_scramble_pkt() // todo remove
 
 const uint8_t zz_DEVOInitSequence[] PROGMEM =
 {
-  CYRF_1D_MODE_OVERRIDE, 0x38,      //FRC SEN (forces the synthesizer to start) + FRC AWAKE (force the oscillator to keep running at all times)
-  CYRF_03_TX_CFG, 0x08 | TXPOWER_1, //Data Code Length = 32 chip codes + Data Mode = 8DR Mode + max-power(+4 dBm)
-  CYRF_06_RX_CFG, 0x4A,             //LNA + FAST TURN EN + RXOW EN, enable low noise amplifier, fast turning, overwrite enable
-  CYRF_0B_PWR_CTRL, 0x00,           //Reset power control
-  CYRF_10_FRAMING_CFG, 0xA4,        //SOP EN + SOP LEN = 32 chips + LEN EN + SOP TH = 04h
-  CYRF_11_DATA32_THOLD, 0x05,       //TH32 = 0x05
-  CYRF_12_DATA64_THOLD, 0x0E,       //TH64 = 0Eh, set pn correlation threshold
-  CYRF_1B_TX_OFFSET_LSB, 0x55,      //STRIM LSB = 0x55, typical configuration
-  CYRF_1C_TX_OFFSET_MSB, 0x05,      //STRIM MSB = 0x05, typical configuration
-  CYRF_32_AUTO_CAL_TIME, 0x3C,      //AUTO_CAL_TIME = 3Ch, typical configuration
-  CYRF_35_AUTOCAL_OFFSET, 0x14,     //AUTO_CAL_OFFSET = 14h, typical configuration
-  CYRF_39_ANALOG_CTRL, 0x01,        //ALL SLOW
-  CYRF_1E_RX_OVERRIDE, 0x10,        //FRC RXDR (Force Receive Data Rate)
-  CYRF_1F_TX_OVERRIDE, 0x00,        //Reset TX overrides
-  CYRF_01_TX_LENGTH, 0x10,          //TX Length = 16 byte packet
-  CYRF_27_CLK_OVERRIDE, 0x02,       //RXF, force receive clock
-  CYRF_28_CLK_EN, 0x02,             //RXF, force receive clock enable
-  CYRF_0F_XACT_CFG, 0x28,           //Force TX mode
+  CYRF_1D_MODE_OVERRIDE, 0x38,      // FRC SEN (forces the synthesizer to start) + FRC AWAKE (force the oscillator to keep running at all times)
+  CYRF_03_TX_CFG, 0x08,             // Data Code Length = 32 chip codes + Data Mode = 8DR Mode.
+  CYRF_06_RX_CFG, 0x4A,             // LNA + FAST TURN EN + RXOW EN, enable low noise amplifier, fast turning, overwrite enable
+  CYRF_0B_PWR_CTRL, 0x00,           // Reset power control
+  CYRF_10_FRAMING_CFG, 0xA4,        // SOP EN + SOP LEN = 32 chips + LEN EN + SOP TH = 04h
+  CYRF_11_DATA32_THOLD, 0x05,       // TH32 = 0x05
+  CYRF_12_DATA64_THOLD, 0x0E,       // TH64 = 0Eh, set pn correlation threshold
+  CYRF_1B_TX_OFFSET_LSB, 0x55,      // STRIM LSB = 0x55, typical configuration
+  CYRF_1C_TX_OFFSET_MSB, 0x05,      // STRIM MSB = 0x05, typical configuration
+  CYRF_32_AUTO_CAL_TIME, 0x3C,      // AUTO_CAL_TIME = 3Ch, typical configuration
+  CYRF_35_AUTOCAL_OFFSET, 0x14,     // AUTO_CAL_OFFSET = 14h, typical configuration
+  CYRF_39_ANALOG_CTRL, 0x01,        // ALL SLOW
+  CYRF_1E_RX_OVERRIDE, 0x10,        // FRC RXDR (Force Receive Data Rate)
+  CYRF_1F_TX_OVERRIDE, 0x00,        // Reset TX overrides
+  CYRF_01_TX_LENGTH, 0x10,          // TX Length = 16 byte packet
+  CYRF_27_CLK_OVERRIDE, 0x02,       // RXF, force receive clock
+  CYRF_28_CLK_EN, 0x02,             // RXF, force receive clock enable
+//  CYRF_0F_XACT_CFG, 0x28,         // Force TX mode
 };
 
 static void DDEVO_init()
@@ -165,11 +165,11 @@ static void DEVO_add_pkt_suffix()
     bind_state = 0x00;
 
   packet[10] = bind_state | (DEVO_PKTS_PER_CHANNEL - packet_count - 1);
-  packet[11] = *(channel_used_ptr + 1);
-  packet[12] = *(channel_used_ptr + 2);
+  packet[11] = *(hopping_channel_ptr + 1);
+  packet[12] = *(hopping_channel_ptr + 2);
   packet[13] = temp_rfid_addr[0];
   packet[14] = temp_rfid_addr[1];
-  packet[15] = temp_rfid_addr[2]; // use temp_rfid_addr ?
+  packet[15] = temp_rfid_addr[2];
 }
 
 static void DEVO_build_beacon_pkt(uint8_t upper)
@@ -195,9 +195,9 @@ static void DEVO_build_bind_pkt()
   packet[0] = (num_channel << 4) | 0x0a;
   packet[1] = bind_counter & 0xff;
   packet[2] = (bind_counter >> 8);
-  packet[3] = *channel_used_ptr;
-  packet[4] = *(channel_used_ptr + 1);
-  packet[5] = *(channel_used_ptr + 2);
+  packet[3] = *hopping_channel_ptr;
+  packet[4] = *(hopping_channel_ptr + 1);
+  packet[5] = *(hopping_channel_ptr + 2);
   packet[6] = temp_rfid_addr[0];
   packet[7] = temp_rfid_addr[1];
   packet[8] = temp_rfid_addr[2];
@@ -245,7 +245,7 @@ static void DEVO_set_bound_sop_code()
   if(! crc)
     crc = 1;
   uint8_t sopidx = (0xff &((temp_rfid_addr[0] << 2) + temp_rfid_addr[1] + temp_rfid_addr[2])) % 10;
-  CYRF_SetTxRxMode(TX_EN);
+
   CYRF_ConfigCRCSeed((crc << 8) + crc);
   CYRF_PROGMEM_Config_DEVO_J6PRO_sopcodes(sopidx);
   CYRF_WriteRegister(CYRF_03_TX_CFG, 0x08);
@@ -271,7 +271,7 @@ static void DEVO_BuildPacket()
       if (bind_counter == 0)
         {
           rfState8 = DEVO_BOUND;
-          // BIND_DONE;
+          /* Bind done */
         }
       else
         rfState8 = DEVO_BIND;
@@ -340,8 +340,8 @@ uint16_t DEVO_cb()
       CYRF_WriteRegister(CYRF_03_TX_CFG, 0x08);
       CYRF_ManagePower();	// Keep transmit power in sync
       DEVO_check_num_chan(); // Check num channels
-      channel_used_ptr = channel_used_ptr == &channel_used[2] ? channel_used : channel_used_ptr + 1;
-      CYRF_ConfigRFChannel(*channel_used_ptr);
+      hopping_channel_ptr = hopping_channel_ptr == &channel_used[2] ? &channel_used[0] : hopping_channel_ptr + 1;
+      CYRF_ConfigRFChannel(*hopping_channel_ptr);
     }
   return 1200*2;
 }
@@ -360,19 +360,20 @@ void DEVOInit(uint8_t bind)
 
   prev_num_channel = num_channel;
 
-  // Load temp_rfid_addr + Model match
+  // Load temp_rfid_addr + Model match.
   loadrfidaddr_rxnum(0);
 
   CYRF_Reset();
   DDEVO_init();
-  //CYRF_GetMfgData(temp_rfid_addr); prefer use temp_rfid_addr
-  CYRF_SetTxRxMode(TX_EN);
+
   CYRF_ConfigCRCSeed(0x0000);
   CYRF_PROGMEM_Config_DEVO_J6PRO_sopcodes(0);
   DEVO_set_radio_channels();
 
-  channel_used_ptr = channel_used;
-  CYRF_ConfigRFChannel(*channel_used_ptr);
+  hopping_channel_ptr = &channel_used[0];
+  CYRF_ConfigRFChannel(*hopping_channel_ptr);
+
+  CYRF_SetTxRxMode(TX_EN);
 
   if (bind || DEVO_AUTOBIND)
     {
@@ -382,7 +383,7 @@ void DEVOInit(uint8_t bind)
         {
           PROTOCOL_SetBindState(1200); // 12 Sec
         }
-      ///BIND_IN_PROGRESS;
+      /* Bind in Progress */
     }
   else
     {
