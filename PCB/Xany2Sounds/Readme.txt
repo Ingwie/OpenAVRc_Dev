@@ -15,7 +15,7 @@ https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/documentation/Compilez%20votre%20
 
 Each switch command one sound.
 With 8 switchs you can command 8 sounds.
-But the JQ6500 has 5 input that can be used for command 5 sounds.
+But the JQ6500 has 5 inputs that can be used for command 5 sounds.
 
 So, it's possible to command 13 sounds.
 The JQ6500 inputs commands sounds from 1 to 5 and X-Any switchs command sounds from 6 to 13.
@@ -27,11 +27,6 @@ The module accept several input mode.
 PWM, CPPM, SBUS, SRXL, SUMD, IBUS or JETI.
 You can select also these modes in confuration menu.
 
-How to compile:
-Add these Sparkfun boards in the Arduino IDE preferences.
-https://raw.githubusercontent.com/sparkfun/Arduino_Boards/master/IDE_Board_Manager/package_sparkfun_index.json
-ATTENTION !!! Select the 5V, 16Mhz board ONLY !!!
-
 Upload the HEX file:
 I don't give sources, because X-Any libraries are not Open Source for the receive side.
 Rename Xany2Sounds.ino.with_bootloader.promicro._hex file to Xany2Sounds.ino.with_bootloader.promicro.hex
@@ -40,8 +35,8 @@ You can use the program https://github.com/uriba107/32u4_hexuploader .
 
 Configuration mode:
 Connect the USB connector of your Pro Micro board to your PC.
-Select the console window, define 115200 baud and NL and CR mode.
-You have 5 secondes for click on the ENTER key.
+Select the console window, define 115200 bauds and NL and CR mode.
+You have 5 seconds for click on the ENTER key.
 When you are in the configuration mode, type h key and ENTER for see all options.
 h Help
 q quit
@@ -59,8 +54,14 @@ f set Failsafe values
 
 e reset EEPROM (command hidden)
 
+The configuration is saved into the EEPROM.
+So, you need to do this configuration just one time when you want change your settings.
+
 Add sounds files in your JQ6500 module:
 Follow the JQ6500 documentation here, https://sparks.gogo.co.nz/jq6500/index.html .
+
+Wires:
+See picture file.
 
 Good use.
 
