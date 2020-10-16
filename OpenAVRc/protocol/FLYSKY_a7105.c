@@ -110,70 +110,70 @@ static void FLYSKY_apply_extension_flags()
     {
     case V9X9:
       if(getLogicalSwitch(1))
-        packet[12] |= FLAG_V9X9_FLIP;
+        packet_p2M[12] |= FLAG_V9X9_FLIP;
       if(getLogicalSwitch(2))
-        packet[12] |= FLAG_V9X9_LED;
+        packet_p2M[12] |= FLAG_V9X9_LED;
       if(getLogicalSwitch(3))
-        packet[10] |= FLAG_V9X9_CAMERA;
+        packet_p2M[10] |= FLAG_V9X9_CAMERA;
       if(getLogicalSwitch(4))
-        packet[10] |= FLAG_V9X9_VIDEO;
+        packet_p2M[10] |= FLAG_V9X9_VIDEO;
       break;
 
     case V6X6:
-      packet[13] = 0x03; // 3 = 100% rate (0=40%, 1=60%, 2=80%)
-      packet[14] = 0x00;
+      packet_p2M[13] = 0x03; // 3 = 100% rate (0=40%, 1=60%, 2=80%)
+      packet_p2M[14] = 0x00;
       if(getLogicalSwitch(1))
-        packet[14] |= FLAG_V6X6_FLIP;
+        packet_p2M[14] |= FLAG_V6X6_FLIP;
       if(getLogicalSwitch(2))
-        packet[14] |= FLAG_V6X6_LED;
+        packet_p2M[14] |= FLAG_V6X6_LED;
       if(getLogicalSwitch(3))
-        packet[14] |= FLAG_V6X6_CAMERA;
+        packet_p2M[14] |= FLAG_V6X6_CAMERA;
       if(getLogicalSwitch(4))
-        packet[14] |= FLAG_V6X6_VIDEO;
+        packet_p2M[14] |= FLAG_V6X6_VIDEO;
       if(getLogicalSwitch(5))
         {
-          packet[13] |= FLAG_V6X6_HLESS1;
-          packet[14] |= FLAG_V6X6_HLESS2;
+          packet_p2M[13] |= FLAG_V6X6_HLESS1;
+          packet_p2M[14] |= FLAG_V6X6_HLESS2;
         }
       if(getLogicalSwitch(6))
-        packet[14] |= FLAG_V6X6_RTH;
+        packet_p2M[14] |= FLAG_V6X6_RTH;
       if(getLogicalSwitch(7))
-        packet[14] |= FLAG_V6X6_XCAL;
+        packet_p2M[14] |= FLAG_V6X6_XCAL;
       if(getLogicalSwitch(8))
-        packet[14] |= FLAG_V6X6_YCAL;
-      packet[15] = 0x10; // unknown
-      packet[16] = 0x10; // unknown
-      packet[17] = 0xAA; // unknown
-      packet[18] = 0xAA; // unknown
-      packet[19] = 0x60; // unknown, changes at irregular interval in stock TX
-      packet[20] = 0x02; // unknown
+        packet_p2M[14] |= FLAG_V6X6_YCAL;
+      packet_p2M[15] = 0x10; // unknown
+      packet_p2M[16] = 0x10; // unknown
+      packet_p2M[17] = 0xAA; // unknown
+      packet_p2M[18] = 0xAA; // unknown
+      packet_p2M[19] = 0x60; // unknown, changes at irregular interval in stock TX
+      packet_p2M[20] = 0x02; // unknown
       break;
 
     case V912:
-      packet_count++;
-      if( packet_count > 9)
-        packet_count = 0;
-      packet[12] |= 0x20; // bit 6 is always set ?
-      packet[13] = 0x00;  // unknown
-      packet[14] = 0x00;
+      packet_count_p2M++;
+      if( packet_count_p2M > 9)
+        packet_count_p2M = 0;
+      packet_p2M[12] |= 0x20; // bit 6 is always set ?
+      packet_p2M[13] = 0x00;  // unknown
+      packet_p2M[14] = 0x00;
       if(getLogicalSwitch(1))
-        packet[14]  = FLAG_V912_BTMBTN;
+        packet_p2M[14]  = FLAG_V912_BTMBTN;
       if(getLogicalSwitch(2))
-        packet[14] |= FLAG_V912_TOPBTN;
-      packet[15] = 0x27; // [15] and [16] apparently hold an analog channel with a value lower than 1000
-      packet[16] = 0x03; // maybe it's there for a pitch channel for a CP copter ?
-      packet[17] = pgm_read_byte_far(pgm_get_far_address(ZZV912_X17_SEQ)+packet_count) ; // not sure what [17] & [18] are for
-      if(packet_count == 0)                    // V912 Rx does not even read those bytes... [17-20]
-        packet[18] = 0x02;
+        packet_p2M[14] |= FLAG_V912_TOPBTN;
+      packet_p2M[15] = 0x27; // [15] and [16] apparently hold an analog channel with a value lower than 1000
+      packet_p2M[16] = 0x03; // maybe it's there for a pitch channel for a CP copter ?
+      packet_p2M[17] = pgm_read_byte_far(pgm_get_far_address(ZZV912_X17_SEQ)+packet_count_p2M) ; // not sure what [17] & [18] are for
+      if(packet_count_p2M == 0)                    // V912 Rx does not even read those bytes... [17-20]
+        packet_p2M[18] = 0x02;
       else
-        packet[18] = 0x00;
-      packet[19] = 0x00; // unknown
-      packet[20] = 0x00; // unknown
+        packet_p2M[18] = 0x00;
+      packet_p2M[19] = 0x00; // unknown
+      packet_p2M[20] = 0x00; // unknown
       break;
 
     case CX20:
-      packet[19] = 0x00; // unknown
-      packet[20] = (channel_index<<4)|0x0A;
+      packet_p2M[19] = 0x00; // unknown
+      packet_p2M[20] = (channel_index_p2M<<4)|0x0A;
       break;
     default:
       break;
@@ -183,11 +183,11 @@ static void FLYSKY_apply_extension_flags()
 static void FLYSKY_build_packet(uint8_t init)
 {
   //channel order AIL;ELE;THR;RUD;CH5;CH6;CH7;CH8
-  packet[0] = init ? 0xaa : 0x55;
-  packet[1] = temp_rfid_addr[3];
-  packet[2] = temp_rfid_addr[2];
-  packet[3] = temp_rfid_addr[1];
-  packet[4] = temp_rfid_addr[0];
+  packet_p2M[0] = init ? 0xaa : 0x55;
+  packet_p2M[1] = temp_rfid_addr_p2M[3];
+  packet_p2M[2] = temp_rfid_addr_p2M[2];
+  packet_p2M[3] = temp_rfid_addr_p2M[1];
+  packet_p2M[4] = temp_rfid_addr_p2M[0];
 
   for (uint8_t i=0; i<8; ++i)
     {
@@ -199,8 +199,8 @@ static void FLYSKY_build_packet(uint8_t init)
         {
           value=3000-value;
         }
-      packet[5 + i*2]=(value&0xFF);
-      packet[6 + i*2]=(value>>8)&0xFF;
+      packet_p2M[5 + i*2]=(value&0xFF);
+      packet_p2M[6 + i*2]=(value>>8)&0xFF;
     }
   FLYSKY_apply_extension_flags();
 }
@@ -209,34 +209,34 @@ static uint16_t FLYSKY_cb()
 {
   heartbeat |= HEART_TIMER_PULSES;
 
-  if (send_seq == rfState8)
+  if (send_seq_p2M == rfState8_p2M)
     {
-      send_seq = 0;
+      send_seq_p2M = 0;
       A7105_AdjustLOBaseFreq();
       SCHEDULE_MIXER_END_IN_US(12000U); // Schedule next Mixer calculations. Soon as possible
     }
 
-  if(bind_idx || bind_counter)
+  if(bind_idx_p2M || bind_counter_p2M)
     {
-      if (!send_seq)
+      if (!send_seq_p2M)
         {
           FLYSKY_build_packet(1);
         }
       A7105_WriteData(21, 1);
-      --bind_counter;
+      --bind_counter_p2M;
     }
   else
     {
-      if (!send_seq)
+      if (!send_seq_p2M)
         {
           FLYSKY_build_packet(0);
         }
-      A7105_WriteData(21, channel_used[channel_index & 0x0F]);
+      A7105_WriteData(21, channel_used_p2M[channel_index_p2M & 0x0F]);
       A7105_ManagePower();
     }
 
-  ++channel_index;
-  ++send_seq;
+  ++channel_index_p2M;
+  ++send_seq_p2M;
 
   uint16_t packet_period;
   if(g_model.rfSubType == CX20)
@@ -265,13 +265,13 @@ static void FLYSKY_initialize(uint8_t bind)
 
   // limit offset to 9 as higher values don't work with some RX (ie V912)
   // limit offset to 9 as CX20 repeats the same channels after that
-  if ((temp_rfid_addr[3]&0xF0) > 0x90)
+  if ((temp_rfid_addr_p2M[3]&0xF0) > 0x90)
     {
-      temp_rfid_addr[3]=temp_rfid_addr[3]-0x70;
+      temp_rfid_addr_p2M[3]=temp_rfid_addr_p2M[3]-0x70;
     }
   // Build frequency hop table
-  chanrow = temp_rfid_addr[3] & 0x0F;
-  chanoffset = temp_rfid_addr[3]/16;
+  chanrow = temp_rfid_addr_p2M[3] & 0x0F;
+  chanoffset = temp_rfid_addr_p2M[3]/16;
 
   for(uint8_t i=0; i<16; i++)
     {
@@ -314,25 +314,25 @@ static void FLYSKY_initialize(uint8_t bind)
                   temp = 0x29;
                 }
             }
-          rfState8 = 3; // 12ms refresh rate value
+          rfState8_p2M = 3; // 12ms refresh rate value
         }
       else
         {
-          rfState8 = 8; // 12ms refresh rate value
+          rfState8_p2M = 8; // 12ms refresh rate value
         }
-      channel_used[((chanrow&1)?15-i:i)]=temp-chanoffset;
+      channel_used_p2M[((chanrow&1)?15-i:i)]=temp-chanoffset;
     }
-  channel_index = 0;
-  packet_count = 0;
-  send_seq = 0;
+  channel_index_p2M = 0;
+  packet_count_p2M = 0;
+  send_seq_p2M = 0;
 
   if(bind)
     {
-      bind_idx = 0xFF; // Keep in Bind mode memory
+      bind_idx_p2M = 0xFF; // Keep in Bind mode memory
     }
   else
     {
-      bind_counter = FLYSKY_BIND_COUNT;
+      bind_counter_p2M = FLYSKY_BIND_COUNT;
       PROTOCOL_SetBindState(250); // 2.5 Sec
     }
   PROTO_Start_Callback(FLYSKY_cb);

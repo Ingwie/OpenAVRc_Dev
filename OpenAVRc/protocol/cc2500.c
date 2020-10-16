@@ -192,26 +192,26 @@ void CC2500_SetPower(uint8_t CCPower)
 
   uint_farptr_t powerdata = pgm_get_far_address(zzCC2500_Powers);
   RFPowerOut = pgm_read_word_far(powerdata + (2*CCPower)); // Gui value
-  rf_power_mem = CCPower;
+  rf_power_mem_p2M = CCPower;
   CC2500_WriteReg(CC2500_3E_PATABLE, cc2500_patable);
 }
 
 void CC2500_ManagePower()
 {
-  if (systemBolls.rangeModeIsOn) rf_power = TXPOWER_1;
-  else rf_power = g_model.rfOptionValue3;
-  if (rf_power != rf_power_mem)
+  if (systemBolls.rangeModeIsOn) rf_power_p2M = TXPOWER_1;
+  else rf_power_p2M = g_model.rfOptionValue3;
+  if (rf_power_p2M != rf_power_mem_p2M)
   {
-    CC2500_SetPower(rf_power);
+    CC2500_SetPower(rf_power_p2M);
   }
 }
 
 void CC2500_ManageFreq()
 {
-  if (freq_fine_mem != g_model.rfOptionValue1)
+  if (freq_fine_mem_p2M != g_model.rfOptionValue1)
   {
-    freq_fine_mem = g_model.rfOptionValue1;
-    CC2500_WriteReg(CC2500_0C_FSCTRL0, freq_fine_mem);
+    freq_fine_mem_p2M = g_model.rfOptionValue1;
+    CC2500_WriteReg(CC2500_0C_FSCTRL0, freq_fine_mem_p2M);
   }
 }
 

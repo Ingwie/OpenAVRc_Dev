@@ -51,10 +51,10 @@ const pm_char STR_SUBTYPE_CABELL[] PROGMEM = " PPM""SPPM""SBUS";
 
 
 #define CABELL_BIND_COUNT		2000		// At least 2000 so that if TX toggles the serial bind flag then bind mode is never exited
-#define CABELL_PACKET_PERIOD	3000		// Do not set too low or else next packet may not be finished transmitting before the channel is changed next time around
+#define CABELL_PACKET_PERIOD	3000		// Do not set too low or else next packet_p2M may not be finished transmitting before the channel is changed next time around
 
-#define CABELL_NUM_CHANNELS		16			// The maximum number of RC channels that can be sent in one packet
-#define CABELL_MIN_CHANNELS		4			// The minimum number of channels that must be included in a packet, the number of channels cannot be reduced any further than this
+#define CABELL_NUM_CHANNELS		16			// The maximum number of RC channels that can be sent in one packet_p2M
+#define CABELL_MIN_CHANNELS		4			// The minimum number of channels that must be included in a packet_p2M, the number of channels cannot be reduced any further than this
 #define CABELL_PAYLOAD_BYTES	24			// 12 bits per value * 16 channels
 
 #define CABELL_RADIO_CHANNELS			9	// This is 1/5 of the total number of radio channels used for FHSS
@@ -86,7 +86,7 @@ enum
 typedef struct
 {
  uint8_t RxMode;
- uint8_t reserved;  /* Contains the channel number that the packet was sent on in bits 0-5
+ uint8_t reserved;  /* Contains the channel number that the packet_p2M was sent on in bits 0-5
                           */
  uint8_t option;
  /*   mask 0x0F    : Channel reduction.  The number of channels to not send (subtracted from the 16 max channels) at least 4 are always sent
@@ -160,19 +160,19 @@ static void CABELL_setAddress(uint8_t bind)
  if (!bind)
   {
    CABELL_addr =
-    (((uint64_t)temp_rfid_addr[0]) << 32) +
-    (((uint64_t)temp_rfid_addr[1]) << 24) +
-    (((uint64_t)temp_rfid_addr[2]) << 16) +
-    (((uint64_t)temp_rfid_addr[3]) << 8) +
-    (((uint64_t)temp_rfid_addr[0]));					// Address to use after binding
+    (((uint64_t)temp_rfid_addr_p2M[0]) << 32) +
+    (((uint64_t)temp_rfid_addr_p2M[1]) << 24) +
+    (((uint64_t)temp_rfid_addr_p2M[2]) << 16) +
+    (((uint64_t)temp_rfid_addr_p2M[3]) << 8) +
+    (((uint64_t)temp_rfid_addr_p2M[0]));					// Address to use after binding
   }
  else
   CABELL_addr = CABELL_BIND_RADIO_ADDR;				// Static addr for binding
 
- CABELL_getChannelSequence(channel_used,CABELL_RADIO_CHANNELS,CABELL_addr);		// Get the sequence for hopping through channels
- channel_index = CABELL_RADIO_MIN_CHANNEL_NUM;				// Initialize the channel sequence
+ CABELL_getChannelSequence(channel_used_p2M,CABELL_RADIO_CHANNELS,CABELL_addr);		// Get the sequence for hopping through channels
+ channel_index_p2M = CABELL_RADIO_MIN_CHANNEL_NUM;				// Initialize the channel sequence
 
- packet_count = 0;
+ packet_count_p2M = 0;
 
  uint64_t CABELL_Telemetry_addr = ~CABELL_addr;			// Invert bits for reading so that telemetry packets have a different address.
 
@@ -194,8 +194,8 @@ static void CABELL_init(uint8_t bind)
  NRF24L01_FlushTx();
  NRF24L01_FlushRx();
  NRF24L01_WriteReg(NRF24L01_02_EN_RXADDR, 0x01);
- NRF24L01_WriteReg(NRF24L01_11_RX_PW_P0, 0x20);		// 32 byte packet length
- NRF24L01_WriteReg(NRF24L01_12_RX_PW_P1, 0x20);		// 32 byte packet length
+ NRF24L01_WriteReg(NRF24L01_11_RX_PW_P0, 0x20);		// 32 byte packet_p2M length
+ NRF24L01_WriteReg(NRF24L01_12_RX_PW_P1, 0x20);		// 32 byte packet_p2M length
  NRF24L01_WriteReg(NRF24L01_03_SETUP_AW, 0x03);
  NRF24L01_WriteReg(NRF24L01_04_SETUP_RETR, 0x5F);	// no retransmits
  NRF24L01_Activate(0x73);							// Activate feature register
@@ -238,30 +238,30 @@ static uint16_t CABELL_getNextChannel (uint8_t seqArray[], uint8_t seqArraySize,
 static void CABELL_get_telemetry()
 {
 // calculate TX rssi based on past 250 expected telemetry packets.  Cannot use full second count because telemetry_counter is not large enough
- if (++rfState16 > 250)
+ if (++rfState16_p2M > 250)
   {
-   telemetryData.rssi[1].set(receive_seq);
-   receive_seq = 0;
-   rfState16 = 0;
+   telemetryData.rssi[1].set(receive_seq_p2M);
+   receive_seq_p2M = 0;
+   rfState16_p2M = 0;
   }
 
-// Process incoming telemetry packet of it was received
+// Process incoming telemetry packet_p2M of it was received
  if (NRF24L01_ReadReg(NRF24L01_07_STATUS) & _BV(NRF24L01_07_RX_DR))
   {
    // data received from model
-   NRF24L01_ReadPayload(packet, CABELL_TELEMETRY_PACKET_LENGTH);
-   if ((packet[0] & 0x7F) == telemetryResponse)	// ignore high order bit in compare because it toggles with each packet
+   NRF24L01_ReadPayload(packet_p2M, CABELL_TELEMETRY_PACKET_LENGTH);
+   if ((packet_p2M[0] & 0x7F) == telemetryResponse)	// ignore high order bit in compare because it toggles with each packet_p2M
     {
      frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
-     telemetryData.rssi[0].set(packet[1]);	// Packet rate 0 to 255 where 255 is 100% packet rate
-     telemetryData.analog[TELEM_ANA_A1].set(packet[2], g_model.telemetry.channels[TELEM_ANA_A1].type);	// Directly from analog input of receiver, but reduced to 8-bit depth (0 to 255).  Scaling depends on the input to the analog pin of the receiver.
-     telemetryData.analog[TELEM_ANA_A2].set(packet[3], g_model.telemetry.channels[TELEM_ANA_A2].type);	// Directly from analog input of receiver, but reduced to 8-bit depth (0 to 255).  Scaling depends on the input to the analog pin of the receiver.
-     receive_seq++;
+     telemetryData.rssi[0].set(packet_p2M[1]);	// Packet rate 0 to 255 where 255 is 100% packet_p2M rate
+     telemetryData.analog[TELEM_ANA_A1].set(packet_p2M[2], g_model.telemetry.channels[TELEM_ANA_A1].type);	// Directly from analog input of receiver, but reduced to 8-bit depth (0 to 255).  Scaling depends on the input to the analog pin of the receiver.
+     telemetryData.analog[TELEM_ANA_A2].set(packet_p2M[3], g_model.telemetry.channels[TELEM_ANA_A2].type);	// Directly from analog input of receiver, but reduced to 8-bit depth (0 to 255).  Scaling depends on the input to the analog pin of the receiver.
+     receive_seq_p2M++;
     }
   }
  else
   {
-   // If no telemetry packet was received then delay by the typical telemetry packet processing time
+   // If no telemetry packet_p2M was received then delay by the typical telemetry packet_p2M processing time
    // This is done to try to keep the sendPacket process timing more consistent. Since the SPI payload read takes some time
    _delay_us(50);
   }
@@ -272,17 +272,17 @@ static void CABELL_get_telemetry()
 static uint16_t CABELL_send_packet(uint8_t bindMode)
 {
  uint8_t option = cabell_num_ch_raw | (16 * cabell_sub_protocol);
- if (!bindMode && cabell_telemetry)		// check for incoming packet and switch radio back to TX mode if we were listening for telemetry
+ if (!bindMode && cabell_telemetry)		// check for incoming packet_p2M and switch radio back to TX mode if we were listening for telemetry
   CABELL_get_telemetry();
 
  CABELL_RxTxPacket_t TxPacket;
 
  uint8_t channelReduction = cabell_num_ch;
  if (bindMode)
-  channelReduction = 0;	// Send full packet to bind as higher channels will contain bind info
+  channelReduction = 0;	// Send full packet_p2M to bind as higher channels will contain bind info
 
- uint8_t packetSize = sizeof(TxPacket) - ((((channelReduction - (channelReduction%2))/ 2)) * 3);		// reduce 3 bytes per 2 channels, but not last channel if it is odd
- uint8_t maxPayloadValueIndex = sizeof(TxPacket.payloadValue) - (sizeof(TxPacket) - packetSize);
+ packetSize_p2M = sizeof(TxPacket) - ((((channelReduction - (channelReduction%2))/ 2)) * 3);		// reduce 3 bytes per 2 channels, but not last channel if it is odd
+ uint8_t maxPayloadValueIndex = sizeof(TxPacket.payloadValue) - (sizeof(TxPacket) - packetSize_p2M);
  if (cabell_ubind && !bindMode)
   {
    TxPacket.RxMode = unBind;
@@ -313,8 +313,8 @@ static uint16_t CABELL_send_packet(uint8_t bindMode)
  TxPacket.reserved = 0;
 
 // Set channel for next transmission
- channel_index = CABELL_getNextChannel (channel_used,CABELL_RADIO_CHANNELS, channel_index);
- TxPacket.reserved |= channel_index & CABELL_RESERVED_MASK_CHANNEL;
+ channel_index_p2M = CABELL_getNextChannel (channel_used_p2M,CABELL_RADIO_CHANNELS, channel_index_p2M);
+ TxPacket.reserved |= channel_index_p2M & CABELL_RESERVED_MASK_CHANNEL;
 
  TxPacket.modelNum = RXNUM;
 
@@ -336,19 +336,19 @@ static uint16_t CABELL_send_packet(uint8_t bindMode)
       {
       //tx address sent for bind
       case 11			:
-       holdValue = 1000 + temp_rfid_addr[0];
+       holdValue = 1000 + temp_rfid_addr_p2M[0];
        break;
       case 12			:
-       holdValue = 1000 + temp_rfid_addr[1];
+       holdValue = 1000 + temp_rfid_addr_p2M[1];
        break;
       case 13			:
-       holdValue = 1000 + temp_rfid_addr[2];
+       holdValue = 1000 + temp_rfid_addr_p2M[2];
        break;
       case 14			:
-       holdValue = 1000 + temp_rfid_addr[3];
+       holdValue = 1000 + temp_rfid_addr_p2M[3];
        break;
       case 15			:
-       holdValue = 1000 + temp_rfid_addr[0];
+       holdValue = 1000 + temp_rfid_addr_p2M[0];
        break;
       }
     }
@@ -374,37 +374,37 @@ static uint16_t CABELL_send_packet(uint8_t bindMode)
  TxPacket.checkSum_MSB = checkSum >> 8;
  TxPacket.checkSum_LSB = checkSum & 0x00FF;
 
- NRF24L01_WriteReg(NRF24L01_05_RF_CH,channel_index);
+ NRF24L01_WriteReg(NRF24L01_05_RF_CH,channel_index_p2M);
 
  uint8_t* p = reinterpret_cast<uint8_t*>(&TxPacket.RxMode);
  *p &= 0x7F;                  // Make sure 8th bit is clear
- *p |= (packet_count++)<<7;   // This causes the 8th bit of the first byte to toggle with each xmit so consecutive payloads are not identical.
-// This is a work around for a reported bug in clone NRF24L01 chips that mis-took this case for a re-transmit of the same packet.
+ *p |= (packet_count_p2M++)<<7;   // This causes the 8th bit of the first byte to toggle with each xmit so consecutive payloads are not identical.
+// This is a work around for a reported bug in clone NRF24L01 chips that mis-took this case for a re-transmit of the same packet_p2M.
 
  NRF24L01_ManagePower();
- NRF24L01_WritePayload((uint8_t*)&TxPacket, packetSize);
+ NRF24L01_WritePayload((uint8_t*)&TxPacket, packetSize_p2M);
  uint16_t packet_period;
  if (!bindMode && cabell_telemetry)
   {
-   // switch radio to rx as soon as packet is sent
-   // calculate transmit time based on packet size and data rate of 1MB per sec
+   // switch radio to rx as soon as packet_p2M is sent
+   // calculate transmit time based on packet_p2M size and data rate of 1MB per sec
    // This is done because polling the status register during xmit caused issues.
    // bits = packst_size * 8  +  73 bits overhead
    // at 250 Kbs per sec, one bit is 4 uS
    // then add 140 uS which is 130 uS to begin the xmit and 10 uS fudge factor
-   uint16_t delay = (((((uint16_t)packetSize * 8)  +  73) * 4) + 140);
+   uint16_t delay = (((((uint16_t)packetSize_p2M * 8)  +  73) * 4) + 140);
    do
     {
      _delay_us(1);
     }
    while (--delay);
-   // increase packet period by 100 us for each channel over 6
+   // increase packet_p2M period by 100 us for each channel over 6
    packet_period = CABELL_PACKET_PERIOD + (100 * limit<int16_t>(0,(CABELL_NUM_CHANNELS - channelReduction - 6 ), 10));
 
    NRF24L01_WriteReg(NRF24L01_00_CONFIG, 0x0F);  // RX mode with 16 bit CRC
   }
  else
-  packet_period = CABELL_PACKET_PERIOD;   // Standard packet period when not in telemetry mode.
+  packet_period = CABELL_PACKET_PERIOD;   // Standard packet_p2M period when not in telemetry mode.
  return packet_period;
 }
 
@@ -419,9 +419,9 @@ static uint16_t CABELL_bind_cb()
 
 static uint16_t CABELL_cb()
 {
- if (++rfState8 >= 4)
+ if (++rfState8_p2M >= 4)
   {
-   rfState8 = 0;
+   rfState8_p2M = 0;
    SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations.
   }
  uint16_t protocol_period = CABELL_send_packet(0);
@@ -433,9 +433,9 @@ static uint16_t CABELL_cb()
 static void CABELL_initialize(uint8_t bind)
 {
  loadrfidaddr();
- channel_index = 0;
- receive_seq = 0;
- rfState8 = 0;
+ channel_index_p2M = 0;
+ receive_seq_p2M = 0;
+ rfState8_p2M = 0;
  CABELL_init(bind);
 
  if (bind)

@@ -125,14 +125,14 @@ void loadrfidaddr()
 {
   for (uint8_t i = 0; i<4; ++i)
     {
-      temp_rfid_addr[i] = g_eeGeneral.fixed_ID.ID_8[i]; /* Use packet[139 to 143 to store a copy of FixedID  */
+      temp_rfid_addr_p2M[i] = g_eeGeneral.fixed_ID.ID_8[i]; /* Use packet_p2M[139 to 143 to store a copy of FixedID  */
     }
 }
 
 void loadrfidaddr_rxnum(uint8_t addrnum)
 {
   loadrfidaddr();
-  temp_rfid_addr[addrnum] ^= (RXNUM*3); // Like model match function
+  temp_rfid_addr_p2M[addrnum] ^= (RXNUM*3); // Like model match function
 }
 
 #endif

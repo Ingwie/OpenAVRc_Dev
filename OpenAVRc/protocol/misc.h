@@ -60,14 +60,14 @@
 
 
 #if defined(SPIMODULES)
-  uint8_t * packet = pulses2MHz.pbyte; //protocol global packet (Use 40 MAX)
-  uint8_t * channel_used = &pulses2MHz.pbyte[CHANNEL_USED_OFFSET]; //protocol global channel (Use 50 MAX -> 54 bytes free to use in SPI protocols)
-  uint8_t * temp_rfid_addr = &pulses2MHz.pbyte[RX_TX_ADDR_OFFSET];
+  uint8_t * packet_p2M = pulses2MHz.pbyte; //protocol global packet_p2M (Use 40 MAX)
+  uint8_t * channel_used_p2M = &pulses2MHz.pbyte[CHANNEL_USED_OFFSET]; //protocol global channel (Use 50 MAX -> 54 bytes free to use in SPI protocols)
+  uint8_t * temp_rfid_addr_p2M = &pulses2MHz.pbyte[RX_TX_ADDR_OFFSET];
   #if defined(PROTO_HAS_CYRF6936)
   //uint8_t * cyrfmfg_id = &pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-30]; // -30 to -25 cyrfmfg_id[6] used in DSM, DEVO
   #endif
   #if defined(PROTO_HAS_CC2500) || defined(PROTO_HAS_CYRF6936) || defined(PROTO_HAS_NRF24L01)
-    uint8_t * telem_save_data = &pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-40]; // used in [9] FrskyX & [10] DSM telemetry
+    uint8_t * telem_save_data_p2M = &pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-40]; // used in [9] FrskyX & [10] DSM telemetry
   #endif
   #if defined(PROTO_HAS_CC2500)
     uint8_t calData[48]; // used in FrskyX protocol
@@ -81,33 +81,34 @@
  */
 
 //U8
-#define rfState8           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-1]
-#define channel_index      pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-2]
-#define channel_offset     pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-3]
-#define rf_power           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-4]
-#define rf_power_mem       pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-5]
-#define channel_skip       pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-6]
-#define receive_seq        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-7]
-#define send_seq           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-8]
-#define bind_idx           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-9]
-#define dp_crc_init        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-10]
-#define packet_count       pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-11]
-#define telem_save_seq     pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-12]
-#define start_tx_rx        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-13]
-#define num_channel        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-13] // Only used in DEVO
-#define freq_fine_mem      pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-14] // Only used with CC2500
-#define prev_num_channel   pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-14] // Only used in DSM DEVO
+#define rfState8_p2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-1]
+#define channel_index_p2M      pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-2]
+#define channel_offset_p2M     pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-3]
+#define rf_power_p2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-4]
+#define rf_power_mem_p2M       pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-5]
+#define channel_skip_p2M       pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-6]
+#define receive_seq_p2M        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-7]
+#define send_seq_p2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-8]
+#define bind_idx_p2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-9]
+#define dp_crc_init_p2M        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-10] // Only used in FRSKYV
+#define packetSize_p2M         pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-10] // Only used in CABELL
+#define packet_count_p2M       pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-11]
+#define telem_save_seq_p2M     pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-12]
+#define start_tx_rx_p2M        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-13]
+#define num_channel_p2M        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-13] // Only used in DEVO
+#define freq_fine_mem_p2M      pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-14] // Only used with CC2500
+#define rf_setup_p2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-14] // Only used with NRF24L01 register 06
+#define prev_num_channel_p2M   pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-14] // Only used in DSM DEVO
 
 //U16
-#define rfState16          pulses2MHz.pword[PULSES_WORD_OFFSET_VAR]    // Only used in Corona
-#define bind_counter       pulses2MHz.pword[PULSES_WORD_OFFSET_VAR+1]
+#define rfState16_p2M          pulses2MHz.pword[PULSES_WORD_OFFSET_VAR]    // Only used in Corona
+#define bind_counter_p2M       pulses2MHz.pword[PULSES_WORD_OFFSET_VAR+1]
 
 
 void PROTO_Start_Callback( uint16_t (*cb)());
 void PROTO_Stop_Callback();
-uint32_t CLOCK_getms();
-void CLOCK_delayms(uint32_t delay_ms);
 void PROTOCOL_SetBindState(tmr10ms_t t10ms);
+uint16_t PROTOCOL_GetElapsedTime();
 #if defined(SPIMODULES)
 extern uint16_t RFPowerOut;
 void loadrfidaddr();

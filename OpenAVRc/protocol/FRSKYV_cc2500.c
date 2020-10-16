@@ -50,7 +50,7 @@ const static RfOptionSettingsvar_t RfOpt_FrskyV_Ser[] PROGMEM =
 
 const static uint8_t ZZ_frskyVInitSequence[] PROGMEM =
 {
-  CC2500_17_MCSM1, 0x0C, // Stay in receive after packet reception, Idle state after transmission
+  CC2500_17_MCSM1, 0x0C, // Stay in receive after packet_p2M reception, Idle state after transmission
   CC2500_18_MCSM0, 0x18, // Auto calibrate when going from idle to tx/rx/fstxon
   CC2500_06_PKTLEN, 0xFF,
   CC2500_07_PKTCTRL1, 0x04,
@@ -109,7 +109,7 @@ static uint8_t FRSKYV_crc8(uint8_t result, uint8_t *data, uint8_t len)
 static uint8_t FRSKYV_crc8_le()
 {
   /*
-    How Tx Id relates to data packet initial crc value.
+    How Tx Id relates to data packet_p2M initial crc value.
     ID      crc start value
     0x0000  0x0E
     0x0001  0xD7
@@ -127,7 +127,7 @@ static uint8_t FRSKYV_crc8_le()
 
   uint8_t result = 0xD6;
 
-  result = result ^ temp_rfid_addr[1];
+  result = result ^ temp_rfid_addr_p2M[1];
   for(uint8_t j = 0; j < 8; j++)
     {
       if(result & 0x01)
@@ -136,7 +136,7 @@ static uint8_t FRSKYV_crc8_le()
         result = result >> 1;
     }
 
-  result = result ^ temp_rfid_addr[0];
+  result = result ^ temp_rfid_addr_p2M[0];
   for(uint8_t j = 0; j < 8; j++)
     {
       if(result & 0x01)
@@ -168,24 +168,24 @@ static void FRSKYV_build_bind_packet()
 // Highest observed channel is 0xFC.
 // Steps between channels are almost always 5.
 
-  packet[0] = 0x0E; //Length
-  packet[1] = 0x03; //Packet type
-  packet[2] = 0x01; //Packet type
-  packet[3] = temp_rfid_addr[0];
-  packet[4] = temp_rfid_addr[1];
-  packet[5] = bind_idx; // Index into channels_used array.
-  packet[6] =  channel_used[bind_idx++];
-  packet[7] =  channel_used[bind_idx++];
-  packet[8] =  channel_used[bind_idx++];
-  packet[9] =  channel_used[bind_idx++];
-  packet[10] = channel_used[bind_idx++];
-  packet[11] = 0x00;
-  packet[12] = 0x00;
-  packet[13] = 0x00;
-  packet[14] = FRSKYV_crc8(0x93, packet, 14);
+  packet_p2M[0] = 0x0E; //Length
+  packet_p2M[1] = 0x03; //Packet type
+  packet_p2M[2] = 0x01; //Packet type
+  packet_p2M[3] = temp_rfid_addr_p2M[0];
+  packet_p2M[4] = temp_rfid_addr_p2M[1];
+  packet_p2M[5] = bind_idx_p2M; // Index into channels_used array.
+  packet_p2M[6] =  channel_used_p2M[bind_idx_p2M++];
+  packet_p2M[7] =  channel_used_p2M[bind_idx_p2M++];
+  packet_p2M[8] =  channel_used_p2M[bind_idx_p2M++];
+  packet_p2M[9] =  channel_used_p2M[bind_idx_p2M++];
+  packet_p2M[10] = channel_used_p2M[bind_idx_p2M++];
+  packet_p2M[11] = 0x00;
+  packet_p2M[12] = 0x00;
+  packet_p2M[13] = 0x00;
+  packet_p2M[14] = FRSKYV_crc8(0x93, packet_p2M, 14);
 
-  if(bind_idx > 49)
-    bind_idx = 0;
+  if(bind_idx_p2M > 49)
+    bind_idx_p2M = 0;
 }
 
 
@@ -194,19 +194,19 @@ static void FRSKYV_build_data_packet()
 #if defined(X_ANY)
   Xany_scheduleTx_AllInstance();
 #endif
-  channel_offset = 0;
+  channel_offset_p2M = 0;
 
-  packet[0] = 0x0E;
-  packet[1] = temp_rfid_addr[0];
-  packet[2] = temp_rfid_addr[1];
-  packet[3] = seed & 0xFF;
-  packet[4] = seed >> 8;
+  packet_p2M[0] = 0x0E;
+  packet_p2M[1] = temp_rfid_addr_p2M[0];
+  packet_p2M[2] = temp_rfid_addr_p2M[1];
+  packet_p2M[3] = seed & 0xFF;
+  packet_p2M[4] = seed >> 8;
 
   // Appears to be a bitmap relating to the number of channels sent e.g.
   // 0x0F -> first 4 channels, 0x70 -> channels 5,6,7, 0xF0 -> channels 5,6,7,8
-  if(!(rfState8 & 1)) //if (rfState8 == 0 || rfState8 == 2)
+  if(!(rfState8_p2M & 1)) //if (rfState8_p2M == 0 || rfState8_p2M == 2)
     {
-      packet[5] = 0x0F;
+      packet_p2M[5] = 0x0F;
       if (V4CH9MS)
         {
           SCHEDULE_MIXER_END_IN_US(9000); // Schedule is possible on fast systems.
@@ -216,13 +216,13 @@ static void FRSKYV_build_data_packet()
           SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
         }
     }
-  else if (rfState8 & 1) //if (rfState8 == 1 || rfState8 == 3)
+  else if (rfState8_p2M & 1) //if (rfState8_p2M == 1 || rfState8_p2M == 3)
     {
-      channel_offset = 4;
-      packet[5] = 0xF0;
+      channel_offset_p2M = 4;
+      packet_p2M[5] = 0xF0;
     }
   else
-    packet[5] = 0x00;
+    packet_p2M[5] = 0x00;
 
 
   for(uint8_t i = 0; i < 4; i++)
@@ -231,37 +231,37 @@ static void FRSKYV_build_data_packet()
       // 0x05DC -> 1000us 5ca
       // 0x0BB8 -> 2000us bca
 
-      int16_t value = FULL_CHANNEL_OUTPUTS(i + channel_offset);
+      int16_t value = FULL_CHANNEL_OUTPUTS(i + channel_offset_p2M);
       value -= (value>>2); // x-x/4
       value = limit((int16_t)-(640 + (640>>1)), value, (int16_t)+(640 + (640>>1)));
       value += 0x08CA;
 
-      packet[6 + (i*2)] = value & 0xFF;
-      packet[7 + (i*2)] = (value >> 8) & 0xFF;
+      packet_p2M[6 + (i*2)] = value & 0xFF;
+      packet_p2M[7 + (i*2)] = (value >> 8) & 0xFF;
     }
 
-  packet[14] = FRSKYV_crc8(dp_crc_init, packet, 14);
+  packet_p2M[14] = FRSKYV_crc8(dp_crc_init_p2M, packet_p2M, 14);
 
-  V4CH9MS ? rfState8+=2 : ++rfState8; // if we had only four channels we send them every 9ms.
-  if(rfState8 > 4)
+  V4CH9MS ? rfState8_p2M+=2 : ++rfState8_p2M; // if we had only four channels we send them every 9ms.
+  if(rfState8_p2M > 4)
     {
-      rfState8 = 0;
+      rfState8_p2M = 0;
     }
 }
 
 
 static uint16_t FRSKYV_data_cb()
 {
-  // Build next packet.
+  // Build next packet_p2M.
   seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323.
   FRSKYV_build_data_packet(); // 16MHz AVR = 127us.
   CC2500_ManagePower();
   CC2500_ManageFreq();
   CC2500_Strobe(CC2500_SIDLE);
-  CC2500_WriteReg(CC2500_0A_CHANNR, channel_used[((seed & 0xFF)%50)]); // 16MHz AVR = 38us.
-  CC2500_WriteData(packet, 15); // 8.853ms before we start again with the idle strobe.
+  CC2500_WriteReg(CC2500_0A_CHANNR, channel_used_p2M[((seed & 0xFF)%50)]); // 16MHz AVR = 38us.
+  CC2500_WriteData(packet_p2M, 15); // 8.853ms before we start again with the idle strobe.
 
-  // Wait for transmit to finish. Timing is tight. Only 581uS between packet being emitted and idle strobe.
+  // Wait for transmit to finish. Timing is tight. Only 581uS between packet_p2M being emitted and idle strobe.
   // while( 0x0F != CC2500_Strobe(CC2500_SNOP)) { _delay_us(5); }
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
@@ -273,7 +273,7 @@ static uint16_t FRSKYV_bind_cb()
   FRSKYV_build_bind_packet();
   CC2500_Strobe(CC2500_SIDLE);
   CC2500_WriteReg(CC2500_0A_CHANNR, 0);
-  CC2500_WriteData(packet, 15);
+  CC2500_WriteData(packet_p2M, 15);
   CC2500_ManageFreq();
   SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
   heartbeat |= HEART_TIMER_PULSES;
@@ -284,23 +284,23 @@ static uint16_t FRSKYV_bind_cb()
 
 static void FRSKYV_initialise(uint8_t bind)
 {
-  rfState8 = 0;
-  freq_fine_mem = 0;
+  rfState8_p2M = 0;
+  freq_fine_mem_p2M = 0;
 
   CC2500_Reset(); // 0x30
 
   loadrfidaddr_rxnum(0);
-  temp_rfid_addr[1] &= 0x7F; // 15 bit max ID
+  temp_rfid_addr_p2M[1] &= 0x7F; // 15 bit max ID
 
   // Build channel array.
-  uint16_t V_offset = (uint16_t)(temp_rfid_addr[1] << 8 | temp_rfid_addr[0]) % 5;
+  uint16_t V_offset = (uint16_t)(temp_rfid_addr_p2M[1] << 8 | temp_rfid_addr_p2M[0]) % 5;
   uint8_t chan_num;
   for(uint8_t x = 0; x < 50; x ++) {
     chan_num = (x*5) + 3 + V_offset;
-	channel_used[x] = (chan_num ? chan_num : 1); // Avoid binding channel 0.
+	channel_used_p2M[x] = (chan_num ? chan_num : 1); // Avoid binding channel 0.
   }
 
-  dp_crc_init = FRSKYV_crc8_le();
+  dp_crc_init_p2M = FRSKYV_crc8_le();
   FRSKYV_init();
 
   if(bind)

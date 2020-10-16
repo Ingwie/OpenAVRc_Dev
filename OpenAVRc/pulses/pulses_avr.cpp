@@ -60,7 +60,7 @@ void startPulses(enum ProtoCmds Command)
 
 #if defined(SPIMODULES)
   RFPowerOut = 0;
-  rf_power_mem = 0; // Reset RF power mem
+  rf_power_mem_p2M = 0; // Reset RF power mem
   RF_SPI_INIT();
 #endif
 #if defined(FRSKY)

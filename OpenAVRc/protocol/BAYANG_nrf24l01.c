@@ -56,13 +56,13 @@ const static RfOptionSettingsvar_t RfOpt_BAYANG_Ser[] PROGMEM =
 
 enum BAYANG_FLAGS
 {
-// flags going to packet[2]
+// flags going to packet_p2M[2]
  BAYANG_FLAG_RTH		  	= 0x01,
  BAYANG_FLAG_HEADLESS	  = 0x02,
  BAYANG_FLAG_FLIP	    	= 0x08,
  BAYANG_FLAG_VIDEO	  	= 0x10,
  BAYANG_FLAG_PICTURE		= 0x20,
-// flags going to packet[3]
+// flags going to packet_p2M[3]
  BAYANG_FLAG_INVERTED	  = 0x80,			// inverted flight on Floureon H101
  BAYANG_FLAG_TAKE_OFF  	= 0x20,			// take off / landing on X16 AH
  BAYANG_FLAG_EMG_STOP 	= 0x04|0x08,	// 0x08 for VISUO XS809H-W-HD-G
@@ -86,7 +86,7 @@ enum BAYANG
 #define bayang_sub_protocol g_model.rfSubType
 #define bayang_autobind g_model.rfOptionBool2
 #define bayang_telemetry g_model.rfOptionBool1
-#define bayang_rfid_addr telem_save_data // shared
+#define bayang_rfid_addr telem_save_data_p2M // shared
 
 static void BAYANG_init()
 {
@@ -112,10 +112,10 @@ static void BAYANG_init()
   {
   case X16_AH:
   case IRDRONE:
-   num_channel = BAYANG_RF_BIND_CHANNEL_X16_AH;
+   num_channel_p2M = BAYANG_RF_BIND_CHANNEL_X16_AH;
    break;
   default:
-   num_channel = BAYANG_RF_BIND_CHANNEL;
+   num_channel_p2M = BAYANG_RF_BIND_CHANNEL;
    break;
   }
 }
@@ -134,33 +134,33 @@ static void BAYANG_send_packet(uint8_t bind)
   {
    if (bayang_telemetry)
     {
-     packet[0]= 0xA3; // telemetry is enabled
+     packet_p2M[0]= 0xA3; // telemetry is enabled
     }
    else
     {
-     packet[0] = 0xA4;
+     packet_p2M[0] = 0xA4;
     }
    for(i = 0 ; i < 5; i++)
-    packet[i+1] = bayang_rfid_addr[i];
+    packet_p2M[i+1] = bayang_rfid_addr[i];
    for(i = 0; i < 4; i++)
-    packet[i+6] = channel_used[i];
+    packet_p2M[i+6] = channel_used_p2M[i];
    switch (bayang_sub_protocol)
     {
     case X16_AH:
-     packet[10] = 0x00;
-     packet[11] = 0x00;
+     packet_p2M[10] = 0x00;
+     packet_p2M[11] = 0x00;
      break;
     case IRDRONE:
-     packet[10] = 0x30;
-     packet[11] = 0x01;
+     packet_p2M[10] = 0x30;
+     packet_p2M[11] = 0x01;
      break;
     case DHD_D4:
-     packet[10] = 0xC8;
-     packet[11] = 0x99;
+     packet_p2M[10] = 0xC8;
+     packet_p2M[11] = 0x99;
      break;
     default:
-     packet[10] = bayang_rfid_addr[0];	// txid[0]
-     packet[11] = bayang_rfid_addr[1];	// txid[1]
+     packet_p2M[10] = bayang_rfid_addr[0];	// txid[0]
+     packet_p2M[11] = bayang_rfid_addr[1];	// txid[1]
      break;
     }
   }
@@ -172,91 +172,91 @@ static void BAYANG_send_packet(uint8_t bind)
     {
     case X16_AH:
     case IRDRONE:
-     packet[0] = 0xA6;
+     packet_p2M[0] = 0xA6;
      break;
     default:
-     packet[0] = 0xA5;
+     packet_p2M[0] = 0xA5;
      break;
     }
 
-   packet[1] = 0xFA;
-   //Flags packet[2]
-   packet[2] = 0x00;
+   packet_p2M[1] = 0xFA;
+   //Flags packet_p2M[2]
+   packet_p2M[2] = 0x00;
    if(FULL_CHANNEL_OUTPUTS(4)>0)
-    packet[2] = BAYANG_FLAG_FLIP;
+    packet_p2M[2] = BAYANG_FLAG_FLIP;
    if(FULL_CHANNEL_OUTPUTS(5)>0)
-    packet[2] |= BAYANG_FLAG_RTH;
+    packet_p2M[2] |= BAYANG_FLAG_RTH;
    if(FULL_CHANNEL_OUTPUTS(6)>0)
-    packet[2] |= BAYANG_FLAG_PICTURE;
+    packet_p2M[2] |= BAYANG_FLAG_PICTURE;
    if(FULL_CHANNEL_OUTPUTS(7)>0)
-    packet[2] |= BAYANG_FLAG_VIDEO;
+    packet_p2M[2] |= BAYANG_FLAG_VIDEO;
    if(FULL_CHANNEL_OUTPUTS(8)>0)
     {
-     packet[2] |= BAYANG_FLAG_HEADLESS;
+     packet_p2M[2] |= BAYANG_FLAG_HEADLESS;
      dyntrim = 0;
     }
-   //Flags packet[3]
-   packet[3] = 0x00;
+   //Flags packet_p2M[3]
+   packet_p2M[3] = 0x00;
    if(FULL_CHANNEL_OUTPUTS(9)>0)
-    packet[3] = BAYANG_FLAG_INVERTED;
+    packet_p2M[3] = BAYANG_FLAG_INVERTED;
    if(FULL_CHANNEL_OUTPUTS(10)>0)
     dyntrim = 0;
    if(FULL_CHANNEL_OUTPUTS(11)>0)
-    packet[3] |= BAYANG_FLAG_TAKE_OFF;
+    packet_p2M[3] |= BAYANG_FLAG_TAKE_OFF;
    if(FULL_CHANNEL_OUTPUTS(12)>0)
-    packet[3] |= BAYANG_FLAG_EMG_STOP;
+    packet_p2M[3] |= BAYANG_FLAG_EMG_STOP;
    //Aileron
    val = convert_channel_10b(3);
-   packet[4] = (val>>8) + (dyntrim ? ((val>>2) & 0xFC) : 0x7C);
-   packet[5] = val & 0xFF;
+   packet_p2M[4] = (val>>8) + (dyntrim ? ((val>>2) & 0xFC) : 0x7C);
+   packet_p2M[5] = val & 0xFF;
    //Elevator
    val = convert_channel_10b(1);
-   packet[6] = (val>>8) + (dyntrim ? ((val>>2) & 0xFC) : 0x7C);
-   packet[7] = val & 0xFF;
+   packet_p2M[6] = (val>>8) + (dyntrim ? ((val>>2) & 0xFC) : 0x7C);
+   packet_p2M[7] = val & 0xFF;
    //Throttle
    val = convert_channel_10b(2);
-   packet[8] = (val>>8) + 0x7C;
-   packet[9] = val & 0xFF;
+   packet_p2M[8] = (val>>8) + 0x7C;
+   packet_p2M[9] = val & 0xFF;
    //Rudder
    val = convert_channel_10b(0);
-   packet[10] = (val>>8) + (dyntrim ? ((val>>2) & 0xFC) : 0x7C);
-   packet[11] = val & 0xFF;
+   packet_p2M[10] = (val>>8) + (dyntrim ? ((val>>2) & 0xFC) : 0x7C);
+   packet_p2M[11] = val & 0xFF;
   }
  switch (bayang_sub_protocol)
   {
   case H8S3D:
-   packet[12] = bayang_rfid_addr[2];	// txid[2]
-   packet[13] = 0x34;
+   packet_p2M[12] = bayang_rfid_addr[2];	// txid[2]
+   packet_p2M[13] = 0x34;
    break;
   case X16_AH:
-   packet[12] = 0;
-   packet[13] = 0;
+   packet_p2M[12] = 0;
+   packet_p2M[13] = 0;
    break;
   case IRDRONE:
-   packet[12] = 0xE0;
-   packet[13] = 0x2E;
+   packet_p2M[12] = 0xE0;
+   packet_p2M[13] = 0x2E;
    break;
   case DHD_D4:
-   packet[12] = 0x37;	//0x17 during bind
-   packet[13] = 0xED;
+   packet_p2M[12] = 0x37;	//0x17 during bind
+   packet_p2M[13] = 0xED;
    break;
   default:
-   packet[12] = bayang_rfid_addr[2];	// txid[2]
-   packet[13] = 0x0A;
+   packet_p2M[12] = bayang_rfid_addr[2];	// txid[2]
+   packet_p2M[13] = 0x0A;
    break;
   }
- packet[14] = 0;
+ packet_p2M[14] = 0;
  for (uint8_t i = 0; i < BAYANG_PACKET_SIZE-1; i++)
-  packet[14] += packet[i];
+  packet_p2M[14] += packet_p2M[i];
 
- NRF24L01_WriteReg(NRF24L01_05_RF_CH, bind ? num_channel:channel_used[channel_index++]);
- channel_index %= BAYANG_RF_NUM_CHANNELS;
+ NRF24L01_WriteReg(NRF24L01_05_RF_CH, bind ? num_channel_p2M:channel_used_p2M[channel_index_p2M++]);
+ channel_index_p2M %= BAYANG_RF_NUM_CHANNELS;
 
-// clear packet status bits and TX FIFO
+// clear packet_p2M status bits and TX FIFO
  NRF24L01_WriteReg(NRF24L01_07_STATUS, 0x70);
  NRF24L01_FlushTx();
 
- XN297_WritePayload(packet, BAYANG_PACKET_SIZE);
+ XN297_WritePayload(packet_p2M, BAYANG_PACKET_SIZE);
 
  NRF24L01_SetTxRxMode(TXRX_OFF);
  NRF24L01_SetTxRxMode(TX_EN);
@@ -267,7 +267,7 @@ static void BAYANG_send_packet(uint8_t bind)
 
  if (bayang_telemetry)
   {
-   // switch radio to rx as soon as packet is sent
+   // switch radio to rx as soon as packet_p2M is sent
    while (!(NRF24L01_ReadReg(NRF24L01_07_STATUS) & _BV(NRF24L01_07_TX_DS)));
    NRF24L01_WriteReg(NRF24L01_00_CONFIG, 0x03);
   }
@@ -280,23 +280,23 @@ static void BAYANG_check_rx(void)
  if (NRF24L01_ReadReg(NRF24L01_07_STATUS) & _BV(NRF24L01_07_RX_DR))
   {
    // data received from model
-   XN297_ReadPayload(packet, BAYANG_PACKET_SIZE);
+   XN297_ReadPayload(packet_p2M, BAYANG_PACKET_SIZE);
    NRF24L01_WriteReg(NRF24L01_07_STATUS, 255);
 
    NRF24L01_FlushRx();
-   uint8_t check = packet[0];
+   uint8_t check = packet_p2M[0];
    for (uint8_t i = 1; i < BAYANG_PACKET_SIZE-1; i++)
-    check += packet[i];
+    check += packet_p2M[i];
    // decode data , check sum is ok as well, since there is no crc
-   if (packet[0] == 0x85 && packet[14] == check)
+   if (packet_p2M[0] == 0x85 && packet_p2M[14] == check)
     {
 
      frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
-     telemetryData.analog[TELEM_ANA_A1].set((packet[3]<<7) + (packet[4]>>2), g_model.telemetry.channels[TELEM_ANA_A1].type);
-     telemetryData.analog[TELEM_ANA_A2].set((packet[5]<<7) + (packet[6]>>2), g_model.telemetry.channels[TELEM_ANA_A2].type);
-     telemetryData.rssi[0].set(packet[7]);
+     telemetryData.analog[TELEM_ANA_A1].set((packet_p2M[3]<<7) + (packet_p2M[4]>>2), g_model.telemetry.channels[TELEM_ANA_A1].type);
+     telemetryData.analog[TELEM_ANA_A2].set((packet_p2M[5]<<7) + (packet_p2M[6]>>2), g_model.telemetry.channels[TELEM_ANA_A2].type);
+     telemetryData.rssi[0].set(packet_p2M[7]);
 
-     receive_seq++;
+     receive_seq_p2M++;
     }
   }
 }
@@ -304,50 +304,50 @@ static void BAYANG_check_rx(void)
 static void BAYANG_initialize_channels()
 {
  if(bayang_sub_protocol==DHD_D4)
-  channel_used[0]=(temp_rfid_addr[2]&0x07)|0x01;
+  channel_used_p2M[0]=(temp_rfid_addr_p2M[2]&0x07)|0x01;
  else
-  channel_used[0]=0;
- channel_used[1] = (temp_rfid_addr[0]&0x1F)+0x10;
- channel_used[2] = channel_used[1]+0x20;
- channel_used[3] = channel_used[2]+0x20;
- channel_index = 0;
+  channel_used_p2M[0]=0;
+ channel_used_p2M[1] = (temp_rfid_addr_p2M[0]&0x1F)+0x10;
+ channel_used_p2M[2] = channel_used_p2M[1]+0x20;
+ channel_used_p2M[3] = channel_used_p2M[2]+0x20;
+ channel_index_p2M = 0;
 }
 
 static uint16_t BAYANG_callback()
 {
 
  SCHEDULE_MIXER_END_IN_US(BAYANG_PACKET_PERIOD);
- if (!bind_counter) //if(IS_BIND_DONE)
+ if (!bind_counter_p2M) //if(IS_BIND_DONE)
   {
-   if(!packet_count)
+   if(!packet_count_p2M)
     BAYANG_send_packet(0);
-   packet_count++;
+   packet_count_p2M++;
    if (bayang_telemetry)
     {
-     rfState16++;
-     if (rfState16 > 500)
+     rfState16_p2M++;
+     if (rfState16_p2M > 500)
       {
-       telemetryData.rssi[1].set(receive_seq);
-       rfState16 = 0;
-       receive_seq = 0;
+       telemetryData.rssi[1].set(receive_seq_p2M);
+       rfState16_p2M = 0;
+       receive_seq_p2M = 0;
       }
-     if (packet_count > 1)
+     if (packet_count_p2M > 1)
       BAYANG_check_rx();
 
-     packet_count %= 5;
+     packet_count_p2M %= 5;
     }
    else
-    packet_count %= 2;
+    packet_count_p2M %= 2;
   }
  else
   {
-   if(!packet_count)
+   if(!packet_count_p2M)
     BAYANG_send_packet(1);
-   packet_count++;
-   packet_count %= 4;
-   bind_counter--;
+   packet_count_p2M++;
+   packet_count_p2M %= 4;
+   bind_counter_p2M--;
 
-   if (!bind_counter)
+   if (!bind_counter_p2M)
     {
      XN297_SetTXAddr(bayang_rfid_addr, BAYANG_ADDRESS_LENGTH);
      XN297_SetRXAddr(bayang_rfid_addr, BAYANG_ADDRESS_LENGTH);
@@ -361,20 +361,20 @@ static uint16_t BAYANG_callback()
 static void BAYANG_initialize(uint8_t bind)
 {
  loadrfidaddr_rxnum(0);
- bayang_rfid_addr[0] = temp_rfid_addr[0];
- bayang_rfid_addr[1] = temp_rfid_addr[1];
- bayang_rfid_addr[2] = temp_rfid_addr[2];
- bayang_rfid_addr[3] = temp_rfid_addr[3];
- bayang_rfid_addr[4] = temp_rfid_addr[0];
+ bayang_rfid_addr[0] = temp_rfid_addr_p2M[0];
+ bayang_rfid_addr[1] = temp_rfid_addr_p2M[1];
+ bayang_rfid_addr[2] = temp_rfid_addr_p2M[2];
+ bayang_rfid_addr[3] = temp_rfid_addr_p2M[3];
+ bayang_rfid_addr[4] = temp_rfid_addr_p2M[0];
 
- channel_index = 0;
- receive_seq = 0;
+ channel_index_p2M = 0;
+ receive_seq_p2M = 0;
 
  BAYANG_initialize_channels();
  BAYANG_init();
  if (bind || bayang_autobind)
   {
-   bind_counter = BAYANG_BIND_COUNT * 4;
+   bind_counter_p2M = BAYANG_BIND_COUNT * 4;
    if (bayang_autobind)
     {
      PROTOCOL_SetBindState(1000); // 5 Sec

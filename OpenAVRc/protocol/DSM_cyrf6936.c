@@ -64,7 +64,7 @@ enum DSM
 };
 
 //During binding we will send BIND_COUNT/2 packets
-//One packet each 10msec
+//One packet_p2M each 10msec
 #define DSM_BIND_COUNT 300
 
 enum
@@ -87,11 +87,11 @@ enum
 
 ////////////////////////////////////////////////
 //uint8_t sop_col;
-#define sop_col channel_skip
+#define sop_col channel_skip_p2M
 //uint8_t DSM_num_ch=0;
-#define DSM_num_ch channel_offset
+#define DSM_num_ch channel_offset_p2M
 //uint8_t ch_map[14];
-uint8_t * ch_map = &pulses2MHz.pbyte[20]; // Use packet[20 to 34]
+uint8_t * ch_map = &pulses2MHz.pbyte[20]; // Use packet_p2M[20 to 34]
 
 
 const uint8_t PROGMEM zzch_map_progmem[] =
@@ -181,7 +181,7 @@ const uint8_t PROGMEM zzinit_vals[][2] =
   CYRF_1B_TX_OFFSET_LSB, 0x55,			// Default init value
   CYRF_1C_TX_OFFSET_MSB, 0x05,			// Default init value
   CYRF_39_ANALOG_CTRL, 0x01,			// All slow for synth setting time
-  CYRF_01_TX_LENGTH, 0x10,				// 16 bytes packet
+  CYRF_01_TX_LENGTH, 0x10,				// 16 bytes packet_p2M
   CYRF_14_EOP_CTRL, 0x02,				// Set EOP Symbol Count to 2
   CYRF_12_DATA64_THOLD, 0x0a,			// 64 Chip Data PN corelator threshold, default datasheet value is 0x0E
   //Below is for bind only
@@ -240,39 +240,39 @@ static void DSM_build_bind_packet()
 {
   uint8_t i;
   uint16_t sum = 384 - 0x10;//
-  packet[0] = 0xff ^ temp_rfid_addr[0];
-  packet[1] = 0xff ^ temp_rfid_addr[1];
-  packet[2] = 0xff ^ temp_rfid_addr[2];
-  packet[3] = 0xff ^ temp_rfid_addr[3];
-  packet[4] = packet[0];
-  packet[5] = packet[1];
-  packet[6] = packet[2];
-  packet[7] = packet[3];
+  packet_p2M[0] = 0xff ^ temp_rfid_addr_p2M[0];
+  packet_p2M[1] = 0xff ^ temp_rfid_addr_p2M[1];
+  packet_p2M[2] = 0xff ^ temp_rfid_addr_p2M[2];
+  packet_p2M[3] = 0xff ^ temp_rfid_addr_p2M[3];
+  packet_p2M[4] = packet_p2M[0];
+  packet_p2M[5] = packet_p2M[1];
+  packet_p2M[6] = packet_p2M[2];
+  packet_p2M[7] = packet_p2M[3];
   for(i = 0; i < 8; i++)
-    sum += packet[i];
-  packet[8] = sum >> 8;
-  packet[9] = sum & 0xff;
-  packet[10] = 0x01; //???
-  packet[11] = DSM_num_ch;
+    sum += packet_p2M[i];
+  packet_p2M[8] = sum >> 8;
+  packet_p2M[9] = sum & 0xff;
+  packet_p2M[10] = 0x01; //???
+  packet_p2M[11] = DSM_num_ch;
 
   if (g_model.rfSubType==DSM2_22)
-    packet[12]=DSM_num_ch<8?0x01:0x02;	// DSM2/1024 1 or 2 packets depending on the number of channels
+    packet_p2M[12]=DSM_num_ch<8?0x01:0x02;	// DSM2/1024 1 or 2 packets depending on the number of channels
   if(g_model.rfSubType==DSM2_11)
-    packet[12]=0x12;					// DSM2/2048 2 packets
+    packet_p2M[12]=0x12;					// DSM2/2048 2 packets
   if(g_model.rfSubType==DSMX_22)
 #if defined(DSM_TELEMETRY)
-    packet[12] = 0xb2;				// DSMX/2048 2 packets
+    packet_p2M[12] = 0xb2;				// DSMX/2048 2 packets
 #else
-    packet[12] = DSM_num_ch<8? 0xa2 : 0xb2;	// DSMX/2048 1 or 2 packets depending on the number of channels
+    packet_p2M[12] = DSM_num_ch<8? 0xa2 : 0xb2;	// DSMX/2048 1 or 2 packets depending on the number of channels
 #endif
   if(g_model.rfSubType==DSMX_11 || g_model.rfSubType==DSM_AUTO) // Force DSMX/1024 in mode Auto
-    packet[12]=0xb2;					// DSMX/1024 2 packets
+    packet_p2M[12]=0xb2;					// DSMX/1024 2 packets
 
-  packet[13] = 0x00; //???
+  packet_p2M[13] = 0x00; //???
   for(i = 8; i < 14; i++)
-    sum += packet[i];
-  packet[14] = sum >> 8;
-  packet[15] = sum & 0xff;
+    sum += packet_p2M[i];
+  packet_p2M[14] = sum >> 8;
+  packet_p2M[15] = sum & 0xff;
 }
 
 static void DSM_initialize_bind_phase()
@@ -304,7 +304,7 @@ static void DSM_cyrf_configdata()
 
 static void DSM_update_channels()
 {
-  prev_num_channel=g_model.rfOptionValue1;
+  prev_num_channel_p2M=g_model.rfOptionValue1;
   if(g_model.rfSubType==DSM_AUTO)
     DSM_num_ch=12;						// Force 12 channels in mode Auto
   else
@@ -333,18 +333,18 @@ static void DSM_build_data_packet(uint8_t upper)
 #endif
   uint8_t bits = 11;
 
-  if(prev_num_channel!=g_model.rfOptionValue1)
+  if(prev_num_channel_p2M!=g_model.rfOptionValue1)
     DSM_update_channels();
 
   if (g_model.rfSubType==DSMX_11 || g_model.rfSubType==DSMX_22 )
     {
-      packet[0] = temp_rfid_addr[2];
-      packet[1] = temp_rfid_addr[3];
+      packet_p2M[0] = temp_rfid_addr_p2M[2];
+      packet_p2M[1] = temp_rfid_addr_p2M[3];
     }
   else
     {
-      packet[0] = (0xff ^ temp_rfid_addr[2]);
-      packet[1] = (0xff ^ temp_rfid_addr[3]);
+      packet_p2M[0] = (0xff ^ temp_rfid_addr_p2M[2]);
+      packet_p2M[1] = (0xff ^ temp_rfid_addr_p2M[3]);
       if(g_model.rfSubType==DSM2_22)
         bits=10;						// Only DSM_22 is using a resolution of 1024
     }
@@ -364,8 +364,8 @@ static void DSM_build_data_packet(uint8_t upper)
             value>>=1;
           value |= (upper && i==0 ? 0x8000 : 0) | (idx << bits);
         }
-      packet[i*2+2] = (value >> 8) & 0xff;
-      packet[i*2+3] = (value >> 0) & 0xff;
+      packet_p2M[i*2+2] = (value >> 8) & 0xff;
+      packet_p2M[i*2+3] = (value >> 0) & 0xff;
     }
 }
 
@@ -373,13 +373,13 @@ static void DSM_set_sop_data_crc()
 {
   //The crc for channel '1' is NOT(rfid[0] << 8 + rfid[1])
   //The crc for channel '2' is (rfid[0] << 8 + rfid[1])
-  uint16_t crc = (temp_rfid_addr[0] << 8) + temp_rfid_addr[1];
-  if(rfState8==DSM_CH1_CHECK_A||rfState8==DSM_CH1_CHECK_B)
+  uint16_t crc = (temp_rfid_addr_p2M[0] << 8) + temp_rfid_addr_p2M[1];
+  if(rfState8_p2M==DSM_CH1_CHECK_A||rfState8_p2M==DSM_CH1_CHECK_B)
     CYRF_ConfigCRCSeed(crc);	//CH2
   else
     CYRF_ConfigCRCSeed(~crc);	//CH1
 
-  uint8_t pn_row = get_pn_row(channel_used[channel_index]);
+  uint8_t pn_row = get_pn_row(channel_used_p2M[channel_index_p2M]);
   uint8_t code[16];
   read_code(code,pn_row,sop_col,8);					// pn_row between 0 and 4, sop_col between 1 and 7
   CYRF_ConfigSOPCode(code);
@@ -387,12 +387,12 @@ static void DSM_set_sop_data_crc()
   read_code(code+8,pn_row,7 - sop_col + 1,8);			// 7-sop_col+1 between 1 and 7
   CYRF_ConfigDataCode(code, 16);
 
-  CYRF_ConfigRFChannel(channel_used[channel_index]);
-  channel_index++;
+  CYRF_ConfigRFChannel(channel_used_p2M[channel_index_p2M]);
+  channel_index_p2M++;
   if(g_model.rfSubType == DSMX_11 || g_model.rfSubType == DSMX_22)
-    channel_index %=23;
+    channel_index_p2M %=23;
   else
-    channel_index %=2;
+    channel_index_p2M %=2;
 }
 
 static void DSM_calc_dsmx_channel()
@@ -406,15 +406,15 @@ static void DSM_calc_dsmx_channel()
       uint8_t count_3_27 = 0, count_28_51 = 0, count_52_76 = 0;
       id_tmp = id_tmp * 0x0019660D + 0x3C6EF35F;		// Randomization
       uint8_t next_ch = ((id_tmp >> 8) % 0x49) + 3;	// Use least-significant byte and must be larger than 3
-      if ( (next_ch ^ temp_rfid_addr[3]) & 0x01 )
+      if ( (next_ch ^ temp_rfid_addr_p2M[3]) & 0x01 )
         continue;
       for (i = 0; i < idx; i++)
         {
-          if(channel_used[i] == next_ch)
+          if(channel_used_p2M[i] == next_ch)
             break;
-          if(channel_used[i] <= 27)
+          if(channel_used_p2M[i] <= 27)
             count_3_27++;
-          else if (channel_used[i] <= 51)
+          else if (channel_used_p2M[i] <= 51)
             count_28_51++;
           else
             count_52_76++;
@@ -424,24 +424,24 @@ static void DSM_calc_dsmx_channel()
       if ((next_ch < 28 && count_3_27 < 8)
           ||(next_ch >= 28 && next_ch < 52 && count_28_51 < 7)
           ||(next_ch >= 52 && count_52_76 < 8))
-        channel_used[idx++] = next_ch;
+        channel_used_p2M[idx++] = next_ch;
     }
 }
 
 #if defined(DSM_TELEMETRY)
 static uint8_t DSM_Check_RX_packet()
 {
-  uint8_t result=1;						// assume good packet
+  uint8_t result=1;						// assume good packet_p2M
 
   uint16_t sum = 384 - 0x10;
   for(uint8_t i = 1; i < 9; i++)
     {
-      sum += telem_save_data[i];
+      sum += telem_save_data_p2M[i];
       if(i<5)
-        if(telem_save_data[i] != (0xff ^ temp_rfid_addr[i-1]))
-          result=0; 					// bad packet
+        if(telem_save_data_p2M[i] != (0xff ^ temp_rfid_addr_p2M[i-1]))
+          result=0; 					// bad packet_p2M
     }
-  if( telem_save_data[9] != (sum>>8)  && telem_save_data[10] != (uint8_t)sum )
+  if( telem_save_data_p2M[9] != (sum>>8)  && telem_save_data_p2M[10] != (uint8_t)sum )
     result=0;
   return result;
 }
@@ -449,15 +449,15 @@ static uint8_t DSM_Check_RX_packet()
 
 static void DSM_init()
 {
-  // Load temp_rfid_addr + Model match
+  // Load temp_rfid_addr_p2M + Model match
   loadrfidaddr_rxnum(3);
   //Calc sop_col
-  sop_col = (temp_rfid_addr[0] + temp_rfid_addr[1] + temp_rfid_addr[2] + 2) & 0x07;
+  sop_col = (temp_rfid_addr_p2M[0] + temp_rfid_addr_p2M[1] + temp_rfid_addr_p2M[2] + 2) & 0x07;
   //Fix for OrangeRX using wrong pncodes by preventing access to "Col 8"
   if(sop_col==0)
     {
-      temp_rfid_addr[temp_rfid_addr[3]%3]^=0x01;					//Change a bit so sop_col will be different from 0
-      sop_col = (temp_rfid_addr[0] + temp_rfid_addr[1] + temp_rfid_addr[2] + 2) & 0x07;
+      temp_rfid_addr_p2M[temp_rfid_addr_p2M[3]%3]^=0x01;					//Change a bit so sop_col will be different from 0
+      sop_col = (temp_rfid_addr_p2M[0] + temp_rfid_addr_p2M[1] + temp_rfid_addr_p2M[2] + 2) & 0x07;
     }
   //Hopping frequencies
   if (g_model.rfSubType == DSMX_11 || g_model.rfSubType == DSMX_22)
@@ -469,15 +469,15 @@ static void DSM_init()
       //
       srandom(g_eeGeneral.fixed_ID.ID_32 & 0xfefefefe);
       uint8_t idx = random() % 10;
-      channel_used[0] = tmpch[idx];
+      channel_used_p2M[0] = tmpch[idx];
 
       while(1)
         {
           idx = random() % 10;
-          if (tmpch[idx] != channel_used[0])
+          if (tmpch[idx] != channel_used_p2M[0])
             break;
         }
-      channel_used[1] = tmpch[idx];
+      channel_used_p2M[1] = tmpch[idx];
     }
   //
   DSM_cyrf_config();
@@ -493,25 +493,25 @@ static uint16_t DSM_cb()
 
 #define DSM_CH1_CH2_DELAY	4010*2			// Time between write of channel 1 and channel 2
 #define DSM_WRITE_DELAY		1950*2			// Time after write to verify write complete
-#define DSM_READ_DELAY		600*2				// Time before write to check read rfState8, and switch channels. Was 400 but 600 seems what the 328p needs to read a packet
+#define DSM_READ_DELAY		600*2				// Time before write to check read rfState8_p2M, and switch channels. Was 400 but 600 seems what the 328p needs to read a packet_p2M
 #if defined(DSM_TELEMETRY)
   uint8_t rx_phase;
   uint8_t len;
 #endif
   uint8_t waitcpt = 0;
 
-  switch(rfState8)
+  switch(rfState8_p2M)
     {
     case DSM_BIND_WRITE:
       if (g_model.rfOptionBool1)
-        --bind_counter; // Autobind (de)count
-      if(!bind_counter)
+        --bind_counter_p2M; // Autobind (de)count
+      if(!bind_counter_p2M)
 #if defined(DSM_TELEMETRY)
-        rfState8=DSM_BIND_CHECK;						//Check RX answer
+        rfState8_p2M=DSM_BIND_CHECK;						//Check RX answer
 #else
-        rfState8=DSM_CHANSEL;							//Switch to normal mode
+        rfState8_p2M=DSM_CHANSEL;							//Switch to normal mode
 #endif
-      CYRF_WriteDataPacket(packet);
+      CYRF_WriteDataPacket(packet_p2M);
       return 10000U*2;
 #if defined(DSM_TELEMETRY)
     case DSM_BIND_CHECK:
@@ -525,8 +525,8 @@ static uint16_t DSM_cb()
       CYRF_ConfigDataCode(codedata, 16);
       CYRF_SetTxRxMode(RX_EN);						//Receive mode
       CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x87);		//Prepare to receive
-      bind_counter=2*DSM_BIND_COUNT;					//Timeout of 4.2s if no packet received
-      rfState8++;										// change from BIND_CHECK to BIND_READ
+      bind_counter_p2M=2*DSM_BIND_COUNT;					//Timeout of 4.2s if no packet_p2M received
+      rfState8_p2M++;										// change from BIND_CHECK to BIND_READ
       return 2000*2;
     case DSM_BIND_READ:
       //Read data from RX
@@ -541,12 +541,12 @@ static uint16_t DSM_cb()
 #define MAX_PKT 10
           if(len>MAX_PKT-2)
             len=MAX_PKT-2;
-          CYRF_ReadDataPacketLen(telem_save_data+1, len);
+          CYRF_ReadDataPacketLen(telem_save_data_p2M+1, len);
           if(len==10 && DSM_Check_RX_packet())
             {
-              //telem_save_data[0]=0x80;
+              //telem_save_data_p2M[0]=0x80;
               // TODO : use received data
-              rfState8++;
+              rfState8_p2M++;
               return 2000*2;
             }
         }
@@ -558,10 +558,10 @@ static uint16_t DSM_cb()
           CYRF_WriteRegister(CYRF_29_RX_ABORT, 0x00);	// Clear abort RX operation
           CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x83);	// Prepare to receive
         }
-      if(--bind_counter==0)
+      if(--bind_counter_p2M==0)
         {
           // Exit if no answer has been received for some time
-          rfState8++;									// DSM_CHANSEL
+          rfState8_p2M++;									// DSM_CHANSEL
           return 7000*2;
         }
       return 7000*2;
@@ -569,8 +569,8 @@ static uint16_t DSM_cb()
     case DSM_CHANSEL:
       DSM_cyrf_configdata();
       CYRF_SetTxRxMode(TX_EN);
-      channel_index = 0;
-      rfState8 = DSM_CH1_WRITE_A;
+      channel_index_p2M = 0;
+      rfState8_p2M = DSM_CH1_WRITE_A;
       DSM_set_sop_data_crc();
       return 10000*2;
 
@@ -578,10 +578,10 @@ static uint16_t DSM_cb()
     case DSM_CH1_WRITE_B:
     case DSM_CH2_WRITE_A:
     case DSM_CH2_WRITE_B:
-      DSM_build_data_packet(rfState8 == DSM_CH1_WRITE_B||rfState8 == DSM_CH2_WRITE_B);	// build lower or upper channels
+      DSM_build_data_packet(rfState8_p2M == DSM_CH1_WRITE_B||rfState8_p2M == DSM_CH2_WRITE_B);	// build lower or upper channels
       CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS);		// clear IRQ flags
-      CYRF_WriteDataPacket(packet);
-      rfState8++;										// change from WRITE to CHECK mode
+      CYRF_WriteDataPacket(packet_p2M);
+      rfState8_p2M++;										// change from WRITE to CHECK mode
       return DSM_WRITE_DELAY;
 
     case DSM_CH1_CHECK_A:
@@ -595,7 +595,7 @@ static uint16_t DSM_cb()
             break;
         }
 
-      if(rfState8==DSM_CH1_CHECK_A || rfState8==DSM_CH1_CHECK_B)
+      if(rfState8_p2M==DSM_CH1_CHECK_A || rfState8_p2M==DSM_CH1_CHECK_B)
         {
 #if defined(DSM_TELEMETRY)
           // reset cyrf6936 if freezed after switching from TX to RX
@@ -608,16 +608,16 @@ static uint16_t DSM_cb()
             }
 #endif
           DSM_set_sop_data_crc();
-          rfState8++;										// change from CH1_CHECK to CH2_WRITE
+          rfState8_p2M++;										// change from CH1_CHECK to CH2_WRITE
           return DSM_CH1_CH2_DELAY - DSM_WRITE_DELAY;
         }
-      if (rfState8 == DSM_CH2_CHECK_A)
+      if (rfState8_p2M == DSM_CH2_CHECK_A)
         {
           CYRF_WriteRegister(CYRF_03_TX_CFG, 0x28); //Data Code Length = 64 chip codes + Data Mode = 8DR Mode
           CYRF_ManagePower();	//Keep transmit power in sync
         }
 #if defined(DSM_TELEMETRY)
-      rfState8++;										// change from CH2_CHECK to CH2_READ
+      rfState8_p2M++;										// change from CH2_CHECK to CH2_READ
       CYRF_SetTxRxMode(RX_EN);						//Receive mode
       CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x87);		//0x80??? //Prepare to receive
       return 11000*2 - DSM_CH1_CH2_DELAY - DSM_WRITE_DELAY - DSM_READ_DELAY;
@@ -634,23 +634,23 @@ static uint16_t DSM_cb()
           len=CYRF_ReadRegister(CYRF_09_RX_COUNT);
           if(len>MAX_PKT-2)
             len=MAX_PKT-2;
-          CYRF_ReadDataPacketLen(telem_save_data+1, len);
-          telem_save_data[0]=CYRF_ReadRegister(CYRF_13_RSSI)&0x1F;// store RSSI of the received telemetry signal
+          CYRF_ReadDataPacketLen(telem_save_data_p2M+1, len);
+          telem_save_data_p2M[0]=CYRF_ReadRegister(CYRF_13_RSSI)&0x1F;// store RSSI of the received telemetry signal
           // TODO use rssi
         }
       CYRF_WriteRegister(CYRF_29_RX_ABORT, 0x20);		// Abort RX operation
-      if (rfState8 == DSM_CH2_READ_A && (g_model.rfSubType==DSM2_22 || g_model.rfSubType==DSMX_22) && DSM_num_ch < 8)	// 22ms mode
+      if (rfState8_p2M == DSM_CH2_READ_A && (g_model.rfSubType==DSM2_22 || g_model.rfSubType==DSMX_22) && DSM_num_ch < 8)	// 22ms mode
         {
           CYRF_SetTxRxMode(RX_EN);					// Force end state read
           CYRF_WriteRegister(CYRF_29_RX_ABORT, 0x00);	// Clear abort RX operation
           CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x87);	//0x80???	//Prepare to receive
-          rfState8 = DSM_CH2_READ_B;
+          rfState8_p2M = DSM_CH2_READ_B;
           return 11000*2;
         }
-      if (rfState8 == DSM_CH2_READ_A)
-        rfState8 = DSM_CH1_WRITE_B;					//Transmit upper
+      if (rfState8_p2M == DSM_CH2_READ_A)
+        rfState8_p2M = DSM_CH1_WRITE_B;					//Transmit upper
       else
-        rfState8 = DSM_CH1_WRITE_A;					//Transmit lower
+        rfState8_p2M = DSM_CH1_WRITE_A;					//Transmit lower
       CYRF_SetTxRxMode(TX_EN);						//TX mode
       CYRF_WriteRegister(CYRF_29_RX_ABORT, 0x00);		//Clear abort RX operation
       DSM_set_sop_data_crc();
@@ -658,21 +658,21 @@ static uint16_t DSM_cb()
 #else
       // No telemetry
       DSM_set_sop_data_crc();
-      if (rfState8 == DSM_CH2_CHECK_A)
+      if (rfState8_p2M == DSM_CH2_CHECK_A)
         {
           if(DSM_num_ch > 7 || g_model.rfSubType==DSM2_11 || g_model.rfSubType==DSMX_11)
-            rfState8 = DSM_CH1_WRITE_B;				//11ms mode or upper to transmit change from CH2_CHECK_A to CH1_WRITE_A
+            rfState8_p2M = DSM_CH1_WRITE_B;				//11ms mode or upper to transmit change from CH2_CHECK_A to CH1_WRITE_A
           else
             {
               //Normal mode 22ms
-              rfState8 = DSM_CH1_WRITE_A;				// change from CH2_CHECK_A to CH1_WRITE_A (ie no upper)
+              rfState8_p2M = DSM_CH1_WRITE_A;				// change from CH2_CHECK_A to CH1_WRITE_A (ie no upper)
               CALCULATE_LAT_JIT(); // Calculate latency and jitter.
               SCHEDULE_MIXER_END_IN_US((22000U*2 - DSM_CH1_CH2_DELAY - DSM_WRITE_DELAY)/2);
               return 22000U*2 - DSM_CH1_CH2_DELAY - DSM_WRITE_DELAY ;
             }
         }
       else
-        rfState8 = DSM_CH1_WRITE_A;					// change from CH2_CHECK_B to CH1_WRITE_A (upper already transmitted so transmit lower)
+        rfState8_p2M = DSM_CH1_WRITE_A;					// change from CH2_CHECK_B to CH1_WRITE_A (upper already transmitted so transmit lower)
       CALCULATE_LAT_JIT(); // Calculate latency and jitter.
       SCHEDULE_MIXER_END_IN_US((11000*2 - DSM_CH1_CH2_DELAY - DSM_WRITE_DELAY)/2);
       return 11000*2 - DSM_CH1_CH2_DELAY - DSM_WRITE_DELAY;
@@ -690,15 +690,15 @@ static void DSM_initialize(uint8_t bind)
   if(bind || (g_model.rfOptionBool1)) // Bind or autobind
     {
       DSM_initialize_bind_phase();
-      rfState8 = DSM_BIND_WRITE;
-      bind_counter=DSM_BIND_COUNT;
+      rfState8_p2M = DSM_BIND_WRITE;
+      bind_counter_p2M=DSM_BIND_COUNT;
       if (g_model.rfOptionBool1)
         {
           PROTOCOL_SetBindState(400); // 4 Sec
         }
     }
   else
-    rfState8 = DSM_CHANSEL;//
+    rfState8_p2M = DSM_CHANSEL;//
 
   PROTO_Start_Callback(DSM_cb);
 }

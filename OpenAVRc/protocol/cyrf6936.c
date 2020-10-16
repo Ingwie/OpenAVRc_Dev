@@ -299,7 +299,7 @@ void CYRF_SetPower(uint8_t Power)
 
   uint_farptr_t powerdata = pgm_get_far_address(zzCYRF6936_Powers);
   RFPowerOut = pgm_read_word_far(powerdata + (2*Power)); // Gui value
-  rf_power_mem = Power;
+  rf_power_mem_p2M = Power;
 
 	uint8_t val = CYRF_ReadRegister(CYRF_03_TX_CFG) & 0xF8;
 	CYRF_WriteRegister(CYRF_03_TX_CFG, val | (Power & 0x07));
@@ -307,11 +307,11 @@ void CYRF_SetPower(uint8_t Power)
 
 void CYRF_ManagePower()
 {
-  if (systemBolls.rangeModeIsOn) rf_power = TXPOWER_1;
-  else rf_power = g_model.rfOptionValue3;
-  if (rf_power != rf_power_mem)
+  if (systemBolls.rangeModeIsOn) rf_power_p2M = TXPOWER_1;
+  else rf_power_p2M = g_model.rfOptionValue3;
+  if (rf_power_p2M != rf_power_mem_p2M)
   {
-    CYRF_SetPower(rf_power);
+    CYRF_SetPower(rf_power_p2M);
   }
 }
 

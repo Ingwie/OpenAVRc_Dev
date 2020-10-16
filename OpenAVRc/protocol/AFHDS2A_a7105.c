@@ -89,18 +89,18 @@ static void AFHDS2A_calc_channels()
 
       uint8_t next_ch = ((rnd >> (idx%32)) % 0xa8) + 1;
       // Keep the distance 2 between the channels - either odd or even
-      if (((next_ch ^ temp_rfid_addr[0]) & 0x01 )== 0)
+      if (((next_ch ^ temp_rfid_addr_p2M[0]) & 0x01 )== 0)
         continue;
       // Check that it's not duplicate and spread uniformly
       for (i = 0; i < idx; i++)
         {
-          if(channel_used[i] == next_ch)
+          if(channel_used_p2M[i] == next_ch)
             break;
-          if(channel_used[i] <= 42)
+          if(channel_used_p2M[i] <= 42)
             count_1_42++;
-          else if (channel_used[i] <= 85)
+          else if (channel_used_p2M[i] <= 85)
             count_43_85++;
-          else if (channel_used[i] <= 128)
+          else if (channel_used_p2M[i] <= 128)
             count_86_128++;
           else
             count_129_168++;
@@ -111,99 +111,99 @@ static void AFHDS2A_calc_channels()
           ||(next_ch >= 43 && next_ch <= 85 && count_43_85 < 5)
           ||(next_ch >= 86 && next_ch <=128 && count_86_128 < 5)
           ||(next_ch >= 129 && count_129_168 < 5))
-        channel_used[idx++] = next_ch;
+        channel_used_p2M[idx++] = next_ch;
     }
 }
 
 static void AFHDS2A_build_bind_packet()
 {
   uint8_t ch;
-  memcpy( &packet[1], temp_rfid_addr, 4);
-  memset( &packet[5], 0xff, 4);
-  packet[10]= 0x00;
+  memcpy( &packet_p2M[1], temp_rfid_addr_p2M, 4);
+  memset( &packet_p2M[5], 0xff, 4);
+  packet_p2M[10]= 0x00;
   for(ch=0; ch<AFHDS2A_NUMFREQ; ch++)
     {
-      packet[11+ch] = channel_used[ch];
+      packet_p2M[11+ch] = channel_used_p2M[ch];
     }
-  memset( &packet[27], 0xff, 10);
-  packet[37] = 0x00;
-  switch(rfState8)
+  memset( &packet_p2M[27], 0xff, 10);
+  packet_p2M[37] = 0x00;
+  switch(rfState8_p2M)
     {
     case AFHDS2A_BIND1:
-      packet[0] = 0xbb;
-      packet[9] = 0x01;
+      packet_p2M[0] = 0xbb;
+      packet_p2M[9] = 0x01;
       break;
     case AFHDS2A_BIND2:
     case AFHDS2A_BIND3:
     case AFHDS2A_BIND4:
-      packet[0] = 0xbc;
-      if(rfState8 == AFHDS2A_BIND4)
+      packet_p2M[0] = 0xbc;
+      if(rfState8_p2M == AFHDS2A_BIND4)
         {
-          memcpy( &packet[5], &AFHDS2A_RX_ID(0), 4);
-          memset( &packet[11], 0xff, 16);
+          memcpy( &packet_p2M[5], &AFHDS2A_RX_ID(0), 4);
+          memset( &packet_p2M[11], 0xff, 16);
         }
-      packet[9] = rfState8-1;
-      if(packet[9] > 0x02)
-        packet[9] = 0x02;
-      packet[27]= 0x01;
-      packet[28]= 0x80;
+      packet_p2M[9] = rfState8_p2M-1;
+      if(packet_p2M[9] > 0x02)
+        packet_p2M[9] = 0x02;
+      packet_p2M[27]= 0x01;
+      packet_p2M[28]= 0x80;
       break;
     }
 }
 
 static void AFHDS2A_build_packet(uint8_t type)
 {
-  memcpy( &packet[1], temp_rfid_addr, 4);
-  memcpy( &packet[5], &AFHDS2A_RX_ID(0), 4);
+  memcpy( &packet_p2M[1], temp_rfid_addr_p2M, 4);
+  memcpy( &packet_p2M[5], &AFHDS2A_RX_ID(0), 4);
 
   switch(type)
     {
     case AFHDS2A_PACKET_STICKS:
-      packet[0] = 0x58;
+      packet_p2M[0] = 0x58;
       for(uint8_t ch=0; ch<14; ch++)
         {
           int16_t value = (FULL_CHANNEL_OUTPUTS(ch))/2; // +-1280 to +-640
           value += PPM_CENTER; // + 1500 offset
           value = limit((int16_t)-860, value, (int16_t)+2140);
-          packet[9 +  ch*2] = value&0xFF;
-          packet[10 + ch*2] = (value>>8)&0xFF;
+          packet_p2M[9 +  ch*2] = value&0xFF;
+          packet_p2M[10 + ch*2] = (value>>8)&0xFF;
         }
       break;
     case AFHDS2A_PACKET_FAILSAFE:
-      packet[0] = 0x56;
+      packet_p2M[0] = 0x56;
       for(uint8_t ch=0; ch<14; ch++)
         {
           // no values
-          packet[9 + ch*2] = 0xff;
-          packet[10+ ch*2] = 0xff;
+          packet_p2M[9 + ch*2] = 0xff;
+          packet_p2M[10+ ch*2] = 0xff;
         }
       break;
     case AFHDS2A_PACKET_SETTINGS:
-      packet[0] = 0xaa;
-      packet[9] = 0xfd;
-      packet[10]= 0xff;
+      packet_p2M[0] = 0xaa;
+      packet_p2M[9] = 0xfd;
+      packet_p2M[10]= 0xff;
       uint16_t val_hz=5*(g_model.rfOptionValue2 & 0x7f)+50;	// value should be between 0 and 70 which gives a value between 50 and 400Hz
       if(val_hz<50 || val_hz>400)
         val_hz=50;	// default is 50Hz
-      packet[11]= val_hz;
-      packet[12]= val_hz >> 8;
+      packet_p2M[11]= val_hz;
+      packet_p2M[12]= val_hz >> 8;
       if(g_model.rfSubType == PPM_IBUS || g_model.rfSubType == PPM_SBUS)
-        packet[13] = 0x01;	// PPM output enabled
+        packet_p2M[13] = 0x01;	// PPM output enabled
       else
-        packet[13] = 0x00;  // PWM
-      packet[14]= 0x00;
+        packet_p2M[13] = 0x00;  // PWM
+      packet_p2M[14]= 0x00;
       for(uint8_t i=15; i<37; i++)
-        packet[i] = 0xff;
-      packet[18] = 0x05;		// ?
-      packet[19] = 0xdc;		// ?
-      packet[20] = 0x05;		// ?
+        packet_p2M[i] = 0xff;
+      packet_p2M[18] = 0x05;		// ?
+      packet_p2M[19] = 0xdc;		// ?
+      packet_p2M[20] = 0x05;		// ?
       if(g_model.rfSubType == PWM_SBUS || g_model.rfSubType == PPM_SBUS)
-        packet[21] = 0xdd;	// SBUS output enabled
+        packet_p2M[21] = 0xdd;	// SBUS output enabled
       else
-        packet[21] = 0xde;	// IBUS
+        packet_p2M[21] = 0xde;	// IBUS
       break;
     }
-  packet[37] = 0x00;
+  packet_p2M[37] = 0x00;
 }
 
 static uint16_t AFHDS2A_cb()
@@ -214,69 +214,69 @@ static uint16_t AFHDS2A_cb()
 
   A7105_AdjustLOBaseFreq();
   //A7105_SetPower(6);
-  switch(rfState8)
+  switch(rfState8_p2M)
     {
     case AFHDS2A_BIND1:
     case AFHDS2A_BIND2:
     case AFHDS2A_BIND3:
       AFHDS2A_build_bind_packet();
-      A7105_WriteData(AFHDS2A_TXPACKET_SIZE, packet_count%2 ? 0x0d : 0x8c);
+      A7105_WriteData(AFHDS2A_TXPACKET_SIZE, packet_count_p2M%2 ? 0x0d : 0x8c);
       if(!(A7105_ReadReg(A7105_00_MODE) & (1<<5 | 1<<6)))
         {
           // FECF+CRCF Ok
           A7105_ReadData(AFHDS2A_RXPACKET_SIZE);
-          if(packet[0] == 0xbc && packet[9] == 0x01)
+          if(packet_p2M[0] == 0xbc && packet_p2M[9] == 0x01)
             {
               uint8_t i;
               for(i=0; i<4; i++)
                 {
-                  AFHDS2A_RX_ID(i) = packet[5+i];
+                  AFHDS2A_RX_ID(i) = packet_p2M[5+i];
                 }
-              rfState8 = AFHDS2A_BIND4;
-              packet_count++;
+              rfState8_p2M = AFHDS2A_BIND4;
+              packet_count_p2M++;
               return 3850*2;
             }
         }
-      packet_count++;
-      rfState8 |= AFHDS2A_WAIT_WRITE;
+      packet_count_p2M++;
+      rfState8_p2M |= AFHDS2A_WAIT_WRITE;
       return 1700*2;
     case AFHDS2A_BIND1|AFHDS2A_WAIT_WRITE:
     case AFHDS2A_BIND2|AFHDS2A_WAIT_WRITE:
     case AFHDS2A_BIND3|AFHDS2A_WAIT_WRITE:
       //Wait for TX completion
-      receive_seq = 0;
+      receive_seq_p2M = 0;
       while (!(A7105_ReadReg(A7105_00_MODE) & 0x01)) // wait 700 us max
-        if(++receive_seq > AFHDS2A_NUM_WAIT_LOOPS)
+        if(++receive_seq_p2M > AFHDS2A_NUM_WAIT_LOOPS)
           break;
       //A7105_SetPower();
       A7105_SetTxRxMode(TXRX_OFF);					// Turn LNA off since we are in near range and we want to prevent swamping
       A7105_Strobe(A7105_RX);
-      rfState8 &= ~AFHDS2A_WAIT_WRITE;
-      rfState8++;
-      if(rfState8 > AFHDS2A_BIND3)
-        rfState8 = AFHDS2A_BIND1;
+      rfState8_p2M &= ~AFHDS2A_WAIT_WRITE;
+      rfState8_p2M++;
+      if(rfState8_p2M > AFHDS2A_BIND3)
+        rfState8_p2M = AFHDS2A_BIND1;
       return 2150*2;
     case AFHDS2A_BIND4:
       AFHDS2A_build_bind_packet();
-      A7105_WriteData(AFHDS2A_TXPACKET_SIZE, packet_count%2 ? 0x0d : 0x8c);
-      packet_count++;
-      bind_idx++;
-      if(bind_idx>=4)
+      A7105_WriteData(AFHDS2A_TXPACKET_SIZE, packet_count_p2M%2 ? 0x0d : 0x8c);
+      packet_count_p2M++;
+      bind_idx_p2M++;
+      if(bind_idx_p2M>=4)
         {
-          rfState16=0;
-          send_seq = AFHDS2A_PACKET_STICKS;
-          channel_index=1;
-          rfState8 = AFHDS2A_DATA;
+          rfState16_p2M=0;
+          send_seq_p2M = AFHDS2A_PACKET_STICKS;
+          channel_index_p2M=1;
+          rfState8_p2M = AFHDS2A_DATA;
           eeDirty(EE_MODEL); // Save RX ID in eeprom (if it work)
         }
       return 3850*2;
     case AFHDS2A_DATA:
-      if(!(rfState16 % 3))
+      if(!(rfState16_p2M % 3))
         {
           SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations.
         }
 
-      AFHDS2A_build_packet(send_seq);
+      AFHDS2A_build_packet(send_seq_p2M);
       if((A7105_ReadReg(A7105_00_MODE) & 0x01))		// Check if something has been received...
         {
           data_rx=0;
@@ -285,28 +285,28 @@ static uint16_t AFHDS2A_cb()
         {
           data_rx=1;									// Yes
         }
-      A7105_WriteData(AFHDS2A_TXPACKET_SIZE, channel_used[channel_index++]);
-      if(channel_index >= AFHDS2A_NUMFREQ)
+      A7105_WriteData(AFHDS2A_TXPACKET_SIZE, channel_used_p2M[channel_index_p2M++]);
+      if(channel_index_p2M >= AFHDS2A_NUMFREQ)
         {
-          channel_index = 0;
+          channel_index_p2M = 0;
         }
-      if(!(rfState16 % 1313))
+      if(!(rfState16_p2M % 1313))
         {
-          send_seq = AFHDS2A_PACKET_SETTINGS;
+          send_seq_p2M = AFHDS2A_PACKET_SETTINGS;
         }
       else
         {
-          send_seq = AFHDS2A_PACKET_STICKS;		// todo : check for settings changes
+          send_seq_p2M = AFHDS2A_PACKET_STICKS;		// todo : check for settings changes
         }
       if(!(A7105_ReadReg(A7105_00_MODE) & (1<<5 | 1<<6)) && data_rx==1)
         {
           // RX+FECF+CRCF Ok
           A7105_ReadData(AFHDS2A_RXPACKET_SIZE);
-          if(packet[0] == 0xaa)
+          if(packet_p2M[0] == 0xaa)
             {
-              if(packet[9] == 0xfc)
+              if(packet_p2M[9] == 0xfc)
                 {
-                  send_seq = AFHDS2A_PACKET_SETTINGS;	// RX is asking for settings
+                  send_seq_p2M = AFHDS2A_PACKET_SETTINGS;	// RX is asking for settings
                 }
 #if (0) // Todo telemetry
               else
@@ -327,20 +327,20 @@ static uint16_t AFHDS2A_cb()
 #endif
             }
         }
-      ++rfState16;
-      rfState8 |= AFHDS2A_WAIT_WRITE;
+      ++rfState16_p2M;
+      rfState8_p2M |= AFHDS2A_WAIT_WRITE;
       CALCULATE_LAT_JIT(); // Calculate latency and jitter.
       return 1700*2;
     case AFHDS2A_DATA|AFHDS2A_WAIT_WRITE:
       //Wait for TX completion
-      receive_seq = 0;
+      receive_seq_p2M = 0;
       while (!(A7105_ReadReg(A7105_00_MODE) & 0x01)) // wait 700 us max
-        if(++receive_seq > AFHDS2A_NUM_WAIT_LOOPS)
+        if(++receive_seq_p2M > AFHDS2A_NUM_WAIT_LOOPS)
           break;
       A7105_ManagePower();
       A7105_SetTxRxMode(RX_EN);
       A7105_Strobe(A7105_RX);
-      rfState8 &= ~AFHDS2A_WAIT_WRITE;
+      rfState8_p2M &= ~AFHDS2A_WAIT_WRITE;
       CALCULATE_LAT_JIT(); // Calculate latency and jitter.
       return 2150*2;
     }
@@ -353,20 +353,20 @@ static void AFHDS2A_initialize(uint8_t bind)
   A7105_Init();
   loadrfidaddr_rxnum(0);
   AFHDS2A_calc_channels();
-  freq_fine_mem = 0;
-  packet_count = 0;
-  channel_index = 0;
-  bind_idx = 0;
-  send_seq = AFHDS2A_PACKET_STICKS;
-  rfState16 = 0;
+  freq_fine_mem_p2M = 0;
+  packet_count_p2M = 0;
+  channel_index_p2M = 0;
+  bind_idx_p2M = 0;
+  send_seq_p2M = AFHDS2A_PACKET_STICKS;
+  rfState16_p2M = 0;
 
   if(bind)
     {
-      rfState8 = AFHDS2A_BIND1;
+      rfState8_p2M = AFHDS2A_BIND1;
     }
   else
     {
-      rfState8 = AFHDS2A_DATA;
+      rfState8_p2M = AFHDS2A_DATA;
     }
 
   PROTO_Start_Callback(AFHDS2A_cb);
@@ -418,22 +418,22 @@ enum
 static void AFHDS2A_update_telemetry()
 {
   // AA | TXID | rx_id | sensor id | sensor # | value 16 bit big endian | sensor id ......
-  // max 7 sensors per packet
+  // max 7 sensors per packet_p2M
   for(uint8_t sensor=0; sensor<7; sensor++)
     {
       // Send FrSkyD telemetry to TX
       uint8_t index = 9+(4*sensor);
-      switch(packet[index])
+      switch(packet_p2M[index])
         {
         case AFHDS2A_SENSOR_RX_VOLTAGE:
-          //v_lipo1 = packet[index+3]<<8 | packet[index+2];
-          v_lipo1 = packet[index+2];
+          //v_lipo1 = packet_p2M[index+3]<<8 | packet_p2M[index+2];
+          v_lipo1 = packet_p2M[index+2];
           break;
         case AFHDS2A_SENSOR_RX_ERR_RATE:
-          RX_LQI=packet[index+2];
+          RX_LQI=packet_p2M[index+2];
           break;
         case AFHDS2A_SENSOR_RX_RSSI:
-          RX_RSSI = -packet[index+2];
+          RX_RSSI = -packet_p2M[index+2];
           break;
         case 0xff:
           return;

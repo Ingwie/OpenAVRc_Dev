@@ -39,7 +39,7 @@
 #define CORONA_BIND_CHANNEL_V2	0xB8
 #define CORONA_COARSE			      0x00
 #define COR_V1                  1
-#define proto_is_V1             channel_skip
+#define proto_is_V1             channel_skip_p2M
 
 const static RfOptionSettingsvar_t RfOpt_corona_Ser[] PROGMEM =
 {
@@ -70,29 +70,29 @@ static void corona_init()
   // But 0x00 and 0xB8 should be avoided on V2 since they are used for bind.
   // Below code make sure channels are between 0x02 and 0xA0, spaced with a minimum of 2 and not ordered (RX only use the 1st channel unless there is an issue).
 
-  uint8_t order = temp_rfid_addr[3]&0x03;
-  bind_counter = 0;
-  rfState16 = 0;
-  channel_index = 0;
+  uint8_t order = temp_rfid_addr_p2M[3]&0x03;
+  bind_counter_p2M = 0;
+  rfState16_p2M = 0;
+  channel_index_p2M = 0;
 
   for(uint8_t i=0; i<CORONA_RF_NUM_CHANNELS+1; i++)
     {
-      channel_used[i^order]=2+temp_rfid_addr[3-i]%39+(i<<5)+(i<<3);
+      channel_used_p2M[i^order]=2+temp_rfid_addr_p2M[3-i]%39+(i<<5)+(i<<3);
     }
   // ID looks random but on the 15 V1 dumps they all show the same odd/even rule
-  if(temp_rfid_addr[3]&0x01)
+  if(temp_rfid_addr_p2M[3]&0x01)
     {
       // If [3] is odd then [0] is odd and [2] is even
-      temp_rfid_addr[0]|=0x01;
-      temp_rfid_addr[2]&=0xFE;
+      temp_rfid_addr_p2M[0]|=0x01;
+      temp_rfid_addr_p2M[2]&=0xFE;
     }
   else
     {
       // If [3] is even then [0] is even and [2] is odd
-      temp_rfid_addr[0]&=0xFE;
-      temp_rfid_addr[2]|=0x01;
+      temp_rfid_addr_p2M[0]&=0xFE;
+      temp_rfid_addr_p2M[2]|=0x01;
     }
-  temp_rfid_addr[1]=0xFE;			// Always FE in the dumps of V1 and V2
+  temp_rfid_addr_p2M[1]=0xFE;			// Always FE in the dumps of V1 and V2
 
 
   CC2500_Strobe(CC2500_SIDLE);
@@ -107,7 +107,7 @@ static void corona_init()
 
   if(!proto_is_V1)
     {
-      rfState16 = 400; // V2 send channel at startup while rfstate
+      rfState16_p2M = 400; // V2 send channel at startup while rfstate
       CC2500_WriteReg(CC2500_0A_CHANNR, CORONA_BIND_CHANNEL_V2);
       CC2500_WriteReg(CC2500_0E_FREQ1, 0x80);
       CC2500_WriteReg(CC2500_0F_FREQ0, 0x00 + CORONA_COARSE);
@@ -119,7 +119,7 @@ static void corona_init()
     }
   else
     {
-      rfState16 = 0;
+      rfState16_p2M = 0;
     }
 
   CC2500_ManageFreq();
@@ -135,16 +135,16 @@ static uint16_t corona_send_data_packet()
 {
   uint16_t packet_period = 0;
 
-  if(!rfState16) // V1 or V2&identifier sended
+  if(!rfState16_p2M) // V1 or V2&identifier sended
     {
 #if defined(X_ANY)
   Xany_scheduleTx_AllInstance();
 #endif
-      // Build standard packet
-      packet[0] = 0x10;		// 17 bytes to follow
+      // Build standard packet_p2M
+      packet_p2M[0] = 0x10;		// 17 bytes to follow
 
       //Channels
-      memset(packet+9, 0x00, 4);
+      memset(packet_p2M+9, 0x00, 4);
 
       for(uint8_t i=0; i<8; i++)
         {
@@ -154,22 +154,22 @@ static uint16_t corona_send_data_packet()
           value += PPM_CENTER; // + 1500 offset
           value = limit((int16_t)860, value, (int16_t)2140);
 
-          packet[i+1] = value;
-          packet[9 + (i>>1)] |= (i&0x01)?(value>>4)&0xF0:(value>>8)&0x0F;
+          packet_p2M[i+1] = value;
+          packet_p2M[9 + (i>>1)] |= (i&0x01)?(value>>4)&0xF0:(value>>8)&0x0F;
         }
 
       //TX ID
       for(uint8_t i=0; i<CORONA_ADDRESS_LENGTH; i++)
         {
-          packet[i+13] = temp_rfid_addr[i];
+          packet_p2M[i+13] = temp_rfid_addr_p2M[i];
         }
 
-      packet[17] = 0x00;
+      packet_p2M[17] = 0x00;
 
       // Tune frequency if it has been changed
       CC2500_ManageFreq();
       // Packet period is based on hopping
-      switch(channel_index)
+      switch(channel_index_p2M)
         {
         case 0:
           packet_period = 4000;
@@ -183,39 +183,39 @@ static uint16_t corona_send_data_packet()
 
           if(!proto_is_V1)
             {
-              packet[17] = 0x03;
+              packet_p2M[17] = 0x03;
             }
           break;
         }
       // Set channel
-      CC2500_WriteReg(CC2500_0A_CHANNR, channel_used[channel_index]);
-      channel_index++;
-      channel_index%=CORONA_RF_NUM_CHANNELS;
+      CC2500_WriteReg(CC2500_0A_CHANNR, channel_used_p2M[channel_index_p2M]);
+      channel_index_p2M++;
+      channel_index_p2M%=CORONA_RF_NUM_CHANNELS;
       // Update power
       CC2500_ManagePower();
     }
   else
     {
-      // V2 : Send identifier packet for 2.65sec. This is how the RX learns the hopping table after a bind. Why it's not part of the bind like V1 is a mistery...
-      if(--rfState16&1) SCHEDULE_MIXER_END_IN_US(13000); // Dec state & send Schedule next Mixer calculations.
-      packet[0] = 0x07;		// 8 bytes to follow
+      // V2 : Send identifier packet_p2M for 2.65sec. This is how the RX learns the hopping table after a bind. Why it's not part of the bind like V1 is a mistery...
+      if(--rfState16_p2M&1) SCHEDULE_MIXER_END_IN_US(13000); // Dec state & send Schedule next Mixer calculations.
+      packet_p2M[0] = 0x07;		// 8 bytes to follow
       // Send hopping freq
       for(uint8_t i=0; i<CORONA_RF_NUM_CHANNELS; i++)
         {
-          packet[i+1]=channel_used[i];
+          packet_p2M[i+1]=channel_used_p2M[i];
         }
       // Send TX ID
       for(uint8_t i=0; i<CORONA_ADDRESS_LENGTH; i++)
         {
-          packet[i+4]=temp_rfid_addr[i];
+          packet_p2M[i+4]=temp_rfid_addr_p2M[i];
         }
-      packet[8]=0;
+      packet_p2M[8]=0;
       packet_period=6500;
       // Set channel
       CC2500_WriteReg(CC2500_0A_CHANNR, 0x00);
     }
-  // Send packet
-  CC2500_WriteData(packet, packet[0]+2);
+  // Send packet_p2M
+  CC2500_WriteData(packet_p2M, packet_p2M[0]+2);
   return packet_period;
 }
 
@@ -227,21 +227,21 @@ static uint16_t corona_send_bind_packet()
   if(proto_is_V1)
     {
       // V1
-      if(bind_counter++&1)
+      if(bind_counter_p2M++&1)
         {
           SCHEDULE_MIXER_END_IN_US(3500); // Schedule next Mixer calculations.
           // Send TX ID
-          packet[0]=0x04;		// 5 bytes to follow
+          packet_p2M[0]=0x04;		// 5 bytes to follow
           for(uint8_t i=0; i<CORONA_ADDRESS_LENGTH; i++)
-            packet[i+1]=temp_rfid_addr[i];
-          packet[5]=0xCD;		// Unknown but seems to be always the same value for V1
+            packet_p2M[i+1]=temp_rfid_addr_p2M[i];
+          packet_p2M[5]=0xCD;		// Unknown but seems to be always the same value for V1
         }
       else
         {
           // Send hopping freq
-          packet[0]=0x03;		// 4 bytes to follow
+          packet_p2M[0]=0x03;		// 4 bytes to follow
           for(uint8_t i=0; i<CORONA_RF_NUM_CHANNELS+1; i++)
-            packet[i+1]=channel_used[i];
+            packet_p2M[i+1]=channel_used_p2M[i];
           // Not sure what the last byte (+1) is for now since only the first 3 channels are used...
         }
       packet_period=3500;
@@ -250,14 +250,14 @@ static uint16_t corona_send_bind_packet()
     {
       // V2
       SCHEDULE_MIXER_END_IN_US(25000); // Schedule next Mixer calculations.
-      packet[0]=0x04;		// 5 bytes to follow
+      packet_p2M[0]=0x04;		// 5 bytes to follow
       for(uint8_t i=0; i<CORONA_ADDRESS_LENGTH; i++)
-        packet[i+1]=temp_rfid_addr[i];
-      packet[5]=0x00;		// Unknown but seems to be always the same value for V2
+        packet_p2M[i+1]=temp_rfid_addr_p2M[i];
+      packet_p2M[5]=0x00;		// Unknown but seems to be always the same value for V2
       packet_period=25000;
     }
-  // Send packet
-  CC2500_WriteData(packet, packet[0]+2);
+  // Send packet_p2M
+  CC2500_WriteData(packet_p2M, packet_p2M[0]+2);
   return packet_period;
 }
 
@@ -280,7 +280,7 @@ static uint16_t CORONA_cb()
 
 static void CORONA_initialize(uint8_t bind)
 {
-  freq_fine_mem = 0;
+  freq_fine_mem_p2M = 0;
 
   loadrfidaddr_rxnum(3);
   CC2500_Reset();
