@@ -33,9 +33,6 @@
 
 #include "../OpenAVRc.h"
 
-extern volatile uint8_t g_sync_count;
-static volatile uint32_t msecs = 0;
-
 void inline PROTO_Change_Callback(uint16_t (*cb)())
 {
   /*
@@ -77,6 +74,7 @@ void PROTO_Start_Callback( uint16_t (*cb)())
 
 void PROTO_Stop_Callback()
 {
+  memclear(&pulses2MHz, PULSES_BYTE_SIZE); // Clear all shared data
 #if defined(CPUM2560)
   TIMSK1 &= ~(1<<OCIE1A); // Disable Output Compare A interrupt.
   TIFR1 |= 1<<OCF1A; // Reset Flag.
@@ -88,27 +86,6 @@ void PROTO_Stop_Callback()
   timer_callback = NULL;
 }
 
-
-uint32_t CLOCK_getms()
-{
-  uint32_t ms;
-
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    ms = msecs;
-  }
-  return ms;
-}
-
-
-void CLOCK_delayms(uint32_t delay_ms)
-{
-  uint32_t start_ms;
-
-  start_ms = msecs;
-  while(msecs < (start_ms + delay_ms));
-}
-
-
 void PROTOCOL_SetBindState(tmr10ms_t t10ms)
 {
   if(t10ms) {
@@ -116,6 +93,12 @@ void PROTOCOL_SetBindState(tmr10ms_t t10ms)
     Bind_tmr10ms = t10ms;
   }
   else systemBolls.protoMode = NORMAL_MODE;
+}
+
+uint16_t PROTOCOL_GetElapsedTime() // Return time in uS since last RF_TIMER_COMPA_VECT interrupt
+{
+  uint16_t ret = (RF_TIMER > RF_TIMER_COMPA_REG) ? RF_TIMER - RF_TIMER_COMPA_REG : RF_TIMER + (uint16_t)(0xFFF - RF_TIMER_COMPA_REG);
+  return (ret >> 1);
 }
 
 #if defined(SPIMODULES)
