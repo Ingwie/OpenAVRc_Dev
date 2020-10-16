@@ -63,6 +63,7 @@
 #define RF_TC                      TCE0
 #define RF_PORT                    PORTE
 #define RF_TIMER_COMPA_VECT        TCE0_CCA_vect
+#define RF_TIMER                   RF_TC.CNT
 #define RF_TIMER_COMPA_REG         RF_TC.CCA
 #define RF_TIMER_RESUME_INTERRUPT  RF_TC.INTCTRLB |=  (0b11 << TC0_CCAINTLVL_gp); // Level 3 - High Priority.
 #define RF_TIMER_PAUSE_INTERRUPT   RF_TC.INTCTRLB &= ~(0b11 << TC0_CCAINTLVL_gp);
