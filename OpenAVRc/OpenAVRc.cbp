@@ -212,6 +212,9 @@
 		<Unit filename="protocol/cyrf6936.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="protocol/cyrf6936Rich.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="protocol/iface_a7105.h" />
 		<Unit filename="protocol/iface_cc2500.h" />
 		<Unit filename="protocol/iface_cyrf6936.h" />
@@ -242,9 +245,12 @@
 		<Unit filename="stamp.cpp" />
 		<Unit filename="strhelpers.cpp" />
 		<Unit filename="switches.cpp" />
+		<Unit filename="targets/evo_v2/Serial0.cpp" />
 		<Unit filename="targets/evo_v2/eeprom_rlc.cpp" />
+		<Unit filename="targets/evo_v2/evo_lcd_driver.cpp" />
 		<Unit filename="targets/evo_v2/lcd_ssd1309_driver.cpp" />
 		<Unit filename="targets/evo_v2/menu_general_diaganas.cpp" />
+		<Unit filename="targets/evo_v2/voice_jq8400.cpp" />
 		<Unit filename="targets/evo_v2/xmega.cpp" />
 		<Unit filename="targets/evo_v2/xmega_adc_driver.cpp" />
 		<Unit filename="targets/evo_v2/xmega_board.h" />
