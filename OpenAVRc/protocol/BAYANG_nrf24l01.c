@@ -367,9 +367,6 @@ static void BAYANG_initialize(uint8_t bind)
  bayang_rfid_addr[3] = temp_rfid_addr_p2M[3];
  bayang_rfid_addr[4] = temp_rfid_addr_p2M[0];
 
- channel_index_p2M = 0;
- receive_seq_p2M = 0;
-
  NRF24L01_Initialize();
  BAYANG_initialize_channels();
  BAYANG_init();

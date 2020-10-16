@@ -66,8 +66,6 @@ const static uint8_t ZZ_frskyDInitSequence[] PROGMEM =
 
 static void FRSKYD_init(uint8_t bind)
 {
-  packet_count_p2M = 0;
-
   uint_farptr_t pdata = pgm_get_far_address(ZZ_frskyDInitSequence);
 
   for (uint8_t i=0; i<(DIM(ZZ_frskyDInitSequence)/2); i++)   // Send init
@@ -347,10 +345,6 @@ static uint16_t FRSKYD_data_cb()
 
 static void FRSKYD_initialize(uint8_t bind)
 {
-  freq_fine_mem_p2M = 0;
-  receive_seq_p2M = 8;
-  telem_save_seq_p2M = 0;
-
   loadrfidaddr_rxnum(0);
   FRSKY_generate_channels();
   CC2500_Reset(); // 0x30
