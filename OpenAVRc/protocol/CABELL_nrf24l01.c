@@ -51,13 +51,14 @@ const pm_char STR_SUBTYPE_CABELL[] PROGMEM = " PPM""SPPM""SBUS";
 
 
 #define CABELL_BIND_COUNT		2000		// At least 2000 so that if TX toggles the serial bind flag then bind mode is never exited
-#define CABELL_PACKET_PERIOD	3000		// Do not set too low or else next packet_p2M may not be finished transmitting before the channel is changed next time around
+#define CABELL_PACKET_PERIOD	3000	// Do not set too low or else next packet may not be finished transmitting before the channel is changed next time around
 
-#define CABELL_NUM_CHANNELS		16			// The maximum number of RC channels that can be sent in one packet_p2M
-#define CABELL_MIN_CHANNELS		4			// The minimum number of channels that must be included in a packet_p2M, the number of channels cannot be reduced any further than this
-#define CABELL_PAYLOAD_BYTES	24			// 12 bits per value * 16 channels
+#define CABELL_NUM_CHANNELS		16		// The maximum number of RC channels that can be sent in one packet
+#define CABELL_MIN_CHANNELS		4			// The minimum number of channels that must be included in a packet, the number of channels cannot be reduced any further than this
+#define CABELL_PAYLOAD_BYTES	24		// 12 bits per value * 16 channels
+#define CABELL_PACKET_BYTES	  30		// 30 bits max
 
-#define CABELL_RADIO_CHANNELS			9	// This is 1/5 of the total number of radio channels used for FHSS
+#define CABELL_RADIO_CHANNELS			9	    // This is 1/5 of the total number of radio channels used for FHSS
 #define CABELL_RADIO_MIN_CHANNEL_NUM	3	// Channel 0 is right on the boarder of allowed frequency range, so move up to avoid bleeding over
 #define CABELL_TELEMETRY_PACKET_LENGTH	4
 
@@ -69,27 +70,26 @@ const pm_char STR_SUBTYPE_CABELL[] PROGMEM = " PPM""SPPM""SBUS";
 #define cabell_sub_protocol g_model.rfSubType
 #define cabell_ubind        g_model.rfOptionBool2
 #define cabell_telemetry    g_model.rfOptionBool1
-#define cabell_num_ch       (16 - g_model.rfOptionValue1)
-#define cabell_num_ch_raw   g_model.rfOptionValue1
+#define cabell_reduction    (16 - g_model.rfOptionValue1)
 
 enum
 {
- normal                 = 0,
- CabellBbind            = 1, // not used here
- setFailSafe            = 2,
- normalWithTelemetry    = 3,
- telemetryResponse      = 4,
- bindFalesafeNoPulse    = 5,
- unBind                 = 127
+ C_normal                 = 0,
+ C_bind                   = 1,
+ C_setFailSafe            = 2,
+ C_normalWithTelemetry    = 3,
+ C_telemetryResponse      = 4,
+ C_bindFalesafeNoPulse    = 5,
+ C_unBind                 = 127
 } /*RxMode_t*/;
 
+/*
 typedef struct
 {
- uint8_t RxMode;
- uint8_t reserved;  /* Contains the channel number that the packet_p2M was sent on in bits 0-5
-                          */
- uint8_t option;
- /*   mask 0x0F    : Channel reduction.  The number of channels to not send (subtracted from the 16 max channels) at least 4 are always sent
+ uint8_t RxMode; -> packet_p2M[0]
+ uint8_t reserved; -> packet_p2M[1] * Contains the channel number that the packet was sent on in bits 0-5
+ uint8_t option; -> packet_p2M[2]
+ *   mask 0x0F    : Channel reduction.  The number of channels to not send (subtracted from the 16 max channels) at least 4 are always sent
   *   mask 0x30>>4 : Receiver output mode
   *                  0 (00) = Single PPM on individual pins for each channel
   *                  1 (01) = SUM PPM on channel 1 pin
@@ -97,142 +97,139 @@ typedef struct
   *                  3 (11) = Unused
   *   mask 0x40>>6   Contains max power override flag for Multi-protocol TX module. Also sent to RX
   *   mask 0x80>>7   Unused
-  */
- uint8_t modelNum;
- uint8_t checkSum_LSB;
- uint8_t checkSum_MSB;
- uint8_t payloadValue [CABELL_PAYLOAD_BYTES]; //12 bits per channel value, unsigned
-} CABELL_RxTxPacket_t;
+  *
+ uint8_t modelNum; -> packet_p2M[3]
+ uint8_t checkSum_LSB; -> packet_p2M[4]
+ uint8_t checkSum_MSB; -> packet_p2M[5]
+ uint8_t payloadValue[CABELL_PAYLOAD_BYTES] = {0}; -> packet_p2M[6] - packet_p2M[30]//12 bits per channel value, unsigned
+} CABELL_RxTxPacket_t;*/
 
-static void CABELL_getChannelSequence (uint8_t outArray[], uint8_t numChannels, uint64_t permutation)
+static void CABELL_getChannelSequence (uint64_t permutation)
 {
  /* This procedure initializes an array with the sequence progression of channels.
  * This is not the actual channels itself, but the sequence base to be used within bands of
  * channels.
  *
- * There are numChannels! permutations for arranging the channels
+ * There are CABELL_RADIO_CHANNELS! permutations for arranging the channels
  * one of these permutations will be calculated based on the permutation input
- * permutation should be between 1 and numChannels! but the routine will constrain it
+ * permutation should be between 1 and CABELL_RADIO_CHANNELS! but the routine will constrain it
  * if these bounds are exceeded.  Typically the radio's unique TX ID should be used.
  *
- * The maximum numChannels is 20.  Anything larger than this will cause the uint64_t
+ * The maximum CABELL_RADIO_CHANNELS is 20.  Anything larger than this will cause the uint64_t
  * variables to overflow, yielding unknown results (possibly infinite loop?).  Therefor
  * this routine constrains the value.
  */
  uint8_t i;   //iterator counts numChannels
  uint64_t indexOfNextSequenceValue;
- uint64_t numChannelsFactorial=1;
+ uint64_t numChannelsFactorial = 1;
  uint8_t  sequenceValue;
 
- numChannels = limit<uint8_t>(1, numChannels, 20);
-
- for (i = 1; i <= numChannels; i++)
+ for (i = 1; i <= CABELL_RADIO_CHANNELS; i++)
   {
    numChannelsFactorial *= i;      //  Calculate n!
-   outArray[i-1] = i-1;            //  Initialize array with the sequence
+   channel_used_p2M[i-1] = i-1;        //  Initialize array with the sequence
   }
 
  permutation = (permutation % numChannelsFactorial) + 1;    // permutation must be between 1 and n! or this algorithm will infinite loop
 
 //Rearrange the array elements based on the permutation selected
- for (i=0, permutation--; i<numChannels; i++ )
+ for (i = 0, permutation--; i < CABELL_RADIO_CHANNELS; i++ )
   {
-   numChannelsFactorial /= ((uint64_t)numChannels)-i;
-   indexOfNextSequenceValue = i+(permutation/numChannelsFactorial);
+   numChannelsFactorial /= ((uint64_t)CABELL_RADIO_CHANNELS)-i;
+   indexOfNextSequenceValue = i + (permutation/numChannelsFactorial);
    permutation %= numChannelsFactorial;
 
    //Copy the value in the selected array position
-   sequenceValue = outArray[indexOfNextSequenceValue];
+   sequenceValue = channel_used_p2M[indexOfNextSequenceValue];
 
    //Shift the unused elements in the array to make room to move in the one just selected
    for( ; indexOfNextSequenceValue > i; indexOfNextSequenceValue--)
-    outArray[indexOfNextSequenceValue] = outArray[indexOfNextSequenceValue-1];
+    channel_used_p2M[indexOfNextSequenceValue] = channel_used_p2M[indexOfNextSequenceValue-1];
 
    // Copy the selected value into it's new array slot
-   outArray[i] = sequenceValue;
+   channel_used_p2M[i] = sequenceValue;
   }
 }
 
-static void CABELL_setAddress(uint8_t bind)
+static uint8_t CABELL_getNextChannel(uint8_t prevChannel)
+{
+ /* Possible channels are in 5 bands, each band comprised of CABELL_RADIO_CHANNELS channels
+ * channel_used_p2M contains CABELL_RADIO_CHANNELS elements in the relative order in which we should progress through the band
+ *
+ * Each time the channel is changes, bands change in a way so that the next channel will be in a
+ * different non-adjacent band. Both the band changes and the index in channel_used_p2M is incremented.
+ */
+ prevChannel -= CABELL_RADIO_MIN_CHANNEL_NUM;				// Subtract CABELL_RADIO_MIN_CHANNEL_NUM because it was added to the return value
+ if (prevChannel > (CABELL_RADIO_CHANNELS * 5))
+  prevChannel = CABELL_RADIO_CHANNELS * 5;							// Constrain the values just in case something bogus was sent in.
+
+ uint8_t currBand = prevChannel / CABELL_RADIO_CHANNELS;
+ uint8_t nextBand = (currBand + 3) % 5;
+
+ uint8_t prevChannalSeqArrayValue = prevChannel % CABELL_RADIO_CHANNELS;
+ uint8_t prevChannalSeqArrayPosition = 0;
+
+ for (uint8_t x = 0; x < CABELL_RADIO_CHANNELS; x++)
+  {
+   // Find the position of the previous channel in the array
+   if (channel_used_p2M[x] == prevChannalSeqArrayValue)
+    prevChannalSeqArrayPosition = x;
+  }
+ uint8_t nextChannalSeqArrayPosition = prevChannalSeqArrayPosition + 1;
+ if (nextChannalSeqArrayPosition >= CABELL_RADIO_CHANNELS)
+  nextChannalSeqArrayPosition = 0;
+
+ return (CABELL_RADIO_CHANNELS * nextBand) + channel_used_p2M[nextChannalSeqArrayPosition] + CABELL_RADIO_MIN_CHANNEL_NUM;	// Add CABELL_RADIO_MIN_CHANNEL_NUM so we dont use channel 0 as it may bleed below 2.400 GHz
+}
+
+static void CABELL_setAddress()
 {
  uint64_t CABELL_addr;
 
- if (!bind)
+ if (!bind_idx_p2M)
   {
    CABELL_addr =
-    (((uint64_t)temp_rfid_addr_p2M[0]) << 32) +
-    (((uint64_t)temp_rfid_addr_p2M[1]) << 24) +
-    (((uint64_t)temp_rfid_addr_p2M[2]) << 16) +
-    (((uint64_t)temp_rfid_addr_p2M[3]) << 8) +
-    (((uint64_t)temp_rfid_addr_p2M[0]));					// Address to use after binding
+    (((uint64_t)g_eeGeneral.fixed_ID.ID_8[0] << 32) |
+     ((uint64_t)g_eeGeneral.fixed_ID.ID_8[1] << 24) |
+     ((uint64_t)g_eeGeneral.fixed_ID.ID_8[2] << 16) |
+     ((uint64_t)g_eeGeneral.fixed_ID.ID_8[3] << 8) |
+     (uint64_t)g_eeGeneral.fixed_ID.ID_8[0]);					// Address to use after binding
   }
  else
   CABELL_addr = CABELL_BIND_RADIO_ADDR;				// Static addr for binding
 
- CABELL_getChannelSequence(channel_used_p2M,CABELL_RADIO_CHANNELS,CABELL_addr);		// Get the sequence for hopping through channels
+ CABELL_getChannelSequence(CABELL_addr);		// Get the sequence for hopping through channels
  channel_index_p2M = CABELL_RADIO_MIN_CHANNEL_NUM;				// Initialize the channel sequence
-
- packet_count_p2M = 0;
 
  uint64_t CABELL_Telemetry_addr = ~CABELL_addr;			// Invert bits for reading so that telemetry packets have a different address.
 
- NRF24L01_WriteRegisterMulti(NRF24L01_0A_RX_ADDR_P0, reinterpret_cast<uint8_t*>(&CABELL_Telemetry_addr), 5);
- NRF24L01_WriteRegisterMulti(NRF24L01_0B_RX_ADDR_P1, reinterpret_cast<uint8_t*>(&CABELL_Telemetry_addr), 5);
- NRF24L01_WriteRegisterMulti(NRF24L01_10_TX_ADDR,    reinterpret_cast<uint8_t*>(&CABELL_addr), 5);
+ NRF24L01_WriteRegisterMulti(NRF24L01_0A_RX_ADDR_P0, (uint8_t*)(&CABELL_Telemetry_addr), 5);
+ NRF24L01_WriteRegisterMulti(NRF24L01_0B_RX_ADDR_P1, (uint8_t*)(&CABELL_Telemetry_addr), 5);
+ NRF24L01_WriteRegisterMulti(NRF24L01_10_TX_ADDR,    (uint8_t*)(&CABELL_addr), 5);
 }
 
-static void CABELL_init(uint8_t bind)
+static void CABELL_init()
 {
+ NRF24L01_Initialize();
  NRF24L01_ManagePower();
- NRF24L01_SetBitrate(NRF24L01_BR_250K);				// slower data rate gives better range/reliability
- NRF24L01_WriteReg(NRF24L01_01_EN_AA, 0x00);			// No Auto Acknowledgment on all data pipes
- NRF24L01_SetTxRxMode(TX_EN);						//Power up and 16 bit CRC
+ NRF24L01_SetBitrate(NRF24L01_BR_250K);			    	// slower data rate gives better range/reliability
+ NRF24L01_WriteReg(NRF24L01_01_EN_AA, 0x00);  	  // No Auto Acknowledgment on all data pipes
+ NRF24L01_SetTxRxMode(TX_EN);					          	//Power up and 16 bit CRC
 
- CABELL_setAddress(bind);
+ CABELL_setAddress();
 
- NRF24L01_WriteReg(NRF24L01_07_STATUS, 0x70);
+ NRF24L01_WriteReg(NRF24L01_07_STATUS, 0x70);     // Reset status
  NRF24L01_FlushTx();
  NRF24L01_FlushRx();
- NRF24L01_WriteReg(NRF24L01_02_EN_RXADDR, 0x01);
- NRF24L01_WriteReg(NRF24L01_11_RX_PW_P0, 0x20);		// 32 byte packet_p2M length
- NRF24L01_WriteReg(NRF24L01_12_RX_PW_P1, 0x20);		// 32 byte packet_p2M length
- NRF24L01_WriteReg(NRF24L01_03_SETUP_AW, 0x03);
+ NRF24L01_WriteReg(NRF24L01_02_EN_RXADDR, 0x01);  // Enable only data Pipe 0
+ NRF24L01_WriteReg(NRF24L01_11_RX_PW_P0, 0x20);		// 32 byte packet length
+ NRF24L01_WriteReg(NRF24L01_12_RX_PW_P1, 0x20);		// 32 byte packet length
+ NRF24L01_WriteReg(NRF24L01_03_SETUP_AW, 0x03);   // 5 bytes adress
  NRF24L01_WriteReg(NRF24L01_04_SETUP_RETR, 0x5F);	// no retransmits
- NRF24L01_Activate(0x73);							// Activate feature register
+ NRF24L01_Activate(0x73);					            		// Activate feature register
  NRF24L01_WriteReg(NRF24L01_1C_DYNPD, 0x3F);			// Enable dynamic payload length on all pipes
  NRF24L01_WriteReg(NRF24L01_1D_FEATURE, 0x04);		// Enable dynamic Payload Length
  NRF24L01_Activate(0x73);
-}
-
-
-static uint16_t CABELL_getNextChannel (uint8_t seqArray[], uint8_t seqArraySize, uint8_t prevChannel)
-{
- /* Possible channels are in 5 bands, each band comprised of seqArraySize channels
- * seqArray contains seqArraySize elements in the relative order in which we should progress through the band
- *
- * Each time the channel is changes, bands change in a way so that the next channel will be in a
- * different non-adjacent band. Both the band changes and the index in seqArray is incremented.
- */
- prevChannel -= CABELL_RADIO_MIN_CHANNEL_NUM;				// Subtract CABELL_RADIO_MIN_CHANNEL_NUM because it was added to the return value
- if(prevChannel>(seqArraySize * 5))
-  prevChannel=seqArraySize * 5;							// Constrain the values just in case something bogus was sent in.
-
- uint8_t currBand = prevChannel / seqArraySize;
- uint8_t nextBand = (currBand + 3) % 5;
-
- uint8_t prevChannalSeqArrayValue = prevChannel % seqArraySize;
- uint8_t prevChannalSeqArrayPosition = 0;
- for (int x = 0; x < seqArraySize; x++)
-  {
-   // Find the position of the previous channel in the array
-   if (seqArray[x] == prevChannalSeqArrayValue)
-    prevChannalSeqArrayPosition = x;
-  }
- uint8_t nextChannalSeqArrayPosition = prevChannalSeqArrayPosition + 1;
- if (nextChannalSeqArrayPosition >= seqArraySize)
-  nextChannalSeqArrayPosition = 0;
-
- return (seqArraySize * nextBand) + seqArray[nextChannalSeqArrayPosition] + CABELL_RADIO_MIN_CHANNEL_NUM;	// Add CABELL_RADIO_MIN_CHANNEL_NUM so we dont use channel 0 as it may bleed below 2.400 GHz
 }
 
 static void CABELL_get_telemetry()
@@ -245,23 +242,24 @@ static void CABELL_get_telemetry()
    rfState16_p2M = 0;
   }
 
-// Process incoming telemetry packet_p2M of it was received
- if (NRF24L01_ReadReg(NRF24L01_07_STATUS) & _BV(NRF24L01_07_RX_DR))
+// Process incoming telemetry packet of it was received
+ if (NRF24L01_ReadReg(NRF24L01_07_STATUS) & _BV(NRF24L01_07_RX_DR)) // todo try NRF24L01_NOP
   {
    // data received from model
-   NRF24L01_ReadPayload(packet_p2M, CABELL_TELEMETRY_PACKET_LENGTH);
-   if ((packet_p2M[0] & 0x7F) == telemetryResponse)	// ignore high order bit in compare because it toggles with each packet_p2M
+   NRF24L01_ReadPayload(telem_save_data_p2M, CABELL_TELEMETRY_PACKET_LENGTH);
+
+   if ((telem_save_data_p2M[0] & 0x7F) == C_telemetryResponse)	// ignore high order bit in compare because it toggles with each packet
     {
      frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
-     telemetryData.rssi[0].set(packet_p2M[1]);	// Packet rate 0 to 255 where 255 is 100% packet_p2M rate
-     telemetryData.analog[TELEM_ANA_A1].set(packet_p2M[2], g_model.telemetry.channels[TELEM_ANA_A1].type);	// Directly from analog input of receiver, but reduced to 8-bit depth (0 to 255).  Scaling depends on the input to the analog pin of the receiver.
-     telemetryData.analog[TELEM_ANA_A2].set(packet_p2M[3], g_model.telemetry.channels[TELEM_ANA_A2].type);	// Directly from analog input of receiver, but reduced to 8-bit depth (0 to 255).  Scaling depends on the input to the analog pin of the receiver.
+     telemetryData.rssi[0].set(telem_save_data_p2M[1]);	// Packet rate 0 to 255 where 255 is 100% packet rate
+     telemetryData.analog[TELEM_ANA_A1].set(telem_save_data_p2M[2], g_model.telemetry.channels[TELEM_ANA_A1].type);	// Directly from analog input of receiver, but reduced to 8-bit depth (0 to 255).  Scaling depends on the input to the analog pin of the receiver.
+     telemetryData.analog[TELEM_ANA_A2].set(telem_save_data_p2M[3], g_model.telemetry.channels[TELEM_ANA_A2].type);	// Directly from analog input of receiver, but reduced to 8-bit depth (0 to 255).  Scaling depends on the input to the analog pin of the receiver.
      receive_seq_p2M++;
     }
   }
  else
   {
-   // If no telemetry packet_p2M was received then delay by the typical telemetry packet_p2M processing time
+   // If no telemetry packet was received then delay by the typical telemetry packet processing time
    // This is done to try to keep the sendPacket process timing more consistent. Since the SPI payload read takes some time
    _delay_us(50);
   }
@@ -269,86 +267,82 @@ static void CABELL_get_telemetry()
  NRF24L01_FlushRx();
 }
 
-static uint16_t CABELL_send_packet(uint8_t bindMode)
+static void CABELL_send_packet()
 {
- uint8_t option = cabell_num_ch_raw | (16 * cabell_sub_protocol);
- if (!bindMode && cabell_telemetry)		// check for incoming packet_p2M and switch radio back to TX mode if we were listening for telemetry
-  CABELL_get_telemetry();
-
- CABELL_RxTxPacket_t TxPacket;
-
- uint8_t channelReduction = cabell_num_ch;
- if (bindMode)
-  channelReduction = 0;	// Send full packet_p2M to bind as higher channels will contain bind info
-
- packetSize_p2M = sizeof(TxPacket) - ((((channelReduction - (channelReduction%2))/ 2)) * 3);		// reduce 3 bytes per 2 channels, but not last channel if it is odd
- uint8_t maxPayloadValueIndex = sizeof(TxPacket.payloadValue) - (sizeof(TxPacket) - packetSize_p2M);
- if (cabell_ubind && !bindMode)
+ if ((!bind_idx_p2M) && cabell_telemetry) // check for incoming packet and switch radio back to TX mode if we were listening for telemetry
   {
-   TxPacket.RxMode = unBind;
-   TxPacket.option = option;
+   CABELL_get_telemetry();
+  }
+
+ uint8_t channelReduction = cabell_reduction;
+
+ if (bind_idx_p2M)
+  channelReduction = 0;	// Send full packet to bind as higher channels will contain bind info
+
+ packet_p2M[2] = channelReduction | ((0x03 & cabell_sub_protocol) << 4);
+
+ packetSize_p2M = CABELL_PACKET_BYTES - ((((channelReduction - (channelReduction % 2))/ 2)) * 3); // reduce 3 bytes per 2 channels, but not last channel if it is odd
+ uint8_t maxPayloadValueIndex = CABELL_PAYLOAD_BYTES - (CABELL_PACKET_BYTES - packetSize_p2M);
+
+ if (cabell_ubind && (!bind_idx_p2M))
+  {
+   packet_p2M[0] = C_unBind;
   }
  else
   {
-   /*if (sub_protocol == CABELL_SET_FAIL_SAFE && !bindMode)
-   	TxPacket.RxMode = CABELL_RxTxPacket_t::setFailSafe;
+   /*if (sub_protocol == CABELL_SET_FAIL_SAFE && !bind_idx_p2M)
+   	packet_p2M[0] = C_setFailSafe;
    else*/
    {
-    if (bindMode)
-     {
-      TxPacket.RxMode = bindFalesafeNoPulse; // use always this mode in OpenAVRc
-     }
+    if (bind_idx_p2M)
+     packet_p2M[0] = C_bind;
     else
      {
       if (cabell_telemetry)
-       TxPacket.RxMode = normalWithTelemetry;
+       packet_p2M[0] = C_normalWithTelemetry;
       else
-       TxPacket.RxMode = normal;
+       packet_p2M[0] = C_normal;
      }
    }
-   //remove channel reduction if in bind mode
-   TxPacket.option = (bindMode) ? (option & (~CABELL_OPTION_MASK_CHANNEL_REDUCTION)) : option;
   }
 
- TxPacket.reserved = 0;
-
 // Set channel for next transmission
- channel_index_p2M = CABELL_getNextChannel (channel_used_p2M,CABELL_RADIO_CHANNELS, channel_index_p2M);
- TxPacket.reserved |= channel_index_p2M & CABELL_RESERVED_MASK_CHANNEL;
+ channel_index_p2M = CABELL_getNextChannel(channel_index_p2M);
+ packet_p2M[1] = channel_index_p2M & CABELL_RESERVED_MASK_CHANNEL;
 
- TxPacket.modelNum = RXNUM;
+ packet_p2M[3] = RXNUM;
 
- uint16_t checkSum = TxPacket.modelNum + TxPacket.option + TxPacket.RxMode  + TxPacket.reserved;		// Start Calculate checksum
+ uint8_t payloadIndex = 0;
+ int16_t holdValue;
 
- int16_t payloadIndex = 0;
- uint16_t holdValue;
+ memclear(&packet_p2M[6], maxPayloadValueIndex);  // Reset values
 
- for (int x = 0; (x < CABELL_NUM_CHANNELS - channelReduction); x++)
+ for (uint8_t x = 0; x < (CABELL_NUM_CHANNELS - channelReduction); x++)
   {
    // valid channel values are 1000 to 2000
-   holdValue = (FULL_CHANNEL_OUTPUTS(x))/2; // +-1024 to +-612
+   holdValue = (FULL_CHANNEL_OUTPUTS(x))/2; // +-1024 to +-512
    holdValue += PPM_CENTER; // + 1500 offset
-   limit<int16_t>(1000, holdValue, 2000);
+   holdValue = limit<int16_t>(1000, holdValue, 2000);
 
-   if (bindMode)
+   if (bind_idx_p2M)
     {
      switch (x)
       {
       //tx address sent for bind
       case 11			:
-       holdValue = 1000 + temp_rfid_addr_p2M[0];
+       holdValue = 1000 + g_eeGeneral.fixed_ID.ID_8[0];
        break;
       case 12			:
-       holdValue = 1000 + temp_rfid_addr_p2M[1];
+       holdValue = 1000 + g_eeGeneral.fixed_ID.ID_8[1];
        break;
       case 13			:
-       holdValue = 1000 + temp_rfid_addr_p2M[2];
+       holdValue = 1000 + g_eeGeneral.fixed_ID.ID_8[2];
        break;
       case 14			:
-       holdValue = 1000 + temp_rfid_addr_p2M[3];
+       holdValue = 1000 + g_eeGeneral.fixed_ID.ID_8[3];
        break;
       case 15			:
-       holdValue = 1000 + temp_rfid_addr_p2M[0];
+       holdValue = 1000 + g_eeGeneral.fixed_ID.ID_8[0];
        break;
       }
     }
@@ -357,95 +351,98 @@ static uint16_t CABELL_send_packet(uint8_t bindMode)
    if (x % 2)
     {
      //output channel number is ODD
-     holdValue = holdValue<<4;
+     holdValue <<= 4;
      payloadIndex--;
     }
    else
     holdValue &= 0x0FFF;
-   TxPacket.payloadValue[payloadIndex] |=  (uint8_t)(holdValue & 0x00FF);
+
+   packet_p2M[6 + payloadIndex] |= holdValue & 0xFF;
    payloadIndex++;
-   TxPacket.payloadValue[payloadIndex] |=  (uint8_t)((holdValue>>8) & 0x00FF);
+   packet_p2M[6 + payloadIndex] |= holdValue >> 8;
    payloadIndex++;
   }
 
- for(int x = 0; x < maxPayloadValueIndex ; x++)
-  checkSum += TxPacket.payloadValue[x];  // Finish Calculate checksum
+ uint16_t checkSum = packet_p2M[0] + packet_p2M[1] + packet_p2M[2] + packet_p2M[3]; // Start Calculate checksum
 
- TxPacket.checkSum_MSB = checkSum >> 8;
- TxPacket.checkSum_LSB = checkSum & 0x00FF;
+ for(uint8_t x = 0; x < maxPayloadValueIndex ; x++)
+  checkSum += packet_p2M[6 + x];  // Finish Calculate checksum
 
- NRF24L01_WriteReg(NRF24L01_05_RF_CH,channel_index_p2M);
+ packet_p2M[4] = checkSum & 0xFF;
+ packet_p2M[5] = checkSum >> 8;
 
- uint8_t* p = reinterpret_cast<uint8_t*>(&TxPacket.RxMode);
- *p &= 0x7F;                  // Make sure 8th bit is clear
- *p |= (packet_count_p2M++)<<7;   // This causes the 8th bit of the first byte to toggle with each xmit so consecutive payloads are not identical.
-// This is a work around for a reported bug in clone NRF24L01 chips that mis-took this case for a re-transmit of the same packet_p2M.
+ packet_p2M[0] ^= 0x80;   // This causes the 8th bit of the first byte to toggle with each xmit so consecutive payloads are not identical.
+// This is a work around for a reported bug in clone NRF24L01 chips that mis-took this case for a re-transmit of the same packet.
 
+ NRF24L01_WriteReg(NRF24L01_05_RF_CH, channel_index_p2M); // send channel
  NRF24L01_ManagePower();
- NRF24L01_WritePayload((uint8_t*)&TxPacket, packetSize_p2M);
- uint16_t packet_period;
- if (!bindMode && cabell_telemetry)
-  {
-   // switch radio to rx as soon as packet_p2M is sent
-   // calculate transmit time based on packet_p2M size and data rate of 1MB per sec
-   // This is done because polling the status register during xmit caused issues.
-   // bits = packst_size * 8  +  73 bits overhead
-   // at 250 Kbs per sec, one bit is 4 uS
-   // then add 140 uS which is 130 uS to begin the xmit and 10 uS fudge factor
-   uint16_t delay = (((((uint16_t)packetSize_p2M * 8)  +  73) * 4) + 140);
-   do
-    {
-     _delay_us(1);
-    }
-   while (--delay);
-   // increase packet_p2M period by 100 us for each channel over 6
-   packet_period = CABELL_PACKET_PERIOD + (100 * limit<int16_t>(0,(CABELL_NUM_CHANNELS - channelReduction - 6 ), 10));
-
-   NRF24L01_WriteReg(NRF24L01_00_CONFIG, 0x0F);  // RX mode with 16 bit CRC
-  }
- else
-  packet_period = CABELL_PACKET_PERIOD;   // Standard packet_p2M period when not in telemetry mode.
- return packet_period;
+ NRF24L01_WritePayload(packet_p2M, packetSize_p2M);      // and payload
 }
 
-static uint16_t CABELL_bind_cb()
+static uint16_t CABELL_manage_time()
 {
- SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
- CABELL_send_packet(1);
- heartbeat |= HEART_TIMER_PULSES;
- CALCULATE_LAT_JIT(); // Calculate latency and jitter.
- return CABELL_PACKET_PERIOD *2;
+ uint16_t packet_period;
+
+ if (!bind_idx_p2M && cabell_telemetry)
+  {
+     // switch radio to rx as soon as packet is sent
+     // calculate transmit time based on packet size and data rate of 250 Kbs per sec
+     // This is done because polling the status register during xmit caused issues.
+     // then add 140 uS which is 130 uS to begin the xmit and 10 uS fudge factor
+     // then add 460 uS -> Time to compute CABELL_send_packet()
+   uint16_t rxDelay = (/* Time air */(4 * 8 *(1 + 5 + packetSize_p2M + 2)) + 9) + 140 + 25;
+
+   if (!telem_save_seq_p2M)
+    {
+     bind_counter_p2M = PROTOCOL_GetElapsedTime(); // use bind_counter_p2M as memory only here
+     packet_period = rxDelay + bind_counter_p2M;
+     telem_save_seq_p2M = 1; // indicate to switch to RX mode next time
+    }
+   else
+    {
+     // increase packet period by 100 us for each channel over 6
+     packet_period = limit<int16_t>(0, (g_model.rfOptionValue1 - 6), 10);
+     packet_period *= 100;
+     packet_period += CABELL_PACKET_PERIOD;
+     packet_period -= rxDelay + bind_counter_p2M; // remove RX time
+     telem_save_seq_p2M = 0; // reset switch to RX
+    }
+  }
+ else
+  packet_period = CABELL_PACKET_PERIOD;   // Standard packet period when not in telemetry mode.
+
+ return packet_period;
 }
 
 static uint16_t CABELL_cb()
 {
- if (++rfState8_p2M >= 4)
+ if (cabell_telemetry && telem_save_seq_p2M) // we need to switch to RX mode to read telemetry
   {
-   rfState8_p2M = 0;
-   SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations.
+   NRF24L01_WriteReg(NRF24L01_00_CONFIG, 0x7F);  // RX mode with 16 bit CRC no IRQ
   }
- uint16_t protocol_period = CABELL_send_packet(0);
+ else
+  {
+   if (++rfState8_p2M >= 4)
+    {
+     rfState8_p2M = 0;
+     SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations.
+    }
+   CABELL_send_packet();
+  }
+ uint16_t protocol_period = CABELL_manage_time();
  heartbeat |= HEART_TIMER_PULSES;
  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
- return protocol_period *2; // From 3mS to 4mS
+ return protocol_period * 2; // From 3mS to 4mS
 }
 
 static void CABELL_initialize(uint8_t bind)
 {
- loadrfidaddr();
- channel_index_p2M = 0;
- receive_seq_p2M = 0;
- rfState8_p2M = 0;
- CABELL_init(bind);
-
  if (bind)
   {
-   PROTO_Start_Callback( CABELL_bind_cb);
+   bind_idx_p2M = 1;
   }
- else
-  {
-   PROTO_Start_Callback( CABELL_cb);
-  }
+ CABELL_init();
+ PROTO_Start_Callback(CABELL_cb);
 }
 
 const void *CABELL_Cmds(enum ProtoCmds cmd)
@@ -457,6 +454,7 @@ const void *CABELL_Cmds(enum ProtoCmds cmd)
    return 0;
   case PROTOCMD_RESET:
    PROTO_Stop_Callback();
+   NRF24L01_Reset();
    return 0;
   case PROTOCMD_BIND:
    CABELL_initialize(1);
@@ -477,3 +475,9 @@ const void *CABELL_Cmds(enum ProtoCmds cmd)
   }
  return 0;
 }
+/*
+A0 00 2E 00 10 86 0D E8 83 3E E8 83 3E E8 83 3E E8 83 3E E8 83 3E E8 83 3E E8 83 3E E8 83 3E
+A0 80 25 00 10 7D 0D E8 83 3E E8 83 3E E8 83 3E E8 83 3E E8 83 3E E8 83 3E E8 83 3E E8 83 3E
+A0 00 24 00 10 7C 0D E8 83 3E E8 83 3E E8 83 3E E8 83 3E E8 83 3E E8 83 3E E8 83 3E E8 83 3E
+A0 00 26 00 10 7E 0D E8 83 3E E8 83 3E E8 83 3E E8 83 3E E8 83 3E E8 83 3E E8 83 3E E8 83 3E
+*/
