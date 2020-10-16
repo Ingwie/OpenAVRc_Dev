@@ -36,13 +36,200 @@
 #include "../OpenAVRc.h"
 #include "../spi.h"
 
+uint8_t NRF24L01_WriteReg(uint8_t reg, uint8_t data)
+{
+  RF_CS_NRF24L01_ACTIVE();
+  uint8_t res = RF_SPI_xfer(W_REGISTER | (REGISTER_MASK & reg));
+  RF_SPI_xfer(data);
+  RF_CS_NRF24L01_INACTIVE();
+  return res;
+}
+
+uint8_t NRF24L01_WriteRegisterMulti(uint8_t reg, uint8_t data[], uint8_t length)
+{
+  RF_CS_NRF24L01_ACTIVE();
+  uint8_t res = RF_SPI_xfer(W_REGISTER | ( REGISTER_MASK & reg));
+  for (uint8_t i = 0; i < length; i++)
+    {
+      RF_SPI_xfer(data[i]);
+    }
+  RF_CS_NRF24L01_INACTIVE();
+  return res;
+}
+
+uint8_t NRF24L01_WritePayload(uint8_t *data, uint8_t length)
+{
+  RF_CS_NRF24L01_ACTIVE();
+  uint8_t res = RF_SPI_xfer(W_TX_PAYLOAD);
+  for (uint8_t i = 0; i < length; i++)
+    {
+      RF_SPI_xfer(data[i]);
+    }
+  RF_CS_NRF24L01_INACTIVE();
+  return res;
+}
+
+uint8_t NRF24L01_ReadReg(uint8_t reg)
+{
+  RF_CS_NRF24L01_ACTIVE();
+  RF_SPI_xfer(R_REGISTER | (REGISTER_MASK & reg));
+  uint8_t data = RF_SPI_xfer(0xFF);
+  RF_CS_NRF24L01_INACTIVE();
+  return data;
+}
+
+uint8_t NRF24L01_ReadRegisterMulti(uint8_t reg, uint8_t data[], uint8_t length)
+{
+  RF_CS_NRF24L01_ACTIVE();
+  uint8_t res = RF_SPI_xfer(R_REGISTER | (REGISTER_MASK & reg));
+  for(uint8_t i = 0; i < length; i++)
+    {
+      data[i] = RF_SPI_xfer(0xFF);
+    }
+  RF_CS_NRF24L01_INACTIVE();
+  return res;
+}
+
+uint8_t NRF24L01_ReadPayload(uint8_t *data, uint8_t length)
+{
+  RF_CS_NRF24L01_ACTIVE();
+  uint8_t res = RF_SPI_xfer(R_RX_PAYLOAD);
+  for(uint8_t i = 0; i < length; i++)
+    {
+      data[i] = RF_SPI_xfer(0xFF);
+    }
+  RF_CS_NRF24L01_INACTIVE();
+  return res;
+}
+
+static uint8_t Strobe(uint8_t state)
+{
+  RF_CS_NRF24L01_ACTIVE();
+  uint8_t res = RF_SPI_xfer(state);
+  RF_CS_NRF24L01_INACTIVE();
+  return res;
+}
+
+uint8_t NRF24L01_FlushTx()
+{
+  return Strobe(FLUSH_TX);
+}
+
+uint8_t NRF24L01_FlushRx()
+{
+  return Strobe(FLUSH_RX);
+}
+
+uint8_t NRF24L01_NOP()
+{
+  return Strobe(NOP);
+}
+
+uint8_t NRF24L01_Activate(uint8_t code)
+{
+  RF_CS_NRF24L01_ACTIVE();
+  uint8_t res = RF_SPI_xfer(ACTIVATE);
+  RF_SPI_xfer(code);
+  RF_CS_NRF24L01_INACTIVE();
+  return res;
+}
+
+uint8_t NRF24L01_SetPower(uint8_t power)
+{
+  /*
+  // nRF24L01+ Power Output
+       Raw       * 20dBm PA
+  0 : -18dBm    2dBm (1.6mW)
+  1 : -12dBm    8dBm   (6mW)
+  2 :  -6dBm   14dBm  (25mW)
+  3 :   0dBm   20dBm (100mW)
+  */
+#if (NRF24L01PA_GAIN == 20)
+  const static uint16_t NRF24L01_Powers[] PROGMEM = {158,630,2511,10000};
+#endif
+#if (NRF24L01PA_GAIN == 22)
+  const static uint16_t NRF24L01_Powers[] PROGMEM = {251,1000,3981,15848};
+#endif
+
+  // Power is in range 0..3 for nRF24L01
+
+  uint_farptr_t powerdata = pgm_get_far_address(NRF24L01_Powers);
+  RFPowerOut = pgm_read_word_far(powerdata + (2*power)); // Gui value
+
+  rf_setup_p2M = (rf_setup_p2M & 0xF9) | ((power & 0x03) << 1);
+  rf_power_mem_p2M = rf_power_p2M;
+  return NRF24L01_WriteReg(NRF24L01_06_RF_SETUP, rf_setup_p2M);
+}
+
+uint8_t NRF24L01_SetBitrate(uint8_t bitrate)
+{
+ rf_setup_p2M = (rf_setup_p2M & 0xD7) | ((bitrate & 0x02) << 4) | ((bitrate & 0x01) << 3);
+ return NRF24L01_WriteReg(NRF24L01_06_RF_SETUP, rf_setup_p2M);
+}
+
+void NRF24L01_ManagePower()
+{
+  if (systemBolls.rangeModeIsOn) rf_power_p2M = TXPOWER_1;
+  else rf_power_p2M = g_model.rfOptionValue3;
+  if (rf_power_p2M != rf_power_mem_p2M)
+  {
+    NRF24L01_SetPower(rf_power_p2M);
+  }
+}
+
+void NRF24L01_SetTxRxMode(enum TXRX_State mode)
+{
+  if(mode == TX_EN)
+    {
+      NRF24L01_WriteReg(NRF24L01_07_STATUS, (1 << NRF24L01_07_RX_DR)    //reset the flag(s)
+                        | (1 << NRF24L01_07_TX_DS)
+                        | (1 << NRF24L01_07_MAX_RT));
+      NRF24L01_WriteReg(NRF24L01_00_CONFIG, (1 << NRF24L01_00_EN_CRC)   // switch to TX mode
+                        | (1 << NRF24L01_00_CRCO)
+                        | (1 << NRF24L01_00_PWR_UP));
+      _delay_us(130);
+    }
+  else if (mode == RX_EN)
+    {
+      NRF24L01_WriteReg(NRF24L01_07_STATUS, 0x70);        // reset the flag(s)
+      NRF24L01_WriteReg(NRF24L01_00_CONFIG, 0x0F);        // switch to RX mode
+      NRF24L01_WriteReg(NRF24L01_07_STATUS, (1 << NRF24L01_07_RX_DR)    //reset the flag(s)
+                        | (1 << NRF24L01_07_TX_DS)
+                        | (1 << NRF24L01_07_MAX_RT));
+      NRF24L01_WriteReg(NRF24L01_00_CONFIG, (1 << NRF24L01_00_EN_CRC)   // switch to RX mode
+                        | (1 << NRF24L01_00_CRCO)
+                        | (1 << NRF24L01_00_PWR_UP)
+                        | (1 << NRF24L01_00_PRIM_RX));
+      _delay_us(130);
+    }
+  else
+    {
+      NRF24L01_WriteReg(NRF24L01_00_CONFIG, (1 << NRF24L01_00_EN_CRC)); //PowerDown
+    }
+}
+
+int16_t NRF24L01_Reset()
+{
+  NRF24L01_Activate(0x73);                          // Activate feature register
+  NRF24L01_WriteReg(NRF24L01_1C_DYNPD, 0x00);       // Disable dynamic payload length on all pipes
+  NRF24L01_WriteReg(NRF24L01_1D_FEATURE, 0x00);     // Set feature bits off
+  NRF24L01_Activate(0x73);
+  NRF24L01_FlushTx();
+  NRF24L01_FlushRx();
+  uint8_t status1 = Strobe(NOP);
+  uint8_t status2 = NRF24L01_ReadReg(0x07);
+  NRF24L01_SetTxRxMode(TXRX_OFF);
+  return (status1 == status2 && (status1 & 0x0f) == 0x0e);
+}
+
+
 // XN297 emulation layer
 enum {
 	XN297_UNSCRAMBLED = 0,
 	XN297_SCRAMBLED
 };
 
-uint8_t xn297_scramble_enabled=XN297_SCRAMBLED;	//enabled by default
+uint8_t xn297_scramble_enabled=XN297_SCRAMBLED;	//enabled by default -->> TODO use shared buffer
 uint8_t xn297_addr_len;
 uint8_t xn297_tx_addr[5];
 uint8_t xn297_rx_addr[5];
@@ -176,7 +363,7 @@ void XN297_WritePayload(uint8_t* msg, uint8_t len)
 	}
 	for (uint8_t i = 0; i < len; ++i)
 	{
-		// bit-reverse bytes in packet_p2M
+		// bit-reverse bytes in packet
 		buf[last] = bit_reverse(msg[i]);
 		if(xn297_scramble_enabled)
 			buf[last] ^= xn297_scramble[xn297_addr_len+i];
@@ -200,7 +387,7 @@ void XN297_WritePayload(uint8_t* msg, uint8_t len)
 
 void XN297_WriteEnhancedPayload(uint8_t* msg, uint8_t len, uint8_t noack)
 {
-	uint8_t packet_p2M[32];
+	uint8_t packet[32];
 	uint8_t scramble_index=0;
 	uint8_t last = 0;
 	static uint8_t pid=0;
@@ -211,40 +398,40 @@ void XN297_WriteEnhancedPayload(uint8_t* msg, uint8_t len, uint8_t noack)
 		// If address length (which is defined by receive address length)
 		// is less than 4 the TX address can't fit the preamble, so the last
 		// byte goes here
-		packet_p2M[last++] = 0x55;
+		packet[last++] = 0x55;
 	}
 	for (uint8_t i = 0; i < xn297_addr_len; ++i)
 	{
-		packet_p2M[last] = xn297_tx_addr[xn297_addr_len-i-1];
+		packet[last] = xn297_tx_addr[xn297_addr_len-i-1];
 		if(xn297_scramble_enabled)
-			packet_p2M[last] ^= xn297_scramble[scramble_index++];
+			packet[last] ^= xn297_scramble[scramble_index++];
 		last++;
 	}
 
 	// pcf
-	packet_p2M[last] = (len << 1) | (pid>>1);
+	packet[last] = (len << 1) | (pid>>1);
 	if(xn297_scramble_enabled)
-		packet_p2M[last] ^= xn297_scramble[scramble_index++];
+		packet[last] ^= xn297_scramble[scramble_index++];
 	last++;
-	packet_p2M[last] = (pid << 7) | (noack << 6);
+	packet[last] = (pid << 7) | (noack << 6);
 
 	// payload
-	packet_p2M[last]|= bit_reverse(msg[0]) >> 2; // first 6 bit of payload
+	packet[last]|= bit_reverse(msg[0]) >> 2; // first 6 bit of payload
 	if(xn297_scramble_enabled)
-		packet_p2M[last] ^= xn297_scramble[scramble_index++];
+		packet[last] ^= xn297_scramble[scramble_index++];
 
 	for (uint8_t i = 0; i < len-1; ++i)
 	{
 		last++;
-		packet_p2M[last] = (bit_reverse(msg[i]) << 6) | (bit_reverse(msg[i+1]) >> 2);
+		packet[last] = (bit_reverse(msg[i]) << 6) | (bit_reverse(msg[i+1]) >> 2);
 		if(xn297_scramble_enabled)
-			packet_p2M[last] ^= xn297_scramble[scramble_index++];
+			packet[last] ^= xn297_scramble[scramble_index++];
 	}
 
 	last++;
-	packet_p2M[last] = bit_reverse(msg[len-1]) << 6; // last 2 bit of payload
+	packet[last] = bit_reverse(msg[len-1]) << 6; // last 2 bit of payload
 	if(xn297_scramble_enabled)
-		packet_p2M[last] ^= xn297_scramble[scramble_index++] & 0xc0;
+		packet[last] ^= xn297_scramble[scramble_index++] & 0xc0;
 
 	// crc
 	if (xn297_crc)
@@ -252,18 +439,18 @@ void XN297_WriteEnhancedPayload(uint8_t* msg, uint8_t len, uint8_t noack)
 		uint8_t offset = xn297_addr_len < 4 ? 1 : 0;
 		uint16_t crc = 0xb5d2;
 		for (uint8_t i = offset; i < last; ++i)
-			crc = crc16_update(crc, packet_p2M[i], 8);
-		crc = crc16_update(crc, packet_p2M[last] & 0xc0, 2);
+			crc = crc16_update(crc, packet[i], 8);
+		crc = crc16_update(crc, packet[last] & 0xc0, 2);
 		if (xn297_scramble_enabled)
 			crc ^= pgm_read_word(&xn297_crc_xorout_scrambled_enhanced[xn297_addr_len-3+len]);
 		//else
 		//	crc ^= pgm_read_word(&xn297_crc_xorout_enhanced[xn297_addr_len - 3 + len]);
 
-		packet_p2M[last++] |= (crc >> 8) >> 2;
-		packet_p2M[last++] = ((crc >> 8) << 6) | ((crc & 0xff) >> 2);
-		packet_p2M[last++] = (crc & 0xff) << 6;
+		packet[last++] |= (crc >> 8) >> 2;
+		packet[last++] = ((crc >> 8) << 6) | ((crc & 0xff) >> 2);
+		packet[last++] = (crc & 0xff) << 6;
 	}
-	NRF24L01_WritePayload(packet_p2M, last);
+	NRF24L01_WritePayload(packet, last);
 
 	pid++;
 	if(pid>3)
@@ -331,189 +518,11 @@ uint8_t XN297_ReadEnhancedPayload(uint8_t* msg, uint8_t len)
 	return pcf_size;
 }
 
-uint8_t NRF24L01_WriteReg(uint8_t reg, uint8_t data)
+void NRF24L01_Initialize()
 {
-  RF_CS_NRF24L01_ACTIVE();
-  uint8_t res = RF_SPI_xfer(W_REGISTER | (REGISTER_MASK & reg));
-  RF_SPI_xfer(data);
-  RF_CS_NRF24L01_INACTIVE();
-  return res;
+  rf_setup_p2M = 0x09;
+	XN297_SetScrambledMode(XN297_SCRAMBLED);
+	rf_power_mem_p2M = 0xFF; // force first power setup
 }
-
-uint8_t NRF24L01_WriteRegisterMulti(uint8_t reg, uint8_t data[], uint8_t length)
-{
-  RF_CS_NRF24L01_ACTIVE();
-  uint8_t res = RF_SPI_xfer(W_REGISTER | ( REGISTER_MASK & reg));
-  for (uint8_t i = 0; i < length; i++)
-    {
-      RF_SPI_xfer(data[i]);
-    }
-  RF_CS_NRF24L01_INACTIVE();
-  return res;
-}
-
-uint8_t NRF24L01_WritePayload(uint8_t *data, uint8_t length)
-{
-  RF_CS_NRF24L01_ACTIVE();
-  uint8_t res = RF_SPI_xfer(W_TX_PAYLOAD);
-  for (uint8_t i = 0; i < length; i++)
-    {
-      RF_SPI_xfer(data[i]);
-    }
-  RF_CS_NRF24L01_INACTIVE();
-  return res;
-}
-
-uint8_t NRF24L01_ReadReg(uint8_t reg)
-{
-  RF_CS_NRF24L01_ACTIVE();
-  RF_SPI_xfer(R_REGISTER | (REGISTER_MASK & reg));
-  uint8_t data = RF_SPI_xfer(0);
-  RF_CS_NRF24L01_INACTIVE();
-  return data;
-}
-
-uint8_t NRF24L01_ReadRegisterMulti(uint8_t reg, uint8_t data[], uint8_t length)
-{
-  RF_CS_NRF24L01_ACTIVE();
-  uint8_t res = RF_SPI_xfer(R_REGISTER | (REGISTER_MASK & reg));
-  for(uint8_t i = 0; i < length; i++)
-    {
-      data[i] = RF_SPI_xfer(0);
-    }
-  RF_CS_NRF24L01_INACTIVE();
-  return res;
-}
-
-uint8_t NRF24L01_ReadPayload(uint8_t *data, uint8_t length)
-{
-  RF_CS_NRF24L01_ACTIVE();
-  uint8_t res = RF_SPI_xfer(R_RX_PAYLOAD);
-  for(uint8_t i = 0; i < length; i++)
-    {
-      data[i] = RF_SPI_xfer(0);
-    }
-  RF_CS_NRF24L01_INACTIVE();
-  return res;
-}
-
-static uint8_t Strobe(uint8_t state)
-{
-  RF_CS_NRF24L01_ACTIVE();
-  uint8_t res = RF_SPI_xfer(state);
-  RF_CS_NRF24L01_INACTIVE();
-  return res;
-}
-
-uint8_t NRF24L01_FlushTx()
-{
-  return Strobe(FLUSH_TX);
-}
-
-uint8_t NRF24L01_FlushRx()
-{
-  return Strobe(FLUSH_RX);
-}
-
-uint8_t NRF24L01_NOP()
-{
-  return Strobe(NOP);
-}
-
-uint8_t NRF24L01_Activate(uint8_t code)
-{
-  RF_CS_NRF24L01_ACTIVE();
-  uint8_t res = RF_SPI_xfer(ACTIVATE);
-  RF_SPI_xfer(code);
-  RF_CS_NRF24L01_INACTIVE();
-  return res;
-}
-
-uint8_t NRF24L01_SetBitrate(uint8_t bitrate)
-{
-  uint8_t temp = NRF24L01_ReadReg(NRF24L01_06_RF_SETUP);
-  temp = (temp & 0xF7) | ((bitrate & 0x01) << 3);
-  return NRF24L01_WriteReg(NRF24L01_06_RF_SETUP, temp);
-}
-
-void NRF24L01_ManagePower()
-{
-  if (systemBolls.rangeModeIsOn) rf_power_p2M = TXPOWER_2;
-  else rf_power_p2M = g_model.rfOptionValue3;
-  if (rf_power_p2M != rf_power_mem_p2M)
-  {
-    NRF24L01_SetPower(rf_power_p2M);
-  }
-}
-
-
-uint8_t NRF24L01_SetPower(uint8_t power)
-{
-  /*
-  // nRF24L01+ Power Output
-       Raw       * 20dBm PA
-  0 : -18dBm    2dBm (1.6mW)
-  1 : -12dBm    8dBm   (6mW)
-  2 :  -6dBm   14dBm  (25mW)
-  3 :   0dBm   20dBm (100mW)
-  */
-#if (NRF24L01PA_GAIN == 20)
-  const static uint16_t NRF24L01_Powers[] PROGMEM = {158,630,2511,10000};
-#endif
-#if (NRF24L01PA_GAIN == 22)
-  const static uint16_t NRF24L01_Powers[] PROGMEM = {251,1000,3981,15848};
-#endif
-
-  // Power is in range 0..3 for nRF24L01
-
-  uint_farptr_t powerdata = pgm_get_far_address(NRF24L01_Powers);
-  RFPowerOut = pgm_read_word_far(powerdata + (2*power)); // Gui value
-
-  uint8_t temp = NRF24L01_ReadReg(NRF24L01_06_RF_SETUP);
-  temp = (temp & 0xF9) | ((power & 0x03) << 1);
-  return NRF24L01_WriteReg(NRF24L01_06_RF_SETUP, temp);
-}
-
-void NRF24L01_SetTxRxMode(enum TXRX_State mode) // TODO : Watch CE pin
-{
-  if(mode == TX_EN)
-    {
-      NRF24L01_WriteReg(NRF24L01_07_STATUS, (1 << NRF24L01_07_RX_DR)    //reset the flag(s)
-                        | (1 << NRF24L01_07_TX_DS)
-                        | (1 << NRF24L01_07_MAX_RT));
-      NRF24L01_WriteReg(NRF24L01_00_CONFIG, (1 << NRF24L01_00_EN_CRC)   // switch to TX mode
-                        | (1 << NRF24L01_00_CRCO)
-                        | (1 << NRF24L01_00_PWR_UP));
-      _delay_us(130);
-    }
-  else if (mode == RX_EN)
-    {
-      NRF24L01_WriteReg(NRF24L01_07_STATUS, 0x70);        // reset the flag(s)
-      NRF24L01_WriteReg(NRF24L01_00_CONFIG, 0x0F);        // switch to RX mode
-      NRF24L01_WriteReg(NRF24L01_07_STATUS, (1 << NRF24L01_07_RX_DR)    //reset the flag(s)
-                        | (1 << NRF24L01_07_TX_DS)
-                        | (1 << NRF24L01_07_MAX_RT));
-      NRF24L01_WriteReg(NRF24L01_00_CONFIG, (1 << NRF24L01_00_EN_CRC)   // switch to RX mode
-                        | (1 << NRF24L01_00_CRCO)
-                        | (1 << NRF24L01_00_PWR_UP)
-                        | (1 << NRF24L01_00_PRIM_RX));
-      _delay_us(130);
-    }
-  else
-    {
-      NRF24L01_WriteReg(NRF24L01_00_CONFIG, (1 << NRF24L01_00_EN_CRC)); //PowerDown
-    }
-}
-
-int16_t NRF24L01_Reset()
-{
-  NRF24L01_FlushTx();
-  NRF24L01_FlushRx();
-  uint8_t status1 = Strobe(NOP);
-  uint8_t status2 = NRF24L01_ReadReg(0x07);
-  NRF24L01_SetTxRxMode(TXRX_OFF);
-  return (status1 == status2 && (status1 & 0x0f) == 0x0e);
-}
-
 #endif // PROTO_HAS_NRF24L01
 
