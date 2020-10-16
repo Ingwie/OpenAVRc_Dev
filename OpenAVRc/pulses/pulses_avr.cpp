@@ -60,7 +60,6 @@ void startPulses(enum ProtoCmds Command)
 
 #if defined(SPIMODULES)
   RFPowerOut = 0;
-  rf_power_mem_p2M = 0; // Reset RF power mem
   RF_SPI_INIT();
 #endif
 #if defined(FRSKY)
@@ -81,8 +80,6 @@ void startPulses(enum ProtoCmds Command)
   LimitRfOptionSettings();
   PROTO_Cmds(Command);
 }
-
-
 
 ISR(RF_TIMER_COMPA_VECT) // ISR for Protocol Callback, PPMSIM and PPM16 (Last 8 channels).
 {

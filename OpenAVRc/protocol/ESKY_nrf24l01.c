@@ -132,7 +132,7 @@ const void *ESKY_Cmds(enum ProtoCmds cmd)
 #define ESKY_BIND_COUNT		1000
 #define ESKY_PACKET_PERIOD	3333
 #define ESKY_PAYLOAD_SIZE	13
-#define ESKY_PACKET_CHKTIME	100 // Time to wait for packet_p2M to be sent (no ACK, so very short)
+#define ESKY_PACKET_CHKTIME	100 // Time to wait for packet to be sent (no ACK, so very short)
 
 static void ESKY_set_data_address()
 {
@@ -204,7 +204,7 @@ static void ESKY_send_packet(uint8_t bind)
 	uint8_t rf_ch = 50; // bind channel
 	if (bind)
 	{
-		// Bind packet_p2M
+		// Bind packet
 		packet_p2M[0]  = rx_tx_addr[2];
 		packet_p2M[1]  = rx_tx_addr[1];
 		packet_p2M[2]  = rx_tx_addr[0];
@@ -221,8 +221,8 @@ static void ESKY_send_packet(uint8_t bind)
 	}
 	else
 	{
-		// Regular packet_p2M
-		// Each data packet_p2M is repeated 3 times on one channel, and 3 times on another channel
+		// Regular packet
+		// Each data packet is repeated 3 times on one channel, and 3 times on another channel
 		// For arithmetic simplicity, channels are repeated in rf_channels array
 		if (hopping_frequency_no == 0)
 		{
@@ -240,7 +240,7 @@ static void ESKY_send_packet(uint8_t bind)
 	}
 	NRF24L01_WriteReg(NRF24L01_05_RF_CH, rf_ch);
 	NRF24L01_FlushTx();
-	NRF24L01_WritePayload(packet_p2M, ESKY_PAYLOAD_SIZE);
+	NRF24L01_WritePayload(packet, ESKY_PAYLOAD_SIZE);
 	packet_sent = 1;
 	if (! rf_ch_num)
 		NRF24L01_SetPower();	//Keep transmit power updated

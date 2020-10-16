@@ -124,15 +124,15 @@ static void FRSKYD_build_data_packet()
   packet_p2M[2] = temp_rfid_addr_p2M[1];
   packet_p2M[3] = packet_count_p2M;
 #if defined(FRSKY)
-  packet_p2M[4] = receive_seq_p2M; // acknowledge last packet_p2M value
+  packet_p2M[4] = receive_seq_p2M; // acknowledge last packet value
 #else
   packet_p2M[4] = 0x00;
 #endif
   packet_p2M[5] = 0x01;
-  // packet_p2M 6 to 9 contain LS byte of channels 1 to 4.
+  // packet 6 to 9 contain LS byte of channels 1 to 4.
   packet_p2M[10] = 0; // Low nibble = channel 1, High nibble = channel 2.
   packet_p2M[11] = 0;
-  // packet_p2M 12 to 15 contain LS byte of channels 5 to 8.
+  // packet 12 to 15 contain LS byte of channels 5 to 8.
   packet_p2M[16] = 0;
   packet_p2M[17] = 0;
 
@@ -208,13 +208,13 @@ static void frskyD_check_telemetry(uint8_t len)
   *  pkt 4 = A2 : 13.4mV per count; 3.0V = 0xE3 on D6FR
   *  pkt 5 = RSSI
   *  pkt 6 = number of stream bytes
-  *  pkt 7 = sequence number increments mod 32 when packet_p2M containing stream data acknowledged
+  *  pkt 7 = sequence number increments mod 32 when packet containing stream data acknowledged
   *  pkt 8-(8+(pkt[6]-1)) = stream data
   *  pkt len-2 = downlink RSSI
   *  pkt len-1 = crc status (bit7 set indicates good), link quality indicator (bits6-0)
   */
 
-  // only process packets with the required id and packet_p2M length and valid crc
+  // only process packets with the required id and packet length and valid crc
   if (!(packet_p2M[len-1] & 0x80)
       || packet_p2M[0] != len - 3
       || packet_p2M[1] != temp_rfid_addr_p2M[0]
@@ -315,7 +315,7 @@ static uint16_t FRSKYD_data_cb()
           FRSKYD_build_data_packet(); // 38.62us 16MHz AVR.
           CC2500_WriteData(packet_p2M, 18);
 
-          // Process previous telemetry packet_p2M
+          // Process previous telemetry packet
           uint8_t len;
           len = CC2500_ReadReg(CC2500_3B_RXBYTES | CC2500_READ_BURST);
           if((!len) || len > 0x14)

@@ -65,7 +65,7 @@ void FRSKY_generate_channels()
     {
       ++res;
     }
-    if(idx > 46) res = 0; // Unused but sent to rx in bind packet_p2M.
+    if(idx > 46) res = 0; // Unused but sent to rx in bind packet.
     channel_used_p2M[idx] = res;
    }
 }

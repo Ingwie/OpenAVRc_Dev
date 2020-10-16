@@ -1231,9 +1231,7 @@ void sendOptionsSettingsPpm();
 //PPM
 
 extern struct RfOptionSettings_t RfOptionSettings;
-extern uint8_t * packet_p2M; //protocol global packet_p2M
 extern void startPulses(enum ProtoCmds Command);
-
 extern uint16_t (*timer_callback)(void);
 const void * (*PROTO_Cmds)(enum ProtoCmds);
 

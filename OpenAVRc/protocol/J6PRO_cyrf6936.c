@@ -192,11 +192,11 @@ uint16_t J6PRO_cb()
     J6PRO_cyrf_bindinit();
     rfState8_p2M = J6PRO_BIND_01;
     /* FALLTHROUGH */
-    //no break because we want to send the 1st bind packet_p2M now
+    //no break because we want to send the 1st bind packet now
     case J6PRO_BIND_01:
     CYRF_ConfigRFChannel(0x52);
     CYRF_SetTxRxMode(TX_EN);
-    CYRF_WriteDataPacketLen(packet_p2M, 0x09); // 2ms for packet_p2M to egress.
+    CYRF_WriteDataPacketLen(packet_p2M, 0x09); // 2ms for packet to egress.
     rfState8_p2M = J6PRO_BIND_03_START;
     return 3000*2; // 3msec
     case J6PRO_BIND_03_START:
@@ -285,7 +285,7 @@ uint16_t J6PRO_cb()
     case J6PRO_CHAN_4:
     CYRF_ConfigRFChannel(channel_used_p2M[rfState8_p2M - J6PRO_CHAN_1]);
     CYRF_SetTxRxMode(TX_EN);
-    CYRF_WriteDataPacket(packet_p2M); // Longer data packet_p2M takes 2.7ms to egress.
+    CYRF_WriteDataPacket(packet_p2M); // Longer data packet takes 2.7ms to egress.
     if (rfState8_p2M == J6PRO_CHAN_4)
     {
       rfState8_p2M = J6PRO_CHAN_1;

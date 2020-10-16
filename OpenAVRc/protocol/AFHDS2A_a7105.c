@@ -418,7 +418,7 @@ enum
 static void AFHDS2A_update_telemetry()
 {
   // AA | TXID | rx_id | sensor id | sensor # | value 16 bit big endian | sensor id ......
-  // max 7 sensors per packet_p2M
+  // max 7 sensors per packet
   for(uint8_t sensor=0; sensor<7; sensor++)
     {
       // Send FrSkyD telemetry to TX
