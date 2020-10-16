@@ -236,7 +236,7 @@ static void frskyX_data_frame()
   		failsafe_chan = 0;
   	} else if (FS_flag & 0x10 && failsafe_chan < (X8MODE ? 8-1:16-1))
   	{
-  		FS_flag = 0x10 | ((FS_flag + 2) & 0x0F);	//10, 12, 14, 16, 18, 1A, 1C, 1E - failsafe packet_p2M
+  		FS_flag = 0x10 | ((FS_flag + 2) & 0x0F);	//10, 12, 14, 16, 18, 1A, 1C, 1E - failsafe packet
   		failsafe_chan ++;
   	} else if (FS_flag & 0x10)
   	{
@@ -254,9 +254,9 @@ static void frskyX_data_frame()
   packet_p2M[4] = (channel_skip_p2M<<6)|channel_index_p2M;
   packet_p2M[5] = channel_skip_p2M>>2;
   packet_p2M[6] = RXNUM;
-  //packet_p2M[7] = FLAGS 00 - standard packet_p2M
-  //10, 12, 14, 16, 18, 1A, 1C, 1E - failsafe packet_p2M
-  //20 - range check packet_p2M
+  //packet_p2M[7] = FLAGS 00 - standard packet
+  //10, 12, 14, 16, 18, 1A, 1C, 1E - failsafe packet
+  //20 - range check packet
   /*#ifdef FAILSAFE_ENABLE
   	packet_p2M[7] = FS_flag;
   #else*/
@@ -356,9 +356,9 @@ Telemetry frames(RF) SPORT info 15 bytes
 
   The sequence byte contains 2 nibbles. The low nibble normally contains a 2-bit
   sequence number (0-3) that is the sequence of sending packets. The high nibble
-  contains the "next expected" packet_p2M sequence to be received.
-  Bit 2 of this nibble (bit 6 of the byte) is set to request a re-transmission of a missed packet_p2M.
-  Bit 3 of the nibbles is used to indicate/acknowledge startup synchronisation.  // only process packets with the required id and packet_p2M length and good crc*/
+  contains the "next expected" packet sequence to be received.
+  Bit 2 of this nibble (bit 6 of the byte) is set to request a re-transmission of a missed packet.
+  Bit 3 of the nibbles is used to indicate/acknowledge startup synchronisation.  // only process packets with the required id and packet length and good crc*/
 
   if ( pkt[0] == len - 3
        && pkt[1] == temp_rfid_addr_p2M[3]
@@ -398,8 +398,8 @@ Telemetry frames(RF) SPORT info 15 bytes
                       parseTelemFrskyByte(pkt[7+i]);
                     }
                 }
-              // process any saved data from out-of-sequence packet_p2M if
-              // it's the next expected packet_p2M
+              // process any saved data from out-of-sequence packet if
+              // it's the next expected packet
               if (telem_save_seq_p2M == receive_seq_p2M)
                 {
                   receive_seq_p2M = (receive_seq_p2M + 1) % 4;
@@ -413,7 +413,7 @@ Telemetry frames(RF) SPORT info 15 bytes
           else
             {
               receive_seq_p2M = (receive_seq_p2M & 0x03) | 0x04;  // incorrect sequence - request resend
-              // if this is the packet_p2M after the expected one, save the sport data
+              // if this is the packet after the expected one, save the sport data
               if ((pkt[5] & 0x03) == ((receive_seq_p2M+1) % 4) && pkt[6] <= 6)
                 {
                   telem_save_seq_p2M = (receive_seq_p2M+1) % 4;

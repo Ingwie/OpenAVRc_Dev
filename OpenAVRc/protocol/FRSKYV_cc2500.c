@@ -50,7 +50,7 @@ const static RfOptionSettingsvar_t RfOpt_FrskyV_Ser[] PROGMEM =
 
 const static uint8_t ZZ_frskyVInitSequence[] PROGMEM =
 {
-  CC2500_17_MCSM1, 0x0C, // Stay in receive after packet_p2M reception, Idle state after transmission
+  CC2500_17_MCSM1, 0x0C, // Stay in receive after packet reception, Idle state after transmission
   CC2500_18_MCSM0, 0x18, // Auto calibrate when going from idle to tx/rx/fstxon
   CC2500_06_PKTLEN, 0xFF,
   CC2500_07_PKTCTRL1, 0x04,
@@ -109,7 +109,7 @@ static uint8_t FRSKYV_crc8(uint8_t result, uint8_t *data, uint8_t len)
 static uint8_t FRSKYV_crc8_le()
 {
   /*
-    How Tx Id relates to data packet_p2M initial crc value.
+    How Tx Id relates to data packet initial crc value.
     ID      crc start value
     0x0000  0x0E
     0x0001  0xD7
@@ -252,7 +252,7 @@ static void FRSKYV_build_data_packet()
 
 static uint16_t FRSKYV_data_cb()
 {
-  // Build next packet_p2M.
+  // Build next packet.
   seed = (uint32_t) (seed * 0xAA) % 0x7673; // Prime number 30323.
   FRSKYV_build_data_packet(); // 16MHz AVR = 127us.
   CC2500_ManagePower();
@@ -261,7 +261,7 @@ static uint16_t FRSKYV_data_cb()
   CC2500_WriteReg(CC2500_0A_CHANNR, channel_used_p2M[((seed & 0xFF)%50)]); // 16MHz AVR = 38us.
   CC2500_WriteData(packet_p2M, 15); // 8.853ms before we start again with the idle strobe.
 
-  // Wait for transmit to finish. Timing is tight. Only 581uS between packet_p2M being emitted and idle strobe.
+  // Wait for transmit to finish. Timing is tight. Only 581uS between packet being emitted and idle strobe.
   // while( 0x0F != CC2500_Strobe(CC2500_SNOP)) { _delay_us(5); }
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.

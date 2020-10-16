@@ -252,7 +252,7 @@ static void BAYANG_send_packet(uint8_t bind)
  NRF24L01_WriteReg(NRF24L01_05_RF_CH, bind ? num_channel_p2M:channel_used_p2M[channel_index_p2M++]);
  channel_index_p2M %= BAYANG_RF_NUM_CHANNELS;
 
-// clear packet_p2M status bits and TX FIFO
+// clear packet status bits and TX FIFO
  NRF24L01_WriteReg(NRF24L01_07_STATUS, 0x70);
  NRF24L01_FlushTx();
 
@@ -267,7 +267,7 @@ static void BAYANG_send_packet(uint8_t bind)
 
  if (bayang_telemetry)
   {
-   // switch radio to rx as soon as packet_p2M is sent
+   // switch radio to rx as soon as packet is sent
    while (!(NRF24L01_ReadReg(NRF24L01_07_STATUS) & _BV(NRF24L01_07_TX_DS)));
    NRF24L01_WriteReg(NRF24L01_00_CONFIG, 0x03);
   }
@@ -370,6 +370,7 @@ static void BAYANG_initialize(uint8_t bind)
  channel_index_p2M = 0;
  receive_seq_p2M = 0;
 
+ NRF24L01_Initialize();
  BAYANG_initialize_channels();
  BAYANG_init();
  if (bind || bayang_autobind)

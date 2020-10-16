@@ -64,7 +64,7 @@ enum DSM
 };
 
 //During binding we will send BIND_COUNT/2 packets
-//One packet_p2M each 10msec
+//One packet each 10msec
 #define DSM_BIND_COUNT 300
 
 enum
@@ -181,7 +181,7 @@ const uint8_t PROGMEM zzinit_vals[][2] =
   CYRF_1B_TX_OFFSET_LSB, 0x55,			// Default init value
   CYRF_1C_TX_OFFSET_MSB, 0x05,			// Default init value
   CYRF_39_ANALOG_CTRL, 0x01,			// All slow for synth setting time
-  CYRF_01_TX_LENGTH, 0x10,				// 16 bytes packet_p2M
+  CYRF_01_TX_LENGTH, 0x10,				// 16 bytes packet
   CYRF_14_EOP_CTRL, 0x02,				// Set EOP Symbol Count to 2
   CYRF_12_DATA64_THOLD, 0x0a,			// 64 Chip Data PN corelator threshold, default datasheet value is 0x0E
   //Below is for bind only
@@ -431,7 +431,7 @@ static void DSM_calc_dsmx_channel()
 #if defined(DSM_TELEMETRY)
 static uint8_t DSM_Check_RX_packet()
 {
-  uint8_t result=1;						// assume good packet_p2M
+  uint8_t result=1;						// assume good packet
 
   uint16_t sum = 384 - 0x10;
   for(uint8_t i = 1; i < 9; i++)
@@ -439,7 +439,7 @@ static uint8_t DSM_Check_RX_packet()
       sum += telem_save_data_p2M[i];
       if(i<5)
         if(telem_save_data_p2M[i] != (0xff ^ temp_rfid_addr_p2M[i-1]))
-          result=0; 					// bad packet_p2M
+          result=0; 					// bad packet
     }
   if( telem_save_data_p2M[9] != (sum>>8)  && telem_save_data_p2M[10] != (uint8_t)sum )
     result=0;
@@ -493,7 +493,7 @@ static uint16_t DSM_cb()
 
 #define DSM_CH1_CH2_DELAY	4010*2			// Time between write of channel 1 and channel 2
 #define DSM_WRITE_DELAY		1950*2			// Time after write to verify write complete
-#define DSM_READ_DELAY		600*2				// Time before write to check read rfState8_p2M, and switch channels. Was 400 but 600 seems what the 328p needs to read a packet_p2M
+#define DSM_READ_DELAY		600*2				// Time before write to check read rfState8_p2M, and switch channels. Was 400 but 600 seems what the 328p needs to read a packet
 #if defined(DSM_TELEMETRY)
   uint8_t rx_phase;
   uint8_t len;
@@ -525,7 +525,7 @@ static uint16_t DSM_cb()
       CYRF_ConfigDataCode(codedata, 16);
       CYRF_SetTxRxMode(RX_EN);						//Receive mode
       CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x87);		//Prepare to receive
-      bind_counter_p2M=2*DSM_BIND_COUNT;					//Timeout of 4.2s if no packet_p2M received
+      bind_counter_p2M=2*DSM_BIND_COUNT;					//Timeout of 4.2s if no packet received
       rfState8_p2M++;										// change from BIND_CHECK to BIND_READ
       return 2000*2;
     case DSM_BIND_READ:

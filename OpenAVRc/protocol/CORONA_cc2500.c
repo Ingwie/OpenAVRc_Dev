@@ -140,7 +140,7 @@ static uint16_t corona_send_data_packet()
 #if defined(X_ANY)
   Xany_scheduleTx_AllInstance();
 #endif
-      // Build standard packet_p2M
+      // Build standard packet
       packet_p2M[0] = 0x10;		// 17 bytes to follow
 
       //Channels
@@ -196,7 +196,7 @@ static uint16_t corona_send_data_packet()
     }
   else
     {
-      // V2 : Send identifier packet_p2M for 2.65sec. This is how the RX learns the hopping table after a bind. Why it's not part of the bind like V1 is a mistery...
+      // V2 : Send identifier packet for 2.65sec. This is how the RX learns the hopping table after a bind. Why it's not part of the bind like V1 is a mistery...
       if(--rfState16_p2M&1) SCHEDULE_MIXER_END_IN_US(13000); // Dec state & send Schedule next Mixer calculations.
       packet_p2M[0] = 0x07;		// 8 bytes to follow
       // Send hopping freq
@@ -214,7 +214,7 @@ static uint16_t corona_send_data_packet()
       // Set channel
       CC2500_WriteReg(CC2500_0A_CHANNR, 0x00);
     }
-  // Send packet_p2M
+  // Send packet
   CC2500_WriteData(packet_p2M, packet_p2M[0]+2);
   return packet_period;
 }
@@ -256,7 +256,7 @@ static uint16_t corona_send_bind_packet()
       packet_p2M[5]=0x00;		// Unknown but seems to be always the same value for V2
       packet_period=25000;
     }
-  // Send packet_p2M
+  // Send packet
   CC2500_WriteData(packet_p2M, packet_p2M[0]+2);
   return packet_period;
 }
