@@ -41,7 +41,7 @@
 #define FRSKY_TIMEOUT_FIRST       FRSKY_TIMEOUT10ms+1
 #define WSHH_TIMEOUT10ms          60  // 600ms
 
-// Enumerate FrSky packet_p2M codes
+// Enumerate FrSky packet codes
 #define LINKPKT                   0xfe
 #define USRPKT                    0xfd
 #define BFSPPKT 				          0x1b
@@ -181,10 +181,10 @@ DataID Meaning       Unit   Range   Note
 #define BETA_VARIO_ID      0x8030
 #define BETA_BARO_ALT_ID   0x8010
 
-#define SPORT_DATA_U8(packet_p2M)   (packet_p2M[4])
-#define SPORT_DATA_S32(packet_p2M)  (*((int32_t *)(packet_p2M+4)))
-#define SPORT_DATA_U32(packet_p2M)  (*((uint32_t *)(packet_p2M+4)))
-#define HUB_DATA_U16(packet_p2M)    (*((uint16_t *)(packet_p2M+4)))
+#define SPORT_DATA_U8(packet)   (packet[4])
+#define SPORT_DATA_S32(packet)  (*((int32_t *)(packet+4)))
+#define SPORT_DATA_U32(packet)  (*((uint32_t *)(packet+4)))
+#define HUB_DATA_U16(packet)    (*((uint16_t *)(packet+4)))
 
 // Global Fr-Sky telemetry data variables
 extern uint8_t frskyStreaming; // >0 (true) == data is streaming in. 0 = nodata detected for some time
@@ -275,10 +275,10 @@ typedef enum {
 
 // FrSky D Protocol
 void processHubPacket(uint8_t id, uint16_t value);
-void frskyDProcessPacket(uint8_t *packet_p2M);
+void frskyDProcessPacket(uint8_t *packet);
 
 // FrSky S.PORT Protocol
-void processSportPacket(uint8_t *packet_p2M);
+void processSportPacket(uint8_t *packet);
 
 void telemetryResetValue();
 void telemetryPPMInit();
