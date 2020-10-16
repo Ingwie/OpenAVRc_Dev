@@ -60,7 +60,7 @@
 
 
 #if defined(SPIMODULES)
-  uint8_t * packet_p2M = pulses2MHz.pbyte; //protocol global packet_p2M (Use 40 MAX)
+  uint8_t * packet_p2M = pulses2MHz.pbyte; //protocol global packet (Use 40 MAX)
   uint8_t * channel_used_p2M = &pulses2MHz.pbyte[CHANNEL_USED_OFFSET]; //protocol global channel (Use 50 MAX -> 54 bytes free to use in SPI protocols)
   uint8_t * temp_rfid_addr_p2M = &pulses2MHz.pbyte[RX_TX_ADDR_OFFSET];
   #if defined(PROTO_HAS_CYRF6936)
