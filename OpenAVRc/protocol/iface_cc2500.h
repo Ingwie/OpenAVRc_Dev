@@ -94,7 +94,7 @@ enum {
     CC2500_35_MARCSTATE        = 0x35,        // Control state machine state
     CC2500_36_WORTIME1         = 0x36,        // High byte of WOR timer
     CC2500_37_WORTIME0         = 0x37,        // Low byte of WOR timer
-    CC2500_38_PKTSTATUS        = 0x38,        // Current GDOx status and packet status
+    CC2500_38_PKTSTATUS        = 0x38,        // Current GDOx status and packet_p2M status
     CC2500_39_VCO_VC_DAC       = 0x39,        // Current setting from PLL cal module
     CC2500_3A_TXBYTES          = 0x3A,        // Underflow and # of bytes in TXFIFO
     CC2500_3B_RXBYTES          = 0x3B,        // Overflow and # of bytes in RXFIFO
@@ -163,7 +163,7 @@ void CC2500_WriteReg(uint8_t addr, uint8_t data);
 uint8_t CC2500_ReadReg(uint8_t addr);
 void CC2500_Reset();
 uint8_t CC2500_Strobe(uint8_t cmd);
-void CC2500_WriteData(uint8_t *packet, uint8_t length);
+void CC2500_WriteData(uint8_t *packet_p2M, uint8_t length);
 void CC2500_ReadData(uint8_t *dpbuffer, uint8_t len);
 
 

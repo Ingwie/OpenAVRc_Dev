@@ -109,7 +109,7 @@ void A7105_WriteData(uint8_t len, uint8_t channel)
   RF_SPI_xfer(A7105_RST_WRPTR);
   RF_SPI_xfer(A7105_05_FIFO_DATA);
   for (i = 0; i < len; i++)
-    RF_SPI_xfer(packet[i]);
+    RF_SPI_xfer(packet_p2M[i]);
   RF_CS_A7105_INACTIVE();
   if(g_model.rfProtocol != PROTOCOL_FLYSKY)
     {
@@ -128,7 +128,7 @@ void A7105_ReadData(uint8_t len)
   RF_SPI_xfer(0x40 | A7105_05_FIFO_DATA);	//bit 6 =1 for reading
   A7105_Disable_HWSPI();
   for (i=0; i<len; i++)
-    packet[i]=SPI_READ_3WIRES();
+    packet_p2M[i]=SPI_READ_3WIRES();
   RF_CS_A7105_INACTIVE();
   A7105_Enable_HWSPI();
 }
@@ -232,7 +232,7 @@ static void A7105_SetPower(uint8_t Apower)
     };
 
   RFPowerOut = pgm_read_word_far(pgm_get_far_address(zzA7105_Powers) + (2*Apower)); // Gui value
-  rf_power_mem = Apower;
+  rf_power_mem_p2M = Apower;
 
   A7105_WriteReg(0x28, (pac << 3) | tbg);
 }
@@ -240,12 +240,12 @@ static void A7105_SetPower(uint8_t Apower)
 void A7105_ManagePower()
 {
   if (systemBolls.rangeModeIsOn)
-    rf_power = TXPOWER_1;
+    rf_power_p2M = TXPOWER_1;
   else
-    rf_power = g_model.rfOptionValue3;
-  if (rf_power != rf_power_mem)
+    rf_power_p2M = g_model.rfOptionValue3;
+  if (rf_power_p2M != rf_power_mem_p2M)
     {
-      A7105_SetPower(rf_power);
+      A7105_SetPower(rf_power_p2M);
     }
 }
 
@@ -253,10 +253,10 @@ void A7105_ManagePower()
 // this is required for some A7105 modules and/or RXs with inaccurate crystal oscillator
 void A7105_AdjustLOBaseFreq()
 {
-  if (freq_fine_mem != g_model.rfOptionValue1)
+  if (freq_fine_mem_p2M != g_model.rfOptionValue1)
     {
-      freq_fine_mem = g_model.rfOptionValue1;
-      int16_t offset = (freq_fine_mem*236)/100; // 2.36Khz/step
+      freq_fine_mem_p2M = g_model.rfOptionValue1;
+      int16_t offset = (freq_fine_mem_p2M*236)/100; // 2.36Khz/step
       // LO base frequency = 32e6*(bip+(bfp/(2^16)))
       uint8_t bip;	// LO base frequency integer part
       uint16_t bfp;	// LO base frequency fractional part

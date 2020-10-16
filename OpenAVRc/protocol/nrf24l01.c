@@ -176,7 +176,7 @@ void XN297_WritePayload(uint8_t* msg, uint8_t len)
 	}
 	for (uint8_t i = 0; i < len; ++i)
 	{
-		// bit-reverse bytes in packet
+		// bit-reverse bytes in packet_p2M
 		buf[last] = bit_reverse(msg[i]);
 		if(xn297_scramble_enabled)
 			buf[last] ^= xn297_scramble[xn297_addr_len+i];
@@ -200,7 +200,7 @@ void XN297_WritePayload(uint8_t* msg, uint8_t len)
 
 void XN297_WriteEnhancedPayload(uint8_t* msg, uint8_t len, uint8_t noack)
 {
-	uint8_t packet[32];
+	uint8_t packet_p2M[32];
 	uint8_t scramble_index=0;
 	uint8_t last = 0;
 	static uint8_t pid=0;
@@ -211,40 +211,40 @@ void XN297_WriteEnhancedPayload(uint8_t* msg, uint8_t len, uint8_t noack)
 		// If address length (which is defined by receive address length)
 		// is less than 4 the TX address can't fit the preamble, so the last
 		// byte goes here
-		packet[last++] = 0x55;
+		packet_p2M[last++] = 0x55;
 	}
 	for (uint8_t i = 0; i < xn297_addr_len; ++i)
 	{
-		packet[last] = xn297_tx_addr[xn297_addr_len-i-1];
+		packet_p2M[last] = xn297_tx_addr[xn297_addr_len-i-1];
 		if(xn297_scramble_enabled)
-			packet[last] ^= xn297_scramble[scramble_index++];
+			packet_p2M[last] ^= xn297_scramble[scramble_index++];
 		last++;
 	}
 
 	// pcf
-	packet[last] = (len << 1) | (pid>>1);
+	packet_p2M[last] = (len << 1) | (pid>>1);
 	if(xn297_scramble_enabled)
-		packet[last] ^= xn297_scramble[scramble_index++];
+		packet_p2M[last] ^= xn297_scramble[scramble_index++];
 	last++;
-	packet[last] = (pid << 7) | (noack << 6);
+	packet_p2M[last] = (pid << 7) | (noack << 6);
 
 	// payload
-	packet[last]|= bit_reverse(msg[0]) >> 2; // first 6 bit of payload
+	packet_p2M[last]|= bit_reverse(msg[0]) >> 2; // first 6 bit of payload
 	if(xn297_scramble_enabled)
-		packet[last] ^= xn297_scramble[scramble_index++];
+		packet_p2M[last] ^= xn297_scramble[scramble_index++];
 
 	for (uint8_t i = 0; i < len-1; ++i)
 	{
 		last++;
-		packet[last] = (bit_reverse(msg[i]) << 6) | (bit_reverse(msg[i+1]) >> 2);
+		packet_p2M[last] = (bit_reverse(msg[i]) << 6) | (bit_reverse(msg[i+1]) >> 2);
 		if(xn297_scramble_enabled)
-			packet[last] ^= xn297_scramble[scramble_index++];
+			packet_p2M[last] ^= xn297_scramble[scramble_index++];
 	}
 
 	last++;
-	packet[last] = bit_reverse(msg[len-1]) << 6; // last 2 bit of payload
+	packet_p2M[last] = bit_reverse(msg[len-1]) << 6; // last 2 bit of payload
 	if(xn297_scramble_enabled)
-		packet[last] ^= xn297_scramble[scramble_index++] & 0xc0;
+		packet_p2M[last] ^= xn297_scramble[scramble_index++] & 0xc0;
 
 	// crc
 	if (xn297_crc)
@@ -252,18 +252,18 @@ void XN297_WriteEnhancedPayload(uint8_t* msg, uint8_t len, uint8_t noack)
 		uint8_t offset = xn297_addr_len < 4 ? 1 : 0;
 		uint16_t crc = 0xb5d2;
 		for (uint8_t i = offset; i < last; ++i)
-			crc = crc16_update(crc, packet[i], 8);
-		crc = crc16_update(crc, packet[last] & 0xc0, 2);
+			crc = crc16_update(crc, packet_p2M[i], 8);
+		crc = crc16_update(crc, packet_p2M[last] & 0xc0, 2);
 		if (xn297_scramble_enabled)
 			crc ^= pgm_read_word(&xn297_crc_xorout_scrambled_enhanced[xn297_addr_len-3+len]);
 		//else
 		//	crc ^= pgm_read_word(&xn297_crc_xorout_enhanced[xn297_addr_len - 3 + len]);
 
-		packet[last++] |= (crc >> 8) >> 2;
-		packet[last++] = ((crc >> 8) << 6) | ((crc & 0xff) >> 2);
-		packet[last++] = (crc & 0xff) << 6;
+		packet_p2M[last++] |= (crc >> 8) >> 2;
+		packet_p2M[last++] = ((crc >> 8) << 6) | ((crc & 0xff) >> 2);
+		packet_p2M[last++] = (crc & 0xff) << 6;
 	}
-	NRF24L01_WritePayload(packet, last);
+	NRF24L01_WritePayload(packet_p2M, last);
 
 	pid++;
 	if(pid>3)
@@ -438,11 +438,11 @@ uint8_t NRF24L01_SetBitrate(uint8_t bitrate)
 
 void NRF24L01_ManagePower()
 {
-  if (systemBolls.rangeModeIsOn) rf_power = TXPOWER_2;
-  else rf_power = g_model.rfOptionValue3;
-  if (rf_power != rf_power_mem)
+  if (systemBolls.rangeModeIsOn) rf_power_p2M = TXPOWER_2;
+  else rf_power_p2M = g_model.rfOptionValue3;
+  if (rf_power_p2M != rf_power_mem_p2M)
   {
-    NRF24L01_SetPower(rf_power);
+    NRF24L01_SetPower(rf_power_p2M);
   }
 }
 

@@ -77,15 +77,15 @@ enum J6PRO_State
 
 void J6PRO_build_bind_packet()
 {
-  packet[0] = 0x01;  //Packet type
-  packet[1] = 0x01;  //FIXME: What is this ? Model number maybe ?
-  packet[2] = 0x56;  //FIXME: What is this ? Session Id ?
-  packet[3] = temp_rfid_addr[0];
-  packet[4] = temp_rfid_addr[1];
-  packet[5] = temp_rfid_addr[2];
-  packet[6] = temp_rfid_addr[3];
-  packet[7] = RXNUM;
-  packet[8] = 0xfe;
+  packet_p2M[0] = 0x01;  //Packet type
+  packet_p2M[1] = 0x01;  //FIXME: What is this ? Model number maybe ?
+  packet_p2M[2] = 0x56;  //FIXME: What is this ? Session Id ?
+  packet_p2M[3] = temp_rfid_addr_p2M[0];
+  packet_p2M[4] = temp_rfid_addr_p2M[1];
+  packet_p2M[5] = temp_rfid_addr_p2M[2];
+  packet_p2M[6] = temp_rfid_addr_p2M[3];
+  packet_p2M[7] = RXNUM;
+  packet_p2M[8] = 0xfe;
 }
 
 void J6PRO_build_data_packet()
@@ -94,11 +94,11 @@ void J6PRO_build_data_packet()
   Xany_scheduleTx_AllInstance();
 #endif
 
-  packet[13] = 0;
-  packet[14] = 0;
-  packet[15] = 0;
+  packet_p2M[13] = 0;
+  packet_p2M[14] = 0;
+  packet_p2M[15] = 0;
 
-  packet[0] = 0xaa; // FIXME what is this ?
+  packet_p2M[0] = 0xaa; // FIXME what is this ?
 
   // conversion range 0 - 511.5 - 1023
 
@@ -109,8 +109,8 @@ void J6PRO_build_data_packet()
       int16_t value = (FULL_CHANNEL_OUTPUTS((upper << 2) | lower)) /2;
       value = limit( (int16_t)-511, value, (int16_t) +511 );
       value += 511;
-      packet[(upper << 2) | (lower +1) ] = value & 0xff; // Lower 8 bits in packet[1] to [12].
-      packet[13 + upper] |= (value >> 8) << (lower * 2); // Upper 2 bits in packet[13] to [15].
+      packet_p2M[(upper << 2) | (lower +1) ] = value & 0xff; // Lower 8 bits in packet_p2M[1] to [12].
+      packet_p2M[13 + upper] |= (value >> 8) << (lower * 2); // Upper 2 bits in packet_p2M[13] to [15].
     }
   }
 }
@@ -165,10 +165,10 @@ void J6PRO_cyrf_datainit()
 {
   /* Use when already bound */
   uint8_t sopidx =
-      (0xff & (temp_rfid_addr[0] + temp_rfid_addr[1] + temp_rfid_addr[2] + temp_rfid_addr[3] - 0xfe)) % 19;
+      (0xff & (temp_rfid_addr_p2M[0] + temp_rfid_addr_p2M[1] + temp_rfid_addr_p2M[2] + temp_rfid_addr_p2M[3] - 0xfe)) % 19;
   uint16_t crc =
-      (0xff & (temp_rfid_addr[1] - RXNUM + 0xfe)) |
-      ((0xff & (temp_rfid_addr[2] + temp_rfid_addr[3] - RXNUM + 0xfe)) << 8);
+      (0xff & (temp_rfid_addr_p2M[1] - RXNUM + 0xfe)) |
+      ((0xff & (temp_rfid_addr_p2M[2] + temp_rfid_addr_p2M[3] - RXNUM + 0xfe)) << 8);
 
   CYRF_PROGMEM_Config_DEVO_J6PRO_sopcodes(sopidx);
   CYRF_ConfigCRCSeed(crc);
@@ -178,26 +178,26 @@ void J6PRO_set_radio_channels()
 {
   //FIXME: Query free channels
   //lowest channel is 0x08, upper channel is 0x4d?
-  CYRF_FindBestChannels(channel_used, 3, 5, 8, 77);
-  channel_used[3] = channel_used[0];
+  CYRF_FindBestChannels(channel_used_p2M, 3, 5, 8, 77);
+  channel_used_p2M[3] = channel_used_p2M[0];
 }
 
 uint16_t J6PRO_cb()
 {
   heartbeat |= HEART_TIMER_PULSES;
 
-  switch (rfState8)
+  switch (rfState8_p2M)
   {
     case J6PRO_BIND:
     J6PRO_cyrf_bindinit();
-    rfState8 = J6PRO_BIND_01;
+    rfState8_p2M = J6PRO_BIND_01;
     /* FALLTHROUGH */
-    //no break because we want to send the 1st bind packet now
+    //no break because we want to send the 1st bind packet_p2M now
     case J6PRO_BIND_01:
     CYRF_ConfigRFChannel(0x52);
     CYRF_SetTxRxMode(TX_EN);
-    CYRF_WriteDataPacketLen(packet, 0x09); // 2ms for packet to egress.
-    rfState8 = J6PRO_BIND_03_START;
+    CYRF_WriteDataPacketLen(packet_p2M, 0x09); // 2ms for packet_p2M to egress.
+    rfState8_p2M = J6PRO_BIND_03_START;
     return 3000*2; // 3msec
     case J6PRO_BIND_03_START:
     {
@@ -217,7 +217,7 @@ uint16_t J6PRO_cb()
     CYRF_WriteRegister(CYRF_07_RX_IRQ_STATUS, 0x80); // Clear RXOW IRQ if set.
     (void) CYRF_ReadRegister(CYRF_07_RX_IRQ_STATUS);
     CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x82); // Prepare to receive
-    rfState8 = J6PRO_BIND_03_CHECK;
+    rfState8_p2M = J6PRO_BIND_03_CHECK;
     return 30000U*2; // 30msec
 
     case J6PRO_BIND_03_CHECK:
@@ -232,27 +232,27 @@ uint16_t J6PRO_cb()
           if(rx == 0x0f)
           {
             //Expected and actual length are both 15
-            CYRF_ReadDataPacketLen(packet, rx);
-            if (packet[0] == 0x03 &&
-                packet[3] == temp_rfid_addr[0] &&
-                packet[4] == temp_rfid_addr[1] &&
-                packet[5] == temp_rfid_addr[2] &&
-                packet[6] == temp_rfid_addr[3] &&
-                packet[7] == RXNUM &&
-                packet[8] == 0xfe)
+            CYRF_ReadDataPacketLen(packet_p2M, rx);
+            if (packet_p2M[0] == 0x03 &&
+                packet_p2M[3] == temp_rfid_addr_p2M[0] &&
+                packet_p2M[4] == temp_rfid_addr_p2M[1] &&
+                packet_p2M[5] == temp_rfid_addr_p2M[2] &&
+                packet_p2M[6] == temp_rfid_addr_p2M[3] &&
+                packet_p2M[7] == RXNUM &&
+                packet_p2M[8] == 0xfe)
             {
               /* Bind done */
-              packet[0] = 0x05;
+              packet_p2M[0] = 0x05;
               (void) CYRF_ReadRegister(CYRF_07_RX_IRQ_STATUS); // For debugging.
               CYRF_ConfigRFChannel(0x54);
               CYRF_SetTxRxMode(TX_EN);
-              rfState8 = J6PRO_BIND_05_1;
+              rfState8_p2M = J6PRO_BIND_05_1;
               return 2000*2; // 2msec
             }
           }
         }
       }
-      rfState8 = J6PRO_BIND_01;
+      rfState8_p2M = J6PRO_BIND_01;
       return 500*2;
     }
     case J6PRO_BIND_05_1:
@@ -262,14 +262,14 @@ uint16_t J6PRO_cb()
     case J6PRO_BIND_05_5:
     case J6PRO_BIND_05_6:
 //    case J6PRO_BIND_05_7: // JF-M Transmitter sends 7 packets.
-    CYRF_WriteDataPacketLen(packet, 0x0f);
+    CYRF_WriteDataPacketLen(packet_p2M, 0x0f);
     (void) CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS); // For debugging.
-    ++rfState8;
+    ++rfState8_p2M;
     return 30000U*2; // was 4.6msec
     case J6PRO_CHANSEL:
     PROTOCOL_SetBindState(0);
     J6PRO_cyrf_datainit();
-    rfState8 = J6PRO_CHAN_1;
+    rfState8_p2M = J6PRO_CHAN_1;
     /* FALLTHROUGH */
     case J6PRO_CHAN_1:
     //Keep transmit power updated
@@ -283,16 +283,16 @@ uint16_t J6PRO_cb()
     case J6PRO_CHAN_3:
     //return 3750
     case J6PRO_CHAN_4:
-    CYRF_ConfigRFChannel(channel_used[rfState8 - J6PRO_CHAN_1]);
+    CYRF_ConfigRFChannel(channel_used_p2M[rfState8_p2M - J6PRO_CHAN_1]);
     CYRF_SetTxRxMode(TX_EN);
-    CYRF_WriteDataPacket(packet); // Longer data packet takes 2.7ms to egress.
-    if (rfState8 == J6PRO_CHAN_4)
+    CYRF_WriteDataPacket(packet_p2M); // Longer data packet_p2M takes 2.7ms to egress.
+    if (rfState8_p2M == J6PRO_CHAN_4)
     {
-      rfState8 = J6PRO_CHAN_1;
+      rfState8_p2M = J6PRO_CHAN_1;
       CALCULATE_LAT_JIT(); // Calculate latency and jitter.
       return 13900*2;
     }
-    ++rfState8;
+    ++rfState8_p2M;
     CALCULATE_LAT_JIT(); // Calculate latency and jitter.
     return 4550*2; // was 3.55ms
   }
@@ -303,7 +303,7 @@ void J6PRO_Init(uint8_t bind)
 {
   CYRF_Reset();
 
-  // Load temp_rfid_addr.
+  // Load temp_rfid_addr_p2M.
   loadrfidaddr();
 
   J6PRO_cyrf_init();
@@ -336,12 +336,12 @@ void J6PRO_Init(uint8_t bind)
 
   if (bind || J6PRO_AUTOBIND)
   {
-    rfState8 = J6PRO_BIND;
+    rfState8_p2M = J6PRO_BIND;
     PROTOCOL_SetBindState(1200); // 12 Sec
   }
   else
   {
-    rfState8 = J6PRO_CHANSEL;
+    rfState8_p2M = J6PRO_CHANSEL;
   }
   PROTO_Start_Callback(J6PRO_cb);
 }

@@ -132,7 +132,7 @@ const void *ESKY_Cmds(enum ProtoCmds cmd)
 #define ESKY_BIND_COUNT		1000
 #define ESKY_PACKET_PERIOD	3333
 #define ESKY_PAYLOAD_SIZE	13
-#define ESKY_PACKET_CHKTIME	100 // Time to wait for packet to be sent (no ACK, so very short)
+#define ESKY_PACKET_CHKTIME	100 // Time to wait for packet_p2M to be sent (no ACK, so very short)
 
 static void ESKY_set_data_address()
 {
@@ -204,43 +204,43 @@ static void ESKY_send_packet(uint8_t bind)
 	uint8_t rf_ch = 50; // bind channel
 	if (bind)
 	{
-		// Bind packet
-		packet[0]  = rx_tx_addr[2];
-		packet[1]  = rx_tx_addr[1];
-		packet[2]  = rx_tx_addr[0];
-		packet[3]  = hopping_frequency[12]; // channel_code encodes pair of channels to transmit on
-		packet[4]  = 0x18;
-		packet[5]  = 0x29;
-		packet[6]  = 0;
-		packet[7]  = 0;
-		packet[8]  = 0;
-		packet[9]  = 0;
-		packet[10] = 0;
-		packet[11] = 0;
-		packet[12] = 0;
+		// Bind packet_p2M
+		packet_p2M[0]  = rx_tx_addr[2];
+		packet_p2M[1]  = rx_tx_addr[1];
+		packet_p2M[2]  = rx_tx_addr[0];
+		packet_p2M[3]  = hopping_frequency[12]; // channel_code encodes pair of channels to transmit on
+		packet_p2M[4]  = 0x18;
+		packet_p2M[5]  = 0x29;
+		packet_p2M[6]  = 0;
+		packet_p2M[7]  = 0;
+		packet_p2M[8]  = 0;
+		packet_p2M[9]  = 0;
+		packet_p2M[10] = 0;
+		packet_p2M[11] = 0;
+		packet_p2M[12] = 0;
 	}
 	else
 	{
-		// Regular packet
-		// Each data packet is repeated 3 times on one channel, and 3 times on another channel
+		// Regular packet_p2M
+		// Each data packet_p2M is repeated 3 times on one channel, and 3 times on another channel
 		// For arithmetic simplicity, channels are repeated in rf_channels array
 		if (hopping_frequency_no == 0)
 		{
 			for (uint8_t i = 0; i < 6; i++)
 			{
 				uint16_t val=convert_channel_ppm(CH_AETR[i]);
-				packet[i*2]   = val>>8;		//high byte of servo timing(1000-2000us)
-				packet[i*2+1] = val&0xFF;	//low byte of servo timing(1000-2000us)
+				packet_p2M[i*2]   = val>>8;		//high byte of servo timing(1000-2000us)
+				packet_p2M[i*2+1] = val&0xFF;	//low byte of servo timing(1000-2000us)
 			}
 		}
 		rf_ch = hopping_frequency[hopping_frequency_no];
-		packet[12] = hopping_frequency[hopping_frequency_no+6];	// end_bytes
+		packet_p2M[12] = hopping_frequency[hopping_frequency_no+6];	// end_bytes
 		hopping_frequency_no++;
 		if (hopping_frequency_no > 6) hopping_frequency_no = 0;
 	}
 	NRF24L01_WriteReg(NRF24L01_05_RF_CH, rf_ch);
 	NRF24L01_FlushTx();
-	NRF24L01_WritePayload(packet, ESKY_PAYLOAD_SIZE);
+	NRF24L01_WritePayload(packet_p2M, ESKY_PAYLOAD_SIZE);
 	packet_sent = 1;
 	if (! rf_ch_num)
 		NRF24L01_SetPower();	//Keep transmit power updated
@@ -259,7 +259,7 @@ uint16_t ESKY_callback()
 		if (packet_sent && NRF24L01_packet_ack() != PKT_ACKED)
 			return ESKY_PACKET_CHKTIME;
 		ESKY_send_packet(1);
-		if (--bind_counter == 0)
+		if (--bind_counter_p2M == 0)
 		{
 			ESKY_set_data_address();
 			BIND_DONE;
@@ -270,7 +270,7 @@ uint16_t ESKY_callback()
 
 uint16_t initESKY(void)
 {
-	bind_counter = ESKY_BIND_COUNT;
+	bind_counter_p2M = ESKY_BIND_COUNT;
 	rx_tx_addr[3] = 0xBB;
 	ESKY_init(IS_BIND_IN_PROGRESS);
 	ESKY_init2();

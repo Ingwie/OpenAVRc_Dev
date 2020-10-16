@@ -50,8 +50,8 @@ void FRSKY_generate_channels()
  * Make sure adjacent channels in the array are spread across the band and are not repeated.
  */
 
-  uint16_t firstId = temp_rfid_addr[0] + temp_rfid_addr[3];
-  uint16_t secondID = temp_rfid_addr[1] + temp_rfid_addr[2];
+  uint16_t firstId = temp_rfid_addr_p2M[0] + temp_rfid_addr_p2M[3];
+  uint16_t secondID = temp_rfid_addr_p2M[1] + temp_rfid_addr_p2M[2];
 
   uint8_t chan_offset = firstId % 10; // 10 channel bases.
   uint8_t step = secondID % 11; // 11 sequences for now.
@@ -65,7 +65,7 @@ void FRSKY_generate_channels()
     {
       ++res;
     }
-    if(idx > 46) res = 0; // Unused but sent to rx in bind packet.
-    channel_used[idx] = res;
+    if(idx > 46) res = 0; // Unused but sent to rx in bind packet_p2M.
+    channel_used_p2M[idx] = res;
    }
 }
