@@ -66,6 +66,7 @@
 			<Add option="-mmcu=atmega2560" />
 			<Add option="-Wl,-Map=$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).map,--cref" />
 		</Linker>
+		<Unit filename="Makefile" />
 		<Unit filename="OpenAVRc.cpp" />
 		<Unit filename="OpenAVRc.h" />
 		<Unit filename="Print.cpp" />
@@ -306,17 +307,29 @@
 		<Unit filename="translations.cpp" />
 		<Unit filename="translations.h" />
 		<Unit filename="translations/cz.h" />
+		<Unit filename="translations/cz.h.txt" />
 		<Unit filename="translations/de.h" />
+		<Unit filename="translations/de.h.txt" />
 		<Unit filename="translations/en.h" />
+		<Unit filename="translations/en.h.txt" />
 		<Unit filename="translations/es.h" />
+		<Unit filename="translations/es.h.txt" />
 		<Unit filename="translations/fi.h" />
+		<Unit filename="translations/fi.h.txt" />
 		<Unit filename="translations/fr.h" />
+		<Unit filename="translations/fr.h.txt" />
 		<Unit filename="translations/it.h" />
+		<Unit filename="translations/it.h.txt" />
 		<Unit filename="translations/nl.h" />
+		<Unit filename="translations/nl.h.txt" />
 		<Unit filename="translations/pl.h" />
+		<Unit filename="translations/pl.h.txt" />
 		<Unit filename="translations/pt.h" />
+		<Unit filename="translations/pt.h.txt" />
 		<Unit filename="translations/se.h" />
+		<Unit filename="translations/se.h.txt" />
 		<Unit filename="translations/sk.h" />
+		<Unit filename="translations/sk.h.txt" />
 		<Unit filename="translations/tts_cz.cpp" />
 		<Unit filename="translations/tts_de.cpp" />
 		<Unit filename="translations/tts_en.cpp" />
