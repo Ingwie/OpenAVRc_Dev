@@ -71,9 +71,6 @@ static void corona_init()
   // Below code make sure channels are between 0x02 and 0xA0, spaced with a minimum of 2 and not ordered (RX only use the 1st channel unless there is an issue).
 
   uint8_t order = temp_rfid_addr_p2M[3]&0x03;
-  bind_counter_p2M = 0;
-  rfState16_p2M = 0;
-  channel_index_p2M = 0;
 
   for(uint8_t i=0; i<CORONA_RF_NUM_CHANNELS+1; i++)
     {
@@ -280,8 +277,6 @@ static uint16_t CORONA_cb()
 
 static void CORONA_initialize(uint8_t bind)
 {
-  freq_fine_mem_p2M = 0;
-
   loadrfidaddr_rxnum(3);
   CC2500_Reset();
 

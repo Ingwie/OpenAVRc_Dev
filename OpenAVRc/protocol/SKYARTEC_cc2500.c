@@ -204,8 +204,6 @@ static uint16_t SKYARTEC_cb()
 
 static void SKYARTEC_initialize(uint8_t bind)
 {
-  freq_fine_mem_p2M = 0;
-
   loadrfidaddr_rxnum(2);
   CC2500_Reset();
   skyartec_init();

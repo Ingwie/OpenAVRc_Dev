@@ -88,7 +88,6 @@ enum
 ////////////////////////////////////////////////
 //uint8_t sop_col;
 #define sop_col channel_skip_p2M
-//uint8_t DSM_num_ch=0;
 #define DSM_num_ch channel_offset_p2M
 //uint8_t ch_map[14];
 uint8_t * ch_map = &pulses2MHz.pbyte[20]; // Use packet_p2M[20 to 34]
@@ -683,7 +682,6 @@ static uint16_t DSM_cb()
 
 static void DSM_initialize(uint8_t bind)
 {
-  DSM_num_ch=0; // init shared value
   CYRF_Reset();
   DSM_init();
 

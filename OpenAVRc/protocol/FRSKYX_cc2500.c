@@ -511,11 +511,7 @@ static uint16_t FRSKYX_cb()
 
 static void FRSKYX_initialize(uint8_t bind)
 {
-  freq_fine_mem_p2M = 0;
-  channel_index_p2M = 0;
-  channel_skip_p2M = 0;
   send_seq_p2M = 0x08 ;
-  receive_seq_p2M = 0 ;
 
   loadrfidaddr();
   CC2500_Reset();

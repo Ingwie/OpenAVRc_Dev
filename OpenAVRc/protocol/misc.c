@@ -74,7 +74,8 @@ void PROTO_Start_Callback( uint16_t (*cb)())
 
 void PROTO_Stop_Callback()
 {
-  memclear(&pulses2MHz, PULSES_BYTE_SIZE); // Clear all shared data
+  memclear(&pulses2MHz, PULSES_BYTE_SIZE); // Clear all shared data in SPIMODULES mode
+
 #if defined(CPUM2560)
   TIMSK1 &= ~(1<<OCIE1A); // Disable Output Compare A interrupt.
   TIFR1 |= 1<<OCF1A; // Reset Flag.
@@ -85,6 +86,9 @@ void PROTO_Stop_Callback()
 #endif
   timer_callback = NULL;
 }
+
+#if defined(SPIMODULES)
+uint16_t RFPowerOut = 0;
 
 void PROTOCOL_SetBindState(tmr10ms_t t10ms)
 {
@@ -100,9 +104,6 @@ uint16_t PROTOCOL_GetElapsedTime() // Return time in uS since last RF_TIMER_COMP
   uint16_t ret = (RF_TIMER > RF_TIMER_COMPA_REG) ? RF_TIMER - RF_TIMER_COMPA_REG : RF_TIMER + (uint16_t)(0xFFF - RF_TIMER_COMPA_REG);
   return (ret >> 1);
 }
-
-#if defined(SPIMODULES)
-uint16_t RFPowerOut = 0;
 
 void loadrfidaddr()
 {

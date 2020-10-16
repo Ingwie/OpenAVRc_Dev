@@ -353,12 +353,7 @@ static void AFHDS2A_initialize(uint8_t bind)
   A7105_Init();
   loadrfidaddr_rxnum(0);
   AFHDS2A_calc_channels();
-  freq_fine_mem_p2M = 0;
-  packet_count_p2M = 0;
-  channel_index_p2M = 0;
-  bind_idx_p2M = 0;
   send_seq_p2M = AFHDS2A_PACKET_STICKS;
-  rfState16_p2M = 0;
 
   if(bind)
     {

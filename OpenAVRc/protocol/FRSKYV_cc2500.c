@@ -284,9 +284,6 @@ static uint16_t FRSKYV_bind_cb()
 
 static void FRSKYV_initialise(uint8_t bind)
 {
-  rfState8_p2M = 0;
-  freq_fine_mem_p2M = 0;
-
   CC2500_Reset(); // 0x30
 
   loadrfidaddr_rxnum(0);
