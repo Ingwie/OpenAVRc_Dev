@@ -122,8 +122,8 @@ static void BAYANG_init()
 
 uint16_t convert_channel_10b(uint8_t num)
 {
- int16_t val=FULL_CHANNEL_OUTPUTS(num)+1024;
- val = limit <int16_t>(0, val, 2048);
+ int16_t val=FULL_CHANNEL_OUTPUTS(num)+1023;
+ val = limit <int16_t>(0, val, 2047);
  return (val >> 1);
 }
 
