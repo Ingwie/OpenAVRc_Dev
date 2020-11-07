@@ -194,9 +194,9 @@ void menuCustomFunctions(uint8_t event, CustomFunctionData * functions, CustomFu
         else if (func == FUNC_ADJUST_GVAR) {
           switch (CFN_GVAR_MODE(cfn)) {
           case FUNC_ADJUST_GVAR_CONSTANT:
-            val_displayed = (int16_t)CFN_PARAM(cfn);
-            val_min = -CFN_GVAR_CST_MAX;
-            val_max = +CFN_GVAR_CST_MAX;
+            val_displayed = (int8_t)CFN_PARAM(cfn);
+            val_min = -GVAR_LIMIT;
+            val_max = +GVAR_LIMIT;
             lcdDrawNumberNAtt(MODEL_CUSTOM_FUNC_3RD_COLUMN, y, val_displayed, attr|LEFT);
             break;
           case FUNC_ADJUST_GVAR_SOURCE:
