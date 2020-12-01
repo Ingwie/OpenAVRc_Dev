@@ -31,8 +31,9 @@
 */
 
 //******************************************************************************************************************************************************
-// Add communication nRF24L01P "Stanek". Fixed RF channel, fixed address.                                                                              *
-// Channel reduction 2 -> 12ch. This is the maximum of the Arduino RX receiver of the "Servo" library on the Atmega328P processor.                     *
+// Included communication nRF24L01P "Stanek". Fixed RF channel, fixed address.                                                                         *
+// Channel reduction 2 -> 12ch. This is the maximum in the "Servo" library on the Atmega328P processor.                                                *
+// Telemetry A1 for measuring 1S Lipo power supply RX and TRSS.                                                                                        *
 // Support for Arduino-based receivers and RF24 libraries from this repository https://github.com/stanekTM/RC_RX_nRF24L01_Telemetry_Motor_Driver_Servo *
 // Thanks to "Bracame Ingwie" from the "OpenAVRc" https://github.com/Ingwie/OpenAVRc_Dev team for the code base.                                       *
 //******************************************************************************************************************************************************
