@@ -54,22 +54,19 @@ const static RfOptionSettingsvar_t RfOpt_STANEK_Ser[] PROGMEM =
 };
 
 
-#define STANEK_PACKET_PERIOD	3000	//3000 Do not set too low or else next packet may not be finished transmitting before the channel is changed next time around
+uint8_t TX_RX_ADDRESS[] = "jirka"; // setting RF channels address (5 bytes number or character)
 
-#define STANEK_RC_CHANNELS		12		// Number of RC channels that can be sent in one packet
+#define STANEK_RF_CHANNEL     76   // which RF channel to communicate on (0-125, 2.4Ghz + 76 = 2.476Ghz)
 
-#define STANEK_PACKET_SIZE	  24		// STANEK_PACKET_SIZE = STANEK_RC_CHANNELS * 2
+#define STANEK_PACKET_PERIOD	3000 //3000 Do not set too low or else next packet may not be finished transmitting before the channel is changed next time around
 
-#define STANEK_PAYLOAD_BYTES	24		// 12 bits per value * 12 channels
+#define STANEK_RC_CHANNELS		12	 // Number of RC channels that can be sent in one packet
+
+#define STANEK_PACKET_SIZE	  24	 // STANEK_PACKET_SIZE = STANEK_RC_CHANNELS * 2
+
+#define STANEK_PAYLOAD_BYTES	24	 // 12 bits per value * 12 channels
 
 #define STANEK_TELEMETRY_PACKET_SIZE	4
-
-#define STANEK_RF_CHANNEL	            76 // which RF channel to communicate on (0-125, 2.4Ghz + 76 = 2.476Ghz)
-
-//setting RF channels addresses
-uint8_t TX_RX_ADDRESS[] = "rx002";
-uint8_t RX_P1_ADDRESS[] = "tx001";
-
 
 #define stanek_telemetry          g_model.rfOptionBool1
 #define stanek_reduction    (12 - g_model.rfOptionValue1)
@@ -81,6 +78,8 @@ uint8_t RX_P1_ADDRESS[] = "tx001";
 static void STANEK_setAddress()
 {
   channel_index_p2M = STANEK_RF_CHANNEL;	// Initialize the channel
+
+  uint8_t RX_P1_ADDRESS = ~TX_RX_ADDRESS[5]; // Invert bits for reading so that telemetry packets have a different address
 
   NRF24L01_WriteRegisterMulti(NRF24L01_0A_RX_ADDR_P0, (uint8_t*)(&TX_RX_ADDRESS), 5);
   NRF24L01_WriteRegisterMulti(NRF24L01_0B_RX_ADDR_P1, (uint8_t*)(&RX_P1_ADDRESS), 5);
