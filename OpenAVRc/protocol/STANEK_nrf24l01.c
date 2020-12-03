@@ -62,9 +62,7 @@ uint8_t TX_RX_ADDRESS[] = "jirka"; // setting RF channels address (5 bytes numbe
 
 #define STANEK_RC_CHANNELS		12	 // Number of RC channels that can be sent in one packet
 
-#define STANEK_PACKET_SIZE	  24	 // STANEK_PACKET_SIZE = STANEK_RC_CHANNELS * 2
-
-#define STANEK_PAYLOAD_BYTES	24	 // 12 bits per value * 12 channels
+#define STANEK_RC_DATA_PACKET_SIZE	  24	 // STANEK_RC_DATA_PACKET_SIZE = STANEK_RC_CHANNELS * 2
 
 #define STANEK_TELEMETRY_PACKET_SIZE	4
 
@@ -162,9 +160,9 @@ static void STANEK_send_packet()
 
  uint8_t channelReduction = stanek_reduction;
 
- packetSize_p2M = STANEK_PACKET_SIZE - (channelReduction * 2);
+ packetSize_p2M = STANEK_RC_DATA_PACKET_SIZE - (channelReduction * 2);
 
- uint8_t maxPayloadValueIndex = STANEK_PAYLOAD_BYTES - (STANEK_PACKET_SIZE - packetSize_p2M);
+ uint8_t maxPayloadValueIndex = packetSize_p2M;
 
 
  uint8_t payloadIndex = 0;
