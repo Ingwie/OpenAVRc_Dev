@@ -29,20 +29,21 @@
  *                                                                        *
  **************************************************************************
 */
-
+#define DEBUG
 
 #include <Rcul.h>
 #include <TinyPinChange.h>
 #include <TinyCppmGen.h>
 #include <SoftSerial.h> //Header File for Serial Bluetooth, will be added by default into Arduino
 
-SoftSerial BT(10,11);// Rx,Tx
+SoftSerial BT(8,9);// Rx,Tx
 
 String str, ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8;
 uint16_t n1, n2, n3, n4, n5, n6, n7, n8;
 void setup() {
 
   Serial.begin(57600); //Start Serial monitor in 9600
+  Serial.println(F("Waiting data from OpenAVRc transmitter"));
   BT.begin(57600); //Name of your Bluetooth Signal
 
 //       PPM output pin is imposed by hardware and is target dependant:
@@ -67,24 +68,48 @@ void loop()
   if(BT.available() > 0)
   {
     str = BT.readStringUntil('\n');
-    ch1 = getValue(str, 's', 1);Serial.print("ch1: ");n1 = hexToDec(ch1);Serial.println(n1);
-    ch2 = getValue(str, 's', 2);Serial.print("ch2: ");n2 = hexToDec(ch2);Serial.println(n2);
-    ch3 = getValue(str, 's', 3);Serial.print("ch3: ");n3 = hexToDec(ch3);Serial.println(n3);
-    ch4 = getValue(str, 's', 4);Serial.print("ch4: ");n4 = hexToDec(ch4);Serial.println(n4);
-    ch5 = getValue(str, 's', 5);Serial.print("ch5: ");n5 = hexToDec(ch5);Serial.println(n5);
-    ch6 = getValue(str, 's', 6);Serial.print("ch6: ");n6 = hexToDec(ch6);Serial.println(n6);
-    ch7 = getValue(str, 's', 7);Serial.print("ch7: ");n7 = hexToDec(ch7);Serial.println(n7);
-    ch8 = getValue(str, 's', 8);ch8 = getValue(ch8, ':', 0);Serial.print("ch8: ");n8 = hexToDec(ch8);Serial.println(n8);Serial.println();       
+    ch1 = getValue(str, 's', 1);n1 = hexToDec(ch1);
+    ch2 = getValue(str, 's', 2);n2 = hexToDec(ch2);
+    ch3 = getValue(str, 's', 3);n3 = hexToDec(ch3);
+    ch4 = getValue(str, 's', 4);n4 = hexToDec(ch4);
+    ch5 = getValue(str, 's', 5);n5 = hexToDec(ch5);
+    ch6 = getValue(str, 's', 6);n6 = hexToDec(ch6);
+    ch7 = getValue(str, 's', 7);n7 = hexToDec(ch7);
+    ch8 = getValue(str, 's', 8);ch8 = getValue(ch8, ':', 0);n8 = hexToDec(ch8);       
+#ifdef DEBUG
+    Serial.println(str);
+    Serial.print("ch1: ");Serial.println(n1);
+    Serial.print("ch2: ");Serial.println(n2);
+    Serial.print("ch3: ");Serial.println(n3);
+    Serial.print("ch4: ");Serial.println(n4);
+    Serial.print("ch5: ");Serial.println(n5);
+    Serial.print("ch6: ");Serial.println(n6);
+    Serial.print("ch7: ");Serial.println(n7);
+    Serial.print("ch8: ");Serial.println(n8);Serial.println();
+#endif
+    TinyCppmGen.setChWidth_us(1, n1); 
+    TinyCppmGen.setChWidth_us(2, n2);
+    TinyCppmGen.setChWidth_us(3, n3); 
+    TinyCppmGen.setChWidth_us(4, n4);
+    TinyCppmGen.setChWidth_us(5, n5); 
+    TinyCppmGen.setChWidth_us(6, n6); 
+    TinyCppmGen.setChWidth_us(7, n7); 
+    TinyCppmGen.setChWidth_us(8, n8);
   }
-
-  TinyCppmGen.setChWidth_us(1, n1); 
-  TinyCppmGen.setChWidth_us(2, n2);
-  TinyCppmGen.setChWidth_us(3, n3); 
-  TinyCppmGen.setChWidth_us(4, n4);
-  TinyCppmGen.setChWidth_us(5, n5); 
-  TinyCppmGen.setChWidth_us(6, n6); 
-  TinyCppmGen.setChWidth_us(7, n7); 
-  TinyCppmGen.setChWidth_us(8, n8);
+  else
+  {
+#ifdef DEBUG
+    Serial.println(F("BT data not found, default values are send !"));
+#endif    
+  }
+    TinyCppmGen.setChWidth_us(1, 1500); 
+    TinyCppmGen.setChWidth_us(2, 1500);
+    TinyCppmGen.setChWidth_us(3, 1000); 
+    TinyCppmGen.setChWidth_us(4, 1500);
+    TinyCppmGen.setChWidth_us(5, 1500); 
+    TinyCppmGen.setChWidth_us(6, 1500); 
+    TinyCppmGen.setChWidth_us(7, 1500); 
+    TinyCppmGen.setChWidth_us(8, 1500); 
 }
 
 String getValue(String data, char separator, int index)
