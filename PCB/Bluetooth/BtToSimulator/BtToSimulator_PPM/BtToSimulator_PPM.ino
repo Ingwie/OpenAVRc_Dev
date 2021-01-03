@@ -29,8 +29,32 @@
  *                                                                        *
  **************************************************************************
 */
+
+#define DEBUG
+//#define CMD_MODE
+
 /*
+ How to connect HC05/Pro Mini 8MHz/3,3v:
+ Pro Mini     HC05
+    RAW(+5V)   Vcc
+    GND        GND
+    D8         Tx
+    D9         Rx
+    D11(PPM)
+How to connect HC05/Pro Mini 16MHz/5v:
+ Pro Mini     HC05
+    VCC(+5V)   Vcc
+    GND        GND
+    D8         Tx
+    D9 --1K--|-Rx (use 1/2,2k resitors divider betwwen D9 and HC05 RX !)
+            2,2K
+             |
+            GND
+    D11(PPM)
+ 
  How to configure HC05:
+ - Uncomment #define CMD_MODE in line 34
+ - Upload sketch
  - Define console in 38400 bauds
  - Hold KEY button and Power on module
  - Type in console:
@@ -40,11 +64,11 @@
    AT+ROLE=0 (configure in slave mode and return OK)
    AT+PSWD="1234" (use same password in your TX, return OK)
    AT+UART=57600,0,0
-
+   
+ - Comment #define CMD_MODE in line 34
+ - Upload sketch
    Your module is ready :-)
  */
-#define DEBUG
-//#define CMD_MODE
 
 #include <Rcul.h>
 #include <TinyPinChange.h>
@@ -86,14 +110,10 @@ void setup() {
 #endif
   
 
-//       PPM output pin is imposed by hardware and is target dependant:
+// PPM output pin is imposed by hardware and is target dependant:
 //(The user has to define Timer and Channel to use in TinyPpmGen.h file of the library)
-//
-//           - ATmega328P (Arduino UNO):
-//           TIMER(0), CHANNEL(A) -> OC0A -> PD6 -> Pin#6
-//           TIMER(0), CHANNEL(B) -> OC0B -> PD5 -> Pin#5
-//          >>>>> TIMER(2), CHANNEL(A) -> OC2A -> PB3 -> Pin#11 here is used as output <<<<<
-//           TIMER(2), CHANNEL(B) -> OC2B -> PD3 -> Pin#3
+// TIMER(2), CHANNEL(A) -> OC2A -> PB3 -> Pin#11 here is used as output
+
   //TinyCppmGen.begin(TINY_CPPM_GEN_POS_MOD, 8);
   TinyCppmGen.begin(TINY_CPPM_GEN_NEG_MOD, CH_MAX_NB, CPPM_PERIOD_US);//Futaba use negative pulse
 #ifdef DEBUG  
