@@ -6,7 +6,7 @@ Support for Arduino-based receivers and RF24 library from this repository [RC_RX
 Thanks to "Bracame Ingwie" from the [OpenAVRc](https://github.com/Ingwie/OpenAVRc_Dev) team for the code base.
 
 Operated in SPI mode.
-* OpenAVRc v3.0 Alpha 20
+* OpenAVRc v3.0 alpha 20
 
 If necessary, I update with the latest version.
 #
