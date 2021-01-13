@@ -4,6 +4,11 @@ Channel reduction 2 -> 12ch. This is the maximum in the "Servo" library on the A
 Telemetry A1 for measuring 1S Lipo power supply RX and TRSS. 
 Support for Arduino-based receivers and RF24 library from this repository [RC_RX_nRF24L01_Telemetry_Motor_Driver_Servo](https://github.com/stanekTM/RC_RX_nRF24L01_Telemetry_Motor_Driver_Servo). 
 Thanks to "Bracame Ingwie" from the [OpenAVRc](https://github.com/Ingwie/OpenAVRc_Dev) team for the code base.
+
+Operated in SPI mode.
+* OpenAVRc v3.0 Alpha 20
+
+If necessary, I update with the latest version.
 #
 **Welcome to**
 =========
