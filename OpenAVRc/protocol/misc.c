@@ -45,6 +45,7 @@ void inline PROTO_Change_Callback(uint16_t (*cb)())
   timer_callback = cb; // timer_callback = pointer to function.
 }
 
+
 void PROTO_Start_Callback( uint16_t (*cb)())
 {
   if(! cb) return;
@@ -70,6 +71,7 @@ void PROTO_Start_Callback( uint16_t (*cb)())
 #endif
 }
 
+
 void PROTO_Stop_Callback()
 {
   memclear(&pulses2MHz, PULSES_BYTE_SIZE); // Clear all shared data in SPIMODULES mode
@@ -85,6 +87,9 @@ void PROTO_Stop_Callback()
   timer_callback = NULL;
 }
 
+#if defined(SPIMODULES)
+uint16_t RFPowerOut = 0;
+
 void PROTOCOL_SetBindState(tmr10ms_t t10ms)
 {
   if(t10ms) {
@@ -93,9 +98,6 @@ void PROTOCOL_SetBindState(tmr10ms_t t10ms)
   }
   else systemBolls.protoMode = NORMAL_MODE;
 }
-
-#if defined(SPIMODULES)
-uint16_t RFPowerOut = 0;
 
 uint16_t PROTOCOL_GetElapsedTime() // Return time in uS since last RF_TIMER_COMPA_VECT interrupt
 {
