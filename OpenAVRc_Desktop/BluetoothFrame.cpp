@@ -128,6 +128,7 @@ BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
  BTComPort = new Tserial();
  comIsValid = false;
  uCLI = "uCLI>";
+ wxTreeItemId tesdebugtoremove = TctrlSd->AddRoot(SD_ROOT);
 
  DnD_TctrlSd_Txt * txtTctrlSdDropTarget = new DnD_TctrlSd_Txt(this);
  txtTctrlSdDropTarget->SetDataObject(new wxTextDataObject());
