@@ -86,8 +86,8 @@ B)
 HardwareSerial &BT = Serial1;
 
 #define BT_MSG_MAX_LENGTH      39
-//char BtMessage[BT_MSG_MAX_LENGTH + 1];
-char BtMessage[] = "tf s77As5F4s3DCs5BDs3DCs5C9s5DEs5D4:0B";
+char BtMessage[BT_MSG_MAX_LENGTH + 1];
+//char BtMessage[] = "tf s77As5F4s3DCs5BDs3DCs5C9s5DEs5D4:0B";
 boolean nouvellesDonnees = false;
 
 uint16_t ppmOut[9];
@@ -199,7 +199,7 @@ void loop()
     {
       //PRINTF("%s\r\n", ptr);
       ptr = strtok(NULL, delim);
-      ppmOut[index] = hexToDec(ptr);
+      ppmOut[index] = (uint16_t)strtol(ptr, NULL, 16);
       index++;
     }
     
@@ -234,26 +234,6 @@ void loop()
   }      
 #endif     
 }//END LOOP
-
-
-//https://github.com/benrugg/Arduino-Hex-Decimal-Conversion/blob/master/hex_dec.ino
-uint16_t hexToDec(String hexString) {
-  
-  unsigned int decValue = 0;
-  int nextInt;
-  
-  for (int i = 0; i < hexString.length(); i++) {
-    
-    nextInt = int(hexString.charAt(i));
-    if (nextInt >= 48 && nextInt <= 57) nextInt = map(nextInt, 48, 57, 0, 9);
-    if (nextInt >= 65 && nextInt <= 70) nextInt = map(nextInt, 65, 70, 10, 15);
-    if (nextInt >= 97 && nextInt <= 102) nextInt = map(nextInt, 97, 102, 10, 15);
-    nextInt = constrain(nextInt, 0, 15);
-    
-    decValue = (decValue * 16) + nextInt;
-  }
-    return decValue;
-}
 
 #ifdef AT_INIT          // AT configuration of the HC05, to make once time
 void InitBtAuto()
