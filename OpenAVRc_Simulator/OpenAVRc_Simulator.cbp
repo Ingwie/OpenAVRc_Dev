@@ -397,7 +397,7 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
-		<Unit filename="../OpenAVRc/protocol/BAYANG_NRF24L01.c">
+		<Unit filename="../OpenAVRc/protocol/BAYANG_nrf24l01.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
 			<Option link="0" />
@@ -471,6 +471,11 @@
 			<Option link="0" />
 		</Unit>
 		<Unit filename="../OpenAVRc/protocol/SKYARTEC_cc2500.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/STANEK_nrf24l01.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
 			<Option link="0" />

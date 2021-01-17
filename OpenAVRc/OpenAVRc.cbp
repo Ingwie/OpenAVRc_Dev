@@ -203,6 +203,9 @@
 		<Unit filename="protocol/SKYARTEC_cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="protocol/STANEK_nrf24l01.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="protocol/a7105.c">
 			<Option compilerVar="CC" />
 		</Unit>
