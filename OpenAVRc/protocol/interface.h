@@ -90,6 +90,7 @@
 #include "nrf24l01.c"
 #include "BAYANG_nrf24l01.c"
 #include "CABELL_nrf24l01.c"
+#include "STANEK_nrf24l01.c"
 #endif
 
 #endif
