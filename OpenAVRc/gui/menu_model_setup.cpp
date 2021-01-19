@@ -761,6 +761,7 @@ void menuModelSetup(uint8_t event)
 
               case PROTOCOL_BAYANG:
               case PROTOCOL_CABELL:
+              case PROTOCOL_STANEK:
                NRF24L01_ManagePower();
               }
 #endif
