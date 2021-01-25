@@ -30,7 +30,7 @@
  **************************************************************************
 */
 
-#define DEBUG
+//#define DEBUG
 //#define CMD_MODE
 //#define AT_INIT
 
@@ -74,13 +74,40 @@ B)
    Your module is ready :-)
  */
 
+#define MODE JOYSTICK //Select PPM or JOYSTICK
+
+//#if (MODE == PPM)
 #include <Rcul.h>
 #include <TinyPinChange.h>
 #include <TinyCppmGen.h>
+//#else if (MODE == JOYSTICK)
+//#include "Joystick.h"
 
+//#define INCLUDE_X_AXIS true
+//#define INCLUDE_Y_AXIS true
+//#define INCLUDE_Z_AXIS true
+//#define INCLUDE_RX_AXIS true
+//#define INCLUDE_RY_AXIS true
+//#define INCLUDE_RZ_AXIS true
+//
+//#define HAT_SWITCH_COUNT 1  // Indicates how many hat switches will be available on the joystick. (0-2)
+//#define MAX_SWITCHES 4 // the number of switches
+//
+//#define INCLUDE_RUDDER true  // Indicates if the Rudder is available on the joystick.
+//#define INCLUDE_THROTTLE true  // Indicates if the Throttle is available on the joystick.
+//#define INCLUDE_ACCELERATOR false  // Indicates if the Accelerator is available on the joystick.
+//#define INCLUDE_BRAKE true  // Indicates if the Brake is available on the joystick.
+//#define INCLUDE_STEERING false  // Indicates if the Steering is available on the joystick.
+
+//Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID, JOYSTICK_TYPE_JOYSTICK, MAX_SWITCHES, HAT_SWITCH_COUNT,
+//                     INCLUDE_X_AXIS, INCLUDE_Y_AXIS, INCLUDE_Z_AXIS, INCLUDE_RX_AXIS,
+//                     INCLUDE_RY_AXIS, INCLUDE_RZ_AXIS, INCLUDE_RUDDER, INCLUDE_THROTTLE,
+//                     INCLUDE_ACCELERATOR, INCLUDE_BRAKE, INCLUDE_STEERING);
+//Joystick_ Joystick;
+//#endif
 
 #define CH_MAX_NB  8
-#define CPPM_PERIOD_US        22500
+#define CPPM_PERIOD_US        225000
 
 
 HardwareSerial &BT = Serial1;
@@ -90,14 +117,16 @@ char BtMessage[BT_MSG_MAX_LENGTH + 1];
 //char BtMessage[] = "tf s77As5F4s3DCs5BDs3DCs5C9s5DEs5D4:0B";
 boolean nouvellesDonnees = false;
 
+uint8_t goodValue = 0;
+uint8_t newValueCounter = 0;
+  
 uint16_t ppmOut[9];
 
 #define PRINT_BUF_SIZE          100
 static char PrintBuf[PRINT_BUF_SIZE + 1];
 
-#define PRINTF(fmt, ...)    do{if(Serial){snprintf_P(PrintBuf, PRINT_BUF_SIZE, PSTR(fmt) ,##__VA_ARGS__);Serial.print(PrintBuf);}}while(0)
+#define PRINTF(fmt, ...)        snprintf_P(PrintBuf, PRINT_BUF_SIZE, PSTR(fmt) ,##__VA_ARGS__);Serial.print(PrintBuf)
 #define PRINT_P(FlashStr)   do{if(Serial){Serial.print(F(FlashStr));}}while(0)
-#define PRINT_W(FlashStr)   do{if(Serial){Serial.print(FlashStr);}}while(0)
 
 #define BIN_NBL_TO_HEX_DIGIT(BinNbl)      ((BinNbl) < 10) ? ((BinNbl) + '0'): ((BinNbl) - 10 + 'A')
 
@@ -146,12 +175,26 @@ void setup() {
          TIMER(0), CHANNEL(A) -> OC0A -> PB7 -> Pin#11 (/!\ pin not available on connector of Pro Micro /!\)
          TIMER(0), CHANNEL(B) -> OC0B -> PD0 -> Pin#3
 */
-  //TinyCppmGen.begin(TINY_CPPM_GEN_POS_MOD, 8);
-  TinyCppmGen.begin(TINY_CPPM_GEN_NEG_MOD, CH_MAX_NB, CPPM_PERIOD_US);//Futaba use negative pulse
 
+//#if (MODE == PPM)
+//    //TinyCppmGen.begin(TINY_CPPM_GEN_POS_MOD, 8);
+    TinyCppmGen.begin(TINY_CPPM_GEN_NEG_MOD, CH_MAX_NB, CPPM_PERIOD_US);//Futaba use negative pulse
+//#else if (MODE == JOYSTICK)
+//    Joystick.begin(false); 
+//  Joystick.setXAxisRange(-127, 127);
+//  Joystick.setYAxisRange(-127, 127);
+//  Joystick.setZAxisRange(-127, 127);
+//  Joystick.setRxAxisRange(0, 360);
+//  Joystick.setRyAxisRange(360, 0);
+//  Joystick.setRzAxisRange(0, 720);
+//  Joystick.setThrottleRange(0, 255);
+//  Joystick.setRudderRange(255, 0);
+//#endif
+  
 #ifdef DEBUG  
   PRINT_P("CH1\tCH2\tCH3\tCH4\tCH5\tCH6\tCH7\tCH8\tChecksum\r\n");
 #endif
+
 }
 
 void loop() 
@@ -165,13 +208,15 @@ void loop()
   BT.write(Serial.read());
 #else
 
+
+
   //https://electroniqueamateur.blogspot.com/2019/10/texte-et-arduino-2-les-tableaux-de.html
   static byte index = 0;
   char charRecu;
-
+  static uint8_t ComputedCheckSum;
+  
   while (BT.available() > 0 && nouvellesDonnees == false) {
     charRecu = BT.read();
-
     if (charRecu != '\n') { // ce n'est pas la fin du message
       BtMessage[index] = charRecu;
       index++;
@@ -185,55 +230,129 @@ void loop()
       nouvellesDonnees = true;
     }
   }
-  
+
+
+  //nouvellesDonnees = true;// uncomment for test only
   if (nouvellesDonnees == true) 
   {
-    int init_size = strlen(BtMessage);
-    char delim[] = "s:";
-    char *ptr = strtok(BtMessage, delim);// Returns first value (here 'tf')
-
-    ppmOut[0] = ptr;//0 return tf
-
-    uint8_t index = 1;
-    while(ptr != NULL)//return other values
+    //Serial.println(BtMessage);
+    newValueCounter += 1;
+    uint8_t RxChks, ComputedChks;
+    ComputedChks = 0;
+    for(uint8_t Idx = 0; Idx < (8 * 4); Idx++) // Il y a 8 voies et chaque voie fait 4 caractères ->
     {
-      //PRINTF("%s\r\n", ptr);
-      ptr = strtok(NULL, delim);
-      ppmOut[index] = (uint16_t)strtol(ptr, NULL, 16);
-      index++;
+      ComputedChks ^= BtMessage[3 + Idx]; // On commence après un offset de 3 caracteres (apres "tf ")
     }
-    
-#ifdef DEBUG 
-//      PRINT_W(BtMessage);PRINT_P("\r\n");//see https://www.cplusplus.com/reference/cstdio/printf/
-      Serial.print(ppmOut[1]);
-      Serial.print("\t");Serial.print(ppmOut[2]);
-      Serial.print("\t");Serial.print(ppmOut[3]);
-      Serial.print("\t");Serial.print(ppmOut[4]);
-      Serial.print("\t");Serial.print(ppmOut[5]);
-      Serial.print("\t");Serial.print(ppmOut[6]);
-      Serial.print("\t");Serial.print(ppmOut[7]);
-      Serial.print("\t");Serial.print(ppmOut[8]);
-      Serial.print("\t");Serial.println(ppmOut[9]);
-//            PRINTF("%u",ppmOut[1]);
-//            PRINTF("\t%u",n2);
-//            PRINTF("\t%u",n3);
-//            PRINTF("\t%u",n4);
-//            PRINTF("\t%u",n5);
-//            PRINTF("\t%u",n6);
-//            PRINTF("\t%u",n7);
-//            PRINTF("\t%u",n8);
-//            PRINTF("\t%s\r\n",CS);  
-#endif
+    RxChks = (uint8_t)strtol(BtMessage + 3 + (8 * 4) + 1, NULL, 16);
+    //PRINTF("RxChks=0x%02X -> Computed Chks=0x%02X -> %s\n", RxChks, ComputedChks, (RxChks == ComputedChks)? "OK": "KO");
+    //Serial.print("Counter: ");Serial.println(newValueCounter);
+    if(RxChks == ComputedChks)
+    {
+      goodValue += 1;
+      //Serial.print("Good: ");Serial.println(goodValue);
+      for(uint8_t ChId = 1; ChId <= 8; ChId++)
+      {
+        //PRINTF("Ch[%u]=%04u\n", ChId, GetChannelValueUs(ChId));
+        ppmOut[ChId] = GetChannelValueUs(ChId);
+#ifdef DEBUG
+        Serial.print(ppmOut[1]);
+        Serial.print("\t");Serial.print(ppmOut[2]);
+        Serial.print("\t");Serial.print(ppmOut[3]);
+        Serial.print("\t");Serial.print(ppmOut[4]);
+        Serial.print("\t");Serial.print(ppmOut[5]);
+        Serial.print("\t");Serial.print(ppmOut[6]);
+        Serial.print("\t");Serial.print(ppmOut[7]);
+        Serial.print("\t");Serial.println(ppmOut[8]);
+//        PRINTF("%u",ppmOut[1]);
+//        PRINTF("\t%u",ppmOut[2]);
+//        PRINTF("\t%u",ppmOut[3]);
+//        PRINTF("\t%u",ppmOut[4]);
+//        PRINTF("\t%u",ppmOut[5]);
+//        PRINTF("\t%u",ppmOut[6]);
+//        PRINTF("\t%u",ppmOut[7]);
+//        PRINTF("\t%u\r\n",ppmOut[8]);
+#endif       
+      }
+    }
     nouvellesDonnees = false;     
   }
-     
-  //  Mod1 Dir Prof Gaz Ail
-  for (uint8_t i = 1; i < 9 ; i++)
+  if (newValueCounter == 100)
   {
-    TinyCppmGen.setChWidth_us(i, ppmOut[i]); //OpenAVRc Trottle
-  }      
+    //PRINTF("Taux err = %u \r\n",goodValue);
+    newValueCounter = 0;
+    goodValue = 0;   
+  }
+
+//#if (MODE == PPM)
+    //  Mod1 Dir Prof Gaz Ail
+    for (uint8_t i = 1; i < 9 ; i++)
+    {
+      TinyCppmGen.setChWidth_us(i, ppmOut[i]); //OpenAVRc Trottle
+    }        
+//#else if (MODE == JOYSTICK)
+
+//    ppmOut[1] = map(ppmOut[1],1000,2000,0,255);Joystick.setThrottle(ppmOut[1]);//Throttle
+//    ppmOut[2] = map(ppmOut[2],1000,2000,-127,127);Joystick.setXAxis(ppmOut[2]);//Aileron
+//    ppmOut[3] = map(ppmOut[3],1000,2000,-127,127);Joystick.setYAxis(ppmOut[3]);//Elevator
+//    ppmOut[4] = map(ppmOut[4],1000,2000,-127,127);Joystick.setRudder(ppmOut[4]);//Rudder
+//    //n5 = map(n5,1000,2000,-511,511);Joystick.setZAxis(n5);    
+//    if (ppmOut[5] > 1500) Joystick.pressButton(0); else Joystick.releaseButton(0);
+//    if (ppmOut[6] > 1500) Joystick.pressButton(1); else Joystick.releaseButton(1);
+//    if (ppmOut[7] > 1500) Joystick.pressButton(2); else Joystick.releaseButton(2);
+//    if (ppmOut[8] > 1500) Joystick.pressButton(3); else Joystick.releaseButton(3);
+//    Joystick.sendState();     
+//#endif
+     
 #endif     
 }//END LOOP
+
+uint16_t GetChannelValueUs(uint8_t ChId) // ChId va de 1 a 8
+{
+  uint8_t  ChIdx = ChId - 1;
+  uint16_t ChVal = 1500;
+
+  if((ChId >= 1) && (ChId <= 8))
+  {
+    BtMessage[3 + (ChId * 4)] = 0; // Replace 's' by \0 (End of string)
+    ChVal = (uint16_t)strtol(BtMessage + 3 + ((ChId - 1) * 4) + 1, NULL, 16);
+  }
+  return(ChVal);
+}
+
+//void testHatSwitch(unsigned int currentStep)
+//{
+//  if (currentStep < 8)
+//  {
+//    Joystick.setHatSwitch(0, currentStep * 45);
+//  }
+//  else if (currentStep == 8)
+//  {
+//    Joystick.setHatSwitch(0, -1);
+//  }
+//  else if (currentStep < 17)
+//  {
+//    Joystick.setHatSwitch(1, (currentStep - 9) * 45);
+//  }
+//  else if (currentStep == 17)
+//  {
+//    Joystick.setHatSwitch(1, -1);
+//  }
+//  else if (currentStep == 18)
+//  {
+//    Joystick.setHatSwitch(0, 0);
+//    Joystick.setHatSwitch(1, 0);
+//  }
+//  else if (currentStep < 27)
+//  {
+//    Joystick.setHatSwitch(0, (currentStep - 18) * 45);
+//    Joystick.setHatSwitch(1, (8 - (currentStep - 18)) * 45);
+//  }
+//  else if (currentStep == 27)
+//  {
+//    Joystick.setHatSwitch(0, -1);
+//    Joystick.setHatSwitch(1, -1);
+//  }
+//}
 
 #ifdef AT_INIT          // AT configuration of the HC05, to make once time
 void InitBtAuto()
