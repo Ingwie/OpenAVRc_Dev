@@ -30,9 +30,15 @@ Utiliser le croqui ![suivant](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB
 ## Configurer la radio.
 1. Aller dans l'écran Bluetooth de la radio.
 2. Configurer en mode 'Master'.
-3. Lancer un **'Scan'**, vous devriez voir un **BT/SIM**, ![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_ToSimulator/BTScanResult.jpg). Sélectionnez le.
+3. Lancer un **'Scan'**, vous devriez voir un **BT/SIM**.  Sélectionnez le.
+
+![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_ToSimulator/BTScanResult.jpg)
+
 4. Validez **'Auto Connect'**.
-5. Créer un modèle est choisir BT/SIM, ![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_ToSimulator/BTSIM_model.jpg).
+5. Créer un modèle est choisir BT/SIM.
+
+![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_ToSimulator/BTSIM_model.jpg)
+
 6. Eteindre puis redémarrer la radio, celle-ci devrait alors ce connecter au module réception, les leds des deux modules se mettront alors à clignoter toutes les 2 secondes.
 
 Dans tous les cas, démarrer le module réception en premier.
