@@ -25,7 +25,7 @@ Deux options sont possibles:
 ## Réaliser le câblage 
 Utiliser le croqui:
 
-![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_HeadTracker_GY85/BTSIM.jpg)
+![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_HeadTracker_GY85/BTHeadtracker.jpg)
 
 ## Configurer le module réception
 1. Décommenter à la ligne 35 **#define AT_INIT** .

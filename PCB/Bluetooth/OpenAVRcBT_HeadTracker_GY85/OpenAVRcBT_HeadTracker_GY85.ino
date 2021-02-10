@@ -42,9 +42,8 @@
 #define MODE BLUETOOTH //Select PPM or BLUETOOTH
 
 #if (MODE == PPM)
-#include <Rcul.h>
-#include <TinyPinChange.h>
-#include <TinyCppmGen.h>
+#include "PPMEncoder.h"
+#define PPM_OUTPUT_PIN 4
 #endif
 
 #if (MODE == BLUETOOTH)
@@ -89,7 +88,6 @@ char BtMessage[BT_MSG_MAX_LENGTH + 1];
 uint16_t ppmOut[8];
 #define NUM_TRAINER     8
 #define PPM_CENTER      1500
-#define CPPM_PERIOD_US  22500
 int16_t channelOutputs[NUM_TRAINER];
 #define FULL_CHANNEL_OUTPUTS(ch) channelOutputs[ch]
 
@@ -120,7 +118,7 @@ void setup()
 
 
 #if (MODE == PPM)
-  TinyCppmGen.begin(TINY_CPPM_GEN_NEG_MOD, NUM_TRAINER, CPPM_PERIOD_US); /* Change CTINY_PPM_GEN_POS_MOD to TINY_CPPM_GEN_NEG_MOD for NEGative CPPM modulation */
+    ppmEncoder.begin(PPM_OUTPUT_PIN);
 #endif
 
 #if (MODE == BLUETOOTH)
@@ -226,8 +224,23 @@ void headTracking()
     
     //reset timer
     previousMillis = currentMillis;
-  }      
+  }
 
+#if (MODE == PPM)
+  // Min value
+  for (uint8_t i = 5; i<8;i++)
+  {
+    ppmEncoder.setChannel(i, ppmOut[i]);
+    ppmEncoder.setChannel(i, PPMEncoder::MIN);
+    ppmEncoder.setChannelPercent(0, 0);
+  
+    // Max value
+    ppmEncoder.setChannel(i, ppmOut[i]);
+    ppmEncoder.setChannel(i, PPMEncoder::MAX);
+    ppmEncoder.setChannelPercent(0, 100); 
+  }
+       
+#endif
 }
 
 #if (MODE == BLUETOOTH)
