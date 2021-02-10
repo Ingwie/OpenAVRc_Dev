@@ -27,9 +27,9 @@ Deux options sont possibles:
  Configurer dans le code OpenAVRcBT_ToSimulator.ino, ligne 79,  **#define MODE BLUETOOTH**
  
 ## Réaliser le câblage 
-Utiliser le croqui .
+Utiliser le croqui:
 
-![suivant](https://github.com/Ingwie/OpenAVRc_Dev/tree/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/BTSIM.jpg) .
+![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/BTSIM.jpg)
 
 ## Configurer le module réception
 1. Décommenter à la ligne 35 **#define AT_INIT** .
@@ -43,12 +43,12 @@ Utiliser le croqui .
 2. Configurer en mode 'Master'.
 3. Lancer un **'Scan'**, vous devriez voir un **BT/SIM**.  Sélectionnez le.
 
-![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/tree/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/BTScanResult.jpg)
+![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/BTScanResult.jpg)
 
 4. Validez **'Auto Connect'**.
 5. Créer un modèle est choisir autre chose que SIM/BT (par exemple **PPM** ou **Frsky-X**).
 
-![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/tree/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/model.jpg)
+![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/model.jpg)
 
 6. Eteindre puis redémarrer la radio, celle-ci devrait alors ce connecter au module réception, les leds des deux modules se mettront alors à clignoter toutes les 2 secondes.
 
@@ -56,7 +56,7 @@ Dans tous les cas, démarrer le module réception en premier.
 
 PS: Il existe aussi des mini shield usb, mais je n'ai pas réussi pour l'instant à les faire fonctionner.
 
-![suivant](https://github.com/Ingwie/OpenAVRc_Dev/tree/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/Mini_UsbHostShield.jpg) .
+![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/Mini_UsbHostShield.jpg) .
 
 
 
