@@ -34,15 +34,15 @@
 #include "OpenAVRc.h"
 
 
-#define ADC_VREF_TYPE (1 << REFS0) // AVCC with external capacitor at AREF pin
+#define ADC_VREF_TYPE _BV(REFS0) // AVCC with external capacitor at AREF pin
 
 void adcInit()
 {
   ADMUX = ADC_VREF_TYPE;
-  ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS0); // ADC enabled, pre-scaler division=32 (no interrupt, no auto-triggering)
-  ADCSRB = (1 << MUX5);
+  ADCSRA = _BV(ADEN) | _BV(ADPS2) | _BV(ADPS0); // ADC enabled, pre-scaler division=32 (no interrupt, no auto-triggering)
+  ADCSRB = _BV(MUX5); // use port K (AD8 - AD15)
+  DIDR2 = 0xFF; // disable digital input buffer on port K (reduce impedance and noise)
 }
-
 
 void getADC() // 0.56 mS
 {
@@ -62,20 +62,19 @@ uint8_t invMask = 0
 #endif
 ;
 #endif
-
+  uint16_t temp_ana;
   for (uint8_t adc_input=0; adc_input<8; adc_input++) {
-    uint16_t temp_ana;
     ADMUX = adc_input|ADC_VREF_TYPE;
-    ADCSRA |= 1 << ADSC; // Start the AD conversion
+    ADCSRA |= _BV(ADSC); // Start the AD conversion
     while SIMU_UNLOCK_MACRO_FALSE(bit_is_set(ADCSRA,ADSC)); // Wait for the AD conversion to complete
     temp_ana = ADC;
-    ADCSRA |= 1 << ADSC; // Start the second AD conversion
+    ADCSRA |= _BV(ADSC); // Start the second AD conversion
     while SIMU_UNLOCK_MACRO_FALSE(bit_is_set(ADCSRA,ADSC)); // Wait for the AD conversion to complete
     temp_ana += ADC;
 #if defined(INV_STICK_RH) || defined(INV_STICK_LV) || defined(INV_STICK_RV) || defined(INV_STICK_LH)
     if (invMask & 0x1)
     {
-      temp_ana = 0x7FE -temp_ana;
+      temp_ana = 0x7FE - temp_ana;
     }
     invMask >>= 1;
 #endif
