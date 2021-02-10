@@ -34,7 +34,7 @@ Utiliser le croqui .
 ## Configurer le module réception
 1. Décommenter à la ligne 35 **#define AT_INIT** .
 2. Compiler et Télécharger le code.
-3. Au premier lancement, le Pro Micro devrait configurer en **'Slave'** et en **'115200'**.
+3. Au premier lancement, le Uno devrait configurer en **'Slave'** et en **'57600'**, (ou en **115200** pour un board Leonardo)
 4. Commenter à nouveau à la ligne 35  **//#define AT_INIT** .
 5. Compiler et Télécharger le code.Le module réception est prét.
 
