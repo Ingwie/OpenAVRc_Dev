@@ -33,9 +33,12 @@
 #include "GY_85.h"// see https://github.com/sqrtmo/GY-85-arduino
 #include <Wire.h>
 
-//#define AT_INIT
+
+//#define AT_INIT 
+//#define DEBUG
+
 #define PPM         0
-#define BLUETOOTH    1
+#define BLUETOOTH   1
 #define MODE BLUETOOTH //Select PPM or BLUETOOTH
 
 #if (MODE == PPM)
@@ -44,12 +47,12 @@
 #include <TinyCppmGen.h>
 #endif
 
-GY_85 GY85;     //create the object
-
+#if (MODE == BLUETOOTH)
 HardwareSerial & BT = Serial1;
+#endif
 
-//#define AT_INIT 
-#define DEBUG
+
+GY_85 GY85;     //create the object
 
 float gx,gy,gz,gt;
 
@@ -70,7 +73,6 @@ unsigned char buttonHistory = 0;
 
 int test = 0;
 
-uint16_t ppmOut[8];
 
 #ifdef DEBUG
 #define PPM_MIN         1000
@@ -84,11 +86,12 @@ uint32_t PpmSimuStartMs=millis();
 char BtMessage[BT_MSG_MAX_LENGTH + 1];
 #endif
 
-#define PPM_CENTER      1500
+uint16_t ppmOut[8];
 #define NUM_TRAINER     8
+#define PPM_CENTER      1500
+#define CPPM_PERIOD_US  22500
 int16_t channelOutputs[NUM_TRAINER];
 #define FULL_CHANNEL_OUTPUTS(ch) channelOutputs[ch]
-
 
 /**
 * \file  misclib.h
@@ -120,7 +123,7 @@ void setup()
   TinyCppmGen.begin(TINY_CPPM_GEN_NEG_MOD, NUM_TRAINER, CPPM_PERIOD_US); /* Change CTINY_PPM_GEN_POS_MOD to TINY_CPPM_GEN_NEG_MOD for NEGative CPPM modulation */
 #endif
 
-#if (MODE == BLETOOTH)
+#if (MODE == BLUETOOTH)
   BT.begin(115200);  while (!BT);// wait for serial port to connect.
 #endif
 }
@@ -264,45 +267,10 @@ void BT_Send_Channels()
   BT.println(txt);
   
 #ifdef DEBUG
-  //Serial.print(bt);
-  int bt_len = bt.length() + 1;
-  bt.toCharArray(BtMessage, bt_len);
-  
-  //check BT message send
-//  uint8_t RxChks, ComputedChks;
-//  ComputedChks = 0;
-//  for(uint8_t Idx = 0; Idx < (8 * 4); Idx++) // Il y a 8 voies et chaque voie fait 4 caractères ->
-//  {
-//    ComputedChks ^= BtMessage[3 + Idx]; // On commence après un offset de 3 caracteres (apres "tf ")
-//  }
-//  RxChks = (uint8_t)strtol(BtMessage + 3 + (8 * 4) + 1, NULL, 16);
-//  if(RxChks == ComputedChks)
-//  {
-//    Serial.println(" (Good Checksum OK)");
-//  }
-//  else
-//  {
-//    Serial.println(" (Bad Checksum OK)");
-//  }
+  Serial.print(bt);
 #endif  
 
 }
-
-
-#ifdef DEBUG
-uint16_t GetChannelValueUs(uint8_t ChId) // ChId va de 1 a 8
-{
-  uint8_t  ChIdx = ChId - 1;
-  uint16_t ChVal = 1500;
-
-  if((ChId >= 1) && (ChId <= 8))
-  {
-    BtMessage[3 + (ChId * 4)] = 0; // Replace 's' by \0 (End of string)
-    ChVal = (uint16_t)strtol(BtMessage + 3 + ((ChId - 1) * 4) + 1, NULL, 16);
-  }
-  return(ChVal);
-}
-#endif
 
 #ifdef AT_INIT          // AT configuration of the HC05, to make once time
 void InitBtAuto()
