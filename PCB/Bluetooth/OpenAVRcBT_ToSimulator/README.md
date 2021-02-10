@@ -35,7 +35,7 @@ Utiliser le croqui ![suivant](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB
 ![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_ToSimulator/BTScanResult.jpg)
 
 4. Validez **'Auto Connect'**.
-5. Créer un modèle est choisir BT/SIM.
+5. Créer un modèle est choisir SIM/BT.
 
 ![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_ToSimulator/BTSIM_model.jpg)
 
