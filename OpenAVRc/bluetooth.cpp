@@ -193,7 +193,7 @@ void bluetooth_init()
      Serial1.init(RateTbl[Idx]);
      uCliFlushRx();
      Serial1.println(F("AT"));
-     if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, BT_SET_TIMEOUT_MS*4)) >= 0) // V3 HC05 need 2 second to anwser to the first AT !!
+     if((waitForResp(RespBuf, sizeof(RespBuf), Str_CRLF, BT_SET_TIMEOUT_MS*4)) >= 0) // V3 HC05 need 2 second to anwser to the first AT !!
       {
        /* OK Uart serial rate found */
        if(Idx)
