@@ -39,6 +39,10 @@
  Command an OpenAVRc radio with a Logitech 3D Pro Joystick over a HC-05
 */
 
+//#define AT_INIT
+#define PPM         0
+#define BLUETOOTH    1
+#define MODE BLUETOOTH //Select PPM or BLUETOOTH
 
 #include <usbhid.h>
 #include <hiduniversal.h>
@@ -52,11 +56,18 @@
 #endif
 #include <SPI.h>
 
+#if (MODE == PPM)
+#include <Rcul.h>
+#include <TinyPinChange.h>
+#include <TinyCppmGen.h>
+
 //PPM config values
 #define FRAME_LENGTH 22500  //set the PPM frame length in microseconds (1ms = 1000µs)
 #define PULSE_LENGTH 300  //set the pulse length
 #define onState 1  //set polarity of the pulses: 1 is positive, 0 is negative
 #define sigPin 3  //set PPM signal output pin on the arduino
+
+#endif
 
 BtnPPMMap btnPPMMap;
 USB                                             Usb;
@@ -65,10 +76,13 @@ HIDUniversal                                    Hid(&Usb);
 JoystickEvents                                  JoyEvents(&btnPPMMap);
 JoystickReportParser                            Joy(&JoyEvents);
 
-
+#if defined(__AVR_ATmega328P__)
 #include <SoftwareSerial.h>
 SoftwareSerial BT(7,8);// RX, TX use 57600 maxi
-//HardwareSerial & BT = Serial1;// Only with Leonardo board
+#endif
+#if defined(__AVR_ATmega32U4__) 
+HardwareSerial & BT = Serial1;// Only with Leonardo board
+#endif
 
 //#include <TinyCppmGen.h>
 //#include <Rcul.h>
@@ -108,9 +122,15 @@ void setup()
   pinMode(sigPin, OUTPUT);
 //  digitalWrite(sigPin, !onState);  //set the PPM signal pin to the default state (off)
 
-//  TinyCppmGen.begin(TINY_CPPM_GEN_NEG_MOD, NUM_TRAINER, CPPM_PERIOD_US); /* Change CTINY_PPM_GEN_POS_MOD to TINY_CPPM_GEN_NEG_MOD for NEGative CPPM modulation */
-  
+#if defined(__AVR_ATmega328P__)  
   BT.begin(57600);  while (!BT);// wait for serial port to connect.
+#endif
+#if defined(__AVR_ATmega32U4__)  
+  BT.begin(115200);  while (!BT);// wait for serial port to connect.
+#endif
+
+#if (MODE == PPM)
+  TinyCppmGen.begin(TINY_CPPM_GEN_NEG_MOD, NUM_TRAINER, CPPM_PERIOD_US); /* Change CTINY_PPM_GEN_POS_MOD to TINY_CPPM_GEN_NEG_MOD for NEGative CPPM modulation */
 
 /*
   cli();
@@ -123,6 +143,7 @@ void setup()
   TIMSK1 |= (1 << OCIE1A); // enable timer compare interrupt
   sei();
 */
+#endif
 }
 
 void loop()
@@ -148,9 +169,19 @@ void loop()
 //  Serial.print("\t");Serial.print(ppmOut[7]);
 //  Serial.print("\t");Serial.println(ppmOut[8]);
   //btnPPMMap.debug();
-  BT_Send_Channels();  
+
+#if (MODE == PPM)
+	for (uint8_t i = 0; i < 8 ; i++)
+	{
+	  TinyCppmGen.setChWidth_us(i+1, ppmOut[i]); //OpenAVRc Trottle
+	} 
+#endif
+#if (MODE == BLUETOOTH)
+  BT_Send_Channels();
+#endif  
 }
 
+#if (MODE == BLUETOOTH)
 void BT_Send_Channels()
 {
   char txt;
@@ -186,7 +217,9 @@ void BT_Send_Channels()
   bt += (String)txt;
   BT.println(txt);
 }
+#endif
 
+#if (MODE == BLUETOOTH)
 #ifdef AT_INIT          // AT configuration of the HC05, to make once time
 void InitBtAuto()
 {
@@ -244,7 +277,9 @@ char c;
 }
 
 #endif
+#endif
 
+#if (MODE == PPM)
 /*
 ISR(TIMER1_COMPA_vect) { //leave this alone
   static boolean state = true;
@@ -277,3 +312,4 @@ ISR(TIMER1_COMPA_vect) { //leave this alone
     }
   }
 */
+#endif
