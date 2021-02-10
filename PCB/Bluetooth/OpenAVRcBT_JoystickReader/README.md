@@ -4,12 +4,16 @@ Elles peuvent être configurées soit en 'maître' soit en 'esclave'.
 Seule une radio définie en 'maître' peut lancer un scan afin de trouver une autre radio autour d'elle, qui elle, devra être définie en 'esclave'.
 
 L'option Bluetooh permet de connecter deux radios en mode écolage.
-Grâce à cette option, on peut commander la radio à partir d'un joystick USB de type Logiteck 3D Pro.
+Grâce à cette option, on peut commander la radio à partir d'un joystick USB de type Logitech 3D Pro.
 Cette interface utilise un shiel Arduino de type *USB Host Shield v2.0*.
 
 ![ici](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/UsbHostShieldv2.0.jpg)     ![ici](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/UsbHostShield&Uno.jpg)
 
- Le code Arduino est téléchargeable [ici](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/OpenAVRcBT_JoystickReader.ino).
+La plupart des shields Usb sont des copies. Sur presque toutes, il faut réaliser trois ponts de soudures ainsi:
+
+![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/UsbHostShield_link.jpg)
+
+Le code Arduino est téléchargeable [ici](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/OpenAVRcBT_JoystickReader.ino).
 
 Deux options sont possibles:
 1. L'interface simule un signal **CPPM**.
@@ -49,5 +53,11 @@ Utiliser le croqui .
 6. Eteindre puis redémarrer la radio, celle-ci devrait alors ce connecter au module réception, les leds des deux modules se mettront alors à clignoter toutes les 2 secondes.
 
 Dans tous les cas, démarrer le module réception en premier.
+
+PS: Il existe aussi des mini shield usb, mais je n'ai pas réussi pour l'instant à les faire fonctionner.
+
+![suivant](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_ToSimulator/Mini_UsbHostShield.jpg) .
+
+
 
 
