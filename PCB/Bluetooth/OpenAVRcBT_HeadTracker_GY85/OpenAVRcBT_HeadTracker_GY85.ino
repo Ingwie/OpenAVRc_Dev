@@ -33,6 +33,17 @@
 #include "GY_85.h"// see https://github.com/sqrtmo/GY-85-arduino
 #include <Wire.h>
 
+//#define AT_INIT
+#define PPM         0
+#define BLUETOOTH    1
+#define MODE BLUETOOTH //Select PPM or BLUETOOTH
+
+#if (MODE == PPM)
+#include <Rcul.h>
+#include <TinyPinChange.h>
+#include <TinyCppmGen.h>
+#endif
+
 GY_85 GY85;     //create the object
 
 HardwareSerial & BT = Serial1;
@@ -103,14 +114,23 @@ void setup()
   GY85.init();
   delay(10);
 
-  BT.begin(115200);  while (!BT);// wait for serial port to connect.
 
+
+#if (MODE == PPM)
+  TinyCppmGen.begin(TINY_CPPM_GEN_NEG_MOD, NUM_TRAINER, CPPM_PERIOD_US); /* Change CTINY_PPM_GEN_POS_MOD to TINY_CPPM_GEN_NEG_MOD for NEGative CPPM modulation */
+#endif
+
+#if (MODE == BLETOOTH)
+  BT.begin(115200);  while (!BT);// wait for serial port to connect.
+#endif
 }
 
 void loop()
 {
   headTracking();
+#if (MODE == BLUETOOTH)
   BT_Send_Channels();
+#endif 
 }
 
 
@@ -207,6 +227,7 @@ void headTracking()
 
 }
 
+#if (MODE == BLUETOOTH)
 void BT_Send_Channels()
 {
   char txt;
@@ -266,6 +287,7 @@ void BT_Send_Channels()
 #endif  
 
 }
+
 
 #ifdef DEBUG
 uint16_t GetChannelValueUs(uint8_t ChId) // ChId va de 1 a 8
@@ -338,4 +360,5 @@ char c;
   delay(10);
 }
 
+#endif
 #endif
