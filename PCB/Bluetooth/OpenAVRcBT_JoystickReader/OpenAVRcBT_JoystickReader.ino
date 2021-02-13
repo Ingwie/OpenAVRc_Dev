@@ -57,9 +57,8 @@
 #include <SPI.h>
 
 #if (MODE == PPM)
-#include <Rcul.h>
-#include <TinyPinChange.h>
-#include <TinyCppmGen.h>
+#include "PPMEncoder.h"
+#define PPM_OUTPUT_PIN 4
 
 //PPM config values
 #define FRAME_LENGTH 22500  //set the PPM frame length in microseconds (1ms = 1000µs)
@@ -132,8 +131,7 @@ void setup()
 #endif
 
 #if (MODE == PPM)
-  TinyCppmGen.begin(TINY_CPPM_GEN_NEG_MOD, NUM_TRAINER, CPPM_PERIOD_US); /* Change CTINY_PPM_GEN_POS_MOD to TINY_CPPM_GEN_NEG_MOD for NEGative CPPM modulation */
-
+  ppmEncoder.begin(PPM_OUTPUT_PIN);
 /*
   cli();
   TCCR1A = 0; // set entire TCCR1 register to 0
@@ -175,7 +173,14 @@ void loop()
 #if (MODE == PPM)
 	for (uint8_t i = 0; i < 8 ; i++)
 	{
-	  TinyCppmGen.setChWidth_us(i+1, ppmOut[i]); //OpenAVRc Trottle
+		ppmEncoder.setChannel(i, ppmOut[i]);
+		ppmEncoder.setChannel(i, PPMEncoder::MIN);
+		ppmEncoder.setChannelPercent(0, 0);
+	  
+		// Max value
+		ppmEncoder.setChannel(i, ppmOut[i]);
+		ppmEncoder.setChannel(i, PPMEncoder::MAX);
+		ppmEncoder.setChannelPercent(0, 100);
 	} 
 #endif
 #if (MODE == BLUETOOTH)
