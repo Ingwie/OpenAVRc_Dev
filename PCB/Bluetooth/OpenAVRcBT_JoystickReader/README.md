@@ -48,7 +48,9 @@ Cette solution utilise un Pro Mini 3,3v/8Mhz car le mini shield usb ne supporte 
 3. Compiler et Télécharger le code.
 4. Au premier lancement, le Uno ou Pro Mini devrait configurer en **'Slave'** et en **'57600'**, (ou en **115200** pour un board Leonardo)
 5. Commenter à nouveau à la ligne 42  **//#define AT_INIT** .
-6. Compiler et Télécharger le code.Le module réception est prét.
+6. Compiler et Télécharger le code. Le module réception est prét.
+7. Par défaut, le code est configuré pour fonctionner avec un module BLUETOOTH HC-05 mais vous pouvez utiliser le mode PPM.  
+ **#define MODE PPM** //Selectionnez PPM ou BLUETOOTH ligne 47
 
 ## Configurer la radio.
 1. Aller dans l'écran Bluetooth de la radio.
