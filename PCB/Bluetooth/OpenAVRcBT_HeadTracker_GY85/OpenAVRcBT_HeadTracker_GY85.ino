@@ -109,7 +109,6 @@ void setup()
   delay(10);
 #ifdef DEBUG    
   Serial.begin(115200);
-  
 #endif
   delay(10);
   GY85.init();
@@ -239,7 +238,16 @@ void headTracking()
     ppmEncoder.setChannel(i, PPMEncoder::MAX);
     ppmEncoder.setChannelPercent(0, 100); 
   }
-       
+#ifdef DEBUG
+  Serial.print(ppmOut[0]);
+  Serial.print("\t");Serial.print(ppmOut[1]);
+  Serial.print("\t");Serial.print(ppmOut[2]);
+  Serial.print("\t");Serial.print(ppmOut[3]);
+  Serial.print("\t");Serial.print(ppmOut[4]);
+  Serial.print("\t");Serial.print(ppmOut[5]);
+  Serial.print("\t");Serial.print(ppmOut[6]);
+  Serial.print("\t");Serial.println(ppmOut[7]);
+#endif      
 #endif
 }
 
@@ -280,7 +288,7 @@ void BT_Send_Channels()
   BT.println(txt);
   
 #ifdef DEBUG
-  Serial.print(bt);
+  Serial.println(bt);
 #endif  
 
 }
