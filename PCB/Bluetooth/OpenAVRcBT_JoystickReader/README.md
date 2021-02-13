@@ -5,13 +5,6 @@ Seule une radio définie en 'maître' peut lancer un scan afin de trouver une au
 
 L'option Bluetooh permet de connecter deux radios en mode écolage.
 Grâce à cette option, on peut commander la radio à partir d'un joystick USB de type Logitech 3D Pro.
-Cette interface utilise un shield Arduino de type *USB Host Shield v2.0*.
-
-![ici](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/UsbHostShieldv2.0.jpg)     ![ici](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/UsbHostShield&Uno.jpg)
-
-La plupart des shields Usb sont des copies. Sur presque toutes, il faut réaliser trois ponts de soudures ainsi:
-
-![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/UsbHostShield_link.jpg)
 
 Le code Arduino est téléchargeable [ici](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/OpenAVRcBT_JoystickReader.ino).
 
@@ -26,19 +19,36 @@ Deux options sont possibles:
 ## Utiliser le module réception en mode Bluetooth
  Configurer dans le code OpenAVRcBT_JoystickReader, ligne 45,  **#define MODE BLUETOOTH**
  
-## Réaliser le câblage 
+# Réaliser le câblage
+## A. Carte Uno ou Leonardo
+
+Cette solution utilise un shield Arduino de type *USB Host Shield v2.0*.
+
+![ici](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/UsbHostShieldv2.0.jpg)     ![ici](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/UsbHostShield&Uno.jpg)
+
+La plupart des shields Usb sont des copies. Sur presque toutes, il faut réaliser trois ponts de soudures ainsi:
+
+![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/UsbHostShield_link.jpg)
+
 Utiliser l'un des croquis suivants:
 
 ![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/BTSIMUno.jpg)
 
 ![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/BTSIMLeonardo.jpg)
 
+## B. Carte Pro Min 3,3v/8Mhz
+
+Cette solution utilise un Pro Mini 3,3v/8Mhz car le mini shield usb ne supporte que 3,3v.
+
+![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/BTSIMProMini.jpg) .
+
 ## Configurer le module réception
-1. Décommenter à la ligne 42 **#define AT_INIT** .
-2. Compiler et Télécharger le code.
-3. Au premier lancement, le Uno devrait configurer en **'Slave'** et en **'57600'**, (ou en **115200** pour un board Leonardo)
-4. Commenter à nouveau à la ligne 42  **//#define AT_INIT** .
-5. Compiler et Télécharger le code.Le module réception est prét.
+1. Installer la bibliothèque [USB Host Shield Library 2.0](https://www.arduinolibraries.info/libraries/usb-host-shield-library-2-0) dans l'IDE Arduino.
+2. Décommenter à la ligne 42 **#define AT_INIT** .
+3. Compiler et Télécharger le code.
+4. Au premier lancement, le Uno devrait configurer en **'Slave'** et en **'57600'**, (ou en **115200** pour un board Leonardo)
+5. Commenter à nouveau à la ligne 42  **//#define AT_INIT** .
+6. Compiler et Télécharger le code.Le module réception est prét.
 
 ## Configurer la radio.
 1. Aller dans l'écran Bluetooth de la radio.
@@ -60,9 +70,7 @@ Utiliser l'un des croquis suivants:
 
 Dans tous les cas, démarrer le module réception en premier.
 
-PS: Il existe aussi des mini shield usb, mais je n'ai pas réussi pour l'instant à les faire fonctionner.
 
-![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/Mini_UsbHostShield.jpg) .
 
 
 
