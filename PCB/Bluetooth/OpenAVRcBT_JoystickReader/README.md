@@ -36,14 +36,14 @@ Utiliser l'un des croquis suivants:
 
 ![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/BTSIMLeonardo.jpg)
 
-## B. Carte Pro Min 3,3v/8Mhz
+## B. Carte Pro Mini 3,3v/8Mhz
 
 Cette solution utilise un Pro Mini 3,3v/8Mhz car le mini shield usb ne supporte que 3,3v.
 
 ![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/BTSIMProMini.jpg) .
 
 ## Configurer le module réception
-1. Installer la bibliothèque [USB Host Shield Library 2.0](https://www.arduinolibraries.info/libraries/usb-host-shield-library-2-0) dans l'IDE Arduino.
+1. Installer les bibliothèques [USB Host Shield Library 2.0](https://www.arduinolibraries.info/libraries/usb-host-shield-library-2-0) et [PPMEncoder](https://github.com/schinken/PPMEncoder) dans l'IDE Arduino.
 2. Décommenter à la ligne 42 **#define AT_INIT** .
 3. Compiler et Télécharger le code.
 4. Au premier lancement, le Uno devrait configurer en **'Slave'** et en **'57600'**, (ou en **115200** pour un board Leonardo)
