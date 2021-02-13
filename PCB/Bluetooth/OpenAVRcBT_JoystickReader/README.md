@@ -27,9 +27,11 @@ Deux options sont possibles:
  Configurer dans le code OpenAVRcBT_JoystickReader, ligne 45,  **#define MODE BLUETOOTH**
  
 ## Réaliser le câblage 
-Utiliser le croqui:
+Utiliser l'un des croquis suivants:
 
-![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/BTSIM.jpg)
+![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/BTSIMUno.jpg)
+
+![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/BTSIMLeonardo.jpg)
 
 ## Configurer le module réception
 1. Décommenter à la ligne 42 **#define AT_INIT** .
