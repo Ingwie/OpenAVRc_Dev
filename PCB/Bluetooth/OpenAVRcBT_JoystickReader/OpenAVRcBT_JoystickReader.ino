@@ -122,11 +122,13 @@ void setup()
   pinMode(sigPin, OUTPUT);
 //  digitalWrite(sigPin, !onState);  //set the PPM signal pin to the default state (off)
 
+#if (MODE == BLETOOTH)
 #if defined(__AVR_ATmega328P__)  
   BT.begin(57600);  while (!BT);// wait for serial port to connect.
 #endif
 #if defined(__AVR_ATmega32U4__)  
   BT.begin(115200);  while (!BT);// wait for serial port to connect.
+#endif
 #endif
 
 #if (MODE == PPM)
@@ -228,7 +230,12 @@ void InitBtAuto()
   if (!waitFor("OK\r\n")) Serial.println("time out error AT");
 
   Serial.print("UART: ");               // serial communication parameters
+#if defined(__AVR_ATmega328P__)
+  BT.print("AT+UART=57600,0,0\r\n");
+#endif
+#if defined(__AVR_ATmega32U4__) 
   BT.print("AT+UART=115200,0,0\r\n");
+#endif
   if (!waitFor("OK\r\n")) Serial.println("time out error AT+UART");
 
   Serial.print("NAME: ");               // bluetooth device name
