@@ -5,7 +5,7 @@ Seule une radio définie en 'maître' peut lancer un scan afin de trouver une au
 
 L'option Bluetooh permet de connecter deux radios en mode écolage.
 Grâce à cette option, on peut commander la radio à partir d'un joystick USB de type Logitech 3D Pro.
-Cette interface utilise un shiel Arduino de type *USB Host Shield v2.0*.
+Cette interface utilise un shield Arduino de type *USB Host Shield v2.0*.
 
 ![ici](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/UsbHostShieldv2.0.jpg)     ![ici](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/UsbHostShield&Uno.jpg)
 
@@ -21,10 +21,10 @@ Deux options sont possibles:
  
 
 ## Utiliser le module réception en mode PPM
- Configurer dans le code OpenAVRcBT_ToSimulator.ino, ligne 79,  **#define MODE PPM**
+ Configurer dans le code OpenAVRcBT_JoystickReader, ligne 45,  **#define MODE PPM**
 
 ## Utiliser le module réception en mode Bluetooth
- Configurer dans le code OpenAVRcBT_ToSimulator.ino, ligne 79,  **#define MODE BLUETOOTH**
+ Configurer dans le code OpenAVRcBT_JoystickReader, ligne 45,  **#define MODE BLUETOOTH**
  
 ## Réaliser le câblage 
 Utiliser le croqui:
@@ -32,10 +32,10 @@ Utiliser le croqui:
 ![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/BTSIM.jpg)
 
 ## Configurer le module réception
-1. Décommenter à la ligne 35 **#define AT_INIT** .
+1. Décommenter à la ligne 42 **#define AT_INIT** .
 2. Compiler et Télécharger le code.
 3. Au premier lancement, le Uno devrait configurer en **'Slave'** et en **'57600'**, (ou en **115200** pour un board Leonardo)
-4. Commenter à nouveau à la ligne 35  **//#define AT_INIT** .
+4. Commenter à nouveau à la ligne 42  **//#define AT_INIT** .
 5. Compiler et Télécharger le code.Le module réception est prét.
 
 ## Configurer la radio.
@@ -46,7 +46,7 @@ Utiliser le croqui:
 ![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/BTScanResult.jpg)
 
 4. Validez **'Auto Connect'**.
-5. Créer un modèle est choisir autre chose que SIM/BT (par exemple **PPM** ou **Frsky-X**).
+5. Créer un modèle et choisir autre chose que SIM/BT (par exemple **PPM** ou **Frsky-X**).
 
 ![ainsi](https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/PCB/Bluetooth/OpenAVRcBT_JoystickReader/model.jpg)
 
