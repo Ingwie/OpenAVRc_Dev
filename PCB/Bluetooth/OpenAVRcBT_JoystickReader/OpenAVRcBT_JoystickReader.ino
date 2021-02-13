@@ -118,7 +118,7 @@ void setup()
   if (!Hid.SetReportParser(0, &Joy))
     ErrorMessage<uint8_t>(PSTR("SetReportParser"), 1  );
 
-  pinMode(sigPin, OUTPUT);
+//  pinMode(sigPin, OUTPUT);
 //  digitalWrite(sigPin, !onState);  //set the PPM signal pin to the default state (off)
 
 #if (MODE == BLETOOTH)
