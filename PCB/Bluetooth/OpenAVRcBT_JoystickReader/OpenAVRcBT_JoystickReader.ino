@@ -40,8 +40,10 @@
 */
 
 //#define AT_INIT
+#define DEBUG
+
 #define PPM         0
-#define BLUETOOTH    1
+#define BLUETOOTH   1
 #define MODE BLUETOOTH //Select PPM or BLUETOOTH
 
 #include <usbhid.h>
@@ -59,13 +61,17 @@
 #if (MODE == PPM)
 #include "PPMEncoder.h"
 #define PPM_OUTPUT_PIN 4
+#endif
 
-//PPM config values
-#define FRAME_LENGTH 22500  //set the PPM frame length in microseconds (1ms = 1000µs)
-#define PULSE_LENGTH 300  //set the pulse length
-#define onState 1  //set polarity of the pulses: 1 is positive, 0 is negative
-#define sigPin 3  //set PPM signal output pin on the arduino
-
+#if (MODE == BLUETOOTH)
+uint16_t BLUETOOTH_BAUDS;
+#if defined(__AVR_ATmega328P__)
+#include <SoftwareSerial.h>
+SoftwareSerial BT(7,8);// RX, TX use 57600 maxi
+#endif
+#if defined(__AVR_ATmega32U4__) 
+HardwareSerial & BT = Serial1;// Only with Leonardo board
+#endif
 #endif
 
 BtnPPMMap btnPPMMap;
@@ -75,20 +81,7 @@ HIDUniversal                                    Hid(&Usb);
 JoystickEvents                                  JoyEvents(&btnPPMMap);
 JoystickReportParser                            Joy(&JoyEvents);
 
-#if defined(__AVR_ATmega328P__)
-#include <SoftwareSerial.h>
-SoftwareSerial BT(7,8);// RX, TX use 57600 maxi
-#endif
-#if defined(__AVR_ATmega32U4__) 
-HardwareSerial & BT = Serial1;// Only with Leonardo board
-#endif
-
-//#include <TinyCppmGen.h>
-//#include <Rcul.h>
-#define CPPM_PERIOD_US  22500
-#define PPM_CENTER      1500
-#define NUM_TRAINER     8
-int16_t channelOutputs[NUM_TRAINER];
+int16_t channelOutputs[BtnPPMMap::NUM_CHANNELS];
 #define FULL_CHANNEL_OUTPUTS(ch) channelOutputs[ch]
 uint16_t ppmOut[8];
 
@@ -100,10 +93,9 @@ uint16_t ppmOut[8];
 */
 #define BIN_NBL_TO_HEX_DIGIT(BinNbl)      ((BinNbl) < 10) ? ((BinNbl) + '0'): ((BinNbl) - 10 + 'A')
 
-
-
 void setup()
 {
+ 
   Serial.begin( 115200 );
 #if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
@@ -118,10 +110,20 @@ void setup()
   if (!Hid.SetReportParser(0, &Joy))
     ErrorMessage<uint8_t>(PSTR("SetReportParser"), 1  );
 
-//  pinMode(sigPin, OUTPUT);
-//  digitalWrite(sigPin, !onState);  //set the PPM signal pin to the default state (off)
+#if (MODE == PPM)
+  ppmEncoder.begin(PPM_OUTPUT_PIN);
+#endif
 
-#if (MODE == BLETOOTH)
+#ifdef AT_INIT
+  #undef MODE
+  Serial.begin( 9600 );//need to be < BT speed in this mode
+  BT.begin(38400);while (!BT);
+  InitBtAuto();
+  delay(500);
+  ReadBTSettings();
+#endif
+  
+#if (MODE == BLUETOOTH)
 #if defined(__AVR_ATmega328P__)  
   BT.begin(57600);  while (!BT);// wait for serial port to connect.
 #endif
@@ -130,24 +132,19 @@ void setup()
 #endif
 #endif
 
-#if (MODE == PPM)
-  ppmEncoder.begin(PPM_OUTPUT_PIN);
-/*
-  cli();
-  TCCR1A = 0; // set entire TCCR1 register to 0
-  TCCR1B = 0;
-
-  OCR1A = 100;  // compare match register, change this
-  TCCR1B |= (1 << WGM12);  // turn on CTC mode
-  TCCR1B |= (1 << CS11);  // 8 prescaler: 0,5 microseconds at 16mhz
-  TIMSK1 |= (1 << OCIE1A); // enable timer compare interrupt
-  sei();
-*/
-#endif
 }
+
 
 void loop()
 {
+
+#ifdef AT_INIT
+  if (BT.available())  
+  Serial.write(BT.read());
+
+  if (Serial.available())  
+  BT.write(Serial.read());
+#else  
   Usb.Task();
   if (Usb.getUsbTaskState() != USB_STATE_RUNNING)
   {
@@ -160,32 +157,30 @@ void loop()
   {
     ppmOut[ch] = btnPPMMap.getChannelValue(ch);
   }
-//  Serial.print(ppmOut[1]);
-//  Serial.print("\t");Serial.print(ppmOut[2]);
-//  Serial.print("\t");Serial.print(ppmOut[3]);
-//  Serial.print("\t");Serial.print(ppmOut[4]);
-//  Serial.print("\t");Serial.print(ppmOut[5]);
-//  Serial.print("\t");Serial.print(ppmOut[6]);
-//  Serial.print("\t");Serial.print(ppmOut[7]);
-//  Serial.print("\t");Serial.println(ppmOut[8]);
-  //btnPPMMap.debug();
+  
+#ifdef DEBUG
+  btnPPMMap.debug();
+#endif
 
-#if (MODE == PPM)
+#if (MODE == PPM)  
 	for (uint8_t i = 0; i < 8 ; i++)
 	{
 		ppmEncoder.setChannel(i, ppmOut[i]);
-		ppmEncoder.setChannel(i, PPMEncoder::MIN);
+		ppmEncoder.setChannel(i, BtnPPMMap::PPM_MIN_VALUE);
 		ppmEncoder.setChannelPercent(0, 0);
 	  
 		// Max value
 		ppmEncoder.setChannel(i, ppmOut[i]);
-		ppmEncoder.setChannel(i, PPMEncoder::MAX);
+		ppmEncoder.setChannel(i, BtnPPMMap::PPM_MAX_VALUE);
 		ppmEncoder.setChannelPercent(0, 100);
 	} 
 #endif
+
 #if (MODE == BLUETOOTH)
   BT_Send_Channels();
-#endif  
+#endif
+
+#endif
 }
 
 #if (MODE == BLUETOOTH)
@@ -197,7 +192,7 @@ void BT_Send_Channels()
   BT.print(F("tf "));
   bt += "tf ";
  
-  for(uint8_t Idx = 0; Idx < NUM_TRAINER; Idx++)
+  for(uint8_t Idx = 0; Idx < BtnPPMMap::NUM_CHANNELS; Idx++)
   {
 
    BT.print('s');
@@ -226,7 +221,7 @@ void BT_Send_Channels()
 }
 #endif
 
-#if (MODE == BLUETOOTH)
+
 #ifdef AT_INIT          // AT configuration of the HC05, to make once time
 void InitBtAuto()
 {
@@ -236,10 +231,10 @@ void InitBtAuto()
 
   Serial.print("UART: ");               // serial communication parameters
 #if defined(__AVR_ATmega328P__)
-  BT.print("AT+UART=57600,0,0\r\n");
+  BT.print("AT+UART=57600,0,0\r\n");//57600
 #endif
 #if defined(__AVR_ATmega32U4__) 
-  BT.print("AT+UART=115200,0,0\r\n");
+  BT.print("AT+UART=115200,0,0\r\n");//115200
 #endif
   if (!waitFor("OK\r\n")) Serial.println("time out error AT+UART");
 
@@ -255,15 +250,20 @@ void InitBtAuto()
   BT.print("AT+ROLE=0\r\n");
   if (!waitFor("OK\r\n")) Serial.println("time out error AT+ROLE");
 
-//  Serial.print("RMAAD: ");              // Delete all authenticated devices in the pair list
-//  BT.print("AT+RMAAD\r\n");
-//  if (!waitFor("OK\r\n")) Serial.println("time out error AT+RMAAD");
+//  digitalWrite(MODULE_KEY, LOW);            // leave AT mode & switch back to communication mode
+}
 
-//  Serial.print("CMODE: ");              // connection mode
-//  BT.print("AT+CMODE=0\r\n");
-//  if (!waitFor("OK\r\n")) Serial.println("time out error AT+CMODE");
+void ReadBTSettings()
+{
+  BT.print("AT\r\n");
 
-  digitalWrite(MODULE_KEY, LOW);            // leave AT mode & switch back to communication mode
+  BT.print("AT+UART\r\n");
+
+  BT.print("AT+NAME\r\n");
+
+  BT.print("AT+PSWD\r\n");
+
+  BT.print("AT+ROLE\r\n");
 }
 
 //  The waitFor a string function with time out
@@ -288,40 +288,4 @@ char c;
   delay(10);
 }
 
-#endif
-#endif
-
-#if (MODE == PPM)
-/*
-ISR(TIMER1_COMPA_vect) { //leave this alone
-  static boolean state = true;
-
-  TCNT1 = 0;
-
-  if (state) {  //start pulse
-    digitalWrite(sigPin, onState);
-    OCR1A = PULSE_LENGTH * 2;
-    state = false;
-  } else { //end pulse and calculate when to start the next pulse
-    static byte cur_chan_numb;
-    int channelValue;
-    static unsigned int calc_rest;
-
-    digitalWrite(sigPin, !onState);
-    state = true;
-
-    if (cur_chan_numb >= BtnPPMMap::NUM_CHANNELS) {
-      cur_chan_numb = 0;
-      calc_rest = calc_rest + PULSE_LENGTH;//
-      OCR1A = (FRAME_LENGTH - calc_rest) * 2;
-      calc_rest = 0;
-    }
-    else {
-      channelValue = btnPPMMap.getChannelValue(cur_chan_numb);
-      OCR1A = (channelValue - PULSE_LENGTH) * 2;
-      calc_rest = calc_rest + channelValue;
-      cur_chan_numb++;
-    }
-  }
-*/
 #endif
