@@ -14,9 +14,10 @@ https://github.com/Ingwie/OpenAVRc_Dev/blob/V3/documentation/Compilez%20votre%20
 Each X-Any switch command one sound.
 With 8 switchs you can command 8 sounds.
 But the JQ6500 has 5 inputs that can be used for command 5 other sounds.
+Add if you use as input CPPM, SBUS, SRXL, SUMD, IBUS or JETI, you can play 8 sounds in same time you move your throttle stick.
 
-So, it's possible to command 13 sounds.
-The JQ6500 inputs commands sounds from 1 to 5 and X-Any switchs command sounds from 6 to 13.
+So, it's possible to command 21 sounds.
+The JQ6500 inputs commands sounds from 1 to 5 , X-Any switchs command sounds from 6 to 13 and with throttle 14 to 21.
 You can select this mode or not (shift mode) when your are in the configuration mode.
 Exemple as use, connect the K1 to K5 inputs to 5 relay and you can use the JQ6500 as alarm in a boat .
 K1 to K5 are active with a ground connection.
@@ -45,6 +46,8 @@ When you are in the configuration mode, type h key and ENTER for see all options
 	 5,6,7,9,10,11,12,13,14,15 Xany channel
 	 4 or 8 or 16 Sounds mode
 	 s set shift mode On/Off
+	 t set shift mode On/Off
+	 1,2,3,4 Throttle Channel
 	 c set PWM mode
 	 p set PPM mode
 	 s set SBUS mode
