@@ -697,6 +697,7 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
   configFile->Read(wxT("SHUTDOWN_CONFIRMATION"),&SHUTDOWN_CONFIRMATION);
   configFile->Read(wxT("FRAM"),&FRAM);
   configFile->Read(wxT("BLUETOOTH"),&BLUETOOTH);
+  configFile->Read(wxT("BLUETOOTHCOMPONENT"),&BLUETOOTHCOMPONENT);
   configFile->Read(wxT("XMODEM"),&XMODEM);
   configFile->Read(wxT("PERSONAMES"),&PERSONAMES);
   configFile->Read(wxT("INV_STICK_RH"),&INV_STICK_RH);
@@ -829,6 +830,7 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
   configFile->Write(wxT("SHUTDOWN_CONFIRMATION"),SHUTDOWN_CONFIRMATION);
   configFile->Write(wxT("FRAM"),FRAM);
   configFile->Write(wxT("BLUETOOTH"),BLUETOOTH);
+  configFile->Write(wxT("BLUETOOTHCOMPONENT"),BLUETOOTHCOMPONENT);
   configFile->Write(wxT("XMODEM"),XMODEM);
   configFile->Write(wxT("PERSONAMES"),PERSONAMES);
   configFile->Write(wxT("INV_STICK_RH"),INV_STICK_RH);
