@@ -140,10 +140,12 @@ bool CC2500 = 0;
 bool CYRF6936 = 0;
 bool NRF24l01 = 0;
 bool A7105 = 0;
+bool SX1276 = 0;
 wxString CC2500PAG = ("0");
 wxString CYRF6936PAG = ("0");
 wxString NRF24l01PAG = ("0");
 wxString A7105PAG = ("0");
+wxString BLUETOOTHCOMPONENT = ("0");
 bool SD_CARD = 0;
 bool TEMPLATES = 0;
 wxString THREE_POS = ("NO");
@@ -660,6 +662,7 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
   configFile->Read(wxT("CYRF6936"),&CYRF6936);
   configFile->Read(wxT("NRF24l01"),&NRF24l01);
   configFile->Read(wxT("A7105"),&A7105);
+  configFile->Read(wxT("SX1276"),&SX1276);
   configFile->Read(wxT("CC2500PAG"),&CC2500PAG);
   configFile->Read(wxT("CYRF6936PAG"),&CYRF6936PAG);
   configFile->Read(wxT("NRF24l01PAG"),&NRF24l01PAG);
@@ -791,6 +794,7 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
   configFile->Write(wxT("CYRF6936"),CYRF6936);
   configFile->Write(wxT("NRF24l01"),NRF24l01);
   configFile->Write(wxT("A7105"),A7105);
+  configFile->Write(wxT("SX1276"),SX1276);
   configFile->Write(wxT("CC2500PAG"),CC2500PAG);
   configFile->Write(wxT("CYRF6936PAG"),CYRF6936PAG);
   configFile->Write(wxT("NRF24l01PAG"),NRF24l01PAG);
