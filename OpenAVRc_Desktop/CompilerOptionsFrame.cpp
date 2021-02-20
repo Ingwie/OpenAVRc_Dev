@@ -133,11 +133,13 @@ const long CompilerOptionsFrame::ID_BUTTON4 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX23 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX24 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX25 = wxNewId();
+const long CompilerOptionsFrame::ID_CHECKBOX35 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX29 = wxNewId();
 const long CompilerOptionsFrame::ID_CHOICECYRF6936PAG = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT28 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX33 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX34 = wxNewId();
+const long CompilerOptionsFrame::ID_CHOICEBLUETOOTH = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL3 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX7 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX10 = wxNewId();
@@ -195,7 +197,7 @@ END_EVENT_TABLE()
 CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
   //(*Initialize(CompilerOptionsFrame)
-  Create(parent, wxID_ANY, ("Compil-O-matic"), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
+  Create(parent, wxID_ANY, _("Compil-O-matic"), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
   SetClientSize(wxSize(790,367));
   Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(0,0), wxSize(830,368), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
   Panel1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
@@ -296,10 +298,10 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   Panel3 = new wxPanel(Notebook1, ID_PANEL3, wxDefaultPosition, wxSize(800,364), wxTAB_TRAVERSAL, _T("ID_PANEL3"));
   StaticBox3 = new wxStaticBox(Panel3, ID_STATICBOX3, _("Autres paramètres"), wxPoint(304,8), wxSize(472,256), 0, _T("ID_STATICBOX3"));
   StaticBox1 = new wxStaticBox(Panel3, ID_STATICBOX1, _("Protocole"), wxPoint(8,8), wxSize(152,328), 0, _T("ID_STATICBOX1"));
-  StaticBox9 = new wxStaticBox(Panel3, ID_STATICBOX9, _("Beta test"), wxPoint(16,144), wxSize(136,184), 0, _T("ID_STATICBOX9"));
-  ChoiceCC2500PAG = new wxChoice(Panel3, ID_CHOICECC2500PAG, wxPoint(96,200), wxSize(45,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICECC2500PAG"));
-  ChoiceA7105PAG = new wxChoice(Panel3, ID_CHOICEA7105PAG, wxPoint(96,296), wxSize(45,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICEA7105PAG"));
-  ChoiceNRF24l01PAG = new wxChoice(Panel3, ID_CHOICENRF24l01PAG, wxPoint(96,264), wxSize(45,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICENRF24l01PAG"));
+  StaticBox9 = new wxStaticBox(Panel3, ID_STATICBOX9, _("Beta test"), wxPoint(16,112), wxSize(136,216), 0, _T("ID_STATICBOX9"));
+  ChoiceCC2500PAG = new wxChoice(Panel3, ID_CHOICECC2500PAG, wxPoint(96,176), wxSize(45,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICECC2500PAG"));
+  ChoiceA7105PAG = new wxChoice(Panel3, ID_CHOICEA7105PAG, wxPoint(96,272), wxSize(45,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICEA7105PAG"));
+  ChoiceNRF24l01PAG = new wxChoice(Panel3, ID_CHOICENRF24l01PAG, wxPoint(96,240), wxSize(45,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICENRF24l01PAG"));
   CheckBoxNOANDSECONDE = new wxCheckBox(Panel3, ID_CHECKBOXNOANDSECONDE, _("NOANDSECONDE"), wxPoint(312,160), wxSize(144,24), 0, wxDefaultValidator, _T("ID_CHECKBOXNOANDSECONDE"));
   CheckBoxNOANDSECONDE->SetValue(false);
   CheckBoxNOANDSECONDE->SetToolTip(_("Empèche la synthèse vocale de dire \"et\". Exemple : entre minutes \"et\" seconde"));
@@ -308,11 +310,11 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxPPM->SetValue(true);
   CheckBoxPPM->Disable();
   CheckBoxPPM->SetToolTip(_("Protocole PPM 8 à 16 voies"));
-  CheckBoxSPIRF = new wxCheckBox(Panel3, ID_CHECKBOX11, _("SPI Xmitters"), wxPoint(48,160), wxSize(96,24), 0, wxDefaultValidator, _T("ID_CHECKBOX11"));
+  CheckBoxSPIRF = new wxCheckBox(Panel3, ID_CHECKBOX11, _("SPI Xmitters"), wxPoint(48,128), wxSize(96,24), 0, wxDefaultValidator, _T("ID_CHECKBOX11"));
   CheckBoxSPIRF->SetValue(false);
   CheckBoxSPIRF->Disable();
   CheckBoxSPIRF->SetToolTip(_("Protocole SPI RF "));
-  CheckBoxDSM2SERIAL = new wxCheckBox(Panel3, ID_CHECKBOX13, _("DSM2 SERIAL"), wxPoint(48,64), wxSize(104,24), 0, wxDefaultValidator, _T("ID_CHECKBOX13"));
+  CheckBoxDSM2SERIAL = new wxCheckBox(Panel3, ID_CHECKBOX13, _("DSM2 SERIAL"), wxPoint(48,56), wxSize(104,24), 0, wxDefaultValidator, _T("ID_CHECKBOX13"));
   CheckBoxDSM2SERIAL->SetValue(false);
   CheckBoxDSM2SERIAL->SetToolTip(_("Protocoles DSM .."));
   ChoiceEXT = new wxChoice(Panel3, ID_CHOICE2, wxPoint(184,32), wxSize(96,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE2"));
@@ -321,31 +323,31 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxGPS->SetValue(false);
   CheckBoxVARIO = new wxCheckBox(Panel3, ID_CHECKBOX6, _("Vario"), wxPoint(184,128), wxSize(96,24), 0, wxDefaultValidator, _T("ID_CHECKBOX6"));
   CheckBoxVARIO->SetValue(false);
-  CheckBoxCORRECT_NEGATIVE_VALUES = new wxCheckBox(Panel3, ID_CHECKBOX26, _("CORRECT_NEGATIVE_VALUES"), wxPoint(456,128), wxSize(200,24), 0, wxDefaultValidator, _T("ID_CHECKBOX26"));
+  CheckBoxCORRECT_NEGATIVE_VALUES = new wxCheckBox(Panel3, ID_CHECKBOX26, _("CORRECT_NEGATIVE_VALUES"), wxPoint(480,128), wxSize(200,24), 0, wxDefaultValidator, _T("ID_CHECKBOX26"));
   CheckBoxCORRECT_NEGATIVE_VALUES->SetValue(false);
   CheckBoxCORRECT_NEGATIVE_VALUES->SetToolTip(_("Symétrise les valeurs affichées"));
-  CheckBoxARITHMETIC_OVERFLOW_CHECK = new wxCheckBox(Panel3, ID_CHECKBOX27, _("ARITHMETIC_OVERFLOW_CHECK"), wxPoint(456,160), wxSize(200,24), 0, wxDefaultValidator, _T("ID_CHECKBOX27"));
+  CheckBoxARITHMETIC_OVERFLOW_CHECK = new wxCheckBox(Panel3, ID_CHECKBOX27, _("ARITHMETIC_OVERFLOW_CHECK"), wxPoint(480,160), wxSize(200,24), 0, wxDefaultValidator, _T("ID_CHECKBOX27"));
   CheckBoxARITHMETIC_OVERFLOW_CHECK->SetValue(false);
   CheckBoxARITHMETIC_OVERFLOW_CHECK->SetToolTip(_("Ajoute du code pour prèvoir débordement aritmethique"));
-  CheckBoxPWM_BACKLIGHT = new wxCheckBox(Panel3, ID_CHECKBOX30, _("PWM_BACKLIGHT"), wxPoint(456,32), wxSize(200,24), 0, wxDefaultValidator, _T("ID_CHECKBOX30"));
+  CheckBoxPWM_BACKLIGHT = new wxCheckBox(Panel3, ID_CHECKBOX30, _("PWM_BACKLIGHT"), wxPoint(480,32), wxSize(200,24), 0, wxDefaultValidator, _T("ID_CHECKBOX30"));
   CheckBoxPWM_BACKLIGHT->SetValue(false);
   CheckBoxPWM_BACKLIGHT->Disable();
-  CheckBoxOVERRIDE_CHANNEL_FUNCTION = new wxCheckBox(Panel3, ID_CHECKBOX31, _("Override channel function"), wxPoint(456,64), wxSize(200,24), 0, wxDefaultValidator, _T("ID_CHECKBOX31"));
+  CheckBoxOVERRIDE_CHANNEL_FUNCTION = new wxCheckBox(Panel3, ID_CHECKBOX31, _("Override channel function"), wxPoint(480,64), wxSize(200,24), 0, wxDefaultValidator, _T("ID_CHECKBOX31"));
   CheckBoxOVERRIDE_CHANNEL_FUNCTION->SetValue(false);
   CheckBoxOVERRIDE_CHANNEL_FUNCTION->SetToolTip(_("Ajoute la fonction spéciale \"Remplacer CHx\""));
   CheckBoxWS_HOW_HIGH = new wxCheckBox(Panel3, ID_CHECKBOX32, _("WS_HOW_HIGH"), wxPoint(184,64), wxSize(104,24), 0, wxDefaultValidator, _T("ID_CHECKBOX32"));
   CheckBoxWS_HOW_HIGH->SetValue(false);
   CheckBoxWS_HOW_HIGH->SetToolTip(_("WS HowHigh Altimeter"));
-  CheckBoxTOGGLETRIM = new wxCheckBox(Panel3, ID_CHECKBOX36, _("Toggle trims"), wxPoint(456,96), wxSize(200,24), 0, wxDefaultValidator, _T("ID_CHECKBOX36"));
+  CheckBoxTOGGLETRIM = new wxCheckBox(Panel3, ID_CHECKBOX36, _("Toggle trims"), wxPoint(480,96), wxSize(200,24), 0, wxDefaultValidator, _T("ID_CHECKBOX36"));
   CheckBoxTOGGLETRIM->SetValue(false);
   CheckBoxTOGGLETRIM->SetToolTip(_("Change les trim de la main droite à la main gauche, et vice-versa"));
   CheckBoxFRAM = new wxCheckBox(Panel3, ID_CHECKBOX37, _("F-RAM"), wxPoint(312,192), wxSize(144,24), 0, wxDefaultValidator, _T("ID_CHECKBOX37"));
   CheckBoxFRAM->SetValue(false);
   CheckBoxFRAM->SetToolTip(_("Utilisation d\'une eeprom externe : FM24W256"));
-  CheckBoxSHUTDOWN_CONFIRMATION = new wxCheckBox(Panel3, ID_CHECKBOX38, _("SHUTDOWN_CONFIRMATION"), wxPoint(456,224), wxSize(200,24), 0, wxDefaultValidator, _T("ID_CHECKBOX38"));
+  CheckBoxSHUTDOWN_CONFIRMATION = new wxCheckBox(Panel3, ID_CHECKBOX38, _("SHUTDOWN_CONFIRMATION"), wxPoint(480,224), wxSize(200,24), 0, wxDefaultValidator, _T("ID_CHECKBOX38"));
   CheckBoxSHUTDOWN_CONFIRMATION->SetValue(true);
   CheckBoxSHUTDOWN_CONFIRMATION->Disable();
-  CheckBoxACCURAT_THROTTLE_STATS = new wxCheckBox(Panel3, ID_CHECKBOX39, _("ACCURAT_THROTTLE_STATS"), wxPoint(456,192), wxSize(200,24), 0, wxDefaultValidator, _T("ID_CHECKBOX39"));
+  CheckBoxACCURAT_THROTTLE_STATS = new wxCheckBox(Panel3, ID_CHECKBOX39, _("ACCURAT_THROTTLE_STATS"), wxPoint(480,192), wxSize(200,24), 0, wxDefaultValidator, _T("ID_CHECKBOX39"));
   CheckBoxACCURAT_THROTTLE_STATS->SetValue(false);
   CheckBoxEEPROM_PROGRESS_BAR = new wxCheckBox(Panel3, ID_CHECKBOX43, _("EEPROM bar"), wxPoint(312,96), wxSize(144,24), 0, wxDefaultValidator, _T("ID_CHECKBOX43"));
   CheckBoxEEPROM_PROGRESS_BAR->SetValue(false);
@@ -360,27 +362,31 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxDBLKEYS = new wxCheckBox(Panel3, ID_CHECKBOX47, _("Double keys"), wxPoint(312,128), wxSize(144,24), 0, wxDefaultValidator, _T("ID_CHECKBOX47"));
   CheckBoxDBLKEYS->SetValue(false);
   CheckBoxDBLKEYS->SetToolTip(_("Raccourcis avec deux touches pour passer une valeur à min/max/0"));
-  CheckBoxMULTI = new wxCheckBox(Panel3, ID_CHECKBOX28, _("MULTI"), wxPoint(48,96), wxSize(104,24), 0, wxDefaultValidator, _T("ID_CHECKBOX28"));
+  CheckBoxMULTI = new wxCheckBox(Panel3, ID_CHECKBOX28, _("MULTI"), wxPoint(48,80), wxSize(104,24), 0, wxDefaultValidator, _T("ID_CHECKBOX28"));
   CheckBoxMULTI->SetValue(false);
   CheckBoxMULTI->SetToolTip(_("Protocole MULTI"));
   Compilerpage2 = new wxButton(Panel3, ID_BUTTON1, _("Compiler"), wxPoint(504,296), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTON1"));
   Sortirpage2 = new wxButton(Panel3, ID_BUTTON4, _("Sauvegarder et sortir"), wxPoint(648,296), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTON4"));
-  CheckBoxCC2500 = new wxCheckBox(Panel3, ID_CHECKBOX23, _("CC2500"), wxPoint(24,200), wxSize(72,24), 0, wxDefaultValidator, _T("ID_CHECKBOX23"));
+  CheckBoxCC2500 = new wxCheckBox(Panel3, ID_CHECKBOX23, _("CC2500"), wxPoint(24,176), wxSize(72,24), 0, wxDefaultValidator, _T("ID_CHECKBOX23"));
   CheckBoxCC2500->SetValue(false);
-  CheckBoxCYRF6936 = new wxCheckBox(Panel3, ID_CHECKBOX24, _("CYRF6936"), wxPoint(24,232), wxSize(72,24), 0, wxDefaultValidator, _T("ID_CHECKBOX24"));
+  CheckBoxCYRF6936 = new wxCheckBox(Panel3, ID_CHECKBOX24, _("CYRF6936"), wxPoint(24,208), wxSize(72,24), 0, wxDefaultValidator, _T("ID_CHECKBOX24"));
   CheckBoxCYRF6936->SetValue(false);
-  CheckBoxNRF24l01 = new wxCheckBox(Panel3, ID_CHECKBOX25, _("NRF24l01"), wxPoint(24,264), wxSize(72,24), 0, wxDefaultValidator, _T("ID_CHECKBOX25"));
+  CheckBoxNRF24l01 = new wxCheckBox(Panel3, ID_CHECKBOX25, _("NRF24l01"), wxPoint(24,240), wxSize(72,24), 0, wxDefaultValidator, _T("ID_CHECKBOX25"));
   CheckBoxNRF24l01->SetValue(false);
-  CheckBoxA7105 = new wxCheckBox(Panel3, ID_CHECKBOX29, _("A7105"), wxPoint(24,296), wxSize(72,24), 0, wxDefaultValidator, _T("ID_CHECKBOX29"));
+  CheckBoxSX1276 = new wxCheckBox(Panel3, ID_CHECKBOX35, _("SX1276"), wxPoint(24,304), wxSize(72,24), 0, wxDefaultValidator, _T("ID_CHECKBOX35"));
+  CheckBoxSX1276->SetValue(false);
+  CheckBoxA7105 = new wxCheckBox(Panel3, ID_CHECKBOX29, _("A7105"), wxPoint(24,272), wxSize(72,24), 0, wxDefaultValidator, _T("ID_CHECKBOX29"));
   CheckBoxA7105->SetValue(false);
-  ChoiceCYRF6936PAG = new wxChoice(Panel3, ID_CHOICECYRF6936PAG, wxPoint(96,232), wxSize(45,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICECYRF6936PAG"));
-  StaticText28 = new wxStaticText(Panel3, ID_STATICTEXT28, _("PA Gain (DB)"), wxPoint(24,184), wxSize(118,16), wxALIGN_RIGHT, _T("ID_STATICTEXT28"));
-  CheckBoxBLUETOOTH = new wxCheckBox(Panel3, ID_CHECKBOX33, _("BLUETOOTH"), wxPoint(312,224), wxSize(144,24), 0, wxDefaultValidator, _T("ID_CHECKBOX33"));
+  ChoiceCYRF6936PAG = new wxChoice(Panel3, ID_CHOICECYRF6936PAG, wxPoint(96,208), wxSize(45,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICECYRF6936PAG"));
+  StaticText28 = new wxStaticText(Panel3, ID_STATICTEXT28, _("PA Gain (DB)"), wxPoint(24,152), wxSize(118,16), wxALIGN_RIGHT, _T("ID_STATICTEXT28"));
+  CheckBoxBLUETOOTH = new wxCheckBox(Panel3, ID_CHECKBOX33, _("BLUETOOTH"), wxPoint(312,224), wxSize(88,24), 0, wxDefaultValidator, _T("ID_CHECKBOX33"));
   CheckBoxBLUETOOTH->SetValue(false);
   CheckBoxBLUETOOTH->SetToolTip(_("Ajout de fonctions sans fils"));
-  CheckBoxXMODEM = new wxCheckBox(Panel3, ID_CHECKBOX34, _("XMODEM"), wxPoint(656,32), wxSize(112,24), 0, wxDefaultValidator, _T("ID_CHECKBOX34"));
+  CheckBoxXMODEM = new wxCheckBox(Panel3, ID_CHECKBOX34, _("XMODEM"), wxPoint(688,32), wxSize(80,24), 0, wxDefaultValidator, _T("ID_CHECKBOX34"));
   CheckBoxXMODEM->SetValue(false);
   CheckBoxXMODEM->SetToolTip(_("Transfert de données"));
+  ChoiceBLUETOOTH = new wxChoice(Panel3, ID_CHOICEBLUETOOTH, wxPoint(400,224), wxSize(64,23), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICEBLUETOOTH"));
+  ChoiceBLUETOOTH->SetToolTip(_("Sélectionner HC05(v2.0) ou HM10(v4.0 BLE)"));
   Panel4 = new wxPanel(Notebook1, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL4"));
   StaticBox7 = new wxStaticBox(Panel4, ID_STATICBOX7, _("Nom des interrupteurs"), wxPoint(8,8), wxSize(616,328), 0, _T("ID_STATICBOX7"));
   StaticBox10 = new wxStaticBox(Panel4, ID_STATICBOX10, _("3POS"), wxPoint(160,24), wxSize(96,112), 0, _T("ID_STATICBOX10"));
@@ -478,6 +484,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   Connect(ID_CHECKBOX23,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxPERSONAMESClick);
   Connect(ID_CHECKBOX24,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxPERSONAMESClick);
   Connect(ID_CHECKBOX25,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxPERSONAMESClick);
+  Connect(ID_CHECKBOX35,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxPERSONAMESClick);
   Connect(ID_CHECKBOX29,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxPERSONAMESClick);
   Connect(ID_CHECKBOX34,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnCheckBoxXMODEMClick);
   Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CompilerOptionsFrame::OnButtonEXITClick);
@@ -581,6 +588,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceCYRF6936PAG->SetSelection( ChoiceCYRF6936PAG->Append("20") );
   ChoiceCYRF6936PAG->Append("22");
 
+  ChoiceBLUETOOTH->SetSelection( ChoiceBLUETOOTH->Append("HC05") );
+  ChoiceBLUETOOTH->Append("HM10");
+
   ChoiceNUMXANY->SetSelection( ChoiceNUMXANY->Append("NO") );
   ChoiceNUMXANY->Append("1");
   ChoiceNUMXANY->Append("2");
@@ -611,10 +621,12 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxCYRF6936->SetValue(CYRF6936);
   CheckBoxNRF24l01->SetValue(NRF24l01);
   CheckBoxA7105->SetValue(A7105);
+  CheckBoxSX1276->SetValue(SX1276);
   ChoiceCC2500PAG->SetStringSelection(CC2500PAG);
   ChoiceCYRF6936PAG->SetStringSelection(CYRF6936PAG);
   ChoiceNRF24l01PAG->SetStringSelection(NRF24l01PAG);
   ChoiceA7105PAG->SetStringSelection(A7105PAG);
+  ChoiceBLUETOOTH->SetStringSelection(BLUETOOTHCOMPONENT);
   CheckBoxSD_CARD->SetValue(SD_CARD);
   CheckBoxTEMPLATES->SetValue(TEMPLATES);
   ChoiceTHREE_POS->SetStringSelection(THREE_POS);
@@ -750,6 +762,10 @@ void CompilerOptionsFrame::BatFunction()
           CompiBat += (" A7105=YES");// default should be NO
           CompiBat += (" A7105PAG=" + A7105PAG);
         }
+      if (SX1276)
+        {
+          CompiBat += (" SX1276=YES");// default should be NO
+        }
     }
   if (SD_CARD)
     CompiBat += (" SDCARD=YES");// default should be NO
@@ -785,7 +801,11 @@ void CompilerOptionsFrame::BatFunction()
   if (INV_STICK_LV) CompiBat += (" INV_STICK_LV=YES");
   if (INV_STICK_RV) CompiBat += (" INV_STICK_RV=YES");
   if (INV_STICK_LH) CompiBat += (" INV_STICK_LH=YES");
-  if (BLUETOOTH) CompiBat += (" BLUETOOTH=YES");
+  if (BLUETOOTH)
+    {
+      CompiBat += (" BLUETOOTH=YES");// default should be NO
+      CompiBat += (" BLUETOOTHCOMPONENT=" + BLUETOOTHCOMPONENT);// default should be HC05
+    }
   if (XMODEM) CompiBat += (" XMODEM=YES");
   if (PERSONAMES)
     {
@@ -839,7 +859,8 @@ void CompilerOptionsFrame::CollectDatas()
   CYRF6936PAG = ChoiceCYRF6936PAG->GetString(ChoiceCYRF6936PAG->GetSelection());
   NRF24l01PAG = ChoiceNRF24l01PAG->GetString(ChoiceNRF24l01PAG->GetSelection());
   A7105PAG = ChoiceA7105PAG->GetString(ChoiceA7105PAG->GetSelection());
-  SPIRF = 0 | CC2500 | CYRF6936 | NRF24l01 | A7105;
+  SX1276 = CheckBoxSX1276->GetValue();
+  SPIRF = 0 | CC2500 | CYRF6936 | NRF24l01 | A7105 | SX1276;
   CheckBoxSPIRF->SetValue(SPIRF);
 
   SD_CARD = CheckBoxSD_CARD->GetValue();
@@ -872,6 +893,7 @@ void CompilerOptionsFrame::CollectDatas()
   SHUTDOWN_CONFIRMATION = CheckBoxSHUTDOWN_CONFIRMATION->GetValue();
   FRAM = CheckBoxFRAM->GetValue();
   BLUETOOTH = CheckBoxBLUETOOTH->GetValue();
+  BLUETOOTHCOMPONENT = ChoiceBLUETOOTH->GetString(ChoiceBLUETOOTH->GetSelection());
   XMODEM = CheckBoxXMODEM->GetValue();
   PERSONAMES = CheckBoxPERSONAMES->GetValue();
   INV_STICK_RH = CheckBoxInvStickRH->GetValue();
