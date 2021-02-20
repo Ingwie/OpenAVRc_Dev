@@ -81,10 +81,12 @@ extern bool CC2500;//defaults to NO
 extern bool CYRF6936;//defaults to NO
 extern bool NRF24l01;//defaults to NO
 extern bool A7105;//defaults to NO
+extern bool SX1276;//defaults to NO
 extern wxString CC2500PAG;//defaults to 0
 extern wxString CYRF6936PAG;//defaults to 0
 extern wxString NRF24l01PAG;//defaults to 0
 extern wxString A7105PAG;//defaults to 0
+extern wxString BLUETOOTHCOMPONENT;//defaults to 0
 
 extern bool SD_CARD;//defaults to NO
 extern bool FAS_OFFSET;//defaults to NO
@@ -206,12 +208,14 @@ public:
     wxCheckBox* CheckBoxSHUTDOWN_CONFIRMATION;
     wxCheckBox* CheckBoxSPIRF;
     wxCheckBox* CheckBoxSPLASH;
+    wxCheckBox* CheckBoxSX1276;
     wxCheckBox* CheckBoxTEMPLATES;
     wxCheckBox* CheckBoxTOGGLETRIM;
     wxCheckBox* CheckBoxVARIO;
     wxCheckBox* CheckBoxWS_HOW_HIGH;
     wxCheckBox* CheckBoxXMODEM;
     wxChoice* ChoiceA7105PAG;
+    wxChoice* ChoiceBLUETOOTH;
     wxChoice* ChoiceCC2500PAG;
     wxChoice* ChoiceCYRF6936PAG;
     wxChoice* ChoiceDEFAULT_MODE;
@@ -378,11 +382,13 @@ protected:
     static const long ID_CHECKBOX23;
     static const long ID_CHECKBOX24;
     static const long ID_CHECKBOX25;
+    static const long ID_CHECKBOX35;
     static const long ID_CHECKBOX29;
     static const long ID_CHOICECYRF6936PAG;
     static const long ID_STATICTEXT28;
     static const long ID_CHECKBOX33;
     static const long ID_CHECKBOX34;
+    static const long ID_CHOICEBLUETOOTH;
     static const long ID_PANEL3;
     static const long ID_STATICBOX7;
     static const long ID_STATICBOX10;
