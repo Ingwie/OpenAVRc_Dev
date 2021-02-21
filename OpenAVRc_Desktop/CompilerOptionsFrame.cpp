@@ -1144,7 +1144,6 @@ void CompilerOptionsFrame::OnCheckBoxPERSONAMESClick(wxCommandEvent& event)
   CollectDatas();
 }
 
-
 void CompilerOptionsFrame::OnCheckBoxSD_CARDClick(wxCommandEvent& event)
 {
   CollectDatas();
