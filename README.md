@@ -1,3 +1,6 @@
+# OpenAVRc_Dev
+This is the source code / documentation part of OpenAVRc. For hardware / addons visit : https://github.com/Ingwie/OpenAVRc_Hw 
+
 **Welcome to**
 =========
                  ____                ___ _   _____                      
