@@ -503,7 +503,7 @@ ifeq ($(PCB), EVO_V2)
   ARCH = AVR
   LCDSIZE = 128
   TRGT = avr-
-  MCU = atxmega256c3
+  MCU = atxmega256a3bu
   # atxmega256d3 libc header files have errors.
   # Processor frequency.
   F_CPU = 32000000
