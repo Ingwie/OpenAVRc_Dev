@@ -151,17 +151,16 @@ void getADC()
 
         break;
 
-
       case TX_VOLTAGE:
 
         // Differential measurement. VREF = 1.65V from AREF pin.
-        // VINN = Pad GND.
+        // VINN = Internal Ground.
 
         REF_SELECT;
 
         ADCA.CH0.CTRL = ADC_CH_INPUTMODE_DIFF_gc; //
 
-        ADCA.CH0.MUXCTRL = (TX_VOLTAGE << ADC_CH_MUXPOS_gp) | (0b111 << ADC_CH_MUXNEG_gp); // Internal GND.
+        ADCA.CH0.MUXCTRL = (TX_VOLTAGE << ADC_CH_MUXPOS_gp) | (0b111 << ADC_CH_MUXNEG_gp); // INTGND.
 
         ADCA.CH0.INTFLAGS |= ADC_CH_CHIF_bm; // Clear flag.
         ADCA.CH0.CTRL |= ADC_CH_START_bm; // Start Conversion.
