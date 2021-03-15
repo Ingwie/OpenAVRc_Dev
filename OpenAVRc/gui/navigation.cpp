@@ -346,18 +346,27 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
   case EVT_KEY_FIRST(KEY_RIGHT)://inc
     if (!horTab || s_editMode>0) break;
 
-    CASE_EVT_ROTARY_MOVE_RIGHT
-    if (s_editMode != 0) break;
-    if (l_posHorz < maxcol) {
+  CASE_EVT_ROTARY_MOVE_RIGHT
+  if (s_editMode != 0) break;
+  if (! IS_ROTARY_MOVE_RIGHT(event))
+   {
+    INC(l_posHorz, 0, maxcol); // Rotates Right. Rich Prefers this ;-)
+   }
+  else
+   {
+    if (l_posHorz < maxcol)
+     {
       l_posHorz++;
-      break;
-    } else {
+     }
+    else
+     {
+      do INC(l_posVert, POS_VERT_INIT, maxrow)
+       while (CURSOR_NOT_ALLOWED_IN_ROW(l_posVert));
       l_posHorz = 0;
-      if (!IS_ROTARY_MOVE_RIGHT(event))
-        break;
-    }
-    INC(l_posHorz, 0, maxcol);
-    break;
+
+     }
+   }
+  break;
 
   case EVT_KEY_REPT(KEY_DOWN):  //inc
     if (!IS_ROTARY_RIGHT(event) && l_posVert==maxrow) break;
@@ -381,17 +390,26 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
   case EVT_KEY_FIRST(KEY_LEFT)://dec
     if (!horTab || s_editMode>0) break;
 
-    CASE_EVT_ROTARY_MOVE_LEFT
-    if (s_editMode != 0) break;
-    if (l_posHorz > 0) {
+  CASE_EVT_ROTARY_MOVE_LEFT
+  if (s_editMode != 0) break;
+  if (! IS_ROTARY_MOVE_LEFT(event))
+   {
+    DEC(l_posHorz, 0, maxcol); // Rotates Left.
+   }
+  else
+   {
+    if (l_posHorz > 0)
+     {
       l_posHorz--;
-      break;
-    } else if (IS_ROTARY_MOVE_LEFT(event) && s_editMode == 0) {
-      l_posHorz = 0xff;
-    } else {
-      l_posHorz = maxcol;
-      break;
-    }
+     }
+    else
+     {
+      do DEC(l_posVert, POS_VERT_INIT, maxrow)
+       while (CURSOR_NOT_ALLOWED_IN_ROW(l_posVert));
+      l_posHorz = MAXCOL(l_posVert);
+     }
+   }
+  break;
 
   case EVT_KEY_REPT(KEY_UP):  //dec
     if (!IS_ROTARY_LEFT(event) && l_posVert==0) break;
