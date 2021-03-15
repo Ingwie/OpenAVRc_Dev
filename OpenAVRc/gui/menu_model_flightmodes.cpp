@@ -211,7 +211,7 @@ void menuModelFlightModesAll(uint8_t event)
   int8_t sub = menuVerticalPosition - 1;
 
   switch (event) {
-    CASE_EVT_ROTARY_BREAK
+  case EVT_ROTARY_BREAK:
   case EVT_KEY_FIRST(KEY_ENTER):
     if (sub == MAX_FLIGHT_MODES) {
       s_editMode = 0;

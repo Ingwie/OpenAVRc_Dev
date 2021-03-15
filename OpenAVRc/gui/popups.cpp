@@ -125,7 +125,7 @@ const char * displayPopupMenu(uint8_t event)
   }
 
   switch(event) {
-       CASE_EVT_ROTARY_LEFT
+  case EVT_ROTARY_LEFT:
   case EVT_KEY_FIRST(KEY_MOVE_UP):
   case EVT_KEY_REPT(KEY_MOVE_UP):
     if (s_menu_item > 0) {
@@ -148,7 +148,7 @@ const char * displayPopupMenu(uint8_t event)
     }
     break;
 
-       CASE_EVT_ROTARY_RIGHT
+  case EVT_ROTARY_RIGHT:
   case EVT_KEY_FIRST(KEY_MOVE_DOWN):
   case EVT_KEY_REPT(KEY_MOVE_DOWN):
     if (s_menu_item < display_count - 1 && popupMenuOffset + s_menu_item + 1 < popupMenuNoItems) {
@@ -170,11 +170,11 @@ const char * displayPopupMenu(uint8_t event)
 #endif
     }
     break;
-    CASE_EVT_ROTARY_BREAK
+  case EVT_ROTARY_BREAK:
   case EVT_KEY_BREAK(KEY_ENTER):
     result = popupMenuItems[s_menu_item];
     // no break
-    CASE_EVT_ROTARY_LONG
+  case EVT_ROTARY_LONG:
     killEvents(event);
   case EVT_KEY_BREAK(KEY_EXIT):
     popupMenuNoItems = 0;

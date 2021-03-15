@@ -112,7 +112,7 @@ void menuModelCurveOne(uint8_t event)
   case EVT_ENTRY:
     s_editMode = 1;
     break;
-    CASE_EVT_ROTARY_BREAK
+    case EVT_ROTARY_BREAK:
   case EVT_KEY_BREAK(KEY_ENTER):
     if (s_editMode <= 0)
       menuHorizontalPosition = 0;
@@ -140,7 +140,7 @@ void menuModelCurveOne(uint8_t event)
     }
     break;
 
-  /* CASE_EVT_ROTARY_LEFT */
+  /* case EVT_ROTARY_LEFT: */
   case EVT_KEY_REPT(KEY_LEFT):
   case EVT_KEY_FIRST(KEY_LEFT):
     if (s_editMode==1 && menuHorizontalPosition>0) menuHorizontalPosition--;
@@ -156,7 +156,7 @@ void menuModelCurveOne(uint8_t event)
     }
     break;
 
-  /* CASE_EVT_ROTARY_RIGHT */
+  /* case EVT_ROTARY_RIGHT: */
   case EVT_KEY_REPT(KEY_RIGHT):
   case EVT_KEY_FIRST(KEY_RIGHT):
     if (s_editMode==1 && menuHorizontalPosition<(crv.points-1)) menuHorizontalPosition++;

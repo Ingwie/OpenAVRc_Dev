@@ -346,9 +346,9 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
   case EVT_KEY_FIRST(KEY_RIGHT)://inc
     if (!horTab || s_editMode>0) break;
 
-  CASE_EVT_ROTARY_MOVE_RIGHT
+  case EVT_ROTARY_RIGHT:
   if (s_editMode != 0) break;
-  if (! IS_ROTARY_MOVE_RIGHT(event))
+  if (! IS_ROTARY_RIGHT(event))
    {
     INC(l_posHorz, 0, maxcol); // Rotates Right. Rich Prefers this ;-)
    }
@@ -390,9 +390,9 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
   case EVT_KEY_FIRST(KEY_LEFT)://dec
     if (!horTab || s_editMode>0) break;
 
-  CASE_EVT_ROTARY_MOVE_LEFT
+  case EVT_ROTARY_LEFT:
   if (s_editMode != 0) break;
-  if (! IS_ROTARY_MOVE_LEFT(event))
+  if (! IS_ROTARY_LEFT(event))
    {
     DEC(l_posHorz, 0, maxcol); // Rotates Left.
    }

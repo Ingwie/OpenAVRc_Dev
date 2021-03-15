@@ -704,7 +704,7 @@ void menuModelExpoMix(uint8_t expo, uint8_t event)
     }
     // no break
 
-    CASE_EVT_ROTARY_BREAK
+  case EVT_ROTARY_BREAK:
   case EVT_KEY_LONG(KEY_ENTER):
     killEvents(event);
     if (s_copyTgtOfs) {

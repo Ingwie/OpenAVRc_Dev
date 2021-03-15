@@ -250,7 +250,7 @@ void menuModelSetup(uint8_t event)
         {
          switch (event)
           {
-           CASE_EVT_ROTARY_BREAK
+          case EVT_ROTARY_BREAK:
           case EVT_KEY_BREAK(KEY_ENTER):
            if (menuHorizontalPosition < NUM_SWITCHES-1)
             {

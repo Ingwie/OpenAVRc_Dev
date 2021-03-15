@@ -341,10 +341,6 @@ void drawStatusLine();
 #define KEY_MOVE_DOWN  KEY_DOWN
 #define CURSOR_MOVED_LEFT(event)       (IS_ROTARY_LEFT(event) || EVT_KEY_MASK(event) == KEY_LEFT)
 #define CURSOR_MOVED_RIGHT(event)      (IS_ROTARY_RIGHT(event) || EVT_KEY_MASK(event) == KEY_RIGHT)
-#define CASE_EVT_ROTARY_MOVE_RIGHT     CASE_EVT_ROTARY_RIGHT
-#define CASE_EVT_ROTARY_MOVE_LEFT      CASE_EVT_ROTARY_LEFT
-#define IS_ROTARY_MOVE_RIGHT           IS_ROTARY_RIGHT
-#define IS_ROTARY_MOVE_LEFT            IS_ROTARY_LEFT
 
 void repeatLastCursorMove(uint8_t event);
 #define REPEAT_LAST_CURSOR_MOVE()    { if (EVT_KEY_MASK(event) >= 0x0e) putEvent(event); else repeatLastCursorMove(event); }

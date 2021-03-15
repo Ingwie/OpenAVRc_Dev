@@ -299,13 +299,13 @@ void menuMainView(uint8_t event)
     killEvents(event);
     break;
 
-    CASE_EVT_ROTARY_BREAK
+  case EVT_ROTARY_BREAK:
   case EVT_KEY_MODEL_MENU:
     pushMenu(menuModelSelect);
     killEvents(event);
     break;
 
-    CASE_EVT_ROTARY_LONG
+  case EVT_ROTARY_LONG:
   case EVT_KEY_GENERAL_MENU:
     pushMenu(menuGeneralSetup);
     killEvents(event);

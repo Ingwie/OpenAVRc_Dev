@@ -126,10 +126,6 @@ enum EnumKeys {
 #define IS_ROTARY_BREAK(evt)  (evt == EVT_ROTARY_BREAK)
 #define IS_ROTARY_LONG(evt)   (evt == EVT_ROTARY_LONG)
 #define IS_ROTARY_EVENT(evt)  (EVT_KEY_MASK(evt) >= 0x0e)
-#define CASE_EVT_ROTARY_BREAK case EVT_ROTARY_BREAK:
-#define CASE_EVT_ROTARY_LONG  case EVT_ROTARY_LONG:
-#define CASE_EVT_ROTARY_LEFT  case EVT_ROTARY_LEFT:
-#define CASE_EVT_ROTARY_RIGHT case EVT_ROTARY_RIGHT:
 
 class Key
 {

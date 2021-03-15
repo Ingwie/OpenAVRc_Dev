@@ -105,7 +105,7 @@ void menuGeneralSdManager(uint8_t _event)
       SdBufferClear();
       break;
 
-      CASE_EVT_ROTARY_BREAK
+    case EVT_ROTARY_BREAK:
     case EVT_KEY_FIRST(KEY_RIGHT):
     case EVT_KEY_FIRST(KEY_ENTER):
     {

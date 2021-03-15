@@ -109,6 +109,7 @@ void displayGpsCoord(uint8_t y, char direction, uint16_t bp, uint16_t ap)
 #define displayGpsCoord(...)
 #endif
 
+// TODO (Christophe#1#): RSSI alarm -> voice, audio (+ critical @ -3db)
 NOINLINE uint8_t getRssiAlarmValue()
 {
   return (45 + g_model.telemetry.rssiAlarm);
