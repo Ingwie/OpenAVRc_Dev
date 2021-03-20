@@ -291,7 +291,6 @@ void checkSwitches()
     for (uint8_t i=0; i<GETADC_COUNT; i++) {
       getADC();
     }
-#undef GETADC_COUNT
 #endif
 
     getMovedSwitch();

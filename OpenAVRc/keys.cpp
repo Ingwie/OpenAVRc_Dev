@@ -143,6 +143,10 @@ void clearKeyEvents()
   // loop until all keys are up
   while (keyDown()) {
     MYWDT_RESET();
+
+#ifdef GETADC_COUNT
+      getADC();
+#endif
   }
   memclear(keys, sizeof(keys));
   putEvent(0);
