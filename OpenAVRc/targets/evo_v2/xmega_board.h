@@ -11,7 +11,7 @@
 
 #include "../../OpenAVRc.h"
 
-#define GETADC_COUNT 1  // Used in switches.cpp
+#define GETADC_COUNT 1  // Used in switches.cpp and keys.cpp.
 
 // USART General defines.
 #define USART_SET_BAUD_9K6(usartx)   _USART_SET_BAUD(usartx, 12, +4)
@@ -26,10 +26,16 @@
 #define USART_SET_MODE_8E2(usartx) \
   { usartx.CTRLC = USART_CMODE_ASYNCHRONOUS_gc | USART_PMODE_EVEN_gc | (1 << USART_SBMODE_bp) | USART_CHSIZE_8BIT_gc; } // 8E2
 
-#define USART_ENABLE_TX(usartx)  usartx.CTRLB |= USART_TXEN_bm;
-#define USART_ENABLE_RX(usartx)  usartx.CTRLB |= USART_RXEN_bm;
-#define USART_DISABLE_TX(usartx)  usartx.CTRLB &= ~USART_TXEN_bm;
-#define USART_DISABLE_RX(usartx)  usartx.CTRLB &= ~USART_RXEN_bm;
+#define USART_ENABLE_TX(usartx)  usartx.CTRLB |= USART_TXEN_bm
+#define USART_ENABLE_RX(usartx)  usartx.CTRLB |= USART_RXEN_bm
+#define USART_DISABLE_TX(usartx)  usartx.CTRLB &= ~USART_TXEN_bm
+
+#define USART_DISABLE_RX(usartx) \
+    { usartx.CTRLA &= ~USART_RXCINTLVL_gm; usartx.CTRLB &= ~USART_RXEN_bm; } // Disabling RX flushes buffer and clears RXCIF.
+
+#define WAIT_USART_BUFFER_EMPTY(usartx)    while(! (usartx.STATUS & USART_DREIF_bm) )
+#define WAIT_USART_TX_FIN(usartx)          while(! (usartx.STATUS & USART_TXCIF_bm) )
+#define WAIT_USART_RX_FIN(usartx)          while(! (usartx.STATUS & USART_RXCIF_bm) )
 
 #define USART_XCK_PIN_bm    PIN1_bm
 #define USART_RXD_PIN_bm    PIN2_bm
@@ -63,11 +69,10 @@
 #define RF_TC                      TCE0
 #define RF_PORT                    PORTE
 #define RF_TIMER_COMPA_VECT        TCE0_CCA_vect
-#define RF_TIMER                   RF_TC.CNT
 #define RF_TIMER_COMPA_REG         RF_TC.CCA
-#define RF_TIMER_RESUME_INTERRUPT  RF_TC.INTCTRLB |=  (0b11 << TC0_CCAINTLVL_gp); // Level 3 - High Priority.
-#define RF_TIMER_PAUSE_INTERRUPT   RF_TC.INTCTRLB &= ~(0b11 << TC0_CCAINTLVL_gp);
-#define RF_TIMER_CLEAR_COMPA_FLAG  RF_TC.INTFLAGS = TC0_CCAIF_bm; // clear ccaif.
+#define RF_TIMER_PAUSE_INTERRUPT   RF_TC.INTCTRLB &= ~TC0_CCAINTLVL_gm
+#define RF_TIMER_RESUME_INTERRUPT  { RF_TC.INTCTRLB &= ~TC0_CCAINTLVL_gm; RF_TC.INTCTRLB |= TC_CCAINTLVL_HI_gc; } // Level 3 - High Priority.
+#define RF_TIMER_CLEAR_COMPA_FLAG  RF_TC.INTFLAGS |= TC0_CCAIF_bm // clear ccaif.
 #define RF_OUT_PIN                 3
 #define RF_OUT_PIN_CTRL_REG        token_paste3(RF_PORT.PIN, RF_OUT_PIN, CTRL) // e.g. "PORTx.PINnCTRL"
 
@@ -82,6 +87,8 @@ char rf_usart_mspi_xfer(char c);
 #define RF_SPI_xfer  rf_usart_mspi_xfer
 void rf_usart_mspi_init(void);
 #define RF_SPI_INIT  rf_usart_mspi_init
+void rf_usart_disable(void);
+#define RF_USART_DISABLE  rf_usart_disable
 
 #define RF_USART                  USARTE0
 #define RF_CS_PIN_bm              PIN0_bm
@@ -94,10 +101,6 @@ void rf_usart_mspi_init(void);
 #define RF_CS_NRF24L01_INACTIVE() PORTE.OUTSET = RF_CS_PIN_bm
 #define RF_CS_A7105_ACTIVE()      PORTE.OUTCLR = RF_CS_PIN_bm
 #define RF_CS_A7105_INACTIVE()    PORTE.OUTSET = RF_CS_PIN_bm
-
-#define WAIT_RF_BUFFER_EMPTY()    while(! (RF_USART.STATUS & USART_DREIF_bm) )
-#define WAIT_RF_TX_FIN()          while(! (RF_USART.STATUS & USART_TXCIF_bm) )
-#define WAIT_RF_RX_FIN()          while(! (RF_USART.STATUS & USART_RXCIF_bm) )
 #endif // SPIMODULES
 
 
@@ -119,8 +122,8 @@ void setup_trainer_tc(void);
 
 
 // Teacher / Pupil Mode.
-#define ENABLE_TRAINER_INTERRUPT()   PULSES_IN_TC.INTCTRLB |=  (0b10 << TC0_CCAINTLVL_gp); // Level 2 - Medium Priority.
-#define DISABLE_TRAINER_INTERRUPT()  PULSES_IN_TC.INTCTRLB &= ~(0b11 << TC0_CCAINTLVL_gp);
+#define DISABLE_TRAINER_INTERRUPT()  PULSES_IN_TC.INTCTRLB &= ~TC0_CCAINTLVL_gm
+#define ENABLE_TRAINER_INTERRUPT()   { PULSES_IN_TC.INTCTRLB &= ~TC0_CCAINTLVL_gm; PULSES_IN_TC.INTCTRLB |= TC_CCAINTLVL_MED_gc; } // Level 2 - Medium Priority.
 #define WAIT_PUPIL()                 ENABLE_TRAINER_INTERRUPT()
 #define PPM16_CONF()                 DISABLE_TRAINER_INTERRUPT()
 
@@ -155,10 +158,11 @@ void setup_trainer_tc(void);
 //#if defined(VOICE_JQ6500)
 #define VOICE_USART       USARTC0
 #define VOICE_USART_PORT  PORTC
+#define VOICE_BUSY_PORT   PORTF
 #define VOICE_BUSY_PIN    4
 #define VOICE_BUSY_PIN_CTRL_REG   token_paste3(PORTF.PIN, VOICE_BUSY_PIN, CTRL) // e.g. "PORTF.PIN4CTRL"
-#define JQ6500_BUSY       (PORTF.IN & (1<<VOICE_BUSY_PIN))
-#define VOICE_DRE_VECT    USARTC0_DRE_vect
+#define JQ6500_BUSY       (VOICE_BUSY_PORT.IN & (1<<VOICE_BUSY_PIN))
+//#define VOICE_DRE_VECT    USARTC0_DRE_vect
 extern void InitJQ6500UartTx();
 //#endif
 
@@ -174,15 +178,15 @@ extern void InitJQ6500UartTx();
 void read_trim_matrix(void);
 #define TRIMS_PRESSED() false
 
-// 10mS / 64us Counter.
+// 64us Counter / 10mS CCA.
 #define MS064_TC                   TCC1
 #define COUNTER_64uSH              MS064_TC.CNTH
 #define COUNTER_64uSL              MS064_TC.CNTL
 #define TIMER_10MS_VECT            TCC1_CCA_vect
 #define TIMER_10MS_COMPVAL         MS064_TC.CCA
-#define PAUSE_10MS_INTERRUPT       MS064_TC.INTCTRLB &= (0b11 << TC1_CCAINTLVL_gp);
-#define RESUME_10MS_INTERRUPT      MS064_TC.INTCTRLB |=  (0b01 << TC1_CCAINTLVL_gp); // Level 1 - Low Priority.
-#define MS064_TC_CLEAR_CCAIF_FLAG  MS064_TC.INTFLAGS = TC1_CCAIF_bm; // clear ccaif.
+//#define PAUSE_10MS_INTERRUPT       MS064_TC.INTCTRLB &= ~TC1_CCAINTLVL_gm
+#define RESUME_10MS_INTERRUPT      { MS064_TC.INTCTRLB &= ~TC1_CCAINTLVL_gm; MS064_TC.INTCTRLB |=  TC_CCAINTLVL_LO_gc; } // Level 1 - Low Priority.
+#define MS064_TC_CLEAR_CCAIF_FLAG  MS064_TC.INTFLAGS |= TC1_CCAIF_bm // clear ccaif.
 
 // SD Card driver.
 #define sdDone()
@@ -198,7 +202,7 @@ void read_trim_matrix(void);
 #define SPI_8M()                MSPI_16M(SDCARD_SPI)
 #define SPI_250K()              MSPI_250K(SDCARD_SPI)
 #define SPI_START_SPEED()       SPI_250K()
-#define LEDON()    {}
+#define LEDON() //   {PORTD.OUTTGL = PIN6_bm;}
 #define LEDOFF()   {}
 
 // SPI general.
@@ -259,7 +263,7 @@ void read_trim_matrix(void);
 // EEPROM driver.
 #define EEPROM_EnableMapping()     NVM.CTRLB |= NVM_EEMAPEN_bm
 #define EEPROM_DisableMapping()    NVM.CTRLB &= ~NVM_EEMAPEN_bm
-#define NVM_EXEC()                 _PROTECTED_WRITE(NVM.CTRLA, 0b1);
+#define NVM_EXEC()                 _PROTECTED_WRITE(NVM.CTRLA, 0b1)
 void EEPROM_WaitForNVM(void);
 void EEPROM_FlushBuffer(void);
 
