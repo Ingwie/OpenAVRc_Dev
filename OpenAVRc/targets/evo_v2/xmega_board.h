@@ -147,24 +147,30 @@ void setup_trainer_tc(void);
 #define MPX_PORT        PORTE
 
 
-// Audio - Piezo Sounder driver.
-#define AUDIO_TC             TCD0
-#define AUDIO_COMPARE_REG    AUDIO_TC.CCABUF
-#define speakerOn()   AUDIO_TC.CTRLB |= TC0_CCAEN_bm
-#define speakerOff()  AUDIO_TC.CTRLB &= ~TC0_CCAEN_bm
-#define OD_AUDIO_bm          PIN0_bm
-
-
 //#if defined(VOICE_JQ6500)
 #define VOICE_USART       USARTC0
 #define VOICE_USART_PORT  PORTC
 #define VOICE_BUSY_PORT   PORTF
 #define VOICE_BUSY_PIN    4
 #define VOICE_BUSY_PIN_CTRL_REG   token_paste3(PORTF.PIN, VOICE_BUSY_PIN, CTRL) // e.g. "PORTF.PIN4CTRL"
-#define JQ6500_BUSY       (VOICE_BUSY_PORT.IN & (1<<VOICE_BUSY_PIN))
-//#define VOICE_DRE_VECT    USARTC0_DRE_vect
-extern void InitJQ6500UartTx();
+#define VOICE_BUSY       ((~VOICE_BUSY_PORT.IN) & (1<<VOICE_BUSY_PIN))
+#define VOICE_DRE_VECT    USARTC0_DRE_vect
+extern void InitVoiceUartTx();
 //#endif
+
+// Audio - Piezo Sounder driver.
+#define AUDIO_TC             TCD0
+#define AUDIO_COMPARE_REG    AUDIO_TC.CCABUF
+#if defined(VOICE)
+#define speakerOn()   { AUDIO_TC.CTRLB |= TC0_CCAEN_bm; VOICE_BUSY_PORT.OUTCLR = 1<< VOICE_BUSY_PIN; \
+  VOICE_BUSY_PORT.DIRSET = 1<< VOICE_BUSY_PIN;}
+#define speakerOff()  { AUDIO_TC.CTRLB &= ~TC0_CCAEN_bm; VOICE_BUSY_PORT.DIRCLR = 1<< VOICE_BUSY_PIN;}
+#else
+#define speakerOn()   { AUDIO_TC.CTRLB |= TC0_CCAEN_bm }
+#define speakerOff()  { AUDIO_TC.CTRLB &= ~TC0_CCAEN_bm }
+#endif
+#define OD_AUDIO_bm          PIN0_bm
+
 
 // Trims Button  Matrix.
 #define IE_TRIM_COL_A_bm    PIN4_bm
@@ -178,7 +184,7 @@ extern void InitJQ6500UartTx();
 void read_trim_matrix(void);
 #define TRIMS_PRESSED() false
 
-// 64us Counter / 10mS CCA.
+// 64us Counter / 10ms CCA.
 #define MS064_TC                   TCC1
 #define COUNTER_64uSH              MS064_TC.CNTH
 #define COUNTER_64uSL              MS064_TC.CNTL

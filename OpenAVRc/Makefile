@@ -503,7 +503,7 @@ ifeq ($(PCB), EVO_V2)
   ARCH = AVR
   LCDSIZE = 128
   TRGT = avr-
-  MCU = atxmega256a3bu
+  MCU = atxmega256a3u
   # atxmega256d3 libc header files have errors.
   # Processor frequency.
   F_CPU = 32000000
@@ -522,7 +522,7 @@ ifeq ($(PCB), EVO_V2)
   SDCARD = YES
   SPLASH = YES
   THR_TRACE = YES
-  VOICE = NO
+  VOICE = YES
   SPIMODULES = NO
   MULTIMODULE = YES
   CC2500 = YES
@@ -571,7 +571,7 @@ ifeq ($(PCB), EVO_V2)
 
   ifeq ($(RTCLOCK), YES)
     CPPDEFS += -DRTCLOCK
-    CPPSRC += rtc_driver.cpp i2c_master.cpp
+    CPPSRC += rtc_pcf8523.cpp i2c_master.cpp
     EXTERNALEEPROM = YES
   endif
 
@@ -594,12 +594,14 @@ ifeq ($(PCB), EVO_V2)
 
   ifeq ($(VOICE), YES)
     CPPDEFS += -DVOICE
-    CPPSRC += somo14d.cpp
+    CPPDEFS += -DVOICE_JQ6500
+    CPPDEFS += -DVOICE_BY8001
+    CPPSRC += targets/evo_v2/voice.cpp
   endif
 
   ifeq ($(HAPTIC), YES)
-   CPPDEFS += -DHAPTIC
-   CPPSRC += haptic.cpp
+    CPPDEFS += -DHAPTIC
+    CPPSRC += haptic.cpp
   endif
 
   ifeq ($(PERSONAMES), YES)
