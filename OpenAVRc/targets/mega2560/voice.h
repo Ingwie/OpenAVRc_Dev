@@ -37,17 +37,10 @@
 
 extern void pushPrompt(uint16_t prompt);
 
-#define I18N_PLAY_FUNCTION(lng, x, ...) void x(__VA_ARGS__)
-#define PLAY_FUNCTION(x, ...)           void x(__VA_ARGS__)
-#define PUSH_CUSTOM_PROMPT(p, id)       pushPrompt(PROMPT_CUSTOM_BASE+(p))
+#define PUSH_CUSTOM_PROMPT(p)           pushPrompt(PROMPT_CUSTOM_BASE+(p))
 #define PUSH_NUMBER_PROMPT(p)           pushPrompt(PROMPT_I18N_BASE+(p))
 #define PUSH_SYSTEM_PROMPT(p)           pushPrompt(PROMPT_SYSTEM_BASE+(p))
-#define PLAY_NUMBER(n, u, a)            playNumber((n), (u), (a))
-#define PLAY_DURATION(d, att)           playDuration((d))
-#define PLAY_DURATION_ATT
-#define PLAY_TIME
-#define IS_PLAY_TIME()                  (0)
-#define PLAY_VALUE(v, id)               playValue((v))
+#define IS_PLAY_TIME()                  (0) // Todo : Use it ?
 
 #define VOLUME_LEVEL_MAX                7
 #define VOLUME_LEVEL_DEF                7

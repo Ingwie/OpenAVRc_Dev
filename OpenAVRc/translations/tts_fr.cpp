@@ -68,7 +68,7 @@ enum FrenchPrompts {
 
 #define FEMININ 0x80
 
-I18N_PLAY_FUNCTION(fr, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
+void playNumber(getvalue_t number, uint8_t unit, uint8_t att)
 {
   /*  if digit >= 1000000000:
         temp_digit, digit = divmod(digit, 1000000000)
@@ -104,7 +104,7 @@ I18N_PLAY_FUNCTION(fr, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
     // we assume that we are PREC1
     div_t qr = div(number, 10);
     if (qr.rem) {
-      PLAY_NUMBER(qr.quot, 0, 0);
+      playNumber(qr.quot, 0, 0);
       PUSH_NUMBER_PROMPT(FR_PROMPT_VIRGULE_BASE + qr.rem);
       number = -1;
     } else {
@@ -114,7 +114,7 @@ I18N_PLAY_FUNCTION(fr, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
 
   if (number >= 1000) {
     if (number >= 2000)
-      PLAY_NUMBER(number / 1000, 0, 0);
+      playNumber(number / 1000, 0, 0);
     PUSH_NUMBER_PROMPT(FR_PROMPT_MILLE);
     number %= 1000;
     if (number == 0)
@@ -139,10 +139,10 @@ I18N_PLAY_FUNCTION(fr, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
   }
 }
 
-I18N_PLAY_FUNCTION(fr, playDuration, int16_t seconds PLAY_DURATION_ATT)
+void playDuration(int16_t seconds )
 {
   if (seconds == 0) {
-    PLAY_NUMBER(0, 0, FEMININ);
+    playNumber(0, 0, FEMININ);
     return;
   }
 
@@ -158,7 +158,7 @@ I18N_PLAY_FUNCTION(fr, playDuration, int16_t seconds PLAY_DURATION_ATT)
   } else if (IS_PLAY_TIME() && tmp==12) {
     PUSH_NUMBER_PROMPT(FR_PROMPT_MIDI);
   } else if (tmp > 0) {
-    PLAY_NUMBER(tmp, 0, FEMININ);
+    playNumber(tmp, 0, FEMININ);
     PUSH_NUMBER_PROMPT(FR_PROMPT_HEURE);
   }
 
@@ -166,9 +166,9 @@ I18N_PLAY_FUNCTION(fr, playDuration, int16_t seconds PLAY_DURATION_ATT)
   seconds %= 60;
   if (tmp > 0) {
     if (IS_PLAY_TIME()) {
-      PLAY_NUMBER(tmp, 0, tmp==1 ? FEMININ : 0);
+      playNumber(tmp, 0, tmp==1 ? FEMININ : 0);
     } else {
-      PLAY_NUMBER(tmp, 0, FEMININ);
+      playNumber(tmp, 0, FEMININ);
       PUSH_NUMBER_PROMPT(FR_PROMPT_MINUTE);
 #if !defined(NOANDSECONDE)
       if (seconds > 0) PUSH_NUMBER_PROMPT(FR_PROMPT_ET);
@@ -177,7 +177,7 @@ I18N_PLAY_FUNCTION(fr, playDuration, int16_t seconds PLAY_DURATION_ATT)
   }
 
   if (!IS_PLAY_TIME() && seconds > 0) {
-    PLAY_NUMBER(seconds, 0, FEMININ);
+    playNumber(seconds, 0, FEMININ);
     PUSH_NUMBER_PROMPT(FR_PROMPT_SECONDE);
   }
 }

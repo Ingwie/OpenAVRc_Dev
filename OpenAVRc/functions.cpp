@@ -38,7 +38,7 @@ CustomFunctionsContext modelFunctionsContext = { 0 };
 
 
 #if defined(VOICE)
-PLAY_FUNCTION(playValue, source_t idx)
+void playValue(source_t idx)
 {
   if (IS_FAI_FORBIDDEN(idx))
     return;
@@ -50,16 +50,16 @@ PLAY_FUNCTION(playValue, source_t idx)
 
   switch (idx) {
   case MIXSRC_FIRST_TELEM+TELEM_TX_VOLTAGE-1:
-    PLAY_NUMBER(val, 1+UNIT_VOLTS, PREC1);
+    playNumber(val, 1+UNIT_VOLTS, PREC1);
     break;
   case MIXSRC_FIRST_TELEM+TELEM_TIMER1-1:
   case MIXSRC_FIRST_TELEM+TELEM_TIMER2-1:
-    PLAY_DURATION(val, 0);
+    playDuration(val);
     break;
 #if defined(FRSKY)
   case MIXSRC_FIRST_TELEM+TELEM_RSSI_TX-1:
   case MIXSRC_FIRST_TELEM+TELEM_RSSI_RX-1:
-    PLAY_NUMBER(val, 1+UNIT_DB, 0);
+    playNumber(val, 1+UNIT_DB, 0);
     break;
   case MIXSRC_FIRST_TELEM+TELEM_MIN_A1-1:
   case MIXSRC_FIRST_TELEM+TELEM_MIN_A2-1:
@@ -74,49 +74,49 @@ PLAY_FUNCTION(playValue, source_t idx)
       if (ANA_CHANNEL_UNIT(idx) < UNIT_RAW) {
         att = PREC1;
       }
-      PLAY_NUMBER(converted_value, 1+ANA_CHANNEL_UNIT(idx), att);
+      playNumber(converted_value, 1+ANA_CHANNEL_UNIT(idx), att);
     }
     break;
   case MIXSRC_FIRST_TELEM+TELEM_CELL-1:
   case MIXSRC_FIRST_TELEM+TELEM_MIN_CELL-1:
-    PLAY_NUMBER(div10_and_round(val), 1+UNIT_VOLTS, PREC1);
+    playNumber(div10_and_round(val), 1+UNIT_VOLTS, PREC1);
     break;
 
   case MIXSRC_FIRST_TELEM+TELEM_VFAS-1:
   case MIXSRC_FIRST_TELEM+TELEM_CELLS_SUM-1:
   case MIXSRC_FIRST_TELEM+TELEM_MIN_CELLS_SUM-1:
   case MIXSRC_FIRST_TELEM+TELEM_MIN_VFAS-1:
-    PLAY_NUMBER(val, 1+UNIT_VOLTS, PREC1);
+    playNumber(val, 1+UNIT_VOLTS, PREC1);
     break;
 
   case MIXSRC_FIRST_TELEM+TELEM_CURRENT-1:
   case MIXSRC_FIRST_TELEM+TELEM_MAX_CURRENT-1:
-    PLAY_NUMBER(val, 1+UNIT_AMPS, PREC1);
+    playNumber(val, 1+UNIT_AMPS, PREC1);
     break;
 
   case MIXSRC_FIRST_TELEM+TELEM_ACCx-1:
   case MIXSRC_FIRST_TELEM+TELEM_ACCy-1:
   case MIXSRC_FIRST_TELEM+TELEM_ACCz-1:
-    PLAY_NUMBER(div10_and_round(val), 1+UNIT_G, PREC1);
+    playNumber(div10_and_round(val), 1+UNIT_G, PREC1);
     break;
 
   case MIXSRC_FIRST_TELEM+TELEM_VSPEED-1:
-    PLAY_NUMBER(div10_and_round(val), 1+UNIT_METERS_PER_SECOND, PREC1);
+    playNumber(div10_and_round(val), 1+UNIT_METERS_PER_SECOND, PREC1);
     break;
 
   case MIXSRC_FIRST_TELEM+TELEM_ASPEED-1:
   case MIXSRC_FIRST_TELEM+TELEM_MAX_ASPEED-1:
   case MIXSRC_FIRST_TELEM+TELEM_SPEED-1:
   case MIXSRC_FIRST_TELEM+TELEM_MAX_SPEED-1:
-    PLAY_NUMBER(val/10, 1+UNIT_KTS, 0);
+    playNumber(val/10, 1+UNIT_KTS, 0);
     break;
 
   case MIXSRC_FIRST_TELEM+TELEM_CONSUMPTION-1:
-    PLAY_NUMBER(val, 1+UNIT_MAH, 0);
+    playNumber(val, 1+UNIT_MAH, 0);
     break;
 
   case MIXSRC_FIRST_TELEM+TELEM_POWER-1:
-    PLAY_NUMBER(val, 1+UNIT_WATTS, 0);
+    playNumber(val, 1+UNIT_WATTS, 0);
     break;
 
   case MIXSRC_FIRST_TELEM+TELEM_ALT-1:
@@ -124,10 +124,10 @@ PLAY_FUNCTION(playValue, source_t idx)
   case MIXSRC_FIRST_TELEM+TELEM_MAX_ALT-1:
 #if defined(WS_HOW_HIGH)
     if (IS_IMPERIAL_ENABLE() && IS_USR_PROTO_WS_HOW_HIGH())
-      PLAY_NUMBER(val, 1+UNIT_FEET, 0);
+      playNumber(val, 1+UNIT_FEET, 0);
     else
 #endif
-      PLAY_NUMBER(val, 1+UNIT_DIST, 0);
+      playNumber(val, 1+UNIT_DIST, 0);
     break;
 
   case MIXSRC_FIRST_TELEM+TELEM_RPM-1:
@@ -137,12 +137,12 @@ PLAY_FUNCTION(playValue, source_t idx)
       rpm = 10 * div10_and_round(rpm);
     if (rpm > 1000)
       rpm = 10 * div10_and_round(rpm);
-    PLAY_NUMBER(rpm, 1+UNIT_RPMS, 0);
+    playNumber(rpm, 1+UNIT_RPMS, 0);
     break;
   }
 
   case MIXSRC_FIRST_TELEM+TELEM_HDG-1:
-    PLAY_NUMBER(val, 1+UNIT_HDG, 0);
+    playNumber(val, 1+UNIT_HDG, 0);
     break;
 
   default: {
@@ -155,12 +155,12 @@ PLAY_FUNCTION(playValue, source_t idx)
       unit = 3 + idx - (MIXSRC_FIRST_TELEM+TELEM_MAX_T1-1);
 
     unit = pgm_read_byte_near(bchunit_ar+unit);
-    PLAY_NUMBER(val, unit == UNIT_RAW ? 0 : unit+1, 0);
+    playNumber(val, unit == UNIT_RAW ? 0 : unit+1, 0);
     break;
   }
 #else
   default: {
-    PLAY_NUMBER(val, 0, 0);
+    playNumber(val, 0, 0);
     break;
   }
 #endif
@@ -176,8 +176,6 @@ void evalFunctions()
 {
   MASK_FUNC_TYPE newActiveFunctions  = 0;
   MASK_CFN_TYPE  newActiveSwitches = 0;
-
-#define PLAY_INDEX   (i+1)
 
 #if defined(GVARS)
   static rotenc_t rePreviousValues[ROTARY_ENCODERS];
@@ -300,13 +298,13 @@ void evalFunctions()
             if (CFN_FUNC(cfn) == FUNC_PLAY_SOUND) {
               AUDIO_PLAY(AU_FRSKY_FIRST+param);
             } else if (CFN_FUNC(cfn) == FUNC_PLAY_VALUE) {
-              PLAY_VALUE(param, PLAY_INDEX);
+              playValue(param);
             } else {
 #if defined(GVARS)
               if (CFN_FUNC(cfn) == FUNC_PLAY_TRACK && param > 250)
                 param = GVAR_VALUE(param-251, getGVarFlightPhase(mixerCurrentFlightMode, param-251));
 #endif
-              PUSH_CUSTOM_PROMPT(active ? param : param+1, PLAY_INDEX);
+              PUSH_CUSTOM_PROMPT(active ? param : param+1);
             }
           }
           if (!active) {

@@ -248,9 +248,10 @@
 		<Unit filename="targets/evo_v2/Serial0.cpp" />
 		<Unit filename="targets/evo_v2/eeprom_rlc.cpp" />
 		<Unit filename="targets/evo_v2/evo_lcd_driver.cpp" />
+		<Unit filename="targets/evo_v2/lcd_ssd1309_dma_driver.cpp" />
 		<Unit filename="targets/evo_v2/lcd_ssd1309_driver.cpp" />
 		<Unit filename="targets/evo_v2/menu_general_diaganas.cpp" />
-		<Unit filename="targets/evo_v2/voice_jq8400.cpp" />
+		<Unit filename="targets/evo_v2/voice.cpp" />
 		<Unit filename="targets/evo_v2/xmega.cpp" />
 		<Unit filename="targets/evo_v2/xmega_adc_driver.cpp" />
 		<Unit filename="targets/evo_v2/xmega_board.h" />

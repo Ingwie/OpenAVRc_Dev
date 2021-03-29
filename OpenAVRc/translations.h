@@ -491,8 +491,8 @@ extern const pm_char STR_BIND[];
 
 
 #if defined(VOICE)
-PLAY_FUNCTION(playNumber, getvalue_t number, uint8_t unit, uint8_t att);
-PLAY_FUNCTION(playDuration, int16_t seconds);
+void playNumber(getvalue_t number, uint8_t unit, uint8_t att);
+void playDuration(int16_t seconds);
 #define LANGUAGE_PACK_DECLARE(lng, name)
 #define LANGUAGE_PACK_DECLARE_DEFAULT(lng, name)
 #else

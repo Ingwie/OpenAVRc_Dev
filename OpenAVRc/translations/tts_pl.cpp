@@ -79,7 +79,7 @@ enum PolishPrompts {
 #define ZENSKI 0x81
 #define NIJAKI 0x82
 
-I18N_PLAY_FUNCTION(pl, pushUnitPrompt, int16_t number, uint8_t unitprompt)
+void pushUnitPrompt(int16_t number, uint8_t unitprompt)
 {
   if (number == 1)
     PUSH_NUMBER_PROMPT(unitprompt);
@@ -97,7 +97,7 @@ I18N_PLAY_FUNCTION(pl, pushUnitPrompt, int16_t number, uint8_t unitprompt)
   }
 }
 
-I18N_PLAY_FUNCTION(pl, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
+void playNumber(getvalue_t number, uint8_t unit, uint8_t att)
 {
 
   if (number < 0) {
@@ -124,12 +124,12 @@ I18N_PLAY_FUNCTION(pl, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
     // we assume that we are PREC1
     div_t qr = div(number, 10);
     if (qr.rem) {
-      PLAY_NUMBER(qr.quot, 0, ZENSKI);
+      playNumber(qr.quot, 0, ZENSKI);
       if (qr.quot == 0)
         PUSH_NUMBER_PROMPT(PL_PROMPT_CALA);
       else
         PL_PUSH_UNIT_PROMPT(qr.quot, PL_PROMPT_CALA);
-      PLAY_NUMBER(qr.rem, 0, ZENSKI);
+      playNumber(qr.rem, 0, ZENSKI);
       PUSH_NUMBER_PROMPT(PL_PROMPT_UNITS_BASE+((unit-1)*4)+3);
       return;
     } else {
@@ -183,13 +183,9 @@ I18N_PLAY_FUNCTION(pl, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
     number = -1;
   }
 
-
-
-
-
   if (number >= 1000) {
     if (number >= 2000)
-      PLAY_NUMBER(number / 1000, 0, 0);
+      playNumber(number / 1000, 0, 0);
 
     if (number >= 2000 && number < 5000)
       PUSH_NUMBER_PROMPT(PL_PROMPT_TYSIACE);
@@ -228,7 +224,7 @@ I18N_PLAY_FUNCTION(pl, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
 
 
 // The whole funtion has to be changed
-I18N_PLAY_FUNCTION(pl, playDuration, int16_t seconds PLAY_DURATION_ATT)
+void playDuration(int16_t seconds )
 {
   if (seconds < 0) {
     PUSH_NUMBER_PROMPT(PL_PROMPT_MINUS);
@@ -238,17 +234,17 @@ I18N_PLAY_FUNCTION(pl, playDuration, int16_t seconds PLAY_DURATION_ATT)
   uint8_t tmp = seconds / 3600;
   seconds %= 3600;
   if (tmp > 0 || IS_PLAY_TIME()) {
-    PLAY_NUMBER(tmp, UNIT_HOURS, ZENSKI);
+    playNumber(tmp, UNIT_HOURS, ZENSKI);
   }
 
   tmp = seconds / 60;
   seconds %= 60;
   if (tmp > 0) {
-    PLAY_NUMBER(tmp, UNIT_MINUTES, ZENSKI);
+    playNumber(tmp, UNIT_MINUTES, ZENSKI);
   }
 
   if (seconds > 0) {
-    PLAY_NUMBER(seconds, UNIT_SECONDS, ZENSKI);
+    playNumber(seconds, UNIT_SECONDS, ZENSKI);
   }
 }
 

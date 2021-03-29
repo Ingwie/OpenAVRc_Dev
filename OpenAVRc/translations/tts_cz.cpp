@@ -59,7 +59,7 @@ enum CzechPrompts {
 #define ZENSKY 0x81
 #define STREDNI 0x82
 
-I18N_PLAY_FUNCTION(cz, pushUnitPrompt, int16_t number, uint8_t unitprompt)
+void pushUnitPrompt(int16_t number, uint8_t unitprompt)
 {
   if (number == 1)
     PUSH_NUMBER_PROMPT(unitprompt);
@@ -69,7 +69,7 @@ I18N_PLAY_FUNCTION(cz, pushUnitPrompt, int16_t number, uint8_t unitprompt)
     PUSH_NUMBER_PROMPT(unitprompt+2);
 }
 
-I18N_PLAY_FUNCTION(cz, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
+void playNumber(getvalue_t number, uint8_t unit, uint8_t att)
 {
 
   if (number < 0) {
@@ -96,12 +96,12 @@ I18N_PLAY_FUNCTION(cz, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
     // we assume that we are PREC1
     div_t qr = div(number, 10);
     if (qr.rem) {
-      PLAY_NUMBER(qr.quot, 0, ZENSKY);
+      playNumber(qr.quot, 0, ZENSKY);
       if (qr.quot == 0)
         PUSH_NUMBER_PROMPT(CZ_PROMPT_CELA);
       else
         CZ_PUSH_UNIT_PROMPT(qr.quot, CZ_PROMPT_CELA);
-      PLAY_NUMBER(qr.rem, 0, ZENSKY);
+      playNumber(qr.rem, 0, ZENSKY);
       PUSH_NUMBER_PROMPT(CZ_PROMPT_UNITS_BASE+((unit-1)*4)+3);
       return;
     } else
@@ -148,7 +148,7 @@ I18N_PLAY_FUNCTION(cz, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
 
   if (number >= 1000) {
     if (number >= 2000)
-      PLAY_NUMBER(number / 1000, 0, 0);
+      playNumber(number / 1000, 0, 0);
     if (number >= 2000 && number < 5000)
       PUSH_NUMBER_PROMPT(CZ_PROMPT_TISICE);
     else
@@ -173,7 +173,7 @@ I18N_PLAY_FUNCTION(cz, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
   }
 }
 
-I18N_PLAY_FUNCTION(cz, playDuration, int16_t seconds PLAY_DURATION_ATT)
+void playDuration(int16_t seconds )
 {
   if (seconds < 0) {
     PUSH_NUMBER_PROMPT(CZ_PROMPT_MINUS);
@@ -183,17 +183,17 @@ I18N_PLAY_FUNCTION(cz, playDuration, int16_t seconds PLAY_DURATION_ATT)
   uint8_t tmp = seconds / 3600;
   seconds %= 3600;
   if (tmp > 0 || IS_PLAY_TIME()) {
-    PLAY_NUMBER(tmp, UNIT_HOURS+1, ZENSKY);
+    playNumber(tmp, UNIT_HOURS+1, ZENSKY);
   }
 
   tmp = seconds / 60;
   seconds %= 60;
   if (tmp > 0) {
-    PLAY_NUMBER(tmp, UNIT_MINUTES+1, ZENSKY);
+    playNumber(tmp, UNIT_MINUTES+1, ZENSKY);
   }
 
   if (seconds > 0) {
-    PLAY_NUMBER(seconds, UNIT_SECONDS+1, ZENSKY);
+    playNumber(seconds, UNIT_SECONDS+1, ZENSKY);
   }
 }
 

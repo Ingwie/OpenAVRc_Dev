@@ -77,7 +77,7 @@ enum PortuguesePrompts {
 
 #if defined(VOICE)
 
-I18N_PLAY_FUNCTION(pt, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
+void playNumber(getvalue_t number, uint8_t unit, uint8_t att)
 {
   if (number < 0) {
     PUSH_NUMBER_PROMPT(PT_PROMPT_MENOS);
@@ -103,20 +103,20 @@ I18N_PLAY_FUNCTION(pt, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
     // we assume that we are PREC1
     div_t qr = div(number, 10);
     if (qr.rem > 0) {
-      PLAY_NUMBER(qr.quot, 0, 0);
+      playNumber(qr.quot, 0, 0);
       PUSH_NUMBER_PROMPT(PT_PROMPT_VIRGULA);
       if (mode==2 && qr.rem < 10)
         PUSH_NUMBER_PROMPT(PT_PROMPT_ZERO);
-      PLAY_NUMBER(qr.rem, unit, 0);
+      playNumber(qr.rem, unit, 0);
     } else {
-      PLAY_NUMBER(qr.quot, unit, 0);
+      playNumber(qr.quot, unit, 0);
     }
     return;
   }
 
   if (number >= 1000) {
     if (number >= 2000) {
-      PLAY_NUMBER(number / 1000, 0, 0);
+      playNumber(number / 1000, 0, 0);
       PUSH_NUMBER_PROMPT(PT_PROMPT_MIL);
     } else {
       PUSH_NUMBER_PROMPT(PT_PROMPT_MIL);
@@ -138,7 +138,7 @@ I18N_PLAY_FUNCTION(pt, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
   }
 }
 
-I18N_PLAY_FUNCTION(pt, playDuration, int16_t seconds PLAY_DURATION_ATT)
+void playDuration(int16_t seconds )
 {
   if (seconds < 0) {
     PUSH_NUMBER_PROMPT(PT_PROMPT_MENOS);
@@ -151,7 +151,7 @@ I18N_PLAY_FUNCTION(pt, playDuration, int16_t seconds PLAY_DURATION_ATT)
   if (tmp > 0 || IS_PLAY_TIME()) {
     ore=tmp;
     if (tmp > 2) {
-      PLAY_NUMBER(tmp, 0, 0);
+      playNumber(tmp, 0, 0);
       PUSH_NUMBER_PROMPT(PT_PROMPT_HORAS);
     } else if (tmp==2) {
       PUSH_NUMBER_PROMPT(PT_PROMPT_DUAS);
@@ -166,7 +166,7 @@ I18N_PLAY_FUNCTION(pt, playDuration, int16_t seconds PLAY_DURATION_ATT)
   seconds %= 60;
   if (tmp > 0 || ore >0) {
     if (tmp != 1) {
-      PLAY_NUMBER(tmp, 0, 0);
+      playNumber(tmp, 0, 0);
       PUSH_NUMBER_PROMPT(PT_PROMPT_MINUTOS);
     } else {
       PUSH_NUMBER_PROMPT(PT_PROMPT_NUMBERS_BASE+1);
@@ -176,7 +176,7 @@ I18N_PLAY_FUNCTION(pt, playDuration, int16_t seconds PLAY_DURATION_ATT)
   }
 
   if (seconds != 1) {
-    PLAY_NUMBER(seconds, 0, 0);
+    playNumber(seconds, 0, 0);
     PUSH_NUMBER_PROMPT(PT_PROMPT_SEGUNDOS);
   } else {
     PUSH_NUMBER_PROMPT(PT_PROMPT_NUMBERS_BASE+1);

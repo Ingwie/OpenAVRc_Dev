@@ -97,6 +97,7 @@
 
 #endif
 
+
 /////////////////DEBUG FUNCTION DEFINITION///////////////////
 
 //#define SHOWDURATIONLCD 1  //Show LCD fast refresh duration

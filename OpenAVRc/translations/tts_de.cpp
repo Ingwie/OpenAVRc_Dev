@@ -71,7 +71,7 @@ enum GermanPrompts {
 
 #if defined(VOICE)
 
-I18N_PLAY_FUNCTION(de, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
+void playNumber(getvalue_t number, uint8_t unit, uint8_t att)
 {
   /*  if digit >= 1000000000:
         temp_digit, digit = divmod(digit, 1000000000)
@@ -107,20 +107,20 @@ I18N_PLAY_FUNCTION(de, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
     // we assume that we are PREC1
     div_t qr = div(number, 10);
     if (qr.rem > 0) {
-      PLAY_NUMBER(qr.quot, 0, 0);
+      playNumber(qr.quot, 0, 0);
       PUSH_NUMBER_PROMPT(DE_PROMPT_COMMA);
       if (mode==2 && qr.rem < 10)
         PUSH_NUMBER_PROMPT(DE_PROMPT_NULL);
-      PLAY_NUMBER(qr.rem, unit, 0);
+      playNumber(qr.rem, unit, 0);
     } else {
-      PLAY_NUMBER(qr.quot, unit, 0);
+      playNumber(qr.quot, unit, 0);
     }
     return;
   }
 
   if (number >= 1000) {
     if (number >= 1100) {
-      PLAY_NUMBER(number / 1000, 0, 0);
+      playNumber(number / 1000, 0, 0);
       PUSH_NUMBER_PROMPT(DE_PROMPT_TAUSEND);
     } else {
       PUSH_NUMBER_PROMPT(DE_PROMPT_TAUSEND);
@@ -144,7 +144,7 @@ I18N_PLAY_FUNCTION(de, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
   }
 }
 
-I18N_PLAY_FUNCTION(de, playDuration, int16_t seconds PLAY_DURATION_ATT)
+void playDuration(int16_t seconds )
 {
   if (seconds < 0) {
     PUSH_NUMBER_PROMPT(DE_PROMPT_MINUS);
@@ -155,14 +155,14 @@ I18N_PLAY_FUNCTION(de, playDuration, int16_t seconds PLAY_DURATION_ATT)
   uint8_t tmp = seconds / 3600;
   seconds %= 3600;
   if (tmp > 0 || IS_PLAY_TIME()) {
-    PLAY_NUMBER(tmp, 0, 0);
+    playNumber(tmp, 0, 0);
     PUSH_NUMBER_PROMPT(DE_PROMPT_UHR);
   }
 
   tmp = seconds / 60;
   seconds %= 60;
   if (tmp > 0 || ore >0) {
-    PLAY_NUMBER(tmp, 0, 0);
+    playNumber(tmp, 0, 0);
     if (tmp != 1) {
       PUSH_NUMBER_PROMPT(DE_PROMPT_MINUTEN);
     } else {
@@ -170,7 +170,7 @@ I18N_PLAY_FUNCTION(de, playDuration, int16_t seconds PLAY_DURATION_ATT)
     }
     PUSH_NUMBER_PROMPT(DE_PROMPT_UND);
   }
-  PLAY_NUMBER(seconds, 0, 0);
+  playNumber(seconds, 0, 0);
   if (seconds != 1) {
     PUSH_NUMBER_PROMPT(DE_PROMPT_SECUNDEN);
   } else {

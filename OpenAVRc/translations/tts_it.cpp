@@ -69,7 +69,7 @@ enum ItalianPrompts {
 
 #if defined(VOICE)
 
-I18N_PLAY_FUNCTION(it, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
+void playNumber(getvalue_t number, uint8_t unit, uint8_t att)
 {
   /*  if digit >= 1000000000:
         temp_digit, digit = divmod(digit, 1000000000)
@@ -105,11 +105,11 @@ I18N_PLAY_FUNCTION(it, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
     // we assume that we are PREC1
     div_t qr = div(number, 10);
     if (qr.rem > 0) {
-      PLAY_NUMBER(qr.quot, 0, 0);
+      playNumber(qr.quot, 0, 0);
       PUSH_NUMBER_PROMPT(IT_PROMPT_VIRGOLA);
       if (mode==2 && qr.rem < 10)
         PUSH_NUMBER_PROMPT(IT_PROMPT_ZERO);
-      PLAY_NUMBER(qr.rem, 0, 0);
+      playNumber(qr.rem, 0, 0);
     } else {
       if (qr.quot==1) {
         PUSH_NUMBER_PROMPT(IT_PROMPT_UN);
@@ -118,7 +118,7 @@ I18N_PLAY_FUNCTION(it, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
         }
         return;
       } else {
-        PLAY_NUMBER(qr.quot, 0, 0);
+        playNumber(qr.quot, 0, 0);
       }
     }
   } else {
@@ -127,7 +127,7 @@ I18N_PLAY_FUNCTION(it, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
     } else {
       if (number >= 1000) {
         if (number >= 2000) {
-          PLAY_NUMBER(number / 1000, 0, 0);
+          playNumber(number / 1000, 0, 0);
           PUSH_NUMBER_PROMPT(IT_PROMPT_MILA);
         } else {
           PUSH_NUMBER_PROMPT(IT_PROMPT_MILLE);
@@ -156,7 +156,7 @@ I18N_PLAY_FUNCTION(it, playNumber, getvalue_t number, uint8_t unit, uint8_t att)
   }
 }
 
-I18N_PLAY_FUNCTION(it, playDuration, int16_t seconds PLAY_DURATION_ATT)
+void playDuration(int16_t seconds )
 {
   if (seconds < 0) {
     PUSH_NUMBER_PROMPT(IT_PROMPT_MENO);
@@ -169,7 +169,7 @@ I18N_PLAY_FUNCTION(it, playDuration, int16_t seconds PLAY_DURATION_ATT)
   if (tmp > 0) {
     ore=tmp;
     if (tmp > 1 || IS_PLAY_TIME()) {
-      PLAY_NUMBER(tmp, 0, 0);
+      playNumber(tmp, 0, 0);
       PUSH_NUMBER_PROMPT(IT_PROMPT_ORE);
     } else {
       PUSH_NUMBER_PROMPT(IT_PROMPT_UN);
@@ -184,7 +184,7 @@ I18N_PLAY_FUNCTION(it, playDuration, int16_t seconds PLAY_DURATION_ATT)
     }
     if (tmp > 0) {
       if (tmp != 1) {
-        PLAY_NUMBER(tmp, 0, 0);
+        playNumber(tmp, 0, 0);
         PUSH_NUMBER_PROMPT(IT_PROMPT_MINUTI);
       } else {
         PUSH_NUMBER_PROMPT(IT_PROMPT_UN);
@@ -197,7 +197,7 @@ I18N_PLAY_FUNCTION(it, playDuration, int16_t seconds PLAY_DURATION_ATT)
   }
   if (seconds != 0 || (ore==0 && tmp==0)) {
     if (seconds != 1) {
-      PLAY_NUMBER(seconds, 0, 0);
+      playNumber(seconds, 0, 0);
       PUSH_NUMBER_PROMPT(IT_PROMPT_SECONDI);
     } else {
       PUSH_NUMBER_PROMPT(IT_PROMPT_UN);
