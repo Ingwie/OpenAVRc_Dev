@@ -122,9 +122,15 @@ void JQ6500Check() // Called every 10 ms.
     VOICE_USART.CTRLA |= USART_DREINTLVL_LO_gc;
     break;
 
+#if defined (VOICE_BY8001)
+#define  BUSYDELAY  15
+#elif defined (VOICE_JQ8400)
+#define  BUSYDELAY  80
+#endif
+
   case WAIT_BUSY_DELAY:
     // Wait for player to become busy. The busy signal will (should) be already active if using Bi-directional busy signal.
-    if (ten_ms_counts++ < 15) break; // 150ms should be okay for BY8001. JQ8400 may be much slower !.
+    if (ten_ms_counts++ < BUSYDELAY) break; // 150ms should be okay for BY8001. JQ8400 may be much slower (0.8s)!.
 #if defined (BIDIRBUSY)
     VOICE_BUSY_PORT.DIRCLR = 1<< VOICE_BUSY_PIN; // MP3 player should be playing now.
 #endif
@@ -133,7 +139,7 @@ void JQ6500Check() // Called every 10 ms.
 
 /*  We do not wait for the MP3 player to become busy because :-
  *  1. The MP3 file may not exist on SD (TF) CARD.
- *  2. The prompt request may be invalid ... I have seen this !.
+ *  2. The prompt request may be invalid ... I have seen this (0x02E0) !.
  */
 
   case WAIT_NOT_BUSY: // Module startup or MP3 playing or other Audio output e.g. Beeps using PA.
@@ -242,7 +248,7 @@ void make_volume_pkt(void)
   vox_rbuf[1] = 0x13; // Command.
   vox_rbuf[2] = 0x01; // Number of data bytes.
   vox_rbuf[3] = (uint8_t) 30; // Volume.
-  vox_rbuf[4] = (uint8_t) vox_rbuf[0] + vox_rbuf[1] vox_rbuf[2] + vox_rbuf[3];
+  vox_rbuf[4] = (uint8_t) vox_rbuf[0] + vox_rbuf[1] + vox_rbuf[2] + vox_rbuf[3];
   vox_rbuf_in = 4;
 }
 
@@ -253,7 +259,7 @@ void make_play_pkt(void)
   vox_rbuf[2] = 0x02; // Number of data bytes.
   vox_rbuf[3] = (uint8_t) (JQ6500_playlist[JQ6500_PlayIndex] >> 8); // File high byte.
   vox_rbuf[4] = (uint8_t) (0x00FF & JQ6500_playlist[JQ6500_PlayIndex]); // File low byte.
-  vox_rbuf[5] = (uint8_t) vox_rbuf[0] + vox_rbuf[1] vox_rbuf[2] + vox_rbuf[3] + vox_rbuf[4];
+  vox_rbuf[5] = (uint8_t) vox_rbuf[0] + vox_rbuf[1] + vox_rbuf[2] + vox_rbuf[3] + vox_rbuf[4];
   vox_rbuf_in = 5;
 }
 #endif
