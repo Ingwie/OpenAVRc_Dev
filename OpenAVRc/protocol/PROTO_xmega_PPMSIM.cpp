@@ -77,7 +77,7 @@ static void PROTO_PPMSIM_initialize()
 
   PULSES_OUT_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
   PULSES_OUT_TC.CTRLFSET = TC_CMD_RESET_gc;
-  PULSES_OUT_TC.INTCTRLA |=  (0b11 << TC0_OVFINTLVL_gp); // Level 3 - High Priority.
+  PULSES_OUT_TC.INTCTRLA |= TC_OVFINTLVL_HI_gc; // Level 3 - High Priority.
   PULSES_OUT_TC.PER = 16000U *2; // Overflow in 16ms.
   PULSES_OUT_TC.CCD = 0xFFFF; // Prevent compare.
   PULSES_OUT_TC.CTRLC &= ~TC0_CMPC_bm; // Clear CMPc level in OFF state.

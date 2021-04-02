@@ -56,7 +56,7 @@ static void PROTO_PPM_reset()
   RF_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
   RF_TC.CTRLFSET = TC_CMD_RESET_gc;
   RF_OUT_PIN_CTRL_REG &= ~PORT_INVEN_bm;
-  setup_rf_tc(); // Restore tc settings.
+  //setup_rf_tc(); // Restore tc settings.
 }
 
 static void PROTO_PPM_initialize()
@@ -70,7 +70,7 @@ static void PROTO_PPM_initialize()
 
   RF_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
   RF_TC.CTRLFSET = TC_CMD_RESET_gc;
-  RF_TC.INTCTRLA |=  (0b11 << TC0_OVFINTLVL_gp); // Level 3 - High Priority.
+  RF_TC.INTCTRLA |= TC_OVFINTLVL_HI_gc; // Level 3 - High Priority.
   RF_TC.PER = 16000U *2; // Overflow in 16ms.
   RF_TC.CCD = 0xFFFF; // Prevent compare.
   RF_TC.CTRLC &= ~TC0_CMPD_bm; // Clear CMPD level in OFF state.
