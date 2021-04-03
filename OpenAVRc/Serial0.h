@@ -36,6 +36,44 @@
 
 #define TLM_USART0 0
 
+
+#define USART_ENABLE_TX(usartn) \
+  { \
+    UCSRB_N(usartn) |= (1 << TXEN_N(usartn)); \
+  } // Enable TX.
+
+#define USART_ENABLE_RX(usartn) \
+  { \
+    UCSRB_N(usartn) |= (1 << RXEN_N(usartn)); \
+    UCSRB_N(usartn) |= (1 << RXCIE_N(usartn)); \
+    while (UCSRA_N(usartn) & (1 << RXC_N(usartn))) (void) UDR_N(usartn); \
+  } // Enable RX. Enable Interrupt. Flush RX buffer.
+
+#define USART_DISABLE_TX(usartn) \
+  { \
+    UCSRB_N(usartn) &= ~(1 << UDRIE_N(usartn)); \
+    UCSRB_N(usartn) &= ~(1 << TXEN_N(usartn)); \
+  } // Disable Interrupt. Disable TX.
+
+#define USART_DISABLE_RX(usartn) \
+  { \
+    UCSRB_N(usartn) &= ~(1 << RXCIE_N(usartn)); \
+    UCSRB_N(usartn) &= ~(1 << RXEN_N(usartn)); \
+  } // Disable Interrupt. Disable RX.
+
+#define USART_SET_MODE_8N1(usartn) \
+  { \
+    UCSRB_N(usartn) = (0 << RXCIE_N(usartn)) | (0 << TXCIE_N(usartn)) | (0 << UDRIE_N(usartn)) | (0 << RXEN_N(usartn)) | (0 << TXEN_N(usartn)) | (0 << UCSZ2_N(usartn)); \
+    UCSRC_N(usartn) = 0x06; \
+  } // Set No parity bit. Set 1 stop bit.
+
+#define USART_SET_MODE_8E2(usartn) \
+  { \
+    UCSRB_N(usartn) = (0 << RXCIE_N(usartn)) | (0 << TXCIE_N(usartn)) | (0 << UDRIE_N(usartn)) | (0 << RXEN_N(usartn)) | (0 << TXEN_N(usartn)) | (0 << UCSZ2_N(usartn)); \
+    UCSRC_N(usartn) = 0x2E; \
+  } // Set even parity. Set 2 stop bits.
+
+
 void Usart0TransmitBuffer();
 void Usart0EnableTx();
 void Usart0EnableRx();
