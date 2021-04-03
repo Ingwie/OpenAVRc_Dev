@@ -81,7 +81,7 @@ static void STANEK_setAddress()
 
   uint8_t RX_P1_ADDRESS = ~TX_RX_ADDRESS[5]; // invert bits for reading so that telemetry packets have a different address
 
-//  NRF24L01_WriteRegisterMulti(NRF24L01_0A_RX_ADDR_P0, (uint8_t*)(&TX_RX_ADDRESS), 5);
+  NRF24L01_WriteRegisterMulti(NRF24L01_0A_RX_ADDR_P0, (uint8_t*)(&TX_RX_ADDRESS), 5);
   NRF24L01_WriteRegisterMulti(NRF24L01_0B_RX_ADDR_P1, (uint8_t*)(&RX_P1_ADDRESS), 5);
   NRF24L01_WriteRegisterMulti(NRF24L01_10_TX_ADDR,    (uint8_t*)(&TX_RX_ADDRESS), 5);
 }
@@ -138,6 +138,7 @@ static void STANEK_get_telemetry()
     telemetryData.rssi[0].set(telem_save_data_p2M[0]); // packet rate 0 to 255 where 255 is 100% packet rate
     telemetryData.analog[TELEM_ANA_A1].set(telem_save_data_p2M[1], g_model.telemetry.channels[TELEM_ANA_A1].type); // directly from analog input of receiver, but reduced to 8-bit depth (0 to 255).
     telemetryData.analog[TELEM_ANA_A2].set(telem_save_data_p2M[2], g_model.telemetry.channels[TELEM_ANA_A2].type); // Scaling depends on the input to the analog pin of the receiver.
+
     receive_seq_p2M++;
   }
   else
@@ -178,7 +179,7 @@ static void STANEK_send_packet()
 
     // use 12 bits per value
     if (x %2)
-    holdValue &= 0x0FFF; //4095
+    holdValue &= 0x0FFF; // 4095
     packet_p2M[0 + payloadIndex] |= holdValue & 0xFF; // 255
     payloadIndex++;
     packet_p2M[0 + payloadIndex] |= holdValue >> 8;
@@ -188,7 +189,7 @@ static void STANEK_send_packet()
   uint16_t checkSum; // start calculate checksum
 
   for(uint8_t x = 0; x < packetSize_p2M; x ++)
-  checkSum += packet_p2M[0 + x];               // finish Calculate checksum
+  checkSum += packet_p2M[0 + x];               // finish calculate checksum
 
   NRF24L01_WriteReg(NRF24L01_05_RF_CH, channel_index_p2M); // send channel
   NRF24L01_ManagePower();
@@ -221,7 +222,7 @@ static uint16_t STANEK_manage_time()
     else
     {
       // increase packet period by 100 us for each channel over 6
-      packet_period = limit<int16_t>(0, (g_model.rfOptionValue1 - 6), 10); //0, 6, 10
+      packet_period = limit<int16_t>(0, (g_model.rfOptionValue1 - 6), 10);
       packet_period *= 100;
       packet_period += STANEK_PACKET_PERIOD;
       packet_period -= rxDelay + bind_counter_p2M; // remove RX time
@@ -248,7 +249,7 @@ static uint16_t STANEK_cb()
     if (++rfState8_p2M >= 4)
     {
       rfState8_p2M = 0;
-      SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations
+      SCHEDULE_MIXER_END_IN_US(12000); // schedule next mixer calculations
     }
 
    STANEK_send_packet();
