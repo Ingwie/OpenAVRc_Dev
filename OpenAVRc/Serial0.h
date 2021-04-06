@@ -78,6 +78,14 @@
     UCSRB_N(usartn) = (0 << RXCIE_N(usartn)) | (0 << TXCIE_N(usartn)) | (0 << UDRIE_N(usartn)) | (0 << RXEN_N(usartn)) | (0 << TXEN_N(usartn)) | (0 << UCSZ2_N(usartn)); \
     UCSRC_N(usartn) = 0x2E; \
   } // Even parity. 2 stop bits.
+
+#define USART_SET_BAUD(usartn, baud) \
+  { \
+    UBRRH_N(usartn) = (((F_CPU / (8UL * baud)) - 1UL) >> 8); \
+    UBRRL_N(usartn) = (((F_CPU / (8UL * baud)) - 1UL) & 0xFF); \
+    UCSRA_N(usartn) |= (1 << U2X_N(usartn)); \
+  } // M2560 with 2X mode
+
 #endif
 
 
