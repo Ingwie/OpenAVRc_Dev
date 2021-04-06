@@ -34,8 +34,10 @@
 #ifndef telemetry_driver_h
 #define telemetry_driver_h
 
+#if defined(CPUM2560)
 #define TLM_USART0 0
 #define MULTI_USART 0
+#define DSM_USART 0
 
 #define USART_SET_BAUD_100K(usartx) Usart0Set100000BAUDS()
 
@@ -44,12 +46,14 @@
     UCSRB_N(usartn) |= (1 << TXEN_N(usartn)); \
   } // Enable TX.
 
+#define USART_PURGE_RX(usartn) { while (UCSRA_N(usartn) & (1 << RXC_N(usartn))) (void) UDR_N(usartn); }
+
 #define USART_ENABLE_RX(usartn) \
   { \
     UCSRB_N(usartn) |= (1 << RXEN_N(usartn)); \
+    USART_PURGE_RX(usartn); \
     UCSRB_N(usartn) |= (1 << RXCIE_N(usartn)); \
-    while (UCSRA_N(usartn) & (1 << RXC_N(usartn))) (void) UDR_N(usartn); \
-  } // Enable RX. Enable Interrupt. Flush RX buffer.
+  } // Enable RX. Flush RX. Enable Interrupt.
 
 #define USART_DISABLE_TX(usartn) \
   { \
@@ -74,7 +78,7 @@
     UCSRB_N(usartn) = (0 << RXCIE_N(usartn)) | (0 << TXCIE_N(usartn)) | (0 << UDRIE_N(usartn)) | (0 << RXEN_N(usartn)) | (0 << TXEN_N(usartn)) | (0 << UCSZ2_N(usartn)); \
     UCSRC_N(usartn) = 0x2E; \
   } // Even parity. 2 stop bits.
-
+#endif
 
 
 void Usart0TransmitBuffer();
