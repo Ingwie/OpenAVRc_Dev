@@ -47,8 +47,8 @@ void Usart0EnableTx()
 void Usart0EnableRx()
 {
   UCSRB_N(TLM_USART0) |= (1 << RXEN_N(TLM_USART0));  // enable RX
-  UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
   while (UCSRA_N(TLM_USART0) & (1 << RXC_N(TLM_USART0))) UDR_N(TLM_USART0); // Flush RX buffer.
+  UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
 }
 
 void Usart0DisableTx()
