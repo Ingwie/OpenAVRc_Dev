@@ -34,10 +34,7 @@
 #ifndef board_avr_h
 #define board_avr_h
 
-
-#if defined(REV_EVO_V1)
-#include "targets/evo_v1/evo_mega2560.h"
-#elif defined(PCBMEGA2560)
+#if defined(PCBMEGA2560)
 #include "targets/mega2560/board_mega2560.h"
 #elif defined(PCBMEGAMINI)
 #include "targets/megamini/board_megamini.h"
@@ -135,6 +132,59 @@ extern void getADC();
 #define UPE_N(usart_no) _UPE_N(usart_no)
 #define USART_RX_vect_N(usart_no) _USART_RX_vect_N(usart_no)
 #define USART_UDRE_vect_N(usart_no) _USART_UDRE_vect_N(usart_no)
+
+#define USART_ENABLE_TX(usartn) \
+  { \
+    UCSRB_N(usartn) |= (1 << TXEN_N(usartn)); \
+  } // Enable TX.
+
+#define USART_PURGE_RX(usartn) { while (UCSRA_N(usartn) & (1 << RXC_N(usartn))) (void) UDR_N(usartn); }
+
+#define USART_ENABLE_RX(usartn) \
+  { \
+    UCSRB_N(usartn) |= (1 << RXEN_N(usartn)); \
+    USART_PURGE_RX(usartn); \
+    UCSRB_N(usartn) |= (1 << RXCIE_N(usartn)); \
+  } // Enable RX. Flush RX. Enable Interrupt.
+
+#define USART_DISABLE_TX(usartn) \
+  { \
+    UCSRB_N(usartn) &= ~(1 << UDRIE_N(usartn)); \
+    UCSRB_N(usartn) &= ~(1 << TXEN_N(usartn)); \
+  } // Disable Interrupt. Disable TX.
+
+#define USART_DISABLE_RX(usartn) \
+  { \
+    UCSRB_N(usartn) &= ~(1 << RXCIE_N(usartn)); \
+    UCSRB_N(usartn) &= ~(1 << RXEN_N(usartn)); \
+  } // Disable Interrupt. Disable RX.
+
+#define USART_SET_MODE_8N1(usartn) \
+  { \
+    UCSRB_N(usartn) = (0 << RXCIE_N(usartn)) | (0 << TXCIE_N(usartn)) | (0 << UDRIE_N(usartn)) | (0 << RXEN_N(usartn)) | (0 << TXEN_N(usartn)) | (0 << UCSZ2_N(usartn)); \
+    UCSRC_N(usartn) = 0x06; \
+  } // No parity. 1 stop bit.
+
+#define USART_SET_MODE_8E2(usartn) \
+  { \
+    UCSRB_N(usartn) = (0 << RXCIE_N(usartn)) | (0 << TXCIE_N(usartn)) | (0 << UDRIE_N(usartn)) | (0 << RXEN_N(usartn)) | (0 << TXEN_N(usartn)) | (0 << UCSZ2_N(usartn)); \
+    UCSRC_N(usartn) = 0x2E; \
+  } // Even parity. 2 stop bits.
+
+#define USART_SET_BAUD(usartn, baud) \
+  { \
+    UBRRH_N(usartn) = (((F_CPU / (8UL * baud)) - 1UL) >> 8); \
+    UBRRL_N(usartn) = (((F_CPU / (8UL * baud)) - 1UL) & 0xFF); \
+    UCSRA_N(usartn) |= (1 << U2X_N(usartn)); \
+  } // M2560 with 2X mode
+
+#define USART_SET_BAUD_9K6(usartx)    USART_SET_BAUD(usartx, 9600)
+#define USART_SET_BAUD_19K2(usartx)   USART_SET_BAUD(usartx, 19200)
+#define USART_SET_BAUD_38K4(usartx)   USART_SET_BAUD(usartx, 38400)
+#define USART_SET_BAUD_57K6(usartx)   USART_SET_BAUD(usartx, 57600)
+#define USART_SET_BAUD_100K(usartx)   USART_SET_BAUD(usartx, 100000)
+#define USART_SET_BAUD_115K2(usartx)  USART_SET_BAUD(usartx, 115200)
+#define USART_SET_BAUD_125K(usartx)   USART_SET_BAUD(usartx, 125000)
 
 
 #endif
