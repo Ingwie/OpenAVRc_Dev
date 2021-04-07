@@ -159,6 +159,11 @@ extern void getADC();
     UCSRB_N(usartn) &= ~(1 << RXEN_N(usartn)); \
   } // Disable Interrupt. Disable RX.
 
+#define USART_TRANSMIT_BUFFER(usartn) \
+  { \
+    UCSRB_N(usartn) |= (1 << UDRIE_N(usartn)); \
+  } // Enable Data Register Empty Interrupt to transmit buffer.
+
 #define USART_SET_MODE_8N1(usartn) \
   { \
     UCSRB_N(usartn) = (0 << RXCIE_N(usartn)) | (0 << TXCIE_N(usartn)) | (0 << UDRIE_N(usartn)) | (0 << RXEN_N(usartn)) | (0 << TXEN_N(usartn)) | (0 << UCSZ2_N(usartn)); \
