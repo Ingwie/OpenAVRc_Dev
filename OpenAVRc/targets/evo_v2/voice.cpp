@@ -34,7 +34,7 @@
 
 #include "../../OpenAVRc.h"
 
-#define BIDIRBUSY  // Bi-directional busy pin for control of audio amplifier and possible contention of voice and audio beeps.
+//#define BIDIRBUSY  // Bi-directional busy pin for control of audio amplifier and possible contention of voice and audio beeps.
 
 #define VOX_QUEUE_LEN  22  // was 32 words
 
@@ -89,7 +89,6 @@ void JQ6500Check() // Called every 10 ms.
 
   case SEND_VOLUME_PKT:
     vox_state = GET_VOX_PA;
-    VOICE_USART.STATUS |= USART_DREIF_bm;
     VOICE_USART.CTRLA |= USART_DREINTLVL_LO_gc;
     break;
 
@@ -118,7 +117,6 @@ void JQ6500Check() // Called every 10 ms.
   case SEND_PLAY_PKT:
     ten_ms_counts = 0;
     vox_state = WAIT_BUSY_DELAY;
-    VOICE_USART.STATUS |= USART_DREIF_bm;
     VOICE_USART.CTRLA |= USART_DREINTLVL_LO_gc;
     break;
 
@@ -184,7 +182,6 @@ ISR(VOICE_DRE_VECT)
   {
     VOICE_USART.DATA = vox_rbuf[vox_rbuf_out];
     VOICE_USART.CTRLA &= ~USART_DREINTLVL_gm;
-    VOICE_USART.STATUS &= ~USART_DREIF_bm; // precautionary.
   }
   else
   {
