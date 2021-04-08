@@ -65,21 +65,9 @@ uint8_t JQ6500_PlayIndex = 0;
 void InitJQ6500UartTx()
 {
 #if !defined(SIMU)
-
-#undef BAUD
-#define BAUD 9600 // JQ6500 default speed ("can be ajusted says the doc. How ?)
-#include <util/setbaud.h>
-
-  UBRRH_N(TLM_JQ6500) = UBRRH_VALUE;
-  UBRRL_N(TLM_JQ6500) = UBRRL_VALUE;
-  UCSRA_N(TLM_JQ6500) &= ~(1 << U2X_N(TLM_JQ6500)); // disable double speed operation.
-
-  UCSRB_N(TLM_JQ6500) = 0 | (0 << RXCIE_N(TLM_JQ6500)) | (0 << TXCIE_N(TLM_JQ6500))    // set 8N1
-  | (0 << UDRIE_N(TLM_JQ6500)) | (0 << RXEN_N(TLM_JQ6500)) | (1 << TXEN_N(TLM_JQ6500)) // disable RX enable TX
-  | (0 << UCSZ2_N(TLM_JQ6500));
-
-  UCSRC_N(TLM_JQ6500) = 0 | (1 << UCSZ1_N(TLM_JQ6500)) | (1 << UCSZ0_N(TLM_JQ6500));
-
+  USART_SET_BAUD_9K6(TLM_JQ6500);
+  USART_SET_MODE_8N1(TLM_JQ6500);
+  USART_ENABLE_TX(TLM_JQ6500);
 #endif
 }
 
@@ -109,7 +97,8 @@ void JQ6500Check()
   if (JQ6500_PlayIndex == QUEUE_LENGTH) JQ6500_PlayIndex = 0;
   JQstate = START;
   UDR_N(TLM_JQ6500) = JQ6500_Data[JQstate]; // Send Datas
-  UCSRB_N(TLM_JQ6500) |= (1 << UDRIE_N(TLM_JQ6500)); // enable UDRE(TLM_JQ6500) interrupt
+  USART_TRANSMIT_BUFFER(TLM_JQ6500); // enable UDRE(TLM_JQ6500) interrupt
+
 #endif
 }
 

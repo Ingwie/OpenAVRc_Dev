@@ -151,8 +151,8 @@ const mm_protocol_definition *getMultiProtocolDefinition (uint8_t protocol)
 
 static void MULTI_Reset()
 {
-  Usart0DisableTx();
-  Usart0DisableRx();
+  USART_DISABLE_TX(MULTI_USART);
+  USART_DISABLE_RX(MULTI_USART);
 }
 
 static uint16_t MULTI_cb()
@@ -299,7 +299,7 @@ static uint16_t MULTI_cb()
   }
 
 #if !defined(SIMU)
-  Usart0TransmitBuffer();
+  USART_TRANSMIT_BUFFER(MULTI_USART);
 #endif
 
   heartbeat |= HEART_TIMER_PULSES;
@@ -311,10 +311,10 @@ static uint16_t MULTI_cb()
 static void MULTI_initialize()
 {
 // 100K 8E2
-  Usart0Set100000BAUDS();
-  Usart0Set8E2();
-  Usart0EnableTx();
-  Usart0EnableRx();
+  USART_SET_BAUD_100K(MULTI_USART);
+  USART_SET_MODE_8E2(MULTI_USART);
+  USART_ENABLE_TX(MULTI_USART);
+  USART_ENABLE_RX(MULTI_USART);
   Usart0TxBufferCount = 0;
 
   if (g_model.AUTOBINDMODE) PROTOCOL_SetBindState(500); // 5 Sec

@@ -183,13 +183,13 @@ extern void getADC();
     UCSRA_N(usartn) |= (1 << U2X_N(usartn)); \
   } // M2560 with 2X mode
 
-#define USART_SET_BAUD_9K6(usartx)    USART_SET_BAUD(usartx, 9600)
+#define USART_SET_BAUD_9K6(usartx)    USART_SET_BAUD(usartx, 9600)   //Frsky HUB telemetry or JQ6500
 #define USART_SET_BAUD_19K2(usartx)   USART_SET_BAUD(usartx, 19200)
 #define USART_SET_BAUD_38K4(usartx)   USART_SET_BAUD(usartx, 38400)
-#define USART_SET_BAUD_57K6(usartx)   USART_SET_BAUD(usartx, 57600)
-#define USART_SET_BAUD_100K(usartx)   USART_SET_BAUD(usartx, 100000)
+#define USART_SET_BAUD_57K6(usartx)   USART_SET_BAUD(usartx, 57600)  //Frsky S.port telemetry
+#define USART_SET_BAUD_100K(usartx)   USART_SET_BAUD(usartx, 100000) //Multiprotocole Serial
 #define USART_SET_BAUD_115K2(usartx)  USART_SET_BAUD(usartx, 115200)
-#define USART_SET_BAUD_125K(usartx)   USART_SET_BAUD(usartx, 125000)
+#define USART_SET_BAUD_125K(usartx)   USART_SET_BAUD(usartx, 125000) //DSM Serial protocol
 
 
 #endif

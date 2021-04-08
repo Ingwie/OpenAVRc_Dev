@@ -98,8 +98,8 @@ const static RfOptionSettingsvar_t RfOpt_Dsm_Ser[] PROGMEM = {
 
 static void DSM2_SERIAL_Reset()
 {
-  Usart0DisableTx();
-  Usart0DisableRx();
+  USART_DISABLE_TX(DSM_USART);
+  USART_DISABLE_RX(DSM_USART);
 }
 
 
@@ -141,7 +141,7 @@ static uint16_t DSM_SERIAL_cb()
   Usart0TxBufferCount = 14; // Indicates data to transmit.
 
 #if !defined(SIMU)
-  Usart0TransmitBuffer();
+  USART_TRANSMIT_BUFFER(DSM_USART);
 #endif
 
   heartbeat |= HEART_TIMER_PULSES;
@@ -153,9 +153,9 @@ static uint16_t DSM_SERIAL_cb()
 static void DSM_SERIAL_initialize()
 {
 // 125K 8N1
-  Usart0Set125000BAUDS();
-  Usart0Set8N1();
-  Usart0EnableTx();
+  USART_SET_BAUD_125K(DSM_USART);
+  USART_SET_MODE_8N1(DSM_USART);
+  USART_ENABLE_TX(DSM_USART);
   Usart0TxBufferCount = 0;
   PROTO_Start_Callback( DSM_SERIAL_cb);
 }

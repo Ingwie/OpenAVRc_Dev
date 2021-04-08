@@ -42,14 +42,14 @@ void telemetryPPMInit()
 //9600 8N1 - "D" 57600 8N1 -> "S.port"
   if IS_USR_PROTO_SMART_PORT()
     {
-      Usart0Set57600BAUDS();
+      USART_SET_BAUD_57K6(FRSKY_USART);
     }
   else
     {
-      Usart0Set9600BAUDS();
+      USART_SET_BAUD_9K6(FRSKY_USART);
     }
-  Usart0Set8N1();
-  Usart0EnableRx(); // enable FrSky-Telemetry reception
+  USART_SET_MODE_8N1(FRSKY_USART);
+  USART_ENABLE_TX(FRSKY_USART); // enable FrSky-Telemetry reception
 }
 
 void telemetryResetValue()

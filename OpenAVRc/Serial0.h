@@ -36,22 +36,11 @@
 
 #if defined(CPUM2560)
 #define TLM_USART0 0
-#define MULTI_USART 0
-#define DSM_USART 0
+#define MULTI_USART TLM_USART0
+#define DSM_USART TLM_USART0
+#define FRSKY_USART TLM_USART0
 #endif
 
-
-void Usart0TransmitBuffer();
-void Usart0EnableTx();
-void Usart0EnableRx();
-void Usart0DisableTx();
-void Usart0DisableRx();
-void Usart0Set8N1();
-void Usart0Set8E2();
-void Usart0Set9600BAUDS();    //Frsky HUB telemetry
-void Usart0Set57600BAUDS();   //Frsky S.port telemetry
-void Usart0Set125000BAUDS();  //DSM Serial protocol
-void Usart0Set100000BAUDS();  //Multiprotocole Serial
 
 #define NUM_TELEM_RX_BUFFER  2
 #define TELEM_RX_PACKET_SIZE 9   // Frsky packet size
