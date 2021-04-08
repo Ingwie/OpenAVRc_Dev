@@ -40,7 +40,7 @@ uint8_t s_current_protocol = 255;
 uint16_t dt;
 
 
-FORCEINLINE bool pulsesStarted()
+FORCEINLINE uint8_t pulsesStarted()
 {
   return (s_current_protocol != 255);
 }
@@ -52,12 +52,17 @@ FORCEINLINE void sendStopPulses()
   TRACE("  ->  RESET Proto - %s -",  Protos[s_current_protocol].ProtoName);
   SIMU_SLEEP(100);
   PROTO_Stop_Callback();
-  //s_current_protocol = 255;
-#if defined(DSM2_SERIAL) || defined(MULTIMODULE) || defined(SPIMODULES)
-  Usart0DisableTx();
-  Usart0DisableRx();
+
+#if defined (MULTIMODULE)
+  USART_DISABLE_TX(MULTI_USART);
+  USART_DISABLE_RX(MULTI_USART);
+#endif
+#if defined (DSM2_SERIAL)
+  USART_DISABLE_TX(DSM_USART);
 #endif
 #if defined(SPIMODULES)
+  USART_DISABLE_TX(RF_USART);
+  USART_DISABLE_RX(RF_USART);
   RF_CS_CC2500_INACTIVE();
   RF_CS_CYRF6936_INACTIVE();
   RF_CS_NRF24L01_INACTIVE();
@@ -73,24 +78,35 @@ void startPulses(enum ProtoCmds Command)
 #if defined(SPIMODULES)
   RFPowerOut = 0;
 #endif
+#if defined(FRSKY)
+  telemetryResetValue();
+#endif
 
   if (pulsesStarted()) {
-    PROTO_Cmds(PROTOCMD_RESET);
-    TRACE("  ->  RESET Proto - %s -",  Protos[s_current_protocol].ProtoName);
-    SIMU_SLEEP(100);
+    sendStopPulses();
   }
+
   if (g_model.rfProtocol > (PROTOCOL_COUNT-1)) g_model.rfProtocol = PROTOCOL_PPM;
   s_current_protocol = g_model.rfProtocol;
 
-  if(IS_PPM_PROTOCOL(g_model.rfProtocol));
+  if(IS_PPM_PROTOCOL(g_model.rfProtocol)) {
+    // Do not do setup_rf_tc() as pulses use PWM mode.
+  }
+
   else  if(IS_DSM2_SERIAL_PROTOCOL(g_model.rfProtocol)) {
-    rf_usart_serial_init();
+    DSM_USART_PORT.PIN3CTRL = PORT_OPC_PULLUP_gc; // Pullup TXD.
+    DSM_USART_PORT.DIRSET = USART_TXD_PIN_bm;
     setup_rf_tc();
   }
+
   else if(IS_MULTIMODULE_PROTOCOL(g_model.rfProtocol)) {
-    rf_usart_serial_init();
+    MULTI_USART_PORT.PIN3CTRL = PORT_OPC_PULLUP_gc; // Pullup TXD.
+    MULTI_USART_PORT.DIRSET = USART_TXD_PIN_bm;
+    MULTI_USART_PORT.PIN2CTRL = PORT_OPC_PULLUP_gc; // Pullup RXD.
+    MULTI_USART_PORT.DIRCLR = USART_RXD_PIN_bm;
     setup_rf_tc();
   }
+
   else if(IS_SPIMODULES_PROTOCOL(g_model.rfProtocol)) {
     RF_SPI_INIT();
     setup_rf_tc();
@@ -99,10 +115,8 @@ void startPulses(enum ProtoCmds Command)
   PROTO_Cmds = *Protos[g_model.rfProtocol].Cmds;
   TRACE("  ->  INIT Proto - %s -", Protos[g_model.rfProtocol].ProtoName);
   SIMU_SLEEP(100);
-  rf_power_mem_p2M = 0; // Reset RF power mem
   PROTO_Cmds(PROTOCMD_GETOPTIONS);
   LimitRfOptionSettings();
-
   PROTO_Cmds(Command);
 }
 
@@ -110,9 +124,9 @@ void startPulses(enum ProtoCmds Command)
 void setupPulsesPPM(enum ppmtype proto)
 {
   // Total frame length is a fixed 22.5msec (more than 9 channels is non-standard and requires this to be extended.)
-  // Each channel's pulse is 0.7 to 1.7ms long, with a 0.3ms stop tail, making each complete cycle 1 to 2ms.
+  // Each channel's pulse is 0.7 to 1.7ms long, with a 0.3ms channel sync pulse, making each complete cycle 1 to 2ms.
 
-  // The pulse ISR is 2MHz that's why everything is multiplied by 2
+  // The pulse ISR is 2MHz that's why everything is multiplied by 2.
 
   int16_t PPM_range = g_model.extendedLimits ? 640*2 : 512*2;   //range of 0.7..1.7msec
 
@@ -147,13 +161,6 @@ void setupPulsesPPM(enum ppmtype proto)
   *ptr++ = rest - (PULSES_SETUP_TIME_US *2);
   *ptr = 0; // End array with (uint16_t) 0;
 }
-
-#if defined(CPUM2560)
-ISR(TIMER1_COMPB_vect) // Timer 1 compare "B" vector. Used for PPM commutation and maybe more ...
-{
-  ocr1b_function_ptr();
-}
-#endif
 
 
 ISR(RF_TIMER_COMPA_VECT) // ISR for Protocol Callback.

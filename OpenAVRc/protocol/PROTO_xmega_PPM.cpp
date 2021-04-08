@@ -56,7 +56,6 @@ static void PROTO_PPM_reset()
   RF_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
   RF_TC.CTRLFSET = TC_CMD_RESET_gc;
   RF_OUT_PIN_CTRL_REG &= ~PORT_INVEN_bm;
-  //setup_rf_tc(); // Restore tc settings.
 }
 
 static void PROTO_PPM_initialize()

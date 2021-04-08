@@ -39,46 +39,6 @@ uint8_t * Usart0TxBuffer = pulses2MHz.pbyte; // [USART0_TX_PACKET_SIZE] bytes us
 uint8_t Usart0TxBufferCount = 0;
 
 
-void Usart0EnableTx()
-{
-  USART_ENABLE_TX(TLM_USART);
-  TLM_USART_PORT.DIRSET = USART_TXD_PIN_bm;
-}
-
-void Usart0EnableRx()
-{
-  USART_ENABLE_RX(TLM_USART);
-  // Flush RX buffer. Should be flushed already if the receiver was disabled.
-  while (TLM_USART.STATUS & USART_RXCIF_bm) (void) TLM_USART.DATA;
-  TLM_USART.CTRLA |= USART_RXCINTLVL_MED_gc; // Medium priority.
-  TLM_USART_PORT.DIRCLR = USART_RXD_PIN_bm;
-}
-
-
-void Usart0DisableTx()
-{
-  TLM_USART_PORT.OUTSET = USART_TXD_PIN_bm; // Marking state ... "1" ... not break condition.
-
-  // Disabling USART TXD pin turns port pin to input.  // ToDo check this.
-  USART_DISABLE_TX(TLM_USART);
-  TLM_USART_PORT.DIRSET = USART_TXD_PIN_bm;
-
-  TLM_USART.CTRLA &= ~USART_DREINTLVL_gm;
-  TLM_USART.STATUS &= ~USART_DREIF_bm; // precautionary.
-}
-
-void Usart0DisableRx()
-{
-  TLM_USART.CTRLA &= ~USART_RXCINTLVL_gm;
-  // Disabling RX flushes buffer and clears RXCIF.
-  USART_DISABLE_RX(TLM_USART);
-}
-
-void Usart0TransmitBuffer()
-{
-  TLM_USART.CTRLA |= USART_DREINTLVL_MED_gc; // Medium priority.
-}
-
 
 /*
  * The Xmega USARTs are clocked from the peripheral clock (32MHz).
@@ -102,41 +62,11 @@ void Usart0TransmitBuffer()
  */
 
 
-void Usart0Set9600BAUDS() //Frsky "D" telemetry
-{
-  USART_SET_BAUD_9K6(TLM_USART);
-}
-
-void Usart0Set57600BAUDS() //Frsky S.port telemetry
-{
-  USART_SET_BAUD_57K6(TLM_USART);
-}
-
-void Usart0Set100000BAUDS() //Multiprotocole Serial
-{
-  USART_SET_BAUD_100K(TLM_USART);
-}
-
-void Usart0Set125000BAUDS() //DSM Serial protocol
-{
-  USART_SET_BAUD_125K(TLM_USART);
-}
-
-void Usart0Set8N1()
-{
-  USART_SET_MODE_8N1(TLM_USART);
-}
-
-void Usart0Set8E2()
-{
-  USART_SET_MODE_8E2(TLM_USART);
-}
-
 
 #if defined(FRSKY)
 ISR(TLM_USART_RXC_VECT)
 {
-  TLM_USART.CTRLA &= ~USART_DREINTLVL_gm;// disable Interrupt
+  TLM_USART.CTRLA &= ~USART_DREINTLVL_gm; // Disable interrupt.
 
   uint8_t stat = TLM_USART.STATUS;
   uint8_t data = TLM_USART.DATA;
@@ -150,47 +80,25 @@ ISR(TLM_USART_RXC_VECT)
   }
   else parseTelemFrskyByte(data);
 
-  TLM_USART.CTRLA |= USART_RXCINTLVL_MED_gc; // Medium priority.
+  TLM_USART.CTRLA |= USART_RXCINTLVL_MED_gc; // Enable medium priority.
 }
+#endif
 
 
-
-// USART Transmit Data Register Emtpy ISR (UDR was loaded in Shift Register)
-ISR(TLM_USART_DRE_VECT)
+#if defined(DSM2_SERIAL)
+ISR(DSM_USART_DRE_VECT)
 {
   if (Usart0TxBufferCount) {
-    TLM_USART.DATA = Usart0TxBuffer[--Usart0TxBufferCount];
+    DSM_USART.DATA = Usart0TxBuffer[--Usart0TxBufferCount];
   }
   else {
-    TLM_USART.CTRLA &= ~USART_DREINTLVL_gm;
-    TLM_USART.STATUS &= ~USART_DREIF_bm; // precautionary.
+    DSM_USART.CTRLA &= ~USART_DREINTLVL_gm;
   }
 }
 #endif
 
 
-#if defined(MULTI)
-ISR(MULTI_USART_RXC_VECT)
-{
-  MULTI_USART.CTRLA &= ~USART_DREINTLVL_gm;// disable Interrupt
-
-  uint8_t stat = MULTI_USART.STATUS;
-  uint8_t data = MULTI_USART.DATA;
-
-  sei(); // Blocking ISR until here.
-
-  if (stat & (USART_FERR_bm | USART_BUFOVF_bm | USART_PERR_bm) )
-  {
-    // Discard buffer and start fresh on any comm's error
-    parseTelemFrskyByte(START_STOP); // reset
-  }
-  else parseTelemFrskyByte(data);
-
-  MULTI_USART.CTRLA |= USART_RXCINTLVL_MED_gc; // Medium priority.
-}
-
-
-// USART Transmit Data Register Emtpy ISR (UDR was loaded in Shift Register)
+#if defined(MULTIMODULE)
 ISR(MULTI_USART_DRE_VECT)
 {
   if (Usart0TxBufferCount) {
@@ -198,7 +106,6 @@ ISR(MULTI_USART_DRE_VECT)
   }
   else {
     MULTI_USART.CTRLA &= ~USART_DREINTLVL_gm;
-    MULTI_USART.STATUS &= ~USART_DREIF_bm; // precautionary.
   }
 }
 #endif

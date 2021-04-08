@@ -26,12 +26,31 @@
 #define USART_SET_MODE_8E2(usartx) \
   { usartx.CTRLC = USART_CMODE_ASYNCHRONOUS_gc | USART_PMODE_EVEN_gc | (1 << USART_SBMODE_bp) | USART_CHSIZE_8BIT_gc; } // 8E2
 
-#define USART_ENABLE_TX(usartx)  usartx.CTRLB |= USART_TXEN_bm
-#define USART_ENABLE_RX(usartx)  usartx.CTRLB |= USART_RXEN_bm
-#define USART_DISABLE_TX(usartx)  usartx.CTRLB &= ~USART_TXEN_bm
+#define USART_ENABLE_TX(usartxn) usartxn.CTRLB |= USART_TXEN_bm;
 
-#define USART_DISABLE_RX(usartx) \
-    { usartx.CTRLA &= ~USART_RXCINTLVL_gm; usartx.CTRLB &= ~USART_RXEN_bm; } // Disabling RX flushes buffer and clears RXCIF.
+#define USART_PURGE_RX(usartxn) { while (usartxn.STATUS & USART_RXCIF_bm) (void) TLM_USART.DATA; }
+
+#define USART_ENABLE_RX(usartxn) { \
+    usartxn.CTRLB |= USART_RXEN_bm; \
+    USART_PURGE_RX(usartxn); \
+  \
+  } // Enable RX. Flush RX. Enable Interrupt.
+
+#define USART_DISABLE_TX(usartxn) { \
+    usartxn.CTRLA &= ~USART_DREINTLVL_gm; \
+    usartxn.CTRLB &= ~USART_TXEN_bm; \
+  } // Disable Interrupt. Disable TX.
+
+#define USART_DISABLE_RX(usartxn) \
+  { usartxn.CTRLA &= ~USART_RXCINTLVL_gm; \
+    usartxn.CTRLB &= ~USART_RXEN_bm; \
+  } // Disabling RX flushes buffer and clears RXCIF.
+
+#define USART_TRANSMIT_BUFFER(usartxn) { \
+    usartxn.CTRLA |= USART_DREINTLVL_MED_gc; \
+  } // Enable Data Register Empty Interrupt to transmit buffer.
+
+
 
 #define WAIT_USART_BUFFER_EMPTY(usartx)    while(! (usartx.STATUS & USART_DREIF_bm) )
 #define WAIT_USART_TX_FIN(usartx)          while(! (usartx.STATUS & USART_TXCIF_bm) )
@@ -45,6 +64,7 @@
 #define PROTO_HAS_MULTISUPIIIK
 #endif
 
+
 // All communication to RF module(s) will use the same pin ... e.g. USART MSPI, USART Asynch and PPM.
 #define MULTI_USART             USARTE0
 #define MULTI_USART_PORT        PORTE
@@ -55,7 +75,13 @@
 #define TLM_USART               USARTD0
 #define TLM_USART_PORT          PORTD
 #define TLM_USART_RXC_VECT      USARTD0_RXC_vect
-#define TLM_USART_DRE_VECT      USARTD0_DRE_vect
+//#define TLM_USART_DRE_VECT      USARTD0_DRE_vect
+
+// DSM USART.
+#define DSM_USART               USARTD0
+#define DSM_USART_PORT          PORTD
+//#define DSM_USART_RXC_VECT      USARTD0_RXC_vect
+#define DSM_USART_DRE_VECT      USARTD0_DRE_vect
 
 
 // token pasting
@@ -67,6 +93,7 @@
 
 // RF Module Timer.
 #define RF_TC                      TCE0
+#define RF_TIMER                   RF_TC.CNT
 #define RF_PORT                    PORTE
 #define RF_TIMER_COMPA_VECT        TCE0_CCA_vect
 #define RF_TIMER_COMPA_REG         RF_TC.CCA
@@ -87,8 +114,8 @@ char rf_usart_mspi_xfer(char c);
 #define RF_SPI_xfer  rf_usart_mspi_xfer
 void rf_usart_mspi_init(void);
 #define RF_SPI_INIT  rf_usart_mspi_init
-void rf_usart_disable(void);
-#define RF_USART_DISABLE  rf_usart_disable
+
+
 
 #define RF_USART                  USARTE0
 #define RF_CS_PIN_bm              PIN0_bm

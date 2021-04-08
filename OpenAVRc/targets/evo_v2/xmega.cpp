@@ -71,11 +71,17 @@ inline void boardInit()
   while (1);
 #endif
 
-
   EEPROM_EnableMapping();
 
   // SETUP PINS
   // *** SAFER to use DIRSET DIRCLR OUTSET OUTCLR ***
+
+#if defined(VOICE)
+  VOICE_BUSY_PORT.DIRCLR = 1 << VOICE_BUSY_PIN;
+  VOICE_BUSY_PIN_CTRL_REG = PORT_OPC_PULLUP_gc; // Pullup on Busy pin.
+  VOICE_USART_PORT.OUTSET = USART_TXD_PIN_bm; // Marking state.
+  VOICE_USART_PORT.DIRSET = USART_TXD_PIN_bm;
+#endif
 
   //  Trims Button  Matrix.
   PORTE.DIRCLR = IE_TRIM_COL_A_bm | IE_TRIM_COL_B_bm | IE_TRIM_COL_C_bm | IE_TRIM_COL_D_bm;
@@ -92,19 +98,15 @@ inline void boardInit()
   //  0   0   output driven low.
   //  1   0   low output disconnected (optionally pulled up).
 
-
   adcInit();
   getADC(); // Best to get some values before we start.
-
-  lcdInit();
-  lcdClear();
-  DISPLAY_LOADING_MESSAGE();
-  lcdRefresh();
-
   read_sws_1();
   read_sws_2();
   read_sws_3();
   read_sws_4();
+
+  lcdInit();
+  lcdClear();
 
 // Setup Event System to generate 64us pulses for compatibility with Mega2560.
   EVSYS.CH0MUX = 0x80 + 11;  // ClkPER / (2^11) ... /2048.
@@ -191,20 +193,6 @@ inline void boardInit()
   TCC2.CTRLA = TC2_CLKSEL_DIV1_gc; // ClkPER/64 32MHz/64.
 #endif
 
-#if defined(VOICE_JQ6500)
-  PORTD.DIRCLR = 1 << VOICE_BUSY_PIN;
-  VOICE_BUSY_PIN_CTRL_REG = PORT_OPC_PULLUP_gc; // Pullup on Busy pin.
-
-  VOICE_USART_PORT.OUTSET = USART_TXD_PIN_bm; // Marking state.
-  VOICE_USART_PORT.DIRSET = USART_TXD_PIN_bm;
-
-  InitJQ6500UartTx();
- #endif
-
-#if defined(SPIMODULES)
-// Setup USARTxn for MSPI.
-//  protoMode = NORMAL_MODE;
-#endif
 
   PMIC.CTRL |= PMIC_LOLVLEN_bm;  // Enable Low Priority Interrupts. e.g Rotary encoders, 10ms Counter.
   PMIC.CTRL |= PMIC_MEDLVLEN_bm; // Enable Medium Priority Interrupts. e.g.
@@ -219,6 +207,15 @@ inline void boardInit()
   PORTC.OUTSET = OC_PWR_LED_bm;
 
   setup_trainer_tc();
+
+  DISPLAY_LOADING_MESSAGE();
+  lcdRefresh();
+
+#if defined(VOICE)
+  InitVoiceUartTx();
+#endif
+
+//  PORTB.DIRSET = PIN6_bm; // Test
 }
 
 
@@ -250,13 +247,13 @@ void setup_rf_tc()
   RF_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
   RF_TC.CTRLFSET = TC_CMD_RESET_gc;
   RF_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
-  RF_TC.CTRLA = 8 + 1; // Event channel 1 (prescaler of 16)
+  RF_TC.CTRLA = 8 + 1; // Event channel 1 (prescaler of 16).
 }
 
 
 void setup_trainer_tc()
 {
-// Setup TCx0 for Trainer in pulses.
+// Setup TCx0 for Trainer input pulses.
   PULSES_IN_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
   PULSES_IN_TC.CTRLFSET = TC_CMD_RESET_gc;
 
@@ -275,27 +272,15 @@ void setup_trainer_tc()
 }
 
 
-#if defined(MULTIMODULE) || defined(DSM2_SERIAL)
-void rf_usart_serial_init()
-{
-  MULTI_USART.CTRLA = 0; // Disable interrupts.
-  MULTI_USART.CTRLB = 0; // CLK2X = 0,
-  MULTI_USART_PORT.OUTSET = USART_TXD_PIN_bm; // Marking state.
-  MULTI_USART_PORT.DIRSET = USART_TXD_PIN_bm;
-  MULTI_USART_PORT.DIRCLR = USART_RXD_PIN_bm;
-}
-#endif
-
-
 #if defined(SPIMODULES)
 char rf_usart_mspi_xfer(char c)
 {
-  WAIT_RF_BUFFER_EMPTY();
+  WAIT_USART_BUFFER_EMPTY(RF_USART);
     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
       RF_USART.DATA = c;
       RF_USART.STATUS = USART_TXCIF_bm | USART_RXCIF_bm; // Clear USART transmit and receive complete flag.
     }
-  WAIT_RF_RX_FIN();
+  WAIT_USART_RX_FIN(RF_USART);
   return RF_USART.DATA;
 }
 
@@ -324,8 +309,6 @@ void rf_usart_mspi_init()
   RF_USART.CTRLB = USART_TXEN_bm | USART_RXEN_bm; // Transmit and Receive.
 }
 #endif
-
-
 
 
 void backlightFade(void)
@@ -380,8 +363,7 @@ uint8_t switchState(enum EnumKeys enuk)
 uint8_t keyDown()
 {
 // Returns 0 for no key pressed. Non-zero value is not checked elsewhere.
-return trimDown((uint8_t) 0); // ToDo PATCH.
-//return 0;
+  return keys[KEY_ENTER].state(); // Patched
 }
 
 
@@ -415,32 +397,28 @@ static const pm_uchar crossTrim[] PROGMEM = { // Done
 uint8_t trimDown(uint8_t idx)
 {
 // Return value is only interpreted as bool.
-//  return keys[TRM_BASE + pgm_read_byte_near(crossTrim+idx)].state() ? 1 : 0;
-  return keys[TRM_BASE + idx].state() ? 1 : 0;
+//  return keys[TRM_BASE + idx].state();
+return 0;
 }
 
 
 void read_trim_matrix()
 {
-  if(PORTF.OUT & OF_TRIM_ROW_A_bm) {
-//    keys[KEY_RIGHT].input( (PORTE.IN & I_E_TRIM_COL_A)  ? 0 :1);
-//    keys[KEY_DOWN].input( (PORTE.IN & I_E_TRIM_COL_B)  ? 0 :1);
-//    keys[KEY_LEFT].input( (PORTE.IN & I_E_TRIM_COL_C)  ? 0 :1);
-//    keys[KEY_UP].input( (PORTE.IN & I_E_TRIM_COL_D)  ? 0 :1);
+  uint8_t in = ~PORTE.IN;
 
-    keys[pgm_read_byte_far(crossTrim+0)].input( (PORTE.IN & IE_TRIM_COL_A_bm)  ? 0 :1);
-    keys[pgm_read_byte_far(crossTrim+1)].input( (PORTE.IN & IE_TRIM_COL_B_bm)  ? 0 :1);
-    keys[pgm_read_byte_far(crossTrim+2)].input( (PORTE.IN & IE_TRIM_COL_C_bm)  ? 0 :1);
-    keys[pgm_read_byte_far(crossTrim+3)].input( (PORTE.IN & IE_TRIM_COL_D_bm)  ? 0 :1);
-
-  } else {
-    keys[pgm_read_byte_far(crossTrim+4)].input( (PORTE.IN & IE_TRIM_COL_A_bm)  ? 0 :1);
-    keys[pgm_read_byte_far(crossTrim+5)].input( (PORTE.IN & IE_TRIM_COL_B_bm)  ? 0 :1);
-    keys[pgm_read_byte_far(crossTrim+6)].input( (PORTE.IN & IE_TRIM_COL_C_bm)  ? 0 :1);
-    keys[pgm_read_byte_far(crossTrim+7)].input( (PORTE.IN & IE_TRIM_COL_D_bm)  ? 0 :1);
-//    keys[KEY_EXIT].input( (PORTE.IN & I_E_TRIM_COL_C)  ? 0 :1);
-//    keys[KEY_MENU].input( (PORTE.IN & I_E_TRIM_COL_D)  ? 0 :1);
-
+  if(PORTF.OUT & OF_TRIM_ROW_A_bm)
+  {
+    keys[pgm_read_byte_far(crossTrim+0)].input( in & IE_TRIM_COL_A_bm);
+    keys[pgm_read_byte_far(crossTrim+1)].input( in & IE_TRIM_COL_B_bm);
+    keys[pgm_read_byte_far(crossTrim+2)].input( in & IE_TRIM_COL_C_bm);
+    keys[pgm_read_byte_far(crossTrim+3)].input( in & IE_TRIM_COL_D_bm);
+  }
+  else
+  {
+    keys[pgm_read_byte_far(crossTrim+4)].input( in & IE_TRIM_COL_A_bm);
+    keys[pgm_read_byte_far(crossTrim+5)].input( in & IE_TRIM_COL_B_bm);
+    keys[pgm_read_byte_far(crossTrim+6)].input( in & IE_TRIM_COL_C_bm);
+    keys[pgm_read_byte_far(crossTrim+7)].input( in & IE_TRIM_COL_D_bm);
   }
 
   PORTF.OUTTGL = OF_TRIM_ROW_A_bm;
@@ -449,7 +427,7 @@ void read_trim_matrix()
 
 void readKeysAndTrims()
 {
-  // Keyboard.
+  // Keyboard via ADC.
   read_keyboard();
   // Multiplexed trim buttons.
   read_trim_matrix();
@@ -666,50 +644,6 @@ void read_sws_4(void)
 }
 
 
-#if 0
-//ISR(TIMER_10MS_VECT, ISR_NOBLOCK)
-ISR(TCC1_CCA_vect)
-{
-  static uint8_t accuracyWarble = 0;
-
-#if defined(SIMU)
-ISR10msLoop_is_runing = true;
-#endif
-
-// Clocks every 9.984ms & 10.048ms
-TIMER_10MS_COMPVAL += (++accuracyWarble & 0b11) ? 156 : 157; // Clock correction
- ++g_tmr10ms;
-
-sei(); // Blocking ISR until here.
-
-#if defined(AUDIO)
-  AUDIO_HEARTBEAT();
-#endif
-
-#if defined(BUZZER)
-  BUZZER_HEARTBEAT();
-#endif
-
-#if defined(HAPTIC)
-  HAPTIC_HEARTBEAT();
-#endif
-
-  SIMU_PROCESSEVENTS;
-
-  per10ms();
-
- if((accuracyWarble & 0b11) == 0) read_sws_1();
- if((accuracyWarble & 0b11) == 1) read_sws_2();
- if((accuracyWarble & 0b11) == 2) read_sws_3();
- if((accuracyWarble & 0b11) == 3) read_sws_4();
- //if((accuracyWarble & 0b111) == 4) Check_PWR_Switch();
-
-#if defined(SIMU)
-ISR10msLoop_is_runing = false;
-#endif
-}
-#endif
-
 bool check_slave_mode(void)
 {
   return 1;
@@ -719,6 +653,7 @@ bool check_slave_mode(void)
 /*
 The Rotary Encoder (Digi-adjuster) ISR's.
 Rotary Encoder type is Alps 321V.
+15 Detents.
 There is hardware filtering of the signals.
 */
 
