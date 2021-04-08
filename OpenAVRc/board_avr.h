@@ -71,6 +71,7 @@
 extern void adcInit();
 extern void getADC();
 
+#if defined(CPUM2560)
 // USART driver (static register dispatcher)
 #define RXD_DDR1 DDRD
 #define RXD_DDR_PIN1 DDD2
@@ -190,6 +191,6 @@ extern void getADC();
 #define USART_SET_BAUD_100K(usartx)   USART_SET_BAUD(usartx, 100000) //Multiprotocole Serial
 #define USART_SET_BAUD_115K2(usartx)  USART_SET_BAUD(usartx, 115200)
 #define USART_SET_BAUD_125K(usartx)   USART_SET_BAUD(usartx, 125000) //DSM Serial protocol
-
+#endif
 
 #endif
