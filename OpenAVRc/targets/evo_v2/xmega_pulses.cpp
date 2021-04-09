@@ -92,13 +92,14 @@ void startPulses(enum ProtoCmds Command)
   if(IS_PPM_PROTOCOL(g_model.rfProtocol)) {
     // Do not do setup_rf_tc() as pulses use PWM mode.
   }
-
+#if defined (DSM2_SERIAL)
   else  if(IS_DSM2_SERIAL_PROTOCOL(g_model.rfProtocol)) {
     DSM_USART_PORT.PIN3CTRL = PORT_OPC_PULLUP_gc; // Pullup TXD.
     DSM_USART_PORT.DIRSET = USART_TXD_PIN_bm;
     setup_rf_tc();
   }
-
+#endif
+#if defined (MULTIMODULE)
   else if(IS_MULTIMODULE_PROTOCOL(g_model.rfProtocol)) {
     MULTI_USART_PORT.PIN3CTRL = PORT_OPC_PULLUP_gc; // Pullup TXD.
     MULTI_USART_PORT.DIRSET = USART_TXD_PIN_bm;
@@ -106,12 +107,13 @@ void startPulses(enum ProtoCmds Command)
     MULTI_USART_PORT.DIRCLR = USART_RXD_PIN_bm;
     setup_rf_tc();
   }
-
+#endif
+#if defined(SPIMODULES)
   else if(IS_SPIMODULES_PROTOCOL(g_model.rfProtocol)) {
-    RF_SPI_INIT();
+    rf_usart_mspi_init();
     setup_rf_tc();
   }
-
+#endif
   PROTO_Cmds = *Protos[g_model.rfProtocol].Cmds;
   TRACE("  ->  INIT Proto - %s -", Protos[g_model.rfProtocol].ProtoName);
   SIMU_SLEEP(100);
