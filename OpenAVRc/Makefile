@@ -497,7 +497,7 @@ endif
 
 
 ifeq ($(PCB), EVO_V2)
-  # EVO V2 PCB with XMega256C3/D3
+  # EVO V2 PCB with XMega256a3u/c3/d3
 
   FLAVOUR = Evo
   ARCH = AVR
@@ -524,6 +524,7 @@ ifeq ($(PCB), EVO_V2)
   THR_TRACE = YES
   VOICE = YES
   SPIMODULES = NO
+  DSM2 = SERIAL
   MULTIMODULE = YES
   CC2500 = YES
   CC2500PAG = 20
@@ -543,7 +544,7 @@ ifeq ($(PCB), EVO_V2)
   ifeq ($(MULTIMODULE), YES)
    needSerial0 = YES
   endif
-  ifeq ($(DSM2), YES)
+  ifeq ($(DSM2), SERIAL)
    needSerial0 = YES
   endif
   ifeq ($(EXT), FRSKY)
