@@ -37,10 +37,10 @@ const static RfOptionSettingsvar_t RfOpt_AFHDS2A_Ser[] PROGMEM =
 {
   /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/3,
-  /*rfOptionValue1Min*/-127,
-  /*rfOptionValue1Max*/127,
+  /*rfOptionValue1Min*/0,
+  /*rfOptionValue1Max*/0,
   /*rfOptionValue2Min*/0,
-  /*rfOptionValue2Max*/70,
+  /*rfOptionValue2Max*/0,
   /*rfOptionValue3Max*/7,
 };
 
@@ -213,7 +213,7 @@ static uint16_t AFHDS2A_cb()
   uint8_t data_rx;
 
   A7105_AdjustLOBaseFreq();
-  //A7105_SetPower(6);
+
   switch(rfState8_p2M)
     {
     case AFHDS2A_BIND1:
@@ -248,7 +248,6 @@ static uint16_t AFHDS2A_cb()
       while (!(A7105_ReadReg(A7105_00_MODE) & 0x01)) // wait 700 us max
         if(++receive_seq_p2M > AFHDS2A_NUM_WAIT_LOOPS)
           break;
-      //A7105_SetPower();
       A7105_SetTxRxMode(TXRX_OFF);					// Turn LNA off since we are in near range and we want to prevent swamping
       A7105_Strobe(A7105_RX);
       rfState8_p2M &= ~AFHDS2A_WAIT_WRITE;
@@ -384,10 +383,10 @@ const void *AFHDS2A_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_GETOPTIONS:
       SetRfOptionSettings(pgm_get_far_address(RfOpt_AFHDS2A_Ser),
                           STR_SUBTYPE_AFHDS2A_SPI,      //Sub proto
-                          STR_RFTUNEFINE,      //Option 1 (int)
-                          STR_MULTI_SERVOFREQ,      //Option 2 (int)
-                          STR_RFPOWER,      //Option 3 (uint 0 to 31)
-                          STR_TELEMETRY,      //OptionBool 1
+                          STR_DUMMY,      //Option 1 (int)
+                          STR_DUMMY,      //Option 2 (int)
+                          STR_RFPOWER,    //Option 3 (uint 0 to 31)
+                          STR_TELEMETRY,  //OptionBool 1
                           STR_DUMMY,      //OptionBool 2
                           STR_DUMMY       //OptionBool 3
                          );

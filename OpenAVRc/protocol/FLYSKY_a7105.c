@@ -38,10 +38,10 @@
 
 const static RfOptionSettingsvar_t RfOpt_FLYSKY_Ser[] PROGMEM =
 {
-  /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+  /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/4,
-  /*rfOptionValue1Min*/-127,
-  /*rfOptionValue1Max*/127,
+  /*rfOptionValue1Min*/0,
+  /*rfOptionValue1Max*/0,
   /*rfOptionValue2Min*/0,
   /*rfOptionValue2Max*/0,
   /*rfOptionValue3Max*/7,
@@ -216,20 +216,20 @@ static uint16_t FLYSKY_cb()
       SCHEDULE_MIXER_END_IN_US(12000U); // Schedule next Mixer calculations. Soon as possible
     }
 
-  if(bind_idx_p2M || bind_counter_p2M)
+  if(bind_idx_p2M || bind_counter_p2M) // if Bind or autobind
     {
-      if (!send_seq_p2M)
+      if (!send_seq_p2M) // 12 mS ellapsed
         {
-          FLYSKY_build_packet(1);
+          FLYSKY_build_packet(1); // build bind packet
         }
       A7105_WriteData(21, 1);
       --bind_counter_p2M;
     }
   else
     {
-      if (!send_seq_p2M)
+      if (!send_seq_p2M) // 12 mS ellapsed
         {
-          FLYSKY_build_packet(0);
+          FLYSKY_build_packet(0); // build channels packets
         }
       A7105_WriteData(21, channel_used_p2M[channel_index_p2M & 0x0F]);
       A7105_ManagePower();
@@ -326,11 +326,11 @@ static void FLYSKY_initialize(uint8_t bind)
   packet_count_p2M = 0;
   send_seq_p2M = 0;
 
-  if(bind)
+  if (bind)
     {
       bind_idx_p2M = 0xFF; // Keep in Bind mode memory
     }
-  else
+  else if (g_model.rfOptionBool1) // autobind actived
     {
       bind_counter_p2M = FLYSKY_BIND_COUNT;
       PROTOCOL_SetBindState(250); // 2.5 Sec
@@ -355,10 +355,10 @@ const void *FLYSKY_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_GETOPTIONS:
       SetRfOptionSettings(pgm_get_far_address(RfOpt_FLYSKY_Ser),
                           STR_SUBTYPE_FLYSKY_SPI, //Sub proto
-                          STR_RFTUNEFINE, //Option 1 (int)
+                          STR_DUMMY,      //Option 1 (int)
                           STR_DUMMY,      //Option 2 (int)
                           STR_RFPOWER,    //Option 3 (uint 0 to 31)
-                          STR_DUMMY,      //OptionBool 1
+                          STR_AUTOBIND,   //OptionBool 1
                           STR_DUMMY,      //OptionBool 2
                           STR_DUMMY       //OptionBool 3
                          );
