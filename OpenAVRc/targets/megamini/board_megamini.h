@@ -278,6 +278,8 @@ void boardOff();
 	#define SET_RF_MOSI_IS_INPUT()    DDRH &= ~(OUT_H_RF_MOSI)
 	#define SET_RF_MOSI_IS_OUTPUT()   DDRH |= (OUT_H_RF_MOSI)
 	#define IS_RF_MOSI_ON             (PINH & (OUT_H_RF_MOSI))
+	#define RF_MOSI_ON()              PORTH |= (OUT_H_RF_MOSI)
+	#define RF_MOSI_OFF()             PORTH &= ~(OUT_H_RF_MOSI)
 	#define SUSPEND_RF_SPI()          UCSR2C = 0x00;UCSR2B = 0x00 // Reset and Disable RX and TX Mspi mode
 	#define WAKEUP_RF_SPI()           UCSR2C = 0xC0;(UCSR2B = (1 << RXEN2) | (1 << TXEN2)) // Enable RX and TX Mspi mode
 

@@ -265,6 +265,8 @@ void boardOff();
 	#define SET_RF_MOSI_IS_INPUT()      DDRB &= ~(OUT_B_RF_MOSI)
 	#define SET_RF_MOSI_IS_OUTPUT()     DDRB |= (OUT_B_RF_MOSI)
 	#define IS_RF_MOSI_ON               (PINB & (OUT_B_RF_MOSI))
+	#define RF_MOSI_ON()                PORTB |= (OUT_B_RF_MOSI)
+	#define RF_MOSI_OFF()               PORTB &= ~(OUT_B_RF_MOSI)
 	#define SUSPEND_RF_SPI()            SPCR &= ~(1<<SPE)
 	#define WAKEUP_RF_SPI()             SPCR |= (1<<SPE)
 
