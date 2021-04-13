@@ -99,7 +99,6 @@ const static RfOptionSettingsvar_t RfOpt_Dsm_Ser[] PROGMEM = {
 static void DSM2_SERIAL_Reset()
 {
   USART_DISABLE_TX(DSM_USART);
-  USART_DISABLE_RX(DSM_USART);
 }
 
 
