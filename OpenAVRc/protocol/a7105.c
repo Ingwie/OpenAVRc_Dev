@@ -35,19 +35,29 @@
 #ifdef PROTO_HAS_A7105
 #include "../OpenAVRc.h"
 
-void A7105_Disable_HWSPI()
-{
-  SUSPEND_RF_SPI();
-  SET_RF_MOSI_IS_INPUT();
-}
-
-void A7105_Enable_HWSPI()
-{
-  SET_RF_MOSI_IS_OUTPUT();
+#define A7105_Enable_HWSPI() \
+  SET_RF_MOSI_IS_OUTPUT();   \
   WAKEUP_RF_SPI();
+
+void SPI_WRITE_3WIRES(uint8_t data) // Bitbang write
+{
+  for (uint8_t mask=0x80; (mask); mask>>=1)
+    {
+      if(data & mask)
+        {
+          RF_MOSI_ON();
+        }
+        else
+        {
+          RF_MOSI_OFF();
+        }
+      RF_XCK_ON();
+      //_NOP();
+      RF_XCK_OFF();
+    }
 }
 
-uint8_t SPI_READ_3WIRES() // Call A7105_Disable_HWSPI() first and A7105_Enable_HWSPI() after
+uint8_t SPI_READ_3WIRES() // Bitbang read
 {
   uint8_t result=0;
   for (uint8_t mask=0x80; (mask); mask>>=1)
@@ -122,27 +132,42 @@ void A7105_WriteData(uint8_t len, uint8_t channel)
 
 void A7105_ReadData(uint8_t len)
 {
-  uint8_t i;
-  A7105_Strobe(A7105_RST_RDPTR);
-  RF_CS_A7105_ACTIVE();
-  RF_SPI_xfer(0x40 | A7105_05_FIFO_DATA);	//bit 6 =1 for reading
-  A7105_Disable_HWSPI();
-  for (i=0; i<len; i++)
-    packet_p2M[i]=SPI_READ_3WIRES();
-  RF_CS_A7105_INACTIVE();
-  A7105_Enable_HWSPI();
+ A7105_Strobe(A7105_RST_RDPTR);
+#if defined(PCBMEGAMINI)
+ SUSPEND_RF_SPI();
+ RF_CS_A7105_ACTIVE();
+ SPI_WRITE_3WIRES(0x40 | A7105_05_FIFO_DATA);	//bit 6 =1 for reading (bitbang mode)
+ SET_RF_MOSI_IS_INPUT();
+#else // other
+ RF_CS_A7105_ACTIVE();
+ RF_SPI_xfer(0x40 | A7105_05_FIFO_DATA);	//bit 6 =1 for reading
+ SUSPEND_RF_SPI();
+ SET_RF_MOSI_IS_INPUT();
+#endif // MEGAMINI (uart2 MSPI mode)
+ for (uint8_t i = 0; i < len; i++)
+  packet_p2M[i]=SPI_READ_3WIRES();
+ RF_CS_A7105_INACTIVE();
+ A7105_Enable_HWSPI();
 }
 
 uint8_t A7105_ReadReg(uint8_t address)
 {
-  uint8_t result;
-  RF_CS_A7105_ACTIVE();
-  RF_SPI_xfer(address |= 0x40);				//bit 6 =1 for reading
-  A7105_Disable_HWSPI();
-  result = SPI_READ_3WIRES();
-  RF_CS_A7105_INACTIVE();
-  A7105_Enable_HWSPI();
-  return(result);
+ uint8_t result;
+#if defined(PCBMEGAMINI)
+ SUSPEND_RF_SPI();
+ RF_CS_A7105_ACTIVE();
+ SPI_WRITE_3WIRES(address |= 0x40);	//bit 6 =1 for reading (bitbang mode)
+ SET_RF_MOSI_IS_INPUT();
+#else // other
+ RF_CS_A7105_ACTIVE();
+ RF_SPI_xfer(address |= 0x40);				//bit 6 =1 for reading
+ SUSPEND_RF_SPI();
+ SET_RF_MOSI_IS_INPUT();
+#endif // MEGAMINI (uart2 MSPI mode)
+ result = SPI_READ_3WIRES();
+ RF_CS_A7105_INACTIVE();
+ A7105_Enable_HWSPI();
+ return(result);
 }
 
 //------------------------
