@@ -46,7 +46,7 @@ const static RfOptionSettingsvar_t RfOpt_AFHDS2A_Ser[] PROGMEM =
 
 const pm_char STR_SUBTYPE_AFHDS2A_SPI[] PROGMEM = "IBPW""IBPP""SBPW""SBPP";
 
-#define AFHDS2A_RX_ID(num)     (g_model.points[NUM_POINTS-4+num]) // Dirty : Use curves points to store RX ID (4 bytes)
+#define AFHDS2A_RX_ID          seed
 #define AFHDS2A_NUM_WAIT_LOOPS (700 / 15) //each loop is ~15us.  Do not wait more than 700us
 #define AFHDS2A_TXPACKET_SIZE	  38
 #define AFHDS2A_RXPACKET_SIZE	  37
@@ -139,7 +139,7 @@ static void AFHDS2A_build_bind_packet()
       packet_p2M[0] = 0xbc;
       if(rfState8_p2M == AFHDS2A_BIND4)
         {
-          memcpy( &packet_p2M[5], &AFHDS2A_RX_ID(0), 4);
+          memcpy( &packet_p2M[5], &AFHDS2A_RX_ID, 4);
           memset( &packet_p2M[11], 0xff, 16);
         }
       packet_p2M[9] = rfState8_p2M-1;
@@ -154,7 +154,7 @@ static void AFHDS2A_build_bind_packet()
 static void AFHDS2A_build_packet(uint8_t type)
 {
   memcpy( &packet_p2M[1], temp_rfid_addr_p2M, 4);
-  memcpy( &packet_p2M[5], &AFHDS2A_RX_ID(0), 4);
+  memcpy( &packet_p2M[5], &AFHDS2A_RX_ID, 4);
 
   switch(type)
     {
@@ -227,11 +227,7 @@ static uint16_t AFHDS2A_cb()
           A7105_ReadData(AFHDS2A_RXPACKET_SIZE);
           if(packet_p2M[0] == 0xbc && packet_p2M[9] == 0x01)
             {
-              uint8_t i;
-              for(i=0; i<4; i++)
-                {
-                  AFHDS2A_RX_ID(i) = packet_p2M[5+i];
-                }
+              memcpy( &AFHDS2A_RX_ID, &packet_p2M[5], 4);
               rfState8_p2M = AFHDS2A_BIND4;
               packet_count_p2M++;
               return 3850*2;

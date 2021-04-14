@@ -71,7 +71,9 @@
   #endif
   #if defined(PROTO_HAS_CC2500)
     uint8_t calData[48]; // used in FrskyX protocol
-    uint32_t seed; // used in FrskyV telemetry
+  #endif
+  #if defined(PROTO_HAS_CC2500) || defined(PROTO_HAS_A7105)
+    uint32_t seed; // used in FrskyV or AFHDS2A
   #endif
 #endif
 
