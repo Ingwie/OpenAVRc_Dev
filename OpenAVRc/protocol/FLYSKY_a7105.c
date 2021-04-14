@@ -40,8 +40,8 @@ const static RfOptionSettingsvar_t RfOpt_FLYSKY_Ser[] PROGMEM =
 {
   /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/4,
-  /*rfOptionValue1Min*/0,
-  /*rfOptionValue1Max*/0,
+  /*rfOptionValue1Min*/-127,
+  /*rfOptionValue1Max*/127,
   /*rfOptionValue2Min*/0,
   /*rfOptionValue2Max*/0,
   /*rfOptionValue3Max*/7,
@@ -355,7 +355,7 @@ const void *FLYSKY_Cmds(enum ProtoCmds cmd)
     case PROTOCMD_GETOPTIONS:
       SetRfOptionSettings(pgm_get_far_address(RfOpt_FLYSKY_Ser),
                           STR_SUBTYPE_FLYSKY_SPI, //Sub proto
-                          STR_DUMMY,      //Option 1 (int)
+                          STR_RFTUNEFINE, //Option 1 (int)
                           STR_DUMMY,      //Option 2 (int)
                           STR_RFPOWER,    //Option 3 (uint 0 to 31)
                           STR_AUTOBIND,   //OptionBool 1
