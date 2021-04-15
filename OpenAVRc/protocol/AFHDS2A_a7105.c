@@ -221,16 +221,15 @@ static uint16_t AFHDS2A_cb()
     case AFHDS2A_BIND3:
       AFHDS2A_build_bind_packet();
       A7105_WriteData(AFHDS2A_TXPACKET_SIZE, packet_count_p2M%2 ? 0x0d : 0x8c);
-      if(!(A7105_ReadReg(A7105_00_MODE) & (1<<5 | 1<<6)))
+      if(!(A7105_ReadReg(A7105_00_MODE) & (1<<5))) // CRCF Ok
         {
-          // FECF+CRCF Ok
           A7105_ReadData(AFHDS2A_RXPACKET_SIZE);
           if(packet_p2M[0] == 0xbc && packet_p2M[9] == 0x01)
             {
               memcpy( &AFHDS2A_RX_ID, &packet_p2M[5], 4);
               rfState8_p2M = AFHDS2A_BIND4;
               packet_count_p2M++;
-              return 3850*2;
+              break;
             }
         }
       packet_count_p2M++;
@@ -264,7 +263,7 @@ static uint16_t AFHDS2A_cb()
           rfState8_p2M = AFHDS2A_DATA;
           eeDirty(EE_MODEL); // Save RX ID in eeprom (if it work)
         }
-      return 3850*2;
+       break;
     case AFHDS2A_DATA:
       if(!(rfState16_p2M % 3))
         {
@@ -339,7 +338,7 @@ static uint16_t AFHDS2A_cb()
       CALCULATE_LAT_JIT(); // Calculate latency and jitter.
       return 2150*2;
     }
-  return 3850; // never reached, please the compiler
+  return 3850*2;
 }
 
 
