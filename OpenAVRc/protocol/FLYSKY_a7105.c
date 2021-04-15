@@ -275,7 +275,7 @@ static void FLYSKY_initialize(uint8_t bind)
 
   for(uint8_t i=0; i<16; i++)
     {
-      temp = pgm_read_byte_far(pgm_get_far_address(ZZ_FLYSKY_channels) +(chanrow>>1)*4+(i>>2));
+      temp = pgm_read_byte_far(pgm_get_far_address(ZZ_FLYSKY_channels) +((chanrow>>1)*4)+(i>>2));
 
       if(i&0x02)
         {
@@ -314,7 +314,7 @@ static void FLYSKY_initialize(uint8_t bind)
                   temp = 0x29;
                 }
             }
-          rfState8_p2M = 3; // 12ms refresh rate value
+          rfState8_p2M = 4; // 12ms refresh rate value (->3mS latency)
         }
       else
         {
@@ -322,9 +322,6 @@ static void FLYSKY_initialize(uint8_t bind)
         }
       channel_used_p2M[((chanrow&1)?15-i:i)]=temp-chanoffset;
     }
-  channel_index_p2M = 0;
-  packet_count_p2M = 0;
-  send_seq_p2M = 0;
 
   if (bind)
     {
