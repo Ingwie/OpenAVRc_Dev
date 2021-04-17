@@ -28,12 +28,12 @@
 
 #define USART_ENABLE_TX(usartxn) usartxn.CTRLB |= USART_TXEN_bm;
 
-#define USART_PURGE_RX(usartxn) { while (usartxn.STATUS & USART_RXCIF_bm) (void) TLM_USART.DATA; }
+#define USART_PURGE_RX(usartxn) { while (usartxn.STATUS & USART_RXCIF_bm) (void) usartxn.DATA; }
 
 #define USART_ENABLE_RX(usartxn) { \
     usartxn.CTRLB |= USART_RXEN_bm; \
     USART_PURGE_RX(usartxn); \
-  \
+    usartxn.CTRLA |= USART_RXCINTLVL_MED_gc; \
   } // Enable RX. Flush RX. Enable Interrupt.
 
 #define USART_DISABLE_TX(usartxn) { \
@@ -71,12 +71,11 @@
 #define MULTI_USART_RXC_VECT    USARTE0_RXC_vect
 #define MULTI_USART_DRE_VECT    USARTE0_DRE_vect
 
-#define FRSKY_USART             TLM_USART
 // Telemetry USART.
-#define TLM_USART               USARTD0
-#define TLM_USART_PORT          PORTD
-#define TLM_USART_RXC_VECT      USARTD0_RXC_vect
-//#define TLM_USART_DRE_VECT      USARTD0_DRE_vect
+#define FRSKY_USART               USARTD0
+#define FRSKY_USART_PORT          PORTD
+#define FRSKY_USART_RXC_VECT      USARTD0_RXC_vect
+//#define FRSKY_USART_DRE_VECT      USARTD0_DRE_vect
 
 // DSM USART.
 #define DSM_USART               USARTD0

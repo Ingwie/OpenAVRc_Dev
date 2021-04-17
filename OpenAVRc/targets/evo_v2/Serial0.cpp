@@ -64,12 +64,12 @@ uint8_t Usart0TxBufferCount = 0;
 
 
 #if defined(FRSKY)
-ISR(TLM_USART_RXC_VECT)
+ISR(FRSKY_USART_RXC_VECT)
 {
-  TLM_USART.CTRLA &= ~USART_DREINTLVL_gm; // Disable interrupt.
+  FRSKY_USART.CTRLA &= ~USART_DREINTLVL_gm; // Disable interrupt.
 
-  uint8_t stat = TLM_USART.STATUS;
-  uint8_t data = TLM_USART.DATA;
+  uint8_t stat = FRSKY_USART.STATUS;
+  uint8_t data = FRSKY_USART.DATA;
 
   sei(); // Blocking ISR until here.
 
@@ -80,7 +80,7 @@ ISR(TLM_USART_RXC_VECT)
   }
   else parseTelemFrskyByte(data);
 
-  TLM_USART.CTRLA |= USART_RXCINTLVL_MED_gc; // Enable medium priority.
+  FRSKY_USART.CTRLA |= USART_RXCINTLVL_MED_gc; // Enable medium priority.
 }
 #endif
 
