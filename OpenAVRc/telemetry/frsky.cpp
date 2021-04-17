@@ -49,7 +49,7 @@ void telemetryPPMInit()
       USART_SET_BAUD_9K6(FRSKY_USART);
     }
   USART_SET_MODE_8N1(FRSKY_USART);
-  USART_ENABLE_TX(FRSKY_USART); // enable FrSky-Telemetry reception
+  USART_ENABLE_RX(FRSKY_USART); // Enable FrSky Telemetry reception.
 }
 
 void telemetryResetValue()
