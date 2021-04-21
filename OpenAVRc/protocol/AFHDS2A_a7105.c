@@ -47,6 +47,7 @@ const static RfOptionSettingsvar_t RfOpt_AFHDS2A_Ser[] PROGMEM =
 const pm_char STR_SUBTYPE_AFHDS2A_SPI[] PROGMEM = "IBPW""IBPP""SBPW""SBPP";
 
 #define AFHDS2A_RX_ID          seed
+#define AFHDS2A_RX_ID_STORAGE  (g_model.points[NUM_POINTS-5]) // Dirty : Use curves points to store RX ID (4 bytes)
 #define AFHDS2A_NUM_WAIT_LOOPS (700 / 15) //each loop is ~15us.  Do not wait more than 700us
 #define AFHDS2A_TXPACKET_SIZE	  38
 #define AFHDS2A_RXPACKET_SIZE	  37
@@ -139,8 +140,8 @@ static void AFHDS2A_build_bind_packet()
       packet_p2M[0] = 0xbc;
       if(rfState8_p2M == AFHDS2A_BIND4)
         {
-          memcpy( &packet_p2M[5], &AFHDS2A_RX_ID, 4);
-          memset( &packet_p2M[11], 0xff, 16);
+          memcpy(&packet_p2M[5], &AFHDS2A_RX_ID, 4);
+          memset(&packet_p2M[11], 0xff, 16);
         }
       packet_p2M[9] = rfState8_p2M-1;
       if(packet_p2M[9] > 0x02)
@@ -153,8 +154,8 @@ static void AFHDS2A_build_bind_packet()
 
 static void AFHDS2A_build_packet(uint8_t type)
 {
-  memcpy( &packet_p2M[1], temp_rfid_addr_p2M, 4);
-  memcpy( &packet_p2M[5], &AFHDS2A_RX_ID, 4);
+  memcpy(&packet_p2M[1], temp_rfid_addr_p2M, 4);
+  memcpy(&packet_p2M[5], &AFHDS2A_RX_ID, 4);
 
   switch(type)
     {
@@ -226,7 +227,9 @@ static uint16_t AFHDS2A_cb()
           A7105_ReadData(AFHDS2A_RXPACKET_SIZE);
           if(packet_p2M[0] == 0xbc && packet_p2M[9] == 0x01)
             {
-              memcpy( &AFHDS2A_RX_ID, &packet_p2M[5], 4);
+              memcpy(&AFHDS2A_RX_ID, &packet_p2M[5], 4);
+              memcpy(&AFHDS2A_RX_ID_STORAGE, &AFHDS2A_RX_ID, 4); // Store RX number in eeprom
+              eeDirty(EE_MODEL); // save eeprom
               rfState8_p2M = AFHDS2A_BIND4;
               packet_count_p2M++;
               break;
@@ -347,6 +350,7 @@ static void AFHDS2A_initialize(uint8_t bind)
   A7105_Init();
   loadrfidaddr_rxnum(0);
   AFHDS2A_calc_channels();
+  memcpy(&AFHDS2A_RX_ID, &AFHDS2A_RX_ID_STORAGE, 4); // load RX number stored in eeprom
   send_seq_p2M = AFHDS2A_PACKET_STICKS;
 
   if(bind)
