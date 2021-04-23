@@ -137,9 +137,9 @@ const long CompilerOptionsFrame::ID_CHECKBOX35 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX29 = wxNewId();
 const long CompilerOptionsFrame::ID_CHOICECYRF6936PAG = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT28 = wxNewId();
-const long CompilerOptionsFrame::ID_CHECKBOX33 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX34 = wxNewId();
 const long CompilerOptionsFrame::ID_CHOICEBLUETOOTH = wxNewId();
+const long CompilerOptionsFrame::ID_STATICTEXT30 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL3 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX7 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX10 = wxNewId();
@@ -197,7 +197,7 @@ END_EVENT_TABLE()
 CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
   //(*Initialize(CompilerOptionsFrame)
-  Create(parent, wxID_ANY, _("Compil-O-matic"), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
+  Create(parent, wxID_ANY, ("Compil-O-matic"), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
   SetClientSize(wxSize(790,367));
   Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(0,0), wxSize(830,368), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
   Panel1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
@@ -379,14 +379,11 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxA7105->SetValue(false);
   ChoiceCYRF6936PAG = new wxChoice(Panel3, ID_CHOICECYRF6936PAG, wxPoint(96,208), wxSize(45,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICECYRF6936PAG"));
   StaticText28 = new wxStaticText(Panel3, ID_STATICTEXT28, _("PA Gain (DB)"), wxPoint(24,152), wxSize(118,16), wxALIGN_RIGHT, _T("ID_STATICTEXT28"));
-  CheckBoxBLUETOOTH = new wxCheckBox(Panel3, ID_CHECKBOX33, _("BLUETOOTH"), wxPoint(312,224), wxSize(88,24), 0, wxDefaultValidator, _T("ID_CHECKBOX33"));
-  CheckBoxBLUETOOTH->SetValue(false);
-  CheckBoxBLUETOOTH->SetToolTip(_("Ajout de fonctions sans fils"));
   CheckBoxXMODEM = new wxCheckBox(Panel3, ID_CHECKBOX34, _("XMODEM"), wxPoint(688,32), wxSize(80,24), 0, wxDefaultValidator, _T("ID_CHECKBOX34"));
   CheckBoxXMODEM->SetValue(false);
   CheckBoxXMODEM->SetToolTip(_("Transfert de données"));
-  ChoiceBLUETOOTH = new wxChoice(Panel3, ID_CHOICEBLUETOOTH, wxPoint(400,224), wxSize(64,23), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICEBLUETOOTH"));
-  ChoiceBLUETOOTH->SetToolTip(_("Sélectionner HC05(v2.0) ou HM10(v4.0 BLE)"));
+  ChoiceBLUETOOTH = new wxChoice(Panel3, ID_CHOICEBLUETOOTH, wxPoint(392,224), wxSize(56,23), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICEBLUETOOTH"));
+  StaticText30 = new wxStaticText(Panel3, ID_STATICTEXT30, _("BLUETOOTH"), wxPoint(312,230), wxDefaultSize, 0, _T("ID_STATICTEXT30"));
   Panel4 = new wxPanel(Notebook1, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL4"));
   StaticBox7 = new wxStaticBox(Panel4, ID_STATICBOX7, _("Nom des interrupteurs"), wxPoint(8,8), wxSize(616,328), 0, _T("ID_STATICBOX7"));
   StaticBox10 = new wxStaticBox(Panel4, ID_STATICBOX10, _("3POS"), wxPoint(160,24), wxSize(96,112), 0, _T("ID_STATICBOX10"));
@@ -588,8 +585,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceCYRF6936PAG->SetSelection( ChoiceCYRF6936PAG->Append("20") );
   ChoiceCYRF6936PAG->Append("22");
 
-  ChoiceBLUETOOTH->SetSelection( ChoiceBLUETOOTH->Append("HC05") );
-  ChoiceBLUETOOTH->Append("HM10");
+  ChoiceBLUETOOTH->SetSelection( ChoiceBLUETOOTH->Append("NO") );
+  ChoiceBLUETOOTH->Append("HC05");
+  //ChoiceBLUETOOTH->Append("HM10"); todo add hm10
 
   ChoiceNUMXANY->SetSelection( ChoiceNUMXANY->Append("NO") );
   ChoiceNUMXANY->Append("1");
@@ -626,7 +624,6 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceCYRF6936PAG->SetStringSelection(CYRF6936PAG);
   ChoiceNRF24l01PAG->SetStringSelection(NRF24l01PAG);
   ChoiceA7105PAG->SetStringSelection(A7105PAG);
-  ChoiceBLUETOOTH->SetStringSelection(BLUETOOTHCOMPONENT);
   CheckBoxSD_CARD->SetValue(SD_CARD);
   CheckBoxTEMPLATES->SetValue(TEMPLATES);
   ChoiceTHREE_POS->SetStringSelection(THREE_POS);
@@ -656,7 +653,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxNOANDSECONDE->SetValue(NOANDSECONDE);// Hardwired
   CheckBoxSHUTDOWN_CONFIRMATION->SetValue(SHUTDOWN_CONFIRMATION);
   CheckBoxFRAM->SetValue(FRAM);
-  CheckBoxBLUETOOTH->SetValue(BLUETOOTH);
+  ChoiceBLUETOOTH->SetStringSelection(BLUETOOTH);
   CheckBoxXMODEM->SetValue(XMODEM);
   CheckBoxPERSONAMES->SetValue(PERSONAMES);
   CheckBoxInvStickRH->SetValue(INV_STICK_RH);
@@ -801,11 +798,7 @@ void CompilerOptionsFrame::BatFunction()
   if (INV_STICK_LV) CompiBat += (" INV_STICK_LV=YES");
   if (INV_STICK_RV) CompiBat += (" INV_STICK_RV=YES");
   if (INV_STICK_LH) CompiBat += (" INV_STICK_LH=YES");
-  if (BLUETOOTH)
-    {
-      CompiBat += (" BLUETOOTH=YES");// default should be NO
-      CompiBat += (" BLUETOOTHCOMPONENT=" + BLUETOOTHCOMPONENT);// default should be HC05
-    }
+  CompiBat += (" BLUETOOTH=" + BLUETOOTH);
   if (XMODEM) CompiBat += (" XMODEM=YES");
   if (PERSONAMES)
     {
@@ -821,7 +814,7 @@ void CompilerOptionsFrame::BatFunction()
   CreateCompileBatFile(CompiBat);
   wxExecute(AppPath+ "\\CompileBatFile.bat",wxEXEC_ASYNC );// Create firmware
   Close();
-  wxMessageBox(AppPath+ "\\firmware\\OpenAVRc.hex", _("Le nouveau Firmware est Le fichier :"));
+  //wxMessageBox(AppPath+ "\\firmware\\OpenAVRc.hex", _("Le nouveau Firmware est Le fichier :"));
 }
 
 void CompilerOptionsFrame::OnButtonCOMPILEClick(wxCommandEvent& event)
@@ -892,8 +885,7 @@ void CompilerOptionsFrame::CollectDatas()
   NOANDSECONDE = CheckBoxNOANDSECONDE->GetValue();
   SHUTDOWN_CONFIRMATION = CheckBoxSHUTDOWN_CONFIRMATION->GetValue();
   FRAM = CheckBoxFRAM->GetValue();
-  BLUETOOTH = CheckBoxBLUETOOTH->GetValue();
-  BLUETOOTHCOMPONENT = ChoiceBLUETOOTH->GetString(ChoiceBLUETOOTH->GetSelection());
+  BLUETOOTH = ChoiceBLUETOOTH->GetString(ChoiceBLUETOOTH->GetSelection());
   XMODEM = CheckBoxXMODEM->GetValue();
   PERSONAMES = CheckBoxPERSONAMES->GetValue();
   INV_STICK_RH = CheckBoxInvStickRH->GetValue();
@@ -1143,6 +1135,7 @@ void CompilerOptionsFrame::OnCheckBoxPERSONAMESClick(wxCommandEvent& event)
 {
   CollectDatas();
 }
+
 
 void CompilerOptionsFrame::OnCheckBoxSD_CARDClick(wxCommandEvent& event)
 {

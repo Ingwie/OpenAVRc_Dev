@@ -86,7 +86,6 @@ extern wxString CC2500PAG;//defaults to 0
 extern wxString CYRF6936PAG;//defaults to 0
 extern wxString NRF24l01PAG;//defaults to 0
 extern wxString A7105PAG;//defaults to 0
-extern wxString BLUETOOTHCOMPONENT;//defaults to 0
 
 extern bool SD_CARD;//defaults to NO
 extern bool FAS_OFFSET;//defaults to NO
@@ -118,7 +117,7 @@ extern bool TOGGLETRIM;
 extern bool NOANDSECONDE;// Hardwired
 extern bool SHUTDOWN_CONFIRMATION;
 extern bool FRAM;
-extern bool BLUETOOTH;
+extern wxString BLUETOOTH;
 extern bool XMODEM;
 
 //DANGEROUS_MODULE_FUNCTIONS// does not compile.
@@ -175,7 +174,6 @@ public:
     wxCheckBox* CheckBoxAUTOSOURCE;
     wxCheckBox* CheckBoxAUTOSWITCH;
     wxCheckBox* CheckBoxBATTGRAPH;
-    wxCheckBox* CheckBoxBLUETOOTH;
     wxCheckBox* CheckBoxBOLD;
     wxCheckBox* CheckBoxCC2500;
     wxCheckBox* CheckBoxCORRECT_NEGATIVE_VALUES;
@@ -288,6 +286,7 @@ public:
     wxStaticText* StaticText28;
     wxStaticText* StaticText29;
     wxStaticText* StaticText2;
+    wxStaticText* StaticText30;
     wxStaticText* StaticText3;
     wxStaticText* StaticText4;
     wxStaticText* StaticText5;
@@ -386,9 +385,9 @@ protected:
     static const long ID_CHECKBOX29;
     static const long ID_CHOICECYRF6936PAG;
     static const long ID_STATICTEXT28;
-    static const long ID_CHECKBOX33;
     static const long ID_CHECKBOX34;
     static const long ID_CHOICEBLUETOOTH;
+    static const long ID_STATICTEXT30;
     static const long ID_PANEL3;
     static const long ID_STATICBOX7;
     static const long ID_STATICBOX10;

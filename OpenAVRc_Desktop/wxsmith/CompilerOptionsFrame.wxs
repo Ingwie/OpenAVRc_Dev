@@ -529,12 +529,6 @@
 							<size>118,16</size>
 							<style>wxALIGN_RIGHT</style>
 						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX33" variable="CheckBoxBLUETOOTH" member="yes">
-							<label>BLUETOOTH</label>
-							<pos>312,224</pos>
-							<size>88,24</size>
-							<tooltip>Ajout de fonctions sans fils</tooltip>
-						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX34" variable="CheckBoxXMODEM" member="yes">
 							<label>XMODEM</label>
 							<pos>688,32</pos>
@@ -544,8 +538,12 @@
 						</object>
 						<object class="wxChoice" name="ID_CHOICEBLUETOOTH" variable="ChoiceBLUETOOTH" member="yes">
 							<selection>0</selection>
-							<pos>400,224</pos>
-							<size>64,23</size>
+							<pos>392,224</pos>
+							<size>56,23</size>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT30" variable="StaticText30" member="yes">
+							<label>BLUETOOTH</label>
+							<pos>312,230</pos>
 						</object>
 					</object>
 					<label>Options avancées</label>

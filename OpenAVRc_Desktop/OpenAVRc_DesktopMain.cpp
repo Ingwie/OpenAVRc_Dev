@@ -145,7 +145,6 @@ wxString CC2500PAG = ("0");
 wxString CYRF6936PAG = ("0");
 wxString NRF24l01PAG = ("0");
 wxString A7105PAG = ("0");
-wxString BLUETOOTHCOMPONENT = ("0");
 bool SD_CARD = 0;
 bool TEMPLATES = 0;
 wxString THREE_POS = ("NO");
@@ -180,7 +179,7 @@ bool INV_STICK_RH = 0;
 bool INV_STICK_LV = 0;
 bool INV_STICK_RV = 0;
 bool INV_STICK_LH = 0;
-bool BLUETOOTH = 0;
+wxString BLUETOOTH = ("NO");
 bool XMODEM = 0;
 
 wxString switch1 = ("THR");
@@ -697,7 +696,6 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
   configFile->Read(wxT("SHUTDOWN_CONFIRMATION"),&SHUTDOWN_CONFIRMATION);
   configFile->Read(wxT("FRAM"),&FRAM);
   configFile->Read(wxT("BLUETOOTH"),&BLUETOOTH);
-  configFile->Read(wxT("BLUETOOTHCOMPONENT"),&BLUETOOTHCOMPONENT);
   configFile->Read(wxT("XMODEM"),&XMODEM);
   configFile->Read(wxT("PERSONAMES"),&PERSONAMES);
   configFile->Read(wxT("INV_STICK_RH"),&INV_STICK_RH);
@@ -830,7 +828,6 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
   configFile->Write(wxT("SHUTDOWN_CONFIRMATION"),SHUTDOWN_CONFIRMATION);
   configFile->Write(wxT("FRAM"),FRAM);
   configFile->Write(wxT("BLUETOOTH"),BLUETOOTH);
-  configFile->Write(wxT("BLUETOOTHCOMPONENT"),BLUETOOTHCOMPONENT);
   configFile->Write(wxT("XMODEM"),XMODEM);
   configFile->Write(wxT("PERSONAMES"),PERSONAMES);
   configFile->Write(wxT("INV_STICK_RH"),INV_STICK_RH);
