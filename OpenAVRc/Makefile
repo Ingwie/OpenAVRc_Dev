@@ -709,7 +709,7 @@ ifeq ($(PCB), MEGA2560)
     EXTRABOARDSRC += $(RRSDDIR)/fat.c $(RRSDDIR)/partition.c $(RRSDDIR)/sd_raw.c $(RRSDDIR)/byteordering.c
     CPPDEFS += -DSDCARD -DRTCLOCK
     GUIGENERALSRC += gui/menu_general_sdmanager.cpp
-    CPPSRC += sdcard.cpp logs.cpp rtc_driver.cpp
+    CPPSRC += sdcard.cpp logs.cpp
   endif
 
   ifeq ($(AUDIO), YES)
