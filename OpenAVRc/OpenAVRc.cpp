@@ -30,7 +30,6 @@
 **************************************************************************
 */
 
-
 #include "OpenAVRc.h"
 #include "timers.h"
 
@@ -744,7 +743,7 @@ void doSplash()
 
     tmr10ms_t contrastStart10msTick = getTmr10ms();
     tmr10ms_t splashStart10msTick   = getTmr10ms();
-    uint8_t contrast = 10;
+    uint8_t contrast = CONTRAST_MIN;
 
     lcdSetRefVolt(contrast);
 
@@ -782,7 +781,7 @@ void doSplash()
       if (ELAPSED_10MS_TICK_SINCE(contrastStart10msTick) >= MS_TO_10MS_TICK(100)) {
         contrastStart10msTick = getTmr10ms();
         if (contrast < g_eeGeneral.contrast) {
-          contrast += 1;
+          ++contrast;
           lcdSetRefVolt(contrast);
         }
       }
@@ -1087,7 +1086,7 @@ void doMixerCalculations()
 
 #if defined(SIMU) // Simulate ISR(TIMER1_COMPA_vect) X_any computation
 #if defined (DEBUG)
-  //if (timer_callback) TIMER1_COMPA_vect(); // Allow to run protocol code in debug mode if uncommented
+  if (timer_callback) TIMER1_COMPA_vect(); // Allow to run protocol code in debug mode
 #else
   Xany_scheduleTx_AllInstance();
 #endif
@@ -1611,13 +1610,9 @@ int16_t simumain()
   menuHandlers[1] = menuModelSelect;
 #endif
 
-  lcdSetRefVolt(25);
-
-#ifdef MENU_ROTARY_SW
-  init_rotary_sw();
-#endif
-
   OpenAVRcInit(mcusr);
+
+  lcdSetContrast();
 
 #if !defined(SIMU)
   while (1) {

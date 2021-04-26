@@ -52,11 +52,6 @@ FORCEINLINE void boardInit()
 
   adcInit();
 
-  lcdInit();
-  lcdClear();
-  DISPLAY_LOADING_MESSAGE();
-  lcdRefresh();
-
 #ifndef SIMU
   /**** Set up timer/counter 3 ****/
   // TCNT  10ms = 16MHz/1024/156(.25) periodic timer (10ms interval)
@@ -124,6 +119,11 @@ FORCEINLINE void boardInit()
   i2c_init();
 #endif
 
+  lcdInit();
+  lcdClear();
+  DISPLAY_LOADING_MESSAGE();
+  lcdRefresh();
+
 #if defined(X_ANY)
   Xany_init();
 #endif
@@ -162,7 +162,6 @@ void rf_usart_mspi_init()
   UCSR2B = (1 << RXEN2) | (1 << TXEN2); // Transmit and Receive.
   //UBRR2 = 1; // 4.0MHz clock ... 16MHz/(2*(UBRR+1))
   UBRR2 = 0; // 8.0MHz clock ... 16MHz/(2*(UBRR+1))
-
 }
 
 uint8_t USART2_mspi_xfer(uint8_t data)

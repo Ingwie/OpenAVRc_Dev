@@ -41,7 +41,7 @@ FORCEINLINE void boardInit()
   DDRA = 0b11111111;  PORTA = 0b00000000; // LCD data
   DDRB = 0b11100111;  PORTB = 0b10111111; // 7:Mega Led, 6:PPM_OUT, 5:PPMSIM_OUT, 4:N/A, SDCARD[3:MISO 2:MOSI 1:SCK 0:CS]
   DDRC = 0b11111100;  PORTC = 0b00000011; // 7-3:LCD, 2:BackLight, 1:ID2_SW, 0:ID1_SW
-  DDRD = 0b00001100;  PORTD = 0b11111111; // 7:AilDR_SW, 6:N/A, 5:N/A, 4:PPM_IN, 3:CS_NRF24L01, 2:CS_CYRF6936, 1:I2C_SDA, 0:I2C_SCL
+  DDRD = 0b00001111;  PORTD = 0b11111111; // 7:AilDR_SW, 6:N/A, 5:N/A, 4:PPM_IN, 3:CS_NRF24L01, 2:CS_CYRF6936, 1:I2C_SDA, 0:I2C_SCL
   DDRE = 0b00000010;  PORTE = 0b11111110; // 7:Rot_2A, 6:Rot_2B, 5:Rot_1B, 4:Rot_1A, 3:Rot_2_Push, 2:N/A, 1:TELEM_TX, 0:TELEM_RX
   DDRF = 0b00000000;  PORTF = 0b11111111; // 7-0:Trim switch inputs
   DDRG = 0b00000000;  PORTG = 0b11111111; // 7:N/A, 6:N/A, 5:Rot_1_Push, 4:N/A, 3:N/A, 2:TCut_SW, 1:Gear_SW, 0: RudDr_SW
@@ -51,11 +51,6 @@ FORCEINLINE void boardInit()
   DDRL = 0b00000000;  PORTL = 0b11111111; // 7:TRN_SW 6:EleDR_SW, 5:ESC, 4:MENU 3:Keyb_Left, 2:Keyb_Right, 1:Keyb_Up, 0:Keyb_Down
 
   adcInit();
-
-  lcdInit();
-  lcdClear();
-  DISPLAY_LOADING_MESSAGE();
-  lcdRefresh();
 
 #ifndef SIMU
 
@@ -126,6 +121,11 @@ FORCEINLINE void boardInit()
   /* Hardware I2C init */
   i2c_init();
 #endif
+
+  lcdInit();
+  lcdClear();
+  DISPLAY_LOADING_MESSAGE();
+  lcdRefresh();
 
 #if defined(X_ANY)
   Xany_init();
