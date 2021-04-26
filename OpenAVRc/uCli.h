@@ -42,6 +42,7 @@
 #if defined(XMODEM)
 #include "thirdparty/xmodem/xmodem.h"
 #endif
+#include "myeeprom.h"
 
 #define BACK_SPACE         0x08
 #define UCLI_CMD_LINE_MAX_SIZE  100
