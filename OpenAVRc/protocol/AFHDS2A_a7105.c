@@ -274,14 +274,8 @@ static uint16_t AFHDS2A_cb()
         }
 
       AFHDS2A_build_packet(send_seq_p2M);
-      if((A7105_ReadReg(A7105_00_MODE) & 0x01))		// Check if something has been received...
-        {
-          data_rx=0;
-        }
-      else
-        {
-          data_rx=1;									// Yes
-        }
+      data_rx = A7105_ReadReg(A7105_00_MODE);		// Check if something has been received...
+
       A7105_WriteData(AFHDS2A_TXPACKET_SIZE, channel_used_p2M[channel_index_p2M++]);
       if(channel_index_p2M >= AFHDS2A_NUMFREQ)
         {
@@ -295,9 +289,8 @@ static uint16_t AFHDS2A_cb()
         {
           send_seq_p2M = AFHDS2A_PACKET_STICKS;		// todo : check for settings changes
         }
-      if(!(A7105_ReadReg(A7105_00_MODE) & (1<<5 | 1<<6)) && data_rx==1)
+      if(!(A7105_ReadReg(A7105_00_MODE) & (1<<5 ) && (data_rx & 1))) // RX+CRCF Ok
         {
-          // RX+FECF+CRCF Ok
           A7105_ReadData(AFHDS2A_RXPACKET_SIZE);
           if(packet_p2M[0] == 0xaa)
             {
