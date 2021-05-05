@@ -289,7 +289,7 @@ static uint16_t AFHDS2A_cb()
         {
           send_seq_p2M = AFHDS2A_PACKET_STICKS;		// todo : check for settings changes
         }
-      if(!(A7105_ReadReg(A7105_00_MODE) & (1<<5 ) && (data_rx & 1))) // RX+CRCF Ok
+      if(!(A7105_ReadReg(A7105_00_MODE) & (1<<5 ) && !(data_rx & 1))) // RX+CRCF Ok
         {
           A7105_ReadData(AFHDS2A_RXPACKET_SIZE);
           if(packet_p2M[0] == 0xaa)
