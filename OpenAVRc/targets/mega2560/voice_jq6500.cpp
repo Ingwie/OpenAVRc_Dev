@@ -37,9 +37,6 @@
 
 #include "../../OpenAVRc.h"
 
-
-#define QUEUE_LENGTH (32*2)  //bytes
-
 enum JQ6500_State {
 	START = 0, //0x7E Start
 	NUMBY,     //0x04 Num bytes follow
@@ -58,9 +55,7 @@ uint8_t JQ6500_Data[6] = {0x7E, //Start
                           0xEF}; //Termination
 
 volatile uint8_t JQstate = START;
-uint8_t JQ6500_playlist[QUEUE_LENGTH];
-uint8_t JQ6500_InputIndex = 0;
-uint8_t JQ6500_PlayIndex = 0;
+Fifo<JQ6500_QUEUE_LENGTH> JQ6500_Fifo;
 
 void InitJQ6500UartTx()
 {
@@ -76,25 +71,22 @@ void pushPrompt(uint16_t prompt)
 	// if mute active => no voice
 	if (g_eeGeneral.beepMode == e_mode_quiet) return;
 	++prompt;  // With SDformatter, first FAT address = 1 : MP3 files in a directory
-	/* Load playlist buffer */
-	JQ6500_playlist[JQ6500_InputIndex++] = (uint8_t)(prompt >> 8); // MSB first
-	JQ6500_playlist[JQ6500_InputIndex++] = (uint8_t)(prompt);      // LSB after
-	if (JQ6500_InputIndex == QUEUE_LENGTH) JQ6500_InputIndex = 0;
-
+	/* Load playlist buffer - Overflow is not controled */
+	JQ6500_Fifo.push((uint8_t)(prompt >> 8)); // MSB first
+	JQ6500_Fifo.push((uint8_t)prompt);        // LSB after
 }
 
 void JQ6500Check()
 {
 #if !defined(SIMU)
-  if (JQ6500_PlayIndex == JQ6500_InputIndex) return; // Nothing to play, return ...
+  if (JQ6500_Fifo.isEmpty()) return; // Nothing to play, return ...
 
   if (JQ6500_BUSY) {JQstate = WAIT1LOOP; return;}    // Wait first 10mS after JQ "is buzy"
 
   if (JQstate == WAIT1LOOP) {--JQstate; return;}     // Wait another 10mS before sending new prompt
 
-  JQ6500_Data[3] = JQ6500_playlist[JQ6500_PlayIndex++];
-  JQ6500_Data[4] = JQ6500_playlist[JQ6500_PlayIndex++];
-  if (JQ6500_PlayIndex == QUEUE_LENGTH) JQ6500_PlayIndex = 0;
+  JQ6500_Data[3] = JQ6500_Fifo.pop();
+  JQ6500_Data[4] = JQ6500_Fifo.pop();
   JQstate = START;
   UDR_N(TLM_JQ6500) = JQ6500_Data[JQstate]; // Send Datas
   USART_TRANSMIT_BUFFER(TLM_JQ6500); // enable UDRE(TLM_JQ6500) interrupt

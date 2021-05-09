@@ -292,6 +292,7 @@ static uint16_t DurationValue;
 #define RESXul     1024ul
 #define RESXl      1024l
 
+#include "fifo.h"
 #include "myeeprom.h"
 #include "gui/gui.h"
 
@@ -583,7 +584,7 @@ uint8_t trimDown(uint8_t idx);
 
 uint16_t evalChkSum();
 
-#if   defined(VOICE)
+#if defined(VOICE)
   #define MESSAGE_SOUND_ARG , uint8_t sound
   #define MESSAGE(title, msg, info, sound) message(title, msg, info, sound)
   #define ALERT(title, msg, sound) alert(title, msg, sound)

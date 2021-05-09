@@ -30,6 +30,7 @@
  **************************************************************************
 */
 
+#define JQ6500_QUEUE_LENGTH (32*2)  //bytes
 
 #define PROMPT_CUSTOM_BASE      0
 #define PROMPT_I18N_BASE        256

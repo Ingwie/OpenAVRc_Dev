@@ -114,9 +114,8 @@ uCliFrame *uCliFr;
 int telecomwaitcounter;
 // Voice
 bool Mp3RepExist = false;
-extern volatile uint8_t JQ6500_InputIndex;
-extern uint8_t JQ6500_PlayIndex;
-extern uint8_t JQ6500_playlist[];
+extern Fifo<JQ6500_QUEUE_LENGTH> JQ6500_Fifo;
+
 
 //Audio
 uint32_t BeepFreq;
@@ -912,14 +911,11 @@ void OpenAVRc_SimulatorFrame::PlayTts()
 
   if (Mp3process->Exists(pid)) return;
 
-  if (JQ6500_InputIndex != JQ6500_PlayIndex) {
+  if (!(JQ6500_Fifo.isEmpty())) {
     uint16_t prompt;
-    prompt = JQ6500_playlist[JQ6500_PlayIndex];
-    ++JQ6500_PlayIndex;
+    prompt = JQ6500_Fifo.pop();
     prompt <<= 8;
-    prompt |= JQ6500_playlist[JQ6500_PlayIndex];
-    ++JQ6500_PlayIndex;
-    if (JQ6500_PlayIndex == (24*2)) JQ6500_PlayIndex = 0; //QUEUE_LENGTH = 24*2 in JQ6500 driver
+    prompt |= JQ6500_Fifo.pop();
     wxString Mp3file;
     --prompt;
     Mp3file.Printf("%04d.mp3",prompt);
