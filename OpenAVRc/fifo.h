@@ -46,7 +46,7 @@ public:
 
  void push(uint8_t byte)
  {
-  uint8_t next = (w_idx == (N-1))? (w_idx+1) : 0;
+  uint8_t next = (w_idx <= (N-1))? (w_idx+1) : 0;
   //uint8_t next = (w_idx+1) & (N-1); //optimised for N is power of 2
   if (next != r_idx)
    {
@@ -58,7 +58,7 @@ public:
  uint8_t pop() // call isEmpty() before use, no control here (Faster code)
  {
   uint8_t byte = buffer[r_idx];
-  r_idx = (r_idx == (N-1))? (r_idx+1) : 0;
+  r_idx = (r_idx <= (N-1))? (r_idx+1) : 0;
   //r_idx = (r_idx+1) & (N-1); //optimised for N is power of 2
   return byte;
  }
@@ -70,7 +70,7 @@ public:
 
  uint8_t isFull()
  {
-  uint8_t next = (w_idx == (N-1))? (w_idx+1) : 0;
+  uint8_t next = (w_idx <= (N-1))? (w_idx+1) : 0;
   //uint8_t next = (w_idx+1) & (N-1); //optimised for N is power of 2
   return (next == r_idx);
  }
