@@ -534,10 +534,6 @@
 		</Unit>
 		<Unit filename="../OpenAVRc/targets/mega2560/voice.h" />
 		<Unit filename="../OpenAVRc/targets/mega2560/voice_jq6500.cpp" />
-		<Unit filename="../OpenAVRc/targets/mega2560/voice_wtv20sd.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
 		<Unit filename="../OpenAVRc/targets/megamini/board_megamini.cpp" />
 		<Unit filename="../OpenAVRc/targets/megamini/board_megamini.h" />
 		<Unit filename="../OpenAVRc/targets/simu/simu_interface.cpp" />
