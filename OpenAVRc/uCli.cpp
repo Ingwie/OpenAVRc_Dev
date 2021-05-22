@@ -29,7 +29,6 @@
 *                                                                        *
 **************************************************************************
 */
-#include "uCli.h"
 
 #ifdef SIMU
 #include "OpenAVRc.h"
@@ -74,7 +73,7 @@ UCLI_DEF(rmdir, directory);
 UCLI_DEF(rm,    file);
 UCLI_DEF(mv,    srcfile dstfile);
 #endif
-//UCLI_DEF(bt,    on|off|master|slave|state|pin|name);
+
 UCLI_DEF(tf,    ch1-ch8:Chks); //Trainer Frame
 UCLI_DEF(ram,    );
 UCLI_DEF(ver,    );
@@ -89,7 +88,6 @@ UCLI_CMD_TBL(uCliCmd) = { UCLI_CMD(help),
               CASE_SDCARD(UCLI_CMD(rmdir))
               CASE_SDCARD(UCLI_CMD(rm))
               CASE_SDCARD(UCLI_CMD(mv))
-//                          UCLI_CMD(bt),
                           UCLI_CMD(tf),//tfsHHHsHHH...sHHHsHHH<Chks> (2 + 4 x 16 + 2) -> L = 36 bytes (3ms@115200)
                           UCLI_CMD(ram),
                           UCLI_CMD(ver),
@@ -107,11 +105,6 @@ void uCli_init()
   uCliPrompt();
 }
 
-void uCliFlushRx()
-{
-  while(Serial1.available()) Serial1.read(); // Flush Rx
-}
-
 void uCli_process(void)
 {
  char RxChar;
@@ -119,9 +112,9 @@ void uCli_process(void)
 
  if(uCli.Context == CONTEXT_UCLI)
   {
-   if(Serial1.available())
+   while (BT_RX_Fifo.available())
     {
-     RxChar = Serial1.read();
+     RxChar = BT_RX_Fifo.pop();
      switch(RxChar)
       {
       case 0x0D:
@@ -137,7 +130,7 @@ void uCli_process(void)
 #if defined(TINY_DBG_UART_BT)
            TinyDbg_interpretAndExecute(ReBuff.uCliCmdLine);
 #else
-           Serial1.println(F("err: unknown cmd"));
+           BT_Ser_Println(PSTR("err: unknown cmd"));
 #endif
           }
          //uCliPrompt();
@@ -145,7 +138,7 @@ void uCli_process(void)
        else
         {
          memclear(ReBuff.uCliCmdLine, DIM(ReBuff.uCliCmdLine)); // reset all
-         uCliFlushRx();
+         BT_Ser_flushRX();
         }
        break;
 
@@ -173,10 +166,8 @@ void uCli_process(void)
 
 static void uCliPrompt(void)
 {
-  char Buf[6];
-  strcpy_P(Buf, UCLI_PROMPT);
-  Serial1.print(Buf);
-  uCliFlushRx(); // clear RX buffer
+  BT_Ser_Print(UCLI_PROMPT);
+  BT_Ser_flushRX(); // clear RX buffer
 }
 
 static int8_t execCmdLine(char *CmdLine)
@@ -190,7 +181,7 @@ static int8_t execCmdLine(char *CmdLine)
   if(*CmdLine)
   {
     /* Parse cli argument(s) */
-    memset(argv, 0, sizeof(argv));
+    memclear(argv, sizeof(argv));
     argv[0] = CmdLine;
     for(uint8_t i = 0; i < len; i++)
     {
@@ -236,13 +227,13 @@ static int8_t uCli_Cmd_help(const char ** argv, uint8_t argc)
 
   if(argc == 1)
   {
-    Serial1.println(F("help: this help"));
+    BT_Ser_Println(PSTR("help: this help"));
     for(uint8_t Idx = 1; Idx < TBL_ITEM_NB(uCliCmd); Idx++)
     {
       strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[Idx].Name));
-      Serial1.print(Buf);Serial1.print(F(" "));
+      BT_Ser_Print(Buf);BT_Ser_Print(PSTR(" "));
       strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[Idx].Help));
-      Serial1.println(Buf);_delay_ms(1);
+      BT_Ser_Println(Buf);_delay_ms(1);
     }
   }
   else if(argc == 2)
@@ -251,9 +242,9 @@ static int8_t uCli_Cmd_help(const char ** argv, uint8_t argc)
     if(CmdIdx >= 0)
     {
       strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[CmdIdx].Name));
-      Serial1.print(Buf);Serial1.print(F(" "));
+      BT_Ser_Print(Buf);BT_Ser_Print(PSTR(" "));
       strcpy_P(Buf, (char *)pgm_read_word(&uCliCmd[CmdIdx].Help));
-      Serial1.println(Buf);
+      BT_Ser_Println(Buf);
     }
   }
   else
@@ -270,7 +261,7 @@ static int8_t uCli_Cmd_ls(const char ** argv, uint8_t argc)
  // we must close the logs as we reuse the same SDfile structure
  closeLogIfActived();
  uCli_Desktop_Screen();
- Serial1.println(F("ls: "));
+ BT_Ser_Println(PSTR("ls: "));
  if (argc > 1)
   {
    if (sdChangeCurDir(argv[1]))
@@ -282,14 +273,14 @@ static int8_t uCli_Cmd_ls(const char ** argv, uint8_t argc)
          if (SD_dir_entry.attributes & FAT_ATTRIB_DIR)
           {
            // this is a DIR
-           Serial1.print('[');
-           Serial1.print(SD_dir_entry.long_name);
-           Serial1.println(']');
+           BT_Ser_Print('[');
+           BT_Ser_Print(SD_dir_entry.long_name);
+           BT_Ser_Println(']');
           }
          else
           {
            // this is a file
-           Serial1.println(SD_dir_entry.long_name);
+           BT_Ser_Println(SD_dir_entry.long_name);
           }
           _delay_ms(10); // do not overflow the buffer, time to send long filename
           MYWDT_RESET(); // this can take time .....
@@ -350,7 +341,7 @@ static int8_t uCli_Cmd_cp(const char ** argv, uint8_t argc)
     /* SD to SD copy */
     if (SdMoveFile(&argv[1][2], &argv[2][2]))
     {
-      Serial1.println(F("SD to SD move"));
+      BT_Ser_Println(PSTR("SD to SD move"));
     }
   }
 #if defined(XMODEM)
@@ -360,12 +351,12 @@ static int8_t uCli_Cmd_cp(const char ** argv, uint8_t argc)
     if(FileMedia.Src == FILE_MEDIA_XMODEM)
     {
       /* OpenAVRc X-Modem in Receive mode (Source is outside, Destination is SD)*/
-      Serial1.println(XReceive(&Serial1, FileName)); // display return value in the console
+      BT_Ser_Println(XReceive(FileName)); // display return value in the console
     }
     else
     {
       /* OpenAVRc X-Modem in Send mode (Source is SD, Destination is outside) */
-      Serial1.println(XSend(&Serial1, FileName)); // display return value in the console
+      BT_Ser_Println(XSend(FileName)); // display return value in the console
     }
   }
 #endif
@@ -376,14 +367,14 @@ static int8_t uCli_Cmd_rmdir(const char ** argv, uint8_t argc)
 {
   argv = argv;
   argc = argc;
-  Serial1.println(F("rmdir"));
+  BT_Ser_Println(PSTR("rmdir"));
 
   return(0);
 }
 
 static int8_t uCli_Cmd_rm(const char ** argv, uint8_t argc)
 {
- Serial1.println(F("rm"));
+ BT_Ser_Println(PSTR("rm"));
  if(!memcmp_P(argv[1], SD_MEDIA, 3))
   {
    /* SD/FullFileName */
@@ -406,26 +397,17 @@ static int8_t uCli_Cmd_mv(const char ** argv, uint8_t argc)
   {
     /* Remove Src file */
   }
-  Serial1.println(F("mv"));
+  BT_Ser_Println(PSTR("mv"));
 
   return(0);
 }
 #endif
 
-/*static int8_t uCli_Cmd_bt(const char ** argv, uint8_t argc)
-{
-  argv = argv;
-  argc = argc;
-  Serial1.println(F("bt"));
-
-  return(0);
-}*/
-
 static int8_t uCli_Cmd_ram(const char ** argv, uint8_t argc)
 {
   argv = argv;
   argc = argc;
-  Serial1.println(F("ram: "));Serial1.print(stackAvailable());Serial1.println(F(" bytes"));
+  BT_Ser_Println(PSTR("ram: "));BT_Ser_Print(stackAvailable());BT_Ser_Println(PSTR(" bytes"));
 
   return(0);
 }
@@ -434,9 +416,9 @@ static int8_t uCli_Cmd_ver(const char ** argv, uint8_t argc)
 {
   argv = argv;
   argc = argc;
-  char buffer[HW_SERIAL1_TX_FIFO_SIZE-1] = {0}; // do not overload the buffer
+  char buffer[BT_SERIAL_TX_FIFO_SIZE-1] = {0}; // do not overload the buffer
   strncpy_P(buffer, vers_stamp, 35);
-  Serial1.println(F("ver: "));Serial1.println(buffer);
+  BT_Ser_Println(PSTR("ver: "));BT_Ser_Println(buffer);
 
   return(0);
 }
@@ -445,10 +427,10 @@ static int8_t uCli_Cmd_reboot(const char ** argv, uint8_t argc)
 {
  argv = argv;
  argc = argc;
- Serial1.println(F("reboot"));
+ BT_Ser_Println(PSTR("reboot"));
  _delay_ms(300);
  ResetToBootloaderWithFlag();
- // TO DO Do a reboot to allow a firmware upgrade through the bootloader
+ // TODO Do a reboot to allow a firmware upgrade through the bootloader
  return(0);
 }
 
@@ -477,7 +459,7 @@ static int8_t uCli_Cmd_tf(const char ** argv, uint8_t argc)
         {
          ppmInput[Idx] = (int16_t)(strtol(&argv[1][(Idx * 4)+1], NULL, 16) - 1500)*(g_eeGeneral.PPM_Multiplier+10)/10;;
         }
-       //Serial1.println(F("tf"));
+
        if (!puppySignalValidityTimer)
         {
          puppySignalValidityTimer = PUPPY_VALID_TIMEOUT_FIRST;
@@ -487,7 +469,6 @@ static int8_t uCli_Cmd_tf(const char ** argv, uint8_t argc)
         {
          puppySignalValidityTimer = PUPPY_VALID_TIMEOUT;
         }
-
       }
     }
   }

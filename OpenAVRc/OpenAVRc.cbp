@@ -69,8 +69,6 @@
 		<Unit filename="Makefile" />
 		<Unit filename="OpenAVRc.cpp" />
 		<Unit filename="OpenAVRc.h" />
-		<Unit filename="Print.cpp" />
-		<Unit filename="Print.h" />
 		<Unit filename="Serial0.cpp" />
 		<Unit filename="Serial0.h" />
 		<Unit filename="Serial1.cpp" />

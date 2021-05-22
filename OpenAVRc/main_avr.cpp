@@ -61,7 +61,7 @@ void perMain()
 #endif
 
 
-  SIMU_PROCESSEVENTS;
+  //SIMU_PROCESSEVENTS;
 
   t0 = getTmr64uS() - t0;
   lastMixerDuration = t0;

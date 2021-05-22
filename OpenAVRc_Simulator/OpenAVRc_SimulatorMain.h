@@ -78,7 +78,6 @@ Tele_Proto_Frsky_Sport,
 wxString simu_dir;
 
 //uCli
-extern HwSerial Serial1;
 
 //Beep
 extern uint32_t BeepFreq;
@@ -189,7 +188,7 @@ public:
   void EnableTelemetryMenu();
   void EnableLogsMenu();
   void EnableuCliMenu();
-  void SendHwSByteToCliFrame(uint8_t c);
+  void SendBtSerTxBufferToCliFrame(uint8_t c);
 
 private:
   //(*Handlers(OpenAVRc_SimulatorFrame)

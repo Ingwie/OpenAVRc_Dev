@@ -41,6 +41,8 @@
 #include <stdarg.h>
 #include <time.h>
 
+#include "fifo.h"
+
 #if !defined(SIMU)
   #include <avr/pgmspace.h>
   #include <avr/cpufunc.h>
@@ -89,11 +91,6 @@
   #include "targets/simu/simu_interface.h"
   #include "targets/megamini/board_megamini.h" //New reference board
   //#include "targets/mega2560/board_mega2560.h"
-
-  #if defined(U_CLI) || defined(XMODEM)
-    #include "Serial1.h"
-    #include "uCli.h"
-  #endif
 
 #endif
 
@@ -292,7 +289,6 @@ static uint16_t DurationValue;
 #define RESXul     1024ul
 #define RESXl      1024l
 
-#include "fifo.h"
 #include "myeeprom.h"
 #include "gui/gui.h"
 
@@ -1189,20 +1185,20 @@ PACK(
 struct RfOptionSettings_t {
   uint8_t         rfProtoNeed:4;     // See usage in "PROTO_NEED_XX" Def
   uint8_t         rfSubTypeMax:4;       //16 max
-  const pm_char*  rfSubTypeNames;
+  int8_t          rfOptionValue3Max:5;  //32 max -16 is min
+  uint8_t         rfOptionBool1Used:1;
+  uint8_t         rfOptionBool2Used:1;
+  uint8_t         rfOptionBool3Used:1;
   int8_t          rfOptionValue1Min;
   int8_t          rfOptionValue1Max;
-  const pm_char*  rfOptionValue1Name;
   int8_t          rfOptionValue2Min;
   int8_t          rfOptionValue2Max;
+  const pm_char*  rfSubTypeNames;
+  const pm_char*  rfOptionValue1Name;
   const pm_char*  rfOptionValue2Name;
-  int8_t          rfOptionValue3Max:5;  //32 max -16 is min
   const pm_char*  rfOptionValue3Name;
-  uint8_t         rfOptionBool1Used:1;
   const pm_char*  rfOptionBool1Name;
-  uint8_t         rfOptionBool2Used:1;
   const pm_char*  rfOptionBool2Name;
-  uint8_t         rfOptionBool3Used:1;
   const pm_char*  rfOptionBool3Name;
 });
 

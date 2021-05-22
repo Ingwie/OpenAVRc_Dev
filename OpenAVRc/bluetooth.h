@@ -33,10 +33,6 @@
 #ifndef BLUETOOTH_H
 #define BLUETOOTH_H
 
-#include "Serial1.h"
-#include "uCli.h"
-#include "misclib.h"
-
 #define BT_POWER_ON_OFF_MS         50
 #define BT_WAKE_UP_MS              1000
 #define BT_AT_WAKE_UP_MS           200
@@ -69,8 +65,7 @@ typedef struct{
 extern const pm_uchar zz_bt[]; // BT glyph
 
 void    bluetooth_init();
-void    bluetooth_power(uint8_t On);
-void    bluetooth_AtCmdMode(uint8_t On, uint8_t Yield = 1);
+void    bluetooth_AtCmdMode(uint8_t On);
 int8_t  bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs);
 int8_t  bluetooth_getName(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs);
 int8_t  bluetooth_setName(char *BtName,  uint16_t TimeoutMs);
@@ -80,7 +75,7 @@ int8_t  bluetooth_getRemoteName(uint8_t *RemoteMacBin, char *RespBuf, uint8_t Re
 uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs);
 int8_t  bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs);
 void    bluetooth_addSuffix(char* Addon);
-void    rebootBT(uint8_t Yield = 1);
+void    rebootBT();
 void    BT_Wait_Screen();
 void    BT_Send_Channels(); // Send NUM_TRAINER Channels
 

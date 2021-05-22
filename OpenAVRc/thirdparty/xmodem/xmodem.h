@@ -126,7 +126,6 @@
 #define GET_TICK()                         GET_10MS_TICK()
 
 #define YIELD_TO_PRIO_TASK()               YIELD_TO_TASK(checkMixer(); MYWDT_RESET())
-#define SERIAL_TYPE                        Stream *
 #define XMODEM_PACKET_SIZE 128
 
 
@@ -157,7 +156,6 @@ PACK(typedef struct{
   *
 \code
 typedef struct{
-  SERIAL_TYPE ser;     // identifies the serial connection, data type is OS-dependent
   FILE_TYPE file;      // identifies the file handle, data type is OS-dependent
   XmodemCBufSt_t cbuf; // XMODEM CRC buffer
 } XModemSt_t;
@@ -167,7 +165,6 @@ typedef struct{
 **/
 typedef struct
 {
- SERIAL_TYPE ser;     ///< identifies the serial connection, data type is OS-dependent
  FILE_DESC   fd;      ///< identifies the file handle, data type is OS-dependent
  XModemCBufSt_t buf; ///< XMODEM CRC buffer
 } XModemSt_t;
@@ -176,7 +173,6 @@ typedef struct
 /** \ingroup xmodem_api
   * \brief Receive a file using XMODEM protocol (ARDUINO version and other environment if defined in xmodem_cfg.h)
   *
-  * \param pSer A pointer to a Stream object, such as &Serial
   * \param szFilename A pointer to a (const) 0-byte terminated string containing the file name
   * \return A value of zero on success, negative on failure, positive if canceled
   *
@@ -188,13 +184,12 @@ typedef struct
   * using the SD library.
   *
 **/
-int8_t XReceive(Stream *pSer, const char *szFilename);
+int8_t XReceive(const char *szFilename);
 
 
 /** \ingroup xmodem_api
   * \brief Send a file using XMODEM protocol (ARDUINO version and other environment if defined in xmodem_cfg.h)
   *
-  * \param pSer A pointer to a Stream object, such as &Serial
   * \param szFilename A pointer to a (const) 0-byte terminated string containing the file name
   * \return A value of zero on success, negative on failure, positive if canceled
   *
@@ -204,6 +199,6 @@ int8_t XReceive(Stream *pSer, const char *szFilename);
   * a 'failure' value and cancel the transfer.
   *
 **/
-int8_t XSend(Stream *pSer, const char *szFilename);
+int8_t XSend(const char *szFilename);
 
 #endif

@@ -62,7 +62,6 @@ extern uCliSt_t uCli; // uCli structure will be used by bluetooth as well (share
 
 void uCli_init();
 void uCli_process(void);
-void uCliFlushRx();
 void uCli_Desktop_Screen();
 
 #endif // UCLI_H

@@ -65,6 +65,7 @@
 * \param Str:      The string
 */
 #define DECL_FLASH_STR2(StrName, Str)                        const char StrName [] PROGMEM =  Str
+DECL_FLASH_STR2(Str_CRLF,        "\r\n"); // used everywhere
 
 /**
 * \file  misclib.h

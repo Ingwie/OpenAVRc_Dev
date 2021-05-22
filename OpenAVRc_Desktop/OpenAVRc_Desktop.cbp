@@ -72,7 +72,10 @@
 			<Add option="-m32" />
 			<Add option="-mthreads" />
 		</Linker>
-		<Unit filename="../OpenAVRc/thirdparty/xmodem/xmodem.cpp" />
+		<Unit filename="../OpenAVRc/thirdparty/xmodem/xmodem.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="../OpenAVRc/uCli.h" />
 		<Unit filename="BluetoothFrame.cpp" />
 		<Unit filename="BluetoothFrame.h" />

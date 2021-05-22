@@ -54,33 +54,30 @@ const pm_char STR_BTACTIVE[] PROGMEM = TR_ACTIVED;
 
 void loadDataFromModule()
 {
- if (g_eeGeneral.BT.Power)
+ ReBuff.bluetooth.firstMenuRun = 0;
+ BT_Wait_Screen();
+ bluetooth_AtCmdMode(ON);
+
+ IF_NO_ERROR(bluetooth_getName(ReBuff.bluetooth.name_str, sizeof(ReBuff.bluetooth.name_str), BT_GET_TIMEOUT_MS))
+ {
+  str2zchar(ReBuff.bluetooth.name_zchar, ReBuff.bluetooth.name_str, sizeof(ReBuff.bluetooth.name_zchar));
+
+  IF_NO_ERROR(bluetooth_getPswd(ReBuff.bluetooth.pin_str, sizeof(ReBuff.bluetooth.pin_str), BT_GET_TIMEOUT_MS))
   {
-   ReBuff.bluetooth.firstMenuRun = 0;
-   BT_Wait_Screen();
-   bluetooth_AtCmdMode(ON);
+   str2zchar(ReBuff.bluetooth.pin_zchar, ReBuff.bluetooth.pin_str, sizeof(ReBuff.bluetooth.pin_zchar));
 
-   IF_NO_ERROR(bluetooth_getName(ReBuff.bluetooth.name_str, sizeof(ReBuff.bluetooth.name_str), BT_GET_TIMEOUT_MS))
-   {
-    str2zchar(ReBuff.bluetooth.name_zchar, ReBuff.bluetooth.name_str, sizeof(ReBuff.bluetooth.name_zchar));
-
-    IF_NO_ERROR(bluetooth_getPswd(ReBuff.bluetooth.pin_str, sizeof(ReBuff.bluetooth.pin_str), BT_GET_TIMEOUT_MS))
+   for (uint8_t i=0; i < 5 ; ++i)
     {
-     str2zchar(ReBuff.bluetooth.pin_zchar, ReBuff.bluetooth.pin_str, sizeof(ReBuff.bluetooth.pin_zchar));
-
-     for (uint8_t i=0; i < 5 ; ++i)
-      {
-       IF_NO_ERROR(bluetooth_getRemoteName(g_eeGeneral.BT.Peer.Mac, ReBuff.bluetooth.peer_name_str, sizeof(ReBuff.bluetooth.peer_name_str), BT_READ_RNAME_TIMEOUT_MS));
-       {
-        //success -> Remote is present !
-        break;
-       }
-      }
-     ReBuff.bluetooth.firstMenuRun = 1; // consider OK remote name is not "strategic"
+     IF_NO_ERROR(bluetooth_getRemoteName(g_eeGeneral.BT.Peer.Mac, ReBuff.bluetooth.peer_name_str, sizeof(ReBuff.bluetooth.peer_name_str), BT_READ_RNAME_TIMEOUT_MS));
+     {
+      //success -> Remote is present !
+      break;
+     }
     }
-   }
-  bluetooth_AtCmdMode(OFF);
+   ReBuff.bluetooth.firstMenuRun = 1; // consider OK remote name is not "strategic"
   }
+ }
+ bluetooth_AtCmdMode(OFF);
 }
 
 void writeDataToModule(uint8_t choice)
@@ -155,7 +152,10 @@ void menuGeneralBluetooth(uint8_t event)
 {
  if (g_eeGeneral.BT.Power)
   {
-   for(uint8_t i = 0; i < 3 ; ++i)
+   BT_KEY_ON();
+   if (BT_POWER_IS_ON())
+   {
+      for(uint8_t i = 0; i < 3 ; ++i)
     {
      if (!ReBuff.bluetooth.firstMenuRun)
       {
@@ -167,6 +167,8 @@ void menuGeneralBluetooth(uint8_t event)
       }
     }
    if (!ReBuff.bluetooth.firstMenuRun) POPUP_WARNING(STR_NOBLUETOOTH);
+      }
+
    ReBuff.bluetooth.firstMenuRun = 1;
   }
 
@@ -188,7 +190,7 @@ void menuGeneralBluetooth(uint8_t event)
     }
    popupMenuHandler = onPairSelected; // Selection is done in popup -> Call onPairSelected
   }
-  bluetooth_AtCmdMode(OFF);
+ bluetooth_AtCmdMode(OFF);
 
  uint8_t addExt = 0; // used to add _M or _S
  coord_t y = MENU_HEADER_HEIGHT + 1;

@@ -34,7 +34,7 @@
 #ifndef _FIFO_H_
 #define _FIFO_H_
 
-template <int8_t N>
+template <uint8_t N>
 class Fifo
 {
 public:
@@ -46,8 +46,7 @@ public:
 
  void push(uint8_t byte)
  {
-  uint8_t next = (w_idx <= (N-1))? (w_idx+1) : 0;
-  //uint8_t next = (w_idx+1) & (N-1); //optimised for N is power of 2
+  uint8_t next = nextFifoIndex(w_idx);
   if (next != r_idx)
    {
     buffer[w_idx] = byte;
@@ -58,31 +57,36 @@ public:
  uint8_t pop() // call isEmpty() before use, no control here (Faster code)
  {
   uint8_t byte = buffer[r_idx];
-  r_idx = (r_idx <= (N-1))? (r_idx+1) : 0;
-  //r_idx = (r_idx+1) & (N-1); //optimised for N is power of 2
+  r_idx = nextFifoIndex(r_idx);
   return byte;
  }
 
- uint8_t isEmpty()
+ bool available()
  {
-  return (r_idx == w_idx);
+  return (r_idx != w_idx);
  }
 
- uint8_t isFull()
+ bool isFull()
  {
-  uint8_t next = (w_idx <= (N-1))? (w_idx+1) : 0;
-  //uint8_t next = (w_idx+1) & (N-1); //optimised for N is power of 2
+  uint8_t next = nextFifoIndex(w_idx);
   return (next == r_idx);
  }
 
  void flush()
  {
-  while (!isEmpty()) {};
+  r_idx = 0;
+  w_idx = 0;
  }
 
+protected:
  uint8_t buffer[N];
  volatile uint8_t w_idx;
  volatile uint8_t r_idx;
+
+ static inline uint8_t nextFifoIndex(const uint8_t idx)
+ {
+  return (idx == (N-1)) ? 0 : (idx + 1);
+ }
 };
 
 #endif // _FIFO_H_

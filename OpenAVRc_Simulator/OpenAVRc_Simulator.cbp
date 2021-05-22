@@ -313,13 +313,10 @@
 		</Linker>
 		<Unit filename="../OpenAVRc/OpenAVRc.cpp" />
 		<Unit filename="../OpenAVRc/OpenAVRc.h" />
-		<Unit filename="../OpenAVRc/Print.cpp" />
-		<Unit filename="../OpenAVRc/Print.h" />
 		<Unit filename="../OpenAVRc/Serial0.cpp" />
 		<Unit filename="../OpenAVRc/Serial0.h" />
 		<Unit filename="../OpenAVRc/Serial1.cpp" />
 		<Unit filename="../OpenAVRc/Serial1.h" />
-		<Unit filename="../OpenAVRc/Stream.h" />
 		<Unit filename="../OpenAVRc/Xany.cpp" />
 		<Unit filename="../OpenAVRc/Xany.h" />
 		<Unit filename="../OpenAVRc/adc_driver.cpp" />

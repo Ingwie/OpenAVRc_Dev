@@ -275,3 +275,9 @@ uint16_t Tserial::write(const uint8_t * buffer, uint16_t len)
   WriteFile(serial_handle, (const char *)buffer, (int)len, &result, NULL);
  return (uint16_t)result;
 }
+
+void Tserial::flush()
+{
+ char trash[128];
+ getArray(trash,(getNbrOfBytes() > 128 ? 128 : getNbrOfBytes()));  // flush buffer
+}

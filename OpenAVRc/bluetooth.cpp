@@ -30,9 +30,7 @@
  **************************************************************************
 */
 
-#include "bluetooth.h"
 #include "OpenAVRc.h"
-
 
 #define BT_SEND_AT_SEQ(AtCmdInit)  btSendAtSeq((const AtCmdSt_t*)&AtCmdInit, TBL_ITEM_NB(AtCmdInit))
 
@@ -42,10 +40,10 @@ enum {BT_GET = 0, BT_SET, BT_CMD};
 DECL_FLASH_STR2(Str_BT_Slave,    "_S");
 DECL_FLASH_STR2(Str_BT_Master,   "_M");
 
-DECL_FLASH_STR2(Str_CRLF,        "\r\n");
 DECL_FLASH_STR2(Str_OK_CRLF,     "OK\r\n");
 DECL_FLASH_STR2(Str_CRLF_OK_CRLF,"\r\nOK\r\n");
 
+DECL_FLASH_STR2(Str_ATPref,      "AT");    // AT prefix command
 DECL_FLASH_STR2(Str_AT,          "");      // Simple AT command
 DECL_FLASH_STR2(Str_STATE,       "STATE"); // BT Status
 DECL_FLASH_STR2(Str_PSWD,        "PSWD");  // BT Password (PIN)
@@ -103,7 +101,6 @@ typedef struct{
 }AtCmdSt_t;
 
 /* PRIVATE FUNCTION PROTOTYPES */
-//static void    rebootBT(uint8_t Yield = 1);
 static uint8_t getAtCmdIdx(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
 static char   *getAtCmd(uint8_t Idx, char *Buf);
 static uint8_t getAtMatchLen(const AtCmdSt_t *AtCmdTbl, uint8_t Idx);
@@ -122,7 +119,6 @@ static void    cmodeSet(char* Addon);
 static void    inqmSet(char* Addon);
 static void    ipscanSet(char* Addon);
 static void    iacSet(char* Addon);
-//static void    nameSet(char* Addon);
 
 static int8_t  getBtStateIdx(const char *BtState);
 static int8_t  clearPairedList(uint16_t TimeoutMs);
@@ -165,10 +161,10 @@ DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
 /* PUBLIC FUNTIONS */
 /**
  * \file  bluetooth.cpp
- * \fn void bluetooth_init(HwSerial *Serial1)
+ * \fn void bluetooth_init(HwSerial *BT_Serial)
  * \brief Bluetooth initilization
  *
- * \param  Void (Use Serial1).
+ * \param  Void (Use BT_Serial).
  * \return Void.
  */
 void bluetooth_init()
@@ -180,26 +176,26 @@ void bluetooth_init()
 
  if (!g_eeGeneral.BT.Power)
   {
-   bluetooth_power(OFF);
+   BT_POWER_OFF();
   }
  else
   {
-   Serial1.println(); // After uCli
+   BT_Ser_Println(); // After uCli
    BT_Wait_Screen();
    rebootBT(); // EN is ON
 
    for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
     {
-     Serial1.init(RateTbl[Idx]);
-     uCliFlushRx();
-     Serial1.println(F("AT"));
+     BT_Ser_Init(Idx);
+     BT_Ser_flushRX();
+     BT_Ser_Println(Str_ATPref);
      if((waitForResp(RespBuf, sizeof(RespBuf), Str_CRLF, BT_SET_TIMEOUT_MS*4)) >= 0) // V3 HC05 need 2 second to anwser to the first AT !!
       {
        /* OK Uart serial rate found */
        if(Idx)
         {
          sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0"), RateTbl[0]);
-         Serial1.println(UartAtCmd);
+         BT_Ser_Println(UartAtCmd);
          if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, BT_SET_TIMEOUT_MS*4)) >= 0)
           {
            /* Should be OK */
@@ -214,7 +210,7 @@ void bluetooth_init()
       }
     }
    /* Switch Serial to Rate = 115200 */
-   Serial1.init(RateTbl[0]);
+   BT_Ser_Init(0);
    BT_SEND_AT_SEQ(AtCmdBtInit); // Common to Master and Slave
    if(g_eeGeneral.BT.Master)
     {
@@ -228,36 +224,18 @@ void bluetooth_init()
   bluetooth_AtCmdMode(OFF);
 }
 
-/**
- * \file  bluetooth.cpp
- * \fn void bluetooth_power(uint8_t On)
- * \brief Switch ON or OFF the BT module
- *
- * \param  On: 0 -> Switch OFF the BT module, 1 -> Switch ON the BT module
- * \return Void.
- */
-void bluetooth_power(uint8_t On)
-{
-  On? BT_POWER_ON() : BT_POWER_OFF();
-}
-
-void bluetooth_AtCmdMode(uint8_t On, uint8_t Yield /* = 1*/) // TODO use all the time yield
+void bluetooth_AtCmdMode(uint8_t On)
 {
   uint16_t StartDurationMs;
 
+  BT_Ser_flushRX();
   if(On)
   {
-    uCliFlushRx();
     BT_KEY_ON();
-    if(Yield)
-    {
-      YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_AT_WAKE_UP_MS);
-    }
-    else _delay_ms(BT_AT_WAKE_UP_MS);
+    YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_AT_WAKE_UP_MS);
   }
   else
   {
-    uCliFlushRx();
     BT_KEY_OFF();
   }
 }
@@ -352,9 +330,9 @@ int8_t bluetooth_getPswd(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutM
 int8_t bluetooth_setPswd(char *BtPswd, uint16_t TimeoutMs)
 {
   char RespBuf[10];
-  char CmdBtPswd[20];
+  char CmdBtPswd[7];
 
-  snprintf(CmdBtPswd, 20, "\"%s\"", BtPswd); // Add double quotes
+  snprintf_P(CmdBtPswd, 20, PSTR("\"%s\""), BtPswd); // Add double quotes
 
   return(sendAtCmdAndWaitForResp(AT_PSWD, BT_SET, CmdBtPswd, RespBuf, sizeof(RespBuf), 0, 0, Str_OK_CRLF, TimeoutMs));
 }
@@ -486,37 +464,22 @@ int8_t bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs)
 
 /**
  * \file  bluetooth.cpp
- * \fn    void rebootBT(uint8_t Yield = 1)
+ * \fn    void rebootBT()
  * \brief Reboot the BT module (Needed to take some parameters into account)
  *
- * \param  Yield: 0 -> blocking delay, 1 -> Yield to prio task list (default value)
  * \return Void.
  */
-void rebootBT(uint8_t Yield /* = 1 */) // TODO use all the time yield
+void rebootBT()
 {
   uint16_t StartDurationMs;
 
   bluetooth_AtCmdMode(BT_REBOOT_DATA_MODE); // Set KEY pin to 0
-  bluetooth_power(OFF);
-  if(Yield)
-  {
-    YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_POWER_ON_OFF_MS);
-  }
-  else _delay_ms(BT_POWER_ON_OFF_MS);
-
-  if(Yield)
-  {
-    YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_POWER_ON_OFF_MS);
-  }
-  else _delay_ms(BT_POWER_ON_OFF_MS);
-  bluetooth_power(ON);
-  if(Yield)
-  {
-    YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_WAKE_UP_MS);
-  }
-  else _delay_ms(BT_WAKE_UP_MS);
+  BT_POWER_OFF();
+  YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_POWER_ON_OFF_MS);
+  BT_POWER_ON();
+  YIELD_TO_TASK_FOR_MS(PRIO_TASK_LIST(), StartDurationMs, BT_WAKE_UP_MS);
    // Switch to AT Mode
-   bluetooth_AtCmdMode(ON);
+  bluetooth_AtCmdMode(ON);
 }
 
 static uint8_t buildMacBin(char *MacStr, uint8_t *MacBin)
@@ -597,20 +560,20 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   uint16_t Start10MsTick, Timeout10msTick;
   int8_t  Ret = -1;
 
-  uCliFlushRx();
+  BT_Ser_flushRX();
   RespBuf[0] = 0; /* End of String */
-  Serial1.print(F("AT"));
+  BT_Ser_Print(Str_ATPref);
   if(AtCmdIdx != AT_AT)
   {
-    Serial1.print(F("+"));
-    Serial1.print(getAtCmd(AtCmdIdx, AtCmd));
-    if(BtOp != BT_CMD) Serial1.print((BtOp == BT_GET)? F("?"): F("="));
+    BT_Ser_Print(PSTR("+"));
+    BT_Ser_Print(getAtCmd(AtCmdIdx, AtCmd));
+    if(BtOp != BT_CMD) BT_Ser_Print((BtOp == BT_GET)? '?': '=');
   }
   if(AtCmdArg)
   {
-    Serial1.print(AtCmdArg);
+    BT_Ser_Print(AtCmdArg);
   }
-  Serial1.println();
+  BT_Ser_Println();
   Start10MsTick = GET_10MS_TICK();
   /* Now, check expected header is received */
   if((AtCmdIdx != AT_AT) && (BtOp == BT_GET))
@@ -619,9 +582,9 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
     while((GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(TimeoutMs))
     {
       YIELD_TO_TASK(PRIO_TASK_LIST());
-      if(Serial1.available())
+      if (BT_RX_Fifo.available())
       {
-        RxChar = Serial1.read();
+        RxChar = BT_RX_Fifo.pop();
         if(RxChar == '+') break;
       }
     }
@@ -631,9 +594,9 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
     while((RxIdx < MatchLen) && ((GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(TimeoutMs)))
     {
       YIELD_TO_TASK(PRIO_TASK_LIST());
-      if(Serial1.available())
+      if (BT_RX_Fifo.available())
       {
-        RxChar = Serial1.read();
+        RxChar = BT_RX_Fifo.pop();
         if(RxChar == AtCmd[RxIdx])
         {
           RxIdx++;
@@ -648,9 +611,9 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
     while((RxIdx < SkipLen) && (GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(TimeoutMs))
     {
       YIELD_TO_TASK(PRIO_TASK_LIST());
-      if(Serial1.available())
+      if (BT_RX_Fifo.available())
       {
-        RxChar = Serial1.read();
+        RxChar = BT_RX_Fifo.pop();
         RxIdx++;
       }
     }
@@ -713,9 +676,9 @@ static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, const char *Term
   do
   {
     YIELD_TO_TASK(PRIO_TASK_LIST());
-    if(Serial1.available())
+    if (BT_RX_Fifo.available())
     {
-      RxChar = Serial1.read();
+      RxChar = BT_RX_Fifo.pop();
       if(!TPidx)
       {
         /* No match caugth yet */
@@ -882,11 +845,11 @@ void BT_Send_Channels()
  char txt;
  uint8_t ComputedCheckSum = 0;
 
- Serial1.print(F("tf "));
+ BT_Ser_Print(PSTR("tf "));
 
  for(uint8_t Idx = 0; Idx < NUM_TRAINER; Idx++)
   {
-   Serial1.print('s');
+   BT_Ser_Print('s');
    int16_t value = (FULL_CHANNEL_OUTPUTS(Idx))/2; // +-1280 to +-640
    value += PPM_CENTER; // + 1500 offset
    ComputedCheckSum ^= 's';
@@ -895,15 +858,14 @@ void BT_Send_Channels()
     {
      txt = BIN_NBL_TO_HEX_DIGIT((value>>j) & 0x0F);
      ComputedCheckSum ^= txt;
-     Serial1.print(txt);
+     BT_Ser_Print(txt);
     }
   }
-
- Serial1.print(':');
+ BT_Ser_Print(':');
  txt = BIN_NBL_TO_HEX_DIGIT(ComputedCheckSum>>4 & 0x0F);
- Serial1.print(txt);
+ BT_Ser_Print(txt);
  txt = BIN_NBL_TO_HEX_DIGIT(ComputedCheckSum & 0x0F);
- Serial1.println(txt);
+ BT_Ser_Println(txt);
 }
 
 const pm_uchar zz_bt[] PROGMEM =

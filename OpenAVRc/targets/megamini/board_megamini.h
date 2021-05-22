@@ -129,9 +129,11 @@ void readKeysAndTrims();
 #ifdef DIRECTBTWIRES
 #define BT_POWER_ON()             (PORTG |=  OUT_G_BT_ONOFF)
 #define BT_POWER_OFF()            (PORTG &= ~OUT_G_BT_ONOFF)
+#define BT_POWER_IS_ON()          (PORTG & OUT_G_BT_ONOFF)
 #else
 #define BT_POWER_ON()             (PORTG &= ~OUT_G_BT_ONOFF)
 #define BT_POWER_OFF()            (PORTG |=  OUT_G_BT_ONOFF)
+#define BT_POWER_IS_ON()          (~PORTG & OUT_G_BT_ONOFF)
 #endif
 // Servitudes driver
 #define INP_D_PPM_IN              4    // ICP1

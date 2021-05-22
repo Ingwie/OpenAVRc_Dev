@@ -911,7 +911,7 @@ void OpenAVRc_SimulatorFrame::PlayTts()
 
   if (Mp3process->Exists(pid)) return;
 
-  if (!(JQ6500_Fifo.isEmpty())) {
+  if (JQ6500_Fifo.available()) {
     uint16_t prompt;
     prompt = JQ6500_Fifo.pop();
     prompt <<= 8;
@@ -3306,7 +3306,7 @@ void OpenAVRc_SimulatorFrame::EnableuCliMenu()
   MenuFrame->Enable(ID_MENUITEMUCLI, true);
 }
 
-void OpenAVRc_SimulatorFrame::SendHwSByteToCliFrame(uint8_t c)
+void OpenAVRc_SimulatorFrame::SendBtSerTxBufferToCliFrame(uint8_t c)
 {
   if(uCliFr)
     uCliFr->HwSerialByte(c);

@@ -77,9 +77,9 @@ uCliFrame::uCliFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
 
   //BT
   BTComPort = new Tserial();
-  char BTComNum[5] = {'C','O','M','6',0};
+  char BTComNum[5] = {'C','O','M','1',0};
   assert(BTComPort);
-  //SimuBTComIsValid = (BTComPort->connect(BTComNum, 115200, spNONE) == 0);
+  SimuBTComIsValid = (BTComPort->connect(BTComNum, 115200, spNONE) == 0);
 }
 
 uCliFrame::~uCliFrame()
@@ -89,7 +89,7 @@ uCliFrame::~uCliFrame()
   if (BTComPort != NULL) delete BTComPort;
 }
 
-void uCliFrame::SendToHwSerial()
+void uCliFrame::SendToBtSerial()
 {
   int pos = TextCtrl->GetNumberOfLines();
   wxString txt = TextCtrl->GetLineText(pos-1);
@@ -100,12 +100,12 @@ void uCliFrame::SendToHwSerial()
   for (int i=0; i < txt.length(); i++)
   {
     simu_udr1 = cstring[i];
-    Serial1._rx_complete_irq();
+    USART_RX_vect_N(TLM_USART1)();
   }
   simu_udr1 = '\r';
-  Serial1._rx_complete_irq();
+  USART_RX_vect_N(TLM_USART1)();
   simu_udr1 = '\n';
-  Serial1._rx_complete_irq();
+  USART_RX_vect_N(TLM_USART1)();
   TextCtrl->AppendText("\n");
   wxYieldIfNeeded();
 }
@@ -121,9 +121,9 @@ void uCliFrame::OnClose(wxCloseEvent& event)
 void uCliFrame::HwSerialByte(uint8_t c)
 {
 #define SEND()\
-    SendToHwSerial();\
+    SendToBtSerial();\
     TextCtrl->WriteText("OK");\
-    SendToHwSerial()
+    SendToBtSerial()
 
   wxColor color;
   wxString inputValue = "";
@@ -149,10 +149,10 @@ void uCliFrame::HwSerialByte(uint8_t c)
    if (cmd == "tf s3DCs5E4s5E6s5C5s5EBs5D1s61Ds5DC:76")
     {
      TextCtrl->WriteText("tf s3DCs5E4s5E6s5C5s5EBs5D1s61Ds5DC:76");
-     SendToHwSerial();
+     SendToBtSerial();
     }
   }*/
- if ((c == '\n') && (SimuBTComIsValid) && (!(simu_portb & OUT_B_BT_KEY)))
+ if ((c == '\n') && (SimuBTComIsValid) && BT_POWER_IS_ON())
   {
    wxString cmda = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
    int16_t l = cmda.length();
@@ -175,7 +175,7 @@ void uCliFrame::HwSerialByte(uint8_t c)
           || (cmd == "AT+RMAAD") || (cmd == "AT+INIT") || (cmd == "AT+RESET") || (cmd == "AT+INQC") || (cmd == "AT+IAC=0x9E8B33"))
         {
           TextCtrl->WriteText("OK");
-          SendToHwSerial();
+          SendToBtSerial();
         }
       else if (cmd == "AT+NAME?")
         {
@@ -206,29 +206,29 @@ void uCliFrame::HwSerialByte(uint8_t c)
       else if (cmd == "AT+INQ")
         {
           TextCtrl->WriteText("+INQ:1234:56:789ABC,1C010C,7FFF");
-          SendToHwSerial();
+          SendToBtSerial();
           TextCtrl->WriteText("+INQ:EFCB,AA,123456,1C010C,7FFF");
-          SendToHwSerial();
+          SendToBtSerial();
           TextCtrl->WriteText("+INQ:1AB,22,00777,1C010C,7FFF");
           SEND();
         }
       else if ((cmd == "AT+LINK=1234,56,789ABC") || (cmd == "AT+LINK=EFCB,AA,123456") || (cmd == "AT+LINK=01AB,22,000777"))
         {
           TextCtrl->WriteText("OK");
-          SendToHwSerial();
+          SendToBtSerial();
         }
       else if (cmd.StartsWith(("AT+NAME="), &inputValue))
         {
           BtSimuName = inputValue;
           TextCtrl->WriteText("OK");
-          SendToHwSerial();
+          SendToBtSerial();
           Ini_Changed = true;
         }
       else if (cmd.StartsWith(("AT+PSWD=\""), &inputValue))
         {
           BtSimuPin = inputValue.Left(4);
           TextCtrl->WriteText("OK");
-          SendToHwSerial();
+          SendToBtSerial();
           Ini_Changed = true;
         }
     }
@@ -236,7 +236,7 @@ void uCliFrame::HwSerialByte(uint8_t c)
 
 void uCliFrame::OnTextCtrlTextEnter(wxCommandEvent& event)
 {
-  SendToHwSerial();
+  SendToBtSerial();
 }
 
 void uCliFrame::OnTimerBTRXTrigger(wxTimerEvent& event)
@@ -253,7 +253,7 @@ void uCliFrame::OnTimerBTRXTrigger(wxTimerEvent& event)
      for (int i=0; i <= Num; i++)
       {
        simu_udr1 = buffer[i];
-       Serial1._rx_complete_irq();
+       USART_RX_vect_N(TLM_USART1)();
        wxYieldIfNeeded();
        //HwSerialByte(buffer[i]);
       }

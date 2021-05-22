@@ -35,10 +35,9 @@
 #define simu_interface_h
 
 #include <stdbool.h>
+#include <stdio.h>
 #include <inttypes.h>
 #include <assert.h>
-
-#include "../../spi.h"
 
 typedef const unsigned char pm_uchar;
 typedef const char pm_char;
@@ -46,7 +45,6 @@ typedef const uint16_t pm_uint16_t;
 typedef const uint8_t pm_uint8_t;
 typedef const int16_t pm_int16_t;
 typedef const int8_t pm_int8_t;
-
 
 #define REG8 uint8_t
 #define REG16 uint16_t
@@ -68,12 +66,12 @@ extern void adaptSimuProtocolNumToTx();
 #define partition_close(x);
 
 // Hwserial
-extern void SendHwSByte(uint8_t c);
+extern void SendBtSerTxBuffer(uint8_t c);
 
 struct sd_raw_info
 {
-  uint8_t manufacturing_year;
-  uint32_t capacity;
+ uint8_t manufacturing_year;
+ uint32_t capacity;
 };
 
 extern uint8_t sd_raw_read,sd_raw_read_interval,sd_raw_write,sd_raw_write_interval;
@@ -84,26 +82,26 @@ struct partition_struct
 
 struct fat_fs_struct
 {
-  uint8_t* partition;
+ uint8_t* partition;
 };
 
 struct fat_dir_entry_struct
 {
-  char long_name[32];
-  uint8_t attributes;
-  uint32_t file_size;
+ char long_name[32];
+ uint8_t attributes;
+ uint32_t file_size;
 };
 
 struct fat_file_struct
 {
-  struct fat_fs_struct* fs;
-  struct fat_dir_entry_struct dir_entry;
+ struct fat_fs_struct* fs;
+ struct fat_dir_entry_struct dir_entry;
 };
 
 struct fat_dir_struct
 {
-  struct fat_fs_struct* fs;
-  struct fat_dir_entry_struct dir_entry;
+ struct fat_fs_struct* fs;
+ struct fat_dir_entry_struct dir_entry;
 };
 
 extern void sd_raw_get_info(struct sd_raw_info*);
@@ -931,7 +929,7 @@ extern REG8 simu_SREG_I;
 #undef FORCEINLINE
 #define FORCEINLINE
 #if !defined(NOINLINE)
-  #define NOINLINE
+ #define NOINLINE
 #endif
 #define F_CPU 16000000UL  // 16 MHz ... Should be defined in makefile.
 #define TRACE(...) simuTrace(__VA_ARGS__)
@@ -952,6 +950,7 @@ extern REG8 simu_SREG_I;
 #define srandom(x) srand(x)
 #define random() rand()
 #define sprintf_P sprintf
+#define snprintf_P snprintf
 #define MKTIME mktime
 #define _NOP()
 
@@ -962,5 +961,11 @@ extern  void SimuMainLoop();
 extern  void shutDownSimu();
 extern  void simu_EditModelName();
 extern  void EE_READY_vect();
+
+#include "../../spi.h"
+#include "../../Serial1.h"
+#include "../../uCli.h"
+#include "../../bluetooth.h"
+#include "../../thirdparty/xmodem/xmodem.h"
 
 #endif

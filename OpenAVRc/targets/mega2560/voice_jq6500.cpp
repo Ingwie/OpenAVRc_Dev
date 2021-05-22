@@ -79,7 +79,7 @@ void pushPrompt(uint16_t prompt)
 void JQ6500Check()
 {
 #if !defined(SIMU)
-  if (JQ6500_Fifo.isEmpty()) return; // Nothing to play, return ...
+  if (!JQ6500_Fifo.available()) return; // Nothing to play, return ...
 
   if (JQ6500_BUSY) {JQstate = WAIT1LOOP; return;}    // Wait first 10mS after JQ "is buzy"
 

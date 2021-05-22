@@ -673,12 +673,12 @@ static void displayStatus(uint8_t From /*= 0*/)
     {
       Tdbg.stream->print(Idx + 1);
       BpMsk = 0xFFFF << (Idx + 1);
-      if(Tdbg.ArmedBreakPointMap & BpMsk) Tdbg.stream->print(F(", "));
+      if(Tdbg.ArmedBreakPointMap & BpMsk) Tdbg.stream->print(PSTR(", "));
     }
     else DisabledBreakPointNb++;
   }
   if(DisabledBreakPointNb >= TDBG_MAX_BREAKPOINTS) TinyDbg_Printf(BP_NONE);
-  Tdbg.stream->print(F("]"));
+  Tdbg.stream->print(PSTR("]"));
 
   if((From == ST_FROM_BREAK) || (From == ST_FROM_DB) || Tdbg.Stopped)
   {
@@ -711,7 +711,7 @@ static void displayWatchVariable(char *tmpbuf, int8_t WatchIdx /*= -1*/)
   uint16_t Word, Len;
   uint32_t Dword;
   float    Float;
-  
+
   if(WatchIdx < 0)
   {
     /* Display all the declared variables */
@@ -763,7 +763,7 @@ static void displayWatchVariable(char *tmpbuf, int8_t WatchIdx /*= -1*/)
           DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("'%c'"), ((Byte >= ' ') && (Byte < 127))? Byte: '.');
         }
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
-        Tdbg.stream->print(F("0b"));
+        Tdbg.stream->print(PSTR("0b"));
         printByteBin(Tdbg.stream, Byte);
         continue;
 
@@ -782,7 +782,7 @@ static void displayWatchVariable(char *tmpbuf, int8_t WatchIdx /*= -1*/)
         DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("0x%04X"), Word);
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
         Word = htons(Word);
-        Tdbg.stream->print(F("0b"));
+        Tdbg.stream->print(PSTR("0b"));
         printBin(Tdbg.stream, (uint8_t*)&Word, 2);
         continue;
 
@@ -801,7 +801,7 @@ static void displayWatchVariable(char *tmpbuf, int8_t WatchIdx /*= -1*/)
         DispLen = TDBG_THIRD_VAL_COL_POS + TinyDbg_Printf(PSTR("0x%08lX"), Dword);
         if(DispLen < TDBG_FOURTH_VAL_COL_POS) displaySpace(TDBG_FOURTH_VAL_COL_POS - DispLen);
         Dword = htonl(Dword);
-        Tdbg.stream->print(F("0b"));
+        Tdbg.stream->print(PSTR("0b"));
         printBin(Tdbg.stream, (uint8_t*)&Dword, 4);
         continue;
 
@@ -814,7 +814,7 @@ static void displayWatchVariable(char *tmpbuf, int8_t WatchIdx /*= -1*/)
 
         case TDBG_VAR_STRING:
         Len = strlen((char*)Address);
-        Tdbg.stream->print(F("'"));
+        Tdbg.stream->print(PSTR("'"));
         Tdbg.stream->write((char*)Address, Len); /* String may be longer than buffer size -> use write(buf, len) */
         TinyDbg_Printf(PSTR("' (Len = %u)"), Len);
         continue;
@@ -835,7 +835,7 @@ static int8_t modifyWatchVariable(char *Cmd)
   void    *Address;
   uint8_t  Ovf = 0;
   int8_t   VarIdx = -1;
-  
+
   if((Cmd[0] == 'V') && (Cmd[3] == '='))
   {
     VarId = (10 * (Cmd[1] - '0')) + (Cmd[2] - '0');
@@ -849,44 +849,44 @@ static int8_t modifyWatchVariable(char *Cmd)
         case TDBG_VAR_CHAR:
         *(char*)Address = Arg[0];
         break;
-        
+
         case TDBG_VAR_UINT8:
         Ovf = (Val < 0) || (Val > 255);
         if(!Ovf) *(uint8_t*)Address = (uint8_t)(Val & 0xFF);
         break;
-        
+
         case TDBG_VAR_INT8:
         Ovf = (Val < -128) || (Val > 127);
         if(!Ovf) *(int8_t*)Address = (int8_t)(Val & 0xFF);
         break;
-        
+
         case TDBG_VAR_UINT16:
         Ovf = (Val < 0) || (Val > 65535);
         if(!Ovf) *(uint16_t*)Address = (uint16_t)(Val & 0xFFFF);
         break;
-        
+
         case TDBG_VAR_INT16:
         Ovf = (Val < -32768) || (Val > 32767);
         if(!Ovf) *(int16_t*)Address = (int16_t)(Val & 0xFFFF);
         break;
-        
+
         case TDBG_VAR_UINT32:
         Ovf = (Arg[0] == '-');
         if(!Ovf) *(uint32_t*)Address = (uint32_t)Val; /* TO DO Manage overflow for big positive values! */
         break;
-        
+
         case TDBG_VAR_INT32:
         *(int32_t*)Address = (int32_t)Val; /* TO DO Manage overflow for big negative and positive values! */
         break;
-        
+
         case TDBG_VAR_FLOAT:
         *(float*)Address = atof(Arg);
         break;
-        
+
         case TDBG_VAR_STRING:
         strcpy((char*)Address, Arg);
         break;
-        
+
       }
       VarIdx = Ovf? -1: VarId - 1;
     }
@@ -912,7 +912,7 @@ static void printByteBin(Stream *stream, uint8_t Byte, uint8_t RemainingNibble/*
     if(Idx == 3)
     {
       if(RemainingNibble) break;
-      stream->print(F("."));
+      stream->print(PSTR("."));
     }
   }
 }
@@ -932,12 +932,12 @@ static void printBin(Stream *stream, uint8_t *Buf, uint8_t BufSize, uint8_t Rema
   uint8_t ByteIdx;
   for(ByteIdx =0; ByteIdx < BufSize; ByteIdx++)
   {
-    if(ByteIdx) stream->print(F("."));
+    if(ByteIdx) stream->print(PSTR("."));
     printByteBin(stream, Buf[ByteIdx]);
   }
   if(RemainingNibble)
   {
-    stream->print(F("."));
+    stream->print(PSTR("."));
     printByteBin(stream, Buf[ByteIdx], RemainingNibble);
   }
 }

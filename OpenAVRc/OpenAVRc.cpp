@@ -1497,16 +1497,16 @@ void OpenAVRcInit(uint8_t mcusr)
   eeReadAll();
 
 #if defined(U_CLI) || defined(TINY_DBG_UART_BT)
-  Serial1.init(115200);
+  USART_SET_BAUD_115K2(TLM_USART1);
 #endif
 #if defined(U_CLI)
   uCli_init();
 #if defined(TINY_DBG_UART_BT)
-  TinyDbg_init(&Serial1, UCLI_PROMPT); // PrePrompt!
+  TinyDbg_init(&BT_Serial, UCLI_PROMPT); // PrePrompt!
 #endif
 #else
 #if defined(TINY_DBG_UART_BT)
-  TinyDbg_init(&Serial1);
+  TinyDbg_init(&BT_Serial);
 #endif
 #endif
 
@@ -1533,7 +1533,7 @@ void OpenAVRcInit(uint8_t mcusr)
     }
 
 #if defined(U_CLI)
-  Serial1.println(F("\nWelcome to OpenAVRc V3.0 !"));
+  BT_Ser_Println(PSTR("Welcome to OpenAVRc V3.0 !"));
 #endif
 
   if (!g_eeGeneral.unexpectedShutdown) {

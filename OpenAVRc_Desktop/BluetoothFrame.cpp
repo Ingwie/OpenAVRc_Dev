@@ -35,6 +35,7 @@
 
 #include "BluetoothFrame.h"
 #include "OpenAVRc_DesktopMain.h"
+#include "../OpenAVRc/thirdparty/xmodem/xmodem.cpp"
 
 #define SD_ROOT ("/")
 
@@ -48,6 +49,7 @@
 #define IS_SD_ROOT(x)       \
  (x == SD_ROOT) // x is a wxString
 
+Tserial *BTComPort;
 //popu menu ID
 enum MenuIDs {POPUP_ID_DELETE = wxID_HIGHEST + 1, POPUP_ID_CREATE_REPERTORY};
 
@@ -222,8 +224,7 @@ wxString BluetoothFrame::sendCmdAndWaitForResp(wxString BTcommand, wxString* BTa
 {
  if (comIsValid)
   {
-   char trash[128];
-   BTComPort->getArray(trash,(BTComPort->getNbrOfBytes() > 128 ? 128 : BTComPort->getNbrOfBytes()));  // flush buffer
+   BTComPort->flush();  // flush buffer
 
    int16_t l = BTcommand.length();
    if (l != 0)
@@ -462,7 +463,7 @@ void BluetoothFrame::HddToSdCpy(wxString dest, wxString file)
    wxString retVal = sendCmdAndWaitForResp(uCliCommand, &BTanwser);
    Sleep(200);
    Set_BluetoothFrame_Gauge_Pointer(Gauge);
-   int ret = XSend(BTComPort, file.c_str());
+   int ret = XSend(file.c_str());
    if (retVal == "-8") wxMessageBox(_("Le fichier existe déjà"));
    if (ret) wxMessageBox(wxString::Format(wxT("%i"),ret));
    Gauge->SetValue(0);
@@ -502,7 +503,7 @@ void BluetoothFrame::SDToHddCpy(wxString dest, wxString file)
     }
    dest += file.AfterLast('/');
    Set_BluetoothFrame_Gauge_Pointer(Gauge);
-   int ret = XReceive(BTComPort, dest.c_str());
+   int ret = XReceive(dest.c_str());
 //wxMessageBox(retVal);
    if (ret) wxMessageBox(wxString::Format(wxT("%i"),ret));
    Gauge->SetValue(0);

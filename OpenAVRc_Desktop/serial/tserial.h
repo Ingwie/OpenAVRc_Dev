@@ -76,6 +76,7 @@ public:
  char read();
  uint16_t write(char c);
  uint16_t write(const uint8_t * buffer, uint16_t len);
+ void flush();
 };
 /* -------------------------------------------------------------------- */
 

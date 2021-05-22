@@ -52,12 +52,12 @@
 #include <wx/timer.h>
 #include <wx/treectrl.h>
 //*)
+   extern Tserial *BTComPort;
 
 class BluetoothFrame: public wxFrame
 {
 	public:
 
-    Tserial *BTComPort;
 		BluetoothFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~BluetoothFrame();
     wxString GetFullPathTctrlItem(wxTreeItemId item);
@@ -160,6 +160,7 @@ private:
    BluetoothFrame * BluetoothFrame;
 };
 
+
 //////////// XMODEM /////////////
   int write_file(wxFile* fd, const uint8_t* buffer, int buffer_len);
   int seek_file(wxFile* fd, int32_t* offset, uint8_t whence = 0);
@@ -172,9 +173,8 @@ private:
  #ifndef PACK
   #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
  #endif
-
+#define HTONS(x)  __builtin_bswap16((uint16_t) (x))
 // Specific definitions
-#define SERIAL_TYPE                        Tserial *
 #define FILE_DESC                          wxFile *
 #define FILE_EXISTS(FullFileName)          FileExists((char *)FullFileName)
 #define FILE_OPEN_FOR_READ(FullFileName)   FileOpenForRead((char *)FullFileName)
@@ -185,6 +185,12 @@ private:
 #define FILE_SIZE(fd)                      fd->Length()
 #define FILE_CLOSE(fd)                     fd->Close()
 #define FILE_DELETE(FullFileName)          delete_file(( char *)FullFileName)
+
+#define BTRXFIFOAVAILABLE                  (BTComPort->available())
+#define BTRXFIFOPOP                        BTComPort->read()
+#define BTSERPRINT(x)                      BTComPort->write(x)
+#define BTSERPRINT2(x,y)                   BTComPort->write(x,y)
+#define BTSERFLUSHRX()                     BTComPort->flush()
 
 #define DELAY_MS(ms)                       wxMilliSleep(ms)
 #define GET_TICK()                         (uint16_t)(clock()/10)
@@ -202,7 +208,6 @@ PACK(typedef struct{
 
 typedef struct
 {
- SERIAL_TYPE ser;     ///< identifies the serial connection, data type is OS-dependent
  FILE_DESC   fd;      ///< identifies the file handle, data type is OS-dependent
  XModemCBufSt_t buf; ///< XMODEM CRC buffer
 } XModemSt_t;
@@ -212,8 +217,8 @@ union ReusableBuffer {
   int toto; // ;-)
 };
   extern ReusableBuffer ReBuff;
-  extern int8_t XReceive(SERIAL_TYPE pSer, const char *szFilename);
-  extern int8_t XSend(SERIAL_TYPE pSer, const char *szFilename);
+  extern int8_t XReceive(const char *szFilename);
+  extern int8_t XSend(const char *szFilename);
   extern void Set_BluetoothFrame_Gauge_Pointer(wxGauge* g);
 
 #endif

@@ -43,6 +43,8 @@
 
 #define wxDEFAULT_DIALOG_STYLE  (wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX)
 
+extern void USART_RX_vect_N(TLM_USART1)();
+
 class uCliFrame: public wxFrame
 {
 	public:
@@ -51,7 +53,7 @@ class uCliFrame: public wxFrame
 		virtual ~uCliFrame();
 
 		void HwSerialByte(uint8_t c);
-		void SendToHwSerial();
+		void SendToBtSerial();
 		wxString LastPrompt;
 
 		//(*Declarations(uCliFrame)

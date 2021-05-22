@@ -60,12 +60,16 @@
 
 #ifndef DESKTOP
  #ifdef SIMU
-  #include "xmodem.h"
   #include "../../OpenAVRc.h"
  #else
   #include "thirdparty/xmodem/xmodem.h"
   #include "uCli.h"
  #endif
+  #define BTRXFIFOAVAILABLE         BT_RX_Fifo.available()
+  #define BTRXFIFOPOP               BT_RX_Fifo.pop()
+  #define BTSERPRINT(x)             BT_Ser_Print(x)
+  #define BTSERPRINT2(x,y)          BT_Ser_Print(x,y)
+  #define BTSERFLUSHRX              BT_Ser_flushRX
 #else
  #include "../../../OpenAVRc_Desktop/OpenAVRc_DesktopApp.h"
  #include "../../../OpenAVRc_Desktop/OpenAVRc_DesktopMain.h"
@@ -96,35 +100,6 @@
   *
   * S.F.T. XMODEM library
 **/
-
-//char iBinaryTransfer = 0, iDisableRXOVER = 0;
-
-/** \ingroup xmodem_internal
-  * \brief Calculate checksum for XMODEM packet
-  *
-  * \param sVal An uint16_t integer to be made 'high endian' by flipping bytes (as needed)
-  * \return A (possibly) byte-flipped high-endian uint16_t integer
-  *
-  * This function assumes low-endian for Arduino, and performs a universal operation
-  * for 'indeterminate' architectures.
-**/
-static uint16_t my_htons(uint16_t sVal)
-{
- union
- {
-  uint8_t aVal[2];
-  uint16_t sVal;
- } a, b;
-
-// tweeked for size and speed.  enjoy.
-
- b.sVal = sVal;
-
- a.aVal[0] = b.aVal[1]; // no math involved, pre-optimized code
- a.aVal[1] = b.aVal[0];
-
- return a.sVal;
-}
 
 /** \ingroup xmodem_internal
   * \brief Calculate 16-bit CRC for XMODEM packet
@@ -165,7 +140,7 @@ uint16_t CalcCRC(const char *lpBuf, uint16_t cbBuf)
     }
   }
 
- return my_htons(wCRC);
+ return HTONS(wCRC);
 }
 
 /** \ingroup xmodem_internal
@@ -188,7 +163,6 @@ void GenerateSEQC(XModemCBufSt_t *pBuf, uint8_t bSeq)
 /** \ingroup xmodem_internal
   * \brief Get an XMODEM block from the serial device
   *
-  * \param ser A 'SERIAL_TYPE' identifier for the serial connection
   * \param pBuf A pointer to the buffer that receives the data
   * \param cbSize The number of bytes/chars to read
   * \return The number of bytes/chars read, 0 if timed out (no data), < 0 on error
@@ -203,7 +177,7 @@ void GenerateSEQC(XModemCBufSt_t *pBuf, uint8_t bSeq)
   * The default value of 3 seconds, extended to 10 seconds, allows a worst-case baud
   * rate of about 20. This should not pose a problem. If it does, edit the code.
 **/
-int16_t GetXmodemBlock(SERIAL_TYPE ser, char *pBuf, int16_t cbSize)
+int16_t GetXmodemBlock(char *pBuf, int16_t cbSize)
 {
  uint16_t ulCur, ulStart;
  int16_t  cb1;
@@ -228,9 +202,9 @@ int16_t GetXmodemBlock(SERIAL_TYPE ser, char *pBuf, int16_t cbSize)
    do
     {
      YIELD_TO_PRIO_TASK(); // Optionnal: calls non blocking tasks during the silence timeout (see xmodem[_cfg].h)
-     if(ser->available())
+     if (BTRXFIFOAVAILABLE)
       {
-       *p1 = (char)ser->read();
+       *p1 = (char)BTRXFIFOPOP;
        rx = 1;
        break; // OK, byte received within 3 seconds
       }
@@ -251,73 +225,28 @@ int16_t GetXmodemBlock(SERIAL_TYPE ser, char *pBuf, int16_t cbSize)
 /** \ingroup xmodem_internal
   * \brief Write a single character to the serial device
   *
-  * \param ser A 'SERIAL_TYPE' identifier for the serial connection
   * \param bVal The byte to send
-  * \return The number of bytes/chars written, or < 0 on error
   *
   * Call this function to write one byte of data to the serial port.  Typically
   * this is used to send things like an ACK or NAK byte.
 **/
-uint8_t WriteXmodemChar(SERIAL_TYPE ser, uint8_t bVal)
+void WriteXmodemChar(uint8_t bVal)
 {
- uint8_t iRval;
-
- iRval = ser->write(bVal);
-
- return iRval;
+ BTSERPRINT(bVal);
 }
 
 /** \ingroup xmodem_internal
   * \brief Send an XMODEM block via the serial device
   *
-  * \param ser A 'SERIAL_TYPE' identifier for the serial connection
   * \param pBuf A pointer to the buffer that receives the data
   * \param cbSize The number of bytes/chars to write
-  * \return The number of bytes/chars written, < 0 on error
   *
   * Call this function to write data via the serial port, specifying the number of
   * bytes to write.
 **/
-uint8_t WriteXmodemBlock(SERIAL_TYPE ser, const void *pBuf, uint8_t cbSize)
+void WriteXmodemBlock(const void *pBuf, uint8_t cbSize)
 {
- uint8_t iRval;
-
- iRval = ser->write((const uint8_t *)pBuf, cbSize);
-
- return iRval;
-}
-
-/** \ingroup xmodem_internal
-  * \brief Read all input from the serial port until there is 1 second of 'silence'
-  *
-  * \param ser A 'SERIAL_TYPE' identifier for the serial connection
-  *
-  * Call this function to read ALL data from the serial port, until there is a period
-  * with no data (i.e. 'silence') for 1 second.  At that point the function will return.
-  * Some operations require that any bad data be flushed out of the input to prevent
-  * synchronization problems.  By using '1 second of silence' it forces re-synchronization
-  * to occur in one shot, with the possible exception of VERY noisy lines.  The down side
-  * is that it may slow down transfers with a high data rate.
-**/
-void XModemFlushInput(SERIAL_TYPE ser)
-{
- uint16_t ulStart;
-
- ulStart = GET_TICK();
- do
-  {
-   YIELD_TO_PRIO_TASK();
-   if(ser->available())
-    {
-     ser->read(); // don't care about the data
-     ulStart = GET_TICK(); // reset time
-    }
-   else
-    {
-     DELAY_MS(1);
-    }
-  }
- while((GET_TICK() - ulStart) < (uint16_t)FLUSH_TIME_MS);
+ BTSERPRINT2((const uint8_t *)pBuf, cbSize);
 }
 
 /** \ingroup xmodem_internal
@@ -330,7 +259,7 @@ void XModemFlushInput(SERIAL_TYPE ser)
 **/
 void XmodemTerminate(XModemSt_t *pX)
 {
- XModemFlushInput(pX->ser);
+ BTSERFLUSHRX();
 // TODO:  close files? YES
 }
 
@@ -382,14 +311,14 @@ int8_t ReceiveXmodem(XModemSt_t *pX)
  pX->buf.cSOH = (char)1; // assumed already got this, put into buffer
  do
   {
-   if((( GetXmodemBlock(pX->ser, ((char *)&(pX->buf)+ 1) , (sizeof(pX->buf) - 1)))
+   if((( GetXmodemBlock(((char *)&(pX->buf)+ 1) , (sizeof(pX->buf) - 1)))
       != sizeof(pX->buf) - 1) || ( ValidateSEQC(&(pX->buf), block & 255)) ||
       ( CalcCRC(pX->buf.aDataBuf, XMODEM_PACKET_SIZE) != pX->buf.wCRC))
 
     {
      // did not receive properly
      // TODO:  deal with repeated packet, sequence number for previous packet
-     XModemFlushInput(pX->ser);  // necessary to avoid problems
+     BTSERFLUSHRX();  // necessary to avoid problems
      cY = _NAK_; // TODO do I need this?
      ecount ++; // for this packet
      etotal ++;
@@ -408,8 +337,8 @@ int8_t ReceiveXmodem(XModemSt_t *pX)
    ec2 = 0;   //  ** error count #2 **
    while(ecount < TOTAL_ERROR_COUNT && ec2 < ACK_ERROR_COUNT) // ** loop to get SOH or EOT character **
     {
-     WriteXmodemChar(pX->ser, cY); // ** output appropriate command char **
-     if(GetXmodemBlock(pX->ser, &(pX->buf.cSOH), 1) == 1)
+     WriteXmodemChar(cY); // ** output appropriate command char **
+     if(GetXmodemBlock(&(pX->buf.cSOH), 1) == 1)
       {
        if(pX->buf.cSOH == _CAN_) // ** CTRL-X 'CAN' - terminate
         {
@@ -418,7 +347,7 @@ int8_t ReceiveXmodem(XModemSt_t *pX)
         }
        else if(pX->buf.cSOH == _EOT_) // ** EOT - end
         {
-         WriteXmodemChar(pX->ser, _ACK_); // ** send an ACK (most XMODEM protocols expect THIS)
+         WriteXmodemChar(_ACK_); // ** send an ACK (most XMODEM protocols expect THIS)
 //          WriteXmodemChar(pX->ser, _ENQ_); // ** send an ENQ
          return 0; // I am done
         }
@@ -429,7 +358,7 @@ int8_t ReceiveXmodem(XModemSt_t *pX)
        else
         {
          // TODO:  deal with repeated packet, i.e. previous sequence number
-         XModemFlushInput(pX->ser);  // necessary to avoid problems (since the character was unexpected)
+         BTSERFLUSHRX();  // necessary to avoid problems (since the character was unexpected)
          // if I was asking for the next block, and got an unexpected character, do a NAK; otherwise,
          // just repeat what I did last time
          if(cY == _ACK_) // ACK
@@ -502,8 +431,8 @@ int8_t SendXmodem(XModemSt_t *pX)
     {
      for(i1 = 0; i1 < CNX_TRY_COUNT_MAX; i1++)
       {
-       WriteXmodemChar(pX->ser, _EOT_); // ** send an EOT marking end of transfer
-       if(GetXmodemBlock(pX->ser, &(pX->buf.cSOH), 1) != 1) // this takes up to 5 seconds
+       WriteXmodemChar(_EOT_); // ** send an EOT marking end of transfer
+       if(GetXmodemBlock(&(pX->buf.cSOH), 1) != 1) // this takes up to 5 seconds
         {
          // nothing returned - try again?
          // break; // for now I loop, uncomment to bail out
@@ -552,16 +481,13 @@ int8_t SendXmodem(XModemSt_t *pX)
      pX->buf.wCRC = CalcCRC(pX->buf.aDataBuf, XMODEM_PACKET_SIZE);
      GenerateSEQC(&(pX->buf), block);
      // send it
-     i1 = WriteXmodemBlock(pX->ser, &(pX->buf), sizeof(pX->buf));
-     if(i1 != sizeof(pX->buf)) // write error
-      {
-       // TODO:  handle write error (send ctrl+X ?)
-      }
+      WriteXmodemBlock(&(pX->buf), sizeof(pX->buf));
+     // TODO: handle write error (send ctrl+X ?)
     }
    ec2 = 0;
    while(ecount < TOTAL_ERROR_COUNT && ec2 < ACK_ERROR_COUNT) // loop to get ACK or NACK
     {
-     if(GetXmodemBlock(pX->ser, &(pX->buf.cSOH), 1) == 1)
+     if(GetXmodemBlock(&(pX->buf.cSOH), 1) == 1)
       {
        if(pX->buf.cSOH == _CAN_) // ** CTRL-X - terminate
         {
@@ -581,7 +507,7 @@ int8_t SendXmodem(XModemSt_t *pX)
         }
        else
         {
-         XModemFlushInput(pX->ser);  // for now, do this here too
+         BTSERFLUSHRX();  // for now, do this here too
          ec2++;
         }
       }
@@ -624,8 +550,8 @@ int8_t XReceiveSub(XModemSt_t *pX)
 
  for(i1 = 0; i1 < CNX_TRY_COUNT_MAX; i1++)
   {
-   WriteXmodemChar(pX->ser, _NAK_); // switch to NAK for XMODEM Checksum
-   if(GetXmodemBlock(pX->ser, &(pX->buf.cSOH), 1) == 1)
+   WriteXmodemChar(_NAK_); // switch to NAK for XMODEM Checksum
+   if(GetXmodemBlock(&(pX->buf.cSOH), 1) == 1)
     {
      if(pX->buf.cSOH == _SOH_) // SOH - packet is on its way
       {
@@ -667,7 +593,7 @@ int8_t XSendSub(XModemSt_t *pX)
  ulStart = GET_TICK();
  do
   {
-   if(GetXmodemBlock(pX->ser, &(pX->buf.cSOH), 1) == 1)
+   if(GetXmodemBlock(&(pX->buf.cSOH), 1) == 1)
     {
      if(pX->buf.cSOH == _NAK_) // NAK - XMODEM CHECKSUM
       {
@@ -685,12 +611,10 @@ int8_t XSendSub(XModemSt_t *pX)
  return -3; // fail
 }
 
-int8_t XReceive(SERIAL_TYPE pSer, const char *szFilename)
+int8_t XReceive( const char *szFilename)
 {
  int8_t iRval;
- //XModemSt_t xx;
 
- ReBuff.xx.ser = pSer;
  ReBuff.xx.fd = NULL;
  if(FILE_EXISTS(szFilename))
   {
@@ -706,18 +630,16 @@ int8_t XReceive(SERIAL_TYPE pSer, const char *szFilename)
  FILE_CLOSE(ReBuff.xx.fd);
  if(iRval)
   {
-   WriteXmodemChar(pSer, _CAN_); // cancel (make sure)
+   WriteXmodemChar(_CAN_); // cancel (make sure)
    FILE_DELETE(szFilename); // delete file on error
   }
  return iRval;
 }
 
-int8_t XSend(SERIAL_TYPE pSer, const char *szFilename)
+int8_t XSend(const char *szFilename)
 {
  int8_t iRval;
- //XModemSt_t xx;
 
- ReBuff.xx.ser = pSer;
  ReBuff.xx.fd = NULL;
  ReBuff.xx.fd = FILE_OPEN_FOR_READ(szFilename);
  if(!ReBuff.xx.fd)
