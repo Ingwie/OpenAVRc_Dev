@@ -1091,7 +1091,7 @@ const pm_char STR_OPENAVRCISLOADING[] PROGMEM = "OpenAVRc is loading ...";
 
 #include "translations.h"
 
-#if defined(PERSONAMES) && defined(CPUM2560)
+#if defined(PERSONAMES)
   #include "personames.h"
 #endif
 
