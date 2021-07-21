@@ -457,19 +457,19 @@ static const uint16_t AnalKeyboardVal[NUM_BTNS] PROGMEM = {
   // Quiescent reading = 0x7ff.
   // Min delta is 157 so BTN_TOL = 0x27
 
-  0x7ff, // No Key pressed
+  0x7ff + BTN_TOL, // No Key pressed
 
-  0x38e, // Digi
-  0x4cc, // Rev/Clr --> exit
-  0x5d1, // Enter --> menu
-  0x6aa, // Up --> up
-  0x762, // Down --> down
-  0x89d, // Memory --> right
-  0x954, // Timer --> left
-  0xa2d, // Servo
-  0xb32, // Mixer
-  0xc71, // Control
-  0xdff, // Setup
+  0x38e + BTN_TOL, // Digi
+  0x4cc + BTN_TOL, // Rev/Clr --> exit
+  0x5d1 + BTN_TOL, // Enter --> menu
+  0x6aa + BTN_TOL, // Up --> up
+  0x762 + BTN_TOL, // Down --> down
+  0x89d + BTN_TOL, // Memory --> right
+  0x954 + BTN_TOL, // Timer --> left
+  0xa2d + BTN_TOL, // Servo
+  0xb32 + BTN_TOL, // Mixer
+  0xc71 + BTN_TOL, // Control
+  0xdff + BTN_TOL, // Setup
 };
 
 
@@ -479,8 +479,8 @@ void read_keyboard()
 
   for(uint8_t x=BTN_NONE; x<NUM_BTNS; x++) {
 
-    uint16_t  upper = pgm_read_word_far(&AnalKeyboardVal[x]) + BTN_TOL;
-    uint16_t  lower = upper - (BTN_TOL << 1);
+    uint16_t  upper = pgm_read_word_far(&AnalKeyboardVal[x]);
+    uint16_t  lower = upper - (BTN_TOL *2);
     if(lower > upper) lower = 0;
 
     if(AD_value > lower && AD_value < upper){
@@ -518,23 +518,23 @@ static const uint16_t AnalSwitchVal[16] PROGMEM = {
   // AD reading, switch state bitmap.
   //        ENC 2  Position  3   pos
   //        R/L K/P H/M I/N  O/J L/G
-  0x000, // 1   1   1   0
-  0x0b2, // 1   1   1   1
-  0x1ca, // 1   1   0   0
-  0x286, // 1   1   0   1
-  0x3ce, // 1   0   1   0
-  0x48f, // 1   0   1   1   DN  DN
-  0x5b0, // 1   0   0   0   DN  UP
-  0x670, // 1   0   0   1   DN  MI
-  0x7d4, // 0   1   1   0
-  0x898, // 0   1   1   1   UP  DN
-  0x9ba, // 0   1   0   0   UP  UP
-  0xa7b, // 0   1   0   1   UP  MI
-  0xbca, // 0   0   1   0
-  0xc95, // 0   0   1   1   MI  DN
-  0xdbe, // 0   0   0   0   MI  UP
-  0xe82, // 0   0   0   1   MI  MI
-         // 8   4   2   1
+  0x000 + ANA_TOL, // 1   1   1   0
+  0x0b2 + ANA_TOL, // 1   1   1   1
+  0x1ca + ANA_TOL, // 1   1   0   0
+  0x286 + ANA_TOL, // 1   1   0   1
+  0x3ce + ANA_TOL, // 1   0   1   0
+  0x48f + ANA_TOL, // 1   0   1   1   DN  DN
+  0x5b0 + ANA_TOL, // 1   0   0   0   DN  UP
+  0x670 + ANA_TOL, // 1   0   0   1   DN  MI
+  0x7d4 + ANA_TOL, // 0   1   1   0
+  0x898 + ANA_TOL, // 0   1   1   1   UP  DN
+  0x9ba + ANA_TOL, // 0   1   0   0   UP  UP
+  0xa7b + ANA_TOL, // 0   1   0   1   UP  MI
+  0xbca + ANA_TOL, // 0   0   1   0
+  0xc95 + ANA_TOL, // 0   0   1   1   MI  DN
+  0xdbe + ANA_TOL, // 0   0   0   0   MI  UP
+  0xe82 + ANA_TOL, // 0   0   0   1   MI  MI
+                   // 8   4   2   1
 };
 
 
@@ -549,7 +549,7 @@ void read_sws_1(void)
   for(uint8_t x=5; x<16; x++) {
 
     upper = pgm_read_word_far(&AnalSwitchVal[x]);
-    lower = upper - (ANA_TOL <<1);
+    lower = upper - (ANA_TOL *2);
     if (lower > upper) lower = 0;
 
     if(AD_value > lower && AD_value < upper) {
@@ -577,7 +577,7 @@ void read_sws_2(void)
   for(uint8_t x=0; x<16; x++) {
 
     upper = pgm_read_word_far(&AnalSwitchVal[x]);
-    lower = upper - (ANA_TOL <<1);
+    lower = upper - (ANA_TOL *2);
     if (lower > upper) lower = 0;
 
     if(AD_value > lower && AD_value < upper) {
@@ -602,7 +602,7 @@ void read_sws_3(void)
   for(uint8_t x=5; x<16; x++) {
 
     upper = pgm_read_word_far(&AnalSwitchVal[x]);
-    lower = upper - (ANA_TOL <<1);
+    lower = upper - (ANA_TOL *2);
     if (lower > upper) lower = 0;
 
     if(AD_value > lower && AD_value < upper) {
@@ -630,7 +630,7 @@ void read_sws_4(void)
   for(uint8_t x=0; x<16; x++) {
 
     upper = pgm_read_word_far(&AnalSwitchVal[x]);
-    lower = upper - (ANA_TOL <<1);
+    lower = upper - (ANA_TOL *2);
     if (lower > upper) lower = 0;
 
     if(AD_value > lower && AD_value < upper) {
