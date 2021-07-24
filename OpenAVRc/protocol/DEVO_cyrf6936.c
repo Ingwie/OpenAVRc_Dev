@@ -402,8 +402,8 @@ const void *DEVO_Cmds(enum ProtoCmds cmd)
       DEVOInit(0);
       return 0;
     case PROTOCMD_RESET:
-      CYRF_Reset();
       PROTO_Stop_Callback();
+      CYRF_Reset();
       return 0;
     case PROTOCMD_BIND:
       DEVOInit(1);
