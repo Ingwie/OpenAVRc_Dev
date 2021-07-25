@@ -72,8 +72,6 @@ void PROTO_Start_Callback( uint16_t (*cb)())
 
 void PROTO_Stop_Callback()
 {
-  memclear(&pulses2MHz, PULSES_BYTE_SIZE); // Clear all shared data in SPIMODULES mode
-
 #if defined(CPUM2560)
   TIMSK1 &= ~(1<<OCIE1A); // Disable Output Compare A interrupt.
   TIFR1 |= 1<<OCF1A; // Reset Flag.
@@ -82,7 +80,9 @@ void PROTO_Stop_Callback()
   RF_TIMER_PAUSE_INTERRUPT;
   RF_TIMER_CLEAR_COMPA_FLAG; // Reset Flag.
 #endif
+
   timer_callback = NULL;
+  memclear(&pulses2MHz, PULSES_BYTE_SIZE); // Clear all shared data in SPIMODULES mode
 }
 
 void PROTOCOL_SetBindState(tmr10ms_t t10ms)
