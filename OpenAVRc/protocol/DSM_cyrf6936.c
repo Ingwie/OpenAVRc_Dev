@@ -612,7 +612,6 @@ static uint16_t DSM_cb()
         }
       if (rfState8_p2M == DSM_CH2_CHECK_A)
         {
-          CYRF_WriteRegister(CYRF_03_TX_CFG, 0x28); //Data Code Length = 64 chip codes + Data Mode = 8DR Mode
           CYRF_ManagePower();	//Keep transmit power in sync
         }
 #if defined(DSM_TELEMETRY)

@@ -337,7 +337,6 @@ uint16_t DEVO_cb()
     }
   if(packet_count_p2M == 0)
     {
-      CYRF_WriteRegister(CYRF_03_TX_CFG, 0x08);
       CYRF_ManagePower();	// Keep transmit power in sync
       DEVO_check_num_chan(); // Check num channels
       hopping_channel_ptr = hopping_channel_ptr == &channel_used_p2M[2] ? &channel_used_p2M[0] : hopping_channel_ptr + 1;
