@@ -32,6 +32,14 @@
 
 // Deviation & Multiprotocol inspired. Thanks a lot !
 
+/*
+ * Channel Order :
+ * Ch1 E
+ * Ch2 A
+ * Ch3 T
+ * Ch4 R
+ */
+
 #include "../OpenAVRc.h"
 
 
