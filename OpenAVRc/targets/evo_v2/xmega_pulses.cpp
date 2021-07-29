@@ -31,6 +31,7 @@
 */
 
 
+
 #include "../OpenAVRc.h"
 #include "../protocol/misc.c"
 #include "../spi.h"
@@ -48,32 +49,49 @@ FORCEINLINE uint8_t pulsesStarted()
 
 FORCEINLINE void sendStopPulses()
 {
-  PROTO_Cmds(PROTOCMD_RESET);
-  TRACE("  ->  RESET Proto - %s -",  Protos[s_current_protocol].ProtoName);
-  SIMU_SLEEP(100);
-  PROTO_Stop_Callback();
+  if(pulsesStarted()) {
+    PROTO_Cmds(PROTOCMD_RESET);
+    SIMU_SLEEP(100);
 
-#if defined (MULTIMODULE)
-  USART_DISABLE_TX(MULTI_USART);
-  USART_DISABLE_RX(MULTI_USART);
-#endif
-#if defined (DSM2_SERIAL)
-  USART_DISABLE_TX(DSM_USART);
-#endif
 #if defined(SPIMODULES)
-  USART_DISABLE_TX(RF_USART);
-  USART_DISABLE_RX(RF_USART);
-  RF_CS_CC2500_INACTIVE();
-  RF_CS_CYRF6936_INACTIVE();
-  RF_CS_NRF24L01_INACTIVE();
-  RF_CS_A7105_INACTIVE();
+  if(IS_SPIMODULES_PROTOCOL(s_current_protocol)) {
+    // Cannot send a reset via SPI if it is disabled ... causes WDT reset due to USART blocking.
+
+    USART_DISABLE_TX(RF_USART);
+    USART_DISABLE_RX(RF_USART);
+
+    RF_CS_CC2500_INACTIVE();
+    RF_CS_CYRF6936_INACTIVE();
+    RF_CS_NRF24L01_INACTIVE();
+    RF_CS_A7105_INACTIVE();
+  }
 #endif
+  }
+
+  s_current_protocol = 255; // Update stop status.
 }
 
 
 void startPulses(enum ProtoCmds Command)
 {
-  PROTO_Stop_Callback();
+  if(pulsesStarted()) {
+  PROTO_Cmds(PROTOCMD_RESET); // Always stop protocol due to repeated PROTOCMD_INIT's
+    SIMU_SLEEP(100);
+
+#if defined(SPIMODULES)
+  if(IS_SPIMODULES_PROTOCOL(s_current_protocol)) {
+    // Cannot send a reset via SPI if it is disabled ... causes WDT reset due to USART blocking.
+
+    USART_DISABLE_TX(RF_USART);
+    USART_DISABLE_RX(RF_USART);
+
+    RF_CS_CC2500_INACTIVE();
+    RF_CS_CYRF6936_INACTIVE();
+    RF_CS_NRF24L01_INACTIVE();
+    RF_CS_A7105_INACTIVE();
+  }
+#endif
+  }
 
 #if defined(SPIMODULES)
   RFPowerOut = 0;
@@ -82,25 +100,23 @@ void startPulses(enum ProtoCmds Command)
   telemetryResetValue();
 #endif
 
-  if (pulsesStarted()) {
-    sendStopPulses();
-  }
-
   if (g_model.rfProtocol > (PROTOCOL_COUNT-1)) g_model.rfProtocol = PROTOCOL_PPM;
   s_current_protocol = g_model.rfProtocol;
 
-  if(IS_PPM_PROTOCOL(g_model.rfProtocol)) {
+  if(IS_PPM_PROTOCOL(s_current_protocol)) {
     // Do not do setup_rf_tc() as pulses use PWM mode.
   }
+
 #if defined (DSM2_SERIAL)
-  else  if(IS_DSM2_SERIAL_PROTOCOL(g_model.rfProtocol)) {
+  else  if(IS_DSM2_SERIAL_PROTOCOL(s_current_protocol)) {
     DSM_USART_PORT.PIN3CTRL = PORT_OPC_PULLUP_gc; // Pullup TXD.
     DSM_USART_PORT.DIRSET = USART_TXD_PIN_bm;
     setup_rf_tc();
   }
 #endif
+
 #if defined (MULTIMODULE)
-  else if(IS_MULTIMODULE_PROTOCOL(g_model.rfProtocol)) {
+  else if(IS_MULTIMODULE_PROTOCOL(s_current_protocol)) {
     MULTI_USART_PORT.PIN3CTRL = PORT_OPC_PULLUP_gc; // Pullup TXD.
     MULTI_USART_PORT.DIRSET = USART_TXD_PIN_bm;
     MULTI_USART_PORT.PIN2CTRL = PORT_OPC_PULLUP_gc; // Pullup RXD.
@@ -108,14 +124,15 @@ void startPulses(enum ProtoCmds Command)
     setup_rf_tc();
   }
 #endif
+
 #if defined(SPIMODULES)
-  else if(IS_SPIMODULES_PROTOCOL(g_model.rfProtocol)) {
+  else if(IS_SPIMODULES_PROTOCOL(s_current_protocol)) {
     rf_usart_mspi_init();
     setup_rf_tc();
+    rf_power_mem_p2M = 255; // Force the first power update.
   }
 #endif
   PROTO_Cmds = *Protos[g_model.rfProtocol].Cmds;
-  TRACE("  ->  INIT Proto - %s -", Protos[g_model.rfProtocol].ProtoName);
   SIMU_SLEEP(100);
   PROTO_Cmds(PROTOCMD_GETOPTIONS);
   LimitRfOptionSettings();
