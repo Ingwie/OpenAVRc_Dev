@@ -17,7 +17,9 @@
 #define USART_SET_BAUD_9K6(usartx)   _USART_SET_BAUD(usartx, 12, +4)
 #define USART_SET_BAUD_57K6(usartx)  _USART_SET_BAUD(usartx, 135,-2)
 #define USART_SET_BAUD_100K(usartx)  _USART_SET_BAUD(usartx, 159,-3)
+#define USART_SET_BAUD_115K2(usartx)  _USART_SET_BAUD(usartx, 131,-3)
 #define USART_SET_BAUD_125K(usartx)  _USART_SET_BAUD(usartx, 127,-3)
+#define USART_SET_BAUD_230K4(usartx)  _USART_SET_BAUD(usartx, 123,-4)
 
 #define _USART_SET_BAUD(usartx, bsel, bscale) \
   { usartx.BAUDCTRLA = bsel & 0xFF; usartx.BAUDCTRLB = ((int8_t) bscale << USART_BSCALE_gp) | (bsel >> 8); }
@@ -190,8 +192,8 @@ extern void InitVoiceUartTx();
   VOICE_BUSY_PORT.DIRSET = 1<< VOICE_BUSY_PIN;}
 #define speakerOff()  { AUDIO_TC.CTRLB &= ~TC0_CCAEN_bm; VOICE_BUSY_PORT.DIRCLR = 1<< VOICE_BUSY_PIN;}
 #else
-#define speakerOn()   { AUDIO_TC.CTRLB |= TC0_CCAEN_bm }
-#define speakerOff()  { AUDIO_TC.CTRLB &= ~TC0_CCAEN_bm }
+#define speakerOn()   { AUDIO_TC.CTRLB |= TC0_CCAEN_bm ;}
+#define speakerOff()  { AUDIO_TC.CTRLB &= ~TC0_CCAEN_bm ;}
 #endif
 #define OD_AUDIO_bm          PIN0_bm
 
