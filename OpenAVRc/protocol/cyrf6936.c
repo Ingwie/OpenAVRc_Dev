@@ -74,14 +74,26 @@ uint8_t CYRF_ReadRegister(uint8_t address)
 
 uint8_t CYRF_Reset()
 {
-  CYRF_WriteRegister(CYRF_1D_MODE_OVERRIDE, 0x01); // Software reset
-  _delay_us(500);
-  CYRF_WriteRegister(CYRF_0C_XTAL_CTRL, 0xC0);     // Enable XOUT as GPIO
-  CYRF_WriteRegister(CYRF_0D_IO_CFG, 0x04);        // Enable PACTL as GPIO
+  CYRF_WriteRegister(CYRF_1D_MODE_OVERRIDE, 0x01); // Software reset.
+  // _delay_us(500);
+  // Verify the CYRF chip is reset and ready to accept commands as per the datasheet by
+  // writing and reading a register with non-default data.
+  uint8_t i=1;
+  while(CYRF_ReadRegister(CYRF_00_CHANNEL) != 0x0f) // Default is 0x48.
+  {
+    _delay_us(50);
+    CYRF_WriteRegister(CYRF_00_CHANNEL, 0x0f);
+    if(i++ > 10) return 0;
+  }
+
+  CYRF_WriteRegister(CYRF_0C_XTAL_CTRL, 0xC0);  // Enable XOUT as GPIO
+  CYRF_WriteRegister(CYRF_0D_IO_CFG, 0x04);     // Enable PACTL as GPIO
+//  CYRF_WriteRegister(CYRF_0D_IO_CFG, 0x05);   // Enable PACTL as GPIO (and Multiplex MOSI with IRQ for debugging).
   CYRF_SetTxRxMode(TXRX_OFF);
-  // Verify the CYRF chip is responding.
-  return (CYRF_ReadRegister(CYRF_10_FRAMING_CFG) == 0xA5);
+
+  return (CYRF_ReadRegister(CYRF_00_CHANNEL) == 0x0f);
 }
+
 
 void CYRF_GetMfgData(uint8_t data[])
 {
@@ -140,9 +152,11 @@ void CYRF_WritePreamble(uint32_t preamble)
 {
     RF_CS_CYRF6936_ACTIVE();
     RF_SPI_xfer(0x80 | 0x24);
-    RF_SPI_xfer(preamble & 0xff);
-    RF_SPI_xfer((preamble >> 8) & 0xff);
+
     RF_SPI_xfer((preamble >> 16) & 0xff);
+    RF_SPI_xfer((preamble >> 8) & 0xff);
+    RF_SPI_xfer(preamble & 0xff);
+
     RF_CS_CYRF6936_INACTIVE();
 }
 
@@ -301,7 +315,7 @@ void CYRF_SetPower(uint8_t Power)
   RFPowerOut = pgm_read_word_far(powerdata + (2*Power)); // Gui value
   rf_power_mem_p2M = Power;
 
-	uint8_t val = CYRF_ReadRegister(CYRF_03_TX_CFG) & 0xF8;
+	uint8_t val = CYRF_ReadRegister(CYRF_03_TX_CFG) & ~0x07;
 	CYRF_WriteRegister(CYRF_03_TX_CFG, val | (Power & 0x07));
 }
 
