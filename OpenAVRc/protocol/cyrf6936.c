@@ -103,8 +103,20 @@ void CYRF_GetMfgData(uint8_t data[])
   // Fuses power off.
   CYRF_WriteRegister(CYRF_25_MFG_ID, 0x00);
 }
+/*
+Apparently cyrf mfg id is supposed to be ...
+1st byte : 4bits version + 2 bits vendor ID + high 2 bits of Year
+2nd byte : low 2bits of Year + 6 bits of manufacture Work Week
+3rd byte : high 8bits of lot#
+4th byte : low 5bits of lot# + high 3 of Wafer#
+5th byte : low 2bits of Wafer# + high 6 bits of X coordinate on Wafer
+6th byte : LSB of X coordinate on wafer + high 7 bits of Y coordinate on wafer.
+*/
 
-// ToDo Check.
+// uint8_t cyrfmfg_id[6] = {0x49, 0xec, 0xa9, 0xc4, 0xc1, 0xff};
+// uint8_t cyrfmfg_id[6] = {0xd1, 0x22, 0x82, 0x5f, 0xcd, 0xff};
+// uint8_t cyrfmfg_id[6] = {0x62, 0x72, 0x26, 0xd1, 0xd8, 0xfe};
+
 void CYRF_SetTxRxMode(enum TXRX_State mode)
 {
   if(mode == TXRX_OFF) {
@@ -152,7 +164,8 @@ void CYRF_WritePreamble(uint32_t preamble)
 {
     RF_CS_CYRF6936_ACTIVE();
     RF_SPI_xfer(0x80 | 0x24);
-
+// NOTE: Register Files are written MSB first and Read LSB first.
+// Always read the correct number of bytes to prevent the register rotating.
     RF_SPI_xfer((preamble >> 16) & 0xff);
     RF_SPI_xfer((preamble >> 8) & 0xff);
     RF_SPI_xfer(preamble & 0xff);
@@ -175,8 +188,9 @@ void CYRF_WriteDataPacketLen(const uint8_t dpbuffer[], uint8_t len)
   CYRF_WriteRegister(CYRF_01_TX_LENGTH, len);
   CYRF_WriteRegister(CYRF_02_TX_CTRL, 0x40); // Clear the transmit buffer.
   CYRF_WriteRegisterMulti(CYRF_20_TX_BUFFER, dpbuffer, len);
-  //CYRF_WriteRegister(CYRF_02_TX_CTRL, 0x80); // Start transmission.
-  CYRF_WriteRegister(CYRF_02_TX_CTRL, 0xBF); // Pascallanger
+  //  (void) CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS);
+  CYRF_WriteRegister(CYRF_02_TX_CTRL, 0x80); // Start transmission.
+  //CYRF_WriteRegister(CYRF_02_TX_CTRL, 0x82); // Start transmission and enable TXC IRQ for debugging.
 }
 
 void CYRF_WriteDataPacket(const uint8_t dpbuffer[])
@@ -237,9 +251,9 @@ void CYRF_FindBestChannels(uint8_t *channels, uint8_t len, uint8_t minspace, uin
     }
   }
 
-  CYRF_WriteRegister(CYRF_29_RX_ABORT, 0x20); // Abort RX operation - Pascallanger addition.
-  CYRF_SetTxRxMode(TX_EN);
-  CYRF_WriteRegister(CYRF_29_RX_ABORT, 0x20); // Clear abort RX - Pascallanger addition.
+  CYRF_SetTxRxMode(TXRX_OFF);
+  CYRF_WriteRegister(CYRF_29_RX_ABORT, 0x20); // Abort RX operation.
+  CYRF_WriteRegister(CYRF_29_RX_ABORT, 0x00); // Clear abort RX.
 }
 
 static void CYRF_PROGMEM_Config_DEVO_J6PRO_sopcodes(uint8_t sopidx)
@@ -286,22 +300,22 @@ static void CYRF_PROGMEM_Config_DEVO_J6PRO_sopcodes(uint8_t sopidx)
 
 void CYRF_SetPower(uint8_t Power)
 {
-  /*
+/*
 
     P(dBm) = 10Xlog10( P(mW) / 1mW)
     P(mW) = 1mWX10^(P(dBm)/ 10)
 
-                                   PA20DB  PA22DB
-	CYRF_POWER_0 = 0x00,	// -35dbm  0,032	 0,050
-	CYRF_POWER_1 = 0x01,	// -30dbm  0,100	 0,158
-	CYRF_POWER_2 = 0x02,	// -24dbm  0,398	 0,631
-	CYRF_POWER_3 = 0x03,	// -18dbm  1,585	 2,512
-	CYRF_POWER_4 = 0x04,	// -13dbm  5,012	 7,943
-	CYRF_POWER_5 = 0x05,	//  -5dbm  31,623	 50,119
-	CYRF_POWER_6 = 0x06,	//   0dbm  100,000 	158,489
-	CYRF_POWER_7 = 0x07		//  +4dbm  251,189 	398,107
+                                   PA20DB   PA22DB
+  CYRF_POWER_0 = 0x00,  // -35dbm    0,032    0,050
+  CYRF_POWER_1 = 0x01,  // -30dbm    0,100    0,158
+  CYRF_POWER_2 = 0x02,  // -24dbm    0,398    0,631
+  CYRF_POWER_3 = 0x03,  // -18dbm    1,585    2,512
+  CYRF_POWER_4 = 0x04,  // -13dbm    5,012    7,943
+  CYRF_POWER_5 = 0x05,  //  -5dbm   31,623   50,119
+  CYRF_POWER_6 = 0x06,  //   0dbm  100,000  158,489
+  CYRF_POWER_7 = 0x07   //  +4dbm  251,189  398,107
 
-	*/
+*/
 
 #if (CYRF6936PA_GAIN == 20)
   const static uint16_t zzCYRF6936_Powers[] PROGMEM = {3,10,39,158,501,3162,10000,25118};
@@ -315,8 +329,8 @@ void CYRF_SetPower(uint8_t Power)
   RFPowerOut = pgm_read_word_far(powerdata + (2*Power)); // Gui value
   rf_power_mem_p2M = Power;
 
-	uint8_t val = CYRF_ReadRegister(CYRF_03_TX_CFG) & ~0x07;
-	CYRF_WriteRegister(CYRF_03_TX_CFG, val | (Power & 0x07));
+  uint8_t val = CYRF_ReadRegister(CYRF_03_TX_CFG) & ~0x07;
+  CYRF_WriteRegister(CYRF_03_TX_CFG, val | (Power & 0x07));
 }
 
 void CYRF_ManagePower()
