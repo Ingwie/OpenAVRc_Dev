@@ -50,7 +50,7 @@ const static RfOptionSettingsvar_t RfOpt_J6PRO_Ser[] PROGMEM =
 
 
 const uint8_t zzJ6PRO_data_code[] PROGMEM =
-  {
+  { // Default Data Code.
   0x02, 0xf9, 0x93, 0x97, 0x02, 0xfa, 0x5c, 0xe3,
   0x01, 0x2b, 0xf1, 0xdb, 0x01, 0x32, 0xbe, 0x6f
   };
@@ -267,13 +267,14 @@ uint16_t J6PRO_cb()
     ++rfState8_p2M;
     return 30000U*2; // was 4.6msec
     case J6PRO_CHANSEL:
+    CYRF_SetTxRxMode(TX_EN);
     PROTOCOL_SetBindState(0);
     J6PRO_cyrf_datainit();
     rfState8_p2M = J6PRO_CHAN_1;
     /* FALLTHROUGH */
     case J6PRO_CHAN_1:
     //Keep transmit power updated
-    CYRF_ManagePower();// Keep transmit power in sync
+    CYRF_ManagePower(); // Keep transmit power in sync
     J6PRO_build_data_packet();
     SCHEDULE_MIXER_END_IN_US(24550); // Schedule next Mixer calculations.
     /* FALLTHROUGH */
@@ -284,7 +285,6 @@ uint16_t J6PRO_cb()
     //return 3750
     case J6PRO_CHAN_4:
     CYRF_ConfigRFChannel(channel_used_p2M[rfState8_p2M - J6PRO_CHAN_1]);
-    CYRF_SetTxRxMode(TX_EN);
     CYRF_WriteDataPacket(packet_p2M); // Longer data packet takes 2.7ms to egress.
     if (rfState8_p2M == J6PRO_CHAN_4)
     {
@@ -310,29 +310,11 @@ void J6PRO_Init(uint8_t bind)
   uint_farptr_t dataadr = pgm_get_far_address(zzJ6PRO_data_code);
   uint8_t codedata[16];
   for(uint8_t i = 0; i<16; i++)
-    {
-      codedata[i] = pgm_read_byte_far(dataadr++);
-    }
+    codedata[i] = pgm_read_byte_far(dataadr++);
+
   CYRF_ConfigDataCode(codedata, 16);
-  CYRF_WritePreamble(0x333302); // JF-M transmitter configures this as 0x023333 !.
+  CYRF_WritePreamble(0x333302); // Default Preamble 0x3333, Count 0x02.
   J6PRO_set_radio_channels();
-
-  // uint8_t cyrfmfg_id[6];
-  // CYRF_GetMfgData(cyrfmfg_id);
-
-  /*
-  Apparently cyrf mfg id is supposed to be ...
-  1st byte : 4bits version + 2 bits vendor ID + high 2 bits of Year
-  2nd byte: low 2bits of Year + 6 bits of manufacture Work Week
-  3rd byte : high 8bits of lot#
-  4th byte : low 5bits of lot# + high 3 of Wafer#
-  5th byte : low 2bits of Wafer# + high 6 bits of X coordinate on Wafer
-  6th byte : LSB of X coordinate on wafer + high 7 bits of Y coordinate on wafer.
-  */
-
-  // uint8_t cyrfmfg_id[6] = {0x49, 0xec, 0xa9, 0xc4, 0xc1, 0xff};
-  // uint8_t cyrfmfg_id[6] = {0xd1, 0x22, 0x82, 0x5f, 0xcd, 0xff};
-  // uint8_t cyrfmfg_id[6] = {0x62, 0x72, 0x26, 0xd1, 0xd8, 0xfe};
 
   if (bind || J6PRO_AUTOBIND)
   {
