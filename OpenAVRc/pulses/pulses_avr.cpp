@@ -52,6 +52,8 @@ FORCEINLINE void sendStopPulses()
   TRACE("  ->  RESET Proto - %s -",  Protos[s_current_protocol].ProtoName);
   SIMU_SLEEP(100);
   PROTO_Stop_Callback();
+
+  s_current_protocol = 255; // Update stop status.
 }
 
 void startPulses(enum ProtoCmds Command)

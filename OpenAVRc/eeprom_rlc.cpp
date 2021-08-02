@@ -981,14 +981,14 @@ void eeLoadModel(uint8_t id)
       logicalSwitchesReset();
       setGazSource();
 
-      if (pulsesStarted())
-        {
+
+
           if (!newModel)
             {
               checkAll();
             }
           startPulses(PROTOCMD_INIT);
-        }
+
 
       customFunctionsReset();
 
