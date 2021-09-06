@@ -39,6 +39,15 @@
 #include <wx/timer.h>
 //*)
 
+#if defined(USE_DDE_LINK)
+#define wxUSE_DDE_FOR_IPC 0 // use Windows DDE
+#include <wx/ipc.h>
+#include <wx/utils.h>
+#include <wx/msgdlg.h>
+#include <wx/log.h>
+#endif
+
+
 #include "OpenAVRc_SimulatorMain.h"
 
 #define wxDEFAULT_DIALOG_STYLE  (wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX)
@@ -47,36 +56,80 @@ extern void USART_RX_vect_N(TLM_USART1)();
 
 class uCliFrame: public wxFrame
 {
-	public:
+public:
+ uCliFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
+ virtual ~uCliFrame();
 
-		uCliFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
-		virtual ~uCliFrame();
+ void HwSerialByte(uint8_t c);
+ void SendToBtSerial();
+ void DdeSendBufferIfNeeded();
+ wxString LastPrompt;
 
-		void HwSerialByte(uint8_t c);
-		void SendToBtSerial();
-		wxString LastPrompt;
+#if defined(USE_DDE_LINK)
+// DDE exchange
+ void DdeLink();
+ bool DdeConnectTo(wxString ExtServerName);
+#endif
 
-		//(*Declarations(uCliFrame)
-		wxTextCtrl* TextCtrl;
-		wxTimer TimerBTRX;
-		//*)
+//(*Declarations(uCliFrame)
+wxTextCtrl* TextCtrl;
+wxTimer TimerBTRX;
+//*)
 
-	protected:
+protected:
 
-		//(*Identifiers(uCliFrame)
-		static const long ID_TEXTCTRL;
-		static const long ID_TIMERBTRX;
-		//*)
+//(*Identifiers(uCliFrame)
+static const long ID_TEXTCTRL;
+static const long ID_TIMERBTRX;
+//*)
 
-	private:
+private:
 
-		//(*Handlers(uCliFrame)
-		void OnClose(wxCloseEvent& event);
-		void OnTextCtrlTextEnter(wxCommandEvent& event);
-		void OnTimerBTRXTrigger(wxTimerEvent& event);
-		//*)
+//(*Handlers(uCliFrame)
+ void OnClose(wxCloseEvent& event);
+ void OnTextCtrlTextEnter(wxCommandEvent& event);
+ void OnTimerBTRXTrigger(wxTimerEvent& event);
+//*)
 
-		DECLARE_EVENT_TABLE()
+ DECLARE_EVENT_TABLE()
 };
+
+#if defined(USE_DDE_LINK)
+class DdeConnectionOut: public wxConnection
+{
+public:
+ DdeConnectionOut() {};
+ ~DdeConnectionOut() {};
+ //virtual bool OnDisconnect();
+};
+
+class DdeConnectionIn: public wxConnection
+{
+public:
+ DdeConnectionIn(uCliFrame * tFrame) {UCliFrame = tFrame;};
+ ~DdeConnectionIn() {};
+ virtual bool OnPoke(const wxString &topic, const wxString &item, const void *data, size_t size, wxIPCFormat format);
+private:
+ uCliFrame * UCliFrame;
+};
+
+class DdeServer: public wxServer
+{
+public:
+ DdeServer(uCliFrame * tFrame):wxServer() {UCliFrame = tFrame;};
+ virtual wxConnectionBase * OnAcceptConnection(const wxString& topic);
+private:
+ uCliFrame * UCliFrame;
+};
+
+class DdeClient: public wxClient
+{
+public:
+ virtual wxConnectionBase * OnMakeConnection(void)
+ {
+  return (wxConnectionBase *)new DdeConnectionOut;
+ };
+};
+#endif
 
 #endif

@@ -50,9 +50,21 @@
  (x == SD_ROOT) // x is a wxString
 
 Tserial *BTComPort;
-//popu menu ID
-enum MenuIDs {POPUP_ID_DELETE = wxID_HIGHEST + 1, POPUP_ID_CREATE_REPERTORY};
 
+#if defined(USE_DDE_LINK)
+// DDE
+DdeServer * dynDdeServer = NULL;
+DdeClient * dynDdeClient = NULL;
+DdeConnectionOut * dynDdeConnectionOut = NULL;
+DdeConnectionIn * dynDdeConnectionIn = NULL;
+wxString hostName;
+wxString DdeServerName;
+wxString DdeExtServerName;
+wxString DdeTopicName;
+#endif
+
+//popup menu ID
+enum MenuIDs {POPUP_ID_DELETE = wxID_HIGHEST + 1, POPUP_ID_CREATE_REPERTORY};
 
 extern wxString AppPath;
 //(*InternalHeaders(BluetoothFrame)
@@ -89,35 +101,35 @@ END_EVENT_TABLE()
 BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 //(*Initialize(BluetoothFrame)
- Create(parent, wxID_ANY, _("Bluetooth"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
- SetClientSize(wxSize(645,409));
- Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(392,176), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
- StaticBoxCom = new wxStaticBox(Panel1, ID_STATICBOX1, _("Communication"), wxPoint(8,8), wxSize(624,88), 0, _T("ID_STATICBOX1"));
- ComboBoxCom = new wxComboBox(Panel1, ID_COMBOBOX1, wxEmptyString, wxPoint(64,32), wxSize(72,23), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX1"));
- StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("Port :"), wxPoint(16,32), wxSize(40,16), wxALIGN_RIGHT, _T("ID_STATICTEXT1"));
- StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, _("Mémoire libre :"), wxPoint(160,32), wxSize(96,16), wxALIGN_RIGHT, _T("ID_STATICTEXT2"));
- StaticTextFreeMem = new wxStaticText(Panel1, ID_STATICTEXT3, _("------"), wxPoint(264,32), wxSize(56,16), wxALIGN_LEFT, _T("ID_STATICTEXT3"));
- StaticTextVersion = new wxStaticText(Panel1, ID_STATICTEXT4, wxEmptyString, wxPoint(24,64), wxSize(360,16), 0, _T("ID_STATICTEXT4"));
- BitmapButtonReboot = new wxBitmapButton(Panel1, ID_REBOOTBUTTON, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_WARNING")),wxART_BUTTON), wxPoint(568,24), wxSize(48,24), wxBU_AUTODRAW, wxDefaultValidator, _T("ID_REBOOTBUTTON"));
- BitmapButtonReboot->SetToolTip(_("Redémarrer"));
- StaticBoxLocal1 = new wxStaticBox(Panel1, ID_STATICBOX2, _("Local"), wxPoint(8,104), wxSize(216,296), 0, _T("ID_STATICBOX2"));
- StaticBoxSD = new wxStaticBox(Panel1, ID_STATICBOXSD, _("Carte SD"), wxPoint(232,104), wxSize(216,296), 0, _T("ID_STATICBOXSD"));
- TctrlSd = new wxTreeCtrl(Panel1, ID_TREECTRLSD, wxPoint(240,120), wxSize(200,272), wxTR_DEFAULT_STYLE, wxDefaultValidator, _T("ID_TREECTRLSD"));
- DirCtrl = new wxGenericDirCtrl(Panel1, ID_GENERICDIRCTRL1, wxEmptyString, wxPoint(16,120), wxSize(200,272), 0, wxEmptyString, 0, _T("ID_GENERICDIRCTRL1"));
- BitmapButtonRefresh = new wxBitmapButton(Panel1, ID_BITMAPBUTTONREFRESH, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_REDO")),wxART_BUTTON), wxPoint(568,56), wxSize(48,24), wxBU_AUTODRAW, wxDefaultValidator, _T("ID_BITMAPBUTTONREFRESH"));
- BitmapButtonRefresh->SetToolTip(_("Rafraichir"));
- Gauge = new wxGauge(Panel1, ID_GAUGE, 100, wxPoint(328,24), wxSize(224,16), 0, wxDefaultValidator, _T("ID_GAUGE"));
- TimerRX.SetOwner(this, ID_TIMERRX);
- TimerRX.Start(200, true);
+Create(parent, wxID_ANY, _("Bluetooth"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
+SetClientSize(wxSize(645,409));
+Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(392,176), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+StaticBoxCom = new wxStaticBox(Panel1, ID_STATICBOX1, _("Communication"), wxPoint(8,8), wxSize(624,88), 0, _T("ID_STATICBOX1"));
+ComboBoxCom = new wxComboBox(Panel1, ID_COMBOBOX1, wxEmptyString, wxPoint(64,32), wxSize(72,23), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX1"));
+StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("Port :"), wxPoint(16,32), wxSize(40,16), wxALIGN_RIGHT, _T("ID_STATICTEXT1"));
+StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, _("Mémoire libre :"), wxPoint(160,32), wxSize(96,16), wxALIGN_RIGHT, _T("ID_STATICTEXT2"));
+StaticTextFreeMem = new wxStaticText(Panel1, ID_STATICTEXT3, _("------"), wxPoint(264,32), wxSize(56,16), wxALIGN_LEFT, _T("ID_STATICTEXT3"));
+StaticTextVersion = new wxStaticText(Panel1, ID_STATICTEXT4, wxEmptyString, wxPoint(24,64), wxSize(360,16), 0, _T("ID_STATICTEXT4"));
+BitmapButtonReboot = new wxBitmapButton(Panel1, ID_REBOOTBUTTON, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_WARNING")),wxART_BUTTON), wxPoint(568,24), wxSize(48,24), wxBU_AUTODRAW, wxDefaultValidator, _T("ID_REBOOTBUTTON"));
+BitmapButtonReboot->SetToolTip(_("Redémarrer"));
+StaticBoxLocal1 = new wxStaticBox(Panel1, ID_STATICBOX2, _("Local"), wxPoint(8,104), wxSize(216,296), 0, _T("ID_STATICBOX2"));
+StaticBoxSD = new wxStaticBox(Panel1, ID_STATICBOXSD, _("Carte SD"), wxPoint(232,104), wxSize(216,296), 0, _T("ID_STATICBOXSD"));
+TctrlSd = new wxTreeCtrl(Panel1, ID_TREECTRLSD, wxPoint(240,120), wxSize(200,272), wxTR_DEFAULT_STYLE, wxDefaultValidator, _T("ID_TREECTRLSD"));
+DirCtrl = new wxGenericDirCtrl(Panel1, ID_GENERICDIRCTRL1, wxEmptyString, wxPoint(16,120), wxSize(200,272), 0, wxEmptyString, 0, _T("ID_GENERICDIRCTRL1"));
+BitmapButtonRefresh = new wxBitmapButton(Panel1, ID_BITMAPBUTTONREFRESH, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_REDO")),wxART_BUTTON), wxPoint(568,56), wxSize(48,24), wxBU_AUTODRAW, wxDefaultValidator, _T("ID_BITMAPBUTTONREFRESH"));
+BitmapButtonRefresh->SetToolTip(_("Rafraichir"));
+Gauge = new wxGauge(Panel1, ID_GAUGE, 100, wxPoint(328,24), wxSize(224,16), 0, wxDefaultValidator, _T("ID_GAUGE"));
+TimerRX.SetOwner(this, ID_TIMERRX);
+TimerRX.Start(200, true);
 
- Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_SELECTED,(wxObjectEventFunction)&BluetoothFrame::OnComboBoxComSelected);
- Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_DROPDOWN,(wxObjectEventFunction)&BluetoothFrame::OnComboBoxComDropdown);
- Connect(ID_REBOOTBUTTON,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&BluetoothFrame::OnBitmapButtonRebootClick);
- Connect(ID_TREECTRLSD,wxEVT_COMMAND_TREE_BEGIN_DRAG,(wxObjectEventFunction)&BluetoothFrame::OnTctrlSdBeginDrag);
- Connect(ID_TREECTRLSD,wxEVT_COMMAND_TREE_ITEM_RIGHT_CLICK,(wxObjectEventFunction)&BluetoothFrame::OnTctrlSdItemRightClick);
- Connect(ID_BITMAPBUTTONREFRESH,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&BluetoothFrame::OnBitmapButtonRefreshClick);
- Connect(ID_TIMERRX,wxEVT_TIMER,(wxObjectEventFunction)&BluetoothFrame::OnTimerRXTrigger);
- Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&BluetoothFrame::OnClose);
+Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_SELECTED,(wxObjectEventFunction)&BluetoothFrame::OnComboBoxComSelected);
+Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_DROPDOWN,(wxObjectEventFunction)&BluetoothFrame::OnComboBoxComDropdown);
+Connect(ID_REBOOTBUTTON,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&BluetoothFrame::OnBitmapButtonRebootClick);
+Connect(ID_TREECTRLSD,wxEVT_COMMAND_TREE_BEGIN_DRAG,(wxObjectEventFunction)&BluetoothFrame::OnTctrlSdBeginDrag);
+Connect(ID_TREECTRLSD,wxEVT_COMMAND_TREE_ITEM_RIGHT_CLICK,(wxObjectEventFunction)&BluetoothFrame::OnTctrlSdItemRightClick);
+Connect(ID_BITMAPBUTTONREFRESH,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&BluetoothFrame::OnBitmapButtonRefreshClick);
+Connect(ID_TIMERRX,wxEVT_TIMER,(wxObjectEventFunction)&BluetoothFrame::OnTimerRXTrigger);
+Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&BluetoothFrame::OnClose);
 //*)
 
  {
@@ -138,6 +150,11 @@ BluetoothFrame::BluetoothFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
  DnD_DirCtrl_Txt * txtDirCtrlDropTarget = new DnD_DirCtrl_Txt(this);
  txtDirCtrlDropTarget->SetDataObject(new wxTextDataObject());
  DirCtrl->SetDropTarget(txtDirCtrlDropTarget); //Enable droping objects on HDD
+
+#if defined(USE_DDE_LINK)
+ // DDE exchange
+ DdeLink();
+#endif
 }
 
 BluetoothFrame::~BluetoothFrame()
@@ -149,6 +166,12 @@ BluetoothFrame::~BluetoothFrame()
 void BluetoothFrame::OnClose(wxCloseEvent& event)
 {
  if (BTComPort != NULL) delete BTComPort;
+#if defined(USE_DDE_LINK)
+ if (dynDdeConnectionOut != NULL) delete dynDdeConnectionOut;
+ if (dynDdeConnectionIn != NULL) delete dynDdeConnectionIn;
+ if (dynDdeClient != NULL) delete dynDdeClient;
+ if (dynDdeServer != NULL) delete dynDdeServer;
+#endif
  OpenAVRc_DesktopFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_DesktopFrame);
  if(parent)
   parent->EnableBluetoothSelectedMenu();
@@ -263,6 +286,25 @@ wxString BluetoothFrame::sendCmdAndWaitForResp(wxString BTcommand, wxString* BTa
       }
     }
   }
+#if defined(USE_DDE_LINK)
+  else if ((dynDdeConnectionIn != NULL) && (dynDdeConnectionOut != NULL))// use DDE
+  {
+    ddeResponce = ""; // flush
+    dynDdeConnectionOut->Poke(DdeTopicName,BTcommand);
+
+   for( int i=0; i<10; ++i)
+      {
+       START_TIMOUT();
+       do
+        {
+         wxYieldIfNeeded();
+        }
+       while (timout);
+       if (ddeResponce.Last() == '\n') break;
+      }
+     return ddeResponce;
+  }
+#endif
  return "ERR";
 }
 
@@ -676,3 +718,71 @@ wxFile * FileOpenForRead(char *FullFileName)
   }
  return NULL;
 }
+
+#if defined(USE_DDE_LINK)
+////// DDE ////////////////////////////
+
+void BluetoothFrame::DdeLink()
+{
+ hostName = wxGetHostName();
+ DdeServerName = "OPENAVRC1";
+ DdeExtServerName = "OPENAVRC2";
+ DdeTopicName = "BT";
+
+ dynDdeServer = new DdeServer(this);
+ dynDdeServer->Create(DdeServerName);
+ DdeConnectTo(DdeExtServerName);
+}
+
+bool BluetoothFrame::DdeConnectTo(wxString ExtServerName)
+{
+ if (dynDdeConnectionOut != NULL) delete dynDdeConnectionOut;
+ dynDdeConnectionOut = NULL;
+ if (dynDdeClient != NULL) delete dynDdeClient;
+ dynDdeClient = NULL;
+
+ wxLogNull nolog;
+ dynDdeClient = new DdeClient;
+ dynDdeConnectionOut = (DdeConnectionOut *)dynDdeClient->MakeConnection(hostName, ExtServerName, DdeTopicName);
+ if (dynDdeConnectionOut)
+  {
+   wxMessageBox("trouvé !", "Client serveur");
+   dynDdeConnectionOut->Poke(DdeTopicName,"TOTO");
+  }
+ else
+  {
+   wxMessageBox("hoin ! !", "Client serveur");
+   delete dynDdeConnectionOut;
+   dynDdeConnectionOut = NULL;
+   delete dynDdeClient;
+   dynDdeClient = NULL;
+  }
+  return true;
+}
+
+wxConnectionBase * DdeServer::OnAcceptConnection(const wxString& topic)
+{
+if (topic == DdeTopicName)
+{
+wxLogNull nolog;
+wxMessageBox("connection entrante");
+dynDdeConnectionIn = new DdeConnectionIn(bluetoothFrame);
+return dynDdeConnectionIn;
+}
+return NULL;
+}
+
+bool DdeConnectionIn::OnPoke(const wxString &topic, const wxString &item, const void *data, size_t size, wxIPCFormat format)
+{
+wxLogNull nolog;
+ //wxMessageBox("poke ok", topic);
+ if (dynDdeConnectionOut == NULL)
+ {
+   bluetoothFrame->DdeConnectTo(DdeExtServerName);
+ }
+ char* temp = (char*)data;
+ bluetoothFrame->ddeResponce = wxString::FromUTF8(temp);
+ return true;
+}
+////// DDE ////////////////////////////
+#endif

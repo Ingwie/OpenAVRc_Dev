@@ -13,7 +13,7 @@
 			<handler function="OnTextCtrlTextEnter" entry="EVT_TEXT_ENTER" />
 		</object>
 		<object class="wxTimer" name="ID_TIMERBTRX" variable="TimerBTRX" member="yes">
-			<interval>20</interval>
+			<interval>10</interval>
 			<handler function="OnTimerBTRXTrigger" entry="EVT_TIMER" />
 		</object>
 	</object>

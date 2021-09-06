@@ -771,8 +771,9 @@ void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
           EE_READY_vect(); // simulate eeprom write ISR
         }
     }
-
-
+#if defined(USE_DDE_LINK)
+  if(uCliFr)  uCliFr->DdeSendBufferIfNeeded();
+#endif
   if (ISR10msLoop_is_runing) // Avoid re-entrance
   {
     Timer10ms.StartOnce(1); //whait 1 mS

@@ -41,6 +41,19 @@ extern bool Ini_Changed;
 Tserial *BTComPort;
 bool SimuBTComIsValid;
 
+#if defined(USE_DDE_LINK)
+// DDE
+DdeServer * dynDdeServer = NULL;
+DdeClient * dynDdeClient = NULL;
+DdeConnectionOut * dynDdeConnectionOut = NULL;
+DdeConnectionIn * dynDdeConnectionIn = NULL;
+wxString hostName;
+wxString DdeServerName;
+wxString DdeExtServerName;
+wxString DdeTopicName;
+wxString ddeDataOut = "";
+#endif
+
 //(*InternalHeaders(uCliFrame)
 #include <wx/intl.h>
 #include <wx/string.h>
@@ -64,7 +77,7 @@ uCliFrame::uCliFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
 	Move(wxDefaultPosition);
 	TextCtrl = new wxTextCtrl(this, ID_TEXTCTRL, wxEmptyString, wxPoint(224,320), wxDefaultSize, wxTE_PROCESS_ENTER|wxTE_MULTILINE|wxBORDER_DOUBLE|wxHSCROLL, wxDefaultValidator, _T("ID_TEXTCTRL"));
 	TimerBTRX.SetOwner(this, ID_TIMERBTRX);
-	TimerBTRX.Start(20, false);
+	TimerBTRX.Start(10, false);
 
 	Connect(ID_TEXTCTRL,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&uCliFrame::OnTextCtrlTextEnter);
 	Connect(ID_TIMERBTRX,wxEVT_TIMER,(wxObjectEventFunction)&uCliFrame::OnTimerBTRXTrigger);
@@ -80,6 +93,11 @@ uCliFrame::uCliFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
   char BTComNum[5] = {'C','O','M','1',0};
   assert(BTComPort);
   SimuBTComIsValid = (BTComPort->connect(BTComNum, 115200, spNONE) == 0);
+
+#if defined(USE_DDE_LINK)
+ // DDE exchange
+ DdeLink();
+#endif
 }
 
 uCliFrame::~uCliFrame()
@@ -87,6 +105,12 @@ uCliFrame::~uCliFrame()
 	//(*Destroy(uCliFrame)
 	//*)
   if (BTComPort != NULL) delete BTComPort;
+#if defined(USE_DDE_LINK)
+ if (dynDdeConnectionOut != NULL) delete dynDdeConnectionOut;
+ if (dynDdeConnectionIn != NULL) delete dynDdeConnectionIn;
+ if (dynDdeClient != NULL) delete dynDdeClient;
+ if (dynDdeServer != NULL) delete dynDdeServer;
+#endif
 }
 
 void uCliFrame::SendToBtSerial()
@@ -152,6 +176,12 @@ void uCliFrame::HwSerialByte(uint8_t c)
      SendToBtSerial();
     }
   }*/
+#if defined(USE_DDE_LINK)
+ if ((c == '\n') && (dynDdeConnectionOut != NULL))
+  {
+    ddeDataOut = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
+  }
+#endif
  if ((c == '\n') && (SimuBTComIsValid) && BT_POWER_IS_ON())
   {
    wxString cmda = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
@@ -241,13 +271,11 @@ void uCliFrame::OnTextCtrlTextEnter(wxCommandEvent& event)
 
 void uCliFrame::OnTimerBTRXTrigger(wxTimerEvent& event)
 {
-#define BFSZ 100
  if (SimuBTComIsValid)
   {
    int Num = BTComPort->getNbrOfBytes();
    if (Num)
     {
-     //(Num > BFSZ)? Num = BFSZ : Num = Num;
      char buffer[Num+1];
      BTComPort->getArray(buffer, Num);
      for (int i=0; i <= Num; i++)
@@ -264,3 +292,102 @@ void uCliFrame::OnTimerBTRXTrigger(wxTimerEvent& event)
    TimerBTRX.Stop();
   }
 }
+
+#if defined(USE_DDE_LINK)
+////// DDE ////////////////////////////
+
+void uCliFrame::DdeLink()
+{
+ hostName = wxGetHostName();
+#if defined(EXTERNALEEPROM) && !defined(DEBUG)
+ DdeServerName = "1122";
+ DdeExtServerName = "2211";
+#else
+ DdeServerName = "2211";
+ DdeExtServerName = "1122";
+#endif // Defined
+ DdeTopicName = "112";
+
+ dynDdeServer = new DdeServer(this);
+ dynDdeServer->Create(DdeServerName);
+ DdeConnectTo(DdeExtServerName);
+}
+
+bool uCliFrame::DdeConnectTo(wxString ExtServerName)
+{
+ if (dynDdeConnectionOut != NULL) delete dynDdeConnectionOut;
+ dynDdeConnectionOut = NULL;
+ if (dynDdeClient != NULL) delete dynDdeClient;
+ dynDdeClient = NULL;
+
+ wxLogNull nolog;
+ dynDdeClient = new DdeClient;
+ dynDdeConnectionOut = (DdeConnectionOut *)dynDdeClient->MakeConnection(hostName, ExtServerName, DdeTopicName);
+ if (dynDdeConnectionOut)
+  {
+   //wxMessageBox("trouvé !", "Client serveur");
+   dynDdeConnectionOut->Poke(DdeTopicName,"IPC Ok");
+   TimerBTRX.Start(10, false);
+  }
+ else
+  {
+  // wxMessageBox("hoin ! !", "Client serveur");
+   delete dynDdeConnectionOut;
+   dynDdeConnectionOut = NULL;
+   delete dynDdeClient;
+   dynDdeClient = NULL;
+  }
+}
+
+wxConnectionBase * DdeServer::OnAcceptConnection(const wxString& topic)
+{
+if (topic == DdeTopicName)
+{
+//wxMessageBox("connection entrante");
+dynDdeConnectionIn = new DdeConnectionIn(UCliFrame);
+return dynDdeConnectionIn;
+}
+return NULL;
+}
+
+bool DdeConnectionIn::OnPoke(const wxString &topic, const wxString &item, const void *data, size_t size, wxIPCFormat format = wxIPC_UTF8TEXT)
+{
+ if (dynDdeConnectionOut == NULL)
+ {
+   UCliFrame->DdeConnectTo(DdeExtServerName);
+ }
+ else
+ {
+   char* temp = (char*)data;
+
+   for (size_t i=0; i < size; i++)
+   {
+    UCliFrame->HwSerialByte(temp[i]);
+        simu_udr1 = temp[i];
+    USART_RX_vect_N(TLM_USART1)();
+
+   }
+     simu_udr1 = '\r';
+  USART_RX_vect_N(TLM_USART1)();
+  simu_udr1 = '\n';
+  USART_RX_vect_N(TLM_USART1)();
+  //UCliFrame->HwSerialByte('\r');
+  UCliFrame->HwSerialByte('\n');
+  //wxMessageBox("poke ok");
+ }
+ return true;
+}
+
+ void uCliFrame::DdeSendBufferIfNeeded()
+{
+
+ if ((ddeDataOut.Len() > 0) && (dynDdeConnectionOut != NULL))
+  {
+   dynDdeConnectionOut->Poke(DdeTopicName,ddeDataOut);
+   _delay_ms(150);
+   wxYieldIfNeeded();
+   ddeDataOut = "";
+  }
+}
+////// DDE ////////////////////////////
+#endif
