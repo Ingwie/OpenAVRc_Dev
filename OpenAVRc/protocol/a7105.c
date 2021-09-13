@@ -39,6 +39,7 @@
  SET_RF_MOSI_IS_OUTPUT();   \
  WAKEUP_RF_SPI();
 
+#if defined(CPUM2560)
 void SPI_WRITE_3WIRES(uint8_t data) // Bitbang write
 {
  for (uint8_t mask=0x80; (mask); mask>>=1)
@@ -72,6 +73,7 @@ uint8_t SPI_READ_3WIRES() // Bitbang read
   }
  return result;
 }
+#endif
 
 void A7105_Strobe(uint8_t address)
 {
@@ -173,14 +175,15 @@ uint8_t A7105_ReadReg(uint8_t address)
 //------------------------
 void A7105_Reset()
 {
- A7105_Enable_HWSPI();
- A7105_WriteReg(A7105_00_MODE, 0x00);
- uint8_t temp = 0;
- _delay_ms(1);
- A7105_SetTxRxMode(TXRX_OFF);			//Set both GPIO as output and low
- while(A7105_ReadReg(A7105_10_PLL_II) != 0x9E)	//check if is reset.
-  if(++temp > 10)
-   break;
+  A7105_Enable_HWSPI();
+  A7105_WriteReg(A7105_00_MODE, 0x00);
+  uint8_t temp = 0;
+  _delay_ms(1);
+
+  while(A7105_ReadReg(A7105_10_PLL_II) != 0x9E) // Check if it is reset.
+    if(++temp > 10)
+    break;
+  A7105_SetTxRxMode(TXRX_OFF); // Set both GPIO as output.
 }
 
 void A7105_WriteID(uint32_t ida)
