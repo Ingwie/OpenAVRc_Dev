@@ -127,6 +127,21 @@ void rf_usart_mspi_init(void);
 #define RF_CS_NRF24L01_INACTIVE() PORTE.OUTSET = RF_CS_PIN_bm
 #define RF_CS_A7105_ACTIVE()      PORTE.OUTCLR = RF_CS_PIN_bm
 #define RF_CS_A7105_INACTIVE()    PORTE.OUTSET = RF_CS_PIN_bm
+
+// A7105/6 3 Wire SPI patches.
+// SDIO connects to MISO, but MOSI has a series 2K Ohm to SDIO. No Bit Banging for stand alone A7106 module.
+#define SUSPEND_RF_SPI() // { RF_USART.CTRLB = 0; RF_USART.CTRLC = 0; }
+#define SET_RF_MOSI_IS_INPUT()   { RF_PORT.DIRCLR = USART_TXD_PIN_bm; }
+#define SET_RF_MOSI_IS_OUTPUT()  { RF_PORT.DIRSET = USART_TXD_PIN_bm; }
+//#define A7105_Enable_HWSPI()  {}
+#define SPI_READ_3WIRES()  rf_usart_mspi_xfer(0)
+#define SPI_WRITE_3WIRES rf_usart_mspi_xfer
+#define WAKEUP_RF_SPI()  // { RF_USART.CTRLB = USART_TXEN_bm | USART_RXEN_bm; }
+#define RF_MOSI_ON()   { RF_PORT.OUTSET = USART_TXD_PIN_bm; }
+#define RF_MOSI_OFF()  { RF_PORT.OUTCLR = USART_TXD_PIN_bm; }
+#define RF_XCK_ON()    { RF_PORT.OUTSET = USART_XCK_PIN_bm; }
+#define RF_XCK_OFF()   { RF_PORT.OUTCLR = USART_XCK_PIN_bm; }
+#define IS_RF_MOSI_ON  ( RF_PORT.IN & USART_TXD_PIN_bm)
 #endif // SPIMODULES
 
 
