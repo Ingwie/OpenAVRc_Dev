@@ -47,10 +47,10 @@ extern uint8_t * eeprom_buffer_data;
 #define PPMSIZE    3
 #define DSM2SZISE  1
 #define MULTISIZE  1
-#define CCSIZE     5
+#define CCSIZE     6
 #define CYRFSIZE   3
 #define ASIZE      2
-#define NFRZISE    0
+#define NFRZISE    2
 
 void adaptTxProtocolNumToSimu()
 {

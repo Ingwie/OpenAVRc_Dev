@@ -445,6 +445,11 @@
 			<Option link="0" />
 		</Unit>
 		<Unit filename="../OpenAVRc/protocol/FRSKY_DEF_cc2500.h" />
+		<Unit filename="../OpenAVRc/protocol/HITEC_cc2500.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="../OpenAVRc/protocol/J6PRO_cyrf6936.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
