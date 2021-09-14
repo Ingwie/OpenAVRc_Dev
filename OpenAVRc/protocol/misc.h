@@ -70,7 +70,7 @@
     uint8_t * telem_save_data_p2M = &pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-40]; // used in [9] FrskyX & [10] DSM telemetry
   #endif
   #if defined(PROTO_HAS_CC2500)
-    uint8_t calData[48]; // used in FrskyX protocol
+    uint8_t calData[48]; // used in FrskyX & Hitec protocol
   #endif
   #if defined(PROTO_HAS_CC2500) || defined(PROTO_HAS_A7105)
     uint32_t seed; // used in FrskyV or AFHDS2A
@@ -92,7 +92,7 @@
 #define receive_seq_p2M        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-7]
 #define send_seq_p2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-8]
 #define bind_idx_p2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-9]
-#define dp_crc_init_p2M        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-10] // Only used in FRSKYV
+#define dp_crc_init_p2M        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-10] // Only used in FRSKYV & HITEC
 #define packetSize_p2M         pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-10] // Only used in CABELL
 #define packet_count_p2M       pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-11]
 #define telem_save_seq_p2M     pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-12]
