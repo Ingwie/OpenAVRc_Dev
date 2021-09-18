@@ -99,6 +99,7 @@ enum {
     A7105_30_IFAT         = 0x30,
     A7105_31_RSCALE       = 0x31,
     A7105_32_FILTER_TEST  = 0x32,
+//  A7106_33_TMV          = 0x33, // A7106 has an extra register and other differences.
 };
 
 #define A7105_0F_CHANNEL A7105_0F_PLL_I
