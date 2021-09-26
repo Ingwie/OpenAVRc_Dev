@@ -451,16 +451,16 @@ static uint16_t FRSKYX_send_data_packet()
       //
 //			frskyX_data_frame();
       ++rfState8_p2M;
-      return 5200;
+      return 5200*2;
     case FRSKYX_DATA2:
       CC2500_SetTxRxMode(RX_EN);
       CC2500_Strobe(CC2500_SIDLE);
       ++rfState8_p2M;
-      return 200;
+      return 200*2;
     case FRSKYX_DATA3:
       CC2500_Strobe(CC2500_SRX);
       ++rfState8_p2M;
-      return 3100;
+      return 3100*2;
     case FRSKYX_DATA4:
 
       uint8_t len = CC2500_ReadReg(CC2500_3B_RXBYTES | CC2500_READ_BURST) & 0x7F;
@@ -478,9 +478,9 @@ static uint16_t FRSKYX_send_data_packet()
         send_seq_p2M = (send_seq_p2M + 1) % 4;
 
       rfState8_p2M = FRSKYX_DATA1;
-      return 500;
+      return 500*2;
     }
-  return 1;
+  return 0;
 }
 
 static void FRSKYX_send_bind_packet()
@@ -506,7 +506,7 @@ static uint16_t FRSKYX_cb()
   uint16_t time = FRSKYX_send_data_packet();
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-  return time*2;
+  return time;
 }
 
 static void FRSKYX_initialize(uint8_t bind)
