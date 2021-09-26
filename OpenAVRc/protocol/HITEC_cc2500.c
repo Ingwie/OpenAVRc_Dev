@@ -270,8 +270,6 @@ static void HITEC_send_packet()
 
 uint16_t HITEC_callback()
 {
- SCHEDULE_MIXER_END_IN_US(22500); // Schedule next Mixer calculations.
-
  switch(send_seq_p2M)
   {
   case HITEC_START:
@@ -295,6 +293,7 @@ uint16_t HITEC_callback()
    send_seq_p2M = HITEC_CALIB;
    return 2000*2;
   case HITEC_CALIB:
+   SCHEDULE_MIXER_END_IN_US(2000*2); // Schedule next Mixer calculations.
    calData[channel_index_p2M]=CC2500_ReadReg(CC2500_25_FSCAL1);
    channel_index_p2M++;
    if (channel_index_p2M < HITEC_RF_CH_NUM)
@@ -307,12 +306,13 @@ uint16_t HITEC_callback()
    return 2000*2;
 
    /* Work cycle: 22.5ms */
-#define HITEC_PACKET_PERIOD	22500
-#define HITEC_PREP_TIMING	462
-#define HITEC_DATA_TIMING	2736
-#define HITEC_RX1_TIMING	4636
+#define HITEC_PACKET_PERIOD	22500U
+#define HITEC_PREP_TIMING	462U
+#define HITEC_DATA_TIMING	2736U
+#define HITEC_RX1_TIMING	4636U
   case HITEC_PREP:
-   if ( freq_fine_mem_p2M == g_model.rfOptionValue1 )
+   SCHEDULE_MIXER_END_IN_US(22500); // Schedule next Mixer calculations.
+   if (freq_fine_mem_p2M == g_model.rfOptionValue1)
     {
      // No user frequency change
      HITEC_change_chan_fast();
@@ -326,19 +326,19 @@ uint16_t HITEC_callback()
     }
    else
     send_seq_p2M = HITEC_START;	// Restart the tune process if option is changed to get good tuned values
-   return HITEC_PREP_TIMING;
+   return HITEC_PREP_TIMING*2;
   case HITEC_DATA1:
   case HITEC_DATA2:
   case HITEC_DATA3:
   case HITEC_DATA4:
    HITEC_send_packet();
    send_seq_p2M++;
-   return HITEC_DATA_TIMING;
+   return HITEC_DATA_TIMING*2;
   case HITEC_RX1:
    CC2500_SetTxRxMode(RX_EN);
    CC2500_Strobe(CC2500_SRX);	// Turn RX ON
    send_seq_p2M++;
-   return HITEC_RX1_TIMING;
+   return HITEC_RX1_TIMING*2;
   case HITEC_RX2:
    if (HITEC_TELEMETRY) // telemetry on ?
     {
@@ -423,9 +423,17 @@ uint16_t HITEC_callback()
     }
    heartbeat |= HEART_TIMER_PULSES;
    CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-   return (HITEC_PACKET_PERIOD -HITEC_PREP_TIMING -4*HITEC_DATA_TIMING -HITEC_RX1_TIMING);
+   return (HITEC_PACKET_PERIOD -HITEC_PREP_TIMING -4*HITEC_DATA_TIMING -HITEC_RX1_TIMING)*2;
   }
  return 0;
+}
+
+static uint16_t HITEC_cb()
+{
+ uint16_t time = HITEC_callback();
+ heartbeat |= HEART_TIMER_PULSES;
+ CALCULATE_LAT_JIT(); // Calculate latency and jitter.
+ return time;
 }
 
 static void HITEC_initialize(uint8_t bind)
@@ -434,7 +442,7 @@ static void HITEC_initialize(uint8_t bind)
  CC2500_Reset();
  HITEC_init();
  HITEC_BIND = bind; // store bind state
- PROTO_Start_Callback(HITEC_callback);
+ PROTO_Start_Callback(HITEC_cb);
 }
 
 const void *HITEC_Cmds(enum ProtoCmds cmd)
