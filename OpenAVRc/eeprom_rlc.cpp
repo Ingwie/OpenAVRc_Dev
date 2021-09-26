@@ -956,10 +956,11 @@ void eeLoadModel(uint8_t id)
 #if defined(SDCARD)
       closeLogIfActived();
 #endif
-
+      uint8_t firstLoad = 1;
       if (pulsesStarted())
         {
           sendStopPulses();
+          firstLoad = 0;
         }
 
       theFile.openRlc(FILE_MODEL(id));
@@ -981,14 +982,11 @@ void eeLoadModel(uint8_t id)
       logicalSwitchesReset();
       setGazSource();
 
-
-
-          if (!newModel)
+      if (!(firstLoad || newModel))
             {
               checkAll();
             }
-          startPulses(PROTOCMD_INIT);
-
+      startPulses(PROTOCMD_INIT);
 
       customFunctionsReset();
 
