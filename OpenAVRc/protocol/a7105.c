@@ -116,11 +116,10 @@ void A7105_SetTxRxMode(uint8_t mode)
 
 void A7105_WriteData(uint8_t len, uint8_t channel)
 {
- uint8_t i;
- A7105_Strobe(A7105_RST_WRPTR);
  RF_CS_A7105_ACTIVE();
+ RF_SPI_xfer(A7105_RST_WRPTR);
  RF_SPI_xfer(A7105_05_FIFO_DATA);
- for (i = 0; i < len; i++)
+ for (uint8_t i = 0; i < len; i++)
   RF_SPI_xfer(packet_p2M[i]);
  RF_CS_A7105_INACTIVE();
  if(g_model.rfProtocol != PROTOCOL_FLYSKY)
@@ -162,7 +161,7 @@ uint8_t A7105_ReadReg(uint8_t address)
  SET_RF_MOSI_IS_INPUT();
 #else // other
  RF_CS_A7105_ACTIVE();
- RF_SPI_xfer(address |= 0x40);			//bit 6 =1 for reading
+ RF_SPI_xfer(address |= 0x40);				//bit 6 =1 for reading
  SUSPEND_RF_SPI();
  SET_RF_MOSI_IS_INPUT();
 #endif // MEGAMINI (uart2 MSPI mode)
@@ -175,15 +174,15 @@ uint8_t A7105_ReadReg(uint8_t address)
 //------------------------
 void A7105_Reset()
 {
-  A7105_Enable_HWSPI();
-  A7105_WriteReg(A7105_00_MODE, 0x00);
-  uint8_t temp = 0;
-  _delay_ms(1);
-
-  while(A7105_ReadReg(A7105_10_PLL_II) != 0x9E) // Check if it is reset.
-    if(++temp > 10)
-    break;
-  A7105_SetTxRxMode(TXRX_OFF); // Set both GPIO as output.
+ A7105_Enable_HWSPI();
+ A7105_WriteReg(A7105_00_MODE, 0x00);
+ uint8_t temp = 0;
+ _delay_ms(1);
+ A7105_SetTxRxMode(TXRX_OFF);			//Set both GPIO as output and low
+ while(A7105_ReadReg(A7105_10_PLL_II) != 0x9E)	//check if is reset.
+  if(++temp > 10)
+   break;
+ A7105_Strobe(A7105_STANDBY);
 }
 
 void A7105_WriteID(uint32_t ida)
@@ -337,22 +336,18 @@ const uint8_t AFHDS2A_A7105_regs[] PROGMEM =
 
 void A7105_Init(void)
 {
-
  A7105_Reset();
-
  uint_farptr_t A7105_Regs = 0;
 
  /*if(g_model.rfProtocol==PROTOCOL_HUBSAN)
  {
- 	A7105_WriteID(ID_NORMAL);
- 	A7105_Regs=pgm_get_far_address(HUBSAN_A7105_regs);
+ A7105_WriteID(ID_NORMAL);
+ A7105_Regs=pgm_get_far_address(HUBSAN_A7105_regs);
  }
  else*/
  {
-  //écriture ID trame A7105
   A7105_WriteID(0x5475C52A);//0x2Ac57554
 
-  //init pointeur table valeurs des registres d'init en fonction du protocole
   if(g_model.rfProtocol==PROTOCOL_FLYSKY)
    {
     A7105_Regs=pgm_get_far_address(FLYSKY_A7105_regs);
@@ -363,7 +358,6 @@ void A7105_Init(void)
    }
  }
 
- //ecriture valeur d'init des regisres
  for (uint8_t i = 0; i < 0x32; i++)
   {
    uint8_t val = pgm_read_byte_far(A7105_Regs + i);
@@ -379,17 +373,15 @@ void A7105_Init(void)
    if( val != 0xFF)
     A7105_WriteReg(i, val);
   }
+ A7105_Strobe(A7105_STANDBY);
 
- //IF Filter Bank Calibration
+//IF Filter Bank Calibration
  A7105_WriteReg(A7105_02_CALC,1);
- //uint8_t temp = 0;
- while(A7105_ReadReg(A7105_02_CALC)) // Wait for calibration to end (0.5mS MAX, 256uS in datasheet)
-  {}
- //lecture registre de calibration du filtre, si bit4 = '0' alors calibration auto ok, sinon pb...
- //if ( A7105_ReadReg(A7105_22_IF_CALIB_I) & 0x10 ){ /*pb de calibration, que faire ?*/ }
-
- //calibration VCO
- //if(g_model.rfProtocol!=PROTOCOL_HUBSAN)
+ A7105_ReadReg(A7105_02_CALC);	// Wait for calibration to end (0.5mS MAX, 256uS in datasheet)
+ _delay_us(500);
+//	A7105_ReadReg(A7105_22_IF_CALIB_I);
+//	A7105_ReadReg(A7105_24_VCO_CURCAL);
+//if(g_model.rfProtocol!=PROTOCOL_HUBSAN)
  {
   //VCO Current Calibration
   A7105_WriteReg(A7105_24_VCO_CURCAL,0x13);	//Recommended calibration from A7105 Datasheet
@@ -397,33 +389,28 @@ void A7105_Init(void)
   A7105_WriteReg(A7105_26_VCO_SBCAL_II,0x3b);	//Recommended calibration from A7105 Datasheet
  }
 
- //VCO Bank Calibrate channel 0
+//VCO Bank Calibrate channel 0
  A7105_WriteReg(A7105_0F_CHANNEL, 0);
  A7105_WriteReg(A7105_02_CALC,2);
- while(A7105_ReadReg(A7105_02_CALC))			// Wait for calibration to end (0.5mS MAX), 240uS in datasheet
-  {}
- //lecture registre de calibration du VCO, si bit3 = '0' alors calibration auto ok, sinon pb...
- //if ( A7105_ReadReg(A7105_25_VCO_SBCAL_I) & 0x08 ){ /*pb de calibration, que faire ?*/ }
+ A7105_ReadReg(A7105_02_CALC);		// Wait for calibration to end (0.5mS MAX), 240uS in datasheet
+ _delay_us(500);
+//	A7105_ReadReg(A7105_25_VCO_SBCAL_I);
 
- //VCO Bank Calibrate channel A0
+//VCO Bank Calibrate channel A0
  A7105_WriteReg(A7105_0F_CHANNEL, 0xa0);
  A7105_WriteReg(A7105_02_CALC, 2);
- while(A7105_ReadReg(A7105_02_CALC))			// Wait for calibration to end (0.5mS MAX), 240uS in datasheet
-  {}
- //lecture registre de calibration du VCO, si bit3 = '0' alors calibration auto ok, sinon pb...
- //if ( A7105_ReadReg(A7105_25_VCO_SBCAL_I) & 0x08 ){ /*pb de calibration, que faire ?*/ }
+ A7105_ReadReg(A7105_02_CALC);		// Wait for calibration to end (0.5mS MAX), 240uS in datasheet
+ _delay_us(500);
+//	A7105_ReadReg(A7105_25_VCO_SBCAL_I);
 
- //Reset VCO Band calibration
- //if(g_model.rfProtocol!=PROTOCOL_HUBSAN)
+//Reset VCO Band calibration
+//if(g_model.rfProtocol!=PROTOCOL_HUBSAN)
  {
   A7105_WriteReg(A7105_25_VCO_SBCAL_I,(g_model.rfProtocol==PROTOCOL_FLYSKY)?0x08:0x0A);
  }
 
- A7105_SetTxRxMode(TX_EN); //configure lna/pa
+ A7105_SetTxRxMode(TX_EN);
  A7105_SetPower(TXPOWER_1);
-
  A7105_AdjustLOBaseFreq();
-
- //A7105_Strobe(A7105_STANDBY); //inutile car toujours en standby
 }
 #endif
