@@ -52,7 +52,6 @@ const pm_char STR_SUBTYPE_HITEC[] PROGMEM = "OPTI""MINI";
 #define HITEC_COARSE			0
 #define HITEC_PACKET_LEN		13
 #define HITEC_TX_ID_LEN			2
-#define HITEC_BIND_COUNT		444	// 10sec
 #define HITEC_NUM_FREQUENCE		21
 #define HITEC_BIND_NUM_FREQUENCE 14
 #define HITEC_TELEMETRY (g_model.rfOptionBool1)
@@ -277,12 +276,10 @@ uint16_t HITEC_callback()
    bind_idx_p2M=0x72;
    if(HITEC_BIND)
     {
-     bind_counter_p2M = HITEC_BIND_COUNT;
      HITEC_RF_CH_NUM=HITEC_BIND_NUM_FREQUENCE;
     }
    else
     {
-     bind_counter_p2M=0;
      HITEC_RF_CH_NUM=HITEC_NUM_FREQUENCE;
      //Set TXID
      CC2500_WriteReg(CC2500_05_SYNC0,temp_rfid_addr_p2M[2]);
@@ -351,76 +348,51 @@ uint16_t HITEC_callback()
        if( (rxBuf[len-1] & 0x80) && rxBuf[0]==len-3 && rxBuf[1]==temp_rfid_addr_p2M[1] && rxBuf[2]==temp_rfid_addr_p2M[2] && rxBuf[3]==temp_rfid_addr_p2M[3])
         {
          //valid crc && length ok && tx_id ok
-         for(uint8_t i=0; i<len; i++)
-          if(HITEC_BIND)
-           {
-            if(len==13)	// Bind packets have a length of 13
-             {
-              // bind packet: 0A,00,E5,F2,7X,05,06,07,08,09,00
-              bool check=true;
-              for(uint8_t i=5; i<10; i++)
-               if(rxBuf[i]!=i) check=false;
-              if((rxBuf[4]&0xF0)==0x70 && check)
-               {
-                bind_idx_p2M=rxBuf[4]+1;
-                if(bind_idx_p2M==0x7B)
-                 bind_counter_p2M=164;	// in dumps the RX stops to reply at 0x7B so wait a little and exit
-               }
-             }
-           }
-          else if( len==15 && rxBuf[4]==0 && rxBuf[12]==0 )
-           {
-            // Valid telemetry packets
-            // no station:
-            //		0C,1C,A1,2B,00,00,00,00,00,00,00,8D,00,64,8E	-> 00 8D=>RX battery voltage 0x008D/28=5.03V
-            // with HTS-SS:
-            //		0C,1C,A1,2B,00,11,AF,00,2D,00,8D,11,00,4D,96	-> 00 8D=>RX battery voltage 0x008D/28=5.03V
-            //		0C,1C,A1,2B,00,12,00,00,00,00,00,12,00,52,93
-            //		0C,1C,A1,2B,00,13,00,00,00,00,46,13,00,52,8B	-> 46=>temperature2 0x46-0x28=30°C
-            //		0C,1C,A1,2B,00,14,00,00,00,00,41,14,00,2C,93	-> 41=>temperature1 0x41-0x28=25°C
-            //		0C,1C,A1,2B,00,15,00,2A,00,0E,00,15,00,44,96	-> 2A 00=>rpm1=420, 0E 00=>rpm2=140
-            //		0C,1C,A1,2B,00,16,00,00,00,00,00,16,00,2C,8E
-            //		0C,1C,A1,2B,00,17,00,00,00,42,44,17,00,48,8D	-> 42=>temperature3 0x42-0x28=26°C,44=>temperature4 0x44-0x28=28°C
-            //		0C,1C,A1,2B,00,18,00,00,00,00,00,18,00,50,92
+         if( len==15 && rxBuf[4]==0 && rxBuf[12]==0 )
+          {
+           // Valid telemetry packets
+           // no station:
+           //		0C,1C,A1,2B,00,00,00,00,00,00,00,8D,00,64,8E	-> 00 8D=>RX battery voltage 0x008D/28=5.03V
+           // with HTS-SS:
+           //		0C,1C,A1,2B,00,11,AF,00,2D,00,8D,11,00,4D,96	-> 00 8D=>RX battery voltage 0x008D/28=5.03V
+           //		0C,1C,A1,2B,00,12,00,00,00,00,00,12,00,52,93
+           //		0C,1C,A1,2B,00,13,00,00,00,00,46,13,00,52,8B	-> 46=>temperature2 0x46-0x28=30°C
+           //		0C,1C,A1,2B,00,14,00,00,00,00,41,14,00,2C,93	-> 41=>temperature1 0x41-0x28=25°C
+           //		0C,1C,A1,2B,00,15,00,2A,00,0E,00,15,00,44,96	-> 2A 00=>rpm1=420, 0E 00=>rpm2=140
+           //		0C,1C,A1,2B,00,16,00,00,00,00,00,16,00,2C,8E
+           //		0C,1C,A1,2B,00,17,00,00,00,42,44,17,00,48,8D	-> 42=>temperature3 0x42-0x28=26°C,44=>temperature4 0x44-0x28=28°C
+           //		0C,1C,A1,2B,00,18,00,00,00,00,00,18,00,50,92
 #if defined(TODO_FRSKY)
-            TX_RSSI = rxBuf[13];
-            if(TX_RSSI >=128)
-             TX_RSSI -= 128;
-            else
-             TX_RSSI += 128;
-            TX_LQI = rxBuf[14]&0x7F;
+           TX_RSSI = rxBuf[13];
+           if(TX_RSSI >=128)
+            TX_RSSI -= 128;
+           else
+            TX_RSSI += 128;
+           TX_LQI = rxBuf[14]&0x7F;
 
-            if(g_model.rfSubType==HITEC_OPTIMA)
-             {
-              switch(rxBuf[5])		// telemetry frame number
-               {
-               case 0x00:
-                v_lipo1 = (rxBuf[10])<<5 | (rxBuf[11])>>3;	// calculation in float is volt=(rxBuf[10]<<8+rxBuf[11])/28
-                break;
-               case 0x11:
-                v_lipo1 = (rxBuf[9])<<5 | (rxBuf[10])>>3;	// calculation in float is volt=(rxBuf[9]<<8+rxBuf[10])/28
-                break;
-               case 0x18:
-                v_lipo2 =  (rxBuf[6])<<5 | (rxBuf[7])>>3;	// calculation in float is volt=(rxBuf[6]<<8+rxBuf[7])/10
-                break;
-               }
-              telemetry_link=1;			// telemetry hub available
-             }
+           if(g_model.rfSubType==HITEC_OPTIMA)
+            {
+             switch(rxBuf[5])		// telemetry frame number
+              {
+              case 0x00:
+               v_lipo1 = (rxBuf[10])<<5 | (rxBuf[11])>>3;	// calculation in float is volt=(rxBuf[10]<<8+rxBuf[11])/28
+               break;
+              case 0x11:
+               v_lipo1 = (rxBuf[9])<<5 | (rxBuf[10])>>3;	// calculation in float is volt=(rxBuf[9]<<8+rxBuf[10])/28
+               break;
+              case 0x18:
+               v_lipo2 =  (rxBuf[6])<<5 | (rxBuf[7])>>3;	// calculation in float is volt=(rxBuf[6]<<8+rxBuf[7])/10
+               break;
+              }
+             telemetry_link=1;			// telemetry hub available
+            }
 #endif
-           }
+          }
         }
       }
     }
    CC2500_Strobe(CC2500_SFRX);	// Flush the RX FIFO buffer
    send_seq_p2M = HITEC_PREP;
-   if(bind_counter_p2M)
-    {
-     bind_counter_p2M--;
-     if(!bind_counter_p2M)
-      {
-       send_seq_p2M=HITEC_START;
-      }
-    }
    heartbeat |= HEART_TIMER_PULSES;
    CALCULATE_LAT_JIT(); // Calculate latency and jitter.
    return (HITEC_PACKET_PERIOD -HITEC_PREP_TIMING -4*HITEC_DATA_TIMING -HITEC_RX1_TIMING)*2;
