@@ -1081,8 +1081,7 @@ void doMixerCalculations()
 
   if (tick10ms) {
 #if defined(X_ANY)
-  static uint8_t Phase = 0;
-  Phase = !Phase;
+  systemBolls.x_any_Phase ^= 1;
 
 #if defined(SIMU) // Simulate ISR(TIMER1_COMPA_vect) X_any computation
 #if defined (DEBUG)
@@ -1092,7 +1091,7 @@ void doMixerCalculations()
 #endif
 #endif
 
-  if(Phase)
+  if(systemBolls.x_any_Phase)
   {
 #if (X_ANY >= 1)
     Xany_readInputsAndLoadMsg(0);

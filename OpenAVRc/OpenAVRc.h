@@ -723,7 +723,8 @@ PACK(typedef struct {
   uint8_t protoMode:1; // Normal, Bind
   uint8_t s_mixer_first_run_done:1;
   uint8_t puppyPpmSignalOk:1;
-  uint8_t unused:3;
+  uint8_t x_any_Phase:1;
+  uint8_t unused:2;
 }) systemBolls_t;
 
 extern systemBolls_t systemBolls;
