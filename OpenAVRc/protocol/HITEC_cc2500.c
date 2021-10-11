@@ -49,9 +49,8 @@ const pm_char STR_SUBTYPE_HITEC[] PROGMEM = "OPTI""MINI";
 
 #define HITEC_BIND rfState8_p2M
 #define HITEC_RF_CH_NUM channel_offset_p2M
-#define HITEC_COARSE			0
-#define HITEC_PACKET_LEN		13
-#define HITEC_TX_ID_LEN			2
+#define HITEC_PACKET_LEN 13
+#define HITEC_TX_ID_LEN	  2
 #define HITEC_NUM_FREQUENCE		21
 #define HITEC_BIND_NUM_FREQUENCE 14
 #define HITEC_TELEMETRY (g_model.rfOptionBool1)
@@ -80,7 +79,7 @@ enum
 const static uint8_t ZZ_HITECInitSequence[] PROGMEM =
 {
  /* 00 */ 0x2F, 0x2E, 0x2F, 0x07, 0xD3, 0x91, 0xFF, 0x04,
- /* 08 */ 0x45, 0x00, 0x00, 0x12, 0x00, 0x5C, 0x85, 0xE8 + HITEC_COARSE,
+ /* 08 */ 0x45, 0x00, 0x00, 0x12, 0x00, 0x5C, 0x85, 0xE8,
  /* 10 */ 0x3D, 0x3B, 0x73, 0x73, 0x7A, 0x01, 0x07, 0x30,
  /* 18 */ 0x08, 0x1D, 0x1C, 0xC7, 0x40, 0xB0, 0x87, 0x6B,
  /* 20 */ 0xF8, 0xB6, 0x10, 0xEA, 0x0A, 0x00, 0x11
@@ -93,7 +92,6 @@ static void  HITEC_RF_channels()
  uint8_t idx = 0;
  uint32_t rnd;
  memcpy(&rnd, &temp_rfid_addr_p2M, 4); // load id
-
 
  while (idx < HITEC_NUM_FREQUENCE)
   {
@@ -213,14 +211,14 @@ static void HITEC_build_packet()
    for(uint8_t i=0; i<9; i++)
     {
      //7047 - 10822 - 14597
-     int16_t value = (FULL_CHANNEL_OUTPUTS(i) * 3); // +-1280 to +-3840 + 10822 Todo adjust ....
-     value = limit((int16_t)0x1B87, value, (int16_t)0x3905);
+     int16_t value = ((FULL_CHANNEL_OUTPUTS(i) * 3) + 10822U); // +-1280 to +-3840 + 10822 Todo adjust ....
+     value = limit<int16_t>(0x1B87, value, 0x3905);
 
      packet_p2M[4+2*i] = value >> 8;
      packet_p2M[5+2*i] = value & 0xFF;
     }
    packet_p2M[23] = 0x80;		// packet sequence
-   offset=24;				// packet_p2M[24] and [25]
+   offset = 24;				// packet_p2M[24] and [25]
    packet_p2M[26] = 0x00;		// unknown always 0 and the RX doesn't seem to care about the value?
   }
 
@@ -273,10 +271,11 @@ uint16_t HITEC_callback()
   {
   case HITEC_START:
    HITEC_init();
-   bind_idx_p2M=0x72;
+   bind_idx_p2M = 0x72;
    if(HITEC_BIND)
     {
      HITEC_RF_CH_NUM=HITEC_BIND_NUM_FREQUENCE;
+     if(g_model.rfSubType==HITEC_OPTIMA) CC2500_SetPower(TXPOWER_3); // More power to bind optima
     }
    else
     {
@@ -285,7 +284,7 @@ uint16_t HITEC_callback()
      CC2500_WriteReg(CC2500_05_SYNC0,temp_rfid_addr_p2M[2]);
      CC2500_WriteReg(CC2500_04_SYNC1,temp_rfid_addr_p2M[3]);
     }
-   channel_index_p2M=0;
+   channel_index_p2M = 0;
    HITEC_tune_chan();
    send_seq_p2M = HITEC_CALIB;
    return 2000*2;
