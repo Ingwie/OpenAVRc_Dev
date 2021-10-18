@@ -1545,8 +1545,6 @@ void OpenAVRcInit(uint8_t mcusr)
 
   doMixerCalculations();
 
-  startPulses(PROTOCMD_INIT);
-
 #if !defined(SIMU)
 // Enable watchdog.
   #if defined(CPUXMEGA)
