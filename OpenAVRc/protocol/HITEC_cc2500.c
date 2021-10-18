@@ -213,9 +213,13 @@ static void HITEC_build_packet()
    packet_p2M[0] = 0x1A;		// 26 bytes to follow
    for(uint8_t i=0; i<9; i++)
     {
+#define HITEC_MAX_100 1844    //  100%
+#define HITEC_MIN_100 204     //  100%
+#define HITEC_MIN       0x1B87
+#define HITEC_MAX       0x3905
      //7047 - 10822 - 14597
-     int16_t value = ((FULL_CHANNEL_OUTPUTS(i) * 3) + 10822U); // +-1280 to +-3840 + 10822 Todo adjust ....
-     value = limit<int16_t>(0x1B87, value, 0x3905);
+     int32_t value = FULL_CHANNEL_OUTPUTS(i)*8/10 + 1024;// Scale to 80% 0 - 2047
+     value=(value-HITEC_MIN_100)*(HITEC_MAX-HITEC_MIN)/(HITEC_MAX_100-HITEC_MIN_100)+HITEC_MIN;
 
      packet_p2M[4+2*i] = value >> 8;
      packet_p2M[5+2*i] = value & 0xFF;
