@@ -270,25 +270,12 @@ const uint16_t PROGMEM xn297_crc_xorout_scrambled_enhanced[] = {
     0x7A1F, 0xDEA2, 0x9642, 0xBF4B, 0x032F, 0x01D2,
     0xDC86, 0x92A5, 0x183A, 0xB760, 0xA953 };
 
-static uint8_t bit_reverse(uint8_t b_in)
-{
-    uint8_t b_out = 0;
-    for (uint8_t i = 0; i < 8; ++i)
-	{
-        b_out = (b_out << 1) | (b_in & 1);
-        b_in >>= 1;
-    }
-    return b_out;
-}
-
-static const uint16_t polynomial = 0x1021;
-
 static uint16_t crc16_update(uint16_t crc, uint8_t a, uint8_t bits)
 {
 	crc ^= a << 8;
     while(bits--)
         if (crc & 0x8000)
-            crc = (crc << 1) ^ polynomial;
+            crc = (crc << 1) ^ 0x1021;
 		else
             crc = crc << 1;
     return crc;
