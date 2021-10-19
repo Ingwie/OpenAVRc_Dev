@@ -33,6 +33,38 @@
 
 #include "../OpenAVRc.h"
 
+uint8_t bit_reverse(uint8_t a)
+{
+  a = ((a & 0xf0) >> 4) | ((a & 0x0f) << 4);
+  a = ((a & 0xcc) >> 2) | ((a & 0x33) << 2);
+  a = ((a & 0xaa) >> 1) | ((a & 0x55) << 1);
+  return a;
+}
+
+uint16_t convert_channel_10b(uint8_t num)
+{
+  int16_t value = FULL_CHANNEL_OUTPUTS(num)+ 0x3ff; // Add offset before division.
+  value /=2;
+  value = limit( (int16_t) 0, value, (int16_t) 0x3FF );
+  return (unsigned) value;
+}
+
+uint8_t convert_channel_8b(uint8_t num)
+{
+  int16_t value = FULL_CHANNEL_OUTPUTS(num)+ 0x3ff; // Add offset before division.
+  value /= 8;
+  value = limit( (int16_t) 0, value, (int16_t) 0xFF);
+  return (unsigned) value;
+}
+
+uint8_t convert_channel_6b(uint8_t num)
+{
+  int8_t value = FULL_CHANNEL_OUTPUTS(num)/32;
+  value += 0x1F;
+  value = limit( (int8_t) 0, value, (int8_t) 0x3F);
+  return (unsigned) value;
+}
+
 void inline PROTO_Change_Callback(uint16_t (*cb)())
 {
   /*
