@@ -77,6 +77,9 @@
 #include "DEVO_cyrf6936.c"
 #include "DSM_cyrf6936.c"
 #include "J6PRO_cyrf6936.c"
+//#include "E129_cyrf6936.c"
+//#include "iface_rf2500.h"
+//#include "RF2500_EMU.c"
 #endif
 
 #ifdef PROTO_HAS_A7105
@@ -84,6 +87,7 @@
 #include "a7105.c"
 #include "FLYSKY_a7105.c"
 #include "AFHDS2A_a7105.c"
+#include "HUBSAN_a7105.c"
 #endif
 
 #ifdef PROTO_HAS_NRF24L01
