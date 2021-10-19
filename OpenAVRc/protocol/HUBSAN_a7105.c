@@ -61,6 +61,7 @@
 #define hubsan_txState_p2M            pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-8]
 #define hubsan_rfMode_p2M             pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-9]
 #define hubsan_packet_count_p2M       pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-11]
+#define hubsan_channel_num_p2M        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-13]
 
 uint32_t hubsan_id_data;
 
@@ -147,7 +148,7 @@ enum
 
 enum
 {
-  BIND_1,
+  BIND_1 =1,
   BIND_2,
   BIND_3,
   BIND_4,
@@ -171,7 +172,7 @@ void hubsan_update_crc()
   uint8_t sum = 0;
   for (uint8_t i = 0; i < 15; i++)
     sum += packet_p2M[i];
-  packet_p2M[15] = (~sum) +1; // sum could be uint8_t ... modulo division 256 not needed.
+  packet_p2M[15] = (~sum) +1;
 }
 
 static void hubsan_build_bind_packet(uint8_t bind_state)
@@ -181,11 +182,12 @@ static void hubsan_build_bind_packet(uint8_t bind_state)
 
   memset(packet_p2M, 0, 16);
   packet_p2M[0] = bind_state;
-  packet_p2M[1] = num_channel_p2M;
+  packet_p2M[1] = hubsan_channel_num_p2M;
   packet_p2M[2] = temp_rfid_addr_p2M[3];
   packet_p2M[3] = temp_rfid_addr_p2M[2];
   packet_p2M[4] = temp_rfid_addr_p2M[1];
   packet_p2M[5] = temp_rfid_addr_p2M[0];
+
   if (hubsan_id_data == ID_NORMAL && g_model.rfSubType != H501)
   {
     packet_p2M[6] = 0x08;
@@ -209,6 +211,7 @@ static void hubsan_build_bind_packet(uint8_t bind_state)
     if(hubsan_phase_p2M == BIND_7)
       packet_p2M[2] = hubsan_handshake_counter_p2M ++;
   }
+
   hubsan_update_crc();
 }
 
@@ -349,7 +352,7 @@ static void hubsan_build_packet()
 
       packet_p2M[14]= 0x49;// ghost channel ?
     }
-#if 0
+
     if(hubsan_packet_count_p2M < 100)
     { // set channels to neutral for first 100 packets.
       packet_p2M[2] = 0x80; // throttle neutral is at mid stick on plus series
@@ -360,7 +363,6 @@ static void hubsan_build_packet()
       packet_p2M[13]= 0x00;
       hubsan_packet_count_p2M ++;
     }
-#endif
 
     if(g_model.rfSubType == H501)
     { // H501S
@@ -381,7 +383,7 @@ static void hubsan_build_packet()
   hubsan_update_crc();
 }
 
-#ifdef FRSKY
+#ifdef FRSKYxx
 uint8_t hubsan_check_integrity()
 {
   if( (packet_p2M[0] & 0xFE) != 0xE0 )
@@ -397,7 +399,7 @@ uint8_t hubsan_check_integrity()
 uint16_t HUBSAN_cb()
 {
   heartbeat |= HEART_TIMER_PULSES;
-#ifdef FRSKY
+#ifdef FRSKYxx
   //static uint8_t rfMode = 0;
 #endif
 
@@ -410,7 +412,7 @@ uint16_t HUBSAN_cb()
   {
     case BIND_1:
     hubsan_bind_phase_p2M ++;
-    if(hubsan_bind_phase_p2M == 20 && g_model.rfSubType != H501) // deviation ==20, multi >=20
+    if(hubsan_bind_phase_p2M >= 20 && g_model.rfSubType != H501) // deviation ==20, multi >=20
     {
       if(hubsan_id_data == ID_NORMAL)
         hubsan_id_data = ID_PLUS;
@@ -422,9 +424,9 @@ uint16_t HUBSAN_cb()
     case BIND_3:
     case BIND_5:
     case BIND_7:
-    hubsan_build_bind_packet(hubsan_phase_p2M == BIND_7 ? 9 : (hubsan_phase_p2M == BIND_5 ? 1 : hubsan_phase_p2M + 1 - BIND_1));
+    hubsan_build_bind_packet(hubsan_phase_p2M == BIND_7 ? 9 : (hubsan_phase_p2M == BIND_5 ? 1 : hubsan_phase_p2M));
     A7105_Strobe(A7105_STANDBY);
-    A7105_WriteData(16, num_channel_p2M);
+    A7105_WriteData(16, hubsan_channel_num_p2M);
     hubsan_phase_p2M |= HUBSAN_WAIT_WRITE;
     return 3000 *2;
 
@@ -432,13 +434,14 @@ uint16_t HUBSAN_cb()
     case BIND_3 | HUBSAN_WAIT_WRITE:
     case BIND_5 | HUBSAN_WAIT_WRITE:
     case BIND_7 | HUBSAN_WAIT_WRITE:
-    //wait for completion
+    // wait for completion
     for(i = 0; i< 20; i++)
     if(! (A7105_ReadReg(A7105_00_MODE) & 0x01))
       break;
     A7105_SetTxRxMode(RX_EN);
     A7105_Strobe(A7105_RX);
     hubsan_phase_p2M &= ~HUBSAN_WAIT_WRITE;
+
     if(hubsan_id_data == ID_PLUS)
     {
       if(hubsan_phase_p2M == BIND_7 && packet_p2M[2] == 9)
@@ -452,9 +455,11 @@ uint16_t HUBSAN_cb()
     hubsan_phase_p2M ++;
     return 4500 *2; //7.5msec elapsed since last write
 
+
     case BIND_2:
     case BIND_4:
     case BIND_6:
+
     A7105_SetTxRxMode(TX_EN);
     if(A7105_ReadReg(A7105_00_MODE) & 0x01)
     {
@@ -497,6 +502,7 @@ uint16_t HUBSAN_cb()
     case DATA_3:
     case DATA_4:
     case DATA_5:
+
     if(hubsan_txState_p2M == 0)
     { // send packet
 #ifdef MULTI_SYNC
@@ -512,9 +518,9 @@ uint16_t HUBSAN_cb()
       A7105_Strobe(A7105_STANDBY);
       uint8_t ch;
       if((hubsan_phase_p2M == DATA_5 && hubsan_id_data == ID_NORMAL) && g_model.rfSubType == H107)
-        ch = num_channel_p2M + 0x23;
+        ch = hubsan_channel_num_p2M + 0x23;
       else
-        ch = num_channel_p2M;
+        ch = hubsan_channel_num_p2M;
 
       A7105_WriteData(16, ch);
 
@@ -526,7 +532,7 @@ uint16_t HUBSAN_cb()
     }
     else
     {
-#ifdef FRSKY
+#ifdef FRSKYxx
       if(hubsan_rfMode_p2M == A7105_TX)
       { // switch to rx mode 3ms after packet sent
         for( i=0; i<10; i++)
@@ -597,7 +603,7 @@ void HUBSAN_initialise(uint8_t bind)
       | ((uint32_t) temp_rfid_addr_p2M[1] << 8)
       | temp_rfid_addr_p2M[0];
 
-  num_channel_p2M = allowed_ch[ ida % sizeof(allowed_ch)];
+  hubsan_channel_num_p2M = allowed_ch[ ida % sizeof(allowed_ch)];
   hubsan_id_data = ID_NORMAL;
 
   if (HUBSAN_AUTOBIND || g_model.rfSubType == H107)
