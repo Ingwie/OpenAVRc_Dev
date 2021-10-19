@@ -120,13 +120,6 @@ static void BAYANG_init()
   }
 }
 
-uint16_t convert_channel_10b(uint8_t num)
-{
- int16_t val=FULL_CHANNEL_OUTPUTS(num)+1023;
- val = limit <int16_t>(0, val, 2047);
- return (val >> 1);
-}
-
 static void BAYANG_send_packet(uint8_t bind)
 {
  uint8_t i;
