@@ -756,6 +756,7 @@ void menuModelSetup(uint8_t event)
 
               case PROTOCOL_FLYSKY:
               case PROTOCOL_AFHDS2A:
+              case PROTOCOL_HUBSAN:
                A7105_ManagePower();
                break;
 

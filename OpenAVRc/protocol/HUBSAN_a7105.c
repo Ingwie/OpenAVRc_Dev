@@ -591,9 +591,6 @@ uint16_t HUBSAN_cb()
 
 void HUBSAN_initialise(uint8_t bind)
 {
-  const uint8_t allowed_ch[] = //progmem todo
-      { 0x14, 0x1e, 0x28, 0x32, 0x3c, 0x46, 0x50, 0x5a, 0x64, 0x6e, 0x78, 0x82 };
-
   A7105_Init();
 
   loadrfidaddr_rxnum(0);
@@ -603,7 +600,12 @@ void HUBSAN_initialise(uint8_t bind)
       | ((uint32_t) temp_rfid_addr_p2M[1] << 8)
       | temp_rfid_addr_p2M[0];
 
-  hubsan_channel_num_p2M = allowed_ch[ ida % sizeof(allowed_ch)];
+  static const uint8_t HUBSAN_allowed_ch[] PROGMEM =
+     { 0x14, 0x1e, 0x28, 0x32, 0x3c, 0x46, 0x50, 0x5a, 0x64, 0x6e, 0x78, 0x82 };
+
+  uint_farptr_t pdata = pgm_get_far_address(HUBSAN_allowed_ch);
+  hubsan_channel_num_p2M = pgm_read_byte_far(pdata + (ida % sizeof(HUBSAN_allowed_ch)));
+
   hubsan_id_data = ID_NORMAL;
 
   if (HUBSAN_AUTOBIND || g_model.rfSubType == H107)
