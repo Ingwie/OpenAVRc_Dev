@@ -213,13 +213,11 @@ static void HITEC_build_packet()
    packet_p2M[0] = 0x1A;		// 26 bytes to follow
    for(uint8_t i=0; i<9; i++)
     {
-#define HITEC_MAX_100 1844    //  100%
-#define HITEC_MIN_100 204     //  100%
-#define HITEC_MIN       0x1B87
-#define HITEC_MAX       0x3905
+#define HITEC_MIN     0x1B87
+#define HITEC_MAX     0x3905
      //7047 - 10822 - 14597
-     int32_t value = FULL_CHANNEL_OUTPUTS(i)*8/10 + 1024;// Scale to 80% 0 - 2047
-     value=(value-HITEC_MIN_100)*(HITEC_MAX-HITEC_MIN)/(HITEC_MAX_100-HITEC_MIN_100)+HITEC_MIN;
+     //int32_t value = (FULL_CHANNEL_OUTPUTS(i)-(-RESX))*(HITEC_MAX-HITEC_MIN)/(RESX-(-RESX))+HITEC_MIN;
+     int32_t value = (FULL_CHANNEL_OUTPUTS(i)+RESX)*(HITEC_MAX-HITEC_MIN)/(2*RESX)+HITEC_MIN;
 
      packet_p2M[4+2*i] = value >> 8;
      packet_p2M[5+2*i] = value & 0xFF;
@@ -256,7 +254,7 @@ static void HITEC_send_packet()
  if(HITEC_BIND)
   {
    packet_p2M[19] >>= 1;	// packet sequence
-   if( (packet_p2M[4] & 0xFE) ==0x82 )
+   if( (packet_p2M[4] & 0xFE) == 0x82 )
     {
      // Minima
      packet_p2M[4] ^= 1;					// alternate 0x82 and 0x83
@@ -368,7 +366,11 @@ uint16_t HITEC_callback()
             if((rxBuf[4]&0xF0)==0x70 && check)
              {
               bind_idx_p2M = rxBuf[4]+1;
-              //if(bind_idx_p2M==0x7B) // in dumps the RX stops to reply at 0x7B .. todo or not todo ?
+              if(bind_idx_p2M==0x7B) // in dumps the RX stops to reply at 0x7B
+              {
+                send_seq_p2M = HITEC_START; // stop bind datas
+                HITEC_BIND = 0;
+              }
              }
            }
          }
