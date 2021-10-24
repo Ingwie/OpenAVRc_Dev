@@ -53,6 +53,7 @@ const pm_char STR_SUBTYPE_HITEC[] PROGMEM = "OPTI""MINI";
 #define HITEC_TX_ID_LEN	  2
 #define HITEC_NUM_FREQUENCE		21
 #define HITEC_BIND_NUM_FREQUENCE 14
+#define HITEC_RX_BUFFER_SIZE (MAX_CHANNEL - HITEC_NUM_FREQUENCE)
 #define HITEC_TELEMETRY (g_model.rfOptionBool1)
 #define F5_COUNTER dp_crc_init_p2M
 #define F5_FRAME packet_count_p2M
@@ -297,7 +298,7 @@ uint16_t HITEC_callback()
   case HITEC_CALIB:
    SCHEDULE_MIXER_END_IN_US(2000*2); // Schedule next Mixer calculations.
    calData[channel_index_p2M]=CC2500_ReadReg(CC2500_25_FSCAL1);
-   channel_index_p2M++;
+   ++channel_index_p2M;
    if (channel_index_p2M < HITEC_RF_CH_NUM)
     HITEC_tune_chan();
    else
@@ -345,16 +346,16 @@ uint16_t HITEC_callback()
    return HITEC_RX1_TIMING*2;
 
   case HITEC_RX2:
-   uint8_t len=CC2500_ReadReg(CC2500_3B_RXBYTES | CC2500_READ_BURST) & 0x7F;
-   if(len && len<MAX_PACKET)
+   uint8_t len = CC2500_ReadReg(CC2500_3B_RXBYTES | CC2500_READ_BURST) & 0x7F;
+   if(len && len<HITEC_RX_BUFFER_SIZE)
     {
-     uint8_t rxBuf[MAX_PACKET]; // todo , try to find static buffer[40]
+     // use a part of the channels buffer [50]
+     uint8_t * rxBuf = &pulses2MHz.pbyte[CHANNEL_USED_OFFSET + HITEC_NUM_FREQUENCE]; //Use 50 Channel MAX -> 29 free bytes
      // Something has been received
      CC2500_ReadData(rxBuf, len);
      if( (rxBuf[len-1] & 0x80) && rxBuf[0]==len-3 && rxBuf[1]==temp_rfid_addr_p2M[1] && rxBuf[2]==temp_rfid_addr_p2M[2] && rxBuf[3]==temp_rfid_addr_p2M[3])
       {
        //valid crc && length ok && tx_id ok
-       for(uint8_t i=0; i<len; i++)
         if(HITEC_BIND)
          {
           if(len==13)	// Bind packets have a length of 13
@@ -367,10 +368,13 @@ uint16_t HITEC_callback()
              {
               bind_idx_p2M = rxBuf[4]+1;
               if(bind_idx_p2M==0x7B) // in dumps the RX stops to reply at 0x7B
-              {
-                send_seq_p2M = HITEC_START; // stop bind datas
-                HITEC_BIND = 0;
-              }
+               {
+                if (++num_channel_p2M>164) // the RX stops to reply at 0x7B so wait a little and exit
+                 {
+                  send_seq_p2M = HITEC_START; // stop bind datas
+                  HITEC_BIND = 0;
+                 }
+               }
              }
            }
          }
