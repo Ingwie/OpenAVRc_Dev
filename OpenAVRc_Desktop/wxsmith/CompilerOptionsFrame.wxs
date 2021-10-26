@@ -364,12 +364,6 @@
 							<enabled>0</enabled>
 							<tooltip>Protocole SPI RF </tooltip>
 						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX13" variable="CheckBoxDSM2SERIAL" member="yes">
-							<label>DSM2 SERIAL</label>
-							<pos>48,56</pos>
-							<size>104,24</size>
-							<tooltip>Protocoles DSM ..</tooltip>
-						</object>
 						<object class="wxChoice" name="ID_CHOICE2" variable="ChoiceEXT" member="yes">
 							<selection>0</selection>
 							<pos>184,32</pos>
@@ -472,7 +466,7 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX28" variable="CheckBoxMULTI" member="yes">
 							<label>MULTI</label>
-							<pos>48,80</pos>
+							<pos>48,56</pos>
 							<size>104,24</size>
 							<tooltip>Protocole MULTI</tooltip>
 						</object>
@@ -544,6 +538,15 @@
 						<object class="wxStaticText" name="ID_STATICTEXT30" variable="StaticText30" member="yes">
 							<label>BLUETOOTH</label>
 							<pos>312,230</pos>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT31" variable="StaticText31" member="yes">
+							<label>SERIAL</label>
+							<pos>16,88</pos>
+							<size>56,16</size>
+						</object>
+						<object class="wxChoice" name="ID_CHOICESERIAL" variable="ChoiceSERIAL" member="yes">
+							<pos>64,83</pos>
+							<size>56,23</size>
 						</object>
 					</object>
 					<label>Options avancées</label>

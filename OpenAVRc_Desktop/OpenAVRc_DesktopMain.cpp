@@ -37,6 +37,7 @@
 #include "Voice_choice.h"
 #include "VoiceEditFrame.h"
 #include "BluetoothFrame.h"
+#include "XanyConfiguratorFrame.h"
 #include <wx/msgdlg.h>
 #include <wx/filedlg.h>
 #include <wx/textdlg.h>
@@ -181,6 +182,7 @@ bool INV_STICK_RV = 0;
 bool INV_STICK_LH = 0;
 wxString BLUETOOTH = ("NO");
 bool XMODEM = 0;
+wxString SERIAL = ("NO");
 
 wxString switch1 = ("THR");
 wxString switch2 = ("RUD");
@@ -655,7 +657,8 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
   configFile->Read(wxT("VARIO"),&VARIO);
   configFile->Read(wxT("PPM"),&PPM);
   configFile->Read(wxT("MULTI"),&MULTI);
-  configFile->Read(wxT("DSM2"),&DSM2SERIAL);
+  //configFile->Read(wxT("DSM2"),&DSM2SERIAL);
+  configFile->Read(wxT("SERIAL"),&SERIAL);
   configFile->Read(wxT("SPIRF"),&SPIRF);
   configFile->Read(wxT("CC2500"),&CC2500);
   configFile->Read(wxT("CYRF6936"),&CYRF6936);
@@ -787,7 +790,8 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
   configFile->Write(wxT("VARIO"),VARIO);
   configFile->Write(wxT("PPM"),PPM);
   configFile->Write(wxT("MULTI"),MULTI);
-  configFile->Write(wxT("DSM2"),DSM2SERIAL);
+  //configFile->Write(wxT("DSM2"),DSM2SERIAL);
+  configFile->Write(wxT("SERIAL"),SERIAL);
   configFile->Write(wxT("SPIRF"),SPIRF);
   configFile->Write(wxT("CC2500"),CC2500);
   configFile->Write(wxT("CYRF6936"),CYRF6936);
@@ -1175,3 +1179,10 @@ void OpenAVRc_DesktopFrame::EnableBluetoothSelectedMenu()
 {
   MenuBar_main->Enable(ID_MENUBLUETOOTH, true);
 }
+
+void OpenAVRc_DesktopFrame::OnButtonOpenXanyConfigClick(wxCommandEvent& event)
+{
+  XanyConfiguratorFrame* XanyFrame = new XanyConfiguratorFrame(this);
+  XanyFrame->Show(TRUE);//opens Xany edit
+}
+
