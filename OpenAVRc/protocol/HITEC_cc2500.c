@@ -116,8 +116,8 @@ static void  HITEC_RF_channels()
     }
    if (i != idx)
     continue;
-   if ( (next_ch <= 47 && count_0_47 < 8) || (next_ch >= 48 && next_ch <= 93 && count_48_93 < 8) || (next_ch >= 94 && count_94_140 < 8) )
-    channel_used_p2M[idx++] = next_ch;//find hopping frequency
+   if ((next_ch <= 47 && count_0_47 < 8) || (next_ch >= 48 && next_ch <= 93 && count_48_93 < 8) || (next_ch >= 94 && count_94_140 < 8))
+    channel_used_p2M[idx++] = next_ch; //find hopping frequency
   }
 }
 
@@ -137,7 +137,6 @@ static void HITEC_init()
  CC2500_SetTxRxMode(TX_EN);
  CC2500_SetPower(TXPOWER_1);
  HITEC_RF_channels();
- send_seq_p2M = HITEC_START;
 }
 
 static void HITEC_tune_chan()
@@ -245,7 +244,7 @@ static void HITEC_build_packet()
   {
    packet_p2M[offset] = 0x00;
    packet_p2M[offset+1] = 0x00;
-   F5_FRAME=1;					// alternate
+   F5_FRAME = 1;	// alternate
   }
 }
 
@@ -364,7 +363,8 @@ uint16_t HITEC_callback()
             uint8_t check = 1;
             for(uint8_t i=5; i<10; i++)
              if(rxBuf[i]!=i) check = 0;
-            if((rxBuf[4]&0xF0)==0x70 && check)
+
+            if(((rxBuf[4]&0xF0)==0x70) && check)
              {
               bind_idx_p2M = rxBuf[4]+1;
               if(bind_idx_p2M==0x7B) // in dumps the RX stops to reply at 0x7B
@@ -442,6 +442,7 @@ static void HITEC_initialize(uint8_t bind)
  loadrfidaddr_rxnum(3);
  CC2500_Reset();
  HITEC_BIND = bind; // store bind state
+ send_seq_p2M = HITEC_START;
  PROTO_Start_Callback(HITEC_cb);
 }
 
