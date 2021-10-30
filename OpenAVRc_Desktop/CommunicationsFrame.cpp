@@ -54,6 +54,7 @@ extern wxString keepopen;
 extern wxString dude_c;
 extern wxString dude_P;
 extern wxString dude_p;
+extern wxString dude_ComPrefix;
 
 
 //(*IdInit(CommunicationsFrame)
@@ -123,7 +124,7 @@ CommunicationsFrame::CommunicationsFrame(wxWindow* parent,wxWindowID id,const wx
     }
 
     //fills the comboxes with ini file defaults
-
+    if (dude_programmer == "wiring") dude_programmer = "stk500v2";
     ComboBox1->SetValue(dude_programmer);
     ComboBox2->SetValue(dude_port);
     ComboBox3->SetValue(dude_type);
@@ -201,7 +202,7 @@ void CommunicationsFrame::OnTESTClick1(wxCommandEvent& event)
     dude_port = ComboBox2->GetValue();
     dude_type = ComboBox3->GetValue();
     avrdudepath = TextCtrl1->GetValue();
-    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_P+dude_port;
+    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_P+dude_ComPrefix+dude_port;
     wxExecute(dude_send);
 }
 
