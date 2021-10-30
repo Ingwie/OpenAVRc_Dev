@@ -92,7 +92,7 @@ static void  HITEC_RF_channels()
 //Normal hopping
  uint8_t idx = 0;
  uint32_t rnd;
- memcpy(&rnd, &temp_rfid_addr_p2M, 4); // load id
+ memcpy(&rnd, temp_rfid_addr_p2M, 4); // load id
 
  while (idx < HITEC_NUM_FREQUENCE)
   {
@@ -136,7 +136,6 @@ static void HITEC_init()
  CC2500_ManageFreq();
  CC2500_SetTxRxMode(TX_EN);
  CC2500_SetPower(TXPOWER_1);
- HITEC_RF_channels();
 }
 
 static void HITEC_tune_chan()
@@ -217,7 +216,7 @@ static void HITEC_build_packet()
 #define HITEC_MAX     0x3905
      //7047 - 10822 - 14597
      //int32_t value = (FULL_CHANNEL_OUTPUTS(i)-(-RESX))*(HITEC_MAX-HITEC_MIN)/(RESX-(-RESX))+HITEC_MIN;
-     int32_t value = (FULL_CHANNEL_OUTPUTS(i)+RESX)*(HITEC_MAX-HITEC_MIN)/(2*RESX)+HITEC_MIN;
+     uint16_t value = (int32_t)(FULL_CHANNEL_OUTPUTS(i)+RESX)*(HITEC_MAX-HITEC_MIN)/(2*RESX)+HITEC_MIN;
 
      packet_p2M[4+2*i] = value >> 8;
      packet_p2M[5+2*i] = value & 0xFF;
@@ -280,7 +279,7 @@ uint16_t HITEC_callback()
    if(HITEC_BIND)
     {
      HITEC_RF_CH_NUM=HITEC_BIND_NUM_FREQUENCE;
-     if(g_model.rfSubType==HITEC_OPTIMA) CC2500_SetPower(TXPOWER_3); // More power to bind optima
+     // if(g_model.rfSubType==HITEC_OPTIMA) CC2500_SetPower(TXPOWER_3); // More power to bind optima /// TODO needed ?
     }
    else
     {
@@ -314,9 +313,8 @@ uint16_t HITEC_callback()
 #define HITEC_RX1_TIMING	4636U
   case HITEC_PREP:
    SCHEDULE_MIXER_END_IN_US(HITEC_PACKET_PERIOD); // Schedule next Mixer calculations.
-   if (freq_fine_mem_p2M == g_model.rfOptionValue1)
+   if (freq_fine_mem_p2M == g_model.rfOptionValue1) // No user frequency change
     {
-     // No user frequency change
      HITEC_change_chan_fast();
      ++channel_index_p2M;
      if(channel_index_p2M>=HITEC_RF_CH_NUM)
@@ -441,6 +439,7 @@ static void HITEC_initialize(uint8_t bind)
 {
  loadrfidaddr_rxnum(3);
  CC2500_Reset();
+ HITEC_RF_channels();
  HITEC_BIND = bind; // store bind state
  send_seq_p2M = HITEC_START;
  PROTO_Start_Callback(HITEC_cb);
