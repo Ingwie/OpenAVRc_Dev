@@ -85,6 +85,8 @@ void menuModelSetup(uint8_t event)
 #define CURSOR_ON_CELL         (true)
 #define MODEL_SETUP_MAX_LINES  (IS_PPM_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+2 : \
  (IS_DSM2_SERIAL_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_2+2 : \
+ (IS_SBUS_SERIAL_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_8+2 : \
+ (IS_CRSF_SERIAL_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_8+2 : \
  (IS_MULTIMODULE_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_5+2 :  \
  (IS_SPIMODULES_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_8+2 :   \
  1
@@ -416,6 +418,19 @@ void menuModelSetup(uint8_t event)
           }
         }
 #endif
+#if defined(SBUS_SERIAL) || defined(CRSF_SERIAL)
+       if (IS_SBUS_SERIAL_PROTOCOL(protocol) || IS_CRSF_SERIAL_PROTOCOL(protocol))
+        {
+         lcdDrawTextLeft(y, STR_BAUD);
+         lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+6*g_model.rfSubType, 6, menuHorizontalPosition == 0 ? attr : 0);
+         if (attr && (editMode>0 || p1valdiff))
+          {
+           CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.rfSubType, RfOptionSettings.rfSubTypeMax);
+          }
+        }
+#endif
+
+
 #if defined(SPIMODULES)
        if IS_SPIMODULES_PROTOCOL(protocol)
         {
@@ -529,8 +544,8 @@ void menuModelSetup(uint8_t event)
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_2:
      if PROTO_IS_SYNC
      {
-#if defined(DSM2_SERIAL)
-      if (IS_DSM2_SERIAL_PROTOCOL(protocol))
+#if defined(DSM2_SERIAL) || defined(SBUS_SERIAL) || defined(CRSF_SERIAL)
+      if (IS_DSM2_SERIAL_PROTOCOL(protocol) || IS_SBUS_SERIAL_PROTOCOL(protocol) || IS_CRSF_SERIAL_PROTOCOL(protocol))
         {
          horzpos_t l_posHorz = menuHorizontalPosition;
          lcdDrawTextLeft(y, STR_RXNUM);
@@ -728,7 +743,7 @@ void menuModelSetup(uint8_t event)
         }
 #endif
 #if defined(SPIMODULES)
-       if IS_SPIMODULES_PROTOCOL(protocol)
+       if (IS_SPIMODULES_PROTOCOL(protocol) || IS_CRSF_SERIAL_PROTOCOL(protocol))
         {
          if (RfOptionSettings.rfOptionValue3Max)
           {
@@ -756,7 +771,6 @@ void menuModelSetup(uint8_t event)
 
               case PROTOCOL_FLYSKY:
               case PROTOCOL_AFHDS2A:
-              case PROTOCOL_HUBSAN:
                A7105_ManagePower();
                break;
 
@@ -776,11 +790,11 @@ void menuModelSetup(uint8_t event)
 #endif
       }
      break;
-#if defined(SPIMODULES)
+#if defined(SPIMODULES) || defined(CRSF_SERIAL)
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_6:
      if PROTO_IS_SYNC
      {
-      if IS_SPIMODULES_PROTOCOL(protocol)
+      if (IS_SPIMODULES_PROTOCOL(protocol) || IS_CRSF_SERIAL_PROTOCOL(protocol))
         {
          if (RfOptionSettings.rfOptionBool1Used)
           {
