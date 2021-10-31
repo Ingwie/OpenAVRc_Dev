@@ -142,6 +142,18 @@ RTCLOCK = YES
 # Values = NO, SERIAL
 DSM2 = NO
 
+# SBUS  protocol
+# Values = NO, SERIAL
+SBUS = NO
+
+# CRSF  protocol
+# Values = NO, SERIAL
+CRSF = NO
+
+# SUMD  protocol
+# Values = NO, SERIAL
+SUMD = NO
+
 # TRANSLATIONS
 # Values = cz, de, en, fi, fr, it, se, es, pl, pt, nl, sk
 TRANSLATIONS = EN
@@ -249,6 +261,9 @@ NRF24L01PAG = 20
 # Values = NO, YES
 A7105 = NO
 
+# Enable SX1276 SPI protocols
+# Values = NO, YES
+SPISX1276 = NO
 # Set A7105 PA gain in DB
 # Values = 20,22
 A7105PAG = 20
@@ -368,6 +383,9 @@ ifeq ($(PCB), MEGAMINI)
   ifeq ($(DSM2), YES)
    needSerial0 = YES
   endif
+  ifeq ($(SBUS), YES)
+   needSerial0 = YES
+  endif
   ifeq ($(EXT), FRSKY)
    needSerial0 = YES
   endif
@@ -457,6 +475,10 @@ ifeq ($(PCB), MEGAMINI)
   	ifeq ($(A7105), YES)
    		CPPDEFS += -DPROTO_HAS_A7105
  	  	CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
+  	endif
+
+		ifeq ($(SPISX1276), YES)
+   		CPPDEFS += -DPROTO_HAS_SPISX1276
   	endif
   endif
 
@@ -1072,6 +1094,18 @@ endif
 
 ifeq ($(DSM2), SERIAL)
   CPPDEFS += -DDSM2_SERIAL
+endif
+
+ifeq ($(SBUS), SERIAL)
+  CPPDEFS += -DSBUS_SERIAL
+endif
+
+ifeq ($(CRSF), SERIAL)
+  CPPDEFS += -DCRSF_SERIAL
+endif
+
+ifeq ($(SUMD), SERIAL)
+  CPPDEFS += -DSUMD_SERIAL
 endif
 
 ifeq ($(3POS), POT1)
