@@ -162,8 +162,6 @@ static void HITEC_change_chan_fast()
 
 static void HITEC_build_packet()
 {
- F5_FRAME=1;
- F5_COUNTER=0;
  uint8_t offset;
 
  packet_p2M[1] = temp_rfid_addr_p2M[1];
@@ -234,8 +232,8 @@ static void HITEC_build_packet()
    if((F5_COUNTER%9)==0)
     packet_p2M[offset+1] -= 0x04;	// every 8 packets send 0xDB
    F5_COUNTER++;
-   F5_COUNTER%=59;					// every 6 0xDB packets wait only 4 to resend instead of 8
-   F5_FRAME=0;					// alternate
+   F5_COUNTER %= 59;					// every 6 0xDB packets wait only 4 to resend instead of 8
+   F5_FRAME = 0;					// alternate
    if(HITEC_BIND)
     packet_p2M[offset+1]++;			// when binding the values are 0xE0 and 0xDC
   }
@@ -441,6 +439,8 @@ static void HITEC_initialize(uint8_t bind)
  CC2500_Reset();
  HITEC_RF_channels();
  HITEC_BIND = bind; // store bind state
+ F5_FRAME = 1;
+ F5_COUNTER = 0;
  send_seq_p2M = HITEC_START;
  PROTO_Start_Callback(HITEC_cb);
 }
