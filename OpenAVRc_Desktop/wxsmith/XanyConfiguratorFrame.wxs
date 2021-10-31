@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxFrame" name="XanyConfiguratorFrame">
+		<title>XanyConfigurator</title>
+		<size>906,450</size>
+		<pos_arg>1</pos_arg>
+		<size_arg>1</size_arg>
+		<object class="wxStaticBox" name="ID_STATICBOX" variable="StaticBoxXanyConfig" member="yes">
+			<label>Xany Configurator</label>
+			<pos>8,24</pos>
+			<size>872,416</size>
+		</object>
+		<object class="wxGrid" name="ID_GRID1" variable="Grid1" member="yes">
+			<cols>7</cols>
+			<rows>16</rows>
+			<collabels>
+				<item>N° Sortie</item>
+				<item>Type de Sortie</item>
+				<item>Mode de Cmde</item>
+				<item>Pos0(µs)</item>
+				<item>Pos1(µs)</item>
+				<item>Durée(ms)</item>
+				<item>Etat</item>
+			</collabels>
+			<pos>24,40</pos>
+			<size>640,352</size>
+			<handler function="OnGrid1CellLeftClick" entry="EVT_CMD_GRID_CELL_LEFT_CLICK" />
+		</object>
+	</object>
+</wxsmith>

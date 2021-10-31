@@ -307,7 +307,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxNOANDSECONDE->SetValue(false);
   CheckBoxNOANDSECONDE->SetToolTip(_("Empèche la synthèse vocale de dire \"et\". Exemple : entre minutes \"et\" seconde"));
   StaticBox2 = new wxStaticBox(Panel3, ID_STATICBOX2, _("Télemetrie"), wxPoint(168,8), wxSize(128,328), 0, _T("ID_STATICBOX2"));
-  CheckBoxPPM = new wxCheckBox(Panel3, ID_CHECKBOX10, _("PPM"), wxPoint(48,32), wxSize(104,24), 0, wxDefaultValidator, _T("ID_CHECKBOX10"));
+  CheckBoxPPM = new wxCheckBox(Panel3, ID_CHECKBOX10, _("PPM"), wxPoint(32,32), wxSize(104,24), 0, wxDefaultValidator, _T("ID_CHECKBOX10"));
   CheckBoxPPM->SetValue(true);
   CheckBoxPPM->Disable();
   CheckBoxPPM->SetToolTip(_("Protocole PPM 8 à 16 voies"));
@@ -360,7 +360,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxDBLKEYS = new wxCheckBox(Panel3, ID_CHECKBOX47, _("Double keys"), wxPoint(312,128), wxSize(144,24), 0, wxDefaultValidator, _T("ID_CHECKBOX47"));
   CheckBoxDBLKEYS->SetValue(false);
   CheckBoxDBLKEYS->SetToolTip(_("Raccourcis avec deux touches pour passer une valeur à min/max/0"));
-  CheckBoxMULTI = new wxCheckBox(Panel3, ID_CHECKBOX28, _("MULTI"), wxPoint(48,56), wxSize(104,24), 0, wxDefaultValidator, _T("ID_CHECKBOX28"));
+  CheckBoxMULTI = new wxCheckBox(Panel3, ID_CHECKBOX28, _("MULTI"), wxPoint(32,88), wxSize(104,24), 0, wxDefaultValidator, _T("ID_CHECKBOX28"));
   CheckBoxMULTI->SetValue(false);
   CheckBoxMULTI->SetToolTip(_("Protocole MULTI"));
   Compilerpage2 = new wxButton(Panel3, ID_BUTTON1, _("Compiler"), wxPoint(504,296), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTON1"));
@@ -382,8 +382,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxXMODEM->SetToolTip(_("Transfert de données"));
   ChoiceBLUETOOTH = new wxChoice(Panel3, ID_CHOICEBLUETOOTH, wxPoint(392,224), wxSize(56,23), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICEBLUETOOTH"));
   StaticText30 = new wxStaticText(Panel3, ID_STATICTEXT30, _("BLUETOOTH"), wxPoint(312,230), wxDefaultSize, 0, _T("ID_STATICTEXT30"));
-  StaticText31 = new wxStaticText(Panel3, ID_STATICTEXT31, _("SERIAL"), wxPoint(16,88), wxSize(56,16), 0, _T("ID_STATICTEXT31"));
-  ChoiceSERIAL = new wxChoice(Panel3, ID_CHOICESERIAL, wxPoint(64,83), wxSize(56,23), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICESERIAL"));
+  StaticText31 = new wxStaticText(Panel3, ID_STATICTEXT31, _("SERIAL"), wxPoint(96,64), wxSize(56,16), 0, _T("ID_STATICTEXT31"));
+  ChoiceSERIAL = new wxChoice(Panel3, ID_CHOICESERIAL, wxPoint(32,60), wxSize(56,23), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICESERIAL"));
+  ChoiceSERIAL->SetToolTip(_("Serial modes"));
   Panel4 = new wxPanel(Notebook1, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL4"));
   StaticBox7 = new wxStaticBox(Panel4, ID_STATICBOX7, _("Nom des interrupteurs"), wxPoint(8,8), wxSize(616,328), 0, _T("ID_STATICBOX7"));
   StaticBox10 = new wxStaticBox(Panel4, ID_STATICBOX10, _("3POS"), wxPoint(160,24), wxSize(96,112), 0, _T("ID_STATICBOX10"));
@@ -597,8 +598,8 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
 
   ChoiceSERIAL->SetSelection( ChoiceSERIAL->Append("NO") );
   ChoiceSERIAL->Append("DSM2");
-  ChoiceSERIAL->Append("SBUS");
-  ChoiceSERIAL->Append("SUMD");
+  //ChoiceSERIAL->Append("SBUS");
+  //ChoiceSERIAL->Append("SUMD");
   ChoiceSERIAL->Append("CRSF");
 
   ///////////////////////// End of avoid compilation option translation ///////////////////

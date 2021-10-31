@@ -37,7 +37,6 @@
 #include "Voice_choice.h"
 #include "VoiceEditFrame.h"
 #include "BluetoothFrame.h"
-#include "XanyConfiguratorFrame.h"
 #include <wx/msgdlg.h>
 #include <wx/filedlg.h>
 #include <wx/textdlg.h>
@@ -109,6 +108,7 @@ wxString dude_D = (" -D ");
 wxString dude_P = (" -P ");
 wxString dude_space = (" ");
 wxString dude_U = (" -U ");
+wxString dude_ComPrefix = ("\\\\.\\");
 wxString dude_eeprom = ("eeprom:");
 wxString dude_flash = ("flash:");
 wxString dude_raw = (":r");
@@ -506,7 +506,8 @@ void OpenAVRc_DesktopFrame::OnreadmodelsSelected(wxCommandEvent& event)//READ MO
     if (saveDialog.ShowModal() == wxID_CANCEL)
       return;
     wxString dude_tmpfile = (saveDialog.GetPath());
-    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_read+dude_tmpfile+dude_raw;
+    if (dude_programmer == "stk500v2") dude_programmer = "wiring";
+    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_ComPrefix+dude_port+dude_U+dude_eeprom+dude_read+dude_tmpfile+dude_raw;
     wxExecute(dude_send);//send command
   }
 }
@@ -519,7 +520,8 @@ void OpenAVRc_DesktopFrame::OnreadfirmwareSelected(wxCommandEvent& event)//read 
     if (saveDialog.ShowModal() == wxID_CANCEL)
       return;
     wxString dude_tmpfile = (saveDialog.GetPath());
-    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_read+dude_tmpfile+dude_intel;
+    if (dude_programmer == "stk500v2") dude_programmer = "wiring";
+    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_ComPrefix+dude_port+dude_U+dude_flash+dude_read+dude_tmpfile+dude_intel;
     wxExecute(dude_send);
   }
 }
@@ -532,7 +534,8 @@ void OpenAVRc_DesktopFrame::OnWriteModelToRadioSelected(wxCommandEvent& event)
     if (openFileDialog.ShowModal() == wxID_CANCEL)
       return;
     wxString dude_tmpfile = (openFileDialog.GetPath());
-    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_eeprom+dude_write+dude_tmpfile+dude_raw;
+    if (dude_programmer == "stk500v2") dude_programmer = "wiring";
+    wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_ComPrefix+dude_port+dude_U+dude_eeprom+dude_write+dude_tmpfile+dude_raw;
     wxExecute(dude_send);
   }
 }
@@ -548,8 +551,8 @@ void OpenAVRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& event
     if (bkup->ShowModal()!= wxID_OK)
       return;
     wxString dude_tmpfile = (openFileDialog.GetPath());//write firmware
-    wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_intel;
-
+    if (dude_programmer == "stk500v2") dude_programmer = "wiring";
+    wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_ComPrefix+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_intel;
     wxExecute(dude_send);
   }
 }
@@ -1179,10 +1182,3 @@ void OpenAVRc_DesktopFrame::EnableBluetoothSelectedMenu()
 {
   MenuBar_main->Enable(ID_MENUBLUETOOTH, true);
 }
-
-void OpenAVRc_DesktopFrame::OnButtonOpenXanyConfigClick(wxCommandEvent& event)
-{
-  XanyConfiguratorFrame* XanyFrame = new XanyConfiguratorFrame(this);
-  XanyFrame->Show(TRUE);//opens Xany edit
-}
-

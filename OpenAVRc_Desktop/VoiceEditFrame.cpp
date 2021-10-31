@@ -617,6 +617,7 @@ VoiceEditFrame::VoiceEditFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   ButtonJouer->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
   ButtonGenererUnFichier = new wxButton(Panel1, ID_BUTTONGENERERUNFICHIER, _("Générer ce fichier"), wxPoint(8,488), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTONGENERERUNFICHIER"));
 
+  Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellLeftClick);
   Connect(ID_GRID1,wxEVT_GRID_SELECT_CELL,(wxObjectEventFunction)&VoiceEditFrame::OnVoiceGridCellSelect);
   Connect(ID_BUTTONSAUVEGARDER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonSauvegarderClick);
   Connect(ID_BUTTONGENERER,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VoiceEditFrame::OnButtonGenererClick);
@@ -748,4 +749,8 @@ void VoiceEditFrame::OnButtonGenererUnFichierClick(wxCommandEvent& event)
         }
       UpdateListFile();
     }
+}
+
+void VoiceEditFrame::OnVoiceGridCellLeftClick(wxGridEvent& event)
+{
 }
