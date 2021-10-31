@@ -105,28 +105,15 @@
 #include "BAYANG_nrf24l01.c"
 #include "CABELL_nrf24l01.c"
 #include "STANEK_nrf24l01.c"
-//#include "V911S_nrf24l01.c"
 #endif
 
 #ifdef PROTO_HAS_SPISX1276
-#include "iface_sx1276.h"
-#include "sx1276.c"
-#include "FRSKYR9_sx1276.c"
-//#include "Lora.h"
-//#include "LORA_sx1276.c"
+//#include "iface_sx1276.h"
+//#include "sx1276.c"
+//#include "FRSKYR9_sx1276.c"
 #endif
 
-//#ifdef PROTO_HAS_SPIRFM22B
-//#include "iface_rfm22b.h"
-//#include "rfm22b.c"
-//#include "OPENLRSNG_rfm22b.c"
-//#endif
-
 #ifdef PROTO_HAS_UART
-//#include "PXX.h"
-//#include "PXX.c"
-//#include "PXX_SERIAL.c"
-//#include "SBUS_SERIAL.c"
 #endif
 
 #endif
