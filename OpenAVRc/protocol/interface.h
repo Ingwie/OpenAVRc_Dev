@@ -53,12 +53,17 @@
 #include "DSM_SERIAL.c"
 #endif
 
+#ifdef CRSF_SERIAL
+#include "crsf.h"
+#include "CRSF_SERIAL.c"
+#endif
+
 #ifdef SBUS_SERIAL
 //#include "SBUS_SERIAL.c"
 #endif
 
-#ifdef CRSF_SERIAL
-#include "CRSF_SERIAL.c"
+#ifdef SUMD_SERIAL
+//#include "SUMD_SERIAL.c"
 #endif
 
 #ifdef PROTO_HAS_MULTISUPIIIK
@@ -76,7 +81,7 @@
 #include "FRSKYX_cc2500.c"
 #include "SKYARTEC_cc2500.c"
 #include "CORONA_cc2500.c"
-#include "HITEC_cc2500.c"						 
+#include "HITEC_cc2500.c"
 #endif
 
 #ifdef PROTO_HAS_CYRF6936
