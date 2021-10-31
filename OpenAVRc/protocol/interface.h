@@ -59,7 +59,7 @@
 #endif
 
 #ifdef SBUS_SERIAL
-//#include "SBUS_SERIAL.c"
+#include "SBUS_SERIAL.c"
 #endif
 
 #ifdef SUMD_SERIAL
