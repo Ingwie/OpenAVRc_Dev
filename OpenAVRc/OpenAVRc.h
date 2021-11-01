@@ -288,7 +288,7 @@ static uint16_t DurationValue;
 #define RESXu      1024u
 #define RESXul     1024ul
 #define RESXl      1024l
-#define RESX125PC  0x500
+#define RESX125PC  0x500 // RESX @ 125%
 
 #include "myeeprom.h"
 #include "gui/gui.h"
