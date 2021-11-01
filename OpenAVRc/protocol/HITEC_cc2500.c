@@ -214,7 +214,7 @@ static void HITEC_build_packet()
 #define HITEC_MAX     0x3905
      //7047 - 10822 - 14597
      //int32_t value = (FULL_CHANNEL_OUTPUTS(i)-(-RESX))*(HITEC_MAX-HITEC_MIN)/(RESX-(-RESX))+HITEC_MIN;
-     uint16_t value = (int32_t)(FULL_CHANNEL_OUTPUTS(i)+RESX)*(HITEC_MAX-HITEC_MIN)/(2*RESX)+HITEC_MIN;
+     uint16_t value = (int32_t)(FULL_CHANNEL_OUTPUTS(i)+RESX125PC)*(HITEC_MAX-HITEC_MIN)/(2*RESX125PC)+HITEC_MIN;
 
      packet_p2M[4+2*i] = value >> 8;
      packet_p2M[5+2*i] = value & 0xFF;
