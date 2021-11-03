@@ -405,10 +405,10 @@ void menuModelSetup(uint8_t event)
             }
           }
         }
-#if defined(DSM2_SERIAL)
+#if (SERIAL_PROTOCOL==DSM2)
        if (IS_DSM2_SERIAL_PROTOCOL(protocol))
         {
-         lcdDrawTextLeft(y, STR_TYPE);
+         lcdDraw TextLeft(y, STR_TYPE);
          lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+4*g_model.rfSubType, 4, menuHorizontalPosition == 0 ? attr : 0);
          if (attr && (editMode>0 || p1valdiff))
           {
@@ -529,7 +529,7 @@ void menuModelSetup(uint8_t event)
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_2:
      if PROTO_IS_SYNC
      {
-#if defined(DSM2_SERIAL)
+#if (SERIAL_PROTOCOL==DSM2)
       if (IS_DSM2_SERIAL_PROTOCOL(protocol))
         {
          horzpos_t l_posHorz = menuHorizontalPosition;
@@ -745,6 +745,7 @@ void menuModelSetup(uint8_t event)
               case PROTOCOL_FRSKYX:
               case PROTOCOL_SKYARTEC:
               case PROTOCOL_CORONA:
+              case PROTOCOL_HITEC:
                CC2500_ManagePower(); // Change value on gui
                break;
 
@@ -756,7 +757,6 @@ void menuModelSetup(uint8_t event)
 
               case PROTOCOL_FLYSKY:
               case PROTOCOL_AFHDS2A:
-              case PROTOCOL_HUBSAN:
                A7105_ManagePower();
                break;
 

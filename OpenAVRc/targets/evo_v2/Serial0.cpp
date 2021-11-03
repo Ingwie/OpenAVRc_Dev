@@ -85,7 +85,7 @@ ISR(FRSKY_USART_RXC_VECT)
 #endif
 
 
-#if defined(DSM2_SERIAL)
+#if (SERIAL_PROTOCOL==DSM2)
 ISR(DSM_USART_DRE_VECT)
 {
   if (Usart0TxBufferCount) {

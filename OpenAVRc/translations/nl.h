@@ -68,7 +68,7 @@
 #define TR_BLONBRIGHTNESS      INDENT "Aan-Helderheid"
 #define TR_BLOFFBRIGHTNESS     INDENT "Uit-Helderheid"
 #endif
-#if defined(DSM2_SERIAL)
+#if (SERIAL_PROTOCOL==DSM2)
  #define TR_DSM2              "LP45\0 ""DSM2\0 ""DSMX\0 "
 #else
  #define TR_DSM2

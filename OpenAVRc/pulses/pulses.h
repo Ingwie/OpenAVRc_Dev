@@ -40,7 +40,7 @@
 
 #define IS_PPM_PROTOCOL(protocol)          (protocol<=PROTOCOL_PPMSIM)
 
-#if defined(DSM2_SERIAL) // Todo check in needed in per10ms
+#if (SERIAL_PROTOCOL==DSM2)
   #define IS_DSM2_SERIAL_PROTOCOL(protocol)  (protocol==PROTOCOL_DSM_SERIAL)
 #else
   #define IS_DSM2_SERIAL_PROTOCOL(protocol)  (0)
@@ -56,7 +56,7 @@
   #if defined(MULTIMODULE)
     #define LASTPROTOMENU1 PROTOCOL_MULTI+1
   #else
-    #if defined(DSM2_SERIAL)
+    #if (SERIAL_PROTOCOL==DSM2)
       #define LASTPROTOMENU1 PROTOCOL_DSM_SERIAL+1
     #else
       #define LASTPROTOMENU1 PROTOCOL_PPMSIM+1

@@ -58,7 +58,7 @@ void adaptTxProtocolNumToSimu()
 
   if (temp >= (PPMSIZE))
     {
-      if (!(g_eeGeneral.protocol_mask & PROTOMASK0)) // DSM2_SERIAL Not present
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK0)) // SERIAL_PROTOCOL Not present
         {
           temp += DSM2SZISE;
         }
@@ -140,7 +140,7 @@ void adaptSimuProtocolNumToTx()
     }
   if (temp > (PPMSIZE))
     {
-      if (!(g_eeGeneral.protocol_mask & PROTOMASK0)) // DSM2_SERIAL Not present
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK0)) // SERIAL_PROTOCOL Not present
         {
           temp -= DSM2SZISE;
         }

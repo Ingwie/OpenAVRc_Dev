@@ -49,7 +49,7 @@
 #endif
 
 
-#ifdef DSM2_SERIAL
+#if (SERIAL_PROTOCOL==DSM2)
 #include "DSM_SERIAL.c"
 #endif
 

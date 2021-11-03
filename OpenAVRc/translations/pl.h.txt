@@ -68,7 +68,7 @@
 #define TR_BLONBRIGHTNESS      INDENT"Jasnośc wł."
 #define TR_BLOFFBRIGHTNESS     INDENT"Jasność wył."
 #endif
-#if defined(DSM2_SERIAL)
+#if (SERIAL_PROTOCOL==DSM2)
  #define TR_DSM2              "LP45\0 ""DSM2\0 ""DSMX\0 "
 #else
  #define TR_DSM2

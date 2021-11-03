@@ -138,9 +138,9 @@ VARIO = YES
 # default = YES (means enabled when available)
 RTCLOCK = YES
 
-# DSM2 (Spektrum) protocol
-# Values = NO, SERIAL
-DSM2 = NO
+# Serial protocol
+# Values = NO, DSM2
+SERIAL_PROTOCOL = NO
 
 # TRANSLATIONS
 # Values = cz, de, en, fi, fr, it, se, es, pl, pt, nl, sk
@@ -365,7 +365,7 @@ ifeq ($(PCB), MEGAMINI)
   ifeq ($(MULTIMODULE), YES)
    needSerial0 = YES
   endif
-  ifeq ($(DSM2), YES)
+  ifneq ($(SERIAL_PROTOCOL), NO)
    needSerial0 = YES
   endif
   ifeq ($(EXT), FRSKY)
@@ -523,7 +523,7 @@ ifeq ($(PCB), EVO_V2)
   THR_TRACE = YES
   VOICE = YES
   SPIMODULES = NO
-  DSM2 = SERIAL
+  SERIAL_PROTOCOL = DSM2
   MULTIMODULE = YES
   CC2500 = YES
   CC2500PAG = 20
@@ -543,7 +543,7 @@ ifeq ($(PCB), EVO_V2)
   ifeq ($(MULTIMODULE), YES)
    needSerial0 = YES
   endif
-  ifeq ($(DSM2), SERIAL)
+  ifneq ($(SERIAL_PROTOCOL), NO)
    needSerial0 = YES
   endif
   ifeq ($(EXT), FRSKY)
@@ -690,7 +690,7 @@ ifeq ($(PCB), MEGA2560)
   ifeq ($(MULTIMODULE), YES)
    needSerial0 = YES
   endif
-  ifeq ($(DSM2), YES)
+  ifneq ($(SERIAL_PROTOCOL), NO)
    needSerial0 = YES
   endif
   ifeq ($(EXT), FRSKY)
@@ -1070,8 +1070,9 @@ ifeq ($(TEMPLATES), YES)
     GUIMODELSRC += gui/menu_model_templates.cpp
 endif
 
-ifeq ($(DSM2), SERIAL)
-  CPPDEFS += -DDSM2_SERIAL
+CPPDEFS += -DDSM2=1
+ifneq ($(SERIAL_PROTOCOL), NO)
+  CPPDEFS += -DSERIAL_PROTOCOL=$(SERIAL_PROTOCOL)
 endif
 
 ifeq ($(3POS), POT1)

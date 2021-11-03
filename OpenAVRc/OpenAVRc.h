@@ -250,7 +250,7 @@ static uint16_t DurationValue;
 #define IS_FAI_FORBIDDEN(idx) (IS_FAI_ENABLED() && idx >= MIXSRC_FIRST_TELEM)
 
 // Build Protocol Mask used by simu to decrypt firmware used protocol
-#ifdef DSM2_SERIAL
+#ifdef SERIAL_PROTOCOL
 #define PROTOMASK0 _BV(0)
 #else
 #define PROTOMASK0 0
