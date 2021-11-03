@@ -341,7 +341,7 @@ private:
   static const long ID_CHECKBOXCC2500;
   static const long ID_CHECKBOXCYRF6936;
   static const long ID_CHECKBOXMULTIMOD;
-  static const long ID_CHECKBOXDSMSER;
+  static const long ID_CHECKBOXSERPROTO;
   static const long ID_STATICTEXT1;
   static const long ID_STATICTEXTEEPATH;
   static const long ID_PANELL;
@@ -412,7 +412,7 @@ private:
   wxCheckBox* CheckBoxA7105;
   wxCheckBox* CheckBoxCC2500;
   wxCheckBox* CheckBoxCYRF6936;
-  wxCheckBox* CheckBoxDSMSER;
+  wxCheckBox* CheckBoxSERPROTO;
   wxCheckBox* CheckBoxMULTIMOD;
   wxCheckBox* CheckBoxNRF24L01;
   wxMenu* MenuColours;
