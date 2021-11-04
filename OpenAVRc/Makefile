@@ -138,21 +138,9 @@ VARIO = YES
 # default = YES (means enabled when available)
 RTCLOCK = YES
 
-# DSM2 (Spektrum) protocol
-# Values = NO, SERIAL
-DSM2 = NO
-
-# SBUS  protocol
-# Values = NO, SERIAL
-SBUS = NO
-
-# CRSF  protocol
-# Values = NO, SERIAL
-CRSF = NO
-
-# SUMD  protocol
-# Values = NO, SERIAL
-SUMD = NO
+# Serial protocol
+# Values = NO, DSM2
+SERIAL_PROTOCOL = NO
 
 # TRANSLATIONS
 # Values = cz, de, en, fi, fr, it, se, es, pl, pt, nl, sk
@@ -261,12 +249,13 @@ NRF24L01PAG = 20
 # Values = NO, YES
 A7105 = NO
 
-# Enable SX1276 SPI protocols
-# Values = NO, YES
-SPISX1276 = NO
 # Set A7105 PA gain in DB
 # Values = 20,22
 A7105PAG = 20
+
+# Enable SX1276 SPI protocols
+# Values = NO, YES
+SPISX1276 = NO
 
 # Enable X-ANY feature
 # Values = NO, 1, 2, 3 ,4
@@ -380,10 +369,7 @@ ifeq ($(PCB), MEGAMINI)
   ifeq ($(MULTIMODULE), YES)
    needSerial0 = YES
   endif
-  ifeq ($(DSM2), YES)
-   needSerial0 = YES
-  endif
-  ifeq ($(SBUS), YES)
+  ifneq ($(SERIAL_PROTOCOL), NO)
    needSerial0 = YES
   endif
   ifeq ($(EXT), FRSKY)
@@ -476,10 +462,11 @@ ifeq ($(PCB), MEGAMINI)
    		CPPDEFS += -DPROTO_HAS_A7105
  	  	CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
   	endif
-
-		ifeq ($(SPISX1276), YES)
+	
+	ifeq ($(SPISX1276), YES)
    		CPPDEFS += -DPROTO_HAS_SPISX1276
-  	endif
+  	endif	
+	
   endif
 
 	ifneq ($(X_ANY), NO)
@@ -545,7 +532,7 @@ ifeq ($(PCB), EVO_V2)
   THR_TRACE = YES
   VOICE = YES
   SPIMODULES = NO
-  DSM2 = SERIAL
+  SERIAL_PROTOCOL = DSM2
   MULTIMODULE = YES
   CC2500 = YES
   CC2500PAG = 20
@@ -565,7 +552,7 @@ ifeq ($(PCB), EVO_V2)
   ifeq ($(MULTIMODULE), YES)
    needSerial0 = YES
   endif
-  ifeq ($(DSM2), SERIAL)
+  ifneq ($(SERIAL_PROTOCOL), NO)
    needSerial0 = YES
   endif
   ifeq ($(EXT), FRSKY)
@@ -712,7 +699,7 @@ ifeq ($(PCB), MEGA2560)
   ifeq ($(MULTIMODULE), YES)
    needSerial0 = YES
   endif
-  ifeq ($(DSM2), YES)
+  ifneq ($(SERIAL_PROTOCOL), NO)
    needSerial0 = YES
   endif
   ifeq ($(EXT), FRSKY)
@@ -1092,20 +1079,9 @@ ifeq ($(TEMPLATES), YES)
     GUIMODELSRC += gui/menu_model_templates.cpp
 endif
 
-ifeq ($(DSM2), SERIAL)
-  CPPDEFS += -DDSM2_SERIAL
-endif
-
-ifeq ($(SBUS), SERIAL)
-  CPPDEFS += -DSBUS_SERIAL
-endif
-
-ifeq ($(CRSF), SERIAL)
-  CPPDEFS += -DCRSF_SERIAL
-endif
-
-ifeq ($(SUMD), SERIAL)
-  CPPDEFS += -DSUMD_SERIAL
+CPPDEFS += -DDSM2=1
+ifneq ($(SERIAL_PROTOCOL), NO)
+  CPPDEFS += -DSERIAL_PROTOCOL=$(SERIAL_PROTOCOL)
 endif
 
 ifeq ($(3POS), POT1)
