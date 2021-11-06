@@ -253,9 +253,9 @@ static uint16_t MULTI_cb()
 
   // header, byte 0,  0x55 for proto 0-31 0x54 for 32-63
   if (type <= 31)
-    Usart0TxBuffer[--multiTxBufferCount] = 0x55;
+    Usart0TxBuffer_p2M[--multiTxBufferCount] = 0x55;
   else
-    Usart0TxBuffer[--multiTxBufferCount] = 0x54;
+    Usart0TxBuffer_p2M[--multiTxBufferCount] = 0x54;
 
   // protocol byte 1
   protoByte |= (type & 0x1f);
@@ -263,16 +263,16 @@ static uint16_t MULTI_cb()
     protoByte |= (g_model.AUTOBINDMODE << 6);
 
 //  sendByteMulti(protoByte);
-  Usart0TxBuffer[--multiTxBufferCount] = protoByte;
+  Usart0TxBuffer_p2M[--multiTxBufferCount] = protoByte;
 
   // byte 2, subtype, powermode, model id
-  Usart0TxBuffer[--multiTxBufferCount] = ((uint8_t) ((g_model.modelId & 0x0f)
+  Usart0TxBuffer_p2M[--multiTxBufferCount] = ((uint8_t) ((g_model.modelId & 0x0f)
                                           | ((subtype & 0x7) << 4)
                                           | (g_model.LOWPOWERMODE << 7))
                                          );
 
   // byte 3
-  Usart0TxBuffer[--multiTxBufferCount] = (uint8_t) optionValue;
+  Usart0TxBuffer_p2M[--multiTxBufferCount] = (uint8_t) optionValue;
 
   uint32_t bits = 0;
   uint8_t bitsavailable = 0;
@@ -292,7 +292,7 @@ static uint16_t MULTI_cb()
     bitsavailable += MULTI_CHAN_BITS;
 
     while (bitsavailable >= 8) {
-      Usart0TxBuffer[--multiTxBufferCount] = ((uint8_t) (bits & 0xff));
+      Usart0TxBuffer_p2M[--multiTxBufferCount] = ((uint8_t) (bits & 0xff));
       bits >>= 8;
       bitsavailable -= 8;
     }

@@ -52,7 +52,7 @@
 #if (SERIAL_PROTOCOL==DSM)
 #include "DSM_SERIAL.c"
 #elif (SERIAL_PROTOCOL==MULTIMODULE)
-#include "MULTI.c"
+#include "MULTI_SERIAL.c"
 #endif
 
 #if defined(SPIMODULES)

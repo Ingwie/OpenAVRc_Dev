@@ -35,7 +35,6 @@
 
 
 uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][TELEM_RX_PACKET_SIZE];
-uint8_t * Usart0TxBuffer = pulses2MHz.pbyte; // [USART0_TX_PACKET_SIZE] bytes used
 uint8_t Usart0TxBufferCount = 0;
 
 
@@ -89,7 +88,7 @@ ISR(FRSKY_USART_RXC_VECT)
 ISR(DSM_USART_DRE_VECT)
 {
   if (Usart0TxBufferCount) {
-    DSM_USART.DATA = Usart0TxBuffer[--Usart0TxBufferCount];
+    DSM_USART.DATA = Usart0TxBuffer_p2M[--Usart0TxBufferCount];
   }
   else {
     DSM_USART.CTRLA &= ~USART_DREINTLVL_gm;
@@ -102,7 +101,7 @@ ISR(DSM_USART_DRE_VECT)
 ISR(MULTI_USART_DRE_VECT)
 {
   if (Usart0TxBufferCount) {
-    MULTI_USART.DATA = Usart0TxBuffer[--Usart0TxBufferCount];
+    MULTI_USART.DATA = Usart0TxBuffer_p2M[--Usart0TxBufferCount];
   }
   else {
     MULTI_USART.CTRLA &= ~USART_DREINTLVL_gm;

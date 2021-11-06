@@ -456,7 +456,7 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
-		<Unit filename="../OpenAVRc/protocol/MULTI.c">
+		<Unit filename="../OpenAVRc/protocol/MULTI_SERIAL.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
 			<Option link="0" />

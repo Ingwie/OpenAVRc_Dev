@@ -44,8 +44,7 @@
 #define DSM2_SEND_BIND                     0x80
 #define DSM2_SEND_RANGECHECK               0x20
 
-bool dsmBind = 0;
-bool dsmRange = 0;
+#define DSMBIND    rf_power_p2M
 
 // DSM2 protocol pulled from th9x - Thanks thus!!!
 
@@ -119,14 +118,14 @@ static uint16_t DSM_SERIAL_cb()
     dsm_header = 0x10;
   else dsm_header = 0x10 | DSMX_BIT; // PROTO_DSM2_DSMX
 
-  if(dsmBind)
+  if(DSMBIND)
     dsm_header |= DSM2_SEND_BIND;
-  else if(dsmRange)
+  else if(systemBolls.rangeModeIsOn)
     dsm_header |= DSM2_SEND_RANGECHECK;
 
-  Usart0TxBuffer[--dsmTxBufferCount] = dsm_header;
+  Usart0TxBuffer_p2M[--dsmTxBufferCount] = dsm_header;
 
-  Usart0TxBuffer[--dsmTxBufferCount] = g_model.modelId; // DSM2 Header. Second byte for model match.
+  Usart0TxBuffer_p2M[--dsmTxBufferCount] = g_model.modelId; // DSM2 Header. Second byte for model match.
 
 #if defined(X_ANY)
   Xany_scheduleTx_AllInstance();
@@ -134,8 +133,8 @@ static uint16_t DSM_SERIAL_cb()
 
   for (uint8_t i = 0; i < DSM2_CHANS; i++) {
     uint16_t pulse = limit(0, ((FULL_CHANNEL_OUTPUTS(i)*13)>>5)+512,1023);
-    Usart0TxBuffer[--dsmTxBufferCount] = (i<<2) | ((pulse>>8)&0x03); // Encoded channel + upper 2 bits pulse width.
-    Usart0TxBuffer[--dsmTxBufferCount] = pulse & 0xff; // Low byte
+    Usart0TxBuffer_p2M[--dsmTxBufferCount] = (i<<2) | ((pulse>>8)&0x03); // Encoded channel + upper 2 bits pulse width.
+    Usart0TxBuffer_p2M[--dsmTxBufferCount] = pulse & 0xff; // Low byte
   }
   Usart0TxBufferCount = 14; // Indicates data to transmit.
 
@@ -164,11 +163,11 @@ const void *DSM_SERIAL_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
   case PROTOCMD_INIT:
-    dsmBind = 0;
+    DSMBIND = 0;
     DSM_SERIAL_initialize();
     return 0;
   case PROTOCMD_BIND:
-    dsmBind = 1;
+    DSMBIND = 1;
     DSM_SERIAL_initialize();
     return 0;
   case PROTOCMD_RESET:
