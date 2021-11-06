@@ -68,7 +68,7 @@
 #define TR_BLONBRIGHTNESS      INDENT "P\200 Ljuss."
 #define TR_BLOFFBRIGHTNESS     INDENT "Av Ljuss."
 #endif
-#if (SERIAL_PROTOCOL==DSM2)
+#if (SERIAL_PROTOCOL==DSM)
  #define TR_DSM2              "LP45\0 ""DSM2\0 ""DSMX\0 "
 #else
  #define TR_DSM2
@@ -78,12 +78,12 @@
 
  #define TR_RFPOWER INDENT    "RF Power"
 #endif
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
  #define LEN_MULTIPROTOCOLS    "\006"
  #define TR_MULTIPROTOCOLS     "FlySky""Hubsan""FrSky\0""Hisky\0""V2x2\0 ""DSM\0  ""Devo\0 ""YD717\0""KN\0   ""SymaX\0""SLT\0  ""CX10\0 ""CG023\0""Bayang""ESky\0 ""MT99XX""MJXQ\0 ""Shenqi""FY326\0""SFHSS\0""J6 PRO""FQ777\0""Assan\0""Hontai""OLRS\0 ""FS 2A\0""Q2x2\0 ""Walk.\0""Q303\0 ""GW008\0""DM002\0"
  #define TR_MULTI_CUSTOM       "Custom"
 #endif
-#if defined(MULTIMODULE) || defined(SPIMODULES)
+#if (SERIAL_PROTOCOL==MULTIMODULE) || defined(SPIMODULES)
  #define TR_SUBTYPE            "SubType"
  #define TR_RFTUNEFINE         INDENT "Freq.fine"
  #define TR_TELEMETRY             "Telemetry"

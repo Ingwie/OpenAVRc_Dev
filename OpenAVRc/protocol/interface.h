@@ -48,12 +48,10 @@
 #include "PROTO_xmega_PPM16.cpp"
 #endif
 
-
-#if (SERIAL_PROTOCOL==DSM2)
+// Serial protocols
+#if (SERIAL_PROTOCOL==DSM)
 #include "DSM_SERIAL.c"
-#endif
-
-#ifdef PROTO_HAS_MULTISUPIIIK
+#elif (SERIAL_PROTOCOL==MULTIMODULE)
 #include "MULTI.c"
 #endif
 

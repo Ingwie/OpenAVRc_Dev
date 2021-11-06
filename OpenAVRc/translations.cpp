@@ -47,7 +47,7 @@ const pm_char STR_OPEN9X[] PROGMEM =
   ISTR(TRNCHN) // TODO use CH1 CH16
   ISTR(VTRIMINC)
   ISTR(RETA123)
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
   ISTR(MULTIPROTOCOLS)
 #endif
   ISTR(VBLMODE)
@@ -239,10 +239,10 @@ const pm_char STR_RFPOWER[] PROGMEM = TR_RFPOWER;
 const pm_char STR_NUMCH[] PROGMEM = INDENT"Num. voies"; // todo internationalize
 const pm_char STR_UBIND[] PROGMEM = INDENT"Sup. Bind"; // todo internationalize
 #endif
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
 const pm_char STR_MULTI_CUSTOM[] PROGMEM = TR_MULTI_CUSTOM;
 #endif
-#if defined(MULTIMODULE) || defined(SPIMODULES)
+#if (SERIAL_PROTOCOL==MULTIMODULE) || defined(SPIMODULES)
 const pm_char STR_SUBTYPE[] PROGMEM = TR_SUBTYPE;
 const pm_char STR_MULTI_VIDFREQ[] PROGMEM = TR_MULTI_VIDFREQ;
 const pm_char STR_RFTUNEFINE[] PROGMEM = TR_RFTUNEFINE;
@@ -386,13 +386,13 @@ const pm_char STR_UNLOCKED[] PROGMEM = TR_UNLOCKED;
 const pm_char STR_MODS_FORBIDDEN[] PROGMEM = TR_MODS_FORBIDDEN;
 #endif
 
-#if (SERIAL_PROTOCOL==DSM2) || defined(SPIMODULES) || defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==DSM) || defined(SPIMODULES) || defined(MULTIMODULE)
 const pm_char STR_MODULE_RANGE[] PROGMEM = TR_MODULE_RANGE;
 const pm_char STR_MODULE_BIND[] PROGMEM = TR_MODULE_BIND;
 const pm_char STR_RXNUM[] PROGMEM = TR_RXNUM;
 #endif
 
-#if (SERIAL_PROTOCOL==DSM2)
+#if (SERIAL_PROTOCOL==DSM)
 const pm_char STR_DSM_PROTOCOLS[] PROGMEM = TR_DSM_PROTOCOLS;
 #endif
 

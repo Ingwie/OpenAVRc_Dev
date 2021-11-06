@@ -945,7 +945,7 @@ enum DisplayTrims {
   DISPLAY_TRIMS_ALWAYS
 };
 
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
 
 #define MULTI_RF_PROTO_LAST 100  // Use a large value
 
@@ -1049,7 +1049,7 @@ PACK(typedef struct {
 
   TELEMETRY_DATA
 
-  #if defined(MULTIMODULE)
+  #if (SERIAL_PROTOCOL==MULTIMODULE)
   ModuleDataData moduleData;
 
   PACK(typedef struct {

@@ -45,8 +45,7 @@ extern uint8_t * eeprom_buffer_data;
 
 // Protocol number convertion
 #define PPMSIZE    3
-#define DSM2SZISE  1
-#define MULTISIZE  1
+#define SERPROSIZE 1
 #define CCSIZE     6
 #define CYRFSIZE   3
 #define ASIZE      2
@@ -60,37 +59,29 @@ void adaptTxProtocolNumToSimu()
     {
       if (!(g_eeGeneral.protocol_mask & PROTOMASK0)) // SERIAL_PROTOCOL Not present
         {
-          temp += DSM2SZISE;
+          temp += SERPROSIZE;
         }
     }
 
-  if (temp >= (PPMSIZE+DSM2SZISE))
+  if (temp >= (PPMSIZE+SERPROSIZE))
     {
-      if (!(g_eeGeneral.protocol_mask & PROTOMASK1)) // MULTI Not present
-        {
-          temp += MULTISIZE;
-        }
-    }
-
-  if (temp >= (PPMSIZE+DSM2SZISE+MULTISIZE))
-    {
-      if (!(g_eeGeneral.protocol_mask & PROTOMASK2)) // CC2500 Not present
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK1)) // CC2500 Not present
         {
           temp += CCSIZE;
         }
     }
 
-  if (temp >= (PPMSIZE+DSM2SZISE+MULTISIZE+CCSIZE))
+  if (temp >= (PPMSIZE+SERPROSIZE+CCSIZE))
     {
-      if (!(g_eeGeneral.protocol_mask & PROTOMASK3)) // CYRF6936 Not present
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK2)) // CYRF6936 Not present
         {
           temp += CYRFSIZE;
         }
     }
 
-  if (temp >= (PPMSIZE+DSM2SZISE+MULTISIZE+CCSIZE+CYRFSIZE))
+  if (temp >= (PPMSIZE+SERPROSIZE+CCSIZE+CYRFSIZE))
     {
-      if (!(g_eeGeneral.protocol_mask & PROTOMASK4)) // A7105 Not present
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK3)) // A7105 Not present
         {
           temp += ASIZE;
         }
@@ -110,39 +101,31 @@ void adaptSimuProtocolNumToTx()
 {
   uint8_t temp = g_model.rfProtocol;
 
-  if (temp > (PPMSIZE+DSM2SZISE+MULTISIZE+CCSIZE+CYRFSIZE))
+  if (temp > (PPMSIZE+SERPROSIZE+CCSIZE+CYRFSIZE))
     {
-      if (!(g_eeGeneral.protocol_mask & PROTOMASK4)) // A7105 Not present
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK3)) // A7105 Not present
         {
           temp -= ASIZE;
         }
     }
-  if (temp > (PPMSIZE+DSM2SZISE+MULTISIZE+CCSIZE))
+  if (temp > (PPMSIZE+SERPROSIZE+CCSIZE))
     {
-      if (!(g_eeGeneral.protocol_mask & PROTOMASK3)) // CYRF6936 Not present
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK2)) // CYRF6936 Not present
         {
           temp -= CYRFSIZE;
         }
     }
-  if (temp > (PPMSIZE+DSM2SZISE+MULTISIZE))
+  if (temp > (PPMSIZE+SERPROSIZE))
     {
-      if (!(g_eeGeneral.protocol_mask & PROTOMASK2)) // CC2500 Not present
+      if (!(g_eeGeneral.protocol_mask & PROTOMASK1)) // CC2500 Not present
         {
           temp -= CCSIZE;
         }
     }
-  if (temp > (PPMSIZE+DSM2SZISE))
-    {
-      if (!(g_eeGeneral.protocol_mask & PROTOMASK1)) // MULTI Not present
-        {
-          temp -= MULTISIZE;
-        }
-    }
-  if (temp > (PPMSIZE))
     {
       if (!(g_eeGeneral.protocol_mask & PROTOMASK0)) // SERIAL_PROTOCOL Not present
         {
-          temp -= DSM2SZISE;
+          temp -= SERPROSIZE;
         }
     }
 

@@ -225,16 +225,8 @@ void boardOff();
   extern ISR(INT5_vect);
 #endif
 
-//SUPIIIK FILE
-//#define MULTIMODULE
-#if defined (MULTIMODULE)
-  #define PROTO_HAS_MULTISUPIIIK
-#endif
-//SUPIIIK FILE
 
 //Xmitter
-//#define SPIMODULES
-
 #if defined(SPIMODULES) && !defined(SDCARD) //Alow Spimodule if no sdcard on this board
 
     uint8_t master_rf_spi_xfer(uint8_t data);

@@ -241,14 +241,7 @@ void boardOff();
   ISR(INT5_vect);
 #endif
 
-//SUPIIIK FILE
-#if defined (MULTIMODULE)
-  #define PROTO_HAS_MULTISUPIIIK
-#endif
-//SUPIIIK FILE
-
 //Xmitter
-
 #if defined(SPIMODULES)
 
   uint8_t USART2_mspi_xfer(uint8_t data);

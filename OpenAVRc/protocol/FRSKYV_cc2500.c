@@ -281,7 +281,6 @@ static uint16_t FRSKYV_bind_cb()
   return 18000U *2;
 }
 
-
 static void FRSKYV_initialise(uint8_t bind)
 {
   CC2500_Reset(); // 0x30

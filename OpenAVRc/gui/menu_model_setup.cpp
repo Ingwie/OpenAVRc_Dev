@@ -405,7 +405,7 @@ void menuModelSetup(uint8_t event)
             }
           }
         }
-#if (SERIAL_PROTOCOL==DSM2)
+#if (SERIAL_PROTOCOL==DSM)
        if (IS_DSM2_SERIAL_PROTOCOL(protocol))
         {
          lcdDrawTextLeft(y, STR_TYPE);
@@ -449,7 +449,7 @@ void menuModelSetup(uint8_t event)
           }
         }
 #endif
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
        else if IS_MULTIMODULE_PROTOCOL(protocol)
         {
          uint8_t multi_rfProto = g_model.MULTIRFPROTOCOL;
@@ -529,7 +529,7 @@ void menuModelSetup(uint8_t event)
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_2:
      if PROTO_IS_SYNC
      {
-#if (SERIAL_PROTOCOL==DSM2)
+#if (SERIAL_PROTOCOL==DSM)
       if (IS_DSM2_SERIAL_PROTOCOL(protocol))
         {
          horzpos_t l_posHorz = menuHorizontalPosition;
@@ -559,8 +559,7 @@ void menuModelSetup(uint8_t event)
             }
           }
         }
-#endif
-#if defined(MULTIMODULE)
+#elif (SERIAL_PROTOCOL==MULTIMODULE)
        if IS_MULTIMODULE_PROTOCOL(protocol)
         {
          horzpos_t l_posHorz = menuHorizontalPosition;
@@ -635,7 +634,7 @@ void menuModelSetup(uint8_t event)
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_3:
      if PROTO_IS_SYNC
      {
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
       if IS_MULTIMODULE_PROTOCOL(protocol)
         {
          if (g_model.MULTIRFPROTOCOL == MM_RF_PROTO_DSM2)
@@ -667,7 +666,7 @@ void menuModelSetup(uint8_t event)
     case  ITEM_MODEL_PROTOCOL_PARAMS_LINE_4: //Option1 for SPIMOD
      if PROTO_IS_SYNC
      {
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
       if IS_MULTIMODULE_PROTOCOL(protocol)
         {
          ON_OFF_MENU_ITEM(g_model.LOWPOWERMODE, MODEL_SETUP_2ND_COLUMN, y, STR_MULTI_LOWPOWER, attr, event);
@@ -697,7 +696,7 @@ void menuModelSetup(uint8_t event)
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_5:
      if PROTO_IS_SYNC
      {
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
       if IS_MULTIMODULE_PROTOCOL(protocol)
         {
          int8_t optionValue =  g_model.rfOptionValue2;

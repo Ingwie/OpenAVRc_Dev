@@ -40,23 +40,23 @@
 
 #define IS_PPM_PROTOCOL(protocol)          (protocol<=PROTOCOL_PPMSIM)
 
-#if (SERIAL_PROTOCOL==DSM2)
+#if (SERIAL_PROTOCOL==DSM)
   #define IS_DSM2_SERIAL_PROTOCOL(protocol)  (protocol==PROTOCOL_DSM_SERIAL)
 #else
   #define IS_DSM2_SERIAL_PROTOCOL(protocol)  (0)
 #endif
 
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
   #define IS_MULTIMODULE_PROTOCOL(protocol)  (protocol==PROTOCOL_MULTI)
 #else
   #define IS_MULTIMODULE_PROTOCOL(protocol)  (0)
 #endif
 
 #if defined(SPIMODULES)
-  #if defined(MULTIMODULE)
+  #if (SERIAL_PROTOCOL==MULTIMODULE)
     #define LASTPROTOMENU1 PROTOCOL_MULTI+1
   #else
-    #if (SERIAL_PROTOCOL==DSM2)
+    #if (SERIAL_PROTOCOL==DSM)
       #define LASTPROTOMENU1 PROTOCOL_DSM_SERIAL+1
     #else
       #define LASTPROTOMENU1 PROTOCOL_PPMSIM+1

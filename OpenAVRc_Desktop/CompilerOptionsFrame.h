@@ -46,6 +46,7 @@
 #include <wx/panel.h>
 #include <wx/statbox.h>
 #include <wx/stattext.h>
+#include <wx/textctrl.h>
 //*)
 
 //SPLASH
@@ -74,9 +75,7 @@ extern bool VARIO;//defaults to NO
 extern bool RTCLOCK;//defaults to NO
 extern bool SPORT_FILE_LOG;//defaults to NO
 extern bool PPM;//defaults to YES
-extern bool MULTI;//defaults to NO
-extern bool DSM2SERIAL;//defaults to NO
-extern bool SPIRF;//defaults to NO
+extern wxString SERIAL_PROTOCOL;//defaults to NO
 extern bool CC2500;//defaults to NO
 extern bool CYRF6936;//defaults to NO
 extern bool NRF24l01;//defaults to NO
@@ -119,9 +118,9 @@ extern bool SHUTDOWN_CONFIRMATION;
 extern bool FRAM;
 extern wxString BLUETOOTH;
 extern bool XMODEM;
-
-//DANGEROUS_MODULE_FUNCTIONS// does not compile.
 extern bool PERSONAMES;
+extern wxString OTHERCOMPOPTIONS;
+
 // Sticks
 extern bool INV_STICK_RH;
 extern bool INV_STICK_LV;
@@ -180,7 +179,6 @@ public:
     wxCheckBox* CheckBoxCURVES;
     wxCheckBox* CheckBoxCYRF6936;
     wxCheckBox* CheckBoxDBLKEYS;
-    wxCheckBox* CheckBoxDSM2SERIAL;
     wxCheckBox* CheckBoxEEPROM_PROGRESS_BAR;
     wxCheckBox* CheckBoxFLIGHT_MODES;
     wxCheckBox* CheckBoxFRAM;
@@ -193,7 +191,6 @@ public:
     wxCheckBox* CheckBoxInvStickRH;
     wxCheckBox* CheckBoxInvStickRV;
     wxCheckBox* CheckBoxLCDROT180;
-    wxCheckBox* CheckBoxMULTI;
     wxCheckBox* CheckBoxNOANDSECONDE;
     wxCheckBox* CheckBoxNRF24l01;
     wxCheckBox* CheckBoxOVERRIDE_CHANNEL_FUNCTION;
@@ -204,7 +201,6 @@ public:
     wxCheckBox* CheckBoxPWM_BACKLIGHT;
     wxCheckBox* CheckBoxSD_CARD;
     wxCheckBox* CheckBoxSHUTDOWN_CONFIRMATION;
-    wxCheckBox* CheckBoxSPIRF;
     wxCheckBox* CheckBoxSPLASH;
     wxCheckBox* CheckBoxSX1276;
     wxCheckBox* CheckBoxTEMPLATES;
@@ -226,6 +222,7 @@ public:
     wxChoice* ChoiceNUMXANY;
     wxChoice* ChoicePCB;
     wxChoice* ChoicePPM_UNIT ;
+    wxChoice* ChoiceSERIAL_PROTOCOL;
     wxChoice* ChoiceTHREE_POS;
     wxChoice* ChoiceTRANSLATIONS;
     wxChoice* ChoiceTTS;
@@ -254,6 +251,7 @@ public:
     wxPanel* Panel5;
     wxStaticBox* StaticBox10;
     wxStaticBox* StaticBox11;
+    wxStaticBox* StaticBox12;
     wxStaticBox* StaticBox13;
     wxStaticBox* StaticBox1;
     wxStaticBox* StaticBox2;
@@ -287,6 +285,7 @@ public:
     wxStaticText* StaticText29;
     wxStaticText* StaticText2;
     wxStaticText* StaticText30;
+    wxStaticText* StaticText31;
     wxStaticText* StaticText3;
     wxStaticText* StaticText4;
     wxStaticText* StaticText5;
@@ -294,6 +293,7 @@ public:
     wxStaticText* StaticText7;
     wxStaticText* StaticText8;
     wxStaticText* StaticText9;
+    wxTextCtrl* TextCtrlOTHERCOMPOPTIONS;
     //*)
 
 protected:
@@ -357,8 +357,6 @@ protected:
     static const long ID_CHECKBOXNOANDSECONDE;
     static const long ID_STATICBOX2;
     static const long ID_CHECKBOX10;
-    static const long ID_CHECKBOX11;
-    static const long ID_CHECKBOX13;
     static const long ID_CHOICE2;
     static const long ID_CHECKBOX5;
     static const long ID_CHECKBOX6;
@@ -375,7 +373,6 @@ protected:
     static const long ID_CHECKBOX44;
     static const long ID_CHECKBOX45;
     static const long ID_CHECKBOX47;
-    static const long ID_CHECKBOX28;
     static const long ID_BUTTON1;
     static const long ID_BUTTON4;
     static const long ID_CHECKBOX23;
@@ -388,6 +385,8 @@ protected:
     static const long ID_CHECKBOX34;
     static const long ID_CHOICEBLUETOOTH;
     static const long ID_STATICTEXT30;
+    static const long ID_PROTOSERIALCHOICE;
+    static const long ID_STATICTEXT31;
     static const long ID_PANEL3;
     static const long ID_STATICBOX7;
     static const long ID_STATICBOX10;
@@ -426,6 +425,8 @@ protected:
     static const long ID_STATICTEXT22;
     static const long ID_STATICTEXT27;
     static const long ID_STATICTEXT23;
+    static const long ID_STATICBOX12;
+    static const long ID_TEXTCTRL1;
     static const long ID_PANEL4;
     static const long ID_STATICBOX11;
     static const long ID_BUTTON8;
@@ -482,9 +483,7 @@ private:
     void CreatePersonames_H();
     void OnCheckBoxPPMClick(wxCommandEvent& event);
     void OnCheckBoxSPORT_FILE_LOGClick(wxCommandEvent& event);
-    void OnCheckBoxPXXClick(wxCommandEvent& event);
     void OnChoiceTTSSelect1(wxCommandEvent& event);
-    void OnCheckBoxDSM2Click(wxCommandEvent& event);
     void OnCheckBox1Click2(wxCommandEvent& event);
     void OnChoice1Select(wxCommandEvent& event);
     void OnCheckBoxTURNIGY_TRANSMITTER_FIXClick(wxCommandEvent& event);
@@ -526,7 +525,6 @@ private:
     void OnCheckBoxSPLASHClick(wxCommandEvent& event);
     void OnChoiceLCDSelect(wxCommandEvent& event);
     void OnCheckBoxPPM_CENTER_ADJUSTABLEClick1(wxCommandEvent& event);
-    void OnCheckBoxDSM2Click1(wxCommandEvent& event);
     void OnCheckBoxAUTOSWITCHClick(wxCommandEvent& event);
     void OnCheckBoxSPLASHClick1(wxCommandEvent& event);
     void OnChoiceFAISelect(wxCommandEvent& event);

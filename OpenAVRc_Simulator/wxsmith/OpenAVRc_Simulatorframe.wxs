@@ -353,8 +353,8 @@
 					<bg>#C0C0C0</bg>
 					<handler function="OnCheckBoxProtocolsClick" entry="EVT_CHECKBOX" />
 				</object>
-				<object class="wxCheckBox" name="ID_CHECKBOXMULTIMOD" variable="CheckBoxMULTIMOD" member="yes">
-					<label>MULTIMOD</label>
+				<object class="wxCheckBox" name="ID_CHECKBOXMULTIMOD" variable="CheckBoxSERPROTO" member="yes">
+					<label>SER__PROT.</label>
 					<checked>1</checked>
 					<pos>552,40</pos>
 					<size>78,13</size>
@@ -362,8 +362,8 @@
 					<bg>#C0C0C0</bg>
 					<handler function="OnCheckBoxProtocolsClick" entry="EVT_CHECKBOX" />
 				</object>
-				<object class="wxCheckBox" name="ID_CHECKBOXSERPROTO" variable="CheckBoxSERPROTO" member="yes">
-					<label>SER__PROT.</label>
+				<object class="wxCheckBox" name="ID_CHECKBOXSERPROTO" variable="CheckBoxPPMPROTO" member="yes">
+					<label>PPM PROT.</label>
 					<checked>1</checked>
 					<pos>552,24</pos>
 					<size>78,13</size>

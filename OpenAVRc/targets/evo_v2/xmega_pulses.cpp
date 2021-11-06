@@ -107,7 +107,7 @@ void startPulses(enum ProtoCmds Command)
     // Do not do setup_rf_tc() as pulses use PWM mode.
   }
 
-#if (SERIAL_PROTOCOL==DSM2)
+#if (SERIAL_PROTOCOL==DSM)
   else  if(IS_DSM2_SERIAL_PROTOCOL(s_current_protocol)) {
     DSM_USART_PORT.PIN3CTRL = PORT_OPC_PULLUP_gc; // Pullup TXD.
     DSM_USART_PORT.DIRSET = USART_TXD_PIN_bm;

@@ -255,32 +255,27 @@ static uint16_t DurationValue;
 #else
 #define PROTOMASK0 0
 #endif
-#ifdef PROTO_HAS_MULTISUPIIIK
+#ifdef PROTO_HAS_CC2500
 #define PROTOMASK1 _BV(1)
 #else
 #define PROTOMASK1 0
 #endif
-#ifdef PROTO_HAS_CC2500
+#ifdef PROTO_HAS_CYRF6936
 #define PROTOMASK2 _BV(2)
 #else
 #define PROTOMASK2 0
 #endif
-#ifdef PROTO_HAS_CYRF6936
+#ifdef PROTO_HAS_A7105
 #define PROTOMASK3 _BV(3)
 #else
 #define PROTOMASK3 0
 #endif
-#ifdef PROTO_HAS_A7105
+#ifdef PROTO_HAS_NRF24L01
 #define PROTOMASK4 _BV(4)
 #else
 #define PROTOMASK4 0
 #endif
-#ifdef PROTO_HAS_NRF24L01
-#define PROTOMASK5 _BV(5)
-#else
-#define PROTOMASK5 0
-#endif
-#define PROTOMASK PROTOMASK0|PROTOMASK1|PROTOMASK2|PROTOMASK3|PROTOMASK4|PROTOMASK5
+#define PROTOMASK PROTOMASK0|PROTOMASK1|PROTOMASK2|PROTOMASK3|PROTOMASK4//|PROTOMASK5
 
 // RESX range is used for internal calculation; The menu says -100.0 to 100.0; internally it is -1024 to 1024 to allow some optimizations
 #define RESX_SHIFT 10
@@ -1112,7 +1107,7 @@ const pm_char STR_OPENAVRCISLOADING[] PROGMEM = "OpenAVRc is loading ...";
   FORCEINLINE void Xany_scheduleTx_AllInstance();
 #endif
 
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
 PACK(
 struct mm_protocol_definition {
   uint8_t protocol;

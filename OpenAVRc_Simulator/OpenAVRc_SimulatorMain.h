@@ -412,9 +412,9 @@ private:
   wxCheckBox* CheckBoxA7105;
   wxCheckBox* CheckBoxCC2500;
   wxCheckBox* CheckBoxCYRF6936;
-  wxCheckBox* CheckBoxSERPROTO;
-  wxCheckBox* CheckBoxMULTIMOD;
   wxCheckBox* CheckBoxNRF24L01;
+  wxCheckBox* CheckBoxPPMPROTO;
+  wxCheckBox* CheckBoxSERPROTO;
   wxMenu* MenuColours;
   wxMenu* MenuFile;
   wxMenu* MenuFrame;
