@@ -267,6 +267,12 @@ static void HITEC_send_packet()
   packet_p2M[23] >>= 1;	// packet sequence
 }
 
+uint16_t Hitec_data_to_volt(uint8_t high, uint8_t low)
+{
+ uint32_t volt = (((high << 8) + low) * 100) / 28;
+ return (uint16_t) volt;
+}
+
 uint16_t HITEC_callback()
 {
  switch(send_seq_p2M)
@@ -277,7 +283,6 @@ uint16_t HITEC_callback()
    if(HITEC_BIND)
     {
      HITEC_RF_CH_NUM=HITEC_BIND_NUM_FREQUENCE;
-     // if(g_model.rfSubType==HITEC_OPTIMA) CC2500_SetPower(TXPOWER_3); // More power to bind optima /// TODO needed ?
     }
    else
     {
@@ -351,69 +356,173 @@ uint16_t HITEC_callback()
      if( (rxBuf[len-1] & 0x80) && rxBuf[0]==len-3 && rxBuf[1]==temp_rfid_addr_p2M[1] && rxBuf[2]==temp_rfid_addr_p2M[2] && rxBuf[3]==temp_rfid_addr_p2M[3])
       {
        //valid crc && length ok && tx_id ok
-        if(HITEC_BIND)
-         {
-          if(len==13)	// Bind packets have a length of 13
-           {
-            // bind packet: 0A,00,E5,F2,7X,05,06,07,08,09,00
-            uint8_t check = 1;
-            for(uint8_t i=5; i<10; i++)
-             if(rxBuf[i]!=i) check = 0;
+       if(HITEC_BIND)
+        {
+         if(len==13)	// Bind packets have a length of 13
+          {
+           // bind packet: 0A,00,E5,F2,7X,05,06,07,08,09,00
+           uint8_t check = 1;
+           for(uint8_t i=5; i<10; i++)
+            if(rxBuf[i]!=i) check = 0;
 
-            if(((rxBuf[4]&0xF0)==0x70) && check)
-             {
-              bind_idx_p2M = rxBuf[4]+1;
-              if(bind_idx_p2M==0x7B) // in dumps the RX stops to reply at 0x7B
-               {
-                if (++num_channel_p2M>164) // the RX stops to reply at 0x7B so wait a little and exit
-                 {
-                  send_seq_p2M = HITEC_START; // stop bind datas
-                  HITEC_BIND = 0;
-                 }
-               }
-             }
-           }
-         }
-        else if( len==15 && rxBuf[4]==0 && rxBuf[12]==0 && HITEC_TELEMETRY) // good packet and telemetry on ?
-         {
-          // Valid telemetry packets
-          // no station:
-          //		0C,1C,A1,2B,00,00,00,00,00,00,00,8D,00,64,8E	-> 00 8D=>RX battery voltage 0x008D/28=5.03V
-          // with HTS-SS:
-          //		0C,1C,A1,2B,00,11,AF,00,2D,00,8D,11,00,4D,96	-> 00 8D=>RX battery voltage 0x008D/28=5.03V
-          //		0C,1C,A1,2B,00,12,00,00,00,00,00,12,00,52,93
-          //		0C,1C,A1,2B,00,13,00,00,00,00,46,13,00,52,8B	-> 46=>temperature2 0x46-0x28=30°C
-          //		0C,1C,A1,2B,00,14,00,00,00,00,41,14,00,2C,93	-> 41=>temperature1 0x41-0x28=25°C
-          //		0C,1C,A1,2B,00,15,00,2A,00,0E,00,15,00,44,96	-> 2A 00=>rpm1=420, 0E 00=>rpm2=140
-          //		0C,1C,A1,2B,00,16,00,00,00,00,00,16,00,2C,8E
-          //		0C,1C,A1,2B,00,17,00,00,00,42,44,17,00,48,8D	-> 42=>temperature3 0x42-0x28=26°C,44=>temperature4 0x44-0x28=28°C
-          //		0C,1C,A1,2B,00,18,00,00,00,00,00,18,00,50,92
-#if defined(TODO_FRSKY)
-          TX_RSSI = rxBuf[13];
-          if(TX_RSSI >=128)
-           TX_RSSI -= 128;
-          else
-           TX_RSSI += 128;
-          TX_LQI = rxBuf[14]&0x7F;
+           if(((rxBuf[4]&0xF0)==0x70) && check)
+            {
+             bind_idx_p2M = rxBuf[4]+1;
+             if(bind_idx_p2M==0x7B) // in dumps the RX stops to reply at 0x7B
+              {
+               if (++num_channel_p2M>164) // the RX stops to reply at 0x7B so wait a little and exit
+                {
+                 send_seq_p2M = HITEC_START; // stop bind datas
+                 HITEC_BIND = 0;
+                }
+              }
+            }
+          }
+        }
+#if defined(FRSKY)
+       else if( len==15 && rxBuf[4]==0 && rxBuf[12]==0 && HITEC_TELEMETRY) // good packet and telemetry on ?
+        {
+         // Valid telemetry packets
+         // no station:
+         //		0C,1C,A1,2B,00,00,00,00,00,00,00,8D,00,64,8E	-> 00 8D=>RX battery voltage 0x008D/28=5.03V
+         // with HTS-SS:
+         //		0C,1C,A1,2B,00,11,AF,00,2D,00,8D,11,00,4D,96	-> 00 8D=>RX battery voltage 0x008D/28=5.03V
+         //		0C,1C,A1,2B,00,12,00,00,00,00,00,12,00,52,93
+         //		0C,1C,A1,2B,00,13,00,00,00,00,46,13,00,52,8B	-> 46=>temperature2 0x46-0x28=30°C
+         //		0C,1C,A1,2B,00,14,00,00,00,00,41,14,00,2C,93	-> 41=>temperature1 0x41-0x28=25°C
+         //		0C,1C,A1,2B,00,15,00,2A,00,0E,00,15,00,44,96	-> 2A 00=>rpm1=420, 0E 00=>rpm2=140
+         //		0C,1C,A1,2B,00,16,00,00,00,00,00,16,00,2C,8E
+         //		0C,1C,A1,2B,00,17,00,00,00,42,44,17,00,48,8D	-> 42=>temperature3 0x42-0x28=26°C,44=>temperature4 0x44-0x28=28°C
+         //		0C,1C,A1,2B,00,18,00,00,00,00,00,18,00,50,92
+         uint16_t tmp;
+         switch (rxBuf[5]) // telemetry frame number
+          {
 
-          if(g_model.rfSubType==HITEC_OPTIMA)
-           {
-            switch(rxBuf[5])		// telemetry frame number
-             {
-             case 0x00:
-              v_lipo1 = (rxBuf[10])<<5 | (rxBuf[11])>>3;	// calculation in float is volt=(rxBuf[10]<<8+rxBuf[11])/28
-              break;
-             case 0x11:
-              v_lipo1 = (rxBuf[9])<<5 | (rxBuf[10])>>3;	// calculation in float is volt=(rxBuf[9]<<8+rxBuf[10])/28
-              break;
-             case 0x18:
-              v_lipo2 =  (rxBuf[6])<<5 | (rxBuf[7])>>3;	// calculation in float is volt=(rxBuf[6]<<8+rxBuf[7])/10
-              break;
-             }
-            telemetry_link=1;			// telemetry hub available
-           }
+          case 0x00:
+           telemetryData.analog[TELEM_ANA_A1].set(Hitec_data_to_volt(rxBuf[10], rxBuf[11]), g_model.telemetry.channels[TELEM_ANA_A1].type);
+           break;
+
+          case 0x11:
+           telemetryData.analog[TELEM_ANA_A1].set(Hitec_data_to_volt(rxBuf[9], rxBuf[10]), g_model.telemetry.channels[TELEM_ANA_A1].type);
+           break;
+
+          case 0x12:
+           /*
+           - frame 0x12
+           pkt byte 6  -> Lat_sec_H        GPS : latitude second
+           pkt byte 7  -> Lat_sec_L        signed int : 1/100 of second
+           pkt byte 8  -> Lat_deg_min_H    GPS : latitude degree.minute
+           pkt byte 9  -> Lat_deg_min_L    signed int : +=North, - = south
+           pkt byte 10 -> Time_second      GPS Time
+           */
+           telemetryData.value.gpsLatitude_ap = ((rxBuf[6]<<8) + rxBuf[7]);
+           telemetryData.value.gpsLatitude_bp = (((rxBuf[8] & 0x7F)<<8) + rxBuf[9]);
+           telemetryData.value.gpsLatitudeNS = rxBuf[9];
+           telemetryData.value.sec = rxBuf[10];
+           manageGpsFix();
+           break;
+
+          case 0x13:
+           /*
+           - frame 0x13
+           pkt byte 6  ->                  GPS Longitude second
+           pkt byte 7  ->                  signed int : 1/100 of second
+           pkt byte 8  ->                  GPS Longitude degree.minute
+           pkt byte 9  ->                  signed int : +=Est, - = west
+           pkt byte 10 -> Temp2            Temperature2=Temp2-40°C
+           */
+           telemetryData.value.gpsLongitude_ap = ((rxBuf[6]<<8) + rxBuf[7]);
+           telemetryData.value.gpsLongitude_bp = ((rxBuf[8]<<8) + rxBuf[9]);
+           telemetryData.value.gpsLongitudeEW = rxBuf[9];
+           telemetryData.value.temperature2 = (int16_t)rxBuf[10] - 40;
+           checkMaxTemperature2();
+           break;
+
+          case 0x14:
+           /*
+           - frame 0x14
+           pkt byte 6  -> Speed_H
+           pkt byte 7  -> Speed_L          Speed=Speed_H*256+Speed_L km/h
+           pkt byte 8  -> Alti_sea_H
+           pkt byte 9  -> Alti_sea_L       Altitude sea=Alti_sea_H*256+Alti_sea_L m
+           pkt byte 10 -> Temp1            Temperature1=Temp1-40°C
+           */
+           telemetryData.value.gpsSpeed_bp = ((rxBuf[6]<<8) + rxBuf[7]);
+           telemetryData.value.gpsAltitude = ((rxBuf[8]<<8) + rxBuf[9]);
+           telemetryData.value.temperature1 = (int16_t)rxBuf[10] - 40;
+           checkMaxGpsSpeed();
+           checkMaxTemperature1();
+           setMinMaxAltitude();
+           break;
+
+          case 0x15:
+           /*
+           - frame 0x15
+           pkt byte 6  -> FUEL
+           pkt byte 7  -> RPM1_L
+           pkt byte 8  -> RPM1_H           RPM1=RPM1_H*256+RPM1_L
+           pkt byte 9  -> RPM2_L
+           pkt byte 10 -> RPM2_H           RPM2=RPM2_H*256+RPM2_L
+           */
+           telemetryData.value.fuelLevel = rxBuf[6];
+           telemetryData.value.rpm = ((rxBuf[8]<<8) + rxBuf[7]);
+           checkMaxRpm();
+           break;
+
+          case 0x16:
+           /*
+           - frame 0x16
+           pkt byte 6  -> Date_year        GPS Date
+           pkt byte 7  -> Date_month
+           pkt byte 8  -> Date_day
+           pkt byte 9  -> Time_hour        GPS Time
+           pkt byte 10 -> Time_min
+           */
+           telemetryData.value.year = rxBuf[6];
+           telemetryData.value.month = rxBuf[7];
+           telemetryData.value.day = rxBuf[8];
+           telemetryData.value.hour = rxBuf[9];
+           telemetryData.value.min = rxBuf[10];
+           break;
+
+          case 0x17:
+           /*
+           - frame 0x17
+           pkt byte 6  -> 0x00 COURSEH
+           pkt byte 7  -> 0x00 COURSEL     GPS Course = COURSEH*256+COURSEL
+           pkt byte 8  -> 0x00             GPS count
+           pkt byte 9  -> Temp3            Temperature3=Temp2-40°C unused here
+           pkt byte 10 -> Temp4            Temperature4=Temp3-40°C unused here
+           */
+           tmp =  ((rxBuf[6]<<8) + rxBuf[7]);
+           telemetryData.value.gpsCourse_bp = tmp / 100;
+           telemetryData.value.gpsCourse_ap = tmp % 100;
+           break;
+
+          case 0x18:
+           /*
+           - frame 0x18
+           pkt byte 6  ->
+           pkt byte 7  -> Volt2_H
+           pkt byte 8  -> Volt2_L          Volt2=(Volt2_H*256+Volt2_L)/10 V
+           pkt byte 9  -> AMP1_L
+           pkt byte 10 -> AMP1_H           Amp=(AMP1_H*256+AMP1_L -180)/14 in signed A
+           */
+           telemetryData.value.volts = Hitec_data_to_volt(rxBuf[6], rxBuf[7]);
+           telemetryData.value.current = (uint16_t)(((rxBuf[9] << 8) + rxBuf[8] - 180) / 14 * 10);
+           checkOffsetAndMaxCurrent();
+           break;
+
+          }
+
+
+         telemetryData.rssi[0].set(rxBuf[13]);
+         telemetryData.rssi[1].set(rxBuf[14] & 0x7F);
+         frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
+        }
+
+
 #endif
-         }
       }
     }
    CC2500_Strobe(CC2500_SFRX);	// Flush the RX FIFO buffer
