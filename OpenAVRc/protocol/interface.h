@@ -53,6 +53,8 @@
 #include "DSM_SERIAL.c"
 #elif (SERIAL_PROTOCOL==MULTIMODULE)
 #include "MULTI_SERIAL.c"
+#elif (SERIAL_PROTOCOL==CRSF)
+#include "CRSF_SERIAL.c"
 #endif
 
 #if defined(SPIMODULES)
