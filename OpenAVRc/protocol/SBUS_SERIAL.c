@@ -33,15 +33,18 @@
 
 #include "../OpenAVRc.h"
 
-#define XTELEMETRY (g_model.rfOptionBool1)
+#define SBUS_TELEMETRY (g_model.rfOptionBool1)
+#define SBUS_AUTOBIND (g_model.rfOptionBool2)
 
 #define CHAN_MULTIPLIER 100
 #define CHAN_MAX_VALUE (100 * CHAN_MULTIPLIER)
 
-const pm_char STR_SUBTYPE_SBUS[] PROGMEM = " 6ms""14ms";
+#define SBUSBIND    rf_power_p2M
+
+const pm_char STR_SUBTYPE_SBUS[] PROGMEM = " 6""14";
 
 const static RfOptionSettingsvar_t RfOpt_Sbus_Ser[] PROGMEM = {
-  /*rfProtoNeed*/BOOL1USED,//can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+  /*rfProtoNeed*/ BOOL1USED | BOOL2USED,//can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/1,//2 subtypes, 6 et 14
   /*rfOptionValue1Min*/0,
   /*rfOptionValue1Max*/0,
@@ -56,32 +59,21 @@ static void SBUS_Reset()
   USART_DISABLE_RX(SBUS_USART);
 }
 
-/*
-static const char * const sbus_opts[] = {
-  _tr_noop("Period (ms)"),  "6", "14", NULL,
-  NULL
-};
-
-enum {
-    PROTO_OPTS_PERIOD,
-    LAST_PROTO_OPT,
-};
-//ctassert(LAST_PROTO_OPT <= NUM_PROTO_OPTS, too_many_protocol_opts);
-*/
-
 //#define SBUS_DATARATE             100000
 #define SBUS_FRAME_PERIOD_MAX     14000   // 14ms
 #define SBUS_CHANNELS             16
 #define SBUS_PACKET_SIZE          25
 
 static uint8_t packetSbus[SBUS_PACKET_SIZE];
+//static uint16_t mixer_runtime;
+static uint16_t sbus_period;
 
 //#define STICK_SCALE    869  // full scale at +-125
 #define STICK_SCALE    800  // +/-100 gives 2000/1000 us
 static void build_rcdata_pkt()
 {
   int i;
-	uint16_t channelsSbus[SBUS_CHANNELS];
+  uint16_t channelsSbus[SBUS_CHANNELS];
   uint8_t sbusTxBufferCount = 24;
 
     for (i=0; i < SBUS_CHANNELS; i++) {
@@ -127,6 +119,9 @@ static void build_rcdata_pkt()
   }
   Usart0TxBufferCount = 24; // Indicates data to transmit.
 
+#if !defined(SIMU)
+  USART_TRANSMIT_BUFFER(SBUS_USART);
+#endif
 }
 
 // static uint8_t testrxframe[] = { 0x00, 0x0C, 0x14, 0x00, 0x00, 0x00, 0x00, 0xFF, 0x01, 0x03, 0x00, 0x00, 0x00, 0xF4 };
@@ -136,96 +131,52 @@ static enum {
     ST_DATA2,
 } state;
 
-static uint16_t mixer_runtime;
-static uint16_t sbus_period;
+
 static uint16_t SBUS_SERIAL_cb()//serial_cb()
 {
-    //if (sbus_period != Model.proto_opts[PROTO_OPTS_PERIOD] * 1000)
-    //    sbus_period = Model.proto_opts[PROTO_OPTS_PERIOD] * 1000;
-    if (sbus_period != g_model.rfSubType * 1000)
-        sbus_period = g_model.rfSubType * 1000;
-
-    switch (state) {
-    case ST_DATA1:
-        //CLOCK_RunMixer();    // clears mixer_sync, which is then set when mixer update complete
-        state = ST_DATA2;
-        return mixer_runtime;
-
-    case ST_DATA2:
-//        if (mixer_sync != MIX_DONE && mixer_runtime < 2000) mixer_runtime += 50;
-        build_rcdata_pkt();
-//        UART_Send(packetSbus, sizeof packetSbus);
-        state = ST_DATA1;
-        return sbus_period - mixer_runtime;
+    sbus_period = (g_model.rfSubType == 0)?6000:14000;
+    switch (state)
+    {
+      case ST_DATA1:
+          state = ST_DATA2;
+      case ST_DATA2:
+          // Schedule next Mixer calculations.
+          SCHEDULE_MIXER_END_IN_US(sbus_period);
+          build_rcdata_pkt();
+          state = ST_DATA1;
+          heartbeat |= HEART_TIMER_PULSES;
+          CALCULATE_LAT_JIT(); // Calculate latency and jitter.
+          return sbus_period *2; // 6 or 14 mSec Frame.
     }
-#if !defined(SIMU)
-    USART_TRANSMIT_BUFFER(SBUS_USART);
-#endif
-    heartbeat |= HEART_TIMER_PULSES;
-    CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-    //return 22000U *2; // 22 mSec Frame.
-    return sbus_period *2;//avoid compiler warning
+    return sbus_period;//avoid compiler warning
 }
 
-static void SBUS_init()
+
+static void SBUS_SERIAL_initialize()
 {
 // 100K 8E2
   USART_SET_BAUD_100K(SBUS_USART);
   USART_SET_MODE_8E2(SBUS_USART);
   USART_ENABLE_TX(SBUS_USART);
   Usart0TxBufferCount = 0;
-#if defined(FRSKY)//HAS_EXTENDED_TELEMETRY
-  if (XTELEMETRY) // telemetry on?
+#if defined(TODO_FRSKY)
+  if (SBUS_TELEMETRY) // telemetry on?
     {
       USART_ENABLE_RX(SBUS_USART);
-      //frskyX_check_telemetry(packet_p2M, len);
     }
 #endif
   state = ST_DATA1;
-
-  //sbus_period = Model.proto_opts[PROTO_OPTS_PERIOD] ? (Model.proto_opts[PROTO_OPTS_PERIOD] * 1000) : SBUS_FRAME_PERIOD_MAX;
-  sbus_period = g_model.rfSubType;
+  PROTO_Start_Callback( SBUS_SERIAL_cb);
 }
 
-
-static uint16_t SBUS_bind_cb()
-{
-  SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
-  SBUS_SERIAL_cb();//build_rcdata_pkt();
-  heartbeat |= HEART_TIMER_PULSES;
-  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-  return 18000U *2;
-}
-
-static uint16_t SBUS_cb()
-{
-  SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations.
-  SBUS_SERIAL_cb();//build_rcdata_pkt();//CRSF_send_data_packet();
-  heartbeat |= HEART_TIMER_PULSES;
-  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-  return 12000U *2;
-}
-
-
-static void SBUS_initialize(uint8_t bind)
-{
-
-  SBUS_init();
-  if (bind) {
-  PROTO_Start_Callback( SBUS_bind_cb);
-  } else {
-  PROTO_Start_Callback( SBUS_cb);
-  }
-}
-
-const void *SBUS_SERIAL_Cmds(enum ProtoCmds cmd)
+const void *SBUS_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
   case PROTOCMD_INIT:
-    SBUS_initialize(0);
+    SBUS_SERIAL_initialize();
     return 0;
   case PROTOCMD_BIND:
-    SBUS_initialize(1);
+    SBUS_SERIAL_initialize();
     return 0;
   case PROTOCMD_RESET:
     PROTO_Stop_Callback();
@@ -237,8 +188,8 @@ const void *SBUS_SERIAL_Cmds(enum ProtoCmds cmd)
                         STR_DUMMY,      //Option 1 (int)
                         STR_DUMMY,      //Option 2 (int)
                         STR_DUMMY,      //Option 3 (uint 0 to 31)
-                        STR_TELEMETRY,      //OptionBool 1
-                        STR_DUMMY,      //OptionBool 2
+                        STR_DUMMY,  //OptionBool 1
+                        STR_DUMMY,   //OptionBool 2
                         STR_DUMMY       //OptionBool 3
                         );
     return 0;

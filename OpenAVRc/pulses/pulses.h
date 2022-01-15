@@ -40,47 +40,40 @@
 
 #define IS_PPM_PROTOCOL(protocol)          (protocol<=PROTOCOL_PPMSIM)
 
-#if defined(DSM2_SERIAL) // Todo check in needed in per10ms
+#if (SERIAL_PROTOCOL==DSM)
   #define IS_DSM2_SERIAL_PROTOCOL(protocol)  (protocol==PROTOCOL_DSM_SERIAL)
 #else
   #define IS_DSM2_SERIAL_PROTOCOL(protocol)  (0)
 #endif
 
-#if defined(CRSF_SERIAL)
-  #define IS_CRSF_SERIAL_PROTOCOL(protocol)  (protocol==PROTOCOL_CRSF_SERIAL)
-#else
-  #define IS_CRSF_SERIAL_PROTOCOL(protocol)  (0)
-#endif
-
-#if defined(SBUS_SERIAL)
-  #define IS_SBUS_SERIAL_PROTOCOL(protocol)  (protocol==PROTOCOL_SBUS_SERIAL)
-#else
-  #define IS_SBUS_SERIAL_PROTOCOL(protocol)  (0)
-#endif
-
-#if defined(SUMD_SERIAL)
-  #define IS_SUMD_SERIAL_PROTOCOL(protocol)  (protocol==PROTOCOL_SUMD_SERIAL)
-#else
-  #define IS_SUMD_SERIAL_PROTOCOL(protocol)  (0)
-#endif
-
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
   #define IS_MULTIMODULE_PROTOCOL(protocol)  (protocol==PROTOCOL_MULTI)
 #else
   #define IS_MULTIMODULE_PROTOCOL(protocol)  (0)
 #endif
 
+#if (SERIAL_PROTOCOL==SBUS)
+  #define IS_SBUS_PROTOCOL(protocol)  (protocol==PROTOCOL_SBUS)
+#else
+  #define IS_SBUS_PROTOCOL(protocol)  (0)
+#endif
+
+#if (SERIAL_PROTOCOL==SUMD)
+  #define IS_SUMD_PROTOCOL(protocol)  (protocol==PROTOCOL_SUMD)
+#else
+  #define IS_SUMD_PROTOCOL(protocol)  (0)
+#endif
+
 #if defined(SPIMODULES)
-  #if defined(MULTIMODULE)
+  #if (SERIAL_PROTOCOL==MULTIMODULE)
     #define LASTPROTOMENU1 PROTOCOL_MULTI+1
+  #elif (SERIAL_PROTOCOL==SBUS)
+    #define LASTPROTOMENU1 PROTOCOL_SBUS+1
+  #elif (SERIAL_PROTOCOL==SUMD)
+    #define LASTPROTOMENU1 PROTOCOL_SUMD+1
   #else
-    #if defined(DSM2_SERIAL)
+    #if (SERIAL_PROTOCOL==DSM)
       #define LASTPROTOMENU1 PROTOCOL_DSM_SERIAL+1
-    #else
-      #define LASTPROTOMENU1 PROTOCOL_PPMSIM+1
-    #endif
-    #if defined(SBUS_SERIAL)
-      #define LASTPROTOMENU1 PROTOCOL_SBUS_SERIAL+1
     #else
       #define LASTPROTOMENU1 PROTOCOL_PPMSIM+1
     #endif

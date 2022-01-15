@@ -85,9 +85,9 @@ void menuModelSetup(uint8_t event)
 #define CURSOR_ON_CELL         (true)
 #define MODEL_SETUP_MAX_LINES  (IS_PPM_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+2 : \
  (IS_DSM2_SERIAL_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_2+2 : \
- (IS_SBUS_SERIAL_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_8+2 : \
- (IS_CRSF_SERIAL_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_8+2 : \
  (IS_MULTIMODULE_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_5+2 :  \
+ (IS_SBUS_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_5+2 :  \
+ (IS_SUMD_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_5+2 :  \
  (IS_SPIMODULES_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_8+2 :   \
  1
 
@@ -407,8 +407,8 @@ void menuModelSetup(uint8_t event)
             }
           }
         }
-#if defined(DSM2_SERIAL) || defined(SBUS_SERIAL)
-       if (IS_DSM2_SERIAL_PROTOCOL(protocol) || IS_SBUS_SERIAL_PROTOCOL(protocol))
+#if (SERIAL_PROTOCOL==DSM)
+       if (IS_DSM2_SERIAL_PROTOCOL(protocol))
         {
          lcdDrawTextLeft(y, STR_TYPE);
          lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+4*g_model.rfSubType, 4, menuHorizontalPosition == 0 ? attr : 0);
@@ -418,19 +418,30 @@ void menuModelSetup(uint8_t event)
           }
         }
 #endif
-#if defined(CRSF_SERIAL)
-       if (IS_CRSF_SERIAL_PROTOCOL(protocol))
+#if (SERIAL_PROTOCOL==SBUS)
+       if (IS_SBUS_PROTOCOL(protocol))
         {
-         lcdDrawTextLeft(y, STR_BAUD);
-         lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+6*g_model.rfSubType, 6, menuHorizontalPosition == 0 ? attr : 0);
+         lcdDrawTextLeft(y, STR_PERIOD);
+         lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+2*g_model.rfSubType, 2, menuHorizontalPosition == 0 ? attr : 0);
+         lcdDrawText(MODEL_SETUP_2ND_COLUMN+2*FW, y, STR_MS);
          if (attr && (editMode>0 || p1valdiff))
           {
            CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.rfSubType, RfOptionSettings.rfSubTypeMax);
           }
         }
 #endif
-
-
+#if (SERIAL_PROTOCOL==SUMD)
+       if (IS_SUMD_PROTOCOL(protocol))
+        {
+         lcdDrawTextLeft(y, STR_PERIOD);
+         lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+2*g_model.rfSubType, 2, menuHorizontalPosition == 0 ? attr : 0);
+         lcdDrawText(MODEL_SETUP_2ND_COLUMN+2*FW, y, STR_MS);
+         if (attr && (editMode>0 || p1valdiff))
+          {
+           CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.rfSubType, RfOptionSettings.rfSubTypeMax);
+          }
+        }
+#endif
 #if defined(SPIMODULES)
        if IS_SPIMODULES_PROTOCOL(protocol)
         {
@@ -464,7 +475,7 @@ void menuModelSetup(uint8_t event)
           }
         }
 #endif
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
        else if IS_MULTIMODULE_PROTOCOL(protocol)
         {
          uint8_t multi_rfProto = g_model.MULTIRFPROTOCOL;
@@ -544,8 +555,8 @@ void menuModelSetup(uint8_t event)
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_2:
      if PROTO_IS_SYNC
      {
-#if defined(DSM2_SERIAL) || defined(SBUS_SERIAL) || defined(CRSF_SERIAL)
-      if (IS_DSM2_SERIAL_PROTOCOL(protocol) || IS_SBUS_SERIAL_PROTOCOL(protocol) || IS_CRSF_SERIAL_PROTOCOL(protocol))
+#if (SERIAL_PROTOCOL==DSM)
+      if (IS_DSM2_SERIAL_PROTOCOL(protocol))
         {
          horzpos_t l_posHorz = menuHorizontalPosition;
          lcdDrawTextLeft(y, STR_RXNUM);
@@ -574,8 +585,67 @@ void menuModelSetup(uint8_t event)
             }
           }
         }
-#endif
-#if defined(MULTIMODULE)
+#elif (SERIAL_PROTOCOL==SBUS)
+      if (IS_SBUS_PROTOCOL(protocol))
+        {
+         horzpos_t l_posHorz = menuHorizontalPosition;
+         lcdDrawTextLeft(y, STR_RXNUM);
+         coord_t xOffsetBind = MODEL_SETUP_BIND_OFS;
+         if (xOffsetBind)
+          lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
+         if (attr && l_posHorz==0)
+          {
+           if (editMode>0 || p1valdiff)
+            {
+             CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, MAX_MODELS);
+            }
+          }
+         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+xOffsetBind, y, STR_MODULE_BIND, l_posHorz==1 ? attr : 0);
+         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+MODEL_SETUP_RANGE_OFS+xOffsetBind, y, STR_MODULE_RANGE, l_posHorz==2 ? attr : 0);
+
+         if (attr && l_posHorz>0 && s_editMode>0)
+          {
+           if (l_posHorz == 1)
+            {
+             PROTOCOL_SetBindState(1000); // 10 Sec
+            }
+           else if (l_posHorz == 2)
+            {
+             systemBolls.rangeModeIsOn = true;
+            }
+          }
+        }
+#elif (SERIAL_PROTOCOL==SUMD)
+      if (IS_SUMD_PROTOCOL(protocol))
+        {
+         horzpos_t l_posHorz = menuHorizontalPosition;
+         lcdDrawTextLeft(y, STR_RXNUM);
+         coord_t xOffsetBind = MODEL_SETUP_BIND_OFS;
+         if (xOffsetBind)
+          lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
+         if (attr && l_posHorz==0)
+          {
+           if (editMode>0 || p1valdiff)
+            {
+             CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, MAX_MODELS);
+            }
+          }
+         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+xOffsetBind, y, STR_MODULE_BIND, l_posHorz==1 ? attr : 0);
+         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+MODEL_SETUP_RANGE_OFS+xOffsetBind, y, STR_MODULE_RANGE, l_posHorz==2 ? attr : 0);
+
+         if (attr && l_posHorz>0 && s_editMode>0)
+          {
+           if (l_posHorz == 1)
+            {
+             PROTOCOL_SetBindState(1000); // 10 Sec
+            }
+           else if (l_posHorz == 2)
+            {
+             systemBolls.rangeModeIsOn = true;
+            }
+          }
+        }
+#elif (SERIAL_PROTOCOL==MULTIMODULE)
        if IS_MULTIMODULE_PROTOCOL(protocol)
         {
          horzpos_t l_posHorz = menuHorizontalPosition;
@@ -650,12 +720,23 @@ void menuModelSetup(uint8_t event)
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_3:
      if PROTO_IS_SYNC
      {
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
       if IS_MULTIMODULE_PROTOCOL(protocol)
         {
          if (g_model.MULTIRFPROTOCOL == MM_RF_PROTO_DSM2)
           ON_OFF_MENU_ITEM(g_model.AUTOBINDMODE, MODEL_SETUP_2ND_COLUMN, y, STR_MULTI_DSM_AUTODTECT, attr, event);
          else
+          ON_OFF_MENU_ITEM(g_model.AUTOBINDMODE, MODEL_SETUP_2ND_COLUMN, y, STR_AUTOBIND, attr, event);
+        }
+
+#elif (SERIAL_PROTOCOL==SBUS)
+      if IS_SBUS_PROTOCOL(protocol)
+        {
+          ON_OFF_MENU_ITEM(g_model.AUTOBINDMODE, MODEL_SETUP_2ND_COLUMN, y, STR_AUTOBIND, attr, event);
+        }
+#elif (SERIAL_PROTOCOL==SUMD)
+      if IS_SUMD_PROTOCOL(protocol)
+        {
           ON_OFF_MENU_ITEM(g_model.AUTOBINDMODE, MODEL_SETUP_2ND_COLUMN, y, STR_AUTOBIND, attr, event);
         }
 #endif
@@ -682,12 +763,13 @@ void menuModelSetup(uint8_t event)
     case  ITEM_MODEL_PROTOCOL_PARAMS_LINE_4: //Option1 for SPIMOD
      if PROTO_IS_SYNC
      {
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
       if IS_MULTIMODULE_PROTOCOL(protocol)
         {
          ON_OFF_MENU_ITEM(g_model.LOWPOWERMODE, MODEL_SETUP_2ND_COLUMN, y, STR_MULTI_LOWPOWER, attr, event);
         }
 #endif
+
 #if defined(SPIMODULES)
        if IS_SPIMODULES_PROTOCOL(protocol)
         {
@@ -712,7 +794,7 @@ void menuModelSetup(uint8_t event)
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_5:
      if PROTO_IS_SYNC
      {
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
       if IS_MULTIMODULE_PROTOCOL(protocol)
         {
          int8_t optionValue =  g_model.rfOptionValue2;
@@ -742,8 +824,34 @@ void menuModelSetup(uint8_t event)
           }
         }
 #endif
+#if (SERIAL_PROTOCOL==SBUS)
+      if IS_SBUS_PROTOCOL(protocol)
+        {
+         if (RfOptionSettings.rfOptionBool1Used)
+          {
+           ON_OFF_MENU_ITEM(g_model.rfOptionBool1, MODEL_SETUP_2ND_COLUMN, y-1, RfOptionSettings.rfOptionBool1Name, attr, event);
+          }
+         else
+          {
+           lcdDrawTextAtt(0,y-1,STR_DUMMY,attr);
+          }
+        }
+#endif
+#if (SERIAL_PROTOCOL==SUMD)
+      if IS_SUMD_PROTOCOL(protocol)
+        {
+         if (RfOptionSettings.rfOptionBool1Used)
+          {
+           ON_OFF_MENU_ITEM(g_model.rfOptionBool1, MODEL_SETUP_2ND_COLUMN, y-1, RfOptionSettings.rfOptionBool1Name, attr, event);
+          }
+         else
+          {
+           lcdDrawTextAtt(0,y-1,STR_DUMMY,attr);
+          }
+        }
+#endif
 #if defined(SPIMODULES)
-       if (IS_SPIMODULES_PROTOCOL(protocol) || IS_CRSF_SERIAL_PROTOCOL(protocol))
+       if IS_SPIMODULES_PROTOCOL(protocol)
         {
          if (RfOptionSettings.rfOptionValue3Max)
           {
@@ -760,6 +868,8 @@ void menuModelSetup(uint8_t event)
               case PROTOCOL_FRSKYX:
               case PROTOCOL_SKYARTEC:
               case PROTOCOL_CORONA:
+              case PROTOCOL_HITEC:
+              //case PROTOCOL_SFHSS:
                CC2500_ManagePower(); // Change value on gui
                break;
 
@@ -790,11 +900,13 @@ void menuModelSetup(uint8_t event)
 #endif
       }
      break;
-#if defined(SPIMODULES) || defined(CRSF_SERIAL) || defined(SBUS_SERIAL)
+
+#if defined(SPIMODULES)
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_6:
      if PROTO_IS_SYNC
      {
-      if (IS_SPIMODULES_PROTOCOL(protocol) || IS_CRSF_SERIAL_PROTOCOL(protocol) || IS_SBUS_SERIAL_PROTOCOL(protocol))
+
+      if IS_SPIMODULES_PROTOCOL(protocol)
         {
          if (RfOptionSettings.rfOptionBool1Used)
           {

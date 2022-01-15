@@ -39,7 +39,7 @@ uint8_t * Usart0TxBuffer = pulses2MHz.pbyte; // [USART0_TX_PACKET_SIZE] bytes us
 
 uint8_t Usart0TxBufferCount = 0;
 
-#if defined(FRSKY) || defined(MULTI) || defined(CRSF_SERIAL) || defined(SBUS_SERIAL) || defined(SUMD_SERIAL)
+#if defined(FRSKY) || defined(MULTIPROTOCOL) || defined(CRSF) || defined(SBUS) || defined(SUMD)
 
 ISR(USART_RX_vect_N(TLM_USART0))
 {
