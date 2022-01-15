@@ -40,7 +40,6 @@
 #include "PROTO_PPM.cpp"
 #include "PROTO_PPM16.cpp"
 #include "PROTO_PPMSIM.cpp"
-//#include "PROTO_PCM1024.cpp"
 #endif
 
 #if defined(CPUXMEGA)
@@ -54,12 +53,6 @@
 #include "DSM_SERIAL.c"
 #elif (SERIAL_PROTOCOL==MULTIMODULE)
 #include "MULTI_SERIAL.c"
-#elif (SERIAL_PROTOCOL==CRSF)
-#include "CRSF_SERIAL.c"
-#elif (SERIAL_PROTOCOL==SBUS)
-#include "SBUS_SERIAL.c"
-#elif (SERIAL_PROTOCOL==SUMD)
-#include "SUMD_SERIAL.c"
 #endif
 
 #if defined(SPIMODULES)
@@ -74,8 +67,6 @@
 #include "SKYARTEC_cc2500.c"
 #include "CORONA_cc2500.c"
 #include "HITEC_cc2500.c"
-//#include "SFHSS_cc2500.c"
-//#include "HOTT_cc2500.c"
 #endif
 
 #ifdef PROTO_HAS_CYRF6936
@@ -84,7 +75,7 @@
 #include "DEVO_cyrf6936.c"
 #include "DSM_cyrf6936.c"
 #include "J6PRO_cyrf6936.c"
-#include "MLINK_cyrf6936.c"
+//#include "E129_cyrf6936.c"
 //#include "iface_rf2500.h"
 //#include "RF2500_EMU.c"
 #endif
@@ -103,13 +94,6 @@
 #include "BAYANG_nrf24l01.c"
 #include "CABELL_nrf24l01.c"
 #include "STANEK_nrf24l01.c"
-//#include "V911S_nrf24l01.c"
-#endif
-
-#ifdef PROTO_HAS_SX1276
-//#include "iface_sx1276.h"
-//#include "sx1276.c"
-//#include "FRSKYR9_sx1276.c"
 #endif
 
 #endif

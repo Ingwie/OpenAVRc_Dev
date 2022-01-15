@@ -90,7 +90,7 @@ extern const pm_char STR_OPEN9X[];
 #define OFS_TRNCHN             (OFS_TRNMODE + sizeof(TR_TRNMODE))
 #define OFS_VTRIMINC         (OFS_TRNCHN + sizeof(TR_TRNCHN))
 #define OFS_RETA123          (OFS_VTRIMINC + sizeof(TR_VTRIMINC))
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
   #define OFS_MULTIPROTOCOLS   (OFS_RETA123 + sizeof(TR_RETA123))
   #define OFS_VBLMODE           (OFS_MULTIPROTOCOLS + sizeof(TR_MULTIPROTOCOLS))
 #else
@@ -151,7 +151,7 @@ extern const pm_char STR_OPEN9X[];
 #define STR_VTRIMINC            (STR_OPEN9X + OFS_VTRIMINC)
 #define STR_VDISPLAYTRIMS       (STR_OPEN9X + OFS_VDISPLAYTRIMS)
 #define STR_RETA123             (STR_OPEN9X + OFS_RETA123)
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
   #define STR_MULTIPROTOCOLS    (STR_OPEN9X + OFS_MULTIPROTOCOLS)
 #endif
 #define STR_VBLMODE             (STR_OPEN9X + OFS_VBLMODE)
@@ -381,11 +381,11 @@ extern const pm_char STR_NUMCH[];
 extern const pm_char STR_UBIND[];
 #endif
 
-#if defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
 extern const pm_char STR_MULTI_CUSTOM[];
 #endif
 
-#if defined(MULTIMODULE) || defined(SPIMODULES)
+#if (SERIAL_PROTOCOL==MULTIMODULE) || defined(SPIMODULES)
 extern const pm_char STR_SUBTYPE[];
 extern const pm_char STR_MULTI_VIDFREQ[];
 extern const pm_char STR_RFTUNEFINE[];
@@ -509,10 +509,13 @@ extern const pm_char STR_MODS_FORBIDDEN[];
 extern const pm_char STR_mW[];
 #endif
 
-#if defined(DSM2_SERIAL) || defined(SPIMODULES) || defined(MULTIMODULE)
+#if (SERIAL_PROTOCOL==DSM) || defined(SPIMODULES) || defined(MULTIMODULE)
 extern const pm_char STR_MODULE_RANGE[];
 extern const pm_char STR_MODULE_BIND[];
 extern const pm_char STR_RXNUM[];
+#endif
+
+#if (SERIAL_PROTOCOL==DSM)
 extern const pm_char STR_DSM_PROTOCOLS[];
 #endif
 

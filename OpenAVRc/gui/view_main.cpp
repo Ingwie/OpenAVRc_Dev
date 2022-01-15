@@ -356,7 +356,7 @@ void menuMainView(uint8_t event)
     lcdDrawSizedTextAtt(PHASE_X, PHASE_Y, g_model.flightModeData[mode].name, sizeof(g_model.flightModeData[mode].name), ZCHAR|PHASE_FLAGS);
 
     // Model Name
-#if defined(DSM2_SERIAL) || defined(SBUS_SERIAL) || defined(CRSF_SERIAL)||defined(MULTIMODULE) || defined(SPIMODULES)
+#if (SERIAL_PROTOCOL==MULTIMODULE) || defined(SPIMODULES)
     if ((systemBolls.protoMode == BIND_MODE) && !BLINK_ON_PHASE)
     {
       lcdDrawTextAtt(MODELNAME_X, MODELNAME_Y, STR_BIND, BLINK|DBLSIZE);

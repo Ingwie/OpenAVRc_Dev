@@ -141,7 +141,6 @@ static void Skyartec_send_data_packet()
   for(uint8_t i = 0; i < 7; i++) {
 
       int16_t value = (FULL_CHANNEL_OUTPUTS(i))/2;//* 0x280 / 0x500 + 0x280; // 0X500 = +125%
-      //value = limit((int16_t)-640, value, (int16_t)+640);
       value += 0x280; // 640 (offset).
 
     packet_p2M[3+2*i] = value >> 8;

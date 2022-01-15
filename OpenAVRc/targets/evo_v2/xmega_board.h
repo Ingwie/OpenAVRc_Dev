@@ -62,11 +62,6 @@
 #define USART_RXD_PIN_bm    PIN2_bm
 #define USART_TXD_PIN_bm    PIN3_bm
 
-#if defined (MULTIMODULE)
-#define PROTO_HAS_MULTISUPIIIK
-#endif
-
-
 // All communication to RF module(s) will use the same pin ... e.g. USART MSPI, USART Asynch and PPM.
 #define MULTI_USART             USARTE0
 #define MULTI_USART_PORT        PORTE

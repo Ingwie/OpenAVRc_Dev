@@ -38,7 +38,7 @@
 
 #include <stdio.h>
 #include <windows.h>
-
+#include <inttypes.h>
 
 enum serial_parity {spNONE, spODD, spEVEN};
 

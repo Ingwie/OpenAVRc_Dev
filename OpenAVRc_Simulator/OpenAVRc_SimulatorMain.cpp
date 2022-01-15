@@ -224,7 +224,7 @@ const long OpenAVRc_SimulatorFrame::ID_CHECKBOXNRF24L01 = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_CHECKBOXCC2500 = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_CHECKBOXCYRF6936 = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_CHECKBOXMULTIMOD = wxNewId();
-const long OpenAVRc_SimulatorFrame::ID_CHECKBOXDSMSER = wxNewId();
+const long OpenAVRc_SimulatorFrame::ID_CHECKBOXSERPROTO = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_STATICTEXT1 = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_STATICTEXTEEPATH = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_PANELL = wxNewId();
@@ -384,14 +384,14 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   CheckBoxCYRF6936->SetValue(true);
   CheckBoxCYRF6936->Disable();
   CheckBoxCYRF6936->SetBackgroundColour(wxColour(192,192,192));
-  CheckBoxMULTIMOD = new wxCheckBox(PanelL, ID_CHECKBOXMULTIMOD, _("MULTIMOD"), wxPoint(552,40), wxSize(78,13), 0, wxDefaultValidator, _T("ID_CHECKBOXMULTIMOD"));
-  CheckBoxMULTIMOD->SetValue(true);
-  CheckBoxMULTIMOD->Disable();
-  CheckBoxMULTIMOD->SetBackgroundColour(wxColour(192,192,192));
-  CheckBoxDSMSER = new wxCheckBox(PanelL, ID_CHECKBOXDSMSER, _("DSM SER."), wxPoint(552,24), wxSize(78,13), 0, wxDefaultValidator, _T("ID_CHECKBOXDSMSER"));
-  CheckBoxDSMSER->SetValue(true);
-  CheckBoxDSMSER->Disable();
-  CheckBoxDSMSER->SetBackgroundColour(wxColour(192,192,192));
+  CheckBoxSERPROTO = new wxCheckBox(PanelL, ID_CHECKBOXMULTIMOD, _("SER_PROT."), wxPoint(552,40), wxSize(78,13), 0, wxDefaultValidator, _T("ID_CHECKBOXMULTIMOD"));
+  CheckBoxSERPROTO->SetValue(true);
+  CheckBoxSERPROTO->Disable();
+  CheckBoxSERPROTO->SetBackgroundColour(wxColour(192,192,192));
+  CheckBoxPPMPROTO = new wxCheckBox(PanelL, ID_CHECKBOXSERPROTO, _("PPM PROT."), wxPoint(552,24), wxSize(78,13), 0, wxDefaultValidator, _T("ID_CHECKBOXSERPROTO"));
+  CheckBoxPPMPROTO->SetValue(true);
+  CheckBoxPPMPROTO->Disable();
+  CheckBoxPPMPROTO->SetBackgroundColour(wxColour(192,192,192));
   StaticTextProtocols = new wxStaticText(PanelL, ID_STATICTEXT1, _("Protocoles Activés"), wxPoint(624,8), wxDefaultSize, 0, _T("ID_STATICTEXT1"));
   StaticTextProtocols->SetBackgroundColour(wxColour(192,192,192));
   StaticTextEepromPath = new wxStaticText(PanelL, ID_STATICTEXTEEPATH, wxEmptyString, wxPoint(184,10), wxSize(2,13), 0, _T("ID_STATICTEXTEEPATH"));
@@ -535,7 +535,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_CHECKBOXCC2500,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick);
   Connect(ID_CHECKBOXCYRF6936,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick);
   Connect(ID_CHECKBOXMULTIMOD,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick);
-  Connect(ID_CHECKBOXDSMSER,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick);
+  Connect(ID_CHECKBOXSERPROTO,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick);
   PanelL->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnPanelMainKeyDown,0,this);
   PanelPrincipal->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnPanelMainKeyDown,0,this);
   Connect(IdMenuOpenEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuLoadEeprom);
@@ -3390,25 +3390,16 @@ void OpenAVRc_SimulatorFrame::OnPanelMainKeyDown(wxKeyEvent& event)
 
 void OpenAVRc_SimulatorFrame::CheckActiveProtocols()
 {
-  if (!(g_eeGeneral.protocol_mask & PROTOMASK0)) // DSM2_SERIAL Not present
+  if (!(g_eeGeneral.protocol_mask & PROTOMASK0)) // SERIAL_PROTOCOL Not present
     {
-      CheckBoxDSMSER->SetValue(false);
+      CheckBoxSERPROTO->SetValue(false);
     }
     else
     {
-      CheckBoxDSMSER->SetValue(true);
+      CheckBoxSERPROTO->SetValue(true);
     }
 
-  if (!(g_eeGeneral.protocol_mask & PROTOMASK1)) // MULTI Not present
-    {
-      CheckBoxMULTIMOD->SetValue(false);
-    }
-    else
-    {
-      CheckBoxMULTIMOD->SetValue(true);
-    }
-
-  if (!(g_eeGeneral.protocol_mask & PROTOMASK2)) // CC2500 Not present
+  if (!(g_eeGeneral.protocol_mask & PROTOMASK1)) // CC2500 Not present
     {
       CheckBoxCC2500->SetValue(false);
     }
@@ -3417,7 +3408,7 @@ void OpenAVRc_SimulatorFrame::CheckActiveProtocols()
       CheckBoxCC2500->SetValue(true);
     }
 
-  if (!(g_eeGeneral.protocol_mask & PROTOMASK3)) // CYRF6936 Not present
+  if (!(g_eeGeneral.protocol_mask & PROTOMASK2)) // CYRF6936 Not present
     {
       CheckBoxCYRF6936->SetValue(false);
     }
@@ -3426,7 +3417,7 @@ void OpenAVRc_SimulatorFrame::CheckActiveProtocols()
       CheckBoxCYRF6936->SetValue(true);
     }
 
-  if (!(g_eeGeneral.protocol_mask & PROTOMASK4)) // A7105 Not present
+  if (!(g_eeGeneral.protocol_mask & PROTOMASK3)) // A7105 Not present
     {
       CheckBoxA7105->SetValue(false);
     }
@@ -3435,7 +3426,7 @@ void OpenAVRc_SimulatorFrame::CheckActiveProtocols()
       CheckBoxA7105->SetValue(true);
     }
 
-  if (!(g_eeGeneral.protocol_mask & PROTOMASK5)) // NRF24L01 Not present
+  if (!(g_eeGeneral.protocol_mask & PROTOMASK4)) // NRF24L01 Not present
     {
       CheckBoxNRF24L01->SetValue(false);
     }
@@ -3444,8 +3435,8 @@ void OpenAVRc_SimulatorFrame::CheckActiveProtocols()
       CheckBoxNRF24L01->SetValue(true);
     }
 
-  CheckBoxDSMSER->Enable();
-  CheckBoxMULTIMOD->Enable();
+  CheckBoxPPMPROTO->Enable();
+  CheckBoxSERPROTO->Enable();
   CheckBoxCC2500->Enable();
   CheckBoxCYRF6936->Enable();
   CheckBoxA7105->Enable();
@@ -3472,12 +3463,11 @@ void OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick(wxCommandEvent& event)
   uint8_t currmodel = g_eeGeneral.currModel;
   uint8_t oldprotomask = g_eeGeneral.protocol_mask;
   uint8_t newprotomask = 0;
-  newprotomask += (CheckBoxDSMSER->IsChecked())? PROTOMASK0:0;
-  newprotomask += (CheckBoxMULTIMOD->IsChecked())? PROTOMASK1:0;
-  newprotomask += (CheckBoxCC2500->IsChecked())? PROTOMASK2:0;
-  newprotomask += (CheckBoxCYRF6936->IsChecked())? PROTOMASK3:0;
-  newprotomask += (CheckBoxA7105->IsChecked())? PROTOMASK4:0;
-  newprotomask += (CheckBoxNRF24L01->IsChecked())? PROTOMASK5:0;
+  newprotomask += (CheckBoxSERPROTO->IsChecked())? PROTOMASK0:0;
+  newprotomask += (CheckBoxCC2500->IsChecked())? PROTOMASK1:0;
+  newprotomask += (CheckBoxCYRF6936->IsChecked())? PROTOMASK2:0;
+  newprotomask += (CheckBoxA7105->IsChecked())? PROTOMASK3:0;
+  newprotomask += (CheckBoxNRF24L01->IsChecked())? PROTOMASK4:0;
 
   for (uint8_t m=0; m<MAX_MODELS; ++m)
     {

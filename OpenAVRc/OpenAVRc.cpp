@@ -291,7 +291,7 @@ void per10ms()
 
 #if defined(FRSKY)
   if (!IS_DSM2_SERIAL_PROTOCOL(s_current_protocol))
-    telemetryInterrupt10ms();
+    telemetryInterrupt10ms(); // Todo checkprotocols usage
 #endif
 
   // These moved here from evalFlightModeMixes() to improve beep trigger reliability.

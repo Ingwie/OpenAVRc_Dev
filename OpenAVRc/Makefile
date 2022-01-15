@@ -139,7 +139,7 @@ VARIO = YES
 RTCLOCK = YES
 
 # Serial protocol
-# Values = NO, DSM2
+# Values = NO, DSM, MULTIMODULE
 SERIAL_PROTOCOL = NO
 
 # TRANSLATIONS
@@ -202,20 +202,16 @@ GVARS = NO
 # Values = NO, YES with personames.h edited
 PERSONAMES = NO
 
+# Allow to add extra compilation option
+# Values = NO, ....
+OTHERCOMPOPTIONS = NO
+
 #Use external eeprom FM24W256
 EXTERNALEEPROM = NO
 
 # Menu Lock modes
 # Values = NO, READONLY, NOMENUS
 MENUS_LOCK = NO
-
-# Enable MULTI protocol
-# Values = NO, YES
-MULTIMODULE = NO
-
-# Enable MultiSX1276 in MULTI protocol
-# Values = NO, YES
-MultiSX1276 = NO
 
 # Enable SPIMODULES protocols
 # Values = NO, YES
@@ -253,10 +249,6 @@ A7105 = NO
 # Values = 20,22
 A7105PAG = 20
 
-# Enable SX1276 SPI protocols
-# Values = NO, YES
-SPISX1276 = NO
-
 # Enable X-ANY feature
 # Values = NO, 1, 2, 3 ,4
 X_ANY = NO
@@ -292,7 +284,7 @@ FONT2PNG = -python ../util/font2png.py
 TRANSLATE = -python ../util/translate.py
 
 VERSION_MAJOR = 3
-VERSION_MINOR = 0
+VERSION_MINOR = 1
 VERSION_REVISION = 0
 
 VERSION = $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_REVISION)$(OpenAVRc_VERSION_SUFFIX)
@@ -366,9 +358,6 @@ ifeq ($(PCB), MEGAMINI)
 	endif
 
   needSerial0 = FALSE
-  ifeq ($(MULTIMODULE), YES)
-   needSerial0 = YES
-  endif
   ifneq ($(SERIAL_PROTOCOL), NO)
    needSerial0 = YES
   endif
@@ -432,14 +421,6 @@ ifeq ($(PCB), MEGAMINI)
    CPPDEFS += -DPERSONAMES
   endif
 
-  ifeq ($(MULTIMODULE), YES)
-   CPPDEFS += -DMULTIMODULE
-  endif
-
-  ifeq ($(MultiSX1276), YES)
-   CPPDEFS += -DMultiSX1276
-  endif
-
   ifeq ($(SPIMODULES), YES)
    CPPDEFS += -DSPIMODULES
 
@@ -462,11 +443,6 @@ ifeq ($(PCB), MEGAMINI)
    		CPPDEFS += -DPROTO_HAS_A7105
  	  	CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
   	endif
-	
-	ifeq ($(SPISX1276), YES)
-   		CPPDEFS += -DPROTO_HAS_SPISX1276
-  	endif	
-	
   endif
 
 	ifneq ($(X_ANY), NO)
@@ -532,8 +508,7 @@ ifeq ($(PCB), EVO_V2)
   THR_TRACE = YES
   VOICE = YES
   SPIMODULES = NO
-  SERIAL_PROTOCOL = DSM2
-  MULTIMODULE = YES
+  SERIAL_PROTOCOL = MULTIMODULE
   CC2500 = YES
   CC2500PAG = 20
   CYRF6936 = YES
@@ -549,9 +524,6 @@ ifeq ($(PCB), EVO_V2)
   EXTRABOARDSRC = targets/evo_v2/lcd_ssd1309_driver.cpp targets/evo_v2/xmega_adc_driver.cpp
 
   needSerial0 = FALSE
-  ifeq ($(MULTIMODULE), YES)
-   needSerial0 = YES
-  endif
   ifneq ($(SERIAL_PROTOCOL), NO)
    needSerial0 = YES
   endif
@@ -615,10 +587,6 @@ ifeq ($(PCB), EVO_V2)
 
   ifeq ($(PERSONAMES), YES)
     CPPDEFS += -DPERSONAMES
-  endif
-
-  ifeq ($(MULTIMODULE), YES)
-    CPPDEFS += -DMULTIMODULE
   endif
 
   ifeq ($(SPIMODULES), YES)
@@ -696,9 +664,6 @@ ifeq ($(PCB), MEGA2560)
 	endif
 
   needSerial0 = FALSE
-  ifeq ($(MULTIMODULE), YES)
-   needSerial0 = YES
-  endif
   ifneq ($(SERIAL_PROTOCOL), NO)
    needSerial0 = YES
   endif
@@ -755,14 +720,6 @@ ifeq ($(PCB), MEGA2560)
 
   ifeq ($(PERSONAMES), YES)
    CPPDEFS += -DPERSONAMES
-  endif
-
-  ifeq ($(MULTIMODULE), YES)
-   CPPDEFS += -DMULTIMODULE
-  endif
-
-	ifeq ($(MultiSX1276), YES)
-   CPPDEFS += -DMultiSX1276
   endif
 
   ifeq ($(SPIMODULES), YES)
@@ -1079,7 +1036,8 @@ ifeq ($(TEMPLATES), YES)
     GUIMODELSRC += gui/menu_model_templates.cpp
 endif
 
-CPPDEFS += -DDSM2=1
+CPPDEFS += -DDSM=1
+CPPDEFS += -DMULTIMODULE=2
 ifneq ($(SERIAL_PROTOCOL), NO)
   CPPDEFS += -DSERIAL_PROTOCOL=$(SERIAL_PROTOCOL)
 endif
@@ -1092,6 +1050,10 @@ ifeq ($(3POS), POT2)
 endif
 ifeq ($(3POS), POT3)
   CPPDEFS += -DEXTRA_3POS=3
+endif
+
+ifneq ($(OTHERCOMPOPTIONS), NO)
+  CPPDEFS += ($(OTHERCOMPOPTIONS)
 endif
 
 #---------------- Compiler Options C++ ----------------

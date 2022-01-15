@@ -7,22 +7,22 @@
 		<size>787,415</size>
 		<maxsize>-1,-1</maxsize>
 		<id_arg>0</id_arg>
-		<style>wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER</style>
+		<style>wxDEFAULT_DIALOG_STYLE|wxBORDER_SUNKEN|wxBORDER_RAISED</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxPanel" name="ID_PANELPRINCIPAL" variable="PanelPrincipal" member="yes">
 			<pos>424,216</pos>
 			<size>777,400</size>
-			<style>wxRAISED_BORDER</style>
+			<style>wxBORDER_RAISED</style>
 			<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
 			<object class="wxPanel" name="ID_PANELH" variable="PanelH" member="yes">
 				<pos>0,0</pos>
 				<size>784,64</size>
-				<style>wxDOUBLE_BORDER</style>
+				<style>wxBORDER_DOUBLE</style>
 			</object>
 			<object class="wxPanel" name="ID_PANELMAIN" variable="PanelMain" member="yes">
 				<pos>0,64</pos>
 				<size>784,248</size>
-				<style>wxDOUBLE_BORDER</style>
+				<style>wxBORDER_DOUBLE</style>
 				<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
 				<object class="wxSlider" name="ID_POT1" variable="Pot1" member="yes">
 					<value>1024</value>
@@ -53,7 +53,7 @@
 					<size>50,20</size>
 					<bg>#000000</bg>
 					<tooltip>MENU</tooltip>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnBPmenuLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPmenuLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -61,7 +61,7 @@
 					<pos>288,160</pos>
 					<size>25,25</size>
 					<bg>#000000</bg>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnBPhLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPhLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -70,7 +70,7 @@
 					<size>50,20</size>
 					<bg>#000000</bg>
 					<tooltip>EXIT</tooltip>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnBPexitLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPexitLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -78,7 +78,7 @@
 					<pos>102,200</pos>
 					<size>25,12</size>
 					<bg>#000000</bg>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnLlTrimLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnLlTrimLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -86,7 +86,7 @@
 					<pos>224,72</pos>
 					<size>12,25</size>
 					<bg>#000000</bg>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnLuTrimLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnLuTrimLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -94,7 +94,7 @@
 					<pos>224,128</pos>
 					<size>12,25</size>
 					<bg>#000000</bg>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnLdTrimLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnLdTrimLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -102,7 +102,7 @@
 					<pos>536,128</pos>
 					<size>12,25</size>
 					<bg>#000000</bg>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnRdTrimLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnRdTrimLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -110,7 +110,7 @@
 					<pos>536,72</pos>
 					<size>12,25</size>
 					<bg>#000000</bg>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnRuTrimLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnRuTrimLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -118,7 +118,7 @@
 					<pos>592,200</pos>
 					<size>25,12</size>
 					<bg>#000000</bg>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnRlTrimLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnRlTrimLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -126,7 +126,7 @@
 					<pos>644,200</pos>
 					<size>25,12</size>
 					<bg>#000000</bg>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnRrTrimLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnRrTrimLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -134,7 +134,7 @@
 					<pos>152,200</pos>
 					<size>25,12</size>
 					<bg>#000000</bg>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnLrTrimLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnLrTrimLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -142,7 +142,7 @@
 					<pos>264,184</pos>
 					<size>25,25</size>
 					<bg>#000000</bg>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnBPgLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPgLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -150,7 +150,7 @@
 					<pos>288,208</pos>
 					<size>25,25</size>
 					<bg>#000000</bg>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnBPbLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPbLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -158,7 +158,7 @@
 					<pos>312,184</pos>
 					<size>25,25</size>
 					<bg>#000000</bg>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnBPdLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBPdLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -167,7 +167,7 @@
 					<size>158,158</size>
 					<fg>#FF0000</fg>
 					<bg>#000000</bg>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnRstickPaint" entry="EVT_PAINT" />
 					<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
 					<handler function="OnRstickMouseMove" entry="EVT_LEFT_DOWN" />
@@ -179,7 +179,7 @@
 					<pos>256,20</pos>
 					<size>260,132</size>
 					<bg>#78D21E</bg>
-					<style>wxNO_BORDER</style>
+					<style>wxBORDER_NONE</style>
 					<handler function="OnwxsimulcdPaint" entry="EVT_PAINT" />
 					<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
 					<handler function="OnSimulcdLeftDClick" entry="EVT_LEFT_DCLICK" />
@@ -189,7 +189,7 @@
 					<size>25,25</size>
 					<bg>#000000</bg>
 					<tooltip>THR</tooltip>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnBpThrLeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
 				<object class="wxPanel" name="ID_BPRUD" variable="BpRud" member="yes">
@@ -197,7 +197,7 @@
 					<size>25,25</size>
 					<bg>#000000</bg>
 					<tooltip>RUD</tooltip>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnBpRudLeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
 				<object class="wxPanel" name="ID_BPELE" variable="BpEle" member="yes">
@@ -205,7 +205,7 @@
 					<size>25,25</size>
 					<bg>#000000</bg>
 					<tooltip>ELE</tooltip>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnBpEleLeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
 				<object class="wxPanel" name="ID_BPTRN" variable="BpTrn" member="yes">
@@ -213,7 +213,7 @@
 					<size>25,25</size>
 					<bg>#000000</bg>
 					<tooltip>TRN</tooltip>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnBpTrnLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBpTrnLeftUp" entry="EVT_LEFT_UP" />
 					<handler function="OnBpTrnRightDown" entry="EVT_RIGHT_DOWN" />
@@ -223,7 +223,7 @@
 					<size>25,25</size>
 					<bg>#000000</bg>
 					<tooltip>AIL</tooltip>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnBpAilLeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
 				<object class="wxPanel" name="ID_BPGEA" variable="BpGea" member="yes">
@@ -231,7 +231,7 @@
 					<size>25,25</size>
 					<bg>#000000</bg>
 					<tooltip>GEA</tooltip>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnBpGeaLeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
 				<object class="wxPanel" name="ID_PBID1" variable="BpId1" member="yes">
@@ -239,7 +239,7 @@
 					<size>25,20</size>
 					<bg>#000000</bg>
 					<tooltip>ID1</tooltip>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnBpId1LeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
 				<object class="wxPanel" name="ID_BOID2" variable="BpId2" member="yes">
@@ -247,7 +247,7 @@
 					<size>25,20</size>
 					<bg>#000000</bg>
 					<tooltip>ID2</tooltip>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnBpId2LeftDown" entry="EVT_LEFT_DOWN" />
 				</object>
 				<object class="wxPanel" name="ID_LSTICK" variable="Lstick" member="yes">
@@ -255,7 +255,7 @@
 					<size>158,158</size>
 					<fg>#FF0000</fg>
 					<bg>#000000</bg>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnLstickPaint" entry="EVT_PAINT" />
 					<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
 					<handler function="OnLstickMouseMove" entry="EVT_LEFT_DOWN" />
@@ -268,14 +268,14 @@
 					<max>100</max>
 					<pos>14,14</pos>
 					<tooltip>Rea</tooltip>
-					<style>wxSP_HORIZONTAL|wxSP_WRAP|wxSTATIC_BORDER</style>
+					<style>wxSP_HORIZONTAL|wxSP_WRAP|wxBORDER_STATIC</style>
 				</object>
 				<object class="wxSpinButton" name="ID_SPINREB" variable="SpinReb" member="yes">
 					<min>-100</min>
 					<max>100</max>
 					<pos>732,14</pos>
 					<tooltip>Reb</tooltip>
-					<style>wxSP_HORIZONTAL|wxSP_WRAP|wxSTATIC_BORDER</style>
+					<style>wxSP_HORIZONTAL|wxSP_WRAP|wxBORDER_STATIC</style>
 				</object>
 				<object class="wxTextCtrl" name="ID_TEXTCTRLDUMMY" variable="TextCtrlgetkbinput" member="yes">
 					<pos>64,216</pos>
@@ -286,7 +286,7 @@
 					<size>35,12</size>
 					<bg>#000000</bg>
 					<tooltip>BP REA</tooltip>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnBpReaLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBpReaLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -295,7 +295,7 @@
 					<size>35,12</size>
 					<bg>#000000</bg>
 					<tooltip>BP REB</tooltip>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnBpRebLeftDown" entry="EVT_LEFT_DOWN" />
 					<handler function="OnBpRebLeftUp" entry="EVT_LEFT_UP" />
 				</object>
@@ -303,20 +303,20 @@
 			<object class="wxPanel" name="ID_PANELL" variable="PanelL" member="yes">
 				<pos>0,305</pos>
 				<size>784,64</size>
-				<style>wxDOUBLE_BORDER</style>
+				<style>wxBORDER_DOUBLE</style>
 				<handler function="OnPanelMainKeyDown" entry="EVT_KEY_DOWN" />
 				<object class="wxToggleButton" name="ID_ONTGLBUTTON" variable="OnTglButton" member="yes">
 					<label>ON</label>
 					<pos>8,8</pos>
 					<size>62,22</size>
-					<style>wxDOUBLE_BORDER</style>
+					<style>wxBORDER_DOUBLE</style>
 					<handler function="OnOnTglButtonToggle" entry="EVT_TOGGLEBUTTON" />
 				</object>
 				<object class="wxButton" name="ID_BUTTONSTARTDESKTOP" variable="ButtonStartDesktop" member="yes">
 					<label>Desktop</label>
 					<pos>8,32</pos>
 					<size>62,22</size>
-					<style>wxSIMPLE_BORDER</style>
+					<style>wxBORDER_SIMPLE</style>
 					<handler function="OnButtonStartDesktopClick" entry="EVT_BUTTON" />
 				</object>
 				<object class="wxCheckBox" name="ID_CHECKBOXA7105" variable="CheckBoxA7105" member="yes">
@@ -353,8 +353,8 @@
 					<bg>#C0C0C0</bg>
 					<handler function="OnCheckBoxProtocolsClick" entry="EVT_CHECKBOX" />
 				</object>
-				<object class="wxCheckBox" name="ID_CHECKBOXMULTIMOD" variable="CheckBoxMULTIMOD" member="yes">
-					<label>MULTIMOD</label>
+				<object class="wxCheckBox" name="ID_CHECKBOXMULTIMOD" variable="CheckBoxSERPROTO" member="yes">
+					<label>SER__PROT.</label>
 					<checked>1</checked>
 					<pos>552,40</pos>
 					<size>78,13</size>
@@ -362,8 +362,8 @@
 					<bg>#C0C0C0</bg>
 					<handler function="OnCheckBoxProtocolsClick" entry="EVT_CHECKBOX" />
 				</object>
-				<object class="wxCheckBox" name="ID_CHECKBOXDSMSER" variable="CheckBoxDSMSER" member="yes">
-					<label>DSM SER.</label>
+				<object class="wxCheckBox" name="ID_CHECKBOXSERPROTO" variable="CheckBoxPPMPROTO" member="yes">
+					<label>PPM PROT.</label>
 					<checked>1</checked>
 					<pos>552,24</pos>
 					<size>78,13</size>

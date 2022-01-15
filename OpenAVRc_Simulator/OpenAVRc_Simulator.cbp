@@ -14,8 +14,8 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-Winline" />
 					<Add option="-m32" />
+					<Add option="-Og" />
 					<Add option="-g" />
 					<Add option="-DDEBUG=YES" />
 					<Add option="-DTRANSLATIONS_FR" />
@@ -288,8 +288,9 @@
 			<Add option="-DX_ANY_2_POT=POT2" />
 			<Add option="-DX_ANY_3_POT=POT3" />
 			<Add option="-DX_ANY_4_POT=STICK_LV" />
-			<Add option="-DMULTIMODULE" />
-			<Add option="-DDSM2_SERIAL" />
+			<Add option="-DDSM=1" />
+			<Add option="-DMULTIMODULE=2" />
+			<Add option="-DSERIAL_PROTOCOL=MULTIMODULE" />
 			<Add option="-DSPIMODULES" />
 			<Add option="-DPROTO_HAS_CC2500" />
 			<Add option="-DCC2500PA_GAIN=20" />
@@ -455,7 +456,7 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
-		<Unit filename="../OpenAVRc/protocol/MULTI.c">
+		<Unit filename="../OpenAVRc/protocol/MULTI_SERIAL.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
 			<Option link="0" />
