@@ -35,9 +35,11 @@
 
 uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][TELEM_RX_PACKET_SIZE];
 
+uint8_t * Usart0TxBuffer = pulses2MHz.pbyte; // [USART0_TX_PACKET_SIZE] bytes used
+
 uint8_t Usart0TxBufferCount = 0;
 
-#if defined(FRSKY) || defined(MULTI)
+#if defined(FRSKY) || defined(MULTIPROTOCOL) || defined(CRSF) || defined(SBUS) || defined(SUMD)
 
 ISR(USART_RX_vect_N(TLM_USART0))
 {
@@ -101,7 +103,7 @@ ISR(USART_RX_vect_N(TLM_USART0))
 ISR(USART_UDRE_vect_N(TLM_USART0))
 {
   if (Usart0TxBufferCount) {
-    UDR_N(TLM_USART0) = Usart0TxBuffer_p2M[--Usart0TxBufferCount];
+    UDR_N(TLM_USART0) = Usart0TxBuffer[--Usart0TxBufferCount];
   }
   else {
     UCSRB_N(TLM_USART0) &= ~(1 << UDRIE_N(TLM_USART0)); // Disable UDRE interrupt.

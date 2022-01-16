@@ -139,7 +139,7 @@ VARIO = YES
 RTCLOCK = YES
 
 # Serial protocol
-# Values = NO, DSM, MULTIMODULE
+# Values = NO, DSM, MULTIMODULE, CRSF, SBUS, SUMD
 SERIAL_PROTOCOL = NO
 
 # TRANSLATIONS
@@ -248,6 +248,10 @@ A7105 = NO
 # Set A7105 PA gain in DB
 # Values = 20,22
 A7105PAG = 20
+
+# Enable SX1276 SPI protocols
+# Values = NO, YES
+SX1276 = NO
 
 # Enable X-ANY feature
 # Values = NO, 1, 2, 3 ,4
@@ -442,6 +446,10 @@ ifeq ($(PCB), MEGAMINI)
   	ifeq ($(A7105), YES)
    		CPPDEFS += -DPROTO_HAS_A7105
  	  	CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
+  	endif
+
+  	ifeq ($(SX1276), YES)
+   		CPPDEFS += -DPROTO_HAS_SX1276
   	endif
   endif
 
@@ -1038,6 +1046,9 @@ endif
 
 CPPDEFS += -DDSM=1
 CPPDEFS += -DMULTIMODULE=2
+CPPDEFS += -DCRSF=3
+CPPDEFS += -DSBUS=4
+CPPDEFS += -DSUMD=5
 ifneq ($(SERIAL_PROTOCOL), NO)
   CPPDEFS += -DSERIAL_PROTOCOL=$(SERIAL_PROTOCOL)
 endif
