@@ -38,7 +38,7 @@
 #define TLM_USART0 0
 #define MULTI_USART TLM_USART0
 #define DSM_USART TLM_USART0
-#define CRSF_USART TLM_USART0*
+#define CRSF_USART TLM_USART0
 #define SBUS_USART TLM_USART0
 #define SUMD_USART TLM_USART0
 #define FRSKY_USART TLM_USART0
@@ -50,8 +50,6 @@
 #define USART0_TX_PACKET_SIZE 26 // used in Multiprotocole serial
 
 extern uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][TELEM_RX_PACKET_SIZE];
-
-extern uint8_t * Usart0TxBuffer; // [USART0_TX_PACKET_SIZE] used
 
 extern uint8_t Usart0TxBufferCount;
 
