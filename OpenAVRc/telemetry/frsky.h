@@ -291,5 +291,13 @@ void frskySetCellsCount(uint8_t cellscount);
 void frskySetCellVoltage(uint8_t battnumber, frskyCellVoltage_t cellVolts);
 void frskyUpdateCells();
 void adjustRTChour();
+void checkOffsetAndMaxCurrent();
+void checkMaxGpsSpeed();
+void checkMaxRpm();
+void checkMaxTemperature2();
+void checkMaxTemperature1();
+void manageGpsFix();
+void setMinMaxAltitude();
+
 
 #endif
