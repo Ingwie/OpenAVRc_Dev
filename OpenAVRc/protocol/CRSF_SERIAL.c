@@ -1,109 +1,497 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
-
+// Original file from https://github.com/phobos-/deviation/blob/elrs/src/protocol/crsf_uart.c
 
 #include "../OpenAVRc.h"
 
-#include "crsf.h"
-#define XTELEMETRY (g_model.rfOptionBool1)
+//crsf.h
+#ifndef _CRSF_H_
+#define _CRSF_H_
 
-const pm_char STR_CRSF_SPEEDS[] PROGMEM = "400000""115200";
 
-const static RfOptionSettingsvar_t RfOpt_CRSF_Ser[] PROGMEM = {
-/*rfProtoNeed*/BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
-/*rfSubTypeMax*/1,//2 seul subtype
-/*rfOptionValue1Min*/0,
-/*rfOptionValue1Max*/0,
-/*rfOptionValue2Min*/0,
-/*rfOptionValue2Max*/0,
-/*rfOptionValue3Max*/5// RF POWER (10mW (10dBm), 25mW (14dBm), 100mW (20dBm),250mW 500mW (27dBm) 1W (30dBm)*, 2W (33dBm)
+// Device addresses
+#define ADDR_BROADCAST  0x00  //  Broadcast address
+#define ADDR_USB        0x10  //  USB Device
+#define ADDR_BLUETOOTH  0x12  //  Bluetooth Module
+#define ADDR_PRO_CORE   0x80  //  TBS CORE PNP PRO
+//  #define ADDR_  0x8A       //  Reserved
+#define ADDR_PRO_CURR   0xC0  //  PNP PRO digital current sensor
+#define ADDR_PRO_GPS    0xC2  //  PNP PRO GPS
+#define ADDR_BLACKBOX   0xC4  //  TBS Blackbox
+#define ADDR_FC         0xC8  //  Flight controller
+//  #define ADDR_       0xCA  //  Reserved
+#define ADDR_RACETAG    0xCC  //  Race tag
+#define ADDR_RADIO      0xEA  //  Radio Transmitter
+//  #define ADDR_       0xEB  //  Reserved
+#define ADDR_RECEIVER   0xEC  //  Crossfire / UHF receiver
+#define ADDR_MODULE     0xEE  //  Crossfire transmitter
+
+// Frame Type
+#define TYPE_GPS              0x02
+#define TYPE_BATTERY          0x08
+#define TYPE_VIDEO            0x08
+#define TYPE_LINK             0x14
+#define TYPE_CHANNELS         0x16
+#define TYPE_ATTITUDE         0x1E
+#define TYPE_FLIGHT_MODE      0x21
+#define TYPE_PING_DEVICES     0x28
+#define TYPE_DEVICE_INFO      0x29
+#define TYPE_REQUEST_SETTINGS 0x2A
+#define TYPE_SETTINGS_ENTRY   0x2B
+#define TYPE_SETTINGS_READ    0x2C
+#define TYPE_SETTINGS_WRITE   0x2D
+
+#define TELEMETRY_RX_PACKET_SIZE   64
+
+
+#define SUPPORT_CRSF_CONFIG
+
+#if defined(SUPPORT_CRSF_CONFIG)
+
+#define CRSF_MAX_DEVICES       4
+#define CRSF_MAX_NAME_LEN      16
+#define CRSF_MAX_STRING_BYTES  2500     // max observed is 2010 in Nano RX
+#define CRSF_STRING_BYTES_AVAIL(current)  (CRSF_MAX_STRING_BYTES-((char *)(current)-mp->strings))
+
+
+enum data_type
+{
+ UINT8          = 0,
+ INT8           = 1,
+ UINT16         = 2,
+ INT16          = 3,
+ FLOAT          = 8,
+ TEXT_SELECTION = 9,
+ STRING         = 10,
+ FOLDER         = 11,
+ INFO           = 12,
+ COMMAND        = 13,
+ OUT_OF_RANGE   = 127,
 };
 
-static void CRSF_Reset()
+enum cmd_status
 {
-  USART_DISABLE_TX(CRSF_USART);
-  USART_DISABLE_RX(CRSF_USART);
-}
+ READY               = 0,
+ START_CRSF          = 1,//START               = 1,
+ PROGRESS            = 2,
+ CONFIRMATION_NEEDED = 3,
+ CONFIRM             = 4,
+ CANCEL              = 5,
+ POLL                = 6
+};
 
-#include "crsf.h"
+typedef struct
+{
+ uint8_t address;
+ uint8_t number_of_params;
+ uint8_t params_version;
+ uint32_t serial_number;
+ uint32_t hardware_id;
+ uint32_t firmware_id;
+ char name[CRSF_MAX_NAME_LEN];
+} crsf_device_t;
 
-#define CHAN_MULTIPLIER 100
-#define CHAN_MAX_VALUE (100 * CHAN_MULTIPLIER)
+typedef struct
+{
+ // common fields
+ uint8_t device;            // device index of device parameter belongs to
+ uint8_t id;                // Parameter number (starting from 1)
+ uint8_t parent;            // Parent folder parameter number of the parent folder, 0 means root
+ enum data_type type;  // (Parameter type definitions and hidden bit)
+ uint8_t hidden;            // set if hidden
+ char *name;           // Null-terminated string
+ void *value;          // size depending on data type
+
+ // field presence depends on type
+ void *default_value;  // size depending on data type. Not present for COMMAND.
+ int32_t min_value;        // not sent for string type
+ int32_t max_value;        // not sent for string type
+ int32_t step;             // Step size ( type float only otherwise this entry is not sent )
+ uint8_t timeout;           // COMMAND timeout (100ms/count)
+ uint8_t changed;           // flag if set needed when edit element is de-selected
+ char *max_str;        // Longest choice length for text select
+ union
+ {
+  uint8_t point;             // Decimal point ( type float only otherwise this entry is not sent )
+  uint8_t text_sel;          // current value index for TEXT_SELECTION type
+  uint8_t string_max_len;    // String max length ( for string type only )
+  uint8_t status;            // Status for COMMANDs
+ } u;
+ union
+ {
+  char *info;
+  char *unit;         // Unit ( Null-terminated string / not sent for type string and folder )
+ } s;
+} crsf_param_t;
+
+extern crsf_device_t crsf_devices[CRSF_MAX_DEVICES];
+
+void CRSF_serial_rcv(uint8_t *buffer, uint8_t num_bytes);
+uint8_t CRSF_serial_txd(uint8_t *buffer, uint8_t max_len);
+uint8_t crsf_crc8(const uint8_t *ptr, uint8_t len);
+void CRSF_ping_devices();
+void CRSF_read_param(uint8_t device, uint8_t id, uint8_t chunk);
+void CRSF_set_param(crsf_param_t *param);
+void CRSF_send_command(crsf_param_t *param, enum cmd_status status);
+
+#endif  // SUPPORT_CRSF_CONFIG
+
+#endif
 
 
-//#if HAS_EXTENDED_TELEMETRY
-//#include "telemetry.h"
-//#endif
 
 
-//#define CRSF_DATARATE             400000
+
+#define CRSF_DATARATE             400000
 #define CRSF_FRAME_PERIOD         4000   // 4ms
 #define CRSF_CHANNELS             16
 #define CRSF_PACKET_SIZE          26
 
 
-// crc implementation from CRSF protocol document rev7
-static uint8_t crsf_crc8tab[256] = {
-    0x00, 0xD5, 0x7F, 0xAA, 0xFE, 0x2B, 0x81, 0x54, 0x29, 0xFC, 0x56, 0x83, 0xD7, 0x02, 0xA8, 0x7D,
-    0x52, 0x87, 0x2D, 0xF8, 0xAC, 0x79, 0xD3, 0x06, 0x7B, 0xAE, 0x04, 0xD1, 0x85, 0x50, 0xFA, 0x2F,
-    0xA4, 0x71, 0xDB, 0x0E, 0x5A, 0x8F, 0x25, 0xF0, 0x8D, 0x58, 0xF2, 0x27, 0x73, 0xA6, 0x0C, 0xD9,
-    0xF6, 0x23, 0x89, 0x5C, 0x08, 0xDD, 0x77, 0xA2, 0xDF, 0x0A, 0xA0, 0x75, 0x21, 0xF4, 0x5E, 0x8B,
-    0x9D, 0x48, 0xE2, 0x37, 0x63, 0xB6, 0x1C, 0xC9, 0xB4, 0x61, 0xCB, 0x1E, 0x4A, 0x9F, 0x35, 0xE0,
-    0xCF, 0x1A, 0xB0, 0x65, 0x31, 0xE4, 0x4E, 0x9B, 0xE6, 0x33, 0x99, 0x4C, 0x18, 0xCD, 0x67, 0xB2,
-    0x39, 0xEC, 0x46, 0x93, 0xC7, 0x12, 0xB8, 0x6D, 0x10, 0xC5, 0x6F, 0xBA, 0xEE, 0x3B, 0x91, 0x44,
-    0x6B, 0xBE, 0x14, 0xC1, 0x95, 0x40, 0xEA, 0x3F, 0x42, 0x97, 0x3D, 0xE8, 0xBC, 0x69, 0xC3, 0x16,
-    0xEF, 0x3A, 0x90, 0x45, 0x11, 0xC4, 0x6E, 0xBB, 0xC6, 0x13, 0xB9, 0x6C, 0x38, 0xED, 0x47, 0x92,
-    0xBD, 0x68, 0xC2, 0x17, 0x43, 0x96, 0x3C, 0xE9, 0x94, 0x41, 0xEB, 0x3E, 0x6A, 0xBF, 0x15, 0xC0,
-    0x4B, 0x9E, 0x34, 0xE1, 0xB5, 0x60, 0xCA, 0x1F, 0x62, 0xB7, 0x1D, 0xC8, 0x9C, 0x49, 0xE3, 0x36,
-    0x19, 0xCC, 0x66, 0xB3, 0xE7, 0x32, 0x98, 0x4D, 0x30, 0xE5, 0x4F, 0x9A, 0xCE, 0x1B, 0xB1, 0x64,
-    0x72, 0xA7, 0x0D, 0xD8, 0x8C, 0x59, 0xF3, 0x26, 0x5B, 0x8E, 0x24, 0xF1, 0xA5, 0x70, 0xDA, 0x0F,
-    0x20, 0xF5, 0x5F, 0x8A, 0xDE, 0x0B, 0xA1, 0x74, 0x09, 0xDC, 0x76, 0xA3, 0xF7, 0x22, 0x88, 0x5D,
-    0xD6, 0x03, 0xA9, 0x7C, 0x28, 0xFD, 0x57, 0x82, 0xFF, 0x2A, 0x80, 0x55, 0x01, 0xD4, 0x7E, 0xAB,
-    0x84, 0x51, 0xFB, 0x2E, 0x7A, 0xAF, 0x05, 0xD0, 0xAD, 0x78, 0xD2, 0x07, 0x53, 0x86, 0x2C, 0xF9};
+const static RfOptionSettingsvar_t RfOpt_CRSF_Ser[] PROGMEM =
+{
+ /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+ /*rfSubTypeMax*/0,
+ /*rfOptionValue1Min*/-128,
+ /*rfOptionValue1Max*/127,
+ /*rfOptionValue2Min*/0,
+ /*rfOptionValue2Max*/0,
+ /*rfOptionValue3Max*/0,
+};
 
-uint8_t crsf_crc8(const uint8_t *ptr, uint8_t len) {
-    uint8_t crc = 0;
-    for (uint8_t i=0; i < len; i++) {
-        crc = crsf_crc8tab[crc ^ *ptr++];
-    }
-    return crc;
+uint8_t crsf_crc8(const uint8_t *ptr, uint8_t len)
+{
+// crc implementation from CRSF protocol document rev7
+ static const uint16_t ZZcrsf_crc8tab[] PROGMEM =
+ {
+  0x00, 0xD5, 0x7F, 0xAA, 0xFE, 0x2B, 0x81, 0x54, 0x29, 0xFC, 0x56, 0x83, 0xD7, 0x02, 0xA8, 0x7D,
+  0x52, 0x87, 0x2D, 0xF8, 0xAC, 0x79, 0xD3, 0x06, 0x7B, 0xAE, 0x04, 0xD1, 0x85, 0x50, 0xFA, 0x2F,
+  0xA4, 0x71, 0xDB, 0x0E, 0x5A, 0x8F, 0x25, 0xF0, 0x8D, 0x58, 0xF2, 0x27, 0x73, 0xA6, 0x0C, 0xD9,
+  0xF6, 0x23, 0x89, 0x5C, 0x08, 0xDD, 0x77, 0xA2, 0xDF, 0x0A, 0xA0, 0x75, 0x21, 0xF4, 0x5E, 0x8B,
+  0x9D, 0x48, 0xE2, 0x37, 0x63, 0xB6, 0x1C, 0xC9, 0xB4, 0x61, 0xCB, 0x1E, 0x4A, 0x9F, 0x35, 0xE0,
+  0xCF, 0x1A, 0xB0, 0x65, 0x31, 0xE4, 0x4E, 0x9B, 0xE6, 0x33, 0x99, 0x4C, 0x18, 0xCD, 0x67, 0xB2,
+  0x39, 0xEC, 0x46, 0x93, 0xC7, 0x12, 0xB8, 0x6D, 0x10, 0xC5, 0x6F, 0xBA, 0xEE, 0x3B, 0x91, 0x44,
+  0x6B, 0xBE, 0x14, 0xC1, 0x95, 0x40, 0xEA, 0x3F, 0x42, 0x97, 0x3D, 0xE8, 0xBC, 0x69, 0xC3, 0x16,
+  0xEF, 0x3A, 0x90, 0x45, 0x11, 0xC4, 0x6E, 0xBB, 0xC6, 0x13, 0xB9, 0x6C, 0x38, 0xED, 0x47, 0x92,
+  0xBD, 0x68, 0xC2, 0x17, 0x43, 0x96, 0x3C, 0xE9, 0x94, 0x41, 0xEB, 0x3E, 0x6A, 0xBF, 0x15, 0xC0,
+  0x4B, 0x9E, 0x34, 0xE1, 0xB5, 0x60, 0xCA, 0x1F, 0x62, 0xB7, 0x1D, 0xC8, 0x9C, 0x49, 0xE3, 0x36,
+  0x19, 0xCC, 0x66, 0xB3, 0xE7, 0x32, 0x98, 0x4D, 0x30, 0xE5, 0x4F, 0x9A, 0xCE, 0x1B, 0xB1, 0x64,
+  0x72, 0xA7, 0x0D, 0xD8, 0x8C, 0x59, 0xF3, 0x26, 0x5B, 0x8E, 0x24, 0xF1, 0xA5, 0x70, 0xDA, 0x0F,
+  0x20, 0xF5, 0x5F, 0x8A, 0xDE, 0x0B, 0xA1, 0x74, 0x09, 0xDC, 0x76, 0xA3, 0xF7, 0x22, 0x88, 0x5D,
+  0xD6, 0x03, 0xA9, 0x7C, 0x28, 0xFD, 0x57, 0x82, 0xFF, 0x2A, 0x80, 0x55, 0x01, 0xD4, 0x7E, 0xAB,
+  0x84, 0x51, 0xFB, 0x2E, 0x7A, 0xAF, 0x05, 0xD0, 0xAD, 0x78, 0xD2, 0x07, 0x53, 0x86, 0x2C, 0xF9,
+ };
+
+ uint8_t crc = 0;
+ uint_farptr_t crctab = pgm_get_far_address(ZZcrsf_crc8tab);
+ for (uint8_t i=0; i < len; i++)
+  {
+   crc = pgm_read_word_far(crctab + (2*(crc ^ *ptr--)));
+  }
+ return crc;
 }
 
-#if defined(FRSKY)//HAS_EXTENDED_TELEMETRY
+static uint8_t convertPktRateToElrs(uint8_t rfFreq, uint8_t rate)
+{
+ switch (rate)
+  {
+  case 0:
+   if (rfFreq == 6) return 0;
+   return 2;
+  case 1:
+   if (rfFreq == 6) return 1;
+   return 4;
+  case 2:
+   if (rfFreq == 6) return 3;
+   return 5;
+  case 3:
+   if (rfFreq == 6) return 5;
+   return 6;
+  case 4:
+   return 6;
+  }
+ return 6;
+}
+
+static uint8_t convertElrsToPktRate(uint8_t rfFreq, uint8_t elrsRate)
+{
+ switch (elrsRate)
+  {
+  case 0:
+   return 0;   // 2.4
+  case 1:
+   return 1;   // 2.4
+  case 2:
+   return 0;   // 900
+  case 3:
+   return 2;   // 2.4
+  case 4:
+   return 1;   // 900
+  case 5:
+   if (rfFreq == 6) return 3;
+   return 2;
+  case 6:
+   if (rfFreq == 6) return 4;
+   return 3;
+  }
+ return 0;
+}
+
+static uint16_t convertPktRateToPeriod(uint8_t rfFreq, uint8_t rate)
+{
+ if (rfFreq == 0) return CRSF_FRAME_PERIOD;
+ switch (rate)
+  {
+  case 0:
+   if (rfFreq == 6) return 2000;
+   return 5000;
+  case 1:
+   if (rfFreq == 6) return 4000;
+   return 10000;
+  case 2:
+   if (rfFreq == 6) return 6666;
+   return 20000;
+  case 3:
+   if (rfFreq == 6) return 20000;
+   return 40000;
+  case 4:
+   return 40000;
+  }
+ return CRSF_FRAME_PERIOD;
+}
+
+enum
+{
+ PROTO_OPTS_BAD_PKTS,
+ PROTO_OPTS_GOOD_PKTS,
+ PROTO_OPTS_PKT_RATE,
+ PROTO_OPTS_TLM_RATIO,
+ PROTO_OPTS_POWER,
+ PROTO_OPTS_RF_FREQ,
+ PROTO_OPTS_BIND,
+ PROTO_OPTS_WIFI_UPDATE,
+ LAST_PROTO_OPT,
+};
+
+#define ELRS_ADDRESS 0xEE
+#define ELRS_BIND_COMMAND 0xFF
+#define ELRS_WIFI_COMMAND 0xFE
+#define ELRS_PKT_RATE_COMMAND 1
+#define ELRS_TLM_RATIO_COMMAND 2
+#define ELRS_POWER_COMMAND 3
+
+static uint8_t buildElrspacket(uint8_t command, uint8_t value)
+{
+ packet_p2M[CRSF_PACKET_SIZE - 0] = ADDR_MODULE;
+ packet_p2M[CRSF_PACKET_SIZE - 1] = 6;
+ packet_p2M[CRSF_PACKET_SIZE - 2] = TYPE_SETTINGS_WRITE;
+ packet_p2M[CRSF_PACKET_SIZE - 3] = ELRS_ADDRESS;
+ packet_p2M[CRSF_PACKET_SIZE - 4] = ADDR_RADIO;
+ packet_p2M[CRSF_PACKET_SIZE - 5] = command;
+ packet_p2M[CRSF_PACKET_SIZE - 6] = value;
+ packet_p2M[CRSF_PACKET_SIZE - 7] = crsf_crc8(&packet_p2M[CRSF_PACKET_SIZE - 2], packet_p2M[CRSF_PACKET_SIZE - 1]-1);
+
+ return 8;
+}
+
+/* from CRSF document
+Center (1500us) = 992
+TICKS_TO_US(x) ((x - 992) * 5 / 8 + 1500)
+US_TO_TICKS(x) ((x - 1500) * 8 / 5 + 992)
+*/
+
+#define CSRF_MIN 172
+#define CSRF_MAX 1811
+static uint8_t build_rcdata_pkt()
+{
+ packet_p2M[CRSF_PACKET_SIZE - 0] = ADDR_MODULE;
+ packet_p2M[CRSF_PACKET_SIZE - 1] = 24;   // length of type + payload + crc
+ packet_p2M[CRSF_PACKET_SIZE - 2] = TYPE_CHANNELS;
+
+ int32_t value;
+ uint32_t bits = 0;
+ uint8_t bitsavailable = 0;
+ uint8_t * packet3 = &packet_p2M[CRSF_PACKET_SIZE - 3];
+
+ for (uint8_t i=0; i < CRSF_CHANNELS; i++)
+  {
+   if (i < 16/*todoModel.num_channels*/)
+    value = (FULL_CHANNEL_OUTPUTS(i)+RESX)*(CSRF_MAX-CSRF_MIN)/(2*RESX)+CSRF_MIN;
+   else
+    value = 992;  // midpoint
+
+// OpenTX method
+   bits |= value << bitsavailable;
+   bitsavailable += 11; // 11 bits per channel
+   while (bitsavailable >= 8)
+    {
+     *packet3-- = bits;
+     bits >>= 8;
+     bitsavailable -= 8;
+    }
+
+  }
+ packet_p2M[CRSF_PACKET_SIZE - 25] = crsf_crc8(&packet_p2M[CRSF_PACKET_SIZE - 2], CRSF_PACKET_SIZE-3);
+
+ return CRSF_PACKET_SIZE;
+}
+
+const static uint8_t ZZ_CRSFInitSequence[] PROGMEM =
+{
+};
+
+static void CRSF_init()
+{
+}
+
+
+static void CRSF_send_data_packet_p2M()
+{
+}
+
+static void CRSF_send_bind_packet_p2M()
+{
+}
+
+static uint16_t CRSF_bind_cb()
+{
+ SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
+ CRSF_send_bind_packet_p2M();
+ heartbeat |= HEART_TIMER_PULSES;
+ CALCULATE_LAT_JIT(); // Calculate latency and jitter.
+ return 18000U *2;
+}
+
+static uint16_t CRSF_cb()
+{
+ SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations.
+ CRSF_send_data_packet_p2M();
+ heartbeat |= HEART_TIMER_PULSES;
+ CALCULATE_LAT_JIT(); // Calculate latency and jitter.
+ return 12000U *2;
+}
+
+
+static void CRSF_initialize(uint8_t bind)
+{
+ CRSF_init();
+ if (bind)
+  {
+   PROTO_Start_Callback( CRSF_bind_cb);
+  }
+ else
+  {
+   PROTO_Start_Callback( CRSF_cb);
+  }
+}
+
+const void *CRSF_Cmds(enum ProtoCmds cmd)
+{
+ switch(cmd)
+  {
+  case PROTOCMD_INIT:
+   CRSF_initialize(0);
+   return 0;
+  case PROTOCMD_RESET:
+   PROTO_Stop_Callback();
+   return 0;
+  case PROTOCMD_BIND:
+   CRSF_initialize(1);
+   return 0;
+  case PROTOCMD_GETOPTIONS:
+   SetRfOptionSettings(pgm_get_far_address(RfOpt_CRSF_Ser),
+                       STR_DUMMY,      //Sub proto
+                       STR_DUMMY,      //Option 1 (int)
+                       STR_DUMMY,      //Option 2 (int)
+                       STR_DUMMY,      //Option 3 (uint 0 to 31)
+                       STR_DUMMY,      //OptionBool 1
+                       STR_DUMMY,      //OptionBool 2
+                       STR_DUMMY       //OptionBool 3
+                      );
+   return 0;
+  default:
+   break;
+  }
+ return 0;
+}
+
 /*
-static uint8_t telemetryRxBuffer[TELEMETRY_RX_PACKET_SIZE];
+static uint8_t currentPktRate = 0;
+static uint8_t currentTlmRatio = 0;
+static uint8_t currentPower = 0;
+static uint8_t currentBind = 0;
+static uint8_t currentWiFi = 0;
+static uint8_t getParamsCounter = 0;
+
+static const char * const expresslrs_opts_24[] = {
+  _tr_noop("Bad Pkts"), "0", "1000", "1", NULL,
+  _tr_noop("Good Pkts"), "0", "1000", "1", NULL,
+    //                      0        1      3        5       6
+  _tr_noop("Pkt. Rate"),  "500Hz", "250Hz", "150Hz", "50Hz", "25Hz", NULL,
+  //                      0      1        2       3       4       5      6      7
+  _tr_noop("TLM Ratio"),  "OFF", "1:128", "1:64", "1:32", "1:16", "1:8", "1:4", "1:2", NULL,
+  //                  0       1       2       3        4        5        6         7
+  _tr_noop("Power"),  "10mW", "25mW", "50mW", "100mW", "250mW", "500mW", "1000mW", "2000mW", NULL,
+  //                   0    1         2          3         4         5         6
+  _tr_noop("Rf Freq"), "?", "915 AU", "915 FCC", "868 EU", "433 AU", "433 EU", "2.4G ISM", NULL,
+  _tr_noop("Bind"),  "OFF", "ON", NULL,
+  _tr_noop("WiFi Update"),  "OFF", "ON", NULL,
+  NULL
+};
+
+static const char * const expresslrs_opts_900[] = {
+  _tr_noop("Bad Pkts"), "0", "1000", "1", NULL,
+  _tr_noop("Good Pkts"), "0", "1000", "1", NULL,
+    //                    2        4        5       6
+  _tr_noop("Pkt. Rate"),  "200Hz", "100Hz", "50Hz", "25Hz", NULL,
+  //                      0      1        2       3       4       5      6      7
+  _tr_noop("TLM Ratio"),  "OFF", "1:128", "1:64", "1:32", "1:16", "1:8", "1:4", "1:2", NULL,
+  //                  0       1       2       3        4        5        6         7
+  _tr_noop("Power"),  "10mW", "25mW", "50mW", "100mW", "250mW", "500mW", "1000mW", "2000mW", NULL,
+  //                   0    1         2          3         4         5         6
+  _tr_noop("Rf Freq"), "?", "915 AU", "915 FCC", "868 EU", "433 AU", "433 EU", "2.4G ISM", NULL,
+  _tr_noop("Bind"),  "OFF", "ON", NULL,
+  _tr_noop("WiFi Update"),  "OFF", "ON", NULL,
+  NULL
+};
+
+
+
+
+#if HAS_EXTENDED_TELEMETRY
+static uint8_t telemetryRxBuffer[TELEMETRY_RX_packet_p2M_SIZE];
 static uint8_t telemetryRxBufferCount;
 
-static void set_telemetry(crossfire_telem_t offset, int32_t value) {
+static void set_telemetry(crossfire_telem_t offset, s32 value) {
     Telemetry.value[offset] = value;
     TELEMETRY_SetUpdated(offset);
 }
@@ -114,7 +502,7 @@ static uint8_t checkCrossfireTelemetryFrameCRC() {
   return (crc == telemetryRxBuffer[len+1]);
 }
 
-static uint8_t getCrossfireTelemetryValue(uint8_t index, int32_t *value, uint8_t len) {
+static uint8_t getCrossfireTelemetryValue(uint8_t index, s32 *value, uint8_t len) {
   uint8_t result = 0;
   uint8_t *byte = &telemetryRxBuffer[index];
   *value = (*byte & 0x80) ? -1 : 0;
@@ -129,7 +517,7 @@ static uint8_t getCrossfireTelemetryValue(uint8_t index, int32_t *value, uint8_t
 static void processCrossfireTelemetryFrame()
 {
 
-  int32_t value;
+  s32 value;
   uint8_t i;
   uint8_t id = telemetryRxBuffer[2];
 
@@ -204,6 +592,35 @@ static void processCrossfireTelemetryFrame()
   }
 }
 
+static void processElrsParamsData()
+{
+  if (telemetryRxBuffer[2] == TYPE_SETTINGS_WRITE && telemetryRxBuffer[3] == ADDR_RADIO && telemetryRxBuffer[4] == ADDR_MODULE && telemetryRxBuffer[5] == 0xFF) {
+    if (telemetryRxBuffer[6] == 0x01) {
+      currentBind = 1;
+    } else {
+      currentBind = 0;
+    }
+
+    if (telemetryRxBuffer[6] == 0x02) {
+      currentWiFi = 1;
+    } else {
+      currentWiFi = 0;
+    }
+
+    currentPktRate = convertElrsToPktRate(telemetryRxBuffer[10], telemetryRxBuffer[7]);
+    currentTlmRatio = telemetryRxBuffer[8];
+    currentPower = telemetryRxBuffer[9];
+    Model.proto_opts[PROTO_OPTS_BIND] = currentBind;
+    Model.proto_opts[PROTO_OPTS_WIFI_UPDATE] = currentWiFi;
+    Model.proto_opts[PROTO_OPTS_PKT_RATE] = currentPktRate;
+    Model.proto_opts[PROTO_OPTS_TLM_RATIO] = currentTlmRatio;
+    Model.proto_opts[PROTO_OPTS_POWER] = currentPower;
+    Model.proto_opts[PROTO_OPTS_RF_FREQ] = telemetryRxBuffer[10];
+    Model.proto_opts[PROTO_OPTS_BAD_PKTS] = telemetryRxBuffer[11];
+    Model.proto_opts[PROTO_OPTS_GOOD_PKTS] = telemetryRxBuffer[12] * 256 + telemetryRxBuffer[13];
+  }
+}
+
 // serial data receive ISR callback
 static void processCrossfireTelemetryData(uint8_t data, uint8_t status) {
   (void)status;
@@ -212,12 +629,12 @@ static void processCrossfireTelemetryData(uint8_t data, uint8_t status) {
     return;
   }
 
-  if (telemetryRxBufferCount == 1 && (data < 2 || data > TELEMETRY_RX_PACKET_SIZE-2)) {
+  if (telemetryRxBufferCount == 1 && (data < 2 || data > TELEMETRY_RX_packet_p2M_SIZE-2)) {
     telemetryRxBufferCount = 0;
     return;
   }
 
-  if (telemetryRxBufferCount < TELEMETRY_RX_PACKET_SIZE) {
+  if (telemetryRxBufferCount < TELEMETRY_RX_packet_p2M_SIZE) {
     telemetryRxBuffer[telemetryRxBufferCount++] = data;
   } else {
     telemetryRxBufferCount = 0;
@@ -228,84 +645,55 @@ static void processCrossfireTelemetryData(uint8_t data, uint8_t status) {
     if (checkCrossfireTelemetryFrameCRC()) {
       if (telemetryRxBuffer[2] < TYPE_PING_DEVICES) {
         processCrossfireTelemetryFrame();     // Broadcast frame
-//#if SUPPORT_CRSF_CONFIG
-//      } else {
-//        CRSF_serial_rcv(telemetryRxBuffer+2, telemetryRxBuffer[1]-1);  // Extended frame
-//#endif
+#if SUPPORT_CRSF_CONFIG
+      } else if (telemetryRxBuffer[2] == TYPE_SETTINGS_WRITE && getParamsCounter >= 100) {
+        getParamsCounter = 0;
+        processElrsParamsData();
+      } else {
+        CRSF_serial_rcv(telemetryRxBuffer+2, telemetryRxBuffer[1]-1);  // Extended frame
+#endif
       }
     }
     telemetryRxBufferCount = 0;
   }
 }
-*/
-#endif  //defined(FRSKY)// HAS_EXTENDED_TELEMETRY
+#endif  // HAS_EXTENDED_TELEMETRY
 
-static uint8_t packetCRSF[CRSF_PACKET_SIZE];
-uint8_t crsfTxBufferCount = 25;
 
-/* from CRSF document
-Center (1500us) = 992
-TICKS_TO_US(x) ((x - 992) * 5 / 8 + 1500)
-US_TO_TICKS(x) ((x - 1500) * 8 / 5 + 992)
-*/
-//#define STICK_SCALE    869  // full scale at +-125
-#define STICK_SCALE    800  // +/-100 gives 2000/1000 us
-static uint8_t build_rcdata_pkt()
+
+static uint8_t setElrsOptions()
 {
-    int i;
-	uint16_t channelsCRSF[CRSF_CHANNELS];
-
-    for (i=0; i < CRSF_CHANNELS; i++) {
-        if (i < CRSF_CHANNELS)//if (i < Model.num_channels)
-            channelsCRSF[i] = (uint16_t)(FULL_CHANNEL_OUTPUTS(i) * STICK_SCALE / CHAN_MAX_VALUE + 992);
-        else
-            channelsCRSF[i] = 992;  // midpoint
-    }
-
-    packetCRSF[0] = ADDR_MODULE;
-    packetCRSF[1] = 24;   // length of type + payload + crc
-    packetCRSF[2] = TYPE_CHANNELS;
-
-    packetCRSF[3]  = (uint8_t) ((channelsCRSF[0] & 0x07FF));
-    packetCRSF[4]  = (uint8_t) ((channelsCRSF[0] & 0x07FF)>>8   | (channelsCRSF[1] & 0x07FF)<<3);
-    packetCRSF[5]  = (uint8_t) ((channelsCRSF[1] & 0x07FF)>>5   | (channelsCRSF[2] & 0x07FF)<<6);
-    packetCRSF[6]  = (uint8_t) ((channelsCRSF[2] & 0x07FF)>>2);
-    packetCRSF[7]  = (uint8_t) ((channelsCRSF[2] & 0x07FF)>>10  | (channelsCRSF[3] & 0x07FF)<<1);
-    packetCRSF[8]  = (uint8_t) ((channelsCRSF[3] & 0x07FF)>>7   | (channelsCRSF[4] & 0x07FF)<<4);
-    packetCRSF[9]  = (uint8_t) ((channelsCRSF[4] & 0x07FF)>>4   | (channelsCRSF[5] & 0x07FF)<<7);
-    packetCRSF[10] = (uint8_t) ((channelsCRSF[5] & 0x07FF)>>1);
-    packetCRSF[11] = (uint8_t) ((channelsCRSF[5] & 0x07FF)>>9   | (channelsCRSF[6] & 0x07FF)<<2);
-    packetCRSF[12] = (uint8_t) ((channelsCRSF[6] & 0x07FF)>>6   | (channelsCRSF[7] & 0x07FF)<<5);
-    packetCRSF[13] = (uint8_t) ((channelsCRSF[7] & 0x07FF)>>3);
-    packetCRSF[14] = (uint8_t) ((channelsCRSF[8] & 0x07FF));
-    packetCRSF[15] = (uint8_t) ((channelsCRSF[8] & 0x07FF)>>8   | (channelsCRSF[9] & 0x07FF)<<3);
-    packetCRSF[16] = (uint8_t) ((channelsCRSF[9] & 0x07FF)>>5   | (channelsCRSF[10] & 0x07FF)<<6);
-    packetCRSF[17] = (uint8_t) ((channelsCRSF[10] & 0x07FF)>>2);
-    packetCRSF[18] = (uint8_t) ((channelsCRSF[10] & 0x07FF)>>10 | (channelsCRSF[11] & 0x07FF)<<1);
-    packetCRSF[19] = (uint8_t) ((channelsCRSF[11] & 0x07FF)>>7  | (channelsCRSF[12] & 0x07FF)<<4);
-    packetCRSF[20] = (uint8_t) ((channelsCRSF[12] & 0x07FF)>>4  | (channelsCRSF[13] & 0x07FF)<<7);
-    packetCRSF[21] = (uint8_t) ((channelsCRSF[13] & 0x07FF)>>1);
-    packetCRSF[22] = (uint8_t) ((channelsCRSF[13] & 0x07FF)>>9  | (channelsCRSF[14] & 0x07FF)<<2);
-    packetCRSF[23] = (uint8_t) ((channelsCRSF[14] & 0x07FF)>>6  | (channelsCRSF[15] & 0x07FF)<<5);
-    packetCRSF[24] = (uint8_t) ((channelsCRSF[15] & 0x07FF)>>3);
-
-    packetCRSF[25] = crsf_crc8(&packetCRSF[2], CRSF_PACKET_SIZE-3);
-
-    for ( i = 0; i < 25; i++) {
-      uint16_t pulse = packetCRSF[i];//limit(0, ((FULL_CHANNEL_OUTPUTS(i)*13)>>5)+512,1023);
-      Usart0TxBuffer[--crsfTxBufferCount] = (i<<2) | ((pulse>>8)&0x03); // Encoded channel + upper 2 bits pulse width.
-      Usart0TxBuffer[--crsfTxBufferCount] = pulse & 0xff; // Low byte
-    }
-    Usart0TxBufferCount = 25; // Indicates data to transmit.
-
-    return CRSF_PACKET_SIZE;
+  if (Model.proto_opts[PROTO_OPTS_BIND] == 1 && currentBind == 0) {
+    currentBind = Model.proto_opts[PROTO_OPTS_BIND];
+    getParamsCounter = 0;
+    return buildElrspacket(ELRS_BIND_COMMAND, 0x01);
+  }
+  if (Model.proto_opts[PROTO_OPTS_WIFI_UPDATE] == 1 && currentWiFi == 0) {
+    currentWiFi = Model.proto_opts[PROTO_OPTS_WIFI_UPDATE];
+    getParamsCounter = 0;
+    return buildElrspacket(ELRS_WIFI_COMMAND, 0x01);
+  }
+  if (Model.proto_opts[PROTO_OPTS_PKT_RATE] != currentPktRate) {
+    currentPktRate = Model.proto_opts[PROTO_OPTS_PKT_RATE];
+    getParamsCounter = 0;
+    return buildElrspacket(ELRS_PKT_RATE_COMMAND, convertPktRateToElrs(Model.proto_opts[PROTO_OPTS_RF_FREQ], Model.proto_opts[PROTO_OPTS_PKT_RATE]));
+  }
+  if (Model.proto_opts[PROTO_OPTS_TLM_RATIO] != currentTlmRatio) {
+    currentTlmRatio = Model.proto_opts[PROTO_OPTS_TLM_RATIO];
+    getParamsCounter = 0;
+    return buildElrspacket(ELRS_TLM_RATIO_COMMAND, Model.proto_opts[PROTO_OPTS_TLM_RATIO]);
+  }
+  if (Model.proto_opts[PROTO_OPTS_POWER] != currentPower) {
+    currentPower = Model.proto_opts[PROTO_OPTS_POWER];
+    getParamsCounter = 0;
+    return buildElrspacket(ELRS_POWER_COMMAND, Model.proto_opts[PROTO_OPTS_POWER]);
+  }
+  return 0;
 }
 
-/*
 #ifdef EMULATOR
 static const uint8_t rxframes[][64];
 #endif //EMULATOR
-*/
 
 static enum {
     ST_DATA1,
@@ -313,175 +701,95 @@ static enum {
 } state;
 
 static uint16_t mixer_runtime;
-static uint16_t CRSF_SERIAL_cb()
+static uint16_t serial_cb()
 {
     uint8_t length;
 
+    getParamsCounter++;
+
     switch (state) {
     case ST_DATA1:
-        //CLOCK_RunMixer();    // clears mixer_sync, which is then set when mixer update complete
+        CLOCK_RunMixer();    // clears mixer_sync, which is then set when mixer update complete
         state = ST_DATA2;
         return mixer_runtime;
 
     case ST_DATA2:
-//        if (mixer_sync != MIX_DONE && mixer_runtime < 2000) mixer_runtime += 50;
-//#if defined(SUPPORT_CRSF_CONFIG)
-//        length = CRSF_serial_txd(packetCRSF, sizeof packetCRSF);
-//        if (length == 0) {
-//            length = build_rcdata_pkt();
-//        }
-//#else
+        if (mixer_sync != MIX_DONE && mixer_runtime < 2000) mixer_runtime += 50;
+#if SUPPORT_CRSF_CONFIG
+        if (Model.proto_opts[PROTO_OPTS_RF_FREQ] == 0) {
+            length = CRSF_serial_txd(packet_p2M, CRSF_PACKET_SIZE);
+        } else {
+            length = setElrsOptions();
+        }
+        if (length == 0) {
+            length = build_rcdata_pkt();
+        }
+#else
         length = build_rcdata_pkt();
-//#endif
-        //UART_Send(packetCRSF, length);
-#if !defined(SIMU)
-        USART_TRANSMIT_BUFFER(CRSF_USART);
 #endif
-
+        UART_Send(packet_p2M, length);
         state = ST_DATA1;
 
-        return CRSF_FRAME_PERIOD - mixer_runtime;
+        return convertPktRateToPeriod(Model.proto_opts[PROTO_OPTS_RF_FREQ], currentPktRate) - mixer_runtime;
     }
 
     return CRSF_FRAME_PERIOD;   // avoid compiler warning
 }
 
-
-/*
-static uint16_t CRSF_cb()
+static void initialize()
 {
-  // Schedule next Mixer calculations.
-  SCHEDULE_MIXER_END_IN_US(22000);
-
-  Usart0TxBufferCount = 0;
-
-  uint8_t dsmTxBufferCount = 14;
-
-  uint8_t dsm_header;
-
-  if(g_model.rfSubType == Sub_LP45)
-    dsm_header = 0x00;
-  else if(g_model.rfSubType == Sub_DSM2)
-    dsm_header = 0x10;
-  else dsm_header = 0x10 | DSMX_BIT; // PROTO_DSM2_DSMX
-
-  if(dsmBind)
-    dsm_header |= DSM2_SEND_BIND;
-  else if(dsmRange)
-    dsm_header |= DSM2_SEND_RANGECHECK;
-
-  Usart0TxBuffer[--dsmTxBufferCount] = dsm_header;
-
-  Usart0TxBuffer[--dsmTxBufferCount] = g_model.modelId; // DSM2 Header. Second byte for model match.
-
-#if defined(X_ANY)
-  Xany_scheduleTx_AllInstance();
+    CLOCK_StopTimer();
+    if (PPMin_Mode())
+    {
+        return;
+    }
+#if HAS_EXTENDED_AUDIO
+#if HAS_AUDIO_UART
+    if (!Transmitter.audio_uart)
 #endif
-
-  for (uint8_t i = 0; i < DSM2_CHANS; i++) {
-    uint16_t pulse = limit(0, ((FULL_CHANNEL_OUTPUTS(i)*13)>>5)+512,1023);
-    Usart0TxBuffer[--dsmTxBufferCount] = (i<<2) | ((pulse>>8)&0x03); // Encoded channel + upper 2 bits pulse width.
-    Usart0TxBuffer[--dsmTxBufferCount] = pulse & 0xff; // Low byte
-  }
-  Usart0TxBufferCount = 14; // Indicates data to transmit.
-
-#if !defined(SIMU)
-  USART_TRANSMIT_BUFFER(DSM_USART);
+    Transmitter.audio_player = AUDIO_DISABLED; // disable voice commands on serial port
 #endif
+    UART_Initialize();
+    UART_SetDataRate(CRSF_DATARATE);
+    UART_SetDuplex(UART_DUPLEX_HALF);
+#if HAS_EXTENDED_TELEMETRY
+    UART_StartReceive(processCrossfireTelemetryData);
+#endif
+    state = ST_DATA1;
+    mixer_runtime = 50;
 
-  heartbeat |= HEART_TIMER_PULSES;
-  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-  return 22000U *2; // 22 mSec Frame.
+    CLOCK_StartTimer(1000, serial_cb);
+}
+
+uintptr_t CRSF_Cmds(enum ProtoCmds cmd)
+{
+    switch(cmd) {
+        case PROTOCMD_INIT:  initialize(); return 0;
+        case PROTOCMD_DEINIT: UART_Stop(); UART_Initialize(); return 0;
+        case PROTOCMD_CHECK_AUTOBIND: return 1;
+        case PROTOCMD_BIND:  initialize(); return 0;
+        case PROTOCMD_NUMCHAN: return 16;
+        case PROTOCMD_DEFAULT_NUMCHAN: return 8;
+        case PROTOCMD_CHANNELMAP: return UNCHG;
+#if SUPPORT_CRSF_CONFIG
+        case PROTOCMD_OPTIONSPAGE:
+            if (Model.proto_opts[PROTO_OPTS_RF_FREQ] == 0) return PAGEID_CRSFCFG;
+            break;
+        case PROTOCMD_GETOPTIONS:
+            if (Model.proto_opts[PROTO_OPTS_RF_FREQ] == 6)
+              return (uintptr_t)expresslrs_opts_24;
+            else if (Model.proto_opts[PROTO_OPTS_RF_FREQ] > 0)
+              return (uintptr_t)expresslrs_opts_900;
+            break;
+#endif  // SUPPORT_CRSF_CONFIG
+#if HAS_EXTENDED_TELEMETRY
+        case PROTOCMD_TELEMETRYSTATE:
+            return PROTO_TELEM_ON;
+        case PROTOCMD_TELEMETRYTYPE:
+            return TELEM_CRSF;
+#endif
+        default: break;
+    }
+    return 0;
 }
 */
-
-const pm_char STR_400K[] PROGMEM = "400k";
-const pm_char STR_115K[] PROGMEM = "115k";
-static void CRSF_init()
-{
-	// 400K 8N1
-	//UART_Initialize();
-	//UART_SetDataRate(CRSF_DATARATE);
-	//UART_SetDuplex(UART_DUPLEX_HALF);
-	switch (g_model.rfSubType)
-	{
-    case 400:USART_SET_BAUD_400K(CRSF_USART);displayPopup(STR_400K);
-    case 115:USART_SET_BAUD_115K2(CRSF_USART);displayPopup(STR_115K);
-    default:USART_SET_BAUD_400K(CRSF_USART);
-	}
-	//USART_SET_BAUD_400K(CRSF_USART);
-  USART_SET_MODE_8N1(CRSF_USART);
-  USART_ENABLE_TX(CRSF_USART);
-	Usart0TxBufferCount = 0;
-
-#if defined(FRSKY)//HAS_EXTENDED_TELEMETRY
-  if (XTELEMETRY) // telemetry on?
-    {
-      //UART_StartReceive(processCrossfireTelemetryData);
-      USART_ENABLE_RX(CRSF_USART);
-      //frskyX_check_telemetry(packet_p2M, len);
-    }
-#endif
-  state = ST_DATA1;
-}
-
-static uint16_t CRSF_bind_cb()
-{
-  SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
-  CRSF_SERIAL_cb();//build_rcdata_pkt();//CRSF_send_bind_packet();
-  heartbeat |= HEART_TIMER_PULSES;
-  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-  return 18000U *2;
-}
-
-static uint16_t CRSF_cb()
-{
-  SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations.
-  CRSF_SERIAL_cb();//build_rcdata_pkt();//CRSF_send_data_packet();
-  heartbeat |= HEART_TIMER_PULSES;
-  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-  return 12000U *2;
-}
-
-
-static void CRSF_initialize(uint8_t bind)
-{
-
-  CRSF_init();
-  if (bind) {
-  PROTO_Start_Callback( CRSF_bind_cb);
-  } else {
-  PROTO_Start_Callback( CRSF_cb);
-  }
-}
-
-const void *CRSF_Cmds(enum ProtoCmds cmd)
-{
-  switch(cmd) {
-  case PROTOCMD_INIT:
-    CRSF_initialize(0);
-    return 0;
-  case PROTOCMD_RESET:
-    PROTO_Stop_Callback();
-    CRSF_Reset();
-    return 0;
-  case PROTOCMD_BIND:
-    CRSF_initialize(1);
-    return 0;
-  case PROTOCMD_GETOPTIONS:
-          SetRfOptionSettings(pgm_get_far_address(RfOpt_CRSF_Ser),
-                        STR_CRSF_SPEEDS,      //Sub proto
-                        STR_DUMMY,      //Option 1 (int)
-                        STR_DUMMY,      //Option 2 (int)
-                        STR_RFPOWER,      //Option 3 (uint 0 to 31)
-                        STR_TELEMETRY,  //OptionBool 1
-                        STR_DUMMY,      //OptionBool 2
-                        STR_DUMMY       //OptionBool 3
-                        );
-    return 0;
-  default:
-    break;
-  }
-  return 0;
-}
-

@@ -199,7 +199,7 @@ static void HITEC_build_packet()
      break;
     }
    if(g_model.rfSubType==HITEC_MINIMA)
-    packet_p2M[4] = bind_idx_p2M+0x10;
+    packet_p2M[4] = bind_idx_p2M + 0x10;
    else
     packet_p2M[4] = bind_idx_p2M;	// Optima: increments based on RX answer
    packet_p2M[19] = 0x08;		// packet sequence
@@ -251,16 +251,16 @@ static void HITEC_send_packet()
  if(HITEC_BIND)
   {
    packet_p2M[19] >>= 1;	// packet sequence
-   if( (packet_p2M[4] & 0xFE) == 0x82 )
+   if((packet_p2M[4] & 0xFE) == 0x82)
     {
      // Minima
      packet_p2M[4] ^= 1;					// alternate 0x82 and 0x83
-     if( packet_p2M[4] & 0x01 )
+     if(packet_p2M[4] & 0x01)
       for(uint8_t i=0; i<7; i++)	// 0x83
-       packet_p2M[5+i]=channel_used_p2M[i+14]>>1;
+       packet_p2M[5+i] = channel_used_p2M[i+14]>>1;
      else
       for(uint8_t i=0; i<14; i++)	// 0x82
-       packet_p2M[5+i]=channel_used_p2M[i]>>1;
+       packet_p2M[5+i] = channel_used_p2M[i]>>1;
     }
   }
  else

@@ -139,7 +139,7 @@ VARIO = YES
 RTCLOCK = YES
 
 # Serial protocol
-# Values = NO, DSM, MULTIMODULE
+# Values = NO, DSM, MULTIMODULE, CRSF, SBUS
 SERIAL_PROTOCOL = NO
 
 # TRANSLATIONS
@@ -249,6 +249,10 @@ A7105 = NO
 # Values = 20,22
 A7105PAG = 20
 
+# Enable SX1276 SPI protocols
+# Values = NO, YES
+SX1276 = NO
+
 # Enable X-ANY feature
 # Values = NO, 1, 2, 3 ,4
 X_ANY = NO
@@ -284,7 +288,7 @@ FONT2PNG = -python ../util/font2png.py
 TRANSLATE = -python ../util/translate.py
 
 VERSION_MAJOR = 3
-VERSION_MINOR = 1
+VERSION_MINOR = 0
 VERSION_REVISION = 0
 
 VERSION = $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_REVISION)$(OpenAVRc_VERSION_SUFFIX)
@@ -442,6 +446,10 @@ ifeq ($(PCB), MEGAMINI)
   	ifeq ($(A7105), YES)
    		CPPDEFS += -DPROTO_HAS_A7105
  	  	CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
+  	endif
+
+  	ifeq ($(SX1276), YES)
+   		CPPDEFS += -DPROTO_HAS_SX1276
   	endif
   endif
 
@@ -1038,6 +1046,9 @@ endif
 
 CPPDEFS += -DDSM=1
 CPPDEFS += -DMULTIMODULE=2
+CPPDEFS += -DCRSF=3
+CPPDEFS += -DSBUS=4
+CPPDEFS += -DSUMD=5
 ifneq ($(SERIAL_PROTOCOL), NO)
   CPPDEFS += -DSERIAL_PROTOCOL=$(SERIAL_PROTOCOL)
 endif
