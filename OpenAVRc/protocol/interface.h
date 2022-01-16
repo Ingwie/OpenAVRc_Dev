@@ -55,6 +55,10 @@
 #include "MULTI_SERIAL.c"
 #elif (SERIAL_PROTOCOL==CRSF)
 #include "CRSF_SERIAL.c"
+#elif (SERIAL_PROTOCOL==SBUS)
+#include "SBUS_SERIAL.c"
+#elif (SERIAL_PROTOCOL==SUMD)
+#include "SUMD_SERIAL.c"
 #endif
 
 #if defined(SPIMODULES)

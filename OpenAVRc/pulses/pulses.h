@@ -52,9 +52,25 @@
   #define IS_MULTIMODULE_PROTOCOL(protocol)  (0)
 #endif
 
+#if (SERIAL_PROTOCOL==SBUS)
+  #define IS_SBUS_PROTOCOL(protocol)  (protocol==PROTOCOL_SBUS)
+#else
+  #define IS_SBUS_PROTOCOL(protocol)  (0)
+#endif
+
+#if (SERIAL_PROTOCOL==SUMD)
+  #define IS_SUMD_PROTOCOL(protocol)  (protocol==PROTOCOL_SUMD)
+#else
+  #define IS_SUMD_PROTOCOL(protocol)  (0)
+#endif
+
 #if defined(SPIMODULES)
   #if (SERIAL_PROTOCOL==MULTIMODULE)
     #define LASTPROTOMENU1 PROTOCOL_MULTI+1
+  #elif (SERIAL_PROTOCOL==SBUS)
+    #define LASTPROTOMENU1 PROTOCOL_SBUS+1
+  #elif (SERIAL_PROTOCOL==SUMD)
+    #define LASTPROTOMENU1 PROTOCOL_SUMD+1
   #else
     #if (SERIAL_PROTOCOL==DSM)
       #define LASTPROTOMENU1 PROTOCOL_DSM_SERIAL+1

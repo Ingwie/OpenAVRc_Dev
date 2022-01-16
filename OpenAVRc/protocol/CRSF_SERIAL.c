@@ -83,7 +83,7 @@
 #define CRSF_STRING_BYTES_AVAIL(current)  (CRSF_MAX_STRING_BYTES-((char *)(current)-mp->strings))
 
 
-enum data_type
+/*enum data_type
 {
  UINT8          = 0,
  INT8           = 1,
@@ -96,7 +96,7 @@ enum data_type
  INFO           = 12,
  COMMAND        = 13,
  OUT_OF_RANGE   = 127,
-};
+};*/
 
 enum cmd_status
 {
@@ -126,7 +126,7 @@ typedef struct
  uint8_t device;            // device index of device parameter belongs to
  uint8_t id;                // Parameter number (starting from 1)
  uint8_t parent;            // Parent folder parameter number of the parent folder, 0 means root
- enum data_type type;  // (Parameter type definitions and hidden bit)
+ //enum data_type type;  // (Parameter type definitions and hidden bit)
  uint8_t hidden;            // set if hidden
  char *name;           // Null-terminated string
  void *value;          // size depending on data type
@@ -179,7 +179,7 @@ void CRSF_send_command(crsf_param_t *param, enum cmd_status status);
 
 const static RfOptionSettingsvar_t RfOpt_CRSF_Ser[] PROGMEM =
 {
- /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+ /*rfProtoNeed*/0, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
  /*rfSubTypeMax*/0,
  /*rfOptionValue1Min*/-128,
  /*rfOptionValue1Max*/127,

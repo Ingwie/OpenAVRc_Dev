@@ -37,7 +37,7 @@ uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][TELEM_RX_PACKET_SIZE];
 
 uint8_t Usart0TxBufferCount = 0;
 
-#if defined(FRSKY) || defined(MULTI)
+#if defined(FRSKY) || defined(MULTIPROTOCOL) || defined(CRSF) || defined(SBUS) || defined(SUMD)
 
 ISR(USART_RX_vect_N(TLM_USART0))
 {
