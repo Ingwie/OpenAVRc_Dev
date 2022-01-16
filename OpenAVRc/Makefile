@@ -249,10 +249,6 @@ A7105 = NO
 # Values = 20,22
 A7105PAG = 20
 
-# Enable SX1276 SPI protocols
-# Values = NO, YES
-SX1276 = NO
-
 # Enable X-ANY feature
 # Values = NO, 1, 2, 3 ,4
 X_ANY = NO
@@ -448,9 +444,6 @@ ifeq ($(PCB), MEGAMINI)
  	  	CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
   	endif
 
-  	ifeq ($(SX1276), YES)
-   		CPPDEFS += -DPROTO_HAS_SX1276
-  	endif
   endif
 
 	ifneq ($(X_ANY), NO)
