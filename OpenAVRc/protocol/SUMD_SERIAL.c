@@ -39,7 +39,7 @@
 const pm_char STR_SUMD_PROTOCOLS[] PROGMEM = " 6""14";
 
 const static RfOptionSettingsvar_t RfOpt_Sumd_Ser[] PROGMEM = {
-  /*rfProtoNeed*/BOOL1USED | BOOL2USED,
+  /*rfProtoNeed*/0,
   /*rfSubTypeMax*/1,
   /*rfOptionValue1Min*/0,
   /*rfOptionValue1Max*/0,
@@ -62,7 +62,7 @@ static void SUMD_Reset()
 
 
 #define CRC_POLYNOME 0x1021
-static uint16_t crc16(uint16_t crc, uint8_t value) {
+static uint16_t crc16(uint16_t crc, uint8_t value) { // Todo : duplicated code
     uint8_t i;
 
     crc = crc ^ (int16_t)value << 8;
@@ -91,7 +91,7 @@ static void build_rcdata_pkt()
 {
     uint16_t chanval;
     uint16_t crc_val = 0;
-    int j = 0;
+    uint8_t j = 0;
     uint16_t channelsSumd[SUMD_MAX_CHANNELS];
     uint8_t sumdTxBufferCount = SUMD_MAX_SUMD_SIZE;
 
@@ -111,8 +111,8 @@ static void build_rcdata_pkt()
 
     for (uint8_t i = 0; i < SUMD_MAX_CHANNELS; i++) {
       uint16_t pulse = packet_p2M[i];//limit(0, ((FULL_CHANNEL_OUTPUTS(i)*13)>>5)+512,1023);
-      Usart0TxBuffer[--sumdTxBufferCount] = (i<<2) | ((pulse>>8)&0x03); // Encoded channel + upper 2 bits pulse width.
-      Usart0TxBuffer[--sumdTxBufferCount] = pulse & 0xff; // Low byte
+      Usart0TxBuffer_p2M[--sumdTxBufferCount] = (i<<2) | ((pulse>>8)&0x03); // Encoded channel + upper 2 bits pulse width.
+      Usart0TxBuffer_p2M[--sumdTxBufferCount] = pulse & 0xff; // Low byte
     }
     Usart0TxBufferCount = SUMD_MAX_SUMD_SIZE; // Indicates data to transmit.
 
@@ -127,10 +127,10 @@ static enum {
     ST_DATA2,
 } state;
 
-static uint16_t mixer_runtime;
-static uint16_t sumd_period;
+#define SUMD_PERIOD      bind_counter_p2M
+
 static uint16_t SUMD_SERIAL_cb() {
-    sumd_period = (g_model.rfSubType == 0)?6000:14000;
+    SUMD_PERIOD = (g_model.rfSubType == 0)?6000:14000;
 
     switch (state) {
     case ST_DATA1:
@@ -138,14 +138,14 @@ static uint16_t SUMD_SERIAL_cb() {
 
     case ST_DATA2:
         // Schedule next Mixer calculations.
-        SCHEDULE_MIXER_END_IN_US(sumd_period);
+        SCHEDULE_MIXER_END_IN_US(SUMD_PERIOD);
         build_rcdata_pkt();
         state = ST_DATA1;
         heartbeat |= HEART_TIMER_PULSES;
         CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-        return sumd_period *2; // 6 or 14 mSec Frame.
+        return SUMD_PERIOD *2; // 6 or 14 mSec Frame.
     }
-    return sumd_period;   // avoid compiler warning
+    return SUMD_PERIOD;   // avoid compiler warning
 }
 
 static void SUMD_initialize()
@@ -156,8 +156,8 @@ static void SUMD_initialize()
   USART_ENABLE_TX(SUMD_USART);
   Usart0TxBufferCount = 0;
   state = ST_DATA1;
-  //sumd_period = Model.proto_opts[PROTO_OPTS_PERIOD] ? (Model.proto_opts[PROTO_OPTS_PERIOD] * 1000) : SUMD_FRAME_PERIOD_STD;
-  sumd_period = g_model.rfSubType?g_model.rfSubType:SUMD_FRAME_PERIOD_STD;
+  //SUMD_PERIOD = Model.proto_opts[PROTO_OPTS_PERIOD] ? (Model.proto_opts[PROTO_OPTS_PERIOD] * 1000) : SUMD_FRAME_PERIOD_STD;
+  SUMD_PERIOD = g_model.rfSubType?g_model.rfSubType:SUMD_FRAME_PERIOD_STD;
   PROTO_Start_Callback( SUMD_SERIAL_cb);
 }
 

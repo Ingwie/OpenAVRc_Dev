@@ -39,12 +39,10 @@
 #define CHAN_MULTIPLIER 100
 #define CHAN_MAX_VALUE (100 * CHAN_MULTIPLIER)
 
-#define SBUSBIND    rf_power_p2M
-
 const pm_char STR_SUBTYPE_SBUS[] PROGMEM = " 6""14";
 
 const static RfOptionSettingsvar_t RfOpt_Sbus_Ser[] PROGMEM = {
-  /*rfProtoNeed*/ BOOL1USED | BOOL2USED,//can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+  /*rfProtoNeed*/ 0,//can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/1,//2 subtypes, 6 et 14
   /*rfOptionValue1Min*/0,
   /*rfOptionValue1Max*/0,
@@ -59,20 +57,17 @@ static void SBUS_Reset()
   USART_DISABLE_RX(SBUS_USART);
 }
 
-//#define SBUS_DATARATE             100000
 #define SBUS_FRAME_PERIOD_MAX     14000   // 14ms
 #define SBUS_CHANNELS             16
 #define SBUS_PACKET_SIZE          25
 
-static uint8_t packetSbus[SBUS_PACKET_SIZE];
-//static uint16_t mixer_runtime;
-static uint16_t sbus_period;
+#define SBUS_PERIOD               bind_counter_p2M
 
 //#define STICK_SCALE    869  // full scale at +-125
 #define STICK_SCALE    800  // +/-100 gives 2000/1000 us
 static void build_rcdata_pkt()
 {
-  int i;
+  uint8_t i;
   uint16_t channelsSbus[SBUS_CHANNELS];
   uint8_t sbusTxBufferCount = 24;
 
@@ -83,39 +78,39 @@ static void build_rcdata_pkt()
             channelsSbus[i] = 992;  // midpoint
     }
 
-	packetSbus[0] = 0x0f;
+	packet_p2M[0] = 0x0f;
 
-  	packetSbus[1] = (uint8_t) ((channelsSbus[0] & 0x07FF));
-  	packetSbus[2] = (uint8_t) ((channelsSbus[0] & 0x07FF)>>8 | (channelsSbus[1] & 0x07FF)<<3);
-  	packetSbus[3] = (uint8_t) ((channelsSbus[1] & 0x07FF)>>5 | (channelsSbus[2] & 0x07FF)<<6);
-  	packetSbus[4] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>2);
-  	packetSbus[5] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>10 | (channelsSbus[3] & 0x07FF)<<1);
-  	packetSbus[6] = (uint8_t) ((channelsSbus[3] & 0x07FF)>>7 | (channelsSbus[4] & 0x07FF)<<4);
-  	packetSbus[7] = (uint8_t) ((channelsSbus[4] & 0x07FF)>>4 | (channelsSbus[5] & 0x07FF)<<7);
-  	packetSbus[8] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>1);
-  	packetSbus[9] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>9 | (channelsSbus[6] & 0x07FF)<<2);
-  	packetSbus[10] = (uint8_t) ((channelsSbus[6] & 0x07FF)>>6 | (channelsSbus[7] & 0x07FF)<<5);
-  	packetSbus[11] = (uint8_t) ((channelsSbus[7] & 0x07FF)>>3);
-  	packetSbus[12] = (uint8_t) ((channelsSbus[8] & 0x07FF));
-  	packetSbus[13] = (uint8_t) ((channelsSbus[8] & 0x07FF)>>8 | (channelsSbus[9] & 0x07FF)<<3);
-  	packetSbus[14] = (uint8_t) ((channelsSbus[9] & 0x07FF)>>5 | (channelsSbus[10] & 0x07FF)<<6);
-  	packetSbus[15] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>2);
-  	packetSbus[16] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>10 | (channelsSbus[11] & 0x07FF)<<1);
-  	packetSbus[17] = (uint8_t) ((channelsSbus[11] & 0x07FF)>>7 | (channelsSbus[12] & 0x07FF)<<4);
-  	packetSbus[18] = (uint8_t) ((channelsSbus[12] & 0x07FF)>>4 | (channelsSbus[13] & 0x07FF)<<7);
-  	packetSbus[19] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>1);
-  	packetSbus[20] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>9 | (channelsSbus[14] & 0x07FF)<<2);
-  	packetSbus[21] = (uint8_t) ((channelsSbus[14] & 0x07FF)>>6 | (channelsSbus[15] & 0x07FF)<<5);
-  	packetSbus[22] = (uint8_t) ((channelsSbus[15] & 0x07FF)>>3);
+  	packet_p2M[1] = (uint8_t) ((channelsSbus[0] & 0x07FF));
+  	packet_p2M[2] = (uint8_t) ((channelsSbus[0] & 0x07FF)>>8 | (channelsSbus[1] & 0x07FF)<<3);
+  	packet_p2M[3] = (uint8_t) ((channelsSbus[1] & 0x07FF)>>5 | (channelsSbus[2] & 0x07FF)<<6);
+  	packet_p2M[4] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>2);
+  	packet_p2M[5] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>10 | (channelsSbus[3] & 0x07FF)<<1);
+  	packet_p2M[6] = (uint8_t) ((channelsSbus[3] & 0x07FF)>>7 | (channelsSbus[4] & 0x07FF)<<4);
+  	packet_p2M[7] = (uint8_t) ((channelsSbus[4] & 0x07FF)>>4 | (channelsSbus[5] & 0x07FF)<<7);
+  	packet_p2M[8] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>1);
+  	packet_p2M[9] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>9 | (channelsSbus[6] & 0x07FF)<<2);
+  	packet_p2M[10] = (uint8_t) ((channelsSbus[6] & 0x07FF)>>6 | (channelsSbus[7] & 0x07FF)<<5);
+  	packet_p2M[11] = (uint8_t) ((channelsSbus[7] & 0x07FF)>>3);
+  	packet_p2M[12] = (uint8_t) ((channelsSbus[8] & 0x07FF));
+  	packet_p2M[13] = (uint8_t) ((channelsSbus[8] & 0x07FF)>>8 | (channelsSbus[9] & 0x07FF)<<3);
+  	packet_p2M[14] = (uint8_t) ((channelsSbus[9] & 0x07FF)>>5 | (channelsSbus[10] & 0x07FF)<<6);
+  	packet_p2M[15] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>2);
+  	packet_p2M[16] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>10 | (channelsSbus[11] & 0x07FF)<<1);
+  	packet_p2M[17] = (uint8_t) ((channelsSbus[11] & 0x07FF)>>7 | (channelsSbus[12] & 0x07FF)<<4);
+  	packet_p2M[18] = (uint8_t) ((channelsSbus[12] & 0x07FF)>>4 | (channelsSbus[13] & 0x07FF)<<7);
+  	packet_p2M[19] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>1);
+  	packet_p2M[20] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>9 | (channelsSbus[14] & 0x07FF)<<2);
+  	packet_p2M[21] = (uint8_t) ((channelsSbus[14] & 0x07FF)>>6 | (channelsSbus[15] & 0x07FF)<<5);
+  	packet_p2M[22] = (uint8_t) ((channelsSbus[15] & 0x07FF)>>3);
 
-	packetSbus[23] = 0x00; // flags
-	packetSbus[24] = 0x00;
+	packet_p2M[23] = 0x00; // flags
+	packet_p2M[24] = 0x00;
 
 
   for (i = 0; i < 24; i++) {
-    uint16_t pulse = packetSbus[i];//limit(0, ((FULL_CHANNEL_OUTPUTS(i)*13)>>5)+512,1023);
-    Usart0TxBuffer[--sbusTxBufferCount] = (i<<2) | ((pulse>>8)&0x03); // Encoded channel + upper 2 bits pulse width.
-    Usart0TxBuffer[--sbusTxBufferCount] = pulse & 0xff; // Low byte
+    uint16_t pulse = packet_p2M[i];//limit(0, ((FULL_CHANNEL_OUTPUTS(i)*13)>>5)+512,1023);
+    Usart0TxBuffer_p2M[--sbusTxBufferCount] = (i<<2) | ((pulse>>8)&0x03); // Encoded channel + upper 2 bits pulse width.
+    Usart0TxBuffer_p2M[--sbusTxBufferCount] = pulse & 0xff; // Low byte
   }
   Usart0TxBufferCount = 24; // Indicates data to transmit.
 
@@ -134,21 +129,21 @@ static enum {
 
 static uint16_t SBUS_SERIAL_cb()//serial_cb()
 {
-    sbus_period = (g_model.rfSubType == 0)?6000:14000;
+    SBUS_PERIOD = (g_model.rfSubType == 0)?6000U:14000U;
     switch (state)
     {
       case ST_DATA1:
           state = ST_DATA2;
       case ST_DATA2:
           // Schedule next Mixer calculations.
-          SCHEDULE_MIXER_END_IN_US(sbus_period);
+          SCHEDULE_MIXER_END_IN_US(SBUS_PERIOD);
           build_rcdata_pkt();
           state = ST_DATA1;
           heartbeat |= HEART_TIMER_PULSES;
           CALCULATE_LAT_JIT(); // Calculate latency and jitter.
-          return sbus_period *2; // 6 or 14 mSec Frame.
+          return SBUS_PERIOD *2; // 6 or 14 mSec Frame.
     }
-    return sbus_period;//avoid compiler warning
+    return SBUS_PERIOD;//avoid compiler warning
 }
 
 
