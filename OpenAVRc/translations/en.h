@@ -83,6 +83,9 @@
  #define TR_MULTIPROTOCOLS     "FlySky""Hubsan""FrSky\0""Hisky\0""V2x2\0 ""DSM\0  ""Devo\0 ""YD717\0""KN\0   ""SymaX\0""SLT\0  ""CX10\0 ""CG023\0""Bayang""ESky\0 ""MT99XX""MJXQ\0 ""Shenqi""FY326\0""SFHSS\0""J6 PRO""FQ777\0""Assan\0""Hontai""OLRS\0 ""FS 2A\0""Q2x2\0 ""Walk.\0""Q303\0 ""GW008\0""DM002\0"
  #define TR_MULTI_CUSTOM       "Custom"
 #endif
+#if ((SERIAL_PROTOCOL==SUMD) || (SERIAL_PROTOCOL==SBUS))
+#define TR_PERIOD                INDENT "Period"
+#endif
 #if (SERIAL_PROTOCOL==MULTIMODULE) || defined(SPIMODULES)
  #define TR_SUBTYPE            "SubType"
  #define TR_RFTUNEFINE         INDENT "Freq.fine"
@@ -468,7 +471,6 @@
 #define TR_RESET_BTN           "[Reset]"
 #define TR_SET                 "[Set]"
 #define TR_RESET               "Reset"
-#define TR_CONSTANT            "Constant"
 #define TR_FAS_OFFSET          INDENT "FAS Ofs"
 #if defined(X_ANY) || defined(BLUETOOTH)
  #define TR_X_ANY                        "X ANY"

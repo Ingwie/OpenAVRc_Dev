@@ -30,7 +30,7 @@
 					<Add option="-Os" />
 				</Compiler>
 				<Environment>
-					<Variable name="Banctestspimodules" value="SERIAL_PROTOCOL=MULTIMODULE LCD=KS108 XMODEM=YES DEBUGaa=UART_BT BLUETOOTH=YES SDCARD=YES LCDROT180=NO X_ANY=4 PWM_BACKLIGHT=NO EXT=FRSKY RTCLOCK=YES FONT=SQT5 EXTERNALEEPROM=YES NAVIGATION=STICKS OFFSET_ON_INPUT=YES BOLD=YES 3POS=POT3 VOICE=JQ6500 NOANDSECONDE=YES PCB=MEGAMINI TEMPLATES=YES HELI=YES GVARS=YES EEPROM_PROGRESS_BAR=YES DEFAULT_MODE=2 DBLKEYS=YES CURVES=YES AUTOSWITCH=YES AUTOSOURCE=NO HAPTIC=YES PPM_CENTER_ADJUSTABLE=YES PPM_LIMITS_SYMETRICAL=YES PPM_UNIT=PERCENT_PREC1 AUDIO=YES BATTGRAPH=YES HARDWARE_VOLUME=NO GPS=YES SPIMODULES=YES CC2500=YES CC2500PAG=22 CYRF6936=YES CYRF6936PAG=22 NRF24L01=YES NRF24L01PAG=22 A7105=YES A7105PAG=22 TRANSLATIONS=FR" />
+					<Variable name="Banctestspimodules" value="SERIAL_PROTOCOL=CRSF LCD=KS108 XMODEM=YES DEBUGaa=UART_BT BLUETOOTH=YES SDCARD=YES LCDROT180=NO X_ANY=4 PWM_BACKLIGHT=NO EXT=FRSKY RTCLOCK=YES FONT=SQT5 EXTERNALEEPROM=YES NAVIGATION=STICKS OFFSET_ON_INPUT=YES BOLD=YES 3POS=POT3 VOICE=JQ6500 NOANDSECONDE=YES PCB=MEGAMINI TEMPLATES=YES HELI=YES GVARS=YES EEPROM_PROGRESS_BAR=YES DEFAULT_MODE=2 DBLKEYS=YES CURVES=YES AUTOSWITCH=YES AUTOSOURCE=NO HAPTIC=YES PPM_CENTER_ADJUSTABLE=YES PPM_LIMITS_SYMETRICAL=YES PPM_UNIT=PERCENT_PREC1 AUDIO=YES BATTGRAPH=YES HARDWARE_VOLUME=NO GPS=YES SPIMODULES=YES CC2500=YES CC2500PAG=22 CYRF6936=YES CYRF6936PAG=22 NRF24L01=YES NRF24L01PAG=22 A7105=YES A7105PAG=22 TRANSLATIONS=FR" />
 					<Variable name="Mataf" value="PCB=MEGAMINI LCD=NT7538SPI" />
 				</Environment>
 				<MakeCommands>
@@ -63,7 +63,6 @@
 		<Unit filename="Serial0.h" />
 		<Unit filename="Serial1.cpp" />
 		<Unit filename="Serial1.h" />
-		<Unit filename="Stream.h" />
 		<Unit filename="Xany.cpp" />
 		<Unit filename="Xany.h" />
 		<Unit filename="adc_driver.cpp" />
@@ -150,6 +149,9 @@
 		<Unit filename="protocol/CORONA_cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="protocol/CRSF_SERIAL.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="protocol/DEVO_cyrf6936.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -157,6 +159,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="protocol/DSM_cyrf6936.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="protocol/E129_cyrf6936.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="protocol/ESKY_nrf24l01.c">
@@ -179,6 +184,9 @@
 		<Unit filename="protocol/HITEC_cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="protocol/HUBSAN_a7105.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="protocol/J6PRO_cyrf6936.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -191,10 +199,19 @@
 		<Unit filename="protocol/PROTO_xmega_PPM.cpp" />
 		<Unit filename="protocol/PROTO_xmega_PPM16.cpp" />
 		<Unit filename="protocol/PROTO_xmega_PPMSIM.cpp" />
+		<Unit filename="protocol/RF2500_EMU.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="protocol/SBUS_SERIAL.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="protocol/SKYARTEC_cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="protocol/STANEK_nrf24l01.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="protocol/SUMD_SERIAL.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="protocol/a7105.c">
@@ -210,6 +227,7 @@
 		<Unit filename="protocol/iface_cc2500.h" />
 		<Unit filename="protocol/iface_cyrf6936.h" />
 		<Unit filename="protocol/iface_nrf24l01.h" />
+		<Unit filename="protocol/iface_rf2500.h" />
 		<Unit filename="protocol/interface.h" />
 		<Unit filename="protocol/misc.c">
 			<Option compilerVar="CC" />
