@@ -103,7 +103,6 @@ private:
     void OnMenuItem16Selected(wxCommandEvent& event);
     void OnMenuItem14Selected(wxCommandEvent& event);
     void OnMenuBluetoothSelected(wxCommandEvent& event);
-    void OnButtonOpenXanyConfigClick(wxCommandEvent& event);
     //*)
     bool CheckIfSerialAvailable();
     void LoadConfig(wxString temp);

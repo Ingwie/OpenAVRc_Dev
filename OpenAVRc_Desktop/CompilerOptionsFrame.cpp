@@ -595,7 +595,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceSERIAL_PROTOCOL->Append("NO");
   ChoiceSERIAL_PROTOCOL->Append("DSM");
   ChoiceSERIAL_PROTOCOL->Append("MULTIMODULE");
-
+  ChoiceSERIAL_PROTOCOL->Append("CRSF");
+  ChoiceSERIAL_PROTOCOL->Append("SBUS");
+  ChoiceSERIAL_PROTOCOL->Append("SUMD");
 ///////////////////////// End of avoid compilation option translation ///////////////////
 
   ChoicePCB->SetStringSelection(PCB);

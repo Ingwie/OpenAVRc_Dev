@@ -84,7 +84,6 @@ private:
   void OnVoiceGridCellSelect(wxGridEvent& event);
   void OnButtonJouerClick(wxCommandEvent& event);
   void OnButtonGenererUnFichierClick(wxCommandEvent& event);
-  void OnVoiceGridCellLeftClick(wxGridEvent& event);
   //*)
   DECLARE_EVENT_TABLE()
 
