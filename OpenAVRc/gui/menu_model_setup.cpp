@@ -421,7 +421,7 @@ void menuModelSetup(uint8_t event)
 #if (SERIAL_PROTOCOL==SBUS)
        if (IS_SBUS_PROTOCOL(protocol))
         {
-         lcdDrawTextLeft(y, STR_PERIOD); // does not compile STR_PERIOD is what ????
+         lcdDrawTextLeft(y, STR_PERIOD);
          lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+2*g_model.rfSubType, 2, menuHorizontalPosition == 0 ? attr : 0);
          lcdDrawText(MODEL_SETUP_2ND_COLUMN+2*FW, y, STR_MS);
          if (attr && (editMode>0 || p1valdiff))

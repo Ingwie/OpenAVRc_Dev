@@ -396,6 +396,10 @@ const pm_char STR_RXNUM[] PROGMEM = TR_RXNUM;
 const pm_char STR_DSM_PROTOCOLS[] PROGMEM = TR_DSM_PROTOCOLS;
 #endif
 
+#if ((SERIAL_PROTOCOL==SUMD) || (SERIAL_PROTOCOL==SBUS))
+extern const pm_char STR_PERIOD[] PROGMEM = TR_PERIOD;
+#endif
+
 #if defined(X_ANY)
 const pm_char STR_X_ANY[] PROGMEM = TR_X_ANY;
 const pm_char STR_ACTIVED[] PROGMEM = INDENT TR_ACTIVED;

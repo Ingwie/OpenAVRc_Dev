@@ -518,6 +518,9 @@ extern const pm_char STR_RXNUM[];
 #if (SERIAL_PROTOCOL==DSM)
 extern const pm_char STR_DSM_PROTOCOLS[];
 #endif
+#if ((SERIAL_PROTOCOL==SUMD) || (SERIAL_PROTOCOL==SBUS))
+extern const pm_char STR_PERIOD[];
+#endif
 
 #define CHR_SHORT  TR_CHR_SHORT
 #define CHR_LONG   TR_CHR_LONG
