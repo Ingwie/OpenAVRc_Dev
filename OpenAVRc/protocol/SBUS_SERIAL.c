@@ -57,7 +57,6 @@ static void SBUS_Reset()
 
 #define SBUS_CHANNELS             16
 #define SBUS_PACKET_SIZE          25
-
 #define SBUS_PERIOD               bind_counter_p2M
 
 static void build_rcdata_pkt()
@@ -102,7 +101,7 @@ static void build_rcdata_pkt()
 	packet_p2M[(SBUS_PACKET_SIZE-1)-23] = 0x00; // flags
 	packet_p2M[(SBUS_PACKET_SIZE-1)-24] = 0x00;
 
-  Usart0TxBufferCount = (SBUS_PACKET_SIZE-1); // Indicates data to transmit.
+  Usart0TxBufferCount = SBUS_PACKET_SIZE; // Indicates data to transmit.
 
 #if !defined(SIMU)
   USART_TRANSMIT_BUFFER(SBUS_USART);
