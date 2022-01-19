@@ -69,33 +69,33 @@ static void build_SBUS_data_ptk()
    channelsSbus[i] = (int16_t) tempval + 992;
   }
 
-  Usart0TxBuffer_p2M[(--SbusTxBufferCount)-0] = 0x0f;
+  Usart0TxBuffer_p2M[--SbusTxBufferCount] = 0x0f;
 
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-1] = (uint8_t) ((channelsSbus[0] & 0x07FF));
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-2] = (uint8_t) ((channelsSbus[0] & 0x07FF)>>8 | (channelsSbus[1] & 0x07FF)<<3);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-3] = (uint8_t) ((channelsSbus[1] & 0x07FF)>>5 | (channelsSbus[2] & 0x07FF)<<6);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-4] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>2);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-5] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>10 | (channelsSbus[3] & 0x07FF)<<1);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-6] = (uint8_t) ((channelsSbus[3] & 0x07FF)>>7 | (channelsSbus[4] & 0x07FF)<<4);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-7] = (uint8_t) ((channelsSbus[4] & 0x07FF)>>4 | (channelsSbus[5] & 0x07FF)<<7);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-8] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>1);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-9] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>9 | (channelsSbus[6] & 0x07FF)<<2);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-10] = (uint8_t) ((channelsSbus[6] & 0x07FF)>>6 | (channelsSbus[7] & 0x07FF)<<5);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-11] = (uint8_t) ((channelsSbus[7] & 0x07FF)>>3);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-12] = (uint8_t) ((channelsSbus[8] & 0x07FF));
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-13] = (uint8_t) ((channelsSbus[8] & 0x07FF)>>8 | (channelsSbus[9] & 0x07FF)<<3);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-14] = (uint8_t) ((channelsSbus[9] & 0x07FF)>>5 | (channelsSbus[10] & 0x07FF)<<6);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-15] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>2);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-16] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>10 | (channelsSbus[11] & 0x07FF)<<1);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-17] = (uint8_t) ((channelsSbus[11] & 0x07FF)>>7 | (channelsSbus[12] & 0x07FF)<<4);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-18] = (uint8_t) ((channelsSbus[12] & 0x07FF)>>4 | (channelsSbus[13] & 0x07FF)<<7);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-19] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>1);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-20] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>9 | (channelsSbus[14] & 0x07FF)<<2);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-21] = (uint8_t) ((channelsSbus[14] & 0x07FF)>>6 | (channelsSbus[15] & 0x07FF)<<5);
- 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-22] = (uint8_t) ((channelsSbus[15] & 0x07FF)>>3);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[0] & 0x07FF));
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[0] & 0x07FF)>>8 | (channelsSbus[1] & 0x07FF)<<3);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[1] & 0x07FF)>>5 | (channelsSbus[2] & 0x07FF)<<6);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>2);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>10 | (channelsSbus[3] & 0x07FF)<<1);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[3] & 0x07FF)>>7 | (channelsSbus[4] & 0x07FF)<<4);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[4] & 0x07FF)>>4 | (channelsSbus[5] & 0x07FF)<<7);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>1);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>9 | (channelsSbus[6] & 0x07FF)<<2);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[6] & 0x07FF)>>6 | (channelsSbus[7] & 0x07FF)<<5);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[7] & 0x07FF)>>3);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[8] & 0x07FF));
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[8] & 0x07FF)>>8 | (channelsSbus[9] & 0x07FF)<<3);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[9] & 0x07FF)>>5 | (channelsSbus[10] & 0x07FF)<<6);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>2);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>10 | (channelsSbus[11] & 0x07FF)<<1);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[11] & 0x07FF)>>7 | (channelsSbus[12] & 0x07FF)<<4);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[12] & 0x07FF)>>4 | (channelsSbus[13] & 0x07FF)<<7);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>1);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>9 | (channelsSbus[14] & 0x07FF)<<2);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[14] & 0x07FF)>>6 | (channelsSbus[15] & 0x07FF)<<5);
+ 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[15] & 0x07FF)>>3);
 
-	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-23] = 0x00; // flags
-	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-24] = 0x00;
+	Usart0TxBuffer_p2M[--SbusTxBufferCount] = 0x00; // flags
+	Usart0TxBuffer_p2M[--SbusTxBufferCount] = 0x00;
 
 #if !defined(SIMU)
   USART_TRANSMIT_BUFFER(SBUS_USART);
