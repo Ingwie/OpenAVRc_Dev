@@ -33,10 +33,6 @@
 
 #include "../OpenAVRc.h"
 
-#define SBUS_TELEMETRY (g_model.rfOptionBool1)
-#define SBUS_AUTOBIND (g_model.rfOptionBool2)
-
-
 const pm_char STR_SUBTYPE_SBUS[] PROGMEM = " 6""14";
 
 const static RfOptionSettingsvar_t RfOpt_Sbus_Ser[] PROGMEM = {
@@ -52,7 +48,6 @@ const static RfOptionSettingsvar_t RfOpt_Sbus_Ser[] PROGMEM = {
 static void SBUS_Reset()
 {
   USART_DISABLE_TX(SBUS_USART);
-  USART_DISABLE_RX(SBUS_USART);
 }
 
 #define SBUS_CHANNELS             16
@@ -61,7 +56,10 @@ static void SBUS_Reset()
 
 static void build_SBUS_data_ptk()
 {
+  Usart0TxBufferCount = SBUS_PACKET_SIZE; // Indicates data to transmit.
+
   uint16_t * channelsSbus = &pulses2MHz.pword[CHANNEL_USED_OFFSET/2]; // re use channel_used_p2M memory
+  uint8_t SbusTxBufferCount = Usart0TxBufferCount;
 
  for (uint8_t i=0; i < SBUS_CHANNELS; i++)
   {
@@ -71,35 +69,33 @@ static void build_SBUS_data_ptk()
    channelsSbus[i] = (int16_t) tempval + 992;
   }
 
-  Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-0] = 0x0f;
+  Usart0TxBuffer_p2M[(--SbusTxBufferCount)-0] = 0x0f;
 
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-1] = (uint8_t) ((channelsSbus[0] & 0x07FF));
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-2] = (uint8_t) ((channelsSbus[0] & 0x07FF)>>8 | (channelsSbus[1] & 0x07FF)<<3);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-3] = (uint8_t) ((channelsSbus[1] & 0x07FF)>>5 | (channelsSbus[2] & 0x07FF)<<6);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-4] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>2);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-5] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>10 | (channelsSbus[3] & 0x07FF)<<1);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-6] = (uint8_t) ((channelsSbus[3] & 0x07FF)>>7 | (channelsSbus[4] & 0x07FF)<<4);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-7] = (uint8_t) ((channelsSbus[4] & 0x07FF)>>4 | (channelsSbus[5] & 0x07FF)<<7);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-8] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>1);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-9] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>9 | (channelsSbus[6] & 0x07FF)<<2);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-10] = (uint8_t) ((channelsSbus[6] & 0x07FF)>>6 | (channelsSbus[7] & 0x07FF)<<5);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-11] = (uint8_t) ((channelsSbus[7] & 0x07FF)>>3);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-12] = (uint8_t) ((channelsSbus[8] & 0x07FF));
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-13] = (uint8_t) ((channelsSbus[8] & 0x07FF)>>8 | (channelsSbus[9] & 0x07FF)<<3);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-14] = (uint8_t) ((channelsSbus[9] & 0x07FF)>>5 | (channelsSbus[10] & 0x07FF)<<6);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-15] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>2);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-16] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>10 | (channelsSbus[11] & 0x07FF)<<1);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-17] = (uint8_t) ((channelsSbus[11] & 0x07FF)>>7 | (channelsSbus[12] & 0x07FF)<<4);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-18] = (uint8_t) ((channelsSbus[12] & 0x07FF)>>4 | (channelsSbus[13] & 0x07FF)<<7);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-19] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>1);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-20] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>9 | (channelsSbus[14] & 0x07FF)<<2);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-21] = (uint8_t) ((channelsSbus[14] & 0x07FF)>>6 | (channelsSbus[15] & 0x07FF)<<5);
- 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-22] = (uint8_t) ((channelsSbus[15] & 0x07FF)>>3);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-1] = (uint8_t) ((channelsSbus[0] & 0x07FF));
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-2] = (uint8_t) ((channelsSbus[0] & 0x07FF)>>8 | (channelsSbus[1] & 0x07FF)<<3);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-3] = (uint8_t) ((channelsSbus[1] & 0x07FF)>>5 | (channelsSbus[2] & 0x07FF)<<6);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-4] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>2);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-5] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>10 | (channelsSbus[3] & 0x07FF)<<1);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-6] = (uint8_t) ((channelsSbus[3] & 0x07FF)>>7 | (channelsSbus[4] & 0x07FF)<<4);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-7] = (uint8_t) ((channelsSbus[4] & 0x07FF)>>4 | (channelsSbus[5] & 0x07FF)<<7);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-8] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>1);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-9] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>9 | (channelsSbus[6] & 0x07FF)<<2);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-10] = (uint8_t) ((channelsSbus[6] & 0x07FF)>>6 | (channelsSbus[7] & 0x07FF)<<5);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-11] = (uint8_t) ((channelsSbus[7] & 0x07FF)>>3);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-12] = (uint8_t) ((channelsSbus[8] & 0x07FF));
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-13] = (uint8_t) ((channelsSbus[8] & 0x07FF)>>8 | (channelsSbus[9] & 0x07FF)<<3);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-14] = (uint8_t) ((channelsSbus[9] & 0x07FF)>>5 | (channelsSbus[10] & 0x07FF)<<6);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-15] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>2);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-16] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>10 | (channelsSbus[11] & 0x07FF)<<1);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-17] = (uint8_t) ((channelsSbus[11] & 0x07FF)>>7 | (channelsSbus[12] & 0x07FF)<<4);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-18] = (uint8_t) ((channelsSbus[12] & 0x07FF)>>4 | (channelsSbus[13] & 0x07FF)<<7);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-19] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>1);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-20] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>9 | (channelsSbus[14] & 0x07FF)<<2);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-21] = (uint8_t) ((channelsSbus[14] & 0x07FF)>>6 | (channelsSbus[15] & 0x07FF)<<5);
+ 	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-22] = (uint8_t) ((channelsSbus[15] & 0x07FF)>>3);
 
-	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-23] = 0x00; // flags
-	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-24] = 0x00;
-
-  Usart0TxBufferCount = SBUS_PACKET_SIZE; // Indicates data to transmit.
+	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-23] = 0x00; // flags
+	Usart0TxBuffer_p2M[(--SbusTxBufferCount)-24] = 0x00;
 
 #if !defined(SIMU)
   USART_TRANSMIT_BUFFER(SBUS_USART);
@@ -117,7 +113,6 @@ static uint16_t SBUS_SERIAL_cb()//serial_cb()
  return SBUS_PERIOD *2; // 6 or 14 mSec Frame.
 }
 
-
 static void SBUS_SERIAL_initialize()
 {
 // 100K 8E2
@@ -125,12 +120,6 @@ static void SBUS_SERIAL_initialize()
   USART_SET_MODE_8E2(SBUS_USART);
   USART_ENABLE_TX(SBUS_USART);
   Usart0TxBufferCount = 0;
-#if defined(TODO_FRSKY)
-  if (SBUS_TELEMETRY) // telemetry on?
-    {
-      USART_ENABLE_RX(SBUS_USART);
-    }
-#endif
   PROTO_Start_Callback(SBUS_SERIAL_cb);
 }
 
@@ -138,8 +127,6 @@ const void *SBUS_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd) {
   case PROTOCMD_INIT:
-    SBUS_SERIAL_initialize();
-    return 0;
   case PROTOCMD_BIND:
     SBUS_SERIAL_initialize();
     return 0;
