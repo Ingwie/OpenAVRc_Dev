@@ -59,7 +59,7 @@ static void SBUS_Reset()
 #define SBUS_PACKET_SIZE          25
 #define SBUS_PERIOD               bind_counter_p2M
 
-static void build_rcdata_pkt()
+static void build_SBUS_data_ptk()
 {
   uint16_t * channelsSbus = &pulses2MHz.pword[CHANNEL_USED_OFFSET/2]; // re use channel_used_p2M memory
 
@@ -71,33 +71,33 @@ static void build_rcdata_pkt()
    channelsSbus[i] = (int16_t) tempval + 992;
   }
 
-  packet_p2M[SBUS_PACKET_SIZE-0] = 0x0f;
+  Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-0] = 0x0f;
 
- 	packet_p2M[SBUS_PACKET_SIZE-1] = (uint8_t) ((channelsSbus[0] & 0x07FF));
- 	packet_p2M[SBUS_PACKET_SIZE-2] = (uint8_t) ((channelsSbus[0] & 0x07FF)>>8 | (channelsSbus[1] & 0x07FF)<<3);
- 	packet_p2M[SBUS_PACKET_SIZE-3] = (uint8_t) ((channelsSbus[1] & 0x07FF)>>5 | (channelsSbus[2] & 0x07FF)<<6);
- 	packet_p2M[SBUS_PACKET_SIZE-4] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>2);
- 	packet_p2M[SBUS_PACKET_SIZE-5] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>10 | (channelsSbus[3] & 0x07FF)<<1);
- 	packet_p2M[SBUS_PACKET_SIZE-6] = (uint8_t) ((channelsSbus[3] & 0x07FF)>>7 | (channelsSbus[4] & 0x07FF)<<4);
- 	packet_p2M[SBUS_PACKET_SIZE-7] = (uint8_t) ((channelsSbus[4] & 0x07FF)>>4 | (channelsSbus[5] & 0x07FF)<<7);
- 	packet_p2M[SBUS_PACKET_SIZE-8] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>1);
- 	packet_p2M[SBUS_PACKET_SIZE-9] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>9 | (channelsSbus[6] & 0x07FF)<<2);
- 	packet_p2M[SBUS_PACKET_SIZE-10] = (uint8_t) ((channelsSbus[6] & 0x07FF)>>6 | (channelsSbus[7] & 0x07FF)<<5);
- 	packet_p2M[SBUS_PACKET_SIZE-11] = (uint8_t) ((channelsSbus[7] & 0x07FF)>>3);
- 	packet_p2M[SBUS_PACKET_SIZE-12] = (uint8_t) ((channelsSbus[8] & 0x07FF));
- 	packet_p2M[SBUS_PACKET_SIZE-13] = (uint8_t) ((channelsSbus[8] & 0x07FF)>>8 | (channelsSbus[9] & 0x07FF)<<3);
- 	packet_p2M[SBUS_PACKET_SIZE-14] = (uint8_t) ((channelsSbus[9] & 0x07FF)>>5 | (channelsSbus[10] & 0x07FF)<<6);
- 	packet_p2M[SBUS_PACKET_SIZE-15] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>2);
- 	packet_p2M[SBUS_PACKET_SIZE-16] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>10 | (channelsSbus[11] & 0x07FF)<<1);
- 	packet_p2M[SBUS_PACKET_SIZE-17] = (uint8_t) ((channelsSbus[11] & 0x07FF)>>7 | (channelsSbus[12] & 0x07FF)<<4);
- 	packet_p2M[SBUS_PACKET_SIZE-18] = (uint8_t) ((channelsSbus[12] & 0x07FF)>>4 | (channelsSbus[13] & 0x07FF)<<7);
- 	packet_p2M[SBUS_PACKET_SIZE-19] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>1);
- 	packet_p2M[SBUS_PACKET_SIZE-20] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>9 | (channelsSbus[14] & 0x07FF)<<2);
- 	packet_p2M[SBUS_PACKET_SIZE-21] = (uint8_t) ((channelsSbus[14] & 0x07FF)>>6 | (channelsSbus[15] & 0x07FF)<<5);
- 	packet_p2M[SBUS_PACKET_SIZE-22] = (uint8_t) ((channelsSbus[15] & 0x07FF)>>3);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-1] = (uint8_t) ((channelsSbus[0] & 0x07FF));
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-2] = (uint8_t) ((channelsSbus[0] & 0x07FF)>>8 | (channelsSbus[1] & 0x07FF)<<3);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-3] = (uint8_t) ((channelsSbus[1] & 0x07FF)>>5 | (channelsSbus[2] & 0x07FF)<<6);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-4] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>2);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-5] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>10 | (channelsSbus[3] & 0x07FF)<<1);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-6] = (uint8_t) ((channelsSbus[3] & 0x07FF)>>7 | (channelsSbus[4] & 0x07FF)<<4);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-7] = (uint8_t) ((channelsSbus[4] & 0x07FF)>>4 | (channelsSbus[5] & 0x07FF)<<7);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-8] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>1);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-9] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>9 | (channelsSbus[6] & 0x07FF)<<2);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-10] = (uint8_t) ((channelsSbus[6] & 0x07FF)>>6 | (channelsSbus[7] & 0x07FF)<<5);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-11] = (uint8_t) ((channelsSbus[7] & 0x07FF)>>3);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-12] = (uint8_t) ((channelsSbus[8] & 0x07FF));
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-13] = (uint8_t) ((channelsSbus[8] & 0x07FF)>>8 | (channelsSbus[9] & 0x07FF)<<3);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-14] = (uint8_t) ((channelsSbus[9] & 0x07FF)>>5 | (channelsSbus[10] & 0x07FF)<<6);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-15] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>2);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-16] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>10 | (channelsSbus[11] & 0x07FF)<<1);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-17] = (uint8_t) ((channelsSbus[11] & 0x07FF)>>7 | (channelsSbus[12] & 0x07FF)<<4);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-18] = (uint8_t) ((channelsSbus[12] & 0x07FF)>>4 | (channelsSbus[13] & 0x07FF)<<7);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-19] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>1);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-20] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>9 | (channelsSbus[14] & 0x07FF)<<2);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-21] = (uint8_t) ((channelsSbus[14] & 0x07FF)>>6 | (channelsSbus[15] & 0x07FF)<<5);
+ 	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-22] = (uint8_t) ((channelsSbus[15] & 0x07FF)>>3);
 
-	packet_p2M[SBUS_PACKET_SIZE-23] = 0x00; // flags
-	packet_p2M[SBUS_PACKET_SIZE-24] = 0x00;
+	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-23] = 0x00; // flags
+	Usart0TxBuffer_p2M[(SBUS_PACKET_SIZE-1)-24] = 0x00;
 
   Usart0TxBufferCount = SBUS_PACKET_SIZE; // Indicates data to transmit.
 
@@ -111,7 +111,7 @@ static uint16_t SBUS_SERIAL_cb()//serial_cb()
  SBUS_PERIOD = (g_model.rfSubType == 0)?6000U:14000U;
  // Schedule next Mixer calculations.
  SCHEDULE_MIXER_END_IN_US(SBUS_PERIOD);
- build_rcdata_pkt();
+ build_SBUS_data_ptk();
  heartbeat |= HEART_TIMER_PULSES;
  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
  return SBUS_PERIOD *2; // 6 or 14 mSec Frame.
