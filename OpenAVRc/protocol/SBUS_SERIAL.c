@@ -33,11 +33,11 @@
 
 #include "../OpenAVRc.h"
 
-const pm_char STR_SUBTYPE_SBUS[] PROGMEM = " 6""14";
+const pm_char STR_SUBTYPE_SBUS[] PROGMEM = " 6""10""14";
 
 const static RfOptionSettingsvar_t RfOpt_Sbus_Ser[] PROGMEM = {
   /*rfProtoNeed*/ 0,//can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
-  /*rfSubTypeMax*/1,//2 subtypes, 6 et 14
+  /*rfSubTypeMax*/2, // 6,10&14mS
   /*rfOptionValue1Min*/0,
   /*rfOptionValue1Max*/0,
   /*rfOptionValue2Min*/0,
@@ -104,13 +104,13 @@ static void build_SBUS_data_ptk()
 
 static uint16_t SBUS_SERIAL_cb()//serial_cb()
 {
- SBUS_PERIOD = (g_model.rfSubType == 0)?6000U:14000U;
+ SBUS_PERIOD = (6000U + g_model.rfSubType * 4000U);
  // Schedule next Mixer calculations.
  SCHEDULE_MIXER_END_IN_US(SBUS_PERIOD);
  build_SBUS_data_ptk();
  heartbeat |= HEART_TIMER_PULSES;
  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
- return SBUS_PERIOD *2; // 6 or 14 mSec Frame.
+ return SBUS_PERIOD *2; // 6,10,14 mSec Frame.
 }
 
 static void SBUS_SERIAL_initialize()

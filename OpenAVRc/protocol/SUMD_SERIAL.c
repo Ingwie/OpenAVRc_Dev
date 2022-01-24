@@ -32,11 +32,11 @@
 
 #include "../OpenAVRc.h"
 
-const pm_char STR_SUMD_PROTOCOLS[] PROGMEM = " 6""14";
+const pm_char STR_SUMD_PROTOCOLS[] PROGMEM = " 6""10""14";
 
 const static RfOptionSettingsvar_t RfOpt_Sumd_Ser[] PROGMEM = {
   /*rfProtoNeed*/0,
-  /*rfSubTypeMax*/1,
+  /*rfSubTypeMax*/2, // 6,10&14mS
   /*rfOptionValue1Min*/0,
   /*rfOptionValue1Max*/0,
   /*rfOptionValue2Min*/0,
@@ -49,18 +49,12 @@ static void SUMD_Reset()
   USART_DISABLE_TX(SUMD_USART);
 }
 
-#define SUMD_FRAME_PERIOD_STD     10000   // 10ms in spec
-#define SUMD_MAX_CHANNELS         16      // Spec supports 32, deviation current max is 16
-#define SUMD_MAX_SUMD_SIZE      (3 + 2*SUMD_MAX_CHANNELS + 2)   // 3 header bytes, 16bit channels, 16bit CRC
-
-
 #define CRC_POLYNOME 0x1021
 static uint16_t crc16(uint16_t crc, uint8_t value) { // Todo : duplicated code
-    uint8_t i;
 
     crc = crc ^ (int16_t)value << 8;
 
-    for (i=0; i < 8; i++) {
+    for (uint8_t i=0; i < 8; i++) {
         if (crc & 0x8000)
             crc = (crc << 1) ^ CRC_POLYNOME;
         else
@@ -70,34 +64,36 @@ static uint16_t crc16(uint16_t crc, uint8_t value) { // Todo : duplicated code
 }
 
 static uint16_t crc(uint8_t *data, uint8_t len) {
+
   uint16_t crc = 0;
-  for (int i=0; i < len; i++)
-      crc = crc16(crc, *data++);
+  for (uint8_t i=0; i < len; i++)
+      crc = crc16(crc, *data--);
   return crc;
 }
 
-
-// #define STICK_SCALE    869  // full scale at +-125
-#define STICK_SCALE     3200  // +/-100 gives 15200/8800
-#define STICK_CENTER   12000
+#define SUMD_MAX_CHANNELS  16      // OAVRc max channels
+#define SUMD_MAX_SIZE      (3 + 2*SUMD_MAX_CHANNELS + 2)   // 3 header bytes, 16bit channels, 16bit CRC
+// #define STICK_SCALE      869  // full scale at +-125
+#define STICK_SCALE        3200  // +/-100 gives 15200/8800
+#define STICK_CENTER       12000
 static void build_SUMD_data_ptk()
 {
-    Usart0TxBufferCount = SUMD_MAX_SUMD_SIZE;
+    Usart0TxBufferCount = SUMD_MAX_SIZE;
     uint8_t sumdTxBufferCount = Usart0TxBufferCount;
 
-    Usart0TxBuffer_p2M[--sumdTxBufferCount] = 0xa8;     // manufacturer id
+    Usart0TxBuffer_p2M[--sumdTxBufferCount] = 0xA8;     // manufacturer id
     Usart0TxBuffer_p2M[--sumdTxBufferCount] = 0x01;     // 0x01 normal packet, 0x81 failsafe setting
-    Usart0TxBuffer_p2M[--sumdTxBufferCount] = SUMD_MAX_CHANNELS;//Model.num_channels;
+    Usart0TxBuffer_p2M[--sumdTxBufferCount] = SUMD_MAX_CHANNELS;  //Model.num_channels ?
 
     for (uint8_t i=0; i < SUMD_MAX_CHANNELS; i++) {
-        int16_t tempval = FULL_CHANNEL_OUTPUTS(i); // Div 2
+        int16_t tempval = FULL_CHANNEL_OUTPUTS(i); // X1
         tempval += tempval << 1; // Add mul 2 -> X3 total
         tempval += STICK_CENTER;
         Usart0TxBuffer_p2M[--sumdTxBufferCount] = tempval >> 8;
         Usart0TxBuffer_p2M[--sumdTxBufferCount] = tempval;
     }
 
-    uint16_t crc_val = crc(Usart0TxBuffer_p2M, SUMD_MAX_SUMD_SIZE-2);
+    uint16_t crc_val = crc(&Usart0TxBuffer_p2M[SUMD_MAX_SIZE-1], SUMD_MAX_SIZE-2);
     Usart0TxBuffer_p2M[--sumdTxBufferCount] = crc_val >> 8;
     Usart0TxBuffer_p2M[--sumdTxBufferCount] = crc_val;
 
@@ -106,17 +102,16 @@ static void build_SUMD_data_ptk()
 #endif
 }
 
-#define SUMD_PERIOD      bind_counter_p2M
-
+#define SUMD_FRAME_PERIOD        bind_counter_p2M
 static uint16_t SUMD_SERIAL_cb()
 {
- SUMD_PERIOD = (g_model.rfSubType == 0)?6000U:14000U;
- // Schedule next Mixer calculations.
- SCHEDULE_MIXER_END_IN_US(SUMD_PERIOD);
+ SUMD_FRAME_PERIOD = (6000U + g_model.rfSubType * 4000U);
+  // Schedule next Mixer calculations.
+ SCHEDULE_MIXER_END_IN_US(SUMD_FRAME_PERIOD);
  build_SUMD_data_ptk();
  heartbeat |= HEART_TIMER_PULSES;
  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
- return SUMD_PERIOD *2; // 6 or 14 mSec Frame.
+ return SUMD_FRAME_PERIOD *2; // 10 mSec in specs, we allow 6,10&14 mS Frame.
 }
 
 static void SUMD_initialize()
