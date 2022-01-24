@@ -71,107 +71,9 @@
 #define TYPE_SETTINGS_WRITE   0x2D
 
 #define TELEMETRY_RX_PACKET_SIZE   64
-
-
-#define SUPPORT_CRSF_CONFIG
-
-#if defined(SUPPORT_CRSF_CONFIG)
-
-#define CRSF_MAX_DEVICES       4
-#define CRSF_MAX_NAME_LEN      16
-#define CRSF_MAX_STRING_BYTES  2500     // max observed is 2010 in Nano RX
-#define CRSF_STRING_BYTES_AVAIL(current)  (CRSF_MAX_STRING_BYTES-((char *)(current)-mp->strings))
-
-
-/*enum data_type
-{
- UINT8          = 0,
- INT8           = 1,
- UINT16         = 2,
- INT16          = 3,
- FLOAT          = 8,
- TEXT_SELECTION = 9,
- STRING         = 10,
- FOLDER         = 11,
- INFO           = 12,
- COMMAND        = 13,
- OUT_OF_RANGE   = 127,
-};*/
-
-enum cmd_status
-{
- READY               = 0,
- START_CRSF          = 1,//START               = 1,
- PROGRESS            = 2,
- CONFIRMATION_NEEDED = 3,
- CONFIRM             = 4,
- CANCEL              = 5,
- POLL                = 6
-};
-
-typedef struct
-{
- uint8_t address;
- uint8_t number_of_params;
- uint8_t params_version;
- uint32_t serial_number;
- uint32_t hardware_id;
- uint32_t firmware_id;
- char name[CRSF_MAX_NAME_LEN];
-} crsf_device_t;
-
-typedef struct
-{
- // common fields
- uint8_t device;            // device index of device parameter belongs to
- uint8_t id;                // Parameter number (starting from 1)
- uint8_t parent;            // Parent folder parameter number of the parent folder, 0 means root
- //enum data_type type;  // (Parameter type definitions and hidden bit)
- uint8_t hidden;            // set if hidden
- char *name;           // Null-terminated string
- void *value;          // size depending on data type
-
- // field presence depends on type
- void *default_value;  // size depending on data type. Not present for COMMAND.
- int32_t min_value;        // not sent for string type
- int32_t max_value;        // not sent for string type
- int32_t step;             // Step size ( type float only otherwise this entry is not sent )
- uint8_t timeout;           // COMMAND timeout (100ms/count)
- uint8_t changed;           // flag if set needed when edit element is de-selected
- char *max_str;        // Longest choice length for text select
- union
- {
-  uint8_t point;             // Decimal point ( type float only otherwise this entry is not sent )
-  uint8_t text_sel;          // current value index for TEXT_SELECTION type
-  uint8_t string_max_len;    // String max length ( for string type only )
-  uint8_t status;            // Status for COMMANDs
- } u;
- union
- {
-  char *info;
-  char *unit;         // Unit ( Null-terminated string / not sent for type string and folder )
- } s;
-} crsf_param_t;
-
-extern crsf_device_t crsf_devices[CRSF_MAX_DEVICES];
-
-void CRSF_serial_rcv(uint8_t *buffer, uint8_t num_bytes);
-uint8_t CRSF_serial_txd(uint8_t *buffer, uint8_t max_len);
-uint8_t crsf_crc8(const uint8_t *ptr, uint8_t len);
-void CRSF_ping_devices();
-void CRSF_read_param(uint8_t device, uint8_t id, uint8_t chunk);
-void CRSF_set_param(crsf_param_t *param);
-void CRSF_send_command(crsf_param_t *param, enum cmd_status status);
-
-#endif  // SUPPORT_CRSF_CONFIG
-
 #endif
 
-
-
-
-
-#define CRSF_DATARATE             400000
+#define CRSF_DATARATE             115200
 #define CRSF_FRAME_PERIOD         4000   // 4ms
 #define CRSF_CHANNELS             16
 #define CRSF_PACKET_SIZE          26
@@ -181,8 +83,8 @@ const static RfOptionSettingsvar_t RfOpt_CRSF_Ser[] PROGMEM =
 {
  /*rfProtoNeed*/0, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
  /*rfSubTypeMax*/0,
- /*rfOptionValue1Min*/-128,
- /*rfOptionValue1Max*/127,
+ /*rfOptionValue1Min*/0,
+ /*rfOptionValue1Max*/0,
  /*rfOptionValue2Min*/0,
  /*rfOptionValue2Max*/0,
  /*rfOptionValue3Max*/0,
@@ -220,6 +122,109 @@ uint8_t crsf_crc8(const uint8_t *ptr, uint8_t len)
  return crc;
 }
 
+/* from CRSF document
+Center (1500us) = 992
+TICKS_TO_US(x) ((x - 992) * 5 / 8 + 1500)
+US_TO_TICKS(x) ((x - 1500) * 8 / 5 + 992)
+*/
+
+#define CSRF_MIN 172
+#define CSRF_MAX 1811
+static void build_CRSF_data_pkt()
+{
+ Usart0TxBufferCount = CRSF_PACKET_SIZE;
+ uint8_t crsfTxBufferCount = Usart0TxBufferCount;
+
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = ADDR_MODULE;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = 24;   // length of type + payload + crc
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = TYPE_CHANNELS;
+
+ int32_t value;
+ uint32_t bits = 0;
+ uint8_t bitsavailable = 0;
+ uint8_t * packet3 = &Usart0TxBuffer_p2M[--crsfTxBufferCount];
+
+ for (uint8_t i=0; i < CRSF_CHANNELS; i++)
+  {
+   if (i < 16/*todoModel.num_channels*/)
+    value = (FULL_CHANNEL_OUTPUTS(i)+RESX)*(CSRF_MAX-CSRF_MIN)/(2*RESX)+CSRF_MIN;
+   else
+    value = 992;  // midpoint
+
+// OpenTX method
+   bits |= value << bitsavailable;
+   bitsavailable += 11; // 11 bits per channel
+   while (bitsavailable >= 8)
+    {
+     *packet3-- = bits;
+     bits >>= 8;
+     bitsavailable -= 8;
+    }
+  }
+ Usart0TxBuffer_p2M[0] = crsf_crc8(&Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 2], CRSF_PACKET_SIZE-3);
+
+#if !defined(SIMU)
+    USART_TRANSMIT_BUFFER(SUMD_USART);
+#endif
+}
+
+static void CRSF_Reset()
+{
+  USART_DISABLE_TX(CRSF_USART);
+}
+
+static uint16_t CRSF_SERIAL_cb()
+{
+ SCHEDULE_MIXER_END_IN_US(4000U); // Schedule next Mixer calculations.
+ build_CRSF_data_pkt();
+ heartbeat |= HEART_TIMER_PULSES;
+ CALCULATE_LAT_JIT(); // Calculate latency and jitter.
+ return 4000U *2;
+}
+
+
+static void CRSF_initialize(uint8_t bind)
+{
+// 115K2 8N1
+  USART_SET_BAUD_115K2(CRSF_USART);
+  USART_SET_MODE_8N1(CRSF_USART);
+  USART_ENABLE_TX(CRSF_USART);
+  Usart0TxBufferCount = 0;
+  PROTO_Start_Callback( CRSF_SERIAL_cb);
+}
+
+const void *CRSF_Cmds(enum ProtoCmds cmd)
+{
+ switch(cmd)
+  {
+  case PROTOCMD_INIT:
+   CRSF_initialize(0);
+   return 0;
+  case PROTOCMD_RESET:
+   PROTO_Stop_Callback();
+   CRSF_Reset();
+   return 0;
+  case PROTOCMD_BIND:
+   CRSF_initialize(1);
+   return 0;
+  case PROTOCMD_GETOPTIONS:
+   SetRfOptionSettings(pgm_get_far_address(RfOpt_CRSF_Ser),
+                       STR_DUMMY,      //Sub proto
+                       STR_DUMMY,      //Option 1 (int)
+                       STR_DUMMY,      //Option 2 (int)
+                       STR_DUMMY,      //Option 3 (uint 0 to 31)
+                       STR_DUMMY,      //OptionBool 1
+                       STR_DUMMY,      //OptionBool 2
+                       STR_DUMMY       //OptionBool 3
+                      );
+   return 0;
+  default:
+   break;
+  }
+ return 0;
+}
+
+/* Todo : ELRS
 static uint8_t convertPktRateToElrs(uint8_t rfFreq, uint8_t rate)
 {
  switch (rate)
@@ -311,140 +316,18 @@ enum
 
 static uint8_t buildElrspacket(uint8_t command, uint8_t value)
 {
- packet_p2M[CRSF_PACKET_SIZE - 0] = ADDR_MODULE;
- packet_p2M[CRSF_PACKET_SIZE - 1] = 6;
- packet_p2M[CRSF_PACKET_SIZE - 2] = TYPE_SETTINGS_WRITE;
- packet_p2M[CRSF_PACKET_SIZE - 3] = ELRS_ADDRESS;
- packet_p2M[CRSF_PACKET_SIZE - 4] = ADDR_RADIO;
- packet_p2M[CRSF_PACKET_SIZE - 5] = command;
- packet_p2M[CRSF_PACKET_SIZE - 6] = value;
- packet_p2M[CRSF_PACKET_SIZE - 7] = crsf_crc8(&packet_p2M[CRSF_PACKET_SIZE - 2], packet_p2M[CRSF_PACKET_SIZE - 1]-1);
+ Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 0] = ADDR_MODULE;
+ Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 1] = 6;
+ Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 2] = TYPE_SETTINGS_WRITE;
+ Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 3] = ELRS_ADDRESS;
+ Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 4] = ADDR_RADIO;
+ Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 5] = command;
+ Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 6] = value;
+ Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 7] = crsf_crc8(&Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 2], Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 1]-1);
 
  return 8;
 }
 
-/* from CRSF document
-Center (1500us) = 992
-TICKS_TO_US(x) ((x - 992) * 5 / 8 + 1500)
-US_TO_TICKS(x) ((x - 1500) * 8 / 5 + 992)
-*/
-
-#define CSRF_MIN 172
-#define CSRF_MAX 1811
-static uint8_t build_rcdata_pkt()
-{
- packet_p2M[CRSF_PACKET_SIZE - 0] = ADDR_MODULE;
- packet_p2M[CRSF_PACKET_SIZE - 1] = 24;   // length of type + payload + crc
- packet_p2M[CRSF_PACKET_SIZE - 2] = TYPE_CHANNELS;
-
- int32_t value;
- uint32_t bits = 0;
- uint8_t bitsavailable = 0;
- uint8_t * packet3 = &packet_p2M[CRSF_PACKET_SIZE - 3];
-
- for (uint8_t i=0; i < CRSF_CHANNELS; i++)
-  {
-   if (i < 16/*todoModel.num_channels*/)
-    value = (FULL_CHANNEL_OUTPUTS(i)+RESX)*(CSRF_MAX-CSRF_MIN)/(2*RESX)+CSRF_MIN;
-   else
-    value = 992;  // midpoint
-
-// OpenTX method
-   bits |= value << bitsavailable;
-   bitsavailable += 11; // 11 bits per channel
-   while (bitsavailable >= 8)
-    {
-     *packet3-- = bits;
-     bits >>= 8;
-     bitsavailable -= 8;
-    }
-
-  }
- packet_p2M[CRSF_PACKET_SIZE - 25] = crsf_crc8(&packet_p2M[CRSF_PACKET_SIZE - 2], CRSF_PACKET_SIZE-3);
-
- return CRSF_PACKET_SIZE;
-}
-
-const static uint8_t ZZ_CRSFInitSequence[] PROGMEM =
-{
-};
-
-static void CRSF_init()
-{
-}
-
-
-static void CRSF_send_data_packet_p2M()
-{
-}
-
-static void CRSF_send_bind_packet_p2M()
-{
-}
-
-static uint16_t CRSF_bind_cb()
-{
- SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
- CRSF_send_bind_packet_p2M();
- heartbeat |= HEART_TIMER_PULSES;
- CALCULATE_LAT_JIT(); // Calculate latency and jitter.
- return 18000U *2;
-}
-
-static uint16_t CRSF_cb()
-{
- SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations.
- CRSF_send_data_packet_p2M();
- heartbeat |= HEART_TIMER_PULSES;
- CALCULATE_LAT_JIT(); // Calculate latency and jitter.
- return 12000U *2;
-}
-
-
-static void CRSF_initialize(uint8_t bind)
-{
- CRSF_init();
- if (bind)
-  {
-   PROTO_Start_Callback( CRSF_bind_cb);
-  }
- else
-  {
-   PROTO_Start_Callback( CRSF_cb);
-  }
-}
-
-const void *CRSF_Cmds(enum ProtoCmds cmd)
-{
- switch(cmd)
-  {
-  case PROTOCMD_INIT:
-   CRSF_initialize(0);
-   return 0;
-  case PROTOCMD_RESET:
-   PROTO_Stop_Callback();
-   return 0;
-  case PROTOCMD_BIND:
-   CRSF_initialize(1);
-   return 0;
-  case PROTOCMD_GETOPTIONS:
-   SetRfOptionSettings(pgm_get_far_address(RfOpt_CRSF_Ser),
-                       STR_DUMMY,      //Sub proto
-                       STR_DUMMY,      //Option 1 (int)
-                       STR_DUMMY,      //Option 2 (int)
-                       STR_DUMMY,      //Option 3 (uint 0 to 31)
-                       STR_DUMMY,      //OptionBool 1
-                       STR_DUMMY,      //OptionBool 2
-                       STR_DUMMY       //OptionBool 3
-                      );
-   return 0;
-  default:
-   break;
-  }
- return 0;
-}
-
-/*
 static uint8_t currentPktRate = 0;
 static uint8_t currentTlmRatio = 0;
 static uint8_t currentPower = 0;
@@ -717,17 +600,17 @@ static uint16_t serial_cb()
         if (mixer_sync != MIX_DONE && mixer_runtime < 2000) mixer_runtime += 50;
 #if SUPPORT_CRSF_CONFIG
         if (Model.proto_opts[PROTO_OPTS_RF_FREQ] == 0) {
-            length = CRSF_serial_txd(packet_p2M, CRSF_PACKET_SIZE);
+            length = CRSF_serial_txd(Usart0TxBuffer_p2M, CRSF_PACKET_SIZE);
         } else {
             length = setElrsOptions();
         }
         if (length == 0) {
-            length = build_rcdata_pkt();
+            length = build_CRSF_data_pkt();
         }
 #else
-        length = build_rcdata_pkt();
+        length = build_CRSF_data_pkt();
 #endif
-        UART_Send(packet_p2M, length);
+        UART_Send(Usart0TxBuffer_p2M, length);
         state = ST_DATA1;
 
         return convertPktRateToPeriod(Model.proto_opts[PROTO_OPTS_RF_FREQ], currentPktRate) - mixer_runtime;
