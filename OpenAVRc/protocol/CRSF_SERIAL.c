@@ -90,10 +90,15 @@ const static RfOptionSettingsvar_t RfOpt_CRSF_Ser[] PROGMEM =
  /*rfOptionValue3Max*/0,
 };
 
+static void CRSF_Reset()
+{
+  USART_DISABLE_TX(CRSF_USART);
+}
+
 uint8_t crsf_crc8(const uint8_t *ptr, uint8_t len)
 {
 // crc implementation from CRSF protocol document rev7
- static const uint16_t ZZcrsf_crc8tab[] PROGMEM =
+ static const uint8_t ZZcrsf_crc8tab[] PROGMEM =
  {
   0x00, 0xD5, 0x7F, 0xAA, 0xFE, 0x2B, 0x81, 0x54, 0x29, 0xFC, 0x56, 0x83, 0xD7, 0x02, 0xA8, 0x7D,
   0x52, 0x87, 0x2D, 0xF8, 0xAC, 0x79, 0xD3, 0x06, 0x7B, 0xAE, 0x04, 0xD1, 0x85, 0x50, 0xFA, 0x2F,
@@ -142,7 +147,6 @@ static void build_CRSF_data_pkt()
  int32_t value;
  uint32_t bits = 0;
  uint8_t bitsavailable = 0;
- uint8_t * packet3 = &Usart0TxBuffer_p2M[--crsfTxBufferCount];
 
  for (uint8_t i=0; i < CRSF_CHANNELS; i++)
   {
@@ -151,26 +155,20 @@ static void build_CRSF_data_pkt()
    else
     value = 992;  // midpoint
 
-// OpenTX method
    bits |= value << bitsavailable;
    bitsavailable += 11; // 11 bits per channel
    while (bitsavailable >= 8)
     {
-     *packet3-- = bits;
+     Usart0TxBuffer_p2M[--crsfTxBufferCount] = bits;
      bits >>= 8;
      bitsavailable -= 8;
     }
   }
- Usart0TxBuffer_p2M[0] = crsf_crc8(&Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 2], CRSF_PACKET_SIZE-3);
+ Usart0TxBuffer_p2M[0] = crsf_crc8(&Usart0TxBuffer_p2M[CRSF_PACKET_SIZE-3], CRSF_PACKET_SIZE-3);
 
 #if !defined(SIMU)
     USART_TRANSMIT_BUFFER(SUMD_USART);
 #endif
-}
-
-static void CRSF_Reset()
-{
-  USART_DISABLE_TX(CRSF_USART);
 }
 
 static uint16_t CRSF_SERIAL_cb()
@@ -181,7 +179,6 @@ static uint16_t CRSF_SERIAL_cb()
  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
  return 4000U *2;
 }
-
 
 static void CRSF_initialize(uint8_t bind)
 {
