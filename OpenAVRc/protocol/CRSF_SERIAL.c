@@ -117,7 +117,7 @@ uint8_t crsf_crc8(const uint8_t *ptr, uint8_t len)
  uint_farptr_t crctab = pgm_get_far_address(ZZcrsf_crc8tab);
  for (uint8_t i=0; i < len; i++)
   {
-   crc = pgm_read_word_far(crctab + (2*(crc ^ *ptr--)));
+   crc = pgm_read_byte_far(crctab + (crc ^ *ptr--));
   }
  return crc;
 }
