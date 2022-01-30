@@ -39,36 +39,36 @@
 
 
 // Device addresses
-#define ADDR_BROADCAST  0x00  //  Broadcast address
-#define ADDR_USB        0x10  //  USB Device
-#define ADDR_BLUETOOTH  0x12  //  Bluetooth Module
-#define ADDR_PRO_CORE   0x80  //  TBS CORE PNP PRO
-//  #define ADDR_  0x8A       //  Reserved
-#define ADDR_PRO_CURR   0xC0  //  PNP PRO digital current sensor
-#define ADDR_PRO_GPS    0xC2  //  PNP PRO GPS
-#define ADDR_BLACKBOX   0xC4  //  TBS Blackbox
-#define ADDR_FC         0xC8  //  Flight controller
-//  #define ADDR_       0xCA  //  Reserved
-#define ADDR_RACETAG    0xCC  //  Race tag
-#define ADDR_RADIO      0xEA  //  Radio Transmitter
-//  #define ADDR_       0xEB  //  Reserved
-#define ADDR_RECEIVER   0xEC  //  Crossfire / UHF receiver
-#define ADDR_MODULE     0xEE  //  Crossfire transmitter
+#define CRSF_ADDR_BROADCAST  0x00  //  Broadcast address
+#define CRSF_ADDR_USB        0x10  //  USB Device
+#define CRSF_ADDR_BLUETOOTH  0x12  //  Bluetooth Module
+#define CRSF_ADDR_PRO_CORE   0x80  //  TBS CORE PNP PRO
+//  #define CRSF_ADDR_  0x8A       //  Reserved
+#define CRSF_ADDR_PRO_CURR   0xC0  //  PNP PRO digital current sensor
+#define CRSF_ADDR_PRO_GPS    0xC2  //  PNP PRO GPS
+#define CRSF_ADDR_BLACKBOX   0xC4  //  TBS Blackbox
+#define CRSF_ADDR_FC         0xC8  //  Flight controller
+//  #define CRSF_ADDR_       0xCA  //  Reserved
+#define CRSF_ADDR_RACETAG    0xCC  //  Race tag
+#define CRSF_ADDR_RADIO      0xEA  //  Radio Transmitter
+//  #define CRSF_ADDR_       0xEB  //  Reserved
+#define CRSF_ADDR_RECEIVER   0xEC  //  Crossfire / UHF receiver
+#define CRSF_ADDR_MODULE     0xEE  //  Crossfire transmitter
 
 // Frame Type
-#define TYPE_GPS              0x02
-#define TYPE_BATTERY          0x08
-#define TYPE_VIDEO            0x08
-#define TYPE_LINK             0x14
-#define TYPE_CHANNELS         0x16
-#define TYPE_ATTITUDE         0x1E
-#define TYPE_FLIGHT_MODE      0x21
-#define TYPE_PING_DEVICES     0x28
-#define TYPE_DEVICE_INFO      0x29
-#define TYPE_REQUEST_SETTINGS 0x2A
-#define TYPE_SETTINGS_ENTRY   0x2B
-#define TYPE_SETTINGS_READ    0x2C
-#define TYPE_SETTINGS_WRITE   0x2D
+#define CRSF_TYPE_GPS              0x02
+#define CRSF_TYPE_BATTERY          0x08
+#define CRSF_TYPE_VIDEO            0x08
+#define CRSF_TYPE_LINK             0x14
+#define CRSF_TYPE_CHANNELS         0x16
+#define CRSF_TYPE_ATTITUDE         0x1E
+#define CRSF_TYPE_FLIGHT_MODE      0x21
+#define CRSF_TYPE_PING_DEVICES     0x28
+#define CRSF_TYPE_DEVICE_INFO      0x29
+#define CRSF_TYPE_REQUEST_SETTINGS 0x2A
+#define CRSF_TYPE_SETTINGS_ENTRY   0x2B
+#define CRSF_TYPE_SETTINGS_READ    0x2C
+#define CRSF_TYPE_SETTINGS_WRITE   0x2D
 
 #define TELEMETRY_RX_PACKET_SIZE   64
 #endif
@@ -95,9 +95,6 @@ static void CRSF_Reset()
   USART_DISABLE_TX(CRSF_USART);
 }
 
-uint8_t crsf_crc8(const uint8_t *ptr, uint8_t len)
-{
-// crc implementation from CRSF protocol document rev7
  static const uint8_t ZZcrsf_crc8tab[] PROGMEM =
  {
   0x00, 0xD5, 0x7F, 0xAA, 0xFE, 0x2B, 0x81, 0x54, 0x29, 0xFC, 0x56, 0x83, 0xD7, 0x02, 0xA8, 0x7D,
@@ -118,6 +115,9 @@ uint8_t crsf_crc8(const uint8_t *ptr, uint8_t len)
   0x84, 0x51, 0xFB, 0x2E, 0x7A, 0xAF, 0x05, 0xD0, 0xAD, 0x78, 0xD2, 0x07, 0x53, 0x86, 0x2C, 0xF9,
  };
 
+uint8_t crsf_crc8(const uint8_t *ptr, uint8_t len)
+{
+// crc implementation from CRSF protocol document rev7
  uint8_t crc = 0;
  uint_farptr_t crctab = pgm_get_far_address(ZZcrsf_crc8tab);
  for (uint8_t i=0; i < len; i++)
@@ -140,26 +140,26 @@ static void build_CRSF_data_pkt()
  Usart0TxBufferCount = CRSF_PACKET_SIZE;
  uint8_t crsfTxBufferCount = Usart0TxBufferCount;
 
- Usart0TxBuffer_p2M[--crsfTxBufferCount] = ADDR_MODULE;
- Usart0TxBuffer_p2M[--crsfTxBufferCount] = 24;   // length of type + payload + crc
- Usart0TxBuffer_p2M[--crsfTxBufferCount] = TYPE_CHANNELS;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_ADDR_MODULE;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_PACKET_SIZE - 2;   // length of type + payload + crc
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_TYPE_CHANNELS;
 
- int32_t value;
+ int16_t value;
  uint32_t bits = 0;
  uint8_t bitsavailable = 0;
 
  for (uint8_t i=0; i < CRSF_CHANNELS; i++)
   {
    if (i < 16/*todoModel.num_channels*/)
-    value = (FULL_CHANNEL_OUTPUTS(i)+RESX)*(CSRF_MAX-CSRF_MIN)/(2*RESX)+CSRF_MIN;
+    value = (FULL_CHANNEL_OUTPUTS(i)+RESX)*(CSRF_MAX-CSRF_MIN)/(2*RESX)+(CSRF_MIN+1);
    else
     value = 992;  // midpoint
 
-   bits |= value << bitsavailable;
+   bits |= (uint32_t)value << bitsavailable;
    bitsavailable += 11; // 11 bits per channel
    while (bitsavailable >= 8)
     {
-     Usart0TxBuffer_p2M[--crsfTxBufferCount] = bits;
+     Usart0TxBuffer_p2M[--crsfTxBufferCount] = ((uint8_t) (bits & 0xff));
      bits >>= 8;
      bitsavailable -= 8;
     }
@@ -167,7 +167,7 @@ static void build_CRSF_data_pkt()
  Usart0TxBuffer_p2M[0] = crsf_crc8(&Usart0TxBuffer_p2M[CRSF_PACKET_SIZE-3], CRSF_PACKET_SIZE-3);
 
 #if !defined(SIMU)
-    USART_TRANSMIT_BUFFER(SUMD_USART);
+    USART_TRANSMIT_BUFFER(CRSF_USART);
 #endif
 }
 
