@@ -164,7 +164,7 @@ static void build_CRSF_data_pkt()
      bitsavailable -= 8;
     }
   }
- Usart0TxBuffer_p2M[0] = crsf_crc8(&Usart0TxBuffer_p2M[CRSF_PACKET_SIZE-3], CRSF_PACKET_SIZE-3);
+ Usart0TxBuffer_p2M[0] = crsf_crc8(&Usart0TxBuffer_p2M[CRSF_PACKET_SIZE-2], CRSF_PACKET_SIZE-3);
 
 #if !defined(SIMU)
     USART_TRANSMIT_BUFFER(CRSF_USART);
