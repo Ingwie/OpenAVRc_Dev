@@ -150,10 +150,13 @@ static void build_CRSF_data_pkt()
 
  for (uint8_t i=0; i < CRSF_CHANNELS; i++)
   {
-   if (i < 16/*todoModel.num_channels*/)
-    value = (FULL_CHANNEL_OUTPUTS(i)+RESX)*(CSRF_MAX-CSRF_MIN)/(2*RESX)+(CSRF_MIN+1);
-   else
-    value = 992;  // midpoint
+  if (i < 16/*todoModel.num_channels*/)
+   {
+    value = FULL_CHANNEL_OUTPUTS(i) >> 1; // Div 2
+    value += (value >> 2) + 992; // Add div 4 -> 0.625 total 0.64 max + midpoint value
+   }
+  else
+   value = 992;  // midpoint
 
    bits |= (uint32_t)value << bitsavailable;
    bitsavailable += 11; // 11 bits per channel
@@ -164,7 +167,7 @@ static void build_CRSF_data_pkt()
      bitsavailable -= 8;
     }
   }
- Usart0TxBuffer_p2M[0] = crsf_crc8(&Usart0TxBuffer_p2M[CRSF_PACKET_SIZE-2], CRSF_PACKET_SIZE-3);
+ Usart0TxBuffer_p2M[0] = crsf_crc8(&Usart0TxBuffer_p2M[CRSF_PACKET_SIZE-3], CRSF_PACKET_SIZE-3);
 
 #if !defined(SIMU)
     USART_TRANSMIT_BUFFER(CRSF_USART);
