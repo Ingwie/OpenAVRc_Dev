@@ -56,49 +56,35 @@ static void SBUS_Reset()
 
 static void build_SBUS_data_ptk()
 {
-  Usart0TxBufferCount = SBUS_PACKET_SIZE; // Indicates data to transmit.
+ Usart0TxBufferCount = SBUS_PACKET_SIZE; // Indicates data to transmit.
 
-  uint16_t * channelsSbus = &pulses2MHz.pword[CHANNEL_USED_OFFSET/2]; // re use channel_used_p2M memory
-  uint8_t SbusTxBufferCount = Usart0TxBufferCount;
+ uint8_t SbusTxBufferCount = Usart0TxBufferCount;
+ uint32_t bits = 0;
+ uint8_t bitsavailable = 0;
+
+ Usart0TxBuffer_p2M[--SbusTxBufferCount] = 0x0f;
 
  for (uint8_t i=0; i < SBUS_CHANNELS; i++)
   {
-   int16_t tempval = FULL_CHANNEL_OUTPUTS(i) >> 1; // Div 2
-   tempval += tempval >> 2; // Add div 4 -> 0.625 total
+   int16_t value = FULL_CHANNEL_OUTPUTS(i) >> 1; // Div 2
+   value += value >> 2; // Add div 4 -> 0.625 total
+   value += 992;
 
-   channelsSbus[i] = (int16_t) tempval + 992;
+   bits |= (uint32_t)value << bitsavailable;
+   bitsavailable += 11; // 11 bits per channel
+   while (bitsavailable >= 8)
+    {
+     Usart0TxBuffer_p2M[--SbusTxBufferCount] = ((uint8_t) (bits & 0xff));
+     bits >>= 8;
+     bitsavailable -= 8;
+    }
   }
 
-  Usart0TxBuffer_p2M[--SbusTxBufferCount] = 0x0f;
-
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[0] & 0x07FF));
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[0] & 0x07FF)>>8 | (channelsSbus[1] & 0x07FF)<<3);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[1] & 0x07FF)>>5 | (channelsSbus[2] & 0x07FF)<<6);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>2);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[2] & 0x07FF)>>10 | (channelsSbus[3] & 0x07FF)<<1);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[3] & 0x07FF)>>7 | (channelsSbus[4] & 0x07FF)<<4);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[4] & 0x07FF)>>4 | (channelsSbus[5] & 0x07FF)<<7);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>1);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[5] & 0x07FF)>>9 | (channelsSbus[6] & 0x07FF)<<2);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[6] & 0x07FF)>>6 | (channelsSbus[7] & 0x07FF)<<5);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[7] & 0x07FF)>>3);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[8] & 0x07FF));
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[8] & 0x07FF)>>8 | (channelsSbus[9] & 0x07FF)<<3);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[9] & 0x07FF)>>5 | (channelsSbus[10] & 0x07FF)<<6);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>2);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[10] & 0x07FF)>>10 | (channelsSbus[11] & 0x07FF)<<1);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[11] & 0x07FF)>>7 | (channelsSbus[12] & 0x07FF)<<4);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[12] & 0x07FF)>>4 | (channelsSbus[13] & 0x07FF)<<7);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>1);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[13] & 0x07FF)>>9 | (channelsSbus[14] & 0x07FF)<<2);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[14] & 0x07FF)>>6 | (channelsSbus[15] & 0x07FF)<<5);
- 	Usart0TxBuffer_p2M[--SbusTxBufferCount] = (uint8_t) ((channelsSbus[15] & 0x07FF)>>3);
-
-	Usart0TxBuffer_p2M[--SbusTxBufferCount] = 0x00; // flags
-	Usart0TxBuffer_p2M[--SbusTxBufferCount] = 0x00;
+ Usart0TxBuffer_p2M[--SbusTxBufferCount] = 0x00; // flags
+ Usart0TxBuffer_p2M[--SbusTxBufferCount] = 0x00;
 
 #if !defined(SIMU)
-  USART_TRANSMIT_BUFFER(SBUS_USART);
+ USART_TRANSMIT_BUFFER(SBUS_USART);
 #endif
 }
 
