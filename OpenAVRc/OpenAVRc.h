@@ -283,7 +283,7 @@ static uint16_t DurationValue;
 #define RESXu      1024u
 #define RESXul     1024ul
 #define RESXl      1024l
-#define RESX125PC  0x500 // RESX @ 125%
+#define RESX125PC  0x500 // RESX @ 125% (1280)
 
 #include "myeeprom.h"
 #include "gui/gui.h"
@@ -1003,7 +1003,12 @@ void evalFunctions();
   // Global rotary encoder registers
 extern volatile rotenc_t g_rotenc[ROTARY_ENCODERS];
 void ResetToBootloaderWithFlag();
+
+// pointer to telemetry function parser
+typedef const void (*p_parseTelemFunction)(uint8_t);
+p_parseTelemFunction parseTelemFunction;
 extern void parseTelemFrskyByte(uint8_t data);
+
 #if defined (FRSKY)
   // FrSky Telemetry
   #include "telemetry/frsky.h"

@@ -1543,6 +1543,7 @@ void OpenAVRcInit(uint8_t mcusr)
   lcdSetContrast();
   backlightOn();
 
+  parseTelemFunction = (p_parseTelemFunction)parseTelemFrskyByte; // set default telemetry function parser (Frsky)
   doMixerCalculations();
 
 #if !defined(SIMU)

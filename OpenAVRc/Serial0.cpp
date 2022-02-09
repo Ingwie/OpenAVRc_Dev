@@ -85,11 +85,11 @@ ISR(USART_RX_vect_N(TLM_USART0))
     if (stat & ((1 << FE_N(TLM_USART0)) | (1 << DOR_N(TLM_USART0)) | (1 << UPE_N(TLM_USART0))))
       {
         // discard buffer and start fresh on any comms error
-        parseTelemFrskyByte(START_STOP); // reset
+        parseTelemFunction(START_STOP); // reset
       }
     else
       {
-        parseTelemFrskyByte(data);
+        parseTelemFunction(data);
       }
 
   }
