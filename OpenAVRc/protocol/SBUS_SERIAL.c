@@ -36,7 +36,7 @@
 const pm_char STR_SUBTYPE_SBUS[] PROGMEM = " 6""10""14";
 
 const static RfOptionSettingsvar_t RfOpt_Sbus_Ser[] PROGMEM = {
-  /*rfProtoNeed*/ 0,//can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+  /*rfProtoNeed*/ BOOL1USED,//can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/2, // 6,10&14mS
   /*rfOptionValue1Min*/0,
   /*rfOptionValue1Max*/0,
@@ -106,6 +106,12 @@ static void SBUS_SERIAL_initialize()
   USART_SET_MODE_8E2(SBUS_USART);
   USART_ENABLE_TX(SBUS_USART);
   Usart0TxBufferCount = 0;
+#if defined(FRSKY)
+ if (g_model.rfOptionBool1) // telemetry on?
+  {
+   USART_ENABLE_RX(SBUS_USART);
+  }
+#endif
   PROTO_Start_Callback(SBUS_SERIAL_cb);
 }
 
