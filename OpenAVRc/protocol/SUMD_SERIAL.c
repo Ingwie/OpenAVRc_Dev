@@ -73,11 +73,14 @@ static uint16_t crc(uint8_t *data, uint8_t len) {
 
 #define SUMD_MAX_CHANNELS  16      // OAVRc max channels
 #define SUMD_MAX_SIZE      (3 + 2*SUMD_MAX_CHANNELS + 2)   // 3 header bytes, 16bit channels, 16bit CRC
-// #define STICK_SCALE      869  // full scale at +-125
-#define STICK_SCALE        3200  // +/-100 gives 15200/8800
+#define STICK_SCALE        4000  // +/-100
 #define STICK_CENTER       12000
 static void build_SUMD_data_ptk()
 {
+#if defined(X_ANY)
+    Xany_scheduleTx_AllInstance();
+#endif
+
     Usart0TxBufferCount = SUMD_MAX_SIZE;
     uint8_t sumdTxBufferCount = Usart0TxBufferCount;
 
@@ -86,8 +89,7 @@ static void build_SUMD_data_ptk()
     Usart0TxBuffer_p2M[--sumdTxBufferCount] = SUMD_MAX_CHANNELS;  //Model.num_channels ?
 
     for (uint8_t i=0; i < SUMD_MAX_CHANNELS; i++) {
-        int16_t tempval = FULL_CHANNEL_OUTPUTS(i); // X1
-        tempval += tempval << 1; // Add mul 2 -> X3 total
+        int16_t tempval = limit<int16_t>(0x1c20, (FULL_CHANNEL_OUTPUTS(i)<<2), 0x41a0); // X4 and limit
         tempval += STICK_CENTER;
         Usart0TxBuffer_p2M[--sumdTxBufferCount] = tempval >> 8;
         Usart0TxBuffer_p2M[--sumdTxBufferCount] = tempval;
