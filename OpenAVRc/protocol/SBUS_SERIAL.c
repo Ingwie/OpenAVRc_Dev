@@ -35,19 +35,21 @@
 
 const pm_char STR_SUBTYPE_SBUS[] PROGMEM = " 6""10""14";
 
-const static RfOptionSettingsvar_t RfOpt_Sbus_Ser[] PROGMEM = {
-  /*rfProtoNeed*/ BOOL1USED,//can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
-  /*rfSubTypeMax*/2, // 6,10&14mS
-  /*rfOptionValue1Min*/0,
-  /*rfOptionValue1Max*/0,
-  /*rfOptionValue2Min*/0,
-  /*rfOptionValue2Max*/0,
-  /*rfOptionValue3Max*/0,
+const static RfOptionSettingsvar_t RfOpt_Sbus_Ser[] PROGMEM =
+{
+ /*rfProtoNeed*/ BOOL1USED,//can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+ /*rfSubTypeMax*/2, // 6,10&14mS
+ /*rfOptionValue1Min*/0,
+ /*rfOptionValue1Max*/0,
+ /*rfOptionValue2Min*/0,
+ /*rfOptionValue2Max*/0,
+ /*rfOptionValue3Max*/0,
 };
 
 static void SBUS_Reset()
 {
-  USART_DISABLE_TX(SBUS_USART);
+ USART_DISABLE_TX(SBUS_USART);
+ USART_DISABLE_RX(SBUS_USART);
 }
 
 #define SBUS_CHANNELS             16
@@ -56,6 +58,10 @@ static void SBUS_Reset()
 
 static void build_SBUS_data_ptk()
 {
+#if defined(X_ANY)
+ Xany_scheduleTx_AllInstance();
+#endif
+
  Usart0TxBufferCount = SBUS_PACKET_SIZE; // Indicates data to transmit.
 
  uint8_t SbusTxBufferCount = Usart0TxBufferCount;
@@ -66,8 +72,7 @@ static void build_SBUS_data_ptk()
 
  for (uint8_t i=0; i < SBUS_CHANNELS; i++)
   {
-   int16_t value = FULL_CHANNEL_OUTPUTS(i) >> 1; // Div 2
-   value += value >> 2; // Add div 4 -> 0.625 total
+   int16_t value = FULL_CHANNEL_OUTPUTS(i)*8/10;
    value += 992;
 
    bits |= (uint32_t)value << bitsavailable;
@@ -91,7 +96,7 @@ static void build_SBUS_data_ptk()
 static uint16_t SBUS_SERIAL_cb()//serial_cb()
 {
  SBUS_PERIOD = (6000U + g_model.rfSubType * 4000U);
- // Schedule next Mixer calculations.
+// Schedule next Mixer calculations.
  SCHEDULE_MIXER_END_IN_US(SBUS_PERIOD);
  build_SBUS_data_ptk();
  heartbeat |= HEART_TIMER_PULSES;
@@ -102,43 +107,44 @@ static uint16_t SBUS_SERIAL_cb()//serial_cb()
 static void SBUS_SERIAL_initialize()
 {
 // 100K 8E2
-  USART_SET_BAUD_100K(SBUS_USART);
-  USART_SET_MODE_8E2(SBUS_USART);
-  USART_ENABLE_TX(SBUS_USART);
-  Usart0TxBufferCount = 0;
+ USART_SET_BAUD_100K(SBUS_USART);
+ USART_SET_MODE_8E2(SBUS_USART);
+ USART_ENABLE_TX(SBUS_USART);
+ Usart0TxBufferCount = 0;
 #if defined(FRSKY)
  if (g_model.rfOptionBool1) // telemetry on?
   {
    USART_ENABLE_RX(SBUS_USART);
   }
 #endif
-  PROTO_Start_Callback(SBUS_SERIAL_cb);
+ PROTO_Start_Callback(SBUS_SERIAL_cb);
 }
 
 const void *SBUS_Cmds(enum ProtoCmds cmd)
 {
-  switch(cmd) {
+ switch(cmd)
+  {
   case PROTOCMD_INIT:
   case PROTOCMD_BIND:
-    SBUS_SERIAL_initialize();
-    return 0;
+   SBUS_SERIAL_initialize();
+   return 0;
   case PROTOCMD_RESET:
-    PROTO_Stop_Callback();
-    SBUS_Reset();
-    return 0;
+   PROTO_Stop_Callback();
+   SBUS_Reset();
+   return 0;
   case PROTOCMD_GETOPTIONS:
-    SetRfOptionSettings(pgm_get_far_address(RfOpt_Sbus_Ser),
-                        STR_SUBTYPE_SBUS,      //Sub proto
-                        STR_DUMMY,      //Option 1 (int)
-                        STR_DUMMY,      //Option 2 (int)
-                        STR_DUMMY,      //Option 3 (uint 0 to 31)
-                        STR_DUMMY,  //OptionBool 1
-                        STR_DUMMY,   //OptionBool 2
-                        STR_DUMMY       //OptionBool 3
-                        );
-    return 0;
+   SetRfOptionSettings(pgm_get_far_address(RfOpt_Sbus_Ser),
+                       STR_SUBTYPE_SBUS,      //Sub proto
+                       STR_DUMMY,      //Option 1 (int)
+                       STR_DUMMY,      //Option 2 (int)
+                       STR_DUMMY,      //Option 3 (uint 0 to 31)
+                       STR_DUMMY,  //OptionBool 1
+                       STR_DUMMY,   //OptionBool 2
+                       STR_DUMMY       //OptionBool 3
+                      );
+   return 0;
   default:
-    break;
+   break;
   }
-  return 0;
+ return 0;
 }
