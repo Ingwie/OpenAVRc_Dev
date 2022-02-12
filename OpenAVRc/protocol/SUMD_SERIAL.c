@@ -34,73 +34,77 @@
 
 const pm_char STR_SUMD_PROTOCOLS[] PROGMEM = " 6""10""14";
 
-const static RfOptionSettingsvar_t RfOpt_Sumd_Ser[] PROGMEM = {
-  /*rfProtoNeed*/0,
-  /*rfSubTypeMax*/2, // 6,10&14mS
-  /*rfOptionValue1Min*/0,
-  /*rfOptionValue1Max*/0,
-  /*rfOptionValue2Min*/0,
-  /*rfOptionValue2Max*/0,
-  /*rfOptionValue3Max*/0,
+const static RfOptionSettingsvar_t RfOpt_Sumd_Ser[] PROGMEM =
+{
+ /*rfProtoNeed*/0,
+ /*rfSubTypeMax*/2, // 6,10&14mS
+ /*rfOptionValue1Min*/0,
+ /*rfOptionValue1Max*/0,
+ /*rfOptionValue2Min*/0,
+ /*rfOptionValue2Max*/0,
+ /*rfOptionValue3Max*/0,
 };
 
 static void SUMD_Reset()
 {
-  USART_DISABLE_TX(SUMD_USART);
+ USART_DISABLE_TX(SUMD_USART);
 }
 
 #define CRC_POLYNOME 0x1021
-static uint16_t crc16(uint16_t crc, uint8_t value) { // Todo : duplicated code
+static uint16_t crc16(uint16_t crc, uint8_t value)   // Todo : duplicated code
+{
+ crc = crc ^ (int16_t)value << 8;
 
-    crc = crc ^ (int16_t)value << 8;
-
-    for (uint8_t i=0; i < 8; i++) {
-        if (crc & 0x8000)
-            crc = (crc << 1) ^ CRC_POLYNOME;
-        else
-            crc = (crc << 1);
-    }
-    return crc;
+ for (uint8_t i=0; i < 8; i++)
+  {
+   if (crc & 0x8000)
+    crc = (crc << 1) ^ CRC_POLYNOME;
+   else
+    crc = (crc << 1);
+  }
+ return crc;
 }
 
-static uint16_t crc(uint8_t *data, uint8_t len) {
+static uint16_t crc(uint8_t *data, uint8_t len)
+{
+ uint16_t crc = 0;
 
-  uint16_t crc = 0;
-  for (uint8_t i=0; i < len; i++)
-      crc = crc16(crc, *data--);
-  return crc;
+ for (uint8_t i=0; i < len; i++)
+  crc = crc16(crc, *data--);
+ return crc;
 }
 
 #define SUMD_MAX_CHANNELS  16      // OAVRc max channels
 #define SUMD_MAX_SIZE      (3 + 2*SUMD_MAX_CHANNELS + 2)   // 3 header bytes, 16bit channels, 16bit CRC
-#define STICK_SCALE        4000  // +/-100
+#define STICK_SCALE        4000  // +/-500uS
 #define STICK_CENTER       12000
 static void build_SUMD_data_ptk()
 {
 #if defined(X_ANY)
-    Xany_scheduleTx_AllInstance();
+ Xany_scheduleTx_AllInstance();
 #endif
 
-    Usart0TxBufferCount = SUMD_MAX_SIZE;
-    uint8_t sumdTxBufferCount = Usart0TxBufferCount;
+ Usart0TxBufferCount = SUMD_MAX_SIZE;
+ uint8_t sumdTxBufferCount = Usart0TxBufferCount;
 
-    Usart0TxBuffer_p2M[--sumdTxBufferCount] = 0xA8;     // manufacturer id
-    Usart0TxBuffer_p2M[--sumdTxBufferCount] = 0x01;     // 0x01 normal packet, 0x81 failsafe setting
-    Usart0TxBuffer_p2M[--sumdTxBufferCount] = SUMD_MAX_CHANNELS;  //Model.num_channels ?
+ Usart0TxBuffer_p2M[--sumdTxBufferCount] = 0xA8;     // manufacturer id
+ Usart0TxBuffer_p2M[--sumdTxBufferCount] = 0x01;     // 0x01 normal packet, 0x81 failsafe setting
+ Usart0TxBuffer_p2M[--sumdTxBufferCount] = SUMD_MAX_CHANNELS;  //Model.num_channels ?
 
-    for (uint8_t i=0; i < SUMD_MAX_CHANNELS; i++) {
-        int16_t tempval = limit<int16_t>(0x1c20, (FULL_CHANNEL_OUTPUTS(i)<<2), 0x41a0); // X4 and limit
-        tempval += STICK_CENTER;
-        Usart0TxBuffer_p2M[--sumdTxBufferCount] = tempval >> 8;
-        Usart0TxBuffer_p2M[--sumdTxBufferCount] = tempval;
-    }
+ for (uint8_t i=0; i < SUMD_MAX_CHANNELS; i++)
+  {
+   int16_t tempval = limit<int16_t>(0x1c20, (FULL_CHANNEL_OUTPUTS(i)<<2), 0x41a0); // X4 and limit
+   tempval += STICK_CENTER;
+   Usart0TxBuffer_p2M[--sumdTxBufferCount] = tempval >> 8;
+   Usart0TxBuffer_p2M[--sumdTxBufferCount] = tempval;
+  }
 
-    uint16_t crc_val = crc(&Usart0TxBuffer_p2M[SUMD_MAX_SIZE-1], SUMD_MAX_SIZE-2);
-    Usart0TxBuffer_p2M[--sumdTxBufferCount] = crc_val >> 8;
-    Usart0TxBuffer_p2M[--sumdTxBufferCount] = crc_val;
+ uint16_t crc_val = crc(&Usart0TxBuffer_p2M[SUMD_MAX_SIZE-1], SUMD_MAX_SIZE-2);
+ Usart0TxBuffer_p2M[--sumdTxBufferCount] = crc_val >> 8;
+ Usart0TxBuffer_p2M[--sumdTxBufferCount] = crc_val;
 
 #if !defined(SIMU)
-    USART_TRANSMIT_BUFFER(SUMD_USART);
+ USART_TRANSMIT_BUFFER(SUMD_USART);
 #endif
 }
 
@@ -108,7 +112,7 @@ static void build_SUMD_data_ptk()
 static uint16_t SUMD_SERIAL_cb()
 {
  SUMD_FRAME_PERIOD = (6000U + g_model.rfSubType * 4000U);
-  // Schedule next Mixer calculations.
+ // Schedule next Mixer calculations.
  SCHEDULE_MIXER_END_IN_US(SUMD_FRAME_PERIOD);
  build_SUMD_data_ptk();
  heartbeat |= HEART_TIMER_PULSES;
@@ -119,37 +123,37 @@ static uint16_t SUMD_SERIAL_cb()
 static void SUMD_initialize()
 {
 // 115K2 8N1
-  USART_SET_BAUD_115K2(SUMD_USART);
-  USART_SET_MODE_8N1(SUMD_USART);
-  USART_ENABLE_TX(SUMD_USART);
-  Usart0TxBufferCount = 0;
-  PROTO_Start_Callback( SUMD_SERIAL_cb);
+ USART_SET_BAUD_115K2(SUMD_USART);
+ USART_SET_MODE_8N1(SUMD_USART);
+ USART_ENABLE_TX(SUMD_USART);
+ Usart0TxBufferCount = 0;
+ PROTO_Start_Callback( SUMD_SERIAL_cb);
 }
 
 const void *SUMD_Cmds(enum ProtoCmds cmd)
 {
-  switch(cmd) {
+ switch(cmd)
+  {
   case PROTOCMD_INIT:
   case PROTOCMD_BIND:
-    SUMD_initialize();
-    return 0;
+   SUMD_initialize();
+   return 0;
   case PROTOCMD_RESET:
-    PROTO_Stop_Callback();
-    SUMD_Reset();
-    return 0;
+   PROTO_Stop_Callback();
+   SUMD_Reset();
+   return 0;
   case PROTOCMD_GETOPTIONS:
-    SetRfOptionSettings(pgm_get_far_address(RfOpt_Sumd_Ser),
-                        STR_SUMD_PROTOCOLS,
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY,
-                        STR_DUMMY);
-    return 0;
+   SetRfOptionSettings(pgm_get_far_address(RfOpt_Sumd_Ser),
+                       STR_SUMD_PROTOCOLS,
+                       STR_DUMMY,
+                       STR_DUMMY,
+                       STR_DUMMY,
+                       STR_DUMMY,
+                       STR_DUMMY,
+                       STR_DUMMY);
+   return 0;
   default:
-    break;
+   break;
   }
-  return 0;
+ return 0;
 }
-
