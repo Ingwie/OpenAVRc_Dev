@@ -72,7 +72,7 @@ static void build_SBUS_data_ptk()
 
  for (uint8_t i=0; i < SBUS_CHANNELS; i++)
   {
-   int16_t value = FULL_CHANNEL_OUTPUTS(i)*8/10;
+   int16_t value = calcRESXto1000(FULL_CHANNEL_OUTPUTS(i))*8/10;
    value += 992;
 
    bits |= (uint32_t)value << bitsavailable;

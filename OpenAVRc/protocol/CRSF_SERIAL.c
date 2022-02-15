@@ -156,7 +156,7 @@ static void build_CRSF_data_pkt()
   {
    if (i < 16/*todoModel.num_channels*/)
     {
-     value = FULL_CHANNEL_OUTPUTS(i)*8/10;
+     value = calcRESXto1000(FULL_CHANNEL_OUTPUTS(i))*8/10;
      value += 992; // Add midpoint value
     }
    else
