@@ -30,7 +30,6 @@
  **************************************************************************
 */
 
-
 #include "../OpenAVRc.h"
 #include "menu_model.h"
 
@@ -81,10 +80,11 @@ void onModelSelectMenu(const char *result)
 
 void menuModelSelect(uint8_t event)
 {
-  if (warning.warningResult) {
+  if (warning.warningResult) { // delete model ?
     warning.warningResult = false;
     eeDeleteModel(menuVerticalPosition); // delete file
     s_copyMode = 0;
+    memclear(&ReBuff.modelsel.mainname, sizeof(ReBuff.modelsel.mainname));
     event = EVT_ENTRY_UP;
   }
 
@@ -151,6 +151,7 @@ void menuModelSelect(uint8_t event)
       s_copyMode = 0;
     } else if (uint8_t(menuVerticalPosition) != g_eeGeneral.currModel) {
       menuVerticalPosition = g_eeGeneral.currModel;
+      putEvent(EVT_MENU_UP); // force model name refresh
     } else {
       popMenu();
     }
