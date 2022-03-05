@@ -105,12 +105,12 @@ void A7105_SetTxRxMode(uint8_t mode)
   }
  else
   {
-   //The A7105 seems to some with a cross-wired power-amp (A7700)
-   //On the XL7105-D03, TX_EN -> RXSW and RX_EN -> TXSW
-   //This means that sleep mode is wired as RX_EN = 1 and TX_EN = 1
-   //If there are other amps in use, we'll need to fix this
-   A7105_WriteReg(A7105_0B_GPIO1_PIN1, 0x33);
-   A7105_WriteReg(A7105_0C_GPIO2_PIN_II, 0x33);
+  // ToDo
+    /* Power Amp / Low Noise Amp devices like Skyworks RFX2401C, RFX2402E have a shutdown state of
+    * RXEN = 0, TXEN = 0. Others may not.
+    */
+    A7105_WriteReg(A7105_0B_GPIO1_PIN1, 0x33);   // GIO1 = 1.
+    A7105_WriteReg(A7105_0C_GPIO2_PIN_II, 0x33); // GIO2 = 1.
   }
 }
 
@@ -174,15 +174,17 @@ uint8_t A7105_ReadReg(uint8_t address)
 //------------------------
 void A7105_Reset()
 {
- A7105_Enable_HWSPI();
- A7105_WriteReg(A7105_00_MODE, 0x00);
- uint8_t temp = 0;
- _delay_ms(1);
- A7105_SetTxRxMode(TXRX_OFF);			//Set both GPIO as output and low
- while(A7105_ReadReg(A7105_10_PLL_II) != 0x9E)	//check if is reset.
-  if(++temp > 10)
-   break;
- A7105_Strobe(A7105_STANDBY);
+  A7105_Enable_HWSPI();
+  A7105_WriteReg(A7105_00_MODE, 0x00); // Software reset.
+
+  uint8_t temp = 10;
+  while(temp--) {
+    if(A7105_ReadReg(A7105_10_PLL_II) == 0x9E) break; // Check if register is reset to default.
+    _delay_us(100);
+  }
+
+  A7105_SetTxRxMode(TXRX_OFF); // Set both GPIO states. Initialisation of registers ( 0x0B, 0x0C ) should not overwrite this.
+  A7105_Strobe(A7105_STANDBY);
 }
 
 void A7105_WriteID(uint32_t ida)
@@ -306,29 +308,29 @@ void A7105_AdjustLOBaseFreq()
 
 
 const uint8_t HUBSAN_A7105_regs[] PROGMEM =
-{
-  0xFF, 0x63, 0xFF, 0x0F, 0xFF, 0xFF, 0xFF ,0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x05, 0x04, 0xFF,
-  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x2B, 0xFF, 0xFF, 0x62, 0x80, 0xFF, 0xFF, 0x0A, 0xFF, 0xFF, 0x07,
-  0x17, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x47, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-  0xFF, 0xFF
+{//0     1     2     3     4     5     6     7     8     9     a     b     c     d     e     f
+  0xFF, 0x63, 0xFF, 0x0F, 0xFF, 0xFF, 0xFF ,0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x05, 0x04, 0xFF, // 0x
+  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x2B, 0xFF, 0xFF, 0x62, 0x80, 0xFF, 0xFF, 0x0A, 0xFF, 0xFF, 0x07, // 1x
+  0x17, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x47, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, // 2x
+  0xFF, 0xFF // 3x
 };
 
 
 const uint8_t FLYSKY_A7105_regs[] PROGMEM =
-{
- 0xff, 0x42, 0x00, 0x14, 0x00, 0xff, 0xff,0x00, 0x00, 0x00, 0x00, 0x01, 0x21, 0x05, 0x00, 0x50,
- 0x9e, 0x4b, 0x00, 0x02, 0x16, 0x2b, 0x12, 0x00, 0x62, 0x80, 0x80, 0x00, 0x0a, 0x32, 0xc3, 0x0f,
- 0x13, 0xc3, 0x00, 0xff, 0x00, 0x00, 0x3b, 0x00, 0x17, 0x47, 0x80, 0x03, 0x01, 0x45, 0x18, 0x00,
- 0x01, 0x0f
+{//0     1     2     3     4     5     6     7     8     9     a     b     c     d     e     f
+  0xff, 0x42, 0x00, 0x14, 0x00, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x05, 0x00, 0x50,
+  0x9e, 0x4b, 0x00, 0x02, 0x16, 0x2b, 0x12, 0x00, 0x62, 0x80, 0x80, 0x00, 0x0a, 0x32, 0xc3, 0x0f,
+  0x13, 0xc3, 0x00, 0xff, 0x00, 0x00, 0x3b, 0x00, 0x17, 0x47, 0x80, 0x03, 0x01, 0x45, 0x18, 0x00,
+  0x01, 0x0f
 };
 
 
 const uint8_t AFHDS2A_A7105_regs[] PROGMEM =
 {
- 0xFF, 0x42 | (1<<5), 0x00, 0x25, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x01, 0x3c, 0x05, 0x00, 0x50,	// 00 - 0f
- 0x9e, 0x4b, 0x00, 0x02, 0x16, 0x2b, 0x12, 0x4f, 0x62, 0x80, 0xFF, 0xFF, 0x2a, 0x32, 0xc3, 0x1f,				// 10 - 1f
- 0x1e, 0xFF, 0x00, 0xFF, 0x00, 0x00, 0x3b, 0x00, 0x17, 0x47, 0x80, 0x03, 0x01, 0x45, 0x18, 0x00,				// 20 - 2f
- 0x01, 0x0f // 30 - 31
+  0xFF, 0x42 | (1<<5), 0x00, 0x25, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x05, 0x00, 0x50,
+  0x9e, 0x4b, 0x00, 0x02, 0x16, 0x2b, 0x12, 0x4f, 0x62, 0x80, 0xFF, 0xFF, 0x2a, 0x32, 0xc3, 0x1f,
+  0x1e, 0xFF, 0x00, 0xFF, 0x00, 0x00, 0x3b, 0x00, 0x17, 0x47, 0x80, 0x03, 0x01, 0x45, 0x18, 0x00,
+  0x01, 0x0f
 };
 
 #define ID_NORMAL 0x55201041
@@ -361,7 +363,7 @@ void A7105_Init(void)
  for (uint8_t i = 0; i < 0x32; i++)
   {
    uint8_t val = pgm_read_byte_far(A7105_Regs + i);
-   if((g_model.rfProtocol==PROTOCOL_FLYSKY) && g_model.rfSubType==4/*CX20*/)
+   if((g_model.rfProtocol==PROTOCOL_FLYSKY) && (g_model.rfSubType==4/*CX20*/))
     {
      if(i==0x0E)
       val=0x01;
@@ -373,44 +375,58 @@ void A7105_Init(void)
    if( val != 0xFF)
     A7105_WriteReg(i, val);
   }
- A7105_Strobe(A7105_STANDBY);
 
-//IF Filter Bank Calibration
- A7105_WriteReg(A7105_02_CALC,1);
- A7105_ReadReg(A7105_02_CALC);	// Wait for calibration to end (0.5mS MAX, 256uS in datasheet)
- _delay_us(500);
-//	A7105_ReadReg(A7105_22_IF_CALIB_I);
-//	A7105_ReadReg(A7105_24_VCO_CURCAL);
-//if(g_model.rfProtocol!=PROTOCOL_HUBSAN)
- {
-  //VCO Current Calibration
-  A7105_WriteReg(A7105_24_VCO_CURCAL,0x13);	//Recommended calibration from A7105 Datasheet
-  //VCO Bank Calibration
-  A7105_WriteReg(A7105_26_VCO_SBCAL_II,0x3b);	//Recommended calibration from A7105 Datasheet
- }
+  // A7105 CALIBRATION.
+  A7105_Strobe(A7105_PLL); // All calibration done in PLL mode, See Datasheet.
 
-//VCO Bank Calibrate channel 0
- A7105_WriteReg(A7105_0F_CHANNEL, 0);
- A7105_WriteReg(A7105_02_CALC,2);
- A7105_ReadReg(A7105_02_CALC);		// Wait for calibration to end (0.5mS MAX), 240uS in datasheet
- _delay_us(500);
-//	A7105_ReadReg(A7105_25_VCO_SBCAL_I);
+  // IF Filter Bank Calibration.
+  A7105_WriteReg(A7105_02_CALC,1);
 
-//VCO Bank Calibrate channel A0
- A7105_WriteReg(A7105_0F_CHANNEL, 0xa0);
- A7105_WriteReg(A7105_02_CALC, 2);
- A7105_ReadReg(A7105_02_CALC);		// Wait for calibration to end (0.5mS MAX), 240uS in datasheet
- _delay_us(500);
-//	A7105_ReadReg(A7105_25_VCO_SBCAL_I);
+  uint8_t cal = 24;
+  while(cal--) {
+    if(! (A7105_ReadReg(A7105_02_CALC))) break; // Check if calibration complete.
+   // Can take up to 4ms if register A7105_17_DELAY_II is set to 0 as Flysky protocol does.
+    _delay_us(250);
+  }
 
-//Reset VCO Band calibration
-//if(g_model.rfProtocol!=PROTOCOL_HUBSAN)
- {
-  A7105_WriteReg(A7105_25_VCO_SBCAL_I,(g_model.rfProtocol==PROTOCOL_FLYSKY)?0x08:0x0A);
- }
+  //if(g_model.rfProtocol!=PROTOCOL_HUBSAN)
+  {
+    //VCO Current Calibration
+    A7105_WriteReg(A7105_24_VCO_CURCAL,0x13);	// Recommended calibration from A7105 Datasheet
+    //VCO Bank Calibration
+    A7105_WriteReg(A7105_26_VCO_SBCAL_II,0x3b);	// Recommended calibration from A7105 Datasheet
+  }
+
+
+  // VCO Bank Calibrate channel 0.
+  A7105_WriteReg(A7105_0F_CHANNEL, 0);
+
+  A7105_WriteReg(A7105_02_CALC,2);
+  cal = 4;
+  while(cal--) {
+    if(! (A7105_ReadReg(A7105_02_CALC))) break; // Check if calibration complete.
+    _delay_us(250);
+  }
+
+  // VCO Bank Calibrate channel A0.
+  A7105_WriteReg(A7105_0F_CHANNEL, 0xa0);
+
+  A7105_WriteReg(A7105_02_CALC, 2);
+  cal = 4;
+  while(cal--) {
+    if(! (A7105_ReadReg(A7105_02_CALC))) break; // Check if calibration complete.
+    _delay_us(250);
+  }
+
+  // Reset VCO Band calibration
+  //if(g_model.rfProtocol!=PROTOCOL_HUBSAN)
+  {
+    A7105_WriteReg(A7105_25_VCO_SBCAL_I,(g_model.rfProtocol==PROTOCOL_FLYSKY)?0x08:0x0A);
+  }
 
  A7105_SetTxRxMode(TX_EN);
  A7105_SetPower(TXPOWER_1);
  A7105_AdjustLOBaseFreq();
 }
 #endif
+
