@@ -76,23 +76,48 @@
 #define CRSF_DATARATE             115200
 #define CRSF_FRAME_PERIOD         4000   // 4ms
 #define CRSF_CHANNELS             16
-#define CRSF_PACKET_SIZE          26
+#define CRSF_CHAN_PACKET_SIZE     26
+#define CRSF_SET_PACKET_SIZE      8
 
+// ELRS command
+#define ELRS_ADDRESS               0xEE
+#define ELRS_BIND_COMMAND          0xFF
+#define ELRS_WIFI_COMMAND          0xFE
+#define ELRS_PKT_RATE_COMMAND      0x01
+#define ELRS_TLM_RATIO_COMMAND     0x02
+#define ELRS_POWER_COMMAND         0x03
 
 const static RfOptionSettingsvar_t RfOpt_CRSF_Ser[] PROGMEM =
 {
  /*rfProtoNeed*/0, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
  /*rfSubTypeMax*/0,
  /*rfOptionValue1Min*/0,
- /*rfOptionValue1Max*/0,
+ /*rfOptionValue1Max*/0x54,
  /*rfOptionValue2Min*/0,
  /*rfOptionValue2Max*/0,
  /*rfOptionValue3Max*/0,
 };
 
+const pm_char STR_CRSF_FREQ[] PROGMEM = "915AU""915FC""868EU""433AU""433EU""24ISM";
+const uint8_t CRSF_RATE24[] PROGMEM = {0xFF,250,150,50,25}; // 0xFF mean 500
+const uint8_t CRSF_RATE900[] PROGMEM = {200,100,50,25};
+const uint8_t CRSF_POWER[] PROGMEM = {10,25,50,100,250,0xFD,0xFE,0xFF}; // 0xFD mean 500 0xFE->1000 0xFF->2000
+const uint8_t CRSF_TLMRATE[] PROGMEM = {128,64,32,16,8,4,2};
+
+#define READ_CRSF_FREQ      (g_model.rfOptionValue1>>4)
+#define WRITE_CRSF_FREQ(x)  (g_model.rfOptionValue1 = (g_model.rfOptionValue1 & 0x0F) | (x<<4))
+#define READ_CRSF_RATE      (g_model.rfOptionValue1&0x0F)
+#define WRITE_CRSF_RATE(x)  (g_model.rfOptionValue1 = (g_model.rfOptionValue1 & 0xF0) | x)
+#define IS_CRSF_24_FREQ     (READ_CRSF_FREQ == 5)
+#define GET_CRSF_NUM_RATE   (IS_CRSF_24_FREQ ? sizeof(CRSF_RATE24) : sizeof(CRSF_RATE900))
+
+#define CRSF_FREQ_RATE_MEM  rfState8_p2M
+#define CRSF_RATE_PERIOD    rfState16_p2M
+
 static void CRSF_Reset()
 {
  USART_DISABLE_TX(CRSF_USART);
+ USART_DISABLE_RX(CRSF_USART);
 }
 
 static const uint8_t ZZcrsf_crc8tab[] PROGMEM =
@@ -141,11 +166,11 @@ static void build_CRSF_data_pkt()
  Xany_scheduleTx_AllInstance();
 #endif
 
- Usart0TxBufferCount = CRSF_PACKET_SIZE;
+ Usart0TxBufferCount = CRSF_CHAN_PACKET_SIZE;
  uint8_t crsfTxBufferCount = Usart0TxBufferCount;
 
  Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_ADDR_MODULE;
- Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_PACKET_SIZE - 2;   // length of type + payload + crc
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_CHAN_PACKET_SIZE - 2;   // length of type + payload + crc
  Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_TYPE_CHANNELS;
 
  int16_t value;
@@ -171,20 +196,83 @@ static void build_CRSF_data_pkt()
      bitsavailable -= 8;
     }
   }
- Usart0TxBuffer_p2M[0] = crsf_crc8(&Usart0TxBuffer_p2M[CRSF_PACKET_SIZE-3], CRSF_PACKET_SIZE-3);
+ Usart0TxBuffer_p2M[0] = crsf_crc8(&Usart0TxBuffer_p2M[CRSF_CHAN_PACKET_SIZE-3], CRSF_CHAN_PACKET_SIZE-3);
+}
 
-#if !defined(SIMU)
- USART_TRANSMIT_BUFFER(CRSF_USART);
-#endif
+static void buildElrsPacket(uint8_t command, uint8_t value)
+{
+ Usart0TxBufferCount = CRSF_SET_PACKET_SIZE;
+ uint8_t crsfTxBufferCount = Usart0TxBufferCount;
+
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_ADDR_MODULE;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_SET_PACKET_SIZE-2;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_TYPE_SETTINGS_WRITE;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = ELRS_ADDRESS;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_ADDR_RADIO;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = command;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = value;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = crsf_crc8(&Usart0TxBuffer_p2M[CRSF_CHAN_PACKET_SIZE-3], CRSF_CHAN_PACKET_SIZE-3);
+}
+
+uint16_t convertPktRateToPeriod()
+{
+ uint16_t freq = IS_CRSF_24_FREQ ? pgm_read_byte_near(&CRSF_RATE24[READ_CRSF_RATE]) : pgm_read_byte_near(&CRSF_RATE900[READ_CRSF_RATE]);
+ if (freq == 0xFF) freq = 500;
+ freq = 1000/freq;
+ return freq;
+}
+
+static uint8_t convertPktRateToElrs(uint8_t rfFreqRate)
+{
+ uint8_t rate = (rfFreqRate & 0x0F);
+ rfFreqRate >>= 4; // keep rfFreq value
+
+ switch (rate) // rate
+  {
+  case 0:
+   if (rfFreqRate == 5) return 0;
+   return 2;
+  case 1:
+   if (rfFreqRate == 5) return 1;
+   return 4;
+  case 2:
+   if (rfFreqRate == 5) return 3;
+   return 5;
+  case 3:
+   if (rfFreqRate == 5) return 5;
+   return 6;
+  case 4:
+   return 6;
+  }
+ return 6;
+}
+
+static uint8_t check_CRSF_ParamChange()
+{
+  if (g_model.rfOptionValue1 != CRSF_FREQ_RATE_MEM) // freq and/or rate change ?
+  {
+    uint8_t rate = convertPktRateToElrs(g_model.rfOptionValue1);
+    buildElrsPacket(ELRS_PKT_RATE_COMMAND, rate);
+    CRSF_FREQ_RATE_MEM = g_model.rfOptionValue1;
+    uint16_t period = convertPktRateToPeriod();
+    CRSF_RATE_PERIOD = period * 1000;
+    SCHEDULE_MIXER_END_IN_US(CRSF_RATE_PERIOD); // Schedule new next Mixer calculations.
+    return 1;
+  }
+  return 0;
 }
 
 static uint16_t CRSF_SERIAL_cb()
 {
- SCHEDULE_MIXER_END_IN_US(4000U); // Schedule next Mixer calculations.
- build_CRSF_data_pkt();
+ SCHEDULE_MIXER_END_IN_US(CRSF_RATE_PERIOD); // Schedule next Mixer calculations.
+ if (!check_CRSF_ParamChange())
+  build_CRSF_data_pkt();
+ #if !defined(SIMU)
+ USART_TRANSMIT_BUFFER(CRSF_USART);
+#endif
  heartbeat |= HEART_TIMER_PULSES;
  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
- return 4000U *2;
+ return CRSF_RATE_PERIOD *2;
 }
 
 static void CRSF_initialize(uint8_t bind)
@@ -194,6 +282,7 @@ static void CRSF_initialize(uint8_t bind)
  USART_SET_MODE_8N1(CRSF_USART);
  USART_ENABLE_TX(CRSF_USART);
  Usart0TxBufferCount = 0;
+ CRSF_RATE_PERIOD = convertPktRateToPeriod() * 1000;
  PROTO_Start_Callback( CRSF_SERIAL_cb);
 }
 
@@ -229,27 +318,6 @@ const void *CRSF_Cmds(enum ProtoCmds cmd)
 }
 
 /* Todo : ELRS
-static uint8_t convertPktRateToElrs(uint8_t rfFreq, uint8_t rate)
-{
- switch (rate)
-  {
-  case 0:
-   if (rfFreq == 6) return 0;
-   return 2;
-  case 1:
-   if (rfFreq == 6) return 1;
-   return 4;
-  case 2:
-   if (rfFreq == 6) return 3;
-   return 5;
-  case 3:
-   if (rfFreq == 6) return 5;
-   return 6;
-  case 4:
-   return 6;
-  }
- return 6;
-}
 
 static uint8_t convertElrsToPktRate(uint8_t rfFreq, uint8_t elrsRate)
 {
@@ -275,29 +343,6 @@ static uint8_t convertElrsToPktRate(uint8_t rfFreq, uint8_t elrsRate)
  return 0;
 }
 
-static uint16_t convertPktRateToPeriod(uint8_t rfFreq, uint8_t rate)
-{
- if (rfFreq == 0) return CRSF_FRAME_PERIOD;
- switch (rate)
-  {
-  case 0:
-   if (rfFreq == 6) return 2000;
-   return 5000;
-  case 1:
-   if (rfFreq == 6) return 4000;
-   return 10000;
-  case 2:
-   if (rfFreq == 6) return 6666;
-   return 20000;
-  case 3:
-   if (rfFreq == 6) return 20000;
-   return 40000;
-  case 4:
-   return 40000;
-  }
- return CRSF_FRAME_PERIOD;
-}
-
 enum
 {
  PROTO_OPTS_BAD_PKTS,
@@ -310,27 +355,6 @@ enum
  PROTO_OPTS_WIFI_UPDATE,
  LAST_PROTO_OPT,
 };
-
-#define ELRS_ADDRESS 0xEE
-#define ELRS_BIND_COMMAND 0xFF
-#define ELRS_WIFI_COMMAND 0xFE
-#define ELRS_PKT_RATE_COMMAND 1
-#define ELRS_TLM_RATIO_COMMAND 2
-#define ELRS_POWER_COMMAND 3
-
-static uint8_t buildElrspacket(uint8_t command, uint8_t value)
-{
- Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 0] = ADDR_MODULE;
- Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 1] = 6;
- Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 2] = TYPE_SETTINGS_WRITE;
- Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 3] = ELRS_ADDRESS;
- Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 4] = ADDR_RADIO;
- Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 5] = command;
- Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 6] = value;
- Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 7] = crsf_crc8(&Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 2], Usart0TxBuffer_p2M[CRSF_PACKET_SIZE - 1]-1);
-
- return 8;
-}
 
 static uint8_t currentPktRate = 0;
 static uint8_t currentTlmRatio = 0;
@@ -604,7 +628,7 @@ static uint16_t serial_cb()
         if (mixer_sync != MIX_DONE && mixer_runtime < 2000) mixer_runtime += 50;
 #if SUPPORT_CRSF_CONFIG
         if (Model.proto_opts[PROTO_OPTS_RF_FREQ] == 0) {
-            length = CRSF_serial_txd(Usart0TxBuffer_p2M, CRSF_PACKET_SIZE);
+            length = CRSF_serial_txd(Usart0TxBuffer_p2M, CRSF_CHAN_PACKET_SIZE);
         } else {
             length = setElrsOptions();
         }

@@ -86,7 +86,7 @@ void menuModelSetup(uint8_t event)
 #define MODEL_SETUP_MAX_LINES  (IS_PPM_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+2 : \
  (IS_DSM2_SERIAL_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_2+2 : \
  (IS_MULTIMODULE_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_5+2 :  \
- (IS_CRSF_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+2 :  \
+ (IS_CRSF_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+3 :  \
  (IS_SBUS_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+3 :  \
  (IS_SUMD_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+2 :  \
  (IS_SPIMODULES_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_8+2 :   \
@@ -421,7 +421,14 @@ void menuModelSetup(uint8_t event)
 #elif (SERIAL_PROTOCOL==CRSF)
        if (IS_CRSF_PROTOCOL(protocol))
         {
-         //todo
+         lcdDrawTextLeft(y, STR_TYPE);
+         uint8_t freq = READ_CRSF_FREQ;
+         lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, STR_CRSF_FREQ+5*freq, 5, menuHorizontalPosition == 0 ? attr : 0);
+         if (attr && (editMode>0 || p1valdiff))
+          {
+           CHECK_INCDEC_MODELVAR_ZERO(event, freq, RfOptionSettings.rfOptionValue1Max>>4);
+           WRITE_CRSF_FREQ(freq);
+          }
         }
 #elif (SERIAL_PROTOCOL==SBUS)
        if (IS_SBUS_PROTOCOL(protocol))
@@ -587,6 +594,20 @@ void menuModelSetup(uint8_t event)
             {
              systemBolls.rangeModeIsOn = true;
             }
+          }
+        }
+#elif (SERIAL_PROTOCOL==CRSF)
+       if (IS_CRSF_PROTOCOL(protocol))
+        {
+         lcdDrawTextLeft(y, STR_PERIOD);
+         uint8_t rate = READ_CRSF_RATE;
+         lcdDrawTextLeft(y, STR_PERIOD);
+         lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN+2*FW, y, convertPktRateToPeriod(), (menuHorizontalPosition==0 ? attr : 0));
+         lcdDrawText(MODEL_SETUP_2ND_COLUMN+3*FW, y, STR_MS);
+         if (attr && (editMode>0 || p1valdiff))
+          {
+           CHECK_INCDEC_MODELVAR_ZERO(event, rate, GET_CRSF_NUM_RATE-1);
+           WRITE_CRSF_RATE(rate);
           }
         }
 #elif (SERIAL_PROTOCOL==SBUS)

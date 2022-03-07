@@ -518,7 +518,7 @@ extern const pm_char STR_RXNUM[];
 #if (SERIAL_PROTOCOL==DSM)
 extern const pm_char STR_DSM_PROTOCOLS[];
 #endif
-#if ((SERIAL_PROTOCOL==SUMD) || (SERIAL_PROTOCOL==SBUS))
+#if ((SERIAL_PROTOCOL==SUMD) || (SERIAL_PROTOCOL==SBUS) || (SERIAL_PROTOCOL==CRSF))
 extern const pm_char STR_PERIOD[];
 #endif
 
