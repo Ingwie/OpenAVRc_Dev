@@ -223,7 +223,6 @@ void onMainViewMenu(const char *result)
     timerReset(1);
   }
   else if (result == STR_SAVE_TIMERS) {
-    //saveTimers();
     OpenAVRcClose();
   }
 #if defined(FRSKY)
@@ -346,10 +345,7 @@ void menuMainView(uint8_t event)
           POPUP_CONFIRMATION(STR_POWEROFF);
           killEvents(event);
     break;
-
-
   }
-
   {
     // Flight Mode Name
     uint8_t mode = mixerCurrentFlightMode;
