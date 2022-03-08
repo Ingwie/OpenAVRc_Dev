@@ -421,6 +421,7 @@ void menuModelSetup(uint8_t event)
 #elif (SERIAL_PROTOCOL==CRSF)
        if (IS_CRSF_PROTOCOL(protocol))
         {
+         menuHorizontalPosition = 0; // force Hpos
          lcdDrawTextLeft(y, STR_TYPE);
          uint8_t freq = READ_CRSF_FREQ;
          lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, STR_CRSF_FREQ+5*freq, 5, menuHorizontalPosition == 0 ? attr : 0);
@@ -433,7 +434,7 @@ void menuModelSetup(uint8_t event)
 #elif (SERIAL_PROTOCOL==SBUS)
        if (IS_SBUS_PROTOCOL(protocol))
         {
-         menuHorizontalPosition = 0;
+         menuHorizontalPosition = 0; // force Hpos
          lcdDrawTextLeft(y, STR_PERIOD);
          lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+2*g_model.rfSubType, 2, menuHorizontalPosition == 0 ? attr : 0);
          lcdDrawText(MODEL_SETUP_2ND_COLUMN+2*FW, y, STR_MS);
@@ -445,6 +446,7 @@ void menuModelSetup(uint8_t event)
 #elif (SERIAL_PROTOCOL==SUMD)
        if (IS_SUMD_PROTOCOL(protocol))
         {
+         menuHorizontalPosition = 0; // force Hpos
          lcdDrawTextLeft(y, STR_PERIOD);
          lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+2*g_model.rfSubType, 2, menuHorizontalPosition == 0 ? attr : 0);
          lcdDrawText(MODEL_SETUP_2ND_COLUMN+2*FW, y, STR_MS);
@@ -599,8 +601,14 @@ void menuModelSetup(uint8_t event)
 #elif (SERIAL_PROTOCOL==CRSF)
        if (IS_CRSF_PROTOCOL(protocol))
         {
-         lcdDrawTextLeft(y, STR_PERIOD);
+         menuHorizontalPosition = 0; // force Hpos
          uint8_t rate = READ_CRSF_RATE;
+         if (!IS_CRSF_24_FREQ && (rate == 4)) // prevent unavailable setting
+         {
+          rate = 3;
+          WRITE_CRSF_RATE(rate);
+         }
+         lcdDrawTextLeft(y, STR_PERIOD);
          lcdDrawTextLeft(y, STR_PERIOD);
          lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN+2*FW, y, convertPktRateToPeriod(), (menuHorizontalPosition==0 ? attr : 0));
          lcdDrawText(MODEL_SETUP_2ND_COLUMN+3*FW, y, STR_MS);
@@ -613,6 +621,7 @@ void menuModelSetup(uint8_t event)
 #elif (SERIAL_PROTOCOL==SBUS)
        if (IS_SBUS_PROTOCOL(protocol))
         {
+         menuHorizontalPosition = 0; // force Hpos
          uint8_t rfOB1 = g_model.rfOptionBool1;
          ON_OFF_MENU_ITEM(g_model.rfOptionBool1, MODEL_SETUP_2ND_COLUMN, y, STR_TELEMETRY, attr, event);
          if (g_model.rfOptionBool1 != rfOB1) { startPulses(PROTOCMD_INIT); }; // Re init if change

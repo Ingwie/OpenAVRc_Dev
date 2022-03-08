@@ -112,6 +112,8 @@ const uint8_t CRSF_TLMRATE[] PROGMEM = {128,64,32,16,8,4,2};
 #define GET_CRSF_NUM_RATE   (IS_CRSF_24_FREQ ? sizeof(CRSF_RATE24) : sizeof(CRSF_RATE900))
 
 #define CRSF_FREQ_RATE_MEM  rfState8_p2M
+#define CRSF_40_MS_Flag     channel_index_p2M
+#define CRSF_40_MS_Flipflop channel_offset_p2M
 #define CRSF_RATE_PERIOD    rfState16_p2M
 
 static void CRSF_Reset()
@@ -216,7 +218,8 @@ static void buildElrsPacket(uint8_t command, uint8_t value)
 
 uint16_t convertPktRateToPeriod()
 {
- uint16_t freq = IS_CRSF_24_FREQ ? pgm_read_byte_near(&CRSF_RATE24[READ_CRSF_RATE]) : pgm_read_byte_near(&CRSF_RATE900[READ_CRSF_RATE]);
+ uint8_t rate = READ_CRSF_RATE;
+ uint16_t freq = IS_CRSF_24_FREQ ? pgm_read_byte_near(&CRSF_RATE24[rate]) : pgm_read_byte_near(&CRSF_RATE900[rate]);
  if (freq == 0xFF) freq = 500;
  freq = 1000/freq;
  return freq;
@@ -255,7 +258,16 @@ static uint8_t check_CRSF_ParamChange()
     buildElrsPacket(ELRS_PKT_RATE_COMMAND, rate);
     CRSF_FREQ_RATE_MEM = g_model.rfOptionValue1;
     uint16_t period = convertPktRateToPeriod();
-    CRSF_RATE_PERIOD = period * 1000;
+    if (period == 40)
+    {
+      CRSF_40_MS_Flag = 1;
+      period /= 2; // use CRSF_40_MS_Flipflop
+    }
+    else
+    {
+      CRSF_40_MS_Flag = 0;
+    }
+    CRSF_RATE_PERIOD = period * 1000U;
     SCHEDULE_MIXER_END_IN_US(CRSF_RATE_PERIOD); // Schedule new next Mixer calculations.
     return 1;
   }
@@ -265,12 +277,15 @@ static uint8_t check_CRSF_ParamChange()
 static uint16_t CRSF_SERIAL_cb()
 {
  SCHEDULE_MIXER_END_IN_US(CRSF_RATE_PERIOD); // Schedule next Mixer calculations.
- if (!check_CRSF_ParamChange())
-  build_CRSF_data_pkt();
- #if !defined(SIMU)
- USART_TRANSMIT_BUFFER(CRSF_USART);
+ if (!(CRSF_40_MS_Flag && (CRSF_40_MS_Flipflop ^= 0x1)))
+ {
+  if (!check_CRSF_ParamChange())
+    build_CRSF_data_pkt();
+#if !defined(SIMU)
+   USART_TRANSMIT_BUFFER(CRSF_USART);
 #endif
- heartbeat |= HEART_TIMER_PULSES;
+   heartbeat |= HEART_TIMER_PULSES;
+  }
  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
  return CRSF_RATE_PERIOD *2;
 }
@@ -282,7 +297,7 @@ static void CRSF_initialize(uint8_t bind)
  USART_SET_MODE_8N1(CRSF_USART);
  USART_ENABLE_TX(CRSF_USART);
  Usart0TxBufferCount = 0;
- CRSF_RATE_PERIOD = convertPktRateToPeriod() * 1000;
+ CRSF_RATE_PERIOD = convertPktRateToPeriod() * 1000U;
  PROTO_Start_Callback( CRSF_SERIAL_cb);
 }
 
