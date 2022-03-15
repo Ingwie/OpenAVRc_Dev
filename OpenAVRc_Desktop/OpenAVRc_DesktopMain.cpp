@@ -174,6 +174,7 @@ bool NOANDSECONDE = 1;
 bool SHUTDOWN_CONFIRMATION = 0;
 bool FRAM = 0;
 bool PERSONAMES = 0;
+bool DBLGAZSTICK = 0;
 wxString OTHERCOMPOPTIONS = "";
 bool INV_STICK_RH = 0;
 bool INV_STICK_LV = 0;
@@ -703,6 +704,7 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
   configFile->Read(wxT("BLUETOOTH"),&BLUETOOTH);
   configFile->Read(wxT("XMODEM"),&XMODEM);
   configFile->Read(wxT("PERSONAMES"),&PERSONAMES);
+  configFile->Read(wxT("DBLGAZSTICK"),&DBLGAZSTICK);
   configFile->Read(wxT("OTHERCOMPOPTIONS"),&OTHERCOMPOPTIONS);
   configFile->Read(wxT("INV_STICK_RH"),&INV_STICK_RH);
   configFile->Read(wxT("INV_STICK_LV"),&INV_STICK_LV);
@@ -838,6 +840,7 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
   configFile->Write(wxT("BLUETOOTH"),BLUETOOTH);
   configFile->Write(wxT("XMODEM"),XMODEM);
   configFile->Write(wxT("PERSONAMES"),PERSONAMES);
+  configFile->Write(wxT("DBLGAZSTICK"),DBLGAZSTICK);
   configFile->Write(wxT("OTHERCOMPOPTIONS"),OTHERCOMPOPTIONS);
   configFile->Write(wxT("INV_STICK_RH"),INV_STICK_RH);
   configFile->Write(wxT("INV_STICK_LV"),INV_STICK_LV);

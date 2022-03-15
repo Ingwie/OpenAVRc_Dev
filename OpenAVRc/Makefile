@@ -202,6 +202,10 @@ GVARS = NO
 # Values = NO, YES with personames.h edited
 PERSONAMES = NO
 
+# Show a bouble vertical stick (For boats, tanks, ...)
+# Values = NO, YES
+DBLGAZSTICK = NO
+
 # Allow to add extra compilation option
 # Values = NO, ....
 OTHERCOMPOPTIONS = NO
@@ -1054,6 +1058,10 @@ ifeq ($(3POS), POT2)
 endif
 ifeq ($(3POS), POT3)
   CPPDEFS += -DEXTRA_3POS=3
+endif
+
+ifneq ($(DBLGAZSTICK), NO)
+  CPPDEFS += -DDBLGAZSTICK
 endif
 
 ifneq ($(OTHERCOMPOPTIONS), NO)

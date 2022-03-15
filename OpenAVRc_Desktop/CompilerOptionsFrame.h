@@ -119,6 +119,7 @@ extern bool FRAM;
 extern wxString BLUETOOTH;
 extern bool XMODEM;
 extern bool PERSONAMES;
+extern bool DBLGAZSTICK;
 extern wxString OTHERCOMPOPTIONS;
 
 // Sticks
@@ -182,6 +183,7 @@ public:
     wxCheckBox* CheckBoxCORRECT_NEGATIVE_VALUES;
     wxCheckBox* CheckBoxCURVES;
     wxCheckBox* CheckBoxCYRF6936;
+    wxCheckBox* CheckBoxDBLGAZSTICK;
     wxCheckBox* CheckBoxDBLKEYS;
     wxCheckBox* CheckBoxEEPROM_PROGRESS_BAR;
     wxCheckBox* CheckBoxFLIGHT_MODES;
@@ -401,9 +403,10 @@ protected:
     static const long ID_PROTOSERIALCHOICE;
     static const long ID_STATICTEXT31;
     static const long ID_PANEL3;
-    static const long ID_STATICBOX8;
     static const long ID_STATICBOX7;
     static const long ID_STATICBOX14;
+    static const long ID_STATICBOX8;
+    static const long ID_CHECKBOX11;
     static const long ID_COMBOBOX18;
     static const long ID_STATICTEXT35;
     static const long ID_COMBOBOX16;

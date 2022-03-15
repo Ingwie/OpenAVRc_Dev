@@ -72,10 +72,29 @@ void drawPotsBars()
 void doMainScreenGraphics()
 {
   int16_t calibStickVert = calibratedStick[CONVERT_MODE(1)];
-
+#if defined(DBLGAZSTICK)
+  if (systemBolls.stickMode & 1)
+  {
+    drawDblGazStick(LBOX_CENTERX, calibratedStick[CONVERT_MODE(0)], calibStickVert);
+  }
+  else
+  {
+    drawStick(LBOX_CENTERX, calibratedStick[CONVERT_MODE(0)], calibStickVert);
+  }
+  calibStickVert = calibratedStick[CONVERT_MODE(2)];
+  if (systemBolls.stickMode & 1)
+  {
+    drawStick(RBOX_CENTERX, calibratedStick[CONVERT_MODE(3)], calibStickVert);
+  }
+  else
+  {
+    drawDblGazStick(RBOX_CENTERX, calibratedStick[CONVERT_MODE(3)], calibStickVert);
+  }
+#else
   drawStick(LBOX_CENTERX, calibratedStick[CONVERT_MODE(0)], calibStickVert);
   calibStickVert = calibratedStick[CONVERT_MODE(2)];
   drawStick(RBOX_CENTERX, calibratedStick[CONVERT_MODE(3)], calibStickVert);
+#endif
   drawPotsBars();
 }
 

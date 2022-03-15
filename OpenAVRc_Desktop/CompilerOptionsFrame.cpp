@@ -140,9 +140,10 @@ const long CompilerOptionsFrame::ID_STATICTEXT30 = wxNewId();
 const long CompilerOptionsFrame::ID_PROTOSERIALCHOICE = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT31 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL3 = wxNewId();
-const long CompilerOptionsFrame::ID_STATICBOX8 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX7 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX14 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICBOX8 = wxNewId();
+const long CompilerOptionsFrame::ID_CHECKBOX11 = wxNewId();
 const long CompilerOptionsFrame::ID_COMBOBOX18 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT35 = wxNewId();
 const long CompilerOptionsFrame::ID_COMBOBOX16 = wxNewId();
@@ -389,9 +390,11 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceSERIAL_PROTOCOL = new wxChoice(Panel3, ID_PROTOSERIALCHOICE, wxPoint(40,80), wxSize(96,23), 0, 0, 0, wxDefaultValidator, _T("ID_PROTOSERIALCHOICE"));
   StaticText31 = new wxStaticText(Panel3, ID_STATICTEXT31, _("Protocole Série"), wxPoint(32,60), wxDefaultSize, 0, _T("ID_STATICTEXT31"));
   Panel4 = new wxPanel(Notebook1, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL4"));
-  StaticBox8 = new wxStaticBox(Panel4, ID_STATICBOX8, _("Extra 3POS"), wxPoint(264,24), wxSize(96,112), 0, _T("ID_STATICBOX8"));
   StaticBox7 = new wxStaticBox(Panel4, ID_STATICBOX7, _("Nom des interrupteurs"), wxPoint(8,8), wxSize(504,328), 0, _T("ID_STATICBOX7"));
-  StaticBox14 = new wxStaticBox(Panel4, ID_STATICBOX14, _("Manches"), wxPoint(376,32), wxSize(112,152), 0, _T("ID_STATICBOX14"));
+  StaticBox14 = new wxStaticBox(Panel4, ID_STATICBOX14, _("Manches"), wxPoint(368,32), wxSize(128,176), 0, _T("ID_STATICBOX14"));
+  StaticBox8 = new wxStaticBox(Panel4, ID_STATICBOX8, _("Extra 3POS"), wxPoint(264,24), wxSize(96,112), 0, _T("ID_STATICBOX8"));
+  CheckBoxDBLGAZSTICK = new wxCheckBox(Panel4, ID_CHECKBOX11, _("DBLGAZSTICK"), wxPoint(384,184), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX11"));
+  CheckBoxDBLGAZSTICK->SetValue(false);
   ComboBoxEle = new wxComboBox(Panel4, ID_COMBOBOX18, wxEmptyString, wxPoint(424,88), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX18"));
   ComboBoxEle->SetSelection( ComboBoxEle->Append(_("Ele")) );
   ComboBoxEle->Append(_("---"));
@@ -425,7 +428,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ComboBoxswitch6 = new wxComboBox(Panel4, ID_COMBOBOX6, wxEmptyString, wxPoint(64,200), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX6"));
   ComboBoxswitch6->SetSelection( ComboBoxswitch6->Append(_("TRN")) );
   ComboBoxswitch6->Append(_("---"));
-  CheckBoxPERSONAMES = new wxCheckBox(Panel4, ID_CHECKBOX22, _("PERSONAMES"), wxPoint(360,216), wxSize(120,24), 0, wxDefaultValidator, _T("ID_CHECKBOX22"));
+  CheckBoxPERSONAMES = new wxCheckBox(Panel4, ID_CHECKBOX22, _("PERSONAMES"), wxPoint(360,240), wxSize(120,24), 0, wxDefaultValidator, _T("ID_CHECKBOX22"));
   CheckBoxPERSONAMES->SetValue(false);
   StaticText13 = new wxStaticText(Panel4, ID_STATICTEXT13, _("Inter1"), wxPoint(16,48), wxSize(40,16), wxALIGN_RIGHT, _T("ID_STATICTEXT13"));
   StaticText14 = new wxStaticText(Panel4, ID_STATICTEXT14, _("Inter2"), wxPoint(16,80), wxSize(40,16), wxALIGN_RIGHT, _T("ID_STATICTEXT14"));
@@ -433,7 +436,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   StaticText16 = new wxStaticText(Panel4, ID_STATICTEXT16, _("Inter4"), wxPoint(16,144), wxSize(40,16), wxALIGN_RIGHT, _T("ID_STATICTEXT16"));
   StaticText17 = new wxStaticText(Panel4, ID_STATICTEXT17, _("Inter5"), wxPoint(16,176), wxSize(40,16), wxALIGN_RIGHT, _T("ID_STATICTEXT17"));
   StaticText18 = new wxStaticText(Panel4, ID_STATICTEXT18, _("Inter6"), wxPoint(16,208), wxSize(40,16), wxALIGN_RIGHT, _T("ID_STATICTEXT18"));
-  ButtonDefaut = new wxButton(Panel4, ID_BUTTON7, _("Défaut"), wxPoint(360,256), wxSize(104,24), 0, wxDefaultValidator, _T("ID_BUTTON7"));
+  ButtonDefaut = new wxButton(Panel4, ID_BUTTON7, _("Défaut"), wxPoint(360,280), wxSize(104,24), 0, wxDefaultValidator, _T("ID_BUTTON7"));
   StaticText25 = new wxStaticText(Panel4, ID_STATICTEXT25, _("ID0"), wxPoint(168,48), wxSize(24,16), wxALIGN_RIGHT, _T("ID_STATICTEXT25"));
   StaticText19 = new wxStaticText(Panel4, ID_STATICTEXT19, _("XD0"), wxPoint(272,48), wxSize(24,16), wxALIGN_RIGHT, _T("ID_STATICTEXT19"));
   ComboBoxRud = new wxComboBox(Panel4, ID_COMBOBOX17, wxEmptyString, wxPoint(424,56), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX17"));
@@ -681,6 +684,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceBLUETOOTH->SetStringSelection(BLUETOOTH);
   CheckBoxXMODEM->SetValue(XMODEM);
   CheckBoxPERSONAMES->SetValue(PERSONAMES);
+  CheckBoxDBLGAZSTICK->SetValue(DBLGAZSTICK);
   TextCtrlOTHERCOMPOPTIONS->SetValue(OTHERCOMPOPTIONS);
   CheckBoxInvStickRH->SetValue(INV_STICK_RH);
   CheckBoxInvStickLV->SetValue(INV_STICK_LV);
@@ -838,6 +842,7 @@ void CompilerOptionsFrame::BatFunction()
       CompiBat += (" PERSONAMES=YES");
       CreatePersonames_H(); // Create the header file
     }
+  if (DBLGAZSTICK) CompiBat += (" DBLGAZSTICK=YES");
   if (NUMXANY != "NO")
     {
       CompiBat += (" X_ANY=" + NUMXANY);
@@ -924,6 +929,7 @@ void CompilerOptionsFrame::CollectDatas()
   BLUETOOTH = ChoiceBLUETOOTH->GetString(ChoiceBLUETOOTH->GetSelection());
   XMODEM = CheckBoxXMODEM->GetValue();
   PERSONAMES = CheckBoxPERSONAMES->GetValue();
+  DBLGAZSTICK = CheckBoxDBLGAZSTICK->GetValue();
   OTHERCOMPOPTIONS = TextCtrlOTHERCOMPOPTIONS->GetValue();
   INV_STICK_RH = CheckBoxInvStickRH->GetValue();
   INV_STICK_LV = CheckBoxInvStickLV->GetValue();

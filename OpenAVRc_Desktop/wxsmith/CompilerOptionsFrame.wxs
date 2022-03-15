@@ -542,11 +542,6 @@
 				</object>
 				<object class="notebookpage">
 					<object class="wxPanel" name="ID_PANEL4" variable="Panel4" member="yes">
-						<object class="wxStaticBox" name="ID_STATICBOX8" variable="StaticBox8" member="yes">
-							<label>Extra 3POS</label>
-							<pos>264,24</pos>
-							<size>96,112</size>
-						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX7" variable="StaticBox7" member="yes">
 							<label>Nom des interrupteurs</label>
 							<pos>8,8</pos>
@@ -554,8 +549,17 @@
 						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX14" variable="StaticBox14" member="yes">
 							<label>Manches</label>
-							<pos>376,32</pos>
-							<size>112,152</size>
+							<pos>368,32</pos>
+							<size>128,176</size>
+						</object>
+						<object class="wxStaticBox" name="ID_STATICBOX8" variable="StaticBox8" member="yes">
+							<label>Extra 3POS</label>
+							<pos>264,24</pos>
+							<size>96,112</size>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX11" variable="CheckBoxDBLGAZSTICK" member="yes">
+							<label>DBLGAZSTICK</label>
+							<pos>384,184</pos>
 						</object>
 						<object class="wxComboBox" name="ID_COMBOBOX18" variable="ComboBoxEle" member="yes">
 							<content>
@@ -675,7 +679,7 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX22" variable="CheckBoxPERSONAMES" member="yes">
 							<label>PERSONAMES</label>
-							<pos>360,216</pos>
+							<pos>360,240</pos>
 							<size>120,24</size>
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
@@ -717,7 +721,7 @@
 						</object>
 						<object class="wxButton" name="ID_BUTTON7" variable="ButtonDefaut" member="yes">
 							<label>Défaut</label>
-							<pos>360,256</pos>
+							<pos>360,280</pos>
 							<size>104,24</size>
 							<handler function="OnButtonDefautClick1" entry="EVT_BUTTON" />
 						</object>
