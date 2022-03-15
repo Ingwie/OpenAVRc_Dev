@@ -105,7 +105,6 @@ void checkMixer()
 }
 
 uint8_t heartbeat;
-uint8_t stickMode; //:2
 
  rotEncDebounce_t rotEncDebounce;
 

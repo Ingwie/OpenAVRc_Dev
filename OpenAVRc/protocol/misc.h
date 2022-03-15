@@ -109,7 +109,7 @@
 #define prev_num_channel_p2M   pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-14] // Only used in DSM DEVO
 
 //U16
-#define rfState16_p2M          pulses2MHz.pword[PULSES_WORD_OFFSET_VAR]    // Only used in Corona
+#define rfState16_p2M          pulses2MHz.pword[PULSES_WORD_OFFSET_VAR]
 #define bind_counter_p2M       pulses2MHz.pword[PULSES_WORD_OFFSET_VAR+1]
 
 uint8_t bit_reverse(uint8_t a);

@@ -418,9 +418,9 @@ void menuGeneralSetup(uint8_t event)
       }
       if (attr && s_editMode>0) {
         CHECK_INCDEC_GENVAR(event, g_eeGeneral.stickMode, 0, 3);
-      } else if (stickMode != g_eeGeneral.stickMode) {
+      } else if (systemBolls.stickMode != g_eeGeneral.stickMode) {
         sendStopPulses();
-        stickMode = g_eeGeneral.stickMode;
+        systemBolls.stickMode = g_eeGeneral.stickMode;
         checkTHR();
         startPulses(PROTOCMD_INIT);
         clearKeyEvents();

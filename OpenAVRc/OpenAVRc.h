@@ -502,7 +502,6 @@ typedef struct {
 extern const pm_uint8_t bchout_ar[];
 extern const pm_uint8_t modn12x3[];
 
-extern uint8_t stickMode;
 
 //convert from mode 1 to mode stickMode
 //NOTICE!  =>  0..3 -> 0..3
@@ -510,7 +509,7 @@ extern uint8_t stickMode;
 #define ELE_STICK 1
 #define THR_STICK 2
 #define AIL_STICK 3
-#define CONVERT_MODE(x)  (((x)<=AIL_STICK) ? pgm_read_byte_near(modn12x3 + 4*stickMode + (x)) : (x) )
+#define CONVERT_MODE(x)  (((x)<=AIL_STICK) ? pgm_read_byte_near(modn12x3 + 4*systemBolls.stickMode + (x)) : (x) )
 
 extern uint8_t channel_order(uint8_t x);
 
@@ -720,7 +719,7 @@ PACK(typedef struct {
   uint8_t s_mixer_first_run_done:1;
   uint8_t puppyPpmSignalOk:1;
   uint8_t x_any_Phase:1;
-  uint8_t unused:2;
+  uint8_t stickMode:2;
 }) systemBolls_t;
 
 extern systemBolls_t systemBolls;
