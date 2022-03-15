@@ -808,7 +808,12 @@ void CompilerOptionsFrame::BatFunction()
     {
       CompiBat += (" X_ANY=" + NUMXANY);
     }
-  CompiBat += " " + OTHERCOMPOPTIONS;
+  if (!OTHERCOMPOPTIONS.IsEmpty())
+    {
+      wxString tempOtherCompOptions = OTHERCOMPOPTIONS;
+      tempOtherCompOptions.Replace("\n", "*");
+      CompiBat += " OTHERCOMPOPTIONS=" + tempOtherCompOptions;
+    }
 
   wxMessageBox(CompiBat);
   CreateCompileBatFile(CompiBat);

@@ -1057,7 +1057,7 @@ ifeq ($(3POS), POT3)
 endif
 
 ifneq ($(OTHERCOMPOPTIONS), NO)
-  CPPDEFS += ($(OTHERCOMPOPTIONS)
+  CPPDEFS += $(subst *, ,$(OTHERCOMPOPTIONS))
 endif
 
 #---------------- Compiler Options C++ ----------------
@@ -1103,9 +1103,6 @@ MSG_CLEANING = Cleaning project:
 CPPFLAGS += -DFLAVOUR=\"$(FLAVOUR)\"
 AVRCPPFLAGS = -mmcu=$(MCU) -I. -x c++ -O$(OPT) $(CPPFLAGS) $(INCFLAGS) $(GENDEPFLAGS) -fwhole-program -mstrict-X
 
-
-MAJ_VER = ${shell sh -c "grep \"MAJ_VERS\" OpenAVRc.h | cut -d\  -f3 | egrep -o \"[[:digit:]]\""}
-MIN_VER = ${shell sh -c "grep \"MIN_VERS\" OpenAVRc.h | cut -d\  -f3"}
 
 .SECONDARY:
 
