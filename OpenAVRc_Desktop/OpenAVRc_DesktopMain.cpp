@@ -197,6 +197,10 @@ wxString encoderNo = ("EN0");
 wxString switchXD0 = ("XD0");
 wxString switchXD1 = ("XD1");
 wxString switchXD2 = ("XD2");
+wxString stickRud = ("Rud");
+wxString stickEle = ("Ele");
+wxString stickThr = ("Thr");
+wxString stickAil = ("Ail");
 
 wxString NUMXANY = ("NO");
 
@@ -719,6 +723,10 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
   configFile->Read(wxT("switchXD0"),&switchXD0);
   configFile->Read(wxT("switchXD1"),&switchXD1);
   configFile->Read(wxT("switchXD2"),&switchXD2);
+  configFile->Read(wxT("stickRud"),&stickRud);
+  configFile->Read(wxT("stickEle"),&stickEle);
+  configFile->Read(wxT("stickThr"),&stickThr);
+  configFile->Read(wxT("stickAil"),&stickAil);
 
   //XANY
   configFile->Read(wxT("NUMXANY"),&NUMXANY);
@@ -850,6 +858,10 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
   configFile->Write(wxT("switchXD0"),switchXD0);
   configFile->Write(wxT("switchXD1"),switchXD1);
   configFile->Write(wxT("switchXD2"),switchXD2);
+  configFile->Write(wxT("stickRud"),stickRud);
+  configFile->Write(wxT("stickEle"),stickEle);
+  configFile->Write(wxT("stickThr"),stickThr);
+  configFile->Write(wxT("stickAil"),stickAil);
 
   //XANY
   configFile->Write(wxT("NUMXANY"),NUMXANY);

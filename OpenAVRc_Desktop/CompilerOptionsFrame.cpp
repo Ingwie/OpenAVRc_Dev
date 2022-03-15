@@ -140,9 +140,15 @@ const long CompilerOptionsFrame::ID_STATICTEXT30 = wxNewId();
 const long CompilerOptionsFrame::ID_PROTOSERIALCHOICE = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT31 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL3 = wxNewId();
-const long CompilerOptionsFrame::ID_STATICBOX7 = wxNewId();
-const long CompilerOptionsFrame::ID_STATICBOX10 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX8 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICBOX7 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICBOX14 = wxNewId();
+const long CompilerOptionsFrame::ID_COMBOBOX18 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICTEXT35 = wxNewId();
+const long CompilerOptionsFrame::ID_COMBOBOX16 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICTEXT33 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICTEXT34 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICBOX10 = wxNewId();
 const long CompilerOptionsFrame::ID_COMBOBOX12 = wxNewId();
 const long CompilerOptionsFrame::ID_COMBOBOX1 = wxNewId();
 const long CompilerOptionsFrame::ID_BUTTON5 = wxNewId();
@@ -162,7 +168,9 @@ const long CompilerOptionsFrame::ID_STATICTEXT18 = wxNewId();
 const long CompilerOptionsFrame::ID_BUTTON7 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT25 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT19 = wxNewId();
-const long CompilerOptionsFrame::ID_COMBOBOX14 = wxNewId();
+const long CompilerOptionsFrame::ID_COMBOBOX17 = wxNewId();
+const long CompilerOptionsFrame::ID_COMBOBOX19 = wxNewId();
+const long CompilerOptionsFrame::ID_COMBOBOX20 = wxNewId();
 const long CompilerOptionsFrame::ID_COMBOBOX15 = wxNewId();
 const long CompilerOptionsFrame::ID_COMBOBOX13 = wxNewId();
 const long CompilerOptionsFrame::ID_COMBOBOX7 = wxNewId();
@@ -179,6 +187,7 @@ const long CompilerOptionsFrame::ID_STATICTEXT27 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT23 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX12 = wxNewId();
 const long CompilerOptionsFrame::ID_TEXTCTRL1 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICTEXT32 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL4 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX11 = wxNewId();
 const long CompilerOptionsFrame::ID_BUTTON8 = wxNewId();
@@ -380,9 +389,19 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceSERIAL_PROTOCOL = new wxChoice(Panel3, ID_PROTOSERIALCHOICE, wxPoint(40,80), wxSize(96,23), 0, 0, 0, wxDefaultValidator, _T("ID_PROTOSERIALCHOICE"));
   StaticText31 = new wxStaticText(Panel3, ID_STATICTEXT31, _("Protocole Série"), wxPoint(32,60), wxDefaultSize, 0, _T("ID_STATICTEXT31"));
   Panel4 = new wxPanel(Notebook1, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL4"));
-  StaticBox7 = new wxStaticBox(Panel4, ID_STATICBOX7, _("Nom des interrupteurs"), wxPoint(8,8), wxSize(504,328), 0, _T("ID_STATICBOX7"));
-  StaticBox10 = new wxStaticBox(Panel4, ID_STATICBOX10, _("3POS"), wxPoint(160,24), wxSize(96,112), 0, _T("ID_STATICBOX10"));
   StaticBox8 = new wxStaticBox(Panel4, ID_STATICBOX8, _("Extra 3POS"), wxPoint(264,24), wxSize(96,112), 0, _T("ID_STATICBOX8"));
+  StaticBox7 = new wxStaticBox(Panel4, ID_STATICBOX7, _("Nom des interrupteurs"), wxPoint(8,8), wxSize(504,328), 0, _T("ID_STATICBOX7"));
+  StaticBox14 = new wxStaticBox(Panel4, ID_STATICBOX14, _("Manches"), wxPoint(376,32), wxSize(112,152), 0, _T("ID_STATICBOX14"));
+  ComboBoxEle = new wxComboBox(Panel4, ID_COMBOBOX18, wxEmptyString, wxPoint(424,88), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX18"));
+  ComboBoxEle->SetSelection( ComboBoxEle->Append(_("Ele")) );
+  ComboBoxEle->Append(_("---"));
+  StaticText35 = new wxStaticText(Panel4, ID_STATICTEXT35, _("Thr"), wxPoint(384,128), wxSize(24,16), wxALIGN_RIGHT, _T("ID_STATICTEXT35"));
+  ComboBoxXD0 = new wxComboBox(Panel4, ID_COMBOBOX16, wxEmptyString, wxPoint(304,40), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX16"));
+  ComboBoxXD0->SetSelection( ComboBoxXD0->Append(_("XD0")) );
+  ComboBoxXD0->Append(_("---"));
+  StaticText33 = new wxStaticText(Panel4, ID_STATICTEXT33, _("Rud"), wxPoint(384,64), wxSize(24,16), wxALIGN_RIGHT, _T("ID_STATICTEXT33"));
+  StaticText34 = new wxStaticText(Panel4, ID_STATICTEXT34, _("Ail"), wxPoint(384,160), wxSize(24,16), wxALIGN_RIGHT, _T("ID_STATICTEXT34"));
+  StaticBox10 = new wxStaticBox(Panel4, ID_STATICBOX10, _("3POS"), wxPoint(160,24), wxSize(96,112), 0, _T("ID_STATICBOX10"));
   ComboBoxEncodeurNo = new wxComboBox(Panel4, ID_COMBOBOX12, wxEmptyString, wxPoint(232,216), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX12"));
   ComboBoxEncodeurNo->SetSelection( ComboBoxEncodeurNo->Append(_("REn")) );
   ComboBoxEncodeurNo->Append(_("---"));
@@ -406,7 +425,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ComboBoxswitch6 = new wxComboBox(Panel4, ID_COMBOBOX6, wxEmptyString, wxPoint(64,200), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX6"));
   ComboBoxswitch6->SetSelection( ComboBoxswitch6->Append(_("TRN")) );
   ComboBoxswitch6->Append(_("---"));
-  CheckBoxPERSONAMES = new wxCheckBox(Panel4, ID_CHECKBOX22, _("PERSONAMES"), wxPoint(384,184), wxSize(232,24), 0, wxDefaultValidator, _T("ID_CHECKBOX22"));
+  CheckBoxPERSONAMES = new wxCheckBox(Panel4, ID_CHECKBOX22, _("PERSONAMES"), wxPoint(360,216), wxSize(120,24), 0, wxDefaultValidator, _T("ID_CHECKBOX22"));
   CheckBoxPERSONAMES->SetValue(false);
   StaticText13 = new wxStaticText(Panel4, ID_STATICTEXT13, _("Inter1"), wxPoint(16,48), wxSize(40,16), wxALIGN_RIGHT, _T("ID_STATICTEXT13"));
   StaticText14 = new wxStaticText(Panel4, ID_STATICTEXT14, _("Inter2"), wxPoint(16,80), wxSize(40,16), wxALIGN_RIGHT, _T("ID_STATICTEXT14"));
@@ -414,12 +433,18 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   StaticText16 = new wxStaticText(Panel4, ID_STATICTEXT16, _("Inter4"), wxPoint(16,144), wxSize(40,16), wxALIGN_RIGHT, _T("ID_STATICTEXT16"));
   StaticText17 = new wxStaticText(Panel4, ID_STATICTEXT17, _("Inter5"), wxPoint(16,176), wxSize(40,16), wxALIGN_RIGHT, _T("ID_STATICTEXT17"));
   StaticText18 = new wxStaticText(Panel4, ID_STATICTEXT18, _("Inter6"), wxPoint(16,208), wxSize(40,16), wxALIGN_RIGHT, _T("ID_STATICTEXT18"));
-  ButtonDefaut = new wxButton(Panel4, ID_BUTTON7, _("Défaut"), wxPoint(384,248), wxSize(104,24), 0, wxDefaultValidator, _T("ID_BUTTON7"));
+  ButtonDefaut = new wxButton(Panel4, ID_BUTTON7, _("Défaut"), wxPoint(360,256), wxSize(104,24), 0, wxDefaultValidator, _T("ID_BUTTON7"));
   StaticText25 = new wxStaticText(Panel4, ID_STATICTEXT25, _("ID0"), wxPoint(168,48), wxSize(24,16), wxALIGN_RIGHT, _T("ID_STATICTEXT25"));
   StaticText19 = new wxStaticText(Panel4, ID_STATICTEXT19, _("XD0"), wxPoint(272,48), wxSize(24,16), wxALIGN_RIGHT, _T("ID_STATICTEXT19"));
-  ComboBoxXD0 = new wxComboBox(Panel4, ID_COMBOBOX14, wxEmptyString, wxPoint(304,40), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX14"));
-  ComboBoxXD0->SetSelection( ComboBoxXD0->Append(_("XD0")) );
-  ComboBoxXD0->Append(_("---"));
+  ComboBoxRud = new wxComboBox(Panel4, ID_COMBOBOX17, wxEmptyString, wxPoint(424,56), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX17"));
+  ComboBoxRud->SetSelection( ComboBoxRud->Append(_("Rud")) );
+  ComboBoxRud->Append(_("---"));
+  ComboBoxThr = new wxComboBox(Panel4, ID_COMBOBOX19, wxEmptyString, wxPoint(424,120), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX19"));
+  ComboBoxThr->SetSelection( ComboBoxThr->Append(_("Thr")) );
+  ComboBoxThr->Append(_("---"));
+  ComboBoxAil = new wxComboBox(Panel4, ID_COMBOBOX20, wxEmptyString, wxPoint(424,152), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX20"));
+  ComboBoxAil->SetSelection( ComboBoxAil->Append(_("Ail")) );
+  ComboBoxAil->Append(_("---"));
   ComboBoxXD2 = new wxComboBox(Panel4, ID_COMBOBOX15, wxEmptyString, wxPoint(304,104), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX15"));
   ComboBoxXD2->SetSelection( ComboBoxXD2->Append(_("XD2")) );
   ComboBoxXD2->Append(_("---"));
@@ -450,6 +475,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   StaticText23 = new wxStaticText(Panel4, ID_STATICTEXT23, _("XD2"), wxPoint(272,112), wxSize(24,16), wxALIGN_RIGHT, _T("ID_STATICTEXT23"));
   StaticBox12 = new wxStaticBox(Panel4, ID_STATICBOX12, _("Autres options"), wxPoint(520,16), wxSize(256,136), 0, _T("ID_STATICBOX12"));
   TextCtrlOTHERCOMPOPTIONS = new wxTextCtrl(Panel4, ID_TEXTCTRL1, wxEmptyString, wxPoint(528,40), wxSize(232,96), wxTE_MULTILINE, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+  StaticText32 = new wxStaticText(Panel4, ID_STATICTEXT32, _("Ele"), wxPoint(384,96), wxSize(24,16), wxALIGN_RIGHT, _T("ID_STATICTEXT32"));
   Panel5 = new wxPanel(Notebook1, ID_PANEL5, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL5"));
   StaticBox11 = new wxStaticBox(Panel5, ID_STATICBOX11, _("X-Any Options"), wxPoint(8,8), wxSize(280,328), 0, _T("ID_STATICBOX11"));
   Button1 = new wxButton(Panel5, ID_BUTTON8, _("Sauvegarder et sortir"), wxPoint(640,296), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTON8"));
@@ -679,6 +705,10 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ComboBoxXD0->SetMaxLength(3);
   ComboBoxXD1->SetMaxLength(3);
   ComboBoxXD2->SetMaxLength(3);
+  ComboBoxRud->SetMaxLength(3);
+  ComboBoxEle->SetMaxLength(3);
+  ComboBoxThr->SetMaxLength(3);
+  ComboBoxAil->SetMaxLength(3);
 
   ComboBoxswitch1->SetValue(switch1);//personnalized names for switches.
   ComboBoxswitch2->SetValue(switch2);
@@ -695,6 +725,10 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ComboBoxXD0->SetValue(switchXD0);
   ComboBoxXD1->SetValue(switchXD1);
   ComboBoxXD2->SetValue(switchXD2);
+  ComboBoxRud->SetValue(stickRud);
+  ComboBoxEle->SetValue(stickEle);
+  ComboBoxThr->SetValue(stickThr);
+  ComboBoxAil->SetValue(stickAil);
 }
 
 CompilerOptionsFrame::~CompilerOptionsFrame()
@@ -915,10 +949,14 @@ void CompilerOptionsFrame::CollectDatas()
   switchXD0 = ComboBoxXD0->GetValue();
   switchXD1 = ComboBoxXD1->GetValue();
   switchXD2 = ComboBoxXD2->GetValue();
+  stickRud = ComboBoxRud->GetValue();
+  stickEle = ComboBoxEle->GetValue();
+  stickThr = ComboBoxThr->GetValue();
+  stickAil = ComboBoxAil->GetValue();
 
-  wxString switchArray[] = {switch1, switch2, switch3, switch4, switch5, switch6, switchID0, switchID1, switchID2, encoderA, encoderB, encoderNo, switchXD0, switchXD1, switchXD2};
+  wxString switchArray[] = {switch1, switch2, switch3, switch4, switch5, switch6, switchID0, switchID1, switchID2, encoderA, encoderB, encoderNo, switchXD0, switchXD1, switchXD2, stickAil, stickEle, stickRud, stickThr};
 
-  for (uint16_t i=0; i<15; i++)
+  for (uint16_t i=0; i<19; i++)
   {
      std::string  x(switchArray[i]);
      if (x.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-+:*=?") != std::string::npos)
@@ -1046,6 +1084,10 @@ void CompilerOptionsFrame::CreatePersonames_H()
   PersoNameFile.AddLine("#define TR_ROTENC_SWITCHES "+g+encoderA.Upper()+g+g+encoderB.Upper()+g+g+encoderNo.Upper()+g);
   PersoNameFile.AddLine("#undef TR_EXTRA_3POS_SWITCHES");
   PersoNameFile.AddLine("#define TR_EXTRA_3POS_SWITCHES "+g+switchXD0+g+g+switchXD1+g+g+switchXD2+g);
+  PersoNameFile.AddLine("#undef TR_VMIXTRIMS");
+  PersoNameFile.AddLine("#define TR_VMIXTRIMS "+g+"OFF"+g+g+"ON"+"\\"+"0"+g+g+stickRud+g+g+stickEle+g+g+stickThr+g+g+stickAil+g);
+  PersoNameFile.AddLine("#undef TR_STICKS_VSRCRAW");
+  PersoNameFile.AddLine("#define TR_STICKS_VSRCRAW "+g+stickRud+"\\"+"0"+g+g+stickEle+"\\"+"0"+g+g+stickThr+"\\"+"0"+g+g+stickAil+"\\"+"0"+g);
   PersoNameFile.AddLine("#endif");
   PersoNameFile.Write();
   PersoNameFile.Close();
@@ -1176,4 +1218,8 @@ void CompilerOptionsFrame::OnButtonDefautClick1(wxCommandEvent& event)
   ComboBoxXD0->SetSelection(0);
   ComboBoxXD1->SetSelection(0);
   ComboBoxXD2->SetSelection(0);
+  ComboBoxRud->SetSelection(0);
+  ComboBoxEle->SetSelection(0);
+  ComboBoxThr->SetSelection(0);
+  ComboBoxAil->SetSelection(0);
 }
