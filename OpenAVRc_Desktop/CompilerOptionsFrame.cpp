@@ -142,7 +142,6 @@ const long CompilerOptionsFrame::ID_STATICTEXT31 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL3 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX7 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX14 = wxNewId();
-const long CompilerOptionsFrame::ID_STATICBOX8 = wxNewId();
 const long CompilerOptionsFrame::ID_CHECKBOX11 = wxNewId();
 const long CompilerOptionsFrame::ID_COMBOBOX18 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT35 = wxNewId();
@@ -189,6 +188,7 @@ const long CompilerOptionsFrame::ID_STATICTEXT23 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX12 = wxNewId();
 const long CompilerOptionsFrame::ID_TEXTCTRL1 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT32 = wxNewId();
+const long CompilerOptionsFrame::ID_STATICBOX8 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL4 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX11 = wxNewId();
 const long CompilerOptionsFrame::ID_BUTTON8 = wxNewId();
@@ -392,9 +392,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   Panel4 = new wxPanel(Notebook1, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL4"));
   StaticBox7 = new wxStaticBox(Panel4, ID_STATICBOX7, _("Nom des interrupteurs"), wxPoint(8,8), wxSize(504,328), 0, _T("ID_STATICBOX7"));
   StaticBox14 = new wxStaticBox(Panel4, ID_STATICBOX14, _("Manches"), wxPoint(368,32), wxSize(128,176), 0, _T("ID_STATICBOX14"));
-  StaticBox8 = new wxStaticBox(Panel4, ID_STATICBOX8, _("Extra 3POS"), wxPoint(264,24), wxSize(96,112), 0, _T("ID_STATICBOX8"));
   CheckBoxDBLGAZSTICK = new wxCheckBox(Panel4, ID_CHECKBOX11, _("DBLGAZSTICK"), wxPoint(384,184), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX11"));
   CheckBoxDBLGAZSTICK->SetValue(false);
+  CheckBoxDBLGAZSTICK->SetToolTip(_("Affiche un double manche vertical des gaz"));
   ComboBoxEle = new wxComboBox(Panel4, ID_COMBOBOX18, wxEmptyString, wxPoint(424,88), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX18"));
   ComboBoxEle->SetSelection( ComboBoxEle->Append(_("Ele")) );
   ComboBoxEle->Append(_("---"));
@@ -430,6 +430,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ComboBoxswitch6->Append(_("---"));
   CheckBoxPERSONAMES = new wxCheckBox(Panel4, ID_CHECKBOX22, _("PERSONAMES"), wxPoint(360,240), wxSize(120,24), 0, wxDefaultValidator, _T("ID_CHECKBOX22"));
   CheckBoxPERSONAMES->SetValue(false);
+  CheckBoxPERSONAMES->SetToolTip(_("Change l\'appellation des boutons et des manches"));
   StaticText13 = new wxStaticText(Panel4, ID_STATICTEXT13, _("Inter1"), wxPoint(16,48), wxSize(40,16), wxALIGN_RIGHT, _T("ID_STATICTEXT13"));
   StaticText14 = new wxStaticText(Panel4, ID_STATICTEXT14, _("Inter2"), wxPoint(16,80), wxSize(40,16), wxALIGN_RIGHT, _T("ID_STATICTEXT14"));
   StaticText15 = new wxStaticText(Panel4, ID_STATICTEXT15, _("Inter3"), wxPoint(16,112), wxSize(40,16), wxALIGN_RIGHT, _T("ID_STATICTEXT15"));
@@ -476,9 +477,10 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   StaticText22 = new wxStaticText(Panel4, ID_STATICTEXT22, _("XD1"), wxPoint(272,80), wxSize(24,16), wxALIGN_RIGHT, _T("ID_STATICTEXT22"));
   StaticText27 = new wxStaticText(Panel4, ID_STATICTEXT27, _("ID2"), wxPoint(168,112), wxSize(24,16), wxALIGN_RIGHT, _T("ID_STATICTEXT27"));
   StaticText23 = new wxStaticText(Panel4, ID_STATICTEXT23, _("XD2"), wxPoint(272,112), wxSize(24,16), wxALIGN_RIGHT, _T("ID_STATICTEXT23"));
-  StaticBox12 = new wxStaticBox(Panel4, ID_STATICBOX12, _("Autres options"), wxPoint(520,16), wxSize(256,136), 0, _T("ID_STATICBOX12"));
+  StaticBox12 = new wxStaticBox(Panel4, ID_STATICBOX12, _("Autres options de compilation"), wxPoint(520,16), wxSize(256,136), 0, _T("ID_STATICBOX12"));
   TextCtrlOTHERCOMPOPTIONS = new wxTextCtrl(Panel4, ID_TEXTCTRL1, wxEmptyString, wxPoint(528,40), wxSize(232,96), wxTE_MULTILINE, wxDefaultValidator, _T("ID_TEXTCTRL1"));
   StaticText32 = new wxStaticText(Panel4, ID_STATICTEXT32, _("Ele"), wxPoint(384,96), wxSize(24,16), wxALIGN_RIGHT, _T("ID_STATICTEXT32"));
+  StaticBox8 = new wxStaticBox(Panel4, ID_STATICBOX8, _("Extra 3POS"), wxPoint(264,24), wxSize(96,112), 0, _T("ID_STATICBOX8"));
   Panel5 = new wxPanel(Notebook1, ID_PANEL5, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL5"));
   StaticBox11 = new wxStaticBox(Panel5, ID_STATICBOX11, _("X-Any Options"), wxPoint(8,8), wxSize(280,328), 0, _T("ID_STATICBOX11"));
   Button1 = new wxButton(Panel5, ID_BUTTON8, _("Sauvegarder et sortir"), wxPoint(640,296), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTON8"));
@@ -624,6 +626,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceSERIAL_PROTOCOL->Append("NO");
   ChoiceSERIAL_PROTOCOL->Append("DSM");
   ChoiceSERIAL_PROTOCOL->Append("MULTIMODULE");
+  ChoiceSERIAL_PROTOCOL->Append("CRSF");
+  ChoiceSERIAL_PROTOCOL->Append("SBUS");
+  ChoiceSERIAL_PROTOCOL->Append("SUMD");
 
 ///////////////////////// End of avoid compilation option translation ///////////////////
 
@@ -796,7 +801,7 @@ void CompilerOptionsFrame::BatFunction()
           CompiBat += (" A7105=YES");// default should be NO
           CompiBat += (" A7105PAG=" + A7105PAG);
         }
-      if (SX1276)
+      if (SX1276) // todo ...
         {
           CompiBat += (" SX1276=YES");// default should be NO
         }

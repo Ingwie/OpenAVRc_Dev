@@ -949,8 +949,6 @@ void OpenAVRc_DesktopFrame::OnListBoxConfigDClick(wxCommandEvent& event)
   DrawLbmSplash();
 }
 
-
-
 void OpenAVRc_DesktopFrame::OnMenuNewconfigSelected(wxCommandEvent& event)
 {
   wxString temp = wxGetTextFromUser(wxT(""), _("Appelation de la nouvelle configuration"), wxT(""));

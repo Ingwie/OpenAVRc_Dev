@@ -405,7 +405,6 @@ protected:
     static const long ID_PANEL3;
     static const long ID_STATICBOX7;
     static const long ID_STATICBOX14;
-    static const long ID_STATICBOX8;
     static const long ID_CHECKBOX11;
     static const long ID_COMBOBOX18;
     static const long ID_STATICTEXT35;
@@ -452,6 +451,7 @@ protected:
     static const long ID_STATICBOX12;
     static const long ID_TEXTCTRL1;
     static const long ID_STATICTEXT32;
+    static const long ID_STATICBOX8;
     static const long ID_PANEL4;
     static const long ID_STATICBOX11;
     static const long ID_BUTTON8;

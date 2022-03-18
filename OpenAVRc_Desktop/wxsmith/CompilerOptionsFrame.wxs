@@ -552,14 +552,10 @@
 							<pos>368,32</pos>
 							<size>128,176</size>
 						</object>
-						<object class="wxStaticBox" name="ID_STATICBOX8" variable="StaticBox8" member="yes">
-							<label>Extra 3POS</label>
-							<pos>264,24</pos>
-							<size>96,112</size>
-						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX11" variable="CheckBoxDBLGAZSTICK" member="yes">
 							<label>DBLGAZSTICK</label>
 							<pos>384,184</pos>
+							<tooltip>Affiche un double manche vertical des gaz</tooltip>
 						</object>
 						<object class="wxComboBox" name="ID_COMBOBOX18" variable="ComboBoxEle" member="yes">
 							<content>
@@ -681,6 +677,7 @@
 							<label>PERSONAMES</label>
 							<pos>360,240</pos>
 							<size>120,24</size>
+							<tooltip>Change l&apos;appellation des boutons et des manches</tooltip>
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT13" variable="StaticText13" member="yes">
@@ -870,7 +867,7 @@
 							<style>wxALIGN_RIGHT</style>
 						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX12" variable="StaticBox12" member="yes">
-							<label>Autres options</label>
+							<label>Autres options de compilation</label>
 							<pos>520,16</pos>
 							<size>256,136</size>
 						</object>
@@ -884,6 +881,11 @@
 							<pos>384,96</pos>
 							<size>24,16</size>
 							<style>wxALIGN_RIGHT</style>
+						</object>
+						<object class="wxStaticBox" name="ID_STATICBOX8" variable="StaticBox8" member="yes">
+							<label>Extra 3POS</label>
+							<pos>264,24</pos>
+							<size>96,112</size>
 						</object>
 					</object>
 					<label>Personnalisation</label>
