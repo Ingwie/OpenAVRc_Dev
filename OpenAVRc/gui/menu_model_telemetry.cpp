@@ -242,9 +242,9 @@ void menuModelTelemetry(uint8_t event)
     case ITEM_TELEMETRY_VARIO_RANGE:
       lcdDrawTextLeft(y, STR_LIMIT);
       lcdDrawNumberNAtt(TELEM_COL2, y, -10+g_model.telemetry.varioMin, (menuHorizontalPosition<=0 ? attr : 0)|LEFT);
-      lcdDrawNumberNAtt(TELEM_COL2+7*FW-2, y, -5+g_model.telemetry.varioCenterMin, ((CURSOR_ON_LINE() || menuHorizontalPosition==1) ? attr : 0)|PREC1);
-      lcdDrawNumberNAtt(TELEM_COL2+10*FW, y, 5+g_model.telemetry.varioCenterMax, ((CURSOR_ON_LINE() || menuHorizontalPosition==2) ? attr : 0)|PREC1);
-      lcdDrawNumberNAtt(TELEM_COL2+13*FW+2, y, 10+g_model.telemetry.varioMax, ((CURSOR_ON_LINE() || menuHorizontalPosition==3) ? attr : 0));
+      lcdDrawNumberNAtt(TELEM_COL2+6*FW-2, y, -5+g_model.telemetry.varioCenterMin, ((CURSOR_ON_LINE() || menuHorizontalPosition==1) ? attr : 0)|PREC1);
+      lcdDrawNumberNAtt(TELEM_COL2+9*FW, y, 5+g_model.telemetry.varioCenterMax, ((CURSOR_ON_LINE() || menuHorizontalPosition==2) ? attr : 0)|PREC1);
+      lcdDrawNumberNAtt(TELEM_COL2+12*FW, y, 10+g_model.telemetry.varioMax, ((CURSOR_ON_LINE() || menuHorizontalPosition==3) ? attr : 0));
       if (attr && (s_editMode>0 || p1valdiff)) {
         switch (menuHorizontalPosition) {
         case 0:
