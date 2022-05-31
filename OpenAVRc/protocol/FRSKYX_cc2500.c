@@ -238,7 +238,7 @@ static void frskyX_build_bind_packet()
    packet_p2M[8] =  channel_used_p2M[bind_idx_p2M++];
    packet_p2M[9] =  channel_used_p2M[bind_idx_p2M++];
    packet_p2M[10] = channel_used_p2M[bind_idx_p2M++];
-   packet_p2M[11] = 0x02;
+   packet_p2M[11] = temp_rfid_addr_p2M[1];
    packet_p2M[12] = RXNUM;
    memset(&packet_p2M[13], 0, packetSize_p2M - 14);
   }
@@ -315,8 +315,7 @@ static void frskyX_data_frame()
  packet_p2M[0] = packetSize_p2M;
  packet_p2M[1] = temp_rfid_addr_p2M[3];
  packet_p2M[2] = temp_rfid_addr_p2M[2];
- packet_p2M[3] = 0x02;
-//
+ packet_p2M[3] = temp_rfid_addr_p2M[1];
  packet_p2M[4] = (channel_skip_p2M<<6)|channel_index_p2M;
  packet_p2M[5] = channel_skip_p2M>>2;
  packet_p2M[6] = RXNUM;
@@ -583,10 +582,14 @@ static void FRSKYX_initialize(uint8_t bind)
  CC2500_Reset();
  packetSize_p2M = LBTMODE && (!V2MODE) ? 0x20 : 0x1D; // LBTV1 (EU) or  other
  if V2MODE
- FRSKYX2_generate_channels();
+ {
+   channel_skip_p2M = 18;
+   FRSKYX2_generate_channels();
+   temp_rfid_addr_p2M[0] |= temp_rfid_addr_p2M[1]; // Keep trace of temp_rfid_addr_p2M[1]
+   temp_rfid_addr_p2M[1] = 0x02;		// ID related, hw version?
+ }
  else
   {
-   temp_rfid_addr_p2M[1]=0x02; // ???? Force a part of ID ???
    FRSKY_generate_channels();
   }
 
