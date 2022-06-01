@@ -876,6 +876,7 @@ void alert(const pm_char * t, const pm_char *s MESSAGE_SOUND_ARG)
 
   while(1)
   {
+    getADC();
     if (keyDown())
       return;  // wait for key release
 
