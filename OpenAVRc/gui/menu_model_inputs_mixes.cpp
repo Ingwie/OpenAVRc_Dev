@@ -553,16 +553,16 @@ void menuModelMixOne(uint8_t event)
       md2->mltpx = selectMenuItem(COLUMN_X+MIXES_2ND_COLUMN, y, STR_MULTPX, STR_VMLTPX, md2->mltpx, 0, 2, attr, event);
       break;
     case MIX_FIELD_DELAY_UP:
-      md2->delayUp = EDIT_DELAY(COLUMN_X, y, event, attr, STR_DELAYUP, md2->delayUp);
+      md2->delayUp = editDelay(y, event, attr, STR_DELAYUP, md2->delayUp);
       break;
     case MIX_FIELD_DELAY_DOWN:
-      md2->delayDown = EDIT_DELAY(COLUMN_X, y, event, attr, STR_DELAYDOWN, md2->delayDown);
+      md2->delayDown = editDelay(y, event, attr, STR_DELAYDOWN, md2->delayDown);
       break;
     case MIX_FIELD_SLOW_UP:
-      md2->speedUp = EDIT_DELAY(COLUMN_X, y, event, attr, STR_SLOWUP, md2->speedUp);
+      md2->speedUp = editDelay(y, event, attr, STR_SLOWUP, md2->speedUp);
       break;
     case MIX_FIELD_SLOW_DOWN:
-      md2->speedDown = EDIT_DELAY(COLUMN_X, y, event, attr, STR_SLOWDOWN, md2->speedDown);
+      md2->speedDown = editDelay(y, event, attr, STR_SLOWDOWN, md2->speedDown);
       break;
     }
   }
