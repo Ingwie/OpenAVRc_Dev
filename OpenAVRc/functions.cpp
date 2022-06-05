@@ -273,7 +273,7 @@ void evalFunctions()
             trimGvar[CFN_PARAM(cfn)-MIXSRC_TrimRud] = CFN_GVAR_INDEX(cfn);
           }
           else if (CFN_PARAM(cfn) >= MIXSRC_REa && CFN_PARAM(cfn) < MIXSRC_TrimRud) {
-            int8_t scroll = rePreviousValues[CFN_PARAM(cfn)-MIXSRC_REa] - (g_rotenc[CFN_PARAM(cfn)-MIXSRC_REa] / ROTARY_ENCODER_GRANULARITY);
+            int8_t scroll = rePreviousValues[CFN_PARAM(cfn)-MIXSRC_REa] - (g_rotenc[CFN_PARAM(cfn)-MIXSRC_REa]);
             if (scroll) {
               SET_GVAR(CFN_GVAR_INDEX(cfn), GVAR_VALUE(CFN_GVAR_INDEX(cfn), getGVarFlightPhase(mixerCurrentFlightMode, CFN_GVAR_INDEX(cfn))) + scroll, mixerCurrentFlightMode);
             }
@@ -370,7 +370,7 @@ void evalFunctions()
 
 #if defined(GVARS)
   for (uint8_t i=0; i<ROTARY_ENCODERS; i++) {
-    rePreviousValues[i] = (g_rotenc[i] / ROTARY_ENCODER_GRANULARITY);
+    rePreviousValues[i] = (g_rotenc[i]);
   }
 #endif
 }

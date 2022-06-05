@@ -652,8 +652,6 @@ void setTrimValue(uint8_t phase, uint8_t idx, int16_t trim);
 int16_t getRotaryEncoder(uint8_t idx);
 void incRotaryEncoder(uint8_t idx, int8_t inc);
 
-#define ROTARY_ENCODER_GRANULARITY (1)
-
 #if defined(GVARS)
   uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx);
   int16_t getGVarValue(int16_t x, int16_t min, int16_t max, int8_t phase);
@@ -940,11 +938,11 @@ void moveTrimsToOffsets();
 #define delayval_t         int8_t
 
 PACK(typedef struct {
-  int32_t act:24;
-  uint16_t delay:10;     // 10bits used 0 to DELAY_MAX*(100/DELAY_STEP)
+  int16_t hold:12;       // 12bits used -RESX to RESX
   uint8_t activeMix:1;
   uint8_t activeExpo:1;
-  int16_t hold:12;       // 12bits used -RESX to RESX
+  uint16_t delay:10;     // 10bits used 0 to DELAY_MAX*(100/DELAY_STEP)
+  int32_t act:24;
 }) MixVal;
 
 extern MixVal mixVal[MAX_MIXERS];

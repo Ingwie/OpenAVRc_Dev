@@ -99,7 +99,7 @@
 #define send_seq_p2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-8]
 #define bind_idx_p2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-9]
 #define dp_crc_init_p2M        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-10] // Only used in FRSKYV & HITEC
-#define packetSize_p2M         pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-10] // Only used in CABELL
+#define packetSize_p2M         pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-10] // Only used in FRSKYX STANEK & CABELL
 #define packet_count_p2M       pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-11]
 #define telem_save_seq_p2M     pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-12]
 #define start_tx_rx_p2M        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-13]

@@ -272,7 +272,7 @@ void per10ms()
 
   if (IS_RE_NAVIGATION_ENABLE()) {
     static rotenc_t rePreviousValue;
-    rotenc_t reNewValue = (g_rotenc[NAVIGATION_RE_IDX()] / ROTARY_ENCODER_GRANULARITY);
+    rotenc_t reNewValue = (g_rotenc[NAVIGATION_RE_IDX()]);
     int8_t scrollRE = reNewValue - rePreviousValue;
     if (scrollRE) {
       rePreviousValue = reNewValue;
