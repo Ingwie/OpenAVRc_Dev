@@ -535,7 +535,6 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_CHECKBOXCC2500,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick);
   Connect(ID_CHECKBOXCYRF6936,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick);
   Connect(ID_CHECKBOXMULTIMOD,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick);
-  Connect(ID_CHECKBOXSERPROTO,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick);
   PanelL->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnPanelMainKeyDown,0,this);
   PanelPrincipal->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnPanelMainKeyDown,0,this);
   Connect(IdMenuOpenEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuLoadEeprom);
@@ -877,14 +876,14 @@ void OpenAVRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
   event.Skip();
   wxAboutDialogInfo Aboutbox;
   Aboutbox.SetName(_("OpenAVRc Simulateur"));
-  Aboutbox.SetVersion(_("V 3.0 Beta"));
+  Aboutbox.SetVersion(_("V 3.10 Beta"));
   Aboutbox.SetLicence(_(" GPLv2 . Firmware basé sur NextStepRc 2.18 "));
   Aboutbox.SetDescription(_("Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "));
-  Aboutbox.SetCopyright(wxT("(C) 2016-2021 OpenAVRc Team"));
+  Aboutbox.SetCopyright(wxT("(C) 2016-2022 OpenAVRc Team"));
   Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
   Aboutbox.AddDeveloper(wxT(
     "OpenAVRc Team :\n\n"
-    "Firmware : Bracame, Payalneg, RC-Navy, Sloped Soarer, Supiiik.\n"
+    "Firmware : Bracame, Payalneg, Pierrotm777, RC-Navy, Sloped Soarer, Supiiik.\n"
     "Applications : Bracame, Mentero.\n"
     "PCB Shield : Anthobreizh, Pierrotm777, Pyrall.\n"
     "Documentation : JPZ(Testeur68), Pierrotm777, Pyrall.\n"
@@ -3435,7 +3434,7 @@ void OpenAVRc_SimulatorFrame::CheckActiveProtocols()
       CheckBoxNRF24L01->SetValue(true);
     }
 
-  CheckBoxPPMPROTO->Enable();
+  //CheckBoxPPMPROTO->Enable();
   CheckBoxSERPROTO->Enable();
   CheckBoxCC2500->Enable();
   CheckBoxCYRF6936->Enable();

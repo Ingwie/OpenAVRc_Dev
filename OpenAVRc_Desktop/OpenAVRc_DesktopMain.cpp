@@ -456,14 +456,14 @@ void OpenAVRc_DesktopFrame::OnAbout(wxCommandEvent& event)
 {
   wxAboutDialogInfo Aboutbox;
   Aboutbox.SetName("OpenAVRc Desktop");
-  Aboutbox.SetVersion("V 3.0 Beta");
+  Aboutbox.SetVersion("V 3.10 Beta");
   Aboutbox.SetLicence(_(" GPLv2 . Firmware basé sur NextStepRc 2.18 "));
   Aboutbox.SetDescription(_("Logiciel pour la personnalisation, la compilation, le flashage, la sauvegarde de votre radio OpenAVRc     "));
-  Aboutbox.SetCopyright(wxT("(C) 2016-2021 OpenAVRc Team"));
+  Aboutbox.SetCopyright(wxT("(C) 2016-2022 OpenAVRc Team"));
   Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
   Aboutbox.AddDeveloper(wxT(
     "OpenAVRc Team :\n\n"
-    "Firmware : Bracame, Payalneg, RC-Navy, Sloped Soarer, Supiiik.\n"
+    "Firmware : Bracame, Payalneg, Pierrotm777, RC-Navy, Sloped Soarer, Supiiik.\n"
     "Applications : Bracame, Mentero.\n"
     "PCB Shield : Anthobreizh, Pierrotm777, Pyrall.\n"
     "Documentation : JPZ(Testeur68), Pierrotm777, Pyrall.\n"
