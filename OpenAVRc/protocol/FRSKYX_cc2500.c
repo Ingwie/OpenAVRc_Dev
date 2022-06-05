@@ -241,6 +241,10 @@ static void frskyX_build_bind_packet()
    packet_p2M[11] = temp_rfid_addr_p2M[1];
    packet_p2M[12] = RXNUM;
    memset(&packet_p2M[13], 0, packetSize_p2M - 14);
+   if(bind_idx_p2M & 0x01)
+    memcpy_P(&packet_p2M[13],PSTR("\x55\xAA\x5A\xA5"),4);	// Telem off
+   if(bind_idx_p2M & 0x02)
+	  memcpy_P(&packet_p2M[17],PSTR("\x55\xAA\x5A\xA5"),4);	// CH9-16
   }
  else
   {
