@@ -232,28 +232,32 @@ static void CABELL_init()
  NRF24L01_Activate(0x73);
 }
 
-static void CABELL_get_telemetry()
+FORCEINLINE void CABELL_get_telemetry()
 {
 // calculate TX rssi based on past 250 expected telemetry packets.  Cannot use full second count because telemetry_counter is not large enough
  if (++rfState16_p2M > 250)
   {
+#if defined(FRSKY)
    telemetryData.rssi[1].set(receive_seq_p2M);
+#endif
    receive_seq_p2M = 0;
    rfState16_p2M = 0;
   }
 
 // Process incoming telemetry packet of it was received
- if (NRF24L01_ReadReg(NRF24L01_07_STATUS) & _BV(NRF24L01_07_RX_DR)) // todo try NRF24L01_NOP
+ if (NRF24L01_NOP() & _BV(NRF24L01_07_RX_DR))
   {
    // data received from model
    NRF24L01_ReadPayload(telem_save_data_p2M, CABELL_TELEMETRY_PACKET_LENGTH);
 
    if ((telem_save_data_p2M[0] & 0x7F) == C_telemetryResponse)	// ignore high order bit in compare because it toggles with each packet
     {
+#if defined(FRSKY)
      frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
      telemetryData.rssi[0].set(telem_save_data_p2M[1]);	// Packet rate 0 to 255 where 255 is 100% packet rate
      telemetryData.analog[TELEM_ANA_A1].set(telem_save_data_p2M[2], g_model.telemetry.channels[TELEM_ANA_A1].type);	// Directly from analog input of receiver, but reduced to 8-bit depth (0 to 255).  Scaling depends on the input to the analog pin of the receiver.
      telemetryData.analog[TELEM_ANA_A2].set(telem_save_data_p2M[3], g_model.telemetry.channels[TELEM_ANA_A2].type);	// Directly from analog input of receiver, but reduced to 8-bit depth (0 to 255).  Scaling depends on the input to the analog pin of the receiver.
+#endif
      receive_seq_p2M++;
     }
   }
@@ -387,10 +391,7 @@ static uint16_t CABELL_manage_time()
   {
      // switch radio to rx as soon as packet is sent
      // calculate transmit time based on packet size and data rate of 250 Kbs per sec
-     // This is done because polling the status register during xmit caused issues.
-     // then add 140 uS which is 130 uS to begin the xmit and 10 uS fudge factor
-     // then add 460 uS -> Time to compute CABELL_send_packet()
-   uint16_t rxDelay = (/* Time air */(4 * 8 *(1 + 5 + packetSize_p2M + 2)) + 9) + 140 + 25;
+   uint16_t rxDelay = /* Variable time air */(4 * 8 * packetSize_p2M) + /* Fixed */450;
 
    if (!telem_save_seq_p2M)
     {
@@ -401,7 +402,7 @@ static uint16_t CABELL_manage_time()
    else
     {
      // increase packet period by 100 us for each channel over 6
-     packet_period = limit<int16_t>(0, (g_model.rfOptionValue1 - 6), 10);
+     packet_period = limit<uint16_t>(0, (uint8_t)(g_model.rfOptionValue1 - 6), 10);
      packet_period *= 100;
      packet_period += CABELL_PACKET_PERIOD;
      packet_period -= rxDelay + bind_counter_p2M; // remove RX time
@@ -418,7 +419,7 @@ static uint16_t CABELL_cb()
 {
  if (cabell_telemetry && telem_save_seq_p2M) // we need to switch to RX mode to read telemetry
   {
-   NRF24L01_WriteReg(NRF24L01_00_CONFIG, 0x7F);  // RX mode with 16 bit CRC no IRQ
+   NRF24L01_WriteReg(NRF24L01_00_CONFIG, 0x0F);  // RX mode with 16 bit CRC
   }
  else
   {
@@ -437,10 +438,7 @@ static uint16_t CABELL_cb()
 
 static void CABELL_initialize(uint8_t bind)
 {
- if (bind)
-  {
-   bind_idx_p2M = 1;
-  }
+ bind_idx_p2M = bind; // store bind state
  CABELL_init();
  PROTO_Start_Callback(CABELL_cb);
 }

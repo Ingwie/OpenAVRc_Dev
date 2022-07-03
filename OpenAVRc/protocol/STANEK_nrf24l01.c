@@ -122,7 +122,9 @@ static void STANEK_get_telemetry()
   // calculate TX rssi based on past 250 expected telemetry packets. Cannot use full second count because telemetry_counter is not large enough
   if (++rfState16_p2M > 250)
   {
+#if defined(FRSKY)
     telemetryData.rssi[1].set(receive_seq_p2M);
+#endif
     receive_seq_p2M = 0;
     rfState16_p2M = 0;
   }
@@ -132,13 +134,13 @@ static void STANEK_get_telemetry()
   {
     // data received from model
     NRF24L01_ReadPayload(telem_save_data_p2M, STANEK_TELEMETRY_PACKET_SIZE);
-
+#if defined(FRSKY)
     frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
 
     telemetryData.rssi[0].set(telem_save_data_p2M[0]); // packet rate 0 to 255 where 255 is 100% packet rate
     telemetryData.analog[TELEM_ANA_A1].set(telem_save_data_p2M[1], g_model.telemetry.channels[TELEM_ANA_A1].type); // directly from analog input of receiver, but reduced to 8-bit depth (0 to 255).
     telemetryData.analog[TELEM_ANA_A2].set(telem_save_data_p2M[2], g_model.telemetry.channels[TELEM_ANA_A2].type); // Scaling depends on the input to the analog pin of the receiver.
-
+#endif
     receive_seq_p2M++;
   }
   else
