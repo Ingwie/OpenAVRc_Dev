@@ -429,9 +429,9 @@ static void frskyX_check_telemetry(uint8_t *pkt, uint8_t len)
    Bit 2 of this nibble (bit 6 of the byte) is set to request a re-transmission of a missed packet.
    Bit 3 of the nibbles is used to indicate/acknowledge startup synchronisation.  // only process packets with the required id and packet length and good crc*/
 
- if ( pkt[0] == len - 3
-      && pkt[1] == temp_rfid_addr_p2M[3]
-      && pkt[2] == temp_rfid_addr_p2M[2]
+ if (    (pkt[0] == (len - 3))
+      && (pkt[1] == temp_rfid_addr_p2M[3])
+      && (pkt[2] == temp_rfid_addr_p2M[2])
       && (Xcrc(&pkt[3], len-7) == (uint16_t)(pkt[len-4] << 8 | pkt[len-3])))
   {
    frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
