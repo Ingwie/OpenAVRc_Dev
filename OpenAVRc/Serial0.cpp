@@ -39,6 +39,11 @@ uint8_t Usart0TxBufferCount = 0;
 
 #if defined(FRSKY) || defined(MULTIPROTOCOL) || defined(CRSF) || defined(SBUS) || defined(SUMD)
 
+void parseTelemFakeByte(uint8_t data)
+{
+  data = data; // compiler pleased
+}
+
 ISR(USART_RX_vect_N(TLM_USART0))
 {
   uint8_t stat;

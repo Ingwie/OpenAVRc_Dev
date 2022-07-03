@@ -1543,7 +1543,6 @@ void OpenAVRcInit(uint8_t mcusr)
   lcdSetContrast();
   backlightOn();
 
-  parseTelemFunction = (p_parseTelemFunction)parseTelemFrskyByte; // set default telemetry function parser (Frsky)
   doMixerCalculations();
 
 #if !defined(SIMU)
@@ -1600,7 +1599,11 @@ int16_t simumain()
 #endif
 
   boardInit();
-
+#if defined(FRSKY)
+  parseTelemFunction = (p_parseTelemFunction)parseTelemFrskyByte; // set default telemetry function parser (Frsky)
+#else
+  parseTelemFunction = (p_parseTelemFunction)parseTelemFakeByte; // set default telemetry function parser (Fake function)
+#endif
   sei(); // Needed to catch first 10mS interrupt
 
   menuHandlers[0] = menuMainView;

@@ -1005,6 +1005,7 @@ void ResetToBootloaderWithFlag();
 typedef const void (*p_parseTelemFunction)(uint8_t);
 p_parseTelemFunction parseTelemFunction;
 extern void parseTelemFrskyByte(uint8_t data);
+extern void parseTelemFakeByte(uint8_t data);
 
 #if defined (FRSKY)
   // FrSky Telemetry
