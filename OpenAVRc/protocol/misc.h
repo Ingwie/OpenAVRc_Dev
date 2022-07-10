@@ -62,9 +62,7 @@
   uint8_t * packet_p2M = pulses2MHz.pbyte; //protocol global packet (Use 40 MAX)
 #endif
 
-#if (SERIAL_PROTOCOL!=NO)
-  #define Usart0TxBuffer_p2M    packet_p2M // [USART0_TX_PACKET_SIZE] bytes used
-#endif
+#define Usart0TxBuffer_p2M    packet_p2M // [USART0_TX_PACKET_SIZE] bytes used
 
 #if defined(SPIMODULES)
   uint8_t * channel_used_p2M = &pulses2MHz.pbyte[CHANNEL_USED_OFFSET]; //protocol global channel (Use 50 MAX -> 54 bytes free to use in SPI protocols)
