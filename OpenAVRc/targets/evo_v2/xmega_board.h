@@ -92,6 +92,7 @@
 #define RF_TC                      TCE0
 #define RF_TIMER                   RF_TC.CNT
 #define RF_PORT                    PORTE
+// Also using VPORT0 as port E for bit bang spi to RF 4in1 module.
 #define RF_TIMER_COMPA_VECT        TCE0_CCA_vect
 #define RF_TIMER_COMPA_REG         RF_TC.CCA
 #define RF_TIMER_PAUSE_INTERRUPT   RF_TC.INTCTRLB &= ~TC0_CCAINTLVL_gm
@@ -104,11 +105,16 @@
 void setup_rf_tc(void);
 void rf_usart_serial_init(void);
 
+
 #define CALCULATE_LAT_JIT()  dt = (RF_TC.CNT - RF_TIMER_COMPA_REG ) // Calculate latency and jitter.
 
 #if defined(SPIMODULES) // PORTE 0
 char rf_usart_mspi_xfer(char c);
-#define RF_SPI_xfer  rf_usart_mspi_xfer
+uint8_t spi_xfer_4wires_bb(uint8_t c);
+void spi_write_3wires_bb(uint8_t c); // Bitbang write.
+uint8_t spi_read_3wires_bb(void); // Bitbang read.
+//#define RF_SPI_xfer  rf_usart_mspi_xfer
+#define RF_SPI_xfer  spi_xfer_4wires_bb
 void rf_usart_mspi_init(void);
 
 #define RF_USART                  USARTE0
@@ -124,19 +130,26 @@ void rf_usart_mspi_init(void);
 #define RF_CS_A7105_INACTIVE()    PORTE.OUTSET = RF_CS_PIN_bm
 
 // A7105/6 3 Wire SPI patches.
-// SDIO connects to MISO, but MOSI has a series 2K Ohm to SDIO. No Bit Banging for stand alone A7106 module.
+// For a standalone A7105/6 module, SDIO can connect to MISO, MISO to MOSI via a 1K Ohm resistor and hardware SPI can be used.
+// For the 4in1 RF Module it is probably simpler to use Bit Banging for all RF chips.
 #define SUSPEND_RF_SPI() // { RF_USART.CTRLB = 0; RF_USART.CTRLC = 0; }
 #define SET_RF_MOSI_IS_INPUT()   { RF_PORT.DIRCLR = USART_TXD_PIN_bm; }
 #define SET_RF_MOSI_IS_OUTPUT()  { RF_PORT.DIRSET = USART_TXD_PIN_bm; }
 //#define A7105_Enable_HWSPI()  {}
-#define SPI_READ_3WIRES()  rf_usart_mspi_xfer(0)
-#define SPI_WRITE_3WIRES rf_usart_mspi_xfer
+//#define SPI_READ_3WIRES()  rf_usart_mspi_xfer(0)
+//#define SPI_WRITE_3WIRES   rf_usart_mspi_xfer
+#define SPI_READ_3WIRES()  spi_read_3wires_bb()
+#define SPI_WRITE_3WIRES   spi_write_3wires_bb
 #define WAKEUP_RF_SPI()  // { RF_USART.CTRLB = USART_TXEN_bm | USART_RXEN_bm; }
-#define RF_MOSI_ON()   { RF_PORT.OUTSET = USART_TXD_PIN_bm; }
-#define RF_MOSI_OFF()  { RF_PORT.OUTCLR = USART_TXD_PIN_bm; }
-#define RF_XCK_ON()    { RF_PORT.OUTSET = USART_XCK_PIN_bm; }
-#define RF_XCK_OFF()   { RF_PORT.OUTCLR = USART_XCK_PIN_bm; }
-#define IS_RF_MOSI_ON  ( RF_PORT.IN & USART_TXD_PIN_bm)
+
+// The following read-modify-write instructions should be compiled to SBI CBI instructions by the compiler.
+// e.g. __asm__ ("sbi 0x11,5")
+#define RF_MOSI_ON()   __asm__ ("sbi 0x11,3") //{ VPORT0.OUT |= USART_TXD_PIN_bm; }
+#define RF_MOSI_OFF()  __asm__ ("cbi 0x11,3") //{ VPORT0.OUT &= ~USART_TXD_PIN_bm; }
+#define RF_XCK_ON()    __asm__ ("sbi 0x11,1") //{ VPORT0.OUT |= USART_XCK_PIN_bm; }
+#define RF_XCK_OFF()   __asm__ ("cbi 0x11,1") //{ VPORT0.OUT &= ~USART_XCK_PIN_bm; }
+#define IS_RF_MOSI_ON  ( VPORT0.IN & USART_TXD_PIN_bm )
+#define IS_RF_MISO_ON  ( VPORT0.IN & USART_RXD_PIN_bm )
 #endif // SPIMODULES
 
 

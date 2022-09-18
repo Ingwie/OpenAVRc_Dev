@@ -283,12 +283,12 @@ static void BAYANG_check_rx(void)
    // decode data , check sum is ok as well, since there is no crc
    if (packet_p2M[0] == 0x85 && packet_p2M[14] == check)
     {
-
+#if defined(FRSKY)
      frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
      telemetryData.analog[TELEM_ANA_A1].set((packet_p2M[3]<<7) + (packet_p2M[4]>>2), g_model.telemetry.channels[TELEM_ANA_A1].type);
      telemetryData.analog[TELEM_ANA_A2].set((packet_p2M[5]<<7) + (packet_p2M[6]>>2), g_model.telemetry.channels[TELEM_ANA_A2].type);
      telemetryData.rssi[0].set(packet_p2M[7]);
-
+#endif
      receive_seq_p2M++;
     }
   }
@@ -320,7 +320,9 @@ static uint16_t BAYANG_callback()
      rfState16_p2M++;
      if (rfState16_p2M > 500)
       {
+#if defined(FRSKY)
        telemetryData.rssi[1].set(receive_seq_p2M);
+#endif
        rfState16_p2M = 0;
        receive_seq_p2M = 0;
       }

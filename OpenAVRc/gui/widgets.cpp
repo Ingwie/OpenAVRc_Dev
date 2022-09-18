@@ -45,6 +45,23 @@ void drawStick(coord_t centrex, int16_t xval, int16_t yval)
 #undef MARKER_WIDTH
 }
 
+#if defined(DBLGAZSTICK)
+void drawDblGazStick(coord_t centrex, int16_t yval1, int16_t yval2)
+{
+#define BOX_CENTERY   (LCD_H-9-BOX_WIDTH/2)
+#define MARKER_WIDTH  5
+  lcd_square(centrex-BOX_WIDTH/2, BOX_CENTERY-BOX_WIDTH/2, BOX_WIDTH);
+  lcdDrawSolidVerticalLine(centrex - MARKER_WIDTH+2, BOX_CENTERY+BOX_WIDTH/2-3, 3);
+  lcdDrawSolidHorizontalLine(centrex - MARKER_WIDTH+1, BOX_CENTERY+BOX_WIDTH/2-2, 3);
+  lcdDrawSolidVerticalLine(centrex - MARKER_WIDTH/2+6, BOX_CENTERY+BOX_WIDTH/2-3, 3);
+  lcdDrawSolidHorizontalLine(centrex - MARKER_WIDTH/2+5, BOX_CENTERY+BOX_WIDTH/2-2, 3);
+  lcd_square(centrex - MARKER_WIDTH, BOX_CENTERY - (yval1/((2*RESX)/(BOX_WIDTH-MARKER_WIDTH))) - MARKER_WIDTH/2, MARKER_WIDTH, ROUND);
+  lcd_square(centrex + MARKER_WIDTH/2, BOX_CENTERY - (yval2/((2*RESX)/(BOX_WIDTH-MARKER_WIDTH))) - MARKER_WIDTH/2, MARKER_WIDTH, ROUND);
+#undef BOX_CENTERY
+#undef MARKER_WIDTH
+}
+#endif
+
 void menu_lcd_onoff(coord_t x, coord_t y, uint8_t value, LcdFlags attr)
 {
   if (value)

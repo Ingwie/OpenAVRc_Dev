@@ -35,212 +35,304 @@
 
 //crsf.h
 #ifndef _CRSF_H_
-#define _CRSF_H_
+ #define _CRSF_H_
 
 
-// Device addresses
-#define ADDR_BROADCAST  0x00  //  Broadcast address
-#define ADDR_USB        0x10  //  USB Device
-#define ADDR_BLUETOOTH  0x12  //  Bluetooth Module
-#define ADDR_PRO_CORE   0x80  //  TBS CORE PNP PRO
-//  #define ADDR_  0x8A       //  Reserved
-#define ADDR_PRO_CURR   0xC0  //  PNP PRO digital current sensor
-#define ADDR_PRO_GPS    0xC2  //  PNP PRO GPS
-#define ADDR_BLACKBOX   0xC4  //  TBS Blackbox
-#define ADDR_FC         0xC8  //  Flight controller
-//  #define ADDR_       0xCA  //  Reserved
-#define ADDR_RACETAG    0xCC  //  Race tag
-#define ADDR_RADIO      0xEA  //  Radio Transmitter
-//  #define ADDR_       0xEB  //  Reserved
-#define ADDR_RECEIVER   0xEC  //  Crossfire / UHF receiver
-#define ADDR_MODULE     0xEE  //  Crossfire transmitter
+ // Device addresses
+ #define CRSF_ADDR_BROADCAST  0x00  //  Broadcast address
+ #define CRSF_ADDR_USB        0x10  //  USB Device
+ #define CRSF_ADDR_BLUETOOTH  0x12  //  Bluetooth Module
+ #define CRSF_ADDR_PRO_CORE   0x80  //  TBS CORE PNP PRO
+ //  #define CRSF_ADDR_  0x8A       //  Reserved
+ #define CRSF_ADDR_PRO_CURR   0xC0  //  PNP PRO digital current sensor
+ #define CRSF_ADDR_PRO_GPS    0xC2  //  PNP PRO GPS
+ #define CRSF_ADDR_BLACKBOX   0xC4  //  TBS Blackbox
+ #define CRSF_ADDR_FC         0xC8  //  Flight controller
+ //  #define CRSF_ADDR_       0xCA  //  Reserved
+ #define CRSF_ADDR_RACETAG    0xCC  //  Race tag
+ #define CRSF_ADDR_RADIO      0xEA  //  Radio Transmitter
+ //  #define CRSF_ADDR_       0xEB  //  Reserved
+ #define CRSF_ADDR_RECEIVER   0xEC  //  Crossfire / UHF receiver
+ #define CRSF_ADDR_MODULE     0xEE  //  Crossfire transmitter
 
-// Frame Type
-#define TYPE_GPS              0x02
-#define TYPE_BATTERY          0x08
-#define TYPE_VIDEO            0x08
-#define TYPE_LINK             0x14
-#define TYPE_CHANNELS         0x16
-#define TYPE_ATTITUDE         0x1E
-#define TYPE_FLIGHT_MODE      0x21
-#define TYPE_PING_DEVICES     0x28
-#define TYPE_DEVICE_INFO      0x29
-#define TYPE_REQUEST_SETTINGS 0x2A
-#define TYPE_SETTINGS_ENTRY   0x2B
-#define TYPE_SETTINGS_READ    0x2C
-#define TYPE_SETTINGS_WRITE   0x2D
+ // Frame Type
+ #define CRSF_TYPE_GPS              0x02
+ #define CRSF_TYPE_BATTERY          0x08
+ #define CRSF_TYPE_VIDEO            0x08
+ #define CRSF_TYPE_LINK             0x14
+ #define CRSF_TYPE_CHANNELS         0x16
+ #define CRSF_TYPE_ATTITUDE         0x1E
+ #define CRSF_TYPE_FLIGHT_MODE      0x21
+ #define CRSF_TYPE_PING_DEVICES     0x28
+ #define CRSF_TYPE_DEVICE_INFO      0x29
+ #define CRSF_TYPE_REQUEST_SETTINGS 0x2A
+ #define CRSF_TYPE_SETTINGS_ENTRY   0x2B
+ #define CRSF_TYPE_SETTINGS_READ    0x2C
+ #define CRSF_TYPE_SETTINGS_WRITE   0x2D
 
-#define TELEMETRY_RX_PACKET_SIZE   64
-
-
-#define SUPPORT_CRSF_CONFIG
-
-#if defined(SUPPORT_CRSF_CONFIG)
-
-#define CRSF_MAX_DEVICES       4
-#define CRSF_MAX_NAME_LEN      16
-#define CRSF_MAX_STRING_BYTES  2500     // max observed is 2010 in Nano RX
-#define CRSF_STRING_BYTES_AVAIL(current)  (CRSF_MAX_STRING_BYTES-((char *)(current)-mp->strings))
-
-
-/*enum data_type
-{
- UINT8          = 0,
- INT8           = 1,
- UINT16         = 2,
- INT16          = 3,
- FLOAT          = 8,
- TEXT_SELECTION = 9,
- STRING         = 10,
- FOLDER         = 11,
- INFO           = 12,
- COMMAND        = 13,
- OUT_OF_RANGE   = 127,
-};*/
-
-enum cmd_status
-{
- READY               = 0,
- START_CRSF          = 1,//START               = 1,
- PROGRESS            = 2,
- CONFIRMATION_NEEDED = 3,
- CONFIRM             = 4,
- CANCEL              = 5,
- POLL                = 6
-};
-
-typedef struct
-{
- uint8_t address;
- uint8_t number_of_params;
- uint8_t params_version;
- uint32_t serial_number;
- uint32_t hardware_id;
- uint32_t firmware_id;
- char name[CRSF_MAX_NAME_LEN];
-} crsf_device_t;
-
-typedef struct
-{
- // common fields
- uint8_t device;            // device index of device parameter belongs to
- uint8_t id;                // Parameter number (starting from 1)
- uint8_t parent;            // Parent folder parameter number of the parent folder, 0 means root
- //enum data_type type;  // (Parameter type definitions and hidden bit)
- uint8_t hidden;            // set if hidden
- char *name;           // Null-terminated string
- void *value;          // size depending on data type
-
- // field presence depends on type
- void *default_value;  // size depending on data type. Not present for COMMAND.
- int32_t min_value;        // not sent for string type
- int32_t max_value;        // not sent for string type
- int32_t step;             // Step size ( type float only otherwise this entry is not sent )
- uint8_t timeout;           // COMMAND timeout (100ms/count)
- uint8_t changed;           // flag if set needed when edit element is de-selected
- char *max_str;        // Longest choice length for text select
- union
- {
-  uint8_t point;             // Decimal point ( type float only otherwise this entry is not sent )
-  uint8_t text_sel;          // current value index for TEXT_SELECTION type
-  uint8_t string_max_len;    // String max length ( for string type only )
-  uint8_t status;            // Status for COMMANDs
- } u;
- union
- {
-  char *info;
-  char *unit;         // Unit ( Null-terminated string / not sent for type string and folder )
- } s;
-} crsf_param_t;
-
-extern crsf_device_t crsf_devices[CRSF_MAX_DEVICES];
-
-void CRSF_serial_rcv(uint8_t *buffer, uint8_t num_bytes);
-uint8_t CRSF_serial_txd(uint8_t *buffer, uint8_t max_len);
-uint8_t crsf_crc8(const uint8_t *ptr, uint8_t len);
-void CRSF_ping_devices();
-void CRSF_read_param(uint8_t device, uint8_t id, uint8_t chunk);
-void CRSF_set_param(crsf_param_t *param);
-void CRSF_send_command(crsf_param_t *param, enum cmd_status status);
-
-#endif  // SUPPORT_CRSF_CONFIG
-
+ #define TELEMETRY_RX_PACKET_SIZE   64
 #endif
 
-
-
-
-
-#define CRSF_DATARATE             400000
+#define CRSF_DATARATE             115200
 #define CRSF_FRAME_PERIOD         4000   // 4ms
 #define CRSF_CHANNELS             16
-#define CRSF_PACKET_SIZE          26
+#define CRSF_CHAN_PACKET_SIZE     26
+#define CRSF_SET_PACKET_SIZE      8
 
+// ELRS command
+#define ELRS_ADDRESS               0xEE
+#define ELRS_BIND_COMMAND          0xFF
+#define ELRS_WIFI_COMMAND          0xFE
+#define ELRS_PKT_RATE_COMMAND      0x01
+#define ELRS_TLM_RATIO_COMMAND     0x02
+#define ELRS_POWER_COMMAND         0x03
 
 const static RfOptionSettingsvar_t RfOpt_CRSF_Ser[] PROGMEM =
 {
  /*rfProtoNeed*/0, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
  /*rfSubTypeMax*/0,
- /*rfOptionValue1Min*/-128,
- /*rfOptionValue1Max*/127,
+ /*rfOptionValue1Min*/0,
+ /*rfOptionValue1Max*/0x54,
  /*rfOptionValue2Min*/0,
  /*rfOptionValue2Max*/0,
  /*rfOptionValue3Max*/0,
 };
 
+const pm_char STR_CRSF_FREQ[] PROGMEM = "915AU""915FC""868EU""433AU""433EU""24ISM";
+const uint8_t CRSF_RATE24[] PROGMEM = {0xFF,250,150,50,25}; // 0xFF mean 500
+const uint8_t CRSF_RATE900[] PROGMEM = {200,100,50,25};
+const uint8_t CRSF_POWER[] PROGMEM = {10,25,50,100,250,0xFD,0xFE,0xFF}; // 0xFD mean 500 0xFE->1000 0xFF->2000
+const uint8_t CRSF_TLMRATE[] PROGMEM = {128,64,32,16,8,4,2};
+
+#define READ_CRSF_FREQ      (g_model.rfOptionValue1>>4)
+#define WRITE_CRSF_FREQ(x)  (g_model.rfOptionValue1 = (g_model.rfOptionValue1 & 0x0F) | (x<<4))
+#define READ_CRSF_RATE      (g_model.rfOptionValue1&0x0F)
+#define WRITE_CRSF_RATE(x)  (g_model.rfOptionValue1 = (g_model.rfOptionValue1 & 0xF0) | x)
+#define IS_CRSF_24_FREQ     (READ_CRSF_FREQ == 5)
+#define GET_CRSF_NUM_RATE   (IS_CRSF_24_FREQ ? sizeof(CRSF_RATE24) : sizeof(CRSF_RATE900))
+
+#define CRSF_FREQ_RATE_MEM  rfState8_p2M
+#define CRSF_40_MS_Flag     channel_index_p2M
+#define CRSF_40_MS_Flipflop channel_offset_p2M
+#define CRSF_RATE_PERIOD    rfState16_p2M
+
+static void CRSF_Reset()
+{
+ USART_DISABLE_TX(CRSF_USART);
+ USART_DISABLE_RX(CRSF_USART);
+}
+
+static const uint8_t ZZcrsf_crc8tab[] PROGMEM =
+{
+ 0x00, 0xD5, 0x7F, 0xAA, 0xFE, 0x2B, 0x81, 0x54, 0x29, 0xFC, 0x56, 0x83, 0xD7, 0x02, 0xA8, 0x7D,
+ 0x52, 0x87, 0x2D, 0xF8, 0xAC, 0x79, 0xD3, 0x06, 0x7B, 0xAE, 0x04, 0xD1, 0x85, 0x50, 0xFA, 0x2F,
+ 0xA4, 0x71, 0xDB, 0x0E, 0x5A, 0x8F, 0x25, 0xF0, 0x8D, 0x58, 0xF2, 0x27, 0x73, 0xA6, 0x0C, 0xD9,
+ 0xF6, 0x23, 0x89, 0x5C, 0x08, 0xDD, 0x77, 0xA2, 0xDF, 0x0A, 0xA0, 0x75, 0x21, 0xF4, 0x5E, 0x8B,
+ 0x9D, 0x48, 0xE2, 0x37, 0x63, 0xB6, 0x1C, 0xC9, 0xB4, 0x61, 0xCB, 0x1E, 0x4A, 0x9F, 0x35, 0xE0,
+ 0xCF, 0x1A, 0xB0, 0x65, 0x31, 0xE4, 0x4E, 0x9B, 0xE6, 0x33, 0x99, 0x4C, 0x18, 0xCD, 0x67, 0xB2,
+ 0x39, 0xEC, 0x46, 0x93, 0xC7, 0x12, 0xB8, 0x6D, 0x10, 0xC5, 0x6F, 0xBA, 0xEE, 0x3B, 0x91, 0x44,
+ 0x6B, 0xBE, 0x14, 0xC1, 0x95, 0x40, 0xEA, 0x3F, 0x42, 0x97, 0x3D, 0xE8, 0xBC, 0x69, 0xC3, 0x16,
+ 0xEF, 0x3A, 0x90, 0x45, 0x11, 0xC4, 0x6E, 0xBB, 0xC6, 0x13, 0xB9, 0x6C, 0x38, 0xED, 0x47, 0x92,
+ 0xBD, 0x68, 0xC2, 0x17, 0x43, 0x96, 0x3C, 0xE9, 0x94, 0x41, 0xEB, 0x3E, 0x6A, 0xBF, 0x15, 0xC0,
+ 0x4B, 0x9E, 0x34, 0xE1, 0xB5, 0x60, 0xCA, 0x1F, 0x62, 0xB7, 0x1D, 0xC8, 0x9C, 0x49, 0xE3, 0x36,
+ 0x19, 0xCC, 0x66, 0xB3, 0xE7, 0x32, 0x98, 0x4D, 0x30, 0xE5, 0x4F, 0x9A, 0xCE, 0x1B, 0xB1, 0x64,
+ 0x72, 0xA7, 0x0D, 0xD8, 0x8C, 0x59, 0xF3, 0x26, 0x5B, 0x8E, 0x24, 0xF1, 0xA5, 0x70, 0xDA, 0x0F,
+ 0x20, 0xF5, 0x5F, 0x8A, 0xDE, 0x0B, 0xA1, 0x74, 0x09, 0xDC, 0x76, 0xA3, 0xF7, 0x22, 0x88, 0x5D,
+ 0xD6, 0x03, 0xA9, 0x7C, 0x28, 0xFD, 0x57, 0x82, 0xFF, 0x2A, 0x80, 0x55, 0x01, 0xD4, 0x7E, 0xAB,
+ 0x84, 0x51, 0xFB, 0x2E, 0x7A, 0xAF, 0x05, 0xD0, 0xAD, 0x78, 0xD2, 0x07, 0x53, 0x86, 0x2C, 0xF9,
+};
+
 uint8_t crsf_crc8(const uint8_t *ptr, uint8_t len)
 {
 // crc implementation from CRSF protocol document rev7
- static const uint16_t ZZcrsf_crc8tab[] PROGMEM =
- {
-  0x00, 0xD5, 0x7F, 0xAA, 0xFE, 0x2B, 0x81, 0x54, 0x29, 0xFC, 0x56, 0x83, 0xD7, 0x02, 0xA8, 0x7D,
-  0x52, 0x87, 0x2D, 0xF8, 0xAC, 0x79, 0xD3, 0x06, 0x7B, 0xAE, 0x04, 0xD1, 0x85, 0x50, 0xFA, 0x2F,
-  0xA4, 0x71, 0xDB, 0x0E, 0x5A, 0x8F, 0x25, 0xF0, 0x8D, 0x58, 0xF2, 0x27, 0x73, 0xA6, 0x0C, 0xD9,
-  0xF6, 0x23, 0x89, 0x5C, 0x08, 0xDD, 0x77, 0xA2, 0xDF, 0x0A, 0xA0, 0x75, 0x21, 0xF4, 0x5E, 0x8B,
-  0x9D, 0x48, 0xE2, 0x37, 0x63, 0xB6, 0x1C, 0xC9, 0xB4, 0x61, 0xCB, 0x1E, 0x4A, 0x9F, 0x35, 0xE0,
-  0xCF, 0x1A, 0xB0, 0x65, 0x31, 0xE4, 0x4E, 0x9B, 0xE6, 0x33, 0x99, 0x4C, 0x18, 0xCD, 0x67, 0xB2,
-  0x39, 0xEC, 0x46, 0x93, 0xC7, 0x12, 0xB8, 0x6D, 0x10, 0xC5, 0x6F, 0xBA, 0xEE, 0x3B, 0x91, 0x44,
-  0x6B, 0xBE, 0x14, 0xC1, 0x95, 0x40, 0xEA, 0x3F, 0x42, 0x97, 0x3D, 0xE8, 0xBC, 0x69, 0xC3, 0x16,
-  0xEF, 0x3A, 0x90, 0x45, 0x11, 0xC4, 0x6E, 0xBB, 0xC6, 0x13, 0xB9, 0x6C, 0x38, 0xED, 0x47, 0x92,
-  0xBD, 0x68, 0xC2, 0x17, 0x43, 0x96, 0x3C, 0xE9, 0x94, 0x41, 0xEB, 0x3E, 0x6A, 0xBF, 0x15, 0xC0,
-  0x4B, 0x9E, 0x34, 0xE1, 0xB5, 0x60, 0xCA, 0x1F, 0x62, 0xB7, 0x1D, 0xC8, 0x9C, 0x49, 0xE3, 0x36,
-  0x19, 0xCC, 0x66, 0xB3, 0xE7, 0x32, 0x98, 0x4D, 0x30, 0xE5, 0x4F, 0x9A, 0xCE, 0x1B, 0xB1, 0x64,
-  0x72, 0xA7, 0x0D, 0xD8, 0x8C, 0x59, 0xF3, 0x26, 0x5B, 0x8E, 0x24, 0xF1, 0xA5, 0x70, 0xDA, 0x0F,
-  0x20, 0xF5, 0x5F, 0x8A, 0xDE, 0x0B, 0xA1, 0x74, 0x09, 0xDC, 0x76, 0xA3, 0xF7, 0x22, 0x88, 0x5D,
-  0xD6, 0x03, 0xA9, 0x7C, 0x28, 0xFD, 0x57, 0x82, 0xFF, 0x2A, 0x80, 0x55, 0x01, 0xD4, 0x7E, 0xAB,
-  0x84, 0x51, 0xFB, 0x2E, 0x7A, 0xAF, 0x05, 0xD0, 0xAD, 0x78, 0xD2, 0x07, 0x53, 0x86, 0x2C, 0xF9,
- };
-
  uint8_t crc = 0;
  uint_farptr_t crctab = pgm_get_far_address(ZZcrsf_crc8tab);
  for (uint8_t i=0; i < len; i++)
   {
-   crc = pgm_read_word_far(crctab + (2*(crc ^ *ptr--)));
+   crc = pgm_read_byte_far(crctab + (crc ^ *ptr--));
   }
  return crc;
 }
 
-static uint8_t convertPktRateToElrs(uint8_t rfFreq, uint8_t rate)
+/* from CRSF document
+Center (1500us) = 992
+TICKS_TO_US(x) ((x - 992) * 5 / 8 + 1500)
+US_TO_TICKS(x) ((x - 1500) * 8 / 5 + 992)
+*/
+
+#define CSRF_MIN 172
+#define CSRF_MAX 1811
+static void build_CRSF_data_pkt()
 {
- switch (rate)
+#if defined(X_ANY)
+ Xany_scheduleTx_AllInstance();
+#endif
+
+ Usart0TxBufferCount = CRSF_CHAN_PACKET_SIZE;
+ uint8_t crsfTxBufferCount = Usart0TxBufferCount;
+
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_ADDR_MODULE;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_CHAN_PACKET_SIZE - 2;   // length of type + payload + crc
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_TYPE_CHANNELS;
+
+ int16_t value;
+ uint32_t bits = 0;
+ uint8_t bitsavailable = 0;
+
+ for (uint8_t i=0; i < CRSF_CHANNELS; i++)
+  {
+   if (i < 16/*todoModel.num_channels*/)
+    {
+     value = calcRESXto1000(FULL_CHANNEL_OUTPUTS(i))*8/10;
+     value += 992; // Add midpoint value
+    }
+   else
+    value = 992;  // midpoint
+
+   bits |= (uint32_t)value << bitsavailable;
+   bitsavailable += 11; // 11 bits per channel
+   while (bitsavailable >= 8)
+    {
+     Usart0TxBuffer_p2M[--crsfTxBufferCount] = ((uint8_t) (bits & 0xff));
+     bits >>= 8;
+     bitsavailable -= 8;
+    }
+  }
+ Usart0TxBuffer_p2M[0] = crsf_crc8(&Usart0TxBuffer_p2M[CRSF_CHAN_PACKET_SIZE-3], CRSF_CHAN_PACKET_SIZE-3);
+}
+
+static void buildElrsPacket(uint8_t command, uint8_t value)
+{
+ Usart0TxBufferCount = CRSF_SET_PACKET_SIZE;
+ uint8_t crsfTxBufferCount = Usart0TxBufferCount;
+
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_ADDR_MODULE;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_SET_PACKET_SIZE-2;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_TYPE_SETTINGS_WRITE;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = ELRS_ADDRESS;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = CRSF_ADDR_RADIO;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = command;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = value;
+ Usart0TxBuffer_p2M[--crsfTxBufferCount] = crsf_crc8(&Usart0TxBuffer_p2M[CRSF_CHAN_PACKET_SIZE-3], CRSF_CHAN_PACKET_SIZE-3);
+}
+
+uint16_t convertPktRateToPeriod()
+{
+ uint8_t rate = READ_CRSF_RATE;
+ uint16_t freq = IS_CRSF_24_FREQ ? pgm_read_byte_near(&CRSF_RATE24[rate]) : pgm_read_byte_near(&CRSF_RATE900[rate]);
+ if (freq == 0xFF) freq = 500;
+ freq = 1000/freq;
+ return freq;
+}
+
+static uint8_t convertPktRateToElrs(uint8_t rfFreqRate)
+{
+ uint8_t rate = (rfFreqRate & 0x0F);
+ rfFreqRate >>= 4; // keep rfFreq value
+
+ switch (rate) // rate
   {
   case 0:
-   if (rfFreq == 6) return 0;
+   if (rfFreqRate == 5) return 0;
    return 2;
   case 1:
-   if (rfFreq == 6) return 1;
+   if (rfFreqRate == 5) return 1;
    return 4;
   case 2:
-   if (rfFreq == 6) return 3;
+   if (rfFreqRate == 5) return 3;
    return 5;
   case 3:
-   if (rfFreq == 6) return 5;
+   if (rfFreqRate == 5) return 5;
    return 6;
   case 4:
    return 6;
   }
  return 6;
 }
+
+static uint8_t check_CRSF_ParamChange()
+{
+  if (g_model.rfOptionValue1 != CRSF_FREQ_RATE_MEM) // freq and/or rate change ?
+  {
+    uint8_t rate = convertPktRateToElrs(g_model.rfOptionValue1);
+    buildElrsPacket(ELRS_PKT_RATE_COMMAND, rate);
+    CRSF_FREQ_RATE_MEM = g_model.rfOptionValue1;
+    uint16_t period = convertPktRateToPeriod();
+    if (period == 40)
+    {
+      CRSF_40_MS_Flag = 1;
+      period /= 2; // use CRSF_40_MS_Flipflop
+    }
+    else
+    {
+      CRSF_40_MS_Flag = 0;
+    }
+    CRSF_RATE_PERIOD = period * 1000U;
+    SCHEDULE_MIXER_END_IN_US(CRSF_RATE_PERIOD); // Schedule new next Mixer calculations.
+    return 1;
+  }
+  return 0;
+}
+
+static uint16_t CRSF_SERIAL_cb()
+{
+ SCHEDULE_MIXER_END_IN_US(CRSF_RATE_PERIOD); // Schedule next Mixer calculations.
+ if (!(CRSF_40_MS_Flag && (CRSF_40_MS_Flipflop ^= 0x1)))
+ {
+  if (!check_CRSF_ParamChange())
+    build_CRSF_data_pkt();
+#if !defined(SIMU)
+   USART_TRANSMIT_BUFFER(CRSF_USART);
+#endif
+   heartbeat |= HEART_TIMER_PULSES;
+  }
+ CALCULATE_LAT_JIT(); // Calculate latency and jitter.
+ return CRSF_RATE_PERIOD *2;
+}
+
+static void CRSF_initialize(uint8_t bind)
+{
+// 115K2 8N1
+ USART_SET_BAUD_115K2(CRSF_USART);
+ USART_SET_MODE_8N1(CRSF_USART);
+ USART_ENABLE_TX(CRSF_USART);
+ Usart0TxBufferCount = 0;
+ CRSF_RATE_PERIOD = convertPktRateToPeriod() * 1000U;
+ PROTO_Start_Callback( CRSF_SERIAL_cb);
+}
+
+const void *CRSF_Cmds(enum ProtoCmds cmd)
+{
+ switch(cmd)
+  {
+  case PROTOCMD_INIT:
+   CRSF_initialize(0);
+   return 0;
+  case PROTOCMD_RESET:
+   PROTO_Stop_Callback();
+   CRSF_Reset();
+   return 0;
+  case PROTOCMD_BIND:
+   CRSF_initialize(1);
+   return 0;
+  case PROTOCMD_GETOPTIONS:
+   SetRfOptionSettings(pgm_get_far_address(RfOpt_CRSF_Ser),
+                       STR_DUMMY,      //Sub proto
+                       STR_DUMMY,      //Option 1 (int)
+                       STR_DUMMY,      //Option 2 (int)
+                       STR_DUMMY,      //Option 3 (uint 0 to 31)
+                       STR_DUMMY,      //OptionBool 1
+                       STR_DUMMY,      //OptionBool 2
+                       STR_DUMMY       //OptionBool 3
+                      );
+   return 0;
+  default:
+   break;
+  }
+ return 0;
+}
+
+/* Todo : ELRS
 
 static uint8_t convertElrsToPktRate(uint8_t rfFreq, uint8_t elrsRate)
 {
@@ -266,29 +358,6 @@ static uint8_t convertElrsToPktRate(uint8_t rfFreq, uint8_t elrsRate)
  return 0;
 }
 
-static uint16_t convertPktRateToPeriod(uint8_t rfFreq, uint8_t rate)
-{
- if (rfFreq == 0) return CRSF_FRAME_PERIOD;
- switch (rate)
-  {
-  case 0:
-   if (rfFreq == 6) return 2000;
-   return 5000;
-  case 1:
-   if (rfFreq == 6) return 4000;
-   return 10000;
-  case 2:
-   if (rfFreq == 6) return 6666;
-   return 20000;
-  case 3:
-   if (rfFreq == 6) return 20000;
-   return 40000;
-  case 4:
-   return 40000;
-  }
- return CRSF_FRAME_PERIOD;
-}
-
 enum
 {
  PROTO_OPTS_BAD_PKTS,
@@ -302,149 +371,6 @@ enum
  LAST_PROTO_OPT,
 };
 
-#define ELRS_ADDRESS 0xEE
-#define ELRS_BIND_COMMAND 0xFF
-#define ELRS_WIFI_COMMAND 0xFE
-#define ELRS_PKT_RATE_COMMAND 1
-#define ELRS_TLM_RATIO_COMMAND 2
-#define ELRS_POWER_COMMAND 3
-
-static uint8_t buildElrspacket(uint8_t command, uint8_t value)
-{
- packet_p2M[CRSF_PACKET_SIZE - 0] = ADDR_MODULE;
- packet_p2M[CRSF_PACKET_SIZE - 1] = 6;
- packet_p2M[CRSF_PACKET_SIZE - 2] = TYPE_SETTINGS_WRITE;
- packet_p2M[CRSF_PACKET_SIZE - 3] = ELRS_ADDRESS;
- packet_p2M[CRSF_PACKET_SIZE - 4] = ADDR_RADIO;
- packet_p2M[CRSF_PACKET_SIZE - 5] = command;
- packet_p2M[CRSF_PACKET_SIZE - 6] = value;
- packet_p2M[CRSF_PACKET_SIZE - 7] = crsf_crc8(&packet_p2M[CRSF_PACKET_SIZE - 2], packet_p2M[CRSF_PACKET_SIZE - 1]-1);
-
- return 8;
-}
-
-/* from CRSF document
-Center (1500us) = 992
-TICKS_TO_US(x) ((x - 992) * 5 / 8 + 1500)
-US_TO_TICKS(x) ((x - 1500) * 8 / 5 + 992)
-*/
-
-#define CSRF_MIN 172
-#define CSRF_MAX 1811
-static uint8_t build_rcdata_pkt()
-{
- packet_p2M[CRSF_PACKET_SIZE - 0] = ADDR_MODULE;
- packet_p2M[CRSF_PACKET_SIZE - 1] = 24;   // length of type + payload + crc
- packet_p2M[CRSF_PACKET_SIZE - 2] = TYPE_CHANNELS;
-
- int32_t value;
- uint32_t bits = 0;
- uint8_t bitsavailable = 0;
- uint8_t * packet3 = &packet_p2M[CRSF_PACKET_SIZE - 3];
-
- for (uint8_t i=0; i < CRSF_CHANNELS; i++)
-  {
-   if (i < 16/*todoModel.num_channels*/)
-    value = (FULL_CHANNEL_OUTPUTS(i)+RESX)*(CSRF_MAX-CSRF_MIN)/(2*RESX)+CSRF_MIN;
-   else
-    value = 992;  // midpoint
-
-// OpenTX method
-   bits |= value << bitsavailable;
-   bitsavailable += 11; // 11 bits per channel
-   while (bitsavailable >= 8)
-    {
-     *packet3-- = bits;
-     bits >>= 8;
-     bitsavailable -= 8;
-    }
-
-  }
- packet_p2M[CRSF_PACKET_SIZE - 25] = crsf_crc8(&packet_p2M[CRSF_PACKET_SIZE - 2], CRSF_PACKET_SIZE-3);
-
- return CRSF_PACKET_SIZE;
-}
-
-const static uint8_t ZZ_CRSFInitSequence[] PROGMEM =
-{
-};
-
-static void CRSF_init()
-{
-}
-
-
-static void CRSF_send_data_packet_p2M()
-{
-}
-
-static void CRSF_send_bind_packet_p2M()
-{
-}
-
-static uint16_t CRSF_bind_cb()
-{
- SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
- CRSF_send_bind_packet_p2M();
- heartbeat |= HEART_TIMER_PULSES;
- CALCULATE_LAT_JIT(); // Calculate latency and jitter.
- return 18000U *2;
-}
-
-static uint16_t CRSF_cb()
-{
- SCHEDULE_MIXER_END_IN_US(12000); // Schedule next Mixer calculations.
- CRSF_send_data_packet_p2M();
- heartbeat |= HEART_TIMER_PULSES;
- CALCULATE_LAT_JIT(); // Calculate latency and jitter.
- return 12000U *2;
-}
-
-
-static void CRSF_initialize(uint8_t bind)
-{
- CRSF_init();
- if (bind)
-  {
-   PROTO_Start_Callback( CRSF_bind_cb);
-  }
- else
-  {
-   PROTO_Start_Callback( CRSF_cb);
-  }
-}
-
-const void *CRSF_Cmds(enum ProtoCmds cmd)
-{
- switch(cmd)
-  {
-  case PROTOCMD_INIT:
-   CRSF_initialize(0);
-   return 0;
-  case PROTOCMD_RESET:
-   PROTO_Stop_Callback();
-   return 0;
-  case PROTOCMD_BIND:
-   CRSF_initialize(1);
-   return 0;
-  case PROTOCMD_GETOPTIONS:
-   SetRfOptionSettings(pgm_get_far_address(RfOpt_CRSF_Ser),
-                       STR_DUMMY,      //Sub proto
-                       STR_DUMMY,      //Option 1 (int)
-                       STR_DUMMY,      //Option 2 (int)
-                       STR_DUMMY,      //Option 3 (uint 0 to 31)
-                       STR_DUMMY,      //OptionBool 1
-                       STR_DUMMY,      //OptionBool 2
-                       STR_DUMMY       //OptionBool 3
-                      );
-   return 0;
-  default:
-   break;
-  }
- return 0;
-}
-
-/*
 static uint8_t currentPktRate = 0;
 static uint8_t currentTlmRatio = 0;
 static uint8_t currentPower = 0;
@@ -717,17 +643,17 @@ static uint16_t serial_cb()
         if (mixer_sync != MIX_DONE && mixer_runtime < 2000) mixer_runtime += 50;
 #if SUPPORT_CRSF_CONFIG
         if (Model.proto_opts[PROTO_OPTS_RF_FREQ] == 0) {
-            length = CRSF_serial_txd(packet_p2M, CRSF_PACKET_SIZE);
+            length = CRSF_serial_txd(Usart0TxBuffer_p2M, CRSF_CHAN_PACKET_SIZE);
         } else {
             length = setElrsOptions();
         }
         if (length == 0) {
-            length = build_rcdata_pkt();
+            length = build_CRSF_data_pkt();
         }
 #else
-        length = build_rcdata_pkt();
+        length = build_CRSF_data_pkt();
 #endif
-        UART_Send(packet_p2M, length);
+        UART_Send(Usart0TxBuffer_p2M, length);
         state = ST_DATA1;
 
         return convertPktRateToPeriod(Model.proto_opts[PROTO_OPTS_RF_FREQ], currentPktRate) - mixer_runtime;

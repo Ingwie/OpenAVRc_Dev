@@ -142,6 +142,10 @@ RTCLOCK = YES
 # Values = NO, DSM, MULTIMODULE, CRSF, SBUS, SUMD
 SERIAL_PROTOCOL = NO
 
+# Pcm protocol
+# Values = NO, FUTPCM1K
+PCM_PROTOCOL = NO
+
 # TRANSLATIONS
 # Values = cz, de, en, fi, fr, it, se, es, pl, pt, nl, sk
 TRANSLATIONS = EN
@@ -202,6 +206,10 @@ GVARS = NO
 # Values = NO, YES with personames.h edited
 PERSONAMES = NO
 
+# Show a bouble vertical stick (For boats, tanks, ...)
+# Values = NO, YES
+DBLGAZSTICK = NO
+
 # Allow to add extra compilation option
 # Values = NO, ....
 OTHERCOMPOPTIONS = NO
@@ -248,6 +256,14 @@ A7105 = NO
 # Set A7105 PA gain in DB
 # Values = 20,22
 A7105PAG = 20
+
+# Enable SX1276 SPI protocols
+# Values = NO, YES
+SX1276 = NO
+
+# Set SX1276 PA gain in DB
+# Values = 14,20
+SX1276PAG = 14
 
 # Enable X-ANY feature
 # Values = NO, 1, 2, 3 ,4
@@ -444,6 +460,10 @@ ifeq ($(PCB), MEGAMINI)
  	  	CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
   	endif
 
+  	ifeq ($(SX1276), YES)
+   		CPPDEFS += -DPROTO_HAS_SX1276
+ 	  	CPPDEFS += -DASX1276PA_GAIN=$(SX1276PAG)
+  	endif
   endif
 
 	ifneq ($(X_ANY), NO)
@@ -745,7 +765,13 @@ ifeq ($(PCB), MEGA2560)
    		CPPDEFS += -DPROTO_HAS_A7105
  	  	CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
   	endif
+
+  	ifeq ($(SX1276), YES)
+   		CPPDEFS += -DPROTO_HAS_SX1276
+ 	  	CPPDEFS += -DASX1276PA_GAIN=$(SX1276PAG)
+  	endif
   endif
+
 
 	ifneq ($(X_ANY), NO)
 	CPPSRC += Xany.cpp gui/menu_model_Xany.cpp
@@ -1046,6 +1072,12 @@ ifneq ($(SERIAL_PROTOCOL), NO)
   CPPDEFS += -DSERIAL_PROTOCOL=$(SERIAL_PROTOCOL)
 endif
 
+CPPDEFS += -DFUTPCM1K=1
+CPPDEFS += -DGRAUPCM512=2
+ifneq ($(PCM_PROTOCOL), NO)
+  CPPDEFS += -DPCM_PROTOCOL=$(PCM_PROTOCOL)
+endif
+
 ifeq ($(3POS), POT1)
   CPPDEFS += -DEXTRA_3POS=1
 endif
@@ -1056,8 +1088,12 @@ ifeq ($(3POS), POT3)
   CPPDEFS += -DEXTRA_3POS=3
 endif
 
+ifneq ($(DBLGAZSTICK), NO)
+  CPPDEFS += -DDBLGAZSTICK
+endif
+
 ifneq ($(OTHERCOMPOPTIONS), NO)
-  CPPDEFS += ($(OTHERCOMPOPTIONS)
+  CPPDEFS += $(subst *, ,$(OTHERCOMPOPTIONS))
 endif
 
 #---------------- Compiler Options C++ ----------------
@@ -1103,9 +1139,6 @@ MSG_CLEANING = Cleaning project:
 CPPFLAGS += -DFLAVOUR=\"$(FLAVOUR)\"
 AVRCPPFLAGS = -mmcu=$(MCU) -I. -x c++ -O$(OPT) $(CPPFLAGS) $(INCFLAGS) $(GENDEPFLAGS) -fwhole-program -mstrict-X
 
-
-MAJ_VER = ${shell sh -c "grep \"MAJ_VERS\" OpenAVRc.h | cut -d\  -f3 | egrep -o \"[[:digit:]]\""}
-MIN_VER = ${shell sh -c "grep \"MIN_VERS\" OpenAVRc.h | cut -d\  -f3"}
 
 .SECONDARY:
 

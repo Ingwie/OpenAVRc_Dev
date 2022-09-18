@@ -148,11 +148,11 @@ void menuModelPhaseOne(uint8_t event)
       break;
 
     case ITEM_MODEL_PHASE_FADE_IN:
-      fm->fadeIn = EDIT_DELAY(0, y, event, attr, STR_FADEIN, fm->fadeIn);
+      fm->fadeIn = editDelay(y, event, attr, STR_FADEIN, fm->fadeIn);
       break;
 
     case ITEM_MODEL_PHASE_FADE_OUT:
-      fm->fadeOut = EDIT_DELAY(0, y, event, attr, STR_FADEOUT, fm->fadeOut);
+      fm->fadeOut = editDelay(y, event, attr, STR_FADEOUT, fm->fadeOut);
       break;
 
 #if defined(GVARS)

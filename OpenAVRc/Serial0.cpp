@@ -37,7 +37,10 @@ uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][TELEM_RX_PACKET_SIZE];
 
 uint8_t Usart0TxBufferCount = 0;
 
-#if defined(FRSKY) || defined(MULTIPROTOCOL) || defined(CRSF) || defined(SBUS) || defined(SUMD)
+void parseTelemFakeByte(uint8_t data)
+{
+  data = data; // compiler pleased
+}
 
 ISR(USART_RX_vect_N(TLM_USART0))
 {
@@ -85,17 +88,16 @@ ISR(USART_RX_vect_N(TLM_USART0))
     if (stat & ((1 << FE_N(TLM_USART0)) | (1 << DOR_N(TLM_USART0)) | (1 << UPE_N(TLM_USART0))))
       {
         // discard buffer and start fresh on any comms error
-        parseTelemFrskyByte(START_STOP); // reset
+        parseTelemFunction(START_STOP); // reset
       }
     else
       {
-        parseTelemFrskyByte(data);
+        parseTelemFunction(data);
       }
 
   }
   UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
 }
-#endif
 
 // USART0 Transmit Data Register Emtpy ISR (UDR was loaded in Shift Register)
 ISR(USART_UDRE_vect_N(TLM_USART0))
@@ -107,5 +109,4 @@ ISR(USART_UDRE_vect_N(TLM_USART0))
     UCSRB_N(TLM_USART0) &= ~(1 << UDRIE_N(TLM_USART0)); // Disable UDRE interrupt.
   }
 }
-
 

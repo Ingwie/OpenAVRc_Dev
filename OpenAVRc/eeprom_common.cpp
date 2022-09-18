@@ -75,6 +75,6 @@ void eeReadAll()
     {
       eeErase(true);
     }
-  stickMode = g_eeGeneral.stickMode;
+  systemBolls.stickMode = g_eeGeneral.stickMode;
   eeLoadModel(g_eeGeneral.currModel);
 }

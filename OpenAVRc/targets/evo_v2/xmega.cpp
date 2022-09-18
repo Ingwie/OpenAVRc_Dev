@@ -273,17 +273,6 @@ void setup_trainer_tc()
 
 
 #if defined(SPIMODULES)
-char rf_usart_mspi_xfer(char c)
-{
-  WAIT_USART_BUFFER_EMPTY(RF_USART);
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-      RF_USART.DATA = c;
-      RF_USART.STATUS = USART_TXCIF_bm | USART_RXCIF_bm; // Clear USART transmit and receive complete flag.
-    }
-  WAIT_USART_RX_FIN(RF_USART);
-  return RF_USART.DATA;
-}
-
 
 void rf_usart_mspi_init()
 {
@@ -296,7 +285,9 @@ void rf_usart_mspi_init()
 
   RF_PORT.DIRSET = USART_TXD_PIN_bm | RF_CS_PIN_bm | USART_XCK_PIN_bm;
   RF_PORT.DIRCLR = USART_RXD_PIN_bm;
-
+// Configure Virtual Port 0 as Port E for fast bit-bang spi.
+  PORTCFG_VPCTRLA = PORTCFG_VP02MAP_PORTE_gc;
+#if 0
   // Initialisation of USART in MSPI mode.
 
   // fBAUD = ClkPER / (2 * (BSEL + 1) )
@@ -307,6 +298,121 @@ void rf_usart_mspi_init()
   RF_USART.CTRLA = 0; // Disable interrupts.
   RF_USART.CTRLC = (USART_CMODE_MSPI_gc) | (0b00 << 1); // MSB first, UCPHA = 0. Check INVEN = 0.
   RF_USART.CTRLB = USART_TXEN_bm | USART_RXEN_bm; // Transmit and Receive.
+#endif
+}
+
+
+char rf_usart_mspi_xfer(char c)
+{
+  WAIT_USART_BUFFER_EMPTY(RF_USART);
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+      RF_USART.DATA = c;
+      RF_USART.STATUS = USART_TXCIF_bm | USART_RXCIF_bm; // Clear USART transmit and receive complete flag.
+    }
+  WAIT_USART_RX_FIN(RF_USART);
+  return RF_USART.DATA;
+}
+
+
+uint8_t spi_xfer_4wires_bb(uint8_t data) // Bitbang write / read.
+{
+  uint8_t result = 0;
+  uint8_t mask = 0x80;
+// Unroll loop for optimisation.
+ //1
+  if(data & mask) RF_MOSI_ON();
+  else RF_MOSI_OFF();
+  RF_XCK_ON();
+  if(IS_RF_MISO_ON) result |= mask;
+  mask>>=1;
+  RF_XCK_OFF();
+//2
+  if(data & mask) RF_MOSI_ON();
+  else RF_MOSI_OFF();
+  RF_XCK_ON();
+  if(IS_RF_MISO_ON) result |= mask;
+  mask>>=1;
+  RF_XCK_OFF();
+//3
+  if(data & mask) RF_MOSI_ON();
+  else RF_MOSI_OFF();
+  RF_XCK_ON();
+  if(IS_RF_MISO_ON) result |= mask;
+  mask>>=1;
+  RF_XCK_OFF();
+//4
+  if(data & mask) RF_MOSI_ON();
+  else RF_MOSI_OFF();
+  RF_XCK_ON();
+  if(IS_RF_MISO_ON) result |= mask;
+  mask>>=1;
+  RF_XCK_OFF();
+//5
+  if(data & mask) RF_MOSI_ON();
+  else RF_MOSI_OFF();
+  RF_XCK_ON();
+  if(IS_RF_MISO_ON) result |= mask;
+  mask>>=1;
+  RF_XCK_OFF();
+//6
+  if(data & mask) RF_MOSI_ON();
+  else RF_MOSI_OFF();
+  RF_XCK_ON();
+  if(IS_RF_MISO_ON) result |= mask;
+  mask>>=1;
+  RF_XCK_OFF();
+//7
+  if(data & mask) RF_MOSI_ON();
+  else RF_MOSI_OFF();
+  RF_XCK_ON();
+  if(IS_RF_MISO_ON) result |= mask;
+  mask>>=1;
+  RF_XCK_OFF();
+//8
+  if(data & mask) RF_MOSI_ON();
+  else RF_MOSI_OFF();
+  RF_XCK_ON();
+  if(IS_RF_MISO_ON) result |= mask;
+  mask>>=1;
+  RF_XCK_OFF();
+
+  return result;
+}
+
+
+void spi_write_3wires_bb(uint8_t data) // Bitbang write.
+{
+  uint8_t mask = 0x80;
+  do
+  {
+   if(data & mask) RF_MOSI_ON();
+   else RF_MOSI_OFF();
+
+   RF_XCK_ON();
+   mask>>=1;
+   RF_XCK_OFF();
+  }
+  while(mask);
+}
+
+
+uint8_t spi_read_3wires_bb() // Bitbang read.
+{
+  uint8_t result = 0;
+  uint8_t mask = 0x80;
+  do
+  {
+    RF_XCK_ON();
+
+    if(IS_RF_MOSI_ON)
+      result |= mask;
+
+    mask>>=1;
+    RF_XCK_OFF();
+  }
+  while(mask);
+
+  return result;
 }
 #endif
 

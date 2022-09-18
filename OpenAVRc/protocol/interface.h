@@ -42,6 +42,11 @@
 #include "PROTO_PPMSIM.cpp"
 #endif
 
+#if (PCM_PROTOCOL==FUTPCM1K)
+#include "FUTABA_PCM1024.h"
+#include "PROTO_FUTPCM1K.cpp"
+#endif
+
 #if defined(CPUXMEGA)
 #include "PROTO_xmega_PPM.cpp"
 #include "PROTO_xmega_PPMSIM.cpp"
@@ -73,6 +78,8 @@
 #include "SKYARTEC_cc2500.c"
 #include "CORONA_cc2500.c"
 #include "HITEC_cc2500.c"
+//#include "HOTT_cc2500.c"
+//#include "FUTABA_cc2500.c"
 #endif
 
 #ifdef PROTO_HAS_CYRF6936
@@ -101,6 +108,12 @@
 #include "CABELL_nrf24l01.c"
 #include "STANEK_nrf24l01.c"
 #endif
+
+#ifdef PROTO_HAS_SX1276
+//#include "iface_sx1276.h"
+//#include "sx1276.c"
+//#include "FRSKYR9_sx1276.c"
+#endif // PROTO_HAS_SX1276
 
 #endif
 

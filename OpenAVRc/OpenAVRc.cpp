@@ -105,7 +105,6 @@ void checkMixer()
 }
 
 uint8_t heartbeat;
-uint8_t stickMode; //:2
 
  rotEncDebounce_t rotEncDebounce;
 
@@ -273,7 +272,7 @@ void per10ms()
 
   if (IS_RE_NAVIGATION_ENABLE()) {
     static rotenc_t rePreviousValue;
-    rotenc_t reNewValue = (g_rotenc[NAVIGATION_RE_IDX()] / ROTARY_ENCODER_GRANULARITY);
+    rotenc_t reNewValue = (g_rotenc[NAVIGATION_RE_IDX()]);
     int8_t scrollRE = reNewValue - rePreviousValue;
     if (scrollRE) {
       rePreviousValue = reNewValue;
@@ -877,6 +876,7 @@ void alert(const pm_char * t, const pm_char *s MESSAGE_SOUND_ARG)
 
   while(1)
   {
+    getADC();
     if (keyDown())
       return;  // wait for key release
 
@@ -1509,6 +1509,10 @@ void OpenAVRcInit(uint8_t mcusr)
 #endif
 #endif
 
+#if (PCM_PROTOCOL==FUTPCM1K)
+  Futaba.Pcm1024.BuildState = FUT_PCM1024_BUILD_DO_NOTHING; // In case Futaba PCM1024 is not the selected protocol
+#endif
+
 #if MENUS_LOCK == 1
   getMovedSwitch();
   if (TRIMS_PRESSED() && g_eeGeneral.switchUnlockStates==switches_states) {
@@ -1599,7 +1603,11 @@ int16_t simumain()
 #endif
 
   boardInit();
-
+#if defined(FRSKY)
+  parseTelemFunction = (p_parseTelemFunction)parseTelemFrskyByte; // set default telemetry function parser (Frsky)
+#else
+  parseTelemFunction = (p_parseTelemFunction)parseTelemFakeByte; // set default telemetry function parser (Fake function)
+#endif
   sei(); // Needed to catch first 10mS interrupt
 
   menuHandlers[0] = menuMainView;

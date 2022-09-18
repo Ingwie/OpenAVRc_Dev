@@ -30,70 +30,53 @@
 **************************************************************************
 */
 
+#ifndef FUTABA_PCM1024_H
+#define FUTABA_PCM1024_H
 
-#ifndef PULSES_COMMON_H
-#define PULSES_COMMON_H
+#define FUT_PCM1024_PROP_CH_NB       8
 
-#define SCHEDULE_MIXER_END_IN_US(delay_us) nextMixerEndTime = getTmr64uS() + US_TO_64US_TICK(delay_us) - US_TO_64US_TICK(400) // 400 uS
+#define FUT_PCM1024_FRAME_PERIOD_US  28500U
 
-#define IS_WAIT_PUPIL_STATE()       ((g_model.rfProtocol == (PROTOCOL_PPM16)) || (g_model.rfProtocol == (PROTOCOL_PPMSIM)))
+enum {FUT_PCM1024_BUILD_DO_NOTHING = 0, FUT_PCM1024_BUILD_2_FIRST_PACKETS, FUT_PCM1024_BUILD_2_LAST_PACKETS};
 
-#define IS_PPM_PROTOCOL(protocol)          (protocol<=PROTOCOL_PPMSIM)
+union PcmStreamBitNbCouple_Union
+{
+  uint8_t Value;
+  struct{
+    uint8_t
+            LowNibbleBitNb:  4,
+            HighNibbleBitNb: 4;
+  };
+};
 
-#if (PCM_PROTOCOL==FUTPCM1K)
-  #define IS_FUTPCM1K_PROTOCOL(protocol)  (protocol==PROTOCOL_FUTPCM1K)
-#else
-  #define IS_FUTPCM1K_PROTOCOL(protocol)  (0)
+#define PCM_STREAM_BYTE_NB   30 // Can store up to (2 x PCM_STREAM_BYTE_NB) bit durations
+#define PCM_NBL_MAX_IDX      ((2 * PCM_STREAM_BYTE_NB) - 1)
+
+typedef struct{
+  uint8_t
+					BuildState:   3, // 0: Nothing to do, 1: Channels 0 & 1 or 4 & 5 , 2: Channels 2 & 3 or 6 & 7
+					PacketIdx:    3,
+					IsrBufIdx:    1,
+					BitVal:       1;
+  uint8_t BuildNblIdx;
+  uint8_t BuildEndNblIdx[2]; // For the ISR to know PCM frame is fully sent
+  uint8_t TxNblIdx;
+	uint8_t XanyChMap; // One bit per Channel (8 channels max from bit0 to bit7)
+  int16_t MemoChOutputs[FUT_PCM1024_PROP_CH_NB]; // Used to compute Deltas
+  PcmStreamBitNbCouple_Union StreamConsecBitTbl[2][PCM_STREAM_BYTE_NB]; // Double buffering (One buffer is filled during the other is transmitting)
+}FutPcm1024St_t;
+
+#if 0
+typedef struct{
+  FutPcm1024St_t Pcm1024;
+}FutabaSt_t;
 #endif
 
-#if (SERIAL_PROTOCOL==DSM)
-  #define IS_DSM2_SERIAL_PROTOCOL(protocol)  (protocol==PROTOCOL_DSM_SERIAL)
-#else
-  #define IS_DSM2_SERIAL_PROTOCOL(protocol)  (0)
-#endif
+#define Futaba    pulses2MHz // Just for readability (Futaba PCM1024 structure is an union of pulses2MHz buffer)
 
-#if (SERIAL_PROTOCOL==MULTIMODULE)
-  #define IS_MULTIMODULE_PROTOCOL(protocol)  (protocol==PROTOCOL_MULTI)
-#else
-  #define IS_MULTIMODULE_PROTOCOL(protocol)  (0)
-#endif
+/* PUBLIC FUNCTION PROTOTYPES */
+void FutabaPcm1024_buildHalfRadioPcmBitStream(void); // SHALL be called as often as possible in the main loop
 
-#if (SERIAL_PROTOCOL==CRSF)
-  #define IS_CRSF_PROTOCOL(protocol)  (protocol==PROTOCOL_CRSF)
-#else
-  #define IS_CRSF_PROTOCOL(protocol)  (0)
-#endif
+void FutabaPcm1024_updateXanyChannels(void);
 
-#if (SERIAL_PROTOCOL==SBUS)
-  #define IS_SBUS_PROTOCOL(protocol)  (protocol==PROTOCOL_SBUS)
-#else
-  #define IS_SBUS_PROTOCOL(protocol)  (0)
-#endif
-
-#if (SERIAL_PROTOCOL==SUMD)
-  #define IS_SUMD_PROTOCOL(protocol)  (protocol==PROTOCOL_SUMD)
-#else
-  #define IS_SUMD_PROTOCOL(protocol)  (0)
-#endif
-
-#if defined(SPIMODULES)
- #if (SERIAL_PROTOCOL==MULTIMODULE)
-  #define LASTPROTOMENU1 PROTOCOL_MULTI+1
- #elif (SERIAL_PROTOCOL==CRSF)
-  #define LASTPROTOMENU1 PROTOCOL_CRSF+1
- #elif (SERIAL_PROTOCOL==SBUS)
-  #define LASTPROTOMENU1 PROTOCOL_SBUS+1
- #elif (SERIAL_PROTOCOL==SUMD)
-  #define LASTPROTOMENU1 PROTOCOL_SUMD+1
- #elif (SERIAL_PROTOCOL==DSM)
-  #define LASTPROTOMENU1 PROTOCOL_DSM_SERIAL+1
- #else
-  #define LASTPROTOMENU1 PROTOCOL_PPMSIM+1
- #endif
- #define IS_SPIMODULES_PROTOCOL(protocol)  (protocol>=LASTPROTOMENU1)
-#else
- #define IS_SPIMODULES_PROTOCOL(protocol)  (0)
- #define LASTPROTOMENU1 PROTOCOL_COUNT-1
-#endif
-
-#endif
+#endif // FUTABA_PCM1024_H

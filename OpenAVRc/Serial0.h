@@ -163,6 +163,8 @@ struct TelemetryData {
   TelemetryValueWithMin    rssi[2];
   TelemetrySerialData value;
 };
+#else
+#define START_STOP              0xFF
 #endif
 
 #endif

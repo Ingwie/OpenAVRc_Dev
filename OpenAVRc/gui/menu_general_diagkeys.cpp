@@ -70,7 +70,7 @@ void menuGeneralDiagKeys(uint8_t event)
   }
 
   for(uint8_t i=0; i<DIM(g_rotenc); i++) {
-    coord_t y = MENU_HEADER_HEIGHT /* ??? + 1 ??? */ + i*FH;
+    coord_t y = MENU_HEADER_HEIGHT + i*FH;
     lcdDrawTextAtIndex(14*FW, y, STR_VRENCODERS, i, 0);
     int16_t rex = getRotaryEncoder(i);
     rex /= 8;

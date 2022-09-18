@@ -62,9 +62,7 @@
   uint8_t * packet_p2M = pulses2MHz.pbyte; //protocol global packet (Use 40 MAX)
 #endif
 
-#if (SERIAL_PROTOCOL!=NO)
-  #define Usart0TxBuffer_p2M    packet_p2M // [USART0_TX_PACKET_SIZE] bytes used
-#endif
+#define Usart0TxBuffer_p2M    packet_p2M // [USART0_TX_PACKET_SIZE] bytes used
 
 #if defined(SPIMODULES)
   uint8_t * channel_used_p2M = &pulses2MHz.pbyte[CHANNEL_USED_OFFSET]; //protocol global channel (Use 50 MAX -> 54 bytes free to use in SPI protocols)
@@ -99,7 +97,7 @@
 #define send_seq_p2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-8]
 #define bind_idx_p2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-9]
 #define dp_crc_init_p2M        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-10] // Only used in FRSKYV & HITEC
-#define packetSize_p2M         pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-10] // Only used in CABELL
+#define packetSize_p2M         pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-10] // Only used in FRSKYX STANEK & CABELL
 #define packet_count_p2M       pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-11]
 #define telem_save_seq_p2M     pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-12]
 #define start_tx_rx_p2M        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-13]
@@ -109,7 +107,7 @@
 #define prev_num_channel_p2M   pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-14] // Only used in DSM DEVO
 
 //U16
-#define rfState16_p2M          pulses2MHz.pword[PULSES_WORD_OFFSET_VAR]    // Only used in Corona
+#define rfState16_p2M          pulses2MHz.pword[PULSES_WORD_OFFSET_VAR]
 #define bind_counter_p2M       pulses2MHz.pword[PULSES_WORD_OFFSET_VAR+1]
 
 uint8_t bit_reverse(uint8_t a);

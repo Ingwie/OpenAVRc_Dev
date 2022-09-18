@@ -35,6 +35,9 @@
 #ifndef pulses_avr_h
 #define pulses_avr_h
 
+#if (PCM_PROTOCOL==FUTPCM1K)
+#include "../protocol/FUTABA_PCM1024.h"
+#endif
 
 static volatile uint16_t timer_counts;
 
@@ -55,20 +58,17 @@ void (*ocr1b_function_ptr)(); // Function pointer to add flexibility and simplic
 
 extern uint16_t dt;
 
-
-//#ifdef SBUS_PROTOCOL
-//#define PULSES_WORD_SIZE  115	// 72=((2+2*6)*10)/2+2
-//#define PULSES_BYTE_SIZE  (PULSES_WORD_SIZE * 2)
-//#else
 #define PULSES_WORD_SIZE  72		// 72=((2+2*6)*10)/2+2
 // 72 (A 16 Channel PPM frame has 34 timing events + 1 int terminator).
 #define PULSES_BYTE_SIZE  (PULSES_WORD_SIZE * 2)
-//#endif
 
 union p2mhz_t
 {
   uint16_t pword[PULSES_WORD_SIZE];
   uint8_t  pbyte[PULSES_BYTE_SIZE]; // 144
+#if (PCM_PROTOCOL==FUTPCM1K)
+	FutPcm1024St_t Pcm1024;
+#endif
 } pulses2MHz;
 
 enum ppmtype{

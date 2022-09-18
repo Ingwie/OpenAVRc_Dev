@@ -268,7 +268,7 @@ void menuModelXany(uint8_t event)
           }
           else if (menuHorizontalPosition==1)
           {
-            menuHorizontalPosition = 0; // Stay in PropSrcIdx field if not valid
+           REPEAT_LAST_CURSOR_MOVE(); // Next field field if not valid
           }
           break;
 

@@ -283,7 +283,7 @@ static uint16_t DurationValue;
 #define RESXu      1024u
 #define RESXul     1024ul
 #define RESXl      1024l
-#define RESX125PC  0x500 // RESX @ 125%
+#define RESX125PC  0x500 // RESX @ 125% (1280)
 
 #include "myeeprom.h"
 #include "gui/gui.h"
@@ -502,7 +502,6 @@ typedef struct {
 extern const pm_uint8_t bchout_ar[];
 extern const pm_uint8_t modn12x3[];
 
-extern uint8_t stickMode;
 
 //convert from mode 1 to mode stickMode
 //NOTICE!  =>  0..3 -> 0..3
@@ -510,7 +509,7 @@ extern uint8_t stickMode;
 #define ELE_STICK 1
 #define THR_STICK 2
 #define AIL_STICK 3
-#define CONVERT_MODE(x)  (((x)<=AIL_STICK) ? pgm_read_byte_near(modn12x3 + 4*stickMode + (x)) : (x) )
+#define CONVERT_MODE(x)  (((x)<=AIL_STICK) ? pgm_read_byte_near(modn12x3 + 4*systemBolls.stickMode + (x)) : (x) )
 
 extern uint8_t channel_order(uint8_t x);
 
@@ -653,8 +652,6 @@ void setTrimValue(uint8_t phase, uint8_t idx, int16_t trim);
 int16_t getRotaryEncoder(uint8_t idx);
 void incRotaryEncoder(uint8_t idx, int8_t inc);
 
-#define ROTARY_ENCODER_GRANULARITY (1)
-
 #if defined(GVARS)
   uint8_t getGVarFlightPhase(uint8_t phase, uint8_t idx);
   int16_t getGVarValue(int16_t x, int16_t min, int16_t max, int8_t phase);
@@ -720,7 +717,7 @@ PACK(typedef struct {
   uint8_t s_mixer_first_run_done:1;
   uint8_t puppyPpmSignalOk:1;
   uint8_t x_any_Phase:1;
-  uint8_t unused:2;
+  uint8_t stickMode:2;
 }) systemBolls_t;
 
 extern systemBolls_t systemBolls;
@@ -941,11 +938,11 @@ void moveTrimsToOffsets();
 #define delayval_t         int8_t
 
 PACK(typedef struct {
-  int32_t act:24;
-  uint16_t delay:10;     // 10bits used 0 to DELAY_MAX*(100/DELAY_STEP)
+  int16_t hold:12;       // 12bits used -RESX to RESX
   uint8_t activeMix:1;
   uint8_t activeExpo:1;
-  int16_t hold:12;       // 12bits used -RESX to RESX
+  uint16_t delay:10;     // 10bits used 0 to DELAY_MAX*(100/DELAY_STEP)
+  int32_t act:24;
 }) MixVal;
 
 extern MixVal mixVal[MAX_MIXERS];
@@ -1003,7 +1000,13 @@ void evalFunctions();
   // Global rotary encoder registers
 extern volatile rotenc_t g_rotenc[ROTARY_ENCODERS];
 void ResetToBootloaderWithFlag();
+
+// pointer to telemetry function parser
+typedef const void (*p_parseTelemFunction)(uint8_t);
+p_parseTelemFunction parseTelemFunction;
 extern void parseTelemFrskyByte(uint8_t data);
+extern void parseTelemFakeByte(uint8_t data);
+
 #if defined (FRSKY)
   // FrSky Telemetry
   #include "telemetry/frsky.h"
@@ -1105,6 +1108,10 @@ const pm_char STR_OPENAVRCISLOADING[] PROGMEM = "OpenAVRc is loading ...";
 #if defined(X_ANY)
   #include "Xany.h"
   FORCEINLINE void Xany_scheduleTx_AllInstance();
+#endif
+
+#if (PCM_PROTOCOL==FUTPCM1K)
+#include "protocol/FUTABA_PCM1024.h"
 #endif
 
 #if (SERIAL_PROTOCOL==MULTIMODULE)

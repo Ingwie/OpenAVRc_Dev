@@ -62,9 +62,6 @@ extern uint8_t s_curveChan;
 
 #define FlightModesType uint8_t
 
-#define EDIT_DELAY(x, y, event, attr, str, delay) editDelay(y, event, attr, str, delay)
-
-
 #define INCDEC_DECLARE_VARS(f)  uint8_t incdecFlag = (f)
 #define INCDEC_SET_FLAG(f)      incdecFlag = (f)
 #define CHECK_INCDEC_PARAM(event, var, min, max) checkIncDec(event, var, min, max, incdecFlag)
