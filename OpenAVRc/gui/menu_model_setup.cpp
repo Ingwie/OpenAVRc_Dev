@@ -415,7 +415,7 @@ void menuModelSetup(uint8_t event)
 		     /*Frame line*/
          lcdDrawTextLeft(y, STR_PCMFRAME);
          lcdDrawText(MODEL_SETUP_2ND_COLUMN+3*FW, y, STR_MS);
-		     lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y, (int16_t)FUT_PCM1024_FRAME_PERIOD_US/100, (menuHorizontalPosition<=0 ? attr : 0) | PREC1|LEFT);
+		     lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y, (int16_t)FUT_PCM1024_FRAME_PERIOD_US/100, PREC1|LEFT, 4);
 		     lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+7*FW+1, y, STR_NCHANNELS, FUT_PCM1024_PROP_CH_NB/4/*8CH*/, menuHorizontalPosition!=0 ? attr : 0);
 
          /*Failsafe line*/
