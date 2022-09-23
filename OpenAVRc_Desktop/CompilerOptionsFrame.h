@@ -76,6 +76,7 @@ extern bool RTCLOCK;//defaults to NO
 extern bool SPORT_FILE_LOG;//defaults to NO
 extern bool PPM;//defaults to YES
 extern wxString SERIAL_PROTOCOL;//defaults to NO
+extern wxString PCM_PROTOCOL;//defaults to NO
 extern bool CC2500;//defaults to NO
 extern bool CYRF6936;//defaults to NO
 extern bool NRF24l01;//defaults to NO
@@ -227,6 +228,7 @@ public:
     wxChoice* ChoiceNRF24l01PAG;
     wxChoice* ChoiceNUMXANY;
     wxChoice* ChoicePCB;
+    wxChoice* ChoicePCM_PROTOCOL;
     wxChoice* ChoicePPM_UNIT ;
     wxChoice* ChoiceSERIAL_PROTOCOL;
     wxChoice* ChoiceTHREE_POS;
@@ -284,6 +286,7 @@ public:
     wxStaticText* StaticText18;
     wxStaticText* StaticText19;
     wxStaticText* StaticText1;
+    wxStaticText* StaticText200;
     wxStaticText* StaticText20;
     wxStaticText* StaticText21;
     wxStaticText* StaticText22;
@@ -400,7 +403,9 @@ protected:
     static const long ID_CHECKBOX34;
     static const long ID_CHOICEBLUETOOTH;
     static const long ID_STATICTEXT30;
+    static const long ID_PROTOPCMCHOICE;
     static const long ID_PROTOSERIALCHOICE;
+    static const long ID_STATICTEXT200;
     static const long ID_STATICTEXT31;
     static const long ID_PANEL3;
     static const long ID_STATICBOX7;

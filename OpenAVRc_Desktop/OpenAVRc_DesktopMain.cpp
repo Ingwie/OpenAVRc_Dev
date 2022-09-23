@@ -135,6 +135,7 @@ bool GPS = 0;
 bool VARIO = 0;
 bool PPM = 1;
 wxString SERIAL_PROTOCOL = ("NO");
+wxString PCM_PROTOCOL = ("NO");
 bool CC2500 = 0;
 bool CYRF6936 = 0;
 bool NRF24l01 = 0;
@@ -662,6 +663,7 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
   configFile->Read(wxT("GPS"),&GPS);
   configFile->Read(wxT("VARIO"),&VARIO);
   configFile->Read(wxT("PPM"),&PPM);
+  configFile->Read(wxT("PCM_PROTOCOL"),&PCM_PROTOCOL);
   configFile->Read(wxT("SERIAL_PROTOCOL"),&SERIAL_PROTOCOL);
   configFile->Read(wxT("CC2500"),&CC2500);
   configFile->Read(wxT("CYRF6936"),&CYRF6936);
@@ -798,6 +800,7 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
   configFile->Write(wxT("GPS"),GPS);
   configFile->Write(wxT("VARIO"),VARIO);
   configFile->Write(wxT("PPM"),PPM);
+  configFile->Write(wxT("PCM_PROTOCOL"),PCM_PROTOCOL);
   configFile->Write(wxT("SERIAL_PROTOCOL"),SERIAL_PROTOCOL);
   configFile->Write(wxT("CC2500"),CC2500);
   configFile->Write(wxT("CYRF6936"),CYRF6936);
