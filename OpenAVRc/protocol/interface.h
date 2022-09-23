@@ -42,6 +42,11 @@
 #include "PROTO_PPMSIM.cpp"
 #endif
 
+#if (PCM_PROTOCOL==FUTPCM1K)
+#include "FUTABA_PCM1024.h"
+#include "PROTO_FUTPCM1K.cpp"
+#endif
+
 #if defined(CPUXMEGA)
 #include "PROTO_xmega_PPM.cpp"
 #include "PROTO_xmega_PPMSIM.cpp"
