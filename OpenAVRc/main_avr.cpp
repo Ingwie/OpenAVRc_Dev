@@ -38,9 +38,13 @@ extern uint8_t checkTrim(uint8_t event);
 void perMain()
 {
 #if (PCM_PROTOCOL==FUTPCM1K)
-  if(Futaba.Pcm1024.BuildState != FUT_PCM1024_BUILD_DO_NOTHING) // This SHALL be checked at every loop since half of the bit stream buffer is filled during transmission in the interrupt service routine
+#warning TO DO: add a test here to check if Current Proto is PCM1024
+  if(Futaba.Pcm1024.BuildEndNblIdx[!Futaba.Pcm1024.IsrBufIdx] == 0) // Check if Buffer NOT used by PCM1024 ISR is empty
   {
-    FutabaPcm1024_buildHalfRadioPcmBitStream();
+		Futaba.Pcm1024.BuildState = FUT_PCM1024_BUILD_2_FIRST_PACKETS;
+		FutabaPcm1024_buildHalfRadioPcmBitStream();
+		Futaba.Pcm1024.BuildState = FUT_PCM1024_BUILD_2_LAST_PACKETS;
+		FutabaPcm1024_buildHalfRadioPcmBitStream();
   }
 #endif
   SIMU_PROCESSEVENTS;
