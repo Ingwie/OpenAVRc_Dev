@@ -389,7 +389,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceBLUETOOTH = new wxChoice(Panel3, ID_CHOICEBLUETOOTH, wxPoint(392,224), wxSize(56,23), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICEBLUETOOTH"));
   StaticText30 = new wxStaticText(Panel3, ID_STATICTEXT30, _("BLUETOOTH"), wxPoint(312,230), wxDefaultSize, 0, _T("ID_STATICTEXT30"));
   ChoicePCM_PROTOCOL = new wxChoice(Panel3, ID_PROTOPCMCHOICE, wxPoint(24,80), wxSize(112,23), 0, 0, 0, wxDefaultValidator, _T("ID_PROTOPCMCHOICE"));
+  ChoicePCM_PROTOCOL->SetToolTip(_("Protocoles PCM"));
   ChoiceSERIAL_PROTOCOL = new wxChoice(Panel3, ID_PROTOSERIALCHOICE, wxPoint(24,120), wxSize(112,23), 0, 0, 0, wxDefaultValidator, _T("ID_PROTOSERIALCHOICE"));
+  ChoiceSERIAL_PROTOCOL->SetToolTip(_("Protocoles Série"));
   StaticText200 = new wxStaticText(Panel3, ID_STATICTEXT200, _("Protocole Pcm"), wxPoint(24,64), wxDefaultSize, 0, _T("ID_STATICTEXT200"));
   StaticText31 = new wxStaticText(Panel3, ID_STATICTEXT31, _("Protocole Série"), wxPoint(24,104), wxDefaultSize, 0, _T("ID_STATICTEXT31"));
   Panel4 = new wxPanel(Notebook1, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL4"));
@@ -618,7 +620,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
 
   ChoiceBLUETOOTH->SetSelection( ChoiceBLUETOOTH->Append("NO") );
   ChoiceBLUETOOTH->Append("HC05");
-  //ChoiceBLUETOOTH->Append("HM10"); todo add hm10
+  ChoiceBLUETOOTH->Append("HM10"); //todo add hm10
 
   ChoiceNUMXANY->SetSelection( ChoiceNUMXANY->Append("NO") );
   ChoiceNUMXANY->Append("1");
@@ -635,7 +637,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
 
   ChoicePCM_PROTOCOL->Append("NO");
   ChoicePCM_PROTOCOL->Append("FUTPCM1K");
-  //ChoicePCM_PROTOCOL->Append("GRAPCM1K");
+  ChoicePCM_PROTOCOL->Append("GRAUSPCM");
+  ChoicePCM_PROTOCOL->Append("MULMPCM");
+  ChoicePCM_PROTOCOL->Append("WALKPCM");
 
 ///////////////////////// End of avoid compilation option translation ///////////////////
 
