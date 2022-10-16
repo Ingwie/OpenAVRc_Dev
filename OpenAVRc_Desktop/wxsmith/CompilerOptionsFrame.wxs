@@ -492,6 +492,7 @@
 							<pos>24,296</pos>
 							<size>72,24</size>
 							<enabled>0</enabled>
+							<hidden>1</hidden>
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX29" variable="CheckBoxA7105" member="yes">
