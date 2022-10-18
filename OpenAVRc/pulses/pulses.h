@@ -40,10 +40,10 @@
 
 #define IS_PPM_PROTOCOL(protocol)          (protocol<=PROTOCOL_PPMSIM)
 
-#if (PCM_PROTOCOL==FUTPCM1K)
-  #define IS_FUTPCM1K_PROTOCOL(protocol)  (protocol==PROTOCOL_FUTPCM1K)
+#if (PCM_PROTOCOL==YES)
+  #define IS_PCM_PROTOCOL(protocol)  (protocol==PROTOCOL_PCM)
 #else
-  #define IS_FUTPCM1K_PROTOCOL(protocol)  (0)
+  #define IS_PCM_PROTOCOL(protocol)  (0)
 #endif
 
 #if (SERIAL_PROTOCOL==DSM)
