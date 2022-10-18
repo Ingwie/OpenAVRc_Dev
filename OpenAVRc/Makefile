@@ -36,7 +36,7 @@ FAI = NO
 SDCARD = NO
 
 # Use Bluetooth
-# Values = NO, HC05, HM10
+# Values = NO, HC05, HM10, MLTBT05
 BLUETOOTH = NO
 
 # Use xmodem
@@ -143,7 +143,7 @@ RTCLOCK = YES
 SERIAL_PROTOCOL = NO
 
 # Pcm protocol
-# Values = NO, FUTPCM1K
+# Values = NO, YES
 PCM_PROTOCOL = NO
 
 # TRANSLATIONS
@@ -256,6 +256,14 @@ A7105 = NO
 # Set A7105 PA gain in DB
 # Values = 20,22
 A7105PAG = 20
+
+# Enable SX1276 SPI protocols
+# Values = NO, YES
+#SX1276 = NO
+
+# Set SX1276 PA gain in DB
+# Values = 14,20
+#SX1276PAG = 14
 
 # Enable X-ANY feature
 # Values = NO, 1, 2, 3 ,4
@@ -452,6 +460,10 @@ ifeq ($(PCB), MEGAMINI)
  	  	CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
   	endif
 
+ # 	ifeq ($(SX1276), YES)
+ #  		CPPDEFS += -DPROTO_HAS_SX1276
+ #	  	CPPDEFS += -DASX1276PA_GAIN=$(SX1276PAG)
+ # 	endif
   endif
 
 	ifneq ($(X_ANY), NO)
@@ -753,7 +765,9 @@ ifeq ($(PCB), MEGA2560)
    		CPPDEFS += -DPROTO_HAS_A7105
  	  	CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
   	endif
+
   endif
+
 
 	ifneq ($(X_ANY), NO)
 	CPPSRC += Xany.cpp gui/menu_model_Xany.cpp
@@ -1011,12 +1025,36 @@ ifeq ($(FAI), CHOICE)
   CPPDEFS += -DFAI_CHOICE
 endif
 
-ifneq ($(BLUETOOTH), NO)
+ifeq ($(BLUETOOTH), HC05)
   CPPDEFS += -DBLUETOOTH=$(BLUETOOTH)
   need_Serial1=YES
   need_uCli = YES
   GUIMODELSRC += gui/menu_general_bluetooth.cpp bluetooth.cpp
+#else ifeq ($(BLUETOOTH), HM10)
+#  CPPDEFS += -DBLUETOOTH=$(BLUETOOTH)
+#  need_Serial1=YES
+#  need_uCli = YES
+#  GUIMODELSRC += gui/menu_general_bluetooth.cpp bluetooth_hm10.cpp
 endif
+
+
+
+ifeq ($(LCD), ST7565R)
+  CPPDEFS += -DLCD_ST7565R
+else ifeq ($(LCD), ERC12864FSF)
+  CPPDEFS += -DLCD_ERC12864FSF
+else ifeq ($(LCD), ST7920)
+  CPPDEFS += -DLCD_ST7920
+else ifeq ($(LCD), KS108)
+  CPPDEFS += -DLCD_KS108
+else ifeq ($(LCD), SSD1306)
+  CPPDEFS += -DLCD_SSD1306
+else ifeq ($(LCD), SH1106)
+  CPPDEFS += -DLCD_SH1106
+else ifeq ($(LCD), NT7538SPI)
+  CPPDEFS += -DLCD_NT7538SPI
+endif
+
 
 ifeq ($(XMODEM), YES)
   CPPDEFS += -DXMODEM
@@ -1054,8 +1092,7 @@ ifneq ($(SERIAL_PROTOCOL), NO)
   CPPDEFS += -DSERIAL_PROTOCOL=$(SERIAL_PROTOCOL)
 endif
 
-CPPDEFS += -DFUTPCM1K=1
-CPPDEFS += -DGRAUPCM512=2
+CPPDEFS += -DYES=1
 ifneq ($(PCM_PROTOCOL), NO)
   CPPDEFS += -DPCM_PROTOCOL=$(PCM_PROTOCOL)
 endif
