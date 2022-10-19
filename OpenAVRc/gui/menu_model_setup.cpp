@@ -90,7 +90,6 @@ void menuModelSetup(uint8_t event)
  (IS_CRSF_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+3 :  \
  (IS_SBUS_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+3 :  \
  (IS_SUMD_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+2 :  \
- (IS_PXX_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+3 :  \
  (IS_SPIMODULES_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_8+2 :   \
  1
 
@@ -410,10 +409,23 @@ void menuModelSetup(uint8_t event)
             }
           }
         }
-#if (PCM_PROTOCOL==YES)
+#if (SERIAL_PROTOCOL==PXX)
+      if (IS_PXX_PROTOCOL(protocol))
+        {
+         menuHorizontalPosition = 0; // force Hpos
+         /*SubType line*/
+         lcdDrawTextLeft(y, STR_TYPE);
+         lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+4*g_model.rfSubType, 4, menuHorizontalPosition == 0 ? attr : 0);
+         if (attr && (editMode>0 || p1valdiff))
+          {
+           CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.rfSubType, RfOptionSettings.rfSubTypeMax);
+          }
+        }
+#elif (PCM_PROTOCOL==YES)
       if (IS_PCM_PROTOCOL(protocol))
         {
-         /*Failsafe line*/
+         menuHorizontalPosition = 0; // force Hpos
+         /*SubType line*/
          lcdDrawTextLeft(y, STR_TYPE);
          lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+4*g_model.rfSubType, 4, menuHorizontalPosition == 0 ? attr : 0);
          if (attr && (editMode>0 || p1valdiff))
@@ -424,7 +436,7 @@ void menuModelSetup(uint8_t event)
 		     /*Frame line*/
          lcdDrawTextLeft(y+8, STR_PCMFRAME);
          lcdDrawText(MODEL_SETUP_2ND_COLUMN+3*FW, y+8, STR_MS);
-         int16_t PcmPeriod = CheckPCMPeriod();
+         uint16_t PcmPeriod = CheckPCMPeriod();
 		     //lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y+8, (int16_t)FUT_PCM1024_FRAME_PERIOD_US/100, PREC1|LEFT, 4);
 		     lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y+8, PcmPeriod/100, PREC1|LEFT, 4);
 		     lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+7*FW+1, y+8, STR_NCHANNELS, FUT_PCM1024_PROP_CH_NB/4/*8CH*/, menuHorizontalPosition!=0 ? attr : 0);
@@ -475,17 +487,6 @@ void menuModelSetup(uint8_t event)
          if (attr && (editMode>0 || p1valdiff))
           {
            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.rfSubType, RfOptionSettings.rfSubTypeMax);
-          }
-        }
-#elif (SERIAL_PROTOCOL==PXX)
-       if (IS_PXX_SERIAL_PROTOCOL(protocol))
-        {
-		     menuHorizontalPosition = 0; // force Hpos
-         lcdDrawTextLeft(y, STR_TYPE);
-         lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+4*g_model.rfSubType, 4, menuHorizontalPosition == 0 ? attr : 0);
-         if (attr && (editMode>0 || p1valdiff))
-          {
-           CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.rfSubType, RfOptionSettings.rfSubTypeMax);
           }
         }
 #elif (SERIAL_PROTOCOL==MULTIMODULE)
@@ -686,6 +687,65 @@ void menuModelSetup(uint8_t event)
              systemBolls.rangeModeIsOn = true;
             }
           }
+        }
+
+#elif (SERIAL_PROTOCOL==PXX)
+       if IS_PXX_PROTOCOL(protocol)
+        {
+         horzpos_t l_posHorz = menuHorizontalPosition;
+         lcdDrawTextLeft(y, STR_RXNUM);
+         coord_t xOffsetBind = MODEL_SETUP_BIND_OFS;
+         if (xOffsetBind)
+          lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
+         if (attr && l_posHorz==0)
+          {
+           if (editMode>0 || p1valdiff)
+            {
+             CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, MAX_MODELS);
+            }
+          }
+         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+xOffsetBind, y, STR_MODULE_BIND, l_posHorz==1 ? attr : 0);
+         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+MODEL_SETUP_RANGE_OFS+xOffsetBind, y, STR_MODULE_RANGE, l_posHorz==2 ? attr : 0);
+
+         if (attr && l_posHorz>0 && s_editMode>0)
+          {
+           if (l_posHorz == 1)
+            {
+             if (systemBolls.protoMode != BIND_MODE)
+              {
+               systemBolls.protoMode = BIND_MODE;
+               startPulses(PROTOCMD_BIND);
+              }
+            }
+           else if (l_posHorz == 2)
+            {
+             systemBolls.rangeModeIsOn = true;
+            }
+          }
+         if (attr && l_posHorz == 1 && systemBolls.protoMode == BIND_MODE && s_editMode<1)
+          {
+           systemBolls.protoMode = NORMAL_MODE;
+           startPulses(PROTOCMD_INIT);
+          }
+
+
+         if (RfOptionSettings.rfOptionBool1Used)
+          {
+           ON_OFF_MENU_ITEM(g_model.rfOptionBool1, MODEL_SETUP_2ND_COLUMN, y+8, RfOptionSettings.rfOptionBool1Name, attr, event);
+          }
+         else
+          {
+           lcdDrawTextAtt(0,y+8,STR_DUMMY,attr);
+          }
+         if (RfOptionSettings.rfOptionBool2Used)
+          {
+           ON_OFF_MENU_ITEM(g_model.rfOptionBool2, MODEL_SETUP_2ND_COLUMN, y+16, RfOptionSettings.rfOptionBool2Name, attr, event);
+          }
+         else
+          {
+           lcdDrawTextAtt(0,y+16,STR_DUMMY,attr);
+          }
+
         }
 #endif
 #if defined(SPIMODULES)
@@ -929,7 +989,6 @@ void menuModelSetup(uint8_t event)
         }
       }
      break;
-
 #endif
     }
   }
