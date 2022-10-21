@@ -37,7 +37,7 @@ extern uint8_t checkTrim(uint8_t event);
 
 void perMain()
 {
-#if (PCM_PROTOCOL==FUTPCM1K)
+#if (PCM_PROTOCOL==YES)
 #warning TO DO: add a test here to check if Current Proto is PCM1024
   if(Futaba.Pcm1024.BuildEndNblIdx[!Futaba.Pcm1024.IsrBufIdx] == 0) // Check if Buffer NOT used by PCM1024 ISR is empty
   {

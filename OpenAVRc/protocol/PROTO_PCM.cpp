@@ -33,25 +33,22 @@
 
 #include "../OpenAVRc.h"
 
-#include "FUTABA_PCM1024.h"
+#include "PROTO_PCM.h"
+
+#define TR_FAILSAFEPCM          "Failsafe"
+const pm_char STR_FAILSAFEPCM[] PROGMEM = TR_FAILSAFEPCM;
 
 #define TR_PCMFRAME            "Trame PCM"
 const pm_char STR_PCMFRAME[] PROGMEM = TR_PCMFRAME;
 
-#define TR_PCMFAILSAFE            "Failsafe"
-const pm_char STR_PCMFAILSAFE[] PROGMEM = TR_PCMFAILSAFE;
-const pm_char STR_SUBTYPEFAILSAFE_FUTPCM1K[] PROGMEM = "  NO""HOLD""SAVE";
+const pm_char STR_PCMPROTO[] PROGMEM = " FUT""SPCM"" MPX";
 
-static uint8_t FUTPCM1K_Failsafe_Value()
-{
-	return g_model.rfSubType;
-}
 
 const static RfOptionSettingsvar_t RfOpt_FUTPCM1K_Ser[] PROGMEM =
 {
  /*rfProtoNeed*/0, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
  /*rfSubTypeMax*/2,
- /*rfOptionValue1Min*/0, // FREQFINE MIN
+ /*rfOptionValue1Min*/2, // FREQFINE MIN
  /*rfOptionValue1Max*/0,  // FREQFINE MAX
  /*rfOptionValue2Min*/0,
  /*rfOptionValue2Max*/0,
@@ -485,7 +482,10 @@ uint16_t half_us = PROTO_FUTPCM1K_cb2();
   uint16_t half_us;
 
   ConsecBitNb = PcmStreamGetConsecBitNb(Futaba.Pcm1024.IsrBufIdx, Futaba.Pcm1024.TxNblIdx);
-  half_us = (uint16_t)pgm_read_word_far(&ConsecBitDurationHalfUs[ConsecBitNb]); // Use pre-computed values
+  //half_us = (uint16_t)pgm_read_word_far(&ConsecBitDurationHalfUs[ConsecBitNb]); // Use pre-computed values
+  uint_farptr_t temp = pgm_get_far_address(ConsecBitDurationHalfUs);
+  half_us = (uint16_t)pgm_read_word_far(temp +ConsecBitNb); // Use pre-computed values
+
   OCR1B  += half_us;
   if(Futaba.Pcm1024.TxNblIdx >= Futaba.Pcm1024.BuildEndNblIdx[Futaba.Pcm1024.IsrBufIdx])
   {
@@ -517,6 +517,7 @@ static void PROTO_FUTPCM1K_initialize() // Needs to be renamed PROTO_FUTABA_PCM1
 //if defined(FRSKY)
 //  telemetryPPMInit();
 //#endif
+  CheckPCMPeriod();
 
   Futaba.Pcm1024.BuildState     = FUT_PCM1024_BUILD_DO_NOTHING;
   Futaba.Pcm1024.PacketIdx      = 0;
@@ -543,7 +544,7 @@ static void PROTO_FUTPCM1K_initialize() // Needs to be renamed PROTO_FUTABA_PCM1
   }
 }
 
-const void * PROTO_FUTPCM1K_Cmds(enum ProtoCmds cmd) // Needs to be renamed PROTO_FUTABA_PCM1024_Cmds()
+const void * PROTO_PCM_Cmds(enum ProtoCmds cmd) // Needs to be renamed PROTO_FUTABA_PCM1024_Cmds()
 {
   switch(cmd) {
     case PROTOCMD_INIT: PROTO_FUTPCM1K_initialize();
@@ -553,8 +554,8 @@ const void * PROTO_FUTPCM1K_Cmds(enum ProtoCmds cmd) // Needs to be renamed PROT
     return 0;
   case PROTOCMD_GETOPTIONS:
    SetRfOptionSettings(pgm_get_far_address(RfOpt_FUTPCM1K_Ser),
-                       STR_SUBTYPEFAILSAFE_FUTPCM1K, //Failsafe modes
-                       STR_DUMMY,      //Option 1 (int)
+                       STR_PCMPROTO,   //FUT, SPCM and MPX
+                       STR_FAILSAFEPCM,      //Option 1 (int)
                        STR_DUMMY,      //Option 2 (int)
                        STR_DUMMY,      //Option 3 (uint 0 to 31)
                        STR_DUMMY,      //OptionBool 1

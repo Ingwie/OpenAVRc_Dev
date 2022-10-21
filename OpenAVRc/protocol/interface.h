@@ -42,9 +42,9 @@
 #include "PROTO_PPMSIM.cpp"
 #endif
 
-#if (PCM_PROTOCOL==FUTPCM1K)
-#include "FUTABA_PCM1024.h"
-#include "PROTO_FUTPCM1K.cpp"
+#if (PCM_PROTOCOL==YES)
+#include "PROTO_PCM.h"
+#include "PROTO_PCM.cpp"
 #endif
 
 #if defined(CPUXMEGA)
@@ -64,6 +64,8 @@
 #include "SBUS_SERIAL.c"
 #elif (SERIAL_PROTOCOL==SUMD)
 #include "SUMD_SERIAL.c"
+#elif (SERIAL_PROTOCOL==PXX)
+#include "PXX_SERIAL.c"
 #endif
 
 #if defined(SPIMODULES)

@@ -30,12 +30,31 @@
 **************************************************************************
 */
 
-#ifndef FUTABA_PCM1024_H
-#define FUTABA_PCM1024_H
+#ifndef PROTO_PCM_H
+#define PROTO_PCM_H
 
 #define FUT_PCM1024_PROP_CH_NB       8
 
-#define FUT_PCM1024_FRAME_PERIOD_US  28500U
+
+#define  FUT_PCM1024_FRAME_PERIOD_US 28500U
+
+#define PcmProto g_model.rfSubType
+uint16_t CheckPCMPeriod()
+{
+  if (PcmProto == 0)//Futaba PCM1024
+  {
+    return 28500U;
+  }
+  else if (PcmProto == 1)//Graupner S-PCM
+  {
+    return 44000U;
+  }
+  else if (PcmProto == 2)//Multiplex M-PCM
+  {
+    return 11100U;
+  }
+}
+
 
 enum {FUT_PCM1024_BUILD_DO_NOTHING = 0, FUT_PCM1024_BUILD_2_FIRST_PACKETS, FUT_PCM1024_BUILD_2_LAST_PACKETS};
 
@@ -79,4 +98,4 @@ void FutabaPcm1024_buildHalfRadioPcmBitStream(void); // SHALL be called as often
 
 void FutabaPcm1024_updateXanyChannels(void);
 
-#endif // FUTABA_PCM1024_H
+#endif // PROTO_PCM_H
