@@ -76,12 +76,6 @@
   #define IS_SUMD_PROTOCOL(protocol)  (0)
 #endif
 
-#if (SERIAL_PROTOCOL==PXX)
-  #define IS_PXX_PROTOCOL(protocol)  (protocol==PROTOCOL_PXX)
-#else
-  #define IS_PXX_PROTOCOL(protocol)  (0)
-#endif
-
 #if defined(SPIMODULES)
  #if (SERIAL_PROTOCOL==MULTIMODULE)
   #define LASTPROTOMENU1 PROTOCOL_MULTI+1
@@ -93,8 +87,6 @@
   #define LASTPROTOMENU1 PROTOCOL_SUMD+1
  #elif (SERIAL_PROTOCOL==DSM)
   #define LASTPROTOMENU1 PROTOCOL_DSM_SERIAL+1
- #elif (SERIAL_PROTOCOL==PXX)
-  #define LASTPROTOMENU1 PROTOCOL_PXX+1
  #else
   #define LASTPROTOMENU1 PROTOCOL_PPMSIM+1
  #endif
