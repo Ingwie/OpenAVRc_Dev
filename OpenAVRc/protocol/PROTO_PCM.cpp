@@ -35,20 +35,21 @@
 
 #include "PROTO_PCM.h"
 
-#define TR_FAILSAFEPCM          "Failsafe"
-const pm_char STR_FAILSAFEPCM[] PROGMEM = TR_FAILSAFEPCM;
+#define TR_PCMPROTOS            "PCM Protos"
+const pm_char STR_PCMPROTOS[] PROGMEM = TR_PCMPROTOS;
 
 #define TR_PCMFRAME            "Trame PCM"
 const pm_char STR_PCMFRAME[] PROGMEM = TR_PCMFRAME;
 
-const pm_char STR_PCMPROTO[] PROGMEM = " FUT""SPCM"" MPX";
+//const pm_char STR_PCMPROTO[] PROGMEM = " FUT""SPCM"" MPX";
+const pm_char STR_PCMPROTO[] PROGMEM = "FUTPCM1K""GRAPCM1K""MPXPCM2K";
 
 
 const static RfOptionSettingsvar_t RfOpt_FUTPCM1K_Ser[] PROGMEM =
 {
  /*rfProtoNeed*/0, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
  /*rfSubTypeMax*/2,
- /*rfOptionValue1Min*/2, // FREQFINE MIN
+ /*rfOptionValue1Min*/0, // FREQFINE MIN
  /*rfOptionValue1Max*/0,  // FREQFINE MAX
  /*rfOptionValue2Min*/0,
  /*rfOptionValue2Max*/0,
@@ -555,7 +556,7 @@ const void * PROTO_PCM_Cmds(enum ProtoCmds cmd) // Needs to be renamed PROTO_FUT
   case PROTOCMD_GETOPTIONS:
    SetRfOptionSettings(pgm_get_far_address(RfOpt_FUTPCM1K_Ser),
                        STR_PCMPROTO,   //FUT, SPCM and MPX
-                       STR_FAILSAFEPCM,      //Option 1 (int)
+                       STR_DUMMY,      //Option 1 (int)
                        STR_DUMMY,      //Option 2 (int)
                        STR_DUMMY,      //Option 3 (uint 0 to 31)
                        STR_DUMMY,      //OptionBool 1
