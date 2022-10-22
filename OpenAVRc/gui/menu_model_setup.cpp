@@ -568,7 +568,7 @@ void menuModelSetup(uint8_t event)
         {
          /*Type line*/
          lcdDrawTextLeft(y, STR_TYPE);
-         lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+4*g_model.rfSubType, 4, menuHorizontalPosition == 0 ? attr : 0);
+         lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+8*g_model.rfSubType, 8, menuHorizontalPosition == 0 ? attr : 0);
          if (attr && (editMode>0 || p1valdiff))
           {
            CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.rfSubType, RfOptionSettings.rfSubTypeMax);
