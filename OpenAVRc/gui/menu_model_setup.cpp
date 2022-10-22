@@ -409,30 +409,9 @@ void menuModelSetup(uint8_t event)
             }
           }
         }
-#if (PCM_PROTOCOL==YES)
-      if (IS_PCM_PROTOCOL(protocol))
-        {
-         menuHorizontalPosition = 0; // force Hpos
-         /*SubType line*/
-         lcdDrawTextLeft(y, STR_TYPE);
-         lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+4*g_model.rfSubType, 4, menuHorizontalPosition == 0 ? attr : 0);
-         if (attr && (editMode>0 || p1valdiff))
-          {
-           CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.rfSubType, RfOptionSettings.rfSubTypeMax);
-          }
-
-		     /*Frame line*/
-         lcdDrawTextLeft(y+8, STR_PCMFRAME);
-         lcdDrawText(MODEL_SETUP_2ND_COLUMN+3*FW, y+8, STR_MS);
-         uint16_t PcmPeriod = CheckPCMPeriod();
-		     //lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y+8, (int16_t)FUT_PCM1024_FRAME_PERIOD_US/100, PREC1|LEFT, 4);
-		     lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y+8, PcmPeriod/100, PREC1|LEFT, 4);
-		     lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+7*FW+1, y+8, STR_NCHANNELS, FUT_PCM1024_PROP_CH_NB/4/*8CH*/, menuHorizontalPosition!=0 ? attr : 0);
-        }
-#elif (SERIAL_PROTOCOL==DSM)
+#if (SERIAL_PROTOCOL==DSM)
        if (IS_DSM2_SERIAL_PROTOCOL(protocol))
         {
-		     menuHorizontalPosition = 0; // force Hpos
          lcdDrawTextLeft(y, STR_TYPE);
          lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+4*g_model.rfSubType, 4, menuHorizontalPosition == 0 ? attr : 0);
          if (attr && (editMode>0 || p1valdiff))
@@ -478,7 +457,7 @@ void menuModelSetup(uint8_t event)
           }
         }
 #elif (SERIAL_PROTOCOL==MULTIMODULE)
-       else if IS_MULTIMODULE_PROTOCOL(protocol)
+       else if (IS_MULTIMODULE_PROTOCOL(protocol))
         {
          uint8_t multi_rfProto = g_model.MULTIRFPROTOCOL;
 
@@ -582,6 +561,26 @@ void menuModelSetup(uint8_t event)
             break;
             }
           }
+        }
+#endif
+#if (PCM_PROTOCOL==YES)
+      if (IS_PCM_PROTOCOL(protocol))
+        {
+         /*Type line*/
+         lcdDrawTextLeft(y, STR_TYPE);
+         lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+4*g_model.rfSubType, 4, menuHorizontalPosition == 0 ? attr : 0);
+         if (attr && (editMode>0 || p1valdiff))
+          {
+           CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.rfSubType, RfOptionSettings.rfSubTypeMax);
+          }
+
+         /*Frame line*/
+         lcdDrawTextLeft(y+8, STR_PCMFRAME);
+         lcdDrawText(MODEL_SETUP_2ND_COLUMN+3*FW, y+8, STR_MS);
+         uint16_t PcmPeriod = CheckPCMPeriod();
+         lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y+8, PcmPeriod/100, PREC1|LEFT, 4);
+         //lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y+8, (uint16_t)FUT_PCM1024_FRAME_PERIOD_US/100, PREC1|LEFT, 4);
+         lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+7*FW+1, y+8, STR_NCHANNELS, FUT_PCM1024_PROP_CH_NB/4/*8CH*/, menuHorizontalPosition!=0 ? attr : 0);
         }
 #endif
       }
@@ -918,6 +917,7 @@ void menuModelSetup(uint8_t event)
         }
       }
      break;
+
 #endif
     }
   }
