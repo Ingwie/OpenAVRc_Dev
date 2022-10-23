@@ -202,8 +202,8 @@ union Fut24BitPcmPacket_Union
   uint32_t
             Ecc:          8,  // ^
             Position:     10, // |
-            Delta:        4,  // | bits
-            AuxBit0:      1,  // |  24
+            Delta:        4,  // |  24
+            AuxBit0:      1,  // | bits
             AuxBit1:      1,  // v
             Reserved:     8;
   };
