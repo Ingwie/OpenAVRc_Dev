@@ -68,7 +68,7 @@ union p2mhz_t
   uint16_t pword[PULSES_WORD_SIZE];
   uint8_t  pbyte[PULSES_BYTE_SIZE]; // 144
 #if (PCM_PROTOCOL==YES)
-	FutPcm1024St_t Pcm1024;
+	PcmSt_t  Pcm;
 #endif
 } pulses2MHz;
 

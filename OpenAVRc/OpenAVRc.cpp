@@ -1509,10 +1509,6 @@ void OpenAVRcInit(uint8_t mcusr)
 #endif
 #endif
 
-#if (PCM_PROTOCOL==YES)
-  Futaba.Pcm1024.BuildState = FUT_PCM1024_BUILD_DO_NOTHING; // In case Futaba PCM1024 is not the selected protocol
-#endif
-
 #if MENUS_LOCK == 1
   getMovedSwitch();
   if (TRIMS_PRESSED() && g_eeGeneral.switchUnlockStates==switches_states) {
