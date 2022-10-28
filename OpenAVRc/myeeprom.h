@@ -947,7 +947,8 @@ enum DisplayTrims {
 
 #if (SERIAL_PROTOCOL==MULTIMODULE)
 
-#define MULTI_RF_PROTO_LAST 100  // Use a large value
+#define MULTI_RF_PROTO_LAST 127 // Will be 255 TODO
+#define MULTI_RF_RXNUM_LAST 63
 
 enum MultiModuleRFProtocols {
   MM_RF_PROTO_CUSTOM = -1,

@@ -48,7 +48,7 @@ const static RfOptionSettingsvar_t RfOpt_Multi_Ser[] PROGMEM = {
   /*rfProtoNeed*/BOOL1USED | BOOL2USED | BOOL3USED,
   /*rfSubTypeMax*/15,
   /*rfOptionValue1Min*/0,
-  /*rfOptionValue1Max*/MULTI_RF_PROTO_LAST,
+  /*rfOptionValue1Max*/(int8_t)MULTI_RF_PROTO_LAST,
   /*rfOptionValue2Min*/-127,
   /*rfOptionValue2Max*/127,
   /*rfOptionValue3Max*/0,
@@ -161,11 +161,11 @@ static uint16_t MULTI_cb()
 
   // Send datas
   if (Usart0TxBufferCount) return 1000 *2; // return, if buffer is not empty
-  Usart0TxBufferCount = 26;
+  Usart0TxBufferCount = 27;
   uint8_t multiTxBufferCount = Usart0TxBufferCount;
 
   // Our enumeration starts at 0
-  int8_t type = g_model.MULTIRFPROTOCOL + 1;
+  uint8_t type = (uint8_t)g_model.MULTIRFPROTOCOL + 1;
   int8_t subtype = g_model.rfSubType;
   int8_t optionValue = g_model.rfOptionValue2;
 
@@ -252,7 +252,7 @@ static uint16_t MULTI_cb()
 
 
   // header, byte 0,  0x55 for proto 0-31 0x54 for 32-63
-  if (type <= 31)
+  if (type < 32)
     Usart0TxBuffer_p2M[--multiTxBufferCount] = 0x55;
   else
     Usart0TxBuffer_p2M[--multiTxBufferCount] = 0x54;
@@ -297,6 +297,8 @@ static uint16_t MULTI_cb()
       bitsavailable -= 8;
     }
   }
+
+  Usart0TxBuffer_p2M[--multiTxBufferCount] = (type & 0xC0) | (g_model.modelId & 0x30); // expanded protocol and rxnum
 
 #if !defined(SIMU)
   USART_TRANSMIT_BUFFER(MULTI_USART);

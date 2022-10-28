@@ -472,8 +472,8 @@ void menuModelSetup(uint8_t event)
          const mm_protocol_definition *pdef = getMultiProtocolDefinition(multi_rfProto);
          if(g_model.CUSTOMPROTO)
           {
-           lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 3 * FW, y, g_model.MULTIRFPROTOCOL, (menuHorizontalPosition == 1 ? attr : 0));
-           lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 5 * FW, y, g_model.rfSubType, (menuHorizontalPosition == 2 ? attr : 0));
+           lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 4 * FW, y, g_model.MULTIRFPROTOCOL, (menuHorizontalPosition == 1 ? attr : 0));
+           lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 6 * FW, y, g_model.rfSubType, (menuHorizontalPosition == 2 ? attr : 0));
           }
          else
           {
@@ -638,7 +638,7 @@ void menuModelSetup(uint8_t event)
           {
            if (editMode>0 || p1valdiff)
             {
-             CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, 15);
+             CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, MULTI_RF_RXNUM_LAST);
             }
           }
          lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+xOffsetBind, y, STR_MODULE_BIND, l_posHorz==1 ? attr : 0);
