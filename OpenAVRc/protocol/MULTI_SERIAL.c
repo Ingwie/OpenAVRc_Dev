@@ -48,7 +48,7 @@ const static RfOptionSettingsvar_t RfOpt_Multi_Ser[] PROGMEM = {
   /*rfProtoNeed*/BOOL1USED | BOOL2USED | BOOL3USED,
   /*rfSubTypeMax*/15,
   /*rfOptionValue1Min*/0,
-  /*rfOptionValue1Max*/(int8_t)MULTI_RF_PROTO_LAST,
+  /*rfOptionValue1Max*/MULTI_RF_PROTO_LAST,
   /*rfOptionValue2Min*/-127,
   /*rfOptionValue2Max*/127,
   /*rfOptionValue3Max*/0,
@@ -251,11 +251,11 @@ static uint16_t MULTI_cb()
     type = g_model.MULTIRFPROTOCOL;
 
 
-  // header, byte 0,  0x55 for proto 0-31 0x54 for 32-63
-  if (type < 32)
-    Usart0TxBuffer_p2M[--multiTxBufferCount] = 0x55;
-  else
-    Usart0TxBuffer_p2M[--multiTxBufferCount] = 0x54;
+  // header, byte 0,  0x55 for proto 0-31 0x54 for 32-63 ... etc
+  uint8_t headerByte = 0x55;
+  if (type & 0x20)
+    headerByte &= 0xFE; // 0x54
+
 
   // protocol byte 1
   protoByte |= (type & 0x1f);
