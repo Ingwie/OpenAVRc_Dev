@@ -256,6 +256,7 @@ static uint16_t MULTI_cb()
   if (type & 0x20)
     headerByte &= 0xFE; // 0x54
 
+  Usart0TxBuffer_p2M[--multiTxBufferCount] = headerByte;
 
   // protocol byte 1
   protoByte |= (type & 0x1f);
