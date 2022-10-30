@@ -161,11 +161,11 @@ static uint16_t MULTI_cb()
 
   // Send datas
   if (Usart0TxBufferCount) return 1000 *2; // return, if buffer is not empty
-  Usart0TxBufferCount = 26;
+  Usart0TxBufferCount = 27;
   uint8_t multiTxBufferCount = Usart0TxBufferCount;
 
   // Our enumeration starts at 0
-  int8_t type = g_model.MULTIRFPROTOCOL + 1;
+  uint8_t type = (uint8_t)g_model.MULTIRFPROTOCOL + 1;
   int8_t subtype = g_model.rfSubType;
   int8_t optionValue = g_model.rfOptionValue2;
 
@@ -213,19 +213,19 @@ static uint16_t MULTI_cb()
 #if defined(MultiSX1276)
     } else if (subtype == MM_RF_FRSKY_SUBTYPE_FLEX915_16CH) {
       //915 16ch
-      type = 63;// normal type will be 65
+      type = 65;// normal type will be 65
       subtype = 0;
      } else if (subtype == MM_RF_FRSKY_SUBTYPE_FLEX868_16CH) {
       //868 16ch
-      type = 63;// normal type will be 65
+      type = 65;// normal type will be 65
       subtype = 1;
     } else if (subtype == MM_RF_FRSKY_SUBTYPE_FLEX915_8CH) {
       //915 8ch
-      type = 63;// normal type will be 65
+      type = 65;// normal type will be 65
       subtype = 2;
      } else if (subtype == MM_RF_FRSKY_SUBTYPE_FLEX868_8CH) {
       //868 8ch
-      type = 63;// normal type will be 65
+      type = 65;// normal type will be 65
       subtype = 3;
 #endif
     } else {
@@ -250,12 +250,18 @@ static uint16_t MULTI_cb()
   if (g_model.CUSTOMPROTO)
     type = g_model.MULTIRFPROTOCOL;
 
-
+  uint8_t headerByte = 0x55;
   // header, byte 0,  0x55 for proto 0-31 0x54 for 32-63
-  if (type <= 31)
+  /*
+  if (type < 32)
     Usart0TxBuffer_p2M[--multiTxBufferCount] = 0x55;
   else
     Usart0TxBuffer_p2M[--multiTxBufferCount] = 0x54;
+  */
+  if (type & 0x20)
+    headerByte &= 0xFE;
+
+  Usart0TxBuffer_p2M[--multiTxBufferCount] = headerByte;
 
   // protocol byte 1
   protoByte |= (type & 0x1f);
@@ -297,6 +303,8 @@ static uint16_t MULTI_cb()
       bitsavailable -= 8;
     }
   }
+
+  Usart0TxBuffer_p2M[--multiTxBufferCount] = ((type + 3)& 0xC0) | (g_model.modelId & 0x30); // expanded protocol and rxnum
 
 #if !defined(SIMU)
   USART_TRANSMIT_BUFFER(MULTI_USART);

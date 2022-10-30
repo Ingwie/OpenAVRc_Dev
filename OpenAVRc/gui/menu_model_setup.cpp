@@ -409,27 +409,8 @@ void menuModelSetup(uint8_t event)
             }
           }
         }
-#if (PCM_PROTOCOL==YES)
-      if (IS_PCM_PROTOCOL(protocol))
-        {
-         /*Type line*/
-         lcdDrawTextLeft(y, STR_TYPE);
-         lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+8*g_model.rfSubType, 8, menuHorizontalPosition == 0 ? attr : 0);
-         if (attr && (editMode>0 || p1valdiff))
-          {
-           CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.rfSubType, RfOptionSettings.rfSubTypeMax);
-          }
 
-         /*Frame line*/
-         lcdDrawTextLeft(y+8, STR_PCMFRAME);
-         lcdDrawText(MODEL_SETUP_2ND_COLUMN+3*FW, y+8, STR_MS);
-         uint16_t PcmPeriod = CheckPCMPeriod();
-         lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y+8, PcmPeriod/100, PREC1|LEFT, 4);
-         //lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y+8, (uint16_t)FUT_PCM1024_FRAME_PERIOD_US/100, PREC1|LEFT, 4);
-         lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+7*FW+1, y+8, STR_NCHANNELS, FUT_PCM1024_PROP_CH_NB/4/*8CH*/, menuHorizontalPosition!=0 ? attr : 0);
-        }
-
-#elif (SERIAL_PROTOCOL==DSM)
+#if (SERIAL_PROTOCOL==DSM)
        if (IS_DSM2_SERIAL_PROTOCOL(protocol))
         {
          lcdDrawTextLeft(y, STR_TYPE);
@@ -493,8 +474,8 @@ void menuModelSetup(uint8_t event)
          const mm_protocol_definition *pdef = getMultiProtocolDefinition(multi_rfProto);
          if(g_model.CUSTOMPROTO)
           {
-           lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 3 * FW, y, g_model.MULTIRFPROTOCOL, (menuHorizontalPosition == 1 ? attr : 0));
-           lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 5 * FW, y, g_model.rfSubType, (menuHorizontalPosition == 2 ? attr : 0));
+           lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 4 * FW, y, g_model.MULTIRFPROTOCOL, (menuHorizontalPosition == 1 ? attr : 0));
+           lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 6 * FW, y, g_model.rfSubType, (menuHorizontalPosition == 2 ? attr : 0));
           }
          else
           {
@@ -659,7 +640,7 @@ void menuModelSetup(uint8_t event)
           {
            if (editMode>0 || p1valdiff)
             {
-             CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, 15);
+             CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, MULTI_RF_RXNUM_LAST);
             }
           }
          lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+xOffsetBind, y, STR_MODULE_BIND, l_posHorz==1 ? attr : 0);
