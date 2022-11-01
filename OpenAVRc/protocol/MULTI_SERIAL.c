@@ -42,13 +42,13 @@
 #define MULTI_CHAN_BITS       11
 
 #define NO_SUBTYPE  0
-#define MM_RF_CUSTOM_SELECTED 0xff
+#define MM_RF_CUSTOM_SELECTED 0x0
 
 const static RfOptionSettingsvar_t RfOpt_Multi_Ser[] PROGMEM = {
   /*rfProtoNeed*/BOOL1USED | BOOL2USED | BOOL3USED,
   /*rfSubTypeMax*/15,
-  /*rfOptionValue1Min*/0,
-  /*rfOptionValue1Max*/MULTI_RF_PROTO_LAST,
+  /*rfOptionValue1Min*/-128,
+  /*rfOptionValue1Max*/127,
   /*rfOptionValue2Min*/-127,
   /*rfOptionValue2Max*/127,
   /*rfOptionValue3Max*/0,
@@ -102,6 +102,7 @@ const pm_char STR_SUBTYPE_FY326[] PROGMEM =      "\005""FY326""FY319";
 
 
 const mm_protocol_definition multi_protocols[] = {
+  { MM_RF_CUSTOM_SELECTED,  NO_SUBTYPE,           0,  STR_MULTI_OPTION    },
   { MM_RF_PROTO_FLYSKY,     STR_SUBTYPE_FLYSKY,   4,  0             },
   { MM_RF_PROTO_HUBSAN,     NO_SUBTYPE,           0,  STR_MULTI_VIDFREQ   },
 #if defined(MultiSX1276)
@@ -129,9 +130,8 @@ const mm_protocol_definition multi_protocols[] = {
   { MM_RF_PROTO_Q2X2,       STR_SUBTYPE_Q2X2,     2,  0             },
   { MM_RF_PROTO_WK_2X01,    STR_SUBTYPE_WK2x01,   5,  0             },
   { MM_RF_PROTO_Q303,       STR_SUBTYPE_Q303,     3,  0             },
-  { MM_RF_CUSTOM_SELECTED,  NO_SUBTYPE,           0,  STR_MULTI_OPTION    },
 
-  //Sential and default for protocols not listed above (MM_RF_CUSTOM is 0xff()
+  //Sential and default for protocols not listed above (MM_RF_CUSTOM is 0x00()
   { 0xfe,                   NO_SUBTYPE,           0,  STR_MULTI_OPTION             }
 };
 
@@ -165,7 +165,7 @@ static uint16_t MULTI_cb()
   uint8_t multiTxBufferCount = Usart0TxBufferCount;
 
   // Our enumeration starts at 0
-  uint8_t type = (uint8_t)g_model.MULTIRFPROTOCOL + 1;
+  uint8_t type = (uint8_t)g_model.MULTIRFPROTOCOL;
   int8_t subtype = g_model.rfSubType;
   int8_t optionValue = g_model.rfOptionValue2;
 
@@ -187,8 +187,8 @@ static uint16_t MULTI_cb()
   }
 
   if (g_model.MULTIRFPROTOCOL == MM_RF_PROTO_DEVO || g_model.MULTIRFPROTOCOL == MM_RF_PROTO_WK_2X01) {
-    if(g_model.AUTOBINDMODE) optionValue =0;
-    else optionValue =1;
+    if(g_model.AUTOBINDMODE) optionValue = 0;
+    else optionValue = 1;
   }
 
 
