@@ -432,7 +432,6 @@ void menuModelSetup(uint8_t event)
 #if (SERIAL_PROTOCOL==DSM)
        if (IS_DSM2_SERIAL_PROTOCOL(protocol))
         {
-         menuHorizontalPosition = 0; // force Hpos
          lcdDrawTextLeft(y, STR_TYPE);
          lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+4*g_model.rfSubType, 4, menuHorizontalPosition == 0 ? attr : 0);
          if (attr && (editMode>0 || p1valdiff))
@@ -480,7 +479,7 @@ void menuModelSetup(uint8_t event)
 #elif (SERIAL_PROTOCOL==MULTIMODULE)
        else if IS_MULTIMODULE_PROTOCOL(protocol)
         {
-         uint8_t multi_rfProto = g_model.MULTIRFPROTOCOL;
+         uint8_t multi_rfProto = (uint8_t)g_model.MULTIRFPROTOCOL;
 
          lcdDrawTextLeft(y, NO_INDENT(STR_TYPE));
          if(g_model.CUSTOMPROTO)
@@ -489,12 +488,12 @@ void menuModelSetup(uint8_t event)
           }
          else
           {
-           lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN-5*FW, y, STR_MULTIPROTOCOLS, multi_rfProto, menuHorizontalPosition==0 ? attr : 0);
+           lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN-5*FW, y, STR_MULTIPROTOCOLS, multi_rfProto-1, menuHorizontalPosition==0 ? attr : 0);
           }
          const mm_protocol_definition *pdef = getMultiProtocolDefinition(multi_rfProto);
          if(g_model.CUSTOMPROTO)
           {
-           lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 4 * FW, y, g_model.MULTIRFPROTOCOL, (menuHorizontalPosition == 1 ? attr : 0));
+           lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 4 * FW, y, (uint8_t)g_model.MULTIRFPROTOCOL, (menuHorizontalPosition == 1 ? attr : 0));
            lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 6 * FW, y, g_model.rfSubType, (menuHorizontalPosition == 2 ? attr : 0));
           }
          else
@@ -510,13 +509,13 @@ void menuModelSetup(uint8_t event)
             {
             case 0:
             {
-             int8_t multiRfProto = g_model.CUSTOMPROTO == true ? MM_RF_PROTO_CUSTOM : g_model.MULTIRFPROTOCOL;
+             uint8_t multiRfProto = (g_model.CUSTOMPROTO == true ? MM_RF_PROTO_CUSTOM : (uint8_t)g_model.MULTIRFPROTOCOL);
              CHECK_INCDEC_MODELVAR(event, multiRfProto, MM_RF_PROTO_FIRST, MM_RF_PROTO_LAST);
              if (checkIncDec_Ret)
               {
                g_model.CUSTOMPROTO = (multiRfProto == MM_RF_PROTO_CUSTOM);
                if (!g_model.CUSTOMPROTO)
-                g_model.MULTIRFPROTOCOL = multiRfProto;
+                g_model.MULTIRFPROTOCOL = (int8_t)multiRfProto;
                g_model.rfSubType = 0;
                if (g_model.MULTIRFPROTOCOL == MM_RF_PROTO_DSM2)
                 {
@@ -534,21 +533,19 @@ void menuModelSetup(uint8_t event)
             {
              if (g_model.CUSTOMPROTO)
               {
-               CHECK_INCDEC_MODELVAR_ZERO(event, multi_rfProto, MULTI_RF_PROTO_LAST);
-               g_model.MULTIRFPROTOCOL = multi_rfProto;
+               CHECK_INCDEC_MODELVAR(event, multi_rfProto, MM_RF_PROTO_FIRST+1, MULTI_RF_PROTO_LAST);
+               g_model.MULTIRFPROTOCOL = (int8_t)multi_rfProto;
               }
              else if (pdef->maxSubtype > 0)
               CHECK_INCDEC_MODELVAR(event, g_model.rfSubType, 0, pdef->maxSubtype);
-
             }
             break;
             case 2:
              // Custom protocol, third column is subtype
              CHECK_INCDEC_MODELVAR(event, g_model.rfSubType, 0, 7);
              break;
-
             }
-          }
+          }lcdDrawNumberNAtt(FW, 0, (uint8_t)g_model.MULTIRFPROTOCOL,0);uint16_t yoyo = 3;
         }
 #endif
 #if defined(SPIMODULES)
@@ -789,7 +786,7 @@ void menuModelSetup(uint8_t event)
       if IS_MULTIMODULE_PROTOCOL(protocol)
         {
          int8_t optionValue =  g_model.rfOptionValue2;
-         const uint8_t multi_proto = g_model.MULTIRFPROTOCOL;
+         const uint8_t multi_proto = (uint8_t)g_model.MULTIRFPROTOCOL;
          const mm_protocol_definition* pdef = getMultiProtocolDefinition(multi_proto);
          if (pdef->optionsstr)
           {

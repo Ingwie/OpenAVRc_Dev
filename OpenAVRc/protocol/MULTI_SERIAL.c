@@ -42,13 +42,13 @@
 #define MULTI_CHAN_BITS       11
 
 #define NO_SUBTYPE  0
-#define MM_RF_CUSTOM_SELECTED 0xff
+#define MM_RF_CUSTOM_SELECTED 0x0
 
 const static RfOptionSettingsvar_t RfOpt_Multi_Ser[] PROGMEM = {
   /*rfProtoNeed*/BOOL1USED | BOOL2USED | BOOL3USED,
   /*rfSubTypeMax*/15,
-  /*rfOptionValue1Min*/0,
-  /*rfOptionValue1Max*/MULTI_RF_PROTO_LAST,
+  /*rfOptionValue1Min*/-128,
+  /*rfOptionValue1Max*/127,
   /*rfOptionValue2Min*/-127,
   /*rfOptionValue2Max*/127,
   /*rfOptionValue3Max*/0,
@@ -61,9 +61,9 @@ const pm_char STR_SUBTYPE_FLYSKY[] PROGMEM =     "\004""Std\0""V9x9""V6x6""V912"
 const pm_char STR_SUBTYPE_AFHDS2A[] PROGMEM =    "\010""PWM,IBUS""PPM,IBUS""PWM,SBUS""PPM,SBUS""PWM,IB16""PPM,IB16";
 
 #if defined(MultiSX1276)
-const pm_char STR_SUBTYPE_FRSKY[] PROGMEM =      "\007""D16\0   ""D8\0    ""D16 8ch""V8\0    ""LBT(EU)""LBT 8ch""915  16""868  16""915 8ch""868 8ch";
+const pm_char STR_SUBTYPE_FRSKY[] PROGMEM =      "\007""D16\0   ""D8\0    ""D16 8ch""V8\0    ""LBT(EU)""LBT 8ch""915  16""868  16""915 8ch""868 8ch"/**/"D16V2\0 ""D16V2 8""LBT2   ""LBT2  8";
 #else
-const pm_char STR_SUBTYPE_FRSKY[] PROGMEM =      "\007""D16\0   ""D8\0    ""D16 8ch""V8\0    ""LBT(EU)""LBT 8ch";
+const pm_char STR_SUBTYPE_FRSKY[] PROGMEM =      "\007""D16\0   ""D8\0    ""D16 8ch""V8\0    ""LBT(EU)""LBT 8ch"/**/"D16V2\0 ""D16V2 8""LBT2   ""LBT2  8";
 #endif
 
 const pm_char STR_SUBTYPE_HISKY[] PROGMEM =      "\005""HiSky""HK310";
@@ -102,12 +102,13 @@ const pm_char STR_SUBTYPE_FY326[] PROGMEM =      "\005""FY326""FY319";
 
 
 const mm_protocol_definition multi_protocols[] = {
+  { MM_RF_CUSTOM_SELECTED,  NO_SUBTYPE,           0,  STR_MULTI_OPTION    },																			
   { MM_RF_PROTO_FLYSKY,     STR_SUBTYPE_FLYSKY,   4,  0             },
   { MM_RF_PROTO_HUBSAN,     NO_SUBTYPE,           0,  STR_MULTI_VIDFREQ   },
 #if defined(MultiSX1276)
-  { MM_RF_PROTO_FRSKY,      STR_SUBTYPE_FRSKY,    9,  STR_RFTUNEFINE    },
+  { MM_RF_PROTO_FRSKY,      STR_SUBTYPE_FRSKY,    13,  STR_RFTUNEFINE    },
 #else
-  { MM_RF_PROTO_FRSKY,      STR_SUBTYPE_FRSKY,    5,  STR_RFTUNEFINE    },
+  { MM_RF_PROTO_FRSKY,      STR_SUBTYPE_FRSKY,    9,  STR_RFTUNEFINE    },
 #endif
   { MM_RF_PROTO_HISKY,      STR_SUBTYPE_HISKY,    1,  0             },
   { MM_RF_PROTO_V2X2,       STR_SUBTYPE_V2X2,     1,  0             },
@@ -129,9 +130,8 @@ const mm_protocol_definition multi_protocols[] = {
   { MM_RF_PROTO_Q2X2,       STR_SUBTYPE_Q2X2,     2,  0             },
   { MM_RF_PROTO_WK_2X01,    STR_SUBTYPE_WK2x01,   5,  0             },
   { MM_RF_PROTO_Q303,       STR_SUBTYPE_Q303,     3,  0             },
-  { MM_RF_CUSTOM_SELECTED,  NO_SUBTYPE,           0,  STR_MULTI_OPTION    },
 
-  //Sential and default for protocols not listed above (MM_RF_CUSTOM is 0xff()
+  //Sential and default for protocols not listed above (MM_RF_CUSTOM is 0x00()
   { 0xfe,                   NO_SUBTYPE,           0,  STR_MULTI_OPTION             }
 };
 
@@ -165,7 +165,7 @@ static uint16_t MULTI_cb()
   uint8_t multiTxBufferCount = Usart0TxBufferCount;
 
   // Our enumeration starts at 0
-  uint8_t type = (uint8_t)g_model.MULTIRFPROTOCOL + 1;
+  uint8_t type = (uint8_t)g_model.MULTIRFPROTOCOL;
   int8_t subtype = g_model.rfSubType;
   int8_t optionValue = g_model.rfOptionValue2;
 
@@ -187,8 +187,8 @@ static uint16_t MULTI_cb()
   }
 
   if (g_model.MULTIRFPROTOCOL == MM_RF_PROTO_DEVO || g_model.MULTIRFPROTOCOL == MM_RF_PROTO_WK_2X01) {
-    if(g_model.AUTOBINDMODE) optionValue =0;
-    else optionValue =1;
+    if(g_model.AUTOBINDMODE) optionValue = 0;
+    else optionValue = 1;
   }
 
 
@@ -213,31 +213,43 @@ static uint16_t MULTI_cb()
 #if defined(MultiSX1276)
     } else if (subtype == MM_RF_FRSKY_SUBTYPE_FLEX915_16CH) {
       //915 16ch
-      type = 65;// normal type will be 65
+      type = 65;
       subtype = 0;
-     } else if (subtype == MM_RF_FRSKY_SUBTYPE_FLEX868_16CH) {
+    } else if (subtype == MM_RF_FRSKY_SUBTYPE_FLEX868_16CH) {
       //868 16ch
-      type = 65;// normal type will be 65
+      type = 65;
       subtype = 1;
     } else if (subtype == MM_RF_FRSKY_SUBTYPE_FLEX915_8CH) {
       //915 8ch
-      type = 65;// normal type will be 65
+      type = 65;
       subtype = 2;
-     } else if (subtype == MM_RF_FRSKY_SUBTYPE_FLEX868_8CH) {
+    } else if (subtype == MM_RF_FRSKY_SUBTYPE_FLEX868_8CH) {
       //868 8ch
-      type = 65;// normal type will be 65
+      type = 65;
       subtype = 3;
 #endif
-    } else {
+    } else if (subtype == MM_RF_FRSKY_SUBTYPE_D16_8CH){
       type = 15;
-      if (subtype == MM_RF_FRSKY_SUBTYPE_D16_8CH) // D16 8ch
+      subtype = 1;
+    }  else if (subtype == MM_RF_FRSKY_SUBTYPE_D16){
+      type = 15;
+      subtype = 0;  // D16
+    }  else if (subtype == MM_RF_FRSKY_SUBTYPE_D16_LBT){
+      type = 15;
+      subtype = 2;
+    }  else if (subtype == MM_RF_FRSKY_SUBTYPE_D16_LBT_8CH){
+      type = 15;
+      subtype = 3;
+    } else {
+      type = 64;
+      if (subtype == MM_RF_FRSKYX2_SUBTYPE_D8) // D16 8ch
         subtype = 1;
-      else if (subtype == MM_RF_FRSKY_SUBTYPE_D16)
+      else if (subtype == MM_RF_FRSKYX2_SUBTYPE_D16)
         subtype = 0;  // D16
-      else if (subtype == MM_RF_FRSKY_SUBTYPE_D16_LBT)
+      else if (subtype == MM_RF_FRSKYX2_SUBTYPE_D16_LBT)
         subtype = 2;
       else
-        subtype = 3; // MM_RF_FRSKY_SUBTYPE_D16_LBT_8CH
+        subtype = 3; // MM_RF_FRSKYX2_SUBTYPE_D16_LBT_8CH
     }
   }
 
@@ -250,16 +262,12 @@ static uint16_t MULTI_cb()
   if (g_model.CUSTOMPROTO)
     type = g_model.MULTIRFPROTOCOL;
 
+
+  // header, byte 0,  0x55 for proto 0-31 0x54 for 32-63 ... etc
   uint8_t headerByte = 0x55;
-  // header, byte 0,  0x55 for proto 0-31 0x54 for 32-63
-  /*
-  if (type < 32)
-    Usart0TxBuffer_p2M[--multiTxBufferCount] = 0x55;
-  else
-    Usart0TxBuffer_p2M[--multiTxBufferCount] = 0x54;
-  */
+														
   if (type & 0x20)
-    headerByte &= 0xFE;
+    headerByte &= 0xFE; // 0x54
 
   Usart0TxBuffer_p2M[--multiTxBufferCount] = headerByte;
 
@@ -304,7 +312,7 @@ static uint16_t MULTI_cb()
     }
   }
 
-  Usart0TxBuffer_p2M[--multiTxBufferCount] = ((type + 3)& 0xC0) | (g_model.modelId & 0x30); // expanded protocol and rxnum
+  Usart0TxBuffer_p2M[--multiTxBufferCount] = (type & 0xC0) | (g_model.modelId & 0x30); // expanded protocol and rxnum
 
 #if !defined(SIMU)
   USART_TRANSMIT_BUFFER(MULTI_USART);
