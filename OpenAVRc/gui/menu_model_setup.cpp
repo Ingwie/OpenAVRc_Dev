@@ -524,7 +524,7 @@ void menuModelSetup(uint8_t event)
              CHECK_INCDEC_MODELVAR(event, g_model.rfSubType, 0, 7);
              break;
             }
-          }lcdDrawNumberNAtt(FW, 0, (uint8_t)g_model.MULTIRFPROTOCOL,0);uint16_t yoyo = 3;
+          }
         }
 #endif
 #if defined(SPIMODULES)
