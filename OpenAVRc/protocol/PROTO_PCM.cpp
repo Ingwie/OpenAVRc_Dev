@@ -47,8 +47,8 @@ const pm_char STR_PCMPROTOS[] PROGMEM = TR_PCMPROTOS;
 #define TR_PCMFRAME            "Trame PCM"
 const pm_char STR_PCMFRAME[] PROGMEM = TR_PCMFRAME;
 
-//const pm_char STR_PCMPROTO[] PROGMEM = " FUT""SPCM"" MPX";
-const pm_char STR_PCMPROTO[] PROGMEM = "FUTPCM1K""GRAPCM1K""MPXPCM2K";
+uint8_t PcmProto = g_model.rfSubType;
+const pm_char STR_PCMPROTO[] PROGMEM = "FUTPCM1K""GRAPCM1K""MPPCM256";
 
 const static RfOptionSettingsvar_t RfOpt_PCM_Ser[] PROGMEM =
 {
@@ -419,7 +419,7 @@ static inline uint8_t PcmStreamGetConsecBitNb(uint8_t BufIdx, uint8_t NblIdx)
  * 16 Bit Timer running @ 16MHz has a resolution of 0.5us.
  * This should give a PPM resolution of 2048.
 */
-static uint16_t PROTO_PCM_cb2() // Needs to be renamed PROTO_FUTABA_PCM1024_cb2()
+static uint16_t PROTO_PCM_cb2()
 {
   if(*RptrB == 0) { // End of timing events.
     RptrB = &pulses2MHz.pword[0];
@@ -453,7 +453,7 @@ static uint16_t PROTO_PCM_cb2() // Needs to be renamed PROTO_FUTABA_PCM1024_cb2(
 }
 #endif
 
-void PROTO_PCM_cb1() // Needs to be renamed PROTO_FUTABA_PCM1024_cb1()
+void PROTO_PCM_cb1()
 {
 #if 0
 uint16_t half_us = PROTO_PCM_cb2();
@@ -490,7 +490,7 @@ uint16_t half_us = PROTO_PCM_cb2();
 }
 
 
-static void PROTO_PCM_reset() // Needs to be renamed PROTO_FUTABA_PCM1024_reset()
+static void PROTO_PCM_reset()
 {
   // Make pin idle state before disconnecting switching output.
   if(g_model.PULSEPOL) PORTB &= ~PIN6_bm;
@@ -502,7 +502,7 @@ static void PROTO_PCM_reset() // Needs to be renamed PROTO_FUTABA_PCM1024_reset(
   Proto.Pcm.BuildState = FUT_PCM1024_BUILD_DO_NOTHING;
 }
 
-static void PROTO_PCM_initialize() // Needs to be renamed PROTO_FUTABA_PCM1024_initialize()
+static void PROTO_PCM_initialize()
 {
 //if defined(FRSKY)
 //  telemetryPPMInit();
