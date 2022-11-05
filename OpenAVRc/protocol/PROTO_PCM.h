@@ -44,7 +44,7 @@ uint16_t CheckPCMPeriod()
 {
   if (PcmProto == 0)//Futaba PCM1024
   {
-    return 28500U;
+    return FUT_PCM1024_FRAME_PERIOD_US;
   }
   else if (PcmProto == 1)//Graupner S-PCM
   {
