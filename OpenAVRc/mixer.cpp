@@ -793,7 +793,11 @@ void evalMixes(uint8_t tick10ms)
     int16_t value = applyLimits(i, q);  // applyLimits will remove the 256 100% basis
       ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
       {
+#if (PCM_PROTOCOL == YES)
+        if(!(Proto.Pcm.XanyChMap & (1 << i))) channelOutputs[i] = value;  // copy consistent word to int-level
+#else
         channelOutputs[i] = value;  // copy consistent word to int-level
+#endif
       }
     }
 
