@@ -35,28 +35,36 @@
 
 #include "../thirdparty/pt/pt.h" // Include Protothread header
 
+enum {PCM_PROTO_FUT = 0, PCM_PROTO_GRA, PCM_PROTO_MPX, PCM_PROTO_NB};
+
 #define FUT_PCM1024_PROP_CH_NB       8
 
 #define FUT_PCM1024_FRAME_PERIOD_US  28500U
+#define GRA_PCM1024_FRAME_PERIOD_US  44000U
+#define MPX_PCM256_FRAME_PERIOD_US   57000U
 
-#define PcmProto g_model.rfSubType
+#define PcmProto g_model.rfSubType // g_model.rfSubType is used to distinguish the kind of PCM Proto
+
+typedef PT_THREAD((*BuildRadioPcmBitStreamPtr)(struct pt *)); // Pointer on Protothread function
+
 uint16_t CheckPCMPeriod()
 {
-  if (PcmProto == 0)//Futaba PCM1024
+  if (PcmProto == PCM_PROTO_FUT)//Futaba PCM1024 
   {
     return FUT_PCM1024_FRAME_PERIOD_US;
   }
-  else if (PcmProto == 1)//Graupner S-PCM
+  else if (PcmProto == PCM_PROTO_GRA)//Graupner S-PCM
   {
-    return 44000U;
+    return GRA_PCM1024_FRAME_PERIOD_US;
   }
-  else if (PcmProto == 2)//Multiplex M-PCM
+  else if (PcmProto == PCM_PROTO_MPX)//Multiplex PCM
   {
-    return 11100U;
+    return MPX_PCM256_FRAME_PERIOD_US;
   }
+	return FUT_PCM1024_FRAME_PERIOD_US;
 }
 
-enum {FUT_PCM1024_BUILD_DO_NOTHING = 0, FUT_PCM1024_BUILD_2_FIRST_PACKETS, FUT_PCM1024_BUILD_2_LAST_PACKETS};
+enum {FUT_PCM1024_BUILD_2_FIRST_PACKETS = 0, FUT_PCM1024_BUILD_2_LAST_PACKETS};
 
 union PcmStreamBitNbCouple_Union
 {
@@ -68,7 +76,7 @@ union PcmStreamBitNbCouple_Union
   };
 };
 
-#define PCM_STREAM_BYTE_NB   30 // Can store up to (2 x PCM_STREAM_BYTE_NB) bit durations
+#define PCM_STREAM_BYTE_NB   44 //30 // Can store up to (2 x PCM_STREAM_BYTE_NB) bit durations (MPX needs 88 bit durations, so 44 bytes)
 #define PCM_NBL_MAX_IDX      ((2 * PCM_STREAM_BYTE_NB) - 1)
 
 union Fut24BitPcmPacket_Union
@@ -117,6 +125,8 @@ typedef struct{
 }FutPtCtx_t; // ProtoThread context (since context cannot be saved locally in the ProtoThread)
 
 typedef struct{
+	BuildRadioPcmBitStreamPtr  BuildRadioPcmBitStream;
+  const uint16_t            *ConsecBitDurationHalfUs; // Will point to ConsecBitDurationHalfUs[] of the PCM Manufacturer
   uint8_t
 					                   BuildState:   3, // 0: Nothing to do, 1: Channels 0 & 1 or 4 & 5 , 2: Channels 2 & 3 or 6 & 7
 					                   PacketIdx:    3,
