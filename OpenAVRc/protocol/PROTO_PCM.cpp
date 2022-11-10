@@ -202,7 +202,7 @@ const uint8_t FutPcmCrcTbl[16] PROGMEM = {0x6B, 0xD6, 0xC7, 0xE5, 0xA1, 0x29, 0x
 
 #define FUT_40_BIT_RADIO_PCM_PACKET_BIT_NB    40
 
-#define FUT_PCM_BIT_DURATION_HALF_US          (150 * 2) // 1 bit duration is 150us -> 2 x 2MHz Tick = 300 Ticks (Half us)
+#define FUT_PCM_BIT_DURATION_HALF_US          US_TO_PROTO_TICK(150) // 1 bit duration is 150us -> 2 x 2MHz Tick = 300 Ticks (Half us)
 
 const uint16_t FutConsecBitDurationHalfUs[] PROGMEM = {
                                          /*  0 */ (18 * FUT_PCM_BIT_DURATION_HALF_US), /* Index 0 is for Sync (18 bits) */
@@ -261,9 +261,9 @@ enum {MPX_PCM256_BUILD_FRAME_WITH_CH7_AND_CH8 = 0, MPX_PCM256_BUILD_FRAME_WITH_C
 #define MPX_PWM_US_CENTER              ((MPX_PWM_US_MIN + MPX_PWM_US_MAX) / 2) // 1600 us
 
 /*
-  --+            +----------+      +-------+      +-----------+      +-- ...
+  --.            .----------.      .-------.      .-----------.      .-- ...
     |            |          |      |       |      |           |      |
-    +------------+          +------+       +------+           +------+
+    '------------'          '------'       '------'           '------'
 
     |<--TLsync-->|<-THsync->|<-TL->|       |<-TL->|
                             |<----TP0----->|<-------TP1------>|<-----TP2- ...
@@ -307,7 +307,7 @@ const uint8_t MpxSet_Tbl[4][4] PROGMEM = {{MPX_S0, MPX_S1, MPX_S2, MPX_S3}, {MPX
 #define B11            3
 #define B00000011      3
 #define B11000000      (3 << 6)
- 
+
 /* MULTIPLEX PRIVATE FUNCTION PROTOTYPES */
 static                PT_THREAD(MpxBuildRadioPcmBitStream(struct pt *pt));
 static uint8_t        MpxGetSetIdx(uint8_t PrevBitPair);
@@ -440,13 +440,13 @@ static PT_THREAD(FutBuildRadioPcmBitStream(struct pt *pt)) // This protothread i
     {
       Proto.Pcm.BuildEndNblIdx[!Proto.Pcm.IsrBufIdx] = Proto.Pcm.BuildNblIdx - 1; // Used by ISR for frame lenght
     }
+    #if defined(X_ANY)
     if(Proto.Pcm.BuildState == FUT_PCM1024_BUILD_2_LAST_PACKETS)
     {
       // Schedule here since this part is shorter than the first part (no Preamble, no Sync, no Odd/Even code)
-  #if defined(X_ANY)
       Xany_scheduleTx_AllInstance();
-  #endif
     }
+    #endif
     Proto.Pcm.BuildState = !Proto.Pcm.BuildState;
   }
   PT_END(pt);
@@ -530,7 +530,7 @@ static PT_THREAD(MpxBuildRadioPcmBitStream(struct pt *pt))
       SetIdx = MpxGetSetIdx(PrevBitPair);
       PcmStreamSetConsecBitNb(!Proto.Pcm.IsrBufIdx, Proto.Pcm.BuildNblIdx++, TL_IDX);
       PcmStreamSetConsecBitNb(!Proto.Pcm.IsrBufIdx, Proto.Pcm.BuildNblIdx++, MpxSymbol(SetIdx, BitPairChks));
-      PrevBitPair = BitPairChks;      
+      PrevBitPair = BitPairChks;
     }
     SetIdx = MpxGetSetIdx(PrevBitPair);
     PcmStreamSetConsecBitNb(!Proto.Pcm.IsrBufIdx, Proto.Pcm.BuildNblIdx++, TL_IDX);
@@ -565,7 +565,7 @@ static PT_THREAD(MpxBuildRadioPcmBitStream(struct pt *pt))
 static uint8_t MpxGetSetIdx(uint8_t PrevBitPair)
 {
   uint8_t SetIdx = MPX_SET_A;
-  
+
   switch(PrevBitPair)
   {
     case B00:
@@ -575,11 +575,11 @@ static uint8_t MpxGetSetIdx(uint8_t PrevBitPair)
     case B01:
     SetIdx = MPX_SET_C;
     break;
-    
+
     case B10:
     SetIdx = MPX_SET_B;
     break;
-    
+
     case B11:
     SetIdx = MPX_SET_A;
     break;
@@ -594,9 +594,9 @@ static uint8_t MpxUsToPcmValue(uint16_t PwmUs)
 
   if(PwmUs < MPX_PWM_US_MIN) PwmUs = MPX_PWM_US_MIN;
   if(PwmUs > MPX_PWM_US_MAX) PwmUs = MPX_PWM_US_MAX;
-  
+
   PcmVal = ((PwmUs - MPX_PWM_US_MIN) * 10) / 43;
-  
+
   return(PcmVal); // PcmVal is in the range [0..255] (8 bits)
 }
 
@@ -624,13 +624,8 @@ void PROTO_PCM_cb1()
   uint8_t  ConsecBitNb;
   uint16_t dt, half_us;
 
-  dt = TCNT1 - OCR1B; // Calculate latency and jitter.
-  if(dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
-  if(dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
-
   ConsecBitNb = PcmStreamGetConsecBitNb(Proto.Pcm.IsrBufIdx, Proto.Pcm.TxNblIdx);
   half_us = (uint16_t)pgm_read_word_far(&Proto.Pcm.ConsecBitDurationHalfUs[ConsecBitNb]); // Use pre-computed values
-  OCR1B  += half_us;
   if(Proto.Pcm.TxNblIdx >= Proto.Pcm.BuildEndNblIdx[Proto.Pcm.IsrBufIdx])
   {
 		Proto.Pcm.TxNblIdx = 255; // Will become 0 after incrementation
@@ -642,6 +637,14 @@ void PROTO_PCM_cb1()
   }
   Proto.Pcm.TxNblIdx++;
   Proto.Pcm.BuildRadioPcmBitStream(&pcm_pt); // build a part of the next PCM bit stream at each interrupt
+  dt = TCNT1 - OCR1B; // Calculate latency and jitter.
+  OCR1B  += half_us;
+  if(dt > US_TO_PROTO_TICK(80)) // if dt < 80us, this means that the bit stream creation is terminated
+  {
+    // This gives the elapsed min/max time to compute a part of the bit stream creation
+    if(dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
+    if(dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
+  }
 }
 
 
@@ -672,7 +675,7 @@ static void PROTO_PCM_initialize()
 		Proto.Pcm.TxNblIdx       = 0;
 		memset(&Proto.Pcm.StreamConsecBitTbl, 0x22, sizeof(Proto.Pcm.StreamConsecBitTbl));
 		break;
-		
+
 		case PCM_PROTO_GRA:
 		Proto.Pcm.BuildRadioPcmBitStream  = FutBuildRadioPcmBitStream;  // TO DO: when ready
 		Proto.Pcm.ConsecBitDurationHalfUs = FutConsecBitDurationHalfUs; // TO DO: when ready
@@ -686,7 +689,7 @@ static void PROTO_PCM_initialize()
 		Proto.Pcm.TxNblIdx       = 0;
 		memset(&Proto.Pcm.StreamConsecBitTbl, 0x22, sizeof(Proto.Pcm.StreamConsecBitTbl));
 		break;
-	
+
 		case PCM_PROTO_MPX:
 		Proto.Pcm.BuildRadioPcmBitStream  = MpxBuildRadioPcmBitStream;
 		Proto.Pcm.ConsecBitDurationHalfUs = MpxConsecBitDurationHalfUs;
@@ -709,7 +712,7 @@ static void PROTO_PCM_initialize()
     TCCR1C = 1<<FOC1B; // Strobe FOC1.
     TCCR1A = (TCCR1A | (1<<COM1B0)) & ~(1<<COM1B1); // Toggle OC1x on next match.
 
-    OCR1B = TCNT1 + (FUT_PCM1024_FRAME_PERIOD_US *2);
+    OCR1B = TCNT1 + US_TO_PROTO_TICK(300); // Next interrupt in 300us for all PCM variants
     TIFR1  |= 1<<OCF1B;  // Reset Flag.
     TIMSK1 |= 1<<OCIE1B; // Enable Output Compare interrupt.
   }
