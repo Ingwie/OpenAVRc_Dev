@@ -456,7 +456,7 @@ void menuModelSetup(uint8_t event)
           }
         }
 #elif (SERIAL_PROTOCOL==MULTIMODULE)
-       else if IS_MULTIMODULE_PROTOCOL(protocol)
+       if IS_MULTIMODULE_PROTOCOL(protocol)
         {
          uint8_t multi_rfProto = (uint8_t)g_model.MULTIRFPROTOCOL;
 
@@ -467,6 +467,7 @@ void menuModelSetup(uint8_t event)
           }
          else
           {
+           g_model.MULTIRFPROTOCOL = limit<int8_t>(MM_RF_PROTO_FIRST+1, g_model.MULTIRFPROTOCOL, MM_RF_PROTO_LAST);
            lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN-5*FW, y, STR_MULTIPROTOCOLS, multi_rfProto-1, menuHorizontalPosition==0 ? attr : 0);
           }
          const mm_protocol_definition *pdef = getMultiProtocolDefinition(multi_rfProto);
@@ -481,14 +482,15 @@ void menuModelSetup(uint8_t event)
             lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+ 2 * FW, y, pdef->subTypeString, g_model.rfSubType, (menuHorizontalPosition == 1 ? attr : 0));
           }
 
+         if (!(g_model.CUSTOMPROTO) && menuHorizontalPosition > 1 && attr) MOVE_CURSOR_FROM_HERE(); // keep cursor in valid field
+
          if (attr  && (editMode>0))
           {
-
            switch (menuHorizontalPosition)
             {
             case 0:
             {
-             uint8_t multiRfProto = (g_model.CUSTOMPROTO == true ? MM_RF_PROTO_CUSTOM : (uint8_t)g_model.MULTIRFPROTOCOL);
+             uint8_t multiRfProto = (g_model.CUSTOMPROTO ? MM_RF_PROTO_CUSTOM : (uint8_t)g_model.MULTIRFPROTOCOL);
              CHECK_INCDEC_MODELVAR(event, multiRfProto, MM_RF_PROTO_FIRST, MM_RF_PROTO_LAST);
              if (checkIncDec_Ret)
               {
@@ -538,7 +540,6 @@ void menuModelSetup(uint8_t event)
           }
          if (attr  && (editMode>0))
           {
-
            switch (menuHorizontalPosition)
             {
             case 0:
@@ -588,8 +589,11 @@ void menuModelSetup(uint8_t event)
           {
            if (l_posHorz == 1)
             {
-             PROTOCOL_SetBindState(1000); // 10 Sec
-            }
+             if (systemBolls.protoMode != BIND_MODE)
+             {
+               PROTOCOL_SetBindState(10000); // 10 Sec
+               s_editMode = 0; // reset bind button
+             }            }
            else if (l_posHorz == 2)
             {
              systemBolls.rangeModeIsOn = true;
@@ -629,9 +633,7 @@ void menuModelSetup(uint8_t event)
         {
          horzpos_t l_posHorz = menuHorizontalPosition;
          lcdDrawTextLeft(y, STR_RXNUM);
-         coord_t xOffsetBind = MODEL_SETUP_BIND_OFS;
-         if (xOffsetBind)
-          lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
+         lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 1 * FW, y, g_model.modelId, (l_posHorz==0 ? attr : 0));
          if (attr && l_posHorz==0)
           {
            if (editMode>0 || p1valdiff)
@@ -639,13 +641,19 @@ void menuModelSetup(uint8_t event)
              CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, MULTI_RF_RXNUM_LAST);
             }
           }
-         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+xOffsetBind, y, STR_MODULE_BIND, l_posHorz==1 ? attr : 0);
-         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+MODEL_SETUP_RANGE_OFS+xOffsetBind, y, STR_MODULE_RANGE, l_posHorz==2 ? attr : 0);
+         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+MODEL_SETUP_BIND_OFS, y, STR_MODULE_BIND, l_posHorz==1 ? attr : 0);
+         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+MODEL_SETUP_RANGE_OFS+MODEL_SETUP_BIND_OFS, y, STR_MODULE_RANGE, l_posHorz==2 ? attr : 0);
 
          if (attr && l_posHorz>0 && s_editMode>0)
           {
            if (l_posHorz == 1)
-            PROTOCOL_SetBindState(500); // 5 Sec
+            {
+             if (systemBolls.protoMode != BIND_MODE)
+             {
+               PROTOCOL_SetBindState(800); // 8 Sec
+               s_editMode = 0; // reset bind button
+             }
+            }
            else if (l_posHorz == 2)
             {
              systemBolls.rangeModeIsOn = true;
