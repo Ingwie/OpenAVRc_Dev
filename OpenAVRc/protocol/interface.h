@@ -64,8 +64,6 @@
 #include "SBUS_SERIAL.c"
 #elif (SERIAL_PROTOCOL==SUMD)
 #include "SUMD_SERIAL.c"
-#elif (SERIAL_PROTOCOL==PXX)
-#include "PXX_SERIAL.c"
 #endif
 
 #if defined(SPIMODULES)
