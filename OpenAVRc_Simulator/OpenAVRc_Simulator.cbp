@@ -303,6 +303,7 @@
 			<Add option="-DU_CLI" />
 			<Add option="-DXMODEM" />
 			<Add option="-DBLUETOOTH" />
+			<Add option="-DPCM_PROTOCOL=YES" />
 			<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/include" />
 			<Add directory="$(PROJECT_DIR)" />
 		</Compiler>
