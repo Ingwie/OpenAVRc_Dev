@@ -259,7 +259,7 @@ uint16_t ESKY_callback()
 		if (packet_sent && NRF24L01_packet_ack() != PKT_ACKED)
 			return ESKY_PACKET_CHKTIME;
 		ESKY_send_packet(1);
-		if (--bind_counter_p2M == 0)
+		if (--BIND_COUNTER_16_P2M == 0)
 		{
 			ESKY_set_data_address();
 			BIND_DONE;
@@ -270,7 +270,7 @@ uint16_t ESKY_callback()
 
 uint16_t initESKY(void)
 {
-	bind_counter_p2M = ESKY_BIND_COUNT;
+	BIND_COUNTER_16_P2M = ESKY_BIND_COUNT;
 	rx_tx_addr[3] = 0xBB;
 	ESKY_init(IS_BIND_IN_PROGRESS);
 	ESKY_init2();

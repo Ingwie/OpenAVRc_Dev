@@ -43,6 +43,17 @@
 
 #include "../OpenAVRc.h"
 
+// define pulses2MHz reusable values (13 bytes max)
+#define STANEK_RFSTATE             BYTE_P2M(1)
+#define STANEK_CH_IDX_P2M          BYTE_P2M(2)
+#define STANEK_REC_SEQ_P2M         BYTE_P2M(3)
+#define STANEK_PACKET_SIZE_P2M     BYTE_P2M(4)
+#define STANEK_TELEM_SAVE_SEQ_P2M  BYTE_P2M(5)
+
+#define STANEK_RF_STATE16_P2M      WORD_P2M(1)
+#define STANEK_BIND_COUNTER_16_P2M WORD_P2M(2)
+//***********************************************//
+
 
 const static RfOptionSettingsvar_t RfOpt_STANEK_Ser[] PROGMEM =
 {
@@ -77,7 +88,7 @@ uint8_t TX_RX_ADDRESS[] = "jirka"; // setting RF channels address (5 bytes numbe
 //**********************************************************************************************************************************
 static void STANEK_setAddress()
 {
-  channel_index_p2M = STANEK_RF_CHANNEL;	   // initialize the channel
+  STANEK_CH_IDX_P2M = STANEK_RF_CHANNEL;	   // initialize the channel
 
   uint8_t RX_P1_ADDRESS = ~TX_RX_ADDRESS[5]; // invert bits for reading so that telemetry packets have a different address
 
@@ -120,28 +131,28 @@ static void STANEK_init()
 static void STANEK_get_telemetry()
 {
   // calculate TX rssi based on past 250 expected telemetry packets. Cannot use full second count because telemetry_counter is not large enough
-  if (++rfState16_p2M > 250)
+  if (++STANEK_RF_STATE16_P2M > 250)
   {
 #if defined(FRSKY)
-    telemetryData.rssi[1].set(receive_seq_p2M);
+    telemetryData.rssi[1].set(STANEK_REC_SEQ_P2M);
 #endif
-    receive_seq_p2M = 0;
-    rfState16_p2M = 0;
+    STANEK_REC_SEQ_P2M = 0;
+    STANEK_RF_STATE16_P2M = 0;
   }
 
   // process incoming telemetry packet of it was received
   if (NRF24L01_ReadReg(NRF24L01_07_STATUS) & _BV(NRF24L01_07_RX_DR)) // todo try NRF24L01_NOP
   {
     // data received from model
-    NRF24L01_ReadPayload(telem_save_data_p2M, STANEK_TELEMETRY_PACKET_SIZE);
+    NRF24L01_ReadPayload(telem_save_data_buff, STANEK_TELEMETRY_PACKET_SIZE);
 #if defined(FRSKY)
     frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
 
-    telemetryData.rssi[0].set(telem_save_data_p2M[0]); // packet rate 0 to 255 where 255 is 100% packet rate
-    telemetryData.analog[TELEM_ANA_A1].set(telem_save_data_p2M[1], g_model.telemetry.channels[TELEM_ANA_A1].type); // directly from analog input of receiver, but reduced to 8-bit depth (0 to 255).
-    telemetryData.analog[TELEM_ANA_A2].set(telem_save_data_p2M[2], g_model.telemetry.channels[TELEM_ANA_A2].type); // Scaling depends on the input to the analog pin of the receiver.
+    telemetryData.rssi[0].set(telem_save_data_buff[0]); // packet rate 0 to 255 where 255 is 100% packet rate
+    telemetryData.analog[TELEM_ANA_A1].set(telem_save_data_buff[1], g_model.telemetry.channels[TELEM_ANA_A1].type); // directly from analog input of receiver, but reduced to 8-bit depth (0 to 255).
+    telemetryData.analog[TELEM_ANA_A2].set(telem_save_data_buff[2], g_model.telemetry.channels[TELEM_ANA_A2].type); // Scaling depends on the input to the analog pin of the receiver.
 #endif
-    receive_seq_p2M++;
+    STANEK_REC_SEQ_P2M++;
   }
   else
   {
@@ -164,13 +175,13 @@ static void STANEK_send_packet()
     STANEK_get_telemetry();
   }
 
-  packetSize_p2M = STANEK_RC_PACKET_SIZE - (stanek_rc_channels_reduction * 2);
+  STANEK_PACKET_SIZE_P2M = STANEK_RC_PACKET_SIZE - (stanek_rc_channels_reduction * 2);
 
 
   uint8_t payloadIndex = 0;
   int16_t holdValue;
 
-  memclear(&packet_p2M[0], packetSize_p2M); // reset values
+  memclear(&packet_p2M[0], STANEK_PACKET_SIZE_P2M); // reset values
 
   for (uint8_t x = 0; x < (STANEK_RC_CHANNELS - stanek_rc_channels_reduction); x ++)
   {
@@ -190,12 +201,12 @@ static void STANEK_send_packet()
 
   uint16_t checkSum; // start calculate checksum
 
-  for(uint8_t x = 0; x < packetSize_p2M; x ++)
+  for(uint8_t x = 0; x < STANEK_PACKET_SIZE_P2M; x ++)
   checkSum += packet_p2M[0 + x];               // finish calculate checksum
 
-  NRF24L01_WriteReg(NRF24L01_05_RF_CH, channel_index_p2M); // send channel
+  NRF24L01_WriteReg(NRF24L01_05_RF_CH, STANEK_CH_IDX_P2M); // send channel
   NRF24L01_ManagePower();
-  NRF24L01_WritePayload(packet_p2M, packetSize_p2M);       // and payload
+  NRF24L01_WritePayload(packet_p2M, STANEK_PACKET_SIZE_P2M);       // and payload
 }
 
 //**********************************************************************************************************************************
@@ -212,14 +223,14 @@ static uint16_t STANEK_manage_time()
     // This is done because polling the status register during xmit caused issues.
     // Then add 140 uS which is 130 uS to begin the xmit and 10 uS fudge factor.
     // Then add 460 uS -> Time to compute STANEK_send_packet()
-    uint16_t rxDelay = (/* Time air */(4 * 8 *(1 + 5 + packetSize_p2M + 2)) + 9) + 140 + 25;
+    uint16_t rxDelay = (/* Time air */(4 * 8 *(1 + 5 + STANEK_PACKET_SIZE_P2M + 2)) + 9) + 140 + 25;
 
 
-    if (!telem_save_seq_p2M)
+    if (!STANEK_TELEM_SAVE_SEQ_P2M)
     {
-      bind_counter_p2M = PROTOCOL_GetElapsedTime(); // use bind_counter_p2M as memory only here
-      packet_period = rxDelay + bind_counter_p2M;
-      telem_save_seq_p2M = 1; // indicate to switch to RX mode next time
+      STANEK_BIND_COUNTER_16_P2M = PROTOCOL_GetElapsedTime(); // use STANEK_BIND_COUNTER_16_P2M as memory only here
+      packet_period = rxDelay + STANEK_BIND_COUNTER_16_P2M;
+      STANEK_TELEM_SAVE_SEQ_P2M = 1; // indicate to switch to RX mode next time
     }
     else
     {
@@ -227,8 +238,8 @@ static uint16_t STANEK_manage_time()
       packet_period = limit<int16_t>(0, (g_model.rfOptionValue1 - 6), 10);
       packet_period *= 100;
       packet_period += STANEK_PACKET_PERIOD;
-      packet_period -= rxDelay + bind_counter_p2M; // remove RX time
-      telem_save_seq_p2M = 0; // reset switch to RX
+      packet_period -= rxDelay + STANEK_BIND_COUNTER_16_P2M; // remove RX time
+      STANEK_TELEM_SAVE_SEQ_P2M = 0; // reset switch to RX
     }
   }
   else
@@ -242,15 +253,15 @@ static uint16_t STANEK_manage_time()
 //**********************************************************************************************************************************
 static uint16_t STANEK_cb()
 {
-  if (stanek_telemetry && telem_save_seq_p2M) // we need to switch to RX mode to read telemetry
+  if (stanek_telemetry && STANEK_TELEM_SAVE_SEQ_P2M) // we need to switch to RX mode to read telemetry
   {
     NRF24L01_WriteReg(NRF24L01_00_CONFIG, 0x7F); // RX mode with 16 bit CRC no IRQ
   }
   else
   {
-    if (++rfState8_p2M >= 4)
+    if (++STANEK_RFSTATE >= 4)
     {
-      rfState8_p2M = 0;
+      STANEK_RFSTATE = 0;
       SCHEDULE_MIXER_END_IN_US(12000); // schedule next mixer calculations
     }
 

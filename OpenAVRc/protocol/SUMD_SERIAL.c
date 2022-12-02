@@ -32,6 +32,11 @@
 
 #include "../OpenAVRc.h"
 
+// define pulses2MHz reusable values (13 bytes max)
+#define SUMD_FRAME_PERIOD16_P2M   WORD_P2M(1)
+//***********************************************//
+
+
 const pm_char STR_SUMD_PROTOCOLS[] PROGMEM = " 6""10""14";
 
 const static RfOptionSettingsvar_t RfOpt_Sumd_Ser[] PROGMEM =
@@ -108,16 +113,15 @@ static void build_SUMD_data_ptk()
 #endif
 }
 
-#define SUMD_FRAME_PERIOD        bind_counter_p2M
 static uint16_t SUMD_SERIAL_cb()
 {
- SUMD_FRAME_PERIOD = (6000U + g_model.rfSubType * 4000U);
+ SUMD_FRAME_PERIOD16_P2M = (6000U + g_model.rfSubType * 4000U);
  // Schedule next Mixer calculations.
- SCHEDULE_MIXER_END_IN_US(SUMD_FRAME_PERIOD);
+ SCHEDULE_MIXER_END_IN_US(SUMD_FRAME_PERIOD16_P2M);
  build_SUMD_data_ptk();
  heartbeat |= HEART_TIMER_PULSES;
  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
- return SUMD_FRAME_PERIOD *2; // 10 mSec in specs, we allow 6,10&14 mS Frame.
+ return SUMD_FRAME_PERIOD16_P2M *2; // 10 mSec in specs, we allow 6,10&14 mS Frame.
 }
 
 static void SUMD_initialize()

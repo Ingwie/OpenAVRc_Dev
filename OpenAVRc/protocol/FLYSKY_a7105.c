@@ -34,6 +34,17 @@
 
 #include "../OpenAVRc.h"
 
+// define pulses2MHz reusable values (13 bytes max)
+#define FLYSKY_RFSTATE_P2M         BYTE_P2M(1)
+#define FLYSKY_CH_IDX_P2M          BYTE_P2M(2)
+#define FLYSKY_SEND_SEQ_P2M        BYTE_P2M(3)
+#define FLYSKY_BIND_IDX_P2M        BYTE_P2M(4)
+#define FLYSKY_PACKET_COUNT_P2M    BYTE_P2M(5)
+
+#define FLYSKY_BIND_COUNTER_16_P2M WORD_P2M(1)
+//***********************************************//
+
+
 #define FLYSKY_BIND_COUNT 2500
 
 const static RfOptionSettingsvar_t RfOpt_FLYSKY_Ser[] PROGMEM =
@@ -150,9 +161,9 @@ static void FLYSKY_apply_extension_flags()
       break;
 
     case V912:
-      packet_count_p2M++;
-      if( packet_count_p2M > 9)
-        packet_count_p2M = 0;
+      FLYSKY_PACKET_COUNT_P2M++;
+      if( FLYSKY_PACKET_COUNT_P2M > 9)
+        FLYSKY_PACKET_COUNT_P2M = 0;
       packet_p2M[12] |= 0x20; // bit 6 is always set ?
       packet_p2M[13] = 0x00;  // unknown
       packet_p2M[14] = 0x00;
@@ -162,8 +173,8 @@ static void FLYSKY_apply_extension_flags()
         packet_p2M[14] |= FLAG_V912_TOPBTN;
       packet_p2M[15] = 0x27; // [15] and [16] apparently hold an analog channel with a value lower than 1000
       packet_p2M[16] = 0x03; // maybe it's there for a pitch channel for a CP copter ?
-      packet_p2M[17] = pgm_read_byte_far(pgm_get_far_address(ZZV912_X17_SEQ)+packet_count_p2M) ; // not sure what [17] & [18] are for
-      if(packet_count_p2M == 0)                    // V912 Rx does not even read those bytes... [17-20]
+      packet_p2M[17] = pgm_read_byte_far(pgm_get_far_address(ZZV912_X17_SEQ)+FLYSKY_PACKET_COUNT_P2M) ; // not sure what [17] & [18] are for
+      if(FLYSKY_PACKET_COUNT_P2M == 0)                    // V912 Rx does not even read those bytes... [17-20]
         packet_p2M[18] = 0x02;
       else
         packet_p2M[18] = 0x00;
@@ -173,7 +184,7 @@ static void FLYSKY_apply_extension_flags()
 
     case CX20:
       packet_p2M[19] = 0x00; // unknown
-      packet_p2M[20] = (channel_index_p2M<<4)|0x0A;
+      packet_p2M[20] = (FLYSKY_CH_IDX_P2M<<4)|0x0A;
       break;
     default:
       break;
@@ -209,34 +220,34 @@ static uint16_t FLYSKY_cb()
 {
   heartbeat |= HEART_TIMER_PULSES;
 
-  if (send_seq_p2M == rfState8_p2M)
+  if (FLYSKY_SEND_SEQ_P2M == FLYSKY_RFSTATE_P2M)
     {
-      send_seq_p2M = 0;
+      FLYSKY_SEND_SEQ_P2M = 0;
       A7105_AdjustLOBaseFreq();
       SCHEDULE_MIXER_END_IN_US(12000U); // Schedule next Mixer calculations. Soon as possible
     }
 
-  if(bind_idx_p2M || bind_counter_p2M) // if Bind or autobind
+  if(FLYSKY_BIND_IDX_P2M || FLYSKY_BIND_COUNTER_16_P2M) // if Bind or autobind
     {
-      if (!send_seq_p2M) // 12 mS ellapsed
+      if (!FLYSKY_SEND_SEQ_P2M) // 12 mS ellapsed
         {
           FLYSKY_build_packet(1); // build bind packet
         }
       A7105_WriteData(21, 1);
-      --bind_counter_p2M;
+      --FLYSKY_BIND_COUNTER_16_P2M;
     }
   else
     {
-      if (!send_seq_p2M) // 12 mS ellapsed
+      if (!FLYSKY_SEND_SEQ_P2M) // 12 mS ellapsed
         {
           FLYSKY_build_packet(0); // build channels packets
         }
-      A7105_WriteData(21, channel_used_p2M[channel_index_p2M & 0x0F]);
+      A7105_WriteData(21, channel_used_p2M[FLYSKY_CH_IDX_P2M & 0x0F]);
       A7105_ManagePower();
     }
 
-  ++channel_index_p2M;
-  ++send_seq_p2M;
+  ++FLYSKY_CH_IDX_P2M;
+  ++FLYSKY_SEND_SEQ_P2M;
 
   uint16_t packet_period;
   if(g_model.rfSubType == CX20)
@@ -314,22 +325,22 @@ static void FLYSKY_initialize(uint8_t bind)
                   temp = 0x29;
                 }
             }
-          rfState8_p2M = 4; // 12ms refresh rate value (->3mS latency)
+          FLYSKY_RFSTATE_P2M = 4; // 12ms refresh rate value (->3mS latency)
         }
       else
         {
-          rfState8_p2M = 8; // 12ms refresh rate value
+          FLYSKY_RFSTATE_P2M = 8; // 12ms refresh rate value
         }
       channel_used_p2M[((chanrow&1)?15-i:i)]=temp-chanoffset;
     }
 
   if (bind)
     {
-      bind_idx_p2M = 0xFF; // Keep in Bind mode memory
+      FLYSKY_BIND_IDX_P2M = 0xFF; // Keep in Bind mode memory
     }
   else if (g_model.rfOptionBool1) // autobind actived
     {
-      bind_counter_p2M = FLYSKY_BIND_COUNT;
+      FLYSKY_BIND_COUNTER_16_P2M = FLYSKY_BIND_COUNT;
       PROTOCOL_SetBindState(250); // 2.5 Sec
     }
   PROTO_Start_Callback(FLYSKY_cb);

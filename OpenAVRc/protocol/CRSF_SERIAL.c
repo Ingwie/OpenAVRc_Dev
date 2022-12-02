@@ -33,6 +33,14 @@
 
 #include "../OpenAVRc.h"
 
+// define pulses2MHz reusable values (13 bytes max)
+#define CRSF_FREQ_RATE_MEM  BYTE_P2M(1)
+#define CRSF_40_MS_Flag     BYTE_P2M(2)
+#define CRSF_40_MS_Flipflop BYTE_P2M(3)
+
+#define CRSF_RATE_PERIOD    WORD_P2M(1)
+//***********************************************//
+
 //crsf.h
 #ifndef _CRSF_H_
  #define _CRSF_H_
@@ -110,11 +118,6 @@ const uint8_t CRSF_TLMRATE[] PROGMEM = {128,64,32,16,8,4,2};
 #define WRITE_CRSF_RATE(x)  (g_model.rfOptionValue1 = (g_model.rfOptionValue1 & 0xF0) | x)
 #define IS_CRSF_24_FREQ     (READ_CRSF_FREQ == 5)
 #define GET_CRSF_NUM_RATE   (IS_CRSF_24_FREQ ? sizeof(CRSF_RATE24) : sizeof(CRSF_RATE900))
-
-#define CRSF_FREQ_RATE_MEM  rfState8_p2M
-#define CRSF_40_MS_Flag     channel_index_p2M
-#define CRSF_40_MS_Flipflop channel_offset_p2M
-#define CRSF_RATE_PERIOD    rfState16_p2M
 
 static void CRSF_Reset()
 {

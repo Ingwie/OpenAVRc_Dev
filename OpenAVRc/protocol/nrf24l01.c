@@ -156,24 +156,24 @@ uint8_t NRF24L01_SetPower(uint8_t power)
   uint_farptr_t powerdata = pgm_get_far_address(NRF24L01_Powers);
   RFPowerOut = pgm_read_word_far(powerdata + (2*power)); // Gui value
 
-  rf_setup_p2M = (rf_setup_p2M & 0xF9) | ((power & 0x03) << 1);
-  rf_power_mem_p2M = rf_power_p2M;
-  return NRF24L01_WriteReg(NRF24L01_06_RF_SETUP, rf_setup_p2M);
+  RF_SETUP_P2M = (RF_SETUP_P2M & 0xF9) | ((power & 0x03) << 1);
+  RF_POWER_MEM_P2M = RF_POWER_P2M;
+  return NRF24L01_WriteReg(NRF24L01_06_RF_SETUP, RF_SETUP_P2M);
 }
 
 uint8_t NRF24L01_SetBitrate(uint8_t bitrate)
 {
- rf_setup_p2M = (rf_setup_p2M & 0xD7) | ((bitrate & 0x02) << 4) | ((bitrate & 0x01) << 3);
- return NRF24L01_WriteReg(NRF24L01_06_RF_SETUP, rf_setup_p2M);
+ RF_SETUP_P2M = (RF_SETUP_P2M & 0xD7) | ((bitrate & 0x02) << 4) | ((bitrate & 0x01) << 3);
+ return NRF24L01_WriteReg(NRF24L01_06_RF_SETUP, RF_SETUP_P2M);
 }
 
 void NRF24L01_ManagePower()
 {
-  if (systemBolls.rangeModeIsOn) rf_power_p2M = TXPOWER_1;
-  else rf_power_p2M = g_model.rfOptionValue3;
-  if (rf_power_p2M != rf_power_mem_p2M)
+  if (systemBolls.rangeModeIsOn) RF_POWER_P2M = TXPOWER_1;
+  else RF_POWER_P2M = g_model.rfOptionValue3;
+  if (RF_POWER_P2M != RF_POWER_MEM_P2M)
   {
-    NRF24L01_SetPower(rf_power_p2M);
+    NRF24L01_SetPower(RF_POWER_P2M);
   }
 }
 
@@ -507,9 +507,9 @@ uint8_t XN297_ReadEnhancedPayload(uint8_t* msg, uint8_t len)
 
 void NRF24L01_Initialize()
 {
-  rf_setup_p2M = 0x09;
+  RF_SETUP_P2M = 0x09;
 	XN297_SetScrambledMode(XN297_SCRAMBLED);
-	rf_power_mem_p2M = 0xFF; // force first power setup
+	RF_POWER_MEM_P2M = 0xFF; // force first power setup
 }
 #endif // PROTO_HAS_NRF24L01
 

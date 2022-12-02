@@ -42,6 +42,18 @@
 
 #include "../OpenAVRc.h"
 
+// define pulses2MHz reusable values (13 bytes max)
+#define DEVO_RFSTATE             BYTE_P2M(1)
+#define DEVO_CH_IDX_P2M          BYTE_P2M(2)
+#define DEVO_REC_SEQ_P2M         BYTE_P2M(3)
+#define DEVO_SEND_SEQ_P2M        BYTE_P2M(4)
+#define DEVO_PACKET_COUNT_P2M    BYTE_P2M(5)
+#define DEVO_NUM_CHAN_P2M        BYTE_P2M(6)
+#define DEVO_PREV_NUM_CHAN_P2M   BYTE_P2M(7)
+
+#define DEVO_BIND_COUNTER_16_P2M WORD_P2M(1)
+//***********************************************//
+
 
 const static RfOptionSettingsvar_t RfOpt_DEVO_Ser[] PROGMEM =
 {
@@ -87,27 +99,27 @@ enum
 
 static void DEVO_check_num_chan()
 { // GUI changes result in 4, 8 or 12 channels.
-  if (prev_num_channel_p2M != g_model.rfOptionValue1)
+  if (DEVO_PREV_NUM_CHAN_P2M != g_model.rfOptionValue1)
     {
       switch (g_model.rfOptionValue1)
         {
         case 5:
         case 6:
         case 11:
-          num_channel_p2M = 8;
+          DEVO_NUM_CHAN_P2M = 8;
           break;
         case 7:
-          num_channel_p2M = 4;
+          DEVO_NUM_CHAN_P2M = 4;
           break;
         case 9:
         case 10:
-          num_channel_p2M = 12;
+          DEVO_NUM_CHAN_P2M = 12;
           break;
         }
-      if (prev_num_channel_p2M != num_channel_p2M)
+      if (DEVO_PREV_NUM_CHAN_P2M != DEVO_NUM_CHAN_P2M)
         {
-          prev_num_channel_p2M = num_channel_p2M;
-          g_model.rfOptionValue1 = num_channel_p2M;
+          DEVO_PREV_NUM_CHAN_P2M = DEVO_NUM_CHAN_P2M;
+          g_model.rfOptionValue1 = DEVO_NUM_CHAN_P2M;
         }
     }
 }
@@ -164,7 +176,7 @@ static void DEVO_add_pkt_suffix()
 
   if (USE_FIXED_ID) // Makes bind permanent. Need bind link etc to reset.
     {
-      if (bind_counter_p2M > 0)
+      if (DEVO_BIND_COUNTER_16_P2M > 0)
         bind_state = 0xC0;
       else
         bind_state = 0x80;
@@ -172,7 +184,7 @@ static void DEVO_add_pkt_suffix()
   else // Allows Rx to bind again, but current bind is non-volatile.
     bind_state = 0x00;
 
-  packet_p2M[10] = bind_state | (DEVO_PKTS_PER_CHANNEL - packet_count_p2M - 1);
+  packet_p2M[10] = bind_state | (DEVO_PKTS_PER_CHANNEL - DEVO_PACKET_COUNT_P2M - 1);
   packet_p2M[11] = *(hopping_channel_ptr + 1);
   packet_p2M[12] = *(hopping_channel_ptr + 2);
   packet_p2M[13] = temp_rfid_addr_p2M[0];
@@ -182,7 +194,7 @@ static void DEVO_add_pkt_suffix()
 
 static void DEVO_build_beacon_pkt(uint8_t upper)
 {
-  packet_p2M[0] = ((num_channel_p2M << 4) | 0x07);
+  packet_p2M[0] = ((DEVO_NUM_CHAN_P2M << 4) | 0x07);
   uint8_t enable = 0;
   uint8_t max = 8;
   if (upper)
@@ -200,9 +212,9 @@ static void DEVO_build_beacon_pkt(uint8_t upper)
 
 static void DEVO_build_bind_pkt()
 {
-  packet_p2M[0] = (num_channel_p2M << 4) | 0x0a;
-  packet_p2M[1] = bind_counter_p2M & 0xff;
-  packet_p2M[2] = (bind_counter_p2M >> 8);
+  packet_p2M[0] = (DEVO_NUM_CHAN_P2M << 4) | 0x0a;
+  packet_p2M[1] = DEVO_BIND_COUNTER_16_P2M & 0xff;
+  packet_p2M[2] = (DEVO_BIND_COUNTER_16_P2M >> 8);
   packet_p2M[3] = *hopping_channel_ptr;
   packet_p2M[4] = *(hopping_channel_ptr + 1);
   packet_p2M[5] = *(hopping_channel_ptr + 2);
@@ -221,14 +233,14 @@ static void DEVO_build_bind_pkt()
 static void DEVO_build_data_pkt()
 {
 #if defined(X_ANY)
-  //Xany_scheduleTx_AllInstance(); TODO channel_index_p2M check
+  //Xany_scheduleTx_AllInstance(); TODO DEVO_CH_IDX_P2M check
 #endif
 
-  packet_p2M[0] = (num_channel_p2M << 4) | (0x0b + channel_index_p2M);
+  packet_p2M[0] = (DEVO_NUM_CHAN_P2M << 4) | (0x0b + DEVO_CH_IDX_P2M);
   uint8_t sign = 0x0b;
   for (uint8_t i = 0; i < 4; i++)
     {
-      int16_t value = FULL_CHANNEL_OUTPUTS(i + (4* channel_index_p2M));
+      int16_t value = FULL_CHANNEL_OUTPUTS(i + (4* DEVO_CH_IDX_P2M));
       value = value + (value >> 1) + (value >> 4); // Range +/- 1600.
 
       if(value < 0)
@@ -240,9 +252,9 @@ static void DEVO_build_data_pkt()
       packet_p2M[2 * i + 2] = (value >> 8) & 0xff;
     }
   packet_p2M[9] = sign;
-  channel_index_p2M++;
-  if (channel_index_p2M * 4 >= num_channel_p2M)
-    channel_index_p2M = 0;
+  DEVO_CH_IDX_P2M++;
+  if (DEVO_CH_IDX_P2M * 4 >= DEVO_NUM_CHAN_P2M)
+    DEVO_CH_IDX_P2M = 0;
   DEVO_add_pkt_suffix();
 }
 
@@ -263,26 +275,26 @@ static void DEVO_BuildPacket()
 {
   static uint8_t failsafe_pkt=0;  // TODO What this ?? USED ???????????????????????????? 8-{D
 
-  switch(rfState8_p2M)
+  switch(DEVO_RFSTATE)
     {
     case DEVO_BIND:
-      if(bind_counter_p2M)
-        bind_counter_p2M--;
+      if(DEVO_BIND_COUNTER_16_P2M)
+        DEVO_BIND_COUNTER_16_P2M--;
       DEVO_build_bind_pkt();
-      rfState8_p2M = DEVO_BIND_SENDCH;
+      DEVO_RFSTATE = DEVO_BIND_SENDCH;
       break;
     case DEVO_BIND_SENDCH:
-      if(bind_counter_p2M)
-        bind_counter_p2M--;
+      if(DEVO_BIND_COUNTER_16_P2M)
+        DEVO_BIND_COUNTER_16_P2M--;
       DEVO_build_data_pkt();
       DEVO_scramble_pkt();
-      if (bind_counter_p2M == 0)
+      if (DEVO_BIND_COUNTER_16_P2M == 0)
         {
-          rfState8_p2M = DEVO_BOUND;
+          DEVO_RFSTATE = DEVO_BOUND;
           /* Bind done */
         }
       else
-        rfState8_p2M = DEVO_BIND;
+        DEVO_RFSTATE = DEVO_BIND;
       break;
     case DEVO_BOUND:
     case DEVO_BOUND_1:
@@ -296,22 +308,22 @@ static void DEVO_BuildPacket()
     case DEVO_BOUND_9:
       DEVO_build_data_pkt();
       DEVO_scramble_pkt();
-      rfState8_p2M++;
-      if (rfState8_p2M == DEVO_BOUND_1)
+      DEVO_RFSTATE++;
+      if (DEVO_RFSTATE == DEVO_BOUND_1)
         {
           SCHEDULE_MIXER_END_IN_US(24000); // Schedule next Mixer calculations.
         }
       break;
     case DEVO_BOUND_10:
-      DEVO_build_beacon_pkt(num_channel_p2M > 8 ? failsafe_pkt : 0);
+      DEVO_build_beacon_pkt(DEVO_NUM_CHAN_P2M > 8 ? failsafe_pkt : 0);
       failsafe_pkt = failsafe_pkt ? 0 : 1;
       DEVO_scramble_pkt();
-      rfState8_p2M = DEVO_BOUND_1;
+      DEVO_RFSTATE = DEVO_BOUND_1;
       break;
     }
-  packet_count_p2M++;
-  if(packet_count_p2M == DEVO_PKTS_PER_CHANNEL)
-    packet_count_p2M = 0;
+  DEVO_PACKET_COUNT_P2M++;
+  if(DEVO_PACKET_COUNT_P2M == DEVO_PKTS_PER_CHANNEL)
+    DEVO_PACKET_COUNT_P2M = 0;
 }
 
 static void DEVO_set_radio_channels()
@@ -323,27 +335,27 @@ static void DEVO_set_radio_channels()
 
 uint16_t DEVO_cb()
 {
-  if (send_seq_p2M == 0)
+  if (DEVO_SEND_SEQ_P2M == 0)
     {
-      send_seq_p2M = 1;
+      DEVO_SEND_SEQ_P2M = 1;
       DEVO_BuildPacket();
       CYRF_WriteDataPacket(packet_p2M);
       heartbeat |= HEART_TIMER_PULSES;
       CALCULATE_LAT_JIT(); // Calculate latency and jitter.
       return 1200*2;
     }
-  send_seq_p2M = 0;
+  DEVO_SEND_SEQ_P2M = 0;
   uint8_t i = 0;
   while (! (CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS) & 0x02))
     if(++i > DEVO_NUM_WAIT_LOOPS)
       return 1200*2;
-  if (rfState8_p2M == DEVO_BOUND)
+  if (DEVO_RFSTATE == DEVO_BOUND)
     {
       /* exit binding state */
-      rfState8_p2M = DEVO_BOUND_3;
+      DEVO_RFSTATE = DEVO_BOUND_3;
       DEVO_set_bound_sop_code();
     }
-  if(packet_count_p2M == 0)
+  if(DEVO_PACKET_COUNT_P2M == 0)
     {
       CYRF_ManagePower();	// Keep transmit power in sync
       DEVO_check_num_chan(); // Check num channels
@@ -355,17 +367,17 @@ uint16_t DEVO_cb()
 
 void DEVOInit(uint8_t bind)
 {
-  channel_index_p2M = 0;
-  send_seq_p2M = 0;
-  packet_count_p2M = 0;
+  DEVO_CH_IDX_P2M = 0;
+  DEVO_SEND_SEQ_P2M = 0;
+  DEVO_PACKET_COUNT_P2M = 0;
 
   if(g_model.rfOptionValue1 < 5)
-    num_channel_p2M = 4;
+    DEVO_NUM_CHAN_P2M = 4;
   else if (g_model.rfOptionValue1 < 9)
-    num_channel_p2M = 8;
-  else num_channel_p2M = 12;
+    DEVO_NUM_CHAN_P2M = 8;
+  else DEVO_NUM_CHAN_P2M = 12;
 
-  prev_num_channel_p2M = num_channel_p2M;
+  DEVO_PREV_NUM_CHAN_P2M = DEVO_NUM_CHAN_P2M;
 
   // Load temp_rfid_addr_p2M + Model match.
   loadrfidaddr_rxnum(0);
@@ -384,8 +396,8 @@ void DEVOInit(uint8_t bind)
 
   if (bind || DEVO_AUTOBIND)
     {
-      bind_counter_p2M = DEVO_BIND_COUNT;
-      rfState8_p2M = DEVO_BIND;
+      DEVO_BIND_COUNTER_16_P2M = DEVO_BIND_COUNT;
+      DEVO_RFSTATE = DEVO_BIND;
       if (DEVO_AUTOBIND)
         {
           PROTOCOL_SetBindState(1200); // 12 Sec
@@ -394,8 +406,8 @@ void DEVOInit(uint8_t bind)
     }
   else
     {
-      rfState8_p2M = DEVO_BOUND_1;
-      bind_counter_p2M = 0;
+      DEVO_RFSTATE = DEVO_BOUND_1;
+      DEVO_BIND_COUNTER_16_P2M = 0;
       DEVO_set_bound_sop_code();
     }
   PROTO_Start_Callback( DEVO_cb);

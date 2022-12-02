@@ -33,6 +33,10 @@
 
 #include "../OpenAVRc.h"
 
+// define pulses2MHz reusable values (13 bytes max)
+#define SBUS_PERIOD16_P2M   WORD_P2M(1)
+//***********************************************//
+
 const pm_char STR_SUBTYPE_SBUS[] PROGMEM = " 6""10""14";
 
 const static RfOptionSettingsvar_t RfOpt_Sbus_Ser[] PROGMEM =
@@ -54,7 +58,6 @@ static void SBUS_Reset()
 
 #define SBUS_CHANNELS             16
 #define SBUS_PACKET_SIZE          25
-#define SBUS_PERIOD               bind_counter_p2M
 
 static void build_SBUS_data_ptk()
 {
@@ -95,13 +98,13 @@ static void build_SBUS_data_ptk()
 
 static uint16_t SBUS_SERIAL_cb()//serial_cb()
 {
- SBUS_PERIOD = (6000U + g_model.rfSubType * 4000U);
+ SBUS_PERIOD16_P2M = (6000U + g_model.rfSubType * 4000U);
 // Schedule next Mixer calculations.
- SCHEDULE_MIXER_END_IN_US(SBUS_PERIOD);
+ SCHEDULE_MIXER_END_IN_US(SBUS_PERIOD16_P2M);
  build_SBUS_data_ptk();
  heartbeat |= HEART_TIMER_PULSES;
  CALCULATE_LAT_JIT(); // Calculate latency and jitter.
- return SBUS_PERIOD *2; // 6,10,14 mSec Frame.
+ return SBUS_PERIOD16_P2M *2; // 6,10,14 mSec Frame.
 }
 
 static void SBUS_SERIAL_initialize()

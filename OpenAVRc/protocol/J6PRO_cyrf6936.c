@@ -33,6 +33,9 @@
 // Deviation & Multiprotocol inspired. Thanks a lot !
 #include "../OpenAVRc.h"
 
+// define pulses2MHz reusable values (13 bytes max)
+#define J6PRO_RFSTATE   BYTE_P2M(1)
+//***********************************************//
 
 const static RfOptionSettingsvar_t RfOpt_J6PRO_Ser[] PROGMEM =
 {
@@ -186,18 +189,18 @@ uint16_t J6PRO_cb()
 {
   heartbeat |= HEART_TIMER_PULSES;
 
-  switch (rfState8_p2M)
+  switch (J6PRO_RFSTATE)
   {
     case J6PRO_BIND:
     J6PRO_cyrf_bindinit();
-    rfState8_p2M = J6PRO_BIND_01;
+    J6PRO_RFSTATE = J6PRO_BIND_01;
     /* FALLTHROUGH */
     //no break because we want to send the 1st bind packet now
     case J6PRO_BIND_01:
     CYRF_ConfigRFChannel(0x52);
     CYRF_SetTxRxMode(TX_EN);
     CYRF_WriteDataPacketLen(packet_p2M, 0x09); // 2ms for packet to egress.
-    rfState8_p2M = J6PRO_BIND_03_START;
+    J6PRO_RFSTATE = J6PRO_BIND_03_START;
     return 3000*2; // 3msec
     case J6PRO_BIND_03_START:
     {
@@ -217,7 +220,7 @@ uint16_t J6PRO_cb()
     CYRF_WriteRegister(CYRF_07_RX_IRQ_STATUS, 0x80); // Clear RXOW IRQ if set.
     (void) CYRF_ReadRegister(CYRF_07_RX_IRQ_STATUS);
     CYRF_WriteRegister(CYRF_05_RX_CTRL, 0x82); // Prepare to receive
-    rfState8_p2M = J6PRO_BIND_03_CHECK;
+    J6PRO_RFSTATE = J6PRO_BIND_03_CHECK;
     return 30000U*2; // 30msec
 
     case J6PRO_BIND_03_CHECK:
@@ -246,13 +249,13 @@ uint16_t J6PRO_cb()
               (void) CYRF_ReadRegister(CYRF_07_RX_IRQ_STATUS); // For debugging.
               CYRF_ConfigRFChannel(0x54);
               CYRF_SetTxRxMode(TX_EN);
-              rfState8_p2M = J6PRO_BIND_05_1;
+              J6PRO_RFSTATE = J6PRO_BIND_05_1;
               return 2000*2; // 2msec
             }
           }
         }
       }
-      rfState8_p2M = J6PRO_BIND_01;
+      J6PRO_RFSTATE = J6PRO_BIND_01;
       return 500*2;
     }
     case J6PRO_BIND_05_1:
@@ -264,13 +267,13 @@ uint16_t J6PRO_cb()
 //    case J6PRO_BIND_05_7: // JF-M Transmitter sends 7 packets.
     CYRF_WriteDataPacketLen(packet_p2M, 0x0f);
     (void) CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS); // For debugging.
-    ++rfState8_p2M;
+    ++J6PRO_RFSTATE;
     return 30000U*2; // was 4.6msec
     case J6PRO_CHANSEL:
     CYRF_SetTxRxMode(TX_EN);
     PROTOCOL_SetBindState(0);
     J6PRO_cyrf_datainit();
-    rfState8_p2M = J6PRO_CHAN_1;
+    J6PRO_RFSTATE = J6PRO_CHAN_1;
     /* FALLTHROUGH */
     case J6PRO_CHAN_1:
     //Keep transmit power updated
@@ -284,15 +287,15 @@ uint16_t J6PRO_cb()
     case J6PRO_CHAN_3:
     //return 3750
     case J6PRO_CHAN_4:
-    CYRF_ConfigRFChannel(channel_used_p2M[rfState8_p2M - J6PRO_CHAN_1]);
+    CYRF_ConfigRFChannel(channel_used_p2M[J6PRO_RFSTATE - J6PRO_CHAN_1]);
     CYRF_WriteDataPacket(packet_p2M); // Longer data packet takes 2.7ms to egress.
-    if (rfState8_p2M == J6PRO_CHAN_4)
+    if (J6PRO_RFSTATE == J6PRO_CHAN_4)
     {
-      rfState8_p2M = J6PRO_CHAN_1;
+      J6PRO_RFSTATE = J6PRO_CHAN_1;
       CALCULATE_LAT_JIT(); // Calculate latency and jitter.
       return 13900*2;
     }
-    ++rfState8_p2M;
+    ++J6PRO_RFSTATE;
     CALCULATE_LAT_JIT(); // Calculate latency and jitter.
     return 4550*2; // was 3.55ms
   }
@@ -318,12 +321,12 @@ void J6PRO_Init(uint8_t bind)
 
   if (bind || J6PRO_AUTOBIND)
   {
-    rfState8_p2M = J6PRO_BIND;
+    J6PRO_RFSTATE = J6PRO_BIND;
     PROTOCOL_SetBindState(1200); // 12 Sec
   }
   else
   {
-    rfState8_p2M = J6PRO_CHANSEL;
+    J6PRO_RFSTATE = J6PRO_CHANSEL;
   }
   PROTO_Start_Callback(J6PRO_cb);
 }

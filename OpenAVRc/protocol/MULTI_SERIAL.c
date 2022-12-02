@@ -34,6 +34,12 @@
 #include "../OpenAVRc.h"
 
 
+//Multi Def
+#define MULTIRFPROTOCOL rfOptionValue1
+#define CUSTOMPROTO     rfOptionBool1
+#define AUTOBINDMODE    rfOptionBool2
+#define LOWPOWERMODE    rfOptionBool3
+
 // Third row is number of subtypes -1 (max valid subtype)
 #define MULTI_SEND_BIND                     (1 << 7)
 #define MULTI_SEND_RANGECHECK               (1 << 5)

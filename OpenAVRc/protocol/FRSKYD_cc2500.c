@@ -34,6 +34,15 @@
 
 #include "../OpenAVRc.h"
 
+// define pulses2MHz reusable values (13 bytes max)
+#define FRSKYD_REC_SEQ_P2M         BYTE_P2M(1)
+#define FRSKYD_BIND_IDX_P2M        BYTE_P2M(2)
+#define FRSKYD_PACKET_COUNT_P2M    BYTE_P2M(3)
+#define FRSKYD_TELEM_SAVE_SEQ_P2M  BYTE_P2M(4)
+#define FRSKYD_START_TX_RX_P2M     BYTE_P2M(5)
+//***********************************************//
+
+
 const static RfOptionSettingsvar_t RfOpt_FrskyD_Ser[] PROGMEM =
 {
   /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
@@ -94,12 +103,12 @@ static void FRSKYD_build_bind_packet()
   packet_p2M[2] = 0x01; //Packet type
   packet_p2M[3] = temp_rfid_addr_p2M[0];
   packet_p2M[4] = temp_rfid_addr_p2M[1];
-  packet_p2M[5] = bind_idx_p2M; // Index into channels_used array.
-  packet_p2M[6] =  channel_used_p2M[bind_idx_p2M++];
-  packet_p2M[7] =  channel_used_p2M[bind_idx_p2M++];
-  packet_p2M[8] =  channel_used_p2M[bind_idx_p2M++];
-  packet_p2M[9] =  channel_used_p2M[bind_idx_p2M++];
-  packet_p2M[10] = channel_used_p2M[bind_idx_p2M++];
+  packet_p2M[5] = FRSKYD_BIND_IDX_P2M; // Index into channels_used array.
+  packet_p2M[6] =  channel_used_p2M[FRSKYD_BIND_IDX_P2M++];
+  packet_p2M[7] =  channel_used_p2M[FRSKYD_BIND_IDX_P2M++];
+  packet_p2M[8] =  channel_used_p2M[FRSKYD_BIND_IDX_P2M++];
+  packet_p2M[9] =  channel_used_p2M[FRSKYD_BIND_IDX_P2M++];
+  packet_p2M[10] = channel_used_p2M[FRSKYD_BIND_IDX_P2M++];
   packet_p2M[11] = 0x00;
   packet_p2M[12] = 0x00;
   packet_p2M[13] = 0x00;
@@ -108,8 +117,8 @@ static void FRSKYD_build_bind_packet()
   packet_p2M[16] = 0x00;
   packet_p2M[17] = 0x01;
 
-  if(bind_idx_p2M > 49)
-    bind_idx_p2M = 0;
+  if(FRSKYD_BIND_IDX_P2M > 49)
+    FRSKYD_BIND_IDX_P2M = 0;
 }
 
 static void FRSKYD_build_data_packet()
@@ -120,9 +129,9 @@ static void FRSKYD_build_data_packet()
   packet_p2M[0] = 0x11; // Length
   packet_p2M[1] = temp_rfid_addr_p2M[0];
   packet_p2M[2] = temp_rfid_addr_p2M[1];
-  packet_p2M[3] = packet_count_p2M;
+  packet_p2M[3] = FRSKYD_PACKET_COUNT_P2M;
 #if defined(FRSKY)
-  packet_p2M[4] = receive_seq_p2M; // acknowledge last packet value
+  packet_p2M[4] = FRSKYD_REC_SEQ_P2M; // acknowledge last packet value
 #else
   packet_p2M[4] = 0x00;
 #endif
@@ -233,14 +242,14 @@ static void frskyD_check_telemetry(uint8_t len)
 
   if(packet_p2M[6] && packet_p2M[6]<11)
     {
-      if ((packet_p2M[7] & 0x1F) == (receive_seq_p2M & 0x1F)) // Is it the expected frame ?
+      if ((packet_p2M[7] & 0x1F) == (FRSKYD_REC_SEQ_P2M & 0x1F)) // Is it the expected frame ?
         {
           uint8_t topBit = 0 ;
-          if ((receive_seq_p2M & 0x80) && (receive_seq_p2M & 0x1F) != telem_save_seq_p2M)
+          if ((FRSKYD_REC_SEQ_P2M & 0x80) && (FRSKYD_REC_SEQ_P2M & 0x1F) != FRSKYD_TELEM_SAVE_SEQ_P2M)
             {
               topBit = 0x80 ;
             }
-          receive_seq_p2M = ((receive_seq_p2M+1)%32) | topBit ;	// Request next telemetry frame
+          FRSKYD_REC_SEQ_P2M = ((FRSKYD_REC_SEQ_P2M+1)%32) | topBit ;	// Request next telemetry frame
 
           uint8_t numbyte = 0;
           if(packet_p2M[6]>HUB_MAX_BYTES)
@@ -261,8 +270,8 @@ static void frskyD_check_telemetry(uint8_t len)
       else
         {
           // incorrect sequence
-          telem_save_seq_p2M = packet_p2M[7] & 0x1F;
-          receive_seq_p2M |= 0x80;
+          FRSKYD_TELEM_SAVE_SEQ_P2M = packet_p2M[7] & 0x1F;
+          FRSKYD_REC_SEQ_P2M |= 0x80;
         }
     }
 }
@@ -270,9 +279,9 @@ static void frskyD_check_telemetry(uint8_t len)
 
 static uint16_t FRSKYD_data_cb()
 {
-  uint8_t packet_count_and_3 = packet_count_p2M & 0x03;
+  uint8_t packet_count_and_3 = FRSKYD_PACKET_COUNT_P2M & 0x03;
 
-  if(!start_tx_rx_p2M)
+  if(!FRSKYD_START_TX_RX_P2M)
     {
 
       if(packet_count_and_3 == 0)
@@ -285,15 +294,15 @@ static uint16_t FRSKYD_data_cb()
           CC2500_SetTxRxMode(RX_EN);
         }
 
-      if(packet_count_p2M & 0x1F)
+      if(FRSKYD_PACKET_COUNT_P2M & 0x1F)
         {
           CC2500_ManagePower();
           CC2500_ManageFreq();
         }
 
-      CC2500_WriteReg(CC2500_0A_CHANNR, channel_used_p2M[packet_count_p2M %47]);
+      CC2500_WriteReg(CC2500_0A_CHANNR, channel_used_p2M[FRSKYD_PACKET_COUNT_P2M %47]);
       //CC2500_WriteReg(CC2500_23_FSCAL3, 0x89) // Todo have a try
-      start_tx_rx_p2M = 1;
+      FRSKYD_START_TX_RX_P2M = 1;
       return 500 *2;
     }
   else
@@ -333,10 +342,10 @@ static uint16_t FRSKYD_data_cb()
           break;
         }
 
-      packet_count_p2M ++;
-      if(packet_count_p2M > 187)
-        packet_count_p2M =0;
-      start_tx_rx_p2M = 0;
+      FRSKYD_PACKET_COUNT_P2M ++;
+      if(FRSKYD_PACKET_COUNT_P2M > 187)
+        FRSKYD_PACKET_COUNT_P2M =0;
+      FRSKYD_START_TX_RX_P2M = 0;
       heartbeat |= HEART_TIMER_PULSES;
       CALCULATE_LAT_JIT(); // Calculate latency and jitter.
       return 8500 *2;
@@ -370,7 +379,7 @@ const void * FRSKYD_Cmds(enum ProtoCmds cmd)
       FRSKYD_initialize(0);
       return 0;
     case PROTOCMD_BIND:
-      bind_idx_p2M = 0;
+      FRSKYD_BIND_IDX_P2M = 0;
       FRSKYD_initialize(1);
       return 0;
     case PROTOCMD_RESET:

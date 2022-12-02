@@ -35,6 +35,19 @@
 
 #include "../OpenAVRc.h"
 
+// define pulses2MHz reusable values (13 bytes max)
+#define FRSKYX_RFSTATE_P2M        BYTE_P2M(1)
+#define FRSKYX_CH_IDX_P2M         BYTE_P2M(2)
+#define FRSKYX_CH_OFF_P2M         BYTE_P2M(3)
+#define FRSKYX_CHAN_SKIP_P2M      BYTE_P2M(4)
+#define FRSKYX_REC_SEQ_P2M        BYTE_P2M(5)
+#define FRSKYX_SEND_SEQ_P2M       BYTE_P2M(6)
+#define FRSKYX_BIND_IDX_P2M       BYTE_P2M(7)
+#define FRSKYX_PACKET_SIZE_P2M    BYTE_P2M(8)
+#define FRSKYX_TELEM_SAVE_SEQ_P2M BYTE_P2M(9)
+//***********************************************//
+
+
 #define LBTMODE    ((g_model.rfSubType & 0x1) == 0)
 #define V2MODE     ((g_model.rfSubType & 0x2) == 0x2)
 #define XTELEMETRY (g_model.rfOptionBool1)
@@ -119,7 +132,7 @@ void FRSKYX2_generate_channels(void)
 
 static void FRSKYX_init()
 {
- channel_offset_p2M = 0;
+ FRSKYX_CH_OFF_P2M = 0;
 
  SCHEDULE_MIXER_END_IN_US(41000U); // Schedule next Mixer calculations.
 
@@ -225,31 +238,31 @@ static void frskyX_set_start(uint8_t ch)
 
 static void frskyX_build_bind_packet()
 {
- packet_p2M[0] = packetSize_p2M;
+ packet_p2M[0] = FRSKYX_PACKET_SIZE_P2M;
  packet_p2M[1] = 0x03;
  packet_p2M[2] = 0x01;
  packet_p2M[3] = temp_rfid_addr_p2M[3];
  packet_p2M[4] = temp_rfid_addr_p2M[2];
  if (!V2MODE)
   {
-   packet_p2M[5] = bind_idx_p2M; // Index into channels_used array.
-   packet_p2M[6] =  channel_used_p2M[bind_idx_p2M++];
-   packet_p2M[7] =  channel_used_p2M[bind_idx_p2M++];
-   packet_p2M[8] =  channel_used_p2M[bind_idx_p2M++];
-   packet_p2M[9] =  channel_used_p2M[bind_idx_p2M++];
-   packet_p2M[10] = channel_used_p2M[bind_idx_p2M++];
+   packet_p2M[5] = FRSKYX_BIND_IDX_P2M; // Index into channels_used array.
+   packet_p2M[6] =  channel_used_p2M[FRSKYX_BIND_IDX_P2M++];
+   packet_p2M[7] =  channel_used_p2M[FRSKYX_BIND_IDX_P2M++];
+   packet_p2M[8] =  channel_used_p2M[FRSKYX_BIND_IDX_P2M++];
+   packet_p2M[9] =  channel_used_p2M[FRSKYX_BIND_IDX_P2M++];
+   packet_p2M[10] = channel_used_p2M[FRSKYX_BIND_IDX_P2M++];
    packet_p2M[11] = temp_rfid_addr_p2M[1];
    packet_p2M[12] = RXNUM;
-   memset(&packet_p2M[13], 0, packetSize_p2M - 14);
-   if(bind_idx_p2M & 0x01)
+   memset(&packet_p2M[13], 0, FRSKYX_PACKET_SIZE_P2M - 14);
+   if(FRSKYX_BIND_IDX_P2M & 0x01)
     memcpy_P(&packet_p2M[13],PSTR("\x55\xAA\x5A\xA5"),4);	// Telem off
-   if(bind_idx_p2M & 0x02)
+   if(FRSKYX_BIND_IDX_P2M & 0x02)
 	  memcpy_P(&packet_p2M[17],PSTR("\x55\xAA\x5A\xA5"),4);	// CH9-16
   }
  else
   {
    //Unknown bytes
-   if(bind_idx_p2M & 0x01)
+   if(FRSKYX_BIND_IDX_P2M & 0x01)
     memcpy_P(&packet_p2M[7],PSTR("\x00\x18\x0A\x00\x00\xE0\x02\x0B\x01\xD3\x08\x00\x00\x4C\xFE\x87\xC7"),17);
    else
     memcpy_P(&packet_p2M[7],PSTR("\x27\xAD\x02\x00\x00\x64\xC8\x46\x00\x64\x00\x00\x00\xFB\xF6\x87\xC7"),17);
@@ -257,23 +270,23 @@ static void frskyX_build_bind_packet()
    packet_p2M[5] = temp_rfid_addr_p2M[1];			// ID
    packet_p2M[6] = RXNUM;
    //Bind flags
-   if(bind_idx_p2M&0x01)
+   if(FRSKYX_BIND_IDX_P2M&0x01)
     packet_p2M[7] |= 0x40;				// Telem off
-   if(bind_idx_p2M&0x02)
+   if(FRSKYX_BIND_IDX_P2M&0x02)
     packet_p2M[7] |= 0x80;				// CH9-16
    //Replace the ID
    packet_p2M[20] ^= 0x0E ^ temp_rfid_addr_p2M[3];	// Update the ID
    packet_p2M[21] ^= 0x1C ^ temp_rfid_addr_p2M[2];	// Update the ID
    //Xor
-   for(uint8_t i=3; i<packetSize_p2M - 1; i++)
+   for(uint8_t i=3; i<FRSKYX_PACKET_SIZE_P2M - 1; i++)
     packet_p2M[i] ^= 0xA7;
 
   }
- uint16_t lcrc = Xcrc(&packet_p2M[3], packetSize_p2M - 4);
- packet_p2M[packetSize_p2M - 1] = lcrc >> 8;
- packet_p2M[packetSize_p2M] = lcrc;
- if(bind_idx_p2M > 49)
-  bind_idx_p2M = 0;
+ uint16_t lcrc = Xcrc(&packet_p2M[3], FRSKYX_PACKET_SIZE_P2M - 4);
+ packet_p2M[FRSKYX_PACKET_SIZE_P2M - 1] = lcrc >> 8;
+ packet_p2M[FRSKYX_PACKET_SIZE_P2M] = lcrc;
+ if(FRSKYX_BIND_IDX_P2M > 49)
+  FRSKYX_BIND_IDX_P2M = 0;
 }
 
 static uint16_t scaleForPXX(uint8_t chan)
@@ -300,7 +313,7 @@ static void frskyX_data_frame()
  #ifdef FAILSAFE_ENABLE
  	static uint16_t failsafe_count=0;
  	static uint8_t FS_flag=0,failsafe_chan=0;
- 	if (FS_flag == 0  &&  failsafe_count > FRX_FAILSAFE_TIME  &&  channel_offset_p2M == 0  &&  IS_FAILSAFE_VALUES_on)
+ 	if (FS_flag == 0  &&  failsafe_count > FRX_FAILSAFE_TIME  &&  FRSKYX_CH_OFF_P2M == 0  &&  IS_FAILSAFE_VALUES_on)
  	{
  		FS_flag = 0x10;
  		failsafe_chan = 0;
@@ -316,12 +329,12 @@ static void frskyX_data_frame()
  	failsafe_count++;
  #endif */
 
- packet_p2M[0] = packetSize_p2M;
+ packet_p2M[0] = FRSKYX_PACKET_SIZE_P2M;
  packet_p2M[1] = temp_rfid_addr_p2M[3];
  packet_p2M[2] = temp_rfid_addr_p2M[2];
  packet_p2M[3] = temp_rfid_addr_p2M[1];
- packet_p2M[4] = (channel_skip_p2M<<6)|channel_index_p2M;
- packet_p2M[5] = channel_skip_p2M>>2;
+ packet_p2M[4] = (FRSKYX_CHAN_SKIP_P2M<<6)|FRSKYX_CH_IDX_P2M;
+ packet_p2M[5] = FRSKYX_CHAN_SKIP_P2M>>2;
  packet_p2M[6] = RXNUM;
 //packet_p2M[7] = FLAGS 00 - standard packet
 //10, 12, 14, 16, 18, 1A, 1C, 1E - failsafe packet
@@ -333,7 +346,7 @@ static void frskyX_data_frame()
 //#endif
  packet_p2M[8] = 0;
 //
- uint8_t startChan = channel_offset_p2M;
+ uint8_t startChan = FRSKYX_CH_OFF_P2M;
 
  for(uint8_t i = 0; i <12 ; i+=3)
   {
@@ -358,14 +371,14 @@ static void frskyX_data_frame()
    packet_p2M[9+i+1]=(((chan_0>>8) & 0x0F)|(chan_1 << 4));
    packet_p2M[9+i+2]=chan_1>>4;
   }
- packet_p2M[21] = (receive_seq_p2M << 4) | send_seq_p2M ;//8 at start
+ packet_p2M[21] = (FRSKYX_REC_SEQ_P2M << 4) | FRSKYX_SEND_SEQ_P2M ;//8 at start
 
  if(X8MODE)			// in X8 mode send only 8ch every 9ms
-  channel_offset_p2M = 0 ;
+  FRSKYX_CH_OFF_P2M = 0 ;
  else
-  channel_offset_p2M^=0x08;
+  FRSKYX_CH_OFF_P2M^=0x08;
 
- uint8_t end_packet = packetSize_p2M;
+ uint8_t end_packet = FRSKYX_PACKET_SIZE_P2M;
 
  for (uint8_t i=22; i<end_packet; i++)
   packet_p2M[i]=0;
@@ -394,9 +407,9 @@ static void frskyX_data_frame()
  	#endif
  #endif // SPORT_POLLING */
 
- uint16_t lcrc = Xcrc(&packet_p2M[3], packetSize_p2M - 4);
- packet_p2M[packetSize_p2M - 1]=lcrc>>8;//high byte
- packet_p2M[packetSize_p2M]=lcrc;//low byte
+ uint16_t lcrc = Xcrc(&packet_p2M[3], FRSKYX_PACKET_SIZE_P2M - 4);
+ packet_p2M[FRSKYX_PACKET_SIZE_P2M - 1]=lcrc>>8;//high byte
+ packet_p2M[FRSKYX_PACKET_SIZE_P2M]=lcrc;//low byte
 }
 
 #if defined(FRSKY)
@@ -450,15 +463,15 @@ static void frskyX_check_telemetry(uint8_t *pkt, uint8_t len)
 
    if (((pkt[5] & 0x0f) == 0x08) || ((pkt[5] >> 4) == 0x08))     // restart
     {
-     receive_seq_p2M = 8;
-     send_seq_p2M = 0;
+     FRSKYX_REC_SEQ_P2M = 8;
+     FRSKYX_SEND_SEQ_P2M = 0;
      parseTelemFrskyByte(START_STOP); // reset
     }
    else
     {
-     if ((pkt[5] & 0x03) == (receive_seq_p2M & 0x03))
+     if ((pkt[5] & 0x03) == (FRSKYX_REC_SEQ_P2M & 0x03))
       {
-       receive_seq_p2M = (receive_seq_p2M + 1) % 4;
+       FRSKYX_REC_SEQ_P2M = (FRSKYX_REC_SEQ_P2M + 1) % 4;
 
        if(pkt[6]>0 && pkt[6]<=10)//
         {
@@ -469,27 +482,26 @@ static void frskyX_check_telemetry(uint8_t *pkt, uint8_t len)
         }
        // process any saved data from out-of-sequence packet if
        // it's the next expected packet
-       if (telem_save_seq_p2M == receive_seq_p2M)
+       if (FRSKYX_TELEM_SAVE_SEQ_P2M == FRSKYX_REC_SEQ_P2M)
         {
-         receive_seq_p2M = (receive_seq_p2M + 1) % 4;
-         for (uint8_t i=0; i < telem_save_data_p2M[0]; i++)
+         FRSKYX_REC_SEQ_P2M = (FRSKYX_REC_SEQ_P2M + 1) % 4;
+         for (uint8_t i=0; i < telem_save_data_buff[0]; i++)
           {
-           parseTelemFrskyByte(telem_save_data_p2M[1+i]);
+           parseTelemFrskyByte(telem_save_data_buff[1+i]);
           }
         }
-       telem_save_seq_p2M = 0xFF;
+       FRSKYX_TELEM_SAVE_SEQ_P2M = 0xFF;
       }
      else
       {
-       receive_seq_p2M = (receive_seq_p2M & 0x03) | 0x04;  // incorrect sequence - request resend
+       FRSKYX_REC_SEQ_P2M = (FRSKYX_REC_SEQ_P2M & 0x03) | 0x04;  // incorrect sequence - request resend
        // if this is the packet after the expected one, save the sport data
-       if ((pkt[5] & 0x03) == ((receive_seq_p2M+1) % 4) && pkt[6] <= 6)
+       if ((pkt[5] & 0x03) == ((FRSKYX_REC_SEQ_P2M+1) % 4) && pkt[6] <= 6)
         {
-         telem_save_seq_p2M = (receive_seq_p2M+1) % 4;
-         memcpy(telem_save_data_p2M, &pkt[6], pkt[6]+1);
+         FRSKYX_TELEM_SAVE_SEQ_P2M = (FRSKYX_REC_SEQ_P2M+1) % 4;
+         memcpy(telem_save_data_buff, &pkt[6], pkt[6]+1);
         }
       }
-
     }
   }
 }
@@ -497,14 +509,14 @@ static void frskyX_check_telemetry(uint8_t *pkt, uint8_t len)
 
 static uint16_t FRSKYX_send_data_packet()
 {
- switch(rfState8_p2M)
+ switch(FRSKYX_RFSTATE_P2M)
   {
   case FRSKYX_DATA1:
    if (X8MODE)
     {
      SCHEDULE_MIXER_END_IN_US(9000); // Schedule is possible on fast systems.
     }
-   else if (!channel_offset_p2M)
+   else if (!FRSKYX_CH_OFF_P2M)
     {
      SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
     }
@@ -512,23 +524,23 @@ static uint16_t FRSKYX_send_data_packet()
    CC2500_ManageFreq();
    CC2500_ManagePower();
    CC2500_SetTxRxMode(TX_EN);
-   frskyX_set_start(channel_index_p2M);
+   frskyX_set_start(FRSKYX_CH_IDX_P2M);
    CC2500_Strobe(CC2500_SFRX);
-   channel_index_p2M = (channel_index_p2M+channel_skip_p2M)%47;
+   FRSKYX_CH_IDX_P2M = (FRSKYX_CH_IDX_P2M+FRSKYX_CHAN_SKIP_P2M)%47;
    CC2500_Strobe(CC2500_SIDLE);
    CC2500_WriteData(packet_p2M, packet_p2M[0]+1);
    //
 //			frskyX_data_frame();
-   ++rfState8_p2M;
+   ++FRSKYX_RFSTATE_P2M;
    return 5200*2;
   case FRSKYX_DATA2:
    CC2500_SetTxRxMode(RX_EN);
    CC2500_Strobe(CC2500_SIDLE);
-   ++rfState8_p2M;
+   ++FRSKYX_RFSTATE_P2M;
    return 200*2;
   case FRSKYX_DATA3:
    CC2500_Strobe(CC2500_SRX);
-   ++rfState8_p2M;
+   ++FRSKYX_RFSTATE_P2M;
    return 3100*2;
   case FRSKYX_DATA4:
 
@@ -543,10 +555,10 @@ static uint16_t FRSKYX_send_data_packet()
       }
 #endif
     }
-   if (send_seq_p2M != 8)
-    send_seq_p2M = (send_seq_p2M + 1) % 4;
+   if (FRSKYX_SEND_SEQ_P2M != 8)
+    FRSKYX_SEND_SEQ_P2M = (FRSKYX_SEND_SEQ_P2M + 1) % 4;
 
-   rfState8_p2M = FRSKYX_DATA1;
+   FRSKYX_RFSTATE_P2M = FRSKYX_DATA1;
    return 500*2;
   }
  return 0;
@@ -580,14 +592,14 @@ static uint16_t FRSKYX_cb()
 
 static void FRSKYX_initialize(uint8_t bind)
 {
- send_seq_p2M = 0x08 ;
+ FRSKYX_SEND_SEQ_P2M = 0x08 ;
 
  loadrfidaddr();
  CC2500_Reset();
- packetSize_p2M = LBTMODE && (!V2MODE) ? 0x20 : 0x1D; // LBTV1 (EU) or  other
+ FRSKYX_PACKET_SIZE_P2M = LBTMODE && (!V2MODE) ? 0x20 : 0x1D; // LBTV1 (EU) or  other
  if V2MODE
  {
-   channel_skip_p2M = 18;
+   FRSKYX_CHAN_SKIP_P2M = 18;
    FRSKYX2_generate_channels();
    temp_rfid_addr_p2M[0] |= temp_rfid_addr_p2M[1]; // Keep trace of temp_rfid_addr_p2M[1]
    temp_rfid_addr_p2M[1] = 0x02;		// ID related, hw version?
@@ -597,10 +609,10 @@ static void FRSKYX_initialize(uint8_t bind)
    FRSKY_generate_channels();
   }
 
- while (!channel_skip_p2M)
+ while (!FRSKYX_CHAN_SKIP_P2M)
   {
    srandom(g_eeGeneral.fixed_ID.ID_32 & 0xfefefefe);
-   channel_skip_p2M = random()%47;
+   FRSKYX_CHAN_SKIP_P2M = random()%47;
   }
 
  FRSKYX_init();
@@ -614,7 +626,7 @@ static void FRSKYX_initialize(uint8_t bind)
  else
   {
    FRSKYX_initialize_data(0);
-   rfState8_p2M = FRSKYX_DATA1;
+   FRSKYX_RFSTATE_P2M = FRSKYX_DATA1;
    PROTO_Start_Callback( FRSKYX_cb);
   }
 }

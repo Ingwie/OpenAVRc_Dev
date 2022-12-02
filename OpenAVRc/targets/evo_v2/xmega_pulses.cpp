@@ -129,7 +129,7 @@ void startPulses(enum ProtoCmds Command)
   else if(IS_SPIMODULES_PROTOCOL(s_current_protocol)) {
     rf_usart_mspi_init();
     setup_rf_tc();
-    rf_power_mem_p2M = 255; // Force the first power update.
+    RF_POWER_MEM_P2M = 255; // Force the first power update.
   }
 #endif
   PROTO_Cmds = *Protos[g_model.rfProtocol].Cmds;

@@ -39,11 +39,6 @@
 #define PPMDELAY        rfOptionValue2
 #define PPMNCH          rfSubType
 #define PULSEPOL        rfOptionBool1
-//Multi Def
-#define MULTIRFPROTOCOL rfOptionValue1
-#define CUSTOMPROTO     rfOptionBool1
-#define AUTOBINDMODE    rfOptionBool2
-#define LOWPOWERMODE    rfOptionBool3
 //SPI Def
 #define RFPOWER         rfOptionValue3
 #define RXNUM           g_model.modelId
@@ -51,12 +46,12 @@
 
 #define RF_ID_ADDR_OFFSET_VAR   4
 #define RX_TX_ADDR_OFFSET       (PULSES_BYTE_SIZE - RF_ID_ADDR_OFFSET_VAR)
-#define MAX_PACKET              40
+#define MAX_PACKET              50
 #define CHANNEL_USED_OFFSET     MAX_PACKET
-#define MAX_CHANNEL             50
+#define MAX_CHANNEL             75
 #define FREE_BYTE_OFFSET        (MAX_PACKET + MAX_CHANNEL)
-#define PULSES_WORD_OFFSET_VAR  (FREE_BYTE_OFFSET / 2) // 45 (90 bytes)
-#define PULSES_BYTE_OFFSET_VAR  RX_TX_ADDR_OFFSET      // 140
+#define PULSES_BYTE_OFFSET_VAR  FREE_BYTE_OFFSET           // 125
+#define PULSES_WORD_OFFSET_VAR  (RX_TX_ADDR_OFFSET/2)      // 140/2
 
 #if defined(SPIMODULES) || (SERIAL_PROTOCOL!=NO)
   uint8_t * packet_p2M = pulses2MHz.pbyte; //protocol global packet (Use 40 MAX)
@@ -67,14 +62,12 @@
 #if defined(SPIMODULES)
   uint8_t * channel_used_p2M = &pulses2MHz.pbyte[CHANNEL_USED_OFFSET]; //protocol global channel (Use 50 MAX -> 54 bytes free to use in SPI protocols)
   uint8_t * temp_rfid_addr_p2M = &pulses2MHz.pbyte[RX_TX_ADDR_OFFSET];
-  #if defined(PROTO_HAS_CYRF6936)
-  //uint8_t * cyrfmfg_id = &pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-30]; // -30 to -25 cyrfmfg_id[6] used in DSM, DEVO
-  #endif
   #if defined(PROTO_HAS_CC2500) || defined(PROTO_HAS_CYRF6936) || defined(PROTO_HAS_NRF24L01)
-    uint8_t * telem_save_data_p2M = &pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-40]; // used in [9] FrskyX & [10] DSM telemetry
+    //uint8_t * telem_save_data_buff = &pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR+10]; // used in [9] FrskyX & [10] DSM telemetry
+    uint8_t telem_save_data_buff[22]; // used in [9] FrskyX & [10] DSM telemetry
   #endif
   #if defined(PROTO_HAS_CC2500)
-    uint8_t calData[48]; // used in FrskyX & Hitec protocol
+    uint8_t calData[75]; // used in FrskyX , Hitec & Hott protocol
   #endif
   #if defined(PROTO_HAS_CC2500) || defined(PROTO_HAS_A7105)
     uint32_t seed; // used in FrskyV or AFHDS2A
@@ -85,30 +78,16 @@
   uint16_t pword[PULSES_WORD_SIZE];  // 72
   uint8_t  pbyte[PULSES_BYTE_SIZE];  // 144
  */
+// General shared values
+#define FREQ_FINE_MEM_P2M      pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR] // Used with CC2500 & A7105
+#define RF_SETUP_P2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR] // Only used with NRF24L01 register 06
+#define RF_POWER_P2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR+1]
+#define RF_POWER_MEM_P2M       pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR+2]
 
-//U8
-#define rfState8_p2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-1]
-#define channel_index_p2M      pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-2]
-#define channel_offset_p2M     pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-3]
-#define rf_power_p2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-4]
-#define rf_power_mem_p2M       pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-5]
-#define channel_skip_p2M       pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-6]
-#define receive_seq_p2M        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-7]
-#define send_seq_p2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-8]
-#define bind_idx_p2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-9]
-#define dp_crc_init_p2M        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-10] // Only used in FRSKYV & HITEC
-#define packetSize_p2M         pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-10] // Only used in FRSKYX STANEK & CABELL
-#define packet_count_p2M       pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-11]
-#define telem_save_seq_p2M     pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-12]
-#define start_tx_rx_p2M        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-13]
-#define num_channel_p2M        pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-13] // Only used in DEVO
-#define freq_fine_mem_p2M      pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-14] // Only used with CC2500
-#define rf_setup_p2M           pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-14] // Only used with NRF24L01 register 06
-#define prev_num_channel_p2M   pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR-14] // Only used in DSM DEVO
+// Macro to define protocols static datas
+#define BYTE_P2M(x)            pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR+2+(x)]
+#define WORD_P2M(x)            pulses2MHz.pword[PULSES_WORD_OFFSET_VAR+1-(x)]
 
-//U16
-#define rfState16_p2M          pulses2MHz.pword[PULSES_WORD_OFFSET_VAR]
-#define bind_counter_p2M       pulses2MHz.pword[PULSES_WORD_OFFSET_VAR+1]
 
 uint8_t bit_reverse(uint8_t a);
 uint16_t convert_channel_10b(uint8_t num);

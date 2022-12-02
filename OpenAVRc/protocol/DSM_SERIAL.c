@@ -44,7 +44,7 @@
 #define DSM2_SEND_BIND                     0x80
 #define DSM2_SEND_RANGECHECK               0x20
 
-#define DSMBIND    rf_power_p2M
+#define DSMBIND    RF_POWER_P2M
 
 // DSM2 protocol pulled from th9x - Thanks thus!!!
 

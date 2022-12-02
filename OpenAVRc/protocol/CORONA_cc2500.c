@@ -33,13 +33,21 @@
 
 #include "../OpenAVRc.h"
 
+// define pulses2MHz reusable values (13 bytes max)
+#define CORONA_CH_IDX_P2M          BYTE_P2M(1)
+#define CORONA_PROTO_IS_V1_P2M     BYTE_P2M(2)
+
+#define CORONA_RF_STATE16_P2M      WORD_P2M(1)
+#define CORONA_BIND_COUNTER_16_P2M WORD_P2M(2)
+//***********************************************//
+
+
 #define CORONA_RF_NUM_CHANNELS	3
 #define CORONA_ADDRESS_LENGTH	  4
 #define CORONA_BIND_CHANNEL_V1	0xD1
 #define CORONA_BIND_CHANNEL_V2	0xB8
 #define CORONA_COARSE			      0x00
 #define COR_V1                  1
-#define proto_is_V1             channel_skip_p2M
 
 const static RfOptionSettingsvar_t RfOpt_corona_Ser[] PROGMEM =
 {
@@ -102,9 +110,9 @@ static void corona_init()
       CC2500_WriteReg(i, dat);
     }
 
-  if(!proto_is_V1)
+  if(!CORONA_PROTO_IS_V1_P2M)
     {
-      rfState16_p2M = 400; // V2 send channel at startup while rfstate
+      CORONA_RF_STATE16_P2M = 400; // V2 send channel at startup while rfstate
       CC2500_WriteReg(CC2500_0A_CHANNR, CORONA_BIND_CHANNEL_V2);
       CC2500_WriteReg(CC2500_0E_FREQ1, 0x80);
       CC2500_WriteReg(CC2500_0F_FREQ0, 0x00 + CORONA_COARSE);
@@ -116,7 +124,7 @@ static void corona_init()
     }
   else
     {
-      rfState16_p2M = 0;
+      CORONA_RF_STATE16_P2M = 0;
     }
 
   CC2500_ManageFreq();
@@ -132,7 +140,7 @@ static uint16_t corona_send_data_packet()
 {
   uint16_t packet_period = 0;
 
-  if(!rfState16_p2M) // V1 or V2&identifier sended
+  if(!CORONA_RF_STATE16_P2M) // V1 or V2&identifier sended
     {
 #if defined(X_ANY)
   Xany_scheduleTx_AllInstance();
@@ -166,7 +174,7 @@ static uint16_t corona_send_data_packet()
       // Tune frequency if it has been changed
       CC2500_ManageFreq();
       // Packet period is based on hopping
-      switch(channel_index_p2M)
+      switch(CORONA_CH_IDX_P2M)
         {
         case 0:
           packet_period = 4000;
@@ -178,23 +186,23 @@ static uint16_t corona_send_data_packet()
         case 2:
           packet_period = 12000;
 
-          if(!proto_is_V1)
+          if(!CORONA_PROTO_IS_V1_P2M)
             {
               packet_p2M[17] = 0x03;
             }
           break;
         }
       // Set channel
-      CC2500_WriteReg(CC2500_0A_CHANNR, channel_used_p2M[channel_index_p2M]);
-      channel_index_p2M++;
-      channel_index_p2M%=CORONA_RF_NUM_CHANNELS;
+      CC2500_WriteReg(CC2500_0A_CHANNR, channel_used_p2M[CORONA_CH_IDX_P2M]);
+      CORONA_CH_IDX_P2M++;
+      CORONA_CH_IDX_P2M%=CORONA_RF_NUM_CHANNELS;
       // Update power
       CC2500_ManagePower();
     }
   else
     {
       // V2 : Send identifier packet for 2.65sec. This is how the RX learns the hopping table after a bind. Why it's not part of the bind like V1 is a mistery...
-      if(--rfState16_p2M&1) SCHEDULE_MIXER_END_IN_US(13000); // Dec state & send Schedule next Mixer calculations.
+      if(--CORONA_RF_STATE16_P2M&1) SCHEDULE_MIXER_END_IN_US(13000); // Dec state & send Schedule next Mixer calculations.
       packet_p2M[0] = 0x07;		// 8 bytes to follow
       // Send hopping freq
       for(uint8_t i=0; i<CORONA_RF_NUM_CHANNELS; i++)
@@ -221,10 +229,10 @@ static uint16_t corona_send_bind_packet()
   uint16_t packet_period;
 
   // Build bind packets
-  if(proto_is_V1)
+  if(CORONA_PROTO_IS_V1_P2M)
     {
       // V1
-      if(bind_counter_p2M++&1)
+      if(CORONA_BIND_COUNTER_16_P2M++&1)
         {
           SCHEDULE_MIXER_END_IN_US(3500); // Schedule next Mixer calculations.
           // Send TX ID
@@ -280,7 +288,7 @@ static void CORONA_initialize(uint8_t bind)
   loadrfidaddr_rxnum(3);
   CC2500_Reset();
 
-  (g_model.rfSubType==COR_V1)?proto_is_V1=1:proto_is_V1=0;
+  (g_model.rfSubType==COR_V1)?CORONA_PROTO_IS_V1_P2M=1:CORONA_PROTO_IS_V1_P2M=0;
 
   corona_init();
 

@@ -33,6 +33,14 @@
 
 #include "../OpenAVRc.h"
 
+// define pulses2MHz reusable values (13 bytes max)
+#define FRSKYV_RFSTATE_P2M     BYTE_P2M(1)
+#define FRSKYV_CH_OFF_P2M      BYTE_P2M(2)
+#define FRSKYV_BIND_IDX_P2M    BYTE_P2M(3)
+#define FRSKYV_DP_CRC_INIT_P2M BYTE_P2M(4)
+//***********************************************//
+
+
 #define V4CH9MS (g_model.rfOptionBool1)
 
 const pm_char STR_V4CH9MS[] PROGMEM = INDENT "4Ch-9mS";
@@ -173,19 +181,19 @@ static void FRSKYV_build_bind_packet()
   packet_p2M[2] = 0x01; //Packet type
   packet_p2M[3] = temp_rfid_addr_p2M[0];
   packet_p2M[4] = temp_rfid_addr_p2M[1];
-  packet_p2M[5] = bind_idx_p2M; // Index into channels_used array.
-  packet_p2M[6] =  channel_used_p2M[bind_idx_p2M++];
-  packet_p2M[7] =  channel_used_p2M[bind_idx_p2M++];
-  packet_p2M[8] =  channel_used_p2M[bind_idx_p2M++];
-  packet_p2M[9] =  channel_used_p2M[bind_idx_p2M++];
-  packet_p2M[10] = channel_used_p2M[bind_idx_p2M++];
+  packet_p2M[5] = FRSKYV_BIND_IDX_P2M; // Index into channels_used array.
+  packet_p2M[6] =  channel_used_p2M[FRSKYV_BIND_IDX_P2M++];
+  packet_p2M[7] =  channel_used_p2M[FRSKYV_BIND_IDX_P2M++];
+  packet_p2M[8] =  channel_used_p2M[FRSKYV_BIND_IDX_P2M++];
+  packet_p2M[9] =  channel_used_p2M[FRSKYV_BIND_IDX_P2M++];
+  packet_p2M[10] = channel_used_p2M[FRSKYV_BIND_IDX_P2M++];
   packet_p2M[11] = 0x00;
   packet_p2M[12] = 0x00;
   packet_p2M[13] = 0x00;
   packet_p2M[14] = FRSKYV_crc8(0x93, packet_p2M, 14);
 
-  if(bind_idx_p2M > 49)
-    bind_idx_p2M = 0;
+  if(FRSKYV_BIND_IDX_P2M > 49)
+    FRSKYV_BIND_IDX_P2M = 0;
 }
 
 
@@ -194,7 +202,7 @@ static void FRSKYV_build_data_packet()
 #if defined(X_ANY)
   Xany_scheduleTx_AllInstance();
 #endif
-  channel_offset_p2M = 0;
+  FRSKYV_CH_OFF_P2M = 0;
 
   packet_p2M[0] = 0x0E;
   packet_p2M[1] = temp_rfid_addr_p2M[0];
@@ -204,7 +212,7 @@ static void FRSKYV_build_data_packet()
 
   // Appears to be a bitmap relating to the number of channels sent e.g.
   // 0x0F -> first 4 channels, 0x70 -> channels 5,6,7, 0xF0 -> channels 5,6,7,8
-  if(!(rfState8_p2M & 1)) //if (rfState8_p2M == 0 || rfState8_p2M == 2)
+  if(!(FRSKYV_RFSTATE_P2M & 1)) //if (FRSKYV_RFSTATE_P2M == 0 || FRSKYV_RFSTATE_P2M == 2)
     {
       packet_p2M[5] = 0x0F;
       if (V4CH9MS)
@@ -216,9 +224,9 @@ static void FRSKYV_build_data_packet()
           SCHEDULE_MIXER_END_IN_US(18000); // Schedule next Mixer calculations.
         }
     }
-  else if (rfState8_p2M & 1) //if (rfState8_p2M == 1 || rfState8_p2M == 3)
+  else if (FRSKYV_RFSTATE_P2M & 1) //if (FRSKYV_RFSTATE_P2M == 1 || FRSKYV_RFSTATE_P2M == 3)
     {
-      channel_offset_p2M = 4;
+      FRSKYV_CH_OFF_P2M = 4;
       packet_p2M[5] = 0xF0;
     }
   else
@@ -231,7 +239,7 @@ static void FRSKYV_build_data_packet()
       // 0x05DC -> 1000us 5ca
       // 0x0BB8 -> 2000us bca
 
-      int16_t value = FULL_CHANNEL_OUTPUTS(i + channel_offset_p2M);
+      int16_t value = FULL_CHANNEL_OUTPUTS(i + FRSKYV_CH_OFF_P2M);
       value -= (value>>2); // x-x/4
       value = limit((int16_t)-(640 + (640>>1)), value, (int16_t)+(640 + (640>>1)));
       value += 0x08CA;
@@ -240,12 +248,12 @@ static void FRSKYV_build_data_packet()
       packet_p2M[7 + (i*2)] = (value >> 8) & 0xFF;
     }
 
-  packet_p2M[14] = FRSKYV_crc8(dp_crc_init_p2M, packet_p2M, 14);
+  packet_p2M[14] = FRSKYV_crc8(FRSKYV_DP_CRC_INIT_P2M, packet_p2M, 14);
 
-  V4CH9MS ? rfState8_p2M+=2 : ++rfState8_p2M; // if we had only four channels we send them every 9ms.
-  if(rfState8_p2M > 4)
+  V4CH9MS ? FRSKYV_RFSTATE_P2M+=2 : ++FRSKYV_RFSTATE_P2M; // if we had only four channels we send them every 9ms.
+  if(FRSKYV_RFSTATE_P2M > 4)
     {
-      rfState8_p2M = 0;
+      FRSKYV_RFSTATE_P2M = 0;
     }
 }
 
@@ -296,7 +304,7 @@ static void FRSKYV_initialise(uint8_t bind)
 	channel_used_p2M[x] = (chan_num ? chan_num : 1); // Avoid binding channel 0.
   }
 
-  dp_crc_init_p2M = FRSKYV_crc8_le();
+  FRSKYV_DP_CRC_INIT_P2M = FRSKYV_crc8_le();
   FRSKYV_init();
 
   if(bind)

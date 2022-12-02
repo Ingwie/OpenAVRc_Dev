@@ -33,6 +33,17 @@
 
 #include "../OpenAVRc.h"
 
+// define pulses2MHz reusable values (13 bytes max)
+#define BAYANG_CH_IDX_P2M          BYTE_P2M(1)
+#define BAYANG_REC_SEQ_P2M         BYTE_P2M(2)
+#define BAYANG_PACKET_COUNT_P2M    BYTE_P2M(3)
+#define BAYANG_NUM_CHAN_P2M        BYTE_P2M(4)
+
+#define BAYANG_RF_STATE16_P2M      WORD_P2M(1)
+#define BAYANG_BIND_COUNTER_16_P2M WORD_P2M(2)
+//***********************************************//
+
+
 const pm_char STR_SUBTYPE_BAYANG_SPI[] PROGMEM = "BAYA""H8S3""X16A""IRDR""DHD4";
 
 const static RfOptionSettingsvar_t RfOpt_BAYANG_Ser[] PROGMEM =
@@ -86,7 +97,7 @@ enum BAYANG
 #define bayang_sub_protocol g_model.rfSubType
 #define bayang_autobind g_model.rfOptionBool2
 #define bayang_telemetry g_model.rfOptionBool1
-#define bayang_rfid_addr telem_save_data_p2M // shared
+#define bayang_rfid_addr telem_save_data_buff // shared
 
 static void BAYANG_init()
 {
@@ -112,10 +123,10 @@ static void BAYANG_init()
   {
   case X16_AH:
   case IRDRONE:
-   num_channel_p2M = BAYANG_RF_BIND_CHANNEL_X16_AH;
+   BAYANG_NUM_CHAN_P2M = BAYANG_RF_BIND_CHANNEL_X16_AH;
    break;
   default:
-   num_channel_p2M = BAYANG_RF_BIND_CHANNEL;
+   BAYANG_NUM_CHAN_P2M = BAYANG_RF_BIND_CHANNEL;
    break;
   }
 }
@@ -242,8 +253,8 @@ static void BAYANG_send_packet(uint8_t bind)
  for (uint8_t i = 0; i < BAYANG_PACKET_SIZE-1; i++)
   packet_p2M[14] += packet_p2M[i];
 
- NRF24L01_WriteReg(NRF24L01_05_RF_CH, bind ? num_channel_p2M:channel_used_p2M[channel_index_p2M++]);
- channel_index_p2M %= BAYANG_RF_NUM_CHANNELS;
+ NRF24L01_WriteReg(NRF24L01_05_RF_CH, bind ? BAYANG_NUM_CHAN_P2M:channel_used_p2M[BAYANG_CH_IDX_P2M++]);
+ BAYANG_CH_IDX_P2M %= BAYANG_RF_NUM_CHANNELS;
 
 // clear packet status bits and TX FIFO
  NRF24L01_WriteReg(NRF24L01_07_STATUS, 0x70);
@@ -289,7 +300,7 @@ static void BAYANG_check_rx(void)
      telemetryData.analog[TELEM_ANA_A2].set((packet_p2M[5]<<7) + (packet_p2M[6]>>2), g_model.telemetry.channels[TELEM_ANA_A2].type);
      telemetryData.rssi[0].set(packet_p2M[7]);
 #endif
-     receive_seq_p2M++;
+     BAYANG_REC_SEQ_P2M++;
     }
   }
 }
@@ -303,46 +314,46 @@ static void BAYANG_initialize_channels()
  channel_used_p2M[1] = (temp_rfid_addr_p2M[0]&0x1F)+0x10;
  channel_used_p2M[2] = channel_used_p2M[1]+0x20;
  channel_used_p2M[3] = channel_used_p2M[2]+0x20;
- channel_index_p2M = 0;
+ BAYANG_CH_IDX_P2M = 0;
 }
 
 static uint16_t BAYANG_callback()
 {
 
  SCHEDULE_MIXER_END_IN_US(BAYANG_PACKET_PERIOD);
- if (!bind_counter_p2M) //if(IS_BIND_DONE)
+ if (!BAYANG_BIND_COUNTER_16_P2M) //if(IS_BIND_DONE)
   {
-   if(!packet_count_p2M)
+   if(!BAYANG_PACKET_COUNT_P2M)
     BAYANG_send_packet(0);
-   packet_count_p2M++;
+   BAYANG_PACKET_COUNT_P2M++;
    if (bayang_telemetry)
     {
-     rfState16_p2M++;
-     if (rfState16_p2M > 500)
+     BAYANG_RF_STATE16_P2M++;
+     if (BAYANG_RF_STATE16_P2M > 500)
       {
 #if defined(FRSKY)
-       telemetryData.rssi[1].set(receive_seq_p2M);
+       telemetryData.rssi[1].set(BAYANG_REC_SEQ_P2M);
 #endif
-       rfState16_p2M = 0;
-       receive_seq_p2M = 0;
+       BAYANG_RF_STATE16_P2M = 0;
+       BAYANG_REC_SEQ_P2M = 0;
       }
-     if (packet_count_p2M > 1)
+     if (BAYANG_PACKET_COUNT_P2M > 1)
       BAYANG_check_rx();
 
-     packet_count_p2M %= 5;
+     BAYANG_PACKET_COUNT_P2M %= 5;
     }
    else
-    packet_count_p2M %= 2;
+    BAYANG_PACKET_COUNT_P2M %= 2;
   }
  else
   {
-   if(!packet_count_p2M)
+   if(!BAYANG_PACKET_COUNT_P2M)
     BAYANG_send_packet(1);
-   packet_count_p2M++;
-   packet_count_p2M %= 4;
-   bind_counter_p2M--;
+   BAYANG_PACKET_COUNT_P2M++;
+   BAYANG_PACKET_COUNT_P2M %= 4;
+   BAYANG_BIND_COUNTER_16_P2M--;
 
-   if (!bind_counter_p2M)
+   if (!BAYANG_BIND_COUNTER_16_P2M)
     {
      XN297_SetTXAddr(bayang_rfid_addr, BAYANG_ADDRESS_LENGTH);
      XN297_SetRXAddr(bayang_rfid_addr, BAYANG_ADDRESS_LENGTH);
@@ -367,7 +378,7 @@ static void BAYANG_initialize(uint8_t bind)
  BAYANG_init();
  if (bind || bayang_autobind)
   {
-   bind_counter_p2M = BAYANG_BIND_COUNT * 4;
+   BAYANG_BIND_COUNTER_16_P2M = BAYANG_BIND_COUNT * 4;
    if (bayang_autobind)
     {
      PROTOCOL_SetBindState(1000); // 5 Sec

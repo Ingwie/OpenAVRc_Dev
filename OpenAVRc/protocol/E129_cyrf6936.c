@@ -60,6 +60,14 @@
  */
 
 #include "../OpenAVRc.h"
+
+// define pulses2MHz reusable values (13 bytes max)
+#define E129_RF_STATE_P2M          BYTE_P2M(1)
+
+#define E129_BIND_COUNTER_16_P2M   WORD_P2M(1)
+//***********************************************//
+
+
 #include "iface_rf2500.h"
 
 #define E129_FORCE_ID
@@ -193,30 +201,30 @@ enum
 
 uint16_t E129_data_cb(void)
 {
-  if ((rfState8_p2M&1) == E129_SEND_ODD)
+  if ((E129_RF_STATE_P2M&1) == E129_SEND_ODD)
   { // Odd numbered states.
     RF2500_SendPayload();// ~625us
-    if (rfState8_p2M == E129_SEND_7) rfState8_p2M = E129_SEND_0;
-    else rfState8_p2M ++;
+    if (E129_RF_STATE_P2M == E129_SEND_7) E129_RF_STATE_P2M = E129_SEND_0;
+    else E129_RF_STATE_P2M ++;
     return 1260 *2;
   }
   else
   {
-    RF2500_RFChannel(channel_used_p2M[rfState8_p2M >> 1]);
+    RF2500_RFChannel(channel_used_p2M[E129_RF_STATE_P2M >> 1]);
 
-    if (rfState8_p2M == E129_SEND_0)
+    if (E129_RF_STATE_P2M == E129_SEND_0)
     {
       SCHEDULE_MIXER_END_IN_US((5200) *4);
       E129_build_data_packet(); // Build new packet.
     }
-    else if (rfState8_p2M == E129_SEND_4)
+    else if (E129_RF_STATE_P2M == E129_SEND_4)
     {
       CYRF_ManagePower(); // Keep transmit power in sync.
     }
   }
 
   RF2500_SendPayload();
-  rfState8_p2M ++;
+  E129_RF_STATE_P2M ++;
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
   return (5200-1260) *2;
@@ -224,23 +232,23 @@ uint16_t E129_data_cb(void)
 
 uint16_t E129_bind_cb(void)
 {
-  if ((rfState8_p2M&1) == E129_SEND_ODD)
+  if ((E129_RF_STATE_P2M&1) == E129_SEND_ODD)
   { // Odd numbered states.
     RF2500_SendPayload();// ~625us
-    if (rfState8_p2M == E129_SEND_7) rfState8_p2M = E129_SEND_0;
-    else rfState8_p2M ++;
+    if (E129_RF_STATE_P2M == E129_SEND_7) E129_RF_STATE_P2M = E129_SEND_0;
+    else E129_RF_STATE_P2M ++;
     return 1260 *2;
   }
   else
   {
     RF2500_RFChannel(E129_BIND_CH);
 
-    if (rfState8_p2M == E129_SEND_0)
+    if (E129_RF_STATE_P2M == E129_SEND_0)
     SCHEDULE_MIXER_END_IN_US((5200) *4);
 
-    if (rfState8_p2M == E129_SEND_6)
+    if (E129_RF_STATE_P2M == E129_SEND_6)
     {
-      if(bind_counter_p2M-- == 0)
+      if(E129_BIND_COUNTER_16_P2M-- == 0)
       {
         PROTOCOL_SetBindState(0); // BIND_DONE;
         RF2500_SetTXAddr(temp_rfid_addr_p2M);// 4 bytes of address
@@ -249,7 +257,7 @@ uint16_t E129_bind_cb(void)
     }
 
     RF2500_SendPayload();
-    rfState8_p2M ++;
+    E129_RF_STATE_P2M ++;
     heartbeat |= HEART_TIMER_PULSES;
     return (5200-1260) *2;
   }
@@ -288,9 +296,9 @@ void E129_init()
 
   RF2500_SetPower();
   PROTOCOL_SetBindState(200); // 2 Sec
-  bind_counter_p2M= 96; // ~2 sec
+  E129_BIND_COUNTER_16_P2M= 96; // ~2 sec
 
-  rfState8_p2M= E129_SEND_0;
+  E129_RF_STATE_P2M= E129_SEND_0;
   PROTO_Start_Callback(E129_bind_cb);
 }
 

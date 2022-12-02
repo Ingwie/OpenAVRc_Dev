@@ -33,6 +33,17 @@
 
 #include "../OpenAVRc.h"
 
+// define pulses2MHz reusable values (13 bytes max)
+#define HITEC_BIND_P2M           BYTE_P2M(1)
+#define HITEC_F5_COUNTER_P2M     BYTE_P2M(2)
+#define HITEC_F5_FRAME_P2M       BYTE_P2M(3)
+#define HITEC_RF_CH_NUM_P2M      BYTE_P2M(4)
+#define HITEC_CH_IDX_P2M         BYTE_P2M(5)
+#define HITEC_SEND_SEQ_P2M       BYTE_P2M(6)
+#define HITEC_BIND_IDX_P2M       BYTE_P2M(7)
+#define HITEC_NUM_CHAN_P2M       BYTE_P2M(8)
+//***********************************************//
+
 
 const static RfOptionSettingsvar_t RfOpt_HITEC_Ser[] PROGMEM =
 {
@@ -47,16 +58,12 @@ const static RfOptionSettingsvar_t RfOpt_HITEC_Ser[] PROGMEM =
 
 const pm_char STR_SUBTYPE_HITEC[] PROGMEM = "OPTI""MINI";
 
-#define HITEC_BIND rfState8_p2M
-#define HITEC_RF_CH_NUM channel_offset_p2M
 #define HITEC_PACKET_LEN 13
 #define HITEC_TX_ID_LEN	  2
 #define HITEC_NUM_FREQUENCE		21
 #define HITEC_BIND_NUM_FREQUENCE 14
 #define HITEC_RX_BUFFER_SIZE (MAX_CHANNEL - HITEC_NUM_FREQUENCE)
 #define HITEC_TELEMETRY (g_model.rfOptionBool1)
-#define F5_COUNTER dp_crc_init_p2M
-#define F5_FRAME packet_count_p2M
 
 enum
 {
@@ -141,10 +148,10 @@ static void HITEC_init()
 static void HITEC_tune_chan()
 {
  CC2500_Strobe(CC2500_SIDLE);
- if(HITEC_BIND)
-  CC2500_WriteReg(CC2500_0A_CHANNR, channel_index_p2M*10);
+ if(HITEC_BIND_P2M)
+  CC2500_WriteReg(CC2500_0A_CHANNR, HITEC_CH_IDX_P2M*10);
  else
-  CC2500_WriteReg(CC2500_0A_CHANNR, channel_used_p2M[channel_index_p2M]);
+  CC2500_WriteReg(CC2500_0A_CHANNR, channel_used_p2M[HITEC_CH_IDX_P2M]);
  CC2500_Strobe(CC2500_SFTX);
  CC2500_Strobe(CC2500_SCAL);
  CC2500_Strobe(CC2500_STX);
@@ -153,11 +160,11 @@ static void HITEC_tune_chan()
 static void HITEC_change_chan_fast()
 {
  CC2500_Strobe(CC2500_SIDLE);
- if(HITEC_BIND)
-  CC2500_WriteReg(CC2500_0A_CHANNR, channel_index_p2M*10);
+ if(HITEC_BIND_P2M)
+  CC2500_WriteReg(CC2500_0A_CHANNR, HITEC_CH_IDX_P2M*10);
  else
-  CC2500_WriteReg(CC2500_0A_CHANNR, channel_used_p2M[channel_index_p2M]);
- CC2500_WriteReg(CC2500_25_FSCAL1, calData[channel_index_p2M]);
+  CC2500_WriteReg(CC2500_0A_CHANNR, channel_used_p2M[HITEC_CH_IDX_P2M]);
+ CC2500_WriteReg(CC2500_25_FSCAL1, calData[HITEC_CH_IDX_P2M]);
 }
 
 static void HITEC_build_packet()
@@ -168,11 +175,11 @@ static void HITEC_build_packet()
  packet_p2M[2] = temp_rfid_addr_p2M[2];
  packet_p2M[3] = temp_rfid_addr_p2M[3];
  packet_p2M[22] = 0xEE;			// unknown always 0xEE
- if(HITEC_BIND)
+ if(HITEC_BIND_P2M)
   {
    packet_p2M[0] = 0x16;		// 22 bytes to follow
    memset(packet_p2M+5,0x00,14);
-   switch(bind_idx_p2M)
+   switch(HITEC_BIND_IDX_P2M)
     {
     case 0x72:			// first part of the hopping table
      for(uint8_t i=0; i<14; i++)
@@ -199,9 +206,9 @@ static void HITEC_build_packet()
      break;
     }
    if(g_model.rfSubType==HITEC_MINIMA)
-    packet_p2M[4] = bind_idx_p2M + 0x10;
+    packet_p2M[4] = HITEC_BIND_IDX_P2M + 0x10;
    else
-    packet_p2M[4] = bind_idx_p2M;	// Optima: increments based on RX answer
+    packet_p2M[4] = HITEC_BIND_IDX_P2M;	// Optima: increments based on RX answer
    packet_p2M[19] = 0x08;		// packet sequence
    offset=20;				// packet_p2M[20] and [21]
   }
@@ -224,31 +231,31 @@ static void HITEC_build_packet()
    packet_p2M[26] = 0x00;		// unknown always 0 and the RX doesn't seem to care about the value?
   }
 
- if(F5_FRAME)
+ if(HITEC_F5_FRAME_P2M)
   {
    // No idea what it is but Minima RXs are expecting these frames to work
    packet_p2M[offset] = 0xF5;
    packet_p2M[offset+1] = 0xDF;
-   if((F5_COUNTER%9)==0)
+   if((HITEC_F5_COUNTER_P2M%9)==0)
     packet_p2M[offset+1] -= 0x04;	// every 8 packets send 0xDB
-   F5_COUNTER++;
-   F5_COUNTER %= 59;					// every 6 0xDB packets wait only 4 to resend instead of 8
-   F5_FRAME = 0;					// alternate
-   if(HITEC_BIND)
+   HITEC_F5_COUNTER_P2M++;
+   HITEC_F5_COUNTER_P2M %= 59;					// every 6 0xDB packets wait only 4 to resend instead of 8
+   HITEC_F5_FRAME_P2M = 0;					// alternate
+   if(HITEC_BIND_P2M)
     packet_p2M[offset+1]++;			// when binding the values are 0xE0 and 0xDC
   }
  else
   {
    packet_p2M[offset] = 0x00;
    packet_p2M[offset+1] = 0x00;
-   F5_FRAME = 1;	// alternate
+   HITEC_F5_FRAME_P2M = 1;	// alternate
   }
 }
 
 static void HITEC_send_packet()
 {
  CC2500_WriteData(packet_p2M, packet_p2M[0]+1);
- if(HITEC_BIND)
+ if(HITEC_BIND_P2M)
   {
    packet_p2M[19] >>= 1;	// packet sequence
    if((packet_p2M[4] & 0xFE) == 0x82)
@@ -275,37 +282,37 @@ uint16_t Hitec_data_to_volt(uint8_t high, uint8_t low)
 
 uint16_t HITEC_callback()
 {
- switch(send_seq_p2M)
+ switch(HITEC_SEND_SEQ_P2M)
   {
   case HITEC_START:
    HITEC_init();
-   bind_idx_p2M = 0x72;
-   if(HITEC_BIND)
+   HITEC_BIND_IDX_P2M = 0x72;
+   if(HITEC_BIND_P2M)
     {
-     HITEC_RF_CH_NUM=HITEC_BIND_NUM_FREQUENCE;
+     HITEC_RF_CH_NUM_P2M=HITEC_BIND_NUM_FREQUENCE;
     }
    else
     {
-     HITEC_RF_CH_NUM=HITEC_NUM_FREQUENCE;
+     HITEC_RF_CH_NUM_P2M=HITEC_NUM_FREQUENCE;
      //Set TXID
      CC2500_WriteReg(CC2500_05_SYNC0,temp_rfid_addr_p2M[2]);
      CC2500_WriteReg(CC2500_04_SYNC1,temp_rfid_addr_p2M[3]);
     }
-   channel_index_p2M = 0;
+   HITEC_CH_IDX_P2M = 0;
    HITEC_tune_chan();
-   send_seq_p2M = HITEC_CALIB;
+   HITEC_SEND_SEQ_P2M = HITEC_CALIB;
    return 2000*2;
 
   case HITEC_CALIB:
    SCHEDULE_MIXER_END_IN_US(2000*2); // Schedule next Mixer calculations.
-   calData[channel_index_p2M]=CC2500_ReadReg(CC2500_25_FSCAL1);
-   ++channel_index_p2M;
-   if (channel_index_p2M < HITEC_RF_CH_NUM)
+   calData[HITEC_CH_IDX_P2M]=CC2500_ReadReg(CC2500_25_FSCAL1);
+   ++HITEC_CH_IDX_P2M;
+   if (HITEC_CH_IDX_P2M < HITEC_RF_CH_NUM_P2M)
     HITEC_tune_chan();
    else
     {
-     channel_index_p2M = 0;
-     send_seq_p2M = HITEC_PREP;
+     HITEC_CH_IDX_P2M = 0;
+     HITEC_SEND_SEQ_P2M = HITEC_PREP;
     }
    return 2000*2;
 
@@ -316,19 +323,19 @@ uint16_t HITEC_callback()
 #define HITEC_RX1_TIMING	4636U
   case HITEC_PREP:
    SCHEDULE_MIXER_END_IN_US(HITEC_PACKET_PERIOD); // Schedule next Mixer calculations.
-   if (freq_fine_mem_p2M == g_model.rfOptionValue1) // No user frequency change
+   if (FREQ_FINE_MEM_P2M == g_model.rfOptionValue1) // No user frequency change
     {
      HITEC_change_chan_fast();
-     ++channel_index_p2M;
-     if(channel_index_p2M>=HITEC_RF_CH_NUM)
-      channel_index_p2M = 0;
+     ++HITEC_CH_IDX_P2M;
+     if(HITEC_CH_IDX_P2M>=HITEC_RF_CH_NUM_P2M)
+      HITEC_CH_IDX_P2M = 0;
      CC2500_ManagePower();
      CC2500_SetTxRxMode(TX_EN);
      HITEC_build_packet();
-     send_seq_p2M++;
+     HITEC_SEND_SEQ_P2M++;
     }
    else
-    send_seq_p2M = HITEC_START;	// Restart the tune process if option is changed to get good tuned values
+    HITEC_SEND_SEQ_P2M = HITEC_START;	// Restart the tune process if option is changed to get good tuned values
    return HITEC_PREP_TIMING*2;
 
   case HITEC_DATA1:
@@ -336,13 +343,13 @@ uint16_t HITEC_callback()
   case HITEC_DATA3:
   case HITEC_DATA4:
    HITEC_send_packet();
-   send_seq_p2M++;
+   HITEC_SEND_SEQ_P2M++;
    return HITEC_DATA_TIMING*2;
 
   case HITEC_RX1:
    CC2500_SetTxRxMode(RX_EN);
    CC2500_Strobe(CC2500_SRX);	// Turn RX ON
-   send_seq_p2M++;
+   HITEC_SEND_SEQ_P2M++;
    return HITEC_RX1_TIMING*2;
 
   case HITEC_RX2:
@@ -356,7 +363,7 @@ uint16_t HITEC_callback()
      if( (rxBuf[len-1] & 0x80) && rxBuf[0]==len-3 && rxBuf[1]==temp_rfid_addr_p2M[1] && rxBuf[2]==temp_rfid_addr_p2M[2] && rxBuf[3]==temp_rfid_addr_p2M[3])
       {
        //valid crc && length ok && tx_id ok
-       if(HITEC_BIND)
+       if(HITEC_BIND_P2M)
         {
          if(len==13)	// Bind packets have a length of 13
           {
@@ -367,13 +374,13 @@ uint16_t HITEC_callback()
 
            if(((rxBuf[4]&0xF0)==0x70) && check)
             {
-             bind_idx_p2M = rxBuf[4]+1;
-             if(bind_idx_p2M==0x7B) // in dumps the RX stops to reply at 0x7B
+             HITEC_BIND_IDX_P2M = rxBuf[4]+1;
+             if(HITEC_BIND_IDX_P2M==0x7B) // in dumps the RX stops to reply at 0x7B
               {
-               if (++num_channel_p2M>164) // the RX stops to reply at 0x7B so wait a little and exit
+               if (++HITEC_NUM_CHAN_P2M>164) // the RX stops to reply at 0x7B so wait a little and exit
                 {
-                 send_seq_p2M = HITEC_START; // stop bind datas
-                 HITEC_BIND = 0;
+                 HITEC_SEND_SEQ_P2M = HITEC_START; // stop bind datas
+                 HITEC_BIND_P2M = 0;
                 }
               }
             }
@@ -526,7 +533,7 @@ uint16_t HITEC_callback()
       }
     }
    CC2500_Strobe(CC2500_SFRX);	// Flush the RX FIFO buffer
-   send_seq_p2M = HITEC_PREP;
+   HITEC_SEND_SEQ_P2M = HITEC_PREP;
    heartbeat |= HEART_TIMER_PULSES;
    CALCULATE_LAT_JIT(); // Calculate latency and jitter.
    return (HITEC_PACKET_PERIOD -HITEC_PREP_TIMING -4*HITEC_DATA_TIMING -HITEC_RX1_TIMING)*2;
@@ -547,10 +554,10 @@ static void HITEC_initialize(uint8_t bind)
  loadrfidaddr_rxnum(3);
  CC2500_Reset();
  HITEC_RF_channels();
- HITEC_BIND = bind; // store bind state
- F5_FRAME = 1;
- F5_COUNTER = 0;
- send_seq_p2M = HITEC_START;
+ HITEC_BIND_P2M = bind; // store bind state
+ HITEC_F5_FRAME_P2M = 1;
+ HITEC_F5_COUNTER_P2M = 0;
+ HITEC_SEND_SEQ_P2M = HITEC_START;
  PROTO_Start_Callback(HITEC_cb);
 }
 

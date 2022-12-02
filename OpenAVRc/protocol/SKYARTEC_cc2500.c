@@ -33,8 +33,8 @@
 
 #include "../OpenAVRc.h"
 
-#define TX_ADDR temp_rfid_addr_p2M[2]
-#define TX_CHANNEL temp_rfid_addr_p2M[3]
+#define SKYARTEC_TX_ADDR temp_rfid_addr_p2M[2]
+#define SKYARTEC_TX_CHANNEL temp_rfid_addr_p2M[3]
 
 const static RfOptionSettingsvar_t RfOpt_Skyartec_Ser[] PROGMEM = {
   /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
@@ -133,7 +133,7 @@ static void Skyartec_send_data_packet()
   //13 c5 01 0259 0168 0000 0259 030c 021a 0489 f3 7e 0a
 
   packet_p2M[0] = 0x13;                //Length
-  packet_p2M[1] = TX_ADDR;             //Tx Addr?
+  packet_p2M[1] = SKYARTEC_TX_ADDR;             //Tx Addr?
   packet_p2M[2] = 0x01;                //???
 
   // Each channel has a minimum of '0' and a maximum of 1280 (0x500).
@@ -152,8 +152,8 @@ static void Skyartec_send_data_packet()
   CC2500_ManagePower();
   CC2500_WriteReg(CC2500_04_SYNC1, temp_rfid_addr_p2M[0]);
   CC2500_WriteReg(CC2500_05_SYNC0, temp_rfid_addr_p2M[1]);
-  CC2500_WriteReg(CC2500_09_ADDR, TX_ADDR);
-  CC2500_WriteReg(CC2500_0A_CHANNR, TX_CHANNEL);
+  CC2500_WriteReg(CC2500_09_ADDR, SKYARTEC_TX_ADDR);
+  CC2500_WriteReg(CC2500_0A_CHANNR, SKYARTEC_TX_CHANNEL);
   CC2500_WriteData(packet_p2M, packet_p2M[0]+1);
 }
 
@@ -170,7 +170,7 @@ static void Skyartec_send_bind_packet()
   packet_p2M[7] = temp_rfid_addr_p2M[0];
   packet_p2M[8] = 0x00;
   packet_p2M[9] = 0x00;
-  packet_p2M[10] = TX_ADDR;
+  packet_p2M[10] = SKYARTEC_TX_ADDR;
   uint8_t bxor = 0;
   for(uint8_t i = 3; i < 11; i++)  bxor ^= packet_p2M[i];
   packet_p2M[11] = bxor;
