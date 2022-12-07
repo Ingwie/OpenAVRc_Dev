@@ -184,6 +184,9 @@
 		<Unit filename="protocol/HITEC_cc2500.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="protocol/HOTT_cc2500.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="protocol/HUBSAN_a7105.c">
 			<Option compilerVar="CC" />
 		</Unit>

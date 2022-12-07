@@ -73,6 +73,7 @@
 #include "SKYARTEC_cc2500.c"
 #include "CORONA_cc2500.c"
 #include "HITEC_cc2500.c"
+#include "HOTT_cc2500.c"
 #endif
 
 #ifdef PROTO_HAS_CYRF6936

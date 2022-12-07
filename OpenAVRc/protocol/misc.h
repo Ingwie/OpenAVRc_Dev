@@ -64,7 +64,7 @@
   uint8_t * temp_rfid_addr_p2M = &pulses2MHz.pbyte[RX_TX_ADDR_OFFSET];
   #if defined(PROTO_HAS_CC2500) || defined(PROTO_HAS_CYRF6936) || defined(PROTO_HAS_NRF24L01)
     //uint8_t * telem_save_data_buff = &pulses2MHz.pbyte[PULSES_BYTE_OFFSET_VAR+10]; // used in [9] FrskyX & [10] DSM telemetry
-    uint8_t telem_save_data_buff[22]; // used in [9] FrskyX & [10] DSM telemetry
+    uint8_t telem_save_data_buff[24]; // used in [9] FrskyX & [10] DSM telemetry & [24] HOTT
   #endif
   #if defined(PROTO_HAS_CC2500)
     uint8_t calData[75]; // used in FrskyX , Hitec & Hott protocol
