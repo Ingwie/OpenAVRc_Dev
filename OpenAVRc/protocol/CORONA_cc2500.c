@@ -157,7 +157,7 @@ static uint16_t corona_send_data_packet()
           // Compute value +-1280 to range 860<-1500->2140 -125%<-0->+125%
           int16_t value = (FULL_CHANNEL_OUTPUTS(i))/2; // +-1280 to +-640
           value += PPM_CENTER; // + 1500 offset
-          value = limit((int16_t)860, value, (int16_t)2140);
+          value = limit<int16_t>(860, value, 2140);
 
           packet_p2M[i+1] = value;
           packet_p2M[9 + (i>>1)] |= (i&0x01)?(value>>4)&0xF0:(value>>8)&0x0F;

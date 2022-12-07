@@ -49,7 +49,7 @@ const static RfOptionSettingsvar_t RfOpt_Skyartec_Ser[] PROGMEM = {
 
 const static uint8_t ZZ_skyartecInitSequence[] PROGMEM = {
   CC2500_16_MCSM2, 0x07,
-  CC2500_17_MCSM1, 0x30,// Switch in idle Skyartec_state after transmission
+  CC2500_17_MCSM1, 0x30,// Switch in idle state after transmission
   CC2500_1E_WOREVT1, 0x87,
   CC2500_1F_WOREVT0, 0x6b,
   CC2500_20_WORCTRL, 0xf8,
@@ -229,7 +229,7 @@ const void *SKYARTEC_Cmds(enum ProtoCmds cmd)
   case PROTOCMD_GETOPTIONS:
           SetRfOptionSettings(pgm_get_far_address(RfOpt_Skyartec_Ser),
                         STR_DUMMY,      //Sub proto
-                        STR_RFTUNEFINE,      //Option 1 (int)
+                        STR_RFTUNEFINE, //Option 1 (int)
                         STR_DUMMY,      //Option 2 (int)
                         STR_RFPOWER,    //Option 3 (uint 0 to 31)
                         STR_DUMMY,      //OptionBool 1
