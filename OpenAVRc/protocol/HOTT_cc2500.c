@@ -50,13 +50,13 @@
 
 const static RfOptionSettingsvar_t RfOpt_HOTT_Ser[] PROGMEM =
 {
-  /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
-  /*rfSubTypeMax*/0,
-  /*rfOptionValue1Min*/-128, // FREQFINE MIN
-  /*rfOptionValue1Max*/127,  // FREQFINE MAX
-  /*rfOptionValue2Min*/0,
-  /*rfOptionValue2Max*/0,
-  /*rfOptionValue3Max*/7,    // RF POWER
+ /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+ /*rfSubTypeMax*/0,
+ /*rfOptionValue1Min*/-128, // FREQFINE MIN
+ /*rfOptionValue1Max*/127,  // FREQFINE MAX
+ /*rfOptionValue2Min*/0,
+ /*rfOptionValue2Max*/0,
+ /*rfOptionValue3Max*/7,    // RF POWER
 };
 
 #define HOTT_TX_PACKET_LEN	50
@@ -251,7 +251,7 @@ static void HOTT_prep_data_packet()
   failsafe_count=0;
 #endif
 
- // Channels value are PPM*2, -100%=1100탎, +100%=1900탎, order TAER
+// Channels value are PPM*2, -100%=1100탎, +100%=1900탎, order TAER
  uint16_t val;
  for(uint8_t i=4; i<28; i+=2)
   {
@@ -336,11 +336,10 @@ static void HOTT_prep_data_packet()
 
 static uint16_t HOTT_cb()
 {
- if (HOTT_MIX_SWAP_P2M ^= 1) SCHEDULE_MIXER_END_IN_US(20000); // Schedule next Mixer calculations.
-
  switch(HOTT_SEND_SEQ_P2M)
   {
   case HOTT_START:
+   SCHEDULE_MIXER_END_IN_US(4000); // Schedule next Mixer calculations.
    HOTT_RF_CH_NUM_P2M = 0;
    HOTT_tune_chan();
    HOTT_SEND_SEQ_P2M = HOTT_CAL;
@@ -360,6 +359,7 @@ static uint16_t HOTT_cb()
 
   /* Work cycle: 10ms */
   case HOTT_DATA1:
+   if (HOTT_MIX_SWAP_P2M ^= 1) SCHEDULE_MIXER_END_IN_US(20000); // Schedule next Mixer calculations.
 //Set RF freq, setup LBT and prep packet
 #ifdef MULTI_SYNC
    telemetry_set_input_sync(HOTT_PACKET_PERIOD);
@@ -385,6 +385,8 @@ static uint16_t HOTT_cb()
    CC2500_WriteReg(CC2500_18_MCSM0, 0x18);		//??
    CC2500_Strobe(CC2500_SRX);					//??
    HOTT_SEND_SEQ_P2M++;		//HOTT_DATA2
+   heartbeat |= HEART_TIMER_PULSES;
+   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
    return 1095*2;
   case HOTT_DATA2:
 //LBT
@@ -574,11 +576,6 @@ static uint16_t HOTT_cb()
    return 1000*2;
   }
  return 0;
-
-
- heartbeat |= HEART_TIMER_PULSES;
- CALCULATE_LAT_JIT(); // Calculate latency and jitter.
- return 12000U *2;
 }
 
 
@@ -604,13 +601,13 @@ const void *HOTT_Cmds(enum ProtoCmds cmd)
    return 0;
   case PROTOCMD_GETOPTIONS:
    SetRfOptionSettings(pgm_get_far_address(RfOpt_HOTT_Ser),
-                        STR_DUMMY,      //Sub proto
-                        STR_RFTUNEFINE, //Option 1 (int)
-                        STR_DUMMY,      //Option 2 (int)
-                        STR_RFPOWER,    //Option 3 (uint 0 to 31)
-                        STR_TELEMETRY,  //OptionBool 1
-                        STR_DUMMY,      //OptionBool 2
-                        STR_DUMMY       //OptionBool 3
+                       STR_DUMMY,      //Sub proto
+                       STR_RFTUNEFINE, //Option 1 (int)
+                       STR_DUMMY,      //Option 2 (int)
+                       STR_RFPOWER,    //Option 3 (uint 0 to 31)
+                       STR_TELEMETRY,  //OptionBool 1
+                       STR_DUMMY,      //OptionBool 2
+                       STR_DUMMY       //OptionBool 3
                       );
    return 0;
   default:
