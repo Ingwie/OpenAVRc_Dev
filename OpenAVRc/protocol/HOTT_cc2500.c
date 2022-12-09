@@ -146,26 +146,26 @@ const static uint16_t ZZ_HOTT_hop_val[] PROGMEM = { 0xC06B, 0xC34A, 0xDB24, 0x8E
 static void HOTT_TXID_init()
 {
  uint_farptr_t pdata = pgm_get_far_address(ZZ_HOTT_hop_val);
- pdata += HOTT_NUM_CHANNEL_P2M;
- packet_p2M[0] = pgm_read_word_far(pdata);
- packet_p2M[1] = pgm_read_word_far(pdata)>>8;
+ pdata += (HOTT_NUM_CHANNEL_P2M * 2);
+ uint16_t hott_hop_val = pgm_read_word_far(pdata);
+ memcpy(&packet_p2M[0],&hott_hop_val,2);
 
  pdata = pgm_get_far_address(ZZ_HOTT_hop);
- pdata += HOTT_NUM_CHANNEL_P2M * HOTT_NUM_RF_CHANNELS;
+ pdata += (HOTT_NUM_CHANNEL_P2M * HOTT_NUM_RF_CHANNELS);
  for(uint8_t i=0; i<HOTT_NUM_RF_CHANNELS; i++)
-  channel_used_p2M[i]=pgm_read_byte_far(pdata + i);
+  channel_used_p2M[i] = pgm_read_byte_far(pdata++);
  memset(&packet_p2M[30],0xFF,9);
  packet_p2M[39]=0x07;									// unknown and constant
  if(HOTT_BIND_P2M)
   {
    memset(&packet_p2M[40],0xFA,5);
    memcpy(&packet_p2M[45],temp_rfid_addr_p2M,4);
-   memcpy(&packet_p2M[45+4],temp_rfid_addr_p2M,1);
+   packet_p2M[45+4] = RXNUM; //  model match like
   }
  else
   {
    memcpy(&packet_p2M[40],temp_rfid_addr_p2M,4);
-   memcpy(&packet_p2M[40+4],temp_rfid_addr_p2M,1);
+   packet_p2M[40+4] = RXNUM; //  model match like
    memcpy(&packet_p2M[45],&HOTT_RXNUM_SAVE_AREA,5); // get HOTT RX ID
   }
 }
@@ -223,10 +223,13 @@ static void HOTT_tune_chan_fast()
 
 static void HOTT_tune_freq()
 {
- uint8_t power = FREQ_FINE_MEM_P2M;
+ uint8_t freqMem = FREQ_FINE_MEM_P2M;
  CC2500_ManageFreq();
- if (power != FREQ_FINE_MEM_P2M)
-  HOTT_SEND_SEQ_P2M = HOTT_START;								// Restart the tune process if option is changed to get good tuned values
+ if (freqMem != FREQ_FINE_MEM_P2M)
+  {
+   CC2500_WriteReg(CC2500_0F_FREQ0, HOTT_FREQ0_VAL + HOTT_COARSE);
+   HOTT_SEND_SEQ_P2M = HOTT_START;								// Restart the tune process if option is changed to get good tuned values
+  }
 }
 
 static void HOTT_prep_data_packet()
