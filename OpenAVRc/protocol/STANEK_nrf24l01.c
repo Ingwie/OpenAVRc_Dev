@@ -78,7 +78,6 @@ uint8_t TX_RX_ADDRESS[] = "jirka";      // setting RF channels address (5 bytes 
 
 #define STANEK_TELEMETRY_PACKET_SIZE  3 // RSSI, A1, A2
 
-#define stanek_telemetry                    g_model.rfOptionBool1
 #define stanek_rc_channels_reduction  (12 - g_model.rfOptionValue1)
 
 
@@ -155,7 +154,7 @@ FORCEINLINE void STANEK_get_telemetry() //*
   {
     // if no telemetry packet was received then delay by the typical telemetry packet processing time.
     // This is done to try to keep the send packet process timing more consistent. Since the SPI payload read takes some time
-   _delay_us(50);
+    _delay_us(50);
   }
   
   NRF24L01_SetTxRxMode(TX_EN);
@@ -167,10 +166,7 @@ FORCEINLINE void STANEK_get_telemetry() //*
 //**********************************************************************************************************************************
 static void STANEK_send_packet()
 {
-  if (stanek_telemetry) // check for incoming packet and switch radio back to TX mode if we were listening for telemetry
-  {
-    STANEK_get_telemetry();
-  }
+  STANEK_get_telemetry();
   
   STANEK_PACKET_SIZE_P2M = STANEK_RC_PACKET_SIZE - (stanek_rc_channels_reduction * 2);
   
@@ -207,31 +203,24 @@ static uint16_t STANEK_manage_time()
 {
   uint16_t packet_period;
   
-  if (stanek_telemetry)
+  // switch radio to rx as soon as packet is sent.
+  // Calculate transmit time based on packet size and data rate of 250 Kbs per sec.
+  uint16_t rxDelay = /* Variable time air */(4 * 8 * STANEK_PACKET_SIZE_P2M) + /* Fixed */450;
+  
+  if (!STANEK_TELEM_SAVE_SEQ_P2M)
   {
-    // switch radio to rx as soon as packet is sent.
-    // Calculate transmit time based on packet size and data rate of 250 Kbs per sec.
-    uint16_t rxDelay = /* Variable time air */(4 * 8 * STANEK_PACKET_SIZE_P2M) + /* Fixed */450;
-    
-    if (!STANEK_TELEM_SAVE_SEQ_P2M)
-    {
-      STANEK_BIND_COUNTER_16_P2M = PROTOCOL_GetElapsedTime(); // use STANEK_BIND_COUNTER_16_P2M as memory only here
-      packet_period = rxDelay + STANEK_BIND_COUNTER_16_P2M;
-      STANEK_TELEM_SAVE_SEQ_P2M = 1; // indicate to switch to RX mode next time
-    }
-    else
-    {
-      // increase packet period by 100us for each channel over 6
-      packet_period = limit<uint16_t>(0, (uint8_t)(g_model.rfOptionValue1 - 6), 10);
-      packet_period *= 100;
-      packet_period += STANEK_PACKET_PERIOD;
-      packet_period -= rxDelay + STANEK_BIND_COUNTER_16_P2M; // remove RX time
-      STANEK_TELEM_SAVE_SEQ_P2M = 0; // reset switch to RX
-    }
+    STANEK_BIND_COUNTER_16_P2M = PROTOCOL_GetElapsedTime(); // use STANEK_BIND_COUNTER_16_P2M as memory only here
+    packet_period = rxDelay + STANEK_BIND_COUNTER_16_P2M;
+    STANEK_TELEM_SAVE_SEQ_P2M = 1; // indicate to switch to RX mode next time
   }
   else
   {
-  packet_period = STANEK_PACKET_PERIOD; // standard packet period when not in telemetry mode
+    // increase packet period by 100us for each channel over 6
+    packet_period = limit<uint16_t>(0, (uint8_t)(g_model.rfOptionValue1 - 6), 10);
+    packet_period *= 100;
+    packet_period += STANEK_PACKET_PERIOD;
+    packet_period -= rxDelay + STANEK_BIND_COUNTER_16_P2M; // remove RX time
+    STANEK_TELEM_SAVE_SEQ_P2M = 0; // reset switch to RX
   }
   
   return packet_period;
@@ -242,7 +231,7 @@ static uint16_t STANEK_manage_time()
 //**********************************************************************************************************************************
 static uint16_t STANEK_cb()
 {
-  if (stanek_telemetry && STANEK_TELEM_SAVE_SEQ_P2M) // we need to switch to RX mode to read telemetry
+  if (STANEK_TELEM_SAVE_SEQ_P2M) // we need to switch to RX mode to read telemetry
   {
     NRF24L01_WriteReg(NRF24L01_00_CONFIG, 0x7F); // RX mode with 16 bit CRC no IRQ
     //NRF24L01_WriteReg(NRF24L01_00_CONFIG, 0x0F); //* RX mode with 16 bit CRC
@@ -270,28 +259,21 @@ static uint16_t STANEK_cb()
 //**********************************************************************************************************************************
 //**********************************************************************************************************************************
 //**********************************************************************************************************************************
-static void STANEK_initialize()
-{
-  STANEK_init();
-  PROTO_Start_Callback(STANEK_cb);
-}
-
-//**********************************************************************************************************************************
-//**********************************************************************************************************************************
-//**********************************************************************************************************************************
 const void *STANEK_Cmds(enum ProtoCmds cmd)
 {
   switch(cmd)
   {
    case PROTOCMD_INIT:
-     STANEK_initialize();
+     STANEK_init();
+     PROTO_Start_Callback(STANEK_cb);
      return 0;
    case PROTOCMD_RESET:
      PROTO_Stop_Callback();
      NRF24L01_Reset();
      return 0;
    case PROTOCMD_BIND:
-     STANEK_initialize();
+     STANEK_init();
+     PROTO_Start_Callback(STANEK_cb);
      return 0;
    case PROTOCMD_GETOPTIONS:
      SetRfOptionSettings(pgm_get_far_address(RfOpt_STANEK_Ser),
