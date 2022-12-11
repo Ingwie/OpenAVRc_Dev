@@ -42,6 +42,7 @@
 #define HOTT_RF_CH_NUM_P2M               BYTE_P2M(4)
 #define HOTT_HOP_FREQ_NO_P2M             BYTE_P2M(5)
 #define HOTT_MIX_SWAP_P2M                BYTE_P2M(6)
+#define HOTT_CH_UPPER_P2M                BYTE_P2M(7)
 
 //***********************************************//
 
@@ -152,10 +153,12 @@ static void HOTT_TXID_init()
 
  pdata = pgm_get_far_address(ZZ_HOTT_hop);
  pdata += (HOTT_NUM_CHANNEL_P2M * HOTT_NUM_RF_CHANNELS);
+
  for(uint8_t i=0; i<HOTT_NUM_RF_CHANNELS; i++)
   channel_used_p2M[i] = pgm_read_byte_far(pdata++);
  memset(&packet_p2M[30],0xFF,9);
- packet_p2M[39]=0x07;									// unknown and constant
+ packet_p2M[39] = 0x07;									// unknown and constant
+
  if(HOTT_BIND_P2M)
   {
    memset(&packet_p2M[40],0xFA,5);
@@ -178,33 +181,8 @@ static void HOTT_rf_init()
  for (uint8_t i = 0; i < 39; ++i)
   CC2500_WriteReg(i, pgm_read_byte_far(pdata++));
 
- CC2500_ManageFreq();
-
+ CC2500_WriteReg(CC2500_0C_FSCTRL0, g_model.rfOptionValue1);
  CC2500_SetTxRxMode(TX_EN);
- CC2500_SetPower(1);
-}
-
-static void HOTT_init()
-{
- loadrfidaddr();
- CC2500_Reset();
- srandom(g_eeGeneral.fixed_ID.ID_32 & 0xfefefefe);
- HOTT_NUM_CHANNEL_P2M = random()%16;
- HOTT_TXID_init();
- HOTT_rf_init();
-#ifdef HOTT_FW_TELEMETRY
- HoTT_SerialRX_val=0;
- HoTT_SerialRX=false;
- HOTT_sensor_cur=3;
- HOTT_sensor_pages=0;
- HOTT_sensor_valid=false;
- HOTT_sensor_seq=0;
- for(uint8_t i=0; i<HOTT_SENSOR_TYPE; i++)
-  HOTT_sensor_ok[i]=false;	// no sensors detected
- packet_count=0;
- state=HOTT_SENSOR_SEARCH_PERIOD;
-#endif
- HOTT_SEND_SEQ_P2M = HOTT_START;
 }
 
 static void HOTT_tune_chan()
@@ -234,11 +212,9 @@ static void HOTT_tune_freq()
 
 static void HOTT_prep_data_packet()
 {
- static uint8_t upper=0;
-
  packet_p2M[2] = HOTT_HOP_FREQ_NO_P2M;
 
- packet_p2M[3] = upper;									// used for failsafe and upper channels (only supporting 16 channels)
+ packet_p2M[3] = HOTT_CH_UPPER_P2M;									// used for failsafe and upper channels (only supporting 16 channels)
 #ifdef FAILSAFE_ENABLE
  static uint8_t failsafe_count=0;
  if(IS_FAILSAFE_VALUES_on && IS_BIND_DONE)
@@ -255,14 +231,14 @@ static void HOTT_prep_data_packet()
 #endif
 
 // Channels value are PPM*2, -100%=1100µs, +100%=1900µs, order TAER
- uint16_t val;
+ int16_t val;
  for(uint8_t i=4; i<28; i+=2)
   {
    uint8_t ch=(i-4)>>1;
-   if(upper && ch >= 8)
+   if(HOTT_CH_UPPER_P2M && ch >= 8)
     ch+=4;										// when upper swap CH9..CH12 by CH13..16
    val = (FULL_CHANNEL_OUTPUTS(ch)); // +-1280
-   val += PPM_CENTER*2; // + 1500 offset
+   val += PPM_CENTER*2; // + 1500*2 offset
 #ifdef FAILSAFE_ENABLE
    if(failsafe_count==1)
     {
@@ -273,7 +249,7 @@ static void HOTT_prep_data_packet()
       val|=0x8000;						// channel hold flag
      else
       {
-       val=(((fs<<2)+fs)>>2)+860*2;		// value range 860<->2140 *2 <-> -125%<->+125%
+       val=(((fs<<2)+fs)>>2)+860*2;		// value range 1720<->4280 <-> -125%<->+125%
        val|=0x4000;						// channel specific position flag
       }
     }
@@ -290,7 +266,7 @@ static void HOTT_prep_data_packet()
    packet_p2M[i] = val;
    packet_p2M[i+1] = val>>8;
   }
- upper ^= 0x01;										// toggle between CH9..CH12 and CH13..16
+ HOTT_CH_UPPER_P2M ^= 0x01;										// toggle between CH9..CH12 and CH13..16
 
  packet_p2M[28] = 0x80;									// no sensor
  packet_p2M[29] = 0x02;									// 0x02 when bind starts then when RX replies cycle in sequence 0x1A/22/2A/0A/12, 0x02 during normal packets, 0x01->text config menu, 0x0A->no more RX telemetry
@@ -327,14 +303,13 @@ static void HOTT_prep_data_packet()
      if(sub_protocol == HOTT_SYNC)
       packet_p2M[29] = ((HOTT_sensor_seq+1)<<3) | 2;	// Telemetry packet sequence
     }
-   //debugln("28=%02X,29=%02X",packet_p2M[28],packet_p2M[29]);
   }
 #endif
 
  CC2500_WriteReg(CC2500_06_PKTLEN, HOTT_TX_PACKET_LEN);
  CC2500_WriteRegisterMulti(CC2500_3F_TXFIFO, packet_p2M, HOTT_TX_PACKET_LEN);
- HOTT_HOP_FREQ_NO_P2M %= HOTT_NUM_RF_CHANNELS;
- HOTT_RF_CH_NUM_P2M =  channel_used_p2M[HOTT_HOP_FREQ_NO_P2M];
+ ++HOTT_HOP_FREQ_NO_P2M %= HOTT_NUM_RF_CHANNELS; // next frequency no
+ HOTT_RF_CH_NUM_P2M = channel_used_p2M[HOTT_HOP_FREQ_NO_P2M];
 }
 
 static uint16_t HOTT_cb()
@@ -585,7 +560,29 @@ static uint16_t HOTT_cb()
 static void HOTT_initialize(uint8_t bind)
 {
  HOTT_BIND_P2M = bind;
- HOTT_init();
+ CC2500_Reset();
+ loadrfidaddr();
+ srandom(g_eeGeneral.fixed_ID.ID_32);
+ HOTT_NUM_CHANNEL_P2M = random()%16;
+ HOTT_TXID_init();
+ HOTT_rf_init();
+ if (bind)
+  CC2500_SetPower(1);
+ else
+  CC2500_ManagePower();
+#ifdef HOTT_FW_TELEMETRY
+ HoTT_SerialRX_val=0;
+ HoTT_SerialRX=false;
+ HOTT_sensor_cur=3;
+ HOTT_sensor_pages=0;
+ HOTT_sensor_valid=false;
+ HOTT_sensor_seq=0;
+ for(uint8_t i=0; i<HOTT_SENSOR_TYPE; i++)
+  HOTT_sensor_ok[i]=false;	// no sensors detected
+ packet_count=0;
+ state=HOTT_SENSOR_SEARCH_PERIOD;
+#endif
+ HOTT_SEND_SEQ_P2M = HOTT_START;
  PROTO_Start_Callback( HOTT_cb);
 }
 
@@ -598,6 +595,7 @@ const void *HOTT_Cmds(enum ProtoCmds cmd)
    return 0;
   case PROTOCMD_RESET:
    PROTO_Stop_Callback();
+   CC2500_Reset();
    return 0;
   case PROTOCMD_BIND:
    HOTT_initialize(1);
