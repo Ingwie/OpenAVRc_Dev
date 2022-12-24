@@ -124,7 +124,6 @@ CommunicationsFrame::CommunicationsFrame(wxWindow* parent,wxWindowID id,const wx
     }
 
     //fills the comboxes with ini file defaults
-    if (dude_programmer == "wiring") dude_programmer = "stk500v2";
     ComboBox1->SetValue(dude_programmer);
     ComboBox2->SetValue(dude_port);
     ComboBox3->SetValue(dude_type);

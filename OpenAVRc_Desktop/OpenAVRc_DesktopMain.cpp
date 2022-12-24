@@ -509,7 +509,6 @@ void OpenAVRc_DesktopFrame::OnreadmodelsSelected(wxCommandEvent& event)//READ MO
     if (saveDialog.ShowModal() == wxID_CANCEL)
       return;
     wxString dude_tmpfile = (saveDialog.GetPath());
-    if (dude_programmer == "stk500v2") dude_programmer = "wiring";
     wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_ComPrefix+dude_port+dude_U+dude_eeprom+dude_read+dude_tmpfile+dude_raw;
     wxExecute(dude_send);//send command
   }
@@ -523,7 +522,6 @@ void OpenAVRc_DesktopFrame::OnreadfirmwareSelected(wxCommandEvent& event)//read 
     if (saveDialog.ShowModal() == wxID_CANCEL)
       return;
     wxString dude_tmpfile = (saveDialog.GetPath());
-    if (dude_programmer == "stk500v2") dude_programmer = "wiring";
     wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_ComPrefix+dude_port+dude_U+dude_flash+dude_read+dude_tmpfile+dude_intel;
     wxExecute(dude_send);
   }
@@ -537,7 +535,6 @@ void OpenAVRc_DesktopFrame::OnWriteModelToRadioSelected(wxCommandEvent& event)
     if (openFileDialog.ShowModal() == wxID_CANCEL)
       return;
     wxString dude_tmpfile = (openFileDialog.GetPath());
-    if (dude_programmer == "stk500v2") dude_programmer = "wiring";
     wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_ComPrefix+dude_port+dude_U+dude_eeprom+dude_write+dude_tmpfile+dude_raw;
     wxExecute(dude_send);
   }
@@ -554,7 +551,6 @@ void OpenAVRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& event
     if (bkup->ShowModal()!= wxID_OK)
       return;
     wxString dude_tmpfile = (openFileDialog.GetPath());//write firmware
-    if (dude_programmer == "stk500v2") dude_programmer = "wiring";
     wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_ComPrefix+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_intel;
     wxExecute(dude_send);
   }

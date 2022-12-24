@@ -240,7 +240,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   StaticText1 = new wxStaticText(Panel2, ID_STATICTEXT1, _("LCD"), wxPoint(16,80), wxSize(72,16), wxALIGN_RIGHT, _T("ID_STATICTEXT1"));
   ChoiceVOICE = new wxChoice(Panel2, ID_CHOICE3, wxPoint(96,144), wxSize(96,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE3"));
   ChoiceVOICE->SetToolTip(_("Option annonces vocales"));
-  StaticText3 = new wxStaticText(Panel2, ID_STATICTEXT3, _("Voice"), wxPoint(16,144), wxSize(72,16), wxALIGN_RIGHT, _T("ID_STATICTEXT3"));
+  StaticText3 = new wxStaticText(Panel2, ID_STATICTEXT3, _("Voice"), wxPoint(16,152), wxSize(72,16), wxALIGN_RIGHT, _T("ID_STATICTEXT3"));
   CheckBoxAUDIO = new wxCheckBox(Panel2, ID_CHECKBOX7, _("Audio"), wxPoint(96,176), wxSize(104,24), 0, wxDefaultValidator, _T("ID_CHECKBOX7"));
   CheckBoxAUDIO->SetValue(false);
   CheckBoxAUDIO->SetToolTip(_("Option audio"));
@@ -485,9 +485,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   StaticBox11 = new wxStaticBox(Panel5, ID_STATICBOX11, _("X-Any Options"), wxPoint(8,8), wxSize(280,328), 0, _T("ID_STATICBOX11"));
   Button1 = new wxButton(Panel5, ID_BUTTON8, _("Sauvegarder et sortir"), wxPoint(640,296), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTON8"));
   Button2 = new wxButton(Panel5, ID_BUTTON9, _("Compiler"), wxPoint(640,256), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTON9"));
-  ChoiceNUMXANY = new wxChoice(Panel5, ID_CHOICENUMXANY, wxPoint(168,80), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICENUMXANY"));
+  ChoiceNUMXANY = new wxChoice(Panel5, ID_CHOICENUMXANY, wxPoint(120,48), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICENUMXANY"));
   ChoiceNUMXANY->SetToolTip(_("Nombre d\'instances"));
-  StaticText29 = new wxStaticText(Panel5, ID_STATICTEXT29, _("Nb X-ANY"), wxPoint(112,88), wxSize(48,16), wxALIGN_RIGHT, _T("ID_STATICTEXT29"));
+  StaticText29 = new wxStaticText(Panel5, ID_STATICTEXT29, _("Nb X-ANY"), wxPoint(64,56), wxSize(48,16), wxALIGN_RIGHT, _T("ID_STATICTEXT29"));
   Notebook1->AddPage(Panel2, _("Réglages"), false);
   Notebook1->AddPage(Panel3, _("Options avancées"), false);
   Notebook1->AddPage(Panel4, _("Personnalisation"), false);
