@@ -105,6 +105,25 @@ protected:
   wxBitmap Bitmap;
 };
 
+class FirstFirmwareThread: public wxThread
+{
+public:
+  FirstFirmwareThread() : wxThread(wxTHREAD_DETACHED)
+  {
+    if(wxTHREAD_NO_ERROR == Create())
+    {
+      Run();
+    }
+  }
+protected:
+  virtual void* Entry()
+  {
+    simumain();
+    while (TestDestroy()) {Delete();}  /**< Auto closed ? */
+    return 0;
+  }
+};
+
 class MainFirmwareThread: public wxThread
 {
 public:
@@ -389,6 +408,7 @@ private:
   wxBitmap SimuLcd_Bitmap;
   wxMemoryDC* SimuLcd_MemoryDC;
 
+  FirstFirmwareThread* FirstFWThread;
   MainFirmwareThread* MainFWThread;
   Isr10msFirmwareThread* Isr10msFWThread;
   BeepThread* BeepFWThread;

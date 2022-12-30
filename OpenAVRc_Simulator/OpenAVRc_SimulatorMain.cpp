@@ -692,7 +692,7 @@ void OpenAVRc_SimulatorFrame::StartFirmwareCode()
   s_anaFilt[7] = 1024; // 7.62 V Battery (7.22V adc + 0.4 V Schottky Diode)
 
   Timer10ms.StartOnce(TIMER_10_MS_TIME); //Simulate 10mS Interrupt vector
-  simumain();
+  FirstFWThread = new FirstFirmwareThread;
   CheckActiveProtocols();
   TimerMain.StartOnce(TIMER_MAIN_TIME); // Simulate ?mS cycle for mainloop function
   MenuFile->Enable(IDMENUEXPORTEEPROM, true);
@@ -709,7 +709,7 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
 {
   event.Skip();
 
-  if (simu_mainloop_is_runing) // Avoid re-entrance
+  if ((simu_mainloop_is_runing) || simu_firstloop_is_runing) // Avoid re-entrance and wait start code done
     {
       TimerMain.StartOnce(1); //whait 1 mS
       return;

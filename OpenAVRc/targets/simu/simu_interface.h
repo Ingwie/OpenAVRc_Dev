@@ -130,10 +130,11 @@ extern unsigned char simu_eeprom[];
 extern void simu_eepromReadBlock (uint8_t * pointer_ram, uint16_t pointer_eeprom, uint16_t size);
 
 
-extern bool simu_mainloop_is_runing; //main run signal
-extern bool ISR10msLoop_is_runing; //10 ms interupt run signal
-extern bool simu_shutDownSimu_is_runing; //main run signal
-extern bool simu_off; //Off signal
+extern volatile bool simu_firstloop_is_runing; //first run signal
+extern volatile bool simu_mainloop_is_runing; //main run signal
+extern volatile bool ISR10msLoop_is_runing; //10 ms interupt run signal
+extern volatile bool simu_shutDownSimu_is_runing; //main run signal
+extern volatile bool simu_off; //Off signal
 
 extern void PlayBeep(uint32_t freq, uint32_t time);
 

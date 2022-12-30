@@ -1561,6 +1561,7 @@ int16_t main()
 #else
 int16_t simumain()
 {
+  simu_firstloop_is_runing = true;
   simu_off = false;
 #endif
 
@@ -1617,8 +1618,8 @@ int16_t simumain()
 
 #if !defined(SIMU)
   while (1) {
-#else // Simu main loop function
-  SimuMainLoop();
+#else // exit first loop thread
+  simu_firstloop_is_runing = false;
   return 0;
 } // Close simumain()
 void SimuMainLoop() // Create loop function
