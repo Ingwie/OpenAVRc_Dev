@@ -435,3 +435,7 @@ const pm_char STR_BT_PAIR[] PROGMEM = TR_BT_PAIR;
 const pm_char STR_AUTOCON[] PROGMEM = TR_AUTOCON;
 const pm_char STR_RESCANN[] PROGMEM = TR_RESCANN;
 #endif
+
+#if defined(SCC)
+const pm_char STR_SCC[] PROGMEM = TR_SCC;
+#endif

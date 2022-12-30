@@ -39,6 +39,7 @@
 void menuGeneralSetup(uint8_t event);
 void menuGeneralSdManager(uint8_t event);
 void menuGeneralBluetooth(uint8_t event);
+void menuGeneralScc(uint8_t event);
 void menuGeneralTrainer(uint8_t event);
 void menuGeneralVersion(uint8_t event);
 void menuGeneralDiagKeys(uint8_t event);
@@ -50,6 +51,7 @@ enum EnumTabDiag {
   e_Setup,
   CASE_SDCARD(e_Sd)
   CASE_BLUETOOTH(e_Bluetooth)
+  CASE_SCC(e_Scc)
   e_Trainer,
   e_Vers,
   e_Keys,
@@ -61,6 +63,7 @@ const MenuFuncP_PROGMEM menuTabGeneral[] PROGMEM = {
   menuGeneralSetup,
   CASE_SDCARD(menuGeneralSdManager)
   CASE_BLUETOOTH(menuGeneralBluetooth)
+  CASE_SCC(menuGeneralScc)
   menuGeneralTrainer,
   menuGeneralVersion,
   menuGeneralDiagKeys,

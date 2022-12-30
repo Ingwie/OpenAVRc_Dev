@@ -496,3 +496,6 @@
  #define TR_AUTOCON                       "Auto-con."
  #define TR_RESCANN                       "Re-Scan"
 #endif
+#if defined(SCC)
+ #define TR_SCC                           "CHANNEL CHANGER"
+#endif

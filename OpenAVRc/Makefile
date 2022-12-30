@@ -43,6 +43,10 @@ BLUETOOTH = NO
 # Values = YES, NO
 XMODEM = NO
 
+# Enable SCC menu
+# Values = YES, NO
+SCC = YES
+
 # Enable heli menu
 # Values = YES, NO
 HELI = NO
@@ -1063,6 +1067,11 @@ ifeq ($(XMODEM), YES)
   GUIMODELSRC += $(XMODEMDIR)/xmodem.cpp
 endif
 
+ifeq ($(SCC), YES)
+  CPPDEFS += -DSCC
+  GUIMODELSRC += gui/menu_general_scc.cpp scc.cpp
+endif
+
 ifeq ($(need_Serial1), YES)
 	CPPSRC += Serial1.cpp
 endif
@@ -1127,6 +1136,7 @@ CPPFLAGS += $(CPPDEFS)
 CPPFLAGS += -Wall
 CPPFLAGS += -mrelax
 CPPFLAGS += -fno-exceptions
+CPPFLAGS += -fno-threadsafe-statics
 CPPFLAGS += -Wno-strict-aliasing
 CPPFLAGS += -Wformat -Wreturn-type -Wunused -Wuninitialized -Wunknown-pragmas -Wno-switch -Wtype-limits
 INCFLAGS = $(patsubst %,-I%,$(INCDIRS))

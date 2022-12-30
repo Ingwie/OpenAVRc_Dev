@@ -564,4 +564,8 @@ extern const pm_char STR_AUTOCON[];
 extern const pm_char STR_RESCANN[];
 #endif
 
+#if defined(SCC)
+extern const pm_char STR_SCC[];
+#endif
+
 #endif
