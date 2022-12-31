@@ -106,7 +106,7 @@
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
 							<label>Voice</label>
-							<pos>16,144</pos>
+							<pos>16,152</pos>
 							<size>72,16</size>
 							<style>wxALIGN_RIGHT</style>
 						</object>
@@ -546,6 +546,11 @@
 							<label>Protocole Série</label>
 							<pos>24,104</pos>
 						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX13" variable="CheckBoxSCC" member="yes">
+							<label>SCC</label>
+							<pos>688,64</pos>
+							<size>58,16</size>
+						</object>
 					</object>
 					<label>Options avancées</label>
 				</object>
@@ -920,14 +925,14 @@
 						</object>
 						<object class="wxChoice" name="ID_CHOICENUMXANY" variable="ChoiceNUMXANY" member="yes">
 							<selection>0</selection>
-							<pos>168,80</pos>
+							<pos>120,48</pos>
 							<size>48,24</size>
 							<tooltip>Nombre d&apos;instances</tooltip>
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHOICE" />
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT29" variable="StaticText29" member="yes">
 							<label>Nb X-ANY</label>
-							<pos>112,88</pos>
+							<pos>64,56</pos>
 							<size>48,16</size>
 							<style>wxALIGN_RIGHT</style>
 						</object>

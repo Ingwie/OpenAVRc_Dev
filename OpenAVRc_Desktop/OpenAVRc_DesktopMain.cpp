@@ -183,6 +183,7 @@ bool INV_STICK_RV = 0;
 bool INV_STICK_LH = 0;
 wxString BLUETOOTH = ("NO");
 bool XMODEM = 0;
+bool SCC = 0;
 
 wxString switch1 = ("THR");
 wxString switch2 = ("RUD");
@@ -510,7 +511,6 @@ void OpenAVRc_DesktopFrame::OnreadmodelsSelected(wxCommandEvent& event)//READ MO
     if (saveDialog.ShowModal() == wxID_CANCEL)
       return;
     wxString dude_tmpfile = (saveDialog.GetPath());
-    if (dude_programmer == "stk500v2") dude_programmer = "wiring";
     wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_ComPrefix+dude_port+dude_U+dude_eeprom+dude_read+dude_tmpfile+dude_raw;
     wxExecute(dude_send);//send command
   }
@@ -524,7 +524,6 @@ void OpenAVRc_DesktopFrame::OnreadfirmwareSelected(wxCommandEvent& event)//read 
     if (saveDialog.ShowModal() == wxID_CANCEL)
       return;
     wxString dude_tmpfile = (saveDialog.GetPath());
-    if (dude_programmer == "stk500v2") dude_programmer = "wiring";
     wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_ComPrefix+dude_port+dude_U+dude_flash+dude_read+dude_tmpfile+dude_intel;
     wxExecute(dude_send);
   }
@@ -538,7 +537,6 @@ void OpenAVRc_DesktopFrame::OnWriteModelToRadioSelected(wxCommandEvent& event)
     if (openFileDialog.ShowModal() == wxID_CANCEL)
       return;
     wxString dude_tmpfile = (openFileDialog.GetPath());
-    if (dude_programmer == "stk500v2") dude_programmer = "wiring";
     wxString dude_send = keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_ComPrefix+dude_port+dude_U+dude_eeprom+dude_write+dude_tmpfile+dude_raw;
     wxExecute(dude_send);
   }
@@ -555,7 +553,6 @@ void OpenAVRc_DesktopFrame::OnWriteFirmwareToRadioSelected(wxCommandEvent& event
     if (bkup->ShowModal()!= wxID_OK)
       return;
     wxString dude_tmpfile = (openFileDialog.GetPath());//write firmware
-    if (dude_programmer == "stk500v2") dude_programmer = "wiring";
     wxString dude_send =keepopen+avrdudepath+dude_c+dude_programmer+dude_p+dude_type+dude_D+dude_P+dude_ComPrefix+dude_port+dude_U+dude_flash+dude_write+dude_tmpfile+dude_intel;
     wxExecute(dude_send);
   }
@@ -705,6 +702,7 @@ void OpenAVRc_DesktopFrame::LoadConfig(wxString temp)
   configFile->Read(wxT("FRAM"),&FRAM);
   configFile->Read(wxT("BLUETOOTH"),&BLUETOOTH);
   configFile->Read(wxT("XMODEM"),&XMODEM);
+  configFile->Read(wxT("SCC"),&SCC);
   configFile->Read(wxT("PERSONAMES"),&PERSONAMES);
   configFile->Read(wxT("DBLGAZSTICK"),&DBLGAZSTICK);
   configFile->Read(wxT("OTHERCOMPOPTIONS"),&OTHERCOMPOPTIONS);
@@ -842,6 +840,7 @@ extern void OpenAVRc_DesktopFrame::SaveConfig()
   configFile->Write(wxT("FRAM"),FRAM);
   configFile->Write(wxT("BLUETOOTH"),BLUETOOTH);
   configFile->Write(wxT("XMODEM"),XMODEM);
+  configFile->Write(wxT("SCC"),SCC);
   configFile->Write(wxT("PERSONAMES"),PERSONAMES);
   configFile->Write(wxT("DBLGAZSTICK"),DBLGAZSTICK);
   configFile->Write(wxT("OTHERCOMPOPTIONS"),OTHERCOMPOPTIONS);

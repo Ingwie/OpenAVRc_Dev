@@ -141,6 +141,7 @@ const long CompilerOptionsFrame::ID_PROTOPCMCHOICE = wxNewId();
 const long CompilerOptionsFrame::ID_PROTOSERIALCHOICE = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT200 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICTEXT31 = wxNewId();
+const long CompilerOptionsFrame::ID_CHECKBOX13 = wxNewId();
 const long CompilerOptionsFrame::ID_PANEL3 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX7 = wxNewId();
 const long CompilerOptionsFrame::ID_STATICBOX14 = wxNewId();
@@ -242,7 +243,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   StaticText1 = new wxStaticText(Panel2, ID_STATICTEXT1, _("LCD"), wxPoint(16,80), wxSize(72,16), wxALIGN_RIGHT, _T("ID_STATICTEXT1"));
   ChoiceVOICE = new wxChoice(Panel2, ID_CHOICE3, wxPoint(96,144), wxSize(96,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE3"));
   ChoiceVOICE->SetToolTip(_("Option annonces vocales"));
-  StaticText3 = new wxStaticText(Panel2, ID_STATICTEXT3, _("Voice"), wxPoint(16,144), wxSize(72,16), wxALIGN_RIGHT, _T("ID_STATICTEXT3"));
+  StaticText3 = new wxStaticText(Panel2, ID_STATICTEXT3, _("Voice"), wxPoint(16,152), wxSize(72,16), wxALIGN_RIGHT, _T("ID_STATICTEXT3"));
   CheckBoxAUDIO = new wxCheckBox(Panel2, ID_CHECKBOX7, _("Audio"), wxPoint(96,176), wxSize(104,24), 0, wxDefaultValidator, _T("ID_CHECKBOX7"));
   CheckBoxAUDIO->SetValue(false);
   CheckBoxAUDIO->SetToolTip(_("Option audio"));
@@ -393,6 +394,8 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   ChoiceSERIAL_PROTOCOL = new wxChoice(Panel3, ID_PROTOSERIALCHOICE, wxPoint(24,120), wxSize(112,23), 0, 0, 0, wxDefaultValidator, _T("ID_PROTOSERIALCHOICE"));
   StaticText200 = new wxStaticText(Panel3, ID_STATICTEXT200, _("Protocole Pcm"), wxPoint(24,64), wxDefaultSize, 0, _T("ID_STATICTEXT200"));
   StaticText31 = new wxStaticText(Panel3, ID_STATICTEXT31, _("Protocole Série"), wxPoint(24,104), wxDefaultSize, 0, _T("ID_STATICTEXT31"));
+  CheckBoxSCC = new wxCheckBox(Panel3, ID_CHECKBOX13, _("SCC"), wxPoint(688,64), wxSize(58,16), 0, wxDefaultValidator, _T("ID_CHECKBOX13"));
+  CheckBoxSCC->SetValue(false);
   Panel4 = new wxPanel(Notebook1, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL4"));
   StaticBox7 = new wxStaticBox(Panel4, ID_STATICBOX7, _("Nom des interrupteurs"), wxPoint(8,8), wxSize(504,328), 0, _T("ID_STATICBOX7"));
   StaticBox14 = new wxStaticBox(Panel4, ID_STATICBOX14, _("Manches"), wxPoint(368,32), wxSize(128,176), 0, _T("ID_STATICBOX14"));
@@ -489,9 +492,9 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   StaticBox11 = new wxStaticBox(Panel5, ID_STATICBOX11, _("X-Any Options"), wxPoint(8,8), wxSize(280,328), 0, _T("ID_STATICBOX11"));
   Button1 = new wxButton(Panel5, ID_BUTTON8, _("Sauvegarder et sortir"), wxPoint(640,296), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTON8"));
   Button2 = new wxButton(Panel5, ID_BUTTON9, _("Compiler"), wxPoint(640,256), wxSize(128,24), 0, wxDefaultValidator, _T("ID_BUTTON9"));
-  ChoiceNUMXANY = new wxChoice(Panel5, ID_CHOICENUMXANY, wxPoint(168,80), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICENUMXANY"));
+  ChoiceNUMXANY = new wxChoice(Panel5, ID_CHOICENUMXANY, wxPoint(120,48), wxSize(48,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICENUMXANY"));
   ChoiceNUMXANY->SetToolTip(_("Nombre d\'instances"));
-  StaticText29 = new wxStaticText(Panel5, ID_STATICTEXT29, _("Nb X-ANY"), wxPoint(112,88), wxSize(48,16), wxALIGN_RIGHT, _T("ID_STATICTEXT29"));
+  StaticText29 = new wxStaticText(Panel5, ID_STATICTEXT29, _("Nb X-ANY"), wxPoint(64,56), wxSize(48,16), wxALIGN_RIGHT, _T("ID_STATICTEXT29"));
   Notebook1->AddPage(Panel2, _("Réglages"), false);
   Notebook1->AddPage(Panel3, _("Options avancées"), false);
   Notebook1->AddPage(Panel4, _("Personnalisation"), false);
@@ -696,6 +699,7 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
   CheckBoxFRAM->SetValue(FRAM);
   ChoiceBLUETOOTH->SetStringSelection(BLUETOOTH);
   CheckBoxXMODEM->SetValue(XMODEM);
+  CheckBoxSCC->SetValue(SCC);
   CheckBoxPERSONAMES->SetValue(PERSONAMES);
   CheckBoxDBLGAZSTICK->SetValue(DBLGAZSTICK);
   TextCtrlOTHERCOMPOPTIONS->SetValue(OTHERCOMPOPTIONS);
@@ -851,6 +855,7 @@ void CompilerOptionsFrame::BatFunction()
   if (INV_STICK_LH) CompiBat += (" INV_STICK_LH=YES");
   CompiBat += (" BLUETOOTH=" + BLUETOOTH);
   if (XMODEM) CompiBat += (" XMODEM=YES");
+  if (SCC) CompiBat += (" SCC=YES");
   if (PERSONAMES)
     {
       CompiBat += (" PERSONAMES=YES");
@@ -943,6 +948,7 @@ void CompilerOptionsFrame::CollectDatas()
   FRAM = CheckBoxFRAM->GetValue();
   BLUETOOTH = ChoiceBLUETOOTH->GetString(ChoiceBLUETOOTH->GetSelection());
   XMODEM = CheckBoxXMODEM->GetValue();
+  SCC = CheckBoxSCC->GetValue();
   PERSONAMES = CheckBoxPERSONAMES->GetValue();
   DBLGAZSTICK = CheckBoxDBLGAZSTICK->GetValue();
   OTHERCOMPOPTIONS = TextCtrlOTHERCOMPOPTIONS->GetValue();
@@ -1219,6 +1225,16 @@ void CompilerOptionsFrame::OnCheckBoxXMODEMClick(wxCommandEvent& event)
     {
       wxMessageBox(_("Necessite SD_CARD"));
       CheckBoxXMODEM->SetValue(0);
+    }
+}
+
+void CompilerOptionsFrame::OnCheckBoxSCCClick(wxCommandEvent& event)
+{
+  CollectDatas();
+  if (SCC)
+    {
+      //wxMessageBox(_("Necessite SD_CARD"));
+      CheckBoxSCC->SetValue(0);
     }
 }
 

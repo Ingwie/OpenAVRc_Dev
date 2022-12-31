@@ -119,6 +119,7 @@ extern bool SHUTDOWN_CONFIRMATION;
 extern bool FRAM;
 extern wxString BLUETOOTH;
 extern bool XMODEM;
+extern bool SCC;
 extern bool PERSONAMES;
 extern bool DBLGAZSTICK;
 extern wxString OTHERCOMPOPTIONS;
@@ -206,6 +207,7 @@ public:
     wxCheckBox* CheckBoxPPM_CENTER_ADJUSTABLE;
     wxCheckBox* CheckBoxPPM_LIMITS_SYMETRICAL;
     wxCheckBox* CheckBoxPWM_BACKLIGHT;
+    wxCheckBox* CheckBoxSCC;
     wxCheckBox* CheckBoxSD_CARD;
     wxCheckBox* CheckBoxSHUTDOWN_CONFIRMATION;
     wxCheckBox* CheckBoxSPLASH;
@@ -407,6 +409,7 @@ protected:
     static const long ID_PROTOSERIALCHOICE;
     static const long ID_STATICTEXT200;
     static const long ID_STATICTEXT31;
+    static const long ID_CHECKBOX13;
     static const long ID_PANEL3;
     static const long ID_STATICBOX7;
     static const long ID_STATICBOX14;
@@ -582,6 +585,7 @@ private:
     void OnComboBoxEncodeurBSelected(wxCommandEvent& event);
     void OnCheckBoxSD_CARDClick(wxCommandEvent& event);
     void OnCheckBoxXMODEMClick(wxCommandEvent& event);
+    void OnCheckBoxSCCClick(wxCommandEvent& event);
     //*)
 
     DECLARE_EVENT_TABLE()
