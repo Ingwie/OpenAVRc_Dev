@@ -60,10 +60,16 @@ extern uint16_t dt;
 // 72 (A 16 Channel PPM frame has 34 timing events + 1 int terminator).
 #define PULSES_BYTE_SIZE  (PULSES_WORD_SIZE * 2)
 
+#if (PCM_PROTOCOL==YES)
+#include "../protocol/PROTO_PCM.h"
+#endif
 union p2mhz_t
 {
   uint16_t pword[PULSES_WORD_SIZE];
   uint8_t  pbyte[PULSES_BYTE_SIZE]; // 144
+#if (PCM_PROTOCOL==YES)
+	PcmSt_t  Pcm;
+#endif
 } pulses2MHz;
 
 enum ppmtype{

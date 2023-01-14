@@ -40,6 +40,12 @@
 
 #define IS_PPM_PROTOCOL(protocol)          (protocol<=PROTOCOL_PPMSIM)
 
+#if (PCM_PROTOCOL==YES)
+  #define IS_PCM_PROTOCOL(protocol)  (protocol==PROTOCOL_PCM)
+#else
+  #define IS_PCM_PROTOCOL(protocol)  (0)
+#endif
+
 #if (SERIAL_PROTOCOL==DSM)
   #define IS_DSM2_SERIAL_PROTOCOL(protocol)  (protocol==PROTOCOL_DSM_SERIAL)
 #else

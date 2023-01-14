@@ -76,11 +76,11 @@ extern bool RTCLOCK;//defaults to NO
 extern bool SPORT_FILE_LOG;//defaults to NO
 extern bool PPM;//defaults to YES
 extern wxString SERIAL_PROTOCOL;//defaults to NO
+extern wxString PCM_PROTOCOL;//defaults to NO
 extern bool CC2500;//defaults to NO
 extern bool CYRF6936;//defaults to NO
 extern bool NRF24l01;//defaults to NO
 extern bool A7105;//defaults to NO
-extern bool SX1276;//defaults to NO
 extern wxString CC2500PAG;//defaults to 0
 extern wxString CYRF6936PAG;//defaults to 0
 extern wxString NRF24l01PAG;//defaults to 0
@@ -118,6 +118,7 @@ extern bool SHUTDOWN_CONFIRMATION;
 extern bool FRAM;
 extern wxString BLUETOOTH;
 extern bool XMODEM;
+extern bool SCC;
 extern bool PERSONAMES;
 extern bool DBLGAZSTICK;
 extern wxString OTHERCOMPOPTIONS;
@@ -205,10 +206,10 @@ public:
     wxCheckBox* CheckBoxPPM_CENTER_ADJUSTABLE;
     wxCheckBox* CheckBoxPPM_LIMITS_SYMETRICAL;
     wxCheckBox* CheckBoxPWM_BACKLIGHT;
+    wxCheckBox* CheckBoxSCC;
     wxCheckBox* CheckBoxSD_CARD;
     wxCheckBox* CheckBoxSHUTDOWN_CONFIRMATION;
     wxCheckBox* CheckBoxSPLASH;
-    wxCheckBox* CheckBoxSX1276;
     wxCheckBox* CheckBoxTEMPLATES;
     wxCheckBox* CheckBoxTOGGLETRIM;
     wxCheckBox* CheckBoxVARIO;
@@ -227,6 +228,7 @@ public:
     wxChoice* ChoiceNRF24l01PAG;
     wxChoice* ChoiceNUMXANY;
     wxChoice* ChoicePCB;
+    wxChoice* ChoicePCM_PROTOCOL;
     wxChoice* ChoicePPM_UNIT ;
     wxChoice* ChoiceSERIAL_PROTOCOL;
     wxChoice* ChoiceTHREE_POS;
@@ -284,6 +286,7 @@ public:
     wxStaticText* StaticText18;
     wxStaticText* StaticText19;
     wxStaticText* StaticText1;
+    wxStaticText* StaticText200;
     wxStaticText* StaticText20;
     wxStaticText* StaticText21;
     wxStaticText* StaticText22;
@@ -393,15 +396,17 @@ protected:
     static const long ID_CHECKBOX23;
     static const long ID_CHECKBOX24;
     static const long ID_CHECKBOX25;
-    static const long ID_CHECKBOX35;
     static const long ID_CHECKBOX29;
     static const long ID_CHOICECYRF6936PAG;
     static const long ID_STATICTEXT28;
     static const long ID_CHECKBOX34;
     static const long ID_CHOICEBLUETOOTH;
     static const long ID_STATICTEXT30;
+    static const long ID_PROTOPCMCHOICE;
     static const long ID_PROTOSERIALCHOICE;
+    static const long ID_STATICTEXT200;
     static const long ID_STATICTEXT31;
+    static const long ID_CHECKBOX13;
     static const long ID_PANEL3;
     static const long ID_STATICBOX7;
     static const long ID_STATICBOX14;
@@ -577,6 +582,7 @@ private:
     void OnComboBoxEncodeurBSelected(wxCommandEvent& event);
     void OnCheckBoxSD_CARDClick(wxCommandEvent& event);
     void OnCheckBoxXMODEMClick(wxCommandEvent& event);
+    void OnCheckBoxSCCClick(wxCommandEvent& event);
     //*)
 
     DECLARE_EVENT_TABLE()

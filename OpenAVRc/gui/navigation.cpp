@@ -256,6 +256,13 @@ void check(check_event_t event, uint8_t curr, const MenuHandlerFunc *menuTab, ui
       }
 
       if (cc != curr) {
+#if defined(SCC)
+        if ((MenuHandlerFunc)pgm_read_word_near(&menuTab[curr]) == menuGeneralScc)
+        {
+          // We are leaving the SCC menu: set SCC pin as output and disable Pin Change Interrupt
+          scc_end();
+        }
+#endif
         chainMenu((MenuHandlerFunc)pgm_read_word_near(&menuTab[cc]));
       }
 

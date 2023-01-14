@@ -3,7 +3,7 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="OpenAVRc" />
-		<Option platforms="Windows;" />
+		<Option platforms="Windows;Unix;" />
 		<Option makefile_is_custom="1" />
 		<Option execution_dir="../OpenAVRc" />
 		<Option pch_mode="2" />
@@ -30,7 +30,7 @@
 					<Add option="-Os" />
 				</Compiler>
 				<Environment>
-					<Variable name="Banctestspimodules" value="SERIAL_PROTOCOL=CRSF OTHERCOMPOPTIONS=-Dtoto*-Dtata LCD=KS108 XMODEM=YES DEBUGaa=UART_BT BLUETOOTH=YES SDCARD=YES LCDROT180=NO X_ANY=4 PWM_BACKLIGHT=NO EXT=FRSKY RTCLOCK=YES FONT=SQT5 EXTERNALEEPROM=YES NAVIGATION=STICKS OFFSET_ON_INPUT=YES BOLD=YES 3POS=POT3 VOICE=JQ6500 NOANDSECONDE=YES PCB=MEGAMINI TEMPLATES=YES HELI=YES GVARS=YES EEPROM_PROGRESS_BAR=YES DEFAULT_MODE=2 DBLKEYS=YES CURVES=YES AUTOSWITCH=YES AUTOSOURCE=NO HAPTIC=YES PPM_CENTER_ADJUSTABLE=YES PPM_LIMITS_SYMETRICAL=YES PPM_UNIT=PERCENT_PREC1 AUDIO=YES BATTGRAPH=YES HARDWARE_VOLUME=NO GPS=YES SPIMODULES=YES CC2500=YES CC2500PAG=22 CYRF6936=YES CYRF6936PAG=22 NRF24L01=YES NRF24L01PAG=22 A7105=YES A7105PAG=22 TRANSLATIONS=FR" />
+					<Variable name="Banctestspimodules" value="SERIAL_PROTOCOL=CRSF SCC=YES OTHERCOMPOPTIONS=-Dtoto*-Dtata LCD=KS108 XMODEM=YES DEBUGaa=UART_BT BLUETOOTH=YES SDCARD=YES LCDROT180=NO X_ANY=4 PWM_BACKLIGHT=NO EXT=FRSKY RTCLOCK=YES FONT=SQT5 EXTERNALEEPROM=YES NAVIGATION=STICKS OFFSET_ON_INPUT=YES BOLD=YES 3POS=POT3 VOICE=JQ6500 NOANDSECONDE=YES PCB=MEGAMINI TEMPLATES=YES HELI=YES GVARS=YES EEPROM_PROGRESS_BAR=YES DEFAULT_MODE=2 DBLKEYS=YES CURVES=YES AUTOSWITCH=YES AUTOSOURCE=NO HAPTIC=YES PPM_CENTER_ADJUSTABLE=YES PPM_LIMITS_SYMETRICAL=YES PPM_UNIT=PERCENT_PREC1 AUDIO=YES BATTGRAPH=YES HARDWARE_VOLUME=NO GPS=YES SPIMODULES=YES CC2500=YES CC2500PAG=22 CYRF6936=YES CYRF6936PAG=22 NRF24L01=YES NRF24L01PAG=22 A7105=YES A7105PAG=22 TRANSLATIONS=FR" />
 					<Variable name="Mataf" value="PCB=MEGAMINI LCD=NT7538SPI" />
 				</Environment>
 				<MakeCommands>
@@ -196,6 +196,8 @@
 		<Unit filename="protocol/MULTI_SERIAL.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="protocol/PROTO_PCM.cpp" />
+		<Unit filename="protocol/PROTO_PCM.h" />
 		<Unit filename="protocol/PROTO_PPM.cpp" />
 		<Unit filename="protocol/PROTO_PPM16.cpp" />
 		<Unit filename="protocol/PROTO_PPMSIM.cpp" />
@@ -247,6 +249,8 @@
 		<Unit filename="pulses/pulses_avr.cpp" />
 		<Unit filename="pulses/pulses_avr.h" />
 		<Unit filename="rtc_driver.cpp" />
+		<Unit filename="scc.cpp" />
+		<Unit filename="scc.h" />
 		<Unit filename="sdcard.cpp" />
 		<Unit filename="sdcard.h" />
 		<Unit filename="spi.c">
@@ -363,6 +367,11 @@
 		<Extensions>
 			<envvars set="python" />
 			<lib_finder disable_auto="1" />
+			<wxsmith version="1">
+				<gui name="wxWidgets" src="" main="" init_handlers="necessary" language="CPP" />
+			</wxsmith>
+			<code_completion />
+			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

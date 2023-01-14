@@ -95,6 +95,7 @@ extern void drawPotsBars();
 extern void doMainScreenGraphics();
 extern void menuFirstCalib(uint8_t event);
 extern void menuGeneralBluetooth(uint8_t event);
+extern void menuGeneralScc(uint8_t event);
 
 
 extern void onMainViewMenu(const char *result);

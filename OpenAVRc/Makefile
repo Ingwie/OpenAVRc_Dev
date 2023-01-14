@@ -36,12 +36,16 @@ FAI = NO
 SDCARD = NO
 
 # Use Bluetooth
-# Values = NO, HC05, HM10
+# Values = NO, HC05
 BLUETOOTH = NO
 
 # Use xmodem
 # Values = YES, NO
 XMODEM = NO
+
+# Enable SCC menu
+# Values = YES, NO
+SCC = YES
 
 # Enable heli menu
 # Values = YES, NO
@@ -141,6 +145,10 @@ RTCLOCK = YES
 # Serial protocol
 # Values = NO, DSM, MULTIMODULE, CRSF, SBUS, SUMD
 SERIAL_PROTOCOL = NO
+
+# Pcm protocol
+# Values = NO, YES
+PCM_PROTOCOL = NO
 
 # TRANSLATIONS
 # Values = cz, de, en, fi, fr, it, se, es, pl, pt, nl, sk
@@ -749,7 +757,9 @@ ifeq ($(PCB), MEGA2560)
    		CPPDEFS += -DPROTO_HAS_A7105
  	  	CPPDEFS += -DA7105PA_GAIN=$(A7105PAG)
   	endif
+
   endif
+
 
 	ifneq ($(X_ANY), NO)
 	CPPSRC += Xany.cpp gui/menu_model_Xany.cpp
@@ -1021,6 +1031,11 @@ ifeq ($(XMODEM), YES)
   GUIMODELSRC += $(XMODEMDIR)/xmodem.cpp
 endif
 
+ifeq ($(SCC), YES)
+  CPPDEFS += -DSCC
+  GUIMODELSRC += gui/menu_general_scc.cpp scc.cpp
+endif
+
 ifeq ($(need_Serial1), YES)
 	CPPSRC += Serial1.cpp
 endif
@@ -1080,6 +1095,7 @@ CPPFLAGS += $(CPPDEFS)
 CPPFLAGS += -Wall
 CPPFLAGS += -mrelax
 CPPFLAGS += -fno-exceptions
+#CPFLAGS += -fno-threadsafe-statics
 CPPFLAGS += -Wno-strict-aliasing
 CPPFLAGS += -Wformat -Wreturn-type -Wunused -Wuninitialized -Wunknown-pragmas -Wno-switch -Wtype-limits
 INCFLAGS = $(patsubst %,-I%,$(INCDIRS))

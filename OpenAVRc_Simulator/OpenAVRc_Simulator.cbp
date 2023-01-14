@@ -307,6 +307,8 @@
 			<Add option="-DU_CLI" />
 			<Add option="-DXMODEM" />
 			<Add option="-DBLUETOOTH" />
+			<Add option="-DPCM_PROTOCOL" />
+			<Add option="-DSCC" />
 			<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/include" />
 			<Add directory="$(PROJECT_DIR)" />
 		</Compiler>
@@ -350,6 +352,7 @@
 		<Unit filename="../OpenAVRc/gui/menu_general_calib.cpp" />
 		<Unit filename="../OpenAVRc/gui/menu_general_diaganas.cpp" />
 		<Unit filename="../OpenAVRc/gui/menu_general_diagkeys.cpp" />
+		<Unit filename="../OpenAVRc/gui/menu_general_scc.cpp" />
 		<Unit filename="../OpenAVRc/gui/menu_general_sdmanager.cpp" />
 		<Unit filename="../OpenAVRc/gui/menu_general_setup.cpp" />
 		<Unit filename="../OpenAVRc/gui/menu_general_trainer.cpp" />
@@ -465,6 +468,11 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
+		<Unit filename="../OpenAVRc/protocol/PROTO_PCM.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/PROTO_PCM.h" />
 		<Unit filename="../OpenAVRc/protocol/PROTO_PPM.cpp">
 			<Option compile="0" />
 			<Option link="0" />
@@ -523,6 +531,8 @@
 		<Unit filename="../OpenAVRc/pulses/pulses_avr.cpp" />
 		<Unit filename="../OpenAVRc/pulses/pulses_avr.h" />
 		<Unit filename="../OpenAVRc/rtc_driver.cpp" />
+		<Unit filename="../OpenAVRc/scc.cpp" />
+		<Unit filename="../OpenAVRc/scc.h" />
 		<Unit filename="../OpenAVRc/sdcard.cpp" />
 		<Unit filename="../OpenAVRc/sdcard.h" />
 		<Unit filename="../OpenAVRc/spi.c">

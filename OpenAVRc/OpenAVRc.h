@@ -200,6 +200,13 @@ static uint16_t DurationValue;
   #define CASE_BLUETOOTH(x)
 #endif
 
+#if defined(SCC)
+  #define CASE_SCC(x) x,
+  #include "scc.h"
+#else
+  #define CASE_SCC(x)
+#endif
+
 #if defined(HELI)
   #define CASE_HELI(x) x,
 #else
@@ -710,14 +717,42 @@ PACK(typedef struct {
 
 extern gazSecurity_t gazSecurity;
 
+#if defined(X_ANY)
+#define XANY_SUPPORT    1
+#else
+#define XANY_SUPPORT    0
+#endif
+
+#if defined(SCC)
+#define SCC_SUPPORT     1
+#else
+#define SCC_SUPPORT     0
+#endif
+
+#define SYST_BITS_NB (7 + XANY_SUPPORT + SCC_SUPPORT) // Compute the needed system bits at compilation time
+
+// Define the needed integer type which can contain all the system bits
+#if (SYST_BITS_NB <= 8)
+#define SYST_BITS_UINT_TYPE uint8_t
+#else
+#define SYST_BITS_UINT_TYPE uint16_t
+#endif
+#if (SYST_BITS_NB > 16)
+Error To mutch systembools !
+#endif
 PACK(typedef struct {
-  uint8_t pwrCheck:1;
-  uint8_t rangeModeIsOn:1;
-  uint8_t protoMode:1; // Normal, Bind
-  uint8_t s_mixer_first_run_done:1;
-  uint8_t puppyPpmSignalOk:1;
-  uint8_t x_any_Phase:1;
-  uint8_t stickMode:2;
+  SYST_BITS_UINT_TYPE pwrCheck:1;
+  SYST_BITS_UINT_TYPE rangeModeIsOn:1;
+  SYST_BITS_UINT_TYPE protoMode:1; // Normal, Bind
+  SYST_BITS_UINT_TYPE s_mixer_first_run_done:1;
+  SYST_BITS_UINT_TYPE puppyPpmSignalOk:1;
+#if defined(X_ANY)
+  SYST_BITS_UINT_TYPE x_any_Phase:1;
+#endif
+  SYST_BITS_UINT_TYPE stickMode:2;
+#if defined(SCC)
+  SYST_BITS_UINT_TYPE scc_sweep_on:1;
+#endif
 }) systemBolls_t;
 
 extern systemBolls_t systemBolls;
@@ -1110,6 +1145,10 @@ const pm_char STR_OPENAVRCISLOADING[] PROGMEM = "OpenAVRc is loading ...";
   FORCEINLINE void Xany_scheduleTx_AllInstance();
 #endif
 
+#if (PCM_PROTOCOL==YES)
+#include "protocol/PROTO_PCM.h"
+#endif
+
 #if (SERIAL_PROTOCOL==MULTIMODULE)
 PACK(
 struct mm_protocol_definition {
@@ -1302,7 +1341,9 @@ union ReusableBuffer { // 240 bytes (LogBuffer)
     BtScannSt_t scann;
   } bluetooth; // 94 bytes
 #endif
-
+#if defined(SCC)
+  SccSt_t Scc;
+#endif
 #if defined(U_CLI)
   char uCliCmdLine[UCLI_CMD_LINE_MAX_SIZE + 1]; // 101 bytes need to work with bluetooth
 #if defined(XMODEM)

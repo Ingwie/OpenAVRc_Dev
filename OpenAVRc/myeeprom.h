@@ -1010,6 +1010,13 @@ enum MMRFrskySubtypes {
 #endif
 };
 
+enum MMRFrskyX2Subtypes {// Add PM
+  MM_RF_FRSKYX2_SUBTYPE_D16,
+  MM_RF_FRSKYX2_SUBTYPE_D8,
+  MM_RF_FRSKYX2_SUBTYPE_D16_LBT,
+  MM_RF_FRSKYX2_SUBTYPE_D16_LBT_8CH
+};
+
 #endif
 
 /* V217

@@ -1080,6 +1080,12 @@ void doMixerCalculations()
   evalMixes(tick10ms);
 
   if (tick10ms) {
+#if defined(SCC)
+  if (systemBolls.scc_sweep_on)
+  {
+    scc_sbusSweepTestProcess();
+  }
+#endif
 #if defined(X_ANY)
   systemBolls.x_any_Phase ^= 1;
 

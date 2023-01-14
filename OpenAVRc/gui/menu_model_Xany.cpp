@@ -169,7 +169,12 @@ void menuModelXany(uint8_t event)
 #endif
           lcdDrawStringWithIndex(0, y, STR_CHANNEL, g_model.Xany[xanynumber].ChId+1, attr);
           if (attr)
+          {
             CHECK_INCDEC_MODELVAR_ZERO(event, g_model.Xany[xanynumber].ChId, NUM_CHNOUT);
+#if (PCM_PROTOCOL == YES) &&  defined(X_ANY)
+            Pcm_updateXanyChMap();
+#endif
+          }
           break;
 
         case ITEM_MODEL_REPEATNB_A :

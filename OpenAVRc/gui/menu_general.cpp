@@ -37,6 +37,7 @@
 void menuGeneralSetup(uint8_t event);
 void menuGeneralSdManager(uint8_t event);
 void menuGeneralBluetooth(uint8_t event);
+void menuGeneralScc(uint8_t event);
 void menuGeneralTrainer(uint8_t event);
 void menuGeneralVersion(uint8_t event);
 void menuGeneralDiagKeys(uint8_t event);

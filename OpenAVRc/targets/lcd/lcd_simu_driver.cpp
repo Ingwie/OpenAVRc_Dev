@@ -67,7 +67,8 @@ void simuTrace(const char * format, ...)
 
 void SimuSleepMs(uint16_t x)
 {
-  wxYieldIfNeeded();
+  //wxYieldIfNeeded();
+  wxGetApp().Yield();
   wxMilliSleep(x);
 }
 

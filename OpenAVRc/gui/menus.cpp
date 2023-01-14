@@ -52,7 +52,14 @@ void chainMenu(MenuHandlerFunc newMenu)
 #if defined(BLUETOOTH)
   if (newMenu == menuGeneralBluetooth)
   {
-    (memclear(&ReBuff, sizeof(ReBuff)));
+    (memclear((void*)&ReBuff, sizeof(ReBuff)));
+  }
+#endif
+#if defined(SCC)
+  if (newMenu == menuGeneralScc)
+  {
+    scc_init(); // Will initialize the part of the ReBuff used by SCC (Reusable Buffer)
+    ReBuff.Scc.Sbus.CurChId = scc_getCurChId(); // When entering in SCC menu, ask for the current Channel ID (in case SBUS device is connected)
   }
 #endif
   menuHandlers[menuLevel] = newMenu;

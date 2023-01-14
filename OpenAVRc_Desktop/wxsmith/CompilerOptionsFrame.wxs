@@ -319,22 +319,22 @@
 						</object>
 						<object class="wxStaticBox" name="ID_STATICBOX9" variable="StaticBox9" member="yes">
 							<label>SPI Xmitters</label>
-							<pos>16,112</pos>
-							<size>136,216</size>
+							<pos>16,152</pos>
+							<size>136,176</size>
 						</object>
 						<object class="wxChoice" name="ID_CHOICECC2500PAG" variable="ChoiceCC2500PAG" member="yes">
 							<selection>0</selection>
-							<pos>96,166</pos>
+							<pos>96,200</pos>
 							<size>45,24</size>
 						</object>
 						<object class="wxChoice" name="ID_CHOICEA7105PAG" variable="ChoiceA7105PAG" member="yes">
 							<selection>0</selection>
-							<pos>96,262</pos>
+							<pos>96,272</pos>
 							<size>45,24</size>
 						</object>
 						<object class="wxChoice" name="ID_CHOICENRF24l01PAG" variable="ChoiceNRF24l01PAG" member="yes">
 							<selection>0</selection>
-							<pos>96,230</pos>
+							<pos>96,248</pos>
 							<size>45,24</size>
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOXNOANDSECONDE" variable="CheckBoxNOANDSECONDE" member="yes">
@@ -471,44 +471,36 @@
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX23" variable="CheckBoxCC2500" member="yes">
 							<label>CC2500</label>
-							<pos>24,166</pos>
+							<pos>24,200</pos>
 							<size>72,24</size>
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX24" variable="CheckBoxCYRF6936" member="yes">
 							<label>CYRF6936</label>
-							<pos>24,198</pos>
+							<pos>24,224</pos>
 							<size>72,24</size>
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX25" variable="CheckBoxNRF24l01" member="yes">
 							<label>NRF24l01</label>
-							<pos>24,230</pos>
+							<pos>24,248</pos>
 							<size>72,24</size>
-							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
-						</object>
-						<object class="wxCheckBox" name="ID_CHECKBOX35" variable="CheckBoxSX1276" member="yes">
-							<label>SX1276</label>
-							<pos>24,294</pos>
-							<size>72,24</size>
-							<enabled>0</enabled>
-							<hidden>1</hidden>
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxCheckBox" name="ID_CHECKBOX29" variable="CheckBoxA7105" member="yes">
 							<label>A7105</label>
-							<pos>24,262</pos>
+							<pos>24,272</pos>
 							<size>72,24</size>
 							<handler function="OnCheckBoxPERSONAMESClick" entry="EVT_CHECKBOX" />
 						</object>
 						<object class="wxChoice" name="ID_CHOICECYRF6936PAG" variable="ChoiceCYRF6936PAG" member="yes">
 							<selection>0</selection>
-							<pos>96,198</pos>
+							<pos>96,224</pos>
 							<size>45,24</size>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT28" variable="StaticText28" member="yes">
 							<label>PA Gain (DB)</label>
-							<pos>24,142</pos>
+							<pos>24,176</pos>
 							<size>118,16</size>
 							<style>wxALIGN_RIGHT</style>
 						</object>
@@ -528,14 +520,28 @@
 							<label>BLUETOOTH</label>
 							<pos>312,230</pos>
 						</object>
+						<object class="wxChoice" name="ID_PROTOPCMCHOICE" variable="ChoicePCM_PROTOCOL" member="yes">
+							<selection>0</selection>
+							<pos>24,80</pos>
+							<size>112,23</size>
+						</object>
 						<object class="wxChoice" name="ID_PROTOSERIALCHOICE" variable="ChoiceSERIAL_PROTOCOL" member="yes">
 							<selection>0</selection>
-							<pos>40,80</pos>
-							<size>96,23</size>
+							<pos>24,120</pos>
+							<size>112,23</size>
+						</object>
+						<object class="wxStaticText" name="ID_STATICTEXT200" variable="StaticText200" member="yes">
+							<label>Protocole Pcm</label>
+							<pos>24,64</pos>
 						</object>
 						<object class="wxStaticText" name="ID_STATICTEXT31" variable="StaticText31" member="yes">
 							<label>Protocole Série</label>
-							<pos>32,60</pos>
+							<pos>24,104</pos>
+						</object>
+						<object class="wxCheckBox" name="ID_CHECKBOX13" variable="CheckBoxSCC" member="yes">
+							<label>SCC</label>
+							<pos>688,64</pos>
+							<size>58,16</size>
 						</object>
 					</object>
 					<label>Options avancées</label>

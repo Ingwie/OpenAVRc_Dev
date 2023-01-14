@@ -39,7 +39,7 @@
 class Spin
 {
 public:
-  Spin(const char* id, uint8_t* pin,uint8_t* ddr,uint8_t* port);
+  Spin(const char* id, uint8_t* pin, uint8_t* ddr, uint8_t* port);
   virtual ~Spin();
   void init();
   bool GetPin(uint8_t num);
@@ -51,9 +51,9 @@ protected:
 
 private:
   const char* P_id;
-  uint8_t* P_pin;
-  uint8_t* P_ddr;
-  uint8_t* P_port;
+  volatile uint8_t* P_pin;
+  volatile uint8_t* P_ddr;
+  volatile uint8_t* P_port;
 };
 
 #endif // SPIN_H
