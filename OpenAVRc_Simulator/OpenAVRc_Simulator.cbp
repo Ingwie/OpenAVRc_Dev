@@ -7,7 +7,7 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="Debug">
+			<Target title="DebugWin">
 				<Option output="../OpenAVRc_SimulatorDbg" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Debug/" />
@@ -18,6 +18,9 @@
 					<Add option="-m32" />
 					<Add option="-Og" />
 					<Add option="-g" />
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWXUSINGDLL" />
 					<Add option="-DDEBUG=YES" />
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
@@ -47,6 +50,9 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWXUSINGDLL" />
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -71,6 +77,9 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWXUSINGDLL" />
 					<Add option="-DTRANSLATIONS_ES" />
 					<Add option="-DTTS_ES" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -95,6 +104,9 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWXUSINGDLL" />
 					<Add option="-DTRANSLATIONS_EN" />
 					<Add option="-DTTS_EN" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -119,6 +131,10 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="-mthreads" />
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWXUSINGDLL" />
 					<Add option="-DTRANSLATIONS_CZ" />
 					<Add option="-DTTS_CZ" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -143,6 +159,9 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWXUSINGDLL" />
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
 					<Add option="-DEXTERNALEEPROM" />
@@ -168,6 +187,9 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWXUSINGDLL" />
 					<Add option="-DTRANSLATIONS_ES" />
 					<Add option="-DTTS_ES" />
 					<Add option="-DEXTERNALEEPROM" />
@@ -193,6 +215,9 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWXUSINGDLL" />
 					<Add option="-DTRANSLATIONS_EN" />
 					<Add option="-DTTS_EN" />
 					<Add option="-DEXTERNALEEPROM" />
@@ -218,6 +243,9 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWXUSINGDLL" />
 					<Add option="-DTRANSLATIONS_CZ" />
 					<Add option="-DTTS_CZ" />
 					<Add option="-DEXTERNALEEPROM" />
@@ -233,21 +261,49 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
+			<Target title="DebugLin">
+				<Option output="../OpenAVRc_SimulatorDbg" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../obj/OpenAVRc_Simulator/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="`wx-config --cxxflags`" />
+					<Add option="-std=c11" />
+					<Add option="-Og" />
+					<Add option="-g" />
+					<Add option="-D__UNIX__" />
+					<Add option="-DaaWXUSINGDLL" />
+					<Add option="-DDEBUG=YES" />
+					<Add option="-DTRANSLATIONS_FR" />
+					<Add option="-DTTS_FR" />
+					<Add option="-DEXTERNALEEPROM" />
+					<Add option="-DIMPERIAL_UNITSaaa" />
+					<Add option="-DLCDROT180aaa" />
+					<Add option="-DPWM_BACKLIGHTaaa" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="`wx-config --libs`" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add library="aalibwxmsw31ud.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
 		</Build>
 		<VirtualTargets>
-			<Add alias="Setup" targets="FR Release;ES Release;EN Release;CZ Release;FR Release FRAM;ES Release FRAM;EN Release FRAM;CZ Release FRAM;" />
+			<Add alias="SetupWin" targets="FR Release;ES Release;EN Release;CZ Release;FR Release FRAM;ES Release FRAM;EN Release FRAM;CZ Release FRAM;" />
 		</VirtualTargets>
 		<Compiler>
 			<Add option="-std=gnu++11" />
 			<Add option="-pipe" />
-			<Add option="-mthreads" />
 			<Add option="-Wno-deprecated-declarations" />
 			<Add option="-Wno-packed-bitfield-compat" />
 			<Add option="-Wno-trigraphs" />
 			<Add option="-mno-ms-bitfields" />
-			<Add option="-D__GNUWIN32__" />
-			<Add option="-D__WXMSW__" />
-			<Add option="-DWXUSINGDLL" />
 			<Add option="-DwxUSE_UNICODE" />
 			<Add option="-DnoFONTSTD" />
 			<Add option="-DBOLD_FONT" />
@@ -307,7 +363,7 @@
 			<Add option="-DU_CLI" />
 			<Add option="-DXMODEM" />
 			<Add option="-DBLUETOOTH" />
-			<Add option="-DPCM_PROTOCOL" />
+			<Add option="-DPCM_PROTOCOL=YES" />
 			<Add option="-DSCC" />
 			<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/include" />
 			<Add directory="$(PROJECT_DIR)" />
@@ -666,8 +722,6 @@
 					<wxFrame wxs="wxsmith/uCliFrame.wxs" src="uCliFrame.cpp" hdr="uCliFrame.h" fwddecl="0" i18n="1" name="uCliFrame" language="CPP" />
 				</resources>
 			</wxsmith>
-			<code_completion />
-			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

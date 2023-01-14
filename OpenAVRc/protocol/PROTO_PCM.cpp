@@ -41,9 +41,6 @@
 /* Custom Macro to extend protothreads features: this macro allows executing protothread by time slice */
 #define PT_YIELD_AFTER_TICK(pt, CurTick, StartTick, DurationInTick)  PT_WAIT_UNTIL(pt, ((CurTick) - (StartTick)) < (DurationInTick));
 
-#define TR_PCMPROTOS           "PCM Protos"
-const pm_char STR_PCMPROTOS[] PROGMEM = TR_PCMPROTOS;
-
 #define TR_PCMFRAME            "Trame PCM"
 const pm_char STR_PCMFRAME[] PROGMEM = TR_PCMFRAME;
 

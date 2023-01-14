@@ -93,6 +93,7 @@
 		<Unit filename="gui/menu_general_calib.cpp" />
 		<Unit filename="gui/menu_general_diaganas.cpp" />
 		<Unit filename="gui/menu_general_diagkeys.cpp" />
+		<Unit filename="gui/menu_general_scc.cpp" />
 		<Unit filename="gui/menu_general_sdmanager.cpp" />
 		<Unit filename="gui/menu_general_setup.cpp" />
 		<Unit filename="gui/menu_general_trainer.cpp" />

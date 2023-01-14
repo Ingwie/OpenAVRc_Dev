@@ -46,8 +46,8 @@ extern uint8_t * eeprom_buffer_data;
 
 // Protocol number convertion
 #define PPMSIZE    3
-#define SERPROSIZE 3
-#define CCSIZE     6
+#define SERPROSIZE 1
+#define CCSIZE     7
 #define CYRFSIZE   3
 #define ASIZE      3
 #define NFRZISE    3
