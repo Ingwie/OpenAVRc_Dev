@@ -37,7 +37,7 @@
 #define SIMUSENDHWSBYTE()
 #endif
 
-#include "Serial1.h"
+#include "OpenAVRc.h"
 
 Fifo<BT_SERIAL_TX_FIFO_SIZE> BT_TX_Fifo;
 Fifo<BT_SERIAL_RX_FIFO_SIZE> BT_RX_Fifo;

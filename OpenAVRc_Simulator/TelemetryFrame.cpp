@@ -184,11 +184,11 @@ END_EVENT_TABLE()
 TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
   //(*Initialize(TelemetryFrame)
-  Create(parent, wxID_ANY, _("Télémétrie"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
+  Create(parent, wxID_ANY, _("TÃ©lÃ©mÃ©trie"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
   SetClientSize(wxSize(1208,240));
   Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(472,72), wxSize(1152,232), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
   StaticBox10 = new wxStaticBox(Panel1, ID_STATICBOX10, _("Analog"), wxPoint(8,168), wxSize(280,64), 0, _T("ID_STATICBOX10"));
-  StaticBox14 = new wxStaticBox(Panel1, ID_STATICBOX14, _("Réglages"), wxPoint(808,104), wxSize(392,128), wxWANTS_CHARS, _T("ID_STATICBOX14"));
+  StaticBox14 = new wxStaticBox(Panel1, ID_STATICBOX14, _("RÃ©glages"), wxPoint(808,104), wxSize(392,128), wxWANTS_CHARS, _T("ID_STATICBOX14"));
   StaticBox13 = new wxStaticBox(Panel1, ID_STATICBOX13, _("Batterie"), wxPoint(560,104), wxSize(240,128), 0, _T("ID_STATICBOX13"));
   StaticBox11 = new wxStaticBox(Panel1, ID_STATICBOX11, _("Variateur"), wxPoint(136,104), wxSize(152,64), 0, _T("ID_STATICBOX11"));
   StaticBox9 = new wxStaticBox(Panel1, ID_STATICBOX9, _("RSSI"), wxPoint(8,104), wxSize(120,64), 0, _T("ID_STATICBOX9"));
@@ -202,8 +202,8 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   GPSLatDegres = new wxSpinCtrl(Panel1, ID_SPINCTRL6, _T("0"), wxPoint(24,64), wxSize(50,21), 0, -90, 90, 0, _T("ID_SPINCTRL6"));
   GPSLatDegres->SetValue(_T("0"));
   StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Longitude"), wxPoint(200,24), wxSize(176,72), 0, _T("ID_STATICBOX1"));
-  StaticText4 = new wxStaticText(Panel1, ID_STATICTEXT4, _("Degrés"), wxPoint(24,40), wxSize(48,16), 0, _T("ID_STATICTEXT4"));
-  StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("Degrés"), wxPoint(208,40), wxSize(48,16), 0, _T("ID_STATICTEXT1"));
+  StaticText4 = new wxStaticText(Panel1, ID_STATICTEXT4, _("DegrÃ©s"), wxPoint(24,40), wxSize(48,16), 0, _T("ID_STATICTEXT4"));
+  StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("DegrÃ©s"), wxPoint(208,40), wxSize(48,16), 0, _T("ID_STATICTEXT1"));
   StaticText5 = new wxStaticText(Panel1, ID_STATICTEXT5, _("Minutes - Secondes"), wxPoint(80,40), wxDefaultSize, 0, _T("ID_STATICTEXT5"));
   StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, _("Minutes - Secondes"), wxPoint(264,40), wxSize(104,16), 0, _T("ID_STATICTEXT2"));
   GPSLongDEgres = new wxSpinCtrl(Panel1, ID_SPINCTRL1, _T("0"), wxPoint(208,64), wxSize(50,21), 0, -180, 180, 0, _T("ID_SPINCTRL1"));
@@ -222,14 +222,14 @@ TelemetryFrame::TelemetryFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
   StaticBox6 = new wxStaticBox(Panel1, ID_STATICBOX6, _("Date - Heure"), wxPoint(704,24), wxSize(96,72), 0, _T("ID_STATICBOX6"));
   GPSDate = new wxDatePickerCtrl(Panel1, ID_DATEPICKERCTRL1, wxDefaultDateTime, wxPoint(712,40), wxSize(80,21), wxDP_DEFAULT|wxDP_SHOWCENTURY, wxDefaultValidator, _T("ID_DATEPICKERCTRL1"));
   GPSTime = new wxTimePickerCtrl(Panel1, ID_TIMEPICKERCTRL1, wxDateTime::Now(), wxPoint(712,64), wxSize(80,21), 0, wxDefaultValidator, _T("ID_TIMEPICKERCTRL1"));
-  StaticBox7 = new wxStaticBox(Panel1, ID_STATICBOX7, _("Accéléromètres"), wxPoint(816,8), wxSize(176,96), 0, _T("ID_STATICBOX7"));
+  StaticBox7 = new wxStaticBox(Panel1, ID_STATICBOX7, _("AccÃ©lÃ©romÃ¨tres"), wxPoint(816,8), wxSize(176,96), 0, _T("ID_STATICBOX7"));
   AcclX = new wxSlider(Panel1, ID_SLIDER1, 0, -300, 300, wxPoint(840,32), wxSize(144,20), 0, wxDefaultValidator, _T("ID_SLIDER1"));
   AcclY = new wxSlider(Panel1, ID_SLIDER2, 0, -300, 300, wxPoint(840,56), wxSize(144,20), 0, wxDefaultValidator, _T("ID_SLIDER2"));
   AcclZ = new wxSlider(Panel1, ID_SLIDER3, 0, -300, 300, wxPoint(840,80), wxSize(144,20), 0, wxDefaultValidator, _T("ID_SLIDER3"));
   StaticText3 = new wxStaticText(Panel1, ID_STATICTEXT3, _("X"), wxPoint(824,32), wxSize(16,16), 0, _T("ID_STATICTEXT3"));
   StaticText6 = new wxStaticText(Panel1, ID_STATICTEXT6, _("Y"), wxPoint(824,56), wxSize(16,16), 0, _T("ID_STATICTEXT6"));
   StaticText7 = new wxStaticText(Panel1, ID_STATICTEXT7, _("Z"), wxPoint(824,80), wxSize(16,16), 0, _T("ID_STATICTEXT7"));
-  StaticBox8 = new wxStaticBox(Panel1, ID_STATICBOX8, _("Variomètre"), wxPoint(1000,8), wxSize(200,96), 0, _T("ID_STATICBOX8"));
+  StaticBox8 = new wxStaticBox(Panel1, ID_STATICBOX8, _("VariomÃ¨tre"), wxPoint(1000,8), wxSize(200,96), 0, _T("ID_STATICBOX8"));
   VarioAlt = new wxSlider(Panel1, ID_SLIDER5, 0, -50, 2000, wxPoint(1008,40), wxSize(184,20), 0, wxDefaultValidator, _T("ID_SLIDER5"));
   VarioHSpeed = new wxSlider(Panel1, ID_SLIDER4, 0, -200, 200, wxPoint(1008,80), wxSize(184,20), 0, wxDefaultValidator, _T("ID_SLIDER4"));
   StaticText8 = new wxStaticText(Panel1, ID_STATICTEXT8, _("Altitude"), wxPoint(1016,24), wxDefaultSize, 0, _T("ID_STATICTEXT8"));
@@ -497,6 +497,9 @@ void TelemetryFrame::OnRBProtoSelect(wxCommandEvent& event)
 
 void TelemetryFrame::DetectSerial()
 {
+#if defined(__UNIX__)
+// todo linux
+#else
   TCHAR Devices [5000];
   for(int i=0; i<255; i++) // checking ports from COM0 to COM255
   {
@@ -509,6 +512,7 @@ void TelemetryFrame::DetectSerial()
       ComboBoxCom->Insert(ComName,0); // add to the ComboBox
     }
   }
+#endif
 }
 
 void TelemetryFrame::OnComboBoxComDropdown(wxCommandEvent& event)

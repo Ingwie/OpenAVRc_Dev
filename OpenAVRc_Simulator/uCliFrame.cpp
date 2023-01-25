@@ -38,7 +38,7 @@ extern wxString BtSimuPin;
 extern bool Ini_Changed;
 
 //BT
-Tserial *BTComPort;
+uartHandler BTComPort = 0;  // uart handler
 bool SimuBTComIsValid;
 
 #if defined(USE_DDE_LINK)
@@ -89,10 +89,13 @@ uCliFrame::uCliFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
   LastPrompt = "";
 
   //BT
-  BTComPort = new Tserial();
   char BTComNum[5] = {'C','O','M','1',0};
-  assert(BTComPort);
-  SimuBTComIsValid = (BTComPort->connect(BTComNum, 115200, spNONE) == 0);
+  BTComPort = uartOpen(BTComNum, O_RDWR);
+  uartInit(BTComPort, 115200, UART_DATA_8 | UART_PARITY_N | UART_STOP_1);
+
+  if (uartValide(BTComPort)) {
+      SimuTeleComIsValid = true;
+  }
 
 #if defined(USE_DDE_LINK)
  // DDE exchange
@@ -104,7 +107,6 @@ uCliFrame::~uCliFrame()
 {
 	//(*Destroy(uCliFrame)
 	//*)
-  if (BTComPort != NULL) delete BTComPort;
 #if defined(USE_DDE_LINK)
  if (dynDdeConnectionOut != NULL) delete dynDdeConnectionOut;
  if (dynDdeConnectionIn != NULL) delete dynDdeConnectionIn;
@@ -191,8 +193,8 @@ void uCliFrame::HwSerialByte(uint8_t c)
      char cstring[40];
      strncpy(cstring, (const char*)cmda.mb_str(wxConvUTF8), l);
      char CRLF[2] = {'\r','\n'};
-     BTComPort->sendArray(cstring, l);
-     BTComPort->sendArray(CRLF, 2);
+     uartWrite(BTComPort, (uint8_t*)cstring, l);
+     uartWrite(BTComPort, (uint8_t*)CRLF, 2);
     }
   }
 
@@ -273,18 +275,15 @@ void uCliFrame::OnTimerBTRXTrigger(wxTimerEvent& event)
 {
  if (SimuBTComIsValid)
   {
-   int Num = BTComPort->getNbrOfBytes();
-   if (Num)
+#define BT_READBUFFERSIZE 64
+   uint8_t buffer[BT_READBUFFERSIZE];
+   int numbytes = uartRead(BTComPort, buffer, BT_READBUFFERSIZE);
+   for (int i=0; i <= numbytes; i++)
     {
-     char buffer[Num+1];
-     BTComPort->getArray(buffer, Num);
-     for (int i=0; i <= Num; i++)
-      {
-       simu_udr1 = buffer[i];
-       USART_RX_vect_N(TLM_USART1)();
-       wxYieldIfNeeded();
-       //HwSerialByte(buffer[i]);
-      }
+     simu_udr1 = buffer[i];
+     USART_RX_vect_N(TLM_USART1)();
+     wxYieldIfNeeded();
+     //HwSerialByte(buffer[i]);
     }
   }
  else

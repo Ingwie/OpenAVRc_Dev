@@ -16,6 +16,7 @@
 				<Compiler>
 					<Add option="-m32" />
 					<Add option="-g" />
+					<Add option="-mthreads" />
 					<Add option="-D__WXDEBUG__" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswud" />
 				</Compiler>
@@ -36,6 +37,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-mthreads" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 				</Compiler>
 				<ResourceCompiler>
@@ -47,13 +49,36 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
+			<Target title="DebugLin">
+				<Option output="../OpenAVRc_Desktop" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../obj/OpenAVRc_Desktop/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="`wx-config --cxxflags`" />
+					<Add option="-m32" />
+					<Add option="-g" />
+					<Add option="-D__WXDEBUG__" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswud" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswud" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="`wx-config --libs`" />
+					<Add option="-m32" />
+					<Add library="libwxmsw31ud.a" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-std=gnu++11" />
 			<Add option="-m32" />
+			<Add option="-std=gnu++11" />
 			<Add option="-pipe" />
-			<Add option="-mthreads" />
 			<Add option="-Wno-deprecated-declarations" />
 			<Add option="-Wno-packed-bitfield-compat" />
 			<Add option="-Wno-trigraphs" />
@@ -105,6 +130,9 @@
 		<Extensions>
 			<debugger>
 				<remote_debugging target="Debug">
+					<options conn_type="0" extended_remote="1" />
+				</remote_debugging>
+				<remote_debugging target="DebugLin">
 					<options conn_type="0" extended_remote="1" />
 				</remote_debugging>
 			</debugger>

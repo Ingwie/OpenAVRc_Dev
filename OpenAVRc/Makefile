@@ -779,7 +779,7 @@ ifeq ($(PCB), MEGA2560)
 
 endif
 
-CC      = $(TRGT)gcc
+CC      = $(TRGT)g++
 CPP     = $(TRGT)cpp
 AS      = $(TRGT)as
 OBJCOPY = $(TRGT)objcopy
@@ -1090,7 +1090,7 @@ endif
 #  -Wall...:     warning level
 #  -Wa,...:      tell GCC to pass this to the assembler.
 #    -adhlns...: create assembler listing
-CPPFLAGS = -g$(DBGFMT)
+#CPPFLAGS = -g$(DBGFMT)
 CPPFLAGS += $(CPPDEFS)
 CPPFLAGS += -Wall
 CPPFLAGS += -mrelax
