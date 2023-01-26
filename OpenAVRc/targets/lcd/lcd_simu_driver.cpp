@@ -49,7 +49,9 @@ wxFileName Myfile;
 // Hwserial
 void SendBtSerTxBuffer(uint8_t c)
 {
-  //wxGetApp().SimuFrame->SendBtSerTxBufferToCliFrame(c);
+  wxThreadEvent event(wxEVT_THREAD, ID_THREAD_SEND_BYTE_TO_UCLIFRAME);
+  event.SetInt(c);
+  wxGetApp().SimuFrame->GetEventHandler()->AddPendingEvent(event);
 }
 
 void simuTrace(const char * format, ...)
@@ -62,15 +64,9 @@ void simuTrace(const char * format, ...)
   va_end(arglist);
 }
 
-/*bool wxYieldIfNeeded() //undocumented function save a copy here ...
-{
-  return wxTheApp && wxTheApp->Yield(true);
-}*/
-
 void SimuSleepMs(uint16_t x)
 {
-  //wxYieldIfNeeded();
-  //wxGetApp().Yield();
+  wxGetApp().Yield();
   wxMilliSleep(x);
 }
 
@@ -86,8 +82,7 @@ void lcdSetRefVolt(uint8_t val)
 
 void lcdRefreshFast()
 {
-   //wxGetApp().SimuFrame->DrawWxSimuLcd();
-   wxThreadEvent event(wxEVT_THREAD, ID_LCD_PAINT);
+   wxThreadEvent event(wxEVT_THREAD, ID_THREAD_CALL_LCD_PAINT);
    wxGetApp().SimuFrame->GetEventHandler()->AddPendingEvent(event);
 }
 
@@ -101,7 +96,8 @@ void lcdRefresh()
 
 void simu_EditModelName()
 {
-  //wxGetApp().SimuFrame->EditModelName();
+   wxThreadEvent event(wxEVT_THREAD, ID_THREAD_CALL_EDIT_MODEL_NAME);
+   wxGetApp().SimuFrame->GetEventHandler()->AddPendingEvent(event);
 }
 
 //SD FUNCTIONS

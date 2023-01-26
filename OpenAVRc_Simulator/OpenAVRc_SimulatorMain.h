@@ -121,8 +121,9 @@ public:
 
   OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id = -1);
   virtual ~OpenAVRc_SimulatorFrame();
+  void ThreadsWantEditModelName(wxThreadEvent& event);
   void EditModelName();
-  void ThreadsWantLCD_Refresh(wxCommandEvent& event);
+  void ThreadsWantLCD_Refresh(wxThreadEvent& event);
   void DrawWxSimuLcd();
   void OnKey(wxKeyEvent& Event);
   void EnableMixerFrameMenu();
@@ -132,6 +133,7 @@ public:
   void EnableTelemetryMenu();
   void EnableLogsMenu();
   void EnableuCliMenu();
+  void ThreadsSendByteToUcliFrame(wxThreadEvent& event);
   void SendBtSerTxBufferToCliFrame(uint8_t c);
 
 private:
@@ -433,7 +435,9 @@ private:
 //THREADS
 
 // the ID we'll use to identify our event
-const int ID_LCD_PAINT = -1;
+const int ID_THREAD_CALL_LCD_PAINT         = -1;
+const int ID_THREAD_CALL_EDIT_MODEL_NAME   = -2;
+const int ID_THREAD_SEND_BYTE_TO_UCLIFRAME = -3;
 
 class FirstFirmwareThread: public wxThread
 {

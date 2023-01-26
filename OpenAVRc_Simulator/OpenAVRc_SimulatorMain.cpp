@@ -396,7 +396,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   CheckBoxPPMPROTO->SetValue(true);
   CheckBoxPPMPROTO->Disable();
   CheckBoxPPMPROTO->SetBackgroundColour(wxColour(192,192,192));
-  StaticTextProtocols = new wxStaticText(PanelL, ID_STATICTEXT1, _("Protocoles ActivĂ©s"), wxPoint(624,8), wxDefaultSize, 0, _T("ID_STATICTEXT1"));
+  StaticTextProtocols = new wxStaticText(PanelL, ID_STATICTEXT1, _("Protocoles Activés"), wxPoint(624,8), wxDefaultSize, 0, _T("ID_STATICTEXT1"));
   StaticTextProtocols->SetBackgroundColour(wxColour(192,192,192));
   StaticTextEepromPath = new wxStaticText(PanelL, ID_STATICTEXTEEPATH, wxEmptyString, wxPoint(184,10), wxSize(2,13), 0, _T("ID_STATICTEXTEEPATH"));
   StaticTextEepromPath->SetBackgroundColour(wxColour(192,192,192));
@@ -449,15 +449,15 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   MenuFrame->Append(OutputBars);
   OutputGvars = new wxMenuItem(MenuFrame, ID_MENUITEMOUTPUTGVARS, _("Variables globales"), wxEmptyString, wxITEM_NORMAL);
   MenuFrame->Append(OutputGvars);
-  RadioData = new wxMenuItem(MenuFrame, ID_MENUITEMRADIODATA, _("ParamĂ¨tres Radio"), wxEmptyString, wxITEM_NORMAL);
+  RadioData = new wxMenuItem(MenuFrame, ID_MENUITEMRADIODATA, _("Paramètres Radio"), wxEmptyString, wxITEM_NORMAL);
   MenuFrame->Append(RadioData);
-  telemetry = new wxMenuItem(MenuFrame, ID_MENUITEMTELEMETRY, _("TĂ©lĂ©mĂ©trie"), wxEmptyString, wxITEM_NORMAL);
+  telemetry = new wxMenuItem(MenuFrame, ID_MENUITEMTELEMETRY, _("Télémétrie"), wxEmptyString, wxITEM_NORMAL);
   MenuFrame->Append(telemetry);
   Logs = new wxMenuItem(MenuFrame, ID_MENUITEMLOGS, _("Logs"), wxEmptyString, wxITEM_NORMAL);
   MenuFrame->Append(Logs);
   uCli = new wxMenuItem(MenuFrame, ID_MENUITEMUCLI, _("uCLI"), wxEmptyString, wxITEM_NORMAL);
   MenuFrame->Append(uCli);
-  MenuBar1->Append(MenuFrame, _("&FenĂªtres"));
+  MenuBar1->Append(MenuFrame, _("&Fenêtres"));
   MenuHelp = new wxMenu();
   MenuAbout = new wxMenuItem(MenuHelp, idMenuAbout, _("A propos ...\tF1"), _("C\'est quoi donc \?"), wxITEM_NORMAL);
   MenuAbout->SetBitmap(wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_INFORMATION")),wxART_MENU));
@@ -565,7 +565,9 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_TIMERMAIN,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimerMainTrigger);
   Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnClose);
   //*)
-  Connect(ID_LCD_PAINT,wxEVT_THREAD,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::ThreadsWantLCD_Refresh);
+  Connect(ID_THREAD_CALL_LCD_PAINT,wxEVT_THREAD,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::ThreadsWantLCD_Refresh);
+  Connect(ID_THREAD_CALL_EDIT_MODEL_NAME,wxEVT_THREAD,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::ThreadsWantEditModelName);
+  Connect(ID_THREAD_SEND_BYTE_TO_UCLIFRAME,wxEVT_THREAD,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::ThreadsSendByteToUcliFrame);
 
   {
     SetIcon(wxICON(oavrc_icon));
@@ -720,8 +722,8 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
     {
       if (showeditmodeldialog) // Edit model name in main thread
         {
-          ModelNameDialog *MoDi = new  ModelNameDialog(NULL); // In ModelNameDialog.cpp
-          MoDi->ShowModal();
+          ModelNameDialog *MoDi = new  ModelNameDialog(this); // In ModelNameDialog.cpp
+          MoDi->ShowWindowModal();
           MoDi->Destroy();
           showeditmodeldialog = 0;
         }
@@ -808,6 +810,12 @@ void OpenAVRc_SimulatorFrame::Isr10msTaskFirmware()
   Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
 }
 
+void OpenAVRc_SimulatorFrame::ThreadsWantEditModelName(wxThreadEvent& event)
+{
+  event.Skip();
+  EditModelName();
+}
+
 void OpenAVRc_SimulatorFrame::EditModelName()
 {
   showeditmodeldialog = 1;
@@ -823,7 +831,7 @@ uint8_t invertByte(uint8_t a)
 }
 #endif
 
-void OpenAVRc_SimulatorFrame::ThreadsWantLCD_Refresh(wxCommandEvent& event)
+void OpenAVRc_SimulatorFrame::ThreadsWantLCD_Refresh(wxThreadEvent& event)
 {
   DrawWxSimuLcd();
 }
@@ -3316,6 +3324,13 @@ void OpenAVRc_SimulatorFrame::EnableuCliMenu()
   MenuFrame->Enable(ID_MENUITEMUCLI, true);
 }
 
+void OpenAVRc_SimulatorFrame::ThreadsSendByteToUcliFrame(wxThreadEvent& event)
+{
+  uint8_t c = (uint8_t)event.GetInt();
+  event.Skip();
+  SendBtSerTxBufferToCliFrame(c);
+}
+
 void OpenAVRc_SimulatorFrame::SendBtSerTxBufferToCliFrame(uint8_t c)
 {
   if(uCliFr)
@@ -3378,7 +3393,7 @@ void ConnectTelemCom(wxString name)
   }
   else
     {
-    wxMessageBox("Erreur port sĂ©rie");
+    wxMessageBox("Erreur port s�rie");
     }
 }
 

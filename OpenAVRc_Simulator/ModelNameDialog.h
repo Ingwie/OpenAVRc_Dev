@@ -35,10 +35,10 @@
 #define MODELNAMEDIALOG_H
 
 //(*Headers(ModelNameDialog)
-#include <wx/textctrl.h>
-#include <wx/statbox.h>
-#include <wx/panel.h>
 #include <wx/dialog.h>
+#include <wx/panel.h>
+#include <wx/statbox.h>
+#include <wx/textctrl.h>
 //*)
 
 #define wxDEFAULT_DIALOG_STYLE  (wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX)

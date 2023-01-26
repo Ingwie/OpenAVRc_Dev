@@ -315,6 +315,40 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
+			<Target title="FR_Linux">
+				<Option platforms="Unix;" />
+				<Option output="../OpenAVRc_SimulatorApp" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../objlin/OpenAVRc_Simulator/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="`wx-config --cxxflags`" />
+					<Add option="-std=c11" />
+					<Add option="-m64" />
+					<Add option="-pthread" />
+					<Add option="-D__UNIX__" />
+					<Add option="-DWXUSINGDLL" />
+					<Add option="-DDEBUG=YES" />
+					<Add option="-DTRANSLATIONS_FR" />
+					<Add option="-DTTS_FR" />
+					<Add option="-DEXTERNALEEPROM" />
+					<Add option="-DIMPERIAL_UNITSaaa" />
+					<Add option="-DLCDROT180aaa" />
+					<Add option="-DPWM_BACKLIGHTaaa" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="`wx-config --libs`" />
+					<Add option="-m64" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add option="-pthread" />
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
 		</Build>
 		<VirtualTargets>
 			<Add alias="SetupWin" targets="FR Release;ES Release;EN Release;CZ Release;FR Release FRAM;ES Release FRAM;EN Release FRAM;CZ Release FRAM;" />

@@ -2,8 +2,7 @@
 <wxsmith>
 	<object class="wxDialog" name="ModelNameDialog">
 		<size>181,67</size>
-		<pos_arg>1</pos_arg>
-		<size_arg>1</size_arg>
+		<id_arg>0</id_arg>
 		<handler function="OnInit" entry="EVT_INIT_DIALOG" />
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>0,0</pos>
@@ -18,7 +17,7 @@
 				<maxlength>10</maxlength>
 				<pos>40,24</pos>
 				<validator>validator</validator>
-				<style>wxWANTS_CHARS</style>
+				<style>wxTE_PROCESS_ENTER|wxWANTS_CHARS</style>
 				<handler function="OnTextCtrlnewNameTextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 		</object>
