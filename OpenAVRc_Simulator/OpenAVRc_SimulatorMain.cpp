@@ -3326,15 +3326,23 @@ void OpenAVRc_SimulatorFrame::EnableuCliMenu()
 
 void OpenAVRc_SimulatorFrame::ThreadsSendByteToUcliFrame(wxThreadEvent& event)
 {
-  uint8_t c = (uint8_t)event.GetInt();
+  wxString btTxSendString = event.GetPayload<wxString>();
   event.Skip();
-  SendBtSerTxBufferToCliFrame(c);
+  SendBtSerTxBufferToCliFrame(btTxSendString);
 }
 
-void OpenAVRc_SimulatorFrame::SendBtSerTxBufferToCliFrame(uint8_t c)
+void OpenAVRc_SimulatorFrame::SendBtSerTxBufferToCliFrame(wxString btTxTxt)
 {
   if(uCliFr)
-    uCliFr->HwSerialByte(c);
+  {
+    uint8_t c;
+
+    for (uint8_t i = 0; i < btTxTxt.length(); i++)
+    {
+      c = btTxTxt.GetChar(i);
+      uCliFr->HwSerialByte(c);
+    }
+  }
 }
 
 void OpenAVRc_SimulatorFrame::EnableLogsMenu()

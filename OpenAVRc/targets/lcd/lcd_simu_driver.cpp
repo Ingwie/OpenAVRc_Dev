@@ -49,9 +49,15 @@ wxFileName Myfile;
 // Hwserial
 void SendBtSerTxBuffer(uint8_t c)
 {
-  wxThreadEvent event(wxEVT_THREAD, ID_THREAD_SEND_BYTE_TO_UCLIFRAME);
-  event.SetInt(c);
-  wxGetApp().SimuFrame->GetEventHandler()->AddPendingEvent(event);
+  static wxString btTxSendString = "";
+  btTxSendString.append((char)c);
+  if (c == '\n')
+  {
+    wxThreadEvent event(wxEVT_THREAD, ID_THREAD_SEND_BYTE_TO_UCLIFRAME);
+    event.SetPayload(btTxSendString);
+    wxGetApp().SimuFrame->GetEventHandler()->AddPendingEvent(event);
+    btTxSendString.clear();
+  }
 }
 
 void simuTrace(const char * format, ...)

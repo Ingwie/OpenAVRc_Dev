@@ -134,7 +134,7 @@ public:
   void EnableLogsMenu();
   void EnableuCliMenu();
   void ThreadsSendByteToUcliFrame(wxThreadEvent& event);
-  void SendBtSerTxBufferToCliFrame(uint8_t c);
+  void SendBtSerTxBufferToCliFrame(wxString btTxTxt);
 
 private:
   //(*Handlers(OpenAVRc_SimulatorFrame)

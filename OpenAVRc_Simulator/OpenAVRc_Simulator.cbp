@@ -43,7 +43,8 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="FR Release">
+			<Target title="FR_Win">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorFR" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
@@ -72,7 +73,8 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="ES Release">
+			<Target title="ES_Win">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorES" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
@@ -101,7 +103,8 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="EN Release">
+			<Target title="EN_Win">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorEN" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
@@ -130,7 +133,8 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="CZ Release">
+			<Target title="CZ_Win">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorCZ" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
@@ -159,7 +163,8 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="FR Release FRAM">
+			<Target title="FR_FRAM_Win">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorFR_FRAM" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
@@ -189,7 +194,8 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="ES Release FRAM">
+			<Target title="ES_FRAM_Win">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorES_FRAM" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
@@ -219,7 +225,8 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="EN Release FRAM">
+			<Target title="EN_FRAM_Win">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorEN_FRAM" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
@@ -249,7 +256,8 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="CZ Release FRAM">
+			<Target title="CZ_FRAM_Win">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorCZ_FRAM" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
@@ -288,14 +296,13 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="`wx-config --cxxflags`" />
 					<Add option="-std=c11" />
 					<Add option="-m64" />
 					<Add option="-Og" />
 					<Add option="-g" />
+					<Add option="`wx-config --cxxflags`" />
 					<Add option="-pthread" />
 					<Add option="-D__UNIX__" />
-					<Add option="-DWXUSINGDLL" />
 					<Add option="-DDEBUG=YES" />
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
@@ -303,16 +310,39 @@
 					<Add option="-DIMPERIAL_UNITSaaa" />
 					<Add option="-DLCDROT180aaa" />
 					<Add option="-DPWM_BACKLIGHTaaa" />
+					<Add directory="/usr/lib/x86_64-linux-gnu" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 				</ResourceCompiler>
 				<Linker>
-					<Add option="`wx-config --libs`" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
 					<Add option="-m64" />
+					<Add option="`wx-config --libs`" />
 					<Add option="-Xlinker --allow-multiple-definition" />
 					<Add option="-pthread" />
-					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
+					<Add library="../../../../../usr/local/lib/libwx_baseu-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_baseu_net-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_baseu_xml-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxexpat-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_adv-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_aui-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_core-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_gl-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_html-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_propgrid-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_qa-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_ribbon-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_richtext-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_stc-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_xrc-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxjpeg-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxpng-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxregexu-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxscintilla-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxtiff-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxzlib-3.2.a" />
 				</Linker>
 			</Target>
 			<Target title="FR_Linux">
@@ -324,12 +354,11 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="`wx-config --cxxflags`" />
 					<Add option="-std=c11" />
 					<Add option="-m64" />
+					<Add option="`wx-config --cxxflags`" />
 					<Add option="-pthread" />
 					<Add option="-D__UNIX__" />
-					<Add option="-DWXUSINGDLL" />
 					<Add option="-DDEBUG=YES" />
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
@@ -342,16 +371,39 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 				</ResourceCompiler>
 				<Linker>
-					<Add option="`wx-config --libs`" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
 					<Add option="-m64" />
+					<Add option="`wx-config --libs`" />
 					<Add option="-Xlinker --allow-multiple-definition" />
 					<Add option="-pthread" />
+					<Add library="../../../../../usr/local/lib/libwxzlib-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxtiff-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxscintilla-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxregexu-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxpng-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxjpeg-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_xrc-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_stc-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_richtext-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_ribbon-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_qa-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_propgrid-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_html-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_gl-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_core-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_aui-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_adv-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxexpat-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_baseu_xml-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_baseu_net-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_baseu-3.2.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
 		</Build>
 		<VirtualTargets>
-			<Add alias="SetupWin" targets="FR Release;ES Release;EN Release;CZ Release;FR Release FRAM;ES Release FRAM;EN Release FRAM;CZ Release FRAM;" />
+			<Add alias="SetupWin" targets="FR_Win;ES_Win;EN_Win;CZ_Win;FR_FRAM_Win;ES_FRAM_Win;EN_FRAM_Win;CZ_FRAM_Win;" />
 		</VirtualTargets>
 		<Compiler>
 			<Add option="-std=gnu++11" />
