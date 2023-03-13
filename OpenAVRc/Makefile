@@ -533,7 +533,7 @@ ifeq ($(PCB), EVO_V2)
   INCDIRS += targets/evo_v2 targets/stock $(RRSDDIR)
   BOARDSRC += main_avr.cpp targets/evo_v2/xmega.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
-  PULSESSRC = targets/evo_v2/xmega_pulses.cpp
+  PULSESSRC = pulses/pulses_avr.cpp
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v2/menu_general_diaganas.cpp
   EXTRABOARDSRC = targets/evo_v2/lcd_ssd1309_driver.cpp targets/evo_v2/xmega_adc_driver.cpp
 
