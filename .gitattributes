@@ -1,0 +1,35 @@
+# Set default behavior to automatically normalize line endings.
+* text=auto
+
+# Text files are 
+*.txt text
+*.cbp text
+*.c text working-tree-encoding=utf-8
+*.cpp text working-tree-encoding=utf-8
+*.h text working-tree-encoding=utf-8
+*.wxs text working-tree-encoding=utf-8
+*.lbm text working-tree-encoding=utf-8
+*.lbmi text working-tree-encoding=utf-8
+*.py text working-tree-encoding=utf-8
+*.md text working-tree-encoding=utf-8
+*.hd text working-tree-encoding=utf-8
+*.pot text working-tree-encoding=utf-8
+*.po text working-tree-encoding=utf-8
+*.bat text eol=crlf
+
+
+# Binary files are
+*.exe binary
+*.mo binary
+*.ico binary
+*.xpm binary
+*.png binary
+*.jpg binary
+*.odt binary
+*.ods binary
+*.pdf binary
+*.xls binary
+*.doc binary
+*.docx binary
+
+
