@@ -6,7 +6,8 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="Debug">
+			<Target title="DebugWin">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_Desktop" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Desktop/Release/" />
@@ -17,6 +18,8 @@
 					<Add option="-m32" />
 					<Add option="-g" />
 					<Add option="-mthreads" />
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
 					<Add option="-D__WXDEBUG__" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswud" />
 				</Compiler>
@@ -29,7 +32,8 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="Release">
+			<Target title="ReleaseWin">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_Desktop" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Desktop/Release/" />
@@ -38,6 +42,8 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-mthreads" />
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 				</Compiler>
 				<ResourceCompiler>
@@ -50,16 +56,19 @@
 				</Linker>
 			</Target>
 			<Target title="DebugLin">
+				<Option platforms="Unix;" />
 				<Option output="../OpenAVRc_Desktop" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
-				<Option object_output="../obj/OpenAVRc_Desktop/Release/" />
+				<Option object_output="../objlin/OpenAVRc_Desktop/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="`wx-config --cxxflags`" />
-					<Add option="-m32" />
+					<Add option="-m64" />
+					<Add option="-Og" />
 					<Add option="-g" />
+					<Add option="`wx-config --cxxflags`" />
+					<Add option="-D__UNIX__" />
 					<Add option="-D__WXDEBUG__" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswud" />
 				</Compiler>
@@ -67,8 +76,8 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswud" />
 				</ResourceCompiler>
 				<Linker>
+					<Add option="-m64" />
 					<Add option="`wx-config --libs`" />
-					<Add option="-m32" />
 					<Add library="libwxmsw31ud.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
@@ -83,8 +92,6 @@
 			<Add option="-Wno-packed-bitfield-compat" />
 			<Add option="-Wno-trigraphs" />
 			<Add option="-mno-ms-bitfields" />
-			<Add option="-D__GNUWIN32__" />
-			<Add option="-D__WXMSW__" />
 			<Add option="-DWXUSINGDLL" />
 			<Add option="-DwxUSE_UNICODE" />
 			<Add option="-DDESKTOP" />
@@ -129,10 +136,10 @@
 		<Unit filename="wxsmith/Voice_choice.wxs" />
 		<Extensions>
 			<debugger>
-				<remote_debugging target="Debug">
+				<remote_debugging target="DebugLin">
 					<options conn_type="0" extended_remote="1" />
 				</remote_debugging>
-				<remote_debugging target="DebugLin">
+				<remote_debugging target="DebugWin">
 					<options conn_type="0" extended_remote="1" />
 				</remote_debugging>
 			</debugger>

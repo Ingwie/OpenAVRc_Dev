@@ -71,7 +71,7 @@
 #include "PanelB.xpm"
 
 #define TIMER_10_MS_TIME 10
-#define TIMER_MAIN_TIME  15
+#define TIMER_MAIN_TIME  20
 
 //helper functions
 enum wxbuildinfoformat {
@@ -715,7 +715,7 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
 
   if ((simu_mainloop_is_runing) || simu_firstloop_is_runing) // Avoid re-entrance and wait start code done
     {
-      TimerMain.StartOnce(1); //whait 1 mS
+      TimerMain.StartOnce(2); //whait 2 mS
       return;
     }
   else
@@ -733,6 +733,12 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
 
 void OpenAVRc_SimulatorFrame::MainFirmwareTask()
 {
+  for(int i=0 ; i<4; ++i) // spring simulate
+    {
+      if (Lspringactive) PaintSticks(true,L_mid,L_mid,Lstick);
+      if (Rspringactive) PaintSticks(true,R_mid,R_mid,Rstick);
+    }
+
   if ((simu_off) && (!simu_mainloop_is_runing))
   {
     TimerMain.Stop();
@@ -751,7 +757,7 @@ void OpenAVRc_SimulatorFrame::MainFirmwareTask()
       if ((Tele_Protocol == Tele_Proto_Frsky_D) & !IS_USR_PROTO_SMART_PORT()) // Telemetry simulation
         frskyDSimuloop();
       StatusBar->SetStatusText(_T("MAIN ")+MaintTaskChronoval.ToString()+_T(" uS"),1);
-      TimerMain.StartOnce(18);
+      TimerMain.StartOnce(TIMER_MAIN_TIME);
       MainFWThread = new MainFirmwareThread();
     }
   }
@@ -760,12 +766,6 @@ void OpenAVRc_SimulatorFrame::MainFirmwareTask()
 void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
 {
   event.Skip();
-
-  for(int i=0 ; i<4; ++i) // spring simulate
-    {
-      if (Lspringactive) PaintSticks(true,L_mid,L_mid,Lstick);
-      if (Rspringactive) PaintSticks(true,R_mid,R_mid,Rstick);
-    }
 
   for (int i=0; i < 2; i++)
     {
@@ -779,7 +779,7 @@ void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
 #endif
   if (ISR10msLoop_is_runing) // Avoid re-entrance
   {
-    Timer10ms.StartOnce(1); //whait 1 mS
+    Timer10ms.StartOnce(2); //whait 2 mS
     return;
   }
   else Isr10msTaskFirmware();
@@ -807,7 +807,7 @@ void OpenAVRc_SimulatorFrame::Isr10msTaskFirmware()
     {
     }
 
-  Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
+  Timer10ms.StartOnce(TIMER_10_MS_TIME); //Simulate 10mS Interrupt vector
 }
 
 void OpenAVRc_SimulatorFrame::ThreadsWantEditModelName(wxThreadEvent& event)
