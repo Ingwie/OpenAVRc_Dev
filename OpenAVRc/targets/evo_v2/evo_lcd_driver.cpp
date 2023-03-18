@@ -20,7 +20,7 @@
  *****************************************************************
 */
 
-#define BITBANGSPI
+//#define BITBANGSPI
 
 #if !defined (BITBANGSPI)
 #include "spi.h"
@@ -58,16 +58,16 @@
 #define WAIT_LCD_TX_FIN
 #endif
 
-#define O_LCD_CS_P           PIN4_bm
+#define O_LCD_CS           PIN4_bm
 
-#define POSITIVE_CHIP_SELECT
+//#define POSITIVE_CHIP_SELECT
 #if defined (POSITIVE_CHIP_SELECT)
-#define LCD_CS_P_ACTIVE      LCD_PORT.OUTSET = O_LCD_CS_P
-#define LCD_CS_P_INACTIVE    LCD_PORT.OUTCLR = O_LCD_CS_P
+#define LCD_CS_ACTIVE      LCD_PORT.OUTSET = O_LCD_CS
+#define LCD_CS_INACTIVE    LCD_PORT.OUTCLR = O_LCD_CS
 #else
 // Negative Chip select.
-#define LCD_CS_P_INACTIVE    LCD_PORT.OUTSET = O_LCD_CS_P
-#define LCD_CS_P_ACTIVE      LCD_PORT.OUTCLR = O_LCD_CS_P
+#define LCD_CS_INACTIVE    LCD_PORT.OUTSET = O_LCD_CS
+#define LCD_CS_ACTIVE      LCD_PORT.OUTCLR = O_LCD_CS
 #endif
 
 
@@ -104,10 +104,10 @@ void lcd_spi_tx(uint8_t c) {
 void lcdSendCtl(uint8_t c)
 {
   LCD_A0_LO;
-  LCD_CS_P_ACTIVE;
+  LCD_CS_ACTIVE;
   lcd_spi_tx(c);
   WAIT_LCD_TX_FIN;
-  LCD_CS_P_INACTIVE;
+  LCD_CS_INACTIVE;
 }
 
 void lcdSetRefVolt(uint8_t val)
@@ -132,8 +132,8 @@ void lcdInit()
 #endif
   PORTD_REMAP |= PORT_SPI_bm; // Swap MOSI and SCK.
 
-  LCD_PORT.DIRSET = O_LCD_CS_P | O_LCD_A0 | O_LCD_SCK_P | O_LCD_MOSI;
-  LCD_CS_P_INACTIVE;
+  LCD_PORT.DIRSET = O_LCD_CS | O_LCD_A0 | O_LCD_SCK_P | O_LCD_MOSI;
+  LCD_CS_INACTIVE;
   LCD_A0_LO;
   LCD_CLK_HI;
   _delay_ms(250);
@@ -146,7 +146,7 @@ void lcdInit()
   LCD_SPI.CTRL &= ~SPI_DORD_bm;
   // Note : Make sure Slave Select pin is output or input pullup.
 
-  MSPI_4M(LCD_SPI);
+  MSPI_2M(LCD_SPI);
   // Set SPI_IF Flag for first time.
   LCD_SPI.DATA = 0;
 #endif
@@ -194,7 +194,7 @@ void lcdRefreshFast()
     lcdSendCtl(ST7565R_CMD_PAGE_ADDRESS_SET(page + offset));
 
     LCD_A0_HI;
-    LCD_CS_P_ACTIVE;
+    LCD_CS_ACTIVE;
     lcd_spi_tx(0x00); // Pad out the four unused columns.
     lcd_spi_tx(0x00);
       for(unsigned char x=LCD_W; x>0; --x) {
@@ -203,7 +203,7 @@ void lcdRefreshFast()
     lcd_spi_tx(0x00);
     lcd_spi_tx(0x00);
     WAIT_LCD_TX_FIN;
-    LCD_CS_P_INACTIVE;
+    LCD_CS_INACTIVE;
   }
   offset ^=4;
   SHOWDURATIONLCD2
