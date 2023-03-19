@@ -178,6 +178,7 @@ inline void boardInit()
   i2c_init();
 #endif
 
+#if defined(_AVR_ATXMEGA256A3U_H_INCLUDED)
 #if defined(PWM_BACKLIGHT)
 // PIN C2.
   /*
@@ -191,6 +192,7 @@ inline void boardInit()
   TCC2.LPER = 255;
   TCC2.LCMPC = 127;
   TCC2.CTRLA = TC2_CLKSEL_DIV1_gc; // ClkPER/64 32MHz/64.
+#endif
 #endif
 
 
@@ -244,10 +246,10 @@ void xmega_wdt_disable(void)
 void setup_rf_tc()
 {
 // Setup TCx0 for RF Module use.
-  RF_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
-  RF_TC.CTRLFSET = TC_CMD_RESET_gc;
-  RF_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
-  RF_TC.CTRLA = 8 + 1; // Event channel 1 (prescaler of 16).
+  PROTO_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
+  PROTO_TC.CTRLFSET = TC_CMD_RESET_gc;
+  PROTO_TC.CTRLB = 0b000 << TC0_WGMODE_gp; // Mode = NORMAL.
+  PROTO_TC.CTRLA = 8 + 1; // Event channel 1 (prescaler of 16).
 }
 
 

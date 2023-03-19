@@ -10,7 +10,7 @@
 
 
 
-ISR(TCE0_OVF_vect)
+ISR(TCE0_OVF_vect) // ISR for PPM.
 {
   /*
    * PROTO_PPM uses TCE0 Output Compare 0D PE3.
@@ -33,19 +33,19 @@ ISR(TCE0_OVF_vect)
     else setupPulsesPPM(PPM16FIRST); // PPM16 uses same vector.
 
     heartbeat |= HEART_TIMER_PULSES;
-    RF_TC.CCD = PULSES_SETUP_TIME_US *2;
-    RF_TC.PER = (*RptrB++) + RF_TC.CCD;
+    RF_PULSES_TC.CCD = PULSES_SETUP_TIME_US *2;
+    RF_PULSES_TC.PER = (*RptrB++) + RF_PULSES_TC.CCD;
   }
   else if (*(RptrB +1) == 0) { // Look ahead one timing event.
-    RF_TC.PER = (*RptrB++);
-    RF_TC.CCD = 0xFFFF; // Prevent compare.
+    RF_PULSES_TC.PER = (*RptrB++);
+    RF_PULSES_TC.CCD = 0xFFFF; // Prevent compare.
   }
   else {
-    RF_TC.CCD = (*RptrB++);
-    RF_TC.PER = (*RptrB++) + RF_TC.CCD;
+    RF_PULSES_TC.CCD = (*RptrB++);
+    RF_PULSES_TC.PER = (*RptrB++) + RF_PULSES_TC.CCD;
   }
 
-  dt = RF_TC.CNT; // Time since overflow.
+  dt = RF_PULSES_TC.CNT; // Time since overflow.
   if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
   if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
 }
@@ -53,8 +53,8 @@ ISR(TCE0_OVF_vect)
 
 static void PROTO_PPM_reset()
 {
-  RF_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
-  RF_TC.CTRLFSET = TC_CMD_RESET_gc;
+  RF_PULSES_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
+  RF_PULSES_TC.CTRLFSET = TC_CMD_RESET_gc;
   RF_OUT_PIN_CTRL_REG &= ~PORT_INVEN_bm;
 }
 
@@ -67,15 +67,15 @@ static void PROTO_PPM_initialize()
   RptrB = &pulses2MHz.pword[0];
   *RptrB = 0;
 
-  RF_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
-  RF_TC.CTRLFSET = TC_CMD_RESET_gc;
-  RF_TC.INTCTRLA |= TC_OVFINTLVL_HI_gc; // Level 3 - High Priority.
-  RF_TC.PER = 16000U *2; // Overflow in 16ms.
-  RF_TC.CCD = 0xFFFF; // Prevent compare.
-  RF_TC.CTRLC &= ~TC0_CMPD_bm; // Clear CMPD level in OFF state.
-  RF_TC.CTRLB = TC0_CCDEN_bm | (0b011 << TC0_WGMODE_gp); // Mode = SINGLESLOPE, Enable CCD.
+  RF_PULSES_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
+  RF_PULSES_TC.CTRLFSET = TC_CMD_RESET_gc;
+  RF_PULSES_TC.INTCTRLA = TC_OVFINTLVL_HI_gc; // Level 3 - High Priority.
+  RF_PULSES_TC.PER = 16000U *2; // Overflow in 16ms.
+  RF_PULSES_TC.CCD = 0xFFFF; // Prevent compare.
+  RF_PULSES_TC.CTRLC &= ~TC0_CMPD_bm; // Clear CMPD level in OFF state.
+  RF_PULSES_TC.CTRLB = TC0_CCDEN_bm | (0b011 << TC0_WGMODE_gp); // Mode = SINGLESLOPE, Enable CCD.
   RF_PORT.DIRSET = 1<< RF_OUT_PIN;
-  RF_TC.CTRLA = 8 + 1; // Event channel 1 (prescaler of 16)
+  RF_PULSES_TC.CTRLA = 8 + 1; // Event channel 1 (prescaler of 16)
 }
 
 

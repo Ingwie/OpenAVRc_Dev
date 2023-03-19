@@ -88,16 +88,23 @@
 #define token_paste3(x, y, z) token_paste3_int(x, y, z)
 
 
-// RF Module Timer.
-#define RF_TC                      TCE0
-#define RF_TIMER                   RF_TC.CNT
+// RF Module Timers.
+#define RF_PULSES_TC               TCE0 // For PPM and PCM.
+
+#if defined(PWM_BACKLIGHT)
+#define PROTO_TC                   TCE1 // For Serial and SPI. PWM backlight available with XMEGA256A3.
+#else
+#define PROTO_TC                   TCC0 // For Serial and SPI. NO PWM backlight with XMEGA256C3/D3.
+#endif
+
+#define RF_TIMER                   PROTO_TC.CNT
 #define RF_PORT                    PORTE
 // Also using VPORT0 as port E for bit bang spi to RF 4in1 module.
-#define RF_TIMER_COMPA_VECT        TCE0_CCA_vect
-#define RF_TIMER_COMPA_REG         RF_TC.CCA
-#define RF_TIMER_PAUSE_INTERRUPT   RF_TC.INTCTRLB &= ~TC0_CCAINTLVL_gm
-#define RF_TIMER_RESUME_INTERRUPT  { RF_TC.INTCTRLB &= ~TC0_CCAINTLVL_gm; RF_TC.INTCTRLB |= TC_CCAINTLVL_HI_gc; } // Level 3 - High Priority.
-#define RF_TIMER_CLEAR_COMPA_FLAG  RF_TC.INTFLAGS |= TC0_CCAIF_bm // clear ccaif.
+#define RF_TIMER_COMPA_VECT        TCE1_CCA_vect
+#define RF_TIMER_COMPA_REG         PROTO_TC.CCA
+#define RF_TIMER_PAUSE_INTERRUPT   PROTO_TC.INTCTRLB &= ~TC0_CCAINTLVL_gm
+#define RF_TIMER_RESUME_INTERRUPT  { PROTO_TC.INTCTRLB &= ~TC0_CCAINTLVL_gm; PROTO_TC.INTCTRLB |= TC_CCAINTLVL_HI_gc; } // Level 3 - High Priority.
+#define RF_TIMER_CLEAR_COMPA_FLAG  PROTO_TC.INTFLAGS |= TC0_CCAIF_bm // clear ccaif.
 #define RF_OUT_PIN                 3
 #define RF_OUT_PIN_CTRL_REG        token_paste3(RF_PORT.PIN, RF_OUT_PIN, CTRL) // e.g. "PORTx.PINnCTRL"
 
@@ -106,7 +113,7 @@ void setup_rf_tc(void);
 void rf_usart_serial_init(void);
 
 
-#define CALCULATE_LAT_JIT()  dt = (RF_TC.CNT - RF_TIMER_COMPA_REG ) // Calculate latency and jitter.
+#define CALCULATE_LAT_JIT()  dt = (PROTO_TC.CNT - RF_TIMER_COMPA_REG ) // Calculate latency and jitter.
 
 #if defined(SPIMODULES) // PORTE 0
 char rf_usart_mspi_xfer(char c);

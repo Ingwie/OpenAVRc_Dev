@@ -94,7 +94,7 @@ void PROTO_Start_Callback( uint16_t (*cb)())
 #endif
 #if defined(CPUXMEGA)
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    RF_TIMER_COMPA_REG = RF_TC.CNT + (16000U *2);
+    RF_TIMER_COMPA_REG = PROTO_TC.CNT + (16000U *2);
   }
 
   RF_TIMER_CLEAR_COMPA_FLAG; // Reset Flag.
