@@ -36,7 +36,13 @@
 
 #define US_TO_PROTO_TICK(us)   ((us) * 2) // Here, Tick is half us
 #define SLICE_DURATION_TICK    US_TO_PROTO_TICK(128) // 128 us converted into timer ticks
+
+#if defined(CPUM2560)
 #define GET_PROTO_TICK()       TCNT1
+#endif
+#if defined(CPUXMEGA)
+#define GET_PROTO_TICK()       RF_PULSES_TC.CNT
+#endif
 
 /* Custom Macro to extend protothreads features: this macro allows executing protothread by time slice */
 #define PT_YIELD_AFTER_TICK(pt, CurTick, StartTick, DurationInTick)  PT_WAIT_UNTIL(pt, ((CurTick) - (StartTick)) < (DurationInTick));
@@ -51,10 +57,10 @@ const static RfOptionSettingsvar_t RfOpt_PCM_Ser[] PROGMEM =
  /*rfProtoNeed*/0, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
  /*rfSubTypeMax*/PCM_PROTO_NB - 1,
  /*rfOptionValue1Min*/0, // FREQFINE MIN
- /*rfOptionValue1Max*/0,  // FREQFINE MAX
+ /*rfOptionValue1Max*/0, // FREQFINE MAX
  /*rfOptionValue2Min*/0,
  /*rfOptionValue2Max*/0,
- /*rfOptionValue3Max*/0,    // RF POWER
+ /*rfOptionValue3Max*/0, // RF POWER
 };
 
 /*************************************************/
@@ -102,7 +108,7 @@ Width (us) -> PCM1024 Value
 typedef struct{
   int16_t Min;
   int16_t Max;
-}MinMaxSt_t;
+} MinMaxSt_t;
 
 const MinMaxSt_t FutDeltaPcmTbl[] PROGMEM = {
                                   /*  0 */{-1023, -116  },
@@ -221,9 +227,9 @@ const uint16_t FutConsecBitDurationHalfUs[] PROGMEM = {
                                                   };
 
 /* FUTABA PRIVATE FUNCTION PROTOTYPES */
-static                PT_THREAD(FutBuildRadioPcmBitStream(struct pt *pt));
-static uint16_t       FutUsToPcmValue(int16_t PwmUs, uint8_t Delta);
-static uint8_t        FutDeltaUsToDeltaCode(int16_t DeltaUs);
+static PT_THREAD(FutBuildRadioPcmBitStream(struct pt *pt));
+static uint16_t FutUsToPcmValue(int16_t PwmUs, uint8_t Delta);
+static uint8_t FutDeltaUsToDeltaCode(int16_t DeltaUs);
 
 /*************************************************/
 /*                GRAUPNER PCM1024 (S-PCM)       */
@@ -306,10 +312,9 @@ const uint8_t MpxSet_Tbl[4][4] PROGMEM = {{MPX_S0, MPX_S1, MPX_S2, MPX_S3}, {MPX
 #define B11000000      (3 << 6)
 
 /* MULTIPLEX PRIVATE FUNCTION PROTOTYPES */
-static                PT_THREAD(MpxBuildRadioPcmBitStream(struct pt *pt));
-static uint8_t        MpxGetSetIdx(uint8_t PrevBitPair);
-static uint8_t        MpxUsToPcmValue(uint16_t PwmUs);
-
+static PT_THREAD(MpxBuildRadioPcmBitStream(struct pt *pt));
+static uint8_t MpxGetSetIdx(uint8_t PrevBitPair);
+static uint8_t MpxUsToPcmValue(uint16_t PwmUs);
 
 /* COMMON PRIVATE FUNCTION PROTOTYPES */
 static inline void    PcmStreamSetConsecBitNb(uint8_t BufIdx, uint8_t NblIdx, uint8_t ConsecBitNb);
@@ -321,20 +326,20 @@ static struct pt pcm_pt; // Protothread line continuation storage (Common to all
 #if defined(X_ANY)
 void Pcm_updateXanyChMap(void)
 {
-	uint8_t ChIdx;
+uint8_t ChIdx;
 
-	Proto.Pcm.XanyChMap = 0;
-	for(uint8_t XanyIdx = 0; XanyIdx < NUM_X_ANY; XanyIdx++)
-	{
-		if(g_model.Xany[XanyIdx].Active)
-		{
-			ChIdx = g_model.Xany[XanyIdx].ChId;
-			if(ChIdx < FUT_PCM1024_PROP_CH_NB)
-			{
-				Proto.Pcm.XanyChMap |= (1 << ChIdx);
-			}
-		}
-	}
+Proto.Pcm.XanyChMap = 0;
+  for(uint8_t XanyIdx = 0; XanyIdx < NUM_X_ANY; XanyIdx++)
+  {
+    if(g_model.Xany[XanyIdx].Active)
+    {
+      ChIdx = g_model.Xany[XanyIdx].ChId;
+      if(ChIdx < FUT_PCM1024_PROP_CH_NB)
+      {
+        Proto.Pcm.XanyChMap |= (1 << ChIdx);
+      }
+    }
+  }
 }
 #endif
 
@@ -625,17 +630,24 @@ void PROTO_PCM_cb1()
   half_us = (uint16_t)pgm_read_word_far(&Proto.Pcm.ConsecBitDurationHalfUs[ConsecBitNb]); // Use pre-computed values
   if(Proto.Pcm.TxNblIdx >= Proto.Pcm.BuildEndNblIdx[Proto.Pcm.IsrBufIdx])
   {
-		Proto.Pcm.TxNblIdx = 255; // Will become 0 after incrementation
-		Proto.Pcm.BuildEndNblIdx[Proto.Pcm.IsrBufIdx] = 0; // Free marker: this will trig the bit stream computation in the Protothread
-		Proto.Pcm.IsrBufIdx = !Proto.Pcm.IsrBufIdx; // Buffer Flip
+    Proto.Pcm.TxNblIdx = 255; // Will become 0 after incrementation
+    Proto.Pcm.BuildEndNblIdx[Proto.Pcm.IsrBufIdx] = 0; // Free marker: this will trig the bit stream computation in the Protothread
+    Proto.Pcm.IsrBufIdx = !Proto.Pcm.IsrBufIdx; // Buffer Flip
     // Schedule next Mixer calculations.
     SCHEDULE_MIXER_END_IN_US(FUT_PCM1024_FRAME_PERIOD_US); // Smallest period among all the PCM variants
     heartbeat |= HEART_TIMER_PULSES;
   }
   Proto.Pcm.TxNblIdx++;
   Proto.Pcm.BuildRadioPcmBitStream(&pcm_pt); // build a part of the next PCM bit stream at each interrupt
+#if defined(CPUM2560)
   dt = TCNT1 - OCR1B; // Calculate latency and jitter.
   OCR1B  += half_us;
+#endif
+#if defined(CPUXMEGA)
+  dt = RF_PULSES_TC.CNT; // Calculate latency and jitter.
+  RF_PULSES_TC.CCA = half_us;
+#endif
+
   if(dt > US_TO_PROTO_TICK(80)) // if dt < 80us, this means that the bit stream creation is terminated
   {
     // This gives the elapsed min/max time to compute a part of the bit stream creation
@@ -647,72 +659,93 @@ void PROTO_PCM_cb1()
 
 static void PROTO_PCM_reset()
 {
+#if defined(CPUM2560)
   // Make pin idle state before disconnecting switching output.
   if(g_model.PULSEPOL) PORTB &= ~PIN6_bm;
   else PORTB |= PIN6_bm;
   TCCR1A &= ~(0b11<<COM1B0);
   TIMSK1 &= ~(1<<OCIE1B); // Disable Output Compare B interrupt.
   TIFR1 |= 1<<OCF1B; // Reset Flag.
+#endif
+#if defined(CPUXMEGA)
+  RF_PULSES_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
+  RF_PULSES_TC.CTRLFSET = TC_CMD_RESET_gc;
+#endif
 }
 
 static void PROTO_PCM_initialize()
 {
-	switch(PcmProto)
-	{
-		case PCM_PROTO_FUT:
-		Proto.Pcm.BuildRadioPcmBitStream  = FutBuildRadioPcmBitStream;
-		Proto.Pcm.ConsecBitDurationHalfUs = FutConsecBitDurationHalfUs;
-		Proto.Pcm.BuildState     = FUT_PCM1024_BUILD_2_FIRST_PACKETS;
-		Proto.Pcm.PacketIdx      = 0;
-		Proto.Pcm.BitVal         = 0;
-		Proto.Pcm.BuildNblIdx    = 0;
-		Proto.Pcm.IsrBufIdx      = 0;
-		Proto.Pcm.BuildEndNblIdx[ Proto.Pcm.IsrBufIdx] = PCM_NBL_MAX_IDX;
-		Proto.Pcm.BuildEndNblIdx[!Proto.Pcm.IsrBufIdx] = 0;
-		Proto.Pcm.TxNblIdx       = 0;
-		memset(&Proto.Pcm.StreamConsecBitTbl, 0x22, sizeof(Proto.Pcm.StreamConsecBitTbl));
-		break;
+  switch (PcmProto)
+  {
+    case PCM_PROTO_FUT:
+    Proto.Pcm.BuildRadioPcmBitStream = FutBuildRadioPcmBitStream;
+    Proto.Pcm.ConsecBitDurationHalfUs = FutConsecBitDurationHalfUs;
+    Proto.Pcm.BuildState  = FUT_PCM1024_BUILD_2_FIRST_PACKETS;
+    Proto.Pcm.PacketIdx   = 0;
+    Proto.Pcm.BitVal      = 0;
+    Proto.Pcm.BuildNblIdx = 0;
+    Proto.Pcm.IsrBufIdx   = 0;
+    Proto.Pcm.BuildEndNblIdx[ Proto.Pcm.IsrBufIdx] = PCM_NBL_MAX_IDX;
+    Proto.Pcm.BuildEndNblIdx[!Proto.Pcm.IsrBufIdx] = 0;
+    Proto.Pcm.TxNblIdx    = 0;
+    memset(&Proto.Pcm.StreamConsecBitTbl, 0x22, sizeof(Proto.Pcm.StreamConsecBitTbl));
+    break;
 
-		case PCM_PROTO_GRA:
-		Proto.Pcm.BuildRadioPcmBitStream  = FutBuildRadioPcmBitStream;  // TO DO: when ready
-		Proto.Pcm.ConsecBitDurationHalfUs = FutConsecBitDurationHalfUs; // TO DO: when ready
-		Proto.Pcm.BuildState     = 0;// TO DO: when ready
-		Proto.Pcm.PacketIdx      = 0;
-		Proto.Pcm.BitVal         = 0;
-		Proto.Pcm.BuildNblIdx    = 0;
-		Proto.Pcm.IsrBufIdx      = 0;
-		Proto.Pcm.BuildEndNblIdx[ Proto.Pcm.IsrBufIdx] = PCM_NBL_MAX_IDX;
-		Proto.Pcm.BuildEndNblIdx[!Proto.Pcm.IsrBufIdx] = 0;
-		Proto.Pcm.TxNblIdx       = 0;
-		memset(&Proto.Pcm.StreamConsecBitTbl, 0x22, sizeof(Proto.Pcm.StreamConsecBitTbl));
-		break;
+    case PCM_PROTO_GRA:
+    Proto.Pcm.BuildRadioPcmBitStream = FutBuildRadioPcmBitStream; // TO DO: when ready
+    Proto.Pcm.ConsecBitDurationHalfUs = FutConsecBitDurationHalfUs; // TO DO: when ready
+    Proto.Pcm.BuildState  = 0; // TO DO: when ready
+    Proto.Pcm.PacketIdx   = 0;
+    Proto.Pcm.BitVal      = 0;
+    Proto.Pcm.BuildNblIdx = 0;
+    Proto.Pcm.IsrBufIdx   = 0;
+    Proto.Pcm.BuildEndNblIdx[ Proto.Pcm.IsrBufIdx] = PCM_NBL_MAX_IDX;
+    Proto.Pcm.BuildEndNblIdx[!Proto.Pcm.IsrBufIdx] = 0;
+    Proto.Pcm.TxNblIdx    = 0;
+    memset(&Proto.Pcm.StreamConsecBitTbl, 0x22, sizeof(Proto.Pcm.StreamConsecBitTbl));
+    break;
 
-		case PCM_PROTO_MPX:
-		Proto.Pcm.BuildRadioPcmBitStream  = MpxBuildRadioPcmBitStream;
-		Proto.Pcm.ConsecBitDurationHalfUs = MpxConsecBitDurationHalfUs;
-		Proto.Pcm.BuildState     = MPX_PCM256_BUILD_FRAME_WITH_CH7_AND_CH8;
-		Proto.Pcm.BuildNblIdx    = 0;
-		Proto.Pcm.IsrBufIdx      = 0;
-		Proto.Pcm.BuildEndNblIdx[ Proto.Pcm.IsrBufIdx] = PCM_NBL_MAX_IDX;
-		Proto.Pcm.BuildEndNblIdx[!Proto.Pcm.IsrBufIdx] = 0;
-		Proto.Pcm.TxNblIdx       = 0;
-		memset(&Proto.Pcm.StreamConsecBitTbl, 0x22, sizeof(Proto.Pcm.StreamConsecBitTbl));
-		break;
-	}
+    case PCM_PROTO_MPX:
+    Proto.Pcm.BuildRadioPcmBitStream = MpxBuildRadioPcmBitStream;
+    Proto.Pcm.ConsecBitDurationHalfUs = MpxConsecBitDurationHalfUs;
+    Proto.Pcm.BuildState  = MPX_PCM256_BUILD_FRAME_WITH_CH7_AND_CH8;
+    Proto.Pcm.BuildNblIdx = 0;
+    Proto.Pcm.IsrBufIdx   = 0;
+    Proto.Pcm.BuildEndNblIdx[ Proto.Pcm.IsrBufIdx] = PCM_NBL_MAX_IDX;
+    Proto.Pcm.BuildEndNblIdx[!Proto.Pcm.IsrBufIdx] = 0;
+    Proto.Pcm.TxNblIdx    = 0;
+    memset(&Proto.Pcm.StreamConsecBitTbl, 0x22, sizeof(Proto.Pcm.StreamConsecBitTbl));
+    break;
+  }
   PT_INIT(&pcm_pt);
 #if defined(X_ANY)
 	Pcm_updateXanyChMap();
 #endif
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    ocr1b_function_ptr = PROTO_PCM_cb1; // Setup function pointer used in ISR.
-    TCCR1A = (TCCR1A | (1<<COM1B1)) & ~(1<<COM1B0); // Clear
-    TCCR1C = 1<<FOC1B; // Strobe FOC1.
-    TCCR1A = (TCCR1A | (1<<COM1B0)) & ~(1<<COM1B1); // Toggle OC1x on next match.
-
-    OCR1B = TCNT1 + US_TO_PROTO_TICK(300); // Next interrupt in 300us for all PCM variants
-    TIFR1  |= 1<<OCF1B;  // Reset Flag.
-    TIMSK1 |= 1<<OCIE1B; // Enable Output Compare interrupt.
+#if defined(CPUM2560)
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+  {
+  ocr1b_function_ptr = PROTO_PCM_cb1; // Setup function pointer used in ISR.
+  TCCR1A = (TCCR1A | (1<<COM1B1)) & ~(1<<COM1B0); // Clear
+  TCCR1C = 1<<FOC1B; // Strobe FOC1.
+  TCCR1A = (TCCR1A | (1<<COM1B0)) & ~(1<<COM1B1); // Toggle OC1x on next match.
+  OCR1B = TCNT1 + US_TO_PROTO_TICK(300); // Next interrupt in 300us for all PCM variants
+  TIFR1  |= 1<<OCF1B;  // Reset Flag.
+  TIMSK1 |= 1<<OCIE1B; // Enable Output Compare interrupt.
   }
+#endif
+#if defined(CPUXMEGA)
+  RF_PULSES_TC.CTRLA &= ~TC0_CLKSEL_gm; // Stop timer = OFF.
+  RF_PULSES_TC.CTRLFSET = TC_CMD_RESET_gc;
+  RF_PULSES_TC.INTCTRLB = TC_CCAINTLVL_HI_gc; // Level 3 - High Priority.
+  RF_PULSES_TC.CCA = US_TO_PROTO_TICK(300); // Next interrupt in 300us for all PCM variants.
+  /*
+   * Timer Counter in FRQ mode counts from 0 to CCA. Any compare output signal e.g. CCA to CCD if available will have the same waveform.
+   */
+  RF_PULSES_TC.CTRLC &= ~TC0_CMPD_bm; // Clear CMPD level in OFF state.
+  RF_PULSES_TC.CTRLB = (0b001 << TC0_WGMODE_gp) | TC0_CCDEN_bm ; // Mode = FRQ, Enable CCD.
+  RF_PORT.DIRSET = 1<< RF_OUT_PIN;
+  RF_PULSES_TC.CTRLA = 8 + 1; // Event channel 1 (prescaler of 16).
+#endif
 }
 
 const void * PROTO_PCM_Cmds(enum ProtoCmds cmd)
@@ -738,3 +771,11 @@ const void * PROTO_PCM_Cmds(enum ProtoCmds cmd)
   }
   return 0;
 }
+
+#if defined(CPUXMEGA)
+ISR(TCE0_CCA_vect) // ISR for PCM only.
+{
+  PROTO_PCM_cb1();
+}
+#endif
+
