@@ -113,7 +113,7 @@ void lcdSendCtl(uint8_t c)
 void lcdSetRefVolt(uint8_t val)
 {
   lcdSendCtl(ST7565R_CMD_ELECTRONIC_VOLUME_MODE_SET); // Range = 0x09 to 0x19 (-8 to +8 on Evo setup screen)
-  lcdSendCtl(val>>1);
+  lcdSendCtl(val - CONTRAST_MIN);
 }
 
 
@@ -168,10 +168,9 @@ void lcdInit()
 
  lcdSendCtl(ST7565R_CMD_ELECTRONIC_VOLUME_MODE_SET);// Electronic volume mode set ? Range = 0x09 to 0x19 (-8 to +8 on Evo)
  lcdSendCtl(0x09);// See above ... 0 = 0x11
+
  lcdSendCtl(ST7565R_CMD_REVERSE_SCAN_DIRECTION);// Common output mode select
  lcdSendCtl(ST7565R_CMD_DISPLAY_ALL_POINTS_OFF);// All points off (normal)
-
- g_eeGeneral.contrast = 0x09;
 }
 
 
@@ -185,8 +184,6 @@ void lcdRefreshFast()
   static uint8_t offset = 0;
   uint8_t * p = displayBuf;
   if(offset) p += 512;
-
-  lcdSendCtl(ST7565R_CMD_DISPLAY_ON);
 
   for(uint8_t page=0; page<4; page++) {
     lcdSendCtl(ST7565R_CMD_COLUMN_ADDRESS_SET_LSB(0)); // Set LS nibble column RAM address 0
@@ -212,6 +209,8 @@ void lcdRefreshFast()
 
 void lcdRefresh()
 {
+  lcdSendCtl(ST7565R_CMD_DISPLAY_ON);
+
   for(uint8_t i=NUMITERATIONFULLREFRESH; i>0; i--) {
     lcdRefreshFast();
   }
