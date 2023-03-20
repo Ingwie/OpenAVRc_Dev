@@ -93,14 +93,16 @@
 
 #if defined(PWM_BACKLIGHT)
 #define PROTO_TC                   TCE1 // For Serial and SPI. PWM backlight available with XMEGA256A3.
+#define RF_TIMER_COMPA_VECT        TCE1_CCA_vect
 #else
 #define PROTO_TC                   TCC0 // For Serial and SPI. NO PWM backlight with XMEGA256C3/D3.
+#define RF_TIMER_COMPA_VECT        TCC0_CCA_vect
 #endif
 
 #define RF_TIMER                   PROTO_TC.CNT
 #define RF_PORT                    PORTE
 // Also using VPORT0 as port E for bit bang spi to RF 4in1 module.
-#define RF_TIMER_COMPA_VECT        TCE1_CCA_vect
+
 #define RF_TIMER_COMPA_REG         PROTO_TC.CCA
 #define RF_TIMER_PAUSE_INTERRUPT   PROTO_TC.INTCTRLB &= ~TC0_CCAINTLVL_gm
 #define RF_TIMER_RESUME_INTERRUPT  { PROTO_TC.INTCTRLB &= ~TC0_CCAINTLVL_gm; PROTO_TC.INTCTRLB |= TC_CCAINTLVL_HI_gc; } // Level 3 - High Priority.
