@@ -270,12 +270,13 @@ void read_trim_matrix(void);
 #define LEDOFF()   {}
 
 // SPI general.
-#define MSPI_250K(spix)  { spix.CTRL &= ~(SPI_CLK2X_bm); spix.CTRL |= 0b11 << SPI_PRESCALER_gp; }
-#define MSPI_500K(spix)  { spix.CTRL |=  (SPI_CLK2X_bm); spix.CTRL |= 0b11 << SPI_PRESCALER_gp; }
-#define MSPI_2M(spix)    { spix.CTRL &= ~(SPI_CLK2X_bm | SPI_PRESCALER1_bm); spix.CTRL |= SPI_PRESCALER0_bm; }
-#define MSPI_4M(spix)    { spix.CTRL |=  (SPI_CLK2X_bm | SPI_PRESCALER0_bm); spix.CTRL &= ~SPI_PRESCALER1_bm; }
-#define MSPI_8M(spix)    { spix.CTRL &= ~(SPI_CLK2X_bm); spix.CTRL &= ~(0b11 << SPI_PRESCALER_gp); }
-#define MSPI_16M(spix)   { spix.CTRL |=  (SPI_CLK2X_bm); spix.CTRL &= ~(0b11 << SPI_PRESCALER_gp); }
+#define MSPI_250K(spix)  { spix.CTRL &= ~(SPI_CLK2X_bm | SPI_PRESCALER_gm); spix.CTRL |= 0b11 << SPI_PRESCALER_gp ;}
+#define MSPI_500K(spix)  { spix.CTRL &= ~(SPI_CLK2X_bm | SPI_PRESCALER_gm); spix.CTRL |= 0b10 << SPI_PRESCALER_gp ;}
+#define MSPI_1M(spix)    { spix.CTRL &= ~(SPI_CLK2X_bm | SPI_PRESCALER_gm); spix.CTRL |= 0b10 << SPI_PRESCALER_gp | SPI_CLK2X_bm ;}
+#define MSPI_2M(spix)    { spix.CTRL &= ~(SPI_CLK2X_bm | SPI_PRESCALER_gm); spix.CTRL |= 0b01 << SPI_PRESCALER_gp ;}
+#define MSPI_4M(spix)    { spix.CTRL &= ~(SPI_CLK2X_bm | SPI_PRESCALER_gm); spix.CTRL |= 0b01 << SPI_PRESCALER_gp | SPI_CLK2X_bm ;}
+#define MSPI_8M(spix)    { spix.CTRL &= ~(SPI_CLK2X_bm | SPI_PRESCALER_gm) }
+#define MSPI_16M(spix)   { spix.CTRL &= ~(SPI_CLK2X_bm | SPI_PRESCALER_gm); spix.CTRL |=  SPI_CLK2X_bm ;}
 
 // Power driver.
 #define PWR_HOLD_PORT        PORTB
