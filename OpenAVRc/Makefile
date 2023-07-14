@@ -516,7 +516,6 @@ ifeq ($(PCB), EVO_V2)
   PERSONAMES = YES
   PWRMANAGE = NO
   RTCLOCK = YES
-  SCC = NO
   SDCARD = YES
   SPLASH = YES
   THR_TRACE = YES
@@ -780,7 +779,7 @@ ifeq ($(PCB), MEGA2560)
 
 endif
 
-CC      = $(TRGT)gcc
+CC      = $(TRGT)g++
 CPP     = $(TRGT)cpp
 AS      = $(TRGT)as
 OBJCOPY = $(TRGT)objcopy
@@ -1037,6 +1036,10 @@ ifeq ($(SCC), YES)
   GUIMODELSRC += gui/menu_general_scc.cpp scc.cpp
 endif
 
+ifeq ($(PCM_PROTOCOL), YES)
+  CPPDEFS += -DPCM_PROTOCOL
+endif
+
 ifeq ($(need_Serial1), YES)
 	CPPSRC += Serial1.cpp
 endif
@@ -1091,7 +1094,7 @@ endif
 #  -Wall...:     warning level
 #  -Wa,...:      tell GCC to pass this to the assembler.
 #    -adhlns...: create assembler listing
-CPPFLAGS = -g$(DBGFMT)
+#CPPFLAGS = -g$(DBGFMT)
 CPPFLAGS += $(CPPDEFS)
 CPPFLAGS += -Wall
 CPPFLAGS += -mrelax

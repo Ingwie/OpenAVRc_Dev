@@ -171,8 +171,8 @@ void menuModelXany(uint8_t event)
           if (attr)
           {
             CHECK_INCDEC_MODELVAR_ZERO(event, g_model.Xany[xanynumber].ChId, NUM_CHNOUT);
-#if (PCM_PROTOCOL == YES) &&  defined(X_ANY)
-            Pcm_updateXanyChMap();
+#if defined(PCM_PROTOCOL) &&  defined(X_ANY)
+            if IS_PCM_PROTOCOL(g_model.rfProtocol) Pcm_updateXanyChMap();
 #endif
           }
           break;

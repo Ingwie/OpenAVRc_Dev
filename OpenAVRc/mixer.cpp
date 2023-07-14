@@ -793,11 +793,12 @@ void evalMixes(uint8_t tick10ms)
     int16_t value = applyLimits(i, q);  // applyLimits will remove the 256 100% basis
       ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
       {
-#if (PCM_PROTOCOL == YES)
-        if(!(Proto.Pcm.XanyChMap & (1 << i))) channelOutputs[i] = value;  // copy consistent word to int-level
-#else
-        channelOutputs[i] = value;  // copy consistent word to int-level
+#if defined(PCM_PROTOCOL) &&  defined(X_ANY)
+        if IS_PCM_PROTOCOL(g_model.rfProtocol)        {          // If the current active protocol is PCM and X-Any is present, prevent mixer to update the channel(s) used by the X-Any instance(s)
+          if(!(Proto.Pcm.XanyChMap & (1 << i))) channelOutputs[i] = value;
+        }        else
 #endif
+         channelOutputs[i] = value;  // copy consistent word to int-level
       }
     }
 
