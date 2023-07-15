@@ -32,6 +32,8 @@
 
 
 #include "../../../OpenAVRc_Simulator/OpenAVRc_SimulatorApp.h"
+#include "../../../OpenAVRc_Simulator/OpenAVRc_SimulatorMain.h"
+
 
 #include <wx/filename.h>
 #include <wx/dir.h>
@@ -47,7 +49,15 @@ wxFileName Myfile;
 // Hwserial
 void SendBtSerTxBuffer(uint8_t c)
 {
-  wxGetApp().SimuFrame->SendBtSerTxBufferToCliFrame(c);
+  static wxString btTxSendString = "";
+  btTxSendString.append((char)c);
+  if (c == '\n')
+  {
+    wxThreadEvent event(wxEVT_THREAD, ID_THREAD_SEND_BYTE_TO_UCLIFRAME);
+    event.SetPayload(btTxSendString);
+    wxGetApp().SimuFrame->GetEventHandler()->AddPendingEvent(event);
+    btTxSendString.clear();
+  }
 }
 
 void simuTrace(const char * format, ...)
@@ -60,14 +70,8 @@ void simuTrace(const char * format, ...)
   va_end(arglist);
 }
 
-/*bool wxYieldIfNeeded() //undocumented function save a copy here ...
-{
-  return wxTheApp && wxTheApp->Yield(true);
-}*/
-
 void SimuSleepMs(uint16_t x)
 {
-  //wxYieldIfNeeded();
   wxGetApp().Yield();
   wxMilliSleep(x);
 }
@@ -84,7 +88,8 @@ void lcdSetRefVolt(uint8_t val)
 
 void lcdRefreshFast()
 {
-  wxGetApp().SimuFrame->DrawWxSimuLcd();
+   wxThreadEvent event(wxEVT_THREAD, ID_THREAD_CALL_LCD_PAINT);
+   wxGetApp().SimuFrame->GetEventHandler()->AddPendingEvent(event);
 }
 
 void lcdRefresh()
@@ -97,7 +102,8 @@ void lcdRefresh()
 
 void simu_EditModelName()
 {
-  wxGetApp().SimuFrame->EditModelName();
+   wxThreadEvent event(wxEVT_THREAD, ID_THREAD_CALL_EDIT_MODEL_NAME);
+   wxGetApp().SimuFrame->GetEventHandler()->AddPendingEvent(event);
 }
 
 //SD FUNCTIONS
@@ -111,7 +117,9 @@ static bool cont = 0;
 
 wxString switchRootChar(wxString val)
 {
+#if !defined(__UNIX__)
   val.Replace("/","\\");
+#endif // defined
   return val;
 }
 
@@ -132,7 +140,7 @@ void sd_raw_get_info(struct sd_raw_info* tmp)
 
 uint8_t sd_raw_init()
 {
-  wxString root = AppPath+"\\SD\\";
+  wxString root = AppPath+slashChar+"SD"+slashChar;
 
   if (!sddir.Exists(root))
     {
@@ -184,7 +192,7 @@ uint8_t fat_delete_file(struct fat_fs_struct* fs, struct fat_dir_entry_struct* d
 uint8_t fat_create_file(struct fat_dir_struct* parent, const char* file, struct fat_dir_entry_struct* dir_entry)
 {
   uint8_t ret = 0;
-  wxString temp = sdroot + sdpath + "\\" + switchRootChar(wxString::FromUTF8(file));
+  wxString temp = sdroot + sdpath + slashChar + switchRootChar(wxString::FromUTF8(file));
 
   simulateLcdBufferUsedBySd();
   if (wxFile::Exists(temp))
@@ -205,7 +213,7 @@ uint8_t fat_create_file(struct fat_dir_struct* parent, const char* file, struct 
 struct fat_file_struct* fat_open_file(struct fat_fs_struct* fs, struct fat_dir_entry_struct* dir_entry)
 {
   struct fat_file_struct* tmp = 0;
-  wxString temp = sdroot + sdpath + "\\" + switchRootChar(wxString::FromUTF8(dir_entry->long_name));
+  wxString temp = sdroot + sdpath + slashChar + switchRootChar(wxString::FromUTF8(dir_entry->long_name));
 
   simulateLcdBufferUsedBySd();
 
@@ -266,7 +274,7 @@ uint8_t fat_read_dir(struct fat_dir_struct* dd, struct fat_dir_entry_struct* dir
   if (cont)
     {
       strncpy(dir_entry->long_name, (const char*)filename.mbc_str(), 32);
-      dir_entry->attributes = (wxDir::Exists(sddir.GetName() + "\\" + filename))? FAT_ATTRIB_DIR:0;
+      dir_entry->attributes = (wxDir::Exists(sddir.GetName() + slashChar + filename))? FAT_ATTRIB_DIR:0;
     }
   return cont? 1:0;
 }
@@ -288,7 +296,7 @@ struct fat_dir_struct* fat_open_dir(struct fat_fs_struct* fs, const struct fat_d
     {
       sdpath = switchRootChar(wxString::FromUTF8(dir_entry->long_name));
       if (sdpath.length() != 1)
-        sdpath.Append("\\"); // Not root
+        sdpath.Append(slashChar); // Not root
         strncpy(SD_dir.dir_entry.long_name, dir_entry->long_name, 32);
     }
   return P_SD_dir;
@@ -331,7 +339,7 @@ uint8_t fat_move_file(struct fat_fs_struct* fs, struct fat_dir_entry_struct* dir
  simulateLcdBufferUsedBySd();
  wxString fromFile = wxString::FromUTF8(dir_entry->long_name);
  wxString fromDir = sdpath;
- fromDir.Replace("\\", "");
+ fromDir.Replace(slashChar, "");
  wxString destFile = wxString::FromUTF8(file_new);
  wxString destDir = wxString::FromUTF8(parent_new->dir_entry.long_name);
 
@@ -339,12 +347,12 @@ uint8_t fat_move_file(struct fat_fs_struct* fs, struct fat_dir_entry_struct* dir
   {
    if (sddir.Exists(sdroot + switchRootChar(wxString::FromUTF8(destDir))))
     {
-     wxString temp = sdroot + fromDir + "\\" + switchRootChar(wxString::FromUTF8(fromFile));
+     wxString temp = sdroot + fromDir + slashChar + switchRootChar(wxString::FromUTF8(fromFile));
      if (wxFile::Exists(temp))
       {
-       if (wxCopyFile(sdroot+fromDir+"\\"+switchRootChar(wxString::FromUTF8(fromFile)), sdroot+destDir+"\\"+switchRootChar(wxString::FromUTF8(destFile)), 0))
+       if (wxCopyFile(sdroot+fromDir+ slashChar +switchRootChar(wxString::FromUTF8(fromFile)), sdroot+destDir+"\\"+switchRootChar(wxString::FromUTF8(destFile)), 0))
         {
-         if (wxRemoveFile(sdroot+fromDir+"\\"+switchRootChar(wxString::FromUTF8(fromFile))))
+         if (wxRemoveFile(sdroot+fromDir+ slashChar +switchRootChar(wxString::FromUTF8(fromFile))))
          {
           return 1;
          }

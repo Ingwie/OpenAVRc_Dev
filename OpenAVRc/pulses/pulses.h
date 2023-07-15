@@ -40,7 +40,7 @@
 
 #define IS_PPM_PROTOCOL(protocol)          (protocol<=PROTOCOL_PPMSIM)
 
-#if (PCM_PROTOCOL==YES)
+#if defined(PCM_PROTOCOL)
   #define IS_PCM_PROTOCOL(protocol)  (protocol==PROTOCOL_PCM)
 #else
   #define IS_PCM_PROTOCOL(protocol)  (0)
@@ -77,7 +77,7 @@
 #endif
 
 #if defined(SPIMODULES)
- #if (PCM_PROTOCOL==YES)
+ #if defined(PCM_PROTOCOL)
   #define PCM_OFFSET 1
  #else
   #define PCM_OFFSET 0

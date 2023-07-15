@@ -42,7 +42,7 @@
 #include "PROTO_PPMSIM.cpp"
 #endif
 
-#if (PCM_PROTOCOL==YES)
+#if defined(PCM_PROTOCOL)
 #include "PROTO_PCM.h"
 #include "PROTO_PCM.cpp"
 #endif

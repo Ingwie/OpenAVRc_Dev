@@ -84,7 +84,7 @@ void menuModelSetup(uint8_t event)
 {
 #define CURSOR_ON_CELL         (true)
 #define MODEL_SETUP_MAX_LINES  (IS_PPM_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+2 : \
- (IS_PCM_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+3 : \
+ (IS_PCM_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_4 : \
  (IS_DSM2_SERIAL_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_2+2 : \
  (IS_MULTIMODULE_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_5+2 :  \
  (IS_CRSF_PROTOCOL(protocol)) ? ITEM_MODEL_PROTOCOL_PARAMS_LINE_1+3 :  \
@@ -409,7 +409,7 @@ void menuModelSetup(uint8_t event)
             }
           }
         }
-#if (PCM_PROTOCOL==YES)
+#if defined(PCM_PROTOCOL)
       if IS_PCM_PROTOCOL(protocol)
         {
          /*Type line*/
@@ -428,7 +428,7 @@ void menuModelSetup(uint8_t event)
          //lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y+8, (uint16_t)FUT_PCM1024_FRAME_PERIOD_US/100, PREC1|LEFT, 4);
          lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+7*FW+1, y+8, STR_NCHANNELS, FUT_PCM1024_PROP_CH_NB/4/*8CH*/, menuHorizontalPosition!=0 ? attr : 0);
         }
-#endif	  
+#endif
 #if (SERIAL_PROTOCOL==DSM)
        if (IS_DSM2_SERIAL_PROTOCOL(protocol))
         {
