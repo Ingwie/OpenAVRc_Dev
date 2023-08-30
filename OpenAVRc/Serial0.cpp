@@ -42,6 +42,7 @@ void parseTelemFakeByte(uint8_t data)
   data = data; // compiler pleased
 }
 
+#if defined(CPUM2560)
 ISR(USART_RX_vect_N(TLM_USART0))
 {
   uint8_t stat;
@@ -99,6 +100,7 @@ ISR(USART_RX_vect_N(TLM_USART0))
   UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
 }
 
+
 // USART0 Transmit Data Register Emtpy ISR (UDR was loaded in Shift Register)
 ISR(USART_UDRE_vect_N(TLM_USART0))
 {
@@ -109,4 +111,35 @@ ISR(USART_UDRE_vect_N(TLM_USART0))
     UCSRB_N(TLM_USART0) &= ~(1 << UDRIE_N(TLM_USART0)); // Disable UDRE interrupt.
   }
 }
+#endif
+
+#if defined(CPUXMEGA)
+ISR(token_paste4(USART, S0_PORT, S0_USART, _RXC_vect)) // e.g. USARTE0_RXC_vect
+{
+  SERIAL0_USART.CTRLA &= ~USART_DREINTLVL_gm; // Disable interrupt.
+
+  uint8_t stat = SERIAL0_USART.STATUS;
+  uint8_t data = SERIAL0_USART.DATA;
+
+  sei(); // Blocking ISR until here.
+
+  if (stat & (USART_FERR_bm | USART_BUFOVF_bm | USART_PERR_bm) )
+  {
+    // Discard buffer and start fresh on any comm's error
+    parseTelemFrskyByte(START_STOP); // reset
+  }
+  else parseTelemFrskyByte(data);
+
+  SERIAL0_USART.CTRLA |= USART_RXCINTLVL_MED_gc; // Enable medium priority.
+}
+
+
+ISR(token_paste4(USART, S0_PORT, S0_USART, _DRE_vect))
+{
+  if (Usart0TxBufferCount)
+    SERIAL0_USART.DATA = Usart0TxBuffer_p2M[--Usart0TxBufferCount];
+  else
+    SERIAL0_USART.CTRLA &= ~USART_DREINTLVL_gm;
+}
+#endif
 

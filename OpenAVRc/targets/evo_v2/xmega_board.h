@@ -14,19 +14,19 @@
 #define GETADC_COUNT 1  // Used in switches.cpp and keys.cpp.
 
 // USART General defines.
-#define USART_SET_BAUD_9K6(usartx)   _USART_SET_BAUD(usartx, 12, +4)
-#define USART_SET_BAUD_57K6(usartx)  _USART_SET_BAUD(usartx, 135,-2)
-#define USART_SET_BAUD_100K(usartx)  _USART_SET_BAUD(usartx, 159,-3)
-#define USART_SET_BAUD_115K2(usartx)  _USART_SET_BAUD(usartx, 131,-3)
-#define USART_SET_BAUD_125K(usartx)  _USART_SET_BAUD(usartx, 127,-3)
-#define USART_SET_BAUD_230K4(usartx)  _USART_SET_BAUD(usartx, 123,-4)
+#define USART_SET_BAUD_9K6(usartxn)   _USART_SET_BAUD(usartxn, 12, +4)
+#define USART_SET_BAUD_57K6(usartxn)  _USART_SET_BAUD(usartxn, 135,-2)
+#define USART_SET_BAUD_100K(usartxn)  _USART_SET_BAUD(usartxn, 159,-3)
+#define USART_SET_BAUD_115K2(usartxn)  _USART_SET_BAUD(usartxn, 131,-3)
+#define USART_SET_BAUD_125K(usartxn)  _USART_SET_BAUD(usartxn, 127,-3)
+#define USART_SET_BAUD_230K4(usartxn)  _USART_SET_BAUD(usartxn, 123,-4)
 
-#define _USART_SET_BAUD(usartx, bsel, bscale) \
-  { usartx.BAUDCTRLA = bsel & 0xFF; usartx.BAUDCTRLB = ((int8_t) bscale << USART_BSCALE_gp) | (bsel >> 8); }
-#define USART_SET_MODE_8N1(usartx) \
-  { usartx.CTRLC = USART_CMODE_ASYNCHRONOUS_gc | USART_PMODE_DISABLED_gc | (0 << USART_SBMODE_bp) | USART_CHSIZE_8BIT_gc; } // 8N1
-#define USART_SET_MODE_8E2(usartx) \
-  { usartx.CTRLC = USART_CMODE_ASYNCHRONOUS_gc | USART_PMODE_EVEN_gc | (1 << USART_SBMODE_bp) | USART_CHSIZE_8BIT_gc; } // 8E2
+#define _USART_SET_BAUD(usartxn, bsel, bscale) \
+  { usartxn.BAUDCTRLA = bsel & 0xFF; usartxn.BAUDCTRLB = ((int8_t) bscale << USART_BSCALE_gp) | (bsel >> 8); }
+#define USART_SET_MODE_8N1(usartxn) \
+  { usartxn.CTRLC = USART_CMODE_ASYNCHRONOUS_gc | USART_PMODE_DISABLED_gc | (0 << USART_SBMODE_bp) | USART_CHSIZE_8BIT_gc; } // 8N1
+#define USART_SET_MODE_8E2(usartxn) \
+  { usartxn.CTRLC = USART_CMODE_ASYNCHRONOUS_gc | USART_PMODE_EVEN_gc | (1 << USART_SBMODE_bp) | USART_CHSIZE_8BIT_gc; } // 8E2
 
 #define USART_ENABLE_TX(usartxn) usartxn.CTRLB |= USART_TXEN_bm;
 
@@ -54,31 +54,29 @@
 
 
 
-#define WAIT_USART_BUFFER_EMPTY(usartx)    while(! (usartx.STATUS & USART_DREIF_bm) )
-#define WAIT_USART_TX_FIN(usartx)          while(! (usartx.STATUS & USART_TXCIF_bm) )
-#define WAIT_USART_RX_FIN(usartx)          while(! (usartx.STATUS & USART_RXCIF_bm) )
+#define WAIT_USART_BUFFER_EMPTY(usartxn)    while(! (usartxn.STATUS & USART_DREIF_bm) )
+#define WAIT_USART_TX_FIN(usartxn)          while(! (usartxn.STATUS & USART_TXCIF_bm) )
+#define WAIT_USART_RX_FIN(usartxn)          while(! (usartxn.STATUS & USART_RXCIF_bm) )
 
 #define USART_XCK_PIN_bm    PIN1_bm
 #define USART_RXD_PIN_bm    PIN2_bm
 #define USART_TXD_PIN_bm    PIN3_bm
 
 // All communication to RF module(s) will use the same pin ... e.g. USART MSPI, USART Asynch and PPM.
-#define MULTI_USART             USARTE0
-#define MULTI_USART_PORT        PORTE
-#define MULTI_USART_RXC_VECT    USARTE0_RXC_vect
-#define MULTI_USART_DRE_VECT    USARTE0_DRE_vect
 
-// Telemetry USART.
-#define FRSKY_USART               USARTD0
-#define FRSKY_USART_PORT          PORTD
-#define FRSKY_USART_RXC_VECT      USARTD0_RXC_vect
-//#define FRSKY_USART_DRE_VECT      USARTD0_DRE_vect
+#define MULTI_USART SERIAL0_USART
+#define DSM_USART   SERIAL0_USART
+#define CRSF_USART  SERIAL0_USART
+#define SBUS_USART  SERIAL0_USART
+#define SUMD_USART  SERIAL0_USART
+#define FRSKY_USART SERIAL0_USART
 
-// DSM USART.
-#define DSM_USART               USARTD0
-#define DSM_USART_PORT          PORTD
-//#define DSM_USART_RXC_VECT      USARTD0_RXC_vect
-#define DSM_USART_DRE_VECT      USARTD0_DRE_vect
+#define MULTI_USART_PORT SERIAL0_PORT
+#define DSM_USART_PORT   SERIAL0_PORT
+#define CRSF_USART_PORT  SERIAL0_PORT
+#define SBUS_USART_PORT  SERIAL0_PORT
+#define SUMD_USART_PORT  SERIAL0_PORT
+#define FRSKY_USART_PORT SERIAL0_PORT
 
 
 // token pasting
@@ -86,7 +84,8 @@
 #define token_paste2(x, y) token_paste2_int(x, y)
 #define token_paste3_int(x, y, z) x ## y ## z
 #define token_paste3(x, y, z) token_paste3_int(x, y, z)
-
+#define token_paste4_int(w, x, y, z)  w ## x ## y ## z
+#define token_paste4(w, x, y, z) token_paste4_int(w, x, y, z)
 
 // RF Module Timers.
 #define RF_PULSES_TC               TCE0 // For PPM and PCM.

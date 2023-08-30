@@ -43,7 +43,12 @@
 #define SUMD_USART TLM_USART0
 #define FRSKY_USART TLM_USART0
 #endif
-
+#if defined(CPUXMEGA)
+#define S0_USART 0
+#define S0_PORT  E
+#define SERIAL0_USART token_paste3(USART, S0_PORT, S0_USART) // e.g. USARTE0
+#define SERIAL0_PORT  token_paste2(PORT, S0_PORT) // e.g. PORTE
+#endif
 
 #define NUM_TELEM_RX_BUFFER  2
 #define TELEM_RX_PACKET_SIZE 9   // Frsky packet size

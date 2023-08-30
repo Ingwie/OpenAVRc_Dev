@@ -545,7 +545,7 @@ ifeq ($(PCB), EVO_V2)
    needSerial0 = YES
   endif
   ifeq ($(needSerial0), YES)
-  EXTRABOARDSRC += targets/evo_v2/Serial0.cpp
+  EXTRABOARDSRC += Serial0.cpp
   endif
 
   ifeq ($(PWM_BACKLIGHT), YES)
