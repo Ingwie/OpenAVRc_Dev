@@ -62,21 +62,29 @@
 #define USART_RXD_PIN_bm    PIN2_bm
 #define USART_TXD_PIN_bm    PIN3_bm
 
-// All communication to RF module(s) will use the same pin ... e.g. USART MSPI, USART Asynch and PPM.
+// All communication to RF module(s) will use the same pin where possible ... e.g. USART MSPI, USART Asynch and PPM.
+// However FrSKy DJT XJT RS232 telemetry will be wired to 2nd serial port.
+
+
+#define S1_USART 0
+#define S1_PORT  D
+#define SERIAL1_USART token_paste3(USART, S1_PORT, S1_USART) // e.g. USARTE0
+#define SERIAL1_PORT  token_paste2(PORT, S1_PORT) // e.g. PORTE
+
 
 #define MULTI_USART SERIAL0_USART
 #define DSM_USART   SERIAL0_USART
 #define CRSF_USART  SERIAL0_USART
 #define SBUS_USART  SERIAL0_USART
 #define SUMD_USART  SERIAL0_USART
-#define FRSKY_USART SERIAL0_USART
+#define FRSKY_USART SERIAL1_USART
 
 #define MULTI_USART_PORT SERIAL0_PORT
 #define DSM_USART_PORT   SERIAL0_PORT
 #define CRSF_USART_PORT  SERIAL0_PORT
 #define SBUS_USART_PORT  SERIAL0_PORT
 #define SUMD_USART_PORT  SERIAL0_PORT
-#define FRSKY_USART_PORT SERIAL0_PORT
+#define FRSKY_USART_PORT SERIAL1_PORT
 
 
 // token pasting

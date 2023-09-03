@@ -535,7 +535,7 @@ ifeq ($(PCB), EVO_V2)
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v2/menu_general_diaganas.cpp
-  EXTRABOARDSRC = targets/evo_v2/lcd_ssd1309_driver.cpp targets/evo_v2/xmega_adc_driver.cpp
+  EXTRABOARDSRC = targets/evo_v2/lcd_ssd1309_driver.cpp targets/evo_v2/xmega_adc_driver.cpp targets/evo_v2/Serial1.cpp
 
   needSerial0 = FALSE
   ifneq ($(SERIAL_PROTOCOL), NO)

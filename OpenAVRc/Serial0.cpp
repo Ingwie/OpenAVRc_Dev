@@ -121,14 +121,12 @@ ISR(token_paste4(USART, S0_PORT, S0_USART, _RXC_vect)) // e.g. USARTE0_RXC_vect
   uint8_t stat = SERIAL0_USART.STATUS;
   uint8_t data = SERIAL0_USART.DATA;
 
-  sei(); // Blocking ISR until here.
-
   if (stat & (USART_FERR_bm | USART_BUFOVF_bm | USART_PERR_bm) )
   {
     // Discard buffer and start fresh on any comm's error
-    parseTelemFrskyByte(START_STOP); // reset
+    parseTelemFunction(START_STOP); // reset
   }
-  else parseTelemFrskyByte(data);
+  else parseTelemFunction(data);
 
   SERIAL0_USART.CTRLA |= USART_RXCINTLVL_MED_gc; // Enable medium priority.
 }
