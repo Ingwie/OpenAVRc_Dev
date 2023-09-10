@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="BootFramXM256x3" />
+		<Option makefile_is_custom="1" />
+		<Option pch_mode="2" />
+		<Option compiler="avr-gcc" />
+		<MakeCommands>
+			<Build command="make all" />
+			<CompileFile command="" />
+			<Clean command="make clean" />
+			<DistClean command="$make -f $makefile distclean$target" />
+			<AskRebuildNeeded command="" />
+			<SilentBuild command="make all &gt; $(CMD_NULL)" />
+		</MakeCommands>
+		<Build>
+			<Target title="Release">
+				<Option output="BootFramXM256x3.sys" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="5" />
+				<Option compiler="avr-gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+				<MakeCommands>
+					<Build command="$make" />
+					<CompileFile command="" />
+					<Clean command="$make clean" />
+					<DistClean command="$make -f $makefile distclean$target" />
+					<AskRebuildNeeded command="" />
+					<SilentBuild command="$make &gt; $(CMD_NULL)" />
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<ExtraCommands>
+			<Add before="cmd /c copy conf\x256x3fram.conf.mk config.mk" />
+			<Mode after="always" />
+		</ExtraCommands>
+		<Unit filename="Makefile" />
+		<Unit filename="README.md" />
+		<Unit filename="conf/arduino328p.conf.mk" />
+		<Unit filename="conf/m2560fram.conf.mk" />
+		<Unit filename="conf/x256x3fram.conf.mk" />
+		<Unit filename="conf/x32e5.conf.mk" />
+		<Unit filename="config.h.mk" />
+		<Unit filename="config.mk" />
+		<Unit filename="desktop.lbm" />
+		<Unit filename="eeprom_driver.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="eeprom_driver.h" />
+		<Unit filename="evo_lcd_driver.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="flash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="flash.h" />
+		<Unit filename="i2c_master.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="i2c_master.h" />
+		<Unit filename="lcd.h" />
+		<Unit filename="lcd_ssd1309_driver.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="protocol.h" />
+		<Unit filename="sp_driver.S" />
+		<Unit filename="sp_driver.h" />
+		<Unit filename="uart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="uart.h" />
+		<Unit filename="x256x3fram.conf.mk">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="xboot.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="xboot.h" />
+		<Unit filename="xboot.xml" />
+		<Unit filename="xbootapi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="xbootapi.h" />
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
