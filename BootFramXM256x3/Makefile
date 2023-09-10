@@ -782,7 +782,7 @@ lss: $(TARGET).lss
 sym: $(TARGET).sym
 
 # This is commented out because it does not work unless building natively.
-# Use a bre build step in CodeBlocks or similar.
+# Use a pre-build step in CodeBlocks or similar.
 # Configuration support
 #%.conf %.conf.mk: force
 #	$(COPY) $@ config.mk

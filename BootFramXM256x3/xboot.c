@@ -71,8 +71,8 @@ protected = 1;
    * The possible sources of AT xmega reset are :-
    * Power on reset.
    * External reset.
-   * Watchdog reset.
    * Brownout reset.
+   * Watchdog reset.
    * PDI reset.
    * Software reset.
    * or we could have jumped here
@@ -88,13 +88,15 @@ protected = 1;
   // Check reset conditions.
   // RST.STATUS bits 6 and 7 aren't used according to the manual (note bit 6 is defined as RST_SDRF_bm (Spike Detection) in nearly every header).
 
-  register uint8_t mask = RST_SRF_bm | RST_PDIRF_bm | RST_BORF_bm | RST_EXTRF_bm | RST_PORF_bm;
+  register uint8_t mask = RST_SRF_bm | RST_PDIRF_bm | RST_WDRF_bm | RST_BORF_bm | RST_EXTRF_bm | RST_PORF_bm;
 
 #ifdef RST_SDRF_bm
   mask |= RST_SDRF_bm;
 #endif
 
-  if (! (RST.STATUS & mask)) { // No valid reset condition so do a software reset.
+  // No valid reset condition so do a software reset.
+  // Best way to call bootloader is via a Software Reset.
+  if (! (RST.STATUS & mask)) {
     _PROTECTED_WRITE(RST.CTRL, RST_SWRST_bm);
     while(1); // Should not execute according to the manual.
   }
