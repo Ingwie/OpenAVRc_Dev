@@ -47,7 +47,7 @@ extern uint8_t *pulses2MHzWPtr;
 
 extern uint16_t nextMixerEndTime;
 
-#define MAX_MIXER_DELTA_US   (50000) /* 50ms max as an interval between 2 mixer calculations */
+#define MAX_MIXER_DELTA_US   (32000) /* 32ms max as an interval between 2 mixer calculations */
 
 #define PULSES_SETUP_TIME_US (500) // 500usec
 
