@@ -52,7 +52,7 @@
 ## MCU = atxmega192a1
 ## MCU = atxmega192a3
 ## MCU = atxmega256a1
-MCU = atxmega256a3
+## MCU = atxmega256a3
 ## MCU = atxmega256a3b
 ## MCU = atxmega16d4
 ## MCU = atxmega32d4
@@ -69,7 +69,7 @@ MCU = atxmega256a3
 ## MCU = atxmega128a3u
 ## MCU = atxmega128a4u
 ## MCU = atxmega192a3u
-## MCU = atxmega256a3u
+MCU = atxmega256a3u
 ## MCU = atxmega256a3bu
 ## MCU = atxmega64b1
 ## MCU = atxmega64b3
