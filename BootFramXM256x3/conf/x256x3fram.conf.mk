@@ -1,4 +1,4 @@
-# xmega256a3 configuration
+# xmega256a3u configuration
 
 # use config.h
 USE_CONFIG_H = yes
