@@ -60,7 +60,7 @@
 #if defined(CPUXMEGA)
 ISR(token_paste4(USART, S1_PORT, S1_USART, _RXC_vect)) // e.g. USARTE0_RXC_vect
 {
-  SERIAL0_USART.CTRLA &= ~USART_DREINTLVL_gm; // Disable interrupt.
+//  SERIAL1_USART.CTRLA &= ~USART_DREINTLVL_gm; // Disable interrupt.
 
   uint8_t stat = SERIAL1_USART.STATUS;
   uint8_t data = SERIAL1_USART.DATA;
@@ -72,7 +72,7 @@ ISR(token_paste4(USART, S1_PORT, S1_USART, _RXC_vect)) // e.g. USARTE0_RXC_vect
   }
   else parseTelemFunction(data);
 
-  SERIAL1_USART.CTRLA |= USART_RXCINTLVL_MED_gc; // Enable medium priority.
+//  SERIAL1_USART.CTRLA |= USART_RXCINTLVL_MED_gc; // Enable medium priority.
 }
 
 

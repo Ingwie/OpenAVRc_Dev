@@ -63,7 +63,7 @@
 #define USART_TXD_PIN_bm    PIN3_bm
 
 // All communication to RF module(s) will use the same pin where possible ... e.g. USART MSPI, USART Asynch and PPM.
-// However FrSKy DJT XJT RS232 telemetry will be wired to 2nd serial port.
+// However FrSKy DJT XJT RS232 telemetry may be wired to 2nd serial port.
 
 
 #define S1_USART 0
