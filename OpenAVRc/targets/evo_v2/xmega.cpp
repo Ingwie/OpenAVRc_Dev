@@ -191,7 +191,7 @@ inline void boardInit()
   TCC2.CTRLB = PIN2_bm;
   TCC2.LPER = 255;
   TCC2.LCMPC = 127;
-  TCC2.CTRLA = TC2_CLKSEL_DIV1_gc; // ClkPER/64 32MHz/64.
+  TCC2.CTRLA = TC2_CLKSEL_DIV64_gc; // ClkPER/64 32MHz/64.
 #endif
 #endif
 
