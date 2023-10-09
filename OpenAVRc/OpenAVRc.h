@@ -40,6 +40,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <time.h>
+#include <stdio.h>
 
 #include "fifo.h"
 
@@ -547,7 +548,7 @@ enum BaseCurves {
 #define IS_RE_NAVIGATION_ENABLE()   g_eeGeneral.reNavigation
 
 #define HEART_TIMER_10MS              1
-#define HEART_TIMER_PULSES            2 // when multiple modules this is the first one
+#define HEART_TIMER_PULSES            2
 #define HEART_WDT_CHECK               (HEART_TIMER_10MS + HEART_TIMER_PULSES)
 
 extern uint8_t heartbeat;

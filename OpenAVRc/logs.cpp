@@ -32,7 +32,6 @@
 
 
 #include "OpenAVRc.h"
-#include <stdio.h>
 
 uint8_t logDelay = 0;
 tmr10ms_t lastLogTime = 0;
