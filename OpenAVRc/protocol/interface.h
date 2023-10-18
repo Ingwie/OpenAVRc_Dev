@@ -57,7 +57,7 @@
 #if (SERIAL_PROTOCOL==DSM)
 #include "DSM_SERIAL.c"
 #elif (SERIAL_PROTOCOL==MULTIMODULE)
-#include "MULTI_SERIAL.c"
+#include "MULTI_SERIAL_xmega.c"
 #elif (SERIAL_PROTOCOL==CRSF)
 #include "CRSF_SERIAL.c"
 #elif (SERIAL_PROTOCOL==SBUS)

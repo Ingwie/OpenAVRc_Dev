@@ -103,11 +103,55 @@ const mm_protocol_definition* getMultiProtocolDefinition(uint8_t proto_x)
   return pdef = &multi_protocols[proto_x];
 }
 
+PACK(
+  struct mm_t1_pkt
+  {
+    union
+    { // The unnamed unions can be accessed, but this is just for detail really.
+      uint8_t flags;
+      struct
+      {
+        unsigned input_signal_detected :1; // Input signal detected
+        unsigned serial_mode_enabled :1;// Serial mode enabled
+        unsigned protocol_is_valid :1;// Protocol is valid
+        unsigned mm_is_binding :1;// Module is in binding mode
+        unsigned w_a_b_e_t_l_t_p :1;// Module waits a bind event to load the protocol !
+        unsigned protocol_supports_failsafe :1;// Current protocol supports failsafe
+        unsigned p_s_d_c_m :1;// Current protocol supports disable channel mapping
+        unsigned data_buffer_almost_full :1;// Data buffer is almost full
+      };
+    };
+    uint8_t ver_major;
+    uint8_t ver_minor;
+    uint8_t ver_revision;
+    uint8_t ver_patchlevel;
+    uint8_t channel_Order;
+    uint8_t prev_valid_proto;
+    uint8_t next_valid_proto;
+    char proto_name[7];
+    union
+    {
+      uint8_t options;
+      struct
+      {
+        unsigned qty_sub_proto :4; // Number of sub protocols
+        unsigned option_text_displayed :4;// Option text to be displayed
+      };
+    };
+  char sub_proto_name[8];
+  });
+
+struct mm_t1_pkt   mm_type1_packet;
+struct mm_t1_pkt  *mm_type1_packet_ptr = &mm_type1_packet;
+
+
 static void MULTI_Reset()
 {
   USART_DISABLE_TX(MULTI_USART);
   USART_DISABLE_RX(MULTI_USART);
+  parseTelemFunction = (p_parseTelemFunction)parseTelemFrskyByte;
 }
+
 
 static uint16_t MULTI_cb()
 {
@@ -133,6 +177,11 @@ static uint16_t MULTI_cb()
    AutoBindBit bit 6
    BindBit bit 7
    */
+
+  // A bind condition originating from the MM cannot be displayed on the TX screen as it creates a loop condition.
+  // e.g. MM binding -> BIND_MODE -> MM binding.
+  //if(mm_type1_packet_ptr->mm_is_binding && systemBolls.protoMode == NORMAL_MODE) systemBolls.protoMode = BIND_MODE;
+  //else if(!mm_type1_packet_ptr->mm_is_binding && systemBolls.protoMode == BIND_MODE) systemBolls.protoMode = NORMAL_MODE;
 
   protoByte = proto_type & 0x1f;
   if (systemBolls.protoMode == BIND_MODE) protoByte |= 0x80;
@@ -212,13 +261,15 @@ static uint16_t MULTI_cb()
 static void MULTI_initialize()
 {
 // 100K 8E2
+  parseTelemFunction = (p_parseTelemFunction)parseMultiByte;
   USART_SET_BAUD_100K(MULTI_USART);
   USART_SET_MODE_8E2(MULTI_USART);
   USART_ENABLE_TX(MULTI_USART);
   USART_ENABLE_RX(MULTI_USART);
   Usart0TxBufferCount = 0;
 
-  if (g_model.AUTOBINDMODE) PROTOCOL_SetBindState(500); // 5 Sec
+  if (g_model.AUTOBINDMODE) PROTOCOL_SetBindState(500); // 5 Seconds. Maximum bind time of MM is 10 seconds.
+  // This is an auto-bind from the Transmitter. Some protocols like Hubsan are a hard coded auto-bind from the module.
 
   PROTO_Start_Callback(MULTI_cb);
 }
@@ -251,50 +302,10 @@ const void* MULTI_Cmds(enum ProtoCmds cmd)
 }
 
 
-PACK(
-  struct mm_t1_pkt
-  {
-    union
-    { // The unnamed unions can be accessed, but this is just for detail really.
-    uint8_t flags;
-      struct
-      {
-        unsigned input_signal_detected :1; // Input signal detected
-        unsigned serial_mode_enabled :1;// Serial mode enabled
-        unsigned protocol_is_valid :1;// Protocol is valid
-        unsigned module_in_bind_mode :1;// Module is in binding mode
-        unsigned m_w_a_b_e_t_l_t_p :1;// Module waits a bind event to load the protocol !
-        unsigned current_protocol_supports_failsafe :1;// Current protocol supports failsafe
-        unsigned c_p_s_d_c_m :1;// Current protocol supports disable channel mapping
-        unsigned data_buffer_almost_full :1;// Data buffer is almost full
-      };
-    };
-    uint8_t ver_major;
-    uint8_t ver_minor;
-    uint8_t ver_revision;
-    uint8_t ver_patchlevel;
-    uint8_t prev_valid_proto;
-    uint8_t next_valid_proto;
-    char proto_name[7];
-    union
-    {
-      uint8_t options;
-      struct
-      {
-        unsigned qty_sub_proto :4; // Number of sub protocols
-        unsigned option_text_displayed :4;// Option text to be displayed
-      };
-    };
-  char sub_proto_name[8];
-  });
-
-
-char mm_current_sub_proto_name[8] = "";
-uint8_t mm_sub_proto_qty = 0;
-uint8_t mm_options = 0;
 #define MM_TYPE_01_PKT_LEN 24
 #define L_BUFFER_SIZE 24
 uint8_t l_buffer[L_BUFFER_SIZE];
+
 
 NOINLINE void parseMultiByte(uint8_t data)
 {
@@ -345,22 +356,9 @@ NOINLINE void parseMultiByte(uint8_t data)
         break;
       }
 
-      if (write_ptr == MM_TYPE_01_PKT_LEN) // decode packet.
+      if (write_ptr == MM_TYPE_01_PKT_LEN) // decode packet - double buffered.
       {
-        // sub-proto quantity
-        mm_sub_proto_qty = l_buffer[15] & 0x0F;
-        // proto options
-        mm_options = (l_buffer[15]) >> 4;
-        // sub proto name
-        mm_current_sub_proto_name[0] = l_buffer[16];
-        mm_current_sub_proto_name[1] = l_buffer[17];
-        mm_current_sub_proto_name[2] = l_buffer[18];
-        mm_current_sub_proto_name[3] = l_buffer[19];
-        mm_current_sub_proto_name[4] = l_buffer[20];
-        mm_current_sub_proto_name[5] = l_buffer[21];
-        mm_current_sub_proto_name[6] = l_buffer[22];
-        mm_current_sub_proto_name[7] = l_buffer[23];
-
+        memcpy(&mm_type1_packet , &l_buffer , sizeof mm_type1_packet);
         state = RESET;
         break;
       }

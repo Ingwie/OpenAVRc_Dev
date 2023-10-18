@@ -949,7 +949,7 @@ enum DisplayTrims {
 
 #define MULTI_RF_PROTO_LAST 255
 #define MULTI_RF_RXNUM_LAST 63
-
+#if 0
 enum MultiModuleRFProtocols {
   MM_RF_PROTO_CUSTOM = 0,
   MM_RF_PROTO_FIRST = MM_RF_PROTO_CUSTOM,
@@ -986,6 +986,7 @@ enum MultiModuleRFProtocols {
   MM_RF_PROTO_DM002,
   MM_RF_PROTO_LAST= MM_RF_PROTO_DM002
 };
+#endif
 enum MMDSM2Subtypes {
   MM_RF_DSM2_SUBTYPE_DSM2_22,
   MM_RF_DSM2_SUBTYPE_DSM2_11,
