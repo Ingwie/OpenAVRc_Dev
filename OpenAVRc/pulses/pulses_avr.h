@@ -63,12 +63,19 @@ extern uint16_t dt;
 #if defined(PCM_PROTOCOL)
 #include "../protocol/PROTO_PCM.h"
 #endif
+#if defined(MULTIMODULE)
+#include "../protocol/MULTI_SERIAL.h"
+#endif
+
 union p2mhz_t
 {
   uint16_t pword[PULSES_WORD_SIZE];
   uint8_t  pbyte[PULSES_BYTE_SIZE]; // 144
+#if defined(MULTIMODULE)
+  mmSt_t   mm_st;
+#endif
 #if defined(PCM_PROTOCOL)
-	PcmSt_t  Pcm;
+  PcmSt_t  Pcm;
 #endif
 } pulses2MHz;
 
