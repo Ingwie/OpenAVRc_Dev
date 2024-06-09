@@ -271,17 +271,19 @@ NOINLINE void parseMultiByte(uint8_t data)
     RESET,
     M_FOUND,
     P_FOUND,
-    TYPE_01,
+    TYPE_FOUND,
     LEN_FOUND,
   };
 
   static uint8_t write_ptr;
   static uint8_t state = RESET;
+  static uint8_t length;
 
   switch (state)
   {
     case RESET: // Reset
       write_ptr = 0;
+      length = 0;
       if (data == 'M') state = M_FOUND;
       break;
 
@@ -291,13 +293,16 @@ NOINLINE void parseMultiByte(uint8_t data)
       break;
 
     case P_FOUND:
-      if (data == 0x01) state = TYPE_01;
+      if (data == 0x01) state = TYPE_FOUND; // Multi Module Status.
+      else if (data == 0x02) state = TYPE_FOUND; // FrSky S Port Telemetry packet.
+      else if (data == 0x03) state = TYPE_FOUND; // FrSky Hub Telemetry packet.
       else state = RESET;
       break;
 
-    case TYPE_01: // Type 0x01 packet, Multi Module Status.
-      if (data == MM_TYPE_01_PKT_LEN)
+    case TYPE_FOUND:
+      if (data <= MM_TYPE_01_PKT_LEN)
       {
+        length = data;
         state = LEN_FOUND;
       }
       else state = RESET;
@@ -305,18 +310,27 @@ NOINLINE void parseMultiByte(uint8_t data)
 
     case LEN_FOUND:
       // store packet minus header.
-      if (write_ptr < MM_TYPE_01_PKT_LEN)
+      if (write_ptr < length)
       {
         l_buffer[write_ptr] = data;
         write_ptr++;
-        break;
-      }
 
-      if (write_ptr == MM_TYPE_01_PKT_LEN) // decode packet - double buffered.
-      {
-        memcpy(&mm_type1_packet , &l_buffer , MM_TYPE_01_PKT_LEN);
-        state = RESET;
+        if (write_ptr == length)
+        {
+          if (length == MM_TYPE_01_PKT_LEN)
+          {
+            memcpy(&mm_type1_packet, &l_buffer, MM_TYPE_01_PKT_LEN);
+            state = RESET;
+            break;
+          }
+          else
+          {
+            LoadTelemBuffer(l_buffer);
+            state = RESET;
+            break;
+          }
         break;
+        }
       }
   }
 }
