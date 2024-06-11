@@ -141,8 +141,8 @@ void readKeysAndTrims();
 #define OUT_B_PPM16_SIM           5    // OC1B
 #define INP_D_I2C_SCL             1
 #define INP_D_I2C_SDA             0
-#define INP_E_TELEM_RX            1
-#define OUT_E_TELEM_TX            0
+#define OUT_E_TELEM_TX            1
+#define INP_E_TELEM_RX            0
 //#define INP_H_RF_Activated        6
 //#define INP_H_DSC_Activated       5    //not used, reserved for systemBolls.pwrCheck()
 #define INP_H_Hold_Power          PIN4_bm
