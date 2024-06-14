@@ -485,13 +485,13 @@ void menuModelSetup(uint8_t event)
          lcdDrawTextLeft(y, NO_INDENT(STR_TYPE));
          if(g_model.CUSTOMPROTO)
           {
-           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN-5*FW, y, STR_MULTI_CUSTOM, menuHorizontalPosition==0 ? attr : 0 );
+           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN-6*FW, y, STR_MULTI_CUSTOM, menuHorizontalPosition==0 ? attr : 0 );
           }
          else
           {
            g_model.MULTIRFPROTOCOL = limit<int8_t>(MM_RF_PROTO_FIRST+1, g_model.MULTIRFPROTOCOL, MM_RF_PROTO_LAST);
 
-           lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN-5*FW, y, pdef->protoNameString, MM_PROTO_NAME_LEN, (menuHorizontalPosition==0 ? attr : 0 ));
+           lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN-6*FW, y, pdef->protoNameString, MM_PROTO_NAME_LEN, (menuHorizontalPosition==0 ? attr : 0 ));
           }
 
          if(g_model.CUSTOMPROTO)
