@@ -278,33 +278,34 @@ void processSportPacket(uint8_t *sport_packet)
     return;
 
   if ((appId & 0xF000) == 0xF000)
+  {
+    if (appId == X_RSSI_ID)
     {
-      if (appId == X_RSSI_ID)
-        {
-          telemetryData.rssi[0].set(SPORT_DATA_U8(sport_packet));
-        }
-      else if (appId == X_SWR_ID)
-        {
-          telemetryData.rssi[1].set(SPORT_DATA_U8(sport_packet));
-        }
-      else if (appId == X_ADC1_ID || appId == X_ADC2_ID)
-        {
-          // A1/A2 of DxR receivers
-          telemetryData.analog[appId-X_ADC1_ID].set(SPORT_DATA_U8(sport_packet),g_model.telemetry.channels[appId-X_ADC1_ID].type);
-#if defined(VARIO)
-          uint8_t varioSource = g_model.telemetry.varioSource - VARIO_SOURCE_A1;
-          if (varioSource == appId-X_ADC1_ID)
-            {
-              telemetryData.value.varioSpeed = applyChannelRatio(varioSource, telemetryData.analog[varioSource].value);
-            }
-#endif
-        }
-      else if (appId == X_BATT_ID)
-        {
-          telemetryData.analog[0].set(SPORT_DATA_U8(sport_packet),UNIT_VOLTS);
-        }
+      if(IS_MULTIMODULE_PROTOCOL (s_current_protocol))
+      { // Multiprotocol specific RSSI / LQI.
+        telemetryData.rssi[0].set((sport_packet[5]) >> 1); // Multi TX_RSSI - units Decibel (dB).
+        telemetryData.rssi[1].set(sport_packet[7]); // Multi TX_LQI - No units.
+      }
+      else
+        telemetryData.rssi[0].set(SPORT_DATA_U8(sport_packet));
     }
-  else if ((appId >> 8) == 0)
+    else if (appId == X_SWR_ID && (!IS_MULTIMODULE_PROTOCOL (s_current_protocol)))
+      telemetryData.rssi[1].set(SPORT_DATA_U8(sport_packet));
+    else if (appId == X_ADC1_ID || appId == X_ADC2_ID)
+    {
+    // A1/A2 of DxR receivers
+      telemetryData.analog[appId-X_ADC1_ID].set(SPORT_DATA_U8(sport_packet),g_model.telemetry.channels[appId-X_ADC1_ID].type);
+
+#if defined(VARIO)
+       uint8_t varioSource = g_model.telemetry.varioSource - VARIO_SOURCE_A1;
+       if (varioSource == appId-X_ADC1_ID)
+         telemetryData.value.varioSpeed = applyChannelRatio(varioSource, telemetryData.analog[varioSource].value);
+#endif
+    }
+    else if (appId == X_BATT_ID)
+      telemetryData.analog[0].set(SPORT_DATA_U8(sport_packet),UNIT_VOLTS);
+  }
+    else if ((appId >> 8) == 0)
     {
       // The old FrSky IDs
       uint16_t value = HUB_DATA_U16(sport_packet);
@@ -321,8 +322,8 @@ void processSportPacket(uint8_t *sport_packet)
       telemetryData.value.varioSpeed = 10 * (varioSpeed >> 8);
     }*/
 
-  if (appId & 0xF000)
-    return;  // Discard other "0xX000" value (todo use some other)
+//  if (appId & 0xF000)
+//    return;  // Discard other "0xX000" value (todo use some other)
 
   uint8_t smallId = (uint8_t)(appId >> 4); // Forget last 4 bits -> We accept just one sensor by type
 

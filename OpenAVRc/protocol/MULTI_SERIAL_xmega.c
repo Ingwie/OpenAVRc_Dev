@@ -323,7 +323,7 @@ NOINLINE void parseMultiByte(uint8_t data)
             state = RESET;
             break;
           }
-          else
+          else if (length == TELEM_RX_PACKET_SIZE)
           {
             LoadTelemBuffer(l_buffer);
             state = RESET;
