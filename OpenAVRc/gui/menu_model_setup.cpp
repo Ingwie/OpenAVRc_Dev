@@ -57,6 +57,7 @@ enum menuModelSetupItems
  ITEM_MODEL_THROTTLE_WARNING,
  ITEM_MODEL_SWITCHES_WARNING,
  ITEM_MODEL_BEEP_CENTER,
+ ITEM_MODEL_PROTOCOL_METHOD,
  ITEM_MODEL_PROTOCOL,
  ITEM_MODEL_PROTOCOL_PARAMS_LINE_1,
 //Used with(MULTIMODULE) || (SPIMODULES)
@@ -73,7 +74,7 @@ enum menuModelSetupItems
 
 };
 
-#define FIELD_PROTOCOL_MAX 1
+
 
 #define MODEL_SETUP_2ND_COLUMN        (LCD_W-11*FW-MENUS_SCROLLBAR_WIDTH)
 #define MODEL_SETUP_BIND_OFS          2*FW+1
@@ -95,10 +96,22 @@ void menuModelSetup(uint8_t event)
 
  uint8_t protocol = g_model.rfProtocol;
  MEMPROTO = protocol;
- MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 0, 1, 0, 0, 0, 0, 0, NUM_SWITCHES-1, NUM_STICKS+NUM_POTS+NUM_ROTARY_ENCODERS-1, FIELD_PROTOCOL_MAX,
-            2,2,0,2,0,0,0,0
-          });
 
+#define FIELD_PROTOCOL_METHOD_MAX 0
+#define FIELD_PROTOCOL_MAX 0
+// menuHorizontalPosition fields
+MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 0, 1, 0, 0, 0, 0, 0, NUM_SWITCHES-1, NUM_STICKS+NUM_POTS+NUM_ROTARY_ENCODERS-1,
+  FIELD_PROTOCOL_METHOD_MAX,
+  FIELD_PROTOCOL_MAX,
+  2,
+  2,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+});
 
  MENU_CHECK(menuTabModel, e_ModelSetup, MODEL_SETUP_MAX_LINES+2);
 
@@ -332,56 +345,102 @@ void menuModelSetup(uint8_t event)
      break;
 
      int16_t tmp; // used for CHECK_INCDEC_MODELVAR_STARTPULSES_IF_CHANGE
+//--------------------------------------------------
+    case ITEM_MODEL_PROTOCOL_METHOD:
 
-    case ITEM_MODEL_PROTOCOL:
-     lcdDrawTextLeft(y, NO_INDENT(STR_PROTO));
+//     lcdDrawTextLeft(y, NO_INDENT(STR_PROTO)); // ToDo rename as "Method(e)" or "Module" or something.
 #if defined(SPIMODULES)
-     if IS_SPIMODULES_PROTOCOL(protocol)
+      if IS_SPIMODULES_PROTOCOL(protocol)
       {
-       lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, STR_SPIM, menuHorizontalPosition<=0 ? attr : 0);
+        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, STR_SPIM, menuHorizontalPosition == 0 ? attr : 0);
       }
-     else
+      else
 #endif
       {
-       lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, Protos[g_model.rfProtocol].ProtoName, menuHorizontalPosition<=0 ? attr : 0);
+        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, Protos[g_model.rfProtocol].ProtoName, menuHorizontalPosition == 0 ? attr : 0);
       }
-     if (IS_PPM_PROTOCOL(protocol))
+
+      if (attr && (editMode>0) && (menuHorizontalPosition == 0))
       {
-       lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+7*FW, y, STR_NCHANNELS, g_model.PPMNCH, menuHorizontalPosition!=0 ? attr : 0);
-      }
-     else if (menuHorizontalPosition>0 && attr)
-      {
-       MOVE_CURSOR_FROM_HERE();
-      }
-     if (attr && (editMode>0 || p1valdiff))
-      {
-       switch (menuHorizontalPosition)
-        {
-        case 0:
 #if defined(SPIMODULES)
          if IS_SPIMODULES_PROTOCOL(protocol)
-          {
+         {
            uint8_t prototemp = LASTPROTOMENU1;
            CHECK_INCDEC_MODELVAR_ZERO(event, prototemp, LASTPROTOMENU1);
            if (prototemp < LASTPROTOMENU1)
-            {
+           {
              protocol = prototemp;
-            }
-          }
+           }
+         }
          else
 #endif
-          {
+         {
            CHECK_INCDEC_MODELVAR_ZERO(event, protocol, LASTPROTOMENU1);
-          }
-         break;
-        case 1:
-         CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.PPMNCH, protocol==PROTOCOL_PPM ? 6 : 2); //limit 8 channels for PPMSim and PPM16
-         g_model.PPMFRAMELENGTH = (g_model.PPMNCH-2) * 8;
-         break;
-        }
+         }
       }
      break;
+//--------------------------------------------------
+    case ITEM_MODEL_PROTOCOL:
+     if PROTO_IS_SYNC
+     {
+       if (IS_PPM_PROTOCOL(protocol))
+       {
+         lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN, y, STR_NCHANNELS, g_model.PPMNCH, menuHorizontalPosition == 0 ? attr : 0);
 
+         if (attr  && (editMode>0) && (menuHorizontalPosition == 0))
+         {
+           CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.PPMNCH, protocol==PROTOCOL_PPM ? 6 : 2); //limit 8 channels for PPMSim and PPM16
+           g_model.PPMFRAMELENGTH = (g_model.PPMNCH-2) * 8;
+         }
+       }
+#if (SERIAL_PROTOCOL==MULTIMODULE)
+       else if IS_MULTIMODULE_PROTOCOL(protocol)
+        {
+         uint8_t multi_rfProto = (uint8_t)g_model.MULTIRFPROTOCOL;
+         const mm_protocol_definition *pdef = getMultiProtocolDefinition(multi_rfProto);
+
+         lcdDrawTextLeft(y, NO_INDENT(STR_PROTO));
+
+         if(g_model.CUSTOMPROTO)
+          {
+           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, STR_MULTI_CUSTOM, menuHorizontalPosition <= 0 ? attr : 0 );
+          }
+         else
+          {
+           g_model.MULTIRFPROTOCOL = limit<int8_t>(MM_RF_PROTO_FIRST+1, g_model.MULTIRFPROTOCOL, MM_RF_PROTO_LAST);
+           lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, pdef->protoNameString, MM_PROTO_NAME_LEN, (menuHorizontalPosition <= 0 ? attr : 0 ));
+          }
+
+         if (attr  && (editMode>0) && (menuHorizontalPosition == 0))
+          {
+             uint8_t multiRfProto = (g_model.CUSTOMPROTO ? MM_RF_PROTO_CUSTOM : (uint8_t)g_model.MULTIRFPROTOCOL);
+             CHECK_INCDEC_MODELVAR(event, multiRfProto, MM_RF_PROTO_FIRST, MM_RF_PROTO_LAST);
+             if (checkIncDec_Ret)
+              {
+               g_model.CUSTOMPROTO = (multiRfProto == MM_RF_PROTO_CUSTOM);
+               if (!g_model.CUSTOMPROTO)
+                 g_model.MULTIRFPROTOCOL = (int8_t)multiRfProto;
+               g_model.rfSubType = 0;
+               g_model.rfOptionValue2 = 0;
+            }
+          }
+        }
+#endif
+#if defined(SPIMODULES)
+       else if IS_SPIMODULES_PROTOCOL(protocol)
+        {
+         lcdDrawTextLeft(y, NO_INDENT(STR_PROTO));
+         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, Protos[g_model.rfProtocol].ProtoName, menuHorizontalPosition == 0 ? attr : 0);
+
+         if (attr  && (editMode>0) && (menuHorizontalPosition == 0))
+         {
+           CHECK_INCDEC_MODELVAR(event, protocol, LASTPROTOMENU1, PROTOCOL_COUNT-1);
+         }
+        }
+#endif
+     }
+     break;
+//--------------------------------------------------
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_1:
      if PROTO_IS_SYNC
      {
@@ -410,7 +469,7 @@ void menuModelSetup(uint8_t event)
           }
         }
 #if defined(PCM_PROTOCOL)
-      if IS_PCM_PROTOCOL(protocol)
+      else if IS_PCM_PROTOCOL(protocol)
         {
          /*Type line*/
          lcdDrawTextLeft(y, STR_TYPE);
@@ -430,7 +489,7 @@ void menuModelSetup(uint8_t event)
         }
 #endif
 #if (SERIAL_PROTOCOL==DSM)
-       if (IS_DSM2_SERIAL_PROTOCOL(protocol))
+      else if (IS_DSM2_SERIAL_PROTOCOL(protocol))
         {
          lcdDrawTextLeft(y, STR_TYPE);
          lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+4*g_model.rfSubType, 4, menuHorizontalPosition == 0 ? attr : 0);
@@ -440,7 +499,7 @@ void menuModelSetup(uint8_t event)
           }
         }
 #elif (SERIAL_PROTOCOL==CRSF)
-       if (IS_CRSF_PROTOCOL(protocol))
+      else if (IS_CRSF_PROTOCOL(protocol))
         {
          menuHorizontalPosition = 0; // force Hpos
          lcdDrawTextLeft(y, STR_TYPE);
@@ -453,7 +512,7 @@ void menuModelSetup(uint8_t event)
           }
         }
 #elif (SERIAL_PROTOCOL==SBUS)
-       if (IS_SBUS_PROTOCOL(protocol))
+      else if (IS_SBUS_PROTOCOL(protocol))
         {
          menuHorizontalPosition = 0; // force Hpos
          lcdDrawTextLeft(y, STR_PERIOD);
@@ -465,7 +524,7 @@ void menuModelSetup(uint8_t event)
           }
         }
 #elif (SERIAL_PROTOCOL==SUMD)
-       if (IS_SUMD_PROTOCOL(protocol))
+      else if (IS_SUMD_PROTOCOL(protocol))
         {
          menuHorizontalPosition = 0; // force Hpos
          lcdDrawTextLeft(y, STR_PERIOD);
@@ -477,65 +536,36 @@ void menuModelSetup(uint8_t event)
           }
         }
 #elif (SERIAL_PROTOCOL==MULTIMODULE)
-       if IS_MULTIMODULE_PROTOCOL(protocol)
+      else if IS_MULTIMODULE_PROTOCOL(protocol)
         {
          uint8_t multi_rfProto = (uint8_t)g_model.MULTIRFPROTOCOL;
-         const mm_protocol_definition *pdef = getMultiProtocolDefinition(multi_rfProto);
 
          lcdDrawTextLeft(y, NO_INDENT(STR_TYPE));
-         if(g_model.CUSTOMPROTO)
-          {
-           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN-6*FW, y, STR_MULTI_CUSTOM, menuHorizontalPosition==0 ? attr : 0 );
-          }
-         else
-          {
-           g_model.MULTIRFPROTOCOL = limit<int8_t>(MM_RF_PROTO_FIRST+1, g_model.MULTIRFPROTOCOL, MM_RF_PROTO_LAST);
-
-           lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN-6*FW, y, pdef->protoNameString, MM_PROTO_NAME_LEN, (menuHorizontalPosition==0 ? attr : 0 ));
-          }
 
          if(g_model.CUSTOMPROTO)
           {
-           lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 4 * FW, y, (uint8_t)g_model.MULTIRFPROTOCOL, (menuHorizontalPosition == 1 ? attr : 0));
-           lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 6 * FW, y, g_model.rfSubType, (menuHorizontalPosition == 2 ? attr : 0));
+           lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 6 * FW, y, (uint8_t)g_model.MULTIRFPROTOCOL, (menuHorizontalPosition == 0 ? attr : 0));
+           lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 9 * FW, y, g_model.rfSubType, (menuHorizontalPosition == 1 ? attr : 0));
+            if(menuHorizontalPosition > 1 && attr) REPEAT_LAST_CURSOR_MOVE(); // keep cursor in valid field
           }
          else
           {
             if (mm_type1_packet_ptr->qty_sub_proto)
             {
-              lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN+ 3 * FW, y, mm_type1_packet_ptr->sub_proto_name, MM_SUB_PROTO_NAME_LEN, (menuHorizontalPosition == 1 ? (attr|BSS) : (0|BSS) ) );
+              lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN+ 0 * FW, y, mm_type1_packet_ptr->sub_proto_name, MM_SUB_PROTO_NAME_LEN, (menuHorizontalPosition == 0 ? (attr|BSS) : (0|BSS) ) );
             }
+            else
+            {
+              lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN,y,STR_DUMMY,attr);
+            }
+            if(menuHorizontalPosition > 0 && attr) REPEAT_LAST_CURSOR_MOVE(); // keep cursor in valid field
           }
 
-         if (!(g_model.CUSTOMPROTO) && menuHorizontalPosition > 1 && attr) MOVE_CURSOR_FROM_HERE(); // keep cursor in valid field
-
-         if (attr  && (editMode>0))
+         if (attr && (editMode>0))
           {
            switch (menuHorizontalPosition)
             {
             case 0:
-            {
-             uint8_t multiRfProto = (g_model.CUSTOMPROTO ? MM_RF_PROTO_CUSTOM : (uint8_t)g_model.MULTIRFPROTOCOL);
-             CHECK_INCDEC_MODELVAR(event, multiRfProto, MM_RF_PROTO_FIRST, MM_RF_PROTO_LAST);
-             if (checkIncDec_Ret)
-              {
-               g_model.CUSTOMPROTO = (multiRfProto == MM_RF_PROTO_CUSTOM);
-               if (!g_model.CUSTOMPROTO)
-                 g_model.MULTIRFPROTOCOL = (int8_t)multiRfProto;
-               g_model.rfSubType = 0;
-//               if (g_model.MULTIRFPROTOCOL == MM_RF_PROTO_6_DSM)
-//                {
-//                 g_model.AUTOBINDMODE = 1;
-//                }
-//               else
-//                {
-//                 g_model.AUTOBINDMODE = 0;
-//                }
-               g_model.rfOptionValue2 = 0;
-              }
-            }
-            break;
-            case 1:
             {
              if (g_model.CUSTOMPROTO)
               {
@@ -546,8 +576,8 @@ void menuModelSetup(uint8_t event)
               CHECK_INCDEC_MODELVAR(event, g_model.rfSubType, 0, (mm_type1_packet_ptr->qty_sub_proto) -1);
             }
             break;
-            case 2:
-             // Custom protocol, third column is subtype
+            case 1:
+             // Custom protocol, second parameter is subtype.
              CHECK_INCDEC_MODELVAR(event, g_model.rfSubType, 0, 7);
              break;
             }
@@ -555,45 +585,40 @@ void menuModelSetup(uint8_t event)
         }
 #endif
 #if defined(SPIMODULES)
-       if IS_SPIMODULES_PROTOCOL(protocol)
+      else if IS_SPIMODULES_PROTOCOL(protocol)
         {
          lcdDrawTextLeft(y, NO_INDENT(STR_TYPE));
-         lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN-5*FW, y, Protos[g_model.rfProtocol].ProtoName, menuHorizontalPosition == 0 ? attr : 0);
          if (RfOptionSettings.rfSubTypeMax)   // Check if Subtype exist
           {
-           lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN+4*FW, y, RfOptionSettings.rfSubTypeNames+4*g_model.rfSubType, 4, menuHorizontalPosition == 1 ? attr : 0);
+           lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfSubTypeNames+4*g_model.rfSubType, 4, menuHorizontalPosition == 0 ? attr : 0);
           }
-         if (attr  && (editMode>0))
-          {
-           switch (menuHorizontalPosition)
+         else
+         {
+           lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN,y,STR_DUMMY,attr);
+         }
+
+         if(menuHorizontalPosition > 0 && attr) REPEAT_LAST_CURSOR_MOVE(); // keep cursor in valid field
+
+         if (attr  && (editMode>0) && menuHorizontalPosition == 0)
+         {
+            if (RfOptionSettings.rfSubTypeMax)
             {
-            case 0:
-            {
-             CHECK_INCDEC_MODELVAR(event, protocol, LASTPROTOMENU1, PROTOCOL_COUNT-1);
-             break;
+              CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.rfSubType, RfOptionSettings.rfSubTypeMax); // TODO SUBTYPE
             }
-            case 1:
-            {
-             if (RfOptionSettings.rfSubTypeMax)
-              {
-               CHECK_INCDEC_MODELVAR_ZERO_STARTPULSES_IF_CHANGE(event, g_model.rfSubType, RfOptionSettings.rfSubTypeMax); // TODO SUBTYPE
-              }
-             else
-              break;
-            }
-            break;
-            }
-          }
+         }
         }
 #endif
       }
      break;
-
+//--------------------------------------------------
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_2:
      if PROTO_IS_SYNC
      {
+       if (IS_PPM_PROTOCOL(protocol))
+       {
+       }
 #if (SERIAL_PROTOCOL==DSM)
-      if (IS_DSM2_SERIAL_PROTOCOL(protocol))
+       else if (IS_DSM2_SERIAL_PROTOCOL(protocol))
         {
          horzpos_t l_posHorz = menuHorizontalPosition;
          lcdDrawTextLeft(y, STR_RXNUM);
@@ -627,7 +652,7 @@ void menuModelSetup(uint8_t event)
           }
         }
 #elif (SERIAL_PROTOCOL==CRSF)
-       if (IS_CRSF_PROTOCOL(protocol))
+       else if (IS_CRSF_PROTOCOL(protocol))
         {
          menuHorizontalPosition = 0; // force Hpos
          uint8_t rate = READ_CRSF_RATE;
@@ -647,7 +672,7 @@ void menuModelSetup(uint8_t event)
           }
         }
 #elif (SERIAL_PROTOCOL==SBUS)
-       if (IS_SBUS_PROTOCOL(protocol))
+       else if (IS_SBUS_PROTOCOL(protocol))
         {
          menuHorizontalPosition = 0; // force Hpos
          uint8_t rfOB1 = g_model.rfOptionBool1;
@@ -655,7 +680,7 @@ void menuModelSetup(uint8_t event)
          if (g_model.rfOptionBool1 != rfOB1) { startPulses(PROTOCMD_INIT); }; // Re init if change
         }
 #elif (SERIAL_PROTOCOL==MULTIMODULE)
-       if IS_MULTIMODULE_PROTOCOL(protocol)
+       else if IS_MULTIMODULE_PROTOCOL(protocol)
         {
          horzpos_t l_posHorz = menuHorizontalPosition;
          lcdDrawTextLeft(y, STR_RXNUM);
@@ -688,7 +713,7 @@ void menuModelSetup(uint8_t event)
           }
 #endif
 #if defined(SPIMODULES)
-       if IS_SPIMODULES_PROTOCOL(protocol)
+       else if IS_SPIMODULES_PROTOCOL(protocol)
         {
          horzpos_t l_posHorz = menuHorizontalPosition;
          lcdDrawTextLeft(y, STR_RXNUM);
@@ -729,16 +754,13 @@ void menuModelSetup(uint8_t event)
 #endif
       }
      break;
-
+//--------------------------------------------------
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_3:
      if PROTO_IS_SYNC
      {
 #if (SERIAL_PROTOCOL==MULTIMODULE)
       if IS_MULTIMODULE_PROTOCOL(protocol)
         {
-//         if (g_model.MULTIRFPROTOCOL == MM_RF_PROTO_6_DSM)
-//           ON_OFF_MENU_ITEM(g_model.AUTOBINDMODE, MODEL_SETUP_2ND_COLUMN, y, STR_MULTI_DSM_AUTODTECT, attr, event);
-//         else
           ON_OFF_MENU_ITEM(g_model.AUTOBINDMODE, MODEL_SETUP_2ND_COLUMN, y, STR_AUTOBIND, attr, event);
         }
 #endif
@@ -762,6 +784,7 @@ void menuModelSetup(uint8_t event)
 #endif
       }
      break;
+//--------------------------------------------------
     case  ITEM_MODEL_PROTOCOL_PARAMS_LINE_4: //Option1 for SPIMOD
      if PROTO_IS_SYNC
      {
@@ -791,7 +814,7 @@ void menuModelSetup(uint8_t event)
 #endif
       }
      break;
-
+//--------------------------------------------------
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_5:
      if PROTO_IS_SYNC
      {
@@ -801,7 +824,7 @@ void menuModelSetup(uint8_t event)
          int8_t optionValue =  g_model.rfOptionValue2;
          const uint8_t multi_proto = (uint8_t)g_model.MULTIRFPROTOCOL;
 
-         if (mm_type1_packet_ptr->option_text_displayed) // needs editmode check ?
+         if (mm_type1_packet_ptr->option_text_displayed)
           {
            lcdDrawTextLeft(y, optionsstr[mm_type1_packet_ptr->option_text_displayed]);
            if (multi_proto == MM_RF_PROTO_28_AFHDS2A)
@@ -812,7 +835,7 @@ void menuModelSetup(uint8_t event)
            else
              lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 4 * FW, y, optionValue, attr);
 
-           if (attr)
+           if (attr  && (editMode>0) && (menuHorizontalPosition == 0))
             {
              if (multi_proto == MM_RF_PROTO_28_AFHDS2A)
               {
@@ -828,6 +851,10 @@ void menuModelSetup(uint8_t event)
               }
             }
           }
+         else
+         {
+           lcdDrawTextLeft(y, STR_DUMMY);
+         }
         }
 #endif
 #if defined(SPIMODULES)
@@ -880,7 +907,7 @@ void menuModelSetup(uint8_t event)
 #endif
       }
      break;
-
+//--------------------------------------------------
 #if defined(SPIMODULES)
     case ITEM_MODEL_PROTOCOL_PARAMS_LINE_6:
      if PROTO_IS_SYNC

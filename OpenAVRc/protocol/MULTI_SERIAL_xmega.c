@@ -57,7 +57,7 @@ enum MultiModuleProtocols
 #define NO_SUBTYPE  0
 #define MM_RF_CUSTOM_SELECTED 0x0
 
-#define MM_PROTO_NAME_LEN 8
+#define MM_PROTO_NAME_LEN 10
 #define MM_SUB_PROTO_NAME_LEN 8
 
 const static RfOptionSettingsvar_t RfOpt_Multi_Ser[] PROGMEM =
