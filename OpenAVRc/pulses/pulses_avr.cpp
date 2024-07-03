@@ -227,12 +227,22 @@ void startPulses(enum ProtoCmds Command)
   }
 #endif
 
-#if defined (MULTIMODULE)
+#if (SERIAL_PROTOCOL==MULTIMODULE)
   else if(IS_MULTIMODULE_PROTOCOL(s_current_protocol)) {
     MULTI_USART_PORT.PIN3CTRL = PORT_OPC_PULLUP_gc; // Pullup TXD.
     MULTI_USART_PORT.DIRSET = USART_TXD_PIN_bm;
     MULTI_USART_PORT.PIN2CTRL = PORT_OPC_PULLUP_gc; // Pullup RXD.
     MULTI_USART_PORT.DIRCLR = USART_RXD_PIN_bm;
+    setup_rf_tc();
+  }
+#endif
+
+#if (SERIAL_PROTOCOL==CRSF)
+  else if(IS_CRSF_PROTOCOL(s_current_protocol)) {
+    CRSF_USART_PORT.PIN3CTRL = PORT_OPC_PULLUP_gc; // Pullup TXD.
+    CRSF_USART_PORT.DIRSET = USART_TXD_PIN_bm;
+    CRSF_USART_PORT.PIN2CTRL = PORT_OPC_PULLUP_gc; // Pullup RXD.
+    CRSF_USART_PORT.DIRCLR = USART_RXD_PIN_bm;
     setup_rf_tc();
   }
 #endif
