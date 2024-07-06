@@ -40,7 +40,7 @@ enum MultiModuleProtocols
 {
   MM_RF_PROTO_FIRST = 0,
   MM_RF_PROTO_CUSTOM = MM_RF_PROTO_FIRST,
-#include "protocol/Multi.txt"
+#include "Multi.txt"
   MM_RF_PROTO_COUNT,
   MM_RF_PROTO_LAST = MM_RF_PROTO_COUNT - 1
 };
@@ -82,7 +82,7 @@ struct mm_protocol_definition
 // To generate proto name strings.
 // e.g. MULTIDEF(28,AFHDS2A,PWM_IBUS,PPM_IBUS,PWM_SBUS,PPM_SBUS,PWM_IB16,PPM_IB16,PWM_SB16,PPM_SB16)
 #define MULTIDEF(num, name, ... ) const pm_char STR_MM_PROTO_##num[] PROGMEM = #name;  // Generates STR_MM_PROTO_28[] = "AFHDS2A".
-#include "protocol/Multi.txt"
+#include "Multi.txt"
 #undef MULTIDEF
 
 // To generate mm_proto_definition array.
@@ -91,7 +91,7 @@ struct mm_protocol_definition
 const mm_protocol_definition multi_protocols[] =
 {
   { MM_RF_PROTO_CUSTOM, STR_MULTI_CUSTOM },
-#include "protocol/Multi.txt"
+#include "Multi.txt"
   { 0xFE, STR_DUMMY },
 };
 #undef MULTIDEF
