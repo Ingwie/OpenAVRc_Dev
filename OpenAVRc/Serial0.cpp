@@ -116,19 +116,17 @@ ISR(USART_UDRE_vect_N(TLM_USART0))
 #if defined(CPUXMEGA)
 ISR(token_paste4(USART, S0_PORT, S0_USART, _RXC_vect)) // e.g. USARTE0_RXC_vect
 {
-//  SERIAL0_USART.CTRLA &= ~USART_DREINTLVL_gm; // Disable interrupt.
 
   uint8_t stat = SERIAL0_USART.STATUS;
   uint8_t data = SERIAL0_USART.DATA;
 
   if (stat & (USART_FERR_bm | USART_BUFOVF_bm | USART_PERR_bm) )
   {
-    // Discard buffer and start fresh on any comm's error
+    // On Comm's error send START_STOP //ToDo Okay for Sport telemetry, but not good for Multi and others.
     parseTelemFunction(START_STOP); // reset
   }
   else parseTelemFunction(data);
 
-//  SERIAL0_USART.CTRLA |= USART_RXCINTLVL_MED_gc; // Enable medium priority.
 }
 
 
@@ -137,7 +135,27 @@ ISR(token_paste4(USART, S0_PORT, S0_USART, _DRE_vect))
   if (Usart0TxBufferCount)
     SERIAL0_USART.DATA = Usart0TxBuffer_p2M[--Usart0TxBufferCount];
   else
+  {
     SERIAL0_USART.CTRLA &= ~USART_DREINTLVL_gm;
+#if (SERIAL_PROTOCOL==CRSF_PROTOCOL)
+// Half Duplex (Inverted) Serial.
+// Wait for transmit complete.
+//  WAIT_USART_TX_FIN(SERIAL0_USART);
+// Disable transmitter / Enable receiver.
+    SERIAL0_USART.CTRLA |= USART_TXCINTLVL_MED_gc;
+#endif
+  }
 }
+
+
+ISR(token_paste4(USART, S0_PORT, S0_USART, _TXC_vect))
+{ // Used for CRSF Half Duplex Serial.
+  // Disable transmitter / Enable receiver.
+  USART_DISABLE_TX(CRSF_USART);
+  RF_PORT.DIRCLR = USART_TXD_PIN_bm;
+  USART_ENABLE_RX(CRSF_USART);
+  CRSF_USART.CTRLA &= ~USART_TXCINTLVL_gm;
+}
+
 #endif
 

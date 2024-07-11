@@ -48,6 +48,8 @@
 #define S0_PORT  E
 #define SERIAL0_USART token_paste3(USART, S0_PORT, S0_USART) // e.g. USARTE0
 #define SERIAL0_PORT  token_paste2(PORT, S0_PORT) // e.g. PORTE
+#define S0_USART_TXD_PIN_CTRL_REG  token_paste3(SERIAL0_PORT.PIN, 3, CTRL) // e.g. "PORTx.PINnCTRL"
+#define S0_USART_RXD_PIN_CTRL_REG  token_paste3(SERIAL0_PORT.PIN, 2, CTRL) // e.g. "PORTx.PINnCTRL"
 #endif
 
 #define NUM_TELEM_RX_BUFFER  2
