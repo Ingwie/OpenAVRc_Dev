@@ -201,7 +201,7 @@ void getADC()
 
       case AREFA:
         // ADC External Reference Voltage. Connected to VCC /2 via circuitry.
-        s_anaFilt[AREFA] = 0x0EFA;
+//        s_anaFilt[AREFA] = 0x0EFA;
         break;
     }
   }
