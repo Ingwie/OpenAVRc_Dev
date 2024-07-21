@@ -71,6 +71,7 @@ inline void boardInit()
   while (1);
 #endif
 
+
   EEPROM_EnableMapping();
 
   // SETUP PINS
@@ -217,7 +218,8 @@ inline void boardInit()
   InitVoiceUartTx();
 #endif
 
-//  PORTB.DIRSET = PIN6_bm; // Test
+  PORTB.DIRSET = PIN6_bm; // set mpx rf enable as output / debug.
+
 }
 
 
