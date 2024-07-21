@@ -126,7 +126,6 @@ ISR(token_paste4(USART, S0_PORT, S0_USART, _RXC_vect)) // e.g. USARTE0_RXC_vect
     parseTelemFunction(START_STOP); // reset
   }
   else parseTelemFunction(data);
-
 }
 
 
@@ -137,25 +136,23 @@ ISR(token_paste4(USART, S0_PORT, S0_USART, _DRE_vect))
   else
   {
     SERIAL0_USART.CTRLA &= ~USART_DREINTLVL_gm;
-#if (SERIAL_PROTOCOL==CRSF_PROTOCOL)
+
+#if (SERIAL_PROTOCOL == CRSF)
 // Half Duplex (Inverted) Serial.
-// Wait for transmit complete.
-//  WAIT_USART_TX_FIN(SERIAL0_USART);
-// Disable transmitter / Enable receiver.
-    SERIAL0_USART.CTRLA |= USART_TXCINTLVL_MED_gc;
+// WAIT_USART_TX_FIN(CRSF_USART); // Wait for transmit complete.
+  CRSF_USART.CTRLA |= USART_TXCINTLVL_MED_gc; // Turn on TXC interrupt rather than poll TXC.
 #endif
   }
 }
 
-
+#if (SERIAL_PROTOCOL == CRSF)
 ISR(token_paste4(USART, S0_PORT, S0_USART, _TXC_vect))
 { // Used for CRSF Half Duplex Serial.
-  // Disable transmitter / Enable receiver.
-  USART_DISABLE_TX(CRSF_USART);
-  RF_PORT.DIRCLR = USART_TXD_PIN_bm;
-  USART_ENABLE_RX(CRSF_USART);
-  CRSF_USART.CTRLA &= ~USART_TXCINTLVL_gm;
+  CRSF_USART.CTRLA &= ~USART_TXCINTLVL_gm; // Turn off TXC interrupts.
+  RF_PORT.DIRCLR = USART_TXD_PIN_bm; // Make TXD pin input.
+  USART_ENABLE_RX(CRSF_USART); // Enable receiver.
+  CRSF_RX_STATE = LISTEN; // Tell telemetry state machine to start listening.
 }
-
+#endif
 #endif
 
