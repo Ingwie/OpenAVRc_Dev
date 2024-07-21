@@ -77,11 +77,10 @@ struct mm_t1_pkt
 
 typedef struct
 {
-  uint8_t mm_tx_buffer[MM_TX_PKT_LEN];
+  uint8_t mm_tx_buffer[MM_TX_PKT_LEN]; // Reserved aka Usart0TxBuffer_p2M
   uint8_t mm_rx_buffer[MM_TYPE_01_PKT_LEN];
   struct mm_t1_pkt mm_type1_packet;
 } mmSt_t;
-
 
 
 #endif // MULTI_SERIAL_H
