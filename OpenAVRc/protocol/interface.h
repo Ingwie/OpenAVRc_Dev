@@ -60,6 +60,7 @@
 #include "MULTI_SERIAL.h"
 #include "MULTI_SERIAL_xmega.c"
 #elif (SERIAL_PROTOCOL==CRSF)
+#include "CRSF_SERIAL.h"
 #include "CRSF_SERIAL.c"
 #elif (SERIAL_PROTOCOL==SBUS)
 #include "SBUS_SERIAL.c"
