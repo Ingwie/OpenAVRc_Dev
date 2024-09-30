@@ -36,7 +36,7 @@
 
 void InitPin()
 {
-  DDRD |= 0b00000000;  PORTD |= 0b00000011; // 1:I2C_SDA, 0:I2C_SCL pull_up on
+  PORTD |= 0b00000011; // 1:I2C_SDA, 0:I2C_SCL pull_up on
 }
 
 void wait()
