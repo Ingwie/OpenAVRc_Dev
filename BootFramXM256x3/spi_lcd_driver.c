@@ -6,20 +6,19 @@
  */
 
 /*
- *****************************************************************
+ ************************************************************************
  * SPI LCD Driver.
  * Supports the following LCD panels.
- * SSD1309 OLED 128x64
- * ST7567 132x65 +CS signal
- * Original Multiplex EVO Transmitter LCD (ST7565? COF) 132x64 +CS signal
+ * SSD1309 OLED 128x64.
+ * ST7567 132x64 +CS signal.
+ * Original Multiplex EVO Transmitter LCD (ST7565? COF) 132x64 +CS signal.
  * Written for Xmega SPI and Bit-Bang.
  * Adapted from USART MSPI code.
  * As this is a uni-directional driver, choose Bit-Bang to reclaim
  * the unused MISO pin.
- * USART MSPI would be better and can do DMA
- * too unlike the SPI port.
+ * USART MSPI would be better and can do DMA too unlike the SPI port.
  * No Reset signal as that is derived from RTC chip / FRAM daughter board.
- *****************************************************************
+ *************************************************************************
 */
 
 #include <stdint.h>
