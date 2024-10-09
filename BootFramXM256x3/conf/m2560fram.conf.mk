@@ -3,7 +3,7 @@
 # use config.h
 USE_CONFIG_H = yes
 
-USE_FRAM_EE = no
+USE_FRAM_EE = yes
 
 # MCU
 MCU = atmega2560
@@ -25,12 +25,11 @@ BOOTSZ=0
 # Use 16 MHz external crystal oscillator
 F_CPU = 16000000
 
-# DFLL for better stability
-USE_DFLL = no
+
 
 # Programmer settings
 OVERRIDE_AVRDUDE_PROGRAMMER = yes
-AVRDUDE_PROGRAMMER = avrispmkii
+AVRDUDE_PROGRAMMER = avrisp2
 AVRDUDE_PORT = usb
 
 # Fuse settings
@@ -51,8 +50,8 @@ OVERRIDE_AVRDUDE_FUSES = yes
 
 # Entry
 USE_ENTER_DELAY = yes
-USE_ENTER_PIN = no
-USE_ENTER_UART = yes
+USE_ENTER_PIN = yes
+USE_ENTER_UART = no
 USE_ENTER_I2C = no
 USE_ENTER_FIFO = no
 
@@ -83,10 +82,10 @@ ENABLE_CRC_SUPPORT = yes
 
 # API
 ENABLE_API = no
-USE_API_VERSION = 
-ENABLE_API_LOW_LEVEL_FLASH = 
-ENABLE_API_SPM_WRAPPER = 
-ENABLE_API_FIRMWARE_UPDATE = 
+USE_API_VERSION =
+ENABLE_API_LOW_LEVEL_FLASH =
+ENABLE_API_SPM_WRAPPER =
+ENABLE_API_FIRMWARE_UPDATE =
 
 # Code Protection
 ENABLE_CODE_PROTECTION = no
@@ -94,14 +93,15 @@ ENABLE_EEPROM_PROTECTION = no
 ENABLE_BOOTLOADER_PROTECTION = no
 
 # ENTER_PIN
-ENTER_PORT_NAME       = 
-ENTER_PIN             = 
-ENTER_PIN_STATE       = 
-ENTER_PIN_PUEN        = 
+# Left hand stick - horzontal right trim button.
+ENTER_PORT_NAME       = F
+ENTER_PIN             = 6
+ENTER_PIN_STATE       = 0
+ENTER_PIN_PUEN        = yes
 
 # ENTER_DELAY
 ENTER_BLINK_COUNT     = 3
-ENTER_BLINK_WAIT      = 100000
+ENTER_BLINK_WAIT      = 50000
 
 # ENTER_UART
 ENTER_UART_NEED_SYNC = yes

@@ -8,10 +8,32 @@
 #ifndef LCD_H_
 #define LCD_H_
 
-#define BITBANGSPI
+
+//#define LCD_SSD1309
+#define LCD_EVO
+//#define LCD_ST7567
+
+#if defined(LCD_EVO)
+ #define CONTRAST_MIN 10
+ #define LCD_SIZE_132X64
+ #define POSITIVE_CHIP_SELECT
+#endif
+#if defined(LCD_ST7567)
+ #define CONTRAST_MIN 35
+ #define LCD_SIZE_132X64
+ #define POSITIVE_CHIP_SELECT
+#endif
+#if defined(LCD_SSD1309)
+ #define CONTRAST_MIN 30
+#endif
+
+
+//#define BITBANGSPI
+
 #define LCD_W  128
 #define LCD_H  64
 
+#define DIM(a) ((sizeof a) / (sizeof *a))
 
 #define LcdFlags  uint8_t
 
@@ -19,8 +41,6 @@ typedef uint8_t display_t;
 typedef uint8_t coord_t;
 
 #define DISPLAY_BUF_SIZE     (LCD_W*((LCD_H+7)/8))
-
-extern display_t displayBuf[DISPLAY_BUF_SIZE];
 
 #define DISPLAY_BUFER_SIZE     (sizeof(display_t)*DISPLAY_BUF_SIZE)
 #define DISPLAY_END            (displayBuf + DISPLAY_BUF_SIZE)
@@ -35,6 +55,7 @@ void lcdInit(void);
 void lcdRefreshFast(void);
 void lcdRefresh(void);
 void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags att);
+
 
 #endif /* LCD_H_ */
 

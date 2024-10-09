@@ -37,8 +37,7 @@
 
 void InitPin()
 {
-  // Is this needed.
-  DDRD &= 0b11111100;  PORTD |= 0b00000011; // 1:I2C_SDA, 0:I2C_SCL pull_up on
+  DDRD &= 0b11111100;  PORTD |= 0b00000011; // 1:I2C_SDA, 0:I2C_SCL pull_up on.
 }
 
 

@@ -107,7 +107,7 @@ MCU = atxmega256a3u
 ## MCU = atmega1281
 ## MCU = atmega1284
 ## MCU = atmega1284p
-## MCU = atmega2560
+#MCU = atmega2560
 ## MCU = atmega2561
 
 ifneq ( ,$(findstring atmega, $(MCU)))
@@ -178,9 +178,12 @@ SRC += i2c_master.c
 # SRC += watchdog.c
 # SRC += api.c
 # SRC += ...
-SRC += lcd_ssd1309_driver.c
-#SRC += evo_lcd_driver.c
-
+ifeq ($(XMEGA), yes)
+#SRC += lcd_ssd1309_driver.c
+SRC += spi_lcd_driver.c
+else
+SRC += lcd_default_driver.c
+endif
 
 # List Assembler source files here.
 # Make them always end in a capital .S.  Files ending in a lowercase .s
@@ -323,7 +326,7 @@ ifeq ($(OVERRIDE_AVRDUDE_PROGRAMMER),)
 #
 #AVRDUDE_PROGRAMMER = jtag2pdi
 #AVRDUDE_PROGRAMMER = jtag2isp
-AVRDUDE_PROGRAMMER = avrispmkii
+AVRDUDE_PROGRAMMER = avrisp2
 #AVRDUDE_PROGRAMMER = avr109
 
 # Port
@@ -781,12 +784,11 @@ eep: $(TARGET).eep
 lss: $(TARGET).lss
 sym: $(TARGET).sym
 
-# This is commented out because it does not work unless building natively.
-# Use a pre-build step in CodeBlocks or similar.
+
 # Configuration support
-#%.conf %.conf.mk: force
-#	$(COPY) $@ config.mk
-#	"$(MAKE)"
+%.conf %.conf.mk: force
+	cp $@ config.mk
+	"$(MAKE)"
 
 -include config.h.mk
 

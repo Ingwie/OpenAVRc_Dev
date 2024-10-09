@@ -7,12 +7,12 @@
 		<Option pch_mode="2" />
 		<Option compiler="avr-gcc" />
 		<MakeCommands>
-			<Build command="make all" />
+			<Build command="make" />
 			<CompileFile command="" />
 			<Clean command="make clean" />
 			<DistClean command="$make -f $makefile distclean$target" />
 			<AskRebuildNeeded command="" />
-			<SilentBuild command="make all &gt; $(CMD_NULL)" />
+			<SilentBuild command="make &gt; $(CMD_NULL)" />
 		</MakeCommands>
 		<Build>
 			<Target title="Release">
@@ -41,7 +41,7 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<ExtraCommands>
-			<Add before="cmd /c copy conf\x256x3fram.conf.mk config.mk" />
+			<Add before="cmd /c copy conf\x256x3fram.conf.mk  config.mk" />
 			<Mode after="always" />
 		</ExtraCommands>
 		<Unit filename="Makefile" />
@@ -57,9 +57,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="eeprom_driver.h" />
-		<Unit filename="evo_lcd_driver.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="flash.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -69,19 +66,20 @@
 		</Unit>
 		<Unit filename="i2c_master.h" />
 		<Unit filename="lcd.h" />
-		<Unit filename="lcd_ssd1309_driver.c">
+		<Unit filename="lcd_default_driver.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="protocol.h" />
 		<Unit filename="sp_driver.S" />
 		<Unit filename="sp_driver.h" />
+		<Unit filename="spi.h" />
+		<Unit filename="spi_lcd_driver.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="uart.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="uart.h" />
-		<Unit filename="x256x3fram.conf.mk">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Unit filename="xboot.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -93,6 +91,9 @@
 		<Unit filename="xbootapi.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
+			<code_completion />
+			<envvars />
+			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

@@ -71,8 +71,8 @@ protected = 1;
    * The possible sources of AT xmega reset are :-
    * Power on reset.
    * External reset.
-   * Brownout reset.
    * Watchdog reset.
+   * Brownout reset.
    * PDI reset.
    * Software reset.
    * or we could have jumped here
@@ -82,21 +82,18 @@ protected = 1;
    */
 
   // Bootloader does not use watchdog so must be the Application.
-  // Assume brownout reset was due to brownout voltage set too high. If mission critical then try again.
-  if(RST.STATUS & (RST_WDRF_bm | RST_BORF_bm)) goto app_start;
+  if(RST.STATUS & RST_WDRF_bm) goto app_start;
 
   // Check reset conditions.
   // RST.STATUS bits 6 and 7 aren't used according to the manual (note bit 6 is defined as RST_SDRF_bm (Spike Detection) in nearly every header).
 
-  register uint8_t mask = RST_SRF_bm | RST_PDIRF_bm | RST_WDRF_bm | RST_BORF_bm | RST_EXTRF_bm | RST_PORF_bm;
+  uint8_t mask = RST_SRF_bm | RST_PDIRF_bm | RST_BORF_bm | RST_EXTRF_bm | RST_PORF_bm;
 
 #ifdef RST_SDRF_bm
   mask |= RST_SDRF_bm;
 #endif
 
-  // No valid reset condition so do a software reset.
-  // Best way to call bootloader is via a Software Reset.
-  if (! (RST.STATUS & mask)) {
+  if (! (RST.STATUS & mask)) { // No valid reset condition so do a software reset.
     _PROTECTED_WRITE(RST.CTRL, RST_SWRST_bm);
     while(1); // Should not execute according to the manual.
   }
@@ -188,7 +185,7 @@ protected = 1;
 #ifdef USE_ENTER_PIN
   // Make sure it's an input
   ENTER_PORT_DDR &= ~(1 << ENTER_PIN);
-#if ENTER_PIN_PUEN
+#ifdef ENTER_PIN_PUEN
   // Enable bootloader entry pin pullup
   ENTER_PORT |= (1 << ENTER_PIN);
 #else // ENER_PIN_PUEN
@@ -683,7 +680,7 @@ if(in_bootloader) {
 #endif // USE_ENTER_PIN
 #else // __AVR_XMEGA__
 #ifdef USE_ENTER_PIN
-#if ENTER_PIN_PUEN
+#ifdef ENTER_PIN_PUEN
   // Disable bootloader entry pin pullup
   ENTER_PORT &= ~(1 << ENTER_PIN);
 #endif // ENTER_PIN_PUEN
