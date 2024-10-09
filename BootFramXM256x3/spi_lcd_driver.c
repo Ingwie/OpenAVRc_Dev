@@ -7,16 +7,18 @@
 
 /*
  *****************************************************************
- * LCD driver for a 132 * 64 LCD as fitted in the EVO transmitter.
- * All information was derived by tracing the SPI messages.
- * LCD looks to be ST7565 compatible with a CS+ chip select.
+ * SPI LCD Driver.
+ * Supports the following LCD panels.
+ * SSD1309 OLED 128x64
+ * ST7567 132x65 +CS signal
+ * Original Multiplex EVO Transmitter LCD (ST7565? COF) 132x64 +CS signal
  * Written for Xmega SPI and Bit-Bang.
  * Adapted from USART MSPI code.
  * As this is a uni-directional driver, choose Bit-Bang to reclaim
  * the unused MISO pin.
  * USART MSPI would be better and can do DMA
  * too unlike the SPI port.
- * No Reset signal as that is derived from RTC chip.
+ * No Reset signal as that is derived from RTC chip / FRAM daughter board.
  *****************************************************************
 */
 
@@ -180,11 +182,7 @@ void lcdInit()
 {
   memset(displayBuf, 0x00, DISPLAY_BUFER_SIZE);
 
-//#if defined (__AVR_XMEGA__)
   lcd_imgfar(32, 0, (pgm_get_far_address(desktop_icon)), 0, 0);
-//#else
-//  lcd_imgfar(0, 0, (pgm_get_far_address(desktop_icon)), 0, 0);
-//#endif
 
   // Setup pin states and MSPI mode.
   // LCD Reset pin is now controlled by RTC reset signal.

@@ -20,3 +20,10 @@ OpenAVRc/stamp-OpenAVRc.h
 OpenAVRc/OpenAVRc.map
 OpenAVRc/allsrc.cpp
 *.cscope_file_list
+.cproject
+.project
+OpenAVRc/.settings/org.eclipse.cdt.core.prefs
+BootFramXM256x3/config.mk
+BootFramXM256x3/config.h
+OpenAVRc_Desktop.exe
+/BootFramXM256x3/.dep
