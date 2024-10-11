@@ -12,12 +12,8 @@
  * SSD1309 OLED 128x64.
  * ST7567 132x64 +CS signal.
  * Original Multiplex EVO Transmitter LCD (ST7565? COF) 132x64 +CS signal.
- * Written for Xmega SPI and Bit-Bang.
- * Adapted from USART MSPI code.
- * As this is a uni-directional driver, choose Bit-Bang to reclaim
- * the unused MISO pin.
- * USART MSPI would be better and can do DMA too unlike the SPI port.
- * No Reset signal as that is derived from RTC chip / FRAM daughter board.
+ * Written for Xmega. Bit-Bang only as this is used in bootloader.
+ * No Reset signal as that is derived from RTC chip / FRAM Daughter board.
  *************************************************************************
 */
 
@@ -71,15 +67,15 @@ void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags 
 #define SSD1309_CMD_SETCOMPINSHARDCONF    0xDA
 #define SSD1309_CMD_DISPLAYALLON          0xA5 // All dots on.
 #define SSD1309_CMD_DISPLAYALLON_RESUME   0xA4 // Display RAM contents.
-#define SSD1309_CMD_COLUMN_ADDRESS_SET_LSB( column )   (0x00 | (column))
-#define SSD1309_CMD_COLUMN_ADDRESS_SET_MSB( column )   (0x10 | (column))
-#define SSD1309_CMD_PAGE_ADDRESS_SET( page )           (0xB0 | (page))
 #define SSD1309_CMD_SETCONTRAST           0x81
 #define SSD1309_CMD_NORMALDISPLAY         0xA6
 #define SSD1309_CMD_INVERTDISPLAY         0xA7
 #define SSD1309_CMD_SETVCOMDETECT         0xDB
 #define SSD1309_CMD_SETPRECHARGE          0xD9
 #define SSD1309_CMD_SETSTARTLINE( line )               (0x40 | (line))
+#define SSD1309_CMD_PAGE_ADDRESS_SET( page )           (0xB0 | (page))
+#define SSD1309_CMD_COLUMN_ADDRESS_SET_LSB( column )   (0x00 | (column))
+#define SSD1309_CMD_COLUMN_ADDRESS_SET_MSB( column )   (0x10 | (column))
 
 #define ST756n_CMD_RESET                       0xE2
 #define ST756n_CMD_DISPLAY_ALL_POINTS_OFF      0xA4
@@ -98,8 +94,8 @@ void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags 
 #define ST756n_CMD_DISPLAY_ON                  0xAF
 #define ST756n_CMD_START_LINE_SET( line )             (0x40 | (line))
 #define ST756n_CMD_PAGE_ADDRESS_SET( page )           (0xB0 | (page))
-#define ST756n_CMD_COLUMN_ADDRESS_SET_MSB( column )   (0x10 | (column))
 #define ST756n_CMD_COLUMN_ADDRESS_SET_LSB( column )   (0x00 | (column))
+#define ST756n_CMD_COLUMN_ADDRESS_SET_MSB( column )   (0x10 | (column))
 
 
 #define LCD_PORT       PORTD
@@ -109,15 +105,9 @@ void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags 
 #define LCD_CLK_HI     LCD_PORT.OUTSET = O_LCD_SCK_P
 #define LCD_CLK_LO     LCD_PORT.OUTCLR = O_LCD_SCK_P
 
-#if !defined (BITBANGSPI)
-#define LCD_SPI    SPID
-#define WAIT_LCD_BUFFER_EMPTY  while (! (LCD_SPI.STATUS & SPI_IF_bm)) // Same as below due to reused USART MPSPI code.
-#define WAIT_LCD_TX_FIN        while (! (LCD_SPI.STATUS & SPI_IF_bm)) // Wait for USART transmit shift register to empty.
-#else
 #define LCD_MOSI_HI    LCD_PORT.OUTSET = O_LCD_MOSI
 #define LCD_MOSI_LO    LCD_PORT.OUTCLR = O_LCD_MOSI
 #define WAIT_LCD_TX_FIN
-#endif
 
 #define O_LCD_CS           PIN4_bm
 
@@ -137,13 +127,7 @@ void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags 
 
 #define NUMITERATIONFULLREFRESH  2
 
-#if !defined (BITBANGSPI)
-void lcd_spi_tx(char c)
-{
-  WAIT_LCD_BUFFER_EMPTY;
-  LCD_SPI.DATA = c;
-}
-#else
+
 void lcd_spi_tx(uint8_t c) {
 // MSB first. Clock line inactive = high. SPI Mode 3.
 // Clock leading edge falling = data setup. Clock trailing edge rising = sample.
@@ -159,7 +143,7 @@ void lcd_spi_tx(uint8_t c) {
     LCD_CLK_HI; // Latch MISO.
   } while (--n);
 }
-#endif
+
 
 void lcdSendCtl(uint8_t c)
 {
@@ -183,36 +167,14 @@ void lcdInit()
 
   lcd_imgfar(32, 0, (pgm_get_far_address(desktop_icon)), 0, 0);
 
-  // Setup pin states and MSPI mode.
+  // Setup pin states.
   // LCD Reset pin is now controlled by RTC reset signal.
-  // Remap SPIC MOSI and SCK pins.
-
-#if !defined(PORTD_REMAP)
-#define PORTD_REMAP  _SFR_MEM8(0x066E)
-#endif
-#if !defined(PORT_SPI_bm)
-#define PORT_SPI_bm  0x20  /* SPI bit mask. */
-#endif
-  PORTD_REMAP |= PORT_SPI_bm; // Swap MOSI and SCK.
 
   LCD_PORT.DIRSET = O_LCD_CS | O_LCD_A0 | O_LCD_SCK_P | O_LCD_MOSI;
   LCD_CS_INACTIVE;
   LCD_A0_LO;
   LCD_CLK_HI;
   _delay_ms(250);
-
-#if !defined (BITBANGSPI)
-  // Initialisation of MSPI.
-  // Enable SPI as Master, MSB first, SPI Mode 3.
-  // Clock leading edge falling = data setup. Clock trailing edge rising = sample.
-  LCD_SPI.CTRL = SPI_ENABLE_bm | SPI_MASTER_bm | (0b11<<SPI_MODE_gp);
-  LCD_SPI.CTRL &= ~SPI_DORD_bm;
-  // Note : Make sure Slave Select pin is output or input pullup.
-
-  MSPI_2M(LCD_SPI);
-  // Set SPI_IF Flag for first time.
-  LCD_SPI.DATA = 0;
-#endif
 
   _delay_us(300);
 
