@@ -28,7 +28,6 @@
 #endif
 
 
-//#define BITBANGSPI
 
 #define LCD_W  128
 #define LCD_H  64
