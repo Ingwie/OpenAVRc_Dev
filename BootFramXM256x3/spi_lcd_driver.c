@@ -232,7 +232,7 @@ void lcdInit()
   lcdSendCtl(ST756n_CMD_BIAS_SELECT_7TH); // Select bias 1/7 (at 1/65 duty) not 1/9.
 #endif
 
-#if !defined (FLIP_DISPLAY)
+#if !defined (ROTATE_DISPLAY)
   lcdSendCtl(ST756n_CMD_NORMAL_SEG_DIRECTION);
   lcdSendCtl(ST756n_CMD_REVERSE_COM_DIRECTION);
 #else
