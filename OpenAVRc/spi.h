@@ -34,8 +34,8 @@
 #ifndef _SPI_H_
 #define _SPI_H_
 
-void master_spi_disable();
-void enable_spi_master_mode();
+void master_spi_disable(void);
+void enable_spi_master_mode(void);
 uint8_t master_spi_xfer(uint8_t value);
 
 
