@@ -86,9 +86,6 @@ void lcdSendCtl(uint8_t c)
 void lcdSetRefVolt(uint8_t val)
 {
   return; // Patched out due to DMA, see lcdRefresh().
-//  lcdSendCtl(SSD1309_CMD_SETCONTRAST);
-//  lcdSendCtl(g_eeGeneral.blOnBright << 4);
-//  lcdSendCtl(g_eeGeneral.contrast << 1);
 }
 
 
@@ -170,9 +167,6 @@ void lcdInit()
   lcdSendCtl(SSD1309_CMD_NORMALDISPLAY); //--set normal display
   lcdSendCtl(SSD1309_CMD_DISPLAYALLON);  //Disable Entire Display On
   lcdSendCtl(SSD1309_CMD_DISPLAYWAKEUP); //--turn on oled panel
-
-  //g_eeGeneral.contrast = 0x09;
-
 }
 
 

@@ -22,7 +22,6 @@
  */
 
 //#define BITBANGSPI
-#define SPI8BIT
 
 #if !defined (BITBANGSPI)
 #include "spi.h"
@@ -62,21 +61,21 @@
 #define LCD_CLK_HI     LCD_PORT.OUTSET = O_LCD_SCK_P
 #define LCD_CLK_LO     LCD_PORT.OUTCLR = O_LCD_SCK_P
 
-#if !defined (BITBANGSPI)
-#define LCD_SPI    SPID
-#define WAIT_LCD_BUFFER_EMPTY  while (! (LCD_SPI.STATUS & SPI_IF_bm)) // Same as below due to reused USART MPSPI code.
-#define WAIT_LCD_TX_FIN        while (! (LCD_SPI.STATUS & SPI_IF_bm)) // Wait for USART transmit shift register to empty.
-#else
+#if defined (BITBANGSPI)
 #define LCD_MOSI_HI    LCD_PORT.OUTSET = O_LCD_MOSI
 #define LCD_MOSI_LO    LCD_PORT.OUTCLR = O_LCD_MOSI
 #define WAIT_LCD_TX_FIN
+#else
+#define LCD_SPI    SPID
+#define WAIT_LCD_BUFFER_EMPTY  while (! (LCD_SPI.STATUS & SPI_IF_bm)) // Same as below due to reused USART MPSPI code.
+#define WAIT_LCD_TX_FIN        while (! (LCD_SPI.STATUS & SPI_IF_bm)) // Wait for USART transmit shift register to empty.
 #endif
 
 #define O_LCD_CS_N           PIN4_bm
 #define LCD_CS_N_INACTIVE    LCD_PORT.OUTSET = O_LCD_CS_N
 #define LCD_CS_N_ACTIVE      LCD_PORT.OUTCLR = O_LCD_CS_N
 
-#if defined (SPI8BIT)
+#if !defined (SPI9BIT)
 #define O_LCD_CMD_DATA             PIN1_bm
 #define LCD_CMD_DATA_HI            LCD_PORT.OUTSET = O_LCD_CMD_DATA
 #define LCD_CMD_DATA_LO            LCD_PORT.OUTCLR = O_LCD_CMD_DATA
@@ -85,13 +84,12 @@
 #define NUMITERATIONFULLREFRESH  2
 
 
-
 void lcd_spi_tx(uint8_t c)
 #if defined (BITBANGSPI)
 {
   LCD_CLK_LO;
 
-#if !defined (SPI8BIT)
+#if defined (SPI9BIT)
   // Send CMD_DATA bit first then b7 .. b0.
   // Clock line inactive = low. Clock rising = sample.
   LCD_MOSI_HI; // Data.
@@ -124,20 +122,19 @@ void lcd_spi_tx(uint8_t c)
 #endif
 
 
-
 void lcdSendCmd(uint8_t c)
 #if defined (BITBANGSPI)
 {
   LCD_CLK_LO;
   LCD_CS_N_ACTIVE;
 
-#if defined (SPI8BIT)
-  LCD_CMD_DATA_LO;
-#else
+#if defined (SPI9BIT)
   // Send CMD_DATA bit first then b7 .. b0.
   // Clock line inactive = low. Clock rising = sample.
   LCD_MOSI_LO; // Command.
   LCD_CLK_HI; // Latch MISO.
+#else
+  LCD_CMD_DATA_LO;
 #endif
 
   uint8_t n = 8;
@@ -173,8 +170,7 @@ void lcdSendCmd(uint8_t c)
 void lcdSetRefVolt(uint8_t val)
 {
   lcdSendCmd(SSD1309_CMD_SETCONTRAST);
-//  lcdSendCmd(g_eeGeneral.blOnBright << 4);
-  lcdSendCmd(g_eeGeneral.contrast << 1);
+  lcdSendCmd(val + 20);
 }
 
 
@@ -191,8 +187,8 @@ void lcdInit()
   LCD_PORT.DIRSET |= O_LCD_CMD_DATA;
   LCD_CMD_DATA_LO;
 #endif
-#if defined (SPI8BIT)
-  LCD_PORT.DIRSET |= O_LCD_CMD_DATA;
+#if !defined (SPI9BIT)
+  LCD_PORT.DIRSET = O_LCD_CMD_DATA;
   LCD_CMD_DATA_LO;
 #endif
 
@@ -261,8 +257,6 @@ void lcdInit()
   lcdSendCmd(SSD1309_CMD_NORMALDISPLAY); //--set normal display
   lcdSendCmd(SSD1309_CMD_DISPLAYALLON);  //Disable Entire Display On
   lcdSendCmd(SSD1309_CMD_DISPLAYWAKEUP); //--turn on oled panel
-
-  //g_eeGeneral.contrast = 0x09;
 }
 
 
@@ -283,7 +277,7 @@ void lcdRefreshFast()
     lcdSendCmd(SSD1309_CMD_SET_COLUMN_ADDRESS_LSB(0)); // Set LS nibble column RAM address 0
     lcdSendCmd(SSD1309_CMD_SET_COLUMN_ADDRESS_MSB(0)); // Set MS nibble column RAM address 0
 
-#if defined (SPI8BIT)
+#if !defined (SPI9BIT)
     LCD_CMD_DATA_HI;
 #endif
 
@@ -293,9 +287,7 @@ void lcdRefreshFast()
       lcd_spi_tx(*p++);
     }
 
-#if !defined (BITBANGSPI)
     WAIT_LCD_TX_FIN;
-#endif
 
     LCD_CS_N_INACTIVE;
   }

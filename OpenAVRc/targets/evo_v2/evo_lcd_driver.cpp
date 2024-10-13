@@ -20,11 +20,28 @@
  *****************************************************************
 */
 
-//#define BITBANGSPI
+
+//#define LCD_SSD1309
+#define LCD_EVO
+//#define LCD_ST7567
+
+#if defined(LCD_EVO)
+// #define CONTRAST_MIN 10
+ #define LCD_SIZE_132X64
+ #define POSITIVE_CHIP_SELECT
+#endif
+#if defined(LCD_ST7567)
+// #define CONTRAST_MIN 35
+ #define LCD_SIZE_132X64
+ #define POSITIVE_CHIP_SELECT
+#endif
+#if defined(LCD_SSD1309)
+// #define CONTRAST_MIN 30
+#endif
+
 #if !defined (BITBANGSPI)
 #include "spi.h"
 #endif
-
 
 #define ST7565R_CMD_RESET                       0xE2
 #define ST7565R_CMD_DISPLAY_OFF                 0xAE
@@ -36,9 +53,8 @@
 #define ST7565R_CMD_DISPLAY_ON                  0xAF
 #define ST7565R_CMD_START_LINE_SET( line )             (0x40 | (line))
 #define ST7565R_CMD_PAGE_ADDRESS_SET( page )           (0xB0 | (page))
-#define ST7565R_CMD_COLUMN_ADDRESS_SET_MSB( column )   (0x10 | (column))
 #define ST7565R_CMD_COLUMN_ADDRESS_SET_LSB( column )   (0x00 | (column))
-
+#define ST7565R_CMD_COLUMN_ADDRESS_SET_MSB( column )   (0x10 | (column))
 
 #define LCD_PORT       PORTD
 #define O_LCD_MOSI     PIN7_bm
@@ -59,7 +75,6 @@
 
 #define O_LCD_CS           PIN4_bm
 
-#define POSITIVE_CHIP_SELECT
 #if defined (POSITIVE_CHIP_SELECT)
 #define LCD_CS_ACTIVE      LCD_PORT.OUTSET = O_LCD_CS
 #define LCD_CS_INACTIVE    LCD_PORT.OUTCLR = O_LCD_CS
@@ -83,7 +98,8 @@ void lcd_spi_tx(char c)
   LCD_SPI.DATA = c;
 }
 #else
-void lcd_spi_tx(uint8_t c) {
+void lcd_spi_tx(uint8_t c)
+{
 // MSB first. Clock line inactive = high. SPI Mode 3.
 // Clock leading edge falling = data setup. Clock trailing edge rising = sample.
   uint8_t n = 8;
