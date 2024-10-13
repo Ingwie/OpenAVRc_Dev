@@ -198,7 +198,7 @@ inline void boardInit()
 
 
   PMIC.CTRL |= PMIC_LOLVLEN_bm;  // Enable Low Priority Interrupts. e.g Rotary encoders, 10ms Counter.
-  PMIC.CTRL |= PMIC_MEDLVLEN_bm; // Enable Medium Priority Interrupts. e.g.
+  PMIC.CTRL |= PMIC_MEDLVLEN_bm; // Enable Medium Priority Interrupts. e.g. USART protocols.
   PMIC.CTRL |= PMIC_HILVLEN_bm;  // Enable High Priority Interrupts. e.g. RF Pulses.
 
 
@@ -210,6 +210,8 @@ inline void boardInit()
   PORTC.OUTSET = OC_PWR_LED_bm;
 
   setup_trainer_tc();
+
+  sei(); // Needed to catch first 10mS interrupt & interrupt driven LCD.
 
   DISPLAY_LOADING_MESSAGE();
   lcdRefresh();
