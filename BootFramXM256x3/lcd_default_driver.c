@@ -39,6 +39,7 @@
 
 #define NUMITERATIONFULLREFRESH  1
 
+
 // LCD driver
 #define PORTA_LCD_DAT            PORTA
 #define PORTC_LCD_CTRL           PORTC
@@ -100,6 +101,19 @@ const static uint8_t lcdInitSequence[] PROGMEM = {
   0x81, //Set reference voltage Mode
   0x2D, //24 SV5 SV4 SV3 SV2 SV1 SV0
   0xAF  //DON = 1: display ON
+#elif defined(LCD_LT13264B) // SPLC501C 132x64 Inverse.
+  0xE2, // CMD_RESET
+  0xAE, // CMD_DISPLAY_OFF
+  0xA1, // CMD_REVERSE_SEG_DIRECTION
+  0xA7, // CMD_DISPLAY_INVERT
+  0xA4, // CMD_DISPLAY_ALL_POINTS_OFF
+  0xA2, // CMD_BIAS_SELECT_9TH
+  0xC0, // CMD_NORMAL_COM_DIRECTION
+  0x2F, // CMD_POWER_CTRL
+  //0x24, // *** Use default 0x24 *** CMD_VOLTAGE_RESISTOR_RATIO ***
+  0x81, // CMD_CONTRAST_SET
+  CONTRAST_MIN, // Contrast value.
+  0xAF  // CMD_DISPLAY_ON
 #else    //ST7565P (default 9x LCD)
   0xE2, //Initialize the internal functions
   0xAE, //DON = 0: display OFF
@@ -117,11 +131,7 @@ const static uint8_t lcdInitSequence[] PROGMEM = {
 };
 
 const uint8_t desktop_icon[] PROGMEM = {
-//#if defined (__AVR_XMEGA__)
 #include "desktop.lbm"
-//#else
-//16,8,0x00,0x24,0x66,0x7E,0x3C,0x18,0x18,0x18,0x18,0x18,0x18,0x3C,0x66,0x66,0x3C,0x00
-//#endif
 };
 
 uint8_t displayBuf[DISPLAY_BUFER_SIZE];
@@ -148,18 +158,18 @@ void lcdInit()
 {
   memset(displayBuf, 0x00, DISPLAY_BUFER_SIZE);
 
-//#if defined (__AVR_XMEGA__)
   lcd_imgfar(32, 0, (pgm_get_far_address(desktop_icon)), 0, 0);
-//#else
-//  lcd_imgfar(0, 0, (pgm_get_far_address(desktop_icon)), 0, 0);
-//#endif
+
+  DDRA = 0b11111111;  PORTA = 0b00000000; // LCD data
+  DDRC = 0b11111100;  PORTC = 0b00000011; // 7-3:LCD, 2:BackLight, 1:ID2_SW, 0:ID1_SW
 
   PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_RES);  //LCD reset
   _delay_us(2);
   PORTC_LCD_CTRL |= _BV(OUT_C_LCD_RES);  //LCD normal operation
   _delay_us(1500);
+
   for (uint8_t i=0; i<DIM(lcdInitSequence); i++) {
-    lcdSendCtl(pgm_read_byte_near(&lcdInitSequence[i]));
+    lcdSendCtl(pgm_read_byte_far(&lcdInitSequence[i]));
   }
 }
 
@@ -185,6 +195,8 @@ SHOWDURATIONLCD1
   for (uint8_t y=0; y < 8; y++) {
 #if defined(LCD_ST7565R)
     lcdSendCtl(0x01);
+#elif defined(LCD_SIZE_132X64)
+    lcdSendCtl(0x00);
 #else
     lcdSendCtl(0x04);
 #endif
@@ -196,11 +208,27 @@ SHOWDURATIONLCD1
 #endif
     PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_A0);
     PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_RnW);
+    #if defined (LCD_SIZE_132X64)
+    PORTA_LCD_DAT = (0x00); // Pad out the four unused columns.
+    PORTC_LCD_CTRL |= _BV(OUT_C_LCD_E);
+    PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_E);
+    PORTA_LCD_DAT = (0x00);
+    PORTC_LCD_CTRL |= _BV(OUT_C_LCD_E);
+    PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_E);
+    #endif
     for (coord_t x=LCD_W; x>0; --x) {
       PORTA_LCD_DAT = *p++;
       PORTC_LCD_CTRL |= _BV(OUT_C_LCD_E);
       PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_E);
     }
+    #if defined (LCD_SIZE_132X64)
+    PORTA_LCD_DAT = (0x00); // Pad out the four unused columns.
+    PORTC_LCD_CTRL |= _BV(OUT_C_LCD_E);
+    PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_E);
+    PORTA_LCD_DAT = (0x00);
+    PORTC_LCD_CTRL |= _BV(OUT_C_LCD_E);
+    PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_E);
+    #endif
     PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_A0);
     PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_CS1);
   }

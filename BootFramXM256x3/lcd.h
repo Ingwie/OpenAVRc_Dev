@@ -10,9 +10,15 @@
 
 
 //#define LCD_SSD1309
-#define LCD_EVO
+//#define LCD_EVO
 //#define LCD_ST7567
+#define LCD_LT13264B
 
+#if defined(LCD_LT13264B)
+ #define CONTRAST_MIN 16
+ #define LCD_SIZE_132X64
+
+#endif
 #if defined(LCD_EVO)
  #define CONTRAST_MIN 10
  #define LCD_SIZE_132X64
