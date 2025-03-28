@@ -194,17 +194,17 @@ void setup_trainer_tc(void);
 
 
 // Switch cross mapping.
-#define SW_ID0 SW_Jup
-#define SW_ID1 SW_Jmi
-#define SW_ID2 SW_Jdn
+#define SW_Jup SW_ID0
+#define SW_Jmi SW_ID1
+#define SW_Jdn SW_ID2
 
-#define SW_GEA SW_Gdn
-#define SW_RUD SW_Ldn
-#define SW_ELE SW_Odn
+#define SW_Gdn SW_GEA
+#define SW_Ldn SW_RUD
+#define SW_Odn SW_ELE
 
-#define SW_THR SW_N
-#define SW_AIL SW_I
-#define SW_TRN SW_M
+#define SW_N SW_THR
+#define SW_I SW_AIL
+#define SW_M SW_TRN
 
 
 // MPX

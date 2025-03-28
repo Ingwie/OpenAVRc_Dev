@@ -670,8 +670,8 @@ void read_sws_1(void)
       switches[SW_Jmi - SW_BASE] = ( (x==13 || x==14 || x==15) ? 1 : 0); // J Middle
 
       switches[SW_Gdn - SW_BASE] = ( (x==5 || x==9 || x==13) ? 1 : 0); // G Down
-      switches[SW_Gup - SW_BASE] = ( (x==6 || x==10 || x==14) ? 1 : 0); // G Up
-      switches[SW_Gmi - SW_BASE] = ( (x==7 || x==11 || x==15) ? 1 : 0); // G Middle
+//      switches[SW_Gup - SW_BASE] = ( (x==6 || x==10 || x==14) ? 1 : 0); // G Up
+//      switches[SW_Gmi - SW_BASE] = ( (x==7 || x==11 || x==15) ? 1 : 0); // G Middle
     break;
     }
   }
@@ -693,9 +693,9 @@ void read_sws_2(void)
     if (lower > upper) lower = 0;
 
     if(AD_value > lower && AD_value < upper) {
-      switches[SW_H - SW_BASE] = ( (x & 2) ? 0 : 1); // H
+//      switches[SW_H - SW_BASE] = ( (x & 2) ? 0 : 1); // H
       switches[SW_I - SW_BASE] = ( (x & 1) ? 1 : 0); // I
-      switches[SW_K - SW_BASE] = ( (x & 4) ? 1 : 0); // K
+//      switches[SW_K - SW_BASE] = ( (x & 4) ? 1 : 0); // K
       keys[BTN_REb].input( (x & 8) ? 0 : 1); // EncRight
     break;
     }
@@ -719,12 +719,12 @@ void read_sws_3(void)
 
     if(AD_value > lower && AD_value < upper) {
       switches[SW_Odn - SW_BASE] = ( (x==5 || x==6 || x==7) ? 1 : 0); // O Down
-      switches[SW_Oup - SW_BASE] = ( (x==9 || x==10 || x==11) ? 1 : 0); // O Up
-      switches[SW_Omi - SW_BASE] = ( (x==13 || x==14 || x==15) ? 1 : 0); // O Middle
+//      switches[SW_Oup - SW_BASE] = ( (x==9 || x==10 || x==11) ? 1 : 0); // O Up
+//      switches[SW_Omi - SW_BASE] = ( (x==13 || x==14 || x==15) ? 1 : 0); // O Middle
 
       switches[SW_Ldn - SW_BASE] = ( (x==5 || x==9 || x==13) ? 1 : 0); // L Down
-      switches[SW_Lup - SW_BASE] = ( (x==6 || x==10 || x==14) ? 1 : 0); // L Up
-      switches[SW_Lmi - SW_BASE] = ( (x==7 || x==11 || x==15) ? 1 : 0); // L Middle
+//      switches[SW_Lup - SW_BASE] = ( (x==6 || x==10 || x==14) ? 1 : 0); // L Up
+//      switches[SW_Lmi - SW_BASE] = ( (x==7 || x==11 || x==15) ? 1 : 0); // L Middle
     break;
     }
   }
@@ -748,7 +748,7 @@ void read_sws_4(void)
     if(AD_value > lower && AD_value < upper) {
       switches[SW_M - SW_BASE] = ( (x & 2) ? 0 : 1); // M
       switches[SW_N - SW_BASE] = ( (x & 1) ? 1 : 0); // N
-      switches[SW_P - SW_BASE] = ( (x & 4) ? 1 : 0); // P
+//      switches[SW_P - SW_BASE] = ( (x & 4) ? 1 : 0); // P
       keys[BTN_REa].input( (x & 8) ? 0 : 1); // EncLeft
     break;
     }
