@@ -68,8 +68,8 @@ void menuModelLogicalSwitches(uint8_t event)
     LogicalSwitchData * cs = lswAddress(k);
 
     // CSW name
-    uint8_t sw = SWSRC_SW1+k;
-    lcdPutsSwitches(0, y, sw, (getSwitch(sw) ? BOLD : 0) | ((sub==k && CURSOR_ON_LINE()) ? INVERS : 0));
+    uint8_t sw = SWSRC_FIRST_LOGICAL_SWITCH + k;
+    lcdPutsSwitches(0, y, sw, (getLogicalSwitch(k) ? BOLD : 0) | ((sub==k && CURSOR_ON_LINE()) ? INVERS : 0));
 
     // CSW func
     lcdDrawTextAtIndex(CSW_1ST_COLUMN, y, STR_VCSWFUNC, cs->func, horz==0 ? attr : 0);
