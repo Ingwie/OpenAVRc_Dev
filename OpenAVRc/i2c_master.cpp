@@ -48,7 +48,7 @@
 /*
  *        FCPU
  * --------------------  = SCL frequency
- * 16 + 2(TWBR) .4^TWPS
+ * 16 + 2(TWBR) . 4^TWPS
  */
 
 #if defined(CPUM2560)

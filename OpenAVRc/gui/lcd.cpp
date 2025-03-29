@@ -111,7 +111,7 @@ void lcdDrawTextLeft(coord_t y, const pm_char * s)
   lcdDrawText(0, y, s);
 }
 
-void lcdDrawTextAtIndex(coord_t x, coord_t y, const pm_char * s,uint8_t idx, LcdFlags flags)
+void lcdDrawTextAtIndex(coord_t x, coord_t y, const pm_char * s, uint8_t idx, LcdFlags flags)
 {
   uint8_t length;
   length = pgm_read_byte_near(s++);
