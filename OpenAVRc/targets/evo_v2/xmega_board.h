@@ -319,8 +319,8 @@ void read_trim_matrix(void);
 #define ROT_ENC_RH_CLK_CTRL_REG    PORTF.PIN6CTRL
 #define IF_ROT_ENC_RH_DIR_bm       PIN7_bm
 
-#define REA_DOWN()	switchState((EnumKeys)BTN_REa)
-#define REB_DOWN()	switchState((EnumKeys)BTN_REb)
+#define REA_DOWN()    switchState((EnumKeys)BTN_REa)
+#define REB_DOWN()    switchState((EnumKeys)BTN_REb)
 #define ROTENC_DOWN() (REA_DOWN() || REB_DOWN())
 
 #define ENABLEROTENCAISR()     {}
