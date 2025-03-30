@@ -490,7 +490,7 @@ void menuMainView(uint8_t event)
 
       // Logical Switches
       for (uint8_t i=0; i<15; i++) //Can't draw all NUM_LOGICAL_SWITCH
-        lcdPutsSwitches(2*FW-3 + (i/3)*(i/3>2 ? 3*FW+2 : (3*FW-1)) + (i/3>2 ? 2*FW : 0), 4*FH+1 + (i%3)*FH, SWSRC_SW1+i, getSwitch(SWSRC_SW1+i) ? INVERS : 0);
+        lcdPutsSwitches(2*FW-3 + (i/3)*(i/3>2 ? 3*FW+2 : (3*FW-1)) + (i/3>2 ? 2*FW : 0), 4*FH+1 + (i%3)*FH, SWSRC_FIRST_LOGICAL_SWITCH+i, getLogicalSwitch(i) ? INVERS : 0);
     }
   } else { // timer2
 #if defined(TRANSLATIONS_CZ)
