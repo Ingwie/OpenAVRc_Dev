@@ -425,9 +425,8 @@ uint8_t spi_read_3wires_bb() // Bitbang read.
 
 void backlightFade(void)
 {
-// ToDo ... We can decrement the compare register until the target is reached.
-// At the moment we just have a backlight brightness of two levels.
-  // TCC2.LCMPC = TCC2.LCMPC -1;
+// Decrement the compare register until the backlight off target is reached.
+  if(TCC2.LCMPC > ( (uint8_t) g_eeGeneral.blOffBright <<4) ) TCC2.LCMPC--;
 }
 
 
