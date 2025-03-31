@@ -184,9 +184,8 @@ return 0;
 
 void backlightFade(void)
 {
-// ToDo ... We can decrement the compare register until the target is reached.
-// At the moment we just have a backlight brightness of two levels.
-// OCR0A = OCR0A -1;
+  // Decrement the compare register until the backlight off target is reached.
+  if(OCR0A > ( (uint8_t) g_eeGeneral.blOffBright <<4) ) OCR0A--;
 }
 
 void boardOff()
