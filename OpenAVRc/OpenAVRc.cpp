@@ -296,7 +296,7 @@ void per10ms()
   // These moved here from evalFlightModeMixes() to improve beep trigger reliability.
 #if defined(PWM_BACKLIGHT)
   if (EVERY_PERIOD(g_tmr10ms, 4))
-    backlightFade(); // increment or decrement brightness until target brightness is reached
+    backlightFade(); // Decrement brightness until "off" brightness is reached.
 #endif
 
 #if defined(VOICE_JQ6500) && !defined(SIMU)
@@ -706,11 +706,19 @@ void checkBacklight()
     }
 
     uint8_t backlightOn = (g_eeGeneral.backlightMode == e_backlight_mode_on || lightOffCounter || isFunctionActive(FUNCTION_BACKLIGHT));
-    if (flashCounter) backlightOn = !backlightOn;
-    if (backlightOn)
-      BACKLIGHT_ON();
+    if (flashCounter)
+      backlightOn = !backlightOn;
+
+    if (backlightOn) BACKLIGHT_ON();
     else
+    {
+#if !defined(PWM_BACKLIGHT)
       BACKLIGHT_OFF();
+    }
+#else
+      // Let backlightFade() in 10ms loop do its thing.
+    }
+#endif
   }
 }
 
