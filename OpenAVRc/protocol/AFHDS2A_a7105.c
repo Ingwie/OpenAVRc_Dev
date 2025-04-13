@@ -33,6 +33,24 @@
 
 #include "../OpenAVRc.h"
 
+
+struct afhds2a_spimod_p2M
+  { // 144 bytes Maximum e.g. PULSES_BYTE_SIZE
+    uint8_t packet_P2M[MAX_PACKET]; // 50
+    uint8_t channel_used_p2M[MAX_CHANNEL]; // 75
+    uint8_t unused1[3]; // &127
+    uint8_t afhds2a_RF_STATE_P2M;
+    uint8_t afhds2a_CH_IDX_P2M;
+    uint8_t afhds2a_REC_SEQ_P2M;
+    uint8_t afhds2a_BIND_IDX_P2M;
+    uint8_t afhds2a_PACKET_COUNT_P2M; //&132
+    uint8_t unused2[5];
+    uint16_t AFHDS2A_RF_STATE16_P2M; //&138
+    uint32_t temp_rfid_addr_p2M; // &140
+  } __attribute__((__packed__));
+
+
+
 // define pulses2MHz reusable values (13 bytes max)
 #define AFHDS2A_RFSTATE_P2M       BYTE_P2M(1)
 #define AFHDS2A_CH_IDX_P2M        BYTE_P2M(2)
@@ -40,7 +58,7 @@
 #define AFHDS2A_BIND_IDX_P2M      BYTE_P2M(4)
 #define AFHDS2A_PACKET_COUNT_P2M  BYTE_P2M(5)
 
-#define AFHDS2A_RF_STATE16_P2M    WORD_P2M(1)
+#define AFHDS2A_RF_STATE16_P2M    WORD_P2M(2)
 //***********************************************//
 
 const static RfOptionSettingsvar_t RfOpt_AFHDS2A_Ser[] PROGMEM =
@@ -85,6 +103,7 @@ enum
  AFHDS2A_BIND2,
  AFHDS2A_BIND3,
  AFHDS2A_BIND4,
+// AFHDS2A_DATA_INIT,
  AFHDS2A_DATA,
 };
 
@@ -268,7 +287,7 @@ static uint16_t AFHDS2A_cb()
 {
  heartbeat |= HEART_TIMER_PULSES;
 
- uint8_t data_rx;
+ uint8_t data_rx=0;
 
  A7105_AdjustLOBaseFreq();
 
@@ -278,9 +297,10 @@ static uint16_t AFHDS2A_cb()
   case AFHDS2A_BIND2:
   case AFHDS2A_BIND3:
    AFHDS2A_build_bind_packet();
+   data_rx=A7105_ReadReg(A7105_00_MODE);      // Check if something has been received...
    A7105_WriteData(AFHDS2A_TXPACKET_SIZE, AFHDS2A_PACKET_COUNT_P2M%2 ? 0x0d : 0x8c);
-   if(!(A7105_ReadReg(A7105_00_MODE) & (1<<5))) // CRCF Ok
-    {
+   if(!(A7105_ReadReg(A7105_00_MODE) & (1<<5)) && !(data_rx & 1)) // removed FECF check due to issues with fs-x6b ->  & (1<<5 | 1<<6)
+    { // RX+CRCF Ok
      A7105_ReadData(AFHDS2A_RXPACKET_SIZE);
      if(packet_p2M[0] == 0xbc && packet_p2M[9] == 0x01)
       {
