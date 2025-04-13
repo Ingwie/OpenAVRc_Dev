@@ -466,7 +466,6 @@ typedef int8_t swsrc_t;
 #if defined(CPUM2560)
 #include "Serial0.h"
 #include "pulses/pulses_avr.h"
-#include "pulses/pulses.h"
 #include "eeprom_common.h"
 #include "eeprom_rlc.h"
 #endif
@@ -474,7 +473,6 @@ typedef int8_t swsrc_t;
 #include "targets/evo_v2/xmega_board.h"
 #include "Serial0.h"
 #include "pulses/pulses_avr.h"
-#include "pulses/pulses.h"
 #include "eeprom_common.h"
 #include "eeprom_rlc.h"
 #endif
