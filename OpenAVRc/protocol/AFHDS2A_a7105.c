@@ -34,23 +34,6 @@
 #include "../OpenAVRc.h"
 
 
-struct afhds2a_spimod_p2M
-  { // 144 bytes Maximum e.g. PULSES_BYTE_SIZE
-    uint8_t packet_P2M[MAX_PACKET]; // 50
-    uint8_t channel_used_p2M[MAX_CHANNEL]; // 75
-    uint8_t unused1[3]; // &127
-    uint8_t afhds2a_RF_STATE_P2M;
-    uint8_t afhds2a_CH_IDX_P2M;
-    uint8_t afhds2a_REC_SEQ_P2M;
-    uint8_t afhds2a_BIND_IDX_P2M;
-    uint8_t afhds2a_PACKET_COUNT_P2M; //&132
-    uint8_t unused2[5];
-    uint16_t AFHDS2A_RF_STATE16_P2M; //&138
-    uint32_t temp_rfid_addr_p2M; // &140
-  } __attribute__((__packed__));
-
-
-
 // define pulses2MHz reusable values (13 bytes max)
 #define AFHDS2A_RFSTATE_P2M       BYTE_P2M(1)
 #define AFHDS2A_CH_IDX_P2M        BYTE_P2M(2)
@@ -224,9 +207,9 @@ static void AFHDS2A_build_packet(uint8_t type)
    packet_p2M[14]= 0x00;
    for(uint8_t i=15; i<37; i++)
     packet_p2M[i] = 0xff;
-   packet_p2M[18] = 0x05;		// ?
-   packet_p2M[19] = 0xdc;		// ?
-   packet_p2M[20] = 0x05;		// ?
+   packet_p2M[18] = 0x05;// ?
+   packet_p2M[19] = 0xdc;// ?
+   packet_p2M[20] = 0x05;// ?
    if(g_model.rfSubType == PWM_SBUS || g_model.rfSubType == PPM_SBUS)
     packet_p2M[21] = 0xdd;	// SBUS output enabled
    else
@@ -238,50 +221,65 @@ static void AFHDS2A_build_packet(uint8_t type)
 
 
 #if defined(FRSKY) // telemetry
-// telemetry sensors ID
+
 enum
-{
- AFHDS2A_SENSOR_RX_VOLTAGE   = 0x00,
- //AFHDS2A_SENSOR_RX_ERR_RATE  = 0xfe,
- AFHDS2A_SENSOR_RX_RSSI      = 0xfc,
- AFHDS2A_SENSOR_RX_NOISE     = 0xfb,
- AFHDS2A_SENSOR_RX_SNR       = 0xfa,
+{ // telemetry sensors ID
+  AFHDS2A_SENSOR_RX_VOLTAGE = 0x00,
+//  AFHDS2A_SENSOR_RX_ERR_RATE  = 0xfe,
+  AFHDS2A_SENSOR_RX_RSSI = 0xfc,
+  AFHDS2A_SENSOR_RX_NOISE = 0xfb,
+//  AFHDS2A_SENSOR_RX_SNR       = 0xfa,
+  AFHDS2A_SENSOR_A3_VOLTAGE = 0x03,
 };
 
 static void AFHDS2A_update_telemetry()
 {
- // AA | TXID | rx_id | sensor id | sensor # | value 16 bit big endian | sensor id ......
- // max 7 sensors per packet
- uint8_t linkOk = 0;
- for(uint8_t sensor=0; sensor<7; sensor++)
+// AA | TXID | rx_id | sensor id | sensor # | value 16 bit big endian | sensor id ......
+// AC | TXID | rx_id | sensor id | sensor # | length | bytes | sensor id ......
+// Max 7 sensors per packet.
+
+  uint8_t linkOk = 0;
+
+//  if (packet_p2M[0] != 0xAA) return; // 0xAA Normal telemetry, 0xAC Extended telemetry not decoded here --- yet
+
+  for (uint8_t sensor = 0; sensor < 7; sensor++)
   {
-   // Send FrSky telemetry to TX
-   uint8_t index = 9+(4*sensor);
-   switch(packet_p2M[index])
+    uint8_t index = 9 + (4 * sensor);
+
+    switch (packet_p2M[index])
     {
-    case AFHDS2A_SENSOR_RX_VOLTAGE:
-     //v_lipo1 = packet_p2M[index+3]<<8 | packet_p2M[index+2];
-     telemetryData.analog[TELEM_ANA_A1].set(packet_p2M[index+2], g_model.telemetry.channels[TELEM_ANA_A1].type);
-     linkOk = 1;
-     break;
-    //case AFHDS2A_SENSOR_RX_ERR_RATE:
-    //RX_LQI=packet_p2M[index+2];
-    //break;
-    case AFHDS2A_SENSOR_RX_RSSI:
-     telemetryData.rssi[1].set(-packet_p2M[index+2]);
-     linkOk = 1;
-     break;
-    case 0xff:
-     return;
-     //default:
-     // unknown sensor ID
-     break;
+      case AFHDS2A_SENSOR_RX_VOLTAGE:
+        telemetryData.analog[TELEM_ANA_A1].set( packet_p2M[index + 2],
+            g_model.telemetry.channels[TELEM_ANA_A1].type);
+        linkOk = 1;
+        break;
+      case AFHDS2A_SENSOR_A3_VOLTAGE:
+        telemetryData.analog[TELEM_ANA_A2].set( packet_p2M[index + 3] << 5 | (packet_p2M[index + 2] >> 3),
+            g_model.telemetry.channels[TELEM_ANA_A2].type);
+        linkOk = 1;
+        break;
+//  case AFHDS2A_SENSOR_RX_ERR_RATE:
+//    if(packet_p2M[index+2]<=100)  RX_LQI=packet_p2M[index+2];
+//    break;
+      case AFHDS2A_SENSOR_RX_RSSI:
+        telemetryData.rssi[1].set(-packet_p2M[index + 2]);
+        linkOk = 1;
+        break;
+//      case 0xff:
+//        return;
+
+//  default:
+//      unknown sensor ID
+//    break;
     }
   }
- if (linkOk)   frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
- // frskyStreaming gets decremented every 10ms, FRSKY_TIMEOUT_FIRST value is detected to play connection prompt.
+
+  if (linkOk)
+    frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
+  // frskyStreaming gets decremented every 10ms, FRSKY_TIMEOUT_FIRST value is detected to play connection prompt.
 }
 #endif
+
 
 static uint16_t AFHDS2A_cb()
 {
@@ -323,7 +321,7 @@ static uint16_t AFHDS2A_cb()
    while (!(A7105_ReadReg(A7105_00_MODE) & 0x01)) // wait 700 us max
     if(++AFHDS2A_REC_SEQ_P2M > AFHDS2A_NUM_WAIT_LOOPS)
      break;
-   A7105_SetTxRxMode(TXRX_OFF);					// Turn LNA off since we are in near range and we want to prevent swamping
+   A7105_SetTxRxMode(TXRX_OFF); // Turn LNA off since we are in near range and we want to prevent swamping
    A7105_Strobe(A7105_RX);
    AFHDS2A_RFSTATE_P2M &= ~AFHDS2A_WAIT_WRITE;
    AFHDS2A_RFSTATE_P2M++;
@@ -366,18 +364,19 @@ static uint16_t AFHDS2A_cb()
     {
      AFHDS2A_CH_IDX_P2M = AFHDS2A_PACKET_STICKS;		// todo : check for settings changes
     }
-   if(!(A7105_ReadReg(A7105_00_MODE) & (1<<5 ) && !(data_rx & 1))) // RX+CRCF Ok
-    {
+
+   if(!(A7105_ReadReg(A7105_00_MODE) & (1<<5 ) && !(data_rx & 1)))  // removed FECF check due to issues with fs-x6b ->  & (1<<5 | 1<<6)
+    { // RX+CRCF Ok
      A7105_ReadData(AFHDS2A_RXPACKET_SIZE);
-     if(packet_p2M[0] == 0xaa)
+     if(packet_p2M[0] == 0xAA && packet_p2M[9] == 0xFC)
       {
-       if(packet_p2M[9] == 0xfc)
-        {
-         AFHDS2A_CH_IDX_P2M = AFHDS2A_PACKET_SETTINGS;	// RX is asking for settings
-        }
+        AFHDS2A_CH_IDX_P2M = AFHDS2A_PACKET_SETTINGS;	// RX is asking for settings
+      }
+
 #if defined(FRSKY) // telemetry
-       else
-        {
+
+     else if(packet_p2M[0] == 0xAA && packet_p2M[9]!=0xFD  && (memcmp(&packet_p2M[1], temp_rfid_addr_p2M, 4) ==0) )
+        { // Normal telemetry packet, ignore packets which contain the RX configuration: AA FD FF 32 00 01 00 FF FF FF 05 DC 05 DE FA FF FF FF FF FF FF FF FF FF FF FF FF FF FF
          // Read TX RSSI
          int16_t temp=256-(A7105_ReadReg(A7105_1D_RSSI_THOLD)*8)/5;		// value from A7105 is between 8 for maximum signal strength to 160 or less
          limit<int16_t>(0, temp, 255);
@@ -388,8 +387,8 @@ static uint16_t AFHDS2A_cb()
           }
         }
 #endif
-      }
     }
+
    ++AFHDS2A_RF_STATE16_P2M;
    AFHDS2A_RFSTATE_P2M |= AFHDS2A_WAIT_WRITE;
    CALCULATE_LAT_JIT(); // Calculate latency and jitter.

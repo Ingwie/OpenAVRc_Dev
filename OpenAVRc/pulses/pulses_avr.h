@@ -69,9 +69,11 @@ extern uint16_t dt;
 #if defined(PCM_PROTOCOL)
 #include "../protocol/PROTO_PCM.h"
 #endif
+#if defined(SPIMODULES)
+#include "../protocol/spirf.h"
+#endif
 
-
-union p2mhz_t
+union
 {
   uint16_t pword[PULSES_WORD_SIZE];
   uint8_t  pbyte[PULSES_BYTE_SIZE]; // 144
@@ -83,6 +85,9 @@ union p2mhz_t
 #endif
 #if defined(PCM_PROTOCOL)
   PcmSt_t  Pcm;
+#endif
+#if defined(SPIMODULES)
+  spiU_t spi;
 #endif
 } pulses2MHz;
 
