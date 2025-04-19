@@ -30,76 +30,17 @@
  **************************************************************************
 */
 
+#include "Nutbolts.h"
 
-#ifndef RADIODATAFRAME_H
-#define RADIODATAFRAME_H
-
-#include "OpenAVRc_SimulatorApp.h"
-
-//(*Headers(RadioDataFrame)
-#include <wx/frame.h>
-#include <wx/panel.h>
-#include <wx/statbox.h>
-#include <wx/stattext.h>
-#include <wx/textctrl.h>
-#include <wx/timer.h>
-//*)
-#define wxDEFAULT_DIALOG_STYLE  (wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX)
-
-class RadioDataFrame: public wxFrame
+#if defined(__UNIX__)
+// Return the number of milliseconds since the system was turned on (tick)
+uint32_t GetTickCount()
 {
-	public:
+    struct timespec ts;
 
-		RadioDataFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
-		virtual ~RadioDataFrame();
+    clock_gettime(CLOCK_MONOTONIC, &ts);
 
-		void PopulateRadioDataFrame();
-
-		RadioDataFrame *RaFr;
-
-		//(*Declarations(RadioDataFrame)
-		wxPanel* Panel1;
-		wxStaticBox* StaticBox1;
-		wxStaticText* StaticText1;
-		wxStaticText* StaticText2;
-		wxTextCtrl* TextCtrlBatt;
-		wxTextCtrl* TextCtrlcalibration;
-		wxTextCtrl* TextCtrlcontrast;
-		wxTextCtrl* TextCtrlcurrModel;
-		wxTextCtrl* TextCtrlhapticMode;
-		wxTextCtrl* TextCtrlstickMode;
-		wxTextCtrl* TextCtrlversion;
-		wxTimer RadioData;
-		//*)
-
-	protected:
-
-		//(*Identifiers(RadioDataFrame)
-		static const long ID_STATICBOX1;
-		static const long ID_TEXTCTRLVERSION;
-		static const long ID_TEXTCTRL3;
-		static const long ID_TEXTCTRLBATT;
-		static const long ID_TEXTCTRLSTICKMODE;
-		static const long ID_TEXTCTRLCalibration;
-		static const long ID_STATICTEXT1;
-		static const long ID_STATICTEXT2;
-		static const long ID_TEXTCTRLCONTRAST;
-		static const long ID_TEXTCTRLHAPTICMODE;
-		static const long ID_PANEL1;
-		static const long ID_TIMERRADIODATA;
-		//*)
-
-	private:
-
-		//(*Handlers(RadioDataFrame)
-		void OnTextCtrl1Text(wxCommandEvent& event);
-		void OnTextCtrlvariantText(wxCommandEvent& event);
-		void OnPanel1Paint(wxPaintEvent& event);
-		void OnClose(wxCloseEvent& event);
-		void OnRadioDataTrigger(wxTimerEvent& event);
-		//*)
-
-		DECLARE_EVENT_TABLE()
-};
-
+    return (ts.tv_sec * 1000 + ts.tv_nsec / 1000000);
+}
 #endif
+

@@ -497,6 +497,9 @@ void TelemetryFrame::OnRBProtoSelect(wxCommandEvent& event)
 
 void TelemetryFrame::DetectSerial()
 {
+#if defined(__UNIX__)
+// todo linux
+#else
   TCHAR Devices [5000];
   for(int i=0; i<255; i++) // checking ports from COM0 to COM255
   {
@@ -509,6 +512,7 @@ void TelemetryFrame::DetectSerial()
       ComboBoxCom->Insert(ComName,0); // add to the ComboBox
     }
   }
+#endif
 }
 
 void TelemetryFrame::OnComboBoxComDropdown(wxCommandEvent& event)

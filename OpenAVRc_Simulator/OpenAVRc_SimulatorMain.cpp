@@ -54,7 +54,7 @@
 #include <wx/filefn.h>
 #include <wx/busyinfo.h>
 
-
+#include "FrSky/FrSkySimu.h"
 
 
 //(*InternalHeaders(OpenAVRc_SimulatorFrame)
@@ -71,7 +71,7 @@
 #include "PanelB.xpm"
 
 #define TIMER_10_MS_TIME 10
-#define TIMER_MAIN_TIME  15
+#define TIMER_MAIN_TIME  20
 
 //helper functions
 enum wxbuildinfoformat {
@@ -180,6 +180,10 @@ wxString googleearthPath = "";
 wxString BtSimuName;
 wxString BtSimuPin;
 
+FirstFirmwareThread* FirstFWThread;
+MainFirmwareThread* MainFWThread;
+Isr10msFirmwareThread* Isr10msFWThread;
+BeepThread* BeepFWThread;
 
 //(*IdInit(OpenAVRc_SimulatorFrame)
 const long OpenAVRc_SimulatorFrame::ID_PANELH = wxNewId();
@@ -201,7 +205,6 @@ const long OpenAVRc_SimulatorFrame::ID_BPG = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_BPB = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_BPD = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_RSTICK = wxNewId();
-const long OpenAVRc_SimulatorFrame::ID_SIMULCD = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_BPTHR = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_BPRUD = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_BPELE = wxNewId();
@@ -216,6 +219,7 @@ const long OpenAVRc_SimulatorFrame::ID_SPINREB = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_TEXTCTRLDUMMY = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_BPREA = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_BPREB = wxNewId();
+const long OpenAVRc_SimulatorFrame::ID_SIMULCD = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_PANELMAIN = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_ONTGLBUTTON = wxNewId();
 const long OpenAVRc_SimulatorFrame::ID_BUTTONSTARTDESKTOP = wxNewId();
@@ -277,97 +281,97 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   wxMenuItem* MenuAbout;
   wxMenuItem* MenuItem1;
 
-  Create(parent, wxID_ANY, _("Simulateur V3"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxBORDER_SUNKEN|wxBORDER_RAISED, _T("wxID_ANY"));
+  Create(parent, wxID_ANY, _("Simulateur V3"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
   SetClientSize(wxSize(787,415));
   Move(wxPoint(25,25));
   SetMaxSize(wxSize(-1,-1));
-  PanelPrincipal = new wxPanel(this, ID_PANELPRINCIPAL, wxPoint(424,216), wxSize(777,400), wxBORDER_RAISED, _T("ID_PANELPRINCIPAL"));
-  PanelH = new wxPanel(PanelPrincipal, ID_PANELH, wxPoint(0,0), wxSize(784,64), wxBORDER_DOUBLE, _T("ID_PANELH"));
-  PanelMain = new wxPanel(PanelPrincipal, ID_PANELMAIN, wxPoint(0,64), wxSize(784,248), wxBORDER_DOUBLE, _T("ID_PANELMAIN"));
+  PanelPrincipal = new wxPanel(this, ID_PANELPRINCIPAL, wxPoint(424,216), wxSize(777,400), 0, _T("ID_PANELPRINCIPAL"));
+  PanelH = new wxPanel(PanelPrincipal, ID_PANELH, wxPoint(0,0), wxSize(784,64), 0, _T("ID_PANELH"));
+  PanelMain = new wxPanel(PanelPrincipal, ID_PANELMAIN, wxPoint(0,64), wxSize(784,248), 0, _T("ID_PANELMAIN"));
   Pot1 = new wxSlider(PanelMain, ID_POT1, 1024, 0, 2048, wxPoint(352,160), wxSize(14,78), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_POT1"));
   Pot1->SetBackgroundColour(wxColour(128,64,0));
   Pot2 = new wxSlider(PanelMain, ID_POT2, 1024, 0, 2048, wxPoint(380,160), wxSize(14,78), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_POT2"));
   Pot2->SetBackgroundColour(wxColour(128,64,0));
   Pot3 = new wxSlider(PanelMain, ID_POT3, 1024, 0, 2048, wxPoint(408,160), wxSize(14,78), wxSL_VERTICAL|wxSL_INVERSE, wxDefaultValidator, _T("ID_POT3"));
   Pot3->SetBackgroundColour(wxColour(128,64,0));
-  BPmenu = new wxPanel(PanelMain, ID_BPMENU, wxPoint(440,170), wxSize(50,20), wxBORDER_DOUBLE, _T("ID_BPMENU"));
+  BPmenu = new wxPanel(PanelMain, ID_BPMENU, wxPoint(440,170), wxSize(50,20), 0, _T("ID_BPMENU"));
   BPmenu->SetBackgroundColour(wxColour(0,0,0));
   BPmenu->SetToolTip(_("MENU"));
-  BPh = new wxPanel(PanelMain, ID_BPH, wxPoint(288,160), wxSize(25,25), wxBORDER_DOUBLE, _T("ID_BPH"));
+  BPh = new wxPanel(PanelMain, ID_BPH, wxPoint(288,160), wxSize(25,25), 0, _T("ID_BPH"));
   BPh->SetBackgroundColour(wxColour(0,0,0));
-  BPexit = new wxPanel(PanelMain, ID_BPEXIT, wxPoint(440,200), wxSize(50,20), wxBORDER_DOUBLE, _T("ID_BPEXIT"));
+  BPexit = new wxPanel(PanelMain, ID_BPEXIT, wxPoint(440,200), wxSize(50,20), 0, _T("ID_BPEXIT"));
   BPexit->SetBackgroundColour(wxColour(0,0,0));
   BPexit->SetToolTip(_("EXIT"));
-  LlTrim = new wxPanel(PanelMain, ID_LLTRIM, wxPoint(102,200), wxSize(25,12), wxBORDER_DOUBLE, _T("ID_LLTRIM"));
+  LlTrim = new wxPanel(PanelMain, ID_LLTRIM, wxPoint(102,200), wxSize(25,12), 0, _T("ID_LLTRIM"));
   LlTrim->SetBackgroundColour(wxColour(0,0,0));
-  LuTrim = new wxPanel(PanelMain, ID_LUTRIM, wxPoint(224,72), wxSize(12,25), wxBORDER_DOUBLE, _T("ID_LUTRIM"));
+  LuTrim = new wxPanel(PanelMain, ID_LUTRIM, wxPoint(224,72), wxSize(12,25), 0, _T("ID_LUTRIM"));
   LuTrim->SetBackgroundColour(wxColour(0,0,0));
-  LdTrim = new wxPanel(PanelMain, ID_LDTRIM, wxPoint(224,128), wxSize(12,25), wxBORDER_DOUBLE, _T("ID_LDTRIM"));
+  LdTrim = new wxPanel(PanelMain, ID_LDTRIM, wxPoint(224,128), wxSize(12,25), 0, _T("ID_LDTRIM"));
   LdTrim->SetBackgroundColour(wxColour(0,0,0));
-  RdTrim = new wxPanel(PanelMain, ID_RDTRIM, wxPoint(536,128), wxSize(12,25), wxBORDER_DOUBLE, _T("ID_RDTRIM"));
+  RdTrim = new wxPanel(PanelMain, ID_RDTRIM, wxPoint(536,128), wxSize(12,25), 0, _T("ID_RDTRIM"));
   RdTrim->SetBackgroundColour(wxColour(0,0,0));
-  RuTrim = new wxPanel(PanelMain, ID_RUTRIM, wxPoint(536,72), wxSize(12,25), wxBORDER_DOUBLE, _T("ID_RUTRIM"));
+  RuTrim = new wxPanel(PanelMain, ID_RUTRIM, wxPoint(536,72), wxSize(12,25), 0, _T("ID_RUTRIM"));
   RuTrim->SetBackgroundColour(wxColour(0,0,0));
-  RlTrim = new wxPanel(PanelMain, ID_RLTRIM, wxPoint(592,200), wxSize(25,12), wxBORDER_DOUBLE, _T("ID_RLTRIM"));
+  RlTrim = new wxPanel(PanelMain, ID_RLTRIM, wxPoint(592,200), wxSize(25,12), 0, _T("ID_RLTRIM"));
   RlTrim->SetBackgroundColour(wxColour(0,0,0));
-  RrTrim = new wxPanel(PanelMain, ID_RRTRIM, wxPoint(644,200), wxSize(25,12), wxBORDER_DOUBLE, _T("ID_RRTRIM"));
+  RrTrim = new wxPanel(PanelMain, ID_RRTRIM, wxPoint(644,200), wxSize(25,12), 0, _T("ID_RRTRIM"));
   RrTrim->SetBackgroundColour(wxColour(0,0,0));
-  LrTrim = new wxPanel(PanelMain, ID_LRTRIM, wxPoint(152,200), wxSize(25,12), wxBORDER_DOUBLE, _T("ID_LRTRIM"));
+  LrTrim = new wxPanel(PanelMain, ID_LRTRIM, wxPoint(152,200), wxSize(25,12), 0, _T("ID_LRTRIM"));
   LrTrim->SetBackgroundColour(wxColour(0,0,0));
-  BPg = new wxPanel(PanelMain, ID_BPG, wxPoint(264,184), wxSize(25,25), wxBORDER_DOUBLE, _T("ID_BPG"));
+  BPg = new wxPanel(PanelMain, ID_BPG, wxPoint(264,184), wxSize(25,25), 0, _T("ID_BPG"));
   BPg->SetBackgroundColour(wxColour(0,0,0));
-  BPb = new wxPanel(PanelMain, ID_BPB, wxPoint(288,208), wxSize(25,25), wxBORDER_DOUBLE, _T("ID_BPB"));
+  BPb = new wxPanel(PanelMain, ID_BPB, wxPoint(288,208), wxSize(25,25), 0, _T("ID_BPB"));
   BPb->SetBackgroundColour(wxColour(0,0,0));
-  BPd = new wxPanel(PanelMain, ID_BPD, wxPoint(312,184), wxSize(25,25), wxBORDER_DOUBLE, _T("ID_BPD"));
+  BPd = new wxPanel(PanelMain, ID_BPD, wxPoint(312,184), wxSize(25,25), 0, _T("ID_BPD"));
   BPd->SetBackgroundColour(wxColour(0,0,0));
-  Rstick = new wxPanel(PanelMain, ID_RSTICK, wxPoint(552,32), wxSize(158,158), wxBORDER_DOUBLE, _T("ID_RSTICK"));
+  Rstick = new wxPanel(PanelMain, ID_RSTICK, wxPoint(552,32), wxSize(158,158), 0, _T("ID_RSTICK"));
   Rstick->SetForegroundColour(wxColour(255,0,0));
   Rstick->SetBackgroundColour(wxColour(0,0,0));
-  Simulcd = new wxPanel(PanelMain, ID_SIMULCD, wxPoint(256,20), wxSize(260,132), wxBORDER_NONE, _T("ID_SIMULCD"));
-  Simulcd->SetBackgroundColour(wxColour(120,210,30));
-  BpThr = new wxPanel(PanelMain, ID_BPTHR, wxPoint(25,48), wxSize(25,25), wxBORDER_DOUBLE, _T("ID_BPTHR"));
+  BpThr = new wxPanel(PanelMain, ID_BPTHR, wxPoint(25,48), wxSize(25,25), 0, _T("ID_BPTHR"));
   BpThr->SetBackgroundColour(wxColour(0,0,0));
   BpThr->SetToolTip(_("THR"));
-  BpRud = new wxPanel(PanelMain, ID_BPRUD, wxPoint(25,88), wxSize(25,25), wxBORDER_DOUBLE, _T("ID_BPRUD"));
+  BpRud = new wxPanel(PanelMain, ID_BPRUD, wxPoint(25,88), wxSize(25,25), 0, _T("ID_BPRUD"));
   BpRud->SetBackgroundColour(wxColour(0,0,0));
   BpRud->SetToolTip(_("RUD"));
-  BpEle = new wxPanel(PanelMain, ID_BPELE, wxPoint(25,128), wxSize(25,25), wxBORDER_DOUBLE, _T("ID_BPELE"));
+  BpEle = new wxPanel(PanelMain, ID_BPELE, wxPoint(25,128), wxSize(25,25), 0, _T("ID_BPELE"));
   BpEle->SetBackgroundColour(wxColour(0,0,0));
   BpEle->SetToolTip(_("ELE"));
-  BpTrn = new wxPanel(PanelMain, ID_BPTRN, wxPoint(16,208), wxSize(25,25), wxBORDER_DOUBLE, _T("ID_BPTRN"));
+  BpTrn = new wxPanel(PanelMain, ID_BPTRN, wxPoint(16,208), wxSize(25,25), 0, _T("ID_BPTRN"));
   BpTrn->SetBackgroundColour(wxColour(0,0,0));
   BpTrn->SetToolTip(_("TRN"));
-  BpAil = new wxPanel(PanelMain, ID_BPAIL, wxPoint(720,48), wxSize(25,25), wxBORDER_DOUBLE, _T("ID_BPAIL"));
+  BpAil = new wxPanel(PanelMain, ID_BPAIL, wxPoint(720,48), wxSize(25,25), 0, _T("ID_BPAIL"));
   BpAil->SetBackgroundColour(wxColour(0,0,0));
   BpAil->SetToolTip(_("AIL"));
-  BpGea = new wxPanel(PanelMain, ID_BPGEA, wxPoint(720,88), wxSize(25,25), wxBORDER_DOUBLE, _T("ID_BPGEA"));
+  BpGea = new wxPanel(PanelMain, ID_BPGEA, wxPoint(720,88), wxSize(25,25), 0, _T("ID_BPGEA"));
   BpGea->SetBackgroundColour(wxColour(0,0,0));
   BpGea->SetToolTip(_("GEA"));
-  BpId1 = new wxPanel(PanelMain, ID_PBID1, wxPoint(720,128), wxSize(25,20), wxBORDER_DOUBLE, _T("ID_PBID1"));
+  BpId1 = new wxPanel(PanelMain, ID_PBID1, wxPoint(720,128), wxSize(25,20), 0, _T("ID_PBID1"));
   BpId1->SetBackgroundColour(wxColour(0,0,0));
   BpId1->SetToolTip(_("ID1"));
-  BpId2 = new wxPanel(PanelMain, ID_BOID2, wxPoint(720,148), wxSize(25,20), wxBORDER_DOUBLE, _T("ID_BOID2"));
+  BpId2 = new wxPanel(PanelMain, ID_BOID2, wxPoint(720,148), wxSize(25,20), 0, _T("ID_BOID2"));
   BpId2->SetBackgroundColour(wxColour(0,0,0));
   BpId2->SetToolTip(_("ID2"));
-  Lstick = new wxPanel(PanelMain, ID_LSTICK, wxPoint(60,32), wxSize(158,158), wxBORDER_DOUBLE, _T("ID_LSTICK"));
+  Lstick = new wxPanel(PanelMain, ID_LSTICK, wxPoint(60,32), wxSize(158,158), 0, _T("ID_LSTICK"));
   Lstick->SetForegroundColour(wxColour(255,0,0));
   Lstick->SetBackgroundColour(wxColour(0,0,0));
-  SpinRea = new wxSpinButton(PanelMain, ID_SPINREA, wxPoint(14,14), wxDefaultSize, wxSP_HORIZONTAL|wxSP_WRAP|wxBORDER_STATIC, _T("ID_SPINREA"));
+  SpinRea = new wxSpinButton(PanelMain, ID_SPINREA, wxPoint(14,14), wxSize(35,16), wxSP_HORIZONTAL|wxSP_WRAP, _T("ID_SPINREA"));
   SpinRea->SetRange(-100, 100);
   SpinRea->SetToolTip(_("Rea"));
-  SpinReb = new wxSpinButton(PanelMain, ID_SPINREB, wxPoint(732,14), wxDefaultSize, wxSP_HORIZONTAL|wxSP_WRAP|wxBORDER_STATIC, _T("ID_SPINREB"));
+  SpinReb = new wxSpinButton(PanelMain, ID_SPINREB, wxPoint(732,14), wxSize(35,16), wxSP_HORIZONTAL|wxSP_WRAP, _T("ID_SPINREB"));
   SpinReb->SetRange(-100, 100);
   SpinReb->SetToolTip(_("Reb"));
   TextCtrlgetkbinput = new wxTextCtrl(PanelMain, ID_TEXTCTRLDUMMY, wxEmptyString, wxPoint(64,216), wxSize(0,0), 0, wxDefaultValidator, _T("ID_TEXTCTRLDUMMY"));
-  BpRea = new wxPanel(PanelMain, ID_BPREA, wxPoint(14,2), wxSize(35,12), wxBORDER_DOUBLE, _T("ID_BPREA"));
+  BpRea = new wxPanel(PanelMain, ID_BPREA, wxPoint(14,2), wxSize(35,12), 0, _T("ID_BPREA"));
   BpRea->SetBackgroundColour(wxColour(0,0,0));
   BpRea->SetToolTip(_("BP REA"));
-  BpReb = new wxPanel(PanelMain, ID_BPREB, wxPoint(732,2), wxSize(35,12), wxBORDER_DOUBLE, _T("ID_BPREB"));
+  BpReb = new wxPanel(PanelMain, ID_BPREB, wxPoint(732,2), wxSize(35,12), 0, _T("ID_BPREB"));
   BpReb->SetBackgroundColour(wxColour(0,0,0));
   BpReb->SetToolTip(_("BP REB"));
-  PanelL = new wxPanel(PanelPrincipal, ID_PANELL, wxPoint(0,305), wxSize(784,64), wxBORDER_DOUBLE, _T("ID_PANELL"));
-  OnTglButton = new wxToggleButton(PanelL, ID_ONTGLBUTTON, _("ON"), wxPoint(8,8), wxSize(62,22), wxBORDER_DOUBLE, wxDefaultValidator, _T("ID_ONTGLBUTTON"));
-  ButtonStartDesktop = new wxButton(PanelL, ID_BUTTONSTARTDESKTOP, _("Desktop"), wxPoint(8,32), wxSize(62,22), wxBORDER_SIMPLE, wxDefaultValidator, _T("ID_BUTTONSTARTDESKTOP"));
+  Simulcd = new wxPanel(PanelMain, ID_SIMULCD, wxPoint(256,20), wxSize(260,132), 0, _T("ID_SIMULCD"));
+  Simulcd->SetBackgroundColour(wxColour(120,210,30));
+  PanelL = new wxPanel(PanelPrincipal, ID_PANELL, wxPoint(0,305), wxSize(784,64), 0, _T("ID_PANELL"));
+  OnTglButton = new wxToggleButton(PanelL, ID_ONTGLBUTTON, _("ON"), wxPoint(8,8), wxSize(62,22), 0, wxDefaultValidator, _T("ID_ONTGLBUTTON"));
+  ButtonStartDesktop = new wxButton(PanelL, ID_BUTTONSTARTDESKTOP, _("Desktop"), wxPoint(8,32), wxSize(62,22), 0, wxDefaultValidator, _T("ID_BUTTONSTARTDESKTOP"));
   CheckBoxA7105 = new wxCheckBox(PanelL, ID_CHECKBOXA7105, _("A7105"), wxPoint(704,24), wxSize(70,13), 0, wxDefaultValidator, _T("ID_CHECKBOXA7105"));
   CheckBoxA7105->SetValue(true);
   CheckBoxA7105->Disable();
@@ -504,9 +508,6 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Rstick->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnRstickLeftUp,0,this);
   Rstick->Connect(wxEVT_MOTION,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnRstickMouseMove,0,this);
   Rstick->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnRstickLeftUp,0,this);
-  Simulcd->Connect(wxEVT_PAINT,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnwxsimulcdPaint,0,this);
-  Simulcd->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnPanelMainKeyDown,0,this);
-  Simulcd->Connect(wxEVT_LEFT_DCLICK,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnSimulcdLeftDClick,0,this);
   BpThr->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpThrLeftDown,0,this);
   BpRud->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpRudLeftDown,0,this);
   BpEle->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpEleLeftDown,0,this);
@@ -527,6 +528,9 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   BpRea->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpReaLeftUp,0,this);
   BpReb->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpRebLeftDown,0,this);
   BpReb->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnBpRebLeftUp,0,this);
+  Simulcd->Connect(wxEVT_PAINT,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnwxsimulcdPaint,0,this);
+  Simulcd->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnPanelMainKeyDown,0,this);
+  Simulcd->Connect(wxEVT_LEFT_DCLICK,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnSimulcdLeftDClick,0,this);
   PanelMain->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnPanelMainKeyDown,0,this);
   Connect(ID_ONTGLBUTTON,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnOnTglButtonToggle);
   Connect(ID_BUTTONSTARTDESKTOP,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnButtonStartDesktopClick);
@@ -535,6 +539,7 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_CHECKBOXCC2500,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick);
   Connect(ID_CHECKBOXCYRF6936,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick);
   Connect(ID_CHECKBOXMULTIMOD,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick);
+  Connect(ID_CHECKBOXSERPROTO,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick);
   PanelL->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnPanelMainKeyDown,0,this);
   PanelPrincipal->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnPanelMainKeyDown,0,this);
   Connect(IdMenuOpenEE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnMenuLoadEeprom);
@@ -560,6 +565,10 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Connect(ID_TIMERMAIN,wxEVT_TIMER,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnTimerMainTrigger);
   Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::OnClose);
   //*)
+  Connect(ID_THREAD_CALL_LCD_PAINT,wxEVT_THREAD,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::ThreadsWantLCD_Refresh);
+  Connect(ID_THREAD_CALL_EDIT_MODEL_NAME,wxEVT_THREAD,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::ThreadsWantEditModelName);
+  Connect(ID_THREAD_SEND_BYTE_TO_UCLIFRAME,wxEVT_THREAD,(wxObjectEventFunction)&OpenAVRc_SimulatorFrame::ThreadsSendByteToUcliFrame);
+
   {
     SetIcon(wxICON(oavrc_icon));
   }
@@ -588,18 +597,12 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   Lstick->SetBackgroundColour(Col_Stick_Back);
   Rstick->SetBackgroundColour(Col_Stick_Back);
 
-  //LCD var
-  SimuLcdScale = 2;
-
-  // The Lcd bitmap
-  SimuLcd_ClientDC = new wxClientDC(Simulcd);
-  SimuLcd_Bitmap = wxBitmap(Simulcd->GetClientSize().GetWidth(), Simulcd->GetClientSize().GetHeight());
-  SimuLcd_MemoryDC = new wxMemoryDC(SimuLcd_Bitmap);
-
   // Task mesurement
   ChronoMain = new wxStopWatch;
   Chrono10ms = new wxStopWatch;
 
+  //LCD bitmap
+  SimuLcd_Bitmap = wxBitmap(Simulcd->GetClientSize().GetWidth(), Simulcd->GetClientSize().GetHeight(), wxBITMAP_SCREEN_DEPTH);
 
   //Virtual pin
   SpinA = new Spin("A", &simu_pina, &simu_ddra, &simu_porta);
@@ -620,17 +623,18 @@ OpenAVRc_SimulatorFrame::OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id)
   PanelL->PushEventHandler(new wxBackgroundBitmap(PanelB));
 
   //Test if MP3 exist
-  wxString Filename = AppPath + "\\VOICEMP3\\0000.mp3";
+  wxString Filename = AppPath + slashChar + "VOICEMP3" + slashChar + "0000.mp3";
   if(wxFileExists(Filename)) Mp3RepExist = true;
 
   //Telemetry
-  TeleComPort = new Tserial();
+  uartHandler TeleComPort = 0;  // uart handler
   SimuTeleComIsValid = false;
   frskySportSimuSetup();
 
   //Ucli frame
   uCliFr = new  uCliFrame(this);
   uCliFr->Show(FALSE);
+
 }
 
 //// FW Functions ///////////////////////////////////////////////////
@@ -692,7 +696,7 @@ void OpenAVRc_SimulatorFrame::StartFirmwareCode()
   s_anaFilt[7] = 1024; // 7.62 V Battery (7.22V adc + 0.4 V Schottky Diode)
 
   Timer10ms.StartOnce(TIMER_10_MS_TIME); //Simulate 10mS Interrupt vector
-  FirstFWThread = new FirstFirmwareThread;
+  FirstFWThread = new FirstFirmwareThread();
   CheckActiveProtocols();
   TimerMain.StartOnce(TIMER_MAIN_TIME); // Simulate ?mS cycle for mainloop function
   MenuFile->Enable(IDMENUEXPORTEEPROM, true);
@@ -711,15 +715,15 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
 
   if ((simu_mainloop_is_runing) || simu_firstloop_is_runing) // Avoid re-entrance and wait start code done
     {
-      TimerMain.StartOnce(1); //whait 1 mS
+      TimerMain.StartOnce(2); //whait 2 mS
       return;
     }
   else
     {
       if (showeditmodeldialog) // Edit model name in main thread
         {
-          ModelNameDialog *MoDi = new  ModelNameDialog(NULL); // In ModelNameDialog.cpp
-          MoDi->ShowModal();
+          ModelNameDialog *MoDi = new  ModelNameDialog(this); // In ModelNameDialog.cpp
+          MoDi->ShowWindowModal();
           MoDi->Destroy();
           showeditmodeldialog = 0;
         }
@@ -729,6 +733,12 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
 
 void OpenAVRc_SimulatorFrame::MainFirmwareTask()
 {
+  for(int i=0 ; i<4; ++i) // spring simulate
+    {
+      if (Lspringactive) PaintSticks(true,L_mid,L_mid,Lstick);
+      if (Rspringactive) PaintSticks(true,R_mid,R_mid,Rstick);
+    }
+
   if ((simu_off) && (!simu_mainloop_is_runing))
   {
     TimerMain.Stop();
@@ -747,8 +757,8 @@ void OpenAVRc_SimulatorFrame::MainFirmwareTask()
       if ((Tele_Protocol == Tele_Proto_Frsky_D) & !IS_USR_PROTO_SMART_PORT()) // Telemetry simulation
         frskyDSimuloop();
       StatusBar->SetStatusText(_T("MAIN ")+MaintTaskChronoval.ToString()+_T(" uS"),1);
-      TimerMain.StartOnce(18);
-      MainFWThread = new MainFirmwareThread;
+      TimerMain.StartOnce(TIMER_MAIN_TIME);
+      MainFWThread = new MainFirmwareThread();
     }
   }
 }
@@ -756,12 +766,6 @@ void OpenAVRc_SimulatorFrame::MainFirmwareTask()
 void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
 {
   event.Skip();
-
-  for(int i=0 ; i<4; ++i) // spring simulate
-    {
-      if (Lspringactive) PaintSticks(true,L_mid,L_mid,Lstick);
-      if (Rspringactive) PaintSticks(true,R_mid,R_mid,Rstick);
-    }
 
   for (int i=0; i < 2; i++)
     {
@@ -775,7 +779,7 @@ void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
 #endif
   if (ISR10msLoop_is_runing) // Avoid re-entrance
   {
-    Timer10ms.StartOnce(1); //whait 1 mS
+    Timer10ms.StartOnce(2); //whait 2 mS
     return;
   }
   else Isr10msTaskFirmware();
@@ -797,13 +801,19 @@ void OpenAVRc_SimulatorFrame::Isr10msTaskFirmware()
   if (!simu_off)
     {
       StatusBar->SetStatusText(_T("10 mS IRQ ")+Isr10msTaskChronoval.ToString()+_T(" uS"),2);
-      Isr10msFWThread = new Isr10msFirmwareThread;
+      Isr10msFWThread = new Isr10msFirmwareThread();
     }
   else
     {
     }
 
-  Timer10ms.StartOnce(10); //Simulate 10mS Interrupt vector
+  Timer10ms.StartOnce(TIMER_10_MS_TIME); //Simulate 10mS Interrupt vector
+}
+
+void OpenAVRc_SimulatorFrame::ThreadsWantEditModelName(wxThreadEvent& event)
+{
+  event.Skip();
+  EditModelName();
 }
 
 void OpenAVRc_SimulatorFrame::EditModelName()
@@ -821,8 +831,17 @@ uint8_t invertByte(uint8_t a)
 }
 #endif
 
+void OpenAVRc_SimulatorFrame::ThreadsWantLCD_Refresh(wxThreadEvent& event)
+{
+  DrawWxSimuLcd();
+}
+
 void OpenAVRc_SimulatorFrame::DrawWxSimuLcd()
 {
+  uint8_t SimuLcdScale = 2;
+  wxClientDC* SimuLcd_ClientDC = new wxClientDC(Simulcd);
+  wxMemoryDC* SimuLcd_MemoryDC = new wxMemoryDC(SimuLcd_Bitmap);
+
   uint8_t *p;
 #if defined (LCDROT180)
   p = displayBuf + DISPLAY_BUFER_SIZE-1;
@@ -860,6 +879,10 @@ void OpenAVRc_SimulatorFrame::DrawWxSimuLcd()
   }
 
   SimuLcd_ClientDC->Blit(0,0,SimuLcd_Bitmap.GetWidth(),SimuLcd_Bitmap.GetHeight(),SimuLcd_MemoryDC,0,0);
+
+  if (SimuLcd_MemoryDC != NULL) delete SimuLcd_MemoryDC;
+  if (SimuLcd_ClientDC != NULL)	delete SimuLcd_ClientDC;
+
 }
 
 
@@ -877,9 +900,9 @@ void OpenAVRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
   wxAboutDialogInfo Aboutbox;
   Aboutbox.SetName(_("OpenAVRc Simulateur"));
   Aboutbox.SetVersion(_("V 3.10 Beta"));
-  Aboutbox.SetLicence(_(" GPLv2 . Firmware basé sur NextStepRc 2.18 "));
-  Aboutbox.SetDescription(_("Simulateur du code OpenAVRc 'toutes options' sur carte Méga 2560     "));
-  Aboutbox.SetCopyright(wxT("(C) 2016-2022 OpenAVRc Team"));
+  Aboutbox.SetLicence(_(" GPLv2 . Firmware basÄ‚Â© sur NextStepRc 2.18 "));
+  Aboutbox.SetDescription(_("Simulateur du code OpenAVRc 'toutes options' sur carte MÄ‚Â©ga 2560     "));
+  Aboutbox.SetCopyright(wxT("(C) 2016-2025 OpenAVRc Team"));
   Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
   Aboutbox.AddDeveloper(wxT(
     "OpenAVRc Team :\n\n"
@@ -1068,12 +1091,12 @@ void OpenAVRc_SimulatorFrame::OnRstickLeftUp(wxMouseEvent& event)
 void OpenAVRc_SimulatorFrame::OnSimulcdLeftDClick(wxMouseEvent& event)
 {
   event.Skip();
-  wxFileDialog saveFileDialog(this, _("Sauver Capture écran"), "", "", _("Fichier BMP (*.bmp)|*.bmp"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+  wxFileDialog saveFileDialog(this, _("Sauver Capture Ä‚Â©cran"), "", "", _("Fichier BMP (*.bmp)|*.bmp"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
   if (saveFileDialog.ShowModal() == wxID_CANCEL)
     return;     // the user changed idea...
   wxFileOutputStream output_stream(saveFileDialog.GetPath());
   if (!output_stream.IsOk()) {
-    wxLogError(_("Ne peut écrire le fichier '%s'."), saveFileDialog.GetPath());
+    wxLogError(_("Ne peut Ä‚Â©crire le fichier '%s'."), saveFileDialog.GetPath());
     return;
   }
   SimuLcd_Bitmap.SaveFile(saveFileDialog.GetPath(), wxBITMAP_TYPE_BMP, NULL);
@@ -1136,11 +1159,6 @@ void OpenAVRc_SimulatorFrame::CloseApp()
   delete SpinJ;
   delete SpinK;
   delete SpinL;
-
-  if (TeleComPort != NULL) delete TeleComPort;
-
-  if (SimuLcd_MemoryDC != NULL) delete SimuLcd_MemoryDC;
-  if (SimuLcd_ClientDC != NULL)	delete SimuLcd_ClientDC;
 
   Destroy();
 }
@@ -1224,7 +1242,7 @@ void OpenAVRc_SimulatorFrame::LoadConfig()
 
 void OpenAVRc_SimulatorFrame::SaveConfig()
 {
-  //wxMessageBox( Ini_Filename, _("Les paramètres sont sauvé dans :"));
+  //wxMessageBox( Ini_Filename, _("Les paramÄ‚Â¨tres sont sauvÄ‚Â© dans :"));
 
   configFile->Write(wxT("Col_Lcd_Back"),Col_Lcd_Back);
   configFile->Write(wxT("Col_Lcd_Front"),Col_Lcd_Front);
@@ -1299,7 +1317,7 @@ void OpenAVRc_SimulatorFrame::OnMenuExportEepromSelected(wxCommandEvent& event)
 void OpenAVRc_SimulatorFrame::OnMenuImportEepromSelected(wxCommandEvent& event)
 {
   event.Skip();
-  int answer = wxMessageBox( _("L'eeprom va être formatée, étes vous sur ?"), _("    OpenAVRc Simulateur"), wxYES_NO, this);
+  int answer = wxMessageBox( _("L'eeprom va Ä‚Âªtre formatÄ‚Â©e, Ä‚Â©tes vous sur ?"), _("    OpenAVRc Simulateur"), wxYES_NO, this);
   if (answer == wxNO) {
     return;
   }
@@ -1356,7 +1374,7 @@ void OpenAVRc_SimulatorFrame::ExportEeprom()
 
   EEGeneral General = g_eeGeneral;
   if (General.version == 0 ) {
-    wxMessageBox( _("Aucune eeprom detectée en mémoire"), _("    OpenAVRc Simulateur"));
+    wxMessageBox( _("Aucune eeprom detectÄ‚Â©e en mÄ‚Â©moire"), _("    OpenAVRc Simulateur"));
     return;
   }
 
@@ -1479,7 +1497,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_EEPROM_VER()
       eepromfile->Read(wxT("extendedTrims"),&tmp,0);
       temp_model.extendedTrims = tmp;
       eepromfile->Read(wxT("throttleReversed"),&tmp,0);
-      if (tmp) wxMessageBox(_("La fonction Inv. gaz n'hexiste plus\n Modifiez votre modèle"), strtmp, wxICON_WARNING | wxOK, this);
+      if (tmp) wxMessageBox(_("La fonction Inv. gaz n'hexiste plus\n Modifiez votre modÄ‚Â¨le"), strtmp, wxICON_WARNING | wxOK, this);
       eepromfile->Read(wxT("rfOptionValue1"),&tmp,0);
       temp_model.rfOptionValue1 = tmp;
       eepromfile->Read(wxT("rfOptionValue2"),&tmp,0);
@@ -1832,7 +1850,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
       eepromfile->Read(wxT("extendedTrims"),&tmp,0);
       temp_model.extendedTrims = tmp;
       eepromfile->Read(wxT("throttleReversed"),&tmp,0);
-      if (tmp) wxMessageBox(_("La fonction Inv. gaz n'hexiste plus\n Modifiez votre modèle"), strtmp, wxICON_WARNING | wxOK, this);
+      if (tmp) wxMessageBox(_("La fonction Inv. gaz n'hexiste plus\n Modifiez votre modÄ‚Â¨le"), strtmp, wxICON_WARNING | wxOK, this);
       eepromfile->Read(wxT("ppmDelay"),&tmp,0);
       temp_model.rfOptionValue2 = tmp;
       eepromfile->Read(wxT("beepANACenter"),&tmp,0);
@@ -3306,10 +3324,25 @@ void OpenAVRc_SimulatorFrame::EnableuCliMenu()
   MenuFrame->Enable(ID_MENUITEMUCLI, true);
 }
 
-void OpenAVRc_SimulatorFrame::SendBtSerTxBufferToCliFrame(uint8_t c)
+void OpenAVRc_SimulatorFrame::ThreadsSendByteToUcliFrame(wxThreadEvent& event)
+{
+  wxString btTxSendString = event.GetPayload<wxString>();
+  event.Skip();
+  SendBtSerTxBufferToCliFrame(btTxSendString);
+}
+
+void OpenAVRc_SimulatorFrame::SendBtSerTxBufferToCliFrame(wxString btTxTxt)
 {
   if(uCliFr)
-    uCliFr->HwSerialByte(c);
+  {
+    uint8_t c;
+
+    for (uint8_t i = 0; i < btTxTxt.length(); i++)
+    {
+      c = btTxTxt.GetChar(i);
+      uCliFr->HwSerialByte(c);
+    }
+  }
 }
 
 void OpenAVRc_SimulatorFrame::EnableLogsMenu()
@@ -3347,30 +3380,28 @@ wxString int2wxString(int integer)
 
 void ConnectTelemCom(wxString name)
 {
-  int error;
-  char comMame[10] = {0};
+  char comMame[64] = {0};
   strncpy(comMame, (const char*)name.mb_str(wxConvUTF8), name.Len());
-  assert(TeleComPort);
-  //TeleComPort->disconnect();
+  TeleComPort = uartOpen(comMame, O_RDWR);
   switch (Tele_Protocol)
   {
   case Tele_Proto_Frsky_D :
-    error = TeleComPort->connect(comMame, 9600, spNONE);
+    uartInit(TeleComPort, 9600, UART_DATA_8 | UART_PARITY_N | UART_STOP_1);
     break;
   case Tele_Proto_Frsky_Sport :
-    error = TeleComPort->connect(comMame, 57600, spNONE);
+    uartInit(TeleComPort, 57600, UART_DATA_8 | UART_PARITY_N | UART_STOP_1);
     break;
   default :
     SimuTeleComIsValid = false;
     break;
   }
-  if (error == 0) {
+  if (uartValide(TeleComPort)) {
       SimuTeleComIsValid = true;
       telecomwaitcounter = GetTickCount();
   }
-  else {
-    wxString intString = wxString::Format(wxT("%i"), error);
-    wxMessageBox("Erreur N°"+ intString + " port COM");
+  else
+    {
+    wxMessageBox("Erreur port série");
     }
 }
 
@@ -3378,7 +3409,8 @@ void SendByteTeleCom(uint8_t data)
 {
   if ((SimuTeleComIsValid) && ((telecomwaitcounter + 1000) < GetTickCount()))
   {
-    TeleComPort->sendChar(data);
+    uint8_t dat = data;
+    uartWrite (TeleComPort, &dat, 1);
   }
 }
 
@@ -3444,7 +3476,7 @@ void OpenAVRc_SimulatorFrame::CheckActiveProtocols()
 
 void OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick(wxCommandEvent& event)
 {
-  int answer = wxMessageBox((_("Appliquer à tous les modèles de ") +CurrentEEPath+" ?"), _("Convertir eeprom ?"), wxYES_NO, this);
+  int answer = wxMessageBox((_("Appliquer Ä‚Â  tous les modÄ‚Â¨les de ") +CurrentEEPath+" ?"), _("Convertir eeprom ?"), wxYES_NO, this);
         if (answer == wxNO) {
           CheckActiveProtocols();
           return; // No modifications

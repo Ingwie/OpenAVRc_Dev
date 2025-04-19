@@ -35,6 +35,8 @@
 #include <wx/filedlg.h>
 #include <wx/numformatter.h>
 
+#include "OpenAVRc_SimulatorMain.h"
+
 extern wxString googleearthPath;
 extern bool Ini_Changed;
 

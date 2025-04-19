@@ -193,9 +193,6 @@
 		<Unit filename="protocol/J6PRO_cyrf6936.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="protocol/MULTI_SERIAL.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="protocol/PROTO_PCM.cpp" />
 		<Unit filename="protocol/PROTO_PCM.h" />
 		<Unit filename="protocol/PROTO_PPM.cpp" />
@@ -375,6 +372,8 @@
 			<wxsmith version="1">
 				<gui name="wxWidgets" src="" main="" init_handlers="necessary" language="CPP" />
 			</wxsmith>
+			<code_completion />
+			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

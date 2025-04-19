@@ -1,38 +1,43 @@
- /*
- **************************************************************************
- *                                                                        *
- *                 ____                ___ _   _____                      *
- *                / __ \___  ___ ___  / _ | | / / _ \____                 *
- *               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
- *               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
- *                   /_/                                                  *
- *                                                                        *
- *              This file is part of the OpenAVRc project.                *
- *                                                                        *
- *                         Based on code(s) named :                       *
- *             OpenTx - https://github.com/opentx/opentx                  *
- *             Deviation - https://www.deviationtx.com/                   *
- *                                                                        *
- *                Only AVR code here for visibility ;-)                   *
- *                                                                        *
- *   OpenAVRc is free software: you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation, either version 2 of the License, or    *
- *   (at your option) any later version.                                  *
- *                                                                        *
- *   OpenAVRc is distributed in the hope that it will be useful,          *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
- *   GNU General Public License for more details.                         *
- *                                                                        *
- *       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
- *                                                                        *
- **************************************************************************
+/*
+**************************************************************************
+*                                                                        *
+*                 ____                ___ _   _____                      *
+*                / __ \___  ___ ___  / _ | | / / _ \____                 *
+*               / /_/ / _ \/ -_) _ \/ __ | |/ / , _/ __/                 *
+*               \____/ .__/\__/_//_/_/ |_|___/_/|_|\__/                  *
+*                   /_/                                                  *
+*                                                                        *
+*              This file is part of the OpenAVRc project.                *
+*                                                                        *
+*                         Based on code(s) named :                       *
+*             OpenTx - https://github.com/opentx/opentx                  *
+*             Deviation - https://www.deviationtx.com/                   *
+*                                                                        *
+*                Only AVR code here for visibility ;-)                   *
+*                                                                        *
+*   OpenAVRc is free software: you can redistribute it and/or modify     *
+*   it under the terms of the GNU General Public License as published by *
+*   the Free Software Foundation, either version 2 of the License, or    *
+*   (at your option) any later version.                                  *
+*                                                                        *
+*   OpenAVRc is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*   GNU General Public License for more details.                         *
+*                                                                        *
+*       License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html          *
+*                                                                        *
+**************************************************************************
 */
 
 
 #ifndef OpenAVRc_SIMULATORMAIN_H
 #define OpenAVRc_SIMULATORMAIN_H
+
+#if defined(__UNIX__)
+  #include "OpenAVRc.xpm" // icone file
+#endif
+
 
 //(*Headers(OpenAVRc_SimulatorFrame)
 #include <wx/button.h>
@@ -55,6 +60,11 @@
 #include <wx/dcmemory.h>
 #include <wx/process.h>
 
+#if defined(__UNIX__)
+ wxString slashChar = "/";
+#else
+ wxString slashChar = "\\";
+ #endif
 
 //(*Firmware
 #include "../OpenAVRc/OpenAVRc.h"
@@ -62,16 +72,16 @@
 //*)
 
 //Telemetry
-#include "FrSky/FrskySimu.h"
-#include "serial/tserial.h"
-Tserial *TeleComPort;
+#include "serial/uart.h"
+uartHandler TeleComPort;
 extern bool SimuTeleComIsValid;
 void ConnectTelemCom(wxString name);
 void SendByteTeleCom(uint8_t data);
 
-enum TeleProtocols {
-Tele_Proto_Frsky_D,
-Tele_Proto_Frsky_Sport,
+enum TeleProtocols
+{
+  Tele_Proto_Frsky_D,
+  Tele_Proto_Frsky_Sport,
 };
 
 //SD
@@ -105,99 +115,15 @@ protected:
   wxBitmap Bitmap;
 };
 
-class FirstFirmwareThread: public wxThread
-{
-public:
-  FirstFirmwareThread() : wxThread(wxTHREAD_DETACHED)
-  {
-    if(wxTHREAD_NO_ERROR == Create())
-    {
-      Run();
-    }
-  }
-protected:
-  virtual void* Entry()
-  {
-    simumain();
-    while (TestDestroy()) {Delete();}  /**< Auto closed ? */
-    return 0;
-  }
-};
-
-class MainFirmwareThread: public wxThread
-{
-public:
-  MainFirmwareThread() : wxThread(wxTHREAD_DETACHED)
-  {
-    if(wxTHREAD_NO_ERROR == Create())
-    {
-      Run();
-    }
-  }
-protected:
-  virtual void* Entry()
-  {
-    ChronoMain->Start(0);
-    SimuMainLoop(); /**< Main firmware task */
-    MaintTaskChronoval = ChronoMain->TimeInMicro();
-    ChronoMain->Pause();
-    while (TestDestroy()) {Delete();}  /**< Auto closed ? */
-    return 0;
-  }
-};
-
-class Isr10msFirmwareThread: public wxThread
-{
-public:
-  Isr10msFirmwareThread() : wxThread(wxTHREAD_DETACHED)
-  {
-    if(wxTHREAD_NO_ERROR == Create())
-    {
-      Run();
-    }
-  }
-protected:
-  virtual void* Entry()
-  {
-    Chrono10ms->Start(0);
-    TIMER_10MS_VECT(); /**< Isr10ms firmware task */
-    Isr10msTaskChronoval = Chrono10ms->TimeInMicro();
-    Chrono10ms->Pause();
-    while (TestDestroy()) {Delete();}  /**< Auto closed ? */
-    return 0;
-  }
-};
-
-class BeepThread: public wxThread
-{
-public:
-  BeepThread(uint32_t ifreq, uint32_t itime) : wxThread(wxTHREAD_DETACHED)
-  {
-    if(wxTHREAD_NO_ERROR == Create())
-    {
-      freq = ifreq;
-      time = itime;
-      Run();
-    }
-  }
-protected:
-  uint32_t freq;
-  uint32_t time;
-  virtual void* Entry()
-  {
-    Beep(freq, time); // Hz, mS
-    while (TestDestroy()) {Delete();}  /**< Auto closed ? */
-    return 0;
-  }
-};
-
 class OpenAVRc_SimulatorFrame: public wxFrame
 {
 public:
 
   OpenAVRc_SimulatorFrame(wxWindow* parent,wxWindowID id = -1);
   virtual ~OpenAVRc_SimulatorFrame();
+  void ThreadsWantEditModelName(wxThreadEvent& event);
   void EditModelName();
+  void ThreadsWantLCD_Refresh(wxThreadEvent& event);
   void DrawWxSimuLcd();
   void OnKey(wxKeyEvent& Event);
   void EnableMixerFrameMenu();
@@ -207,7 +133,8 @@ public:
   void EnableTelemetryMenu();
   void EnableLogsMenu();
   void EnableuCliMenu();
-  void SendBtSerTxBufferToCliFrame(uint8_t c);
+  void ThreadsSendByteToUcliFrame(wxThreadEvent& event);
+  void SendBtSerTxBufferToCliFrame(wxString btTxTxt);
 
 private:
   //(*Handlers(OpenAVRc_SimulatorFrame)
@@ -337,7 +264,6 @@ private:
   static const long ID_BPB;
   static const long ID_BPD;
   static const long ID_RSTICK;
-  static const long ID_SIMULCD;
   static const long ID_BPTHR;
   static const long ID_BPRUD;
   static const long ID_BPELE;
@@ -352,6 +278,7 @@ private:
   static const long ID_TEXTCTRLDUMMY;
   static const long ID_BPREA;
   static const long ID_BPREB;
+  static const long ID_SIMULCD;
   static const long ID_PANELMAIN;
   static const long ID_ONTGLBUTTON;
   static const long ID_BUTTONSTARTDESKTOP;
@@ -396,22 +323,14 @@ private:
   wxFileConfig* eepromfile;
   wxString CurrentEEPath;
 
+  wxBitmap SimuLcd_Bitmap;
+
   wxColour Col_Lcd_Back;
   wxColour Col_Lcd_Front;
   wxColour Col_Button_Off;
   wxColour Col_Button_On;
   wxColour Col_Stick_Back;
   wxColour Col_Stick_Circle;
-
-  uint8_t SimuLcdScale;
-  wxClientDC* SimuLcd_ClientDC;
-  wxBitmap SimuLcd_Bitmap;
-  wxMemoryDC* SimuLcd_MemoryDC;
-
-  FirstFirmwareThread* FirstFWThread;
-  MainFirmwareThread* MainFWThread;
-  Isr10msFirmwareThread* Isr10msFWThread;
-  BeepThread* BeepFWThread;
 
   Spin* SpinA;
   Spin* SpinB;
@@ -513,5 +432,113 @@ private:
   wxDECLARE_EVENT_TABLE();
 };
 
+//THREADS
+
+// the ID we'll use to identify our event
+const int ID_THREAD_CALL_LCD_PAINT         = -1;
+const int ID_THREAD_CALL_EDIT_MODEL_NAME   = -2;
+const int ID_THREAD_SEND_BYTE_TO_UCLIFRAME = -3;
+
+class FirstFirmwareThread: public wxThread
+{
+public:
+  FirstFirmwareThread() : wxThread(wxTHREAD_DETACHED)
+  {
+    if(wxTHREAD_NO_ERROR == Create())
+      {
+        Run();
+      }
+  }
+protected:
+  virtual void* Entry()
+  {
+    simumain();
+    while (TestDestroy())
+      {
+        Delete();   /**< Auto closed ? */
+      }
+    return 0;
+  }
+};
+
+class MainFirmwareThread: public wxThread
+{
+public:
+  MainFirmwareThread() : wxThread(wxTHREAD_DETACHED)
+  {
+    if(wxTHREAD_NO_ERROR == Create())
+      {
+        Run();
+      }
+  }
+protected:
+  virtual void* Entry()
+  {
+    ChronoMain->Start(0);
+    SimuMainLoop(); /**< Main firmware task */
+    MaintTaskChronoval = ChronoMain->TimeInMicro();
+    ChronoMain->Pause();
+    while (TestDestroy())
+      {
+        Delete();   /**< Auto closed ? */
+      }
+    return 0;
+  }
+};
+
+class Isr10msFirmwareThread: public wxThread
+{
+public:
+  Isr10msFirmwareThread() : wxThread(wxTHREAD_DETACHED)
+  {
+    if(wxTHREAD_NO_ERROR == Create())
+      {
+        Run();
+      }
+  }
+protected:
+  virtual void* Entry()
+  {
+    Chrono10ms->Start(0);
+    TIMER_10MS_VECT(); /**< Isr10ms firmware task */
+    Isr10msTaskChronoval = Chrono10ms->TimeInMicro();
+    Chrono10ms->Pause();
+    while (TestDestroy())
+      {
+        Delete();   /**< Auto closed ? */
+      }
+    return 0;
+  }
+};
+
+class BeepThread: public wxThread
+{
+public:
+  BeepThread(uint32_t ifreq, uint32_t itime) : wxThread(wxTHREAD_DETACHED)
+  {
+    if(wxTHREAD_NO_ERROR == Create())
+      {
+        freq = ifreq;
+        time = itime;
+        Run();
+      }
+  }
+protected:
+  uint32_t freq;
+  uint32_t time;
+  virtual void* Entry()
+  {
+#if !defined(__UNIX__)
+    Beep(freq, time); // Hz, mS
+#else
+    //todo linux
+#endif
+    while (TestDestroy())
+      {
+        Delete();   /**< Auto closed ? */
+      }
+    return 0;
+  }
+};
 
 #endif // OpenAVRc_SIMULATORMAIN_H

@@ -8,6 +8,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="DebugWin">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorDbg" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Debug/" />
@@ -18,6 +19,7 @@
 					<Add option="-m32" />
 					<Add option="-Og" />
 					<Add option="-g" />
+					<Add option="-mthreads" />
 					<Add option="-D__GNUWIN32__" />
 					<Add option="-D__WXMSW__" />
 					<Add option="-DWXUSINGDLL" />
@@ -36,11 +38,13 @@
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add option="-mthreads" />
 					<Add library="libwxmsw31ud.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="FR Release">
+			<Target title="FR_Win">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorFR" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
@@ -50,6 +54,7 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="-mthreads" />
 					<Add option="-D__GNUWIN32__" />
 					<Add option="-D__WXMSW__" />
 					<Add option="-DWXUSINGDLL" />
@@ -63,11 +68,13 @@
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add option="-mthreads" />
 					<Add library="libwxmsw31u.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="ES Release">
+			<Target title="ES_Win">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorES" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
@@ -77,6 +84,7 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="-mthreads" />
 					<Add option="-D__GNUWIN32__" />
 					<Add option="-D__WXMSW__" />
 					<Add option="-DWXUSINGDLL" />
@@ -90,11 +98,13 @@
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add option="-mthreads" />
 					<Add library="libwxmsw31u.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="EN Release">
+			<Target title="EN_Win">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorEN" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
@@ -104,6 +114,7 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="-mthreads" />
 					<Add option="-D__GNUWIN32__" />
 					<Add option="-D__WXMSW__" />
 					<Add option="-DWXUSINGDLL" />
@@ -117,11 +128,13 @@
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add option="-mthreads" />
 					<Add library="libwxmsw31u.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="CZ Release">
+			<Target title="CZ_Win">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorCZ" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
@@ -145,11 +158,13 @@
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add option="-mthreads" />
 					<Add library="libwxmsw31u.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="FR Release FRAM">
+			<Target title="FR_FRAM_Win">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorFR_FRAM" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
@@ -159,6 +174,7 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="-mthreads" />
 					<Add option="-D__GNUWIN32__" />
 					<Add option="-D__WXMSW__" />
 					<Add option="-DWXUSINGDLL" />
@@ -173,11 +189,13 @@
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add option="-mthreads" />
 					<Add library="libwxmsw31u.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="ES Release FRAM">
+			<Target title="ES_FRAM_Win">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorES_FRAM" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
@@ -187,6 +205,7 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="-mthreads" />
 					<Add option="-D__GNUWIN32__" />
 					<Add option="-D__WXMSW__" />
 					<Add option="-DWXUSINGDLL" />
@@ -201,11 +220,13 @@
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add option="-mthreads" />
 					<Add library="libwxmsw31u.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="EN Release FRAM">
+			<Target title="EN_FRAM_Win">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorEN_FRAM" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
@@ -215,6 +236,7 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="-mthreads" />
 					<Add option="-D__GNUWIN32__" />
 					<Add option="-D__WXMSW__" />
 					<Add option="-DWXUSINGDLL" />
@@ -229,11 +251,13 @@
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add option="-mthreads" />
 					<Add library="libwxmsw31u.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
-			<Target title="CZ Release FRAM">
+			<Target title="CZ_FRAM_Win">
+				<Option platforms="Windows;" />
 				<Option output="../OpenAVRc_SimulatorCZ_FRAM" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
 				<Option object_output="../obj/OpenAVRc_Simulator/Release/" />
@@ -243,6 +267,7 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-m32" />
+					<Add option="-mthreads" />
 					<Add option="-D__GNUWIN32__" />
 					<Add option="-D__WXMSW__" />
 					<Add option="-DWXUSINGDLL" />
@@ -257,24 +282,83 @@
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add option="-mthreads" />
 					<Add library="libwxmsw31u.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
 			<Target title="DebugLin">
+				<Option platforms="Unix;" />
 				<Option output="../OpenAVRc_SimulatorDbg" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../" />
-				<Option object_output="../obj/OpenAVRc_Simulator/Debug/" />
+				<Option object_output="../objlin/OpenAVRc_Simulator/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="`wx-config --cxxflags`" />
 					<Add option="-std=c11" />
+					<Add option="-m64" />
 					<Add option="-Og" />
 					<Add option="-g" />
+					<Add option="`wx-config --cxxflags`" />
+					<Add option="-pthread" />
 					<Add option="-D__UNIX__" />
-					<Add option="-DaaWXUSINGDLL" />
+					<Add option="-DDEBUG=YES" />
+					<Add option="-DTRANSLATIONS_FR" />
+					<Add option="-DTTS_FR" />
+					<Add option="-DEXTERNALEEPROM" />
+					<Add option="-DIMPERIAL_UNITSaaa" />
+					<Add option="-DLCDROT180aaa" />
+					<Add option="-DPWM_BACKLIGHTaaa" />
+					<Add directory="/usr/lib/x86_64-linux-gnu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-m64" />
+					<Add option="`wx-config --libs`" />
+					<Add option="-Xlinker --allow-multiple-definition" />
+					<Add option="-pthread" />
+					<Add library="../../../../../usr/local/lib/libwx_baseu-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_baseu_net-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_baseu_xml-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxexpat-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_adv-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_aui-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_core-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_gl-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_html-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_propgrid-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_qa-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_ribbon-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_richtext-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_stc-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_xrc-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxjpeg-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxpng-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxregexu-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxscintilla-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxtiff-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxzlib-3.2.a" />
+				</Linker>
+			</Target>
+			<Target title="FR_Linux">
+				<Option platforms="Unix;" />
+				<Option output="../OpenAVRc_SimulatorApp" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../objlin/OpenAVRc_Simulator/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-std=c11" />
+					<Add option="-m64" />
+					<Add option="`wx-config --cxxflags`" />
+					<Add option="-pthread" />
+					<Add option="-D__UNIX__" />
 					<Add option="-DDEBUG=YES" />
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
@@ -287,15 +371,39 @@
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 				</ResourceCompiler>
 				<Linker>
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-m64" />
 					<Add option="`wx-config --libs`" />
 					<Add option="-Xlinker --allow-multiple-definition" />
-					<Add library="aalibwxmsw31ud.a" />
+					<Add option="-pthread" />
+					<Add library="../../../../../usr/local/lib/libwxzlib-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxtiff-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxscintilla-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxregexu-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxpng-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxjpeg-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_xrc-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_stc-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_richtext-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_ribbon-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_qa-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_propgrid-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_html-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_gl-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_core-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_aui-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_gtk3u_adv-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwxexpat-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_baseu_xml-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_baseu_net-3.2.a" />
+					<Add library="../../../../../usr/local/lib/libwx_baseu-3.2.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
 		</Build>
 		<VirtualTargets>
-			<Add alias="SetupWin" targets="FR Release;ES Release;EN Release;CZ Release;FR Release FRAM;ES Release FRAM;EN Release FRAM;CZ Release FRAM;" />
+			<Add alias="SetupWin" targets="FR_Win;ES_Win;EN_Win;CZ_Win;FR_FRAM_Win;ES_FRAM_Win;EN_FRAM_Win;CZ_FRAM_Win;" />
 		</VirtualTargets>
 		<Compiler>
 			<Add option="-std=gnu++11" />
@@ -371,9 +479,6 @@
 		<ResourceCompiler>
 			<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/include" />
 		</ResourceCompiler>
-		<Linker>
-			<Add option="-mthreads" />
-		</Linker>
 		<Unit filename="../OpenAVRc/OpenAVRc.cpp" />
 		<Unit filename="../OpenAVRc/OpenAVRc.h" />
 		<Unit filename="../OpenAVRc/Serial0.cpp" />
@@ -473,6 +578,12 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
+		<Unit filename="../OpenAVRc/protocol/CRSF_SERIAL.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/CRSF_SERIAL.h" />
 		<Unit filename="../OpenAVRc/protocol/DEVO_cyrf6936.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
@@ -484,6 +595,16 @@
 			<Option link="0" />
 		</Unit>
 		<Unit filename="../OpenAVRc/protocol/DSM_cyrf6936.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/E129_cyrf6936.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/ESKY_nrf24l01.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
 			<Option link="0" />
@@ -508,8 +629,22 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
+		<Unit filename="../OpenAVRc/protocol/FRSKY_DEF_cc2500.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="../OpenAVRc/protocol/FRSKY_DEF_cc2500.h" />
 		<Unit filename="../OpenAVRc/protocol/HITEC_cc2500.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/HOTT_cc2500.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/HUBSAN_a7105.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
 			<Option link="0" />
@@ -519,7 +654,8 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
-		<Unit filename="../OpenAVRc/protocol/MULTI_SERIAL.c">
+		<Unit filename="../OpenAVRc/protocol/MULTI_SERIAL.h" />
+		<Unit filename="../OpenAVRc/protocol/MULTI_SERIAL_xmega.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
 			<Option link="0" />
@@ -541,12 +677,39 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
+		<Unit filename="../OpenAVRc/protocol/PROTO_xmega_PPM.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/PROTO_xmega_PPM16.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/PROTO_xmega_PPMSIM.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/RF2500_EMU.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/SBUS_SERIAL.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="../OpenAVRc/protocol/SKYARTEC_cc2500.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
 		<Unit filename="../OpenAVRc/protocol/STANEK_nrf24l01.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/SUMD_SERIAL.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
 			<Option link="0" />
@@ -570,6 +733,7 @@
 		<Unit filename="../OpenAVRc/protocol/iface_cc2500.h" />
 		<Unit filename="../OpenAVRc/protocol/iface_cyrf6936.h" />
 		<Unit filename="../OpenAVRc/protocol/iface_nrf24l01.h" />
+		<Unit filename="../OpenAVRc/protocol/iface_rf2500.h" />
 		<Unit filename="../OpenAVRc/protocol/interface.h" />
 		<Unit filename="../OpenAVRc/protocol/misc.c">
 			<Option compilerVar="CC" />
@@ -583,6 +747,12 @@
 			<Option link="0" />
 		</Unit>
 		<Unit filename="../OpenAVRc/protocol/protocol.h" />
+		<Unit filename="../OpenAVRc/protocol/spirf.h" />
+		<Unit filename="../OpenAVRc/protocol/squeleton.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="../OpenAVRc/pulses/pulses.h" />
 		<Unit filename="../OpenAVRc/pulses/pulses_avr.cpp" />
 		<Unit filename="../OpenAVRc/pulses/pulses_avr.h" />
@@ -675,6 +845,8 @@
 		<Unit filename="MixerFrame.h" />
 		<Unit filename="ModelNameDialog.cpp" />
 		<Unit filename="ModelNameDialog.h" />
+		<Unit filename="Nutbolts.cpp" />
+		<Unit filename="Nutbolts.h" />
 		<Unit filename="OpenAVRc_SimulatorApp.cpp" />
 		<Unit filename="OpenAVRc_SimulatorApp.h" />
 		<Unit filename="OpenAVRc_SimulatorMain.cpp" />
@@ -692,8 +864,10 @@
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
-		<Unit filename="serial/tserial.cpp" />
-		<Unit filename="serial/tserial.h" />
+		<Unit filename="serial/uart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="serial/uart.h" />
 		<Unit filename="uCliFrame.cpp" />
 		<Unit filename="uCliFrame.h" />
 		<Unit filename="wxsmith/GvarsFrame.wxs" />
@@ -722,6 +896,8 @@
 					<wxFrame wxs="wxsmith/uCliFrame.wxs" src="uCliFrame.cpp" hdr="uCliFrame.h" fwddecl="0" i18n="1" name="uCliFrame" language="CPP" />
 				</resources>
 			</wxsmith>
+			<code_completion />
+			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

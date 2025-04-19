@@ -73,7 +73,7 @@ extern uint16_t dt;
 #include "../protocol/spirf.h"
 #endif
 
-union
+static union
 {
   uint16_t pword[PULSES_WORD_SIZE];
   uint8_t  pbyte[PULSES_BYTE_SIZE]; // 144
