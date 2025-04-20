@@ -900,8 +900,8 @@ void OpenAVRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
   wxAboutDialogInfo Aboutbox;
   Aboutbox.SetName(_("OpenAVRc Simulateur"));
   Aboutbox.SetVersion(_("V 3.10 Beta"));
-  Aboutbox.SetLicence(_(" GPLv2 . Firmware basĂ© sur NextStepRc 2.18 "));
-  Aboutbox.SetDescription(_("Simulateur du code OpenAVRc 'toutes options' sur carte MĂ©ga 2560     "));
+  Aboutbox.SetLicence(_(" GPLv2 . Firmware bas� sur NextStepRc 2.18 "));
+  Aboutbox.SetDescription(_("Simulateur du code OpenAVRc 'toutes options' sur carte M�ga 2560     "));
   Aboutbox.SetCopyright(wxT("(C) 2016-2025 OpenAVRc Team"));
   Aboutbox.SetWebSite(wxT("https://github.com/Ingwie/OpenAVRc_Dev"));
   Aboutbox.AddDeveloper(wxT(
@@ -1091,12 +1091,12 @@ void OpenAVRc_SimulatorFrame::OnRstickLeftUp(wxMouseEvent& event)
 void OpenAVRc_SimulatorFrame::OnSimulcdLeftDClick(wxMouseEvent& event)
 {
   event.Skip();
-  wxFileDialog saveFileDialog(this, _("Sauver Capture Ă©cran"), "", "", _("Fichier BMP (*.bmp)|*.bmp"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+  wxFileDialog saveFileDialog(this, _("Sauver Capture �cran"), "", "", _("Fichier BMP (*.bmp)|*.bmp"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
   if (saveFileDialog.ShowModal() == wxID_CANCEL)
     return;     // the user changed idea...
   wxFileOutputStream output_stream(saveFileDialog.GetPath());
   if (!output_stream.IsOk()) {
-    wxLogError(_("Ne peut Ă©crire le fichier '%s'."), saveFileDialog.GetPath());
+    wxLogError(_("Ne peut �crire le fichier '%s'."), saveFileDialog.GetPath());
     return;
   }
   SimuLcd_Bitmap.SaveFile(saveFileDialog.GetPath(), wxBITMAP_TYPE_BMP, NULL);
@@ -1242,7 +1242,7 @@ void OpenAVRc_SimulatorFrame::LoadConfig()
 
 void OpenAVRc_SimulatorFrame::SaveConfig()
 {
-  //wxMessageBox( Ini_Filename, _("Les paramĂ¨tres sont sauvĂ© dans :"));
+  //wxMessageBox( Ini_Filename, _("Les param�tres sont sauv� dans :"));
 
   configFile->Write(wxT("Col_Lcd_Back"),Col_Lcd_Back);
   configFile->Write(wxT("Col_Lcd_Front"),Col_Lcd_Front);
@@ -1317,7 +1317,7 @@ void OpenAVRc_SimulatorFrame::OnMenuExportEepromSelected(wxCommandEvent& event)
 void OpenAVRc_SimulatorFrame::OnMenuImportEepromSelected(wxCommandEvent& event)
 {
   event.Skip();
-  int answer = wxMessageBox( _("L'eeprom va Ăªtre formatĂ©e, Ă©tes vous sur ?"), _("    OpenAVRc Simulateur"), wxYES_NO, this);
+  int answer = wxMessageBox( _("L'eeprom va Ăªtre format�e, �tes vous sur ?"), _("    OpenAVRc Simulateur"), wxYES_NO, this);
   if (answer == wxNO) {
     return;
   }
@@ -1374,7 +1374,7 @@ void OpenAVRc_SimulatorFrame::ExportEeprom()
 
   EEGeneral General = g_eeGeneral;
   if (General.version == 0 ) {
-    wxMessageBox( _("Aucune eeprom detectĂ©e en mĂ©moire"), _("    OpenAVRc Simulateur"));
+    wxMessageBox( _("Aucune eeprom detect�e en m�moire"), _("    OpenAVRc Simulateur"));
     return;
   }
 
@@ -1497,7 +1497,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_EEPROM_VER()
       eepromfile->Read(wxT("extendedTrims"),&tmp,0);
       temp_model.extendedTrims = tmp;
       eepromfile->Read(wxT("throttleReversed"),&tmp,0);
-      if (tmp) wxMessageBox(_("La fonction Inv. gaz n'hexiste plus\n Modifiez votre modĂ¨le"), strtmp, wxICON_WARNING | wxOK, this);
+      if (tmp) wxMessageBox(_("La fonction Inv. gaz n'hexiste plus\n Modifiez votre mod�le"), strtmp, wxICON_WARNING | wxOK, this);
       eepromfile->Read(wxT("rfOptionValue1"),&tmp,0);
       temp_model.rfOptionValue1 = tmp;
       eepromfile->Read(wxT("rfOptionValue2"),&tmp,0);
@@ -1850,7 +1850,7 @@ void OpenAVRc_SimulatorFrame::load_ModelData_217()
       eepromfile->Read(wxT("extendedTrims"),&tmp,0);
       temp_model.extendedTrims = tmp;
       eepromfile->Read(wxT("throttleReversed"),&tmp,0);
-      if (tmp) wxMessageBox(_("La fonction Inv. gaz n'hexiste plus\n Modifiez votre modĂ¨le"), strtmp, wxICON_WARNING | wxOK, this);
+      if (tmp) wxMessageBox(_("La fonction Inv. gaz n'hexiste plus\n Modifiez votre mod�le"), strtmp, wxICON_WARNING | wxOK, this);
       eepromfile->Read(wxT("ppmDelay"),&tmp,0);
       temp_model.rfOptionValue2 = tmp;
       eepromfile->Read(wxT("beepANACenter"),&tmp,0);
@@ -3476,7 +3476,7 @@ void OpenAVRc_SimulatorFrame::CheckActiveProtocols()
 
 void OpenAVRc_SimulatorFrame::OnCheckBoxProtocolsClick(wxCommandEvent& event)
 {
-  int answer = wxMessageBox((_("Appliquer Ă  tous les modĂ¨les de ") +CurrentEEPath+" ?"), _("Convertir eeprom ?"), wxYES_NO, this);
+  int answer = wxMessageBox((_("Appliquer � tous les mod�les de ") +CurrentEEPath+" ?"), _("Convertir eeprom ?"), wxYES_NO, this);
         if (answer == wxNO) {
           CheckActiveProtocols();
           return; // No modifications
