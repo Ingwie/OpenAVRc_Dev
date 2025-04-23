@@ -205,15 +205,13 @@ static void AFHDS2A_build_packet(uint8_t type)
         uint16_t val;
 
 #ifdef FAILSAFE_ENABLE
-  val = Failsafe_data[protocol==PROTO_AFHDS2A?CH_AETR[ch]:ch];  // No remapping for BS receivers
-  if(val!=FAILSAFE_CHANNEL_HOLD && val!=FAILSAFE_CHANNEL_NOPULSES)
-    val = (((val<<2)+val)>>3)+860;
-  else
+// Failsafe type is to HOLD at Set values or no hold.
+// There is not a no pulses option.
 #endif
         val = 0x0FFF;
         if (ch < 14)
         {
-          packet[9 + ch * 2] = val;
+          packet[9 + ch * 2] = val & 0xFF;
           packet[10 + ch * 2] = (val >> 8) & 0x0F;
         }
         else
@@ -380,7 +378,7 @@ static uint16_t AFHDS2A_cb()
 
     case AFHDS2A_DATA_INIT:
       packet_counter = 0;
-      packet_type = AFHDS2A_PACKET_STICKS;
+      packet_type = AFHDS2A_PACKET_SETTINGS;
       phase = AFHDS2A_DATA;
 
     case AFHDS2A_DATA:
@@ -399,13 +397,17 @@ static uint16_t AFHDS2A_cb()
         hopping_index = 0;
       }
 
-      if (!(packet_counter & 0x03ff))
+      if ((packet_counter & 0x03ff) == 0)
       { // Send settings every 3.9s
-        packet_type = AFHDS2A_PACKET_SETTINGS;
+        packet_type = AFHDS2A_PACKET_SETTINGS; // ToDo : check for settings changes
+      }
+      else if ((packet_counter & 0x03ff) == 511)
+      { // Send settings every 3.9s
+        packet_type = AFHDS2A_PACKET_FAILSAFE;
       }
       else
       {
-        packet_type = AFHDS2A_PACKET_STICKS; // ToDo : check for settings changes
+        packet_type = AFHDS2A_PACKET_STICKS;
       }
 
       if (!(data_rx & 0b00100011)) // removed FECF check due to issues with fs-x6b ->  & (1<<5 | 1<<6)
