@@ -36,10 +36,9 @@
 #define MAX_PACKET              50
 #define MAX_CHANNEL             75
 
-typedef union{ // Place any SPI structs here. Note 144 bytes maximum.
   struct afhds2a_spi
   { // 144 bytes Maximum e.g. PULSES_BYTE_SIZE
-    uint8_t packet_P2M[MAX_PACKET]; // 50
+    uint8_t packet_p2M[MAX_PACKET]; // 50
     uint8_t channel_used_p2M[MAX_CHANNEL]; // 75
     uint8_t unused1[3]; // &127
     uint8_t afhds2a_RF_STATE_P2M;
@@ -47,10 +46,15 @@ typedef union{ // Place any SPI structs here. Note 144 bytes maximum.
     uint8_t afhds2a_REC_SEQ_P2M;
     uint8_t afhds2a_BIND_IDX_P2M;
     uint8_t afhds2a_PACKET_COUNT_P2M; //&132
-    uint8_t unused2[5];
-    uint16_t AFHDS2A_RF_STATE16_P2M; //&138
+    uint8_t packet_type;
+    uint8_t unused2[4];
+    uint16_t RF_STATE16_P2M; //&138
     uint8_t temp_rfid_addr_p2M[4]; // &140
   } __attribute__((__packed__));
+
+
+typedef union{ // Place any SPI RF Module structs here. Note 144 bytes maximum.
+  struct afhds2a_spi afhds2a;
 } spiU_t;
 
 #endif // SPIRF_H
