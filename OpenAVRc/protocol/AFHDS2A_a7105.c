@@ -67,6 +67,7 @@ const pm_char STR_SUBTYPE_AFHDS2A_SPI[] PROGMEM = "IBPW""IBPP""SBPW""SBPP";
 #define AFHDS2A_RXPACKET_SIZE  37
 #define AFHDS2A_NUMFREQ        16
 #define AFHDS2A_WAIT_WRITE     0x80
+#define AFHDS2A_NUM_CH         14
 
 enum AFHDS2A_sub
 {
@@ -170,55 +171,41 @@ static void AFHDS2A_build_packet(uint8_t type)
     case AFHDS2A_PACKET_STICKS:
       packet[0] = 0x58;
       // 16 channels + RX_LQI on channel 17
-      for (uint8_t ch = 0; ch < 16; ch++)
+      for (uint8_t ch = 0; ch < AFHDS2A_NUM_CH; ch++)
       {
         int16_t value = (FULL_CHANNEL_OUTPUTS(ch)) / 2; // +-1280 to +-640
         value += PPM_CENTER; // + 1500 offset
-        value = limit((int16_t) - 860, value, (int16_t) + 2140);
+        value = limit((int16_t) +860, value, (int16_t) +2140);
 
         if(ch < 14)
         {
-        packet[9 + ch * 2] = value & 0xFF;
-        packet[10 + ch * 2] = (value >> 8) & 0xFF;
+          packet[9 +  ch * 2] = value & 0xFF;
+          packet[10 + ch * 2] = (value >> 8) & 0x0F;
         }
         else
         {
 //          if(ch == 16)  //CH17=RX_LQI
 //            val = 2000 - 10*RX_LQI;
-          packet[10 + (ch-14)*6] |= (value) << 4;
+          packet[10 + (ch-14)*6] |= (value << 4) & 0xF0;
           packet[12 + (ch-14)*6] |= (value) & 0xF0;
-          packet[14 + (ch-14)*6] |= (value>>4) & 0xF0;
+          packet[14 + (ch-14)*6] |= (value >> 4) & 0xF0;
         }
-      }
-      {
-        uint8_t next_hop = (hopping_index +1)&0x0F;
-        packet[34] |= next_hop << 4;
-        packet[36] |= next_hop ? 0x80 : 0x90;
       }
       break;
 
-
     case AFHDS2A_PACKET_FAILSAFE:
       packet[0] = 0x56;
-      for (uint8_t ch = 0; ch < 16; ch++)
+      for (uint8_t ch = 0; ch < AFHDS2A_NUM_CH; ch++)
       { // Failsafe values
-        uint16_t val;
 
 #ifdef FAILSAFE_ENABLE
 // Failsafe type is to HOLD at Set values or no hold.
 // There is not a no pulses option.
 #endif
-        val = 0x0FFF;
-        if (ch < 14)
-        {
-          packet[9 + ch * 2] = val & 0xFF;
-          packet[10 + ch * 2] = (val >> 8) & 0x0F;
-        }
-        else
-        {
-          packet[10 + (ch - 14) * 6] |= (val) << 4;
-          packet[12 + (ch - 14) * 6] |= (val) & 0xF0;
-          packet[14 + (ch - 14) * 6] |= (val >> 4) & 0xF0;
+        if(ch < 14)
+        { // No values.
+          packet[9 + ch*2] = 0xFF;
+          packet[10+ ch*2] = 0x0F;
         }
       }
       break;
@@ -229,22 +216,26 @@ static void AFHDS2A_build_packet(uint8_t type)
       packet[10] = 0xff;
       uint16_t val_hz = 5 * (g_model.rfOptionValue2 & 0x7f) + 50; // value should be between 0 and 70 which gives a value between 50 and 400Hz
       if (val_hz < 50 || val_hz > 400) val_hz = 50;	// default is 50Hz
-      packet[11] = val_hz;
-      packet[12] = val_hz >> 8;
+        packet[11] = val_hz & 0xFF;
+        packet[12] = val_hz >> 8;
+
       if (g_model.rfSubType == PPM_IBUS || g_model.rfSubType == PPM_SBUS)
-      packet[13] = 0x01;	// PPM output enabled
+        packet[13] = 0x01;	// PPM output enabled
       else
-      packet[13] = 0x00;  // PWM
-      packet[14] = 0x00;
-      for (uint8_t i = 15; i < 37; i++)
-        packet[i] = 0xff;
-      packet[18] = 0x05;  // ?
-      packet[19] = 0xdc;  // ?
-      packet[20] = 0x05;  // ?
+        packet[13] = 0x00;  // PWM
+
+      packet[14] = 0x00;    // ?
+
+      memset(&packet[15], 0xFF, 22);
+
+      packet[18] = 0x05;    // ?
+      packet[19] = 0xdc;    // ?
+      packet[20] = 0x05;    // ?
+
       if (g_model.rfSubType == PWM_SBUS || g_model.rfSubType == PPM_SBUS)
-      packet[21] = 0xdd;	// SBUS output enabled
+        packet[21] = 0xdd;	// SBUS output enabled
       else
-      packet[21] = 0xde;	// IBUS
+        packet[21] = 0xde;	// IBUS
       break;
 
   }
