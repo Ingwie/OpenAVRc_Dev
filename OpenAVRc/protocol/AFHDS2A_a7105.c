@@ -272,9 +272,12 @@ static void AFHDS2A_update_telemetry()
     switch (packet[index])
     {
       case AFHDS2A_SENSOR_RX_VOLTAGE:
-        telemetryData.analog[TELEM_ANA_A1].set( packet[index + 2],
-            g_model.telemetry.channels[TELEM_ANA_A1].type);
+        //if (packet[index + 1] == 0)
+        { // Voltage is sent in two bytes as 0.01 volt value.
+          telemetryData.analog[TELEM_ANA_A1].set( packet[index + 3] << 6 | (packet[index + 2] >> 2),
+          g_model.telemetry.channels[TELEM_ANA_A1].type);
         linkOk = 1;
+        }
         break;
 
       case AFHDS2A_SENSOR_A3_VOLTAGE:
