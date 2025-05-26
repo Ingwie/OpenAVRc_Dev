@@ -53,10 +53,10 @@
 #endif
 
 #define NUM_TELEM_RX_BUFFER  2
-#define TELEM_RX_PACKET_SIZE 9   // Frsky packet size
+#define FRSKY_TLM_PKT_SIZE 9   // Frsky packet size
 #define USART0_TX_PACKET_SIZE 26 // used in Multiprotocole serial
 
-extern uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][TELEM_RX_PACKET_SIZE];
+extern uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][FRSKY_TLM_PKT_SIZE];
 
 extern uint8_t Usart0TxBufferCount;
 

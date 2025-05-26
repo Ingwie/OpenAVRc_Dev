@@ -62,7 +62,7 @@ NOINLINE void parseTelemFrskyByte(uint8_t data)
 {
   static uint8_t dataState = STATE_DATA_IDLE;
   static uint8_t BufferCount;
-  static uint8_t Buffer[TELEM_RX_PACKET_SIZE];
+  static uint8_t Buffer[FRSKY_TLM_PKT_SIZE];
 
   switch (dataState)
     {
@@ -76,7 +76,7 @@ NOINLINE void parseTelemFrskyByte(uint8_t data)
         }
       else
         {
-          if (BufferCount < TELEM_RX_PACKET_SIZE)
+          if (BufferCount < FRSKY_TLM_PKT_SIZE)
             {
               Buffer[BufferCount++] = data;
             }
@@ -105,14 +105,14 @@ NOINLINE void parseTelemFrskyByte(uint8_t data)
               break;
             }
         }
-      else if (BufferCount < TELEM_RX_PACKET_SIZE)
+      else if (BufferCount < FRSKY_TLM_PKT_SIZE)
         {
           Buffer[BufferCount++] = data;
         }
       break;
 
     case STATE_DATA_XOR:
-      if (BufferCount < TELEM_RX_PACKET_SIZE)
+      if (BufferCount < FRSKY_TLM_PKT_SIZE)
         {
           Buffer[BufferCount++] = data ^ STUFF_MASK;
         }
@@ -129,7 +129,7 @@ NOINLINE void parseTelemFrskyByte(uint8_t data)
 
     } // switch
 
-  if (IS_USR_PROTO_SMART_PORT() && BufferCount >= (IS_SPIMODULES_PROTOCOL(g_model.rfProtocol)? TELEM_RX_PACKET_SIZE - 1:TELEM_RX_PACKET_SIZE))
+  if (IS_USR_PROTO_SMART_PORT() && BufferCount >= (IS_SPIMODULES_PROTOCOL(g_model.rfProtocol)? FRSKY_TLM_PKT_SIZE - 1:FRSKY_TLM_PKT_SIZE))
     {
       LoadTelemBuffer(Buffer);
       dataState = STATE_DATA_IDLE;
@@ -139,7 +139,7 @@ NOINLINE void parseTelemFrskyByte(uint8_t data)
 uint8_t checkSportPacket(uint8_t *packet)
 {
   uint16_t crc = 0;
-  for (uint8_t i=1; i<TELEM_RX_PACKET_SIZE; i++)
+  for (uint8_t i=1; i<FRSKY_TLM_PKT_SIZE; i++)
     {
       crc += packet[i]; //0-1FF
       crc += crc >> 8; //0-100
@@ -764,7 +764,7 @@ void telemetryInterrupt10ms()
             {
               frskyDProcessPacket(TelemetryRxBuffer[i]);
             }
-          memclear(TelemetryRxBuffer[i], TELEM_RX_PACKET_SIZE); // Reset buffer
+          memclear(TelemetryRxBuffer[i], FRSKY_TLM_PKT_SIZE); // Reset buffer
         }
     }
 
@@ -923,7 +923,7 @@ void LoadTelemBuffer(uint8_t *data)
     {
       if (!(TelemetryRxBuffer[i][0] || TelemetryRxBuffer[i][1])) // Check buffer is free
         {
-          memcpy(TelemetryRxBuffer[i], data, TELEM_RX_PACKET_SIZE);
+          memcpy(TelemetryRxBuffer[i], data, FRSKY_TLM_PKT_SIZE);
           return;
         }
     }

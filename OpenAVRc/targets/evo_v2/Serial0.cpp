@@ -34,7 +34,7 @@
 #include "OpenAVRc.h"
 
 
-uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][TELEM_RX_PACKET_SIZE];
+uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][FRSKY_TLM_PKT_SIZE];
 uint8_t Usart0TxBufferCount = 0;
 
 

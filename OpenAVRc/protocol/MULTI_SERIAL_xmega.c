@@ -296,6 +296,8 @@ NOINLINE void parseMultiByte(uint8_t data)
       if (data == 0x01) state = TYPE_FOUND; // Multi Module Status.
       else if (data == 0x02) state = TYPE_FOUND; // FrSky S Port Telemetry packet.
       else if (data == 0x03) state = TYPE_FOUND; // FrSky Hub Telemetry packet.
+//      else if (data == 0x06) state = TYPE_FOUND; // Flysky 0xAA Telemetry. Length =29 data[0] = RSSI value, data[1-28] telemetry sensor values.
+//      else if (data == 0x0C) state = TYPE_FOUND; // Flysky 0xAC Telemetry. Length =29 data[0] = RSSI value, data[1-28] telemetry sensor values.
       else state = RESET;
       break;
 
@@ -323,7 +325,7 @@ NOINLINE void parseMultiByte(uint8_t data)
             state = RESET;
             break;
           }
-          else if (length == TELEM_RX_PACKET_SIZE)
+          else if (length == FRSKY_TLM_PKT_SIZE)
           {
             LoadTelemBuffer(l_buffer);
             state = RESET;
