@@ -194,7 +194,7 @@
 #define STR_V                  (STR_VTELEMUNIT+1)
 #define STR_A                  (STR_VTELEMUNIT+4)
 #define LEN_VTELPROTO          "\007"
-#define TR_VTELPROTO           "---\0   ""Hub\0   ""WSHHigh""S.Port\0"
+#define TR_VTELPROTO           "---\0   ""Hub\0   ""WSHHigh""S.Port\0""iBus\0  "
 #define LEN_AMPSRC           "\003"
 #define TR_AMPSRC            "---""A1\0""A2\0""FAS""Cel"
 #define LEN_VARIOSRC           "\005"
