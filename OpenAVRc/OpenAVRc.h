@@ -1046,6 +1046,7 @@ extern void parseCrossfireByte(uint8_t data);
 #if defined (FRSKY)
   // FrSky Telemetry
   #include "telemetry/frsky.h"
+  #include "telemetry/ibus.h"
 #endif
 
 
@@ -1478,7 +1479,9 @@ extern void varioWakeup();
 
 #define IS_USR_PROTO_FRSKY_HUB()   (g_model.telemetry.usrProto == USR_PROTO_FRSKY)
 #define IS_USR_PROTO_WS_HOW_HIGH() (g_model.telemetry.usrProto == USR_PROTO_WS_HOW_HIGH)
-#define IS_USR_PROTO_SMART_PORT() (g_model.telemetry.usrProto == USR_PROTO_SMART_PORT)
+#define IS_USR_PROTO_SMART_PORT()  (g_model.telemetry.usrProto == USR_PROTO_SMART_PORT)
+#define IS_USR_PROTO_IBUS()        (g_model.telemetry.usrProto == USR_PROTO_IBUS)
+
 
 #if defined(FRSKY) && defined(GPS)
   #define IS_GPS_AVAILABLE()         IS_USR_PROTO_FRSKY_HUB() || IS_USR_PROTO_SMART_PORT()
