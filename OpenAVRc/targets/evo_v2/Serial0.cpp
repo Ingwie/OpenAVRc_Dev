@@ -34,11 +34,6 @@
 #include "OpenAVRc.h"
 
 
-uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][FRSKY_TLM_PKT_SIZE];
-uint8_t Usart0TxBufferCount = 0;
-
-
-
 /*
  * The Xmega USARTs are clocked from the peripheral clock (32MHz).
  * In order to achieve accurate baud rates it uses a fractional baud rate generator.
