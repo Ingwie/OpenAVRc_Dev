@@ -302,7 +302,7 @@ NOINLINE void parseMultiByte(uint8_t data)
       break;
 
     case TYPE_FOUND:
-      if (data <= MM_TYPE_01_PKT_LEN)
+      if (data <= MM_RX_PKT_MAX_LEN)
       {
         length = data;
         state = LEN_FOUND;

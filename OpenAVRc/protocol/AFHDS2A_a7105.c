@@ -244,66 +244,7 @@ static void AFHDS2A_build_packet(uint8_t type)
 
 #if defined(FRSKY) // telemetry
 
-enum
-{ // telemetry sensors ID
-  AFHDS2A_SENSOR_RX_VOLTAGE = 0x00,
-//  AFHDS2A_SENSOR_RX_ERR_RATE  = 0xfe,
-  AFHDS2A_SENSOR_RX_RSSI = 0xfc,
-  AFHDS2A_SENSOR_RX_NOISE = 0xfb,
-//  AFHDS2A_SENSOR_RX_SNR       = 0xfa,
-  AFHDS2A_SENSOR_A3_VOLTAGE = 0x03,
-};
 
-static void AFHDS2A_update_telemetry()
-{
-  // 0    1234   5678   9           10         11       12
-  // AA | TXID | rx_id | sensor id | sensor # | value 16 bit big endian | sensor id ......
-  // AC | TXID | rx_id | sensor id | sensor # | length | bytes | sensor id ......
-  // Max 7 sensors per packet.
-
-  uint8_t linkOk = 0;
-
-//  if (packet[0] != 0xAA) return; // 0xAA Normal telemetry, 0xAC Extended telemetry not decoded here --- yet
-
-  for (uint8_t sensor = 0; sensor < 7; sensor++)
-  {
-    uint8_t index = 9 + (4 * sensor);
-
-    switch (packet[index])
-    {
-      case AFHDS2A_SENSOR_RX_VOLTAGE:
-        //if (packet[index + 1] == 0)
-        { // Voltage is sent in two bytes as 0.01 volt value.
-          telemetryData.analog[TELEM_ANA_A1].set( packet[index + 3] << 6 | (packet[index + 2] >> 2),
-          g_model.telemetry.channels[TELEM_ANA_A1].type);
-        linkOk = 1;
-        }
-        break;
-
-      case AFHDS2A_SENSOR_A3_VOLTAGE:
-        telemetryData.analog[TELEM_ANA_A2].set( packet[index + 3] << 5 | (packet[index + 2] >> 3),
-            g_model.telemetry.channels[TELEM_ANA_A2].type);
-        linkOk = 1;
-        break;
-
-//    case AFHDS2A_SENSOR_RX_ERR_RATE:
-//      if(packet[index+2]<=100)  RX_LQI=packet[index+2];
-//      break;
-
-      case AFHDS2A_SENSOR_RX_RSSI:
-        telemetryData.rssi[1].set(-packet[index + 2]);
-        linkOk = 1;
-        break;
-
-      case 0xff: // end of data
-        break;
-    }
-  }
-
-  if (linkOk)
-    frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
-  // frskyStreaming gets decremented every 10ms, FRSKY_TIMEOUT_FIRST value is detected to play connection prompt.
-}
 #endif
 
 static uint16_t AFHDS2A_cb()
@@ -410,7 +351,7 @@ static uint16_t AFHDS2A_cb()
         if (packet[0] == 0xAA && packet[9] == 0xFC)
         packet_type = AFHDS2A_PACKET_SETTINGS;	// RX is asking for settings.
 
-#if defined(FRSKY) // telemetry
+#if defined(FRSKY) // Telemetry
        else
          if(packet[0] == 0xAA && packet[9]!=0xFD  && (memcmp(&packet[1], temp_rfid_addr, 4) == 0) )
            { // Normal telemetry packet.
@@ -420,8 +361,8 @@ static uint16_t AFHDS2A_cb()
             limit<int16_t>(0, temp, 255);
             telemetryData.rssi[0].set(temp);
 
-            if (g_model.rfOptionBool1) // Telemetry on ?
-             AFHDS2A_update_telemetry();
+            if(g_model.rfOptionBool1) // Telemetry on ?
+              LoadAFHDS2ATelemBuffer(packet);
           }
 #endif
       }
@@ -455,6 +396,8 @@ static void AFHDS2A_initialize(uint8_t bind)
 
   memcpy(&AFHDS2A_RX_ID, &AFHDS2A_RX_ID_STORAGE, 4); // Load RX number stored in EEPROM.
   hopping_index = 0;
+
+  memclear(ibus_telem_buffer, IBUS_TLM_PACKET_SIZE); // Reset buffer
 
   if (bind)
   {

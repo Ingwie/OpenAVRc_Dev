@@ -749,24 +749,115 @@ void parseTelemWSHowHighByte(uint8_t byte)
 }
 #endif
 
+void process_ibus_telem(void)
+{
+  // 0    1234   5678   9           10         11       12
+  // AC | TXID | rx_id | sensor id | sensor # | length | bytes | sensor id ......
+  // AA | TXID | rx_id | sensor id | sensor # | value 16 bit   | sensor id ......
+  // Max 7 sensors per packet, but first packet has 5 Receiver internal sensors.
+
+  uint8_t linkOk = 0;
+
+  if (ibus_telem_buffer[0] != 0xAA) return; // 0xAA Normal telemetry, 0xAC Extended telemetry not decoded here --- yet!
+
+  uint8_t temperature_sensor_count =0;
+
+  for (uint8_t sensor = 0; sensor < 7; sensor++)
+  {
+    uint8_t index = 9 + (4 * sensor);
+    uint16_t data16 = ibus_telem_buffer[index + 3] << 8 | (ibus_telem_buffer[index + 2] );
+
+    switch (ibus_telem_buffer[index])
+    {
+      case AFHDS2A_SENSOR_RX_VOLTAGE:
+        if (ibus_telem_buffer[index + 1] == 0)
+        { // Voltage is sent in two bytes as 0.01 Volt value.
+          telemetryData.analog[TELEM_ANA_A1].set( ibus_telem_buffer[index + 3] << 6 | (ibus_telem_buffer[index + 2] >> 2), UNIT_VOLTS);
+          linkOk = 1;
+        }
+        break;
+
+      case AFHDS2A_SENSOR_RX_RSSI:
+        telemetryData.rssi[1].set(-(ibus_telem_buffer[index + 2]));
+        linkOk = 1;
+        break;
+
+      case AFHDS2A_SENSOR_TEMPERATURE:
+        temperature_sensor_count++;
+        if(temperature_sensor_count ==1)
+          telemetryData.value.temperature1 = (data16 - 400)/10;
+        if(temperature_sensor_count ==2)
+          telemetryData.value.temperature2 = (data16 - 400)/10;
+        break;
+
+      case AFHDS2A_SENSOR_RPM:
+        telemetryData.value.rpm = data16;
+        break;
+
+      case AFHDS2A_SENSOR_EXT_VOLTAGE:
+//        if (ibus_telem_buffer[index + 1] == 1) // Sensor #1. Is this the first in the Daisy Chain of Sensors ?.
+//        { // FS-CVT01 Voltage is sent as int16_t 0.01 Volt value.
+          telemetryData.value.vfas =  (int16_t) data16 /10;
+//        }
+        break;
+
+//    case AFHDS2A_SENSOR_RX_ERR_RATE:
+//      if(ibus_telem_buffer[index+2]<=100)  RX_LQI=ibus_telem_buffer[index+2];
+//      linkOk = 1;
+//      break;
+
+      case 0xff: // end of sensor data
+        break;
+    }
+  }
+
+  if (linkOk)
+    frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
+  // frskyStreaming gets decremented every 10ms, FRSKY_TIMEOUT_FIRST value is detected to play connection prompt.
+}
+
+
 void telemetryInterrupt10ms()
 {
+#if 0 // defined(SPIMODULES)
+  if (IS_SPIMODULES_PROTOCOL(g_model.rfProtocol))
+  {
+    if(g_model.rfProtocol == PROTOCOL_AFHDS2A)
+      {
+        if(ibus_telem_buffer[0]) process_AFHDS2A_telem();
+        memclear(ibus_telem_buffer, IBUS_TLM_PACKET_SIZE); // Reset buffer.
+      }
+  }
+#endif
 
-  for (uint8_t i=0; i<NUM_TELEM_RX_BUFFER; ++i)
+  if (IS_USR_PROTO_IBUS())
+  {
+    if(ibus_telem_buffer[0]) process_ibus_telem();
+    memclear(ibus_telem_buffer, IBUS_TLM_PACKET_SIZE); // Reset buffer.
+  }
+  else  if (IS_USR_PROTO_SMART_PORT())
+  {
+    for (uint8_t i = 0; i < NUM_TELEM_RX_BUFFER; ++i)
     {
       if (TelemetryRxBuffer[i][0] || TelemetryRxBuffer[i][1]) // Check if buffer data are present
-        {
-          if (IS_USR_PROTO_SMART_PORT())
-            {
-              processSportPacket(TelemetryRxBuffer[i]);
-            }
-          else if (IS_USR_PROTO_FRSKY_HUB() || IS_USR_PROTO_WS_HOW_HIGH())
-            {
-              frskyDProcessPacket(TelemetryRxBuffer[i]);
-            }
-          memclear(TelemetryRxBuffer[i], FRSKY_TLM_PKT_SIZE); // Reset buffer
-        }
+      {
+        processSportPacket (TelemetryRxBuffer[i]);
+        memclear(TelemetryRxBuffer[i], FRSKY_TLM_PKT_SIZE); // Reset buffer.
+      }
     }
+  }
+  else if (IS_USR_PROTO_FRSKY_HUB() || IS_USR_PROTO_WS_HOW_HIGH())
+  {
+    for (uint8_t i = 0; i < NUM_TELEM_RX_BUFFER; ++i)
+    {
+      if (TelemetryRxBuffer[i][0] || TelemetryRxBuffer[i][1]) // Check if buffer data are present
+      {
+        frskyDProcessPacket (TelemetryRxBuffer[i]);
+        memclear(TelemetryRxBuffer[i], FRSKY_TLM_PKT_SIZE); // Reset buffer.
+      }
+    }
+  }
+
 
   uint16_t voltage = 0; /* unit: 1/10 volts */
   for (uint8_t i=0; i<telemetryData.value.cellsCount; i++)
@@ -916,6 +1007,17 @@ void TelemetryValueWithMinMax::set(uint8_t value, uint8_t unit)
       max = value;
     }
 }
+
+
+void LoadAFHDS2ATelemBuffer(uint8_t *data)
+{
+  if (!ibus_telem_buffer[0])
+  {
+    memcpy(ibus_telem_buffer, data, IBUS_TLM_PACKET_SIZE);
+    return;
+  }
+}
+
 
 void LoadTelemBuffer(uint8_t *data)
 {

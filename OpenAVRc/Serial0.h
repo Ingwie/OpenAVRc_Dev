@@ -55,8 +55,14 @@
 #define NUM_TELEM_RX_BUFFER  2
 #define FRSKY_TLM_PKT_SIZE 9   // Frsky packet size
 #define USART0_TX_PACKET_SIZE 26 // used in Multiprotocole serial
+#define IBUS_TLM_PACKET_SIZE 37
 
-extern uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][FRSKY_TLM_PKT_SIZE];
+static union
+{
+  uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][FRSKY_TLM_PKT_SIZE];
+  uint8_t ibus_telem_buffer[IBUS_TLM_PACKET_SIZE];
+};
+
 
 extern uint8_t Usart0TxBufferCount;
 
@@ -64,6 +70,7 @@ extern uint8_t Usart0TxBufferCount;
 #if defined(FRSKY)
 
 void LoadTelemBuffer(uint8_t *data);
+void LoadAFHDS2ATelemBuffer(uint8_t *data);
 
 #define RAW_FRSKY_MINMAX(v)       v.value
 #define IF_GPS_IS_FIXED           if (telemetryData.value.gpsFix)

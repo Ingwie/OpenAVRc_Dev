@@ -44,8 +44,8 @@
 // Enumerate FrSky packet codes
 #define LINKPKT                   0xfe
 #define USRPKT                    0xfd
-#define BFSPPKT 				          0x1b
-#define RXSPPKT 			        	  0x98
+#define BFSPPKT                   0x1b
+#define RXSPPKT                   0x98
 #define A11PKT                    0xfc
 #define A12PKT                    0xfb
 #define A21PKT                    0xfa
@@ -62,26 +62,26 @@
 
 /*  FrSky Hub Info
 DataID Meaning       Unit   Range   Note
-0x01   GPS altitude  m              Before”.”
-0x02   Temperature1  °C     -30-250
+0x01   GPS altitude  m              Beforeï¿½.ï¿½
+0x02   Temperature1  ï¿½C     -30-250
 0x03   RPM           BPS    0-60000
 0x04   Fuel Level    %      0, 25, 50, 75, 100
-0x05   Temperature2  °C     -30-250
+0x05   Temperature2  ï¿½C     -30-250
 0x06   Cell Volt     1/500v 0-4.2v, top 4 bits are cell #
-0x09   GPS altitude  m              After “.”
-0x10   Altitude      m      0-9999  Before “.”
-0x11   GPS speed     Knots          Before “.”
-0x12   Longitude     dddmm.mmmm     Before “.”
-0x13   Latitude      ddmm.mmmm      Before “.”
-0x14   Course        degree 0-360   Before “.”
+0x09   GPS altitude  m              After ï¿½.ï¿½
+0x10   Altitude      m      0-9999  Before ï¿½.ï¿½
+0x11   GPS speed     Knots          Before ï¿½.ï¿½
+0x12   Longitude     dddmm.mmmm     Before ï¿½.ï¿½
+0x13   Latitude      ddmm.mmmm      Before ï¿½.ï¿½
+0x14   Course        degree 0-360   Before ï¿½.ï¿½
 0x15   Date/Month
 0x16   Year
 0x17   Hour /Minute
 0x18   Second
-0x19   GPS speed     Knots          After “.”
-0x1A   Longitude     dddmm.mmmm     After “.”
-0x1B   Latitude      ddmm.mmmm      After “.”
-0x1C   Course        degree 0-360   After “.”
+0x19   GPS speed     Knots          After ï¿½.ï¿½
+0x1A   Longitude     dddmm.mmmm     After ï¿½.ï¿½
+0x1B   Latitude      ddmm.mmmm      After ï¿½.ï¿½
+0x1C   Course        degree 0-360   After ï¿½.ï¿½
 0x21   Altitude      m              After "."
 0x22   Long - E/W
 0x23   Lat. N/S
@@ -89,8 +89,8 @@ DataID Meaning       Unit   Range   Note
 0x25   Acc-y         1/256g -8g ~ +8g
 0x26   Acc-z         1/256g -8g ~ +8g
 0x28   Current       1A   0-100A
-0x3A   Voltage(amp sensor) 0.5v 0-48V Before “.”
-0x3B   Voltage(amp sensor)            After “.”
+0x3A   Voltage(amp sensor) 0.5v 0-48V Before ï¿½.ï¿½
+0x3B   Voltage(amp sensor)            After ï¿½.ï¿½
 */
 #define GPS_ALT_BP_ID             0x01<<1
 #define TEMP1_ID                  0x02<<1

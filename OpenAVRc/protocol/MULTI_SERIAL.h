@@ -72,8 +72,11 @@ struct mm_t1_pkt
 
 
 
-#define MM_TX_PKT_LEN 27
-#define MM_TYPE_01_PKT_LEN 24
+#define MM_TX_PKT_LEN       27
+#define MM_TYPE_01_PKT_LEN  24
+#define MM_TYPE_06_PKT_LEN  29
+#define MM_TYPE_0C_PKT_LEN  29
+#define MM_RX_PKT_MAX_LEN  MM_TYPE_06_PKT_LEN
 
 typedef struct
 {
