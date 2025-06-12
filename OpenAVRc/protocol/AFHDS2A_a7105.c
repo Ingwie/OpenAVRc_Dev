@@ -362,7 +362,9 @@ static uint16_t AFHDS2A_cb()
             telemetryData.rssi[0].set(temp);
 
             if(g_model.rfOptionBool1) // Telemetry on ?
-              LoadAFHDS2ATelemBuffer(packet);
+              // Enter packet type into buffer.
+              packet[IBUS_TLM_HEADER-1] = packet[0];
+              LoadAFHDS2ATelemBuffer(&packet[IBUS_TLM_HEADER -1]); // Omit TXID, RXID.
           }
 #endif
       }
@@ -397,7 +399,7 @@ static void AFHDS2A_initialize(uint8_t bind)
   memcpy(&AFHDS2A_RX_ID, &AFHDS2A_RX_ID_STORAGE, 4); // Load RX number stored in EEPROM.
   hopping_index = 0;
 
-  memclear(ibus_telem_buffer, IBUS_TLM_PACKET_SIZE); // Reset buffer
+  memclear(ibus_telem_buffer, 1); // Reset state.
 
   if (bind)
   {

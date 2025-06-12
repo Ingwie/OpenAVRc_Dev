@@ -55,12 +55,13 @@
 #define NUM_TELEM_RX_BUFFER  2
 #define FRSKY_TLM_PKT_SIZE 9   // Frsky packet size
 #define USART0_TX_PACKET_SIZE 26 // used in Multiprotocole serial
+#define IBUS_TLM_HEADER      9
 #define IBUS_TLM_PACKET_SIZE 37
 
 static union
 {
   uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][FRSKY_TLM_PKT_SIZE];
-  uint8_t ibus_telem_buffer[IBUS_TLM_PACKET_SIZE];
+  uint8_t ibus_telem_buffer[IBUS_TLM_PACKET_SIZE - IBUS_TLM_HEADER + 1]; // Omit TXID, RXID (8 bytes) but retain header byte 0xAA or 0xAC.
 };
 
 

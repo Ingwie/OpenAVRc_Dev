@@ -751,6 +751,7 @@ void parseTelemWSHowHighByte(uint8_t byte)
 
 void process_ibus_telem(void)
 {
+  // Over The Air packet format.
   // 0    1234   5678   9           10         11       12
   // AC | TXID | rx_id | sensor id | sensor # | length | bytes | sensor id ......
   // AA | TXID | rx_id | sensor id | sensor # | value 16 bit   | sensor id ......
@@ -764,7 +765,7 @@ void process_ibus_telem(void)
 
   for (uint8_t sensor = 0; sensor < 7; sensor++)
   {
-    uint8_t index = 9 + (4 * sensor);
+    uint8_t index = 1 + (4 * sensor); // Skip header.
     uint16_t data16 = ibus_telem_buffer[index + 3] << 8 | (ibus_telem_buffer[index + 2] );
 
     switch (ibus_telem_buffer[index])
@@ -825,7 +826,7 @@ void telemetryInterrupt10ms()
     if(g_model.rfProtocol == PROTOCOL_AFHDS2A)
       {
         if(ibus_telem_buffer[0]) process_AFHDS2A_telem();
-        memclear(ibus_telem_buffer, IBUS_TLM_PACKET_SIZE); // Reset buffer.
+        memclear(ibus_telem_buffer, 1); // Reset buffer.
       }
   }
 #endif
@@ -833,7 +834,7 @@ void telemetryInterrupt10ms()
   if (IS_USR_PROTO_IBUS())
   {
     if(ibus_telem_buffer[0]) process_ibus_telem();
-    memclear(ibus_telem_buffer, IBUS_TLM_PACKET_SIZE); // Reset buffer.
+    memclear(ibus_telem_buffer, 1); // Reset buffer.
   }
   else  if (IS_USR_PROTO_SMART_PORT())
   {
@@ -1013,7 +1014,7 @@ void LoadAFHDS2ATelemBuffer(uint8_t *data)
 {
   if (!ibus_telem_buffer[0])
   {
-    memcpy(ibus_telem_buffer, data, IBUS_TLM_PACKET_SIZE);
+    memcpy(ibus_telem_buffer, data, IBUS_TLM_PACKET_SIZE - IBUS_TLM_HEADER +1);
     return;
   }
 }

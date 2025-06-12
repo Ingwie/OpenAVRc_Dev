@@ -141,9 +141,12 @@ static uint16_t MULTI_cb()
   //if(mm_type1_packet_ptr->mm_is_binding && systemBolls.protoMode == NORMAL_MODE) systemBolls.protoMode = BIND_MODE;
   //else if(!mm_type1_packet_ptr->mm_is_binding && systemBolls.protoMode == BIND_MODE) systemBolls.protoMode = NORMAL_MODE;
 
-  protoByte = proto_type & 0x1f;
-  if (systemBolls.protoMode == BIND_MODE) protoByte |= 0x80;
-  else if (systemBolls.rangeModeIsOn) protoByte |= 0x20;
+  protoByte = proto_type & 0x1F;
+  if (systemBolls.protoMode == BIND_MODE)
+    protoByte |= 0x80;
+  else if (systemBolls.rangeModeIsOn)
+    protoByte |= 0x20;
+
   Usart0TxBuffer_p2M[--multiTxBufferCount] = protoByte;
 
   /*
@@ -158,9 +161,12 @@ static uint16_t MULTI_cb()
     | (g_model.LOWPOWERMODE << 7)));
 
   /* Stream[3]   = option_protocol
-   option_protocol value is -128..127byte 3
+   option_protocol value is -128..127 byte 3.
+   1<<7 seems like a special case to enable iBus telemetry.
    */
-  Usart0TxBuffer_p2M[--multiTxBufferCount] = (uint8_t) optionValue;
+  if (proto_type == MM_RF_PROTO_28_AFHDS2A  &&  IS_USR_PROTO_IBUS())
+    optionValue |= 0x80;
+    Usart0TxBuffer_p2M[--multiTxBufferCount] = optionValue;
 
   /*
    Stream[4] to [25] = Channels or failsafe depending on Steam[0]
@@ -264,6 +270,7 @@ struct mm_t1_pkt  *mm_type1_packet_ptr = &pulses2MHz.mm_st.mm_type1_packet;
 #define mm_type1_packet  pulses2MHz.mm_st.mm_type1_packet
 #define l_buffer  pulses2MHz.mm_st.mm_rx_buffer
 
+
 NOINLINE void parseMultiByte(uint8_t data)
 {
   enum MPSTATE
@@ -275,9 +282,30 @@ NOINLINE void parseMultiByte(uint8_t data)
     LEN_FOUND,
   };
 
+  enum PKTTYPE
+  {
+    MM_STATUS       = 0x01,
+    FRSKY_SPORT_TLM = 0x02,
+    FRSKY_HUB_TLM   = 0x03,
+    SPEKTRUM_TLM    = 0x04,
+    DSM_BIND_DATA   = 0x05,
+    FLYSKY_TLM_AA   = 0x06,
+    INPUT_SYNC      = 0x08,
+    HITEC_TLM       = 0x0A,
+    SCANNER_TLM     = 0x0B,
+    FLYSKY_TLM_AC   = 0x0C,
+    RX_CHLS_FDW     = 0x0D,
+    HOTT_TLM        = 0x0E,
+    MLINK_TLM       = 0x0F,
+    CONFIG_TLM      = 0x10,
+    PROTO_LIST      = 0x11,
+  };
+
+
   static uint8_t write_ptr;
   static uint8_t state = RESET;
   static uint8_t length;
+  static uint8_t pkt_type;
 
   switch (state)
   {
@@ -293,11 +321,12 @@ NOINLINE void parseMultiByte(uint8_t data)
       break;
 
     case P_FOUND:
-      if (data == 0x01) state = TYPE_FOUND; // Multi Module Status.
-      else if (data == 0x02) state = TYPE_FOUND; // FrSky S Port Telemetry packet.
-      else if (data == 0x03) state = TYPE_FOUND; // FrSky Hub Telemetry packet.
-//      else if (data == 0x06) state = TYPE_FOUND; // Flysky 0xAA Telemetry. Length =29 data[0] = RSSI value, data[1-28] telemetry sensor values.
-//      else if (data == 0x0C) state = TYPE_FOUND; // Flysky 0xAC Telemetry. Length =29 data[0] = RSSI value, data[1-28] telemetry sensor values.
+      pkt_type = data;
+      if (data == MM_STATUS) state = TYPE_FOUND; // Multi Module Status.
+//      else if (data == FRSKY_SPORT_TLM) state = TYPE_FOUND; // FrSky S Port Telemetry packet.
+      else if (data == FRSKY_HUB_TLM) state = TYPE_FOUND; // FrSky Hub Telemetry packet.
+      else if (data == FLYSKY_TLM_AA) state = TYPE_FOUND; // Flysky 0xAA Telemetry. Length =29 data[0] = RSSI value, data[1-28] telemetry sensor values.
+//      else if (data == FLYSKY_TLM_AC) state = TYPE_FOUND; // Flysky 0xAC Telemetry. Length =29 data[0] = RSSI value, data[1-28] telemetry sensor values.
       else state = RESET;
       break;
 
@@ -319,13 +348,22 @@ NOINLINE void parseMultiByte(uint8_t data)
 
         if (write_ptr == length)
         {
-          if (length == MM_TYPE_01_PKT_LEN)
+          if (pkt_type == MM_STATUS && length == MM_TYPE_01_PKT_LEN)
           {
             memcpy(&mm_type1_packet, &l_buffer, MM_TYPE_01_PKT_LEN);
             state = RESET;
             break;
           }
-          else if (length == FRSKY_TLM_PKT_SIZE)
+          else if(pkt_type == FLYSKY_TLM_AA && length == MM_TYPE_06_PKT_LEN )
+          {
+            // iBus ...  extract and store rssi and replace with 0xAA so we have 0xAA plus 7 sensors of 4 bytes.
+            telemetryData.rssi[0].set(l_buffer[0]);
+            l_buffer[0] = 0xAA;
+            LoadAFHDS2ATelemBuffer(l_buffer);
+            state = RESET;
+            break;
+          }
+          else if (pkt_type == FRSKY_HUB_TLM && length == FRSKY_TLM_PKT_SIZE)
           {
             LoadTelemBuffer(l_buffer);
             state = RESET;

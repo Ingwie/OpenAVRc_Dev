@@ -1049,6 +1049,11 @@ extern void parseCrossfireByte(uint8_t data);
   #include "telemetry/ibus.h"
 #endif
 
+#define IS_USR_PROTO_FRSKY_HUB()   (g_model.telemetry.usrProto == USR_PROTO_FRSKY)
+#define IS_USR_PROTO_WS_HOW_HIGH() (g_model.telemetry.usrProto == USR_PROTO_WS_HOW_HIGH)
+#define IS_USR_PROTO_SMART_PORT()  (g_model.telemetry.usrProto == USR_PROTO_SMART_PORT)
+#define IS_USR_PROTO_IBUS()        (g_model.telemetry.usrProto == USR_PROTO_IBUS)
+
 
 #define PLAY_REPEAT(x)            (x)                 /* Range 0 to 15 */
 #define PLAY_NOW                  0x10
@@ -1476,12 +1481,6 @@ extern void varioWakeup();
 #else
   #define IS_IMPERIAL_ENABLE() (0)
 #endif
-
-#define IS_USR_PROTO_FRSKY_HUB()   (g_model.telemetry.usrProto == USR_PROTO_FRSKY)
-#define IS_USR_PROTO_WS_HOW_HIGH() (g_model.telemetry.usrProto == USR_PROTO_WS_HOW_HIGH)
-#define IS_USR_PROTO_SMART_PORT()  (g_model.telemetry.usrProto == USR_PROTO_SMART_PORT)
-#define IS_USR_PROTO_IBUS()        (g_model.telemetry.usrProto == USR_PROTO_IBUS)
-
 
 #if defined(FRSKY) && defined(GPS)
   #define IS_GPS_AVAILABLE()         IS_USR_PROTO_FRSKY_HUB() || IS_USR_PROTO_SMART_PORT()
