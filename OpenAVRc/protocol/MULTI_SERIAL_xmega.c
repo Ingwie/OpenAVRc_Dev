@@ -326,7 +326,7 @@ NOINLINE void parseMultiByte(uint8_t data)
 //      else if (data == FRSKY_SPORT_TLM) state = TYPE_FOUND; // FrSky S Port Telemetry packet.
       else if (data == FRSKY_HUB_TLM) state = TYPE_FOUND; // FrSky Hub Telemetry packet.
       else if (data == FLYSKY_TLM_AA) state = TYPE_FOUND; // Flysky 0xAA Telemetry. Length =29 data[0] = RSSI value, data[1-28] telemetry sensor values.
-//      else if (data == FLYSKY_TLM_AC) state = TYPE_FOUND; // Flysky 0xAC Telemetry. Length =29 data[0] = RSSI value, data[1-28] telemetry sensor values.
+      else if (data == FLYSKY_TLM_AC) state = TYPE_FOUND; // Flysky 0xAC Telemetry. Length =29 data[0] = RSSI value, data[1-28] telemetry sensor values.
       else state = RESET;
       break;
 
@@ -363,14 +363,29 @@ NOINLINE void parseMultiByte(uint8_t data)
             state = RESET;
             break;
           }
+          else if(pkt_type == FLYSKY_TLM_AC && length == MM_TYPE_0C_PKT_LEN )
+          {
+            // iBus ...  extract and store rssi and replace with 0xAC so we have 0xAC plus 4 sensors of 7 bytes.
+            telemetryData.rssi[0].set(l_buffer[0]);
+            l_buffer[0] = 0xAC;
+            LoadAFHDS2ATelemBuffer(l_buffer);
+            state = RESET;
+            break;
+          }
           else if (pkt_type == FRSKY_HUB_TLM && length == FRSKY_TLM_PKT_SIZE)
           {
             LoadTelemBuffer(l_buffer);
             state = RESET;
             break;
           }
-        break;
+          else
+          {
+            state = RESET;
+            break;
+          }
         }
+
+        break;
       }
   }
 }

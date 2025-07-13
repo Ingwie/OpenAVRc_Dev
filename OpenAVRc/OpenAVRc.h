@@ -1483,7 +1483,7 @@ extern void varioWakeup();
 #endif
 
 #if defined(FRSKY) && defined(GPS)
-  #define IS_GPS_AVAILABLE()         IS_USR_PROTO_FRSKY_HUB() || IS_USR_PROTO_SMART_PORT()
+  #define IS_GPS_AVAILABLE()         IS_USR_PROTO_FRSKY_HUB() || IS_USR_PROTO_SMART_PORT() || IS_USR_PROTO_IBUS()
 #else
   #define IS_GPS_AVAILABLE()         (0)
 #endif

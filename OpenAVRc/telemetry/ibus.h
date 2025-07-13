@@ -41,6 +41,16 @@
 #define    AFHDS2A_SENSOR_RPM           0x02
 #define    AFHDS2A_SENSOR_EXT_VOLTAGE   0x03
 
+#define    AFHDS2A_SENSOR_CLIMB_RATE    0x09  // 2 bytes m/s *100
+#define    AFHDS2A_SENSOR_COG           0x0A  // 2 bytes  Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. unknown max uint
+//#define    AFHDS2A_SENSOR_GPS_STATUS    0x0B  // 2 bytes
+#define    AFHDS2A_SENSOR_GROUND_SPEED  0x13  // 2 bytes m/s *100 different unit than build-in sensor
+
+#define   AFHDS2A_SENSOR_GPS_LAT        0x80  // 4bytes signed WGS84 in degrees * 1E7
+#define   AFHDS2A_SENSOR_GPS_LON        0x81  // 4bytes signed WGS84 in degrees * 1E7
+#define   AFHDS2A_SENSOR_GPS_ALT        0x82  // 4bytes signed!!! GPS alt m*100
+#define   AFHDS2A_SENSOR_ALT            0x83  // 4bytes signed!!! Alt m*100
+
 // #define AFHDS2A_SENSOR_RX_SNR        0xfa
 #define    AFHDS2A_SENSOR_RX_NOISE      0xfb
 #define    AFHDS2A_SENSOR_RX_RSSI       0xfc

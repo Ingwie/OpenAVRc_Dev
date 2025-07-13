@@ -749,72 +749,153 @@ void parseTelemWSHowHighByte(uint8_t byte)
 }
 #endif
 
+
 void process_ibus_telem(void)
 {
   // Over The Air packet format.
-  // 0    1234   5678   9           10         11       12
+  // 0    1234   5678   9           10         11       12                 ......36
   // AC | TXID | rx_id | sensor id | sensor # | length | bytes | sensor id ......
+
   // AA | TXID | rx_id | sensor id | sensor # | value 16 bit   | sensor id ......
   // Max 7 sensors per packet, but first packet has 5 Receiver internal sensors.
 
-  uint8_t linkOk = 0;
 
-  if (ibus_telem_buffer[0] != 0xAA) return; // 0xAA Normal telemetry, 0xAC Extended telemetry not decoded here --- yet!
-
-  uint8_t temperature_sensor_count =0;
-
-  for (uint8_t sensor = 0; sensor < 7; sensor++)
+  if (ibus_telem_buffer[0] == 0xAA) // 0xAA Normal telemetry.
   {
-    uint8_t index = 1 + (4 * sensor); // Skip header.
-    uint16_t data16 = ibus_telem_buffer[index + 3] << 8 | (ibus_telem_buffer[index + 2] );
+    uint8_t linkOk = 0;
+    uint8_t temperature_sensor_count = 0;
 
-    switch (ibus_telem_buffer[index])
+    for (uint8_t sensor = 0; sensor < 7; sensor++)
     {
-      case AFHDS2A_SENSOR_RX_VOLTAGE:
-        if (ibus_telem_buffer[index + 1] == 0)
-        { // Voltage is sent in two bytes as 0.01 Volt value.
-          telemetryData.analog[TELEM_ANA_A1].set( ibus_telem_buffer[index + 3] << 6 | (ibus_telem_buffer[index + 2] >> 2), UNIT_VOLTS);
+      uint8_t index = 1 + (4 * sensor); // Skip header.
+      uint16_t data16 = ibus_telem_buffer[index + 3] << 8 | (ibus_telem_buffer[index + 2]);
+
+      switch (ibus_telem_buffer[index])
+      {
+        case AFHDS2A_SENSOR_RX_VOLTAGE:
+          if (ibus_telem_buffer[index + 1] == 0)
+          { // Voltage is sent in two bytes as 0.01 Volt value.
+            telemetryData.analog[TELEM_ANA_A1].set(
+                ibus_telem_buffer[index + 3] << 6 | (ibus_telem_buffer[index + 2] >> 2), UNIT_VOLTS);
+            linkOk = 1;
+          }
+          break;
+
+        case AFHDS2A_SENSOR_RX_RSSI:
+          telemetryData.rssi[1].set(-(ibus_telem_buffer[index + 2]));
           linkOk = 1;
-        }
-        break;
+          break;
 
-      case AFHDS2A_SENSOR_RX_RSSI:
-        telemetryData.rssi[1].set(-(ibus_telem_buffer[index + 2]));
-        linkOk = 1;
-        break;
+        case AFHDS2A_SENSOR_TEMPERATURE:
+          temperature_sensor_count++;
+          if (temperature_sensor_count == 1)
+            telemetryData.value.temperature1 = (data16 - 400) / 10;
+          if (temperature_sensor_count == 2)
+            telemetryData.value.temperature2 = (data16 - 400) / 10;
+          break;
 
-      case AFHDS2A_SENSOR_TEMPERATURE:
-        temperature_sensor_count++;
-        if(temperature_sensor_count ==1)
-          telemetryData.value.temperature1 = (data16 - 400)/10;
-        if(temperature_sensor_count ==2)
-          telemetryData.value.temperature2 = (data16 - 400)/10;
-        break;
+        case AFHDS2A_SENSOR_RPM:
+          telemetryData.value.rpm = data16;
+          break;
 
-      case AFHDS2A_SENSOR_RPM:
-        telemetryData.value.rpm = data16;
-        break;
-
-      case AFHDS2A_SENSOR_EXT_VOLTAGE:
+        case AFHDS2A_SENSOR_EXT_VOLTAGE:
 //        if (ibus_telem_buffer[index + 1] == 1) // Sensor #1. Is this the first in the Daisy Chain of Sensors ?.
 //        { // FS-CVT01 Voltage is sent as int16_t 0.01 Volt value.
-          telemetryData.value.vfas =  (int16_t) data16 /10;
+          telemetryData.value.vfas = (int16_t) data16 / 10;
 //        }
-        break;
+          break;
 
 //    case AFHDS2A_SENSOR_RX_ERR_RATE:
 //      if(ibus_telem_buffer[index+2]<=100)  RX_LQI=ibus_telem_buffer[index+2];
 //      linkOk = 1;
 //      break;
 
-      case 0xff: // end of sensor data
+        case AFHDS2A_SENSOR_CLIMB_RATE:
+          telemetryData.value.varioSpeed = (int16_t) data16;
+          break;
+
+        case AFHDS2A_SENSOR_COG:
+          telemetryData.value.gpsCourse_bp = data16 / 100;
+          telemetryData.value.gpsCourse_ap = data16 % 100;
+          break;
+
+        case AFHDS2A_SENSOR_GROUND_SPEED:
+          telemetryData.value.gpsSpeed_bp = data16 / 100;
+          telemetryData.value.gpsSpeed_ap = data16 % 100;
+          break;
+
+
+        case 0xff: // end of sensor data
+          break;
+      }
+
+    }
+    if (linkOk)
+      frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
+    // frskyStreaming gets decremented every 10ms, FRSKY_TIMEOUT_FIRST value is detected to play connection prompt.
+  }
+  else if (ibus_telem_buffer[0] == 0xAC) // 0xAC Extended telemetry.
+  {
+    uint8_t * sensor = ibus_telem_buffer + 1; // Skip header Byte.
+
+    while (sensor[0] != 0xFF)
+    {
+      if (sensor[2] != 4) break; // Len = 4 ... 32 bit sensor.
+      int32_t dataS32 = *(int32_t *)(sensor+3);
+
+      telemetryData.value.gpsFix =1;
+
+      switch (sensor[0])
+      {
+
+        uint32_t decum, temp;
+
+      case AFHDS2A_SENSOR_GPS_LAT:
+        telemetryData.value.gpsLatitudeNS = (dataS32 > 0) ? 'N' : 'S';
+
+        decum = labs(dataS32);
+        temp = decum % 10000000; // Decimal Degrees.
+        decum -= temp;
+        telemetryData.value.gpsLatitude_bp = (decum / 10000000) * 100; // Integer Degrees stored * 100 (Frsky Hub format).
+        temp *= 60;
+        telemetryData.value.gpsLatitude_bp += temp / 10000000; // Stored as integer Minutes.
+
+        temp %= 10000000;
+        temp /= 1000;
+        telemetryData.value.gpsLatitude_ap = temp; // Decimal Minutes.
         break;
+
+      case AFHDS2A_SENSOR_GPS_LON:
+
+        telemetryData.value.gpsLongitudeEW = (dataS32 > 0) ? 'E' : 'W';
+
+        decum = labs(dataS32);
+        temp = decum % 10000000; // Decimal Degrees.
+        decum -= temp;
+        telemetryData.value.gpsLongitude_bp = (decum / 10000000) * 100; // Integer Degrees stored * 100 (Frsky Hub format).
+        temp *= 60;
+        telemetryData.value.gpsLongitude_bp += temp / 10000000; // Stored as integer Minutes.
+
+        temp %= 10000000;
+        temp /= 1000;
+        telemetryData.value.gpsLongitude_ap = temp; // Decimal Minutes.
+        break;
+
+      case AFHDS2A_SENSOR_GPS_ALT:
+        //IF_GPS_IS_FIXED
+        telemetryData.value.gpsAltitude = dataS32 / 100;
+        //manageGpsAltitude();
+        break;
+
+      case AFHDS2A_SENSOR_ALT:
+        telemetryData.value.baroAltitude = dataS32 / 100;
+        break;
+      }
+
+      sensor += 7;
+      if (sensor > ibus_telem_buffer + 28) break;
     }
   }
-
-  if (linkOk)
-    frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
-  // frskyStreaming gets decremented every 10ms, FRSKY_TIMEOUT_FIRST value is detected to play connection prompt.
 }
 
 

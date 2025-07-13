@@ -366,6 +366,13 @@ static uint16_t AFHDS2A_cb()
               packet[IBUS_TLM_HEADER-1] = packet[0];
               LoadAFHDS2ATelemBuffer(&packet[IBUS_TLM_HEADER -1]); // Omit TXID, RXID.
           }
+         else if(packet[0] == 0xAC && (memcmp(&packet[1], temp_rfid_addr, 4) == 0) )
+         {
+           if(g_model.rfOptionBool1) // Telemetry on ?
+             // Enter packet type into buffer.
+             packet[IBUS_TLM_HEADER-1] = packet[0];
+             LoadAFHDS2ATelemBuffer(&packet[IBUS_TLM_HEADER -1]); // Omit TXID, RXID.
+         }
 #endif
       }
 
