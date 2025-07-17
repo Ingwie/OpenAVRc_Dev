@@ -843,8 +843,6 @@ void process_ibus_telem(void)
       if (sensor[2] != 4) break; // Len = 4 ... 32 bit sensor.
       int32_t dataS32 = *(int32_t *)(sensor+3);
 
-      telemetryData.value.gpsFix =1;
-
       switch (sensor[0])
       {
 
@@ -882,9 +880,8 @@ void process_ibus_telem(void)
         break;
 
       case AFHDS2A_SENSOR_GPS_ALT:
-        //IF_GPS_IS_FIXED
-        telemetryData.value.gpsAltitude = dataS32 / 100;
-        //manageGpsAltitude();
+        IF_GPS_IS_FIXED telemetryData.value.gpsAltitude = dataS32 / 100;
+        manageGpsAltitude();
         break;
 
       case AFHDS2A_SENSOR_ALT:
@@ -901,16 +898,6 @@ void process_ibus_telem(void)
 
 void telemetryInterrupt10ms()
 {
-#if 0 // defined(SPIMODULES)
-  if (IS_SPIMODULES_PROTOCOL(g_model.rfProtocol))
-  {
-    if(g_model.rfProtocol == PROTOCOL_AFHDS2A)
-      {
-        if(ibus_telem_buffer[0]) process_AFHDS2A_telem();
-        memclear(ibus_telem_buffer, 1); // Reset buffer.
-      }
-  }
-#endif
 
   if (IS_USR_PROTO_IBUS())
   {
