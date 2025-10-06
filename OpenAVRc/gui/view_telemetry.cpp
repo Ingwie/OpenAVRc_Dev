@@ -129,7 +129,12 @@ void displayVoltageScreenLine(uint8_t y, uint8_t index)
 
 uint8_t barCoord(int16_t value, int16_t min, int16_t max)
 {
-  return limit<uint8_t>(0, (((int32_t)(BAR_WIDTH-1) * (value - min)) / (max - min)), BAR_WIDTH);
+  if (value <= min)
+    return 0;
+  else if (value >= max)
+    return BAR_WIDTH-1;
+  else
+    return ((int32_t)(BAR_WIDTH-1) * (value - min)) / (max - min);
 }
 
 void displayVoltagesScreen()
