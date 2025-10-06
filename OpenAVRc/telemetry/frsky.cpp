@@ -1052,7 +1052,7 @@ void TelemetryValueWithMin::set(uint8_t value)
     }
   else
     {
-      this->value = (((this->value<<1) + value)/3);
+      this->value = (((this->value<<2) + value)/5);
       if (this->value<value)
         {
           ++this->value;
