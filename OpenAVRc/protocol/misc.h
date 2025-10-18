@@ -34,6 +34,8 @@
 #ifndef misc_h
 #define misc_h
 
+#include "spirf.h"
+
 // PPM Def
 #define PPMFRAMELENGTH  rfOptionValue1 // 0=22.5ms  (10ms-30ms) 0.5ms increments
 #define PPMDELAY        rfOptionValue2
