@@ -86,7 +86,7 @@
 #if ((SERIAL_PROTOCOL==SUMD) || (SERIAL_PROTOCOL==SBUS) || (SERIAL_PROTOCOL==CRSF))
 #define TR_PERIOD                INDENT "Perioda"
 #endif
-#if (SERIAL_PROTOCOL==MULTIMODULE) || defined(SPIMODULES)
+#if (SERIAL_PROTOCOL==MULTIMODULE) || (SERIAL_PROTOCOL==SBUS) || defined(SPIMODULES)
  #define TR_SUBTYPE                      "Sub typ"
  #define TR_RFTUNEFINE            INDENT "frek. lad."
  #define TR_TELEMETRY                    "telemetrie"

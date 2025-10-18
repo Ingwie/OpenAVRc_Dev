@@ -385,7 +385,7 @@ extern const pm_char STR_UBIND[];
 extern const pm_char STR_MULTI_CUSTOM[];
 #endif
 
-#if (SERIAL_PROTOCOL==MULTIMODULE) || defined(SPIMODULES)
+#if (SERIAL_PROTOCOL==MULTIMODULE) ||( SERIAL_PROTOCOL==SBUS) || defined(SPIMODULES)
 extern const pm_char STR_SUBTYPE[];
 extern const pm_char STR_MULTI_VIDFREQ[];
 extern const pm_char STR_RFTUNEFINE[];
