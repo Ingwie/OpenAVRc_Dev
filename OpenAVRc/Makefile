@@ -45,7 +45,7 @@ XMODEM = NO
 
 # Enable SCC menu
 # Values = YES, NO
-SCC = YES
+SCC = NO
 
 # Enable heli menu
 # Values = YES, NO
@@ -329,6 +329,13 @@ ifeq ($(XMODEM), YES)
 	endif
 endif
 
+# MULTIMODULE
+ifeq ($(SERIAL_PROTOCOL), MULTIMODULE)
+	ifeq ($(EXT), STD)
+ 	 $(error Sorry, MULTIMODULE need TELEMETRY in OpenAVRc)
+	endif
+endif
+
 
 GUIMODELSRC = gui/menu_model.cpp gui/menu_model_select.cpp gui/menu_model_setup.cpp gui/menu_model_inputs_mixes.cpp gui/menu_model_limits.cpp gui/menu_model_logical_switches.cpp gui/menu_model_custom_functions.cpp
 GUIGENERALSRC = gui/menu_general.cpp gui/menu_general_setup.cpp gui/menu_general_trainer.cpp gui/menu_general_version.cpp gui/menu_general_calib.cpp
@@ -525,7 +532,7 @@ ifeq ($(PCB), EVO_V2)
   A7105 = YES
   CC2500 = YES
   CYRF6936 = YES
-  NRF24L01 = YES 
+  NRF24L01 = YES
   SERIAL_PROTOCOL = MULTIMODULE
   INV_STICK_RV = YES
   INV_STICK_LH = YES
