@@ -1156,19 +1156,6 @@ const pm_char STR_OPENAVRCISLOADING[] PROGMEM = "OpenAVRc is loading ...";
 #include "protocol/PROTO_PCM.h"
 #endif
 
-
-#if 0 //(SERIAL_PROTOCOL==MULTIMODULE)
-PACK(
-struct mm_protocol_definition {
-  uint8_t protocol;
-  const pm_char *subTypeString;
-  uint8_t maxSubtype;
-  const char *optionsstr;
-} );
-
-const mm_protocol_definition* getMultiProtocolDefinition(uint8_t protocol);
-#endif
-
 ///////////////// PROTOCOLS ///////////////////
 
 enum PROTO_MODE {
