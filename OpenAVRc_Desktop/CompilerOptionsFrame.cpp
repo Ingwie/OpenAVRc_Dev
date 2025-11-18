@@ -36,6 +36,7 @@
 #include "CommunicationsFrame.h"
 #include <wx/msgdlg.h>
 #include <wx/filedlg.h>
+#include <wx/tokenzr.h>
 
 
 extern wxString AppPath;
@@ -759,6 +760,84 @@ void CompilerOptionsFrame::OnClose(wxCloseEvent& event)
   Destroy();
 }
 
+void ConvertMulti_txt()
+{
+  wxArrayString protocolList;
+  protocolList.Clear();
+  wxTextFile MultiFile(AppPath + "\\Multi.txt");
+  if (MultiFile.Exists())   //avoid crash if file is not found
+    {
+      wxString protoLine;
+      MultiFile.Open();
+      for ( protoLine = MultiFile.GetFirstLine(); !MultiFile.Eof(); protoLine = MultiFile.GetNextLine() )
+        {
+          protoLine.Replace(" ",""); // remove white space
+          if (!(protoLine.StartsWith("//"))) // ignore commented line
+            {
+              if (!protoLine.IsEmpty())
+                {
+                  protocolList.Add(protoLine);
+                }
+            }
+        }
+    MultiFile.Close();
+  }
+  else // no Multi.txt found in app path
+    {
+      wxMessageDialog *warn = new wxMessageDialog(NULL,("Multi.txt"), ("?????????"), wxOK | wxICON_EXCLAMATION); // todo better warning
+      warn->ShowModal();
+      return;
+    }
+
+  wxString number;
+  wxString protoName;
+  wxString subProtos;
+  wxString newLine;
+
+  for (size_t j = 0; j < protocolList.GetCount(); j++ )
+    {
+      wxStringTokenizer tokenizer(protocolList.Item(j), ",");
+      number = tokenizer.GetNextToken();
+      protoName = tokenizer.GetNextToken();
+      subProtos = tokenizer.GetString();
+      if (!subProtos.IsEmpty())
+        subProtos = "," + subProtos;
+      newLine = protoName + "," + number + subProtos;
+      protocolList.Item(j) = (newLine);
+    }
+
+  protocolList.Sort();
+
+  for (size_t j = 0; j < protocolList.GetCount(); j++ )
+    {
+      wxStringTokenizer tokenizer(protocolList.Item(j), ",");
+      protoName = tokenizer.GetNextToken();
+      number = tokenizer.GetNextToken();
+      subProtos = tokenizer.GetString();
+      if (!subProtos.IsEmpty())
+        subProtos = "," + subProtos;
+      newLine = number + "," + protoName + subProtos;
+      newLine = "MULTIDEF(" + newLine + ")";
+      newLine.Replace("-","_");
+      protocolList.Item(j) = (newLine);
+    }
+
+  wxTextFile multidefFile(AppPath + "\\sources\\Multidef.txt");
+  if (!multidefFile.Exists())
+    multidefFile.Create(); //avoid crash if file doesn't exist
+  multidefFile.Open();
+  multidefFile.Clear();
+
+  for (size_t j = 0; j < protocolList.GetCount(); j++ )
+    {
+      multidefFile.AddLine(protocolList.Item(j));
+    }
+
+  multidefFile.Write();
+  multidefFile.Close();
+  protocolList.Clear();
+}
+
 void CompilerOptionsFrame::BatFunction()
 {
   // Write splash file
@@ -783,6 +862,7 @@ void CompilerOptionsFrame::BatFunction()
   if (VARIO) CompiBat += (" VARIO=YES");// default should be NO
   if (PPM) CompiBat += (" PPM=YES");// default should be YES
   CompiBat += (" SERIAL_PROTOCOL=") + SERIAL_PROTOCOL;// default should be NO
+  if (SERIAL_PROTOCOL == "MULTIMODULE") ConvertMulti_txt(); // Build the firmware multi datas
   CompiBat += (" PCM_PROTOCOL=") + PCM_PROTOCOL;// default should be NO
   if   (CC2500 | CYRF6936 | NRF24l01 | A7105)
     {
@@ -1221,7 +1301,6 @@ void CompilerOptionsFrame::OnCheckBoxSCCClick(wxCommandEvent& event)
   CollectDatas();
   if (SCC)
     {
-      //wxMessageBox(_("Necessite SD_CARD"));
       CheckBoxSCC->SetValue(0);
     }
 }
