@@ -40,7 +40,7 @@ enum MultiModuleProtocols
 {
   MM_RF_PROTO_FIRST = 0,
   MM_RF_PROTO_CUSTOM = MM_RF_PROTO_FIRST,
-#include "Multi.txt"
+#include "Multidef.txt"
   MM_RF_PROTO_COUNT,
   MM_RF_PROTO_LAST = MM_RF_PROTO_COUNT - 1
 };
@@ -75,24 +75,25 @@ const static RfOptionSettingsvar_t RfOpt_Multi_Ser[] PROGMEM =
 PACK(
 struct mm_protocol_definition
 {
-  uint8_t proto_num;
+  uint8_t proto_num; // OpenAVRc protocol number
+  uint8_t multi_num; // Multimudule protocol number
   const pm_char * protoNameString;
 });
 
 // To generate proto name strings.
 // e.g. MULTIDEF(28,AFHDS2A,PWM_IBUS,PPM_IBUS,PWM_SBUS,PPM_SBUS,PWM_IB16,PPM_IB16,PWM_SB16,PPM_SB16)
 #define MULTIDEF(num, name, ... ) const pm_char STR_MM_PROTO_##num[] PROGMEM = #name;  // Generates STR_MM_PROTO_28[] = "AFHDS2A".
-#include "Multi.txt"
+#include "Multidef.txt"
 #undef MULTIDEF
 
 // To generate mm_proto_definition array.
 // e.g. MULTIDEF(28,AFHDS2A,PWM_IBUS,PPM_IBUS,PWM_SBUS,PPM_SBUS,PWM_IB16,PPM_IB16,PWM_SB16,PPM_SB16)
-#define MULTIDEF(num, name, ... ) {MM_RF_PROTO_##num##_##name, STR_MM_PROTO_##num},  // Generates {MM_RF_PROTO_28_AFHDS2A, STR_MM_PROTO_28}.
+#define MULTIDEF(num, name, ... ) {MM_RF_PROTO_##num##_##name, num, STR_MM_PROTO_##num},  // Generates {MM_RF_PROTO_28_AFHDS2A, 28, STR_MM_PROTO_28}.
 const mm_protocol_definition multi_protocols[] =
 {
-  { MM_RF_PROTO_CUSTOM, STR_MULTI_CUSTOM },
-#include "Multi.txt"
-  { 0xFE, STR_DUMMY },
+  { MM_RF_PROTO_CUSTOM, 0, STR_MULTI_CUSTOM },
+#include "Multidef.txt"
+  { 0xFE, 0xFE, STR_DUMMY },
 };
 #undef MULTIDEF
 
@@ -121,6 +122,9 @@ static uint16_t MULTI_cb()
   uint8_t multiTxBufferCount = Usart0TxBufferCount;
 
   uint8_t proto_type = (uint8_t) g_model.MULTIRFPROTOCOL;
+  const mm_protocol_definition *pdef = getMultiProtocolDefinition(proto_type);
+  proto_type = pdef->multi_num; // switch openAVRc protocol number to Multimodule protocol number
+
   uint8_t protoByte;
   int8_t optionValue = g_model.rfOptionValue2;
   uint8_t subType = g_model.rfSubType;
