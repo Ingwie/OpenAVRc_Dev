@@ -88,14 +88,9 @@ extern const pm_char STR_OPEN9X[];
 #define OFS_TRNMODE            (OFS_VRENCODERS + sizeof(TR_VRENCODERS))
 
 #define OFS_TRNCHN             (OFS_TRNMODE + sizeof(TR_TRNMODE))
-#define OFS_VTRIMINC         (OFS_TRNCHN + sizeof(TR_TRNCHN))
-#define OFS_RETA123          (OFS_VTRIMINC + sizeof(TR_VTRIMINC))
-#if (SERIAL_PROTOCOL==MULTIMODULE)
-  #define OFS_MULTIPROTOCOLS   (OFS_RETA123 + sizeof(TR_RETA123))
-  #define OFS_VBLMODE           (OFS_MULTIPROTOCOLS + sizeof(TR_MULTIPROTOCOLS))
-#else
-  #define OFS_VBLMODE           (OFS_RETA123 + sizeof(TR_RETA123))
-#endif
+#define OFS_VTRIMINC           (OFS_TRNCHN + sizeof(TR_TRNCHN))
+#define OFS_RETA123            (OFS_VTRIMINC + sizeof(TR_VTRIMINC))
+#define OFS_VBLMODE            (OFS_RETA123 + sizeof(TR_RETA123))
 #define OFS_VCURVEFUNC         (OFS_VBLMODE + sizeof(TR_VBLMODE))
 #define OFS_VMLTPX             (OFS_VCURVEFUNC + sizeof(TR_VCURVEFUNC))
 #define OFS_VMLTPX2            (OFS_VMLTPX + sizeof(TR_VMLTPX))
