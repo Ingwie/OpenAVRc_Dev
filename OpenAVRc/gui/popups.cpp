@@ -57,7 +57,7 @@ void message(const pm_char *title, const pm_char *t, const char *last MESSAGE_SO
 
 #define MESSAGE_LCD_OFFSET   6*FW
 
-#if defined(TRANSLATIONS_FR) || defined(TRANSLATIONS_IT) || defined(TRANSLATIONS_CZ)
+#if defined(TRANSLATIONS_FR) || defined(TRANSLATIONS_CZ)
   lcdDrawTextAtt(MESSAGE_LCD_OFFSET, 0, STR_WARNING, DBLSIZE);
   lcdDrawTextAtt(MESSAGE_LCD_OFFSET, 2*FH, title, DBLSIZE);
 #else

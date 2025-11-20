@@ -37,35 +37,11 @@
 #if defined(TRANSLATIONS_FR)
 #include "translations/fr.h"
 #define LEN_SPECIAL_CHARS 3
-#elif defined(TRANSLATIONS_IT)
-#include "translations/it.h"
-#define LEN_SPECIAL_CHARS 1
-#elif defined(TRANSLATIONS_SE)
-#include "translations/se.h"
-#define LEN_SPECIAL_CHARS 6
-#elif defined(TRANSLATIONS_FI)
-#include "translations/fi.h"
-#define LEN_SPECIAL_CHARS 6
-#elif defined(TRANSLATIONS_DE)
-#include "translations/de.h"
-#define LEN_SPECIAL_CHARS 6
 #elif defined(TRANSLATIONS_CZ)
 #include "translations/cz.h"
 #define LEN_SPECIAL_CHARS 24
-#elif defined(TRANSLATIONS_SK)
-#include "translations/sk.h"
-#define LEN_SPECIAL_CHARS 21
 #elif defined(TRANSLATIONS_ES)
 #include "translations/es.h"
-#define LEN_SPECIAL_CHARS 0
-#elif defined(TRANSLATIONS_PL)
-#include "translations/pl.h"
-#define LEN_SPECIAL_CHARS 0
-#elif defined(TRANSLATIONS_PT)
-#include "translations/pt.h"
-#define LEN_SPECIAL_CHARS 0
-#elif defined(TRANSLATIONS_NL)
-#include "translations/nl.h"
 #define LEN_SPECIAL_CHARS 0
 #else
 #include "translations/en.h"
