@@ -151,7 +151,7 @@ SERIAL_PROTOCOL = NO
 PCM_PROTOCOL = NO
 
 # TRANSLATIONS
-# Values = cz, de, en, fi, fr, it, se, es, pl, pt, nl, sk
+# Values = cz, en, fr, es
 TRANSLATIONS = EN
 
 # TTS
@@ -1148,7 +1148,7 @@ all: begin gccversion build end
 # Change the build target to build a HEX file or a library.
   build: stamp_header tra lbm allsrc.cpp allasm.S elf remallsrc hex sizeoffirmware
 
-tra: translations/en.h translations/cz.h translations/sk.h translations/de.h translations/es.h translations/fi.h translations/fr.h translations/it.h translations/nl.h translations/pl.h translations/pt.h translations/se.h
+tra: translations/en.h translations/cz.h translations/es.h translations/fr.h
 lbm: fonts bitmaps
 
 elf: $(TARGET).elf
@@ -1185,62 +1185,21 @@ translations/cz.h: translations/cz.h.txt
 	@echo "Create Czech language specific header files"
 	$(TRANSLATE) translations/cz.h.txt translations/cz.h cz
 
-translations/sk.h: translations/sk.h.txt
-	@echo
-	@echo "Create Slovak language specific header files"
-	$(TRANSLATE) translations/sk.h.txt translations/sk.h sk
-
-translations/de.h: translations/de.h.txt
-	@echo
-	@echo "Create German language specific header files"
-	$(TRANSLATE) translations/de.h.txt translations/de.h de
-
 translations/es.h: translations/es.h.txt
 	@echo
 	@echo "Create Spanish language specific header files"
 	$(TRANSLATE) translations/es.h.txt translations/es.h es
-
-translations/fi.h: translations/fi.h.txt
-	@echo
-	@echo "Create Finnish language specific header files"
-	$(TRANSLATE) translations/fi.h.txt translations/fi.h fi
 
 translations/fr.h: translations/fr.h.txt
 	@echo
 	@echo "Create French language specific header files"
 	$(TRANSLATE) translations/fr.h.txt translations/fr.h fr
 
-translations/it.h: translations/it.h.txt
-	@echo
-	@echo "Create Italian language specific header files"
-	$(TRANSLATE) translations/it.h.txt translations/it.h it
-
-translations/nl.h: translations/nl.h.txt
-	@echo
-	@echo "Create Nederlands language specific header files"
-	$(TRANSLATE) translations/nl.h.txt translations/nl.h nl
-
-translations/pl.h: translations/pl.h.txt
-	@echo
-	@echo "Create Polish language specific header files"
-	$(TRANSLATE) translations/pl.h.txt translations/pl.h pl
-
-translations/pt.h: translations/pt.h.txt
-	@echo
-	@echo "Create Portugese language specific header files"
-	$(TRANSLATE) translations/pt.h.txt translations/pt.h pt
-
-translations/se.h: translations/se.h.txt
-	@echo
-	@echo "Create Swedish language specific header files"
-	$(TRANSLATE) translations/se.h.txt translations/se.h se
-
 .PHONY: fonts
 fonts: $(FONTS)
 
 fonts/%.lbm: fonts/%.png
 	$(IMG2LBM) $^ $@ $(LCDSIZE)
-
 
 .PHONY: bitmaps
 bitmaps: $(BITMAPS)

@@ -548,29 +548,13 @@ CompilerOptionsFrame::CompilerOptionsFrame(wxWindow* parent,wxWindowID id,const 
 
   ChoiceTRANSLATIONS->SetSelection( ChoiceTRANSLATIONS->Append("FR") );
   ChoiceTRANSLATIONS->Append("CZ");
-  ChoiceTRANSLATIONS->Append("DE");
   ChoiceTRANSLATIONS->Append("EN");
   ChoiceTRANSLATIONS->Append("ES");
-  ChoiceTRANSLATIONS->Append("HU");
-  ChoiceTRANSLATIONS->Append("IT");
-  ChoiceTRANSLATIONS->Append("NL");
-  ChoiceTRANSLATIONS->Append("PL");
-  ChoiceTRANSLATIONS->Append("PT");
-  ChoiceTRANSLATIONS->Append("SE");
-  ChoiceTRANSLATIONS->Append("SK");
 
   ChoiceTTS->SetSelection( ChoiceTTS->Append("FR") );
   ChoiceTTS->Append("CZ");
-  ChoiceTTS->Append("DE");
   ChoiceTTS->Append("EN");
   ChoiceTTS->Append("ES");
-  ChoiceTTS->Append("HU");
-  ChoiceTTS->Append("IT");
-  ChoiceTTS->Append("NL");
-  ChoiceTTS->Append("PL");
-  ChoiceTTS->Append("PT");
-  ChoiceTTS->Append("SE");
-  ChoiceTTS->Append("SK");
 
   ChoiceNAVIGATION->SetSelection( ChoiceNAVIGATION->Append("NO") );
   ChoiceNAVIGATION->Append("POT1");
@@ -784,7 +768,7 @@ void ConvertMulti_txt()
   }
   else // no Multi.txt found in app path
     {
-      wxMessageDialog *warn = new wxMessageDialog(NULL,("Multi.txt"), ("?????????"), wxOK | wxICON_EXCLAMATION); // todo better warning
+      wxMessageDialog *warn = new wxMessageDialog(NULL,_("Manquant"), ("Multi.txt"), wxOK | wxICON_EXCLAMATION); // todo better warning
       warn->ShowModal();
       return;
     }

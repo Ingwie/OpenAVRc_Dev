@@ -322,27 +322,6 @@
 					<Add option="`wx-config --libs`" />
 					<Add option="-Xlinker --allow-multiple-definition" />
 					<Add option="-pthread" />
-					<Add library="../../../../../usr/local/lib/libwx_baseu-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwx_baseu_net-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwx_baseu_xml-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwxexpat-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwx_gtk3u_adv-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwx_gtk3u_aui-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwx_gtk3u_core-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwx_gtk3u_gl-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwx_gtk3u_html-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwx_gtk3u_propgrid-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwx_gtk3u_qa-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwx_gtk3u_ribbon-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwx_gtk3u_richtext-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwx_gtk3u_stc-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwx_gtk3u_xrc-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwxjpeg-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwxpng-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwxregexu-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwxscintilla-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwxtiff-3.2.a" />
-					<Add library="../../../../../usr/local/lib/libwxzlib-3.2.a" />
 				</Linker>
 			</Target>
 			<Target title="FR_Linux">
@@ -398,6 +377,27 @@
 					<Add library="../../../../../usr/local/lib/libwx_baseu_xml-3.2.a" />
 					<Add library="../../../../../usr/local/lib/libwx_baseu_net-3.2.a" />
 					<Add library="../../../../../usr/local/lib/libwx_baseu-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwx_gtk3u_gl-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwx_gtk3u_stc-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwx_gtk3u_richtext-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwx_gtk3u_propgrid-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwx_gtk3u_ribbon-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwx_gtk3u_aui-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwx_gtk3u_xrc-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwx_baseu_xml-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwx_gtk3u_qa-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwx_gtk3u_html-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwx_gtk3u_adv-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwx_gtk3u_core-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwx_baseu_net-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwx_baseu-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwxscintilla-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwxexpat-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwxtiff-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwxjpeg-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwxpng-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwxzlib-3.2.a" />
+					<Add library="../../../../usr/local/lib/libwxregexu-3.2.a" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll" />
 				</Linker>
 			</Target>
@@ -896,8 +896,6 @@
 					<wxFrame wxs="wxsmith/uCliFrame.wxs" src="uCliFrame.cpp" hdr="uCliFrame.h" fwddecl="0" i18n="1" name="uCliFrame" language="CPP" />
 				</resources>
 			</wxsmith>
-			<code_completion />
-			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

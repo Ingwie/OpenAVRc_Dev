@@ -269,8 +269,8 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   StaticBoxConfig = new wxStaticBox(Panel1, ID_STATICBOXCONFIG, _("Configuration"), wxPoint(16,8), wxSize(136,192), 0, _T("ID_STATICBOXCONFIG"));
   ButtonSimuSTD = new wxButton(Panel1, ID_BUTTONSIMUSTD, _("SIMULATEUR STANDARD"), wxPoint(24,204), wxSize(248,31), 0, wxDefaultValidator, _T("ID_BUTTONSIMUSTD"));
   ButtonSimuFram = new wxButton(Panel1, ID_BUTTONSIMUFRAM, _("SIMULATEUR F-RAM"), wxPoint(320,204), wxSize(248,31), 0, wxDefaultValidator, _T("ID_BUTTONSIMUFRAM"));
-  ListBoxConfig = new wxListBox(Panel1, ID_LISTBOXCONFIG, wxPoint(24,32), wxSize(120,160), 0, 0, wxLB_SINGLE|wxBORDER_DOUBLE|wxVSCROLL, wxDefaultValidator, _T("ID_LISTBOXCONFIG"));
-  PanelSplash = new wxPanel(Panel1, ID_SPLASH, wxPoint(169,64), wxSize(256,128), wxBORDER_NONE, _T("ID_SPLASH"));
+  ListBoxConfig = new wxListBox(Panel1, ID_LISTBOXCONFIG, wxPoint(24,32), wxSize(120,160), 0, 0, wxLB_SINGLE|wxVSCROLL, wxDefaultValidator, _T("ID_LISTBOXCONFIG"));
+  PanelSplash = new wxPanel(Panel1, ID_SPLASH, wxPoint(169,64), wxSize(256,128), 0, _T("ID_SPLASH"));
   PanelSplash->SetBackgroundColour(wxColour(255,255,255));
   ButtonPerso = new wxButton(Panel1, ID_BUTTONPERSO, _("Personnaliser"), wxPoint(192,32), wxSize(80,24), 0, wxDefaultValidator, _T("ID_BUTTONPERSO"));
   ButtonPerso->SetToolTip(_("Attention : Tous ce qui n\'est pas blanc sera converti en noir"));
@@ -279,17 +279,9 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Fichiers Voix"), wxPoint(440,8), wxSize(136,144), 0, _T("ID_STATICBOX1"));
   ChoiceLangue = new wxChoice(Panel1, ID_CHOICE1, wxPoint(520,32), wxSize(40,24), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
   ChoiceLangue->SetSelection( ChoiceLangue->Append(_("CZ")) );
-  ChoiceLangue->Append(_("DE"));
   ChoiceLangue->Append(_("EN"));
   ChoiceLangue->Append(_("ES"));
   ChoiceLangue->Append(_("FR"));
-  ChoiceLangue->Append(_("HU"));
-  ChoiceLangue->Append(_("IT"));
-  ChoiceLangue->Append(_("NL"));
-  ChoiceLangue->Append(_("PL"));
-  ChoiceLangue->Append(_("PT"));
-  ChoiceLangue->Append(_("SE"));
-  ChoiceLangue->Append(_("SK"));
   ChoiceLangue->SetToolTip(_("Choisissez la langue des mensages vocales"));
   StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("Langue"), wxPoint(448,40), wxSize(64,16), wxALIGN_RIGHT, _T("ID_STATICTEXT1"));
   StaticText1->SetToolTip(_("Choisissez la langue des mensages vocales"));
