@@ -806,7 +806,7 @@ void ConvertMulti_txt()
       protocolList.Item(j) = (newLine);
     }
 
-  wxTextFile multidefFile(AppPath + "\\sources\\Multidef.txt");
+  wxTextFile multidefFile(AppPath + "\\sources\\protocol\\Multidef.txt");
   if (!multidefFile.Exists())
     multidefFile.Create(); //avoid crash if file doesn't exist
   multidefFile.Open();
