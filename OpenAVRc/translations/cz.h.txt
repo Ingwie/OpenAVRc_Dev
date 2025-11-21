@@ -490,3 +490,10 @@
   #define TR_AUTOCON                      "Auto-kon."
   #define TR_RESCANN                      "Znovu skenovat"
 #endif
+
+#if defined(SCC)
+  #define TR_SCC                            "CHANNEL CHANGER"
+  #define TR_SCC_CURCHANNELLBL              "Aktuální kanál"
+  #define TR_SCC_NEWCHANNELLBL              "Vyberte Kanál"
+  #define TR_SCC_SBUSSWEEPTESTLBL           "Test rozmítání SBus"
+#endif

@@ -427,8 +427,15 @@ const pm_char STR_NOBLUETOOTH[] PROGMEM = TR_NOBLUETOOTH;
 const pm_char STR_CONNECTED[] PROGMEM = TR_CONNECTED;
 const pm_char STR_BT_ROLE[] PROGMEM = TR_BT_ROLE;
 const pm_char STR_BT_PIN[] PROGMEM = TR_BT_PIN;
-const pm_char STR_BT_M_S[] PROGMEM = TR_BT_M_S;
+const pm_char STR_BT_M_S[]  PROGMEM = TR_BT_M_S;
 const pm_char STR_BT_PAIR[] PROGMEM = TR_BT_PAIR;
 const pm_char STR_AUTOCON[] PROGMEM = TR_AUTOCON;
 const pm_char STR_RESCANN[] PROGMEM = TR_RESCANN;
+#endif
+
+#if defined(SCC)
+const pm_char STR_SCC[]                  PROGMEM =  TR_SCC;
+const pm_char STR_SCC_CURCHANNELLBL[]    PROGMEM =  TR_SCC_CURCHANNELLBL;
+const pm_char STR_SCC_NEWCHANNELLBL[]    PROGMEM =  TR_SCC_NEWCHANNELLBL;
+const pm_char STR_SCC_SBUSSWEEPTESTLBL[] PROGMEM =  TR_SCC_SBUSSWEEPTESTLBL;
 #endif

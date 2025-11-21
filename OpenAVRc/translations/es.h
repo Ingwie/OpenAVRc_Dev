@@ -490,3 +490,10 @@
   #define TR_AUTOCON                       "Auto-con."
   #define TR_RESCANN                       "Re-Scan"
 #endif
+
+#if defined(SCC)
+  #define TR_SCC                            "CAMBIADOR DE CANAL"
+  #define TR_SCC_CURCHANNELLBL              "Canal actual"
+  #define TR_SCC_NEWCHANNELLBL              "Canal solicitado"
+  #define TR_SCC_SBUSSWEEPTESTLBL           "Barrido de SBus"
+#endif

@@ -488,3 +488,10 @@
   #define TR_AUTOCON                       "Auto-con."
   #define TR_RESCANN                       "Re-Scan"
 #endif
+
+#if defined(SCC)
+  #define TR_SCC                            "CHANNEL CHANGER"
+  #define TR_SCC_CURCHANNELLBL              "Actual Channel"
+  #define TR_SCC_NEWCHANNELLBL              "Select Channel"
+  #define TR_SCC_SBUSSWEEPTESTLBL           "SBus Sweep Test"
+#endif

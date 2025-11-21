@@ -534,6 +534,9 @@ extern const pm_char STR_RESCANN[];
 
 #if defined(SCC)
 extern const pm_char STR_SCC[];
+extern const pm_char STR_SCC_CURCHANNELLBL[];
+extern const pm_char STR_SCC_NEWCHANNELLBL[];
+extern const pm_char STR_SCC_SBUSSWEEPTESTLBL[];
 #endif
 
 #endif

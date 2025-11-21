@@ -41,11 +41,6 @@ enum menuModelSccItems
   SCC_ITEMS_COUNT,
 };
 
-const pm_char CurChannelLbl[]    PROGMEM = "Actual Channel";
-const pm_char NewChannelLbl[]    PROGMEM = "Select Channel";
-const pm_char SBusSweepTestLbl[] PROGMEM = "SBus Sweep Test";
-const pm_char STR_SCC[]          PROGMEM = "CHANNEL CHANGER";
-
 coord_t y = MENU_HEADER_HEIGHT + 1;
 
 void menuGeneralScc(uint8_t event)
@@ -64,7 +59,7 @@ void menuGeneralScc(uint8_t event)
       switch(k)
         {
         case ITEM_SCC_CURRENT_CHANNEL :
-          lcdDrawText(0, y, CurChannelLbl);
+          lcdDrawText(0, y, STR_SCC_CURCHANNELLBL);
           if(!ReBuff.Scc.Sbus.CurChId)
           {
             // The Channel ID is unknown: display '?'
@@ -80,7 +75,7 @@ void menuGeneralScc(uint8_t event)
           break;
 
         case ITEM_SCC_SELECT_CHANNEL :
-          lcdDrawText(0, y, NewChannelLbl);
+          lcdDrawText(0, y, STR_SCC_NEWCHANNELLBL);
           if(!ReBuff.Scc.Sbus.NewChId)
           {
             ChIdStr[0] = '?'; ChIdStr[1] = ' '; ChIdStr[2] = 0;
@@ -101,7 +96,7 @@ void menuGeneralScc(uint8_t event)
           break;
 
         case ITEM_SCC_SBUS_SWEEP_CHECK :
-          ON_OFF_MENU_ITEM(systemBolls.scc_sweep_on, 17*FW, y, SBusSweepTestLbl, attr, event);
+          ON_OFF_MENU_ITEM(systemBolls.scc_sweep_on, 17*FW, y, STR_SCC_SBUSSWEEPTESTLBL, attr, event);
           if (!ReBuff.Scc.Sbus.NewChId)
             systemBolls.scc_sweep_on = 0; // The Current Channel ID SHALL not be 0 (Shall within [1-16])
           else

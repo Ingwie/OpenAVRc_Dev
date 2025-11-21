@@ -490,3 +490,10 @@
   #define TR_AUTOCON                      "Auto-kon."
   #define TR_RESCANN                      "Znovu skenovat"
 #endif
+
+#if defined(SCC)
+  #define TR_SCC                            "CHANNEL CHANGER"
+  #define TR_SCC_CURCHANNELLBL              "Aktu\201ln\210 kan\201l"
+  #define TR_SCC_NEWCHANNELLBL              "Vyberte Kan\201l"
+  #define TR_SCC_SBUSSWEEPTESTLBL           "Test rozm\210t\201n\210 SBus"
+#endif
