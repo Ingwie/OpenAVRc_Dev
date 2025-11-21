@@ -361,7 +361,7 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
       else
 #endif
       {
-        pm_char * xmitterName = Protos[g_model.rfProtocol].ProtoName;
+        pm_char * xmitterName = (char*)Protos[g_model.rfProtocol].ProtoName;
 #if (SERIAL_PROTOCOL==MULTIMODULE)
         if IS_MULTIMODULE_PROTOCOL(protocol) // toggle xmitter-version if multimodule link is ok
           {
