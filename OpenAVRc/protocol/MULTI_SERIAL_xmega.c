@@ -39,7 +39,6 @@
 enum MultiModuleProtocols
 {
   MM_RF_PROTO_FIRST = 0,
-  MM_RF_PROTO_CUSTOM = MM_RF_PROTO_FIRST,
 #include "Multidef.txt"
   MM_RF_PROTO_COUNT,
   MM_RF_PROTO_LAST = MM_RF_PROTO_COUNT - 1
@@ -47,22 +46,18 @@ enum MultiModuleProtocols
 #undef MULTIDEF
 
 #define MULTIRFPROTOCOL rfOptionValue1
-#define CUSTOMPROTO     rfOptionBool1
 #define AUTOBINDMODE    rfOptionBool2
 #define LOWPOWERMODE    rfOptionBool3
 
 #define MULTI_CHANS           16
 #define MULTI_CHAN_BITS       11
 
-#define NO_SUBTYPE  0
-#define MM_RF_CUSTOM_SELECTED 0x0
-
 #define MM_PROTO_NAME_LEN 10
 #define MM_SUB_PROTO_NAME_LEN 8
 
 const static RfOptionSettingsvar_t RfOpt_Multi_Ser[] PROGMEM =
 {
-  /*rfProtoNeed*/BOOL1USED | BOOL2USED | BOOL3USED,
+  /*rfProtoNeed*//*BOOL1USED |*/ BOOL2USED | BOOL3USED,
   /*rfSubTypeMax*/15,
   /*rfOptionValue1Min*/-128,
   /*rfOptionValue1Max*/127,
@@ -91,9 +86,8 @@ struct mm_protocol_definition
 #define MULTIDEF(num, name, ... ) {MM_RF_PROTO_##num##_##name, num, STR_MM_PROTO_##num},  // Generates {MM_RF_PROTO_28_AFHDS2A, 28, STR_MM_PROTO_28}.
 const mm_protocol_definition multi_protocols[] =
 {
-  { MM_RF_PROTO_CUSTOM, 0, STR_MULTI_CUSTOM },
+  { 0x00, 0x00, STR_DUMMY },
 #include "Multidef.txt"
-  { 0xFE, 0xFE, STR_DUMMY },
 };
 #undef MULTIDEF
 

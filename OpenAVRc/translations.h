@@ -352,12 +352,9 @@ extern const pm_char STR_NUMCH[];
 extern const pm_char STR_UBIND[];
 #endif
 
-#if (SERIAL_PROTOCOL==MULTIMODULE)
-extern const pm_char STR_MULTI_CUSTOM[];
-#endif
-
+extern const pm_char STR_XMITTER[];
 #if (SERIAL_PROTOCOL==MULTIMODULE) ||( SERIAL_PROTOCOL==SBUS) || defined(SPIMODULES)
-extern const pm_char STR_SUBTYPE[];
+extern const pm_char STR_SUBPROTO[];
 extern const pm_char STR_MULTI_VIDFREQ[];
 extern const pm_char STR_RFTUNEFINE[];
 extern const pm_char STR_TELEMETRY[];

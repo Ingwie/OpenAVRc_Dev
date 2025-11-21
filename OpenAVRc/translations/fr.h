@@ -65,37 +65,31 @@
 #define TR_RETA123           "DPGA123ab"
 
 #if defined(PWM_BACKLIGHT)
-#define TR_BLONBRIGHTNESS     INDENT "Lumin. ON"
-#define TR_BLOFFBRIGHTNESS    INDENT "Lumin. OFF"
+  #define TR_BLONBRIGHTNESS     INDENT "Lumin. ON"
+  #define TR_BLOFFBRIGHTNESS    INDENT "Lumin. OFF"
 #endif
 #if (SERIAL_PROTOCOL==DSM)
- #define TR_DSM2              "LP45\0 ""DSM2\0 ""DSMX\0 "
+  #define TR_DSM2              "LP45\0 ""DSM2\0 ""DSMX\0 "
 #else
- #define TR_DSM2
+  #define TR_DSM2
 #endif
-#if defined(SPIMODULES)
- #define TR_SPIM               "SPIRfMod"
 
- #define TR_RFPOWER INDENT     "Puissance RF"
-#endif
-#if (SERIAL_PROTOCOL==MULTIMODULE)
-#define TR_MULTI_CUSTOM       "Custom"
-#endif
-#if ((SERIAL_PROTOCOL==SUMD) || (SERIAL_PROTOCOL==SBUS) || (SERIAL_PROTOCOL==CRSF))
+#define TR_SPIM               "SPIRfMod"
+#define TR_RFPOWER INDENT     "Puissance RF"
+
 #define TR_PERIOD                INDENT "P\200riode"
-#endif
-#if (SERIAL_PROTOCOL==MULTIMODULE) || defined(SPIMODULES)
- #define TR_SUBTYPE            "SubType"
- #define TR_RFTUNEFINE         INDENT "Ajust.fr\200q"
- #define TR_TELEMETRY           "T\200l\200m\200trie"
- #define TR_MULTI_VIDFREQ       INDENT "Fr\200q. vid\200o"
- #define TR_MULTI_RFPOWER       INDENT "Puiss. RF"
- #define TR_MULTI_OPTION        INDENT "Option"
- #define TR_MULTI_SERVOFREQ     INDENT "Fr\200q.servo"
- #define TR_AUTOBIND      INDENT "Bind auto"
- #define TR_MULTI_DSM_AUTODTECT INDENT "Autod\200t."
- #define TR_MULTI_LOWPOWER      INDENT "Basse puis."
-#endif
+#define TR_XMITTER              "Emetteur"
+#define TR_SUBPROTO            "Sous Proto."
+#define TR_RFTUNEFINE         INDENT "Ajust.fr\200q"
+#define TR_TELEMETRY           "T\200l\200m\200trie"
+#define TR_MULTI_VIDFREQ       INDENT "Fr\200q. vid\200o"
+#define TR_MULTI_RFPOWER       INDENT "Puiss. RF"
+#define TR_MULTI_OPTION        INDENT "Option"
+#define TR_MULTI_SERVOFREQ     INDENT "Fr\200q.servo"
+#define TR_AUTOBIND      INDENT "Bind auto"
+#define TR_MULTI_DSM_AUTODTECT INDENT "Autod\200t."
+#define TR_MULTI_LOWPOWER      INDENT "Basse puis."
+
 #define LEN_VCURVEFUNC         "\003"
 #define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|"
 #define LEN_VMLTPX             "\010"
@@ -112,53 +106,53 @@
 #define TR_VCSWFUNC            "---\0 " "a=x\0 " "a\173x\0 ""a>x\0 ""a<x\0 " TR_CSWRANGE "|a|>x""|a|<x""ET\0  ""OU\0  ""OUX\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""^}x\0 ""|^|}x" TR_CSWTIMER TR_CSWSTICKY
 #define LEN_VFSWFUNC           "\015"
 #if defined(VARIO)
- #define TR_VVARIO            "Vario\0       "
+  #define TR_VVARIO            "Vario\0       "
 #else
- #define TR_VVARIO            "[Vario]\0     "
+  #define TR_VVARIO            "[Vario]\0     "
 #endif
 #if defined(AUDIO)
- #define TR_SOUND             "Jouer son\0   "
+  #define TR_SOUND             "Jouer son\0   "
 #else
- #define TR_SOUND             "Bip\0         "
+  #define TR_SOUND             "Bip\0         "
 #endif
 #if defined(HAPTIC)
- #define TR_HAPTIC            "Vibreur\0     "
+  #define TR_HAPTIC            "Vibreur\0     "
 #else
- #define TR_HAPTIC            "[Vibreur]\0   "
+  #define TR_HAPTIC            "[Vibreur]\0   "
 #endif
 #if defined(VOICE)
- #define TR_PLAY_TRACK      "Jouer fich\0  "
- #define TR_PLAY_BOTH         "Jouer les 2\0 "
- #define TR_PLAY_VALUE        "Lire valeur\0 "
+  #define TR_PLAY_TRACK      "Jouer fich\0  "
+  #define TR_PLAY_BOTH         "Jouer les 2\0 "
+  #define TR_PLAY_VALUE        "Lire valeur\0 "
 #else
- #define TR_PLAY_TRACK        "[Jouer fich.]"
- #define TR_PLAY_BOTH         "[Jouer les 2]"
- #define TR_PLAY_VALUE        "[Lire valeur]"
+  #define TR_PLAY_TRACK        "[Jouer fich.]"
+  #define TR_PLAY_BOTH         "[Jouer les 2]"
+  #define TR_PLAY_VALUE        "[Lire valeur]"
 #endif
 #if defined(SDCARD)
- #define TR_SDCLOGS           "Logs SD\0     "
+  #define TR_SDCLOGS           "Logs SD\0     "
 #else
- #define TR_SDCLOGS           "[Logs SD]\0   "
+  #define TR_SDCLOGS           "[Logs SD]\0   "
 #endif
 #if defined(GVARS)
- #define TR_ADJUST_GVAR       "Ajuster\0     "
+  #define TR_ADJUST_GVAR       "Ajuster\0     "
 #else
- #define TR_ADJUST_GVAR       "[AjusteGV]\0  "
+  #define TR_ADJUST_GVAR       "[AjusteGV]\0  "
 #endif
 
 #if   defined(OVERRIDE_CHANNEL_FUNCTION)
- #define TR_SF_SAFETY        "Rempl.\0      "
+  #define TR_SF_SAFETY        "Rempl.\0      "
 #else
- #define TR_SF_SAFETY        "---\0         "
+  #define TR_SF_SAFETY        "---\0         "
 #endif
 
 #define TR_VFSWFUNC          TR_SF_SAFETY "Ecolage\0     ""Trim instant.""Remise \202 0\0  " TR_ADJUST_GVAR TR_SOUND TR_PLAY_TRACK TR_PLAY_BOTH TR_PLAY_VALUE TR_VVARIO TR_HAPTIC TR_SDCLOGS "R\200tro\200cl.\0   "
 #define LEN_VFSWRESET          "\004"
 #if defined(FRSKY)
- #define TR_FSW_RESET_TELEM   "Telm"
- #define TR_MODELISON         INDENT "Le mod\201le est allum\200"
+  #define TR_FSW_RESET_TELEM   "Telm"
+  #define TR_MODELISON         INDENT "Le mod\201le est allum\200"
 #else
- #define TR_FSW_RESET_TELEM
+  #define TR_FSW_RESET_TELEM
 #endif
 #define TR_FSW_RESET_TIMERS  "Chr1""Chr2"
 #define TR_FSW_RESET_ROTENC  "REa\0""REb\0"
@@ -181,11 +175,11 @@
 #define LENGTH_UNIT_METR       "m\0 "
 #define SPEED_UNIT_METR        "kmh"
 #if defined(IMPERIAL_UNITS)
- #define LENGTH_UNIT        LENGTH_UNIT_IMP
- #define SPEED_UNIT         SPEED_UNIT_IMP
+  #define LENGTH_UNIT        LENGTH_UNIT_IMP
+  #define SPEED_UNIT         SPEED_UNIT_IMP
 #else
- #define LENGTH_UNIT        LENGTH_UNIT_METR
- #define SPEED_UNIT         SPEED_UNIT_METR
+  #define LENGTH_UNIT        LENGTH_UNIT_METR
+  #define SPEED_UNIT         SPEED_UNIT_METR
 #endif
 #define LEN_VTELEMUNIT       "\003"
 #define TR_VTELEMUNIT        "V\0 ""A\0 ""m/s""-\0 " SPEED_UNIT LENGTH_UNIT "@\0 ""%\0 ""mA\0""mAh""W\0 "
@@ -197,9 +191,9 @@
 #define TR_AMPSRC            "---""A1\0""A2\0""FAS""Cel"
 #define LEN_VARIOSRC           "\005"
 #if defined(FRSKY_SPORT)
- #define TR_VARIOSRC          "Vario""A1\0  ""A2\0  ""dTE\0 "
+  #define TR_VARIOSRC          "Vario""A1\0  ""A2\0  ""dTE\0 "
 #else
- #define TR_VARIOSRC          "Alti\0""Alti+""Vario""A1\0  ""A2\0"
+  #define TR_VARIOSRC          "Alti\0""Alti+""Vario""A1\0  ""A2\0"
 #endif
 #define LEN_VTELEMSCREENTYPE "\004"
 #define TR_VTELEMSCREENTYPE  "Val.""Bars"
@@ -230,9 +224,9 @@
 #define LEN_VSWITCHES          "\003"
 #define TR_VSWITCHES         "---" TR_9X_3POS_SWITCHES TR_PHYS_SWITCHES TR_TRIMS_SWITCHES TR_ROTENC_SWITCHES TR_EXTRA_3POS_SWITCHES TR_LOGICALSW TR_ON_ONE_SWITCHES
 #if defined(HELI)
- #define TR_CYC_VSRCRAW       "CYC1""CYC2""CYC3"
+  #define TR_CYC_VSRCRAW       "CYC1""CYC2""CYC3"
 #else
- #define TR_CYC_VSRCRAW       "[C1]""[C2]""[C3]"
+  #define TR_CYC_VSRCRAW       "[C1]""[C2]""[C3]"
 #endif
 #define TR_EXTRA_VSRCRAW
 #define TR_VSRCRAW             "---\0" TR_STICKS_VSRCRAW TR_POTS_VSRCRAW TR_ROTARY_ENCODERS "MAX\0" TR_CYC_VSRCRAW TR_TRIMS_VSRCRAW TR_SW_VSRCRAW TR_EXTRA_VSRCRAW
@@ -263,7 +257,7 @@
 #define TR_TSWITCH             "Switch Gaz"
 #define TR_TTRIM               "Trim gaz"
 #define TR_BEEPCTR             "Bips centr"
-#define TR_PROTO               INDENT "Proto."
+#define TR_PROTO               INDENT "Protocole"
 #define TR_PPMFRAME          "Trame PPM"
 #define TR_MS                  "ms"
 #define TR_SWITCH              "Inter"
@@ -434,9 +428,9 @@
 #define TR_NA                  "N/D"
 #define TR_TIME                "Heure"
 #if defined(IMPERIAL_UNITS)
- #define TR_TXTEMP              "Temp. radio\037\164@F"
+  #define TR_TXTEMP              "Temp. radio\037\164@F"
 #else
- #define TR_TXTEMP              "Temp. radio\037\164@C"
+  #define TR_TXTEMP              "Temp. radio\037\164@C"
 #endif
 #define TR_SD_INFO_TITLE       "INFO SD"
 #define TR_SD_TYPE             "Type:"
@@ -471,26 +465,26 @@
 #define TR_RESET               "R\200initialiser"
 #define TR_FAS_OFFSET          INDENT "Corr FAS"
 #if defined(X_ANY) || defined(BLUETOOTH)
- #define TR_X_ANY                        "X ANY"
- #define TR_ACTIVED                      "Actif"
- #define TR_NUMBER                       "Num\200ro"
- #define TR_CHANNEL                      "Voie "
- #define TR_NB_REPEAT                    "Nb r\200p\200tition "
- #define LEN_SWITCHES_VALUES             "\005"
- #define TR_SWITCHES_VALUES              "Sw.--""L1-L4""L1-L8""Sw.4 ""Sw.8 ""Sw.16"
- #define TR_ANGLE_SENSOR                 "0:360"
- #define TR_PROP                         "Prop."
- #define LEN_XANY_EXPO                   "\005"
- #define TR_XANY_EXPO                    "0%\0  ""25%\0 ""37.5%""50%\0 "
+  #define TR_X_ANY                        "X ANY"
+  #define TR_ACTIVED                      "Actif"
+  #define TR_NUMBER                       "Num\200ro"
+  #define TR_CHANNEL                      "Voie "
+  #define TR_NB_REPEAT                    "Nb r\200p\200tition "
+  #define LEN_SWITCHES_VALUES             "\005"
+  #define TR_SWITCHES_VALUES              "Sw.--""L1-L4""L1-L8""Sw.4 ""Sw.8 ""Sw.16"
+  #define TR_ANGLE_SENSOR                 "0:360"
+  #define TR_PROP                         "Prop."
+  #define LEN_XANY_EXPO                   "\005"
+  #define TR_XANY_EXPO                    "0%\0  ""25%\0 ""37.5%""50%\0 "
 #endif
 #if defined(BLUETOOTH)
- #define TR_BLUETOOTH                     "BLUETOOTH"
- #define TR_NOBLUETOOTH                   "BLUETOOTH MUET"
- #define TR_CONNECTED                     "\036\6CONECTE"
- #define TR_BT_ROLE                       "Role"
- #define TR_BT_PIN                        "Pin"
- #define TR_BT_M_S                        "\006""Slave\0""Master"
- #define TR_BT_PAIR                       "Pair"
- #define TR_AUTOCON                       "Auto-con."
- #define TR_RESCANN                       "Re-Scan"
+  #define TR_BLUETOOTH                     "BLUETOOTH"
+  #define TR_NOBLUETOOTH                   "BLUETOOTH MUET"
+  #define TR_CONNECTED                     "\036\6CONECTE"
+  #define TR_BT_ROLE                       "Role"
+  #define TR_BT_PIN                        "Pin"
+  #define TR_BT_M_S                        "\006""Slave\0""Master"
+  #define TR_BT_PAIR                       "Pair"
+  #define TR_AUTOCON                       "Auto-con."
+  #define TR_RESCANN                       "Re-Scan"
 #endif

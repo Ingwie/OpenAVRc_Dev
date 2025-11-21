@@ -65,37 +65,31 @@
 #define TR_RETA123           "RETA123ab"
 
 #if defined(PWM_BACKLIGHT)
-#define TR_BLONBRIGHTNESS      INDENT "ON Brightn."
-#define TR_BLOFFBRIGHTNESS     INDENT "OFF Brightn."
+  #define TR_BLONBRIGHTNESS      INDENT "ON Brightn."
+  #define TR_BLOFFBRIGHTNESS     INDENT "OFF Brightn."
 #endif
 #if (SERIAL_PROTOCOL==DSM)
- #define TR_DSM2              "LP45\0 ""DSM2\0 ""DSMX\0 "
+  #define TR_DSM2              "LP45\0 ""DSM2\0 ""DSMX\0 "
 #else
- #define TR_DSM2
+  #define TR_DSM2
 #endif
-#if defined(SPIMODULES)
- #define TR_SPIM               "SPIRfMod"
 
- #define TR_RFPOWER INDENT     "RF Power"
-#endif
-#if (SERIAL_PROTOCOL==MULTIMODULE)
-#define TR_MULTI_CUSTOM       "Custom"
-#endif
-#if ((SERIAL_PROTOCOL==SUMD) || (SERIAL_PROTOCOL==SBUS) || (SERIAL_PROTOCOL==CRSF))
+#define TR_SPIM               "SPIRfMod"
+#define TR_RFPOWER INDENT     "RF Power"
+
 #define TR_PERIOD                INDENT "Period"
-#endif
-#if (SERIAL_PROTOCOL==MULTIMODULE) || defined(SPIMODULES)
- #define TR_SUBTYPE            "SubType"
- #define TR_RFTUNEFINE         INDENT "Freq.fine"
- #define TR_TELEMETRY             "Telemetry"
- #define TR_MULTI_VIDFREQ               INDENT "Vid. freq."
- #define TR_MULTI_RFPOWER               INDENT "RF Power"
- #define TR_MULTI_OPTION                INDENT "Option"
- #define TR_AUTOBIND              INDENT "Autobind"
- #define TR_MULTI_DSM_AUTODTECT         INDENT "Autodetect"
- #define TR_MULTI_LOWPOWER              INDENT "Low power"
- #define TR_MULTI_SERVOFREQ             INDENT "Servo rate"
-#endif
+#define TR_XMITTER              "Transmitter"
+#define TR_SUBPROTO            "Sub Proto."
+#define TR_RFTUNEFINE         INDENT "Freq.fine"
+#define TR_TELEMETRY             "Telemetry"
+#define TR_MULTI_VIDFREQ               INDENT "Vid. freq."
+#define TR_MULTI_RFPOWER               INDENT "RF Power"
+#define TR_MULTI_OPTION                INDENT "Option"
+#define TR_AUTOBIND              INDENT "Autobind"
+#define TR_MULTI_DSM_AUTODTECT         INDENT "Autodetect"
+#define TR_MULTI_LOWPOWER              INDENT "Low power"
+#define TR_MULTI_SERVOFREQ             INDENT "Servo rate"
+
 #define LEN_VCURVEFUNC         "\003"
 #define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|"
 #define LEN_VMLTPX             "\010"
@@ -112,53 +106,53 @@
 #define TR_VCSWFUNC            "---\0 " "a=x\0 " "a~x\0 ""a>x\0 ""a<x\0 " TR_CSWRANGE "|a|>x""|a|<x""AND\0 ""OR\0  ""XOR\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""^}x\0 ""|^|}x" TR_CSWTIMER TR_CSWSTICKY
 #define LEN_VFSWFUNC           "\012"
 #if defined(VARIO)
- #define TR_VVARIO            "Vario\0    "
+  #define TR_VVARIO            "Vario\0    "
 #else
- #define TR_VVARIO            "[Vario]\0  "
+  #define TR_VVARIO            "[Vario]\0  "
 #endif
 #if defined(AUDIO)
- #define TR_SOUND             "Play Sound"
+  #define TR_SOUND             "Play Sound"
 #else
- #define TR_SOUND             "Beep\0     "
+  #define TR_SOUND             "Beep\0     "
 #endif
 #if defined(HAPTIC)
- #define TR_HAPTIC            "Haptic\0   "
+  #define TR_HAPTIC            "Haptic\0   "
 #else
- #define TR_HAPTIC            "[Haptic]\0 "
+  #define TR_HAPTIC            "[Haptic]\0 "
 #endif
 #if defined(VOICE)
- #define TR_PLAY_TRACK      "Play Track"
- #define TR_PLAY_BOTH         "Play Both\0"
- #define TR_PLAY_VALUE        "Play Val\0 "
+  #define TR_PLAY_TRACK      "Play Track"
+  #define TR_PLAY_BOTH         "Play Both\0"
+  #define TR_PLAY_VALUE        "Play Val\0 "
 #else
- #define TR_PLAY_TRACK        "[Play Trk]"
- #define TR_PLAY_BOTH         "[Play Bth]"
- #define TR_PLAY_VALUE        "[Play Val]"
+  #define TR_PLAY_TRACK        "[Play Trk]"
+  #define TR_PLAY_BOTH         "[Play Bth]"
+  #define TR_PLAY_VALUE        "[Play Val]"
 #endif
 #if defined(SDCARD)
- #define TR_SDCLOGS           "SD Logs\0  "
+  #define TR_SDCLOGS           "SD Logs\0  "
 #else
- #define TR_SDCLOGS           "[SD Logs]\0"
+  #define TR_SDCLOGS           "[SD Logs]\0"
 #endif
 #if defined(GVARS)
- #define TR_ADJUST_GVAR       "Adjust \0  "
+  #define TR_ADJUST_GVAR       "Adjust \0  "
 #else
- #define TR_ADJUST_GVAR       "[AdjustGV]"
+  #define TR_ADJUST_GVAR       "[AdjustGV]"
 #endif
 
 #if   defined(OVERRIDE_CHANNEL_FUNCTION)
- #define TR_SF_SAFETY        "Overr.\0   "
+  #define TR_SF_SAFETY        "Overr.\0   "
 #else
- #define TR_SF_SAFETY        "---\0      "
+  #define TR_SF_SAFETY        "---\0      "
 #endif
 
 #define TR_VFSWFUNC          TR_SF_SAFETY "Trainer\0  ""Inst. Trim""Reset\0    " TR_ADJUST_GVAR TR_SOUND TR_PLAY_TRACK TR_PLAY_BOTH TR_PLAY_VALUE TR_VVARIO TR_HAPTIC TR_SDCLOGS "Backlight\0"
 #define LEN_VFSWRESET          "\004"
 #if defined(FRSKY)
- #define TR_FSW_RESET_TELEM   "Telm"
- #define TR_MODELISON         INDENT "Modele is ON"
+  #define TR_FSW_RESET_TELEM   "Telm"
+  #define TR_MODELISON         INDENT "Modele is ON"
 #else
- #define TR_FSW_RESET_TELEM
+  #define TR_FSW_RESET_TELEM
 #endif
 #define TR_FSW_RESET_TIMERS  "Tmr1""Tmr2"
 #define TR_FSW_RESET_ROTENC  "REa\0""REb\0"
@@ -181,11 +175,11 @@
 #define LENGTH_UNIT_METR       "m\0 "
 #define SPEED_UNIT_METR        "kmh"
 #if defined(IMPERIAL_UNITS)
- #define LENGTH_UNIT        LENGTH_UNIT_IMP
- #define SPEED_UNIT         SPEED_UNIT_IMP
+  #define LENGTH_UNIT        LENGTH_UNIT_IMP
+  #define SPEED_UNIT         SPEED_UNIT_IMP
 #else
- #define LENGTH_UNIT        LENGTH_UNIT_METR
- #define SPEED_UNIT         SPEED_UNIT_METR
+  #define LENGTH_UNIT        LENGTH_UNIT_METR
+  #define SPEED_UNIT         SPEED_UNIT_METR
 #endif
 #define LEN_VTELEMUNIT       "\003"
 #define TR_VTELEMUNIT        "V\0 ""A\0 ""m/s""-\0 " SPEED_UNIT LENGTH_UNIT "@\0 ""%\0 ""mA\0""mAh""W\0 "
@@ -197,9 +191,9 @@
 #define TR_AMPSRC            "---""A1\0""A2\0""FAS""Cel"
 #define LEN_VARIOSRC           "\004"
 #if defined(FRSKY_SPORT)
- #define TR_VARIOSRC          "VSpd""A1\0 ""A2\0 ""dTE\0"
+  #define TR_VARIOSRC          "VSpd""A1\0 ""A2\0 ""dTE\0"
 #else
- #define TR_VARIOSRC          "Alt\0""Alt+""VSpd""A1\0 ""A2\0"
+  #define TR_VARIOSRC          "Alt\0""Alt+""VSpd""A1\0 ""A2\0"
 #endif
 #define LEN_VTELEMSCREENTYPE "\004"
 #define TR_VTELEMSCREENTYPE  "Nums""Bars"
@@ -230,9 +224,9 @@
 #define LEN_VSWITCHES          "\003"
 #define TR_VSWITCHES         "---" TR_9X_3POS_SWITCHES TR_PHYS_SWITCHES TR_TRIMS_SWITCHES TR_ROTENC_SWITCHES TR_EXTRA_3POS_SWITCHES TR_LOGICALSW TR_ON_ONE_SWITCHES
 #if defined(HELI)
- #define TR_CYC_VSRCRAW       "CYC1""CYC2""CYC3"
+  #define TR_CYC_VSRCRAW       "CYC1""CYC2""CYC3"
 #else
- #define TR_CYC_VSRCRAW       "[C1]""[C2]""[C3]"
+  #define TR_CYC_VSRCRAW       "[C1]""[C2]""[C3]"
 #endif
 #define TR_EXTRA_VSRCRAW
 #define TR_VSRCRAW             "---\0" TR_STICKS_VSRCRAW TR_POTS_VSRCRAW TR_ROTARY_ENCODERS "MAX\0" TR_CYC_VSRCRAW TR_TRIMS_VSRCRAW TR_SW_VSRCRAW TR_EXTRA_VSRCRAW
@@ -263,7 +257,7 @@
 #define TR_TSWITCH             "T-Switch"
 #define TR_TTRIM               "T-Trim"
 #define TR_BEEPCTR             "Ctr Beep"
-#define TR_PROTO               INDENT "Proto"
+#define TR_PROTO               INDENT "Protocol"
 #define TR_PPMFRAME          "PPM frame"
 #define TR_MS                  "ms"
 #define TR_SWITCH              "Switch"
@@ -434,9 +428,9 @@
 #define TR_NA                  "N/A"
 #define TR_TIME                "Time"
 #if defined(IMPERIAL_UNITS)
- #define TR_TXTEMP              "Temp. TX\037\164@F"
+  #define TR_TXTEMP              "Temp. TX\037\164@F"
 #else
- #define TR_TXTEMP              "Temp. TX\037\164@C"
+  #define TR_TXTEMP              "Temp. TX\037\164@C"
 #endif
 #define TR_SD_INFO_TITLE       "SD INFO"
 #define TR_SD_TYPE             "Type:"
@@ -471,26 +465,26 @@
 #define TR_RESET               "Reset"
 #define TR_FAS_OFFSET          INDENT "FAS Ofs"
 #if defined(X_ANY) || defined(BLUETOOTH)
- #define TR_X_ANY                        "X ANY"
- #define TR_ACTIVED                      "Active"
- #define TR_NUMBER                       "Number"
- #define TR_CHANNEL                      "Channel "
- #define TR_NB_REPEAT                    "Nb repeat "
- #define LEN_SWITCHES_VALUES             "\005"
- #define TR_SWITCHES_VALUES              "Sw.--""L1-L4""L1-L8""Sw.4 ""Sw.8 ""Sw.16"
- #define TR_ANGLE_SENSOR                 "0:360"
- #define TR_PROP                         "Prop."
- #define LEN_XANY_EXPO                   "\005"
- #define TR_XANY_EXPO                    "0%\0  ""25%\0 ""37.5%""50%\0 "
+  #define TR_X_ANY                        "X ANY"
+  #define TR_ACTIVED                      "Active"
+  #define TR_NUMBER                       "Number"
+  #define TR_CHANNEL                      "Channel "
+  #define TR_NB_REPEAT                    "Nb repeat "
+  #define LEN_SWITCHES_VALUES             "\005"
+  #define TR_SWITCHES_VALUES              "Sw.--""L1-L4""L1-L8""Sw.4 ""Sw.8 ""Sw.16"
+  #define TR_ANGLE_SENSOR                 "0:360"
+  #define TR_PROP                         "Prop."
+  #define LEN_XANY_EXPO                   "\005"
+  #define TR_XANY_EXPO                    "0%\0  ""25%\0 ""37.5%""50%\0 "
 #endif
 #if defined(BLUETOOTH)
- #define TR_BLUETOOTH                     "BLUETOOTH"
- #define TR_NOBLUETOOTH                   "\3NO BLUETOOTH"
- #define TR_CONNECTED                     "\036\5CONECTEd"
- #define TR_BT_ROLE                       "Role"
- #define TR_BT_PIN                        "Pin"
- #define TR_BT_M_S                        "\006""Slave\0""Master"
- #define TR_BT_PAIR                       "Pair"
- #define TR_AUTOCON                       "Auto-con."
- #define TR_RESCANN                       "Re-Scan"
+  #define TR_BLUETOOTH                     "BLUETOOTH"
+  #define TR_NOBLUETOOTH                   "\3NO BLUETOOTH"
+  #define TR_CONNECTED                     "\036\5CONECTEd"
+  #define TR_BT_ROLE                       "Role"
+  #define TR_BT_PIN                        "Pin"
+  #define TR_BT_M_S                        "\006""Slave\0""Master"
+  #define TR_BT_PAIR                       "Pair"
+  #define TR_AUTOCON                       "Auto-con."
+  #define TR_RESCANN                       "Re-Scan"
 #endif

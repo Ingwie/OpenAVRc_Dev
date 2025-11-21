@@ -456,9 +456,6 @@
 			<Add option="-DX_ANY_2_POT=POT2" />
 			<Add option="-DX_ANY_3_POT=POT3" />
 			<Add option="-DX_ANY_4_POT=STICK_LV" />
-			<Add option="-DDSM=1" />
-			<Add option="-DMULTIMODULE=2" />
-			<Add option="-DSERIAL_PROTOCOL=MULTIMODULE" />
 			<Add option="-DSPIMODULES" />
 			<Add option="-DPROTO_HAS_CC2500" />
 			<Add option="-DCC2500PA_GAIN=20" />
@@ -473,6 +470,12 @@
 			<Add option="-DBLUETOOTH" />
 			<Add option="-DPCM_PROTOCOL=YES" />
 			<Add option="-DSCC" />
+			<Add option="-DDSM=1" />
+			<Add option="-DMULTIMODULE=2" />
+			<Add option="-DCRSF=3" />
+			<Add option="-DSBUS=4" />
+			<Add option="-DSUMD=5" />
+			<Add option="-DSERIAL_PROTOCOL=MULTIMODULE" />
 			<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/include" />
 			<Add directory="$(PROJECT_DIR)" />
 		</Compiler>
@@ -753,7 +756,6 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
-		<Unit filename="../OpenAVRc/pulses/pulses.h" />
 		<Unit filename="../OpenAVRc/pulses/pulses_avr.cpp" />
 		<Unit filename="../OpenAVRc/pulses/pulses_avr.h" />
 		<Unit filename="../OpenAVRc/rtc_driver.cpp" />
@@ -794,17 +796,9 @@
 		<Unit filename="../OpenAVRc/translations.cpp" />
 		<Unit filename="../OpenAVRc/translations.h" />
 		<Unit filename="../OpenAVRc/translations/cz.h" />
-		<Unit filename="../OpenAVRc/translations/de.h" />
 		<Unit filename="../OpenAVRc/translations/en.h" />
 		<Unit filename="../OpenAVRc/translations/es.h" />
-		<Unit filename="../OpenAVRc/translations/fi.h" />
 		<Unit filename="../OpenAVRc/translations/fr.h" />
-		<Unit filename="../OpenAVRc/translations/it.h" />
-		<Unit filename="../OpenAVRc/translations/nl.h" />
-		<Unit filename="../OpenAVRc/translations/pl.h" />
-		<Unit filename="../OpenAVRc/translations/pt.h" />
-		<Unit filename="../OpenAVRc/translations/se.h" />
-		<Unit filename="../OpenAVRc/translations/sk.h" />
 		<Unit filename="../OpenAVRc/translations/tts_fr.cpp" />
 		<Unit filename="../OpenAVRc/uCli.cpp" />
 		<Unit filename="../OpenAVRc/uCli.h" />
@@ -896,6 +890,8 @@
 					<wxFrame wxs="wxsmith/uCliFrame.wxs" src="uCliFrame.cpp" hdr="uCliFrame.h" fwddecl="0" i18n="1" name="uCliFrame" language="CPP" />
 				</resources>
 			</wxsmith>
+			<code_completion />
+			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
