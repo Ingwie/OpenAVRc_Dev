@@ -911,12 +911,10 @@ void OpenAVRc_SimulatorFrame::OnAbout(wxCommandEvent& event)
     "PCB Shield : Anthobreizh, Pierrotm777, Pyrall.\n"
     "Documentation : JPZ(Testeur68), Pierrotm777, Pyrall.\n"
     "Translations : Mentero, StanekTM.\n"
-    "Beta tests : JPZ(Testeur68), Pyrall.\n\n"
+    "Beta tests : JPZ(Testeur68), Pyrall, Guilm.\n\n"
     "Forum contributors :\n\n"
     "ElectoPete (English Voice file).\n"
-    "Ievgen (Ukrainian translation).\n"
     "TomTheBuilder (English documentation translation).\n"
-    "IvanH (Slovak firmware translation)."
   ));
 
   wxAboutBox(Aboutbox);
