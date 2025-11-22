@@ -245,7 +245,6 @@
 		<Unit filename="protocol/squeleton.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="pulses/pulses.h" />
 		<Unit filename="pulses/pulses_avr.cpp" />
 		<Unit filename="pulses/pulses_avr.h" />
 		<Unit filename="rtc_driver.cpp" />
@@ -253,9 +252,7 @@
 		<Unit filename="scc.h" />
 		<Unit filename="sdcard.cpp" />
 		<Unit filename="sdcard.h" />
-		<Unit filename="spi.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="spi.cpp" />
 		<Unit filename="spi.h" />
 		<Unit filename="stamp-OpenAVRc.h" />
 		<Unit filename="stamp.cpp" />
@@ -271,7 +268,6 @@
 		<Unit filename="targets/evo_v2/xmega.cpp" />
 		<Unit filename="targets/evo_v2/xmega_adc_driver.cpp" />
 		<Unit filename="targets/evo_v2/xmega_board.h" />
-		<Unit filename="targets/evo_v2/xmega_pulses.cpp" />
 		<Unit filename="targets/lcd/lcd_NT7538_SPI_driver.cpp" />
 		<Unit filename="targets/lcd/lcd_default_driver.cpp" />
 		<Unit filename="targets/lcd/lcd_driver.cpp" />
@@ -346,13 +342,11 @@
 		<Unit filename="uCli.h" />
 		<Unit filename="vario.cpp" />
 		<Extensions>
-			<envvars set="python" />
+			<envvars set="default" />
 			<lib_finder disable_auto="1" />
 			<wxsmith version="1">
 				<gui name="wxWidgets" src="" main="" init_handlers="necessary" language="CPP" />
 			</wxsmith>
-			<code_completion />
-			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

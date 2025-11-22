@@ -763,9 +763,7 @@
 		<Unit filename="../OpenAVRc/scc.h" />
 		<Unit filename="../OpenAVRc/sdcard.cpp" />
 		<Unit filename="../OpenAVRc/sdcard.h" />
-		<Unit filename="../OpenAVRc/spi.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="../OpenAVRc/spi.cpp" />
 		<Unit filename="../OpenAVRc/spi.h" />
 		<Unit filename="../OpenAVRc/stamp-OpenAVRc.h" />
 		<Unit filename="../OpenAVRc/stamp.cpp" />
@@ -858,9 +856,7 @@
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
-		<Unit filename="serial/uart.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="serial/uart.cpp" />
 		<Unit filename="serial/uart.h" />
 		<Unit filename="uCliFrame.cpp" />
 		<Unit filename="uCliFrame.h" />
@@ -890,8 +886,6 @@
 					<wxFrame wxs="wxsmith/uCliFrame.wxs" src="uCliFrame.cpp" hdr="uCliFrame.h" fwddecl="0" i18n="1" name="uCliFrame" language="CPP" />
 				</resources>
 			</wxsmith>
-			<code_completion />
-			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

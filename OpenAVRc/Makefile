@@ -360,7 +360,7 @@ ifeq ($(PCB), MEGAMINI)
   THR_TRACE = YES
   PWRMANAGE = NO
   INCDIRS += targets/megamini targets/stock $(RRSDDIR)
-  BOARDSRC += main_avr.cpp i2c_master.cpp spi.c targets/megamini/board_megamini.cpp
+  BOARDSRC += main_avr.cpp i2c_master.cpp spi.cpp targets/megamini/board_megamini.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
@@ -567,7 +567,7 @@ ifeq ($(PCB), EVO_V2)
     EXTRABOARDSRC += $(RRSDDIR)/fat.c $(RRSDDIR)/partition.c $(RRSDDIR)/sd_raw.c $(RRSDDIR)/byteordering.c
     CPPDEFS += -DSDCARD
     GUIGENERALSRC += gui/menu_general_sdmanager.cpp
-    CPPSRC += sdcard.cpp logs.cpp spi.c
+    CPPSRC += sdcard.cpp logs.cpp spi.cpp
     RTCLOCK = YES
   endif
 
@@ -669,7 +669,7 @@ ifeq ($(PCB), MEGA2560)
   THR_TRACE = YES
   PWRMANAGE = NO
   INCDIRS += targets/mega2560 targets/stock $(RRSDDIR)
-  BOARDSRC = main_avr.cpp i2c_master.cpp spi.c targets/mega2560/board_mega2560.cpp
+  BOARDSRC = main_avr.cpp i2c_master.cpp spi.cpp targets/mega2560/board_mega2560.cpp
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
