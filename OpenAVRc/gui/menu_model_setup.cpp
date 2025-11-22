@@ -361,26 +361,24 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
       else
 #endif
       {
-        pm_char * xmitterName = (char*)Protos[g_model.rfProtocol].ProtoName;
 #if (SERIAL_PROTOCOL==MULTIMODULE)
-        if IS_MULTIMODULE_PROTOCOL(protocol) // toggle xmitter-version if multimodule link is ok
+        if ((IS_MULTIMODULE_PROTOCOL(protocol)) && (1) \
+            && (DOUBLE_BLINK_ON_PHASE)) // toggle xmitter-version if multimodule link is ok
           {
-            if ((mm_type1_packet_ptr->input_signal_detected) && (DOUBLE_BLINK_ON_PHASE))
-              {
-                //v1.3.4.31
-                char mpmVersion[10] = {'v',' ','.',' ','.',' ','.',' ',' ','\0'};
-                mpmVersion[1] = hex2zchar(mm_type1_packet_ptr->ver_major);
-                mpmVersion[3] = hex2zchar(mm_type1_packet_ptr->ver_minor);
-                mpmVersion[5] = hex2zchar(mm_type1_packet_ptr->ver_revision);
-                uint8_t ver_patchlevel = mm_type1_packet_ptr->ver_patchlevel;
-                mpmVersion[7] = hex2zchar(ver_patchlevel/10);
-                mpmVersion[8] = hex2zchar(ver_patchlevel%10);
+            //v1.3.4.31
+            char mpmVersion[10] = {'v',' ','.',' ','.',' ','.',' ',' ','\0'};
+            mpmVersion[1] = hex2zchar(mm_type1_packet_ptr->ver_major);
+            mpmVersion[3] = hex2zchar(mm_type1_packet_ptr->ver_minor);
+            mpmVersion[5] = hex2zchar(mm_type1_packet_ptr->ver_revision);
+            uint8_t ver_patchlevel = mm_type1_packet_ptr->ver_patchlevel;
+            mpmVersion[7] = hex2zchar(ver_patchlevel/10);
+            mpmVersion[8] = hex2zchar(ver_patchlevel%10);
 
-                xmitterName = mpmVersion;
-              }
+            lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, mpmVersion, BSS | menuHorizontalPosition == 0 ? attr : 0);
           }
+          else
 #endif
-        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, xmitterName, menuHorizontalPosition == 0 ? attr : 0);
+        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, Protos[g_model.rfProtocol].ProtoName, menuHorizontalPosition == 0 ? attr : 0);
       }
        if (IS_PPM_PROTOCOL(protocol))
        {
