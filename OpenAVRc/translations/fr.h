@@ -78,7 +78,7 @@
 #define TR_RFPOWER INDENT     "Puissance RF"
 
 #define TR_PERIOD                INDENT "P\200riode"
-#define TR_XMITTER              "Emetteur"
+#define TR_MODULE              "Module"
 #define TR_SUBPROTO            "Sous Proto."
 #define TR_RFTUNEFINE         INDENT "Ajust.fr\200q"
 #define TR_TELEMETRY           "T\200l\200m\200trie"

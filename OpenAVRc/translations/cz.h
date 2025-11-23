@@ -78,7 +78,7 @@
 #define TR_RFPOWER INDENT     "RF v\226kon"
 
 #define TR_PERIOD                INDENT "Perioda"
-#define TR_XMITTER              "Vys\210la\202"
+#define TR_MODULE              "Modul"
 #define TR_SUBPROTO            "S Protokol"
 #define TR_RFTUNEFINE            INDENT "frek. lad."
 #define TR_TELEMETRY                    "telemetrie"
