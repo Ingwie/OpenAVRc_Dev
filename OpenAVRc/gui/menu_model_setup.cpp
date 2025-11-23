@@ -351,7 +351,7 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
 
     case ITEM_MODEL_PROTOCOL_METHOD:
 
-     lcdDrawTextLeft(y, STR_XMITTER);
+     lcdDrawTextLeft(y, STR_MODULE);
 
 #if defined(SPIMODULES)
       if IS_SPIMODULES_PROTOCOL(protocol)
@@ -366,13 +366,13 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
             && (DOUBLE_BLINK_ON_PHASE)) // toggle xmitter-version if multimodule link is ok
           {
             //v1.3.4.31
-            char mpmVersion[10] = {'v',' ','.',' ','.',' ','.',' ',' ','\0'};
-            mpmVersion[1] = (mm_type1_packet_ptr->ver_major+'0');
-            mpmVersion[3] = (mm_type1_packet_ptr->ver_minor+'0');
-            mpmVersion[5] = (mm_type1_packet_ptr->ver_revision+'0');
+            char mpmVersion[10] = {'v','0','.','0','.','0','.','0','0','\0'};
+            mpmVersion[1] += mm_type1_packet_ptr->ver_major;
+            mpmVersion[3] += mm_type1_packet_ptr->ver_minor;
+            mpmVersion[5] += mm_type1_packet_ptr->ver_revision;
             uint8_t ver_patchlevel = mm_type1_packet_ptr->ver_patchlevel;
-            mpmVersion[7] = ((ver_patchlevel/10)+'0');
-            mpmVersion[8] = ((ver_patchlevel%10)+'0');
+            mpmVersion[7] += ((ver_patchlevel/10));
+            mpmVersion[8] += ((ver_patchlevel%10));
 
             lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, mpmVersion, menuHorizontalPosition == 0 ? (attr|BSS) : (0|BSS));
           }
