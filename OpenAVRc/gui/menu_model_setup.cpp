@@ -367,14 +367,14 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
           {
             //v1.3.4.31
             char mpmVersion[10] = {'v',' ','.',' ','.',' ','.',' ',' ','\0'};
-            mpmVersion[1] = hex2zchar(mm_type1_packet_ptr->ver_major);
-            mpmVersion[3] = hex2zchar(mm_type1_packet_ptr->ver_minor);
-            mpmVersion[5] = hex2zchar(mm_type1_packet_ptr->ver_revision);
+            mpmVersion[1] = (mm_type1_packet_ptr->ver_major+'0');
+            mpmVersion[3] = (mm_type1_packet_ptr->ver_minor+'0');
+            mpmVersion[5] = (mm_type1_packet_ptr->ver_revision+'0');
             uint8_t ver_patchlevel = mm_type1_packet_ptr->ver_patchlevel;
-            mpmVersion[7] = hex2zchar(ver_patchlevel/10);
-            mpmVersion[8] = hex2zchar(ver_patchlevel%10);
+            mpmVersion[7] = ((ver_patchlevel/10)+'0');
+            mpmVersion[8] = ((ver_patchlevel%10)+'0');
 
-            lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, mpmVersion, BSS | menuHorizontalPosition == 0 ? attr : 0);
+            lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, mpmVersion, menuHorizontalPosition == 0 ? (attr|BSS) : (0|BSS));
           }
           else
 #endif
