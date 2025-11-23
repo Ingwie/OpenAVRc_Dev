@@ -191,7 +191,7 @@ void menuModelTelemetry(uint8_t event)
       break;
 
     case ITEM_TELEMETRY_USR_PROTO:
-      lcdDrawTextLeft(y, STR_PROTO);
+      lcdDrawTextLeft(y, NO_INDENT(STR_PROTO));
       lcdDrawTextAtIndex(TELEM_COL2, y, STR_VTELPROTO, g_model.telemetry.usrProto, attr);
       if (attr) {
           CHECK_INCDEC_MODELVAR_ZERO(event, g_model.telemetry.usrProto, USR_PROTO_LAST);
