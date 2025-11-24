@@ -182,10 +182,6 @@ OFFSET_ON_INPUT = YES
 # Values = YES, NO
 EEPROM_PROGRESS_BAR = NO
 
-# Debug with TinyDbg
-# Values = NO, UART_BT
-DEBUG = NO
-
 # Timers Count
 # Values = 2
 TIMERS = 2
@@ -305,8 +301,6 @@ THIRDPARTY = thirdparty
 RRSDDIR = $(THIRDPARTY)/rrsd
 XMODEMDIR = $(THIRDPARTY)/xmodem
 
-DEBUGDIR = debug
-
 
 SRC =
 CPPSRC =
@@ -367,14 +361,6 @@ ifeq ($(PCB), MEGAMINI)
   EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp
 
   ASRC =
-
-	ifneq ($(DEBUG), NO)
-		need_Serial1=YES
-		CPPSRC += $(DEBUGDIR)/TinyDbg.cpp
-		ifeq ($(DEBUG), UART_BT)
-		CPPDEFS += -DTINY_DBG_UART_BT
-		endif
-	endif
 
   needSerial0 = FALSE
   ifneq ($(SERIAL_PROTOCOL), NO)
@@ -675,14 +661,6 @@ ifeq ($(PCB), MEGA2560)
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp gui/menu_general_diaganas.cpp
 
   EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp
-
-	ifneq ($(DEBUG), NO)
-		need_Serial1=YES
-		CPPSRC += $(DEBUGDIR)/TinyDbg.cpp
-		ifeq ($(DEBUG), UART_BT)
-		CPPDEFS += -DTINY_DBG_UART_BT
-		endif
-	endif
 
   needSerial0 = FALSE
   ifneq ($(SERIAL_PROTOCOL), NO)

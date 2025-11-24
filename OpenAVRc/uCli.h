@@ -36,9 +36,6 @@
 #if defined(SDCARD)
 #include "sdcard.h"
 #endif
-#if defined(TINY_DBG_UART_BT)
-#include "debug/TinyDbg.h"
-#endif
 #if defined(XMODEM)
 #include "thirdparty/xmodem/xmodem.h"
 #endif

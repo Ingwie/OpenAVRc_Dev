@@ -77,13 +77,10 @@
   #define ADAPT_PROTOCOL_TO_SIMU()
   #define ADAPT_PROTOCOL_TO_TX()
 
-  #if defined(TINY_DBG_UART_BT)
-    #include "debug/TinyDbg.h"
-  #endif
   #if defined(U_CLI)
     #include "uCli.h"
   #endif
-  #if defined(TINY_DBG_UART_BT) || defined(U_CLI)
+  #if defined(U_CLI)
     #include "Serial1.h"
   #endif
 

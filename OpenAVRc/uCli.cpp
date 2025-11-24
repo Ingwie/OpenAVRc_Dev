@@ -127,11 +127,7 @@ void uCli_process(void)
          uCliPrompt();
          if(execCmdLine(ReBuff.uCliCmdLine) == -1)
           {
-#if defined(TINY_DBG_UART_BT)
-           TinyDbg_interpretAndExecute(ReBuff.uCliCmdLine);
-#else
            BT_Ser_Println(PSTR("err: unknown cmd"));
-#endif
           }
          //uCliPrompt();
         }

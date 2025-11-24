@@ -33,10 +33,6 @@
 #include "OpenAVRc.h"
 #include "timers.h"
 
-#if defined(U_CLI) && defined(TINY_DBG_UART_BT)
-extern const char UCLI_PROMPT [] PROGMEM;
-#endif
-
 EEGeneral  g_eeGeneral;
 ModelData  g_model;
 
@@ -1509,18 +1505,9 @@ void OpenAVRcInit(uint8_t mcusr)
 {
   eeReadAll();
 
-#if defined(U_CLI) || defined(TINY_DBG_UART_BT)
-  USART_SET_BAUD_115K2(TLM_USART1);
-#endif
 #if defined(U_CLI)
+  USART_SET_BAUD_115K2(TLM_USART1);
   uCli_init();
-#if defined(TINY_DBG_UART_BT)
-  TinyDbg_init(&BT_Serial, UCLI_PROMPT); // PrePrompt!
-#endif
-#else
-#if defined(TINY_DBG_UART_BT)
-  TinyDbg_init(&BT_Serial);
-#endif
 #endif
 
 #if MENUS_LOCK == 1
@@ -1650,10 +1637,6 @@ if (menuHandlers[menuLevel] != menuGeneralBluetooth) // Do not process uCli when
     uCli_process();
   }
 #endif
-#if (defined(TINY_DBG_UART_BT) && !defined(U_CLI))
-  TinyDbg_event();
-#endif
-
     if (!systemBolls.pwrCheck)
 #if !defined(SIMU)
       break;
