@@ -188,8 +188,8 @@ extern void getADC();
 #define USART_SET_BAUD_19K2(usartx)   USART_SET_BAUD(usartx, 19200)
 #define USART_SET_BAUD_38K4(usartx)   USART_SET_BAUD(usartx, 38400)
 #define USART_SET_BAUD_57K6(usartx)   USART_SET_BAUD(usartx, 57600)  //Frsky S.port telemetry
-#define USART_SET_BAUD_100K(usartx)   USART_SET_BAUD(usartx, 100000) //Multiprotocole Serial
-#define USART_SET_BAUD_115K2(usartx)  USART_SET_BAUD(usartx, 115200)
+#define USART_SET_BAUD_100K(usartx)   USART_SET_BAUD(usartx, 100000) //Multiprotocole SBUS protocols
+#define USART_SET_BAUD_115K2(usartx)  USART_SET_BAUD(usartx, 115200) //CRSF SUMD protocols
 #define USART_SET_BAUD_125K(usartx)   USART_SET_BAUD(usartx, 125000) //DSM Serial protocol
 #endif
 
