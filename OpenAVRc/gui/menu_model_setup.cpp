@@ -366,7 +366,10 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
             && (DOUBLE_BLINK_ON_PHASE)) // toggle xmitter-version if multimodule link is ok
           {
             //v1.3.4.31
-            char mpmVersion[10] = {'v','0','.','0','.','0','.','0','0','\0'};
+            char mpmVersion[10] = {'0'}; //v','0','.','0','.','0','.','0','0','\0'};
+            mpmVersion[0] = 'v';
+            mpmVersion[2] = mpmVersion[4] = mpmVersion[6] = '.';
+            mpmVersion[0] = '\0';
             mpmVersion[1] += mm_type1_packet_ptr->ver_major;
             mpmVersion[3] += mm_type1_packet_ptr->ver_minor;
             mpmVersion[5] += mm_type1_packet_ptr->ver_revision;
@@ -460,7 +463,6 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
          lcdDrawText(MODEL_SETUP_2ND_COLUMN+3*FW, y+8, STR_MS);
          uint16_t PcmPeriod = CheckPCMPeriod();
          lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y+8, PcmPeriod/100, PREC1|LEFT, 4);
-         //lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y+8, (uint16_t)FUT_PCM1024_FRAME_PERIOD_US/100, PREC1|LEFT, 4);
          lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+7*FW+1, y+8, STR_NCHANNELS, FUT_PCM1024_PROP_CH_NB/4/*8CH*/, 0);
         }
 #endif
