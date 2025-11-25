@@ -191,6 +191,7 @@
 		<Unit filename="protocol/J6PRO_cyrf6936.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="protocol/MULTI_SERIAL.h" />
 		<Unit filename="protocol/MULTI_SERIAL_xmega.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -345,8 +346,6 @@
 			<wxsmith version="1">
 				<gui name="wxWidgets" src="" main="" init_handlers="necessary" language="CPP" />
 			</wxsmith>
-			<code_completion />
-			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
