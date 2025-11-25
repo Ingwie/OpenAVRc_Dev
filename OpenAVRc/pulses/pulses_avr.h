@@ -76,18 +76,18 @@ extern uint16_t dt;
 static union
 {
   uint16_t pword[PULSES_WORD_SIZE];
-  uint8_t  pbyte[PULSES_BYTE_SIZE]; // 144
+  uint8_t  pbyte[PULSES_BYTE_SIZE]; // 144 bytes
 #if (SERIAL_PROTOCOL == MULTIMODULE)
-  mmSt_t   mm_st;
+  mmSt_t   mm_st; // 90 bytes
 #endif
 #if (SERIAL_PROTOCOL == CRSF)
   crsfSt_t   crsf_st;
 #endif
 #if defined(PCM_PROTOCOL)
-  PcmSt_t  Pcm;
+  PcmSt_t  Pcm; // 152 bytes
 #endif
 #if defined(SPIMODULES)
-  spiU_t spi;
+  spiU_t spi; // 144 bytes
 #endif
 } pulses2MHz;
 

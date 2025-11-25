@@ -1564,6 +1564,12 @@ int16_t simumain()
 {
   simu_firstloop_is_runing = true;
   simu_off = false;
+
+  // check some size
+  /*uint32_t testsize_Pcm = sizeof(pulses2MHz.Pcm);testsize_Pcm/=1;
+  uint32_t testsize_mm_st = sizeof(pulses2MHz.mm_st);testsize_mm_st/=1;
+  uint32_t testsize_spi = sizeof(pulses2MHz.spi);testsize_spi/=1;*/
+
 #endif
 
   // Init bitfields
