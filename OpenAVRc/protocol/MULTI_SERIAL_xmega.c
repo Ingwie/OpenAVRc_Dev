@@ -220,6 +220,20 @@ static uint16_t MULTI_cb()
   return 22000U * 2; // 22 mSec loop
 }
 
+enum MPSTATE
+{
+  RESET,
+  M_FOUND,
+  P_FOUND,
+  TYPE_FOUND,
+  LEN_FOUND,
+};
+
+#define write_ptr_p2m pulses2MHz.mm_st.write_ptr
+#define state_p2m pulses2MHz.mm_st.state
+#define length_p2m pulses2MHz.mm_st.length
+#define pkt_type_p2m pulses2MHz.mm_st.pkt_type
+
 static void MULTI_initialize()
 {
 // 100K 8E2
@@ -232,6 +246,8 @@ static void MULTI_initialize()
 
   if (g_model.AUTOBINDMODE) PROTOCOL_SetBindState(500); // 5 Seconds. Maximum bind time of MM is 10 seconds.
   // This is an auto-bind from the Transmitter. Some protocols like Hubsan are a hard coded auto-bind from the module.
+
+  state_p2m = RESET;
 
   PROTO_Start_Callback(MULTI_cb);
 }
@@ -268,17 +284,8 @@ struct mm_t1_pkt  *mm_type1_packet_ptr = &pulses2MHz.mm_st.mm_type1_packet;
 #define mm_type1_packet  pulses2MHz.mm_st.mm_type1_packet
 #define l_buffer  pulses2MHz.mm_st.mm_rx_buffer
 
-
 NOINLINE void parseMultiByte(uint8_t data)
 {
-  enum MPSTATE
-  {
-    RESET,
-    M_FOUND,
-    P_FOUND,
-    TYPE_FOUND,
-    LEN_FOUND,
-  };
 
   enum PKTTYPE
   {
@@ -299,86 +306,80 @@ NOINLINE void parseMultiByte(uint8_t data)
     PROTO_LIST      = 0x11,
   };
 
-
-  static uint8_t write_ptr;
-  static uint8_t state = RESET;
-  static uint8_t length;
-  static uint8_t pkt_type;
-
-  switch (state)
+  switch (state_p2m)
   {
     case RESET: // Reset
-      write_ptr = 0;
-      length = 0;
-      if (data == 'M') state = M_FOUND;
+      write_ptr_p2m = 0;
+      length_p2m = 0;
+      if (data == 'M') state_p2m = M_FOUND;
       break;
 
     case M_FOUND:
-      if (data == 'P') state = P_FOUND;
-      else state = RESET;
+      if (data == 'P') state_p2m = P_FOUND;
+      else state_p2m = RESET;
       break;
 
     case P_FOUND:
-      pkt_type = data;
-      if (data == MM_STATUS) state = TYPE_FOUND; // Multi Module Status.
-//      else if (data == FRSKY_SPORT_TLM) state = TYPE_FOUND; // FrSky S Port Telemetry packet.
-      else if (data == FRSKY_HUB_TLM) state = TYPE_FOUND; // FrSky Hub Telemetry packet.
-      else if (data == FLYSKY_TLM_AA) state = TYPE_FOUND; // Flysky 0xAA Telemetry. Length =29 data[0] = RSSI value, data[1-28] telemetry sensor values.
-      else if (data == FLYSKY_TLM_AC) state = TYPE_FOUND; // Flysky 0xAC Telemetry. Length =29 data[0] = RSSI value, data[1-28] telemetry sensor values.
-      else state = RESET;
+      pkt_type_p2m = data;
+      if (data == MM_STATUS) state_p2m = TYPE_FOUND; // Multi Module Status.
+//      else if (data == FRSKY_SPORT_TLM) state_p2m = TYPE_FOUND; // FrSky S Port Telemetry packet.
+      else if (data == FRSKY_HUB_TLM) state_p2m = TYPE_FOUND; // FrSky Hub Telemetry packet.
+      else if (data == FLYSKY_TLM_AA) state_p2m = TYPE_FOUND; // Flysky 0xAA Telemetry. Length =29 data[0] = RSSI value, data[1-28] telemetry sensor values.
+      else if (data == FLYSKY_TLM_AC) state_p2m = TYPE_FOUND; // Flysky 0xAC Telemetry. Length =29 data[0] = RSSI value, data[1-28] telemetry sensor values.
+      else state_p2m = RESET;
       break;
 
     case TYPE_FOUND:
       if (data <= MM_RX_PKT_MAX_LEN)
       {
-        length = data;
-        state = LEN_FOUND;
+        length_p2m = data;
+        state_p2m = LEN_FOUND;
       }
-      else state = RESET;
+      else state_p2m = RESET;
       break;
 
     case LEN_FOUND:
       // store packet minus header.
-      if (write_ptr < length)
+      if (write_ptr_p2m < length_p2m)
       {
-        l_buffer[write_ptr] = data;
-        write_ptr++;
+        l_buffer[write_ptr_p2m] = data;
+        write_ptr_p2m++;
 
-        if (write_ptr == length)
+        if (write_ptr_p2m == length_p2m)
         {
-          if (pkt_type == MM_STATUS && length == MM_TYPE_01_PKT_LEN)
+          if (pkt_type_p2m == MM_STATUS && length_p2m == MM_TYPE_01_PKT_LEN)
           {
             memcpy(&mm_type1_packet, &l_buffer, MM_TYPE_01_PKT_LEN);
-            state = RESET;
+            state_p2m = RESET;
             break;
           }
-          else if(pkt_type == FLYSKY_TLM_AA && length == MM_TYPE_06_PKT_LEN )
+          else if(pkt_type_p2m == FLYSKY_TLM_AA && length_p2m == MM_TYPE_06_PKT_LEN )
           {
             // iBus ...  extract and store rssi and replace with 0xAA so we have 0xAA plus 7 sensors of 4 bytes.
             telemetryData.rssi[0].set(l_buffer[0]);
             l_buffer[0] = 0xAA;
             LoadAFHDS2ATelemBuffer(l_buffer);
-            state = RESET;
+            state_p2m = RESET;
             break;
           }
-          else if(pkt_type == FLYSKY_TLM_AC && length == MM_TYPE_0C_PKT_LEN )
+          else if(pkt_type_p2m == FLYSKY_TLM_AC && length_p2m == MM_TYPE_0C_PKT_LEN )
           {
             // iBus ...  extract and store rssi and replace with 0xAC so we have 0xAC plus 4 sensors of 7 bytes.
             telemetryData.rssi[0].set(l_buffer[0]);
             l_buffer[0] = 0xAC;
             LoadAFHDS2ATelemBuffer(l_buffer);
-            state = RESET;
+            state_p2m = RESET;
             break;
           }
-          else if (pkt_type == FRSKY_HUB_TLM && length == FRSKY_TLM_PKT_SIZE)
+          else if (pkt_type_p2m == FRSKY_HUB_TLM && length_p2m == FRSKY_TLM_PKT_SIZE)
           {
             LoadTelemBuffer(l_buffer);
-            state = RESET;
+            state_p2m = RESET;
             break;
           }
           else
           {
-            state = RESET;
+            state_p2m = RESET;
             break;
           }
         }

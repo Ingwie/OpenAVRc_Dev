@@ -83,7 +83,10 @@ typedef struct
   uint8_t mm_tx_buffer[MM_TX_PKT_LEN]; // Reserved aka Usart0TxBuffer_p2M
   uint8_t mm_rx_buffer[MM_RX_PKT_MAX_LEN];
   struct mm_t1_pkt mm_type1_packet;
+  uint8_t write_ptr;
+  uint8_t state;
+  uint8_t length;
+  uint8_t pkt_type;
 } mmSt_t;
-
 
 #endif // MULTI_SERIAL_H
