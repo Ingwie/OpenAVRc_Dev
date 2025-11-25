@@ -765,8 +765,8 @@ ifeq ($(PCB), MEGA2560)
 
 endif
 
-CC      = $(TRGT)g++
-CPP     = $(TRGT)cpp
+CC      = $(TRGT)gcc
+CPP     = $(TRGT)g++
 AS      = $(TRGT)as
 OBJCOPY = $(TRGT)objcopy
 OBJDUMP = $(TRGT)objdump
