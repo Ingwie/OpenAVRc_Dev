@@ -362,14 +362,15 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
 #endif
       {
 #if (SERIAL_PROTOCOL==MULTIMODULE)
-        if ((IS_MULTIMODULE_PROTOCOL(protocol)) && (mm_type1_packet_ptr->input_signal_detected) \
+        if ((IS_MULTIMODULE_PROTOCOL(protocol)) && (mm_type1_packet_ptr->ver_patchlevel) \
             && (DOUBLE_BLINK_ON_PHASE)) // toggle xmitter-version if multimodule link is ok
           {
             //v1.3.4.31
-            char mpmVersion[10] = {'0'}; //v','0','.','0','.','0','.','0','0','\0'};
+            char mpmVersion[10]; //v','0','.','0','.','0','.','0','0','\0'};
             mpmVersion[0] = 'v';
+            mpmVersion[1] = mpmVersion[3] = mpmVersion[5] = mpmVersion[7] = mpmVersion[8] = '0';
             mpmVersion[2] = mpmVersion[4] = mpmVersion[6] = '.';
-            mpmVersion[0] = '\0';
+            mpmVersion[9] = '\0';
             mpmVersion[1] += mm_type1_packet_ptr->ver_major;
             mpmVersion[3] += mm_type1_packet_ptr->ver_minor;
             mpmVersion[5] += mm_type1_packet_ptr->ver_revision;
