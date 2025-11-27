@@ -38,8 +38,11 @@
 
 static volatile uint16_t timer_counts;
 
-
+#define S_CURRENT_PROTOCOL_NULL 255
+#define S_CURRENT_PROTOCOL_BOOT 254
+#define S_CURRENT_PROTOCOL_MAX  253 // todo limit
 extern uint8_t s_current_protocol;
+
 uint16_t *RptrA; // For OCR1A
 uint16_t *RptrB; // Zum OCR1B
 
@@ -81,7 +84,7 @@ static union
   mmSt_t   mm_st; // 90 bytes
 #endif
 #if (SERIAL_PROTOCOL == CRSF)
-  crsfSt_t   crsf_st;
+  crsfSt_t   crsf_st; // 56 bytes
 #endif
 #if defined(PCM_PROTOCOL)
   PcmSt_t  Pcm; // 152 bytes

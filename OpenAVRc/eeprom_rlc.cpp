@@ -951,9 +951,9 @@ void eeLoadModel(uint8_t id)
 {
   if (id<MAX_MODELS)
     {
-#if defined(SDCARD)
+      #if defined(SDCARD)
       closeLogIfActived();
-#endif
+      #endif
       uint8_t firstLoad = 1;
       if (pulsesStarted())
         {
@@ -981,10 +981,9 @@ void eeLoadModel(uint8_t id)
       setGazSource();
 
       if (!(firstLoad || newModel))
-            {
-              checkAll();
-            }
-      startPulses(PROTOCMD_INIT);
+        {
+          checkAll();
+        }
 
       customFunctionsReset();
 
@@ -992,10 +991,13 @@ void eeLoadModel(uint8_t id)
 
       for(uint8_t i=0; i<DIM(g_rotenc); i++) // reset rotenc values
         {
-         g_rotenc[i] = 0;
+          g_rotenc[i] = 0;
         }
-      // TODO pulses should be started after mixer calculations ...
 
+      if (s_current_protocol != S_CURRENT_PROTOCOL_BOOT)
+        {
+          startPulses(PROTOCMD_INIT); //first startPulses is done in main()
+        }
     }
 }
 

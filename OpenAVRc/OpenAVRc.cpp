@@ -1096,9 +1096,8 @@ void doMixerCalculations()
 #if defined(SIMU) // Simulate ISR(TIMER1_COMPA_vect) X_any computation
 #if defined (DEBUG)
   if (timer_callback) TIMER1_COMPA_vect(); // Allow to run protocol code in debug mode
-#else
-  Xany_scheduleTx_AllInstance();
 #endif
+  Xany_scheduleTx_AllInstance();
 #endif
 
   if(systemBolls.x_any_Phase)
@@ -1505,6 +1504,7 @@ void OpenAVRcInit(uint8_t mcusr)
 {
   eeReadAll();
 
+  s_current_protocol = S_CURRENT_PROTOCOL_NULL;
 #if defined(U_CLI)
   USART_SET_BAUD_115K2(TLM_USART1);
   uCli_init();
@@ -1624,6 +1624,8 @@ int16_t simumain()
   OpenAVRcInit(mcusr);
 
   lcdSetContrast();
+
+  startPulses(PROTOCMD_INIT);
 
 #if !defined(SIMU)
   while (1) {
