@@ -310,14 +310,13 @@
 					<Add option="-DIMPERIAL_UNITSaaa" />
 					<Add option="-DLCDROT180aaa" />
 					<Add option="-DPWM_BACKLIGHTaaa" />
+					<Add option="-DFORCE_MULTIMODULE_UART1" />
 					<Add directory="/usr/lib/x86_64-linux-gnu" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 				</ResourceCompiler>
 				<Linker>
-					<Add option="-static-libstdc++" />
-					<Add option="-static-libgcc" />
 					<Add option="-m64" />
 					<Add option="`wx-config --libs`" />
 					<Add option="-Xlinker --allow-multiple-definition" />

@@ -61,10 +61,10 @@ const char* inputText[] = { "Dir\t","Prf\t","Gaz\t","Ail\t",
 //*)
 
 //(*IdInit(MixerFrame)
-const long MixerFrame::ID_TEXTCTRLHEADERLINE = wxNewId();
-const long MixerFrame::ID_TEXTCTRLMIXERLINE = wxNewId();
-const long MixerFrame::ID_PANEL1 = wxNewId();
-const long MixerFrame::ID_TIMERREFRESHFRAME = wxNewId();
+const wxWindowID MixerFrame::ID_TEXTCTRLHEADERLINE = wxNewId();
+const wxWindowID MixerFrame::ID_TEXTCTRLMIXERLINE = wxNewId();
+const wxWindowID MixerFrame::ID_PANEL1 = wxNewId();
+const wxWindowID MixerFrame::ID_TIMERREFRESHFRAME = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(MixerFrame,wxFrame)
@@ -78,7 +78,7 @@ MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	wxBoxSizer* BoxSizer1;
 	wxStaticBoxSizer* StaticBoxSizer1;
 
-	Create(parent, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxCLOSE_BOX|wxSUNKEN_BORDER|wxRAISED_BORDER, _T("wxID_ANY"));
+	Create(parent, wxID_ANY, _("Mixeur"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxCLOSE_BOX|wxBORDER_SUNKEN|wxBORDER_RAISED, _T("wxID_ANY"));
 	SetClientSize(wxSize(720,140));
 	SetMaxSize(wxSize(720,900));
 	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
@@ -91,17 +91,14 @@ MixerFrame::MixerFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	Mixerline1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
 	StaticBoxSizer1->Add(Mixerline1, 1, wxALL|wxEXPAND, 2);
 	Panel1->SetSizer(StaticBoxSizer1);
-	StaticBoxSizer1->Fit(Panel1);
-	StaticBoxSizer1->SetSizeHints(Panel1);
 	BoxSizer1->Add(Panel1, 1, wxALL|wxEXPAND, 5);
 	SetSizer(BoxSizer1);
 	TimerRefreshFrame.SetOwner(this, ID_TIMERREFRESHFRAME);
 	TimerRefreshFrame.Start(500, false);
-	SetSizer(BoxSizer1);
 	Layout();
 
-	Connect(ID_TIMERREFRESHFRAME,wxEVT_TIMER,(wxObjectEventFunction)&MixerFrame::OnTimerRefreshFrameTrigger);
-	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&MixerFrame::OnClose);
+	Connect(ID_TIMERREFRESHFRAME, wxEVT_TIMER, (wxObjectEventFunction)&MixerFrame::OnTimerRefreshFrameTrigger);
+	Connect(wxID_ANY, wxEVT_CLOSE_WINDOW, (wxObjectEventFunction)&MixerFrame::OnClose);
 	//*)
 
   {

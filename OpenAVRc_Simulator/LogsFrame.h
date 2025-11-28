@@ -69,15 +69,15 @@ public:
 protected:
 
   //(*Identifiers(LogsFrame)
-  static const long ID_STATICBOX1;
-  static const long ID_FIELDLISTBOX;
-  static const long ID_BUTTONRESET;
-  static const long ID_STATICTEXT1;
-  static const long ID_BUTTONKML;
-  static const long ID_PANEL2;
-  static const long ID_STATICBOX2;
-  static const long ID_MATHPLOT1;
-  static const long ID_PANEL1;
+  static const wxWindowID ID_STATICBOX1;
+  static const wxWindowID ID_FIELDLISTBOX;
+  static const wxWindowID ID_BUTTONRESET;
+  static const wxWindowID ID_STATICTEXT1;
+  static const wxWindowID ID_BUTTONKML;
+  static const wxWindowID ID_PANEL2;
+  static const wxWindowID ID_STATICBOX2;
+  static const wxWindowID ID_MATHPLOT1;
+  static const wxWindowID ID_PANEL1;
   //*)
 
 private:

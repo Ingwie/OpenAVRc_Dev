@@ -40,57 +40,57 @@
 //*)
 
 //(*IdInit(OutBarsFrame)
-const long OutBarsFrame::ID_TEXTCTRL1 = wxNewId();
-const long OutBarsFrame::ID_TEXTCTRL2 = wxNewId();
-const long OutBarsFrame::ID_TEXTCTRL3 = wxNewId();
-const long OutBarsFrame::ID_TEXTCTRL4 = wxNewId();
-const long OutBarsFrame::ID_TEXTCTRL5 = wxNewId();
-const long OutBarsFrame::ID_TEXTCTRL6 = wxNewId();
-const long OutBarsFrame::ID_TEXTCTRL7 = wxNewId();
-const long OutBarsFrame::ID_TEXTCTRL8 = wxNewId();
-const long OutBarsFrame::ID_TEXTCTRL9 = wxNewId();
-const long OutBarsFrame::ID_TEXTCTRL10 = wxNewId();
-const long OutBarsFrame::ID_TEXTCTRL11 = wxNewId();
-const long OutBarsFrame::ID_TEXTCTRL12 = wxNewId();
-const long OutBarsFrame::ID_TEXTCTRL13 = wxNewId();
-const long OutBarsFrame::ID_TEXTCTRL14 = wxNewId();
-const long OutBarsFrame::ID_TEXTCTRL15 = wxNewId();
-const long OutBarsFrame::ID_TEXTCTRL16 = wxNewId();
-const long OutBarsFrame::ID_STATICTEXT1 = wxNewId();
-const long OutBarsFrame::ID_STATICTEXT2 = wxNewId();
-const long OutBarsFrame::ID_STATICTEXT3 = wxNewId();
-const long OutBarsFrame::ID_STATICTEXT4 = wxNewId();
-const long OutBarsFrame::ID_STATICTEXT5 = wxNewId();
-const long OutBarsFrame::ID_STATICTEXT6 = wxNewId();
-const long OutBarsFrame::ID_STATICTEXT7 = wxNewId();
-const long OutBarsFrame::ID_STATICTEXT8 = wxNewId();
-const long OutBarsFrame::ID_STATICTEXT9 = wxNewId();
-const long OutBarsFrame::ID_STATICTEXT10 = wxNewId();
-const long OutBarsFrame::ID_STATICTEXT11 = wxNewId();
-const long OutBarsFrame::ID_STATICTEXT12 = wxNewId();
-const long OutBarsFrame::ID_STATICTEXT13 = wxNewId();
-const long OutBarsFrame::ID_STATICTEXT14 = wxNewId();
-const long OutBarsFrame::ID_STATICTEXT15 = wxNewId();
-const long OutBarsFrame::ID_STATICTEXT16 = wxNewId();
-const long OutBarsFrame::ID_SLIDER1 = wxNewId();
-const long OutBarsFrame::ID_SLIDER2 = wxNewId();
-const long OutBarsFrame::ID_SLIDER3 = wxNewId();
-const long OutBarsFrame::ID_SLIDER4 = wxNewId();
-const long OutBarsFrame::ID_SLIDER5 = wxNewId();
-const long OutBarsFrame::ID_SLIDER6 = wxNewId();
-const long OutBarsFrame::ID_SLIDER7 = wxNewId();
-const long OutBarsFrame::ID_SLIDER8 = wxNewId();
-const long OutBarsFrame::ID_SLIDER9 = wxNewId();
-const long OutBarsFrame::ID_SLIDER10 = wxNewId();
-const long OutBarsFrame::ID_SLIDER11 = wxNewId();
-const long OutBarsFrame::ID_SLIDER12 = wxNewId();
-const long OutBarsFrame::ID_SLIDER13 = wxNewId();
-const long OutBarsFrame::ID_SLIDER14 = wxNewId();
-const long OutBarsFrame::ID_SLIDER15 = wxNewId();
-const long OutBarsFrame::ID_SLIDER16 = wxNewId();
-const long OutBarsFrame::ID_STATICLINE1 = wxNewId();
-const long OutBarsFrame::ID_PANELOUTPUTSLIDEERS = wxNewId();
-const long OutBarsFrame::ID_TIMERREFRESHOUTBAR = wxNewId();
+const wxWindowID OutBarsFrame::ID_TEXTCTRL1 = wxNewId();
+const wxWindowID OutBarsFrame::ID_TEXTCTRL2 = wxNewId();
+const wxWindowID OutBarsFrame::ID_TEXTCTRL3 = wxNewId();
+const wxWindowID OutBarsFrame::ID_TEXTCTRL4 = wxNewId();
+const wxWindowID OutBarsFrame::ID_TEXTCTRL5 = wxNewId();
+const wxWindowID OutBarsFrame::ID_TEXTCTRL6 = wxNewId();
+const wxWindowID OutBarsFrame::ID_TEXTCTRL7 = wxNewId();
+const wxWindowID OutBarsFrame::ID_TEXTCTRL8 = wxNewId();
+const wxWindowID OutBarsFrame::ID_TEXTCTRL9 = wxNewId();
+const wxWindowID OutBarsFrame::ID_TEXTCTRL10 = wxNewId();
+const wxWindowID OutBarsFrame::ID_TEXTCTRL11 = wxNewId();
+const wxWindowID OutBarsFrame::ID_TEXTCTRL12 = wxNewId();
+const wxWindowID OutBarsFrame::ID_TEXTCTRL13 = wxNewId();
+const wxWindowID OutBarsFrame::ID_TEXTCTRL14 = wxNewId();
+const wxWindowID OutBarsFrame::ID_TEXTCTRL15 = wxNewId();
+const wxWindowID OutBarsFrame::ID_TEXTCTRL16 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICTEXT1 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICTEXT2 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICTEXT3 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICTEXT4 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICTEXT5 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICTEXT6 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICTEXT7 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICTEXT8 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICTEXT9 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICTEXT10 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICTEXT11 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICTEXT12 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICTEXT13 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICTEXT14 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICTEXT15 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICTEXT16 = wxNewId();
+const wxWindowID OutBarsFrame::ID_SLIDER1 = wxNewId();
+const wxWindowID OutBarsFrame::ID_SLIDER2 = wxNewId();
+const wxWindowID OutBarsFrame::ID_SLIDER3 = wxNewId();
+const wxWindowID OutBarsFrame::ID_SLIDER4 = wxNewId();
+const wxWindowID OutBarsFrame::ID_SLIDER5 = wxNewId();
+const wxWindowID OutBarsFrame::ID_SLIDER6 = wxNewId();
+const wxWindowID OutBarsFrame::ID_SLIDER7 = wxNewId();
+const wxWindowID OutBarsFrame::ID_SLIDER8 = wxNewId();
+const wxWindowID OutBarsFrame::ID_SLIDER9 = wxNewId();
+const wxWindowID OutBarsFrame::ID_SLIDER10 = wxNewId();
+const wxWindowID OutBarsFrame::ID_SLIDER11 = wxNewId();
+const wxWindowID OutBarsFrame::ID_SLIDER12 = wxNewId();
+const wxWindowID OutBarsFrame::ID_SLIDER13 = wxNewId();
+const wxWindowID OutBarsFrame::ID_SLIDER14 = wxNewId();
+const wxWindowID OutBarsFrame::ID_SLIDER15 = wxNewId();
+const wxWindowID OutBarsFrame::ID_SLIDER16 = wxNewId();
+const wxWindowID OutBarsFrame::ID_STATICLINE1 = wxNewId();
+const wxWindowID OutBarsFrame::ID_PANELOUTPUTSLIDEERS = wxNewId();
+const wxWindowID OutBarsFrame::ID_TIMERREFRESHOUTBAR = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(OutBarsFrame,wxFrame)
@@ -173,8 +173,8 @@ OutBarsFrame::OutBarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	TimerRefreshFrame.SetOwner(this, ID_TIMERREFRESHOUTBAR);
 	TimerRefreshFrame.Start(200, false);
 
-	Connect(ID_TIMERREFRESHOUTBAR,wxEVT_TIMER,(wxObjectEventFunction)&OutBarsFrame::OnTimerRefreshFrameTrigger);
-	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&OutBarsFrame::OnClose);
+	Connect(ID_TIMERREFRESHOUTBAR, wxEVT_TIMER, (wxObjectEventFunction)&OutBarsFrame::OnTimerRefreshFrameTrigger);
+	Connect(wxID_ANY, wxEVT_CLOSE_WINDOW, (wxObjectEventFunction)&OutBarsFrame::OnClose);
 	//*)
 
   {

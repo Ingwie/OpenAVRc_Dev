@@ -69,10 +69,10 @@ class MixerFrame: public wxFrame
 	protected:
 
 		//(*Identifiers(MixerFrame)
-		static const long ID_TEXTCTRLHEADERLINE;
-		static const long ID_TEXTCTRLMIXERLINE;
-		static const long ID_PANEL1;
-		static const long ID_TIMERREFRESHFRAME;
+		static const wxWindowID ID_TEXTCTRLHEADERLINE;
+		static const wxWindowID ID_TEXTCTRLMIXERLINE;
+		static const wxWindowID ID_PANEL1;
+		static const wxWindowID ID_TIMERREFRESHFRAME;
 		//*)
 
 	private:

@@ -47,15 +47,15 @@ extern bool Ini_Changed;
 //*)
 
 //(*IdInit(LogsFrame)
-const long LogsFrame::ID_STATICBOX1 = wxNewId();
-const long LogsFrame::ID_FIELDLISTBOX = wxNewId();
-const long LogsFrame::ID_BUTTONRESET = wxNewId();
-const long LogsFrame::ID_STATICTEXT1 = wxNewId();
-const long LogsFrame::ID_BUTTONKML = wxNewId();
-const long LogsFrame::ID_PANEL2 = wxNewId();
-const long LogsFrame::ID_STATICBOX2 = wxNewId();
-const long LogsFrame::ID_MATHPLOT1 = wxNewId();
-const long LogsFrame::ID_PANEL1 = wxNewId();
+const wxWindowID LogsFrame::ID_STATICBOX1 = wxNewId();
+const wxWindowID LogsFrame::ID_FIELDLISTBOX = wxNewId();
+const wxWindowID LogsFrame::ID_BUTTONRESET = wxNewId();
+const wxWindowID LogsFrame::ID_STATICTEXT1 = wxNewId();
+const wxWindowID LogsFrame::ID_BUTTONKML = wxNewId();
+const wxWindowID LogsFrame::ID_PANEL2 = wxNewId();
+const wxWindowID LogsFrame::ID_STATICBOX2 = wxNewId();
+const wxWindowID LogsFrame::ID_MATHPLOT1 = wxNewId();
+const wxWindowID LogsFrame::ID_PANEL1 = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(LogsFrame,wxFrame)
@@ -66,12 +66,12 @@ END_EVENT_TABLE()
 LogsFrame::LogsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
   //(*Initialize(LogsFrame)
-  Create(parent, wxID_ANY, _("Logs"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER|wxRAISED_BORDER, _T("wxID_ANY"));
+  Create(parent, wxID_ANY, _("Logs"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxBORDER_SUNKEN|wxBORDER_RAISED, _T("wxID_ANY"));
   SetClientSize(wxSize(1180,512));
   Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(224,112), wxSize(1024,512), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-  StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Champs"), wxPoint(8,8), wxSize(128,496), wxDOUBLE_BORDER, _T("ID_STATICBOX1"));
+  StaticBox1 = new wxStaticBox(Panel1, ID_STATICBOX1, _("Champs"), wxPoint(8,8), wxSize(128,496), wxBORDER_DOUBLE, _T("ID_STATICBOX1"));
   FieldListBox = new wxListBox(Panel1, ID_FIELDLISTBOX, wxPoint(16,32), wxSize(112,464), 0, 0, wxLB_MULTIPLE, wxDefaultValidator, _T("ID_FIELDLISTBOX"));
-  Panel2 = new wxPanel(Panel1, ID_PANEL2, wxPoint(144,8), wxSize(1032,48), wxDOUBLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL2"));
+  Panel2 = new wxPanel(Panel1, ID_PANEL2, wxPoint(144,8), wxSize(1032,48), wxBORDER_DOUBLE|wxTAB_TRAVERSAL, _T("ID_PANEL2"));
   ResetButton = new wxButton(Panel2, ID_BUTTONRESET, _("RAZ"), wxPoint(16,10), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONRESET"));
   LogName = new wxStaticText(Panel2, ID_STATICTEXT1, wxEmptyString, wxPoint(360,10), wxSize(30,25), 0, _T("ID_STATICTEXT1"));
   LogName->SetFocus();
@@ -80,15 +80,15 @@ LogsFrame::LogsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
   LogName->SetFont(LogNameFont);
   KMLButton = new wxButton(Panel2, ID_BUTTONKML, _("KML"), wxPoint(928,10), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONKML"));
   KMLButton->Disable();
-  StaticBox2 = new wxStaticBox(Panel1, ID_STATICBOX2, _("Données"), wxPoint(144,64), wxSize(1024,440), wxDOUBLE_BORDER, _T("ID_STATICBOX2"));
-  MathPlot = new mpWindow(Panel1, ID_MATHPLOT1, wxPoint(152,80), wxSize(1008,416), wxRAISED_BORDER|wxTAB_TRAVERSAL);
+  StaticBox2 = new wxStaticBox(Panel1, ID_STATICBOX2, _("Données"), wxPoint(144,64), wxSize(1024,440), wxBORDER_DOUBLE, _T("ID_STATICBOX2"));
+  MathPlot = new mpWindow(Panel1, ID_MATHPLOT1, wxPoint(152,80), wxSize(1008,416), wxTAB_TRAVERSAL);
   MathPlot->UpdateAll();
   MathPlot->Fit();
 
-  Connect(ID_FIELDLISTBOX,wxEVT_COMMAND_LISTBOX_SELECTED,(wxObjectEventFunction)&LogsFrame::OnFieldListBoxSelect);
-  Connect(ID_BUTTONRESET,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&LogsFrame::OnResetButtonClick);
-  Connect(ID_BUTTONKML,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&LogsFrame::OnKMLButtonClick);
-  Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&LogsFrame::OnClose);
+  Connect(ID_FIELDLISTBOX, wxEVT_COMMAND_LISTBOX_SELECTED, (wxObjectEventFunction)&LogsFrame::OnFieldListBoxSelect);
+  Connect(ID_BUTTONRESET, wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&LogsFrame::OnResetButtonClick);
+  Connect(ID_BUTTONKML, wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&LogsFrame::OnKMLButtonClick);
+  Connect(wxID_ANY, wxEVT_CLOSE_WINDOW, (wxObjectEventFunction)&LogsFrame::OnClose);
   //*)
 
   {
