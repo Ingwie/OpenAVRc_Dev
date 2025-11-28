@@ -89,6 +89,10 @@
 #define TR_MULTI_DSM_AUTODTECT   INDENT "autodetekt"
 #define TR_MULTI_LOWPOWER        INDENT "malý výkon"
 #define TR_MULTI_SERVOFREQ       INDENT "vých.serv"
+#define TR_MULTI_FIXEDID         "Fixed ID"
+#define TR_MULTI_MAX_THROW       "Max. Throw"
+#define TR_MULTI_RFCHAN          "sel. kanál"
+#define TR_MULTI_OUTPUT          "výstup"
 
 #define LEN_VCURVEFUNC         "\003"
 #define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|"

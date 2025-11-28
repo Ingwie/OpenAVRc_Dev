@@ -364,6 +364,11 @@ extern const pm_char STR_MULTI_OPTION[];
 extern const pm_char STR_MULTI_DSM_AUTODTECT[];
 extern const pm_char STR_AUTOBIND[];
 extern const pm_char STR_MULTI_LOWPOWER[];
+extern const pm_char STR_MULTI_FIXEDID[];
+extern const pm_char STR_NULL[];
+extern const pm_char STR_MULTI_MAX_THROW[];
+extern const pm_char STR_MULTI_RFCHAN[];
+extern const pm_char STR_MULTI_OUTPUT[];
 #endif
 
 #if defined(FRSKY)

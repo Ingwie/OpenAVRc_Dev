@@ -394,24 +394,10 @@ NOINLINE void parseMultiByte(uint8_t data)
   }
 }
 
-// ToDo
-// Add missing option strings. Temporary fix until translations are done.
-const pm_char STR_MM_OPT_0[] PROGMEM = "";
-//const pm_char STR_MM_OPT_1[] PROGMEM = ""; STR_MULTI_OPTION
-//const pm_char STR_MM_OPT_2[] PROGMEM = ""; STR_RFTUNEFINE       INDENT "Freq.fine"
-//const pm_char STR_MM_OPT_3[] PROGMEM = ""; STR_MULTI_VIDFREQ    INDENT "Vid. freq."
-const pm_char STR_MM_OPT_4[] PROGMEM = "ID type";
-//const pm_char STR_MM_OPT_5[] PROGMEM = ""; STR_TELEMETRY       "Telemetry"
-//const pm_char STR_MM_OPT_6[] PROGMEM = ""; STR_MULTI_SERVOFREQ
-const pm_char STR_MM_OPT_7[] PROGMEM = "Max throw";
-const pm_char STR_MM_OPT_8[] PROGMEM = "Pick RF ch";
-//const pm_char STR_MM_OPT_9[] PROGMEM = "";  STR_MULTI_RFPOWER   INDENT "RF Power"
-const pm_char STR_MM_OPT_10[] PROGMEM = "Output";
-
 const char *optionsstr[] =
-{ STR_MM_OPT_0, STR_MULTI_OPTION, STR_RFTUNEFINE, STR_MULTI_VIDFREQ,
-    STR_MM_OPT_4, STR_TELEMETRY, STR_MULTI_SERVOFREQ, STR_MM_OPT_7,
-    STR_MM_OPT_8, STR_MULTI_RFPOWER, STR_MM_OPT_10, };
+{ STR_NULL, STR_MULTI_OPTION, STR_RFTUNEFINE, STR_MULTI_VIDFREQ,
+    STR_MULTI_FIXEDID, STR_TELEMETRY, STR_MULTI_SERVOFREQ, STR_MULTI_MAX_THROW,
+    STR_MULTI_RFCHAN, STR_MULTI_RFPOWER, STR_MULTI_OUTPUT, };
 
 #undef mm_type1_packet
 #undef l_buffer
