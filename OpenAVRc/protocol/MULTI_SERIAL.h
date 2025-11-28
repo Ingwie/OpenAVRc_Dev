@@ -87,6 +87,7 @@ typedef struct
   uint8_t state;
   uint8_t length;
   uint8_t pkt_type;
+  uint8_t heartbeat;
 } mmSt_t;
 
 #endif // MULTI_SERIAL_H

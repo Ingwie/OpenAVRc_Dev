@@ -81,7 +81,7 @@ static union
   uint16_t pword[PULSES_WORD_SIZE];
   uint8_t  pbyte[PULSES_BYTE_SIZE]; // 144 bytes
 #if (SERIAL_PROTOCOL == MULTIMODULE)
-  mmSt_t   mm_st; // 90 bytes
+  mmSt_t   mm_st; // 91 bytes
 #endif
 #if (SERIAL_PROTOCOL == CRSF)
   crsfSt_t   crsf_st; // 56 bytes

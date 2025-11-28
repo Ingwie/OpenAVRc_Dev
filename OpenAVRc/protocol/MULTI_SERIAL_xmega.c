@@ -105,12 +105,25 @@ static void MULTI_Reset()
   parseTelemFunction = (p_parseTelemFunction)parseTelemFrskyByte;
 }
 
+struct mm_t1_pkt  *mm_type1_packet_ptr = &pulses2MHz.mm_st.mm_type1_packet;
+#define mm_type1_packet  pulses2MHz.mm_st.mm_type1_packet
+#define l_buffer  pulses2MHz.mm_st.mm_rx_buffer
+#define heartbeat_p2m pulses2MHz.mm_st.heartbeat
+#define write_ptr_p2m pulses2MHz.mm_st.write_ptr
+#define state_p2m pulses2MHz.mm_st.state
+#define length_p2m pulses2MHz.mm_st.length
+#define pkt_type_p2m pulses2MHz.mm_st.pkt_type
 
 static uint16_t MULTI_cb()
 {
   SCHEDULE_MIXER_END_IN_US(22000); // Schedule next Mixer calculations.
 
   if (Usart0TxBufferCount) return 1000 * 2; // return, if buffer is not empty
+
+  if (heartbeat_p2m)
+    {
+      if (!--heartbeat_p2m) memclear(&mm_type1_packet, MM_TYPE_01_PKT_LEN); //clear data buffer if connexion is lost
+    }
 
   Usart0TxBufferCount = MM_TX_PKT_LEN;
   uint8_t multiTxBufferCount = Usart0TxBufferCount;
@@ -229,11 +242,6 @@ enum MPSTATE
   LEN_FOUND,
 };
 
-#define write_ptr_p2m pulses2MHz.mm_st.write_ptr
-#define state_p2m pulses2MHz.mm_st.state
-#define length_p2m pulses2MHz.mm_st.length
-#define pkt_type_p2m pulses2MHz.mm_st.pkt_type
-
 static void MULTI_initialize()
 {
 // 100K 8E2
@@ -248,6 +256,7 @@ static void MULTI_initialize()
   // This is an auto-bind from the Transmitter. Some protocols like Hubsan are a hard coded auto-bind from the module.
 
   state_p2m = RESET;
+  heartbeat_p2m = 0;
 
   PROTO_Start_Callback(MULTI_cb);
 }
@@ -278,11 +287,6 @@ const void* MULTI_Cmds(enum ProtoCmds cmd)
   }
   return 0;
 }
-
-
-struct mm_t1_pkt  *mm_type1_packet_ptr = &pulses2MHz.mm_st.mm_type1_packet;
-#define mm_type1_packet  pulses2MHz.mm_st.mm_type1_packet
-#define l_buffer  pulses2MHz.mm_st.mm_rx_buffer
 
 NOINLINE void parseMultiByte(uint8_t data)
 {
@@ -350,6 +354,7 @@ NOINLINE void parseMultiByte(uint8_t data)
           if (pkt_type_p2m == MM_STATUS && length_p2m == MM_TYPE_01_PKT_LEN)
           {
             memcpy(&mm_type1_packet, &l_buffer, MM_TYPE_01_PKT_LEN);
+            heartbeat_p2m = 50; // 1 seconde
             state_p2m = RESET;
             break;
           }
@@ -407,6 +412,14 @@ const char *optionsstr[] =
 { STR_MM_OPT_0, STR_MULTI_OPTION, STR_RFTUNEFINE, STR_MULTI_VIDFREQ,
     STR_MM_OPT_4, STR_TELEMETRY, STR_MULTI_SERVOFREQ, STR_MM_OPT_7,
     STR_MM_OPT_8, STR_MULTI_RFPOWER, STR_MM_OPT_10, };
+
+#undef mm_type1_packet
+#undef l_buffer
+#undef heartbeat_p2m
+#undef write_ptr_p2m
+#undef state_p2m
+#undef length_p2m
+#undef pkt_type_p2m
 
 /*
  OPTION_NONE   0 Hidden field
