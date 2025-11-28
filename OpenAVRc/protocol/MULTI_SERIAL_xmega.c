@@ -326,7 +326,7 @@ NOINLINE void parseMultiByte(uint8_t data)
     case P_FOUND:
       pkt_type_p2m = data;
       if (data == MM_STATUS) state_p2m = TYPE_FOUND; // Multi Module Status.
-//      else if (data == FRSKY_SPORT_TLM) state_p2m = TYPE_FOUND; // FrSky S Port Telemetry packet.
+      else if (data == FRSKY_SPORT_TLM) state_p2m = TYPE_FOUND; // FrSky S Port Telemetry packet.
       else if (data == FRSKY_HUB_TLM) state_p2m = TYPE_FOUND; // FrSky Hub Telemetry packet.
       else if (data == FLYSKY_TLM_AA) state_p2m = TYPE_FOUND; // Flysky 0xAA Telemetry. Length =29 data[0] = RSSI value, data[1-28] telemetry sensor values.
       else if (data == FLYSKY_TLM_AC) state_p2m = TYPE_FOUND; // Flysky 0xAC Telemetry. Length =29 data[0] = RSSI value, data[1-28] telemetry sensor values.
@@ -376,7 +376,7 @@ NOINLINE void parseMultiByte(uint8_t data)
             state_p2m = RESET;
             break;
           }
-          else if (pkt_type_p2m == FRSKY_HUB_TLM && length_p2m == FRSKY_TLM_PKT_SIZE)
+          else if ((pkt_type_p2m == FRSKY_HUB_TLM || pkt_type_p2m == FRSKY_SPORT_TLM) && length_p2m == FRSKY_TLM_PKT_SIZE)
           {
             LoadTelemBuffer(l_buffer);
             state_p2m = RESET;
