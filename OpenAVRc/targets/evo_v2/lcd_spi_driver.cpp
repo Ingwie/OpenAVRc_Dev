@@ -25,7 +25,7 @@ void lcdClearRAM(void);
 #define LCD_SSD1309
 //#define LCD_EVO
 //#define LCD_ST7567
-//#define BITBANGSPI
+#define BITBANGSPI
 //#define SPI9BIT // Bitbang only !
 
 #if defined(LCD_EVO)
@@ -36,7 +36,6 @@ void lcdClearRAM(void);
 #if defined(LCD_ST7567)
 // #define CONTRAST_MIN 35
  #define LCD_SIZE_132X64
- #define POSITIVE_CHIP_SELECT
 #endif
 #if defined(LCD_SSD1309)
 // #define CONTRAST_MIN 30
