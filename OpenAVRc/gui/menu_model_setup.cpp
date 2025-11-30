@@ -837,7 +837,7 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
 
          if (mm_type1_packet_ptr->option_text_displayed)
           {
-           lcdDrawTextLeft(y, optionsstr[mm_type1_packet_ptr->option_text_displayed]);
+           lcdDrawTextLeft(y, (pm_char*)pgm_read_word_near(&optionsstr[mm_type1_packet_ptr->option_text_displayed]));
            if (multi_proto == MM_RF_PROTO_28_AFHDS2A)
            {
              //optionValue = 50 + 5 * optionValue; // Displayed value is overrange.
