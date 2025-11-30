@@ -79,8 +79,8 @@ wxTimer TimerBTRX;
 protected:
 
 //(*Identifiers(uCliFrame)
-static const long ID_TEXTCTRL;
-static const long ID_TIMERBTRX;
+static const wxWindowID ID_TEXTCTRL;
+static const wxWindowID ID_TIMERBTRX;
 //*)
 
 private:

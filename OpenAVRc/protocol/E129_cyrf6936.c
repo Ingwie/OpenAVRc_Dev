@@ -86,14 +86,6 @@ const static RfOptionSettingsvar_t RfOpt_E129_Ser[] PROGMEM =
   /*rfOptionValue3Max*/7,// RF Power max
 };
 
-uint8_t bit_reverse(uint8_t a)
-{
-  a = ((a & 0xf0) >> 4) | ((a & 0x0f) << 4);
-  a = ((a & 0xcc) >> 2) | ((a & 0x33) << 2);
-  a = ((a & 0xaa) >> 1) | ((a & 0x55) << 1);
-  return a;
-}
-
 uint16_t convert_channel_10b(uint8_t num)
 {
   int16_t value = FULL_CHANNEL_OUTPUTS(num)+ 0x3ff; // Add offset before division.

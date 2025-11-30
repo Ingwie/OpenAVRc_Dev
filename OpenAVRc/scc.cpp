@@ -61,7 +61,7 @@
 const uint8_t GetIdMsg[] PROGMEM = {0x9F ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x80 ,0x00 ,0xE0 ,0x1F};
 
 /* PRIVATE FUNCTION PROTOTYPES */
-static uint8_t     reverseByteBitOrder(uint8_t Byte);
+//static uint8_t     reverseByteBitOrder(uint8_t Byte);
 static uint8_t     calculate_sbus_checksum(uint8_t const* b);
 static uint8_t     validate_sbus_checksum(uint8_t const* b);
 static inline void serialRxMode(void);
@@ -127,7 +127,7 @@ uint8_t scc_sendCmd(uint8_t ChId)
   if(Cmd == CMD_SET_ID_FOLLOWED_BY_CMD_GET_ID)
   {
     ReBuff.Scc.Sbus.Msg.Content.HeaderByte = CMD_HEADER_BYTE;
-    ReBuff.Scc.Sbus.Msg.Content.ChIdx      = reverseByteBitOrder(ChId - 1);
+    ReBuff.Scc.Sbus.Msg.Content.ChIdx      = bit_reverse(ChId - 1);
     memcpy_P((void*)&ReBuff.Scc.Sbus.Msg.Content.DoNotTouch, GetIdMsg + 5, sizeof(ReBuff.Scc.Sbus.Msg.Content.DoNotTouch));
     ReBuff.Scc.Sbus.Msg.Content.CmdCode    = CODE_SET_ID;
     ReBuff.Scc.Sbus.Msg.Content.Checksum   = calculate_sbus_checksum((uint8_t const*)&ReBuff.Scc.Sbus.Msg);
@@ -158,7 +158,7 @@ uint8_t scc_sendCmd(uint8_t ChId)
   {
     if(!validate_sbus_checksum((uint8_t const*)&ReBuff.Scc.Sbus.Msg))
     {
-      RetId = reverseByteBitOrder(ReBuff.Scc.Sbus.Msg.Content.ChIdx) + 1;
+      RetId = bit_reverse(ReBuff.Scc.Sbus.Msg.Content.ChIdx) + 1;
     }
   }
   return(RetId);
@@ -235,14 +235,14 @@ void scc_sbusSweepTestProcess(void)
 * \brief  Reverse all the bits in a byte
 * \param  Byte: Byte to be reversed
 * \return The reversed byte
-*/
+*
 static uint8_t reverseByteBitOrder(uint8_t Byte)
 {
   Byte = ((Byte >> 1) & 0x55) | ((Byte << 1) & 0xaa);
   Byte = ((Byte >> 2) & 0x33) | ((Byte << 2) & 0xcc);
   Byte = ((Byte >> 4) & 0x0f) | ((Byte << 4) & 0xf0);
   return(Byte);
-}
+}*/
 
 /**
 * \file   scc.cpp
@@ -255,8 +255,8 @@ static uint8_t calculate_sbus_checksum(uint8_t const* b)
 {
   uint8_t n = 15; // 2nd to 16th byte
   uint8_t checksum = 0;
-  do checksum -= reverseByteBitOrder(*++b); while (--n);
-  return reverseByteBitOrder(checksum); // Checksum is 17th byte
+  do checksum -= bit_reverse(*++b); while (--n);
+  return bit_reverse(checksum); // Checksum is 17th byte
 }
 
 /**
@@ -270,7 +270,7 @@ static uint8_t validate_sbus_checksum(uint8_t const* b)
 {
   uint8_t n = 16;  // 2nd to 17th byte
   uint8_t checksum = 0;
-  do checksum += reverseByteBitOrder(*++b); while (--n);
+  do checksum += bit_reverse(*++b); while (--n);
   return checksum; // Valid checksum will return 0
 }
 

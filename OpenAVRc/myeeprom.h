@@ -684,9 +684,10 @@ enum FrskyVoltsSource {
 #define MAX_FRSKY_A_CHANNELS 2
 #define MAX_TELEMETRY_SCREENS 2
 #define IS_BARS_SCREEN(screenIndex) (g_model.telemetry.screensType & (1<<(screenIndex)))
+
 PACK(typedef struct {
   TelemetryChannelData channels[MAX_FRSKY_A_CHANNELS];
-  uint8_t usrProto:4; // Protocol in FrSky user data, 0=None, 1=HUB, 2=WS HowHigh, 3=S.port
+  uint8_t usrProto:4; // Protocol in FrSky user data, 0=None, 1=HUB, 2=WS HowHigh, 3=S.port, 4=ibus
   uint8_t blades:2;   // How many blades for RPMs, 0=2 blades
   uint8_t screensType:2;
   uint8_t voltsSource:2;

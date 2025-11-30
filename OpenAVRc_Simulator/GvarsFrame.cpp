@@ -41,27 +41,27 @@
 //*)
 
 //(*IdInit(GvarsFrame)
-const long GvarsFrame::ID_GRID1 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoGvar6 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoGvar8 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoGvar11 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoGvar12 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoGvar10 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoGvar9 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoGvar7 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoPhase0 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoPhase1 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoPhase2 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoPhase3 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoPhase4 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoPhase5 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoGvar1 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoGvar2 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoGvar3 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoGvar4 = wxNewId();
-const long GvarsFrame::ID_TextCtrlpersoGvar5 = wxNewId();
-const long GvarsFrame::ID_PANEL1 = wxNewId();
-const long GvarsFrame::ID_TIMERGVARS = wxNewId();
+const wxWindowID GvarsFrame::ID_GRID1 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoGvar6 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoGvar8 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoGvar11 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoGvar12 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoGvar10 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoGvar9 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoGvar7 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoPhase0 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoPhase1 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoPhase2 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoPhase3 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoPhase4 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoPhase5 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoGvar1 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoGvar2 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoGvar3 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoGvar4 = wxNewId();
+const wxWindowID GvarsFrame::ID_TextCtrlpersoGvar5 = wxNewId();
+const wxWindowID GvarsFrame::ID_PANEL1 = wxNewId();
+const wxWindowID GvarsFrame::ID_TIMERGVARS = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(GvarsFrame,wxFrame)
@@ -76,11 +76,11 @@ GvarsFrame::GvarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
   validator.SetCharIncludes(valid_chars);
 
   //(*Initialize(GvarsFrame)
-  Create(parent, wxID_ANY, _("Variables globales"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxSUNKEN_BORDER, _T("wxID_ANY"));
+  Create(parent, wxID_ANY, _("Variables globales"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxBORDER_SUNKEN, _T("wxID_ANY"));
   SetClientSize(wxSize(421,289));
   Move(wxPoint(60,60));
   Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(0,48), wxSize(421,288), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-  GVARSGrid = new wxGrid(Panel1, ID_GRID1, wxPoint(0,0), wxSize(432,304), wxSUNKEN_BORDER, _T("ID_GRID1"));
+  GVARSGrid = new wxGrid(Panel1, ID_GRID1, wxPoint(0,0), wxSize(432,304), wxBORDER_SUNKEN, _T("ID_GRID1"));
   GVARSGrid->CreateGrid(12,6);
   GVARSGrid->Disable();
   GVARSGrid->EnableEditing(false);
@@ -130,44 +130,44 @@ GvarsFrame::GvarsFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
   gvarsTimer.SetOwner(this, ID_TIMERGVARS);
   gvarsTimer.Start(2000, false);
 
-  Connect(ID_TextCtrlpersoGvar6,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoGvar6,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar6TextEnter);
-  Connect(ID_TextCtrlpersoGvar8,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoGvar8,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar8TextEnter);
-  Connect(ID_TextCtrlpersoGvar11,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoGvar11,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar11TextEnter);
-  Connect(ID_TextCtrlpersoGvar12,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoGvar12,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar12TextEnter);
-  Connect(ID_TextCtrlpersoGvar10,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoGvar10,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar10TextEnter);
-  Connect(ID_TextCtrlpersoGvar9,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoGvar9,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar9TextEnter);
-  Connect(ID_TextCtrlpersoGvar7,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoGvar7,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar7TextEnter);
-  Connect(ID_TextCtrlpersoPhase0,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoPhase0,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoPhase0TextEnter);
-  Connect(ID_TextCtrlpersoPhase1,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoPhase1,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoPhase1TextEnter);
-  Connect(ID_TextCtrlpersoPhase2,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoPhase2,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoPhase2TextEnter);
-  Connect(ID_TextCtrlpersoPhase3,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoPhase3,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoPhase3TextEnter);
-  Connect(ID_TextCtrlpersoPhase4,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoPhase4,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoPhase4TextEnter);
-  Connect(ID_TextCtrlpersoPhase5,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoPhase5,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoPhase5TextEnter);
-  Connect(ID_TextCtrlpersoGvar1,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoGvar1,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar1TextEnter);
-  Connect(ID_TextCtrlpersoGvar2,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoGvar2,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar2TextEnter);
-  Connect(ID_TextCtrlpersoGvar3,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoGvar3,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar3TextEnter);
-  Connect(ID_TextCtrlpersoGvar4,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoGvar4,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar4TextEnter);
-  Connect(ID_TextCtrlpersoGvar5,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
-  Connect(ID_TextCtrlpersoGvar5,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar5TextEnter);
-  Connect(ID_TIMERGVARS,wxEVT_TIMER,(wxObjectEventFunction)&GvarsFrame::OngvarsTimerTrigger);
-  Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&GvarsFrame::OnClose);
+  Connect(ID_TextCtrlpersoGvar6, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoGvar6, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar6TextEnter);
+  Connect(ID_TextCtrlpersoGvar8, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoGvar8, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar8TextEnter);
+  Connect(ID_TextCtrlpersoGvar11, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoGvar11, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar11TextEnter);
+  Connect(ID_TextCtrlpersoGvar12, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoGvar12, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar12TextEnter);
+  Connect(ID_TextCtrlpersoGvar10, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoGvar10, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar10TextEnter);
+  Connect(ID_TextCtrlpersoGvar9, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoGvar9, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar9TextEnter);
+  Connect(ID_TextCtrlpersoGvar7, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoGvar7, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar7TextEnter);
+  Connect(ID_TextCtrlpersoPhase0, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoPhase0, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoPhase0TextEnter);
+  Connect(ID_TextCtrlpersoPhase1, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoPhase1, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoPhase1TextEnter);
+  Connect(ID_TextCtrlpersoPhase2, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoPhase2, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoPhase2TextEnter);
+  Connect(ID_TextCtrlpersoPhase3, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoPhase3, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoPhase3TextEnter);
+  Connect(ID_TextCtrlpersoPhase4, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoPhase4, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoPhase4TextEnter);
+  Connect(ID_TextCtrlpersoPhase5, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoPhase5, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoPhase5TextEnter);
+  Connect(ID_TextCtrlpersoGvar1, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoGvar1, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar1TextEnter);
+  Connect(ID_TextCtrlpersoGvar2, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoGvar2, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar2TextEnter);
+  Connect(ID_TextCtrlpersoGvar3, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoGvar3, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar3TextEnter);
+  Connect(ID_TextCtrlpersoGvar4, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoGvar4, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar4TextEnter);
+  Connect(ID_TextCtrlpersoGvar5, wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoAllText);
+  Connect(ID_TextCtrlpersoGvar5, wxEVT_COMMAND_TEXT_ENTER, (wxObjectEventFunction)&GvarsFrame::OnTextCtrlpersoGvar5TextEnter);
+  Connect(ID_TIMERGVARS, wxEVT_TIMER, (wxObjectEventFunction)&GvarsFrame::OngvarsTimerTrigger);
+  Connect(wxID_ANY, wxEVT_CLOSE_WINDOW, (wxObjectEventFunction)&GvarsFrame::OnClose);
   //*)
 
   {

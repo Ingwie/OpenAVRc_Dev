@@ -33,10 +33,6 @@
 #include "OpenAVRc.h"
 #include "timers.h"
 
-#if defined(U_CLI) && defined(TINY_DBG_UART_BT)
-extern const char UCLI_PROMPT [] PROGMEM;
-#endif
-
 EEGeneral  g_eeGeneral;
 ModelData  g_model;
 
@@ -1100,9 +1096,8 @@ void doMixerCalculations()
 #if defined(SIMU) // Simulate ISR(TIMER1_COMPA_vect) X_any computation
 #if defined (DEBUG)
   if (timer_callback) TIMER1_COMPA_vect(); // Allow to run protocol code in debug mode
-#else
-  Xany_scheduleTx_AllInstance();
 #endif
+  Xany_scheduleTx_AllInstance();
 #endif
 
   if(systemBolls.x_any_Phase)
@@ -1509,18 +1504,10 @@ void OpenAVRcInit(uint8_t mcusr)
 {
   eeReadAll();
 
-#if defined(U_CLI) || defined(TINY_DBG_UART_BT)
-  USART_SET_BAUD_115K2(TLM_USART1);
-#endif
+  s_current_protocol = S_CURRENT_PROTOCOL_NULL;
 #if defined(U_CLI)
+  USART_SET_BAUD_115K2(TLM_USART1);
   uCli_init();
-#if defined(TINY_DBG_UART_BT)
-  TinyDbg_init(&BT_Serial, UCLI_PROMPT); // PrePrompt!
-#endif
-#else
-#if defined(TINY_DBG_UART_BT)
-  TinyDbg_init(&BT_Serial);
-#endif
 #endif
 
 #if MENUS_LOCK == 1
@@ -1577,6 +1564,13 @@ int16_t simumain()
 {
   simu_firstloop_is_runing = true;
   simu_off = false;
+
+  // check some size with simu break point
+  //uint32_t testsize_Pcm = sizeof(pulses2MHz.Pcm);testsize_Pcm/=1;
+  //uint32_t testsize_mm_st = sizeof(pulses2MHz.mm_st);testsize_mm_st/=1;
+  //uint32_t testsize_crsf_st = sizeof(pulses2MHz.crsf_st);testsize_crsf_st/=1;
+  //uint32_t testsize_spi = sizeof(pulses2MHz.spi);testsize_spi/=1;
+
 #endif
 
   // Init bitfields
@@ -1631,6 +1625,8 @@ int16_t simumain()
 
   lcdSetContrast();
 
+  startPulses(PROTOCMD_INIT);
+
 #if !defined(SIMU)
   while (1) {
 #else // exit first loop thread
@@ -1650,10 +1646,6 @@ if (menuHandlers[menuLevel] != menuGeneralBluetooth) // Do not process uCli when
     uCli_process();
   }
 #endif
-#if (defined(TINY_DBG_UART_BT) && !defined(U_CLI))
-  TinyDbg_event();
-#endif
-
     if (!systemBolls.pwrCheck)
 #if !defined(SIMU)
       break;

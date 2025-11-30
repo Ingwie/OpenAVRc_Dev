@@ -38,8 +38,11 @@
 
 static volatile uint16_t timer_counts;
 
-
+#define S_CURRENT_PROTOCOL_NULL 255
+#define S_CURRENT_PROTOCOL_BOOT 254
+#define S_CURRENT_PROTOCOL_MAX  253 // todo limit
 extern uint8_t s_current_protocol;
+
 uint16_t *RptrA; // For OCR1A
 uint16_t *RptrB; // Zum OCR1B
 
@@ -76,18 +79,18 @@ extern uint16_t dt;
 static union
 {
   uint16_t pword[PULSES_WORD_SIZE];
-  uint8_t  pbyte[PULSES_BYTE_SIZE]; // 144
+  uint8_t  pbyte[PULSES_BYTE_SIZE]; // 144 bytes
 #if (SERIAL_PROTOCOL == MULTIMODULE)
-  mmSt_t   mm_st;
+  mmSt_t   mm_st; // 91 bytes
 #endif
 #if (SERIAL_PROTOCOL == CRSF)
-  crsfSt_t   crsf_st;
+  crsfSt_t   crsf_st; // 56 bytes
 #endif
 #if defined(PCM_PROTOCOL)
-  PcmSt_t  Pcm;
+  PcmSt_t  Pcm; // 152 bytes
 #endif
 #if defined(SPIMODULES)
-  spiU_t spi;
+  spiU_t spi; // 144 bytes
 #endif
 } pulses2MHz;
 

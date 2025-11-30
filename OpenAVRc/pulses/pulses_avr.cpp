@@ -37,7 +37,7 @@
 #include "../spi.h"
 
 uint16_t nextMixerEndTime = 0;
-uint8_t s_current_protocol = 255;
+uint8_t s_current_protocol = S_CURRENT_PROTOCOL_BOOT;
 uint16_t dt;
 
 
@@ -90,7 +90,7 @@ void setupPulsesPPM(enum ppmtype proto)
 #if defined(CPUM2560)
 FORCEINLINE uint8_t pulsesStarted()
 {
-  return (s_current_protocol != 255);
+  return (s_current_protocol < S_CURRENT_PROTOCOL_BOOT);
 }
 
 FORCEINLINE void sendStopPulses()
@@ -100,7 +100,7 @@ FORCEINLINE void sendStopPulses()
   SIMU_SLEEP(100);
   PROTO_Stop_Callback();
 
-  s_current_protocol = 255; // Update stop status.
+  s_current_protocol = S_CURRENT_PROTOCOL_NULL; // Update stop status.
 }
 
 void startPulses(enum ProtoCmds Command)
@@ -155,7 +155,7 @@ ISR(TIMER1_COMPB_vect) // Timer 1 compare "B" vector. Used for PPM commutation a
 #ifdef __AVR_XMEGA__
 FORCEINLINE uint8_t pulsesStarted()
 {
-  return (s_current_protocol != 255);
+  return (s_current_protocol != S_CURRENT_PROTOCOL_NULL);
 }
 
 
@@ -180,7 +180,7 @@ FORCEINLINE void sendStopPulses()
 #endif
   }
 
-  s_current_protocol = 255; // Update stop status.
+  s_current_protocol = S_CURRENT_PROTOCOL_NULL; // Update stop status.
 }
 
 

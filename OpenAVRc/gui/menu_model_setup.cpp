@@ -361,24 +361,34 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
       else
 #endif
       {
-#if (SERIAL_PROTOCOL==MULTIMODULE)
-        if ((IS_MULTIMODULE_PROTOCOL(protocol)) && (mm_type1_packet_ptr->input_signal_detected) \
-            && (DOUBLE_BLINK_ON_PHASE)) // toggle xmitter-version if multimodule link is ok
+        #if (SERIAL_PROTOCOL==MULTIMODULE)
+        if ((IS_MULTIMODULE_PROTOCOL(protocol)) && (DOUBLE_BLINK_ON_PHASE)) // toggle xmitter-version if multimodule link is ok
           {
-            //v1.3.4.31
-            char mpmVersion[10] = {'v','0','.','0','.','0','.','0','0','\0'};
-            mpmVersion[1] += mm_type1_packet_ptr->ver_major;
-            mpmVersion[3] += mm_type1_packet_ptr->ver_minor;
-            mpmVersion[5] += mm_type1_packet_ptr->ver_revision;
-            uint8_t ver_patchlevel = mm_type1_packet_ptr->ver_patchlevel;
-            mpmVersion[7] += ((ver_patchlevel/10));
-            mpmVersion[8] += ((ver_patchlevel%10));
+            if (pulses2MHz.mm_st.heartbeat)
+              {
+                //v1.3.4.31
+                char mpmVersion[10]; //v','0','.','0','.','0','.','0','0','\0'};
+                mpmVersion[0] = 'v';
+                mpmVersion[1] = mpmVersion[3] = mpmVersion[5] = mpmVersion[7] = mpmVersion[8] = '0';
+                mpmVersion[2] = mpmVersion[4] = mpmVersion[6] = '.';
+                mpmVersion[9] = '\0';
+                mpmVersion[1] += mm_type1_packet_ptr->ver_major;
+                mpmVersion[3] += mm_type1_packet_ptr->ver_minor;
+                mpmVersion[5] += mm_type1_packet_ptr->ver_revision;
+                uint8_t ver_patchlevel = mm_type1_packet_ptr->ver_patchlevel;
+                mpmVersion[7] += ((ver_patchlevel/10));
+                mpmVersion[8] += ((ver_patchlevel%10));
 
-            lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, mpmVersion, menuHorizontalPosition == 0 ? (attr|BSS) : (0|BSS));
+                lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, mpmVersion, menuHorizontalPosition == 0 ? (attr|BSS) : (0|BSS));
+              }
+            else
+              {
+                lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, STR_NODATA, menuHorizontalPosition == 0 ? attr : 0);
+              }
           }
-          else
-#endif
-        lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, Protos[g_model.rfProtocol].ProtoName, menuHorizontalPosition == 0 ? attr : 0);
+        else
+        #endif
+          lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y, Protos[g_model.rfProtocol].ProtoName, menuHorizontalPosition == 0 ? attr : 0);
       }
        if (IS_PPM_PROTOCOL(protocol))
        {
@@ -460,7 +470,6 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
          lcdDrawText(MODEL_SETUP_2ND_COLUMN+3*FW, y+8, STR_MS);
          uint16_t PcmPeriod = CheckPCMPeriod();
          lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y+8, PcmPeriod/100, PREC1|LEFT, 4);
-         //lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN, y+8, (uint16_t)FUT_PCM1024_FRAME_PERIOD_US/100, PREC1|LEFT, 4);
          lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+7*FW+1, y+8, STR_NCHANNELS, FUT_PCM1024_PROP_CH_NB/4/*8CH*/, 0);
         }
 #endif

@@ -80,27 +80,27 @@ class GvarsFrame: public wxFrame
 	protected:
 
 		//(*Identifiers(GvarsFrame)
-		static const long ID_GRID1;
-		static const long ID_TextCtrlpersoGvar6;
-		static const long ID_TextCtrlpersoGvar8;
-		static const long ID_TextCtrlpersoGvar11;
-		static const long ID_TextCtrlpersoGvar12;
-		static const long ID_TextCtrlpersoGvar10;
-		static const long ID_TextCtrlpersoGvar9;
-		static const long ID_TextCtrlpersoGvar7;
-		static const long ID_TextCtrlpersoPhase0;
-		static const long ID_TextCtrlpersoPhase1;
-		static const long ID_TextCtrlpersoPhase2;
-		static const long ID_TextCtrlpersoPhase3;
-		static const long ID_TextCtrlpersoPhase4;
-		static const long ID_TextCtrlpersoPhase5;
-		static const long ID_TextCtrlpersoGvar1;
-		static const long ID_TextCtrlpersoGvar2;
-		static const long ID_TextCtrlpersoGvar3;
-		static const long ID_TextCtrlpersoGvar4;
-		static const long ID_TextCtrlpersoGvar5;
-		static const long ID_PANEL1;
-		static const long ID_TIMERGVARS;
+		static const wxWindowID ID_GRID1;
+		static const wxWindowID ID_TextCtrlpersoGvar6;
+		static const wxWindowID ID_TextCtrlpersoGvar8;
+		static const wxWindowID ID_TextCtrlpersoGvar11;
+		static const wxWindowID ID_TextCtrlpersoGvar12;
+		static const wxWindowID ID_TextCtrlpersoGvar10;
+		static const wxWindowID ID_TextCtrlpersoGvar9;
+		static const wxWindowID ID_TextCtrlpersoGvar7;
+		static const wxWindowID ID_TextCtrlpersoPhase0;
+		static const wxWindowID ID_TextCtrlpersoPhase1;
+		static const wxWindowID ID_TextCtrlpersoPhase2;
+		static const wxWindowID ID_TextCtrlpersoPhase3;
+		static const wxWindowID ID_TextCtrlpersoPhase4;
+		static const wxWindowID ID_TextCtrlpersoPhase5;
+		static const wxWindowID ID_TextCtrlpersoGvar1;
+		static const wxWindowID ID_TextCtrlpersoGvar2;
+		static const wxWindowID ID_TextCtrlpersoGvar3;
+		static const wxWindowID ID_TextCtrlpersoGvar4;
+		static const wxWindowID ID_TextCtrlpersoGvar5;
+		static const wxWindowID ID_PANEL1;
+		static const wxWindowID ID_TIMERGVARS;
 		//*)
 
 	private:

@@ -182,10 +182,6 @@ OFFSET_ON_INPUT = YES
 # Values = YES, NO
 EEPROM_PROGRESS_BAR = NO
 
-# Debug with TinyDbg
-# Values = NO, UART_BT
-DEBUG = NO
-
 # Timers Count
 # Values = 2
 TIMERS = 2
@@ -305,8 +301,6 @@ THIRDPARTY = thirdparty
 RRSDDIR = $(THIRDPARTY)/rrsd
 XMODEMDIR = $(THIRDPARTY)/xmodem
 
-DEBUGDIR = debug
-
 
 SRC =
 CPPSRC =
@@ -367,14 +361,6 @@ ifeq ($(PCB), MEGAMINI)
   EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp
 
   ASRC =
-
-	ifneq ($(DEBUG), NO)
-		need_Serial1=YES
-		CPPSRC += $(DEBUGDIR)/TinyDbg.cpp
-		ifeq ($(DEBUG), UART_BT)
-		CPPDEFS += -DTINY_DBG_UART_BT
-		endif
-	endif
 
   needSerial0 = FALSE
   ifneq ($(SERIAL_PROTOCOL), NO)
@@ -516,7 +502,7 @@ ifeq ($(PCB), EVO_V2)
 
   AUDIO = YES
   BUZZER = NO
-  PWM_BACKLIGHT = YES
+  PWM_BACKLIGHT = NO
   EXTERNALEEPROM = YES
   EXT = FRSKY
   HAPTIC = NO
@@ -542,9 +528,7 @@ ifeq ($(PCB), EVO_V2)
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v2/menu_general_diaganas.cpp
-  EXTRABOARDSRC =  targets/evo_v2/xmega_adc_driver.cpp targets/evo_v2/Serial1.cpp
-#  EXTRABOARDSRC += targets/evo_v2/lcd_spi_driver.cpp
-  EXTRABOARDSRC += targets/evo_v2/lcd_dma_driver.cpp
+  EXTRABOARDSRC = targets/evo_v2/lcd_ssd1309_driver.cpp targets/evo_v2/xmega_adc_driver.cpp targets/evo_v2/Serial1.cpp
 
   needSerial0 = FALSE
   ifneq ($(SERIAL_PROTOCOL), NO)
@@ -678,14 +662,6 @@ ifeq ($(PCB), MEGA2560)
 
   EXTRABOARDSRC = adc_driver.cpp targets/lcd/lcd_driver.cpp
 
-	ifneq ($(DEBUG), NO)
-		need_Serial1=YES
-		CPPSRC += $(DEBUGDIR)/TinyDbg.cpp
-		ifeq ($(DEBUG), UART_BT)
-		CPPDEFS += -DTINY_DBG_UART_BT
-		endif
-	endif
-
   needSerial0 = FALSE
   ifneq ($(SERIAL_PROTOCOL), NO)
    needSerial0 = YES
@@ -789,8 +765,8 @@ ifeq ($(PCB), MEGA2560)
 
 endif
 
-CC      = $(TRGT)g++
-CPP     = $(TRGT)cpp
+CC      = $(TRGT)gcc
+CPP     = $(TRGT)g++
 AS      = $(TRGT)as
 OBJCOPY = $(TRGT)objcopy
 OBJDUMP = $(TRGT)objdump

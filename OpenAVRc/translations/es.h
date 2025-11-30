@@ -89,6 +89,10 @@
 #define TR_MULTI_DSM_AUTODTECT         INDENT "Autodetect"
 #define TR_MULTI_LOWPOWER              INDENT "Low power"
 #define TR_MULTI_SERVOFREQ             INDENT "Servo rate"
+#define TR_MULTI_FIXEDID               "ID Fijo"
+#define TR_MULTI_MAX_THROW             "Máx. Throw"
+#define TR_MULTI_RFCHAN                "Canal RF"
+#define TR_MULTI_OUTPUT                "salida"
 
 #define LEN_VCURVEFUNC         "\003"
 #define TR_VCURVEFUNC          "---""x>0""x<0""|x|""f>0""f<0""|f|"

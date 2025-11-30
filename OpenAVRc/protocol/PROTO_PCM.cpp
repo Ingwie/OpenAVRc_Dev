@@ -56,11 +56,11 @@ const static RfOptionSettingsvar_t RfOpt_PCM_Ser[] PROGMEM =
 {
  /*rfProtoNeed*/0, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
  /*rfSubTypeMax*/PCM_PROTO_NB - 1,
- /*rfOptionValue1Min*/0, // FREQFINE MIN
- /*rfOptionValue1Max*/0, // FREQFINE MAX
+ /*rfOptionValue1Min*/0,
+ /*rfOptionValue1Max*/0,
  /*rfOptionValue2Min*/0,
  /*rfOptionValue2Max*/0,
- /*rfOptionValue3Max*/0, // RF POWER
+ /*rfOptionValue3Max*/0,
 };
 
 /*************************************************/

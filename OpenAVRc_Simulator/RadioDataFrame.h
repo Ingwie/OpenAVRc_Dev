@@ -75,18 +75,18 @@ class RadioDataFrame: public wxFrame
 	protected:
 
 		//(*Identifiers(RadioDataFrame)
-		static const long ID_STATICBOX1;
-		static const long ID_TEXTCTRLVERSION;
-		static const long ID_TEXTCTRL3;
-		static const long ID_TEXTCTRLBATT;
-		static const long ID_TEXTCTRLSTICKMODE;
-		static const long ID_TEXTCTRLCalibration;
-		static const long ID_STATICTEXT1;
-		static const long ID_STATICTEXT2;
-		static const long ID_TEXTCTRLCONTRAST;
-		static const long ID_TEXTCTRLHAPTICMODE;
-		static const long ID_PANEL1;
-		static const long ID_TIMERRADIODATA;
+		static const wxWindowID ID_STATICBOX1;
+		static const wxWindowID ID_TEXTCTRLVERSION;
+		static const wxWindowID ID_TEXTCTRL3;
+		static const wxWindowID ID_TEXTCTRLBATT;
+		static const wxWindowID ID_TEXTCTRLSTICKMODE;
+		static const wxWindowID ID_TEXTCTRLCalibration;
+		static const wxWindowID ID_STATICTEXT1;
+		static const wxWindowID ID_STATICTEXT2;
+		static const wxWindowID ID_TEXTCTRLCONTRAST;
+		static const wxWindowID ID_TEXTCTRLHAPTICMODE;
+		static const wxWindowID ID_PANEL1;
+		static const wxWindowID ID_TIMERRADIODATA;
 		//*)
 
 	private:

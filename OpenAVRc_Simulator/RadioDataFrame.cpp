@@ -43,18 +43,18 @@ wxString vTxt;
 //*)
 
 //(*IdInit(RadioDataFrame)
-const long RadioDataFrame::ID_STATICBOX1 = wxNewId();
-const long RadioDataFrame::ID_TEXTCTRLVERSION = wxNewId();
-const long RadioDataFrame::ID_TEXTCTRL3 = wxNewId();
-const long RadioDataFrame::ID_TEXTCTRLBATT = wxNewId();
-const long RadioDataFrame::ID_TEXTCTRLSTICKMODE = wxNewId();
-const long RadioDataFrame::ID_TEXTCTRLCalibration = wxNewId();
-const long RadioDataFrame::ID_STATICTEXT1 = wxNewId();
-const long RadioDataFrame::ID_STATICTEXT2 = wxNewId();
-const long RadioDataFrame::ID_TEXTCTRLCONTRAST = wxNewId();
-const long RadioDataFrame::ID_TEXTCTRLHAPTICMODE = wxNewId();
-const long RadioDataFrame::ID_PANEL1 = wxNewId();
-const long RadioDataFrame::ID_TIMERRADIODATA = wxNewId();
+const wxWindowID RadioDataFrame::ID_STATICBOX1 = wxNewId();
+const wxWindowID RadioDataFrame::ID_TEXTCTRLVERSION = wxNewId();
+const wxWindowID RadioDataFrame::ID_TEXTCTRL3 = wxNewId();
+const wxWindowID RadioDataFrame::ID_TEXTCTRLBATT = wxNewId();
+const wxWindowID RadioDataFrame::ID_TEXTCTRLSTICKMODE = wxNewId();
+const wxWindowID RadioDataFrame::ID_TEXTCTRLCalibration = wxNewId();
+const wxWindowID RadioDataFrame::ID_STATICTEXT1 = wxNewId();
+const wxWindowID RadioDataFrame::ID_STATICTEXT2 = wxNewId();
+const wxWindowID RadioDataFrame::ID_TEXTCTRLCONTRAST = wxNewId();
+const wxWindowID RadioDataFrame::ID_TEXTCTRLHAPTICMODE = wxNewId();
+const wxWindowID RadioDataFrame::ID_PANEL1 = wxNewId();
+const wxWindowID RadioDataFrame::ID_TIMERRADIODATA = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(RadioDataFrame,wxFrame)
@@ -81,7 +81,7 @@ RadioDataFrame::RadioDataFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	TextCtrlcalibration = new wxTextCtrl(Panel1, ID_TEXTCTRLCalibration, wxEmptyString, wxPoint(16,192), wxSize(176,120), wxTE_NO_VSCROLL|wxTE_MULTILINE|wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRLCalibration"));
 	TextCtrlcalibration->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
 	StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("                     Max         Min       Alarm"), wxPoint(8,64), wxSize(192,24), 0, _T("ID_STATICTEXT1"));
-	StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, _(" 1008            1024           1008"), wxPoint(16,168), wxSize(168,13), 0, _T("ID_STATICTEXT2"));
+	StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, _T(" 1008            1024           1008"), wxPoint(16,168), wxSize(168,13), 0, _T("ID_STATICTEXT2"));
 	TextCtrlcontrast = new wxTextCtrl(Panel1, ID_TEXTCTRLCONTRAST, wxEmptyString, wxPoint(16,336), wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRLCONTRAST"));
 	TextCtrlcontrast->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
 	TextCtrlhapticMode = new wxTextCtrl(Panel1, ID_TEXTCTRLHAPTICMODE, wxEmptyString, wxPoint(16,360), wxSize(136,21), 0, wxDefaultValidator, _T("ID_TEXTCTRLHAPTICMODE"));
@@ -89,8 +89,8 @@ RadioDataFrame::RadioDataFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	RadioData.SetOwner(this, ID_TIMERRADIODATA);
 	RadioData.Start(2000, false);
 
-	Connect(ID_TIMERRADIODATA,wxEVT_TIMER,(wxObjectEventFunction)&RadioDataFrame::OnRadioDataTrigger);
-	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&RadioDataFrame::OnClose);
+	Connect(ID_TIMERRADIODATA, wxEVT_TIMER, (wxObjectEventFunction)&RadioDataFrame::OnRadioDataTrigger);
+	Connect(wxID_ANY, wxEVT_CLOSE_WINDOW, (wxObjectEventFunction)&RadioDataFrame::OnClose);
 	//*)
 
   {

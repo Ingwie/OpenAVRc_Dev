@@ -144,7 +144,7 @@ ISR(USART_RX_vect_N(TLM_USART1))
 // Read new data value
  uint8_t data = UDR_N(TLM_USART1);
 // Check error(s) flags
- if (!(UCSRA_N(TLM_USART1) & (_BV(FE_N(TLM_USART0)) | _BV(DOR_N(TLM_USART0)) | _BV(UPE_N(TLM_USART0)))))
+ if (!(UCSRA_N(TLM_USART1) & (_BV(FE_N(TLM_USART1)) | _BV(DOR_N(TLM_USART1)) | _BV(UPE_N(TLM_USART1)))))
   {
    // No error, store data in the buffer if there is room
    BT_RX_Fifo.push(data);

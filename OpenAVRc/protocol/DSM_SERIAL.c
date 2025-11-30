@@ -33,9 +33,6 @@
 
 #include "../OpenAVRc.h"
 
-#define TLM_DSM_SERIAL TLM_USART0 // usart 0
-
-
 // DSM2 control bits
 #define DSM2_CHANS                         6
 #define FRANCE_BIT                         0x10
