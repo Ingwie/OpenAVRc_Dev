@@ -87,12 +87,13 @@ void setupPulsesPPM(enum ppmtype proto)
 }
 
 
-#if defined(CPUM2560)
 FORCEINLINE uint8_t pulsesStarted()
 {
   return (s_current_protocol < S_CURRENT_PROTOCOL_BOOT);
 }
 
+
+#if defined(CPUM2560)
 FORCEINLINE void sendStopPulses()
 {
   PROTO_Cmds(PROTOCMD_RESET);
@@ -152,13 +153,8 @@ ISR(TIMER1_COMPB_vect) // Timer 1 compare "B" vector. Used for PPM commutation a
 }
 #endif
 
+
 #ifdef __AVR_XMEGA__
-FORCEINLINE uint8_t pulsesStarted()
-{
-  return (s_current_protocol != S_CURRENT_PROTOCOL_NULL);
-}
-
-
 FORCEINLINE void sendStopPulses()
 {
   if(pulsesStarted()) {
