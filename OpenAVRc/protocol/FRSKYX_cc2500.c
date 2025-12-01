@@ -259,13 +259,13 @@ static void frskyX_build_bind_packet()
    if(FRSKYX_BIND_IDX_P2M & 0x02)
 	  memcpy_P(&packet_p2M[17],PSTR("\x55\xAA\x5A\xA5"),4);	// CH9-16
   }
- else
+  else
   {
    //Unknown bytes
    if(FRSKYX_BIND_IDX_P2M & 0x01)
-    memcpy_P(&packet_p2M[7],PSTR("\x00\x18\x0A\x00\x00\xE0\x02\x0B\x01\xD3\x08\x00\x00\x4C\xFE\x87\xC7"),17);
+    memcpy_P(&packet_p2M[7],PSTR("\x00\xCC\x00\x00\x00\x70\x14\x15\x00\xD3\x08\x00\x00\xCE\xE2\x85\xC7\x00\x00\x00\x00"),21);
    else
-    memcpy_P(&packet_p2M[7],PSTR("\x27\xAD\x02\x00\x00\x64\xC8\x46\x00\x64\x00\x00\x00\xFB\xF6\x87\xC7"),17);
+    memcpy_P(&packet_p2M[7],PSTR("\x27\xFB\x00\x00\x00\xBC\xEF\x19\x00\x26\x07\x00\x00\xB7\xED\x85\xC7\xA7\xA7\xA7\xA7"),21);
    //ID
    packet_p2M[5] = temp_rfid_addr_p2M[1];			// ID
    packet_p2M[6] = RXNUM;
@@ -274,13 +274,13 @@ static void frskyX_build_bind_packet()
     packet_p2M[7] |= 0x40;				// Telem off
    if(FRSKYX_BIND_IDX_P2M&0x02)
     packet_p2M[7] |= 0x80;				// CH9-16
-   //Replace the ID
-   packet_p2M[20] ^= 0x0E ^ temp_rfid_addr_p2M[3];	// Update the ID
-   packet_p2M[21] ^= 0x1C ^ temp_rfid_addr_p2M[2];	// Update the ID
+   // Replace the ID
+   packet_p2M[20] ^= temp_rfid_addr_p2M[3]; // Update the ID
+   packet_p2M[21] ^= temp_rfid_addr_p2M[2]; // Update the ID
+   packet_p2M[22] ^= temp_rfid_addr_p2M[1] & 0x3F; // Update the ID
    //Xor
    for(uint8_t i=3; i<FRSKYX_PACKET_SIZE_P2M - 1; i++)
     packet_p2M[i] ^= 0xA7;
-
   }
  uint16_t lcrc = Xcrc(&packet_p2M[3], FRSKYX_PACKET_SIZE_P2M - 4);
  packet_p2M[FRSKYX_PACKET_SIZE_P2M - 1] = lcrc >> 8;
