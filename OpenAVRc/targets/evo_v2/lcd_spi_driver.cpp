@@ -22,8 +22,8 @@
 
 void lcdClearRAM(void);
 
-#define LCD_SSD1309
-//#define LCD_EVO
+//#define LCD_SSD1309
+#define LCD_EVO
 //#define LCD_ST7567
 #define BITBANGSPI
 //#define SPI9BIT // Bitbang only !
