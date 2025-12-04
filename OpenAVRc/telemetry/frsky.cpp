@@ -311,19 +311,11 @@ void processSportPacket(uint8_t *sport_packet)
       uint16_t value = HUB_DATA_U16(sport_packet);
       processHubPacket((uint8_t)appId, value);
     }
-  /*else if (appId == BETA_BARO_ALT_ID) KEEP this ?
-    {
-      telemetryData.value.baroAltitude = ((SPORT_DATA_S32(sport_packet) >> 8)/10);
-      manageBaroAltitude();
-    }
-  else if (appId == BETA_VARIO_ID)
-    {
-      int32_t varioSpeed = SPORT_DATA_S32(sport_packet);
-      telemetryData.value.varioSpeed = 10 * (varioSpeed >> 8);
-    }*/
 
-//  if (appId & 0xF000)
-//    return;  // Discard other "0xX000" value (todo use some other)
+  if (appId & 0xF000)
+  {
+    return;  // Discard other "0xX000" value (0xF10X values would be interpreted as Baro without this ;-)
+  }
 
   uint8_t smallId = (uint8_t)(appId >> 4); // Forget last 4 bits -> We accept just one sensor by type
 
