@@ -302,6 +302,8 @@
 					<Add option="-g" />
 					<Add option="`wx-config --cxxflags`" />
 					<Add option="-pthread" />
+					<Add option="-finput-charset=Latin1" />
+					<Add option="-fexec-charset=UTF-8" />
 					<Add option="-D__UNIX__" />
 					<Add option="-DDEBUG=YES" />
 					<Add option="-DTRANSLATIONS_FR" />
@@ -336,6 +338,8 @@
 					<Add option="-m64" />
 					<Add option="`wx-config --cxxflags`" />
 					<Add option="-pthread" />
+					<Add option="-finput-charset=Latin1" />
+					<Add option="-fexec-charset=UTF-8" />
 					<Add option="-D__UNIX__" />
 					<Add option="-DDEBUG=YES" />
 					<Add option="-DTRANSLATIONS_FR" />
