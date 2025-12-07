@@ -1035,10 +1035,10 @@ void ResetToBootloaderWithFlag();
 // pointer to telemetry function parser
 typedef const void (*p_parseTelemFunction)(uint8_t);
 p_parseTelemFunction parseTelemFunction;
-extern void parseTelemFrskyByte(uint8_t data);
-extern void parseTelemFakeByte(uint8_t data);
-extern void parseMultiByte(uint8_t data);
-extern void parseCrossfireByte(uint8_t data);
+extern const void parseTelemFrskyByte(uint8_t data);
+extern const void parseTelemFakeByte(uint8_t data);
+extern const void parseMultiByte(uint8_t data);
+extern const void parseCrossfireByte(uint8_t data);
 
 #if defined (FRSKY)
   // FrSky Telemetry

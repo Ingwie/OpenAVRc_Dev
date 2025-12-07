@@ -52,9 +52,7 @@
 #define S0_USART_RXD_PIN_CTRL_REG  token_paste3(SERIAL0_PORT.PIN, 2, CTRL) // e.g. "PORTx.PINnCTRL"
 #endif
 
-#define NUM_TELEM_RX_BUFFER  2
-#define FRSKY_TLM_PKT_SIZE 9   // Frsky packet size
-#define USART0_TX_PACKET_SIZE 26 // used in Multiprotocole serial
+#define FRSKY_TLM_PKT_SIZE   9   // Frsky packet size
 #define IBUS_TLM_HEADER      9
 #define IBUS_TLM_PACKET_SIZE 37
 
@@ -65,11 +63,12 @@ extern uint8_t Usart0TxBufferCount;
 
 static union
 {
-  uint8_t TelemetryRxBuffer[NUM_TELEM_RX_BUFFER][FRSKY_TLM_PKT_SIZE];
+  uint32_t TelemetryRxBufferFourBytes; // To check/set empty buffer (four first bytes control)
+  uint8_t TelemetryRxBuffer[FRSKY_TLM_PKT_SIZE];
   uint8_t ibus_telem_buffer[IBUS_TLM_PACKET_SIZE - IBUS_TLM_HEADER + 1]; // Omit TXID, RXID (8 bytes) but retain header byte 0xAA or 0xAC.
 };
 
-void LoadTelemBuffer(uint8_t *data);
+void LoadFrskyTelemBuffer(uint8_t *data);
 void LoadAFHDS2ATelemBuffer(uint8_t *data);
 
 #define RAW_FRSKY_MINMAX(v)       v.value

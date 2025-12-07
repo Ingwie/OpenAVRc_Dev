@@ -58,7 +58,7 @@ void telemetryResetValue()
   frskyStreaming = 0; // reset counter only if valid frsky packets are being detected
 }
 
-NOINLINE void parseTelemFrskyByte(uint8_t data)
+NOINLINE const void parseTelemFrskyByte(uint8_t data)
 {
   static uint8_t dataState = STATE_DATA_IDLE;
   static uint8_t BufferCount;
@@ -100,7 +100,7 @@ NOINLINE void parseTelemFrskyByte(uint8_t data)
             {
               // end of frame detected in "D" mode
               //frskyDProcessPacket(Buffer);
-              LoadTelemBuffer(Buffer);
+              LoadFrskyTelemBuffer(Buffer);
               dataState = STATE_DATA_IDLE;
               break;
             }
@@ -131,7 +131,7 @@ NOINLINE void parseTelemFrskyByte(uint8_t data)
 
   if (IS_USR_PROTO_SMART_PORT() && BufferCount >= (IS_SPIMODULES_PROTOCOL(g_model.rfProtocol)? FRSKY_TLM_PKT_SIZE - 1:FRSKY_TLM_PKT_SIZE))
     {
-      LoadTelemBuffer(Buffer);
+      LoadFrskyTelemBuffer(Buffer);
       dataState = STATE_DATA_IDLE;
     }
 }
@@ -281,7 +281,7 @@ void processSportPacket(uint8_t *sport_packet)
   {
     if (appId == X_RSSI_ID)
     {
-      if(IS_MULTIMODULE_PROTOCOL (s_current_protocol))
+      if(IS_MULTIMODULE_PROTOCOL(s_current_protocol))
       { // Multiprotocol specific RSSI / LQI.
         telemetryData.rssi[0].set((sport_packet[5]) >> 1); // Multi TX_RSSI - units Decibel (dB).
         telemetryData.rssi[1].set(sport_packet[7]); // Multi TX_LQI - No units.
@@ -892,32 +892,26 @@ void telemetryInterrupt10ms()
 {
 
   if (IS_USR_PROTO_IBUS())
-  {
-    if(ibus_telem_buffer[0]) process_ibus_telem();
-    memclear(ibus_telem_buffer, 1); // Reset buffer.
-  }
+    {
+      if(ibus_telem_buffer[0]) process_ibus_telem();
+      memclear(ibus_telem_buffer, 1); // Reset buffer.
+    }
   else  if (IS_USR_PROTO_SMART_PORT())
-  {
-    for (uint8_t i = 0; i < NUM_TELEM_RX_BUFFER; ++i)
     {
-      if (TelemetryRxBuffer[i][0] || TelemetryRxBuffer[i][1]) // Check if buffer data are present
-      {
-        processSportPacket (TelemetryRxBuffer[i]);
-        memclear(TelemetryRxBuffer[i], FRSKY_TLM_PKT_SIZE); // Reset buffer.
-      }
+      if (TelemetryRxBufferFourBytes != 0) // Check if buffer data are present
+        {
+          processSportPacket(TelemetryRxBuffer);
+          TelemetryRxBufferFourBytes = 0; // Reset buffer.
+        }
     }
-  }
   else if (IS_USR_PROTO_FRSKY_HUB() || IS_USR_PROTO_WS_HOW_HIGH())
-  {
-    for (uint8_t i = 0; i < NUM_TELEM_RX_BUFFER; ++i)
     {
-      if (TelemetryRxBuffer[i][0] || TelemetryRxBuffer[i][1]) // Check if buffer data are present
-      {
-        frskyDProcessPacket (TelemetryRxBuffer[i]);
-        memclear(TelemetryRxBuffer[i], FRSKY_TLM_PKT_SIZE); // Reset buffer.
-      }
+      if (TelemetryRxBufferFourBytes != 0) // Check if buffer data are present
+        {
+          frskyDProcessPacket(TelemetryRxBuffer);
+          TelemetryRxBufferFourBytes = 0; // Reset buffer.
+        }
     }
-  }
 
 
   uint16_t voltage = 0; /* unit: 1/10 volts */
@@ -1080,15 +1074,12 @@ void LoadAFHDS2ATelemBuffer(uint8_t *data)
 }
 
 
-void LoadTelemBuffer(uint8_t *data)
+void LoadFrskyTelemBuffer(uint8_t *data)
 {
-  for (uint8_t i=0; i<NUM_TELEM_RX_BUFFER; ++i)
+  if (TelemetryRxBufferFourBytes == 0) // Check buffer is free
     {
-      if (!(TelemetryRxBuffer[i][0] || TelemetryRxBuffer[i][1])) // Check buffer is free
-        {
-          memcpy(TelemetryRxBuffer[i], data, FRSKY_TLM_PKT_SIZE);
-          return;
-        }
+      memcpy(TelemetryRxBuffer, data, FRSKY_TLM_PKT_SIZE);
+      return;
     }
 }
 

@@ -102,7 +102,7 @@ static void MULTI_Reset()
 {
   USART_DISABLE_TX(MULTI_USART);
   USART_DISABLE_RX(MULTI_USART);
-  parseTelemFunction = (p_parseTelemFunction)parseTelemFrskyByte;
+  parseTelemFunction = parseTelemFrskyByte;
 }
 
 struct mm_t1_pkt  *mm_type1_packet_ptr = &pulses2MHz.mm_st.mm_type1_packet;
@@ -245,7 +245,7 @@ enum MPSTATE
 static void MULTI_initialize()
 {
 // 100K 8E2
-  parseTelemFunction = (p_parseTelemFunction)parseMultiByte;
+  parseTelemFunction = parseMultiByte;
   USART_SET_BAUD_100K(MULTI_USART);
   USART_SET_MODE_8E2(MULTI_USART);
   USART_ENABLE_TX(MULTI_USART);
@@ -288,7 +288,7 @@ const void* MULTI_Cmds(enum ProtoCmds cmd)
   return 0;
 }
 
-NOINLINE void parseMultiByte(uint8_t data)
+NOINLINE const void parseMultiByte(uint8_t data)
 {
 
   enum PKTTYPE
@@ -351,9 +351,9 @@ NOINLINE void parseMultiByte(uint8_t data)
 
         if (write_ptr_p2m == length_p2m)
         {
-          // load protocol informations if menuModelSetup is shown
           if (menuHandlers[menuLevel] == menuModelSetup && pkt_type_p2m == MM_STATUS && length_p2m == MM_TYPE_01_PKT_LEN)
           {
+          // load protocol informations if menuModelSetup is shown
             memcpy(&mm_type1_packet, &l_buffer, MM_TYPE_01_PKT_LEN);
             heartbeat_p2m = 50; // 1 seconde
             state_p2m = RESET;
@@ -379,7 +379,7 @@ NOINLINE void parseMultiByte(uint8_t data)
           }
           else if ((pkt_type_p2m == FRSKY_HUB_TLM || pkt_type_p2m == FRSKY_SPORT_TLM) && length_p2m == FRSKY_TLM_PKT_SIZE)
           {
-            LoadTelemBuffer(l_buffer);
+            LoadFrskyTelemBuffer(l_buffer);
             state_p2m = RESET;
             break;
           }
