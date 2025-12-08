@@ -351,9 +351,9 @@ NOINLINE const void parseMultiByte(uint8_t data)
 
         if (write_ptr_p2m == length_p2m)
         {
-          if (menuHandlers[menuLevel] == menuModelSetup && pkt_type_p2m == MM_STATUS && length_p2m == MM_TYPE_01_PKT_LEN)
+          if (pkt_type_p2m == MM_STATUS && length_p2m == MM_TYPE_01_PKT_LEN)
           {
-          // load protocol informations if menuModelSetup is shown
+            // load protocol informations
             memcpy(&mm_type1_packet, &l_buffer, MM_TYPE_01_PKT_LEN);
             heartbeat_p2m = 50; // 1 seconde
             state_p2m = RESET;
