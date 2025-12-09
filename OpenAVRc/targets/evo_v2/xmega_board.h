@@ -117,6 +117,8 @@
 #define RF_OUT_PIN                 3
 #define RF_OUT_PIN_CTRL_REG        token_paste3(RF_PORT.PIN, RF_OUT_PIN, CTRL) // e.g. "PORTx.PINnCTRL"
 
+#define DEBUG_PIN_HIGH             PORTB.OUTSET = PIN6_bm; // set mpx rf enable pin as high / debug.
+#define DEBUG_PIN_LOW              PORTB.OUTCLR = PIN6_bm; // set mpx rf enable pin as low / debug.
 
 void setup_rf_tc(void);
 void rf_usart_serial_init(void);
