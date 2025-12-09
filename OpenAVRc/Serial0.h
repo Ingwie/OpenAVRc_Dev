@@ -52,6 +52,7 @@
 #define S0_USART_RXD_PIN_CTRL_REG  token_paste3(SERIAL0_PORT.PIN, 2, CTRL) // e.g. "PORTx.PINnCTRL"
 #endif
 
+#define NUM_FRSKY_TLM_PKT    2
 #define FRSKY_TLM_PKT_SIZE   9   // Frsky packet size
 #define IBUS_TLM_HEADER      9
 #define IBUS_TLM_PACKET_SIZE 37
@@ -63,8 +64,7 @@ extern uint8_t Usart0TxBufferCount;
 
 static union
 {
-  uint32_t TelemetryRxBufferFourBytes; // To check/set empty buffer (four first bytes control)
-  uint8_t TelemetryRxBuffer[FRSKY_TLM_PKT_SIZE];
+  uint8_t frsky_telem_buffers[NUM_FRSKY_TLM_PKT][FRSKY_TLM_PKT_SIZE];
   uint8_t ibus_telem_buffer[IBUS_TLM_PACKET_SIZE - IBUS_TLM_HEADER + 1]; // Omit TXID, RXID (8 bytes) but retain header byte 0xAA or 0xAC.
 };
 

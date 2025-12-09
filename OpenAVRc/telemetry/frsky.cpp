@@ -890,26 +890,27 @@ void process_ibus_telem(void)
 
 void telemetryInterrupt10ms()
 {
-
   if (IS_USR_PROTO_IBUS())
     {
       if(ibus_telem_buffer[0]) process_ibus_telem();
       memclear(ibus_telem_buffer, 1); // Reset buffer.
     }
-  else  if (IS_USR_PROTO_SMART_PORT())
+  else
     {
-      if (TelemetryRxBufferFourBytes != 0) // Check if buffer data are present
+      for (uint8_t i = 0; i < NUM_FRSKY_TLM_PKT; ++i)
         {
-          processSportPacket(TelemetryRxBuffer);
-          TelemetryRxBufferFourBytes = 0; // Reset buffer.
-        }
-    }
-  else if (IS_USR_PROTO_FRSKY_HUB() || IS_USR_PROTO_WS_HOW_HIGH())
-    {
-      if (TelemetryRxBufferFourBytes != 0) // Check if buffer data are present
-        {
-          frskyDProcessPacket(TelemetryRxBuffer);
-          TelemetryRxBufferFourBytes = 0; // Reset buffer.
+          if (frsky_telem_buffers[i][0] || frsky_telem_buffers[i][1]) // Check if buffer ID is present (0xXXXX)
+            {
+              if (IS_USR_PROTO_SMART_PORT())
+                {
+                  processSportPacket(frsky_telem_buffers[i]);
+                }
+              else if (IS_USR_PROTO_FRSKY_HUB() || IS_USR_PROTO_WS_HOW_HIGH())
+                {
+                  frskyDProcessPacket(frsky_telem_buffers[i]);
+                }
+              memclear(frsky_telem_buffers[i], 2); // Reset ID (Free this buffer -> Uart ISR can use it again)
+            }
         }
     }
 
@@ -1073,13 +1074,15 @@ void LoadAFHDS2ATelemBuffer(uint8_t *data)
   }
 }
 
-
 void LoadFrskyTelemBuffer(uint8_t *data)
 {
-  if (TelemetryRxBufferFourBytes == 0) // Check buffer is free
+  for (uint8_t i=0; i<NUM_FRSKY_TLM_PKT; ++i)
     {
-      memcpy(TelemetryRxBuffer, data, FRSKY_TLM_PKT_SIZE);
-      return;
+      if (!(frsky_telem_buffers[i][0] || frsky_telem_buffers[i][1])) // Check if buffer is free (ID = 0x0000)
+        {
+          memcpy(frsky_telem_buffers[i], data, FRSKY_TLM_PKT_SIZE);
+          return;
+        }
     }
 }
 
