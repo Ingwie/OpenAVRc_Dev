@@ -159,6 +159,7 @@ DataID Meaning       Unit   Range   Note
 #define X_POWERBOX_BATT2_ID       0xB1
 #define X_POWERBOX_STATE_ID       0xB2
 #define X_POWERBOX_CNSP_ID        0xB3
+#define X_VALID_FRAME_RATE_ID     0xF010
 #define X_RSSI_ID                 0xF101
 #define X_ADC1_ID                 0xF102
 #define X_ADC2_ID                 0xF103
