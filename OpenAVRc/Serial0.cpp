@@ -45,13 +45,13 @@ ISR(USART_RX_vect_N(TLM_USART0))
 {
   uint8_t data = UDR_N(TLM_USART0);
 
-  UCSRB_N(TLM_USART0) &= ~(1 << RXCIE_N(TLM_USART0)); // disable Interrupt
+  //UCSRB_N(TLM_USART0) &= ~(1 << RXCIE_N(TLM_USART0)); // disable Interrupt
 
-  NONATOMIC_BLOCK(NONATOMIC_RESTORESTATE)
+  //NONATOMIC_BLOCK(NONATOMIC_RESTORESTATE)
   {
     parseTelemFunction(data); // USART data register 0
   }
-  UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
+  //UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
 }
 
 
