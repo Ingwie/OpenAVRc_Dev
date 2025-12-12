@@ -334,11 +334,9 @@ NOINLINE const void parseMultiByte(uint8_t data)
       break;
 
     case TYPE_FOUND:
-      if (data <= MM_RX_PKT_MAX_LEN)
-      {
-        length_p2m = data;
-        state_p2m = LEN_FOUND;
-      }
+      length_p2m = data;
+      if (length_p2m == MM_TYPE_01_PKT_LEN || length_p2m == FRSKY_TLM_PKT_SIZE || length_p2m == MM_TYPE_06_PKT_LEN) // control bad/spam packets
+      state_p2m = LEN_FOUND;
       else state_p2m = RESET;
       break;
 
