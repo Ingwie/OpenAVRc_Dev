@@ -102,7 +102,7 @@ static void MULTI_Reset()
 {
   USART_DISABLE_TX(MULTI_USART);
   USART_DISABLE_RX(MULTI_USART);
-  parseTelemFunction = parseTelemFrskyByte;
+  parseSerialTelemFunction = parseSerialTelemFrskyByte;
 }
 
 struct mm_t1_pkt  *mm_type1_packet_ptr = &pulses2MHz.mm_st.mm_type1_packet;
@@ -245,7 +245,7 @@ enum MPSTATE
 static void MULTI_initialize()
 {
 // 100K 8E2
-  parseTelemFunction = parseMultiByte;
+  parseSerialTelemFunction = parseSerialMultiByte;
   USART_SET_BAUD_100K(MULTI_USART);
   USART_SET_MODE_8E2(MULTI_USART);
   USART_ENABLE_TX(MULTI_USART);
@@ -288,7 +288,7 @@ const void* MULTI_Cmds(enum ProtoCmds cmd)
   return 0;
 }
 
-NOINLINE const void parseMultiByte(uint8_t data)
+NOINLINE const void parseSerialMultiByte(uint8_t data, uint8_t error)
 {
 
   enum PKTTYPE
@@ -309,6 +309,12 @@ NOINLINE const void parseMultiByte(uint8_t data)
     CONFIG_TLM      = 0x10,
     PROTO_LIST      = 0x11,
   };
+
+  if (error) // reset the parser on serial error
+  {
+    state_p2m = RESET;
+    return;
+  }
 
   switch (state_p2m)
   {

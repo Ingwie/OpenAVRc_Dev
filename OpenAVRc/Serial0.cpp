@@ -35,23 +35,19 @@
 
 uint8_t Usart0TxBufferCount = 0;
 
-const void parseTelemFakeByte(uint8_t data)
+NOINLINE const void parseSerialTelemFakeByte(uint8_t data, uint8_t error)
 {
-  data = data; // compiler pleased
+  data = error; // compiler pleased
 }
 
 #if defined(CPUM2560)
 ISR(USART_RX_vect_N(TLM_USART0))
 {
   uint8_t data = UDR_N(TLM_USART0);
-
-  //UCSRB_N(TLM_USART0) &= ~(1 << RXCIE_N(TLM_USART0)); // disable Interrupt
-
-  //NONATOMIC_BLOCK(NONATOMIC_RESTORESTATE)
-  {
-    parseTelemFunction(data); // USART data register 0
-  }
-  //UCSRB_N(TLM_USART0) |= (1 << RXCIE_N(TLM_USART0)); // enable Interrupt
+  uint8_t error = UCSRA_N(TLM_USART0);
+  // Filter FE0:Frame Error DOR0:Data OverRun UPE0:Parity Error
+  error &= ((1 << FE_N(TLM_USART0)) | (1 << DOR_N(TLM_USART0)) | (1 << UPE_N(TLM_USART0)));
+  parseSerialTelemFunction(data, error);
 }
 
 
@@ -72,8 +68,12 @@ ISR(USART_UDRE_vect_N(TLM_USART0))
 #if defined(CPUXMEGA)
 ISR(token_paste4(USART, S0_PORT, S0_USART, _RXC_vect)) // e.g. USARTE0_RXC_vect
 {
+  uint8_t error = SERIAL0_USART.STATUS;
   uint8_t data = SERIAL0_USART.DATA;
-  parseTelemFunction(data);
+  // Filter usart error
+  error &= (USART_FERR_bm | USART_BUFOVF_bm | USART_PERR_bm);
+
+  parseSerialTelemFunction(data, error);
 }
 
 

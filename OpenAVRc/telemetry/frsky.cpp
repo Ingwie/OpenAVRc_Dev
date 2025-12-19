@@ -58,6 +58,12 @@ void telemetryResetValue()
   frskyStreaming = 0; // reset counter only if valid frsky packets are being detected
 }
 
+NOINLINE const void parseSerialTelemFrskyByte(uint8_t data, uint8_t error)
+{
+  if (error) parseTelemFrskyByte(START_STOP); // reset
+  else parseTelemFrskyByte(data);
+}
+
 NOINLINE const void parseTelemFrskyByte(uint8_t data)
 {
   static uint8_t dataState = STATE_DATA_IDLE;

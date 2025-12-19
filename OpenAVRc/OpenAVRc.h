@@ -1033,12 +1033,14 @@ extern volatile rotenc_t g_rotenc[ROTARY_ENCODERS];
 void ResetToBootloaderWithFlag();
 
 // pointer to telemetry function parser
-typedef const void (*p_parseTelemFunction)(uint8_t);
-p_parseTelemFunction parseTelemFunction;
+// serial ones
+typedef const void (*p_parseSerialTelemFunction)(uint8_t,uint8_t);
+p_parseSerialTelemFunction parseSerialTelemFunction;
+extern const void parseSerialTelemFakeByte(uint8_t data, uint8_t error);
+extern const void parseSerialTelemFrskyByte(uint8_t data, uint8_t error);
+extern const void parseSerialMultiByte(uint8_t data, uint8_t error);
+// SPI direct
 extern const void parseTelemFrskyByte(uint8_t data);
-extern const void parseTelemFakeByte(uint8_t data);
-extern const void parseMultiByte(uint8_t data);
-extern const void parseCrossfireByte(uint8_t data);
 
 #if defined (FRSKY)
   // FrSky Telemetry

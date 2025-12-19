@@ -1609,9 +1609,9 @@ int16_t simumain()
 
   boardInit();
 #if defined(FRSKY)
-  parseTelemFunction = parseTelemFrskyByte; // set default telemetry function parser (Frsky)
+  parseSerialTelemFunction = parseSerialTelemFrskyByte; // set default telemetry function parser (Frsky)
   #else
-  parseTelemFunction = parseTelemFakeByte; // set default telemetry function parser (Fake function)
+  parseSerialTelemFunction = parseSerialTelemFakeByte; // set default telemetry function parser (Fake function)
 #endif
   sei(); // Needed to catch first 10mS interrupt
 
