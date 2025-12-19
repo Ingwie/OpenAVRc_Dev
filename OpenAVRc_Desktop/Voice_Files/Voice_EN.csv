@@ -379,7 +379,7 @@ minus;minus
 mid night;mid night
 noon;noon
 free 380;free 380
-volt;volt
+volt;volts
 amps;amps
 meters per second;meters per second
 free 384;free 384
@@ -391,11 +391,11 @@ mA;milli- amps
 mAh;milliamp hours
 Watt;watts
 dB;db
-foot;foot
+foot;feet
 knots;knots
-hour;hour
+hour;hours
 minutes;minutes
-onds;seconds
+seconds;seconds
 R P M;R P M
 g;g
 free 400;free 400
@@ -434,16 +434,16 @@ free 432;free 432
 free 433;free 433
 free 434;free 434
 free 435;free 435
-.0;point 0
-.1;point 1
-.2;point 2
-.3;point 3
-.4;point 4
-.5;point 5
-.6;point 6
-.7;point 7
-.8;point 8
-.9;point- 9
+.0;decimal 0
+.1;decimal 1
+.2;decimal 2
+.3;decimal 3
+.4;decimal 4
+.5;decimal 5
+.6;decimal 6
+.7;decimal 7
+.8;decimal 8
+.9;decimal 9
 free 446;free 446
 free 447;free 447
 free 448;free 448
