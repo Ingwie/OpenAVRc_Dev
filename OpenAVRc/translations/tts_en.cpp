@@ -38,24 +38,14 @@ enum EnglishPrompts {
   EN_PROMPT_ZERO = EN_PROMPT_NUMBERS_BASE+0,       //02-99
   EN_PROMPT_HUNDRED = EN_PROMPT_NUMBERS_BASE+100,  //100,200 .. 900
   EN_PROMPT_THOUSAND = EN_PROMPT_NUMBERS_BASE+109, //1000
-  EN_PROMPT_AND = EN_PROMPT_NUMBERS_BASE+110,
-  EN_PROMPT_MINUS = EN_PROMPT_NUMBERS_BASE+111,
+  EN_PROMPT_AND = EN_PROMPT_NUMBERS_BASE+120,
+  EN_PROMPT_MINUS = EN_PROMPT_NUMBERS_BASE+121,
   EN_PROMPT_POINT = EN_PROMPT_NUMBERS_BASE+112,
-  EN_PROMPT_UNITS_BASE = 113,
-  EN_PROMPT_POINT_BASE = 165, //.0 - .9
+  EN_PROMPT_UNITS_BASE = 124,
+  EN_PROMPT_POINT_BASE = 180, //.0 - .9
 };
 
 #if defined(VOICE)
-
-#define EN_PUSH_UNIT_PROMPT(p, u) pushUnitPrompt((p), (u))
-
-void pushUnitPrompt(int16_t number, uint8_t unitprompt)
-{
-  if (number == 1)
-    PUSH_NUMBER_PROMPT(unitprompt);
-  else
-    PUSH_NUMBER_PROMPT(unitprompt+1);
-}
 
 void playNumber(getvalue_t number, uint8_t unit, uint8_t att)
 {
@@ -79,6 +69,7 @@ void playNumber(getvalue_t number, uint8_t unit, uint8_t att)
   }
 
   int8_t mode = MODE(att);
+
   if (mode > 0) {
     // we assume that we are PREC1
     div_t qr = div(number, 10);
@@ -90,8 +81,6 @@ void playNumber(getvalue_t number, uint8_t unit, uint8_t att)
       number = qr.quot;
     }
   }
-
-  int16_t tmp = number;
 
   if (number >= 1000) {
     playNumber(number / 1000, 0, 0);
@@ -111,7 +100,7 @@ void playNumber(getvalue_t number, uint8_t unit, uint8_t att)
   }
 
   if (unit) {
-    EN_PUSH_UNIT_PROMPT(tmp, EN_PROMPT_UNITS_BASE + unit*2);
+    PUSH_NUMBER_PROMPT(EN_PROMPT_UNITS_BASE + unit);
   }
 }
 
@@ -149,3 +138,4 @@ void playDuration(int16_t seconds )
 LANGUAGE_PACK_DECLARE_DEFAULT(en, "English");
 
 #endif
+
