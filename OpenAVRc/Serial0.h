@@ -41,6 +41,12 @@
     #else
       #define TLM_USART0 2
     #endif
+  #elif defined(SERIALPROTOONUART1)
+    #if defined(BLUETOOTH) || defined(XMODEM)
+      #error BLUETOOTH or XMODEM options already use usart1
+    #else
+      #define TLM_USART0 1
+    #endif
   #else
     #define TLM_USART0 0
   #endif
