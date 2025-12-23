@@ -66,7 +66,7 @@
   #define S0_USART_RXD_PIN_CTRL_REG  token_paste3(SERIAL0_PORT.PIN, 2, CTRL) // e.g. "PORTx.PINnCTRL"
 #endif
 
-#define NUM_FRSKY_TLM_PKT    2
+#define NUM_FRSKY_TLM_PKT    3   // Frsky packet buffers
 #define FRSKY_TLM_PKT_SIZE   9   // Frsky packet size
 #define IBUS_TLM_HEADER      9
 #define IBUS_TLM_PACKET_SIZE 37

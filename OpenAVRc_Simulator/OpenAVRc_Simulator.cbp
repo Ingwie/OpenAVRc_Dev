@@ -660,12 +660,12 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
-		<Unit filename="../OpenAVRc/protocol/MULTI_SERIAL.h" />
-		<Unit filename="../OpenAVRc/protocol/MULTI_SERIAL_xmega.c">
+		<Unit filename="../OpenAVRc/protocol/MULTI_SERIAL.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
+		<Unit filename="../OpenAVRc/protocol/MULTI_SERIAL.h" />
 		<Unit filename="../OpenAVRc/protocol/PROTO_PCM.cpp">
 			<Option compile="0" />
 			<Option link="0" />
