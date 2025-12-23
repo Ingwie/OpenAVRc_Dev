@@ -32,6 +32,7 @@
 
 
 #include "OpenAVRc_SimulatorApp.h"
+#include <wx/splash.h>
 
 //(*AppHeaders
 #include "OpenAVRc_SimulatorMain.h"
@@ -42,6 +43,13 @@ wxIMPLEMENT_APP(OpenAVRc_SimulatorApp);
 
 bool OpenAVRc_SimulatorApp::OnInit()
 {
+  // Splash
+  #include "splash.xpm" // splash file
+  wxBitmap *MySplash = new wxBitmap(Splash);
+  wxRegion region(*MySplash, wxColour(0x00, 0x2A, 0x2A, 1));
+  wxSplashScreen *splscr = new wxSplashScreen(wxBitmap(MySplash->ConvertToImage()), wxSPLASH_CENTRE_ON_PARENT |wxSPLASH_TIMEOUT, 5000, nullptr, -1, wxDefaultPosition, wxDefaultSize, wxFRAME_NO_TASKBAR|wxSTAY_ON_TOP|wxFRAME_SHAPED);
+  splscr->SetShape(region);
+
   // Translation
   myLocale.Init(wxLANGUAGE_FRENCH , wxLOCALE_LOAD_DEFAULT);
   wxLocale::AddCatalogLookupPathPrefix(".");
