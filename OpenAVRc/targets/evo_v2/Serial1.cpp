@@ -62,15 +62,12 @@ ISR(token_paste4(USART, S1_PORT, S1_USART, _RXC_vect)) // e.g. USARTE0_RXC_vect
 {
 //  SERIAL1_USART.CTRLA &= ~USART_DREINTLVL_gm; // Disable interrupt.
 
-  uint8_t stat = SERIAL1_USART.STATUS;
+  uint8_t error = SERIAL1_USART.STATUS;
   uint8_t data = SERIAL1_USART.DATA;
+  // Filter usart error
+  error &= (USART_FERR_bm | USART_BUFOVF_bm | USART_PERR_bm);
 
-  if (stat & (USART_FERR_bm | USART_BUFOVF_bm | USART_PERR_bm) )
-  {
-    // Discard buffer and start fresh on any comm's error
-    parseTelemFunction(START_STOP); // reset
-  }
-  else parseTelemFunction(data);
+  parseSerialTelemFunction(data, error);
 
 //  SERIAL1_USART.CTRLA |= USART_RXCINTLVL_MED_gc; // Enable medium priority.
 }
