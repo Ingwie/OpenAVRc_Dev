@@ -49,6 +49,7 @@ bool OpenAVRc_DesktopApp::OnInit()
   wxRegion region(*MySplash, wxColour(0x00, 0x2A, 0x2A, 1));
   wxSplashScreen *splscr = new wxSplashScreen(wxBitmap(MySplash->ConvertToImage()), wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT, 5000, nullptr, -1, wxDefaultPosition, wxDefaultSize, wxFRAME_NO_TASKBAR|wxSTAY_ON_TOP|wxFRAME_SHAPED);
   splscr->SetShape(region);
+  wxSleep(1);
 
   // Translation
   myLocale.Init(wxLANGUAGE_FRENCH , wxLOCALE_LOAD_DEFAULT);
