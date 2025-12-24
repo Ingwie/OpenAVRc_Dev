@@ -2,6 +2,7 @@
 <wxsmith>
 	<object class="wxFrame" name="OpenAVRc_DesktopFrame">
 		<title>OpenAVRc Desktop V3</title>
+		<centered>1</centered>
 		<size>592,282</size>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE</style>
