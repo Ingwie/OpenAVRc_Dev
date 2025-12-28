@@ -245,7 +245,7 @@ void writeLogs()
               pos += sprintf_P(&text[pos], STR_FRSKY_ANA_MASK, converted_value/100, converted_value%100);
             }
 
-          if (IS_USR_PROTO_FRSKY_HUB() || IS_USR_PROTO_SMART_PORT())
+          if (IS_USR_PROTO_FRSKY_HUB() || IS_USR_PROTO_SMART_PORT() || IS_USR_PROTO_IBUS())
             {
               pos += sprintf_P(&text[pos], STR_FRSKY_TELE_MASK,
                              telemetryData.value.year+2000,
