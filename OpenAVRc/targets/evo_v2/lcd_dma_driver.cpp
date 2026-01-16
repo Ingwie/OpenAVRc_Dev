@@ -33,17 +33,17 @@ void lcdClearRAM(void);
 
 //#define LCD_SSD1309
 #define LCD_EVO
-//#define LCD_ST7567
+// #define LCD_ST7567
 
 #if defined(LCD_EVO)
 // #define CONTRAST_MIN 10
- #define LCD_SIZE_132X64
- #define POSITIVE_CHIP_SELECT
+  #define LCD_SIZE_132X64
+  #define POSITIVE_CHIP_SELECT
 #endif
 #if defined(LCD_ST7567)
 // #define CONTRAST_MIN 35
- #define LCD_SIZE_132X64
- #define POSITIVE_CHIP_SELECT
+  #define LCD_SIZE_132X64
+  #define POSITIVE_CHIP_SELECT
 #endif
 #if defined(LCD_SSD1309)
 // #define CONTRAST_MIN 30
@@ -74,6 +74,17 @@ void lcdClearRAM(void);
 #define SSD1309_CMD_PAGE_ADDRESS_SET( page )           (0xB0 | (page))
 #define SSD1309_CMD_COLUMN_ADDRESS_SET_LSB( column )   (0x00 | (column))
 #define SSD1309_CMD_COLUMN_ADDRESS_SET_MSB( column )   (0x10 | (column))
+
+
+#define ST756n_CONTRAST_MAX 63
+#define ST756n_CMD_VOLTAGE_RESISTOR_RATIO_3dec0    0x20
+#define ST756n_CMD_VOLTAGE_RESISTOR_RATIO_3dec5    0x21
+#define ST756n_CMD_VOLTAGE_RESISTOR_RATIO_4dec0    0x22
+#define ST756n_CMD_VOLTAGE_RESISTOR_RATIO_4dec5    0x23
+#define ST756n_CMD_VOLTAGE_RESISTOR_RATIO_5dec0    0x24
+#define ST756n_CMD_VOLTAGE_RESISTOR_RATIO_5dec5    0x25
+#define ST756n_CMD_VOLTAGE_RESISTOR_RATIO_6dec0    0x26
+#define ST756n_CMD_VOLTAGE_RESISTOR_RATIO_6dec5    0x27
 
 #define ST756n_CMD_RESET                       0xE2
 #define ST756n_CMD_DISPLAY_ALL_POINTS_OFF      0xA4
@@ -234,30 +245,30 @@ lcdSendCtl(ST756n_CMD_BIAS_SELECT_7TH); // Select bias 1/7 (at 1/65 duty) not 1/
 #endif
 
 #if !defined (REVERSE_DISPLAY)
-lcdSendCtl(ST756n_CMD_NORMAL_SEG_DIRECTION);
-lcdSendCtl(ST756n_CMD_REVERSE_COM_DIRECTION);
+  lcdSendCtl(ST756n_CMD_NORMAL_SEG_DIRECTION);
+  lcdSendCtl(ST756n_CMD_REVERSE_COM_DIRECTION);
 #else
-lcdSendCtl(ST756n_CMD_REVERSE_SEG_DIRECTION);
-lcdSendCtl(ST756n_CMD_NORMAL_COM_DIRECTION);
+  lcdSendCtl(ST756n_CMD_REVERSE_SEG_DIRECTION);
+  lcdSendCtl(ST756n_CMD_NORMAL_COM_DIRECTION);
 #endif
 
 #if defined (LCD_ST7567)
-lcdSendCtl(ST756n_CMD_VOLTAGE_RESISTOR_RATIO_6dec0);
+  lcdSendCtl(ST756n_CMD_VOLTAGE_RESISTOR_RATIO_6dec0);
 #endif
 
 #if defined (LCD_EVO)
-lcdSendCtl(ST756n_CMD_VOLTAGE_RESISTOR_RATIO_5dec5);
+  lcdSendCtl(ST756n_CMD_VOLTAGE_RESISTOR_RATIO_5dec5);
 #endif
 
-lcdSendCtl(ST756n_CMD_POWER_CTRL | 4);
-_delay_us(300);
-lcdSendCtl(ST756n_CMD_POWER_CTRL | 6);
-_delay_us(300);
-lcdSendCtl(ST756n_CMD_POWER_CTRL | 7);
-_delay_us(300);
+  lcdSendCtl(ST756n_CMD_POWER_CTRL | 4);
+  _delay_us(300);
+  lcdSendCtl(ST756n_CMD_POWER_CTRL | 6);
+  _delay_us(300);
+  lcdSendCtl(ST756n_CMD_POWER_CTRL | 7);
+  _delay_us(300);
 
-lcdClearRAM();
-lcdSendCtl(ST756n_CMD_DISPLAY_ON); // Display on.
+  lcdClearRAM();
+  lcdSendCtl(ST756n_CMD_DISPLAY_ON); // Display on.
 #endif
 }
 
@@ -275,12 +286,19 @@ void lcdRefreshFast()
 
   static uint8_t page = 0;
   static volatile uint8_t *p = displayBuf;
+  uint8_t  val;
+
+#if defined (LCD_EVO) || defined (LCD_ST7567)
+  if(g_eeGeneral.contrast > ST756n_CONTRAST_MAX)
+    val = ST756n_CONTRAST_MAX;
+  else val = g_eeGeneral.contrast;
+#endif
 
 #if defined (LCD_EVO)
-  lcdSendCtl(ST756n_CMD_CONTRAST_SET); lcdSendCtl(g_eeGeneral.contrast);
+  lcdSendCtl(ST756n_CMD_CONTRAST_SET); lcdSendCtl(val);
 #endif
 #if defined(LCD_ST7567)
-  lcdSendCtl(ST756n_CMD_CONTRAST_SET); lcdSendCtl(g_eeGeneral.contrast + 25);
+  lcdSendCtl(ST756n_CMD_CONTRAST_SET); lcdSendCtl(val+10);
 #endif
 #if defined(LCD_SSD1309)
   lcdSendCtl(ST756n_CMD_CONTRAST_SET); lcdSendCtl(g_eeGeneral.contrast + 20);
