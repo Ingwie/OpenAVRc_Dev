@@ -79,8 +79,6 @@
 
   #if defined(U_CLI)
     #include "uCli.h"
-  #endif
-  #if defined(U_CLI)
     #include "Serial1.h"
   #endif
 
