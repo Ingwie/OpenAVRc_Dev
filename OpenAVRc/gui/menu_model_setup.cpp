@@ -523,7 +523,6 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
 #elif (SERIAL_PROTOCOL==MULTIMODULE)
         else if IS_MULTIMODULE_PROTOCOL(protocol)
           {
-            menuHorizontalPosition = 0; // force Hpos
             uint8_t multi_rfProto = (uint8_t)g_model.MULTIRFPROTOCOL;
             const mm_protocol_definition *pdef = getMultiProtocolDefinition(multi_rfProto);
 

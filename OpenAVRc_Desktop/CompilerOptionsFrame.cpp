@@ -744,11 +744,14 @@ void CompilerOptionsFrame::OnClose(wxCloseEvent& event)
   Destroy();
 }
 
-void ConvertMulti_txt()
+void CompilerOptionsFrame::ConvertMulti_txt()
 {
   wxArrayString protocolList;
   protocolList.Clear();
-  wxTextFile MultiFile(AppPath + "\\Multi.txt");
+  wxFileDialog openFileDialog(this, _("Multi.txt"), AppPath, "", _("Multi.txt (Multi.txt)|Multi.txt"), wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+  if (openFileDialog.ShowModal() == wxID_CANCEL)
+    return;
+  wxTextFile MultiFile(openFileDialog.GetPath());
   if (MultiFile.Exists())   //avoid crash if file is not found
     {
       wxString protoLine;

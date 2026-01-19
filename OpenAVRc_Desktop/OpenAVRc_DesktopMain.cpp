@@ -373,6 +373,7 @@ OpenAVRc_DesktopFrame::OpenAVRc_DesktopFrame(wxWindow* parent,wxWindowID id)
   StatusBar_main->SetFieldsCount(1,__wxStatusBarWidths_1);
   StatusBar_main->SetStatusStyles(1,__wxStatusBarStyles_1);
   SetStatusBar(StatusBar_main);
+  Center();
 
   Connect(ID_BUTTONSIMUSTD,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnButtonSimuSTDClick);
   Connect(ID_BUTTONSIMUFRAM,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&OpenAVRc_DesktopFrame::OnButtonSimuFramClick);
