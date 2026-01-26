@@ -69,7 +69,7 @@
 ## MCU = atxmega128a3u
 ## MCU = atxmega128a4u
 ## MCU = atxmega192a3u
-MCU = atxmega256a3u
+#MCU = atxmega256a3u
 ## MCU = atxmega256a3bu
 ## MCU = atxmega64b1
 ## MCU = atxmega64b3
@@ -145,9 +145,9 @@ BOOTSZ=0
 PROG_BOOT_ONLY=yes
 
 # CPU Frequency
-F_CPU=2000000
+#F_CPU=2000000
 #F_CPU=32000000
-#F_CPU=16000000
+F_CPU=16000000
 
 # Configuration support
 -include config.mk
@@ -167,23 +167,41 @@ FORMAT = ihex
 # Target file name (without extension).
 TARGET = xboot
 
-
 # List C source files here. (C dependencies are automatically generated.)
-SRC = $(TARGET).c
-SRC += flash.c
-SRC += eeprom_driver.c
-SRC += uart.c
-# SRC += i2c.c
-SRC += i2c_master.c
-# SRC += watchdog.c
-# SRC += api.c
-# SRC += ...
+CSOURCE  = $(TARGET).c
+CSOURCE += flash.c
+CSOURCE += eeprom_driver.c
+CSOURCE += uart.c
+# CSOURCE += i2c.c
+CSOURCE += i2c_master.c
+# CSOURCE += watchdog.c
+# CSOURCE += api.c
+# CSOURCE += ...
+
+# LCD
+# Values: ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306, SH1106, NT7538SPI LT13264B EVO SSD1309 ST7567
+LCD = KS108
+
+LCD_SOURCE = lcd/lcd_driver.c
 ifeq ($(XMEGA), yes)
-#SRC += lcd_ssd1309_driver.c
-SRC += spi_lcd_driver.c
+LCD_SOURCE += lcd/lcd_spi_driver.c
 else
-SRC += lcd_default_driver.c
+LCD_SOURCE += lcd/lcd_default_driver.c
+LCD_SOURCE += lcd/lcd_ks108_driver.c
+#LCD_SOURCE += lcd/lcd_sh1106_driver.c
+#LCD_SOURCE += lcd/lcd_ssd1306_driver.c
+LCD_SOURCE += lcd/lcd_st7920_driver.c
 endif
+
+TARGET_LCD = lcd/lcd_driver.c
+ifeq ($(XMEGA), yes)
+  TARGET_LCD += lcd/lcd_spi_driver.c
+else ifeq ($(LCD), KS108)
+  TARGET_LCD += lcd/lcd_ks108_driver.c
+else
+  TARGET_LCD += lcd/lcd_default_driver.c
+endif
+
 
 # List Assembler source files here.
 # Make them always end in a capital .S.  Files ending in a lowercase .s
@@ -224,6 +242,35 @@ CSTANDARD = -std=gnu99
 # Place -D or -U options here
 #CDEFS = -DBOOTSIZE=$(BOOTSIZE)
 CDEFS =
+
+ifeq ($(LCD), ST7565P)
+  CDEFS += -DLCD_ST7565P
+else ifeq ($(LCD), ST7565R)
+  CDEFS += -DLCD_ST7565R
+else ifeq ($(LCD), ERC12864FSF)
+  CDEFS += -DLCD_ERC12864FSF
+else ifeq ($(LCD), ST7920)
+  CDEFS += -DLCD_ST7920
+else ifeq ($(LCD), KS108)
+  CDEFS += -DLCD_KS108
+else ifeq ($(LCD), SSD1306)
+  CDEFS += -DLCD_SSD1306
+else ifeq ($(LCD), SH1106)
+  CDEFS += -DLCD_SH1106
+else ifeq ($(LCD), NT7538SPI)
+  CDEFS += -DLCD_NT7538SPI
+else ifeq ($(LCD), LT13264B)
+  CDEFS += -DLCD_LT13264B
+else ifeq ($(LCD), EVO)
+  CDEFS += -DLCD_EVO
+ else ifeq ($(LCD), SSD1309)
+  CDEFS += -DLCD_SSD1309
+else ifeq ($(LCD), ST7567)
+  CDEFS += -DLCD_ST7567
+else ifeq ($(LCD), ST7565P)
+  CDEFS += -DLCD_ST7565P
+endif
+
 
 # Place -I options here
 CINCS =
@@ -751,17 +798,21 @@ ifeq ($(USE_CONFIG_H), yes)
   DEFINES += -DUSE_CONFIG_H
 endif
 
-
-# Define all object files.
-OBJ = $(addsuffix .o,$(basename $(SRC) $(ASRC)))
-
 # Define all listing files.
-LST = $(addsuffix .lst,$(basename $(SRC) $(ASRC)))
+LST = $(addsuffix .lst,$(basename $(CSOURCE) $(LCD_SOURCE) $(ASRC)))
+
+# Define ALL object files.
+OBJ = $(addsuffix .o,$(basename $(CSOURCE) $(LCD_SOURCE) $(ASRC)))
+
+# Link specific objects.
+LINK_OBJ = $(addsuffix .o,$(basename $(CSOURCE) $(ASRC) $(TARGET_LCD)))
+
+
 
 
 # Compiler flags to generate dependency files.
 ### GENDEPFLAGS = -Wp,-M,-MP,-MT,$(*F).o,-MF,.dep/$(@F).d
-GENDEPFLAGS = -MD -MP -MF .dep/$(@F).d
+#GENDEPFLAGS = -MD -MP -MF .dep/$(@F).d
 
 # Combine all necessary flags and optional flags.
 # Add target processor to flags.
@@ -889,7 +940,8 @@ extcoff: $(TARGET).elf
 %.elf: $(CONFIG_H) $(OBJ)
 	@echo
 	@echo $(MSG_LINKING) $@
-	$(CC) $(ALL_CFLAGS) $(OBJ) --output $@ $(LDFLAGS)
+	@echo $(LINK_OBJ)
+	$(CC) $(ALL_CFLAGS) $(LINK_OBJ) --output $@ $(LDFLAGS)
 
 
 # Compile: create object files from C source files.
@@ -941,17 +993,17 @@ clean_list :
 	$(REMOVE) $(TARGET).sym
 	$(REMOVE) $(TARGET).lnk
 	$(REMOVE) $(TARGET).lss
-	$(REMOVE) $(OBJ)
-	$(REMOVE) $(LST)
+	$(REMOVE) *.o lcd/*.o
+	$(REMOVE) *.lst lcd/*.lst
 	$(REMOVE) config.mk config.h
-	$(REMOVE) $(addsuffix .s,$(basename $(SRC)))
-	$(REMOVE) $(addsuffix .d,$(basename $(SRC)))
-	- $(REMOVE) /.dep/*
+	$(REMOVE) *.s
+	$(REMOVE) *.d
+	$(REMOVE) /.dep/*
 
 
 
 # Include the dependency files.
--include $(shell mkdir .dep 2>/dev/null) $(wildcard .dep/*)
+#-include $(shell mkdir .dep 2>/dev/null) $(wildcard .dep/*)
 
 
 # Listing of phony targets.

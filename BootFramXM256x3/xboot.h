@@ -408,7 +408,10 @@ typedef uint32_t ADDR_T;
 #include "i2c_master.h"
 //#include "watchdog.h"
 //#include "api.h"
-#include "lcd.h"
+//#include "lcd.h"
+void lcdPortInit(void);
+void lcdInit(void);
+void lcdRefresh(void);
 
 #ifndef __AVR_XMEGA__
 #include <avr/wdt.h>

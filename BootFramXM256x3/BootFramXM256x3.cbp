@@ -7,12 +7,12 @@
 		<Option pch_mode="2" />
 		<Option compiler="avr-gcc" />
 		<MakeCommands>
-			<Build command="make" />
+			<Build command="" />
 			<CompileFile command="" />
-			<Clean command="make clean" />
+			<Clean command="" />
 			<DistClean command="$make -f $makefile distclean$target" />
 			<AskRebuildNeeded command="" />
-			<SilentBuild command="make &gt; $(CMD_NULL)" />
+			<SilentBuild command=" &gt; $(CMD_NULL)" />
 		</MakeCommands>
 		<Build>
 			<Target title="Release">
@@ -27,31 +27,29 @@
 				<Linker>
 					<Add option="-s" />
 				</Linker>
+				<ExtraCommands>
+					<Add before="cmd /c copy conf\m2560fram.conf.mk  config.mk" />
+					<Mode after="always" />
+				</ExtraCommands>
 				<MakeCommands>
-					<Build command="$make" />
+					<Build command="make  MCU=atmega2560  LCD=KS108" />
 					<CompileFile command="" />
-					<Clean command="$make clean" />
+					<Clean command="make clean MCU=atmega2560" />
 					<DistClean command="$make -f $makefile distclean$target" />
 					<AskRebuildNeeded command="" />
-					<SilentBuild command="$make &gt; $(CMD_NULL)" />
+					<SilentBuild command="make  MCU=atmega2560  LCD=KS108 &gt; $(CMD_NULL)" />
 				</MakeCommands>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<ExtraCommands>
-			<Add before="cmd /c copy conf\x256x3fram.conf.mk  config.mk" />
-			<Mode after="always" />
-		</ExtraCommands>
 		<Unit filename="Makefile" />
-		<Unit filename="README.md" />
 		<Unit filename="conf/arduino328p.conf.mk" />
 		<Unit filename="conf/m2560fram.conf.mk" />
 		<Unit filename="conf/x256x3fram.conf.mk" />
 		<Unit filename="conf/x32e5.conf.mk" />
 		<Unit filename="config.h.mk" />
-		<Unit filename="config.mk" />
 		<Unit filename="desktop.lbm" />
 		<Unit filename="eeprom_driver.c">
 			<Option compilerVar="CC" />
@@ -65,17 +63,36 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="i2c_master.h" />
-		<Unit filename="lcd.h" />
-		<Unit filename="lcd_default_driver.c">
+		<Unit filename="lcd/lcd.h" />
+		<Unit filename="lcd/lcd_default_driver.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="lcd/lcd_driver.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lcd/lcd_ks108_driver.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lcd/lcd_sh1106_driver.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lcd/lcd_simu_driver.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lcd/lcd_spi_driver.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lcd/lcd_ssd1306_driver.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lcd/lcd_st7920_driver.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lcd/spi_lcd_driver.c.old" />
 		<Unit filename="protocol.h" />
 		<Unit filename="sp_driver.S" />
 		<Unit filename="sp_driver.h" />
 		<Unit filename="spi.h" />
-		<Unit filename="spi_lcd_driver.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="uart.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -84,7 +101,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="xboot.h" />
-		<Unit filename="xboot.xml" />
+		<Unit filename="xboot.hex" />
 		<Unit filename="xbootapi.c">
 			<Option compilerVar="CC" />
 		</Unit>

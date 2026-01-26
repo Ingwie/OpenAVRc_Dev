@@ -301,6 +301,7 @@ protected = 1;
     // End main trigger section
 
 if(in_bootloader) {
+  lcdPortInit();
   lcdInit();
   lcdRefresh();
 }
