@@ -584,7 +584,7 @@ private:
     void OnCheckBoxXMODEMClick(wxCommandEvent& event);
     void OnCheckBoxSCCClick(wxCommandEvent& event);
     //*)
-
+    void ConvertMulti_txt();
     DECLARE_EVENT_TABLE()
 };
 
