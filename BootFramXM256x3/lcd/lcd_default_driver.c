@@ -29,32 +29,15 @@
  *                                                                        *
  **************************************************************************
 */
+#include "lcd/lcd.h"
+static void lcdRefreshFast(void);
 
-#include <stdint.h>
-#include <avr/io.h>
-#include <util/delay.h>
-#include <avr/pgmspace.h>
-#include <string.h>
-#include "lcd.h"
+
 
 #define NUMITERATIONFULLREFRESH  1
 
 
-// LCD driver
-#define PORTA_LCD_DAT            PORTA
-#define PORTC_LCD_CTRL           PORTC
-#if defined(LCD_KS108)              // (For KS108 LCD only) MEGA R/W pin always at 0 state in OpenAVRc then
-  #define OUT_C_LCD_CS2          6  // use this pin to control second KS108 (CS2)
-#else                               // and connect KS108 R/W pin to ground via a 1k resistor
-  #define OUT_C_LCD_RnW          6
-#endif
-#define OUT_C_LCD_E              7
-#define OUT_C_LCD_A0             5
-#define OUT_C_LCD_RES            4
-#define OUT_C_LCD_CS1            3
-#define OUT_C_LIGHT              2
-
-void lcdSendCtl(uint8_t val)
+static void lcdSendCtl(uint8_t val)
 {
   PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_CS1);
 #if defined(LCD_MULTIPLEX)
@@ -101,6 +84,7 @@ const static uint8_t lcdInitSequence[] PROGMEM = {
   0x81, //Set reference voltage Mode
   0x2D, //24 SV5 SV4 SV3 SV2 SV1 SV0
   0xAF  //DON = 1: display ON
+/*
 #elif defined(LCD_LT13264B) // SPLC501C 132x64 Inverse.
   0xE2, // CMD_RESET
   0xAE, // CMD_DISPLAY_OFF
@@ -114,7 +98,8 @@ const static uint8_t lcdInitSequence[] PROGMEM = {
   0x81, // CMD_CONTRAST_SET
   CONTRAST_MIN, // Contrast value.
   0xAF  // CMD_DISPLAY_ON
-#else    //ST7565P (default 9x LCD)
+*/
+#else   //ST7565P (default 9x LCD) also LCD_LT13264B (SPLC501C 132x64 Inverse).
   0xE2, //Initialize the internal functions
   0xAE, //DON = 0: display OFF
   0xA1, //ADC = 1: reverse direction(SEG132->SEG1)
@@ -123,69 +108,38 @@ const static uint8_t lcdInitSequence[] PROGMEM = {
   0xA2, //Select LCD bias=0
   0xC0, //SHL = 0: normal direction (COM1->COM64)
   0x2F, //Control power circuit operation VC=VR=VF=1
-  0x25, //Select int resistance ratio R2 R1 R0 =5
+  //0x24, // *** Use default 0x24 *** CMD_VOLTAGE_RESISTOR_RATIO ***
+  //0x25, //Select int resistance ratio R2 R1 R0 =5
   0x81, //Set reference voltage Mode
-  0x22, //24 SV5 SV4 SV3 SV2 SV1 SV0 = 0x18
+  CONTRAST_MIN, // Contrast value.
+  //0x22, //24 SV5 SV4 SV3 SV2 SV1 SV0 = 0x18
   0xAF  //DON = 1: display ON
 #endif
 };
 
-const uint8_t desktop_icon[] PROGMEM = {
-#include "desktop.lbm"
-};
-
-uint8_t displayBuf[DISPLAY_BUFER_SIZE];
-
-void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags att) // progmem "far"
-{
-  uint_farptr_t q = img;
-  uint8_t w    = pgm_read_byte_far(q++);
-  uint8_t hb   = (pgm_read_byte_far(q++)+7)/8;
-
-  q += idx*w*hb;
-  for (uint8_t yb = 0; yb < hb; yb++) {
-    uint8_t *p = &displayBuf[ (y / 8 + yb) * LCD_W + x ];
-    for (coord_t i=0; i<w; i++) {
-      uint8_t b = pgm_read_byte_far(q);
-      q++;
-      ASSERT_IN_DISPLAY(p);
-      *p++ = b;
-    }
-  }
-}
-
 void lcdInit()
 {
-  memset(displayBuf, 0x00, DISPLAY_BUFER_SIZE);
-
-  lcd_imgfar(32, 0, (pgm_get_far_address(desktop_icon)), 0, 0);
-
-  DDRA = 0b11111111;  PORTA = 0b00000000; // LCD data
-  DDRC = 0b11111100;  PORTC = 0b00000011; // 7-3:LCD, 2:BackLight, 1:ID2_SW, 0:ID1_SW
-
   PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_RES);  //LCD reset
   _delay_us(2);
   PORTC_LCD_CTRL |= _BV(OUT_C_LCD_RES);  //LCD normal operation
   _delay_us(1500);
-
   for (uint8_t i=0; i<DIM(lcdInitSequence); i++) {
     lcdSendCtl(pgm_read_byte_far(&lcdInitSequence[i]));
   }
+#if defined(LCD_ERC12864FSF)
+//  g_eeGeneral.contrast = 0x2D;
+#else
+//  g_eeGeneral.contrast = 0x22;
+#endif
 }
 
-void lcdSetRefVolt(uint8_t val)
+static void lcdSetRefVolt(uint8_t val)
 {
   lcdSendCtl(0x81);
-#if defined(LCD_ERC12864FSF)
-  val = 0x2D;
-#else
-  val = 0x22;
-#endif
   lcdSendCtl(val);
 }
 
-
-void lcdRefreshFast()
+static void lcdRefreshFast()
 {
 SHOWDURATIONLCD1
 #if defined(SHOWDURATION)
@@ -234,6 +188,40 @@ SHOWDURATIONLCD1
   }
 SHOWDURATIONLCD2
 }
+
+#if 0
+static void lcdRefreshFast()
+{
+SHOWDURATIONLCD1
+#if defined(SHOWDURATION)
+  lcdDrawNumberNAtt(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
+#endif
+  uint8_t * p = displayBuf;
+  for (uint8_t y=0; y < 8; y++) {
+#if defined(LCD_ST7565R)
+    lcdSendCtl(0x01);
+#else
+    lcdSendCtl(0x04);
+#endif
+    lcdSendCtl(0x10); // Column addr 0
+    lcdSendCtl( y | 0xB0); //Page addr y
+    PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_CS1);
+#if defined(LCD_MULTIPLEX)
+    DDRA = 0xFF; // Set LCD_DAT pins to output
+#endif
+    PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_A0);
+    PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_RnW);
+    for (coord_t x=LCD_W; x>0; --x) {
+      PORTA_LCD_DAT = *p++;
+      PORTC_LCD_CTRL |= _BV(OUT_C_LCD_E);
+      PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_E);
+    }
+    PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_A0);
+    PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_CS1);
+  }
+SHOWDURATIONLCD2
+}
+#endif
 
 void lcdRefresh()
 {

@@ -315,7 +315,8 @@ PACK(typedef struct {
   CalibData calib[NUM_STICKS+NUM_POTS];
   uint16_t  chkSum;
   int8_t    currModel;
-  uint8_t   contrast;
+  unsigned  contrast :6; // Constrain range (0 to 63).
+  unsigned  unused_1 :2; // Unused.
   uint8_t   vBatWarn;
   int8_t    txVoltageCalibration;
   int8_t    backlightMode;
