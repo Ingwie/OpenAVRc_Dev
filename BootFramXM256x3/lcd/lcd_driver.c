@@ -31,10 +31,9 @@
 */
 #include "lcd/lcd.h"
 
-
 static void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags att);
 
-const uint8_t desktop_icon[] PROGMEM = {
+static const uint8_t desktop_icon[] PROGMEM = {
 #include "desktop.lbm"
 };
 

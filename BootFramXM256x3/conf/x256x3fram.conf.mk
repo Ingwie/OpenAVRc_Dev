@@ -125,6 +125,7 @@ ENABLE_EEPROM_PROTECTION = no
 ENABLE_BOOTLOADER_PROTECTION = no
 
 # ENTER_PIN
+# Left Gimbal Trims - Right trim button.
 ENTER_PORT_NAME       = E
 ENTER_PIN             = 4
 ENTER_PIN_STATE       = 0
