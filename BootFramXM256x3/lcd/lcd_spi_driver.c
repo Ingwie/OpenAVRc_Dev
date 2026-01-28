@@ -29,8 +29,6 @@
 #include "lcd/lcd.h"
 static void lcdRefreshFast(void);
 
-static void lcdClearRAM(void);
-
 
 //#define LCD_SSD1309
 //#define LCD_EVO
@@ -93,6 +91,7 @@ static void lcdClearRAM(void);
 #define ST756n_CMD_VOLTAGE_RESISTOR_RATIO_6dec5    0x27
 
 #define ST756n_CMD_RESET                       0xE2
+#define ST756n_CMD_NOP                         0xE3
 #define ST756n_CMD_DISPLAY_ALL_POINTS_OFF      0xA4
 #define ST756n_CMD_DISPLAY_ALL_POINTS_ON       0xA5
 #define ST756n_CMD_DISPLAY_NORMAL              0xA6
@@ -242,6 +241,79 @@ static void lcdSetRefVolt(uint8_t val)
 }
 
 
+static const uint8_t lcdInitSequence[] PROGMEM = {
+
+#if defined(LCD_EVO) || defined(LCD_ST7567)
+  ST756n_CMD_RESET,
+  ST756n_CMD_NOP, // Try to add _delay_us(300) as original code.
+#if !defined (REVERSE_DISPLAY)
+  ST756n_CMD_NORMAL_SEG_DIRECTION,
+  ST756n_CMD_REVERSE_COM_DIRECTION,
+#else
+  ST756n_CMD_REVERSE_SEG_DIRECTION,
+  ST756n_CMD_NORMAL_COM_DIRECTION,
+#endif
+#if defined (LCD_ST7567)
+  ST756n_CMD_SET_BOOSTER_LEVEL);
+  0, // Set Booster Level 4x.
+  ST756n_CMD_BIAS_SELECT_7TH, // Select bias 1/7 (at 1/65 duty) not 1/9.
+  ST756n_CMD_VOLTAGE_RESISTOR_RATIO_4dec5, // Compromise setting although contrast value could be 20 or 40.
+#endif
+#if defined (LCD_EVO)
+  ST756n_CMD_VOLTAGE_RESISTOR_RATIO_5dec0,
+  ST756n_CMD_CONTRAST_SET,
+  20,
+#endif
+  ST756n_CMD_POWER_CTRL | 4,
+  ST756n_CMD_NOP,
+  ST756n_CMD_POWER_CTRL | 6,
+  ST756n_CMD_NOP,
+  ST756n_CMD_POWER_CTRL | 7,
+  ST756n_CMD_NOP,
+  ST756n_CMD_DISPLAY_ON,
+
+#elif defined(LCD_SSD1309)
+
+  SSD1309_CMD_SETCMDLOCK,  // Set Command Lock
+  0x12, // Unlock
+  //     0x12 => Driver IC interface is unlocked from entering command.
+  //     0x16 => All Commands are locked except 0xFD.
+  SSD1309_CMD_DISPLAYSLEEP,            //--turn off oled panel
+  SSD1309_CMD_SETDISPLAYCLOCKDIV, // Set Display Clock Divide Ratio / Oscillator Frequency
+  0x70,      //   Default => 0x70
+  //     D[3:0] => Display Clock Divider
+  //     D[7:4] => Oscillator Frequency
+  SSD1309_CMD_SETMULTIPLEX,         //--set multiplex ratio(1 to 64)
+  0x3f,            //--1/64 duty
+  SSD1309_CMD_SETDISPLAYOFFSET, //Set Display Offset
+  0x00,
+  SSD1309_CMD_SETSTARTLINE(0),      // Set Display Start Line
+  SSD1309_CMD_SETMEMORYADDRESSMODE,    // Set Memory Addressing Mode
+  0x02,     //   Default => 0x02
+  //     0x00 => Horizontal Addressing Mode
+  //     0x01 => Vertical Addressing Mode
+  //     0x02 => Page Addressing Mode  .. no increment between pages.
+  SSD1309_CMD_SETSEGMENTREMAPREV, //
+  SSD1309_CMD_SETCOMOUTPUTDIRREV, //
+  SSD1309_CMD_SETCOMPINSHARDCONF, //--Set COM Pins Hardware Configuration
+  0x12, //     Disable COM Left/Right Re-Map   Alternative COM Pin Configuration
+  SSD1309_CMD_SETPRECHARGE,      // Set Pre-Charge Period
+  0xAA, //   Default => 0x22 (2 Display Clocks [Phase 2] / 2 Display Clocks [Phase 1])
+  //     D[3:0] => Phase 1 Period (discharge) in 1~15 Display Clocks
+  //     D[7:4] => Phase 2 Period (charge) in 1~15 Display Clocks
+  SSD1309_CMD_SETVCOMDETECT,      // Set VCOMH Deselect Level
+  0x00,      // 34  Default => 0x34 (0.78*VCC)
+  SSD1309_CMD_NORMALDISPLAY, //--set normal display
+  SSD1309_CMD_DISPLAYALLON,  //Disable Entire Display On
+  SSD1309_CMD_DISPLAYWAKEUP, //--turn on oled panel
+  SSD1309_CMD_DISPLAYALLON_RESUME, // Turn on OLED panel
+  SSD1309_CMD_SETCONTRAST,
+  30,
+
+#endif
+};
+
+
 void lcdInit()
 {
   // Setup pin states and MSPI mode.
@@ -263,7 +335,7 @@ void lcdInit()
 
   LCD_PORT.DIRSET = O_LCD_CS | O_LCD_SCK_P | O_LCD_MOSI;
 
-  #if !defined (SPI9BIT) // 8 bit spi and bitbang.
+#if !defined (SPI9BIT) // 8 bit spi and bitbang.
   LCD_PORT.DIRSET = O_LCD_CMD_DATA;
 #endif
 
@@ -285,89 +357,11 @@ void lcdInit()
 
   _delay_us(300);
 
-#if defined (LCD_SSD1309)
-  lcdSendCmd(SSD1309_CMD_SETCMDLOCK);  // Set Command Lock
-  lcdSendCmd(0x12);  // Unlock
-  //     0x12 => Driver IC interface is unlocked from entering command.
-  //     0x16 => All Commands are locked except 0xFD.
-
-  lcdSendCmd(SSD1309_CMD_DISPLAYSLEEP);            //--turn off oled panel
-
-  lcdSendCmd(SSD1309_CMD_SETDISPLAYCLOCKDIV); // Set Display Clock Divide Ratio / Oscillator Frequency
-  lcdSendCmd(0x70);      //   Default => 0x70
-  //     D[3:0] => Display Clock Divider
-  //     D[7:4] => Oscillator Frequency
-
-  lcdSendCmd(SSD1309_CMD_SETMULTIPLEX);         //--set multiplex ratio(1 to 64)
-  lcdSendCmd(0x3f);            //--1/64 duty
-
-  lcdSendCmd(SSD1309_CMD_SETDISPLAYOFFSET); //Set Display Offset
-  lcdSendCmd(0x00);
-
-  lcdSendCmd(SSD1309_CMD_SETSTARTLINE(0));      // Set Display Start Line
-
-  lcdSendCmd(SSD1309_CMD_SETMEMORYADDRESSMODE);    // Set Memory Addressing Mode
-  lcdSendCmd(0x02);      //   Default => 0x02
-  //     0x00 => Horizontal Addressing Mode
-  //     0x01 => Vertical Addressing Mode
-  //     0x02 => Page Addressing Mode  .. no increment between pages.
-
-  lcdSendCmd(SSD1309_CMD_SETSEGMENTREMAPREV); //
-  lcdSendCmd(SSD1309_CMD_SETCOMOUTPUTDIRREV); //
-
-  lcdSendCmd(SSD1309_CMD_SETCOMPINSHARDCONF); //--Set COM Pins Hardware Configuration
-  lcdSendCmd(0x12); //     Disable COM Left/Right Re-Map   Alternative COM Pin Configuration
-
-  lcdSendCmd(SSD1309_CMD_SETPRECHARGE);      // Set Pre-Charge Period
-  lcdSendCmd(0xAA); //   Default => 0x22 (2 Display Clocks [Phase 2] / 2 Display Clocks [Phase 1])
-  //     D[3:0] => Phase 1 Period (discharge) in 1~15 Display Clocks
-  //     D[7:4] => Phase 2 Period (charge) in 1~15 Display Clocks
-
-  lcdSendCmd(SSD1309_CMD_SETVCOMDETECT);      // Set VCOMH Deselect Level
-  lcdSendCmd(0x00);      // 34  Default => 0x34 (0.78*VCC)
-
-  lcdSendCmd(SSD1309_CMD_NORMALDISPLAY); //--set normal display
-  lcdSendCmd(SSD1309_CMD_DISPLAYALLON);  //Disable Entire Display On
-  lcdSendCmd(SSD1309_CMD_DISPLAYWAKEUP); //--turn on oled panel
-  lcdSendCmd(SSD1309_CMD_DISPLAYALLON_RESUME); // Turn on OLED panel
-#else
-
-  lcdSendCmd(ST756n_CMD_RESET);
-  _delay_us(300);
-
-#if !defined (REVERSE_DISPLAY)
-  lcdSendCmd(ST756n_CMD_NORMAL_SEG_DIRECTION);
-  lcdSendCmd(ST756n_CMD_REVERSE_COM_DIRECTION);
-#else
-  lcdSendCmd(ST756n_CMD_REVERSE_SEG_DIRECTION);
-  lcdSendCmd(ST756n_CMD_NORMAL_COM_DIRECTION);
-#endif
-
-#if defined (LCD_ST7567)
-  lcdSendCmd(ST756n_CMD_SET_BOOSTER_LEVEL); lcdSendCmd(0); // Set Booster Level 4x.
-  lcdSendCmd(ST756n_CMD_BIAS_SELECT_7TH); // Select bias 1/7 (at 1/65 duty) not 1/9.
-  lcdSendCmd(ST756n_CMD_VOLTAGE_RESISTOR_RATIO_4dec5); // Compromise setting although contrast value could be 20 or 40.
-#endif
-
-#if defined (LCD_EVO)
-  lcdSendCmd(ST756n_CMD_VOLTAGE_RESISTOR_RATIO_5dec0);
-  lcdSendCmd(ST756n_CMD_CONTRAST_SET);
-  lcdSendCmd(20);
-
-#endif
-
-  lcdSendCmd(ST756n_CMD_POWER_CTRL | 4);
-  _delay_us(300);
-  lcdSendCmd(ST756n_CMD_POWER_CTRL | 6);
-  _delay_us(300);
-  lcdSendCmd(ST756n_CMD_POWER_CTRL | 7);
-  _delay_us(300);
-
-  lcdClearRAM();
-  lcdSendCmd(ST756n_CMD_DISPLAY_ON); // Display on.
-#endif
+  uint_farptr_t initseq = pgm_get_far_address(lcdInitSequence);
+  for (uint8_t i=0; i<DIM(lcdInitSequence); i++) {
+    lcdSendCmd(pgm_read_byte_far(initseq++));
+  }
 }
-
 
 volatile uint8_t * lcd_p = displayBuf;
 volatile uint8_t lcd_x_pos;
@@ -397,33 +391,35 @@ static void lcdRefreshFast()
 #endif
 #endif
 
-#if defined (LCD_SIZE_132X64)
-    lcdSendCmd(ST756n_CMD_COLUMN_ADDRESS_SET_LSB(2)); // Set LS nibble column RAM address 2
-#else
-    lcdSendCmd(ST756n_CMD_COLUMN_ADDRESS_SET_LSB(0)); // Set LS nibble column RAM address 0
-#endif
-    lcdSendCmd(ST756n_CMD_COLUMN_ADDRESS_SET_MSB(0)); // Set MS nibble column RAM address 0
-    lcdSendCmd(ST756n_CMD_PAGE_ADDRESS_SET(lcd_page ++));
+  lcdSendCmd(ST756n_CMD_COLUMN_ADDRESS_SET_LSB(0)); // Set LS nibble column RAM address 0
+  lcdSendCmd(ST756n_CMD_COLUMN_ADDRESS_SET_MSB(0)); // Set MS nibble column RAM address 0
+  lcdSendCmd(ST756n_CMD_PAGE_ADDRESS_SET(lcd_page ++));
 
 #if !defined (SPI9BIT)
-    LCD_CMD_DATA_HI;
+  LCD_CMD_DATA_HI;
 #endif
 
 #if defined(BITBANGSPI)
-    LCD_CS_ACTIVE;
+  LCD_CS_ACTIVE;
+#if defined (LCD_SIZE_132X64)
+lcd_spi_tx(0xff);
+lcd_spi_tx(0xff);
+#endif
+  for(lcd_x_pos = LCD_W; lcd_x_pos > 0; lcd_x_pos--) {
+    lcd_spi_tx( *lcd_p++ );
+  }
+#if defined (LCD_SIZE_132X64)
+lcd_spi_tx(0xff);
+lcd_spi_tx(0xff);
+#endif
 
-    for(lcd_x_pos = LCD_W; lcd_x_pos > 0; lcd_x_pos--) {
-      lcd_spi_tx( *lcd_p++ );
-    }
+  WAIT_LCD_TX_FIN;
+  LCD_CS_INACTIVE;
 
-    WAIT_LCD_TX_FIN;
-    LCD_CS_INACTIVE;
-
-    if (lcd_page > 7)
-    {
-      lcd_page = 0;
-      lcd_p = displayBuf;
-    }
+  if (lcd_page > 7) {
+    lcd_page = 0;
+    lcd_p = displayBuf;
+  }
 #else
     LCD_CS_ACTIVE;
     lcd_x_pos = LCD_W;
@@ -472,33 +468,3 @@ ISR(SPID_INT_vect)
   }
 }
 #endif
-
-
-static void lcdClearRAM(void)
-{
-  for(uint8_t page = 0; page < 8; page ++)
-    {
-      lcdSendCmd(ST756n_CMD_COLUMN_ADDRESS_SET_LSB(0)); // Set LS nibble column RAM address 0
-      lcdSendCmd(ST756n_CMD_COLUMN_ADDRESS_SET_MSB(0)); // Set MS nibble column RAM address 0
-      lcdSendCmd(ST756n_CMD_PAGE_ADDRESS_SET(page));
-
-#if !defined (SPI9BIT)
-    LCD_CMD_DATA_HI;
-#endif
-
-    LCD_CS_ACTIVE;
-
-#if defined (LCD_SIZE_132X64)
-      uint8_t column = 132;
-#else
-      uint8_t column = LCD_W; // 128.
-#endif
-
-      while(column--)  lcd_spi_tx(0x00);
-
-      WAIT_LCD_TX_FIN;
-      LCD_CS_INACTIVE;
-    }
-}
-
-

@@ -93,8 +93,11 @@ ENABLE_EEPROM_PROTECTION = no
 ENABLE_BOOTLOADER_PROTECTION = no
 
 # ENTER_PIN
-# Left hand stick - horzontal right trim button.
-ENTER_PORT_NAME       = F
+# Left Gimbal Trims - Right trim button.
+#ENTER_PORT_NAME       = F
+#ENTER_PIN             = 6
+# Elevator Dual Rate Switch
+ENTER_PORT_NAME       = L
 ENTER_PIN             = 6
 ENTER_PIN_STATE       = 0
 ENTER_PIN_PUEN        = yes

@@ -296,6 +296,10 @@ protected = 1;
     }
 #endif // USE_ENTER_UART
 
+// Check for Application vector table.
+if ((pgm_read_byte_far(0x01)) != 0x94)
+  in_bootloader = 1;
+
   }
     // --------------------------------------------------
     // End main trigger section

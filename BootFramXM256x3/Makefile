@@ -269,6 +269,8 @@ else ifeq ($(LCD), ST7567)
   CDEFS += -DLCD_ST7567
 else ifeq ($(LCD), ST7565P)
   CDEFS += -DLCD_ST7565P
+else
+  $(error Sorry, the LCD $(LCD) is not supported yet)
 endif
 
 
