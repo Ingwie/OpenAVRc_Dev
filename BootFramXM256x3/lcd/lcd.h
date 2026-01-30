@@ -88,6 +88,9 @@ void lcdRefresh(void);
 #define OUT_C_LCD_RES            4
 #define OUT_C_LCD_CS1            3
 #define OUT_C_LIGHT              2
+#define backlightEnable()        PORTC |= _BV(OUT_C_LIGHT)
+#define backlightDisable()       PORTC &= ~_BV(OUT_C_LIGHT)
+
 #endif
 
 uint8_t displayBuf[DISPLAY_BUFER_SIZE];

@@ -82,6 +82,7 @@ void lcdInit()
   CS1_off;                               //Init KS108 who need low level on CS pin
   CS2_off;
   LcdInitCommand();
+  backlightEnable();
 }
 
 static void lcdSetRefVolt(uint8_t val)

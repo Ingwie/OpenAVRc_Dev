@@ -61,10 +61,12 @@ void lcdInit()
   _delay_us(2);
   PORTC_LCD_CTRL |= _BV(OUT_C_LCD_RES);  //LCD normal operation
   _delay_ms(40);
+  uint_farptr_t initseq = pgm_get_far_address(lcdInitSequence);
   for (uint8_t i=0; i<DIM(lcdInitSequence); i++) {
-    lcdSendCtl(pgm_read_byte_near(&lcdInitSequence[i])) ;
+    lcdSendCtl(pgm_read_byte_far(initseq++)) ;
     _delay_us(80);
   }
+  backlightEnable();
  // g_eeGeneral.contrast = 0x22;
 }
 

@@ -123,6 +123,7 @@ void lcdInit()
   for (uint8_t i=0; i<DIM(lcdInitSequence); i++) {
     lcdSendCmd(pgm_read_byte_far(initseq++));
   }
+  backlightEnable();
 
 #if defined(LCD_ERC12864FSF)
 //  g_eeGeneral.contrast = 0x2D;
