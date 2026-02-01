@@ -140,10 +140,6 @@ static void lcdSetRefVolt(uint8_t val)
 
 static void lcdRefreshFast()
 {
-SHOWDURATIONLCD1
-#if defined(SHOWDURATION)
-  lcdDrawNumberNAtt(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
-#endif
   uint8_t * p = displayBuf;
   for (uint8_t y=0; y < 8; y++) {
 #if defined(LCD_ST7565R)
@@ -185,16 +181,11 @@ SHOWDURATIONLCD1
     PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_A0);
     PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_CS1);
   }
-SHOWDURATIONLCD2
 }
 
 #if 0
 static void lcdRefreshFast()
 {
-SHOWDURATIONLCD1
-#if defined(SHOWDURATION)
-  lcdDrawNumberNAtt(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
-#endif
   uint8_t * p = displayBuf;
   for (uint8_t y=0; y < 8; y++) {
 #if defined(LCD_ST7565R)
@@ -218,7 +209,6 @@ SHOWDURATIONLCD1
     PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_A0);
     PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_CS1);
   }
-SHOWDURATIONLCD2
 }
 #endif
 

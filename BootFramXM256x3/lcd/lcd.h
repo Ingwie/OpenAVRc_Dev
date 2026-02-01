@@ -64,10 +64,6 @@ typedef uint8_t LcdFlags;
 #define ASSERT(x)
 #define ASSERT_IN_DISPLAY(p)   ASSERT((p) >= displayBuf && (p) < DISPLAY_END)
 
-#define SHOWDURATIONLCD1
-#define SHOWDURATIONLCD2
-
-
 void lcdPortInit(void);
 void lcdInit(void);
 void lcdRefresh(void);

@@ -34,7 +34,7 @@
 static void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags att);
 
 static const uint8_t desktop_icon[] PROGMEM = {
-#include "desktop.lbm"
+#include "bootloader.lbm"
 };
 
 static void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, LcdFlags att) // progmem "far"
@@ -55,11 +55,10 @@ static void lcd_imgfar(coord_t x, coord_t y,  uint_farptr_t img, uint8_t idx, Lc
   }
 }
 
-
 void lcdPortInit()
 {
   memset(displayBuf, 0x00, DISPLAY_BUFER_SIZE);
-  lcd_imgfar(32, 0, (pgm_get_far_address(desktop_icon)), 0, 0);
+  lcd_imgfar(16, 0, (pgm_get_far_address(desktop_icon)), 0, 0);
 
  // Setup LCD port pin states.
 #ifdef __AVR_XMEGA__
