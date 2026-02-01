@@ -76,10 +76,6 @@ void lcdSetRefVolt(uint8_t val)
 
 static void lcdRefreshFast()
 {
-SHOWDURATIONLCD1
-#if defined(SHOWDURATION)
-  lcdDrawNumberNAtt(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
-#endif
   static uint8_t state;
   uint8_t yst;
   uint8_t yend;
@@ -136,9 +132,7 @@ SHOWDURATIONLCD1
       _delay_us(8);//10
     }
     _delay_us(41);
-
   }
-SHOWDURATIONLCD2
 }
 
 void lcdRefresh()

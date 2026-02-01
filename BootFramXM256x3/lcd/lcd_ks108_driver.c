@@ -91,10 +91,6 @@ static void lcdSetRefVolt(uint8_t val)
 
 static void lcdRefreshFast()
 {
-SHOWDURATIONLCD1
-#if defined(SHOWDURATION)
-  lcdDrawNumberNAtt(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
-#endif
   static uint8_t step = 0; // toggle left/right/high/low sector of lcd writing
   uint8_t *p;
   if (step>3) step = 0;
@@ -125,7 +121,6 @@ SHOWDURATIONLCD1
   }
   ++step;
   A0_off;
-SHOWDURATIONLCD2
 }
 
 void lcdRefresh()

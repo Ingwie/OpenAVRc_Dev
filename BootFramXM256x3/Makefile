@@ -263,8 +263,6 @@ else ifeq ($(LCD), SSD1306)
   CDEFS += -DLCD_SSD1306
 else ifeq ($(LCD), SH1106)
   CDEFS += -DLCD_SH1106
-else ifeq ($(LCD), NT7538SPI)
-  CDEFS += -DLCD_NT7538SPI
 else ifeq ($(LCD), LT13264B)
   CDEFS += -DLCD_LT13264B
 else ifeq ($(LCD), EVO)
