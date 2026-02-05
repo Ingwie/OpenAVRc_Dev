@@ -557,7 +557,7 @@ void OpenAVRc_DesktopFrame::OnEcrirelesFuseesSelected(wxCommandEvent& event)// W
   susto->SetEventHandler(susto);
   if (susto->ShowModal()!= wxID_OK)
     return;
-  wxString FUSES(" -F -e -Ulfuse:w:0xFF:m -Uhfuse:w:0xD8:m -Uefuse:w:0xFD:m -v");
+  wxString FUSES(" -F -e -Ulfuse:w:0xFF:m -Uhfuse:w:0xD0:m -Uefuse:w:0xFD:m -v");
   wxString dude_send = (keepopen+avrdudepath +dude_c+dude_programmer +dude_p+dude_type +dude_P+dude_port +FUSES);
   wxExecute(dude_send);
 }
