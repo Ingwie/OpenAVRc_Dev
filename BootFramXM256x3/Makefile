@@ -186,11 +186,17 @@ LCD_SOURCE = lcd/lcd_driver.c
 ifeq ($(XMEGA), yes)
 LCD_SOURCE += lcd/lcd_spi_driver.c
 else
-LCD_SOURCE += lcd/lcd_default_driver.c
-LCD_SOURCE += lcd/lcd_ks108_driver.c
-#LCD_SOURCE += lcd/lcd_sh1106_driver.c
-#LCD_SOURCE += lcd/lcd_ssd1306_driver.c
-LCD_SOURCE += lcd/lcd_st7920_driver.c
+ifeq ($(LCD), ST7920)
+  LCD_SOURCE += lcd/lcd_st7920_driver.c
+else ifeq ($(LCD), KS108)
+  LCD_SOURCE += lcd/lcd_ks108_driver.c
+else ifeq ($(LCD), SSD1306)
+  LCD_SOURCE += lcd/lcd_ssd1306_driver.c
+else ifeq ($(LCD), SH1106)
+  LCD_SOURCE += lcd/lcd_sh1106_driver.c
+else
+  LCD_SOURCE += lcd/lcd_default_driver.c
+endif
 endif
 
 TARGET_LCD = lcd/lcd_driver.c
@@ -257,8 +263,6 @@ else ifeq ($(LCD), SSD1306)
   CDEFS += -DLCD_SSD1306
 else ifeq ($(LCD), SH1106)
   CDEFS += -DLCD_SH1106
-else ifeq ($(LCD), NT7538SPI)
-  CDEFS += -DLCD_NT7538SPI
 else ifeq ($(LCD), LT13264B)
   CDEFS += -DLCD_LT13264B
 else ifeq ($(LCD), EVO)

@@ -370,14 +370,9 @@ uint8_t lcd_page = 0;
 
 static void lcdRefreshFast()
 {
-#if defined(SHOWDURATION)
-  lcdDrawNumberAttUnit(16*FW, 1, DURATION_MS_PREC2(DurationValue), PREC2);
-#endif
-
 #if !defined(BITBANGSPI)
   if (LCD_SPI.INTCTRL & SPI_INTLVL_gm) return;
 #endif
-  SHOWDURATIONLCD1
 
 #if !defined(BITBANGSPI)
 #if defined (LCD_EVO)
@@ -426,7 +421,6 @@ lcd_spi_tx(0xff);
     LCD_SPI.INTCTRL |= SPI_INTLVL_LO_gc; // Start interrupt driven SPI.
 #endif
 
-  SHOWDURATIONLCD2
 }
 
 

@@ -64,10 +64,6 @@ typedef uint8_t LcdFlags;
 #define ASSERT(x)
 #define ASSERT_IN_DISPLAY(p)   ASSERT((p) >= displayBuf && (p) < DISPLAY_END)
 
-#define SHOWDURATIONLCD1
-#define SHOWDURATIONLCD2
-
-
 void lcdPortInit(void);
 void lcdInit(void);
 void lcdRefresh(void);
@@ -88,6 +84,9 @@ void lcdRefresh(void);
 #define OUT_C_LCD_RES            4
 #define OUT_C_LCD_CS1            3
 #define OUT_C_LIGHT              2
+#define backlightEnable()        PORTC |= _BV(OUT_C_LIGHT)
+#define backlightDisable()       PORTC &= ~_BV(OUT_C_LIGHT)
+
 #endif
 
 uint8_t displayBuf[DISPLAY_BUFER_SIZE];
