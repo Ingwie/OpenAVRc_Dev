@@ -45,7 +45,18 @@ Note: This HwSerial driver/module by RC-Navy is mainly based on the arduino Hard
  #include "targets/simu/simu_interface.h"
 #endif
 
+#if defined(CPUM2560)
 #define TLM_USART1 1
+#endif
+#if defined(CPUXMEGA)
+#define TLM_USART1 SERIAL1_USART
+#define S1_USART 0
+#define S1_PORT  D
+#define SERIAL1_USART token_paste3(USART, S1_PORT, S1_USART) // e.g. USARTE0
+#define SERIAL1_PORT  token_paste2(PORT, S1_PORT) // e.g. PORTE
+#define S1_USART_TXD_PIN_CTRL_REG  token_paste3(SERIAL1_PORT.PIN, 3, CTRL) // e.g. "PORTx.PINnCTRL"
+#define S1_USART_RXD_PIN_CTRL_REG  token_paste3(SERIAL1_PORT.PIN, 2, CTRL) // e.g. "PORTx.PINnCTRL"
+#endif
 
 #if defined(U_CLI)
  #if defined(XMODEM)

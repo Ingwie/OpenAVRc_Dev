@@ -14,11 +14,13 @@
 #define GETADC_COUNT 1  // Used in switches.cpp and keys.cpp.
 
 // USART General defines.
-#define USART_SET_BAUD_9K6(usartxn)   _USART_SET_BAUD(usartxn, 12, +4)
-#define USART_SET_BAUD_57K6(usartxn)  _USART_SET_BAUD(usartxn, 135,-2)
-#define USART_SET_BAUD_100K(usartxn)  _USART_SET_BAUD(usartxn, 159,-3)
+#define USART_SET_BAUD_9K6(usartxn)    _USART_SET_BAUD(usartxn, 12, +4)
+#define USART_SET_BAUD_19K2(usartxn)   _USART_SET_BAUD(usartxn, 12, +3 )
+#define USART_SET_BAUD_38K4(usartxn)   _USART_SET_BAUD(usartxn, 12, +2)
+#define USART_SET_BAUD_57K6(usartxn)   _USART_SET_BAUD(usartxn, 135,-2)
+#define USART_SET_BAUD_100K(usartxn)   _USART_SET_BAUD(usartxn, 159,-3)
 #define USART_SET_BAUD_115K2(usartxn)  _USART_SET_BAUD(usartxn, 131,-3)
-#define USART_SET_BAUD_125K(usartxn)  _USART_SET_BAUD(usartxn, 127,-3)
+#define USART_SET_BAUD_125K(usartxn)   _USART_SET_BAUD(usartxn, 127,-3)
 #define USART_SET_BAUD_230K4(usartxn)  _USART_SET_BAUD(usartxn, 123,-4)
 
 #define _USART_SET_BAUD(usartxn, bsel, bscale) \
@@ -65,12 +67,10 @@
 // All communication to RF module(s) will use the same pin where possible ... e.g. USART MSPI, USART Asynch and PPM.
 // However FrSKy DJT XJT RS232 telemetry may be wired to 2nd serial port.
 
-
-#define S1_USART 0
-#define S1_PORT  D
-#define SERIAL1_USART token_paste3(USART, S1_PORT, S1_USART) // e.g. USARTE0
-#define SERIAL1_PORT  token_paste2(PORT, S1_PORT) // e.g. PORTE
-
+//#define S1_USART 0
+//#define S1_PORT  D
+//#define SERIAL1_USART token_paste3(USART, S1_PORT, S1_USART) // e.g. USARTE0
+//#define SERIAL1_PORT  token_paste2(PORT, S1_PORT) // e.g. PORTE
 
 #define MULTI_USART SERIAL0_USART
 #define DSM_USART   SERIAL0_USART
@@ -340,6 +340,17 @@ void read_trim_matrix(void);
 #define NVM_EXEC()                 _PROTECTED_WRITE(NVM.CTRLA, 0b1)
 void EEPROM_WaitForNVM(void);
 void EEPROM_FlushBuffer(void);
+
+// Bluetooth Pins
+#if defined(BLUETOOTH)
+#define BT_KEY_ON()
+#define BT_KEY_OFF()
+#define BT_IS_IN_AT_MODE          (PORTB & OUT_B_BT_KEY)
+#define BT_IS_CONNECTED           (!0)
+#define BT_POWER_ON()             (PORTB.OUTSET = PIN6_bm)
+#define BT_POWER_OFF()            (PORTB.OUTCLR = PIN6_bm)
+#define BT_POWER_IS_ON()          (PORTB.IN & PIN6_bm)
+#endif
 
 #if !defined(SIMU)
 #if defined(EXTERNALEEPROM)

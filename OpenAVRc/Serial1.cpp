@@ -66,11 +66,16 @@ void BT_Ser_SendTxBuffer()
 {
  SIMUSENDHWSBYTE(); // Send buffer to simu
 #if !defined(SIMU)
+#if defined(CPUM2560)
  if (!(UCSRB_N(TLM_USART1) & _BV(UDRIE_N(TLM_USART1)))) // if we are not in transmit mode
-  { // initiate transmition
+  { // initiate transmission.
    UDR_N(TLM_USART1) = BT_TX_Fifo.pop();
    USART_TRANSMIT_BUFFER(TLM_USART1);
   }
+#endif
+#if defined(CPUXMEGA)
+  // ToDo
+#endif
 #endif
 }
 
@@ -139,6 +144,7 @@ void BT_Ser_Print(const uint8_t * data, uint8_t len)
   }
 }
 
+#if defined(CPUM2560)
 ISR(USART_RX_vect_N(TLM_USART1))
 {
 // Read new data value
@@ -163,3 +169,29 @@ ISR(USART_UDRE_vect_N(TLM_USART1))
    UCSRB_N(TLM_USART1) &= ~_BV(UDRIE_N(TLM_USART1)); // Disable UDRE interrupt.
   }
 }
+#endif
+
+#if defined(CPUXMEGA)
+ISR(token_paste4(USART, S1_PORT, S1_USART, _RXC_vect)) // e.g. USARTE0_RXC_vect
+{
+//  SERIAL1_USART.CTRLA &= ~USART_DREINTLVL_gm; // Disable interrupt.
+
+  uint8_t error = SERIAL1_USART.STATUS;
+  uint8_t data = SERIAL1_USART.DATA;
+  // Filter usart error
+  error &= (USART_FERR_bm | USART_BUFOVF_bm | USART_PERR_bm);
+
+  parseSerialTelemFunction(data, error);
+
+//  SERIAL1_USART.CTRLA |= USART_RXCINTLVL_MED_gc; // Enable medium priority.
+}
+
+
+ISR(token_paste4(USART, S1_PORT, S1_USART, _DRE_vect))
+{
+  if (Usart0TxBufferCount)
+    SERIAL1_USART.DATA = Usart0TxBuffer_p2M[--Usart0TxBufferCount];
+  else
+    SERIAL1_USART.CTRLA &= ~USART_DREINTLVL_gm;
+}
+#endif
