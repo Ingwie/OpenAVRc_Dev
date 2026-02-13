@@ -56,7 +56,7 @@
  */
 
 
-
+#if 0 // See Serial1.cpp in root.
 #if defined(CPUXMEGA)
 ISR(token_paste4(USART, S1_PORT, S1_USART, _RXC_vect)) // e.g. USARTE0_RXC_vect
 {
@@ -80,4 +80,5 @@ ISR(token_paste4(USART, S1_PORT, S1_USART, _DRE_vect))
   else
     SERIAL1_USART.CTRLA &= ~USART_DREINTLVL_gm;
 }
+#endif
 #endif
