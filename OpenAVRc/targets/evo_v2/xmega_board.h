@@ -77,14 +77,14 @@
 #define CRSF_USART  SERIAL0_USART
 #define SBUS_USART  SERIAL0_USART
 #define SUMD_USART  SERIAL0_USART
-#define FRSKY_USART SERIAL1_USART
+#define FRSKY_USART SERIAL0_USART
 
 #define MULTI_USART_PORT SERIAL0_PORT
 #define DSM_USART_PORT   SERIAL0_PORT
 #define CRSF_USART_PORT  SERIAL0_PORT
 #define SBUS_USART_PORT  SERIAL0_PORT
 #define SUMD_USART_PORT  SERIAL0_PORT
-#define FRSKY_USART_PORT SERIAL1_PORT
+#define FRSKY_USART_PORT SERIAL0_PORT
 
 
 // token pasting
@@ -345,8 +345,8 @@ void EEPROM_FlushBuffer(void);
 #if defined(BLUETOOTH)
 #define BT_KEY_ON()
 #define BT_KEY_OFF()
-#define BT_IS_IN_AT_MODE          (PORTB & OUT_B_BT_KEY)
-#define BT_IS_CONNECTED           (!0)
+#define BT_IS_IN_AT_MODE          (PORTB & OUT_B_BT_KEY) // Not known for HC06.
+#define BT_IS_CONNECTED           (!0) // Mega2560 had a bug which always read as connected. Also had a pull up :).
 #define BT_POWER_ON()             (PORTB.OUTSET = PIN6_bm)
 #define BT_POWER_OFF()            (PORTB.OUTCLR = PIN6_bm)
 #define BT_POWER_IS_ON()          (PORTB.IN & PIN6_bm)

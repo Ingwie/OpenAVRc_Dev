@@ -60,6 +60,13 @@ void BT_Ser_Init(uint8_t speed)
  USART_SET_MODE_8N1(TLM_USART1);
  USART_ENABLE_TX(TLM_USART1);
  USART_ENABLE_RX(TLM_USART1);
+
+#if defined(CPUXMEGA)
+  SERIAL1_PORT.PIN3CTRL = PORT_OPC_PULLUP_gc; // Pullup TXD.
+  SERIAL1_PORT.DIRSET = USART_TXD_PIN_bm;
+  SERIAL1_PORT.PIN2CTRL = PORT_OPC_PULLUP_gc; // Pullup RXD.
+  SERIAL1_PORT.DIRCLR = USART_RXD_PIN_bm;
+#endif
 }
 
 void BT_Ser_SendTxBuffer()
@@ -74,7 +81,11 @@ void BT_Ser_SendTxBuffer()
   }
 #endif
 #if defined(CPUXMEGA)
-  // ToDo
+ if (!(SERIAL1_USART.CTRLA & USART_DREINTLVL_gm)) // if we are not in transmit mode
+  { // initiate transmission.
+   SERIAL1_USART.DATA = BT_TX_Fifo.pop();
+   USART_TRANSMIT_BUFFER(TLM_USART1);
+  }
 #endif
 #endif
 }
@@ -174,23 +185,22 @@ ISR(USART_UDRE_vect_N(TLM_USART1))
 #if defined(CPUXMEGA)
 ISR(token_paste4(USART, S1_PORT, S1_USART, _RXC_vect)) // e.g. USARTE0_RXC_vect
 {
-//  SERIAL1_USART.CTRLA &= ~USART_DREINTLVL_gm; // Disable interrupt.
-
   uint8_t error = SERIAL1_USART.STATUS;
   uint8_t data = SERIAL1_USART.DATA;
   // Filter usart error
   error &= (USART_FERR_bm | USART_BUFOVF_bm | USART_PERR_bm);
 
-  parseSerialTelemFunction(data, error);
-
-//  SERIAL1_USART.CTRLA |= USART_RXCINTLVL_MED_gc; // Enable medium priority.
+  if (!error)
+   {
+    // No error, store data in the buffer if there is room
+    BT_RX_Fifo.push(data);
+   };
 }
-
 
 ISR(token_paste4(USART, S1_PORT, S1_USART, _DRE_vect))
 {
-  if (Usart0TxBufferCount)
-    SERIAL1_USART.DATA = Usart0TxBuffer_p2M[--Usart0TxBufferCount];
+  if (BT_TX_Fifo.available())
+    SERIAL1_USART.DATA = BT_TX_Fifo.pop();
   else
     SERIAL1_USART.CTRLA &= ~USART_DREINTLVL_gm;
 }
