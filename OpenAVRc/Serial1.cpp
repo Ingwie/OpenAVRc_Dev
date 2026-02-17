@@ -44,22 +44,26 @@ Fifo<BT_SERIAL_RX_FIFO_SIZE> BT_RX_Fifo;
 
 void BT_Ser_Init(uint8_t speed)
 {
- switch (speed)
+  switch (speed)
   {
-  case 1:
-   USART_SET_BAUD_57K6(TLM_USART1);
-  case 2:
-   USART_SET_BAUD_38K4(TLM_USART1);
-  case 3:
-   USART_SET_BAUD_19K2(TLM_USART1);
-  case 4:
-   USART_SET_BAUD_9K6(TLM_USART1);
-  default: // 0
-   USART_SET_BAUD_115K2(TLM_USART1);
+    case 1:
+      USART_SET_BAUD_57K6 (TLM_USART1);
+      break;
+    case 2:
+      USART_SET_BAUD_38K4(TLM_USART1);
+      break;
+    case 3:
+      USART_SET_BAUD_19K2(TLM_USART1);
+      break;
+    case 4:
+      USART_SET_BAUD_9K6(TLM_USART1);
+      break;
+    default: // 0
+      USART_SET_BAUD_115K2(TLM_USART1);
   }
- USART_SET_MODE_8N1(TLM_USART1);
- USART_ENABLE_TX(TLM_USART1);
- USART_ENABLE_RX(TLM_USART1);
+  USART_SET_MODE_8N1 (TLM_USART1);
+  USART_ENABLE_TX(TLM_USART1);
+  USART_ENABLE_RX(TLM_USART1);
 
 #if defined(CPUXMEGA)
   SERIAL1_PORT.PIN3CTRL = PORT_OPC_PULLUP_gc; // Pullup TXD.
@@ -188,7 +192,7 @@ ISR(token_paste4(USART, S1_PORT, S1_USART, _RXC_vect)) // e.g. USARTE0_RXC_vect
   uint8_t error = SERIAL1_USART.STATUS;
   uint8_t data = SERIAL1_USART.DATA;
   // Filter usart error
-  error &= (USART_FERR_bm | USART_BUFOVF_bm | USART_PERR_bm);
+  error &= (USART_FERR_bm | USART_BUFOVF_bm); // | USART_PERR_bm);
 
   if (!error)
    {
