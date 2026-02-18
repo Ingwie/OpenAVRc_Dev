@@ -112,6 +112,12 @@ static const uint8_t lcdInitSequence[] PROGMEM = {
 #endif
 };
 
+static void lcdSetRefVolt(uint8_t val)
+{
+  lcdSendCmd(0x81);
+  lcdSendCmd(val);
+}
+
 void lcdInit()
 {
   PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_RES);  //LCD reset
@@ -126,16 +132,10 @@ void lcdInit()
   backlightEnable();
 
 #if defined(LCD_ERC12864FSF)
-//  g_eeGeneral.contrast = 0x2D;
+ lcdSetRefVolt(0x2D);
 #else
-//  g_eeGeneral.contrast = 0x22;
+ lcdSetRefVolt(0x22);
 #endif
-}
-
-static void lcdSetRefVolt(uint8_t val)
-{
-  lcdSendCmd(0x81);
-  lcdSendCmd(val);
 }
 
 static void lcdRefreshFast()
@@ -182,35 +182,6 @@ static void lcdRefreshFast()
     PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_CS1);
   }
 }
-
-#if 0
-static void lcdRefreshFast()
-{
-  uint8_t * p = displayBuf;
-  for (uint8_t y=0; y < 8; y++) {
-#if defined(LCD_ST7565R)
-    lcdSendCmd(0x01);
-#else
-    lcdSendCmd(0x04);
-#endif
-    lcdSendCmd(0x10); // Column addr 0
-    lcdSendCmd( y | 0xB0); //Page addr y
-    PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_CS1);
-#if defined(LCD_MULTIPLEX)
-    DDRA = 0xFF; // Set LCD_DAT pins to output
-#endif
-    PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_A0);
-    PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_RnW);
-    for (coord_t x=LCD_W; x>0; --x) {
-      PORTA_LCD_DAT = *p++;
-      PORTC_LCD_CTRL |= _BV(OUT_C_LCD_E);
-      PORTC_LCD_CTRL &= ~_BV(OUT_C_LCD_E);
-    }
-    PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_A0);
-    PORTC_LCD_CTRL |=  _BV(OUT_C_LCD_CS1);
-  }
-}
-#endif
 
 void lcdRefresh()
 {

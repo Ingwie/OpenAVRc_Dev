@@ -3,8 +3,6 @@
 # use config.h
 USE_CONFIG_H = yes
 
-USE_FRAM_EE = yes
-
 # MCU
 MCU = atxmega256a3u
 

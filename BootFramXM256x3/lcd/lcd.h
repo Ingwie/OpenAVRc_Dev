@@ -39,7 +39,7 @@
 #include <avr/pgmspace.h>
 #include <string.h>
 
-// ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306, SH1106, NT7538SPI LT13264B
+// ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306, SH1106, LT13264B
 // Passed to makefile as LCD=KS108 then converted to a define via -D LCD_KS108.
 
 
