@@ -1051,6 +1051,11 @@ extern const void parseTelemFrskyByte(uint8_t data);
 #define IS_USR_PROTO_SMART_PORT()  (g_model.telemetry.usrProto == USR_PROTO_SMART_PORT)
 #define IS_USR_PROTO_IBUS()        (g_model.telemetry.usrProto == USR_PROTO_IBUS)
 
+#define SET_USR_PROTO_NONE()        (g_model.telemetry.usrProto = USR_PROTO_NONE)
+#define SET_USR_PROTO_FRSKY_HUB()   (g_model.telemetry.usrProto = USR_PROTO_FRSKY)
+#define SET_USR_PROTO_WS_HOW_HIGH() (g_model.telemetry.usrProto = USR_PROTO_WS_HOW_HIGH)
+#define SET_USR_PROTO_SMART_PORT()  (g_model.telemetry.usrProto = USR_PROTO_SMART_PORT)
+#define SET_USR_PROTO_IBUS()        (g_model.telemetry.usrProto = USR_PROTO_IBUS)
 
 #define PLAY_REPEAT(x)            (x)                 /* Range 0 to 15 */
 #define PLAY_NOW                  0x10

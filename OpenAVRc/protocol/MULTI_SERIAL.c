@@ -114,6 +114,25 @@ struct mm_t1_pkt  *mm_type1_packet_ptr = &pulses2MHz.mm_st.mm_type1_packet;
 #define length_p2m pulses2MHz.mm_st.length
 #define pkt_type_p2m pulses2MHz.mm_st.pkt_type
 
+enum PKTTYPE
+{
+  MM_STATUS       = 0x01,
+  FRSKY_SPORT_TLM = 0x02,
+  FRSKY_HUB_TLM   = 0x03,
+  SPEKTRUM_TLM    = 0x04,
+  DSM_BIND_DATA   = 0x05,
+  FLYSKY_TLM_AA   = 0x06,
+  INPUT_SYNC      = 0x08,
+  HITEC_TLM       = 0x0A,
+  SCANNER_TLM     = 0x0B,
+  FLYSKY_TLM_AC   = 0x0C,
+  RX_CHLS_FDW     = 0x0D,
+  HOTT_TLM        = 0x0E,
+  MLINK_TLM       = 0x0F,
+  CONFIG_TLM      = 0x10,
+  PROTO_LIST      = 0x11,
+};
+
 static uint16_t MULTI_cb()
 {
   SCHEDULE_MIXER_END_IN_US(22000); // Schedule next Mixer calculations.
@@ -175,8 +194,12 @@ static uint16_t MULTI_cb()
    option_protocol value is -128..127 byte 3.
    1<<7 seems like a special case to enable iBus telemetry.
    */
-  if (proto_type == MM_RF_PROTO_28_AFHDS2A  &&  IS_USR_PROTO_IBUS())
+
+#if defined (PCB_EVO)
+    if (proto_type == MM_RF_PROTO_28_AFHDS2A  &&  IS_USR_PROTO_IBUS())
     optionValue |= 0x80;
+#endif
+
     Usart0TxBuffer_p2M[--multiTxBufferCount] = optionValue;
 
   /*
@@ -227,6 +250,27 @@ static uint16_t MULTI_cb()
 #if !defined(SIMU)
   USART_TRANSMIT_BUFFER(MULTI_USART);
 #endif
+
+  if (!frskyStreaming) // no telemetry detected
+    {
+      switch (pkt_type_p2m)
+        {
+        case MM_STATUS :
+          break;
+        case FRSKY_SPORT_TLM :
+          SET_USR_PROTO_SMART_PORT();
+          break;
+        case FRSKY_HUB_TLM :
+          SET_USR_PROTO_FRSKY_HUB();
+          break;
+        case FLYSKY_TLM_AA :
+        case FLYSKY_TLM_AC :
+          SET_USR_PROTO_IBUS();
+          break;
+        default :
+          SET_USR_PROTO_NONE();
+        }
+    }
 
   heartbeat |= HEART_TIMER_PULSES;
   CALCULATE_LAT_JIT(); // Calculate latency and jitter.
@@ -290,26 +334,6 @@ const void* MULTI_Cmds(enum ProtoCmds cmd)
 
 NOINLINE const void parseSerialMultiByte(uint8_t data, uint8_t error)
 {
-
-  enum PKTTYPE
-  {
-    MM_STATUS       = 0x01,
-    FRSKY_SPORT_TLM = 0x02,
-    FRSKY_HUB_TLM   = 0x03,
-    SPEKTRUM_TLM    = 0x04,
-    DSM_BIND_DATA   = 0x05,
-    FLYSKY_TLM_AA   = 0x06,
-    INPUT_SYNC      = 0x08,
-    HITEC_TLM       = 0x0A,
-    SCANNER_TLM     = 0x0B,
-    FLYSKY_TLM_AC   = 0x0C,
-    RX_CHLS_FDW     = 0x0D,
-    HOTT_TLM        = 0x0E,
-    MLINK_TLM       = 0x0F,
-    CONFIG_TLM      = 0x10,
-    PROTO_LIST      = 0x11,
-  };
-
   if (error) // reset the parser on serial error
   {
     state_p2m = RESET;
@@ -389,6 +413,7 @@ NOINLINE const void parseSerialMultiByte(uint8_t data, uint8_t error)
           }
           else
           {
+            pkt_type_p2m = 0;
             state_p2m = RESET;
             break;
           }
