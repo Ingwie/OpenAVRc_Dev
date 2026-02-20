@@ -32,8 +32,8 @@
 
 #include "OpenAVRc.h"
 
-#ifndef HC05
-  #define HC05
+#ifndef HC06
+  #define HC06
 #endif
 
 #define BT_SEND_AT_SEQ(AtCmdInit)  btSendAtSeq((const AtCmdSt_t*)&AtCmdInit, TBL_ITEM_NB(AtCmdInit))
@@ -46,7 +46,6 @@ DECL_FLASH_STR2(Str_BT_Master,   "_M");
 
 DECL_FLASH_STR2(Str_OK_CRLF,     "OK\r\n");
 DECL_FLASH_STR2(Str_CRLF_OK_CRLF,"\r\nOK\r\n");
-
 DECL_FLASH_STR2(Str_ATPref,      "AT");    // AT prefix command
 DECL_FLASH_STR2(Str_AT,          "");      // Simple AT command
 DECL_FLASH_STR2(Str_STATE,       "STATE"); // BT Status
@@ -54,8 +53,7 @@ DECL_FLASH_STR2(Str_PSWD,        "PSWD");  // BT Password (PIN)
 DECL_FLASH_STR2(Str_UART,        "UART");  // Uart
 DECL_FLASH_STR2(Str_CLASS,       "CLASS"); // Device Class
 DECL_FLASH_STR2(Str_RMAAD,       "RMAAD"); // Clears paired list
-DECL_FLASH_STR2(Str_ROLE,        "ROLE");  // Role: 0=Slave, 1=Master
-DECL_FLASH_STR2(Str_NAME,        "NAME");  // BT module name
+
 DECL_FLASH_STR2(Str_RNAME,       "RNAME"); // Remote BT module name
 DECL_FLASH_STR2(Str_CMODE,       "CMODE"); // Inquire - Connection mode
 DECL_FLASH_STR2(Str_INIT,        "INIT");  // Initialize the SPP profile lib
@@ -68,13 +66,35 @@ DECL_FLASH_STR2(Str_IPSCAN,      "IPSCAN");// Change scan seting
 DECL_FLASH_STR2(Str_IAC,         "IAC");   // Set inquire access
 DECL_FLASH_STR2(Str_RESET,       "RESET"); // Reset
 
-enum {AT_AT = 0, AT_STATE, AT_PSWD, AT_UART, AT_CLASS, AT_RMAAD, AT_ROLE, AT_NAME, AT_RNAME, AT_CMODE,
-     AT_INIT, AT_DISC, AT_INQM, AT_INQ, AT_INQC, AT_LINK, AT_IPSCAN, AT_IAC, AT_RESET, AT_CMD_MAX_NB};
+DECL_FLASH_STR2(Str_ROLE,        "ROLE");  // Role: 0=Slave, 1=Master
+DECL_FLASH_STR2(Str_NAME,        "NAME");  // BT module name
+
+#if defined(HC06)
+DECL_FLASH_STR2(Str_OK,     "OK");
+DECL_FLASH_STR2(Str_BAUD,        "BAUD"); // HC06 Baud
+DECL_FLASH_STR2(Str_PO,          "PO"); // HC06 parity Odd
+DECL_FLASH_STR2(Str_PE,          "PE"); // HC06 parity Even
+DECL_FLASH_STR2(Str_PN,          "PN"); // HC06 parity None
+DECL_FLASH_STR2(Str_PIN,         "PIN"); // HC06 PIN code
+DECL_FLASH_STR2(Str_VERSION,     "VERSION"); // HC06 Version
+#endif
+
+// The following enum and strings must match.
+enum {AT_AT = 0, AT_STATE, AT_PSWD, AT_UART, AT_CLASS, AT_RMAAD, AT_ROLE, AT_NAME,
+  AT_RNAME, AT_CMODE, AT_INIT, AT_DISC, AT_INQM, AT_INQ, AT_INQC, AT_LINK, AT_IPSCAN, AT_IAC, AT_RESET,
+#if defined(HC06)
+  AT_BAUD, AT_PO, AT_PE, AT_PN, AT_PIN, AT_VERSION,
+#endif
+  AT_CMD_MAX_NB};
 
 DECL_FLASH_TBL(AtCmdTbl, char * const) = {Str_AT, Str_STATE, Str_PSWD, Str_UART, Str_CLASS, Str_RMAAD, Str_ROLE, Str_NAME,
-Str_RNAME, Str_CMODE, Str_INIT, Str_DISC, Str_INQM, Str_INQ, Str_INQC, Str_LINK, Str_IPSCAN, Str_IAC, Str_RESET};
+  Str_RNAME, Str_CMODE, Str_INIT, Str_DISC, Str_INQM, Str_INQ, Str_INQC, Str_LINK, Str_IPSCAN, Str_IAC, Str_RESET,
+#if defined(HC06)
+  Str_BAUD, Str_PO, Str_PE, Str_PN, Str_PIN, Str_VERSION,
+#endif
+  };
 
-/* ALL THE STATUS SRINGS THE BT MODULE CAN ANSWER */
+/* ALL THE STATUS STRINGS THE BT MODULE CAN ANSWER */
 DECL_FLASH_STR2(Str_INITIALIZED, "INITIALIZED");
 DECL_FLASH_STR2(Str_READY,       "READY");
 DECL_FLASH_STR2(Str_PAIRABLE,    "PAIRABLE");
@@ -83,6 +103,14 @@ DECL_FLASH_STR2(Str_INQUIRING,   "INQUIRING");
 DECL_FLASH_STR2(Str_CONNECTING,  "CONNECTING");
 DECL_FLASH_STR2(Str_CONNECTED,   "CONNECTED");
 DECL_FLASH_STR2(Str_DISCONNECTED,"DISCONNECTED");
+
+#if defined(HC06)
+DECL_FLASH_STR2(Str_OK_None,     "OK None"); //
+DECL_FLASH_STR2(Str_OK_115200,     "OK115200"); //
+DECL_FLASH_STR2(Str_OK_ROLE_S,     "OK+ROLE:S"); //
+DECL_FLASH_STR2(Str_OK_SET_PIN,     "OKsetPIN"); //
+DECL_FLASH_STR2(Str_OK_SET_NAME,     "OKsetname"); //
+#endif
 
 DECL_FLASH_TBL(BtStateTbl, char * const) = {Str_INITIALIZED, Str_READY, Str_PAIRABLE, Str_PAIRED, Str_INQUIRING, Str_CONNECTING, Str_CONNECTED, Str_DISCONNECTED};
 
@@ -116,6 +144,7 @@ static void    btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb);
 static char   *buildMacStr(uint8_t *MacBin, char *MacStr);
 static uint8_t buildMacBin(char *MacStr, uint8_t *MacBin);
 
+static void    baudSet(char* Addon);
 static void    uartSet(char* Addon);
 static void    classSet(char* Addon);
 static void    roleSet(char* Addon);
@@ -127,7 +156,31 @@ static void    iacSet(char* Addon);
 static int8_t  getBtStateIdx(const char *BtState);
 static int8_t  clearPairedList(uint16_t TimeoutMs);
 
+#if defined(HC06)
+DECL_FLASH_TBL(AtCmdBtInit, AtCmdSt_t) = {
+                          /* CmdIdx,    BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
+                          {AT_AT,      BT_CMD, NULL,    Str_OK,          0,    0,     BT_GET_TIMEOUT_MS *4},
+                        //{AT_BAUD,    BT_CMD, baudSet, Str_OK_115200 ,  0,    0,     BT_SET_TIMEOUT_MS *3}, // Baud index hex '1' to 'C'
+                        //{AT_PO,      BT_CMD, NULL,    Str_AT,          0,    0,     BT_SET_TIMEOUT_MS}, // Parity "Odd"
+                        //{AT_PE,      BT_CMD, NULL,    Str_AT,          0,    0,     BT_SET_TIMEOUT_MS}, // Parity "Even"
+                          {AT_PN,      BT_CMD, NULL,    Str_OK_None,     0,    0,     BT_SET_TIMEOUT_MS *3}, // Parity "None"
+                        //{AT_VERSION, BT_CMD, NULL,    Str_AT,          0,    0,     BT_SET_TIMEOUT_MS}, // My HC06 returns "linvorV1.8"
+                          };
 
+DECL_FLASH_TBL(AtCmdSlaveInit, AtCmdSt_t) = {
+                          /* CmdIdx,  BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
+                          {AT_AT,    BT_CMD, NULL,    Str_OK,           0,    0,     BT_GET_TIMEOUT_MS *4},
+                          {AT_ROLE,  BT_SET, roleSet, Str_OK_ROLE_S,    0,    0,     BT_SET_TIMEOUT_MS *3},
+                        //{AT_PIN,   BT_CMD, NULL,    Str_OK_SET_PIN,   0,    0,     BT_SET_TIMEOUT_MS *3}, // 4 digit PIN.
+                          };
+
+DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
+                          /* CmdIdx,  BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
+                          {AT_AT,    BT_CMD, NULL,    Str_OK,           0,    0,     BT_GET_TIMEOUT_MS *3},
+                        //{AT_ROLE,  BT_SET, roleSet, Str_OK_ROLE_M,    0,    0,     BT_SET_TIMEOUT_MS *3}, // The HC06 alludes to this but probably an error.
+                          };
+#endif
+#if defined(HC05)
 DECL_FLASH_TBL(AtCmdBtInit, AtCmdSt_t) = {
                           /* CmdIdx,  BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
                           {AT_AT,    BT_CMD, NULL,     Str_CRLF,          0,    0,     BT_GET_TIMEOUT_MS},
@@ -161,6 +214,8 @@ DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
                           {AT_INIT,  BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS}, // Ingwie :return error 17 on my BT
                           //{AT_RESET, BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           };
+#endif
+
 
 /* PUBLIC FUNTIONS */
 /**
@@ -173,60 +228,85 @@ DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
  */
 void bluetooth_init()
 {
- uint32_t RateTbl[] = {115200, 57600, 38400, 19200, 9600};
- uint8_t  Idx;
- char     UartAtCmd[30];
- char     RespBuf[10];
+#if defined(HC06)
+  uint32_t RateTbl[] = { 8, 7, 6, 5, 4 }; // HC06 AT+BAUDn Command.
+#endif
+#if defined(HC05)
+  uint32_t RateTbl[] = {115200, 57600, 38400, 19200, 9600};
+#endif
 
- if (!g_eeGeneral.BT.Power)
+  uint8_t Idx;
+  char UartAtCmd[30];
+  char RespBuf[10];
+
+  if (!g_eeGeneral.BT.Power)
   {
-   BT_POWER_OFF();
+    BT_POWER_OFF();
   }
- else
+  else
   {
-   BT_Ser_Println(); // After uCli
-   BT_Wait_Screen();
-   rebootBT(); // EN is ON
+    BT_Ser_Println(); // After uCli
+    BT_Wait_Screen();
+    rebootBT(); // EN is ON
 
-   for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
+    for (Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
     {
-     BT_Ser_Init(Idx);
-     BT_Ser_flushRX();
-     BT_Ser_Println(Str_ATPref);
-     if((waitForResp(RespBuf, sizeof(RespBuf), Str_CRLF, BT_SET_TIMEOUT_MS*4)) >= 0) // V3 HC05 need 2 second to anwser to the first AT !!
+      BT_Ser_Init(Idx);
+      BT_Ser_flushRX();
+      if(sendAtCmdAndWaitForResp(AT_AT, BT_CMD, NULL, RespBuf, sizeof(RespBuf), 0, 0, Str_OK, BT_GET_TIMEOUT_MS *4) >= 0)
       {
-       /* OK Uart serial rate found */
-       if(Idx)
+        /* OK UART serial rate found */
+        if (Idx)
         {
-         sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0"), RateTbl[0]);
-         BT_Ser_Println(UartAtCmd);
-         if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, BT_SET_TIMEOUT_MS*4)) >= 0)
+          // Set parity first as changing baud stops comm's after response.
+          if(sendAtCmdAndWaitForResp(AT_PN, BT_CMD, NULL, RespBuf, sizeof(RespBuf), 0, 0, Str_OK_None, BT_SET_TIMEOUT_MS *3) >= 0);
+          else
           {
-           /* Should be OK */
+            g_eeGeneral.BT.Power = 0; // Quit and don't try again.
+            return;
           }
-         /* BT Reboot is needed */
-         rebootBT();
+          sprintf_P(UartAtCmd, PSTR("AT+BAUD%lu"), RateTbl[0]);
+          BT_Ser_Print(UartAtCmd);
+          BT_Ser_SendTxBuffer(); // send buffer
+          if ((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_115200, BT_SET_TIMEOUT_MS *3)) >= 0) //"OK115200"
+          {
+            /* Set UART Serial to Rate = 115200 */
+            BT_Ser_Init(0);
+          }
+          else
+          {
+            g_eeGeneral.BT.Power = 0;
+            return;
+          }
+          /* BT Reboot is needed */ // Why ... maybe HC UART has corruption ?.
+          rebootBT();
         }
-       break;
-      }
-     else
-      {
+        break;
       }
     }
-   /* Switch Serial to Rate = 115200 */
-   BT_Ser_Init(0);
-   BT_SEND_AT_SEQ(AtCmdBtInit); // Common to Master and Slave
-   if(g_eeGeneral.BT.Master)
+
+//    /* Set UART Serial to Rate = 115200 */ // Not needed.
+//    BT_Ser_Init(0);
+
+    BT_SEND_AT_SEQ(AtCmdBtInit); // Common to Master and Slave
+
+#if defined(HC06)
+    if(g_eeGeneral.BT.Master)
+      g_eeGeneral.BT.Master = 0; // Force slave.
+#endif
+
+    if (g_eeGeneral.BT.Master)
     {
-     BT_SEND_AT_SEQ(AtCmdMasterInit);
+      BT_SEND_AT_SEQ(AtCmdMasterInit);
     }
-   else
+    else
     {
-     BT_SEND_AT_SEQ(AtCmdSlaveInit);
+      BT_SEND_AT_SEQ(AtCmdSlaveInit);
     }
   }
-  bluetooth_AtCmdMode(OFF);
+  bluetooth_AtCmdMode (OFF);
 }
+
 
 void bluetooth_AtCmdMode(uint8_t On)
 {
@@ -243,6 +323,7 @@ void bluetooth_AtCmdMode(uint8_t On)
     BT_KEY_OFF();
   }
 }
+
 
 /**
  * \file  bluetooth.cpp
@@ -265,6 +346,7 @@ int8_t bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeout
   return(Ret);
 }
 
+
 /**
  * \file  bluetooth.cpp
  * \fn int8_t bluetooth_getName(char *RespBuf, uint16_t TimeoutMs)
@@ -277,8 +359,22 @@ int8_t bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeout
  */
 int8_t bluetooth_getName(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs)
 {
+#if defined(HC06)
+/*
+ *  Maybe consider a fixed name as name cannot be queried with HC06.
+  char Name[] = "O_AVRc";
+
+  if(RespBufMaxLen >= strlen(Name))
+    strncpy(RespBuf, Name, RespBufMaxLen);
+  return (strlen(RespBuf));
+*/
+  return 0;
+#endif
+#if defined(HC05)
   return(sendAtCmdAndWaitForResp(AT_NAME, BT_GET, NULL, RespBuf, RespBufMaxLen, 4, 5, Str_CRLF_OK_CRLF, TimeoutMs));
+#endif
 }
+
 
 /**
  * \file  bluetooth.cpp
@@ -292,9 +388,19 @@ int8_t bluetooth_getName(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutM
 int8_t bluetooth_setName(char *BtName, uint16_t TimeoutMs)
 {
   char RespBuf[10];
+  char Name[BT_NAME_STR_LEN + 3]; // "_S"'\0'
 
+  strcpy(Name, BtName);
+  bluetooth_addSuffix(Name);
+
+#if defined(HC06)
+  return(sendAtCmdAndWaitForResp(AT_NAME, BT_CMD, Name, RespBuf, sizeof(RespBuf), 4, 5, Str_OK_SET_NAME, TimeoutMs));
+#endif
+#if defined(HC05)
   return(sendAtCmdAndWaitForResp(AT_NAME, BT_SET, BtName, RespBuf, sizeof(RespBuf), 4, 5, Str_OK_CRLF, TimeoutMs));
+#endif
 }
+
 
 /**
  * \file  bluetooth.cpp
@@ -308,6 +414,7 @@ int8_t bluetooth_setName(char *BtName, uint16_t TimeoutMs)
  */
 int8_t bluetooth_getPswd(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs)
 {
+#if defined(HC05)
   int8_t Ret;
 
   Ret = sendAtCmdAndWaitForResp(AT_PSWD, BT_GET, NULL, RespBuf, RespBufMaxLen, 1, 5, Str_CRLF_OK_CRLF, TimeoutMs); // Check only if the answer starts with P (PIN" or PSWD expected !)
@@ -320,7 +427,13 @@ int8_t bluetooth_getPswd(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutM
     }
   }
   return(Ret);
+#endif
+#if defined(HC06)
+  // HC06 PIN cannot be queried.
+  return 0;
+#endif
 }
+
 
 /**
  * \file  bluetooth.cpp
@@ -336,10 +449,16 @@ int8_t bluetooth_setPswd(char *BtPswd, uint16_t TimeoutMs)
   char RespBuf[10];
   char CmdBtPswd[7];
 
+#if defined(HC06)
+  snprintf_P(CmdBtPswd, 20, PSTR("%s"), BtPswd);
+  return(sendAtCmdAndWaitForResp(AT_PIN, BT_CMD, CmdBtPswd, RespBuf, sizeof(RespBuf), 0, 0, Str_OK_SET_PIN, TimeoutMs));
+#endif
+#if defined(HC05)
   snprintf_P(CmdBtPswd, 20, PSTR("\"%s\""), BtPswd); // Add double quotes
-
   return(sendAtCmdAndWaitForResp(AT_PSWD, BT_SET, CmdBtPswd, RespBuf, sizeof(RespBuf), 0, 0, Str_OK_CRLF, TimeoutMs));
+#endif
 }
+
 
 /**
  * \file  bluetooth.cpp
@@ -356,8 +475,10 @@ int8_t bluetooth_getRemoteName(uint8_t *RemoteMacBin, char *RespBuf, uint8_t Res
 {
   char MacStr[15];
   // Format: [00]25,56,D8CA0F
+
   return(sendAtCmdAndWaitForResp(AT_RNAME, BT_GET, buildMacStr(RemoteMacBin, MacStr), RespBuf, RespBufMaxLen, 5, 6, Str_CRLF_OK_CRLF, TimeoutMs));
 }
+
 
 /**
  * \file  bluetooth.cpp
@@ -447,6 +568,7 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
   return(Ret);
 }
 
+
 /**
  * \file  bluetooth.cpp
  * \fn int8_t bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs)
@@ -463,6 +585,7 @@ int8_t bluetooth_linkToRemote(uint8_t *RemoteMacBin, uint16_t TimeoutMs)
 
   return(sendAtCmdAndWaitForResp(AT_LINK, BT_SET, buildMacStr(RemoteMacBin, MacStr), RespBuf, sizeof(RespBuf), 0, 0, Str_OK_CRLF, TimeoutMs));
 }
+
 
 /* PRIVATE FUNCTIONS */
 
@@ -485,6 +608,7 @@ void rebootBT()
    // Switch to AT Mode
   bluetooth_AtCmdMode(ON);
 }
+
 
 static uint8_t buildMacBin(char *MacStr, uint8_t *MacBin)
 {
@@ -536,6 +660,7 @@ static uint8_t buildMacBin(char *MacStr, uint8_t *MacBin)
   return(Ret);
 }
 
+
 static char *buildMacStr(uint8_t *MacBin, char *MacStr)
 {
   char    NibbleDigit;
@@ -557,6 +682,7 @@ static char *buildMacStr(uint8_t *MacBin, char *MacStr)
   return(MacStr);
 }
 
+
 static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCmdArg, char *RespBuf, uint8_t RespBufMaxLen, uint8_t MatchLen, uint8_t SkipLen, const char *TermPattern_P, uint16_t TimeoutMs)
 {
   char     AtCmd[20];
@@ -577,7 +703,12 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   {
     BT_Ser_Print(AtCmdArg);
   }
+#if defined(HC06)
+  BT_Ser_SendTxBuffer();
+#endif
+#if defined(HC05)
   BT_Ser_Println();
+#endif
   Start10MsTick = GET_10MS_TICK();
   /* Now, check expected header is received */
   if((AtCmdIdx != AT_AT) && (BtOp == BT_GET))
@@ -630,6 +761,7 @@ static int8_t sendAtCmdAndWaitForResp(uint8_t AtCmdIdx, uint8_t BtOp, char *AtCm
   }
   return(Ret);
 }
+
 
 static uint8_t   getAtCmdIdx(const AtCmdSt_t *AtCmdTbl, uint8_t Idx)
 {
@@ -685,7 +817,7 @@ static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, const char *Term
       RxChar = BT_RX_Fifo.pop();
       if(!TPidx)
       {
-        /* No match caugth yet */
+        /* No match caught yet */
         if(RxChar == TermPattern[TPidx])
         {
           TPidx++;
@@ -727,16 +859,17 @@ static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, const char *Term
   return RxLen;
 }
 
-static void btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb)
+
+static void btSendAtCmd(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb, uint8_t Idx)
 {
-  uint8_t    Idx, AtCmdIdx, BtOp, MatchLen, SkipLen;
+  uint8_t    AtCmdIdx, BtOp, MatchLen, SkipLen;
   uint16_t   TimeoutMs;
   AtCmdAddon CmdAddon;
   char       Arg[30];
   char       RespBuf[30];
   char      *AtCmdArg;
 
-  for(Idx = 0; Idx < TblItemNb; Idx++)
+  if(Idx < TblItemNb)
   {
     AtCmdArg  = NULL;
     AtCmdIdx  = getAtCmdIdx(AtCmdTbl,  Idx);
@@ -759,20 +892,26 @@ static void btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb)
   }
 }
 
+
+static void btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb)
+{
+  for (uint8_t Idx = 0; Idx < TblItemNb; Idx++)
+  {
+    btSendAtCmd(AtCmdTbl, TblItemNb, Idx);
+  }
+}
+
+
+#if defined(HC05)
 static void uartSet(char* Addon)
 {
   strcpy_P(Addon, PSTR("115200,0,0"));
 }
 
+
 static void classSet(char* Addon)
 {
   strcpy_P(Addon, PSTR("0"));
-}
-
-static void roleSet(char* Addon)
-{
-  Addon[0] = '0' + g_eeGeneral.BT.Master;
-  Addon[1] =  0;
 }
 
 static void cmodeSet(char* Addon)
@@ -795,35 +934,35 @@ static void iacSet(char* Addon)
 {
   strcpy_P(Addon, PSTR("0x9E8B33"));
 }
+#endif
+
+static void roleSet(char* Addon)
+{
+#if defined(HC06)
+if(g_eeGeneral.BT.Master)
+  strcpy_P(Addon, PSTR("M"));
+else
+  strcpy_P(Addon, PSTR("S"));
+#else
+// HC05
+  Addon[0] = '0' + g_eeGeneral.BT.Master;
+  Addon[1] =  0;
+#endif
+}
+
+#if defined(HC06)
+static void baudSet(char* Addon)
+{
+  strcpy_P(Addon, PSTR("8")); // HC06 115200
+}
+#endif
+
 
 void bluetooth_addSuffix(char* Addon)
 {
   strcat_P(Addon, (g_eeGeneral.BT.Master)? Str_BT_Master: Str_BT_Slave);
 }
 
-/*static void nameSet(char* Addon)
-{
-  char   Name[BT_NAME_STR_LEN + 1];
-  int8_t NameLen;
-
-  NameLen = bluetooth_getName(Name, sizeof(Name), 100);
-  if(NameLen > 3)
-  {
-    // Check if suffix _M or _S is present
-    if((Name[NameLen - 2] == '_') && ((Name[NameLen - 1] == 'M') || (Name[NameLen - 1] == 'S')))
-    {
-      // Skip suffix
-      Name[NameLen - 2] = 0;
-    }
-    strcpy(Addon, Name);
-  }
-  else
-  {
-    // Name absent or too short
-    strcpy_P(Addon, PSTR("HC-05-OAVRC")); // Better than nothing!
-  }
-  bluetooth_addSuffix(Addon);
-}*/
 
 static int8_t getBtStateIdx(const char *BtState)
 {
@@ -837,6 +976,7 @@ static int8_t getBtStateIdx(const char *BtState)
 
   return(-1);
 }
+
 
 static int8_t clearPairedList(uint16_t TimeoutMs)
 {
