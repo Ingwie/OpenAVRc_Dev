@@ -78,7 +78,7 @@ void readKeysAndTrims();
 #if !defined(PWM_BACKLIGHT)
 #define backlightEnable()         PORTC |= _BV(OUT_C_LIGHT)
 #define backlightDisable()        PORTC &= ~_BV(OUT_C_LIGHT)
-#define isBacklightEnable()       PORTC & _BV(OUT_C_LIGHT)
+#define isBacklightEnable()       (PINC & _BV(OUT_C_LIGHT))
 #define BACKLIGHT_ON()            PORTC |= _BV(OUT_C_LIGHT)
 #define BACKLIGHT_OFF()           PORTC &= ~_BV(OUT_C_LIGHT)
 #define EnableCoreLed()           PORTB |= (MEGACORELEDPIN) // Blink on function
