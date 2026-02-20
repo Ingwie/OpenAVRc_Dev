@@ -32,6 +32,10 @@
 
 #include "OpenAVRc.h"
 
+#ifndef HC05
+  #define HC05
+#endif
+
 #define BT_SEND_AT_SEQ(AtCmdInit)  btSendAtSeq((const AtCmdSt_t*)&AtCmdInit, TBL_ITEM_NB(AtCmdInit))
 
 enum {BT_REBOOT_DATA_MODE = 0, BT_REBOOT_AT_MODE};
