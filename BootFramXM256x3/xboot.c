@@ -32,7 +32,7 @@
 /************************************************************************/
 
 #include "xboot.h"
-
+unsigned char Fram_Not_Detected = 0;
 #ifdef __AVR_XMEGA__
 unsigned char comm_mode;
 #else // __AVR_XMEGA__
@@ -216,9 +216,8 @@ protected = 1;
 
 #endif // USE_UART
 
-#if defined(USE_FRAM_EE)
-    i2c_init();
-#endif
+  i2c_init();
+  Fram_Not_Detected = i2c_start(FRAM_TWI_ADDRESS); // detect Fram
 
 
   // --------------------------------------------------
@@ -477,9 +476,10 @@ if(in_bootloader) {
 
       EEPROM_write_byte(address, get_char() );
 
-#if !defined (USE_FRAM_EE)
-      eeprom_busy_wait();
-#endif
+  if !(Fram_Detected)
+  {
+    eeprom_busy_wait();
+  }
 
       address++;
 
@@ -804,11 +804,15 @@ unsigned char BlockLoad(unsigned int size, unsigned char mem, ADDR_T *address) {
   // EEPROM memory type.
   if (mem == MEM_EEPROM) {
 
-    EEPROM_write_block( *address, buffer, size);
-
-#if !defined (USE_FRAM_EE)
+  if (Fram_Not_Detected)
+  {
+    eeprom_write_block(buffer, (void *)((uint16_t)*address), size);
     eeprom_busy_wait();
-#endif
+  }
+  else
+  {
+    fram_write_block(buffer, (const uint16_t)*address, size);
+  }
 
     (*address) += size;
 
@@ -872,7 +876,15 @@ void BlockRead(unsigned int size, unsigned char mem, ADDR_T *address) {
 
   if (mem == MEM_EEPROM) // Read EEPROM
   {
-    EEPROM_read_block( *address, buffer, size);
+  if (Fram_Not_Detected)
+  {
+    eeprom_read_block(buffer, (const void *)((uint16_t)*address), size);
+  }
+  else
+  {
+    fram_read_block(buffer, (const uint16_t)*address, size);
+  }
+
     (*address) += size;
   }
 

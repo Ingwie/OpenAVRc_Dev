@@ -180,7 +180,7 @@ CSOURCE += i2c_master.c
 
 # LCD
 # Values: ST7565P, ST7565R, ERC12864FSF, ST7920, KS108, SSD1306, SH1106, NT7538SPI LT13264B EVO SSD1309 ST7567
-LCD = KS108
+LCD = ST7920
 
 LCD_SOURCE = lcd/lcd_driver.c
 ifeq ($(XMEGA), yes)
@@ -201,13 +201,20 @@ endif
 
 TARGET_LCD = lcd/lcd_driver.c
 ifeq ($(XMEGA), yes)
-  TARGET_LCD += lcd/lcd_spi_driver.c
+TARGET_LCD += lcd/lcd_spi_driver.c
+else
+ifeq ($(LCD), ST7920)
+  TARGET_LCD += lcd/lcd_st7920_driver.c
 else ifeq ($(LCD), KS108)
   TARGET_LCD += lcd/lcd_ks108_driver.c
+else ifeq ($(LCD), SSD1306)
+  TARGET_LCD += lcd/lcd_ssd1306_driver.c
+else ifeq ($(LCD), SH1106)
+  TARGET_LCD += lcd/lcd_sh1106_driver.c
 else
   TARGET_LCD += lcd/lcd_default_driver.c
 endif
-
+endif
 
 # List Assembler source files here.
 # Make them always end in a capital .S.  Files ending in a lowercase .s

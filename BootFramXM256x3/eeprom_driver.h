@@ -50,24 +50,20 @@
 #endif // __AVR_XMEGA__
 
 
-#if defined(USE_FRAM_EE)
+
 #define FRAM_TWI_ADDRESS  (0x50 << 1) // 0x50 with all strap closed on ZS042 module, EEPROM FM24W256, see datasheet.
 // Prototypes
-char fram_read_byte(unsigned int addr);
-void fram_write_byte(unsigned int addr, char value);
 void fram_read_block(uint8_t *destbuf, const uint16_t addr, uint16_t len);
 void fram_write_block(uint8_t *srcbuf, const uint16_t addr, uint16_t len);
 
-#define EEPROM_read_byte(addr)              fram_read_byte(addr)
-#define EEPROM_write_byte(addr, value)      fram_write_byte(addr, value)
+#if(0)
 #define EEPROM_read_block(addr, dest, len)  fram_read_block((dest), (const uint16_t)(addr), (len))
 #define EEPROM_write_block(addr, src, len)  fram_write_block((src), (const uint16_t)(addr), (len))
-#else
-#define EEPROM_read_byte(addr)              eeprom_read_byte((const uint8_t *)((uint16_t)(addr)))
-#define EEPROM_write_byte(addr, value)      eeprom_write_byte((uint8_t *)((uint16_t)(addr)), (value))
+//#else
 #define EEPROM_read_block(addr, dest, len)  eeprom_read_block((dest), (const void *)((uint16_t)(addr)), (len))
 #define EEPROM_write_block(addr, src, len)  eeprom_write_block((src), (void *)((uint16_t)(addr)), (len))
 #endif
+
 
 void EEPROM_erase_all(void);
 
