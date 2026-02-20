@@ -100,7 +100,7 @@ void BT_Ser_flushRX()
  USART_PURGE_RX(TLM_USART1); // Flush Rx
 }
 
-void BT_Ser_Println()
+void BT_Ser_Println(void)
 {
  BT_Ser_Print(Str_CRLF);
  BT_Ser_SendTxBuffer(); // send buffer
