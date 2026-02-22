@@ -140,27 +140,6 @@ void EEPROM_erase_all(void) {
 }
 #endif // __AVR_XMEGA__
 
-
-#if defined(USE_FRAM_EE)
-
-void fram_write_byte(const unsigned int addr, char value) {
-  i2c_start(FRAM_TWI_ADDRESS + I2C_WRITE); // Set device address and write mode.
-  i2c_write((addr & 0xFF00) >> 8); // MSB write address
-  i2c_write(addr & 0x00FF); // LSB write address
-  i2c_write(value); // Write value to FRAM.
-  i2c_stop(); // Send stop condition = release bus
-}
-
-char fram_read_byte(const unsigned int addr) {
-  i2c_start(FRAM_TWI_ADDRESS + I2C_WRITE);
-  i2c_write((addr & 0xFF00) >> 8);
-  i2c_write(addr & 0x00FF);
-  i2c_start(FRAM_TWI_ADDRESS + I2C_READ); // Set device address and read mode.
-  char temp = i2c_read_nack(); // Read last value from FRAM.
-  i2c_stop();
-  return temp;
-}
-
 void fram_write_block(unsigned char *srcbuf, const uint16_t fram_addr, unsigned int len) {
   i2c_start(FRAM_TWI_ADDRESS + I2C_WRITE); // Set device address and write mode.
 
@@ -189,5 +168,5 @@ void fram_read_block(unsigned char *destbuf, const uint16_t fram_addr, unsigned 
   *destbuf = i2c_read_nack(); // Read last value from FRAM.
   i2c_stop();
 }
-#endif // FRAM_EE
+
 

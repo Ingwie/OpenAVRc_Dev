@@ -68,25 +68,3 @@ void lcdPortInit()
   DDRC = 0b11111100;  PORTC = 0b00000011; // 7-3:LCD, 2:BackLight, 1:ID2_SW, 0:ID1_SW
 #endif // __AVR_XMEGA__
 }
-
-
-#if 0 // Makefile can compile all drivers and select the required driver at Link time.
-#include "../../OpenAVRc.h"
-
-
-#if defined(SIMU)
-#include "lcd_simu_driver.cpp"
-#else
-#if defined(LCD_KS108)
-#include "targets/lcd/lcd_ks108_driver.cpp"
-#elif defined(LCD_ST7920)
-#include "targets/lcd/lcd_st7920_driver.cpp"
-#elif defined(LCD_SSD1306)
-#include "targets/lcd/lcd_ssd1306_driver.cpp"
-#elif defined(LCD_SH1106)
-#include "targets/lcd/lcd_sh1106_driver.cpp"
-#else
-#include "targets/lcd/lcd_default_driver.cpp"
-#endif
-#endif // defined
-#endif
