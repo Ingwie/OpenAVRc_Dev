@@ -833,21 +833,25 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
       if IS_MULTIMODULE_PROTOCOL(protocol)
         {
          int8_t optionValue =  g_model.rfOptionValue2;
+#if defined (PCB_EVO)
          const uint8_t multi_proto = (uint8_t)g_model.MULTIRFPROTOCOL;
-
+#endif
          if (mm_type1_packet_ptr->option_text_displayed)
           {
            lcdDrawTextLeft(y, (pm_char*)pgm_read_word_near(&optionsstr[mm_type1_packet_ptr->option_text_displayed]));
+#if defined (PCB_EVO)
            if (multi_proto == MM_RF_PROTO_28_AFHDS2A)
            {
              //optionValue = 50 + 5 * optionValue; // Displayed value is overrange.
              lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 4 * FW, y, (50 + 5 * optionValue), attr);
            }
            else
+#endif
              lcdDrawNumberNAtt(MODEL_SETUP_2ND_COLUMN + 4 * FW, y, optionValue, attr);
 
            if (attr  && (editMode>0) && (menuHorizontalPosition == 0))
             {
+#if defined (PCB_EVO)
              if (multi_proto == MM_RF_PROTO_28_AFHDS2A)
               {
                CHECK_INCDEC_MODELVAR(event, g_model.rfOptionValue2, 0, 70);
@@ -857,6 +861,7 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
               CHECK_INCDEC_MODELVAR(event, g_model.rfOptionValue2, -1, 7);
              }
              else
+#endif
               {
                CHECK_INCDEC_MODELVAR(event, g_model.rfOptionValue2, -128, 127);
               }
