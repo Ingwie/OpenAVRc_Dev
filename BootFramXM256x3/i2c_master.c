@@ -31,6 +31,19 @@
 
 #include <util/twi.h>
 
+void wait_start(void)
+{
+  uint32_t j = 50000; //ENTER_BLINK_WAIT;
+
+#if !defined (__AVR_XMEGA__)
+    while(! (TWCR & (1<<TWINT)) );
+#else
+    while(! (FRAM_RTC_TWI.MASTER.STATUS & TWI_MASTER_CLKHOLD_bm)) // CLKHOLD flag is (RIF | WIF).
+#endif
+    {
+     if (! j--) break ;
+    }
+}
 
 
 #if !defined (__AVR_XMEGA__)
@@ -61,7 +74,7 @@ uint8_t i2c_start(uint8_t address)
   // transmit START condition
   TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
   // wait for end of transmission
-  wait();
+  wait_start();
 
   // check if the start condition was successfully transmitted
   if((TWSR & 0xF8) != TW_START) {
@@ -161,7 +174,8 @@ be established. The function returns 1 if an error has occurred, otherwise it re
 */
   FRAM_RTC_TWI.MASTER.ADDR = address;
 
-  while(! (FRAM_RTC_TWI.MASTER.STATUS & TWI_MASTER_CLKHOLD_bm)); // CLKHOLD flag is (RIF | WIF).
+//  while(! (FRAM_RTC_TWI.MASTER.STATUS & TWI_MASTER_CLKHOLD_bm)); // CLKHOLD flag is (RIF | WIF).
+   wait_start();
 
   // Check if the device has acknowledged the READ / WRITE mode
   if(FRAM_RTC_TWI.MASTER.STATUS & TWI_MASTER_RXACK_bm) return 1; //ToDo bus error and fault.

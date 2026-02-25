@@ -159,7 +159,7 @@ static int8_t  clearPairedList(uint16_t TimeoutMs);
 #if defined(HC06)
 DECL_FLASH_TBL(AtCmdBtInit, AtCmdSt_t) = {
                           /* CmdIdx,    BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
-                          {AT_AT,      BT_CMD, NULL,    Str_OK,          0,    0,     BT_GET_TIMEOUT_MS *4},
+                        //{AT_AT,      BT_CMD, NULL,    Str_OK,          0,    0,     BT_GET_TIMEOUT_MS *4},
                         //{AT_BAUD,    BT_CMD, baudSet, Str_OK_115200 ,  0,    0,     BT_SET_TIMEOUT_MS *3}, // Baud index hex '1' to 'C'
                         //{AT_PO,      BT_CMD, NULL,    Str_AT,          0,    0,     BT_SET_TIMEOUT_MS}, // Parity "Odd"
                         //{AT_PE,      BT_CMD, NULL,    Str_AT,          0,    0,     BT_SET_TIMEOUT_MS}, // Parity "Even"
@@ -169,7 +169,7 @@ DECL_FLASH_TBL(AtCmdBtInit, AtCmdSt_t) = {
 
 DECL_FLASH_TBL(AtCmdSlaveInit, AtCmdSt_t) = {
                           /* CmdIdx,  BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
-                          {AT_AT,    BT_CMD, NULL,    Str_OK,           0,    0,     BT_GET_TIMEOUT_MS *4},
+                        //{AT_AT,    BT_CMD, NULL,    Str_OK,           0,    0,     BT_GET_TIMEOUT_MS *4},
                           {AT_ROLE,  BT_SET, roleSet, Str_OK_ROLE_S,    0,    0,     BT_SET_TIMEOUT_MS *3},
                         //{AT_PIN,   BT_CMD, NULL,    Str_OK_SET_PIN,   0,    0,     BT_SET_TIMEOUT_MS *3}, // 4 digit PIN.
                           };
@@ -247,19 +247,19 @@ void bluetooth_init()
   {
     BT_Ser_Println(); // After uCli
     BT_Wait_Screen();
-    rebootBT(); // EN is ON
 
     for (Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
     {
+      rebootBT(); // EN is ON
       BT_Ser_Init(Idx);
       BT_Ser_flushRX();
-      if(sendAtCmdAndWaitForResp(AT_AT, BT_CMD, NULL, RespBuf, sizeof(RespBuf), 0, 0, Str_OK, BT_GET_TIMEOUT_MS *4) >= 0)
+      if (sendAtCmdAndWaitForResp(AT_AT, BT_CMD, NULL, RespBuf, sizeof(RespBuf), 0, 0, Str_OK, BT_GET_TIMEOUT_MS * 4) >= 0)
       {
         /* OK UART serial rate found */
         if (Idx)
         {
           // Set parity first as changing baud stops comm's after response.
-          if(sendAtCmdAndWaitForResp(AT_PN, BT_CMD, NULL, RespBuf, sizeof(RespBuf), 0, 0, Str_OK_None, BT_SET_TIMEOUT_MS *3) >= 0);
+          if (sendAtCmdAndWaitForResp(AT_PN, BT_CMD, NULL, RespBuf, sizeof(RespBuf), 0, 0, Str_OK_None, BT_SET_TIMEOUT_MS * 3) >= 0) ;
           else
           {
             g_eeGeneral.BT.Power = 0; // Quit and don't try again.
@@ -268,7 +268,7 @@ void bluetooth_init()
           sprintf_P(UartAtCmd, PSTR("AT+BAUD%lu"), RateTbl[0]);
           BT_Ser_Print(UartAtCmd);
           BT_Ser_SendTxBuffer(); // send buffer
-          if ((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_115200, BT_SET_TIMEOUT_MS *3)) >= 0) //"OK115200"
+          if ((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_115200, BT_SET_TIMEOUT_MS * 3)) >= 0) //"OK115200"
           {
             /* Set UART Serial to Rate = 115200 */
             BT_Ser_Init(0);
@@ -278,20 +278,15 @@ void bluetooth_init()
             g_eeGeneral.BT.Power = 0;
             return;
           }
-          /* BT Reboot is needed */ // Why ... maybe HC UART has corruption ?.
-          rebootBT();
         }
         break;
       }
     }
 
-//    /* Set UART Serial to Rate = 115200 */ // Not needed.
-//    BT_Ser_Init(0);
-
     BT_SEND_AT_SEQ(AtCmdBtInit); // Common to Master and Slave
 
 #if defined(HC06)
-    if(g_eeGeneral.BT.Master)
+    if (g_eeGeneral.BT.Master)
       g_eeGeneral.BT.Master = 0; // Force slave.
 #endif
 
