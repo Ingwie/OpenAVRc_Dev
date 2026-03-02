@@ -3,8 +3,6 @@
 # use config.h
 USE_CONFIG_H = yes
 
-USE_FRAM_EE = yes
-
 # MCU
 MCU = atmega2560
 
@@ -73,7 +71,7 @@ USE_WATCHDOG = no
 
 # Bootloader Features
 ENABLE_BLOCK_SUPPORT = yes
-ENABLE_FLASH_BYTE_SUPPORT = yes
+ENABLE_FLASH_BYTE_SUPPORT = no
 ENABLE_EEPROM_BYTE_SUPPORT = no
 ENABLE_LOCK_BITS = yes
 ENABLE_FUSE_BITS = yes
