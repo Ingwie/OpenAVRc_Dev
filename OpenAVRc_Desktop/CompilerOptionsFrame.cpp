@@ -789,7 +789,7 @@ void CompilerOptionsFrame::ConvertMulti_txt()
       subProtos = tokenizer.GetString();
       if (!subProtos.IsEmpty())
         subProtos = "," + subProtos;
-      newLine = protoName + "," + number + subProtos;
+      newLine = protoName + "       ," + number + subProtos; // add whitespace to sort correctly
       protocolList.Item(j) = (newLine);
     }
 
@@ -806,6 +806,7 @@ void CompilerOptionsFrame::ConvertMulti_txt()
       newLine = number + "," + protoName + subProtos;
       newLine = "MULTIDEF(" + newLine + ")";
       newLine.Replace("-","_");
+      newLine.Replace(" ","");
       protocolList.Item(j) = (newLine);
     }
 
