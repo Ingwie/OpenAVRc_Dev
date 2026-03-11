@@ -476,7 +476,7 @@ if(in_bootloader) {
 
       EEPROM_write_byte(address, get_char() );
 
-  if !(Fram_Detected)
+  if (Fram_Not_Detected)
   {
     eeprom_busy_wait();
   }
