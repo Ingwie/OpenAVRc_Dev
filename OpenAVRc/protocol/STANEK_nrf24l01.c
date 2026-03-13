@@ -1,3 +1,4 @@
+#include <stdint.h>
 /*
 **************************************************************************
 *                                                                        *
@@ -36,9 +37,11 @@
   https://github.com/stanekTM/RX_nRF24_Stanek
   
   The "Stanek" protocol with the nRF24L01+ transceiver is included.
-  Setting the number of control channels 2 to 13ch.
   Telemetry monitors receiver voltage A1(A2) and "fake" RSSI.
   The nRF24L01+ transceiver does not contain real RSSI and is only a rough counting of lost packets.
+  
+  - Setting the number of control channels 2 to 13ch.
+  - Fail-safe flag in bind option "bnd".
   **************************************************************************************************
 */
 
@@ -57,10 +60,10 @@
 
 const static RfOptionSettingsvar_t RfOpt_STANEK_Ser[] PROGMEM =
 {
-  /*rfProtoNeed*/PROTO_NEED_SPI/* | BOOL1USED | BOOL2USED */, // Can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+  /*rfProtoNeed*/       PROTO_NEED_SPI, // Can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
   /*rfSubTypeMax*/      0,
-  /*rfOptionValue1Min*/ 2,  // RC channel min.
-  /*rfOptionValue1Max*/ 13, // RC channel max.
+  /*rfOptionValue1Min*/ 2,  // Min. num of RC channels
+  /*rfOptionValue1Max*/ 13, // Max. num of RC channels
   /*rfOptionValue2Min*/ 0,
   /*rfOptionValue2Max*/ 0,
   /*rfOptionValue3Max*/ 3,  // RF power
@@ -68,11 +71,11 @@ const static RfOptionSettingsvar_t RfOpt_STANEK_Ser[] PROGMEM =
 
 #define STANEK_NUM_RC_CHANNELS  g_model.rfOptionValue1 // Num RC channels (2 to 13ch)
 
-uint8_t STANEK_TX_RX_Address[] = "jirka"; // Setting a unique address (5 bytes number or character)
+const uint8_t STANEK_TX_RX_Address[6] = "jirka"; // Unique address (5 bytes number or character)
 
-#define STANEK_RF_CHANNEL     76          // RF channel on 0 to 125 (2.4GHz to 2.525GHz)
+#define STANEK_RF_CHANNEL     76   // RF channel 0 to 125 (2.4GHz to 2.525GHz)
 
-#define STANEK_PACKET_PERIOD  3000        // In microseconds
+#define STANEK_PACKET_PERIOD  3000 // In microseconds
 
 //**********************************************************************************************************************************
 // STANEK_init
@@ -173,20 +176,20 @@ static void STANEK_send_packet()
   int16_t hold_value;
   uint8_t payload_index = 0;
   
-  for (uint8_t x = 0; x < STANEK_NUM_RC_CHANNELS; x++)
+  for (uint8_t i = 0; i < STANEK_NUM_RC_CHANNELS; i++)
   {
     // Valid channel values are 1000 to 2000
-    hold_value = (FULL_CHANNEL_OUTPUTS(x)) / 2; // +-1024 to +-512
+    hold_value = (FULL_CHANNEL_OUTPUTS(i)) / 2; // +-1024 to +-512
     hold_value += PPM_CENTER; // + 1500 offset
     hold_value = limit<int16_t>(1000, hold_value, 2000);
 
-    packet_p2M[payload_index] = hold_value & 0xFF;
+    packet_p2M[1 + payload_index] = hold_value & 0xFF;
     payload_index++;
-    packet_p2M[payload_index] = hold_value >> 8;
+    packet_p2M[1 + payload_index] = hold_value >> 8;
     payload_index++;
   }
   
-  STANEK_PACKET_SIZE_P2M = STANEK_NUM_RC_CHANNELS * 2; // For one control channel with a value of 1000 to 2000 we need 2 bytes(packets)
+  STANEK_PACKET_SIZE_P2M = (STANEK_NUM_RC_CHANNELS * 2) + 1; // For one control channel with a value of 1000 to 2000 we need 2 bytes(packets)
   
   // Set RF channel and send data
   NRF24L01_WriteReg(NRF24L01_05_RF_CH, STANEK_CH_IDX_P2M);
@@ -262,30 +265,37 @@ const void *STANEK_Cmds(enum ProtoCmds cmd)
   switch(cmd)
   {
     case PROTOCMD_INIT:
-    STANEK_init();
-    PROTO_Start_Callback(STANEK_cb);
+      STANEK_init();
+      PROTO_Start_Callback(STANEK_cb);
     return 0;
-   case PROTOCMD_RESET:
-    PROTO_Stop_Callback();
-    NRF24L01_Reset();
+    
+    case PROTOCMD_RESET:
+      PROTO_Stop_Callback();
+      NRF24L01_Reset();
     return 0;
-   case PROTOCMD_BIND:
-    STANEK_init();
-    PROTO_Start_Callback(STANEK_cb);
+    
+    case PROTOCMD_BIND:
+      STANEK_init();
+      PROTO_Start_Callback(STANEK_cb);
+
+      packet_p2M[0] = 1; // Fail-safe flag
     return 0;
-   case PROTOCMD_GETOPTIONS:
-    SetRfOptionSettings(pgm_get_far_address(RfOpt_STANEK_Ser),
-    STR_DUMMY,   // Sub protocol
-    STR_NUMCH,   // Option 1 (int) num RC channels (2 to 13ch)
-    STR_DUMMY,   // Option 2 (int)
-    STR_RFPOWER, // Option 3 (uint 0 to 31) RF power
-    STR_DUMMY,   // OptionBool 1
-    STR_DUMMY,   // OptionBool 2
-    STR_DUMMY);  // OptionBool 3
+    
+    case PROTOCMD_GETOPTIONS:
+      SetRfOptionSettings(pgm_get_far_address(RfOpt_STANEK_Ser),
+      STR_DUMMY,   // Sub protocol
+      STR_NUMCH,   // Option 1 (int) Num RC channels (2 to 13ch)
+      STR_DUMMY,   // Option 2 (int)
+      STR_RFPOWER, // Option 3 (uint 0 to 31) RF power
+      STR_DUMMY,   // OptionBool 1
+      STR_DUMMY,   // OptionBool 2
+      STR_DUMMY);  // OptionBool 3
     return 0;
-   default:
+    
+    default:
     break;
   }
+
   return 0;
 }
 
