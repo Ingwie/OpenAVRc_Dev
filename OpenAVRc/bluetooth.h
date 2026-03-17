@@ -41,9 +41,6 @@
 #define BT_SCANN_TIMEOUT_MS        10000
 #define BT_READ_RNAME_TIMEOUT_MS   8000
 
-extern const char Str_BT_Slave[];
-extern const char Str_BT_Master[];
-
 enum {OFF = 0, ON};
 
 /* Code returned by bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeout) */

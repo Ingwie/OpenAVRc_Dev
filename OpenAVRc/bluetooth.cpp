@@ -32,17 +32,10 @@
 
 #include "OpenAVRc.h"
 
-#ifndef HC05
-  #define HC05
-#endif
-
 #define BT_SEND_AT_SEQ(AtCmdInit)  btSendAtSeq((const AtCmdSt_t*)&AtCmdInit, TBL_ITEM_NB(AtCmdInit))
 
 enum {BT_REBOOT_DATA_MODE = 0, BT_REBOOT_AT_MODE};
 enum {BT_GET = 0, BT_SET, BT_CMD};
-
-DECL_FLASH_STR2(Str_BT_Slave,    "_S");
-DECL_FLASH_STR2(Str_BT_Master,   "_M");
 
 DECL_FLASH_STR2(Str_OK_CRLF,     "OK\r\n");
 DECL_FLASH_STR2(Str_CRLF_OK_CRLF,"\r\nOK\r\n");
@@ -51,31 +44,31 @@ DECL_FLASH_STR2(Str_ATPref,      "AT");    // AT prefix command
 DECL_FLASH_STR2(Str_AT,          "");      // Simple AT command
 DECL_FLASH_STR2(Str_STATE,       "STATE"); // BT Status
 DECL_FLASH_STR2(Str_PSWD,        "PSWD");  // BT Password (PIN)
-DECL_FLASH_STR2(Str_UART,        "UART");  // Uart
+//DECL_FLASH_STR2(Str_UART,        "UART");  // Uart
 DECL_FLASH_STR2(Str_CLASS,       "CLASS"); // Device Class
 DECL_FLASH_STR2(Str_RMAAD,       "RMAAD"); // Clears paired list
 DECL_FLASH_STR2(Str_ROLE,        "ROLE");  // Role: 0=Slave, 1=Master
 DECL_FLASH_STR2(Str_NAME,        "NAME");  // BT module name
 DECL_FLASH_STR2(Str_RNAME,       "RNAME"); // Remote BT module name
 DECL_FLASH_STR2(Str_CMODE,       "CMODE"); // Inquire - Connection mode
-DECL_FLASH_STR2(Str_INIT,        "INIT");  // Initialize the SPP profile lib
+//DECL_FLASH_STR2(Str_INIT,        "INIT");  // Initialize the SPP profile lib
 DECL_FLASH_STR2(Str_DISC,        "DISC");  // Disconnection
 DECL_FLASH_STR2(Str_INQM,        "INQM");  // Inquire Mode
 DECL_FLASH_STR2(Str_INQ,         "INQ");   // Inquire Bluetooth device
-DECL_FLASH_STR2(Str_INQC,        "INQC");  // Cancel Inquire Bluetooth device
+//DECL_FLASH_STR2(Str_INQC,        "INQC");  // Cancel Inquire Bluetooth device
 DECL_FLASH_STR2(Str_LINK,        "LINK");  // Link to a specific remote
 DECL_FLASH_STR2(Str_IPSCAN,      "IPSCAN");// Change scan seting
 DECL_FLASH_STR2(Str_IAC,         "IAC");   // Set inquire access
-DECL_FLASH_STR2(Str_RESET,       "RESET"); // Reset
+//DECL_FLASH_STR2(Str_RESET,       "RESET"); // Reset
 
-enum {AT_AT = 0, AT_STATE, AT_PSWD, AT_UART, AT_CLASS, AT_RMAAD, AT_ROLE, AT_NAME, AT_RNAME, AT_CMODE,
-     AT_INIT, AT_DISC, AT_INQM, AT_INQ, AT_INQC, AT_LINK, AT_IPSCAN, AT_IAC, AT_RESET, AT_CMD_MAX_NB};
+enum {AT_AT = 0, AT_STATE, AT_PSWD, /*AT_UART,*/ AT_CLASS, AT_RMAAD, AT_ROLE, AT_NAME, AT_RNAME, AT_CMODE,
+     /*AT_INIT,*/ AT_DISC, AT_INQM, AT_INQ, /*AT_INQC,*/ AT_LINK, AT_IPSCAN, AT_IAC, /*AT_RESET,*/ AT_CMD_MAX_NB};
 
-DECL_FLASH_TBL(AtCmdTbl, char * const) = {Str_AT, Str_STATE, Str_PSWD, Str_UART, Str_CLASS, Str_RMAAD, Str_ROLE, Str_NAME,
-Str_RNAME, Str_CMODE, Str_INIT, Str_DISC, Str_INQM, Str_INQ, Str_INQC, Str_LINK, Str_IPSCAN, Str_IAC, Str_RESET};
+DECL_FLASH_TBL(AtCmdTbl, char * const) = {Str_AT, Str_STATE, Str_PSWD, /*Str_UART,*/ Str_CLASS, Str_RMAAD, Str_ROLE, Str_NAME,
+Str_RNAME, Str_CMODE, /*Str_INIT,*/ Str_DISC, Str_INQM, Str_INQ, /*Str_INQC,*/ Str_LINK, Str_IPSCAN, Str_IAC/*, Str_RESET*/};
 
 /* ALL THE STATUS SRINGS THE BT MODULE CAN ANSWER */
-DECL_FLASH_STR2(Str_INITIALIZED, "INITIALIZED");
+/*DECL_FLASH_STR2(Str_INITIALIZED, "INITIALIZED");
 DECL_FLASH_STR2(Str_READY,       "READY");
 DECL_FLASH_STR2(Str_PAIRABLE,    "PAIRABLE");
 DECL_FLASH_STR2(Str_PAIRED,      "PAIRED");
@@ -85,7 +78,7 @@ DECL_FLASH_STR2(Str_CONNECTED,   "CONNECTED");
 DECL_FLASH_STR2(Str_DISCONNECTED,"DISCONNECTED");
 
 DECL_FLASH_TBL(BtStateTbl, char * const) = {Str_INITIALIZED, Str_READY, Str_PAIRABLE, Str_PAIRED, Str_INQUIRING, Str_CONNECTING, Str_CONNECTED, Str_DISCONNECTED};
-
+*/
 typedef void (*AtCmdAddon) (char* Addon);
 
 PACK(typedef struct{
@@ -115,8 +108,9 @@ static int8_t  waitForResp(char *RespBuf, uint8_t RespBufMaxLen, const char *Ter
 static void    btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb);
 static char   *buildMacStr(uint8_t *MacBin, char *MacStr);
 static uint8_t buildMacBin(char *MacStr, uint8_t *MacBin);
+static void BT_Show_Dialog(const char *RespBuf, uint8_t Len);
 
-static void    uartSet(char* Addon);
+//static void    uartSet(char* Addon);
 static void    classSet(char* Addon);
 static void    roleSet(char* Addon);
 static void    cmodeSet(char* Addon);
@@ -124,14 +118,14 @@ static void    inqmSet(char* Addon);
 static void    ipscanSet(char* Addon);
 static void    iacSet(char* Addon);
 
-static int8_t  getBtStateIdx(const char *BtState);
+//static int8_t  getBtStateIdx(const char *BtState);
 static int8_t  clearPairedList(uint16_t TimeoutMs);
 
 
 DECL_FLASH_TBL(AtCmdBtInit, AtCmdSt_t) = {
                           /* CmdIdx,  BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
-                          {AT_AT,    BT_CMD, NULL,     Str_CRLF,          0,    0,     BT_GET_TIMEOUT_MS},
-                          {AT_UART,  BT_SET, uartSet,  Str_CRLF,          0,    0,     BT_SET_TIMEOUT_MS},
+                          //{AT_AT,    BT_CMD, NULL,     Str_CRLF,          0,    0,     BT_GET_TIMEOUT_MS},
+                          //{AT_UART,  BT_SET, uartSet,  Str_CRLF,          0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_CLASS, BT_SET, classSet, Str_CRLF,          0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_INQM,  BT_SET, inqmSet,  Str_CRLF,          0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_IAC,   BT_SET,  iacSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
@@ -140,7 +134,7 @@ DECL_FLASH_TBL(AtCmdBtInit, AtCmdSt_t) = {
 
 DECL_FLASH_TBL(AtCmdSlaveInit, AtCmdSt_t) = {
                           /* CmdIdx,  BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
-                          {AT_AT,    BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_GET_TIMEOUT_MS},
+                          //{AT_AT,    BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_GET_TIMEOUT_MS},
                           {AT_ROLE,  BT_SET, roleSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           //{AT_ROLE,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           //{AT_NAME,  BT_SET, nameSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
@@ -150,7 +144,7 @@ DECL_FLASH_TBL(AtCmdSlaveInit, AtCmdSt_t) = {
 
 DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
                           /* CmdIdx,  BtOp,  CmdAddon, TermPattern  MatchLen, SkipLen, TimeoutMs */
-                          {AT_AT,    BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_GET_TIMEOUT_MS},
+                          //{AT_AT,    BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_GET_TIMEOUT_MS},
                           //{AT_RMAAD, BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_ROLE,  BT_SET, roleSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           {AT_CMODE, BT_SET,cmodeSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
@@ -158,7 +152,7 @@ DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
                           //{AT_NAME,  BT_SET, nameSet, Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           //{AT_NAME,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
                           //{AT_INQM,  BT_GET, NULL,    Str_CRLF_OK_CRLF,   4,    5,     BT_GET_TIMEOUT_MS},
-                          {AT_INIT,  BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS}, // Ingwie :return error 17 on my BT
+                          //{AT_INIT,  BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS}, // Ingwie :return error 17 on my BT
                           //{AT_RESET, BT_CMD, NULL,    Str_CRLF,           0,    0,     BT_SET_TIMEOUT_MS},
                           };
 
@@ -173,9 +167,7 @@ DECL_FLASH_TBL(AtCmdMasterInit, AtCmdSt_t) = {
  */
 void bluetooth_init()
 {
- uint32_t RateTbl[] = {115200, 57600, 38400, 19200, 9600};
  uint8_t  Idx;
- char     UartAtCmd[30];
  char     RespBuf[10];
 
  if (!g_eeGeneral.BT.Power)
@@ -188,21 +180,24 @@ void bluetooth_init()
    BT_Wait_Screen();
    rebootBT(); // EN is ON
 
-   for(Idx = 0; Idx < TBL_ITEM_NB(RateTbl); Idx++)
+   for(Idx = 0; Idx < 5; Idx++) // try 115200, 57600, 38400, 19200, 9600
     {
      BT_Ser_Init(Idx);
      BT_Ser_flushRX();
      BT_Ser_Println(Str_ATPref);
-     if((waitForResp(RespBuf, sizeof(RespBuf), Str_CRLF, BT_SET_TIMEOUT_MS*4)) >= 0) // V3 HC05 need 2 second to anwser to the first AT !!
+
+     if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, BT_SET_TIMEOUT_MS*4)) >= 0) // V3 HC05 need 2 second to anwser to the first AT !!
       {
        /* OK Uart serial rate found */
        if(Idx)
         {
-         sprintf_P(UartAtCmd, PSTR("AT+UART=%lu,0,0"), RateTbl[0]);
-         BT_Ser_Println(UartAtCmd);
+         BT_Ser_flushRX();
+         BT_Ser_Println(PSTR("AT+UART=115200,0,0"));BACKLIGHT_TOGGLE();
+
          if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, BT_SET_TIMEOUT_MS*4)) >= 0)
           {
            /* Should be OK */
+           break;
           }
          /* BT Reboot is needed */
          rebootBT();
@@ -213,8 +208,8 @@ void bluetooth_init()
       {
       }
     }
-   /* Switch Serial to Rate = 115200 */
-   BT_Ser_Init(0);
+   /* Switch Serial to used Rate */
+   BT_Ser_Init(0); // choice 115200, 57600, 38400, 19200, 9600
    BT_SEND_AT_SEQ(AtCmdBtInit); // Common to Master and Slave
    if(g_eeGeneral.BT.Master)
     {
@@ -232,7 +227,6 @@ void bluetooth_AtCmdMode(uint8_t On)
 {
   uint16_t StartDurationMs;
 
-  BT_Ser_flushRX();
   if(On)
   {
     BT_KEY_ON();
@@ -254,7 +248,7 @@ void bluetooth_AtCmdMode(uint8_t On)
  * \param  TimeoutMs: Timeout in ms.
  * \return < 0: error, >= 0: the status code defined in bluetooth.h (raw text response in RespBuf)
  */
-int8_t bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs)
+/*int8_t bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t TimeoutMs)
 {
   int8_t Ret;
   Ret = sendAtCmdAndWaitForResp(AT_STATE, BT_GET, NULL, RespBuf, RespBufMaxLen, 5, 6, Str_CRLF_OK_CRLF, TimeoutMs);
@@ -263,7 +257,7 @@ int8_t bluetooth_getState(char *RespBuf, uint8_t RespBufMaxLen, uint16_t Timeout
     Ret = getBtStateIdx(RespBuf);
   }
   return(Ret);
-}
+}*/
 
 /**
  * \file  bluetooth.cpp
@@ -374,7 +368,7 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
   char     Buf[1]; // 1 Byte minimum!
   char     RespBuf[40];
   uint8_t  MacBin[BT_MAC_BIN_LEN];
-  uint8_t  MacFound =0, AlreadyRegistered;
+  uint8_t  MacFound = 0, AlreadyRegistered;
   uint8_t  Ret = 0;
 
   rebootBT(); // EN is ON
@@ -404,8 +398,6 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
           {
             /* Register it! */
             memcpy(Scann->Remote[MacFound].MAC, MacBin, BT_MAC_BIN_LEN);
-            lcdDrawSizedTextAtt(0, MacFound*FH, RespBuf, 10, BSS);
-            lcdRefresh();
             MacFound++;
             if(MacFound >= REMOTE_BT_DEV_MAX_NB) break;
           }
@@ -436,8 +428,7 @@ uint8_t bluetooth_scann(BtScannSt_t *Scann, uint16_t TimeoutMs)
 #pragma GCC diagnostic pop
 #endif
           Scann->Remote[Idx].Name[BT_NAME_STR_LEN] = 0;
-          lcdDrawSizedTextAtt(0,5*FH + Ret*FH, RespBuf, 10, BSS);
-          lcdRefresh();
+          BT_Show_Dialog(RespBuf, BT_NAME_STR_LEN);
           Ret++; // Mac AND Remote Name found
           break; // Exit ASAP
         }
@@ -720,7 +711,9 @@ static int8_t waitForResp(char *RespBuf, uint8_t RespBufMaxLen, const char *Term
         /* Full pattern found -> replace it by End of String */
         RespBuf[RxIdx] = 0;
         RxLen = RxIdx;
-      }
+        /* Print response buffer */
+        BT_Show_Dialog(RespBuf, RxLen);
+     }
     }
   }while(((GET_10MS_TICK() - Start10MsTick) < MS_TO_10MS_TICK(TimeoutMs)) && (RxLen < 0));
 
@@ -759,10 +752,10 @@ static void btSendAtSeq(const AtCmdSt_t *AtCmdTbl, uint8_t TblItemNb)
   }
 }
 
-static void uartSet(char* Addon)
+/*static void uartSet(char* Addon)
 {
   strcpy_P(Addon, PSTR("115200,0,0"));
-}
+}*/
 
 static void classSet(char* Addon)
 {
@@ -796,11 +789,6 @@ static void iacSet(char* Addon)
   strcpy_P(Addon, PSTR("0x9E8B33"));
 }
 
-void bluetooth_addSuffix(char* Addon)
-{
-  strcat_P(Addon, (g_eeGeneral.BT.Master)? Str_BT_Master: Str_BT_Slave);
-}
-
 /*static void nameSet(char* Addon)
 {
   char   Name[BT_NAME_STR_LEN + 1];
@@ -825,7 +813,7 @@ void bluetooth_addSuffix(char* Addon)
   bluetooth_addSuffix(Addon);
 }*/
 
-static int8_t getBtStateIdx(const char *BtState)
+/*static int8_t getBtStateIdx(const char *BtState)
 {
   for(uint8_t Idx = 0; Idx < TBL_ITEM_NB(BtStateTbl); Idx++)
   {
@@ -834,9 +822,8 @@ static int8_t getBtStateIdx(const char *BtState)
       return(Idx);
     }
   }
-
   return(-1);
-}
+}*/
 
 static int8_t clearPairedList(uint16_t TimeoutMs)
 {
@@ -886,4 +873,17 @@ void BT_Wait_Screen()
  lcdClear();
  lcd_imgfar(10*FW, 3*FH, (pgm_get_far_address(zz_bt)), 0, 0);
  lcdRefresh();
+}
+
+static void BT_Show_Dialog(const char *RespBuf, uint8_t Len)
+{
+ static uint8_t lcdline = 0;
+
+ if (Len>1)
+    {
+      lcdDrawSizedTextAtt(FW/2, lcdline*FH, RespBuf, Len, BSS);
+      if (++lcdline > LCD_LINES) lcdline = 0;
+      lcd_imgfar(10*FW, 3*FH, (pgm_get_far_address(zz_bt)), 0, 0);
+      lcdRefresh();
+    }
 }
