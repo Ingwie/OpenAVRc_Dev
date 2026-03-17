@@ -100,7 +100,7 @@ void BT_Ser_flushRX()
  USART_PURGE_RX(TLM_USART1); // Flush Rx
 }
 
-void BT_Ser_Println(void)
+void BT_Ser_Println()
 {
  BT_Ser_Print(Str_CRLF);
  BT_Ser_SendTxBuffer(); // send buffer
@@ -162,14 +162,16 @@ void BT_Ser_Print(const uint8_t * data, uint8_t len)
 #if defined(CPUM2560)
 ISR(USART_RX_vect_N(TLM_USART1))
 {
-// Read new data value
- uint8_t data = UDR_N(TLM_USART1);
-// Check error(s) flags
+   // Check error(s) flags
  if (!(UCSRA_N(TLM_USART1) & (_BV(FE_N(TLM_USART1)) | _BV(DOR_N(TLM_USART1)) | _BV(UPE_N(TLM_USART1)))))
   {
    // No error, store data in the buffer if there is room
-   BT_RX_Fifo.push(data);
-  };
+   BT_RX_Fifo.push(UDR_N(TLM_USART1));
+  }
+ else
+  {
+   BT_RX_Fifo.flush();
+  }
 }
 
 // USART1 Transmit Data Register Emtpy ISR (UDR was loaded in Shift Register)
@@ -198,7 +200,11 @@ ISR(token_paste4(USART, S1_PORT, S1_USART, _RXC_vect)) // e.g. USARTE0_RXC_vect
    {
     // No error, store data in the buffer if there is room
     BT_RX_Fifo.push(data);
-   };
+   }
+   else
+  {
+   BT_RX_Fifo.flush();
+  }
 }
 
 ISR(token_paste4(USART, S1_PORT, S1_USART, _DRE_vect))
