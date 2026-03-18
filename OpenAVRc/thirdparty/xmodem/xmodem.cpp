@@ -76,6 +76,23 @@
  #include "../../../OpenAVRc_Desktop/BluetoothFrame.h"
  #include "../../uCli.h" // for UCLI_CMD_LINE_MAX_SIZE def
  wxGauge* GaugeCpy;
+ extern void XmdmLog(const char* fmt, ...);
+ static const char* XmdmDbgChar(uint8_t bVal)
+ {
+  static char buf[8];
+  if(bVal >= 32 && bVal <= 126)
+   {
+    buf[0] = 39;
+    buf[1] = (char)bVal;
+    buf[2] = 39;
+    buf[3] = 0;
+   }
+  else
+   {
+    snprintf(buf, sizeof(buf), "0x%02X", (unsigned char)bVal);
+   }
+  return buf;
+ }
 #endif
 
 // common definitions (Placed here for FW, SIMU and Desktop)
@@ -305,6 +322,7 @@ int8_t ReceiveXmodem(XModemSt_t *pX)
 
 #ifdef DESKTOP
  GaugeCpy->Pulse();
+ XmdmLog("[XMDM] ReceiveXmodem start");
 #endif // DESKTOP
 // ** already got the first 'SOH' character on entry to this function **
 
@@ -327,8 +345,14 @@ int8_t ReceiveXmodem(XModemSt_t *pX)
     {
      if(FILE_WRITE_CHUNK(pX->fd, &(pX->buf.aDataBuf), XMODEM_PACKET_SIZE) != XMODEM_PACKET_SIZE)
       {
+#ifdef DESKTOP
+       XmdmLog("[XMDM] WRITE failed");
+#endif
        return -2; // write error on output file
       }
+#ifdef DESKTOP
+     XmdmLog("[XMDM] WRITE %d bytes block=%ld", XMODEM_PACKET_SIZE, (long)block);
+#endif
      cY = _ACK_; // send ACK
      block ++;
      filesize += XMODEM_PACKET_SIZE; // TODO:  need method to avoid extra crap at end of file
@@ -419,6 +443,7 @@ int8_t SendXmodem(XModemSt_t *pX)
  filesize = FILE_SIZE(pX->fd);
 #ifdef DESKTOP
  GaugeCpy->SetRange(filesize);
+ XmdmLog("[XMDM] SendXmodem filesize=%ld", (long)filesize);
 #endif // DESKTOP
  do
   {
@@ -427,6 +452,9 @@ int8_t SendXmodem(XModemSt_t *pX)
 #endif // DESKTOP
    // ** depending on type of transfer, place the packet
    // ** into pX->buf with all fields appropriately filled.
+#ifdef DESKTOP
+   XmdmLog("[XMDM] SendXmodem block=%ld filepos=%ld", (long)block, (long)filepos);
+#endif
    if(filepos >= filesize) // end of transfer
     {
      for(i1 = 0; i1 < CNX_TRY_COUNT_MAX; i1++)
@@ -547,27 +575,60 @@ int8_t SendXmodem(XModemSt_t *pX)
 int8_t XReceiveSub(XModemSt_t *pX)
 {
  uint8_t i1;
+ int16_t cb;
+
+#ifdef DESKTOP
+ XmdmLog("[XMDM] XReceiveSub start");
+#endif
 
  for(i1 = 0; i1 < CNX_TRY_COUNT_MAX; i1++)
   {
+#ifdef DESKTOP
+   XmdmLog("[XMDM] XReceiveSub try=%u send NAK", (unsigned int)(i1 + 1));
+#endif
    WriteXmodemChar(_NAK_); // switch to NAK for XMODEM Checksum
-   if(GetXmodemBlock(&(pX->buf.cSOH), 1) == 1)
+   cb = GetXmodemBlock(&(pX->buf.cSOH), 1);
+   if(cb == 1)
     {
+#ifdef DESKTOP
+     XmdmLog("[XMDM] XReceiveSub rx=%s", XmdmDbgChar((uint8_t)pX->buf.cSOH));
+#endif
      if(pX->buf.cSOH == _SOH_) // SOH - packet is on its way
       {
+#ifdef DESKTOP
+       XmdmLog("[XMDM] XReceiveSub receiving block 1");
+#endif
        return ReceiveXmodem(pX);
       }
      else if(pX->buf.cSOH == _EOT_) // an EOT [blank file?  allow this?]
       {
+#ifdef DESKTOP
+       XmdmLog("[XMDM] XReceiveSub got EOT");
+#endif
        return 1; // canceled
       }
      else if(pX->buf.cSOH == _CAN_) // cancel
       {
+#ifdef DESKTOP
+       XmdmLog("[XMDM] XReceiveSub got CAN");
+#endif
        return 1; // canceled
       }
+#ifdef DESKTOP
+     XmdmLog("[XMDM] XReceiveSub unexpected char=%s", XmdmDbgChar((uint8_t)pX->buf.cSOH));
+#endif
     }
+#ifdef DESKTOP
+   else
+    {
+     XmdmLog("[XMDM] XReceiveSub no response after NAK");
+    }
+#endif
   }
  XmodemTerminate(pX);
+#ifdef DESKTOP
+ XmdmLog("[XMDM] XReceiveSub timeout/fail");
+#endif
 
  return -3; // fail
 }
@@ -588,25 +649,46 @@ int8_t XReceiveSub(XModemSt_t *pX)
 int8_t XSendSub(XModemSt_t *pX)
 {
  uint16_t ulStart;
+ int16_t cb;
+#ifdef DESKTOP
+ XmdmLog("[XMDM] XSendSub start");
+ XmdmLog("[XMDM] XSendSub waiting handshake (NAK/CAN)");
+#endif
 
 // waiting up to 10 seconds for transfer to start. This is part of the spec?
  ulStart = GET_TICK();
  do
   {
-   if(GetXmodemBlock(&(pX->buf.cSOH), 1) == 1)
+   cb = GetXmodemBlock(&(pX->buf.cSOH), 1);
+   if(cb == 1)
     {
+#ifdef DESKTOP
+     XmdmLog("[XMDM] XSendSub rx=%s", XmdmDbgChar((uint8_t)pX->buf.cSOH));
+#endif
      if(pX->buf.cSOH == _NAK_) // NAK - XMODEM CHECKSUM
       {
+#ifdef DESKTOP
+       XmdmLog("[XMDM] XSendSub handshake OK (NAK)");
+#endif
        return SendXmodem(pX);
       }
      else if(pX->buf.cSOH == _CAN_) // cancel
       {
+#ifdef DESKTOP
+       XmdmLog("[XMDM] XSendSub handshake canceled (CAN)");
+#endif
        return 1; // canceled
       }
+#ifdef DESKTOP
+     XmdmLog("[XMDM] XSendSub unexpected handshake char=%s", XmdmDbgChar((uint8_t)pX->buf.cSOH));
+#endif
     }
   }
  while((GET_TICK() - ulStart) < (uint16_t)CNX_TIMEOUT_MS);   // 10 seconds
  XmodemTerminate(pX);
+#ifdef DESKTOP
+ XmdmLog("[XMDM] XSendSub timeout/fail after %u ticks", (unsigned int)(GET_TICK() - ulStart));
+#endif
 
  return -3; // fail
 }
@@ -615,6 +697,9 @@ int8_t XReceive( const char *szFilename)
 {
  int8_t iRval;
 
+#ifdef DESKTOP
+ XmdmLog("[XMDM] XReceive file=%s", szFilename ? szFilename : "(null)");
+#endif
  ReBuff.xx.fd = NULL;
  if(FILE_EXISTS(szFilename))
   {
@@ -624,8 +709,14 @@ int8_t XReceive( const char *szFilename)
  ReBuff.xx.fd = FILE_OPEN_FOR_WRITE(szFilename);
  if(!ReBuff.xx.fd)
   {
+#ifdef DESKTOP
+   XmdmLog("[XMDM] XReceive open for write failed");
+#endif
    return -9; // can't create file
   }
+#ifdef DESKTOP
+ XmdmLog("[XMDM] XReceive open for write ok");
+#endif
  iRval = XReceiveSub(&ReBuff.xx);
  FILE_CLOSE(ReBuff.xx.fd);
  if(iRval)
@@ -633,6 +724,9 @@ int8_t XReceive( const char *szFilename)
    WriteXmodemChar(_CAN_); // cancel (make sure)
    FILE_DELETE(szFilename); // delete file on error
   }
+#ifdef DESKTOP
+ XmdmLog("[XMDM] XReceive result=%d", (int)iRval);
+#endif
  return iRval;
 }
 
@@ -640,14 +734,26 @@ int8_t XSend(const char *szFilename)
 {
  int8_t iRval;
 
+#ifdef DESKTOP
+ XmdmLog("[XMDM] XSend file=%s", szFilename ? szFilename : "(null)");
+#endif
  ReBuff.xx.fd = NULL;
  ReBuff.xx.fd = FILE_OPEN_FOR_READ(szFilename);
  if(!ReBuff.xx.fd)
   {
+#ifdef DESKTOP
+   XmdmLog("[XMDM] XSend open for read failed");
+#endif
    return -9; // can't open file
   }
+#ifdef DESKTOP
+ XmdmLog("[XMDM] XSend size=%ld", (long)FILE_SIZE(ReBuff.xx.fd));
+#endif
  iRval = XSendSub(&ReBuff.xx);
  FILE_CLOSE(ReBuff.xx.fd);
+#ifdef DESKTOP
+ XmdmLog("[XMDM] XSend result=%d", (int)iRval);
+#endif
  return iRval;
 }
 
