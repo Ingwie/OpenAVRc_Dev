@@ -69,8 +69,6 @@ UCLI_DEF(help,  [cmd]);
 #if defined(SDCARD)
 UCLI_DEF(ls,    [directory]);
 UCLI_DEF(cp,    srcfile dstfile);
-UCLI_DEF(xsend, SD/file);
-UCLI_DEF(xrecv, SD/file);
 UCLI_DEF(rmdir, directory);
 UCLI_DEF(rm,    file);
 UCLI_DEF(mv,    srcfile dstfile);
@@ -87,8 +85,6 @@ UCLI_DEF(reboot, );
 UCLI_CMD_TBL(uCliCmd) = { UCLI_CMD(help),
               CASE_SDCARD(UCLI_CMD(ls))
               CASE_SDCARD(UCLI_CMD(cp))
-              CASE_SDCARD(UCLI_CMD(xsend))
-              CASE_SDCARD(UCLI_CMD(xrecv))
               CASE_SDCARD(UCLI_CMD(rmdir))
               CASE_SDCARD(UCLI_CMD(rm))
               CASE_SDCARD(UCLI_CMD(mv))
@@ -113,7 +109,6 @@ void uCli_process(void)
 {
  char RxChar;
  int8_t isNotUcliPrompt;
- int8_t Ret;
 
  if(uCli.Context == CONTEXT_UCLI)
   {
@@ -129,19 +124,12 @@ void uCli_process(void)
         {
          ReBuff.uCliCmdLine[uCli.Idx] = 0;
          uCli.Idx = 0;
-
-         Ret = execCmdLine(ReBuff.uCliCmdLine);
-         if(Ret == -1)
+         uCliPrompt();
+         if(execCmdLine(ReBuff.uCliCmdLine) == -1)
           {
            BT_Ser_Println(PSTR("err: unknown cmd"));
           }
-
-         // Only restore the textual prompt if we are still in normal CLI mode.
-         // XMODEM must run without any prompt/text injected in the stream.
-         if(uCli.Context == CONTEXT_UCLI)
-          {
-           uCliPrompt();
-          }
+         //uCliPrompt();
         }
        else
         {
@@ -307,34 +295,6 @@ cp xmdm SD/titi.cfg        -> X-Modem in Receive mode
 cp SD/toto.txt SD/titi.cfg -> after copy both files are available in the SD
 cp xmdm xmdm               -> not allowed!
 */
-
-#if defined(XMODEM)
-static int8_t uCli_StartXmodem(uint8_t IsReceive, const char *FileName)
-{
-  int8_t XRet;
-
-  if(!FileName || !*FileName) return(-1);
-
-  uCli_Desktop_Screen();
-  closeLogIfActived();
-
-  uCli.Context = CONTEXT_XMODEM;
-
-  if(IsReceive)
-  {
-    XRet = XReceive(FileName);
-  }
-  else
-  {
-    XRet = XSend(FileName);
-  }
-
-  uCli.Context = CONTEXT_UCLI;
-  BT_Ser_Println(XRet); // display return value only after leaving XMODEM mode
-  return(0);
-}
-#endif
-
 static int8_t uCli_Cmd_cp(const char ** argv, uint8_t argc)
 {
   FileMediaSt_t FileMedia;
@@ -384,28 +344,20 @@ static int8_t uCli_Cmd_cp(const char ** argv, uint8_t argc)
   else
   {
     /* X-Modem is Src or Dst */
-    return uCli_StartXmodem((FileMedia.Src == FILE_MEDIA_XMODEM), FileName);
+    if(FileMedia.Src == FILE_MEDIA_XMODEM)
+    {
+      /* OpenAVRc X-Modem in Receive mode (Source is outside, Destination is SD)*/
+      BT_Ser_Println(XReceive(FileName)); // display return value in the console
+    }
+    else
+    {
+      /* OpenAVRc X-Modem in Send mode (Source is SD, Destination is outside) */
+      BT_Ser_Println(XSend(FileName)); // display return value in the console
+    }
   }
 #endif
   return(0);
 }
-
-
-#if defined(SDCARD) && defined(XMODEM)
-static int8_t uCli_Cmd_xsend(const char ** argv, uint8_t argc)
-{
-  if(argc != 2) return(-1);
-  if(memcmp_P(argv[1], SD_MEDIA, 3)) return(-1);
-  return uCli_StartXmodem(0, (const char*)&argv[1][2]); // skip SD prefix, keep leading '/'
-}
-
-static int8_t uCli_Cmd_xrecv(const char ** argv, uint8_t argc)
-{
-  if(argc != 2) return(-1);
-  if(memcmp_P(argv[1], SD_MEDIA, 3)) return(-1);
-  return uCli_StartXmodem(1, (const char*)&argv[1][2]); // skip SD prefix, keep leading '/'
-}
-#endif
 
 static int8_t uCli_Cmd_rmdir(const char ** argv, uint8_t argc)
 {
