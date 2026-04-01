@@ -233,8 +233,8 @@ const pm_char STR_FAS_OFFSET[] PROGMEM = TR_FAS_OFFSET;
 #if defined(SPIMODULES)
 const pm_char STR_SPIM[] PROGMEM = TR_SPIM;
 const pm_char STR_RFPOWER[] PROGMEM = TR_RFPOWER;
-const pm_char STR_NUMCH[] PROGMEM = INDENT"Num. voies"; // todo internationalize
-const pm_char STR_UBIND[] PROGMEM = INDENT"Sup. Bind"; // todo internationalize
+const pm_char STR_NUMCH[] PROGMEM = TR_NUMCH;
+const pm_char STR_UBIND[] PROGMEM = TR_UBIND;
 #endif
 #if (SERIAL_PROTOCOL==MULTIMODULE)
 const pm_char STR_MULTI_RFPOWER[] PROGMEM = TR_MULTI_RFPOWER;

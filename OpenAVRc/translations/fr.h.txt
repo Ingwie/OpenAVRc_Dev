@@ -466,6 +466,8 @@
 #define TR_MODULE_RANGE        "[Prt]"
 #define TR_RESET_BTN           "[RAZ]"
 #define TR_SET                 "[Déf]"
+#define TR_NUMCH               INDENT "Num. voies"
+#define TR_UBIND               INDENT "Sup. Bind"
 #define TR_RESET               "Réinitialiser"
 #define TR_FAS_OFFSET          INDENT "Corr FAS"
 #if defined(X_ANY) || defined(BLUETOOTH)
