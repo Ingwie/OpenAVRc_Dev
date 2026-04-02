@@ -117,8 +117,8 @@ void uCli_process(void)
      RxChar = BT_RX_Fifo.pop();
      switch(RxChar)
       {
-      case 0x0D:
-      case 0x0A:
+      case '\r':
+      //case '\n':
        isNotUcliPrompt = strncmp_P(ReBuff.uCliCmdLine, UCLI_PROMPT, 5);
        if (isNotUcliPrompt) // Do nothing if receive "uCLI>........."
         {
@@ -129,7 +129,7 @@ void uCli_process(void)
           {
            BT_Ser_Println(PSTR("err: unknown cmd"));
           }
-         //uCliPrompt();
+         uCliPrompt();
         }
        else
         {
@@ -403,7 +403,16 @@ static int8_t uCli_Cmd_ram(const char ** argv, uint8_t argc)
 {
   argv = argv;
   argc = argc;
-  BT_Ser_Println(PSTR("ram: "));BT_Ser_Print(stackAvailable());BT_Ser_Println(PSTR(" bytes"));
+  char buf[4];
+  uint16_t ram = stackAvailable();
+
+  for(int8_t i = sizeof(buf); (i);)
+  {
+   buf[--i] = (ram % 10) + '0';
+   ram /= 10;
+  }
+
+  BT_Ser_Println(PSTR("ram: "));BT_Ser_Print(buf);BT_Ser_Println(PSTR(" bytes"));
 
   return(0);
 }

@@ -192,7 +192,7 @@ void bluetooth_init()
        if(Idx)
         {
          BT_Ser_flushRX();
-         BT_Ser_Println(PSTR("AT+UART=115200,0,0"));BACKLIGHT_TOGGLE();
+         BT_Ser_Println(PSTR("AT+UART=115200,0,0"));
 
          if((waitForResp(RespBuf, sizeof(RespBuf), Str_OK_CRLF, BT_SET_TIMEOUT_MS*4)) >= 0)
           {
@@ -330,7 +330,7 @@ int8_t bluetooth_setPswd(char *BtPswd, uint16_t TimeoutMs)
   char RespBuf[10];
   char CmdBtPswd[7];
 
-  snprintf_P(CmdBtPswd, 20, PSTR("\"%s\""), BtPswd); // Add double quotes
+  snprintf_P(CmdBtPswd, sizeof(CmdBtPswd), PSTR("\"%s\""), BtPswd); // Add double quotes
 
   return(sendAtCmdAndWaitForResp(AT_PSWD, BT_SET, CmdBtPswd, RespBuf, sizeof(RespBuf), 0, 0, Str_OK_CRLF, TimeoutMs));
 }
