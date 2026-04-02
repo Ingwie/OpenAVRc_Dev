@@ -39,9 +39,8 @@
 #include <wx/timer.h>
 //*)
 
-#if defined(USE_DDE_LINK)
-#define wxUSE_DDE_FOR_IPC 0 // use Windows DDE
-#include <wx/ipc.h>
+#if defined(USE_TCP_LINK)
+#include "wx/sckipc.h"
 #include <wx/utils.h>
 #include <wx/msgdlg.h>
 #include <wx/log.h>
@@ -60,15 +59,15 @@ public:
  uCliFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
  virtual ~uCliFrame();
 
- void HwSerialByte(uint8_t c);
+ void HwSerialByte(uint8_t c, wxColor color = *wxBLACK);
  void SendToBtSerial();
- void DdeSendBufferIfNeeded();
+ void TcpSendBufferIfNeeded();
  wxString LastPrompt;
 
-#if defined(USE_DDE_LINK)
+#if defined(USE_TCP_LINK)
 // DDE exchange
- void DdeLink();
- bool DdeConnectTo(wxString ExtServerName);
+ void TcpLink();
+ bool TcpConnectTo(wxString ExtServerName);
 #endif
 
 //(*Declarations(uCliFrame)
@@ -94,40 +93,40 @@ private:
  DECLARE_EVENT_TABLE()
 };
 
-#if defined(USE_DDE_LINK)
-class DdeConnectionOut: public wxConnection
+#if defined(USE_TCP_LINK)
+class TcpConnectionOut: public wxTCPConnection
 {
 public:
- DdeConnectionOut() {};
- ~DdeConnectionOut() {};
+ TcpConnectionOut() {};
+ ~TcpConnectionOut() {};
  //virtual bool OnDisconnect();
 };
 
-class DdeConnectionIn: public wxConnection
+class TcpConnectionIn: public wxTCPConnection
 {
 public:
- DdeConnectionIn(uCliFrame * tFrame) {UCliFrame = tFrame;};
- ~DdeConnectionIn() {};
+ TcpConnectionIn(uCliFrame * tFrame) {UCliFrame = tFrame;};
+ ~TcpConnectionIn() {};
  virtual bool OnPoke(const wxString &topic, const wxString &item, const void *data, size_t size, wxIPCFormat format);
 private:
  uCliFrame * UCliFrame;
 };
 
-class DdeServer: public wxServer
+class TcpServer: public wxTCPServer
 {
 public:
- DdeServer(uCliFrame * tFrame):wxServer() {UCliFrame = tFrame;};
+ TcpServer(uCliFrame * tFrame):wxTCPServer() {UCliFrame = tFrame;};
  virtual wxConnectionBase * OnAcceptConnection(const wxString& topic);
 private:
  uCliFrame * UCliFrame;
 };
 
-class DdeClient: public wxClient
+class TcpClient: public wxTCPClient
 {
 public:
  virtual wxConnectionBase * OnMakeConnection(void)
  {
-  return (wxConnectionBase *)new DdeConnectionOut;
+  return (wxConnectionBase *)new TcpConnectionOut;
  };
 };
 #endif

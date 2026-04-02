@@ -1330,8 +1330,6 @@ ISR10msLoop_is_runing = true;
   HAPTIC_HEARTBEAT();
 #endif
 
-  SIMU_PROCESSEVENTS;
-
   per10ms();
 
 #if defined(REV_EVO_V2)
@@ -1461,7 +1459,7 @@ void stackPaint()
 uint16_t stackAvailable()
 {
 #if defined(SIMU)
-  return 800;
+  return 1234;
 #else
   unsigned char *p ;
 

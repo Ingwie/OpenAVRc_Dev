@@ -109,9 +109,7 @@ void writeDataToModule(uint8_t choice)
     case ITEM_BT_AUTOCONNECT :
      if(g_eeGeneral.BT.Master && g_eeGeneral.BT.AutoCnx)
       {
-
        bluetooth_linkToRemote(g_eeGeneral.BT.Peer.Mac, BT_SET_TIMEOUT_MS);
-
       }
      break;
     }
@@ -123,7 +121,7 @@ void onPairSelected(const char *result)
 {
  uint8_t connected;
 // result is the new pair name!!
-//bluetooth_AtCmdMode(ON); allready setted in warning.warningResult
+ bluetooth_AtCmdMode(ON);
  strcpy(ReBuff.bluetooth.peer_name_str, result);
  memcpy(g_eeGeneral.BT.Peer.Mac, ReBuff.bluetooth.scann.Remote[shared_u8].MAC, BT_MAC_BIN_LEN);
 

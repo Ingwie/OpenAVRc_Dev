@@ -41,17 +41,17 @@ extern bool Ini_Changed;
 uartHandler BTComPort = 0;  // uart handler
 bool SimuBTComIsValid;
 
-#if defined(USE_DDE_LINK)
-// DDE
-DdeServer * dynDdeServer = NULL;
-DdeClient * dynDdeClient = NULL;
-DdeConnectionOut * dynDdeConnectionOut = NULL;
-DdeConnectionIn * dynDdeConnectionIn = NULL;
+#if defined(USE_TCP_LINK)
+
+TcpServer * dynTcpServer = NULL;
+TcpClient * dynTcpClient = NULL;
+TcpConnectionOut * dynTcpConnectionOut = NULL;
+TcpConnectionIn * dynTcpConnectionIn = NULL;
 wxString hostName;
-wxString DdeServerName;
-wxString DdeExtServerName;
-wxString DdeTopicName;
-wxString ddeDataOut = "";
+wxString TcpServerName;
+wxString TcpExtServerName;
+wxString TcpTopicName;
+wxString TcpDataOut = "";
 #endif
 
 //(*InternalHeaders(uCliFrame)
@@ -97,9 +97,8 @@ uCliFrame::uCliFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxS
       SimuTeleComIsValid = true;
   }
 
-#if defined(USE_DDE_LINK)
- // DDE exchange
- DdeLink();
+#if defined(USE_TCP_LINK)
+ TcpLink();
 #endif
 }
 
@@ -107,11 +106,11 @@ uCliFrame::~uCliFrame()
 {
 	//(*Destroy(uCliFrame)
 	//*)
-#if defined(USE_DDE_LINK)
- if (dynDdeConnectionOut != NULL) delete dynDdeConnectionOut;
- if (dynDdeConnectionIn != NULL) delete dynDdeConnectionIn;
- if (dynDdeClient != NULL) delete dynDdeClient;
- if (dynDdeServer != NULL) delete dynDdeServer;
+#if defined(USE_TCP_LINK)
+ if (dynTcpConnectionOut != NULL) delete dynTcpConnectionOut;
+ if (dynTcpConnectionIn != NULL) delete dynTcpConnectionIn;
+ if (dynTcpClient != NULL) delete dynTcpClient;
+ if (dynTcpServer != NULL) delete dynTcpServer;
 #endif
 }
 
@@ -144,24 +143,20 @@ void uCliFrame::OnClose(wxCloseEvent& event)
   /*Destroy();*/
 }
 
-void uCliFrame::HwSerialByte(uint8_t c)
+void uCliFrame::HwSerialByte(uint8_t c, wxColor color)
 {
 #define SEND()\
     SendToBtSerial();\
     TextCtrl->WriteText("OK");\
     SendToBtSerial()
 
-  wxColor color;
   wxString inputValue = "";
 
   if (simu_portb & OUT_B_BT_KEY)
     {
-      color = *wxBLUE;  // Bluetooth dialog
+      color = *wxBLUE;  // Bluetooth dialog color
     }
-  else
-    {
-      color = *wxBLACK;
-    }
+
   TextCtrl->SetForegroundColour(color);
 
   if (c != '\r')
@@ -178,10 +173,10 @@ void uCliFrame::HwSerialByte(uint8_t c)
      SendToBtSerial();
     }
   }*/
-#if defined(USE_DDE_LINK)
- if ((c == '\n') && (dynDdeConnectionOut != NULL))
+#if defined(USE_TCP_LINK)
+ if ((c == '\n') && (dynTcpConnectionOut != NULL) && !(BT_IS_IN_AT_MODE))
   {
-    ddeDataOut = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
+    TcpDataOut = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
   }
 #endif
  if ((c == '\n') && (SimuBTComIsValid) && BT_POWER_IS_ON())
@@ -292,68 +287,70 @@ void uCliFrame::OnTimerBTRXTrigger(wxTimerEvent& event)
   }
 }
 
-#if defined(USE_DDE_LINK)
-////// DDE ////////////////////////////
+#if defined(USE_TCP_LINK)
 
-void uCliFrame::DdeLink()
+void uCliFrame::TcpLink()
 {
  hostName = wxGetHostName();
-#if defined(EXTERNALEEPROM) && !defined(DEBUG)
- DdeServerName = "1122";
- DdeExtServerName = "2211";
+#if defined(EXTERNALEEPROM)
+ TcpServerName = "3122";
+ TcpExtServerName = "3211";
 #else
- DdeServerName = "2211";
- DdeExtServerName = "1122";
+ TcpServerName = "3211";
+ TcpExtServerName = "3122";
 #endif // Defined
- DdeTopicName = "112";
+ TcpTopicName = "SimuOAVRC";
 
- dynDdeServer = new DdeServer(this);
- dynDdeServer->Create(DdeServerName);
- DdeConnectTo(DdeExtServerName);
+ dynTcpServer = new TcpServer(this);
+ dynTcpServer->Create(TcpServerName);
+ TcpConnectTo(TcpExtServerName);
 }
 
-bool uCliFrame::DdeConnectTo(wxString ExtServerName)
+bool uCliFrame::TcpConnectTo(wxString ExtServerName)
 {
- if (dynDdeConnectionOut != NULL) delete dynDdeConnectionOut;
- dynDdeConnectionOut = NULL;
- if (dynDdeClient != NULL) delete dynDdeClient;
- dynDdeClient = NULL;
+ if (dynTcpConnectionOut != NULL) delete dynTcpConnectionOut;
+ dynTcpConnectionOut = NULL;
+ if (dynTcpClient != NULL) delete dynTcpClient;
+ dynTcpClient = NULL;
 
- wxLogNull nolog;
- dynDdeClient = new DdeClient;
- dynDdeConnectionOut = (DdeConnectionOut *)dynDdeClient->MakeConnection(hostName, ExtServerName, DdeTopicName);
- if (dynDdeConnectionOut)
+ //wxLogNull nolog;
+ dynTcpClient = new TcpClient;
+ dynTcpConnectionOut = (TcpConnectionOut *)dynTcpClient->MakeConnection(hostName, ExtServerName, TcpTopicName);
+
+ if (dynTcpConnectionOut != NULL)
   {
    //wxMessageBox("trouvé !", "Client serveur");
-   dynDdeConnectionOut->Poke(DdeTopicName,"IPC Ok");
+   dynTcpConnectionOut->Poke(TcpTopicName,"IPC Ok");
    TimerBTRX.Start(10, false);
+   return true;
   }
  else
   {
   // wxMessageBox("hoin ! !", "Client serveur");
-   delete dynDdeConnectionOut;
-   dynDdeConnectionOut = NULL;
-   delete dynDdeClient;
-   dynDdeClient = NULL;
+   delete dynTcpConnectionOut;
+   dynTcpConnectionOut = NULL;
+   delete dynTcpClient;
+   dynTcpClient = NULL;
+   return false;
   }
 }
 
-wxConnectionBase * DdeServer::OnAcceptConnection(const wxString& topic)
+wxConnectionBase * TcpServer::OnAcceptConnection(const wxString& topic)
 {
-if (topic == DdeTopicName)
+if (topic == TcpTopicName)
 {
 //wxMessageBox("connection entrante");
-dynDdeConnectionIn = new DdeConnectionIn(UCliFrame);
-return dynDdeConnectionIn;
+dynTcpConnectionIn = new TcpConnectionIn(UCliFrame);
+return dynTcpConnectionIn;
 }
 return NULL;
 }
 
-bool DdeConnectionIn::OnPoke(const wxString &topic, const wxString &item, const void *data, size_t size, wxIPCFormat format = wxIPC_UTF8TEXT)
+bool TcpConnectionIn::OnPoke(const wxString &topic, const wxString &item, const void *data, size_t size, wxIPCFormat format = wxIPC_UTF8TEXT)
 {
- if (dynDdeConnectionOut == NULL)
+ if (dynTcpConnectionOut == NULL)
  {
-   UCliFrame->DdeConnectTo(DdeExtServerName);
+   return (UCliFrame->TcpConnectTo(TcpExtServerName));
  }
  else
  {
@@ -361,32 +358,31 @@ bool DdeConnectionIn::OnPoke(const wxString &topic, const wxString &item, const 
 
    for (size_t i=0; i < size; i++)
    {
-    UCliFrame->HwSerialByte(temp[i]);
-        simu_udr1 = temp[i];
+    UCliFrame->HwSerialByte(temp[i], *wxGREEN);
+    simu_udr1 = temp[i];
     USART_RX_vect_N(TLM_USART1)();
 
    }
-     simu_udr1 = '\r';
+  simu_udr1 = '\r';
   USART_RX_vect_N(TLM_USART1)();
   simu_udr1 = '\n';
   USART_RX_vect_N(TLM_USART1)();
   //UCliFrame->HwSerialByte('\r');
-  UCliFrame->HwSerialByte('\n');
+  //UCliFrame->HwSerialByte('\n');
   //wxMessageBox("poke ok");
+  return true;
  }
- return true;
 }
 
- void uCliFrame::DdeSendBufferIfNeeded()
+ void uCliFrame::TcpSendBufferIfNeeded()
 {
 
- if ((ddeDataOut.Len() > 0) && (dynDdeConnectionOut != NULL))
+ if ((TcpDataOut.Len() > 0) && (dynTcpConnectionOut != NULL))
   {
-   dynDdeConnectionOut->Poke(DdeTopicName,ddeDataOut);
-   _delay_ms(150);
+   dynTcpConnectionOut->Poke(TcpTopicName,TcpDataOut);
+   //_delay_ms(150);
    wxYieldIfNeeded();
-   ddeDataOut = "";
+   TcpDataOut = "";
   }
 }
-////// DDE ////////////////////////////
 #endif

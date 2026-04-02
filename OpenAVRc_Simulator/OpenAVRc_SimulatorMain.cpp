@@ -71,7 +71,7 @@
 #include "PanelB.xpm"
 
 #define TIMER_10_MS_TIME 10
-#define TIMER_MAIN_TIME  20
+#define TIMER_MAIN_TIME  40
 
 //helper functions
 enum wxbuildinfoformat {
@@ -715,7 +715,7 @@ void OpenAVRc_SimulatorFrame::OnTimerMainTrigger(wxTimerEvent& event) //1mS
 
   if ((simu_mainloop_is_runing) || simu_firstloop_is_runing) // Avoid re-entrance and wait start code done
     {
-      TimerMain.StartOnce(2); //whait 2 mS
+      TimerMain.StartOnce(TIMER_MAIN_TIME/10); // whait
       return;
     }
   else
@@ -774,12 +774,12 @@ void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
           EE_READY_vect(); // simulate eeprom write ISR
         }
     }
-#if defined(USE_DDE_LINK)
-  if(uCliFr)  uCliFr->DdeSendBufferIfNeeded();
+#if defined(USE_TCP_LINK)
+  if(uCliFr)  uCliFr->TcpSendBufferIfNeeded();
 #endif
   if (ISR10msLoop_is_runing) // Avoid re-entrance
   {
-    Timer10ms.StartOnce(2); //whait 2 mS
+    Timer10ms.StartOnce(TIMER_10_MS_TIME/5); // whait
     return;
   }
   else Isr10msTaskFirmware();

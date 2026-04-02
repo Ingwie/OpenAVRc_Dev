@@ -30,6 +30,7 @@
 					<Add option="-DIMPERIAL_UNITSaaa" />
 					<Add option="-DLCDROT180aaa" />
 					<Add option="-DPWM_BACKLIGHTaaa" />
+					<Add option="-DUSE_TCP_LINK" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 				</Compiler>
 				<ResourceCompiler>
@@ -296,7 +297,7 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-std=c11" />
+					<Add option="-std=c17" />
 					<Add option="-m64" />
 					<Add option="-Og" />
 					<Add option="-g" />
@@ -312,7 +313,8 @@
 					<Add option="-DIMPERIAL_UNITSaaa" />
 					<Add option="-DLCDROT180aaa" />
 					<Add option="-DPWM_BACKLIGHTaaa" />
-					<Add option="-DFORCE_MULTIMODULE_UART1" />
+					<Add option="-DFORCE_MULTIMODULE_UART1aa" />
+					<Add option="-DUSE_TCP_LINK" />
 					<Add directory="/usr/lib/x86_64-linux-gnu" />
 				</Compiler>
 				<ResourceCompiler>
@@ -348,6 +350,7 @@
 					<Add option="-DIMPERIAL_UNITSaaa" />
 					<Add option="-DLCDROT180aaa" />
 					<Add option="-DPWM_BACKLIGHTaaa" />
+					<Add option="-DUSE_TCP_LINK" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
@@ -501,7 +504,6 @@
 		<Unit filename="../OpenAVRc/buzzer.cpp" />
 		<Unit filename="../OpenAVRc/buzzer.h" />
 		<Unit filename="../OpenAVRc/curves.cpp" />
-		<Unit filename="../OpenAVRc/debug/TinyDbg.h" />
 		<Unit filename="../OpenAVRc/eeprom_common.cpp" />
 		<Unit filename="../OpenAVRc/eeprom_common.h" />
 		<Unit filename="../OpenAVRc/eeprom_rlc.cpp" />
