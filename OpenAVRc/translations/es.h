@@ -468,6 +468,8 @@
 #define TR_MODULE_RANGE        "[Prt]"
 #define TR_RESET_BTN           "[Reset]"
 #define TR_SET                 "[Ajuste]"
+#define TR_NUMCH               INDENT "Num canales"
+#define TR_UBIND               INDENT "Desatar"
 #define TR_RESET               "Reset"
 #define TR_FAS_OFFSET          INDENT "FAS Ofs"
 #if defined(X_ANY) || defined(BLUETOOTH)
