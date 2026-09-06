@@ -1282,7 +1282,7 @@ void checkBattery()
 #define BANDGAP 1650L // 3.3V supply /2.
   instant_vbat *= (BANDGAP * 10L); // 1/10 Divider Network.
   instant_vbat /= (2048L * 10L); // 10mV
-  instant_vbat += 21L; // Calibration is fixed. Add 0.21V drop for schottky diode.
+
 #else
 #define BANDGAP 5000 // 5 Volts : We use AVCC.
   instant_vbat *= 2889L*(BANDGAP/100);
