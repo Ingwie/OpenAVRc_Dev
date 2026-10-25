@@ -51,10 +51,15 @@ bool OpenAVRc_DesktopApp::OnInit()
   splscr->SetShape(region);
   wxSleep(1);
 
-  // Translation
-  myLocale.Init(wxLANGUAGE_FRENCH , wxLOCALE_LOAD_DEFAULT);
-  wxLocale::AddCatalogLookupPathPrefix(".");
-  myLocale.AddCatalog("OpenAVRc_Desktop");
+  // Translations ... the "OpenAVRc_Desktop/locales" folder is searched for the
+  // detected system locale. e.g. "OpenAVRc_Desktop/locales/cs_CZ/OpenAVRc_Desktop.mo"
+
+  wxFileTranslationsLoader::AddCatalogLookupPathPrefix("OpenAVRc_Desktop/locales");
+  myLocale.AddCatalog("OpenAVRc_Desktop", wxLANGUAGE_FRENCH, "charset=UTF-8");
+  if (! myLocale.Init(wxLocale::GetSystemLanguage(), wxLOCALE_LOAD_DEFAULT))
+  {
+    wxLogError("The specified locale is not supported");
+  }
 
   //(*AppInitialize
   bool wxsOK = true;
