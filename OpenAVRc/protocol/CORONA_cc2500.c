@@ -48,11 +48,14 @@
 #define CORONA_BIND_CHANNEL_V2	0xB8
 #define CORONA_COARSE			      0x00
 #define COR_V1                  1
+#define COR_FD_V3               2 // FlyDream V3: 3 data hops + 1 ID hop
+#define FDV3_BIND_PERIOD        5000U
+#define FDV3_CHANNEL_PERIOD     4000U
 
 const static RfOptionSettingsvar_t RfOpt_corona_Ser[] PROGMEM =
 {
   /*rfProtoNeed*/PROTO_NEED_SPI, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
-  /*rfSubTypeMax*/1,
+  /*rfSubTypeMax*/2, // DSSS, FSS, FDV3
   /*rfOptionValue1Min*/-128, // FREQFINE MIN
   /*rfOptionValue1Max*/127,  // FREQFINE MAX
   /*rfOptionValue2Min*/0,
@@ -60,7 +63,7 @@ const static RfOptionSettingsvar_t RfOpt_corona_Ser[] PROGMEM =
   /*rfOptionValue3Max*/7,    // RF POWER
 };
 
-const pm_char STR_SUBTYPE_CORONA[] PROGMEM = "DSSS"" FSS";
+const pm_char STR_SUBTYPE_CORONA[] PROGMEM = "DSSS"" FSS""FDV3";
 
 const static uint8_t ZZ_coronaInitSequence[] PROGMEM =
 {
@@ -84,6 +87,15 @@ static void corona_init()
     {
       channel_used_p2M[i^order]=2+temp_rfid_addr_p2M[3-i]%39+(i<<5)+(i<<3);
     }
+  // FlyDream V3 keeps ID bytes 0/2 intact, uses FA in byte 1 and
+  // sends its fourth generated hopping channel as ID byte 3.
+  if (g_model.rfSubType == COR_FD_V3)
+    {
+      temp_rfid_addr_p2M[1] = 0xFA;
+      temp_rfid_addr_p2M[3] = channel_used_p2M[CORONA_RF_NUM_CHANNELS];
+    }
+  else
+    {
   // ID looks random but on the 15 V1 dumps they all show the same odd/even rule
   if(temp_rfid_addr_p2M[3]&0x01)
     {
@@ -98,6 +110,7 @@ static void corona_init()
       temp_rfid_addr_p2M[2]|=0x01;
     }
   temp_rfid_addr_p2M[1]=0xFE;			// Always FE in the dumps of V1 and V2
+    }
 
 
   CC2500_Strobe(CC2500_SIDLE);
@@ -110,7 +123,13 @@ static void corona_init()
       CC2500_WriteReg(i, dat);
     }
 
-  if(!CORONA_PROTO_IS_V1_P2M)
+  if (g_model.rfSubType == COR_FD_V3)
+    {
+      // FDV3 shares V1 bind frequency (0xD1), but uses V2 deviation.
+      // Do not touch CORONA_RF_STATE16_P2M here: it aliases ID bytes 0/1.
+      CC2500_WriteReg(CC2500_15_DEVIATN, 0x50);
+    }
+  else if(!CORONA_PROTO_IS_V1_P2M)
     {
       CORONA_RF_STATE16_P2M = 400; // V2 send channel at startup while rfstate
       CC2500_WriteReg(CC2500_0A_CHANNR, CORONA_BIND_CHANNEL_V2);
@@ -140,7 +159,25 @@ static uint16_t corona_send_data_packet()
 {
   uint16_t packet_period = 0;
 
-  if(!CORONA_RF_STATE16_P2M) // V1 or V2&identifier sended
+  // FDV3 transmits an identifier on its fourth RF channel after
+  // three normal channel frames.  Reuse CH_IDX=3: no extra RAM.
+  if (g_model.rfSubType == COR_FD_V3 && CORONA_CH_IDX_P2M == CORONA_RF_NUM_CHANNELS)
+    {
+      CORONA_CH_IDX_P2M = 0;
+      CC2500_ManageFreq();
+      CC2500_ManagePower();
+      CC2500_WriteReg(CC2500_0A_CHANNR, temp_rfid_addr_p2M[3]);
+      packet_p2M[0] = 0x07;
+      for (uint8_t i = 0; i < CORONA_ADDRESS_LENGTH; i++)
+        packet_p2M[i+1] = temp_rfid_addr_p2M[i];
+      for (uint8_t i = 0; i < CORONA_RF_NUM_CHANNELS; i++)
+        packet_p2M[i+1+CORONA_ADDRESS_LENGTH] = channel_used_p2M[i];
+      packet_p2M[8] = 0x00;
+      CC2500_WriteData(packet_p2M, packet_p2M[0]+2);
+      return 2*FDV3_CHANNEL_PERIOD;
+    }
+
+  if(g_model.rfSubType == COR_FD_V3 || !CORONA_RF_STATE16_P2M) // V1 or V2&identifier sended
     {
 #if defined(X_ANY)
   Xany_scheduleTx_AllInstance();
@@ -173,6 +210,14 @@ static uint16_t corona_send_data_packet()
 
       // Tune frequency if it has been changed
       CC2500_ManageFreq();
+      // FDV3: 4000 + 4000 + 6000 + 8000 = 22000 us per RF cycle.
+      if (g_model.rfSubType == COR_FD_V3)
+        {
+          packet_period = (CORONA_CH_IDX_P2M == 2) ? 6000 : FDV3_CHANNEL_PERIOD;
+          if (CORONA_CH_IDX_P2M == 0) SCHEDULE_MIXER_END_IN_US(22000);
+        }
+      else
+      {
       // Packet period is based on hopping
       switch(CORONA_CH_IDX_P2M)
         {
@@ -192,10 +237,12 @@ static uint16_t corona_send_data_packet()
             }
           break;
         }
+      }
       // Set channel
       CC2500_WriteReg(CC2500_0A_CHANNR, channel_used_p2M[CORONA_CH_IDX_P2M]);
       CORONA_CH_IDX_P2M++;
-      CORONA_CH_IDX_P2M%=CORONA_RF_NUM_CHANNELS;
+      if (g_model.rfSubType != COR_FD_V3)
+        CORONA_CH_IDX_P2M%=CORONA_RF_NUM_CHANNELS; // FDV3 index 3 sends ID
       // Update power
       CC2500_ManagePower();
     }
@@ -253,13 +300,22 @@ static uint16_t corona_send_bind_packet()
     }
   else
     {
-      // V2
-      SCHEDULE_MIXER_END_IN_US(25000); // Schedule next Mixer calculations.
+      // V2 or FDV3. FDV3 sends the same bind packet every 5 ms.
+      if (g_model.rfSubType == COR_FD_V3)
+        {
+          if ((CORONA_BIND_COUNTER_16_P2M++ & 3) == 0)
+            SCHEDULE_MIXER_END_IN_US(20000);
+          packet_period = FDV3_BIND_PERIOD;
+        }
+      else
+        {
+          SCHEDULE_MIXER_END_IN_US(25000); // Schedule next Mixer calculations.
+          packet_period=25000;
+        }
       packet_p2M[0]=0x04;		// 5 bytes to follow
       for(uint8_t i=0; i<CORONA_ADDRESS_LENGTH; i++)
         packet_p2M[i+1]=temp_rfid_addr_p2M[i];
-      packet_p2M[5]=0x00;		// Unknown but seems to be always the same value for V2
-      packet_period=25000;
+      packet_p2M[5]=0x00;		// Unknown but seems to be always the same value for V2 and FDV3
     }
   // Send packet
   CC2500_WriteData(packet_p2M, packet_p2M[0]+2);
@@ -291,6 +347,12 @@ static void CORONA_initialize(uint8_t bind)
   (g_model.rfSubType==COR_V1)?CORONA_PROTO_IS_V1_P2M=1:CORONA_PROTO_IS_V1_P2M=0;
 
   corona_init();
+
+  if (g_model.rfSubType == COR_FD_V3)
+    {
+      CORONA_CH_IDX_P2M = 0;
+      CORONA_BIND_COUNTER_16_P2M = 0;
+    }
 
   if (bind)
     {
