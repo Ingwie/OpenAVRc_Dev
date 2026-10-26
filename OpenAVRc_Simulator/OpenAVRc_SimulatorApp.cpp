@@ -52,9 +52,12 @@ bool OpenAVRc_SimulatorApp::OnInit()
   wxSleep(1);
 
   // Translation
-  myLocale.Init(wxLANGUAGE_FRENCH , wxLOCALE_LOAD_DEFAULT);
-  wxLocale::AddCatalogLookupPathPrefix(".");
-  myLocale.AddCatalog("OpenAVRc_Simulator");
+  wxFileTranslationsLoader::AddCatalogLookupPathPrefix("OpenAVRc_Simulator/locales");
+  myLocale.AddCatalog("OpenAVRc_Simulator", wxLANGUAGE_FRENCH, "charset=UTF-8");
+  if (! myLocale.Init(wxLocale::GetSystemLanguage(), wxLOCALE_LOAD_DEFAULT))
+  {
+    wxLogError("The specified locale is not supported");
+  }
 
   //AppInitialize
   bool wxsOK = true;
