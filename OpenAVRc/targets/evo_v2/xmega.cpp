@@ -230,8 +230,8 @@ void xmega_wdt_enable_512ms(void)
 {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     _PROTECTED_WRITE(WDT.CTRL, WDT_PER_512CLK_gc | WDT_ENABLE_bm | WDT_CEN_bm);
-     while (WDT.STATUS & WDT_SYNCBUSY_bm); // wait
-     // We don't want a windowed watchdog.
+    while (WDT.STATUS & WDT_SYNCBUSY_bm); // wait
+    // We don't want a windowed watchdog.
     _PROTECTED_WRITE(WDT.WINCTRL, WDT_WCEN_bm);
     while (WDT.STATUS & WDT_SYNCBUSY_bm); // wait
   }
@@ -481,7 +481,7 @@ uint8_t keyDown()
 // Trim switches.
 // Expected sequence is defined in keys.h
 #if defined(TOGGLETRIM) //Toggle trim usage -> Left trim for right stick and right trim for left stick
-static const pm_uchar crossTrim[] PROGMEM = { // ToDo
+static const pm_uchar crossTrim[] PROGMEM = {
   TRM_LH_UP,
   TRM_LV_DWN,
   TRM_LH_DWN,
@@ -492,7 +492,7 @@ static const pm_uchar crossTrim[] PROGMEM = { // ToDo
   TRM_RV_UP
 };
 #else
-static const pm_uchar crossTrim[] PROGMEM = { // Done
+static const pm_uchar crossTrim[] PROGMEM = {
   TRM_RH_UP,
   TRM_RV_DWN,
   TRM_RH_DWN,
@@ -519,17 +519,17 @@ void read_trim_matrix()
 
   if(PORTF.OUT & OF_TRIM_ROW_A_bm)
   {
-    keys[pgm_read_byte_far(crossTrim+0)].input( in & IE_TRIM_COL_A_bm);
-    keys[pgm_read_byte_far(crossTrim+1)].input( in & IE_TRIM_COL_B_bm);
-    keys[pgm_read_byte_far(crossTrim+2)].input( in & IE_TRIM_COL_C_bm);
-    keys[pgm_read_byte_far(crossTrim+3)].input( in & IE_TRIM_COL_D_bm);
+    keys[crossTrim[0]].input( in & IE_TRIM_COL_A_bm);
+    keys[crossTrim[1]].input( in & IE_TRIM_COL_B_bm);
+    keys[crossTrim[2]].input( in & IE_TRIM_COL_C_bm);
+    keys[crossTrim[3]].input( in & IE_TRIM_COL_D_bm);
   }
   else
   {
-    keys[pgm_read_byte_far(crossTrim+4)].input( in & IE_TRIM_COL_A_bm);
-    keys[pgm_read_byte_far(crossTrim+5)].input( in & IE_TRIM_COL_B_bm);
-    keys[pgm_read_byte_far(crossTrim+6)].input( in & IE_TRIM_COL_C_bm);
-    keys[pgm_read_byte_far(crossTrim+7)].input( in & IE_TRIM_COL_D_bm);
+    keys[crossTrim[4]].input( in & IE_TRIM_COL_A_bm);
+    keys[crossTrim[5]].input( in & IE_TRIM_COL_B_bm);
+    keys[crossTrim[6]].input( in & IE_TRIM_COL_C_bm);
+    keys[crossTrim[7]].input( in & IE_TRIM_COL_D_bm);
   }
 
   PORTF.OUTTGL = OF_TRIM_ROW_A_bm;
@@ -590,7 +590,7 @@ void read_keyboard()
 
   for(uint8_t x=BTN_NONE; x<NUM_BTNS; x++) {
 
-    uint16_t  upper = pgm_read_word_far(&AnalKeyboardVal[x]);
+    uint16_t  upper = pgm_read_word(&AnalKeyboardVal[x]);
     uint16_t  lower = upper - (BTN_TOL *2);
     if(lower > upper) lower = 0;
 
@@ -659,7 +659,7 @@ void read_sws_1(void)
 
   for(uint8_t x=5; x<16; x++) {
 
-    upper = pgm_read_word_far(&AnalSwitchVal[x]);
+    upper = pgm_read_word(&AnalSwitchVal[x]);
     lower = upper - (ANA_TOL *2);
     if (lower > upper) lower = 0;
 
@@ -687,7 +687,7 @@ void read_sws_2(void)
 
   for(uint8_t x=0; x<16; x++) {
 
-    upper = pgm_read_word_far(&AnalSwitchVal[x]);
+    upper = pgm_read_word(&AnalSwitchVal[x]);
     lower = upper - (ANA_TOL *2);
     if (lower > upper) lower = 0;
 
@@ -712,7 +712,7 @@ void read_sws_3(void)
 
   for(uint8_t x=5; x<16; x++) {
 
-    upper = pgm_read_word_far(&AnalSwitchVal[x]);
+    upper = pgm_read_word(&AnalSwitchVal[x]);
     lower = upper - (ANA_TOL *2);
     if (lower > upper) lower = 0;
 
@@ -740,7 +740,7 @@ void read_sws_4(void)
 
   for(uint8_t x=0; x<16; x++) {
 
-    upper = pgm_read_word_far(&AnalSwitchVal[x]);
+    upper = pgm_read_word(&AnalSwitchVal[x]);
     lower = upper - (ANA_TOL *2);
     if (lower > upper) lower = 0;
 
