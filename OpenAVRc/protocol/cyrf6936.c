@@ -126,12 +126,14 @@ void CYRF_SetTxRxMode(enum TXRX_State mode)
   }
 
   // Set the post tx/rx state.
+  // [CYRF PA/LNA TEST] Inverted GPIO_CTRL polarity, as used by the
+  // MPM ORANGE_TX_BLUE variant.  This is a diagnostic change only.
   if(mode == TX_EN) {
-    CYRF_WriteRegister(CYRF_0E_GPIO_CTRL, 0x80); // XOUT=1, PACTL=0
+    CYRF_WriteRegister(CYRF_0E_GPIO_CTRL, 0x20); // TEST: inverted TX front-end control
   } else if(mode == RX_EN) {
-    CYRF_WriteRegister(CYRF_0E_GPIO_CTRL, 0x20); // XOUT=0, PACTL=1
+    CYRF_WriteRegister(CYRF_0E_GPIO_CTRL, 0x80); // TEST: inverted RX front-end control
   } else {
-    CYRF_WriteRegister(CYRF_0E_GPIO_CTRL, 0x00); // XOUT=0, PACTL=0
+    CYRF_WriteRegister(CYRF_0E_GPIO_CTRL, 0x00); // RF front-end off
   }
 }
 
