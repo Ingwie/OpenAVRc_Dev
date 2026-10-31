@@ -245,6 +245,8 @@ bool displayGaugesTelemetryScreen(telemetryScreenData & screen)
         threshold = getRssiAlarmValue();
       else if (source <= TELEM_A2)
         threshold = 0;
+      else if (source == TELEM_RX_BATT)
+        threshold = 0;
       else {
         threshold = convertBarTelemValue(source, barsThresholds[source-TELEM_ALT]);
       }

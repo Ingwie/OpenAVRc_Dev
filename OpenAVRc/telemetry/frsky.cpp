@@ -309,7 +309,13 @@ void processSportPacket(uint8_t *sport_packet)
 #endif
     }
     else if (appId == X_BATT_ID)
-      telemetryData.analog[0].set(SPORT_DATA_U8(sport_packet),UNIT_VOLTS);
+      {
+        // FrSky S.Port receiver battery (0xF104).
+        // Raw value uses the historical FrSky 13.2V full scale (ratio 132).
+        // Store RxBt directly in 0.1V units instead of overwriting A1.
+        const uint8_t rawRxBatt = SPORT_DATA_U8(sport_packet);
+        telemetryData.rxBatt = ((uint16_t)rawRxBatt * 132U + 127U) / 255U;
+      }
   }
     else if ((appId >> 8) == 0)
     {

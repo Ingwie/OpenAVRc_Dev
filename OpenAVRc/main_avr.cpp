@@ -35,11 +35,21 @@
 
 extern uint8_t checkTrim(uint8_t event);
 
+#if (defined(CPUM2560) || defined(CPUXMEGA)) && (SERIAL_PROTOCOL == CRSF) && !defined(SIMU)
+void CRSF_SportTelemetryMain(void);
+#endif
+
 void perMain()
 {
 
   SIMU_PROCESSEVENTS;
   LEDON();
+#if (defined(CPUM2560) || defined(CPUXMEGA)) && (SERIAL_PROTOCOL == CRSF) && !defined(SIMU)
+  // Startup ELRS sync and optional S.Port conversion run in main context,
+  // even with FRSKY disabled. Never decode parameter strings from the ISR.
+  // The handler self-limits to once per 10ms.
+  if (IS_CRSF_PROTOCOL(s_current_protocol)) CRSF_SportTelemetryMain();
+#endif
   uint16_t t0 = getTmr64uS();
   int16_t delta = (nextMixerEndTime - lastMixerDuration) - t0;
   if (delta > 0 && delta < US_TO_64US_TICK(MAX_MIXER_DELTA_US)) {

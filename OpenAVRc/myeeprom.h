@@ -607,14 +607,17 @@ enum TelemetrySource {
   TELEM_MAX_POWER,
   TELEM_ACC,
   TELEM_GPS_TIME,
+  // Receiver battery restored as a dedicated telemetry source.
+  // Appended here so all existing TelemetrySource IDs stored in EEPROM stay unchanged.
+  TELEM_RX_BATT,
   TELEM_CSW_MAX = TELEM_MAX_POWER,
   TELEM_NOUSR_MAX = TELEM_A2,
 #if defined(FRSKY)
-  TELEM_DISPLAY_MAX = TELEM_MAX_POWER,
+  TELEM_DISPLAY_MAX = TELEM_RX_BATT,
 #else
   TELEM_DISPLAY_MAX = TELEM_TIMER2, // because used also in PlayValue
 #endif
-  TELEM_STATUS_MAX = TELEM_GPS_TIME,
+  TELEM_STATUS_MAX = TELEM_RX_BATT,
   TELEM_FIRST_STREAMED_VALUE = TELEM_RSSI_TX,
 };
 
