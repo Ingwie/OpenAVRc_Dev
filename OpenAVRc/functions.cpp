@@ -61,6 +61,9 @@ void playValue(source_t idx)
   case MIXSRC_FIRST_TELEM+TELEM_RSSI_RX-1:
     playNumber(val, 1+UNIT_DB, 0);
     break;
+  case MIXSRC_FIRST_TELEM+TELEM_RX_BATT-1:
+    playNumber(val, 1+UNIT_VOLTS, PREC1);
+    break;
   case MIXSRC_FIRST_TELEM+TELEM_MIN_A1-1:
   case MIXSRC_FIRST_TELEM+TELEM_MIN_A2-1:
     idx -= TELEM_MIN_A1-TELEM_A1;
@@ -82,6 +85,7 @@ void playValue(source_t idx)
     playNumber(div10_and_round(val), 1+UNIT_VOLTS, PREC1);
     break;
 
+  case MIXSRC_FIRST_TELEM+TELEM_RX_BATT-1:
   case MIXSRC_FIRST_TELEM+TELEM_VFAS-1:
   case MIXSRC_FIRST_TELEM+TELEM_CELLS_SUM-1:
   case MIXSRC_FIRST_TELEM+TELEM_MIN_CELLS_SUM-1:

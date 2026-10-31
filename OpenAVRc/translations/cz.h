@@ -70,6 +70,13 @@
 #define LEN_VCURVEFUNC "\003"
 #define TR_VCURVEFUNC  "---""x>0""x<0""|x|""f>0""f<0""|f|"
 // lcd
+/* CRSF menu translations. Keep identifiers identical in every language. */
+#define TR_CRSF_PACKET_RATE       "Rychl. Pak."
+#define TR_CRSF_SWITCH_MODE       "SW Mode"
+#define TR_CRSF_TLM_RATIO         "Pomer TLM"
+#define TR_CRSF_POWER             "RF vykon"
+#define TR_CRSF_BAUDRATE          "Baudrate"
+
 #define LEN_OFFON "\003"
 #define TR_OFFON  "VYP""ZAP"
 
@@ -184,7 +191,7 @@
 #define TR_TELEM_TIMERS  "\202as1""\202as2"
 #define TR_SWR
 #define TR_TELEM_RSSI_RX "RX\0 "
-#define TR_RX_BATT
+#define TR_RX_BATT             "RxBt"
 #define TR_A3_A4
 #define TR_A3_A4_MIN
 #define TR_ASPD_MAX      "ASp+"

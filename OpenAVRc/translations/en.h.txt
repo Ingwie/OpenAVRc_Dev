@@ -37,6 +37,13 @@
 */
 
 /* NON ZERO TERMINATED STRINGS */
+/* CRSF menu translations. Keep identifiers identical in every language. */
+#define TR_CRSF_PACKET_RATE       "Pack Rate"
+#define TR_CRSF_SWITCH_MODE       "SW Mode"
+#define TR_CRSF_TLM_RATIO         "TLM Ratio"
+#define TR_CRSF_POWER             "RF Power"
+#define TR_CRSF_BAUDRATE          "Baudrate"
+
 #define LEN_OFFON              "\003"
 #define TR_OFFON               "OFF""ON\0"
 #define LEN_MMMINV             "\003"
@@ -167,7 +174,7 @@
 #define TR_TELEM_RESERVE
 #define TR_TELEM_TIME
 #define TR_SWR
-#define TR_RX_BATT
+#define TR_RX_BATT             "RxBt"
 #define TR_A3_A4
 #define TR_A3_A4_MIN
 #define TR_ASPD_MAX            "ASp+"

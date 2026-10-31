@@ -196,6 +196,13 @@ extern const pm_char STR_ETRIMS[];
 extern const pm_char STR_TRIMINC[];
 extern const pm_char STR_TTRACE[];
 extern const pm_char STR_TSWITCH[];
+// CRSF menu labels; translated independently for each language.
+extern const pm_char STR_CRSF_PACKET_RATE[];
+extern const pm_char STR_CRSF_SWITCH_MODE[];
+extern const pm_char STR_CRSF_TLM_RATIO[];
+extern const pm_char STR_CRSF_POWER[];
+extern const pm_char STR_CRSF_BAUDRATE[];
+
 extern const pm_char STR_TTRIM[];
 extern const pm_char STR_BEEPCTR[];
 extern const pm_char STR_PROTO[];

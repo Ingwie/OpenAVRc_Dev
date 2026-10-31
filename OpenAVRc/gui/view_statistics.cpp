@@ -33,6 +33,28 @@
 
 #include "menu_general.h"
 
+// -----------------------------------------------------------------------------
+// RAM NOW (Debug uniquement) : ancienne methode freeRam(), sans etat statique.
+// Mesure la distance entre une petite variable locale (pile actuelle) et
+// le sommet du tas (ou sa base si aucune allocation dynamique n'a eu lieu).
+// La valeur peut REMONTER quand une fonction rend sa place sur la pile : normal.
+// Contrairement a stackAvailable(), elle ne conserve pas les pics passes.
+// -----------------------------------------------------------------------------
+static uint16_t menuRamNow()
+{
+#if defined(SIMU)
+  return 2000; // Valeur fictive, comme l'ancien freeRam() du simulateur.
+#else
+  extern char __heap_start;
+  extern char *__brkval;
+  uint8_t stackMarker;
+  const uintptr_t sp = (uintptr_t)&stackMarker;
+  const uintptr_t heap = (uintptr_t)(__brkval ? __brkval : &__heap_start);
+  // Protection en cas de chevauchement pile / tas (ne pas sous-deborder).
+  return (sp > heap) ? (uint16_t)(sp - heap) : 0;
+#endif
+}
+
 void menuStatisticsView(uint8_t event)
 {
   TITLE(STR_MENUSTAT);
@@ -122,11 +144,20 @@ void menuStatisticsDebug(uint8_t event)
 
   lcdDrawText(FW/2, 5*FH, STR_MIXERlowcase);
   lcdDrawNumberNAtt(COLDEBUG2+OFSDEBUG, 5*FH, DURATION_MS_PREC2(maxMixerDuration), PREC2);
-  lcdDrawText(FW/2, 6*FH, STR_FREESRAM);
-  lcdDrawNumberNAtt(COLDEBUG2+OFSDEBUG, 6*FH, stackAvailable(), UNSIGN);
-
-//  lcdDrawTextLeft(6*FH, STR_FREERAMINB);
-//  lcdDrawNumberNAtt(14*FW, 6*FH, freeRam(), UNSIGN);
+  // LCD 128x64 : 2 indicateurs sur la meme ligne, sans tampon ni menu en plus.
+  // RAM N = RAM disponible MAINTENANT (peut augmenter au retour d'une fonction).
+  // RAM M = marge MINIMALE observee par stackAvailable() + son verrouillage
+  //         monotone (correctif precedent) ; ne doit plus augmenter.
+  // Les deux appels sont confines a cet ecran, pas aux interruptions CRSF.
+  lcdDrawChar( 3, 6*FH, 'R');
+  lcdDrawChar( 9, 6*FH, 'A');
+  lcdDrawChar(15, 6*FH, 'M');
+  lcdDrawChar(26, 6*FH, 'N');
+  lcdDrawChar(32, 6*FH, ':');
+  lcdDrawNumberNAtt(69, 6*FH, menuRamNow(), UNSIGN);
+  lcdDrawChar(77, 6*FH, 'M');
+  lcdDrawChar(83, 6*FH, ':');
+  lcdDrawNumberNAtt(125, 6*FH, stackAvailable(), UNSIGN);
 
   lcdDrawText(4*FW, 7*FH+1, STR_MENUTORESET);
   lcd_status_line();
