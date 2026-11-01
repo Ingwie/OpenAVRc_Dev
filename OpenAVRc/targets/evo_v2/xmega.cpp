@@ -519,17 +519,17 @@ void read_trim_matrix()
 
   if(PORTF.OUT & OF_TRIM_ROW_A_bm)
   {
-    keys[crossTrim[0]].input( in & IE_TRIM_COL_A_bm);
-    keys[crossTrim[1]].input( in & IE_TRIM_COL_B_bm);
-    keys[crossTrim[2]].input( in & IE_TRIM_COL_C_bm);
-    keys[crossTrim[3]].input( in & IE_TRIM_COL_D_bm);
+    keys[pgm_read_byte(&crossTrim[0])].input( in & IE_TRIM_COL_A_bm);
+    keys[pgm_read_byte(&crossTrim[1])].input( in & IE_TRIM_COL_B_bm);
+    keys[pgm_read_byte(&crossTrim[2])].input( in & IE_TRIM_COL_C_bm);
+    keys[pgm_read_byte(&crossTrim[3])].input( in & IE_TRIM_COL_D_bm);
   }
   else
   {
-    keys[crossTrim[4]].input( in & IE_TRIM_COL_A_bm);
-    keys[crossTrim[5]].input( in & IE_TRIM_COL_B_bm);
-    keys[crossTrim[6]].input( in & IE_TRIM_COL_C_bm);
-    keys[crossTrim[7]].input( in & IE_TRIM_COL_D_bm);
+    keys[pgm_read_byte(&crossTrim[4])].input( in & IE_TRIM_COL_A_bm);
+    keys[pgm_read_byte(&crossTrim[5])].input( in & IE_TRIM_COL_B_bm);
+    keys[pgm_read_byte(&crossTrim[6])].input( in & IE_TRIM_COL_C_bm);
+    keys[pgm_read_byte(&crossTrim[7])].input( in & IE_TRIM_COL_D_bm);
   }
 
   PORTF.OUTTGL = OF_TRIM_ROW_A_bm;
