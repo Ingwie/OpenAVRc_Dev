@@ -625,6 +625,8 @@ ls_telemetry_value_t maxTelemValue(uint8_t channel)
   case TELEM_RSSI_TX:
   case TELEM_RSSI_RX:
     return 100;
+  case TELEM_RX_BATT:
+    return 132; // 13.2V in 0.1V units
   case TELEM_HDG:
     return 180;
   default:
@@ -1282,7 +1284,7 @@ void checkBattery()
 #define BANDGAP 1650L // 3.3V supply /2.
   instant_vbat *= (BANDGAP * 10L); // 1/10 Divider Network.
   instant_vbat /= (2048L * 10L); // 10mV
-
+  instant_vbat += 21L; // Calibration is fixed. Add 0.21V drop for schottky diode.
 #else
 #define BANDGAP 5000 // 5 Volts : We use AVCC.
   instant_vbat *= 2889L*(BANDGAP/100);
@@ -1456,16 +1458,58 @@ void stackPaint()
 }
 #endif
 
+// uint16_t stackAvailable()
+// {
+// #if defined(SIMU)
+  // return 1234;
+// #else
+  // unsigned char *p ;
+
+  // p = &__bss_end + 1 ;
+  // while ( *p++ == 0x55 );
+  // return p - &__bss_end ;
+// #endif
+// }
+
 uint16_t stackAvailable()
 {
 #if defined(SIMU)
   return 1234;
 #else
-  unsigned char *p ;
+  // Free SRAM "minimum observed" (stack high-water mark), NOT free RAM now.
+  // stackPaint() fills the initially unused area with 0x55 once at boot.
+  // A later write might put 0x55 back into a used location: a raw scan could
+  // then misleadingly jump from e.g. 636 to 740 bytes without freeing RAM.
+  // Retain the LOWEST reading for this boot: the displayed value never rises.
+  // Only 2 additional static bytes; no UART or CRSF timing is changed.
+  static uint16_t minimumFree = 0xFFFF;
 
-  p = &__bss_end + 1 ;
-  while ( *p++ == 0x55 );
-  return p - &__bss_end ;
+  // Snapshot the AVR stack pointer atomically (16-bit register). Interrupts
+  // are disabled only for these few instructions, NOT for the memory scan.
+  uint16_t sp;
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    sp = STACKPTR;
+  }
+
+  // Do not read the active stack or anything past the available SRAM area.
+  // The painted bytes start immediately after the static-data section.
+  const uint16_t first = (uint16_t)(&__bss_end) + 1U;
+  if (sp <= first) {
+    minimumFree = 0; // No safe gap left: possible stack/static collision.
+    return 0;
+  }
+
+  // Never rescan beyond the smallest gap previously observed. This both
+  // saves CPU time and prevents a false 0x55 sequence raising the reading.
+  uint16_t limit = sp - first;
+  if (limit > minimumFree) limit = minimumFree;
+
+  uint16_t count = 0;
+  while (count < limit && *((const uint8_t *)(first + count)) == 0x55) {
+    ++count;
+  }
+  if (count < minimumFree) minimumFree = count;
+  return minimumFree;
 #endif
 }
 

@@ -188,6 +188,7 @@ enum TelemAnas {
 struct TelemetryData {
   TelemetryValueWithMinMax analog[TELEM_ANA_COUNT];
   TelemetryValueWithMin    rssi[2];
+  uint8_t rxBatt; // Receiver battery voltage, 0.1V units (RxBt)
   TelemetrySerialData value;
 };
 #else

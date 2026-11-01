@@ -205,8 +205,15 @@ void lcdDrawNumberNAtt(coord_t x, coord_t y, lcdint_t val, LcdFlags flags, uint8
   if (dblsize) x++;
 
   for (uint8_t i=1; i<=len; i++) {
-    div_t qr = div((lcduint_t)val, 10);
-    char c = qr.rem + '0';
+    // UNSIGN may carry a full uint16_t value through the signed lcdint_t
+    // parameter (e.g. telemetry consumption above 32767 mAh). On AVR,
+    // div() uses signed int arithmetic, so values above INT16_MAX produced
+    // invalid remainders/characters. Keep the decimal split explicitly
+    // unsigned here.
+    lcduint_t uval = (lcduint_t)val;
+    lcduint_t quot = uval / 10U;
+    uint8_t rem = (uint8_t)(uval % 10U);
+    char c = rem + '0';
     LcdFlags f = flags;
     if (dblsize) {
       if (c=='1' && i==len && xn>x+10) {
@@ -223,7 +230,7 @@ void lcdDrawNumberNAtt(coord_t x, coord_t y, lcdint_t val, LcdFlags flags, uint8
       if (dblsize) {
         xn = x - 2;
         if (c>='2' && c<='3') ln++;
-        uint8_t tn = (qr.quot % 10);
+        uint8_t tn = (uint8_t)(quot % 10U);
         if (tn==2 || tn==4) {
           if (c=='4') {
             xn++;
@@ -257,7 +264,7 @@ void lcdDrawNumberNAtt(coord_t x, coord_t y, lcdint_t val, LcdFlags flags, uint8
       }
     }
     if (dblsize && (lcduint_t)val >= 1000 && (lcduint_t)val < 10000) x-=2;
-    val = qr.quot;
+    val = (lcdint_t)quot;
     x -= fw;
 #if defined(BOLD_SPECIFIC_FONT)
     if (i==len && (flags & BOLD)) x += 1;
@@ -544,6 +551,7 @@ void lcdPutsTelemetryChannelValue(coord_t x, coord_t y, uint8_t channel, lcdint_
     break;
 
   case TELEM_TX_VOLTAGE-1:
+  case TELEM_RX_BATT-1:					   
   case TELEM_VFAS-1:
   case TELEM_CELLS_SUM-1:
   case TELEM_MIN_CELLS_SUM-1:
@@ -562,7 +570,7 @@ void lcdPutsTelemetryChannelValue(coord_t x, coord_t y, uint8_t channel, lcdint_
     break;
 
   case TELEM_CONSUMPTION-1:
-    lcdPutsValueWithUnit(x, y, val, UNIT_MAH, att);
+    lcdPutsValueWithUnit(x, y, val, UNIT_MAH, att|UNSIGN);
     break;
 
   case TELEM_POWER-1:

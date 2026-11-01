@@ -46,6 +46,12 @@ uint8_t mixWarning;
 
 int16_t calibratedStick[NUM_STICKS+NUM_POTS];
 int16_t channelOutputs[NUM_CHNOUT] = {0};
+
+#if (SERIAL_PROTOCOL == CRSF)
+// CRSF CH5 ARM: one-byte state sampled by the mixer, read by the RF packet ISR.
+// Never read a physical switch from the CRSF timer interrupt.
+volatile uint8_t crsf_ch5_armed = 1;
+#endif
 int16_t ex_chans[NUM_CHNOUT] = {0}; // Outputs (before LIMITS) of the last perMain;
 
 #if defined(HELI)
@@ -211,6 +217,9 @@ getvalue_t getValue(mixsrc_t i)
 #endif
 
   else if (i==MIXSRC_FIRST_TELEM-1+TELEM_TX_VOLTAGE) return g_vbat10mV/10;
+#if defined(FRSKY)
+  else if (i==MIXSRC_FIRST_TELEM-1+TELEM_RX_BATT) return telemetryData.rxBatt;
+#endif
   else if (i<MIXSRC_FIRST_TELEM+TELEM_TIMER2) return timersStates[i-MIXSRC_FIRST_TELEM+1-TELEM_TIMER1].val;
 
 #if defined(FRSKY)
@@ -474,7 +483,9 @@ void evalFlightModeMixes(uint8_t mode, uint8_t tick10ms)
       }
 
         //========== GAZ SECURITY ============
-        if (md->srcRaw == gazSecurity.gazSource)
+        // CRSF CH5 ARM: do not clamp the throttle channel for CRSF.
+        // For all other protocols, keep the original gas safety unchanged.
+        if (!IS_CRSF_PROTOCOL(g_model.rfProtocol) && md->srcRaw == gazSecurity.gazSource)
         {
           if (getSwitch(g_model.thrSwitch ? g_model.thrSwitch+3 : SWSRC_NONE))
           {
@@ -731,6 +742,16 @@ void evalMixes(uint8_t tick10ms)
 
   LS_RECURSIVE_EVALUATION_RESET();
 
+#if (SERIAL_PROTOCOL == CRSF)
+  // CRSF CH5 ARM: no assigned switch means ARMED (CH5 high).
+  // The original throttle safety is disabled only while CRSF is active.
+  if (IS_CRSF_PROTOCOL(g_model.rfProtocol)) {
+    crsf_ch5_armed = (!g_model.thrSwitch || getSwitch(g_model.thrSwitch + 3)) ? 1 : 0;
+    // Keep throttle-related trims and timers operational in CRSF mode.
+    gazSecurity.enableGaz = true;
+  }
+#endif
+
   uint8_t fm = getFlightMode();
 
   if (lastFlightMode != fm) {
@@ -794,9 +815,12 @@ void evalMixes(uint8_t tick10ms)
       ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
       {
 #if defined(PCM_PROTOCOL) &&  defined(X_ANY)
-        if IS_PCM_PROTOCOL(g_model.rfProtocol)        {          // If the current active protocol is PCM and X-Any is present, prevent mixer to update the channel(s) used by the X-Any instance(s)
+        if IS_PCM_PROTOCOL(g_model.rfProtocol)
+        {
+          // If the current active protocol is PCM and X-Any is present, prevent mixer to update the channel(s) used by the X-Any instance(s)
           if(!(Proto.Pcm.XanyChMap & (1 << i))) channelOutputs[i] = value;
-        }        else
+        }
+        else
 #endif
          channelOutputs[i] = value;  // copy consistent word to int-level
       }
