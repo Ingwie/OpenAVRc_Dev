@@ -125,7 +125,6 @@ void CYRF_SetTxRxMode(enum TXRX_State mode)
     CYRF_WriteRegister(CYRF_0F_XACT_CFG, mode == TX_EN ? 0x28 : 0x2C); // 4=IDLE, 8=Synth(TX), C=Synth(RX)
   }
 
-  // Set the post tx/rx state.
   if(mode == TX_EN) {
     CYRF_WriteRegister(CYRF_0E_GPIO_CTRL, 0x80); // XOUT=1, PACTL=0
   } else if(mode == RX_EN) {
