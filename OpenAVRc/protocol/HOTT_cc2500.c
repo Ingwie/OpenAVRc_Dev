@@ -1,3 +1,4 @@
+// V11: restore normal native OpenAVRc sensor scan after V10 force diagnostics.
 /*
 **************************************************************************
 *                                                                        *
@@ -31,6 +32,47 @@
 */
 
 // Multiprotocol inspired. Thanks a lot !
+//
+// V13 GPS stale-page fix:
+// - based strictly on V11 normal scan;
+// - keep GPS 0x8A/GAM 0x8D selected when a delayed page 1 from the previous
+//   external oXs sensor arrives;
+// - all bind/RF, motor, cells and GPS decoding logic otherwise unchanged.
+//
+// V9 oXs slow-poll GPS + CEL6:
+// - oXs needs much longer than 50 ms to answer a binary sensor poll;
+// - GPS 0x8A and GAM 0x8D are therefore probed for 400 ms before timeout;
+// - other HoTT sensor slots keep the shorter 100 ms probe timeout;
+//
+// V8 oXs GPS + CEL6:
+// - GPS decoder aligned byte-for-byte with the supplied oXs HOTT_GPS_MSG;
+// - no fake GPS time: oXs bytes #33..#38 are gyro placeholders;
+// - lat/lon pair can validate GPS immediately; #28/#42 fix chars remain supported;
+// - GAM 0x8D true cell[0..5] mapped explicitly to OpenAVRc C1..C6;
+//
+// V3 OpenAVRc HoTT motor/battery telemetry - MPM sensor scan fix:
+// - based strictly on the validated V1 bind + RxBt/Tx/Rx implementation;
+// - RF/bind/hopping base unchanged;
+// - OptionBool1 = Telemetry;
+// - RxBt + Tx/Rx link values kept from V1;
+// - native Sync polling aligned with the current MPM HOTT sensor state machine;
+// - VFAS always uses HoTT V1 for ESC/GAM/EAM (0.1 V);
+// - ESC/GAM/EAM motor current -> OpenAVRc Curr (0.1 A);
+// - reported capacity -> OpenAVRc Conso (mAh, external source);
+// - GAM/EAM cells 1..6 -> OpenAVRc C1..C6 (0.02 V units);
+// - ESC/GAM/EAM temperatures -> Temp1/Temp2 when available;
+// - ESC/GAM/EAM RPM goes through RPM_ID so OpenAVRc applies the configured blade count;
+// - HoTT GPS 0x8A -> OpenAVRc latitude/longitude, speed, course and GPS altitude;
+// - HoTT GPS 0x8A keeps being probed even if it was not present during initial discovery;
+// - V7 adds a per-sensor probe timeout so an absent/slow GPS cannot lock the poller;
+// - V7 continuously probes GPS + ESC/GAM/EAM after discovery, allowing late sensors;
+// - GAM/EAM real LiPo cell voltages are mapped to OpenAVRc C1..C6;
+// - HoTT GPS fix accepts both #28 and duplicated #42 fix characters for third-party compatibility;
+// - oXs HoTT GPS 0x8A -> OpenAVRc latitude/longitude, speed, course and GPS altitude;
+// - oXs does not transmit UTC H/M/S in its HoTT GPS frame: do not decode gyro bytes as time;
+// - GPS fix is accepted from oXs fix chars and also from a non-zero complete lat/lon pair;
+// - Power is refreshed from VFAS x Curr;
+// - legacy MPM HOTT_FW_TELEMETRY forwarding remains only for non-FRSKY builds.
 
 
 #include "../OpenAVRc.h"
@@ -43,22 +85,39 @@
 #define HOTT_HOP_FREQ_NO_P2M             BYTE_P2M(5)
 #define HOTT_MIX_SWAP_P2M                BYTE_P2M(6)
 #define HOTT_CH_UPPER_P2M                BYTE_P2M(7)
+#if defined(GPS)
+// V5 GPS: use remaining safe P2M bytes before temp_rfid_addr_p2M.
+// BYTE_P2M(8..11) map to pulses2MHz bytes 135..138; RF ID starts at 140.
+#define HOTT_GPS_LAT_AP_LOW_P2M          BYTE_P2M(8)
+#define HOTT_GPS_ALT_LOW_P2M             BYTE_P2M(9)
+#define HOTT_GPS_ALT_HIGH_P2M            BYTE_P2M(10)
+#define HOTT_GPS_POS_VALID_P2M           BYTE_P2M(11)
+#endif
+// Last safe protocol byte before temp_rfid_addr_p2M starts at byte 140.
+// Counts valid RX frames while probing a sensor which has not answered yet.
+#define HOTT_SENSOR_PROBE_COUNT_P2M       BYTE_P2M(12)
 
 //***********************************************//
 
 #define HOTT_RXNUM_SAVE_AREA             g_model.points[NUM_POINTS-5] // 5 bytes used
 
+// HoTT subtype: Sync remains the default because value 0 is the default.
+#define HOTT_SYNC                         0
+#define HOTT_NO_SYNC                      1
+
 
 const static RfOptionSettingsvar_t RfOpt_HOTT_Ser[] PROGMEM =
 {
  /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
- /*rfSubTypeMax*/0,
+ /*rfSubTypeMax*/1,
  /*rfOptionValue1Min*/-128, // FREQFINE MIN
  /*rfOptionValue1Max*/127,  // FREQFINE MAX
  /*rfOptionValue2Min*/0,
  /*rfOptionValue2Max*/0,
  /*rfOptionValue3Max*/7,    // RF POWER
 };
+
+const pm_char STR_SUBTYPE_HOTT[] PROGMEM = "Sync""NoSy";
 
 #define HOTT_TX_PACKET_LEN	50
 #define HOTT_RX_PACKET_LEN	22
@@ -76,7 +135,7 @@ enum
  HOTT_RX2   = 0x05,
 };
 
-#ifdef HOTT_FW_TELEMETRY
+#if defined(HOTT_FW_TELEMETRY) && !defined(FRSKY)
  #define HOTT_SENSOR_TYPE 6
  #define HOTT_SENSOR_SEARCH_PERIOD 2000
  uint8_t HOTT_sensor_cur=0;
@@ -84,6 +143,27 @@ enum
  uint8_t HOTT_sensor_valid=false;
  uint8_t HOTT_sensor_ok[HOTT_SENSOR_TYPE];
  uint8_t HOTT_sensor_seq=0;
+#endif
+
+#if defined(FRSKY)
+// Native OpenAVRc poller aligned with the current MPM HOTT state machine.
+// HoTT sensor indices: 0=Vario(0x89), 1=GPS(0x8A), 2=0x8B,
+// 3=ESC(0x8C), 4=GAM(0x8D), 5=EAM(0x8E).
+#define HOTT_OAVRC_SENSOR_TYPE          6U
+#define HOTT_OAVRC_SENSOR_FIRST_MOTOR  3U
+#define HOTT_OAVRC_SEARCH_PERIOD       2000U
+#define HOTT_OAVRC_PROBE_FAST_FRAMES    10U   // 100 ms at 10 ms/frame
+#define HOTT_OAVRC_PROBE_OXS_FRAMES     40U   // 400 ms for oXs GPS/GAM slow polling
+static uint8_t  HOTT_oavrc_sensor_cur = HOTT_OAVRC_SENSOR_FIRST_MOTOR;
+static uint8_t  HOTT_oavrc_sensor_seq = 0U;
+static uint8_t  HOTT_oavrc_sensor_pages = 0U;
+static uint8_t  HOTT_oavrc_sensor_valid = 0U;
+static uint8_t  HOTT_oavrc_sensor_ok[HOTT_OAVRC_SENSOR_TYPE];
+static uint16_t HOTT_oavrc_search_count = HOTT_OAVRC_SEARCH_PERIOD;
+static uint8_t  HOTT_oavrc_capacity_low = 0U;
+static uint8_t  HOTT_oavrc_capacity_valid = 0U;
+static uint8_t  HOTT_oavrc_v1_low = 0U;
+static uint8_t  HOTT_oavrc_v1_valid = 0U;
 #endif
 
 #define HOTT_FREQ0_VAL 0x6E
@@ -173,6 +253,556 @@ static void HOTT_TXID_init()
   }
 }
 
+#if defined(FRSKY)
+// Convert the CC2500 RSSI status byte to dBm using the CC2500 formula:
+//   raw < 128 : raw/2 - 71 dBm
+//   raw >=128 : (raw-256)/2 - 71 dBm
+static int16_t HOTT_rssi_raw_to_dbm(uint8_t raw)
+{
+ int16_t value = raw;
+ if(value >= 128)
+  value -= 256;
+ return (value / 2) - 71;
+}
+
+static uint8_t HOTT_rssi_dbm_to_percent(int16_t dbm)
+{
+ if(dbm <= -100)
+  return 0;
+ if(dbm >= -50)
+  return 100;
+ return (uint8_t)((dbm + 100) * 2);
+}
+
+static void HOTT_oavrc_update_power()
+{
+ // Same native OpenAVRc scaling already validated by DSM/CRSF bridges.
+ telemetryData.value.power =
+   ((telemetryData.value.current >> 1) *
+    (telemetryData.value.vfas >> 1)) / 25;
+}
+
+static void HOTT_oavrc_set_capacity(uint32_t mah)
+{
+ if(mah > 65535UL)
+  mah = 65535UL;
+ telemetryData.value.currentConsumption = (uint16_t)mah;
+ // Capacity is supplied by the HoTT sensor: do not integrate Curr again.
+ telemetryData.value.openXsensor = 1;
+}
+
+static void HOTT_oavrc_set_cells6(const uint8_t *raw)
+{
+ uint8_t count = 0U;
+ uint8_t minCell = 255U;
+ uint8_t minIdx = 0U;
+
+ // oXs HoTT GAM cell[0..5] are true C1..C6 values in 0.02 V units:
+ // 210 == 4.20 V.  OpenAVRc cellVolts[] uses the same representation.
+ for(uint8_t i=0U; i<6U; ++i)
+  {
+   const uint8_t cell = raw[i];
+   telemetryData.value.cellVolts[i] = 0U;
+
+   if(cell == 0U || cell == 0xFFU)
+    continue;
+
+   telemetryData.value.cellVolts[i] = cell;
+   count = i + 1U; // highest valid cell index + 1
+   if(cell < minCell)
+    {
+     minCell = cell;
+     minIdx = i;
+    }
+  }
+
+ telemetryData.value.cellsCount = count;
+ if(count)
+  {
+   telemetryData.value.minCellVolts = minCell;
+   telemetryData.value.minCellIdx = minIdx;
+  }
+ else
+  {
+   telemetryData.value.minCellVolts = 0U;
+   telemetryData.value.minCellIdx = 0U;
+  }
+}
+
+static void HOTT_oavrc_set_temp1(uint8_t raw)
+{
+ if(raw != 0xFFU)
+  {
+   telemetryData.value.temperature1 = (int16_t)raw - 20;
+   checkMaxTemperature1();
+  }
+}
+
+static void HOTT_oavrc_set_temp2(uint8_t raw)
+{
+ if(raw != 0xFFU)
+  {
+   telemetryData.value.temperature2 = (int16_t)raw - 20;
+   checkMaxTemperature2();
+  }
+}
+
+static void HOTT_oavrc_set_rpm(uint32_t rpm)
+{
+ if(rpm != 0UL)
+  {
+   if(rpm > 65535UL) rpm = 65535UL;
+   // OpenAVRc RPM_ID expects the pulse frequency. processHubPacket() then
+   // converts it to tr/min using the blade count configured in Telemetry:
+   // rpm = frequency * 60 / (g_model.telemetry.blades + 2).
+   processHubPacket(RPM_ID, (uint16_t)rpm);
+  }
+}
+
+static uint8_t HOTT_oavrc_any_sensor_ok()
+{
+ for(uint8_t i=0U; i<HOTT_OAVRC_SENSOR_TYPE; ++i)
+  if(HOTT_oavrc_sensor_ok[i])
+   return 1U;
+ return 0U;
+}
+
+static uint8_t HOTT_oavrc_should_probe_sensor(uint8_t sensorIndex)
+{
+ // During the initial discovery window scan every standard HoTT slot.
+ if(HOTT_oavrc_search_count)
+  return 1U;
+
+ // Afterwards keep polling every source useful to this OpenAVRc bridge:
+ // 1=GPS 0x8A, 3=ESC 0x8C, 4=GAM 0x8D, 5=EAM 0x8E.
+ // A previously detected Vario/other sensor remains eligible as well.
+ if(HOTT_oavrc_sensor_ok[sensorIndex])
+  return 1U;
+ if(sensorIndex == 1U || sensorIndex >= 3U)
+  return 1U;
+ return 0U;
+}
+
+static uint8_t HOTT_oavrc_probe_timeout_frames()
+{
+ // The supplied oXs HoTT implementation documents ~200 ms binary polling
+ // and a sensor reply that itself takes about 100 ms.  Give oXs GPS/GAM
+ // enough time to be polled by the receiver and to complete their reply.
+ if(HOTT_oavrc_sensor_cur == 1U || HOTT_oavrc_sensor_cur == 4U)
+  return HOTT_OAVRC_PROBE_OXS_FRAMES;   // GPS 0x8A / GAM 0x8D
+ return HOTT_OAVRC_PROBE_FAST_FRAMES;   // ESC/EAM/other slots
+}
+
+static void HOTT_oavrc_next_sensor()
+{
+ uint8_t loop = 0U;
+ do
+  {
+   HOTT_oavrc_sensor_cur++;
+   HOTT_oavrc_sensor_cur %= HOTT_OAVRC_SENSOR_TYPE;
+   loop++;
+  }
+ while(!HOTT_oavrc_should_probe_sensor(HOTT_oavrc_sensor_cur) &&
+       loop < (HOTT_OAVRC_SENSOR_TYPE + 1U));
+
+ HOTT_oavrc_sensor_valid = 0U;
+ HOTT_oavrc_sensor_pages = 0U;
+ HOTT_oavrc_sensor_seq = 0U;
+ HOTT_oavrc_capacity_valid = 0U;
+ HOTT_oavrc_v1_valid = 0U;
+ HOTT_SENSOR_PROBE_COUNT_P2M = 0U;
+}
+
+static void HOTT_bridge_receiver_telemetry(const uint8_t *buf)
+{
+ frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
+
+ // Local CC2500 RSSI: downlink telemetry signal received by the transmitter.
+ const int16_t txDbm = HOTT_rssi_raw_to_dbm(buf[HOTT_RX_PACKET_LEN]);
+ telemetryData.rssi[1].set(HOTT_rssi_dbm_to_percent(txDbm));
+
+ // Receiver page 0.
+ if(buf[11] != 0U)
+  return;
+
+ if(buf[13] != 0x00U && buf[13] != 0xFFU)
+  telemetryData.rxBatt = buf[13];                         // 0.1 V
+
+ const int16_t rxDbm = HOTT_rssi_raw_to_dbm(buf[15]);
+ telemetryData.rssi[0].set(HOTT_rssi_dbm_to_percent(rxDbm));
+}
+
+#if defined(GPS)
+static uint8_t HOTT_oavrc_gps_fix_valid(uint8_t fix)
+{
+ // oXs uses '-' / '2' / '3' / 'D'.  It only fills coordinates for fix type
+ // 3 or 4, but accepting '2' keeps compatibility with standard HoTT GPS.
+ return (fix == 'D' || fix == '2' || fix == '3') ? 1U : 0U;
+}
+
+static void HOTT_oavrc_apply_gps_fix(uint8_t fix)
+{
+ if(HOTT_oavrc_gps_fix_valid(fix))
+  {
+   telemetryData.value.gpsFix = 1U;
+   telemetryData.value.gpsGetFirstData = 0U;
+  }
+ else if(fix == '-')
+  {
+   telemetryData.value.gpsFix = 0U;
+   telemetryData.value.gpsGetFirstData = 0U;
+  }
+}
+
+static void HOTT_oavrc_publish_gps_altitude()
+{
+ const uint16_t rawAlt = (uint16_t)HOTT_GPS_ALT_LOW_P2M |
+                         ((uint16_t)HOTT_GPS_ALT_HIGH_P2M << 8);
+ if(rawAlt != 0xFFFFU)
+  {
+   int32_t altM = (int32_t)rawAlt - 500L;
+   if(altM > 32767L) altM = 32767L;
+   else if(altM < -32768L) altM = -32768L;
+   processHubPacket(GPS_ALT_BP_ID, (uint16_t)(int16_t)altM);
+  }
+}
+
+// oXs HOTT_GPS_MSG is a 45-byte frame.  The receiver forwards bytes #4..#43
+// as four 10-byte pages in buf[12..21].
+// oXs extension used here: bytes #33/#34/#35 carry UTC hour/minute/second.
+static void HOTT_oavrc_decode_gps_page(uint8_t page, const uint8_t *buf)
+{
+ uint16_t value;
+ static uint8_t gpsHour = 0xFFU;
+
+ switch(page)
+  {
+  case 1:
+   // Byte #7: flight direction, 2 degrees/step.
+   telemetryData.value.gpsCourse_bp = (uint16_t)buf[15] * 2U;
+   telemetryData.value.gpsCourse_ap = 0U;
+
+   // Bytes #8..#9: ground speed in km/h -> OpenAVRc internal 0.1 knot.
+   value = (uint16_t)buf[16] | ((uint16_t)buf[17] << 8);
+   if(value != 0xFFFFU)
+    {
+     telemetryData.value.gpsSpeed_bp =
+       (uint16_t)(((uint32_t)value * 2500UL + 231UL) / 463UL);
+     checkMaxGpsSpeed();
+    }
+
+   // Bytes #10..#14: latitude DDMM.mmmm.  Decimal-minute high byte is page 2.
+   telemetryData.value.gpsLatitudeNS = buf[18] ? 'S' : 'N';
+   telemetryData.value.gpsLatitude_bp =
+     (uint16_t)buf[19] | ((uint16_t)buf[20] << 8);
+   HOTT_GPS_LAT_AP_LOW_P2M = buf[21];
+   HOTT_GPS_POS_VALID_P2M = 0U;
+   break;
+
+  case 2:
+   // Byte #14 completes latitude decimal minutes.
+   telemetryData.value.gpsLatitude_ap =
+     (uint16_t)HOTT_GPS_LAT_AP_LOW_P2M | ((uint16_t)buf[12] << 8);
+
+   // Bytes #15..#19: longitude DDMM.mmmm.
+   telemetryData.value.gpsLongitudeEW = buf[13] ? 'W' : 'E';
+   telemetryData.value.gpsLongitude_bp =
+     (uint16_t)buf[14] | ((uint16_t)buf[15] << 8);
+   telemetryData.value.gpsLongitude_ap =
+     (uint16_t)buf[16] | ((uint16_t)buf[17] << 8);
+
+   // Bytes #22..#23: altitude in metres with +500 m HoTT offset.
+   HOTT_GPS_ALT_LOW_P2M = buf[20];
+   HOTT_GPS_ALT_HIGH_P2M = buf[21];
+
+   // oXs only writes lat/lon when it has a real 3D/DGPS fix.  Therefore a
+   // complete non-zero position is a stronger indication than waiting for a
+   // later page, and makes OpenAVRc expose GPS data immediately.
+   if(telemetryData.value.gpsLatitude_bp || telemetryData.value.gpsLatitude_ap ||
+      telemetryData.value.gpsLongitude_bp || telemetryData.value.gpsLongitude_ap)
+    {
+     telemetryData.value.gpsFix = 1U;
+     telemetryData.value.gpsGetFirstData = 0U;
+     HOTT_GPS_POS_VALID_P2M = 1U;
+     HOTT_oavrc_publish_gps_altitude();
+    }
+   break;
+
+  case 3:
+   {
+    // Byte #27 satellites is buf[15].  OpenAVRc has no native standard field
+    // for it here, so keep it unused rather than mapping it to an unrelated ID.
+    const uint8_t fix = buf[16]; // byte #28: '-', '2', '3' or 'D'
+    HOTT_oavrc_apply_gps_fix(fix);
+    if(telemetryData.value.gpsFix)
+     HOTT_oavrc_publish_gps_altitude();
+
+    // oXs extension: byte #33 contains UTC hour.
+    gpsHour = buf[21];
+   }
+   break;
+
+  case 4:
+   {
+    // Byte #42: oXs duplicates GPSFixChar here.
+    HOTT_oavrc_apply_gps_fix(buf[20]);
+    if(telemetryData.value.gpsFix && HOTT_GPS_POS_VALID_P2M)
+     HOTT_oavrc_publish_gps_altitude();
+
+    // oXs extension: bytes #34/#35 contain UTC minute/second.
+    const uint8_t minute = buf[12];
+    const uint8_t second = buf[13];
+    if(telemetryData.value.gpsFix &&
+       gpsHour < 24U && minute < 60U && second < 60U)
+     {
+      processHubPacket(GPS_SEC_ID, second);
+      processHubPacket(GPS_HOUR_MIN_ID,
+                       (uint16_t)gpsHour | ((uint16_t)minute << 8));
+     }
+   }
+   break;
+  }
+}
+#endif
+
+// Decode the motor/battery related HoTT binary pages using the same page
+// layout used by current MPM/OpenTX/EdgeTX HoTT telemetry.
+static void HOTT_oavrc_decode_motor_page(uint8_t sensor, uint8_t page,
+                                         const uint8_t *buf)
+{
+ uint16_t value;
+
+ switch(sensor)
+  {
+  case 0x0C: // ESC
+   switch(page)
+    {
+    case 1:
+     // Input / motor battery voltage, 0.1 V.
+     value = (uint16_t)buf[15] | ((uint16_t)buf[16] << 8);
+     if(value && value != 0xFFFFU)
+      processHubPacket(VFAS_ID, value);
+
+     // Capacity, protocol unit 10 mAh.
+     value = (uint16_t)buf[19] | ((uint16_t)buf[20] << 8);
+     if(value != 0xFFFFU)
+      HOTT_oavrc_set_capacity((uint32_t)value * 10UL);
+
+     // ESC temperature.
+     HOTT_oavrc_set_temp1(buf[21]);
+     HOTT_oavrc_update_power();
+     break;
+
+    case 2:
+     // Motor current, 0.1 A.
+     value = (uint16_t)buf[13] | ((uint16_t)buf[14] << 8);
+     if(value != 0xFFFFU)
+      processHubPacket(CURRENT_ID, value);
+
+     // ESC RPM, 10 rpm/step.
+     value = (uint16_t)buf[17] | ((uint16_t)buf[18] << 8);
+     if(value != 0xFFFFU)
+      HOTT_oavrc_set_rpm((uint32_t)value * 10UL);
+     HOTT_oavrc_update_power();
+     break;
+
+    case 4:
+     // Motor / external temperature.  Keep ESC temp as Temp1, motor as Temp2.
+     HOTT_oavrc_set_temp2(buf[14]);
+     break;
+    }
+   break;
+
+  case 0x0D: // GAM
+   switch(page)
+    {
+    case 1:
+     // C1..C6, each in 0.02 V steps.
+     HOTT_oavrc_set_cells6(&buf[15]);
+
+     // GAM V1 is split over pages 1/2: low byte at raw[21].
+     HOTT_oavrc_v1_low = buf[21];
+     HOTT_oavrc_v1_valid = 1U;
+     break;
+
+    case 2:
+     // GAM VFAS must always be V1. High byte is raw[12] on page 2.
+     if(HOTT_oavrc_v1_valid)
+      {
+       value = (uint16_t)HOTT_oavrc_v1_low | ((uint16_t)buf[12] << 8);
+       if(value && value != 0xFFFFU)
+        processHubPacket(VFAS_ID, value);
+       HOTT_oavrc_v1_valid = 0U;
+      }
+
+     HOTT_oavrc_set_temp1(buf[15]);
+     HOTT_oavrc_set_temp2(buf[16]);
+
+     // RPM1, 10 rpm/step.
+     value = (uint16_t)buf[20] | ((uint16_t)buf[21] << 8);
+     if(value != 0xFFFFU)
+      HOTT_oavrc_set_rpm((uint32_t)value * 10UL);
+     break;
+
+    case 3:
+     // Main current, 0.1 A.
+     value = (uint16_t)buf[17] | ((uint16_t)buf[18] << 8);
+     if(value != 0xFFFFU)
+      processHubPacket(CURRENT_ID, value);
+
+     // Capacity low byte; high byte arrives at page 4 raw[12].
+     HOTT_oavrc_capacity_low = buf[21];
+     HOTT_oavrc_capacity_valid = 1U;
+     HOTT_oavrc_update_power();
+     break;
+
+    case 4:
+     if(HOTT_oavrc_capacity_valid)
+      {
+       value = (uint16_t)HOTT_oavrc_capacity_low |
+               ((uint16_t)buf[12] << 8);
+       HOTT_oavrc_set_capacity((uint32_t)value * 10UL);
+       HOTT_oavrc_capacity_valid = 0U;
+      }
+     break;
+    }
+   break;
+
+  case 0x0E: // EAM
+   switch(page)
+    {
+    case 1:
+     // EAM low cell bank: use C1..C6 in OpenAVRc.
+     HOTT_oavrc_set_cells6(&buf[15]);
+     break;
+
+    case 2:
+     // EAM VFAS must always be V1, available directly on page 2.
+     value = (uint16_t)buf[19] | ((uint16_t)buf[20] << 8);
+     if(value && value != 0xFFFFU)
+      processHubPacket(VFAS_ID, value);
+     break;
+
+    case 3:
+     HOTT_oavrc_set_temp1(buf[13]);
+     HOTT_oavrc_set_temp2(buf[14]);
+
+     // Main current, 0.1 A.
+     value = (uint16_t)buf[17] | ((uint16_t)buf[18] << 8);
+     if(value != 0xFFFFU)
+      processHubPacket(CURRENT_ID, value);
+
+     HOTT_oavrc_capacity_low = buf[21];
+     HOTT_oavrc_capacity_valid = 1U;
+     HOTT_oavrc_update_power();
+     break;
+
+    case 4:
+     if(HOTT_oavrc_capacity_valid)
+      {
+       value = (uint16_t)HOTT_oavrc_capacity_low |
+               ((uint16_t)buf[12] << 8);
+       HOTT_oavrc_set_capacity((uint32_t)value * 10UL);
+       HOTT_oavrc_capacity_valid = 0U;
+      }
+
+     // EAM RPM, 10 rpm/step.
+     value = (uint16_t)buf[16] | ((uint16_t)buf[17] << 8);
+     if(value != 0xFFFFU)
+      HOTT_oavrc_set_rpm((uint32_t)value * 10UL);
+     break;
+    }
+   break;
+  }
+}
+
+static void HOTT_oavrc_process_telemetry(const uint8_t *buf)
+{
+ HOTT_bridge_receiver_telemetry(buf);
+
+ // MPM advances the Sync telemetry sequence for EVERY valid HoTT RX frame.
+ // This is essential: receiver page 0 participates in the 5-step sequence.
+ HOTT_oavrc_sensor_seq++;
+ HOTT_oavrc_sensor_seq %= 5U;
+
+ if(HOTT_oavrc_search_count)
+  HOTT_oavrc_search_count--;
+
+ // After the initial discovery window, if no HoTT sensor was found,
+ // stay on RX page 0 exactly like MPM does when no sensor is detected.
+ if(HOTT_oavrc_search_count == 0U && !HOTT_oavrc_any_sensor_ok())
+  HOTT_oavrc_sensor_seq = 0U;
+
+ const uint8_t page = buf[11];
+ if(page > 4U)
+  return;
+
+ // Count valid HoTT RX frames while the currently requested sensor has not
+ // yet produced its page 1.  GPS/GAM from oXs are intentionally allowed up to
+ // 400 ms; the oXs implementation documents ~200 ms polling and ~100 ms reply.
+ if(!HOTT_oavrc_sensor_valid && HOTT_SENSOR_PROBE_COUNT_P2M < 250U)
+  HOTT_SENSOR_PROBE_COUNT_P2M++;
+
+ if(page == 1U)
+  {
+   const uint8_t marker = buf[12];
+   const uint8_t sensorId = (uint8_t)(marker >> 4);
+   const uint8_t expected = (uint8_t)((HOTT_oavrc_sensor_cur + 9U) << 4);
+
+   if(marker == expected)
+    {
+     HOTT_oavrc_sensor_pages = 0U;
+     HOTT_oavrc_sensor_valid = 1U;
+     HOTT_SENSOR_PROBE_COUNT_P2M = 0U;
+     if(sensorId >= 9 && sensorId <= 14)
+      HOTT_oavrc_sensor_ok[sensorId - 9U] = 1U;
+     HOTT_oavrc_capacity_valid = 0U;
+     HOTT_oavrc_v1_valid = 0U;
+    }
+   else
+    {
+     HOTT_oavrc_sensor_valid = 0U;
+
+     // oXs replies are slow (~100 ms for a 45-byte frame). When switching
+     // between two external sensors, the receiver can still forward page 1
+     // from the previous sensor. For GPS 0x8A and GAM 0x8D, ignore that stale
+     // marker and keep probing until the normal long timeout expires.
+     // Other HoTT sensors keep the original MPM behaviour.
+     if(HOTT_oavrc_sensor_cur == 1U || HOTT_oavrc_sensor_cur == 4U)
+      HOTT_oavrc_sensor_pages = 0U;
+     else
+      HOTT_oavrc_sensor_pages = 0x1EU;
+    }
+  }
+
+ if(page != 0U)
+  {
+   if(HOTT_oavrc_sensor_valid)
+    {
+     const uint8_t sensor = (uint8_t)(HOTT_oavrc_sensor_cur + 9U);
+#if defined(GPS)
+     if(sensor == 0x0AU)
+      HOTT_oavrc_decode_gps_page(page, buf);
+#endif
+     if(sensor == 0x0CU || sensor == 0x0DU || sensor == 0x0EU)
+      HOTT_oavrc_decode_motor_page(sensor, page, buf);
+     HOTT_oavrc_sensor_pages |= (uint8_t)(1U << page);
+    }
+  }
+
+ if((HOTT_oavrc_sensor_pages & 0x1EU) == 0x1EU)
+  HOTT_oavrc_next_sensor();
+ else if(!HOTT_oavrc_sensor_valid &&
+         HOTT_oavrc_sensor_seq == 0U &&
+         HOTT_SENSOR_PROBE_COUNT_P2M >= HOTT_oavrc_probe_timeout_frames())
+  {
+   // oXs can need several complete Sync cycles before the receiver has
+   // finished polling the external GPS/GAM and can return page 1.
+   HOTT_oavrc_next_sensor();
+  }
+}
+#endif
+
 static void HOTT_rf_init()
 {
  CC2500_Strobe(CC2500_SIDLE);
@@ -230,7 +860,7 @@ static void HOTT_prep_data_packet()
   failsafe_count=0;
 #endif
 
-// Channels value are PPM*2, -100%=1100µs, +100%=1900µs, order TAER
+// Channels value are PPM*2, -100%=1100ï¿½s, +100%=1900ï¿½s, order TAER
  int16_t val;
  for(uint8_t i=4; i<28; i+=2)
   {
@@ -270,8 +900,23 @@ static void HOTT_prep_data_packet()
 
  packet_p2M[28] = 0x80;									// no sensor
  packet_p2M[29] = 0x02;									// 0x02 when bind starts then when RX replies cycle in sequence 0x1A/22/2A/0A/12, 0x02 during normal packets, 0x01->text config menu, 0x0A->no more RX telemetry
-#ifdef HOTT_FW_TELEMETRY
- if(HOTT_BIND_P2M)
+#if defined(FRSKY)
+ if(!HOTT_BIND_P2M && g_model.rfOptionBool1)
+  {
+   // Native OpenAVRc uses the same HoTT Sync request sequencing as MPM.
+   // During discovery sensor_cur scans all standard HoTT slots. After the
+   // discovery window GPS + ESC/GAM/EAM remain in the round-robin even when
+   // not yet detected.  oXs GPS/GAM get a long 400 ms dwell because their
+   // half-duplex 19200-baud reply is much slower than an internal sensor.
+   packet_p2M[28] = (uint8_t)(0x89U + HOTT_oavrc_sensor_cur);
+   if(g_model.rfSubType == HOTT_SYNC)
+    packet_p2M[29] = (uint8_t)(((HOTT_oavrc_sensor_seq + 1U) << 3) | 2U);
+   else
+    packet_p2M[29] = 0x02; // NoSync
+  }
+#endif
+#if defined(HOTT_FW_TELEMETRY) && !defined(FRSKY)
+ if(!HOTT_BIND_P2M)
   {
    static uint8_t prev_SerialRX_val=0;
    if(HoTT_SerialRX)
@@ -406,7 +1051,9 @@ static uint16_t HOTT_cb()
    if (len==HOTT_RX_PACKET_LEN+2)
     {
      CC2500_ReadData(telem_save_data_buff, len);
-     if((telem_save_data_buff[HOTT_RX_PACKET_LEN+1]&0x80) && memcmp(temp_rfid_addr_p2M,telem_save_data_buff,4)==0)
+     if((telem_save_data_buff[HOTT_RX_PACKET_LEN+1]&0x80) &&
+        memcmp(temp_rfid_addr_p2M,telem_save_data_buff,4)==0 &&
+        telem_save_data_buff[4]==RXNUM)
       {
        // CRC OK and TX ID matches
        if(HOTT_BIND_P2M)
@@ -420,7 +1067,14 @@ static uint16_t HOTT_cb()
          HOTT_BIND_P2M = 0;
          HOTT_TXID_init();
         }
-#ifdef HOTT_FW_TELEMETRY
+#if defined(FRSKY)
+       else if(g_model.rfOptionBool1)
+        {
+         // Native OpenAVRc HoTT: receiver link + motor/battery sensors.
+         HOTT_oavrc_process_telemetry(telem_save_data_buff);
+        }
+#endif
+#if defined(HOTT_FW_TELEMETRY) && !defined(FRSKY)
 //#if defined(FRSKY)
 //          if (g_model.rfOptionBool1) // telemetry on? // TODO ....
        else
@@ -433,7 +1087,7 @@ static uint16_t HOTT_cb()
          // Normal telem page 0 = 0x55, 0x32, 0x38, 0x55, 0x64, 0x32, 0xD0, 0x07, 0x00, 0x55
          //   Page 0 [12] = [21] = [15]
          //   Page 0 [13] = RX_Voltage Cur*10 in V
-         //   Page 0 [14] = Temperature-20 in °C
+         //   Page 0 [14] = Temperature-20 in ï¿½C
          //   Page 0 [15] = RX_RSSI CC2500 formated (a<128:a/2-71dBm, a>=128:(a-256)/2-71dBm)
          //   Page 0 [16] = RX_LQI in %
          //   Page 0 [17] = RX_Voltage Min*10 in V
@@ -532,7 +1186,7 @@ static uint16_t HOTT_cb()
 #endif
       }
     }
-#ifdef HOTT_FW_TELEMETRY
+#if defined(HOTT_FW_TELEMETRY) && !defined(FRSKY)
    packet_count++;
    if(packet_count>=100)
     {
@@ -560,6 +1214,10 @@ static uint16_t HOTT_cb()
 static void HOTT_initialize(uint8_t bind)
 {
  HOTT_BIND_P2M = bind;
+ HOTT_MIX_SWAP_P2M = 0;
+ HOTT_CH_UPPER_P2M = 0;
+ HOTT_HOP_FREQ_NO_P2M = 0;
+ HOTT_RF_CH_NUM_P2M = 0;
  CC2500_Reset();
  loadrfidaddr();
  srandom(g_eeGeneral.fixed_ID.ID_32);
@@ -570,7 +1228,27 @@ static void HOTT_initialize(uint8_t bind)
   CC2500_SetPower(1);
  else
   CC2500_ManagePower();
-#ifdef HOTT_FW_TELEMETRY
+#if defined(FRSKY)
+ HOTT_oavrc_sensor_cur = HOTT_OAVRC_SENSOR_FIRST_MOTOR;
+ HOTT_oavrc_sensor_seq = 0U;
+ HOTT_oavrc_sensor_pages = 0U;
+ HOTT_oavrc_sensor_valid = 0U;
+ HOTT_oavrc_search_count = HOTT_OAVRC_SEARCH_PERIOD;
+ for(uint8_t i=0U; i<HOTT_OAVRC_SENSOR_TYPE; ++i)
+  HOTT_oavrc_sensor_ok[i] = 0U;
+ HOTT_oavrc_capacity_low = 0U;
+ HOTT_oavrc_capacity_valid = 0U;
+ HOTT_oavrc_v1_low = 0U;
+ HOTT_oavrc_v1_valid = 0U;
+ HOTT_SENSOR_PROBE_COUNT_P2M = 0U;
+#if defined(GPS)
+ HOTT_GPS_LAT_AP_LOW_P2M = 0U;
+ HOTT_GPS_ALT_LOW_P2M = 0U;
+ HOTT_GPS_ALT_HIGH_P2M = 0U;
+ HOTT_GPS_POS_VALID_P2M = 0U;
+#endif
+#endif
+#if defined(HOTT_FW_TELEMETRY) && !defined(FRSKY)
  HoTT_SerialRX_val=0;
  HoTT_SerialRX=false;
  HOTT_sensor_cur=3;
@@ -602,7 +1280,7 @@ const void *HOTT_Cmds(enum ProtoCmds cmd)
    return 0;
   case PROTOCMD_GETOPTIONS:
    SetRfOptionSettings(pgm_get_far_address(RfOpt_HOTT_Ser),
-                       STR_DUMMY,      //Sub proto
+                       STR_SUBTYPE_HOTT,         //Sub proto
                        STR_RFTUNEFINE, //Option 1 (int)
                        STR_DUMMY,      //Option 2 (int)
                        STR_RFPOWER,    //Option 3 (uint 0 to 31)
