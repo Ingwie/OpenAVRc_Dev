@@ -99,7 +99,7 @@ ISR(token_paste4(USART, S0_PORT, S0_USART, _TXC_vect))
   CRSF_USART.CTRLA &= ~USART_TXCINTLVL_gm; // Turn off TXC interrupts.
   RF_PORT.DIRCLR = USART_TXD_PIN_bm; // Make TXD pin input.
   USART_ENABLE_RX(CRSF_USART); // Enable receiver.
-  CRSF_RX_STATE = LISTEN; // Tell telemetry state machine to start listening.
+  // CRSF G: the RX callback owns framing; no legacy state machine.
 }
 #endif
 #endif

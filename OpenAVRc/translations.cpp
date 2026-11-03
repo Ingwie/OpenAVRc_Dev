@@ -100,6 +100,13 @@ const pm_char STR_ETRIMS[] PROGMEM = TR_ETRIMS;
 const pm_char STR_TRIMINC[] PROGMEM = TR_TRIMINC;
 const pm_char STR_TTRACE[] PROGMEM = TR_TTRACE;
 const pm_char STR_TSWITCH[] PROGMEM = TR_TSWITCH;
+// CRSF menu labels: stored in flash, not SRAM.
+const pm_char STR_CRSF_PACKET_RATE[] PROGMEM = TR_CRSF_PACKET_RATE;
+const pm_char STR_CRSF_SWITCH_MODE[] PROGMEM = TR_CRSF_SWITCH_MODE;
+const pm_char STR_CRSF_TLM_RATIO[] PROGMEM = TR_CRSF_TLM_RATIO;
+const pm_char STR_CRSF_POWER[] PROGMEM = TR_CRSF_POWER;
+const pm_char STR_CRSF_BAUDRATE[] PROGMEM = TR_CRSF_BAUDRATE;
+
 const pm_char STR_TTRIM[] PROGMEM = TR_TTRIM;
 const pm_char STR_BEEPCTR[] PROGMEM = TR_BEEPCTR;
 const pm_char STR_PROTO[] PROGMEM = TR_PROTO;
