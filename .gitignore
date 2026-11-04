@@ -9,6 +9,8 @@
 *.kicad_pcb-bak
 *.sch-bak
 *.bck
+*.exe
+*.dll
 Thumbs.db
 OpenAVRc_Simulator\obj\
 OpenAVRc_Desktop\obj\
@@ -25,5 +27,4 @@ OpenAVRc/allsrc.cpp
 OpenAVRc/.settings/org.eclipse.cdt.core.prefs
 BootFramXM256x3/config.mk
 BootFramXM256x3/config.h
-OpenAVRc_Desktop.exe
 /BootFramXM256x3/.dep
