@@ -113,10 +113,4 @@
 
 #endif
 
-#ifdef PROTO_HAS_SX1276
-#include "iface_sx1276.h"
-#include "sx1276.c"
-#include "FRSKYR9_sx1276.c"
-#endif
-
 #endif // _INTERFACE_H_
