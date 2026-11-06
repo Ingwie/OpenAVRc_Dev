@@ -89,6 +89,7 @@
 #include "DEVO_cyrf6936.c"
 #include "DSM_cyrf6936.c"
 #include "J6PRO_cyrf6936.c"
+#include "MLINK_cyrf6936.c"
 //#include "E129_cyrf6936.c"
 //#include "iface_rf2500.h"
 //#include "RF2500_EMU.c"
