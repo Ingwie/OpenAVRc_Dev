@@ -272,7 +272,7 @@ static void BAYANG_send_packet(uint8_t bind)
  if (bayang_telemetry)
   {
    // switch radio to rx as soon as packet is sent
-   while (!(NRF24L01_ReadReg(NRF24L01_07_STATUS) & _BV(NRF24L01_07_TX_DS)));
+   while SIMU_UNLOCK_MACRO_FALSE(!(NRF24L01_ReadReg(NRF24L01_07_STATUS) & _BV(NRF24L01_07_TX_DS)));
    NRF24L01_WriteReg(NRF24L01_00_CONFIG, 0x03);
   }
 
@@ -392,7 +392,6 @@ const void *BAYANG_Cmds(enum ProtoCmds cmd)
  switch(cmd)
   {
   case PROTOCMD_INIT:
-
    BAYANG_initialize(0);
    return 0;
   case PROTOCMD_RESET:
