@@ -519,7 +519,7 @@ ifeq ($(PCB), EVO_V2)
   CC2500 = YES
   CYRF6936 = YES
   NRF24L01 = YES
-  SERIAL_PROTOCOL = MULTIMODULE
+  SERIAL_PROTOCOL = NO
   INV_STICK_RV = YES
   INV_STICK_LH = YES
 
@@ -947,9 +947,11 @@ endif
 ifeq ($(EXT), $(filter $(EXT), FRSKY ))
   CPPDEFS += -DFRSKY
   CPPSRC += telemetry/frsky.cpp
+  CPPSRC += telemetry/ibus.cpp
   GUIMODELSRC +=  gui/menu_model_telemetry.cpp
 
   CPPSRC += gui/view_telemetry.cpp
+  CPPSRC += gui/view_qr.cpp
 
   ifeq ($(WS_HOW_HIGH), YES)
     CPPDEFS += -DWS_HOW_HIGH

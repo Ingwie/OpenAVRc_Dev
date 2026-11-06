@@ -32,6 +32,7 @@
 
 
 #include "../OpenAVRc.h"
+#include "view_qr.h"
 
 #define STATUS_BAR_Y     (7*FH+1)
 #define TELEM_2ND_COLUMN (10*FW)
@@ -69,11 +70,21 @@ void displayRssiLine()
 void displayGpsTime()
 {
   uint8_t att = (TELEMETRY_STREAMING() ? LEFT|LEADING0 : LEFT|LEADING0|BLINK);
+
+  // QR access: draw characters directly at the right side of the status line.
+  // lcd_status_line() below will invert the complete bottom line.
+  lcdDrawChar(104, STATUS_BAR_Y, '[');
+  lcdDrawChar(110, STATUS_BAR_Y, 'Q');
+  lcdDrawChar(116, STATUS_BAR_Y, 'R');
+  lcdDrawChar(122, STATUS_BAR_Y, ']');
+
   lcdDrawNumberNAtt(CENTER_OFS+6*FW+7, STATUS_BAR_Y, telemetryData.value.hour, att, 2);
   lcdDrawCharAtt(CENTER_OFS+8*FW+4, STATUS_BAR_Y, ':', att);
   lcdDrawNumberNAtt(CENTER_OFS+9*FW+2, STATUS_BAR_Y, telemetryData.value.min, att, 2);
   lcdDrawCharAtt(CENTER_OFS+11*FW-1, STATUS_BAR_Y, ':', att);
   lcdDrawNumberNAtt(CENTER_OFS+12*FW-3, STATUS_BAR_Y, telemetryData.value.sec, att, 2);
+
+  // Invert the complete bottom status line once, after drawing QR and time.
   lcd_status_line();
 }
 
@@ -213,6 +224,11 @@ void displayAfterFlightScreen()
     lcdPutsTelemetryChannelValue(LCD_W-3*FW, line, TELEM_HDG-1, telemetryData.value.gpsCourse_bp, 0);
     line+=1*FH+1;
   }
+#if defined(GPS)
+  // Keep the last valid GPS position updated whenever a fix is available.
+  gpsQrUpdateLastPosition();
+#endif
+
   // Rssi
   lcdDrawTextLeft(line, STR_MINRSSI);
   lcdDrawText(TELEM_2ND_COLUMN, line, STR_TX);
@@ -391,6 +407,15 @@ void menuTelemetryFrsky(uint8_t event)
   case EVT_KEY_FIRST(KEY_ENTER):
     telemetryResetValue();
     break;
+
+#if defined(GPS)
+  case EVT_KEY_FIRST(KEY_RIGHT):
+    if ((s_frsky_view >= MAX_TELEMETRY_SCREENS) &&
+        (s_frsky_view != TELEMETRY_VOLTAGES_SCREEN)) {
+      pushMenu(menuGpsQr);
+    }
+    break;
+#endif
   }
 
   if (!displayTelemetryScreen()) {
