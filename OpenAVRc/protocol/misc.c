@@ -65,7 +65,7 @@ uint8_t convert_channel_6b(uint8_t num)
   return (unsigned) value;
 }
 
-void inline PROTO_Change_Callback(uint16_t (*cb)())
+void PROTO_Change_Callback(uint16_t (*cb)())
 {
   /*
    * Change the pointer to the callback function.

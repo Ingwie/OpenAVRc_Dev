@@ -95,7 +95,7 @@ uint8_t bit_reverse(uint8_t a);
 uint16_t convert_channel_10b(uint8_t num);
 uint8_t convert_channel_8b(uint8_t num);
 uint8_t convert_channel_6b(uint8_t num);
-void inline PROTO_Change_Callback(uint16_t (*cb)());
+void PROTO_Change_Callback(uint16_t (*cb)());
 void PROTO_Start_Callback( uint16_t (*cb)());
 void PROTO_Stop_Callback();
 void PROTOCOL_SetBindState(tmr10ms_t t10ms);
