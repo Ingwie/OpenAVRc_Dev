@@ -29,21 +29,21 @@
 *                                                                        *
 **************************************************************************
 */
- 
+
  /*
-   MLINK CYRF6936 protocol - V1 bind + servo channels only.         
-   Ported from the DIY Multiprotocol MLINK_cyrf6936 implementation.  
-                                                                      
-   V1 goals:                                                           
-    - native MLINK bind                                                 
-    - 78-channel hopping sequence                                     
-    - 16 servo channels                                               
-    - no telemetry decoding                                             
-    - no failsafe                                                       
-    - persistent MLINK working data stored in pulses2MHz  
+   MLINK CYRF6936 protocol - V1 bind + servo channels only.
+   Ported from the DIY Multiprotocol MLINK_cyrf6936 implementation.
+
+   V1 goals:
+    - native MLINK bind
+    - 78-channel hopping sequence
+    - 16 servo channels
+    - no telemetry decoding
+    - no failsafe
+    - persistent MLINK working data stored in pulses2MHz
 
  */
- 
+
 #include "../OpenAVRc.h"
 
 // -----------------------------------------------------------------------------
@@ -1017,7 +1017,7 @@ static uint16_t MLINK_bind_cb(void)
   switch (MLINK_RFSTATE_P2M)
   {
     case MLINK_BIND_TX:
-bind_tx:
+      bind_tx:
       if (MLINK_dec_bind_counter() || MLINK_PACKET_COUNT_P2M >= (0x1BU * 2U))
       {
         // Bind finished: switch to the normal MLINK callback.
