@@ -89,6 +89,7 @@
 #include "DEVO_cyrf6936.c"
 #include "DSM_cyrf6936.c"
 #include "J6PRO_cyrf6936.c"
+#include "MLINK_cyrf6936.c"
 //#include "E129_cyrf6936.c"
 //#include "iface_rf2500.h"
 //#include "RF2500_EMU.c"
@@ -110,6 +111,12 @@
 #include "STANEK_nrf24l01.c"
 #endif
 
+#endif
+
+#ifdef PROTO_HAS_SX1276
+#include "iface_sx1276.h"
+#include "sx1276.c"
+#include "FRSKYR9_sx1276.c"
 #endif
 
 #endif // _INTERFACE_H_
