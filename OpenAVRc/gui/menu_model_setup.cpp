@@ -473,7 +473,7 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
        {
          // The band label is read-only (868/915/2.4GHz or diagnostic text).
          // Its discovery/refresh is handled by CRSF_PowerMain().
-#if defined(CPUM2560) && !defined(SIMU)
+#if !defined(SIMU)
          // Show the RF band only when decoded from the TX itself.
          // Until then preserve V1's useful transport status, including OK.
          if (crsf_pwr_band >= 1 && crsf_pwr_band <= 9)
@@ -583,7 +583,7 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
           {
            const uint8_t oldModelId=g_model.modelId;
            CHECK_INCDEC_MODELVAR_ZERO(event, g_model.modelId, MAX_MODELS);
-#if defined(CPUM2560) && !defined(SIMU)
+#if !defined(SIMU)
            if (g_model.modelId!=oldModelId) CRSF_ModelEdited();
 #endif
           }
@@ -593,7 +593,7 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
          lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN+MODEL_SETUP_RANGE_OFS+xOffsetBind, y,
                         STR_MODULE_RANGE, l_posHorz==2 ? attr : 0);
 
-#if defined(CPUM2560) && !defined(SIMU)
+#if !defined(SIMU)
          // Bind is a one-shot CRSF command, like the ELRS Lua Bind button.
          if (attr && l_posHorz==1 && s_editMode>0)
           {
@@ -805,7 +805,7 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
         {
          menuHorizontalPosition = 0;
          lcdDrawTextAtt(INDENT_WIDTH, y, STR_CRSF_PACKET_RATE, 0);
-#if defined(CPUM2560)
+#if defined(CPUM2560) || defined(CPUXMEGA)
          if (crsf_menu_rate_field && crsf_menu_rate_selected < crsf_menu_rate_count)
          {
            lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y,
@@ -916,7 +916,7 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
         {
          menuHorizontalPosition = 0;
          lcdDrawTextAtt(INDENT_WIDTH, y, RfOptionSettings.rfOptionValue2Name, 0);
-#if defined(CPUM2560) && !defined(SIMU)
+#if !defined(SIMU)
          if (crsf_pwr_tlm_display != 0xFF)
          {
            lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN, y,
@@ -976,7 +976,7 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
        {
          menuHorizontalPosition = 0;
          lcdDrawTextAtt(INDENT_WIDTH, y, STR_CRSF_SWITCH_MODE, 0);
-#if defined(CPUM2560) && !defined(SIMU)
+#if !defined(SIMU)
          if (crsf_menu_switch_field && CRSF_SwitchSelectable(crsf_menu_switch_selected))
          {
            lcdDrawTextAtt(MODEL_SETUP_2ND_COLUMN, y,
@@ -1043,7 +1043,7 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
 #else
           lcdDrawTextAtt(INDENT_WIDTH, y, PSTR("RF Power"), 0);
 #endif
-#if defined(CPUM2560) && !defined(SIMU)
+#if !defined(SIMU)
          const uint8_t selection=crsf_pwr_display_power;
          lcdDrawSizedTextAtt(MODEL_SETUP_2ND_COLUMN,y,
                     STR_CRSF_POWER_UI_TEST_VALUES+6*selection,6,attr);
