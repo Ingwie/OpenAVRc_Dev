@@ -38,12 +38,23 @@
 #define hopping_array             pulses2MHz.spi.afhds2a.channel_used_p2M
 #define phase                     pulses2MHz.spi.afhds2a.afhds2a_RF_STATE_P2M
 #define hopping_index             pulses2MHz.spi.afhds2a.afhds2a_CH_IDX_P2M
-#define wait_transmit             pulses2MHz.spi.afhds2a.afhds2a_REC_SEQ_P2M
+// afhds2a_REC_SEQ_P2M is intentionally free: wait_transmit is only used
+// inside the TX-completion wait loops and does not need to persist.
+// bind4_phase is used only during AFHDS2A_BIND4.
+// packet_type is initialized in AFHDS2A_DATA_INIT before it is used.
+// The two values therefore never need to coexist and can safely share one
+// persistent P2M byte.
 #define bind4_phase               pulses2MHz.spi.afhds2a.afhds2a_BIND_IDX_P2M
 #define bind_count                pulses2MHz.spi.afhds2a.afhds2a_PACKET_COUNT_P2M
-#define packet_type               pulses2MHz.spi.afhds2a.packet_type
+#define packet_type               pulses2MHz.spi.afhds2a.afhds2a_BIND_IDX_P2M
 #define packet_counter            pulses2MHz.spi.afhds2a.RF_STATE16_P2M
 #define temp_rfid_addr            pulses2MHz.spi.afhds2a.temp_rfid_addr_p2M
+
+// Persistent AFHDS2A telemetry decoder state.
+// These bytes are already reserved as unused2[0..2] in the AFHDS2A P2M layout.
+#define AFHDS2A_CELL_INSTANCE_BASE_P2M  pulses2MHz.spi.afhds2a.unused2[0]
+#define AFHDS2A_TEMP1_INSTANCE_P2M      pulses2MHz.spi.afhds2a.unused2[1]
+#define AFHDS2A_TEMP2_INSTANCE_P2M      pulses2MHz.spi.afhds2a.unused2[2]
 
 //***********************************************//
 
@@ -284,8 +295,9 @@ static uint16_t AFHDS2A_cb()
     case AFHDS2A_BIND1 | AFHDS2A_WAIT_WRITE:
     case AFHDS2A_BIND2 | AFHDS2A_WAIT_WRITE:
     case AFHDS2A_BIND3 | AFHDS2A_WAIT_WRITE:
-      // Wait for TX completion
-      wait_transmit = 0;
+    {
+      // The wait-loop counter is temporary and does not need persistent P2M storage.
+      uint8_t wait_transmit = 0;
       while ((A7105_ReadReg(A7105_00_MODE) & 0x01)) // Wait 700 us max
         if (++wait_transmit > AFHDS2A_NUM_WAIT_LOOPS) break;
 
@@ -297,6 +309,7 @@ static uint16_t AFHDS2A_cb()
       if (phase > AFHDS2A_BIND3)
       phase = AFHDS2A_BIND1;
       return 2350 * 2;
+    }
 
     case AFHDS2A_BIND4:
       AFHDS2A_build_bind_packet();
@@ -348,18 +361,28 @@ static uint16_t AFHDS2A_cb()
       if (!(data_rx & 0b00100011)) // removed FECF check due to issues with fs-x6b ->  & (1<<5 | 1<<6)
       { // RX+CRCF Ok
         A7105_ReadData(AFHDS2A_RXPACKET_SIZE);
+        // Keep the original MultiProtocol behavior:
+        // when the first sensor ID is 0xFC, the receiver is requesting the
+        // settings packet. This frame must not be decoded as normal telemetry.
         if (packet[0] == 0xAA && packet[9] == 0xFC)
-        packet_type = AFHDS2A_PACKET_SETTINGS;	// RX is asking for settings.
+          packet_type = AFHDS2A_PACKET_SETTINGS;	// RX is asking for settings.
 
 #if defined(FRSKY) // Telemetry
-       else
+        else
          if(packet[0] == 0xAA && packet[9]!=0xFD  && (memcmp(&packet[1], temp_rfid_addr, 4) == 0) )
            { // Normal telemetry packet.
              // Ignore packets which contain the RX configuration: AA FD FF 32 00 01 00 FF FF FF 05 DC 05 DE FA FF FF FF FF FF FF FF FF FF FF FF FF FF FF
-            // Read TX RSSI
-            int16_t temp=256-(A7105_ReadReg(A7105_1D_RSSI_THOLD)*8)/5;  // value from A7105 is between 8 for maximum signal strength to 160 or less
+            // Keep the telemetry stream alive on every valid AFHDS2A frame.
+            // Tx comes from the local A7105 RSSI measurement. Rx is decoded
+            // separately from the receiver-reported 0xFC iBUS sensor.
+            frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
+            int16_t temp = 256 - (A7105_ReadReg(A7105_1D_RSSI_THOLD) * 8) / 5;
             limit<int16_t>(0, temp, 255);
-            telemetryData.rssi[0].set(temp);
+
+            // OpenAVRc displays RSSI on 0..99. Scale the native A7105
+            // 0..255 strength value instead of letting the GUI clamp it to 99.
+            uint8_t txRssi = (uint8_t)(((uint32_t)temp * 99U + 127U) / 255U);
+            telemetryData.rssi[1].set(txRssi); // Tx 0..99
 
             if(g_model.rfOptionBool1) // Telemetry on ?
               // Enter packet type into buffer.
@@ -368,6 +391,16 @@ static uint16_t AFHDS2A_cb()
           }
          else if(packet[0] == 0xAC && (memcmp(&packet[1], temp_rfid_addr, 4) == 0) )
          {
+           // Keep streaming alive on extended telemetry too. Tx comes from
+           // the local A7105 RSSI measurement; Rx remains receiver-reported.
+           frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
+           int16_t temp = 256 - (A7105_ReadReg(A7105_1D_RSSI_THOLD) * 8) / 5;
+           limit<int16_t>(0, temp, 255);
+
+           // Use the same 0..99 scaling as normal 0xAA telemetry.
+           uint8_t txRssi = (uint8_t)(((uint32_t)temp * 99U + 127U) / 255U);
+           telemetryData.rssi[1].set(txRssi); // Tx 0..99
+
            if(g_model.rfOptionBool1) // Telemetry on ?
              // Enter packet type into buffer.
              packet[IBUS_TLM_HEADER-1] = packet[0];
@@ -382,9 +415,10 @@ static uint16_t AFHDS2A_cb()
       return 1500 * 2;
 
     case AFHDS2A_DATA | AFHDS2A_WAIT_WRITE:
-      // Wait for TX completion
-      wait_transmit = 0;
-      while ((A7105_ReadReg(A7105_00_MODE) & 0x01)) // wait 700 us max
+    {
+      // The wait-loop counter is temporary and does not need persistent P2M storage.
+      uint8_t wait_transmit = 0;
+      while ((A7105_ReadReg(A7105_00_MODE) & 0x01)) // Wait 700 us max
         if (++wait_transmit > AFHDS2A_NUM_WAIT_LOOPS) break;
 
       A7105_ManagePower();
@@ -393,6 +427,7 @@ static uint16_t AFHDS2A_cb()
       phase &= ~AFHDS2A_WAIT_WRITE;
       CALCULATE_LAT_JIT(); // Calculate latency and jitter.
       return 2350 * 2;
+    }
   }
   return 3850 * 2;
 }
@@ -405,6 +440,11 @@ static void AFHDS2A_initialize(uint8_t bind)
 
   memcpy(&AFHDS2A_RX_ID, &AFHDS2A_RX_ID_STORAGE, 4); // Load RX number stored in EEPROM.
   hopping_index = 0;
+
+  // Reset AFHDS2A telemetry decoder state stored in the shared P2M workspace.
+  AFHDS2A_CELL_INSTANCE_BASE_P2M = 1U;
+  AFHDS2A_TEMP1_INSTANCE_P2M = 0xFFU;
+  AFHDS2A_TEMP2_INSTANCE_P2M = 0xFFU;
 
   memclear(ibus_telem_buffer, 1); // Reset state.
 
@@ -453,11 +493,13 @@ const void* AFHDS2A_Cmds(enum ProtoCmds cmd)
   return 0;
 }
 
+#undef AFHDS2A_CELL_INSTANCE_BASE_P2M
+#undef AFHDS2A_TEMP1_INSTANCE_P2M
+#undef AFHDS2A_TEMP2_INSTANCE_P2M
 #undef packet
 #undef hopping_array
 #undef phase
 #undef hopping_index
-#undef wait_transmit
 #undef bind4_phase
 #undef bind_count
 #undef packet_type
