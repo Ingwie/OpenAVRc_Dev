@@ -477,6 +477,7 @@
 #define TR_TIMEZONE               "\202asov\204 p\201smo"
 #define TR_ADJUST_RTC             "Upravit RTC"
 #define TR_GPSCOORD               "GPS sou\215adnice"
+#define TR_NO_GPS_FIX           "GPS BEZ FIX"
 #define TR_RXCHANNELORD           "Po\215ad\210 kan\201l\224"
 #define TR_LENGTH          INDENT "D\204lka"
 #define TR_SPKRPITCH       INDENT "T\213n"
