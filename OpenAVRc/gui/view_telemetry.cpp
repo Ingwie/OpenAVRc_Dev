@@ -33,6 +33,7 @@
 
 #include "../OpenAVRc.h"
 #include "view_qr.h"
+#include "popups.h"
 
 #define STATUS_BAR_Y     (7*FH+1)
 #define TELEM_2ND_COLUMN (10*FW)
