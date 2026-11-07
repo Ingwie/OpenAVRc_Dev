@@ -191,6 +191,9 @@
 		<Unit filename="protocol/J6PRO_cyrf6936.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="protocol/MLINK_cyrf6936.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="protocol/MULTI_SERIAL.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -286,6 +289,8 @@
 		<Unit filename="targets/simu/simu_interface.h" />
 		<Unit filename="telemetry/frsky.cpp" />
 		<Unit filename="telemetry/frsky.h" />
+		<Unit filename="telemetry/ibus.cpp" />
+		<Unit filename="telemetry/ibus.h" />
 		<Unit filename="templates.cpp" />
 		<Unit filename="templates.h" />
 		<Unit filename="thirdparty/pt/lc-addrlabels.h" />
