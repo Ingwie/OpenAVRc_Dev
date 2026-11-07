@@ -402,6 +402,7 @@
 #define TR_LATITUDE            "Latitude"
 #define TR_LONGITUDE           "Longitude"
 #define TR_GPSCOORD            "GPS Coords"
+#define TR_NO_GPS_FIX           "NO GPS FIX"
 #define TR_VARIO               "Vario"
 #define TR_POWEROFF            "\006SHUT DOWN ?"
 #define TR_SHUTDOWN            "SHUTTING DOWN"
