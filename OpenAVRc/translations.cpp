@@ -198,6 +198,7 @@ const pm_char STR_TIMEZONE[] PROGMEM = TR_TIMEZONE;
 const pm_char STR_ADJUST_RTC[] PROGMEM = TR_ADJUST_RTC;
 const pm_char STR_GPS[] PROGMEM = TR_GPS;
 const pm_char STR_GPSCOORD[] PROGMEM = TR_GPSCOORD;
+const pm_char STR_NO_GPS_FIX[] PROGMEM = TR_NO_GPS_FIX;
 const pm_char STR_VARIO[] PROGMEM = TR_VARIO;
 const pm_char STR_MODELISON[] PROGMEM = TR_MODELISON;
 #endif

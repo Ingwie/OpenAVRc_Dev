@@ -32,9 +32,33 @@
 
 
 #include "../OpenAVRc.h"
+#include "view_qr.h"
 
 #define STATUS_BAR_Y     (7*FH+1)
 #define TELEM_2ND_COLUMN (10*FW)
+
+#if defined(GPS)
+static uint8_t gpsQrWarningVisible = 0;
+
+// GPS QR warning popup: same OpenAVRc warning symbol as message(),
+// but local to this telemetry screen so other popups keep their layout.
+static void displayGpsQrWarning()
+{
+  const coord_t x = 10;
+  const coord_t y = 10;   // Native popup starts at y=16: move this one 6 px up.
+  const coord_t w = LCD_W - 20;
+  const coord_t h = 40;
+
+  lcdDrawFilledRect(x, y, w, h, SOLID, ERASE);
+  lcdDrawRect(x, y, w, h);
+
+  // Standard OpenAVRc warning logo.
+  lcd_imgfar(x + 4, y + 4, (pgm_get_far_address(zz_asterisk_lbm)), 0, 0);
+
+  lcdDrawText(x + 42, y + 9, STR_NO_GPS_FIX);
+  lcdDrawText(x + 42, y + 25, STR_EXIT);
+}
+#endif
 
 bar_threshold_t barsThresholds[THLD_MAX];
 
@@ -69,11 +93,21 @@ void displayRssiLine()
 void displayGpsTime()
 {
   uint8_t att = (TELEMETRY_STREAMING() ? LEFT|LEADING0 : LEFT|LEADING0|BLINK);
+
+  // QR access: draw characters directly at the right side of the status line.
+  // lcd_status_line() below will invert the complete bottom line.
+  lcdDrawChar(104, STATUS_BAR_Y, '[');
+  lcdDrawChar(110, STATUS_BAR_Y, 'Q');
+  lcdDrawChar(116, STATUS_BAR_Y, 'R');
+  lcdDrawChar(122, STATUS_BAR_Y, ']');
+
   lcdDrawNumberNAtt(CENTER_OFS+6*FW+7, STATUS_BAR_Y, telemetryData.value.hour, att, 2);
   lcdDrawCharAtt(CENTER_OFS+8*FW+4, STATUS_BAR_Y, ':', att);
   lcdDrawNumberNAtt(CENTER_OFS+9*FW+2, STATUS_BAR_Y, telemetryData.value.min, att, 2);
   lcdDrawCharAtt(CENTER_OFS+11*FW-1, STATUS_BAR_Y, ':', att);
   lcdDrawNumberNAtt(CENTER_OFS+12*FW-3, STATUS_BAR_Y, telemetryData.value.sec, att, 2);
+
+  // Invert the complete bottom status line once, after drawing QR and time.
   lcd_status_line();
 }
 
@@ -213,6 +247,11 @@ void displayAfterFlightScreen()
     lcdPutsTelemetryChannelValue(LCD_W-3*FW, line, TELEM_HDG-1, telemetryData.value.gpsCourse_bp, 0);
     line+=1*FH+1;
   }
+#if defined(GPS)
+  // Keep the last valid GPS position updated whenever a fix is available.
+  gpsQrUpdateLastPosition();
+#endif
+
   // Rssi
   lcdDrawTextLeft(line, STR_MINRSSI);
   lcdDrawText(TELEM_2ND_COLUMN, line, STR_TX);
@@ -374,6 +413,27 @@ void incrTelemetryScreen()
 void menuTelemetryFrsky(uint8_t event)
 {
 
+#if defined(GPS)
+  // While the QR warning is visible, stay on the telemetry screen and
+  // consume keys until EXIT/ENTER closes the popup.
+  if (gpsQrWarningVisible) {
+    switch (event) {
+    case EVT_KEY_FIRST(KEY_EXIT):
+    case EVT_KEY_FIRST(KEY_ENTER):
+    case EVT_KEY_BREAK(KEY_EXIT):
+    case EVT_KEY_BREAK(KEY_ENTER):
+      killEvents(event);
+      gpsQrWarningVisible = 0;
+      break;
+    }
+
+    displayTelemetryScreen();
+    if (gpsQrWarningVisible)
+      displayGpsQrWarning();
+    return;
+  }
+#endif
+
   switch (event) {
   case EVT_KEY_FIRST(KEY_EXIT):
     killEvents(event);
@@ -391,10 +451,34 @@ void menuTelemetryFrsky(uint8_t event)
   case EVT_KEY_FIRST(KEY_ENTER):
     telemetryResetValue();
     break;
+
+#if defined(GPS)
+  case EVT_KEY_FIRST(KEY_RIGHT):
+    if ((s_frsky_view >= MAX_TELEMETRY_SCREENS) &&
+        (s_frsky_view != TELEMETRY_VOLTAGES_SCREEN)) {
+      // Refresh the saved GPS snapshot first.
+      gpsQrUpdateLastPosition();
+
+      // Open the QR screen only when at least one valid GPS position
+      // has been stored. Otherwise stay on telemetry and show a popup.
+      if (gpsQrHasValidPosition()) {
+        pushMenu(menuGpsQr);
+      }
+      else {
+        gpsQrWarningVisible = 1;
+      }
+    }
+    break;
+#endif
   }
 
   if (!displayTelemetryScreen()) {
     putEvent(event == EVT_KEY_FIRST(KEY_UP) ? event : EVT_KEY_FIRST(KEY_DOWN));
   }
+
+#if defined(GPS)
+  if (gpsQrWarningVisible)
+    displayGpsQrWarning();
+#endif
 }
 

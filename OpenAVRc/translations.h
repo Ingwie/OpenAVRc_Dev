@@ -290,6 +290,7 @@ extern const pm_char STR_TIMEZONE[];
 extern const pm_char STR_ADJUST_RTC[];
 extern const pm_char STR_GPS[];
 extern const pm_char STR_GPSCOORD[];
+extern const pm_char STR_NO_GPS_FIX[];
 extern const pm_char STR_VARIO[];
 extern const pm_char STR_RXCHANNELORD[];
 extern const pm_char STR_STICKS[];

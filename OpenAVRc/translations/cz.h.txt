@@ -477,6 +477,7 @@
 #define TR_TIMEZONE               "Časové pásmo"
 #define TR_ADJUST_RTC             "Upravit RTC"
 #define TR_GPSCOORD               "GPS souřadnice"
+#define TR_NO_GPS_FIX           "GPS BEZ FIX"
 #define TR_RXCHANNELORD           "Pořadí kanálů"
 #define TR_LENGTH          INDENT "Délka"
 #define TR_SPKRPITCH       INDENT "Tón"
