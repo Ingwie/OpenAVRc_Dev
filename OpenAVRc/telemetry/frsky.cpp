@@ -357,7 +357,20 @@ void processSportPacket(uint8_t *sport_packet)
       break;
     case X_ALT_ID :
       telemetryData.value.baroAltitude = SPORT_DATA_S32(sport_packet)/100;
-      manageBaroAltitude();
+
+      if (IS_CRSF_PROTOCOL(g_model.rfProtocol))
+        {
+          // CRSF 0x09 already carries relative altitude.
+          // Do not apply the FrSky startup offset a second time.
+          if (!telemetryData.value.baroAltitudeOffset)
+            telemetryData.value.baroAltitudeOffset = 1; // mark baro altitude as available
+
+          setMinMaxAltitude();
+        }
+      else
+        {
+          manageBaroAltitude();
+        }
       break;
     case X_VARIO_ID :
       telemetryData.value.varioSpeed = SPORT_DATA_S32(sport_packet);
@@ -831,6 +844,17 @@ void telemetryInterrupt10ms()
               telemetryData.value.currentConsumption += 1;
               telemetryData.value.currentPrescale -= 3600;
             }
+        }
+      else
+        {
+          // openXsensor already supplies VFAS and Current.
+          // Compute power from the values actually received from oXs,
+          // regardless of the telemetry protocol carrying them.
+          const uint16_t voltage = telemetryData.value.vfas;    /* unit: 1/10 volts */
+          const uint16_t current = telemetryData.value.current; /* unit: 1/10 amps */
+
+          telemetryData.value.power =
+              ((uint32_t)voltage * (uint32_t)current + 50UL) / 100UL;
         }
 
       if (telemetryData.value.power > telemetryData.value.maxPower)

@@ -117,10 +117,18 @@ typedef char CRSF_REUSE_G_FROM_E_EXACT_LAYOUT[
 // Additional oXs RP2040 sensors (ExpressLRS 4.x).
 // Time is a distinct CRSF frame; it is NOT included in the GPS position 0x02.
 #define CRSF_TYPE_GPS_TIME         0x03
+// Standard CRSF Vario: signed vertical speed in cm/s.
+#define CRSF_TYPE_VARIO            0x07
 #define CRSF_TYPE_RPM              0x0C
 #define CRSF_TYPE_TEMPERATURE      0x0D
 #define CRSF_TYPE_BATTERY          0x08
+// Standard CRSF Barometric Altitude.
+// bit15=0: altitude in 0.1 m with +1000 m offset.
+// bit15=1: altitude directly in whole metres (bits 0..14).
+#define CRSF_TYPE_BARO_ALTITUDE    0x09
+
 #define CRSF_TYPE_VOLTAGES         0x0E  // Voltage Group: source ID + big-endian millivolts
+#define CRSF_TYPE_ACCGYRO          0x13  // Raw Accel/Gyro; OpenAVRc keeps Acc X/Y/Z
 #define CRSF_TYPE_VIDEO            0x08
 #define CRSF_TYPE_LINK             0x14
 #define CRSF_TYPE_CHANNELS         0x16
@@ -588,7 +596,16 @@ static void CRSF_ExtraTelemetryTick()
                                   ((uint32_t)payload[5] << 8) | payload[6];
 
     if (voltage_dv != 0U)
+    {
       processHubPacket(VFAS_ID, voltage_dv);
+
+      // Keep OpenAVRc RxBt aligned with the standard CRSF Battery voltage,
+      // as EdgeTX exposes the same 0x08 voltage as its battery-voltage sensor.
+      // A dedicated ELRS AnalogVbat (0x0E/source 128) can still overwrite this
+      // later with the receiver-local voltage when it is present.
+      if (voltage_dv <= 255U)
+        telemetryData.rxBatt = (uint8_t)voltage_dv;
+    }
     processHubPacket(CURRENT_ID, current_da);
     processHubPacket(OXS_MAH_ID,
                      capacity_mah > 65535UL ? 65535U : (uint16_t)capacity_mah);
@@ -631,6 +648,58 @@ static void CRSF_ExtraTelemetryTick()
         frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
       }
     }
+  }
+  else if (type == CRSF_TYPE_VARIO && n == 2)
+  {
+    // CRSF 0x07: signed vertical speed in cm/s.
+    // FrSky S.Port VARIO 0x0110 uses the same cm/s unit, so no scaling is needed.
+    const int16_t vspeed =
+        (int16_t)(((uint16_t)payload[0] << 8) | payload[1]);
+    CRSF_SportQueue(0x0110, (uint32_t)(int32_t)vspeed);
+  }
+  else if (type == CRSF_TYPE_BARO_ALTITUDE && n == 2)
+  {
+    // CRSF 0x09, decoded exactly like EdgeTX:
+    //   bit15 = 0 : altitude in 0.1 m with a +1000 m offset
+    //               raw = altitude_dm + 10000
+    //   bit15 = 1 : altitude directly in whole metres in bits 0..14
+    //
+    // FrSky S.Port ALT 0x0100 expects centimetres.
+    const uint16_t raw =
+        ((uint16_t)payload[0] << 8) | payload[1];
+
+    int32_t altitude_cm;
+    if (raw & 0x8000U)
+      altitude_cm = (int32_t)(raw & 0x7FFFU) * 100L;
+    else
+      altitude_cm = ((int32_t)raw - 10000L) * 10L;
+
+    CRSF_SportQueue(0x0100, (uint32_t)altitude_cm);
+  }
+  else if (type == CRSF_TYPE_ACCGYRO && n == 6)
+  {
+    // The UART ISR keeps only Acc X/Y/Z from the standard CRSF 0x13 payload.
+    // CRSF scaling: raw = G * 32767 / 16.
+    // Convert back to oXs/S.Port milli-g:
+    //   milli_g = raw * 16000 / 32767
+    const int16_t rawX =
+        (int16_t)(((uint16_t)payload[0] << 8) | payload[1]);
+    const int16_t rawY =
+        (int16_t)(((uint16_t)payload[2] << 8) | payload[3]);
+    const int16_t rawZ =
+        (int16_t)(((uint16_t)payload[4] << 8) | payload[5]);
+
+    const int32_t accXmg =
+        ((int32_t)rawX * 16000L + (rawX >= 0 ? 16383L : -16383L)) / 32767L;
+    const int32_t accYmg =
+        ((int32_t)rawY * 16000L + (rawY >= 0 ? 16383L : -16383L)) / 32767L;
+    const int32_t accZmg =
+        ((int32_t)rawZ * 16000L + (rawZ >= 0 ? 16383L : -16383L)) / 32767L;
+
+    // Existing FrSky decoder divides by 10, leaving centi-g for PREC2 display.
+    CRSF_SportQueue(0x0700, (uint32_t)accXmg);
+    CRSF_SportQueue(0x0710, (uint32_t)accYmg);
+    CRSF_SportQueue(0x0720, (uint32_t)accZmg);
   }
   else if (type == CRSF_TYPE_TEMPERATURE && (n == 3 || n == 5))
   {
@@ -2015,8 +2084,32 @@ static const void CRSF_MenuRxByte(uint8_t value, uint8_t error)
     return;
   }
 
+  // CRSF 0x13 Accel/Gyro has an 18-byte payload, larger than the existing
+  // 9-byte mailbox. Keep only the six acceleration bytes here:
+  // payload offsets 10..15 = Acc X/Y/Z, i.e. frame buffer indexes 13..18.
+  // All arithmetic/conversion remains deferred to perMain().
   if (!CRSF_LOCAL_TELEM_OFF &&
-      ((extraType == CRSF_TYPE_TEMPERATURE && (pos == 7 || pos == 9)) ||
+      extraType == CRSF_TYPE_ACCGYRO &&
+      pos == 22)
+  {
+    if (!crsf_extra_pending)
+    {
+      crsf_extra_type = extraType;
+      crsf_extra_size = 6;
+      for (uint8_t i=0; i<6U; ++i)
+        crsf_extra_payload[i] = crsf_menu_rxbuf[13U+i];
+      crsf_extra_pending = 1;
+    }
+    return;
+  }
+
+  // Vario 0x07 and Barometric Altitude 0x09 use the
+  // same deferred mailbox as the other short oXs sensors:
+  // the UART callback only copies raw bytes; conversion is done in perMain().
+  if (!CRSF_LOCAL_TELEM_OFF &&
+      ((extraType == CRSF_TYPE_VARIO && pos == 6) ||
+       (extraType == CRSF_TYPE_BARO_ALTITUDE && pos == 6) ||
+       (extraType == CRSF_TYPE_TEMPERATURE && (pos == 7 || pos == 9)) ||
        (extraType == CRSF_TYPE_RPM && pos == 8) ||
        (extraType == CRSF_TYPE_GPS_TIME && pos == 13)))
   {
